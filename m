@@ -2,148 +2,144 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0924DDCDD
-	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2019 09:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA7E4DD11
+	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2019 09:45:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727332AbfD2Ha2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Apr 2019 03:30:28 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:39460 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726846AbfD2Ha1 (ORCPT
+        id S1727397AbfD2Hpy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Apr 2019 03:45:54 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:33601 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726718AbfD2Hpy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Apr 2019 03:30:27 -0400
-Received: by mail-pf1-f193.google.com with SMTP id z26so1003073pfg.6
-        for <linux-input@vger.kernel.org>; Mon, 29 Apr 2019 00:30:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=hhmBm88IsvzT9nkkhX01PcmRDe+YXyWbLbLMXLoJuZM=;
-        b=KWpdSVeqpYZ4uUWbPm7mHFBhdSZ7vH8S4MqYvRAUDyOJYfX1S0r/ou0wcuUI5jGwTH
-         P15Q9OZNe9nOCsr7sY5tc8ys4Ieu9JO2FMFD1Zk3cTqpLevNEsykAtWpscPHnK7a7rll
-         svMYpsWiDia5YYHWhjdVFCEh9awu8cXtNfJ7iHHQPeHIpFcIplYgW9o+/patwaL5ovga
-         dU9GTNcEJM8z4KOKRWp9rii0tOT9AYd5qYUrpHTLCZEQP1fvD5wPfykF9JwglVanP7t+
-         4CbcBtaXazyfm3AJ8/Tc1vDclRFgBTXdPjvbp2VvdX4Esb13EWgcw43pNQPYoxxVrEtj
-         7s+g==
+        Mon, 29 Apr 2019 03:45:54 -0400
+Received: by mail-qt1-f193.google.com with SMTP id g7so10925719qtc.0
+        for <linux-input@vger.kernel.org>; Mon, 29 Apr 2019 00:45:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=hhmBm88IsvzT9nkkhX01PcmRDe+YXyWbLbLMXLoJuZM=;
-        b=BK5e9mYmz2YC7FGfgOUZRP5wAn/1bqW0YQzSk78TVRmaaoNRtnUxlleqxrIKvT/Wxa
-         obEvc7nqT8BM/ztCxWyqsPq0DC1n/zzrHWqCAj49lD1N7oc5wE20uZNTYhYHCSz/TvMh
-         bEN62y2tzUek04jmJgxQyy+7TP3IVVD7QJiQNnYN64KkgVjzg39poBjbXjYVjjYKma4t
-         oFaTciV2N8sVSQokNiRIioghKh98Jpue+N3dLL2tW/12p5jEIpolY7UDdjQOVLEx9IPd
-         uKwb8qL/40dQqyT7TDuZ9yFsOnM8o0oDFPYczIDQw+0y8bC7mClERfIWosKg6UMzpzpK
-         UAZA==
-X-Gm-Message-State: APjAAAWDZJ5spsdJ4JpSRUWDjP3jrklMu8cH6vgPC1keq4Uw8QdnWWIT
-        D0rghv2w3o8In8TEZ4F+rL8=
-X-Google-Smtp-Source: APXvYqweRDTxxydKiJHtO/YCBHLJ4SccowYRMMg9iqbb8X2gPqzmno7c68/PrleDQIqX6T0MNtAM0A==
-X-Received: by 2002:a65:5289:: with SMTP id y9mr31491390pgp.52.1556523026391;
-        Mon, 29 Apr 2019 00:30:26 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id m2sm12745210pfi.24.2019.04.29.00.30.25
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Apr 2019 00:30:25 -0700 (PDT)
-Date:   Mon, 29 Apr 2019 00:30:23 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Daniel Mack <daniel@zonque.org>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] input: touch: eeti: move ISR code to own function
-Message-ID: <20190429073023.GA191900@dtor-ws>
-References: <20190429063038.17773-1-daniel@zonque.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=G1fYVX4Wl40jdZ8+GWZHzYu+3eRKXOD4apXXEPaZ4Wc=;
+        b=WD24q8zj4gnYy+IoAdhZfvdEirAbPGTraeF85g8GEnPLk8DhyLnj97UNqsIwnQmk0v
+         p5A3jPAvFypFPGIVwL3wR/DLr/wFs+jJGbARD+kDJoHnVdKvEHFiVPUqF9JE6Jg2+hAZ
+         E7dEUfVDrN93IxDwXsxBAtapLJA+hzaWiq80AVT2AYUOnaorJ5MM46OWj7aarA+Ju7Kx
+         xpKo+NBerpMfciR4TIZIVsJ6ck8aST2ED+PvyUQHWEl1NQUTMQg7HsYLETg7ZplD7d2x
+         MTec242plUG5iyX0TkKKHg7CQzQztqW5PHYXpniDvnsC6oL2eHoyK2HUhxhUkeAmgonk
+         0/XQ==
+X-Gm-Message-State: APjAAAUpgBoa8Fg47IauW08/nE2pOMQtC39LtErA7qfuRB9L9TG3C8rC
+        CUSuZaEQyKNWvPoQoDmpVPIMdfBqZ/iXhaeMdUkT2g==
+X-Google-Smtp-Source: APXvYqypk8m0KUmH/pdaKn2c6dXVHzcwhT3MS6/t9LfLWL9Bs64Cy4DoGt4GK6iloNtlI/ZK+yiFhuwRgID1pkwlfBw=
+X-Received: by 2002:a0c:e5d0:: with SMTP id u16mr18985451qvm.48.1556523953508;
+ Mon, 29 Apr 2019 00:45:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190429063038.17773-1-daniel@zonque.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190422130814.GJ173520@google.com> <3a1139ef-10ed-6923-73c5-30fbf0c065c3@linux.intel.com>
+In-Reply-To: <3a1139ef-10ed-6923-73c5-30fbf0c065c3@linux.intel.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 29 Apr 2019 09:45:42 +0200
+Message-ID: <CAO-hwJKvXO6L7m0g1D6wycFP=Wu_qLDyLXTtmm0TkpxT5Z8ygw@mail.gmail.com>
+Subject: Re: [Bug 203297] Synaptics touchpad TM-3127 functionality broken by
+ PCI runtime power management patch on 4.20.2
+To:     Jarkko Nikula <jarkko.nikula@linux.intel.com>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        Keijo Vaara <ferdasyn@rocketmail.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 08:30:37AM +0200, Daniel Mack wrote:
-> Move the ISR handling code to its own function and change the logic to bail
-> immediately in case of .running is false or if the attn_gpio is available
-> but unasserted.
-> 
-> This allows us to call the function at any time to check for the state of
-> attn_gpio.
-> 
-> Signed-off-by: Daniel Mack <daniel@zonque.org>
-> ---
-> v3: break out at the end of the loop for setups with !eeti->attn_gpio
-> 
->  drivers/input/touchscreen/eeti_ts.c | 33 ++++++++++++++++++++---------
->  1 file changed, 23 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/eeti_ts.c b/drivers/input/touchscreen/eeti_ts.c
-> index 7fe41965c5d1..67c54413ad2b 100644
-> --- a/drivers/input/touchscreen/eeti_ts.c
-> +++ b/drivers/input/touchscreen/eeti_ts.c
-> @@ -75,14 +75,19 @@ static void eeti_ts_report_event(struct eeti_ts *eeti, u8 *buf)
->  	input_sync(eeti->input);
->  }
->  
-> -static irqreturn_t eeti_ts_isr(int irq, void *dev_id)
-> +static void eeti_ts_read(struct eeti_ts *eeti)
->  {
-> -	struct eeti_ts *eeti = dev_id;
-> -	int len;
-> -	int error;
-> +	int len, error;
->  	char buf[6];
->  
-> -	do {
-> +	for (;;) {
-> +		if (!eeti->running)
-> +			break;
-> +
-> +		if (eeti->attn_gpio &&
-> +		    gpiod_get_value_cansleep(eeti->attn_gpio) == 0)
-> +			break;
-> +
+On Fri, Apr 26, 2019 at 2:14 PM Jarkko Nikula
+<jarkko.nikula@linux.intel.com> wrote:
+>
+> On 4/22/19 4:08 PM, Bjorn Helgaas wrote:
+> > https://bugzilla.kernel.org/show_bug.cgi?id=203297
+> >
+> > Regression, suspected but as yet unconfirmed cause:
+> >
+> >    c5eb1190074c ("PCI / PM: Allow runtime PM without callback functions")
+> >
+> > backported to 4.20 stable as 39e1be324c2f.
+> >
+> With help of Keijo it was confirmed above patch broke the Synaptics
+> touchpad. Not bisected but touchpad works again by forcing the i2c-i801
+> SMBus controller always on:
+> "echo on >/sys/bus/pci/devices/0000\:00\:1f.3/power/control"
+>
+> Above patch is a generalized fix that fixed the runtime PM regression on
+> i2c-i801 and re-allow the controller go to runtime suspend when idle. So
+> most probably Synaptics touchpad was broken by i2c-i801 runtime PM also
+> before but got unnoticed. Which is easy since on many platforms SMBus
+> controller doesn't necessarily have the PCI PM capabilities.
+>
+> I would like to ask help from input subsystem experts what kind of SMBus
+> power state dependency Synaptics RMI4 SMBus devices have since it cease
+> to work if SMBus controllers idles between transfers and how this is
+> best to fix?
 
-This became a bit messy IMO. Maybe we should define eeti_ts_read as only
-the code below (up to while) and from resume do:
+Hmm, I am not sure there is such an existing architecture you could
+use in a simple patch.
 
-	if (!eeti->attn_gpio || gpiod_get_value_cansleep(eeti->attn_gpio))
-		eeti_ts_read(eeti);
+rmi-driver.c does indeed create an input device we could use to toggle
+on/off the PM state, but those callbacks are not wired to the
+transport driver (rmi_smbus.c), so it would required a little bit of
+extra work. And then, there are other RMI4 functions (firmware
+upgrade) that would not be happy if PM is in suspend while there is no
+open input node.
 
->  		len = i2c_master_recv(eeti->client, buf, sizeof(buf));
->  		if (len != sizeof(buf)) {
->  			error = len < 0 ? len : -EIO;
-> @@ -92,12 +97,20 @@ static irqreturn_t eeti_ts_isr(int irq, void *dev_id)
->  			break;
->  		}
->  
-> -		if (buf[0] & 0x80) {
-> -			/* Motion packet */
-> +		/* Motion packet */
-> +		if (buf[0] & 0x80)
->  			eeti_ts_report_event(eeti, buf);
-> -		}
-> -	} while (eeti->running &&
-> -		 eeti->attn_gpio && gpiod_get_value_cansleep(eeti->attn_gpio));
+So I think this "hack" (with Mika's comments addressed) should go in
+until someone starts propagating the PM states correctly.
+
+Cheers,
+Benjamin
+
+>
+> Instead of revert I think we'd need to have some method to force SMBus
+> controller on whenever the touchpad is active, like when there is a
+> userspace listening.
+>
+> I'm not expert in this area so as quick proof of concept I had a
+> following hack which forces the I2C/SMBus adapter, and eventually the
+> parent PCI device of it on when the RMI4 SMBus device is probed and let
+> the SMBus controller to idle when removed.
+>
+> According to Keijo it fixes the issue but I like to hear input experts
+> for better place to put these.
+>
+> diff --git a/drivers/input/rmi4/rmi_smbus.c b/drivers/input/rmi4/rmi_smbus.c
+> index b6ccf39c6a7b..2b11d69be313 100644
+> --- a/drivers/input/rmi4/rmi_smbus.c
+> +++ b/drivers/input/rmi4/rmi_smbus.c
+> @@ -16,6 +16,7 @@
+>   #include <linux/lockdep.h>
+>   #include <linux/module.h>
+>   #include <linux/pm.h>
+> +#include <linux/pm_runtime.h>
+>   #include <linux/rmi.h>
+>   #include <linux/slab.h>
+>   #include "rmi_driver.h"
+> @@ -332,6 +333,9 @@ static int rmi_smb_probe(struct i2c_client *client,
+>
+>         dev_info(&client->dev, "registering SMbus-connected sensor\n");
+>
+> +       /* Force SMBus adapter on while RMI4 device is connected */
+> +       pm_runtime_get(&client->adapter->dev);
 > +
-> +		if (!eeti->attn_gpio)
-> +			break;
-> +	}
-> +}
-> +
-> +static irqreturn_t eeti_ts_isr(int irq, void *dev_id)
-> +{
-> +	struct eeti_ts *eeti = dev_id;
-> +
-> +	eeti_ts_read(eeti);
->  
->  	return IRQ_HANDLED;
->  }
-> -- 
-> 2.20.1
-> 
-
-Thanks.
-
--- 
-Dmitry
+>         error = rmi_register_transport_device(&rmi_smb->xport);
+>         if (error) {
+>                 dev_err(&client->dev, "failed to register sensor: %d\n", error);
+> @@ -346,6 +350,7 @@ static int rmi_smb_remove(struct i2c_client *client)
+>         struct rmi_smb_xport *rmi_smb = i2c_get_clientdata(client);
+>
+>         rmi_unregister_transport_device(&rmi_smb->xport);
+> +       pm_runtime_put(&client->adapter->dev);
+>
+>         return 0;
+>   }
+>
+> --
+> Jarkko
