@@ -2,43 +2,27 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA7E4DD11
-	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2019 09:45:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56089DE10
+	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2019 10:38:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727397AbfD2Hpy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Apr 2019 03:45:54 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:33601 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726718AbfD2Hpy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Apr 2019 03:45:54 -0400
-Received: by mail-qt1-f193.google.com with SMTP id g7so10925719qtc.0
-        for <linux-input@vger.kernel.org>; Mon, 29 Apr 2019 00:45:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=G1fYVX4Wl40jdZ8+GWZHzYu+3eRKXOD4apXXEPaZ4Wc=;
-        b=WD24q8zj4gnYy+IoAdhZfvdEirAbPGTraeF85g8GEnPLk8DhyLnj97UNqsIwnQmk0v
-         p5A3jPAvFypFPGIVwL3wR/DLr/wFs+jJGbARD+kDJoHnVdKvEHFiVPUqF9JE6Jg2+hAZ
-         E7dEUfVDrN93IxDwXsxBAtapLJA+hzaWiq80AVT2AYUOnaorJ5MM46OWj7aarA+Ju7Kx
-         xpKo+NBerpMfciR4TIZIVsJ6ck8aST2ED+PvyUQHWEl1NQUTMQg7HsYLETg7ZplD7d2x
-         MTec242plUG5iyX0TkKKHg7CQzQztqW5PHYXpniDvnsC6oL2eHoyK2HUhxhUkeAmgonk
-         0/XQ==
-X-Gm-Message-State: APjAAAUpgBoa8Fg47IauW08/nE2pOMQtC39LtErA7qfuRB9L9TG3C8rC
-        CUSuZaEQyKNWvPoQoDmpVPIMdfBqZ/iXhaeMdUkT2g==
-X-Google-Smtp-Source: APXvYqypk8m0KUmH/pdaKn2c6dXVHzcwhT3MS6/t9LfLWL9Bs64Cy4DoGt4GK6iloNtlI/ZK+yiFhuwRgID1pkwlfBw=
-X-Received: by 2002:a0c:e5d0:: with SMTP id u16mr18985451qvm.48.1556523953508;
- Mon, 29 Apr 2019 00:45:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190422130814.GJ173520@google.com> <3a1139ef-10ed-6923-73c5-30fbf0c065c3@linux.intel.com>
-In-Reply-To: <3a1139ef-10ed-6923-73c5-30fbf0c065c3@linux.intel.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 29 Apr 2019 09:45:42 +0200
-Message-ID: <CAO-hwJKvXO6L7m0g1D6wycFP=Wu_qLDyLXTtmm0TkpxT5Z8ygw@mail.gmail.com>
+        id S1727555AbfD2IiD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Apr 2019 04:38:03 -0400
+Received: from mga18.intel.com ([134.134.136.126]:64691 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727517AbfD2IiD (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 29 Apr 2019 04:38:03 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Apr 2019 01:38:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,409,1549958400"; 
+   d="diff'?scan'208";a="341737777"
+Received: from mylly.fi.intel.com (HELO [10.237.72.79]) ([10.237.72.79])
+  by fmsmga006.fm.intel.com with ESMTP; 29 Apr 2019 01:37:59 -0700
 Subject: Re: [Bug 203297] Synaptics touchpad TM-3127 functionality broken by
  PCI runtime power management patch on 4.20.2
-To:     Jarkko Nikula <jarkko.nikula@linux.intel.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     Bjorn Helgaas <helgaas@kernel.org>,
         Keijo Vaara <ferdasyn@rocketmail.com>,
         Jean Delvare <jdelvare@suse.de>,
@@ -47,99 +31,115 @@ Cc:     Bjorn Helgaas <helgaas@kernel.org>,
         linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
         lkml <linux-kernel@vger.kernel.org>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20190422130814.GJ173520@google.com>
+ <3a1139ef-10ed-6923-73c5-30fbf0c065c3@linux.intel.com>
+ <CAO-hwJKvXO6L7m0g1D6wycFP=Wu_qLDyLXTtmm0TkpxT5Z8ygw@mail.gmail.com>
+From:   Jarkko Nikula <jarkko.nikula@linux.intel.com>
+Message-ID: <e96a7220-974f-1df6-70ee-695ee815057f@linux.intel.com>
+Date:   Mon, 29 Apr 2019 11:36:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CAO-hwJKvXO6L7m0g1D6wycFP=Wu_qLDyLXTtmm0TkpxT5Z8ygw@mail.gmail.com>
+Content-Type: multipart/mixed;
+ boundary="------------004E56005F75F0C34870FB19"
+Content-Language: en-US
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Apr 26, 2019 at 2:14 PM Jarkko Nikula
-<jarkko.nikula@linux.intel.com> wrote:
->
-> On 4/22/19 4:08 PM, Bjorn Helgaas wrote:
-> > https://bugzilla.kernel.org/show_bug.cgi?id=203297
-> >
-> > Regression, suspected but as yet unconfirmed cause:
-> >
-> >    c5eb1190074c ("PCI / PM: Allow runtime PM without callback functions")
-> >
-> > backported to 4.20 stable as 39e1be324c2f.
-> >
-> With help of Keijo it was confirmed above patch broke the Synaptics
-> touchpad. Not bisected but touchpad works again by forcing the i2c-i801
-> SMBus controller always on:
-> "echo on >/sys/bus/pci/devices/0000\:00\:1f.3/power/control"
->
-> Above patch is a generalized fix that fixed the runtime PM regression on
-> i2c-i801 and re-allow the controller go to runtime suspend when idle. So
-> most probably Synaptics touchpad was broken by i2c-i801 runtime PM also
-> before but got unnoticed. Which is easy since on many platforms SMBus
-> controller doesn't necessarily have the PCI PM capabilities.
->
-> I would like to ask help from input subsystem experts what kind of SMBus
-> power state dependency Synaptics RMI4 SMBus devices have since it cease
-> to work if SMBus controllers idles between transfers and how this is
-> best to fix?
+This is a multi-part message in MIME format.
+--------------004E56005F75F0C34870FB19
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hmm, I am not sure there is such an existing architecture you could
-use in a simple patch.
+On 4/29/19 10:45 AM, Benjamin Tissoires wrote:
+>> I would like to ask help from input subsystem experts what kind of SMBus
+>> power state dependency Synaptics RMI4 SMBus devices have since it cease
+>> to work if SMBus controllers idles between transfers and how this is
+>> best to fix?
+> 
+> Hmm, I am not sure there is such an existing architecture you could
+> use in a simple patch.
+> 
+> rmi-driver.c does indeed create an input device we could use to toggle
+> on/off the PM state, but those callbacks are not wired to the
+> transport driver (rmi_smbus.c), so it would required a little bit of
+> extra work. And then, there are other RMI4 functions (firmware
+> upgrade) that would not be happy if PM is in suspend while there is no
+> open input node.
+> 
+I see.
 
-rmi-driver.c does indeed create an input device we could use to toggle
-on/off the PM state, but those callbacks are not wired to the
-transport driver (rmi_smbus.c), so it would required a little bit of
-extra work. And then, there are other RMI4 functions (firmware
-upgrade) that would not be happy if PM is in suspend while there is no
-open input node.
+I got another thought about this. I noticed these input drivers need 
+SMBus Host Notify, maybe that explain the PM dependency? If that's the 
+only dependency then we could prevent the controller suspend if there is 
+a client needing host notify mechanism. IMHO that's less hack than the 
+patch to rmi_smbus.c.
 
-So I think this "hack" (with Mika's comments addressed) should go in
-until someone starts propagating the PM states correctly.
+Keijo: care to test does this idea would fix the issue (without the 
+previous patch)? I also attached the diff.
 
-Cheers,
-Benjamin
+diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+index 38af18645133..d54eafad7727 100644
+--- a/drivers/i2c/i2c-core-base.c
++++ b/drivers/i2c/i2c-core-base.c
+@@ -327,6 +327,8 @@ static int i2c_device_probe(struct device *dev)
 
->
-> Instead of revert I think we'd need to have some method to force SMBus
-> controller on whenever the touchpad is active, like when there is a
-> userspace listening.
->
-> I'm not expert in this area so as quick proof of concept I had a
-> following hack which forces the I2C/SMBus adapter, and eventually the
-> parent PCI device of it on when the RMI4 SMBus device is probed and let
-> the SMBus controller to idle when removed.
->
-> According to Keijo it fixes the issue but I like to hear input experts
-> for better place to put these.
->
-> diff --git a/drivers/input/rmi4/rmi_smbus.c b/drivers/input/rmi4/rmi_smbus.c
-> index b6ccf39c6a7b..2b11d69be313 100644
-> --- a/drivers/input/rmi4/rmi_smbus.c
-> +++ b/drivers/input/rmi4/rmi_smbus.c
-> @@ -16,6 +16,7 @@
->   #include <linux/lockdep.h>
->   #include <linux/module.h>
->   #include <linux/pm.h>
-> +#include <linux/pm_runtime.h>
->   #include <linux/rmi.h>
->   #include <linux/slab.h>
->   #include "rmi_driver.h"
-> @@ -332,6 +333,9 @@ static int rmi_smb_probe(struct i2c_client *client,
->
->         dev_info(&client->dev, "registering SMbus-connected sensor\n");
->
-> +       /* Force SMBus adapter on while RMI4 device is connected */
-> +       pm_runtime_get(&client->adapter->dev);
-> +
->         error = rmi_register_transport_device(&rmi_smb->xport);
->         if (error) {
->                 dev_err(&client->dev, "failed to register sensor: %d\n", error);
-> @@ -346,6 +350,7 @@ static int rmi_smb_remove(struct i2c_client *client)
->         struct rmi_smb_xport *rmi_smb = i2c_get_clientdata(client);
->
->         rmi_unregister_transport_device(&rmi_smb->xport);
-> +       pm_runtime_put(&client->adapter->dev);
->
->         return 0;
->   }
->
-> --
-> Jarkko
+  		if (client->flags & I2C_CLIENT_HOST_NOTIFY) {
+  			dev_dbg(dev, "Using Host Notify IRQ\n");
++			/* Adapter should not suspend for Host Notify */
++			pm_runtime_get_sync(&client->adapter->dev);
+  			irq = i2c_smbus_host_notify_to_irq(client);
+  		} else if (dev->of_node) {
+  			irq = of_irq_get_byname(dev->of_node, "irq");
+@@ -431,6 +433,8 @@ static int i2c_device_remove(struct device *dev)
+  	device_init_wakeup(&client->dev, false);
+
+  	client->irq = client->init_irq;
++	if (client->flags & I2C_CLIENT_HOST_NOTIFY)
++		pm_runtime_put(&client->adapter->dev);
+
+  	return status;
+  }
+
+> So I think this "hack" (with Mika's comments addressed) should go in
+> until someone starts propagating the PM states correctly.
+> 
+I guess you mean the Rafael's pm_runtime_get_sync() comment?
+
+-- 
+Jarkko
+
+--------------004E56005F75F0C34870FB19
+Content-Type: text/x-patch;
+ name="i2c-core-host-notify-pm.diff"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="i2c-core-host-notify-pm.diff"
+
+diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+index 38af18645133..d54eafad7727 100644
+--- a/drivers/i2c/i2c-core-base.c
++++ b/drivers/i2c/i2c-core-base.c
+@@ -327,6 +327,8 @@ static int i2c_device_probe(struct device *dev)
+ 
+ 		if (client->flags & I2C_CLIENT_HOST_NOTIFY) {
+ 			dev_dbg(dev, "Using Host Notify IRQ\n");
++			/* Adapter should not suspend for Host Notify */
++			pm_runtime_get_sync(&client->adapter->dev);
+ 			irq = i2c_smbus_host_notify_to_irq(client);
+ 		} else if (dev->of_node) {
+ 			irq = of_irq_get_byname(dev->of_node, "irq");
+@@ -431,6 +433,8 @@ static int i2c_device_remove(struct device *dev)
+ 	device_init_wakeup(&client->dev, false);
+ 
+ 	client->irq = client->init_irq;
++	if (client->flags & I2C_CLIENT_HOST_NOTIFY)
++		pm_runtime_put(&client->adapter->dev);
+ 
+ 	return status;
+ }
+
+--------------004E56005F75F0C34870FB19--
