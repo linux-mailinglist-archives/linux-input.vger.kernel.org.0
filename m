@@ -2,237 +2,351 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C951F063
-	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2019 08:16:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76CEEF0FA
+	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2019 09:15:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725788AbfD3GQ4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Apr 2019 02:16:56 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:44011 "EHLO
-        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725554AbfD3GQ4 (ORCPT
+        id S1726010AbfD3HPC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Apr 2019 03:15:02 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:35200 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725769AbfD3HPC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Apr 2019 02:16:56 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 361A32B31;
-        Tue, 30 Apr 2019 02:16:55 -0400 (EDT)
-Received: from imap7 ([10.202.2.57])
-  by compute6.internal (MEProxy); Tue, 30 Apr 2019 02:16:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outv.im; h=
-        mime-version:message-id:in-reply-to:references:date:from:to:cc
-        :subject:content-type; s=fm1; bh=03QS6RZPHtW8N3aqWEZwQJvrvEGYI5K
-        PAoUcPMOtzvQ=; b=bujAN6lSzV9JQLAR+PVnZUoRAYzRlUUVfbitJlymTGt1Q96
-        TPvjaELB9UGUiBop7Ivdd78vDLStHctV1FmhAa6iaGkzVawj0I+h6mK+FriKStX2
-        7ZpLit9Ytik6m7Y4eZtMxZVcXwPN3zQZVDieCjmxQJOhU7xtV7ssX2EoygHE5VBa
-        r7ba07ygEgZvZ8LOyXzvMyHuzyxahoKDkDjt5W7+W/lt7jaYNCP62gm7eiH14o3w
-        AUauYO6F5JurPGvC9McH3Rd9yWIhwAFeyBwWHQ36W3OeMQkw0982OAbzmWht/dcO
-        h7pp/i0zT3Vbcuw5uIOa2sF77mL0Mhi0UmBsLOA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=03QS6R
-        ZPHtW8N3aqWEZwQJvrvEGYI5KPAoUcPMOtzvQ=; b=yll4mLx8Yec6B0RVkYypxv
-        oNRo0wd9RTtLBQMwB/910Hx9IVQzzTltN3OsQRXiHRjkREWx914JOUyk7YbeXjZd
-        Zo8zzlhCN1ZrZaUv1tO/nf7aGrOPNnf6rl69UaLSkyi7Ma8oofz6B+TPxwV+HapH
-        fQwasQeBSs2kNuUZHVx0otHNdWmQFYfimlVCVeVl/WxBemrYs4wq1dKn+LutJSYJ
-        aQ9Gr5B1d+l8Rp3gY1nNVXpRQ5QIjXeu1fMpz9BArj1sJGzXdZLAXIEtzO+A0nP1
-        mfPWj+aB99XLjP8YhOgNvd/vJi/dVf2DCmO3MhSCSPbaMXUF+tTIeH3ugzJ7MMzQ
-        ==
-X-ME-Sender: <xms:VejHXCKIVYD6506mJV0Sjn4if2pq99zTwLmsSzJR3Y5Nolb9O5mD-Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrieefgddutdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtsehttd
-    ertderredtnecuhfhrohhmpedfqfhuthhvihcuggdfuceoihesohhuthhvrdhimheqnecu
-    ffhomhgrihhnpegrrhgthhhlihhnuhigrdhorhhgnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehisehouhhtvhdrihhmnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:VejHXOZ3Nhk9pqIScxa7nngCRff4fqwasnpjRMWMMEXPmxCOcp6Phg>
-    <xmx:VejHXNudnGlm3O0WCZDfrilweQoKy3H0GFFZvYv-nFCW6bDz44_utA>
-    <xmx:VejHXLsBZSyGScsv5AdUBbMBYL92XljcXcH4CaJDpCGwHCxtVLJanQ>
-    <xmx:VujHXFOPH7wpzCrcjwhs6RokuyLN32ujrY1nAaLEL3fmo_tXl60o3w>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 79A15211BA; Tue, 30 Apr 2019 02:16:53 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-448-g5cc1c91-fmstable-20190429v1
-Mime-Version: 1.0
-Message-Id: <9db8c26a-d9fd-4cc9-a3aa-bd593d8f73ac@www.fastmail.com>
-In-Reply-To: <0c87e12c-c964-40a3-b97e-af2286c318c4@www.fastmail.com>
-References: <0c87e12c-c964-40a3-b97e-af2286c318c4@www.fastmail.com>
-Date:   Tue, 30 Apr 2019 02:16:32 -0400
-From:   "Outvi V" <i@outv.im>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [SOLVED] PROBLEM: Elan touchpad regression on Kernel 5.0.10
-Content-Type: text/plain
+        Tue, 30 Apr 2019 03:15:02 -0400
+Received: by mail-pl1-f195.google.com with SMTP id w24so6321156plp.2;
+        Tue, 30 Apr 2019 00:15:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=RsHBTisSuQ7+0nqw471B/2w56soH4fHyxAYYtLk4NVc=;
+        b=Rte8mMyPPB1QKQ5iXUnRCwIKood1FeAkyzaer8LJKG2J2EJkdmGkc8oNET0cNu6QjK
+         0CQq3Gxn+Q/OD2FSJlz+BJh7oKVipZ1STI3WS39chsM+yhKU1zR1h6DRFumcuKflk0YD
+         JpKxkIpxHUe3/gGfE9ZIU5zOBfG3GQCXRU+I8RyAi06MH6jztHjWqTIu6kPjJjWaXsco
+         dD9liXoeRkHOa9leYYCbinRWA5qjgqUHw3KdrBoa6HLHk+HtejYl4trskfDgE4Db1he+
+         WDUyTZPXcmOiM51r5pm8LxcopSPfMkpq8yRNrjRq/XBAX2/91XDEyZWw8hpboYmcmfgC
+         doXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=RsHBTisSuQ7+0nqw471B/2w56soH4fHyxAYYtLk4NVc=;
+        b=P69ttEz0MdZkNTLO8CHjEdBmidVedYLo3uGwpxqXnSmbvkkZliI7q5mFIZA+SrqAAG
+         Mb5m64ESsOECaHuTIkjGfhd/crA13NQoEMVcMNLoa9LKjZ/6Gj4Zi+Or1Sd0nYlQvsIc
+         sS6kfKNuQAVRmaqmc2UC3w9WXDN5IFrCwcONYGm886pquIkkCBrYkSLLcqIMxR4+Vs8e
+         Z1iqfubonqaN5F20Zon2IMh0kjC0kRz/FhH24ch6POY9Zhy1I5foFlzqrk23CLBbSFX7
+         hvnsuJXGYtCTroR4XKHsXypEfkVF4OHjdhK6NeSZteHggyP5bpVka05tl3FdFCxqxEgp
+         X4rg==
+X-Gm-Message-State: APjAAAU35HboxNynK6JvrQIImQ1BZtEPetNPR6q0NzWSyeK51hpM7hCu
+        05cB/IJjkEm9L/BctSG4Uno=
+X-Google-Smtp-Source: APXvYqwKuLXac/TZUzLFky20KYr8k+Av/WaFPLa7cMgq0NOaxnGWSHEo+tqrqzkUHFr5f2MopRPhSg==
+X-Received: by 2002:a17:902:8490:: with SMTP id c16mr14442896plo.240.1556608500936;
+        Tue, 30 Apr 2019 00:15:00 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id h187sm60188287pfc.52.2019.04.30.00.14.59
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 30 Apr 2019 00:14:59 -0700 (PDT)
+Date:   Tue, 30 Apr 2019 00:14:57 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Luca Weiss <luca@z3ntu.xyz>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        Coly Li <colyli@suse.de>, Lee Jones <lee.jones@linaro.org>,
+        Xiaotong Lu <xiaotong.lu@spreadtrum.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Rob Herring <robh@kernel.org>,
+        Baolin Wang <baolin.wang@linaro.org>,
+        David Brown <david.brown@linaro.org>,
+        "open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>,
+        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
+        <linux-input@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 2/3] Input: add a driver for GPIO controllable
+ vibrators
+Message-ID: <20190430071457.GA148015@dtor-ws>
+References: <20190426194747.22256-1-luca@z3ntu.xyz>
+ <20190426194747.22256-2-luca@z3ntu.xyz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190426194747.22256-2-luca@z3ntu.xyz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+On Fri, Apr 26, 2019 at 09:47:46PM +0200, Luca Weiss wrote:
+> Provide a simple driver for GPIO controllable vibrators.
+> It will be used by the Fairphone 2.
+> 
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 
-  After a cold restart, this problems seem to be solved automatically on kernel 5.0.10.
+Applied, thank you.
 
-Regards,
+> ---
+>  drivers/input/misc/Kconfig      |  12 ++
+>  drivers/input/misc/Makefile     |   1 +
+>  drivers/input/misc/gpio-vibra.c | 209 ++++++++++++++++++++++++++++++++
+>  3 files changed, 222 insertions(+)
+>  create mode 100644 drivers/input/misc/gpio-vibra.c
+> 
+> diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+> index e15ed1bb8558..6dfe9e2fe5b1 100644
+> --- a/drivers/input/misc/Kconfig
+> +++ b/drivers/input/misc/Kconfig
+> @@ -290,6 +290,18 @@ config INPUT_GPIO_DECODER
+>  	 To compile this driver as a module, choose M here: the module
+>  	 will be called gpio_decoder.
+>  
+> +config INPUT_GPIO_VIBRA
+> +	tristate "GPIO vibrator support"
+> +	depends on GPIOLIB || COMPILE_TEST
+> +	select INPUT_FF_MEMLESS
+> +	help
+> +	  Say Y here to get support for GPIO based vibrator devices.
+> +
+> +	  If unsure, say N.
+> +
+> +	  To compile this driver as a module, choose M here: the module will be
+> +	  called gpio-vibra.
+> +
+>  config INPUT_IXP4XX_BEEPER
+>  	tristate "IXP4XX Beeper support"
+>  	depends on ARCH_IXP4XX
+> diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+> index b936c5b1d4ac..f38ebbdb05e2 100644
+> --- a/drivers/input/misc/Makefile
+> +++ b/drivers/input/misc/Makefile
+> @@ -36,6 +36,7 @@ obj-$(CONFIG_INPUT_DRV2667_HAPTICS)	+= drv2667.o
+>  obj-$(CONFIG_INPUT_GP2A)		+= gp2ap002a00f.o
+>  obj-$(CONFIG_INPUT_GPIO_BEEPER)		+= gpio-beeper.o
+>  obj-$(CONFIG_INPUT_GPIO_DECODER)	+= gpio_decoder.o
+> +obj-$(CONFIG_INPUT_GPIO_VIBRA)		+= gpio-vibra.o
+>  obj-$(CONFIG_INPUT_HISI_POWERKEY)	+= hisi_powerkey.o
+>  obj-$(CONFIG_HP_SDC_RTC)		+= hp_sdc_rtc.o
+>  obj-$(CONFIG_INPUT_IMS_PCU)		+= ims-pcu.o
+> diff --git a/drivers/input/misc/gpio-vibra.c b/drivers/input/misc/gpio-vibra.c
+> new file mode 100644
+> index 000000000000..b76c81015de9
+> --- /dev/null
+> +++ b/drivers/input/misc/gpio-vibra.c
+> @@ -0,0 +1,209 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + *  GPIO vibrator driver
+> + *
+> + *  Copyright (C) 2019 Luca Weiss <luca@z3ntu.xyz>
+> + *
+> + *  Based on PWM vibrator driver:
+> + *  Copyright (C) 2017 Collabora Ltd.
+> + *
+> + *  Based on previous work from:
+> + *  Copyright (C) 2012 Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> + *
+> + *  Based on PWM beeper driver:
+> + *  Copyright (C) 2010, Lars-Peter Clausen <lars@metafoo.de>
+> + */
+> +
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/input.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/slab.h>
+> +
+> +struct gpio_vibrator {
+> +	struct input_dev *input;
+> +	struct gpio_desc *gpio;
+> +	struct regulator *vcc;
+> +
+> +	struct work_struct play_work;
+> +	bool running;
+> +	bool vcc_on;
+> +};
+> +
+> +static int gpio_vibrator_start(struct gpio_vibrator *vibrator)
+> +{
+> +	struct device *pdev = vibrator->input->dev.parent;
+> +	int err;
+> +
+> +	if (!vibrator->vcc_on) {
+> +		err = regulator_enable(vibrator->vcc);
+> +		if (err) {
+> +			dev_err(pdev, "failed to enable regulator: %d\n", err);
+> +			return err;
+> +		}
+> +		vibrator->vcc_on = true;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(vibrator->gpio, 1);
+> +
+> +	return 0;
+> +}
+> +
+> +static void gpio_vibrator_stop(struct gpio_vibrator *vibrator)
+> +{
+> +	gpiod_set_value_cansleep(vibrator->gpio, 0);
+> +
+> +	if (vibrator->vcc_on) {
+> +		regulator_disable(vibrator->vcc);
+> +		vibrator->vcc_on = false;
+> +	}
+> +}
+> +
+> +static void gpio_vibrator_play_work(struct work_struct *work)
+> +{
+> +	struct gpio_vibrator *vibrator =
+> +		container_of(work, struct gpio_vibrator, play_work);
+> +
+> +	if (vibrator->running)
+> +		gpio_vibrator_start(vibrator);
+> +	else
+> +		gpio_vibrator_stop(vibrator);
+> +}
+> +
+> +static int gpio_vibrator_play_effect(struct input_dev *dev, void *data,
+> +				     struct ff_effect *effect)
+> +{
+> +	struct gpio_vibrator *vibrator = input_get_drvdata(dev);
+> +
+> +	int level = effect->u.rumble.strong_magnitude;
+> +
+> +	if (!level)
+> +		level = effect->u.rumble.weak_magnitude;
+> +
+> +	if (level)
+> +		vibrator->running = true;
+> +	else
+> +		vibrator->running = false;
+> +
+> +	schedule_work(&vibrator->play_work);
+> +
+> +	return 0;
+> +}
+> +
+> +static void gpio_vibrator_close(struct input_dev *input)
+> +{
+> +	struct gpio_vibrator *vibrator = input_get_drvdata(input);
+> +
+> +	cancel_work_sync(&vibrator->play_work);
+> +	gpio_vibrator_stop(vibrator);
+> +	vibrator->running = false;
+> +}
+> +
+> +static int gpio_vibrator_probe(struct platform_device *pdev)
+> +{
+> +	struct gpio_vibrator *vibrator;
+> +	int err;
+> +
+> +	vibrator = devm_kzalloc(&pdev->dev, sizeof(*vibrator), GFP_KERNEL);
+> +	if (!vibrator)
+> +		return -ENOMEM;
+> +
+> +	vibrator->input = devm_input_allocate_device(&pdev->dev);
+> +	if (!vibrator->input)
+> +		return -ENOMEM;
+> +
+> +	vibrator->vcc = devm_regulator_get(&pdev->dev, "vcc");
+> +	err = PTR_ERR_OR_ZERO(vibrator->vcc);
+> +	if (err) {
+> +		if (err != -EPROBE_DEFER)
+> +			dev_err(&pdev->dev, "Failed to request regulator: %d\n",
+> +				err);
+> +		return err;
+> +	}
+> +
+> +	vibrator->gpio = devm_gpiod_get(&pdev->dev, "enable", GPIOD_OUT_LOW);
+> +	err = PTR_ERR_OR_ZERO(vibrator->gpio);
+> +	if (err) {
+> +		if (err != -EPROBE_DEFER)
+> +			dev_err(&pdev->dev, "Failed to request main gpio: %d\n",
+> +				err);
+> +		return err;
+> +	}
+> +
+> +	INIT_WORK(&vibrator->play_work, gpio_vibrator_play_work);
+> +
+> +	vibrator->input->name = "gpio-vibrator";
+> +	vibrator->input->id.bustype = BUS_HOST;
+> +	vibrator->input->close = gpio_vibrator_close;
+> +
+> +	input_set_drvdata(vibrator->input, vibrator);
+> +	input_set_capability(vibrator->input, EV_FF, FF_RUMBLE);
+> +
+> +	err = input_ff_create_memless(vibrator->input, NULL,
+> +				      gpio_vibrator_play_effect);
+> +	if (err) {
+> +		dev_err(&pdev->dev, "Couldn't create FF dev: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	err = input_register_device(vibrator->input);
+> +	if (err) {
+> +		dev_err(&pdev->dev, "Couldn't register input dev: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	platform_set_drvdata(pdev, vibrator);
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused gpio_vibrator_suspend(struct device *dev)
+> +{
+> +	struct gpio_vibrator *vibrator = dev_get_drvdata(dev);
+> +
+> +	cancel_work_sync(&vibrator->play_work);
+> +	if (vibrator->running)
+> +		gpio_vibrator_stop(vibrator);
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused gpio_vibrator_resume(struct device *dev)
+> +{
+> +	struct gpio_vibrator *vibrator = dev_get_drvdata(dev);
+> +
+> +	if (vibrator->running)
+> +		gpio_vibrator_start(vibrator);
+> +
+> +	return 0;
+> +}
+> +
+> +static SIMPLE_DEV_PM_OPS(gpio_vibrator_pm_ops,
+> +			 gpio_vibrator_suspend, gpio_vibrator_resume);
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id gpio_vibra_dt_match_table[] = {
+> +	{ .compatible = "gpio-vibrator" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, gpio_vibra_dt_match_table);
+> +#endif
+> +
+> +static struct platform_driver gpio_vibrator_driver = {
+> +	.probe	= gpio_vibrator_probe,
+> +	.driver	= {
+> +		.name	= "gpio-vibrator",
+> +		.pm	= &gpio_vibrator_pm_ops,
+> +		.of_match_table = of_match_ptr(gpio_vibra_dt_match_table),
+> +	},
+> +};
+> +module_platform_driver(gpio_vibrator_driver);
+> +
+> +MODULE_AUTHOR("Luca Weiss <luca@z3ntu.xy>");
+> +MODULE_DESCRIPTION("GPIO vibrator driver");
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:gpio-vibrator");
+> -- 
+> 2.21.0
+> 
 
-On Tue, Apr 30, 2019, at 12:21, Outvi V wrote:
-> Hello,
-> 
-> [1.] One line summary of the problem: Elan touchpad regression on Kernel 5.0.10
-> 
-> [2.] Full description of the problem/report:
->   Elan touchpad does not work on 5.0.10 while working on 5.0.9
-> 
-> [3.] Keywords: elan_i2c_core elan i2c touchpad 5.0.10
-> 
-> [4.] Kernel information
-> [4.1.] Kernel version:
->   Linux version 5.0.10-arch1-1-ARCH (builduser@heftig-2592) (gcc 
-> version 8.3.0 (GCC)) #1 SMP PREEMPT Sat Apr 27 20:06:45 UTC 2019
-> [4.2.] Kernel .config file:
->   I'm not sure, but I think it may be referring to
->   
-> https://git.archlinux.org/svntogit/packages.git/tree/trunk/config?h=packages/linux
-> [5.] Most recent kernel version which did not have the bug: 5.0.9
-> 
-> [6.] Output of Oops.. message (if applicable) with symbolic information
->      resolved (Not appliable)
-> [7.] A small shell script or example program which triggers the
->      problem: (Not appliable)
-> 
-> [8.] Environment
-> [8.1.] Software (add the output of the ver_linux script here)
->   
-> Linux sheltty 5.0.10-arch1-1-ARCH #1 SMP PREEMPT Sat Apr 27 20:06:45 
-> UTC 2019 x86_64 GNU/Linux
-> 
-> GNU C                   8.3.0
-> GNU Make                4.2.1
-> Binutils                2.32
-> Util-linux              2.33.2
-> Mount                   2.33.2
-> Module-init-tools       26
-> E2fsprogs               1.45.0
-> Jfsutils                1.1.15
-> Reiserfsprogs           3.6.27
-> Xfsprogs                4.20.0
-> PPP                     2.4.7
-> Linux C Library         2.29
-> Dynamic linker (ldd)    2.29
-> Linux C++ Library       6.0.25
-> Procps                  3.3.15
-> Kbd                     2.0.4
-> Console-tools           2.0.4
-> Sh-utils                8.31
-> Udev                    242
-> Modules Loaded          8021q 8250_dw ac ac97_bus acpi_thermal_rel 
-> aesni_intel aes_x86_64 agpgart ahci arc4 atkbd battery bbswitch 
-> bluetooth btbcm btintel btrtl btusb cfg80211 coretemp crc16 
-> crc32c_generic crc32c_intel crc32_pclmul crct10dif_pclmul cryptd 
-> crypto_simd crypto_user drm drm_kms_helper ecdh_generic elan_i2c evdev 
-> ext4 fat fb_sys_fops fscrypto garp ghash_clmulni_intel glue_helper hid 
-> hid_generic i2c_algo_bit i2c_hid i2c_i801 i8042 i915 idma64 input_leds 
-> int3400_thermal int3403_thermal int340x_thermal_zone intel_cstate 
-> intel_gtt intel_lpss intel_lpss_pci intel_pch_thermal intel_powerclamp 
-> intel_rapl intel_rapl_perf intel_soc_dts_iosf intel_uncore 
-> intel_wmi_thunderbolt ip_tables irqbypass iTCO_vendor_support iTCO_wdt 
-> jbd2 joydev kvm kvmgt kvm_intel ledtrig_audio libahci libata libphy 
-> libps2 llc mac80211 mac_hid mbcache mdev media mei mei_me mousedev mrp 
-> nls_cp437 nls_iso8859_1 pcc_cpufreq processor_thermal_device r8169 
-> r8822be realtek rfkill rng_core scsi_mod serio serio_raw snd 
-> snd_compress snd_hda_codec snd_hda_codec_generic snd_hda_codec_hdmi 
-> snd_hda_codec_realtek snd_hda_core snd_hda_ext_core snd_hda_intel 
-> snd_hwdep snd_pcm snd_pcm_dmaengine snd_soc_acpi 
-> snd_soc_acpi_intel_match snd_soc_core snd_soc_hdac_hda snd_soc_skl 
-> snd_soc_skl_ipc snd_soc_sst_dsp snd_soc_sst_ipc snd_timer soundcore stp 
-> syscopyarea sysfillrect sysimgblt tpm tpm_crb tpm_tis tpm_tis_core 
-> typec typec_ucsi ucsi_acpi usbhid uvcvideo vfat vfio vfio_iommu_type1 
-> vfio_mdev videobuf2_common videobuf2_memops videobuf2_v4l2 
-> videobuf2_vmalloc videodev wmi wmi_bmof x86_pkg_temp_thermal xhci_hcd 
-> xhci_pci x_tables
-> 
-> [8.2.] Processor information (from /proc/cpuinfo): (Maybe not appliable)
-> [8.3.] Module information (from /proc/modules): 
-> 
-> (Parts related to i2c and elan:)
-> 
-> i2c_algo_bit 16384 1 i915, Live 0x0000000000000000
-> i2c_hid 32768 0 - Live 0x0000000000000000
-> hid 147456 3 hid_generic,usbhid,i2c_hid, Live 0x0000000000000000
-> elan_i2c 49152 0 - Live 0x0000000000000000
-> i2c_i801 36864 0 - Live 0x0000000000000000
-> 
-> [8.4.] Loaded driver and hardware information (/proc/ioports, /proc/iomem)
-> 
-> /proc/ioports:
-> 0000-0000 : PCI Bus 0000:00
->   0000-0000 : dma1
->   0000-0000 : pic1
->   0000-0000 : iTCO_wdt
->   0000-0000 : timer0
->   0000-0000 : timer1
->   0000-0000 : keyboard
->   0000-0000 : PNP0C09:00
->     0000-0000 : EC data
->   0000-0000 : keyboard
->   0000-0000 : PNP0C09:00
->     0000-0000 : EC cmd
->   0000-0000 : rtc0
->   0000-0000 : dma page reg
->   0000-0000 : pic2
->   0000-0000 : dma2
->   0000-0000 : fpu
->     0000-0000 : PNP0C04:00
->   0000-0000 : iTCO_wdt
->   0000-0000 : pnp 00:02
-> 0000-0000 : PCI conf1
-> 0000-0000 : PCI Bus 0000:00
->   0000-0000 : pnp 00:02
->   0000-0000 : pnp 00:00
->     0000-0000 : ACPI PM1a_EVT_BLK
->     0000-0000 : ACPI PM1a_CNT_BLK
->     0000-0000 : ACPI PM_TMR
->     0000-0000 : ACPI CPU throttle
->     0000-0000 : ACPI PM2_CNT_BLK
->     0000-0000 : pnp 00:04
->     0000-0000 : ACPI GPE0_BLK
->   0000-0000 : pnp 00:01
->   0000-0000 : PCI Bus 0000:08
->     0000-0000 : 0000:08:00.0
->   0000-0000 : PCI Bus 0000:07
->     0000-0000 : 0000:07:00.0
->       0000-0000 : r8822be
->   0000-0000 : PCI Bus 0000:01
->     0000-0000 : 0000:01:00.0
->   0000-0000 : 0000:00:02.0
->   0000-0000 : 0000:00:1f.4
->     0000-0000 : i801_smbus
->   0000-0000 : 0000:00:17.0
->     0000-0000 : ahci
->   0000-0000 : 0000:00:17.0
->     0000-0000 : ahci
->   0000-0000 : 0000:00:17.0
->     0000-0000 : ahci
-> 
-> 
-> [8.5.] PCI information
->   It seems to be long (over 700 lines) and unrelated to this 
-> regression. Omitted to avoid flooding. I've kept an archive so feel 
-> free to ask me to post it if needed.
-> 
-> [8.6.] SCSI information (from /proc/scsi/scsi): (Empty)
-> [8.7.] Other information that might be relevant to the problem:
-> 
->   dmesg is constantly showing "elan_i2c i2c-ELAN061B:00: invalid report 
-> id data (d)".
->   I checked the git log and it is likely to be related to commit 
-> "95df599f95f398b0a34d081dadfdee3126e58163".
->   I'm using Arch Linux, its kernel repository link: [1]
->   I checked the related file "elan_i2c_core.c" in Arch Linux's kernel 
-> repository [2], and it is the same as in 5.0.10 on kernel.org.
->   My laptop is a Lenovo Legion Y7000.
-> 
-> Links:
-> [1]. https://git.archlinux.org/linux.git
-> [2]. 
-> https://git.archlinux.org/linux.git/tree/drivers/input/mouse/elan_i2c_core.c?h=v5.0.10-arch1
-> 
-> Please don't hesitate if more information or operation is needed.
+-- 
+Dmitry
