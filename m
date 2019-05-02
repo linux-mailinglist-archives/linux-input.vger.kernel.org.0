@@ -2,68 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9920A12427
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2019 23:32:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A5941243E
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2019 23:43:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726053AbfEBVcU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 May 2019 17:32:20 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:36964 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725962AbfEBVcT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 May 2019 17:32:19 -0400
-Received: by mail-ot1-f67.google.com with SMTP id r20so3518306otg.4;
-        Thu, 02 May 2019 14:32:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=orS40jFtqb35Wbp7JodVtiOmNi03+OR+s9mWL3M/pTo=;
-        b=D/JCcWotYNLyZKfL2bzhRp1xd6g+p2AZ7Qsxcwf/EK6f6BfP7MgsEN5kdnRPGl1+v0
-         WK2PTt2azvJe4QZyaI0B532X+X3/Q3pAjhPJyVXpMg93h9Nu9EaxtbMVAZqegXnrdw4v
-         tH4rElbYTNkNHY6EMf4V4NOBxRFPdf5nbNKh3GeMNFOtnuQYpNjYJHuElSHilbbOTu8D
-         z/fk+L8hVSUQ+YhEmOUH9siiP0rl8gBKwfIXjeMB1adJutHd25MAJENMEywKQ7W+jNLV
-         UStCysll/cZxYwmq0r58DI4amO9onvgZktW6nCQkLbmkM/Au+zfDbKNCD06G+uNLwu7P
-         vJJQ==
-X-Gm-Message-State: APjAAAWRwCoGnqfEneRb8zAGp7bOvEBUUjy+CtG8IJjycTwGeNY1YjaH
-        y6rpZbM19iFHbr1P2CSBBQ==
-X-Google-Smtp-Source: APXvYqycgFFoT6XyDRCj95MK86JH5d0iSJKNsTW2unTnGgy0mZGyLggORq55HQkw5az2wxF69nEyYQ==
-X-Received: by 2002:a9d:66a:: with SMTP id 97mr4150543otn.234.1556832739089;
-        Thu, 02 May 2019 14:32:19 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 38sm92068otg.10.2019.05.02.14.32.17
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 02 May 2019 14:32:17 -0700 (PDT)
-Date:   Thu, 2 May 2019 16:32:17 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Cc:     linux-kernel@vger.kernel.org,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] Input: edt-ft5x06 - add support for polled
- configuration
-Message-ID: <20190502213217.GA14901@bogus>
-References: <20190430185859.24015-1-nsaenzjulienne@suse.de>
- <20190430185859.24015-2-nsaenzjulienne@suse.de>
+        id S1726022AbfEBVnk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 May 2019 17:43:40 -0400
+Received: from mx3.wp.pl ([212.77.101.10]:17873 "EHLO mx3.wp.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726053AbfEBVnk (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 2 May 2019 17:43:40 -0400
+Received: (wp-smtpd smtp.wp.pl 39377 invoked from network); 2 May 2019 23:36:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wp.pl; s=1024a;
+          t=1556833016; bh=FUkkXb89M9Ju/1kq/ADsVeKz9TuN3gFh0/5qWIJyqMI=;
+          h=From:To:Cc:Subject;
+          b=RlBJrdS6MuaSJuLbf4MIN2cIzqbD3OoXOTFURjat2VMT37CSlBBypklfBAelYjAej
+           WZrM5DIXYzYNiUH/lPxvz5WA967a4xnCJoGcYqoDoALXBT8hiwRGsCiRNTcywS3pB0
+           qJoQ//XkzU5b0CN7GCtVhHx5ONYrWCPKeQPxgly8=
+Received: from pc-201-108-240-185-static.strong-pc.com (HELO localhost.localdomain) (spaz16@wp.pl@[185.240.108.201])
+          (envelope-sender <spaz16@wp.pl>)
+          by smtp.wp.pl (WP-SMTPD) with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP
+          for <igorkuo@gmail.com>; 2 May 2019 23:36:56 +0200
+From:   =?UTF-8?q?B=C5=82a=C5=BCej=20Szczygie=C5=82?= <spaz16@wp.pl>
+Cc:     igorkuo@gmail.com,
+        =?UTF-8?q?B=C5=82a=C5=BCej=20Szczygie=C5=82?= <spaz16@wp.pl>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: fix A4Tech horizontal scrolling
+Date:   Thu,  2 May 2019 23:36:39 +0200
+Message-Id: <20190502213639.7632-1-spaz16@wp.pl>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190430185859.24015-2-nsaenzjulienne@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-WP-MailID: 75b21af65cda25fe36520aade8dfb94b
+X-WP-AV: skaner antywirusowy Poczty Wirtualnej Polski
+X-WP-SPAM: NO 0000000 [YfMH]                               
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 30 Apr 2019 20:58:59 +0200, Nicolas Saenz Julienne wrote:
-> Some devices might not provide an interrupt line for the touchscreen.
-> In that case the driver defaults to using a polled interface.
-> 
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> ---
->  .../devicetree/bindings/input/touchscreen/edt-ft5x06.txt  | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
+Since recent high resolution scrolling changes the A4Tech driver must
+check for the "REL_WHEEL_HI_RES" usage code.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Fixes: 2dc702c991e3774af9d7ce410eef410ca9e2357e (HID: input: use the
+Resolution Multiplier for high-resolution scrolling)
+
+Signed-off-by: Błażej Szczygieł <spaz16@wp.pl>
+---
+ drivers/hid/hid-a4tech.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/hid/hid-a4tech.c b/drivers/hid/hid-a4tech.c
+index 9428ea7cdf8a..fafb9fa558e7 100644
+--- a/drivers/hid/hid-a4tech.c
++++ b/drivers/hid/hid-a4tech.c
+@@ -38,7 +38,7 @@ static int a4_input_mapped(struct hid_device *hdev, struct hid_input *hi,
+ {
+ 	struct a4tech_sc *a4 = hid_get_drvdata(hdev);
+ 
+-	if (usage->type == EV_REL && usage->code == REL_WHEEL)
++	if (usage->type == EV_REL && usage->code == REL_WHEEL_HI_RES)
+ 		set_bit(REL_HWHEEL, *bit);
+ 
+ 	if ((a4->quirks & A4_2WHEEL_MOUSE_HACK_7) && usage->hid == 0x00090007)
+@@ -60,7 +60,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
+ 	input = field->hidinput->input;
+ 
+ 	if (a4->quirks & A4_2WHEEL_MOUSE_HACK_B8) {
+-		if (usage->type == EV_REL && usage->code == REL_WHEEL) {
++		if (usage->type == EV_REL && usage->code == REL_WHEEL_HI_RES) {
+ 			a4->delayed_value = value;
+ 			return 1;
+ 		}
+@@ -77,7 +77,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
+ 		return 1;
+ 	}
+ 
+-	if (usage->code == REL_WHEEL && a4->hw_wheel) {
++	if (usage->code == REL_WHEEL_HI_RES && a4->hw_wheel) {
+ 		input_event(input, usage->type, REL_HWHEEL, value);
+ 		return 1;
+ 	}
+-- 
+2.21.0
+
