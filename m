@@ -2,113 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B33F110C6
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2019 02:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA176114D7
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2019 10:08:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726152AbfEBAsw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 May 2019 20:48:52 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:34225 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726133AbfEBAsw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 May 2019 20:48:52 -0400
-Received: by mail-oi1-f196.google.com with SMTP id v10so427778oib.1;
-        Wed, 01 May 2019 17:48:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=/DJSVXUD6ihdDGPu0GZjl5uPL7+MwkMGdNWZHLgSEZ0=;
-        b=FV2f99ZGRYMYUthNqY65zhIZx0jdIuRg49qo49W6Okp+Ncmymi6C/PPiSJ7LwIq2wH
-         V/py9IEexclqxm2NJG1q3HlskOh8TkhjMlGjpLHgZPjyFOyDmrLsOdW3aWco9eEsLpKL
-         E/2vpKbQIB3FXtBhuNOQQZixzrLEuPH33X6X+8X8f3tw2ZNkZkwABGdnoLdMEuLg0OKC
-         ItlbqqR9Lv4//rv7D7C6tRW2x+9w0p29Cv3uRFeSBl7TCfCb924j/aw9CkkS22tMTFJC
-         S7ECsCXxP516Jzbh3DYcdheHRj560mqUOKlMDm13+LkZmMzgx9qRUYDgVGTdDpkIr/NN
-         yWOg==
-X-Gm-Message-State: APjAAAWHHjf9qpesIAoEfSrH7Gwta7svu4ZleaP60nGxk6O/91KFpMNP
-        As9zbrEJLyqZ9sD1xFlMGb4AhSY=
-X-Google-Smtp-Source: APXvYqzw6vNDK3Wzkdy9CxKtL6Q3ubGrIjPHnrFf021GVDCBaGS2/NFROx9ihayNuO+j0GGbsvHoYg==
-X-Received: by 2002:aca:3306:: with SMTP id z6mr748777oiz.25.1556758131022;
-        Wed, 01 May 2019 17:48:51 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id i11sm16269124otl.27.2019.05.01.17.48.50
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 01 May 2019 17:48:50 -0700 (PDT)
-Date:   Wed, 1 May 2019 19:48:49 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Michal =?utf-8?B?Vm9rw6HEjQ==?= <michal.vokac@ysoft.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: Re: [RFC PATCH 1/4] dt-bindings: input: Add support for the MPR121
- without interrupt line
-Message-ID: <20190502004849.GA8232@bogus>
-References: <1556267420-93219-1-git-send-email-michal.vokac@ysoft.com>
- <1556267420-93219-2-git-send-email-michal.vokac@ysoft.com>
+        id S1726127AbfEBIIL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 May 2019 04:08:11 -0400
+Received: from sonic310-13.consmr.mail.bf2.yahoo.com ([74.6.135.123]:37293
+        "EHLO sonic310-13.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726683AbfEBIIC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 2 May 2019 04:08:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rocketmail.com; s=s2048; t=1556784480; bh=eqPLWwwRqRVmzP2YKccqgKJef102gkry4Z7Y3+dSxpU=; h=Date:From:To:Cc:In-Reply-To:References:Subject:From:Subject; b=a54Ac64R6FQZoKZfwg4EGrzpULSchLC4M/3V5A0ntvSlJtUEWkaoesIogY0i7Yr5bxFOPZ4bsTlkBNc+pueyj7wEObCrDGyV5gRm6E/OmZe26xEVsj1osIOMSXN4/l6fgx0hHhaugsNNdo/XfgrVQL9a6HtzGgRmEmq1UK4zk9L0kgmhn3+nmmCIDuyEiiK90HlQIWrbPQZzVZ3tMYt8z3ZGp3LqDuoh/5NB0qW0LFKjsgLHSA37bYFY01jJTMsCVlhfgwypWwyAMU27jU0Qzh7iBTdeWb7qxQk/mh6+TAqlnLykUEv0DM/hnVZvWnz2xMXwxmHCfmT3tNgyPuZoDg==
+X-YMail-OSG: 7RoG7rAVM1lVcMBwOFiMzuVHlXnke1Jh.1NnEcWAeIOHaSSoAuW8QxaWKMU_QM.
+ b.NKhsTu.eUxYSaEXcxNzoDsyVW1yATu3URu8Sqx4jo5xr.pY1hEAmB9BiffJCQzUQxP9byJ5HAD
+ APcJLTxCu7UKHzal7MAUpuPe6zp1geIx3GuFGoQCNW.UVXnAFa3akW6.0Jx3I4XIogNafhlihnMT
+ 5cyNYutPf8j.BxsG_Ns5O5IkkP.K1D1329WFSJPac51.Mor2mNxqIXAUG8dxjTHN0mfOKHIY7CQT
+ RumQHgEEzTD5fpYttrlfnInTj23GtkG3gquhbw2Gw91ax8VudufNsdNAFh5xAMHFa_5WIiXJ6YdK
+ E7WE1R0KSJ7muX_MNRT6juK_YLtYoZSEwUmpWIRjzVHF0UhyGPh0.fBgF1fZXYSaSNGhtNnb3dqn
+ ncPvioX_39bqIHAPvsqqMi80Fv.YirXTNgX6D614l8sSvHt9EwoYB8dqxRKCqZ009X4If6l4ZL6e
+ N4MNOUbjuVQZNcfgfnHbybnbRqL1xWTOzQ99OoRZRzc0AAadEh.PZi2RmYIc0yBe7XTSLHmyUlTz
+ wgqK4QSOTnUp8O4nVEshTHd9phqtPZiKWc_XCxoK1QEFKGaqS267R4w7PErcflg7F6XRcch5ZvdF
+ Bz_QiyIEXcae7tv68lNgTrgyMy7A3cGCvG5xnmlfWn0etQ4wguhZNr8mRSKP3oxtzAJxH9lbh12H
+ aPx2OyUvQN.32CETmpsl0fiB2sY0xqe594uHAZVR8uC_zcDmj42apPsJKee_0A4hzFDsVHSLBxVq
+ oX.xtqlPfrhrRx8gNL9Y5wBIkUwcnn4QlyrzLsw1smkpfd8omcmEGuA9nSr2YOFitsIoi07IH2Ji
+ HrJuzotoRYKAVD3RiaHhByjLS9Esj3fambpf3edxup6hLSNYvLdLpJfUjUbQwZbIAi.ZRbu2IoV.
+ cKkTLFXRN3EyAJkbtXr9XUCI8BGi5v67teOkpDbR6oRlSEYR1c2Ytbxqcm9s6CgHtVuKm5UtO48g
+ meYV8JH9GkQwxhEdMXwK88VDr.Q8VAuWr7LS9_epkCmbuBTWSvQuY20_rOOoqBkZzw0yV4medu7v
+ ZUVT.q4bS6_wg1XYIFCANZsDj0t5BETj1SB9sOXHTYPF5SfALO0.d_lu0yMzAV59F4F.HisQk4.N
+ Z2Z0S5gUZLtAQH1.6dwIQ6jAX.bGly2U_fS.gbJ6Q7nYBTeLTZQ--
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.bf2.yahoo.com with HTTP; Thu, 2 May 2019 08:08:00 +0000
+Date:   Thu, 2 May 2019 08:07:58 +0000 (UTC)
+From:   Keijo Vaara <ferdasyn@rocketmail.com>
+To:     linux-i2c@vger.kernel.org,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-input@vger.kernel.org,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>, stable@vger.kernel.org
+Message-ID: <1541197134.3231703.1556784478268@mail.yahoo.com>
+In-Reply-To: <20190430142322.15013-1-jarkko.nikula@linux.intel.com>
+References: <20190430142322.15013-1-jarkko.nikula@linux.intel.com>
+Subject: Re: [PATCH] i2c: Prevent runtime suspend of adapter when Host
+ Notify is required
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1556267420-93219-2-git-send-email-michal.vokac@ysoft.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: WebService/1.1.13554 YMailNorrin Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Apr 26, 2019 at 10:30:17AM +0200, Michal Vokáč wrote:
-> Normally, the MPR121 controller uses separate interrupt line to notify
-> the I2C host that a key was touched/released. To support platforms that
-> can not use the interrupt line, polling of the MPR121 registers can be
-> used.
-
-Other than making the 'interrupts' property optional, that's a driver 
-change, not a DT change. IOW, we shouldn't need a whole new binding.
-
-> 
-> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+On Tue, Apr 30, 2019 at 4:23 PM Jarkko Nikula
+<jarkko.nikula@linux.intel.com> wrote:
+>
 > ---
->  .../bindings/input/mpr121-touchkey-polled.txt      | 26 ++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/mpr121-touchkey-polled.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/input/mpr121-touchkey-polled.txt b/Documentation/devicetree/bindings/input/mpr121-touchkey-polled.txt
-> new file mode 100644
-> index 000000000000..6bb1d312614c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/mpr121-touchkey-polled.txt
-> @@ -0,0 +1,26 @@
-> +* Freescale MPR121 Controller without interrupt line
-> +
-> +Required Properties:
-> +- compatible:		Should be "fsl,mpr121-touchkey-polled"
-> +- reg:			The I2C slave address of the device.
-> +- vdd-supply:		Phandle to the Vdd power supply.
-> +- linux,keycodes:	Specifies an array of numeric keycode values to
-> +			be used for reporting button presses. The array can
-> +			contain up to 12 entries.
-> +
-> +Optional Properties:
-> +- autorepeat:		Enable autorepeat feature.
-> +
-> +Example:
-> +
-> +#include "dt-bindings/input/input.h"
-> +
-> +	touchkeys: keys@5a {
-> +		compatible = "fsl,mpr121-touchkey-polled";
-> +		reg = <0x5a>;
-> +		autorepeat;
-> +		vdd-supply = <&ldo4_reg>;
-> +		linux,keycodes = <KEY_0>, <KEY_1>, <KEY_2>, <KEY_3>,
-> +				<KEY_4> <KEY_5>, <KEY_6>, <KEY_7>,
-> +				<KEY_8>, <KEY_9>, <KEY_A>, <KEY_B>;
-> +	};
-> -- 
-> 2.1.4
-> 
+> Keijo: could you test this does it fix the issue you reported? This is
+> practically the same diff I sent earlier what you probably haven't tested=
+ yet.
+> I wanted to send a commitable fix in case it works since I'll be out of
+> office in a few coming days.
+> ---
+>=C2=A0 drivers/i2c/i2c-core-base.c | 4 ++++
+>=C2=A0 1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+> index 38af18645133..8149c9e32b69 100644
+> --- a/drivers/i2c/i2c-core-base.c
+> +++ b/drivers/i2c/i2c-core-base.c
+> @@ -327,6 +327,8 @@ static int i2c_device_probe(struct device *dev)
+>
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (client->flags =
+& I2C_CLIENT_HOST_NOTIFY) {
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 dev_dbg(dev, "Using Host Notify IRQ\n");
+> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 /* Keep adapter active when Host Notify is required */
+> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 pm_runtime_get_sync(&client->adapter->dev);
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 irq =3D i2c_smbus_host_notify_to_irq(client);
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (dev->of=
+_node) {
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 irq =3D of_irq_get_byname(dev->of_node, "irq");
+> @@ -431,6 +433,8 @@ static int i2c_device_remove(struct device *dev)
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 device_init_wakeup(&client->dev, false);
+>
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 client->irq =3D client->init_irq;
+> +=C2=A0 =C2=A0 =C2=A0 if (client->flags & I2C_CLIENT_HOST_NOTIFY)
+> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_put(&client-=
+>adapter->dev);
+>
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 return status;
+>=C2=A0 }
+> --
+> 2.20.1
+>
+
+Thanks guys, I've tested the patch and can confirm it fixes the issue.
