@@ -2,94 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1CFB12072
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2019 18:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9920A12427
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2019 23:32:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726709AbfEBQns (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 May 2019 12:43:48 -0400
-Received: from sauhun.de ([88.99.104.3]:55814 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726572AbfEBQns (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 2 May 2019 12:43:48 -0400
-Received: from localhost (p5486CF77.dip0.t-ipconnect.de [84.134.207.119])
-        by pokefinder.org (Postfix) with ESMTPSA id 7078E2CF690;
-        Thu,  2 May 2019 18:43:46 +0200 (CEST)
-Date:   Thu, 2 May 2019 18:43:46 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Jarkko Nikula <jarkko.nikula@linux.intel.com>
-Cc:     linux-i2c@vger.kernel.org, Keijo Vaara <ferdasyn@rocketmail.com>,
-        linux-input@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH] i2c: Prevent runtime suspend of adapter when Host Notify
- is required
-Message-ID: <20190502164346.GE11535@kunai>
-References: <20190430142322.15013-1-jarkko.nikula@linux.intel.com>
+        id S1726053AbfEBVcU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 May 2019 17:32:20 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:36964 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725962AbfEBVcT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 May 2019 17:32:19 -0400
+Received: by mail-ot1-f67.google.com with SMTP id r20so3518306otg.4;
+        Thu, 02 May 2019 14:32:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=orS40jFtqb35Wbp7JodVtiOmNi03+OR+s9mWL3M/pTo=;
+        b=D/JCcWotYNLyZKfL2bzhRp1xd6g+p2AZ7Qsxcwf/EK6f6BfP7MgsEN5kdnRPGl1+v0
+         WK2PTt2azvJe4QZyaI0B532X+X3/Q3pAjhPJyVXpMg93h9Nu9EaxtbMVAZqegXnrdw4v
+         tH4rElbYTNkNHY6EMf4V4NOBxRFPdf5nbNKh3GeMNFOtnuQYpNjYJHuElSHilbbOTu8D
+         z/fk+L8hVSUQ+YhEmOUH9siiP0rl8gBKwfIXjeMB1adJutHd25MAJENMEywKQ7W+jNLV
+         UStCysll/cZxYwmq0r58DI4amO9onvgZktW6nCQkLbmkM/Au+zfDbKNCD06G+uNLwu7P
+         vJJQ==
+X-Gm-Message-State: APjAAAWRwCoGnqfEneRb8zAGp7bOvEBUUjy+CtG8IJjycTwGeNY1YjaH
+        y6rpZbM19iFHbr1P2CSBBQ==
+X-Google-Smtp-Source: APXvYqycgFFoT6XyDRCj95MK86JH5d0iSJKNsTW2unTnGgy0mZGyLggORq55HQkw5az2wxF69nEyYQ==
+X-Received: by 2002:a9d:66a:: with SMTP id 97mr4150543otn.234.1556832739089;
+        Thu, 02 May 2019 14:32:19 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id 38sm92068otg.10.2019.05.02.14.32.17
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 02 May 2019 14:32:17 -0700 (PDT)
+Date:   Thu, 2 May 2019 16:32:17 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     linux-kernel@vger.kernel.org,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/2] Input: edt-ft5x06 - add support for polled
+ configuration
+Message-ID: <20190502213217.GA14901@bogus>
+References: <20190430185859.24015-1-nsaenzjulienne@suse.de>
+ <20190430185859.24015-2-nsaenzjulienne@suse.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="lkTb+7nhmha7W+c3"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190430142322.15013-1-jarkko.nikula@linux.intel.com>
+In-Reply-To: <20190430185859.24015-2-nsaenzjulienne@suse.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, 30 Apr 2019 20:58:59 +0200, Nicolas Saenz Julienne wrote:
+> Some devices might not provide an interrupt line for the touchscreen.
+> In that case the driver defaults to using a polled interface.
+> 
+> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> ---
+>  .../devicetree/bindings/input/touchscreen/edt-ft5x06.txt  | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
 
---lkTb+7nhmha7W+c3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Apr 30, 2019 at 05:23:22PM +0300, Jarkko Nikula wrote:
-> Multiple users have reported their Synaptics touchpad has stopped
-> working between v4.20.1 and v4.20.2 when using SMBus interface.
->=20
-> The culprit for this appeared to be commit c5eb1190074c ("PCI / PM: Allow
-> runtime PM without callback functions") that fixed the runtime PM for
-> i2c-i801 SMBus adapter. Those Synaptics touchpad are using i2c-i801
-> for SMBus communication and testing showed they are able to get back
-> working by preventing the runtime suspend of adapter.
->=20
-> Normally when i2c-i801 SMBus adapter transmits with the client it resumes
-> before operation and autosuspends after.
->=20
-> However, if client requires SMBus Host Notify protocol, what those
-> Synaptics touchpads do, then the host adapter must not go to runtime
-> suspend since then it cannot process incoming SMBus Host Notify commands
-> the client may send.
->=20
-> Fix this by keeping I2C/SMBus adapter active in case client requires
-> Host Notify.
->=20
-> Reported-by: Keijo Vaara <ferdasyn@rocketmail.com>
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D203297
-> Fixes: c5eb1190074c ("PCI / PM: Allow runtime PM without callback functio=
-ns")
-> Cc: stable@vger.kernel.org # v4.20+
-> Signed-off-by: Jarkko Nikula <jarkko.nikula@linux.intel.com>
-
-Applied to for-current-fixed, thanks!
-
-
---lkTb+7nhmha7W+c3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlzLHkIACgkQFA3kzBSg
-KbapUw/9HnAdtGdXtSUvcCCDZyaj63rtRr7jniT8OaAnIjxxSc0xYa8lH5ZnXbSy
-igBMbL7aluqtHG3T3RkiNdAaT2FIs4le5jWfH7ypxBz2nr8XlUuSayA/ogrSm1XU
-uhLKNoPamnouY90dpuvu8wUej8WS9sSPHVayu1AYKYTDOnVYwl3cqPnmQw7DzdWg
-SXJZ7MyfpzTm0S9QBUtzWFkFaty2DtyuWwf7rDo18crnJo+DqslztO1By81Xc41p
-GFScFOBvHXdyY38eHMrDo851sns2WHPeoTox3x3Un0oXHEYg1m67urD1+xK13oOf
-AETuz8kwfeXc/z1hrsv4b9jCKFgYUOXStOc4o/Ig6R6R9Y2rEJi141hLoVEBhv0x
-y2jDsB4RCbsF5pTcJ+L98QCEb1XihELU3VoYvx2HwpgIgbqh/0OgQpqwof2XSMyd
-97XrZf9rCAMLeOyElPat5j7EUPPsw1o2ebf2921lJYfTDjIQyp8pRsLcH967zX4d
-sjtcmRACBgDqdMF/DsShHr25mTJtEg47dvoUWLx98uDj2ryDMdkZmgMhVooAs21t
-fjE/oJ8jTZURPiMoHhs6rEx0FgoUN0KgpOf5rMMY92SzB5NdnCdHVteZuIklgQZw
-52S/MxLZpMPWxPfw7qtWWssSdd1+qIKHn0fCAsMZIoNLgBJGDN4=
-=m1ON
------END PGP SIGNATURE-----
-
---lkTb+7nhmha7W+c3--
+Reviewed-by: Rob Herring <robh@kernel.org>
