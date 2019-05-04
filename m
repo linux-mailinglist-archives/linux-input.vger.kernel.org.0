@@ -2,1397 +2,905 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81C1D1382F
-	for <lists+linux-input@lfdr.de>; Sat,  4 May 2019 10:05:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C391F13A63
+	for <lists+linux-input@lfdr.de>; Sat,  4 May 2019 15:35:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbfEDIFd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 4 May 2019 04:05:33 -0400
-Received: from vmd37850.contaboserver.net ([173.212.236.241]:35452 "EHLO
-        mail.devpi.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726258AbfEDIFc (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 4 May 2019 04:05:32 -0400
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by mail.devpi.de (Postfix) with ESMTPA id 4EE606E2903;
-        Sat,  4 May 2019 08:05:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devpi.de; s=dkim;
-        t=1556957122; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=26+C+n70Q6mLbvBCW3iBe6XAyTnxPNbg/ANc8cY/3sU=;
-        b=X6Ng0jJbPgqX013cQZHlwgRki9iFkVbhg7xBJiNaH/SMRx7dc/5GaWHibW2UU2nffM2kTE
-        LZOY/TLE7G2zMYcwaCh58k8x93s0zRldXl2r81aGoozjcntANNLY0V0iQ7ud21iiduM3QM
-        UUY8J9oCgHvRmIDUw5IoVjcReXVOIK4=
-Message-ID: <2ec76db035ad2083f8709c15d33e8f8a9da12577.camel@devpi.de>
-Subject: Re: [BUG] HID: ELAN active stylus has wrong button behavior
-From:   Julius Lehmann <julius@devpi.de>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org
-Date:   Sat, 04 May 2019 10:06:02 +0200
-In-Reply-To: <9a22f65e3357e73594bfc46b2e14ac87e705aef5.camel@devpi.de>
-References: <9a22f65e3357e73594bfc46b2e14ac87e705aef5.camel@devpi.de>
-Content-Type: text/plain; charset="UTF-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=devpi.de;
-        s=dkim; t=1556957122; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=26+C+n70Q6mLbvBCW3iBe6XAyTnxPNbg/ANc8cY/3sU=;
-        b=r0Zy6DGjOtdDXQQaeUhA4w8QKinunbQ9WSW9TBi+JGWtweegPBd065EmksbsMqmbZjowGn
-        3dWTIb/VXeaa4Vekl9GsgJsV3ma9HyxX319gMuo1t+kEOImcMu62qZv4ws56yHLXDESmQH
-        4HH1/JufSO9zXzlfi2KhZw37KSfy7/0=
-ARC-Seal: i=1; s=dkim; d=devpi.de; t=1556957122; a=rsa-sha256; cv=none;
-        b=PS7LHTHLADCM7SW4Lcry7mStlwh/frxqF0kVxGhOE6uFbib+exczl1Ri2R79EXMOsz09mPdl7iJ5c9DoSOSJw+phVI4Cf9u4QG9Xn/WYZlIZxt8V63v7Yl42U7WAhKrAg+NAAfp+APw+339OFaU1tu5dAD4QXlVzPWtsF2XVTJI=
-ARC-Authentication-Results: i=1; mail.devpi.de;
-        auth=pass smtp.auth=julius@devpi.de smtp.mailfrom=julius@devpi.de
-Authentication-Results: mail.devpi.de;
-        auth=pass smtp.auth=julius@devpi.de smtp.mailfrom=julius@devpi.de
-X-Spamd-Bar: -------
+        id S1726768AbfEDNfN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 4 May 2019 09:35:13 -0400
+Received: from mga02.intel.com ([134.134.136.20]:4175 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726672AbfEDNfN (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 4 May 2019 09:35:13 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 May 2019 06:35:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,429,1549958400"; 
+   d="scan'208";a="141241738"
+Received: from rajeev-desktop.iind.intel.com ([10.223.25.113])
+  by orsmga006.jf.intel.com with ESMTP; 04 May 2019 06:35:08 -0700
+From:   Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
+To:     benjamin.tissoires@redhat.com, jikos@kernel.org,
+        bleung@chromium.org, enric.balletbo@collabora.com,
+        groeck@chromium.org, srinivas.pandruvada@linux.intel.com
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        ncrews@chromium.org, jettrink@chromium.org, gwendal@google.com,
+        rushikesh.s.kadam@intel.com
+Subject: [PATCH v5] platform: chrome: Add ChromeOS EC ISHTP driver
+Date:   Sat,  4 May 2019 19:04:53 +0530
+Message-Id: <1556976893-19471-1-git-send-email-rushikesh.s.kadam@intel.com>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I am so sorry, in the midst of concentrating on my report I totally
-forgot to include some system information :):
+This driver implements a slim layer to enable the ChromeOS
+EC kernel stack (cros_ec) to communicate with ChromeOS EC
+firmware running on the Intel Integrated Sensor Hub (ISH).
 
-[1.] One line summary of the problem:
-ELAN active stylus has wrong button behavior
+The driver registers a ChromeOS EC MFD device to connect
+with cros_ec kernel stack (upper layer), and it registers a
+client with the ISH Transport Protocol bus (lower layer) to
+talk with the ISH firwmare. See description of the ISHTP
+protocol at Documentation/hid/intel-ish-hid.txt
 
-[2.] Full description of the problem/report:
-(see previous mail)
+Signed-off-by: Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
+Acked-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Reviewed-by: Jett Rink <jettrink@chromium.org>
+Tested-by: Jett Rink <jettrink@chromium.org>
+---
 
-[3.] Keywords (i.e., modules, networking, kernel):
-hid, input
+Submitting the patch to linux-input@ per the discussion here 
+https://lkml.org/lkml/2019/5/2/339
 
-[4.] Kernel information
-[4.1.] Kernel version (from /proc/version):
-Linux version 5.0.9-2-MANJARO (builduser@lancaster) (gcc version 8.3.0
-(GCC)) #1 SMP PREEMPT Sun Apr 21 07:11:08 UTC 2019
+The patch is baselined to hid git tree, branch for-5.2/ish
+https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/log/?h=for-5.2/ish
 
-[4.2.] Kernel .config file:
-https://pastebin.com/zmmNbk7y
-[5.] Most recent kernel version which did not have the bug:
-[6.] Output of Oops.. message (if applicable) with symbolic information
-     resolved (see Documentation/admin-guide/oops-tracing.rst)
-[7.] A small shell script or example program which triggers the
-     problem (if possible)
-[8.] Environment
-[8.1.] Software (add the output of the ver_linux script here)
-Linux julius-notebook 5.0.9-2-MANJARO #1 SMP PREEMPT Sun Apr 21
-07:11:08 UTC 2019 x86_64 GNU/Linux
+v5
+ - Submitting with all Acked-by & Tested-bys. No other changes.
 
-GNU C               	8.3.0
-GNU Make            	4.2.1
-Binutils            	2.32
-Util-linux          	2.33.2
-Mount               	2.33.2
-Module-init-tools   	26
-E2fsprogs           	1.45.0
-Jfsutils            	1.1.15
-Reiserfsprogs       	3.6.27
-Xfsprogs            	4.20.0
-PPP                 	2.4.7
-Nfs-utils           	2.3.3
-Linux C Library     	2.29
-Dynamic linker (ldd)	2.29
-Linux C++ Library   	6.0.25
-Procps              	3.3.15
-Kbd                 	2.0.4
-Console-tools       	2.0.4
-Sh-utils            	8.31
-Udev                	242
-Wireless-tools      	30
-Modules Loaded      	8250_dw ac ac97_bus acpi_thermal_rel
-aesni_intel aes_x86_64 agpgart ahci arc4 asus_nb_wmi asus_wmi atkbd
-battery bluetooth bmc150_accel_core bmc150_accel_i2c bnep btbcm btintel
-btrtl btusb ccm cfg80211 coretemp crc16 crc32c_generic crc32c_intel
-crc32_pclmul crct10dif_pclmul cryptd crypto_simd crypto_user drm
-drm_kms_helper ecdh_generic evdev ext4 fat fb_sys_fops fscrypto fuse
-ghash_clmulni_intel glue_helper hid hid_generic hid_multitouch
-i2c_algo_bit i2c_hid i2c_i801 i8042 i915 idma64 industrialio
-industrialio_triggered_buffer input_leds int3400_thermal
-int3403_thermal int340x_thermal_zone intel_cstate intel_gtt intel_hid
-intel_lpss intel_lpss_pci intel_pch_thermal intel_powerclamp intel_rapl
-intel_rapl_perf intel_soc_dts_iosf intel_uncore intel_vbtn
-intel_xhci_usb_role_switch ip_tables irqbypass iTCO_vendor_support
-iTCO_wdt iwlmvm iwlwifi jbd2 joydev kfifo_buf kvm kvmgt kvm_intel
-ledtrig_audio libahci libata libps2 mac80211 mac_hid mbcache mdev media
-mei mei_me mousedev nls_cp437 nls_iso8859_1 pcc_cpufreq pcspkr
-processor_thermal_device rfcomm rfkill rng_core roles scsi_mod sd_mod
-serio serio_raw sg snd snd_compress snd_hda_codec snd_hda_codec_generic
-snd_hda_codec_hdmi snd_hda_codec_realtek snd_hda_core snd_hda_ext_core
-snd_hda_intel snd_hwdep snd_pcm snd_pcm_dmaengine snd_soc_acpi
-snd_soc_acpi_intel_match snd_soc_core snd_soc_hdac_hda snd_soc_skl
-snd_soc_skl_ipc snd_soc_sst_dsp snd_soc_sst_ipc snd_timer soundcore
-sparse_keymap spi_pxa2xx_platform syscopyarea sysfillrect sysimgblt tpm
-tpm_crb tpm_tis tpm_tis_core uvcvideo vfat vfio vfio_iommu_type1
-vfio_mdev videobuf2_common videobuf2_memops videobuf2_v4l2
-videobuf2_vmalloc videodev wmi wmi_bmof x86_pkg_temp_thermal xhci_hcd
-xhci_pci x_tables
+v4
+ - Coding style related changes. No functional changes. Addresses
+   review comments on v3.
 
-[8.2.] Processor information (from /proc/cpuinfo):
-processor	: 0
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 142
-model name	: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-stepping	: 10
-microcode	: 0x96
-cpu MHz		: 794.223
-cache size	: 6144 KB
-physical id	: 0
-siblings	: 8
-core id		: 0
-cpu cores	: 4
-apicid		: 0
-initial apicid	: 0
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 22
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge
-mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe
-syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts
-rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni
-pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr
-pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes
-xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb
-invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority
-ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
-mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves
-dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass
-l1tf
-bogomips	: 3601.00
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 39 bits physical, 48 bits virtual
-power management:
+v3
+ - Made several changes to improve code readability. Replaced
+   multiple cl_data_to_dev(client_data) with dev variable. Use
+   reverse Xmas tree for variable defintion where it made sense.
+   Dropped few debug prints. Add docstring for function
+   prepare_cros_ec_rx().
+ - Fix code in function prepare_cros_ec_rx() under label
+   end_cros_ec_dev_init_error.
+ - Recycle buffer in process_recv() on failing to obtain the
+   semaphore.
+ - Increase ISHTP TX/RX ring buffer size to 8.
+ - Alphabetically ordered CROS_EC_ISHTP entries in Makefile and
+   Kconfig.
+ - Updated commit message.
 
-processor	: 1
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 142
-model name	: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-stepping	: 10
-microcode	: 0x96
-cpu MHz		: 800.031
-cache size	: 6144 KB
-physical id	: 0
-siblings	: 8
-core id		: 1
-cpu cores	: 4
-apicid		: 2
-initial apicid	: 2
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 22
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge
-mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe
-syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts
-rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni
-pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr
-pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes
-xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb
-invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority
-ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
-mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves
-dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass
-l1tf
-bogomips	: 3601.00
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 39 bits physical, 48 bits virtual
-power management:
+v2
+ - Dropped unused "reset" parameter in function cros_ec_init()
+ - Change driver name to cros_ec_ishtp to be consistent with other
+   references in the code.
+ - Fixed a few typos. 
 
-processor	: 2
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 142
-model name	: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-stepping	: 10
-microcode	: 0x96
-cpu MHz		: 800.061
-cache size	: 6144 KB
-physical id	: 0
-siblings	: 8
-core id		: 2
-cpu cores	: 4
-apicid		: 4
-initial apicid	: 4
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 22
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge
-mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe
-syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts
-rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni
-pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr
-pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes
-xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb
-invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority
-ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
-mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves
-dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass
-l1tf
-bogomips	: 3601.00
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 39 bits physical, 48 bits virtual
-power management:
+v1
+ - Initial version
 
-processor	: 3
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 142
-model name	: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-stepping	: 10
-microcode	: 0x96
-cpu MHz		: 793.772
-cache size	: 6144 KB
-physical id	: 0
-siblings	: 8
-core id		: 3
-cpu cores	: 4
-apicid		: 6
-initial apicid	: 6
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 22
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge
-mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe
-syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts
-rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni
-pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr
-pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes
-xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb
-invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority
-ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
-mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves
-dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass
-l1tf
-bogomips	: 3601.00
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 39 bits physical, 48 bits virtual
-power management:
+ drivers/platform/chrome/Kconfig         |  13 +
+ drivers/platform/chrome/Makefile        |   1 +
+ drivers/platform/chrome/cros_ec_ishtp.c | 763 ++++++++++++++++++++++++++++++++
+ 3 files changed, 777 insertions(+)
+ create mode 100644 drivers/platform/chrome/cros_ec_ishtp.c
 
-processor	: 4
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 142
-model name	: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-stepping	: 10
-microcode	: 0x96
-cpu MHz		: 800.007
-cache size	: 6144 KB
-physical id	: 0
-siblings	: 8
-core id		: 0
-cpu cores	: 4
-apicid		: 1
-initial apicid	: 1
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 22
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge
-mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe
-syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts
-rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni
-pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr
-pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes
-xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb
-invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority
-ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
-mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves
-dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass
-l1tf
-bogomips	: 3601.00
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 39 bits physical, 48 bits virtual
-power management:
-
-processor	: 5
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 142
-model name	: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-stepping	: 10
-microcode	: 0x96
-cpu MHz		: 800.058
-cache size	: 6144 KB
-physical id	: 0
-siblings	: 8
-core id		: 1
-cpu cores	: 4
-apicid		: 3
-initial apicid	: 3
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 22
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge
-mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe
-syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts
-rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni
-pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr
-pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes
-xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb
-invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority
-ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
-mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves
-dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass
-l1tf
-bogomips	: 3601.00
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 39 bits physical, 48 bits virtual
-power management:
-
-processor	: 6
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 142
-model name	: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-stepping	: 10
-microcode	: 0x96
-cpu MHz		: 800.027
-cache size	: 6144 KB
-physical id	: 0
-siblings	: 8
-core id		: 2
-cpu cores	: 4
-apicid		: 5
-initial apicid	: 5
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 22
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge
-mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe
-syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts
-rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni
-pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr
-pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes
-xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb
-invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority
-ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
-mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves
-dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass
-l1tf
-bogomips	: 3601.00
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 39 bits physical, 48 bits virtual
-power management:
-
-processor	: 7
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 142
-model name	: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-stepping	: 10
-microcode	: 0x96
-cpu MHz		: 799.846
-cache size	: 6144 KB
-physical id	: 0
-siblings	: 8
-core id		: 3
-cpu cores	: 4
-apicid		: 7
-initial apicid	: 7
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 22
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge
-mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe
-syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts
-rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni
-pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr
-pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes
-xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb
-invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority
-ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
-mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves
-dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass
-l1tf
-bogomips	: 3601.00
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 39 bits physical, 48 bits virtual
-power management:
-
-[8.3.] Module information (from /proc/modules):
-ccm 20480 6 - Live 0x0000000000000000
-rfcomm 86016 4 - Live 0x0000000000000000
-fuse 131072 5 - Live 0x0000000000000000
-mousedev 24576 0 - Live 0x0000000000000000
-joydev 28672 0 - Live 0x0000000000000000
-snd_hda_codec_hdmi 65536 1 - Live 0x0000000000000000
-snd_hda_codec_realtek 126976 1 - Live 0x0000000000000000
-snd_hda_codec_generic 90112 1 snd_hda_codec_realtek, Live
-0x0000000000000000
-ledtrig_audio 16384 2 snd_hda_codec_realtek,snd_hda_codec_generic, Live
-0x0000000000000000
-arc4 16384 2 - Live 0x0000000000000000
-bnep 28672 2 - Live 0x0000000000000000
-i915 2166784 5 - Live 0x0000000000000000
-snd_soc_skl 122880 0 - Live 0x0000000000000000
-hid_multitouch 28672 0 - Live 0x0000000000000000
-snd_soc_hdac_hda 24576 1 snd_soc_skl, Live 0x0000000000000000
-intel_rapl 28672 0 - Live 0x0000000000000000
-snd_hda_ext_core 32768 2 snd_soc_skl,snd_soc_hdac_hda, Live
-0x0000000000000000
-x86_pkg_temp_thermal 20480 0 - Live 0x0000000000000000
-intel_powerclamp 20480 0 - Live 0x0000000000000000
-snd_soc_skl_ipc 73728 1 snd_soc_skl, Live 0x0000000000000000
-coretemp 20480 0 - Live 0x0000000000000000
-iwlmvm 442368 0 - Live 0x0000000000000000
-snd_soc_sst_ipc 20480 1 snd_soc_skl_ipc, Live 0x0000000000000000
-nls_iso8859_1 16384 1 - Live 0x0000000000000000
-kvm_intel 311296 0 - Live 0x0000000000000000
-snd_soc_sst_dsp 40960 1 snd_soc_skl_ipc, Live 0x0000000000000000
-nls_cp437 20480 1 - Live 0x0000000000000000
-kvmgt 32768 0 - Live 0x0000000000000000
-snd_soc_acpi_intel_match 28672 1 snd_soc_skl, Live 0x0000000000000000
-vfio_mdev 16384 0 - Live 0x0000000000000000
-snd_soc_acpi 16384 2 snd_soc_skl,snd_soc_acpi_intel_match, Live
-0x0000000000000000
-mdev 24576 2 kvmgt,vfio_mdev, Live 0x0000000000000000
-vfat 20480 1 - Live 0x0000000000000000
-vfio_iommu_type1 32768 0 - Live 0x0000000000000000
-fat 81920 1 vfat, Live 0x0000000000000000
-vfio 36864 3 kvmgt,vfio_mdev,vfio_iommu_type1, Live 0x0000000000000000
-uvcvideo 114688 0 - Live 0x0000000000000000
-mac80211 950272 1 iwlmvm, Live 0x0000000000000000
-snd_soc_core 278528 2 snd_soc_skl,snd_soc_hdac_hda, Live
-0x0000000000000000
-hid_generic 16384 0 - Live 0x0000000000000000
-kvm 749568 2 kvm_intel,kvmgt, Live 0x0000000000000000
-8250_dw 28672 0 - Live 0x0000000000000000
-spi_pxa2xx_platform 32768 0 - Live 0x0000000000000000
-videobuf2_vmalloc 20480 1 uvcvideo, Live 0x0000000000000000
-snd_compress 28672 1 snd_soc_core, Live 0x0000000000000000
-videobuf2_memops 20480 1 videobuf2_vmalloc, Live 0x0000000000000000
-ac97_bus 16384 1 snd_soc_core, Live 0x0000000000000000
-videobuf2_v4l2 28672 1 uvcvideo, Live 0x0000000000000000
-snd_pcm_dmaengine 16384 1 snd_soc_core, Live 0x0000000000000000
-videobuf2_common 57344 2 uvcvideo,videobuf2_v4l2, Live
-0x0000000000000000
-irqbypass 16384 1 kvm, Live 0x0000000000000000
-i2c_algo_bit 16384 1 i915, Live 0x0000000000000000
-videodev 229376 3 uvcvideo,videobuf2_v4l2,videobuf2_common, Live
-0x0000000000000000
-iwlwifi 352256 1 iwlmvm, Live 0x0000000000000000
-snd_hda_intel 45056 3 - Live 0x0000000000000000
-crct10dif_pclmul 16384 1 - Live 0x0000000000000000
-btusb 57344 0 - Live 0x0000000000000000
-drm_kms_helper 208896 1 i915, Live 0x0000000000000000
-crc32_pclmul 16384 0 - Live 0x0000000000000000
-media 57344 4 uvcvideo,videobuf2_v4l2,videobuf2_common,videodev, Live
-0x0000000000000000
-snd_hda_codec 155648 5
-snd_hda_codec_hdmi,snd_hda_codec_realtek,snd_hda_codec_generic,snd_soc_
-hdac_hda,snd_hda_intel, Live 0x0000000000000000
-btrtl 20480 1 btusb, Live 0x0000000000000000
-btbcm 16384 1 btusb, Live 0x0000000000000000
-btintel 28672 1 btusb, Live 0x0000000000000000
-ghash_clmulni_intel 16384 0 - Live 0x0000000000000000
-bluetooth 651264 31 rfcomm,bnep,btusb,btrtl,btbcm,btintel, Live
-0x0000000000000000
-drm 499712 6 i915,drm_kms_helper, Live 0x0000000000000000
-aesni_intel 372736 4 - Live 0x0000000000000000
-snd_hda_core 98304 8
-snd_hda_codec_hdmi,snd_hda_codec_realtek,snd_hda_codec_generic,snd_soc_
-skl,snd_soc_hdac_hda,snd_hda_ext_core,snd_hda_intel,snd_hda_codec, Live
-0x0000000000000000
-aes_x86_64 20480 1 aesni_intel, Live 0x0000000000000000
-asus_nb_wmi 28672 0 - Live 0x0000000000000000
-ecdh_generic 24576 1 bluetooth, Live 0x0000000000000000
-snd_hwdep 16384 1 snd_hda_codec, Live 0x0000000000000000
-iTCO_wdt 16384 0 - Live 0x0000000000000000
-crypto_simd 16384 1 aesni_intel, Live 0x0000000000000000
-cfg80211 798720 3 iwlmvm,mac80211,iwlwifi, Live 0x0000000000000000
-iTCO_vendor_support 16384 1 iTCO_wdt, Live 0x0000000000000000
-asus_wmi 32768 1 asus_nb_wmi, Live 0x0000000000000000
-snd_pcm 135168 8
-snd_hda_codec_hdmi,snd_soc_skl,snd_hda_ext_core,snd_soc_core,snd_pcm_dm
-aengine,snd_hda_intel,snd_hda_codec,snd_hda_core, Live
-0x0000000000000000
-wmi_bmof 16384 0 - Live 0x0000000000000000
-intel_gtt 24576 1 i915, Live 0x0000000000000000
-bmc150_accel_i2c 16384 0 - Live 0x0000000000000000
-bmc150_accel_core 32768 1 bmc150_accel_i2c, Live 0x0000000000000000
-industrialio_triggered_buffer 16384 1 bmc150_accel_core, Live
-0x0000000000000000
-cryptd 28672 3 ghash_clmulni_intel,aesni_intel,crypto_simd, Live
-0x0000000000000000
-agpgart 53248 2 drm,intel_gtt, Live 0x0000000000000000
-idma64 20480 2 - Live 0x0000000000000000
-glue_helper 16384 1 aesni_intel, Live 0x0000000000000000
-kfifo_buf 16384 1 industrialio_triggered_buffer, Live
-0x0000000000000000
-pcspkr 16384 0 - Live 0x0000000000000000
-tpm_crb 20480 0 - Live 0x0000000000000000
-input_leds 16384 0 - Live 0x0000000000000000
-intel_cstate 16384 0 - Live 0x0000000000000000
-syscopyarea 16384 1 drm_kms_helper, Live 0x0000000000000000
-snd_timer 40960 1 snd_pcm, Live 0x0000000000000000
-sysfillrect 16384 1 drm_kms_helper, Live 0x0000000000000000
-snd 102400 16
-snd_hda_codec_hdmi,snd_hda_codec_realtek,snd_hda_codec_generic,snd_soc_
-core,snd_compress,snd_hda_intel,snd_hda_codec,snd_hwdep,snd_pcm,snd_tim
-er, Live 0x0000000000000000
-intel_uncore 135168 0 - Live 0x0000000000000000
-tpm_tis 16384 0 - Live 0x0000000000000000
-intel_xhci_usb_role_switch 16384 0 - Live 0x0000000000000000
-sysimgblt 16384 1 drm_kms_helper, Live 0x0000000000000000
-soundcore 16384 1 snd, Live 0x0000000000000000
-rfkill 28672 7 bluetooth,cfg80211,asus_wmi, Live 0x0000000000000000
-i2c_hid 32768 0 - Live 0x0000000000000000
-mei_me 45056 0 - Live 0x0000000000000000
-intel_rapl_perf 16384 0 - Live 0x0000000000000000
-processor_thermal_device 16384 0 - Live 0x0000000000000000
-tpm_tis_core 24576 1 tpm_tis, Live 0x0000000000000000
-roles 16384 1 intel_xhci_usb_role_switch, Live 0x0000000000000000
-intel_lpss_pci 20480 0 - Live 0x0000000000000000
-fb_sys_fops 16384 1 drm_kms_helper, Live 0x0000000000000000
-i2c_i801 36864 0 - Live 0x0000000000000000
-mei 118784 1 mei_me, Live 0x0000000000000000
-intel_lpss 16384 1 intel_lpss_pci, Live 0x0000000000000000
-int3403_thermal 16384 0 - Live 0x0000000000000000
-intel_soc_dts_iosf 20480 1 processor_thermal_device, Live
-0x0000000000000000
-intel_pch_thermal 16384 0 - Live 0x0000000000000000
-tpm 69632 3 tpm_crb,tpm_tis,tpm_tis_core, Live 0x0000000000000000
-hid 147456 3 hid_multitouch,hid_generic,i2c_hid, Live
-0x0000000000000000
-industrialio 86016 3
-bmc150_accel_core,industrialio_triggered_buffer,kfifo_buf, Live
-0x0000000000000000
-wmi 32768 2 asus_wmi,wmi_bmof, Live 0x0000000000000000
-battery 24576 0 - Live 0x0000000000000000
-int340x_thermal_zone 16384 2 processor_thermal_device,int3403_thermal,
-Live 0x0000000000000000
-ac 16384 0 - Live 0x0000000000000000
-intel_vbtn 20480 0 - Live 0x0000000000000000
-intel_hid 20480 0 - Live 0x0000000000000000
-rng_core 16384 1 tpm, Live 0x0000000000000000
-evdev 28672 18 - Live 0x0000000000000000
-sparse_keymap 16384 3 asus_wmi,intel_vbtn,intel_hid, Live
-0x0000000000000000
-int3400_thermal 20480 0 - Live 0x0000000000000000
-acpi_thermal_rel 16384 1 int3400_thermal, Live 0x0000000000000000
-mac_hid 16384 0 - Live 0x0000000000000000
-pcc_cpufreq 20480 0 - Live 0x0000000000000000
-sg 40960 0 - Live 0x0000000000000000
-crypto_user 16384 0 - Live 0x0000000000000000
-ip_tables 32768 0 - Live 0x0000000000000000
-x_tables 49152 1 ip_tables, Live 0x0000000000000000
-ext4 749568 1 - Live 0x0000000000000000
-crc32c_generic 16384 0 - Live 0x0000000000000000
-crc16 16384 2 bluetooth,ext4, Live 0x0000000000000000
-mbcache 16384 1 ext4, Live 0x0000000000000000
-jbd2 131072 1 ext4, Live 0x0000000000000000
-fscrypto 32768 1 ext4, Live 0x0000000000000000
-sd_mod 57344 4 - Live 0x0000000000000000
-ahci 40960 3 - Live 0x0000000000000000
-serio_raw 20480 0 - Live 0x0000000000000000
-atkbd 36864 0 - Live 0x0000000000000000
-libahci 40960 1 ahci, Live 0x0000000000000000
-libps2 20480 1 atkbd, Live 0x0000000000000000
-libata 282624 2 ahci,libahci, Live 0x0000000000000000
-xhci_pci 20480 0 - Live 0x0000000000000000
-xhci_hcd 262144 1 xhci_pci, Live 0x0000000000000000
-crc32c_intel 24576 2 - Live 0x0000000000000000
-scsi_mod 253952 3 sg,sd_mod,libata, Live 0x0000000000000000
-i8042 32768 1 asus_nb_wmi, Live 0x0000000000000000
-serio 28672 4 serio_raw,atkbd,i8042, Live 0x0000000000000000
-
-[8.4.] Loaded driver and hardware information (/proc/ioports,
-/proc/iomem)
-0000-0000 : PCI Bus 0000:00
-  0000-0000 : dma1
-  0000-0000 : pic1
-  0000-0000 : timer0
-  0000-0000 : timer1
-  0000-0000 : keyboard
-  0000-0000 : PNP0C09:00
-    0000-0000 : EC data
-  0000-0000 : keyboard
-  0000-0000 : PNP0C09:00
-    0000-0000 : EC cmd
-  0000-0000 : rtc0
-  0000-0000 : dma page reg
-  0000-0000 : pic2
-  0000-0000 : dma2
-  0000-0000 : fpu
-  0000-0000 : iTCO_wdt
-    0000-0000 : iTCO_wdt
-  0000-0000 : pnp 00:00
-0000-0000 : PCI conf1
-0000-0000 : PCI Bus 0000:00
-  0000-0000 : pnp 00:00
-  0000-0000 : pnp 00:00
-    0000-0000 : ACPI PM1a_EVT_BLK
-    0000-0000 : ACPI PM1a_CNT_BLK
-    0000-0000 : ACPI PM_TMR
-    0000-0000 : iTCO_wdt
-      0000-0000 : iTCO_wdt
-    0000-0000 : ACPI PM2_CNT_BLK
-    0000-0000 : pnp 00:02
-    0000-0000 : ACPI GPE0_BLK
-  0000-0000 : 0000:00:02.0
-  0000-0000 : 0000:00:1f.4
-    0000-0000 : i801_smbus
-  0000-0000 : 0000:00:17.0
-    0000-0000 : ahci
-  0000-0000 : 0000:00:17.0
-    0000-0000 : ahci
-  0000-0000 : 0000:00:17.0
-    0000-0000 : ahci
-  0000-0000 : pnp 00:06
-  0000-0000 : pnp 00:00
-    0000-0000 : pnp 00:00
-      0000-0000 : pnp 00:00
-
-00000000-00000000 : Reserved
-00000000-00000000 : System RAM
-00000000-00000000 : Reserved
-00000000-00000000 : System RAM
-00000000-00000000 : Reserved
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : PCI Bus 0000:00
-    00000000-00000000 : System ROM
-00000000-00000000 : System RAM
-00000000-00000000 : ACPI Non-volatile Storage
-00000000-00000000 : Reserved
-00000000-00000000 : System RAM
-00000000-00000000 : Reserved
-00000000-00000000 : ACPI Tables
-00000000-00000000 : ACPI Non-volatile Storage
-00000000-00000000 : Reserved
-00000000-00000000 : System RAM
-00000000-00000000 : Reserved
-  00000000-00000000 : Graphics Stolen Memory
-00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : 0000:00:02.0
-  00000000-00000000 : 0000:00:02.0
-  00000000-00000000 : PCI Bus 0000:01
-    00000000-00000000 : 0000:01:00.0
-      00000000-00000000 : iwlwifi
-  00000000-00000000 : 0000:00:1f.3
-    00000000-00000000 : ICH HD audio
-  00000000-00000000 : 0000:00:14.0
-    00000000-00000000 : xhci-hcd
-      00000000-00000000 : intel_xhci_usb_sw
-  00000000-00000000 : 0000:00:04.0
-  00000000-00000000 : 0000:00:1f.3
-    00000000-00000000 : ICH HD audio
-  00000000-00000000 : 0000:00:1f.2
-  00000000-00000000 : 0000:00:17.0
-    00000000-00000000 : ahci
-  00000000-00000000 : 0000:00:1f.4
-  00000000-00000000 : 0000:00:1e.3
-    00000000-00000000 : lpss_dev
-      00000000-00000000 : lpss_dev
-    00000000-00000000 : lpss_priv
-    00000000-00000000 : idma64.5
-      00000000-00000000 : idma64.5
-  00000000-00000000 : 0000:00:1e.0
-    00000000-00000000 : lpss_dev
-      00000000-00000000 : serial
-    00000000-00000000 : lpss_priv
-    00000000-00000000 : idma64.4
-      00000000-00000000 : idma64.4
-  00000000-00000000 : 0000:00:19.0
-    00000000-00000000 : lpss_dev
-      00000000-00000000 : serial
-    00000000-00000000 : lpss_priv
-  00000000-00000000 : 0000:00:17.0
-    00000000-00000000 : ahci
-  00000000-00000000 : 0000:00:17.0
-    00000000-00000000 : ahci
-  00000000-00000000 : 0000:00:16.0
-    00000000-00000000 : mei_me
-  00000000-00000000 : 0000:00:15.2
-    00000000-00000000 : lpss_dev
-      00000000-00000000 : lpss_dev
-    00000000-00000000 : lpss_priv
-    00000000-00000000 : idma64.2
-      00000000-00000000 : idma64.2
-  00000000-00000000 : 0000:00:15.1
-    00000000-00000000 : lpss_dev
-      00000000-00000000 : lpss_dev
-    00000000-00000000 : lpss_priv
-    00000000-00000000 : idma64.1
-      00000000-00000000 : idma64.1
-  00000000-00000000 : 0000:00:15.0
-    00000000-00000000 : lpss_dev
-      00000000-00000000 : lpss_dev
-    00000000-00000000 : lpss_priv
-    00000000-00000000 : idma64.0
-      00000000-00000000 : idma64.0
-  00000000-00000000 : 0000:00:14.2
-    00000000-00000000 : Intel PCH thermal driver
-  00000000-00000000 : 0000:00:08.0
-  00000000-00000000 : pnp 00:04
-00000000-00000000 : PCI MMCONFIG 0000 [bus 00-ff]
-  00000000-00000000 : Reserved
-    00000000-00000000 : pnp 00:04
-00000000-00000000 : PCI Bus 0000:00
-  00000000-00000000 : pnp 00:05
-  00000000-00000000 : INT344B:00
-    00000000-00000000 : INT344B:00
-  00000000-00000000 : pnp 00:05
-  00000000-00000000 : INT344B:00
-    00000000-00000000 : INT344B:00
-  00000000-00000000 : INT344B:00
-    00000000-00000000 : INT344B:00
-  00000000-00000000 : pnp 00:05
-    00000000-00000000 : iTCO_wdt
-      00000000-00000000 : iTCO_wdt
-  00000000-00000000 : Reserved
-  00000000-00000000 : pnp 00:07
-  00000000-00000000 : pnp 00:07
-  00000000-00000000 : pnp 00:05
-  00000000-00000000 : pnp 00:05
-  00000000-00000000 : pnp 00:05
-00000000-00000000 : Reserved
-  00000000-00000000 : IOAPIC 0
-00000000-00000000 : Reserved
-  00000000-00000000 : HPET 0
-    00000000-00000000 : PNP0103:00
-00000000-00000000 : pnp 00:04
-00000000-00000000 : pnp 00:04
-00000000-00000000 : pnp 00:04
-00000000-00000000 : pnp 00:04
-00000000-00000000 : MSFT0101:00
-  00000000-00000000 : MSFT0101:00
-00000000-00000000 : pnp 00:04
-00000000-00000000 : dmar0
-00000000-00000000 : dmar1
-00000000-00000000 : Local APIC
-  00000000-00000000 : Reserved
-00000000-00000000 : Reserved
-  00000000-00000000 : INT0800:00
-    00000000-00000000 : pnp 00:04
-00000000-00000000 : System RAM
-  00000000-00000000 : Kernel code
-  00000000-00000000 : Kernel data
-  00000000-00000000 : Kernel bss
-00000000-00000000 : RAM buffer
-00000000-00000000 : PCI Bus 0000:00
-
-[8.5.] PCI information ('lspci -vvv' as root)
-00:00.0 Host bridge: Intel Corporation Xeon E3-1200 v6/7th Gen Core
-Processor Host Bridge/DRAM Registers (rev 08)
-	Subsystem: ASUSTeK Computer Inc. Xeon E3-1200 v6/7th Gen Core
-Processor Host Bridge/DRAM Registers
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0
-	Capabilities: [e0] Vendor Specific Information: Len=10 <?>
-	Kernel driver in use: skl_uncore
-
-00:02.0 VGA compatible controller: Intel Corporation UHD Graphics 620
-(rev 07) (prog-if 00 [VGA controller])
-	DeviceName:  Onboard IGD
-	Subsystem: ASUSTeK Computer Inc. UHD Graphics 620
-	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx+
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 64 bytes
-	Interrupt: pin A routed to IRQ 127
-	Region 0: Memory at de000000 (64-bit, non-prefetchable)
-[size=16M]
-	Region 2: Memory at c0000000 (64-bit, prefetchable) [size=256M]
-	Region 4: I/O ports at f000 [size=64]
-	[virtual] Expansion ROM at 000c0000 [disabled] [size=128K]
-	Capabilities: [40] Vendor Specific Information: Len=0c <?>
-	Capabilities: [70] Express (v2) Root Complex Integrated
-Endpoint, MSI 00
-		DevCap:	MaxPayload 128 bytes, PhantFunc 0
-			ExtTag- RBE+
-		DevCtl:	CorrErr- NonFatalErr- FatalErr- UnsupReq-
-			RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop-
-			MaxPayload 128 bytes, MaxReadReq 128 bytes
-		DevSta:	CorrErr- NonFatalErr- FatalErr- UnsupReq-
-AuxPwr- TransPend-
-		DevCap2: Completion Timeout: Not Supported, TimeoutDis-
-, LTR-, OBFF Not Supported
-			 AtomicOpsCap: 32bit- 64bit- 128bitCAS-
-		DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-, 
-LTR-, OBFF Disabled
-			 AtomicOpsCtl: ReqEn-
-	Capabilities: [ac] MSI: Enable+ Count=1/1 Maskable- 64bit-
-		Address: fee00018  Data: 0000
-	Capabilities: [d0] Power Management version 2
-		Flags: PMEClk- DSI+ D1- D2- AuxCurrent=0mA PME(D0-,D1-
-,D2-,D3hot-,D3cold-)
-		Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [100 v1] Process Address Space ID (PASID)
-		PASIDCap: Exec- Priv-, Max PASID Width: 14
-		PASIDCtl: Enable- Exec- Priv-
-	Capabilities: [200 v1] Address Translation Service (ATS)
-		ATSCap:	Invalidate Queue Depth: 00
-		ATSCtl:	Enable-, Smallest Translation Unit: 00
-	Capabilities: [300 v1] Page Request Interface (PRI)
-		PRICtl: Enable- Reset-
-		PRISta: RF- UPRGI- Stopped+
-		Page Request Capacity: 00008000, Page Request
-Allocation: 00000000
-	Kernel driver in use: i915
-	Kernel modules: i915
-
-00:04.0 Signal processing controller: Intel Corporation Xeon E3-1200
-v5/E3-1500 v5/6th Gen Core Processor Thermal Subsystem (rev 08)
-	Subsystem: ASUSTeK Computer Inc. Xeon E3-1200 v5/E3-1500 v5/6th
-Gen Core Processor Thermal Subsystem
-	Control: I/O- Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Interrupt: pin A routed to IRQ 16
-	Region 0: Memory at df120000 (64-bit, non-prefetchable)
-[size=32K]
-	Capabilities: [90] MSI: Enable- Count=1/1 Maskable- 64bit-
-		Address: 00000000  Data: 0000
-	Capabilities: [d0] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-
-,D2-,D3hot-,D3cold-)
-		Status: D0 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [e0] Vendor Specific Information: Len=0c <?>
-	Kernel driver in use: proc_thermal
-	Kernel modules: processor_thermal_device
-
-00:08.0 System peripheral: Intel Corporation Xeon E3-1200 v5/v6 / E3-
-1500 v5 / 6th/7th Gen Core Processor Gaussian Mixture Model
-	Subsystem: ASUSTeK Computer Inc. Xeon E3-1200 v5/v6 / E3-1500
-v5 / 6th/7th Gen Core Processor Gaussian Mixture Model
-	Control: I/O- Mem- BusMaster- SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Interrupt: pin A routed to IRQ 255
-	Region 0: Memory at df13d000 (64-bit, non-prefetchable)
-[disabled] [size=4K]
-	Capabilities: [90] MSI: Enable- Count=1/1 Maskable- 64bit-
-		Address: 00000000  Data: 0000
-	Capabilities: [dc] Power Management version 2
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-
-,D2-,D3hot-,D3cold-)
-		Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [f0] PCI Advanced Features
-		AFCap: TP+ FLR+
-		AFCtrl: FLR-
-		AFStatus: TP-
-
-00:14.0 USB controller: Intel Corporation Sunrise Point-LP USB 3.0 xHCI
-Controller (rev 21) (prog-if 30 [XHCI])
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP USB 3.0 xHCI
-Controller
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx+
-	Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium
->TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0
-	Interrupt: pin A routed to IRQ 123
-	Region 0: Memory at df110000 (64-bit, non-prefetchable)
-[size=64K]
-	Capabilities: [70] Power Management version 2
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=375mA PME(D0-
-,D1-,D2-,D3hot+,D3cold+)
-		Status: D0 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [80] MSI: Enable+ Count=1/8 Maskable- 64bit+
-		Address: 00000000fee00298  Data: 0000
-	Kernel driver in use: xhci_hcd
-	Kernel modules: xhci_pci
-
-00:14.2 Signal processing controller: Intel Corporation Sunrise Point-
-LP Thermal subsystem (rev 21)
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP Thermal
-subsystem
-	Control: I/O- Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Interrupt: pin C routed to IRQ 18
-	Region 0: Memory at df13c000 (64-bit, non-prefetchable)
-[size=4K]
-	Capabilities: [50] Power Management version 3
-		Flags: PMEClk- DSI+ D1- D2- AuxCurrent=0mA PME(D0-,D1-
-,D2-,D3hot-,D3cold-)
-		Status: D0 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [80] MSI: Enable- Count=1/1 Maskable- 64bit-
-		Address: 00000000  Data: 0000
-	Kernel driver in use: intel_pch_thermal
-	Kernel modules: intel_pch_thermal
-
-00:15.0 Signal processing controller: Intel Corporation Sunrise Point-
-LP Serial IO I2C Controller #0 (rev 21)
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP Serial IO I2C
-Controller
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 64 bytes
-	Interrupt: pin A routed to IRQ 16
-	Region 0: Memory at df13b000 (64-bit, non-prefetchable)
-[size=4K]
-	Capabilities: [80] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-
-,D2-,D3hot-,D3cold-)
-		Status: D3 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [90] Vendor Specific Information: Len=14 <?>
-	Kernel driver in use: intel-lpss
-	Kernel modules: intel_lpss_pci
-
-00:15.1 Signal processing controller: Intel Corporation Sunrise Point-
-LP Serial IO I2C Controller #1 (rev 21)
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP Serial IO I2C
-Controller
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 64 bytes
-	Interrupt: pin B routed to IRQ 17
-	Region 0: Memory at df13a000 (64-bit, non-prefetchable)
-[size=4K]
-	Capabilities: [80] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-
-,D2-,D3hot-,D3cold-)
-		Status: D3 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [90] Vendor Specific Information: Len=14 <?>
-	Kernel driver in use: intel-lpss
-	Kernel modules: intel_lpss_pci
-
-00:15.2 Signal processing controller: Intel Corporation Sunrise Point-
-LP Serial IO I2C Controller #2 (rev 21)
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP Serial IO I2C
-Controller
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 64 bytes
-	Interrupt: pin C routed to IRQ 18
-	Region 0: Memory at df139000 (64-bit, non-prefetchable)
-[size=4K]
-	Capabilities: [80] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-
-,D2-,D3hot-,D3cold-)
-		Status: D3 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [90] Vendor Specific Information: Len=14 <?>
-	Kernel driver in use: intel-lpss
-	Kernel modules: intel_lpss_pci
-
-00:16.0 Communication controller: Intel Corporation Sunrise Point-LP
-CSME HECI #1 (rev 21)
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP CSME HECI
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx+
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0
-	Interrupt: pin A routed to IRQ 125
-	Region 0: Memory at df138000 (64-bit, non-prefetchable)
-[size=4K]
-	Capabilities: [50] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-
-,D2-,D3hot+,D3cold-)
-		Status: D0 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [8c] MSI: Enable+ Count=1/1 Maskable- 64bit+
-		Address: 00000000fee002f8  Data: 0000
-	Kernel driver in use: mei_me
-	Kernel modules: mei_me
-
-00:17.0 SATA controller: Intel Corporation Sunrise Point-LP SATA
-Controller [AHCI mode] (rev 21) (prog-if 01 [AHCI 1.0])
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP SATA
-Controller [AHCI mode]
-	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx+
-	Status: Cap+ 66MHz+ UDF- FastB2B+ ParErr- DEVSEL=medium
->TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0
-	Interrupt: pin A routed to IRQ 124
-	Region 0: Memory at df130000 (32-bit, non-prefetchable)
-[size=8K]
-	Region 1: Memory at df137000 (32-bit, non-prefetchable)
-[size=256]
-	Region 2: I/O ports at f090 [size=8]
-	Region 3: I/O ports at f080 [size=4]
-	Region 4: I/O ports at f060 [size=32]
-	Region 5: Memory at df136000 (32-bit, non-prefetchable)
-[size=2K]
-	Capabilities: [80] MSI: Enable+ Count=1/1 Maskable- 64bit-
-		Address: fee002b8  Data: 0000
-	Capabilities: [70] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-
-,D2-,D3hot+,D3cold-)
-		Status: D0 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [a8] SATA HBA v1.0 BAR4 Offset=00000004
-	Kernel driver in use: ahci
-	Kernel modules: ahci
-
-00:19.0 Signal processing controller: Intel Corporation Sunrise Point-
-LP Serial IO UART Controller #2 (rev 21)
-	DeviceName:  Onboard LAN
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP Serial IO
-UART Controller
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 64 bytes
-	Interrupt: pin A routed to IRQ 32
-	Region 0: Memory at df135000 (64-bit, non-prefetchable)
-[size=4K]
-	Capabilities: [80] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-
-,D2-,D3hot-,D3cold-)
-		Status: D3 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [90] Vendor Specific Information: Len=14 <?>
-	Kernel driver in use: intel-lpss
-	Kernel modules: intel_lpss_pci
-
-00:1c.0 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Root
-Port #6 (rev f1) (prog-if 00 [Normal decode])
-	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx+
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 64 bytes
-	Interrupt: pin B routed to IRQ 122
-	Bus: primary=00, secondary=01, subordinate=01, sec-latency=0
-	I/O behind bridge: 0000f000-00000fff [empty]
-	Memory behind bridge: df000000-df0fffff [size=1M]
-	Prefetchable memory behind bridge: 00000000fff00000-
-00000000000fffff [empty]
-	Secondary status: 66MHz- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort+ <SERR- <PERR-
-	BridgeCtl: Parity- SERR- NoISA- VGA- VGA16+ MAbort- >Reset-
-FastB2B-
-		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
-	Capabilities: [40] Express (v2) Root Port (Slot+), MSI 00
-		DevCap:	MaxPayload 256 bytes, PhantFunc 0
-			ExtTag- RBE+
-		DevCtl:	CorrErr+ NonFatalErr+ FatalErr+ UnsupReq+
-			RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop-
-			MaxPayload 128 bytes, MaxReadReq 128 bytes
-		DevSta:	CorrErr- NonFatalErr- FatalErr- UnsupReq-
-AuxPwr+ TransPend-
-		LnkCap:	Port #6, Speed 8GT/s, Width x1, ASPM L0s L1,
-Exit Latency L0s <1us, L1 <16us
-			ClockPM- Surprise- LLActRep+ BwNot+
-ASPMOptComp+
-		LnkCtl:	ASPM L1 Enabled; RCB 64 bytes Disabled-
-CommClk+
-			ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
-		LnkSta:	Speed 2.5GT/s (downgraded), Width x1 (ok)
-			TrErr- Train- SlotClk+ DLActive+ BWMgmt+
-ABWMgmt-
-		SltCap:	AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd-
-HotPlug- Surprise-
-			Slot #9, PowerLimit 10.000W; Interlock-
-NoCompl+
-		SltCtl:	Enable: AttnBtn- PwrFlt- MRL- PresDet- CmdCplt-
-HPIrq- LinkChg-
-			Control: AttnInd Unknown, PwrInd Unknown,
-Power- Interlock-
-		SltSta:	Status: AttnBtn- PowerFlt- MRL- CmdCplt-
-PresDet+ Interlock-
-			Changed: MRL- PresDet+ LinkState+
-		RootCtl: ErrCorrectable- ErrNon-Fatal- ErrFatal-
-PMEIntEna+ CRSVisible-
-		RootCap: CRSVisible-
-		RootSta: PME ReqID 0000, PMEStatus- PMEPending-
-		DevCap2: Completion Timeout: Range ABC, TimeoutDis+,
-LTR+, OBFF Not Supported ARIFwd+
-			 AtomicOpsCap: Routing- 32bit- 64bit-
-128bitCAS-
-		DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-, 
-LTR+, OBFF Disabled ARIFwd-
-			 AtomicOpsCtl: ReqEn- EgressBlck-
-		LnkCtl2: Target Link Speed: 8GT/s, EnterCompliance-
-SpeedDis-
-			 Transmit Margin: Normal Operating Range,
-EnterModifiedCompliance- ComplianceSOS-
-			 Compliance De-emphasis: -6dB
-		LnkSta2: Current De-emphasis Level: -3.5dB,
-EqualizationComplete-, EqualizationPhase1-
-			 EqualizationPhase2-, EqualizationPhase3-,
-LinkEqualizationRequest-
-	Capabilities: [80] MSI: Enable+ Count=1/1 Maskable- 64bit-
-		Address: fee00258  Data: 0000
-	Capabilities: [90] Subsystem: ASUSTeK Computer Inc. Sunrise
-Point-LP PCI Express Root Port
-	Capabilities: [a0] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0+,D1-
-,D2-,D3hot+,D3cold+)
-		Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [100 v1] Advanced Error Reporting
-		UESta:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt-
-UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
-		UEMsk:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt-
-UnxCmplt+ RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
-		UESvrt:	DLP+ SDES- TLP- FCP- CmpltTO- CmpltAbrt-
-UnxCmplt- RxOF+ MalfTLP+ ECRC- UnsupReq- ACSViol-
-		CESta:	RxErr- BadTLP- BadDLLP- Rollover- Timeout-
-AdvNonFatalErr-
-		CEMsk:	RxErr- BadTLP- BadDLLP- Rollover- Timeout-
-AdvNonFatalErr+
-		AERCap:	First Error Pointer: 00, ECRCGenCap- ECRCGenEn-
-ECRCChkCap- ECRCChkEn-
-			MultHdrRecCap- MultHdrRecEn- TLPPfxPres-
-HdrLogCap-
-		HeaderLog: 00000000 00000000 00000000 00000000
-		RootCmd: CERptEn+ NFERptEn+ FERptEn+
-		RootSta: CERcvd- MultCERcvd- UERcvd- MultUERcvd-
-			 FirstFatal- NonFatalMsg- FatalMsg- IntMsg 0
-		ErrorSrc: ERR_COR: 0000 ERR_FATAL/NONFATAL: 0000
-	Capabilities: [140 v1] Access Control Services
-		ACSCap:	SrcValid+ TransBlk+ ReqRedir+ CmpltRedir+
-UpstreamFwd- EgressCtrl- DirectTrans-
-		ACSCtl:	SrcValid- TransBlk- ReqRedir- CmpltRedir-
-UpstreamFwd- EgressCtrl- DirectTrans-
-	Capabilities: [200 v1] L1 PM Substates
-		L1SubCap: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+
-ASPM_L1.1+ L1_PM_Substates+
-			  PortCommonModeRestoreTime=40us
-PortTPowerOnTime=44us
-		L1SubCtl1: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+
-ASPM_L1.1+
-			   T_CommonMode=40us LTR1.2_Threshold=163840ns
-		L1SubCtl2: T_PwrOn=44us
-	Capabilities: [220 v1] Secondary PCI Express <?>
-	Kernel driver in use: pcieport
-
-00:1e.0 Signal processing controller: Intel Corporation Sunrise Point-
-LP Serial IO UART Controller #0 (rev 21)
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP Serial IO
-UART Controller
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 64 bytes
-	Interrupt: pin A routed to IRQ 20
-	Region 0: Memory at df134000 (64-bit, non-prefetchable)
-[size=4K]
-	Capabilities: [80] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-
-,D2-,D3hot-,D3cold-)
-		Status: D3 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [90] Vendor Specific Information: Len=14 <?>
-	Kernel driver in use: intel-lpss
-	Kernel modules: intel_lpss_pci
-
-00:1e.3 Signal processing controller: Intel Corporation Sunrise Point-
-LP Serial IO SPI Controller #1 (rev 21)
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP Serial IO SPI
-Controller
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 64 bytes
-	Interrupt: pin D routed to IRQ 23
-	Region 0: Memory at df133000 (64-bit, non-prefetchable)
-[size=4K]
-	Capabilities: [80] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-
-,D2-,D3hot-,D3cold-)
-		Status: D3 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [90] Vendor Specific Information: Len=14 <?>
-	Kernel driver in use: intel-lpss
-	Kernel modules: intel_lpss_pci
-
-00:1f.0 ISA bridge: Intel Corporation Sunrise Point LPC Controller/eSPI
-Controller (rev 21)
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point LPC
-Controller/eSPI Controller
-	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=medium
->TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0
-
-00:1f.2 Memory controller: Intel Corporation Sunrise Point-LP PMC (rev
-21)
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP PMC
-	Control: I/O- Mem- BusMaster- SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Region 0: Memory at df12c000 (32-bit, non-prefetchable)
-[disabled] [size=16K]
-
-00:1f.3 Audio device: Intel Corporation Sunrise Point-LP HD Audio (rev
-21) (prog-if 80)
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP HD Audio
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx+
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 32, Cache Line Size: 64 bytes
-	Interrupt: pin A routed to IRQ 128
-	Region 0: Memory at df128000 (64-bit, non-prefetchable)
-[size=16K]
-	Region 4: Memory at df100000 (64-bit, non-prefetchable)
-[size=64K]
-	Capabilities: [50] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=55mA PME(D0-,D1-
-,D2-,D3hot+,D3cold+)
-		Status: D3 NoSoftRst+ PME-Enable+ DSel=0 DScale=0 PME-
-	Capabilities: [60] MSI: Enable+ Count=1/1 Maskable- 64bit+
-		Address: 00000000fee003b8  Data: 0000
-	Kernel driver in use: snd_hda_intel
-	Kernel modules: snd_hda_intel, snd_soc_skl
-
-00:1f.4 SMBus: Intel Corporation Sunrise Point-LP SMBus (rev 21)
-	Subsystem: ASUSTeK Computer Inc. Sunrise Point-LP SMBus
-	Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium
->TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-	Interrupt: pin A routed to IRQ 16
-	Region 0: Memory at df132000 (64-bit, non-prefetchable)
-[size=256]
-	Region 4: I/O ports at f040 [size=32]
-	Kernel driver in use: i801_smbus
-	Kernel modules: i2c_i801
-
-01:00.0 Network controller: Intel Corporation Wireless 8265 / 8275 (rev
-78)
-	Subsystem: Intel Corporation Wireless 8265 / 8275
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr- Stepping- SERR- FastB2B- DisINTx+
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 64 bytes
-	Interrupt: pin A routed to IRQ 126
-	Region 0: Memory at df000000 (64-bit, non-prefetchable)
-[size=8K]
-	Capabilities: [c8] Power Management version 3
-		Flags: PMEClk- DSI+ D1- D2- AuxCurrent=0mA PME(D0+,D1-
-,D2-,D3hot+,D3cold+)
-		Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [d0] MSI: Enable+ Count=1/1 Maskable- 64bit+
-		Address: 00000000fee00318  Data: 0000
-	Capabilities: [40] Express (v2) Endpoint, MSI 00
-		DevCap:	MaxPayload 128 bytes, PhantFunc 0, Latency L0s
-<512ns, L1 unlimited
-			ExtTag- AttnBtn- AttnInd- PwrInd- RBE+ FLReset+
-SlotPowerLimit 0.000W
-		DevCtl:	CorrErr- NonFatalErr- FatalErr- UnsupReq-
-			RlxdOrd+ ExtTag- PhantFunc- AuxPwr+ NoSnoop+
-FLReset-
-			MaxPayload 128 bytes, MaxReadReq 128 bytes
-		DevSta:	CorrErr- NonFatalErr- FatalErr- UnsupReq-
-AuxPwr+ TransPend-
-		LnkCap:	Port #0, Speed 2.5GT/s, Width x1, ASPM L1, Exit
-Latency L1 <8us
-			ClockPM+ Surprise- LLActRep- BwNot-
-ASPMOptComp+
-		LnkCtl:	ASPM L1 Enabled; RCB 64 bytes Disabled-
-CommClk+
-			ExtSynch- ClockPM+ AutWidDis- BWInt- AutBWInt-
-		LnkSta:	Speed 2.5GT/s (ok), Width x1 (ok)
-			TrErr- Train- SlotClk+ DLActive- BWMgmt-
-ABWMgmt-
-		DevCap2: Completion Timeout: Range B, TimeoutDis+,
-LTR+, OBFF Via WAKE#
-			 AtomicOpsCap: 32bit- 64bit- 128bitCAS-
-		DevCtl2: Completion Timeout: 16ms to 55ms, TimeoutDis-, 
-LTR+, OBFF Disabled
-			 AtomicOpsCtl: ReqEn-
-		LnkCtl2: Target Link Speed: 2.5GT/s, EnterCompliance-
-SpeedDis-
-			 Transmit Margin: Normal Operating Range,
-EnterModifiedCompliance- ComplianceSOS-
-			 Compliance De-emphasis: -6dB
-		LnkSta2: Current De-emphasis Level: -3.5dB,
-EqualizationComplete-, EqualizationPhase1-
-			 EqualizationPhase2-, EqualizationPhase3-,
-LinkEqualizationRequest-
-	Capabilities: [100 v1] Advanced Error Reporting
-		UESta:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt-
-UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
-		UEMsk:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt-
-UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
-		UESvrt:	DLP+ SDES+ TLP- FCP+ CmpltTO- CmpltAbrt-
-UnxCmplt- RxOF+ MalfTLP+ ECRC- UnsupReq- ACSViol-
-		CESta:	RxErr- BadTLP- BadDLLP- Rollover- Timeout-
-AdvNonFatalErr-
-		CEMsk:	RxErr- BadTLP- BadDLLP- Rollover- Timeout-
-AdvNonFatalErr+
-		AERCap:	First Error Pointer: 00, ECRCGenCap- ECRCGenEn-
-ECRCChkCap- ECRCChkEn-
-			MultHdrRecCap- MultHdrRecEn- TLPPfxPres-
-HdrLogCap-
-		HeaderLog: 00000000 00000000 00000000 00000000
-	Capabilities: [140 v1] Device Serial Number b4-69-21-ff-ff-de-
-5e-9f
-	Capabilities: [14c v1] Latency Tolerance Reporting
-		Max snoop latency: 3145728ns
-		Max no snoop latency: 3145728ns
-	Capabilities: [154 v1] L1 PM Substates
-		L1SubCap: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+
-ASPM_L1.1+ L1_PM_Substates+
-			  PortCommonModeRestoreTime=30us
-PortTPowerOnTime=18us
-		L1SubCtl1: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+
-ASPM_L1.1+
-			   T_CommonMode=0us LTR1.2_Threshold=163840ns
-		L1SubCtl2: T_PwrOn=44us
-	Kernel driver in use: iwlwifi
-	Kernel modules: iwlwifi
-
-[8.6.] SCSI information (from /proc/scsi/scsi)
-Attached devices:
-Host: scsi2 Channel: 00 Id: 00 Lun: 00
-  Vendor: ATA      Model: SanDisk SD9SN8W2 Rev: 3002
-  Type:   Direct-Access                    ANSI  SCSI revision: 05
-
-Maybe it is not that bad to have all this in a separate mail ;).
-
-Cheers
-Julius
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index 16b1615..5848179 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -62,6 +62,19 @@ config CROS_EC_I2C
+ 	  a checksum. Failing accesses will be retried three times to
+ 	  improve reliability.
+ 
++config CROS_EC_ISHTP
++	tristate "ChromeOS Embedded Controller (ISHTP)"
++	depends on MFD_CROS_EC
++	depends on INTEL_ISH_HID
++	help
++	  If you say Y here, you get support for talking to the ChromeOS EC
++	  firmware running on Intel Integrated Sensor Hub (ISH), using the
++	  ISH Transport protocol (ISH-TP). This uses a simple byte-level
++	  protocol with a checksum.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called cros_ec_ishtp.
++
+ config CROS_EC_SPI
+ 	tristate "ChromeOS Embedded Controller (SPI)"
+ 	depends on MFD_CROS_EC && SPI
+diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
+index cd591bf..4efe102 100644
+--- a/drivers/platform/chrome/Makefile
++++ b/drivers/platform/chrome/Makefile
+@@ -7,6 +7,7 @@ cros_ec_ctl-objs			:= cros_ec_sysfs.o cros_ec_lightbar.o \
+ 					   cros_ec_vbc.o cros_ec_debugfs.o
+ obj-$(CONFIG_CROS_EC_CTL)		+= cros_ec_ctl.o
+ obj-$(CONFIG_CROS_EC_I2C)		+= cros_ec_i2c.o
++obj-$(CONFIG_CROS_EC_ISHTP)		+= cros_ec_ishtp.o
+ obj-$(CONFIG_CROS_EC_SPI)		+= cros_ec_spi.o
+ cros_ec_lpcs-objs			:= cros_ec_lpc.o cros_ec_lpc_reg.o
+ cros_ec_lpcs-$(CONFIG_CROS_EC_LPC_MEC)	+= cros_ec_lpc_mec.o
+diff --git a/drivers/platform/chrome/cros_ec_ishtp.c b/drivers/platform/chrome/cros_ec_ishtp.c
+new file mode 100644
+index 0000000..997503d
+--- /dev/null
++++ b/drivers/platform/chrome/cros_ec_ishtp.c
+@@ -0,0 +1,763 @@
++// SPDX-License-Identifier: GPL-2.0
++// ISHTP interface for ChromeOS Embedded Controller
++//
++// Copyright (c) 2019, Intel Corporation.
++//
++// ISHTP client driver for talking to the Chrome OS EC firmware running
++// on Intel Integrated Sensor Hub (ISH) using the ISH Transport protocol
++// (ISH-TP).
++
++#include <linux/delay.h>
++#include <linux/mfd/core.h>
++#include <linux/mfd/cros_ec.h>
++#include <linux/mfd/cros_ec_commands.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include <linux/intel-ish-client-if.h>
++
++/*
++ * ISH TX/RX ring buffer pool size
++ *
++ * The AP->ISH messages and corresponding ISH->AP responses are
++ * serialized. We need 1 TX and 1 RX buffer for these.
++ *
++ * The MKBP ISH->AP events are serialized. We need one additional RX
++ * buffer for them.
++ */
++#define CROS_ISH_CL_TX_RING_SIZE		8
++#define CROS_ISH_CL_RX_RING_SIZE		8
++
++/* ISH CrOS EC Host Commands */
++enum cros_ec_ish_channel {
++	CROS_EC_COMMAND = 1,			/* AP->ISH message */
++	CROS_MKBP_EVENT = 2,			/* ISH->AP events */
++};
++
++/*
++ * ISH firmware timeout for 1 message send failure is 1Hz, and the
++ * firmware will retry 2 times, so 3Hz is used for timeout.
++ */
++#define ISHTP_SEND_TIMEOUT			(3 * HZ)
++
++/* ISH Transport CrOS EC ISH client unique GUID */
++static const guid_t cros_ish_guid =
++	GUID_INIT(0x7b7154d0, 0x56f4, 0x4bdc,
++		  0xb0, 0xd8, 0x9e, 0x7c, 0xda,	0xe0, 0xd6, 0xa0);
++
++struct header {
++	u8 channel;
++	u8 status;
++	u8 reserved[2];
++} __packed;
++
++struct cros_ish_out_msg {
++	struct header hdr;
++	struct ec_host_request ec_request;
++} __packed;
++
++struct cros_ish_in_msg {
++	struct header hdr;
++	struct ec_host_response ec_response;
++} __packed;
++
++#define IN_MSG_EC_RESPONSE_PREAMBLE					\
++	offsetof(struct cros_ish_in_msg, ec_response)
++
++#define OUT_MSG_EC_REQUEST_PREAMBLE					\
++	offsetof(struct cros_ish_out_msg, ec_request)
++
++#define cl_data_to_dev(client_data) ishtp_device((client_data)->cl_device)
++
++/*
++ * The Read-Write Semaphore is used to prevent message TX or RX while
++ * the ishtp client is being initialized or undergoing reset.
++ *
++ * The readers are the kernel function calls responsible for IA->ISH
++ * and ISH->AP messaging.
++ *
++ * The writers are .reset() and .probe() function.
++ */
++DECLARE_RWSEM(init_lock);
++
++/**
++ * struct response_info - Encapsulate firmware response related
++ * information for passing between function ish_send() and
++ * process_recv() callback.
++ *
++ * @data: Copy the data received from firmware here.
++ * @max_size: Max size allocated for the @data buffer. If the received
++ * data exceeds this value, we log an error.
++ * @size: Actual size of data received from firmware.
++ * @error: 0 for success, negative error code for a failure in process_recv().
++ * @received: Set to true on receiving a valid firmware	response to host command
++ * @wait_queue: Wait queue for host to wait for firmware response.
++ */
++struct response_info {
++	void *data;
++	size_t max_size;
++	size_t size;
++	int error;
++	bool received;
++	wait_queue_head_t wait_queue;
++};
++
++/**
++ * struct ishtp_cl_data - Encapsulate per ISH TP Client.
++ *
++ * @cros_ish_cl: ISHTP firmware client instance.
++ * @cl_device: ISHTP client device instance.
++ * @response: Response info passing between ish_send() and process_recv().
++ * @work_ishtp_reset: Work queue reset handling.
++ * @work_ec_evt: Work queue for EC events.
++ * @ec_dev: CrOS EC MFD device.
++ *
++ * This structure is used to store per client data.
++ */
++struct ishtp_cl_data {
++	struct ishtp_cl *cros_ish_cl;
++	struct ishtp_cl_device *cl_device;
++
++	/*
++	 * Used for passing firmware response information between
++	 * ish_send() and process_recv() callback.
++	 */
++	struct response_info response;
++
++	struct work_struct work_ishtp_reset;
++	struct work_struct work_ec_evt;
++	struct cros_ec_device *ec_dev;
++};
++
++/**
++ * ish_evt_handler - ISH to AP event handler
++ * @work: Work struct
++ */
++static void ish_evt_handler(struct work_struct *work)
++{
++	struct ishtp_cl_data *client_data =
++		container_of(work, struct ishtp_cl_data, work_ec_evt);
++	struct cros_ec_device *ec_dev = client_data->ec_dev;
++
++	if (cros_ec_get_next_event(ec_dev, NULL) > 0) {
++		blocking_notifier_call_chain(&ec_dev->event_notifier,
++					     0, ec_dev);
++	}
++}
++
++/**
++ * ish_send() - Send message from host to firmware
++ *
++ * @client_data: Client data instance
++ * @out_msg: Message buffer to be sent to firmware
++ * @out_size: Size of out going message
++ * @in_msg: Message buffer where the incoming data is copied. This buffer
++ * is allocated by calling
++ * @in_size: Max size of incoming message
++ *
++ * Return: Number of bytes copied in the in_msg on success, negative
++ * error code on failure.
++ */
++static int ish_send(struct ishtp_cl_data *client_data,
++		    u8 *out_msg, size_t out_size,
++		    u8 *in_msg, size_t in_size)
++{
++	int rv;
++	struct header *out_hdr = (struct header *)out_msg;
++	struct ishtp_cl *cros_ish_cl = client_data->cros_ish_cl;
++
++	dev_dbg(cl_data_to_dev(client_data),
++		"%s: channel=%02u status=%02u\n",
++		__func__, out_hdr->channel, out_hdr->status);
++
++	/* Setup for incoming response */
++	client_data->response.data = in_msg;
++	client_data->response.max_size = in_size;
++	client_data->response.error = 0;
++	client_data->response.received = false;
++
++	rv = ishtp_cl_send(cros_ish_cl, out_msg, out_size);
++	if (rv) {
++		dev_err(cl_data_to_dev(client_data),
++			"ishtp_cl_send error %d\n", rv);
++		return rv;
++	}
++
++	wait_event_interruptible_timeout(client_data->response.wait_queue,
++					 client_data->response.received,
++					 ISHTP_SEND_TIMEOUT);
++	if (!client_data->response.received) {
++		dev_err(cl_data_to_dev(client_data),
++			"Timed out for response to host message\n");
++		return -ETIMEDOUT;
++	}
++
++	if (client_data->response.error < 0)
++		return client_data->response.error;
++
++	return client_data->response.size;
++}
++
++/**
++ * process_recv() - Received and parse incoming packet
++ * @cros_ish_cl: Client instance to get stats
++ * @rb_in_proc: Host interface message buffer
++ *
++ * Parse the incoming packet. If it is a response packet then it will
++ * update per instance flags and wake up the caller waiting to for the
++ * response. If it is an event packet then it will schedule event work.
++ */
++static void process_recv(struct ishtp_cl *cros_ish_cl,
++			 struct ishtp_cl_rb *rb_in_proc)
++{
++	size_t data_len = rb_in_proc->buf_idx;
++	struct ishtp_cl_data *client_data =
++		ishtp_get_client_data(cros_ish_cl);
++	struct device *dev = cl_data_to_dev(client_data);
++	struct cros_ish_in_msg *in_msg =
++		(struct cros_ish_in_msg *)rb_in_proc->buffer.data;
++
++	/* Proceed only if reset or init is not in progress */
++	if (!down_read_trylock(&init_lock)) {
++		/* Free the buffer */
++		ishtp_cl_io_rb_recycle(rb_in_proc);
++		dev_warn(dev,
++			 "Host is not ready to receive incoming messages\n");
++		return;
++	}
++
++	/*
++	 * All firmware messages contain a header. Check the buffer size
++	 * before accessing elements inside.
++	 */
++	if (!rb_in_proc->buffer.data) {
++		dev_warn(dev, "rb_in_proc->buffer.data returned null");
++		client_data->response.error = -EBADMSG;
++		goto end_error;
++	}
++
++	if (data_len < sizeof(struct header)) {
++		dev_err(dev, "data size %zu is less than header %zu\n",
++			data_len, sizeof(struct header));
++		client_data->response.error = -EMSGSIZE;
++		goto end_error;
++	}
++
++	dev_dbg(dev, "channel=%02u status=%02u\n",
++		in_msg->hdr.channel, in_msg->hdr.status);
++
++	switch (in_msg->hdr.channel) {
++	case CROS_EC_COMMAND:
++		/* Sanity check */
++		if (!client_data->response.data) {
++			dev_err(dev,
++				"Receiving buffer is null. Should be allocated by calling function\n");
++			client_data->response.error = -EINVAL;
++			goto error_wake_up;
++		}
++
++		if (client_data->response.received) {
++			dev_err(dev,
++				"Previous firmware message not yet processed\n");
++			client_data->response.error = -EINVAL;
++			goto error_wake_up;
++		}
++
++		if (data_len > client_data->response.max_size) {
++			dev_err(dev,
++				"Received buffer size %zu is larger than allocated buffer %zu\n",
++				data_len, client_data->response.max_size);
++			client_data->response.error = -EMSGSIZE;
++			goto error_wake_up;
++		}
++
++		if (in_msg->hdr.status) {
++			dev_err(dev, "firmware returned status %d\n",
++				in_msg->hdr.status);
++			client_data->response.error = -EIO;
++			goto error_wake_up;
++		}
++
++		/* Update the actual received buffer size */
++		client_data->response.size = data_len;
++
++		/*
++		 * Copy the buffer received in firmware response for the
++		 * calling thread.
++		 */
++		memcpy(client_data->response.data,
++		       rb_in_proc->buffer.data, data_len);
++
++		/* Set flag before waking up the caller */
++		client_data->response.received = true;
++error_wake_up:
++		/* Wake the calling thread */
++		wake_up_interruptible(&client_data->response.wait_queue);
++
++		break;
++
++	case CROS_MKBP_EVENT:
++		/* The event system doesn't send any data in buffer */
++		schedule_work(&client_data->work_ec_evt);
++
++		break;
++
++	default:
++		dev_err(dev, "Invalid channel=%02d\n", in_msg->hdr.channel);
++	}
++
++end_error:
++	/* Free the buffer */
++	ishtp_cl_io_rb_recycle(rb_in_proc);
++
++	up_read(&init_lock);
++}
++
++/**
++ * ish_event_cb() - bus driver callback for incoming message
++ * @cl_device: ISHTP client device for which this message is targeted.
++ *
++ * Remove the packet from the list and process the message by calling
++ * process_recv.
++ */
++static void ish_event_cb(struct ishtp_cl_device *cl_device)
++{
++	struct ishtp_cl_rb *rb_in_proc;
++	struct ishtp_cl	*cros_ish_cl = ishtp_get_drvdata(cl_device);
++
++	while ((rb_in_proc = ishtp_cl_rx_get_rb(cros_ish_cl)) != NULL) {
++		/* Decide what to do with received data */
++		process_recv(cros_ish_cl, rb_in_proc);
++	}
++}
++
++/**
++ * cros_ish_init() - Init function for ISHTP client
++ * @cros_ish_cl: ISHTP client instance
++ *
++ * This function complete the initializtion of the client.
++ *
++ * Return: 0 for success, negative error code for failure.
++ */
++static int cros_ish_init(struct ishtp_cl *cros_ish_cl)
++{
++	int rv;
++	struct ishtp_device *dev;
++	struct ishtp_fw_client *fw_client;
++	struct ishtp_cl_data *client_data = ishtp_get_client_data(cros_ish_cl);
++
++	rv = ishtp_cl_link(cros_ish_cl);
++	if (rv) {
++		dev_err(cl_data_to_dev(client_data),
++			"ishtp_cl_link failed\n");
++		return rv;
++	}
++
++	dev = ishtp_get_ishtp_device(cros_ish_cl);
++
++	/* Connect to firmware client */
++	ishtp_set_tx_ring_size(cros_ish_cl, CROS_ISH_CL_TX_RING_SIZE);
++	ishtp_set_rx_ring_size(cros_ish_cl, CROS_ISH_CL_RX_RING_SIZE);
++
++	fw_client = ishtp_fw_cl_get_client(dev, &cros_ish_guid);
++	if (!fw_client) {
++		dev_err(cl_data_to_dev(client_data),
++			"ish client uuid not found\n");
++		rv = -ENOENT;
++		goto err_cl_unlink;
++	}
++
++	ishtp_cl_set_fw_client_id(cros_ish_cl,
++				  ishtp_get_fw_client_id(fw_client));
++	ishtp_set_connection_state(cros_ish_cl, ISHTP_CL_CONNECTING);
++
++	rv = ishtp_cl_connect(cros_ish_cl);
++	if (rv) {
++		dev_err(cl_data_to_dev(client_data),
++			"client connect fail\n");
++		goto err_cl_unlink;
++	}
++
++	ishtp_register_event_cb(client_data->cl_device, ish_event_cb);
++	return 0;
++
++err_cl_unlink:
++	ishtp_cl_unlink(cros_ish_cl);
++	return rv;
++}
++
++/**
++ * cros_ish_deinit() - Deinit function for ISHTP client
++ * @cros_ish_cl: ISHTP client instance
++ *
++ * Unlink and free cros_ec client
++ */
++static void cros_ish_deinit(struct ishtp_cl *cros_ish_cl)
++{
++	ishtp_set_connection_state(cros_ish_cl, ISHTP_CL_DISCONNECTING);
++	ishtp_cl_disconnect(cros_ish_cl);
++	ishtp_cl_unlink(cros_ish_cl);
++	ishtp_cl_flush_queues(cros_ish_cl);
++
++	/* Disband and free all Tx and Rx client-level rings */
++	ishtp_cl_free(cros_ish_cl);
++}
++
++/**
++ * prepare_cros_ec_rx() - Check & prepare receive buffer
++ * @ec_dev: CrOS EC MFD device.
++ * @in_msg: Incoming message buffer
++ * @msg: cros_ec command used to send & receive data
++ *
++ * Return: 0 for success, negative error code for failure.
++ *
++ * Check the received buffer. Convert to cros_ec_command format.
++ */
++static int prepare_cros_ec_rx(struct cros_ec_device *ec_dev,
++			      const struct cros_ish_in_msg *in_msg,
++			      struct cros_ec_command *msg)
++{
++	u8 sum = 0;
++	int i, rv, offset;
++
++	/* Check response error code */
++	msg->result = in_msg->ec_response.result;
++	rv = cros_ec_check_result(ec_dev, msg);
++	if (rv < 0)
++		return rv;
++
++	if (in_msg->ec_response.data_len > msg->insize) {
++		dev_err(ec_dev->dev, "Packet too long (%d bytes, expected %d)",
++			in_msg->ec_response.data_len, msg->insize);
++		return -ENOSPC;
++	}
++
++	/* Copy response packet payload and compute checksum */
++	for (i = 0; i < sizeof(struct ec_host_response); i++)
++		sum += ((u8 *)in_msg)[IN_MSG_EC_RESPONSE_PREAMBLE + i];
++
++	offset = sizeof(struct cros_ish_in_msg);
++	for (i = 0; i < in_msg->ec_response.data_len; i++)
++		sum += msg->data[i] = ((u8 *)in_msg)[offset + i];
++
++	if (sum) {
++		dev_dbg(ec_dev->dev, "Bad received packet checksum %d\n", sum);
++		return -EBADMSG;
++	}
++
++	return 0;
++}
++
++static int cros_ec_pkt_xfer_ish(struct cros_ec_device *ec_dev,
++				struct cros_ec_command *msg)
++{
++	int rv;
++	struct ishtp_cl *cros_ish_cl = ec_dev->priv;
++	struct ishtp_cl_data *client_data = ishtp_get_client_data(cros_ish_cl);
++	struct device *dev = cl_data_to_dev(client_data);
++	struct cros_ish_in_msg *in_msg = (struct cros_ish_in_msg *)ec_dev->din;
++	struct cros_ish_out_msg *out_msg =
++		(struct cros_ish_out_msg *)ec_dev->dout;
++	size_t in_size = sizeof(struct cros_ish_in_msg) + msg->insize;
++	size_t out_size = sizeof(struct cros_ish_out_msg) + msg->outsize;
++
++	/* Proceed only if reset-init is not in progress */
++	if (!down_read_trylock(&init_lock)) {
++		dev_warn(dev,
++			 "Host is not ready to send messages to ISH. Try again\n");
++		return -EAGAIN;
++	}
++
++	/* Sanity checks */
++	if (in_size > ec_dev->din_size) {
++		dev_err(dev,
++			"Incoming payload size %zu is too large for ec_dev->din_size %d\n",
++			in_size, ec_dev->din_size);
++		return -EMSGSIZE;
++	}
++
++	if (out_size > ec_dev->dout_size) {
++		dev_err(dev,
++			"Outgoing payload size %zu is too large for ec_dev->dout_size %d\n",
++			out_size, ec_dev->dout_size);
++		return -EMSGSIZE;
++	}
++
++	/* Prepare the package to be sent over ISH TP */
++	out_msg->hdr.channel = CROS_EC_COMMAND;
++	out_msg->hdr.status = 0;
++
++	ec_dev->dout += OUT_MSG_EC_REQUEST_PREAMBLE;
++	cros_ec_prepare_tx(ec_dev, msg);
++	ec_dev->dout -= OUT_MSG_EC_REQUEST_PREAMBLE;
++
++	dev_dbg(dev,
++		"out_msg: struct_ver=0x%x checksum=0x%x command=0x%x command_ver=0x%x data_len=0x%x\n",
++		out_msg->ec_request.struct_version,
++		out_msg->ec_request.checksum,
++		out_msg->ec_request.command,
++		out_msg->ec_request.command_version,
++		out_msg->ec_request.data_len);
++
++	/* Send command to ISH EC firmware and read response */
++	rv = ish_send(client_data,
++		      (u8 *)out_msg, out_size,
++		      (u8 *)in_msg, in_size);
++	if (rv < 0)
++		goto end_error;
++
++	rv = prepare_cros_ec_rx(ec_dev, in_msg, msg);
++	if (rv)
++		goto end_error;
++
++	rv = in_msg->ec_response.data_len;
++
++	dev_dbg(dev,
++		"in_msg: struct_ver=0x%x checksum=0x%x result=0x%x data_len=0x%x\n",
++		in_msg->ec_response.struct_version,
++		in_msg->ec_response.checksum,
++		in_msg->ec_response.result,
++		in_msg->ec_response.data_len);
++
++end_error:
++	if (msg->command == EC_CMD_REBOOT_EC)
++		msleep(EC_REBOOT_DELAY_MS);
++
++	up_read(&init_lock);
++
++	return rv;
++}
++
++static int cros_ec_dev_init(struct ishtp_cl_data *client_data)
++{
++	struct cros_ec_device *ec_dev;
++	struct device *dev = cl_data_to_dev(client_data);
++
++	ec_dev = devm_kzalloc(dev, sizeof(*ec_dev), GFP_KERNEL);
++	if (!ec_dev)
++		return -ENOMEM;
++
++	client_data->ec_dev = ec_dev;
++	dev->driver_data = ec_dev;
++
++	ec_dev->dev = dev;
++	ec_dev->priv = client_data->cros_ish_cl;
++	ec_dev->cmd_xfer = NULL;
++	ec_dev->pkt_xfer = cros_ec_pkt_xfer_ish;
++	ec_dev->phys_name = dev_name(dev);
++	ec_dev->din_size = sizeof(struct cros_ish_in_msg) +
++			   sizeof(struct ec_response_get_protocol_info);
++	ec_dev->dout_size = sizeof(struct cros_ish_out_msg);
++
++	return cros_ec_register(ec_dev);
++}
++
++static void reset_handler(struct work_struct *work)
++{
++	int rv;
++	struct device *dev;
++	struct ishtp_cl *cros_ish_cl;
++	struct ishtp_cl_device *cl_device;
++	struct ishtp_cl_data *client_data =
++		container_of(work, struct ishtp_cl_data, work_ishtp_reset);
++
++	/* Lock for reset to complete */
++	down_write(&init_lock);
++
++	cros_ish_cl = client_data->cros_ish_cl;
++	cl_device = client_data->cl_device;
++
++	/* Unlink, flush queues & start again */
++	ishtp_cl_unlink(cros_ish_cl);
++	ishtp_cl_flush_queues(cros_ish_cl);
++	ishtp_cl_free(cros_ish_cl);
++
++	cros_ish_cl = ishtp_cl_allocate(cl_device);
++	if (!cros_ish_cl) {
++		up_write(&init_lock);
++		return;
++	}
++
++	ishtp_set_drvdata(cl_device, cros_ish_cl);
++	ishtp_set_client_data(cros_ish_cl, client_data);
++	client_data->cros_ish_cl = cros_ish_cl;
++
++	rv = cros_ish_init(cros_ish_cl);
++	if (rv) {
++		ishtp_cl_free(cros_ish_cl);
++		dev_err(cl_data_to_dev(client_data), "Reset Failed\n");
++		up_write(&init_lock);
++		return;
++	}
++
++	/* Refresh ec_dev device pointers */
++	client_data->ec_dev->priv = client_data->cros_ish_cl;
++	dev = cl_data_to_dev(client_data);
++	dev->driver_data = client_data->ec_dev;
++
++	dev_info(cl_data_to_dev(client_data), "Chrome EC ISH reset done\n");
++
++	up_write(&init_lock);
++}
++
++/**
++ * cros_ec_ishtp_probe() - ISHTP client driver probe callback
++ * @cl_device: ISHTP client device instance
++ *
++ * Return: 0 for success, negative error code for failure.
++ */
++static int cros_ec_ishtp_probe(struct ishtp_cl_device *cl_device)
++{
++	int rv;
++	struct ishtp_cl *cros_ish_cl;
++	struct ishtp_cl_data *client_data =
++		devm_kzalloc(ishtp_device(cl_device),
++			     sizeof(*client_data), GFP_KERNEL);
++	if (!client_data)
++		return -ENOMEM;
++
++	/* Lock for initialization to complete */
++	down_write(&init_lock);
++
++	cros_ish_cl = ishtp_cl_allocate(cl_device);
++	if (!cros_ish_cl) {
++		rv = -ENOMEM;
++		goto end_ishtp_cl_alloc_error;
++	}
++
++	ishtp_set_drvdata(cl_device, cros_ish_cl);
++	ishtp_set_client_data(cros_ish_cl, client_data);
++	client_data->cros_ish_cl = cros_ish_cl;
++	client_data->cl_device = cl_device;
++
++	init_waitqueue_head(&client_data->response.wait_queue);
++
++	INIT_WORK(&client_data->work_ishtp_reset,
++		  reset_handler);
++	INIT_WORK(&client_data->work_ec_evt,
++		  ish_evt_handler);
++
++	rv = cros_ish_init(cros_ish_cl);
++	if (rv)
++		goto end_ishtp_cl_init_error;
++
++	ishtp_get_device(cl_device);
++
++	up_write(&init_lock);
++
++	/* Register croc_ec_dev mfd */
++	rv = cros_ec_dev_init(client_data);
++	if (rv)
++		goto end_cros_ec_dev_init_error;
++
++	return 0;
++
++end_cros_ec_dev_init_error:
++	ishtp_set_connection_state(cros_ish_cl, ISHTP_CL_DISCONNECTING);
++	ishtp_cl_disconnect(cros_ish_cl);
++	ishtp_cl_unlink(cros_ish_cl);
++	ishtp_cl_flush_queues(cros_ish_cl);
++	ishtp_put_device(cl_device);
++end_ishtp_cl_init_error:
++	ishtp_cl_free(cros_ish_cl);
++end_ishtp_cl_alloc_error:
++	up_write(&init_lock);
++	return rv;
++}
++
++/**
++ * cros_ec_ishtp_remove() - ISHTP client driver remove callback
++ * @cl_device: ISHTP client device instance
++ *
++ * Return: 0
++ */
++static int cros_ec_ishtp_remove(struct ishtp_cl_device *cl_device)
++{
++	struct ishtp_cl	*cros_ish_cl = ishtp_get_drvdata(cl_device);
++	struct ishtp_cl_data *client_data = ishtp_get_client_data(cros_ish_cl);
++
++	cancel_work_sync(&client_data->work_ishtp_reset);
++	cancel_work_sync(&client_data->work_ec_evt);
++	cros_ish_deinit(cros_ish_cl);
++	ishtp_put_device(cl_device);
++
++	return 0;
++}
++
++/**
++ * cros_ec_ishtp_reset() - ISHTP client driver reset callback
++ * @cl_device: ISHTP client device instance
++ *
++ * Return: 0
++ */
++static int cros_ec_ishtp_reset(struct ishtp_cl_device *cl_device)
++{
++	struct ishtp_cl	*cros_ish_cl = ishtp_get_drvdata(cl_device);
++	struct ishtp_cl_data *client_data = ishtp_get_client_data(cros_ish_cl);
++
++	schedule_work(&client_data->work_ishtp_reset);
++
++	return 0;
++}
++
++/**
++ * cros_ec_ishtp_suspend() - ISHTP client driver suspend callback
++ * @device: device instance
++ *
++ * Return: 0 for success, negative error code for failure.
++ */
++static int __maybe_unused cros_ec_ishtp_suspend(struct device *device)
++{
++	struct ishtp_cl_device *cl_device = dev_get_drvdata(device);
++	struct ishtp_cl	*cros_ish_cl = ishtp_get_drvdata(cl_device);
++	struct ishtp_cl_data *client_data = ishtp_get_client_data(cros_ish_cl);
++
++	return cros_ec_suspend(client_data->ec_dev);
++}
++
++/**
++ * cros_ec_ishtp_resume() - ISHTP client driver resume callback
++ * @device: device instance
++ *
++ * Return: 0 for success, negative error code for failure.
++ */
++static int __maybe_unused cros_ec_ishtp_resume(struct device *device)
++{
++	struct ishtp_cl_device *cl_device = dev_get_drvdata(device);
++	struct ishtp_cl	*cros_ish_cl = ishtp_get_drvdata(cl_device);
++	struct ishtp_cl_data *client_data = ishtp_get_client_data(cros_ish_cl);
++
++	return cros_ec_resume(client_data->ec_dev);
++}
++
++static SIMPLE_DEV_PM_OPS(cros_ec_ishtp_pm_ops, cros_ec_ishtp_suspend,
++			 cros_ec_ishtp_resume);
++
++static struct ishtp_cl_driver	cros_ec_ishtp_driver = {
++	.name = "cros_ec_ishtp",
++	.guid = &cros_ish_guid,
++	.probe = cros_ec_ishtp_probe,
++	.remove = cros_ec_ishtp_remove,
++	.reset = cros_ec_ishtp_reset,
++	.driver = {
++		.pm = &cros_ec_ishtp_pm_ops,
++	},
++};
++
++static int __init cros_ec_ishtp_mod_init(void)
++{
++	return ishtp_cl_driver_register(&cros_ec_ishtp_driver, THIS_MODULE);
++}
++
++static void __exit cros_ec_ishtp_mod_exit(void)
++{
++	ishtp_cl_driver_unregister(&cros_ec_ishtp_driver);
++}
++
++module_init(cros_ec_ishtp_mod_init);
++module_exit(cros_ec_ishtp_mod_exit);
++
++MODULE_DESCRIPTION("ChromeOS EC ISHTP Client Driver");
++MODULE_AUTHOR("Rushikesh S Kadam <rushikesh.s.kadam@intel.com>");
++
++MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("ishtp:*");
+-- 
+1.9.1
 
