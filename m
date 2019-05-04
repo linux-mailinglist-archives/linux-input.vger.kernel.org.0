@@ -2,96 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0B551346B
-	for <lists+linux-input@lfdr.de>; Fri,  3 May 2019 22:30:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C859313828
+	for <lists+linux-input@lfdr.de>; Sat,  4 May 2019 09:48:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727015AbfECUa1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 May 2019 16:30:27 -0400
-Received: from mx3.wp.pl ([212.77.101.9]:5928 "EHLO mx3.wp.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726932AbfECUa0 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 3 May 2019 16:30:26 -0400
-Received: (wp-smtpd smtp.wp.pl 29685 invoked from network); 3 May 2019 22:30:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wp.pl; s=1024a;
-          t=1556915423; bh=NIQ+j+7oa4YIxrpJk39a3s2NoeAcMQONM4fdfhdM/t4=;
-          h=From:To:Cc:Subject;
-          b=W/esS6+4CyaPvWJZlF7kXW0TS7TQC4JYTvMs0sq04B7AuCSKa/w7KfxWV60UV+vQO
-           5e9N6g3CWbyy7HRoAebg4jsmpect4ETHn9KI/0eQsq5UJ4alS+r1ZQurOWH6i05jEu
-           5TNAnotN+aihDc7BdDmHi9uM0QfdJbI6Pa/7m/Wk=
-Received: from pc-201-108-240-185-static.strong-pc.com (HELO localhost.localdomain) (spaz16@wp.pl@[185.240.108.201])
-          (envelope-sender <spaz16@wp.pl>)
-          by smtp.wp.pl (WP-SMTPD) with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP
-          for <igorkuo@gmail.com>; 3 May 2019 22:30:23 +0200
-From:   =?UTF-8?q?B=C5=82a=C5=BCej=20Szczygie=C5=82?= <spaz16@wp.pl>
-Cc:     igorkuo@gmail.com, peter.hutterer@who-t.net,
-        =?UTF-8?q?B=C5=82a=C5=BCej=20Szczygie=C5=82?= <spaz16@wp.pl>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] HID: fix A4Tech horizontal scrolling
-Date:   Fri,  3 May 2019 22:28:36 +0200
-Message-Id: <20190503202836.12127-1-spaz16@wp.pl>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <AO-hwJKNH7WoJV-X+egK5cJNNtxamh0L0e1er5dkiTt6KvrmSQ@mail.gmail.com>
-References: <AO-hwJKNH7WoJV-X+egK5cJNNtxamh0L0e1er5dkiTt6KvrmSQ@mail.gmail.com>
+        id S1725826AbfEDHsZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 4 May 2019 03:48:25 -0400
+Received: from vmd37850.contaboserver.net ([173.212.236.241]:33960 "EHLO
+        mail.devpi.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725802AbfEDHsZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 4 May 2019 03:48:25 -0400
+X-Greylist: delayed 557 seconds by postgrey-1.27 at vger.kernel.org; Sat, 04 May 2019 03:48:23 EDT
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by mail.devpi.de (Postfix) with ESMTPA id 704FE6E270C;
+        Sat,  4 May 2019 07:39:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devpi.de; s=dkim;
+        t=1556955544; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:in-reply-to:
+         references; bh=+pwKvnAPnk5yo25ChmkE60wX6fH09pjU9RjJVuyLOR4=;
+        b=jtQqcuir68qzNDEl82mjc4lJbEsOO7igDHcW1zJYgDWWStfXpTkZTPFfoyeDxNLqLFxoTV
+        xPpnA88Ybv/R0Cl44yk/KN3khznEz2l/isF3CRsYkiURJyo0Dx77/qPdQK0yLKw6j3vo7j
+        el+q0+1rDbEUjrUHrGzXJsBpSd3Y2qQ=
+Message-ID: <9a22f65e3357e73594bfc46b2e14ac87e705aef5.camel@devpi.de>
+Subject: [BUG] HID: ELAN active stylus has wrong button behavior
+From:   Julius Lehmann <julius@devpi.de>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org
+Date:   Sat, 04 May 2019 09:39:36 +0200
+Content-Type: text/plain; charset="UTF-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-WP-MailID: fa2c728b9c3f7b3eb3c544a4fc1507b9
-X-WP-AV: skaner antywirusowy Poczty Wirtualnej Polski
-X-WP-SPAM: NO 000000B [cfMU]                               
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=devpi.de;
+        s=dkim; t=1556955544; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:in-reply-to:
+         references; bh=+pwKvnAPnk5yo25ChmkE60wX6fH09pjU9RjJVuyLOR4=;
+        b=oj+MvT76Pqm0PjyU1U3aXea9cjjEKOxJruz78s7g7/C3PLZrrjnMOrlII3zTypqe9kosYu
+        g3S/orVDjWD0CtadYWYHyGl5a200HNK23VLljXpylYaDBmAVYUhE6tlRvJCG9Q0vob0g7s
+        6ktR5Qih1RtPxwEtqhJu6oDzBfl9lG0=
+ARC-Seal: i=1; s=dkim; d=devpi.de; t=1556955544; a=rsa-sha256; cv=none;
+        b=wOJQKeyloG7QM6KD5skzSOGeWnVVDe7cbOee4Rr+wWe6KT4SLDzRwySyQ2aUCMmyJ8BG/jaOLmK5qS3lY6jzL3XOxJiSkeNQpdjwO8M7mJAd37NJzv1E5G08onBjNng0R03DWPPr5V8ILKNAdpieSgrTtnviqAwMnBiMlmYHfO0=
+ARC-Authentication-Results: i=1; mail.devpi.de;
+        auth=pass smtp.auth=julius@devpi.de smtp.mailfrom=julius@devpi.de
+Authentication-Results: mail.devpi.de;
+        auth=pass smtp.auth=julius@devpi.de smtp.mailfrom=julius@devpi.de
+X-Spamd-Bar: ---
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Since recent high resolution scrolling changes the A4Tech driver must
-check for the "REL_WHEEL_HI_RES" usage code.
+Hello,
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=203369
-Fixes: 2dc702c991e3774af9d7ce410eef410ca9e2357e ("HID: input: use the
-Resolution Multiplier for high-resolution scrolling")
+The active pen of my ELAN touchscreen does not work as intended. Every
+time I press the primary stylus button it generates events,
+unfortunately not the correct ones. 
+Device Name: ELAN2097:00 04F3:2766
 
-Signed-off-by: Błażej Szczygieł <spaz16@wp.pl>
----
-Changes in v2:
-- changed commit message
+So this is the output of evtest when pressing and releasing the primary
+button:
+	BTN_TOOL_PEN 0
+	BTN_TOOL_PEN 1
+	BTN_TOOL_RUBBER 1
+	(releasing)
+	BTN_TOOL_PEN 0
+	BTN_TOOL_RUBBER 0
+	BTN_TOOL_PEN 1
+whereas it should be:
+	BTN_TOOL_PEN0
+	BTN_TOOL_RUBBER1
+	BTN_TOOL_RUBBER0
+	BTN_TOOL_PEN1
 
- drivers/hid/hid-a4tech.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+So I looked into it and found my device is using the i2c_hid driver for
+transport and hid-multitouch for data handling. After realising those
+two should work pretty much out of the box if the corresponding device
+descriptors are correct. Examining /sys/kernel/debug/hid/.../events
+showed me this behavior whereas every other fields behaved correctly:
 
-diff --git a/drivers/hid/hid-a4tech.c b/drivers/hid/hid-a4tech.c
-index 9428ea7cdf8a..fafb9fa558e7 100644
---- a/drivers/hid/hid-a4tech.c
-+++ b/drivers/hid/hid-a4tech.c
-@@ -38,7 +38,7 @@ static int a4_input_mapped(struct hid_device *hdev, struct hid_input *hi,
- {
- 	struct a4tech_sc *a4 = hid_get_drvdata(hdev);
- 
--	if (usage->type == EV_REL && usage->code == REL_WHEEL)
-+	if (usage->type == EV_REL && usage->code == REL_WHEEL_HI_RES)
- 		set_bit(REL_HWHEEL, *bit);
- 
- 	if ((a4->quirks & A4_2WHEEL_MOUSE_HACK_7) && usage->hid == 0x00090007)
-@@ -60,7 +60,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
- 	input = field->hidinput->input;
- 
- 	if (a4->quirks & A4_2WHEEL_MOUSE_HACK_B8) {
--		if (usage->type == EV_REL && usage->code == REL_WHEEL) {
-+		if (usage->type == EV_REL && usage->code == REL_WHEEL_HI_RES) {
- 			a4->delayed_value = value;
- 			return 1;
- 		}
-@@ -77,7 +77,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
- 		return 1;
- 	}
- 
--	if (usage->code == REL_WHEEL && a4->hw_wheel) {
-+	if (usage->code == REL_WHEEL_HI_RES && a4->hw_wheel) {
- 		input_event(input, usage->type, REL_HWHEEL, value);
- 		return 1;
- 	}
--- 
-2.21.0
+Pen is not in range:
+	Digitizers.InRange = 0
+	Digitizers.TipSwitch = 0
+	Digitizers.Invert = 0
+	Digitizers.Eraser = 0
+
+Pen is in range but NOT touching the display:
+	Digitizers.InRange = 1
+	Digitizers.TipSwitch = 0
+	Digitizers.Invert = 0
+	Digitizers.Eraser = 0
+
+Pen is in range AND touching the display:
+	Digitizers.InRange = 1
+	Digitizers.TipSwitch = 1
+	Digitizers.Invert = 0
+	Digitizers.Eraser = 0
+
+Pen is in range, NOT touching the display AND primary button (eraser)
+is pressed:
+	Digitizers.InRange = 1
+	Digitizers.TipSwitch = 0
+	Digitizers.Invert = 1
+	Digitizers.Eraser = 0
+
+Pen is in range, touching the display AND primary button (eraser) is
+pressed:
+	Digitizers.InRange = 1
+	Digitizers.TipSwitch = 0 (yes this stays 0)
+	Digitizers.Invert = 0
+	Digitizers.Eraser = 1
+
+This is the extracted hid report descriptor: 
+https://pastebin.com/Tva802hT
+
+Unfortunately, my knowledge of the linux kernel and especially the
+drivers are not that proficient to fix this solely by myself. However,
+I would be more than happy to write some code with a bit of help.
+
+Thanks,
+Julius
 
