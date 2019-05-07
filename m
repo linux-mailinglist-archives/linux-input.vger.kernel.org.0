@@ -2,111 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE0D216B53
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 21:28:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA3F716D20
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 23:25:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726276AbfEGT1s (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 May 2019 15:27:48 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:35227 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726000AbfEGT1s (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 May 2019 15:27:48 -0400
-Received: by mail-pg1-f196.google.com with SMTP id h1so8814449pgs.2;
-        Tue, 07 May 2019 12:27:48 -0700 (PDT)
+        id S1728500AbfEGVZL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 May 2019 17:25:11 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:41309 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726811AbfEGVZL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 May 2019 17:25:11 -0400
+Received: by mail-pf1-f194.google.com with SMTP id l132so4353826pfc.8
+        for <linux-input@vger.kernel.org>; Tue, 07 May 2019 14:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=UsO+U03AZmNxGw5Vmiy9onXJw2kyj5f6knAPlgEnwvA=;
-        b=PMZ5yccxZhPQByq4vbt3SM7vQ98wEzRrFZ+a59T5vibYhMFx9No3MkUk3g+fdRyIpF
-         PsXBFIP7aqhsqUYV3Vs+4KCkBd6sHAXcz8pAjV0FG3qbRZaLddfP5FWkAr+XchWlXAr2
-         CVFu7ohEkigDbqWPEi2W1scgQfVqNXHtinXKhLqBGNf1Etx103aCRvx+6Lh5SJntx5oD
-         9e5IBIPfN63hZeNrcgrH/31daPJjTRCqNvjvJZtSfqIvtmGsXHjlHIhhtf09HQKM3Y5v
-         fW5ZVrwdBNnVsSg/z9qQsmJbtI9V1kuOJn5Fo87bJY0quiU9tHp2V4XITNU6ffKkPkH3
-         rmPw==
+         :content-disposition:in-reply-to:user-agent;
+        bh=HPav3oxvW0pcDQ4h4Pi5qILkFEAYr7XUO407O8z855k=;
+        b=tnqdV7RGW4muqIbEmDA9gh4L/vsRmxgLvNRXU4mJVJBWp7JDVFA2UqtPNIL5tniDlQ
+         dJ+RknDde4O0UwJxysMqAP9t033KnEemBx86/oDyUGWun5dggCJ7BOjL3iAbYjiLzhEl
+         rw31lQ5J5kXZLjgV2mMee5bnOdFW2GiPR8IrefSZcW9EzbJZR9o82M1fOiIGGryRUXBK
+         w+IGUdCz/zdL3a5ms+ESUIe/1a9mPdr3ZE97sKi4f3DAtbgptnDQ/Jme4mmMv6ZUYexE
+         0UEhlxSN6p8VLvgTQFBKcw+ZxaO1ooVvnUp6z4jR2TNUkI1ciSjXobvhfVedMQ2gfs61
+         84VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=UsO+U03AZmNxGw5Vmiy9onXJw2kyj5f6knAPlgEnwvA=;
-        b=XtSCQLqAjx3mpG58ccehH1g1qbJ6BttzNDdR2uiQty5uKvh1BYhUnw16jTjK2L43Fo
-         rc1N01zCvj98r81I8/FilDpjD2wAy5X4sioddE56uRocXAQkq18QNk20+G7z/DsNJRZV
-         WVNlXEf9Oh2NC9elQKJbufj1DV08IZ89CI8+GMI9JpbfWvwAffemRjKMEL8QrU3tkiKY
-         6cVlTCLUmYXM1FboxAOKvEd1fksvvzXoUObq4PrHQNt9XavXV3Dl674uI8vpseMr/Nos
-         OkH/9avgoWnCWOPom+YzM3/coW8+/LXnH7tT8mEJWjdGfiCLBc3raXVhlDg0U2Q+xFrJ
-         bVDQ==
-X-Gm-Message-State: APjAAAU9ALO637bof7IozwOfQ/68oGjOhevvog9g/BCKNexhMitBPIlD
-        crsYGinIqmi0b+/IgEwo8ek=
-X-Google-Smtp-Source: APXvYqx3QdxmS1TfgpJjb2UvoVR9Qfb7R65IPICkhpfEPHLIPPUNYsGbV26fkjhj/5GbeT1ZXe/mrw==
-X-Received: by 2002:aa7:8c1a:: with SMTP id c26mr43137193pfd.25.1557257267204;
-        Tue, 07 May 2019 12:27:47 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HPav3oxvW0pcDQ4h4Pi5qILkFEAYr7XUO407O8z855k=;
+        b=Go/fBGHQCqOAU3Bl7wp7rr/3iZlNusEru/4lfAy494ghcAokvkdenp5Cg02ADv3MGb
+         6XnBkLZgwyUgjHoKkwPAIJp9rj34RrE7+AaU+PFhrPJ9vDJ/apoPQvr0YHVafaig3Nbn
+         PqXPT/Z8kNGnxiwHLSbZJP0/hqACqVoanOrvSkVnljM7LEzX6gaA3+gPduiR+GhJgpXa
+         ywGBo1g6M5PNnFQ+WF9P9p2GKf3hRgg/nQtM7mH2Wqdk/rRAqURjv9OLwz7vkUi5XtMR
+         mdnM0JWLygGrUQOP9pcUIhtiorrXvJW6W4k95+Z+uDr7+HTcumc4HdFMLzcvwQn74Izr
+         24cQ==
+X-Gm-Message-State: APjAAAUa+mo9KEPYgufOXHQxyrB9PbPnikImh7GtDYUoYpECB0e3MGwp
+        HkEorKwrFSb7wgIaP8jhSlI=
+X-Google-Smtp-Source: APXvYqymGoVA/2SdO9O8aczoSjZuIpD7GXm0k90AyJ+1JTyHqeFN4brjRC4Pkks2MnotWnayq373Bg==
+X-Received: by 2002:a62:a503:: with SMTP id v3mr44257494pfm.32.1557264310334;
+        Tue, 07 May 2019 14:25:10 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id b22sm21831486pgg.88.2019.05.07.12.27.46
+        by smtp.gmail.com with ESMTPSA id q10sm17506237pgh.93.2019.05.07.14.25.09
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 07 May 2019 12:27:46 -0700 (PDT)
-Date:   Tue, 7 May 2019 12:27:44 -0700
+        Tue, 07 May 2019 14:25:09 -0700 (PDT)
+Date:   Tue, 7 May 2019 14:25:08 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH] Input: libps2 - mark expected switch fall-through
-Message-ID: <20190507192744.GA248929@dtor-ws>
-References: <20190507182409.GA11027@embeddedor>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     kernel@pengutronix.de, linux-input@vger.kernel.org
+Subject: Re: [PATCH] input: qt1050: fix error check during identify the chip
+Message-ID: <20190507212508.GB248929@dtor-ws>
+References: <20190507084018.32009-1-m.felsch@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190507182409.GA11027@embeddedor>
+In-Reply-To: <20190507084018.32009-1-m.felsch@pengutronix.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 07, 2019 at 01:24:09PM -0500, Gustavo A. R. Silva wrote:
-> In preparation to enabling -Wimplicit-fallthrough, mark switch
-> cases where we are expecting to fall through.
-> 
-> This patch fixes the following warning:
-> 
-> drivers/input/serio/libps2.c: In function ‘ps2_handle_ack’:
-> drivers/input/serio/libps2.c:407:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
->    if (ps2dev->flags & PS2_FLAG_NAK) {
->       ^
-> drivers/input/serio/libps2.c:417:2: note: here
->   case 0x00:
->   ^~~~
-> 
-> Warning level 3 was used: -Wimplicit-fallthrough=3
-> 
-> This patch is part of the ongoing efforts to enable
-> -Wimplicit-fallthrough.
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+Hi Marco,
 
-Applied, thank you.
-
+On Tue, May 07, 2019 at 10:40:18AM +0200, Marco Felsch wrote:
+> The regmap_read return value must be checked decide if the read was
+> successful or not and not the read value.
+> 
+> Fixes: a33ff45923c8 ("Input: qt1050 - add Microchip AT42QT1050 support")
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 > ---
->  drivers/input/serio/libps2.c | 1 +
->  1 file changed, 1 insertion(+)
+> Hi Dmitry,
 > 
-> diff --git a/drivers/input/serio/libps2.c b/drivers/input/serio/libps2.c
-> index e6a07e68d1ff..22b8e05aa36c 100644
-> --- a/drivers/input/serio/libps2.c
-> +++ b/drivers/input/serio/libps2.c
-> @@ -409,6 +409,7 @@ bool ps2_handle_ack(struct ps2dev *ps2dev, u8 data)
->  			ps2dev->nak = PS2_RET_ERR;
->  			break;
->  		}
-> +		/* Fall through */
->  
->  	/*
->  	 * Workaround for mice which don't ACK the Get ID command.
-> -- 
-> 2.21.0
-> 
+> there was a issue which was covered by Colin Ian King. Can you add this
+> fix please? Maybe you can squash the fix.
+
+I ended up squashing the fix into the original change, thank you.
 
 -- 
 Dmitry
