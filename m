@@ -2,39 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9F9315A0A
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 07:43:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C7C215A5D
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 07:45:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728501AbfEGFmR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 May 2019 01:42:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33284 "EHLO mail.kernel.org"
+        id S1729527AbfEGFmW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 May 2019 01:42:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33338 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729507AbfEGFmR (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 7 May 2019 01:42:17 -0400
+        id S1729517AbfEGFmV (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 7 May 2019 01:42:21 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B41B220578;
-        Tue,  7 May 2019 05:42:15 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 895C3205ED;
+        Tue,  7 May 2019 05:42:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557207736;
-        bh=ehpT+1p5i1oDKz7Z9MKts9E+IMzu602Ou/N0iMaoWFA=;
+        s=default; t=1557207741;
+        bh=eyHWK7PpS073w44Gq74gPMB8ySdEnmpLLuS0So+nWHk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SdAyKfhh+ArozRYcqvRbE4R4VYGGNWKidS2ssBOH8lVVGFf4e6U40kf5p0wtoPNE0
-         zi7By7UuqpM6o71ZdpDY4BhdiPNyqs+bhSk8YjSkbgBxibOQGhH2VFUFyWts5SiNtI
-         240zB86WWqkU6yBKxJKAbah460QYVifC11waBoCg=
+        b=vf8Cuyifg0lfHocSSgdBB+lPoPhws785u8JVmtDOmEaNAlaidQir7A5dAZIZ4YPwj
+         m6AnKvpWQVPhCmrITO8T4sEdHiSRxdtcwE/frpvJcARyfZqCW4wfzdrsAV+sgKyG/t
+         cecvQQA8QjOsrPkbzYNnaChKomqbKhkaMg1GX8Wo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Pan Bian <bianpan2016@163.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 25/25] Input: synaptics-rmi4 - fix possible double free
-Date:   Tue,  7 May 2019 01:41:22 -0400
-Message-Id: <20190507054123.32514-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 02/14] HID: input: add mapping for Expose/Overview key
+Date:   Tue,  7 May 2019 01:42:04 -0400
+Message-Id: <20190507054218.340-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190507054123.32514-1-sashal@kernel.org>
-References: <20190507054123.32514-1-sashal@kernel.org>
+In-Reply-To: <20190507054218.340-1-sashal@kernel.org>
+References: <20190507054218.340-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -43,45 +43,34 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Pan Bian <bianpan2016@163.com>
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-[ Upstream commit bce1a78423961fce676ac65540a31b6ffd179e6d ]
+[ Upstream commit 96dd86871e1fffbc39e4fa61c9c75ec54ee9af0f ]
 
-The RMI4 function structure has been released in rmi_register_function
-if error occurs. However, it will be released again in the function
-rmi_create_function, which may result in a double-free bug.
+According to HUTRR77 usage 0x29f from the consumer page is reserved for
+the Desktop application to present all running user’s application windows.
+Linux defines KEY_SCALE to request Compiz Scale (Expose) mode, so let's
+add the mapping.
 
-Signed-off-by: Pan Bian <bianpan2016@163.com>
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/rmi4/rmi_driver.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/hid/hid-input.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
-index 4a88312fbd25..65038dcc7613 100644
---- a/drivers/input/rmi4/rmi_driver.c
-+++ b/drivers/input/rmi4/rmi_driver.c
-@@ -772,7 +772,7 @@ static int rmi_create_function(struct rmi_device *rmi_dev,
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 8d74e691ac90..01b41ff43056 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -913,6 +913,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 		case 0x2cb: map_key_clear(KEY_KBDINPUTASSIST_ACCEPT);	break;
+ 		case 0x2cc: map_key_clear(KEY_KBDINPUTASSIST_CANCEL);	break;
  
- 	error = rmi_register_function(fn);
- 	if (error)
--		goto err_put_fn;
-+		return error;
- 
- 	if (pdt->function_number == 0x01)
- 		data->f01_container = fn;
-@@ -780,10 +780,6 @@ static int rmi_create_function(struct rmi_device *rmi_dev,
- 	list_add_tail(&fn->node, &data->function_list);
- 
- 	return RMI_SCAN_CONTINUE;
--
--err_put_fn:
--	put_device(&fn->dev);
--	return error;
- }
- 
- int rmi_driver_suspend(struct rmi_device *rmi_dev)
++		case 0x29f: map_key_clear(KEY_SCALE);		break;
++
+ 		default: map_key_clear(KEY_UNKNOWN);
+ 		}
+ 		break;
 -- 
 2.20.1
 
