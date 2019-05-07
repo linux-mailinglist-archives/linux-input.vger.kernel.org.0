@@ -2,74 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 41D0715A14
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 07:43:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04D3B15DD4
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 09:05:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729658AbfEGFmv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 May 2019 01:42:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33730 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729655AbfEGFmv (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 7 May 2019 01:42:51 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 13305206A3;
-        Tue,  7 May 2019 05:42:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557207770;
-        bh=jhfjzkVjSbOwNgfqSPbi+VtglMpNTjW/S6MzVdjj+LY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Jip3Wu2hfSa7/tElS8sEglnl5QWdb5HCD8FUP473i/NVxOjFcMJV6sgaMf25Hdvb8
-         bSKa58WB1t+u/zaYrfrMbfWdAcLM8DjH1yQ6ZuSf9on1lqFhqJMRf0ubswEqjW5Ptf
-         tz+efRJra/2VwKxW4++wiIPEfDtlw9CvqKiW7i68=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 3.18 02/10] HID: input: add mapping for keyboard Brightness Up/Down/Toggle keys
-Date:   Tue,  7 May 2019 01:42:38 -0400
-Message-Id: <20190507054247.537-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190507054247.537-1-sashal@kernel.org>
-References: <20190507054247.537-1-sashal@kernel.org>
+        id S1726823AbfEGHFF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 May 2019 03:05:05 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:41020 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726426AbfEGHFF (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 May 2019 03:05:05 -0400
+Received: by mail-qk1-f194.google.com with SMTP id g190so498081qkf.8
+        for <linux-input@vger.kernel.org>; Tue, 07 May 2019 00:05:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TWiAWNDuxMoa7BnWbstcQAwxTlS5yxqis7kCQjsT23I=;
+        b=pfu7dKOjEXzp+IkhOA69c3602TFYSZ3UT5SvspyJ/HyJanlX6102rlKld3jLlzu9E6
+         4cANojtOECBrVcFiNxAqglF9CzBNvFzN/Uv2GP3EgQ9oO+JS7JbGPFQh+Fm7YgnZUWhO
+         hVDwi7e+x/i7mCF2fWT7eEet8b40WCeHhW6ZsoVo/ZJb6f+TOr8V3/C4mibHqnZYuygl
+         RcKFyhplgkneIV18mctJ2xCTl5S4LptDahRYEWUSb6AKzh//K0Gi0QaegYqcJ4SgjWoc
+         nMJg0mwsw/K0T6varTZArVvHnkCDf9CD9hDSe4V2fKE7mM7biZE5b98OWRiMj8uwY9g3
+         HLzw==
+X-Gm-Message-State: APjAAAWbofJ3iY8tcOsFGcuL7OLE0X7YBh+HMzvOmfiDjyhDo6Cbr7VZ
+        ipKOn7BodQwX5+QaRENPud+bgzj5mwcZ6HZD1GzfSg==
+X-Google-Smtp-Source: APXvYqz4HUHY0unSxfyqKVfzthJ4zVbpJ5xgmf3KDTNskB7uJbYHco/MM7pyk5JZEfU+J7rzIPlS71SU9loEQKjgEUw=
+X-Received: by 2002:ae9:e418:: with SMTP id q24mr23566715qkc.134.1557212704629;
+ Tue, 07 May 2019 00:05:04 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <e2154a13-0ec5-d39c-52cf-db98867b0496@infradead.org>
+In-Reply-To: <e2154a13-0ec5-d39c-52cf-db98867b0496@infradead.org>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 7 May 2019 09:04:53 +0200
+Message-ID: <CAO-hwJKueMUp=4ioCNhgkX2+HWsd9GV4bkKi_+uvzpOV_UED8A@mail.gmail.com>
+Subject: Re: [PATCH -next] hid: fix hid-logitech-dj build error
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        kbuild test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Hi Randy,
 
-[ Upstream commit 7975a1d6a7afeb3eb61c971a153d24dd8fa032f3 ]
+On Tue, May 7, 2019 at 3:12 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> From: Randy Dunlap <rdunlap@infradead.org>
+>
+> Fix build error in hid-logitech-dj by making it depend on
+> USB_HID, like several other HID drivers do.
+>
+> Fixes this build error:
+>
+> ERROR: "usb_hid_driver" [drivers/hid/hid-logitech-dj.ko] undefined!
+>
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: linux-input@vger.kernel.org
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> ---
+>  drivers/hid/Kconfig |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> --- mmotm-2019-0425-1630.orig/drivers/hid/Kconfig
+> +++ mmotm-2019-0425-1630/drivers/hid/Kconfig
+> @@ -522,6 +522,7 @@ config HID_LOGITECH
+>  config HID_LOGITECH_DJ
+>         tristate "Logitech Unifying receivers full support"
+>         depends on HIDRAW
+> +       depends on USB_HID
 
-According to HUTRR73 usages 0x79, 0x7a and 0x7c from the consumer page
-correspond to Brightness Up/Down/Toggle keys, so let's add the mappings.
+this is already scheduled in the HID PR:
+https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=for-linus&id=c08f38e9fd0b5486957ed42438ec8fa9b6ebbf4f
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/hid-input.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Cheers,
+Benjamin
 
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index bb870ee75a90..b7d5a8835424 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -745,6 +745,10 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 		case 0x074: map_key_clear(KEY_BRIGHTNESS_MAX);		break;
- 		case 0x075: map_key_clear(KEY_BRIGHTNESS_AUTO);		break;
- 
-+		case 0x079: map_key_clear(KEY_KBDILLUMUP);	break;
-+		case 0x07a: map_key_clear(KEY_KBDILLUMDOWN);	break;
-+		case 0x07c: map_key_clear(KEY_KBDILLUMTOGGLE);	break;
-+
- 		case 0x082: map_key_clear(KEY_VIDEO_NEXT);	break;
- 		case 0x083: map_key_clear(KEY_LAST);		break;
- 		case 0x084: map_key_clear(KEY_ENTER);		break;
--- 
-2.20.1
-
+>         depends on HID_LOGITECH
+>         select HID_LOGITECH_HIDPP
+>         ---help---
+>
+>
