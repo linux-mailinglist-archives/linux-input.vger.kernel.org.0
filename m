@@ -2,40 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD6C915AAF
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 07:49:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4792115A89
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 07:47:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729237AbfEGFk4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 May 2019 01:40:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60346 "EHLO mail.kernel.org"
+        id S1728496AbfEGFqc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 May 2019 01:46:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60946 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729232AbfEGFk4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 7 May 2019 01:40:56 -0400
+        id S1729332AbfEGFl2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 7 May 2019 01:41:28 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C3D1C205ED;
-        Tue,  7 May 2019 05:40:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4F1A8214AE;
+        Tue,  7 May 2019 05:41:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557207655;
-        bh=Gzzi3VsPQoOc0Wwur4Hdr8LUbWfj03H6MpPi4hbh0F0=;
+        s=default; t=1557207687;
+        bh=67S5tV4GKwwuUPmJNEf0QgRjkdt2K7cMwGQp1N8iaBI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=b4lBtLKl4Ksp73Unxw5sadISIKdnW2LZCkPBSPV6e9e9D1NeEyS9WGFFjvPAFQy2d
-         S2W2d5/+1j6yGoELQWsUOA4xqw3BYN2sYn/63mMdpykmD4AjVt8t0oYHLjvwlUM6wv
-         tL/b/95mdizSj/bbyRgRQaVY96vcKw+xXuwfSFS4=
+        b=WV6jnaUJgYve6RvCtl5mDHZbtpi/Paqrif+r4rf88bs8R8a376SDPOdmSlYoeXI4G
+         h2/HdLHmicnfsEgNBFTfPiXhQalisIC4wY4LZPHo0na+F50APd7Hg6DRg0GRnVbB7n
+         HU3dazLsx054GavI+2XndDXN7uHfNs4Gv7LqNhk0=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     KT Liao <kt.liao@emc.com.tw>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <alexander.levin@microsoft.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 80/95] Input: elan_i2c - add hardware ID for multiple Lenovo laptops
-Date:   Tue,  7 May 2019 01:38:09 -0400
-Message-Id: <20190507053826.31622-80-sashal@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.9 03/25] HID: input: add mapping for Expose/Overview key
+Date:   Tue,  7 May 2019 01:41:00 -0400
+Message-Id: <20190507054123.32514-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190507053826.31622-1-sashal@kernel.org>
-References: <20190507053826.31622-1-sashal@kernel.org>
+In-Reply-To: <20190507054123.32514-1-sashal@kernel.org>
+References: <20190507054123.32514-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -44,73 +43,34 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: KT Liao <kt.liao@emc.com.tw>
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-[ Upstream commit 738c06d0e4562e0acf9f2c7438a22b2d5afc67aa ]
+[ Upstream commit 96dd86871e1fffbc39e4fa61c9c75ec54ee9af0f ]
 
-There are many Lenovo laptops which need elan_i2c support, this patch adds
-relevant IDs to the Elan driver so that touchpads are recognized.
+According to HUTRR77 usage 0x29f from the consumer page is reserved for
+the Desktop application to present all running user’s application windows.
+Linux defines KEY_SCALE to request Compiz Scale (Expose) mode, so let's
+add the mapping.
 
-Signed-off-by: KT Liao <kt.liao@emc.com.tw>
-Cc: stable@vger.kernel.org
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <alexander.levin@microsoft.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/mouse/elan_i2c_core.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ drivers/hid/hid-input.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
-index 2ce805d31ed1..ad89ba143a0e 100644
---- a/drivers/input/mouse/elan_i2c_core.c
-+++ b/drivers/input/mouse/elan_i2c_core.c
-@@ -1254,22 +1254,47 @@ static const struct acpi_device_id elan_acpi_id[] = {
- 	{ "ELAN0600", 0 },
- 	{ "ELAN0601", 0 },
- 	{ "ELAN0602", 0 },
-+	{ "ELAN0603", 0 },
-+	{ "ELAN0604", 0 },
- 	{ "ELAN0605", 0 },
-+	{ "ELAN0606", 0 },
-+	{ "ELAN0607", 0 },
- 	{ "ELAN0608", 0 },
- 	{ "ELAN0605", 0 },
- 	{ "ELAN0609", 0 },
- 	{ "ELAN060B", 0 },
- 	{ "ELAN060C", 0 },
-+	{ "ELAN060F", 0 },
-+	{ "ELAN0610", 0 },
- 	{ "ELAN0611", 0 },
- 	{ "ELAN0612", 0 },
-+	{ "ELAN0615", 0 },
-+	{ "ELAN0616", 0 },
- 	{ "ELAN0617", 0 },
- 	{ "ELAN0618", 0 },
-+	{ "ELAN0619", 0 },
-+	{ "ELAN061A", 0 },
-+	{ "ELAN061B", 0 },
- 	{ "ELAN061C", 0 },
- 	{ "ELAN061D", 0 },
- 	{ "ELAN061E", 0 },
-+	{ "ELAN061F", 0 },
- 	{ "ELAN0620", 0 },
- 	{ "ELAN0621", 0 },
- 	{ "ELAN0622", 0 },
-+	{ "ELAN0623", 0 },
-+	{ "ELAN0624", 0 },
-+	{ "ELAN0625", 0 },
-+	{ "ELAN0626", 0 },
-+	{ "ELAN0627", 0 },
-+	{ "ELAN0628", 0 },
-+	{ "ELAN0629", 0 },
-+	{ "ELAN062A", 0 },
-+	{ "ELAN062B", 0 },
-+	{ "ELAN062C", 0 },
-+	{ "ELAN062D", 0 },
-+	{ "ELAN0631", 0 },
-+	{ "ELAN0632", 0 },
- 	{ "ELAN1000", 0 },
- 	{ }
- };
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index fc7ada26457e..d31725c4e7b1 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -932,6 +932,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 		case 0x2cb: map_key_clear(KEY_KBDINPUTASSIST_ACCEPT);	break;
+ 		case 0x2cc: map_key_clear(KEY_KBDINPUTASSIST_CANCEL);	break;
+ 
++		case 0x29f: map_key_clear(KEY_SCALE);		break;
++
+ 		default: map_key_clear(KEY_UNKNOWN);
+ 		}
+ 		break;
 -- 
 2.20.1
 
