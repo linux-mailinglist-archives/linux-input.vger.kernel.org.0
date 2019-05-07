@@ -2,36 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 18BC415C12
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 08:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66B1B15BB4
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 07:57:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728154AbfEGGA3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 May 2019 02:00:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56300 "EHLO mail.kernel.org"
+        id S1727779AbfEGFhv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 May 2019 01:37:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57612 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728051AbfEGFgS (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 7 May 2019 01:36:18 -0400
+        id S1727317AbfEGFhu (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 7 May 2019 01:37:50 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 97FA620989;
-        Tue,  7 May 2019 05:36:16 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E6F1D20578;
+        Tue,  7 May 2019 05:37:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557207377;
-        bh=YF0cLZkxQoP0oKO+44ieh2E3KYdZBr50lVS9TSSLFW8=;
+        s=default; t=1557207469;
+        bh=OosPjHvwTCDcCL493e4pcMMUYIpLbbZEJQKoS+xNTRo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sSr9cGmmRwmB9oumE8v1rKNPCCpasdgWYkk+H0l1f33iBtdMahjvBHu8foVvejacf
-         Dj0mD2HdrVX9MnBR9KqZ9+AfLyX5I16jrynRxGYu0swSYqTg4+mC7ggKZReG2rW8k+
-         lpcxmEjaQrSDtFHrI4OTeFmg+m1H8jRlHMJzayVc=
+        b=j0b80PQtlz1LgUVNGgAUawItZ99Og40NFctscFIDLAz7uFB2eM755ATBHDmN/Ukcf
+         izQpboEN8EqDp5ysc8OUeH0I9LRGd7RgJXjNQfgjugpXl/Sm5nEzCVOdbaOJURgWIK
+         5ngbHef/wYdzQ6S4i119052BjyZtOmF+L90ilcd4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Anson Huang <anson.huang@nxp.com>,
-        Anson Huang <Anson.Huang@nxp.com>,
+Cc:     Pan Bian <bianpan2016@163.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 16/81] Input: snvs_pwrkey - initialize necessary driver data before enabling IRQ
-Date:   Tue,  7 May 2019 01:34:47 -0400
-Message-Id: <20190507053554.30848-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 60/81] Input: synaptics-rmi4 - fix possible double free
+Date:   Tue,  7 May 2019 01:35:31 -0400
+Message-Id: <20190507053554.30848-60-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190507053554.30848-1-sashal@kernel.org>
 References: <20190507053554.30848-1-sashal@kernel.org>
@@ -44,48 +43,45 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Anson Huang <anson.huang@nxp.com>
+From: Pan Bian <bianpan2016@163.com>
 
-[ Upstream commit bf2a7ca39fd3ab47ef71c621a7ee69d1813b1f97 ]
+[ Upstream commit bce1a78423961fce676ac65540a31b6ffd179e6d ]
 
-SNVS IRQ is requested before necessary driver data initialized,
-if there is a pending IRQ during driver probe phase, kernel
-NULL pointer panic will occur in IRQ handler. To avoid such
-scenario, just initialize necessary driver data before enabling
-IRQ. This patch is inspired by NXP's internal kernel tree.
+The RMI4 function structure has been released in rmi_register_function
+if error occurs. However, it will be released again in the function
+rmi_create_function, which may result in a double-free bug.
 
-Fixes: d3dc6e232215 ("input: keyboard: imx: add snvs power key driver")
-Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
+Signed-off-by: Pan Bian <bianpan2016@163.com>
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/keyboard/snvs_pwrkey.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/input/rmi4/rmi_driver.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/keyboard/snvs_pwrkey.c
-index effb63205d3d..4c67cf30a5d9 100644
---- a/drivers/input/keyboard/snvs_pwrkey.c
-+++ b/drivers/input/keyboard/snvs_pwrkey.c
-@@ -148,6 +148,9 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
- 		return error;
- 	}
+diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
+index fc3ab93b7aea..7fb358f96195 100644
+--- a/drivers/input/rmi4/rmi_driver.c
++++ b/drivers/input/rmi4/rmi_driver.c
+@@ -860,7 +860,7 @@ static int rmi_create_function(struct rmi_device *rmi_dev,
  
-+	pdata->input = input;
-+	platform_set_drvdata(pdev, pdata);
-+
- 	error = devm_request_irq(&pdev->dev, pdata->irq,
- 			       imx_snvs_pwrkey_interrupt,
- 			       0, pdev->name, pdev);
-@@ -163,9 +166,6 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
- 		return error;
- 	}
+ 	error = rmi_register_function(fn);
+ 	if (error)
+-		goto err_put_fn;
++		return error;
  
--	pdata->input = input;
--	platform_set_drvdata(pdev, pdata);
+ 	if (pdt->function_number == 0x01)
+ 		data->f01_container = fn;
+@@ -870,10 +870,6 @@ static int rmi_create_function(struct rmi_device *rmi_dev,
+ 	list_add_tail(&fn->node, &data->function_list);
+ 
+ 	return RMI_SCAN_CONTINUE;
 -
- 	device_init_wakeup(&pdev->dev, pdata->wakeup);
+-err_put_fn:
+-	put_device(&fn->dev);
+-	return error;
+ }
  
- 	return 0;
+ void rmi_enable_irq(struct rmi_device *rmi_dev, bool clear_wake)
 -- 
 2.20.1
 
