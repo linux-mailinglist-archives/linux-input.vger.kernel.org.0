@@ -2,111 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F41A516ABF
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 20:53:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE0D216B53
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 21:28:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727438AbfEGSxa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 May 2019 14:53:30 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:42529 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726464AbfEGSxa (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 May 2019 14:53:30 -0400
-Received: by mail-pf1-f196.google.com with SMTP id 13so8808314pfw.9;
-        Tue, 07 May 2019 11:53:30 -0700 (PDT)
+        id S1726276AbfEGT1s (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 May 2019 15:27:48 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:35227 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726000AbfEGT1s (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 May 2019 15:27:48 -0400
+Received: by mail-pg1-f196.google.com with SMTP id h1so8814449pgs.2;
+        Tue, 07 May 2019 12:27:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=KRHKxRuysYGgXbbpO6rIqlLn4waiOgs8Pmx2aAZVU0c=;
-        b=pc75Btdxymf408ZedJHdUp37dGFrkRgw8TkbRkyyn8UoVtXDi2pdzijYyJPK+3ziLc
-         6ogOXccq+keIL6YyTb1Alk8hM6wc0uaaZ7ujkP3Rw7F58GLRcZRR7Vka/pACebpLITLb
-         ZcjDfdQJiH7LgRsrLE4jplchGTnfHZhQwIbT7prYY3UB03V3803fBwnfXkk5WzET6T//
-         JkuPdriYToR1dHzP7QBAA3sYFj4UX4QXhsxYKrlLyzO3/OyXoXm+ZMsEVpurTyJkfmnD
-         YCkUeRzDSomTfmR3S59CBksA6+ujDSYdYWh5qG2sccugYlWwHnFVCwW8PBWl0m9K3sxG
-         WTqQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=UsO+U03AZmNxGw5Vmiy9onXJw2kyj5f6knAPlgEnwvA=;
+        b=PMZ5yccxZhPQByq4vbt3SM7vQ98wEzRrFZ+a59T5vibYhMFx9No3MkUk3g+fdRyIpF
+         PsXBFIP7aqhsqUYV3Vs+4KCkBd6sHAXcz8pAjV0FG3qbRZaLddfP5FWkAr+XchWlXAr2
+         CVFu7ohEkigDbqWPEi2W1scgQfVqNXHtinXKhLqBGNf1Etx103aCRvx+6Lh5SJntx5oD
+         9e5IBIPfN63hZeNrcgrH/31daPJjTRCqNvjvJZtSfqIvtmGsXHjlHIhhtf09HQKM3Y5v
+         fW5ZVrwdBNnVsSg/z9qQsmJbtI9V1kuOJn5Fo87bJY0quiU9tHp2V4XITNU6ffKkPkH3
+         rmPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KRHKxRuysYGgXbbpO6rIqlLn4waiOgs8Pmx2aAZVU0c=;
-        b=rlau2MRBvII87q7wum+dsCsjFYy+fpTFwwfbyswZ23xBoDyqQsvFxfMVl5S/RqQ93F
-         Z+sThyA2YKtYgod8j9HsJV/Dq0oFNdCpuVuJ7Zox9PhC/WZzP2mMasOd1TDQnSTEPFGa
-         hscryhTQFdyeWMrv34l8hE3WSo2AhmlFC4fFSWChMIUuJugZN/q0LL3lcpnxYfPDqHO0
-         Pdlph8oC+8zVKijvd1pVYsUPa1VG0KfPi/4BwcfzAqJMwq1uxT92qnzgENm8ZzpiLU8W
-         61pjFpyVh39D75oZSArjGtO4dM/9czf6sC1ZwQmttK82fOOHw3rs0TR35HOdvHQtut54
-         ELbw==
-X-Gm-Message-State: APjAAAUlIYFs660Te47Jh3oaga3zvq9b4GZFBKKIsJ9VDk1VNd/7ueUv
-        /UXE2iJTNCe6j+XzcDV/IrZwvFpV
-X-Google-Smtp-Source: APXvYqyi+fWAto7XDdqYbv7JImcBdCxW466JgklIplZkE8iDrqLTtzFV/ZwsdudpHkP0SMa10pYk4Q==
-X-Received: by 2002:a62:164f:: with SMTP id 76mr43451592pfw.172.1557255209363;
-        Tue, 07 May 2019 11:53:29 -0700 (PDT)
-Received: from US-191-ENG0002.corp.onewacom.com ([50.225.60.4])
-        by smtp.gmail.com with ESMTPSA id w189sm20085506pfw.147.2019.05.07.11.53.27
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 May 2019 11:53:28 -0700 (PDT)
-From:   "Gerecke, Jason" <killertofu@gmail.com>
-X-Google-Original-From: "Gerecke, Jason" <jason.gerecke@wacom.com>
-To:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>, stable@vger.kernel.org
-Subject: [PATCH 3/3] HID: wacom: Sync INTUOSP2_BT touch state after each frame if necessary
-Date:   Tue,  7 May 2019 11:53:22 -0700
-Message-Id: <20190507185322.7168-3-jason.gerecke@wacom.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190507185322.7168-1-jason.gerecke@wacom.com>
-References: <20190507185322.7168-1-jason.gerecke@wacom.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=UsO+U03AZmNxGw5Vmiy9onXJw2kyj5f6knAPlgEnwvA=;
+        b=XtSCQLqAjx3mpG58ccehH1g1qbJ6BttzNDdR2uiQty5uKvh1BYhUnw16jTjK2L43Fo
+         rc1N01zCvj98r81I8/FilDpjD2wAy5X4sioddE56uRocXAQkq18QNk20+G7z/DsNJRZV
+         WVNlXEf9Oh2NC9elQKJbufj1DV08IZ89CI8+GMI9JpbfWvwAffemRjKMEL8QrU3tkiKY
+         6cVlTCLUmYXM1FboxAOKvEd1fksvvzXoUObq4PrHQNt9XavXV3Dl674uI8vpseMr/Nos
+         OkH/9avgoWnCWOPom+YzM3/coW8+/LXnH7tT8mEJWjdGfiCLBc3raXVhlDg0U2Q+xFrJ
+         bVDQ==
+X-Gm-Message-State: APjAAAU9ALO637bof7IozwOfQ/68oGjOhevvog9g/BCKNexhMitBPIlD
+        crsYGinIqmi0b+/IgEwo8ek=
+X-Google-Smtp-Source: APXvYqx3QdxmS1TfgpJjb2UvoVR9Qfb7R65IPICkhpfEPHLIPPUNYsGbV26fkjhj/5GbeT1ZXe/mrw==
+X-Received: by 2002:aa7:8c1a:: with SMTP id c26mr43137193pfd.25.1557257267204;
+        Tue, 07 May 2019 12:27:47 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id b22sm21831486pgg.88.2019.05.07.12.27.46
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 07 May 2019 12:27:46 -0700 (PDT)
+Date:   Tue, 7 May 2019 12:27:44 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH] Input: libps2 - mark expected switch fall-through
+Message-ID: <20190507192744.GA248929@dtor-ws>
+References: <20190507182409.GA11027@embeddedor>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190507182409.GA11027@embeddedor>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jason Gerecke <jason.gerecke@wacom.com>
+On Tue, May 07, 2019 at 01:24:09PM -0500, Gustavo A. R. Silva wrote:
+> In preparation to enabling -Wimplicit-fallthrough, mark switch
+> cases where we are expecting to fall through.
+> 
+> This patch fixes the following warning:
+> 
+> drivers/input/serio/libps2.c: In function ‘ps2_handle_ack’:
+> drivers/input/serio/libps2.c:407:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>    if (ps2dev->flags & PS2_FLAG_NAK) {
+>       ^
+> drivers/input/serio/libps2.c:417:2: note: here
+>   case 0x00:
+>   ^~~~
+> 
+> Warning level 3 was used: -Wimplicit-fallthrough=3
+> 
+> This patch is part of the ongoing efforts to enable
+> -Wimplicit-fallthrough.
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 
-The Bluetooth interface of the 2nd-gen Intuos Pro batches together four
-independent "frames" of finger data into a single report. Each frame
-is essentially equivalent to a single USB report, with the up-to-10
-fingers worth of information being spread across two frames. At the
-moment the driver only calls `input_sync` after processing all four
-frames have been processed, which can result in the driver sending
-multiple updates for a single slot within the same SYN_REPORT. This
-can confuse userspace, so modify the driver to sync more often if
-necessary (i.e., after reporting the state of all fingers).
+Applied, thank you.
 
-Fixes: 4922cd26f0 ("HID: wacom: Support 2nd-gen Intuos Pro's Bluetooth classic interface")
-Cc: <stable@vger.kernel.org> # 4.11+
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
----
- drivers/hid/wacom_wac.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+> ---
+>  drivers/input/serio/libps2.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/input/serio/libps2.c b/drivers/input/serio/libps2.c
+> index e6a07e68d1ff..22b8e05aa36c 100644
+> --- a/drivers/input/serio/libps2.c
+> +++ b/drivers/input/serio/libps2.c
+> @@ -409,6 +409,7 @@ bool ps2_handle_ack(struct ps2dev *ps2dev, u8 data)
+>  			ps2dev->nak = PS2_RET_ERR;
+>  			break;
+>  		}
+> +		/* Fall through */
+>  
+>  	/*
+>  	 * Workaround for mice which don't ACK the Get ID command.
+> -- 
+> 2.21.0
+> 
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index e848445236d8..09b8e4aac82f 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -1371,11 +1371,17 @@ static void wacom_intuos_pro2_bt_touch(struct wacom_wac *wacom)
- 		if (wacom->num_contacts_left <= 0) {
- 			wacom->num_contacts_left = 0;
- 			wacom->shared->touch_down = wacom_wac_finger_count_touches(wacom);
-+			input_sync(touch_input);
- 		}
- 	}
- 
--	input_report_switch(touch_input, SW_MUTE_DEVICE, !(data[281] >> 7));
--	input_sync(touch_input);
-+	if (wacom->num_contacts_left == 0) {
-+		// Be careful that we don't accidentally call input_sync with
-+		// only a partial set of fingers of processed
-+		input_report_switch(touch_input, SW_MUTE_DEVICE, !(data[281] >> 7));
-+		input_sync(touch_input);
-+	}
-+
- }
- 
- static void wacom_intuos_pro2_bt_pad(struct wacom_wac *wacom)
 -- 
-2.21.0
-
+Dmitry
