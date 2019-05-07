@@ -2,153 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C214916A9D
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 20:43:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CABA16ABC
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 20:53:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727264AbfEGSnz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 May 2019 14:43:55 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:40461 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726464AbfEGSnz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 May 2019 14:43:55 -0400
-Received: by mail-lj1-f196.google.com with SMTP id d15so15269898ljc.7;
-        Tue, 07 May 2019 11:43:53 -0700 (PDT)
+        id S1726855AbfEGSx1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 May 2019 14:53:27 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:43809 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726464AbfEGSx1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 May 2019 14:53:27 -0400
+Received: by mail-pg1-f196.google.com with SMTP id t22so8742693pgi.10;
+        Tue, 07 May 2019 11:53:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=MTOHP6F/0obsnMO5RHpAHRXQRdtgQj1GXLteD8Q5aeo=;
-        b=drZB7KzWbLddiQsxBcUFEHKdh6tdqgNqbFZOEs5rpArVKqFAquyNrigRYCaHfvIuqF
-         cwK3TIboRmpdPXsasfJjJhffbsNHfjosuwQsbHRwcDFXFnAKTB6xcjudj+JKtJVDX0nx
-         VZmyex/xSmkYgoaBrXoLnbiEjVrKn8jskWYGw1UetE9s/yS/rpHa99AlN0PPt/BfDE4N
-         eMOBjlA3J7lYDcnBxpkB+hweXvQj+Zehj39BI6nLMfHgrAGs1IwLQYYKvD8Rs4V8nyG/
-         D41xR45UViTnRk/2NZIB8s6HbIn8SWy0rtNvdZhNCGt5x1hdN9y1O5JCyRFddWYCU6nM
-         kdng==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jUaBkZMmmgzmMzkoqnX0MUxDUlbVz2UyMtd0YFW6+18=;
+        b=UuhxinJeldM2AmFH7ttf7DKC6TMUIiS2KSfnaOJeydjXmrxgYRRqU6AIP94CM0sJkx
+         3qcyrzQbDLhDn8J75ZMNr2n8OHehBAX/EtzXA7/XmIh4AYm/7zdSe+yHNG4RnBJt3XXI
+         /9wz67WCLkPlepJ6O4Q7RNDfe4v5hK/is2gz8r+VFkmT+6WHkhxZxH8rxtzEPjk9qsqZ
+         JsDLIe6QwqVfCeYXOGgaaxwBxMRGULnU6M1DS/3yK792BwgkZ1jGZ5abmPVDaBY1ZUjx
+         u8Zw67R0T1f9WiSSwpwyKvLEQkKeoHVeKtLr8CBwYw2Ykf7/I2mCxVFwmh0PcixuZO0T
+         iiOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=MTOHP6F/0obsnMO5RHpAHRXQRdtgQj1GXLteD8Q5aeo=;
-        b=aSvkZAqz/HvBDxzQYIs30gZ6/B9PQwvPEgT9dBsAcWwErJHBtOkTYrctTliltlwoSw
-         tRAS5kZyr0Ju6H1+rDkvMYphGSVpOocv/wVAUM1dB3cC7ROKadseEt9Nc5uVS7aN3M8O
-         VdK90mB74G/7i96oCWdiLS20YTS0EgRSwii+bM4jnxpz1x2XAWhOh9M/mBEylGtpo/ND
-         PxpzhlqMpj/VDjZemhztuQpCKTlih7u+rMoXb06ReVtofiP2vWX6o97gRIe7i9idJg+e
-         4HdeytSBbS3nIlgqnior7sor1N3INjaBPS1pq33/uP/H+6+5H8FaAfuuyhTOtUTtQFgw
-         qtPQ==
-X-Gm-Message-State: APjAAAUK5nziRoFQz/meY8jtRwnqtVafh2FkEoAia3c/xHPDqmI8IgVb
-        p9Eck7JgMI4rjqEFGC2GXJvnk+U3N1kGQM9y02OYOA==
-X-Google-Smtp-Source: APXvYqz77EQOkAasYxlchH/UHy2FA2xAuzpcZE2KK65BeR6tBSrLVPSCy+WLci8wP4QaflygEHw5Ojb9Y3JU5kqA010=
-X-Received: by 2002:a2e:6e01:: with SMTP id j1mr17454402ljc.85.1557254632236;
- Tue, 07 May 2019 11:43:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190424221258.19992-1-jason.gerecke@wacom.com>
-In-Reply-To: <20190424221258.19992-1-jason.gerecke@wacom.com>
-From:   Jason Gerecke <killertofu@gmail.com>
-Date:   Tue, 7 May 2019 11:43:40 -0700
-Message-ID: <CANRwn3TcnEPASa_qqiKPgTR743uKBBX+cJ8uQecj_DsScAKJbg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] HID: wacom: Don't set tool type until we're in range
-To:     Linux Input <linux-input@vger.kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jUaBkZMmmgzmMzkoqnX0MUxDUlbVz2UyMtd0YFW6+18=;
+        b=rwuIf0a1Q2SnGPaXTrwvGCG+VHUd01d3aQ9rBm2i1RVxcKPuEDxnHXYilp1MXgm2tD
+         oV6UhzvE3GTOvxZIb8X4i/2x0ucZlGKNnXSyX8N1yNjUX3GPSKhwdPJ/yIrnodVxvpUE
+         TaO0YRv+jCE7Gq2ONJlOaGj4U3cFmvLN6fpbWiBxFPKD3eDSCAkSGmTAkMILJMwoumyC
+         5P7X6Yk2Q8CtWfd1gWpCqRTDrdNG3miPLULfRhde9S1nD267TrR/2eOD2dg+axjvpp+V
+         uU+vWTMYO4pz98Wt5z/0130sMpPCCBnx4f6LaA5l0NROj79+92KX8nTp2isVM6UsIXDY
+         hgOw==
+X-Gm-Message-State: APjAAAWNohuCTGG02b7gm6HDy0yyhyeJCE2ZUhckMGBi00aoZh5DZX/D
+        qQiucVbsPCThI8zMTgZQlFCsrpFz
+X-Google-Smtp-Source: APXvYqwVJ3LKvrvvPRf6CLCjA5OphFg28CtI0o+nKR65H+uuWq7w8G3y34eNGkDZxDPPrNnt/fOv5A==
+X-Received: by 2002:aa7:8a53:: with SMTP id n19mr42287003pfa.11.1557255206197;
+        Tue, 07 May 2019 11:53:26 -0700 (PDT)
+Received: from US-191-ENG0002.corp.onewacom.com ([50.225.60.4])
+        by smtp.gmail.com with ESMTPSA id w189sm20085506pfw.147.2019.05.07.11.53.24
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 07 May 2019 11:53:25 -0700 (PDT)
+From:   "Gerecke, Jason" <killertofu@gmail.com>
+X-Google-Original-From: "Gerecke, Jason" <jason.gerecke@wacom.com>
+To:     linux-input@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     Ping Cheng <pinglinux@gmail.com>,
         Aaron Armstrong Skomra <skomra@gmail.com>,
         Jason Gerecke <jason.gerecke@wacom.com>,
-        "# v3.17+" <stable@vger.kernel.org>,
-        Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        stable@vger.kernel.org, Aaron Skomra <aaron.skomra@wacom.com>
+Subject: [PATCH 1/3] HID: wacom: Send BTN_TOUCH in response to INTUOSP2_BT eraser contact
+Date:   Tue,  7 May 2019 11:53:20 -0700
+Message-Id: <20190507185322.7168-1-jason.gerecke@wacom.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Haven't heard anything back from you about this patch set, Benjamin.
-Just making sure it doesn't get lost down a crack :)
+From: Jason Gerecke <jason.gerecke@wacom.com>
 
-Jason
+The Bluetooth reports from the 2nd-gen Intuos Pro have separate bits for
+indicating if the tip or eraser is in contact with the tablet. At the
+moment, only the tip contact bit controls the state of the BTN_TOUCH
+event. This prevents the eraser from working as expected. This commit
+changes the driver to send BTN_TOUCH whenever either the tip or eraser
+contact bit is set.
+
+Fixes: 4922cd26f0 ("HID: wacom: Support 2nd-gen Intuos Pro's Bluetooth classic interface")
+Cc: <stable@vger.kernel.org> # 4.11+
+Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+Reviewed-by: Aaron Skomra <aaron.skomra@wacom.com>
 ---
-Now instead of four in the eights place /
-you=E2=80=99ve got three, =E2=80=98Cause you added one  /
-(That is to say, eight) to the two,     /
-But you can=E2=80=99t take seven from three,    /
-So you look at the sixty-fours....
+ drivers/hid/wacom_wac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index 613342bb9d6b..af62a630fee9 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -1301,7 +1301,7 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
+ 						 range ? frame[7] : wacom->features.distance_max);
+ 			}
+ 
+-			input_report_key(pen_input, BTN_TOUCH, frame[0] & 0x01);
++			input_report_key(pen_input, BTN_TOUCH, frame[0] & 0x09);
+ 			input_report_key(pen_input, BTN_STYLUS, frame[0] & 0x02);
+ 			input_report_key(pen_input, BTN_STYLUS2, frame[0] & 0x04);
+ 
+-- 
+2.21.0
 
-On Wed, Apr 24, 2019 at 3:13 PM Gerecke, Jason <killertofu@gmail.com> wrote=
-:
->
-> From: Jason Gerecke <jason.gerecke@wacom.com>
->
-> The serial number and tool type information that is reported by the table=
-t
-> while a pen is merely "in prox" instead of fully "in range" can be stale
-> and cause us to report incorrect tool information. Serial number, tool
-> type, and other information is only valid once the pen comes fully in ran=
-ge
-> so we should be careful to not use this information until that point.
->
-> In particular, this issue may cause the driver to incorectly report
-> BTN_TOOL_RUBBER after switching from the eraser tool back to the pen.
->
-> Fixes: a48324de6d ("HID: wacom: Bluetooth IRQ for Intuos Pro should handl=
-e prox/range")
-> Cc: <stable@vger.kernel.org> # 4.11+
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-> Reviewed-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-> ---
->  drivers/hid/wacom_wac.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-> index 747730d32ab6..4c1bc239207e 100644
-> --- a/drivers/hid/wacom_wac.c
-> +++ b/drivers/hid/wacom_wac.c
-> @@ -1236,13 +1236,13 @@ static void wacom_intuos_pro2_bt_pen(struct wacom=
-_wac *wacom)
->                 /* Add back in missing bits of ID for non-USI pens */
->                 wacom->id[0] |=3D (wacom->serial[0] >> 32) & 0xFFFFF;
->         }
-> -       wacom->tool[0]   =3D wacom_intuos_get_tool_type(wacom_intuos_id_m=
-angle(wacom->id[0]));
->
->         for (i =3D 0; i < pen_frames; i++) {
->                 unsigned char *frame =3D &data[i*pen_frame_len + 1];
->                 bool valid =3D frame[0] & 0x80;
->                 bool prox =3D frame[0] & 0x40;
->                 bool range =3D frame[0] & 0x20;
-> +               bool invert =3D frame[0] & 0x10;
->
->                 if (!valid)
->                         continue;
-> @@ -1251,9 +1251,24 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_=
-wac *wacom)
->                         wacom->shared->stylus_in_proximity =3D false;
->                         wacom_exit_report(wacom);
->                         input_sync(pen_input);
-> +
-> +                       wacom->tool[0] =3D 0;
-> +                       wacom->id[0] =3D 0;
-> +                       wacom->serial[0] =3D 0;
->                         return;
->                 }
-> +
->                 if (range) {
-> +                       if (!wacom->tool[0]) { /* first in range */
-> +                               /* Going into range select tool */
-> +                               if (invert)
-> +                                       wacom->tool[0] =3D BTN_TOOL_RUBBE=
-R;
-> +                               else if (wacom->id[0])
-> +                                       wacom->tool[0] =3D wacom_intuos_g=
-et_tool_type(wacom->id[0]);
-> +                               else
-> +                                       wacom->tool[0] =3D BTN_TOOL_PEN;
-> +                       }
-> +
->                         input_report_abs(pen_input, ABS_X, get_unaligned_=
-le16(&frame[1]));
->                         input_report_abs(pen_input, ABS_Y, get_unaligned_=
-le16(&frame[3]));
->
-> --
-> 2.21.0
->
