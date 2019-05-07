@@ -2,34 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E789715B71
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 07:54:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A20D3159B8
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2019 07:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728066AbfEGFyS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 May 2019 01:54:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58314 "EHLO mail.kernel.org"
+        id S1728202AbfEGFip (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 May 2019 01:38:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58472 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728674AbfEGFic (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 7 May 2019 01:38:32 -0400
+        id S1728735AbfEGFim (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 7 May 2019 01:38:42 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B8FBF205ED;
-        Tue,  7 May 2019 05:38:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1C40F205ED;
+        Tue,  7 May 2019 05:38:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557207512;
-        bh=xV59cFLHO7fUe7r0rNDRIvFKzsHQRpZ8VrpLlf1gk84=;
+        s=default; t=1557207521;
+        bh=iEfU6ZPCt9MjIIlaMRwGa+rdr1IuXQoK3n05WICoS5E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RYD/0UAFPJueub5Jl0SCG9qOUkTeBy1uOCBbwgkX0HE196NZ/wOsRTamaSmRMZLIq
-         UDKva8mHAjSE+IPl26tXuSryURNFqkfhV4q63fBEyFqHk/dqB6DYiPkNpUjbp+gFJ0
-         jWYYf1jQn1yGNtgmcV2e0b5dRgoueFqqeHzyBqU8=
+        b=rlt/mal9ySJNuMxVNxK+JrL3J6kD6NaNDhv39vOH4QGvQHNZHEqDjRLi8I9Oa2lTb
+         6ZWlwqG1kzcil9ntleW6Ic8WnvCCwiDIbjC1Bcin9TYcrPtd6aB3peibuKExV5MfX5
+         HfN3N1hJ9zk4Zdq2UcKkLhDqUz7xajvOon0ClkK4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+Cc:     Anson Huang <anson.huang@nxp.com>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 05/95] HID: input: add mapping for "Toggle Display" key
-Date:   Tue,  7 May 2019 01:36:54 -0400
-Message-Id: <20190507053826.31622-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 12/95] Input: snvs_pwrkey - initialize necessary driver data before enabling IRQ
+Date:   Tue,  7 May 2019 01:37:01 -0400
+Message-Id: <20190507053826.31622-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190507053826.31622-1-sashal@kernel.org>
 References: <20190507053826.31622-1-sashal@kernel.org>
@@ -42,39 +44,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+From: Anson Huang <anson.huang@nxp.com>
 
-[ Upstream commit c01908a14bf735b871170092807c618bb9dae654 ]
+[ Upstream commit bf2a7ca39fd3ab47ef71c621a7ee69d1813b1f97 ]
 
-According to HUT 1.12 usage 0xb5 from the generic desktop page is reserved
-for switching between external and internal display, so let's add the
-mapping.
+SNVS IRQ is requested before necessary driver data initialized,
+if there is a pending IRQ during driver probe phase, kernel
+NULL pointer panic will occur in IRQ handler. To avoid such
+scenario, just initialize necessary driver data before enabling
+IRQ. This patch is inspired by NXP's internal kernel tree.
 
+Fixes: d3dc6e232215 ("input: keyboard: imx: add snvs power key driver")
+Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-input.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/input/keyboard/snvs_pwrkey.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 9eeac82e9542..2597b0eddd64 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -677,6 +677,14 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 			break;
- 		}
+diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/keyboard/snvs_pwrkey.c
+index 7544888c4749..b8dbde746b4e 100644
+--- a/drivers/input/keyboard/snvs_pwrkey.c
++++ b/drivers/input/keyboard/snvs_pwrkey.c
+@@ -156,6 +156,9 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
+ 		return error;
+ 	}
  
-+		if ((usage->hid & 0xf0) == 0xb0) {	/* SC - Display */
-+			switch (usage->hid & 0xf) {
-+			case 0x05: map_key_clear(KEY_SWITCHVIDEOMODE); break;
-+			default: goto ignore;
-+			}
-+			break;
-+		}
++	pdata->input = input;
++	platform_set_drvdata(pdev, pdata);
 +
- 		/*
- 		 * Some lazy vendors declare 255 usages for System Control,
- 		 * leading to the creation of ABS_X|Y axis and too many others.
+ 	error = devm_request_irq(&pdev->dev, pdata->irq,
+ 			       imx_snvs_pwrkey_interrupt,
+ 			       0, pdev->name, pdev);
+@@ -171,9 +174,6 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
+ 		return error;
+ 	}
+ 
+-	pdata->input = input;
+-	platform_set_drvdata(pdev, pdata);
+-
+ 	device_init_wakeup(&pdev->dev, pdata->wakeup);
+ 
+ 	return 0;
 -- 
 2.20.1
 
