@@ -2,148 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 49A2217675
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2019 13:11:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9725918340
+	for <lists+linux-input@lfdr.de>; Thu,  9 May 2019 03:41:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727199AbfEHLLX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 May 2019 07:11:23 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:55543 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727279AbfEHLLX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 May 2019 07:11:23 -0400
-Received: by mail-wm1-f65.google.com with SMTP id y2so2724687wmi.5
-        for <linux-input@vger.kernel.org>; Wed, 08 May 2019 04:11:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=CudbcozzaeKUq3DWNZdG3otz0fZIRmL0q4NFD8op3gI=;
-        b=LdfpPzMpiacfFiok1ZAPTSkSm9gekwnzSeXjerAyeO0EAl44atgySrwVK/1S3+uCov
-         T3QeYquOu1rc/U7S9MyQJYcbrOO+VAzuk8rA+/3lW9nb2alaY5LzfobBRWzJiAmXZkKu
-         hTJIlBO231WRZs79AjSvRUfx0OpsNqkEYL513MG0J0KhdOQst9BdM7T6zzUyK8R0OhKL
-         xChXW/vqzCZ4GTacIH9O6Px/opCR1VpAVwMZ2wxfC3E57mhtY4e8S2URnK7gsH6SLUeN
-         /QQ1uD7lJ+M5tN9U8/o7lGBSZgf824SiapzizJ7sMNwq/H03OAWfztRuzAdZo/m/+mJs
-         Ircg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=CudbcozzaeKUq3DWNZdG3otz0fZIRmL0q4NFD8op3gI=;
-        b=fMEdnqZG3+u5x0APWa1mqRl+wGFhLMvyv4DhM/kCjoysV+BBYHAK/xLECGb15FP0U1
-         5bEXoonxb3J+lje4EZoaeBZTBFxrRqZrgjEwXv/6abtLPPnYqDh57c1re5AcxajB8Uwu
-         DHMrKv9c1Wzxe0zqQ7NuSHIpW+T0dsh9Ad1c+PaxgUaK1up9ptnfLAhapDPbPSamODTV
-         2ANwW7kmprR/4vjIsYOZ59IPRKzXF0W+Av2NOn/LmcAWVAw4ukSJQWkN0FijeurDat2p
-         UOz1rgCssnaSwS4RZiI32E5Hr/yy4EVWzW2OArYXAtqxXq7C5stu+DGCg2KqAsAnqCfx
-         QeFg==
-X-Gm-Message-State: APjAAAXkaS2jDFtnxLPfAXM30V1Zh8ClIGRuTa2M+GycjmTK9zf1TMwv
-        Ttsd1eUcQ4k6H+e5bIcWoRgxow==
-X-Google-Smtp-Source: APXvYqwHxHzg+VsUu59uDR7g3sMlAR+jrJYJ2RFcO1V8dYuCtcSCuVY9lJnp+qeleM4eFH7vIfajHw==
-X-Received: by 2002:a1c:9942:: with SMTP id b63mr2739095wme.116.1557313880609;
-        Wed, 08 May 2019 04:11:20 -0700 (PDT)
-Received: from dell ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id n4sm2944764wmk.24.2019.05.08.04.11.19
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 08 May 2019 04:11:20 -0700 (PDT)
-Date:   Wed, 8 May 2019 12:11:18 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [GIT PULL] Immutable branch between MFD, GPIO, Input, LEDs and Power
- due for the v5.2 merge window
-Message-ID: <20190508111118.GR3995@dell>
-References: <20190423090451.23711-1-brgl@bgdev.pl>
+        id S1725842AbfEIBlO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 May 2019 21:41:14 -0400
+Received: from mail-eopbgr50045.outbound.protection.outlook.com ([40.107.5.45]:1798
+        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725832AbfEIBlO (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 8 May 2019 21:41:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9yjIi5T4r1k+Y5iVTrYemlvNvQlXb4Ph7NXm6a6DFwg=;
+ b=qdi0xmA0MepyFEWti81CqxQ9AWdcIuz1/4kC3xhacwIdGOfAUoik++ed81PI1Muyo9ZOB6U6IbIi93o7n/l9V84wi4tnZ6uQw2VFZuiG6mHUcYeuDsSdC+gqxK0bXsCYWO6r7Gt6ZUYMqJrLoz8q4NSVGROm/yc/HFPmKQk8eQs=
+Received: from DB3PR0402MB3916.eurprd04.prod.outlook.com (52.134.72.18) by
+ DB3PR0402MB3929.eurprd04.prod.outlook.com (52.134.70.31) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1878.20; Thu, 9 May 2019 01:41:09 +0000
+Received: from DB3PR0402MB3916.eurprd04.prod.outlook.com
+ ([fe80::d035:3bd0:a56a:189d]) by DB3PR0402MB3916.eurprd04.prod.outlook.com
+ ([fe80::d035:3bd0:a56a:189d%2]) with mapi id 15.20.1878.022; Thu, 9 May 2019
+ 01:41:09 +0000
+From:   Anson Huang <anson.huang@nxp.com>
+To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     dl-linux-imx <linux-imx@nxp.com>
+Subject: RE: [RESEND] input: keyboard: imx: make sure keyboard can always wake
+ up system
+Thread-Topic: [RESEND] input: keyboard: imx: make sure keyboard can always
+ wake up system
+Thread-Index: AQHU6odaZd/8EWsin0yXXO1zjKS4q6ZMPHMggBX/AtA=
+Date:   Thu, 9 May 2019 01:41:09 +0000
+Message-ID: <DB3PR0402MB39169FB6DECE7E1DAC178539F5330@DB3PR0402MB3916.eurprd04.prod.outlook.com>
+References: <1554341727-16084-1-git-send-email-Anson.Huang@nxp.com>
+ <DB3PR0402MB39167BC7D996F4FF70B5DD2FF53D0@DB3PR0402MB3916.eurprd04.prod.outlook.com>
+In-Reply-To: <DB3PR0402MB39167BC7D996F4FF70B5DD2FF53D0@DB3PR0402MB3916.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=anson.huang@nxp.com; 
+x-originating-ip: [119.31.174.66]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 824628c3-f030-45f1-2ea8-08d6d41f6925
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:DB3PR0402MB3929;
+x-ms-traffictypediagnostic: DB3PR0402MB3929:
+x-microsoft-antispam-prvs: <DB3PR0402MB3929E7E9623EE2F9AE5B3114F5330@DB3PR0402MB3929.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:923;
+x-forefront-prvs: 003245E729
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(366004)(39860400002)(376002)(346002)(396003)(189003)(199004)(13464003)(5660300002)(316002)(52536014)(7696005)(99286004)(229853002)(478600001)(76176011)(68736007)(8936002)(102836004)(11346002)(53546011)(476003)(446003)(9686003)(81156014)(44832011)(55016002)(81166006)(33656002)(53936002)(73956011)(8676002)(2501003)(486006)(26005)(6436002)(76116006)(66946007)(64756008)(66446008)(66476007)(66556008)(110136005)(14454004)(86362001)(4326008)(66066001)(6246003)(25786009)(186003)(2201001)(6506007)(2906002)(7736002)(305945005)(256004)(14444005)(71200400001)(71190400001)(3846002)(6116002)(74316002);DIR:OUT;SFP:1101;SCL:1;SRVR:DB3PR0402MB3929;H:DB3PR0402MB3916.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 547PZskJZTgfEpZQCdALeeYZhPP4sg1kok9BdNe6JzvxzmJxKy76XWRWcwR3EhVqlmsiOwGXyinW0cBNFpl1B5Cz9r32e18XT8Uf0Zhr32Ush/MXmTv7R589TADPtNmOPVuuYivDDjdZPy5yDGIO6ZoNwyQNTmN1dVkV+pO6UHyPj1lHNQqo7Ofi1wO13ArewetlJVlFEj2h8Y69u1O+Mex7SEIQ9Whw9pEykmHZH1MtAyL/2cn4vC/tAVjm3UHeiZgN1ZFdefRAqMg62yVDKxGt69SNj3aJraIo7FnkGrYFwcPB+M3fM90V2G+/3ncWRzlLQfXnY4A4F+JQ5cZr/9dKSbogm1yiX98+xvQOo1cYUqO3bLJtIYrnOOsoqhle2LMm5jsWg44Lt1y5gISzAj352CzrMXWs+FSXys6/J3Q=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190423090451.23711-1-brgl@bgdev.pl>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 824628c3-f030-45f1-2ea8-08d6d41f6925
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2019 01:41:09.1322
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0402MB3929
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Enjoy!
-
-The following changes since commit e93c9c99a629c61837d5a7fc2120cd2b6c70dbdd:
-
-  Linux 5.1 (2019-05-05 17:42:58 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-gpio-input-leds-power-v5.2
-
-for you to fetch changes up to 796fad0101d370567c2968bd933b865aa57efaa3:
-
-  MAINTAINERS: Add an entry for MAX77650 PMIC driver (2019-05-08 12:07:12 +0100)
-
-----------------------------------------------------------------
-Immutable branch between MFD, GPIO, Input, LEDs and Power due for the v5.2 merge window
-
-----------------------------------------------------------------
-Bartosz Golaszewski (11):
-      dt-bindings: mfd: Add DT bindings for max77650
-      dt-bindings: power: supply: Add DT bindings for max77650
-      dt-bindings: leds: Add DT bindings for max77650
-      dt-bindings: input: Add DT bindings for max77650
-      mfd: mfd-core: Document mfd_add_devices()
-      mfd: Add new driver for MAX77650 PMIC
-      power: supply: max77650: Add support for battery charger
-      gpio: max77650: Add GPIO support
-      leds: max77650: Add LEDs support
-      input: max77650: Add onkey support
-      MAINTAINERS: Add an entry for MAX77650 PMIC driver
-
- .../devicetree/bindings/input/max77650-onkey.txt   |  26 ++
- .../devicetree/bindings/leds/leds-max77650.txt     |  57 ++++
- Documentation/devicetree/bindings/mfd/max77650.txt |  46 +++
- .../bindings/power/supply/max77650-charger.txt     |  28 ++
- MAINTAINERS                                        |  14 +
- drivers/gpio/Kconfig                               |   7 +
- drivers/gpio/Makefile                              |   1 +
- drivers/gpio/gpio-max77650.c                       | 190 +++++++++++
- drivers/input/misc/Kconfig                         |   9 +
- drivers/input/misc/Makefile                        |   1 +
- drivers/input/misc/max77650-onkey.c                | 121 +++++++
- drivers/leds/Kconfig                               |   6 +
- drivers/leds/Makefile                              |   1 +
- drivers/leds/leds-max77650.c                       | 147 ++++++++
- drivers/mfd/Kconfig                                |  14 +
- drivers/mfd/Makefile                               |   1 +
- drivers/mfd/max77650.c                             | 232 +++++++++++++
- drivers/mfd/mfd-core.c                             |  13 +
- drivers/power/supply/Kconfig                       |   7 +
- drivers/power/supply/Makefile                      |   1 +
- drivers/power/supply/max77650-charger.c            | 368 +++++++++++++++++++++
- include/linux/mfd/max77650.h                       |  59 ++++
- 22 files changed, 1349 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/max77650-onkey.txt
- create mode 100644 Documentation/devicetree/bindings/leds/leds-max77650.txt
- create mode 100644 Documentation/devicetree/bindings/mfd/max77650.txt
- create mode 100644 Documentation/devicetree/bindings/power/supply/max77650-charger.txt
- create mode 100644 drivers/gpio/gpio-max77650.c
- create mode 100644 drivers/input/misc/max77650-onkey.c
- create mode 100644 drivers/leds/leds-max77650.c
- create mode 100644 drivers/mfd/max77650.c
- create mode 100644 drivers/power/supply/max77650-charger.c
- create mode 100644 include/linux/mfd/max77650.h
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+UGluZy4uLg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEFuc29uIEh1
+YW5nDQo+IFNlbnQ6IFRodXJzZGF5LCBBcHJpbCAyNSwgMjAxOSA5OjUwIEFNDQo+IFRvOiBkbWl0
+cnkudG9yb2tob3ZAZ21haWwuY29tOyBzaGF3bmd1b0BrZXJuZWwub3JnOw0KPiBzLmhhdWVyQHBl
+bmd1dHJvbml4LmRlOyBrZXJuZWxAcGVuZ3V0cm9uaXguZGU7IGZlc3RldmFtQGdtYWlsLmNvbTsN
+Cj4gbGludXgtaW5wdXRAdmdlci5rZXJuZWwub3JnOyBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmlu
+ZnJhZGVhZC5vcmc7IGxpbnV4LQ0KPiBrZXJuZWxAdmdlci5rZXJuZWwub3JnDQo+IENjOiBkbC1s
+aW51eC1pbXggPGxpbnV4LWlteEBueHAuY29tPg0KPiBTdWJqZWN0OiBSRTogW1JFU0VORF0gaW5w
+dXQ6IGtleWJvYXJkOiBpbXg6IG1ha2Ugc3VyZSBrZXlib2FyZCBjYW4gYWx3YXlzDQo+IHdha2Ug
+dXAgc3lzdGVtDQo+IA0KPiBHZW50bGUgcGluZy4uLg0KPiANCj4gPiAtLS0tLU9yaWdpbmFsIE1l
+c3NhZ2UtLS0tLQ0KPiA+IEZyb206IEFuc29uIEh1YW5nDQo+ID4gU2VudDogVGh1cnNkYXksIEFw
+cmlsIDQsIDIwMTkgOTo0MCBBTQ0KPiA+IFRvOiBkbWl0cnkudG9yb2tob3ZAZ21haWwuY29tOyBz
+aGF3bmd1b0BrZXJuZWwub3JnOw0KPiA+IHMuaGF1ZXJAcGVuZ3V0cm9uaXguZGU7IGtlcm5lbEBw
+ZW5ndXRyb25peC5kZTsgZmVzdGV2YW1AZ21haWwuY29tOw0KPiA+IGxpbnV4LWlucHV0QHZnZXIu
+a2VybmVsLm9yZzsgbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnOw0KPiA+IGxp
+bnV4LSBrZXJuZWxAdmdlci5rZXJuZWwub3JnDQo+ID4gQ2M6IGRsLWxpbnV4LWlteCA8bGludXgt
+aW14QG54cC5jb20+DQo+ID4gU3ViamVjdDogW1JFU0VORF0gaW5wdXQ6IGtleWJvYXJkOiBpbXg6
+IG1ha2Ugc3VyZSBrZXlib2FyZCBjYW4gYWx3YXlzDQo+ID4gd2FrZSB1cCBzeXN0ZW0NCj4gPg0K
+PiA+IFRoZXJlIGFyZSBzZXZlcmFsIHNjZW5hcmlvcyB0aGF0IGtleWJvYXJkIGNhbiBOT1Qgd2Fr
+ZSB1cCBzeXN0ZW0gZnJvbQ0KPiA+IHN1c3BlbmQsIGUuZy4sIGlmIGEga2V5Ym9hcmQgaXMgZGVw
+cmVzc2VkIGJldHdlZW4gc3lzdGVtIGRldmljZQ0KPiA+IHN1c3BlbmQgcGhhc2UgYW5kIGRldmlj
+ZSBub2lycSBzdXNwZW5kIHBoYXNlLCB0aGUga2V5Ym9hcmQgSVNSIHdpbGwgYmUNCj4gPiBjYWxs
+ZWQgYW5kIGJvdGgga2V5Ym9hcmQgZGVwcmVzcyBhbmQgcmVsZWFzZSBpbnRlcnJ1cHRzIHdpbGwg
+YmUNCj4gPiBkaXNhYmxlZCwgdGhlbiBrZXlib2FyZCB3aWxsIG5vIGxvbmdlciBiZSBhYmxlIHRv
+IHdha2UgdXAgc3lzdGVtLg0KPiA+IEFub3RoZXIgc2NlbmFyaW8gd291bGQgYmUsIGlmIGEga2V5
+Ym9hcmQgaXMga2VwdCBkZXByZXNzZWQsIGFuZCB0aGVuDQo+ID4gc3lzdGVtIGdvZXMgaW50byBz
+dXNwZW5kLCB0aGUgZXhwZWN0ZWQgYmVoYXZpb3Igd291bGQgYmUgd2hlbiBrZXlib2FyZA0KPiA+
+IGlzIHJlbGVhc2VkLCBzeXN0ZW0gd2lsbCBiZSB3YWtlZCB1cCwgYnV0IGN1cnJlbnQgaW1wbGVt
+ZW50YXRpb24gY2FuDQo+ID4gTk9UIGFjaGlldmUgdGhhdCwgYmVjYXVzZSBib3RoIGRlcHJlc3Mg
+YW5kIHJlbGVhc2UgaW50ZXJydXB0cyBhcmUNCj4gPiBkaXNhYmxlZCBpbiBJU1IsIGFuZCB0aGUg
+ZXZlbnQgY2hlY2sgaXMgc3RpbGwgaW4gcHJvZ3Jlc3MuDQo+ID4NCj4gPiBUbyBmaXggdGhlc2Ug
+aXNzdWVzLCBuZWVkIHRvIG1ha2Ugc3VyZSBrZXlib2FyZCdzIGRlcHJlc3Mgb3IgcmVsZWFzZQ0K
+PiA+IGludGVycnVwdCBpcyBlbmFibGVkIGFmdGVyIG5vaXJxIGRldmljZSBzdXNwZW5kIHBoYXNl
+LCB0aGlzIHBhdGNoDQo+ID4gbW92ZXMgdGhlIHN1c3BlbmQvcmVzdW1lIGNhbGxiYWNrIHRvIG5v
+aXJxIHN1c3BlbmQvcmVzdW1lIHBoYXNlLCBhbmQNCj4gPiBlbmFibGUgdGhlIGNvcnJlc3BvbmRp
+bmcgaW50ZXJydXB0IGFjY29yZGluZyB0byBjdXJyZW50IGtleWJvYXJkIHN0YXR1cy4NCj4gPg0K
+PiA+IFNpZ25lZC1vZmYtYnk6IEFuc29uIEh1YW5nIDxBbnNvbi5IdWFuZ0BueHAuY29tPg0KPiA+
+IC0tLQ0KPiA+ICBkcml2ZXJzL2lucHV0L2tleWJvYXJkL2lteF9rZXlwYWQuYyB8IDE4ICsrKysr
+KysrKysrKysrLS0tLQ0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgNCBk
+ZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2lucHV0L2tleWJvYXJk
+L2lteF9rZXlwYWQuYw0KPiA+IGIvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9pbXhfa2V5cGFkLmMN
+Cj4gPiBpbmRleCBjZjA4ZjRhLi45NzUwMGEyIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvaW5w
+dXQva2V5Ym9hcmQvaW14X2tleXBhZC5jDQo+ID4gKysrIGIvZHJpdmVycy9pbnB1dC9rZXlib2Fy
+ZC9pbXhfa2V5cGFkLmMNCj4gPiBAQCAtNTI0LDExICs1MjQsMTIgQEAgc3RhdGljIGludCBpbXhf
+a2V5cGFkX3Byb2JlKHN0cnVjdA0KPiA+IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gPiAgCXJl
+dHVybiAwOw0KPiA+ICB9DQo+ID4NCj4gPiAtc3RhdGljIGludCBfX21heWJlX3VudXNlZCBpbXhf
+a2JkX3N1c3BlbmQoc3RydWN0IGRldmljZSAqZGV2KQ0KPiA+ICtzdGF0aWMgaW50IF9fbWF5YmVf
+dW51c2VkIGlteF9rYmRfbm9pcnFfc3VzcGVuZChzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ID4gIHsN
+Cj4gPiAgCXN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYgPSB0b19wbGF0Zm9ybV9kZXZpY2Uo
+ZGV2KTsNCj4gPiAgCXN0cnVjdCBpbXhfa2V5cGFkICprYmQgPSBwbGF0Zm9ybV9nZXRfZHJ2ZGF0
+YShwZGV2KTsNCj4gPiAgCXN0cnVjdCBpbnB1dF9kZXYgKmlucHV0X2RldiA9IGtiZC0+aW5wdXRf
+ZGV2Ow0KPiA+ICsJdW5zaWduZWQgc2hvcnQgcmVnX3ZhbCA9IHJlYWR3KGtiZC0+bW1pb19iYXNl
+ICsgS1BTUik7DQo+ID4NCj4gPiAgCS8qIGlteCBrYmQgY2FuIHdha2UgdXAgc3lzdGVtIGV2ZW4g
+Y2xvY2sgaXMgZGlzYWJsZWQgKi8NCj4gPiAgCW11dGV4X2xvY2soJmlucHV0X2Rldi0+bXV0ZXgp
+Ow0KPiA+IEBAIC01MzgsMTMgKzUzOSwyMCBAQCBzdGF0aWMgaW50IF9fbWF5YmVfdW51c2VkDQo+
+IGlteF9rYmRfc3VzcGVuZChzdHJ1Y3QNCj4gPiBkZXZpY2UgKmRldikNCj4gPg0KPiA+ICAJbXV0
+ZXhfdW5sb2NrKCZpbnB1dF9kZXYtPm11dGV4KTsNCj4gPg0KPiA+IC0JaWYgKGRldmljZV9tYXlf
+d2FrZXVwKCZwZGV2LT5kZXYpKQ0KPiA+ICsJaWYgKGRldmljZV9tYXlfd2FrZXVwKCZwZGV2LT5k
+ZXYpKSB7DQo+ID4gKwkJaWYgKHJlZ192YWwgJiBLQkRfU1RBVF9LUEtEKQ0KPiA+ICsJCQlyZWdf
+dmFsIHw9IEtCRF9TVEFUX0tSSUU7DQo+ID4gKwkJaWYgKHJlZ192YWwgJiBLQkRfU1RBVF9LUEtS
+KQ0KPiA+ICsJCQlyZWdfdmFsIHw9IEtCRF9TVEFUX0tESUU7DQo+ID4gKwkJd3JpdGV3KHJlZ192
+YWwsIGtiZC0+bW1pb19iYXNlICsgS1BTUik7DQo+ID4gKw0KPiA+ICAJCWVuYWJsZV9pcnFfd2Fr
+ZShrYmQtPmlycSk7DQo+ID4gKwl9DQo+ID4NCj4gPiAgCXJldHVybiAwOw0KPiA+ICB9DQo+ID4N
+Cj4gPiAtc3RhdGljIGludCBfX21heWJlX3VudXNlZCBpbXhfa2JkX3Jlc3VtZShzdHJ1Y3QgZGV2
+aWNlICpkZXYpDQo+ID4gK3N0YXRpYyBpbnQgX19tYXliZV91bnVzZWQgaW14X2tiZF9ub2lycV9y
+ZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQ0KPiA+ICB7DQo+ID4gIAlzdHJ1Y3QgcGxhdGZvcm1f
+ZGV2aWNlICpwZGV2ID0gdG9fcGxhdGZvcm1fZGV2aWNlKGRldik7DQo+ID4gIAlzdHJ1Y3QgaW14
+X2tleXBhZCAqa2JkID0gcGxhdGZvcm1fZ2V0X2RydmRhdGEocGRldik7IEBAIC01NjgsNw0KPiA+
+ICs1NzYsOSBAQCBzdGF0aWMgaW50IF9fbWF5YmVfdW51c2VkIGlteF9rYmRfcmVzdW1lKHN0cnVj
+dCBkZXZpY2UNCj4gKmRldikNCj4gPiAgCXJldHVybiByZXQ7DQo+ID4gIH0NCj4gPg0KPiA+IC1z
+dGF0aWMgU0lNUExFX0RFVl9QTV9PUFMoaW14X2tiZF9wbV9vcHMsIGlteF9rYmRfc3VzcGVuZCwN
+Cj4gPiBpbXhfa2JkX3Jlc3VtZSk7DQo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZGV2X3BtX29w
+cyBpbXhfa2JkX3BtX29wcyA9IHsNCj4gPiArCVNFVF9OT0lSUV9TWVNURU1fU0xFRVBfUE1fT1BT
+KGlteF9rYmRfbm9pcnFfc3VzcGVuZCwNCj4gPiAraW14X2tiZF9ub2lycV9yZXN1bWUpIH07DQo+
+ID4NCj4gPiAgc3RhdGljIHN0cnVjdCBwbGF0Zm9ybV9kcml2ZXIgaW14X2tleXBhZF9kcml2ZXIg
+PSB7DQo+ID4gIAkuZHJpdmVyCQk9IHsNCj4gPiAtLQ0KPiA+IDIuNy40DQoNCg==
