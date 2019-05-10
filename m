@@ -2,62 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FB3419476
-	for <lists+linux-input@lfdr.de>; Thu,  9 May 2019 23:18:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 398BF196D3
+	for <lists+linux-input@lfdr.de>; Fri, 10 May 2019 04:54:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726711AbfEIVSn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 May 2019 17:18:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47016 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726686AbfEIVSm (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 9 May 2019 17:18:42 -0400
-Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 860DD21744;
-        Thu,  9 May 2019 21:18:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557436722;
-        bh=QlQ55Ea4J4EOVNkV5Psi/l7xVsCojarUEsxbs/GIkJg=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=abT7AP9qwlnDHSsClF6f/aqj8iWgT+UG1CFQC56vs20BIOzzm9RJEv7h2YG/dTtZf
-         JTmSjonK/HIFSExFdtvWKFzNdREIDbdATl0ew+MKYu69ArmSYk2qaDp4q8S6tNGn0i
-         XItHpEOXz//qj+6+SKr8uzLcb+VLh67m7FwzA9Nw=
-Date:   Thu, 9 May 2019 23:18:39 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: logitech-dj: Add usb-id for the 27MHz MX3000
- receiver
-In-Reply-To: <20190509114704.10333-1-hdegoede@redhat.com>
-Message-ID: <nycvar.YFH.7.76.1905092318000.17054@cbobk.fhfr.pm>
-References: <20190509114704.10333-1-hdegoede@redhat.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1726945AbfEJCyJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 May 2019 22:54:09 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:58080 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726896AbfEJCyJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 9 May 2019 22:54:09 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id DCC6EBDE43C344F5926F;
+        Fri, 10 May 2019 10:54:06 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
+ 14.3.439.0; Fri, 10 May 2019 10:53:56 +0800
+From:   Kefeng Wang <wangkefeng.wang@huawei.com>
+To:     <linux-kernel@vger.kernel.org>
+CC:     Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        <linux-input@vger.kernel.org>, Hulk Robot <hulkci@huawei.com>
+Subject: [PATCH 1/3] Input: apanel: avoid panic if ioreamp fails
+Date:   Fri, 10 May 2019 11:03:18 +0800
+Message-ID: <20190510030320.109154-1-wangkefeng.wang@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 9 May 2019, Hans de Goede wrote:
+If ioremap fails, NULL pointer dereference will happen and
+leading to a kernel panic when access the virtual address
+in check_signature().
 
-> Testing has shown that, as expected, the MX3000 receiver is fully
-> compatible with the existing 27MHz receiver support in hid-logitech-dj.c.
-> 
-> After this the only, presumably also compatible, receiver id left in
-> hid-lg.c is the USB_DEVICE_ID_S510_RECEIVER / 0xc50c id. If we can get
-> someone to confirm that this receiver works with the dj 27Mhz support too,
-> then the handling of the LG_RDESC and LG_WIRELESS quirks can be removed
-> from hid-lg.c.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Fix it by check the return value of ioremap.
 
-Applied for 5.3 (I believe there is no rush to have this in 5.2 before we 
-figure out 0xc50c anyway), thanks.
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+---
+ drivers/input/misc/apanel.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/input/misc/apanel.c b/drivers/input/misc/apanel.c
+index c1e66f45d552..1c7262ad4b5b 100644
+--- a/drivers/input/misc/apanel.c
++++ b/drivers/input/misc/apanel.c
+@@ -259,7 +259,9 @@ static int __init apanel_init(void)
+ 	unsigned char i2c_addr;
+ 	int found = 0;
+ 
+-	bios = ioremap(0xF0000, 0x10000); /* Can't fail */
++	bios = ioremap(0xF0000, 0x10000);
++	if (!bios)
++		return -ENOMEM;
+ 
+ 	p = bios_signature(bios);
+ 	if (!p) {
 -- 
-Jiri Kosina
-SUSE Labs
+2.20.1
 
