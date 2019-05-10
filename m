@@ -2,233 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6DC7198CF
-	for <lists+linux-input@lfdr.de>; Fri, 10 May 2019 09:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBCFD19A15
+	for <lists+linux-input@lfdr.de>; Fri, 10 May 2019 10:57:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726914AbfEJHOZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 May 2019 03:14:25 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:41965 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726934AbfEJHOY (ORCPT
+        id S1727009AbfEJI5C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 May 2019 04:57:02 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:42755 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727001AbfEJI5C (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 May 2019 03:14:24 -0400
-Received: by mail-wr1-f66.google.com with SMTP id d12so6387654wrm.8
-        for <linux-input@vger.kernel.org>; Fri, 10 May 2019 00:14:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=8vhSJYdbDo4hmcaw9TnoN03bZbsoMDpBUCHFXbyR/K4=;
-        b=MFqL+9+X0sm8BkKpuJx1bVMj4iTTj/Co1wnnjYzzhiHXTtgGQdpFJ/jOyFJkcjjGiS
-         O5eaPpK9+JlbuRLuiSKOoGvBPP86sklq5AD0KwT1ldvyhMHhMwxCIBlvxDBAwQb/Q+ci
-         XBFmNosme4K+SuuHyNh5RsTZv1HUlgjYsiovIfM0NeQr8BaSP2364n+F+GtyKJi1ybSN
-         Q/PG0iYZ9HoThBZAuRlFlUX1O13V+gGaP8V9mr6onT7QJMnsx334A6+F8d9sO/z41M2l
-         SrW0gJRpTQlS/y2rD5B41QSK3T8NMVLmCtklijPr55KNtgO4ZPpfpqKFBCM6dRD43NGw
-         38pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=8vhSJYdbDo4hmcaw9TnoN03bZbsoMDpBUCHFXbyR/K4=;
-        b=nrPdvrzS1G2IbVpibnEV0p8tHTZkuvFH11hPS8eRFPiwNMhXvoQ5A9tlL4xtNSMhus
-         WKgVy2uJcchCje3DX7QZEdC0A6cLcNr3OVWkT1KUVuBP1DCxfkrQdGBRDy08hr33KoBZ
-         Otzfug5HOoWvZq7wcO6C62aR892J+aqTEwQixgx9oNtg97pbij+L8KZLe5QuR1sAk5tw
-         ONzFtZ+Binevap48MVeXYoqHc9nMc5IRNGq5uuBOgjawAq/bCU5slpCXcGdXPQmvktl0
-         MrjH41u3oQKEnPGjAaQpq5gWKIWl4JZHQeeriMz7at/Wt/YRxisapA3qNF2uKTAGqEVp
-         tdEA==
-X-Gm-Message-State: APjAAAViZ3ZQJx/vT+apamPA59EaOz6d6hsyc8wsjC8SAeT5iVZxWqIz
-        LJGXDdZBtiAUjq+W8B4hCwtStA==
-X-Google-Smtp-Source: APXvYqy69mm3aXgNaBk9C+3iR8OkVvrFzyQEUwiMhFLr8AJ5XTD2ckTjNjPH+iiVTrKXhGZnZj3hgg==
-X-Received: by 2002:a05:6000:1250:: with SMTP id j16mr6226051wrx.200.1557472461889;
-        Fri, 10 May 2019 00:14:21 -0700 (PDT)
-Received: from dell ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id l16sm1856711wrb.40.2019.05.10.00.14.20
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 10 May 2019 00:14:21 -0700 (PDT)
-Date:   Fri, 10 May 2019 08:14:19 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>
-Cc:     Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
+        Fri, 10 May 2019 04:57:02 -0400
+X-Originating-IP: 83.155.44.161
+Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
+        (Authenticated sender: hadess@hadess.net)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 847936000D;
+        Fri, 10 May 2019 08:56:56 +0000 (UTC)
+Message-ID: <55468fdd88da9f487789b2073a1babb14bc7a282.camel@hadess.net>
+Subject: Re: [RFC v3] iio: input-bridge: optionally bridge iio acceleometers
+ to create a /dev/input interface
+From:   Bastien Nocera <hadess@hadess.net>
+To:     "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, linux-mips@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] mfd: ioc3: Add driver for SGI IOC3 chip
-Message-ID: <20190510071419.GB7321@dell>
-References: <20190409154610.6735-1-tbogendoerfer@suse.de>
- <20190409154610.6735-3-tbogendoerfer@suse.de>
- <20190508102313.GG3995@dell>
- <20190509160220.bb5382df931e5bd0972276df@suse.de>
+        Eric Piel <eric.piel@tremplin-utc.net>,
+        linux-input@vger.kernel.org, letux-kernel@openphoenux.org,
+        kernel@pyra-handheld.com, Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
+Date:   Fri, 10 May 2019 10:56:55 +0200
+In-Reply-To: <AA2B43FE-E196-4FEC-B4C5-897D0F44A76F@goldelico.com>
+References: <d52cf9ee5944c90c69f6e74a46d844cef51e487e.1555362312.git.hns@goldelico.com>
+         <0189da8d91652dd3ecf729b03029ab9db5a24f99.camel@hadess.net>
+         <AA2B43FE-E196-4FEC-B4C5-897D0F44A76F@goldelico.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.1 (3.32.1-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190509160220.bb5382df931e5bd0972276df@suse.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 09 May 2019, Thomas Bogendoerfer wrote:
-
-> On Wed, 8 May 2019 11:23:13 +0100
-> Lee Jones <lee.jones@linaro.org> wrote:
+On Tue, 2019-04-16 at 21:33 +0200, H. Nikolaus Schaller wrote:
+> Hi Bastien,
 > 
-> > On Tue, 09 Apr 2019, Thomas Bogendoerfer wrote:
-> > 
-> > > +static u32 crc8_addr(u64 addr)
-> > > +{
-> > > +	u32 crc = 0;
-> > > +	int i;
-> > > +
-> > > +	for (i = 0; i < 64; i += 8)
-> > > +		crc8_byte(&crc, addr >> i);
-> > > +	return crc;
-> > > +}
-> > 
-> > Not looked into these in any detail, but are you not able to use the
-> > CRC functions already provided by the kernel?
+> > Am 16.04.2019 um 18:04 schrieb Bastien Nocera <hadess@hadess.net>:
+> > This can be done in user-space, reading the data from the IIO driver,
+> > and using uinput to feed it back. Why is doing this at the kernel level
+> > better?
 > 
-> they are using a different polynomial, so I can't use it.
-
-Would it be worth moving support out to somewhere more central so
-others can use this "polynomial"?
-
-> > > +	}
-> > > +	pr_err("ioc3: CRC error in NIC address\n");
-> > > +}
-> > 
-> > This all looks like networking code.  If this is the case, it should
-> > be moved to drivers/networking or similar.
+> Well, I'd estimate that >80% of the current kernel could be done in user-space
+> (but not at the same speed/quality).
 > 
-> no it's not. nic stands for number in a can produced by Dallas Semi also
-> known under the name 1-Wire (https://en.wikipedia.org/wiki/1-Wire).
-> SGI used them to provide partnumber, serialnumber and mac addresses.
-> By placing the code to read the NiCs inside ioc3 driver there is no need
-> for locking and adding library code for accessing these informations.
-
-Great.  So it looks like you should be using this, no?
-
-  drivers/base/regmap/regmap-w1.c
-
-> > > +static struct resource ioc3_uarta_resources[] = {
-> > > +	DEFINE_RES_MEM(offsetof(struct ioc3, sregs.uarta),
-> > 
-> > You are the first user of offsetof() in MFD.  Could you tell me why
-> > it's required please?
+> E.g. TCP could most likely be done by directly accessing the Ethernet layer and
+> providing other processes access through named pipes instead of sockets.
 > 
-> to get the offsets of different chip functions out of a struct.
+> But usually a user-space daemon feeding things back into the kernel is slower
+> (because it is scheduled differently) and needs more resources for running the
+> process and IPC and is less protected against hickups and deadlocks.
 
-I can see what it does on a coding level.
+This is mostly irrelevant for the amount of data we're treating, but it
+doesn't matter too much.
 
-What are you using it for in practical/real terms?
-
-Why wouldn't any other MFD driver require this, but you do?
-
-> > Please drop all of these and statically create the MFD cells like
-> > almost all other MFD drivers do.
+> Two more aspects come to my mind from reading your project page:
 > 
-> I started that way and it blew up the driver and create a bigger mess
-> than I wanted to have. What's your concern with my approach ?
+> a) "It requires libgudev and systemd"
+> b) "Note that a number of kernel bugs will prevent it from working correctly"
 > 
-> I could use static mfd_cell arrays, if there would be a init/startup
-> method per cell, which is called before setting up the platform device.
-> That way I could do the dynamic setup for ethernet and serial devices.
+> a) this makes quite significant assumptions about the user-space while a kernel
+>    driver can be kept independent of this
 
-You can set platform data later.  There are plenty of examples of
-this in the MFD subsystem.  Statically define what you can, and add
-the dynamic stuff later.
+It's made for modern desktop OSes/"traditional" Linux. I don't think
+that those 2 libraries are problematic dependencies unless you're on
+Android, where a replacement could be implemented or iio-sensor-proxy
+modified for that use case.
 
-> > > +static void ioc3_create_devices(struct ioc3_priv_data *ipd)
-> > > +{
-> > > +	struct mfd_cell *cell;
-> > > +
-> > > +	memset(ioc3_mfd_cells, 0, sizeof(ioc3_mfd_cells));
-> > > +	cell = ioc3_mfd_cells;
-> > > +
-> > > +	if (ipd->info->funcs & IOC3_ETH) {
-> > > +		memcpy(ioc3_eth_platform_data.mac_addr, ipd->nic_mac,
-> > > +		       sizeof(ioc3_eth_platform_data.mac_addr));
-> > 
-> > Better to pull the MAC address from within the Ethernet driver.
-> 
-> the NiC where the MAC address is provided is connected to the ioc3
-> chip outside of the ethernet register set. And there is another
-> NiC connected to the same 1-W bus. So moving reading of the MAC
-> address to the ethernet driver duplicates code and adds complexity
-> (locking). Again what's your concern here ?
+> b) if it is in-kernel it will be kept in sync with kernel changes and such bugs
+>    are less likely
 
-Does this go away if you use the already provided 1-wire API?
+No they're not. This warning was because 1) drivers sometimes have bugs
+2) user-space sometimes has bugs 3) user-space sometimes causes the
+kernel to have bugs.
 
-> > > +	if (ipd->info->funcs & IOC3_SER) {
-> > > +		writel(GPCR_UARTA_MODESEL | GPCR_UARTB_MODESEL,
-> > > +			&ipd->regs->gpcr_s);
-> > > +		writel(0, &ipd->regs->gppr[6]);
-> > > +		writel(0, &ipd->regs->gppr[7]);
-> > > +		udelay(100);
-> > > +		writel(readl(&ipd->regs->port_a.sscr) & ~SSCR_DMA_EN,
-> > > +		       &ipd->regs->port_a.sscr);
-> > > +		writel(readl(&ipd->regs->port_b.sscr) & ~SSCR_DMA_EN,
-> > > +		       &ipd->regs->port_b.sscr);
-> > > +		udelay(1000);
-> > 
-> > No idea what any of this does.
-> > 
-> > It looks like it belongs in the serial driver (and needs comments).
-> 
-> it configures the IOC3 chip for serial usage. This is not part of
-> the serial register set, so it IMHO belongs in the MFD driver.
+The 2 significant breakages for iio-sensor-proxy were caused by runtime
+PM bugs in the hid-sensor-hub driver, and in the USB core. I doubt a
+kernel-space implementation would have been able to magically fix those
+bugs unfortunately.
 
-So it does serial things, but doesn't belong in the serial driver?
-
-Could you please go into a bit more detail as to why you think that?
-
-Why is it better here?
-
-It's also totally unreadable by the way!
-
-> > > +	}
-> > > +#if defined(CONFIG_SGI_IP27)
-> > 
-> > What is this?  Can't you obtain this dynamically by probing the H/W?
-> 
-> that's the machine type and the #ifdef CONFIG_xxx are just for saving space,
-> when compiled for other machines and it's easy to remove.
-
-Please find other ways to save the space.  #ifery can get very messy,
-very quickly and is almost always avoidable.
-
-> > > +	if (ipd->info->irq_offset) {
-> > 
-> > What does this really signify?
-> 
-> IOC3 ASICs are most of the time connected to a SGI bridge chip. IOC3 can
-> provide two interrupt lines, which are wired to the bridge chip. The first
-> interrupt is assigned via the PCI core, but since IOC3 is not a PCI multi
-> function device the second interrupt must be treated here. And the used
-> interrupt line on the bridge chip differs between boards.
-
-Please provide a MACRO, function or something else which results in
-more readable code.  Whatever you choose to use, please add this text
-above, it will be helpful for future readers.
-
-> Thank you for your review. I'll address all other comments not cited in
-> my mail.
-
-NP
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
