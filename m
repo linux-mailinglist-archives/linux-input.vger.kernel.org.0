@@ -2,134 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EFFC31A7A3
-	for <lists+linux-input@lfdr.de>; Sat, 11 May 2019 13:05:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E503C1A91B
+	for <lists+linux-input@lfdr.de>; Sat, 11 May 2019 20:47:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728475AbfEKLFn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 May 2019 07:05:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54330 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726240AbfEKLFn (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 May 2019 07:05:43 -0400
-Received: from archlinux (cpc91196-cmbg18-2-0-cust659.5-4.cable.virginm.net [81.96.234.148])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B9CEA217F9;
-        Sat, 11 May 2019 11:05:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557572741;
-        bh=OP5PzMKNdv7eZTclz6nMXr+GPXx4HBbNzjUZYRYUa/U=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=xKbDZt6GAyBICk/pLUZM4FgM6vLQ8lH5jT1N5OdVcsZXE84mIFZVF+4Y/jkngLSQX
-         6NQeV8XCW6snF6a6WMTDHT+qjSBW/3PNaUz+yp8Fhhs9wt12SmRlx6kNLL2C5C51ix
-         a9MkDcGf+JfuUrBOIgkq3n2wgIt1fHkRLc1v7rNY=
-Date:   Sat, 11 May 2019 12:05:36 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc:     linux-input <linux-input@vger.kernel.org>,
+        id S1725928AbfEKSrn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 May 2019 14:47:43 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:45618 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725911AbfEKSrn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 11 May 2019 14:47:43 -0400
+Received: by mail-qt1-f196.google.com with SMTP id t1so1520660qtc.12;
+        Sat, 11 May 2019 11:47:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JDUH+ECvLR1j+epjg5DNmKksHTWaTEUOaV6JPEZYcdA=;
+        b=Xm15bRCctxqDFymgWz01KUJxzlroz8Mgt0yFTwhBRpHNNxOuNxeocQP4+G4Jn8xK0V
+         /KzBgYeawBk93f4EpcaGFdCwPOeNGo/9ghk1MGIYn9eJFWBQVXT9HdhajYtLu2OSVfRI
+         sv7kRjDprj5Feip9sKJ00dLi7/JbuM2113OrKEllakTg7/7++X+PeFv5cf9kfMmC1I/W
+         EXvxhKMdYndKODIqRP09GAeoPW7ultpaellRZRQXjIJdfKBqqtqbOgNih8EI5xxfrvi9
+         tvXyhRkQi2a5+g5ot1kSf2D/I7x1TqyEpHdTkZDI+6KehPhkVEAY6h4U4v/r7T4rU6RS
+         RSuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JDUH+ECvLR1j+epjg5DNmKksHTWaTEUOaV6JPEZYcdA=;
+        b=fwKabJBeOO4cLK9mS8Y+9edWxzOkX41XMNIMp5IbIHkQ62Vp/3UcMJZRHCT+o29lIE
+         tz2oA6adF6vNeYW/wkbRIo6WAOCQEhDCxhwRR/WYHnMhVqtopm8pSEs2eU8+2D8kUhGr
+         q0GP8DcWH0hX39oc8H6lMyW6kJ7JaScs75gMu3BUBTgYj1uIlt+vpWV2uIYPKa+oe/78
+         Wdtru3HnCh9E5M8Jd4FgowornjIed1Fxm4w8a1hMYQiOteGVIWHieD4jCnqxAZe/LEAp
+         /y/zUXjzI7y7J7TKOo6LcU2lxIoP5J+UdwKPVxOvqzcouKXqZagMmEyaDdTeaklVTrN8
+         +ihQ==
+X-Gm-Message-State: APjAAAU0PP1OkT126Kjb/1rOb19okSLstkx/lB3S2v+rN4VW+KVPVBQE
+        teS11Sp7ZFVgYwqbOp/WrSnpfcMe+F54n9gFdD8=
+X-Google-Smtp-Source: APXvYqzDhG2cRN30u5fD5CsogZpcT00fmZHCbwX9PMlnx8NRNi9ZX9DcPEBcyA2IDZ23gOYfUb5tsWFFbFDEOf7uzn8=
+X-Received: by 2002:ad4:542c:: with SMTP id g12mr15084174qvt.223.1557600462077;
+ Sat, 11 May 2019 11:47:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <195994ebff28de22eae872df134d086c761b83b8.1554026986.git.hns@goldelico.com>
+ <20190407133037.0ad98897@archlinux> <CD44AFA0-6676-4842-9C80-61BB363DD556@goldelico.com>
+ <20190414124029.1f1f6084@archlinux> <CAEc3jaCnHLA9PV5gLiBvHT5y26mwMGSUxa3YCO=c+FYmcszePQ@mail.gmail.com>
+ <d9f2ee79b8690939f36377990fb6d6fb08e9f0bc.camel@hadess.net>
+In-Reply-To: <d9f2ee79b8690939f36377990fb6d6fb08e9f0bc.camel@hadess.net>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Sat, 11 May 2019 11:47:30 -0700
+Message-ID: <CAEc3jaBTbH=zHogxekRw5i=GtQcRc9O_d68fMwQb-7jdOcvh5w@mail.gmail.com>
+Subject: Re: [RFC v2] iio: input-bridge: optionally bridge iio acceleometers
+ to create a /dev/input interface
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        "H. Nikolaus Schaller" <hns@goldelico.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Eric Piel <eric.piel@tremplin-utc.net>,
-        linux-iio <linux-iio@vger.kernel.org>, kernel@pyra-handheld.com,
-        lkml <linux-kernel@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        letux-kernel@openphoenux.org, kernel@pyra-handheld.com,
+        Hartmut Knaack <knaack.h@gmx.de>,
         Lars-Peter Clausen <lars@metafoo.de>,
         Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Discussions about the Letux Kernel 
-        <letux-kernel@openphoenux.org>
-Subject: Re: [Letux-kernel] [RFC v2] iio: input-bridge: optionally bridge
- iio acceleometers to create a /dev/input interface
-Message-ID: <20190511120536.647c8676@archlinux>
-In-Reply-To: <D4F87479-4FF7-4DBC-81D5-1BA836D2C889@goldelico.com>
-References: <195994ebff28de22eae872df134d086c761b83b8.1554026986.git.hns@goldelico.com>
-        <20190407133037.0ad98897@archlinux>
-        <CD44AFA0-6676-4842-9C80-61BB363DD556@goldelico.com>
-        <20190414124029.1f1f6084@archlinux>
-        <CD6219BE-61FF-4C38-9532-054C60A77F89@goldelico.com>
-        <20190422152014.7c6637ab@archlinux>
-        <CA9A9410-C393-49B9-81FA-D9BC55F04468@goldelico.com>
-        <D4F87479-4FF7-4DBC-81D5-1BA836D2C889@goldelico.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        lkml <linux-kernel@vger.kernel.org>, linux-iio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 9 May 2019 19:02:49 +0200
-"H. Nikolaus Schaller" <hns@goldelico.com> wrote:
+On Fri, May 10, 2019 at 1:57 AM Bastien Nocera <hadess@hadess.net> wrote:
+>
+> On Sun, 2019-04-14 at 09:26 -0700, Roderick Colenbrander wrote:
+> >
+> <snip>
+> > We at the time were one of the first to expose acceleration and gyro
+> > data through /dev/input for DualShock 4 as supported by hid-sony. We
+> > report acceleration in 'g' and angular velocity in 'degree / s'. We
+> > set the resolution to respectively '1 g' and '1 degree / s'. The range
+> > we set to the range of the device e.g. for DS4 -4g to +4g for
+> > acceleration. I need to check though what coordinate system we use,
+> > but I think it is right handed (gyro counter clockwise relative to
+> > acceleration axes).
+>
+> How do you export the gyro information through the input device?
 
-> > Am 09.05.2019 um 11:09 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
-> > 
-> > Hi Jonathan,  
-> >> 
-> >> 
-> >> And how does that work on the common case of a sensor in the lid of a laptop?
-> >> how do you know what angle the screen is at?    
-> > 
-> > Well, I am not aware of laptops where the sensor is in the lid because I am in the handhelds
-> > business, but let's assume it is common.
-> > 
-> > I realized that if the sensor orientation is related to the lid position, while the reference
-> > frame reported to user space is to be referenced to the lap or keyboard of the laptop, there does
-> > not exist a static mount-matrix to describe it properly. So no driver can report that correctly.
-> > 
-> > Therefore, such a device needs a dynamic mount matrix, i.e. there should be a kernel driver that
-> > reads out the lid angle sensor and modifies the mount-matrix of the accelerometer by some sin()/cos()
-> > table.  
-> 
-> One more thought on this topic.
-> 
-> My answer to the question "how do you know what angle the screen is at?" by requiring an ADC to
-> measure some potentiometer in the hinge to make the mount matrix dynamic is probably completely
-> wrong...
+For each DS4, there are multiple evdev devices for a DS4 for
+respectively "gamepad", touchpad and motion sensors. The motion
+sensors one, has INPUT_PROP_ACCELEROMETER set. ABS_X/_Y_Z provide
+acceleration and ABS_RX/_RY/_RZ provide gyro. When we added this we
+also updated the input documentation (event-codes.rst) to allow gyro
+to use the rotational axes.
 
-There are lid angle sensors out independent of this discussion that might work
-as you describe but so far they are rare.  There is one under review for
-cros_ec for example - how it is implemented, no idea!
-
-> 
-> If we take the definition for the mount matrix, it defines a specific g-vector pointing to
-> center of earth if the user is holding the device in a specific position and looking on the display
-> or the keyboard.
-> 
-> So far the description assumes that there is a single accelerometer and display and keys of a phone
-> are in a single plane, i.e. there is no angle and everything is fine.
-> 
-> Now if we simply take the two accelerometers separately, one z-axis is going through the keyboard
-> and the other through the display. Which means if the mount matrices are well defined, the accelerometers
-> should report almost the same values if the display is fully opened by 180 degrees, i.e. the display
-> is sitting flat on the table. This is what my RFC does by autoscaling. The values differ only
-> by noise.
-> 
-> Now what about measuring the lid angle? Well, it is already measured by both accelerometers! If they
-> do not agree, the angle can be calculated by some arctan() based on y and z axis reports...
-Agreed. This is how it is done.
-> 
-> If you close the lid, the display is turned upside down and y and z axes reverse sign.
-> 
-> So there remains only the issue that user-space must know which sensor device file is which sensor
-> and can do the calculation of the lid angle. This is possible because the iio accelerometer name
-> is available through the input event ioctls.
-> 
-> In summary this case also does not need policy or configuration. Just user space using the information
-> that is already presented.
-
-I disagree with that last statement.  If there is a lid angle sensor, policy is
-needed to know which of your associated orientation is the base one and which
-device indicates the lid angle.
-
-Actually most of the time what you will do is pick one 'correct' sensor under
-some configuration of the device and use that.  That is policy.  Yes, you could
-bake the policy in to device tree, but then you can also bake in the association
-between the underlying IIO sensor and any virtual input sensor.
-
-Anyhow, we still disagree on whether any such virtual input interface
-should be a userspace policy decision.  So far I haven't seen any compelling
-argument why it shouldn't be and the flexibility such a policy based interface
-provides is its major advantage.
-
-Thanks,
-
-Jonathan
+> FWIW, we needed to do extra work in iio-sensor-proxy so that the
+> accelerometer in the Sixaxis/DS4 joypads (and uDraw tablet) didn't
+> appear as though they were accelerometer for the system:
+> https://github.com/hadess/iio-sensor-proxy/commit/401d59e54b3123860180d4401e09df8a1e1bc6c3
+>
+> > The two other drivers using INPUT_PROC_ACCELEROMETER are hid-wacom and
+> > hid-udraw-ps3 Wacom. Both seem to report resolution in 'g'  as well.
+>
+> I wrote hid-udraw-ps3, and it's reporting accelerometer data through
+> input because the rest of the driver is input, and it didn't make much
+> sense to use another subsystem for just that small portion of the
+> events the device sends out.
+>
