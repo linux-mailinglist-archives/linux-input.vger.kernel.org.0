@@ -2,113 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DDEF1AE20
-	for <lists+linux-input@lfdr.de>; Sun, 12 May 2019 22:33:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C4551AE32
+	for <lists+linux-input@lfdr.de>; Sun, 12 May 2019 23:01:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726900AbfELUdf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 May 2019 16:33:35 -0400
-Received: from mx4.wp.pl ([212.77.101.11]:32238 "EHLO mx4.wp.pl"
+        id S1726909AbfELU7i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 May 2019 16:59:38 -0400
+Received: from mx3.wp.pl ([212.77.101.9]:57601 "EHLO mx3.wp.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726664AbfELUdf (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 May 2019 16:33:35 -0400
-Received: (wp-smtpd smtp.wp.pl 31684 invoked from network); 12 May 2019 22:33:33 +0200
+        id S1726997AbfELU7h (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 12 May 2019 16:59:37 -0400
+Received: (wp-smtpd smtp.wp.pl 4272 invoked from network); 12 May 2019 22:59:33 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wp.pl; s=1024a;
-          t=1557693213; bh=xftwkTDo9SZxI2rru91s0TaDpgswdOqrM0zB8nAN/T4=;
-          h=From:To:Cc:Subject;
-          b=m3F9XCpEoccrlOWHgrE9z3WPkKgP80gonvIC+NOIqT7JxF82vsuvDI4CcLvsUrcmw
-           Rj8b5Ixbe0Uql701ZknYgvtv8Y3UaedN/yUVZa0TF5pCDNGn2z73qwXSb3oxAqtoCc
-           UBAtP4TNcesBZ398QWFaudRmFS+OxyDGTWj+UE5U=
-Received: from pc-201-108-240-185-static.strong-pc.com (HELO localhost.localdomain) (spaz16@wp.pl@[185.240.108.201])
+          t=1557694773; bh=iyiQTrIWFatOO2FrWGC5Ae8DDFTrjkzZbDAhPWkurEg=;
+          h=Subject:To:Cc:From;
+          b=uNU20vHkGDzKtwImgBNkc0B+4XnFRPuquVdy+PJLYlIQH0bA9cvvKhXZCPRVYEXj0
+           VR/94dli6VW9LlaYuJZX1tuU6d1Hczn97ikMkEipwMnZm1vXdGcqNXhkVeum9m5MTW
+           dzSetjp75ALxH2ABxhJsf2Vesn0KglgPwpHuiDOw=
+Received: from pc-201-108-240-185-static.strong-pc.com (HELO [192.168.0.9]) (spaz16@wp.pl@[185.240.108.201])
           (envelope-sender <spaz16@wp.pl>)
           by smtp.wp.pl (WP-SMTPD) with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP
-          for <igorkuo@gmail.com>; 12 May 2019 22:33:33 +0200
-From:   =?UTF-8?q?B=C5=82a=C5=BCej=20Szczygie=C5=82?= <spaz16@wp.pl>
-Cc:     igorkuo@gmail.com, peter.hutterer@who-t.net,
-        =?UTF-8?q?B=C5=82a=C5=BCej=20Szczygie=C5=82?= <spaz16@wp.pl>,
+          for <linux-kernel@vger.kernel.org>; 12 May 2019 22:59:33 +0200
+Subject: Re: [PATCH] HID: fix A4Tech horizontal scrolling
+To:     Peter Hutterer <peter.hutterer@who-t.net>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Igor Kushnir <igorkuo@gmail.com>,
         Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] HID: fix A4Tech horizontal scrolling
-Date:   Sun, 12 May 2019 22:33:13 +0200
-Message-Id: <20190512203313.18756-1-spaz16@wp.pl>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190507050029.GA5197@jelly>
-References: <20190507050029.GA5197@jelly>
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <20190502213639.7632-1-spaz16@wp.pl>
+ <CAO-hwJLbFv3S9M5N+BKBuafj8H-vToy=2VQd=cvohmaTHLMC3A@mail.gmail.com>
+ <1a40ea07-368a-93f6-8335-dec7ae50bbf4@gmail.com>
+ <CAO-hwJKNH7WoJV-X+egK5cJNNtxamh0L0e1er5dkiTt6KvrmSQ@mail.gmail.com>
+ <20190507050150.GA9838@jelly>
+From:   =?UTF-8?B?QsWCYcW8ZWogU3pjenlnaWXFgg==?= <spaz16@wp.pl>
+Message-ID: <549757a1-33b5-e460-d6e7-ee766a792c27@wp.pl>
+Date:   Sun, 12 May 2019 22:59:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20190507050150.GA9838@jelly>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-WP-MailID: 5384286f20c59aca34f956a0e2b44469
+X-WP-MailID: b67fab14069587d2b61ea64472ce62d8
 X-WP-AV: skaner antywirusowy Poczty Wirtualnej Polski
-X-WP-SPAM: NO 000000B [QUPk]                               
-To:     unlisted-recipients:; (no To-header on input)
+X-WP-SPAM: NO 000000A [MQP0]                               
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Since recent high resolution scrolling changes the A4Tech driver must
-check for the "REL_WHEEL_HI_RES" usage code.
+Hi,
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=203369
-Fixes: 2dc702c991e3774af9d7ce410eef410ca9e2357e ("HID: input: use the
-Resolution Multiplier for high-resolution scrolling")
+On 07.05.2019 at 07:01, Peter Hutterer wrote:
+> On Fri, May 03, 2019 at 01:59:23PM +0200, Benjamin Tissoires wrote:
+>> Hi,
+>>
+>> On Fri, May 3, 2019 at 11:43 AM Igor Kushnir <igorkuo@gmail.com> wrote:
+>>>
+>>> Hi Benjamin,
+>>>
+>>> On 5/3/19 10:36 AM, Benjamin Tissoires wrote:
+>>>> Hi,
+>>>>
+>>>> On Thu, May 2, 2019 at 11:37 PM Błażej Szczygieł <spaz16@wp.pl> wrote:
+>>>>>
+>>>>> Since recent high resolution scrolling changes the A4Tech driver must
+>>>>> check for the "REL_WHEEL_HI_RES" usage code.
+>>>>>
+>>>>> Fixes: 2dc702c991e3774af9d7ce410eef410ca9e2357e (HID: input: use the
+>>>>> Resolution Multiplier for high-resolution scrolling)
+>>>>>
+>>>>> Signed-off-by: Błażej Szczygieł <spaz16@wp.pl>
+>>>>
+>>>> Thanks for the patch. I do not doubt this fixes the issues, but I
+>>>> still wonder if we should not export REL_HWHEEL_HI_RES instead of
+>>>> REL_HWHEEL events.
+>>>
+>>>
+>>> If you mean exporting REL_HWHEEL_HI_RES instead of REL_HWHEEL from
+>>> hid-a4tech.c, then it makes sense to me, though I do not know the code
+>>> well enough to be certain.
+>>
+>> Yep, that's what I meant. I am worried that userspace doesn't know
+>> well how to deal with a device that mixes the new and old REL_WHEEL
+>> events.
+> 
+> sorry, I'm not sure what you mean here. The new events are always mixed with
+> the old ones anyway, and both should be treated as separate event streams.
+> The kernel interface to userspace is fairly easy to deal with, it's the rest
+> that's a bit of mess.
+> 
+> [..]
+> 
+>>>
+>>
+>> OK, thanks both of you for your logs, this is helpful.
+>> So just in case I need to come back later, the horizontal wheel is
+>> "just" the normal wheel plus a modifier in the report.
+>>
+>> Anyway, ideally, can we have a v2 of the patch with the 2 changes
+>> requested above in the commit message and the introduction of
+>> REL_HWHEEL_HI_RES events in addition to REL_HWHEEL?
+>> REL_HWHEEL_HI_RES should report `120*value` and we should also keep
+>> the reporting of REL_WHEEL as it is currently.
+>>
+>> Peter, I grepped in the hid code, and it seems hid-cypress.c is having
+>> the exact same issue. Sigh.
+> 
+> yeah, I found that too when grepping through it. seems to be the only other
+> one though and we can use Błażej's patch as boilerplate once it's done.
 
-Signed-off-by: Błażej Szczygieł <spaz16@wp.pl>
----
-Changes in v2:
-- changed commit message
+Peter, I also found comparison of "usage->code ==" with "REL_HWHEEL"
+and "REL_WHEEL" in hid-lenovo.c, hid-apple.c, hid-ezkey.c, hid-lg.c.
+Unfortunatelly, I don't have such devices to test :(
 
-Changes in v3:
-- send also high resolution events
-
- drivers/hid/hid-a4tech.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/hid-a4tech.c b/drivers/hid/hid-a4tech.c
-index 9428ea7cdf8a..c3a6ce3613fe 100644
---- a/drivers/hid/hid-a4tech.c
-+++ b/drivers/hid/hid-a4tech.c
-@@ -38,8 +38,10 @@ static int a4_input_mapped(struct hid_device *hdev, struct hid_input *hi,
- {
- 	struct a4tech_sc *a4 = hid_get_drvdata(hdev);
- 
--	if (usage->type == EV_REL && usage->code == REL_WHEEL)
-+	if (usage->type == EV_REL && usage->code == REL_WHEEL_HI_RES) {
- 		set_bit(REL_HWHEEL, *bit);
-+		set_bit(REL_HWHEEL_HI_RES, *bit);
-+	}
- 
- 	if ((a4->quirks & A4_2WHEEL_MOUSE_HACK_7) && usage->hid == 0x00090007)
- 		return -1;
-@@ -60,7 +62,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
- 	input = field->hidinput->input;
- 
- 	if (a4->quirks & A4_2WHEEL_MOUSE_HACK_B8) {
--		if (usage->type == EV_REL && usage->code == REL_WHEEL) {
-+		if (usage->type == EV_REL && usage->code == REL_WHEEL_HI_RES) {
- 			a4->delayed_value = value;
- 			return 1;
- 		}
-@@ -68,6 +70,8 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
- 		if (usage->hid == 0x000100b8) {
- 			input_event(input, EV_REL, value ? REL_HWHEEL :
- 					REL_WHEEL, a4->delayed_value);
-+			input_event(input, EV_REL, value ? REL_HWHEEL_HI_RES :
-+					REL_WHEEL_HI_RES, a4->delayed_value * 120);
- 			return 1;
- 		}
- 	}
-@@ -77,8 +81,9 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
- 		return 1;
- 	}
- 
--	if (usage->code == REL_WHEEL && a4->hw_wheel) {
-+	if (usage->code == REL_WHEEL_HI_RES && a4->hw_wheel) {
- 		input_event(input, usage->type, REL_HWHEEL, value);
-+		input_event(input, usage->type, REL_HWHEEL_HI_RES, value * 120);
- 		return 1;
- 	}
- 
--- 
-2.21.0
-
+Cheers,
+Błażej.
