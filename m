@@ -2,102 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46D681E59D
-	for <lists+linux-input@lfdr.de>; Wed, 15 May 2019 01:32:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4C1E1C90C
+	for <lists+linux-input@lfdr.de>; Tue, 14 May 2019 14:55:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726481AbfENXcK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 May 2019 19:32:10 -0400
-Received: from mout.gmx.net ([212.227.15.19]:35805 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726409AbfENXcK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 May 2019 19:32:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1557876718;
-        bh=rrE3Xa82tmuO6OZY3KdgGJv31/On/3RLA0KbOVkbv+I=;
-        h=X-UI-Sender-Class:Date:To:Cc:Subject:From:In-Reply-To:References;
-        b=Pr/0RKL4m42sJkuLxO/6viOCmJAwP+HVXFmHWtsSd9ts7KxSBNU+vNuJB+rsoM/ER
-         4+7MD/znbWokicN80jzWDEMhTW+Chv7stsejYWCYmqiCM5gY3hRNSQOegLTaTtYCpf
-         JUU0OrFMFH8/lp3H1UIU9m+awRQB9PVQlLYIw9hk=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost ([180.14.199.72]) by mail.gmx.com (mrgmx001
- [212.227.17.184]) with ESMTPSA (Nemesis) id 0Lbdl5-1gxQXu27hr-00lD4f; Wed, 15
- May 2019 01:31:58 +0200
-Date:   Tue, 14 May 2019 21:11:32 +0900 (JST)
-Message-Id: <20190514.211132.163893957692107837.teika@gmx.com>
-To:     Alexander Mikhaylenko <exalm7659@gmail.com>
-Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.co
-Subject: Re: [PATCH] Input: synaptics - enable SMBus on ThinkPad E480 and
- E580
-From:   Teika Kazura <teika@gmx.com>
-In-Reply-To: <20190421131156.9631-1-exalm7659@gmail.com>
-        <CAO-hwJ+U5Y53XNVFwgf4y72hNOU1=zEFOrrjtB4=2Cg6ur18rw@mail.gmail.com>
-References: <20190421131156.9631-1-exalm7659@gmail.com>
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:lyO9F1TTUue6smmVeg3dAD2L7gp6PD/K4/9+Q/kBjWCfgIUkZgm
- GZBpSc6rHYqrbtUx03+I1hNOFGJn69IxgwSZMTdcs7AxqMaWA/+9CUkoso973r4dunaVd49
- TcixuTTTARqhFTcRt3HP4ehk8OeYHX70oFVznHjuKWHcaphvtvr6lqfsXTDqyJTLQ+qSy7N
- WLi5zEo55nFWx+aMjIg6Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Jg3p7Ckdh4M=:XjpU+XNQp5GilX6OaOuwg7
- KglkKldzZFgKCbDUX9ifF9qlHUgwkLSR7aemUotoUNoxWSNRZ3VYi/Q1l0qBI9TkjNHUXnUb2
- G09wcxKzB+j/bM8CSnw86y9EML8vTnaWeVGHPNjEfKZJtKc1SUnZ6yH+cBNUoZLoy4+43ZPJG
- Oveon0MtZD3XV7PRFQvr7dO15VmnvxP/iUKVJcyttXLfZumiuC47ae38nV38TnBrOX0ywUH6J
- VQFbFvWS87MXXVTVALVbrQwBhBRbY5LIQ/O8x11pdKQLNWMMfNB40rZy+CoMYJXD4/6KC9tKB
- 0h4MvfdYfd6U4d2laULD2gakAHKDkHo3O9RKXxMkvmx1V6tYqdC4P5VJ4yvunxPhrn7C3/dqL
- kZkmuXkQr8Lbz1cTUthghEldCiW9hYSvyQQf6GRHRI6Hwv8MuI4Eo6UCrCWwE0RGX13bOR9k4
- MwvblStUNh/PXiVk1rr/E/rm5owoiz/HRDbuCP3ZNAUEwUw3GHEQU1ROMUUkUyvCwX6bwtRmb
- FuLzY2gGkGgK+WdvAwpqVZKMO3z32nBTuOHz7d4+KdGZCkuEUkD0bsFRqwhvvsDqvj4sbJxiB
- 1OTxxTEJfXupgXd7jd0u/yK/W43OuGwEKa4dHoFh0c7OOJCVwt0TugxsiL52n9G8MFPGsAEj+
- svpS/a65tsoP520uq50SIUUTolRVCoBbqE7W6hctsQnSz87JYIsMdvAYHq+Z2dfKRFnQYFQot
- FrHF4Svg/2fU+iwoNHW9v6tdbH129J4QMq+uhoJMkNp25PjdDSlq0NEwuF5UgL4bCVBW4iqjw
- eN5z+CyZ6EIvuGcCa7UQM1mRsakBkJ3zHfO7I8kg+r9gPUQ1G+8/NUAhubJVnI3lD0aJWYNzI
- Iq/q+WTYM5mMQQ/FnfrxtxvARdrU3OzILqaB20z46SXS4cHmi1W65kTJHY9Gn+
+        id S1725899AbfENMza (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 May 2019 08:55:30 -0400
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com ([46.30.210.185]:56121
+        "EHLO mailrelay4-1.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725562AbfENMza (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 14 May 2019 08:55:30 -0400
+X-Greylist: delayed 962 seconds by postgrey-1.27 at vger.kernel.org; Tue, 14 May 2019 08:55:28 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=haabendal.dk; s=20140924;
+        h=content-type:mime-version:message-id:date:references:in-reply-to:subject:cc:
+         to:from:from;
+        bh=Wa3jMi9KJqQDLWw1Eka2Kg0cxZh4xKk+W+ZTUzGIaG4=;
+        b=oxSmO0LUNg00fuse7wmhh0Fuyyv2SvcOl1hI7vbPECEGfOV7VZgHlGPL9+zifZn/c3jfCVy5y6YlM
+         XlnOoVjElTVY1N5teGwZlLP3Bo+SZrIgD8+pq6wAPeRiijAZwE2B6ML4xOYeVqx8Mei3K3Jbilp+tb
+         +L9lmrDeJgI+EaFQ=
+X-HalOne-Cookie: 1b0e2f114696488111d802a7184ddba9a359d67a
+X-HalOne-ID: 4e568cd5-7645-11e9-abc4-d0431ea8bb10
+Received: from localhost (unknown [193.163.1.7])
+        by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+        id 4e568cd5-7645-11e9-abc4-d0431ea8bb10;
+        Tue, 14 May 2019 12:39:25 +0000 (UTC)
+From:   Esben Haabendal <esben@haabendal.dk>
+To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-mips@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] mfd: ioc3: Add driver for SGI IOC3 chip
+In-Reply-To: <20190409154610.6735-3-tbogendoerfer@suse.de> (Thomas Bogendoerfers's message of "Tue, 9 Apr 2019 17:46:06 +0200")
+References: <20190409154610.6735-1-tbogendoerfer@suse.de>
+        <20190409154610.6735-3-tbogendoerfer@suse.de>
+        <20190508102313.GG3995@dell>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+Date:   Tue, 14 May 2019 14:39:25 +0200
+Message-ID: <87mujpky6a.fsf@haabendal.dk>
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi, Alexander. If your patch is ok after suspend/hibernation (aka s2ram/s2=
-disk), write so and add Benjamin to the cc list:
- Benjamin Tissoires <benjamin.tissoires@redhat.com>
+On Tue, 09 Apr 2019, Thomas Bogendoerfer wrote:
+> 
+> diff --git a/drivers/net/ethernet/sgi/ioc3-eth.c b/drivers/net/ethernet/sgi/ioc3-eth.c
+> index 358e66b81926..21fe722ebcd8 100644
+> --- a/drivers/net/ethernet/sgi/ioc3-eth.c
+> +++ b/drivers/net/ethernet/sgi/ioc3-eth.c
+>  
+>  [ ... ]
+>  
+> -	err = pci_request_regions(pdev, "ioc3");
 
-It's likely he'll give reviewed-by to your patch.
-# I'm not a kernel developer; simply helping with this ps2 -> rmi4 issue.
+Why are you dropping the call to pci_request_regions()?  Shouldn't you
+do something similar in the new mfd driver?
 
-Regards,
-Teika
+When you are use the the BAR 0 resource as mem_base argument to
+mfd_add_devices() later on, it will be split into child resources for
+the child devices, but they will not be related to the IORESOURCE_MEM
+root tree (iomem_resource) anymore.  I don't think that is how it is
+supposed to be done, as it will allow random other drivers to request
+the exact same memory area.
 
-From: Alexander Mikhaylenko <exalm7659@gmail.com>
-Subject: [PATCH] Input: synaptics - enable SMBus on ThinkPad E480 and E580
-Date: Sun, 21 Apr 2019 18:11:56 +0500
+How/where is the memory resources inserted in the root IORESOURCE_MEM
+resource (iomem_resource)?  Or is it allowed to use resources without
+inserting it into the root tree?
 
-> They are capable of using intertouch and it works well with
-> psmouse.synaptics_intertouch=3D1, so add them to the list.
->
-> Without it, scrolling and gestures are jumpy, three-finger pinch gesture
-> doesn't work and three- or four-finger swipes sometimes get stuck.
->
-> Signed-off-by: Alexander Mikhaylenko <exalm7659@gmail.com>
-> ---
->  drivers/input/mouse/synaptics.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synap=
-tics.c
-> index b6da0c1267e3..8e6077d8e434 100644
-> --- a/drivers/input/mouse/synaptics.c
-> +++ b/drivers/input/mouse/synaptics.c
-> @@ -179,6 +179,8 @@ static const char * const smbus_pnp_ids[] =3D {
->  	"LEN0096", /* X280 */
->  	"LEN0097", /* X280 -> ALPS trackpoint */
->  	"LEN200f", /* T450s */
-> +	"LEN2054", /* E480 */
-> +	"LEN2055", /* E580 */
->  	"SYN3052", /* HP EliteBook 840 G4 */
->  	"SYN3221", /* HP 15-ay000 */
->  	NULL
-> --
-> 2.21.0
->
+> +	SET_NETDEV_DEV(dev, &pdev->dev);
+> +	ip = netdev_priv(dev);
+> +	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	ip->regs = ioremap(r->start, resource_size(r));
+> +	r = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+> +	ip->ssram = ioremap(r->start, resource_size(r));
+
+Maybe use devm_platform_ioremap_resource() instead, which handles both
+platform_get_resource() and ioremap() in one call..
+
+/Esben
