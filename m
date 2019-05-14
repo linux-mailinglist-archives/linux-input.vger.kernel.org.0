@@ -2,220 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 451841C0D6
-	for <lists+linux-input@lfdr.de>; Tue, 14 May 2019 05:12:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46D681E59D
+	for <lists+linux-input@lfdr.de>; Wed, 15 May 2019 01:32:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726547AbfENDMS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 May 2019 23:12:18 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:39703 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726327AbfENDMS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 May 2019 23:12:18 -0400
-Received: by mail-pg1-f193.google.com with SMTP id w22so7816930pgi.6
-        for <linux-input@vger.kernel.org>; Mon, 13 May 2019 20:12:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=0GDulMj3XG7J6SNVyHq7tr4H7yGNWhBU00X4VEgJSCk=;
-        b=P2Kny7bVMHytS634Hz48ImWvwOkrCZTGt6IAiIzUK8Np5+vE5YEs7t1pefb4nmEuLn
-         a/tSi8JH+qGW3JiJHcqqQZ/NUIAbdFcMBqtnLoixhaxikdMJL3gAompYxAsx9CKH6lTD
-         A7WgiQlGWDwhvClIO+uLrAL1lMpgo/dy5EGEsw+z461dLxF2rnk36JofCr6WrfTnz9As
-         bBtS64kW5sw00ZUELRvlodWegwPjdrAiCCt4qEUttb51wDO0iGCA4AQ2F10B2klNnrrY
-         nKwAiv1m9Q8ZuIEMw1rfeckyhWlljHEfRhrzIC/uTVCSxzVnOemwtaMTigXZG7v7Hfkm
-         9LKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0GDulMj3XG7J6SNVyHq7tr4H7yGNWhBU00X4VEgJSCk=;
-        b=DzMyk55v5WasOAYrKwpaSLuyDqyMmf0xSVu+0vLdwyvm0jiARL2/QOIs35stQ6ALqm
-         NsG8z6ryzrLORt/u+XCK9ZEYq+ff3UQiVh8dvNlLLsCpN7+5OzZszTj/70fjgHq/9aL0
-         1YgpS1eQmOiHe92LW47AqpkRGphfeuP1TQaNcBblvCQnrwq65YJCjPTxVA63O7zCtxlp
-         Z1lErOk5cGDDc93G7txYwtQOuZsjp8bF5xzSjSfETmEyptHpzzBO0qFZ3ssdvOP9m9Sz
-         jhSqMe+R8jn3Q4hp4qsdm74muq4fwUyBV81NLSUgbvs2gmDYm5h81XQxa3r1i4zGUFUW
-         rObQ==
-X-Gm-Message-State: APjAAAU4/AN6ywoaGsfA+rdkxUqw1jrCzj7nBzLWgpGCQQxtzIB+209C
-        xVhgGY/ioT0X0gJark5Pt8I=
-X-Google-Smtp-Source: APXvYqwMliDqUyPz2NetbFC1sm4I9C4g9cFLMW3dHG/MXRYKDw7sAX6z47cMlg99KA3smkRCyheAfQ==
-X-Received: by 2002:a65:480c:: with SMTP id h12mr34772905pgs.266.1557803536967;
-        Mon, 13 May 2019 20:12:16 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id m6sm5792207pgr.18.2019.05.13.20.12.15
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 13 May 2019 20:12:15 -0700 (PDT)
-Date:   Mon, 13 May 2019 20:12:14 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Daniel Mack <daniel@zonque.org>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] input: touch: eeti: move ISR code to own function
-Message-ID: <20190514031214.GA59902@dtor-ws>
-References: <20190429152411.12835-1-daniel@zonque.org>
- <3ed15369-f5cc-5ead-9ede-e543eb6ddcc2@zonque.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3ed15369-f5cc-5ead-9ede-e543eb6ddcc2@zonque.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726481AbfENXcK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 May 2019 19:32:10 -0400
+Received: from mout.gmx.net ([212.227.15.19]:35805 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726409AbfENXcK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 14 May 2019 19:32:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1557876718;
+        bh=rrE3Xa82tmuO6OZY3KdgGJv31/On/3RLA0KbOVkbv+I=;
+        h=X-UI-Sender-Class:Date:To:Cc:Subject:From:In-Reply-To:References;
+        b=Pr/0RKL4m42sJkuLxO/6viOCmJAwP+HVXFmHWtsSd9ts7KxSBNU+vNuJB+rsoM/ER
+         4+7MD/znbWokicN80jzWDEMhTW+Chv7stsejYWCYmqiCM5gY3hRNSQOegLTaTtYCpf
+         JUU0OrFMFH8/lp3H1UIU9m+awRQB9PVQlLYIw9hk=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost ([180.14.199.72]) by mail.gmx.com (mrgmx001
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 0Lbdl5-1gxQXu27hr-00lD4f; Wed, 15
+ May 2019 01:31:58 +0200
+Date:   Tue, 14 May 2019 21:11:32 +0900 (JST)
+Message-Id: <20190514.211132.163893957692107837.teika@gmx.com>
+To:     Alexander Mikhaylenko <exalm7659@gmail.com>
+Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.co
+Subject: Re: [PATCH] Input: synaptics - enable SMBus on ThinkPad E480 and
+ E580
+From:   Teika Kazura <teika@gmx.com>
+In-Reply-To: <20190421131156.9631-1-exalm7659@gmail.com>
+        <CAO-hwJ+U5Y53XNVFwgf4y72hNOU1=zEFOrrjtB4=2Cg6ur18rw@mail.gmail.com>
+References: <20190421131156.9631-1-exalm7659@gmail.com>
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:lyO9F1TTUue6smmVeg3dAD2L7gp6PD/K4/9+Q/kBjWCfgIUkZgm
+ GZBpSc6rHYqrbtUx03+I1hNOFGJn69IxgwSZMTdcs7AxqMaWA/+9CUkoso973r4dunaVd49
+ TcixuTTTARqhFTcRt3HP4ehk8OeYHX70oFVznHjuKWHcaphvtvr6lqfsXTDqyJTLQ+qSy7N
+ WLi5zEo55nFWx+aMjIg6Q==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Jg3p7Ckdh4M=:XjpU+XNQp5GilX6OaOuwg7
+ KglkKldzZFgKCbDUX9ifF9qlHUgwkLSR7aemUotoUNoxWSNRZ3VYi/Q1l0qBI9TkjNHUXnUb2
+ G09wcxKzB+j/bM8CSnw86y9EML8vTnaWeVGHPNjEfKZJtKc1SUnZ6yH+cBNUoZLoy4+43ZPJG
+ Oveon0MtZD3XV7PRFQvr7dO15VmnvxP/iUKVJcyttXLfZumiuC47ae38nV38TnBrOX0ywUH6J
+ VQFbFvWS87MXXVTVALVbrQwBhBRbY5LIQ/O8x11pdKQLNWMMfNB40rZy+CoMYJXD4/6KC9tKB
+ 0h4MvfdYfd6U4d2laULD2gakAHKDkHo3O9RKXxMkvmx1V6tYqdC4P5VJ4yvunxPhrn7C3/dqL
+ kZkmuXkQr8Lbz1cTUthghEldCiW9hYSvyQQf6GRHRI6Hwv8MuI4Eo6UCrCWwE0RGX13bOR9k4
+ MwvblStUNh/PXiVk1rr/E/rm5owoiz/HRDbuCP3ZNAUEwUw3GHEQU1ROMUUkUyvCwX6bwtRmb
+ FuLzY2gGkGgK+WdvAwpqVZKMO3z32nBTuOHz7d4+KdGZCkuEUkD0bsFRqwhvvsDqvj4sbJxiB
+ 1OTxxTEJfXupgXd7jd0u/yK/W43OuGwEKa4dHoFh0c7OOJCVwt0TugxsiL52n9G8MFPGsAEj+
+ svpS/a65tsoP520uq50SIUUTolRVCoBbqE7W6hctsQnSz87JYIsMdvAYHq+Z2dfKRFnQYFQot
+ FrHF4Svg/2fU+iwoNHW9v6tdbH129J4QMq+uhoJMkNp25PjdDSlq0NEwuF5UgL4bCVBW4iqjw
+ eN5z+CyZ6EIvuGcCa7UQM1mRsakBkJ3zHfO7I8kg+r9gPUQ1G+8/NUAhubJVnI3lD0aJWYNzI
+ Iq/q+WTYM5mMQQ/FnfrxtxvARdrU3OzILqaB20z46SXS4cHmi1W65kTJHY9Gn+
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Daniel,
+Hi, Alexander. If your patch is ok after suspend/hibernation (aka s2ram/s2=
+disk), write so and add Benjamin to the cc list:
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-On Mon, May 06, 2019 at 04:52:19PM +0200, Daniel Mack wrote:
-> Hi Dmitry,
-> 
-> Is this one good to go in? WDYT?
+It's likely he'll give reviewed-by to your patch.
+# I'm not a kernel developer; simply helping with this ps2 -> rmi4 issue.
 
-I wonder if we should combine the 2 and have something like below.
+Regards,
+Teika
 
-Thanks!
+From: Alexander Mikhaylenko <exalm7659@gmail.com>
+Subject: [PATCH] Input: synaptics - enable SMBus on ThinkPad E480 and E580
+Date: Sun, 21 Apr 2019 18:11:56 +0500
 
-
-Input: eeti_ts -  read hardware state once after wakeup
-
-From: Daniel Mack <daniel@zonque.org>
-
-For systems in which the touch IRQ is acting as wakeup source, and that do
-not support level-driven interrupts, the interrupt controller might not
-latch the GPIO IRQ during sleep. In such cases, the interrupt will never
-occur again after resume, hence the touch screen appears dead.
-
-To fix this, check for the assertion of the attn gpio, and read form the
-controller once in the resume path to read the hardware status and
-to arm the IRQ again.
-
-Introduce a mutex to guard eeti_ts_read() against parallel invocations
-from different contexts.
-
-Signed-off-by: Daniel Mack <daniel@zonque.org>
-Reported-by: Sven Neumann <Sven.Neumann@teufel.de>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/touchscreen/eeti_ts.c |   71 ++++++++++++++++++++++++++++-------
- 1 file changed, 56 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/input/touchscreen/eeti_ts.c b/drivers/input/touchscreen/eeti_ts.c
-index 7fe41965c5d1..e3aee95344fc 100644
---- a/drivers/input/touchscreen/eeti_ts.c
-+++ b/drivers/input/touchscreen/eeti_ts.c
-@@ -41,6 +41,7 @@ struct eeti_ts {
- 	struct input_dev *input;
- 	struct gpio_desc *attn_gpio;
- 	struct touchscreen_properties props;
-+	struct mutex mutex;
- 	bool running;
- };
- 
-@@ -75,42 +76,80 @@ static void eeti_ts_report_event(struct eeti_ts *eeti, u8 *buf)
- 	input_sync(eeti->input);
- }
- 
-+static int eeti_ts_read(struct eeti_ts *eeti)
-+{
-+	int len, error;
-+	char buf[6];
-+
-+	len = i2c_master_recv(eeti->client, buf, sizeof(buf));
-+	if (len != sizeof(buf)) {
-+		error = len < 0 ? len : -EIO;
-+		dev_err(&eeti->client->dev,
-+			"failed to read touchscreen data: %d\n",
-+			error);
-+		return error;
-+	}
-+
-+	/* Motion packet */
-+	if (buf[0] & 0x80)
-+		eeti_ts_report_event(eeti, buf);
-+
-+	return 0;
-+}
-+
- static irqreturn_t eeti_ts_isr(int irq, void *dev_id)
- {
- 	struct eeti_ts *eeti = dev_id;
--	int len;
- 	int error;
--	char buf[6];
-+
-+	mutex_lock(&eeti->mutex);
- 
- 	do {
--		len = i2c_master_recv(eeti->client, buf, sizeof(buf));
--		if (len != sizeof(buf)) {
--			error = len < 0 ? len : -EIO;
--			dev_err(&eeti->client->dev,
--				"failed to read touchscreen data: %d\n",
--				error);
-+		/*
-+		 * If we have attention GPIO, trust it. Otherwise we'll read
-+		 * once and exit. We assume that in this case we are using
-+		 * level triggered interrupt and it will get raised again
-+		 * if/when there is more data.
-+		 */
-+		if (eeti->attn_gpio &&
-+		    !gpiod_get_value_cansleep(eeti->attn_gpio)) {
- 			break;
- 		}
- 
--		if (buf[0] & 0x80) {
--			/* Motion packet */
--			eeti_ts_report_event(eeti, buf);
--		}
--	} while (eeti->running &&
--		 eeti->attn_gpio && gpiod_get_value_cansleep(eeti->attn_gpio));
-+		error = eeti_ts_read(eeti);
-+		if (error)
-+			break;
-+
-+	} while (eeti->running && eeti->attn_gpio);
- 
-+	mutex_unlock(&eeti->mutex);
- 	return IRQ_HANDLED;
- }
- 
- static void eeti_ts_start(struct eeti_ts *eeti)
- {
-+	mutex_lock(&eeti->mutex);
-+
- 	eeti->running = true;
--	wmb();
- 	enable_irq(eeti->client->irq);
-+
-+	/*
-+	 * Kick the controller in case we are using edge interrupt and
-+	 * we missed our edge while interrupt was disabled. We expect
-+	 * the attention GPIO to be wired in this case.
-+	 */
-+	if (eeti->attn_gpio && gpiod_get_value_cansleep(eeti->attn_gpio))
-+		eeti_ts_read(eeti);
-+
-+	mutex_lock(&eeti->mutex);
- }
- 
- static void eeti_ts_stop(struct eeti_ts *eeti)
- {
-+	/*
-+	 * Not locking here, just setting a flag and expect that the
-+	 * interrupt thread will notice the flag eventually.
-+	 */
- 	eeti->running = false;
- 	wmb();
- 	disable_irq(eeti->client->irq);
-@@ -153,6 +192,8 @@ static int eeti_ts_probe(struct i2c_client *client,
- 		return -ENOMEM;
- 	}
- 
-+	mutex_init(&eeti->mutex);
-+
- 	input = devm_input_allocate_device(dev);
- 	if (!input) {
- 		dev_err(dev, "Failed to allocate input device.\n");
-
-
--- 
-Dmitry
+> They are capable of using intertouch and it works well with
+> psmouse.synaptics_intertouch=3D1, so add them to the list.
+>
+> Without it, scrolling and gestures are jumpy, three-finger pinch gesture
+> doesn't work and three- or four-finger swipes sometimes get stuck.
+>
+> Signed-off-by: Alexander Mikhaylenko <exalm7659@gmail.com>
+> ---
+>  drivers/input/mouse/synaptics.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synap=
+tics.c
+> index b6da0c1267e3..8e6077d8e434 100644
+> --- a/drivers/input/mouse/synaptics.c
+> +++ b/drivers/input/mouse/synaptics.c
+> @@ -179,6 +179,8 @@ static const char * const smbus_pnp_ids[] =3D {
+>  	"LEN0096", /* X280 */
+>  	"LEN0097", /* X280 -> ALPS trackpoint */
+>  	"LEN200f", /* T450s */
+> +	"LEN2054", /* E480 */
+> +	"LEN2055", /* E580 */
+>  	"SYN3052", /* HP EliteBook 840 G4 */
+>  	"SYN3221", /* HP 15-ay000 */
+>  	NULL
+> --
+> 2.21.0
+>
