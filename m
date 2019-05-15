@@ -2,124 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 678281FCB7
-	for <lists+linux-input@lfdr.de>; Thu, 16 May 2019 01:15:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79B541FCC4
+	for <lists+linux-input@lfdr.de>; Thu, 16 May 2019 01:29:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726157AbfEOXPW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 May 2019 19:15:22 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:40217 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725953AbfEOXPW (ORCPT
+        id S1726270AbfEOX3k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 May 2019 19:29:40 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:37421 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726363AbfEOX1k (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 May 2019 19:15:22 -0400
-Received: by mail-pf1-f196.google.com with SMTP id u17so755015pfn.7;
-        Wed, 15 May 2019 16:15:22 -0700 (PDT)
+        Wed, 15 May 2019 19:27:40 -0400
+Received: by mail-pl1-f195.google.com with SMTP id p15so612950pll.4
+        for <linux-input@vger.kernel.org>; Wed, 15 May 2019 16:27:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=XJZhWh1SMqVbnfDN/H36cTG2oQhVsmiYdQ8OcDDR5lI=;
-        b=BIFAr/kEEO0si6HtLJyKiKMMV3w8VLMwFao6/qhPQ6w4QDOIbe1da9Re6egqkQCMiI
-         0w9C3AtUxqSozmTNb82mv/nS4+oMRvcmhgUTsk+yebxr4lBAqwjc1HmuqutCuLqMJMWC
-         3gfLGOORTeIkO+J9fCVCpFv1nyzwbSBTBG+NTCr9owgbfIVG5mMXBbJpV0g0q3pj3sm2
-         JDdZi6oVe+U4JElzuJe3up90h+vJXC9077/MGFbit1y7M+wTf9RL3QzX+DGJAignXg3t
-         02WpVhfC+jaskoQsxHWxFPOl3u2I4yW7Z13T6Cp7vK4ntnmBje8xUrIzZL87fKqkpnSg
-         6I6g==
+        bh=dqTU/tIImF6xPllRFE7RdZlaBvWAayTrOgTRMUWaZ7A=;
+        b=qTU5/RbK4P8mC0sEcGb2S+A7q1NHO9rsHBcxs8La8cX9tBNjYYkG8iiEvJ84E4OcaJ
+         B0YsubZW3mCgQ6EWmzeJ6dpE5MXMCGzwig3KlbE2W021AjNgu32ifa/G7fUMVZ9Wy6oJ
+         D0Fe6avKRm8J0gJaaaIIt4HjEvYXlPi8mYx+5nUaB5s6HoHPseoOywgFNTHT6nt05MfZ
+         BhR9rBGMN6ZrvYwP8X3gIDb3+bR78EFzQRfDl7vEYC76GWxdNnvDlHEiQ4ci4bpm9wSp
+         yhowoPfrmuGXLTV6pwyr5QPES9s6/1HoiymIwR4m3yzYRYcRjrv2pbUAXLxaC4Q7+zzN
+         wJlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=XJZhWh1SMqVbnfDN/H36cTG2oQhVsmiYdQ8OcDDR5lI=;
-        b=eZgCq9aeKr83m6uoW0I2MhdQ58msY4mSWB8jYbPCa407IWr6WCcJ92n0pjUF2bUhfC
-         KgeOstlw+fOTC2ErUDNMMNXtu/GPb11FqE4yMrD1pGthD8zrVsqQl6+fHiA13fyoImX3
-         T/2Xobjj8iSPRak/kO+Bj/804YsB5u1RjlRyrsCdN2wkWAg3EZFF3t2XrVmixW/IQKNZ
-         v4QifK1kLMpQ0UKpnWUa8vDjGvOwK2aE3Z4D9nP3N73aJLJj7LWAao0r/MXmqtZ5qlcn
-         +2mL3sbpQGxnrIrsF8bHaQ3EUOMKiuXqZye3f1Ga3sH7Lurkfga2z/BIdNHxHDvuemKb
-         TUzA==
-X-Gm-Message-State: APjAAAVkn54r5+FHziAI9AginbBiX4C9xRDNBWh7QHcum2N5DcEdw0id
-        exsurxW+x57IWt2vH5ulLxV8c6zX
-X-Google-Smtp-Source: APXvYqzqDK5MSA3hl87Zw8ORnfoHa+i4OuTZkZbi3ZC12aTOAib81nLkfG6+V953lMGFxfE/JWIr/A==
-X-Received: by 2002:aa7:864e:: with SMTP id a14mr39140447pfo.132.1557962121374;
-        Wed, 15 May 2019 16:15:21 -0700 (PDT)
+        bh=dqTU/tIImF6xPllRFE7RdZlaBvWAayTrOgTRMUWaZ7A=;
+        b=dwbnKtne05hWPgovy3GSYUJMUYQroX1+kA3ru9p8SX4+XHLtZrcxljGJlMZpSQ0OGp
+         29XAJH4Cve9OxpX7sef2cCp/JO16ukOOccY+Y4bhhlOMw88sk80YUqMHSVeectntg9ol
+         sMjPI2v6JX5T6G1/6SKHdSiQQLAeCQn9eKyi9EVxjsotgHITPTBiQFyH8hsmDvFfwlnj
+         2OwK7d3/+i330HzOV5DpjvuYLWO1rOVwTrLhKBiCSxCbuIIA1AHmeMf0Itc80N8A/Piu
+         s9nRjJVnrApN8uXFfSqB0kQc1tb+b4bRR+9/Zg3gFXK56b+LuJI8jtHU0gIOLA3un8AM
+         xgrw==
+X-Gm-Message-State: APjAAAWWniQskFrCEa97P4jLzT/UAkbFEPQS2572QxqKkfdesG25mBb2
+        On2VlUxRaJNlpPwyy0twlkQ=
+X-Google-Smtp-Source: APXvYqx64WsB4FQrAOIDsqx67A7W2CjJk67E/BELdGHENxhp6xWaThBhvrxmRxmO/GM83DoUMFXJKg==
+X-Received: by 2002:a17:902:7e04:: with SMTP id b4mr46780374plm.211.1557962858652;
+        Wed, 15 May 2019 16:27:38 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id y10sm4807757pfm.27.2019.05.15.16.15.20
+        by smtp.gmail.com with ESMTPSA id u75sm6989346pfa.138.2019.05.15.16.27.37
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 15 May 2019 16:15:20 -0700 (PDT)
-Date:   Wed, 15 May 2019 16:15:19 -0700
+        Wed, 15 May 2019 16:27:37 -0700 (PDT)
+Date:   Wed, 15 May 2019 16:27:35 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Ravi Chandra Sadineni <ravisadineni@chromium.org>
-Cc:     =?utf-8?B?5buW5bSH5qau?= <kt.liao@emc.com.tw>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Abhishek Bhardwaj <abhishekbh@google.com>,
-        Todd Broch <tbroch@google.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: Re: [PATCH V1] elan_i2c: Increment wakeup count if wake source.
-Message-ID: <20190515231519.GA134544@dtor-ws>
-References: <20190513220610.177489-1-ravisadineni@chromium.org>
- <CAKdAkRQ_J6QWxtWpoRQnNWKcJpXox6xVDZWcWYOXkBhPSn99Rw@mail.gmail.com>
- <CAEZbON4Z5GKYvMZJ8ojko_f1xzv2rf4uR6cDz2LMxu+XvzTzog@mail.gmail.com>
+To:     Daniel Mack <daniel@zonque.org>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] input: touch: eeti: move ISR code to own function
+Message-ID: <20190515232735.GB134544@dtor-ws>
+References: <20190429152411.12835-1-daniel@zonque.org>
+ <3ed15369-f5cc-5ead-9ede-e543eb6ddcc2@zonque.org>
+ <20190514031214.GA59902@dtor-ws>
+ <04836d4a-53bd-0cd1-f853-3a730952d68c@zonque.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAEZbON4Z5GKYvMZJ8ojko_f1xzv2rf4uR6cDz2LMxu+XvzTzog@mail.gmail.com>
+In-Reply-To: <04836d4a-53bd-0cd1-f853-3a730952d68c@zonque.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, May 15, 2019 at 09:17:59AM -0700, Ravi Chandra Sadineni wrote:
-> Hi Dmitry,
+On Wed, May 15, 2019 at 09:54:17PM +0200, Daniel Mack wrote:
+> On 14/5/2019 5:12 AM, Dmitry Torokhov wrote:
+> > Hi Daniel,
+> > 
+> > On Mon, May 06, 2019 at 04:52:19PM +0200, Daniel Mack wrote:
+> >> Hi Dmitry,
+> >>
+> >> Is this one good to go in? WDYT?
+> > 
+> > I wonder if we should combine the 2 and have something like below.
 > 
-> On Mon, May 13, 2019 at 4:29 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > Hi Ravi,
-> >
-> > On Mon, May 13, 2019 at 3:06 PM Ravi Chandra Sadineni
-> > <ravisadineni@chromium.org> wrote:
-> > >
-> > > Notify the PM core that this dev is the wake source. This helps
-> > > userspace daemon tracking the wake source to identify the origin of the
-> > > wake.
-> >
-> > I wonder if we could do that form the i2c core instead of individual drivers?
-> I am sorry, I don't see a way how this could be done.
-
-Sorry, brain fart on my part. Applied, thank you.
-
-> >
-> > >
-> > > Signed-off-by: Ravi Chandra Sadineni <ravisadineni@chromium.org>
-> > > ---
-> > >  drivers/input/mouse/elan_i2c_core.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > >
-> > > diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
-> > > index f9525d6f0bfe..2c0561e20b7f 100644
-> > > --- a/drivers/input/mouse/elan_i2c_core.c
-> > > +++ b/drivers/input/mouse/elan_i2c_core.c
-> > > @@ -981,6 +981,8 @@ static irqreturn_t elan_isr(int irq, void *dev_id)
-> > >         if (error)
-> > >                 goto out;
-> > >
-> > > +       pm_wakeup_event(dev, 0);
-> > > +
-> > >         switch (report[ETP_REPORT_ID_OFFSET]) {
-> > >         case ETP_REPORT_ID:
-> > >                 elan_report_absolute(data, report);
-> > > --
-> > > 2.20.1
-> > >
-> >
-> > Thanks.
-> >
-> > --
-> > Dmitry
+> Sure, looks fine to me, except for one small yet important thing - see
+> below.
 > 
-> Thanks,
-> Ravi
+> 
+> 
+> > Input: eeti_ts -  read hardware state once after wakeup
+> > 
+> > From: Daniel Mack <daniel@zonque.org>
+> > 
+> > For systems in which the touch IRQ is acting as wakeup source, and that do
+> > not support level-driven interrupts, the interrupt controller might not
+> > latch the GPIO IRQ during sleep. In such cases, the interrupt will never
+> > occur again after resume, hence the touch screen appears dead.
+> > 
+> > To fix this, check for the assertion of the attn gpio, and read form the
+> > controller once in the resume path to read the hardware status and
+> > to arm the IRQ again.
+> > 
+> > Introduce a mutex to guard eeti_ts_read() against parallel invocations
+> > from different contexts.
+> > 
+> > Signed-off-by: Daniel Mack <daniel@zonque.org>
+> > Reported-by: Sven Neumann <Sven.Neumann@teufel.de>
+> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > ---
+> >  drivers/input/touchscreen/eeti_ts.c |   71 ++++++++++++++++++++++++++++-------
+> >  1 file changed, 56 insertions(+), 15 deletions(-)
+> 
+> [...]
+> 
+> >  static void eeti_ts_start(struct eeti_ts *eeti)
+> >  {
+> > +	mutex_lock(&eeti->mutex);
+> > +
+> >  	eeti->running = true;
+> > -	wmb();
+> >  	enable_irq(eeti->client->irq);
+> > +
+> > +	/*
+> > +	 * Kick the controller in case we are using edge interrupt and
+> > +	 * we missed our edge while interrupt was disabled. We expect
+> > +	 * the attention GPIO to be wired in this case.
+> > +	 */
+> > +	if (eeti->attn_gpio && gpiod_get_value_cansleep(eeti->attn_gpio))
+> > +		eeti_ts_read(eeti);
+> > +
+> > +	mutex_lock(&eeti->mutex);
+> 
+> If you turn the above into a mutex_unlock(), I'm happy :)
+
+*sigh* I so wanted to save 2 bytes here ;)
+
+Thanks for spotting this.
 
 -- 
 Dmitry
