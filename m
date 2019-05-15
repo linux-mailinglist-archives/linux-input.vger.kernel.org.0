@@ -2,94 +2,150 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2BD61FC94
-	for <lists+linux-input@lfdr.de>; Thu, 16 May 2019 00:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC2AF1FC95
+	for <lists+linux-input@lfdr.de>; Thu, 16 May 2019 00:36:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726039AbfEOWfR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 May 2019 18:35:17 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:44583 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725937AbfEOWfR (ORCPT
+        id S1726122AbfEOWgf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 May 2019 18:36:35 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:46157 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725937AbfEOWgf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 May 2019 18:35:17 -0400
-Received: by mail-ed1-f65.google.com with SMTP id b8so1993880edm.11
-        for <linux-input@vger.kernel.org>; Wed, 15 May 2019 15:35:16 -0700 (PDT)
+        Wed, 15 May 2019 18:36:35 -0400
+Received: by mail-lf1-f65.google.com with SMTP id l26so1001898lfh.13
+        for <linux-input@vger.kernel.org>; Wed, 15 May 2019 15:36:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=brixit-nl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/GhtiO2xljpPjlyBlulu/gGvVVN1c2y+XZMUkNyBbH8=;
-        b=EuqUqi+yf+nboFvDDFDY8BKBrqg8dIW5eyDYoIGS/IIFGoyGpE6EQ2yqFG59KQOsFh
-         tR7QlLFktFGeVeYKfKWhMF6ZaHrNY3gSbfgxFvKXypd7/vTyCqjTv4hnlJdEdMbstHCq
-         FfAz3rgemiLFYlExh2vv6LmObAiArgATS0WmCIExcfFiV1ZmDMKkuS3c1xGP5cQggVh8
-         SJgKiDaKqt2MBw/xyhgz+3W6hD+d6TaRuZGITZMb0q3pXzWBZikQbwFRzVnyvXfbDS9F
-         fqeKtChJdyXrjj9xIgHxgqdFooHdU1O78kI76fP5V0mJ/4W0N2JQ91SLhkifwBTJsp7Q
-         WLqw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3JB6BptRDoJrP6qghIXIRgZ+C+fQN1FhzlJ2OMhR6FQ=;
+        b=TSeuMGeleN1By+HKQBi7JP4GQc+p92hfSus2kggKHwVMG4usM03ApsmumhHKLi+HnI
+         wO6jOdrWNO3h6Y9eyodhHk/btpTHwON+yfTuFKNYj4iPpnosKUeIxBXT2o8fOtpv8dp4
+         eBArxKlr+JawPel2oCKp0TycD9Ec/MnSfSjXjMkxbaPHl65RWfysZAR2Ku6XLlYFaPJs
+         xFAsH+WVJqxo+6ooXYBM8YF3U0CRG1PLt8We1hTCY9eq//kMrKaqTos8QFeU3InKQr9D
+         gaBGfLEGnzgf1muMTX2xlN4pZrlB02Mpi6e9t42gioe6RNxhDBVz79XIUPlD/d4z/YaI
+         GNhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/GhtiO2xljpPjlyBlulu/gGvVVN1c2y+XZMUkNyBbH8=;
-        b=ayuszAY7uttjovEQ1h2QR1tHLaJd4xzCaJmLHITE+kB+8ulCWKoQqFXSSpE3KFW7G2
-         Bs3rUgBoIRk/4b7Ts7cH2NT9ifIQ1TXw2staw7Z07GaBCA25+88w8Iw3aIuoo3QBMuIE
-         baUYc3U/vSlGKlcJA78BtGmKDr8MPuQbwfPM4VVV/chBZp+AG3dZZONpMxQF9JkJL5NK
-         1VNVYJwIdyQFQV8mig0mHKAl6h1VhOiNV6WV9tCmdDf+yep4PSQ6PLZJxQ1ieaZxWOPX
-         Z5sgmWQLAqLXLHtL4cdZHBbqQJc+XSZeJYs0XskrmUnMzwrbQ4VeHEDvTgP7q0RRUTjb
-         xltQ==
-X-Gm-Message-State: APjAAAXrhY/TKNiXNAxiw5XABiJwZwT9gA2265wTvQ6Anr40OGmkxz/K
-        BDxtFv4/mDEpiaJGkj0FoCohBQ==
-X-Google-Smtp-Source: APXvYqzHCvuv/UcoQ6STbp7RB9rv51C6JDaYAajIclucnlcxduq38yWz9OhrrySK8/FvRofKAd2K2A==
-X-Received: by 2002:a17:906:5e4e:: with SMTP id b14mr25337922eju.100.1557959715812;
-        Wed, 15 May 2019 15:35:15 -0700 (PDT)
-Received: from msi.localhost ([185.54.207.135])
-        by smtp.gmail.com with ESMTPSA id a17sm1178498edt.63.2019.05.15.15.35.15
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 15 May 2019 15:35:15 -0700 (PDT)
-From:   Martijn Braam <martijn@brixit.nl>
-To:     dmitry.torokhov@gmail.com
-Cc:     m.felsch@pengutronix.de, robh@kernel.org, martijn@brixit.nl,
-        linux-input@vger.kernel.org
-Subject: [PATCH v2 2/2] Input: edt-ft5x06 - add vdd supply
-Date:   Thu, 16 May 2019 00:34:22 +0200
-Message-Id: <20190515223420.13609-2-martijn@brixit.nl>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190515044116.ss6usdlc2yb2aqwe@pengutronix.de>
-References: <20190515044116.ss6usdlc2yb2aqwe@pengutronix.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3JB6BptRDoJrP6qghIXIRgZ+C+fQN1FhzlJ2OMhR6FQ=;
+        b=L7FpzyS8IFqxlQN2er21xmOHf9bHPKhok+fhu5cofdohwGks0pM9HKQW81AY/ypNDY
+         F12EbO5TZJT5zdfxWLSYqON75P1v/b1YhyeI/HRwdFr8ivd0jH9CDwiY+wKQUcGQFxXf
+         4RvNDiHDwsx07PWUqxst0ROZJZKxoHSgIhcAnu4N3hUopypd/vUZMcEGYMT7IgasoZEV
+         bc+ZqqtfVyEQ/N0jeKqmSjrqFAm9tdrmL1iJuP9j9EEQkTluli5cMR93H/1+BGf+I37P
+         CuVnzdxFU1XiR5w13yQagMg2n0eWRcV5ksDEpU8pOI1CDEVuvTnRB3kqJW/+yHlMxp1M
+         bsbQ==
+X-Gm-Message-State: APjAAAUTUHuzxTU5NgODlGVWQnsM7e+1QkkdCk8EXezsa5tmkwQwFSl5
+        f6jnihlbK39rhntgVhT05gz8QqTSqtADP4hf8z5g6w==
+X-Google-Smtp-Source: APXvYqwH14qzCpD9ZhNLkxMggGS4Wl90sMjL3Dk/rsUjJSk89eq3DZc/jziEGrDQl953HamXX1IJcP7VXo8R6Q1RFgM=
+X-Received: by 2002:ac2:4315:: with SMTP id l21mr1131920lfh.143.1557959793098;
+ Wed, 15 May 2019 15:36:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190514212111.21742-1-martijn@brixit.nl> <20190515044116.ss6usdlc2yb2aqwe@pengutronix.de>
+In-Reply-To: <20190515044116.ss6usdlc2yb2aqwe@pengutronix.de>
+From:   Martijn Braam <martijn@brixit.nl>
+Date:   Thu, 16 May 2019 00:36:22 +0200
+Message-ID: <CA+XnvuPyNzpUCJK_NdUp-FobAPzCgDYjTruGhUcO8D=MvnoyEQ@mail.gmail.com>
+Subject: Re: [PATCH] Input: edt-ft5x06 - add vdd supply
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     dmitry.torokhov@gmail.com, robh@kernel.org,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This adds the bindings for the vdd-supply property
+Hi Marco,
 
-Signed-off-by: Martijn Braam <martijn@brixit.nl>
----
- .../devicetree/bindings/input/touchscreen/edt-ft5x06.txt       | 3 +++
- 1 file changed, 3 insertions(+)
+The regulator seems to be optional this way, it gets a dummy regulator
+if none is specified so it shouldn't break existing devices. '
+I think I managed to do the git send-email thing correctly to add the bindings.
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
-index 870b8c5cce9b..4b3e54733bc8 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
-+++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
-@@ -35,6 +35,8 @@ Optional properties:
-  - pinctrl-0:   a phandle pointing to the pin settings for the
-                 control gpios
- 
-+ - vdd-supply:  The controller supply
-+
-  - threshold:   allows setting the "click"-threshold in the range
-                 from 0 to 80.
- 
-@@ -65,6 +67,7 @@ Example:
- 	polytouch: edt-ft5x06@38 {
- 		compatible = "edt,edt-ft5406", "edt,edt-ft5x06";
- 		reg = <0x38>;
-+		vdd-supply = <&reg_ldo_io0>;
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&edt_ft5x06_pins>;
- 		interrupt-parent = <&gpio2>;
--- 
-2.21.0
+Greetings,
+Martijn Braam
 
+Op wo 15 mei 2019 om 06:41 schreef Marco Felsch <m.felsch@pengutronix.de>:
+
+>
+> Hi Martijn,
+>
+> On 19-05-14 23:21, Martijn Braam wrote:
+> > Add a regulator supply request for the controller power
+> >
+> > Signed-off-by: Martijn Braam <martijn@brixit.nl>
+> > ---
+> >  drivers/input/touchscreen/edt-ft5x06.c | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> >
+> > diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+> > index 702bfda7ee77..226c623f8d46 100644
+> > --- a/drivers/input/touchscreen/edt-ft5x06.c
+> > +++ b/drivers/input/touchscreen/edt-ft5x06.c
+> > @@ -29,6 +29,7 @@
+> >  #include <linux/ratelimit.h>
+> >  #include <linux/irq.h>
+> >  #include <linux/interrupt.h>
+> > +#include <linux/regulator/consumer.h>
+> >  #include <linux/input.h>
+> >  #include <linux/i2c.h>
+> >  #include <linux/kernel.h>
+> > @@ -103,6 +104,7 @@ struct edt_ft5x06_ts_data {
+> >
+> >       struct gpio_desc *reset_gpio;
+> >       struct gpio_desc *wake_gpio;
+> > +     struct regulator *vdd;
+> >
+> >  #if defined(CONFIG_DEBUG_FS)
+> >       struct dentry *debug_dir;
+> > @@ -1092,6 +1094,22 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+> >               return error;
+> >       }
+> >
+> > +     tsdata->vdd = devm_regulator_get(&client->dev, "vdd");
+> > +     if (IS_ERR(tsdata->vdd)) {
+> > +             error = PTR_ERR(tsdata->vdd);
+> > +             if (error != -EPROBE_DEFER)
+> > +                     dev_err(&client->dev,
+> > +                             "Failed to get vdd regulator: %d\n", error);
+> > +             return error;
+>
+> This will break current device tree's and this should never happen. So
+> we need to make this regulator optional.
+> BTW:
+> Did you changed the bindings too?
+>
+> Regards,
+>   Marco
+>
+> > +     }
+> > +
+> > +     /* power the controller */
+> > +     error = regulator_enable(tsdata->vdd);
+> > +     if (error) {
+> > +             dev_err(&client->dev, "Controller fail to enable vdd\n");
+> > +             return error;
+> > +     }
+> > +
+> >       tsdata->wake_gpio = devm_gpiod_get_optional(&client->dev,
+> >                                                   "wake", GPIOD_OUT_LOW);
+> >       if (IS_ERR(tsdata->wake_gpio)) {
+> > @@ -1204,6 +1222,7 @@ static int edt_ft5x06_ts_remove(struct i2c_client *client)
+> >  {
+> >       struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
+> >
+> > +     regulator_disable(tsdata->vdd);
+> >       edt_ft5x06_ts_teardown_debugfs(tsdata);
+> >
+> >       return 0;
+> > --
+> > 2.21.0
+> >
+> >
+>
+> --
+> Pengutronix e.K.                           |                             |
+> Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+> Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
