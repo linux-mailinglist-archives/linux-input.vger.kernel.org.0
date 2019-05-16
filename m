@@ -2,162 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D336A20339
-	for <lists+linux-input@lfdr.de>; Thu, 16 May 2019 12:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 820DB20983
+	for <lists+linux-input@lfdr.de>; Thu, 16 May 2019 16:26:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726573AbfEPKMt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 May 2019 06:12:49 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:40787 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726336AbfEPKMs (ORCPT
+        id S1726820AbfEPO0n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 May 2019 10:26:43 -0400
+Received: from mail-wr1-f47.google.com ([209.85.221.47]:39807 "EHLO
+        mail-wr1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726687AbfEPO0n (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 May 2019 06:12:48 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1hRDNW-0007jf-BY; Thu, 16 May 2019 12:12:46 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1hRDNV-0000u2-Fq; Thu, 16 May 2019 12:12:45 +0200
-Date:   Thu, 16 May 2019 12:12:45 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Martijn Braam <martijn@brixit.nl>
-Cc:     dmitry.torokhov@gmail.com, robh@kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: edt-ft5x06 - add vdd supply
-Message-ID: <20190516101245.qvc2h7a6a2jyvo2r@pengutronix.de>
-References: <20190514212111.21742-1-martijn@brixit.nl>
- <20190515044116.ss6usdlc2yb2aqwe@pengutronix.de>
- <CA+XnvuPyNzpUCJK_NdUp-FobAPzCgDYjTruGhUcO8D=MvnoyEQ@mail.gmail.com>
+        Thu, 16 May 2019 10:26:43 -0400
+Received: by mail-wr1-f47.google.com with SMTP id w8so3646620wrl.6;
+        Thu, 16 May 2019 07:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lUmsapdPYG6bp652zPn+NzbRoqrSwbAyyYlD6+mB3JE=;
+        b=Bhjzbr0kd/1H2iMGGWGKcFwaoanS/0rleHShFPO7OsTIgPL4hCdpLQjIl+wEc8IBEL
+         LO3PTQ8QqWTjcYAaKRy54RZELK1c9O49xmbIk8X5TXoilQudWo1r/OqhXVWZO/yQ6TY3
+         o0DTNWlJ0nmOD+gDxarap67H4ZU0lKJG3HSZgaUfJzdMU/3/BzF6VQb+meeqqMTBMKnd
+         RHo4T2qRP1gv+sZ8jtlnFOvG0vcYzpExFAGVFCvQaXuMkgbCYTWZ//X5nxHhYiszJ1Sq
+         M854ahb7m/D+6A+mxaEpWwTm4htV5YEYI2H9/iBw/eKtghqVuLTExS/9/jUJu9lzL9bv
+         AwPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lUmsapdPYG6bp652zPn+NzbRoqrSwbAyyYlD6+mB3JE=;
+        b=VDA8MpFIp5zbRWOAkZDbY9NcDtWY5ix3VQyrlFetYZrRXikt8pCCGc6T/NKAz1SJSd
+         Lo8si0Lo1/w8RsEPhapTB2jpteEtcM2E0/djCUQGfHj/3EFqnqQz+uy7D6WqkNs9h65L
+         52TUxITBBYW1FmGGsYBG4LMg3pQRsrLEplq/BMnciH5hZ52yowtRruH+WYetjmdaqggd
+         aZHoNjYgmCi9ATN12DeiS1DUDoSb/CXwTSLgTIPnlrpzkdrdLM/lE09pE4u2BlN11dYI
+         I1wI232jY5TpRfjWRNysWk6CjQfZumk+ONnt40CLKI16s9B/Etkhq4MqPkMnBXezSUQY
+         ZVDw==
+X-Gm-Message-State: APjAAAW8vDH3c+6vLvp88R4v6TdpGjdq9ISlo+Pa4ynFIonGE3mAXS22
+        c1c72i1Fur7XumvQ6B6x82I9OgujMAA=
+X-Google-Smtp-Source: APXvYqz8KWbolH8G2m4rSMx+jji9yTY1gYw6IoJ46yLo9d+QCu8HVmHuqr9r1iEmLayLeRRCaBq6Vg==
+X-Received: by 2002:a5d:658b:: with SMTP id q11mr11748075wru.130.1558016800923;
+        Thu, 16 May 2019 07:26:40 -0700 (PDT)
+Received: from xws.fritz.box (pD9EA30D0.dip0.t-ipconnect.de. [217.234.48.208])
+        by smtp.gmail.com with ESMTPSA id q4sm4852427wrx.25.2019.05.16.07.26.39
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 16 May 2019 07:26:40 -0700 (PDT)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>
+Subject: [RFC 0/2] Support for buttons on newer MS Surface devices
+Date:   Thu, 16 May 2019 16:25:21 +0200
+Message-Id: <20190516142523.117978-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+XnvuPyNzpUCJK_NdUp-FobAPzCgDYjTruGhUcO8D=MvnoyEQ@mail.gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 12:10:22 up 117 days, 14:52, 98 users,  load average: 1.05, 0.40,
- 0.18
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Martijn,
+This series adds suport for power and volume buttons on 5th and 6th
+generation Microsoft Surface devices. Specifically, it adds support for
+the power-button on the Surface Laptop 1 and Laptop 2, as well as
+support for power- and (on-device) volume-buttons on the Surface Pro 5
+(2017), Pro 6, and Book 2.
 
-On 19-05-16 00:36, Martijn Braam wrote:
-> Hi Marco,
-> 
-> The regulator seems to be optional this way, it gets a dummy regulator
-> if none is specified so it shouldn't break existing devices. '
+These devices use the same MSHW0040 device as on the Surface Pro 4,
+however, whereas the Pro 4 uses an ACPI notify handler, the newer
+devices use GPIO interrupts to signal these events.
 
-You're right I didn't covered that.
+The first patch of this series ensures that the surfacepro3_button
+driver, used for MSHW0040 on the Pro 4, does not probe for the newer
+devices. The second patch adapts soc_button_array to implement the
+actual button support.
 
-> I think I managed to do the git send-email thing correctly to add the bindings.
+I think the changes to soc_button_array in the second patch warrant a
+thorough review. I've tried to make things a bit more generic to be able
+to integrate arbitrary ACPI GPIO power-/volume-button devices more
+easily, I'm not sure if there may be reasons against this. 
 
-Seems to be okay :)
+Maximilian Luz (2):
+  platform: Fix device check for surfacepro3_button
+  input: soc_button_array for newer surface devices
 
-Regards,
-  Marco
-
-> Greetings,
-> Martijn Braam
-> 
-> Op wo 15 mei 2019 om 06:41 schreef Marco Felsch <m.felsch@pengutronix.de>:
-> 
-> >
-> > Hi Martijn,
-> >
-> > On 19-05-14 23:21, Martijn Braam wrote:
-> > > Add a regulator supply request for the controller power
-> > >
-> > > Signed-off-by: Martijn Braam <martijn@brixit.nl>
-> > > ---
-> > >  drivers/input/touchscreen/edt-ft5x06.c | 19 +++++++++++++++++++
-> > >  1 file changed, 19 insertions(+)
-> > >
-> > > diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-> > > index 702bfda7ee77..226c623f8d46 100644
-> > > --- a/drivers/input/touchscreen/edt-ft5x06.c
-> > > +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> > > @@ -29,6 +29,7 @@
-> > >  #include <linux/ratelimit.h>
-> > >  #include <linux/irq.h>
-> > >  #include <linux/interrupt.h>
-> > > +#include <linux/regulator/consumer.h>
-> > >  #include <linux/input.h>
-> > >  #include <linux/i2c.h>
-> > >  #include <linux/kernel.h>
-> > > @@ -103,6 +104,7 @@ struct edt_ft5x06_ts_data {
-> > >
-> > >       struct gpio_desc *reset_gpio;
-> > >       struct gpio_desc *wake_gpio;
-> > > +     struct regulator *vdd;
-> > >
-> > >  #if defined(CONFIG_DEBUG_FS)
-> > >       struct dentry *debug_dir;
-> > > @@ -1092,6 +1094,22 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
-> > >               return error;
-> > >       }
-> > >
-> > > +     tsdata->vdd = devm_regulator_get(&client->dev, "vdd");
-> > > +     if (IS_ERR(tsdata->vdd)) {
-> > > +             error = PTR_ERR(tsdata->vdd);
-> > > +             if (error != -EPROBE_DEFER)
-> > > +                     dev_err(&client->dev,
-> > > +                             "Failed to get vdd regulator: %d\n", error);
-> > > +             return error;
-> >
-> > This will break current device tree's and this should never happen. So
-> > we need to make this regulator optional.
-> > BTW:
-> > Did you changed the bindings too?
-> >
-> > Regards,
-> >   Marco
-> >
-> > > +     }
-> > > +
-> > > +     /* power the controller */
-> > > +     error = regulator_enable(tsdata->vdd);
-> > > +     if (error) {
-> > > +             dev_err(&client->dev, "Controller fail to enable vdd\n");
-> > > +             return error;
-> > > +     }
-> > > +
-> > >       tsdata->wake_gpio = devm_gpiod_get_optional(&client->dev,
-> > >                                                   "wake", GPIOD_OUT_LOW);
-> > >       if (IS_ERR(tsdata->wake_gpio)) {
-> > > @@ -1204,6 +1222,7 @@ static int edt_ft5x06_ts_remove(struct i2c_client *client)
-> > >  {
-> > >       struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
-> > >
-> > > +     regulator_disable(tsdata->vdd);
-> > >       edt_ft5x06_ts_teardown_debugfs(tsdata);
-> > >
-> > >       return 0;
-> > > --
-> > > 2.21.0
-> > >
-> > >
-> >
-> > --
-> > Pengutronix e.K.                           |                             |
-> > Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-> > Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-> > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-> 
+ drivers/input/misc/soc_button_array.c     | 134 ++++++++++++++++++++--
+ drivers/platform/x86/surfacepro3_button.c |  38 ++++++
+ 2 files changed, 160 insertions(+), 12 deletions(-)
 
 -- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.21.0
+
