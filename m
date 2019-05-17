@@ -2,127 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C133219C5
-	for <lists+linux-input@lfdr.de>; Fri, 17 May 2019 16:27:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D5B121B4A
+	for <lists+linux-input@lfdr.de>; Fri, 17 May 2019 18:15:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729095AbfEQO1a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 May 2019 10:27:30 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:44267 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728791AbfEQO13 (ORCPT
+        id S1729456AbfEQQP0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 May 2019 12:15:26 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:33370 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729455AbfEQQPZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 May 2019 10:27:29 -0400
-Received: by mail-qk1-f196.google.com with SMTP id w25so4519534qkj.11
-        for <linux-input@vger.kernel.org>; Fri, 17 May 2019 07:27:29 -0700 (PDT)
+        Fri, 17 May 2019 12:15:25 -0400
+Received: by mail-lf1-f68.google.com with SMTP id x132so5763472lfd.0
+        for <linux-input@vger.kernel.org>; Fri, 17 May 2019 09:15:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=LNVag5Iv24z2pZ50RPmC1mZYfJAoFEKyA1X+3/tzgvE=;
+        b=ciN2y1l5XZ6tnkoAY7Ags+EIg42lC9+ALQE1tJewfYdWJO1zjehCB0Bx6E+ogYoHNg
+         EQlT5BLQn5/g39uHsGsXf/fj+NIp5JzahAo7qYaW7qK3H9L7fmAcvioUu3IJD32UDRQ+
+         ORqF5VJPO6M7yiP4DI6XV9G74lqdbz7kDzMuozJampZiW5QXshR/2Dg5yBBxp77X7Rhq
+         TwYSs3KLA349upTgVjEdCVS0pqr4bd/1/i7OLvdM4HtSaq65ex1C1QoZh9bdTyrb9CEk
+         b3CUMDQG6I5/x/PiO2ptkMb03VthO9YPBqYN/hgItXec5uGU7hRDsCAsfoKImVs+ZY+2
+         6kSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=muqFwpDFSwzMFLDwS9ez5JT3+HE/sz1pnq9lfS7Gu4A=;
-        b=UragCW2MbIEGZ9R1QQADHyMztUjGam5P0Iol7yzdRdzUMLuyfz1+hJ6MAbKH6g+F5g
-         T2m1eAk4NXp81JMkhcdQk5yMPKAlkNVRQ62g+EhW0JEtuKs1a1+0fkK27ebyWJI3pCqG
-         kFBcM2M/L1cIuNHY2OghNFYVsbZQVvixV8w6IzgD9UXS6Cq4qSbAtVzT7fH/gFlT9BS5
-         c1T0YMLEUUo2AFHleCoUIevnHzZrlqP6CkRP/3NMV3fI1GZkMgRYjLyn68vUs48xl8lj
-         2ysnEBs+btwulFmaYPv/22UxeqP0eqqnc12ZFiUTh+RFHTjkZIphgcbNBkzIN2pI7EIA
-         aGjQ==
-X-Gm-Message-State: APjAAAVIMnrlZgXzBBpf1C329HyYZwPCDfV1ZpDPOcVq6Z7LQXPk9Rc4
-        LpddSZFotqkGRLvdToZ2xNkYlaWGx3tYecZMY9zofw==
-X-Google-Smtp-Source: APXvYqydFBoByxrOTLh/8yVHQY1KP7vSYHmSUuC4hzNYd2TmmtB93ivOvlF/hpt+09K/Y9U7cdIzp5hEJfF50huCpm0=
-X-Received: by 2002:a37:9fcf:: with SMTP id i198mr45022704qke.49.1558103249134;
- Fri, 17 May 2019 07:27:29 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=LNVag5Iv24z2pZ50RPmC1mZYfJAoFEKyA1X+3/tzgvE=;
+        b=FEDcbWw1CO4jG7xOqoWpSCUSky2+EO8XKeRJ+seuH9JRkdtgaFIjTBe6mNr+IQ4yGp
+         4ykQXEsrc/tljf293Pw7YDvaA/CfFA7N5c7SHT2uk3zcXIrGENVDY+gCaKUJlVCsbnyv
+         4SGLb4sMNa+r6vwEVHSXXjD8KXirRHcqIys/b6pBwU+HaiDc0zCHQOft3dIAwkel/++6
+         yGGZLunjB3Pp1TuRKqiKkp3GUlidEBCXrT9UxdtqBel5oXTgbUI++7Z2PLva1+fBfQ8V
+         LfbPdFvPPpmbQOjCDN24CKxvJYFHlFDMuoxJD8//bP6CsbLLLGxya6rsChbHSjyHcpRm
+         2k7w==
+X-Gm-Message-State: APjAAAXhNM/ifJm5Ahhjwqs24OLbZcXaQqpPXjEd2wIlczfwtg5QeAbY
+        6ysgT1Wo7Bw2Yu0Iwy0a22hzx80sROfFLWk/20M=
+X-Google-Smtp-Source: APXvYqxr1HaUQEyE6mHjeI4QLsqY/7H9EBdKrpu7JXVC1J+Ou6FqVJ9tWKyExuaXz8g7XnuE8Yfi2VBBMN3UXQJYVEI=
+X-Received: by 2002:ac2:59c7:: with SMTP id x7mr24193082lfn.75.1558109723404;
+ Fri, 17 May 2019 09:15:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190424221258.19992-1-jason.gerecke@wacom.com>
-In-Reply-To: <20190424221258.19992-1-jason.gerecke@wacom.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 17 May 2019 16:27:17 +0200
-Message-ID: <CAO-hwJJY=uzATrHic2F+LHOB7TMvzLJyCw2jxYcEVK1_m74B_A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] HID: wacom: Don't set tool type until we're in range
-To:     "Gerecke, Jason" <killertofu@gmail.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+References: <1557527479-9242-1-git-send-email-aaron.skomra@wacom.com>
+ <nycvar.YFH.7.76.1905171358160.1962@cbobk.fhfr.pm> <CAO-hwJKB-64px0vZc9b5SCxoGWbe+_2uaa=9N6_HXowa2yLv6w@mail.gmail.com>
+ <nycvar.YFH.7.76.1905171456440.1962@cbobk.fhfr.pm> <CAO-hwJLfKEVnrAARy44sULkdxQ4snXGbE9+3pE=pb6M=uXRSpQ@mail.gmail.com>
+In-Reply-To: <CAO-hwJLfKEVnrAARy44sULkdxQ4snXGbE9+3pE=pb6M=uXRSpQ@mail.gmail.com>
+From:   Jason Gerecke <killertofu@gmail.com>
+Date:   Fri, 17 May 2019 09:15:11 -0700
+Message-ID: <CANRwn3TF9q2ENq-ARFpOsC0ZP-J6vRCy3bQB30XXqQyxz_ro1A@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Intuos Pro 2nd Gen Small
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Aaron Armstrong Skomra <skomra@gmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
         Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
         Jason Gerecke <jason.gerecke@wacom.com>,
-        "3.8+" <stable@vger.kernel.org>,
-        Aaron Armstrong Skomra <aaron.skomra@wacom.com>
+        Aaron Armstrong Skomra <aaron.skomra@wacom.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Apr 25, 2019 at 12:13 AM Gerecke, Jason <killertofu@gmail.com> wrote:
+On Fri, May 17, 2019 at 6:13 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
 >
-> From: Jason Gerecke <jason.gerecke@wacom.com>
+> On Fri, May 17, 2019 at 2:57 PM Jiri Kosina <jikos@kernel.org> wrote:
+> >
+> > On Fri, 17 May 2019, Benjamin Tissoires wrote:
+> >
+> > > On Fri, May 17, 2019 at 1:58 PM Jiri Kosina <jikos@kernel.org> wrote:
+> > > >
+> > > > On Fri, 10 May 2019, Aaron Armstrong Skomra wrote:
+> > > >
+> > > > > Add support for the Inutos Pro 2nd Generation Small.
+> > > > >
+> > > > > This patch set is based on top of Jason's two existing patch
+> > > > > sets sent Apr 24th and May 7th.
+> > > >
+> > > > I don't think I've seen those two sets ... ?
+> > >
+> > > I have them in my inbox at least. And it seemed you were not Cc-ed on=
+ them.
+> > > https://patchwork.kernel.org/project/linux-input/list/?series=3D11074=
+3
+> > > https://patchwork.kernel.org/project/linux-input/list/?series=3D11483=
+5
+> > >
+> > > Sorry, I am catching up with fires everywhere, so didn't have much
+> > > time to apply patches.
+> > >
+> > > The first series looks good and can go in for-5.1/upstream-fixes I
+> > > guess. I *think* the second series is fine too but I didn't have much
+> > > dedicated brainpower to process it yet.
+> > >
+> > > Jiri, do you have time today to take care of those or should I try to
+> > > get a little bit of time later today?
+> >
+> > If you have looked at them already and even have them in your inbox, it=
+'d
+> > be nice if you could process it.
+> >
 >
-> The serial number and tool type information that is reported by the tablet
-> while a pen is merely "in prox" instead of fully "in range" can be stale
-> and cause us to report incorrect tool information. Serial number, tool
-> type, and other information is only valid once the pen comes fully in range
-> so we should be careful to not use this information until that point.
+> K, I will.
 >
-> In particular, this issue may cause the driver to incorectly report
-> BTN_TOOL_RUBBER after switching from the eraser tool back to the pen.
->
-> Fixes: a48324de6d ("HID: wacom: Bluetooth IRQ for Intuos Pro should handle prox/range")
-> Cc: <stable@vger.kernel.org> # 4.11+
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-> Reviewed-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-> ---
+> Cheers,
+> Benjamin
 
-Series applied to for-5.2/fixes
+My apologies, Jiri. I've recently replaced my development workstation
+and was apparently missing you on the mailrc alias I use for kernel
+patches.
 
-Sorry for the delay
-
-Cheers,
-Benjamin
-
->  drivers/hid/wacom_wac.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-> index 747730d32ab6..4c1bc239207e 100644
-> --- a/drivers/hid/wacom_wac.c
-> +++ b/drivers/hid/wacom_wac.c
-> @@ -1236,13 +1236,13 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
->                 /* Add back in missing bits of ID for non-USI pens */
->                 wacom->id[0] |= (wacom->serial[0] >> 32) & 0xFFFFF;
->         }
-> -       wacom->tool[0]   = wacom_intuos_get_tool_type(wacom_intuos_id_mangle(wacom->id[0]));
->
->         for (i = 0; i < pen_frames; i++) {
->                 unsigned char *frame = &data[i*pen_frame_len + 1];
->                 bool valid = frame[0] & 0x80;
->                 bool prox = frame[0] & 0x40;
->                 bool range = frame[0] & 0x20;
-> +               bool invert = frame[0] & 0x10;
->
->                 if (!valid)
->                         continue;
-> @@ -1251,9 +1251,24 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
->                         wacom->shared->stylus_in_proximity = false;
->                         wacom_exit_report(wacom);
->                         input_sync(pen_input);
-> +
-> +                       wacom->tool[0] = 0;
-> +                       wacom->id[0] = 0;
-> +                       wacom->serial[0] = 0;
->                         return;
->                 }
-> +
->                 if (range) {
-> +                       if (!wacom->tool[0]) { /* first in range */
-> +                               /* Going into range select tool */
-> +                               if (invert)
-> +                                       wacom->tool[0] = BTN_TOOL_RUBBER;
-> +                               else if (wacom->id[0])
-> +                                       wacom->tool[0] = wacom_intuos_get_tool_type(wacom->id[0]);
-> +                               else
-> +                                       wacom->tool[0] = BTN_TOOL_PEN;
-> +                       }
-> +
->                         input_report_abs(pen_input, ABS_X, get_unaligned_le16(&frame[1]));
->                         input_report_abs(pen_input, ABS_Y, get_unaligned_le16(&frame[3]));
->
-> --
-> 2.21.0
->
+Jason
+---
+Now instead of four in the eights place /
+you=E2=80=99ve got three, =E2=80=98Cause you added one  /
+(That is to say, eight) to the two,     /
+But you can=E2=80=99t take seven from three,    /
+So you look at the sixty-fours....
