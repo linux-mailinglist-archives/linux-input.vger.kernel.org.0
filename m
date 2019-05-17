@@ -2,105 +2,258 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06A8C21B8F
-	for <lists+linux-input@lfdr.de>; Fri, 17 May 2019 18:25:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BBA521CA0
+	for <lists+linux-input@lfdr.de>; Fri, 17 May 2019 19:39:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725989AbfEQQYx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 May 2019 12:24:53 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:43679 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725933AbfEQQYw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 May 2019 12:24:52 -0400
-Received: by mail-qt1-f194.google.com with SMTP id i26so8606272qtr.10
-        for <linux-input@vger.kernel.org>; Fri, 17 May 2019 09:24:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nLuc7mQGuXrZ93LGpIUnVmMLZfQJE+kJAvXw64IpPHQ=;
-        b=lM0dG8m2M82bAh6py0+pgB6wxlZ9Iq+mz7Zt1BAwV4c7kQ/jN6VvqWJsmuKRaiUIqb
-         u1uNkRXejTve2MQHL67T810beJs2HgYJFX3uPmI2CCLXhcV3ErdWm1NwHtfdnH+ijTfi
-         I3MqBWXTsouKoT4Oj5i/bRetEXc7N3kiIz4AuzE8ZHTZJh6n10RQrEn5a5qXx5TDscoj
-         8okORsw42vQKYBShH8UNzEYi5mo/chGeAe/DjFDUSxfyNy1SVag1RFNc97kCvj8oPnMO
-         Mtr3wdAielOs9frcqVfJHlF6pRrONOMvjHojM955ZdD8yETDxpkK5Tm/VzyIXmH79XYQ
-         dZ8g==
-X-Gm-Message-State: APjAAAV1BvwgVqfiWQxiP7TiGYMoYA1A64a+iZq9rQXP9fn6i7RDaCh2
-        vtoWZ42Wcvwyo1SbVdZRMP7AThQa4QNJWB03l56BBg==
-X-Google-Smtp-Source: APXvYqzPoKC1qs9E1DM3+eBqj4N6qE0Eg8hJ1VhdQNYm21O/Q8NY2dDFVJ8O8yz+Cumhk42wvfkY3Mu1J7wU2ua2sdg=
-X-Received: by 2002:a0c:87da:: with SMTP id 26mr26823801qvk.192.1558110291827;
- Fri, 17 May 2019 09:24:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190507185322.7168-1-jason.gerecke@wacom.com> <20190507185322.7168-3-jason.gerecke@wacom.com>
-In-Reply-To: <20190507185322.7168-3-jason.gerecke@wacom.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 17 May 2019 18:24:40 +0200
-Message-ID: <CAO-hwJJHFW3TJX-JU2OAHHa_FDTTZcwCduy2vQMU2F=i8ZSr7A@mail.gmail.com>
-Subject: Re: [PATCH 3/3] HID: wacom: Sync INTUOSP2_BT touch state after each
- frame if necessary
-To:     "Gerecke, Jason" <killertofu@gmail.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        "3.8+" <stable@vger.kernel.org>
+        id S1728627AbfEQRjY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 May 2019 13:39:24 -0400
+Received: from mga12.intel.com ([192.55.52.136]:30495 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726078AbfEQRjY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 17 May 2019 13:39:24 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 May 2019 10:39:23 -0700
+X-ExtLoop1: 1
+Received: from spandruv-mobl.amr.corp.intel.com ([10.255.71.203])
+  by orsmga004.jf.intel.com with ESMTP; 17 May 2019 10:39:23 -0700
+Message-ID: <1d179626354a74376ae09cb859e36fbb04bddc46.camel@linux.intel.com>
+Subject: Re: Query Regarding HID input Report Descriptor
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     "Shah, Nehal-bakulchandra" <Nehal-bakulchandra.Shah@amd.com>,
+        "jikos@kernel.org" <jikos@kernel.org>,
+        "jic23@kernel.org" <jic23@kernel.org>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Date:   Fri, 17 May 2019 10:39:22 -0700
+In-Reply-To: <110b8fce-5539-ac1f-1b95-39e46ccbac8c@amd.com>
+References: <SN1PR12MB25755449BDADB0BD0DBB9CF7A06F0@SN1PR12MB2575.namprd12.prod.outlook.com>
+         <02e0cd088dfec0635aab950af413794215531481.camel@linux.intel.com>
+         <ad21ea67-771f-d1e9-96f5-64aa9f1b4603@amd.com>
+         <110b8fce-5539-ac1f-1b95-39e46ccbac8c@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-1.fc28) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 7, 2019 at 8:53 PM Gerecke, Jason <killertofu@gmail.com> wrote:
->
-> From: Jason Gerecke <jason.gerecke@wacom.com>
->
-> The Bluetooth interface of the 2nd-gen Intuos Pro batches together four
-> independent "frames" of finger data into a single report. Each frame
-> is essentially equivalent to a single USB report, with the up-to-10
-> fingers worth of information being spread across two frames. At the
-> moment the driver only calls `input_sync` after processing all four
-> frames have been processed, which can result in the driver sending
-> multiple updates for a single slot within the same SYN_REPORT. This
-> can confuse userspace, so modify the driver to sync more often if
-> necessary (i.e., after reporting the state of all fingers).
->
-> Fixes: 4922cd26f0 ("HID: wacom: Support 2nd-gen Intuos Pro's Bluetooth classic interface")
-> Cc: <stable@vger.kernel.org> # 4.11+
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-> ---
+On Wed, 2019-05-15 at 16:28 +0000, Shah, Nehal-bakulchandra wrote:
+> Hi All,
+> 
+> 
+> I am working on sensor driver for AMD platform and in our platform,
+> firmware doesn't give data in HID format. So i am writing interface
+> driver which makes
+> firmware data into HID Report format.Now i have taken reference from
+> HID Usage document and i have created sample descriptor like this for
+> accel 3d.
+> 
+> static const u8 HID_Sensor_ReportDesc_acc[]= 
+> {
+> 	HID_USAGE_PAGE_SENSOR,
+> 	HID_USAGE_SENSOR_TYPE_MOTION_ACCELEROMETER_3D,
+> 	HID_COLLECTION(Physical),
+> 
+> 	//feature reports (xmit/receive)
+> 	HID_REPORT_ID(1),
+> 	HID_USAGE_PAGE_SENSOR,
+> 	HID_USAGE_SENSOR_PROPERTY_SENSOR_CONNECTION_TYPE,  // NAry
+> 	HID_LOGICAL_MIN_8(0),
+> 	HID_LOGICAL_MAX_8(2),
+> 	HID_REPORT_SIZE(8),
+> 	HID_REPORT_COUNT(1),
+> 	HID_COLLECTION(Logical),
+> 	HID_USAGE_SENSOR_PROPERTY_CONNECTION_TYPE_PC_INTEGRATED_SEL,
+> 	HID_USAGE_SENSOR_PROPERTY_CONNECTION_TYPE_PC_ATTACHED_SEL,
+> 	HID_USAGE_SENSOR_PROPERTY_CONNECTION_TYPE_PC_EXTERNAL_SEL,
+> 	HID_FEATURE(Data_Arr_Abs),
+> 	HID_END_COLLECTION,
+> 	HID_USAGE_SENSOR_PROPERTY_REPORTING_STATE,
+> 	HID_LOGICAL_MIN_8(0),
+> 	HID_LOGICAL_MAX_8(5),
+> 	HID_REPORT_SIZE(8),
+> 	HID_REPORT_COUNT(1),
+> 	HID_COLLECTION(Logical),
+> 	HID_USAGE_SENSOR_PROPERTY_REPORTING_STATE_NO_EVENTS_SEL,
+> 	HID_USAGE_SENSOR_PROPERTY_REPORTING_STATE_ALL_EVENTS_SEL,
+> 	HID_USAGE_SENSOR_PROPERTY_REPORTING_STATE_THRESHOLD_EVENTS_SEL,
+> 	HID_USAGE_SENSOR_PROPERTY_REPORTING_STATE_NO_EVENTS_WAKE_SEL,
+> 	HID_USAGE_SENSOR_PROPERTY_REPORTING_STATE_ALL_EVENTS_WAKE_SEL,
+> 	HID_USAGE_SENSOR_PROPERTY_REPORTING_STATE_THRESHOLD_EVENTS_WAKE
+> _SEL,
+> 	HID_FEATURE(Data_Arr_Abs),
+> 	HID_END_COLLECTION,
+> 	HID_USAGE_SENSOR_PROPERTY_POWER_STATE,
+> 	HID_LOGICAL_MIN_8(0),
+> 	HID_LOGICAL_MAX_8(5),
+> 	HID_REPORT_SIZE(8),
+> 	HID_REPORT_COUNT(1),
+> 	HID_COLLECTION(Logical),
+> 	HID_USAGE_SENSOR_PROPERTY_POWER_STATE_UNDEFINED_SEL,
+> 	HID_USAGE_SENSOR_PROPERTY_POWER_STATE_D0_FULL_POWER_SEL,
+> 	HID_USAGE_SENSOR_PROPERTY_POWER_STATE_D1_LOW_POWER_SEL,
+> 	HID_USAGE_SENSOR_PROPERTY_POWER_STATE_D2_STANDBY_WITH_WAKE_SEL,
+> 	HID_USAGE_SENSOR_PROPERTY_POWER_STATE_D3_SLEEP_WITH_WAKE_SEL,
+> 	HID_USAGE_SENSOR_PROPERTY_POWER_STATE_D4_POWER_OFF_SEL,
+> 	HID_FEATURE(Data_Arr_Abs),
+> 	HID_END_COLLECTION,
+> 	HID_USAGE_SENSOR_STATE,
+> 	HID_LOGICAL_MIN_8(0),
+> 	HID_LOGICAL_MAX_8(6),
+> 	HID_REPORT_SIZE(8),
+> 	HID_REPORT_COUNT(1),
+> 	HID_COLLECTION(Logical),
+> 	HID_USAGE_SENSOR_STATE_UNKNOWN_SEL,
+> 	HID_USAGE_SENSOR_STATE_READY_SEL,
+> 	HID_USAGE_SENSOR_STATE_NOT_AVAILABLE_SEL,
+> 	HID_USAGE_SENSOR_STATE_NO_DATA_SEL,
+> 	HID_USAGE_SENSOR_STATE_INITIALIZING_SEL,
+> 	HID_USAGE_SENSOR_STATE_ACCESS_DENIED_SEL,
+> 	HID_USAGE_SENSOR_STATE_ERROR_SEL,
+> 	HID_FEATURE(Data_Arr_Abs),
+> 	HID_END_COLLECTION,
+> 	HID_USAGE_SENSOR_PROPERTY_REPORT_INTERVAL,
+> 	HID_LOGICAL_MIN_8(0),
+> 	HID_LOGICAL_MAX_32(0xFF,0xFF,0xFF,0xFF),
+> 	HID_REPORT_SIZE(32),
+> 	HID_REPORT_COUNT(1),
+> 	HID_UNIT_EXPONENT(0),
+> 	HID_FEATURE(Data_Var_Abs),
+> 	HID_USAGE_SENSOR_DATA(HID_USAGE_SENSOR_DATA_MOTION_ACCELERATION
+> ,HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSITIVITY_ABS),
+> 	HID_LOGICAL_MIN_8(0),
+> 	HID_LOGICAL_MAX_16(0xFF,0xFF),
+> 	HID_REPORT_SIZE(16),
+> 	HID_REPORT_COUNT(1),
+> 	HID_UNIT_EXPONENT(0x0E),  // scale default unit "G" to provide
+> 2 digits past the decimal point
+> 	HID_FEATURE(Data_Var_Abs),
+> 	HID_USAGE_SENSOR_DATA(HID_USAGE_SENSOR_DATA_MOTION_ACCELERATION
+> ,HID_USAGE_SENSOR_DATA_MOD_MAX),
+> 	HID_LOGICAL_MIN_16(0x01,0x80), //    LOGICAL_MINIMUM (-32767)
+> 	HID_LOGICAL_MAX_16(0xFF,0x7F), //    LOGICAL_MAXIMUM (32767)
+> 	HID_REPORT_SIZE(16),
+> 	HID_REPORT_COUNT(1),
+> 	HID_UNIT_EXPONENT(0x0E),  // scale default unit "G" to provide
+> 2 digits past the decimal point
+> 	HID_FEATURE(Data_Var_Abs),
+> 	HID_USAGE_SENSOR_DATA(HID_USAGE_SENSOR_DATA_MOTION_ACCELERATION
+> ,HID_USAGE_SENSOR_DATA_MOD_MIN),
+> 	HID_LOGICAL_MIN_16(0x01,0x80), //    LOGICAL_MINIMUM (-32767)
+> 	HID_LOGICAL_MAX_16(0xFF,0x7F), //    LOGICAL_MAXIMUM (32767)
+> 	HID_REPORT_SIZE(16),
+> 	HID_REPORT_COUNT(1),
+> 	HID_UNIT_EXPONENT(0x0E),  // scale default unit "G" to provide
+> 2 digits past the decimal point
+> 	HID_FEATURE(Data_Var_Abs),
+> 
+> 	//input reports (transmit)
+> 	HID_USAGE_PAGE_SENSOR,
+> 	HID_USAGE_SENSOR_STATE,
+> 	HID_LOGICAL_MIN_8(0),
+> 	HID_LOGICAL_MAX_8(6),
+> 	HID_REPORT_SIZE(8),
+> 	HID_REPORT_COUNT(1),
+> 	HID_COLLECTION(Logical),
+> 	HID_USAGE_SENSOR_STATE_UNKNOWN_SEL,
+> 	HID_USAGE_SENSOR_STATE_READY_SEL,
+> 	HID_USAGE_SENSOR_STATE_NOT_AVAILABLE_SEL,
+> 	HID_USAGE_SENSOR_STATE_NO_DATA_SEL,
+> 	HID_USAGE_SENSOR_STATE_INITIALIZING_SEL,
+> 	HID_USAGE_SENSOR_STATE_ACCESS_DENIED_SEL,
+> 	HID_USAGE_SENSOR_STATE_ERROR_SEL,
+> 	HID_INPUT(Data_Arr_Abs),
+> 	HID_END_COLLECTION,
+> 	HID_USAGE_SENSOR_EVENT,
+> 	HID_LOGICAL_MIN_8(0),
+> 	HID_LOGICAL_MAX_8(5),
+> 	HID_REPORT_SIZE(8),
+> 	HID_REPORT_COUNT(1),
+> 	HID_COLLECTION(Logical),
+> 	HID_USAGE_SENSOR_EVENT_UNKNOWN_SEL,
+> 	HID_USAGE_SENSOR_EVENT_STATE_CHANGED_SEL,
+> 	HID_USAGE_SENSOR_EVENT_PROPERTY_CHANGED_SEL,
+> 	HID_USAGE_SENSOR_EVENT_DATA_UPDATED_SEL,
+> 	HID_USAGE_SENSOR_EVENT_POLL_RESPONSE_SEL,
+> 	HID_USAGE_SENSOR_EVENT_CHANGE_SENSITIVITY_SEL,
+> 	HID_INPUT(Data_Arr_Abs),
+> 	HID_END_COLLECTION,
+> 	HID_USAGE_SENSOR_DATA_MOTION_ACCELERATION_X_AXIS,
+> 	HID_LOGICAL_MIN_16(0x01,0x80), //    LOGICAL_MINIMUM (-32767)
+> 	HID_LOGICAL_MAX_16(0xFF,0x7F), //    LOGICAL_MAXIMUM (32767)
+> 	HID_REPORT_SIZE(16),
+> 	HID_REPORT_COUNT(1),
+> 	HID_UNIT_EXPONENT(0x0E),  // scale default unit "G" to provide
+> 2 digits past the decimal point
+> 	HID_INPUT(Data_Var_Abs),
+> 	HID_USAGE_SENSOR_DATA_MOTION_ACCELERATION_Y_AXIS,
+> 	HID_LOGICAL_MIN_16(0x01,0x80), //    LOGICAL_MINIMUM (-32767)
+> 	HID_LOGICAL_MAX_16(0xFF,0x7F), //    LOGICAL_MAXIMUM (32767)
+> 	HID_REPORT_SIZE(16),
+> 	HID_REPORT_COUNT(1),
+> 	HID_UNIT_EXPONENT(0x0E),  // scale default unit "G" to provide
+> 2 digits past the decimal point
+> 	HID_INPUT(Data_Var_Abs),
+> 	HID_USAGE_SENSOR_DATA_MOTION_ACCELERATION_Z_AXIS,
+> 	HID_LOGICAL_MIN_16(0x01,0x80), //    LOGICAL_MINIMUM (-32767)
+> 	HID_LOGICAL_MAX_16(0xFF,0x7F), //    LOGICAL_MAXIMUM (32767)
+> 	HID_REPORT_SIZE(16),
+> 	HID_REPORT_COUNT(1),
+> 	HID_UNIT_EXPONENT(0x0E),  // scale default unit "G" to provide
+> 2 digits past the decimal point
+> 	HID_INPUT(Data_Var_Abs),
+> 
+> 	//include the following datafield if required to support the
+> shake event
+> 	HID_USAGE_SENSOR_DATA_MOTION_STATE,
+> 	HID_LOGICAL_MIN_8(0), // False = Still
+> 	HID_LOGICAL_MAX_8(1), // True = In Motion
+> 	HID_REPORT_SIZE(8),
+> 	HID_REPORT_COUNT(1),
+> 	HID_INPUT(Data_Var_Abs),
+> 
+> 	HID_END_COLLECTION
+> };
+> 
+> for Feature report i have created following structure
+> 
+> struct accel3_feature_report
+> {
+> 	//common properties
+> 	u8 	    reportid;
+> 
+> 	u8	    connectiontype;
+> 	u8          reportstate;
+> 	u8          powerstate;
+> 	u8	    sensorstate;
+> 	u32         reportinterval;
+> 
+> 	//properties specific to this sensor
+> 	u16         accelsensitiity;
+> 	u16        accelmax;
+> 	u16	    accelmin;
+> 
+> } ;
+> 
+> Can some one help me is this the correct way of going forward? With
+> this i am getting request for feature report and i can see device in
+> iio bus also but i am not getting call for input report. Please help
+> me in this regards.
+You will get call for input report when you try to read.
 
-series applied to for-5.2/upstream-fixes
+For example:
+#cat in_accel_*_raw
 
-Cheers,
-Benjamin
+Thanks,
+Srinivas
 
->  drivers/hid/wacom_wac.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-> index e848445236d8..09b8e4aac82f 100644
-> --- a/drivers/hid/wacom_wac.c
-> +++ b/drivers/hid/wacom_wac.c
-> @@ -1371,11 +1371,17 @@ static void wacom_intuos_pro2_bt_touch(struct wacom_wac *wacom)
->                 if (wacom->num_contacts_left <= 0) {
->                         wacom->num_contacts_left = 0;
->                         wacom->shared->touch_down = wacom_wac_finger_count_touches(wacom);
-> +                       input_sync(touch_input);
->                 }
->         }
->
-> -       input_report_switch(touch_input, SW_MUTE_DEVICE, !(data[281] >> 7));
-> -       input_sync(touch_input);
-> +       if (wacom->num_contacts_left == 0) {
-> +               // Be careful that we don't accidentally call input_sync with
-> +               // only a partial set of fingers of processed
-> +               input_report_switch(touch_input, SW_MUTE_DEVICE, !(data[281] >> 7));
-> +               input_sync(touch_input);
-> +       }
-> +
->  }
->
->  static void wacom_intuos_pro2_bt_pad(struct wacom_wac *wacom)
-> --
-> 2.21.0
->
+
+> 
+> Thanks 
+> Nehal Shah
+> 
+> 
+
