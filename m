@@ -2,89 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6D7F218B2
-	for <lists+linux-input@lfdr.de>; Fri, 17 May 2019 14:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95DDE218F7
+	for <lists+linux-input@lfdr.de>; Fri, 17 May 2019 15:13:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728523AbfEQM6Y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 May 2019 08:58:24 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:36322 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728374AbfEQM6Y (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 May 2019 08:58:24 -0400
-Received: by mail-qt1-f193.google.com with SMTP id a17so7850635qth.3
-        for <linux-input@vger.kernel.org>; Fri, 17 May 2019 05:58:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wFB88TOQMGJp2WIN+ruuveeSeWfQWFvzvAIz0Bs7oC4=;
-        b=sS9h+g8xH7W3gCuI8woq1U83WPe2HAtyanVkm9O6e3+3RKD+GTIIZEoB5FEprOZpwD
-         Wg73T/UH0rqOzr4TTFVkKPXjCmokS8Z7FJTEGZo0enIp/D7MzHndGpZ30GAVa6CE5fpC
-         vlBph2asBVvSSYP9Pp+DmhEUr6o0S2JlF4fKCroKX56AzyAQgjLOdDpmjuEnuysCYOMC
-         RyFX33iPo0Iz/KVQuZ2Kad49Spm1r+XQ4QBfWfRo9KUOgcIgb2zPcc0RX6uFMnFZJHj1
-         sV/wjJlVeHkKWwCTJGV5wobHbDAOOMam9bOdXVUK/r6YZiCGNrJBN5jZO7PuvG4Xng40
-         LIZQ==
-X-Gm-Message-State: APjAAAUhCgJMTRme3ESDNzSGs6r8QZSDHYLP/s/Pl4YAHB+pLLvhXbJK
-        uyVy30mUzwe1QhUfaDpaX1ONl+4oWHJYFQDX9Q7WDA==
-X-Google-Smtp-Source: APXvYqzsDn7EqFbyCA0DGOQ7YFLBu8/7WPXz+AgmU1G4bD73WSX8dsVkwFD0nYuop9Cygoy2O5YCAhUQb+Nz6D9tP1A=
-X-Received: by 2002:ac8:31e2:: with SMTP id i31mr47884960qte.294.1558097903768;
- Fri, 17 May 2019 05:58:23 -0700 (PDT)
+        id S1728244AbfEQNNZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 May 2019 09:13:25 -0400
+Received: from uho.ysoft.cz ([81.19.3.130]:33838 "EHLO uho.ysoft.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728430AbfEQNNN (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 17 May 2019 09:13:13 -0400
+Received: from iota-build.ysoft.local (unknown [10.1.5.151])
+        by uho.ysoft.cz (Postfix) with ESMTP id 817EFA06FD;
+        Fri, 17 May 2019 15:13:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+        s=20160406-ysoft-com; t=1558098789;
+        bh=SeFOmzREg76ZG58RfAR8jB6TwSzhC984BntPlNv10bM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=QYgNXO0z3mbMZLwSxTaPCadqJb7wRdFaCikV95bZqGRf5GmBqVL1WOCHDhnlaePWa
+         RhAUBOMmXCVuR43wOkQwjMGCltznVMdofbGWENgHMdwlf+rx0EZGxil0LdsU7OQMkV
+         EJWLW3z9GOaJkNWSSVqMwpXkKDeyBMGWWNOHNAVw=
+From:   =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
+Subject: [RFC PATCH v2 0/4] Input: mpr121-polled: Add polled driver for MPR121
+Date:   Fri, 17 May 2019 15:12:49 +0200
+Message-Id: <1558098773-47416-1-git-send-email-michal.vokac@ysoft.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-References: <1557527479-9242-1-git-send-email-aaron.skomra@wacom.com>
- <nycvar.YFH.7.76.1905171358160.1962@cbobk.fhfr.pm> <CAO-hwJKB-64px0vZc9b5SCxoGWbe+_2uaa=9N6_HXowa2yLv6w@mail.gmail.com>
- <nycvar.YFH.7.76.1905171456440.1962@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.1905171456440.1962@cbobk.fhfr.pm>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 17 May 2019 14:58:12 +0200
-Message-ID: <CAO-hwJLfKEVnrAARy44sULkdxQ4snXGbE9+3pE=pb6M=uXRSpQ@mail.gmail.com>
-Subject: Re: [PATCH 0/4] Intuos Pro 2nd Gen Small
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Aaron Armstrong Skomra <skomra@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, May 17, 2019 at 2:57 PM Jiri Kosina <jikos@kernel.org> wrote:
->
-> On Fri, 17 May 2019, Benjamin Tissoires wrote:
->
-> > On Fri, May 17, 2019 at 1:58 PM Jiri Kosina <jikos@kernel.org> wrote:
-> > >
-> > > On Fri, 10 May 2019, Aaron Armstrong Skomra wrote:
-> > >
-> > > > Add support for the Inutos Pro 2nd Generation Small.
-> > > >
-> > > > This patch set is based on top of Jason's two existing patch
-> > > > sets sent Apr 24th and May 7th.
-> > >
-> > > I don't think I've seen those two sets ... ?
-> >
-> > I have them in my inbox at least. And it seemed you were not Cc-ed on them.
-> > https://patchwork.kernel.org/project/linux-input/list/?series=110743
-> > https://patchwork.kernel.org/project/linux-input/list/?series=114835
-> >
-> > Sorry, I am catching up with fires everywhere, so didn't have much
-> > time to apply patches.
-> >
-> > The first series looks good and can go in for-5.1/upstream-fixes I
-> > guess. I *think* the second series is fine too but I didn't have much
-> > dedicated brainpower to process it yet.
-> >
-> > Jiri, do you have time today to take care of those or should I try to
-> > get a little bit of time later today?
->
-> If you have looked at them already and even have them in your inbox, it'd
-> be nice if you could process it.
->
+Hi,
 
-K, I will.
+I have to deal with a situation where we have a custom i.MX6 based
+platform in production that uses the MPR121 touchkey controller.
+Unfortunately the chip is connected using only the I2C interface.
+The interrupt line is not used. Back in 2015 (Linux v3.14), my
+colleague modded the existing mpr121_touchkey.c driver to use polling
+instead of interrupt.
 
-Cheers,
-Benjamin
+For quite some time yet I am in a process of updating the product from
+the ancient Freescale v3.14 kernel to the latest mainline and pushing
+any needed changes upstream. The DT files for our imx6dl-yapp4 platform
+already made it into v5.1-rc.
+
+I rebased and updated our mpr121 patch to the latest mainline.
+It is created as a separate driver, similarly to gpio_keys_polled.
+
+The I2C device is quite susceptible to ESD. An ESD test quite often
+causes reset of the chip or some register randomly changes its value.
+The [PATCH 3/4] adds a write-through register cache. With the cache
+this state can be detected and the device can be re-initialied.
+
+The main question is: Is there any chance that such a polled driver
+could be accepted? Is it correct to implement it as a separate driver
+or should it be done as an option in the existing driver? I can not
+really imagine how I would do that though..
+
+There are also certain worries that the MPR121 chip may no longer be
+available in nonspecifically distant future. In case of EOL I will need
+to add a polled driver for an other touchkey chip. May it be already
+in mainline or a completely new one.
+
+I will appreciate any comments. Thank you in advance,
+Michal
+
+
+Michal Vokáč (4):
+  dt-bindings: input: Add support for the MPR121 without interrupt line
+  Input: mpr121-polled: Add polling variant of the MPR121 touchkey
+    driver
+  Input: mpr121-polled: Add write-through cache to detect corrupted
+    registers
+  ARM: dts: imx6dl-yapp4: Enable MPR121 touch keypad on Hydra
+
+ .../bindings/input/mpr121-touchkey-polled.txt      |  26 ++
+ arch/arm/boot/dts/imx6dl-yapp4-common.dtsi         |  12 +
+ arch/arm/boot/dts/imx6dl-yapp4-hydra.dts           |   4 +
+ drivers/input/keyboard/Kconfig                     |  13 +
+ drivers/input/keyboard/Makefile                    |   1 +
+ drivers/input/keyboard/mpr121_touchkey_polled.c    | 493 +++++++++++++++++++++
+ 6 files changed, 549 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/mpr121-touchkey-polled.txt
+ create mode 100644 drivers/input/keyboard/mpr121_touchkey_polled.c
+
+-- 
+2.1.4
+
