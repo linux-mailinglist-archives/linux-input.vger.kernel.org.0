@@ -2,61 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB26521595
-	for <lists+linux-input@lfdr.de>; Fri, 17 May 2019 10:46:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05489217F7
+	for <lists+linux-input@lfdr.de>; Fri, 17 May 2019 13:58:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728224AbfEQIqZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 May 2019 04:46:25 -0400
-Received: from mga11.intel.com ([192.55.52.93]:63326 "EHLO mga11.intel.com"
+        id S1727927AbfEQL6m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 May 2019 07:58:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37882 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726685AbfEQIqZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 May 2019 04:46:25 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 May 2019 01:46:24 -0700
-X-ExtLoop1: 1
-Received: from shsensorbuild2.sh.intel.com ([10.239.133.151])
-  by orsmga002.jf.intel.com with ESMTP; 17 May 2019 01:46:22 -0700
-From:   hongyan.song@intel.com
-To:     jikos@kernel.org, jic23@kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org
-Cc:     srinivas.pandruvada@intel.com, hdegoede@redhat.com,
-        even.xu@intel.com
-Subject: [PATCH] hid: remove NO_D3 flag for ish not CHV platform
-Date:   Fri, 17 May 2019 16:46:22 +0800
-Message-Id: <1558082782-29279-1-git-send-email-hongyan.song@intel.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727221AbfEQL6m (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 17 May 2019 07:58:42 -0400
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3B1E220848;
+        Fri, 17 May 2019 11:58:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558094321;
+        bh=2CG6O9VTuzc+b9/OHOOGWBZpQ9g5nKjRxmnb2ivBCZA=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=cLv6QWbjqxXfIvzbsKAbxHWlWEt0BVE7w1gONNec1l4OAN4c7voW48a+kCTQoBQmP
+         +8POjmJ5a6s7GeSz+4V6gK+TxIPmFTNQ9ObdyTM+gwtkYgJTPWGiya9KePCkSPOkzU
+         rC5+d3N0a12ncHWpNZp51Gsof3gGZgPlcA61VnZc=
+Date:   Fri, 17 May 2019 13:58:31 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Aaron Armstrong Skomra <skomra@gmail.com>
+cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
+        pinglinux@gmail.com, jason.gerecke@wacom.com,
+        Aaron Armstrong Skomra <aaron.skomra@wacom.com>
+Subject: Re: [PATCH 0/4] Intuos Pro 2nd Gen Small
+In-Reply-To: <1557527479-9242-1-git-send-email-aaron.skomra@wacom.com>
+Message-ID: <nycvar.YFH.7.76.1905171358160.1962@cbobk.fhfr.pm>
+References: <1557527479-9242-1-git-send-email-aaron.skomra@wacom.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Song Hongyan <hongyan.song@intel.com>
+On Fri, 10 May 2019, Aaron Armstrong Skomra wrote:
 
-NO_D3 flag is set for CHV and the older platforms, the other platform
-suppose can enter D3, if have this NO_D3 flag set it can never enter D3
+> Add support for the Inutos Pro 2nd Generation Small.
+> 
+> This patch set is based on top of Jason's two existing patch 
+> sets sent Apr 24th and May 7th.
 
-Signed-off-by: Song Hongyan <hongyan.song@intel.com>
----
- drivers/hid/intel-ish-hid/ipc/pci-ish.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I don't think I've seen those two sets ... ?
 
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index a6e1ee7..de1459b 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -154,7 +154,9 @@ static int ish_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	/* mapping IO device memory */
- 	hw->mem_addr = pcim_iomap_table(pdev)[0];
- 	ishtp->pdev = pdev;
--	pdev->dev_flags |= PCI_DEV_FLAGS_NO_D3;
-+	/*This NO_D3 flag is only for CHV and older platforms*/
-+	if (pdev->device == CHV_DEVICE_ID)
-+		pdev->dev_flags |= PCI_DEV_FLAGS_NO_D3;
- 
- 	/* request and enable interrupt */
- 	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
+Thanks,
+
 -- 
-2.7.4
+Jiri Kosina
+SUSE Labs
 
