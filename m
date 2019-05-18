@@ -2,143 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1332E22281
-	for <lists+linux-input@lfdr.de>; Sat, 18 May 2019 11:09:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C62722425
+	for <lists+linux-input@lfdr.de>; Sat, 18 May 2019 18:55:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727432AbfERJJC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 May 2019 05:09:02 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:33404 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725468AbfERJJB (ORCPT
+        id S1727727AbfERQzO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 18 May 2019 12:55:14 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39023 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727073AbfERQzO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 May 2019 05:09:01 -0400
-Received: by mail-lf1-f66.google.com with SMTP id x132so7006257lfd.0;
-        Sat, 18 May 2019 02:09:00 -0700 (PDT)
+        Sat, 18 May 2019 12:55:14 -0400
+Received: by mail-wr1-f67.google.com with SMTP id w8so10149236wrl.6;
+        Sat, 18 May 2019 09:55:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JMJMxJ4pxlUz8asklfXu2+f43mE5Z5/GW0LwxKJU/nI=;
-        b=Ctp4zeKDTdrgBiXbI4X8Zcrd9YuEgiitY8MhoX5s6yaOPgi3ig821+yXq3T3EYw2Hv
-         8rAnvJrac4pPcY1mZmlqCQ12K77lOlFTfuQJ5f6hfssXLukOlcGLhyY+WmzvcdGs3lOd
-         qs1QudsMYyz3+0VdkKCCn8FUkJu5t5dlBgtd4CzgC5D+C0V/aoFjFz6hWkWKhapSkEwY
-         S3gtNWLfL6A/SHFn20zzJWhakp7mjc4vEJjBX1lpofL/aKXti4XyhsPstG9qaZ2hUHQ1
-         BFguhbaSwauVckqL3Fv6eiM/V9e0PNXd2xIThaq8QEGkmB3R/Qfl+BAZMYIAM0l1Gr+L
-         gnZQ==
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=rV8ABIAchy9CLucgg2Ek8ITZNk8aguYJQCC0nexNA+I=;
+        b=CNVrJOHv4HNuA9ajswY3zLEC7X5nOxwVN5Pyz9T+FszSPC/gpvZ+YR7K/TzQ5zdBqw
+         HcSNGxcIQiVftmt/wpEWX7p8byXYvOyalKh3Gq+sOJLro3J0/dvmTvRCKT7NooE3RtRt
+         e1zZ7cPlzUCkpHqKDekvueevkFkrqOQ0hnCGcMfGWYMJSGngl42mOG0bjxRFHId93xdN
+         QrtQNnMMDk+p7QuxAjfNAtDkrrwigoA5h5QHQ4uvkcUpRdC4X1/UZ7MxWcAut6fG3u2A
+         xlJLqWMDEjxaAwwSMUEZ6evh2BnKjDmCZBa9o4S/OHk9Poim7lAYut8d7ZfYXeB3RXp0
+         nybA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=JMJMxJ4pxlUz8asklfXu2+f43mE5Z5/GW0LwxKJU/nI=;
-        b=I8pHsiHi8Zs+1R9n6x8Ba5OwiI4R9G040zwC+JNvNejLw2Lm5zrQEV8200mPtGmLI7
-         GsVU9PyynyVIIg1DsbZwg0d/PP+8kBltQqaXxDJc0E9XY8BYYMyZ8bXhxTB9pN2Bmh3S
-         tbrG8GbR2kl5gn/y5flDpfWGrorA6ipqY4F32Ap3ItFTaSmuZiM2yQwqLNtGamZmFP4w
-         APceDaicNHyPiFXrqNybqnHkkKB5lCv7pCm+h1jo2h+73IsWzGCW7r0UZKhicAsEAbtP
-         ahV4qIzTY0uAjMBjsxOvS9sBhDDq9aGAdGhb4AWuuEVY+JXYMLtI2SG+7qw56+56jGe0
-         KIMw==
-X-Gm-Message-State: APjAAAXeR+4Z1Ow3UQuql2/v8elH3RUReJAw/BnAgdp2orQaKr0zv2P5
-        S/z+v4nNYI4vc84c4ppMbeBLig+a2aw=
-X-Google-Smtp-Source: APXvYqy0r9DsbizCqrexPf9rUX12ja5WC7syNRm9Q4CKHVB7psLJiiPZPg+vaEdPhLPIeeqlAA81mw==
-X-Received: by 2002:a05:6512:309:: with SMTP id t9mr29680176lfp.103.1558170539702;
-        Sat, 18 May 2019 02:08:59 -0700 (PDT)
-Received: from [192.168.1.111] ([77.123.15.14])
-        by smtp.googlemail.com with ESMTPSA id f21sm2211511ljk.94.2019.05.18.02.08.58
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Sat, 18 May 2019 02:08:58 -0700 (PDT)
-Subject: Re: [PATCH v3] HID: fix A4Tech horizontal scrolling
-To:     =?UTF-8?B?QsWCYcW8ZWogU3pjenlnaWXFgg==?= <spaz16@wp.pl>
-Cc:     peter.hutterer@who-t.net, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190507050029.GA5197@jelly>
- <20190512203313.18756-1-spaz16@wp.pl>
-From:   Igor Kushnir <igorkuo@gmail.com>
-Message-ID: <858498ef-b43a-f382-bfbc-e3a2ac9935e4@gmail.com>
-Date:   Sat, 18 May 2019 12:08:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=rV8ABIAchy9CLucgg2Ek8ITZNk8aguYJQCC0nexNA+I=;
+        b=HeapDW/0CXUkqXNva1ziz+bp32QjecvtpKXtW6oowIFH/x4V3aHF3zE7AsDEollI+l
+         QpvG4j50+Twp813Z9/IBczAaER3oMo+NgiuHBJXpfUqUlgoza89a8NY668nuHMimRa2A
+         NzOq9J1/fq2NQgxJtOzO+i2x9FDuc5mFfTo4tUP6ff3DTuQnIXxd+sHFzaFefAxU1GI9
+         aelOmOQbSw1toRYJ05qEqLgu+T1esN/xZoia+MbkWX0R6BtVf0qq01o7ZNVVg/1Vjnqs
+         kFmtWKuUP/w2lPcv3SeipEPWWZL/PMYIZk8cwWXPc7OkOi9DqaHSoTT93hvH/TGj8tHV
+         YoCA==
+X-Gm-Message-State: APjAAAUbgAhcoU2IbZpgIxtBLKQtyBcOc+HYcNmxEdKEsz57JE06U3Tv
+        ulO/aeSN3Gp+w0I0dolyEAY=
+X-Google-Smtp-Source: APXvYqxphR9Zt3/VcA+PUwS9pAn1tAjbKeUnVsuJy6XwlYRg2sH1ngPtltNLDWYebg7Tt6bje3BWyQ==
+X-Received: by 2002:adf:ce07:: with SMTP id p7mr25294978wrn.241.1558198512669;
+        Sat, 18 May 2019 09:55:12 -0700 (PDT)
+Received: from vaio.lan ([93.55.208.142])
+        by smtp.gmail.com with ESMTPSA id u7sm7349940wmg.25.2019.05.18.09.55.11
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sat, 18 May 2019 09:55:11 -0700 (PDT)
+Message-ID: <6f94097bb9192424f92e055e8af8062b2ae3e19f.camel@gmail.com>
+Subject: Re: [PATCH 1/2] Input: atmel_mxt_ts - add wakeup support
+From:   stefano.manni@gmail.com
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     nick@shmanahar.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Sat, 18 May 2019 18:55:10 +0200
+In-Reply-To: <20190517213016.GA93581@dtor-ws>
+References: <20190517211741.8906-1-stefano.manni@gmail.com>
+         <20190517213016.GA93581@dtor-ws>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
 MIME-Version: 1.0
-In-Reply-To: <20190512203313.18756-1-spaz16@wp.pl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: uk-UA
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi!
+Hi Dmitry,
 
-I have verified that the PATCH v3 applied to kernel 5.0.15 fixes 
-horizontal scrolling for my A4Tech WOP-49Z mouse just as well as the 
-previous patch did.
+On Fri, 2019-05-17 at 14:30 -0700, Dmitry Torokhov wrote:
+> Hi Sefano,
+> 
+> On Fri, May 17, 2019 at 11:17:40PM +0200, Stefano Manni wrote:
+> > Add wakeup support to the maxtouch driver.
+> > The device can wake up the system from suspend,
+> > mark the IRQ as wakeup capable, so that device
+> > irq is not disabled during system suspend.
+> 
+> This should already be handled by I2C core, see lines after "if
+> (client->flags & I2C_CLIENT_WAKE)" in drivers/i2c/i2c-core-base.c.
+> 
+> Unless there is dedicated wakeup interrupt we configure main
+> interrupt
+> as wake source.
+> 
 
-Thank you,
-Igor
+what's about the other drivers (e.g. ili210x.c) doing like this?
+Shall they be purged?
 
-On 5/12/19 11:33 PM, Błażej Szczygieł wrote:
-> Since recent high resolution scrolling changes the A4Tech driver must
-> check for the "REL_WHEEL_HI_RES" usage code.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=203369
-> Fixes: 2dc702c991e3774af9d7ce410eef410ca9e2357e ("HID: input: use the
-> Resolution Multiplier for high-resolution scrolling")
-> 
-> Signed-off-by: Błażej Szczygieł <spaz16@wp.pl>
-> ---
-> Changes in v2:
-> - changed commit message
-> 
-> Changes in v3:
-> - send also high resolution events
-> 
->   drivers/hid/hid-a4tech.c | 11 ++++++++---
->   1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-a4tech.c b/drivers/hid/hid-a4tech.c
-> index 9428ea7cdf8a..c3a6ce3613fe 100644
-> --- a/drivers/hid/hid-a4tech.c
-> +++ b/drivers/hid/hid-a4tech.c
-> @@ -38,8 +38,10 @@ static int a4_input_mapped(struct hid_device *hdev, struct hid_input *hi,
->   {
->   	struct a4tech_sc *a4 = hid_get_drvdata(hdev);
->   
-> -	if (usage->type == EV_REL && usage->code == REL_WHEEL)
-> +	if (usage->type == EV_REL && usage->code == REL_WHEEL_HI_RES) {
->   		set_bit(REL_HWHEEL, *bit);
-> +		set_bit(REL_HWHEEL_HI_RES, *bit);
-> +	}
->   
->   	if ((a4->quirks & A4_2WHEEL_MOUSE_HACK_7) && usage->hid == 0x00090007)
->   		return -1;
-> @@ -60,7 +62,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
->   	input = field->hidinput->input;
->   
->   	if (a4->quirks & A4_2WHEEL_MOUSE_HACK_B8) {
-> -		if (usage->type == EV_REL && usage->code == REL_WHEEL) {
-> +		if (usage->type == EV_REL && usage->code == REL_WHEEL_HI_RES) {
->   			a4->delayed_value = value;
->   			return 1;
->   		}
-> @@ -68,6 +70,8 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
->   		if (usage->hid == 0x000100b8) {
->   			input_event(input, EV_REL, value ? REL_HWHEEL :
->   					REL_WHEEL, a4->delayed_value);
-> +			input_event(input, EV_REL, value ? REL_HWHEEL_HI_RES :
-> +					REL_WHEEL_HI_RES, a4->delayed_value * 120);
->   			return 1;
->   		}
->   	}
-> @@ -77,8 +81,9 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
->   		return 1;
->   	}
->   
-> -	if (usage->code == REL_WHEEL && a4->hw_wheel) {
-> +	if (usage->code == REL_WHEEL_HI_RES && a4->hw_wheel) {
->   		input_event(input, usage->type, REL_HWHEEL, value);
-> +		input_event(input, usage->type, REL_HWHEEL_HI_RES, value * 120);
->   		return 1;
->   	}
->   
-> 
+Thank you.
+
