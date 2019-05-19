@@ -2,58 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D34522887
-	for <lists+linux-input@lfdr.de>; Sun, 19 May 2019 21:24:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E912422958
+	for <lists+linux-input@lfdr.de>; Mon, 20 May 2019 00:34:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730070AbfESTYG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 May 2019 15:24:06 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:53819 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726066AbfESTYG (ORCPT
+        id S1726090AbfESWey (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 May 2019 18:34:54 -0400
+Received: from p3plsmtpa08-06.prod.phx3.secureserver.net ([173.201.193.107]:50432
+        "EHLO p3plsmtpa08-06.prod.phx3.secureserver.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726074AbfESWey (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 May 2019 15:24:06 -0400
-Received: from [61.149.195.63] (helo=localhost.localdomain)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <aaron.ma@canonical.com>)
-        id 1hSGEC-0004LW-CO; Sun, 19 May 2019 07:27:29 +0000
-From:   Aaron Ma <aaron.ma@canonical.com>
-To:     aaron.ma@canonical.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
-        benjamin.tissoires@redhat.com
-Subject: [PATCH 2/2] Input: synaptics - remove X240 from the topbuttonpad list
-Date:   Sun, 19 May 2019 15:27:11 +0800
-Message-Id: <20190519072711.2592-2-aaron.ma@canonical.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190519072711.2592-1-aaron.ma@canonical.com>
-References: <20190519072711.2592-1-aaron.ma@canonical.com>
+        Sun, 19 May 2019 18:34:54 -0400
+Received: from labundy.com ([136.49.227.119])
+        by :SMTPAUTH: with ESMTPSA
+        id SUOKhKtfx8XKZSUOLhk9ks; Sun, 19 May 2019 15:34:53 -0700
+Date:   Sun, 19 May 2019 17:34:52 -0500
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     Axel Lin <axel.lin@ingics.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: iqs5xx - Remove redundant dev_set_drvdata call
+Message-ID: <20190519223452.GA23823@labundy.com>
+References: <20190519041148.32146-1-axel.lin@ingics.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190519041148.32146-1-axel.lin@ingics.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-CMAE-Envelope: MS4wfEcIOlSYrGbrrRT/90CAbrhZIrkfsJJIWPmZSkEziBheAAUwEJgZiO4YvNnE4WbRJ16oJ3yLuW2TfCPK0gzv65ixFJjwOHT4PIxjYlDiQf9USQcvm0bn
+ TjLCqQiVJMW4oOc9BsR7ThEf/fs9/csN/xulhNev+CcZgfePa2P7DTRn2Vn5NqkEJN7TLMPYrLUKFe+bymYYFwUHqgjKUqwCjBlGlBuffxq2yKmgQL2Zel7G
+ SMIcDjmW2YKpOsS4p1p0tg==
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Lenovo ThinkPad X240 does not have the top software button.
-When this wrong ID in top button list, smbus mode will fail to probe,
-so keep it working at PS2 mode.
+Hi Axel,
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
----
- drivers/input/mouse/synaptics.c | 1 -
- 1 file changed, 1 deletion(-)
+On Sun, May 19, 2019 at 12:11:48PM +0800, Axel Lin wrote:
+> Calling i2c_set_clientdata() is enough.
+> 
+> Signed-off-by: Axel Lin <axel.lin@ingics.com>
+> ---
+>  drivers/input/touchscreen/iqs5xx.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
+> index b832fe062645..158707897c2d 100644
+> --- a/drivers/input/touchscreen/iqs5xx.c
+> +++ b/drivers/input/touchscreen/iqs5xx.c
+> @@ -1054,8 +1054,6 @@ static int iqs5xx_probe(struct i2c_client *client,
+>  	if (!iqs5xx)
+>  		return -ENOMEM;
+>  
+> -	dev_set_drvdata(&client->dev, iqs5xx);
+> -
+>  	i2c_set_clientdata(client, iqs5xx);
+>  	iqs5xx->client = client;
+>  
+> -- 
+> 2.20.1
+> 
+> 
 
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index b6da0c1267e3..6ae7bc92476b 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -140,7 +140,6 @@ static const char * const topbuttonpad_pnp_ids[] = {
- 	"LEN002E",
- 	"LEN0033", /* Helix */
- 	"LEN0034", /* T431s, L440, L540, T540, W540, X1 Carbon 2nd */
--	"LEN0035", /* X240 */
- 	"LEN0036", /* T440 */
- 	"LEN0037", /* X1 Carbon 2nd */
- 	"LEN0038",
--- 
-2.17.1
+Thank you for spotting this.
+
+Acked-by: Jeff LaBundy <jeff@labundy.com>
+
+Thanks,
+Jeff L.
 
