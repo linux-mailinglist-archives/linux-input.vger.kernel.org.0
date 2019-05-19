@@ -2,90 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C62722425
-	for <lists+linux-input@lfdr.de>; Sat, 18 May 2019 18:55:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21F12227E4
+	for <lists+linux-input@lfdr.de>; Sun, 19 May 2019 19:39:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727727AbfERQzO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 May 2019 12:55:14 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39023 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727073AbfERQzO (ORCPT
+        id S1727478AbfESRjY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 May 2019 13:39:24 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:34676 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726472AbfESRjY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 May 2019 12:55:14 -0400
-Received: by mail-wr1-f67.google.com with SMTP id w8so10149236wrl.6;
-        Sat, 18 May 2019 09:55:13 -0700 (PDT)
+        Sun, 19 May 2019 13:39:24 -0400
+Received: by mail-pg1-f193.google.com with SMTP id c13so5641494pgt.1
+        for <linux-input@vger.kernel.org>; Sun, 19 May 2019 10:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=rV8ABIAchy9CLucgg2Ek8ITZNk8aguYJQCC0nexNA+I=;
-        b=CNVrJOHv4HNuA9ajswY3zLEC7X5nOxwVN5Pyz9T+FszSPC/gpvZ+YR7K/TzQ5zdBqw
-         HcSNGxcIQiVftmt/wpEWX7p8byXYvOyalKh3Gq+sOJLro3J0/dvmTvRCKT7NooE3RtRt
-         e1zZ7cPlzUCkpHqKDekvueevkFkrqOQ0hnCGcMfGWYMJSGngl42mOG0bjxRFHId93xdN
-         QrtQNnMMDk+p7QuxAjfNAtDkrrwigoA5h5QHQ4uvkcUpRdC4X1/UZ7MxWcAut6fG3u2A
-         xlJLqWMDEjxaAwwSMUEZ6evh2BnKjDmCZBa9o4S/OHk9Poim7lAYut8d7ZfYXeB3RXp0
-         nybA==
+        d=ingics-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZUqUblKIDwkS/ncuZZOIGl2hEidUp/Yqzoky4sCljKw=;
+        b=PM7fq6XQyawcH3htRS930Uj1yrdzYdaR/eyxDPHOvDGodle32qd/9G6BHFirb7bCfF
+         cHPsuWP/67DZpSbbz/dQV8xy3lri0jD/sMBODCJptWcILF7G299vI1l7ke2NvBmlmJHZ
+         4aK9aBDaGc0v3rBUu61Ku1hVvUGczZprS+bRSuBerr8eSNI66ORopZIG6L92gb4iOoZX
+         Kb8xf/laV6iNJdp16ryUCIVw4BAuwBT2TKuDZHcP9DScpj76Xgqssvh52kiRR0t8CYXr
+         sA9eG6sWoJPpi06AMCh1kTSWZ6+E4lmAyO4QJTOS7rA9/wtJRbmSrqoz6jZzlZoFR91A
+         hCNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=rV8ABIAchy9CLucgg2Ek8ITZNk8aguYJQCC0nexNA+I=;
-        b=HeapDW/0CXUkqXNva1ziz+bp32QjecvtpKXtW6oowIFH/x4V3aHF3zE7AsDEollI+l
-         QpvG4j50+Twp813Z9/IBczAaER3oMo+NgiuHBJXpfUqUlgoza89a8NY668nuHMimRa2A
-         NzOq9J1/fq2NQgxJtOzO+i2x9FDuc5mFfTo4tUP6ff3DTuQnIXxd+sHFzaFefAxU1GI9
-         aelOmOQbSw1toRYJ05qEqLgu+T1esN/xZoia+MbkWX0R6BtVf0qq01o7ZNVVg/1Vjnqs
-         kFmtWKuUP/w2lPcv3SeipEPWWZL/PMYIZk8cwWXPc7OkOi9DqaHSoTT93hvH/TGj8tHV
-         YoCA==
-X-Gm-Message-State: APjAAAUbgAhcoU2IbZpgIxtBLKQtyBcOc+HYcNmxEdKEsz57JE06U3Tv
-        ulO/aeSN3Gp+w0I0dolyEAY=
-X-Google-Smtp-Source: APXvYqxphR9Zt3/VcA+PUwS9pAn1tAjbKeUnVsuJy6XwlYRg2sH1ngPtltNLDWYebg7Tt6bje3BWyQ==
-X-Received: by 2002:adf:ce07:: with SMTP id p7mr25294978wrn.241.1558198512669;
-        Sat, 18 May 2019 09:55:12 -0700 (PDT)
-Received: from vaio.lan ([93.55.208.142])
-        by smtp.gmail.com with ESMTPSA id u7sm7349940wmg.25.2019.05.18.09.55.11
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sat, 18 May 2019 09:55:11 -0700 (PDT)
-Message-ID: <6f94097bb9192424f92e055e8af8062b2ae3e19f.camel@gmail.com>
-Subject: Re: [PATCH 1/2] Input: atmel_mxt_ts - add wakeup support
-From:   stefano.manni@gmail.com
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZUqUblKIDwkS/ncuZZOIGl2hEidUp/Yqzoky4sCljKw=;
+        b=qEu2vUgDbhR+mIKwkoVBytKVqhOD5aMJw18XwqyrYJBwy5UpCwVIEecCKMwJH5Ic1/
+         rF4oSjrwW3qfsKqgEgsMaVfMWfPcTdRBuXch9Pp0BYXmPFOl/apiEKGcJxfoVedyTc14
+         Hhh3E7ikTf1vPLJtX/yfG0v4ok8yWu4vOG6DJ/tmpVAr0tDCe3MXrne7z0A1Ko674i0M
+         y0yAkXyjRgZu5JN0I5LXCytn7IOQbvqxtWPl1CmL18zdFy7v1KG2qTAhkR4o/Jmw1LIA
+         e1DVimPmlnk7a+CE+qCsM0hifZ7PK7o2pOpWYB0ab86gM+yEAK4RRHH5eetgNRqHeaXg
+         LoUg==
+X-Gm-Message-State: APjAAAWCQ+/T0CSDURUmLHE0AE+/OHNamKIpcAl5ThKR0iG/Kuf8SC+j
+        dH7MERYOPTcME2Faeg7xROPwrJZnQXA=
+X-Google-Smtp-Source: APXvYqw9ql8jTqigRqduMQYl6rbK/xDkZ0C5/jYDYm/g/fqy3r4jyW5hkSxjiHrhFULfUvL1BiGapw==
+X-Received: by 2002:a63:5fcc:: with SMTP id t195mr6363266pgb.120.1558239122327;
+        Sat, 18 May 2019 21:12:02 -0700 (PDT)
+Received: from localhost.localdomain (36-239-215-232.dynamic-ip.hinet.net. [36.239.215.232])
+        by smtp.gmail.com with ESMTPSA id k7sm15407243pfk.93.2019.05.18.21.11.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 18 May 2019 21:12:00 -0700 (PDT)
+From:   Axel Lin <axel.lin@ingics.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     nick@shmanahar.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Sat, 18 May 2019 18:55:10 +0200
-In-Reply-To: <20190517213016.GA93581@dtor-ws>
-References: <20190517211741.8906-1-stefano.manni@gmail.com>
-         <20190517213016.GA93581@dtor-ws>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+Cc:     Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
+        Axel Lin <axel.lin@ingics.com>
+Subject: [PATCH] Input: iqs5xx - Remove redundant dev_set_drvdata call
+Date:   Sun, 19 May 2019 12:11:48 +0800
+Message-Id: <20190519041148.32146-1-axel.lin@ingics.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Calling i2c_set_clientdata() is enough.
 
-On Fri, 2019-05-17 at 14:30 -0700, Dmitry Torokhov wrote:
-> Hi Sefano,
-> 
-> On Fri, May 17, 2019 at 11:17:40PM +0200, Stefano Manni wrote:
-> > Add wakeup support to the maxtouch driver.
-> > The device can wake up the system from suspend,
-> > mark the IRQ as wakeup capable, so that device
-> > irq is not disabled during system suspend.
-> 
-> This should already be handled by I2C core, see lines after "if
-> (client->flags & I2C_CLIENT_WAKE)" in drivers/i2c/i2c-core-base.c.
-> 
-> Unless there is dedicated wakeup interrupt we configure main
-> interrupt
-> as wake source.
-> 
+Signed-off-by: Axel Lin <axel.lin@ingics.com>
+---
+ drivers/input/touchscreen/iqs5xx.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-what's about the other drivers (e.g. ili210x.c) doing like this?
-Shall they be purged?
-
-Thank you.
+diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
+index b832fe062645..158707897c2d 100644
+--- a/drivers/input/touchscreen/iqs5xx.c
++++ b/drivers/input/touchscreen/iqs5xx.c
+@@ -1054,8 +1054,6 @@ static int iqs5xx_probe(struct i2c_client *client,
+ 	if (!iqs5xx)
+ 		return -ENOMEM;
+ 
+-	dev_set_drvdata(&client->dev, iqs5xx);
+-
+ 	i2c_set_clientdata(client, iqs5xx);
+ 	iqs5xx->client = client;
+ 
+-- 
+2.20.1
 
