@@ -2,84 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21F12227E4
-	for <lists+linux-input@lfdr.de>; Sun, 19 May 2019 19:39:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBB0522884
+	for <lists+linux-input@lfdr.de>; Sun, 19 May 2019 21:24:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727478AbfESRjY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 May 2019 13:39:24 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:34676 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726472AbfESRjY (ORCPT
+        id S1726811AbfESTYE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 May 2019 15:24:04 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:53818 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726066AbfESTYE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 May 2019 13:39:24 -0400
-Received: by mail-pg1-f193.google.com with SMTP id c13so5641494pgt.1
-        for <linux-input@vger.kernel.org>; Sun, 19 May 2019 10:39:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ingics-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZUqUblKIDwkS/ncuZZOIGl2hEidUp/Yqzoky4sCljKw=;
-        b=PM7fq6XQyawcH3htRS930Uj1yrdzYdaR/eyxDPHOvDGodle32qd/9G6BHFirb7bCfF
-         cHPsuWP/67DZpSbbz/dQV8xy3lri0jD/sMBODCJptWcILF7G299vI1l7ke2NvBmlmJHZ
-         4aK9aBDaGc0v3rBUu61Ku1hVvUGczZprS+bRSuBerr8eSNI66ORopZIG6L92gb4iOoZX
-         Kb8xf/laV6iNJdp16ryUCIVw4BAuwBT2TKuDZHcP9DScpj76Xgqssvh52kiRR0t8CYXr
-         sA9eG6sWoJPpi06AMCh1kTSWZ6+E4lmAyO4QJTOS7rA9/wtJRbmSrqoz6jZzlZoFR91A
-         hCNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZUqUblKIDwkS/ncuZZOIGl2hEidUp/Yqzoky4sCljKw=;
-        b=qEu2vUgDbhR+mIKwkoVBytKVqhOD5aMJw18XwqyrYJBwy5UpCwVIEecCKMwJH5Ic1/
-         rF4oSjrwW3qfsKqgEgsMaVfMWfPcTdRBuXch9Pp0BYXmPFOl/apiEKGcJxfoVedyTc14
-         Hhh3E7ikTf1vPLJtX/yfG0v4ok8yWu4vOG6DJ/tmpVAr0tDCe3MXrne7z0A1Ko674i0M
-         y0yAkXyjRgZu5JN0I5LXCytn7IOQbvqxtWPl1CmL18zdFy7v1KG2qTAhkR4o/Jmw1LIA
-         e1DVimPmlnk7a+CE+qCsM0hifZ7PK7o2pOpWYB0ab86gM+yEAK4RRHH5eetgNRqHeaXg
-         LoUg==
-X-Gm-Message-State: APjAAAWCQ+/T0CSDURUmLHE0AE+/OHNamKIpcAl5ThKR0iG/Kuf8SC+j
-        dH7MERYOPTcME2Faeg7xROPwrJZnQXA=
-X-Google-Smtp-Source: APXvYqw9ql8jTqigRqduMQYl6rbK/xDkZ0C5/jYDYm/g/fqy3r4jyW5hkSxjiHrhFULfUvL1BiGapw==
-X-Received: by 2002:a63:5fcc:: with SMTP id t195mr6363266pgb.120.1558239122327;
-        Sat, 18 May 2019 21:12:02 -0700 (PDT)
-Received: from localhost.localdomain (36-239-215-232.dynamic-ip.hinet.net. [36.239.215.232])
-        by smtp.gmail.com with ESMTPSA id k7sm15407243pfk.93.2019.05.18.21.11.59
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 18 May 2019 21:12:00 -0700 (PDT)
-From:   Axel Lin <axel.lin@ingics.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
-        Axel Lin <axel.lin@ingics.com>
-Subject: [PATCH] Input: iqs5xx - Remove redundant dev_set_drvdata call
-Date:   Sun, 19 May 2019 12:11:48 +0800
-Message-Id: <20190519041148.32146-1-axel.lin@ingics.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 19 May 2019 15:24:04 -0400
+Received: from [61.149.195.63] (helo=localhost.localdomain)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <aaron.ma@canonical.com>)
+        id 1hSGE9-0004LW-GN; Sun, 19 May 2019 07:27:26 +0000
+From:   Aaron Ma <aaron.ma@canonical.com>
+To:     aaron.ma@canonical.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
+        benjamin.tissoires@redhat.com
+Subject: [PATCH 1/2] Input: elantech - enable middle button support on 2 ThinkPads
+Date:   Sun, 19 May 2019 15:27:10 +0800
+Message-Id: <20190519072711.2592-1-aaron.ma@canonical.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Calling i2c_set_clientdata() is enough.
+Adding 2 new touchpad PNPIDs to enable middle button support.
 
-Signed-off-by: Axel Lin <axel.lin@ingics.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
 ---
- drivers/input/touchscreen/iqs5xx.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/input/mouse/elantech.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
-index b832fe062645..158707897c2d 100644
---- a/drivers/input/touchscreen/iqs5xx.c
-+++ b/drivers/input/touchscreen/iqs5xx.c
-@@ -1054,8 +1054,6 @@ static int iqs5xx_probe(struct i2c_client *client,
- 	if (!iqs5xx)
- 		return -ENOMEM;
- 
--	dev_set_drvdata(&client->dev, iqs5xx);
--
- 	i2c_set_clientdata(client, iqs5xx);
- 	iqs5xx->client = client;
+diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
+index a7f8b1614559..530142b5a115 100644
+--- a/drivers/input/mouse/elantech.c
++++ b/drivers/input/mouse/elantech.c
+@@ -1189,6 +1189,8 @@ static const char * const middle_button_pnp_ids[] = {
+ 	"LEN2132", /* ThinkPad P52 */
+ 	"LEN2133", /* ThinkPad P72 w/ NFC */
+ 	"LEN2134", /* ThinkPad P72 */
++	"LEN0407",
++	"LEN0408",
+ 	NULL
+ };
  
 -- 
-2.20.1
+2.17.1
 
