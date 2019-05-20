@@ -2,72 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E912422958
-	for <lists+linux-input@lfdr.de>; Mon, 20 May 2019 00:34:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE0E22304D
+	for <lists+linux-input@lfdr.de>; Mon, 20 May 2019 11:27:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbfESWey (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 May 2019 18:34:54 -0400
-Received: from p3plsmtpa08-06.prod.phx3.secureserver.net ([173.201.193.107]:50432
-        "EHLO p3plsmtpa08-06.prod.phx3.secureserver.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726074AbfESWey (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 May 2019 18:34:54 -0400
-Received: from labundy.com ([136.49.227.119])
-        by :SMTPAUTH: with ESMTPSA
-        id SUOKhKtfx8XKZSUOLhk9ks; Sun, 19 May 2019 15:34:53 -0700
-Date:   Sun, 19 May 2019 17:34:52 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Axel Lin <axel.lin@ingics.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: iqs5xx - Remove redundant dev_set_drvdata call
-Message-ID: <20190519223452.GA23823@labundy.com>
-References: <20190519041148.32146-1-axel.lin@ingics.com>
+        id S1732119AbfETJ1X (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 May 2019 05:27:23 -0400
+Received: from sauhun.de ([88.99.104.3]:49458 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730445AbfETJ1X (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 20 May 2019 05:27:23 -0400
+Received: from localhost (p54B333DA.dip0.t-ipconnect.de [84.179.51.218])
+        by pokefinder.org (Postfix) with ESMTPSA id 6B9632C2761;
+        Mon, 20 May 2019 11:27:21 +0200 (CEST)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-input@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Steve Twiss <stwiss.opensource@diasemi.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH RESEND 0/2] input: da9063 updates
+Date:   Mon, 20 May 2019 11:27:09 +0200
+Message-Id: <20190520092711.30662-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190519041148.32146-1-axel.lin@ingics.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-CMAE-Envelope: MS4wfEcIOlSYrGbrrRT/90CAbrhZIrkfsJJIWPmZSkEziBheAAUwEJgZiO4YvNnE4WbRJ16oJ3yLuW2TfCPK0gzv65ixFJjwOHT4PIxjYlDiQf9USQcvm0bn
- TjLCqQiVJMW4oOc9BsR7ThEf/fs9/csN/xulhNev+CcZgfePa2P7DTRn2Vn5NqkEJN7TLMPYrLUKFe+bymYYFwUHqgjKUqwCjBlGlBuffxq2yKmgQL2Zel7G
- SMIcDjmW2YKpOsS4p1p0tg==
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Axel,
+This series removes the unused pdata interface and updates the header to
+SPDX. Last time, a similar and bigger da9063 series was meant to go in
+via MFD. This resend, however, was rebased to v5.2-rc1 and regrouped, so
+it can go in via the input tree directly.
 
-On Sun, May 19, 2019 at 12:11:48PM +0800, Axel Lin wrote:
-> Calling i2c_set_clientdata() is enough.
-> 
-> Signed-off-by: Axel Lin <axel.lin@ingics.com>
-> ---
->  drivers/input/touchscreen/iqs5xx.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
-> index b832fe062645..158707897c2d 100644
-> --- a/drivers/input/touchscreen/iqs5xx.c
-> +++ b/drivers/input/touchscreen/iqs5xx.c
-> @@ -1054,8 +1054,6 @@ static int iqs5xx_probe(struct i2c_client *client,
->  	if (!iqs5xx)
->  		return -ENOMEM;
->  
-> -	dev_set_drvdata(&client->dev, iqs5xx);
-> -
->  	i2c_set_clientdata(client, iqs5xx);
->  	iqs5xx->client = client;
->  
-> -- 
-> 2.20.1
-> 
-> 
+Wolfram Sang (2):
+  input: da9063_onkey: remove platform_data support
+  input: da9063_onkey: convert header to SPDX
 
-Thank you for spotting this.
+ drivers/input/misc/da9063_onkey.c | 22 +++-------------------
+ 1 file changed, 3 insertions(+), 19 deletions(-)
 
-Acked-by: Jeff LaBundy <jeff@labundy.com>
-
-Thanks,
-Jeff L.
+-- 
+2.19.1
 
