@@ -2,110 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9020F24861
-	for <lists+linux-input@lfdr.de>; Tue, 21 May 2019 08:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CB8F24868
+	for <lists+linux-input@lfdr.de>; Tue, 21 May 2019 08:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726204AbfEUGtU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 May 2019 02:49:20 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:43597 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725942AbfEUGtU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 May 2019 02:49:20 -0400
-Received: by mail-qt1-f195.google.com with SMTP id i26so19209153qtr.10
-        for <linux-input@vger.kernel.org>; Mon, 20 May 2019 23:49:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EX+RbZ2QuclOpIncZJaA9lb0b+yqy0TQx8yZ2oQxaGo=;
-        b=azqOst7GtQK58W1qiZq9GJED8PkSw3x/SDwTRL/TciZRdqMR5EcbYtATIEhSkl3vHV
-         6vfwZ/CoB9ZFXSf/c6ENBVb2oJdWL2c7StDlkIhHgvrk2AwJ70cAAy1DICoXIyOrxz76
-         Sx54KU8yJmb13J9YulIA+8oCpB22ximQ24RS40gQc1cGFdy5fDqbO2C3Rk1xNdkUAyUy
-         a5zjm6ZgltqvWXQlAHE1fNPsAIQSbzpLv7H7QvYiqYquWRZjvZNZVtM7OHUzdGsezMEH
-         2f3OpO3cdQFRfN1f3AOzx+ftYFd11MDk/mXn6FQFTNLqGsn4U0i7kLSdKdits95GOpSR
-         xWKw==
-X-Gm-Message-State: APjAAAXPhsoaIpz1dMHYSFV74n1mACIQc4trcWZ+ertftNsIBbtDC8SR
-        7R4DaNUTejB7qxqOkr9Xdk9zzRvIcOiR1OKoMkAjWw==
-X-Google-Smtp-Source: APXvYqyD1l2cT5B/5llVtcVwpmWYQWV+ifAU8LYZS74s9QsQIt96L5e8QfeClbxaEnEp5eYzrP3zcOzgimj1lhpL+9o=
-X-Received: by 2002:ac8:1a59:: with SMTP id q25mr67748115qtk.154.1558421359749;
- Mon, 20 May 2019 23:49:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190519072711.2592-1-aaron.ma@canonical.com> <20190519072711.2592-2-aaron.ma@canonical.com>
- <20190521050850.GC183429@dtor-ws>
-In-Reply-To: <20190521050850.GC183429@dtor-ws>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 21 May 2019 08:49:08 +0200
-Message-ID: <CAO-hwJLXB8Qec9Yhz0y6WgvEpE6KHk_53g4VtPGj9mfvMzk4dg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Input: synaptics - remove X240 from the topbuttonpad list
+        id S1726028AbfEUGvV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 May 2019 02:51:21 -0400
+Received: from uho.ysoft.cz ([81.19.3.130]:46984 "EHLO uho.ysoft.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725920AbfEUGvU (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 21 May 2019 02:51:20 -0400
+Received: from [10.1.8.111] (unknown [10.1.8.111])
+        by uho.ysoft.cz (Postfix) with ESMTP id 01578A0321;
+        Tue, 21 May 2019 08:51:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+        s=20160406-ysoft-com; t=1558421478;
+        bh=yKuLFO5c0pIATImt1F6opFt/j/RZIkm+UdT3+v1Lrt8=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=V+Aq01Nl//1U31g13yaQWyymSWwTobre2xlitCsrsCLZXLyl5vJROlWjekK48eMNw
+         pcOAeytozucET5skYDo8acxUTUsVUsxrtcHbs1k+pxRTopzLHfmg16/y+Wt+9AMhmg
+         ddh3AXsxTAPWVi6wLW/pb+GIU7oT2J8HS+oD3Vz8=
+Subject: Re: [RFC PATCH v2 0/4] Input: mpr121-polled: Add polled driver for
+ MPR121
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Aaron Ma <aaron.ma@canonical.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Christopher Heiny <Cheiny@synaptics.com>,
-        Andrew Duggan <aduggan@synaptics.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>
+References: <1558098773-47416-1-git-send-email-michal.vokac@ysoft.com>
+ <20190521053705.GI183429@dtor-ws>
+From:   =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+Message-ID: <ef172b24-cd27-5bb0-d8b1-718f835d0647@ysoft.com>
+Date:   Tue, 21 May 2019 08:51:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
+MIME-Version: 1.0
+In-Reply-To: <20190521053705.GI183429@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 21, 2019 at 7:09 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Aaron,
->
-> On Sun, May 19, 2019 at 03:27:11PM +0800, Aaron Ma wrote:
-> > Lenovo ThinkPad X240 does not have the top software button.
-> > When this wrong ID in top button list, smbus mode will fail to probe,
-> > so keep it working at PS2 mode.
-> >
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
-> > ---
-> >  drivers/input/mouse/synaptics.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-> > index b6da0c1267e3..6ae7bc92476b 100644
-> > --- a/drivers/input/mouse/synaptics.c
-> > +++ b/drivers/input/mouse/synaptics.c
-> > @@ -140,7 +140,6 @@ static const char * const topbuttonpad_pnp_ids[] = {
-> >       "LEN002E",
-> >       "LEN0033", /* Helix */
-> >       "LEN0034", /* T431s, L440, L540, T540, W540, X1 Carbon 2nd */
-> > -     "LEN0035", /* X240 */
->
-> According to the history this came from Synaptics through Hans, so I'd
-> like to make sure there are no several X240 versions floating around...
+On 21. 05. 19 7:37, Dmitry Torokhov wrote:
+> Hi Michal,
+> 
+> On Fri, May 17, 2019 at 03:12:49PM +0200, Michal Vokáč wrote:
+>> Hi,
+>>
+>> I have to deal with a situation where we have a custom i.MX6 based
+>> platform in production that uses the MPR121 touchkey controller.
+>> Unfortunately the chip is connected using only the I2C interface.
+>> The interrupt line is not used. Back in 2015 (Linux v3.14), my
+>> colleague modded the existing mpr121_touchkey.c driver to use polling
+>> instead of interrupt.
+>>
+>> For quite some time yet I am in a process of updating the product from
+>> the ancient Freescale v3.14 kernel to the latest mainline and pushing
+>> any needed changes upstream. The DT files for our imx6dl-yapp4 platform
+>> already made it into v5.1-rc.
+>>
+>> I rebased and updated our mpr121 patch to the latest mainline.
+>> It is created as a separate driver, similarly to gpio_keys_polled.
+>>
+>> The I2C device is quite susceptible to ESD. An ESD test quite often
+>> causes reset of the chip or some register randomly changes its value.
+>> The [PATCH 3/4] adds a write-through register cache. With the cache
+>> this state can be detected and the device can be re-initialied.
+>>
+>> The main question is: Is there any chance that such a polled driver
+>> could be accepted? Is it correct to implement it as a separate driver
+>> or should it be done as an option in the existing driver? I can not
+>> really imagine how I would do that though..
+>>
+>> There are also certain worries that the MPR121 chip may no longer be
+>> available in nonspecifically distant future. In case of EOL I will need
+>> to add a polled driver for an other touchkey chip. May it be already
+>> in mainline or a completely new one.
+> 
+> I think that my addition of input_polled_dev was ultimately a wrong
+> thing to do. I am looking into enabling polling mode for regular input
+> devices as we then can enable polling mode in existing drivers.
 
-A quick google image search showed that the X240 had 2 versions: one
-with the top software buttons, one without.
+OK, that sounds good. Especially when one needs to switch from one chip
+to another that is already in tree, the need for a whole new polling
+driver is eliminated.
 
-And this definitively rings a bell. I am sure we asked Lenovo and
-Synaptics to change the PnPID when they would do such a change, but
-they "forgot" during the *40 series refresh.
-We have code in place to fix the reported ranges of the coordinates,
-and we had to check against the board id (see min_max_pnpid_table[] in
-synaptics.c).
-Unfortunately, X240 (LEN0035) is not part of this table, so I don't
-know which refresh of the board ID has implemented the non top
-software buttons.
+I am still quite a novice in all kernel areas as I literally jump from
+one subsystem to another to fix issues related to our platform. Anyway,
+do you see any opportunity to help with that work?
 
-Cheers,
-Benjamin
+> As far as gpio-keys vs gpio-key-polled, I feel that the capabilities of
+> polling driver is sufficiently different from interrupt-driven one, so
+> we will likely keep them separate.
 
+OK, understand.
 
->
-> >       "LEN0036", /* T440 */
-> >       "LEN0037", /* X1 Carbon 2nd */
-> >       "LEN0038",
-> > --
-> > 2.17.1
-> >
->
-> Thanks.
->
-> --
-> Dmitry
+Thank you,
+Michal
