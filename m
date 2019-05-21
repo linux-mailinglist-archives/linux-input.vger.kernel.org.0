@@ -2,86 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E80B24738
-	for <lists+linux-input@lfdr.de>; Tue, 21 May 2019 07:00:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 080422474E
+	for <lists+linux-input@lfdr.de>; Tue, 21 May 2019 07:08:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726042AbfEUFAJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 May 2019 01:00:09 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:35493 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725793AbfEUFAJ (ORCPT
+        id S1725982AbfEUFIy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 May 2019 01:08:54 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:46848 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725798AbfEUFIx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 May 2019 01:00:09 -0400
-Received: by mail-pl1-f196.google.com with SMTP id p1so2428322plo.2;
-        Mon, 20 May 2019 22:00:08 -0700 (PDT)
+        Tue, 21 May 2019 01:08:53 -0400
+Received: by mail-pg1-f193.google.com with SMTP id t187so7910353pgb.13;
+        Mon, 20 May 2019 22:08:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=M18GV491+ZMOmz3iAwSYuCPMXGVMm1QdFBdLR3izdGU=;
-        b=Y1wsFAI9jEWY6p4ZVAuES9FBFvg0M1LWx+aElsIYegZasDrg/WbbO0vBI6vGGttPZt
-         A+EaeksxDGUrYdjslrL2SPOxvqGhwB51/4rjIjqkuYNGiVsKJjtu3rrRGJ+hDL+eE2my
-         tF7gXX7DSaOncx8gaIaq7xjXbgOapvSjJmn2ZG2Si2+UXIZRRyM6whShKtbRpQubTr1S
-         7FEpvdcoyhX32BEniBdvwe0ThYmN9TkXURFs6A8ey61N2VuG0KgUDrcA6zD/TuziCHyn
-         RLMemknOYdKevU/+xiLCvvmM+X9Q1wnOIUKlh9Cyd0uCEsqspJvquIobpMG1hLmpNLVP
-         W3Yg==
+        bh=VwtARzhW3+sPdMjQOjr/C1t0rhZF0SWvbxbWPmuVoyg=;
+        b=NiJ12r3goSlAJ5AU3US3+PLlOvf87cKeGJI0W5OTXtLx1+1EVhWn7qkmF1nKCjJXFu
+         z9qzDzRjTW+5z9sv2adaLcO+WancpcEj9h15n2Atm9lO0lteEcKRgvgU9p3ICqgPeLcv
+         lXqyV4YCCatklDZYvQ4pI1eZu2oIOrs0vyiaTOl+Y4pwYcXTcDzV9ufN+Mx6mqxqcxrT
+         VQRXUgHnJJITVHPMFmySI7TLz4HLUDx5PYlVoUTHzW8LR+aFu8exAndsjBju8Pb46f5R
+         GEm441/wb4FCpe7S/cl3t7Dzth0S5V6FLg6gqfnZirICecfnGo8+kZzkDO/W8Fe5aAqn
+         1SEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=M18GV491+ZMOmz3iAwSYuCPMXGVMm1QdFBdLR3izdGU=;
-        b=frwlhJRZat7jK3OYtO2u2mMlbTcIkA1z8i1ZtHooxKZV+lv28I1P5YWE59DYKVoiYe
-         EW5Pp+2jtZJsz0jJcvcbkqyPVTZoRkbXL+cMk4mng3OYTwvTO0rqKkhVhssvrMhlB9jx
-         HbfIYRKQx1dntYdOenstFVVsbu7AVSjqBDDfYL0slAM02bCf3Ltskdm3NT3Tnv8sYpCJ
-         gaWJ1+WZtTiOySXsBG/jYjHjexK6qWa5TBo9OD57UGI1TAswWkP3eslszlniJ1sR+fkt
-         dzS+GXdFexU5741e7+lCnG7Hfkl42umrLgR030G/zrL0oMHyWw2yH1OCREQq/0TyV7Bp
-         Ep3A==
-X-Gm-Message-State: APjAAAWF2lYOReR+/CrNgrAsExLmhDeINWDArmr/sBqnEYPHoWXOW1X8
-        JgAjK/r3yljHElS+hVXuyRJhpKkM
-X-Google-Smtp-Source: APXvYqxZg7F5rzFrHJWxnNkMRi73WG2gtV6Z8l2zS0T6ygn8ExEWABiGgIr+Gsg9sfEUbNKIuvI6pQ==
-X-Received: by 2002:a17:902:bd46:: with SMTP id b6mr19002748plx.173.1558414808153;
-        Mon, 20 May 2019 22:00:08 -0700 (PDT)
+        bh=VwtARzhW3+sPdMjQOjr/C1t0rhZF0SWvbxbWPmuVoyg=;
+        b=mFqKkIh1quJ9jqJqN3A/OYHwSVH0Mcyg2PnSQhXfYEwVFnMbzIuUk2Z6kQpjvXePyQ
+         mKKr315srPtRx9mlpqFoEqBbtdWgVjvGpY9p5DVfq1SZU9i9DWuOfH2zVaQnhRV1jar8
+         Ytvgn/Ad2C8J9r2l8U16U0O478GX4pmZ+0Lipw9w8FOeQeueloQeegRxt4VdFmCjprPl
+         CZkddlnnC07aiE6TqQhbY3wVejWGx30S6q7vZ3+fuNlvzqldm8QjfL/EVMOATLvFp1Br
+         eqMoZDBQd4A+O3zBfTCND9kefrvR1TD3ABobaY2mJBT1ykTxbnJhk1ICOp652x2WIUfd
+         AhdA==
+X-Gm-Message-State: APjAAAUS5je0KIpZfuSwWzTnuDPv1Oef4Ckonli3iUttNud0Kn+D0gjb
+        /pxjNSB1V4coT0WhDz+MMOw=
+X-Google-Smtp-Source: APXvYqz8gQSiTliAkp9vaI2NahFrwbqkJagUaapPaIxuAEI95RogQrRP4MS5iDrUZBQLpSr1K194lw==
+X-Received: by 2002:a63:7d18:: with SMTP id y24mr66189590pgc.101.1558415332831;
+        Mon, 20 May 2019 22:08:52 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id 124sm28526884pfe.124.2019.05.20.22.00.06
+        by smtp.gmail.com with ESMTPSA id y10sm29529103pff.4.2019.05.20.22.08.51
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 20 May 2019 22:00:07 -0700 (PDT)
-Date:   Mon, 20 May 2019 22:00:05 -0700
+        Mon, 20 May 2019 22:08:52 -0700 (PDT)
+Date:   Mon, 20 May 2019 22:08:50 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-input@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Steve Twiss <stwiss.opensource@diasemi.com>,
-        Simon Horman <horms+renesas@verge.net.au>
-Subject: Re: [PATCH RESEND 2/2] input: da9063_onkey: convert header to SPDX
-Message-ID: <20190521050005.GB183429@dtor-ws>
-References: <20190520092711.30662-1-wsa+renesas@sang-engineering.com>
- <20190520092711.30662-3-wsa+renesas@sang-engineering.com>
- <CAMuHMdXBDYUQYSRgi2_BCQyZhamUbx5fBZn8-nbMrp=5tw=DUw@mail.gmail.com>
+To:     Aaron Ma <aaron.ma@canonical.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        benjamin.tissoires@redhat.com,
+        Christopher Heiny <Cheiny@synaptics.com>,
+        Andrew Duggan <aduggan@synaptics.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 2/2] Input: synaptics - remove X240 from the topbuttonpad
+ list
+Message-ID: <20190521050850.GC183429@dtor-ws>
+References: <20190519072711.2592-1-aaron.ma@canonical.com>
+ <20190519072711.2592-2-aaron.ma@canonical.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXBDYUQYSRgi2_BCQyZhamUbx5fBZn8-nbMrp=5tw=DUw@mail.gmail.com>
+In-Reply-To: <20190519072711.2592-2-aaron.ma@canonical.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 20, 2019 at 01:24:18PM +0200, Geert Uytterhoeven wrote:
-> On Mon, May 20, 2019 at 12:40 PM Wolfram Sang
-> <wsa+renesas@sang-engineering.com> wrote:
-> > Covnert the header of the source file to SPDX.
-> 
-> Convert
-> 
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-> > Acked-by: Steve Twiss <stwiss.opensource@diasemi.com>
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Aaron,
 
-Applied, thank you.
+On Sun, May 19, 2019 at 03:27:11PM +0800, Aaron Ma wrote:
+> Lenovo ThinkPad X240 does not have the top software button.
+> When this wrong ID in top button list, smbus mode will fail to probe,
+> so keep it working at PS2 mode.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
+> ---
+>  drivers/input/mouse/synaptics.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+> index b6da0c1267e3..6ae7bc92476b 100644
+> --- a/drivers/input/mouse/synaptics.c
+> +++ b/drivers/input/mouse/synaptics.c
+> @@ -140,7 +140,6 @@ static const char * const topbuttonpad_pnp_ids[] = {
+>  	"LEN002E",
+>  	"LEN0033", /* Helix */
+>  	"LEN0034", /* T431s, L440, L540, T540, W540, X1 Carbon 2nd */
+> -	"LEN0035", /* X240 */
+
+According to the history this came from Synaptics through Hans, so I'd
+like to make sure there are no several X240 versions floating around...
+
+>  	"LEN0036", /* T440 */
+>  	"LEN0037", /* X1 Carbon 2nd */
+>  	"LEN0038",
+> -- 
+> 2.17.1
+> 
+
+Thanks.
 
 -- 
 Dmitry
