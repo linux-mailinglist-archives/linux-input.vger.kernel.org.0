@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 546EC26CDE
-	for <lists+linux-input@lfdr.de>; Wed, 22 May 2019 21:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A901D26C73
+	for <lists+linux-input@lfdr.de>; Wed, 22 May 2019 21:35:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732237AbfEVTh6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 May 2019 15:37:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53416 "EHLO mail.kernel.org"
+        id S1733147AbfEVTex (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 May 2019 15:34:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54778 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731468AbfEVTaG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 May 2019 15:30:06 -0400
+        id S2387471AbfEVTbT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 22 May 2019 15:31:19 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 85D832173C;
-        Wed, 22 May 2019 19:30:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3D49E217D4;
+        Wed, 22 May 2019 19:31:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558553405;
-        bh=1xv8OQQaGcTT9bqICwkjJrod1TblcExRj3PI7J2gnuQ=;
+        s=default; t=1558553477;
+        bh=WkxAnb2XTpt9fXrX1Fshz0xP0Zg9UDU8KBt774ofzLw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Tb6cqe4gEwJ/Gi93LjZQZHeDYvTAqngoSzfOJQXd/AG/vB+JyKmCLDE5N8gUs69Ix
-         aAwEGBM0uBXTMKnHolmjUHWckHcTZ1qH20yrKXFDfRqsPDYuhwNNMJsXVg3r2qphT4
-         fOhI8bDgYj8wxCt2X1PEwnqzqPdXsyKtz7gzWJGY=
+        b=1cSI7JITRlefmPhBejF8tbnw0viU7FwjhS9iAYfN7dBEAAWtvDseGJHZLzE3n8kVH
+         zppYdznK5ye8E9zza4MCbT//MWSJO45rXx2X5G5T7qr1FHkU0uWhoqrSjI+UJPhFCz
+         LMXiY6CQ5/SoqB7JPpJKXQ6CX1mXAvbWiGhEL4ic=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 054/167] HID: logitech-hidpp: use RAP instead of FAP to get the protocol version
-Date:   Wed, 22 May 2019 15:26:49 -0400
-Message-Id: <20190522192842.25858-54-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 037/114] HID: logitech-hidpp: use RAP instead of FAP to get the protocol version
+Date:   Wed, 22 May 2019 15:29:00 -0400
+Message-Id: <20190522193017.26567-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190522192842.25858-1-sashal@kernel.org>
-References: <20190522192842.25858-1-sashal@kernel.org>
+In-Reply-To: <20190522193017.26567-1-sashal@kernel.org>
+References: <20190522193017.26567-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -74,10 +74,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index b83d4173fc7f5..d209b12057d59 100644
+index 3198faf5cff4d..38d9deb03d16c 100644
 --- a/drivers/hid/hid-logitech-hidpp.c
 +++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -725,13 +725,16 @@ static int hidpp_root_get_feature(struct hidpp_device *hidpp, u16 feature,
+@@ -449,13 +449,16 @@ static int hidpp_root_get_feature(struct hidpp_device *hidpp, u16 feature,
  
  static int hidpp_root_get_protocol_version(struct hidpp_device *hidpp)
  {
@@ -96,7 +96,7 @@ index b83d4173fc7f5..d209b12057d59 100644
  
  	if (ret == HIDPP_ERROR_INVALID_SUBID) {
  		hidpp->protocol_major = 1;
-@@ -751,8 +754,14 @@ static int hidpp_root_get_protocol_version(struct hidpp_device *hidpp)
+@@ -475,8 +478,14 @@ static int hidpp_root_get_protocol_version(struct hidpp_device *hidpp)
  	if (ret)
  		return ret;
  
