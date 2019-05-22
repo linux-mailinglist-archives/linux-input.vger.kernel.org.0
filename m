@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04ADE2620B
-	for <lists+linux-input@lfdr.de>; Wed, 22 May 2019 12:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 394ED262DF
+	for <lists+linux-input@lfdr.de>; Wed, 22 May 2019 13:19:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728835AbfEVKiO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 May 2019 06:38:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46890 "EHLO mail.kernel.org"
+        id S1728743AbfEVLTW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 May 2019 07:19:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34832 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728693AbfEVKiN (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 May 2019 06:38:13 -0400
+        id S1728690AbfEVLTW (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 22 May 2019 07:19:22 -0400
 Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6BDF520856;
-        Wed, 22 May 2019 10:38:12 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 21D0A217D9;
+        Wed, 22 May 2019 11:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558521493;
-        bh=ugDv1aBMMhmnp7egqL5fWduYgoZ8qqmiraEmhPdjH6s=;
+        s=default; t=1558523961;
+        bh=/AKyGN8KWcutdIxpXABJOkz4oB4ti4xuTlwdnt+/TxQ=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=is0NSXvRpweE1LCYR9EJ3VmwRfkiRVhtxld8yEp+rRv/9mxkV7nI29mMDeCkAsVwm
-         UgEB5UwCoG3b5Bmu12qYuA3N9YE3wKWtByai0puQcD4xXMT8i8J+f9T93gXOajKUSD
-         kf5Q5t6lcR8AjvewKShct4ALI7BGPdd39cEd5YEk=
-Date:   Wed, 22 May 2019 12:38:10 +0200 (CEST)
+        b=DxzaGHu2mf9Jf05Y9S+oGJH3pjICdrbitHsYAIhWEBXVGIAfS55kKn9cKyC0uWs7n
+         Y20IpAccTl4Nyxaa3bvP416pRuJaoW2/+wdsjAfp+5IHbMJs6fatBtgJQngwIVp860
+         pSWhO/lgBYHOpcGJoI4NTq/NJQWe7VIrOCYPFVW8=
+Date:   Wed, 22 May 2019 13:19:18 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Breno Leitao <leitao@debian.org>
-Subject: Re: [PATCH] HID: multitouch: handle faulty Elo touch device
-In-Reply-To: <CAO-hwJJfRXEdwMq9KLXDMs37CnHXnVhUzD5sbd5uzoeVdKQdvw@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.1905221237590.1962@cbobk.fhfr.pm>
-References: <20190521133831.4436-1-benjamin.tissoires@redhat.com> <CAO-hwJJfRXEdwMq9KLXDMs37CnHXnVhUzD5sbd5uzoeVdKQdvw@mail.gmail.com>
+To:     Colin King <colin.king@canonical.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: logitech-dj: make const array template static
+In-Reply-To: <20190510131039.4675-1-colin.king@canonical.com>
+Message-ID: <nycvar.YFH.7.76.1905221319120.1962@cbobk.fhfr.pm>
+References: <20190510131039.4675-1-colin.king@canonical.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -41,29 +41,53 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 21 May 2019, Benjamin Tissoires wrote:
+On Fri, 10 May 2019, Colin King wrote:
 
-> On Tue, May 21, 2019 at 3:38 PM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > Since kernel v5.0, one single win8 touchscreen device failed.
-> > And it turns out this is because it reports 2 InRange usage per touch.
-> >
-> > It's a first, and I *really* wonder how this was allowed by Microsoft in
-> > the first place. But IIRC, Breno told me this happened *after* a firmware
-> > upgrade...
-> >
-> > Anyway, better be safe for those crappy devices, and make sure we have
-> > a full slot before jumping to the next.
-> > This won't prevent all crappy devices to fail here, but at least we will
-> > have a safeguard as long as the contact ID and the X and Y coordinates
-> > are placed in the report after the grabage.
+> From: Colin Ian King <colin.king@canonical.com>
 > 
-> Grmbl, I forgot:
-> Fixes: 01eaac7e5713 ("HID: multitouch: remove one copy of values")
-> CC: stable@vger.kernel.org # v5.0+
+> Don't populate the array template  on the stack but instead make it
+> static. Makes the object code smaller by 10 bytes. Also reformat
+> the declaration.
+> 
+> Before:
+>    text	   data	    bss	    dec	    hex	filename
+>   29376	   9360	    128	  38864	   97d0	drivers/hid/hid-logitech-dj.o
+> 
+> After:
+>    text	   data	    bss	    dec	    hex	filename
+>   29270	   9456	    128	  38854	   97c6	drivers/hid/hid-logitech-dj.o
+> 
+> (gcc version 8.3.0, amd64)
+> 
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ---
+>  drivers/hid/hid-logitech-dj.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+> index b1e894618eed..72d0ab05401f 100644
+> --- a/drivers/hid/hid-logitech-dj.c
+> +++ b/drivers/hid/hid-logitech-dj.c
+> @@ -1111,12 +1111,14 @@ static int logi_dj_recv_send_report(struct dj_receiver_dev *djrcv_dev,
+>  
+>  static int logi_dj_recv_query_hidpp_devices(struct dj_receiver_dev *djrcv_dev)
+>  {
+> -	const u8 template[] = {REPORT_ID_HIDPP_SHORT,
+> -			       HIDPP_RECEIVER_INDEX,
+> -			       HIDPP_SET_REGISTER,
+> -			       HIDPP_REG_CONNECTION_STATE,
+> -			       HIDPP_FAKE_DEVICE_ARRIVAL,
+> -			       0x00, 0x00};
+> +	static const u8 template[] = {
+> +		REPORT_ID_HIDPP_SHORT,
+> +		HIDPP_RECEIVER_INDEX,
+> +		HIDPP_SET_REGISTER,
+> +		HIDPP_REG_CONNECTION_STATE,
+> +		HIDPP_FAKE_DEVICE_ARRIVAL,
+> +		0x00, 0x00
+> +	};
 
-I've now pushed this to for-5.2/fixes. Thanks,
+Applied.
 
 -- 
 Jiri Kosina
