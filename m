@@ -2,111 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 549FD25EBD
-	for <lists+linux-input@lfdr.de>; Wed, 22 May 2019 09:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BDF82617B
+	for <lists+linux-input@lfdr.de>; Wed, 22 May 2019 12:12:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728323AbfEVHke (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 May 2019 03:40:34 -0400
-Received: from mail-wm1-f52.google.com ([209.85.128.52]:52256 "EHLO
-        mail-wm1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725850AbfEVHke (ORCPT
+        id S1728791AbfEVKMu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 May 2019 06:12:50 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:35874 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728406AbfEVKMu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 May 2019 03:40:34 -0400
-Received: by mail-wm1-f52.google.com with SMTP id y3so1071814wmm.2;
-        Wed, 22 May 2019 00:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=fP/xQRsi0wUvGZJuEoRkxJCES8p4BjwCn5vkAc/0qvQ=;
-        b=Nxg2iL2sLiJ6O0dBB/uqiOcVJD+11Z0PGIxMzIzLP0VhyOjpIVVLmMuh3rp7nSVTIy
-         Dz6DaaRdVk9mqpCJFeW5k1YKJWXONbCprULtovWkAS8qENu8yM3WzqKjvClr6YX1W8MX
-         +7viV4IXF262bRbbV7Qactw40K7ILDPErH11kli5anIRWN0U0tX/Fw+6W3DcgMgLL3DN
-         erFtdzFLkrrckOkA+yBbdHKqTj9yD7R7DNthaUCUohQbcgERF7YNsv2LHn1Ot3tZxj89
-         K1STt2tsE5DEU/pjeAVNCuGHOEHhfDgvlgvguZ2VU3BkSuj0Mhuw/E8D7q4g/floBchG
-         cUkg==
+        Wed, 22 May 2019 06:12:50 -0400
+Received: by mail-ed1-f68.google.com with SMTP id a8so3054718edx.3
+        for <linux-input@vger.kernel.org>; Wed, 22 May 2019 03:12:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=fP/xQRsi0wUvGZJuEoRkxJCES8p4BjwCn5vkAc/0qvQ=;
-        b=CfJkYTlGaa4zox9ZHQZdocEJrIHL2RsKAY4BVb59dtK3xWvawyN0yYT0Q+f6wff8eU
-         pd3GdASYS9FuJJ8R9tZo5YR0KzEmZVXHRkbbJWf58TJeyt7e1xVjGMmfUIaRjsxuCspD
-         UFyeBHdW5BLYlAjdpvzqi9zUiwZ49v6tNvBvd6zdlhMGRnTMwhCsUTLgNSjce/5FB6is
-         g4EJOJmt1na0GM2ox3wMWnzxyHWljW2BxcvA0aScSNg4KxQxMCOpUMxtHFwI7KOeYrlc
-         VNquONa1HDbzhyabpsHbDka4tt9Jegx9ZFyGyoW1Hq/fKrsHYc/CW73ZX0wOiA6IVlsJ
-         6yNg==
-X-Gm-Message-State: APjAAAX4wl/7ao6s1pzjEyrkJQjvQjcvfoJj2yNMsnU0M7Gkh104bKZP
-        /5/1oiDGA58fxlKmpjMTFkE=
-X-Google-Smtp-Source: APXvYqxTwAkd6e2sxFdxRvQ43q9hTQ2zc3iokSgY1vt98iEUUiDSwm4j0t24rhv8i+ggFEcScdmkGA==
-X-Received: by 2002:a1c:678a:: with SMTP id b132mr6505599wmc.17.1558510831925;
-        Wed, 22 May 2019 00:40:31 -0700 (PDT)
-Received: from pali ([2a02:2b88:2:1::5cc6:2f])
-        by smtp.gmail.com with ESMTPSA id m16sm867227wrb.5.2019.05.22.00.40.30
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 22 May 2019 00:40:31 -0700 (PDT)
-Date:   Wed, 22 May 2019 09:40:30 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
-To:     Xiaoxiao Liu <xiaoxiao.liu-1@cn.alps.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        dmitry.torokhov@gmail.com
-Cc:     Hui Wang <hui.wang@canonical.com>,
-        XiaoXiao Liu <sliuuxiaonxiao@gmail.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Xiaojian Cao <xiaojian.cao@cn.alps.com>,
-        "zhangfp1@lenovo.com" <zhangfp1@lenovo.com>
-Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IOetlA==?=
- =?utf-8?B?5aSNOiBbUEFUQ0hdIGlucHV0?= =?utf-8?Q?=3A?= alps-fix the issue the
- special alps trackpoint do not work.
-Message-ID: <20190522074030.64sy7xt3wnomtxjb@pali>
-References: <20190520110149.27107-1-sliuuxiaonxiao@gmail.com>
- <OSBPR01MB485510A2A32CD9D2CE5EF7A1DA070@OSBPR01MB4855.jpnprd01.prod.outlook.com>
- <345b62e1-407e-7a03-9b03-486bbf5a0a8e@canonical.com>
- <20190521094622.syeub6tcqhbyc7sg@pali>
- <OSBPR01MB4855D744473149D037612506DA000@OSBPR01MB4855.jpnprd01.prod.outlook.com>
- <20190522063546.kb74mxeprkauicul@pali>
- <OSBPR01MB48550B43F78BBFBDC20D414DDA000@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=UOism6/WliJKlizbO03ANyTQDbU6zepiLVCCA7yr4no=;
+        b=U7PCgHI5l0cmg/lSheHxV1T8pIhMbFcf4ij4T3hLIwr6+PyI8or6JmErL6HExBsUe6
+         gM+9GhYju7Gt+UCCOdEENm/ZmHZwBzlvZ/eKLrxljFMUrcWBx5FF6k5DFlF4ZDgh8NOz
+         pi5K40aOHLiAypc6rjsOCZv24QhEhN+FxoeKunx1zBSFUf5Zj4nl/biGdOsPVY9VxOUJ
+         i7NFQ9L2/qe0NQBuXQt2rR1Jzk3sM8OPDSxs2pxc71sUcS+kO7XvzvyjtmznLqyhxObl
+         lyzceRZtEErAIVYYWDPQjJg6MMNzyu8NjUGuAYHgN/IPyH6P0iGoY6bfGTp86PswZ8EY
+         IwXw==
+X-Gm-Message-State: APjAAAX35ye8K+PyoRDV+HISdBKf6c7C+uQTdOztIJtKq9YSQEXLXAP9
+        8SR9xySG2qXTbek/0dwIoeFjhQ==
+X-Google-Smtp-Source: APXvYqzNhVaVxR8CohHDUn6M+ULJOxCah+OGJx2vJUGm8rsFFDe+YEXiuua+IT83U0iTKfsg0KunhA==
+X-Received: by 2002:a17:906:6c1:: with SMTP id v1mr13388705ejb.266.1558519969205;
+        Wed, 22 May 2019 03:12:49 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id u1sm2617873ejz.92.2019.05.22.03.12.48
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 22 May 2019 03:12:48 -0700 (PDT)
+Subject: Re: [PATCH] input: silead: Add MSSL0017 to acpi_device_id.
+To:     Danct12 <danct12@disroot.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190522045455.15769-1-danct12@disroot.org>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <6c18472f-bedd-6e6d-121c-8a311495c3c3@redhat.com>
+Date:   Wed, 22 May 2019 12:12:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <OSBPR01MB48550B43F78BBFBDC20D414DDA000@OSBPR01MB4855.jpnprd01.prod.outlook.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20190522045455.15769-1-danct12@disroot.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wednesday 22 May 2019 07:30:43 Xiaoxiao Liu wrote:
-> Hi Pali,
+Hi,
+
+On 22-05-19 06:54, Danct12 wrote:
+> On Chuwi Hi10 Plus, the Silead device id is MSSL0017.
 > 
-> Ok, and cannot you set ALPS_DUALPOINT flag based on that
-> alps_check_is_trackpoint() result and then update
-> alps_process_packet_ss4_v3() code to supports also
-> V8 trackpoint packets?
-> --> Yes, we can do like so, when we use the v8 method to process the trackpoint , the mouse speed is not ideal.
->       Then we choose the standard mouse driver.
+> Signed-off-by: Danct12 <danct12@disroot.org>
 
-Mouse speed is something which is configurable. Have you configured it
-somehow? Also there is libinput project should handle these settings
-more properly.
+Patch looks good to me:
 
-Adding Peter Hutterer, maintainer of libinput to loop. I think he could
-help with this problem.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-I do not think it is a good idea to force back to generic PS/2 mouse
-driver for touchpads and trackpoints. Native drivers for touchpads and
-trackpoints supports multitouch, absolute reporting and lot of other
-things... Also calculation of mouse speed from absolute positions on
-touchpads can be more easily fixed as from emulated relative movements.
+Regards,
 
-Dmitry, what is your opinion about this problem? What should psmouse.ko
-do in this situation? Disallow usage of absolute mode and force bare
-PS/2 relative mode?
+Hans
 
--- 
-Pali Rohár
-pali.rohar@gmail.com
+
+> ---
+>   drivers/input/touchscreen/silead.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
+> index 09241d4cdebc..06f0eb04a8fd 100644
+> --- a/drivers/input/touchscreen/silead.c
+> +++ b/drivers/input/touchscreen/silead.c
+> @@ -617,6 +617,7 @@ static const struct acpi_device_id silead_ts_acpi_match[] = {
+>   	{ "MSSL1680", 0 },
+>   	{ "MSSL0001", 0 },
+>   	{ "MSSL0002", 0 },
+> +	{ "MSSL0017", 0 },
+>   	{ }
+>   };
+>   MODULE_DEVICE_TABLE(acpi, silead_ts_acpi_match);
+> 
