@@ -2,90 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BDF82617B
-	for <lists+linux-input@lfdr.de>; Wed, 22 May 2019 12:12:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84D40261E5
+	for <lists+linux-input@lfdr.de>; Wed, 22 May 2019 12:36:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728791AbfEVKMu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 May 2019 06:12:50 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:35874 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728406AbfEVKMu (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 May 2019 06:12:50 -0400
-Received: by mail-ed1-f68.google.com with SMTP id a8so3054718edx.3
-        for <linux-input@vger.kernel.org>; Wed, 22 May 2019 03:12:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=UOism6/WliJKlizbO03ANyTQDbU6zepiLVCCA7yr4no=;
-        b=U7PCgHI5l0cmg/lSheHxV1T8pIhMbFcf4ij4T3hLIwr6+PyI8or6JmErL6HExBsUe6
-         gM+9GhYju7Gt+UCCOdEENm/ZmHZwBzlvZ/eKLrxljFMUrcWBx5FF6k5DFlF4ZDgh8NOz
-         pi5K40aOHLiAypc6rjsOCZv24QhEhN+FxoeKunx1zBSFUf5Zj4nl/biGdOsPVY9VxOUJ
-         i7NFQ9L2/qe0NQBuXQt2rR1Jzk3sM8OPDSxs2pxc71sUcS+kO7XvzvyjtmznLqyhxObl
-         lyzceRZtEErAIVYYWDPQjJg6MMNzyu8NjUGuAYHgN/IPyH6P0iGoY6bfGTp86PswZ8EY
-         IwXw==
-X-Gm-Message-State: APjAAAX35ye8K+PyoRDV+HISdBKf6c7C+uQTdOztIJtKq9YSQEXLXAP9
-        8SR9xySG2qXTbek/0dwIoeFjhQ==
-X-Google-Smtp-Source: APXvYqzNhVaVxR8CohHDUn6M+ULJOxCah+OGJx2vJUGm8rsFFDe+YEXiuua+IT83U0iTKfsg0KunhA==
-X-Received: by 2002:a17:906:6c1:: with SMTP id v1mr13388705ejb.266.1558519969205;
-        Wed, 22 May 2019 03:12:49 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id u1sm2617873ejz.92.2019.05.22.03.12.48
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 22 May 2019 03:12:48 -0700 (PDT)
-Subject: Re: [PATCH] input: silead: Add MSSL0017 to acpi_device_id.
-To:     Danct12 <danct12@disroot.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190522045455.15769-1-danct12@disroot.org>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <6c18472f-bedd-6e6d-121c-8a311495c3c3@redhat.com>
-Date:   Wed, 22 May 2019 12:12:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1729532AbfEVKgI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 May 2019 06:36:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45130 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729486AbfEVKgH (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 22 May 2019 06:36:07 -0400
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 83917217D9;
+        Wed, 22 May 2019 10:36:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558521366;
+        bh=5jCx1AzTyj5isamf00DyysnuPgoISn9moaTLCzGLIgU=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=tiu1zUjZ0sCJqf2jK3/Ox2nFpczo6F47SaMR0CVvmxLZ57hjF/IXpYGoSXIzo/I9O
+         xyASZZjShjoynRdRnd2syE8hrB1FjMtZxTsUwL5i9M1aoPtun+mk0Ti7qGR3qU4Bxr
+         FuijziXnFq45kIw23nF2HZ/ONxWHY42+YfsrBAzE=
+Date:   Wed, 22 May 2019 12:36:03 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     hongyan.song@intel.com
+cc:     jic23@kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, srinivas.pandruvada@intel.com,
+        hdegoede@redhat.com, even.xu@intel.com
+Subject: Re: [PATCH] hid: remove NO_D3 flag for ish not CHV platform
+In-Reply-To: <1558082782-29279-1-git-send-email-hongyan.song@intel.com>
+Message-ID: <nycvar.YFH.7.76.1905221235140.1962@cbobk.fhfr.pm>
+References: <1558082782-29279-1-git-send-email-hongyan.song@intel.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <20190522045455.15769-1-danct12@disroot.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Fri, 17 May 2019, hongyan.song@intel.com wrote:
 
-On 22-05-19 06:54, Danct12 wrote:
-> On Chuwi Hi10 Plus, the Silead device id is MSSL0017.
+> From: Song Hongyan <hongyan.song@intel.com>
 > 
-> Signed-off-by: Danct12 <danct12@disroot.org>
+> NO_D3 flag is set for CHV and the older platforms, the other platform
+> suppose can enter D3, if have this NO_D3 flag set it can never enter D3
 
-Patch looks good to me:
+Could you please provide a little bit more descriptive changelog -- namely 
+what observable problem is it fixing.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
+> Signed-off-by: Song Hongyan <hongyan.song@intel.com>
 > ---
->   drivers/input/touchscreen/silead.c | 1 +
->   1 file changed, 1 insertion(+)
+>  drivers/hid/intel-ish-hid/ipc/pci-ish.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
-> index 09241d4cdebc..06f0eb04a8fd 100644
-> --- a/drivers/input/touchscreen/silead.c
-> +++ b/drivers/input/touchscreen/silead.c
-> @@ -617,6 +617,7 @@ static const struct acpi_device_id silead_ts_acpi_match[] = {
->   	{ "MSSL1680", 0 },
->   	{ "MSSL0001", 0 },
->   	{ "MSSL0002", 0 },
-> +	{ "MSSL0017", 0 },
->   	{ }
->   };
->   MODULE_DEVICE_TABLE(acpi, silead_ts_acpi_match);
-> 
+> diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> index a6e1ee7..de1459b 100644
+> --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> @@ -154,7 +154,9 @@ static int ish_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>  	/* mapping IO device memory */
+>  	hw->mem_addr = pcim_iomap_table(pdev)[0];
+>  	ishtp->pdev = pdev;
+> -	pdev->dev_flags |= PCI_DEV_FLAGS_NO_D3;
+> +	/*This NO_D3 flag is only for CHV and older platforms*/
+
+... and while you're updating the changelog, please also stick a space 
+before and after the comment mark.
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
