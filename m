@@ -2,117 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5A0126C4B
-	for <lists+linux-input@lfdr.de>; Wed, 22 May 2019 21:34:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF0A9273D5
+	for <lists+linux-input@lfdr.de>; Thu, 23 May 2019 03:10:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730409AbfEVTcr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 May 2019 15:32:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55970 "EHLO mail.kernel.org"
+        id S1729172AbfEWBKX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 May 2019 21:10:23 -0400
+Received: from mga05.intel.com ([192.55.52.43]:61521 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732564AbfEVTcM (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 May 2019 15:32:12 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ACB1F217F9;
-        Wed, 22 May 2019 19:32:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558553531;
-        bh=E+ZE7vDcdP/vN6Zda4hseU3aCU164cE+hg599B+TFH8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lO1RKja7n3V52u9YK1RT+kM+kFtyyZnpBmZkJLVsmirCei1AtTYqpV85rNZnUn/Hv
-         EtxXOvHRcLfNd8aF+spI7fII3DX8GUM2okEg9vKz3Ah0qEIJYdplfqHrdqbh7Dj3ma
-         fdtBcsdeMt1eWf4ejh+H28rd91Sbyq2CqTJnjAyM=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 27/92] HID: logitech-hidpp: use RAP instead of FAP to get the protocol version
-Date:   Wed, 22 May 2019 15:30:22 -0400
-Message-Id: <20190522193127.27079-27-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190522193127.27079-1-sashal@kernel.org>
-References: <20190522193127.27079-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        id S1727305AbfEWBKX (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 22 May 2019 21:10:23 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 May 2019 18:10:22 -0700
+X-ExtLoop1: 1
+Received: from shsensorbuild2.sh.intel.com ([10.239.133.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 22 May 2019 18:10:21 -0700
+From:   hongyan.song@intel.com
+To:     jikos@kernel.org, srinivas.pandruvada@intel.com
+Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        hdegoede@redhat.com, jic23@kernel.org, even.xu@intel.com,
+        hongyan.song@intel.com
+Subject: [PATCH v2] hid: remove NO_D3 flag for non Cherry Trail(CHT)
+Date:   Thu, 23 May 2019 09:10:20 +0800
+Message-Id: <1558573820-31133-1-git-send-email-hongyan.song@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Song Hongyan <hongyan.song@intel.com>
 
-[ Upstream commit 096377525cdb8251e4656085efc988bdf733fb4c ]
+The code base NO_D3 flag is especially set for CHT, which is a tablet
+platform, it have PMC changes and do not need to enter D3.
+The newer platforms, which need ISH to enter D3, if have this NO_D3
+flag set they can never enter D3, so remove it.
 
-According to the logitech_hidpp_2.0_specification_draft_2012-06-04.pdf doc:
-https://lekensteyn.nl/files/logitech/logitech_hidpp_2.0_specification_draft_2012-06-04.pdf
-
-We should use a register-access-protocol request using the short input /
-output report ids. This is necessary because 27MHz HID++ receivers have
-a max-packetsize on their HIP++ endpoint of 8, so they cannot support
-long reports. Using a feature-access-protocol request (which is always
-long or very-long) with these will cause a timeout error, followed by
-the hidpp driver treating the device as not being HID++ capable.
-
-This commit fixes this by switching to using a rap request to get the
-protocol version.
-
-Besides being tested with a (046d:c517) 27MHz receiver with various
-27MHz keyboards and mice, this has also been tested to not cause
-regressions on a non-unifying dual-HID++ nano receiver (046d:c534) with
-k270 and m185 HID++-2.0 devices connected and on a unifying/dj receiver
-(046d:c52b) with a HID++-2.0 Logitech Rechargeable Touchpad T650.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Song Hongyan <hongyan.song@intel.com>
 ---
- drivers/hid/hid-logitech-hidpp.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+v2 changes: update the code comments format and patch header, patch comments.
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 5fd97860aec4d..3666e5064d0d3 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -414,13 +414,16 @@ static int hidpp_root_get_feature(struct hidpp_device *hidpp, u16 feature,
- 
- static int hidpp_root_get_protocol_version(struct hidpp_device *hidpp)
- {
-+	const u8 ping_byte = 0x5a;
-+	u8 ping_data[3] = { 0, 0, ping_byte };
- 	struct hidpp_report response;
- 	int ret;
- 
--	ret = hidpp_send_fap_command_sync(hidpp,
-+	ret = hidpp_send_rap_command_sync(hidpp,
-+			REPORT_ID_HIDPP_SHORT,
- 			HIDPP_PAGE_ROOT_IDX,
- 			CMD_ROOT_GET_PROTOCOL_VERSION,
--			NULL, 0, &response);
-+			ping_data, sizeof(ping_data), &response);
- 
- 	if (ret == HIDPP_ERROR_INVALID_SUBID) {
- 		hidpp->protocol_major = 1;
-@@ -440,8 +443,14 @@ static int hidpp_root_get_protocol_version(struct hidpp_device *hidpp)
- 	if (ret)
- 		return ret;
- 
--	hidpp->protocol_major = response.fap.params[0];
--	hidpp->protocol_minor = response.fap.params[1];
-+	if (response.rap.params[2] != ping_byte) {
-+		hid_err(hidpp->hid_dev, "%s: ping mismatch 0x%02x != 0x%02x\n",
-+			__func__, response.rap.params[2], ping_byte);
-+		return -EPROTO;
-+	}
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+index ac0a179..ea444e4 100644
+--- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
++++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+@@ -155,7 +155,10 @@ static int ish_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	/* mapping IO device memory */
+ 	hw->mem_addr = pcim_iomap_table(pdev)[0];
+ 	ishtp->pdev = pdev;
+-	pdev->dev_flags |= PCI_DEV_FLAGS_NO_D3;
 +
-+	hidpp->protocol_major = response.rap.params[0];
-+	hidpp->protocol_minor = response.rap.params[1];
++	/* This NO_D3 flag is only for CHV and older platforms */
++	if (pdev->device == CHV_DEVICE_ID)
++		pdev->dev_flags |= PCI_DEV_FLAGS_NO_D3;
  
- 	return ret;
- }
+ 	/* request and enable interrupt */
+ 	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
 -- 
-2.20.1
+2.7.4
 
