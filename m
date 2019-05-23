@@ -2,105 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E79C28BC1
-	for <lists+linux-input@lfdr.de>; Thu, 23 May 2019 22:45:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98B6928D7C
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2019 00:55:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387527AbfEWUpl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 May 2019 16:45:41 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:45885 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387394AbfEWUpl (ORCPT
+        id S2388062AbfEWWzk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 May 2019 18:55:40 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:42564 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387997AbfEWWzj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 May 2019 16:45:41 -0400
-Received: by mail-pf1-f194.google.com with SMTP id s11so3880103pfm.12
-        for <linux-input@vger.kernel.org>; Thu, 23 May 2019 13:45:41 -0700 (PDT)
+        Thu, 23 May 2019 18:55:39 -0400
+Received: by mail-pl1-f195.google.com with SMTP id go2so3314545plb.9;
+        Thu, 23 May 2019 15:55:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=XUm4k9ARWKn5YWfDeM9B8Aaa9MWUhmJ3Z8rFc+Mc9T8=;
-        b=Tu92wqtyhtsSf3R6q4Ek3586ciME3HYxCCNaiK1naXkxUa0rw1BonIMgOjIhJbiWGu
-         HZI4wF1mReM2JLPuoO3Rgkb7lDVw+3EVQ4tMOYqFTfk+PjAsCE1Y6K239aE/AKBDo1Hs
-         tZhXOmlqOu93rngb984oskid1uN8on9r1OvT7C+0T2qUXvl/+Q4UJpFiE+LRSuFYYRYU
-         u+lYB1UHTo5Cul20pXWmDZ4eRiuZK+OMWeZA97i3/B/O/KmSWITpPtw/OqGBKyCshpfu
-         dYi+22HBAzriOWVgLqkvS1XmTd8v9reZ69WTKv98bRewEGefJn15+k6IGeMwDl9ZTaxu
-         HMXg==
+        bh=27oT/4g6iIria1a8VEGy3UQ4sbwIVeCLLiSd/9UWd04=;
+        b=jCSgmtO/BeBcWImt8/iAItnN7kht6k+7osXxzhQ5D+QB3xNgbz/FUSfC2LqQsBvr/l
+         f/m/mIk+7UiQYMVNV9DbXH7qBc/ob629H/7t2a8T9ntAdPOek5vvBGBDONPOUMDBLlns
+         dh1+VzJQtPTTP1cQqvxlZ4WtacETA6cjUTNhVCOeVsRjgcE/WEESOjA9RP3AhK37dp/H
+         F84INqJDbjsvX9PCQR4ZEoCKMzMbWz772ZGl7hYs20W71s/hD9fPnGKyCtmWO8G2Ke5v
+         7EoJCL2YdufhAItIV0ORSdrLPYaHwE+gZV1Nkb9akjyDTUeySjI6RmGJB63xy9dfjdd2
+         UnPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=XUm4k9ARWKn5YWfDeM9B8Aaa9MWUhmJ3Z8rFc+Mc9T8=;
-        b=ntMBdMs9acM3XcWR46TjeGIQ+hnAEMVfq0tHvJYtAVWIvNZG9SCNN7QQynQ/yzhfR6
-         hY6g85IH0Je0SLHKdl98GH2hAnH02rBOxU8YcC59UWs+9kzyFdmpiWAmj+Ys3QUnpMQh
-         dCpKlPaQTpe8PPEuhPhjOQiO/mQ4dAaOtPdYF7tucUJzp1xq297fusvt2yc6bHEG1hLE
-         8Jm6mzlrfK6a2f8gt9WTnaYIQs4yA1dcyAccq2m7L5w7FZPKwvZpR5KoID/371idbQea
-         0FAEEPdbIXLpDo8pM4IGWXQrwgZq9jTNTGjpbQb5bxXrGwNQFJ7rZ3I25OZfoQwTo303
-         TYNg==
-X-Gm-Message-State: APjAAAULA3nIZJN166b+VTDxx8UhX6dVhYpXXi+pTe8n6JsSRmeSMdWp
-        MW+JAfJn8RzE8ira6tzffbE=
-X-Google-Smtp-Source: APXvYqxPupcuz9TCxjiJpXnWp02sDIyUsvZZiOHxjtRLx3VbZry9QBXUAb8sLQq1s58UhACNe6Ag+A==
-X-Received: by 2002:a63:d756:: with SMTP id w22mr100766226pgi.382.1558644340342;
-        Thu, 23 May 2019 13:45:40 -0700 (PDT)
+        bh=27oT/4g6iIria1a8VEGy3UQ4sbwIVeCLLiSd/9UWd04=;
+        b=kg+62q168Ms6khzvYlTzgbWSO/jWhM/5Z5o6UGQ4zJsuzexHTWtkXp1wkZjpg/mFYj
+         FS3alAGsXCd45JuQ/vGH4swOnr4P+gIMhnKTRBAvrkoeMhhz8FyDfHm918HjvdsRli7z
+         crrgwxbh4JSUzMfkU01Ga63XKq0nKY8AEry2s9Dw6yLAqxZV8h243zdq09SwEV21hZQj
+         tiP05YrF54A8644bwoAXD5mL3wWVagY3kq1TrWjAXLyfUXThqxS890tM+wYY4PXHdtJA
+         fw8q20pxCZUjd+URx4HwipN3op/6SE+CpIqygE+Pocm9xKQqXxEHQjdXDzI/Dslg2Pxq
+         1A0g==
+X-Gm-Message-State: APjAAAVSI3wq+gg94np27gVcel0mviagEEJ27ydEUYAFT7JhzGBij18g
+        mheMlTh064JVRLd17rJnc+E=
+X-Google-Smtp-Source: APXvYqzt75vj9/47EIZfhyd7iAELswjMnv1hgg/C1pxBoiot4mdCedfhyicycjbWVTlRBPtDNFgzpg==
+X-Received: by 2002:a17:902:9343:: with SMTP id g3mr101257298plp.260.1558652138370;
+        Thu, 23 May 2019 15:55:38 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id x10sm328723pfj.136.2019.05.23.13.45.39
+        by smtp.gmail.com with ESMTPSA id u134sm504276pfc.61.2019.05.23.15.55.37
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 23 May 2019 13:45:39 -0700 (PDT)
-Date:   Thu, 23 May 2019 13:45:38 -0700
+        Thu, 23 May 2019 15:55:37 -0700 (PDT)
+Date:   Thu, 23 May 2019 15:55:36 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Axel Lin <axel.lin@ingics.com>, linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: iqs5xx - Remove redundant dev_set_drvdata call
-Message-ID: <20190523204538.GC176265@dtor-ws>
-References: <20190519041148.32146-1-axel.lin@ingics.com>
- <20190519223452.GA23823@labundy.com>
+To:     Fabien Parent <fparent@baylibre.com>
+Cc:     robh+dt@kernel.org, mark.rutland@arm.com, matthias.bgg@gmail.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] input: keyboard: mtk-pmic-keys: add MT6392 support
+Message-ID: <20190523225536.GE176265@dtor-ws>
+References: <20190513142120.6527-1-fparent@baylibre.com>
+ <20190513142120.6527-2-fparent@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190519223452.GA23823@labundy.com>
+In-Reply-To: <20190513142120.6527-2-fparent@baylibre.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, May 19, 2019 at 05:34:52PM -0500, Jeff LaBundy wrote:
-> Hi Axel,
+On Mon, May 13, 2019 at 04:21:20PM +0200, Fabien Parent wrote:
+> Add support for MT6392 PMIC's keys.
 > 
-> On Sun, May 19, 2019 at 12:11:48PM +0800, Axel Lin wrote:
-> > Calling i2c_set_clientdata() is enough.
-> > 
-> > Signed-off-by: Axel Lin <axel.lin@ingics.com>
-> > ---
-> >  drivers/input/touchscreen/iqs5xx.c | 2 --
-> >  1 file changed, 2 deletions(-)
-> > 
-> > diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
-> > index b832fe062645..158707897c2d 100644
-> > --- a/drivers/input/touchscreen/iqs5xx.c
-> > +++ b/drivers/input/touchscreen/iqs5xx.c
-> > @@ -1054,8 +1054,6 @@ static int iqs5xx_probe(struct i2c_client *client,
-> >  	if (!iqs5xx)
-> >  		return -ENOMEM;
-> >  
-> > -	dev_set_drvdata(&client->dev, iqs5xx);
-> > -
-> >  	i2c_set_clientdata(client, iqs5xx);
-> >  	iqs5xx->client = client;
-> >  
-> > -- 
-> > 2.20.1
-> > 
-> > 
-> 
-> Thank you for spotting this.
-> 
-> Acked-by: Jeff LaBundy <jeff@labundy.com>
+> Signed-off-by: Fabien Parent <fparent@baylibre.com>
 
-Applied, thank you.
+Apparently this depends on not-yet merged MT6392 support in MFD, so
+please merge through MFD tree with the rest of it.
 
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+> ---
+>  drivers/input/keyboard/mtk-pmic-keys.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> Thanks,
-> Jeff L.
+> diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
+> index 8e6ebab05ab4..aaf68cbf7e5b 100644
+> --- a/drivers/input/keyboard/mtk-pmic-keys.c
+> +++ b/drivers/input/keyboard/mtk-pmic-keys.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/kernel.h>
+>  #include <linux/mfd/mt6323/registers.h>
+> +#include <linux/mfd/mt6392/registers.h>
+>  #include <linux/mfd/mt6397/core.h>
+>  #include <linux/mfd/mt6397/registers.h>
+>  #include <linux/module.h>
+> @@ -83,6 +84,16 @@ static const struct mtk_pmic_regs mt6323_regs = {
+>  	.pmic_rst_reg = MT6323_TOP_RST_MISC,
+>  };
+>  
+> +static const struct mtk_pmic_regs mt6392_regs = {
+> +	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
+> +		MTK_PMIC_KEYS_REGS(MT6392_CHRSTATUS,
+> +		0x2, MT6392_INT_MISC_CON, 0x10),
+> +	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
+> +		MTK_PMIC_KEYS_REGS(MT6392_CHRSTATUS,
+> +		0x4, MT6392_INT_MISC_CON, 0x8),
+> +	.pmic_rst_reg = MT6392_TOP_RST_MISC,
+> +};
+> +
+>  struct mtk_pmic_keys_info {
+>  	struct mtk_pmic_keys *keys;
+>  	const struct mtk_pmic_keys_regs *regs;
+> @@ -238,6 +249,9 @@ static const struct of_device_id of_mtk_pmic_keys_match_tbl[] = {
+>  	}, {
+>  		.compatible = "mediatek,mt6323-keys",
+>  		.data = &mt6323_regs,
+> +	}, {
+> +		.compatible = "mediatek,mt6392-keys",
+> +		.data = &mt6392_regs,
+>  	}, {
+>  		/* sentinel */
+>  	}
+> -- 
+> 2.20.1
 > 
 
 -- 
