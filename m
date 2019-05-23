@@ -2,135 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F43F275D6
-	for <lists+linux-input@lfdr.de>; Thu, 23 May 2019 08:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D7F7276C6
+	for <lists+linux-input@lfdr.de>; Thu, 23 May 2019 09:18:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725848AbfEWGCE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 May 2019 02:02:04 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:45513 "EHLO
-        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726081AbfEWGCE (ORCPT
+        id S1726310AbfEWHSY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 May 2019 03:18:24 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:42906 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726230AbfEWHSY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 May 2019 02:02:04 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id E02732839F;
-        Thu, 23 May 2019 02:02:02 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Thu, 23 May 2019 02:02:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=L
-        csOEVamQy2pc64GAfEQRhVRNjB43ljzJOtJYgn4nCA=; b=aEXqDhR0dur6J6hfj
-        bXOS73z54KRCysXrk6vlu04AEFk6xFyOdQU78ZFZ4Xx/uSlWEAvrg/RWQR8smbj4
-        UymlqRv8mrJ49PjFZxQ95NctR8JlUCSOXy3Z5BmtSnSzH8ExRVCAGlLNwnHxeFkg
-        E4AqLJw4dXSBbYU+7NincZ0ME2XQhMs7ZuHC53TVUooboQJlM1MR5fp7G8OZl3FS
-        VdrB0OexJinEdZzDaOfCi+l9Yj9jH20tenCP1421lCOHDkdKA4vfn2OiF4mcgP6C
-        JpTqeJawNNc2/X07CShqxSAJbyPdXYdIzrmUE+XA2eWnm3O7JCtihfckHAYs91te
-        qvUyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; bh=LcsOEVamQy2pc64GAfEQRhVRNjB43ljzJOtJYgn4n
-        CA=; b=hhDRWbwmltxkSqEcdU6S7Ogwr9Zx4r40+97zVAJzDtc/63aEFAb+xrPtN
-        40P3U9gFxEGb9bzMUN3ys9yxUSMK7V/3IMCl0CR/PqbI5IZSwsqPUTAYXW1XJA3I
-        b+SPy/4V8Np4cc95Se7/0k21HepYQMZL++n3jCydfgwPhTuLD0kBmNSrx5DLGYyq
-        vLiYpsXZlLeHhYgSLJEGHve5DMp90SVR4w2yQ3k15i+iszBDxM5/rXFWaKDoRND8
-        Bc8XhfYYoySHWQD/Pmml9W5Ux5KXa4JCzr9B0Z8HxFPE1cjdMX7ma8W+Iu3B90WP
-        mLl6l/xmb/H1MbghkLIcd6jX6w2mQ==
-X-ME-Sender: <xms:WTfmXK9mcDtK85sxQHb0Y6i_0NS-j2orAAQ7BHHE30Sc7kBm3iauZg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddruddufedguddtgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggugfgjfgesthekredttderudenucfhrhhomheprfgv
-    thgvrhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrd
-    hnvghtqeenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucfkphepuddu
-    jedrvddtrdeiledrudegvdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhdrhh
-    huthhtvghrvghrseifhhhoqdhtrdhnvghtnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:WjfmXE3EQRl9PQGpSfGN8VQOw5Tx5fHdd3yHFmz4iAbG_6-E8j4iHQ>
-    <xmx:WjfmXFBMrKZ-DlWaF_VdrPUmen2t6WK12PWnEBAJtDkT6QpfstHK1w>
-    <xmx:WjfmXGlp8YQUPL-gDmjqVz4aeBA75zXdWl6Rs8sVxrjTKf-_ZeiXDA>
-    <xmx:WjfmXP_EvbjF-mzkphsDa8e-Ugcva8mli4FwFZZNlRk6MqYKjwyZow>
-Received: from jelly (117-20-69-142.751445.bne.nbn.aussiebb.net [117.20.69.142])
-        by mail.messagingengine.com (Postfix) with ESMTPA id D02DD380085;
-        Thu, 23 May 2019 02:01:58 -0400 (EDT)
-Date:   Thu, 23 May 2019 16:01:54 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali.rohar@gmail.com>
-Cc:     Xiaoxiao Liu <xiaoxiao.liu-1@cn.alps.com>,
-        dmitry.torokhov@gmail.com, Hui Wang <hui.wang@canonical.com>,
-        XiaoXiao Liu <sliuuxiaonxiao@gmail.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Xiaojian Cao <xiaojian.cao@cn.alps.com>,
-        "zhangfp1@lenovo.com" <zhangfp1@lenovo.com>
-Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IOetlA==?=
- =?utf-8?B?5aSNOiBbUEFUQ0hdIGlucHV0?= =?utf-8?Q?=3A?= alps-fix the issue the
- special alps trackpoint do not work.
-Message-ID: <20190523060154.GA10526@jelly>
-References: <20190520110149.27107-1-sliuuxiaonxiao@gmail.com>
- <OSBPR01MB485510A2A32CD9D2CE5EF7A1DA070@OSBPR01MB4855.jpnprd01.prod.outlook.com>
- <345b62e1-407e-7a03-9b03-486bbf5a0a8e@canonical.com>
- <20190521094622.syeub6tcqhbyc7sg@pali>
- <OSBPR01MB4855D744473149D037612506DA000@OSBPR01MB4855.jpnprd01.prod.outlook.com>
- <20190522063546.kb74mxeprkauicul@pali>
- <OSBPR01MB48550B43F78BBFBDC20D414DDA000@OSBPR01MB4855.jpnprd01.prod.outlook.com>
- <20190522074030.64sy7xt3wnomtxjb@pali>
+        Thu, 23 May 2019 03:18:24 -0400
+Received: by mail-pg1-f193.google.com with SMTP id e17so2500288pgo.9;
+        Thu, 23 May 2019 00:18:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=TN7AtYqCZm6R/1B3AnbwF3gCo9cDqlK3dBKjdEn9ISM=;
+        b=Ft1mmKI5Ya7HAv26yTfKHrKkEOrs71DnpPKLN1MGjoogO2MmLtL3oTS7d01LnsHzMH
+         99vs40OvbmljzhnPeOwV6nBAVbmHDoKAMzYqQT8cRi4W6qqVFQu6tViXWI/jB9H5OsVk
+         nyUlP4wDiloBQFmn/qpRL7WZ3Ok9wzAZioKSnsvSJL2/oVvwN5yzYHv78ChCTU/2FVhZ
+         ROaQSd5Ge0WuDnS+RezL1L7MMLk/aCArkwaDmzUaxz3+pYDgmQCi8NML80BdIvSKPxkS
+         pUhmUdrOMoEbxp/WRwrO75KZAtM+KxSZrs7cYCz/taLYQRR4MxJgEb9P7xKaOneBtwDe
+         0Qtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TN7AtYqCZm6R/1B3AnbwF3gCo9cDqlK3dBKjdEn9ISM=;
+        b=KstLHdD/ehtDnAh13jL4T1s3y8aZE09ju8r05Yu8zW07fcHhTzHCMPfP70IKIGJwac
+         QSdJXYURIRdLusblZd/upZIvRSGRZvd4VOGOpZ+TsVLX6oHgzelzWgHXeujQlcAY0h62
+         C1S2eay5v63eDajndW5PyPQK/51n1C3U4Sv6oPsgz3jj8zC4ziCxNtYH3ZB9PP0VW0T3
+         vpvaJ0Izg4LqopMYPv6u2UVqCcxzq052vL+DuxgyuvN1am98Zpzz4AYOwV4QLnkfPy4+
+         K6ImctPEE0zFN9HEDErYD4Dr9ggpZ4Gp7Uu40cAzBlotnamcI0IfOqrWo5rHTnHCpf6z
+         TZ8A==
+X-Gm-Message-State: APjAAAUz9hP6OyXXCyiyRe/2NVt+SPBS+D+Hjin2yuA7SMD06LZzsB2m
+        C3Unhk36eBGso7Jt80h1qGM=
+X-Google-Smtp-Source: APXvYqwNkAE73hFLopSCXpSojQ+W34YbqNhqxaHe/bRS8Q/A3zBzhxMD3uqAFXGRDKemYsR6+cmFdg==
+X-Received: by 2002:aa7:8493:: with SMTP id u19mr102095257pfn.233.1558595903022;
+        Thu, 23 May 2019 00:18:23 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id p64sm40511866pfp.72.2019.05.23.00.18.22
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 23 May 2019 00:18:22 -0700 (PDT)
+Date:   Thu, 23 May 2019 00:18:20 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Bogdan Togorean <bogdan.togorean@analog.com>
+Cc:     linux-input@vger.kernel.org, gustavo@embeddedor.com,
+        linux-kernel@vger.kernel.org, Michael.Hennerich@analog.com
+Subject: Re: [PATCH RESEND] input: adp5589: Add gpio_set_multiple interface
+Message-ID: <20190523071820.GA121292@dtor-ws>
+References: <20190415122525.2576-1-bogdan.togorean@analog.com>
+ <20190521083821.26540-1-bogdan.togorean@analog.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190522074030.64sy7xt3wnomtxjb@pali>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190521083821.26540-1-bogdan.togorean@analog.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, May 22, 2019 at 09:40:30AM +0200, Pali Rohár wrote:
-> On Wednesday 22 May 2019 07:30:43 Xiaoxiao Liu wrote:
-> > Hi Pali,
-> > 
-> > Ok, and cannot you set ALPS_DUALPOINT flag based on that
-> > alps_check_is_trackpoint() result and then update
-> > alps_process_packet_ss4_v3() code to supports also
-> > V8 trackpoint packets?
-> > --> Yes, we can do like so, when we use the v8 method to process the trackpoint , the mouse speed is not ideal.
-> >       Then we choose the standard mouse driver.
+Hi Bogdan,
+
+On Tue, May 21, 2019 at 11:38:22AM +0300, Bogdan Togorean wrote:
+> This patch implements the gpio_set_multiple interface for ADP558x chip.
 > 
-> Mouse speed is something which is configurable. Have you configured it
-> somehow? Also there is libinput project should handle these settings
-> more properly.
+> Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
+> ---
+>  drivers/input/keyboard/adp5589-keys.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 > 
-> Adding Peter Hutterer, maintainer of libinput to loop. I think he could
-> help with this problem.
+> diff --git a/drivers/input/keyboard/adp5589-keys.c b/drivers/input/keyboard/adp5589-keys.c
+> index 2835fba71c33..143871bd60ef 100644
+> --- a/drivers/input/keyboard/adp5589-keys.c
+> +++ b/drivers/input/keyboard/adp5589-keys.c
+> @@ -416,6 +416,30 @@ static void adp5589_gpio_set_value(struct gpio_chip *chip,
+>  	mutex_unlock(&kpad->gpio_lock);
+>  }
+>  
+> +static void adp5589_gpio_set_multiple(struct gpio_chip *chip,
+> +				      unsigned long *mask, unsigned long *bits)
+> +{
+> +	struct adp5589_kpad *kpad = container_of(chip, struct adp5589_kpad, gc);
+> +	u8 bank, reg_mask, reg_bits;
+> +
+> +	mutex_lock(&kpad->gpio_lock);
+> +
+> +	for (bank = 0; bank <= kpad->var->bank(kpad->var->maxgpio); bank++) {
+> +		if (bank > kpad->var->bank(get_bitmask_order(*mask) - 1))
+> +			break;
 
-libinput has a quirk for a magic multiplier on trackpoints. it was the only
-solution I found that came close to "working" given that every device seems
-to provide some other random magic data. Doc for it is here:
-https://wayland.freedesktop.org/libinput/doc/latest/trackpoint-configuration.html
+I wonder if we should have:
 
-There are also different speeds depending on which xorg driver you'd use (or
-libinput/Wayland), so a "mouse speed is not ideal" is almost a guarantee,
-given a large enough variety of setups :) That's why we have the speed
-toggle, but I'm happy to hear any suggestions on how to make the trackpoint
-more useful (in libinput anyway).
+	last_gpio = min(kpad->var->maxgpio, get_bitmask_order(*mask) - 1);
+	last_bank = kpad->var->bank(last_bank);
+	for (bank = 0; bank <= last_bank; bank++) {
+		...
+	}
 
-> I do not think it is a good idea to force back to generic PS/2 mouse
-> driver for touchpads and trackpoints. Native drivers for touchpads and
-> trackpoints supports multitouch, absolute reporting and lot of other
-> things... Also calculation of mouse speed from absolute positions on
-> touchpads can be more easily fixed as from emulated relative movements.
+> +		reg_mask = mask[bank / sizeof(*mask)] >>
+> +			   ((bank % sizeof(*mask)) * BITS_PER_BYTE);
+> +		reg_bits = bits[bank / sizeof(*bits)] >>
+> +			   ((bank % sizeof(*bits)) * BITS_PER_BYTE);
 
-Yeah, agree. Using PS/2 mouse drivers means you lose *all* the extra
-features touchpads have like palm detection, tapping, scrolling, gestures,
-etc.
+This s really hard to parse. We know that "bank" is a byte, and mask is
+long, we do not have to be this roundabout it.
 
-Cheers,
-   Peter
+> +		kpad->dat_out[bank] &= ~reg_mask;
+> +		kpad->dat_out[bank] |= reg_bits & reg_mask;
+> +		adp5589_write(kpad->client, kpad->var->reg(ADP5589_GPO_DATA_OUT_A) + bank,
+> +			      kpad->dat_out[bank]);
+> +	}
 
-> 
-> Dmitry, what is your opinion about this problem? What should psmouse.ko
-> do in this situation? Disallow usage of absolute mode and force bare
-> PS/2 relative mode?
+However the biggest issue is that this implementation seems to ignore
+the kpad->gpiomap that translates GPIO numbers as seen by gpiolib to
+GPIO numbers used by the chip. You need to reshuffle the mask and bits,
+and only then do the writes.
 
+Given the complexities, does set_multiple really save anything?
+
+Thanks.
+
+-- 
+Dmitry
