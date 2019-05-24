@@ -2,126 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D922029C7F
-	for <lists+linux-input@lfdr.de>; Fri, 24 May 2019 18:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C191C29FFE
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2019 22:40:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390874AbfEXQtY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 24 May 2019 12:49:24 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:46434 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390346AbfEXQtX (ORCPT
+        id S2403950AbfEXUks (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 May 2019 16:40:48 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:35502 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403762AbfEXUks (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 May 2019 12:49:23 -0400
-Received: by mail-pl1-f195.google.com with SMTP id r18so4381572pls.13;
-        Fri, 24 May 2019 09:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1Fl+pCsc5xkUmcECPowd4yxBNgbA084+jBwh/Q97ymc=;
-        b=AWLrG+8Cq6qh5hLHBHjsxRMhFHEaO1Vp9YvkNQ57ms9VckR63mRPBzusZdN3Rh6pMQ
-         rZFW0Qvy0F3oOS+bfj7IH+ZQ69U5tlw6xQHhpkGrAuPM0xY2g2vrF2nDnNsDAqxHbE8r
-         RLSs7vdCfSe9oCAwuw3gPNGZgHNRUcTUDC3AzqaW9RHpQj+LgPYHxi4BPF4CNtYeBgX2
-         Sm9kngvDGcxgXQMbetAH+uBXLPJWD7K6z5FUO+pV+TPXtf6bAeoNeXDC7ExZMAEBXVMC
-         z6xPo/RbBM9UXh07Mmv1u8lGXcHgkxYQ/xcfBuYU2eAi1i1UuKg2KrJ2pzDfPzQu0eIk
-         UCwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1Fl+pCsc5xkUmcECPowd4yxBNgbA084+jBwh/Q97ymc=;
-        b=UK1WLlK7Hd2LIw/KDGAJgiUE1H9ZWhsVFYgcLEY3sx3Xkd+pTwMi35EpQVGGX0mW5U
-         EVrZDLbY58imcMj+DbNGhDaMPQypEwaTlViTNPJMRFBPg0GG+gyIM0QuGsDVERxQG09+
-         EBS3sPpWP9xPEQyA8MdK8pQgMMEyfm8NkmAkOi1qlyUDEJRbcATB01c/43J1b3NGE68U
-         ZhXW4gOAVQy5d2gTXrJ0j6zw2doZZZkW8OP56pDaLLApywy+ImKIfKFeDF0hwbWbdN+c
-         dymLTVjtx2+CRAxuCC/0cnEwy/mbOqB08Fytw6CaLtKimvo/ErUyJSDKaMPUgvwE+smd
-         uSyQ==
-X-Gm-Message-State: APjAAAXOCFuZ+v1lSXHxRnUPSWn2NjlrPKOWDohAqG7fse7Gy1XnHjIj
-        R6zz6sDt/1GEgwnDZNc7hgbT53BGWyZnSCryF00=
-X-Google-Smtp-Source: APXvYqyyPR11DXypiZGhxXSFgKI0dABNyJ+dNM096QAOso0rcvPnxyjwuVjX/1XFED6quda5v3NLLFn/8fwBHmLu2wI=
-X-Received: by 2002:a17:902:24b:: with SMTP id 69mr17524490plc.255.1558716563115;
- Fri, 24 May 2019 09:49:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190523190913.5801-1-danct12@disroot.org>
-In-Reply-To: <20190523190913.5801-1-danct12@disroot.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 24 May 2019 19:49:12 +0300
-Message-ID: <CAHp75Vdh=ny16mEnDw0pMfUzyOcrA97AnXKfyW+BcEcZ-W1ryQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add info for the CHUWI
- Hi10 Plus tablet.
-To:     Daniel Smith <danct12@disroot.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Fri, 24 May 2019 16:40:48 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id C6A876087D; Fri, 24 May 2019 20:40:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1558730447;
+        bh=1rtby5Hx7aX1Icw+wA2MpY4vbTBzn0e374yLIU7OMpg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=mh/9qzt/26cXBEofGssSWv/79VvhupT3LszhElN+0EenKfgXT/mWQ0YQbHawNWaUQ
+         O9IUp4NvIV26Mt5GZBFskL5W/mBZJaAbXTw0rX/8mPfRICsRaicKUs0bMsX2zfuYA/
+         P3SsLYKLXRBanAfCwQA7jlmDGbupCMWfcBVRFizM=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.0
+Received: from localhost (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: bgoswami@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 479B960AA8;
+        Fri, 24 May 2019 20:40:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1558730442;
+        bh=1rtby5Hx7aX1Icw+wA2MpY4vbTBzn0e374yLIU7OMpg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DhF739hAn6m7eSqjcXHAGXzVGIxk5XcV/1Vasucrdv0Ef+7i4r3h/hzpNThXzkkCz
+         sVmaKvYktcJ+DDidWlA+Igw6VLyJfQhiN5D0Sb5INHsb+0yqW0X4tiw8ziBLcUq/v5
+         yNDUl1PJ7oTfof0BNGF+xKfd+NNcjz3Frr2Yn1k0=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 479B960AA8
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=bgoswami@codeaurora.org
+From:   bgoswami@codeaurora.org
+To:     dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, alsa-devel@alsa-project.org,
+        perex@perex.cz, tiwai@suse.com, broonie@kernel.org,
+        srinivas.kandagatla@linaro.org, plai@codeaurora.org,
+        Banajit Goswami <bgoswami@codeaurora.org>,
+        Gopikrishnaiah Anandan <agopik@codeaurora.org>
+Subject: [PATCH 2/3] input: Add SW_UNSUPPORT_INSERT define
+Date:   Fri, 24 May 2019 13:40:38 -0700
+Message-Id: <1558730438-16524-1-git-send-email-bgoswami@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 23, 2019 at 10:12 PM Daniel Smith <danct12@disroot.org> wrote:
->
-> Added touch screen info for CHUWI Hi10 Plus tablet.
->
+From: Banajit Goswami <bgoswami@codeaurora.org>
 
-Pushed to my review and testing queue, thanks!
+Some devices may not support specific type of input devices. For example,
+when a headset or extension cable with GND/MIC swap is plugged into a
+headset jack that does not support the headset/cable, it needs to be
+reported with a corresponding input event. Also, increase the max values
+for INPUT_DEVICE_ID_SW_MAX and SW_MAX, to accommodate future extension of
+the number of event.
 
-> Signed-off-by: Daniel Smith <danct12@disroot.org>
-> ---
->  drivers/platform/x86/touchscreen_dmi.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
->
-> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-> index bd0856d2e825..1dbb53c3f1e7 100644
-> --- a/drivers/platform/x86/touchscreen_dmi.c
-> +++ b/drivers/platform/x86/touchscreen_dmi.c
-> @@ -91,6 +91,22 @@ static const struct ts_dmi_data chuwi_hi10_air_data = {
->         .properties     = chuwi_hi10_air_props,
->  };
->
-> +static const struct property_entry chuwi_hi10_plus_props[] = {
-> +       PROPERTY_ENTRY_U32("touchscreen-min-x", 0),
-> +       PROPERTY_ENTRY_U32("touchscreen-min-y", 5),
-> +       PROPERTY_ENTRY_U32("touchscreen-size-x", 1914),
-> +       PROPERTY_ENTRY_U32("touchscreen-size-y", 1283),
-> +       PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-chuwi-hi10plus.fw"),
-> +       PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-> +       PROPERTY_ENTRY_BOOL("silead,home-button"),
-> +       { }
-> +};
-> +
-> +static const struct ts_dmi_data chuwi_hi10_plus_data = {
-> +       .acpi_name      = "MSSL0017:00",
-> +       .properties     = chuwi_hi10_plus_props,
-> +};
-> +
->  static const struct property_entry chuwi_vi8_props[] = {
->         PROPERTY_ENTRY_U32("touchscreen-min-x", 4),
->         PROPERTY_ENTRY_U32("touchscreen-min-y", 6),
-> @@ -605,6 +621,15 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
->                         DMI_MATCH(DMI_PRODUCT_SKU, "P1W6_C109D_B"),
->                 },
->         },
-> +       {
-> +               /* Chuwi Hi10 Plus (CWI527) */
-> +               .driver_data = (void *)&chuwi_hi10_plus_data,
-> +               .matches = {
-> +                       DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
-> +                       DMI_MATCH(DMI_PRODUCT_NAME, "Hi10 plus tablet"),
-> +                       DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
-> +               },
-> +       },
->         {
->                 /* Chuwi Vi8 (CWI506) */
->                 .driver_data = (void *)&chuwi_vi8_data,
-> --
-> 2.21.0
->
+Signed-off-by: Gopikrishnaiah Anandan <agopik@codeaurora.org>
+Signed-off-by: Banajit Goswami <bgoswami@codeaurora.org>
+---
+ include/linux/mod_devicetable.h        | 2 +-
+ include/uapi/linux/input-event-codes.h | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index 448621c..7586099 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -299,7 +299,7 @@ struct pcmcia_device_id {
+ #define INPUT_DEVICE_ID_LED_MAX		0x0f
+ #define INPUT_DEVICE_ID_SND_MAX		0x07
+ #define INPUT_DEVICE_ID_FF_MAX		0x7f
+-#define INPUT_DEVICE_ID_SW_MAX		0x0f
++#define INPUT_DEVICE_ID_SW_MAX		0x1f
+ #define INPUT_DEVICE_ID_PROP_MAX	0x1f
+ 
+ #define INPUT_DEVICE_ID_MATCH_BUS	1
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 85387c7..960fa86 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -808,7 +808,8 @@
+ #define SW_LINEIN_INSERT	0x0d  /* set = inserted */
+ #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
+ #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
+-#define SW_MAX			0x0f
++#define SW_UNSUPPORT_INSERT	0x10  /* set = unsupported device inserted */
++#define SW_MAX			0x1f
+ #define SW_CNT			(SW_MAX+1)
+ 
+ /*
 -- 
-With Best Regards,
-Andy Shevchenko
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
