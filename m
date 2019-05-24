@@ -2,145 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6B8729177
-	for <lists+linux-input@lfdr.de>; Fri, 24 May 2019 09:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04A3A291AE
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2019 09:26:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388964AbfEXHFt convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 24 May 2019 03:05:49 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:41336 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388934AbfEXHFt (ORCPT
+        id S2388982AbfEXH0x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 May 2019 03:26:53 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:44375 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388910AbfEXH0w (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 May 2019 03:05:49 -0400
-Received: by mail-qk1-f193.google.com with SMTP id m18so5901232qki.8
-        for <linux-input@vger.kernel.org>; Fri, 24 May 2019 00:05:49 -0700 (PDT)
+        Fri, 24 May 2019 03:26:52 -0400
+Received: by mail-wr1-f68.google.com with SMTP id w13so470688wru.11;
+        Fri, 24 May 2019 00:26:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=odZn/rVgUc6nEnCQZnIPB2uax1UUalzDS6/8777bxPA=;
+        b=sq1/4DDbIyEMDgCcitz7ZnUOr53Eb+wH7MB9e0qyqEmrEyjI5A6B32hvzWhC+q/1co
+         8B5Za7tQBMQeWSUKDhaFuvYUFS7OFQC+iF+JcIXtb9HYgqy0EGLZSg4iVT4nFr5tb6TS
+         eN2/bXm5pvIhCeVWdkkcasFAvkdhbjqW2jnxzDiMquRObm8Pd5jBP6UFOGCSxeQzDl7b
+         agqwfTg5h254uie3FWd4Wnjefj2t+8U8hGpgixS/icL4IsWs3O6TBo9T55nsPJZxXKFX
+         rruu7mAxDLnvTc0toL5YDo5oW2ALBvYuBPoxHSLE3Xmxgc5fPFqPKXGbA5QACkb+I6iA
+         t9nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=awBE3R6MaFliHdZCh3cBgGkjYreG0txG8Lteb87Xiyg=;
-        b=k4FNKz9xVhF8TjQoPB2bS4UO1/oQwvQfoqaqm8+K0qZVhNZJ9V89qi3riu2Ulva9Au
-         SReByuAf3scxmSvcOzb+TDP3ym+xmos5kFrAsssORuetc28G8QLdrcag/e5PvI8Eg28r
-         ZGvT8dLEZAA+D+5FxUII55stxrs2SE1ccgd0en0P1pgblX8dy0LjhT/6Lrbf0Adnflyi
-         8dv9YwKom8TK4ja9HbwGPOQBsIGaw75l6ufssx1RXc2c9DQH5hMGenWJ2PLQw4xDkZsA
-         dIYECvy0KOH0Kdft85VnKo4+BH9OmVLVVOIfCjc6JXmLPMb0gqfj0EO2YHKICoFt8Srk
-         8olw==
-X-Gm-Message-State: APjAAAWo5PcWIyGmV9AoHLzkwy8Yww2AMlf4tNe0AaasA4OUb/SSlucX
-        JufEbz4f9aCvVwJ9GZLGOg2pY4eA7dWv6GLCdk0w2A==
-X-Google-Smtp-Source: APXvYqzEqHGLSARrvwBrdDvw232GTj/gPZc+E9LYUyp/feCZjZOmnGjw6Y+kT9XzG0LrToqWr9SAYN8MvMLXYZNpFlw=
-X-Received: by 2002:ac8:875:: with SMTP id x50mr83396994qth.345.1558681548800;
- Fri, 24 May 2019 00:05:48 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=odZn/rVgUc6nEnCQZnIPB2uax1UUalzDS6/8777bxPA=;
+        b=nTOLjwdTPkyUKxNEcM0bmjjClpvmmKVBhr7L38NcyAJRE9lVYs7BPlHmNb/B7e2wGx
+         nyNNONlwqFJQAIhehB0nuEG71NU6Y3y1Y6Cg9Rz2qQ867v1CZKrupr6HhITP+wa9cVXJ
+         tVMo9ZId0trSha2FS1Jj8223NAnWBYCJmJppLUqkoWCjS0REEGbGyuxjwpn+2ADGzdk3
+         4ABfno0h6DzlZZP1T37twR6dxcWZBrrhecbuD7FRpzWJy3PUYD3W2y6qJu3zNwNJbmWe
+         B1lNHrb0X5Zm/hn/EAKJuPIpKEnQDn6ZTM3/M8ZO0mFZLOMUpcxpQ+jzO75ZPpJWMDpI
+         ozVQ==
+X-Gm-Message-State: APjAAAWBa+FRqmCEqyqm0LVErJjljpVQVfH+ODuOeC7MqC2nW6JgcesY
+        RKl44/qcy8WuxLRDMYZ2m78=
+X-Google-Smtp-Source: APXvYqy2bkUJ8OSsPYVF5ABKzrDKsi86pqUY3OpIUdSIHSafUhelTNg2SZA3thO/K+vLfn2L/Zv6gw==
+X-Received: by 2002:adf:f30b:: with SMTP id i11mr11395866wro.276.1558682810705;
+        Fri, 24 May 2019 00:26:50 -0700 (PDT)
+Received: from pali ([2a02:2b88:2:1::5cc6:2f])
+        by smtp.gmail.com with ESMTPSA id 197sm2384448wma.36.2019.05.24.00.26.48
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 24 May 2019 00:26:49 -0700 (PDT)
+Date:   Fri, 24 May 2019 09:26:48 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
+To:     Hui Wang <hui.wang@canonical.com>
+Cc:     Peter Hutterer <peter.hutterer@who-t.net>,
+        Xiaoxiao Liu <xiaoxiao.liu-1@cn.alps.com>,
+        dmitry.torokhov@gmail.com, XiaoXiao Liu <sliuuxiaonxiao@gmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Xiaojian Cao <xiaojian.cao@cn.alps.com>,
+        "zhangfp1@lenovo.com" <zhangfp1@lenovo.com>
+Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IOetlA==?=
+ =?utf-8?B?5aSNOiBbUEFUQ0hdIGlucHV0?= =?utf-8?Q?=3A?= alps-fix the issue the
+ special alps trackpoint do not work.
+Message-ID: <20190524072648.6zqgz7rpwpcv22pb@pali>
+References: <345b62e1-407e-7a03-9b03-486bbf5a0a8e@canonical.com>
+ <20190521094622.syeub6tcqhbyc7sg@pali>
+ <OSBPR01MB4855D744473149D037612506DA000@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <20190522063546.kb74mxeprkauicul@pali>
+ <OSBPR01MB48550B43F78BBFBDC20D414DDA000@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <20190522074030.64sy7xt3wnomtxjb@pali>
+ <20190523060154.GA10526@jelly>
+ <38ec4a40-d51a-aeb1-a5e8-dbaed1142298@canonical.com>
+ <20190524053648.GA16379@jelly>
+ <d1fd207d-68e1-0b57-f0dc-c254bfc9352c@canonical.com>
 MIME-Version: 1.0
-References: <20190521132712.2818-1-benjamin.tissoires@redhat.com>
- <20190521132712.2818-10-benjamin.tissoires@redhat.com> <003d01d511de$9da229c0$d8e67d40$@emc.com.tw>
-In-Reply-To: <003d01d511de$9da229c0$d8e67d40$@emc.com.tw>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 24 May 2019 09:05:37 +0200
-Message-ID: <CAO-hwJLnjxVxdodqAkKdQpqjAPGV1QYnugM+9t_86xRD92WJ-Q@mail.gmail.com>
-Subject: Re: [PATCH v2 09/10] Input: elan_i2c - correct the width/size base value
-To:     =?UTF-8?B?5buW5bSH5qau?= <kt.liao@emc.com.tw>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Aaron Ma <aaron.ma@canonical.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d1fd207d-68e1-0b57-f0dc-c254bfc9352c@canonical.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, May 24, 2019 at 5:13 AM 廖崇榮 <kt.liao@emc.com.tw> wrote:
->
-> Hi Benjamin,
->
-> Thanks so much for all you do for Elan touchpad.
->
-> For the width_*, I have a question for it.
-> Our antenna sensors fully occupied the whole touchpad PCB.
->
-> The Gap between 2 sensors are 7.5 mil (0.19mm).
-> That's why we did not minus one trace.
+On Friday 24 May 2019 13:50:53 Hui Wang wrote:
+> On 2019/5/24 下午1:36, Peter Hutterer wrote:
+> > On Fri, May 24, 2019 at 01:25:52PM +0800, Hui Wang wrote:
+> > > On 2019/5/23 下午2:01, Peter Hutterer wrote:
+> > > > On Wed, May 22, 2019 at 09:40:30AM +0200, Pali Rohár wrote:
+> > > > > On Wednesday 22 May 2019 07:30:43 Xiaoxiao Liu wrote:
+> > > > > > Hi Pali,
+> > > > > > 
+> > > > > > Ok, and cannot you set ALPS_DUALPOINT flag based on that
+> > > > > > alps_check_is_trackpoint() result and then update
+> > > > > > alps_process_packet_ss4_v3() code to supports also
+> > > > > > V8 trackpoint packets?
+> > > > > > --> Yes, we can do like so, when we use the v8 method to process the trackpoint , the mouse speed is not ideal.
+> > > > > >         Then we choose the standard mouse driver.
+> > > > > Mouse speed is something which is configurable. Have you configured it
+> > > > > somehow? Also there is libinput project should handle these settings
+> > > > > more properly.
+> > > > > 
+> > > > > Adding Peter Hutterer, maintainer of libinput to loop. I think he could
+> > > > > help with this problem.
+> > > > libinput has a quirk for a magic multiplier on trackpoints. it was the only
+> > > > solution I found that came close to "working" given that every device seems
+> > > > to provide some other random magic data. Doc for it is here:
+> > > > https://wayland.freedesktop.org/libinput/doc/latest/trackpoint-configuration.html
+> > > Hello Peter Hutterer,
+> > > 
+> > > To adjust the trackpoint speed from userspace:
+> > > 
+> > > If the libinput version is lower than 1.9.0, we could set
+> > > POINTINGSTICK_CONST_ACCEL=0.25
+> > > 
+> > > If the libinput version is higher than 1.12.0, we could set
+> > > AttrTrackpointMultiplier=0.25
+> > > 
+> > > But if we use libinput-1.10.0,  how could we adjust the speed?
+> > The LIBINPUT_ATTR_TRACKPOINT_RANGE property, which didn't end up working
+> > well (hence why it got replaced again). See the docs here though:
+> > https://wayland.freedesktop.org/libinput/doc/1.10.0/trackpoints.html
+> > 
+> > Cheers,
+> >     Peter
+> 
+> OK, got it, Thanks.
 
-So, with the P52 I have:
-[  +0.000009] max:    (3045,1731) drivers/input/mouse/elan_i2c_core.c:428
-[  +0.000003] traces: (24,14) drivers/input/mouse/elan_i2c_core.c:429
-[  +0.000002] size:   (98,55) drivers/input/mouse/elan_i2c_core.c:430
-[  +0.000001] res:    (31,31) drivers/input/mouse/elan_i2c_core.c:431
+Is not here some database where for input device name / id is specified
+that property? So users do not have to invent what is correct value for
+their hardware?
 
-calculated size (max/res): 98 x 56 mm
-true size, as measured: 101 x 60 mm
-
-Which gives (without the minus 1):
-width_x = max_x / x_traces = 3045 / 24 = 126.875 -> 3.9885 mm
-width_y = max_y / y_traces = 1731 / 14 = 123.643 -> 4.0927 mm
-
--> this gives a total size of the touchpad of: 96 x 57 mm (width_x *
-24, width_y * 14)
-
-With the minus 1:
-width_x = max_x / x_traces = 3045 / 23 = 132.391 -> 4.2707 mm
-width_y = max_y / y_traces = 1731 / 14 = 133.154 -> 4.2953 mm
-
--> this gives a total size of the touchpad of: 102 x 60 mm (width_x *
-24, width_y * 14)
-and considering traces-1: 98 x 56 mm
-
-Removing 1 to the number of traces gave a squarer values in rows and
-columns, and this is what is done in the PS/2 driver.
-Also, going back to the size of the touchpad gives a better value when
-removing 1 on the *traces.
-So maybe when forwarding the properties we should remove one there in
-the PS/2 driver?
-
-Cheers,
-Benjamin
-
->
->
-> Thanks
-> KT
-> -----Original Message-----
-> From: Benjamin Tissoires [mailto:benjamin.tissoires@redhat.com]
-> Sent: Tuesday, May 21, 2019 9:27 PM
-> To: Dmitry Torokhov; KT Liao; Rob Herring; Aaron Ma; Hans de Goede
-> Cc: linux-input@vger.kernel.org; linux-kernel@vger.kernel.org;
-> devicetree@vger.kernel.org; Benjamin Tissoires
-> Subject: [PATCH v2 09/10] Input: elan_i2c - correct the width/size base
-> value
->
-> *_traces are the number of antennas. width_* is thus the space between 2
-> antennas. Which means, we should subtract 1 to the number of antennas to
-> divide the touchpad by the number of holes between each antenna.
->
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->
-> --
->
-> new in v2
-> ---
->  drivers/input/mouse/elan_i2c_core.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/input/mouse/elan_i2c_core.c
-> b/drivers/input/mouse/elan_i2c_core.c
-> index 6f4feedb7765..3375eaa9a72e 100644
-> --- a/drivers/input/mouse/elan_i2c_core.c
-> +++ b/drivers/input/mouse/elan_i2c_core.c
-> @@ -398,8 +398,8 @@ static int elan_query_device_parameters(struct
-> elan_tp_data *data)
->                 if (error)
->                         return error;
->         }
-> -       data->width_x = data->max_x / x_traces;
-> -       data->width_y = data->max_y / y_traces;
-> +       data->width_x = data->max_x / (x_traces - 1);
-> +       data->width_y = data->max_y / (y_traces - 1);
->
->         if (device_property_read_u32(&client->dev,
->                                      "touchscreen-x-mm", &x_mm) ||
-> --
-> 2.21.0
->
+-- 
+Pali Rohár
+pali.rohar@gmail.com
