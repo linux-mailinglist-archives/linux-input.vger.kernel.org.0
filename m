@@ -2,121 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDFEB29465
-	for <lists+linux-input@lfdr.de>; Fri, 24 May 2019 11:19:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EDF0294AD
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2019 11:32:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389752AbfEXJTP convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 24 May 2019 05:19:15 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:44739 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389515AbfEXJTP (ORCPT
+        id S2389787AbfEXJcs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 May 2019 05:32:48 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:38139 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389745AbfEXJcs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 May 2019 05:19:15 -0400
-Received: by mail-qk1-f195.google.com with SMTP id w25so6385091qkj.11
-        for <linux-input@vger.kernel.org>; Fri, 24 May 2019 02:19:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7+56V34UO6f1yOAZuwtgojwUdZjIaQZjLcC9WjhkGCQ=;
-        b=UaXwtsp9cGAaVZIO//DYl04m+LVWpXuWkkoJgihSeYgbB5t58HmpnlCV7MaJvrU/aV
-         hS8am5cs3wehttIMzjrHfr7mYFZIGzvSSy80ZACYLRoC+naelwsQV8sJDW8ZujQ0JzAn
-         Hkdc+0k9iX787kB4H4VviO0qgLnxnu5hchYOB2hFIhrWecb/CsQIqSi2B0zmL/vhLwhk
-         Bd//B9wqEcJDSKgiju30S4q30kGv1aMBV9qJZ9/Kvhuc61ERTSzGxhU034yXrFw7iBmb
-         y4oEX/yZoLavDsYdmjMql6iXqWLrvW3qRvgv7KTKJhXx7W1XpOvrj1BmoKAHnlAtG00A
-         UhtA==
-X-Gm-Message-State: APjAAAWQXV1NtLNvrdycrc1iNlsCSzCkWBGUj/17jsM0/B2ZDaBkhN6T
-        u94o2lIa1IbjSxpbiIVBu1sx4altYzq2X8t3sSsFiQ==
-X-Google-Smtp-Source: APXvYqyqRQ8qrEWXLm6DLEhWSrO4D17JdjftR/wwDYbEaVtlNU2URLnO29TsiKgTY4ax7bO0iBI4+FiH/tbgRbNM1WQ=
-X-Received: by 2002:a37:ea16:: with SMTP id t22mr53587620qkj.337.1558689554600;
- Fri, 24 May 2019 02:19:14 -0700 (PDT)
+        Fri, 24 May 2019 05:32:48 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 4A99620CCC;
+        Fri, 24 May 2019 05:32:47 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Fri, 24 May 2019 05:32:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=+
+        qC77qEtJgFM4RgrXNXMD53fGuMNNIaoVho4NTHx+dU=; b=jA6zzoThxBZvegOCg
+        xFvfA3JmsKK3QAkglWFGnCMhwy2U/xvxaJNGv5DmLsiTktuMhfqaVCeU6CmIOque
+        5eC4kTsJyqui5Q7tiiADVl2/blgNGVUO5ZZmR5jKa/nc8bAj73tBtKr3Nr/G//67
+        tCZEzvEPmgPe2Q2Ht2bBDYLhOMx/DmKkpMgw+edeKlvEWJGpWQ/Uhtt42jhtz8EE
+        1QgeRLzOZtQR+QHrm0E0I8Y9sZDVP4IcPJ7YQqJalZ90qWwC9Q1X+uuMtq9kpQnB
+        vfijorWvOH09hzBdohYv5oxtc3qtE1pusv3tJOQ9tuclLBawSh20ydHL4XWBtene
+        FlvKA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=+qC77qEtJgFM4RgrXNXMD53fGuMNNIaoVho4NTHx+
+        dU=; b=leGHl+DOuL2p6MNiOS3ddAUmjgsmSoPSuWsnirg4T3s15XJF5cGRMiHOn
+        CJ4Dl9RxjJ2tr1LrPZFTQmB6390OSFmJLmJEclFCyFk+bnjAEw68hzvrN7UrY21T
+        QY+8TgHirH2x1aBY7nB+XUQxSJOF9Z5AeXt3mowEfN5SXRvrhTRoBbZyKWapVCnB
+        Ipgg19a9l4IkmMu4VpD1MWLobTe02MGK1UK6QXEktw4QtjtYN25Hs0XvtLFlJqRf
+        NXE/rFFoDI5Tfz3JHSQd8HlsUcdRmSK+b02nIDLB/oDKF9Pm0mfZLfYGArx4LUVR
+        lz7okR3sY7OrKkHZ3OPd/vI0yKyBQ==
+X-ME-Sender: <xms:PrrnXFU1uiN34_jx41jIe9Bc5ou_x47IDP8hGROc7KUQ6LQ8-O6-3w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudduiedgudejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtugfgjggfsehtkeertddtreejnecuhfhrohhmpefrvght
+    vghrucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnh
+    gvtheqnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeduudej
+    rddvtddrieelrddugedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuh
+    htthgvrhgvrhesfihhohdqthdrnhgvthenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:PrrnXIxjbGDaTzAoFXKhkEbUQGhT6DB8-IhKTSV1MlRsaXMNc-1i9A>
+    <xmx:PrrnXNhGABiPvxo2rE5905Y1yEruZyYH0YEydqM_gOMOZY3MjdrulQ>
+    <xmx:PrrnXCw-rJk9WAPmsEVe7-o3vuCKQTe0YZ0dm6KJVPINOIiQkawvCg>
+    <xmx:P7rnXN_gw42eWu7O4AhJvd2o6fmqp4QMxoj8kF0LYyEV_Hv9fGjTcg>
+Received: from jelly (117-20-69-142.751445.bne.nbn.aussiebb.net [117.20.69.142])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 3DB3638008A;
+        Fri, 24 May 2019 05:32:42 -0400 (EDT)
+Date:   Fri, 24 May 2019 19:32:38 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali.rohar@gmail.com>
+Cc:     Hui Wang <hui.wang@canonical.com>,
+        Xiaoxiao Liu <xiaoxiao.liu-1@cn.alps.com>,
+        dmitry.torokhov@gmail.com, XiaoXiao Liu <sliuuxiaonxiao@gmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Xiaojian Cao <xiaojian.cao@cn.alps.com>,
+        "zhangfp1@lenovo.com" <zhangfp1@lenovo.com>
+Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IOetlA==?=
+ =?utf-8?B?5aSNOiBbUEFUQ0hdIGlucHV0?= =?utf-8?Q?=3A?= alps-fix the issue the
+ special alps trackpoint do not work.
+Message-ID: <20190524093238.GA1119@jelly>
+References: <20190521094622.syeub6tcqhbyc7sg@pali>
+ <OSBPR01MB4855D744473149D037612506DA000@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <20190522063546.kb74mxeprkauicul@pali>
+ <OSBPR01MB48550B43F78BBFBDC20D414DDA000@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <20190522074030.64sy7xt3wnomtxjb@pali>
+ <20190523060154.GA10526@jelly>
+ <38ec4a40-d51a-aeb1-a5e8-dbaed1142298@canonical.com>
+ <20190524053648.GA16379@jelly>
+ <d1fd207d-68e1-0b57-f0dc-c254bfc9352c@canonical.com>
+ <20190524072648.6zqgz7rpwpcv22pb@pali>
 MIME-Version: 1.0
-References: <20190521132712.2818-1-benjamin.tissoires@redhat.com>
- <20190521132712.2818-10-benjamin.tissoires@redhat.com> <003d01d511de$9da229c0$d8e67d40$@emc.com.tw>
- <CAO-hwJLnjxVxdodqAkKdQpqjAPGV1QYnugM+9t_86xRD92WJ-Q@mail.gmail.com> <011a01d5120f$146265e0$3d2731a0$@emc.com.tw>
-In-Reply-To: <011a01d5120f$146265e0$3d2731a0$@emc.com.tw>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 24 May 2019 11:19:03 +0200
-Message-ID: <CAO-hwJJMwX0w8wTwC66axCQrn8GemH4AFhRv3=30YZ0er2HkwQ@mail.gmail.com>
-Subject: Re: [PATCH v2 09/10] Input: elan_i2c - correct the width/size base value
-To:     =?UTF-8?B?5buW5bSH5qau?= <kt.liao@emc.com.tw>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Aaron Ma <aaron.ma@canonical.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190524072648.6zqgz7rpwpcv22pb@pali>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, May 24, 2019 at 11:00 AM 廖崇榮 <kt.liao@emc.com.tw> wrote:
->
-> Hi
->
-> -----Original Message-----
-> From: Benjamin Tissoires [mailto:benjamin.tissoires@redhat.com]
-> Sent: Friday, May 24, 2019 3:06 PM
-> To: 廖崇榮
-> Cc: Dmitry Torokhov; Rob Herring; Aaron Ma; Hans de Goede; open list:HID CORE LAYER; lkml; devicetree@vger.kernel.org
-> Subject: Re: [PATCH v2 09/10] Input: elan_i2c - correct the width/size base value
->
-> On Fri, May 24, 2019 at 5:13 AM 廖崇榮 <kt.liao@emc.com.tw> wrote:
-> >
-> > Hi Benjamin,
-> >
-> > Thanks so much for all you do for Elan touchpad.
-> >
-> > For the width_*, I have a question for it.
-> > Our antenna sensors fully occupied the whole touchpad PCB.
-> >
-> > The Gap between 2 sensors are 7.5 mil (0.19mm).
-> > That's why we did not minus one trace.
->
-> So, with the P52 I have:
-> [  +0.000009] max:    (3045,1731) drivers/input/mouse/elan_i2c_core.c:428
-> [  +0.000003] traces: (24,14) drivers/input/mouse/elan_i2c_core.c:429
-> [  +0.000002] size:   (98,55) drivers/input/mouse/elan_i2c_core.c:430
-> [  +0.000001] res:    (31,31) drivers/input/mouse/elan_i2c_core.c:431
->
-> calculated size (max/res): 98 x 56 mm
-> true size, as measured: 101 x 60 mm
->
-> I list layout information of P52 touchpad as below.
-> Physical size : 99 x 58 mm
-> Active Area size : ~ 97 * 56 mm, (boarding is 1.008mm for each side)
->
-> Sensor layout:
-> X Pitch : 4.0286 mm
-> Y Pitch : 4.0147 mm
->
-> Which gives (without the minus 1):
-> width_x = max_x / x_traces = 3045 / 24 = 126.875 -> 3.9885 mm width_y = max_y / y_traces = 1731 / 14 = 123.643 -> 4.0927 mm
->
-> -> this gives a total size of the touchpad of: 96 x 57 mm (width_x *
-> 24, width_y * 14)
->
-> With the minus 1:
-> width_x = max_x / x_traces = 3045 / 23 = 132.391 -> 4.2707 mm width_y = max_y / y_traces = 1731 / 14 = 133.154 -> 4.2953 mm
->
-> -> this gives a total size of the touchpad of: 102 x 60 mm (width_x *
-> 24, width_y * 14)
-> and considering traces-1: 98 x 56 mm
->
-> Removing 1 to the number of traces gave a squarer values in rows and columns, and this is what is done in the PS/2 driver.
-> Also, going back to the size of the touchpad gives a better value when removing 1 on the *traces.
-> So maybe when forwarding the properties we should remove one there in the PS/2 driver?
->
-> Removing 1 trace may be better for some of previous touchpad. (depending on sensor pattern)
-> mk_* indicate the number of trace which is touched, and it's not a precise value.
-> I think the usability won't change too much whether removing one trace.
-> PS/2 have supported plenty of touchpad. It's better to remain the same.
->
+On Fri, May 24, 2019 at 09:26:48AM +0200, Pali Rohár wrote:
+> On Friday 24 May 2019 13:50:53 Hui Wang wrote:
+> > On 2019/5/24 下午1:36, Peter Hutterer wrote:
+> > > On Fri, May 24, 2019 at 01:25:52PM +0800, Hui Wang wrote:
+> > > > On 2019/5/23 下午2:01, Peter Hutterer wrote:
+> > > > > On Wed, May 22, 2019 at 09:40:30AM +0200, Pali Rohár wrote:
+> > > > > > On Wednesday 22 May 2019 07:30:43 Xiaoxiao Liu wrote:
+> > > > > > > Hi Pali,
+> > > > > > > 
+> > > > > > > Ok, and cannot you set ALPS_DUALPOINT flag based on that
+> > > > > > > alps_check_is_trackpoint() result and then update
+> > > > > > > alps_process_packet_ss4_v3() code to supports also
+> > > > > > > V8 trackpoint packets?
+> > > > > > > --> Yes, we can do like so, when we use the v8 method to process the trackpoint , the mouse speed is not ideal.
+> > > > > > >         Then we choose the standard mouse driver.
+> > > > > > Mouse speed is something which is configurable. Have you configured it
+> > > > > > somehow? Also there is libinput project should handle these settings
+> > > > > > more properly.
+> > > > > > 
+> > > > > > Adding Peter Hutterer, maintainer of libinput to loop. I think he could
+> > > > > > help with this problem.
+> > > > > libinput has a quirk for a magic multiplier on trackpoints. it was the only
+> > > > > solution I found that came close to "working" given that every device seems
+> > > > > to provide some other random magic data. Doc for it is here:
+> > > > > https://wayland.freedesktop.org/libinput/doc/latest/trackpoint-configuration.html
+> > > > Hello Peter Hutterer,
+> > > > 
+> > > > To adjust the trackpoint speed from userspace:
+> > > > 
+> > > > If the libinput version is lower than 1.9.0, we could set
+> > > > POINTINGSTICK_CONST_ACCEL=0.25
+> > > > 
+> > > > If the libinput version is higher than 1.12.0, we could set
+> > > > AttrTrackpointMultiplier=0.25
+> > > > 
+> > > > But if we use libinput-1.10.0,  how could we adjust the speed?
+> > > The LIBINPUT_ATTR_TRACKPOINT_RANGE property, which didn't end up working
+> > > well (hence why it got replaced again). See the docs here though:
+> > > https://wayland.freedesktop.org/libinput/doc/1.10.0/trackpoints.html
+> > > 
+> > > Cheers,
+> > >     Peter
+> > 
+> > OK, got it, Thanks.
+> 
+> Is not here some database where for input device name / id is specified
+> that property? So users do not have to invent what is correct value for
+> their hardware?
 
-OK, so I guess I should just drop this patch from the series then.
+yeah, libinput ships with a quirks database that sets those, but it relies
+on users to submit the quirks.
+https://gitlab.freedesktop.org/libinput/libinput/tree/master/quirks
+There's no "correct" value anyway, if you ask 3 users what the trackpoint
+should do you'll get 5 answers :)
 
 Cheers,
-Benjamin
+   Peter
