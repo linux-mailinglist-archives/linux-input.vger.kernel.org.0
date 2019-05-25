@@ -2,107 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C191C29FFE
-	for <lists+linux-input@lfdr.de>; Fri, 24 May 2019 22:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F4292A24B
+	for <lists+linux-input@lfdr.de>; Sat, 25 May 2019 03:33:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403950AbfEXUks (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 24 May 2019 16:40:48 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:35502 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403762AbfEXUks (ORCPT
+        id S1726333AbfEYBd6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 May 2019 21:33:58 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:33549 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726220AbfEYBd6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 May 2019 16:40:48 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id C6A876087D; Fri, 24 May 2019 20:40:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1558730447;
-        bh=1rtby5Hx7aX1Icw+wA2MpY4vbTBzn0e374yLIU7OMpg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=mh/9qzt/26cXBEofGssSWv/79VvhupT3LszhElN+0EenKfgXT/mWQ0YQbHawNWaUQ
-         O9IUp4NvIV26Mt5GZBFskL5W/mBZJaAbXTw0rX/8mPfRICsRaicKUs0bMsX2zfuYA/
-         P3SsLYKLXRBanAfCwQA7jlmDGbupCMWfcBVRFizM=
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        pdx-caf-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
-        version=3.4.0
-Received: from localhost (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: bgoswami@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 479B960AA8;
-        Fri, 24 May 2019 20:40:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1558730442;
-        bh=1rtby5Hx7aX1Icw+wA2MpY4vbTBzn0e374yLIU7OMpg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=DhF739hAn6m7eSqjcXHAGXzVGIxk5XcV/1Vasucrdv0Ef+7i4r3h/hzpNThXzkkCz
-         sVmaKvYktcJ+DDidWlA+Igw6VLyJfQhiN5D0Sb5INHsb+0yqW0X4tiw8ziBLcUq/v5
-         yNDUl1PJ7oTfof0BNGF+xKfd+NNcjz3Frr2Yn1k0=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 479B960AA8
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=bgoswami@codeaurora.org
-From:   bgoswami@codeaurora.org
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, alsa-devel@alsa-project.org,
-        perex@perex.cz, tiwai@suse.com, broonie@kernel.org,
-        srinivas.kandagatla@linaro.org, plai@codeaurora.org,
-        Banajit Goswami <bgoswami@codeaurora.org>,
-        Gopikrishnaiah Anandan <agopik@codeaurora.org>
-Subject: [PATCH 2/3] input: Add SW_UNSUPPORT_INSERT define
-Date:   Fri, 24 May 2019 13:40:38 -0700
-Message-Id: <1558730438-16524-1-git-send-email-bgoswami@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
+        Fri, 24 May 2019 21:33:58 -0400
+Received: from [111.196.77.193] (helo=[192.168.1.104])
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <hui.wang@canonical.com>)
+        id 1hULZK-00018K-06; Sat, 25 May 2019 01:33:54 +0000
+Subject: =?UTF-8?B?UmU6IOetlOWkjTog562U5aSNOiDnrZTlpI06IFtQQVRDSF0gaW5wdXQ6?=
+ =?UTF-8?Q?_alps-fix_the_issue_the_special_alps_trackpoint_do_not_work=2e?=
+To:     Peter Hutterer <peter.hutterer@who-t.net>
+Cc:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali.rohar@gmail.com>,
+        Xiaoxiao Liu <xiaoxiao.liu-1@cn.alps.com>,
+        dmitry.torokhov@gmail.com, XiaoXiao Liu <sliuuxiaonxiao@gmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Xiaojian Cao <xiaojian.cao@cn.alps.com>,
+        "zhangfp1@lenovo.com" <zhangfp1@lenovo.com>
+References: <OSBPR01MB48550B43F78BBFBDC20D414DDA000@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <20190522074030.64sy7xt3wnomtxjb@pali> <20190523060154.GA10526@jelly>
+ <38ec4a40-d51a-aeb1-a5e8-dbaed1142298@canonical.com>
+ <20190524053648.GA16379@jelly>
+ <d1fd207d-68e1-0b57-f0dc-c254bfc9352c@canonical.com>
+ <20190524072648.6zqgz7rpwpcv22pb@pali>
+ <d0b659bf-e6ed-bbbb-a3ab-17daf525a577@canonical.com>
+ <20190524093729.GB1119@jelly>
+ <f0c2dff9-519e-d54d-4cd0-2be666656dc2@canonical.com>
+ <20190524105822.GA3358@jelly>
+From:   Hui Wang <hui.wang@canonical.com>
+Message-ID: <721b91b0-f231-5f7d-a438-09dd85f63513@canonical.com>
+Date:   Sat, 25 May 2019 09:33:46 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190524105822.GA3358@jelly>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Banajit Goswami <bgoswami@codeaurora.org>
 
-Some devices may not support specific type of input devices. For example,
-when a headset or extension cable with GND/MIC swap is plugged into a
-headset jack that does not support the headset/cable, it needs to be
-reported with a corresponding input event. Also, increase the max values
-for INPUT_DEVICE_ID_SW_MAX and SW_MAX, to accommodate future extension of
-the number of event.
+On 2019/5/24 下午6:58, Peter Hutterer wrote:
+> On Fri, May 24, 2019 at 06:43:58PM +0800, Hui Wang wrote:
+>> On 2019/5/24 下午5:37, Peter Hutterer wrote:
+>>> On Fri, May 24, 2019 at 03:37:57PM +0800, Hui Wang wrote:
+>>>>
+>> OK, that is sth we need to do.  But anyway it is a bit risky to backport
+>> that much code and the whole folder of quirks to libinput 1.10.4,  we need
+>> to do lots of test to make sure there is no regression on other machines.
+>>
+>> Probably we only need to keep the quirks/30-vendor-alps.quirks to 1.10.4 and
+>> drop other quirks, that will be better for our testing effort.
+> might be worth looking at what is in 1.10.7, e.g.  a3b3e85c0e looks like it
+> may be of interest. That one suggests the range on some ALPS devices is over
+> 100, so testing with 5-25 may really not have had any effect.
 
-Signed-off-by: Gopikrishnaiah Anandan <agopik@codeaurora.org>
-Signed-off-by: Banajit Goswami <bgoswami@codeaurora.org>
----
- include/linux/mod_devicetable.h        | 2 +-
- include/uapi/linux/input-event-codes.h | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+Oh, looks exactly the same as our issue, will have a try with it.
 
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index 448621c..7586099 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -299,7 +299,7 @@ struct pcmcia_device_id {
- #define INPUT_DEVICE_ID_LED_MAX		0x0f
- #define INPUT_DEVICE_ID_SND_MAX		0x07
- #define INPUT_DEVICE_ID_FF_MAX		0x7f
--#define INPUT_DEVICE_ID_SW_MAX		0x0f
-+#define INPUT_DEVICE_ID_SW_MAX		0x1f
- #define INPUT_DEVICE_ID_PROP_MAX	0x1f
- 
- #define INPUT_DEVICE_ID_MATCH_BUS	1
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 85387c7..960fa86 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -808,7 +808,8 @@
- #define SW_LINEIN_INSERT	0x0d  /* set = inserted */
- #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
- #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
--#define SW_MAX			0x0f
-+#define SW_UNSUPPORT_INSERT	0x10  /* set = unsupported device inserted */
-+#define SW_MAX			0x1f
- #define SW_CNT			(SW_MAX+1)
- 
- /*
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Thanks,
 
+Hui.
+
+
+>
+> Cheers,
+>     Peter
+>
