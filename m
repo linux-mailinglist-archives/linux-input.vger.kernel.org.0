@@ -2,97 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C77B62B903
-	for <lists+linux-input@lfdr.de>; Mon, 27 May 2019 18:23:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8C892BA5C
+	for <lists+linux-input@lfdr.de>; Mon, 27 May 2019 20:51:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726435AbfE0QXJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 May 2019 12:23:09 -0400
-Received: from ironport.klsmartin.com ([212.211.191.11]:18754 "EHLO
-        ironport.klsmartin.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725991AbfE0QXB (ORCPT
+        id S1726910AbfE0Sud (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 May 2019 14:50:33 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:38141 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726598AbfE0Sud (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 May 2019 12:23:01 -0400
-X-IronPort-AV: E=Sophos;i="5.60,519,1549926000"; 
-   d="scan'208";a="1674811"
-Received: from unknown (HELO hera.klsmartin.com) ([172.30.5.66])
-  by ironport.klsmartin.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 27 May 2019 18:22:59 +0200
-Received: from SUMMAIL01.UMK.KLS.zentral ([172.25.1.63])
-        by hera.klsmartin.com (8.14.3/8.13.1/SuSE Linux 0.7) with ESMTP id x4RGMpYO004696;
-        Mon, 27 May 2019 18:22:53 +0200
-Received: from UML026.UMK.KLS.zentral (172.25.2.60) by
- SUMMAIL01.UMK.KLS.zentral (172.25.1.63) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Mon, 27 May 2019 18:22:54 +0200
-From:   Leif Middelschulte <leif.middelschulte@klsmartin.com>
-To:     <dmitry.torokhov@gmail.com>, <devicetree@vger.kernel.org>
-CC:     <linux-input@vger.kernel.org>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>,
-        Leif Middelschulte <leif.middelschulte@klsmartin.com>
-Subject: [PATCH 10/10] Input: stmpe-ts - implement tracking index
-Date:   Mon, 27 May 2019 18:22:25 +0200
-Message-ID: <20190527162225.32136-1-leif.middelschulte@klsmartin.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190527160736.30569-1-leif.middelschulte@klsmartin.com>
-References: <20190527160736.30569-1-leif.middelschulte@klsmartin.com>
+        Mon, 27 May 2019 14:50:33 -0400
+Received: by mail-ot1-f68.google.com with SMTP id s19so15590468otq.5;
+        Mon, 27 May 2019 11:50:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=/UPJRPIwxAqcYMqh+lDwMvhmFIR39N9EBpveFn3/P0U=;
+        b=o4OehAXjS1nwYDdzhLHkGvwVArwzmcAxSIlUkpvfbgnDJ6qcDFoJS7mjtiNgYagV68
+         HaYDEgptHDGKp+fs7ouTbBdcmo4Wvfb7Y/VYRTW7gBY00Brh6UHEqF+S4Du6M36XO9rE
+         luW8RnTT8E2u/OUhGmPxMBgJGPQX1DhZ3nO3FiksbqGx5VhW3DGaAwKgffpHk/85Opat
+         bowArVvXR85goWhruWmwYOZl+/2SoQGzziZkXL8uLl/ERBFtM/YLIm2WkSExw2ozRsDC
+         Jd61TOlsTrmhzJ3D+gEbNrGEP4FL3HyDevV1TRCvNVBJm9AC5hSsbhCFHRrq6l6ue2F1
+         iRMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=/UPJRPIwxAqcYMqh+lDwMvhmFIR39N9EBpveFn3/P0U=;
+        b=mloObmDLCyWdQ22s1updUhAw8pRjahZLA0ei+MGf8UFutW+pvI2pzeF6XtTO97wRNI
+         lW267KKthlmNLeLsvZivrOo7BcXJABq30ZZ6eXEWHNOFilTrraRAX4fEX/KLqvSTshgQ
+         97GcN0hKdVIX/pyQNyEh8aHpQ2dkYEWle/fxRoowAMIql9VDDijzqFAp53+9DddNfE74
+         RquK06yd3zW95Hfe4lm1xKrAVn02iQUvuByA1Q5bXGt2h+TZNx5FuacoKSYIciSc8wCo
+         N8ZYMVEFCwlqe7Ou3W48LxM2NgdZytYM2PkVMKQLaejymjWqp2x7csMNKtmdjgWh9EYR
+         NDeg==
+X-Gm-Message-State: APjAAAUdZcD2nN/qIuiLmyU+WTZaYDg2isH0o5uCuGOEcq/lGwLruFQk
+        YDIslitHFTRI2NoNyD0n9SSBWPpVG3IWvXo+39U=
+X-Google-Smtp-Source: APXvYqw+7X7umORGxPn3zBCueQd3IVehTk3uOLGazLHXGvETtpKWb4bGrv4B+t9MnPKwVthX4tNhgbdWrAHKgX7EkQA=
+X-Received: by 2002:a9d:69cc:: with SMTP id v12mr2651688oto.223.1558983032197;
+ Mon, 27 May 2019 11:50:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [172.25.2.60]
-X-KSE-ServerInfo: SUMMAIL01.UMK.KLS.zentral, 9
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 27.05.2019 13:23:00
+From:   Tord Johan Espe <tordjohanespe@gmail.com>
+Date:   Mon, 27 May 2019 20:50:21 +0200
+Message-ID: <CA+pK8W-OWvsdcBhJr8Prdz3Sb1AbrF6==XsT4jo0TjwAUHTouw@mail.gmail.com>
+Subject: Feature request for `hid-magicmouse`
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        rydberg@bitmath.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The tracking index specifies an minimum distance between
-two touchpoints so that the latter will be discarded, if
-the distance falls short of the configured value.
-Beware: When using the XYZ acquisition mode, an increase
-in pressure leads to a position report anyway.
+Hi,
 
-Signed-off-by: Leif Middelschulte <leif.middelschulte@klsmartin.com>
----
- drivers/input/touchscreen/stmpe-ts.c | 5 +++--
- include/linux/mfd/stmpe.h            | 1 +
- 2 files changed, 4 insertions(+), 2 deletions(-)
+This is the first time I have submitted any requests to the Linux
+development community, so please excuse me if I'm doing it wrong, but
+after reading the docs, it seemed like the correct way to do this was
+to identify the people involved with the module and send an email.
 
-diff --git a/drivers/input/touchscreen/stmpe-ts.c b/drivers/input/touchscreen/stmpe-ts.c
-index 1d114278e7e9..ec1bbc19562e 100644
---- a/drivers/input/touchscreen/stmpe-ts.c
-+++ b/drivers/input/touchscreen/stmpe-ts.c
-@@ -91,6 +91,7 @@ struct stmpe_touch {
- 	u8 fraction_z;
- 	u8 i_drive;
- 	u8 op_mod;
-+	u8 tracking_index;
- 	struct {
- 	struct {
- 		u16 x;
-@@ -332,8 +333,8 @@ static int stmpe_init_hw(struct stmpe_touch *ts)
- 		return ret;
- 	}
- 
--	tsc_ctrl = STMPE_OP_MODE(ts->op_mod);
--	tsc_ctrl_mask = STMPE_OP_MODE(0xff);
-+	tsc_ctrl = STMPE_TRACK(ts->tracking_index) | STMPE_OP_MODE(ts->op_mod);
-+	tsc_ctrl_mask = STMPE_TRACK(0xff) | STMPE_OP_MODE(0xff);
- 
- 	ret = stmpe_set_bits(stmpe, STMPE_REG_TSC_CTRL,
- 			tsc_ctrl_mask, tsc_ctrl);
-diff --git a/include/linux/mfd/stmpe.h b/include/linux/mfd/stmpe.h
-index 07f55aac9390..4e3217b0237a 100644
---- a/include/linux/mfd/stmpe.h
-+++ b/include/linux/mfd/stmpe.h
-@@ -16,6 +16,7 @@
- #define STMPE_ADC_FREQ(x)	(x & 0x3)
- #define STMPE_AVE_CTRL(x)	((x & 0x3) << 6)
- #define STMPE_DET_DELAY(x)	((x & 0x7) << 3)
-+#define STMPE_TRACK(x)	((x & 0x7) << 4)
- #define STMPE_SETTLING(x)	(x & 0x7)
- #define STMPE_FRACTION_Z(x)	(x & 0x7)
- #define STMPE_I_DRIVE(x)	(x & 0x1)
--- 
-2.21.0
+My feature request is that I think the scrolling implementation in
+`hid-magicmouse.c` should take the number of currently active touches
+into consideration when deciding scroll speed.
 
+When using the Apple Magic Mouse in MacOS, scrolling is automatically
+slowed down when two fingers are touching the mouse simultaneously.
+This is extremely helpful for preventing unwanted scrolling when e.g.
+clicking and selecting text, which is, at least for me, really
+important for the overall experience. I would love it if the same
+behavior could be implemented in the Linux driver.
+
+Best regards,
+Tord Johan Espe
