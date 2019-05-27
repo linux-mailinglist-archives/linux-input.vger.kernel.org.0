@@ -2,21 +2,21 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35A302AF7D
-	for <lists+linux-input@lfdr.de>; Mon, 27 May 2019 09:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72D072AF80
+	for <lists+linux-input@lfdr.de>; Mon, 27 May 2019 09:43:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726115AbfE0Hlz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 May 2019 03:41:55 -0400
-Received: from mx2.suse.de ([195.135.220.15]:49810 "EHLO mx1.suse.de"
+        id S1726154AbfE0Hn2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 May 2019 03:43:28 -0400
+Received: from mx2.suse.de ([195.135.220.15]:49980 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725869AbfE0Hlz (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 May 2019 03:41:55 -0400
+        id S1726115AbfE0Hn2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 27 May 2019 03:43:28 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 5DC09AF3A;
-        Mon, 27 May 2019 07:41:54 +0000 (UTC)
-Date:   Mon, 27 May 2019 09:41:54 +0200
-Message-ID: <s5h5zpw9we5.wl-tiwai@suse.de>
+        by mx1.suse.de (Postfix) with ESMTP id 4FA50AF3A;
+        Mon, 27 May 2019 07:43:27 +0000 (UTC)
+Date:   Mon, 27 May 2019 09:43:27 +0200
+Message-ID: <s5h4l5g9wbk.wl-tiwai@suse.de>
 From:   Takashi Iwai <tiwai@suse.de>
 To:     <bgoswami@codeaurora.org>
 Cc:     <perex@perex.cz>, <alsa-devel@alsa-project.org>,
@@ -25,9 +25,9 @@ Cc:     <perex@perex.cz>, <alsa-devel@alsa-project.org>,
         <srinivas.kandagatla@linaro.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/3] ALSA: jack: Remove hard coding of jack_switch_types array size
-In-Reply-To: <1558730423-16490-1-git-send-email-bgoswami@codeaurora.org>
-References: <1558730423-16490-1-git-send-email-bgoswami@codeaurora.org>
+Subject: Re: [PATCH 3/3] ALSA: jack: add switch event for unsupported jack types
+In-Reply-To: <1558730450-16580-1-git-send-email-bgoswami@codeaurora.org>
+References: <1558730450-16580-1-git-send-email-bgoswami@codeaurora.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
  FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
  (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -38,73 +38,38 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 24 May 2019 22:40:23 +0200,
+On Fri, 24 May 2019 22:40:50 +0200,
 <bgoswami@codeaurora.org> wrote:
 > 
 > From: Banajit Goswami <bgoswami@codeaurora.org>
 > 
-> The size for jack_switch_types array is currently controlled by
-> a MACRO 'SND_JACK_SWITCH_TYPES', whose value needs to be updated
-> everytime a new jack switch type is added. Remove this MACRO
-> and use ARRAY_SIZE instead to get size of the array.
+> Add a jack switch event to report unsupported plug type.
+> This event can be used to report a headset or an extension
+> cable with GND/MIC swap etc., which may not be supported by
+> the device.
 > 
 > Signed-off-by: Gopikrishnaiah Anandan <agopik@codeaurora.org>
 > Signed-off-by: Banajit Goswami <bgoswami@codeaurora.org>
 
-The changes in ALSA side (this one and patch 3) look good.
-
-Rather a bigger question is about the addition of the new input bit.
-This needs the review and ack from input subsystem people.
-
-Adding to Cc.
-
-
-thanks,
-
-Takashi
+Adding input people to Cc to get the whole picture.
 
 
 > ---
->  include/sound/jack.h | 3 ---
->  sound/core/jack.c    | 4 ++--
->  2 files changed, 2 insertions(+), 5 deletions(-)
+>  sound/core/jack.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/include/sound/jack.h b/include/sound/jack.h
-> index 1e84bfb..b0791c5 100644
-> --- a/include/sound/jack.h
-> +++ b/include/sound/jack.h
-> @@ -68,9 +68,6 @@ enum snd_jack_types {
->  	SND_JACK_BTN_5		= 0x0200,
->  };
->  
-> -/* Keep in sync with definitions above */
-> -#define SND_JACK_SWITCH_TYPES 6
-> -
->  struct snd_jack {
->  	struct list_head kctl_list;
->  	struct snd_card *card;
 > diff --git a/sound/core/jack.c b/sound/core/jack.c
-> index 84c2a17..36b047b 100644
+> index 36b047b..4c21e48 100644
 > --- a/sound/core/jack.c
 > +++ b/sound/core/jack.c
-> @@ -33,7 +33,7 @@ struct snd_jack_kctl {
+> @@ -40,6 +40,7 @@ struct snd_jack_kctl {
+>  	SW_JACK_PHYSICAL_INSERT,
+>  	SW_VIDEOOUT_INSERT,
+>  	SW_LINEIN_INSERT,
+> +	SW_UNSUPPORT_INSERT,
 >  };
+>  #endif /* CONFIG_SND_JACK_INPUT_DEV */
 >  
->  #ifdef CONFIG_SND_JACK_INPUT_DEV
-> -static int jack_switch_types[SND_JACK_SWITCH_TYPES] = {
-> +static int jack_switch_types[] = {
->  	SW_HEADPHONE_INSERT,
->  	SW_MICROPHONE_INSERT,
->  	SW_LINEOUT_INSERT,
-> @@ -250,7 +250,7 @@ int snd_jack_new(struct snd_card *card, const char *id, int type,
->  
->  		jack->type = type;
->  
-> -		for (i = 0; i < SND_JACK_SWITCH_TYPES; i++)
-> +		for (i = 0; i < ARRAY_SIZE(jack_switch_types); i++)
->  			if (type & (1 << i))
->  				input_set_capability(jack->input_dev, EV_SW,
->  						     jack_switch_types[i]);
 > -- 
 > The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 > a Linux Foundation Collaborative Project
