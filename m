@@ -2,153 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E41452B071
-	for <lists+linux-input@lfdr.de>; Mon, 27 May 2019 10:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9312E2B184
+	for <lists+linux-input@lfdr.de>; Mon, 27 May 2019 11:44:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725973AbfE0Ikz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 May 2019 04:40:55 -0400
-Received: from mail-eopbgr760088.outbound.protection.outlook.com ([40.107.76.88]:49024
-        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725908AbfE0Ikz (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 May 2019 04:40:55 -0400
+        id S1726150AbfE0Jo2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 May 2019 05:44:28 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:36642 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726144AbfE0Jo2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 27 May 2019 05:44:28 -0400
+Received: by mail-pg1-f193.google.com with SMTP id a3so8821840pgb.3;
+        Mon, 27 May 2019 02:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=analog.onmicrosoft.com; s=selector1-analog-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A8ZvCx+T1wMnC8/oennqyW3ZnlrtzQySiwKoQsyb35E=;
- b=PJuE0qqYCqp4LmqE4ctgebKzry+wPxlnDmZq9NsAiPYir+erxRpYYxrKLBVNHOApRZQVhy/LL1gisZBc7lanU/FEryen+uvOfZ92dEm0h/XwZwWcpR+hL1xA+znm+Q+3vvkIYV/Y3wjHEtzzwEOXkk6gUGvXY8H1Wvkm7es9Ys0=
-Received: from CY4PR03CA0014.namprd03.prod.outlook.com (2603:10b6:903:33::24)
- by BL2PR03MB547.namprd03.prod.outlook.com (2a01:111:e400:c23::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1922.16; Mon, 27 May
- 2019 08:40:51 +0000
-Received: from SN1NAM02FT057.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e44::205) by CY4PR03CA0014.outlook.office365.com
- (2603:10b6:903:33::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1922.16 via Frontend
- Transport; Mon, 27 May 2019 08:40:50 +0000
-Authentication-Results: spf=pass (sender IP is 137.71.25.57)
- smtp.mailfrom=analog.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=bestguesspass action=none
- header.from=analog.com;
-Received-SPF: Pass (protection.outlook.com: domain of analog.com designates
- 137.71.25.57 as permitted sender) receiver=protection.outlook.com;
- client-ip=137.71.25.57; helo=nwd2mta2.analog.com;
-Received: from nwd2mta2.analog.com (137.71.25.57) by
- SN1NAM02FT057.mail.protection.outlook.com (10.152.73.105) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1922.16
- via Frontend Transport; Mon, 27 May 2019 08:40:50 +0000
-Received: from NWD2HUBCAS7.ad.analog.com (nwd2hubcas7.ad.analog.com [10.64.69.107])
-        by nwd2mta2.analog.com (8.13.8/8.13.8) with ESMTP id x4R8en6h020953
-        (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
-        Mon, 27 May 2019 01:40:49 -0700
-Received: from DRMBX2.ad.analog.com ([fe80::5144:bea8:5329:bcd]) by
- NWD2HUBCAS7.ad.analog.com ([fe80::595b:ced1:cc03:539d%12]) with mapi id
- 14.03.0415.000; Mon, 27 May 2019 04:40:49 -0400
-From:   "Togorean, Bogdan" <Bogdan.Togorean@analog.com>
-To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
-CC:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "Hennerich, Michael" <Michael.Hennerich@analog.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "gustavo@embeddedor.com" <gustavo@embeddedor.com>
-Subject: Re: [PATCH RESEND] input: adp5589: Add gpio_set_multiple interface
-Thread-Topic: [PATCH RESEND] input: adp5589: Add gpio_set_multiple interface
-Thread-Index: AQHVD7DDf4PJjwOqak6f3+dxzj0T7qZ4kxIAgAZgXgA=
-Date:   Mon, 27 May 2019 08:40:48 +0000
-Message-ID: <8c1a16638b0ca97dcfd97b5473215a9eecbca7a0.camel@analog.com>
-References: <20190415122525.2576-1-bogdan.togorean@analog.com>
-         <20190521083821.26540-1-bogdan.togorean@analog.com>
-         <20190523071820.GA121292@dtor-ws>
-In-Reply-To: <20190523071820.GA121292@dtor-ws>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.64.7.153]
-x-adiroutedonprem: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2CAECFF4E14DF646822FAC05EAF64317@analog.com>
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X2iALwhxJ2jL9uqOk1VEd05RuFjSSsyWOS5QI19bVso=;
+        b=h3rVlelG7JST4H5/ikCX/av5OwqsPcCNE78bfmrXnGHE6vDienD2JzXAsxQI6RuSuS
+         EvlAfC451GVWWIfi+QvvocmxHfmWnjP894cCCDwMCABGh+x69ctPRbJJ02Rb2uC2jEwF
+         uqrL45fFuEF5BY0nN1J9Vroy+9qeHIOzfkCsSN9yZxKtshKtgkWdXVqxp8opyiofI3KT
+         ZADTFGmhEXtXHL+oyrMDVRxWz/pdJCr9H8CV/X+e2wiZGd9E88yBkCCanJhuhfHRSDS/
+         Lmsy0rpBn9tRb2q77N/Zi03C1wrvj1Z/omfUFe7EiP8IZnbrbwDbwt7acSyyFdTG+Tqh
+         6KRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X2iALwhxJ2jL9uqOk1VEd05RuFjSSsyWOS5QI19bVso=;
+        b=XPvxOQeGUXRerPisJssS6hGMg0p1qABBuxtMKDt7oThjls9y++iuh2Q/P2shyFK1qo
+         AQ6oApYDawT27cI/FjFQgLacOuaL52MLNpjXDmy9VyNDnz7aPwDA4xlunApCiXBtZgKF
+         2wbO4y1AM52R9+A0avzLEVmo9drQbseithCYbXC4WjibHVhtrSOxPVRcIeDWRqEMW25h
+         vxeGeqF43wcuaOzKl0X9zhS72kSj1QQEuMjKCKkCpfeSsKqpVLCVYVQNso3WNnuugsEo
+         9WjQsnBeThUHkD709reWP0m4g6MgeizAsaIxMLEb8CwaIwCDTdmA89t4f8y/O6wqjL04
+         VC8Q==
+X-Gm-Message-State: APjAAAVKU56TO+xH3c1LgkwJIWyPOAsZ5VVTVzayb0wDwD3PqexL7JAR
+        WCm02QEgjZITtzG2rjdjQaPNGu4f
+X-Google-Smtp-Source: APXvYqymAM4mV0yK506miBQOXPFTvWufOmaaZgBAKPPvVOzD8sLFOw23HLUO5XVvziPXk9TA29QDXw==
+X-Received: by 2002:a63:5d45:: with SMTP id o5mr1372683pgm.40.1558950267965;
+        Mon, 27 May 2019 02:44:27 -0700 (PDT)
+Received: from localhost ([45.32.43.45])
+        by smtp.gmail.com with ESMTPSA id c129sm12879564pfg.178.2019.05.27.02.44.26
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 27 May 2019 02:44:27 -0700 (PDT)
+From:   XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
+To:     dmitry.torokhov@gmail.com, pali.rohar@gmail.com
+Cc:     peter.hutterer@who-t.net, hui.wang@canonical.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        xiaojian.cao@cn.alps.com, zhangfp1@lenovo.com,
+        xiaoxiao.liu-1@cn.alps.com, XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
+Subject: [PATCH] input: alps-fix the issue alps cs19 trackstick do not work.
+Date:   Mon, 27 May 2019 05:44:22 -0400
+Message-Id: <20190527094422.7558-1-sliuuxiaonxiao@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:137.71.25.57;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(396003)(376002)(346002)(39860400002)(136003)(2980300002)(199004)(189003)(54094003)(4326008)(76176011)(2501003)(7696005)(5660300002)(2486003)(23676004)(356004)(229853002)(36756003)(102836004)(6246003)(14444005)(11346002)(2616005)(476003)(336012)(486006)(126002)(6116002)(3846002)(426003)(316002)(436003)(446003)(1361003)(70206006)(246002)(2351001)(14454004)(5640700003)(186003)(70586007)(6916009)(50466002)(47776003)(118296001)(7736002)(478600001)(72206003)(26005)(8936002)(8676002)(106002)(305945005)(2906002)(86362001)(54906003)(7636002);DIR:OUT;SFP:1101;SCL:1;SRVR:BL2PR03MB547;H:nwd2mta2.analog.com;FPR:;SPF:Pass;LANG:en;PTR:nwd2mail11.analog.com;A:1;MX:1;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 66bae7b9-ab5f-4aae-9290-08d6e27f05e8
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(4709054)(1401327)(2017052603328)(7193020);SRVR:BL2PR03MB547;
-X-MS-TrafficTypeDiagnostic: BL2PR03MB547:
-X-Microsoft-Antispam-PRVS: <BL2PR03MB547F847EECD9ADFCB928FFF9B1D0@BL2PR03MB547.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 0050CEFE70
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: aIw5BjHZnDH5eszZZQDz+nDV52WkPxE7531/UVzo1TnKKMYuMW7SKpFhpNCsG5lgn1Sxsif3mnqndNo5vrLVYTXQeK3LsIX/V+m9EsAT04pzt+u1+g4kYo0M8/o8G8z72naH7FF/iAGFHD+7vtCdlO3S6aJcF+Qm/SFp5iknpdqm+nOL4DR0cZI2slAvWsToYTNFU8zKHxSAfMATFPWU65Sq7sQZTCJzLruBDOOi/thtqXkD3p+0/rMyC+fE2AsDUcj3qXBflK9hgu5WspsU24AOvAB23slCBJmc446N+Np6Wacid+K/ybm7F4tEHg7gpExtT62VEhGjfraBJlJ0WyduH8reJsTnfecxevCjSB5WVO3uUNzFnVel2Mod2ihN8pvtbv0x+5TJw4hNuIAPnY9WTvt33FiH/0387qKkmZg=
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2019 08:40:50.5057
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66bae7b9-ab5f-4aae-9290-08d6e27f05e8
-X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=eaa689b4-8f87-40e0-9c6f-7228de4d754a;Ip=[137.71.25.57];Helo=[nwd2mta2.analog.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL2PR03MB547
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-SGkgRG1pdHJ5LA0KDQpUaGFuayB5b3UgZm9yIHlvdXIgcmV2aWV3DQoNCk9uIFRodSwgMjAxOS0w
-NS0yMyBhdCAwMDoxOCAtMDcwMCwgRG1pdHJ5IFRvcm9raG92IHdyb3RlOg0KPiBbRXh0ZXJuYWxd
-DQo+IA0KPiANCj4gSGkgQm9nZGFuLA0KPiANCj4gT24gVHVlLCBNYXkgMjEsIDIwMTkgYXQgMTE6
-Mzg6MjJBTSArMDMwMCwgQm9nZGFuIFRvZ29yZWFuIHdyb3RlOg0KPiA+IFRoaXMgcGF0Y2ggaW1w
-bGVtZW50cyB0aGUgZ3Bpb19zZXRfbXVsdGlwbGUgaW50ZXJmYWNlIGZvciBBRFA1NTh4DQo+ID4g
-Y2hpcC4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBCb2dkYW4gVG9nb3JlYW4gPGJvZ2Rhbi50
-b2dvcmVhbkBhbmFsb2cuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL2lucHV0L2tleWJvYXJk
-L2FkcDU1ODkta2V5cy5jIHwgMjUNCj4gPiArKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4g
-IDEgZmlsZSBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvaW5wdXQva2V5Ym9hcmQvYWRwNTU4OS1rZXlzLmMNCj4gPiBiL2RyaXZlcnMvaW5w
-dXQva2V5Ym9hcmQvYWRwNTU4OS1rZXlzLmMNCj4gPiBpbmRleCAyODM1ZmJhNzFjMzMuLjE0Mzg3
-MWJkNjBlZiAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2lucHV0L2tleWJvYXJkL2FkcDU1ODkt
-a2V5cy5jDQo+ID4gKysrIGIvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9hZHA1NTg5LWtleXMuYw0K
-PiA+IEBAIC00MTYsNiArNDE2LDMwIEBAIHN0YXRpYyB2b2lkIGFkcDU1ODlfZ3Bpb19zZXRfdmFs
-dWUoc3RydWN0DQo+ID4gZ3Bpb19jaGlwICpjaGlwLA0KPiA+ICAgICAgIG11dGV4X3VubG9jaygm
-a3BhZC0+Z3Bpb19sb2NrKTsNCj4gPiAgfQ0KPiA+IA0KPiA+ICtzdGF0aWMgdm9pZCBhZHA1NTg5
-X2dwaW9fc2V0X211bHRpcGxlKHN0cnVjdCBncGlvX2NoaXAgKmNoaXAsDQo+ID4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgdW5zaWduZWQgbG9uZyAqbWFzaywgdW5zaWduZWQN
-Cj4gPiBsb25nICpiaXRzKQ0KPiA+ICt7DQo+ID4gKyAgICAgc3RydWN0IGFkcDU1ODlfa3BhZCAq
-a3BhZCA9IGNvbnRhaW5lcl9vZihjaGlwLCBzdHJ1Y3QNCj4gPiBhZHA1NTg5X2twYWQsIGdjKTsN
-Cj4gPiArICAgICB1OCBiYW5rLCByZWdfbWFzaywgcmVnX2JpdHM7DQo+ID4gKw0KPiA+ICsgICAg
-IG11dGV4X2xvY2soJmtwYWQtPmdwaW9fbG9jayk7DQo+ID4gKw0KPiA+ICsgICAgIGZvciAoYmFu
-ayA9IDA7IGJhbmsgPD0ga3BhZC0+dmFyLT5iYW5rKGtwYWQtPnZhci0+bWF4Z3Bpbyk7DQo+ID4g
-YmFuaysrKSB7DQo+ID4gKyAgICAgICAgICAgICBpZiAoYmFuayA+IGtwYWQtPnZhci0+YmFuayhn
-ZXRfYml0bWFza19vcmRlcigqbWFzaykgLQ0KPiA+IDEpKQ0KPiA+ICsgICAgICAgICAgICAgICAg
-ICAgICBicmVhazsNCj4gDQo+IEkgd29uZGVyIGlmIHdlIHNob3VsZCBoYXZlOg0KPiANCj4gICAg
-ICAgICBsYXN0X2dwaW8gPSBtaW4oa3BhZC0+dmFyLT5tYXhncGlvLCBnZXRfYml0bWFza19vcmRl
-cigqbWFzaykNCj4gLSAxKTsNCj4gICAgICAgICBsYXN0X2JhbmsgPSBrcGFkLT52YXItPmJhbmso
-bGFzdF9iYW5rKTsNCj4gICAgICAgICBmb3IgKGJhbmsgPSAwOyBiYW5rIDw9IGxhc3RfYmFuazsg
-YmFuaysrKSB7DQo+ICAgICAgICAgICAgICAgICAuLi4NCj4gICAgICAgICB9DQpJIGFncmVlIHRo
-aXMgY2FuIGJlIG1hZGUgbW9yZSBjbGVhciBpbiB0aGUgd2F5IHlvdSBwcm9wb3NlZC4NCj4gDQo+
-ID4gKyAgICAgICAgICAgICByZWdfbWFzayA9IG1hc2tbYmFuayAvIHNpemVvZigqbWFzayldID4+
-DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICgoYmFuayAlIHNpemVvZigqbWFzaykpICog
-QklUU19QRVJfQllURSk7DQo+ID4gKyAgICAgICAgICAgICByZWdfYml0cyA9IGJpdHNbYmFuayAv
-IHNpemVvZigqYml0cyldID4+DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICgoYmFuayAl
-IHNpemVvZigqYml0cykpICogQklUU19QRVJfQllURSk7DQo+IA0KPiBUaGlzIHMgcmVhbGx5IGhh
-cmQgdG8gcGFyc2UuIFdlIGtub3cgdGhhdCAiYmFuayIgaXMgYSBieXRlLCBhbmQgbWFzaw0KPiBp
-cw0KPiBsb25nLCB3ZSBkbyBub3QgaGF2ZSB0byBiZSB0aGlzIHJvdW5kYWJvdXQgaXQuDQpIZXJl
-IG1haW4gcmVhc29ucyBmb3IgZG9pbmcgdGhpcyBjb21wbGV4aXR5IHdlcmUgdG8gc3VwcG9ydCA2
-NGJpdC8zMmJpdA0KYXJjaGl0ZWN0dXJlcyAoZGlmZmVyZXQgbG9uZyBzaXplKSBhbmQgdG8gYXZv
-aWQgdXNlIG9mIG1hZ2ljIHZhbHVlcw0KKEJJVFNfUEVSX0JZVEUpDQo+IA0KPiA+ICsgICAgICAg
-ICAgICAga3BhZC0+ZGF0X291dFtiYW5rXSAmPSB+cmVnX21hc2s7DQo+ID4gKyAgICAgICAgICAg
-ICBrcGFkLT5kYXRfb3V0W2JhbmtdIHw9IHJlZ19iaXRzICYgcmVnX21hc2s7DQo+ID4gKyAgICAg
-ICAgICAgICBhZHA1NTg5X3dyaXRlKGtwYWQtPmNsaWVudCwga3BhZC0+dmFyLQ0KPiA+ID5yZWco
-QURQNTU4OV9HUE9fREFUQV9PVVRfQSkgKyBiYW5rLA0KPiA+ICsgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBrcGFkLT5kYXRfb3V0W2JhbmtdKTsNCj4gPiArICAgICB9DQo+IA0KPiBIb3dldmVy
-IHRoZSBiaWdnZXN0IGlzc3VlIGlzIHRoYXQgdGhpcyBpbXBsZW1lbnRhdGlvbiBzZWVtcyB0byBp
-Z25vcmUNCj4gdGhlIGtwYWQtPmdwaW9tYXAgdGhhdCB0cmFuc2xhdGVzIEdQSU8gbnVtYmVycyBh
-cyBzZWVuIGJ5IGdwaW9saWIgdG8NCj4gR1BJTyBudW1iZXJzIHVzZWQgYnkgdGhlIGNoaXAuIFlv
-dSBuZWVkIHRvIHJlc2h1ZmZsZSB0aGUgbWFzayBhbmQNCj4gYml0cywNCj4gYW5kIG9ubHkgdGhl
-biBkbyB0aGUgd3JpdGVzLg0KPiANCj4gR2l2ZW4gdGhlIGNvbXBsZXhpdGllcywgZG9lcyBzZXRf
-bXVsdGlwbGUgcmVhbGx5IHNhdmUgYW55dGhpbmc/DQo+IA0KV2UgaGF2ZSBhIGNyaXRpY2FsIGFw
-cGxpY2F0aW9uIHdoZXJlIHdlIG5lZWQgdG8gc2V0IG11bHRpcGxlIEdQSU9zIHRoYXQNCmFyZSBv
-biB0aGUgc2FtZSBiYW5rIHNpbXVsdGFuZW91c2x5LiBObyBkZWxheSBhY2NlcHRlZC4gU28gdGhp
-cyB3YXMgdGhlDQp1c2VjYXNlIHdoaWNoIGxlZCB0byBpbXBsZW1lbnRhdGlvbiBvZiBzZXRfbXVs
-dGlwbGVfaW50ZXJmYWNlIGZvciB0aGlzDQpjaGlwLg0KPiBUaGFua3MuDQo+IA0KPiAtLQ0KPiBE
-bWl0cnkNClRoYW5rIHlvdSwNCkJvZ2Rhbg0KDQo=
+The alps devices which detected to use the ALPS_PROTO_V8 procotol contains
+ALPS touchpad and ALPS trackstick.The ALPS_PROTO_V8 procotol do not
+support the trackstick device process by default.
+
+When the trackstick was detected to use ALPS_PROTO_V8 procotol,
+the v8 process_packet method alps_process_packet_ss4_v2 will reject to
+report the data when the device using ALPS_PROTO_V8 procotol is not set
+the ALPS_DUALPOINT flag.
+
+The alps cs19 trackstick is detected to use the ALPS_PROTO_V8 procotol
+but without ALPS_DUALPOINT flag, the alps driver will not report the
+input data. so the trackstick will not work.
+
+solution: when the alps cs19 device detected, set the device
+ALPS_DUALPOINT flag,then the input data will be processed.
+
+Signed-off-by: XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
+---
+ drivers/input/mouse/alps.c | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
+index 0a6f7ca883e7..a54677cf7474 100644
+--- a/drivers/input/mouse/alps.c
++++ b/drivers/input/mouse/alps.c
+@@ -24,7 +24,7 @@
+ 
+ #include "psmouse.h"
+ #include "alps.h"
+-
++#include "trackpoint.h"
+ /*
+  * Definitions for ALPS version 3 and 4 command mode protocol
+  */
+@@ -220,6 +220,23 @@ static bool alps_is_valid_first_byte(struct alps_data *priv,
+ 	return (data & priv->mask0) == priv->byte0;
+ }
+ 
++static int alps_check_cs19_trackstick(struct psmouse *psmouse)
++{
++	u8 param[2] = { 0 };
++	int error;
++
++	error = ps2_command(&psmouse->ps2dev,
++			    param, MAKE_PS2_CMD(0, 2, TP_READ_ID));
++	if (error)
++		return error;
++
++	if (param[0] == TP_VARIANT_ALPS && param[1] & 0x20) {
++		psmouse_warn(psmouse, "It is alps cs19 trackstick");
++		return 0;
++	}
++	return -1;
++}
++
+ static void alps_report_buttons(struct input_dev *dev1, struct input_dev *dev2,
+ 				int left, int right, int middle)
+ {
+@@ -2568,8 +2585,12 @@ static int alps_update_dual_info_ss4_v2(unsigned char otp[][4],
+ 			alps_exit_command_mode(psmouse);
+ 			ps2_command(ps2dev, NULL, PSMOUSE_CMD_ENABLE);
+ 
+-			if (reg_val == 0x0C || reg_val == 0x1D)
++			if (reg_val == 0x0C || reg_val == 0x1D) {
++				is_dual = true;
++			} else if (alps_check_cs19_trackstick(psmouse) == 0) {
++				//For support Thinkpad CS19 TrackStick
+ 				is_dual = true;
++			}
+ 		}
+ 	}
+ 
+-- 
+2.20.1
+
