@@ -2,78 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D5342D622
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2019 09:21:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37E532D8D2
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2019 11:17:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726080AbfE2HVK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 May 2019 03:21:10 -0400
-Received: from mga17.intel.com ([192.55.52.151]:56432 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726076AbfE2HVK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 May 2019 03:21:10 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 May 2019 00:21:10 -0700
-X-ExtLoop1: 1
-Received: from orsmsx105.amr.corp.intel.com ([10.22.225.132])
-  by fmsmga007.fm.intel.com with ESMTP; 29 May 2019 00:21:10 -0700
-Received: from orsmsx111.amr.corp.intel.com (10.22.240.12) by
- ORSMSX105.amr.corp.intel.com (10.22.225.132) with Microsoft SMTP Server (TLS)
- id 14.3.408.0; Wed, 29 May 2019 00:21:10 -0700
-Received: from orsmsx121.amr.corp.intel.com ([169.254.10.47]) by
- ORSMSX111.amr.corp.intel.com ([169.254.12.165]) with mapi id 14.03.0415.000;
- Wed, 29 May 2019 00:21:09 -0700
-From:   "Yang, Hyungwoo" <hyungwoo.yang@intel.com>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-CC:     "jikos@kernel.org" <jikos@kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: RE: [PATCH 1/2] HID: intel-ish-hid: fix wrong type conversion
-Thread-Topic: [PATCH 1/2] HID: intel-ish-hid: fix wrong type conversion
-Thread-Index: AQHVFcAUp0WZphGmAEqc3eYPMfuoe6aBrsmQ
-Date:   Wed, 29 May 2019 07:21:09 +0000
-Message-ID: <7A4F467111FEF64486F40DFE7DF3500A221AE4ED@ORSMSX121.amr.corp.intel.com>
-References: <1559079417-32039-1-git-send-email-hyungwoo.yang@intel.com>
- <03654457d996c839e8f91bf329819defd8726a14.camel@linux.intel.com>
-In-Reply-To: <03654457d996c839e8f91bf329819defd8726a14.camel@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.600.7
-dlp-reaction: no-action
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNWY0NTdhYzUtNTk2ZC00MTdmLWEzMWYtY2M1MDhkMGJlMjZiIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiMWtRV3lHUlVLMWdUNUgrY29id0UzR0hkUzY1SHI4VDgwNEhWanRVRXBpMURjXC92MitIWnpNSDNScGJDM1JUXC90In0=
-x-ctpclassification: CTP_NT
-x-originating-ip: [10.22.254.140]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1725948AbfE2JRz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 May 2019 05:17:55 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:42532 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725861AbfE2JRz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 29 May 2019 05:17:55 -0400
+Received: by mail-ed1-f68.google.com with SMTP id g24so2613641eds.9
+        for <linux-input@vger.kernel.org>; Wed, 29 May 2019 02:17:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=R3M9/Nb+iAWv/ivQtmJwp21umz3a07n0D41zlbH+5Vg=;
+        b=EjTBR6IfTb++KICXBZIXkocVSJ1VzJgB5JMd/ZsfBWb5hIwu79ueML973ramKn5jF9
+         GycWIgaD2u5calZ4pc4lW8Bj+Iyv8Uhqmxbmif3G6P1nOmB2SE9YyPQGPBqMz8J5wwbm
+         Zt4odlYlDDGSC+cRsB0Kkp8SrB9wOoVmvG+XHmSBYUhJtKVuWpwdeHTzug1m97L5PuNU
+         c0IO76EaeCKDhANzSK9k4fO0my27jsjYnHpU+TcTnqT+8lhBV6tpmhJxGa5kbe60UyBx
+         ZPKtqoXb0q9RbLSeFGJG9xmRMw5JishnLybbgS1MmxAhhzMPyF3TOK4/8RG12pdkxiMB
+         i/Hg==
+X-Gm-Message-State: APjAAAXsae/GUARYQd3qALncw2aMLNC0VaDeNPjMo+xAJjaT0otMoJgt
+        Lau4JvR5NTnmzaND2Ak9kFIadg==
+X-Google-Smtp-Source: APXvYqzDN/m677MUndnaGXnszTXxjNj7JaHW/w/uv+QBZba0k9DL4JeHhTsUPJBOX1W+yTOiYDL77Q==
+X-Received: by 2002:a50:b487:: with SMTP id w7mr136594551edd.45.1559121473400;
+        Wed, 29 May 2019 02:17:53 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4f8:1c0c:6c86:46e0:a7ad:5246:f04d])
+        by smtp.gmail.com with ESMTPSA id x49sm5023051edm.25.2019.05.29.02.17.52
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 29 May 2019 02:17:52 -0700 (PDT)
+Subject: Re: hid-related 5.2-rc1 boot hang
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <2c1684f6-9def-93dc-54ab-888142fd5e71@intel.com>
+ <nycvar.YFH.7.76.1905281913140.1962@cbobk.fhfr.pm>
+ <CAO-hwJJzNAuFbdMVFZ4+h7J=bh6QHr_MioyK2yTV=M5R6CTm=A@mail.gmail.com>
+ <8a17e6e2-b468-28fd-5b40-0c258ca7efa9@intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <4689a737-6c40-b4ae-cc38-5df60318adce@redhat.com>
+Date:   Wed, 29 May 2019 11:17:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <8a17e6e2-b468-28fd-5b40-0c258ca7efa9@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-PiBPbiBUdWUsIDIwMTktMDUtMjggYXQgMTQ6MzYgLTA3MDAsIEh5dW5nd29vIFlhbmcgd3JvdGU6
-DQo+ID4gInN0cnVjdCBkZXZpY2UiIGlzIGVtYmVkZGVkIGluICJzdHJ1Y3QgaXNodHBfY2xfZGV2
-aWNlIi4NCj4gPiBzbyB0aGUgY29udmVyc2lvbiBzaG91bGQgYmUgZG9uZSBieSBjb250YWluZXJf
-b2YoKSBtZXRob2QuDQo+IFdoaWNoIHRyZWUgdGhpcyBwYXRjaCBpcyBnb2luZyB0bz8gWW91IGNh
-bid0IGV2ZW4gYXBwbHkgb24gdGhlIG1haW5saW5lIHRyZWUgKDUuMi1yYzIpLiBBbHNvIHlvdSB3
-aWxsIG5vdCBiZSBhYmxlIHRvIGNvbXBpbGUgZXZlbiBpZiB5b3UgYWRkcmVzcyB0aGUgY29uZmxp
-Y3QgKFRoZSBwYXRjaCBvcmRlcmluZyBpcyB3cm9uZykuIA0KDQpPaC4uIEkgd2Fzbid0IGNhcmVm
-dWwgdG8gc3BsaXQgdGhlIHBhdGNoIGFmdGVyIHRlc3RpbmcuIEkndmUgY29ycmVjdGVkLg0KDQo+
-IA0KPiBXaGF0IHdhcyBzeW1wdG9tIG9yIHByb2JsZW0geW91IHRyeSB0byBhZGRyZXNzPyBJcyB0
-aGVyZSBhbnkgY3Jhc2ggb3IgYnVnIG9jY3VycmVkPyBEb2VzIGl0IGhhcHBlbiB3aXRoIHRoZSBt
-YWlubGluZSBrZXJuZWw/DQpJJ3ZlIGFkZGVkIHRoZSBkZXRhaWwgaW4gY29tbWl0IG1lc3NhZ2Ug
-aW4gdjIuIEJhc2ljYWxseSBkdWUgdG8gd3JvbmcgdXNhZ2Ugb2YgZHJpdmVyX2RhdGEgb2YgaXNo
-dHAgY2xpZW50IGRldmljZSwgd2Ugc2VlIGtlcm5lbCBjcmFzaC4gQ3VycmVudGx5IGRyaXZlcl9k
-YXRhIGlzIHNldCBieSBidXMgZHJpdmVyIHdoaWNoIGlzIHdyb25nIHNpbmNlIGRyaXZlcl9kYXRh
-IHNob3VsZCBiZSBvd25lZCBieSBjb3JyZXNwb25kaW5nIGRldmljZSBkcml2ZXIuIFJpZ2h0IG5v
-dywgd2Ugc2VlIGtlcm5lbCBjcmFzaCBkdXJpbmcgc3VzcGVuZCgpIG9mIGNyb3NfZWNfaXNodHAu
-IFllcywgaXQgaGFwcGVucyB3aXRoIHRoZSBtYWlubGluZSBrZXJuZWwgc2luY2UgY3Jvc19lY19p
-c2h0cCBpcyBhbHJlYWR5IHVwc3RyZWFtZWQuDQoNCj4gDQo+IA0KPiA+IA0KPiA+IENoYW5nZS1J
-ZDogSWRjYmFmZTcyNGUyMTZlZTYyNzVmOWQxZTM1YTNiNzljZWU1Y2U4OGMNCj4gVGhpcyB0ZWxs
-cyBtZSB0aGF0IHlvdSBhcmUgdHJ5aW5nIHRvIGZpeCBzb21lIENocm9tZSBpc3N1ZS4gRG9uJ3Qg
-aW5jbHVkZSB0aGVzZSB0YWdzIGZvciBtYWlubGluZSBrZXJuZWwuDQpkb25lIGluIHYyLiBUaGFu
-ayB5b3UuDQoNCj4gDQo+IFRoYW5rcywNCj4gU3Jpbml2YXMNCg0KVGhhbmtzLA0KSHl1bmd3b28N
-Cg==
+Hi,
+
+On 5/28/19 8:11 PM, Dave Hansen wrote:
+> On 5/28/19 10:45 AM, Benjamin Tissoires wrote:
+>> On Tue, May 28, 2019 at 7:15 PM Jiri Kosina <jikos@kernel.org> wrote:
+>>> Just to confirm -- I guess reverting 4ceabaf79 and a025a18fe would work
+>>> this around, right?
+> 
+> Yes, reverting that pair on top of 5.2-rc1 works around the issue.
+
+Thank you for catching this and for testing the reverts. We've several bug
+reports which I suspect are related to this.
+
+/sbin/modprobe really should not hang when called by the kernel, as the
+kernel does this in several other places too.
+
+At the same time this clearly is a regression, so I'm afraid we will need
+to revert the 2 commits.
+
+Benjamin, Jiri, I really like the improvements these 2 commits bring
+combined with Benjamin's changes removing the need for all the device specific
+drivers to have  HID_QUIRK_HAVE_SPECIAL_DRIVER quirk.
+
+Maybe instead of reverting them, we wrap them in a Kconfig option, which
+defaults to N, with a warning that this requires an userspace where
+/sbin/modprobe does not hang ?  It would be useful for the Kconfig
+help text if we knew why it hangs. I guess this may have something to do
+with it running from the initrd? Maybe this is not the real modprobe but
+busybox's modprobe?
+
+Dave, can you try building your initrd without the hid-logitech-dj module
+included in the initrd?
+
+
+Also can you check if your modprobe is provided by module-init-tools
+or by kmod ?
+
+I believe we really need more information before we can properly decide
+how to deal with this. Luckily we still have same time.
+
+Regards,
+
+Hans
+
