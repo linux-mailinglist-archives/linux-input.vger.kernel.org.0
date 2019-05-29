@@ -2,86 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D09662E4EF
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2019 21:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3D462E4F2
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2019 21:04:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726101AbfE2TDo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 May 2019 15:03:44 -0400
-Received: from mga11.intel.com ([192.55.52.93]:26734 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726054AbfE2TDo (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 May 2019 15:03:44 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 May 2019 12:03:44 -0700
-X-ExtLoop1: 1
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-  by orsmga008.jf.intel.com with ESMTP; 29 May 2019 12:03:43 -0700
-Received: from orsmsx124.amr.corp.intel.com (10.22.240.120) by
- ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server (TLS)
- id 14.3.408.0; Wed, 29 May 2019 12:03:43 -0700
-Received: from orsmsx121.amr.corp.intel.com ([169.254.10.47]) by
- ORSMSX124.amr.corp.intel.com ([169.254.2.120]) with mapi id 14.03.0415.000;
- Wed, 29 May 2019 12:03:43 -0700
-From:   "Yang, Hyungwoo" <hyungwoo.yang@intel.com>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-CC:     "jikos@kernel.org" <jikos@kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: RE: [PATCH 1/2] HID: intel-ish-hid: fix wrong type conversion
-Thread-Topic: [PATCH 1/2] HID: intel-ish-hid: fix wrong type conversion
-Thread-Index: AQHVFcAUp0WZphGmAEqc3eYPMfuoe6aBrsmQgAEAxgD//8WNoA==
-Date:   Wed, 29 May 2019 19:03:42 +0000
-Message-ID: <7A4F467111FEF64486F40DFE7DF3500A221AE604@ORSMSX121.amr.corp.intel.com>
-References: <1559079417-32039-1-git-send-email-hyungwoo.yang@intel.com>
-         <03654457d996c839e8f91bf329819defd8726a14.camel@linux.intel.com>
-         <7A4F467111FEF64486F40DFE7DF3500A221AE4ED@ORSMSX121.amr.corp.intel.com>
- <ae3d89b762181828b8c8ae4eb3cd59110d864b9b.camel@linux.intel.com>
-In-Reply-To: <ae3d89b762181828b8c8ae4eb3cd59110d864b9b.camel@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.600.7
-dlp-reaction: no-action
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjc5Mjk4NWItNjY3Mi00ZTUxLThiMzAtZTlkNTcyOWM5ZDI5IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoieGFJNFArODBTZ1NVOGRcL2NreWJxZ0NGemdxdVJaeXdBRUpoU1cwbVI3ak5LVHVwV2h3b2RzODljSDlqeVdqWmcifQ==
-x-ctpclassification: CTP_NT
-x-originating-ip: [10.22.254.140]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1726029AbfE2TE3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 May 2019 15:04:29 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:41917 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725990AbfE2TE3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 29 May 2019 15:04:29 -0400
+Received: by mail-lf1-f66.google.com with SMTP id 136so2987949lfa.8
+        for <linux-input@vger.kernel.org>; Wed, 29 May 2019 12:04:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=2pKuHW7e7Bq114V2mDcQ+xit9PWt9cdLU+EoCQu+jQc=;
+        b=BKkwu/YvQ9QiOYxcvqzSjbI/JwCrva5j7DwcDwFWyMX26/WdlHlc1fdToAzBrA/P72
+         b47NlxSCLZ2utp5X94N21ESyd35j3wuEfTIe4k5z2PGWitmhfJlqni4ve4VgodLBeZcQ
+         RB6kOzo1dMK3iZNnvwI2FtvAFKvlJeDIZnInphzdftyusT7C9okQpmEaF1Foae2a/EL0
+         o6MqiPpkRYaxAK432nKUMKXW2UbrkdK8+e+BUpb0ZgJZZxJ4Jq8l8YmpZOT1r9u3+Cek
+         mcQPCJJoIS8ryCOJIzrtA2Mv6RQ0G2Z/IhIwkSqaIpthbRbIwlEjYGmFVh/fanzRatws
+         fk/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=2pKuHW7e7Bq114V2mDcQ+xit9PWt9cdLU+EoCQu+jQc=;
+        b=UcnrLMI/hUb18kaJtYSJg3Xh7l9z1ewfb49dWipFqtZaH5OCXRPzErKrfTSuJG1H8/
+         3FtSLuqIEh6d/xPtsi4xMMKaCG/H5iGxWIfBx9dDj8lgA0nHrxiU3RwkYd60RQ34ftxQ
+         /N8DbEI2frJrIwHflC1rnERfLEMr/BbVWSknUsA0X3F47XU09ExzghUwUTG9OUUhR6u8
+         F3YvPXDU3TXDErCY346gpEKswOnvu/L9Cw/MEKZ0PPvKHNoySNBbTAjDsx7t6XvFYLis
+         l0YMhcqqYb5qdYBWC5fQtQHNRsMy961S+HvtChIe1gB58ZNvDgp8VGLNkAyLgVTeas7H
+         7kpA==
+X-Gm-Message-State: APjAAAUtbJXS15Q+CPcBltumWruWuxilCpGlryh5xvws7EJ0fnl2Y1Oe
+        xef0G8Ek5UKOZJPTFyr8fQM00w8BgGeDIwu4010=
+X-Google-Smtp-Source: APXvYqz4lSi3Upm4MIvY6xFkxNbo5wLqo/Wb/k+CtcnHTfF3jqmk919VujQ+fUs2a3w5LejLWH4VMdmA3prapeYPspc=
+X-Received: by 2002:ac2:4213:: with SMTP id y19mr15290327lfh.66.1559156667374;
+ Wed, 29 May 2019 12:04:27 -0700 (PDT)
 MIME-Version: 1.0
+References: <1557527479-9242-1-git-send-email-aaron.skomra@wacom.com>
+ <nycvar.YFH.7.76.1905171358160.1962@cbobk.fhfr.pm> <CAO-hwJKB-64px0vZc9b5SCxoGWbe+_2uaa=9N6_HXowa2yLv6w@mail.gmail.com>
+ <nycvar.YFH.7.76.1905171456440.1962@cbobk.fhfr.pm> <CAO-hwJLfKEVnrAARy44sULkdxQ4snXGbE9+3pE=pb6M=uXRSpQ@mail.gmail.com>
+ <CANRwn3TF9q2ENq-ARFpOsC0ZP-J6vRCy3bQB30XXqQyxz_ro1A@mail.gmail.com> <CAO-hwJJ3Hv7mWRagap7tG76orv37dKMPZteBPzWqu4NEaR9C_Q@mail.gmail.com>
+In-Reply-To: <CAO-hwJJ3Hv7mWRagap7tG76orv37dKMPZteBPzWqu4NEaR9C_Q@mail.gmail.com>
+From:   Aaron Armstrong Skomra <skomra@gmail.com>
+Date:   Wed, 29 May 2019 12:04:15 -0700
+Message-ID: <CAEoswT1Y-5Xjp0X7QGDWmc_ncgmd=mAuHyxV=j8mB2dj-cKZDA@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Intuos Pro 2nd Gen Small
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jason Gerecke <killertofu@gmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Aaron Armstrong Skomra <aaron.skomra@wacom.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-PiBPbiBXZWQsIDIwMTktMDUtMjkgYXQgMDc6MjEgKzAwMDAsIFlhbmcsIEh5dW5nd29vIHdyb3Rl
-Og0KPiA+ID4gT24gVHVlLCAyMDE5LTA1LTI4IGF0IDE0OjM2IC0wNzAwLCBIeXVuZ3dvbyBZYW5n
-IHdyb3RlOg0KPiA+ID4gDQo+ID4gPiBXaGF0IHdhcyBzeW1wdG9tIG9yIHByb2JsZW0geW91IHRy
-eSB0byBhZGRyZXNzPyBJcyB0aGVyZSBhbnkgY3Jhc2ggDQo+ID4gPiBvciBidWcgb2NjdXJyZWQ/
-IERvZXMgaXQgaGFwcGVuIHdpdGggdGhlIG1haW5saW5lIGtlcm5lbD8NCj4gPiANCj4gPiBJJ3Zl
-IGFkZGVkIHRoZSBkZXRhaWwgaW4gY29tbWl0IG1lc3NhZ2UgaW4gdjIuIEJhc2ljYWxseSBkdWUg
-dG8gd3JvbmcgDQo+ID4gdXNhZ2Ugb2YgZHJpdmVyX2RhdGEgb2YgaXNodHAgY2xpZW50IGRldmlj
-ZSwgd2Ugc2VlIGtlcm5lbCBjcmFzaC4NCj4gPiBDdXJyZW50bHkgZHJpdmVyX2RhdGEgaXMgc2V0
-IGJ5IGJ1cyBkcml2ZXIgd2hpY2ggaXMgd3Jvbmcgc2luY2UgDQo+ID4gZHJpdmVyX2RhdGEgc2hv
-dWxkIGJlIG93bmVkIGJ5IGNvcnJlc3BvbmRpbmcgZGV2aWNlIGRyaXZlci4gUmlnaHQgbm93LCAN
-Cj4gPiB3ZSBzZWUga2VybmVsIGNyYXNoIGR1cmluZyBzdXNwZW5kKCkgb2YgY3Jvc19lY19pc2h0
-cC4gWWVzLCBpdCBoYXBwZW5zIA0KPiA+IHdpdGggdGhlIG1haW5saW5lIGtlcm5lbCBzaW5jZSBj
-cm9zX2VjX2lzaHRwIGlzIGFscmVhZHkgdXBzdHJlYW1lZC4NCj4gVGVjaG5pY2FsbHkgdGhpcyBk
-cml2ZXIgaXMgbm90IG1haW5saW5lLiBJdCB3aWxsIGdvIGluIDUuMy4NCj4gDQo+IFRoZSBwcm9i
-bGVtIGlzICBjcm9zX2VjIGlzaCBkcml2ZXIgaXMgb3ZlcnJpZGluZyBkcml2ZXJfZGF0YSAiDQo+
-IAljbGllbnRfZGF0YS0+ZWNfZGV2ID0gZWNfZGV2Ow0KPiAJZGV2LT5kcml2ZXJfZGF0YSA9IGVj
-X2RldjsNCj4gIg0KPiBUaGUgY2xpZW50IGRyaXZlcnMgb3duIHRoZSBkcml2ZXIgZGF0YSBpbiBp
-dHMgInN0cnVjdCBpc2h0cF9jbF9kZXZpY2UgKiIgbm90IHRoZSBzdHJ1Y3QgZGV2aWNlICouDQoN
-Ck5vLiBzdGlsbCBkcml2ZXJfZGF0YSBpbiAic3RydWN0IGRldmljZSIgc2hvdWxkIGJlIG93bmVk
-IGJ5IGl0cyBkZXZpY2UgZHJpdmVyLiBTbyB0aGVyZSdzIG5vIHByb2JsZW0gaGVyZSBzaW5jZSBj
-cm9zX2VjX2lzaCBkcml2ZXIgaXMgb3duZXIgb2YgdGhlIGRldmljZS4gDQoNCj4gDQo+IEFzIGZh
-ciBhcyBJIGNhbiBzZWUgdGhlIHB1cnBvc2Ugb2YgdGhpcyBpcyB0byBnZXQgZGV2aWNlIHBvaW50
-ZXIgZm9yIGRlYnVnIHB1cnBvc2Ugb25seS4NCg0KSXQncyBub3QgZm9yIGRlYnVnIHB1cnBvc2Ug
-YW5kIG1vc3QgaW1wb3J0YW50bHkgZHJpdmVyX2RhdGEgaW4gInN0cnVjdCBkZXZpY2UiIGlzIHVz
-ZWQgYnkgaXRzIGNoaWxkIGluIGVjX2RldmljZV9wcm9iZSgpDQpTbyB3cm9uZyB1c2FnZSBvZiBk
-cml2ZXJfZGF0YSBzaG91bGQgYmUgY29ycmVjdGVkLg0KDQo+IA0KPiBJIHRoaW5rIHlvdSBjYW4g
-cmVtb3ZlIHRoZSBkZXYtPmRyaXZlcl9kYXRhIGFzc2lnbm1lbnQgYW5kIHNpbXBseSByZXBsYWNl
-DQo+IA0KPiBkZXZfKihkZXYsDQo+IA0KPiB0bw0KPiBkZXZfKihlY19kZXYtPmRldiwNCj4gDQo+
-IFRoYW5rcywNCj4gU3Jpbml2YXMNCg0KVGhhbmtzLA0KSHl1bmd3b28NCg==
+On Fri, May 17, 2019 at 9:24 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> On Fri, May 17, 2019 at 6:15 PM Jason Gerecke <killertofu@gmail.com> wrot=
+e:
+> >
+> > On Fri, May 17, 2019 at 6:13 AM Benjamin Tissoires
+> > <benjamin.tissoires@redhat.com> wrote:
+> > >
+> > > On Fri, May 17, 2019 at 2:57 PM Jiri Kosina <jikos@kernel.org> wrote:
+> > > >
+> > > > On Fri, 17 May 2019, Benjamin Tissoires wrote:
+> > > >
+> > > > > On Fri, May 17, 2019 at 1:58 PM Jiri Kosina <jikos@kernel.org> wr=
+ote:
+> > > > > >
+> > > > > > On Fri, 10 May 2019, Aaron Armstrong Skomra wrote:
+> > > > > >
+> > > > > > > Add support for the Inutos Pro 2nd Generation Small.
+> > > > > > >
+> > > > > > > This patch set is based on top of Jason's two existing patch
+> > > > > > > sets sent Apr 24th and May 7th.
+> > > > > >
+> > > > > > I don't think I've seen those two sets ... ?
+> > > > >
+> > > > > I have them in my inbox at least. And it seemed you were not Cc-e=
+d on them.
+> > > > > https://patchwork.kernel.org/project/linux-input/list/?series=3D1=
+10743
+> > > > > https://patchwork.kernel.org/project/linux-input/list/?series=3D1=
+14835
+> > > > >
+> > > > > Sorry, I am catching up with fires everywhere, so didn't have muc=
+h
+> > > > > time to apply patches.
+> > > > >
+> > > > > The first series looks good and can go in for-5.1/upstream-fixes =
+I
+> > > > > guess. I *think* the second series is fine too but I didn't have =
+much
+> > > > > dedicated brainpower to process it yet.
+> > > > >
+> > > > > Jiri, do you have time today to take care of those or should I tr=
+y to
+> > > > > get a little bit of time later today?
+> > > >
+> > > > If you have looked at them already and even have them in your inbox=
+, it'd
+> > > > be nice if you could process it.
+> > > >
+> > >
+> > > K, I will.
+> > >
+> > > Cheers,
+> > > Benjamin
+> >
+> > My apologies, Jiri. I've recently replaced my development workstation
+> > and was apparently missing you on the mailrc alias I use for kernel
+> > patches.
+> >
+>
+> Ok, both series from Jason are now pushed to for-5.2/fixes.
+> I don't think I=C4=BAl have the time to work on Aaron's series tonight.
+>
+Hi Jiri,
+
+Benjamin seems to have a lot on his plate. Do you think you
+could take a look at this patch set?
+
+Best,
+Aaron
+>
+> Cheers,
+> Benjamin
