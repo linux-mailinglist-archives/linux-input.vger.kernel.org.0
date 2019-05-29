@@ -2,188 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47C0B2D2B4
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2019 02:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 041CC2D37A
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2019 03:44:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727430AbfE2AMZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 May 2019 20:12:25 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:42116 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726653AbfE2AMZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 May 2019 20:12:25 -0400
-Received: by mail-pg1-f194.google.com with SMTP id 33so191693pgv.9
-        for <linux-input@vger.kernel.org>; Tue, 28 May 2019 17:12:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=LNTyn5rchJW4MmryhfQlOh+K3KT5VsOVQqxARSU5a5Y=;
-        b=GLrQuc8zvIQ9LqRDpZL+InFTHuHVBXyl5wM6E6Sh92l9bW5OSzGUc0Ytg36DUxyAFO
-         /Zk7ByaMl+LSBP8e2ZF3/15UWSIx8wokhWJWrhGY5Y6aKqu+GvlwEkeZfKjz1CV4qizr
-         v08tzdALVjk6vCqjNiBYYRVnB9TtCyAENKbIw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=LNTyn5rchJW4MmryhfQlOh+K3KT5VsOVQqxARSU5a5Y=;
-        b=Vxqgf1fN3QkRo/a/EIIke/SMlRJT8Xr0PHTH6Q/qh6Pr3teTl5cqsST19XqSpxNWjD
-         4wZ7TYQFJ7WwInH1i151GsMTkDyvgMsGGB0LfvEWGmdcHTnwRochmWWOda5Qsu9Ctmkq
-         ZnHKIU6haooskS8768aiICxt3vRSQrY4B4w1JXeRpm+ShxGwI4tEn1t6BfdGfKy/GJIC
-         XzjmuysX1eIdsRWc4b3wWx7XlLSwqgmIZBsdcZNs4MKO+UDhKMpkUCM0sDVuPJpU3Rxy
-         fSIgdVoD3pfa1Y/zEAwGrnpVQZjjqCYQ+a5ze/kfiXjxAZEunZeiBOMITCjInUojAyZa
-         /bKw==
-X-Gm-Message-State: APjAAAVBonlfezUskc8OdyKgvYnAicSwv8x1apN4pKSxyOeRHF6R0+sU
-        sXtX3XIQzIFv0v+SAmNuoLkI+XL31kPkSPcBYwqNdw==
-X-Google-Smtp-Source: APXvYqzrIwNPLIdmXwLRMGzet52o+hE+W9RSDh7AWebEvlLNrdUllaWE/Z8q1yjFRcK8e2eWGV4bmFNOxlPrnUvHPPw=
-X-Received: by 2002:a17:90a:33c5:: with SMTP id n63mr9111023pjb.16.1559088743794;
- Tue, 28 May 2019 17:12:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190521132712.2818-1-benjamin.tissoires@redhat.com>
- <20190521132712.2818-9-benjamin.tissoires@redhat.com> <CAO-hwJJXGTZq7zRVhcFNwh-kOo0rUhZOsNtFX1yA93Km=L+ynA@mail.gmail.com>
- <00f901d5143f$f5ea8420$e1bf8c60$@emc.com.tw> <20190528012101.GA193221@dtor-ws>
- <CA+jURcsWe=fZ-catnCaH=A85vAhrv1w1E5nSwpJvBAwgCTNYfw@mail.gmail.com>
-In-Reply-To: <CA+jURcsWe=fZ-catnCaH=A85vAhrv1w1E5nSwpJvBAwgCTNYfw@mail.gmail.com>
-From:   "Sean O'Brien" <seobrien@chromium.org>
-Date:   Tue, 28 May 2019 17:12:12 -0700
-Message-ID: <CAOOzhkq+vD034Q2FKB2ryR7Q9nY=iQjdrREuihkZTaVcg+E_Xg@mail.gmail.com>
-Subject: Re: [PATCH v2 08/10] Input: elan_i2c - export true width/height
-To:     Harry Cutts <hcutts@chromium.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        =?UTF-8?B?5buW5bSH5qau?= <kt.liao@emc.com.tw>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Aaron Ma <aaron.ma@canonical.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org
+        id S1725828AbfE2Bok (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 May 2019 21:44:40 -0400
+Received: from mga17.intel.com ([192.55.52.151]:32994 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725805AbfE2Bok (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 28 May 2019 21:44:40 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 May 2019 18:44:39 -0700
+X-ExtLoop1: 1
+Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
+  by fmsmga007.fm.intel.com with ESMTP; 28 May 2019 18:44:39 -0700
+Message-ID: <03654457d996c839e8f91bf329819defd8726a14.camel@linux.intel.com>
+Subject: Re: [PATCH 1/2] HID: intel-ish-hid: fix wrong type conversion
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Hyungwoo Yang <hyungwoo.yang@intel.com>
+Cc:     jikos@kernel.org, linux-input@vger.kernel.org
+Date:   Tue, 28 May 2019 18:44:38 -0700
+In-Reply-To: <1559079417-32039-1-git-send-email-hyungwoo.yang@intel.com>
+References: <1559079417-32039-1-git-send-email-hyungwoo.yang@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-We do still use a maxed out major axis as a signal for a palm in the touchs=
-creen
-logic, but I'm not too concerned because if that axis is maxed out, the con=
-tact
-should probably be treated as a palm anyway...
+On Tue, 2019-05-28 at 14:36 -0700, Hyungwoo Yang wrote:
+> "struct device" is embedded in "struct ishtp_cl_device".
+> so the conversion should be done by container_of() method.
+Which tree this patch is going to? You can't even apply on the mainline
+tree (5.2-rc2). Also you will not be able to compile even if you
+address the conflict (The patch ordering is wrong). 
 
-I'm more concerned with this affecting our gesture detection for
-touchpad. It looks
-like this change would cause all contacts to reported as some percentage bi=
-gger
-than they are currently. Can you give me an idea of how big that percentage=
- is?
+What was symptom or problem you try to address? Is there any crash or
+bug occurred? Does it happen with the mainline kernel?
 
-On Tue, May 28, 2019 at 11:13 AM Harry Cutts <hcutts@chromium.org> wrote:
->
-> On Mon, 27 May 2019 at 18:21, Dmitry Torokhov <dmitry.torokhov@gmail.com>=
- wrote:
-> >
-> > Hi Benjamin, KT,
-> >
-> > On Mon, May 27, 2019 at 11:55:01AM +0800, =E5=BB=96=E5=B4=87=E6=A6=AE w=
-rote:
-> > > Hi
-> > >
-> > > -----Original Message-----
-> > > From: Benjamin Tissoires [mailto:benjamin.tissoires@redhat.com]
-> > > Sent: Friday, May 24, 2019 5:37 PM
-> > > To: Dmitry Torokhov; KT Liao; Rob Herring; Aaron Ma; Hans de Goede
-> > > Cc: open list:HID CORE LAYER; lkml; devicetree@vger.kernel.org
-> > > Subject: Re: [PATCH v2 08/10] Input: elan_i2c - export true width/hei=
-ght
-> > >
-> > > On Tue, May 21, 2019 at 3:28 PM Benjamin Tissoires <benjamin.tissoire=
-s@redhat.com> wrote:
-> > > >
-> > > > The width/height is actually in the same unit than X and Y. So we
-> > > > should not tamper the data, but just set the proper resolution, so
-> > > > that userspace can correctly detect which touch is a palm or a fing=
-er.
-> > > >
-> > > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > >
-> > > > --
-> > > >
-> > > > new in v2
-> > > > ---
-> > > >  drivers/input/mouse/elan_i2c_core.c | 11 ++++-------
-> > > >  1 file changed, 4 insertions(+), 7 deletions(-)
-> > > >
-> > > > diff --git a/drivers/input/mouse/elan_i2c_core.c
-> > > > b/drivers/input/mouse/elan_i2c_core.c
-> > > > index 7ff044c6cd11..6f4feedb7765 100644
-> > > > --- a/drivers/input/mouse/elan_i2c_core.c
-> > > > +++ b/drivers/input/mouse/elan_i2c_core.c
-> > > > @@ -45,7 +45,6 @@
-> > > >  #define DRIVER_NAME            "elan_i2c"
-> > > >  #define ELAN_VENDOR_ID         0x04f3
-> > > >  #define ETP_MAX_PRESSURE       255
-> > > > -#define ETP_FWIDTH_REDUCE      90
-> > > >  #define ETP_FINGER_WIDTH       15
-> > > >  #define ETP_RETRY_COUNT                3
-> > > >
-> > > > @@ -915,12 +914,8 @@ static void elan_report_contact(struct elan_tp=
-_data *data,
-> > > >                         return;
-> > > >                 }
-> > > >
-> > > > -               /*
-> > > > -                * To avoid treating large finger as palm, let's re=
-duce the
-> > > > -                * width x and y per trace.
-> > > > -                */
-> > > > -               area_x =3D mk_x * (data->width_x - ETP_FWIDTH_REDUC=
-E);
-> > > > -               area_y =3D mk_y * (data->width_y - ETP_FWIDTH_REDUC=
-E);
-> > > > +               area_x =3D mk_x * data->width_x;
-> > > > +               area_y =3D mk_y * data->width_y;
-> > > >
-> > > >                 major =3D max(area_x, area_y);
-> > > >                 minor =3D min(area_x, area_y); @@ -1123,8 +1118,10 =
-@@
-> > > > static int elan_setup_input_device(struct elan_tp_data *data)
-> > > >                              ETP_MAX_PRESSURE, 0, 0);
-> > > >         input_set_abs_params(input, ABS_MT_TOUCH_MAJOR, 0,
-> > > >                              ETP_FINGER_WIDTH * max_width, 0, 0);
-> > > > +       input_abs_set_res(input, ABS_MT_TOUCH_MAJOR, data->x_res);
-> > > >         input_set_abs_params(input, ABS_MT_TOUCH_MINOR, 0,
-> > > >                              ETP_FINGER_WIDTH * min_width, 0, 0);
-> > > > +       input_abs_set_res(input, ABS_MT_TOUCH_MINOR, data->y_res);
-> > >
-> > > I had a chat with Peter on Wednesday, and he mentioned that this is d=
-angerous as Major/Minor are max/min of the width and height. And given that=
- we might have 2 different resolutions, we would need to do some computatio=
-n in the kernel to ensure the data is correct with respect to the resolutio=
-n.
-> > >
-> > > TL;DR: I don't think we should export the resolution there :(
-> > >
-> > > KT, should I drop the patch entirely, or is there a strong argument f=
-or keeping the ETP_FWIDTH_REDUCE around?
-> > > I suggest you apply the patch, I have no idea why ETP_FWIDTH_REDUCE e=
-xisted.
-> > > Our FW team know nothing about ETP_FWIDTH_REDUCE ether.
-> > >
-> > > The only side effect will happen on Chromebook because such computati=
-on have stayed in ChromeOS' kernel for four years.
-> > > Chrome's finger/palm threshold may be different from other Linux dist=
-ribution.
-> > > We will discuss it with Google once the patch picked by chrome and ca=
-use something wrong.
-> >
-> > Chrome has logic that contact with maximum major/minor is treated as a
-> > palm, so here the driver (which originally came from Chrome OS)
-> > artificially reduces the contact size to ensure that palm rejection
-> > logic does not trigger.
-> >
-> > I'm adding Harry to confirm whether we are still using this logic and t=
-o
-> > see if we can adjust it to be something else.
->
-> I'm not very familiar with our touchpad code, so adding Sean O'Brien, who=
- is.
+
+> 
+> Change-Id: Idcbafe724e216ee6275f9d1e35a3b79cee5ce88c
+This tells me that you are trying to fix some Chrome issue. Don't
+include these tags for mainline kernel.
+
+Thanks,
+Srinivas
+
+> Signed-off-by: Hyungwoo Yang <hyungwoo.yang@intel.com>
+> ---
+>  drivers/hid/intel-ish-hid/ishtp-hid-client.c | 4 ++--
+>  drivers/platform/chrome/cros_ec_ishtp.c      | 4 ++--
+>  include/linux/intel-ish-client-if.h          | 1 +
+>  3 files changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
+> b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
+> index 56777a4..19102a3 100644
+> --- a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
+> +++ b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
+> @@ -899,7 +899,7 @@ static int hid_ishtp_cl_reset(struct
+> ishtp_cl_device *cl_device)
+>   */
+>  static int hid_ishtp_cl_suspend(struct device *device)
+>  {
+> -	struct ishtp_cl_device *cl_device = dev_get_drvdata(device);
+> +	struct ishtp_cl_device *cl_device =
+> ishtp_dev_to_cl_device(device);
+>  	struct ishtp_cl *hid_ishtp_cl = ishtp_get_drvdata(cl_device);
+>  	struct ishtp_cl_data *client_data =
+> ishtp_get_client_data(hid_ishtp_cl);
+>  
+> @@ -920,7 +920,7 @@ static int hid_ishtp_cl_suspend(struct device
+> *device)
+>   */
+>  static int hid_ishtp_cl_resume(struct device *device)
+>  {
+> -	struct ishtp_cl_device *cl_device = dev_get_drvdata(device);
+> +	struct ishtp_cl_device *cl_device =
+> ishtp_dev_to_cl_device(device);
+>  	struct ishtp_cl *hid_ishtp_cl = ishtp_get_drvdata(cl_device);
+>  	struct ishtp_cl_data *client_data =
+> ishtp_get_client_data(hid_ishtp_cl);
+>  
+> diff --git a/drivers/platform/chrome/cros_ec_ishtp.c
+> b/drivers/platform/chrome/cros_ec_ishtp.c
+> index e504d25..430731c 100644
+> --- a/drivers/platform/chrome/cros_ec_ishtp.c
+> +++ b/drivers/platform/chrome/cros_ec_ishtp.c
+> @@ -707,7 +707,7 @@ static int cros_ec_ishtp_reset(struct
+> ishtp_cl_device *cl_device)
+>   */
+>  static int __maybe_unused cros_ec_ishtp_suspend(struct device
+> *device)
+>  {
+> -	struct ishtp_cl_device *cl_device = dev_get_drvdata(device);
+> +	struct ishtp_cl_device *cl_device =
+> ishtp_dev_to_cl_device(device);
+>  	struct ishtp_cl	*cros_ish_cl = ishtp_get_drvdata(cl_device);
+>  	struct ishtp_cl_data *client_data =
+> ishtp_get_client_data(cros_ish_cl);
+>  
+> @@ -722,7 +722,7 @@ static int __maybe_unused
+> cros_ec_ishtp_suspend(struct device *device)
+>   */
+>  static int __maybe_unused cros_ec_ishtp_resume(struct device
+> *device)
+>  {
+> -	struct ishtp_cl_device *cl_device = dev_get_drvdata(device);
+> +	struct ishtp_cl_device *cl_device =
+> ishtp_dev_to_cl_device(device);
+>  	struct ishtp_cl	*cros_ish_cl = ishtp_get_drvdata(cl_device);
+>  	struct ishtp_cl_data *client_data =
+> ishtp_get_client_data(cros_ish_cl);
+>  
+> diff --git a/include/linux/intel-ish-client-if.h
+> b/include/linux/intel-ish-client-if.h
+> index 16255c2..0d6b4bc 100644
+> --- a/include/linux/intel-ish-client-if.h
+> +++ b/include/linux/intel-ish-client-if.h
+> @@ -103,6 +103,7 @@ int ishtp_register_event_cb(struct
+> ishtp_cl_device *device,
+>  void ishtp_get_device(struct ishtp_cl_device *cl_dev);
+>  void ishtp_set_drvdata(struct ishtp_cl_device *cl_device, void
+> *data);
+>  void *ishtp_get_drvdata(struct ishtp_cl_device *cl_device);
+> +struct ishtp_cl_device *ishtp_dev_to_cl_device(struct device *dev);
+>  int ishtp_register_event_cb(struct ishtp_cl_device *device,
+>  				void (*read_cb)(struct ishtp_cl_device
+> *));
+>  struct	ishtp_fw_client *ishtp_fw_cl_get_client(struct
+> ishtp_device *dev,
+
