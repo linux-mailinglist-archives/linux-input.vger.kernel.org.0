@@ -2,32 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DFB32E8B7
-	for <lists+linux-input@lfdr.de>; Thu, 30 May 2019 01:09:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FA432E8D4
+	for <lists+linux-input@lfdr.de>; Thu, 30 May 2019 01:11:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726454AbfE2XJG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 May 2019 19:09:06 -0400
-Received: from mga14.intel.com ([192.55.52.115]:20660 "EHLO mga14.intel.com"
+        id S1726543AbfE2XKu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 May 2019 19:10:50 -0400
+Received: from mga02.intel.com ([134.134.136.20]:15944 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726399AbfE2XJG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 May 2019 19:09:06 -0400
+        id S1726454AbfE2XKt (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 29 May 2019 19:10:49 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 May 2019 16:09:05 -0700
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 May 2019 16:10:49 -0700
 X-ExtLoop1: 1
 Received: from hyungwoo-ubuntu.sc.intel.com ([10.3.62.78])
-  by fmsmga005.fm.intel.com with ESMTP; 29 May 2019 16:09:05 -0700
+  by orsmga005.jf.intel.com with ESMTP; 29 May 2019 16:10:49 -0700
 From:   Hyungwoo Yang <hyungwoo.yang@intel.com>
 To:     srinivas.pandruvada@linux.intel.com
 Cc:     jikos@kernel.org, linux-input@vger.kernel.org,
         rushikesh.s.kadam@intel.com, jettrink@chromium.org
-Subject: [PATCH v3 2/2] HID: intel-ish-hid: fix wrong driver_data usage
-Date:   Wed, 29 May 2019 16:09:05 -0700
-Message-Id: <1559171345-28248-2-git-send-email-hyungwoo.yang@intel.com>
+Subject: [PATCH v3] HID: intel-ish-hid: fix wrong driver_data usage
+Date:   Wed, 29 May 2019 16:10:48 -0700
+Message-Id: <1559171448-28467-1-git-send-email-hyungwoo.yang@intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1559171345-28248-1-git-send-email-hyungwoo.yang@intel.com>
-References: <1559171345-28248-1-git-send-email-hyungwoo.yang@intel.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
