@@ -2,235 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C93F2E9B6
-	for <lists+linux-input@lfdr.de>; Thu, 30 May 2019 02:31:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 915952F8EA
+	for <lists+linux-input@lfdr.de>; Thu, 30 May 2019 11:00:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726428AbfE3AbA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 May 2019 20:31:00 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:34159 "EHLO
-        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726408AbfE3AbA (ORCPT
+        id S1726225AbfE3JAp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 May 2019 05:00:45 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59076 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726189AbfE3JAo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 May 2019 20:31:00 -0400
-X-Greylist: delayed 508 seconds by postgrey-1.27 at vger.kernel.org; Wed, 29 May 2019 20:30:59 EDT
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.west.internal (Postfix) with ESMTP id C26A54E2;
-        Wed, 29 May 2019 20:22:29 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Wed, 29 May 2019 20:22:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=g
-        y2l4u4y9DJbSbz9jQ5pyBp5nfmgGalhkN7zbzls7JE=; b=BMvGs1HN2F95b5yCi
-        8mOT4MGkXyX2ES0QDtd/ZLFIgefoS80n4AqXpd8/tgYGYM27uW64aJz29yX/wiyl
-        UjRMH9n7ri2QBXEoQl4AhlfRXgcfnXHrzQ6GjnuOPSJE50/soL0u6LSGEwecFQla
-        7ejPo/+rBAiZTr/m/az1i2nSbBaCGhRidxaHa4u/T3G81tzXYQvEd9rfAQnRyv1K
-        rzDOAHnXQC7gcVRHkXXdXinuFDsQ4om55+6t2lojwqDP5S1THcIm449cwJfNEcdI
-        WBEPnW2hIRreTrIH0hWWgU4YIofLYekW2WQwybQFhipauIIpS1Dbv8bdriyChWUw
-        JnzPw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; bh=gy2l4u4y9DJbSbz9jQ5pyBp5nfmgGalhkN7zbzls7
-        JE=; b=mFMO9Ul59waqxnXk5gu4UlayeoYbulXGojRZx7mEZs0uD08zNsYHIgFXA
-        eRcikUSAMuVFx8hOiXwtloNj1Pv5RwvE51LS/yBD0rvAqejcMOajfejY1krcRUBj
-        SZKsVgYolfxrsdOsvt+Z8UBGs5zrJcRY2Re/Lsc8bYoaV8vd7B7CX/THGMX8Vj48
-        B9BS8u+GKX1hSMK/jXIIPEkc4IZdQZ2WQlUYg8OsMZWW5hoB2GXQ1TwiPIdi79aG
-        XYjHIg5U0uu087WkG8s3JB4ifz4d3iIdeOMpU3oof3AqezALqTqB50/KHIzHcz4N
-        qRz/EvWllTB/XGbUWOI6tMyaWWqlA==
-X-ME-Sender: <xms:RCLvXPn_ccq6ixlSQJ69R4oqlGOOfycahEHBG7Mpo1oNrY7lPqPB7g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddruddvkedgfeefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtugfgjggfsehtkeertddtreejnecuhfhrohhmpefrvght
-    vghrucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnh
-    gvtheqnecukfhppeduudejrddvtddrieelrddugedvnecurfgrrhgrmhepmhgrihhlfhhr
-    ohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvthenucevlhhushhtvg
-    hrufhiiigvpedt
-X-ME-Proxy: <xmx:RCLvXPKfukd9UqH2Uh0YB8zO0h4EHz66qOxD1xdrk0qSz1H800MuIQ>
-    <xmx:RCLvXIaPQJR1F_xeRRm-vF6V7ApLFV25LW9IfMa1StWjs1JbvIAc_A>
-    <xmx:RCLvXJYfi3zYd86buIVHrK2rGGA3-Up-pVW_g5YmSmEgXGcOnj2-tw>
-    <xmx:RSLvXA0AqI6Kfvt7o2lMBhimA7GZ3n_we-pAb01wY9uJkf-TZCGIIERYWYw>
-Received: from jelly (117-20-69-142.751445.bne.nbn.aussiebb.net [117.20.69.142])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 7A5AB380083;
-        Wed, 29 May 2019 20:22:24 -0400 (EDT)
-Date:   Thu, 30 May 2019 10:22:19 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Sean O'Brien <seobrien@chromium.org>,
-        Harry Cutts <hcutts@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        =?utf-8?B?5buW5bSH5qau?= <kt.liao@emc.com.tw>,
-        Rob Herring <robh+dt@kernel.org>,
-        Aaron Ma <aaron.ma@canonical.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 08/10] Input: elan_i2c - export true width/height
-Message-ID: <20190530002219.GA11985@jelly>
-References: <20190521132712.2818-1-benjamin.tissoires@redhat.com>
- <20190521132712.2818-9-benjamin.tissoires@redhat.com>
- <CAO-hwJJXGTZq7zRVhcFNwh-kOo0rUhZOsNtFX1yA93Km=L+ynA@mail.gmail.com>
- <00f901d5143f$f5ea8420$e1bf8c60$@emc.com.tw>
- <20190528012101.GA193221@dtor-ws>
- <CA+jURcsWe=fZ-catnCaH=A85vAhrv1w1E5nSwpJvBAwgCTNYfw@mail.gmail.com>
- <CAOOzhkq+vD034Q2FKB2ryR7Q9nY=iQjdrREuihkZTaVcg+E_Xg@mail.gmail.com>
- <CAO-hwJ+9tnmvD-K3_Ksesdvag1aNbLB7eJxb9ZKb7kM24unqQQ@mail.gmail.com>
+        Thu, 30 May 2019 05:00:44 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrewsh)
+        with ESMTPSA id 8201A2808DE
+Subject: Re: [PATCH] [trivial] HID: Typo s/to back 0/back to 0/
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190527122532.6084-1-geert+renesas@glider.be>
+From:   Andrej Shadura <andrew.shadura@collabora.co.uk>
+Openpgp: preference=signencrypt
+Autocrypt: addr=andrew.shadura@collabora.co.uk; prefer-encrypt=mutual;
+ keydata=
+ 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
+ Ooa/yj03j5gtPgECL7c=
+Organization: Collabora
+Message-ID: <7c4d1462-4cf0-7d2a-177b-4d47698fd9cb@collabora.co.uk>
+Date:   Thu, 30 May 2019 11:00:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190527122532.6084-1-geert+renesas@glider.be>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAO-hwJ+9tnmvD-K3_Ksesdvag1aNbLB7eJxb9ZKb7kM24unqQQ@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, May 29, 2019 at 09:16:38AM +0200, Benjamin Tissoires wrote:
-> On Wed, May 29, 2019 at 2:12 AM Sean O'Brien <seobrien@chromium.org> wrote:
-> >
-> > We do still use a maxed out major axis as a signal for a palm in the touchscreen
-> > logic, but I'm not too concerned because if that axis is maxed out, the contact
-> > should probably be treated as a palm anyway...
-> >
-> > I'm more concerned with this affecting our gesture detection for
-> > touchpad. It looks
-> > like this change would cause all contacts to reported as some percentage bigger
-> > than they are currently. Can you give me an idea of how big that percentage is?
+On 27/05/2019 14:25, Geert Uytterhoeven wrote:
+> Fix a silly word ordering typo.
 > 
-> On the P52, I currently have:
-> [  +0.000009] max:    (3045,1731) drivers/input/mouse/elan_i2c_core.c:428
-> [  +0.000003] traces: (24,14) drivers/input/mouse/elan_i2c_core.c:429
+> Fixes: 42337b9d4d958daa ("HID: add driver for U2F Zero built-in LED and RNG")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/hid/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> -> with the computation done in the kernel:
-> width_ratio: 126
-> height_ratio: 123
-> 
-> For my average finger, the reported traces are between 4 and 6:
-> With the ETP_FWIDTH_REDUCE:
-> Major between 144 to 216
-> Minor between 132 to 198
-> 
-> Without:
-> Major between 504 to 756
-> Minor between 492 to 738
-> 
-> So a rough augmentation of 350%
-> 
-> For the Synaptics devices (over SMBus), they send the raw value of the
-> traces, so you will get a major/minor between 2 to 5. Max on these
-> axes is 15, so we should get the same percentage of value comparing to
-> the range.
-> Which is why libinput has a database of which device reports which
-> pressure/major/minor ranges as otherwise the values are just
-> impossible to understand.
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index c3c390ca369022f0..735223f90035b2bf 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -1028,7 +1028,7 @@ config HID_U2FZERO
+>  
+>  	  U2F Zero only supports blinking its LED, so this driver doesn't
+>  	  allow setting the brightness to anything but 1, which will
+> -	  trigger a single blink and immediately reset to back 0.
+> +	  trigger a single blink and immediately reset back to 0.
+>  
+>  config HID_WACOM
+>  	tristate "Wacom Intuos/Graphire tablet support (USB)"
 
-yeah, I've given up on trying to guess finger/thumb/palm sizes.
-git grep for these quirk names in libinput for the ranges:
-    AttrTouchSizeRange
-    AttrThumbSizeThreshold
-    AttrPalmSizeThreshold
+That was a silly typo indeed :D
 
-There are also matching s/Size/Pressure/ entries for touchpads without
-major/minor. Looking at the database now, the palm size thresholds range
-entries are 5 (Wacom) and a set of 800-1600 for apple touchpads. So yeah,
-all this is really a bit random :) 
+Not sure this is needed, but just in case:
 
-Feel free to steal those entries though and/or add to them where applicable.
+Acked-by: Andrej Shadura <andrew.shadura@collabora.co.uk>
 
+-- 
 Cheers,
-   Peter
- 
-> 
-> >
-> > On Tue, May 28, 2019 at 11:13 AM Harry Cutts <hcutts@chromium.org> wrote:
-> > >
-> > > On Mon, 27 May 2019 at 18:21, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> > > >
-> > > > Hi Benjamin, KT,
-> > > >
-> > > > On Mon, May 27, 2019 at 11:55:01AM +0800, 廖崇榮 wrote:
-> > > > > Hi
-> > > > >
-> > > > > -----Original Message-----
-> > > > > From: Benjamin Tissoires [mailto:benjamin.tissoires@redhat.com]
-> > > > > Sent: Friday, May 24, 2019 5:37 PM
-> > > > > To: Dmitry Torokhov; KT Liao; Rob Herring; Aaron Ma; Hans de Goede
-> > > > > Cc: open list:HID CORE LAYER; lkml; devicetree@vger.kernel.org
-> > > > > Subject: Re: [PATCH v2 08/10] Input: elan_i2c - export true width/height
-> > > > >
-> > > > > On Tue, May 21, 2019 at 3:28 PM Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
-> > > > > >
-> > > > > > The width/height is actually in the same unit than X and Y. So we
-> > > > > > should not tamper the data, but just set the proper resolution, so
-> > > > > > that userspace can correctly detect which touch is a palm or a finger.
-> > > > > >
-> > > > > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > > > >
-> > > > > > --
-> > > > > >
-> > > > > > new in v2
-> > > > > > ---
-> > > > > >  drivers/input/mouse/elan_i2c_core.c | 11 ++++-------
-> > > > > >  1 file changed, 4 insertions(+), 7 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/input/mouse/elan_i2c_core.c
-> > > > > > b/drivers/input/mouse/elan_i2c_core.c
-> > > > > > index 7ff044c6cd11..6f4feedb7765 100644
-> > > > > > --- a/drivers/input/mouse/elan_i2c_core.c
-> > > > > > +++ b/drivers/input/mouse/elan_i2c_core.c
-> > > > > > @@ -45,7 +45,6 @@
-> > > > > >  #define DRIVER_NAME            "elan_i2c"
-> > > > > >  #define ELAN_VENDOR_ID         0x04f3
-> > > > > >  #define ETP_MAX_PRESSURE       255
-> > > > > > -#define ETP_FWIDTH_REDUCE      90
-> > > > > >  #define ETP_FINGER_WIDTH       15
-> > > > > >  #define ETP_RETRY_COUNT                3
-> > > > > >
-> > > > > > @@ -915,12 +914,8 @@ static void elan_report_contact(struct elan_tp_data *data,
-> > > > > >                         return;
-> > > > > >                 }
-> > > > > >
-> > > > > > -               /*
-> > > > > > -                * To avoid treating large finger as palm, let's reduce the
-> > > > > > -                * width x and y per trace.
-> > > > > > -                */
-> > > > > > -               area_x = mk_x * (data->width_x - ETP_FWIDTH_REDUCE);
-> > > > > > -               area_y = mk_y * (data->width_y - ETP_FWIDTH_REDUCE);
-> > > > > > +               area_x = mk_x * data->width_x;
-> > > > > > +               area_y = mk_y * data->width_y;
-> > > > > >
-> > > > > >                 major = max(area_x, area_y);
-> > > > > >                 minor = min(area_x, area_y); @@ -1123,8 +1118,10 @@
-> > > > > > static int elan_setup_input_device(struct elan_tp_data *data)
-> > > > > >                              ETP_MAX_PRESSURE, 0, 0);
-> > > > > >         input_set_abs_params(input, ABS_MT_TOUCH_MAJOR, 0,
-> > > > > >                              ETP_FINGER_WIDTH * max_width, 0, 0);
-> > > > > > +       input_abs_set_res(input, ABS_MT_TOUCH_MAJOR, data->x_res);
-> > > > > >         input_set_abs_params(input, ABS_MT_TOUCH_MINOR, 0,
-> > > > > >                              ETP_FINGER_WIDTH * min_width, 0, 0);
-> > > > > > +       input_abs_set_res(input, ABS_MT_TOUCH_MINOR, data->y_res);
-> > > > >
-> > > > > I had a chat with Peter on Wednesday, and he mentioned that this is dangerous as Major/Minor are max/min of the width and height. And given that we might have 2 different resolutions, we would need to do some computation in the kernel to ensure the data is correct with respect to the resolution.
-> > > > >
-> > > > > TL;DR: I don't think we should export the resolution there :(
-> > > > >
-> > > > > KT, should I drop the patch entirely, or is there a strong argument for keeping the ETP_FWIDTH_REDUCE around?
-> > > > > I suggest you apply the patch, I have no idea why ETP_FWIDTH_REDUCE existed.
-> > > > > Our FW team know nothing about ETP_FWIDTH_REDUCE ether.
-> > > > >
-> > > > > The only side effect will happen on Chromebook because such computation have stayed in ChromeOS' kernel for four years.
-> > > > > Chrome's finger/palm threshold may be different from other Linux distribution.
-> > > > > We will discuss it with Google once the patch picked by chrome and cause something wrong.
-> > > >
-> > > > Chrome has logic that contact with maximum major/minor is treated as a
-> > > > palm, so here the driver (which originally came from Chrome OS)
-> > > > artificially reduces the contact size to ensure that palm rejection
-> > > > logic does not trigger.
-> > > >
-> > > > I'm adding Harry to confirm whether we are still using this logic and to
-> > > > see if we can adjust it to be something else.
-> > >
-> > > I'm not very familiar with our touchpad code, so adding Sean O'Brien, who is.
+  Andrej
