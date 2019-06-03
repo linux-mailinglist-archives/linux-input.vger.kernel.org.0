@@ -2,137 +2,196 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B69C331DA
-	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2019 16:17:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F70733A05
+	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2019 23:44:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727650AbfFCOR0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Jun 2019 10:17:26 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:33102 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726968AbfFCOR0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Jun 2019 10:17:26 -0400
-Received: by mail-ed1-f66.google.com with SMTP id y17so9093906edr.0
-        for <linux-input@vger.kernel.org>; Mon, 03 Jun 2019 07:17:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=l4Qv4hFPuG2dV+d37O9UvLJnGAcWEQaTt9nnKVcuDC4=;
-        b=f7Ik/L1kfe9HmLFcvPr/jApdHSmTrWhqx+v5oac84bBvgCfRusL60JT/qZ2+jYAvtT
-         qDtfd5/0bxzg3d9entcrdczCQYvsSxRxHpCqBmTmo6NXl6RK2KuCEE8NwVvVvyXCzjMq
-         eh4GhIbe9VYUIP0xZlEXCqVFnpW5h2QefP6XTo4Y7/W5ukuqFYi3GdvmEzbJR/eETku3
-         vAlE7mTPox11KM6mmDzkXolQjmeZNFWRTQ5slAw4mebh/Gzo27wnorJn+GHcHswunsaQ
-         2lTbffDZjs5X4dggFailVGE0hlY2s/UMp6siFOOLjkHc6YMOL1MfxL6d1pCigVkwWa0F
-         0PLQ==
-X-Gm-Message-State: APjAAAW5fmgRnt+WQjFkHRI/5voP8J0jecp2v+rZxpnSTuvhnMPHrhMq
-        5LE2gCIyL8uMaT4/4RmG70t82A==
-X-Google-Smtp-Source: APXvYqzem7LFUqWkFm7Fpj1PhmAahosRf758chprfstLPBa92BiLRvwKvF2Uk/nu0KWjxDmQnrQH6w==
-X-Received: by 2002:aa7:d1c5:: with SMTP id g5mr14135805edp.37.1559571444661;
-        Mon, 03 Jun 2019 07:17:24 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id o7sm2602517ejj.88.2019.06.03.07.17.23
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Mon, 03 Jun 2019 07:17:23 -0700 (PDT)
-Subject: Re: hid-related 5.2-rc1 boot hang
+        id S1726223AbfFCVol (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Jun 2019 17:44:41 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:37153 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726101AbfFCVok (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 3 Jun 2019 17:44:40 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id E0B35220DB;
+        Mon,  3 Jun 2019 17:44:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Mon, 03 Jun 2019 17:44:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        pedrovanzella.com; h=date:from:to:cc:subject:message-id
+        :references:mime-version:content-type:in-reply-to; s=fm3; bh=sJt
+        vpQ8YjOpkGpI3jG3o8DzEDik537U+60zTVFQ+ys0=; b=aE8seyUSGyaHXH3+i4L
+        oV35I4W9JYM+W1eF+mv30VZxIbltvL8Bd1MMmdR0J17aoNg+dELpu+K7AIbqQBcI
+        P97vLuAeP1TrVzmuTTtik6yh+ebSJZxHOv5DvKAlcY3J4DeF20d44lKVYZES1s1s
+        Ju0hhhHTh9pDa7aplJy8v06CItpsmSKX67H4Dcr2Od00UUdChG0lJl6kz5X/FwD5
+        ONbKePcxq8sxEZMileIH2iOGx0J3Cfb5I2gU3WnBrEm/EK7jATs2HXDIpGVVy3rz
+        6ukwL+dY4LTLpqHkrRmJOzPT1MbAQfYmrz4scDzGgdPUUyuhfvMsT3Dd90tL9vk8
+        Q3w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=sJtvpQ
+        8YjOpkGpI3jG3o8DzEDik537U+60zTVFQ+ys0=; b=InOlRsv+DslFkm9areGgJf
+        VXxVP2+GZcPGLv5m6FarnjJIHyDY8B2A+szwE1JEqaBPzRzv04BYtKnEjOOutZgk
+        nUebQ7zmG6XVuNpA7RdcihRt0OtmtkrLUVjpiSOv24yd2v8JZ3F/7ODc2YvPVgfU
+        41iA/qc3coFeuO+Z0NfhnJPArNfLWn2UX5Zuqy16E8Eo6NPr2fc/T5YLl8PT8t5u
+        g/xSvQkzf7HQ7RbQ7R6KhI5wbyGAf/YqluuS1vH0/SG1xbot0O+gvAWFmTF8ZKVf
+        J8x5k3ysTCg5lHPTBVPs+VSGkQs+rBiL9Sew0JyHKv7SzFu6+fRS7bqMsggWkf4A
+        ==
+X-ME-Sender: <xms:x5T1XIJopwmdDhzQPLrmkPfN7n4i4ltRPERpqqztpuQfiihxe4UqUw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudefkedgtddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjfgesghdtreertdervdenucfhrhhomheprfgvughr
+    ohcugggrnhiivghllhgruceophgvughrohesphgvughrohhvrghniigvlhhlrgdrtghomh
+    eqnecuffhomhgrihhnpehpvggurhhovhgrnhiivghllhgrrdgtohhmpdhkvghrnhgvlhdr
+    ohhrghenucfkphepjedtrddvjedrvdejrddugeelnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehpvggurhhosehpvggurhhovhgrnhiivghllhgrrdgtohhmnecuvehluhhsthgvrhfu
+    ihiivgeptd
+X-ME-Proxy: <xmx:x5T1XFhChO6a-kokg4xZnKUdMTkTmFYDgYvLusqtRJ2xWK_llnScIA>
+    <xmx:x5T1XEtE7a9G2Botqh4H1VeDtSlyfNh2v4wmtIdijdPSwWQZT5KfpA>
+    <xmx:x5T1XJH4T7Q2vuNMYuKTN7jt3bKxYpxGqxeIDJq3leXqvNujlJML1Q>
+    <xmx:x5T1XBKF6ydfyU_2sJe3x1YdwaZWKYeTn5BvO7S8YJazSMVGer7QQQ>
+Received: from localhost (toroon020aw-lp130-02-70-27-27-149.dsl.bell.ca [70.27.27.149])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 50875380084;
+        Mon,  3 Jun 2019 17:44:39 -0400 (EDT)
+Date:   Mon, 3 Jun 2019 17:44:38 -0400
+From:   Pedro Vanzella <pedro@pedrovanzella.com>
 To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <2c1684f6-9def-93dc-54ab-888142fd5e71@intel.com>
- <nycvar.YFH.7.76.1905281913140.1962@cbobk.fhfr.pm>
- <CAO-hwJJzNAuFbdMVFZ4+h7J=bh6QHr_MioyK2yTV=M5R6CTm=A@mail.gmail.com>
- <8a17e6e2-b468-28fd-5b40-0c258ca7efa9@intel.com>
- <4689a737-6c40-b4ae-cc38-5df60318adce@redhat.com>
- <a349dfac-be58-93bd-e44c-080ed935ab06@intel.com>
- <nycvar.YFH.7.76.1906010014150.1962@cbobk.fhfr.pm>
- <e158d983-1e7e-4c49-aaab-ff2092d36438@redhat.com>
- <5471f010-cb42-c548-37e2-2b9c9eba1184@redhat.com>
- <CAO-hwJKRRpsShw6B-YLmsEnjQ+iYtz+VmZK+VSRcDmiBwnS+oA@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <e431dafc-0fb4-4be3-ac29-dcf125929090@redhat.com>
-Date:   Mon, 3 Jun 2019 16:17:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] HID: hid-logitech-hidpp: detect wireless lightspeed
+ devices
+Message-ID: <20190603214438.2cnmrx7g2sakjdr4@Fenrir>
+References: <20190528162924.32754-1-pedro@pedrovanzella.com>
+ <CAO-hwJ+zAvDizJRpykky+D3pf1M1NhFGWztwyA4mJEv8C+nO-w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAO-hwJKRRpsShw6B-YLmsEnjQ+iYtz+VmZK+VSRcDmiBwnS+oA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="il23bg2tbeerivkt"
+Content-Disposition: inline
+In-Reply-To: <CAO-hwJ+zAvDizJRpykky+D3pf1M1NhFGWztwyA4mJEv8C+nO-w@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
 
-On 03-06-19 15:55, Benjamin Tissoires wrote:
-> On Mon, Jun 3, 2019 at 11:51 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi Again,
->>
->> On 03-06-19 11:11, Hans de Goede wrote:
->> <snip>
->>
->>>> not sure about the rest of logitech issues yet) next week.
->>>
->>> The main problem seems to be the request_module patches. Although I also
-> 
-> Can't we use request_module_nowait() instead, and set a reasonable
-> timeout that we detect only once to check if userspace is compatible:
-> 
-> In pseudo-code:
-> if (!request_module_checked) {
->    request_module_nowait(name);
->    use_request_module = wait_event_timeout(wq,
->          first_module_loaded, 10 seconds in jiffies);
->    request_module_checked = true;
-> } else if (use_request_module) {
->    request_module(name);
-> }
+--il23bg2tbeerivkt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Well looking at the just attached dmesg , the modprobe
-when triggered by udev from userspace succeeds in about
-0.5 seconds, so it seems that the modprobe hangs happens
-when called from within the kernel rather then from within
-userspace.
+On 05/28, Benjamin Tissoires wrote:
+> On Tue, May 28, 2019 at 6:30 PM Pedro Vanzella <pedro@pedrovanzella.com> =
+wrote:
+> >
+> > Send a low device index when the device is connected via the lightspeed
+> > receiver so that the receiver will pass the message along to the device
+> > instead of responding. If we don't do that, we end up thinking it's a
+> > hidpp10 device and miss out on all new features available to newer devi=
+ces.
+> >
+> > This will enable correct detection of the following models:
+> > G603, GPro, G305, G613, G900 and G903, and possibly others.
+>=20
+> Thanks for the patch.
+Thanks for reviewing it :)
 
-What I do not know if is the hang is inside userspace, or
-maybe it happens when modprobe calls back into the kernel,
-if the hang happens when modprobe calls back into the kernel,
-then other modprobes (done from udev) likely will hang too
-since I think only 1 modprobe can happen at a time.
+> However, there is already support for this receiver in Linus' tree:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/drivers/hid/hid-logitech-dj.c?id=3Df5fb57a74e88bd1788f57bf77d587c91d4dc9d57
+>=20
+> With kernel 5.2-rc1, the connected device should already be handled by
+> hid-logitech-hidpp :)
+Why are the wireless receivers handled by hid-logitech-dj and the wired
+mice handled by hid-logitech-hidpp? They are, in the end, all hidpp
+devices, and having them all handled by the -hidpp driver with a quirk
+class would allow us to check for support for the battery voltage
+feature, as it seems to be an either-or scenario here.
 
-I really wish we knew what distinguished working systems
-from non working systems :|
+- Pedro
+>=20
+> Cheers,
+> Benjamin
+>=20
+> >
+> > Signed-off-by: Pedro Vanzella <pedro@pedrovanzella.com>
+> > ---
+> >  drivers/hid/hid-logitech-hidpp.c | 10 +++++++++-
+> >  1 file changed, 9 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitec=
+h-hidpp.c
+> > index 72fc9c0566db..621fce141d9f 100644
+> > --- a/drivers/hid/hid-logitech-hidpp.c
+> > +++ b/drivers/hid/hid-logitech-hidpp.c
+> > @@ -62,6 +62,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
+> >  #define HIDPP_QUIRK_CLASS_K400                 BIT(2)
+> >  #define HIDPP_QUIRK_CLASS_G920                 BIT(3)
+> >  #define HIDPP_QUIRK_CLASS_K750                 BIT(4)
+> > +#define HIDPP_QUIRK_CLASS_LIGHTSPEED           BIT(5)
+> >
+> >  /* bits 2..20 are reserved for classes */
+> >  /* #define HIDPP_QUIRK_CONNECT_EVENTS          BIT(21) disabled */
+> > @@ -236,7 +237,11 @@ static int __hidpp_send_report(struct hid_device *=
+hdev,
+> >          * set the device_index as the receiver, it will be overwritten=
+ by
+> >          * hid_hw_request if needed
+> >          */
+> > -       hidpp_report->device_index =3D 0xff;
+> > +       if (hidpp->quirks & HIDPP_QUIRK_CLASS_LIGHTSPEED) {
+> > +               hidpp_report->device_index =3D 0x01;
+> > +       } else {
+> > +               hidpp_report->device_index =3D 0xff;
+> > +       }
+> >
+> >         if (hidpp->quirks & HIDPP_QUIRK_FORCE_OUTPUT_REPORTS) {
+> >                 ret =3D hid_hw_output_report(hdev, (u8 *)hidpp_report, =
+fields_count);
+> > @@ -3753,6 +3758,9 @@ static const struct hid_device_id hidpp_devices[]=
+ =3D {
+> >           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC06B) },
+> >         { /* Logitech G900 Gaming Mouse over USB */
+> >           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC081) },
+> > +       { /* Logitech Gaming Mice over Lightspeed Receiver */
+> > +         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC539),
+> > +         .driver_data =3D HIDPP_QUIRK_CLASS_LIGHTSPEED },
+> >         { /* Logitech G920 Wheel over USB */
+> >           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH=
+_G920_WHEEL),
+> >                 .driver_data =3D HIDPP_QUIRK_CLASS_G920 | HIDPP_QUIRK_F=
+ORCE_OUTPUT_REPORTS},
+> > --
+> > 2.21.0
+> >
 
-I cannot find a common denominator; other then the systems
-are not running Fedora. So far we've reports from both Ubuntu 16.04
-and Tumbleweed, so software version wise these 2 are wide apart.
+--=20
+Pedro Vanzella
+pedrovanzella.com
+#include <paranoia.h>
+Don't Panic
 
->>> have 2 reports of problems with hid-logitech-dj driving the 0xc52f product-id,
->>> so we may need to drop that product-id from hid-logitech-dj, I'm working on
->>> that one...
->>
->> Besides the modprobe hanging issue, the only other issues all
->> (2 reporters) seem to be with 0xc52f receivers. We have a bug
->> open for this:
->>
->> https://bugzilla.kernel.org/show_bug.cgi?id=203619
->>
->> And I've asked the reporter of the second bug to add his logs
->> to that bug.
-> 
-> We should likely just remove c52f from the list of supported devices.
-> C52f receivers seem to have a different firmware as they are meant to
-> work with different devices than C534. So I guess it is safer to not
-> handle those right now and get the code in when it is ready.
+--il23bg2tbeerivkt
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Ack. Can you prepare a patch to drop the c52f id?
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
+iQIzBAEBCAAdFiEEXrNKwhI/eDFBCGo3v5huqi4pBxkFAlz1lLUACgkQv5huqi4p
+Bxk2IRAAhZ/xJZ8uT7NGw8Ix8cOQJ4kqLzZbTv/jr2a9FAs8y4tj22VBKoo1zNwo
+hyQuvToImgP6Tnql+l/SyTWoG14n6GBnmCv2CUy6rNpt7yBlr1w2UuYzIw+bHsN4
+DEwjNg0RjM5o5fNHGDUzRz1+WuZDNVDmGYdWeg4PLw1aK3TXbqTQBXaqq5xHZTLx
+MF1ZxwGD1+Cyp4gCwn/Rns50/hM9iDg1mUg9L2VrlSkuSHWWhD2WEprovd2fe2xD
+ELV/fu88M8Y2SF2HqWD57hQCGnqG0nsRCdcCV7wC7n1mjqvQFIBnPkx5dm2RJYan
+ubarZ3Qt/B0F9bfC3S2b74YNCUxFMtm+iWcg+4SI2g4uDCBA64HfJtsL67mb5IbA
+q4JW7wyJH83stHNFwFNgWio3q4jmrlEaB06xQ7joeT+w/79Gs/Y0zRWiGLBX3PGT
+yZWNojwJU7T3wLwlm/yASFFXmg1HiG2VuQkzJGamsbil1XnEIXxPR1O41zN50cym
+IlS4T4ciBfymVhYNOwPpUwxRVLW1EG3aurBurx9QAssKKc9ho4LbnZP5o9xlPowl
+TflW78Cr9ga4AJUZZzxW0ptxeqM0HHxYAX1eBfn2MsWnQjW4TI3gw9yOXtQk7sA3
+96uiUjrYY3PNzKAhc5x00v4QbtGO7npEnCm9XHedEc/RaVHvilo=
+=fbNq
+-----END PGP SIGNATURE-----
 
-Hans
-
-
+--il23bg2tbeerivkt--
