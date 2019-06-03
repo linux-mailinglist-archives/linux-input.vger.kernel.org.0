@@ -2,84 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78781326B0
-	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2019 04:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B78A132849
+	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2019 08:06:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726349AbfFCCiO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 2 Jun 2019 22:38:14 -0400
-Received: from p3plsmtpa11-03.prod.phx3.secureserver.net ([68.178.252.104]:44472
-        "EHLO p3plsmtpa11-03.prod.phx3.secureserver.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726270AbfFCCiO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 2 Jun 2019 22:38:14 -0400
-Received: from localhost.localdomain ([136.49.227.119])
-        by :SMTPAUTH: with ESMTPSA
-        id XcrThuKFIhaCsXcrVhqPcS; Sun, 02 Jun 2019 19:38:14 -0700
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, rydberg@bitmath.org,
-        Jeff LaBundy <jeff@labundy.com>
-Subject: [PATCH] Input: iqs5xx - get axis info before calling input_mt_init_slots()
-Date:   Sun,  2 Jun 2019 21:38:01 -0500
-Message-Id: <1559529481-3817-1-git-send-email-jeff@labundy.com>
-X-Mailer: git-send-email 2.7.4
-X-CMAE-Envelope: MS4wfLM0Z/9gUOEpD6FXF9w75MpAYeKOj+alkjMT06a2EcK2TWXd2KcxJaVTiDkOaWDJYhJ47NOE1npoPnxMhrfAf95e+cjhFNUGseYo0Fjmrjo9Y7uAUsdc
- og7Qk1nSgGejSziognAnzy7/1Dqr0LjI56JQpP3Ol9bPYMbQsI4sMDFwCLbFiTwkAg9Bced2YMF6pPjEkZ7zyLD5t9H8z+0ZSy2Cjn0E4yNyDOi48HZCA4EU
- 9UErTksPBzCd5x6C5KWysCVosOXbOqJg97VtusQB4cMmZCxoyiVG4culOcW+Jmp/
+        id S1726409AbfFCGGz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Jun 2019 02:06:55 -0400
+Received: from mail-it1-f193.google.com ([209.85.166.193]:39973 "EHLO
+        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726520AbfFCGGz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Jun 2019 02:06:55 -0400
+Received: by mail-it1-f193.google.com with SMTP id h11so24771262itf.5
+        for <linux-input@vger.kernel.org>; Sun, 02 Jun 2019 23:06:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SlNMFFxZ+0TymNIZUF0P3o7jz7i5MO2/cD8mQ8ReaRo=;
+        b=MSqGHZZBktfXDaDjbCbDqETgGPvC7iKTHrrVWBVukV6UVrjo3//6VYVellRB13ovEl
+         e9Zv4gJvCSYasNJTS1kGalU3NYnr6kx6VJO4gp/9DXohx9aW+JlS5DePbuVMBpQEWKhV
+         vTqSx3aYHq9xcRuN3rF56Pgu414b/qUSN0qJ++SKBevg5UgoFSXkp/cdSrdRde8vFt17
+         AhISfTy+QH7L0E/k0RYAMco/vSP5xryJnFebdfl/pS4FjQMUYfKW3B+K/eKgs04nOJkC
+         IOascr6oH2JAjtQLVUn7RJwm2ZS1ne7MA7HCbidQW8dMW7zQA6U/VSodJWLthR4/EReg
+         tRUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SlNMFFxZ+0TymNIZUF0P3o7jz7i5MO2/cD8mQ8ReaRo=;
+        b=VIuGE/jxByuC88VDra7eNGTuOeqhehgbfqRbSPq3TEypOYe5q56Czo/KHggvhguLkX
+         QWg1/2+EaRde6gaOkXSy0KfxKlVO3EZFvdxEgOt63tJw7L1RFZE/ooSuI4oQwFSYaoV7
+         AdF3/i8DiWUup+MRmkvJlEJdc8/BBw7XTX8MszAZ+NUp3ISS7HCNQ5zmq+19EvlLiPID
+         ZR8AcwsSkzg5ej1Fy/zOCds6RIXhKGhYkfqnmtssN1ap8VWNnMkSxU+/yrTM6QEyJJgr
+         uE9yj0obAUFkrC6HjieSnizPnlAViayOmh6zJo7ONRP6vpJK5+Br2R3wbiDla5E+JF4u
+         gSEg==
+X-Gm-Message-State: APjAAAVDpAQImHugCANz5KBU0MygEzwlLoH7Es0Wx+ggghi0sYdXR441
+        a47FtKgSAOqbU4HSjN98Tdd0rgGTcv4=
+X-Google-Smtp-Source: APXvYqxyS5NO65fBxmrSgCJOIQPYM8vC1gNO7qK7WNuXYsdU75K49RPUiCnPwf2rlT8NANIoq1LEyA==
+X-Received: by 2002:a24:56d1:: with SMTP id o200mr15714057itb.93.1559542014390;
+        Sun, 02 Jun 2019 23:06:54 -0700 (PDT)
+Received: from localhost.localdomain ([136.61.179.39])
+        by smtp.gmail.com with ESMTPSA id 14sm6124808itl.1.2019.06.02.23.06.53
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 02 Jun 2019 23:06:53 -0700 (PDT)
+From:   "Daniel J. Ogorchock" <djogorchock@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     thunderbird2k@gmail.com, blaws05@gmail.com,
+        benjamin.tissoires@redhat.com, jikos@kernel.org,
+        Roderick.Colenbrander@sony.com, jbrandst@2ds.eu,
+        "Daniel J. Ogorchock" <djogorchock@gmail.com>
+Subject: [PATCH v5 0/5] HID: joycon
+Date:   Mon,  3 Jun 2019 01:06:39 -0500
+Message-Id: <20190603060644.10338-1-djogorchock@gmail.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Calling input_mt_init_slots() copies ABS_MT_POSITION_X to ABS_X and
-so on, but doing so before calling touchscreen_parse_properties()
-leaves ABS_X min = max = 0 which may prompt an X server to ignore
-the device.
+Version 5 changes:
+  - Removed sysfs interface to control motor frequencies.
+  - Improved rumble reliability by using subcommands to set it.
+  - Changed mapping of the SL/SR triggers on the joy-cons to map to
+    whichever triggers they lack (e.g. a left joycon's sl/sr map to
+    TR and TR2). This allows userspace to distinguish between the
+    normal and S triggers.
+  - Minor refactors
+Version 4 changes:
+  - Added support for the Home button LED for the pro controller and
+    right joy-con
+  - Changed name from hid-switchcon to hid-joycon
+  - Added rumble support
+  - Removed ctlr->type and use hdev->product instead
+  - Use POWER_SUPPLY_CAPACITY_LEVEL enum instead of manually translating
+    to capacity percentages 
+  - Misc. minor refactors based on v3 feedback
 
-To solve this problem, wait to call input_mt_init_slots() until all
-absolute axis information has been resolved (whether that's through
-device tree via touchscreen_parse_properties() or from reading from
-the device directly).
+Version 3 changes:
+  - Added led_classdev support for the 4 player LEDs
+  - Added power_supply support for the controller's battery
+  - Made the controller number mutex static
+  - Minor refactoring/style fixes based on Roderick's feedback from v2
 
-Signed-off-by: Jeff LaBundy <jeff@labundy.com>
----
- drivers/input/touchscreen/iqs5xx.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Version 2 changes:
+  - Switched to using a synchronous method for configuring the 
+	controller.
+  - Removed any pairing/orientation logic in the driver. Every
+    controller now corresponds to its own input device.
+  - Store controller button data as a single u32.
+  - Style corrections
 
-diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
-index 1587078..dd7a925 100644
---- a/drivers/input/touchscreen/iqs5xx.c
-+++ b/drivers/input/touchscreen/iqs5xx.c
-@@ -502,14 +502,6 @@ static int iqs5xx_axis_init(struct i2c_client *client)
- 		input_set_capability(input, EV_ABS, ABS_MT_POSITION_Y);
- 		input_set_capability(input, EV_ABS, ABS_MT_PRESSURE);
- 
--		error = input_mt_init_slots(input,
--				IQS5XX_NUM_CONTACTS, INPUT_MT_DIRECT);
--		if (error) {
--			dev_err(&client->dev,
--				"Failed to initialize slots: %d\n", error);
--			return error;
--		}
--
- 		input_set_drvdata(input, iqs5xx);
- 		iqs5xx->input = input;
- 	}
-@@ -580,6 +572,14 @@ static int iqs5xx_axis_init(struct i2c_client *client)
- 		max_y = (u16)prop.max_y;
- 	}
- 
-+	error = input_mt_init_slots(iqs5xx->input, IQS5XX_NUM_CONTACTS,
-+				    INPUT_MT_DIRECT);
-+	if (error) {
-+		dev_err(&client->dev, "Failed to initialize slots: %d\n",
-+			error);
-+		return error;
-+	}
-+
- 	/*
- 	 * Write horizontal and vertical resolution to the device in case its
- 	 * original defaults were overridden or swapped as per the properties
+Daniel J. Ogorchock (5):
+  HID: joycon: add nintendo switch controller driver
+  HID: joycon: add player led support
+  HID: joycon: add power supply support
+  HID: joycon: add home led support
+  HID: joycon: add rumble support
+
+ MAINTAINERS              |    6 +
+ drivers/hid/Kconfig      |   24 +
+ drivers/hid/Makefile     |    1 +
+ drivers/hid/hid-ids.h    |    3 +
+ drivers/hid/hid-joycon.c | 1414 ++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 1448 insertions(+)
+ create mode 100644 drivers/hid/hid-joycon.c
+
 -- 
-2.7.4
+2.21.0
 
