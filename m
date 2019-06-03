@@ -2,64 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B274E32148
-	for <lists+linux-input@lfdr.de>; Sun,  2 Jun 2019 02:17:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78781326B0
+	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2019 04:38:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726343AbfFBARX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 1 Jun 2019 20:17:23 -0400
-Received: from mga11.intel.com ([192.55.52.93]:28940 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726211AbfFBARX (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 1 Jun 2019 20:17:23 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Jun 2019 17:17:23 -0700
-X-ExtLoop1: 1
-Received: from shsensorbuild2.sh.intel.com ([10.239.133.151])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Jun 2019 17:17:22 -0700
-From:   hongyan.song@intel.com
-To:     jikos@kernel.org, srinivas.pandruvada@linux.intel.com
-Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        hdegoede@redhat.com, jic23@kernel.org, even.xu@intel.com,
-        hongyan.song@intel.com
-Subject: [PATCH v3] hid: remove NO_D3 flag when remove driver
-Date:   Sun,  2 Jun 2019 08:17:21 +0800
-Message-Id: <1559434641-11783-1-git-send-email-hongyan.song@intel.com>
+        id S1726349AbfFCCiO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 2 Jun 2019 22:38:14 -0400
+Received: from p3plsmtpa11-03.prod.phx3.secureserver.net ([68.178.252.104]:44472
+        "EHLO p3plsmtpa11-03.prod.phx3.secureserver.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726270AbfFCCiO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 2 Jun 2019 22:38:14 -0400
+Received: from localhost.localdomain ([136.49.227.119])
+        by :SMTPAUTH: with ESMTPSA
+        id XcrThuKFIhaCsXcrVhqPcS; Sun, 02 Jun 2019 19:38:14 -0700
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, rydberg@bitmath.org,
+        Jeff LaBundy <jeff@labundy.com>
+Subject: [PATCH] Input: iqs5xx - get axis info before calling input_mt_init_slots()
+Date:   Sun,  2 Jun 2019 21:38:01 -0500
+Message-Id: <1559529481-3817-1-git-send-email-jeff@labundy.com>
 X-Mailer: git-send-email 2.7.4
+X-CMAE-Envelope: MS4wfLM0Z/9gUOEpD6FXF9w75MpAYeKOj+alkjMT06a2EcK2TWXd2KcxJaVTiDkOaWDJYhJ47NOE1npoPnxMhrfAf95e+cjhFNUGseYo0Fjmrjo9Y7uAUsdc
+ og7Qk1nSgGejSziognAnzy7/1Dqr0LjI56JQpP3Ol9bPYMbQsI4sMDFwCLbFiTwkAg9Bced2YMF6pPjEkZ7zyLD5t9H8z+0ZSy2Cjn0E4yNyDOi48HZCA4EU
+ 9UErTksPBzCd5x6C5KWysCVosOXbOqJg97VtusQB4cMmZCxoyiVG4culOcW+Jmp/
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Song Hongyan <hongyan.song@intel.com>
+Calling input_mt_init_slots() copies ABS_MT_POSITION_X to ABS_X and
+so on, but doing so before calling touchscreen_parse_properties()
+leaves ABS_X min = max = 0 which may prompt an X server to ignore
+the device.
 
-Remove the NO_D3 flag when remove the driver and let device enter
-into D3, it will save more power.
+To solve this problem, wait to call input_mt_init_slots() until all
+absolute axis information has been resolved (whether that's through
+device tree via touchscreen_parse_properties() or from reading from
+the device directly).
 
-Signed-off-by: Song Hongyan <hongyan.song@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 ---
-v3 changes: 
-After test the former implmentation, we found FW will enter D3 when
-system enter into S0i3. Change the implementation to meet the requirement:
-device enter D3 and have no impact to ISH platform.
+ drivers/input/touchscreen/iqs5xx.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
- drivers/hid/intel-ish-hid/ipc/pci-ish.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index b239db2..5daa16f 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -193,6 +193,7 @@ static void ish_remove(struct pci_dev *pdev)
- 	struct ishtp_device *ishtp_dev = pci_get_drvdata(pdev);
+diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
+index 1587078..dd7a925 100644
+--- a/drivers/input/touchscreen/iqs5xx.c
++++ b/drivers/input/touchscreen/iqs5xx.c
+@@ -502,14 +502,6 @@ static int iqs5xx_axis_init(struct i2c_client *client)
+ 		input_set_capability(input, EV_ABS, ABS_MT_POSITION_Y);
+ 		input_set_capability(input, EV_ABS, ABS_MT_PRESSURE);
  
- 	ishtp_bus_remove_all_clients(ishtp_dev, false);
-+	pdev->dev_flags &= ~PCI_DEV_FLAGS_NO_D3;
- 	ish_device_disable(ishtp_dev);
- }
+-		error = input_mt_init_slots(input,
+-				IQS5XX_NUM_CONTACTS, INPUT_MT_DIRECT);
+-		if (error) {
+-			dev_err(&client->dev,
+-				"Failed to initialize slots: %d\n", error);
+-			return error;
+-		}
+-
+ 		input_set_drvdata(input, iqs5xx);
+ 		iqs5xx->input = input;
+ 	}
+@@ -580,6 +572,14 @@ static int iqs5xx_axis_init(struct i2c_client *client)
+ 		max_y = (u16)prop.max_y;
+ 	}
  
++	error = input_mt_init_slots(iqs5xx->input, IQS5XX_NUM_CONTACTS,
++				    INPUT_MT_DIRECT);
++	if (error) {
++		dev_err(&client->dev, "Failed to initialize slots: %d\n",
++			error);
++		return error;
++	}
++
+ 	/*
+ 	 * Write horizontal and vertical resolution to the device in case its
+ 	 * original defaults were overridden or swapped as per the properties
 -- 
 2.7.4
 
