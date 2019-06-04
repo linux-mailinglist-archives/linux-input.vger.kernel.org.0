@@ -2,33 +2,33 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B74AD34237
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2019 10:53:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 246C4343B4
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2019 12:08:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726965AbfFDIxZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Jun 2019 04:53:25 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:41904 "EHLO
+        id S1727150AbfFDKIN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Jun 2019 06:08:13 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:36582 "EHLO
         mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726793AbfFDIxZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Jun 2019 04:53:25 -0400
-Received: by mail-qt1-f193.google.com with SMTP id s57so5676778qte.8
-        for <linux-input@vger.kernel.org>; Tue, 04 Jun 2019 01:53:25 -0700 (PDT)
+        with ESMTP id S1726982AbfFDKIN (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Jun 2019 06:08:13 -0400
+Received: by mail-qt1-f193.google.com with SMTP id u12so13042375qth.3
+        for <linux-input@vger.kernel.org>; Tue, 04 Jun 2019 03:08:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=sVr7blrSWK0UByMgK8SdANdy6UgQTdw57Gh17vSspak=;
-        b=tc2t1HFAEvBAlqMWJzJU+1jhXwojlnC6kNNXEevDmvoE977wesDYhSsE3AGYy9Rijf
-         Sc8XN/Dd+iYG9O4EG7utG9q4vJ8bI2ULJH77br0prWXeU7WAHn8YP5alVfdVHYANUs8m
-         s7/qZboiPDi67YEOOOV4M71hSbHX/PcV4krRy+aT5TQBn4NOY7qWeIknXCk+elTsNBXN
-         rEP1WZdzDj3i6hq9Nudq5oSBgnQxlA8ysS48R3y3k9Vj5hC1300aQQoSbY7mFlUosbI4
-         37WzLrMmeYX2cPtsu3MdjQofaKgpddDeZyxIPfO9o7qSyIs0nGnm0rbGxzReVFDHhead
-         JOiQ==
-X-Gm-Message-State: APjAAAWAfl4dRYKmV83aBtRRi+7PYypujyhLdQY7ePq4woOcYi7T0Dsa
-        cBJWiGfaJtu4HwG5c8bkBI36yuiarUlgTBsBvPJ+/A==
-X-Google-Smtp-Source: APXvYqwcmdQn7jDdAX4WgObYwtS3WxheoXf60Q29VNVzRPMwaGTHOaSlfLpwLzwB163jQdXsgkYWrER3QOHoHJmUpZk=
-X-Received: by 2002:ac8:2998:: with SMTP id 24mr26315694qts.31.1559638404643;
- Tue, 04 Jun 2019 01:53:24 -0700 (PDT)
+        bh=nv9RCGdqeXyo/YOKhXPY6nJglJbRUxkUzDCDcIP2Gh8=;
+        b=qBEp7wiuQKwnlTqRE5DV4TGI6AZfY8oz/cys4PeqSieo5O1VtnNBvvaqiIGaRAFX51
+         36Yt6kmrYKrOIqn47bhsykxTzwtc2kdflaH1ZOWHjjfgegD/ex1AOAC/mX4PD9I79Fyv
+         tM8hvQn8AD5tzVbQmekCM7jF2UGEdD1KanusSKFCUleB7pJrVwka8jj/ecg/xv4dmdeA
+         qJl4fOOFi8uzLIFSkMcCplDihR797Oi35QhaVaBEVVUgYDV2H7Z1nMqq8CfNYihpQUTw
+         OsJKNj64Lpe+vPHU2ch1ZVz7+i82aZWF8hm61d1+0Q1L9XODydT7SuhusBHi3moo1xEj
+         JVBw==
+X-Gm-Message-State: APjAAAVj+VhkZ+gTyxkrMk/iyq9swwFOjg1s2T7jR8PsG+MM+I0hBkch
+        ixHmyiKxlNHOeYB6Q2PB6idioZH2G9MC432Anfupzw==
+X-Google-Smtp-Source: APXvYqwi0t2B9beN/ICWcGuIRIlw8oU0ffO7szjab4Wkf3tbHWkJU4VvhT02kbVrLBRt3JTBOIWRMNsY05IfaR1oXAo=
+X-Received: by 2002:a0c:fde5:: with SMTP id m5mr7141286qvu.192.1559642892743;
+ Tue, 04 Jun 2019 03:08:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <2c1684f6-9def-93dc-54ab-888142fd5e71@intel.com>
  <nycvar.YFH.7.76.1905281913140.1962@cbobk.fhfr.pm> <CAO-hwJJzNAuFbdMVFZ4+h7J=bh6QHr_MioyK2yTV=M5R6CTm=A@mail.gmail.com>
@@ -37,11 +37,10 @@ References: <2c1684f6-9def-93dc-54ab-888142fd5e71@intel.com>
  <e158d983-1e7e-4c49-aaab-ff2092d36438@redhat.com> <5471f010-cb42-c548-37e2-2b9c9eba1184@redhat.com>
  <CAO-hwJKRRpsShw6B-YLmsEnjQ+iYtz+VmZK+VSRcDmiBwnS+oA@mail.gmail.com>
  <e431dafc-0fb4-4be3-ac29-dcf125929090@redhat.com> <CAO-hwJ+5UYJMnuCS0UL4g45Xc181LraAzc-CMuYB2rcqKGe_Sw@mail.gmail.com>
- <4548d196-b75f-c4d0-8f3c-3e734b9a758c@redhat.com> <c05929f4-00b6-e098-cd69-cd6539ccd3f1@redhat.com>
-In-Reply-To: <c05929f4-00b6-e098-cd69-cd6539ccd3f1@redhat.com>
+In-Reply-To: <CAO-hwJ+5UYJMnuCS0UL4g45Xc181LraAzc-CMuYB2rcqKGe_Sw@mail.gmail.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 4 Jun 2019 10:53:12 +0200
-Message-ID: <CAO-hwJJWWRf8cCLCB3JdfFGCGPnp9ar9HC_QAg7crJ0y+pA-hg@mail.gmail.com>
+Date:   Tue, 4 Jun 2019 12:08:00 +0200
+Message-ID: <CAO-hwJK0j8SottiqCdDseBW_vR=GjKO4YrFCtjzYeUh-eKPOpA@mail.gmail.com>
 Subject: Re: hid-related 5.2-rc1 boot hang
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
@@ -54,53 +53,81 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jun 4, 2019 at 10:36 AM Hans de Goede <hdegoede@redhat.com> wrote:
+On Tue, Jun 4, 2019 at 9:51 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
 >
-> Hi,
->
-> On 04-06-19 10:05, Hans de Goede wrote:
->
-> <snip>
->
-> >>>> We should likely just remove c52f from the list of supported devices.
-> >>>> C52f receivers seem to have a different firmware as they are meant to
-> >>>> work with different devices than C534. So I guess it is safer to not
-> >>>> handle those right now and get the code in when it is ready.
-> >>>
-> >>> Ack. Can you prepare a patch to drop the c52f id?
-> >>
-> >> Yes. I have an other revert never submitted that I need to push, so I
-> >> guess I can do a revert session today.
-> >>
-> >> I think I'll also buy one device with hopefully the C52F receiver as
-> >> the report descriptors attached in
-> >> https://bugzilla.kernel.org/show_bug.cgi?id=203619 seems different to
-> >> what I would have expected.
+> On Mon, Jun 3, 2019 at 4:17 PM Hans de Goede <hdegoede@redhat.com> wrote:
 > >
-> > They are actually what I expected :)
+> > Hi,
 > >
-> > The first USB interface is a mouse boot class device, since this is a mouse
-> > only receiver. This means that the mouse report is unnumbered and we need to
-> > extend the unnumbered mouse-report handling to handle this case. Also the
-> > device is using the same highres mouse-reports as the gaming receiver is.
+> > On 03-06-19 15:55, Benjamin Tissoires wrote:
+> > > On Mon, Jun 3, 2019 at 11:51 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> > >>
+> > >> Hi Again,
+> > >>
+> > >> On 03-06-19 11:11, Hans de Goede wrote:
+> > >> <snip>
+> > >>
+> > >>>> not sure about the rest of logitech issues yet) next week.
+> > >>>
+> > >>> The main problem seems to be the request_module patches. Although I also
+> > >
+> > > Can't we use request_module_nowait() instead, and set a reasonable
+> > > timeout that we detect only once to check if userspace is compatible:
+> > >
+> > > In pseudo-code:
+> > > if (!request_module_checked) {
+> > >    request_module_nowait(name);
+> > >    use_request_module = wait_event_timeout(wq,
+> > >          first_module_loaded, 10 seconds in jiffies);
+> > >    request_module_checked = true;
+> > > } else if (use_request_module) {
+> > >    request_module(name);
+> > > }
 > >
-> > I'm actually preparing a patch right now which should fix this. Still might
-> > be better to do the revert for 5.2 and get proper support for the c52f
-> > receiver into 5.3.
+> > Well looking at the just attached dmesg , the modprobe
+> > when triggered by udev from userspace succeeds in about
+> > 0.5 seconds, so it seems that the modprobe hangs happens
+> > when called from within the kernel rather then from within
+> > userspace.
+> >
+> > What I do not know if is the hang is inside userspace, or
+> > maybe it happens when modprobe calls back into the kernel,
+> > if the hang happens when modprobe calls back into the kernel,
+> > then other modprobes (done from udev) likely will hang too
+> > since I think only 1 modprobe can happen at a time.
+> >
+> > I really wish we knew what distinguished working systems
+> > from non working systems :|
+> >
+> > I cannot find a common denominator; other then the systems
+> > are not running Fedora. So far we've reports from both Ubuntu 16.04
+> > and Tumbleweed, so software version wise these 2 are wide apart.
 >
-> I've attached a patch to the bug:
-> https://bugzilla.kernel.org/show_bug.cgi?id=203619
-
-Cool, thanks.
-
+> I am trying to reproduce the lock locally, and installed an opensuse
+> Tumbleweed in a VM. When forwarding a Unifying receiver to the VM, I
+> do not see the lock with either my vanilla compiled kernel and the rpm
+> found in http://download.opensuse.org/repositories/Kernel:/HEAD/standard/x86_64/
 >
-> Which should fix this. It is quite simple and safe, so if we get testing
-> feedback relatively soon, we could go with the fix instead of dropping the
-> product-id, your call.
+> Next step is install Tumbleweed on bare metal, but I do not see how
+> this could introduce a difference (maybe USB2 vs 3).
 
-I should receive the M280 tomorrow, hopefully with the C52F. If the
-receiver is correct and the tests are successful, I'd prefer to take
-this one over the revert :)
+Making progress here.
+
+The difference between Ubuntu/Tumbleweed and Fedora: usbhid is shipped
+as a module while in Fedora usbhid is included in the kernel.
+
+If I rmmod hid_* and usbhid, then modprobe usbhid, the command hangs
+for 3 minutes.
+If usbhid is already loaded, inserting a receiver is immediate
+regarding the loading of the external modules.
+
+So my assumption is that when the device gets detected at boot, usbhid
+gets loaded by the kernel event, which in turns attempts to call
+__request_module, but the modprobe can't be fulfilled because it's
+already waiting for the initial usbhid modprobe to finish.
+
+Still don't know how to solve that, but I thought I should share.
 
 Cheers,
 Benjamin
