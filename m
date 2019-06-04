@@ -2,121 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF6AB33E92
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2019 07:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2C7433F6F
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2019 09:02:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726606AbfFDFsf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Jun 2019 01:48:35 -0400
-Received: from mga11.intel.com ([192.55.52.93]:43045 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726658AbfFDFse (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 4 Jun 2019 01:48:34 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Jun 2019 22:48:34 -0700
-X-ExtLoop1: 1
-Received: from hyungwoo-ubuntu.sc.intel.com ([10.3.62.78])
-  by orsmga008.jf.intel.com with ESMTP; 03 Jun 2019 22:48:33 -0700
-From:   Hyungwoo Yang <hyungwoo.yang@intel.com>
-To:     srinivas.pandruvada@linux.intel.com
-Cc:     jikos@kernel.org, linux-input@vger.kernel.org,
-        rushikesh.s.kadam@intel.com, jettrink@chromium.org
-Subject: [PATCH v4] HID: intel-ish-hid: fix wrong driver_data usage
-Date:   Mon,  3 Jun 2019 22:48:33 -0700
-Message-Id: <1559627313-24207-1-git-send-email-hyungwoo.yang@intel.com>
-X-Mailer: git-send-email 1.9.1
+        id S1726735AbfFDHCZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Jun 2019 03:02:25 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:39701 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726704AbfFDHCZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Jun 2019 03:02:25 -0400
+Received: by mail-qt1-f193.google.com with SMTP id i34so12526417qta.6
+        for <linux-input@vger.kernel.org>; Tue, 04 Jun 2019 00:02:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZhC1lENrEFgimv6sdeFIBKs72SRqFRtCu7WdaF7Vsso=;
+        b=PUWIF+TV8H8HGDmtD6bw3fYgCl+MLHyaDFvfP+7U7csjoeagedoXeRYTU88Jaa+E/X
+         UZrdOxRN09dIBTIkY0WcZBowUlZVx8uWZ0fhO65TiOupL7Ey+ylHeU0+h4E7S47wJuiE
+         GxCP+lX8FDmzVzbMyoAAhQ6g1utaCZTXm9FdsBT9+pefUqOOB93WFpzDqpCXAOOZs2NU
+         EzsLX/l8Kv+ZucERasjSTq1BhtCLdfWPGxWzVLeobzUsDtZQ84d0VvD+Mb8otdFXuPge
+         HcOQe9wuNW5qaU1VsjUrNY4iKATERoAeBMrMYXNwz75w1YpyFS/lx63di5ZbGy5i69eW
+         RfVA==
+X-Gm-Message-State: APjAAAUXmAV9wW85cx/6Dnk1vgj+d7VFGnFFi6Obg8+73Xc1uZTwysBJ
+        007yE5Tm+THcXfflIo3He+bM1ZQPC3yfDMZYWHstyw==
+X-Google-Smtp-Source: APXvYqznnJVZGIgYwAw/MnqEYckWgjrGh9RH5HIIi/H7SDijmQix/Wxv4jKZIjn/IMTmenEHoFJG0qYhI8EldZqozHo=
+X-Received: by 2002:ac8:2cba:: with SMTP id 55mr10239342qtw.260.1559631744088;
+ Tue, 04 Jun 2019 00:02:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190528162924.32754-1-pedro@pedrovanzella.com>
+ <CAO-hwJ+zAvDizJRpykky+D3pf1M1NhFGWztwyA4mJEv8C+nO-w@mail.gmail.com> <20190603214438.2cnmrx7g2sakjdr4@Fenrir>
+In-Reply-To: <20190603214438.2cnmrx7g2sakjdr4@Fenrir>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 4 Jun 2019 09:02:11 +0200
+Message-ID: <CAO-hwJ+0WEgAvkRsr1oEnR5wCJcGKzhim+=5em1Y-GzC4GowMg@mail.gmail.com>
+Subject: Re: [PATCH] HID: hid-logitech-hidpp: detect wireless lightspeed devices
+To:     Pedro Vanzella <pedro@pedrovanzella.com>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Currently, in suspend() and resume(), ishtp client drivers are using
-driver_data to get "struct ishtp_cl_device" object which is set by
-bus driver. It's wrong since the driver_data should not be owned bus.
-driver_data should be owned by the corresponding ishtp client driver.
-Due to this, some ishtp client driver like cros_ec_ishtp which uses
-its driver_data to transfer its data to its child doesn't work correctly.
+On Mon, Jun 3, 2019 at 11:44 PM Pedro Vanzella <pedro@pedrovanzella.com> wrote:
+>
+> On 05/28, Benjamin Tissoires wrote:
+> > On Tue, May 28, 2019 at 6:30 PM Pedro Vanzella <pedro@pedrovanzella.com> wrote:
+> > >
+> > > Send a low device index when the device is connected via the lightspeed
+> > > receiver so that the receiver will pass the message along to the device
+> > > instead of responding. If we don't do that, we end up thinking it's a
+> > > hidpp10 device and miss out on all new features available to newer devices.
+> > >
+> > > This will enable correct detection of the following models:
+> > > G603, GPro, G305, G613, G900 and G903, and possibly others.
+> >
+> > Thanks for the patch.
+> Thanks for reviewing it :)
+>
+> > However, there is already support for this receiver in Linus' tree:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/hid/hid-logitech-dj.c?id=f5fb57a74e88bd1788f57bf77d587c91d4dc9d57
+> >
+> > With kernel 5.2-rc1, the connected device should already be handled by
+> > hid-logitech-hidpp :)
+> Why are the wireless receivers handled by hid-logitech-dj and the wired
+> mice handled by hid-logitech-hidpp? They are, in the end, all hidpp
+> devices, and having them all handled by the -hidpp driver with a quirk
+> class would allow us to check for support for the battery voltage
+> feature, as it seems to be an either-or scenario here.
 
-So this patch removes setting driver_data in bus drier and instead of
-using driver_data to get "struct ishtp_cl_device", since "struct device"
-is embedded in "struct ishtp_cl_device", we introduce a helper function
-that returns "struct ishtp_cl_device" from "struct device".
+Yep, and this is exactly what is happening:
+- the receiver is handled through hid-logitech-dj -> it creates a
+virtual HID device for the wireless physical device
+- the actual wireless device is handled through hid-logitech-hidpp
+(with the virtual HID device created above)
 
-Signed-off-by: Hyungwoo Yang <hyungwoo.yang@intel.com>
----
- drivers/hid/intel-ish-hid/ishtp-hid-client.c |  4 ++--
- drivers/hid/intel-ish-hid/ishtp/bus.c        | 15 ++++++++++++++-
- include/linux/intel-ish-client-if.h          |  1 +
- 3 files changed, 17 insertions(+), 3 deletions(-)
+This has the advantage of presenting the wireless device in the same
+way the wired device is. From hid-logitech-hidpp point of view, both
+are regular HID++ devices.
+Also, this makes sure each physical device gets its own product ID (we
+are relying on the wireless product ID), meaning that userspace can
+differentiate a G900 from a G613 when both are connected to a receiver
+with the same product ID.
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp-hid-client.c b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-index 56777a4..19102a3 100644
---- a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-+++ b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-@@ -899,7 +899,7 @@ static int hid_ishtp_cl_reset(struct ishtp_cl_device *cl_device)
-  */
- static int hid_ishtp_cl_suspend(struct device *device)
- {
--	struct ishtp_cl_device *cl_device = dev_get_drvdata(device);
-+	struct ishtp_cl_device *cl_device = ishtp_dev_to_cl_device(device);
- 	struct ishtp_cl *hid_ishtp_cl = ishtp_get_drvdata(cl_device);
- 	struct ishtp_cl_data *client_data = ishtp_get_client_data(hid_ishtp_cl);
- 
-@@ -920,7 +920,7 @@ static int hid_ishtp_cl_suspend(struct device *device)
-  */
- static int hid_ishtp_cl_resume(struct device *device)
- {
--	struct ishtp_cl_device *cl_device = dev_get_drvdata(device);
-+	struct ishtp_cl_device *cl_device = ishtp_dev_to_cl_device(device);
- 	struct ishtp_cl *hid_ishtp_cl = ishtp_get_drvdata(cl_device);
- 	struct ishtp_cl_data *client_data = ishtp_get_client_data(hid_ishtp_cl);
- 
-diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.c b/drivers/hid/intel-ish-hid/ishtp/bus.c
-index fb8ca12..4b4a604 100644
---- a/drivers/hid/intel-ish-hid/ishtp/bus.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/bus.c
-@@ -479,7 +479,6 @@ static struct ishtp_cl_device *ishtp_bus_add_device(struct ishtp_device *dev,
- 	}
- 
- 	ishtp_device_ready = true;
--	dev_set_drvdata(&device->dev, device);
- 
- 	return device;
- }
-@@ -648,6 +647,20 @@ void *ishtp_get_drvdata(struct ishtp_cl_device *cl_device)
- EXPORT_SYMBOL(ishtp_get_drvdata);
- 
- /**
-+ * ishtp_dev_to_cl_device() - get ishtp_cl_device instance from device instance
-+ * @device: device instance
-+ *
-+ * Get ish_cl_device instance which embeds device instance in it.
-+ *
-+ * Return: pointer to ishtp_cl_device instance
-+ */
-+struct ishtp_cl_device *ishtp_dev_to_cl_device(struct device *device)
-+{
-+	return to_ishtp_cl_device(device);
-+}
-+EXPORT_SYMBOL(ishtp_dev_to_cl_device);
-+
-+/**
-  * ishtp_bus_new_client() - Create a new client
-  * @dev:	ISHTP device instance
-  *
-diff --git a/include/linux/intel-ish-client-if.h b/include/linux/intel-ish-client-if.h
-index 16255c2..0d6b4bc 100644
---- a/include/linux/intel-ish-client-if.h
-+++ b/include/linux/intel-ish-client-if.h
-@@ -103,6 +103,7 @@ int ishtp_register_event_cb(struct ishtp_cl_device *device,
- void ishtp_get_device(struct ishtp_cl_device *cl_dev);
- void ishtp_set_drvdata(struct ishtp_cl_device *cl_device, void *data);
- void *ishtp_get_drvdata(struct ishtp_cl_device *cl_device);
-+struct ishtp_cl_device *ishtp_dev_to_cl_device(struct device *dev);
- int ishtp_register_event_cb(struct ishtp_cl_device *device,
- 				void (*read_cb)(struct ishtp_cl_device *));
- struct	ishtp_fw_client *ishtp_fw_cl_get_client(struct ishtp_device *dev,
--- 
-1.9.1
+Hope that helps.
 
+Cheers,
+Benjamin
+
+
+>
+> - Pedro
+> >
+> > Cheers,
+> > Benjamin
+> >
+> > >
+> > > Signed-off-by: Pedro Vanzella <pedro@pedrovanzella.com>
+> > > ---
+> > >  drivers/hid/hid-logitech-hidpp.c | 10 +++++++++-
+> > >  1 file changed, 9 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+> > > index 72fc9c0566db..621fce141d9f 100644
+> > > --- a/drivers/hid/hid-logitech-hidpp.c
+> > > +++ b/drivers/hid/hid-logitech-hidpp.c
+> > > @@ -62,6 +62,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
+> > >  #define HIDPP_QUIRK_CLASS_K400                 BIT(2)
+> > >  #define HIDPP_QUIRK_CLASS_G920                 BIT(3)
+> > >  #define HIDPP_QUIRK_CLASS_K750                 BIT(4)
+> > > +#define HIDPP_QUIRK_CLASS_LIGHTSPEED           BIT(5)
+> > >
+> > >  /* bits 2..20 are reserved for classes */
+> > >  /* #define HIDPP_QUIRK_CONNECT_EVENTS          BIT(21) disabled */
+> > > @@ -236,7 +237,11 @@ static int __hidpp_send_report(struct hid_device *hdev,
+> > >          * set the device_index as the receiver, it will be overwritten by
+> > >          * hid_hw_request if needed
+> > >          */
+> > > -       hidpp_report->device_index = 0xff;
+> > > +       if (hidpp->quirks & HIDPP_QUIRK_CLASS_LIGHTSPEED) {
+> > > +               hidpp_report->device_index = 0x01;
+> > > +       } else {
+> > > +               hidpp_report->device_index = 0xff;
+> > > +       }
+> > >
+> > >         if (hidpp->quirks & HIDPP_QUIRK_FORCE_OUTPUT_REPORTS) {
+> > >                 ret = hid_hw_output_report(hdev, (u8 *)hidpp_report, fields_count);
+> > > @@ -3753,6 +3758,9 @@ static const struct hid_device_id hidpp_devices[] = {
+> > >           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC06B) },
+> > >         { /* Logitech G900 Gaming Mouse over USB */
+> > >           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC081) },
+> > > +       { /* Logitech Gaming Mice over Lightspeed Receiver */
+> > > +         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC539),
+> > > +         .driver_data = HIDPP_QUIRK_CLASS_LIGHTSPEED },
+> > >         { /* Logitech G920 Wheel over USB */
+> > >           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_G920_WHEEL),
+> > >                 .driver_data = HIDPP_QUIRK_CLASS_G920 | HIDPP_QUIRK_FORCE_OUTPUT_REPORTS},
+> > > --
+> > > 2.21.0
+> > >
+>
+> --
+> Pedro Vanzella
+> pedrovanzella.com
+> #include <paranoia.h>
+> Don't Panic
