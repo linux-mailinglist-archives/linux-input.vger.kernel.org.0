@@ -2,464 +2,1284 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 401B83605D
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2019 17:35:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B14D3613A
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2019 18:27:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728062AbfFEPfl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Jun 2019 11:35:41 -0400
-Received: from hosted-by.blazingfast.io ([5.206.225.98]:56379 "EHLO
-        WIN-CI6T0SVTGOL" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726581AbfFEPfl (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jun 2019 11:35:41 -0400
-X-Greylist: delayed 902 seconds by postgrey-1.27 at vger.kernel.org; Wed, 05 Jun 2019 11:35:38 EDT
-Received: from WIN-CI6T0SVTGOL.blazingfast.io ([127.0.0.1]) by WIN-CI6T0SVTGOL with Microsoft SMTPSVC(10.0.17763.1);
-         Wed, 5 Jun 2019 08:18:38 -0700
-Content-Type: multipart/mixed; boundary="===============1747540958=="
+        id S1728745AbfFEQ0y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Jun 2019 12:26:54 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:57965 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728595AbfFEQ0y (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jun 2019 12:26:54 -0400
+X-Originating-IP: 90.88.144.139
+Received: from localhost (aaubervilliers-681-1-24-139.w90-88.abo.wanadoo.fr [90.88.144.139])
+        (Authenticated sender: alexandre.belloni@bootlin.com)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 19F8C1C0004;
+        Wed,  5 Jun 2019 16:26:37 +0000 (UTC)
+Date:   Wed, 5 Jun 2019 18:26:36 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc:     linux-kernel@vger.kernel.org, gwendal@chromium.org,
+        Guenter Roeck <groeck@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>, kernel@collabora.com,
+        dtor@chromium.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        alsa-devel@alsa-project.org,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        linux-iio@vger.kernel.org,
+        Fabien Lahoudere <fabien.lahoudere@collabora.com>,
+        linux-i2c@vger.kernel.org, linux-rtc@vger.kernel.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Brian Norris <briannorris@chromium.org>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
+        linux-input@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        linux-pm@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>,
+        Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Evan Green <evgreen@chromium.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Cheng-Yi Chiang <cychiang@chromium.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Kees Cook <keescook@chromium.org>,
+        Colin Ian King <colin.king@canonical.com>,
+        Mark Brown <broonie@kernel.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jiri Kosina <jikos@kernel.org>
+Subject: Re: [PATCH 06/10] mfd / platform: cros_ec: Reorganize platform and
+ mfd includes
+Message-ID: <20190605162636.GE3558@piout.net>
+References: <20190604152019.16100-1-enric.balletbo@collabora.com>
+ <20190604152019.16100-7-enric.balletbo@collabora.com>
 MIME-Version: 1.0
-Subject: DHL-Shipping#000967
-To:     Recipients <brandon@pureaire.net>
-From:   "DHL International(noreplyservice@dhl.com)" <brandon@pureaire.net>
-Date:   Wed, 05 Jun 2019 08:18:38 -0700
-Reply-To: brandon@pureaire.net
-Message-ID: <WIN-CI6T0SVTGOLmfKG00001e72@WIN-CI6T0SVTGOL>
-X-OriginalArrivalTime: 05 Jun 2019 15:18:38.0846 (UTC) FILETIME=[F3A9F1E0:01D51BB1]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190604152019.16100-7-enric.balletbo@collabora.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-You will not see this in a MIME-aware mail reader.
---===============1747540958==
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
+On 04/06/2019 17:20:15+0200, Enric Balletbo i Serra wrote:
+> There is a bit of mess between cros-ec mfd includes and platform
+> includes. For example, we have a linux/mfd/cros_ec.h include that
+> exports the interface implemented in platform/chrome/cros_ec_proto.c. Or
+> we have a linux/mfd/cros_ec_commands.h file that is non related to the
+> multifunction device (in the sense that is not exporting any function of
+> the mfd device). This causes crossed includes between mfd and
+> platform/chrome subsystems and makes the code difficult to read, apart
+> from creating 'curious' situations where a platform/chrome driver includes
+> a linux/mfd/cros_ec.h file just to get the exported functions that are
+> implemented in another platform/chrome driver.
+> 
+> In order to have a better separation on what the cros-ec multifunction
+> driver does and what the cros-ec core provides move and rework the
+> affected includes doing:
+> 
+>  - Move cros_ec_commands.h to include/linux/platform_data/cros_ec_commands.h
+>  - Get rid of the parts that are implemented in the platform/chrome/cros_ec_proto.c
+>    driver from include/linux/mfd/cros_ec.h to a new file
+>    include/linux/platform_data/cros_ec_proto.h
+>  - Update all the drivers with the new includes, so
+>    - Drivers that only need to know about the protocol include
+>      - linux/platform_data/cros_ec_proto.h
+>      - linux/platform_data/cros_ec_commands.h
+>    - Drivers that need to know about the cros-ec mfd device also include
+>      - linux/mfd/cros_ec.h
+> 
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-Hello,
+> ---
+> 
+>  drivers/extcon/extcon-usbc-cros-ec.c          |   3 +-
+>  drivers/hid/hid-google-hammer.c               |   4 +-
+>  drivers/i2c/busses/i2c-cros-ec-tunnel.c       |   4 +-
+>  drivers/iio/accel/cros_ec_accel_legacy.c      |   3 +-
+>  .../common/cros_ec_sensors/cros_ec_sensors.c  |   3 +-
+>  .../cros_ec_sensors/cros_ec_sensors_core.c    |   3 +-
+>  drivers/iio/light/cros_ec_light_prox.c        |   3 +-
+>  drivers/iio/pressure/cros_ec_baro.c           |   3 +-
+>  drivers/input/keyboard/cros_ec_keyb.c         |   4 +-
+>  .../media/platform/cros-ec-cec/cros-ec-cec.c  |   4 +-
+>  drivers/mfd/cros_ec_dev.c                     |   3 +-
+>  drivers/platform/chrome/cros_ec.c             |   3 +-
+>  drivers/platform/chrome/cros_ec_chardev.c     |   4 +-
+>  drivers/platform/chrome/cros_ec_debugfs.c     |   3 +-
+>  drivers/platform/chrome/cros_ec_i2c.c         |   4 +-
+>  drivers/platform/chrome/cros_ec_lightbar.c    |   3 +-
+>  drivers/platform/chrome/cros_ec_lpc.c         |   4 +-
+>  drivers/platform/chrome/cros_ec_lpc_reg.c     |   4 +-
+>  drivers/platform/chrome/cros_ec_proto.c       |   3 +-
+>  drivers/platform/chrome/cros_ec_rpmsg.c       |   4 +-
+>  drivers/platform/chrome/cros_ec_spi.c         |   4 +-
+>  drivers/platform/chrome/cros_ec_sysfs.c       |   3 +-
+>  drivers/platform/chrome/cros_ec_trace.c       |   2 +-
+>  drivers/platform/chrome/cros_ec_trace.h       |   4 +-
+>  drivers/platform/chrome/cros_ec_vbc.c         |   3 +-
+>  drivers/platform/chrome/cros_usbpd_logger.c   |   5 +-
+>  drivers/power/supply/cros_usbpd-charger.c     |   5 +-
+>  drivers/pwm/pwm-cros-ec.c                     |   4 +-
+>  drivers/rtc/rtc-cros-ec.c                     |   3 +-
+>  .../linux/iio/common/cros_ec_sensors_core.h   |   3 +-
+>  include/linux/mfd/cros_ec.h                   | 306 -----------------
+>  .../{mfd => platform_data}/cros_ec_commands.h |   0
+>  include/linux/platform_data/cros_ec_proto.h   | 315 ++++++++++++++++++
+>  sound/soc/codecs/cros_ec_codec.c              |   4 +-
+>  34 files changed, 379 insertions(+), 351 deletions(-)
+>  rename include/linux/{mfd => platform_data}/cros_ec_commands.h (100%)
+>  create mode 100644 include/linux/platform_data/cros_ec_proto.h
+> 
+> diff --git a/drivers/extcon/extcon-usbc-cros-ec.c b/drivers/extcon/extcon-usbc-cros-ec.c
+> index 43c0a936ab82..5290cc2d19d9 100644
+> --- a/drivers/extcon/extcon-usbc-cros-ec.c
+> +++ b/drivers/extcon/extcon-usbc-cros-ec.c
+> @@ -6,10 +6,11 @@
+>  
+>  #include <linux/extcon-provider.h>
+>  #include <linux/kernel.h>
+> -#include <linux/mfd/cros_ec.h>
+>  #include <linux/module.h>
+>  #include <linux/notifier.h>
+>  #include <linux/of.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+>  #include <linux/sched.h>
+> diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
+> index ee5e0bdcf078..84f8c127ebdc 100644
+> --- a/drivers/hid/hid-google-hammer.c
+> +++ b/drivers/hid/hid-google-hammer.c
+> @@ -16,9 +16,9 @@
+>  #include <linux/acpi.h>
+>  #include <linux/hid.h>
+>  #include <linux/leds.h>
+> -#include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_wakeup.h>
+>  #include <asm/unaligned.h>
+> diff --git a/drivers/i2c/busses/i2c-cros-ec-tunnel.c b/drivers/i2c/busses/i2c-cros-ec-tunnel.c
+> index 82bcd9a78759..c551aa96a2e3 100644
+> --- a/drivers/i2c/busses/i2c-cros-ec-tunnel.c
+> +++ b/drivers/i2c/busses/i2c-cros-ec-tunnel.c
+> @@ -5,8 +5,8 @@
+>  
+>  #include <linux/module.h>
+>  #include <linux/i2c.h>
+> -#include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+>  
+> diff --git a/drivers/iio/accel/cros_ec_accel_legacy.c b/drivers/iio/accel/cros_ec_accel_legacy.c
+> index 46bb2e421bb9..fd9a634f741e 100644
+> --- a/drivers/iio/accel/cros_ec_accel_legacy.c
+> +++ b/drivers/iio/accel/cros_ec_accel_legacy.c
+> @@ -18,9 +18,10 @@
+>  #include <linux/iio/triggered_buffer.h>
+>  #include <linux/kernel.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  
+>  #define DRV_NAME	"cros-ec-accel-legacy"
+> diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
+> index 17af4e0fd5f8..40dc24ff0ee5 100644
+> --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
+> +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
+> @@ -17,8 +17,9 @@
+>  #include <linux/iio/triggered_buffer.h>
+>  #include <linux/kernel.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+>  
+> diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> index 719a0df5aeeb..fd63315399ac 100644
+> --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> @@ -14,9 +14,10 @@
+>  #include <linux/iio/trigger_consumer.h>
+>  #include <linux/kernel.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  
+>  static char *cros_ec_loc[] = {
+> diff --git a/drivers/iio/light/cros_ec_light_prox.c b/drivers/iio/light/cros_ec_light_prox.c
+> index 308ee6ff2e22..437e0eae9178 100644
+> --- a/drivers/iio/light/cros_ec_light_prox.c
+> +++ b/drivers/iio/light/cros_ec_light_prox.c
+> @@ -15,8 +15,9 @@
+>  #include <linux/iio/trigger_consumer.h>
+>  #include <linux/kernel.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+>  
+> diff --git a/drivers/iio/pressure/cros_ec_baro.c b/drivers/iio/pressure/cros_ec_baro.c
+> index 034ce98d6e97..956dc01f1295 100644
+> --- a/drivers/iio/pressure/cros_ec_baro.c
+> +++ b/drivers/iio/pressure/cros_ec_baro.c
+> @@ -15,9 +15,10 @@
+>  #include <linux/iio/trigger_consumer.h>
+>  #include <linux/kernel.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  
+>  /*
+> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+> index d56001181598..2b71c5a51f90 100644
+> --- a/drivers/input/keyboard/cros_ec_keyb.c
+> +++ b/drivers/input/keyboard/cros_ec_keyb.c
+> @@ -22,8 +22,8 @@
+>  #include <linux/slab.h>
+>  #include <linux/sysrq.h>
+>  #include <linux/input/matrix_keypad.h>
+> -#include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  
+>  #include <asm/unaligned.h>
+>  
+> diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+> index 068df9888dbf..2e4e263a4a94 100644
+> --- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+> +++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+> @@ -16,8 +16,8 @@
+>  #include <linux/interrupt.h>
+>  #include <media/cec.h>
+>  #include <media/cec-notifier.h>
+> -#include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  
+>  #define DRV_NAME	"cros-ec-cec"
+>  
+> diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+> index c7a5dfa36874..5481df4e1216 100644
+> --- a/drivers/mfd/cros_ec_dev.c
+> +++ b/drivers/mfd/cros_ec_dev.c
+> @@ -7,11 +7,12 @@
+>  
+>  #include <linux/mfd/core.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+>  #include <linux/mod_devicetable.h>
+>  #include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/slab.h>
+>  
+>  #define DRV_NAME "cros-ec-dev"
+> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+> index 11fced7917fc..9800597ccd96 100644
+> --- a/drivers/platform/chrome/cros_ec.c
+> +++ b/drivers/platform/chrome/cros_ec.c
+> @@ -21,7 +21,8 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/slab.h>
+>  #include <linux/module.h>
+> -#include <linux/mfd/cros_ec.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/suspend.h>
+>  #include <asm/unaligned.h>
+>  
+> diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
+> index 1a0a27080026..786b941a60df 100644
+> --- a/drivers/platform/chrome/cros_ec_chardev.c
+> +++ b/drivers/platform/chrome/cros_ec_chardev.c
+> @@ -9,10 +9,10 @@
+>  #include <linux/device.h>
+>  #include <linux/fs.h>
+>  #include <linux/list.h>
+> -#include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/miscdevice.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+>  #include <linux/spinlock.h>
+> diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
+> index 4c2a27f6a6d0..b088d91be9c9 100644
+> --- a/drivers/platform/chrome/cros_ec_debugfs.c
+> +++ b/drivers/platform/chrome/cros_ec_debugfs.c
+> @@ -8,9 +8,10 @@
+>  #include <linux/delay.h>
+>  #include <linux/fs.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/poll.h>
+>  #include <linux/sched.h>
+> diff --git a/drivers/platform/chrome/cros_ec_i2c.c b/drivers/platform/chrome/cros_ec_i2c.c
+> index 6bb82dfa7dae..9bd97bc8454b 100644
+> --- a/drivers/platform/chrome/cros_ec_i2c.c
+> +++ b/drivers/platform/chrome/cros_ec_i2c.c
+> @@ -9,8 +9,8 @@
+>  #include <linux/module.h>
+>  #include <linux/i2c.h>
+>  #include <linux/interrupt.h>
+> -#include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+>  
+> diff --git a/drivers/platform/chrome/cros_ec_lightbar.c b/drivers/platform/chrome/cros_ec_lightbar.c
+> index d30a6650b0b5..caa26da2c788 100644
+> --- a/drivers/platform/chrome/cros_ec_lightbar.c
+> +++ b/drivers/platform/chrome/cros_ec_lightbar.c
+> @@ -9,8 +9,9 @@
+>  #include <linux/fs.h>
+>  #include <linux/kobject.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/sched.h>
+>  #include <linux/types.h>
+> diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+> index 2c7e654cf89c..0c976e95998a 100644
+> --- a/drivers/platform/chrome/cros_ec_lpc.c
+> +++ b/drivers/platform/chrome/cros_ec_lpc.c
+> @@ -16,9 +16,9 @@
+>  #include <linux/delay.h>
+>  #include <linux/io.h>
+>  #include <linux/interrupt.h>
+> -#include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/printk.h>
+>  #include <linux/suspend.h>
+> diff --git a/drivers/platform/chrome/cros_ec_lpc_reg.c b/drivers/platform/chrome/cros_ec_lpc_reg.c
+> index 0f5cd0ac8b49..dec9a779e209 100644
+> --- a/drivers/platform/chrome/cros_ec_lpc_reg.c
+> +++ b/drivers/platform/chrome/cros_ec_lpc_reg.c
+> @@ -4,8 +4,8 @@
+>  // Copyright (C) 2016 Google, Inc
+>  
+>  #include <linux/io.h>
+> -#include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  
+>  #include "cros_ec_lpc_mec.h"
+>  
+> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+> index 3d2325197a68..f659f96bda12 100644
+> --- a/drivers/platform/chrome/cros_ec_proto.c
+> +++ b/drivers/platform/chrome/cros_ec_proto.c
+> @@ -3,10 +3,11 @@
+>  //
+>  // Copyright (C) 2015 Google, Inc
+>  
+> -#include <linux/mfd/cros_ec.h>
+>  #include <linux/delay.h>
+>  #include <linux/device.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/slab.h>
+>  #include <asm/unaligned.h>
+>  
+> diff --git a/drivers/platform/chrome/cros_ec_rpmsg.c b/drivers/platform/chrome/cros_ec_rpmsg.c
+> index 520e507bfa54..9633e5417686 100644
+> --- a/drivers/platform/chrome/cros_ec_rpmsg.c
+> +++ b/drivers/platform/chrome/cros_ec_rpmsg.c
+> @@ -6,9 +6,9 @@
+>  #include <linux/delay.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> -#include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/of.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/rpmsg.h>
+>  #include <linux/slab.h>
+> diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
+> index 2e21f2776063..9006e1872942 100644
+> --- a/drivers/platform/chrome/cros_ec_spi.c
+> +++ b/drivers/platform/chrome/cros_ec_spi.c
+> @@ -6,9 +6,9 @@
+>  #include <linux/delay.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> -#include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/of.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+>  #include <linux/spi/spi.h>
+> diff --git a/drivers/platform/chrome/cros_ec_sysfs.c b/drivers/platform/chrome/cros_ec_sysfs.c
+> index fe0b7614ae1b..0caeb8d0989d 100644
+> --- a/drivers/platform/chrome/cros_ec_sysfs.c
+> +++ b/drivers/platform/chrome/cros_ec_sysfs.c
+> @@ -9,8 +9,9 @@
+>  #include <linux/fs.h>
+>  #include <linux/kobject.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/printk.h>
+>  #include <linux/slab.h>
+> diff --git a/drivers/platform/chrome/cros_ec_trace.c b/drivers/platform/chrome/cros_ec_trace.c
+> index 0a76412095a9..6f80ff4532ae 100644
+> --- a/drivers/platform/chrome/cros_ec_trace.c
+> +++ b/drivers/platform/chrome/cros_ec_trace.c
+> @@ -6,7 +6,7 @@
+>  #define TRACE_SYMBOL(a) {a, #a}
+>  
+>  // Generate the list using the following script:
+> -// sed -n 's/^#define \(EC_CMD_[[:alnum:]_]*\)\s.*/\tTRACE_SYMBOL(\1), \\/p' include/linux/mfd/cros_ec_commands.h
+> +// sed -n 's/^#define \(EC_CMD_[[:alnum:]_]*\)\s.*/\tTRACE_SYMBOL(\1), \\/p' include/linux/platform_data/cros_ec_commands.h
+>  #define EC_CMDS \
+>  	TRACE_SYMBOL(EC_CMD_PROTO_VERSION), \
+>  	TRACE_SYMBOL(EC_CMD_HELLO), \
+> diff --git a/drivers/platform/chrome/cros_ec_trace.h b/drivers/platform/chrome/cros_ec_trace.h
+> index 7ae3b89c78b9..0dd4df30fa89 100644
+> --- a/drivers/platform/chrome/cros_ec_trace.h
+> +++ b/drivers/platform/chrome/cros_ec_trace.h
+> @@ -11,8 +11,10 @@
+>  #if !defined(_CROS_EC_TRACE_H_) || defined(TRACE_HEADER_MULTI_READ)
+>  #define _CROS_EC_TRACE_H_
+>  
+> +#include <linux/bits.h>
+>  #include <linux/types.h>
+> -#include <linux/mfd/cros_ec.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  
+>  #include <linux/tracepoint.h>
+>  
+> diff --git a/drivers/platform/chrome/cros_ec_vbc.c b/drivers/platform/chrome/cros_ec_vbc.c
+> index 8392a1ec33a7..cffe119e7a7a 100644
+> --- a/drivers/platform/chrome/cros_ec_vbc.c
+> +++ b/drivers/platform/chrome/cros_ec_vbc.c
+> @@ -7,8 +7,9 @@
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/slab.h>
+>  
+>  #define DRV_NAME "cros-ec-vbc"
+> diff --git a/drivers/platform/chrome/cros_usbpd_logger.c b/drivers/platform/chrome/cros_usbpd_logger.c
+> index 7c7b267626a0..c549a9b49b56 100644
+> --- a/drivers/platform/chrome/cros_usbpd_logger.c
+> +++ b/drivers/platform/chrome/cros_usbpd_logger.c
+> @@ -6,10 +6,11 @@
+>   */
+>  
+>  #include <linux/ktime.h>
+> -#include <linux/math64.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+> +#include <linux/math64.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/rtc.h>
+>  
+> diff --git a/drivers/power/supply/cros_usbpd-charger.c b/drivers/power/supply/cros_usbpd-charger.c
+> index 3a9ea94c3de3..6cc7c3910e09 100644
+> --- a/drivers/power/supply/cros_usbpd-charger.c
+> +++ b/drivers/power/supply/cros_usbpd-charger.c
+> @@ -5,9 +5,10 @@
+>   * Copyright (c) 2014 - 2018 Google, Inc
+>   */
+>  
+> -#include <linux/module.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/power_supply.h>
+>  #include <linux/slab.h>
+> diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
+> index 98f6ac6cf6ab..85bea2d40b7d 100644
+> --- a/drivers/pwm/pwm-cros-ec.c
+> +++ b/drivers/pwm/pwm-cros-ec.c
+> @@ -6,8 +6,8 @@
+>   */
+>  
+>  #include <linux/module.h>
+> -#include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pwm.h>
+>  #include <linux/slab.h>
+> diff --git a/drivers/rtc/rtc-cros-ec.c b/drivers/rtc/rtc-cros-ec.c
+> index 4d6bf9304ceb..6909e01936d9 100644
+> --- a/drivers/rtc/rtc-cros-ec.c
+> +++ b/drivers/rtc/rtc-cros-ec.c
+> @@ -6,8 +6,9 @@
+>  
+>  #include <linux/kernel.h>
+>  #include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/rtc.h>
+>  #include <linux/slab.h>
+> diff --git a/include/linux/iio/common/cros_ec_sensors_core.h b/include/linux/iio/common/cros_ec_sensors_core.h
+> index ce16445411ac..8a91669f5bed 100644
+> --- a/include/linux/iio/common/cros_ec_sensors_core.h
+> +++ b/include/linux/iio/common/cros_ec_sensors_core.h
+> @@ -18,7 +18,8 @@
+>  
+>  #include <linux/iio/iio.h>
+>  #include <linux/irqreturn.h>
+> -#include <linux/mfd/cros_ec.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  
+>  enum {
+>  	CROS_EC_SENSOR_X,
+> diff --git a/include/linux/mfd/cros_ec.h b/include/linux/mfd/cros_ec.h
+> index 2a1372d167b9..e0bae49535e1 100644
+> --- a/include/linux/mfd/cros_ec.h
+> +++ b/include/linux/mfd/cros_ec.h
+> @@ -16,184 +16,7 @@
+>  #ifndef __LINUX_MFD_CROS_EC_H
+>  #define __LINUX_MFD_CROS_EC_H
+>  
+> -#include <linux/cdev.h>
+>  #include <linux/device.h>
+> -#include <linux/notifier.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+> -#include <linux/mutex.h>
+> -
+> -#define CROS_EC_DEV_NAME "cros_ec"
+> -#define CROS_EC_DEV_FP_NAME "cros_fp"
+> -#define CROS_EC_DEV_PD_NAME "cros_pd"
+> -#define CROS_EC_DEV_TP_NAME "cros_tp"
+> -#define CROS_EC_DEV_ISH_NAME "cros_ish"
+> -
+> -/*
+> - * The EC is unresponsive for a time after a reboot command.  Add a
+> - * simple delay to make sure that the bus stays locked.
+> - */
+> -#define EC_REBOOT_DELAY_MS             50
+> -
+> -/*
+> - * Max bus-specific overhead incurred by request/responses.
+> - * I2C requires 1 additional byte for requests.
+> - * I2C requires 2 additional bytes for responses.
+> - * SPI requires up to 32 additional bytes for responses.
+> - */
+> -#define EC_PROTO_VERSION_UNKNOWN	0
+> -#define EC_MAX_REQUEST_OVERHEAD		1
+> -#define EC_MAX_RESPONSE_OVERHEAD	32
+> -
+> -/*
+> - * Command interface between EC and AP, for LPC, I2C and SPI interfaces.
+> - */
+> -enum {
+> -	EC_MSG_TX_HEADER_BYTES	= 3,
+> -	EC_MSG_TX_TRAILER_BYTES	= 1,
+> -	EC_MSG_TX_PROTO_BYTES	= EC_MSG_TX_HEADER_BYTES +
+> -					EC_MSG_TX_TRAILER_BYTES,
+> -	EC_MSG_RX_PROTO_BYTES	= 3,
+> -
+> -	/* Max length of messages for proto 2*/
+> -	EC_PROTO2_MSG_BYTES		= EC_PROTO2_MAX_PARAM_SIZE +
+> -					EC_MSG_TX_PROTO_BYTES,
+> -
+> -	EC_MAX_MSG_BYTES		= 64 * 1024,
+> -};
+> -
+> -/**
+> - * struct cros_ec_command - Information about a ChromeOS EC command.
+> - * @version: Command version number (often 0).
+> - * @command: Command to send (EC_CMD_...).
+> - * @outsize: Outgoing length in bytes.
+> - * @insize: Max number of bytes to accept from the EC.
+> - * @result: EC's response to the command (separate from communication failure).
+> - * @data: Where to put the incoming data from EC and outgoing data to EC.
+> - */
+> -struct cros_ec_command {
+> -	uint32_t version;
+> -	uint32_t command;
+> -	uint32_t outsize;
+> -	uint32_t insize;
+> -	uint32_t result;
+> -	uint8_t data[0];
+> -};
+> -
+> -/**
+> - * struct cros_ec_device - Information about a ChromeOS EC device.
+> - * @phys_name: Name of physical comms layer (e.g. 'i2c-4').
+> - * @dev: Device pointer for physical comms device
+> - * @was_wake_device: True if this device was set to wake the system from
+> - *                   sleep at the last suspend.
+> - * @cros_class: The class structure for this device.
+> - * @cmd_readmem: Direct read of the EC memory-mapped region, if supported.
+> - *     @offset: Is within EC_LPC_ADDR_MEMMAP region.
+> - *     @bytes: Number of bytes to read. zero means "read a string" (including
+> - *             the trailing '\0'). At most only EC_MEMMAP_SIZE bytes can be
+> - *             read. Caller must ensure that the buffer is large enough for the
+> - *             result when reading a string.
+> - * @max_request: Max size of message requested.
+> - * @max_response: Max size of message response.
+> - * @max_passthru: Max sice of passthru message.
+> - * @proto_version: The protocol version used for this device.
+> - * @priv: Private data.
+> - * @irq: Interrupt to use.
+> - * @id: Device id.
+> - * @din: Input buffer (for data from EC). This buffer will always be
+> - *       dword-aligned and include enough space for up to 7 word-alignment
+> - *       bytes also, so we can ensure that the body of the message is always
+> - *       dword-aligned (64-bit). We use this alignment to keep ARM and x86
+> - *       happy. Probably word alignment would be OK, there might be a small
+> - *       performance advantage to using dword.
+> - * @dout: Output buffer (for data to EC). This buffer will always be
+> - *        dword-aligned and include enough space for up to 7 word-alignment
+> - *        bytes also, so we can ensure that the body of the message is always
+> - *        dword-aligned (64-bit). We use this alignment to keep ARM and x86
+> - *        happy. Probably word alignment would be OK, there might be a small
+> - *        performance advantage to using dword.
+> - * @din_size: Size of din buffer to allocate (zero to use static din).
+> - * @dout_size: Size of dout buffer to allocate (zero to use static dout).
+> - * @wake_enabled: True if this device can wake the system from sleep.
+> - * @suspended: True if this device had been suspended.
+> - * @cmd_xfer: Send command to EC and get response.
+> - *            Returns the number of bytes received if the communication
+> - *            succeeded, but that doesn't mean the EC was happy with the
+> - *            command. The caller should check msg.result for the EC's result
+> - *            code.
+> - * @pkt_xfer: Send packet to EC and get response.
+> - * @lock: One transaction at a time.
+> - * @mkbp_event_supported: True if this EC supports the MKBP event protocol.
+> - * @host_sleep_v1: True if this EC supports the sleep v1 command.
+> - * @event_notifier: Interrupt event notifier for transport devices.
+> - * @event_data: Raw payload transferred with the MKBP event.
+> - * @event_size: Size in bytes of the event data.
+> - * @host_event_wake_mask: Mask of host events that cause wake from suspend.
+> - * @ec: The platform_device used by the mfd driver to interface with the
+> - *      main EC.
+> - * @pd: The platform_device used by the mfd driver to interface with the
+> - *      PD behind an EC.
+> - */
+> -struct cros_ec_device {
+> -	/* These are used by other drivers that want to talk to the EC */
+> -	const char *phys_name;
+> -	struct device *dev;
+> -	bool was_wake_device;
+> -	struct class *cros_class;
+> -	int (*cmd_readmem)(struct cros_ec_device *ec, unsigned int offset,
+> -			   unsigned int bytes, void *dest);
+> -
+> -	/* These are used to implement the platform-specific interface */
+> -	u16 max_request;
+> -	u16 max_response;
+> -	u16 max_passthru;
+> -	u16 proto_version;
+> -	void *priv;
+> -	int irq;
+> -	u8 *din;
+> -	u8 *dout;
+> -	int din_size;
+> -	int dout_size;
+> -	bool wake_enabled;
+> -	bool suspended;
+> -	int (*cmd_xfer)(struct cros_ec_device *ec,
+> -			struct cros_ec_command *msg);
+> -	int (*pkt_xfer)(struct cros_ec_device *ec,
+> -			struct cros_ec_command *msg);
+> -	struct mutex lock;
+> -	bool mkbp_event_supported;
+> -	bool host_sleep_v1;
+> -	struct blocking_notifier_head event_notifier;
+> -
+> -	struct ec_response_get_next_event_v1 event_data;
+> -	int event_size;
+> -	u32 host_event_wake_mask;
+> -
+> -	/* The platform devices used by the mfd driver */
+> -	struct platform_device *ec;
+> -	struct platform_device *pd;
+> -};
+> -
+> -/**
+> - * struct cros_ec_sensor_platform - ChromeOS EC sensor platform information.
+> - * @sensor_num: Id of the sensor, as reported by the EC.
+> - */
+> -struct cros_ec_sensor_platform {
+> -	u8 sensor_num;
+> -};
+> -
+> -/**
+> - * struct cros_ec_platform - ChromeOS EC platform information.
+> - * @ec_name: Name of EC device (e.g. 'cros-ec', 'cros-pd', ...)
+> - *           used in /dev/ and sysfs.
+> - * @cmd_offset: Offset to apply for each command. Set when
+> - *              registering a device behind another one.
+> - */
+> -struct cros_ec_platform {
+> -	const char *ec_name;
+> -	u16 cmd_offset;
+> -};
+> -
+> -struct cros_ec_debugfs;
+>  
+>  /**
+>   * struct cros_ec_dev - ChromeOS EC device entry point.
+> @@ -217,133 +40,4 @@ struct cros_ec_dev {
+>  
+>  #define to_cros_ec_dev(dev)  container_of(dev, struct cros_ec_dev, class_dev)
+>  
+> -/**
+> - * cros_ec_suspend() - Handle a suspend operation for the ChromeOS EC device.
+> - * @ec_dev: Device to suspend.
+> - *
+> - * This can be called by drivers to handle a suspend event.
+> - *
+> - * Return: 0 on success or negative error code.
+> - */
+> -int cros_ec_suspend(struct cros_ec_device *ec_dev);
+> -
+> -/**
+> - * cros_ec_resume() - Handle a resume operation for the ChromeOS EC device.
+> - * @ec_dev: Device to resume.
+> - *
+> - * This can be called by drivers to handle a resume event.
+> - *
+> - * Return: 0 on success or negative error code.
+> - */
+> -int cros_ec_resume(struct cros_ec_device *ec_dev);
+> -
+> -/**
+> - * cros_ec_prepare_tx() - Prepare an outgoing message in the output buffer.
+> - * @ec_dev: Device to register.
+> - * @msg: Message to write.
+> - *
+> - * This is intended to be used by all ChromeOS EC drivers, but at present
+> - * only SPI uses it. Once LPC uses the same protocol it can start using it.
+> - * I2C could use it now, with a refactor of the existing code.
+> - *
+> - * Return: 0 on success or negative error code.
+> - */
+> -int cros_ec_prepare_tx(struct cros_ec_device *ec_dev,
+> -		       struct cros_ec_command *msg);
+> -
+> -/**
+> - * cros_ec_check_result() - Check ec_msg->result.
+> - * @ec_dev: EC device.
+> - * @msg: Message to check.
+> - *
+> - * This is used by ChromeOS EC drivers to check the ec_msg->result for
+> - * errors and to warn about them.
+> - *
+> - * Return: 0 on success or negative error code.
+> - */
+> -int cros_ec_check_result(struct cros_ec_device *ec_dev,
+> -			 struct cros_ec_command *msg);
+> -
+> -/**
+> - * cros_ec_cmd_xfer() - Send a command to the ChromeOS EC.
+> - * @ec_dev: EC device.
+> - * @msg: Message to write.
+> - *
+> - * Call this to send a command to the ChromeOS EC.  This should be used
+> - * instead of calling the EC's cmd_xfer() callback directly.
+> - *
+> - * Return: 0 on success or negative error code.
+> - */
+> -int cros_ec_cmd_xfer(struct cros_ec_device *ec_dev,
+> -		     struct cros_ec_command *msg);
+> -
+> -/**
+> - * cros_ec_cmd_xfer_status() - Send a command to the ChromeOS EC.
+> - * @ec_dev: EC device.
+> - * @msg: Message to write.
+> - *
+> - * This function is identical to cros_ec_cmd_xfer, except it returns success
+> - * status only if both the command was transmitted successfully and the EC
+> - * replied with success status. It's not necessary to check msg->result when
+> - * using this function.
+> - *
+> - * Return: The number of bytes transferred on success or negative error code.
+> - */
+> -int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
+> -			    struct cros_ec_command *msg);
+> -
+> -/**
+> - * cros_ec_register() - Register a new ChromeOS EC, using the provided info.
+> - * @ec_dev: Device to register.
+> - *
+> - * Before calling this, allocate a pointer to a new device and then fill
+> - * in all the fields up to the --private-- marker.
+> - *
+> - * Return: 0 on success or negative error code.
+> - */
+> -int cros_ec_register(struct cros_ec_device *ec_dev);
+> -
+> -/**
+> - * cros_ec_unregister() - Remove a ChromeOS EC.
+> - * @ec_dev: Device to unregister.
+> - *
+> - * Call this to deregister a ChromeOS EC, then clean up any private data.
+> - *
+> - * Return: 0 on success or negative error code.
+> - */
+> -int cros_ec_unregister(struct cros_ec_device *ec_dev);
+> -
+> -/**
+> - * cros_ec_query_all() -  Query the protocol version supported by the
+> - *         ChromeOS EC.
+> - * @ec_dev: Device to register.
+> - *
+> - * Return: 0 on success or negative error code.
+> - */
+> -int cros_ec_query_all(struct cros_ec_device *ec_dev);
+> -
+> -/**
+> - * cros_ec_get_next_event() - Fetch next event from the ChromeOS EC.
+> - * @ec_dev: Device to fetch event from.
+> - * @wake_event: Pointer to a bool set to true upon return if the event might be
+> - *              treated as a wake event. Ignored if null.
+> - *
+> - * Return: negative error code on errors; 0 for no data; or else number of
+> - * bytes received (i.e., an event was retrieved successfully). Event types are
+> - * written out to @ec_dev->event_data.event_type on success.
+> - */
+> -int cros_ec_get_next_event(struct cros_ec_device *ec_dev, bool *wake_event);
+> -
+> -/**
+> - * cros_ec_get_host_event() - Return a mask of event set by the ChromeOS EC.
+> - * @ec_dev: Device to fetch event from.
+> - *
+> - * When MKBP is supported, when the EC raises an interrupt, we collect the
+> - * events raised and call the functions in the ec notifier. This function
+> - * is a helper to know which events are raised.
+> - *
+> - * Return: 0 on error or non-zero bitmask of one or more EC_HOST_EVENT_*.
+> - */
+> -u32 cros_ec_get_host_event(struct cros_ec_device *ec_dev);
+> -
+>  #endif /* __LINUX_MFD_CROS_EC_H */
+> diff --git a/include/linux/mfd/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+> similarity index 100%
+> rename from include/linux/mfd/cros_ec_commands.h
+> rename to include/linux/platform_data/cros_ec_commands.h
+> diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
+> new file mode 100644
+> index 000000000000..34dd9e5c1779
+> --- /dev/null
+> +++ b/include/linux/platform_data/cros_ec_proto.h
+> @@ -0,0 +1,315 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * ChromeOS Embedded Controller protocol interface.
+> + *
+> + * Copyright (C) 2012 Google, Inc
+> + */
+> +
+> +#ifndef __LINUX_CROS_EC_PROTO_H
+> +#define __LINUX_CROS_EC_PROTO_H
+> +
+> +#include <linux/device.h>
+> +#include <linux/mutex.h>
+> +#include <linux/notifier.h>
+> +
+> +#define CROS_EC_DEV_NAME	"cros_ec"
+> +#define CROS_EC_DEV_FP_NAME	"cros_fp"
+> +#define CROS_EC_DEV_ISH_NAME	"cros_ish"
+> +#define CROS_EC_DEV_PD_NAME	"cros_pd"
+> +#define CROS_EC_DEV_TP_NAME	"cros_tp"
+> +
+> +/*
+> + * The EC is unresponsive for a time after a reboot command.  Add a
+> + * simple delay to make sure that the bus stays locked.
+> + */
+> +#define EC_REBOOT_DELAY_MS		50
+> +
+> +/*
+> + * Max bus-specific overhead incurred by request/responses.
+> + * I2C requires 1 additional byte for requests.
+> + * I2C requires 2 additional bytes for responses.
+> + * SPI requires up to 32 additional bytes for responses.
+> + */
+> +#define EC_PROTO_VERSION_UNKNOWN	0
+> +#define EC_MAX_REQUEST_OVERHEAD		1
+> +#define EC_MAX_RESPONSE_OVERHEAD	32
+> +
+> +/*
+> + * Command interface between EC and AP, for LPC, I2C and SPI interfaces.
+> + */
+> +enum {
+> +	EC_MSG_TX_HEADER_BYTES	= 3,
+> +	EC_MSG_TX_TRAILER_BYTES	= 1,
+> +	EC_MSG_TX_PROTO_BYTES	= EC_MSG_TX_HEADER_BYTES +
+> +				  EC_MSG_TX_TRAILER_BYTES,
+> +	EC_MSG_RX_PROTO_BYTES	= 3,
+> +
+> +	/* Max length of messages for proto 2*/
+> +	EC_PROTO2_MSG_BYTES	= EC_PROTO2_MAX_PARAM_SIZE +
+> +				  EC_MSG_TX_PROTO_BYTES,
+> +
+> +	EC_MAX_MSG_BYTES	= 64 * 1024,
+> +};
+> +
+> +/**
+> + * struct cros_ec_command - Information about a ChromeOS EC command.
+> + * @version: Command version number (often 0).
+> + * @command: Command to send (EC_CMD_...).
+> + * @outsize: Outgoing length in bytes.
+> + * @insize: Max number of bytes to accept from the EC.
+> + * @result: EC's response to the command (separate from communication failure).
+> + * @data: Where to put the incoming data from EC and outgoing data to EC.
+> + */
+> +struct cros_ec_command {
+> +	uint32_t version;
+> +	uint32_t command;
+> +	uint32_t outsize;
+> +	uint32_t insize;
+> +	uint32_t result;
+> +	uint8_t data[0];
+> +};
+> +
+> +/**
+> + * struct cros_ec_device - Information about a ChromeOS EC device.
+> + * @phys_name: Name of physical comms layer (e.g. 'i2c-4').
+> + * @dev: Device pointer for physical comms device
+> + * @was_wake_device: True if this device was set to wake the system from
+> + *                   sleep at the last suspend.
+> + * @cros_class: The class structure for this device.
+> + * @cmd_readmem: Direct read of the EC memory-mapped region, if supported.
+> + *     @offset: Is within EC_LPC_ADDR_MEMMAP region.
+> + *     @bytes: Number of bytes to read. zero means "read a string" (including
+> + *             the trailing '\0'). At most only EC_MEMMAP_SIZE bytes can be
+> + *             read. Caller must ensure that the buffer is large enough for the
+> + *             result when reading a string.
+> + * @max_request: Max size of message requested.
+> + * @max_response: Max size of message response.
+> + * @max_passthru: Max sice of passthru message.
+> + * @proto_version: The protocol version used for this device.
+> + * @priv: Private data.
+> + * @irq: Interrupt to use.
+> + * @id: Device id.
+> + * @din: Input buffer (for data from EC). This buffer will always be
+> + *       dword-aligned and include enough space for up to 7 word-alignment
+> + *       bytes also, so we can ensure that the body of the message is always
+> + *       dword-aligned (64-bit). We use this alignment to keep ARM and x86
+> + *       happy. Probably word alignment would be OK, there might be a small
+> + *       performance advantage to using dword.
+> + * @dout: Output buffer (for data to EC). This buffer will always be
+> + *        dword-aligned and include enough space for up to 7 word-alignment
+> + *        bytes also, so we can ensure that the body of the message is always
+> + *        dword-aligned (64-bit). We use this alignment to keep ARM and x86
+> + *        happy. Probably word alignment would be OK, there might be a small
+> + *        performance advantage to using dword.
+> + * @din_size: Size of din buffer to allocate (zero to use static din).
+> + * @dout_size: Size of dout buffer to allocate (zero to use static dout).
+> + * @wake_enabled: True if this device can wake the system from sleep.
+> + * @suspended: True if this device had been suspended.
+> + * @cmd_xfer: Send command to EC and get response.
+> + *            Returns the number of bytes received if the communication
+> + *            succeeded, but that doesn't mean the EC was happy with the
+> + *            command. The caller should check msg.result for the EC's result
+> + *            code.
+> + * @pkt_xfer: Send packet to EC and get response.
+> + * @lock: One transaction at a time.
+> + * @mkbp_event_supported: True if this EC supports the MKBP event protocol.
+> + * @host_sleep_v1: True if this EC supports the sleep v1 command.
+> + * @event_notifier: Interrupt event notifier for transport devices.
+> + * @event_data: Raw payload transferred with the MKBP event.
+> + * @event_size: Size in bytes of the event data.
+> + * @host_event_wake_mask: Mask of host events that cause wake from suspend.
+> + * @ec: The platform_device used by the mfd driver to interface with the
+> + *      main EC.
+> + * @pd: The platform_device used by the mfd driver to interface with the
+> + *      PD behind an EC.
+> + */
+> +struct cros_ec_device {
+> +	/* These are used by other drivers that want to talk to the EC */
+> +	const char *phys_name;
+> +	struct device *dev;
+> +	bool was_wake_device;
+> +	struct class *cros_class;
+> +	int (*cmd_readmem)(struct cros_ec_device *ec, unsigned int offset,
+> +			   unsigned int bytes, void *dest);
+> +
+> +	/* These are used to implement the platform-specific interface */
+> +	u16 max_request;
+> +	u16 max_response;
+> +	u16 max_passthru;
+> +	u16 proto_version;
+> +	void *priv;
+> +	int irq;
+> +	u8 *din;
+> +	u8 *dout;
+> +	int din_size;
+> +	int dout_size;
+> +	bool wake_enabled;
+> +	bool suspended;
+> +	int (*cmd_xfer)(struct cros_ec_device *ec,
+> +			struct cros_ec_command *msg);
+> +	int (*pkt_xfer)(struct cros_ec_device *ec,
+> +			struct cros_ec_command *msg);
+> +	struct mutex lock;
+> +	bool mkbp_event_supported;
+> +	bool host_sleep_v1;
+> +	struct blocking_notifier_head event_notifier;
+> +
+> +	struct ec_response_get_next_event_v1 event_data;
+> +	int event_size;
+> +	u32 host_event_wake_mask;
+> +
+> +	/* The platform devices used by the mfd driver */
+> +	struct platform_device *ec;
+> +	struct platform_device *pd;
+> +};
+> +
+> +/**
+> + * struct cros_ec_sensor_platform - ChromeOS EC sensor platform information.
+> + * @sensor_num: Id of the sensor, as reported by the EC.
+> + */
+> +struct cros_ec_sensor_platform {
+> +	u8 sensor_num;
+> +};
+> +
+> +/**
+> + * struct cros_ec_platform - ChromeOS EC platform information.
+> + * @ec_name: Name of EC device (e.g. 'cros-ec', 'cros-pd', ...)
+> + *           used in /dev/ and sysfs.
+> + * @cmd_offset: Offset to apply for each command. Set when
+> + *              registering a device behind another one.
+> + */
+> +struct cros_ec_platform {
+> +	const char *ec_name;
+> +	u16 cmd_offset;
+> +};
+> +
+> +/**
+> + * cros_ec_suspend() - Handle a suspend operation for the ChromeOS EC device.
+> + * @ec_dev: Device to suspend.
+> + *
+> + * This can be called by drivers to handle a suspend event.
+> + *
+> + * Return: 0 on success or negative error code.
+> + */
+> +int cros_ec_suspend(struct cros_ec_device *ec_dev);
+> +
+> +/**
+> + * cros_ec_resume() - Handle a resume operation for the ChromeOS EC device.
+> + * @ec_dev: Device to resume.
+> + *
+> + * This can be called by drivers to handle a resume event.
+> + *
+> + * Return: 0 on success or negative error code.
+> + */
+> +int cros_ec_resume(struct cros_ec_device *ec_dev);
+> +
+> +/**
+> + * cros_ec_prepare_tx() - Prepare an outgoing message in the output buffer.
+> + * @ec_dev: Device to register.
+> + * @msg: Message to write.
+> + *
+> + * This is intended to be used by all ChromeOS EC drivers, but at present
+> + * only SPI uses it. Once LPC uses the same protocol it can start using it.
+> + * I2C could use it now, with a refactor of the existing code.
+> + *
+> + * Return: 0 on success or negative error code.
+> + */
+> +int cros_ec_prepare_tx(struct cros_ec_device *ec_dev,
+> +		       struct cros_ec_command *msg);
+> +
+> +/**
+> + * cros_ec_check_result() - Check ec_msg->result.
+> + * @ec_dev: EC device.
+> + * @msg: Message to check.
+> + *
+> + * This is used by ChromeOS EC drivers to check the ec_msg->result for
+> + * errors and to warn about them.
+> + *
+> + * Return: 0 on success or negative error code.
+> + */
+> +int cros_ec_check_result(struct cros_ec_device *ec_dev,
+> +			 struct cros_ec_command *msg);
+> +
+> +/**
+> + * cros_ec_cmd_xfer() - Send a command to the ChromeOS EC.
+> + * @ec_dev: EC device.
+> + * @msg: Message to write.
+> + *
+> + * Call this to send a command to the ChromeOS EC.  This should be used
+> + * instead of calling the EC's cmd_xfer() callback directly.
+> + *
+> + * Return: 0 on success or negative error code.
+> + */
+> +int cros_ec_cmd_xfer(struct cros_ec_device *ec_dev,
+> +		     struct cros_ec_command *msg);
+> +
+> +/**
+> + * cros_ec_cmd_xfer_status() - Send a command to the ChromeOS EC.
+> + * @ec_dev: EC device.
+> + * @msg: Message to write.
+> + *
+> + * This function is identical to cros_ec_cmd_xfer, except it returns success
+> + * status only if both the command was transmitted successfully and the EC
+> + * replied with success status. It's not necessary to check msg->result when
+> + * using this function.
+> + *
+> + * Return: The number of bytes transferred on success or negative error code.
+> + */
+> +int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
+> +			    struct cros_ec_command *msg);
+> +
+> +/**
+> + * cros_ec_register() - Register a new ChromeOS EC, using the provided info.
+> + * @ec_dev: Device to register.
+> + *
+> + * Before calling this, allocate a pointer to a new device and then fill
+> + * in all the fields up to the --private-- marker.
+> + *
+> + * Return: 0 on success or negative error code.
+> + */
+> +int cros_ec_register(struct cros_ec_device *ec_dev);
+> +
+> +/**
+> + * cros_ec_unregister() - Remove a ChromeOS EC.
+> + * @ec_dev: Device to unregister.
+> + *
+> + * Call this to deregister a ChromeOS EC, then clean up any private data.
+> + *
+> + * Return: 0 on success or negative error code.
+> + */
+> +int cros_ec_unregister(struct cros_ec_device *ec_dev);
+> +
+> +/**
+> + * cros_ec_query_all() -  Query the protocol version supported by the
+> + *         ChromeOS EC.
+> + * @ec_dev: Device to register.
+> + *
+> + * Return: 0 on success or negative error code.
+> + */
+> +int cros_ec_query_all(struct cros_ec_device *ec_dev);
+> +
+> +/**
+> + * cros_ec_get_next_event() - Fetch next event from the ChromeOS EC.
+> + * @ec_dev: Device to fetch event from.
+> + * @wake_event: Pointer to a bool set to true upon return if the event might be
+> + *              treated as a wake event. Ignored if null.
+> + *
+> + * Return: negative error code on errors; 0 for no data; or else number of
+> + * bytes received (i.e., an event was retrieved successfully). Event types are
+> + * written out to @ec_dev->event_data.event_type on success.
+> + */
+> +int cros_ec_get_next_event(struct cros_ec_device *ec_dev, bool *wake_event);
+> +
+> +/**
+> + * cros_ec_get_host_event() - Return a mask of event set by the ChromeOS EC.
+> + * @ec_dev: Device to fetch event from.
+> + *
+> + * When MKBP is supported, when the EC raises an interrupt, we collect the
+> + * events raised and call the functions in the ec notifier. This function
+> + * is a helper to know which events are raised.
+> + *
+> + * Return: 0 on error or non-zero bitmask of one or more EC_HOST_EVENT_*.
+> + */
+> +u32 cros_ec_get_host_event(struct cros_ec_device *ec_dev);
+> +
+> +#endif /* __LINUX_CROS_EC_PROTO_H */
+> diff --git a/sound/soc/codecs/cros_ec_codec.c b/sound/soc/codecs/cros_ec_codec.c
+> index 87830ed5ebf4..79bb4081d3c2 100644
+> --- a/sound/soc/codecs/cros_ec_codec.c
+> +++ b/sound/soc/codecs/cros_ec_codec.c
+> @@ -9,9 +9,9 @@
+>  #include <linux/delay.h>
+>  #include <linux/device.h>
+>  #include <linux/kernel.h>
+> -#include <linux/mfd/cros_ec.h>
+> -#include <linux/mfd/cros_ec_commands.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_data/cros_ec_commands.h>
+> +#include <linux/platform_data/cros_ec_proto.h>
+>  #include <linux/platform_device.h>
+>  #include <sound/pcm.h>
+>  #include <sound/pcm_params.h>
+> -- 
+> 2.20.1
+> 
 
-Please find attached a data file created using DHL-Interactive which contai=
-ns shipping documents and tracking as follows.
-
-*Bill Of Lading
-
-
-*Certificate of Origin
-
-
-*Tracking
-
-
-You can download the file and open it using a Internet Explorer or Mozilla
-
-
-
-File is clean and contains no virus.
---===============1747540958==
-Content-Type: application/zip
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="shippingDoc#05845.zip"
-
-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
-aOkyq6+Lls6x+rpo6Ryrr4uWzrH6ixPyRTCfZ/V10dK7rL4uWrrM6uuipXOsvi5aOsfq66Klc6y+
-Llq6yOrroqV3WX1dtPQuq6+Lli6z+rpo6Ryrr4uWzrH6umjpHKuvi5Yusvq6aOldVl8XLb3L6gvR
-UmX56gNMCDb+IBlULvCXz/LjF2a2X2vcLgLiilKw/1ASaowwudt+kmpbjBHeLhiWPeKGp135u8/H
-vdPV9hTU/Ws8+AzUtx1fOCoVI3Igwa72lqSHpdCy3qtlz3fxLhDJ38EZs+RdGpVcu4Qgw3wMQ8Bn
-kGy/SDpIpBR94HW5/WBViWmw8n7ZVeTDBH1dFd/hzx9fqJqEw6J8ShL1M88H5flvF9vPsKG4CKDy
-GpnKfhCX6V2eCL9dwb4okkgbzpAbb6f4KqUPuO1+XfvJwf13Ov1sFn7uo4O550+8KPwVQbj665x+
-/htq9/Yjnb/5+Ue+6rftevsxv7Dw0OdWK28Q2X2fLzh8vDBfzBIMIPArYRKiUxfnFfJXsnKoC+o/
-nZ9tgJ8c1ZzGpTicqbp7uK+9msf7isvl8tcljasC/mTFUdr467zejzidFx7aA/LH74H/Gz6NtoJ/
-bs85K2/8WYi+BPuHGr7EgUcS5O+Vo1JE2Um4Rl8YnJf1g3Duz2Jsqiv4ceLNCyUL4mEcBtz6GM7p
-Q1R/tn3Z8Y+yxv729y21yr7D4A5GuVOu7ROb5huG+MsfFEEyP4iHH0TNIKnfqtRvBOEitF+1PwCc
-bhH4NMQdgD8wxq8l7UpNwV9tHIJeYBv5OVX52fc59+DPf6JziD//+NcvdH70A5u3/UInov7ex+G9
-JB7MYvwg99JsHpI7401QhEjU4P/ovypBo/+X5hw5FvPw6OvpZfHQm8bJ3vbPl/F8Xj7I48If7cpf
-docwljNDjL6EuZgPiD/9IqBv0FKi+EtZQoLDCAUsvy+hUF/4Ircl9L6k/AolhlPWYMRtCXlUp5xr
-EAVOKIE+Qjy/U8PlnZ5NvfQCRSjiAShRA3ogytBXUWSG4V5LEYo9pggPJY/1KnlCEebnFBGvpMhW
-NrbZ/UsSQv8FJYRFKFPCGwmhiEfuhB7Ez+nxUwnZ/viUhV2Gg972k+N/Hht71MF5K3tU4a+29sOm
-8ra2NgM3ZRpvQojWuFm2nIczLNPo6J1lV22WwnbEqHckbfsTO4p//H9QSwECFAAUAAAACABXLcVO
-gFgGNM1YAAD+MgEAFQAAAAAAAAABACAAAAAAAAAAc2hpcHBpbmdEb2MjMDU4NDUuZG9jUEsFBgAA
-AAABAAEAQwAAAABZAAAAAA==
---===============1747540958==--
+-- 
+Alexandre Belloni, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
