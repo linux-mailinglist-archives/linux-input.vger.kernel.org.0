@@ -2,43 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40E72364EB
+	by mail.lfdr.de (Postfix) with ESMTP id C09D4364EC
 	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2019 21:47:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726633AbfFETqH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Jun 2019 15:46:07 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:48495 "EHLO
+        id S1726636AbfFETqI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Jun 2019 15:46:08 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:35313 "EHLO
         out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726606AbfFETqG (ORCPT
+        by vger.kernel.org with ESMTP id S1726421AbfFETqH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 5 Jun 2019 15:46:06 -0400
+        Wed, 5 Jun 2019 15:46:07 -0400
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 3569422548;
-        Wed,  5 Jun 2019 15:46:06 -0400 (EDT)
+        by mailout.nyi.internal (Postfix) with ESMTP id F056322540;
+        Wed,  5 Jun 2019 15:46:05 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Wed, 05 Jun 2019 15:46:06 -0400
+  by compute1.internal (MEProxy); Wed, 05 Jun 2019 15:46:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         pedrovanzella.com; h=from:to:cc:subject:date:message-id
         :in-reply-to:references:mime-version:content-transfer-encoding;
-         s=fm3; bh=2DpTOsTJa2MB+z1tE4VqIlyqBP9G7xMPMrSMVWIZCW4=; b=DlIJ3
-        qoqYY0nhFFnT68RXF7ljmX2fXVXZ0SBTNmUoOPwpSM32ERszKdHhNMEeimht+2wY
-        rYiYaVlZo1whr9lZzoGYb1ebCVGEG5xeB+3ugqI4LM3EMWsIBVMOnpLn1UUOdcVr
-        VUoYSnkUo3hQZ2CtjW/S+K+lhaxur+J/1jMQYall+29xdfnveANLvd/TaTIbJ5k9
-        GfpVgAf1g3QtEqgiZF8v8a2Y302jG2uEfYn7CKrrbbncmGFJy7SRQpfhbO8hOq7D
-        +7ULms67QPnq7Nv4an809OSSB30mbrKOVaVTphuZ6fll76kUvYUzEs0tFlNZTwzy
-        MPQnZ/uyvWap7Sj1w==
+         s=fm3; bh=QFKxJy5PGENCCn9dVCrpJ+BMRLGxrV0Lyoq85TRWT9g=; b=fUGgS
+        27WDhC9RPGqb4wZD5aIu6hoiDxQF6NMV/upY2BmZMYF2wVYuhxEQoEFEbLu/Vmf/
+        U29SNYEYre4aEwTwaaXBMHycRdS5HDBHC0QSjjC3EF3U6cweTvjulQ5YVz7/mEje
+        ZezahuPK+ESaqAiUhIgVZ0xNLrDQSOEbE2WmFqrAvpEEaFJNiWeCfTSrewnsTl0f
+        BlLbJdG1EvvU3wjsfwomVYpS71oTHXRbEW0ClAiBRnd7++GvkAMKFCp1lYmp/GUD
+        JnL3RxJNLSAhk1VSDYjZmk34c6cEI89OwgYjpJ9dUTPdOVeDjvnaltRlWb7ChkEz
+        36hceT1B6u5qV9TBw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=2DpTOsTJa2MB+z1tE4VqIlyqBP9G7xMPMrSMVWIZCW4=; b=FSGkUu+W
-        dQ/dhUiQnQncct3VaTDF2iEsR1hed80QjvGYAPWgza5zjY4f2R21FTPDJ8LEXKVx
-        b0qhQYXLdFz/c4LJ+Fwc+03rEMXpF+LNxVdh7md7DpLg+xtdashMqyFKm0ujNRxt
-        XvieBjvbji+cQkIJUkT4pB27khClqezuCOePjZkDg87DmfJTsl/VvhlrxlHl9OWs
-        1CRnl7OtoLZbdRbIslcS1faGN9weNVWZ0TBFCDWZx/omzLIOofueMCQQ7C4vLDwu
-        MJo+1GMl3486uRmmtx5065Xz+BZrwxHz+NgdKu++al/L3yRBwP7pPOTvJ8z0oiti
-        XZyFU0UrSeXs9w==
-X-ME-Sender: <xms:_Rv4XAwHgJAWoGyMs7Wr0GK5ODC2Caf6n8j8luaBalJP5icVTfjniw>
+        fm2; bh=QFKxJy5PGENCCn9dVCrpJ+BMRLGxrV0Lyoq85TRWT9g=; b=cn7j8e5Z
+        LbNxZo/n6HbuNLitZg5m1LEKZNWu73aX30/wbMMMHqAQkgL2eoPgJyQY10MEK9s/
+        2qMelfvTijdmoF6iJWLHFEtOudHVZ1JCZawROsasLxdV+jkVOT15hRi5FU4a1B59
+        O1i/bnKZDPpsybQCyoxuxp8NhMY2PMxRADmwwV0o5Qr0hWvOYkVt75WpbD6F6Ntm
+        H8j8CNklzNN08c5DmjJwgUHwtd+r/DlL/ubAyaxNBvenv0ymhXtBdujmQVpmJkoZ
+        JwA9drwKc4HhcfjdegCOIMSkEf7+AuQyLC1jq2iqB6eyb7TTetyMNYyr2ap1WPVc
+        OG+hxhnVDiXs4g==
+X-ME-Sender: <xms:_Rv4XMCIfixlKcrNYXJN7rLTOH8KodXtuc0UI87ajMdBzB9sUbx3aw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudegvddgudeggecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -47,22 +47,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudegvddgudeggecutefuodetgg
     eqnecukfhppeejtddrvdejrddvjedrudegleenucfrrghrrghmpehmrghilhhfrhhomhep
     phgvughrohesphgvughrohhvrghniigvlhhlrgdrtghomhenucevlhhushhtvghrufhiii
     gvpedt
-X-ME-Proxy: <xmx:_Rv4XPFZIEMOko7dW40beJSjOPZDz7cs8FoxdQuxhhkn699raddAAg>
-    <xmx:_Rv4XAme6F8SnDCKBPTf-ppsBwOAyZzpyNCIvVQ3Dw9jRyOXTsvfiA>
-    <xmx:_Rv4XOEXO1yxqPV0C8Cy1jkoEK6DOJelnNQ3RUSTaZV4qVH3ZgPyzg>
-    <xmx:_hv4XOZBCtDwcpzzMXHI0xWveyVBDetuPkCdo_goTNPsx6dw9eXIHA>
+X-ME-Proxy: <xmx:_Rv4XOs-ZvqLH05SVXxSfPkJ6DAFd-Opy61ZMCYBIqDr7H7gFryN0w>
+    <xmx:_Rv4XJFVU3F-3vbkO5wsL2SKzp2OM7StN0CzF_R7qT73tEals-AiVQ>
+    <xmx:_Rv4XB1q3_TK4fyKJToOcaakZOUuiPgZGiH1YGr2KOKn31M2GEaALA>
+    <xmx:_Rv4XD2qMYzpm1DUBsZkHuml_SHcwgKjPgYJoN3KlUVk8uqB0rRtHw>
 Received: from localhost (toroon020aw-lp130-02-70-27-27-149.dsl.bell.ca [70.27.27.149])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 07D07380088;
-        Wed,  5 Jun 2019 15:46:04 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 848FC38008A;
+        Wed,  5 Jun 2019 15:46:05 -0400 (EDT)
 From:   Pedro Vanzella <pedro@pedrovanzella.com>
 To:     linux-input@vger.kernel.org
 Cc:     Pedro Vanzella <pedro@pedrovanzella.com>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/4] HID: hid-logitech-hidpp: report battery voltage to the power supply
-Date:   Wed,  5 Jun 2019 15:45:32 -0400
-Message-Id: <20190605194533.18717-4-pedro@pedrovanzella.com>
+Subject: [PATCH v2 4/4] HID: hid-logitech-hidpp: subscribe to battery voltage events
+Date:   Wed,  5 Jun 2019 15:45:33 -0400
+Message-Id: <20190605194533.18717-5-pedro@pedrovanzella.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190605194533.18717-1-pedro@pedrovanzella.com>
 References: <20190605194533.18717-1-pedro@pedrovanzella.com>
@@ -73,57 +73,66 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-If we know the device supports reading its voltage, report that.
-
-Note that the protocol only gives us the current voltage in millivolts.
+Like we do for other ways of interacting with the battery for other
+devices, refresh the battery status and notify the power supply
+subsystem of the changes in voltage and status.
 
 Signed-off-by: Pedro Vanzella <pedro@pedrovanzella.com>
 ---
- drivers/hid/hid-logitech-hidpp.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/hid/hid-logitech-hidpp.c | 33 ++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
 diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 31e99363ab65..d6c59b11b9d2 100644
+index d6c59b11b9d2..a37bd0834335 100644
 --- a/drivers/hid/hid-logitech-hidpp.c
 +++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -1322,6 +1322,7 @@ static enum power_supply_property hidpp_battery_props[] = {
- 	POWER_SUPPLY_PROP_SERIAL_NUMBER,
- 	0, /* placeholder for POWER_SUPPLY_PROP_CAPACITY, */
- 	0, /* placeholder for POWER_SUPPLY_PROP_CAPACITY_LEVEL, */
-+	0, /* placeholder for POWER_SUPPLY_PROP_VOLTAGE_NOW, */
- };
+@@ -1313,6 +1313,36 @@ static int hidpp20_query_battery_voltage_info(struct hidpp_device *hidpp)
  
- static int hidpp_battery_get_property(struct power_supply *psy,
-@@ -1359,6 +1360,9 @@ static int hidpp_battery_get_property(struct power_supply *psy,
- 		case POWER_SUPPLY_PROP_SERIAL_NUMBER:
- 			val->strval = hidpp->hid_dev->uniq;
- 			break;
-+		case POWER_SUPPLY_PROP_VOLTAGE_NOW:
-+			val->intval = hidpp->battery.voltage;
-+			break;
- 		default:
- 			ret = -EINVAL;
- 			break;
-@@ -3331,7 +3335,7 @@ static int hidpp_initialize_battery(struct hidpp_device *hidpp)
- 	if (!battery_props)
- 		return -ENOMEM;
- 
--	num_battery_props = ARRAY_SIZE(hidpp_battery_props) - 2;
-+	num_battery_props = ARRAY_SIZE(hidpp_battery_props) - 3;
- 
- 	if (hidpp->capabilities & HIDPP_CAPABILITY_BATTERY_MILEAGE)
- 		battery_props[num_battery_props++] =
-@@ -3341,6 +3345,10 @@ static int hidpp_initialize_battery(struct hidpp_device *hidpp)
- 		battery_props[num_battery_props++] =
- 				POWER_SUPPLY_PROP_CAPACITY_LEVEL;
- 
-+	if (hidpp->capabilities & HIDPP_CAPABILITY_BATTERY_VOLTAGE)
-+		battery_props[num_battery_props++] =
-+			POWER_SUPPLY_PROP_VOLTAGE_NOW;
+ 	return 0;
+ }
 +
- 	battery = &hidpp->battery;
++static int hidpp20_battery_voltage_event(struct hidpp_device *hidpp,
++					 u8 *data, int size)
++{
++	struct hidpp_report *report = (struct hidpp_report *)data;
++	int status, voltage;
++	bool changed;
++
++	if (report->fap.feature_index != hidpp->battery.voltage_feature_index ||
++	    report->fap.funcindex_clientid !=
++		    EVENT_BATTERY_LEVEL_STATUS_BROADCAST)
++		return 0;
++
++	status = hidpp20_battery_map_status_voltage(report->fap.params,
++						    &voltage);
++
++	hidpp->battery.online = status != POWER_SUPPLY_STATUS_NOT_CHARGING;
++
++	changed = voltage != hidpp->battery.voltage ||
++		  status != hidpp->battery.status;
++
++	if (changed) {
++		hidpp->battery.voltage = voltage;
++		hidpp->battery.status = status;
++		if (hidpp->battery.ps)
++			power_supply_changed(hidpp->battery.ps);
++	}
++	return 0;
++}
++
+ static enum power_supply_property hidpp_battery_props[] = {
+ 	POWER_SUPPLY_PROP_ONLINE,
+ 	POWER_SUPPLY_PROP_STATUS,
+@@ -3181,6 +3211,9 @@ static int hidpp_raw_hidpp_event(struct hidpp_device *hidpp, u8 *data,
+ 		ret = hidpp_solar_battery_event(hidpp, data, size);
+ 		if (ret != 0)
+ 			return ret;
++		ret = hidpp20_battery_voltage_event(hidpp, data, size);
++		if (ret != 0)
++			return ret;
+ 	}
  
- 	n = atomic_inc_return(&battery_no) - 1;
+ 	if (hidpp->capabilities & HIDPP_CAPABILITY_HIDPP10_BATTERY) {
 -- 
 2.21.0
 
