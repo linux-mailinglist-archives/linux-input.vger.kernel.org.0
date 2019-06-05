@@ -2,79 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBB6F35C14
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2019 13:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF65435E74
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2019 15:57:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727548AbfFELwJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Jun 2019 07:52:09 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:40159 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727183AbfFELwJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jun 2019 07:52:09 -0400
-X-Originating-IP: 90.88.144.139
-Received: from localhost (aaubervilliers-681-1-24-139.w90-88.abo.wanadoo.fr [90.88.144.139])
-        (Authenticated sender: maxime.ripard@bootlin.com)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id BEBC2240012;
-        Wed,  5 Jun 2019 11:52:04 +0000 (UTC)
-Date:   Wed, 5 Jun 2019 13:52:03 +0200
-From:   Maxime Ripard <maxime.ripard@bootlin.com>
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        "open list:SUN4I LOW RES ADC ATTACHED TABLET KEYS DRIVER" 
-        <linux-input@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "moderated list:ARM/Allwinner sunXi SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        ~martijnbraam/pmos-upstream@lists.sr.ht
-Subject: Re: [PATCH v2 2/2] arm64: dts: allwinner: a64: Add lradc node
-Message-ID: <20190605115203.q6jhjygdh4pnoc3o@flea>
-References: <20190604172154.25472-1-luca@z3ntu.xyz>
- <20190604172154.25472-2-luca@z3ntu.xyz>
+        id S1728084AbfFEN5J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Jun 2019 09:57:09 -0400
+Received: from 313717.com ([176.126.78.19]:59889 "EHLO treehousetv.com"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728019AbfFEN5J (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 5 Jun 2019 09:57:09 -0400
+X-Greylist: delayed 3613 seconds by postgrey-1.27 at vger.kernel.org; Wed, 05 Jun 2019 09:57:09 EDT
+To:     linux-input@vger.kernel.org
+Subject: USB drives with logos
+Message-ID: <7756d296f985611e2670b1252c8182f4@vecteezy.com>
+Date:   Wed, 05 Jun 2019 14:21:36 +0200
+From:   "Stacy" <schssereutz@aol.jp>
+Reply-To: halsyid@sina.com
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="hcblokn3om2o3hbe"
-Content-Disposition: inline
-In-Reply-To: <20190604172154.25472-2-luca@z3ntu.xyz>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; format=flowed; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi,
 
---hcblokn3om2o3hbe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I wanted to follow up from last week. Did you receive the email I sent you?
 
-On Tue, Jun 04, 2019 at 07:21:54PM +0200, Luca Weiss wrote:
-> Add a node describing the KEYADC on the A64.
->
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+Our company manufactures USB Flash Drives, printed with your logo.  They
+make the perfect marketing tool for your business or organization.
 
-Applied both, thanks
+We offer low minimum quantities, and all memory sizes. Over 150 Stock
+Models as well as 100 % custom shaped USB drives.  Memory sizes include up
+to 128GB !
 
-Maxime
+We can pre-load your media files, images, presentations and files onto the
+drives for you.  These are ideal handouts for trade shows, branding,
+corporate gifts and employees.
+Our USB Pricing is at an ALL TIME LOW - now is the time to get your USB
+drives.
 
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Let us send you a quote!   We will EARN your business!
+* Please reply back and let me know what quantity and memory size
+you need for a Fast Quote! *
 
---hcblokn3om2o3hbe
-Content-Type: application/pgp-signature; name="signature.asc"
+Are you a school or nonprofit?  Please let us know for even further
+discounts.
 
------BEGIN PGP SIGNATURE-----
+Thanks!
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXPes4wAKCRDj7w1vZxhR
-xUBYAP99OcI6+26CnXPVcHAESO3xSvwOMwlcDUPBniupbrvjJwD/YxeoVWBL+sDc
-HZ5G/ReZtD85o3gkvxJTkvCG1/M0Nwg=
-=Ekf6
------END PGP SIGNATURE-----
+Stacy King
+National Account Rep
+Promo / Branded Flash Drives
 
---hcblokn3om2o3hbe--
