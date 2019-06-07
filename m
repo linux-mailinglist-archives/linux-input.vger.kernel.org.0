@@ -2,83 +2,259 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E15C385B2
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2019 09:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA65A38D81
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2019 16:39:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726857AbfFGHsn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 Jun 2019 03:48:43 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:42492 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725497AbfFGHsn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Jun 2019 03:48:43 -0400
-Received: from [222.129.45.111] (helo=localhost.localdomain)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-        (Exim 4.76)
-        (envelope-from <aaron.ma@canonical.com>)
-        id 1hZ9c6-0002or-PQ; Fri, 07 Jun 2019 07:48:39 +0000
-Subject: Re: [PATCH 1/2] Input: synaptics-rmi4 - clear irqs before set irqs
-To:     Christopher Heiny <Cheiny@synaptics.com>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Andrew Duggan <aduggan@synaptics.com>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>
-References: <20190220164200.31044-1-aaron.ma@canonical.com>
- <17cd420ea32a9787c56ba25e36e7661541c2f65f.camel@synaptics.com>
- <a0f21198-5715-8858-8368-51e43092181e@canonical.com>
- <acd07f4d-1602-46c5-c486-c917f1868b59@canonical.com>
- <f4f7265d9ad06726bb2ef12ab6b7529d2fb06165.camel@synaptics.com>
- <9321df87-5bc5-0c75-2815-f8602ecf9d86@canonical.com>
- <2995b27a-9ec8-eebe-78b6-2d3bf5098af8@canonical.com>
- <580b73847333fa1866caaccc959bf8735b4f7524.camel@synaptics.com>
-From:   Aaron Ma <aaron.ma@canonical.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=aaron.ma@canonical.com; prefer-encrypt=mutual; keydata=
- mQENBFffeLkBCACi4eE4dPsgWN6B9UDOVcAvb5QgU/hRG6yS0I1lGKQv4KA+bke0c5g8clbO
- 9gIlIl2bityfA9NzBsDik4Iei3AxMbFyxv9keMwcOFQBIOZF0P3f05qjxftF8P+yp9QTV4hp
- BkFzsXzWRgXN3r8hU8wqZybepF4B1C83sm2kQ5A5N0AUGbZli9i2G+/VscG9sWfLy8T7f4YW
- MjmlijCjoV6k29vsmTWQPZ7EApNpvR5BnZQPmQWzkkr0lNXlsKcyLgefQtlwg6drK4fe4wz0
- ouBIHJEiXE1LWK1hUzkCUASra4WRwKk1Mv/NLLE/aJRqEvF2ukt3uVuM77RWfl7/H/v5ABEB
- AAG0IUFhcm9uIE1hIDxhYXJvbi5tYUBjYW5vbmljYWwuY29tPokBNwQTAQgAIQUCV994uQIb
- AwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDNxCzQfVU6ntJ9B/9aVy0+RkLqF9QpLmw+
- LAf1m3Fd+4ZarPTerqDqkLla3ekYhbrEtlI1mYuB5f+gtrIjmcW27gacHdslKB9YwaL8B4ZB
- GJKhcrntLg4YPzYUnXZkHHTv1hMw7fBYw82cBT+EbG0Djh6Po6Ihqyr3auHhfFcp1PZH4Mtq
- 6hN5KaDZzF/go+tRF5e4bn61Nhdue7mrhFSlfkzLG2ehHWmRV+S91ksH81YDFnazK0sRINBx
- V1S8ts3WJ2f1AbgmnDlbK3c/AfI5YxnIHn/x2ZdXj1P/wn7DgZHmpMy5DMuk0gN34NLUPLA/
- cHeKoBAF8emugljiKecKBpMTLe8FrVOxbkrauQENBFffeLkBCACweKP3Wx+gK81+rOUpuQ00
- sCyKzdtMuXXJ7oL4GzYHbLfJq+F+UHpQbytVGTn3R5+Y61v41g2zTYZooaC+Hs1+ixf+buG2
- +2LZjPSELWPNzH9lsKNlCcEvu1XhyyHkBDbnFFHWlUlql3nSXMo//dOTG/XGKaEaZUxjCLUC
- 8ehLc16DJDvdXsPwWhHrCH/4k92F6qQ14QigBMsl75jDTDJMEYgRYEBT1D/bwxdIeoN1BfIG
- mYgf059RrWax4SMiJtVDSUuDOpdwoEcZ0FWesRfbFrM+k/XKiIbjMZSvLunA4FIsOdWYOob4
- Hh0rsm1G+fBLYtT+bE26OWpQ/lSn4TdhABEBAAGJAR8EGAEIAAkFAlffeLkCGwwACgkQzcQs
- 0H1VOp6p5Af/ap5EVuP1AhFdPD3pXLNrUUt72W3cuAOjXyss43qFC2YRjGfktrizsDjQU46g
- VKoD6EW9XUPgvYM+k8BJEoXDLhHWnCnMKlbHP3OImxzLRhF4kdlnLicz1zKRcessQatRpJgG
- NIiD+eFyh0CZcWBO1BB5rWikjO/idicHao2stFdaBmIeXvhT9Xp6XNFEmzOmfHps+kKpWshY
- 9LDAU0ERBNsW4bekOCa/QxfqcbZYRjrVQvya0EhrPhq0bBpzkIL/7QSBMcdv6IajTlHnLARF
- nAIofCEKeEl7+ksiRapL5Nykcbt4dldE3sQWxIybC94SZ4inENKw6I8RNpigWm0R5w==
-Message-ID: <f8742060-77b8-c782-8321-23e889c30172@canonical.com>
-Date:   Fri, 7 Jun 2019 15:48:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <580b73847333fa1866caaccc959bf8735b4f7524.camel@synaptics.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1728452AbfFGOjj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 Jun 2019 10:39:39 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:38177 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728198AbfFGOjj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Jun 2019 10:39:39 -0400
+Received: from orion.localdomain ([77.2.74.140]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1Mnq0I-1gkCgc1m4A-00pMLs; Fri, 07 Jun 2019 16:39:36 +0200
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
+Subject: [PATCH] input: keyboard: gpio_keys_polled: use gpio lookup table
+Date:   Fri,  7 Jun 2019 16:39:34 +0200
+Message-Id: <1559918374-7749-1-git-send-email-info@metux.net>
+X-Mailer: git-send-email 1.9.1
+X-Provags-ID: V03:K1:3X2lnydmm30AHyhp5y/Nd1eD95I/Iq/DSyTfK74YNXDUvwJ5AcY
+ HTe95NLzE7bqDqUM+84a9PvWdBXezy9d7vVwCzK1eqtQ+6mhS2aE0qJ7gU//2EH17ZYvli6
+ moUk6FHBSa1BYgWCPg98Kds2WJRxdjZpcVVp/WvbzprIE7Ra5q3Imknz6B7ywJcYn0ZMk0/
+ Q06VZH+lPO5QpBOPJCDPA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:60VJaZjUlZY=:4tA3vbU6jRz7OYS0xskXO0
+ VgiE4GqT8pTRbNPtp81kaYCQu4Ga3+1bk8Ssgyq5zwFK3AHPjhTNpO4wiBv5ieHvi0O23FFcn
+ CT3YvDsumJkqR/kQbOVABqc/R4FeuveIR52DkgtfmX37tg9Hqdlvx59XCIzUp+kO24iR3caL/
+ 81ipRPeA+drtKsfAtANPjz85471/Bxe+ecsYTciqBio3uzW1DtiJJI9uStRFMAqF5NpXNqJM3
+ mQQnZc+njWUB6fvlUzXCMOwC2A7mkDSIAg5SFBaaMoE0ujPAnjLRHIfu5UinUQuXdxMl6tuPQ
+ ddZe+MsI7b95nwxYiYhk3paboEyogNuDgbv2Ae1JsqTxwHr2/eUySApGIesmv+pSbWcllYIm0
+ wALoeBuftE1Byvfkph7vqI/IUTJYK/7Wpk5shHkDCMu6XFBvq18AgLI9dnVXpcfdP0ATS7rhz
+ 1SCkbSGfYLCawHRYZnYaOw2UOJZrZ0DEiPcvzGJQNIEnpyDv5v3vEa8M6C8xIGwNFsBOAk3lK
+ KfrM19cnpmIGTlCQz5zBpHz4Q70RhkYpEbWsQ7V6DixtVQ+Lj4pRZm+rFKCqhq5ToBGvjSt+Y
+ Y3KOrlY1Quw6hS3Zt7ytVKiV7Ov3csXh4+gUzyoaTLH2PBnkNrqqh2SKAl1GJgHRn9cwoe7nY
+ HtCCHn2/tcu1ftYryaRXB6vPeXc0SAke4e9QwcEhjis4iodxH1s9pUqyB52GeSrltuAvMzfC/
+ Qyr7aA1NNv2KrGAslze4wGlV5/t0RGfXPVIWzA==
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry:
+From: Enrico Weigelt <info@metux.net>
 
-Will you apply them?
+Support the recently introduced gpio lookup tables for
+attaching to gpio lines. So, harcoded gpio numbers aren't
+needed anymore.
 
-Thanks,
-Aaron
+changes v3:
+    * fix printf string in gpio_keys_polled_get_gpiod()
+    * fix unused variable 'error' in gpio_keys_polled_get_gpiod()
+    * fix uninitialized variable in gpio_keys_polled_get_gpiod_fwnode()
 
-On 6/4/19 1:19 PM, Christopher Heiny wrote:
-> Given that, I'm willing to accept the patch as is.
-> 
-> 					Cheers,
-> 						Chris
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Signed-off-by: Enrico Weigelt <info@metux.net>
+---
+ drivers/input/keyboard/gpio_keys_polled.c | 166 +++++++++++++++++++++---------
+ 1 file changed, 118 insertions(+), 48 deletions(-)
+
+diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
+index edc7262..683ab84 100644
+--- a/drivers/input/keyboard/gpio_keys_polled.c
++++ b/drivers/input/keyboard/gpio_keys_polled.c
+@@ -24,6 +24,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/gpio.h>
+ #include <linux/gpio/consumer.h>
++#include <linux/gpio/machine.h>
+ #include <linux/gpio_keys.h>
+ #include <linux/property.h>
+ 
+@@ -227,6 +228,118 @@ static void gpio_keys_polled_set_abs_params(struct input_dev *input,
+ };
+ MODULE_DEVICE_TABLE(of, gpio_keys_polled_of_match);
+ 
++static struct gpio_desc *gpio_keys_polled_get_gpiod_fwnode(
++	struct device *dev,
++	int idx,
++	const char *desc)
++{
++	struct gpio_desc *gpiod;
++	struct fwnode_handle *child;
++	int x = idx;
++
++	/* get the idx'th child node */
++	child = device_get_next_child_node(dev, NULL);
++	while (child && x) {
++		child = device_get_next_child_node(dev, child);
++		x--;
++	}
++
++	if (!child) {
++		dev_err(dev, "missing oftree child node #%d\n", idx);
++		return ERR_PTR(-EINVAL);
++	}
++
++	gpiod = devm_fwnode_get_gpiod_from_child(dev,
++						 NULL,
++						 child,
++						 GPIOD_IN,
++						 desc);
++	if (IS_ERR(gpiod)) {
++		if (PTR_ERR(gpiod) != -EPROBE_DEFER)
++			dev_err(dev,
++				"failed to get gpio: %ld\n",
++				PTR_ERR(gpiod));
++		fwnode_handle_put(child);
++		return gpiod;
++	}
++
++	return gpiod;
++}
++
++static struct gpio_desc *gpio_keys_polled_get_gpiod_legacy(
++	struct device *dev,
++	int idx,
++	const struct gpio_keys_button *button)
++{
++	/*
++	 * Legacy GPIO number so request the GPIO here and
++	 * convert it to descriptor.
++	 */
++	unsigned int flags = GPIOF_IN;
++	struct gpio_desc *gpiod;
++	int error;
++
++	dev_info(dev, "hardcoded gpio IDs are deprecated.\n");
++
++	if (button->active_low)
++		flags |= GPIOF_ACTIVE_LOW;
++
++	error = devm_gpio_request_one(dev, button->gpio,
++			flags, button->desc ? : DRV_NAME);
++	if (error) {
++		dev_err(dev,
++			"unable to claim gpio %u, err=%d\n",
++			button->gpio, error);
++		return ERR_PTR(error);
++	}
++
++	gpiod = gpio_to_desc(button->gpio);
++	if (!gpiod) {
++		dev_err(dev,
++			"unable to convert gpio %u to descriptor\n",
++			button->gpio);
++		return ERR_PTR(-EINVAL);
++	}
++
++	return gpiod;
++}
++
++static struct gpio_desc *gpio_keys_polled_get_gpiod(
++	struct device *dev,
++	int idx,
++	const struct gpio_keys_button *button)
++{
++	struct gpio_desc *gpiod = NULL;
++
++	/* No legacy static platform data - use oftree */
++	if (!dev_get_platdata(dev)) {
++		return gpio_keys_polled_get_gpiod_fwnode(
++			dev, idx, button->desc);
++	}
++
++	gpiod = devm_gpiod_get_index(dev, NULL, idx, GPIOF_IN);
++
++	if (!IS_ERR(gpiod)) {
++		dev_info(dev, "picked gpiod idx %d from gpio table\n", idx);
++		gpiod_set_consumer_name(gpiod, button->desc ? : DRV_NAME);
++		return gpiod;
++	}
++
++	if (PTR_ERR(gpiod) != -ENOENT) {
++		dev_err(dev, "failed fetching gpiod #%d: %ld\n",
++			idx, PTR_ERR(gpiod));
++		return gpiod;
++	}
++
++	/* Use legacy gpio id, if defined */
++	if (gpio_is_valid(button->gpio)) {
++		return gpio_keys_polled_get_gpiod_legacy(
++			dev, idx, button);
++	}
++
++	return ERR_PTR(-ENOENT);
++}
++
+ static int gpio_keys_polled_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -291,57 +404,14 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
+ 
+ 		if (button->wakeup) {
+ 			dev_err(dev, DRV_NAME " does not support wakeup\n");
+-			fwnode_handle_put(child);
+ 			return -EINVAL;
+ 		}
+ 
+-		if (!dev_get_platdata(dev)) {
+-			/* No legacy static platform data */
+-			child = device_get_next_child_node(dev, child);
+-			if (!child) {
+-				dev_err(dev, "missing child device node\n");
+-				return -EINVAL;
+-			}
+-
+-			bdata->gpiod = devm_fwnode_get_gpiod_from_child(dev,
+-								NULL, child,
+-								GPIOD_IN,
+-								button->desc);
+-			if (IS_ERR(bdata->gpiod)) {
+-				error = PTR_ERR(bdata->gpiod);
+-				if (error != -EPROBE_DEFER)
+-					dev_err(dev,
+-						"failed to get gpio: %d\n",
+-						error);
+-				fwnode_handle_put(child);
+-				return error;
+-			}
+-		} else if (gpio_is_valid(button->gpio)) {
+-			/*
+-			 * Legacy GPIO number so request the GPIO here and
+-			 * convert it to descriptor.
+-			 */
+-			unsigned flags = GPIOF_IN;
+-
+-			if (button->active_low)
+-				flags |= GPIOF_ACTIVE_LOW;
+-
+-			error = devm_gpio_request_one(dev, button->gpio,
+-					flags, button->desc ? : DRV_NAME);
+-			if (error) {
+-				dev_err(dev,
+-					"unable to claim gpio %u, err=%d\n",
+-					button->gpio, error);
+-				return error;
+-			}
+-
+-			bdata->gpiod = gpio_to_desc(button->gpio);
+-			if (!bdata->gpiod) {
+-				dev_err(dev,
+-					"unable to convert gpio %u to descriptor\n",
+-					button->gpio);
+-				return -EINVAL;
+-			}
++		bdata->gpiod = gpio_keys_polled_get_gpiod(dev, i, button);
++
++		if (IS_ERR(bdata->gpiod)) {
++			dev_err(dev, "failed to fetch gpiod #%d\n", i);
++			return PTR_ERR(bdata->gpiod);
+ 		}
+ 
+ 		bdata->last_state = -1;
+-- 
+1.9.1
+
