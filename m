@@ -2,97 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EFF9382DD
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2019 04:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FF423858A
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2019 09:46:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726538AbfFGCpt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Jun 2019 22:45:49 -0400
-Received: from p3plsmtpa06-06.prod.phx3.secureserver.net ([173.201.192.107]:38037
-        "EHLO p3plsmtpa06-06.prod.phx3.secureserver.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726173AbfFGCpt (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 6 Jun 2019 22:45:49 -0400
-X-Greylist: delayed 438 seconds by postgrey-1.27 at vger.kernel.org; Thu, 06 Jun 2019 22:45:49 EDT
-Received: from localhost.localdomain ([136.49.227.119])
-        by :SMTPAUTH: with ESMTPSA
-        id Z4lwhpEcHwmHdZ4lyhdRx1; Thu, 06 Jun 2019 19:38:31 -0700
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, rydberg@bitmath.org,
-        Jeff LaBundy <jeff@labundy.com>
-Subject: [PATCH v2] Input: iqs5xx - get axis info before calling input_mt_init_slots()
-Date:   Thu,  6 Jun 2019 21:38:05 -0500
-Message-Id: <1559875085-21880-1-git-send-email-jeff@labundy.com>
-X-Mailer: git-send-email 2.7.4
-X-CMAE-Envelope: MS4wfOeHIbq24mZtGjg7uhwQA/QtcSxKvDLfOZ9fgyPJMgoP8yGz605pc1Tl2NwrcqExIFf3SQcmQJtUQZTcSejcbd1mZf1AN1PmSINUn6VgpU1+783K9bcX
- ICLRgNpH+d6VOgDDzlU/XwBRdcxgUjvhRZZEFWCtmEmX3ufdwV2xhrqzoHm+BHsY/IzCsebdCJd9mxkBxO1zabjpU0PjzpkGy+YcWocZ3uODTA9S8NI46VqP
- 3955VPxNFGVcSV+9KSBDAg+vktWNSoMFWcYRDSDBXEpsLhmHJAPVPre7jnVx0L7g
+        id S1727338AbfFGHqO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 Jun 2019 03:46:14 -0400
+Received: from smtp4.iitb.ac.in ([103.21.127.18]:49884 "EHLO smtp1.iitb.ac.in"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727045AbfFGHqN (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 7 Jun 2019 03:46:13 -0400
+X-Greylist: delayed 4122 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Jun 2019 03:46:12 EDT
+Received: from ldns2.iitb.ac.in (ldns2.iitb.ac.in [10.200.12.2])
+        by smtp1.iitb.ac.in (Postfix) with SMTP id 19B7F1058AFA
+        for <linux-input@vger.kernel.org>; Fri,  7 Jun 2019 12:01:54 +0530 (IST)
+Received: (qmail 29995 invoked by uid 510); 7 Jun 2019 12:01:34 +0530
+X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns2 (envelope-from <rws@aero.iitb.ac.in>, uid 501) with qmail-scanner-2.11
+ spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.100.0/25472} 
+ Clear:RC:1(10.200.1.25):SA:0(1.5/7.0):. Processed in 3.224183 secs; 07 Jun 2019 12:01:34 +0530
+X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on ldns2.iitb.ac.in
+X-Spam-Level: *
+X-Spam-Status: No, score=1.5 required=7.0 tests=BAYES_50,IITB_ORIG,
+        MISSING_HEADERS,PROPER_IITB_MSGID autolearn=disabled version=3.4.1
+X-Spam-Pyzor: Reported 1 times.
+X-Envelope-From: rws@aero.iitb.ac.in
+X-Qmail-Scanner-Mime-Attachments: |
+X-Qmail-Scanner-Zip-Files: |
+Received: from unknown (HELO ldns2.iitb.ac.in) (10.200.1.25)
+  by ldns2.iitb.ac.in with SMTP; 7 Jun 2019 12:01:31 +0530
+Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
+        by ldns2.iitb.ac.in (Postfix) with ESMTP id CB958341965;
+        Fri,  7 Jun 2019 12:01:17 +0530 (IST)
+Received: from localhost (localhost [127.0.0.1])
+        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 9509A8902E52F;
+        Fri,  7 Jun 2019 12:01:17 +0530 (IST)
+Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
+        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 3VnK-_U7b-vs; Fri,  7 Jun 2019 12:01:17 +0530 (IST)
+Received: from localhost (localhost [127.0.0.1])
+        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 5DAB88902E54D;
+        Fri,  7 Jun 2019 12:01:14 +0530 (IST)
+X-Virus-Scanned: amavisd-new at aero.iitb.ac.in
+Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
+        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id TgJiwoMo_EHZ; Fri,  7 Jun 2019 12:01:14 +0530 (IST)
+Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
+        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 0EEE684310111;
+        Fri,  7 Jun 2019 12:01:10 +0530 (IST)
+Date:   Fri, 7 Jun 2019 12:01:09 +0530 (IST)
+From:   Martins Henry <rws@aero.iitb.ac.in>
+Message-ID: <412557711.60336.1559889069980.JavaMail.zimbra@aero.iitb.ac.in>
+Subject: Thanks and I wait for your answer
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.101.1.5]
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF11 (Win)/8.8.12_GA_3794)
+Thread-Index: SsslhYkcLNFU69da/wYft5cO9/ZYnA==
+Thread-Topic: Thanks and I wait for your answer
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Calling input_mt_init_slots() copies ABS_MT_POSITION_X to ABS_X and
-so on, but doing so before calling touchscreen_parse_properties()
-leaves ABS_X min = max = 0 which may prompt an X server to ignore
-the device.
+Hello,
 
-To solve this problem, wait to call input_mt_init_slots() until all
-absolute axis information has been resolved (whether that's through
-device tree via touchscreen_parse_properties() or from reading from
-the device directly).
+I am Martin Henry, An American Citizen; I am the personal secretary to
+Mr. Donald Railton, the controller of a Lottery Company. Please I am
+having big problem now, I have a 6yrs old daughter who has leukemia, a
+disease of the blood, and she needs a bone marrow transplant or she
+will die.
 
-Signed-off-by: Jeff LaBundy <jeff@labundy.com>
----
-Changes in v2:
-  - Moved the call to input_mt_init_slots to the very end of iqs5xx_axis_init
-    to keep operations on max_x and max_y close to each other for readability
+Please I am only asking for your help and you will benefit from it
+also. As an insider with Lottery Firm, working as the personal
+secretary to the controller, I want you to send me your name to play,
+I have some numbers that are going to win, stored in his secret data
+system in the office. The Lottery is an online entry with credit card
+anywhere with a name and address. All I want you to do is to send your
+name to play it and I will send confirmation to you.
 
- drivers/input/touchscreen/iqs5xx.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+I will play with my card on your name and the Prize will be shared
+equally between us. Immediately the results are released they will
+contact you for payment as the oversea winner. The lotto can be played
+with 9.00 dollars, or 50 dollars but the prize will be Millions.
+Remember that I am playing on your name with my card; I just want to
+front you for this, because I need this money to save the life of my
+little daughter.
 
-diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
-index 1587078..5875bb1 100644
---- a/drivers/input/touchscreen/iqs5xx.c
-+++ b/drivers/input/touchscreen/iqs5xx.c
-@@ -502,14 +502,6 @@ static int iqs5xx_axis_init(struct i2c_client *client)
- 		input_set_capability(input, EV_ABS, ABS_MT_POSITION_Y);
- 		input_set_capability(input, EV_ABS, ABS_MT_PRESSURE);
-
--		error = input_mt_init_slots(input,
--				IQS5XX_NUM_CONTACTS, INPUT_MT_DIRECT);
--		if (error) {
--			dev_err(&client->dev,
--				"Failed to initialize slots: %d\n", error);
--			return error;
--		}
--
- 		input_set_drvdata(input, iqs5xx);
- 		iqs5xx->input = input;
- 	}
-@@ -591,9 +583,19 @@ static int iqs5xx_axis_init(struct i2c_client *client)
- 	if (error)
- 		return error;
-
--	return iqs5xx_write_word(client,
--				 prop.swap_x_y ? IQS5XX_X_RES : IQS5XX_Y_RES,
--				 max_y);
-+	error = iqs5xx_write_word(client,
-+				  prop.swap_x_y ? IQS5XX_X_RES : IQS5XX_Y_RES,
-+				  max_y);
-+	if (error)
-+		return error;
-+
-+	error = input_mt_init_slots(iqs5xx->input, IQS5XX_NUM_CONTACTS,
-+				    INPUT_MT_DIRECT);
-+	if (error)
-+		dev_err(&client->dev, "Failed to initialize slots: %d\n",
-+			error);
-+
-+	return error;
- }
-
- static int iqs5xx_dev_init(struct i2c_client *client)
---
-2.7.4
-
+Thanks and I wait for your answer
+Martin Henry.
