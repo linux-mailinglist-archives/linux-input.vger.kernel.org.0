@@ -2,81 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D6303A456
-	for <lists+linux-input@lfdr.de>; Sun,  9 Jun 2019 10:23:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89CCA3AA0F
+	for <lists+linux-input@lfdr.de>; Sun,  9 Jun 2019 19:16:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727705AbfFIIXb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 9 Jun 2019 04:23:31 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:42789 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727284AbfFIIXb (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Jun 2019 04:23:31 -0400
-Received: by mail-ed1-f66.google.com with SMTP id z25so9137477edq.9
-        for <linux-input@vger.kernel.org>; Sun, 09 Jun 2019 01:23:30 -0700 (PDT)
+        id S1732386AbfFIQxZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 9 Jun 2019 12:53:25 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:34707 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731903AbfFIQxX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Jun 2019 12:53:23 -0400
+Received: by mail-pg1-f193.google.com with SMTP id q15so1551399pgr.1;
+        Sun, 09 Jun 2019 09:53:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=VlNF8neRI0nw9XEMnVceaIeivPxB/S7CyWZXCdEDsCs=;
+        b=tx94w3+b4ucLl04HofbpsDZolPVN89TBIVubZZeE5sjQUUyC2PWuBz1y8pUyNBtKuL
+         SoEuo1lPAEwgw+BMeiC3U12lmAOQo/kk4CyWZ6QCF4egNYXG5y5upkxE32Wy3Q8s3w7u
+         1nIYHAx3qm2NQjWhb3XBav9pZlLkYkcluL+lQDjOsHuL06a+2eJh7HNZAFzLDuWjCTIj
+         sCzAuUa8M/DUlZObzqPajmcQo+gii3M/EPjwN48BSh8Eflw/Vr19D1rsUXe9W0mh9jsO
+         P91bFqyAZvI5qXbgNAc7hucNCFMfciEWJ495+ih9fHscj3AAT489sGJNO8xPd/rYTohR
+         eTBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lhPGpoZCXInWW+WzaFI7OBYJIKXJxu/h3R+F+xDwIu0=;
-        b=X/ccafUTcmLs9AZIwmYMCv3J0igwoHBYFkgl0rLZt70YQS5HhJCHIVExbPEu2Q2LXU
-         bazMnSYrsLTNi1odoObUnV9keVn/o4aUBZG62Gaa4oZUidspTxA97lDoR+YYJYgLBR8L
-         q98JSluv5v5z1InUdpbHFBG/FEx1TqoQe9EUFfI4+D6fmgpQTdN5cFlA5DGh5zx8sR+s
-         XYnUyGWGPmNMBTvzpIQG2N1kKFrIgYB1TS4/M4RgXbz1kRO8hOsb7GqXdBKI/HTWxjOu
-         1jOVrL8k4uEiM1ySmwBBw9RcU5iAKjuSl4XTWvoHsPFzW9GxCf9uyqrvE2Mx39dkqm4r
-         j92Q==
-X-Gm-Message-State: APjAAAVayZAb3tr/pG2Fteyv9uzQRUYLINQzEt3Gi4sJR7OC8THICVQw
-        yZ4VfUwoey8qOSvFKdM22U230W/M3xo=
-X-Google-Smtp-Source: APXvYqzgXfMqZ7ZeaBAh/ii1k2nx4hlyAlLMuWb6EpRsBO9Bl7qnumOGD3mqVGBf2Fqk0NYLd3Vckg==
-X-Received: by 2002:aa7:d711:: with SMTP id t17mr67047005edq.80.1560068609112;
-        Sun, 09 Jun 2019 01:23:29 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id u13sm1978233edb.45.2019.06.09.01.23.28
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Sun, 09 Jun 2019 01:23:28 -0700 (PDT)
-Subject: Re: [PATCH 0/7] Input + HID: Add support for extra keys and LEDs on
- Logitech "G" series keyboards
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org
-References: <20190520181525.4898-1-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <667518bb-d788-11ad-72b1-68c93ef7f807@redhat.com>
-Date:   Sun, 9 Jun 2019 10:23:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VlNF8neRI0nw9XEMnVceaIeivPxB/S7CyWZXCdEDsCs=;
+        b=FdhWik1nFgGf4lHZkAb9nWZixNrqThKGlCYDsZbpVmqt0WsRTN+OxMPtGVZkT6A01B
+         5pkWVAtBhInjYs+a0yFJWHNW+HVtfhUmFsHRyxUH+tzCcDo33up/xbgFJJlQ27NFHZtf
+         h+GAzIFIvz6QZposusGbdxR9JrmOqOq7w+S4hiGfudZG5djyJC0c9AIPqthjToIhroim
+         oYrKga5gDXViPWlOocQdy9au9LB7EYqTN+dGSR/2qQNINDB0DOQxzWE8zA14D7pgtItZ
+         2+/LrLRNiskHnuctbI222SkIJswq+l6qYMHl3cBGUWwJZWLXzEVfEtPAmzzcpHxRS7a+
+         B5Dw==
+X-Gm-Message-State: APjAAAUWfTq63MdimFUAesr015yOhs6tPfuAlwMKxdVg4Nx3+O3p0TRa
+        P4+R5iRVDUjiakb9w1dkDF4=
+X-Google-Smtp-Source: APXvYqzX8iWGRN1vGe0kbA7DTcRf5ZzmvjjpbXjifik2cd0hJsoD1uVNcmv7byO5TOgXJzjZqxn3RA==
+X-Received: by 2002:a63:2c4a:: with SMTP id s71mr12211976pgs.343.1560099202186;
+        Sun, 09 Jun 2019 09:53:22 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id c6sm13686904pfm.163.2019.06.09.09.53.21
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sun, 09 Jun 2019 09:53:21 -0700 (PDT)
+Date:   Sun, 9 Jun 2019 09:53:19 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Aaron Ma <aaron.ma@canonical.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Cheiny@synaptics.com, aduggan@synaptics.com,
+        benjamin.tissoires@redhat.com
+Subject: Re: [PATCH 2/2] Input: synaptics-rmi4 - export nosleep of f01 via
+ sysfs
+Message-ID: <20190609165319.GA90002@dtor-ws>
+References: <20190220164200.31044-1-aaron.ma@canonical.com>
+ <20190220164200.31044-2-aaron.ma@canonical.com>
 MIME-Version: 1.0
-In-Reply-To: <20190520181525.4898-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190220164200.31044-2-aaron.ma@canonical.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Aaron,
 
-On 20-05-19 20:15, Hans de Goede wrote:
-> Hi All,
+On Wed, Feb 20, 2019 at 05:42:00PM +0100, Aaron Ma wrote:
+> Some of ThinkPad X1C6 touchpads didn't wakeup after resume.
+> Forcing enable nosleep make touchpad back.
+> Add nosleep via sysfs, so user can control it to workaround issue.
 > 
-> Here is a patch series adding support for the extra keys and LEDs on
-> Logitech G15, G15 v2 and G510 keyboards, as well as adding support for
-> controlling the keyboard backlight on these models.
-> 
-> Dmitry, the first patch adds a bunch of new key-codes for these and other
-> similar keyboards to input-event-codes.h, the other patches depend on this.
-> It is probably best if this patch is merged through the HID tree as part of
-> the rest of the series. If that is ok with you, can we please have your ack
-> for this?
+> /sys/devices/rmi4-00/nosleep can be written non-zero will enable
+> nosleep mode.
 
-ping?
+I do not think that noseleep attribute is a good solution as users will
+have very hard time finding and activating it. If nosleep is absolutely
+required, it has to be activated automatically.
 
-Dmitry, can you please review the first patch in this series (should be an
-easy review) and let us know how you want to proceed with this series?
+However from the discussion on the 1st patch it is my understanding that
+this patch was not really required, so I will not be applying it.
 
-Regards,
+Thanks.
 
-Hans
-
+-- 
+Dmitry
