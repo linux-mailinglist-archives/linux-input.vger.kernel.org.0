@@ -2,134 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF0443AAE6
-	for <lists+linux-input@lfdr.de>; Sun,  9 Jun 2019 19:27:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97D053AC85
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2019 02:00:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729090AbfFIR1z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 9 Jun 2019 13:27:55 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:33111 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729086AbfFIR1z (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Jun 2019 13:27:55 -0400
-Received: by mail-pg1-f193.google.com with SMTP id k187so3268502pga.0
-        for <linux-input@vger.kernel.org>; Sun, 09 Jun 2019 10:27:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=7cyQI/JEy1KeBy14m8Z7+rDdiSNFMHoYVTeDABqD5XQ=;
-        b=WRtnSoP2EjewceYCMVcyW5LzrrEGVxN29phX6h2skWjtJSh5Daoq8XpONo2kbER986
-         IvjWjCv3fk05E+F18LE27nn/XDFioM2K/LPjXFDxZAMXhmtism92HsF7nGWxZm/CBuFt
-         wbMBbufjIy0BKLansuEEWhHUjdxg0DAi0ngqS7aGQNBXGGhb/L0oQMEo9wwmb8T5+PPl
-         M3PPgmXakI2Yy8Qk0v3n0o81crxaVrRsi2CTHv0RzGfRbpVTwlaNv0+jch3LF1xSLBGG
-         NJ69wO+pmW7w7PicWeOEPMOSJGRTxm7uSXgB5SAJOgN2gGKLG2BroY+A9jdOe2oWEkBH
-         uW0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7cyQI/JEy1KeBy14m8Z7+rDdiSNFMHoYVTeDABqD5XQ=;
-        b=pOfZH+VSgWHdHged44VO2PGBC0baFvOlNafbpBZVaMdv9xsiucQQh01U4Bo3ZYLrDi
-         1ujJZRMmzRvaYZQqmmu6Ra2cN5hEJkxx+tjcuemrG6y9RiJzqHOO9J4GqjgX3pRafT/p
-         TbAPSrcMwfNPmtdTRRmf2OkugKUXVpR3F+YFTn0jzIPuHsakiWt4nDyg22ge9Shc31JN
-         1HCEzHDIJdVSc3DrAUFOyHeVDXmAt5kB5zdY80SlG4NYnv3N9FidCFFrt2JMeLriCqcJ
-         OGosnSZ4wSOVzUk5ozOW8e00BRLMa8h9BBk0QUjvpI1EVS5/0cMPLpkfHoN5SkDcjoAU
-         0TNA==
-X-Gm-Message-State: APjAAAWdpj6ZiajUwMT3yFxtgot0LhkPX3JwLIhrz3Pi4Wqki/DuCRVM
-        I7BVZ4mDIlUZpIcpv3oGUXK1kTdb
-X-Google-Smtp-Source: APXvYqyicD2bVAmYzlrSWTLjOBUFrmcAyvm1vH4hiJCY7cAd0nK7NUrPzZucUUWRXp1kWnExLycLew==
-X-Received: by 2002:a65:430a:: with SMTP id j10mr12119228pgq.133.1560101274710;
-        Sun, 09 Jun 2019 10:27:54 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id b17sm9017061pfb.18.2019.06.09.10.27.53
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 09 Jun 2019 10:27:53 -0700 (PDT)
-Date:   Sun, 9 Jun 2019 10:27:52 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     linux-input@vger.kernel.org, rydberg@bitmath.org
-Subject: Re: [PATCH v2] Input: iqs5xx - get axis info before calling
- input_mt_init_slots()
-Message-ID: <20190609172752.GC90002@dtor-ws>
-References: <1559875085-21880-1-git-send-email-jeff@labundy.com>
+        id S1729703AbfFJAAL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 9 Jun 2019 20:00:11 -0400
+Received: from chill.innovation.ch ([216.218.245.220]:49098 "EHLO
+        chill.innovation.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729384AbfFJAAL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Jun 2019 20:00:11 -0400
+X-Greylist: delayed 618 seconds by postgrey-1.27 at vger.kernel.org; Sun, 09 Jun 2019 20:00:10 EDT
+Date:   Sun, 9 Jun 2019 16:49:51 -0700
+DKIM-Filter: OpenDKIM Filter v2.10.3 chill.innovation.ch A26B764015B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innovation.ch;
+        s=default; t=1560124191;
+        bh=BSS23tILDkVwboike2uZGQWESGv2m47oeGg1PaeJI3Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UoEcJ4SmOat+geX/ToaeClL5OWUMOcZtQbilOeVHd/T3KEV2prnxw3sHL/4XYktm9
+         GKpjhqoYfqq4lGYXAXp2lsrxSXPTVkMkCqae1cxD5mWaIfoFeod6lZpnLVjUh1T0Ky
+         XO5CXtVyqXMNnQD6OZHOlh6kdpZge+mLheyEO9dCZnMEQKLDICjjBNX4Z6Gf0L+xn1
+         syya05TH+Kdg2z8bwYmT0gswyZ4bJFCdxr5tHulQmJaueFl7mpGd0K3QVGhM6EsUc4
+         DR75KXkogj1ASnws0GA66ImIuBuU7pluht3O2drCeKg816zdLIBrhS66bd1nwOBkyd
+         JPezy840ZTCLw==
+From:   "Life is hard, and then you die" <ronald@innovation.ch>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] mfd: apple-ibridge: Add Apple iBridge MFD driver.
+Message-ID: <20190609234951.GB16597@innovation.ch>
+References: <20190422031251.11968-1-ronald@innovation.ch>
+ <20190422031251.11968-2-ronald@innovation.ch>
+ <20190507122415.GC29524@dell>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1559875085-21880-1-git-send-email-jeff@labundy.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190507122415.GC29524@dell>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jun 06, 2019 at 09:38:05PM -0500, Jeff LaBundy wrote:
-> Calling input_mt_init_slots() copies ABS_MT_POSITION_X to ABS_X and
-> so on, but doing so before calling touchscreen_parse_properties()
-> leaves ABS_X min = max = 0 which may prompt an X server to ignore
-> the device.
-> 
-> To solve this problem, wait to call input_mt_init_slots() until all
-> absolute axis information has been resolved (whether that's through
-> device tree via touchscreen_parse_properties() or from reading from
-> the device directly).
-> 
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 
-Applied, thank you.
+On Tue, May 07, 2019 at 01:24:15PM +0100, Lee Jones wrote:
+> On Sun, 21 Apr 2019, Ronald Tschalär wrote:
+> 
+> > The iBridge device provides access to several devices, including:
+> > - the Touch Bar
+> > - the iSight webcam
+> > - the light sensor
+> > - the fingerprint sensor
+> > 
+> > This driver provides the core support for managing the iBridge device
+> > and the access to the underlying devices. In particular, since the
+> > functionality for the touch bar and light sensor is exposed via USB HID
+> > interfaces, and the same HID device is used for multiple functions, this
+> > driver provides a multiplexing layer that allows multiple HID drivers to
+> > be registered for a given HID device. This allows the touch bar and ALS
+> > driver to be separated out into their own modules.
+> > 
+> > Signed-off-by: Ronald Tschalär <ronald@innovation.ch>
+> > ---
+> >  drivers/mfd/Kconfig               |  15 +
+> >  drivers/mfd/Makefile              |   1 +
+> >  drivers/mfd/apple-ibridge.c       | 883 ++++++++++++++++++++++++++++++
+> 
+> I haven't taken a thorough look through, but I can tell you that the
+> vast majority of what you're trying to do here does not belong in
+> MFD.  MFD drivers are used to register child devices.  Almost all
+> functionality or 'real work' should be contained in the drivers the
+> MFD registers, not in the MFD parent itself.  You will need to move
+> all 'real work' out into the subordinate device drivers for
+> acceptance.
 
-> ---
-> Changes in v2:
->   - Moved the call to input_mt_init_slots to the very end of iqs5xx_axis_init
->     to keep operations on max_x and max_y close to each other for readability
-> 
->  drivers/input/touchscreen/iqs5xx.c | 24 +++++++++++++-----------
->  1 file changed, 13 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
-> index 1587078..5875bb1 100644
-> --- a/drivers/input/touchscreen/iqs5xx.c
-> +++ b/drivers/input/touchscreen/iqs5xx.c
-> @@ -502,14 +502,6 @@ static int iqs5xx_axis_init(struct i2c_client *client)
->  		input_set_capability(input, EV_ABS, ABS_MT_POSITION_Y);
->  		input_set_capability(input, EV_ABS, ABS_MT_PRESSURE);
-> 
-> -		error = input_mt_init_slots(input,
-> -				IQS5XX_NUM_CONTACTS, INPUT_MT_DIRECT);
-> -		if (error) {
-> -			dev_err(&client->dev,
-> -				"Failed to initialize slots: %d\n", error);
-> -			return error;
-> -		}
-> -
->  		input_set_drvdata(input, iqs5xx);
->  		iqs5xx->input = input;
->  	}
-> @@ -591,9 +583,19 @@ static int iqs5xx_axis_init(struct i2c_client *client)
->  	if (error)
->  		return error;
-> 
-> -	return iqs5xx_write_word(client,
-> -				 prop.swap_x_y ? IQS5XX_X_RES : IQS5XX_Y_RES,
-> -				 max_y);
-> +	error = iqs5xx_write_word(client,
-> +				  prop.swap_x_y ? IQS5XX_X_RES : IQS5XX_Y_RES,
-> +				  max_y);
-> +	if (error)
-> +		return error;
-> +
-> +	error = input_mt_init_slots(iqs5xx->input, IQS5XX_NUM_CONTACTS,
-> +				    INPUT_MT_DIRECT);
-> +	if (error)
-> +		dev_err(&client->dev, "Failed to initialize slots: %d\n",
-> +			error);
-> +
-> +	return error;
->  }
-> 
->  static int iqs5xx_dev_init(struct i2c_client *client)
-> --
-> 2.7.4
-> 
+Thanks for your feedback. That was/is the idea: the actual Touch Bar
+and ALS driver code is in separate modules - what is left in the
+appple-ibridge mfd driver is a fairly generic hid driver
+demultiplexer. However, that could be moved out into it's own
+helper/module.
 
--- 
-Dmitry
+Having said that, it looks like the preference is to do all of this as
+a hid driver with virtual hid devices instead of as an mfd driver.
+
+
+  Cheers,
+
+  Ronald
+
