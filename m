@@ -2,675 +2,143 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9183C3B230
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2019 11:31:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C6323B2B1
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2019 12:04:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388830AbfFJJaj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jun 2019 05:30:39 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46346 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389021AbfFJJai (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jun 2019 05:30:38 -0400
-Received: by mail-wr1-f66.google.com with SMTP id n4so8361914wrw.13
-        for <linux-input@vger.kernel.org>; Mon, 10 Jun 2019 02:30:36 -0700 (PDT)
+        id S2388688AbfFJKD5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Jun 2019 06:03:57 -0400
+Received: from mail-eopbgr1400040.outbound.protection.outlook.com ([40.107.140.40]:5647
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2388647AbfFJKD4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 10 Jun 2019 06:03:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=07kreMXJEzC20H3bCyR+ujv7DombistRVURgx36+vAc=;
-        b=RNu2Ceub2R2vL38knYlUL7WXVgz/ETw4eolqjSDxISEBzu+cF/Atp0eKSb1fC2IQCP
-         EufWtpj9s5oST1Ehp17liE7VFS5N3s3a/iIzaTw5hCwHfMAJ63rGEp7ZBS3z+luymOXF
-         y3BPPNxSVCVeot6T88hWP6r1WORdfx/baK7NFUD58UvTpZ9cOI02Oa+cynQg4byuExLv
-         CD6pMgfiaQ0GvNebRCq/t5uZYEebKXGYJQTiPL+REXjVumSv56yM4b2gweMO7qNXzbAV
-         icJSVSGRtlE45P/CmpVOkcAV4qcRD1Zk6Tt9ub5kmWouCcBzC6tK9GpBYcwzq+97BSTh
-         kaMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=07kreMXJEzC20H3bCyR+ujv7DombistRVURgx36+vAc=;
-        b=PJH7leoavjHWtoM+vUbbI+cs8zkok709DC38QeqIVSQsCoqGLICMDwsEXBUbtEW3VR
-         63Hob2BmQjxO39x5i+zZrrJbTa99fiW6W1UcLLD2VM4I1EYQR47kTiO0oqLfUxW8gfqD
-         rikVtoDNLukMT+78tcMH0bil5w0FieiPW45KtFGXdVtbx3Kt1CeC37IMIRxkkxIbu6yL
-         j+nnAFLe+y/yS0QKc246zYNkFQ/02CqPZwwEJKCVjNfNNk/aUJgb+fMUXRFmi6zndQZZ
-         cQimzObTJ0/NiDrW8xxxv2lwLNKZrylch0a2AtVlj2ZNIIgxpwz67bROQwpOBDWuPUue
-         lg5g==
-X-Gm-Message-State: APjAAAVAZV+BDIGNzO7vPeabdaFijJFuQMJC9KbrCO6tRJZnEAP2zXMP
-        ZLS83eWSn8g2pEHdMRd9rlzv2Q==
-X-Google-Smtp-Source: APXvYqy0tMTtk9/XYySPjsqFRO93kNbakj078zn0oJv1YemtbP3yb6eJLNEOIa8A3+2NUO3T6AJCjg==
-X-Received: by 2002:adf:b605:: with SMTP id f5mr13900657wre.305.1560159035539;
-        Mon, 10 Jun 2019 02:30:35 -0700 (PDT)
-Received: from pop-os.baylibre.local (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id j123sm11881943wmb.32.2019.06.10.02.30.34
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Jun 2019 02:30:35 -0700 (PDT)
-From:   Alexandre Mergnat <amergnat@baylibre.com>
-To:     robh+dt@kernel.org, mark.rutland@arm.com, jic23@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        baylibre-upstreaming@groups.io, dmitry.torokhov@gmail.com,
-        linux-input@vger.kernel.org,
-        Alexandre Mergnat <amergnat@baylibre.com>
-Subject: [PATCH v3 3/3] iio: Add PAT9125 optical tracker sensor
-Date:   Mon, 10 Jun 2019 11:29:45 +0200
-Message-Id: <20190610092945.6330-4-amergnat@baylibre.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190610092945.6330-1-amergnat@baylibre.com>
-References: <20190610092945.6330-1-amergnat@baylibre.com>
+ d=alpsgroup.onmicrosoft.com; s=selector2-alpsgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kb7xbMgOXXUEm2N7Pg/5eJgqz5yiTYSqMo//fzkWwiI=;
+ b=IdyYAzKZL/eCjMPY8DkE8amRyuDCdJ3MNSu54fWJIplOkIAzyabwjOOJwSl7nlfaaHwqIp3+tg2/E5OUtPxv2xS92i4sUQ7JRdE7GS8csDv8CQnAU9wQ3grxazaKTI/xlc/qTaJyDdNR9q1JQNIbix9Uz4LTQbhzsNwzKiPFCIE=
+Received: from OSBPR01MB4855.jpnprd01.prod.outlook.com (20.179.180.211) by
+ OSBPR01MB3303.jpnprd01.prod.outlook.com (20.178.96.77) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.12; Mon, 10 Jun 2019 10:03:52 +0000
+Received: from OSBPR01MB4855.jpnprd01.prod.outlook.com
+ ([fe80::b583:e4e6:93db:38cb]) by OSBPR01MB4855.jpnprd01.prod.outlook.com
+ ([fe80::b583:e4e6:93db:38cb%4]) with mapi id 15.20.1965.017; Mon, 10 Jun 2019
+ 10:03:52 +0000
+From:   Xiaoxiao Liu <xiaoxiao.liu-1@cn.alps.com>
+To:     =?utf-8?B?UGFsaSBSb2jDoXI=?= <pali.rohar@gmail.com>
+CC:     XiaoXiao Liu <sliuuxiaonxiao@gmail.com>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "peter.hutterer@who-t.net" <peter.hutterer@who-t.net>,
+        "hui.wang@canonical.com" <hui.wang@canonical.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Xiaojian Cao <xiaojian.cao@cn.alps.com>,
+        "zhangfp1@lenovo.com" <zhangfp1@lenovo.com>,
+        Naoki Saito <naoki.saito@alpsalpine.com>,
+        Hideo Kawase <hideo.kawase@alpsalpine.com>,
+        Naoki Saito <naoki.saito@alpsalpine.com>
+Subject: =?utf-8?B?562U5aSNOiDnrZTlpI06IFtQQVRDSF0gaW5wdXQ6IGFscHMtZml4IHRoZSBp?=
+ =?utf-8?Q?ssue_alps_cs19_trackstick_do_not_work.?=
+Thread-Topic: =?utf-8?B?562U5aSNOiBbUEFUQ0hdIGlucHV0OiBhbHBzLWZpeCB0aGUgaXNzdWUgYWxw?=
+ =?utf-8?Q?s_cs19_trackstick_do_not_work.?=
+Thread-Index: AQHVFHDIBpbm29Y830SbHnb/dbnRc6Z+v5aAgAD+tvCAAGPlAIAACjKQgBSAfaCAABHEQA==
+Date:   Mon, 10 Jun 2019 10:03:51 +0000
+Message-ID: <OSBPR01MB4855A2A30A4F5E6BDCFE715FDA130@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+References: <20190527094422.7558-1-sliuuxiaonxiao@gmail.com>
+ <20190527100913.sgxrjrmphsjfmcdb@pali>
+ <OSBPR01MB4855F61AE28B883CDD87F781DA1E0@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <20190528071824.jimhixhtsynzwixe@pali>
+ <OSBPR01MB48556FD88D7F7D5F91CB5579DA1E0@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <OSBPR01MB4855707AC8ABB7CFBE5BBBD5DA130@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB4855707AC8ABB7CFBE5BBBD5DA130@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=xiaoxiao.liu-1@cn.alps.com; 
+x-originating-ip: [58.247.0.86]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b902201d-dfcd-4230-2fd7-08d6ed8af0c4
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB3303;
+x-ms-traffictypediagnostic: OSBPR01MB3303:
+x-microsoft-antispam-prvs: <OSBPR01MB3303D5CA1CF23E3937718995DA130@OSBPR01MB3303.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0064B3273C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(39860400002)(136003)(346002)(396003)(376002)(199004)(189003)(55016002)(486006)(66476007)(86362001)(6436002)(5660300002)(186003)(26005)(11346002)(9686003)(476003)(52536014)(25786009)(446003)(85182001)(256004)(4326008)(76116006)(66946007)(14444005)(107886003)(316002)(7736002)(54906003)(6916009)(33656002)(305945005)(74316002)(14454004)(73956011)(478600001)(2940100002)(224303003)(2906002)(66446008)(66574012)(99286004)(66556008)(7696005)(53936002)(76176011)(66066001)(68736007)(102836004)(64756008)(8936002)(71190400001)(6506007)(6116002)(71200400001)(81156014)(81166006)(3846002);DIR:OUT;SFP:1101;SCL:1;SRVR:OSBPR01MB3303;H:OSBPR01MB4855.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
+received-spf: None (protection.outlook.com: cn.alps.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Z3LOHMjE92gYhENR5LGXuEguEJF4S4P6GfL4BCdfN0XMW2csPAcdf14QBccRhBYqHkAhpNpYJLyhnTFIaZ7kkBWmcYekjaOrVurBSnpXiJ00oNod5/o62HVmbsdiXfWIeE3vv777Em66LAZ/JjcmyDQRaytlThE99iTgmuahuWQSPHJaQ+SCWKyrDtz2UJuVdQEKjczUDVy+ra9i2yh08CQE8F0bg57LYBGSo/Hccg7ky1Xa4uixCeoM9DTyR4V2aC5E8pa1Sl7ro6KeHghzYiFUfsMacKKm0mNo3u3Dx5aw3fbyBtKIJqom/0c3em2GF5H0c+dDjnMPCoeUaDS2sbw2hGTWuL85VVPuJDXCM36tGhSAxI9IyOlWxIdBwvAOuKZgbdDI5wCQd7JkrHJoiCzXKOliFWjTzqWIqw1V/cM=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: cn.alps.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b902201d-dfcd-4230-2fd7-08d6ed8af0c4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2019 10:03:51.8503
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 57e76998-77bd-4b82-a424-198f46eb2254
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CHT1HTSH3197@gl.alps.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3303
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This adds support for PixArt Imaging’s miniature low power optical
-navigation chip using LASER light source enabling digital surface tracking.
-
-Feature and datasheet: [0]
-
-This IIO driver allows to read delta or relative position on X and Y axis:
-  - The position relative to where the system started can be taken through
-  punctual "read_raw" which will issue a read in the device registers to
-  get the delta between last/current read and return the addition of all
-  the deltas.
-  - The delta can be retrieved using triggered buffer subscription
-  (i.e. iio_readdev). The buffer payload is:
-    |32 bits delta X|32 bits delta Y|timestamp|.
-
-The possible I2C addresses are 0x73, 0x75 and 0x79.
-
-X and Y axis CPI resolution can be get/set independently through IIO_SCALE.
-The range value is 0-255 which means:
-  - 0 to ~1,275 Counts Per Inch on flat surface.
-  - 0 to ~630 Counts Per Rev on 1.0mm diameter STS shaft at 1.0mm distance.
-More details on the datasheet.
-
-The "position" directory is added to contain drivers which can provide
-position data.
-
-Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-
-[0]: http://www.pixart.com/products-detail/72/PAT9125EL-TKIT___TKMT
-
-Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
----
- drivers/iio/Kconfig            |   1 +
- drivers/iio/Makefile           |   1 +
- drivers/iio/position/Kconfig   |  18 ++
- drivers/iio/position/Makefile  |   6 +
- drivers/iio/position/pat9125.c | 499 +++++++++++++++++++++++++++++++++
- 5 files changed, 525 insertions(+)
- create mode 100644 drivers/iio/position/Kconfig
- create mode 100644 drivers/iio/position/Makefile
- create mode 100644 drivers/iio/position/pat9125.c
-
-diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
-index 1d736a4952ab..23d9780640e7 100644
---- a/drivers/iio/Kconfig
-+++ b/drivers/iio/Kconfig
-@@ -85,6 +85,7 @@ source "drivers/iio/light/Kconfig"
- source "drivers/iio/magnetometer/Kconfig"
- source "drivers/iio/multiplexer/Kconfig"
- source "drivers/iio/orientation/Kconfig"
-+source "drivers/iio/position/Kconfig"
- if IIO_TRIGGER
-    source "drivers/iio/trigger/Kconfig"
- endif #IIO_TRIGGER
-diff --git a/drivers/iio/Makefile b/drivers/iio/Makefile
-index bff682ad1cfb..1712011c0f4a 100644
---- a/drivers/iio/Makefile
-+++ b/drivers/iio/Makefile
-@@ -31,6 +31,7 @@ obj-y += light/
- obj-y += magnetometer/
- obj-y += multiplexer/
- obj-y += orientation/
-+obj-y += position/
- obj-y += potentiometer/
- obj-y += potentiostat/
- obj-y += pressure/
-diff --git a/drivers/iio/position/Kconfig b/drivers/iio/position/Kconfig
-new file mode 100644
-index 000000000000..1cf28896511c
---- /dev/null
-+++ b/drivers/iio/position/Kconfig
-@@ -0,0 +1,18 @@
-+#
-+# Optical tracker sensors
-+#
-+# When adding new entries keep the list in alphabetical order
-+
-+menu "Optical tracker sensors"
-+
-+config PAT9125
-+	tristate "Optical tracker PAT9125 I2C driver"
-+	depends on I2C
-+	select IIO_BUFFER
-+	help
-+	  Say yes here to build support for PAT9125 optical tracker
-+	  sensors.
-+
-+          To compile this driver as a module, say M here: the module will
-+          be called pat9125.
-+endmenu
-diff --git a/drivers/iio/position/Makefile b/drivers/iio/position/Makefile
-new file mode 100644
-index 000000000000..cf294917ae2c
---- /dev/null
-+++ b/drivers/iio/position/Makefile
-@@ -0,0 +1,6 @@
-+#
-+# Makefile for industrial I/O Optical tracker sensor drivers
-+#
-+
-+# When adding new entries keep the list in alphabetical order
-+obj-$(CONFIG_PAT9125) += pat9125.o
-diff --git a/drivers/iio/position/pat9125.c b/drivers/iio/position/pat9125.c
-new file mode 100644
-index 000000000000..22bf729bec9b
---- /dev/null
-+++ b/drivers/iio/position/pat9125.c
-@@ -0,0 +1,499 @@
-+// SPDX-License-Identifier: (GPL-2.0)
-+/*
-+ * Copyright (C) 2019 BayLibre, SAS
-+ * Author: Alexandre Mergnat <amergnat@baylibre.com>
-+ */
-+
-+#include <linux/bitops.h>
-+#include <linux/delay.h>
-+#include <linux/interrupt.h>
-+#include <linux/i2c.h>
-+#include <linux/iio/iio.h>
-+#include <linux/iio/sysfs.h>
-+#include <linux/iio/events.h>
-+#include <linux/iio/buffer.h>
-+#include <linux/iio/trigger.h>
-+#include <linux/iio/trigger_consumer.h>
-+#include <linux/iio/triggered_buffer.h>
-+#include <linux/iio/kfifo_buf.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+#include <linux/slab.h>
-+
-+/* I2C Address function to ID pin*/
-+#define PAT9125_I2C_ADDR_HI		0x73
-+#define PAT9125_I2C_ADDR_LO		0x75
-+#define PAT9125_I2C_ADDR_NC		0x79
-+
-+/* Registers */
-+#define PAT9125_PRD_ID1_REG		0x00
-+#define PAT9125_PRD_ID2_REG		0x01
-+#define PAT9125_MOTION_STATUS_REG	0x02
-+#define PAT9125_DELTA_X_LO_REG		0x03
-+#define PAT9125_DELTA_Y_LO_REG		0x04
-+#define PAT9125_OP_MODE_REG		0x05
-+#define PAT9125_CONFIG_REG		0x06
-+#define PAT9125_WRITE_PROTEC_REG	0x09
-+#define PAT9125_SLEEP1_REG		0x0A
-+#define PAT9125_SLEEP2_REG		0x0B
-+#define PAT9125_RES_X_REG		0x0D
-+#define PAT9125_RES_Y_REG		0x0E
-+#define PAT9125_DELTA_XY_HI_REG		0x12
-+#define PAT9125_SHUTER_REG		0x14
-+#define PAT9125_FRAME_AVG_REG		0x17
-+#define PAT9125_ORIENTATION_REG		0x19
-+
-+/* Bits */
-+#define PAT9125_VALID_MOTION_DATA_BIT	BIT(7)
-+#define PAT9125_RESET_BIT		BIT(7)
-+
-+/* Registers' values */
-+#define PAT9125_SENSOR_ID_VAL			0x31
-+#define PAT9125_DISABLE_WRITE_PROTECT_VAL	0x5A
-+#define PAT9125_ENABLE_WRITE_PROTECT_VAL	0x00
-+
-+/* Default Value of sampled value size */
-+#define PAT9125_SAMPLED_VAL_BIT_SIZE		12
-+
-+struct pat9125_data {
-+	struct regmap *regmap;
-+	struct iio_trigger *indio_trig;	/* Motion detection */
-+	s32 delta_x;
-+	s32 delta_y;
-+	s32 position_x;
-+	s32 position_y;
-+	bool sampling;
-+};
-+
-+static const struct iio_chan_spec pat9125_channels[] = {
-+	{
-+		.type = IIO_DISTANCE,
-+		.modified = 1,
-+		.channel2 = IIO_MOD_X,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-+			BIT(IIO_CHAN_INFO_SCALE),
-+		.scan_index = 0,
-+		.scan_type = {
-+			.sign = 's',
-+			.realbits = 32,
-+			.storagebits = 32,
-+			.endianness = IIO_CPU,
-+		},
-+	},
-+	{
-+		.type = IIO_DISTANCE,
-+		.modified = 1,
-+		.channel2 = IIO_MOD_Y,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-+			BIT(IIO_CHAN_INFO_SCALE),
-+		.scan_index = 1,
-+		.scan_type = {
-+			.sign = 's',
-+			.realbits = 32,
-+			.storagebits = 32,
-+			.endianness = IIO_CPU,
-+		},
-+	},
-+	IIO_CHAN_SOFT_TIMESTAMP(2),
-+};
-+
-+/**
-+ * pat9125_write_pretected_reg() - Write value in protected register.
-+ *
-+ * @regmap: Pointer to I2C register map.
-+ * @reg_addr: Register address.
-+ * @reg_value: Value to be write in register.
-+ *
-+ * A value of zero will be returned on success, a negative errno will
-+ * be returned in error cases.
-+ */
-+static int pat9125_write_pretected_reg(struct iio_dev *indio_dev,
-+	u8 reg_addr, u8 reg_value)
-+{
-+	struct pat9125_data *data = iio_priv(indio_dev);
-+	int ret;
-+
-+	ret = regmap_write(data->regmap,
-+			 PAT9125_WRITE_PROTEC_REG,
-+			 PAT9125_DISABLE_WRITE_PROTECT_VAL);
-+	if (ret < 0) {
-+		dev_err(indio_dev->dev.parent, "register 0x%x access failed %d\n",
-+			PAT9125_WRITE_PROTEC_REG, ret);
-+		return ret;
-+	}
-+
-+	ret = regmap_write(data->regmap, reg_addr, reg_value);
-+	if (ret < 0) {
-+		dev_err(indio_dev->dev.parent, "register 0x%x access failed %d\n",
-+			reg_addr, ret);
-+		return ret;
-+	}
-+
-+	ret = regmap_write(data->regmap,
-+			 PAT9125_WRITE_PROTEC_REG,
-+			 PAT9125_ENABLE_WRITE_PROTECT_VAL);
-+	if (ret < 0) {
-+		dev_err(indio_dev->dev.parent, "register 0x%x access failed %d\n",
-+			PAT9125_WRITE_PROTEC_REG, ret);
-+		return ret;
-+	}
-+	return 0;
-+}
-+/**
-+ * pat9125_read_delta() - Read delta value, update delta & position data.
-+ *
-+ * @data: Driver's data structure.
-+ *
-+ * A value of zero will be returned on success, a negative errno will
-+ * be returned in error cases.
-+ */
-+static int pat9125_read_delta(struct pat9125_data *data)
-+{
-+	struct regmap *regmap = data->regmap;
-+	int status = 0;
-+	int val_x = 0;
-+	int val_y = 0;
-+	int val_high_nibbles = 0;
-+	int ret;
-+
-+	ret = regmap_read(regmap, PAT9125_MOTION_STATUS_REG, &status);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Check if motion is detected */
-+	if (status & PAT9125_VALID_MOTION_DATA_BIT) {
-+		ret = regmap_read(regmap, PAT9125_DELTA_X_LO_REG, &val_x);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = regmap_read(regmap, PAT9125_DELTA_Y_LO_REG, &val_y);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = regmap_read(regmap, PAT9125_DELTA_XY_HI_REG,
-+			&val_high_nibbles);
-+		if (ret < 0)
-+			return ret;
-+
-+		val_x |= (val_high_nibbles << 4) & 0xF00;
-+		val_y |= (val_high_nibbles << 8) & 0xF00;
-+		val_x = sign_extend32(val_x,
-+			PAT9125_SAMPLED_VAL_BIT_SIZE - 1);
-+		val_y = sign_extend32(val_y,
-+			PAT9125_SAMPLED_VAL_BIT_SIZE - 1);
-+		data->position_x += val_x;
-+		data->position_y += val_y;
-+		data->delta_x = val_x;
-+		data->delta_y = val_y;
-+	}
-+	return 0;
-+}
-+
-+/**
-+ * pat9125_read_raw() - Sample and return the value(s)
-+ * function to the associated channel info enum.
-+ **/
-+static int pat9125_read_raw(struct iio_dev *indio_dev,
-+			    struct iio_chan_spec const *chan,
-+			    int *val, int *val2, long mask)
-+{
-+	struct pat9125_data *data = iio_priv(indio_dev);
-+	int ret;
-+
-+	switch (mask) {
-+	case IIO_CHAN_INFO_RAW:
-+		ret = pat9125_read_delta(data);
-+		if (ret)
-+			return ret;
-+		switch (chan->channel2) {
-+		case IIO_MOD_X:
-+			*val = data->position_x;
-+			return IIO_VAL_INT;
-+		case IIO_MOD_Y:
-+			*val = data->position_y;
-+			return IIO_VAL_INT;
-+		default:
-+			return -EINVAL;
-+		}
-+	case IIO_CHAN_INFO_SCALE:
-+		switch (chan->channel2) {
-+		case IIO_MOD_X:
-+			ret = regmap_read(data->regmap, PAT9125_RES_X_REG, val);
-+			if (ret)
-+				return ret;
-+			else
-+				return IIO_VAL_INT;
-+		case IIO_MOD_Y:
-+			ret = regmap_read(data->regmap, PAT9125_RES_Y_REG, val);
-+			if (ret)
-+				return ret;
-+			else
-+				return IIO_VAL_INT;
-+		default:
-+			return -EINVAL;
-+		}
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+/**
-+ * pat9125_write_raw() - Write the value(s)
-+ * function to the associated channel info enum.
-+ **/
-+static int pat9125_write_raw(struct iio_dev *indio_dev,
-+			     struct iio_chan_spec const *chan, int val,
-+			     int val2, long mask)
-+{
-+	int ret;
-+
-+	switch (mask) {
-+	case IIO_CHAN_INFO_SCALE:
-+		switch (chan->channel2) {
-+		case IIO_MOD_X:
-+			ret = pat9125_write_pretected_reg(indio_dev,
-+				PAT9125_RES_X_REG, val);
-+			return ret;
-+		case IIO_MOD_Y:
-+			ret = pat9125_write_pretected_reg(indio_dev,
-+				PAT9125_RES_Y_REG, val);
-+			return ret;
-+		default:
-+			return -EINVAL;
-+		}
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static irqreturn_t pat9125_threaded_trigger_handler(int irq, void *p)
-+{
-+	struct iio_poll_func *pf = p;
-+	struct iio_dev *indio_dev = pf->indio_dev;
-+	struct pat9125_data *data = iio_priv(indio_dev);
-+	u8 buf[16]; /* Payload: Delta_X (4) | Delta_Y (4) | Timestamp (8) */
-+	int ret;
-+	s64 timestamp;
-+
-+	data->sampling = true;
-+	ret = pat9125_read_delta(data);
-+	if (ret) {
-+		dev_err(indio_dev->dev.parent, "Read delta failed %d\n", ret);
-+		return IRQ_NONE;
-+	}
-+	timestamp = iio_get_time_ns(indio_dev);
-+	*((s32 *)&buf[0]) = data->delta_x;
-+	*((s32 *)&buf[sizeof(s32)]) = data->delta_y;
-+	data->delta_x = 0;
-+	data->delta_y = 0;
-+	iio_push_to_buffers_with_timestamp(indio_dev, buf, timestamp);
-+	iio_trigger_notify_done(indio_dev->trig);
-+	return IRQ_HANDLED;
-+}
-+
-+/**
-+ * pat9125_threaded_event_handler() - Threaded motion detection event handler
-+ * @irq: The irq being handled.
-+ * @private: struct iio_device pointer for the device.
-+ */
-+static irqreturn_t pat9125_threaded_event_handler(int irq, void *private)
-+{
-+	struct iio_dev *indio_dev = private;
-+	struct pat9125_data *data = iio_priv(indio_dev);
-+
-+	iio_trigger_poll_chained(data->indio_trig);
-+	return IRQ_HANDLED;
-+}
-+
-+static int pat9125_buffer_postenable(struct iio_dev *indio_dev)
-+{
-+	struct pat9125_data *data = iio_priv(indio_dev);
-+	int ret = 0;
-+
-+	ret = iio_triggered_buffer_postenable(indio_dev);
-+	if (ret)
-+		return ret;
-+	/* Release interrupt pin on the device */
-+	return pat9125_read_delta(data);
-+}
-+
-+static const struct iio_buffer_setup_ops pat9125_buffer_ops = {
-+	.postenable = pat9125_buffer_postenable,
-+	.predisable = iio_triggered_buffer_predisable,
-+};
-+
-+
-+static const struct regmap_config pat9125_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+};
-+
-+static const struct iio_info pat9125_info = {
-+	.read_raw = pat9125_read_raw,
-+	.write_raw = pat9125_write_raw,
-+};
-+
-+/*
-+ * To detect if a new value is available, register status is checked. This
-+ * method is safer than using a flag on GPIO IRQ to track event while sampling
-+ * because falling edge is missed when device trig just after a read reg value
-+ * (that happen for fast motions or high CPI setting).
-+ *
-+ * Note: To avoid infinite loop in "iio_trigger_notify_done" when it si not in
-+ * buffer mode and kernel warning due to nested IRQ thread,
-+ * this function must return 0.
-+ */
-+static int pat9125_trig_try_reenable(struct iio_trigger *trig)
-+{
-+	struct pat9125_data *data = iio_trigger_get_drvdata(trig);
-+	struct regmap *regmap = data->regmap;
-+	int status = 0;
-+
-+	if (data->sampling) {
-+		regmap_read(regmap, PAT9125_MOTION_STATUS_REG, &status);
-+		if (status & PAT9125_VALID_MOTION_DATA_BIT) {
-+			data->sampling = false;
-+			iio_trigger_poll_chained(data->indio_trig);
-+			return 0;
-+		}
-+	}
-+	data->sampling = false;
-+	return 0;
-+}
-+
-+static const struct iio_trigger_ops pat9125_trigger_ops = {
-+	.try_reenable = pat9125_trig_try_reenable,
-+};
-+
-+static int pat9125_probe(struct i2c_client *client,
-+			 const struct i2c_device_id *id)
-+{
-+	struct pat9125_data *data;
-+	struct iio_dev *indio_dev;
-+	int ret, sensor_pid;
-+
-+	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
-+	if (!indio_dev) {
-+		dev_err(&client->dev, "IIO device allocation failed\n");
-+		return -ENOMEM;
-+	}
-+
-+	data = iio_priv(indio_dev);
-+	indio_dev->dev.parent = &client->dev;
-+	indio_dev->name = id->name;
-+	indio_dev->channels = pat9125_channels;
-+	indio_dev->num_channels = ARRAY_SIZE(pat9125_channels);
-+	indio_dev->info = &pat9125_info;
-+	indio_dev->modes = INDIO_DIRECT_MODE;
-+
-+	ret = devm_iio_triggered_buffer_setup(&client->dev, indio_dev, NULL,
-+		pat9125_threaded_trigger_handler, &pat9125_buffer_ops);
-+	if (ret) {
-+		dev_err(&client->dev, "unable to setup triggered buffer\n");
-+		return ret;
-+	}
-+
-+	data->indio_trig = devm_iio_trigger_alloc(&client->dev, "%s-dev%d",
-+		indio_dev->name, indio_dev->id);
-+	if (!data->indio_trig)
-+		return -ENOMEM;
-+	data->indio_trig->dev.parent = &client->dev;
-+	data->indio_trig->ops = &pat9125_trigger_ops;
-+	iio_trigger_set_drvdata(data->indio_trig, data);
-+	ret = devm_iio_trigger_register(&client->dev, data->indio_trig);
-+	if (ret) {
-+		dev_err(&client->dev, "unable to register trigger\n");
-+		return ret;
-+	}
-+
-+	data->regmap = devm_regmap_init_i2c(client, &pat9125_regmap_config);
-+	if (IS_ERR(data->regmap)) {
-+		dev_err(&client->dev, "regmap init failed %ld\n",
-+			PTR_ERR(data->regmap));
-+		return PTR_ERR(data->regmap);
-+	}
-+
-+	/* Check device ID */
-+	ret = regmap_read(data->regmap, PAT9125_PRD_ID1_REG, &sensor_pid);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "register 0x%x access failed %d\n",
-+			PAT9125_PRD_ID1_REG, ret);
-+		return ret;
-+	}
-+	if (sensor_pid != PAT9125_SENSOR_ID_VAL)
-+		return -ENODEV;
-+
-+	/* Switch to bank0 (Magic number)*/
-+	ret = regmap_write(data->regmap, 0x7F, 0x00);
-+	if (ret < 0) {
-+		dev_err(indio_dev->dev.parent, "register 0x%x access failed %d\n",
-+			0x7F, ret);
-+		return ret;
-+	}
-+
-+	/* Software reset */
-+	ret = regmap_write_bits(data->regmap,
-+			      PAT9125_CONFIG_REG,
-+			      PAT9125_RESET_BIT,
-+			      1);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "register 0x%x access failed %d\n",
-+			PAT9125_CONFIG_REG, ret);
-+		return ret;
-+	}
-+
-+	msleep(20);
-+
-+	/* Init GPIO IRQ */
-+	if (client->irq) {
-+		ret = devm_request_threaded_irq(&client->dev,
-+			client->irq,
-+			NULL,
-+			pat9125_threaded_event_handler,
-+			IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-+			"pat9125",
-+			indio_dev);
-+		if (ret) {
-+			dev_err(&client->dev, "GPIO IRQ init failed\n");
-+			return ret;
-+		}
-+	}
-+
-+	ret = devm_iio_device_register(&client->dev, indio_dev);
-+	if (ret) {
-+		dev_err(&client->dev, "IIO device register failed\n");
-+		return ret;
-+	}
-+
-+	i2c_set_clientdata(client, indio_dev);
-+	return 0;
-+}
-+
-+static const struct i2c_device_id pat9125_id[] = {
-+	{ "pat9125", 0 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, pat9125_id);
-+
-+static const unsigned short normal_i2c[] = {
-+	PAT9125_I2C_ADDR_HI,
-+	PAT9125_I2C_ADDR_LO,
-+	PAT9125_I2C_ADDR_NC,
-+	I2C_CLIENT_END
-+};
-+
-+static struct i2c_driver pat9125_driver = {
-+	.driver = {
-+		.name = "pat9125",
-+	},
-+	.probe = pat9125_probe,
-+	.address_list = normal_i2c,
-+	.id_table = pat9125_id,
-+};
-+
-+module_i2c_driver(pat9125_driver);
-+
-+MODULE_AUTHOR("Alexandre Mergnat <amergnat@baylibre.com>");
-+MODULE_DESCRIPTION("Optical Tracking sensor");
-+MODULE_LICENSE("GPL");
--- 
-2.17.1
-
+KysgU2FpdG8tc2FuLg0KDQotLS0tLemCruS7tuWOn+S7ti0tLS0tDQrlj5Hku7bkuro6IOWKiSDm
+m4nmm4kgWGlhb3hpYW8gTGl1IA0K5Y+R6YCB5pe26Ze0OiBNb25kYXksIEp1bmUgMTAsIDIwMTkg
+NToyMCBQTQ0K5pS25Lu25Lq6OiBQYWxpIFJvaMOhciA8cGFsaS5yb2hhckBnbWFpbC5jb20+DQrm
+ioTpgIE6IFhpYW9YaWFvIExpdSA8c2xpdXV4aWFvbnhpYW9AZ21haWwuY29tPjsgZG1pdHJ5LnRv
+cm9raG92QGdtYWlsLmNvbTsgcGV0ZXIuaHV0dGVyZXJAd2hvLXQubmV0OyBodWkud2FuZ0BjYW5v
+bmljYWwuY29tOyBsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2Vy
+Lmtlcm5lbC5vcmc7IOabuSDmm4nlu7ogWGlhb2ppYW4gQ2FvIDx4aWFvamlhbi5jYW9AY24uYWxw
+cy5jb20+OyB6aGFuZ2ZwMUBsZW5vdm8uY29tOyDmlonol6Qg55u05qi5IE5hb2tpIFNhaXRvIDxu
+YW9raS5zYWl0b0BhbHBzYWxwaW5lLmNvbT47IOW3neeArCDoi7HlpKsgSGlkZW8gS2F3YXNlIDxo
+aWRlby5rYXdhc2VAYWxwc2FscGluZS5jb20+DQrkuLvpopg6IOetlOWkjTog562U5aSNOiBbUEFU
+Q0hdIGlucHV0OiBhbHBzLWZpeCB0aGUgaXNzdWUgYWxwcyBjczE5IHRyYWNrc3RpY2sgZG8gbm90
+IHdvcmsuDQoNCkhpIFBhbGksDQoNCldlIHJlZ2lzdGVyIG91ciBDUzE5IGRldmljZSBhcyBBTFBT
+X09OTFlfVFJBQ0tTVElDSyBkZXZpY2UuDQpBbmQgbGV0IHRoZSBWOCBwcm90b2NvbCBmdW5jdGlv
+biBzdXBwb3J0IHRoZSBwcm9jZXNzIG9mIEFMUFNfT05MWV9UUkFDS1NUSUNLIGRldmljZS4gDQoN
+Ckkgd2FudCB0byBjb25maXJtIGlmIHRoaXMgc29sdXRpb24gT0s/DQoNClhpYW94aWFvLkxpdQ0K
+LS0tLS3pgq7ku7bljp/ku7YtLS0tLQ0K5Y+R5Lu25Lq6OiDliokg5puJ5puJIFhpYW94aWFvIExp
+dSANCuWPkemAgeaXtumXtDogVHVlc2RheSwgTWF5IDI4LCAyMDE5IDM6NTUgUE0NCuaUtuS7tuS6
+ujogUGFsaSBSb2jDoXIgPHBhbGkucm9oYXJAZ21haWwuY29tPg0K5oqE6YCBOiBYaWFvWGlhbyBM
+aXUgPHNsaXV1eGlhb254aWFvQGdtYWlsLmNvbT47IGRtaXRyeS50b3Jva2hvdkBnbWFpbC5jb207
+IHBldGVyLmh1dHRlcmVyQHdoby10Lm5ldDsgaHVpLndhbmdAY2Fub25pY2FsLmNvbTsgbGludXgt
+aW5wdXRAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyDmm7kg
+5puJ5bu6IFhpYW9qaWFuIENhbyA8eGlhb2ppYW4uY2FvQGNuLmFscHMuY29tPjsgemhhbmdmcDFA
+bGVub3ZvLmNvbTsg5paJ6JekIOebtOaouSBOYW9raSBTYWl0byA8bmFva2kuc2FpdG9AYWxwc2Fs
+cGluZS5jb20+OyDlt53ngKwg6Iux5aSrIEhpZGVvIEthd2FzZSA8aGlkZW8ua2F3YXNlQGFscHNh
+bHBpbmUuY29tPg0K5Li76aKYOiDnrZTlpI06IOetlOWkjTogW1BBVENIXSBpbnB1dDogYWxwcy1m
+aXggdGhlIGlzc3VlIGFscHMgY3MxOSB0cmFja3N0aWNrIGRvIG5vdCB3b3JrLg0KDQpBZGQgS2F3
+YXNlLXNhbi4NCg0KLS0tLS3pgq7ku7bljp/ku7YtLS0tLQ0K5Y+R5Lu25Lq6OiBQYWxpIFJvaMOh
+ciA8cGFsaS5yb2hhckBnbWFpbC5jb20+IA0K5Y+R6YCB5pe26Ze0OiBUdWVzZGF5LCBNYXkgMjgs
+IDIwMTkgMzoxOCBQTQ0K5pS25Lu25Lq6OiDliokg5puJ5puJIFhpYW94aWFvIExpdSA8eGlhb3hp
+YW8ubGl1LTFAY24uYWxwcy5jb20+DQrmioTpgIE6IFhpYW9YaWFvIExpdSA8c2xpdXV4aWFvbnhp
+YW9AZ21haWwuY29tPjsgZG1pdHJ5LnRvcm9raG92QGdtYWlsLmNvbTsgcGV0ZXIuaHV0dGVyZXJA
+d2hvLXQubmV0OyBodWkud2FuZ0BjYW5vbmljYWwuY29tOyBsaW51eC1pbnB1dEB2Z2VyLmtlcm5l
+bC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IOabuSDmm4nlu7ogWGlhb2ppYW4g
+Q2FvIDx4aWFvamlhbi5jYW9AY24uYWxwcy5jb20+OyB6aGFuZ2ZwMUBsZW5vdm8uY29tOyDmlono
+l6Qg55u05qi5IE5hb2tpIFNhaXRvIDxuYW9raS5zYWl0b0BhbHBzYWxwaW5lLmNvbT4NCuS4u+mi
+mDogUmU6IOetlOWkjTogW1BBVENIXSBpbnB1dDogYWxwcy1maXggdGhlIGlzc3VlIGFscHMgY3Mx
+OSB0cmFja3N0aWNrIGRvIG5vdCB3b3JrLg0KDQpPbiBUdWVzZGF5IDI4IE1heSAyMDE5IDAxOjM3
+OjE0IFhpYW94aWFvIExpdSB3cm90ZToNCj4gQWRkIFNhaXRvLXNhbi4NCj4gDQo+IEhpIEh1aSwN
+Cj4gRG9lcyBpdCBtZWFuIHRoYXQgeW91ciBkZXZpY2UgKHJlcG9ydGVkIHRvIGtlcm5lbCkgc2Vu
+ZHMgb25seSB0cmFja3N0aWNrIHBhY2tldHMgYW5kIG5vdCB0b3VjaHBhZD8NCj4gICAgCS0+IFll
+cy4NCg0KT2ssIEkgdGhpbmsgdGhpcyBhbnN3ZXJzIGFsbCBxdWVzdGlvbnMuDQoNClNvIHlvdXIg
+cGF0Y2ggaXMgbm90IGNvcnJlY3QgYXMgaXQgcmVnaXN0ZXJzICJmYWtlIiB0b3VjaHBhZCBkZXZp
+Y2UgZXZlbiB0aGVyZSBpcyBubyB0b3VjaHBhZCBhdCBhbGwuDQoNCllvdSBzaG91bGQgZml4IHlv
+dXIgcGF0Y2ggdG8gbm90IHJlZ2lzdGVyIHRvdWNocGFkIGlucHV0IGRldmljZSwgaW4geW91ciBj
+YXNlIGl0IHNob3VsZCByZWdpc3RlciBvbmx5IHRyYWNrc3RpY2sgZGV2aWNlLiBJIHN1Z2dlc3Qg
+dG8gYWRkIHNvbWUgZmxhZyB3aGljaCB3b3VsZCBpbmRpY2F0ZSBzdWNoIGRldmljZSAoZS5nLiBB
+TFBTX09OTFlfVFJBQ0tTVElDSykuDQoNCkFsc28gY3VycmVudGx5IGtlcm5lbCBleHBvcnRzIGZv
+bGxvd2luZyBuYW1lcyB3aGVuIGRldmljZSBoYXMgYm90aCB0cmFja3N0aWNrIGFuZCB0b3VjaHBh
+ZDogIkR1YWxQb2ludCBTdGljayIgYW5kICJEdWFsUG9pbnQgVG91Y2hQYWQiLg0KQW5kIGl0IGV4
+cG9ydHMgbmFtZSAiR2xpZGVQb2ludCIgZm9yIHRvdWNocGFkLW9ubHkgZGV2aWNlLiBTbyB0byBi
+ZSBjb25zaXN0ZW50IHlvdSBuZWVkIHRvIGFsc28gbW9kaWZ5IHRoaXMgY29kZSBmb3IgdHJhY2tz
+dGljay1vbmx5IGRldmljZS4NCg0KLS0NClBhbGkgUm9ow6FyDQpwYWxpLnJvaGFyQGdtYWlsLmNv
+bQ0K
