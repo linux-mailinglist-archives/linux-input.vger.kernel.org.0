@@ -2,107 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8E4D41650
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 22:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76BD341737
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 23:53:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436532AbfFKUpu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Jun 2019 16:45:50 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:44330 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436506AbfFKUpu (ORCPT
+        id S2407196AbfFKVxX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Jun 2019 17:53:23 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:53870 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407159AbfFKVxX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Jun 2019 16:45:50 -0400
-Received: by mail-lj1-f195.google.com with SMTP id k18so13005502ljc.11;
-        Tue, 11 Jun 2019 13:45:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=LkmSasgHwTPN0Ndf6fcKCs6fzhFXy2zXdlzLA0q+asI=;
-        b=ObDxppmSMLhG+fkz3drnQ/FoBZpV2ZoLwtqESZ3p2mu0qPMeoIM0cIqbsgiGrR9IzS
-         5PRRikeRlvruWNrRxdOOtG9KL4TISAr28OjerS2g/i2wbtgaVfTvxlKcBaU8R9p17QKr
-         iWkXtyBv0cG8FSqPkSw/8ihREmKmCcP9Ubz0x7dubjnFoq3unp+Ep+yrHpZJrAWViXva
-         2P/9LQduWqQxRlpMdIiQpFEdj8FNZ5OXXW6pOtSM+MDDyaXFAXDP6Fd6b/ifnwrE1yMa
-         saGVTnL9QspMarepbK8n5MuhQByw4mcQRHIbkQ0lnCWMbQRYLY+hl3cbUEgtkFcfIiY2
-         ojmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=LkmSasgHwTPN0Ndf6fcKCs6fzhFXy2zXdlzLA0q+asI=;
-        b=MEcIIuagMC+ZZS/iv/F0/uGm1z3dwfNzwjFqSDgO4FC4RlwLROkK9BDa/6HjBAX/jo
-         lyZk+332WqWre/v24Q1hlO6yYKZlQA8qd9JuEY2o5beTlVvVo/IY7asf/ePHuC6+9Dr2
-         ZXcI06DP3veHgl2nSh6BWp6RT+rjW0Mmnku6ZyFQ0hYfyk47089wrJwu0Ul3MfWvd4tp
-         RXvrUt1PuIz+OEXewWFak6ft7dKlQUHqY34eD+efF9VrAMtiFVkVBgeszvEdpvf4QSC4
-         mUi+GX+48wxws2+c9e4CIe0tIvC+b8HMbqoygLFn59L7SAtvryF7pHc/JJ+nWyv7HKPn
-         9YgA==
-X-Gm-Message-State: APjAAAW8rQQ+7jjLQ+sEx+Jd0KFhZwRyGoX6Ik7IlsaQpdLqGTvSmam5
-        Zkfmp2nYv9Tg6wjqZCUfGsuivNe5V/nEMreJIyE=
-X-Google-Smtp-Source: APXvYqy9Ow4dAwkDDSKNdXE6tNxT6mUpFq+8F2EnxMsCx8NMjK0S9ltkbLmEAfERr7KU10pSDxK3nkIfW2WWI7e18gY=
-X-Received: by 2002:a2e:3013:: with SMTP id w19mr29172328ljw.73.1560285947692;
- Tue, 11 Jun 2019 13:45:47 -0700 (PDT)
+        Tue, 11 Jun 2019 17:53:23 -0400
+Received: from 79.184.253.190.ipv4.supernova.orange.pl (79.184.253.190) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.267)
+ id 4ec8a4f90c997497; Tue, 11 Jun 2019 23:53:21 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
+Subject: Strange regression in hid_llogitech_dj (was: Re: Linux 5.2-rc4)
+Date:   Tue, 11 Jun 2019 23:53:20 +0200
+Message-ID: <2268131.Lc39eCoc3j@kreacher>
+In-Reply-To: <CAHk-=wjm7FQxdF=RKa8Xe23CLNNpbGDOACewgo8e-hwDJ8TyQg@mail.gmail.com>
+References: <CAHk-=wjm7FQxdF=RKa8Xe23CLNNpbGDOACewgo8e-hwDJ8TyQg@mail.gmail.com>
 MIME-Version: 1.0
-References: <CANRwn3Ru+7FGtsY=GaDa7pAJkuagdb6nFtvrFq1qhTWJR0rF9A@mail.gmail.com>
- <20190426163531.9782-1-jason.gerecke@wacom.com> <CANRwn3RBK41mRJKUPDDptoq_So6_7UxR0toaauZvjT5U=OaHWw@mail.gmail.com>
- <20190611192248.GB19775@kroah.com>
-In-Reply-To: <20190611192248.GB19775@kroah.com>
-From:   Jason Gerecke <killertofu@gmail.com>
-Date:   Tue, 11 Jun 2019 13:45:36 -0700
-Message-ID: <CANRwn3SNAQccFQEaw7Qg=hNojbFVkFRHLT3tzq_BtxpUNRiMUw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] HID: wacom: Don't report anything prior to the tool
- entering range
-To:     Greg KH <greg@kroah.com>
-Cc:     "# v3.17+" <stable@vger.kernel.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 12:22 PM Greg KH <greg@kroah.com> wrote:
->
-> On Tue, Jun 11, 2019 at 12:02:47PM -0700, Jason Gerecke wrote:
-> > I haven't been keeping a close eye on this and just noticed that this
-> > patch set doesn't seem to have been merged into stable. There's also a
-> > second patch series (beginning with "[PATCH 1/3] HID: wacom: Send
-> > BTN_TOUCH in response to INTUOSP2_BT eraser contact") that hasn't seen
-> > any stable activity either.
-> >
-> > Any idea what's up?
->
-> I don't see these in my queue at all.
->
-> What is the git commit id of these patches in Linus's tree?
->
-> thanks,
->
-> greg k-h
+On Sunday, June 9, 2019 5:46:48 AM CEST Linus Torvalds wrote:
+> No, I'm not confused, and I haven't lost track of what day it is, I do
+> actually know that it's still Saturday here, not Sunday, and I'm just
+> doing rc4 a bit early because I'll be on an airplane during my normal
+> release time. And while I've done releases on airports and airplanes
+> before, I looked at my empty queue of pull requests and went "let's
+> just do it now".
+> 
+> We've had a fairly calm release so far, and on the whole that seems to
+> hold. rc4 isn't smaller than rc3 was (it's a bit bigger), but rc3 was
+> fairly small, so the size increase isn't all that worrisome. I do hope
+> that we'll start actually shrinking now, though.
 
-Ah, looks like the HID tree's "for-5.2/fixes" branch hasn't been
-pulled yet. That could explain things.
+I noticed that the cordless mouse used by me with one of the machines here
+stopped to work in 5.2-rc (up to and including the -rc4).
 
-69dbdfffef20c715df9f381b2cee4e9e0a4efd93 HID: wacom: Sync INTUOSP2_BT
-touch state after each frame if necessary
-6441fc781c344df61402be1fde582c4491fa35fa HID: wacom: Correct button
-numbering 2nd-gen Intuos Pro over Bluetooth
-fe7f8d73d1af19b678171170e4e5384deb57833d HID: wacom: Send BTN_TOUCH in
-response to INTUOSP2_BT eraser contact
-e92a7be7fe5b2510fa60965eaf25f9e3dc08b8cc HID: wacom: Don't report
-anything prior to the tool entering range
-2cc08800a6b9fcda7c7afbcf2da1a6e8808da725 HID: wacom: Don't set tool
-type until we're in range
+Bisection turned up commit 74808f9115ce ("HID: logitech-dj: add support for non
+unifying receivers").
 
-Jason
----
-Now instead of four in the eights place /
-you=E2=80=99ve got three, =E2=80=98Cause you added one  /
-(That is to say, eight) to the two,     /
-But you can=E2=80=99t take seven from three,    /
-So you look at the sixty-fours....
+Of course, that commit does not revert cleanly from 5.2-rc4, but I have reverted
+the changes made by it in hid/hid-ids.h and I took the version of hid/hid-logitech-dj.c
+from commit b6aeeddef68d ("HID: logitech-dj: add logi_dj_recv_queue_unknown_work
+helper"), which is the parent of commit 74808f9115ce, and that made the mouse
+work again for me.
+
+Here's the output of "dmesg | grep -i logitech" from 5.2-rc4 with the above changes:
+
+[    4.288905] usb 1-2: Manufacturer: Logitech
+[    5.444621] input: Logitech USB Receiver as /devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.0/0003:046D:C52F.0002/input/input23
+[    5.446960] hid-generic 0003:046D:C52F.0002: input,hidraw1: USB HID v1.11 Mouse [Logitech USB Receiver] on usb-0000:00:14.0-2/input0
+[    5.451265] input: Logitech USB Receiver Consumer Control as /devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.1/0003:046D:C52F.0003/input/input24
+[    5.507545] hid-generic 0003:046D:C52F.0003: input,hiddev96,hidraw2: USB HID v1.11 Device [Logitech USB Receiver] on usb-0000:00:14.0-2/input1
+
+Please let me know what you need to diagnose this.
+
+Thanks,
+Rafael
+
+
+
+
