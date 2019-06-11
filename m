@@ -2,162 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12E0B3CF55
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 16:44:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 675533D37B
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 19:07:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403908AbfFKOmu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Jun 2019 10:42:50 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:40612 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403888AbfFKOmt (ORCPT
+        id S2405753AbfFKRHM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Jun 2019 13:07:12 -0400
+Received: from mail-pf1-f181.google.com ([209.85.210.181]:40926 "EHLO
+        mail-pf1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405356AbfFKRHL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Jun 2019 10:42:49 -0400
-Received: by mail-qt1-f195.google.com with SMTP id a15so14804482qtn.7
-        for <linux-input@vger.kernel.org>; Tue, 11 Jun 2019 07:42:49 -0700 (PDT)
+        Tue, 11 Jun 2019 13:07:11 -0400
+Received: by mail-pf1-f181.google.com with SMTP id p184so4524503pfp.7;
+        Tue, 11 Jun 2019 10:07:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=7aH25v3Hx1NMUvytzU1QVg/6VVIQIlEQHF1pCamcBQ4=;
+        b=fskelMiufq6DZGC/0bzKmWAptQbp84iH3H4HUD90gku5UFv2OXuClzXAubyulmk3OK
+         zpBUsRzGZJ4tVK2S6Zql/amqp/jPm/5fKlH7isLRQtPlzTFsn2EYexvgcK4qabMwRMAv
+         BpeEuZowx1MGgmfW5vN4VfQw5rcWyhdC5A7UTL/VkrML8sw5N0c3X41Y8qdCuhBjWtqL
+         zBjcI0nGSCgOtk7GoIisdh1fAqG206JRwtIsbL0vvAGg8+yJSJnRZfxCb6C1vCpBI4Cw
+         xz4C7gSRhyHWpmOQgwEpCO3YQmG3f8nEheKxIOZOlSJmxIdscCabcHRwyj1HbsmBYbtG
+         gQdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ar4hb3yiBL9RLGyl8brQ12ttcv1qOaVZT7c8EOl9hRY=;
-        b=VxKe4nwoe4AaxhNZ/ZK2G79GHKT0yPezmlUgDZV7HVSfuOx1onU1u30rjqVUujReUH
-         j6rC+IXKrh0+SAq7XykR0efR9uv49/kmN7DSRuEsq/065Wq7ilzaM7rZDfZeOkws1CJG
-         MYPcFAn2tSPPc9enAtaE2l+M+J0aRPu34FlOPl3T75/RxS0l7uJwGhxWLQDBv1rXfm1t
-         67B/hqZoz0CehUvPhVe58EX4r0lvHpO50GBCpdR9u6vRGUV0q1Up3LePKbuaZTnce1Y5
-         DUFHAWdf97qc6K7R2l6GVvpCJwzlXDkwc6+lb9w3OWqk2SAq+4i/vfUvIISGI5WfMnnI
-         ASeQ==
-X-Gm-Message-State: APjAAAWiPZw692seNHCwSq0+lvpGRdu7YIK+7yESc68rAVgC4lKfZhN5
-        a1RA5+z2d15Mv6KW/mP3jk/jUMKI/OZfTKafgP1gIg==
-X-Google-Smtp-Source: APXvYqx+e0j+9TvMtZ1S6dn1CUFHTzijZXmMUOFHUJY7jKJ01Cg5Mu3nt3LdRprALCiQ/us3xKAiFbVRnd7QTMEtSiU=
-X-Received: by 2002:ac8:2998:: with SMTP id 24mr62504198qts.31.1560264169050;
- Tue, 11 Jun 2019 07:42:49 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=7aH25v3Hx1NMUvytzU1QVg/6VVIQIlEQHF1pCamcBQ4=;
+        b=r/tQGVvMLVsdeIbib5VYUhLEQ7TIPw2YV7CC+UcbFr0UyTwpx0dTq6RZrqi++diH95
+         jpoo3hw+aL5IyBK6uanNiPapkda9qVG6hTyTADhSZiiPCXv7W3lPUlwZPCM4Oh6jhUCs
+         ZZA9dq6GwSJQGQ82gwrwmzD8N6MLe2ce77pJQ+UGteWup88lfxVRJ8u/GAz3vd3uOzU/
+         79sit1iov6TkMO/NY0rO9VjqOJf5jSAzX0kf4DxPQomnQEiRYOs64E0SzxeCHH+MYOpi
+         EnoKc0iIPwhARubeRh6ghECOi9fS3gc6oNe65YVuWtn26dcPiXCrytDmHkYJo3XwRkww
+         xt5w==
+X-Gm-Message-State: APjAAAU4ztIx9nvLra6QQuwybqWk2sxaz+vdF71rFBwwNse2qT1VEv+k
+        MAmA2Vk4DDEwi2dh0rt1RnE=
+X-Google-Smtp-Source: APXvYqy3IZi/0Vi/+Hd0kW/KCxwTD6uwyywKfxJdkYbA4xRHvlC8p306bmDTO+3NDrKeTCh8nKFIpQ==
+X-Received: by 2002:a63:2a06:: with SMTP id q6mr21027443pgq.290.1560272830202;
+        Tue, 11 Jun 2019 10:07:10 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id t26sm2787341pgu.43.2019.06.11.10.07.08
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 11 Jun 2019 10:07:09 -0700 (PDT)
+Date:   Tue, 11 Jun 2019 10:07:07 -0700
+From:   "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+To:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali.rohar@gmail.com>
+Cc:     Hui Wang <hui.wang@canonical.com>,
+        Xiaoxiao Liu <xiaoxiao.liu-1@cn.alps.com>,
+        XiaoXiao Liu <sliuuxiaonxiao@gmail.com>,
+        "peter.hutterer@who-t.net" <peter.hutterer@who-t.net>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Xiaojian Cao <xiaojian.cao@cn.alps.com>,
+        "zhangfp1@lenovo.com" <zhangfp1@lenovo.com>,
+        Naoki Saito <naoki.saito@alpsalpine.com>,
+        Hideo Kawase <hideo.kawase@alpsalpine.com>
+Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IOetlA==?=
+ =?utf-8?B?5aSNOiBbUEFUQ0g=?= =?utf-8?Q?=5D?= input: alps-fix the issue alps
+ cs19 trackstick do not work.
+Message-ID: <20190611170707.GA143729@dtor-ws>
+References: <OSBPR01MB4855F61AE28B883CDD87F781DA1E0@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <20190528071824.jimhixhtsynzwixe@pali>
+ <OSBPR01MB48556FD88D7F7D5F91CB5579DA1E0@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <OSBPR01MB4855707AC8ABB7CFBE5BBBD5DA130@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <OSBPR01MB4855A2A30A4F5E6BDCFE715FDA130@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <20190610104310.qa5snt7jpcljodfv@pali>
+ <OSBPR01MB485504868362073ED434F82FDAED0@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <ed65f8af-fefb-3c40-e7b1-dde3605f30e3@canonical.com>
+ <5587ddb9-fb5f-03db-ac11-a696c85c5f2f@canonical.com>
+ <20190611072333.nd4va4q2m5epmukc@pali>
 MIME-Version: 1.0
-References: <20190611121320.30267-1-nsaenzjulienne@suse.de>
-In-Reply-To: <20190611121320.30267-1-nsaenzjulienne@suse.de>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 11 Jun 2019 16:42:37 +0200
-Message-ID: <CAO-hwJLAiC1o-kZ5epZHtO2GK+zc5x28pYbZH-XsY4yAuBmHWw@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: input: fix a4tech horizontal wheel custom usage
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>, wbauer@tmo.at,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190611072333.nd4va4q2m5epmukc@pali>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 2:13 PM Nicolas Saenz Julienne
-<nsaenzjulienne@suse.de> wrote:
->
-> Some a4tech mice use the 'GenericDesktop.00b8' usage to inform whether
-> the previous wheel report was horizontal or vertical. Before
-> c01908a14bf73 ("HID: input: add mapping for "Toggle Display" key") this
-> usage was being mapped to 'Relative.Misc'. After the patch it's simply
-> ignored (usage->type == 0 & usage->code == 0). Which ultimately makes
-> hid-a4tech ignore the WHEEL/HWHEEL selection event, as it has no
-> usage->type.
->
-> We shouldn't rely on a mapping for that usage as it's nonstandard and
-> doesn't really map to an input event. So we bypass the mapping and make
-> sure the custom event handling properly handles both reports.
->
-> Fixes: c01908a14bf73 ("HID: input: add mapping for "Toggle Display" key")
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> ---
+On Tue, Jun 11, 2019 at 09:23:33AM +0200, Pali Rohár wrote:
+> On Tuesday 11 June 2019 12:32:33 Hui Wang wrote:
+> > On 2019/6/11 上午11:23, Hui Wang wrote:
+> > > On 2019/6/11 上午11:05, Xiaoxiao Liu wrote:
+> > > > Hi Pali,
+> > > > 
+> > > > I discussed with our FW team about this problem.
+> > > > We think the V8 method means a touchpad feature  and does not fit
+> > > > the CS19 trackpoint device.
+> > > > CS19 TrackPoint needn't  use any Absolute (Raw) mode and is usually
+> > > > use standard mouse data.
+> > > > CS19 TrackPoint device is a completely different device with
+> > > > DualPoint device of Dell/HP.
+> > > > CS19 TrackPoint device is independent  of Touchpad. (Touchpad is
+> > > > connecting by I2C, TrackPoint is directly connecting with PS2 port.)
+> > > > And it has completely another FW.
+> > > > 
+> > > > So we think it is better to use the mouse mode for CS19 trackpoint.
+> > > 
+> > > Maybe here is some mis-understanding,  the mouse mode here doesn't mean
+> > > we use psmouse-base.c for cs19 (bare ps/2 mouse), we plan to use
+> > > trackpoint.c to drive this HW, so this trackpoint has all features a
+> > > trackpoint should have.
+> > > 
+> > And I sent a patch one month ago to let the the trackpoint.c to drive this
+> > HW: https://www.spinics.net/lists/linux-input/msg61341.html, maybe that
+> > patch is reference.
+> 
+> So instead of creating blacklist, you should check for TP_VARIANT_ALPS
+> in alps.c and disallow its usage.
+> 
+> Or maybe better, move trackpoint.c detect code before alsp.c detect code
+> in psmouse-base. And no changes in alps.c are needed.
 
-Yep, I like this one much better.
+I'd be very cautions of moving around the protocol detection. It is very
+fragile, so if we can detect trackpoint-only case in alps.c and skip on
+to trackpoint I would prefer it.
 
->
-> NOTE: I CC'd Wolfgang as he's the one who can test this.
+Thanks.
 
-I'll wait for Wolfram to confirm that the patch works before pushing then.
-
->
-> Changes since v1:
->   - new approach, moved fix into hid-a4tech
->
->  drivers/hid/hid-a4tech.c | 30 +++++++++++++++++++++++++++---
->  1 file changed, 27 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/hid/hid-a4tech.c b/drivers/hid/hid-a4tech.c
-> index 98bf694626f7..3a8c4a5971f7 100644
-> --- a/drivers/hid/hid-a4tech.c
-> +++ b/drivers/hid/hid-a4tech.c
-> @@ -23,12 +23,36 @@
->  #define A4_2WHEEL_MOUSE_HACK_7 0x01
->  #define A4_2WHEEL_MOUSE_HACK_B8        0x02
->
-> +#define A4_WHEEL_ORIENTATION   (HID_UP_GENDESK | 0x000000b8)
-> +
->  struct a4tech_sc {
->         unsigned long quirks;
->         unsigned int hw_wheel;
->         __s32 delayed_value;
->  };
->
-> +static int a4_input_mapping(struct hid_device *hdev, struct hid_input *hi,
-> +                           struct hid_field *field, struct hid_usage *usage,
-> +                           unsigned long **bit, int *max)
-> +{
-> +       struct a4tech_sc *a4 = hid_get_drvdata(hdev);
-> +
-> +       if (a4->quirks & A4_2WHEEL_MOUSE_HACK_B8 &&
-> +           usage->hid == A4_WHEEL_ORIENTATION) {
-> +               /*
-> +                * We do not want to have this usage mapped to anything as it's
-> +                * nonstandard and doesn't really behave like an HID report.
-> +                * It's only selecting the orientation (vertical/horizontal) of
-> +                * the previous mouse wheel report. The input_events will be
-> +                * generated once both reports are recorded in a4_event().
-> +                */
-> +               return -1;
-
-You seem to be extra precocious here. This is basically what the
-current hid-input.c mapping does. But I think it is for the best,
-given that this time you are locking the behavior of this reserved
-usage.
-
-Cheers,
-Benjamin
-
-> +       }
-> +
-> +       return 0;
-> +
-> +}
-> +
->  static int a4_input_mapped(struct hid_device *hdev, struct hid_input *hi,
->                 struct hid_field *field, struct hid_usage *usage,
->                 unsigned long **bit, int *max)
-> @@ -52,8 +76,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
->         struct a4tech_sc *a4 = hid_get_drvdata(hdev);
->         struct input_dev *input;
->
-> -       if (!(hdev->claimed & HID_CLAIMED_INPUT) || !field->hidinput ||
-> -                       !usage->type)
-> +       if (!(hdev->claimed & HID_CLAIMED_INPUT) || !field->hidinput)
->                 return 0;
->
->         input = field->hidinput->input;
-> @@ -64,7 +87,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
->                         return 1;
->                 }
->
-> -               if (usage->hid == 0x000100b8) {
-> +               if (usage->hid == A4_WHEEL_ORIENTATION) {
->                         input_event(input, EV_REL, value ? REL_HWHEEL :
->                                         REL_WHEEL, a4->delayed_value);
->                         input_event(input, EV_REL, value ? REL_HWHEEL_HI_RES :
-> @@ -131,6 +154,7 @@ MODULE_DEVICE_TABLE(hid, a4_devices);
->  static struct hid_driver a4_driver = {
->         .name = "a4tech",
->         .id_table = a4_devices,
-> +       .input_mapping = a4_input_mapping,
->         .input_mapped = a4_input_mapped,
->         .event = a4_event,
->         .probe = a4_probe,
-> --
-> 2.21.0
->
+-- 
+Dmitry
