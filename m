@@ -2,115 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BBF03BEAD
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2019 23:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B99D33C13A
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 04:32:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389760AbfFJVb2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jun 2019 17:31:28 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33404 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389362AbfFJVb2 (ORCPT
+        id S2390244AbfFKCcC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Jun 2019 22:32:02 -0400
+Received: from spfilter-4.mschosting.com ([110.4.43.201]:46643 "EHLO
+        spfilter-4.mschosting.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390172AbfFKCcC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jun 2019 17:31:28 -0400
-Received: by mail-wr1-f66.google.com with SMTP id n9so10707747wru.0
-        for <linux-input@vger.kernel.org>; Mon, 10 Jun 2019 14:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joaomoreno-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WYygYmLUCJpx89UgZYIubVgcxi/O7oESBshr0h9GFwM=;
-        b=X9hUjZWCqEp36sRvaqJzkhRPjeKs3MRssU6vUmo4T2p6lFXQee63bqb6iZCSHWAcRi
-         xl+e9tI6A/nTAPp8LWQh9yHCF+jay6anhkzpCW1IH4VGHXVNWv/zk8UcfwkFBPoEZJdr
-         Y7OwJUTap5LYQqZcXV1GqnEoaMe2AByVXxYwuvVnHY/+mlojc7/5lvo+s0YCQQihNOgz
-         QfIm7XCk5T1GYmQ38qdjVVd2DL/gJZhtZOkZZJ1PHX31ISsfXSd6loSDG6UyBBBrDzRJ
-         Fv4hSNiSdzj+i494EAqrfUPdNmc5eeP7n9hRzOJuaJ2S9Tn/vnwKVhz1F4oFLFJ3p4//
-         tTmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WYygYmLUCJpx89UgZYIubVgcxi/O7oESBshr0h9GFwM=;
-        b=RnwMADKH+RAZuvcQ11t87yVkN4pL7EHnauanBxyiT8I1xMdylB08EAkuCxsY7mE5TB
-         bsnEfr/a1p7Lb+EZJvwHcOaHYyrpv2vTgLZE7rbrbM+BTXDe20WLudrx/sj74RNjFmYF
-         ncisnvMsVfDGVk+u4P+y9yUuyNhVTQM9TI1sAU3scBU4Qc6m01n4TN+dRgYRuP9D4mKz
-         KfueAGGwY+PbaRjKch0DSp61sHR0M2WnGz+hvcFT3IZpYIoQdZp4zJoJPwSoK3azKjOk
-         wkwxD8ATitPeApDfNBzaS0ZPDj+IU6rvaKFioH5mpjGNPNOrTSffMcgjD5f53oQ/QVj+
-         l0FQ==
-X-Gm-Message-State: APjAAAXIeTiVBlrFRvpcix3N12ZVhh49n0ntO7ktz2lVLdiNCGgrAtFN
-        MsG7qEemKoT53mPVd5yUe8e7hCKz/6Q=
-X-Google-Smtp-Source: APXvYqy/u5gu1vvb21uZAuHxmmcY7IPEbiNYULCHDQozGVkQaD+/0eGKVV54/qE3pIhq69sOQ5aQyQ==
-X-Received: by 2002:adf:8086:: with SMTP id 6mr39574637wrl.320.1560202286383;
-        Mon, 10 Jun 2019 14:31:26 -0700 (PDT)
-Received: from localhost.localdomain (212-51-143-162.fiber7.init7.net. [212.51.143.162])
-        by smtp.googlemail.com with ESMTPSA id y9sm1283877wma.1.2019.06.10.14.31.25
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 10 Jun 2019 14:31:25 -0700 (PDT)
-From:   Joao Moreno <mail@joaomoreno.com>
-Cc:     Joao Moreno <mail@joaomoreno.com>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: apple: Fix stuck function keys when using FN
-Date:   Mon, 10 Jun 2019 23:31:06 +0200
-Message-Id: <20190610213106.19342-1-mail@joaomoreno.com>
-X-Mailer: git-send-email 2.19.1
+        Mon, 10 Jun 2019 22:32:02 -0400
+X-Greylist: delayed 4333 seconds by postgrey-1.27 at vger.kernel.org; Mon, 10 Jun 2019 22:32:01 EDT
+Received: from zeppelin ([110.4.45.116] helo=msv49-sh-golem.mschosting.com)
+        by spfilter-4.mschosting.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89)
+        (envelope-from <drkhairol@gmail.com>)
+        id 1haVRr-00082C-3p
+        for linux-input@vger.kernel.org; Tue, 11 Jun 2019 09:19:46 +0800
+Received: from khairolc by msv49-sh-golem.mschosting.com with local (Exim 4.92)
+        (envelope-from <drkhairol@gmail.com>)
+        id 1haVRp-00GTzt-Ro
+        for linux-input@vger.kernel.org; Tue, 11 Jun 2019 09:19:37 +0800
+To:     linux-input@vger.kernel.org
+Subject: Copy of: Adult 1 dating app
+X-PHP-Script: sbmuum.my/index.php for 185.130.184.206
+X-PHP-Filename: /home/khairolc/public_html/sbmuum.my/index.php REMOTE_ADDR: 185.130.184.206
+Date:   Tue, 11 Jun 2019 09:19:37 +0800
+From:   School of Business Management <drkhairol@gmail.com>
+Reply-To: Jeffreyher <linux-input@vger.kernel.org>
+Message-ID: <84e8cef416114e4441a9650901dba74e@sbmuum.my>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=utf-8
+X-AuthUser: khairolc@msv49-sh-golem.mschosting.com
+X-Originating-IP: 110.4.45.116
+X-SpamExperts-Domain: cpanelfilter.mschosting.com
+X-SpamExperts-Username: 110.4.45.0/24
+Authentication-Results: mschosting.com; auth=pass smtp.auth=110.4.45.0/24@cpanelfilter.mschosting.com
+X-SpamExperts-Outgoing-Class: unsure
+X-SpamExperts-Outgoing-Evidence: Combined (0.72)
+X-Recommended-Action: accept
+X-Filter-ID: Mvzo4OR0dZXEDF/gcnlw0Q9DGisTdy29Heef28Cu3sipSDasLI4SayDByyq9LIhVV9LCgBrsUICr
+ WOoJmb8hqETNWdUk1Ol2OGx3IfrIJKywOmJyM1qr8uRnWBrbSAGDbGFWXFtvoxcsyLJek5KJPLw8
+ BFityCCkxNlTi+jLDh0BcORxfCojcTOpEjtvWHp2R3o3+aB3uqMN2gwIkwkq2ZIxUPZpIiOJ2+72
+ 6V3wKDqTaOZk5G0dARd0A9OfPM8Z2jSSmX73ziyKRMbYqKLIRk6YFiZbFOBtv+JGXfwB7s7HZv+y
+ CsrIWQyqCxBHcxXImVP49yO+xjU7/851THWPeQgMUspbIN4vTj8w/I+6u8DGDghetEKbzrU+L8So
+ LvgNFT8sNw3LARL5OY+6DF9rueqyl8a3WyrlLkzd97TVdqtEruXBOth6CnLv/z7ooylnssaBp4qr
+ CXGLR/Fwtm82a+WBOXp8nHKe0R+FkIqN7hllC6GCIlc4tQk9RXs4WlVnSw7349hC5gbSV/RC4oJQ
+ Zh7lAnB94HxoyuzObyBmweApOMQJvQ/Ck3iiU+4DQAj3X9tlc742Vbpr3XVspeKJGIeJKcrVGmBj
+ EX7SgJB8xlGvnIHKOZZHg0QLUCF5ikNBWUcM13+R2o66cRlY1B5AesT7DrccB90aIn+PqPqIrL8x
+ oCiASpEH1YiEBLQcJG7CrxIlVUdaz5GYIytFjcle6XsfwUX3Uspm1KmhGLB+Z7uX7PPN/izhXzJV
+ xPicKB6+ghbPVf4IcP0wgm54dBphjeWSRXXip/LZaekvMh0Fyml7poDO242Nxb1wItIQz+hx8wid
+ 4QCURnjxXUyWEkQomzoo8FliyxDkxD9RLBVfNTiFvmscdg8zb/ATZbMmlZ/loBxW5eZHMBmxLgt5
+ aMSXgsOpyKA69LF1Ge2GaGfxmfoSWNoL9NZghpctjFhZwHiASMtKNp7JZVymsqBO+IeXkmOQ9Kk9
+ cBWOXagyvxrXGbR2yzyQ4zeMzHwDf5E/1im8SVv+0YHZoUhd8oJVkDL2rwPWucSF1i1j+UxBfmzf
+ 2gdFyu5byBxByw9Lj3pNAmybqsRlFUMASbNXQt/eGGe4VHndwcgUdq9CmjcVQOstghA=
+X-Report-Abuse-To: spam@spfilter-1.mschosting.com
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This fixes an issue in which key down events for function keys would be
-repeatedly emitted even after the user has raised the physical key. For
-example, the driver fails to emit the F5 key up event when going through
-the following steps:
-- fnmode=1: hold FN, hold F5, release FN, release F5
-- fnmode=2: hold F5, hold FN, release F5, release FN
+This is a copy of the following message you sent to Md. Lazim Mohd Zin, Dr. via School of Business Management
 
-The repeated F5 key down events can be easily verified using xev.
+This is an enquiry email via http://sbmuum.my/ from:
+Jeffreyher <linux-input@vger.kernel.org>
 
-Signed-off-by: Joao Moreno <mail@joaomoreno.com>
----
- drivers/hid/hid-apple.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 1cb41992aaa1..81867a6fa047 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -205,20 +205,21 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 		trans = apple_find_translation (table, usage->code);
- 
- 		if (trans) {
--			if (test_bit(usage->code, asc->pressed_fn))
--				do_translate = 1;
--			else if (trans->flags & APPLE_FLAG_FKEY)
--				do_translate = (fnmode == 2 && asc->fn_on) ||
--					(fnmode == 1 && !asc->fn_on);
-+			int fn_on = value ? asc->fn_on :
-+				test_bit(usage->code, asc->pressed_fn);
-+
-+			if (!value)
-+				clear_bit(usage->code, asc->pressed_fn);
-+			else if (asc->fn_on)
-+				set_bit(usage->code, asc->pressed_fn);
-+
-+			if (trans->flags & APPLE_FLAG_FKEY)
-+				do_translate = (fnmode == 2 && fn_on) ||
-+					(fnmode == 1 && !fn_on);
- 			else
- 				do_translate = asc->fn_on;
- 
- 			if (do_translate) {
--				if (value)
--					set_bit(usage->code, asc->pressed_fn);
--				else
--					clear_bit(usage->code, asc->pressed_fn);
--
- 				input_event(input, usage->type, trans->to,
- 						value);
- 
--- 
-2.19.1
+Adult best dating website california: http://tinyurl.com/y3oefdqa
 
