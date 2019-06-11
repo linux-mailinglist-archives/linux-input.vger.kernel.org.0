@@ -2,108 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B53553C954
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 12:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 305273CA15
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 13:33:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728809AbfFKKsr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Jun 2019 06:48:47 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:40052 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726532AbfFKKsr (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Jun 2019 06:48:47 -0400
-Received: by mail-qt1-f196.google.com with SMTP id a15so13876575qtn.7
-        for <linux-input@vger.kernel.org>; Tue, 11 Jun 2019 03:48:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GdsuCopuLs7g2CGx/i2p+QNXyNbL3DFsAp0JkN+Hsf4=;
-        b=bL1P7iJ4VDowE09ylaIyIW8DQ5J+dkEBfqAkJwFttj+nRfYV8hq+I2Fu16JB8143th
-         tyko9Lo4GdwCkIM6Zlwc5eXxXYc5xierw/kGJU3/ifNI0mH5zYVqV1jj+huz7bnYHkxK
-         mjZgQj786EoZcIBkFcOpPnmPLb7TjmWLSa/A36euaCHZyEQqoYYKLqLEOPUHMjvznASa
-         /TeMXP7sC3/0IWpM2kmLaRuX8S2plRZ59llfimK89hk4eOa1t/wO8mbkxZeNe7PIn4So
-         naq/2QpF971myN86wVTFK20rEYwkUiYmpVo2KaUIuiLYpQBcRK/yaEcXXpXhQ0EclMFF
-         yDCw==
-X-Gm-Message-State: APjAAAU7go/Ica68e/CDbNIt4T9c5Fr4nhJ8pZyABXP4uKc2XHRmGDFp
-        DehrUpcZAZpZrBD3XpQ1c+SU+PLPFE/Ksyeby19fXg==
-X-Google-Smtp-Source: APXvYqyn2g/AAwQzW+MoLl4z8XxYFwxeqkupM3d4ea9Nwx6St1UcQCl7x7rSRdoKAIffb1admZCqH0/BOPkxnIQAXRo=
-X-Received: by 2002:ac8:275a:: with SMTP id h26mr44547403qth.345.1560250125972;
- Tue, 11 Jun 2019 03:48:45 -0700 (PDT)
+        id S2389374AbfFKLdU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Jun 2019 07:33:20 -0400
+Received: from mx2.suse.de ([195.135.220.15]:35210 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2389464AbfFKLdU (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 11 Jun 2019 07:33:20 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 0A70CAFF2;
+        Tue, 11 Jun 2019 11:33:18 +0000 (UTC)
+Message-ID: <5214eeef4c307c84d8510661af2d9fa2d4e527f3.camel@suse.de>
+Subject: Re: [PATCH] HID: input: fix a4tech horizontal wheel custom usage id
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Date:   Tue, 11 Jun 2019 13:33:11 +0200
+In-Reply-To: <CAO-hwJJzYFQs_Jxc+3zYHzjM9G8zdTfBqdpO27hpKXRBKytvQA@mail.gmail.com>
+References: <20190610185343.27614-1-nsaenzjulienne@suse.de>
+         <CAO-hwJJzYFQs_Jxc+3zYHzjM9G8zdTfBqdpO27hpKXRBKytvQA@mail.gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-4rAVG0h4mBn3Gg+1TvFj"
+User-Agent: Evolution 3.32.2 
 MIME-Version: 1.0
-References: <20190608092324.4623-1-git@xen0n.name>
-In-Reply-To: <20190608092324.4623-1-git@xen0n.name>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 11 Jun 2019 12:48:34 +0200
-Message-ID: <CAO-hwJ+paV03cDbJgtrvHeH6uHun2Y24ru+DwR+MYAfGKX+2GA@mail.gmail.com>
-Subject: Re: [PATCH] HID: uclogic: Add support for Ugee Rainbow CV720
-To:     Wang Xuerui <git@xen0n.name>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Nikolai Kondrashov <spbnick@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Jun 8, 2019 at 1:52 PM Wang Xuerui <git@xen0n.name> wrote:
->
-> Add support for Ugee Rainbow CV720 to hid-uclogic.
->
-> Signed-off-by: Wang Xuerui <git@xen0n.name>
-> ---
 
-Applied to for-5.3/uclogic
+--=-4rAVG0h4mBn3Gg+1TvFj
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+On Tue, 2019-06-11 at 10:43 +0200, Benjamin Tissoires wrote:
+> Hi Nicolas,
+>=20
+> On Mon, Jun 10, 2019 at 8:54 PM Nicolas Saenz Julienne
+> <nsaenzjulienne@suse.de> wrote:
+> > Some a4tech mice use the 'GenericDesktop.00b8' usage id to inform
+> > whether the previous wheel report was horizontal or vertical. Before
+> > c01908a14bf73 ("HID: input: add mapping for "Toggle Display" key") this
+> > usage id was being mapped to 'Relative.Misc'. After the patch it's
+> > simply ignored (usage->type =3D=3D 0 & usage->code =3D=3D 0). Checking =
+the HID
+> > Usage Tables it turns out it's a reserved usage_id, so it makes sense t=
+o
+> > map it the way it was. Ultimately this makes hid-a4tech ignore the
+> > WHEEL/HWHEEL selection event, as it has no usage->type.
+> >=20
+> > The patch reverts the handling of the usage id back to it's previous
+> > behavior.
+>=20
+> Hmm, if A4Tech is using a reserved usage, we shouldn't fix this in
+> hid-input.c but in hid-a4tech instead.
+> Because you won't know when someone else in the HID consortium will
+> remap this usage to some other random axis, and your mouse will be
+> broken again.
+>=20
+> How about you add a .input_mapping callback in hid-a4tech and map this
+> usage there to your needs? This way you will be sure that such a
+> situation will not happen again.
 
-Cheers,
-Benjamin
+I agree it would be a cleaner solution.
 
->  drivers/hid/hid-ids.h            | 1 +
->  drivers/hid/hid-uclogic-core.c   | 2 ++
->  drivers/hid/hid-uclogic-params.c | 2 ++
->  3 files changed, 5 insertions(+)
->
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 84e0c78d73cd..80edfb639306 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -1153,6 +1153,7 @@
->  #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO01 0x0042
->  #define USB_DEVICE_ID_UGEE_TABLET_G5           0x0074
->  #define USB_DEVICE_ID_UGEE_TABLET_EX07S                0x0071
-> +#define USB_DEVICE_ID_UGEE_TABLET_RAINBOW_CV720        0x0055
->
->  #define USB_VENDOR_ID_UNITEC   0x227d
->  #define USB_DEVICE_ID_UNITEC_USB_TOUCH_0709    0x0709
-> diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
-> index 8fe02d81265d..490c1ddb350c 100644
-> --- a/drivers/hid/hid-uclogic-core.c
-> +++ b/drivers/hid/hid-uclogic-core.c
-> @@ -387,6 +387,8 @@ static const struct hid_device_id uclogic_devices[] = {
->                                 USB_DEVICE_ID_UGEE_TABLET_G5) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
->                                 USB_DEVICE_ID_UGEE_TABLET_EX07S) },
-> +       { HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
-> +                               USB_DEVICE_ID_UGEE_TABLET_RAINBOW_CV720) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
->                                 USB_DEVICE_ID_UGEE_XPPEN_TABLET_G540) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
-> diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
-> index 0187c9f8fc22..8e120dde31fa 100644
-> --- a/drivers/hid/hid-uclogic-params.c
-> +++ b/drivers/hid/hid-uclogic-params.c
-> @@ -999,6 +999,8 @@ int uclogic_params_init(struct uclogic_params *params,
->                      USB_DEVICE_ID_UGEE_XPPEN_TABLET_G540):
->         case VID_PID(USB_VENDOR_ID_UGEE,
->                      USB_DEVICE_ID_UGEE_XPPEN_TABLET_G640):
-> +       case VID_PID(USB_VENDOR_ID_UGEE,
-> +                    USB_DEVICE_ID_UGEE_TABLET_RAINBOW_CV720):
->                 /* If this is the pen interface */
->                 if (bInterfaceNumber == 1) {
->                         /* Probe v1 pen parameters */
-> --
-> 2.21.0
->
+In summary the first report indicates the wheel relative value, the second =
+the
+orientation. The first report is already being mapped to REL_WHEEL and
+REL_WHEEL (or the high-res versions), but what would be a correct code for =
+the
+second report? The way I see it, we shouldn't map it to anything. And then
+catch both events in the custom driver to build the input_event() accordinl=
+gy
+(as it's almost being done already). Is this somewhat correct? I'll send a
+followup patch anyway so we have something more tangible comment on.
+
+> > Fixes: c01908a14bf73 ("HID: input: add mapping for "Toggle Display" key=
+")
+> > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> > ---
+> >  drivers/hid/hid-input.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> > index 63855f275a38..6a956d5a195e 100644
+> > --- a/drivers/hid/hid-input.c
+> > +++ b/drivers/hid/hid-input.c
+> > @@ -671,7 +671,7 @@ static void hidinput_configure_usage(struct hid_inp=
+ut
+> > *hidinput, struct hid_fiel
+> >                 if ((usage->hid & 0xf0) =3D=3D 0xb0) {      /* SC - Dis=
+play */
+> >                         switch (usage->hid & 0xf) {
+> >                         case 0x05: map_key_clear(KEY_SWITCHVIDEOMODE);
+> > break;
+> > -                       default: goto ignore;
+> > +                       default: goto unknown;
+> >                         }
+> >                         break;
+> >                 }
+> > --
+> > 2.21.0
+> >=20
+
+
+--=-4rAVG0h4mBn3Gg+1TvFj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAlz/kXcACgkQlfZmHno8
+x/7yNggAhChianjl/Aj2nDYja24vOxsTKbR2pRr9iV8RSrZ3PpMhssRedvqrRHIy
+cTiGA3vEAnk+y6dNWffoPTceDlMpRobfqMueEHC87fFURtAaG2wE10tAKYnRdUq6
+XmyNe34htcOxNtXrzoiJHo5gnv+S8K6YcfLiKIfn1wk3bSRII0I98nFpK9Du3FQD
+oaL/2R9P07uXvdUW/Qb4FfQ8nkn5JpJmuaFMR1LFIg3BoPobWZ3SP46Ppgdo30iF
+Kervp7QKAa1zGUaCsCZjgYRotX5oOKK1jxzPk9yzkA+mONVH2/bDX0vnfoz6c8qn
+ZfTPaApBRZYaUd9kJr3Pe7FUqXCxrw==
+=/mxz
+-----END PGP SIGNATURE-----
+
+--=-4rAVG0h4mBn3Gg+1TvFj--
+
