@@ -2,82 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0153417D3
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 00:02:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A53D41895
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 01:07:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390926AbfFKWC0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Jun 2019 18:02:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43694 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390411AbfFKWC0 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Jun 2019 18:02:26 -0400
-Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4A335205ED;
-        Tue, 11 Jun 2019 22:02:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560290545;
-        bh=MhD+8y0ERq3GqD6GItAk03QOAWY9bjuZ5c18nOOYU54=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=0cdiuYYP9Bq46e+NLG0whSnYoRshba1+vkbEMUEIQ+eMBdugDZUCoK7a7vYlu1umy
-         8S6XN1nymffu1xhvuhZA1FnHr+WKTbG0WinLGp/LwN8+R8QZDC/o6BOrNe2/3+ObR/
-         VmTTSzpnbdUz5pIUFH9VbXq88gcCGm4YHU5y/PBU=
-Date:   Wed, 12 Jun 2019 00:02:21 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-cc:     Hans de Goede <hdegoede@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing <linux-kernel@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: Re: Strange regression in hid_llogitech_dj (was: Re: Linux
- 5.2-rc4)
-In-Reply-To: <2268131.Lc39eCoc3j@kreacher>
-Message-ID: <nycvar.YFH.7.76.1906112358580.27227@cbobk.fhfr.pm>
-References: <CAHk-=wjm7FQxdF=RKa8Xe23CLNNpbGDOACewgo8e-hwDJ8TyQg@mail.gmail.com> <2268131.Lc39eCoc3j@kreacher>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S2391655AbfFKXGl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Jun 2019 19:06:41 -0400
+Received: from mail-wm1-f47.google.com ([209.85.128.47]:52926 "EHLO
+        mail-wm1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390115AbfFKXGl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 11 Jun 2019 19:06:41 -0400
+Received: by mail-wm1-f47.google.com with SMTP id s3so4611230wms.2;
+        Tue, 11 Jun 2019 16:06:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:cc:references:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=a2xmmeRndxEnZa1295uuokWUZL8ocpkn6ktjKi0+CP8=;
+        b=vPdjO/FahGvwMpUscMV6HlsA7bQwvz8z4pG+0TqmsLHHKd61n+IrP0c3FxN9YUt052
+         WZhjd34iVo7Z9XbK02Vary8h7GvqfCQ/n8kEMxTOX7vromQc9+PhmSVFMotrr3AM7Uml
+         W4p+fC9R8/aiGZBH53q6+Mne2/6lVqHi5yK/Gop9KWp8h7nNVc0jlgwVJ+tww8d8XjIp
+         TBDzZXXDRpN5bRC9lmsDIIf9M/dSDOm98Kh7wH1EjDKrZFhzu+RwAGOi0+inN4DBi7c9
+         bFuqAJB0S0PPV4NW4eDkUBaBqBmXTl5RCttqeJP2SPhFvtieYnW+ymab6ANL2VVhPQX6
+         /y4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=a2xmmeRndxEnZa1295uuokWUZL8ocpkn6ktjKi0+CP8=;
+        b=b4lk/WWPiP9FKa47OJznAHgYGffWyezPtHHGHSllFRVwC4qC22tClZGpJZyIetlazB
+         u+mZGXSKweK7UBymUiBtFVWcqY8nDxgRHL4Tk1ZKHHx9Egu3Ip7XSPAPGJE1HOW8Y9Z6
+         cFEpcp4w1lsSK/x9q6jKeeL2+0Uno9L56fZqMZiUwI6pSmIHAAJYOrTUjVzhFL1opdtD
+         6Y+/r1v5U227tFQFlgR6nwp9UPCd43Co+/qalorfBo/ZYwFPG+M1+I+6xpwMEaHtUnXY
+         Z9OxaDpAm7U0C+hJUMTa4GKGDreHddTFxD34DqrFaiDn7MdX6z4j0zCk6EjimzZbdDbx
+         iM1Q==
+X-Gm-Message-State: APjAAAXAVBcqQkORYxsdLuzwZH9SRfEgiPDh4ZYHFOrSBfnz34XIh2cr
+        HUXo7aj1239TbZ8bnuYykkc=
+X-Google-Smtp-Source: APXvYqwxPrB+GW2h5nr7XOSCeIW7SYI73H+28mHUPkG/XxHFI6PW1bzGxQsFOU6sBfNd7ANr8Hmy1g==
+X-Received: by 2002:a1c:730d:: with SMTP id d13mr16612403wmb.88.1560294399018;
+        Tue, 11 Jun 2019 16:06:39 -0700 (PDT)
+Received: from [192.168.2.202] (pD9E5A42E.dip0.t-ipconnect.de. [217.229.164.46])
+        by smtp.gmail.com with ESMTPSA id f24sm2759973wmb.16.2019.06.11.16.06.37
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 11 Jun 2019 16:06:38 -0700 (PDT)
+Subject: Re: [RFC 0/2] Support for buttons on newer MS Surface devices
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+References: <20190516142523.117978-1-luzmaximilian@gmail.com>
+ <a0f93af3-c587-40d5-2a85-fdc0f9e6b79f@gmail.com>
+Message-ID: <e8bb212c-9894-d244-4ee1-617df3952a53@gmail.com>
+Date:   Wed, 12 Jun 2019 01:06:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <a0f93af3-c587-40d5-2a85-fdc0f9e6b79f@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 11 Jun 2019, Rafael J. Wysocki wrote:
+Since there are no comments on this, should I simply submit this as patch?
 
-> I noticed that the cordless mouse used by me with one of the machines here
-> stopped to work in 5.2-rc (up to and including the -rc4).
+Maximilian
+
+
+On 6/1/19 9:07 PM, Maximilian Luz wrote:
+> Hi,
 > 
-> Bisection turned up commit 74808f9115ce ("HID: logitech-dj: add support for non
-> unifying receivers").
+> any comments on this?
 > 
-> Of course, that commit does not revert cleanly from 5.2-rc4, but I have reverted
-> the changes made by it in hid/hid-ids.h and I took the version of hid/hid-logitech-dj.c
-> from commit b6aeeddef68d ("HID: logitech-dj: add logi_dj_recv_queue_unknown_work
-> helper"), which is the parent of commit 74808f9115ce, and that made the mouse
-> work again for me.
+> I should also mention that this has been tested via
+> https://github.com/jakeday/linux-surface.
 > 
-> Here's the output of "dmesg | grep -i logitech" from 5.2-rc4 with the above changes:
-> 
-> [    4.288905] usb 1-2: Manufacturer: Logitech
-> [    5.444621] input: Logitech USB Receiver as /devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.0/0003:046D:C52F.0002/input/input23
-> [    5.446960] hid-generic 0003:046D:C52F.0002: input,hidraw1: USB HID v1.11 Mouse [Logitech USB Receiver] on usb-0000:00:14.0-2/input0
-> [    5.451265] input: Logitech USB Receiver Consumer Control as /devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.1/0003:046D:C52F.0003/input/input24
-> [    5.507545] hid-generic 0003:046D:C52F.0003: input,hiddev96,hidraw2: USB HID v1.11 Device [Logitech USB Receiver] on usb-0000:00:14.0-2/input1
-
-Hi Rafael,
-
-0x046d/0xc52f is known to have issues in 5.2-rcX. There is a patch queued 
-[1] that is believed to fix all this; my plan is to send it to Linus in 
-the coming 1-2 days. If you could report whether it fixes the issues 
-you've been seeing yourself as well, it'd be helpful.
-
-Thanks.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=for-5.2/fixes&id=3ed224e273ac5880eeab4c3043a6b06b0478dd56
-
--- 
-Jiri Kosina
-SUSE Labs
-
+> Maximilian
