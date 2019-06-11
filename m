@@ -2,101 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A41173C60F
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 10:39:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58E803C623
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 10:43:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391146AbfFKIjL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Jun 2019 04:39:11 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:35594 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391206AbfFKIjL (ORCPT
+        id S2391465AbfFKIn1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Jun 2019 04:43:27 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:33156 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391401AbfFKIn1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Jun 2019 04:39:11 -0400
-Received: by mail-ed1-f68.google.com with SMTP id p26so14771628edr.2
-        for <linux-input@vger.kernel.org>; Tue, 11 Jun 2019 01:39:10 -0700 (PDT)
+        Tue, 11 Jun 2019 04:43:27 -0400
+Received: by mail-qk1-f196.google.com with SMTP id r6so7135533qkc.0
+        for <linux-input@vger.kernel.org>; Tue, 11 Jun 2019 01:43:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=EZPJDu0+5poRi+ob6FAvc4kTQEKHJCev1SL/oyf3pzs=;
-        b=oj7nRju0x54cxESSJOnvHz5Ln3LgSU2WrUcxpHOkh9YT8dFZsH2a8boO0g9Enia72X
-         5wWB2mfzQJ06JHj3wQSN+2QiuEkRUzFlUQ7hVdSfyqI/842HepLLgfj64j11zzdZjXyR
-         ih1nKPuK1q/TlhenFEK3v1DROPzdIHAHV8cc3QAuAissFwRk1CTRuiw/7ugb/xzQVqFQ
-         1FCfeJMVmpNbgwstW/lMl01+LA2l8UPOdq2+QmXe1rLvhNbpyVeEQ6uL2HNld2z8cH9T
-         NcMu09M+2mXvVRVpJJn+FR3Sqm14tKpSMl5OCYnBG+Abc5B3Ob9OOZ6+uTejZ9l4wfKV
-         edGQ==
-X-Gm-Message-State: APjAAAWZ2+284e1xDuoDuHmCrQzVx0LzUZRQCb1Yx+hVxD7z568SzYoE
-        eSaq1CCzVFVdluvb+s/RMcQZ9hx0wUI=
-X-Google-Smtp-Source: APXvYqzMOTMnChDp4MCNUi3VgsI57hmj7rstuSGCuRXwJHHWKOgudtaqqrkWi6cuF6Jc+SPJDa0aoQ==
-X-Received: by 2002:a50:9451:: with SMTP id q17mr16035952eda.119.1560242349441;
-        Tue, 11 Jun 2019 01:39:09 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id b25sm666371eda.38.2019.06.11.01.39.08
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 Jun 2019 01:39:08 -0700 (PDT)
-Subject: Re: [PATCH -next] HID: logitech-dj: fix return value of
- logi_dj_recv_query_hidpp_devices
-To:     Yuehaibing <yuehaibing@huawei.com>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, jkosina@suse.cz
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-References: <20190525140908.2804-1-yuehaibing@huawei.com>
- <50800f5e-867d-ded9-235c-b9c2db1c41ef@huawei.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <c9510bce-525a-c4d4-531c-7cf55e141754@redhat.com>
-Date:   Tue, 11 Jun 2019 10:39:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fAM2ZnplmXr9IFFiNeSowp8y01t03eeswE+odNZ6E9s=;
+        b=Idq+zkATvQMYBaFjLdtmHijwimS54bd33QEjM9iXt/0TGiT6lFGM+YA5h8j/PnhqmO
+         hgPbdv0oORgzT4rdiQrPIBilFiWCUaged+cvazcNRRjkQTSf2vpAFREQdybFjqig2Ajh
+         7g+rRIl1763kc9sYAnX2WheoZwapzSm9EmTjrdxeqLKVMkm3duc0hjtHggmNv6vZgZdx
+         8umfA07wHpw5eikhHFpRuwtxfANGeY/ARmhW+Q9D5pJVyDw/vo5noWvmvLXodqFal+OI
+         Y7ZEGVDMPt6bccp8AP0/YKbl5chgBdzA7mBdM2WUWKZN7SSCFmTxQyBJzm+PyuFA/d+W
+         D3/w==
+X-Gm-Message-State: APjAAAXm1+4SUH7Wd1b+SYXvNay3zamBHNJzsJYl+2DWZQ9fKPBZye2b
+        DEIrBonapKZ1Lb/0ivwZwgOajCkE0SaevgD+3mC3hw==
+X-Google-Smtp-Source: APXvYqw1q0laWbp9i/uhwxQEKfuIRYv0WpOBz7X6AGZWrVWGLfI5PYVS4p5HqaMfLACNsj0LWVIWA+5OhadJGL7OKMk=
+X-Received: by 2002:a37:ea16:: with SMTP id t22mr59894613qkj.337.1560242606439;
+ Tue, 11 Jun 2019 01:43:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <50800f5e-867d-ded9-235c-b9c2db1c41ef@huawei.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190610185343.27614-1-nsaenzjulienne@suse.de>
+In-Reply-To: <20190610185343.27614-1-nsaenzjulienne@suse.de>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 11 Jun 2019 10:43:15 +0200
+Message-ID: <CAO-hwJJzYFQs_Jxc+3zYHzjM9G8zdTfBqdpO27hpKXRBKytvQA@mail.gmail.com>
+Subject: Re: [PATCH] HID: input: fix a4tech horizontal wheel custom usage id
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Nicolas,
 
-On 11-06-19 05:00, Yuehaibing wrote:
-> Hi all,
-> 
-> Friendly ping...
-> 
-> On 2019/5/25 22:09, YueHaibing wrote:
->> We should return 'retval' as the correct return value
->> instead of always zero.
->>
->> Fixes: 74808f9115ce ("HID: logitech-dj: add support for non unifying receivers")
->> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+On Mon, Jun 10, 2019 at 8:54 PM Nicolas Saenz Julienne
+<nsaenzjulienne@suse.de> wrote:
+>
+> Some a4tech mice use the 'GenericDesktop.00b8' usage id to inform
+> whether the previous wheel report was horizontal or vertical. Before
+> c01908a14bf73 ("HID: input: add mapping for "Toggle Display" key") this
+> usage id was being mapped to 'Relative.Misc'. After the patch it's
+> simply ignored (usage->type == 0 & usage->code == 0). Checking the HID
+> Usage Tables it turns out it's a reserved usage_id, so it makes sense to
+> map it the way it was. Ultimately this makes hid-a4tech ignore the
+> WHEEL/HWHEEL selection event, as it has no usage->type.
+>
+> The patch reverts the handling of the usage id back to it's previous
+> behavior.
 
-Patch looks good to me:
+Hmm, if A4Tech is using a reserved usage, we shouldn't fix this in
+hid-input.c but in hid-a4tech instead.
+Because you won't know when someone else in the HID consortium will
+remap this usage to some other random axis, and your mouse will be
+broken again.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+How about you add a .input_mapping callback in hid-a4tech and map this
+usage there to your needs? This way you will be sure that such a
+situation will not happen again.
 
-Regards,
+Cheers,
+Benjamin
 
-Hans
-
-
-
->> ---
->>   drivers/hid/hid-logitech-dj.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
->> index 41baa4dbbfcc..7f8db602eec0 100644
->> --- a/drivers/hid/hid-logitech-dj.c
->> +++ b/drivers/hid/hid-logitech-dj.c
->> @@ -1133,7 +1133,7 @@ static int logi_dj_recv_query_hidpp_devices(struct dj_receiver_dev *djrcv_dev)
->>   				    HID_REQ_SET_REPORT);
->>   
->>   	kfree(hidpp_report);
->> -	return 0;
->> +	return retval;
->>   }
->>   
->>   static int logi_dj_recv_query_paired_devices(struct dj_receiver_dev *djrcv_dev)
->>
-> 
+>
+> Fixes: c01908a14bf73 ("HID: input: add mapping for "Toggle Display" key")
+> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> ---
+>  drivers/hid/hid-input.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index 63855f275a38..6a956d5a195e 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -671,7 +671,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+>                 if ((usage->hid & 0xf0) == 0xb0) {      /* SC - Display */
+>                         switch (usage->hid & 0xf) {
+>                         case 0x05: map_key_clear(KEY_SWITCHVIDEOMODE); break;
+> -                       default: goto ignore;
+> +                       default: goto unknown;
+>                         }
+>                         break;
+>                 }
+> --
+> 2.21.0
+>
