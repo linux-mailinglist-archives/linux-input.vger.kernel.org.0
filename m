@@ -2,70 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B99D33C13A
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 04:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B673F3C167
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 05:01:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390244AbfFKCcC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jun 2019 22:32:02 -0400
-Received: from spfilter-4.mschosting.com ([110.4.43.201]:46643 "EHLO
-        spfilter-4.mschosting.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390172AbfFKCcC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jun 2019 22:32:02 -0400
-X-Greylist: delayed 4333 seconds by postgrey-1.27 at vger.kernel.org; Mon, 10 Jun 2019 22:32:01 EDT
-Received: from zeppelin ([110.4.45.116] helo=msv49-sh-golem.mschosting.com)
-        by spfilter-4.mschosting.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.89)
-        (envelope-from <drkhairol@gmail.com>)
-        id 1haVRr-00082C-3p
-        for linux-input@vger.kernel.org; Tue, 11 Jun 2019 09:19:46 +0800
-Received: from khairolc by msv49-sh-golem.mschosting.com with local (Exim 4.92)
-        (envelope-from <drkhairol@gmail.com>)
-        id 1haVRp-00GTzt-Ro
-        for linux-input@vger.kernel.org; Tue, 11 Jun 2019 09:19:37 +0800
-To:     linux-input@vger.kernel.org
-Subject: Copy of: Adult 1 dating app
-X-PHP-Script: sbmuum.my/index.php for 185.130.184.206
-X-PHP-Filename: /home/khairolc/public_html/sbmuum.my/index.php REMOTE_ADDR: 185.130.184.206
-Date:   Tue, 11 Jun 2019 09:19:37 +0800
-From:   School of Business Management <drkhairol@gmail.com>
-Reply-To: Jeffreyher <linux-input@vger.kernel.org>
-Message-ID: <84e8cef416114e4441a9650901dba74e@sbmuum.my>
+        id S2390923AbfFKDA6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Jun 2019 23:00:58 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:40698 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2390717AbfFKDA5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 10 Jun 2019 23:00:57 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 382B46F19029F8968B9E;
+        Tue, 11 Jun 2019 11:00:55 +0800 (CST)
+Received: from [127.0.0.1] (10.133.213.239) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.439.0; Tue, 11 Jun 2019
+ 11:00:50 +0800
+Subject: Re: [PATCH -next] HID: logitech-dj: fix return value of
+ logi_dj_recv_query_hidpp_devices
+To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+        <hdegoede@redhat.com>, <jkosina@suse.cz>,
+        <benjamin.tissoires@redhat.com>
+References: <20190525140908.2804-1-yuehaibing@huawei.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>
+From:   Yuehaibing <yuehaibing@huawei.com>
+Message-ID: <50800f5e-867d-ded9-235c-b9c2db1c41ef@huawei.com>
+Date:   Tue, 11 Jun 2019 11:00:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-X-AuthUser: khairolc@msv49-sh-golem.mschosting.com
-X-Originating-IP: 110.4.45.116
-X-SpamExperts-Domain: cpanelfilter.mschosting.com
-X-SpamExperts-Username: 110.4.45.0/24
-Authentication-Results: mschosting.com; auth=pass smtp.auth=110.4.45.0/24@cpanelfilter.mschosting.com
-X-SpamExperts-Outgoing-Class: unsure
-X-SpamExperts-Outgoing-Evidence: Combined (0.72)
-X-Recommended-Action: accept
-X-Filter-ID: Mvzo4OR0dZXEDF/gcnlw0Q9DGisTdy29Heef28Cu3sipSDasLI4SayDByyq9LIhVV9LCgBrsUICr
- WOoJmb8hqETNWdUk1Ol2OGx3IfrIJKywOmJyM1qr8uRnWBrbSAGDbGFWXFtvoxcsyLJek5KJPLw8
- BFityCCkxNlTi+jLDh0BcORxfCojcTOpEjtvWHp2R3o3+aB3uqMN2gwIkwkq2ZIxUPZpIiOJ2+72
- 6V3wKDqTaOZk5G0dARd0A9OfPM8Z2jSSmX73ziyKRMbYqKLIRk6YFiZbFOBtv+JGXfwB7s7HZv+y
- CsrIWQyqCxBHcxXImVP49yO+xjU7/851THWPeQgMUspbIN4vTj8w/I+6u8DGDghetEKbzrU+L8So
- LvgNFT8sNw3LARL5OY+6DF9rueqyl8a3WyrlLkzd97TVdqtEruXBOth6CnLv/z7ooylnssaBp4qr
- CXGLR/Fwtm82a+WBOXp8nHKe0R+FkIqN7hllC6GCIlc4tQk9RXs4WlVnSw7349hC5gbSV/RC4oJQ
- Zh7lAnB94HxoyuzObyBmweApOMQJvQ/Ck3iiU+4DQAj3X9tlc742Vbpr3XVspeKJGIeJKcrVGmBj
- EX7SgJB8xlGvnIHKOZZHg0QLUCF5ikNBWUcM13+R2o66cRlY1B5AesT7DrccB90aIn+PqPqIrL8x
- oCiASpEH1YiEBLQcJG7CrxIlVUdaz5GYIytFjcle6XsfwUX3Uspm1KmhGLB+Z7uX7PPN/izhXzJV
- xPicKB6+ghbPVf4IcP0wgm54dBphjeWSRXXip/LZaekvMh0Fyml7poDO242Nxb1wItIQz+hx8wid
- 4QCURnjxXUyWEkQomzoo8FliyxDkxD9RLBVfNTiFvmscdg8zb/ATZbMmlZ/loBxW5eZHMBmxLgt5
- aMSXgsOpyKA69LF1Ge2GaGfxmfoSWNoL9NZghpctjFhZwHiASMtKNp7JZVymsqBO+IeXkmOQ9Kk9
- cBWOXagyvxrXGbR2yzyQ4zeMzHwDf5E/1im8SVv+0YHZoUhd8oJVkDL2rwPWucSF1i1j+UxBfmzf
- 2gdFyu5byBxByw9Lj3pNAmybqsRlFUMASbNXQt/eGGe4VHndwcgUdq9CmjcVQOstghA=
-X-Report-Abuse-To: spam@spfilter-1.mschosting.com
+In-Reply-To: <20190525140908.2804-1-yuehaibing@huawei.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This is a copy of the following message you sent to Md. Lazim Mohd Zin, Dr. via School of Business Management
+Hi all,
 
-This is an enquiry email via http://sbmuum.my/ from:
-Jeffreyher <linux-input@vger.kernel.org>
+Friendly ping...
 
-Adult best dating website california: http://tinyurl.com/y3oefdqa
+On 2019/5/25 22:09, YueHaibing wrote:
+> We should return 'retval' as the correct return value
+> instead of always zero.
+> 
+> Fixes: 74808f9115ce ("HID: logitech-dj: add support for non unifying receivers")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>  drivers/hid/hid-logitech-dj.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+> index 41baa4dbbfcc..7f8db602eec0 100644
+> --- a/drivers/hid/hid-logitech-dj.c
+> +++ b/drivers/hid/hid-logitech-dj.c
+> @@ -1133,7 +1133,7 @@ static int logi_dj_recv_query_hidpp_devices(struct dj_receiver_dev *djrcv_dev)
+>  				    HID_REQ_SET_REPORT);
+>  
+>  	kfree(hidpp_report);
+> -	return 0;
+> +	return retval;
+>  }
+>  
+>  static int logi_dj_recv_query_paired_devices(struct dj_receiver_dev *djrcv_dev)
+> 
 
