@@ -2,161 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B51083D479
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 19:45:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4C2C3D634
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 21:03:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405983AbfFKRpL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Jun 2019 13:45:11 -0400
-Received: from mail-pl1-f174.google.com ([209.85.214.174]:38808 "EHLO
-        mail-pl1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405488AbfFKRpL (ORCPT
+        id S2391474AbfFKTDF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Jun 2019 15:03:05 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:38308 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392436AbfFKTDD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Jun 2019 13:45:11 -0400
-Received: by mail-pl1-f174.google.com with SMTP id f97so5426344plb.5;
-        Tue, 11 Jun 2019 10:45:10 -0700 (PDT)
+        Tue, 11 Jun 2019 15:03:03 -0400
+Received: by mail-lf1-f66.google.com with SMTP id b11so10132139lfa.5;
+        Tue, 11 Jun 2019 12:03:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=UOVsPRLAcnpUv1+7kG2cLWfi6R+JpEtYqM1GcRMnUuk=;
-        b=E796AeM4mrk/MSBxGtpMvy0jAewOt2VNTO2H4g8HmqyMDux7C9fCoNGP9YBUT1YBxw
-         ggozz9KENqRwxiGI8rjR2UOcUH7bYKuNZHmLp4AbKDUlWFBeLRQOda1EnQebiTT49Rg+
-         x9Rm2dPF82JgtGeV/h8Jlgb8NUX4CgCn5ZRj4hbeqxZagQSBQO+8J63qBDPO2z8NeA5b
-         NCnK2GMFz2y/FRYvn1ucJ1y61C/gZvtis18HuwrLk3eDsBBw0BEFi9e6T5RYyPKNfGUi
-         HOZA/ptPnAbua3/ANmOFwhr01WvcViJGEeqGRua4G8F5fFS6dxvLu3EX/qLRVRThzC0d
-         9nBA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=wOd5RFLew6CdqEZNQp7QEBi1szCLUjSrRQzD8SvAiVg=;
+        b=GQzI4RGbSQLsqwNk4BHMkRdGjxlEd5ZaTF8wUzz0VGC93CTKHOoIkIJR+CMdxSD/UM
+         JJn1W3bA1/Tkp032qyCP5gncO5AH1f6ykvTS54kRNu72PrWw8P0T9Lk/uw7OFv+yFm+1
+         BDiZ5hpOsDJLN3heuAjbDwDna008r/rZha54zYiXpb1wpyZrgLpLH8N8eUM7usWlG/ol
+         j0+rvsHJf24/xr9YUNuG6ozjxEh7cdqLXvyzaNZk5/79Gd9FjRO+fVKJVoE2pP8GiFQl
+         fGlfMZEvBqhVC/Y31xmQ7OWlWAgTeVbuwEKSKK/8jFBCMekA6FXACehSEIfjf4S/nomU
+         EAtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=UOVsPRLAcnpUv1+7kG2cLWfi6R+JpEtYqM1GcRMnUuk=;
-        b=rmjL8WBPcWdlV+fi2HRwScSeZfAixI4QJmqx58Zpvkp3G/BPkERjR5Osrr+FVoOowS
-         Y6XTNEYfpcg5vX60IYO6kJynu8i4hq9orgpfbMSu9xryoVJioOH6ouGhJnH2JLNxOanR
-         IErcYPxjvxndBb0S56JhAeThJ8cPzWHfAFML8B0LOTFUHOf1SQNTmCm2bkQyZtRi0MFJ
-         vMBJuTr/xPUCqeCrOwWH61YE4tj62hSqwi6hoAfmH1WQ/1zKqtuw/2N2JLOizNYGfnzA
-         Bs6E2VQPWZ59ibLg4FwewxLtdqeetUmdVIQkoBEMro81GosmrEGwkaEz8EK7Rb75vprl
-         drmw==
-X-Gm-Message-State: APjAAAX418pcV+9gmNWq2PiC38kG4ssVVPABhfDtOmKYYx+SNAh+Wj8b
-        K8+0ZqbYIeRWblYbHGxpC53pb6RN7zk=
-X-Google-Smtp-Source: APXvYqx7oq6rzV/BZztfvDk9Bxl3R0qXF/jIuDbPR8j8NoxUy0yy7IMnVgh7qCHmllAxllyR672i1Q==
-X-Received: by 2002:a17:902:fa2:: with SMTP id 31mr52633040plz.38.1560275110168;
-        Tue, 11 Jun 2019 10:45:10 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id d123sm28212058pfc.144.2019.06.11.10.45.09
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 11 Jun 2019 10:45:09 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 10:45:07 -0700
-From:   "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
-To:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali.rohar@gmail.com>
-Cc:     Hui Wang <hui.wang@canonical.com>,
-        Xiaoxiao Liu <xiaoxiao.liu-1@cn.alps.com>,
-        XiaoXiao Liu <sliuuxiaonxiao@gmail.com>,
-        "peter.hutterer@who-t.net" <peter.hutterer@who-t.net>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Xiaojian Cao <xiaojian.cao@cn.alps.com>,
-        "zhangfp1@lenovo.com" <zhangfp1@lenovo.com>,
-        Naoki Saito <naoki.saito@alpsalpine.com>,
-        Hideo Kawase <hideo.kawase@alpsalpine.com>
-Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IOetlA==?=
- =?utf-8?B?5aSNOiBbUEFUQ0g=?= =?utf-8?Q?=5D?= input: alps-fix the issue alps
- cs19 trackstick do not work.
-Message-ID: <20190611174507.GF143729@dtor-ws>
-References: <OSBPR01MB4855A2A30A4F5E6BDCFE715FDA130@OSBPR01MB4855.jpnprd01.prod.outlook.com>
- <20190610104310.qa5snt7jpcljodfv@pali>
- <OSBPR01MB485504868362073ED434F82FDAED0@OSBPR01MB4855.jpnprd01.prod.outlook.com>
- <ed65f8af-fefb-3c40-e7b1-dde3605f30e3@canonical.com>
- <5587ddb9-fb5f-03db-ac11-a696c85c5f2f@canonical.com>
- <20190611072333.nd4va4q2m5epmukc@pali>
- <20190611170707.GA143729@dtor-ws>
- <20190611171707.tydk7rsmtzmjohky@pali>
- <20190611173228.GD143729@dtor-ws>
- <20190611173856.jjwoagud6doxvpy3@pali>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=wOd5RFLew6CdqEZNQp7QEBi1szCLUjSrRQzD8SvAiVg=;
+        b=A6INRL5LX81iONJ8fz5Osy4nyBbnO0IM7T6haFHagO8XYXqHhzNaYM6NZ4KY3S/jTJ
+         dvPLFprQNUyjAieug/INXG1NWGnrKFhIEgFTMz9xav9NYOMs1IPY1iBmTX8T0XemF+4c
+         u8g9TWlYZW70N6T2HnBbhvu6tcVnuOTGOzCBPuYnVcAGwpq142+OhRtLULWphINsICN5
+         1afqeO71LeCpynF/8idMytrTbEe7jdZGug/rErSG2UxBHxGKrKxzGi/+gMj8tJFx7tzs
+         d/VV3vDMbo7sJ2mUh7NLvaG5RoVLBOnWMeXRu0J7o1OxAMvYjw99G/PUGjSb1JN0GOTH
+         PSAg==
+X-Gm-Message-State: APjAAAWcTHXoyVgVIVTVR2AVvJcS8bE0b0Rk+Knj9Rt+1lAg4jiYkZyi
+        IdPTz7PQvhGKIdnahrcWxeE1n2ylVJ5BIXLdzTr7o6hM
+X-Google-Smtp-Source: APXvYqx1T0x8RVg/ceaESNqHiE0NQjsQle9cejbffh1qor1nnOlAiI7FgeeO8IKRXR5sAhw9qMNUdrbJnX38zuoSggk=
+X-Received: by 2002:a19:488e:: with SMTP id v136mr37325178lfa.192.1560279780090;
+ Tue, 11 Jun 2019 12:03:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190611173856.jjwoagud6doxvpy3@pali>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <CANRwn3Ru+7FGtsY=GaDa7pAJkuagdb6nFtvrFq1qhTWJR0rF9A@mail.gmail.com>
+ <20190426163531.9782-1-jason.gerecke@wacom.com>
+In-Reply-To: <20190426163531.9782-1-jason.gerecke@wacom.com>
+From:   Jason Gerecke <killertofu@gmail.com>
+Date:   Tue, 11 Jun 2019 12:02:47 -0700
+Message-ID: <CANRwn3RBK41mRJKUPDDptoq_So6_7UxR0toaauZvjT5U=OaHWw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] HID: wacom: Don't report anything prior to the tool
+ entering range
+To:     "# v3.17+" <stable@vger.kernel.org>,
+        Sasha Levin <sashal@kernel.org>
+Cc:     Linux Input <linux-input@vger.kernel.org>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Aaron Armstrong Skomra <aaron.skomra@wacom.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 07:38:56PM +0200, Pali Rohár wrote:
-> On Tuesday 11 June 2019 10:32:28 dmitry.torokhov@gmail.com wrote:
-> > On Tue, Jun 11, 2019 at 07:17:07PM +0200, Pali Rohár wrote:
-> > > On Tuesday 11 June 2019 10:07:07 dmitry.torokhov@gmail.com wrote:
-> > > > On Tue, Jun 11, 2019 at 09:23:33AM +0200, Pali Rohár wrote:
-> > > > > On Tuesday 11 June 2019 12:32:33 Hui Wang wrote:
-> > > > > > On 2019/6/11 上午11:23, Hui Wang wrote:
-> > > > > > > On 2019/6/11 上午11:05, Xiaoxiao Liu wrote:
-> > > > > > > > Hi Pali,
-> > > > > > > > 
-> > > > > > > > I discussed with our FW team about this problem.
-> > > > > > > > We think the V8 method means a touchpad feature  and does not fit
-> > > > > > > > the CS19 trackpoint device.
-> > > > > > > > CS19 TrackPoint needn't  use any Absolute (Raw) mode and is usually
-> > > > > > > > use standard mouse data.
-> > > > > > > > CS19 TrackPoint device is a completely different device with
-> > > > > > > > DualPoint device of Dell/HP.
-> > > > > > > > CS19 TrackPoint device is independent  of Touchpad. (Touchpad is
-> > > > > > > > connecting by I2C, TrackPoint is directly connecting with PS2 port.)
-> > > > > > > > And it has completely another FW.
-> > > > > > > > 
-> > > > > > > > So we think it is better to use the mouse mode for CS19 trackpoint.
-> > > > > > > 
-> > > > > > > Maybe here is some mis-understanding,  the mouse mode here doesn't mean
-> > > > > > > we use psmouse-base.c for cs19 (bare ps/2 mouse), we plan to use
-> > > > > > > trackpoint.c to drive this HW, so this trackpoint has all features a
-> > > > > > > trackpoint should have.
-> > > > > > > 
-> > > > > > And I sent a patch one month ago to let the the trackpoint.c to drive this
-> > > > > > HW: https://www.spinics.net/lists/linux-input/msg61341.html, maybe that
-> > > > > > patch is reference.
-> > > > > 
-> > > > > So instead of creating blacklist, you should check for TP_VARIANT_ALPS
-> > > > > in alps.c and disallow its usage.
-> > > > > 
-> > > > > Or maybe better, move trackpoint.c detect code before alsp.c detect code
-> > > > > in psmouse-base. And no changes in alps.c are needed.
-> > > > 
-> > > > I'd be very cautions of moving around the protocol detection. It is very
-> > > > fragile, so if we can detect trackpoint-only case in alps.c and skip on
-> > > > to trackpoint I would prefer it.
-> > > 
-> > > The main problem is that proposed trackpoint-only check in alps.c is
-> > > basically what trackpoint.c is doing for checking if device is
-> > > trackpoint (via function trackpoint_start_protocol()).
-> > > 
-> > > So I'm not sure now what is the best solution...
-> > 
-> > Unfortunately currently trackpoint is being probed only after we tried
-> > Elan, Genius, and Logitech PS2++ protocols, and I am not sure if moving
-> > trackpoint around will disturb them or not.
-> > 
-> > I do not think there is much code duplication by pulling limited version
-> > of trackpoint detection code into alps.c and then have it bail out when
-> > it sees trackpoint-only device so trackpoint.c can handle it properly.
-> 
-> Ok. Seems that it is the best solution.
-> 
-> The last question is, should be use ALPS or Trackpoint protocol? Because
-> it looks like that device can be configured to one or other.
-> 
-> What are pros and cons of these two protocols?
+I haven't been keeping a close eye on this and just noticed that this
+patch set doesn't seem to have been merged into stable. There's also a
+second patch series (beginning with "[PATCH 1/3] HID: wacom: Send
+BTN_TOUCH in response to INTUOSP2_BT eraser contact") that hasn't seen
+any stable activity either.
 
-As far as I know the device implements trackpoint protocol, although not
-complete version. Several manufacturers started making trackponts once
-IBM/Lenovo patents on the original one expired (I think).
+Any idea what's up?
 
-The data stream is regular relative PS/2, bit it allows controlling
-device behavior a bit, such as press-to-select option and device
-sensitivity. IBM/Lenovo version has many more parameters.
-
-Thanks.
-
--- 
-Dmitry
+Jason
+---
+Now instead of four in the eights place /
+you=E2=80=99ve got three, =E2=80=98Cause you added one  /
+(That is to say, eight) to the two,     /
+But you can=E2=80=99t take seven from three,    /
+So you look at the sixty-fours....
+On Fri, Apr 26, 2019 at 9:35 AM Gerecke, Jason <killertofu@gmail.com> wrote=
+:
+>
+> From: Jason Gerecke <jason.gerecke@wacom.com>
+>
+> If the tool spends some time in prox before entering range, a series of
+> events (e.g. ABS_DISTANCE, MSC_SERIAL) can be sent before we or userspace
+> have any clue about the pen whose data is being reported. We need to hold
+> off on reporting anything until the pen has entered range. Since we still
+> want to report events that occur "in prox" after the pen has *left* range
+> we use 'wacom-tool[0]' as the indicator that the pen did at one point
+> enter range and provide us/userspace with tool type and serial number
+> information.
+>
+> Fixes: a48324de6d ("HID: wacom: Bluetooth IRQ for Intuos Pro should handl=
+e prox/range")
+> Cc: <stable@vger.kernel.org> # 4.11+
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> Reviewed-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
+> ---
+> Version of patch specifically targeted to stable v4.14.113
+>
+>  drivers/hid/wacom_wac.c | 21 ++++++++++++---------
+>  1 file changed, 12 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+> index 03b04bc742dd..e4aeffa56018 100644
+> --- a/drivers/hid/wacom_wac.c
+> +++ b/drivers/hid/wacom_wac.c
+> @@ -1271,17 +1271,20 @@ static void wacom_intuos_pro2_bt_pen(struct wacom=
+_wac *wacom)
+>                         input_report_abs(pen_input, ABS_Z, rotation);
+>                         input_report_abs(pen_input, ABS_WHEEL, get_unalig=
+ned_le16(&frame[11]));
+>                 }
+> -               input_report_abs(pen_input, ABS_PRESSURE, get_unaligned_l=
+e16(&frame[5]));
+> -               input_report_abs(pen_input, ABS_DISTANCE, range ? frame[1=
+3] : wacom->features.distance_max);
+>
+> -               input_report_key(pen_input, BTN_TOUCH, frame[0] & 0x01);
+> -               input_report_key(pen_input, BTN_STYLUS, frame[0] & 0x02);
+> -               input_report_key(pen_input, BTN_STYLUS2, frame[0] & 0x04)=
+;
+> +               if (wacom->tool[0]) {
+> +                       input_report_abs(pen_input, ABS_PRESSURE, get_una=
+ligned_le16(&frame[5]));
+> +                       input_report_abs(pen_input, ABS_DISTANCE, range ?=
+ frame[13] : wacom->features.distance_max);
+>
+> -               input_report_key(pen_input, wacom->tool[0], prox);
+> -               input_event(pen_input, EV_MSC, MSC_SERIAL, wacom->serial[=
+0]);
+> -               input_report_abs(pen_input, ABS_MISC,
+> -                                wacom_intuos_id_mangle(wacom->id[0])); /=
+* report tool id */
+> +                       input_report_key(pen_input, BTN_TOUCH, frame[0] &=
+ 0x01);
+> +                       input_report_key(pen_input, BTN_STYLUS, frame[0] =
+& 0x02);
+> +                       input_report_key(pen_input, BTN_STYLUS2, frame[0]=
+ & 0x04);
+> +
+> +                       input_report_key(pen_input, wacom->tool[0], prox)=
+;
+> +                       input_event(pen_input, EV_MSC, MSC_SERIAL, wacom-=
+>serial[0]);
+> +                       input_report_abs(pen_input, ABS_MISC,
+> +                                        wacom_intuos_id_mangle(wacom->id=
+[0])); /* report tool id */
+> +               }
+>
+>                 wacom->shared->stylus_in_proximity =3D prox;
+>
+> --
+> 2.21.0
+>
