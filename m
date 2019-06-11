@@ -2,137 +2,158 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D66533D39F
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 19:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A9AB3D3C2
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2019 19:17:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405888AbfFKRKf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Jun 2019 13:10:35 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:44591 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389356AbfFKRKe (ORCPT
+        id S2405962AbfFKRRP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Jun 2019 13:17:15 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:44376 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405961AbfFKRRP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Jun 2019 13:10:34 -0400
-Received: by mail-pf1-f193.google.com with SMTP id t16so7808092pfe.11;
-        Tue, 11 Jun 2019 10:10:34 -0700 (PDT)
+        Tue, 11 Jun 2019 13:17:15 -0400
+Received: by mail-wr1-f66.google.com with SMTP id b17so13907051wrq.11;
+        Tue, 11 Jun 2019 10:17:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=QfcRtoONgWVTwtnQoP4rlwBElT3so0FbJIuhPmULhig=;
-        b=m6uDPrf0xbKxHOBxlYlJgBJluDseTqpUrZe+FhasYzB64ReBzKMIdV5XGEhIGV9N+T
-         GciSYgvch7xUNYa81gxMPnMByXHKgU/Oyv2MWE9wocowq9z8bHYJcScjGr0PcGcTVy4I
-         lGX1/Dn9Pq/uG79uFh2Z+2aImHK6qBLTTR6lwi3S0LODaisIL34fRlEQ9XyAQWRucmCq
-         gxSvkYh0kzEMswZuMDBdN9iubeyxHBLfT0gAiB/xF3+YWiYhw8eQQakd8aQ1mSs0vc7O
-         SCjhUKvcmVw0/pQC222MOMCTzDBLJNwhJoJ9HST5soGEe0+2ih1NjRliyjzmVz3qsaNq
-         dc2Q==
+        bh=WaysXXkkuoEHakv+09ZE71GtoG0EGkx2i9RGt2yoHmc=;
+        b=Gw/VSc3AnA7Gr+HwzDQepHUcTpPyOFmn3qNRuXg6MASXyOWVjp8iV9BCA21lQ33t8X
+         GdaHNBSSlbpOKjr5Ubl4dTm3jExQaVeYlGlQSf0uJ6ksxI83vAcX2glkuZ8bQaH2HUH9
+         BE1ON2NQjrOAPDvA4ZyqFVJshZKVU0SQzdKNksTkE1Iu4JMmtSlTf3Mrx9mLTWRkoNkz
+         5b0Lz+lK5XmK7NZ+HKNsVvAd4fNccgYKb02gZs0Zq20TA7bR3wJxl/AywrD19AZlyDLT
+         BTAmLMN/7jNP5TZLUzcLenMeQCWgroZNS+aGdoBFF5ITT56jHBG2wu1kDHonngZ/pOgb
+         vGhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=QfcRtoONgWVTwtnQoP4rlwBElT3so0FbJIuhPmULhig=;
-        b=oFvjPrHxfAuJsU6BvBEklWdbMtcEUe+Zv+JGE4+CO5RhAqBAA6npe3KRMwBv+q+Naa
-         Aq24fmJHpcfw0+nxE3VOPdTv/JFvkL/QQiUwmEPI/224lsVercjHWrIhnOZS71KGTl9y
-         m3sUWujZn3c01XPr/1B6pgLf/1s85DG3poEYdhgHdNLm/Q/bJEn7DGNG7eCqT9/4yqLj
-         ZguVZBl68BXFvHtERW3F+XS0OBFEtY6G6/CnTOmC2tPNptBowpZ0ltOHLsbbAP+FJuPq
-         wUdHb1E74Vz0RNRsCfkO6pJUQc9dh5D7rxUIdYvnHQHgNxXwTtzIMZdcXd7eMpNgXxY5
-         eTSw==
-X-Gm-Message-State: APjAAAXojb2UGebfQEybAbsrgmnACc5UQWOIF6KdjMhto9mmM9lP3U+s
-        f0cGRF2lzoNyf4noVY3CCh0=
-X-Google-Smtp-Source: APXvYqwMksWM0B/q19Q0jWzNmvs/opGNhXpundemVkKe3ekBw/AhIEcAanhmfVC6alp8iLNfynW0+g==
-X-Received: by 2002:a63:eb0a:: with SMTP id t10mr19060142pgh.99.1560273033558;
-        Tue, 11 Jun 2019 10:10:33 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id p15sm16391934pgj.61.2019.06.11.10.10.31
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 11 Jun 2019 10:10:32 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 10:10:30 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     linux-kernel@vger.kernel.org, gwendal@chromium.org,
-        Guenter Roeck <groeck@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>, kernel@collabora.com,
-        dtor@chromium.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        alsa-devel@alsa-project.org,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        linux-iio@vger.kernel.org,
-        Fabien Lahoudere <fabien.lahoudere@collabora.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-i2c@vger.kernel.org, linux-rtc@vger.kernel.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Brian Norris <briannorris@chromium.org>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
-        linux-input@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        linux-pm@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Evan Green <evgreen@chromium.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Cheng-Yi Chiang <cychiang@chromium.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Kees Cook <keescook@chromium.org>,
-        Colin Ian King <colin.king@canonical.com>,
-        Mark Brown <broonie@kernel.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jiri Kosina <jikos@kernel.org>
-Subject: Re: [PATCH 06/10] mfd / platform: cros_ec: Reorganize platform and
- mfd includes
-Message-ID: <20190611171030.GC143729@dtor-ws>
-References: <20190604152019.16100-1-enric.balletbo@collabora.com>
- <20190604152019.16100-7-enric.balletbo@collabora.com>
+        bh=WaysXXkkuoEHakv+09ZE71GtoG0EGkx2i9RGt2yoHmc=;
+        b=DEFiVbWtjzMk3VU0ltwz9cuNTmMI+TQx60k7YU2ZSs9YESqw1md+fBsGI2H4tx3ks9
+         9eXyElKDnXBMMjbNeQaBN4tZnZM4Rfp+iIBq0nw0zC3OOLEoe7lw+6nTarstRZcuuExP
+         WdnN8Y1ArNNH7v1h8HhjgcRHO8yfy+4p4ImLJiqU0k5K9+lyTUUkxrjQh4gRFzCgnZAu
+         ErxwVme1ElVQKnJstoBoIu91d6GY7NP1z0LoJX8VNrQXSp5c79cWy7uhHt1oBuIfOhWt
+         6M+gJh8Wnb8DPz92EUKrqb9FzT3K0OVhAeWM3GZXtFIEgymG7fFCVjtVPHAxCFX0zLV7
+         0LVw==
+X-Gm-Message-State: APjAAAWhlnNRkXy22RnxGaJVgoJcsccTgOlxkmBf4FDDVPfSrfSCqA3D
+        51Rc6o7NgxjZAHu+WXfChSNortwI7+U=
+X-Google-Smtp-Source: APXvYqzgK+PWwgzwutUSp+2qsuLb5idLiN82ARL0NpGt1eyHQ4rSs6bViF6O7gzpj+V1EempEVeoaA==
+X-Received: by 2002:adf:aa09:: with SMTP id p9mr30515859wrd.59.1560273433335;
+        Tue, 11 Jun 2019 10:17:13 -0700 (PDT)
+Received: from pali ([2a02:2b88:2:1::5cc6:2f])
+        by smtp.gmail.com with ESMTPSA id h1sm14299801wrt.20.2019.06.11.10.17.11
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 11 Jun 2019 10:17:12 -0700 (PDT)
+Date:   Tue, 11 Jun 2019 19:17:07 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
+To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+Cc:     Hui Wang <hui.wang@canonical.com>,
+        Xiaoxiao Liu <xiaoxiao.liu-1@cn.alps.com>,
+        XiaoXiao Liu <sliuuxiaonxiao@gmail.com>,
+        "peter.hutterer@who-t.net" <peter.hutterer@who-t.net>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Xiaojian Cao <xiaojian.cao@cn.alps.com>,
+        "zhangfp1@lenovo.com" <zhangfp1@lenovo.com>,
+        Naoki Saito <naoki.saito@alpsalpine.com>,
+        Hideo Kawase <hideo.kawase@alpsalpine.com>
+Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IOetlA==?=
+ =?utf-8?B?5aSNOiBbUEFUQ0g=?= =?utf-8?Q?=5D?= input: alps-fix the issue alps
+ cs19 trackstick do not work.
+Message-ID: <20190611171707.tydk7rsmtzmjohky@pali>
+References: <20190528071824.jimhixhtsynzwixe@pali>
+ <OSBPR01MB48556FD88D7F7D5F91CB5579DA1E0@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <OSBPR01MB4855707AC8ABB7CFBE5BBBD5DA130@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <OSBPR01MB4855A2A30A4F5E6BDCFE715FDA130@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <20190610104310.qa5snt7jpcljodfv@pali>
+ <OSBPR01MB485504868362073ED434F82FDAED0@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+ <ed65f8af-fefb-3c40-e7b1-dde3605f30e3@canonical.com>
+ <5587ddb9-fb5f-03db-ac11-a696c85c5f2f@canonical.com>
+ <20190611072333.nd4va4q2m5epmukc@pali>
+ <20190611170707.GA143729@dtor-ws>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="yk3mp3oui5gzabch"
 Content-Disposition: inline
-In-Reply-To: <20190604152019.16100-7-enric.balletbo@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190611170707.GA143729@dtor-ws>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jun 04, 2019 at 05:20:15PM +0200, Enric Balletbo i Serra wrote:
-> There is a bit of mess between cros-ec mfd includes and platform
-> includes. For example, we have a linux/mfd/cros_ec.h include that
-> exports the interface implemented in platform/chrome/cros_ec_proto.c. Or
-> we have a linux/mfd/cros_ec_commands.h file that is non related to the
-> multifunction device (in the sense that is not exporting any function of
-> the mfd device). This causes crossed includes between mfd and
-> platform/chrome subsystems and makes the code difficult to read, apart
-> from creating 'curious' situations where a platform/chrome driver includes
-> a linux/mfd/cros_ec.h file just to get the exported functions that are
-> implemented in another platform/chrome driver.
-> 
-> In order to have a better separation on what the cros-ec multifunction
-> driver does and what the cros-ec core provides move and rework the
-> affected includes doing:
-> 
->  - Move cros_ec_commands.h to include/linux/platform_data/cros_ec_commands.h
->  - Get rid of the parts that are implemented in the platform/chrome/cros_ec_proto.c
->    driver from include/linux/mfd/cros_ec.h to a new file
->    include/linux/platform_data/cros_ec_proto.h
->  - Update all the drivers with the new includes, so
->    - Drivers that only need to know about the protocol include
->      - linux/platform_data/cros_ec_proto.h
->      - linux/platform_data/cros_ec_commands.h
->    - Drivers that need to know about the cros-ec mfd device also include
->      - linux/mfd/cros_ec.h
-> 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com> # for input
+--yk3mp3oui5gzabch
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks.
+On Tuesday 11 June 2019 10:07:07 dmitry.torokhov@gmail.com wrote:
+> On Tue, Jun 11, 2019 at 09:23:33AM +0200, Pali Roh=C3=A1r wrote:
+> > On Tuesday 11 June 2019 12:32:33 Hui Wang wrote:
+> > > On 2019/6/11 =E4=B8=8A=E5=8D=8811:23, Hui Wang wrote:
+> > > > On 2019/6/11 =E4=B8=8A=E5=8D=8811:05, Xiaoxiao Liu wrote:
+> > > > > Hi Pali,
+> > > > >=20
+> > > > > I discussed with our FW team about this problem.
+> > > > > We think the V8 method means a touchpad feature=C2=A0 and does no=
+t fit
+> > > > > the CS19 trackpoint device.
+> > > > > CS19 TrackPoint needn't=C2=A0 use any Absolute (Raw) mode and is =
+usually
+> > > > > use standard mouse data.
+> > > > > CS19 TrackPoint device is a completely different device with
+> > > > > DualPoint device of Dell/HP.
+> > > > > CS19 TrackPoint device is independent=C2=A0 of Touchpad. (Touchpa=
+d is
+> > > > > connecting by I2C, TrackPoint is directly connecting with PS2 por=
+t.)
+> > > > > And it has completely another FW.
+> > > > >=20
+> > > > > So we think it is better to use the mouse mode for CS19 trackpoin=
+t.
+> > > >=20
+> > > > Maybe here is some mis-understanding,=C2=A0 the mouse mode here doe=
+sn't mean
+> > > > we use psmouse-base.c for cs19 (bare ps/2 mouse), we plan to use
+> > > > trackpoint.c to drive this HW, so this trackpoint has all features a
+> > > > trackpoint should have.
+> > > >=20
+> > > And I sent a patch one month ago to let the the trackpoint.c to drive=
+ this
+> > > HW: https://www.spinics.net/lists/linux-input/msg61341.html, maybe th=
+at
+> > > patch is reference.
+> >=20
+> > So instead of creating blacklist, you should check for TP_VARIANT_ALPS
+> > in alps.c and disallow its usage.
+> >=20
+> > Or maybe better, move trackpoint.c detect code before alsp.c detect code
+> > in psmouse-base. And no changes in alps.c are needed.
+>=20
+> I'd be very cautions of moving around the protocol detection. It is very
+> fragile, so if we can detect trackpoint-only case in alps.c and skip on
+> to trackpoint I would prefer it.
 
--- 
-Dmitry
+The main problem is that proposed trackpoint-only check in alps.c is
+basically what trackpoint.c is doing for checking if device is
+trackpoint (via function trackpoint_start_protocol()).
+
+So I'm not sure now what is the best solution...
+
+--=20
+Pali Roh=C3=A1r
+pali.rohar@gmail.com
+
+--yk3mp3oui5gzabch
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQS4VrIQdKium2krgIWL8Mk9A+RDUgUCXP/iEAAKCRCL8Mk9A+RD
+Up7mAJ9bQIgZ06pMlZa1t6WOZ1oJCtYTxgCcC8h8NbVMVQgvRKYcG5H5EAHhWto=
+=nHiP
+-----END PGP SIGNATURE-----
+
+--yk3mp3oui5gzabch--
