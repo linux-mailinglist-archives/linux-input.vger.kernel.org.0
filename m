@@ -2,96 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 86D4F426BE
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 14:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6740942867
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 16:09:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438481AbfFLMzW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Jun 2019 08:55:22 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:43731 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438441AbfFLMzW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jun 2019 08:55:22 -0400
-Received: by mail-ed1-f67.google.com with SMTP id w33so25571364edb.10
-        for <linux-input@vger.kernel.org>; Wed, 12 Jun 2019 05:55:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aD69m6otj68UH0Q7gUM0VGrtwF15HpBY3jIEQiF8Flk=;
-        b=kN3DT5xK/y8Bc4Gzgqs4Kwc9edN+58F1RWQs/A2l3x2uatO3qyYZLqf9AUN1Oe7eOh
-         LFdRoLo7BfDsF5yseg6Jhw7TkOaPxOaS9DdfSoEpWGAcXnGLxTAxn/IGfDbkicvZjHoS
-         ZUNtKqvG3iydDly8HAMHJJsqQt6eKVbK4beyHZTk19hbvo1fUqNlx1YOeRK9OFAr9kNE
-         Jp1oBlaRR+KrQexuCjAFiuZg0H8pxXAzP5mxUrn07njccUxxQMjmlUyS2Xy6YJICLQqC
-         fnTmLFVd0q9ysNlzN8hVr3L1GAdY7tYilu1E/hcuvwULv/qH2Y2G1uCZnXR9cTlgxFh1
-         NJMw==
-X-Gm-Message-State: APjAAAUyW8R1uUYXwHBteAAxzPn3wsGV3EjJOvd166yGVLyu/bNeWYk5
-        lRlGiZ/t+XTp0iYMKEACHzf2yA==
-X-Google-Smtp-Source: APXvYqyhz7ko/MVJXRvdEbK38K+R1dfbCIspcF/HYfRDUZR8RTCSLzD3QIbIVDj3ba/Wtxy12sgefQ==
-X-Received: by 2002:aa7:d30d:: with SMTP id p13mr4360291edq.292.1560344120330;
-        Wed, 12 Jun 2019 05:55:20 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id m4sm4526164edc.24.2019.06.12.05.55.19
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 12 Jun 2019 05:55:19 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Update Hi10 Air filter
-To:     Christian Oder <me@myself5.de>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190612124053.119182-1-me@myself5.de>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <736848fd-1c45-0bd9-bfd1-747c716bd953@redhat.com>
-Date:   Wed, 12 Jun 2019 14:55:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S2437004AbfFLOJC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Jun 2019 10:09:02 -0400
+Received: from mout.gmx.net ([212.227.15.18]:58977 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2436722AbfFLOJB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 12 Jun 2019 10:09:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1560348540;
+        bh=NvcCbtzx411aDDq6p/x++NbuHwp0vPYykyPBqyzTXdo=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=JAj6hWom3G0AW7N/n9i/bla5sjTZYroeigS4FWQbsxhRiDD6Mo2KhiGIDrm16JV5F
+         V0U7TItkj91LwsyLQQ8sNOjue/h03sftfbG10FKerCUbx2xiqAQV2mAqY0Zi5+tfrf
+         HLm1gGBnBL4XIbK4VDqlEZlGYHvjqBpk/eIQXb7M=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from b450.lan ([79.195.235.197]) by mail.gmx.com (mrgmx002
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 0Mb7lL-1hvD4y3XBr-00Kfie; Wed, 12
+ Jun 2019 16:08:59 +0200
+From:   Tim Schumacher <timschumi@gmx.de>
+To:     linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
+        timschumi@gmx.de
+Subject: [PATCH resend] Input: iforce - Add the Saitek R440 Force Wheel
+Date:   Wed, 12 Jun 2019 16:09:03 +0200
+Message-Id: <20190612140903.20058-1-timschumi@gmx.de>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <20190612124053.119182-1-me@myself5.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:DkjaIw6wDT3Xc+d7JtT/GaIRv489Y0suNvC0UFtBPFjp1A/jMQX
+ kzJQqyT0mDv49Gw153+FpsfuC4mp11vYjwRqno9eBt8RReT1N/OrwoEiFqRwrQH5A4TgXt5
+ LSBOvJfcD/q/8qNggxSdj5qfbibi8PXiXHKIhR80UWXbm55KrfBhdI39LWUvFz3C2r/ARcu
+ /5I9u/ugzVnkKJhOqrTTQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:D7U24nUWfy8=:KrdX7FauEncvLYAaKRpznB
+ 0b9xpZqtA8i8WqrccSIk6YIvFRltb8L32AdRczCe9AGzwZdTol0HHyUOWYezgV/OkT0NQsQYK
+ E0PISpz7av7dW5ZwZfzf0L88TI9fQRG8FfxME7tnIbc+yYjPoa/Sq5OQ8XIvY1Gx6KkkWGisc
+ N9ok7YxiLIPZvG4Qa//M2v7siTotSpEpKo5Xf+rFcJWuMvke5FeALDV6JxK8nuS+QyaGbP5mo
+ DIvF7zZuPcBVLRR2iBuq8ga4iJSX5d+7Ji++NOz4ea+vyDgnRIpwFKto8tW3tlmYP/+dUPev4
+ FymPxVrgQHzWPF/aXZjEik+g9FrPW+DakPW+DQ6KJcFz+/MOP3JC6HPgxAw+/6gP68ZFX+aOJ
+ EXU7jZ8BHWMuO/XFUceQqKXAezF5eCTeicaYUaYTiJVMN471UMCHtB1hBCUCbrKorqfNeBI7b
+ TFts/AMyxrJEIE+DvfGUO9JdeetWdmP1oWXGOUWZpbL8FUcdDH6A3MkQC5PwLQ+7YuXltCEoo
+ HcoYYPaqhW/x4mAzL3nvQouOXyokNZI43ANZYFQ/xA6C1Q16Ev6CbmGGcdyaDwjZsGiwTfgIN
+ kyNHY558/8UNpmYUJ/yPeB9PSaQFQoKcMzii8cG4Rp1pAW1uVoOs8KWz2B4nGpzlmvFd7K7mg
+ twIaclS026uplJ7OTO+A9BSPtf3i1+XAy1Awp5aPHFg6mdbsqeP98L/p5TjcdbGlaNHnh4cve
+ 2vBCairLM99es+vmzNpRFStDryStPzxi39OLhUgNZ2RGZgaLrMyCYaZqNASGQSt+W37zv+rGG
+ XroGgC/eAiupie3KfMazn2AqM6E3NaaH1Ao9aZVeVG4XzR2uvNmomjh9RBFmXmHBj9kOb2RiS
+ zEzhhvYCcQuRK33Y8wx4HyEMhEga2b2/nE6W6Z9NzPm+IENN09uJAi4c2ytAEhsMf1WzwvA3/
+ b2TyOfERReaPMshf4H87HCIbOU2piNS0=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Signed-off-by: Tim Schumacher <timschumi@gmx.de>
+=2D--
+Please note that I do NOT own this device.
 
-On 12-06-19 14:40, Christian Oder wrote:
-> Turns out the Hi10 Air is built by multiple companies so using Hampoo
-> as a filter is not enough to cover all variants.
-> 
-> This has been verified as working on the Hampoo and Morshow version.
-> 
-> Signed-off-by: Christian Oder <me@myself5.de>
+I'm adding this based on the fact that this is an iforce-based
+device and that the Windows driver for the R440 works for the
+Logitech WingMan Formula Force after replacing the device/vendor
+IDs (I got the vendor/device IDs from there as well).
 
-Patch looks good to me:
+Please don't add this patch if adding devices based on that is
+not ok.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+This patch is a resend of the patch I sent back in November,
+which apparently went unnoticed.
+=2D--
+ drivers/input/joystick/iforce/iforce-main.c | 1 +
+ drivers/input/joystick/iforce/iforce-usb.c  | 1 +
+ 2 files changed, 2 insertions(+)
 
-Regards,
+diff --git a/drivers/input/joystick/iforce/iforce-main.c b/drivers/input/j=
+oystick/iforce/iforce-main.c
+index 55f5b7bb4cac..e000e7d5b4c1 100644
+=2D-- a/drivers/input/joystick/iforce/iforce-main.c
++++ b/drivers/input/joystick/iforce/iforce-main.c
+@@ -55,6 +55,7 @@ static struct iforce_device iforce_device[] =3D {
+ 	{ 0x05ef, 0x8888, "AVB Top Shot Force Feedback Racing Wheel",	btn_wheel,=
+ abs_wheel, ff_iforce }, //?
+ 	{ 0x061c, 0xc0a4, "ACT LABS Force RS",                          btn_whee=
+l, abs_wheel, ff_iforce }, //?
+ 	{ 0x061c, 0xc084, "ACT LABS Force RS",				btn_wheel, abs_wheel, ff_iforc=
+e },
++	{ 0x06a3, 0xff04, "Saitek R440 Force Wheel",			btn_wheel, abs_wheel, ff_=
+iforce }, //?
+ 	{ 0x06f8, 0x0001, "Guillemot Race Leader Force Feedback",	btn_wheel, abs=
+_wheel, ff_iforce }, //?
+ 	{ 0x06f8, 0x0001, "Guillemot Jet Leader Force Feedback",	btn_joystick, a=
+bs_joystick_rudder, ff_iforce },
+ 	{ 0x06f8, 0x0004, "Guillemot Force Feedback Racing Wheel",	btn_wheel, ab=
+s_wheel, ff_iforce }, //?
+diff --git a/drivers/input/joystick/iforce/iforce-usb.c b/drivers/input/jo=
+ystick/iforce/iforce-usb.c
+index f1569ae8381b..afbcd1a522d4 100644
+=2D-- a/drivers/input/joystick/iforce/iforce-usb.c
++++ b/drivers/input/joystick/iforce/iforce-usb.c
+@@ -202,6 +202,7 @@ static const struct usb_device_id iforce_usb_ids[] =3D=
+ {
+ 	{ USB_DEVICE(0x05ef, 0x8888) },		/* AVB Top Shot FFB Racing Wheel */
+ 	{ USB_DEVICE(0x061c, 0xc0a4) },         /* ACT LABS Force RS */
+ 	{ USB_DEVICE(0x061c, 0xc084) },         /* ACT LABS Force RS */
++	{ USB_DEVICE(0x06a3, 0xff04) },		/* Saitek R440 Force Wheel */
+ 	{ USB_DEVICE(0x06f8, 0x0001) },		/* Guillemot Race Leader Force Feedback=
+ */
+ 	{ USB_DEVICE(0x06f8, 0x0003) },		/* Guillemot Jet Leader Force Feedback =
+*/
+ 	{ USB_DEVICE(0x06f8, 0x0004) },		/* Guillemot Force Feedback Racing Whee=
+l */
+=2D-
+2.22.0
 
-Hans
-
-
-> ---
->   drivers/platform/x86/touchscreen_dmi.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-> index b662cb2d7cd5..61e7c4987d0d 100644
-> --- a/drivers/platform/x86/touchscreen_dmi.c
-> +++ b/drivers/platform/x86/touchscreen_dmi.c
-> @@ -597,7 +597,8 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
->   		/* Chuwi Hi10 Air */
->   		.driver_data = (void *)&chuwi_hi10_air_data,
->   		.matches = {
-> -			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
-> +			DMI_MATCH(DMI_SYS_VENDOR, "CHUWI INNOVATION AND TECHNOLOGY(SHENZHEN)CO.LTD"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
->   			DMI_MATCH(DMI_PRODUCT_SKU, "P1W6_C109D_B"),
->   		},
->   	},
-> 
