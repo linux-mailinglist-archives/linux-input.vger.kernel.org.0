@@ -2,179 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0454F41DE7
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 09:38:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9CF941EF3
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 10:24:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731536AbfFLHiV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Jun 2019 03:38:21 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:37448 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731538AbfFLHiV (ORCPT
+        id S1730995AbfFLIY0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Jun 2019 04:24:26 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:46818 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730187AbfFLIY0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jun 2019 03:38:21 -0400
-Received: by mail-wr1-f67.google.com with SMTP id v14so15697823wrr.4
-        for <linux-input@vger.kernel.org>; Wed, 12 Jun 2019 00:38:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=ahijxNg+tm6jlJIc5taCvWvXRwBWZqm5rK7X9UBbuXU=;
-        b=HQLv3m+jOk4C5klPuz3CJHKBbZ4fJeVsEcT7L+Gm11i7WvzLr6Rwbmf6ZsHMr5D5Xa
-         3paeUW+3eShKX4qu4AcgjcktHe58WvycJDQKsGZ0ovASYt3Hmb8qvA8OEse8cgqkjb09
-         +yTdEAuf8HeYG/hvsb31Utp/STs2RqBejRsnyLluMzf8Lue5zbkmgHloyWk7dFt8Vuy8
-         oCKSydgLCz7ZaHChSVlKPB0Z9ZGid6R/v9AkdsVEu2IstTj30yU1FheIdNRLlSoxvORJ
-         XpFmlj29zTxhc7Z/DIUFrg7KqJdGgdsa4SmXb7HTborQwKjyHvO5wpkKPflRSuKCIrua
-         o2ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=ahijxNg+tm6jlJIc5taCvWvXRwBWZqm5rK7X9UBbuXU=;
-        b=Mi7KbtM3tMunNIXpxn28oBs14tjafl6WoMqNMK7ytfKKkPKjk1fydZft4UcIURxSL2
-         Cqk/vH9Y6OVO0J5gvw34bpeRqPkMQnRm415U6WEOYQrNLr1YV9c8UKccNXHn+3WC3Cti
-         P/h900qI4G6jDoLISXG/7RlI3iQmhsW0pmLfI7kPnNucqiDUJncwm0S8E7NsFBVuzAPK
-         pBwlmf9ubSv4uUj9WVLAk1TGYmSyxgUvcuveqZkdsxDP9KV5+X4micbOEAgftxtdmLiF
-         YM2k4TN1LQGvuF50LY3kjFmACwmkh3ba24aNeT5XtYsPd8hErXLGS/WBUMpTVXZDpC5X
-         JD0w==
-X-Gm-Message-State: APjAAAXLkCa5bA96kFAs/61jnAt+GSTDtCzC4AtenhRUdJz6tBCzMTAy
-        nMFXeVXDaH9CFwSm7oy1gPUFjFg63iw=
-X-Google-Smtp-Source: APXvYqyt/bFtfN+FYRKsha+cbiAeOnD559EYKo8PVajWCWFGkASriMCjkdxwblRY7SObEOwcXha37A==
-X-Received: by 2002:a05:6000:181:: with SMTP id p1mr29814168wrx.247.1560325098741;
-        Wed, 12 Jun 2019 00:38:18 -0700 (PDT)
-Received: from pali ([2a02:2b88:2:1::5cc6:2f])
-        by smtp.gmail.com with ESMTPSA id s10sm10314020wrw.45.2019.06.12.00.38.17
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 12 Jun 2019 00:38:18 -0700 (PDT)
-Date:   Wed, 12 Jun 2019 09:38:17 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
-To:     Hui Wang <hui.wang@canonical.com>
-Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-        xiaoxiao.liu-1@cn.alps.com, sliuuxiaonxiao@gmail.com,
-        xiaojian.cao@cn.alps.com, naoki.saito@alpsalpine.com,
-        hideo.kawase@alpsalpine.com
-Subject: Re: [PATCH] Input: alps - Don't handle ALPS cs19 trackpoint-only
- device
-Message-ID: <20190612073817.ju2skswtatl2fxjn@pali>
-References: <20190612070517.20810-1-hui.wang@canonical.com>
+        Wed, 12 Jun 2019 04:24:26 -0400
+Received: from 79.184.253.190.ipv4.supernova.orange.pl (79.184.253.190) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.267)
+ id d950445aa4b6e90a; Wed, 12 Jun 2019 10:24:23 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Subject: Re: Strange regression in hid_llogitech_dj (was: Re: Linux 5.2-rc4)
+Date:   Wed, 12 Jun 2019 10:24:22 +0200
+Message-ID: <1875376.0DUQQ8o03D@kreacher>
+In-Reply-To: <nycvar.YFH.7.76.1906112358580.27227@cbobk.fhfr.pm>
+References: <CAHk-=wjm7FQxdF=RKa8Xe23CLNNpbGDOACewgo8e-hwDJ8TyQg@mail.gmail.com> <2268131.Lc39eCoc3j@kreacher> <nycvar.YFH.7.76.1906112358580.27227@cbobk.fhfr.pm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190612070517.20810-1-hui.wang@canonical.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wednesday 12 June 2019 15:05:17 Hui Wang wrote:
-> On a latest Lenovo laptop, the trackpoint and 3 buttons below it
-> don't work at all, when we move the trackpoint or press those 3
-> buttons, the kernel will print out:
-> "Rejected trackstick packet from non DualPoint device"
+On Wednesday, June 12, 2019 12:02:21 AM CEST Jiri Kosina wrote:
+> On Tue, 11 Jun 2019, Rafael J. Wysocki wrote:
 > 
-> This device is identified as alps touchpad but the packet has
-> trackpoint format, so the alps.c drops the packet and prints out
-> the message above.
+> > I noticed that the cordless mouse used by me with one of the machines here
+> > stopped to work in 5.2-rc (up to and including the -rc4).
+> > 
+> > Bisection turned up commit 74808f9115ce ("HID: logitech-dj: add support for non
+> > unifying receivers").
+> > 
+> > Of course, that commit does not revert cleanly from 5.2-rc4, but I have reverted
+> > the changes made by it in hid/hid-ids.h and I took the version of hid/hid-logitech-dj.c
+> > from commit b6aeeddef68d ("HID: logitech-dj: add logi_dj_recv_queue_unknown_work
+> > helper"), which is the parent of commit 74808f9115ce, and that made the mouse
+> > work again for me.
+> > 
+> > Here's the output of "dmesg | grep -i logitech" from 5.2-rc4 with the above changes:
+> > 
+> > [    4.288905] usb 1-2: Manufacturer: Logitech
+> > [    5.444621] input: Logitech USB Receiver as /devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.0/0003:046D:C52F.0002/input/input23
+> > [    5.446960] hid-generic 0003:046D:C52F.0002: input,hidraw1: USB HID v1.11 Mouse [Logitech USB Receiver] on usb-0000:00:14.0-2/input0
+> > [    5.451265] input: Logitech USB Receiver Consumer Control as /devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.1/0003:046D:C52F.0003/input/input24
+> > [    5.507545] hid-generic 0003:046D:C52F.0003: input,hiddev96,hidraw2: USB HID v1.11 Device [Logitech USB Receiver] on usb-0000:00:14.0-2/input1
 > 
-> According to XiaoXiao's explanation, this device is named cs19 and
-> is trackpoint-only device, its firmware is only for trackpoint, it
-> is independent of touchpad and is a completely different device from
-> DualPoint ones.
+> Hi Rafael,
 > 
-> To drive this device with mininal changes to the existing driver, we
-> just let the alps driver not handle this device, then the trackpoint.c
-> will be the driver of this device.
+> 0x046d/0xc52f is known to have issues in 5.2-rcX. There is a patch queued 
+> [1] that is believed to fix all this; my plan is to send it to Linus in 
+> the coming 1-2 days. If you could report whether it fixes the issues 
+> you've been seeing yourself as well, it'd be helpful.
 > 
-> With the trackpoint.c, this trackpoint and 3 buttons all work well,
-> they have all features that the trackpoint should have, like
-> scrolling-screen, drag-and-drop and frame-selection.
+> Thanks.
 > 
-> Signed-off-by: XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
-> Signed-off-by: Hui Wang <hui.wang@canonical.com>
-> ---
->  drivers/input/mouse/alps.c | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
-> 
-> diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
-> index 0a6f7ca883e7..ff522cd980a0 100644
-> --- a/drivers/input/mouse/alps.c
-> +++ b/drivers/input/mouse/alps.c
-> @@ -24,6 +24,7 @@
->  
->  #include "psmouse.h"
->  #include "alps.h"
-> +#include "trackpoint.h"
->  
->  /*
->   * Definitions for ALPS version 3 and 4 command mode protocol
-> @@ -2864,6 +2865,24 @@ static const struct alps_protocol_info *alps_match_table(unsigned char *e7,
->  	return NULL;
->  }
->  
-> +static bool alps_is_cs19_trackpoint(struct psmouse *psmouse)
-> +{
-> +	u8 param[2] = { 0 };
-> +	int error;
-> +
-> +	error = ps2_command(&psmouse->ps2dev,
-> +			    param, MAKE_PS2_CMD(0, 2, TP_READ_ID));
-> +	if (error)
-> +		return false;
-> +
-> +	if (param[0] == TP_VARIANT_ALPS && param[1] & 0x20) {
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=for-5.2/fixes&id=3ed224e273ac5880eeab4c3043a6b06b0478dd56
 
-Hi!
+It kind of helps, but there is a catch.
 
-Do we need to check firmware id? Is not check for "any alps trackpoint"
-enough? If in future there would be more alps trackpoint-only devices it
-probably have different firmware id.
+hid-logitech-dj is not loaded after a fresh boot, so I need to modprobe it manually and that
+appears to be blocking (apparently indefinitely) until terminated with ^C.  But then it turns
+out that hid-logitech-dj is there in the list of modules and it is in use (by usbhid) and the
+mouse works.
 
-Also you need to put param[1] & 0x20 into parenthesis due to priority of
-& and && operators.
+I guess I need to update the mkinitrd configuration, but even so that is not exactly
+straightforward IMO. :-)
 
-Also, what about making trackpoint_start_protocol() function non-static
-and use it in alps_is_c19_trackpoint implementation? It is doing exactly
-same thing.
+Cheers!
 
-> +		psmouse_dbg(psmouse, "It is an ALPS trackpoint-only device (CS19)\n");
-> +		return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->  static int alps_identify(struct psmouse *psmouse, struct alps_data *priv)
->  {
->  	const struct alps_protocol_info *protocol;
-> @@ -2883,6 +2902,15 @@ static int alps_identify(struct psmouse *psmouse, struct alps_data *priv)
->  	if ((e6[0] & 0xf8) != 0 || e6[1] != 0 || (e6[2] != 10 && e6[2] != 100))
->  		return -EINVAL;
->  
-> +	/*
-> +	 * ALPS cs19 is a trackpoint-only device, it is completely independent
-> +	 * of touchpad. So it is a different device from DualPoint ones, if it
-> +	 * is identified as a cs19 trackpoint device, we return -EINVAL here and
-> +	 * let trackpoint.c drive this device.
-> +	 */
-> +	if (alps_is_cs19_trackpoint(psmouse))
-> +		return -EINVAL;
-> +
 
-This change is not ideal as this function would be called two times, see
-alps_detect(). I would suggest to think more about detection and come up
-with better solution so above trackpoint check would called only once
-during PS/2 device detection.
 
-Calling that trackpoint check two times is useless and just increase
-detection time of PS/2 devices.
-
->  	/*
->  	 * Now get the "E7" and "EC" reports.  These will uniquely identify
->  	 * most ALPS touchpads.
-
--- 
-Pali Rohár
-pali.rohar@gmail.com
