@@ -2,151 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4B4D41F8B
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 10:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FCBA41FEB
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 10:54:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730353AbfFLIq2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Jun 2019 04:46:28 -0400
-Received: from mailu01.usrpro.com ([116.203.53.249]:43288 "EHLO
-        mailu01.usrpro.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726731AbfFLIq2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jun 2019 04:46:28 -0400
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by mailu01.usrpro.com (Postfix) with ESMTPA id 993F45DC42A
-        for <linux-input@vger.kernel.org>; Wed, 12 Jun 2019 08:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=usrpro.com; s=dkim;
-        t=1560329186; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ChtgBnC0UtNFC+XvolHglHRMcozrbeFGw/gOeXI5GKY=;
-        b=XRzEV9HISzB1crzKyv/3guiOVZCH0XVpbegIys1d2ZDWns2WAEiafrwK8aO9U+G780P8A3
-        EwOY4mBEDCoe0ZOjak+6q1XoYwurWEP3CPh3yRQrf9kewpq5tDm/zQbhzrJae7rMlPok8N
-        Jp3/stwwmDO5+m0qr227PPVGhwda+lI=
-Date:   Wed, 12 Jun 2019 10:45:45 +0200
-In-Reply-To: <df3db17a-db2c-b8b8-e399-271149ea9b76@usrpro.com>
-References: <df3db17a-db2c-b8b8-e399-271149ea9b76@usrpro.com>
+        id S2437380AbfFLIyg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Jun 2019 04:54:36 -0400
+Received: from butterbrot.org ([176.9.106.16]:47224 "EHLO butterbrot.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731874AbfFLIyf (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 12 Jun 2019 04:54:35 -0400
+X-Greylist: delayed 508 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Jun 2019 04:54:33 EDT
+Received: from [141.54.178.119] (anna125.medien.uni-weimar.de [141.54.178.119])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by butterbrot.org (Postfix) with ESMTPSA id AD0264AE02E1;
+        Wed, 12 Jun 2019 10:46:04 +0200 (CEST)
+Subject: Re: [PATCH 5/7 RESEND] touchscreen/sur40: set device_caps in struct
+ video_device
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        linux-input <linux-input@vger.kernel.org>
+References: <20190604111958.22331-1-hverkuil-cisco@xs4all.nl>
+ <1e12bc3d-3cb3-1f3d-b3bc-b25e3bf95523@xs4all.nl>
+ <20190604160650.GA226219@dtor-ws>
+From:   Florian Echtler <floe@butterbrot.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=floe@butterbrot.org; prefer-encrypt=mutual; keydata=
+ mQGiBDuvTgcRBAD3yCehD8VSv9/5ALV2PGNpRyPd/H7y4E0nh/fNHjOtq/Iy822ZQgPxP9+a
+ nbtC7KMzT0JIr5ontFH4TuMxikeE92ID+h0a755FiHAtSACXzNcLY370YfRJuTQMBANEwf/T
+ ozY7clf8uZc9emk0TLQJ7ZFksRAxd2Ql3lyGlM+jEQCg/6aPMk/pV3Jjfz01dckZH65DSb0E
+ AKcZOV/KpQwPqRE1L7yEax19p1+38InBhGQg5ZORsPDXNDKAx5TovSM/4H68DzVjCTtb1Qig
+ E2InSlT4qxOZq2hTIwsbUrl4YrOLG0msYeB+1avaVCxkjEs4e6fYX9VvJxUdgkYSmwWxzSGK
+ wiEeRlbcNGdKeVKYezNyjRKO5OnSBACb3t89sJsqaotwh+CO4cwgKbjIgHnIjH5TminqiGt9
+ chYXGA+IjkVef+Q/pWRzXj4IDC1gubW5GELuMa6WO+aMchJKfD4VDflvdUqWTuXKj6qjwxnY
+ qtX/3O7QwVFoVgkPqsl8goAPSGk5lWHIvKJJUSMFgjWG+BafnppZs/R+BbQlRmxvcmlhbiBF
+ Y2h0bGVyIDxmbG9lQGJ1dHRlcmJyb3Qub3JnPohjBBMRAgAjAhsDBgsJCAcDAgQVAggDBBYC
+ AwECHgECF4AFAk47tRkCGQEACgkQ7CzyshGvatgVzgCg9kkfrcPWEmqSADhAX4Bj83gZQEgA
+ n1PrIrMQE85069aGgJE/kuMyWUJcuQINBDuvTggQCAD2Qle3CH8IF3KiutapQvMF6PlTETlP
+ tvFuuUs4INoBp1ajFOmPQFXz0AfGy0OplK33TGSGSfgMg71l6RfUodNQ+PVZX9x2Uk89PY3b
+ zpnhV5JZzf24rnRPxfx2vIPFRzBhznzJZv8V+bv9kV7HAarTW56NoKVyOtQa8L9GAFgr5fSI
+ /VhOSdvNILSd5JEHNmszbDgNRR0PfIizHHxbLY7288kjwEPwpVsYjY67VYy4XTjTNP18F1dD
+ ox0YbN4zISy1Kv884bEpQBgRjXyEpwpy1obEAxnIByl6ypUM2Zafq9AKUJsCRtMIPWakXUGf
+ nHy9iUsiGSa6q6Jew1XpMgs7AAICCACB1zq0sSVcye/cvwTnHZyGvILT6VU8+xUxvmG9ota2
+ yuk9A+0GSnDpjNxyBkmDBVQkLLvW8lBErPYvaq9pFMeYntOhYwRP31e7rbsWh48QjfkL5M/X
+ Q5kFCTO4jVXHXYJ034x0vXamDDzFbAdUg/V/zN+KRIcEZcs8foIgC7BR6i/TsCsFHN3OHAmk
+ hZ8NRB//UIJXxq3CcBXLiu2OGFrfoSvpAp5OzMyrWneMCaySmN/i3wSYl6h3Nl4YRMH6Yx+E
+ RnNF5/cy3xUZODG1JHnEw+owc0dl3ch+oQe0t3zN5LGAznf7hYmOYl27xvym/FVA/skTD1wM
+ MZhfxLVyis75iFQEGBECAAwFAjuvTggFGwwAAAAAEgkQ7CzyshGvatgHZUdQRwABASUVAKC7
+ c7SIc/xurEhWVpzt1wPPsPOQ2wCglsSZ1yg7JIMh4o+a178IK9ozwQY=
+Message-ID: <f5596ce1-8941-361d-4ce5-0f9a9ddc8cd7@butterbrot.org>
+Date:   Wed, 12 Jun 2019 10:46:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: Synaptics i2c and rmi: dmesg requested to send report
-To:     linux-input@vger.kernel.org
-From:   Tim Mohlmann <tim@usrpro.com>
-Message-ID: <7CDB47F5-65C2-4B09-8C02-EE72D4EAE1BE@usrpro.com>
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=usrpro.com;
-        s=dkim; t=1560329186; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ChtgBnC0UtNFC+XvolHglHRMcozrbeFGw/gOeXI5GKY=;
-        b=QmjZ06FJYSJCwmC8Y8FeQNWJ4G34SEcHeFNbodyholPlU072I4zTK5yIJEGCLkiowe0Tnn
-        W4Tl2AlZeeYXuqWSVIlLpaKECuvzpB5DK/KGpMt74QmR0d50ciEHNWPXtIeS0o6xwM/CBD
-        OCn+7XQTlp9z/ns+gts7fphVPbuFF+Q=
-ARC-Seal: i=1; s=dkim; d=usrpro.com; t=1560329186; a=rsa-sha256; cv=none;
-        b=pA16ULOx5gOpbbSZ14Au3B+Yvj4eQZ3YYpgt3eFCw4vYp1DCE+nhhXszr5QBN4zupEuuju98a1715XL3PKc/AjbKq3Fn9N7jF8OoAi6NG46M1Oths6UMaS2DAiP3j/pRVEr1LusQ8G2bzeJ1fnUYCUpVq/sCpORcpXmDoBD/FwM=
-ARC-Authentication-Results: i=1; mailu01.usrpro.com;
-        auth=pass smtp.auth=tim@usrpro.com smtp.mailfrom=tim@usrpro.com
-Authentication-Results: mailu01.usrpro.com;
-        auth=pass smtp.auth=tim@usrpro.com smtp.mailfrom=tim@usrpro.com
-X-Spamd-Bar: /
+In-Reply-To: <20190604160650.GA226219@dtor-ws>
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature";
+ boundary="OmGGMxV5sU72RZx837H7iojT8jQpnxAZ8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Good day again,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--OmGGMxV5sU72RZx837H7iojT8jQpnxAZ8
+Content-Type: multipart/mixed; boundary="4SmceJjmQKnaZWHePL2qzCp5HwBk4ToVg";
+ protected-headers="v1"
+From: Florian Echtler <floe@butterbrot.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ linux-input <linux-input@vger.kernel.org>
+Message-ID: <f5596ce1-8941-361d-4ce5-0f9a9ddc8cd7@butterbrot.org>
+Subject: Re: [PATCH 5/7 RESEND] touchscreen/sur40: set device_caps in struct
+ video_device
+References: <20190604111958.22331-1-hverkuil-cisco@xs4all.nl>
+ <1e12bc3d-3cb3-1f3d-b3bc-b25e3bf95523@xs4all.nl>
+ <20190604160650.GA226219@dtor-ws>
+In-Reply-To: <20190604160650.GA226219@dtor-ws>
 
-I have not received any response on below message=2E However, I believe I'=
-ve done my civil duty by reporting this=2E No hard feelings, but I intend t=
-o unsubscribe from this ML as I don't have any other business here=2E
+--4SmceJjmQKnaZWHePL2qzCp5HwBk4ToVg
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
 
-So unless there are some additional questions in the comming day, I will c=
-onsider this case closed and I'll unsubscribe=2E
+Sorry, didn't realize you'd also need my feedback. No complaints.
 
-Thanks for your continuous effort on the kernel input drivers ;)=2E
+Acked-by: Florian Echtler <floe@butterbrot.org>
 
-Tim Mohlmann
+Best, Florian
 
-On 27 May 2019 13:08:13 CEST, Tim Mohlmann <tim@usrpro=2Ecom> wrote:
->Good day,
->
->I'm sending this report as suggested by dmesg message:
->
->psmouse serio2: synaptics: Your touchpad (PNP: SYN1218 PNP0f13) says it
->can support a different bus=2E If i2c-hid and hid-rmi are not used, you
->might want to try setting psmouse=2Esynaptics_intertouch to 1 and report
->this to linux-input@vger=2Ekernel=2Eorg=2E
->
->Checked in /proc/bus/input/devices:
->
->I: Bus=3D0011 Vendor=3D0002 Product=3D0007 Version=3D01b1
->N: Name=3D"SynPS/2 Synaptics TouchPad"
->P: Phys=3Disa0060/serio2/input0
->S: Sysfs=3D/devices/platform/i8042/serio2/input/input10
->U: Uniq=3D
->H: Handlers=3Devent5
->B: PROP=3D1
->B: EV=3Db
->B: KEY=3De520 30000 0 0 0 0
->B: ABS=3D660800011000003
->
->So I've set psmouse=2Esynaptics_intertouch=3D1 on kernel command line and
->after reboot:
->
->I: Bus=3D001d Vendor=3D06cb Product=3D0000 Version=3D0000
->N: Name=3D"Synaptics TM3189-001"
->P: Phys=3Drmi4-00/input0
->S: Sysfs=3D/devices/rmi4-00/input/input11
->U: Uniq=3D
->H: Handlers=3Devent5
->B: PROP=3D1
->B: EV=3Db
->B: KEY=3De520 30000 0 0 0 0
->B: ABS=3D6f3800001000003
->
->Its worth to mention that the touchpad worked using PS/2, but was a bit
->choppy in its response=2E It works way better after setting
->psmouse=2Esynaptics_intertouch=3D1=2E
->
->I don't now the make of the touchpad, as it does not show up in lspci=2E
->It's part of a custom built laptop, based on a Clevo N350DW model=2E
->Hopefully the above vendor ID is all you need=2E
->
->|$ uname -r 5=2E1=2E4-gentoo $ grep -E 'INPUT|I2C_HID|HID_RMI' =2Econfig
->CONFIG_RFKILL_INPUT=3Dy CONFIG_INPUT=3Dy CONFIG_INPUT_LEDS=3Dm
->CONFIG_INPUT_FF_MEMLESS=3Dy CONFIG_INPUT_POLLDEV=3Dy
->CONFIG_INPUT_SPARSEKMAP=3Dm # CONFIG_INPUT_MATRIXKMAP is not set #
->CONFIG_INPUT_MOUSEDEV is not set # CONFIG_INPUT_JOYDEV is not set
->CONFIG_INPUT_EVDEV=3Dy # CONFIG_INPUT_EVBUG is not set
->CONFIG_INPUT_KEYBOARD=3Dy CONFIG_INPUT_MOUSE=3Dy CONFIG_INPUT_JOYSTICK=3D=
-y
->CONFIG_INPUT_TABLET=3Dy CONFIG_INPUT_TOUCHSCREEN=3Dy CONFIG_INPUT_MISC=3D=
-y #
->CONFIG_INPUT_AD714X is not set # CONFIG_INPUT_BMA150 is not set #
->CONFIG_INPUT_E3X0_BUTTON is not set # CONFIG_INPUT_MSM_VIBRATOR is not
->set # CONFIG_INPUT_PCSPKR is not set # CONFIG_INPUT_MMA8450 is not set
->#
->CONFIG_INPUT_APANEL is not set # CONFIG_INPUT_ATLAS_BTNS is not set #
->CONFIG_INPUT_ATI_REMOTE2 is not set # CONFIG_INPUT_KEYSPAN_REMOTE is
->not
->set # CONFIG_INPUT_KXTJ9 is not set # CONFIG_INPUT_POWERMATE is not set
-># CONFIG_INPUT_YEALINK is not set # CONFIG_INPUT_CM109 is not set #
->CONFIG_INPUT_UINPUT is not set # CONFIG_INPUT_PCF8574 is not set #
->CONFIG_INPUT_ADXL34X is not set # CONFIG_INPUT_IMS_PCU is not set #
->CONFIG_INPUT_CMA3000 is not set # CONFIG_INPUT_IDEAPAD_SLIDEBAR is not
->set # CONFIG_INPUT_DRV2665_HAPTICS is not set #
->CONFIG_INPUT_DRV2667_HAPTICS is not set
->CONFIG_USB_VIDEO_CLASS_INPUT_EVDEV=3Dy CONFIG_USB_PWC_INPUT_EVDEV=3Dy
->CONFIG_SND_JACK_INPUT_DEV=3Dy # CONFIG_SND_HDA_INPUT_BEEP is not set
->CONFIG_HID_RMI=3Dy CONFIG_I2C_HID=3Dy|
->
->Let me know if there is anything else you need from me=2E
->
->Br, Tim Mohlmann
+On 04.06.19 18:06, Dmitry Torokhov wrote:
+> Hi Hans,
+>=20
+> On Tue, Jun 04, 2019 at 02:36:27PM +0200, Hans Verkuil wrote:
+>> Instead of filling in the struct v4l2_capability device_caps
+>> field, fill in the struct video_device device_caps field.
+>>
+>> That way the V4L2 core knows what the capabilities of the
+>> video device are.
+>>
+>> But this only really works if all drivers use this, so convert
+>> this touchscreen driver accordingly.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Cc: Florian Echtler <floe@butterbrot.org>
+>> ---
+>> Resend, adding Dmitry and linux-input to the CC list.
+>>
+>> Dmitry, if you want to take this through your tree, then that's OK by =
+me.
+>>
+>> Alternatively, it can go through the media tree, but then I need your =
+Ack.
+>=20
+> I am fine with it going through media tree.
+>=20
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>=20
+> Thanks.
+>=20
+
 
 --=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
+SENT FROM MY DEC VT50 TERMINAL
+
+
+--4SmceJjmQKnaZWHePL2qzCp5HwBk4ToVg--
+
+--OmGGMxV5sU72RZx837H7iojT8jQpnxAZ8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQST4FP0cQIAgRXjMjXsLPKyEa9q2AUCXQC7yQAKCRDsLPKyEa9q
+2FXqAKCgwgvkY+GadEcjmhn3sGrRJFYm7ACgkCxEuabz4oErXr0FbnQr0Ry7Z0s=
+=kqrj
+-----END PGP SIGNATURE-----
+
+--OmGGMxV5sU72RZx837H7iojT8jQpnxAZ8--
