@@ -2,57 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26C7B44978
-	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2019 19:18:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B08BC44977
+	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2019 19:18:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728367AbfFMRRg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Jun 2019 13:17:36 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:46210 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728364AbfFLVTx (ORCPT
+        id S1728380AbfFMRRf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Jun 2019 13:17:35 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:39722 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728367AbfFLVTz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jun 2019 17:19:53 -0400
-Received: by mail-pl1-f196.google.com with SMTP id e5so7137510pls.13
-        for <linux-input@vger.kernel.org>; Wed, 12 Jun 2019 14:19:52 -0700 (PDT)
+        Wed, 12 Jun 2019 17:19:55 -0400
+Received: by mail-pf1-f196.google.com with SMTP id j2so10406411pfe.6
+        for <linux-input@vger.kernel.org>; Wed, 12 Jun 2019 14:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=TgBqO5bqG7zM63JLBbZ1qUW+9HfnA+3bsQPxH+q5gG0=;
-        b=b3mvr9//KARy849IUyRRXsqlXlcbvxvEOoSCeriYajvzAWzhO9k+AqNHSQZdg7zDCF
-         8AfjYTDgM2DGh9ymO6leV3KGmb3+hT8FAyVvseTrpNL+bLDtACzM/oC61+G0Y3lnQH0d
-         eAB5dwALRuW4X6J0HcygnIUKVxfo1EtiHpL/INRlxjuXeimxfRCMAH1LQazivZOCR/0k
-         jHhgGQsimrTAud0ApI0c9FVcSeXE1ihqVcys1nPJhxs5i9YkDyb9rc3QolvXTIHFLwxO
-         ckTUeJgsjLT+LWWTuQpmO6KEvhHtO2ti8zBkWYJDniJ/QrdUeQTIWoJlcN4YzjSnU6ST
-         5rvg==
+        bh=+Gs3dUnf0lvFU6Y9D7j4o8m55XLSOT6vzM8Pt6nXjys=;
+        b=jyuvLfQRkx7P8zsLYFIVI/BGnj+qjLHvwn1XelpvFCZrHOtATpyWG4jvgdUqGBsZCF
+         p2H7LpdQpvV1BY8lm0IFbutKaUXIJEiTIuJ/LrIRajoXxQLrZjCt3pb5LceNc5I8zNFj
+         RvtY40GTRTEwBhDY6w28fTiyITN8DVwbRxr+7Z2SUQN7xdnkcWwJmWUH2Xx/J6kStkG+
+         N1b9ye/sio+kZIUfYms4WjtJWgmEVus3goaY5L7wwWcbHgIcN+/SGA8FfmHXO6trrISb
+         IwDUdPyNZZrwDoKNI6QYOcT7hk7BpdLGcgTzetx7cVG3VYJ5WreINKOquuRjfVSMPanD
+         Jx7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=TgBqO5bqG7zM63JLBbZ1qUW+9HfnA+3bsQPxH+q5gG0=;
-        b=ewnYdOdVok4KxtVyzRSshCwsBZZWTchwnWrd8tDooX3syKpMEUMzQyIbi9mM+Dzqn3
-         WFOJLTD8AXcTF1yJkdQnUMKTAaD9g+b5NCqViA/MZ5g6vufJpbs2mZb67nqxeJdRPYUo
-         PIdmtcAIOQUK2EzaHKaDTutB4EEqShhb/QAxiWZSP3N1vhFXPOz14KKAXbF2X/skAIgh
-         WuR/ImczfTFHQiDDrBEA0zvpM5IyrJgBVyAJp2usTagylQL0AhY4+JxsDrtmT5VTlZg5
-         uR4VSEHQMwFgn1KdvR8wgKlYAl0Tfg0mUTllh9cS5zsJvn7h4V1E0Kpn262aRIpt7KsB
-         F/gA==
-X-Gm-Message-State: APjAAAXHm0oD9ce7fqkftWpVLmORBt15/9JY2CIy5NxbhuYMBRpta6xe
-        ESiJBvCsnm7uFRpM3gHl0FKLrC1SeP9z8Q==
-X-Google-Smtp-Source: APXvYqzuzLDR0cxy5d7BIAPvakuGXfDGNOTRHHOBseKYjfye9e3q9pgMCLPzuMs5AHRDJ4DWAeriVg==
-X-Received: by 2002:a17:902:29a7:: with SMTP id h36mr31800872plb.158.1560374392060;
-        Wed, 12 Jun 2019 14:19:52 -0700 (PDT)
+        bh=+Gs3dUnf0lvFU6Y9D7j4o8m55XLSOT6vzM8Pt6nXjys=;
+        b=S04hwX48QiP8AOQ+dlvaS7PaGUJN6eE34313k3PIlZa184lOy2qwf3iqZbfffr7J/1
+         wYKUhx+jTy3M4TrK93sDOVKlhhWZ3ZB6VMAlNls+kRHcxn4/bRwfI6kjqj7re+8Sa9Bs
+         tv+/ddiBVQp9h6UWttKUMUtDUvAmUtXR7r+bTSlEh9SQC4zmRN3NURRujwxJSpaLl+4A
+         +bBwhY4Ec2bO3of+H6S32SKcJWnskdrN+GdkwexiOs3PqGaUNb1autpLem0rP5rORE1l
+         VOgOzMII3I09dKZXswQO6BoRKbIzch170VMbIUsObOvOBBwMCFwQ0l3bppUan+BlmfYG
+         0EZg==
+X-Gm-Message-State: APjAAAVYw8U71oG5BrGcvsMnfN+q2RO7Y1YziJxKoHzh7QvbYxqml/wT
+        wSq2/OR7LXs9yqArEZghnefINiJnCwZEzg==
+X-Google-Smtp-Source: APXvYqw14+DbF3TCgkcGMwCdOd2YHpY/Kdfag3x8y7Cl4ovTH1ihlLnYMywhuzLuspRhEDkrWwo5Cw==
+X-Received: by 2002:aa7:8a95:: with SMTP id a21mr89262244pfc.215.1560374394133;
+        Wed, 12 Jun 2019 14:19:54 -0700 (PDT)
 Received: from west.Home ([97.115.133.135])
-        by smtp.googlemail.com with ESMTPSA id m6sm423283pgr.18.2019.06.12.14.19.50
+        by smtp.googlemail.com with ESMTPSA id m6sm423283pgr.18.2019.06.12.14.19.52
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Wed, 12 Jun 2019 14:19:51 -0700 (PDT)
+        Wed, 12 Jun 2019 14:19:53 -0700 (PDT)
 From:   Aaron Armstrong Skomra <skomra@gmail.com>
 X-Google-Original-From: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
 To:     linux-input@vger.kernel.org, jikos@kernel.org,
         benjamin.tissoires@redhat.com, pinglinux@gmail.com,
         jason.gerecke@wacom.com
 Cc:     Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-Subject: [PATCH 1/4] HID: wacom: Add 2nd gen Intuos Pro Small support
-Date:   Wed, 12 Jun 2019 14:19:28 -0700
-Message-Id: <1560374371-2688-2-git-send-email-aaron.skomra@wacom.com>
+Subject: [PATCH 2/4] HID: wacom: generic: read HID_DG_CONTACTMAX from any feature report
+Date:   Wed, 12 Jun 2019 14:19:29 -0700
+Message-Id: <1560374371-2688-3-git-send-email-aaron.skomra@wacom.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1560374371-2688-1-git-send-email-aaron.skomra@wacom.com>
 References: <1560374371-2688-1-git-send-email-aaron.skomra@wacom.com>
@@ -61,147 +61,72 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The existing INTUOSP2_BT device class supports LEDs and this device
-does not. A new device class enum entry, "INTUOSP2S_BT", is created
-to avoid the INTUOSP2_BT LED code.
+In the generic code path, HID_DG_CONTACTMAX was previously
+only read from the second byte of report 0x23.
 
+Another report (0x82) has the HID_DG_CONTACTMAX in the
+higher nibble of the third byte. We should support reading the
+value of HID_DG_CONTACTMAX no matter what report we are reading
+or which position that value is in.
+
+To do this we submit the feature report as a event report
+using hid_report_raw_event(). Our modified finger event path
+records the value of HID_DG_CONTACTMAX when it sees that usage.
+
+Fixes: 8ffffd5212846 ("HID: wacom: fix timeout on probe for some wacoms")
 Signed-off-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
 ---
- drivers/hid/wacom_wac.c | 30 +++++++++++++++++++++++++-----
- drivers/hid/wacom_wac.h |  1 +
- 2 files changed, 26 insertions(+), 5 deletions(-)
+ drivers/hid/wacom_sys.c | 10 ++++++----
+ drivers/hid/wacom_wac.c |  4 ++++
+ 2 files changed, 10 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+index 2e3e03df83da..9ec895e5fd00 100644
+--- a/drivers/hid/wacom_sys.c
++++ b/drivers/hid/wacom_sys.c
+@@ -314,14 +314,16 @@ static void wacom_feature_mapping(struct hid_device *hdev,
+ 		/* leave touch_max as is if predefined */
+ 		if (!features->touch_max) {
+ 			/* read manually */
+-			data = kzalloc(2, GFP_KERNEL);
++			n = hid_report_len(field->report);
++			data = hid_alloc_report_buf(field->report, GFP_KERNEL);
+ 			if (!data)
+ 				break;
+ 			data[0] = field->report->id;
+ 			ret = wacom_get_report(hdev, HID_FEATURE_REPORT,
+-						data, 2, WAC_CMD_RETRIES);
+-			if (ret == 2) {
+-				features->touch_max = data[1];
++					       data, n, WAC_CMD_RETRIES);
++			if (ret == n) {
++				ret = hid_report_raw_event(hdev,
++					HID_FEATURE_REPORT, data, n, 0);
+ 			} else {
+ 				features->touch_max = 16;
+ 				hid_warn(hdev, "wacom_feature_mapping: "
 diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index a98ad4fdcf9e..b764e9d72b5b 100644
+index b764e9d72b5b..678f504239a0 100644
 --- a/drivers/hid/wacom_wac.c
 +++ b/drivers/hid/wacom_wac.c
-@@ -1220,7 +1220,8 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
- 	unsigned char *data = wacom->data;
- 	int i;
+@@ -2492,6 +2492,7 @@ static void wacom_wac_finger_event(struct hid_device *hdev,
+ 	struct wacom *wacom = hid_get_drvdata(hdev);
+ 	struct wacom_wac *wacom_wac = &wacom->wacom_wac;
+ 	unsigned equivalent_usage = wacom_equivalent_usage(usage->hid);
++	struct wacom_features *features = &wacom->wacom_wac.features;
  
--	if (wacom->features.type == INTUOSP2_BT) {
-+	if (wacom->features.type == INTUOSP2_BT ||
-+	    wacom->features.type == INTUOSP2S_BT) {
- 		wacom->serial[0] = get_unaligned_le64(&data[99]);
- 		wacom->id[0]     = get_unaligned_le16(&data[107]);
- 		pen_frame_len = 14;
-@@ -1257,7 +1258,8 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
- 			input_report_abs(pen_input, ABS_X, get_unaligned_le16(&frame[1]));
- 			input_report_abs(pen_input, ABS_Y, get_unaligned_le16(&frame[3]));
- 
--			if (wacom->features.type == INTUOSP2_BT) {
-+			if (wacom->features.type == INTUOSP2_BT ||
-+			    wacom->features.type == INTUOSP2S_BT) {
- 				/* Fix rotation alignment: userspace expects zero at left */
- 				int16_t rotation =
- 					(int16_t)get_unaligned_le16(&frame[9]);
-@@ -1276,7 +1278,8 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
- 			}
- 		}
- 		input_report_abs(pen_input, ABS_PRESSURE, get_unaligned_le16(&frame[5]));
--		if (wacom->features.type == INTUOSP2_BT) {
-+		if (wacom->features.type == INTUOSP2_BT ||
-+		    wacom->features.type == INTUOSP2S_BT) {
- 			input_report_abs(pen_input, ABS_DISTANCE,
- 					 range ? frame[13] : wacom->features.distance_max);
- 		} else {
-@@ -1436,7 +1439,8 @@ static int wacom_intuos_pro2_bt_irq(struct wacom_wac *wacom, size_t len)
+ 	switch (equivalent_usage) {
+ 	case HID_GD_X:
+@@ -2512,6 +2513,9 @@ static void wacom_wac_finger_event(struct hid_device *hdev,
+ 	case HID_DG_TIPSWITCH:
+ 		wacom_wac->hid_data.tipswitch = value;
+ 		break;
++	case HID_DG_CONTACTMAX:
++		features->touch_max = value;
++		return;
  	}
  
- 	wacom_intuos_pro2_bt_pen(wacom);
--	if (wacom->features.type == INTUOSP2_BT) {
-+	if (wacom->features.type == INTUOSP2_BT ||
-+	    wacom->features.type == INTUOSP2S_BT) {
- 		wacom_intuos_pro2_bt_touch(wacom);
- 		wacom_intuos_pro2_bt_pad(wacom);
- 		wacom_intuos_pro2_bt_battery(wacom);
-@@ -3204,6 +3208,7 @@ void wacom_wac_irq(struct wacom_wac *wacom_wac, size_t len)
- 		break;
  
- 	case INTUOSP2_BT:
-+	case INTUOSP2S_BT:
- 	case INTUOSHT3_BT:
- 		sync = wacom_intuos_pro2_bt_irq(wacom_wac, len);
- 		break;
-@@ -3384,7 +3389,8 @@ void wacom_setup_device_quirks(struct wacom *wacom)
- 	if (features->type == REMOTE)
- 		features->device_type = WACOM_DEVICETYPE_PAD;
- 
--	if (features->type == INTUOSP2_BT) {
-+	if (features->type == INTUOSP2_BT ||
-+	    features->type == INTUOSP2S_BT) {
- 		features->device_type |= WACOM_DEVICETYPE_PEN |
- 					 WACOM_DEVICETYPE_PAD |
- 					 WACOM_DEVICETYPE_TOUCH;
-@@ -3565,6 +3571,7 @@ int wacom_setup_pen_input_capabilities(struct input_dev *input_dev,
- 	case INTUOS5S:
- 	case INTUOSPS:
- 	case INTUOSP2_BT:
-+	case INTUOSP2S_BT:
- 		input_set_abs_params(input_dev, ABS_DISTANCE, 0,
- 				      features->distance_max,
- 				      features->distance_fuzz, 0);
-@@ -3676,6 +3683,7 @@ int wacom_setup_touch_input_capabilities(struct input_dev *input_dev,
- 
- 	switch (features->type) {
- 	case INTUOSP2_BT:
-+	case INTUOSP2S_BT:
- 		input_dev->evbit[0] |= BIT_MASK(EV_SW);
- 		__set_bit(SW_MUTE_DEVICE, input_dev->swbit);
- 
-@@ -3691,6 +3699,12 @@ int wacom_setup_touch_input_capabilities(struct input_dev *input_dev,
- 			input_set_abs_params(input_dev, ABS_MT_POSITION_Y,
- 					     0, 5920, 4, 0);
- 		}
-+		else if (wacom_wac->shared->touch->product == 0x393) {
-+			input_set_abs_params(input_dev, ABS_MT_POSITION_X,
-+					     0, 6400, 4, 0);
-+			input_set_abs_params(input_dev, ABS_MT_POSITION_Y,
-+					     0, 4000, 4, 0);
-+		}
- 		input_abs_set_res(input_dev, ABS_MT_POSITION_X, 40);
- 		input_abs_set_res(input_dev, ABS_MT_POSITION_Y, 40);
- 
-@@ -3997,6 +4011,7 @@ int wacom_setup_pad_input_capabilities(struct input_dev *input_dev,
- 	case INTUOS5S:
- 	case INTUOSPS:
- 	case INTUOSP2_BT:
-+	case INTUOSP2S_BT:
- 		input_set_abs_params(input_dev, ABS_WHEEL, 0, 71, 0, 0);
- 		break;
- 
-@@ -4574,6 +4589,10 @@ static const struct wacom_features wacom_features_0x37A =
- static const struct wacom_features wacom_features_0x37B =
- 	{ "Wacom One by Wacom M", 21600, 13500, 2047, 63,
- 	  BAMBOO_PEN, WACOM_INTUOS_RES, WACOM_INTUOS_RES };
-+static const struct wacom_features wacom_features_0x393 =
-+	{ "Wacom Intuos Pro S", 31920, 19950, 8191, 63,
-+	  INTUOSP2S_BT, WACOM_INTUOS3_RES, WACOM_INTUOS3_RES, 7,
-+	  .touch_max = 10 };
- 
- static const struct wacom_features wacom_features_HID_ANY_ID =
- 	{ "Wacom HID", .type = HID_GENERIC, .oVid = HID_ANY_ID, .oPid = HID_ANY_ID };
-@@ -4746,6 +4765,7 @@ const struct hid_device_id wacom_ids[] = {
- 	{ BT_DEVICE_WACOM(0x379) },
- 	{ USB_DEVICE_WACOM(0x37A) },
- 	{ USB_DEVICE_WACOM(0x37B) },
-+	{ BT_DEVICE_WACOM(0x393) },
- 	{ USB_DEVICE_WACOM(0x4001) },
- 	{ USB_DEVICE_WACOM(0x4004) },
- 	{ USB_DEVICE_WACOM(0x5000) },
-diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
-index f67d871841c0..48f08f8a556d 100644
---- a/drivers/hid/wacom_wac.h
-+++ b/drivers/hid/wacom_wac.h
-@@ -215,6 +215,7 @@ enum {
- 	INTUOSPM,
- 	INTUOSPL,
- 	INTUOSP2_BT,
-+	INTUOSP2S_BT,
- 	INTUOSHT3_BT,
- 	WACOM_21UX2,
- 	WACOM_22HD,
 -- 
 2.17.1
 
