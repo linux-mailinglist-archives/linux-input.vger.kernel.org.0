@@ -2,67 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1729A426E4
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 15:03:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86D4F426BE
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 14:55:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730567AbfFLNDA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Jun 2019 09:03:00 -0400
-Received: from myself5.de ([5.230.26.43]:43438 "EHLO myself5.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730214AbfFLNDA (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jun 2019 09:03:00 -0400
-X-Greylist: delayed 1199 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Jun 2019 09:02:59 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=myself5.de; s=mail;
-        h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From; bh=kaMCzSe33t2mDZfL48JawC3dylTfnzOCvJpCgH+Tfh4=;
-        b=PX/6A62NkVlH5hV5ULbHDmAaJnJh1oyv29QSxNEZkz3QZ3MWWlr24JbUTes84szYkTTfomClnBuf6ruPr9crcW5D7rrYauHYMjaqJm0gP7G2IDhC5PbRkjXhDqDu3Ch2T2+E8ZnhUvCIJDQFy6/WKbnt6dXHcYega9Qq6viHPGyUPThaIQNuCwkaqI5nRPHZq5nd2FsF3UMlE+yZfMdY+fPqbFuo/wZUMbaTky2HJuA02TYpOQD60gGiZOIccwBMmlMCLtST45wkoo4Zk+Pe0S/CMdq8iA6Kmv7u0r4MYrckT4Rt+KIr/exgXleJhDTYplsdRBGrxOYkWqURMDi4nQ==;
-Received: from hsi-kbw-046-005-003-194.hsi8.kabel-badenwuerttemberg.de ([46.5.3.194] helo=localhost)
-        by myself5.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.84_2)
-        (envelope-from <gpg@myself5.de>)
-        id 1hb2aZ-0005Hv-Um; Wed, 12 Jun 2019 14:42:52 +0200
-From:   Christian Oder <me@myself5.de>
-Cc:     Christian Oder <me@myself5.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
+        id S2438481AbfFLMzW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Jun 2019 08:55:22 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:43731 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2438441AbfFLMzW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 12 Jun 2019 08:55:22 -0400
+Received: by mail-ed1-f67.google.com with SMTP id w33so25571364edb.10
+        for <linux-input@vger.kernel.org>; Wed, 12 Jun 2019 05:55:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=aD69m6otj68UH0Q7gUM0VGrtwF15HpBY3jIEQiF8Flk=;
+        b=kN3DT5xK/y8Bc4Gzgqs4Kwc9edN+58F1RWQs/A2l3x2uatO3qyYZLqf9AUN1Oe7eOh
+         LFdRoLo7BfDsF5yseg6Jhw7TkOaPxOaS9DdfSoEpWGAcXnGLxTAxn/IGfDbkicvZjHoS
+         ZUNtKqvG3iydDly8HAMHJJsqQt6eKVbK4beyHZTk19hbvo1fUqNlx1YOeRK9OFAr9kNE
+         Jp1oBlaRR+KrQexuCjAFiuZg0H8pxXAzP5mxUrn07njccUxxQMjmlUyS2Xy6YJICLQqC
+         fnTmLFVd0q9ysNlzN8hVr3L1GAdY7tYilu1E/hcuvwULv/qH2Y2G1uCZnXR9cTlgxFh1
+         NJMw==
+X-Gm-Message-State: APjAAAUyW8R1uUYXwHBteAAxzPn3wsGV3EjJOvd166yGVLyu/bNeWYk5
+        lRlGiZ/t+XTp0iYMKEACHzf2yA==
+X-Google-Smtp-Source: APXvYqyhz7ko/MVJXRvdEbK38K+R1dfbCIspcF/HYfRDUZR8RTCSLzD3QIbIVDj3ba/Wtxy12sgefQ==
+X-Received: by 2002:aa7:d30d:: with SMTP id p13mr4360291edq.292.1560344120330;
+        Wed, 12 Jun 2019 05:55:20 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id m4sm4526164edc.24.2019.06.12.05.55.19
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 12 Jun 2019 05:55:19 -0700 (PDT)
+Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Update Hi10 Air filter
+To:     Christian Oder <me@myself5.de>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/x86: touchscreen_dmi: Update Hi10 Air filter
-Date:   Wed, 12 Jun 2019 14:40:53 +0200
-Message-Id: <20190612124053.119182-1-me@myself5.de>
-X-Mailer: git-send-email 2.21.0
+References: <20190612124053.119182-1-me@myself5.de>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <736848fd-1c45-0bd9-bfd1-747c716bd953@redhat.com>
+Date:   Wed, 12 Jun 2019 14:55:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <20190612124053.119182-1-me@myself5.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Turns out the Hi10 Air is built by multiple companies so using Hampoo
-as a filter is not enough to cover all variants.
+Hi,
 
-This has been verified as working on the Hampoo and Morshow version.
+On 12-06-19 14:40, Christian Oder wrote:
+> Turns out the Hi10 Air is built by multiple companies so using Hampoo
+> as a filter is not enough to cover all variants.
+> 
+> This has been verified as working on the Hampoo and Morshow version.
+> 
+> Signed-off-by: Christian Oder <me@myself5.de>
 
-Signed-off-by: Christian Oder <me@myself5.de>
----
- drivers/platform/x86/touchscreen_dmi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Patch looks good to me:
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index b662cb2d7cd5..61e7c4987d0d 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -597,7 +597,8 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
- 		/* Chuwi Hi10 Air */
- 		.driver_data = (void *)&chuwi_hi10_air_data,
- 		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
-+			DMI_MATCH(DMI_SYS_VENDOR, "CHUWI INNOVATION AND TECHNOLOGY(SHENZHEN)CO.LTD"),
-+			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
- 			DMI_MATCH(DMI_PRODUCT_SKU, "P1W6_C109D_B"),
- 		},
- 	},
--- 
-2.21.0
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
+Regards,
+
+Hans
+
+
+> ---
+>   drivers/platform/x86/touchscreen_dmi.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+> index b662cb2d7cd5..61e7c4987d0d 100644
+> --- a/drivers/platform/x86/touchscreen_dmi.c
+> +++ b/drivers/platform/x86/touchscreen_dmi.c
+> @@ -597,7 +597,8 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+>   		/* Chuwi Hi10 Air */
+>   		.driver_data = (void *)&chuwi_hi10_air_data,
+>   		.matches = {
+> -			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
+> +			DMI_MATCH(DMI_SYS_VENDOR, "CHUWI INNOVATION AND TECHNOLOGY(SHENZHEN)CO.LTD"),
+> +			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
+>   			DMI_MATCH(DMI_PRODUCT_SKU, "P1W6_C109D_B"),
+>   		},
+>   	},
+> 
