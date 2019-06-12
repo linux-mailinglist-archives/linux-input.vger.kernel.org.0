@@ -2,198 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF63944975
-	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2019 19:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D58A84496C
+	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2019 19:18:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728432AbfFMRRe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Jun 2019 13:17:34 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:38459 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728382AbfFLVUA (ORCPT
+        id S2393261AbfFMRRG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Jun 2019 13:17:06 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:34633 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728198AbfFLV0K (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jun 2019 17:20:00 -0400
-Received: by mail-pg1-f194.google.com with SMTP id v11so9606430pgl.5
-        for <linux-input@vger.kernel.org>; Wed, 12 Jun 2019 14:19:59 -0700 (PDT)
+        Wed, 12 Jun 2019 17:26:10 -0400
+Received: by mail-pg1-f195.google.com with SMTP id p10so3767886pgn.1;
+        Wed, 12 Jun 2019 14:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=jbXWyJaGiOfwS6mYiG2SXG/TJnY2qBshaIYIe+LLt1A=;
-        b=dp29t4oaU3yEO5G9oAc2ontxol5WQq/UZbrxItjnVn1eL694yZ6CEc/5/whbA8+VHV
-         Ar5beHjVgYdlDoaD33WSdkJRErTvwj4ei1HfZCtME7IWyDSj7BYPdjfpAlRQPkK053jb
-         RI4QbaRrgrsopA49XkWxmNNK/z0qp7NwIcBH6U66ONBaT8AwupAQSEqZ+v+2PpLF26LO
-         Hn6COC2sfKb50BryBcryVPNerDl7QNgzJMglI0VELba7JibXQuuf2owlk6PSrtfbMwes
-         58T9fBEuzD0H18cB1h53eHHa02LHxb+wVTnjxnJ3oU2xqMiRZ88B+nDZGl1HBIS3rb6Z
-         mTrg==
+        h=from:to:cc:subject:date:message-id;
+        bh=B9X0MPRX7xZfDuTbCvFOX7nvzRBpgFVnMaQCxz6OgdU=;
+        b=IUHfTS4RqAdZf2/0XbVg9yfHfkyKyBql+0jIyDfHuqTb8ueZ+sXHT7IaAw2b+3O8yD
+         GN7lJzAiKdQjIwn01eI7DL76WSgM7adjcAZV2+jdGEl/DQcEXECVfPfULEHRvRroLJZl
+         8aXZQrAvbQWmaAtgdPe6UA+Ki3X6ia22JhPhBVVv+5OEk9r4J3qP7vpM/w8BL9xvKl9Z
+         riFBc96sjOBT1tQNoGJwTQhx1biopgSoH38L2K1BBZlX/NQ/4JU9LAlNMw9SEHhlf3oj
+         B5v6aW0sT9rKn0QiaXvdI8bESveALGOQDqgvNMuuUEYiQ8ok5g/Er1vLp1T/QWyfM6kZ
+         fBCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=jbXWyJaGiOfwS6mYiG2SXG/TJnY2qBshaIYIe+LLt1A=;
-        b=ltPlkeTXWJFC0YkNrgPIFHqINc8tbP6KH2XgjHoaI1k2BHSdX785znecS3ML/cBHcP
-         iL5QfWt28r6EdJJABZ4VnnDuCQE5+fgfiMwmox6dG63NPmdg0oAMk5pIDFP7abkcMIxn
-         YWVXnOyarSk/8PrShoi0PA4GN8+UkYAmmgFGauFo26NDqGlsSgcbbeOWgRwtgSV8THWV
-         3fZTciDqVG0Y/oTiDpFtuan+XVTHtEx0CkG4qwF3zhb2GKcyLr7PdZFFGrZN5haMIgGJ
-         rEpPUZr3cVnzDnuo3jSmIO+NLERhX7h72PSKKD2mSxibkT5u3s6J0vSpxOzD+EdzZ3Pm
-         td4Q==
-X-Gm-Message-State: APjAAAXajQ8wI7J4u9bA+ZugZ9WWtHi/lv9tqGIH9kd1v18Snc8iETRG
-        398X9OsyNLhHTzHQhBvT/4xVNEZ2YgbAAQ==
-X-Google-Smtp-Source: APXvYqyx7ZKt+0YLJDGkUkv8VC1KWkvHtKa5EH9llikgNK8I7bjOCK3sKdygcNFOJ/jPjZs8vQxJig==
-X-Received: by 2002:a63:1343:: with SMTP id 3mr27851724pgt.426.1560374398565;
-        Wed, 12 Jun 2019 14:19:58 -0700 (PDT)
-Received: from west.Home ([97.115.133.135])
-        by smtp.googlemail.com with ESMTPSA id m6sm423283pgr.18.2019.06.12.14.19.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Wed, 12 Jun 2019 14:19:57 -0700 (PDT)
-From:   Aaron Armstrong Skomra <skomra@gmail.com>
-X-Google-Original-From: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-To:     linux-input@vger.kernel.org, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, pinglinux@gmail.com,
-        jason.gerecke@wacom.com
-Cc:     Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-Subject: [PATCH 4/4] HID: wacom: generic: read the number of expected touches on a per collection basis
-Date:   Wed, 12 Jun 2019 14:19:31 -0700
-Message-Id: <1560374371-2688-5-git-send-email-aaron.skomra@wacom.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1560374371-2688-1-git-send-email-aaron.skomra@wacom.com>
-References: <1560374371-2688-1-git-send-email-aaron.skomra@wacom.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=B9X0MPRX7xZfDuTbCvFOX7nvzRBpgFVnMaQCxz6OgdU=;
+        b=undzYgRXlURuddZqezjH8TAzKHRFOhng0/sBr9tqC8jPeGqF3eErtd4jviqeVBT9fR
+         EFjE/yE3KKqgld+QAlvDQEHrt6qXZZS4LAnn5GP8N7IW/WxQKWVYuK12/BX2CdgYZMtt
+         nMI7+HbQsNAgkuCEj6ZdVjpGWxOVHnKhIRUEldVaBlgQR6Ld8IvlqS1hqhDVQnK+vC0K
+         i/5vZcb3GrO5VSkdHfsCI+XYBWMiPTMxSEELoK9bgn7aMj4+QJYUqf6/6n2D7vi36pPU
+         45oKz80LIjCSTKLH8fATxKDLlma8pl+8a2J/kuP/GOnAsvMFVYaCg2+Q+IAJntaB5k57
+         pbKQ==
+X-Gm-Message-State: APjAAAWc/zMJfdVdIxoU+b/sZBkx64ldPeUaZ7Gg9+5J8X5lfOsMqSrl
+        REURqJIz5XEDiaaY/hYo4Sc=
+X-Google-Smtp-Source: APXvYqx8PO+nnCxda+czlOB0lVkz7Xh5HzTIi4gQeji9cay7D3Vp9FWSoTGePngXLYiGjGFyzcZo9w==
+X-Received: by 2002:a17:90a:2ec2:: with SMTP id h2mr1211409pjs.119.1560374769098;
+        Wed, 12 Jun 2019 14:26:09 -0700 (PDT)
+Received: from aw-bldr-10.qualcomm.com (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id x8sm474023pfa.46.2019.06.12.14.26.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 12 Jun 2019 14:26:08 -0700 (PDT)
+From:   Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Cc:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
+        jikos@kernel.org, hdegoede@redhat.com, bjorn.andersson@linaro.org,
+        agross@kernel.org, lee.jones@linaro.org, xnox@ubuntu.com,
+        robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Subject: [PATCH v6 0/5] Basic DT support for Lenovo Miix 630
+Date:   Wed, 12 Jun 2019 14:26:04 -0700
+Message-Id: <20190612212604.32089-1-jeffrey.l.hugo@gmail.com>
+X-Mailer: git-send-email 2.17.1
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Bluetooth connections may contain more than one set of touches,
-or a partial set of touches, in one report.
+The Lenovo Miix 630 is one of three ARM based (specifically Qualcomm
+MSM8998) laptops that comes with Windows, and seems to have a dedicated
+following of folks intrested to get Linux up and running on it.
 
-Set the number of expected touches when reading a collection
-instead of once per report (in the pre-report function).
+This series adds support for the basic functionality this is validated
+towork using devicetree.  Although the laptops do feed ACPI to Windows,
+the existing MSM8998 support in mainline is DT based, so DT provides a
+quick path to functionality while ACPI support is investigated.
 
-Accordingly, reset the number of touches expected after each sync.
+The three devices are very similar, but do have differences in the set
+of peripherals supported, so the idea is that the vast majority of the
+support for all three can live in a common include, which should reduce
+overall duplication.  Adding support for the other two devices is tacked
+onto the end of the series.
 
-Signed-off-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
----
- drivers/hid/wacom_wac.c | 79 ++++++++++++++++++++++++++++++++---------
- 1 file changed, 63 insertions(+), 16 deletions(-)
+The bleeding edge work for these laptops and work in progress can be
+found at https://github.com/aarch64-laptops/prebuilt
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 67ecd149ad21..104e6d1f4c80 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -2563,25 +2563,9 @@ static void wacom_wac_finger_pre_report(struct hid_device *hdev,
- 			case HID_DG_TIPSWITCH:
- 				hid_data->last_slot_field = equivalent_usage;
- 				break;
--			case HID_DG_CONTACTCOUNT:
--				hid_data->cc_report = report->id;
--				hid_data->cc_index = i;
--				hid_data->cc_value_index = j;
--				break;
- 			}
- 		}
- 	}
--
--	if (hid_data->cc_report != 0 &&
--	    hid_data->cc_index >= 0) {
--		struct hid_field *field = report->field[hid_data->cc_index];
--		int value = field->value[hid_data->cc_value_index];
--		if (value)
--			hid_data->num_expected = value;
--	}
--	else {
--		hid_data->num_expected = wacom_wac->features.touch_max;
--	}
- }
- 
- static void wacom_wac_finger_report(struct hid_device *hdev,
-@@ -2591,6 +2575,7 @@ static void wacom_wac_finger_report(struct hid_device *hdev,
- 	struct wacom_wac *wacom_wac = &wacom->wacom_wac;
- 	struct input_dev *input = wacom_wac->touch_input;
- 	unsigned touch_max = wacom_wac->features.touch_max;
-+	struct hid_data *hid_data = &wacom_wac->hid_data;
- 
- 	/* If more packets of data are expected, give us a chance to
- 	 * process them rather than immediately syncing a partial
-@@ -2604,6 +2589,7 @@ static void wacom_wac_finger_report(struct hid_device *hdev,
- 
- 	input_sync(input);
- 	wacom_wac->hid_data.num_received = 0;
-+	hid_data->num_expected = 0;
- 
- 	/* keep touch state for pen event */
- 	wacom_wac->shared->touch_down = wacom_wac_finger_count_touches(wacom_wac);
-@@ -2678,12 +2664,73 @@ static void wacom_report_events(struct hid_device *hdev,
- 	}
- }
- 
-+static void wacom_set_num_expected(struct hid_device *hdev,
-+				   struct hid_report *report,
-+				   int collection_index,
-+				   struct hid_field *field,
-+				   int field_index)
-+{
-+	struct wacom *wacom = hid_get_drvdata(hdev);
-+	struct wacom_wac *wacom_wac = &wacom->wacom_wac;
-+	struct hid_data *hid_data = &wacom_wac->hid_data;
-+	unsigned int original_collection_level =
-+		hdev->collection[collection_index].level;
-+	bool end_collection = false;
-+	int i;
-+
-+	if (hid_data->num_expected)
-+		return;
-+
-+	// find the contact count value for this segment
-+	for (i = field_index; i < report->maxfield && !end_collection; i++) {
-+		struct hid_field *field = report->field[i];
-+		unsigned int field_level =
-+			hdev->collection[field->usage[0].collection_index].level;
-+		unsigned int j;
-+
-+		if (field_level != original_collection_level)
-+			continue;
-+
-+		for (j = 0; j < field->maxusage; j++) {
-+			struct hid_usage *usage = &field->usage[j];
-+
-+			if (usage->collection_index != collection_index) {
-+				end_collection = true;
-+				break;
-+			}
-+			if (wacom_equivalent_usage(usage->hid) == HID_DG_CONTACTCOUNT) {
-+				hid_data->cc_report = report->id;
-+				hid_data->cc_index = i;
-+				hid_data->cc_value_index = j;
-+
-+				if (hid_data->cc_report != 0 &&
-+				    hid_data->cc_index >= 0) {
-+
-+					struct hid_field *field =
-+						report->field[hid_data->cc_index];
-+					int value =
-+						field->value[hid_data->cc_value_index];
-+
-+					if (value)
-+						hid_data->num_expected = value;
-+				}
-+			}
-+		}
-+	}
-+
-+	if (hid_data->cc_report == 0 || hid_data->cc_index < 0)
-+		hid_data->num_expected = wacom_wac->features.touch_max;
-+}
-+
- static int wacom_wac_collection(struct hid_device *hdev, struct hid_report *report,
- 			 int collection_index, struct hid_field *field,
- 			 int field_index)
- {
- 	struct wacom *wacom = hid_get_drvdata(hdev);
- 
-+	if (WACOM_FINGER_FIELD(field))
-+		wacom_set_num_expected(hdev, report, collection_index, field,
-+				       field_index);
- 	wacom_report_events(hdev, report, collection_index, field_index);
- 
- 	/*
+v6:
+-Export the elan_i2c DT and ACPI ids so that hid-quirks can use them
+-Use the elan_i2c ids within hid-quirks to reduce duplication
+-Add DTs for the Asus and HP devices since the DT seems finalized, and
+folks have been asking
+
+v5:
+-Split out elan_i2c changes into their own patch
+-Use a static list of strings to match
+-Fixed typo of "whitelist"
+-Dropped incorrect thermal zones
+-Dropped tags from Bjorn and Lee since the functional should be
+identical, but the code is structured different
+
+v4:
+-Changed the hid-quirks ELAN handling around per Benjamin Tissoires
+-Dropped new DT binding
+
+v3:
+-Changed "clam" to "clamshell"
+-Defined a dt binding for the combo Elan keyboard + touchpad device
+-Adjusted the HID quirk to be correct for dt boot
+-Removed extranious comment in board dts
+-Fixed board level compatible
+
+v2:
+-Changed "cls" to "clam" since feedback indicated "cls" is too opaque,
+but
+"clamshell" is a mouthfull.  "clam" seems to be a happy medium.
+
+Jeffrey Hugo (5):
+  Input: elan_i2c: Export the device id whitelist
+  HID: quirks: Refactor ELAN 400 and 401 handling
+  arm64: dts: qcom: Add Lenovo Miix 630
+  arm64: dts: qcom: Add HP Envy x2
+  arm64: dts: qcom: Add Asus NovaGo TP370QL
+
+ arch/arm64/boot/dts/qcom/Makefile             |   1 +
+ .../boot/dts/qcom/msm8998-clamshell.dtsi      | 240 ++++++++++++++++++
+ .../boot/dts/qcom/msm8998-lenovo-miix-630.dts |  30 +++
+ drivers/hid/hid-quirks.c                      |  78 +++++-
+ drivers/input/mouse/elan_i2c_core.c           |   4 +
+ 5 files changed, 342 insertions(+), 11 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/qcom/msm8998-clamshell.dtsi
+ create mode 100644 arch/arm64/boot/dts/qcom/msm8998-lenovo-miix-630.dts
+
 -- 
 2.17.1
 
