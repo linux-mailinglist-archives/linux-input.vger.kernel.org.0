@@ -2,278 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC63C424DB
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 13:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1729A426E4
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 15:03:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391831AbfFLL6D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Jun 2019 07:58:03 -0400
-Received: from mx2.suse.de ([195.135.220.15]:42522 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2391809AbfFLL6C (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jun 2019 07:58:02 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id F2415AE5A;
-        Wed, 12 Jun 2019 11:58:00 +0000 (UTC)
-Message-ID: <f029cb51eb99b9a51743b87cb736ec66e8ec0ae5.camel@suse.de>
-Subject: Re: [PATCH 1/2] input: edt-ft5x06 - add polled input support
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Date:   Wed, 12 Jun 2019 13:57:46 +0200
-In-Reply-To: <20190430185859.24015-1-nsaenzjulienne@suse.de>
-References: <20190430185859.24015-1-nsaenzjulienne@suse.de>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-SOdlE4XTHuErT+ib+94s"
-User-Agent: Evolution 3.32.2 
+        id S1730567AbfFLNDA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Jun 2019 09:03:00 -0400
+Received: from myself5.de ([5.230.26.43]:43438 "EHLO myself5.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730214AbfFLNDA (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 12 Jun 2019 09:03:00 -0400
+X-Greylist: delayed 1199 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Jun 2019 09:02:59 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=myself5.de; s=mail;
+        h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From; bh=kaMCzSe33t2mDZfL48JawC3dylTfnzOCvJpCgH+Tfh4=;
+        b=PX/6A62NkVlH5hV5ULbHDmAaJnJh1oyv29QSxNEZkz3QZ3MWWlr24JbUTes84szYkTTfomClnBuf6ruPr9crcW5D7rrYauHYMjaqJm0gP7G2IDhC5PbRkjXhDqDu3Ch2T2+E8ZnhUvCIJDQFy6/WKbnt6dXHcYega9Qq6viHPGyUPThaIQNuCwkaqI5nRPHZq5nd2FsF3UMlE+yZfMdY+fPqbFuo/wZUMbaTky2HJuA02TYpOQD60gGiZOIccwBMmlMCLtST45wkoo4Zk+Pe0S/CMdq8iA6Kmv7u0r4MYrckT4Rt+KIr/exgXleJhDTYplsdRBGrxOYkWqURMDi4nQ==;
+Received: from hsi-kbw-046-005-003-194.hsi8.kabel-badenwuerttemberg.de ([46.5.3.194] helo=localhost)
+        by myself5.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.84_2)
+        (envelope-from <gpg@myself5.de>)
+        id 1hb2aZ-0005Hv-Um; Wed, 12 Jun 2019 14:42:52 +0200
+From:   Christian Oder <me@myself5.de>
+Cc:     Christian Oder <me@myself5.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: touchscreen_dmi: Update Hi10 Air filter
+Date:   Wed, 12 Jun 2019 14:40:53 +0200
+Message-Id: <20190612124053.119182-1-me@myself5.de>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Turns out the Hi10 Air is built by multiple companies so using Hampoo
+as a filter is not enough to cover all variants.
 
---=-SOdlE4XTHuErT+ib+94s
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This has been verified as working on the Hampoo and Morshow version.
 
-On Tue, 2019-04-30 at 20:58 +0200, Nicolas Saenz Julienne wrote:
-> Some hardware configurations might pass on providing an interrupt line.
-> In that case there is always the option to use a polled input approach.
-> This patch adapts the driver for it.
->=20
-> The polled approach is only triggered if no interrupt is provided by the
-> firmware or platform data.
->=20
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> ---
+Signed-off-by: Christian Oder <me@myself5.de>
+---
+ drivers/platform/x86/touchscreen_dmi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Ping :)
-
->  drivers/input/touchscreen/edt-ft5x06.c | 100 ++++++++++++++++++-------
->  1 file changed, 72 insertions(+), 28 deletions(-)
->=20
-> diff --git a/drivers/input/touchscreen/edt-ft5x06.c
-> b/drivers/input/touchscreen/edt-ft5x06.c
-> index 702bfda7ee77..e58645c72c2f 100644
-> --- a/drivers/input/touchscreen/edt-ft5x06.c
-> +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> @@ -39,6 +39,7 @@
->  #include <linux/gpio/consumer.h>
->  #include <linux/input/mt.h>
->  #include <linux/input/touchscreen.h>
-> +#include <linux/input-polldev.h>
->  #include <linux/of_device.h>
-> =20
->  #define WORK_REGISTER_THRESHOLD		0x00
-> @@ -97,6 +98,7 @@ struct edt_reg_addr {
->  struct edt_ft5x06_ts_data {
->  	struct i2c_client *client;
->  	struct input_dev *input;
-> +	struct input_polled_dev *poll_dev;
->  	struct touchscreen_properties prop;
->  	u16 num_x;
->  	u16 num_y;
-> @@ -181,9 +183,8 @@ static bool edt_ft5x06_ts_check_crc(struct
-> edt_ft5x06_ts_data *tsdata,
->  	return true;
->  }
-> =20
-> -static irqreturn_t edt_ft5x06_ts_isr(int irq, void *dev_id)
-> +static void edt_ft5x06_process(struct edt_ft5x06_ts_data *tsdata)
->  {
-> -	struct edt_ft5x06_ts_data *tsdata =3D dev_id;
->  	struct device *dev =3D &tsdata->client->dev;
->  	u8 cmd;
->  	u8 rdbuf[63];
-> @@ -210,7 +211,7 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void
-> *dev_id)
->  		break;
-> =20
->  	default:
-> -		goto out;
-> +		return;
->  	}
-> =20
->  	memset(rdbuf, 0, sizeof(rdbuf));
-> @@ -222,7 +223,7 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void
-> *dev_id)
->  	if (error) {
->  		dev_err_ratelimited(dev, "Unable to fetch data, error: %d\n",
->  				    error);
-> -		goto out;
-> +		return;
->  	}
-> =20
->  	/* M09/M12 does not send header or CRC */
-> @@ -232,11 +233,11 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void
-> *dev_id)
->  			dev_err_ratelimited(dev,
->  					"Unexpected header: %02x%02x%02x!\n",
->  					rdbuf[0], rdbuf[1], rdbuf[2]);
-> -			goto out;
-> +			return;
->  		}
-> =20
->  		if (!edt_ft5x06_ts_check_crc(tsdata, rdbuf, datalen))
-> -			goto out;
-> +			return;
->  	}
-> =20
->  	for (i =3D 0; i < tsdata->max_support_points; i++) {
-> @@ -273,11 +274,23 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void
-> *dev_id)
-> =20
->  	input_mt_report_pointer_emulation(tsdata->input, true);
->  	input_sync(tsdata->input);
-> +}
-> =20
-> -out:
-> +static irqreturn_t edt_ft5x06_ts_isr(int irq, void *dev_id)
-> +{
-> +	struct edt_ft5x06_ts_data *tsdata =3D dev_id;
-> +
-> +	edt_ft5x06_process(tsdata);
->  	return IRQ_HANDLED;
->  }
-> =20
-> +static void edt_ft5x06_poll(struct input_polled_dev *dev)
-> +{
-> +	struct edt_ft5x06_ts_data *tsdata =3D dev->private;
-> +
-> +	edt_ft5x06_process(tsdata);
-> +}
-> +
->  static int edt_ft5x06_register_write(struct edt_ft5x06_ts_data *tsdata,
->  				     u8 addr, u8 value)
->  {
-> @@ -1059,7 +1072,9 @@ static int edt_ft5x06_ts_probe(struct i2c_client
-> *client,
->  					 const struct i2c_device_id *id)
->  {
->  	const struct edt_i2c_chip_data *chip_data;
-> +	struct input_polled_dev *poll_dev =3D NULL;
->  	struct edt_ft5x06_ts_data *tsdata;
-> +	bool polled =3D !(client->irq);
->  	struct input_dev *input;
->  	unsigned long irq_flags;
->  	int error;
-> @@ -1112,15 +1127,38 @@ static int edt_ft5x06_ts_probe(struct i2c_client
-> *client,
->  		msleep(300);
->  	}
-> =20
-> -	input =3D devm_input_allocate_device(&client->dev);
-> -	if (!input) {
-> -		dev_err(&client->dev, "failed to allocate input device.\n");
-> -		return -ENOMEM;
-> +	if (polled) {
-> +		poll_dev =3D devm_input_allocate_polled_device(&client->dev);
-> +		if (!poll_dev) {
-> +			dev_err(&client->dev,
-> +				"failed to allocate polled input device.\n");
-> +			return -ENOMEM;
-> +		}
-> +
-> +		poll_dev->poll =3D edt_ft5x06_poll;
-> +		poll_dev->private =3D tsdata;
-> +
-> +		tsdata->poll_dev =3D poll_dev;
-> +		tsdata->input =3D poll_dev->input;
-> +
-> +		input =3D poll_dev->input;
-> +
-> +		device_property_read_u32(&client->dev, "poll-interval",
-> +					 &poll_dev->poll_interval);
-> +
-> +	} else {
-> +		input =3D devm_input_allocate_device(&client->dev);
-> +		if (!input) {
-> +			dev_err(&client->dev,
-> +				"failed to allocate input device.\n");
-> +			return -ENOMEM;
-> +		}
-> +
-> +		tsdata->input =3D input;
->  	}
-> =20
->  	mutex_init(&tsdata->mutex);
->  	tsdata->client =3D client;
-> -	tsdata->input =3D input;
->  	tsdata->factory_mode =3D false;
-> =20
->  	error =3D edt_ft5x06_ts_identify(client, tsdata, fw_version);
-> @@ -1167,26 +1205,32 @@ static int edt_ft5x06_ts_probe(struct i2c_client
-> *client,
-> =20
->  	i2c_set_clientdata(client, tsdata);
-> =20
-> -	irq_flags =3D irq_get_trigger_type(client->irq);
-> -	if (irq_flags =3D=3D IRQF_TRIGGER_NONE)
-> -		irq_flags =3D IRQF_TRIGGER_FALLING;
-> -	irq_flags |=3D IRQF_ONESHOT;
-> -
-> -	error =3D devm_request_threaded_irq(&client->dev, client->irq,
-> -					NULL, edt_ft5x06_ts_isr, irq_flags,
-> -					client->name, tsdata);
-> -	if (error) {
-> -		dev_err(&client->dev, "Unable to request touchscreen IRQ.\n");
-> -		return error;
-> -	}
-> -
->  	error =3D devm_device_add_group(&client->dev, &edt_ft5x06_attr_group);
->  	if (error)
->  		return error;
-> =20
-> -	error =3D input_register_device(input);
-> -	if (error)
-> -		return error;
-> +	if (polled) {
-> +		error =3D input_register_polled_device(poll_dev);
-> +		if (error)
-> +			return error;
-> +	} else {
-> +		irq_flags =3D irq_get_trigger_type(client->irq);
-> +		if (irq_flags =3D=3D IRQF_TRIGGER_NONE)
-> +			irq_flags =3D IRQF_TRIGGER_FALLING;
-> +		irq_flags |=3D IRQF_ONESHOT;
-> +
-> +		error =3D devm_request_threaded_irq(&client->dev, client->irq,
-> +						NULL, edt_ft5x06_ts_isr,
-> irq_flags,
-> +						client->name, tsdata);
-> +		if (error) {
-> +			dev_err(&client->dev, "Unable to request touchscreen
-> IRQ.\n");
-> +			return error;
-> +		}
-> +
-> +		error =3D input_register_device(input);
-> +		if (error)
-> +			return error;
-> +	}
-> =20
->  	edt_ft5x06_ts_prepare_debugfs(tsdata, dev_driver_string(&client->dev));
->  	device_init_wakeup(&client->dev, 1);
-
-
---=-SOdlE4XTHuErT+ib+94s
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl0A6LoACgkQlfZmHno8
-x/5wfAgAmv+aigWIRYobmGMVU+23GtJ7MRGy8LHah23eCy0ZIIfpmXZ8D75yc82i
-VtOEmkJDCgOLM2SMXtcYdSjQ0P/KI0AGiU2eSVICsCu4I5QtmdZJcQLwtALcaJvm
-uf4w9pzGUABi0zN9mU50f92M30pDY4U5iMnmx0cnT7RfztdOxh0VEPPDJnGyeOPa
-TOHekzOQXJTM4YpeCVJRdC1Q9Q7w0fn82dSdIDnmQfoOnZ9uQonaR2ts6hrZm2Bv
-+sHeEPEGCRPOMGezvFIrRTzQbE0qI+M2PmPYPBNubkgnT5YR6t6M8ZT2yHahqCNB
-+xRsOBjmHcfRYFm0YXDULpbPNp/jCA==
-=da2i
------END PGP SIGNATURE-----
-
---=-SOdlE4XTHuErT+ib+94s--
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index b662cb2d7cd5..61e7c4987d0d 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -597,7 +597,8 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+ 		/* Chuwi Hi10 Air */
+ 		.driver_data = (void *)&chuwi_hi10_air_data,
+ 		.matches = {
+-			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
++			DMI_MATCH(DMI_SYS_VENDOR, "CHUWI INNOVATION AND TECHNOLOGY(SHENZHEN)CO.LTD"),
++			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
+ 			DMI_MATCH(DMI_PRODUCT_SKU, "P1W6_C109D_B"),
+ 		},
+ 	},
+-- 
+2.21.0
 
