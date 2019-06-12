@@ -2,111 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D853A41976
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 02:35:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17DF6419B2
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2019 02:52:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407374AbfFLAfL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Jun 2019 20:35:11 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:39493 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407288AbfFLAfL (ORCPT
+        id S2405872AbfFLAvY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Jun 2019 20:51:24 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:41839 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405015AbfFLAvX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Jun 2019 20:35:11 -0400
-Received: by mail-pl1-f196.google.com with SMTP id b7so793991pls.6;
-        Tue, 11 Jun 2019 17:35:10 -0700 (PDT)
+        Tue, 11 Jun 2019 20:51:23 -0400
+Received: by mail-pl1-f194.google.com with SMTP id s24so5840650plr.8;
+        Tue, 11 Jun 2019 17:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=ph86gesNnRTM7ujmiRuSEJzFcbh48v/P7EOKY+OdFyY=;
-        b=UD7GmZY8FzpfopaVwv7Q21zdCVPYfTWHzMZb9BOJpgHB5l26CfIO2OuBfGjjrLkN3J
-         QsIYQ7jMZKuLuCSdRB13J78M7OvygaLDg9VciXMarUGgpDsiaHSdFn7md8E2qz8Tzqvv
-         I7myqDGnk/KAy0d/fZ6GSTIUGEbeYZ3THvuOJhN7HUhKXachfNyfN7/Kd/utKT6qqyBh
-         4YZN/lMsTQPXrGCsKu4j57kGZVzoA1sg5ZPykaxpziSP9r7nFEM6A7wseq5EDEaLY4cy
-         E7g1GugR03Y8NhGHxo4JQSfPmFlmNKzRZH0zn6zSUVKF6LfVkBtVTKlgzTtHRIElO26P
-         aPHQ==
+        bh=cO1aoOgamWKzIBPutERy4+vShJ7ff0SjV7iwgqOmOxU=;
+        b=bjVRjE0AIuXeVIkRPq5d1Q0m6f/ChSKt7gvzCfbsz28S9ZzhVQDoKcXtAbRw1ACu7m
+         7kp5ZXFytWCzXikbqIWU3/EvpxFMQfB2WIIUqTOSaJMIVSVV+Dhm+q2vF1nsxPL0ZQZN
+         Xr4PWhZzFjjKM8olQlI+MNryiceHMLT2yhZwrxNEe+PPQiJHcsAN3gqc/Mj1eyT37wpG
+         c97pPNrG3ML1GaEN+kj4zNEVcoHq9wcOmaqbjGvpzCgZTLuyoJtUrBdZ/iSO7t17EGrG
+         4euwRIk+oYorOyunXr8AfmtpioQuylyPP3xvwk0CbS+/E00uzYIB370WOdBdaH6J7lDA
+         PWDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ph86gesNnRTM7ujmiRuSEJzFcbh48v/P7EOKY+OdFyY=;
-        b=uXRuLl+pDmu3wYqX/MNWSMQO4f/tTWl5nHfLsxzlDaKn9P+BMYfa6L941aL+juWvbi
-         tuhekcEo/N7GbD7YdXMwZw+SIG9Loi9e+FO8WZCQI5MeO95+SrKe3eS0aIo/WRUF4gxu
-         +KSa5pjg8mAgd7LohPrJukqIpp+j0RXPYB8OqNVBLXTnIdpn2CcvpAkvm/GIU4ZoaaX+
-         BNJm/iGZlJoi956EQFmHh0LlCmuV3pxOc9xT1Gt1Lj8f11hg9v8v2rP9ISsezm+oB2hQ
-         F4bGQt6DIIkRvil++bkuNBSnKpK919UTg5LYWL9UTwDnkjIGG3j/A47zIKrz+zcTZrc5
-         Yc8Q==
-X-Gm-Message-State: APjAAAWKAnatrnD6sTenAc0W9Qas0AMF/iM1SwSe+UFLqrQPw0JX+KBl
-        n2p6ep6ZfOdv7WmF4Xmhf48=
-X-Google-Smtp-Source: APXvYqxZm72YQBMzfu3JeQ/pQSonMtBZam0wR61ec/mANR6WzsknWTt1c/ro/GU7bEt9Ot8Czc6tpw==
-X-Received: by 2002:a17:902:24c:: with SMTP id 70mr78198009plc.2.1560299710166;
-        Tue, 11 Jun 2019 17:35:10 -0700 (PDT)
+        bh=cO1aoOgamWKzIBPutERy4+vShJ7ff0SjV7iwgqOmOxU=;
+        b=DWHzqi77Honw22GNNGKJzjDVztRrpEDpOJN5MPQ81TQJOo7LHKh/cc+G84ZMw8DkKp
+         Re1wzNCtbLHlqgtrUaDvpXVGCxuf14elkTVvDBgwGzzbko145AbCYrEPDAxf/IIqDPib
+         Jt9ReXI60Bks+QfCXw6cj9toj2bYAqiGFYqWV4QBsZoOK8uTk6vcn+3v8hS2YXyBbUHw
+         gPI5JWgjDAU9qV/G164RE2uvsoI/0N/0RX4KFnw0GCyNiiupYpe134uKfnSAr+Qs/MCz
+         mpv448I3LadB4Ux9q+zQmGzC/KzS8sEa44i1XiRiBFImnl6AVm3nwohIJ2r97XShFHG/
+         5PxQ==
+X-Gm-Message-State: APjAAAUfealE+WXDh4NNevwFORAZjwLc+3Rzw+5DTot2W3xOJiM5y5JD
+        Vdw9MiZKG0I7wtIyntw+Yan0o03iM2Q=
+X-Google-Smtp-Source: APXvYqyv4mJyfH+lo6mByyMGtaJjJbLmgLMkrNCaA8Qe4uCJ+nryDBS0GuP0K4qXtHGMM5kn8Y9Izg==
+X-Received: by 2002:a17:902:28:: with SMTP id 37mr15273311pla.188.1560300682592;
+        Tue, 11 Jun 2019 17:51:22 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id a3sm227817pje.3.2019.06.11.17.35.08
+        by smtp.gmail.com with ESMTPSA id y5sm14480199pgv.12.2019.06.11.17.51.21
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 11 Jun 2019 17:35:09 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 17:35:07 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Cc:     benjamin.tissoires@redhat.com, jikos@kernel.org,
-        bjorn.andersson@linaro.org, lee.jones@linaro.org,
-        robh+dt@kernel.org, mark.rutland@arm.com, agross@kernel.org,
-        david.brown@linaro.org, hdegoede@redhat.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] HID: quirks: Refactor ELAN 400 and 401 handling
-Message-ID: <20190612003507.GG143729@dtor-ws>
-References: <20190606161055.47089-1-jeffrey.l.hugo@gmail.com>
- <20190606161322.47192-1-jeffrey.l.hugo@gmail.com>
+        Tue, 11 Jun 2019 17:51:21 -0700 (PDT)
+Date:   Tue, 11 Jun 2019 17:51:20 -0700
+From:   "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+To:     Anson Huang <anson.huang@nxp.com>
+Cc:     "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>
+Subject: Re: [RESEND] input: keyboard: imx: make sure keyboard can always
+ wake up system
+Message-ID: <20190612005120.GI143729@dtor-ws>
+References: <1554341727-16084-1-git-send-email-Anson.Huang@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190606161322.47192-1-jeffrey.l.hugo@gmail.com>
+In-Reply-To: <1554341727-16084-1-git-send-email-Anson.Huang@nxp.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jun 06, 2019 at 09:13:22AM -0700, Jeffrey Hugo wrote:
-> There needs to be coordination between hid-quirks and the elan_i2c driver
-> about which devices are handled by what drivers.  Currently, both use
-> whitelists, which results in valid devices being unhandled by default,
-> when they should not be rejected by hid-quirks.  This is quickly becoming
-> an issue.
+On Thu, Apr 04, 2019 at 01:40:16AM +0000, Anson Huang wrote:
+> There are several scenarios that keyboard can NOT wake up system
+> from suspend, e.g., if a keyboard is depressed between system
+> device suspend phase and device noirq suspend phase, the keyboard
+> ISR will be called and both keyboard depress and release interrupts
+> will be disabled, then keyboard will no longer be able to wake up
+> system. Another scenario would be, if a keyboard is kept depressed,
+> and then system goes into suspend, the expected behavior would be
+> when keyboard is released, system will be waked up, but current
+> implementation can NOT achieve that, because both depress and release
+> interrupts are disabled in ISR, and the event check is still in
+> progress.
 > 
-> Since elan_i2c has a maintained whitelist of what devices it will handle,
-> use that to implement a blacklist in hid-quirks so that only the devices
-> that need to be handled by elan_i2c get rejected by hid-quirks, and
-> everything else is handled by default.  The downside is the whitelist and
-> blacklist need to be kept in sync.
+> To fix these issues, need to make sure keyboard's depress or release
+> interrupt is enabled after noirq device suspend phase, this patch
+> moves the suspend/resume callback to noirq suspend/resume phase, and
+> enable the corresponding interrupt according to current keyboard status.
 > 
-> Suggested-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Signed-off-by: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+> Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
+
+Applied, thank you.
+
 > ---
->  drivers/hid/hid-quirks.c | 78 ++++++++++++++++++++++++++++++++++------
->  1 file changed, 67 insertions(+), 11 deletions(-)
+>  drivers/input/keyboard/imx_keypad.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> index e5ca6fe2ca57..edebd0700e3d 100644
-> --- a/drivers/hid/hid-quirks.c
-> +++ b/drivers/hid/hid-quirks.c
-> @@ -912,8 +912,66 @@ static const struct hid_device_id hid_mouse_ignore_list[] = {
->  	{ }
->  };
+> diff --git a/drivers/input/keyboard/imx_keypad.c b/drivers/input/keyboard/imx_keypad.c
+> index cf08f4a..97500a2 100644
+> --- a/drivers/input/keyboard/imx_keypad.c
+> +++ b/drivers/input/keyboard/imx_keypad.c
+> @@ -524,11 +524,12 @@ static int imx_keypad_probe(struct platform_device *pdev)
+>  	return 0;
+>  }
 >  
-> +/* 
-> + * List of device names that elan_i2c is handling and HID should ignore.  Must
-> + * be kept in sync with elan_i2c
-> + */
-> +static const char *hid_elan_i2c_ignore[] = {
-
-If this is a copy of elan whitelist, then, if we do not want to bother
-with sharing it in object form (as a elan-i2c-ids module), can we at
-least move it into include/linux/input/elan-i2c-ids.h and consume from
-hid-quirks.c?
-
-Thanks.
+> -static int __maybe_unused imx_kbd_suspend(struct device *dev)
+> +static int __maybe_unused imx_kbd_noirq_suspend(struct device *dev)
+>  {
+>  	struct platform_device *pdev = to_platform_device(dev);
+>  	struct imx_keypad *kbd = platform_get_drvdata(pdev);
+>  	struct input_dev *input_dev = kbd->input_dev;
+> +	unsigned short reg_val = readw(kbd->mmio_base + KPSR);
+>  
+>  	/* imx kbd can wake up system even clock is disabled */
+>  	mutex_lock(&input_dev->mutex);
+> @@ -538,13 +539,20 @@ static int __maybe_unused imx_kbd_suspend(struct device *dev)
+>  
+>  	mutex_unlock(&input_dev->mutex);
+>  
+> -	if (device_may_wakeup(&pdev->dev))
+> +	if (device_may_wakeup(&pdev->dev)) {
+> +		if (reg_val & KBD_STAT_KPKD)
+> +			reg_val |= KBD_STAT_KRIE;
+> +		if (reg_val & KBD_STAT_KPKR)
+> +			reg_val |= KBD_STAT_KDIE;
+> +		writew(reg_val, kbd->mmio_base + KPSR);
+> +
+>  		enable_irq_wake(kbd->irq);
+> +	}
+>  
+>  	return 0;
+>  }
+>  
+> -static int __maybe_unused imx_kbd_resume(struct device *dev)
+> +static int __maybe_unused imx_kbd_noirq_resume(struct device *dev)
+>  {
+>  	struct platform_device *pdev = to_platform_device(dev);
+>  	struct imx_keypad *kbd = platform_get_drvdata(pdev);
+> @@ -568,7 +576,9 @@ static int __maybe_unused imx_kbd_resume(struct device *dev)
+>  	return ret;
+>  }
+>  
+> -static SIMPLE_DEV_PM_OPS(imx_kbd_pm_ops, imx_kbd_suspend, imx_kbd_resume);
+> +static const struct dev_pm_ops imx_kbd_pm_ops = {
+> +	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(imx_kbd_noirq_suspend, imx_kbd_noirq_resume)
+> +};
+>  
+>  static struct platform_driver imx_keypad_driver = {
+>  	.driver		= {
+> -- 
+> 2.7.4
+> 
 
 -- 
 Dmitry
