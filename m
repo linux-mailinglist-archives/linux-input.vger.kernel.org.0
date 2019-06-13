@@ -2,78 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 106504376C
-	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2019 16:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04BAE44871
+	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2019 19:10:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732632AbfFMO6z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Jun 2019 10:58:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59294 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732631AbfFMO5F (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Jun 2019 10:57:05 -0400
-Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C9A3020B7C;
-        Thu, 13 Jun 2019 14:57:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560437825;
-        bh=BRkK0Z99Zbgn3wSOnZA6DSR32x37/snuih2ocWqbunk=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=QbFjRZXq0dOf89VX/2gtNCnQQg24DwxTkYm5u+3ZseYyAr1PUbtt8yRs1s9ggr3RV
-         jkNwYq2aYlwTIKOHR2A2H73OlfBkLMDAuM7+dz3j78EpAQG/Oct9qchQyoa538VGU7
-         Uxpxh66q1fYTbNzCwtMLQacECYGMHULUIM3Tn2tQ=
-Date:   Thu, 13 Jun 2019 16:57:01 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Aaron Armstrong Skomra <skomra@gmail.com>
-cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
-        pinglinux@gmail.com, jason.gerecke@wacom.com,
-        Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-Subject: Re: [PATCH 0/4] 2nd Gen Intuos Pro Small - Second set
-In-Reply-To: <1560374371-2688-1-git-send-email-aaron.skomra@wacom.com>
-Message-ID: <nycvar.YFH.7.76.1906131656480.27227@cbobk.fhfr.pm>
-References: <1560374371-2688-1-git-send-email-aaron.skomra@wacom.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S2388314AbfFMRG5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Jun 2019 13:06:57 -0400
+Received: from mx2.suse.de ([195.135.220.15]:52056 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2393384AbfFMRG5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 13 Jun 2019 13:06:57 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 7BB62ADCB;
+        Thu, 13 Jun 2019 17:06:55 +0000 (UTC)
+From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
+To:     Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-mips@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Subject: [PATCH v3 0/7] Use MFD framework for SGI IOC3 drivers
+Date:   Thu, 13 Jun 2019 19:06:26 +0200
+Message-Id: <20190613170636.6647-1-tbogendoerfer@suse.de>
+X-Mailer: git-send-email 2.13.7
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 12 Jun 2019, Aaron Armstrong Skomra wrote:
+SGI IOC3 ASIC includes support for ethernet, PS2 keyboard/mouse,
+NIC (number in a can), GPIO and a byte  bus. By attaching a
+SuperIO chip to it, it also supports serial lines and a parallel
+port. The chip is used on a variety of SGI systems with different
+configurations. This patchset moves code out of the network driver,
+which doesn't belong there, into its new place a MFD driver and
+specific platform drivers for the different subfunctions.
 
-> The first patch here is a v2 patch for the 2nd gen Intuos
-> Pro Small. It was part of my previous set, but this one patch
-> needed to be rebased to apply to for-5.3/wacom. No other
-> changes were made to the patch. The rest of that set is
-> currently in for-5.3/wacom.
-> 
-> The remainder of this serires was occasioned by that same
-> device. Though the Pro Small unfortunatley did not ship
-> with a generic HID descriptor, these patches will ready the
-> generic code path for the touch component of Bluetooth 
-> reports.
-> 
-> This set is based on the current for-5.3/wacom branch with
-> 68c20cc2164c ("HID: wacom: correct touch resolution x/y typo") at
-> its HEAD.
-> 
-> Aaron Armstrong Skomra (4):
->   HID: wacom: Add 2nd gen Intuos Pro Small support
->   HID: wacom: generic: read HID_DG_CONTACTMAX from any feature report
->   HID: wacom: generic: support the 'report valid' usage for touch
->   HID: wacom: generic: read the number of expected touches on a per
->     collection basis
-> 
->  drivers/hid/wacom_sys.c |  10 ++--
->  drivers/hid/wacom_wac.c | 125 +++++++++++++++++++++++++++++++++-------
->  drivers/hid/wacom_wac.h |   2 +
->  3 files changed, 111 insertions(+), 26 deletions(-)
+Changes in v3:
+ - use 1-wire subsystem for handling proms
+ - pci-xtalk driver uses prom information to create PCI subsystem
+   ids for use in MFD driver
+ - changed MFD driver to only use static declared mfd_cells
+ - added IP30 system board setup to MFD driver
+ - mac address is now read from ioc3-eth driver with nvmem framework 
 
-Applied to for-5.3/wacom.
+Changes in v2:
+ - fixed issue in ioc3kbd.c reported by Dmitry Torokhov
+ - merged IP27 RTC removal and 8250 serial driver addition into
+   main MFD patch to keep patches bisectable
+
+Thomas Bogendoerfer (7):
+  nvmem: core: add nvmem_device_find
+  MIPS: PCI: refactor ioc3 special handling
+  MIPS: PCI: use information from 1-wire PROM for IOC3 detection
+  MIPS: SGI-IP27: remove ioc3 ethernet init
+  mfd: ioc3: Add driver for SGI IOC3 chip
+  MIPS: SGI-IP27: fix readb/writeb addressing
+  Input: add IOC3 serio driver
+
+ arch/mips/include/asm/mach-ip27/mangle-port.h |    4 +-
+ arch/mips/include/asm/pci/bridge.h            |    1 +
+ arch/mips/include/asm/sn/ioc3.h               |  356 ++---
+ arch/mips/pci/pci-xtalk-bridge.c              |  296 ++--
+ arch/mips/sgi-ip27/ip27-console.c             |    5 +-
+ arch/mips/sgi-ip27/ip27-init.c                |   13 -
+ arch/mips/sgi-ip27/ip27-timer.c               |   20 -
+ arch/mips/sgi-ip27/ip27-xtalk.c               |   38 +-
+ drivers/input/serio/Kconfig                   |   10 +
+ drivers/input/serio/Makefile                  |    1 +
+ drivers/input/serio/ioc3kbd.c                 |  158 ++
+ drivers/mfd/Kconfig                           |   13 +
+ drivers/mfd/Makefile                          |    1 +
+ drivers/mfd/ioc3.c                            |  683 +++++++++
+ drivers/net/ethernet/sgi/Kconfig              |    4 +-
+ drivers/net/ethernet/sgi/ioc3-eth.c           | 1932 ++++++++++---------------
+ drivers/nvmem/core.c                          |   62 +-
+ drivers/rtc/rtc-m48t35.c                      |   11 +
+ drivers/tty/serial/8250/8250_ioc3.c           |   98 ++
+ drivers/tty/serial/8250/Kconfig               |   11 +
+ drivers/tty/serial/8250/Makefile              |    1 +
+ include/linux/nvmem-consumer.h                |    9 +
+ 22 files changed, 2152 insertions(+), 1575 deletions(-)
+ create mode 100644 drivers/input/serio/ioc3kbd.c
+ create mode 100644 drivers/mfd/ioc3.c
+ create mode 100644 drivers/tty/serial/8250/8250_ioc3.c
 
 -- 
-Jiri Kosina
-SUSE Labs
+2.13.7
 
