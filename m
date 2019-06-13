@@ -2,234 +2,188 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE50944444
-	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2019 18:37:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1B0544422
+	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2019 18:36:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392499AbfFMQfy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Jun 2019 12:35:54 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:35911 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730695AbfFMHgN (ORCPT
+        id S1730741AbfFMQfE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Jun 2019 12:35:04 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:45723 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730737AbfFMHpW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Jun 2019 03:36:13 -0400
-Received: by mail-wm1-f67.google.com with SMTP id u8so8974632wmm.1
-        for <linux-input@vger.kernel.org>; Thu, 13 Jun 2019 00:36:10 -0700 (PDT)
+        Thu, 13 Jun 2019 03:45:22 -0400
+Received: by mail-wr1-f66.google.com with SMTP id f9so19558286wre.12
+        for <linux-input@vger.kernel.org>; Thu, 13 Jun 2019 00:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=ULLGD+kLzzUYj4fCvOPuVc0o75pxtC6VaprySH/qDBA=;
-        b=va0iRPkGaFC8lZTtUqUDeLTQuD51FjeR38zNdUlMz1VzIztTego54zVL5wR2K02e1B
-         +P9LYTVbN14yTZcpsMSa9bDAwq7Z9yVXN+PuIhMywSgAyBzTgwyYDXDBp0RzlIfXu4cS
-         0dp0Ifd8DhFXL1BX+SDTmhT71Cw2m7/nJ0ML+LDEMxbrQHcfk6tZouyRfirqu0B28wCH
-         8scy+a7lWqeiQjcFE39gQn8wEDDu3I53qyzAJ3Lxlf5+hp7DHOitJVnCZYyv/eAWwZOH
-         XIRQPMoY98NtHTNMh0kXwp9N3fta2dSA8cMIZ6XQHm92AvzmTB2AqxXq1ESISqPxOqZq
-         rXBQ==
+        bh=zICwNVRcPSA1tlZJ753PMYmmlni1ar7oNojwOjTbPic=;
+        b=UFaim43iGREGabczaEr0BDTV90nNSldGTDZnYiiD4bkY8l+RspILXnAgaca4eEFnRh
+         fzWxmK6JXYh4nsPf4MIKMKohV1z3qsB1aiei9nZDfvVu/pH+z43j6k9eOk0JHcSMGY/B
+         YWFbAswDFeaRZYHhrKIYeb7NlSY46vsAG/mZ+juI6L4rFkVlImLyLJ0YRR+1WXpsbSnv
+         RLE1Y1w11vkKvecDK+NqIa/BglbCRNiAzRzMU7oF9aySoYMzbUc9jyH4xiD9+cE3OpIq
+         jSnExpUQxt7MhGlkraaHCygBaxngue7TToZwxJumOF1kqdCFY3N4eUC0m0JKZ2ZN6FXl
+         /NnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=ULLGD+kLzzUYj4fCvOPuVc0o75pxtC6VaprySH/qDBA=;
-        b=cInA5mOdo4sPM9Ibe+0PN/zQBbZtDR0nnVDRDows4GNVfiSgeLNM2mRa7pAtfys2P5
-         SB8NngGEJS0QjqUQs9Ixc5jloe54yjuIhrxhOJwDnCwPkj5Cb5R/3s3R/P5T5v57/Ybv
-         LBUmltYw3ryeKP8G0SNrGoSMVbuJzEtFzq1qHQqYdDMu/tStxeJkkr/mVpJXM/QGLB72
-         CrvsuXOly55aEET+uUEHMSMBgqzWpITDTtdGJngdoWuYKdiATD+yAJwEG5+NbEJ/uEYa
-         KBSPTxg477sbdhwPeUPAg4dBSCSLH/f1nwbtB5nH5q2EOfVJzZfxjz3TmmFLoCFEJoRZ
-         yg1w==
-X-Gm-Message-State: APjAAAW0JfFMRLjQM7m19gKUx0Z9oMM3f6ZofpfAvSjyn2xzQpccTc2o
-        etb+i+gIJjyHzCRF3JyD25VLl5a+wWs=
-X-Google-Smtp-Source: APXvYqyJ57dfQIlRK6vy4w3Mwz7lPD6nfzTxg+KklTJCryP2m/Mt6CZRQCjrcLXyhuRYb1vXNv1/8A==
-X-Received: by 2002:a7b:cc81:: with SMTP id p1mr2285415wma.107.1560411370215;
-        Thu, 13 Jun 2019 00:36:10 -0700 (PDT)
+        bh=zICwNVRcPSA1tlZJ753PMYmmlni1ar7oNojwOjTbPic=;
+        b=ridfjBgmlu5LUXwkU/1yliupJVgrs6gdPiKGEO07gNXKJC0aE1OEY9f8Zm3WERpybK
+         gVD3MaVuQSORir/olOVqXd4FQydaz4qhZb91iPOqMPNB2svYeA4MIP3TVnEAnKikxF0p
+         9Gb8o5AQjCNc7Z4Ezg4WvlZ5FPL8muDAFyHX8xnlybemfkhKLOWVZemg73VNhkV/RgBv
+         aPgdOt/rioLihb4tl0fyK8PREeV+K13F0/gr+ebE98j9ZMK5EOcbmatAJwJyQexO5p6M
+         JVT4lK3Cewiwyic09X+lBnOoKDTxjbHBHLGNMv8G3QoSUt8CajOQXZiPNwW0v4QEQBG2
+         gndg==
+X-Gm-Message-State: APjAAAXOBQaxprzTH6goHTqGdRPK221hoDizEen2VJ1DigmW99CPG2Ap
+        1IeVLbCIlPqXzc4U+VC4CCU=
+X-Google-Smtp-Source: APXvYqyDSmAehcvC+ggHpfzDJ7fO08aOyoxOwUXevHsJttdfi49GCrsAK1B4F5nVzkvFcc9i2pXTRA==
+X-Received: by 2002:a5d:5152:: with SMTP id u18mr4148480wrt.319.1560411919607;
+        Thu, 13 Jun 2019 00:45:19 -0700 (PDT)
 Received: from pali ([2a02:2b88:2:1::5cc6:2f])
-        by smtp.gmail.com with ESMTPSA id b2sm3098610wrp.72.2019.06.13.00.36.09
+        by smtp.gmail.com with ESMTPSA id w23sm1851592wmc.38.2019.06.13.00.45.18
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 13 Jun 2019 00:36:09 -0700 (PDT)
-Date:   Thu, 13 Jun 2019 09:36:08 +0200
+        Thu, 13 Jun 2019 00:45:18 -0700 (PDT)
+Date:   Thu, 13 Jun 2019 09:45:18 +0200
 From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
-To:     Xiaoxiao Liu <xiaoxiao.liu-1@cn.alps.com>
-Cc:     Hui Wang <hui.wang@canonical.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "sliuuxiaonxiao@gmail.com" <sliuuxiaonxiao@gmail.com>,
-        Xiaojian Cao <xiaojian.cao@cn.alps.com>,
-        Naoki Saito <naoki.saito@alpsalpine.com>,
-        Hideo Kawase <hideo.kawase@alpsalpine.com>
-Subject: Re: =?utf-8?B?562U5aSNOiBbUEFUQ0g=?= =?utf-8?Q?=5D?= Input: alps -
- Don't handle ALPS cs19 trackpoint-only device
-Message-ID: <20190613073608.5ux4idy2hzt6datx@pali>
-References: <20190612070517.20810-1-hui.wang@canonical.com>
- <20190612073817.ju2skswtatl2fxjn@pali>
- <OSBPR01MB4855855F58C638F2F23AA1BBDAEF0@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+To:     Hui Wang <hui.wang@canonical.com>
+Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        xiaoxiao.liu-1@cn.alps.com, sliuuxiaonxiao@gmail.com,
+        xiaojian.cao@cn.alps.com, naoki.saito@alpsalpine.com,
+        hideo.kawase@alpsalpine.com
+Subject: Re: [PATCH v2] Input: alps - Don't handle ALPS cs19 trackpoint-only
+ device
+Message-ID: <20190613074518.jf55wmug5njddzn4@pali>
+References: <20190613033249.20307-1-hui.wang@canonical.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <OSBPR01MB4855855F58C638F2F23AA1BBDAEF0@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+In-Reply-To: <20190613033249.20307-1-hui.wang@canonical.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi!
-
-On Thursday 13 June 2019 04:00:14 Xiaoxiao Liu wrote:
-> Hi Pali,
+On Thursday 13 June 2019 11:32:49 Hui Wang wrote:
+> On a latest Lenovo laptop, the trackpoint and 3 buttons below it
+> don't work at all, when we move the trackpoint or press those 3
+> buttons, the kernel will print out:
+> "Rejected trackstick packet from non DualPoint device"
 > 
-> Do we need to check firmware id? Is not check for "any alps trackpoint"
-> enough? If in future there would be more alps trackpoint-only devices it probably have different firmware id.
->    -> Yes ,we need the firmware version to check if the device is trackpoint-only.
->         This method fit all the current alps trackpoint device.
-
-Ok, if you as authority from ALPS says it is really needed, then please
-use that firmware version check for ALPS trackpoint-only detection.
-
-> Calling that trackpoint check two times is useless and just increase detection time of PS/2 devices.
->   ->  what the twice means?
->   ->  Do you means  ps2_command(&psmouse->ps2dev,    param, MAKE_PS2_CMD(0, 2, TP_READ_ID)) used in the alps.c and trackpoint.c  or   in function  alps_detect twice?(because the alps_identify was called twice.)
->   ->  we must use this command in alps.c to filter the trackpoint-only device.
->   -> We can move it into alps_detect function to reduce calls. How about this?
-
-alps_detect() calls functions in this order:
- 1. alps_identify(with priv = NULL)
- 2. psmouse_reset()
- 3. alps_identify(with priv = allocated memory)
-
-It is because of proper detection on Dell Latitude machines, see
-comments in alps_detect() function or commit messages via git blame for
-more details.
-
-So if you introduce check for ALPS trackpoint-only device into
-alsp_identify() function, you slow down detection of all ALPS devices as
-this check function would be called 2 times from alps_detect().
-
-And then this function is called third time from trackpoint.c, but I do
-not have an idea how to avoid this.
-
-So instead of calling that detection function 3 times (2 times in alps.c
-and one time in trackpoint.c), alps.c should be modified so detection
-function is called only two times (one time in alps.c and one time in
-trackpoint.c).
-
-Or if you have an idea how to decrease just to one call, feel free to
-propose solution and patch.
-
-Or... Dmitry, what do you think about it? Maybe you could have something
-in your mind how to avoid these inter-detection problems between two
-drivers/protocols.
-
-> Best Regards
-> Shona
-> -----邮件原件-----
-> 发件人: Pali Rohár <pali.rohar@gmail.com> 
-> 发送时间: Wednesday, June 12, 2019 3:38 PM
-> 收件人: Hui Wang <hui.wang@canonical.com>
-> 抄送: linux-input@vger.kernel.org; dmitry.torokhov@gmail.com; 劉 曉曉 Xiaoxiao Liu <xiaoxiao.liu-1@cn.alps.com>; sliuuxiaonxiao@gmail.com; 曹 曉建 Xiaojian Cao <xiaojian.cao@cn.alps.com>; 斉藤 直樹 Naoki Saito <naoki.saito@alpsalpine.com>; 川瀬 英夫 Hideo Kawase <hideo.kawase@alpsalpine.com>
-> 主题: Re: [PATCH] Input: alps - Don't handle ALPS cs19 trackpoint-only device
+> This device is identified as alps touchpad but the packet has
+> trackpoint format, so the alps.c drops the packet and prints out
+> the message above.
 > 
-> On Wednesday 12 June 2019 15:05:17 Hui Wang wrote:
-> > On a latest Lenovo laptop, the trackpoint and 3 buttons below it don't 
-> > work at all, when we move the trackpoint or press those 3 buttons, the 
-> > kernel will print out:
-> > "Rejected trackstick packet from non DualPoint device"
-> > 
-> > This device is identified as alps touchpad but the packet has 
-> > trackpoint format, so the alps.c drops the packet and prints out the 
-> > message above.
-> > 
-> > According to XiaoXiao's explanation, this device is named cs19 and is 
-> > trackpoint-only device, its firmware is only for trackpoint, it is 
-> > independent of touchpad and is a completely different device from 
-> > DualPoint ones.
-> > 
-> > To drive this device with mininal changes to the existing driver, we 
-> > just let the alps driver not handle this device, then the trackpoint.c 
-> > will be the driver of this device.
-> > 
-> > With the trackpoint.c, this trackpoint and 3 buttons all work well, 
-> > they have all features that the trackpoint should have, like 
-> > scrolling-screen, drag-and-drop and frame-selection.
-> > 
-> > Signed-off-by: XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
-> > Signed-off-by: Hui Wang <hui.wang@canonical.com>
-> > ---
-> >  drivers/input/mouse/alps.c | 28 ++++++++++++++++++++++++++++
-> >  1 file changed, 28 insertions(+)
-> > 
-> > diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c 
-> > index 0a6f7ca883e7..ff522cd980a0 100644
-> > --- a/drivers/input/mouse/alps.c
-> > +++ b/drivers/input/mouse/alps.c
-> > @@ -24,6 +24,7 @@
-> >  
-> >  #include "psmouse.h"
-> >  #include "alps.h"
-> > +#include "trackpoint.h"
-> >  
-> >  /*
-> >   * Definitions for ALPS version 3 and 4 command mode protocol @@ 
-> > -2864,6 +2865,24 @@ static const struct alps_protocol_info *alps_match_table(unsigned char *e7,
-> >  	return NULL;
-> >  }
-> >  
-> > +static bool alps_is_cs19_trackpoint(struct psmouse *psmouse) {
-> > +	u8 param[2] = { 0 };
-> > +	int error;
-> > +
-> > +	error = ps2_command(&psmouse->ps2dev,
-> > +			    param, MAKE_PS2_CMD(0, 2, TP_READ_ID));
-> > +	if (error)
-> > +		return false;
-> > +
-> > +	if (param[0] == TP_VARIANT_ALPS && param[1] & 0x20) {
+> According to XiaoXiao's explanation, this device is named cs19 and
+> is trackpoint-only device, its firmware is only for trackpoint, it
+> is independent of touchpad and is a completely different device from
+> DualPoint ones.
 > 
-> Hi!
+> To drive this device with mininal changes to the existing driver, we
+> just let the alps driver not handle this device, then the trackpoint.c
+> will be the driver of this device.
 > 
-> Do we need to check firmware id? Is not check for "any alps trackpoint"
-> enough? If in future there would be more alps trackpoint-only devices it probably have different firmware id.
+> With the trackpoint.c, this trackpoint and 3 buttons all work well,
+> they have all features that the trackpoint should have, like
+> scrolling-screen, drag-and-drop and frame-selection.
 > 
-> Also you need to put param[1] & 0x20 into parenthesis due to priority of & and && operators.
+> Signed-off-by: XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
+> Signed-off-by: Hui Wang <hui.wang@canonical.com>
+> ---
+> In the v2, I move the cs19 checking to alsp_detect(), and
+> drop the param[1] checking. And because after executing
+> alps_indetify(), the device is not in the command mode,
+> i rewrite teh alsp_is_cs19_trackpoint() to add enter/exit_command_mode().
 > 
-> Also, what about making trackpoint_start_protocol() function non-static and use it in alps_is_c19_trackpoint implementation? It is doing exactly same thing.
+>  drivers/input/mouse/alps.c | 32 ++++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
 > 
-> > +		psmouse_dbg(psmouse, "It is an ALPS trackpoint-only device (CS19)\n");
-> > +		return true;
-> > +	}
-> > +
-> > +	return false;
-> > +}
-> > +
-> >  static int alps_identify(struct psmouse *psmouse, struct alps_data 
-> > *priv)  {
-> >  	const struct alps_protocol_info *protocol; @@ -2883,6 +2902,15 @@ 
-> > static int alps_identify(struct psmouse *psmouse, struct alps_data *priv)
-> >  	if ((e6[0] & 0xf8) != 0 || e6[1] != 0 || (e6[2] != 10 && e6[2] != 100))
-> >  		return -EINVAL;
-> >  
-> > +	/*
-> > +	 * ALPS cs19 is a trackpoint-only device, it is completely independent
-> > +	 * of touchpad. So it is a different device from DualPoint ones, if it
-> > +	 * is identified as a cs19 trackpoint device, we return -EINVAL here and
-> > +	 * let trackpoint.c drive this device.
-> > +	 */
-> > +	if (alps_is_cs19_trackpoint(psmouse))
-> > +		return -EINVAL;
-> > +
+> diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
+> index 0a6f7ca883e7..6f227e8ddd7e 100644
+> --- a/drivers/input/mouse/alps.c
+> +++ b/drivers/input/mouse/alps.c
+> @@ -24,6 +24,7 @@
+>  
+>  #include "psmouse.h"
+>  #include "alps.h"
+> +#include "trackpoint.h"
+>  
+>  /*
+>   * Definitions for ALPS version 3 and 4 command mode protocol
+> @@ -2864,6 +2865,28 @@ static const struct alps_protocol_info *alps_match_table(unsigned char *e7,
+>  	return NULL;
+>  }
+>  
+> +static bool alps_is_cs19_trackpoint(struct psmouse *psmouse)
+> +{
+> +	u8 param[2] = { 0 };
+> +
+> +	if (alps_enter_command_mode(psmouse))
+> +		return false;
+
+Ufff... is this correct? Entering to command mode e.g. on rushmore
+devices put ALPS touchpad into passthrough mode, when touchpad forwards
+all packets from trackstick (connected to touchpad) directly to the
+host.
+
+I understood that ALPS trackpoint-only device do not have any touchpad,
+so how is command mode suppose to work? What passthrough mean there?
+
+Also does not it break e.g. ALPS rushmore devices?
+
+I would suggest if you can provide architecture how this trackpoint-only
+device is connected and which protocols it understand. Seems that there
+are missing for us important details, like why is passthrough mode
+needed and where it passthrough (there is a second device? which?).
+
+> +	if (ps2_command(&psmouse->ps2dev,
+> +			param, MAKE_PS2_CMD(0, 2, TP_READ_ID)))
+> +		return false;
+
+So if ps2_command fails then device stay in passthrough mode forever.
+And in past I was told by ALPS people that some ALPS rushmore devices
+have a firmware bug that PS/2 reset command does not exit from
+passthrough mode. So this code put some ALPS devices into fully
+unusable and unresetable mode. And full machine power off is needed.
+
+> +	if (alps_exit_command_mode(psmouse))
+> +		return false;
+> +
+> +	if (param[0] == TP_VARIANT_ALPS) {
+> +		psmouse_dbg(psmouse, "It is an ALPS trackpoint-only device (CS19)\n");
+> +		return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+>  static int alps_identify(struct psmouse *psmouse, struct alps_data *priv)
+>  {
+>  	const struct alps_protocol_info *protocol;
+> @@ -3164,6 +3187,15 @@ int alps_detect(struct psmouse *psmouse, bool set_properties)
+>  	if (error)
+>  		return error;
+>  
+> +	/*
+> +	 * ALPS cs19 is a trackpoint-only device, it is completely independent
+> +	 * of touchpad. So it is a different device from DualPoint ones, if it
+> +	 * is identified as a cs19 trackpoint device, we return -EINVAL here and
+> +	 * let trackpoint.c to drive this device.
+> +	 */
+> +	if (alps_is_cs19_trackpoint(psmouse))
+> +		return -EINVAL;
+> +
+>  	/*
+>  	 * Reset the device to make sure it is fully operational:
+>  	 * on some laptops, like certain Dell Latitudes, we may
+> -- 
+> 2.17.1
 > 
-> This change is not ideal as this function would be called two times, see alps_detect(). I would suggest to think more about detection and come up with better solution so above trackpoint check would called only once during PS/2 device detection.
-> 
-> Calling that trackpoint check two times is useless and just increase detection time of PS/2 devices.
-> 
-> >  	/*
-> >  	 * Now get the "E7" and "EC" reports.  These will uniquely identify
-> >  	 * most ALPS touchpads.
-> 
-> --
-> Pali Rohár
-> pali.rohar@gmail.com
 
 -- 
 Pali Rohár
