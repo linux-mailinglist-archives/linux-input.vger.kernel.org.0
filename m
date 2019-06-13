@@ -2,176 +2,204 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C45D24464F
-	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2019 18:50:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B35A044460
+	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2019 18:37:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725775AbfFMQuq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Jun 2019 12:50:46 -0400
-Received: from mail-eopbgr1410071.outbound.protection.outlook.com ([40.107.141.71]:43191
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725616AbfFMEAX (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Jun 2019 00:00:23 -0400
+        id S2404066AbfFMQgh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Jun 2019 12:36:37 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:45657 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730673AbfFMH2K (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 13 Jun 2019 03:28:10 -0400
+Received: by mail-wr1-f68.google.com with SMTP id f9so19501964wre.12
+        for <linux-input@vger.kernel.org>; Thu, 13 Jun 2019 00:28:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=alpsgroup.onmicrosoft.com; s=selector2-alpsgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RiHgjrUxAkRwHp7mAbUWxFr+FdRwYKlibX+uMFD42rs=;
- b=V8liT+l/tAMTE9ofjH1SeTVoNA2Cj5fzWlzkhmRren8vjGcT/Z77yqgL3bg35Mg33m+C+KXJXqu5Aty/JxysbKG1/QOu3eQ2qsDU+UaPYiK8YbDGyEUI1Xvf1ZloKLDXYlMOPszv+VYQGZ7J94LOUwEeJqYi1Qva8BeDA1m0HbA=
-Received: from OSBPR01MB4855.jpnprd01.prod.outlook.com (20.179.180.211) by
- OSBPR01MB2006.jpnprd01.prod.outlook.com (52.134.240.139) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.12; Thu, 13 Jun 2019 04:00:14 +0000
-Received: from OSBPR01MB4855.jpnprd01.prod.outlook.com
- ([fe80::b583:e4e6:93db:38cb]) by OSBPR01MB4855.jpnprd01.prod.outlook.com
- ([fe80::b583:e4e6:93db:38cb%4]) with mapi id 15.20.1965.017; Thu, 13 Jun 2019
- 04:00:14 +0000
-From:   Xiaoxiao Liu <xiaoxiao.liu-1@cn.alps.com>
-To:     =?utf-8?B?UGFsaSBSb2jDoXI=?= <pali.rohar@gmail.com>,
-        Hui Wang <hui.wang@canonical.com>
-CC:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "sliuuxiaonxiao@gmail.com" <sliuuxiaonxiao@gmail.com>,
-        Xiaojian Cao <xiaojian.cao@cn.alps.com>,
-        Naoki Saito <naoki.saito@alpsalpine.com>,
-        Hideo Kawase <hideo.kawase@alpsalpine.com>
-Subject: =?utf-8?B?562U5aSNOiBbUEFUQ0hdIElucHV0OiBhbHBzIC0gRG9uJ3QgaGFuZGxlIEFM?=
- =?utf-8?Q?PS_cs19_trackpoint-only_device?=
-Thread-Topic: [PATCH] Input: alps - Don't handle ALPS cs19 trackpoint-only
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=6NtZ5awJS1Cs7Ve+i+/MsF9Xj1RnmQVjFKJj055oDBs=;
+        b=gDLmFavItyk9U71onYiZRwLHzRXMvsl3L2pWq3wJpNF03VwVv8uUoOLxekYiz+CMFC
+         rOIXoLRblvyqNmZ7xmHI1hpEs3Zr1YsyO1Uj1v1MYkgW1qiUzMGsxFj7Iobm9anAnRXs
+         Rpm1tD3zSEqmebHhg//R7pB0n93wpk3gh6TUQN2/ovZeJ7Z04wS5cjwBFB6/zNoCH10D
+         sGUXWvNsU/l2SadauEqzU8PEYVt0jmn7gDgw2IxTn+YMO5Tddj4UiN9tacKKXVCWx7Bb
+         dNxTxo0FMAmljcxJkkrOjqv1bx65rUZ83jy8Zujr8OzMbA1XCbNYj+S+hghxgJ6AQ9b7
+         CfVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=6NtZ5awJS1Cs7Ve+i+/MsF9Xj1RnmQVjFKJj055oDBs=;
+        b=olLrNOIX6wI2qkxCRUh4uah4wU8RdIRW3aizeOuF65ln+R1qac/QYp0c2cHa83nBW3
+         h6X+vKktYaP7u2C8F+KjhwXQpadWH84E0EakTMUddCAegxygj4XtV8uRo83Fzf7DXssh
+         Cna3V47OJCt4xaazv/+sk/svdsMowXgZ1n7QpLBvYzh67wjDEmgRmejqDxJDCljOadTF
+         fSqQFhdXOXfq2Yr+cZGa68sXd9IPYwk7uP1iPiVK8iSiQjz5YX7fBRtpkNSMSXFimjz4
+         5u1Cp1bB9IIBNcehkkUSBh+/5t4DjfmDk9w66KzWG6S6rirSwLKfe1xT5Yvk8ZXTRIi8
+         BsFA==
+X-Gm-Message-State: APjAAAVWaXDG4VRVyi1Gpw/RJAiC0IPsiyMW5L+g+bm2xWUZUAq4HGmv
+        5EElrIcv3f6o9v1kYn9MwWc=
+X-Google-Smtp-Source: APXvYqzwoxJeKnrUyTxTLOr+2AyWS922ZvkN4CmKQ3HiRRZHlC/scRiZT5lKmvqTwyGFbWKPxobTBg==
+X-Received: by 2002:a05:6000:146:: with SMTP id r6mr45321641wrx.237.1560410887021;
+        Thu, 13 Jun 2019 00:28:07 -0700 (PDT)
+Received: from pali ([2a02:2b88:2:1::5cc6:2f])
+        by smtp.gmail.com with ESMTPSA id z17sm1593485wru.21.2019.06.13.00.28.05
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 13 Jun 2019 00:28:06 -0700 (PDT)
+Date:   Thu, 13 Jun 2019 09:28:05 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
+To:     Hui Wang <hui.wang@canonical.com>
+Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        xiaoxiao.liu-1@cn.alps.com, sliuuxiaonxiao@gmail.com,
+        xiaojian.cao@cn.alps.com, naoki.saito@alpsalpine.com,
+        hideo.kawase@alpsalpine.com
+Subject: Re: [PATCH] Input: alps - Don't handle ALPS cs19 trackpoint-only
  device
-Thread-Index: AQHVIO09EmaGccvZWkyYg0w+iiYF0qaXob6AgAFRpcA=
-Date:   Thu, 13 Jun 2019 04:00:14 +0000
-Message-ID: <OSBPR01MB4855855F58C638F2F23AA1BBDAEF0@OSBPR01MB4855.jpnprd01.prod.outlook.com>
+Message-ID: <20190613072805.vjkkp37ui73l2yzy@pali>
 References: <20190612070517.20810-1-hui.wang@canonical.com>
  <20190612073817.ju2skswtatl2fxjn@pali>
-In-Reply-To: <20190612073817.ju2skswtatl2fxjn@pali>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=xiaoxiao.liu-1@cn.alps.com; 
-x-originating-ip: [58.247.0.86]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 79efda0d-0554-439e-425a-08d6efb3a3fd
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB2006;
-x-ms-traffictypediagnostic: OSBPR01MB2006:
-x-microsoft-antispam-prvs: <OSBPR01MB2006977BC33CC090AFD33566DAEF0@OSBPR01MB2006.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0067A8BA2A
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(39860400002)(136003)(396003)(366004)(346002)(199004)(189003)(33656002)(66574012)(305945005)(7736002)(5660300002)(55016002)(81166006)(85182001)(9686003)(224303003)(81156014)(53936002)(2906002)(14454004)(74316002)(110136005)(71190400001)(478600001)(54906003)(25786009)(66066001)(316002)(71200400001)(3846002)(6116002)(6436002)(486006)(4326008)(446003)(11346002)(256004)(107886003)(14444005)(186003)(476003)(8936002)(99286004)(76176011)(52536014)(66946007)(7696005)(6506007)(66476007)(66556008)(102836004)(68736007)(86362001)(26005)(73956011)(66446008)(64756008)(76116006);DIR:OUT;SFP:1101;SCL:1;SRVR:OSBPR01MB2006;H:OSBPR01MB4855.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
-received-spf: None (protection.outlook.com: cn.alps.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: NQbyhOGh9yUL1Dko+nSA0NLu3IkfF6ZnP6DO4AjxkEl1HnTXS78Cy3ZjNB/0TOPtw7Xm6yq8rpEh5w5pecEMgfIcS+0nnXE7HRBmHPOOUHMy+XMDeexhcECYosk0BtSy1Op8CYXjOOOoOgY3vFElJbvzmy7Mp9/JO7BQPt614sU+2fc2o2tlf7QfyZOJXntWjirrmtAvOnJCjgRaAaCFPbe2h8Bt+WLNlVddyWM0Jw8o+Ko1BKJ1MIL5/DayYjVqEsj1x32NOm/Ern8tOqVaIZSNU6u1a2D8jOnFW/XYO+GWfdgI475Kcr1VXmyclxxt4+y/fc9HhGfeot3uKNpkIkB3fK0ofJ2SCre2SQuvss2SmQqOnq1+Epf6S6lNe9oWo0Ha6flP6mNNeFqXlgkh0Nh5nwed3nAw15TSrSrveaU=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <dd3533ab-374d-ee6d-1d02-14fb83534ae3@canonical.com>
 MIME-Version: 1.0
-X-OriginatorOrg: cn.alps.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79efda0d-0554-439e-425a-08d6efb3a3fd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2019 04:00:14.6753
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 57e76998-77bd-4b82-a424-198f46eb2254
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CHT1HTSH3197@gl.alps.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB2006
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <dd3533ab-374d-ee6d-1d02-14fb83534ae3@canonical.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-SGkgUGFsaSwNCg0KRG8gd2UgbmVlZCB0byBjaGVjayBmaXJtd2FyZSBpZD8gSXMgbm90IGNoZWNr
-IGZvciAiYW55IGFscHMgdHJhY2twb2ludCINCmVub3VnaD8gSWYgaW4gZnV0dXJlIHRoZXJlIHdv
-dWxkIGJlIG1vcmUgYWxwcyB0cmFja3BvaW50LW9ubHkgZGV2aWNlcyBpdCBwcm9iYWJseSBoYXZl
-IGRpZmZlcmVudCBmaXJtd2FyZSBpZC4NCiAgIC0+IFllcyAsd2UgbmVlZCB0aGUgZmlybXdhcmUg
-dmVyc2lvbiB0byBjaGVjayBpZiB0aGUgZGV2aWNlIGlzIHRyYWNrcG9pbnQtb25seS4NCiAgICAg
-ICAgVGhpcyBtZXRob2QgZml0IGFsbCB0aGUgY3VycmVudCBhbHBzIHRyYWNrcG9pbnQgZGV2aWNl
-Lg0KDQpDYWxsaW5nIHRoYXQgdHJhY2twb2ludCBjaGVjayB0d28gdGltZXMgaXMgdXNlbGVzcyBh
-bmQganVzdCBpbmNyZWFzZSBkZXRlY3Rpb24gdGltZSBvZiBQUy8yIGRldmljZXMuDQogIC0+ICB3
-aGF0IHRoZSB0d2ljZSBtZWFucz8NCiAgLT4gIERvIHlvdSBtZWFucyAgcHMyX2NvbW1hbmQoJnBz
-bW91c2UtPnBzMmRldiwgICAgcGFyYW0sIE1BS0VfUFMyX0NNRCgwLCAyLCBUUF9SRUFEX0lEKSkg
-dXNlZCBpbiB0aGUgYWxwcy5jIGFuZCB0cmFja3BvaW50LmMgIG9yICAgaW4gZnVuY3Rpb24gIGFs
-cHNfZGV0ZWN0IHR3aWNlPyhiZWNhdXNlIHRoZSBhbHBzX2lkZW50aWZ5IHdhcyBjYWxsZWQgdHdp
-Y2UuKQ0KICAtPiAgd2UgbXVzdCB1c2UgdGhpcyBjb21tYW5kIGluIGFscHMuYyB0byBmaWx0ZXIg
-dGhlIHRyYWNrcG9pbnQtb25seSBkZXZpY2UuDQogIC0+IFdlIGNhbiBtb3ZlIGl0IGludG8gYWxw
-c19kZXRlY3QgZnVuY3Rpb24gdG8gcmVkdWNlIGNhbGxzLiBIb3cgYWJvdXQgdGhpcz8NCiANCkJl
-c3QgUmVnYXJkcw0KU2hvbmENCi0tLS0t6YKu5Lu25Y6f5Lu2LS0tLS0NCuWPkeS7tuS6ujogUGFs
-aSBSb2jDoXIgPHBhbGkucm9oYXJAZ21haWwuY29tPiANCuWPkemAgeaXtumXtDogV2VkbmVzZGF5
-LCBKdW5lIDEyLCAyMDE5IDM6MzggUE0NCuaUtuS7tuS6ujogSHVpIFdhbmcgPGh1aS53YW5nQGNh
-bm9uaWNhbC5jb20+DQrmioTpgIE6IGxpbnV4LWlucHV0QHZnZXIua2VybmVsLm9yZzsgZG1pdHJ5
-LnRvcm9raG92QGdtYWlsLmNvbTsg5YqJIOabieabiSBYaWFveGlhbyBMaXUgPHhpYW94aWFvLmxp
-dS0xQGNuLmFscHMuY29tPjsgc2xpdXV4aWFvbnhpYW9AZ21haWwuY29tOyDmm7kg5puJ5bu6IFhp
-YW9qaWFuIENhbyA8eGlhb2ppYW4uY2FvQGNuLmFscHMuY29tPjsg5paJ6JekIOebtOaouSBOYW9r
-aSBTYWl0byA8bmFva2kuc2FpdG9AYWxwc2FscGluZS5jb20+OyDlt53ngKwg6Iux5aSrIEhpZGVv
-IEthd2FzZSA8aGlkZW8ua2F3YXNlQGFscHNhbHBpbmUuY29tPg0K5Li76aKYOiBSZTogW1BBVENI
-XSBJbnB1dDogYWxwcyAtIERvbid0IGhhbmRsZSBBTFBTIGNzMTkgdHJhY2twb2ludC1vbmx5IGRl
-dmljZQ0KDQpPbiBXZWRuZXNkYXkgMTIgSnVuZSAyMDE5IDE1OjA1OjE3IEh1aSBXYW5nIHdyb3Rl
-Og0KPiBPbiBhIGxhdGVzdCBMZW5vdm8gbGFwdG9wLCB0aGUgdHJhY2twb2ludCBhbmQgMyBidXR0
-b25zIGJlbG93IGl0IGRvbid0IA0KPiB3b3JrIGF0IGFsbCwgd2hlbiB3ZSBtb3ZlIHRoZSB0cmFj
-a3BvaW50IG9yIHByZXNzIHRob3NlIDMgYnV0dG9ucywgdGhlIA0KPiBrZXJuZWwgd2lsbCBwcmlu
-dCBvdXQ6DQo+ICJSZWplY3RlZCB0cmFja3N0aWNrIHBhY2tldCBmcm9tIG5vbiBEdWFsUG9pbnQg
-ZGV2aWNlIg0KPiANCj4gVGhpcyBkZXZpY2UgaXMgaWRlbnRpZmllZCBhcyBhbHBzIHRvdWNocGFk
-IGJ1dCB0aGUgcGFja2V0IGhhcyANCj4gdHJhY2twb2ludCBmb3JtYXQsIHNvIHRoZSBhbHBzLmMg
-ZHJvcHMgdGhlIHBhY2tldCBhbmQgcHJpbnRzIG91dCB0aGUgDQo+IG1lc3NhZ2UgYWJvdmUuDQo+
-IA0KPiBBY2NvcmRpbmcgdG8gWGlhb1hpYW8ncyBleHBsYW5hdGlvbiwgdGhpcyBkZXZpY2UgaXMg
-bmFtZWQgY3MxOSBhbmQgaXMgDQo+IHRyYWNrcG9pbnQtb25seSBkZXZpY2UsIGl0cyBmaXJtd2Fy
-ZSBpcyBvbmx5IGZvciB0cmFja3BvaW50LCBpdCBpcyANCj4gaW5kZXBlbmRlbnQgb2YgdG91Y2hw
-YWQgYW5kIGlzIGEgY29tcGxldGVseSBkaWZmZXJlbnQgZGV2aWNlIGZyb20gDQo+IER1YWxQb2lu
-dCBvbmVzLg0KPiANCj4gVG8gZHJpdmUgdGhpcyBkZXZpY2Ugd2l0aCBtaW5pbmFsIGNoYW5nZXMg
-dG8gdGhlIGV4aXN0aW5nIGRyaXZlciwgd2UgDQo+IGp1c3QgbGV0IHRoZSBhbHBzIGRyaXZlciBu
-b3QgaGFuZGxlIHRoaXMgZGV2aWNlLCB0aGVuIHRoZSB0cmFja3BvaW50LmMgDQo+IHdpbGwgYmUg
-dGhlIGRyaXZlciBvZiB0aGlzIGRldmljZS4NCj4gDQo+IFdpdGggdGhlIHRyYWNrcG9pbnQuYywg
-dGhpcyB0cmFja3BvaW50IGFuZCAzIGJ1dHRvbnMgYWxsIHdvcmsgd2VsbCwgDQo+IHRoZXkgaGF2
-ZSBhbGwgZmVhdHVyZXMgdGhhdCB0aGUgdHJhY2twb2ludCBzaG91bGQgaGF2ZSwgbGlrZSANCj4g
-c2Nyb2xsaW5nLXNjcmVlbiwgZHJhZy1hbmQtZHJvcCBhbmQgZnJhbWUtc2VsZWN0aW9uLg0KPiAN
-Cj4gU2lnbmVkLW9mZi1ieTogWGlhb1hpYW8gTGl1IDxzbGl1dXhpYW9ueGlhb0BnbWFpbC5jb20+
-DQo+IFNpZ25lZC1vZmYtYnk6IEh1aSBXYW5nIDxodWkud2FuZ0BjYW5vbmljYWwuY29tPg0KPiAt
-LS0NCj4gIGRyaXZlcnMvaW5wdXQvbW91c2UvYWxwcy5jIHwgMjggKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDI4IGluc2VydGlvbnMoKykNCj4gDQo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2lucHV0L21vdXNlL2FscHMuYyBiL2RyaXZlcnMvaW5wdXQvbW91
-c2UvYWxwcy5jIA0KPiBpbmRleCAwYTZmN2NhODgzZTcuLmZmNTIyY2Q5ODBhMCAxMDA2NDQNCj4g
-LS0tIGEvZHJpdmVycy9pbnB1dC9tb3VzZS9hbHBzLmMNCj4gKysrIGIvZHJpdmVycy9pbnB1dC9t
-b3VzZS9hbHBzLmMNCj4gQEAgLTI0LDYgKzI0LDcgQEANCj4gIA0KPiAgI2luY2x1ZGUgInBzbW91
-c2UuaCINCj4gICNpbmNsdWRlICJhbHBzLmgiDQo+ICsjaW5jbHVkZSAidHJhY2twb2ludC5oIg0K
-PiAgDQo+ICAvKg0KPiAgICogRGVmaW5pdGlvbnMgZm9yIEFMUFMgdmVyc2lvbiAzIGFuZCA0IGNv
-bW1hbmQgbW9kZSBwcm90b2NvbCBAQCANCj4gLTI4NjQsNiArMjg2NSwyNCBAQCBzdGF0aWMgY29u
-c3Qgc3RydWN0IGFscHNfcHJvdG9jb2xfaW5mbyAqYWxwc19tYXRjaF90YWJsZSh1bnNpZ25lZCBj
-aGFyICplNywNCj4gIAlyZXR1cm4gTlVMTDsNCj4gIH0NCj4gIA0KPiArc3RhdGljIGJvb2wgYWxw
-c19pc19jczE5X3RyYWNrcG9pbnQoc3RydWN0IHBzbW91c2UgKnBzbW91c2UpIHsNCj4gKwl1OCBw
-YXJhbVsyXSA9IHsgMCB9Ow0KPiArCWludCBlcnJvcjsNCj4gKw0KPiArCWVycm9yID0gcHMyX2Nv
-bW1hbmQoJnBzbW91c2UtPnBzMmRldiwNCj4gKwkJCSAgICBwYXJhbSwgTUFLRV9QUzJfQ01EKDAs
-IDIsIFRQX1JFQURfSUQpKTsNCj4gKwlpZiAoZXJyb3IpDQo+ICsJCXJldHVybiBmYWxzZTsNCj4g
-Kw0KPiArCWlmIChwYXJhbVswXSA9PSBUUF9WQVJJQU5UX0FMUFMgJiYgcGFyYW1bMV0gJiAweDIw
-KSB7DQoNCkhpIQ0KDQpEbyB3ZSBuZWVkIHRvIGNoZWNrIGZpcm13YXJlIGlkPyBJcyBub3QgY2hl
-Y2sgZm9yICJhbnkgYWxwcyB0cmFja3BvaW50Ig0KZW5vdWdoPyBJZiBpbiBmdXR1cmUgdGhlcmUg
-d291bGQgYmUgbW9yZSBhbHBzIHRyYWNrcG9pbnQtb25seSBkZXZpY2VzIGl0IHByb2JhYmx5IGhh
-dmUgZGlmZmVyZW50IGZpcm13YXJlIGlkLg0KDQpBbHNvIHlvdSBuZWVkIHRvIHB1dCBwYXJhbVsx
-XSAmIDB4MjAgaW50byBwYXJlbnRoZXNpcyBkdWUgdG8gcHJpb3JpdHkgb2YgJiBhbmQgJiYgb3Bl
-cmF0b3JzLg0KDQpBbHNvLCB3aGF0IGFib3V0IG1ha2luZyB0cmFja3BvaW50X3N0YXJ0X3Byb3Rv
-Y29sKCkgZnVuY3Rpb24gbm9uLXN0YXRpYyBhbmQgdXNlIGl0IGluIGFscHNfaXNfYzE5X3RyYWNr
-cG9pbnQgaW1wbGVtZW50YXRpb24/IEl0IGlzIGRvaW5nIGV4YWN0bHkgc2FtZSB0aGluZy4NCg0K
-PiArCQlwc21vdXNlX2RiZyhwc21vdXNlLCAiSXQgaXMgYW4gQUxQUyB0cmFja3BvaW50LW9ubHkg
-ZGV2aWNlIChDUzE5KVxuIik7DQo+ICsJCXJldHVybiB0cnVlOw0KPiArCX0NCj4gKw0KPiArCXJl
-dHVybiBmYWxzZTsNCj4gK30NCj4gKw0KPiAgc3RhdGljIGludCBhbHBzX2lkZW50aWZ5KHN0cnVj
-dCBwc21vdXNlICpwc21vdXNlLCBzdHJ1Y3QgYWxwc19kYXRhIA0KPiAqcHJpdikgIHsNCj4gIAlj
-b25zdCBzdHJ1Y3QgYWxwc19wcm90b2NvbF9pbmZvICpwcm90b2NvbDsgQEAgLTI4ODMsNiArMjkw
-MiwxNSBAQCANCj4gc3RhdGljIGludCBhbHBzX2lkZW50aWZ5KHN0cnVjdCBwc21vdXNlICpwc21v
-dXNlLCBzdHJ1Y3QgYWxwc19kYXRhICpwcml2KQ0KPiAgCWlmICgoZTZbMF0gJiAweGY4KSAhPSAw
-IHx8IGU2WzFdICE9IDAgfHwgKGU2WzJdICE9IDEwICYmIGU2WzJdICE9IDEwMCkpDQo+ICAJCXJl
-dHVybiAtRUlOVkFMOw0KPiAgDQo+ICsJLyoNCj4gKwkgKiBBTFBTIGNzMTkgaXMgYSB0cmFja3Bv
-aW50LW9ubHkgZGV2aWNlLCBpdCBpcyBjb21wbGV0ZWx5IGluZGVwZW5kZW50DQo+ICsJICogb2Yg
-dG91Y2hwYWQuIFNvIGl0IGlzIGEgZGlmZmVyZW50IGRldmljZSBmcm9tIER1YWxQb2ludCBvbmVz
-LCBpZiBpdA0KPiArCSAqIGlzIGlkZW50aWZpZWQgYXMgYSBjczE5IHRyYWNrcG9pbnQgZGV2aWNl
-LCB3ZSByZXR1cm4gLUVJTlZBTCBoZXJlIGFuZA0KPiArCSAqIGxldCB0cmFja3BvaW50LmMgZHJp
-dmUgdGhpcyBkZXZpY2UuDQo+ICsJICovDQo+ICsJaWYgKGFscHNfaXNfY3MxOV90cmFja3BvaW50
-KHBzbW91c2UpKQ0KPiArCQlyZXR1cm4gLUVJTlZBTDsNCj4gKw0KDQpUaGlzIGNoYW5nZSBpcyBu
-b3QgaWRlYWwgYXMgdGhpcyBmdW5jdGlvbiB3b3VsZCBiZSBjYWxsZWQgdHdvIHRpbWVzLCBzZWUg
-YWxwc19kZXRlY3QoKS4gSSB3b3VsZCBzdWdnZXN0IHRvIHRoaW5rIG1vcmUgYWJvdXQgZGV0ZWN0
-aW9uIGFuZCBjb21lIHVwIHdpdGggYmV0dGVyIHNvbHV0aW9uIHNvIGFib3ZlIHRyYWNrcG9pbnQg
-Y2hlY2sgd291bGQgY2FsbGVkIG9ubHkgb25jZSBkdXJpbmcgUFMvMiBkZXZpY2UgZGV0ZWN0aW9u
-Lg0KDQpDYWxsaW5nIHRoYXQgdHJhY2twb2ludCBjaGVjayB0d28gdGltZXMgaXMgdXNlbGVzcyBh
-bmQganVzdCBpbmNyZWFzZSBkZXRlY3Rpb24gdGltZSBvZiBQUy8yIGRldmljZXMuDQoNCj4gIAkv
-Kg0KPiAgCSAqIE5vdyBnZXQgdGhlICJFNyIgYW5kICJFQyIgcmVwb3J0cy4gIFRoZXNlIHdpbGwg
-dW5pcXVlbHkgaWRlbnRpZnkNCj4gIAkgKiBtb3N0IEFMUFMgdG91Y2hwYWRzLg0KDQotLQ0KUGFs
-aSBSb2jDoXINCnBhbGkucm9oYXJAZ21haWwuY29tDQo=
+On Thursday 13 June 2019 10:09:24 Hui Wang wrote:
+> 
+> On 2019/6/12 下午3:38, Pali Rohár wrote:
+> > On Wednesday 12 June 2019 15:05:17 Hui Wang wrote:
+> > > On a latest Lenovo laptop, the trackpoint and 3 buttons below it
+> > > don't work at all, when we move the trackpoint or press those 3
+> > > buttons, the kernel will print out:
+> > > "Rejected trackstick packet from non DualPoint device"
+> > > 
+> > > This device is identified as alps touchpad but the packet has
+> > > trackpoint format, so the alps.c drops the packet and prints out
+> > > the message above.
+> > > 
+> > > According to XiaoXiao's explanation, this device is named cs19 and
+> > > is trackpoint-only device, its firmware is only for trackpoint, it
+> > > is independent of touchpad and is a completely different device from
+> > > DualPoint ones.
+> > > 
+> > > To drive this device with mininal changes to the existing driver, we
+> > > just let the alps driver not handle this device, then the trackpoint.c
+> > > will be the driver of this device.
+> > > 
+> > > With the trackpoint.c, this trackpoint and 3 buttons all work well,
+> > > they have all features that the trackpoint should have, like
+> > > scrolling-screen, drag-and-drop and frame-selection.
+> > > 
+> > > Signed-off-by: XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
+> > > Signed-off-by: Hui Wang <hui.wang@canonical.com>
+> > > ---
+> > >   drivers/input/mouse/alps.c | 28 ++++++++++++++++++++++++++++
+> > >   1 file changed, 28 insertions(+)
+> > > 
+> > > diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
+> > > index 0a6f7ca883e7..ff522cd980a0 100644
+> > > --- a/drivers/input/mouse/alps.c
+> > > +++ b/drivers/input/mouse/alps.c
+> > > @@ -24,6 +24,7 @@
+> > >   #include "psmouse.h"
+> > >   #include "alps.h"
+> > > +#include "trackpoint.h"
+> > >   /*
+> > >    * Definitions for ALPS version 3 and 4 command mode protocol
+> > > @@ -2864,6 +2865,24 @@ static const struct alps_protocol_info *alps_match_table(unsigned char *e7,
+> > >   	return NULL;
+> > >   }
+> > > +static bool alps_is_cs19_trackpoint(struct psmouse *psmouse)
+> > > +{
+> > > +	u8 param[2] = { 0 };
+> > > +	int error;
+> > > +
+> > > +	error = ps2_command(&psmouse->ps2dev,
+> > > +			    param, MAKE_PS2_CMD(0, 2, TP_READ_ID));
+> > > +	if (error)
+> > > +		return false;
+> > > +
+> > > +	if (param[0] == TP_VARIANT_ALPS && param[1] & 0x20) {
+> > Hi!
+> > 
+> > Do we need to check firmware id? Is not check for "any alps trackpoint"
+> > enough? If in future there would be more alps trackpoint-only devices it
+> > probably have different firmware id.
+> > 
+> > Also you need to put param[1] & 0x20 into parenthesis due to priority of
+> > & and && operators.
+> Got it, will drop param[1] & 0x20 and make it work for more alps devices.
+> > 
+> > Also, what about making trackpoint_start_protocol() function non-static
+> > and use it in alps_is_c19_trackpoint implementation? It is doing exactly
+> > same thing.
+> 
+> Suppose users enabled the CONFIG_MOUSE_PS2_ALPS while disabled the
+> CONFIG_MOUSE_PS2_TRACKPOINT, there will be some building error.
+
+So in this case support for these trackpoint-only devices is broken,
+right? Compile error is for sure a problem. But if trackpoint is
+disabled and in alps.c we detected that trackpoint.c is needed, I think
+you should issue warning to dmesg that current compiled kernel cannot
+properly handle input device (alps.c decided that trackpoint.c handles
+this input device, but user decided that trackpoint.c does not compile
+into kernel).
+
+> We may change Kconfig to let ALPS depend on TRACKPOINT, but it is not worth
+> doing that only for one function.
+
+This dependency is not a good idea. Rather stay with current code when
+small function is copy+paste and modified to drop unneeded return
+variables (param[]).
+
+> > > +		psmouse_dbg(psmouse, "It is an ALPS trackpoint-only device (CS19)\n");
+> > > +		return true;
+> > > +	}
+> > > +
+> > > +	return false;
+> > > +}
+> > > +
+> > >   static int alps_identify(struct psmouse *psmouse, struct alps_data *priv)
+> > >   {
+> > >   	const struct alps_protocol_info *protocol;
+> > > @@ -2883,6 +2902,15 @@ static int alps_identify(struct psmouse *psmouse, struct alps_data *priv)
+> > >   	if ((e6[0] & 0xf8) != 0 || e6[1] != 0 || (e6[2] != 10 && e6[2] != 100))
+> > >   		return -EINVAL;
+> > > +	/*
+> > > +	 * ALPS cs19 is a trackpoint-only device, it is completely independent
+> > > +	 * of touchpad. So it is a different device from DualPoint ones, if it
+> > > +	 * is identified as a cs19 trackpoint device, we return -EINVAL here and
+> > > +	 * let trackpoint.c drive this device.
+> > > +	 */
+> > > +	if (alps_is_cs19_trackpoint(psmouse))
+> > > +		return -EINVAL;
+> > > +
+> > This change is not ideal as this function would be called two times, see
+> > alps_detect(). I would suggest to think more about detection and come up
+> > with better solution so above trackpoint check would called only once
+> > during PS/2 device detection.
+> > 
+> > Calling that trackpoint check two times is useless and just increase
+> > detection time of PS/2 devices.
+> 
+> OK, I will try to move this checking into the alps_detect(), then it will be
+> called once.
+> 
+> Thanks.
+> 
+> 
+> > 
+> > >   	/*
+> > >   	 * Now get the "E7" and "EC" reports.  These will uniquely identify
+> > >   	 * most ALPS touchpads.
+
+-- 
+Pali Rohár
+pali.rohar@gmail.com
