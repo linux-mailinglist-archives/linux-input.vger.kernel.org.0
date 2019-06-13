@@ -2,105 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0246D44A98
-	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2019 20:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD96144D6D
+	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2019 22:29:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728412AbfFMS0x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Jun 2019 14:26:53 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:35992 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727314AbfFMS0x (ORCPT
+        id S1728879AbfFMU2l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Jun 2019 16:28:41 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:34799 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726325AbfFMU2l (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Jun 2019 14:26:53 -0400
-Received: by mail-pl1-f196.google.com with SMTP id d21so8498621plr.3
-        for <linux-input@vger.kernel.org>; Thu, 13 Jun 2019 11:26:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DCSwLCAumFrPz4M+TgatLYzC2CNUxBHne1EyoUjckX4=;
-        b=DRZH+bbs/PxFORs+fs8o/Z/vFJ9lOPYBCTz8KJ0ez2NGE93BleqM4m3xLsXk8uPKdn
-         4fO2/l2PdlE2rWbY72e2SY0dHuZbwb0y8kL1OEwG4O9SJ0308kLRYYG22sLpePVXClqS
-         DBxulwp11rR9In4MAt+LJuDAoqvgkgnpT6LtpC5EqwQbSK9m9fX9e1LLZ8lfDhr59KKD
-         aTf3/txuFs3YgaSAzvBgVItKHmJPuVgrtGEj9+oMMLYqDldSeeAKIRHIqXC5CJ3yZMqE
-         qdWlENTC25TGjbItWsM6aCPv6c2QCAu5KTCSIVHThiPyvsvLdo5M95fHyCxxn4YQUPUV
-         v+lQ==
+        Thu, 13 Jun 2019 16:28:41 -0400
+Received: by mail-qt1-f193.google.com with SMTP id m29so24176030qtu.1;
+        Thu, 13 Jun 2019 13:28:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DCSwLCAumFrPz4M+TgatLYzC2CNUxBHne1EyoUjckX4=;
-        b=SFzv/AG8kRkV/fv7G54o9SLjBGEzqVNeM/A+fL6sh8QWTZ0eNHb8vPmn+TsljDLy1s
-         X2xTvHlNXyTedasgc8zC3LKePDiPPaLFlpb8hWz8RuuhYgjg+QKGqIkRIw7QAgKVU815
-         smHTpKh373+kVVJmkNN+5utPgmCAQCqetjaSFPOSgE1mc+WqRKghln9tg9++/glTmU9T
-         sPoQFF4WKbyCoCp0cKJdMzpZItFn/oBwFCB5CGZw7jzY7rjtmZ8LumZd5g6rqkNB6Srw
-         LA5LG6fcbCJ8s2mIzuhgjYPBYT1HPQzTPkXC/t6nxZClEGglipOSgr63utBtUUmj+AF7
-         KaIw==
-X-Gm-Message-State: APjAAAUbaEIzqs50y5udcaM9ETiqQjBgVEt/oOQ5zoQUROFUIblyb87j
-        eb7N+WohHk3Oer28K50mejYDahoPFSjd+LqJ9rje6c4k
-X-Google-Smtp-Source: APXvYqyuIOy41PtVn3XCILRP3Kw2qLTEAWNAnwrQCLdwZu2+UKzrSEwu3zpW6r8J7vsVr7599DvMhNLa8VTiAsiRJ3g=
-X-Received: by 2002:a17:902:9f93:: with SMTP id g19mr73666606plq.223.1560450412105;
- Thu, 13 Jun 2019 11:26:52 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aEXZ9ovG0nQIpd8Z74pAm7FU5KWUqGz2YDsBOtBFjmI=;
+        b=nqolfzDb7nBOEec3gi2fqxt9lTBXK72M8yfwqaLze7r4xDZXFNJaL5RlWQYnsBrqEw
+         UVUYA9gJfo2TIjI4szTcw8boETANuUMKuvVh5S4Vn3BNxhAY8xulFGvdt/d6pwO9VMme
+         3zm6hMeoEb25kEzJXcKwgIdJCKAq6rI7xyDZyt4tcXt6f5mWyxhG1BOBMTMcdrVgVK8b
+         JJDvg0g7IkNdhYtr7SQ9clWB3pwUUDoUwtJx1YqgTRVTZSI+QMiJVorXls+ecpcHaQTE
+         zml0qlrv94UCjWX4ES885xn0gpxlvaDBLNReXzR+AdcTdQn7SeFbJelYpJOdqm5SJVQ7
+         bLQg==
+X-Gm-Message-State: APjAAAWhuMQHn1rZhp19KP5ic4DC+w2xPLza9SPtkZyDF7g6e59TV7FC
+        Ny7Ukcg+sD/Ar48kGPGQ5w==
+X-Google-Smtp-Source: APXvYqx/GGQsQaZAE82OHRCzaZxHMgbVOY4Azf/9Ea8dY74XXg53tRU0GwGVV778oTBgcmL/ZE+rbQ==
+X-Received: by 2002:ac8:689a:: with SMTP id m26mr34806510qtq.192.1560457720530;
+        Thu, 13 Jun 2019 13:28:40 -0700 (PDT)
+Received: from localhost ([64.188.179.243])
+        by smtp.gmail.com with ESMTPSA id o38sm453562qto.96.2019.06.13.13.28.39
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 13 Jun 2019 13:28:39 -0700 (PDT)
+Date:   Thu, 13 Jun 2019 14:28:38 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Fabien Parent <fparent@baylibre.com>
+Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, matthias.bgg@gmail.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Fabien Parent <fparent@baylibre.com>
+Subject: Re: [PATCH 1/2] dt-bindings: input: mtk-pmic-keys: add MT6392
+ binding definition
+Message-ID: <20190613202838.GA20410@bogus>
+References: <20190513142120.6527-1-fparent@baylibre.com>
 MIME-Version: 1.0
-References: <CAKwvOdnjTxzXgPHQcC7K8N5YkTvh66sy86oorPJZc07b7UBhGw@mail.gmail.com>
- <20190613182326.237391-1-nhuck@google.com>
-In-Reply-To: <20190613182326.237391-1-nhuck@google.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 13 Jun 2019 11:26:41 -0700
-Message-ID: <CAKwvOd=252Ak-VQ20XtsGaRXEfraxtNTNjhjYfdrsWv_7OHsoQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Input: atmel_mxt_ts - fix -Wunused-const-variable
-To:     Nathan Huckleberry <nhuck@google.com>
-Cc:     nick@shmanahar.org, dmitry.torokhov@gmail.com,
-        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190513142120.6527-1-fparent@baylibre.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jun 13, 2019 at 11:24 AM 'Nathan Huckleberry' via Clang Built
-Linux <clang-built-linux@googlegroups.com> wrote:
-> Changes from v1 -> v2
-> * Moved definition of mxt_video_fops into existing ifdef
+On Mon, 13 May 2019 16:21:19 +0200, Fabien Parent wrote:
+> Add the binding documentation of the mtk-pmic-keys for the MT6392 PMICs.
+> 
+> Signed-off-by: Fabien Parent <fparent@baylibre.com>
+> ---
+>  .../devicetree/bindings/input/mtk-pmic-keys.txt       | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+> 
 
-Thanks for the v2.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
-> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
-> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-> @@ -256,16 +256,6 @@ enum v4l_dbg_inputs {
->         MXT_V4L_INPUT_MAX,
->  };
->
-> -static const struct v4l2_file_operations mxt_video_fops = {
-> -       .owner = THIS_MODULE,
-> -       .open = v4l2_fh_open,
-> -       .release = vb2_fop_release,
-> -       .unlocked_ioctl = video_ioctl2,
-> -       .read = vb2_fop_read,
-> -       .mmap = vb2_fop_mmap,
-> -       .poll = vb2_fop_poll,
-> -};
-> -
->  enum mxt_suspend_mode {
->         MXT_SUSPEND_DEEP_SLEEP  = 0,
->         MXT_SUSPEND_T9_CTRL     = 1,
-> @@ -2218,6 +2208,16 @@ static int mxt_init_t7_power_cfg(struct mxt_data *data)
->  }
->
->  #ifdef CONFIG_TOUCHSCREEN_ATMEL_MXT_T37
-> +static const struct v4l2_file_operations mxt_video_fops = {
-> +       .owner = THIS_MODULE,
-> +       .open = v4l2_fh_open,
-> +       .release = vb2_fop_release,
-> +       .unlocked_ioctl = video_ioctl2,
-> +       .read = vb2_fop_read,
-> +       .mmap = vb2_fop_mmap,
-> +       .poll = vb2_fop_poll,
-> +};
-> +
-
--- 
-Thanks,
-~Nick Desaulniers
+Reviewed-by: Rob Herring <robh@kernel.org>
