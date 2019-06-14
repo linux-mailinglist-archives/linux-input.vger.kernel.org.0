@@ -2,68 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BD9B46867
-	for <lists+linux-input@lfdr.de>; Fri, 14 Jun 2019 21:55:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1879D46869
+	for <lists+linux-input@lfdr.de>; Fri, 14 Jun 2019 21:56:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725808AbfFNTz5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Jun 2019 15:55:57 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:39661 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725802AbfFNTz5 (ORCPT
+        id S1725942AbfFNT40 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Jun 2019 15:56:26 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:35172 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725802AbfFNT40 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Jun 2019 15:55:57 -0400
-Received: by mail-qt1-f196.google.com with SMTP id i34so3886248qta.6;
-        Fri, 14 Jun 2019 12:55:56 -0700 (PDT)
+        Fri, 14 Jun 2019 15:56:26 -0400
+Received: by mail-qt1-f193.google.com with SMTP id d23so3926039qto.2;
+        Fri, 14 Jun 2019 12:56:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=X3VD4dXHg/naZxJ/7HbFX8rXeE3t64aHwAuHutsyuek=;
-        b=b8Ka7MYDNPL9sjsM62TjkwRpiKaIF28AybDWQ1P7U//CJQ3FGNCXGxzWypUiS5ULdw
-         op7r8YjvGEJWC5rvDVNaInE0f3bq8UMWWvsBbNvgzISdXjGd8A6dSowfg4brKDDpbV81
-         kAUcC5Y0dMG1YWHBNicrczHz5/1qMDRFgQb0ViBjuT2IAxmxv8ZQDIoHx+F77gMWldqQ
-         +oPdtumsgXzUc7+cbZ6980kEPb55Uaue45ZQKmMXOJCQhHOymYCjinraGckl7iuAgfKe
-         X2GrfEEzL7MeOIwmbqF1YkHb5SInzTdDSb9tPUzCf3s2plKBiUu9+Ntnp2tSd9llE2ky
-         lt5A==
-X-Gm-Message-State: APjAAAXKSkzDrIQhnM/F7bJj5QC0Ilgz2T/dCOArzQEaAvlklWWTTUOT
-        MgR7z1cOKQ4TGhJe9tMluA==
-X-Google-Smtp-Source: APXvYqz510QPXIY0VeAha06LU0jf4aNer3612Y9WvtBavW/tnCnm3KubvB5SOBToZnSNzgK95sETfg==
-X-Received: by 2002:a0c:92ab:: with SMTP id b40mr9715529qvb.129.1560542155908;
-        Fri, 14 Jun 2019 12:55:55 -0700 (PDT)
+        bh=mgqg9Qp/GW7FbJr1PlYQp1Nxx2r3iqTaKl4BOq/b22c=;
+        b=fEXfcBoU5C6/geBQ+wYivPAlqDCkvm7NW8Qo/th7OU7YIubTLO+Hpxb/KMaROrKwTl
+         332+DKpzqahkICm0J6ueB+5Z0JpVL6nSrDtLo/phJOeET23cJRApV3D5QuyN3lkXrO/+
+         CRYoPBWMMrjTeWC5UHmogFIHu1RNTGVEZZeQJKcli02EzigkEX/4E824RH1KW7P5KGI/
+         JA9DV0y5L6pvgZAqdSA2wV/5hayHhIjaKrGIMwAmSj4NtXBfINSocF/YVcxm5qsJZjLP
+         ALoentv0cLmv6F+FtPfLfKfVQXhbjP+Xq6lKM9a5PXf10Z4gy0jNPxKtM8G0CYe7jlRP
+         TX6A==
+X-Gm-Message-State: APjAAAX7sx+TziRSM5iGZEMLc0bW6xkMHTJcE8Bb9/b3Bqk+xvm/mj5w
+        RSDXpnWbnfh1VhaL6UNv6Q==
+X-Google-Smtp-Source: APXvYqyKx/fUFIdcWxu52k1qLnudSlVv2idg6LJ/bFETpbgV1XAAEPYdiEHIJeFCNPBrco/EJ57HLw==
+X-Received: by 2002:ac8:22db:: with SMTP id g27mr82787629qta.221.1560542185162;
+        Fri, 14 Jun 2019 12:56:25 -0700 (PDT)
 Received: from localhost ([64.188.179.243])
-        by smtp.gmail.com with ESMTPSA id s35sm2357131qth.79.2019.06.14.12.55.54
+        by smtp.gmail.com with ESMTPSA id z50sm2722502qtz.36.2019.06.14.12.56.24
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 14 Jun 2019 12:55:55 -0700 (PDT)
-Date:   Fri, 14 Jun 2019 13:55:52 -0600
+        Fri, 14 Jun 2019 12:56:24 -0700 (PDT)
+Date:   Fri, 14 Jun 2019 13:56:23 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Leif Middelschulte <leif.middelschulte@klsmartin.com>
 Cc:     dmitry.torokhov@gmail.com, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com,
-        Leif Middelschulte <leif.middelschulte@klsmartin.com>
-Subject: Re: [PATCH 05/10] dt-bindings: input: touchscreen: stmpe: add XY mode
-Message-ID: <20190614195552.GA5316@bogus>
+        linux-input@vger.kernel.org, mark.rutland@arm.com
+Subject: Re: [PATCH 07/10] dt-bindings: input: touchscreen: stmpe: add axes
+ inversion and swap
+Message-ID: <20190614195623.GA5499@bogus>
 References: <20190527160736.30569-1-leif.middelschulte@klsmartin.com>
  <20190527161938.31871-1-leif.middelschulte@klsmartin.com>
+ <20190527161938.31871-3-leif.middelschulte@klsmartin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190527161938.31871-1-leif.middelschulte@klsmartin.com>
+In-Reply-To: <20190527161938.31871-3-leif.middelschulte@klsmartin.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 27 May 2019 18:19:33 +0200, Leif Middelschulte wrote:
-> This change documents the support of another input data
-> acquisition mode (XY). This mode is mostly relevant in
-> the context of/combination with the tracking index.
+On Mon, May 27, 2019 at 06:19:35PM +0200, Leif Middelschulte wrote:
+> This driver too supports coordinate inversion on X,Y axes and
+> axes swapping via the common properties defined in touchscreen.txt
 > 
 > Signed-off-by: Leif Middelschulte <leif.middelschulte@klsmartin.com>
 > ---
->  Documentation/devicetree/bindings/input/touchscreen/stmpe.txt | 3 +++
->  1 file changed, 3 insertions(+)
+>  Documentation/devicetree/bindings/input/touchscreen/stmpe.txt | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/stmpe.txt b/Documentation/devicetree/bindings/input/touchscreen/stmpe.txt
+> index aee1abf06ddb..09d2d4f288cc 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/stmpe.txt
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/stmpe.txt
+> @@ -42,6 +42,10 @@ Optional properties:
+>  				The given window also affects the value range (limits) set
+>  				within the input subsystem which, in turn, affects
+>  				the input resolution calculation on both axes.
+> +- touchscreen-inverted-x: X axis is inverted (boolean)
+> +- touchscreen-inverted-y: Y axis is inverted (boolean)
+> +- touchscreen-swapped-x-y: X and Y axis are swapped (boolean)
+> +				Swapping is done after inverting the axis
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Just reference common definition.
+
+>  - touchscreen-x-mm	: horizontal length in mm of the touchscreen. It affects
+>  				the input resolution calculation on the horizontal axis.
+>  - touchscreen-y-mm	: vertical length in mm of the touchscreen. It affects
+> -- 
+> 2.21.0
+> 
