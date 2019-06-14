@@ -2,79 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E501F4575E
-	for <lists+linux-input@lfdr.de>; Fri, 14 Jun 2019 10:20:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85E284577A
+	for <lists+linux-input@lfdr.de>; Fri, 14 Jun 2019 10:29:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725999AbfFNIUh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Jun 2019 04:20:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50058 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726647AbfFNIUg (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Jun 2019 04:20:36 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 18A4C3082E63;
-        Fri, 14 Jun 2019 08:20:36 +0000 (UTC)
-Received: from shalem.localdomain.com (unknown [10.36.118.15])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2BAF760BE2;
-        Fri, 14 Jun 2019 08:20:35 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Subject: [PATCH] HID: logitech-dj: Fix forwarding of very long HID++ reports
-Date:   Fri, 14 Jun 2019 10:20:27 +0200
-Message-Id: <20190614082027.4270-2-hdegoede@redhat.com>
-In-Reply-To: <20190614082027.4270-1-hdegoede@redhat.com>
-References: <20190614082027.4270-1-hdegoede@redhat.com>
+        id S1726490AbfFNI3j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Jun 2019 04:29:39 -0400
+Received: from mx2.suse.de ([195.135.220.15]:42818 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726259AbfFNI3j (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 14 Jun 2019 04:29:39 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 399EFAF7D;
+        Fri, 14 Jun 2019 08:29:38 +0000 (UTC)
+Message-ID: <4bb29ccf9848d7147cf975d8ed1f7f649ed72be0.camel@suse.de>
+Subject: Re: Regression post "HID: core: move Usage Page concatenation to
+ Main item"
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     Jean-Baptiste =?ISO-8859-1?Q?Th=E9ou?= <jb@essential.com>,
+        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 14 Jun 2019 10:29:36 +0200
+In-Reply-To: <CAEXycp+Y-x7N_Yr==Xy_CT5K_a1DZYc85w1OUV+cKC5ZN+KB1g@mail.gmail.com>
+References: <CAEXycp+Y-x7N_Yr==Xy_CT5K_a1DZYc85w1OUV+cKC5ZN+KB1g@mail.gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-U9yRqFBIo6enOd/x5jVj"
+User-Agent: Evolution 3.32.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Fri, 14 Jun 2019 08:20:36 +0000 (UTC)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The HID++ spec also defines very long HID++ reports, with a reportid of
-0x12. The MX5000 and MX5500 keyboards use 0x12 output reports for sending
-messages to display on their buildin LCD.
 
-Userspace (libmx5000) supports this, in order for this to work when talking
-to the HID devices instantiated for the keyboard by hid-logitech-dj,
-we need to properly forward these reports to the device.
+--=-U9yRqFBIo6enOd/x5jVj
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This commit fixes logi_dj_ll_raw_request not forwarding these reports.
+On Fri, 2019-06-14 at 09:01 +0900, Jean-Baptiste Th=C3=A9ou wrote:
+> Hi,
+>=20
+> This patch (58e75155009cc800005629955d3482f36a1e0eec) is triggering a
+> regression with the following descriptor (report not working as
+> expected)
+>=20
+>=20
+https://partner-android.googlesource.com/platform/cts/+/refs/heads/q-fs-rel=
+ease/tests/tests/hardware/res/raw/asus_gamepad_register.json
+>=20
+> Didn't see anything obviously wrong with this gamepad descriptor, so
+> not sure what's trigger the regression.
+>=20
 
-Fixes: f2113c3020ef ("HID: logitech-dj: add support for Logitech Bluetooth Mini-Receiver")
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/hid/hid-logitech-dj.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I'll have a look at it.
 
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index 865b179d0a62..aedbe18182db 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -30,6 +30,7 @@
- 
- #define REPORT_ID_HIDPP_SHORT			0x10
- #define REPORT_ID_HIDPP_LONG			0x11
-+#define REPORT_ID_HIDPP_VERY_LONG		0x12
- 
- #define HIDPP_REPORT_SHORT_LENGTH		7
- #define HIDPP_REPORT_LONG_LENGTH		20
-@@ -1242,7 +1243,8 @@ static int logi_dj_ll_raw_request(struct hid_device *hid,
- 	int ret;
- 
- 	if ((buf[0] == REPORT_ID_HIDPP_SHORT) ||
--	    (buf[0] == REPORT_ID_HIDPP_LONG)) {
-+	    (buf[0] == REPORT_ID_HIDPP_LONG) ||
-+	    (buf[0] == REPORT_ID_HIDPP_VERY_LONG)) {
- 		if (count < 2)
- 			return -EINVAL;
- 
--- 
-2.21.0
+Do you have any more information on the regression? What exactly isn't work=
+ing?
+
+Regards,
+Nicolas
+
+
+--=-U9yRqFBIo6enOd/x5jVj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl0DWvAACgkQlfZmHno8
+x/7FBAf+JzgyfKk2vvWqED/dX0TFOZmtkPT14VCNY/I1UISIYlrf68w0q0h5KR6d
+Dx4KWGlQ9WcoLjB2cn4qkKs3SLdCRJ/wSKoJhRvMGJQvw3xjGN+aAyk7F0/y199E
+Or65Ty5CbADBWKMyAt5yzxyn+NFNvkLkU3Au0WnUvRdBFwFVz72vqLUQd10UU6GD
+yGi2e7rRzm+PUpj5npx/Vw3K1IVl1f0Xax7JvXY237ZNaobcktWLqv57nJKWyaQ4
+hCjlChopG2mITmZFLuIXQ28qRpoAKNrzMS8hJ2knHN+CFDKzCl+gGMPkmVAmc7fl
+wxGT+xw9cNMKi0iDWY2alW1SKyESCw==
+=ZkvD
+-----END PGP SIGNATURE-----
+
+--=-U9yRqFBIo6enOd/x5jVj--
 
