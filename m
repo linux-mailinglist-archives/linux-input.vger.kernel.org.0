@@ -2,111 +2,162 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB0C445E53
-	for <lists+linux-input@lfdr.de>; Fri, 14 Jun 2019 15:36:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87E5A45E5C
+	for <lists+linux-input@lfdr.de>; Fri, 14 Jun 2019 15:38:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727729AbfFNNgQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Jun 2019 09:36:16 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:33061 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727827AbfFNNgQ (ORCPT
+        id S1727913AbfFNNhQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Jun 2019 09:37:16 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:55719 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727827AbfFNNhQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Jun 2019 09:36:16 -0400
-Received: by mail-qk1-f196.google.com with SMTP id r6so1681850qkc.0
-        for <linux-input@vger.kernel.org>; Fri, 14 Jun 2019 06:36:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9LlmkYnjQ09lYvGpUcAqj3kA1O47a4djevWb989ZA1w=;
-        b=uYTb9+JqkvRlFk5agUlxQlR9uq6USomvtQ+3zDIWjvFg2FL1Ne84kmNYYcd8KwlqU2
-         Z7BS5he/vooE7jggcvl8LBMtniKhU+dz31DwZMRlL+m3ZPGjub8QwRgNPxdVkDko9tHd
-         65SFezM1wnekaXut0SrRl+VZbuk5hYkjwhRgW/+5Udw+DoUlnYVhZiyUDjoAdFfFPOmA
-         ULNS0EYQjgBbSZL/i15nkimb7qcxOeZxMyT6UBE+TMnGSahN8xy8F0Ws1sdab6KxgZzr
-         cIx5Q53670l5Hy6Pj8q9kxsTxf/dU/9DNEB8Cg9gzHJptPC7nyhPB92c93AQ1nliGYe/
-         hQuw==
-X-Gm-Message-State: APjAAAX/fL+yo+zKxd8pivfAMeIu3oBjt9mOimSOv5rdiQNnHbAZSlpt
-        q0wIcr+AdMR94Uv5gCxGe4G6btJMjIiNRZI6TWdNQA==
-X-Google-Smtp-Source: APXvYqxiuI0SUUQnJRSwm7z5cWkb4lnXy0zELVp/wWllW/D+t1xRaQpRqi09nRRT6VR/fXxGrSPtZB8M1COZHqcgneE=
-X-Received: by 2002:a37:8e03:: with SMTP id q3mr78142534qkd.234.1560519375030;
- Fri, 14 Jun 2019 06:36:15 -0700 (PDT)
+        Fri, 14 Jun 2019 09:37:16 -0400
+Received: from dell-desktop.home (aaubervilliers-681-1-81-150.w90-88.abo.wanadoo.fr [90.88.23.150])
+        (Authenticated sender: mylene.josserand@bootlin.com)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id F3057240008;
+        Fri, 14 Jun 2019 13:37:07 +0000 (UTC)
+From:   =?UTF-8?q?Myl=C3=A8ne=20Josserand?= <mylene.josserand@bootlin.com>
+To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org, mark.rutland@arm.com
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mylene.josserand@bootlin.com,
+        thomas.petazzoni@bootlin.com
+Subject: [PATCH v1] Input: rotary-encoder - Add gpio as push button
+Date:   Fri, 14 Jun 2019 15:36:51 +0200
+Message-Id: <20190614133651.28396-1-mylene.josserand@bootlin.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-References: <20190611121320.30267-1-nsaenzjulienne@suse.de>
- <CAO-hwJLAiC1o-kZ5epZHtO2GK+zc5x28pYbZH-XsY4yAuBmHWw@mail.gmail.com> <5346893.KeHrH3GHoD@linux-lf90.site>
-In-Reply-To: <5346893.KeHrH3GHoD@linux-lf90.site>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 14 Jun 2019 15:36:03 +0200
-Message-ID: <CAO-hwJ+Nm+i+ehGurAxD3EQBX8-TFQ7p4J-1rV55fVA=NazgAw@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: input: fix a4tech horizontal wheel custom usage
-To:     wbauer1@a1.net
-Cc:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Wolfgang,
+Add the support of a gpio that can be defined as a push button.
+Thanks to that, it is possible to emit a keycode in case of a
+"push" event, if the rotary supports that.
 
-On Thu, Jun 13, 2019 at 1:49 PM Wolfgang Bauer <wbauer@tmo.at> wrote:
->
-> On Tuesday, 11. Juni 2019, 16:42:37 Benjamin Tissoires wrote:
-> > On Tue, Jun 11, 2019 at 2:13 PM Nicolas Saenz Julienne
-> >
-> > <nsaenzjulienne@suse.de> wrote:
-> > > NOTE: I CC'd Wolfgang as he's the one who can test this.
-> >
-> > I'll wait for Wolfram to confirm that the patch works before pushing then.
->
-> My name is Wolfgang, not Wolfram... ;-)
+The keycode to emit is defined using "linux,code" property
+(such as in gpio-keys).
 
-ouch, sorry for that (I am more used to talk to the I2C maintainer apparently)
+Signed-off-by: Mylène Josserand <mylene.josserand@bootlin.com>
+---
+ .../devicetree/bindings/input/rotary-encoder.txt   |  5 +++
+ drivers/input/misc/rotary_encoder.c                | 50 ++++++++++++++++++++++
+ 2 files changed, 55 insertions(+)
 
-> But never mind.
->
-> I tested the patch meanwhile on top of kernel 5.2.rc4, where the mouse wheel
-> actually worked.
+diff --git a/Documentation/devicetree/bindings/input/rotary-encoder.txt b/Documentation/devicetree/bindings/input/rotary-encoder.txt
+index a644408b33b8..1cfce5d0b5c4 100644
+--- a/Documentation/devicetree/bindings/input/rotary-encoder.txt
++++ b/Documentation/devicetree/bindings/input/rotary-encoder.txt
+@@ -22,6 +22,9 @@ Optional properties:
+ - wakeup-source: Boolean, rotary encoder can wake up the system.
+ - rotary-encoder,encoding: String, the method used to encode steps.
+   Supported are "gray" (the default and more common) and "binary".
++- push-gpio: a gpio to be used as a detection of a push from the rotary.
++- linux,code: keycode to emit with the push-gpio of this rotary encoder.
++  Required property in case "push-gpio"'s one is used.
+ 
+ Deprecated properties:
+ - rotary-encoder,half-period: Makes the driver work on half-period mode.
+@@ -47,4 +50,6 @@ Example:
+ 			rotary-encoder,steps = <24>;
+ 			rotary-encoder,encoding = "binary";
+ 			rotary-encoder,rollover;
++			push-gpio = <&gpio 20 0>;
++			linux-code = <28> /* KEY_ENTER */
+ 		};
+diff --git a/drivers/input/misc/rotary_encoder.c b/drivers/input/misc/rotary_encoder.c
+index d748897bf5e9..556995fb7dde 100644
+--- a/drivers/input/misc/rotary_encoder.c
++++ b/drivers/input/misc/rotary_encoder.c
+@@ -47,8 +47,10 @@ struct rotary_encoder {
+ 	unsigned int pos;
+ 
+ 	struct gpio_descs *gpios;
++	struct gpio_desc *gpio_push;
+ 
+ 	unsigned int *irq;
++	unsigned int code;
+ 
+ 	bool armed;
+ 	signed char dir;	/* 1 - clockwise, -1 - CCW */
+@@ -56,6 +58,23 @@ struct rotary_encoder {
+ 	unsigned int last_stable;
+ };
+ 
++static irqreturn_t rotary_push_irq(int irq, void *dev_id)
++{
++	struct rotary_encoder *encoder = dev_id;
++	int val;
++
++	mutex_lock(&encoder->access_mutex);
++
++	val = gpiod_get_value_cansleep(encoder->gpio_push);
++
++	input_report_key(encoder->input, encoder->code, val);
++	input_sync(encoder->input);
++
++	mutex_unlock(&encoder->access_mutex);
++
++	return IRQ_HANDLED;
++}
++
+ static unsigned int rotary_encoder_get_state(struct rotary_encoder *encoder)
+ {
+ 	int i;
+@@ -190,6 +209,7 @@ static int rotary_encoder_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct rotary_encoder *encoder;
+ 	struct input_dev *input;
++	unsigned int irq_push;
+ 	irq_handler_t handler;
+ 	u32 steps_per_period;
+ 	unsigned int i;
+@@ -250,6 +270,20 @@ static int rotary_encoder_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 
++	encoder->gpio_push = devm_gpiod_get_optional(dev, "push", GPIOD_IN);
++	if (IS_ERR(encoder->gpio_push)) {
++		dev_err(dev, "unable to get gpio-push\n");
++		return PTR_ERR(encoder->gpio_push);
++	}
++
++	if (encoder->gpio_push) {
++		if (device_property_read_u32(dev, "linux,code",
++					     &encoder->code)) {
++			dev_err(dev, "gpio-push without keycode\n");
++			return -EINVAL;
++		}
++	}
++
+ 	input = devm_input_allocate_device(dev);
+ 	if (!input)
+ 		return -ENOMEM;
+@@ -306,6 +340,22 @@ static int rotary_encoder_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
++	if (encoder->gpio_push) {
++		input_set_capability(encoder->input, EV_KEY, encoder->code);
++
++		irq_push = gpiod_to_irq(encoder->gpio_push);
++		err = devm_request_threaded_irq(dev, irq_push,
++						NULL, rotary_push_irq,
++						IRQF_TRIGGER_RISING |
++						IRQF_TRIGGER_FALLING |
++						IRQF_ONESHOT,
++						DRV_NAME, encoder);
++		if (err) {
++			dev_err(dev, "unable to request IRQ %d\n", irq_push);
++			return err;
++		}
++	}
++
+ 	err = input_register_device(input);
+ 	if (err) {
+ 		dev_err(dev, "failed to register input device\n");
+-- 
+2.11.0
 
-Actually, I am a little bit lost here.
-
-The patch mentions a fix of c01908a14bf73, which is in 5.1 final.
-So if your mouse works in 5.2.rc4, I am not sure how
-HID-a4tech-fix-horizontal-scrolling.patch could break it.
-
-Could you be slightly more specific in what "works" and what doesn't?
-
-Do we have the report descriptors available somewhere?
-And if not, could you run hid-recorder from
-https://gitlab.freedesktop.org/libevdev/hid-tools and attach the logs
-when you move the horizontal wheel?
-
-Cheers,
-Benjamin
-
-> As the patch didn't apply cleanly (it's obviously based upon
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=abf82e8f7e9af40a49e3d905187c662a43c96c8f , called "HID-
-> a4tech-fix-horizontal-scrolling.patch" below), I added that patch as well.
->
-> My results:
-> kernel 5.2.rc4 works
-> kernel 5.2.rc4 + HID-a4tech-fix-horizontal-scrolling.patch is broken
-> kernel 5.2.rc4 + HID-a4tech-fix-horizontal-scrolling.patch +
-> HID-input-fix-a4tech-horizontal-wheel-custom-usage.patch (i.e. this patch)
-> works again
->
-> kernel 5.2.rc4 + HID-input-fix-a4tech-horizontal-wheel-custom-usage.patch
-> works as well.
->
-> So AFAICT this patch seems to be fine.
->
-> For completeness, this is my mouse as listed by lsusb:
-> Bus 003 Device 002: ID 09da:000a A4Tech Co., Ltd. Optical Mouse Opto 510D /
-> OP-620D
->
-> Kind Regards,
-> Wolfgang
->
