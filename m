@@ -2,67 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9558544F91
-	for <lists+linux-input@lfdr.de>; Fri, 14 Jun 2019 00:52:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A99D645067
+	for <lists+linux-input@lfdr.de>; Fri, 14 Jun 2019 02:01:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726693AbfFMWwc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Jun 2019 18:52:32 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:36532 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725809AbfFMWwc (ORCPT
+        id S1726881AbfFNABi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Jun 2019 20:01:38 -0400
+Received: from mail-vs1-f43.google.com ([209.85.217.43]:38924 "EHLO
+        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726635AbfFNABi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Jun 2019 18:52:32 -0400
-Received: by mail-qk1-f195.google.com with SMTP id g18so505730qkl.3;
-        Thu, 13 Jun 2019 15:52:31 -0700 (PDT)
+        Thu, 13 Jun 2019 20:01:38 -0400
+Received: by mail-vs1-f43.google.com with SMTP id n2so642607vso.6
+        for <linux-input@vger.kernel.org>; Thu, 13 Jun 2019 17:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=essential-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=b/VzHcVhDJTNOAdDRTbow8j/DNogn8ltF7sqkrIq3T8=;
+        b=x+tI3AP9uTXM60rkrG+1oiGMyJCF1EScMwISOb5aZIYkHFOrKVChTPO0wTUURMuoIb
+         z4a4fsZE1ptwu6NFRceu5CJKew8VYNNZZ5DBAZNVqCYi8gR/obaruPxwLMAclvJoP1Nh
+         5pTmtnH59bbRv/bgLfKfD8b6e/b60vaAT86AWN9kuU9dSkfxtSRcVyJb8TKBMPqwnVVC
+         yneRklPxOhXeFgnjyAYYMRq4M4C5UYy3ERBvEkbQMOKx10UUAWuNTj/3DfuytffPVFWa
+         LkfH6sfelkTclM7qrXz+/7bydcBzdKkFmYd5IYD976AjomF+htCL29D7L//SHmV3NoKZ
+         yjsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gdkOgkPervi+1nQkxYS09qW0ZcEmkBJxScc1uJAaFCg=;
-        b=W1cIn40qzsU+pXcCx0+yA/fodAnSnflEj51uza+GpD5I5s249U4CdNnzITZGe/FHIr
-         42ckQ3Av0ZJWTVxcLpLQK/H3Pv9lyMWS3Dt5EDJIQpH0mbU/sYPHJerw/Sp/AHWledph
-         vP1yBnLZM+aj2V0VkU1tWeQNFgE1Yc8FBIJnMoLHsHyLn/3nNfQtEgfOxoCCx+QxZjk4
-         h6Q9ZPNbMYOQmqKbOejTVaZ2/wTnFsVZ6Thmvljwlwt/1v2+6RTtrilWoHdt0O4y9L7y
-         yRrL5EbMGM0qy9h2dXH2BhfOuTRsru7fHtpGe6LxwMR1pgUhYxCm35YH/AsQyddB/Maf
-         S/qg==
-X-Gm-Message-State: APjAAAWmUONJDsE/OCJszRpBlyc/3oiA9jET3PoGZzwmN83rXXtHtabf
-        zVhnwxRbstETHm/We5oxvQyvEJM=
-X-Google-Smtp-Source: APXvYqwnB/OyQz+QMff0Pdx6WXfp9i0yCk1jXHrOelWB4Z3mC+eSjIA/7P5CQ2FV1CHjIniaMDzbBg==
-X-Received: by 2002:a37:d16:: with SMTP id 22mr54321805qkn.232.1560466351357;
-        Thu, 13 Jun 2019 15:52:31 -0700 (PDT)
-Received: from localhost ([64.188.179.243])
-        by smtp.gmail.com with ESMTPSA id f189sm610484qkj.13.2019.06.13.15.52.30
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 13 Jun 2019 15:52:30 -0700 (PDT)
-Date:   Thu, 13 Jun 2019 16:52:29 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Stefano Manni <stefano.manni@gmail.com>
-Cc:     nick@shmanahar.org, dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        mark.rutland@arm.com, Stefano Manni <stefano.manni@gmail.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: input: Add wakeup-source for
- atmel,maxtouch
-Message-ID: <20190613225229.GA19122@bogus>
-References: <20190517211741.8906-1-stefano.manni@gmail.com>
- <20190517211741.8906-2-stefano.manni@gmail.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=b/VzHcVhDJTNOAdDRTbow8j/DNogn8ltF7sqkrIq3T8=;
+        b=pvKnFH8ibgi+pNPmoaSvvXG3vrHjd39EfnDmaEZL9yIh5h+9YFp5N3tIyiVNM7+Ynj
+         qWEnPIMUiKbdNDnckzN3Bl3wmO6xSJ0gfUK+dDRVPK/0iKup6KbpE/Pf1r9qS7AZ/E1R
+         3DcqsL0ixwWvmeuiDENXvcgBskIMoHkAfW1oKeYsQSsRyONYjoWOaSmXzgcV7OhIxtxh
+         tafCrNXkrbc8DLDhEnwR4+OIga2NFhfb5ajVvul/XjSzr5ttmrNxS6VaZ89uewikICX5
+         svJuW3ybefVzFM1grtXzBxu+0WreMGl5OvtVjxtQjE5bExL4Cb62NmKe8iPz6MrYWnmu
+         ML/w==
+X-Gm-Message-State: APjAAAWowKEdXIY1pARsZQR2VOobiu5dtQCCaN2uNXvXgnzNIo/bldxo
+        q85+/Ndq3HZ+30nxlwE3tdJ6gOnMhwPd4aJQQH72/w==
+X-Google-Smtp-Source: APXvYqxaGsxboqTVdy2/d1cfs19JKKBAiAcIZ0qmgBQcn7QmsDl18e8V3peuZUQDak5CVBfxM73w/S4w6Nxf01JNbUI=
+X-Received: by 2002:a67:1ec1:: with SMTP id e184mr41773724vse.83.1560470496877;
+ Thu, 13 Jun 2019 17:01:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190517211741.8906-2-stefano.manni@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+From:   =?UTF-8?Q?Jean=2DBaptiste_Th=C3=A9ou?= <jb@essential.com>
+Date:   Fri, 14 Jun 2019 09:01:25 +0900
+Message-ID: <CAEXycp+Y-x7N_Yr==Xy_CT5K_a1DZYc85w1OUV+cKC5ZN+KB1g@mail.gmail.com>
+Subject: Regression post "HID: core: move Usage Page concatenation to Main item"
+To:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, nsaenzjulienne@suse.de
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 17 May 2019 23:17:41 +0200, Stefano Manni wrote:
-> Add wakeup support to the maxtouch driver.
-> 
-> Signed-off-by: Stefano Manni <stefano.manni@gmail.com>
-> ---
->  Documentation/devicetree/bindings/input/atmel,maxtouch.txt | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
+Hi,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+This patch (58e75155009cc800005629955d3482f36a1e0eec) is triggering a
+regression with the following descriptor (report not working as
+expected)
+
+https://partner-android.googlesource.com/platform/cts/+/refs/heads/q-fs-release/tests/tests/hardware/res/raw/asus_gamepad_register.json
+
+Didn't see anything obviously wrong with this gamepad descriptor, so
+not sure what's trigger the regression.
+
+Thanks a lot
+
+Best regards
