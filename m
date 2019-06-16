@@ -2,43 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 164BC47552
-	for <lists+linux-input@lfdr.de>; Sun, 16 Jun 2019 16:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B73844758E
+	for <lists+linux-input@lfdr.de>; Sun, 16 Jun 2019 17:39:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725935AbfFPOwT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 16 Jun 2019 10:52:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56126 "EHLO mail.kernel.org"
+        id S1725920AbfFPPjw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 16 Jun 2019 11:39:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47136 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725879AbfFPOwT (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 16 Jun 2019 10:52:19 -0400
+        id S1725894AbfFPPjw (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 16 Jun 2019 11:39:52 -0400
 Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 152C0216FD;
-        Sun, 16 Jun 2019 14:52:14 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 59FD32063F;
+        Sun, 16 Jun 2019 15:39:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560696737;
-        bh=nw6QCwBWzQmU4itaV3x4ca6qrF8NBF2ByXX4ETYE1nw=;
+        s=default; t=1560699590;
+        bh=dVR88/sNWQeeme03MbSWzBQUPU5rrEbkEISN2IUrdK4=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=B+Yg+0B6nNUPMXxt4p/YNpxiy4fyh9prmDfJIMxRSchmOYxK8ajoGNCkW3qdd4Ky0
-         nKzUYThbbXVN76CHy4jO1AVEAi8DSdImnONkqFSKE/wyej9Pv+fkIZWP1ABJU+dMhW
-         1rhhPAaJrKxCP/cHvFh9BUhJaJh98uaW4sCl5wSI=
-Date:   Sun, 16 Jun 2019 15:52:12 +0100
+        b=Jbaqy2roDgmFYoH8xJjjhsDF9QC7l6pdYQnq+mSc1ypaPeZt8ZUPmVh2M+VdIUZ1j
+         Tp9FQC5uR6rIrjIpBqdP+YWhvbhWaCP3QbrUurAILVv3b6xxFT3sWgmMVwVE/DWq+J
+         qK538A8swHskCkbl/ZtExk6cSyVf70lDIb2/cv2s=
+Date:   Sun, 16 Jun 2019 16:39:45 +0100
 From:   Jonathan Cameron <jic23@kernel.org>
-To:     Ronald =?UTF-8?B?VHNjaGFsw6Ry?= <ronald@innovation.ch>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] iio: light: apple-ib-als: Add driver for ALS on
- iBridge chip.
-Message-ID: <20190616155212.7b5b488c@archlinux>
-In-Reply-To: <20190612083400.1015-4-ronald@innovation.ch>
-References: <20190612083400.1015-1-ronald@innovation.ch>
-        <20190612083400.1015-4-ronald@innovation.ch>
+To:     Alexandre Mergnat <amergnat@baylibre.com>
+Cc:     robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+        baylibre-upstreaming@groups.io, dmitry.torokhov@gmail.com,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] iio: Add PAT9125 optical tracker sensor
+Message-ID: <20190616163945.06bdbef0@archlinux>
+In-Reply-To: <20190610092945.6330-4-amergnat@baylibre.com>
+References: <20190610092945.6330-1-amergnat@baylibre.com>
+        <20190610092945.6330-4-amergnat@baylibre.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -48,742 +44,684 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 12 Jun 2019 01:34:00 -0700
-Ronald Tschal=C3=A4r <ronald@innovation.ch> wrote:
+On Mon, 10 Jun 2019 11:29:45 +0200
+Alexandre Mergnat <amergnat@baylibre.com> wrote:
 
-> On 2016/2017 MacBook Pro's with a Touch Bar the ALS is attached to,
-> and exposed via the iBridge device. This provides the driver for that
-> sensor.
+> This adds support for PixArt Imaging=E2=80=99s miniature low power optical
+> navigation chip using LASER light source enabling digital surface trackin=
+g.
 >=20
-> Signed-off-by: Ronald Tschal=C3=A4r <ronald@innovation.ch>
-Hi Ronald,
+> Feature and datasheet: [0]
+>=20
+> This IIO driver allows to read delta or relative position on X and Y axis:
+>   - The position relative to where the system started can be taken through
+>   punctual "read_raw" which will issue a read in the device registers to
+>   get the delta between last/current read and return the addition of all
+>   the deltas.
+>   - The delta can be retrieved using triggered buffer subscription
+>   (i.e. iio_readdev). The buffer payload is:
+>     |32 bits delta X|32 bits delta Y|timestamp|.
+>=20
+> The possible I2C addresses are 0x73, 0x75 and 0x79.
+>=20
+> X and Y axis CPI resolution can be get/set independently through IIO_SCAL=
+E.
+> The range value is 0-255 which means:
+>   - 0 to ~1,275 Counts Per Inch on flat surface.
+>   - 0 to ~630 Counts Per Rev on 1.0mm diameter STS shaft at 1.0mm distanc=
+e.
+> More details on the datasheet.
+>=20
+> The "position" directory is added to contain drivers which can provide
+> position data.
+>=20
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+>=20
+> [0]: http://www.pixart.com/products-detail/72/PAT9125EL-TKIT___TKMT
+>=20
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-One thing that we should perhaps document more clearly in IIO is that
-it is acceptable to not have triggers if they don't make any sense.
-In this particular case, you have one basically to give a way of saying
-to move into a more continuous sampling mode from a polled one (I think).
-For that just use the buffer enable callbacks.
+Hi Alexandre,
 
-It'll be much cleaner without the trigger.
+Getting close but a few more bits and pieces inline.
 
-A few other suggestions inline.  In particularly I'm not that keen on the
-appleals_device having a pointer to the iio device which then has
-a pointer back again.  I 'think' you can just reorder things a bit and
-embed the appleals_device structure in the iio_dev private field directly
-and avoid the dance between the different structures.
+I'm a little confused on why the buffered reads are giving the delta
+values whilst we have fixed up the sysfs reads to give the more useful
+position values (and hence not need to know when last read was).
+We should be consistent and give positions from the buffered path as well.
 
 Thanks,
 
 Jonathan
 
 > ---
->  drivers/iio/light/Kconfig        |  12 +
->  drivers/iio/light/Makefile       |   1 +
->  drivers/iio/light/apple-ib-als.c | 607 +++++++++++++++++++++++++++++++
->  3 files changed, 620 insertions(+)
->  create mode 100644 drivers/iio/light/apple-ib-als.c
+>  drivers/iio/Kconfig            |   1 +
+>  drivers/iio/Makefile           |   1 +
+>  drivers/iio/position/Kconfig   |  18 ++
+>  drivers/iio/position/Makefile  |   6 +
+>  drivers/iio/position/pat9125.c | 499 +++++++++++++++++++++++++++++++++
+>  5 files changed, 525 insertions(+)
+>  create mode 100644 drivers/iio/position/Kconfig
+>  create mode 100644 drivers/iio/position/Makefile
+>  create mode 100644 drivers/iio/position/pat9125.c
 >=20
-> diff --git a/drivers/iio/light/Kconfig b/drivers/iio/light/Kconfig
-> index 5190eacfeb0a..b477aa5d2024 100644
-> --- a/drivers/iio/light/Kconfig
-> +++ b/drivers/iio/light/Kconfig
-> @@ -64,6 +64,18 @@ config APDS9960
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called apds9960
-> =20
-> +config APPLE_IBRIDGE_ALS
-> +	tristate "Apple iBridge ambient light sensor"
-> +	select IIO_BUFFER
-> +	select IIO_TRIGGERED_BUFFER
-> +	depends on HID_APPLE_IBRIDGE
-> +	help
-> +	  Say Y here to build the driver for the Apple iBridge ALS
-> +	  sensor.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called apple-ib-als.
-> +
->  config BH1750
->  	tristate "ROHM BH1750 ambient light sensor"
->  	depends on I2C
-> diff --git a/drivers/iio/light/Makefile b/drivers/iio/light/Makefile
-> index e40794fbb435..cd6cd5ba6da5 100644
-> --- a/drivers/iio/light/Makefile
-> +++ b/drivers/iio/light/Makefile
-> @@ -9,6 +9,7 @@ obj-$(CONFIG_ADJD_S311)		+=3D adjd_s311.o
->  obj-$(CONFIG_AL3320A)		+=3D al3320a.o
->  obj-$(CONFIG_APDS9300)		+=3D apds9300.o
->  obj-$(CONFIG_APDS9960)		+=3D apds9960.o
-> +obj-$(CONFIG_APPLE_IBRIDGE_ALS)	+=3D apple-ib-als.o
->  obj-$(CONFIG_BH1750)		+=3D bh1750.o
->  obj-$(CONFIG_BH1780)		+=3D bh1780.o
->  obj-$(CONFIG_CM32181)		+=3D cm32181.o
-> diff --git a/drivers/iio/light/apple-ib-als.c b/drivers/iio/light/apple-i=
-b-als.c
+> diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
+> index 1d736a4952ab..23d9780640e7 100644
+> --- a/drivers/iio/Kconfig
+> +++ b/drivers/iio/Kconfig
+> @@ -85,6 +85,7 @@ source "drivers/iio/light/Kconfig"
+>  source "drivers/iio/magnetometer/Kconfig"
+>  source "drivers/iio/multiplexer/Kconfig"
+>  source "drivers/iio/orientation/Kconfig"
+> +source "drivers/iio/position/Kconfig"
+>  if IIO_TRIGGER
+>     source "drivers/iio/trigger/Kconfig"
+>  endif #IIO_TRIGGER
+> diff --git a/drivers/iio/Makefile b/drivers/iio/Makefile
+> index bff682ad1cfb..1712011c0f4a 100644
+> --- a/drivers/iio/Makefile
+> +++ b/drivers/iio/Makefile
+> @@ -31,6 +31,7 @@ obj-y +=3D light/
+>  obj-y +=3D magnetometer/
+>  obj-y +=3D multiplexer/
+>  obj-y +=3D orientation/
+> +obj-y +=3D position/
+>  obj-y +=3D potentiometer/
+>  obj-y +=3D potentiostat/
+>  obj-y +=3D pressure/
+> diff --git a/drivers/iio/position/Kconfig b/drivers/iio/position/Kconfig
 > new file mode 100644
-> index 000000000000..b84be0076e0f
+> index 000000000000..1cf28896511c
 > --- /dev/null
-> +++ b/drivers/iio/light/apple-ib-als.c
-> @@ -0,0 +1,607 @@
-> +// SPDX-License-Identifier: GPL-2.0
+> +++ b/drivers/iio/position/Kconfig
+> @@ -0,0 +1,18 @@
+> +#
+> +# Optical tracker sensors
+> +#
+> +# When adding new entries keep the list in alphabetical order
+> +
+> +menu "Optical tracker sensors"
+> +
+> +config PAT9125
+> +	tristate "Optical tracker PAT9125 I2C driver"
+> +	depends on I2C
+> +	select IIO_BUFFER
+> +	help
+> +	  Say yes here to build support for PAT9125 optical tracker
+> +	  sensors.
+> +
+> +          To compile this driver as a module, say M here: the module will
+> +          be called pat9125.
+> +endmenu
+> diff --git a/drivers/iio/position/Makefile b/drivers/iio/position/Makefile
+> new file mode 100644
+> index 000000000000..cf294917ae2c
+> --- /dev/null
+> +++ b/drivers/iio/position/Makefile
+> @@ -0,0 +1,6 @@
+> +#
+> +# Makefile for industrial I/O Optical tracker sensor drivers
+> +#
+> +
+> +# When adding new entries keep the list in alphabetical order
+> +obj-$(CONFIG_PAT9125) +=3D pat9125.o
+> diff --git a/drivers/iio/position/pat9125.c b/drivers/iio/position/pat912=
+5.c
+> new file mode 100644
+> index 000000000000..22bf729bec9b
+> --- /dev/null
+> +++ b/drivers/iio/position/pat9125.c
+> @@ -0,0 +1,499 @@
+> +// SPDX-License-Identifier: (GPL-2.0)
 > +/*
-> + * Apple Ambient Light Sensor Driver
-> + *
-> + * Copyright (c) 2017-2018 Ronald Tschal=C3=A4r
+> + * Copyright (C) 2019 BayLibre, SAS
+> + * Author: Alexandre Mergnat <amergnat@baylibre.com>
 > + */
 > +
-> +/*
-> + * MacBookPro models with an iBridge chip (13,[23] and 14,[23]) have an
-> + * ambient light sensor that is exposed via one of the USB interfaces on
-> + * the iBridge as a standard HID light sensor. However, we cannot use the
-> + * existing hid-sensor-als driver, for two reasons:
-> + *
-> + * 1. The hid-sensor-als driver is part of the hid-sensor-hub which in t=
-urn
-> + *    is a hid driver, but you can't have more than one hid driver per h=
-id
-> + *    device, which is a problem because the touch bar also needs to
-> + *    register as a driver for this hid device.
-> + *
-> + * 2. While the hid-sensors-als driver stores sensor readings received v=
-ia
-> + *    interrupt in an iio buffer, reads on the sysfs
-> + *    .../iio:deviceX/in_illuminance_YYY attribute result in a get of the
-> + *    feature report; however, in the case of this sensor here the
-> + *    illuminance field of that report is always 0. Instead, the input
-> + *    report needs to be requested.
-> + */
-> +
-> +#define dev_fmt(fmt) "als: " fmt
-> +
-> +#include <linux/apple-ibridge.h>
-> +#include <linux/device.h>
-> +#include <linux/hid.h>
-> +#include <linux/hid-sensor-ids.h>
-> +#include <linux/iio/buffer.h>
+> +#include <linux/bitops.h>
+> +#include <linux/delay.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/i2c.h>
 > +#include <linux/iio/iio.h>
+> +#include <linux/iio/sysfs.h>
+> +#include <linux/iio/events.h>
+> +#include <linux/iio/buffer.h>
+> +#include <linux/iio/trigger.h>
 > +#include <linux/iio/trigger_consumer.h>
 > +#include <linux/iio/triggered_buffer.h>
-> +#include <linux/iio/trigger.h>
+> +#include <linux/iio/kfifo_buf.h>
+> +#include <linux/kernel.h>
 > +#include <linux/module.h>
+> +#include <linux/regmap.h>
 > +#include <linux/slab.h>
 > +
-> +#define APPLEALS_DYN_SENS		0	/* our dynamic sensitivity */
-> +#define APPLEALS_DEF_CHANGE_SENS	APPLEALS_DYN_SENS
+> +/* I2C Address function to ID pin*/
+> +#define PAT9125_I2C_ADDR_HI		0x73
+> +#define PAT9125_I2C_ADDR_LO		0x75
+> +#define PAT9125_I2C_ADDR_NC		0x79
 > +
-> +struct appleals_device {
-> +	struct hid_device	*hid_dev;
-> +	struct hid_report	*cfg_report;
-> +	struct hid_field	*illum_field;
-> +	struct iio_dev		*iio_dev;
-> +	int			cur_sensitivity;
-> +	int			cur_hysteresis;
-> +	bool			events_enabled;
+> +/* Registers */
+> +#define PAT9125_PRD_ID1_REG		0x00
+> +#define PAT9125_PRD_ID2_REG		0x01
+> +#define PAT9125_MOTION_STATUS_REG	0x02
+> +#define PAT9125_DELTA_X_LO_REG		0x03
+> +#define PAT9125_DELTA_Y_LO_REG		0x04
+> +#define PAT9125_OP_MODE_REG		0x05
+> +#define PAT9125_CONFIG_REG		0x06
+> +#define PAT9125_WRITE_PROTEC_REG	0x09
+> +#define PAT9125_SLEEP1_REG		0x0A
+> +#define PAT9125_SLEEP2_REG		0x0B
+> +#define PAT9125_RES_X_REG		0x0D
+> +#define PAT9125_RES_Y_REG		0x0E
+> +#define PAT9125_DELTA_XY_HI_REG		0x12
+> +#define PAT9125_SHUTER_REG		0x14
+> +#define PAT9125_FRAME_AVG_REG		0x17
+> +#define PAT9125_ORIENTATION_REG		0x19
+> +
+> +/* Bits */
+> +#define PAT9125_VALID_MOTION_DATA_BIT	BIT(7)
+> +#define PAT9125_RESET_BIT		BIT(7)
+> +
+> +/* Registers' values */
+> +#define PAT9125_SENSOR_ID_VAL			0x31
+> +#define PAT9125_DISABLE_WRITE_PROTECT_VAL	0x5A
+> +#define PAT9125_ENABLE_WRITE_PROTECT_VAL	0x00
+> +
+> +/* Default Value of sampled value size */
+> +#define PAT9125_SAMPLED_VAL_BIT_SIZE		12
+> +
+> +struct pat9125_data {
+> +	struct regmap *regmap;
+> +	struct iio_trigger *indio_trig;	/* Motion detection */
+> +	s32 delta_x;
+> +	s32 delta_y;
+> +	s32 position_x;
+> +	s32 position_y;
+> +	bool sampling;
 > +};
 > +
-> +static struct hid_driver appleals_hid_driver;
-> +
-> +/*
-> + * This is a primitive way to get a relative sensitivity, one where we g=
-et
-> + * notified when the value changes by a certain percentage rather than s=
-ome
-> + * absolute value. MacOS somehow manages to configure the sensor to work=
- this
-> + * way (with a 15% relative sensitivity), but I haven't been able to fig=
-ure
-> + * out how so far. So until we do, this provides a less-than-perfect
-> + * simulation.
-> + *
-> + * When the brightness value is within one of the ranges, the sensitivit=
-y is
-> + * set to that range's sensitivity. But in order to reduce flapping when=
- the
-> + * brightness is right on the border between two ranges, the ranges over=
-lap
-> + * somewhat (by at least one sensitivity), and sensitivity is only chang=
-ed if
-> + * the value leaves the current sensitivity's range.
-> + *
-> + * The values chosen for the map are somewhat arbitrary: a compromise of=
- not
-> + * too many ranges (and hence changing the sensitivity) but not too smal=
-l or
-> + * large of a percentage of the min and max values in the range (current=
-ly
-> + * from 7.5% to 30%, i.e. within a factor of 2 of 15%), as well as just =
-plain
-> + * "this feels reasonable to me".
-> + */
-> +struct appleals_sensitivity_map {
-> +	int	sensitivity;
-> +	int	illum_low;
-> +	int	illum_high;
-> +};
-> +
-> +static const struct appleals_sensitivity_map appleals_sensitivity_map[] =
-=3D {
-> +	{   1,    0,   14 },
-> +	{   3,   10,   40 },
-> +	{   9,   30,  120 },
-> +	{  27,   90,  360 },
-> +	{  81,  270, 1080 },
-> +	{ 243,  810, 3240 },
-> +	{ 729, 2430, 9720 },
-> +};
-> +
-> +static int appleals_compute_sensitivity(int cur_illum, int cur_sens)
-> +{
-> +	const struct appleals_sensitivity_map *entry;
-> +	int i;
-> +
-> +	/* see if we're still in current range */
-> +	for (i =3D 0; i < ARRAY_SIZE(appleals_sensitivity_map); i++) {
-> +		entry =3D &appleals_sensitivity_map[i];
-> +
-> +		if (entry->sensitivity =3D=3D cur_sens &&
-> +		    entry->illum_low <=3D cur_illum &&
-> +		    entry->illum_high >=3D cur_illum)
-> +			return cur_sens;
-> +		else if (entry->sensitivity > cur_sens)
-> +			break;
-> +	}
-> +
-> +	/* not in current range, so find new sensitivity */
-> +	for (i =3D 0; i < ARRAY_SIZE(appleals_sensitivity_map); i++) {
-> +		entry =3D &appleals_sensitivity_map[i];
-> +
-> +		if (entry->illum_low <=3D cur_illum &&
-> +		    entry->illum_high >=3D cur_illum)
-> +			return entry->sensitivity;
-> +	}
-> +
-> +	/* hmm, not in table, so assume we are above highest range */
-> +	i =3D ARRAY_SIZE(appleals_sensitivity_map) - 1;
-> +	return appleals_sensitivity_map[i].sensitivity;
-> +}
-> +
-> +static int appleals_get_field_value_for_usage(struct hid_field *field,
-> +					      unsigned int usage)
-> +{
-> +	int u;
-> +
-> +	if (!field)
-> +		return -1;
-> +
-> +	for (u =3D 0; u < field->maxusage; u++) {
-> +		if (field->usage[u].hid =3D=3D usage)
-> +			return u + field->logical_minimum;
-> +	}
-> +
-> +	return -1;
-> +}
-> +
-> +static __s32 appleals_get_field_value(struct appleals_device *als_dev,
-> +				      struct hid_field *field)
-> +{
-> +	bool powered_on =3D !hid_hw_power(als_dev->hid_dev, PM_HINT_FULLON);
-> +
-> +	hid_hw_request(als_dev->hid_dev, field->report, HID_REQ_GET_REPORT);
-> +	hid_hw_wait(als_dev->hid_dev);
-> +
-> +	if (powered_on)
-> +		hid_hw_power(als_dev->hid_dev, PM_HINT_NORMAL);
-> +
-> +	return field->value[0];
-> +}
-> +
-> +static void appleals_set_field_value(struct appleals_device *als_dev,
-> +				     struct hid_field *field, __s32 value)
-> +{
-> +	hid_set_field(field, 0, value);
-> +	hid_hw_request(als_dev->hid_dev, field->report, HID_REQ_SET_REPORT);
-> +}
-> +
-> +static int appleals_get_config(struct appleals_device *als_dev,
-> +			       unsigned int field_usage, __s32 *value)
-> +{
-> +	struct hid_field *field;
-> +
-> +	field =3D appleib_find_report_field(als_dev->cfg_report, field_usage);
-> +	if (!field)
-> +		return -EINVAL;
-> +
-> +	*value =3D appleals_get_field_value(als_dev, field);
-> +
-> +	return 0;
-> +}
-> +
-> +static int appleals_set_config(struct appleals_device *als_dev,
-> +			       unsigned int field_usage, __s32 value)
-> +{
-> +	struct hid_field *field;
-> +
-> +	field =3D appleib_find_report_field(als_dev->cfg_report, field_usage);
-> +	if (!field)
-> +		return -EINVAL;
-> +
-> +	appleals_set_field_value(als_dev, field, value);
-> +
-> +	return 0;
-> +}
-> +
-> +static int appleals_set_enum_config(struct appleals_device *als_dev,
-> +				    unsigned int field_usage,
-> +				    unsigned int value_usage)
-> +{
-> +	struct hid_field *field;
-> +	int value;
-> +
-> +	field =3D appleib_find_report_field(als_dev->cfg_report, field_usage);
-> +	if (!field)
-> +		return -EINVAL;
-> +
-> +	value =3D appleals_get_field_value_for_usage(field, value_usage);
-> +	if (value >=3D 0)
-> +		appleals_set_field_value(als_dev, field, value);
-> +
-> +	return 0;
-> +}
-> +
-> +static void appleals_update_dyn_sensitivity(struct appleals_device *als_=
-dev,
-> +					    __s32 value)
-> +{
-> +	int new_sens;
-> +	int rc;
-> +
-> +	new_sens =3D appleals_compute_sensitivity(value,
-> +						als_dev->cur_sensitivity);
-> +	if (new_sens !=3D als_dev->cur_sensitivity) {
-> +		rc =3D appleals_set_config(als_dev,
-> +			HID_USAGE_SENSOR_LIGHT_ILLUM |
-> +			HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSITIVITY_ABS,
-> +			new_sens);
-> +		if (!rc)
-> +			als_dev->cur_sensitivity =3D new_sens;
-> +	}
-> +}
-> +
-> +static void appleals_push_new_value(struct appleals_device *als_dev,
-> +				    __s32 value)
-> +{
-> +	__s32 buf[2] =3D { value, value };
-> +
-> +	iio_push_to_buffers(als_dev->iio_dev, buf);
-> +
-> +	if (als_dev->cur_hysteresis =3D=3D APPLEALS_DYN_SENS)
-> +		appleals_update_dyn_sensitivity(als_dev, value);
-> +}
-> +
-> +static int appleals_hid_event(struct hid_device *hdev, struct hid_field =
-*field,
-> +			      struct hid_usage *usage, __s32 value)
-> +{
-> +	struct appleals_device *als_dev =3D hid_get_drvdata(hdev);
-> +	int rc =3D 0;
-> +
-> +	if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_SENSOR)
-> +		return 0;
-> +
-> +	if (usage->hid =3D=3D HID_USAGE_SENSOR_LIGHT_ILLUM) {
-> +		appleals_push_new_value(als_dev, value);
-> +		rc =3D 1;
-Direct return here would be more readable, then return 0 below.
-> +	}
-> +
-> +	return rc;
-> +}
-> +
-> +static int appleals_enable_events(struct iio_trigger *trig, bool enable)
-> +{
-> +	struct appleals_device *als_dev =3D iio_trigger_get_drvdata(trig);
-> +	int value;
-> +
-> +	appleals_set_enum_config(als_dev, HID_USAGE_SENSOR_PROP_REPORT_STATE,
-> +		enable ? HID_USAGE_SENSOR_PROP_REPORTING_STATE_ALL_EVENTS_ENUM :
-> +			 HID_USAGE_SENSOR_PROP_REPORTING_STATE_NO_EVENTS_ENUM);
-> +	als_dev->events_enabled =3D enable;
-> +
-> +	/* if the sensor was enabled, push an initial value */
-> +	if (enable) {
-> +		value =3D appleals_get_field_value(als_dev, als_dev->illum_field);
-> +		appleals_push_new_value(als_dev, value);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int appleals_read_raw(struct iio_dev *iio_dev,
-> +			     struct iio_chan_spec const *chan,
-> +			     int *val, int *val2, long mask)
-> +{
-> +	struct appleals_device **priv =3D iio_priv(iio_dev);
-> +	struct appleals_device *als_dev =3D *priv;
-> +	__s32 value;
-> +	int rc;
-> +
-> +	switch (mask) {
-> +	case IIO_CHAN_INFO_PROCESSED:
-> +		*val =3D appleals_get_field_value(als_dev, als_dev->illum_field);
-> +		return IIO_VAL_INT;
-> +
-> +	case IIO_CHAN_INFO_SAMP_FREQ:
-> +		rc =3D appleals_get_config(als_dev,
-> +					 HID_USAGE_SENSOR_PROP_REPORT_INTERVAL,
-> +					 &value);
-> +		if (rc)
-> +			return rc;
-> +
-> +		/* interval is in ms; val is in HZ, val2 in =C2=B5HZ */
-> +		value =3D 1000000000 / value;
-> +		*val =3D value / 1000000;
-> +		*val2 =3D value - (*val * 1000000);
-> +
-> +		return IIO_VAL_INT_PLUS_MICRO;
-> +
-> +	case IIO_CHAN_INFO_HYSTERESIS:
-> +		if (als_dev->cur_hysteresis =3D=3D APPLEALS_DYN_SENS) {
-> +			*val =3D als_dev->cur_hysteresis;
-> +			return IIO_VAL_INT;
-> +		}
-> +
-> +		rc =3D appleals_get_config(als_dev,
-> +			HID_USAGE_SENSOR_LIGHT_ILLUM |
-> +			HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSITIVITY_ABS,
-> +			val);
-> +		if (!rc) {
-> +			als_dev->cur_sensitivity =3D *val;
-> +			als_dev->cur_hysteresis =3D *val;
-> +		}
-> +		return rc ? rc : IIO_VAL_INT;
-> +
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int appleals_write_raw(struct iio_dev *iio_dev,
-> +			      struct iio_chan_spec const *chan,
-> +			      int val, int val2, long mask)
-> +{
-> +	struct appleals_device **priv =3D iio_priv(iio_dev);
-> +	struct appleals_device *als_dev =3D *priv;
-> +	__s32 illum;
-> +	int rc;
-> +
-> +	switch (mask) {
-> +	case IIO_CHAN_INFO_SAMP_FREQ:
-> +		rc =3D appleals_set_config(als_dev,
-> +					 HID_USAGE_SENSOR_PROP_REPORT_INTERVAL,
-> +					 1000000000 / (val * 1000000 + val2));
-> +		return rc;
-> +
-> +	case IIO_CHAN_INFO_HYSTERESIS:
-> +		if (val =3D=3D APPLEALS_DYN_SENS) {
-
-Hysteresis normally takes a value, this looks like a magic number being
-pushed through the interface?
-
-> +			if (als_dev->cur_hysteresis !=3D APPLEALS_DYN_SENS) {
-> +				als_dev->cur_hysteresis =3D val;
-> +				illum =3D appleals_get_field_value(als_dev,
-> +							als_dev->illum_field);
-> +				appleals_update_dyn_sensitivity(als_dev, illum);
-> +			}
-> +
-> +			return 0;
-> +		}
-> +
-> +		rc =3D appleals_set_config(als_dev,
-> +			HID_USAGE_SENSOR_LIGHT_ILLUM |
-> +			HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSITIVITY_ABS,
-> +			val);
-> +		if (!rc) {
-> +			als_dev->cur_sensitivity =3D val;
-> +			als_dev->cur_hysteresis =3D val;
-> +		}
-> +
-> +		return rc;
-> +
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static const struct iio_chan_spec appleals_channels[] =3D {
+> +static const struct iio_chan_spec pat9125_channels[] =3D {
 > +	{
-> +		.type =3D IIO_INTENSITY,
+> +		.type =3D IIO_DISTANCE,
 > +		.modified =3D 1,
-> +		.channel2 =3D IIO_MOD_LIGHT_BOTH,
-> +		.info_mask_separate =3D BIT(IIO_CHAN_INFO_PROCESSED),
-
-This would be unusual.  What are the units of this intensity measurement?
-Mostly these are the values prior to a proprietary algorithm and have no
-particular assigned units that are documented anywhere.  As such for
-most light sensors this is raw.
-
-> +		.info_mask_shared_by_type =3D BIT(IIO_CHAN_INFO_SAMP_FREQ) |
-> +			BIT(IIO_CHAN_INFO_HYSTERESIS),
+> +		.channel2 =3D IIO_MOD_X,
+> +		.info_mask_separate =3D BIT(IIO_CHAN_INFO_RAW) |
+> +			BIT(IIO_CHAN_INFO_SCALE),
+> +		.scan_index =3D 0,
 > +		.scan_type =3D {
-> +			.sign =3D 'u',
+> +			.sign =3D 's',
 > +			.realbits =3D 32,
 > +			.storagebits =3D 32,
+> +			.endianness =3D IIO_CPU,
 > +		},
-> +		.scan_index =3D 0,
 > +	},
 > +	{
-> +		.type =3D IIO_LIGHT,
-> +		.info_mask_separate =3D BIT(IIO_CHAN_INFO_PROCESSED),
-> +		.info_mask_shared_by_type =3D BIT(IIO_CHAN_INFO_SAMP_FREQ) |
-> +			BIT(IIO_CHAN_INFO_HYSTERESIS),
+> +		.type =3D IIO_DISTANCE,
+> +		.modified =3D 1,
+> +		.channel2 =3D IIO_MOD_Y,
+> +		.info_mask_separate =3D BIT(IIO_CHAN_INFO_RAW) |
+> +			BIT(IIO_CHAN_INFO_SCALE),
+> +		.scan_index =3D 1,
 > +		.scan_type =3D {
-> +			.sign =3D 'u',
+> +			.sign =3D 's',
 > +			.realbits =3D 32,
 > +			.storagebits =3D 32,
+> +			.endianness =3D IIO_CPU,
 > +		},
-> +		.scan_index =3D 1,
-> +	}
+> +	},
+> +	IIO_CHAN_SOFT_TIMESTAMP(2),
 > +};
 > +
-> +static const struct iio_trigger_ops appleals_trigger_ops =3D {
-> +	.set_trigger_state =3D &appleals_enable_events,
-> +};
-> +
-> +static const struct iio_info appleals_info =3D {
-> +	.read_raw =3D &appleals_read_raw,
-> +	.write_raw =3D &appleals_write_raw,
-> +};
-> +
-> +static void appleals_config_sensor(struct appleals_device *als_dev,
-> +				   bool events_enabled, int sensitivity)
+> +/**
+> + * pat9125_write_pretected_reg() - Write value in protected register.
+> + *
+> + * @regmap: Pointer to I2C register map.
+> + * @reg_addr: Register address.
+> + * @reg_value: Value to be write in register.
+> + *
+> + * A value of zero will be returned on success, a negative errno will
+> + * be returned in error cases.
+> + */
+> +static int pat9125_write_pretected_reg(struct iio_dev *indio_dev,
+> +	u8 reg_addr, u8 reg_value)
 > +{
-> +	struct hid_field *field;
-> +	bool powered_on;
-> +	__s32 val;
+> +	struct pat9125_data *data =3D iio_priv(indio_dev);
+> +	int ret;
 > +
-> +	powered_on =3D !hid_hw_power(als_dev->hid_dev, PM_HINT_FULLON);
-> +
-> +	hid_hw_request(als_dev->hid_dev, als_dev->cfg_report,
-> +		       HID_REQ_GET_REPORT);
-> +	hid_hw_wait(als_dev->hid_dev);
-> +
-> +	field =3D appleib_find_report_field(als_dev->cfg_report,
-> +					  HID_USAGE_SENSOR_PROY_POWER_STATE);
-> +	val =3D appleals_get_field_value_for_usage(field,
-> +			HID_USAGE_SENSOR_PROP_POWER_STATE_D0_FULL_POWER_ENUM);
-> +	if (val >=3D 0)
-> +		hid_set_field(field, 0, val);
-> +
-> +	field =3D appleib_find_report_field(als_dev->cfg_report,
-> +					  HID_USAGE_SENSOR_PROP_REPORT_STATE);
-> +	val =3D appleals_get_field_value_for_usage(field,
-> +		events_enabled ?
-> +			HID_USAGE_SENSOR_PROP_REPORTING_STATE_ALL_EVENTS_ENUM :
-> +			HID_USAGE_SENSOR_PROP_REPORTING_STATE_NO_EVENTS_ENUM);
-> +	if (val >=3D 0)
-> +		hid_set_field(field, 0, val);
-> +
-> +	field =3D appleib_find_report_field(als_dev->cfg_report,
-> +					 HID_USAGE_SENSOR_PROP_REPORT_INTERVAL);
-> +	hid_set_field(field, 0, field->logical_minimum);
-> +
-> +	/*
-> +	 * Set initial change sensitivity; if dynamic, enabling trigger will set
-> +	 * it instead.
-> +	 */
-> +	if (sensitivity !=3D APPLEALS_DYN_SENS) {
-> +		field =3D appleib_find_report_field(als_dev->cfg_report,
-> +			HID_USAGE_SENSOR_LIGHT_ILLUM |
-> +			HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSITIVITY_ABS);
-> +
-> +		hid_set_field(field, 0, sensitivity);
+> +	ret =3D regmap_write(data->regmap,
+> +			 PAT9125_WRITE_PROTEC_REG,
+> +			 PAT9125_DISABLE_WRITE_PROTECT_VAL);
+> +	if (ret < 0) {
+> +		dev_err(indio_dev->dev.parent, "register 0x%x access failed %d\n",
+> +			PAT9125_WRITE_PROTEC_REG, ret);
+> +		return ret;
 > +	}
 > +
-> +	hid_hw_request(als_dev->hid_dev, als_dev->cfg_report,
-> +		       HID_REQ_SET_REPORT);
+> +	ret =3D regmap_write(data->regmap, reg_addr, reg_value);
+> +	if (ret < 0) {
+> +		dev_err(indio_dev->dev.parent, "register 0x%x access failed %d\n",
+> +			reg_addr, ret);
+> +		return ret;
+> +	}
 > +
-> +	if (powered_on)
-> +		hid_hw_power(als_dev->hid_dev, PM_HINT_NORMAL);
+> +	ret =3D regmap_write(data->regmap,
+> +			 PAT9125_WRITE_PROTEC_REG,
+> +			 PAT9125_ENABLE_WRITE_PROTECT_VAL);
+> +	if (ret < 0) {
+> +		dev_err(indio_dev->dev.parent, "register 0x%x access failed %d\n",
+> +			PAT9125_WRITE_PROTEC_REG, ret);
+> +		return ret;
+We'll probably get a patch from some script for this so nice to
+cleanup now.
+
+regmap_write always returns 0 for success and negative otherwise.
+
+Hence we can just check if (ret).  Having done that we can also drop
+the return ret above out of the brackets and save a few lines of code
+by getting rid of the return 0 that follows.
+
+Just checkign if (ret) in general is probably a worthwhile cleanup
+for these regmap calls.
+
+
+> +	}
+> +	return 0;
 > +}
-> +
-> +static int appleals_config_iio(struct appleals_device *als_dev)
+> +/**
+> + * pat9125_read_delta() - Read delta value, update delta & position data.
+> + *
+> + * @data: Driver's data structure.
+> + *
+> + * A value of zero will be returned on success, a negative errno will
+> + * be returned in error cases.
+> + */
+> +static int pat9125_read_delta(struct pat9125_data *data)
 > +{
-> +	struct iio_dev *iio_dev;
-> +	struct iio_trigger *iio_trig;
-> +	struct appleals_device **priv;
-> +	struct device *parent =3D &als_dev->hid_dev->dev;
-> +	int rc;
+> +	struct regmap *regmap =3D data->regmap;
+> +	int status =3D 0;
+> +	int val_x =3D 0;
+> +	int val_y =3D 0;
+> +	int val_high_nibbles =3D 0;
+> +	int ret;
 > +
-> +	iio_dev =3D devm_iio_device_alloc(parent, sizeof(als_dev));
-> +	if (!iio_dev)
-> +		return -ENOMEM;
-
-Hmm. So we are using the private space of the iio device to just
-hold a pointer...
-Normally we try to avoid this if at all possible as we end
-up with loops of pointers that normally indicate a someone
-convoluted driver structure.  I've not checked all the paths
-here to be sure if we can just embed the actual als_dev
-structure in here and always have the iio_dev available in
-any callbacks etc.
-
+> +	ret =3D regmap_read(regmap, PAT9125_MOTION_STATUS_REG, &status);
+> +	if (ret < 0)
+> +		return ret;
 > +
-> +	priv =3D iio_priv(iio_dev);
-> +	*priv =3D als_dev;
+> +	/* Check if motion is detected */
+> +	if (status & PAT9125_VALID_MOTION_DATA_BIT) {
+> +		ret =3D regmap_read(regmap, PAT9125_DELTA_X_LO_REG, &val_x);
+> +		if (ret < 0)
+> +			return ret;
 > +
-> +	iio_dev->channels =3D appleals_channels;
-> +	iio_dev->num_channels =3D ARRAY_SIZE(appleals_channels);
-> +	iio_dev->dev.parent =3D parent;
-> +	iio_dev->info =3D &appleals_info;
-> +	iio_dev->name =3D "als";
-Whilst I suppose not many people will have additional ALS devices connected
-to these laptops, we normally try to give a slightly more specific name
-than this.
-
-> +	iio_dev->modes =3D INDIO_DIRECT_MODE;
+> +		ret =3D regmap_read(regmap, PAT9125_DELTA_Y_LO_REG, &val_y);
+> +		if (ret < 0)
+> +			return ret;
 > +
-> +	rc =3D devm_iio_triggered_buffer_setup(parent, iio_dev,
-> +					     &iio_pollfunc_store_time, NULL,
-This is unusual.  You have registered all the infrastructure for a triggered
-buffer, but then didn't actually provide a function to put any data in it.
-
-It is perfectly acceptable to just skip the trigger if it doesn't make sense
-for a given device. If you are doing that, then register the buffer directly
-not using this helper.
-
-> +					     NULL);
-> +	if (rc) {
-> +		hid_err(als_dev->hid_dev,
-> +			"Failed to set up iio triggered buffer: %d\n", rc);
-> +		return rc;
+> +		ret =3D regmap_read(regmap, PAT9125_DELTA_XY_HI_REG,
+> +			&val_high_nibbles);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		val_x |=3D (val_high_nibbles << 4) & 0xF00;
+> +		val_y |=3D (val_high_nibbles << 8) & 0xF00;
+> +		val_x =3D sign_extend32(val_x,
+> +			PAT9125_SAMPLED_VAL_BIT_SIZE - 1);
+> +		val_y =3D sign_extend32(val_y,
+> +			PAT9125_SAMPLED_VAL_BIT_SIZE - 1);
+> +		data->position_x +=3D val_x;
+> +		data->position_y +=3D val_y;
+> +		data->delta_x =3D val_x;
+> +		data->delta_y =3D val_y;
 > +	}
-> +
-> +	iio_trig =3D devm_iio_trigger_alloc(parent, "%s-dev%d", iio_dev->name,
-> +					  iio_dev->id);
-> +	if (!iio_trig)
-> +		return -ENOMEM;
-> +
-> +	iio_trig->dev.parent =3D parent;
-> +	iio_trig->ops =3D &appleals_trigger_ops;
-> +	iio_trigger_set_drvdata(iio_trig, als_dev);
-> +
-> +	rc =3D devm_iio_trigger_register(parent, iio_trig);
-> +	if (rc) {
-> +		hid_err(als_dev->hid_dev,
-> +			"Failed to register iio trigger: %d\n",
-> +			rc);
-> +		return rc;
-> +	}
-
-What is the purpose of this trigger? It doesn't seem to 'do' anything. There
-is no function calling iio_trigger_poll* so it's not acting as a trigger.
-
-> +
-> +	rc =3D devm_iio_device_register(parent, iio_dev);
-> +	if (rc) {
-> +		hid_err(als_dev->hid_dev, "Failed to register iio device: %d\n",
-> +			rc);
-> +		return rc;
-> +	}
-> +
-> +	als_dev->iio_dev =3D iio_dev;
-> +
 > +	return 0;
 > +}
 > +
-> +static int appleals_probe(struct hid_device *hdev,
-> +			  const struct hid_device_id *id)
+> +/**
+> + * pat9125_read_raw() - Sample and return the value(s)
+> + * function to the associated channel info enum.
+> + **/
+> +static int pat9125_read_raw(struct iio_dev *indio_dev,
+> +			    struct iio_chan_spec const *chan,
+> +			    int *val, int *val2, long mask)
 > +{
-> +	struct appleals_device *als_dev;
-> +	struct hid_field *state_field;
-> +	struct hid_field *illum_field;
-> +	int rc;
+> +	struct pat9125_data *data =3D iio_priv(indio_dev);
+> +	int ret;
 > +
-> +	/* find als fields and reports */
-> +	rc =3D hid_parse(hdev);
-> +	if (rc) {
-> +		hid_err(hdev, "als: hid parse failed (%d)\n", rc);
-> +		return rc;
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_RAW:
+> +		ret =3D pat9125_read_delta(data);
+> +		if (ret)
+> +			return ret;
+> +		switch (chan->channel2) {
+> +		case IIO_MOD_X:
+> +			*val =3D data->position_x;
+> +			return IIO_VAL_INT;
+> +		case IIO_MOD_Y:
+> +			*val =3D data->position_y;
+> +			return IIO_VAL_INT;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	case IIO_CHAN_INFO_SCALE:
+> +		switch (chan->channel2) {
+> +		case IIO_MOD_X:
+> +			ret =3D regmap_read(data->regmap, PAT9125_RES_X_REG, val);
+> +			if (ret)
+> +				return ret;
+> +			else
+> +				return IIO_VAL_INT;
+> +		case IIO_MOD_Y:
+> +			ret =3D regmap_read(data->regmap, PAT9125_RES_Y_REG, val);
+> +			if (ret)
+> +				return ret;
+> +			else
+> +				return IIO_VAL_INT;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +/**
+> + * pat9125_write_raw() - Write the value(s)
+> + * function to the associated channel info enum.
+> + **/
+*/
+
+Tidy these up throughout.  If you are going to do
+kernel-doc (which is good) you should also document all of the
+parameters.
+
+> +static int pat9125_write_raw(struct iio_dev *indio_dev,
+> +			     struct iio_chan_spec const *chan, int val,
+> +			     int val2, long mask)
+> +{
+> +	int ret;
+> +
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_SCALE:
+> +		switch (chan->channel2) {
+> +		case IIO_MOD_X:
+> +			ret =3D pat9125_write_pretected_reg(indio_dev,
+> +				PAT9125_RES_X_REG, val);
+> +			return ret;
+> +		case IIO_MOD_Y:
+> +			ret =3D pat9125_write_pretected_reg(indio_dev,
+> +				PAT9125_RES_Y_REG, val);
+> +			return ret;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static irqreturn_t pat9125_threaded_trigger_handler(int irq, void *p)
+> +{
+> +	struct iio_poll_func *pf =3D p;
+> +	struct iio_dev *indio_dev =3D pf->indio_dev;
+> +	struct pat9125_data *data =3D iio_priv(indio_dev);
+> +	u8 buf[16]; /* Payload: Delta_X (4) | Delta_Y (4) | Timestamp (8) */
+> +	int ret;
+> +	s64 timestamp;
+> +
+> +	data->sampling =3D true;
+> +	ret =3D pat9125_read_delta(data);
+> +	if (ret) {
+> +		dev_err(indio_dev->dev.parent, "Read delta failed %d\n", ret);
+> +		return IRQ_NONE;
+> +	}
+> +	timestamp =3D iio_get_time_ns(indio_dev);
+> +	*((s32 *)&buf[0]) =3D data->delta_x;
+> +	*((s32 *)&buf[sizeof(s32)]) =3D data->delta_y;
+
+Why are we putting the delta values in the buffer rather than the positions?
+
+> +	data->delta_x =3D 0;
+> +	data->delta_y =3D 0;
+> +	iio_push_to_buffers_with_timestamp(indio_dev, buf, timestamp);
+> +	iio_trigger_notify_done(indio_dev->trig);
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +/**
+> + * pat9125_threaded_event_handler() - Threaded motion detection event ha=
+ndler
+> + * @irq: The irq being handled.
+> + * @private: struct iio_device pointer for the device.
+> + */
+> +static irqreturn_t pat9125_threaded_event_handler(int irq, void *private)
+> +{
+> +	struct iio_dev *indio_dev =3D private;
+> +	struct pat9125_data *data =3D iio_priv(indio_dev);
+> +
+> +	iio_trigger_poll_chained(data->indio_trig);
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int pat9125_buffer_postenable(struct iio_dev *indio_dev)
+> +{
+> +	struct pat9125_data *data =3D iio_priv(indio_dev);
+> +	int ret =3D 0;
+> +
+> +	ret =3D iio_triggered_buffer_postenable(indio_dev);
+> +	if (ret)
+> +		return ret;
+> +	/* Release interrupt pin on the device */
+> +	return pat9125_read_delta(data);
+
+If this has an error, we should be handling the unwind of
+iio_triggered_buffer_postenable.  That is
+iio_triggered_buffer_predisable.
+
+(Alexandru has been cleaning these up recently so I'm more
+aware of this than normal!)
+
+> +}
+> +
+> +static const struct iio_buffer_setup_ops pat9125_buffer_ops =3D {
+> +	.postenable =3D pat9125_buffer_postenable,
+> +	.predisable =3D iio_triggered_buffer_predisable,
+> +};
+> +
+One blank line is almost always enough (nitpick of the day ;)
+> +
+> +static const struct regmap_config pat9125_regmap_config =3D {
+> +	.reg_bits =3D 8,
+> +	.val_bits =3D 8,
+> +};
+> +
+> +static const struct iio_info pat9125_info =3D {
+> +	.read_raw =3D pat9125_read_raw,
+> +	.write_raw =3D pat9125_write_raw,
+> +};
+> +
+> +/*
+> + * To detect if a new value is available, register status is checked. Th=
+is
+> + * method is safer than using a flag on GPIO IRQ to track event while sa=
+mpling
+> + * because falling edge is missed when device trig just after a read reg=
+ value
+> + * (that happen for fast motions or high CPI setting).
+
+So we have an edge triggered interrupt that doesn't have a 'minimum low'
+period? If so then the only safe way to handle it would be as a level
+interrupt. Can you do that here?
+(I once had the delights of a sensor like this tied to a edge sensitive only
+interrupt, but thankfully those are a rare thing these days).
+
+> + *
+> + * Note: To avoid infinite loop in "iio_trigger_notify_done" when it si =
+not in
+
+is
+
+> + * buffer mode and kernel warning due to nested IRQ thread,
+> + * this function must return 0.
+> + */
+> +static int pat9125_trig_try_reenable(struct iio_trigger *trig)
+> +{
+> +	struct pat9125_data *data =3D iio_trigger_get_drvdata(trig);
+> +	struct regmap *regmap =3D data->regmap;
+> +	int status =3D 0;
+> +
+> +	if (data->sampling) {
+> +		regmap_read(regmap, PAT9125_MOTION_STATUS_REG, &status);
+> +		if (status & PAT9125_VALID_MOTION_DATA_BIT) {
+> +			data->sampling =3D false;
+So we only ever do 2 reads?  Why can't we be unlucky on timing
+twice in a row?
+
+> +			iio_trigger_poll_chained(data->indio_trig);
+> +			return 0;
+> +		}
+> +	}
+> +	data->sampling =3D false;
+> +	return 0;
+> +}
+> +
+> +static const struct iio_trigger_ops pat9125_trigger_ops =3D {
+> +	.try_reenable =3D pat9125_trig_try_reenable,
+> +};
+> +
+> +static int pat9125_probe(struct i2c_client *client,
+> +			 const struct i2c_device_id *id)
+> +{
+> +	struct pat9125_data *data;
+> +	struct iio_dev *indio_dev;
+> +	int ret, sensor_pid;
+> +
+> +	indio_dev =3D devm_iio_device_alloc(&client->dev, sizeof(*data));
+> +	if (!indio_dev) {
+> +		dev_err(&client->dev, "IIO device allocation failed\n");
+> +		return -ENOMEM;
 > +	}
 > +
-> +	state_field =3D appleib_find_hid_field(hdev, HID_USAGE_SENSOR_ALS,
-> +					    HID_USAGE_SENSOR_PROP_REPORT_STATE);
-> +	illum_field =3D appleib_find_hid_field(hdev, HID_USAGE_SENSOR_ALS,
-> +					     HID_USAGE_SENSOR_LIGHT_ILLUM);
-> +	if (!state_field || !illum_field)
+> +	data =3D iio_priv(indio_dev);
+> +	indio_dev->dev.parent =3D &client->dev;
+> +	indio_dev->name =3D id->name;
+> +	indio_dev->channels =3D pat9125_channels;
+> +	indio_dev->num_channels =3D ARRAY_SIZE(pat9125_channels);
+> +	indio_dev->info =3D &pat9125_info;
+> +	indio_dev->modes =3D INDIO_DIRECT_MODE;
+> +
+> +	ret =3D devm_iio_triggered_buffer_setup(&client->dev, indio_dev, NULL,
+> +		pat9125_threaded_trigger_handler, &pat9125_buffer_ops);
+> +	if (ret) {
+> +		dev_err(&client->dev, "unable to setup triggered buffer\n");
+> +		return ret;
+> +	}
+> +
+> +	data->indio_trig =3D devm_iio_trigger_alloc(&client->dev, "%s-dev%d",
+> +		indio_dev->name, indio_dev->id);
+> +	if (!data->indio_trig)
+> +		return -ENOMEM;
+> +	data->indio_trig->dev.parent =3D &client->dev;
+> +	data->indio_trig->ops =3D &pat9125_trigger_ops;
+> +	iio_trigger_set_drvdata(data->indio_trig, data);
+> +	ret =3D devm_iio_trigger_register(&client->dev, data->indio_trig);
+> +	if (ret) {
+> +		dev_err(&client->dev, "unable to register trigger\n");
+> +		return ret;
+> +	}
+> +
+> +	data->regmap =3D devm_regmap_init_i2c(client, &pat9125_regmap_config);
+> +	if (IS_ERR(data->regmap)) {
+> +		dev_err(&client->dev, "regmap init failed %ld\n",
+> +			PTR_ERR(data->regmap));
+> +		return PTR_ERR(data->regmap);
+> +	}
+> +
+> +	/* Check device ID */
+> +	ret =3D regmap_read(data->regmap, PAT9125_PRD_ID1_REG, &sensor_pid);
+> +	if (ret < 0) {
+> +		dev_err(&client->dev, "register 0x%x access failed %d\n",
+> +			PAT9125_PRD_ID1_REG, ret);
+> +		return ret;
+> +	}
+> +	if (sensor_pid !=3D PAT9125_SENSOR_ID_VAL)
 > +		return -ENODEV;
 > +
-> +	hid_dbg(hdev, "Found ambient light sensor\n");
-> +
-> +	/* initialize device */
-> +	als_dev =3D devm_kzalloc(&hdev->dev, sizeof(*als_dev), GFP_KERNEL);
-> +	if (!als_dev)
-> +		return -ENOMEM;
-> +
-> +	als_dev->hid_dev =3D hdev;
-> +	als_dev->cfg_report =3D state_field->report;
-> +	als_dev->illum_field =3D illum_field;
-> +
-> +	als_dev->cur_hysteresis =3D APPLEALS_DEF_CHANGE_SENS;
-> +	als_dev->cur_sensitivity =3D APPLEALS_DEF_CHANGE_SENS;
-> +
-> +	hid_set_drvdata(hdev, als_dev);
-> +
-> +	rc =3D hid_hw_start(hdev, HID_CONNECT_DRIVER);
-> +	if (rc) {
-> +		hid_err(hdev, "als: hw start failed (%d)\n", rc);
-> +		return rc;
+> +	/* Switch to bank0 (Magic number)*/
+> +	ret =3D regmap_write(data->regmap, 0x7F, 0x00);
+> +	if (ret < 0) {
+> +		dev_err(indio_dev->dev.parent, "register 0x%x access failed %d\n",
+> +			0x7F, ret);
+> +		return ret;
 > +	}
 > +
-> +	hid_device_io_start(hdev);
-> +	appleals_config_sensor(als_dev, false, als_dev->cur_sensitivity);
-> +	hid_device_io_stop(hdev);
+> +	/* Software reset */
+> +	ret =3D regmap_write_bits(data->regmap,
+> +			      PAT9125_CONFIG_REG,
+> +			      PAT9125_RESET_BIT,
+> +			      1);
+> +	if (ret < 0) {
+> +		dev_err(&client->dev, "register 0x%x access failed %d\n",
+> +			PAT9125_CONFIG_REG, ret);
+> +		return ret;
+> +	}
 > +
-> +	rc =3D appleals_config_iio(als_dev);
-> +	if (rc)
-> +		return rc;
+> +	msleep(20);
 > +
-> +	return hid_hw_open(hdev);
-> +}
+> +	/* Init GPIO IRQ */
+> +	if (client->irq) {
+> +		ret =3D devm_request_threaded_irq(&client->dev,
+> +			client->irq,
+> +			NULL,
+> +			pat9125_threaded_event_handler,
+> +			IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+> +			"pat9125",
+> +			indio_dev);
+> +		if (ret) {
+> +			dev_err(&client->dev, "GPIO IRQ init failed\n");
+> +			return ret;
+> +		}
+> +	}
 > +
-> +#ifdef CONFIG_PM
-> +static int appleals_reset_resume(struct hid_device *hdev)
-> +{
-> +	struct appleals_device *als_dev =3D hid_get_drvdata(hdev);
-> +	__s32 illum;
+> +	ret =3D devm_iio_device_register(&client->dev, indio_dev);
+> +	if (ret) {
+> +		dev_err(&client->dev, "IIO device register failed\n");
+> +		return ret;
+> +	}
 > +
-> +	appleals_config_sensor(als_dev, als_dev->events_enabled,
-> +			       als_dev->cur_sensitivity);
-> +
-> +	illum =3D appleals_get_field_value(als_dev, als_dev->illum_field);
-> +	appleals_push_new_value(als_dev, illum);
-> +
+> +	i2c_set_clientdata(client, indio_dev);
+
+Why?  You have now gotten rid of remove (which is great).
+I'm guessing that was using i2c_get_clientdata?
+
 > +	return 0;
 > +}
-> +#endif
 > +
-> +static const struct hid_device_id appleals_hid_ids[] =3D {
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_LINUX_FOUNDATION,
-> +			 USB_DEVICE_ID_IBRIDGE_ALS) },
-> +	{ },
+> +static const struct i2c_device_id pat9125_id[] =3D {
+> +	{ "pat9125", 0 },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(i2c, pat9125_id);
+> +
+> +static const unsigned short normal_i2c[] =3D {
+> +	PAT9125_I2C_ADDR_HI,
+> +	PAT9125_I2C_ADDR_LO,
+> +	PAT9125_I2C_ADDR_NC,
+> +	I2C_CLIENT_END
 > +};
 > +
-> +MODULE_DEVICE_TABLE(hid, appleals_hid_ids);
-> +
-> +static struct hid_driver appleals_hid_driver =3D {
-> +	.name =3D "apple-ib-als",
-> +	.id_table =3D appleals_hid_ids,
-> +	.probe =3D appleals_probe,
-> +	.event =3D appleals_hid_event,
-> +#ifdef CONFIG_PM
-> +	.reset_resume =3D appleals_reset_resume,
-> +#endif
+> +static struct i2c_driver pat9125_driver =3D {
+> +	.driver =3D {
+> +		.name =3D "pat9125",
+> +	},
+> +	.probe =3D pat9125_probe,
+> +	.address_list =3D normal_i2c,
+> +	.id_table =3D pat9125_id,
 > +};
 > +
-> +module_hid_driver(appleals_hid_driver);
+> +module_i2c_driver(pat9125_driver);
 > +
-> +MODULE_AUTHOR("Ronald Tschal=C3=A4r");
-> +MODULE_DESCRIPTION("Apple iBridge ALS driver");
-> +MODULE_LICENSE("GPL v2");
+> +MODULE_AUTHOR("Alexandre Mergnat <amergnat@baylibre.com>");
+> +MODULE_DESCRIPTION("Optical Tracking sensor");
+> +MODULE_LICENSE("GPL");
 
