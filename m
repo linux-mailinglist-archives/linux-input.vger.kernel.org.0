@@ -2,118 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AA4C447F5D
-	for <lists+linux-input@lfdr.de>; Mon, 17 Jun 2019 12:14:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C0ED48122
+	for <lists+linux-input@lfdr.de>; Mon, 17 Jun 2019 13:45:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726412AbfFQKOE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Jun 2019 06:14:04 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:43959 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726311AbfFQKOE (ORCPT
+        id S1725826AbfFQLpF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Jun 2019 07:45:05 -0400
+Received: from outbound2.flatbooster.com ([84.200.223.10]:35368 "EHLO
+        outbound2.flatbooster.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725763AbfFQLpE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Jun 2019 06:14:04 -0400
-Received: from [125.35.49.90] (helo=localhost.localdomain)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <hui.wang@canonical.com>)
-        id 1hcoeH-0003H7-Jb; Mon, 17 Jun 2019 10:14:02 +0000
-From:   Hui Wang <hui.wang@canonical.com>
-To:     linux-input@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com, pali.rohar@gmail.com,
-        xiaoxiao.liu-1@cn.alps.com, sliuuxiaonxiao@gmail.com,
-        xiaojian.cao@cn.alps.com, naoki.saito@alpsalpine.com,
-        hideo.kawase@alpsalpine.com
-Subject: [PATCH v3] Input: alps - Don't handle ALPS cs19 trackpoint-only device
-Date:   Mon, 17 Jun 2019 18:13:46 +0800
-Message-Id: <20190617101346.17938-1-hui.wang@canonical.com>
-X-Mailer: git-send-email 2.17.1
+        Mon, 17 Jun 2019 07:45:04 -0400
+X-Greylist: delayed 534 seconds by postgrey-1.27 at vger.kernel.org; Mon, 17 Jun 2019 07:45:03 EDT
+Received: from localhost (outbound2.flatbooster.com [127.0.0.1])
+        by outbound2.flatbooster.com (Postfix) with ESMTP id 483B9227FEB;
+        Mon, 17 Jun 2019 13:36:09 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at outbound2.flatbooster.com
+Received: from outbound2.flatbooster.com ([127.0.0.1])
+        by localhost (outbound2.flatbooster.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id L9KkLDrrUyZe; Mon, 17 Jun 2019 13:36:08 +0200 (CEST)
+Received: from rex11.flatbooster.com (rex11.flatbooster.com [84.200.223.40])
+        by outbound2.flatbooster.com (Postfix) with ESMTPS id 6236F227FC0;
+        Mon, 17 Jun 2019 13:36:07 +0200 (CEST)
+Received: from [10.0.1.16] (unknown [5.10.63.154])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: web110614p1)
+        by rex11.flatbooster.com (Postfix) with ESMTPSA id 3D86A14E0A06;
+        Mon, 17 Jun 2019 13:36:06 +0200 (CEST)
+Reply-To: linux-ml@bernd-steinhauser.de
+Subject: Re: Force Feedback support not recognized on Granite Devices Simucube
+To:     Oliver Neukum <oneukum@suse.com>
+References: <68cebd85-92ad-8059-a767-a8a4f33c5c9e@bernd-steinhauser.de>
+ <1560769038.8567.15.camel@suse.com>
+From:   Bernd Steinhauser <linux-ml@bernd-steinhauser.de>
+Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org
+Message-ID: <4db2ce68-b65f-168e-0a30-72592cafb154@bernd-steinhauser.de>
+Date:   Mon, 17 Jun 2019 13:36:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <1560769038.8567.15.camel@suse.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On a latest Lenovo laptop, the trackpoint and 3 buttons below it
-don't work at all, when we move the trackpoint or press those 3
-buttons, the kernel will print out:
-"Rejected trackstick packet from non DualPoint device"
+On 17/06/19 12:57, Oliver Neukum wrote:
+> Am Montag, den 17.06.2019, 12:35 +0200 schrieb Bernd Steinhauser:
+>> The device advertises as MCS, Granite Devices SimuCUBE with id 16d0:0d5a, I'll attach lsusb output.
+>> Upon connection, the device is recognized and the output is:
+>>
+>> [ 3271.812807] usb 1-2.4.2: new full-speed USB device number 10 using xhci_hcd
+>> [ 3271.921182] usb 1-2.4.2: New USB device found, idVendor=16d0, idProduct=0d5a, bcdDevice= 2.00
+>> [ 3271.921184] usb 1-2.4.2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+>> [ 3271.921185] usb 1-2.4.2: Product: SimuCUBE
+>> [ 3271.921186] usb 1-2.4.2: Manufacturer: Granite Devices
+>> [ 3271.921187] usb 1-2.4.2: SerialNumber: 0123456789
+>> [ 3281.943990] input: Granite Devices SimuCUBE as /devices/pci0000:00/0000:00:09.0/0000:04:00.0/usb1/1-2/1-2.4/1-2.4.2/1-2.4.2:1.0/0003:16D0:0D5A.0016/input/input48
+>> [ 3281.944223] hid-generic 0003:16D0:0D5A.0016: unknown set_effect report layout
+>> [ 3281.944228] hid-generic 0003:16D0:0D5A.0016: input,hiddev2,hidraw15: USB HID v1.11 Joystick [Granite Devices SimuCUBE] on usb-0000:04:00.0-2.4.2/input0
+>>
+>> I spent some time looking at the code and also other ffb code in usbhid, but since I'm not really familiar with C I have a hard time figuring out why it doesn't work out of the box and how to fix this, but I'd be happy to help implementing/debugging it.
+>> For a start, it would be really nice to find out what is reported, what the report should look like and why it doesn't match.
+> Hi,
+>
+> 1. this eport is more appropriate for linux-input. You should put it
+> into CC
+Greg told me to write to this list, but I'll CC them.
+> 3. Your lsusb is incomplete (likely you need to run it as root), so
+> nobody can say what's wrong with your descriptors.
+I ran the command (lsusb -v -s 003:010) again as root, but the output remains 
+the same, especially the messages
 
-This device is identified as alps touchpad but the packet has
-trackpoint format, so the alps.c drops the packet and prints out
-the message above.
+can't get device qualifier: Resource temporarily unavailable
+can't get debug descriptor: Resource temporarily unavailable
 
-According to XiaoXiao's explanation, this device is named cs19 and
-is trackpoint-only device, its firmware is only for trackpoint, it
-is independent of touchpad and is a completely different device from
-DualPoint ones.
+remain.
 
-To drive this device with mininal changes to the existing driver, we
-just let the alps driver not handle this device, then the trackpoint.c
-will be the driver of this device.
-
-With the trackpoint.c, this trackpoint and 3 buttons all work well,
-they have all features that the trackpoint should have, like
-scrolling-screen, drag-and-drop and frame-selection.
-
-Signed-off-by: XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
-Signed-off-by: Hui Wang <hui.wang@canonical.com>
----
- drivers/input/mouse/alps.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
-
-diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
-index 0a6f7ca883e7..548012e6d316 100644
---- a/drivers/input/mouse/alps.c
-+++ b/drivers/input/mouse/alps.c
-@@ -24,6 +24,7 @@
- 
- #include "psmouse.h"
- #include "alps.h"
-+#include "trackpoint.h"
- 
- /*
-  * Definitions for ALPS version 3 and 4 command mode protocol
-@@ -2864,6 +2865,23 @@ static const struct alps_protocol_info *alps_match_table(unsigned char *e7,
- 	return NULL;
- }
- 
-+static bool alps_is_cs19_trackpoint(struct psmouse *psmouse)
-+{
-+	u8 param[2] = { 0 };
-+
-+	if (ps2_command(&psmouse->ps2dev,
-+			param, MAKE_PS2_CMD(0, 2, TP_READ_ID)))
-+		return false;
-+
-+	if (param[0] == TP_VARIANT_ALPS) {
-+		psmouse_warn(psmouse,
-+			     "It is an ALPS trackpoint-only device (CS19), make sure the MOUSE_PS2_TRACKPOINT is enabled to drive it\n");
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
- static int alps_identify(struct psmouse *psmouse, struct alps_data *priv)
- {
- 	const struct alps_protocol_info *protocol;
-@@ -3164,6 +3182,17 @@ int alps_detect(struct psmouse *psmouse, bool set_properties)
- 	if (error)
- 		return error;
- 
-+	/*
-+	 * ALPS cs19 is a trackpoint-only device, it is completely independent
-+	 * of touchpad. So it is a different device from DualPoint ones, if it
-+	 * is identified as a cs19 trackpoint device, we return -EINVAL here and
-+	 * let trackpoint.c to drive this device.
-+	 * If ps2_command() fails here, we depend on the immediate followed
-+	 * psmouse_reset() to reset the device to normal state.
-+	 */
-+	if (alps_is_cs19_trackpoint(psmouse))
-+		return -EINVAL;
-+
- 	/*
- 	 * Reset the device to make sure it is fully operational:
- 	 * on some laptops, like certain Dell Latitudes, we may
--- 
-2.17.1
-
+Kind Regards,
+Bernd
