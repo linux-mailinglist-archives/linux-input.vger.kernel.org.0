@@ -2,75 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76DFA4B3E3
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 10:19:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A2E84B3B3
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 10:11:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731252AbfFSISw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Jun 2019 04:18:52 -0400
-Received: from mail.acehprov.go.id ([123.108.97.111]:54192 "EHLO
-        mail.acehprov.go.id" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731065AbfFSISw (ORCPT
+        id S1731166AbfFSILw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Jun 2019 04:11:52 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:45751 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731164AbfFSILw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Jun 2019 04:18:52 -0400
-X-Greylist: delayed 1159 seconds by postgrey-1.27 at vger.kernel.org; Wed, 19 Jun 2019 04:18:49 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.acehprov.go.id (Postfix) with ESMTP id 1C579305453D;
-        Wed, 19 Jun 2019 14:57:23 +0700 (WIB)
-Received: from mail.acehprov.go.id ([127.0.0.1])
-        by localhost (mail.acehprov.go.id [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id bI57k7SkImp7; Wed, 19 Jun 2019 14:57:22 +0700 (WIB)
-Received: from mail.acehprov.go.id (localhost [127.0.0.1])
-        by mail.acehprov.go.id (Postfix) with ESMTPS id E36B730545E1;
-        Wed, 19 Jun 2019 14:57:19 +0700 (WIB)
-DKIM-Filter: OpenDKIM Filter v2.8.0 mail.acehprov.go.id E36B730545E1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acehprov.go.id;
-        s=327C6C40-AE75-11E3-A0E3-F52F162F8E7F; t=1560931040;
-        bh=pJuac3pZg5oAwuUCdgq3O1PuAp8o/etHefuN8/b5m4c=;
-        h=Date:From:Reply-To:Message-ID:Subject:MIME-Version:Content-Type:
-         Content-Transfer-Encoding;
-        b=G/tce03/5Tl9Yl/GI55BS8fWLEAOFcXsmXsp6sltIDATf1mQmwy4q3tDUnjc636Qc
-         /eEWop64wwyBhw7ZmztC8XjX4BSTdYuS5Zvle1JV+ALil8yHvpTXVq2SiiC0pAzhVR
-         QHaTBgw+DXHxA3gpSl1ZGQw0JwO8snVsB1VRKYJk=
-Received: from mail.acehprov.go.id (mail.acehprov.go.id [123.108.97.111])
-        by mail.acehprov.go.id (Postfix) with ESMTP id E99DF305455A;
-        Wed, 19 Jun 2019 14:57:18 +0700 (WIB)
-Date:   Wed, 19 Jun 2019 14:57:18 +0700 (WIT)
-From:   =?utf-8?B?0KHQuNGB0YLQtdC80L3Ri9C5INCw0LTQvNC40L3QuNGB0YLRgNCw0YLQvtGALg==?= 
-        <firman_hidayah@acehprov.go.id>
-Reply-To: mailsss@mail2world.com
-Message-ID: <1135620806.122376.1560931038893.JavaMail.zimbra@acehprov.go.id>
-Subject: 
+        Wed, 19 Jun 2019 04:11:52 -0400
+Received: from [125.35.49.90] (helo=[10.0.0.24])
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <hui.wang@canonical.com>)
+        id 1hdVh4-0002uB-7n; Wed, 19 Jun 2019 08:11:46 +0000
+Subject: Re: [PATCH v5] Input: alps - Don't handle ALPS cs19 trackpoint-only
+ device
+To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali.rohar@gmail.com>
+Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        xiaoxiao.liu-1@cn.alps.com, sliuuxiaonxiao@gmail.com,
+        xiaojian.cao@cn.alps.com, naoki.saito@alpsalpine.com,
+        hideo.kawase@alpsalpine.com
+References: <20190619063756.9714-1-hui.wang@canonical.com>
+ <20190619072944.bok36smpg7hphaao@pali>
+From:   Hui Wang <hui.wang@canonical.com>
+Message-ID: <4c5fd996-6b19-3767-d8d2-5bf74ea10116@canonical.com>
+Date:   Wed, 19 Jun 2019 16:11:29 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
-X-Originating-IP: [223.225.81.121]
-X-Mailer: Zimbra 8.0.4_GA_5737 (zclient/8.0.4_GA_5737)
-Thread-Topic: 
-Thread-Index: 0Rc1tipZP/DVqdBUioiyX3RcLevbBQ==
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <20190619072944.bok36smpg7hphaao@pali>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-0JLQndCY0JzQkNCd0JjQlTsKCtCSINCy0LDRiNC10Lwg0L/QvtGH0YLQvtCy0L7QvCDRj9GJ0LjQ
-utC1INC/0YDQtdCy0YvRiNC10L0g0LvQuNC80LjRgiDRhdGA0LDQvdC40LvQuNGJ0LAsINC60L7R
-gtC+0YDRi9C5INGB0L7RgdGC0LDQstC70Y/QtdGCIDUg0JPQkSwg0LrQsNC6INC+0L/RgNC10LTQ
-tdC70LXQvdC+INCw0LTQvNC40L3QuNGB0YLRgNCw0YLQvtGA0L7QvCwg0LrQvtGC0L7RgNGL0Lkg
-0LIg0L3QsNGB0YLQvtGP0YnQtdC1INCy0YDQtdC80Y8g0YDQsNCx0L7RgtCw0LXRgiDQvdCwIDEw
-LDkg0JPQkS4g0JLQvtC30LzQvtC20L3Qviwg0LLRiyDQvdC1INGB0LzQvtC20LXRgtC1INC+0YLQ
-v9GA0LDQstC70Y/RgtGMINC40LvQuCDQv9C+0LvRg9GH0LDRgtGMINC90L7QstGD0Y4g0L/QvtGH
-0YLRgywg0L/QvtC60LAg0LLRiyDQvdC1INC/0L7QtNGC0LLQtdGA0LTQuNGC0LUg0YHQstC+0Y4g
-0L/QvtGH0YLRgy4g0KfRgtC+0LHRiyDQv9C+0LTRgtCy0LXRgNC00LjRgtGMINGB0LLQvtC5INC/
-0L7Rh9GC0L7QstGL0Lkg0Y/RidC40LosINC+0YLQv9GA0LDQstGM0YLQtSDRgdC70LXQtNGD0Y7R
-idGD0Y4g0LjQvdGE0L7RgNC80LDRhtC40Y4g0L3QuNC20LU6CgrQvdCw0LfQstCw0L3QuNC1OgrQ
-mNC80Y8g0L/QvtC70YzQt9C+0LLQsNGC0LXQu9GPOgrQv9Cw0YDQvtC70Yw6CtCf0L7QtNGC0LLQ
-tdGA0LTQuNGC0LUg0J/QsNGA0L7Qu9GMOgrQrdC7LiDQsNC00YDQtdGBOgrQotC10LvQtdGE0L7Q
-vToKCtCV0YHQu9C4INCy0Ysg0L3QtSDRgdC80L7QttC10YLQtSDQv9C+0LTRgtCy0LXRgNC00LjR
-gtGMINGB0LLQvtC5INC/0L7Rh9GC0L7QstGL0Lkg0Y/RidC40LosINCy0LDRiCDQv9C+0YfRgtC+
-0LLRi9C5INGP0YnQuNC6INCx0YPQtNC10YIg0L7RgtC60LvRjtGH0LXQvSEKCtCf0YDQuNC90L7R
-gdC40Lwg0LjQt9Cy0LjQvdC10L3QuNGPINC30LAg0L3QtdGD0LTQvtCx0YHRgtCy0LAuCtCa0L7Q
-tCDQv9C+0LTRgtCy0LXRgNC20LTQtdC90LjRjzogZW46IDAwNiw1MjQuUlUK0KLQtdGF0L3QuNGH
-0LXRgdC60LDRjyDQv9C+0LTQtNC10YDQttC60LAg0L/QvtGH0YLRiyDCqSAyMDE5CgrQsdC70LDQ
-s9C+0LTQsNGA0Y4g0LLQsNGBCtCh0LjRgdGC0LXQvNC90YvQuSDQsNC00LzQuNC90LjRgdGC0YDQ
-sNGC0L7RgC4=
+
+On 2019/6/19 下午3:29, Pali Rohár wrote:
+> On Wednesday 19 June 2019 14:37:56 Hui Wang wrote:
+>> On a latest Lenovo laptop, the trackpoint and 3 buttons below it
+>> don't work at all, when we move the trackpoint or press those 3
+>> buttons, the kernel will print out:
+>> "Rejected trackstick packet from non DualPoint device"
+>>
+>> This device is identified as an alps touchpad but the packet has
+>> trackpoint format, so the alps.c drops the packet and prints out
+>> the message above.
+>>
+>> According to XiaoXiao's explanation, this device is named cs19 and
+>> is trackpoint-only device, its firmware is only for trackpoint, it
+>> is independent of touchpad and is a device completely different from
+>> DualPoint ones.
+>>
+>> To drive this device with mininal changes to the existing driver, we
+>> just let the alps driver not handle this device, then the trackpoint.c
+>> will be the driver of this device if the trackpoint driver is enabled.
+>> (if not, this device will fallback to a bare PS/2 device)
+>>
+>> With the trackpoint.c, this trackpoint and 3 buttons all work well,
+>> they have all features that the trackpoint should have, like
+>> scrolling-screen, drag-and-drop and frame-selection.
+>>
+>> Signed-off-by: XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
+>> Signed-off-by: Hui Wang <hui.wang@canonical.com>
+> Looks good, you can add my:
+>
+> Reviewed-by: Pali Rohár <pali.rohar@gmail.com>
+>
+> Thanks!
+>
+Thank you Pali.
+
+And Dmitry, suppose this patch is ok to merge, do I need to send a new 
+patch to add "Reviewed-by: Pali Rohár <pali.rohar@gmail.com>" or you 
+will add it yourself.
+
+Thanks,
+
+Hui.
+
+>> ---
+>> In the v5:
+>> change the commit header to add "fallback to a bare PS/2 device if
+>
