@@ -2,52 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF0854C120
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 21:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B556E4C3FD
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2019 01:13:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727076AbfFSTAH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Jun 2019 15:00:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46094 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726332AbfFSTAH (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Jun 2019 15:00:07 -0400
-Subject: Re: [git pull] Input updates for v5.2-rc5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560970806;
-        bh=ZgZVTjeTzTGUzg2AGgT3SEiXGd4PdCUPlIAf6oTehhs=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=RPfXO8sHQ4RBTqg4zrrMghCa+g1hX1jjXLeoISgRBrUmxM3IuEcP5H+3R8rn0/xY5
-         tzgIgSdrHTGJfD/g8NXlbqnOixFTpRhWPLF9yNTy2VO4cqrSKeH8oi4Pbufj5CFeBY
-         ACJN7D5HKlofCQ95X4rN13e0VXWKpUBZC1HhEqsI=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20190619001640.GA62849@dtor-ws>
-References: <20190619001640.GA62849@dtor-ws>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20190619001640.GA62849@dtor-ws>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-X-PR-Tracked-Commit-Id: 9843f3e08e2144724be7148e08d77a195dea257a
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4b6920ba26e1f24b949b9ca3bb782c7fac8be633
-Message-Id: <156097080658.11094.10153677521407620995.pr-tracker-bot@kernel.org>
-Date:   Wed, 19 Jun 2019 19:00:06 +0000
+        id S1730728AbfFSXNW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Jun 2019 19:13:22 -0400
+Received: from vie01a-dmta-pe05-1.mx.upcmail.net ([84.116.36.11]:42586 "EHLO
+        vie01a-dmta-pe05-1.mx.upcmail.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726251AbfFSXNW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 19 Jun 2019 19:13:22 -0400
+Received: from [172.31.216.234] (helo=vie01a-pemc-psmtp-pe11.mail.upcmail.net)
+        by vie01a-dmta-pe05.mx.upcmail.net with esmtp (Exim 4.92)
+        (envelope-from <jiridvorak@centrum.cz>)
+        id 1hdjlX-0000HT-Kd
+        for linux-input@vger.kernel.org; Thu, 20 Jun 2019 01:13:19 +0200
+Received: from localhost ([94.113.181.121])
+        by vie01a-pemc-psmtp-pe11.mail.upcmail.net with ESMTP
+        id djlXhBKRuEZz0djlXhPnV4; Thu, 20 Jun 2019 01:13:19 +0200
+X-Env-Mailfrom: jiridvorak@centrum.cz
+X-Env-Rcptto: linux-input@vger.kernel.org
+X-SourceIP: 94.113.181.121
+X-CNFS-Analysis: v=2.3 cv=E8KzWpVl c=1 sm=1 tr=0
+ a=s7YJerHMVUoi9pLLx4laNg==:117 a=s7YJerHMVUoi9pLLx4laNg==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=pwKtuhUnKVnDPx35zBQA:9
+ a=CjuIK1q_8ugA:10
+Date:   Thu, 20 Jun 2019 01:13:18 +0200
+From:   Jiri Dvorak <jiridvorak@centrum.cz>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Cc:     Anssi Hannula <anssi.hannula@bitwise.fi>,
+        linux-input@vger.kernel.org
+Subject: Re: PROBLEM: Race between upload and playback in ff-memless
+Message-ID: <20190620011318.474e6773@centrum.cz>
+In-Reply-To: <20190619005234.GE62571@dtor-ws>
+References: <20190617224831.7aa9ac53@centrum.cz>
+        <20190619005234.GE62571@dtor-ws>
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfEUtLpze/l0C/d+UqpiD6Qrm90yQVasz6cfNK9Hr4sg1aeT9PsWRyTzwlzqdKoHsJ0J+JN5JTwoj1a6RLpWY0x5OrlLZJzN5/HMH9n1NRN45gyX85zRt
+ BGNHnLihGlWNFOhjoX10WLt5OFDqpysg5v7aQvyKWEvmHlSq5QNNwBETUM2M4H8GF9uMK8Y+BTFa1a0kmEhXxnWdOkjmu0dWcFVtkp7lOiVWZuaKBxTgy0/h
+ PlKqNoMlqSbuqbWlAMRprw==
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The pull request you sent on Tue, 18 Jun 2019 17:16:40 -0700:
+Hi Dmitry
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+> I wonder if we can't simply leave the FF_EFFECT_PLAYING flag as is
+> when updating an effect. Although we still may skip over them in
+> ml_get_combo_effect() is play_at is in the future. Should we
+> immediately stop updated effects?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4b6920ba26e1f24b949b9ca3bb782c7fac8be633
+You can not stop the effect for update with zero delay. This would create on->off->on pulse in the force during each update for applications which are using a single continuously updated force. Be it rumble for applications ported from xinput style api or constant for some racing simulations.
 
-Thank you!
+Stopping effect for update with non-zero delay would actually improve consistency. Currently the behavior in this case depends on if there is another force of the same type currently playing. If there is none, hw force is not updated and remains at its last state until the new play_at time. If there is second effect which will trigger hw update then the first effect effectively stops when that happens. The downside of change in this behavior after such long time is that there might be applications knowingly or unknowingly relying on it.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+I think that changing the stop operation to always set FF_EFFECT_ABORTING flag together with setting play_at to jiffies (to bypass the check in ml_get_combo_effect) regardless of the playing state of started effect might fix the original issue.
+
+Improving the consistency in the non-zero delay case would likely require a different flag which would cause the timer to be scheduled for now, bypass the play_at check and not mix the force in if the play_at check would otherwise fail.
+
+With regards
+Jiri
