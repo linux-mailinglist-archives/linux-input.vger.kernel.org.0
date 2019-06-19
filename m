@@ -2,90 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A2E84B3B3
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 10:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E96C4B40F
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 10:29:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731166AbfFSILw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Jun 2019 04:11:52 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:45751 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731164AbfFSILw (ORCPT
+        id S1731166AbfFSI3t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Jun 2019 04:29:49 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:37884 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731136AbfFSI3t (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Jun 2019 04:11:52 -0400
-Received: from [125.35.49.90] (helo=[10.0.0.24])
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-        (Exim 4.76)
-        (envelope-from <hui.wang@canonical.com>)
-        id 1hdVh4-0002uB-7n; Wed, 19 Jun 2019 08:11:46 +0000
-Subject: Re: [PATCH v5] Input: alps - Don't handle ALPS cs19 trackpoint-only
- device
-To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali.rohar@gmail.com>
-Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-        xiaoxiao.liu-1@cn.alps.com, sliuuxiaonxiao@gmail.com,
-        xiaojian.cao@cn.alps.com, naoki.saito@alpsalpine.com,
-        hideo.kawase@alpsalpine.com
-References: <20190619063756.9714-1-hui.wang@canonical.com>
- <20190619072944.bok36smpg7hphaao@pali>
-From:   Hui Wang <hui.wang@canonical.com>
-Message-ID: <4c5fd996-6b19-3767-d8d2-5bf74ea10116@canonical.com>
-Date:   Wed, 19 Jun 2019 16:11:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Wed, 19 Jun 2019 04:29:49 -0400
+Received: by mail-oi1-f195.google.com with SMTP id t76so9915860oih.4;
+        Wed, 19 Jun 2019 01:29:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0ll4DW7zH4OTUHDoryj5FvLDHB7fdZ2QkstqI9xjeOs=;
+        b=p9GkQ0abmd+ufpfTnHLyWHY5wp6XIaKZAGrFHPJP/EcZwi7pTGaIxeSr4t51YBqsP9
+         2Zk5wgpKMSUNeSegpnoZvRIVPibzsS9P+X9KOMcTNKTItoGoemSRoUTHkh2jUpylb0RV
+         8JMfAswR0LV2IeL6GrTl5xYUU+RSecRtAc/XkLw8l6NB6yB5Ejyoefx/MtV2WC/m1vRB
+         73WBMd4899sc19HusBdpCiD5SzHveSAXMCLznSyYkD9+gz6MdLEdumYuOkPH7AK4jgQx
+         wBVtBJUSGwHlGBQ2QXgYDBrthpFLkMEoslBsuhVXJ/fKkTsxB3wyfHUudEygu+4aN7oS
+         uYaw==
+X-Gm-Message-State: APjAAAXud/TiuvAvr4fCvCNilyMaDQzSuJ0qU+6Jbo5uY7JzWERULpDX
+        kon8JNE1miEY/62Xecco8rnvbY/hFINR2GC0eSk=
+X-Google-Smtp-Source: APXvYqxAhgS2y9uBdRjy8zluvrnMxA6YhPLGCdPogicOQ0/567vNgcp4XWXL1z66OS5T5zc+Ne+sEufHlLhmXeHsr7Y=
+X-Received: by 2002:aca:d907:: with SMTP id q7mr1662790oig.68.1560932988746;
+ Wed, 19 Jun 2019 01:29:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190619072944.bok36smpg7hphaao@pali>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <7812857.KkDK7346ep@kreacher> <20190619001905.GA62571@dtor-ws>
+In-Reply-To: <20190619001905.GA62571@dtor-ws>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 19 Jun 2019 10:29:37 +0200
+Message-ID: <CAJZ5v0jANxDYpvukieee1jwjw93fg_Q=t5t=5fqKtDWqL35EoQ@mail.gmail.com>
+Subject: Re: [PATCH] PM: suspend: Rename pm_suspend_via_s2idle()
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
-On 2019/6/19 下午3:29, Pali Rohár wrote:
-> On Wednesday 19 June 2019 14:37:56 Hui Wang wrote:
->> On a latest Lenovo laptop, the trackpoint and 3 buttons below it
->> don't work at all, when we move the trackpoint or press those 3
->> buttons, the kernel will print out:
->> "Rejected trackstick packet from non DualPoint device"
->>
->> This device is identified as an alps touchpad but the packet has
->> trackpoint format, so the alps.c drops the packet and prints out
->> the message above.
->>
->> According to XiaoXiao's explanation, this device is named cs19 and
->> is trackpoint-only device, its firmware is only for trackpoint, it
->> is independent of touchpad and is a device completely different from
->> DualPoint ones.
->>
->> To drive this device with mininal changes to the existing driver, we
->> just let the alps driver not handle this device, then the trackpoint.c
->> will be the driver of this device if the trackpoint driver is enabled.
->> (if not, this device will fallback to a bare PS/2 device)
->>
->> With the trackpoint.c, this trackpoint and 3 buttons all work well,
->> they have all features that the trackpoint should have, like
->> scrolling-screen, drag-and-drop and frame-selection.
->>
->> Signed-off-by: XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
->> Signed-off-by: Hui Wang <hui.wang@canonical.com>
-> Looks good, you can add my:
+On Wed, Jun 19, 2019 at 2:19 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 >
-> Reviewed-by: Pali Rohár <pali.rohar@gmail.com>
+> Hi Rafael,
 >
-> Thanks!
+> On Tue, Jun 18, 2019 at 10:18:28AM +0200, Rafael J. Wysocki wrote:
+> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> >
+> > The name of pm_suspend_via_s2idle() is confusing, as it doesn't
+> > reflect the purpose of the function precisely enough and it is
+> > very similar to pm_suspend_via_firmware(), which has a different
+> > purpose, so rename it as pm_suspend_default_s2idle() and update
+> > its only caller, i8042_register_ports(), accordingly.
+> >
+> > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 >
-Thank you Pali.
+> I assume you'll take it through your tree...
 
-And Dmitry, suppose this patch is ok to merge, do I need to send a new 
-patch to add "Reviewed-by: Pali Rohár <pali.rohar@gmail.com>" or you 
-will add it yourself.
+I will.
 
-Thanks,
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Hui.
-
->> ---
->> In the v5:
->> change the commit header to add "fallback to a bare PS/2 device if
->
+Thanks!
