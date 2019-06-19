@@ -2,206 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BD7A4BF91
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 19:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04BCF4BFEB
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 19:40:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726628AbfFSRXb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Jun 2019 13:23:31 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:34244 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726197AbfFSRXb (ORCPT
+        id S1730435AbfFSRkg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Jun 2019 13:40:36 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:38914 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730224AbfFSRkg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Jun 2019 13:23:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=ZdyKJefKksJcZzzDwm+zQaX0WcoP2gis50R6eVF/GiE=; b=Eb8dSyDI6afHhDJ5b45O1Ymkz
-        AIr8y+4euiGcmjwpoi6Lg/9p4TwYz+hXJLENHI5VvS9QghDTljESu4QRvRhE0K9SMPuiFEZU1hsIq
-        IOOaGQrydiQ7QCxY0viFOHp9SqTah6Rn1dt1eWPkj/mPKMkKuKYms+r7BjiVmIc32wW2U=;
-Received: from [2001:470:1f1d:6b5:7e7a:91ff:fede:4a45] (helo=finisterre.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hdeIt-0007e8-HO; Wed, 19 Jun 2019 17:23:23 +0000
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-        id BD76C440046; Wed, 19 Jun 2019 18:23:22 +0100 (BST)
-Date:   Wed, 19 Jun 2019 18:23:22 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Fabien Parent <fparent@baylibre.com>
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com, matthias.bgg@gmail.com,
-        lee.jones@linaro.org, lgirdwood@gmail.com,
-        dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 5/7] regulator: mt6392: Add support for MT6392
- regulator
-Message-ID: <20190619172322.GX5316@sirena.org.uk>
-References: <20190619142013.20913-1-fparent@baylibre.com>
- <20190619142013.20913-6-fparent@baylibre.com>
+        Wed, 19 Jun 2019 13:40:36 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 78D3561B7E; Wed, 19 Jun 2019 17:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1560966034;
+        bh=3g9wLryrQ2F10ZSjtE5svtR7JJ802mUzznx1+lwmBzs=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=k16j+97HKeRzrK2dBga+ebAtQTXtxl0uthMtVMONMf/w9PvQiBR3zFrN8R9BCQBZu
+         i7BbsW9mYNAJRiuJmchVuqQklJAwHAFc0F1FXoFstBVFq7rWlKPPOlDrIopgV4Oc1n
+         0p+SqFJzhTDzxMcnJqa5VcE51i6sjk9OqXCENVO0=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.0
+Received: from [10.226.58.28] (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: jhugo@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id D85FB618EA;
+        Wed, 19 Jun 2019 17:40:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1560966030;
+        bh=3g9wLryrQ2F10ZSjtE5svtR7JJ802mUzznx1+lwmBzs=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=kleMmKW0cdmDe0Y3kyJmC0sfObgfizGuc5eh8tpwyhr9krvCDvVkTtuU13eoKcbAP
+         zhj2SEhIKm/wIrRhf23XD6KrqRcstL8hpTMx8cKoFV2tc1u5z1wGiTxd81DOx3mfO7
+         plBfFAhGOC4cwTIs2QcG1QQOS/okDiobs6Ilbucs=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D85FB618EA
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=jhugo@codeaurora.org
+Subject: Re: [PATCH v6 2/5] HID: quirks: Refactor ELAN 400 and 401 handling
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+        benjamin.tissoires@redhat.com, jikos@kernel.org,
+        hdegoede@redhat.com, bjorn.andersson@linaro.org, agross@kernel.org,
+        lee.jones@linaro.org, xnox@ubuntu.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190612212604.32089-1-jeffrey.l.hugo@gmail.com>
+ <20190612212721.32195-1-jeffrey.l.hugo@gmail.com>
+ <20190612214636.GA40779@dtor-ws>
+ <84e7d83f-e133-0281-612a-94d8c4319040@codeaurora.org>
+ <20190619171010.24c25oenpmjpiayw@penguin>
+From:   Jeffrey Hugo <jhugo@codeaurora.org>
+Message-ID: <8cd10509-6a67-7c5b-9139-89bdcaa35f3f@codeaurora.org>
+Date:   Wed, 19 Jun 2019 11:40:28 -0600
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="KGCJ2evWaA3eb4zZ"
-Content-Disposition: inline
-In-Reply-To: <20190619142013.20913-6-fparent@baylibre.com>
-X-Cookie: Editing is a rewording activity.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190619171010.24c25oenpmjpiayw@penguin>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On 6/19/2019 11:10 AM, Dmitry Torokhov wrote:
+> On Wed, Jun 12, 2019 at 04:20:42PM -0600, Jeffrey Hugo wrote:
+>> On 6/12/2019 3:46 PM, Dmitry Torokhov wrote:
+>>> On Wed, Jun 12, 2019 at 02:27:21PM -0700, Jeffrey Hugo wrote:
+>>>> There needs to be coordination between hid-quirks and the elan_i2c driver
+>>>> about which devices are handled by what drivers.  Currently, both use
+>>>> whitelists, which results in valid devices being unhandled by default,
+>>>> when they should not be rejected by hid-quirks.  This is quickly becoming
+>>>> an issue.
+>>>>
+>>>> Since elan_i2c has a maintained whitelist of what devices it will handle,
+>>>> which is now in a header file that hid-quirks can access, use that to
+>>>> implement a blacklist in hid-quirks so that only the devices that need to
+>>>> be handled by elan_i2c get rejected by hid-quirks, and everything else is
+>>>> handled by default.
+>>>>
+>>>> Suggested-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>>>> Signed-off-by: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+>>>> ---
+>>>>    drivers/hid/hid-quirks.c | 27 ++++++++++++++++-----------
+>>>>    1 file changed, 16 insertions(+), 11 deletions(-)
+>>>>
+>>>> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+>>>> index e5ca6fe2ca57..bd81bb090222 100644
+>>>> --- a/drivers/hid/hid-quirks.c
+>>>> +++ b/drivers/hid/hid-quirks.c
+>>>> @@ -16,6 +16,7 @@
+>>>>    #include <linux/export.h>
+>>>>    #include <linux/slab.h>
+>>>>    #include <linux/mutex.h>
+>>>> +#include <linux/input/elan-i2c-ids.h>
+>>>>    #include "hid-ids.h"
+>>>> @@ -914,6 +915,8 @@ static const struct hid_device_id hid_mouse_ignore_list[] = {
+>>>>    bool hid_ignore(struct hid_device *hdev)
+>>>>    {
+>>>> +	int i;
+>>>> +
+>>>>    	if (hdev->quirks & HID_QUIRK_NO_IGNORE)
+>>>>    		return false;
+>>>>    	if (hdev->quirks & HID_QUIRK_IGNORE)
+>>>> @@ -978,18 +981,20 @@ bool hid_ignore(struct hid_device *hdev)
+>>>>    		break;
+>>>>    	case USB_VENDOR_ID_ELAN:
+>>>>    		/*
+>>>> -		 * Many Elan devices have a product id of 0x0401 and are handled
+>>>> -		 * by the elan_i2c input driver. But the ACPI HID ELAN0800 dev
+>>>> -		 * is not (and cannot be) handled by that driver ->
+>>>> -		 * Ignore all 0x0401 devs except for the ELAN0800 dev.
+>>>> +		 * Blacklist of everything that gets handled by the elan_i2c
+>>>> +		 * input driver.  This avoids disabling valid touchpads and
+>>>> +		 * other ELAN devices.
+>>>>    		 */
+>>>> -		if (hdev->product == 0x0401 &&
+>>>> -		    strncmp(hdev->name, "ELAN0800", 8) != 0)
+>>>> -			return true;
+>>>> -		/* Same with product id 0x0400 */
+>>>> -		if (hdev->product == 0x0400 &&
+>>>> -		    strncmp(hdev->name, "QTEC0001", 8) != 0)
+>>>> -			return true;
+>>>> +		if ((hdev->product == 0x0401 || hdev->product == 0x0400)) {
+>>>> +			for (i = 0; strlen(elan_acpi_id[i].id); ++i)
+>>>> +				if (!strncmp(hdev->name, elan_acpi_id[i].id,
+>>>> +					     strlen(elan_acpi_id[i].id)))
+>>>> +					return true;
+>>>> +			for (i = 0; strlen(elan_of_match[i].name); ++i)
+>>>> +				if (!strncmp(hdev->name, elan_of_match[i].name,
+>>>> +					     strlen(elan_of_match[i].name)))
+>>>> +					return true;
+>>>
+>>> Do we really need to blacklist the OF case here? I thought that in ACPI
+>>> case we have clashes as HID gets matched by elan_i2c and CID is matched
+>>> by i2c-hid, but I do not believe we'll run into the same situation on OF
+>>> systems.
+>>
+>> I think its the safer approach.
+>>
+>> On an OF system, such as patch 3 in the series, the "hid-over-i2c" will end
+>> up running through this (kind of the whole reason why this series exists).
+>> The vendor and product ids will still match, so we'll end up going through
+>> the lists to see if the hdev->name (the compatible string) will match the
+>> blacklist.  "hid-over-i2c" won't match the blacklist, but if there is a more
+>> specific compatible, it might.
+>>
+>> In that case, not matching OF would work, however how it could break today
+>> is if both "hid-over-i2c" and "elan,ekth3000" were listed for the same
+>> device, and elan_i2c was not compiled.  In that case, if we skip the OF part
+>> of the black list, hid-quirks will not reject the device, and you'll
+>> probably have some odd behavior instead of the obvious "the device doesn't
+>> work because the correct driver isn't present" behavior.
+>>
+>> While that scenario might be far fetched since having both "hid-over-i2c"
+>> and "elan,ekth3000" probably violates the OF bindings, its still safer to
+>> include the OF case in the blacklist against future scenarios.
+> 
+> Yes, I believe it is quite far fetched. We are talking about someone
+> setting compatible sting to something that is decidedly not compatible.
+> I.e. we know that devices driven by elan_i2c are not compatible with
+> hi-over-i2c driver/protocol, so why do we expect that they both will be
+> specified in the same compatible string? I know ACPI case is messier in
+> this regard as 2 drivers look at the different data items when
+> evaluating whether they should bind to the device, but here we are
+> dealing with the same string.
 
---KGCJ2evWaA3eb4zZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jun 19, 2019 at 04:20:11PM +0200, Fabien Parent wrote:
-
-> connectcts as a slave to a SoC using SPI, wrapped inside PWRAP.
->=20
-> Signed-off-by: Fabien Parent <fparent@baylibre.com>
-
-This has your signoff...
-
-> +++ b/drivers/regulator/mt6392-regulator.c
-> @@ -0,0 +1,490 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2019 MediaTek Inc.
-> + * Author: Chen Zhong <chen.zhong@mediatek.com>
-> + */
-
-=2E..but someone else from a different company wrote it?  Also please make
-the entire header a C++ one so this looks more consistent.
-
-> +static const u32 ldo_volt_table2[] =3D {
-> +	3300000, 3400000, 3500000, 3600000,
-> +};
-
-This looks like a linear range?
-
-> +static int mt6392_get_status(struct regulator_dev *rdev)
-> +{
-> +	int ret;
-> +	u32 regval;
-> +	struct mt6392_regulator_info *info =3D rdev_get_drvdata(rdev);
-> +
-> +	ret =3D regmap_read(rdev->regmap, info->desc.enable_reg, &regval);
-> +	if (ret !=3D 0) {
-> +		dev_err(&rdev->dev, "Failed to get enable reg: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return (regval & info->qi) ? REGULATOR_STATUS_ON : REGULATOR_STATUS_OFF;
-> +}
-
-This appears to just be reading back the enable bit, the status
-operation should only be implemented if it can check if the regulator
-is actually working.
-
-Please also don't use the ternery operator needlessly, just write normal
-conditional statements to help people read the code.
-
-> +static int mt6392_buck_set_mode(struct regulator_dev *rdev, unsigned int=
- mode)
-> +{
-> +	int ret, val =3D 0;
-> +	struct mt6392_regulator_info *info =3D rdev_get_drvdata(rdev);
-> +	u32 reg_value;
-> +
-> +	if (!info->modeset_mask) {
-> +		dev_err(&rdev->dev, "regulator %s doesn't support set_mode\n",
-> +			info->desc.name);
-> +		return -EINVAL;
-> +	}
-
-If a regulator doesn't have support for set_mode() the operation
-shouldn't be provided for it.
-
-> +	ret =3D regmap_update_bits(rdev->regmap, info->modeset_reg,
-> +				  info->modeset_mask, val);
-> +
-> +	if (regmap_read(rdev->regmap, info->modeset_reg, &reg_value) < 0) {
-> +		dev_err(&rdev->dev, "Failed to read register value\n");
-> +		return -EIO;
-> +	}
-
-Why are we doing this read?  It's not like anything even looks at the
-value.
-
-> +static int mt6392_set_buck_vosel_reg(struct platform_device *pdev)
-> +{
-> +	struct mt6397_chip *mt6392 =3D dev_get_drvdata(pdev->dev.parent);
-> +	int i;
-> +	u32 regval;
-> +
-> +	for (i =3D 0; i < MT6392_MAX_REGULATOR; i++) {
-> +		if (mt6392_regulators[i].vselctrl_reg) {
-> +			if (regmap_read(mt6392->regmap,
-> +				mt6392_regulators[i].vselctrl_reg,
-> +				&regval) < 0) {
-> +				dev_err(&pdev->dev,
-> +					"Failed to read buck ctrl\n");
-> +				return -EIO;
-> +			}
-
-The indentation here is seriously messed up, parts of the conditional
-statement are indented as far as the code block inside the conditional
-statement - usually the continuation of the condition would align with
-the (.
-
-> +
-> +			if (regval & mt6392_regulators[i].vselctrl_mask) {
-> +				mt6392_regulators[i].desc.vsel_reg =3D
-> +				mt6392_regulators[i].vselon_reg;
-> +			}
-
-Again here the indentation is weird, this is actually one statement in
-the { } but the second line isn't indented.
-
-I'm also not altogether clear why this function is doing what it's
-doing, some comments or something would be good at least.
-
-> +		/* Constrain board-specific capabilities according to what
-> +		 * this driver and the chip itself can actually do.
-> +		 */
-> +		c =3D rdev->constraints;
-> +		c->valid_modes_mask |=3D REGULATOR_MODE_NORMAL|
-> +			REGULATOR_MODE_STANDBY | REGULATOR_MODE_FAST;
-> +		c->valid_ops_mask |=3D REGULATOR_CHANGE_MODE;
-
-This is broken, the driver should absolutely not modify constraints.
-The driver isn't even doing what the comment says here, it's enabling
-permissions regardless of if they were enabled by the machine.
-
-> +static const struct of_device_id mt6392_of_match[] =3D {
-> +	{ .compatible =3D "mediatek,mt6392-regulator", },
-> +	{ /* sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(of, mt6392_of_match);
-
-There is no need for a compatible for this subfunction, it's specific to
-a single chip so we should be able to enumerate it just by enumerating
-that chip and this way of binding regulators is very Linux specific.
-Just have the MFD register the regulator device.
-
---KGCJ2evWaA3eb4zZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl0Kb4kACgkQJNaLcl1U
-h9BDsgf/X5MVZRM8oSqh+qbgXqtR8u6TkB8hkxu3TG/2mXnlhwdaiIX2HooEaSKf
-dfdfsPf7Y7+qFGOVBryJXPfk+cn/JPZ5Ntb+oWgjbwpEfaMTKalm3xB9KmNPkZvD
-S+RtdwyB4ynaXaNuzGOsOb/JW7t9HBDGHE8hUFfNFWcWh8Wny8oXkLAbwjYDoWFs
-KcyScAOcNhFsQpnaVaZdM8S7kv5r2jBPsg6MCjD6gGhB527VxvJHtY3qQdxm1D55
-RF28e3Bz3cVfDAjXivdsQgsONR0KlBcrKnbvvKxzlXpkaPWYb5DzNWqHa9IN5B3A
-8DetMVMjgOYxfx74qGoBo3Wcpk5bRg==
-=MKSc
------END PGP SIGNATURE-----
-
---KGCJ2evWaA3eb4zZ--
+Alright.  Sounds like you really want the DT matching dropped, so I'll 
+update the series with a new version ASAP that drops that.
