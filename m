@@ -2,71 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E96C4B40F
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 10:29:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93DD14B70E
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 13:28:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731166AbfFSI3t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Jun 2019 04:29:49 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:37884 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731136AbfFSI3t (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Jun 2019 04:29:49 -0400
-Received: by mail-oi1-f195.google.com with SMTP id t76so9915860oih.4;
-        Wed, 19 Jun 2019 01:29:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0ll4DW7zH4OTUHDoryj5FvLDHB7fdZ2QkstqI9xjeOs=;
-        b=p9GkQ0abmd+ufpfTnHLyWHY5wp6XIaKZAGrFHPJP/EcZwi7pTGaIxeSr4t51YBqsP9
-         2Zk5wgpKMSUNeSegpnoZvRIVPibzsS9P+X9KOMcTNKTItoGoemSRoUTHkh2jUpylb0RV
-         8JMfAswR0LV2IeL6GrTl5xYUU+RSecRtAc/XkLw8l6NB6yB5Ejyoefx/MtV2WC/m1vRB
-         73WBMd4899sc19HusBdpCiD5SzHveSAXMCLznSyYkD9+gz6MdLEdumYuOkPH7AK4jgQx
-         wBVtBJUSGwHlGBQ2QXgYDBrthpFLkMEoslBsuhVXJ/fKkTsxB3wyfHUudEygu+4aN7oS
-         uYaw==
-X-Gm-Message-State: APjAAAXud/TiuvAvr4fCvCNilyMaDQzSuJ0qU+6Jbo5uY7JzWERULpDX
-        kon8JNE1miEY/62Xecco8rnvbY/hFINR2GC0eSk=
-X-Google-Smtp-Source: APXvYqxAhgS2y9uBdRjy8zluvrnMxA6YhPLGCdPogicOQ0/567vNgcp4XWXL1z66OS5T5zc+Ne+sEufHlLhmXeHsr7Y=
-X-Received: by 2002:aca:d907:: with SMTP id q7mr1662790oig.68.1560932988746;
- Wed, 19 Jun 2019 01:29:48 -0700 (PDT)
+        id S1731495AbfFSL2F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Jun 2019 07:28:05 -0400
+Received: from smtp2.ono.com ([62.42.230.179]:28652 "EHLO smtp2.ono.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727076AbfFSL2F (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 19 Jun 2019 07:28:05 -0400
+X-Junkmail-Premium-Raw: score=17/50,refid=2.7.2:2019.6.19.104818:17:17.509,ip=62.42.230.132,rules=__HAS_MSGID,
+ __SANE_MSGID, MSGID_JMAIL_DEFAULT, INVALID_MSGID_NO_FQDN, __HAS_FROM,
+ __HAS_REPLYTO, __FRAUD_WEBMAIL_REPLYTO, __SUBJECT_NOLC, __SUBJECT_ALLCAPS,
+ SUBJ_1WORD, __MIME_VERSION, __CT, __CT_TEXT_PLAIN, __CTE, MISSING_HEADERS,
+ __FRAUD_TRUST, __FRAUD_LOC, ECARD_GREETING_WORD, __NO_HTML_TAG_RAW,
+ BODYTEXTP_SIZE_3000_LESS, BODY_SIZE_800_899, __MIME_TEXT_P1,
+ __MIME_TEXT_ONLY, HTML_00_01, HTML_00_10, FRAUD_X3, BODY_SIZE_5000_LESS,
+ __FRAUD_WEBMAIL, WEBMAIL_REPLYTO_NOT_FROM, FRAUD_WEBMAIL_R_NOT_F,
+ __FRAUD_COMMON, __MIME_TEXT_P, NO_URI_FOUND, NO_CTA_URI_FOUND,
+ __PHISH_SPEAR_STRUCTURE_1, BODY_SIZE_1000_LESS, BODY_SIZE_2000_LESS,
+ __PHISH_SPEAR_STRUCTURE_2, REPLYTO_FROM_DIFF_ADDY, NO_URI_HTTPS,
+ BODY_SIZE_7000_LESS, TO_MALFORMED
+Received: from resprs02 (62.42.230.132) by smtp2.ono.com (9.0.019.09-1)
+        id 5CAF0F5D0370C91E; Wed, 19 Jun 2019 13:27:39 +0200
+Received: from (149.126.75.8) by webmailcpr02n.ono.com;  Wed, 19 Jun 2019 13:27:36 +0200
+Message-ID: <6502187.779751560943656015.JavaMail.defaultUser@defaultHost>
+Date:   Wed, 19 Jun 2019 13:27:36 +0200 (CEST)
+From:   James Williams <celias@ono.com>
+Reply-To: jw97798@gmail.com
+Subject: HI
 MIME-Version: 1.0
-References: <7812857.KkDK7346ep@kreacher> <20190619001905.GA62571@dtor-ws>
-In-Reply-To: <20190619001905.GA62571@dtor-ws>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 19 Jun 2019 10:29:37 +0200
-Message-ID: <CAJZ5v0jANxDYpvukieee1jwjw93fg_Q=t5t=5fqKtDWqL35EoQ@mail.gmail.com>
-Subject: Re: [PATCH] PM: suspend: Rename pm_suspend_via_s2idle()
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jun 19, 2019 at 2:19 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Rafael,
->
-> On Tue, Jun 18, 2019 at 10:18:28AM +0200, Rafael J. Wysocki wrote:
-> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> >
-> > The name of pm_suspend_via_s2idle() is confusing, as it doesn't
-> > reflect the purpose of the function precisely enough and it is
-> > very similar to pm_suspend_via_firmware(), which has a different
-> > purpose, so rename it as pm_suspend_default_s2idle() and update
-> > its only caller, i8042_register_ports(), accordingly.
-> >
-> > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->
-> I assume you'll take it through your tree...
 
-I will.
 
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Thanks!
+--
+My greeting to you and your family,
+I am Captain JAMES WILLIAMS. I'm 49 years old, from the united states, 
+but I am currently in Syria for peace keeping mission. I am the 
+commanding officer of the third Battalion soldier regime.
+
+Please forgive my manners I am not good when it comes to the Internet 
+because that is not really my field.
+
+I came across your email confidently when I was searching for a 
+reliable person and I suddenly got your email address and I guess it's 
+for a good purpose,here in Syria we are not allowed to go out that 
+makes it very bored for me so I just think I need a friend to talk to 
+outside to keep me going. I would love to get to know you as a friend.
+
+Where are you from I will like to know more about you.
+
+Respectfully,
+James Williams   
+--
+
