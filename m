@@ -2,110 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 939284B08E
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 06:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FCDC4B232
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 08:38:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725800AbfFSEFJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Jun 2019 00:05:09 -0400
-Received: from mail-wr1-f52.google.com ([209.85.221.52]:33750 "EHLO
-        mail-wr1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725562AbfFSEFJ (ORCPT
+        id S1726195AbfFSGiQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Jun 2019 02:38:16 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:44126 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725854AbfFSGiQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Jun 2019 00:05:09 -0400
-Received: by mail-wr1-f52.google.com with SMTP id n9so1743847wru.0
-        for <linux-input@vger.kernel.org>; Tue, 18 Jun 2019 21:05:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=colorremedies-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=PhSC5z/qhDUXYm32vUpgu0y51bYOaIED0wzUzn2tSEQ=;
-        b=NJJ9pCbzUzPj2lU+O+hMisDWDjKQHeRZaKCvLc80xOt+A0y+2TZCM0FMvM1x8YB+/n
-         2HtyKvlE24kxSZOq+TK52PCQTrZ8XICZeDGhUv28FEdEGTnEXVjU1ye0BMPo9/vGHlku
-         MiEqyKWXWb35XR6Q+qoM+6y+Taq+B9grEaUW5khS9K0T7DfsT/5m5CBUvUlCMXR7ZDAA
-         LczDx9VEEg4L3K72hHAlj4o1UiSZVc70qtHKEQpC9prcNjh1STq9CRWCTApoBAAhxFjy
-         FbPykQQm4FipQamHYHhMfdk6dqG9DuzxLjSfQh20CE6rlNCGt8YUfpnb/hbkdpeIrb49
-         7Uxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=PhSC5z/qhDUXYm32vUpgu0y51bYOaIED0wzUzn2tSEQ=;
-        b=N/30RCR/e17ERrJNrOLEW+WT8ftkvSRzHDnVhwAFdp0qbBZuryc6OfUz36CJW2fgxP
-         Xang9yeT3ERmdbax3gmAy7kvwfeNcrL+Oc4TSXKYqkxL5QJNDOiHihrbm2yFmj1SOvCO
-         ViBPeNaQczWwz7RRdyzgvpa1/vBK/Ecc3ycNjuVdZTAkBEm6zJY2TpE0YOBjZNWBsahg
-         yMaoLaU0TNRWGa6W4iIcEOuuU14SUclEEalig6nJ2t8esumOTCdspx88QsaB7Ggk0AUF
-         /lhZuJxWDJVzEYU7skrbdTIS3WJNHforPWDgmN+IzCVWueIq5OgNMF2+e0QGZxMTbmoE
-         /GcQ==
-X-Gm-Message-State: APjAAAWe326tzKpXwaoMxzmHh1haBru4Mg4p52K764EqNOWgEOEDu/xQ
-        Ozz6tXb636QnJFvtDtxss8HPDNVnM/3zBX9pmrdxyqY4tDs=
-X-Google-Smtp-Source: APXvYqxs+aK0rOGukaXIhp9pGoxwiWwkzywxPSu7sumEzl0UEtdg02HkSGqNGVKPB6wRta227Qm4SA21IKzhy92laZw=
-X-Received: by 2002:a05:6000:4b:: with SMTP id k11mr5905693wrx.82.1560917107049;
- Tue, 18 Jun 2019 21:05:07 -0700 (PDT)
-MIME-Version: 1.0
-From:   Chris Murphy <lists@colorremedies.com>
-Date:   Tue, 18 Jun 2019 22:04:56 -0600
-Message-ID: <CAJCQCtTU+epLv7BpwF8tfz3nSM8y1Ls8orj01D73aXBG+iTWSQ@mail.gmail.com>
-Subject: Apple magicmouse, frequent disconnects
+        Wed, 19 Jun 2019 02:38:16 -0400
+Received: from [125.35.49.90] (helo=localhost.localdomain)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <hui.wang@canonical.com>)
+        id 1hdUEW-0001sD-N5; Wed, 19 Jun 2019 06:38:13 +0000
+From:   Hui Wang <hui.wang@canonical.com>
 To:     linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Cc:     dmitry.torokhov@gmail.com, pali.rohar@gmail.com,
+        xiaoxiao.liu-1@cn.alps.com, sliuuxiaonxiao@gmail.com,
+        xiaojian.cao@cn.alps.com, naoki.saito@alpsalpine.com,
+        hideo.kawase@alpsalpine.com
+Subject: [PATCH v5] Input: alps - Don't handle ALPS cs19 trackpoint-only device
+Date:   Wed, 19 Jun 2019 14:37:56 +0800
+Message-Id: <20190619063756.9714-1-hui.wang@canonical.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On a latest Lenovo laptop, the trackpoint and 3 buttons below it
+don't work at all, when we move the trackpoint or press those 3
+buttons, the kernel will print out:
+"Rejected trackstick packet from non DualPoint device"
 
-I've got an Apple Magicmouse, bluetooth mouse, and it frequently
-disconnects on linux, more than a dozen times per day, even more than
-a dozen times per hour sometimes. This happens on an hp laptop, and a
-Mac laptop running linux (specifically Fedora). When rebooted to
-Windows 10 and macOS respectively, the mouse works as expected without
-disconnects.
+This device is identified as an alps touchpad but the packet has
+trackpoint format, so the alps.c drops the packet and prints out
+the message above.
 
-It happens on kernels going back before 4.9 and up to current 5.2rc5
-kernels, and is not a regression near as I can tell.
+According to XiaoXiao's explanation, this device is named cs19 and
+is trackpoint-only device, its firmware is only for trackpoint, it
+is independent of touchpad and is a device completely different from
+DualPoint ones.
 
-Someone else discovered that if CONFIG_HID_BATTERY_STRENGTH is not
-set, the problem doesn't happen. I can confirm this, but as a
-consequence I no longer get any battery remaining information which is
-suboptimal.
-https://bugzilla.kernel.org/show_bug.cgi?id=103631
+To drive this device with mininal changes to the existing driver, we
+just let the alps driver not handle this device, then the trackpoint.c
+will be the driver of this device if the trackpoint driver is enabled.
+(if not, this device will fallback to a bare PS/2 device)
 
-So I'm wondering what more information I can provide to figure out why
-polling the mouse (apparently) causes these disconnects. I never see a
-kernel message related to the disconnect, only after the reconnect
-happens.
+With the trackpoint.c, this trackpoint and 3 buttons all work well,
+they have all features that the trackpoint should have, like
+scrolling-screen, drag-and-drop and frame-selection.
 
-[ 1367.387984] flap.local kernel: magicmouse 0005:05AC:030D.0004:
-unknown main item tag 0x0
-[ 1367.388472] flap.local kernel: input: mouses as
-/devices/pci0000:00/0000:00:14.0/usb1/1-7/1-7:1.0/bluetooth/hci0/hci0:512/0005:05AC:030D.0004/input/input20
-[ 1367.391109] flap.local kernel: magicmouse 0005:05AC:030D.0004:
-input,hidraw2: BLUETOOTH HID v3.06 Mouse [mouses] on 00:c2:c6:f0:52:57
+Signed-off-by: XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
+Signed-off-by: Hui Wang <hui.wang@canonical.com>
+---
+In the v5:
+change the commit header to add "fallback to a bare PS/2 device if
+trackpont driver is not enabled".
+add comment for checking param[0] and param[1]
+add psmouse_dbg and psmouse_warn respectively for PS2_TRACKPOINT is
+enabled or not enabled.
 
-Hp test system:
+ drivers/input/mouse/alps.c | 41 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-hci0:    Type: Primary  Bus: USB
-    BD Address: 00:C2:C6:F0:52:57  ACL MTU: 1021:4  SCO MTU: 96:6
-    UP RUNNING PSCAN
-    RX bytes:15083 acl:0 sco:0 events:2439 errors:0
-    TX bytes:600912 acl:0 sco:0 commands:2437 errors:0
-    Features: 0xbf 0xfe 0x0f 0xfe 0xdb 0xff 0x7b 0x87
-    Packet type: DM1 DM3 DM5 DH1 DH3 DH5 HV1 HV2 HV3
-    Link policy: RSWITCH SNIFF
-    Link mode: SLAVE ACCEPT
-    Name: 'flap.local'
-    Class: 0x0c010c
-    Service Classes: Rendering, Capturing
-    Device Class: Computer, Laptop
-    HCI Version: 4.2 (0x8)  Revision: 0x100
-    LMP Version: 4.2 (0x8)  Subversion: 0x100
-    Manufacturer: Intel Corp. (2)
+diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
+index 0a6f7ca883e7..536b8e531169 100644
+--- a/drivers/input/mouse/alps.c
++++ b/drivers/input/mouse/alps.c
+@@ -24,6 +24,7 @@
+ 
+ #include "psmouse.h"
+ #include "alps.h"
++#include "trackpoint.h"
+ 
+ /*
+  * Definitions for ALPS version 3 and 4 command mode protocol
+@@ -2864,6 +2865,34 @@ static const struct alps_protocol_info *alps_match_table(unsigned char *e7,
+ 	return NULL;
+ }
+ 
++static bool alps_is_cs19_trackpoint(struct psmouse *psmouse)
++{
++	u8 param[2] = { 0 };
++
++	if (ps2_command(&psmouse->ps2dev,
++			param, MAKE_PS2_CMD(0, 2, TP_READ_ID)))
++		return false;
++
++	/*
++	 * param[0] contains the trackpoint device variant_id while param[1]
++	 * contains the firmware_id, so far for all alps trackpoint-only
++	 * devices, their variant_ids equal TP_VARIANT_ALPS and their
++	 * firmware_ids are 0x20~0x2f, so here we check param[0] as well as
++	 * param[1] to detect an ALPS trackpoint-only device.
++	 */
++	if ((param[0] == TP_VARIANT_ALPS) && (param[1] & 0x20)) {
++		if (IS_ENABLED(MOUSE_PS2_TRACKPOINT))
++			psmouse_dbg(psmouse,
++				    "ALPS CS19 trackpoint-only device detected, not using ALPS touchpad driver\n");
++		else
++			psmouse_warn(psmouse,
++				     "ALPS CS19 trackpoint-only device detected but MOUSE_PS2_TRACKPOINT not enabled, fallback to bare PS/2 mouse\n");
++		return true;
++	}
++
++	return false;
++}
++
+ static int alps_identify(struct psmouse *psmouse, struct alps_data *priv)
+ {
+ 	const struct alps_protocol_info *protocol;
+@@ -3164,6 +3193,18 @@ int alps_detect(struct psmouse *psmouse, bool set_properties)
+ 	if (error)
+ 		return error;
+ 
++	/*
++	 * ALPS cs19 is a trackpoint-only device, it is completely independent
++	 * of touchpad. So it is a device different from DualPoint ones, if it
++	 * is identified as a cs19 trackpoint device, we return -EINVAL here and
++	 * let trackpoint.c to drive this device, if the trackpoint driver is
++	 * not enabled, the device will fallback to a bare PS/2 mouse.
++	 * If ps2_command() fails here, we depend on the immediate followed
++	 * psmouse_reset() to reset the device to normal state.
++	 */
++	if (alps_is_cs19_trackpoint(psmouse))
++		return -EINVAL;
++
+ 	/*
+ 	 * Reset the device to make sure it is fully operational:
+ 	 * on some laptops, like certain Dell Latitudes, we may
+-- 
+2.17.1
 
-Apple Magic Mouse (original, not the 2)
-
-
-Originally sent to linux-bluetooth, suggestion made to post here instead.
-https://lore.kernel.org/linux-bluetooth/61972141474cad5b43af0808fa701b0adff12971.camel@hadess.net/T/#t
-
-
---
-Chris Murphy
