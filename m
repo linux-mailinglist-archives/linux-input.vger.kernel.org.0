@@ -2,116 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B41E84AF01
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 02:25:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB49C4AF2E
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 02:52:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729061AbfFSAZA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Jun 2019 20:25:00 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:47026 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729050AbfFSAY7 (ORCPT
+        id S1726023AbfFSAwi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Jun 2019 20:52:38 -0400
+Received: from mail-pl1-f176.google.com ([209.85.214.176]:37949 "EHLO
+        mail-pl1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725988AbfFSAwh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Jun 2019 20:24:59 -0400
-Received: by mail-pf1-f196.google.com with SMTP id 81so8587370pfy.13;
-        Tue, 18 Jun 2019 17:24:59 -0700 (PDT)
+        Tue, 18 Jun 2019 20:52:37 -0400
+Received: by mail-pl1-f176.google.com with SMTP id g4so177160plb.5
+        for <linux-input@vger.kernel.org>; Tue, 18 Jun 2019 17:52:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=asl8nEGPBFR80gDIdoz4WOZJFFMieyc8VT4m7EGPaHs=;
-        b=hSDnD8Ga5CgNeqzWpzg4YsI+aMuTNejgx1vMs/XrR+3yXlnnAPC5lsFmPvmmydEwK9
-         vQjGXGkP0mSnSzSalp088CxRt51DMPIKGotHumqrI5blaHsNZilFO3zbZsle+z2RwZ8H
-         ce44IuUS6x1bUaU+IRLHCzfOYsoD9FFZQEGwQLnP0lXo76RmTqtOLwA/aN7nRWiatKV7
-         XiztcCnpKM/+gJhTeSvNbL0rtGHuzdadYDXM1WAuBW793hnEfPhLoRNbvMqtLIAol7jQ
-         O+lGoMRr1BjlpbGmUBOTecSNB5IY8XaF3Lhu5rDyZQL85d859KfHL5JsJN3dI+16mlgi
-         usXg==
+        bh=bTUQNOBSU2myDs6bC2yDvP6jo11OXZDmy28UnnuD7I4=;
+        b=gEkTJmdHj3yrA7UZ2+HQDol91Rhg+8oy0FC/A4COWObVWRovZqbuh1XUSOoUGULBbw
+         /UOrPDArYXRQ4TqY4EtO41p5zgbO6sMoQCn9sz5hKbTTRooC/8uPczk4deDNEXAAAKO2
+         j74dpoQqdNsSsXWIgWkZaL6vHlex9bqlQj4NEk2mRiTKFePrg+gnr5MzrsJDB6xtEy3h
+         gjthskSaax/FHRemzM8KXxn5/PAy0D3PKmNTrmu0ElbbrH0MZAHb8YIi9Gw0qs65FhLU
+         EQ3/HlQSQslCtgulu6JTVS7BuAKZo/Y/tDXN2IisAreiyjohYql+dIFThrydV3VT4+sD
+         dROA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=asl8nEGPBFR80gDIdoz4WOZJFFMieyc8VT4m7EGPaHs=;
-        b=Adoa20ME3siptSKnuNXhsGAFh9HzpG8c3FOsJI4c9HELihxtuU30bybkyeo8AN05N2
-         eMWyqWc/U7zprUAUtyPnZjroxAZynwhgdAYzwEnDCIDQtiq2Ayvyal2ATJa1u9HK5Bjx
-         OY+2EDJhwWRjOJtbjUV5758RV7V/Gj2MbAC4gzZglg1cnzabpeNkYOcaLYLu8WkPFXoJ
-         19oofWUOUy5ipaH/i+EMDErb5d2GvMwIAKwJ0Y9Q5GpMZNSm1Gqh+VVLMcb06IGH7Zf6
-         RXvUrgnL5KBirD/PzxNJzlkKFE8NrkIqVBFtEI9zinTXykQf7ZIaGVodA9tuuVkPDfbx
-         gNVQ==
-X-Gm-Message-State: APjAAAW/+2g4rrYhZ2CuUKhN0gopbvNnVbbpgH/wiVxkdAW5PnGeMAZ0
-        ViGWvxpeGsRtK0T7fumtEnhBSz0G
-X-Google-Smtp-Source: APXvYqxe1ImPm+jGw2cV1RSoD72mFDmuzAzflBCt2DKZxHhaH/uhtMOeF/HDQUjgO9eRu6MpsCQRjA==
-X-Received: by 2002:aa7:8641:: with SMTP id a1mr3893757pfo.177.1560903898911;
-        Tue, 18 Jun 2019 17:24:58 -0700 (PDT)
+        bh=bTUQNOBSU2myDs6bC2yDvP6jo11OXZDmy28UnnuD7I4=;
+        b=kKq+2RQjIBYLDaM0bfaKeL3F2EMzHhrgjgLtyrLiIcWktDKOfGs4T3sdH++e1Dxf+4
+         ugtw2JMVXRU+eSUaGMrHBog9H3TItqA9dpjUGGPsOTTSl/xJQKXWyngq/U2EZupbl2s1
+         Q+IFLXA4bVmoB3tD1wtdHSOjEcgNcoDfB3TviRG4JJuzH79xbUj94ngGXf/z5V+vZ0V6
+         MHzFBAi68aSHsDxEbwUYNfuCw/TJX8YE7AZL7Pp6EsrnurRylwMMBCiu6mAfbrwt3R1Q
+         Yb/8yTRtcGTk/+vcczC/IoTzDkRB/hUWQOvS8NOBYw/1Xyy38e29b8GHcU32St3REwT/
+         PoFA==
+X-Gm-Message-State: APjAAAVoTTBmuU/jyanGBvZ25t/DIlWN4hoSpfTeVxunoTrMi4oElDJ/
+        3akBDAnDxhlsVuIkjl8rZro=
+X-Google-Smtp-Source: APXvYqyCgq9k1BBEBq/a9tZPIlRMmMEdTMYXmgOqy/XaZ188iY9XpKcGlfSLqypripkgaaq/1vLb7g==
+X-Received: by 2002:a17:902:24c:: with SMTP id 70mr115772648plc.2.1560905556969;
+        Tue, 18 Jun 2019 17:52:36 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id 11sm272733pfw.33.2019.06.18.17.24.58
+        by smtp.gmail.com with ESMTPSA id 2sm16566804pff.174.2019.06.18.17.52.36
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 18 Jun 2019 17:24:58 -0700 (PDT)
-Date:   Tue, 18 Jun 2019 17:24:56 -0700
+        Tue, 18 Jun 2019 17:52:36 -0700 (PDT)
+Date:   Tue, 18 Jun 2019 17:52:34 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Tim Schumacher <timschumi@gmx.de>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH resend] Input: iforce - Add the Saitek R440 Force Wheel
-Message-ID: <20190619002456.GD62571@dtor-ws>
-References: <20190612140903.20058-1-timschumi@gmx.de>
+To:     Jiri Dvorak <jiridvorak@centrum.cz>,
+        Anssi Hannula <anssi.hannula@bitwise.fi>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: PROBLEM: Race between upload and playback in ff-memless
+Message-ID: <20190619005234.GE62571@dtor-ws>
+References: <20190617224831.7aa9ac53@centrum.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190612140903.20058-1-timschumi@gmx.de>
+In-Reply-To: <20190617224831.7aa9ac53@centrum.cz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jun 12, 2019 at 04:09:03PM +0200, Tim Schumacher wrote:
-> Signed-off-by: Tim Schumacher <timschumi@gmx.de>
+Hi Jiri,
 
-Applied, thank you.
+On Mon, Jun 17, 2019 at 10:48:31PM +0200, Jiri Dvorak wrote:
+> Hello
+> 
+> [1.] One line summary of the problem:
+> 
+> Race between upload and playback in ff-memless
+> 
+> [2.] Full description of the problem/report:
+> 
+> If update of already playing force effect is quickly followed by
+> effect stop in ff-memless based driver, the hw force might be not
+> stopped.
+> 
+> What I think is going on: When ml_ff_upload processes started effect,
+> it will clear the FF_EFFECT_PLAYING bit and schedule timer. If
+> ml_ff_playback is called to stop the effect before the timer runs, it
+> will see cleared bit and directly clear the FF_EFFECT_STARTED bit
+> instead of doing the full abort so the hw force is not updated unless
+> there is another effect of the same type.
 
-> ---
-> Please note that I do NOT own this device.
-> 
-> I'm adding this based on the fact that this is an iforce-based
-> device and that the Windows driver for the R440 works for the
-> Logitech WingMan Formula Force after replacing the device/vendor
-> IDs (I got the vendor/device IDs from there as well).
-> 
-> Please don't add this patch if adding devices based on that is
-> not ok.
-> 
-> This patch is a resend of the patch I sent back in November,
-> which apparently went unnoticed.
-> ---
->  drivers/input/joystick/iforce/iforce-main.c | 1 +
->  drivers/input/joystick/iforce/iforce-usb.c  | 1 +
->  2 files changed, 2 insertions(+)
-> 
-> diff --git a/drivers/input/joystick/iforce/iforce-main.c b/drivers/input/joystick/iforce/iforce-main.c
-> index 55f5b7bb4cac..e000e7d5b4c1 100644
-> --- a/drivers/input/joystick/iforce/iforce-main.c
-> +++ b/drivers/input/joystick/iforce/iforce-main.c
-> @@ -55,6 +55,7 @@ static struct iforce_device iforce_device[] = {
->  	{ 0x05ef, 0x8888, "AVB Top Shot Force Feedback Racing Wheel",	btn_wheel, abs_wheel, ff_iforce }, //?
->  	{ 0x061c, 0xc0a4, "ACT LABS Force RS",                          btn_wheel, abs_wheel, ff_iforce }, //?
->  	{ 0x061c, 0xc084, "ACT LABS Force RS",				btn_wheel, abs_wheel, ff_iforce },
-> +	{ 0x06a3, 0xff04, "Saitek R440 Force Wheel",			btn_wheel, abs_wheel, ff_iforce }, //?
->  	{ 0x06f8, 0x0001, "Guillemot Race Leader Force Feedback",	btn_wheel, abs_wheel, ff_iforce }, //?
->  	{ 0x06f8, 0x0001, "Guillemot Jet Leader Force Feedback",	btn_joystick, abs_joystick_rudder, ff_iforce },
->  	{ 0x06f8, 0x0004, "Guillemot Force Feedback Racing Wheel",	btn_wheel, abs_wheel, ff_iforce }, //?
-> diff --git a/drivers/input/joystick/iforce/iforce-usb.c b/drivers/input/joystick/iforce/iforce-usb.c
-> index f1569ae8381b..afbcd1a522d4 100644
-> --- a/drivers/input/joystick/iforce/iforce-usb.c
-> +++ b/drivers/input/joystick/iforce/iforce-usb.c
-> @@ -202,6 +202,7 @@ static const struct usb_device_id iforce_usb_ids[] = {
->  	{ USB_DEVICE(0x05ef, 0x8888) },		/* AVB Top Shot FFB Racing Wheel */
->  	{ USB_DEVICE(0x061c, 0xc0a4) },         /* ACT LABS Force RS */
->  	{ USB_DEVICE(0x061c, 0xc084) },         /* ACT LABS Force RS */
-> +	{ USB_DEVICE(0x06a3, 0xff04) },		/* Saitek R440 Force Wheel */
->  	{ USB_DEVICE(0x06f8, 0x0001) },		/* Guillemot Race Leader Force Feedback */
->  	{ USB_DEVICE(0x06f8, 0x0003) },		/* Guillemot Jet Leader Force Feedback */
->  	{ USB_DEVICE(0x06f8, 0x0004) },		/* Guillemot Force Feedback Racing Wheel */
-> --
-> 2.22.0
-> 
+I wonder if we can't simply leave the FF_EFFECT_PLAYING flag as is when
+updating an effect. Although we still may skip over them in
+ml_get_combo_effect() is play_at is in the future. Should we immediately
+stop updated effects?
+
+Anssi, do you still remember anything about force feedback?
+
+Thanks.
 
 -- 
 Dmitry
