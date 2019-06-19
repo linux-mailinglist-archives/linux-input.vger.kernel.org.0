@@ -2,304 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 600B24BB34
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 16:20:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 050DB4BC06
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 16:49:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729993AbfFSOU3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Jun 2019 10:20:29 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:42339 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730844AbfFSOU3 (ORCPT
+        id S1726047AbfFSOta (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Jun 2019 10:49:30 -0400
+Received: from gateway24.websitewelcome.com ([192.185.51.172]:12684 "EHLO
+        gateway24.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725899AbfFSOta (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Jun 2019 10:20:29 -0400
-Received: by mail-wr1-f68.google.com with SMTP id x17so3582196wrl.9
-        for <linux-input@vger.kernel.org>; Wed, 19 Jun 2019 07:20:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+cLoEI1rGhZCsgQxOO5xHLEbOwGBFQor6wshSvPnEQI=;
-        b=rlGrLctm+pQE/yUjC3DA1AzqohSk3Gw7yOTlJvIql4nG0azAopbJXpJtjC+ov0r7wW
-         lxdIc5jPEtuLhQQ/nRBML4W0JgFt4K3SkryTwripnKbDRZivIkEWRKyRySk468J+t1nG
-         z5srWO/G9+XB115FxUygYFY8l3abJobxRQXQ/WXFmwKkVlEVoof31YmZAGo1j6PpH1If
-         veEhw3KQDXl90Kq24MU2TtgQ/4wR9blQQYLkn+LyxghudD9rDRjO6vc8a0GmiwNTRWyU
-         cu4L5ZDlMW0BnGn9Veq2iH+XJp6AEeDkHAlziTYVavxGzzmEhdYQuhTIax9RGZGy0gZC
-         9F4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+cLoEI1rGhZCsgQxOO5xHLEbOwGBFQor6wshSvPnEQI=;
-        b=F8qVPBFypOEGm5PrD1DlT71yDr4N3qe8mdVckh95Q7IVlbtG/KFdY0Qt9gQusZtTCF
-         lGbYh0tb/Vhd9iCe5VmzETq1OYdX9ZGFsiZIX6G6ZDkEeF/UPIFSyRU1eRPJ/UMkiXkK
-         EKvSeaOkVVSpOoPfAOHPnib6tefkXvBRbicU9BEbej14DxI+OZOIfy+Wgy8VB9ejbTMl
-         TMuANKOUCW2WWXO2Wlye4Pfm1EDKWw8tFN3zBm2XglJqxLWF9/WJk8xBhtfxyJoOBtZ6
-         fYP2AmVK2DvF66f8L2rdHqE/+29jzobj0sk+z4Cz80p9lRdbM0ozeAhCsTC22sd/LGmc
-         PVgA==
-X-Gm-Message-State: APjAAAVhYqgILB9Y4JphQweYkTyeW8due7D8fII9LdGf9NE+f00DKxzD
-        LWROaQej0/J03KlJaHEyrr7NRw==
-X-Google-Smtp-Source: APXvYqwdJn4A3b8T3yhYbCCJFG6mJK2lSZdeVNTEgsg3QBuy2sn2YiKC/etFxu3mS/TAN3PRsJ+/XA==
-X-Received: by 2002:adf:fc4f:: with SMTP id e15mr42920656wrs.2.1560954025811;
-        Wed, 19 Jun 2019 07:20:25 -0700 (PDT)
-Received: from localhost.localdomain (amontpellier-652-1-281-69.w109-210.abo.wanadoo.fr. [109.210.96.69])
-        by smtp.gmail.com with ESMTPSA id o20sm24209979wrh.8.2019.06.19.07.20.24
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 19 Jun 2019 07:20:25 -0700 (PDT)
-From:   Fabien Parent <fparent@baylibre.com>
-To:     robh+dt@kernel.org, mark.rutland@arm.com, matthias.bgg@gmail.com,
-        lee.jones@linaro.org, lgirdwood@gmail.com, broonie@kernel.org
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Fabien Parent <fparent@baylibre.com>
-Subject: [PATCH v4 7/7] arm64: dts: mt6392: Add PMIC mt6392 dtsi
-Date:   Wed, 19 Jun 2019 16:20:13 +0200
-Message-Id: <20190619142013.20913-8-fparent@baylibre.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190619142013.20913-1-fparent@baylibre.com>
-References: <20190619142013.20913-1-fparent@baylibre.com>
+        Wed, 19 Jun 2019 10:49:30 -0400
+X-Greylist: delayed 1351 seconds by postgrey-1.27 at vger.kernel.org; Wed, 19 Jun 2019 10:49:29 EDT
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+        by gateway24.websitewelcome.com (Postfix) with ESMTP id D7DB921B5
+        for <linux-input@vger.kernel.org>; Wed, 19 Jun 2019 09:26:57 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id dbY9hxbAQdnCedbY9hYZMS; Wed, 19 Jun 2019 09:26:57 -0500
+X-Authority-Reason: nr=8
+Received: from cablelink-187-160-61-213.pcs.intercable.net ([187.160.61.213]:37806 helo=embeddedor)
+        by gator4166.hostgator.com with esmtpa (Exim 4.92)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1hdbY8-0025CT-Tf; Wed, 19 Jun 2019 09:26:56 -0500
+Date:   Wed, 19 Jun 2019 09:26:55 -0500
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [PATCH] Input: gpio_keys_polled - use struct_size() in devm_kzalloc()
+Message-ID: <20190619142655.GA20218@embeddedor>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.160.61.213
+X-Source-L: No
+X-Exim-ID: 1hdbY8-0025CT-Tf
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: cablelink-187-160-61-213.pcs.intercable.net (embeddedor) [187.160.61.213]:37806
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 6
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add the regulator nodes for the MT6392 PMIC.
+One of the more common cases of allocation size calculations is finding
+the size of a structure that has a zero-sized array at the end, along
+with memory for some number of elements for that array. For example:
 
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
+struct gpio_keys_polled_dev {
+	...
+        struct gpio_keys_button_data data[0];
+};
+
+size = sizeof(struct gpio_keys_polled_dev) + count * sizeof(struct gpio_keys_button_data);
+instance = devm_kzalloc(dev, size, GFP_KERNEL);
+
+Instead of leaving these open-coded and prone to type mistakes, we can
+now use the new struct_size() helper:
+
+instance = devm_kzalloc(dev, struct_size(instance, data, count), GFP_KERNEL);
+
+Notice that, in this case, variable size is not necessary, hence it
+is removed.
+
+This code was detected with the help of Coccinelle.
+
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
+ drivers/input/keyboard/gpio_keys_polled.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-V4:
-	* No change
-
-V3:
-	* No change
-
-V2:
-	* Use 'pmic' as node name for the pmic.
-	* Use 'regulators' as node name for the regulators
-	* use dash instead of underscore for regulator's node names.
-
----
- arch/arm64/boot/dts/mediatek/mt6392.dtsi | 208 +++++++++++++++++++++++
- 1 file changed, 208 insertions(+)
- create mode 100644 arch/arm64/boot/dts/mediatek/mt6392.dtsi
-
-diff --git a/arch/arm64/boot/dts/mediatek/mt6392.dtsi b/arch/arm64/boot/dts/mediatek/mt6392.dtsi
-new file mode 100644
-index 000000000000..5621968c64e4
---- /dev/null
-+++ b/arch/arm64/boot/dts/mediatek/mt6392.dtsi
-@@ -0,0 +1,208 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2019 MediaTek Inc.
-+ */
-+
-+&pwrap {
-+	mt6392_pmic: pmic {
-+		compatible = "mediatek,mt6392", "mediatek,mt6323";
-+		mediatek,system-power-controller;
-+
-+		regulators {
-+			compatible = "mediatek,mt6392-regulator";
-+
-+			mt6392_vproc_reg: buck-vproc {
-+				regulator-name = "buck_vproc";
-+				regulator-min-microvolt = < 700000>;
-+				regulator-max-microvolt = <1350000>;
-+				regulator-ramp-delay = <12500>;
-+				regulator-always-on;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vsys_reg: buck-vsys {
-+				regulator-name = "buck_vsys";
-+				regulator-min-microvolt = <1400000>;
-+				regulator-max-microvolt = <2987500>;
-+				regulator-ramp-delay = <25000>;
-+				regulator-always-on;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vcore_reg: buck-vcore {
-+				regulator-name = "buck_vcore";
-+				regulator-min-microvolt = < 700000>;
-+				regulator-max-microvolt = <1350000>;
-+				regulator-ramp-delay = <12500>;
-+				regulator-always-on;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vxo22_reg: ldo-vxo22 {
-+				regulator-name = "ldo_vxo22";
-+				regulator-min-microvolt = <2200000>;
-+				regulator-max-microvolt = <2200000>;
-+				regulator-enable-ramp-delay = <110>;
-+				regulator-always-on;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vaud22_reg: ldo-vaud22 {
-+				regulator-name = "ldo_vaud22";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <2200000>;
-+				regulator-enable-ramp-delay = <264>;
-+				regulator-always-on;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vcama_reg: ldo-vcama {
-+				regulator-name = "ldo_vcama";
-+				regulator-min-microvolt = <2800000>;
-+				regulator-max-microvolt = <2800000>;
-+				regulator-enable-ramp-delay = <264>;
-+			};
-+
-+			mt6392_vaud28_reg: ldo-vaud28 {
-+				regulator-name = "ldo_vaud28";
-+				regulator-min-microvolt = <2800000>;
-+				regulator-max-microvolt = <2800000>;
-+				regulator-enable-ramp-delay = <264>;
-+				regulator-always-on;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vadc18_reg: ldo-vadc18 {
-+				regulator-name = "ldo_vadc18";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-enable-ramp-delay = <264>;
-+				regulator-always-on;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vcn35_reg: ldo-vcn35 {
-+				regulator-name = "ldo_vcn35";
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3600000>;
-+				regulator-enable-ramp-delay = <264>;
-+			};
-+
-+			mt6392_vio28_reg: ldo-vio28 {
-+				regulator-name = "ldo_vio28";
-+				regulator-min-microvolt = <2800000>;
-+				regulator-max-microvolt = <2800000>;
-+				regulator-enable-ramp-delay = <264>;
-+				regulator-always-on;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vusb_reg: ldo-vusb {
-+				regulator-name = "ldo_vusb";
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-enable-ramp-delay = <264>;
-+				regulator-always-on;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vmc_reg: ldo-vmc {
-+				regulator-name = "ldo_vmc";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-enable-ramp-delay = <264>;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vmch_reg: ldo-vmch {
-+				regulator-name = "ldo_vmch";
-+				regulator-min-microvolt = <3000000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-enable-ramp-delay = <264>;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vemc3v3_reg: ldo-vemc3v3 {
-+				regulator-name = "ldo_vemc3v3";
-+				regulator-min-microvolt = <3000000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-enable-ramp-delay = <264>;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vgp1_reg: ldo-vgp1 {
-+				regulator-name = "ldo_vgp1";
-+				regulator-min-microvolt = <1200000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-enable-ramp-delay = <264>;
-+			};
-+
-+			mt6392_vgp2_reg: ldo-vgp2 {
-+				regulator-name = "ldo_vgp2";
-+				regulator-min-microvolt = <1200000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-enable-ramp-delay = <264>;
-+			};
-+
-+			mt6392_vcn18_reg: ldo-vcn18 {
-+				regulator-name = "ldo_vcn18";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-enable-ramp-delay = <264>;
-+			};
-+
-+			mt6392_vcamaf_reg: ldo-vcamaf {
-+				regulator-name = "ldo_vcamaf";
-+				regulator-min-microvolt = <1200000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-enable-ramp-delay = <264>;
-+			};
-+
-+			mt6392_vm_reg: ldo-vm {
-+				regulator-name = "ldo_vm";
-+				regulator-min-microvolt = <1240000>;
-+				regulator-max-microvolt = <1390000>;
-+				regulator-enable-ramp-delay = <264>;
-+				regulator-always-on;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vio18_reg: ldo-vio18 {
-+				regulator-name = "ldo_vio18";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-enable-ramp-delay = <264>;
-+				regulator-always-on;
-+				regulator-boot-on;
-+			};
-+
-+			mt6392_vcamd_reg: ldo-vcamd {
-+				regulator-name = "ldo_vcamd";
-+				regulator-min-microvolt = <1200000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-enable-ramp-delay = <264>;
-+			};
-+
-+			mt6392_vcamio_reg: ldo-vcamio {
-+				regulator-name = "ldo_vcamio";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-enable-ramp-delay = <264>;
-+			};
-+
-+			mt6392_vm25_reg: ldo-vm25 {
-+				regulator-name = "ldo_vm25";
-+				regulator-min-microvolt = <2500000>;
-+				regulator-max-microvolt = <2500000>;
-+				regulator-enable-ramp-delay = <264>;
-+			};
-+
-+			mt6392_vefuse_reg: ldo-vefuse {
-+				regulator-name = "ldo_vefuse";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <2000000>;
-+				regulator-enable-ramp-delay = <264>;
-+			};
-+		};
-+	};
-+};
+diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
+index edc7262103b9..c4087be0c2e0 100644
+--- a/drivers/input/keyboard/gpio_keys_polled.c
++++ b/drivers/input/keyboard/gpio_keys_polled.c
+@@ -235,7 +235,6 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
+ 	struct gpio_keys_polled_dev *bdev;
+ 	struct input_polled_dev *poll_dev;
+ 	struct input_dev *input;
+-	size_t size;
+ 	int error;
+ 	int i;
+ 
+@@ -250,9 +249,8 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 
+-	size = sizeof(struct gpio_keys_polled_dev) +
+-			pdata->nbuttons * sizeof(struct gpio_keys_button_data);
+-	bdev = devm_kzalloc(dev, size, GFP_KERNEL);
++	bdev = devm_kzalloc(dev, struct_size(bdev, data, pdata->nbuttons),
++			    GFP_KERNEL);
+ 	if (!bdev) {
+ 		dev_err(dev, "no memory for private data\n");
+ 		return -ENOMEM;
 -- 
-2.20.1
+2.21.0
 
