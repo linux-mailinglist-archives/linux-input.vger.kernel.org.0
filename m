@@ -2,102 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 042034B90B
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 14:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C1354B92D
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2019 14:55:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731591AbfFSMro (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Jun 2019 08:47:44 -0400
-Received: from ironport.klsmartin.com ([212.211.191.11]:32166 "EHLO
-        ironport.klsmartin.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727244AbfFSMrn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Jun 2019 08:47:43 -0400
-X-IronPort-AV: E=Sophos;i="5.63,392,1557180000"; 
-   d="scan'208";a="1983886"
-Received: from unknown (HELO hera.klsmartin.com) ([172.30.5.66])
-  by ironport.klsmartin.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 19 Jun 2019 14:47:42 +0200
-Received: from SUMMAIL01.UMK.KLS.zentral ([172.25.1.63])
-        by hera.klsmartin.com (8.14.3/8.13.1/SuSE Linux 0.7) with ESMTP id x5JClLlw008794;
-        Wed, 19 Jun 2019 14:47:23 +0200
-Received: from SUMMBX01.UMK.KLS.zentral ([172.25.1.64]) by
- SUMMAIL01.UMK.KLS.zentral ([172.25.1.63]) with mapi id 14.03.0439.000; Wed,
- 19 Jun 2019 14:47:36 +0200
-From:   "Middelschulte, Leif" <Leif.Middelschulte@klsmartin.com>
-To:     "robh@kernel.org" <robh@kernel.org>
-CC:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        id S1731807AbfFSMzJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Jun 2019 08:55:09 -0400
+Received: from mail-eopbgr760104.outbound.protection.outlook.com ([40.107.76.104]:54358
+        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727129AbfFSMzJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 19 Jun 2019 08:55:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=aampusa.onmicrosoft.com; s=selector2-aampusa-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r2H8fCVRsrWG3ksdD4lAqALAmVA/Kh6g1GgF9aPTMDA=;
+ b=u/itsmQ+crgSMSJVMGAuaPo6ohXykLysAxtoXFBb5YDQDeXSSaQwL58UelHs8oktctQiw+ckrHMWPIBi+nuLwrVewctYH9mzMDFnvLWtKM3EEPZPXG5wGHW321y4aSInLqIruC7Gp3FheqMRfePUek1FezobhfozGMllbpNoQa8=
+Received: from BL0PR07MB4115.namprd07.prod.outlook.com (52.132.10.149) by
+ BL0PR07MB5746.namprd07.prod.outlook.com (20.177.243.33) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.13; Wed, 19 Jun 2019 12:55:04 +0000
+Received: from BL0PR07MB4115.namprd07.prod.outlook.com
+ ([fe80::f064:5129:63c6:d3e]) by BL0PR07MB4115.namprd07.prod.outlook.com
+ ([fe80::f064:5129:63c6:d3e%6]) with mapi id 15.20.1987.014; Wed, 19 Jun 2019
+ 12:55:03 +0000
+From:   Ken Sloat <KSloat@aampglobal.com>
+To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+CC:     Kasun Beddewela <KBeddewela@aampglobal.com>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>
-Subject: Re: [PATCH 09/10] dt-bindings: input: touchscreen: stmpe: add
- tracking index
-Thread-Topic: [PATCH 09/10] dt-bindings: input: touchscreen: stmpe: add
- tracking index
-Thread-Index: AQHVFKgSrFJUMQ2uSUStv0GNP+ne0qabjF6AgAdi/IA=
-Date:   Wed, 19 Jun 2019 12:47:41 +0000
-Message-ID: <aeaec8c92e8cea8ab9a5f7f0c70bbe2de81b037e.camel@klsmartin.com>
-References: <20190527160736.30569-1-leif.middelschulte@klsmartin.com>
-         <20190527161938.31871-1-leif.middelschulte@klsmartin.com>
-         <20190527161938.31871-5-leif.middelschulte@klsmartin.com>
-         <20190614195859.GA6351@bogus>
-In-Reply-To: <20190614195859.GA6351@bogus>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Ken Sloat <KSloat@aampglobal.com>
+Subject: input: Device Tree Properties for Captouch Button Device Registers
+Thread-Topic: input: Device Tree Properties for Captouch Button Device
+ Registers
+Thread-Index: AdUmniJSlNglerPZSFOVaVVYianGHA==
+Date:   Wed, 19 Jun 2019 12:55:03 +0000
+Message-ID: <BL0PR07MB4115574AA13B8F8C2E036644ADE50@BL0PR07MB4115.namprd07.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [172.25.2.60]
-x-kse-serverinfo: SUMMAIL01.UMK.KLS.zentral, 9
-x-kse-attachmentfiltering-interceptor-info: protection disabled
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: Clean, bases: 19.06.2019 07:52:00
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6FBB7F766A7F414A9637986EBB808931@klsmartin.de>
-Content-Transfer-Encoding: base64
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=KSloat@aampglobal.com; 
+x-originating-ip: [100.3.71.115]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 00175fd7-bb48-44be-9cbd-08d6f4b5590d
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:BL0PR07MB5746;
+x-ms-traffictypediagnostic: BL0PR07MB5746:
+x-microsoft-antispam-prvs: <BL0PR07MB574628AD12E9BF0EC7DAEF1EADE50@BL0PR07MB5746.namprd07.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0073BFEF03
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(376002)(366004)(136003)(39850400004)(346002)(189003)(199004)(2906002)(66446008)(4744005)(7736002)(305945005)(86362001)(71200400001)(64756008)(66556008)(107886003)(33656002)(72206003)(5660300002)(55016002)(478600001)(8936002)(76116006)(81166006)(186003)(54906003)(6506007)(99286004)(71190400001)(7696005)(66476007)(486006)(476003)(6916009)(14454004)(316002)(74316002)(81156014)(73956011)(102836004)(25786009)(80792005)(52536014)(4326008)(8676002)(2351001)(66946007)(66066001)(53936002)(3846002)(5640700003)(1361003)(26005)(6436002)(256004)(9686003)(68736007)(2501003)(6116002);DIR:OUT;SFP:1102;SCL:1;SRVR:BL0PR07MB5746;H:BL0PR07MB4115.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: aampglobal.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: hYB47VQQVMnqf9Ucf7o9YcqZqo9epKMrV18KrcKzlU4lGnjlRhlTTwnUDyEmo0JFWB7iRPGF5SqzsS7tRMZpxTSNReI5KdSiGIxCG4CG9vQZOs61tVIAGy/j0gb8B/ICJMlt4Ix0PZQtbrHv3Nc5LqrGadZaeyLxDD2rR1cqQSTsbY+iVHLY9EJKF2HFILUR8NPx1MrJpEvretuCjiEIRCrdL2meQWE7qR7uuKmnm5uAkqWNdCpA3nXc6UPywM7bMf8aXymfK7GEYYasKmwDQykqkR19+gjEFyCpmqVOsWBQBFpP6EHV+aRQl7FH4o6TzjHk4IFdbsChDbuQtdZw74zjCHsD8//ZkamknABalzprYc/t1HlaEYtBEAKTmli3R6ZaryzLh5E4UbscbraiK5q44Nm52dO5N693lMm7zxk=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
+X-OriginatorOrg: aampglobal.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00175fd7-bb48-44be-9cbd-08d6f4b5590d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2019 12:55:03.9306
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: e20e3a66-8b9e-46e9-b859-cb654c1ec6ea
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ken.sloat@aampglobal.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR07MB5746
+X-MS-Exchange-CrossPremises-AuthAs: Internal
+X-MS-Exchange-CrossPremises-AuthMechanism: 04
+X-MS-Exchange-CrossPremises-AuthSource: BL0PR07MB4115.namprd07.prod.outlook.com
+X-MS-Exchange-CrossPremises-TransportTrafficType: Email
+X-MS-Exchange-CrossPremises-TransportTrafficSubType: 
+X-MS-Exchange-CrossPremises-SCL: 1
+X-MS-Exchange-CrossPremises-messagesource: StoreDriver
+X-MS-Exchange-CrossPremises-BCC: 
+X-MS-Exchange-CrossPremises-originalclientipaddress: 100.3.71.115
+X-MS-Exchange-CrossPremises-transporttraffictype: Email
+X-MS-Exchange-CrossPremises-transporttrafficsubtype: 
+X-MS-Exchange-CrossPremises-antispam-scancontext: DIR:Originating;SFV:NSPM;SKIP:0;
+X-MS-Exchange-CrossPremises-processed-by-journaling: Journal Agent
+X-OrganizationHeadersPreserved: BL0PR07MB5746.namprd07.prod.outlook.com
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-QW0gRnJlaXRhZywgZGVuIDE0LjA2LjIwMTksIDEzOjU4IC0wNjAwIHNjaHJpZWIgUm9iIEhlcnJp
-bmc6DQo+IE9uIE1vbiwgTWF5IDI3LCAyMDE5IGF0IDA2OjE5OjM3UE0gKzAyMDAsIExlaWYgTWlk
-ZGVsc2NodWx0ZSB3cm90ZToNCj4gPiBUaGUgdHJhY2tpbmcgaW5kZXggaXMgYSAibWluaW11bSIg
-ZGlzdGFuY2UgdHdvIHRvdWNoDQo+ID4gcG9pbnRzIG5lZWQgdG8gaGF2ZSBpbiBvcmRlciBmb3Ig
-dGhlIHNlY29uZCB0byBiZSB2YWxpZC4NCj4gPiBUaGlzIGFkZHMgdGhlIGNvcnJlc3BvbmRpbmcg
-YmluZGluZyBwcm9wZXJ0eSBkb2N1bWVudGF0aW9uLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6
-IExlaWYgTWlkZGVsc2NodWx0ZSA8DQo+ID4gbGVpZi5taWRkZWxzY2h1bHRlQGtsc21hcnRpbi5j
-b20NCj4gPiA+DQo+ID4gLS0tDQo+ID4gIC4uLi9iaW5kaW5ncy9pbnB1dC90b3VjaHNjcmVlbi9z
-dG1wZS50eHQgICAgICAgICAgfCAxNSArKysrKysrKysrKysrKysNCj4gPiAgMSBmaWxlIGNoYW5n
-ZWQsIDE1IGluc2VydGlvbnMoKykNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2lucHV0L3RvdWNoc2NyZWVuL3N0bXBlLnR4dCBiL0RvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1dC90b3VjaHNjcmVlbi9zdG1wZS50eHQN
-Cj4gPiBpbmRleCAwOWQyZDRmMjg4Y2MuLjg2OTZhZjM1YTdiOCAxMDA2NDQNCj4gPiAtLS0gYS9E
-b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvaW5wdXQvdG91Y2hzY3JlZW4vc3RtcGUu
-dHh0DQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2lucHV0L3Rv
-dWNoc2NyZWVuL3N0bXBlLnR4dA0KPiA+IEBAIC00Miw2ICs0MiwyMSBAQCBPcHRpb25hbCBwcm9w
-ZXJ0aWVzOg0KPiA+ICAJCQkJVGhlIGdpdmVuIHdpbmRvdyBhbHNvIGFmZmVjdHMgdGhlIHZhbHVl
-IHJhbmdlIChsaW1pdHMpIHNldA0KPiA+ICAJCQkJd2l0aGluIHRoZSBpbnB1dCBzdWJzeXN0ZW0g
-d2hpY2gsIGluIHR1cm4sIGFmZmVjdHMNCj4gPiAgCQkJCXRoZSBpbnB1dCByZXNvbHV0aW9uIGNh
-bGN1bGF0aW9uIG9uIGJvdGggYXhlcy4NCj4gPiArLSBzdCx0cmFja2luZy1pbmRleAk6IE1pbmlt
-YWwgZGlzdGFuY2UgYmV0d2VlbiB0aGUgY3VycmVudCB0b3VjaCBwb3NpdGlvbiBhbmQgdGhlIHBy
-ZXZpb3VzDQo+ID4gKwkJCQl0b3VjaCBwb3NpdGlvbi4gSWYgdGhlIGRpc3RhbmNlIGlzIHNob3J0
-ZXIgdGhhbiB0aGUgdHJhY2tpbmcNCj4gPiArCQkJCWluZGV4LCBpdCBpcyBkaXNjYXJkZWQuIFRo
-ZSB0cmFja2luZyBpcyBjYWxjdWxhdGVkIGJ5IHN1bW1hdGlvbg0KPiA+ICsJCQkJb2YgdGhlIGhv
-cml6b250YWwgYW5kIHZlcnRpY2FsIG1vdmVtZW50Lg0KPiA+ICsJCQkJSWYgcHJlc3N1cmUgcmVw
-b3J0aW5nIGlzIGVuYWJsZWQgKFgvWS9aKSwgYW4gaW5jcmVhc2UgaW4gcHJlc3N1cmUNCj4gPiAr
-CQkJCW92ZXJyaWRlIHRoZSBtb3ZlbWVudCB0cmFja2luZyBhbmQgcmVwb3J0IHRoZSBuZXcgZGF0
-YSBzZXQsIGV2ZW4NCj4gPiArCQkJCWlmIFgvWSBpcyB3aXRoaW4gdGhlIHByZXZpb3VzIHRyYWNr
-aW5nIGluZGV4Lg0KPiA+ICsJCQkJMCAtPiBkaXNhYmxlZA0KPiA+ICsJCQkJMSAtPiA0DQo+ID4g
-KwkJCQk0IC0+IDgNCj4gPiArCQkJCTMgLT4gMTYNCj4gPiArCQkJCTQgLT4gMzINCj4gPiArCQkJ
-CTUgLT4gNjQNCj4gPiArCQkJCTYgLT4gOTINCj4gPiArCQkJCTcgLT4gMTI3DQo+IA0KPiBUaGlz
-IGlzIHdoYXQgdG91Y2hzY3JlZW4tZnV6ei14L3kgaXMgZm9yLg0KDQpUaGUgc3RtcGUgdG91Y2hj
-b250cm9sbGVyIGRvZXMgbm90IHN1cHBvcnQgaGFuZGxpbmcgZWFjaCBheGlzIHNlcGFyYXRlbHku
-DQpBbHNvIGl0IGlzIG5vdCB0byBiZSBtaXN0YWtlbiBpbiBpdHMgc3BlY2lmaWMgYmVoYXZpb3Ig
-KGkuZS4gb3ZlcnJpZGUpDQpmb3IgdGhlIGdlbmVyYWwgYGZ1enpgIHBhcmFtZXRlci4gSG93ZXZl
-ciwgc2hvdWxkIEkgcmVuYW1lIGl0IHRvIGBzdCxmdXp6LXgteWAgb3Igc2ltaWxhcj8NCg0KQUZB
-SUNTIHRoZXJlWzBdIGlzIG5vIGdlbmVyaWMgY29tYmluZWQgZGV2aWNldHJlZSBwcm9wZXJ0eSwg
-aXMgdGhlcmU/DQoNClswXWh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL0RvY3VtZW50YXRpb24v
-ZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1dC90b3VjaHNjcmVlbi90b3VjaHNjcmVlbi50eHQNCg0K
-PiANCj4gPiAgLSB0b3VjaHNjcmVlbi1pbnZlcnRlZC14OiBYIGF4aXMgaXMgaW52ZXJ0ZWQgKGJv
-b2xlYW4pDQo+ID4gIC0gdG91Y2hzY3JlZW4taW52ZXJ0ZWQteTogWSBheGlzIGlzIGludmVydGVk
-IChib29sZWFuKQ0KPiA+ICAtIHRvdWNoc2NyZWVuLXN3YXBwZWQteC15OiBYIGFuZCBZIGF4aXMg
-YXJlIHN3YXBwZWQgKGJvb2xlYW4pDQo+ID4gLS0gDQo+ID4gMi4yMS4wDQo+ID4gDQo=
+Hello Dmitry,
+
+We have a new input driver we are currently working on and would like to su=
+bmit
+to the Linux kernel when we finish it. Specifically, this is a cap touch IC=
+ which
+implements potentially multiple individual proximity and cap touch buttons =
+(which
+would be reported like key events as seems to be the standard). A couple of=
+ questions:
+
+1. What is the preferred/proper method to expose the many registers that
+these devices have via device tree?
+
+These devices have dozens of registers, many of which might be needed depen=
+ding
+on the individual application. It wouldn't be useful in the majority of cas=
+es to provide
+default values in the driver as the registers are custom tuned to the indiv=
+idual application.
+
+2. Where should this device live? I am guessing in input/misc?
+
+Thanks,
+Ken Sloat
