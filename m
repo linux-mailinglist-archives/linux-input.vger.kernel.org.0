@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D57944CD1F
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2019 13:51:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E67684CD24
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2019 13:51:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726620AbfFTLvr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Jun 2019 07:51:47 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:37746 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726391AbfFTLvq (ORCPT
+        id S1731675AbfFTLvv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Jun 2019 07:51:51 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:36340 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731670AbfFTLvu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Jun 2019 07:51:46 -0400
-Received: by mail-wr1-f66.google.com with SMTP id v14so2729956wrr.4;
-        Thu, 20 Jun 2019 04:51:46 -0700 (PDT)
+        Thu, 20 Jun 2019 07:51:50 -0400
+Received: by mail-wm1-f66.google.com with SMTP id u8so2865560wmm.1;
+        Thu, 20 Jun 2019 04:51:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Qt7ilRYrtFffaWJJ/RMaWnUnJ4ybJEaYlbppHjgR3/w=;
-        b=dsUJBFO9Oe0lw18G3zzN8ReHz6MllMbZl+UfJn832wzekDiq2PdnqEoPMqVD8JvSEl
-         QQBHiafpl2KY6uAL2KQqIP5W8EnPda/yRczvC8UD0ll8t3vG+Tbh9sd40+3/Vsa9CVYN
-         eYMh384MuWFj1Q+/iHYWV0f8bkbwjcXtFqzCVzJYH0oMoogX/zHIgTl6kp6FZdO7EsfH
-         xMAZC1XlvELs+lf5YRvDDxTWNSgzOfhUjoOXTGdxfwvW0YGVfH5WXlbZmUz1MO5sdaBU
-         /uW5tTklpOuCTxzMdPtFYyI/woPAFnL/Hwi4iPonj4j95KhVt08/G3s53iFS1IWVC8KZ
-         GHtg==
+        bh=ORab8cFgeuwHnA+7pmkFs/ZlJ8ccsngeYWedgpASCHk=;
+        b=I6R2Opdo9zbRnHRKSoyLtt8UAbKgYaQ60ecuTP81tZixYrtwCl99zRz2gwrnA2zXIh
+         GEoYQyyHTeX5PNcdQ2DMGayxJqyRKAJTqMGYImJC8gcY3GvTLeE1uKQ3a4Xu2lw9a8Ec
+         68E31KHU8D6SDLjzLgOh6vtsPqxpTV0OXO31NR/gbZpcTfQdN4yvbdhADHUXJcc3xFSB
+         xXyIcHkTSYOPqvf9ZngXqMMSWZw7O7CzMco6eyBKdL9aHR69oW+dSPcU2UMX2W6sxQ7R
+         XvLIOXccSA7GvMQjk7gpJOhj/gb36fsqvPcoOev8yC3e/lOyeLZjSGhaIDD8q3aXa/Lt
+         F8WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Qt7ilRYrtFffaWJJ/RMaWnUnJ4ybJEaYlbppHjgR3/w=;
-        b=UyDv+amni+fNu4NIe/RKQAPEzCB+2a8KH8Yr+CI8yz9AZk2D0tNsCj6OpScKl8UUR7
-         fmBwbtoxdOYWzwRp3Yi5YXMmnQWpPYzC/bj9/wQhUYWF5qYgJHCw8USzfmrCkV8/ownJ
-         sHJlBzZ72uclgNmwLbEtVjUR2mzfbfXbhGSTWuxoitrY9aNjIPe2B3OXMD2GPHcfrbqJ
-         wDmfH/wGMocXt6t6nzBbvpQhFtgukuRMajTbhb8BR4SETKsEK6R6mDI2BbAkVBH1CHrL
-         m33VdGoulEajH6HzLa1AicHO4Shg+Jxd+R9oHzsrT6N2X3T9c11rJG2KhLqNqVaCboK8
-         YpPg==
-X-Gm-Message-State: APjAAAU28HSa2dYZNQ463E/7m16tcBJdvaGQRGn53Y4BGQ34M7RAAr1H
-        dIiWaO7bhTt/Uq9Vq+aGYdeBKcT/
-X-Google-Smtp-Source: APXvYqzbWsMTnvcMtipSV2GcVbZV7WXLL22fweAMmTaWVlAP6MqyVqTJ2iO+tYKEiOeX2qDrsN4jYQ==
-X-Received: by 2002:a5d:53ca:: with SMTP id a10mr29124539wrw.131.1561031505046;
-        Thu, 20 Jun 2019 04:51:45 -0700 (PDT)
+        bh=ORab8cFgeuwHnA+7pmkFs/ZlJ8ccsngeYWedgpASCHk=;
+        b=OSFyK2a0FsjzvvGJCYNZu8IeZWMQDLxNs0019tuz3YmoMl9AqUnEq9q2SCzvn/bhI3
+         YZaieLnL90OQY+uFiSFGP1K+DzdGsjEBMMpj435K3EkUehH75XB1xhm2FV9sy4rdFxwe
+         bV8NEdQw49zuZXUO5zU9ro5mkGu/ImZ6H+K22dMqjzcuMT/TDDPvUvsXFdvWwcE1bp90
+         ntBPjBVMFa0vrGNFdUVJSI237UJR1F+MlmlTpYplmbZpzLgY0OuwVv/qXTdjYdyE+qgB
+         as42ZCIwtUnxWQ5SBRMSz1C0tIENOTZ4F9qJ5GlF5J7j39kKY4vONTzgZMe8Z/LC/77e
+         F2gA==
+X-Gm-Message-State: APjAAAUnL0saxLgINrNEIXOiNRNKQamZiTzw14m0wv51aAiVHl+M5m7N
+        ewYzUHlCXKpOJTxKy7CgGWNfBWkM
+X-Google-Smtp-Source: APXvYqxvJMS5+kvCfoIiJYNPo5pWG/4WPldX2JmydiO7a24R68REIABaduaKJRN9BwrkSreMIAvSIw==
+X-Received: by 2002:a1c:1947:: with SMTP id 68mr2588474wmz.171.1561031507422;
+        Thu, 20 Jun 2019 04:51:47 -0700 (PDT)
 Received: from xws.fritz.box (pD9E5A621.dip0.t-ipconnect.de. [217.229.166.33])
-        by smtp.gmail.com with ESMTPSA id s7sm7918213wmc.2.2019.06.20.04.51.43
+        by smtp.gmail.com with ESMTPSA id s7sm7918213wmc.2.2019.06.20.04.51.46
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 20 Jun 2019 04:51:44 -0700 (PDT)
+        Thu, 20 Jun 2019 04:51:46 -0700 (PDT)
 From:   Maximilian Luz <luzmaximilian@gmail.com>
 Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         platform-driver-x86@vger.kernel.org,
@@ -55,9 +55,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         Andy Shevchenko <andy@infradead.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Maximilian Luz <luzmaximilian@gmail.com>
-Subject: [PATCH 1/2] platform: Fix device check for surfacepro3_button
-Date:   Thu, 20 Jun 2019 13:50:55 +0200
-Message-Id: <20190620115056.4169-2-luzmaximilian@gmail.com>
+Subject: [PATCH 2/2] input: soc_button_array for newer surface devices
+Date:   Thu, 20 Jun 2019 13:50:56 +0200
+Message-Id: <20190620115056.4169-3-luzmaximilian@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190620115056.4169-1-luzmaximilian@gmail.com>
 References: <20190620115056.4169-1-luzmaximilian@gmail.com>
@@ -69,82 +69,201 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Do not use the surfacepro3_button driver on newer Microsoft Surface
-models, only use it on the Surface Pro 3 and 4. Newer models (5th, 6th
-and possibly future generations) use the same device as the Surface Pro
-4 to represent their volume and power buttons (MSHW0040), but their
-acutal implementation is significantly different. This patch ensures
-that the surfacepro3_button driver is only used on the Pro 3 and 4
-models, allowing a different driver to bind on other models.
+Power and volume button support for 5th and 6th genration Microsoft
+Surface devices via soc_button_array.
+
+Note that these devices use the same MSHW0040 device as on the Surface
+Pro 4, however the implementation is different (GPIOs vs. ACPI
+notifications). Thus some checking is required to ensure we only load
+this driver on the correct devices.
 
 Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
 ---
- drivers/platform/x86/surfacepro3_button.c | 38 +++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ drivers/input/misc/soc_button_array.c | 134 +++++++++++++++++++++++---
+ 1 file changed, 122 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/platform/x86/surfacepro3_button.c b/drivers/platform/x86/surfacepro3_button.c
-index 47c6d000465a..0e2c7dfafd9f 100644
---- a/drivers/platform/x86/surfacepro3_button.c
-+++ b/drivers/platform/x86/surfacepro3_button.c
-@@ -20,6 +20,12 @@
- #define SURFACE_BUTTON_OBJ_NAME		"VGBI"
- #define SURFACE_BUTTON_DEVICE_NAME	"Surface Pro 3/4 Buttons"
+diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+index 5e59f8e57f8e..157f53a2bd51 100644
+--- a/drivers/input/misc/soc_button_array.c
++++ b/drivers/input/misc/soc_button_array.c
+@@ -25,6 +25,17 @@ struct soc_button_info {
+ 	bool wakeup;
+ };
  
++/**
++ * struct soc_device_data - driver data for different device types
++ * @button_info: specifications of buttons, if NULL specification is assumed to
++ *               be present in _DSD
++ * @check: device-specific check (NULL means all will be accepted)
++ */
++struct soc_device_data {
++	struct soc_button_info *button_info;
++	int (*check)(struct device *dev);
++};
++
+ /*
+  * Some of the buttons like volume up/down are auto repeat, while others
+  * are not. To support both, we register two platform devices, and put
+@@ -310,6 +321,7 @@ static int soc_button_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	const struct acpi_device_id *id;
++	struct soc_device_data *device_data;
+ 	struct soc_button_info *button_info;
+ 	struct soc_button_data *priv;
+ 	struct platform_device *pd;
+@@ -320,18 +332,20 @@ static int soc_button_probe(struct platform_device *pdev)
+ 	if (!id)
+ 		return -ENODEV;
+ 
+-	if (!id->driver_data) {
++	device_data = (struct soc_device_data *)id->driver_data;
++	if (device_data && device_data->check) {
++		error = device_data->check(dev);
++		if (error)
++			return error;
++	}
++
++	if (device_data && device_data->button_info) {
++		button_info = (struct soc_button_info *)
++				device_data->button_info;
++	} else {
+ 		button_info = soc_button_get_button_info(dev);
+ 		if (IS_ERR(button_info))
+ 			return PTR_ERR(button_info);
+-	} else {
+-		button_info = (struct soc_button_info *)id->driver_data;
+-	}
+-
+-	error = gpiod_count(dev, NULL);
+-	if (error < 0) {
+-		dev_dbg(dev, "no GPIO attached, ignoring...\n");
+-		return -ENODEV;
+ 	}
+ 
+ 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+@@ -357,12 +371,32 @@ static int soc_button_probe(struct platform_device *pdev)
+ 	if (!priv->children[0] && !priv->children[1])
+ 		return -ENODEV;
+ 
+-	if (!id->driver_data)
++	if (!device_data || !device_data->button_info)
+ 		devm_kfree(dev, button_info);
+ 
+ 	return 0;
+ }
+ 
++
++static int soc_device_check_generic(struct device *dev)
++{
++	int gpios;
++
++	gpios = gpiod_count(dev, NULL);
++	if (gpios < 0) {
++		dev_dbg(dev, "no GPIO attached, ignoring...\n");
++		return -ENODEV;
++	}
++
++	return 0;
++}
++
++static struct soc_device_data soc_device_ACPI0011 = {
++	.button_info = NULL,
++	.check = soc_device_check_generic,
++};
++
++
+ /*
+  * Definition of buttons on the tablet. The ACPI index of each button
+  * is defined in section 2.8.7.2 of "Windows ACPI Design Guide for SoC
+@@ -377,9 +411,85 @@ static struct soc_button_info soc_button_PNP0C40[] = {
+ 	{ }
+ };
+ 
++static struct soc_device_data soc_device_PNP0C40 = {
++	.button_info = soc_button_PNP0C40,
++	.check = soc_device_check_generic,
++};
++
++
++/*
++ * Special device check for Surface Book 2 and Surface Pro (2017).
++ * Both, the Surface Pro 4 (surfacepro3_button.c) and the above mentioned
++ * devices use MSHW0040 for power and volume buttons, however the way they
++ * have to be addressed differs. Make sure that we only load this drivers
++ * for the correct devices by checking the OEM Platform Revision provided by
++ * the _DSM method.
++ */
 +#define MSHW0040_DSM_REVISION		0x01
 +#define MSHW0040_DSM_GET_OMPR		0x02	// get OEM Platform Revision
 +static const guid_t MSHW0040_DSM_UUID =
 +	GUID_INIT(0x6fd05c69, 0xcde3, 0x49f4, 0x95, 0xed, 0xab, 0x16, 0x65,
 +		  0x49, 0x80, 0x35);
 +
- #define SURFACE_BUTTON_NOTIFY_TABLET_MODE	0xc8
- 
- #define SURFACE_BUTTON_NOTIFY_PRESS_POWER	0xc6
-@@ -142,6 +148,34 @@ static int surface_button_resume(struct device *dev)
- }
- #endif
- 
-+/*
-+ * Surface Pro 4 and Surface Book 2 / Surface Pro 2017 use the same device
-+ * ID (MSHW0040) for the power/volume buttons. Make sure this is the right
-+ * device by checking for the _DSM method and OEM Platform Revision.
-+ */
-+static int surface_button_check_MSHW0040(struct acpi_device *dev)
++static int soc_device_check_MSHW0040(struct device *dev)
 +{
-+	acpi_handle handle = dev->handle;
++	acpi_handle handle = ACPI_HANDLE(dev);
 +	union acpi_object *result;
 +	u64 oem_platform_rev = 0;
++	int gpios;
 +
 +	// get OEM platform revision
 +	result = acpi_evaluate_dsm_typed(handle, &MSHW0040_DSM_UUID,
 +					 MSHW0040_DSM_REVISION,
-+					 MSHW0040_DSM_GET_OMPR,
-+					 NULL, ACPI_TYPE_INTEGER);
++					 MSHW0040_DSM_GET_OMPR, NULL,
++					 ACPI_TYPE_INTEGER);
 +
 +	if (result) {
 +		oem_platform_rev = result->integer.value;
 +		ACPI_FREE(result);
 +	}
 +
-+	dev_dbg(&dev->dev, "OEM Platform Revision %llu\n", oem_platform_rev);
++	if (oem_platform_rev == 0)
++		return -ENODEV;
 +
-+	return oem_platform_rev == 0 ? 0 : -ENODEV;
++	dev_dbg(dev, "OEM Platform Revision %llu\n", oem_platform_rev);
++
++	/*
++	 * We are _really_ expecting GPIOs here. If we do not get any, this
++	 * means the GPIO driver has not been loaded yet (which can happen).
++	 * Try again later.
++	 */
++	gpios = gpiod_count(dev, NULL);
++	if (gpios < 0)
++		return -EAGAIN;
++
++	return 0;
 +}
 +
++/*
++ * Button infos for Microsoft Surface Book 2 and Surface Pro (2017).
++ * Obtained from DSDT/testing.
++ */
++static struct soc_button_info soc_button_MSHW0040[] = {
++	{ "power", 0, EV_KEY, KEY_POWER, false, true },
++	{ "volume_up", 2, EV_KEY, KEY_VOLUMEUP, true, false },
++	{ "volume_down", 4, EV_KEY, KEY_VOLUMEDOWN, true, false },
++	{ }
++};
 +
- static int surface_button_add(struct acpi_device *device)
- {
- 	struct surface_button *button;
-@@ -154,6 +188,10 @@ static int surface_button_add(struct acpi_device *device)
- 	    strlen(SURFACE_BUTTON_OBJ_NAME)))
- 		return -ENODEV;
++static struct soc_device_data soc_device_MSHW0040 = {
++	.button_info = soc_button_MSHW0040,
++	.check = soc_device_check_MSHW0040,
++};
++
++
+ static const struct acpi_device_id soc_button_acpi_match[] = {
+-	{ "PNP0C40", (unsigned long)soc_button_PNP0C40 },
+-	{ "ACPI0011", 0 },
++	{ "PNP0C40", (unsigned long)&soc_device_PNP0C40 },
++	{ "ACPI0011", (unsigned long)&soc_device_ACPI0011 },
++
++	/* Microsoft Surface Devices (5th and 6th generation) */
++	{ "MSHW0040", (unsigned long)&soc_device_MSHW0040 },
++
+ 	{ }
+ };
  
-+	error = surface_button_check_MSHW0040(device);
-+	if (error)
-+		return error;
-+
- 	button = kzalloc(sizeof(struct surface_button), GFP_KERNEL);
- 	if (!button)
- 		return -ENOMEM;
 -- 
 2.22.0
 
