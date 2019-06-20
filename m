@@ -2,139 +2,231 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A982F4D063
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2019 16:28:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33EE74D06F
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2019 16:33:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732022AbfFTO2H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Jun 2019 10:28:07 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:40442 "EHLO
+        id S1726958AbfFTOde (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Jun 2019 10:33:34 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:34275 "EHLO
         mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726675AbfFTO2H (ORCPT
+        with ESMTP id S1726428AbfFTOde (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Jun 2019 10:28:07 -0400
-Received: by mail-pf1-f195.google.com with SMTP id p184so1772869pfp.7;
-        Thu, 20 Jun 2019 07:28:06 -0700 (PDT)
+        Thu, 20 Jun 2019 10:33:34 -0400
+Received: by mail-pf1-f195.google.com with SMTP id c85so1800758pfc.1;
+        Thu, 20 Jun 2019 07:33:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=MiA7cCUklcR2x8Sie2spJwpUdmRAd/CQhDcyA6ANjAw=;
-        b=E77kC/Jy7ff9yCCN4wKKj1l2m62PhfPe62rXCJ9KQ5VuseDlPTzVMnU5Kp9IBANVws
-         h1aaRoDp5RoL4fqsL9ZGtxfavOS8baMftS7UuneNm45Kdhhwx73RUmP6s4vkxOS8NYxY
-         H9bjvIH4YPorE7wKncvuD2AxkINuBxq8B2fjZj1F0a++B7Ej19nVoG9lP035huV+jDtZ
-         IUNMwjvNImBbH2dBwZfTq8eqL4+wh7Zc2O7/jJpEoEAgyCkzs3CUGpriT6JPw4hhTnKI
-         3WzfmRalISp4vhPcYaTa+C7E8SKymj8eJ+l4+kFHtZzUZvMSohpPIQcUebuClwsH+18e
-         k6ag==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=UTON91ZfxEEKURTGvwC2Cul5nEoSiuWliGOjKAxWJDw=;
+        b=D3PWLWvLJ4tYoFl+2mv/oW+vgtu0ykWO5P4xUF3LEOEuWFsURxZ+j4vavQPNOXs7Qo
+         24Z/v9V6hcKIfl57fh8zFrloQQ97Q9YbbUSqKyff1545ifAwPlIbH8qor8gC4uGNRYpe
+         1Bt9MRMh6sjqONGnnHaCWg5u64KjpIgqM8mL+ICGIZceF+ewjuZrQuHPUTKRUSp01lYh
+         /qmaGKVourkLaMLwMdNCGpYvloLkechjFU4UCleGJimT/cceyzXNepZPZ8Qn/jxIS6FX
+         aFL6NMc8f1fLzhF/Hj+60ukseFsN9fiE7i9otP3LDv2fnyt3ekm1P9Lrv7DqQK/tOQt3
+         boag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=MiA7cCUklcR2x8Sie2spJwpUdmRAd/CQhDcyA6ANjAw=;
-        b=VrYo4264/kdkEKI4EERe/bvIsdsgm+mQMyV4Ua8nn0zwKPWzGLSJvSShfhbeCORSey
-         l8AP5dlTYydl032zPZzJYFgQreopiB3FaNLDe2b01YtPi+2i0f02asiiIhhvI/Neza0u
-         zpkQzVT1aO+l1MrNZRXHSAbMGVrnR3LgN56qUqDserYGnZq4Hu06p+D5E41zF7fZGAiv
-         HLtth/xS1TYTtFlr347v84wdzEqovRsUnLsue6/F0bagJdTCh7x6ZjjcWvwGb2knEme4
-         Va34LI3CuVw7r3PIpuQDkhC8k6UAOrl2nzYkhCWTTDi9XAeqkMP25tmhqcTj2e2B60Wb
-         3wWg==
-X-Gm-Message-State: APjAAAUMo8MGkT5gpead4dfoYc2NGRT9kz0SJqvr0XPH2wBU2IiTNRQR
-        3ryCylMaT9URxoyNQa8EROzW2aGR
-X-Google-Smtp-Source: APXvYqwUxehKoFEHxHlAA+fCC+vC65bHH7lMxN6+2Uzwp3CZwgxSvLXmRTIsn01Fhjt/gQDE1nAa0w==
-X-Received: by 2002:a62:d45d:: with SMTP id u29mr66380380pfl.135.1561040886466;
-        Thu, 20 Jun 2019 07:28:06 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=UTON91ZfxEEKURTGvwC2Cul5nEoSiuWliGOjKAxWJDw=;
+        b=qSFU1oK6DcM/GrjtXfYKZqa+XM85x3x2LZ0XzL8qqFGOd8RLDysYo5Ic1bV4leVpX4
+         nfQgmZt06hWW70YPiRgVBsVsxbsl5xH8JzTGsHTL9oiax/WZUhbQZeOQ8QYGcvIISQz+
+         lD1bITxWSTbVO+DR3g6s0C3ALKWcl9Y2BueTNog5XpAPj4h40bBSqv4TdEHL6LRwuWfd
+         QjbxVA2FfOox+tq8nxkQec7c+w2R8kNJGgmo8a283Fk9TfliG40AYdr7kdYsY1mZ5ga4
+         UUd5Zb0ya2/438tUIwijwxK5quo1DmzVgP7tmbZEOhtM3CHYcZ1dV7ksfnSJeM35prDd
+         6I8g==
+X-Gm-Message-State: APjAAAV4xWD2VGm3WRJQgbNLPBRkNHmHxzVHnjcGGK4t/USGZAKqDzGb
+        7d7eWSydXCeEfnP/IdK7wzB2YO8K
+X-Google-Smtp-Source: APXvYqzrPOwWwkZqlpBMpcqyaNlMZElk4J962MjXXnUGIcZotaPt1OQOtb/KKPmi/Aw6zYU42YSqsA==
+X-Received: by 2002:a62:cf07:: with SMTP id b7mr73325456pfg.217.1561041213153;
+        Thu, 20 Jun 2019 07:33:33 -0700 (PDT)
 Received: from aw-bldr-10.qualcomm.com (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id i9sm6682781pfa.168.2019.06.20.07.28.04
+        by smtp.gmail.com with ESMTPSA id m19sm14040131pjn.3.2019.06.20.07.33.31
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Jun 2019 07:28:05 -0700 (PDT)
+        Thu, 20 Jun 2019 07:33:32 -0700 (PDT)
 From:   Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Cc:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
-        jikos@kernel.org, hdegoede@redhat.com, bjorn.andersson@linaro.org,
-        agross@kernel.org, lee.jones@linaro.org, xnox@ubuntu.com,
-        robh+dt@kernel.org, mark.rutland@arm.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
+To:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
+        jikos@kernel.org, hdegoede@redhat.com
+Cc:     bjorn.andersson@linaro.org, agross@kernel.org,
+        lee.jones@linaro.org, xnox@ubuntu.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Subject: [PATCH v7 0/5] Basic DT support for Lenovo Miix 630
-Date:   Thu, 20 Jun 2019 07:28:01 -0700
-Message-Id: <20190620142801.11827-1-jeffrey.l.hugo@gmail.com>
+Subject: [PATCH v7 1/5] Input: elan_i2c: Export the device id whitelist
+Date:   Thu, 20 Jun 2019 07:33:18 -0700
+Message-Id: <20190620143318.11880-1-jeffrey.l.hugo@gmail.com>
 X-Mailer: git-send-email 2.17.1
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <20190620142801.11827-1-jeffrey.l.hugo@gmail.com>
+References: <20190620142801.11827-1-jeffrey.l.hugo@gmail.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Lenovo Miix 630 is one of three ARM based (specifically Qualcomm
-MSM8998) laptops that comes with Windows, and seems to have a dedicated
-following of folks intrested to get Linux up and running on it.
+Elan_i2c and hid-quirks work in conjunction to decide which devices each
+driver will handle.  Elan_i2c has a whitelist of devices that should be
+consumed by hid-quirks so that there is one master list of devices to
+handoff between the drivers.  Put the ids in a header file so that
+hid-quirks can consume it instead of duplicating the list.
 
-This series adds support for the basic functionality this is validated
-towork using devicetree.  Although the laptops do feed ACPI to Windows,
-the existing MSM8998 support in mainline is DT based, so DT provides a
-quick path to functionality while ACPI support is investigated.
-
-The three devices are very similar, but do have differences in the set
-of peripherals supported, so the idea is that the vast majority of the
-support for all three can live in a common include, which should reduce
-overall duplication.  Adding support for the other two devices is tacked
-onto the end of the series.
-
-The bleeding edge work for these laptops and work in progress can be
-found at https://github.com/aarch64-laptops/prebuilt
-
-v7:
--Removed HID matching on compatible strings as it was determined to be
-not needed
-
-v6:
--Export the elan_i2c DT and ACPI ids so that hid-quirks can use them
--Use the elan_i2c ids within hid-quirks to reduce duplication
--Add DTs for the Asus and HP devices since the DT seems finalized, and
-folks have been asking
-
-v5:
--Split out elan_i2c changes into their own patch
--Use a static list of strings to match
--Fixed typo of "whitelist"
--Dropped incorrect thermal zones
--Dropped tags from Bjorn and Lee since the functional should be
-identical, but the code is structured different
-
-v4:
--Changed the hid-quirks ELAN handling around per Benjamin Tissoires
--Dropped new DT binding
-
-v3:
--Changed "clam" to "clamshell"
--Defined a dt binding for the combo Elan keyboard + touchpad device
--Adjusted the HID quirk to be correct for dt boot
--Removed extranious comment in board dts
--Fixed board level compatible
-
-v2:
--Changed "cls" to "clam" since feedback indicated "cls" is too opaque,
-but
-"clamshell" is a mouthfull.  "clam" seems to be a happy medium.
-
-Jeffrey Hugo (5):
-  Input: elan_i2c: Export the device id whitelist
-  HID: quirks: Refactor ELAN 400 and 401 handling
-  arm64: dts: qcom: Add Lenovo Miix 630
-  arm64: dts: qcom: Add HP Envy x2
-  arm64: dts: qcom: Add Asus NovaGo TP370QL
-
- arch/arm64/boot/dts/qcom/Makefile             |   3 +
- .../dts/qcom/msm8998-asus-novago-tp370ql.dts  |  47 ++++
- .../boot/dts/qcom/msm8998-clamshell.dtsi      | 240 ++++++++++++++++++
- .../boot/dts/qcom/msm8998-hp-envy-x2.dts      |  30 +++
- .../boot/dts/qcom/msm8998-lenovo-miix-630.dts |  30 +++
- drivers/hid/hid-quirks.c                      |  22 +-
- drivers/input/mouse/elan_i2c_core.c           |  54 +---
- include/linux/input/elan-i2c-ids.h            |  68 +++++
- 8 files changed, 430 insertions(+), 64 deletions(-)
- create mode 100644 arch/arm64/boot/dts/qcom/msm8998-asus-novago-tp370ql.dts
- create mode 100644 arch/arm64/boot/dts/qcom/msm8998-clamshell.dtsi
- create mode 100644 arch/arm64/boot/dts/qcom/msm8998-hp-envy-x2.dts
- create mode 100644 arch/arm64/boot/dts/qcom/msm8998-lenovo-miix-630.dts
+Signed-off-by: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+---
+ drivers/input/mouse/elan_i2c_core.c | 54 +----------------------
+ include/linux/input/elan-i2c-ids.h  | 68 +++++++++++++++++++++++++++++
+ 2 files changed, 69 insertions(+), 53 deletions(-)
  create mode 100644 include/linux/input/elan-i2c-ids.h
 
+diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+index 65cd325eabc3..74585712e979 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -37,6 +37,7 @@
+ #include <linux/completion.h>
+ #include <linux/of.h>
+ #include <linux/property.h>
++#include <linux/input/elan-i2c-ids.h>
+ #include <linux/regulator/consumer.h>
+ #include <asm/unaligned.h>
+ 
+@@ -1375,63 +1376,10 @@ static const struct i2c_device_id elan_id[] = {
+ MODULE_DEVICE_TABLE(i2c, elan_id);
+ 
+ #ifdef CONFIG_ACPI
+-static const struct acpi_device_id elan_acpi_id[] = {
+-	{ "ELAN0000", 0 },
+-	{ "ELAN0100", 0 },
+-	{ "ELAN0600", 0 },
+-	{ "ELAN0601", 0 },
+-	{ "ELAN0602", 0 },
+-	{ "ELAN0603", 0 },
+-	{ "ELAN0604", 0 },
+-	{ "ELAN0605", 0 },
+-	{ "ELAN0606", 0 },
+-	{ "ELAN0607", 0 },
+-	{ "ELAN0608", 0 },
+-	{ "ELAN0609", 0 },
+-	{ "ELAN060B", 0 },
+-	{ "ELAN060C", 0 },
+-	{ "ELAN060F", 0 },
+-	{ "ELAN0610", 0 },
+-	{ "ELAN0611", 0 },
+-	{ "ELAN0612", 0 },
+-	{ "ELAN0615", 0 },
+-	{ "ELAN0616", 0 },
+-	{ "ELAN0617", 0 },
+-	{ "ELAN0618", 0 },
+-	{ "ELAN0619", 0 },
+-	{ "ELAN061A", 0 },
+-	{ "ELAN061B", 0 },
+-	{ "ELAN061C", 0 },
+-	{ "ELAN061D", 0 },
+-	{ "ELAN061E", 0 },
+-	{ "ELAN061F", 0 },
+-	{ "ELAN0620", 0 },
+-	{ "ELAN0621", 0 },
+-	{ "ELAN0622", 0 },
+-	{ "ELAN0623", 0 },
+-	{ "ELAN0624", 0 },
+-	{ "ELAN0625", 0 },
+-	{ "ELAN0626", 0 },
+-	{ "ELAN0627", 0 },
+-	{ "ELAN0628", 0 },
+-	{ "ELAN0629", 0 },
+-	{ "ELAN062A", 0 },
+-	{ "ELAN062B", 0 },
+-	{ "ELAN062C", 0 },
+-	{ "ELAN062D", 0 },
+-	{ "ELAN0631", 0 },
+-	{ "ELAN0632", 0 },
+-	{ "ELAN1000", 0 },
+-	{ }
+-};
+ MODULE_DEVICE_TABLE(acpi, elan_acpi_id);
+ #endif
+ 
+ #ifdef CONFIG_OF
+-static const struct of_device_id elan_of_match[] = {
+-	{ .compatible = "elan,ekth3000" },
+-	{ /* sentinel */ }
+-};
+ MODULE_DEVICE_TABLE(of, elan_of_match);
+ #endif
+ 
+diff --git a/include/linux/input/elan-i2c-ids.h b/include/linux/input/elan-i2c-ids.h
+new file mode 100644
+index 000000000000..8130bbebbdda
+--- /dev/null
++++ b/include/linux/input/elan-i2c-ids.h
+@@ -0,0 +1,68 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Elan I2C Touchpad devide whitelist
++ *
++ * Copyright (C) 2019 Jeffrey Hugo.  All rights reserved.
++ */
++
++#ifndef __ELAN_I2C_IDS_H
++#define __ELAN_I2C_IDS_H
++
++#include <linux/mod_devicetable.h>
++
++static const struct acpi_device_id elan_acpi_id[] = {
++	{ "ELAN0000", 0 },
++	{ "ELAN0100", 0 },
++	{ "ELAN0600", 0 },
++	{ "ELAN0601", 0 },
++	{ "ELAN0602", 0 },
++	{ "ELAN0603", 0 },
++	{ "ELAN0604", 0 },
++	{ "ELAN0605", 0 },
++	{ "ELAN0606", 0 },
++	{ "ELAN0607", 0 },
++	{ "ELAN0608", 0 },
++	{ "ELAN0609", 0 },
++	{ "ELAN060B", 0 },
++	{ "ELAN060C", 0 },
++	{ "ELAN060F", 0 },
++	{ "ELAN0610", 0 },
++	{ "ELAN0611", 0 },
++	{ "ELAN0612", 0 },
++	{ "ELAN0615", 0 },
++	{ "ELAN0616", 0 },
++	{ "ELAN0617", 0 },
++	{ "ELAN0618", 0 },
++	{ "ELAN0619", 0 },
++	{ "ELAN061A", 0 },
++	{ "ELAN061B", 0 },
++	{ "ELAN061C", 0 },
++	{ "ELAN061D", 0 },
++	{ "ELAN061E", 0 },
++	{ "ELAN061F", 0 },
++	{ "ELAN0620", 0 },
++	{ "ELAN0621", 0 },
++	{ "ELAN0622", 0 },
++	{ "ELAN0623", 0 },
++	{ "ELAN0624", 0 },
++	{ "ELAN0625", 0 },
++	{ "ELAN0626", 0 },
++	{ "ELAN0627", 0 },
++	{ "ELAN0628", 0 },
++	{ "ELAN0629", 0 },
++	{ "ELAN062A", 0 },
++	{ "ELAN062B", 0 },
++	{ "ELAN062C", 0 },
++	{ "ELAN062D", 0 },
++	{ "ELAN0631", 0 },
++	{ "ELAN0632", 0 },
++	{ "ELAN1000", 0 },
++	{ }
++};
++
++static const struct of_device_id elan_of_match[] = {
++	{ .compatible = "elan,ekth3000" },
++	{ /* sentinel */ }
++};
++
++#endif /* __ELAN_I2C_IDS_H */
 -- 
 2.17.1
 
