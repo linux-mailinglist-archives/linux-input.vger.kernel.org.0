@@ -2,64 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65EAF4C454
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2019 02:08:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 386994C6EA
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2019 07:53:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730020AbfFTAIr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Jun 2019 20:08:47 -0400
-Received: from vie01a-dmta-pe08-2.mx.upcmail.net ([84.116.36.21]:49997 "EHLO
-        vie01a-dmta-pe08-2.mx.upcmail.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729971AbfFTAIr (ORCPT
+        id S1726082AbfFTFxR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Jun 2019 01:53:17 -0400
+Received: from mail-pl1-f177.google.com ([209.85.214.177]:39986 "EHLO
+        mail-pl1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725857AbfFTFxR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Jun 2019 20:08:47 -0400
-Received: from [172.31.216.234] (helo=vie01a-pemc-psmtp-pe11.mail.upcmail.net)
-        by vie01a-dmta-pe08.mx.upcmail.net with esmtp (Exim 4.92)
-        (envelope-from <jiridvorak@centrum.cz>)
-        id 1hdkdA-0009IX-CF
-        for linux-input@vger.kernel.org; Thu, 20 Jun 2019 02:08:44 +0200
-Received: from localhost ([94.113.181.121])
-        by vie01a-pemc-psmtp-pe11.mail.upcmail.net with ESMTP
-        id dkdAhCPhBEZz0dkdAhPt18; Thu, 20 Jun 2019 02:08:44 +0200
-X-Env-Mailfrom: jiridvorak@centrum.cz
-X-Env-Rcptto: linux-input@vger.kernel.org
-X-SourceIP: 94.113.181.121
-X-CNFS-Analysis: v=2.3 cv=E8KzWpVl c=1 sm=1 tr=0
- a=s7YJerHMVUoi9pLLx4laNg==:117 a=s7YJerHMVUoi9pLLx4laNg==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=5Xz7s1XVIlLowx5H8IAA:9
- a=CjuIK1q_8ugA:10
-Date:   Thu, 20 Jun 2019 02:08:43 +0200
-From:   Jiri Dvorak <jiridvorak@centrum.cz>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Anssi Hannula <anssi.hannula@bitwise.fi>,
-        linux-input@vger.kernel.org
-Subject: Re: PROBLEM: Race between upload and playback in ff-memless
-Message-ID: <20190620020843.547f00ad@centrum.cz>
-In-Reply-To: <20190619005234.GE62571@dtor-ws>
-References: <20190617224831.7aa9ac53@centrum.cz>
-        <20190619005234.GE62571@dtor-ws>
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        Thu, 20 Jun 2019 01:53:17 -0400
+Received: by mail-pl1-f177.google.com with SMTP id a93so923025pla.7;
+        Wed, 19 Jun 2019 22:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GCWIu+pKgfVWcOGFQteSuVLw0jZjzlfHNzkQ2wuwzGQ=;
+        b=O92/TWMC2x0RmONVUUz/lsKvv4Je9F81ANSUEbndRVi/zs7d+aCvOgfgz2FOg8k5xO
+         Gh9npPp0gy5xaAJaZKyTTgRxYrR5vJm2KntyyHv/q3GtfCE5dEJ3l7xYsyUFBu4oXpIG
+         7zSSZzD+qYHRy+gZXyFZXjA9Lwtk3nHM2Gj1RDwcHb94XVV8lhzitHLtIWMJNRejPisO
+         3v8kWs6Ze6y52ueHz7X5WhF4TXX+TAn15AQMQLnhurjhX9AKhkC7FF3eaPr45/RzlgsC
+         P/WkHPPb/h4h9p0W0xqMc1g8/uIXUf5zML+UTt3T2gYEnFKZ1NsZ0/lZcXlfW346U4vh
+         zZNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GCWIu+pKgfVWcOGFQteSuVLw0jZjzlfHNzkQ2wuwzGQ=;
+        b=j3CMwyn0FI9QcbOvXgeiXc0QnFoCV/ImCmOL/MwP2onrSyfvr9IFpWXjbOZCCjL4z4
+         raW55YuYTN8xXJvsEc/8h9N0YocqwybFC9d+w42IrZ4fQPskclN3aHSiFB9jhYzHzHzk
+         xNFc4MpHG+R4GLsMvu/0LyDJnb03eKn4jhNVS+e5g5jBTo/HPTYG+l/9Aka0vHFbHmJD
+         AuEkRUoCsd/HsqLeLCZelxWeQPzyPxw5a1w090ALsFLf+mCuZzppXnSnRNU3FVNuYi6A
+         6XnRN5U5S0kyoio9y19pQbwAqH662KTb4Zdeeyv3SA/kcusBw6P5oZS15Y3+rJy7mFha
+         hroA==
+X-Gm-Message-State: APjAAAVnoIMfIwuut88bz7Xd4zqhv8edwd2H5ZsiGP9qSaiFzsQKy1DQ
+        3/M+qS5TC2BzNza6pJqQBf66DWsXRCzdgN7Ri+Y=
+X-Google-Smtp-Source: APXvYqxZOTiC/uQeY5uXx+EXtxpwTtxGmGlw39NsLAYnsIzZi8HQBg4UrDQSLUkbdppg3XGixy6IU4vRBGlqteo8JZQ=
+X-Received: by 2002:a17:902:934a:: with SMTP id g10mr113660318plp.18.1561009996329;
+ Wed, 19 Jun 2019 22:53:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLbwFG7fsq5pp+RMLQ9+maq04/dNksBGwslTpp42RYn/FMebaF//FT2wo4uD8GAWHMIcnobRK3kDN+ZtfZZRkfqogw51KkNsZEOHdttpGf3ODIS2Go6g
- XxJ8iAv436HT+M4GAwudWP/dP4RE9FsVT6k+kbj0mahGAUyB+dAyNlSOAieaQ0SMqfON1MoIM/TUu7OoMpN+5ZW6gfMgjbCkKhf/dFZl97RDaGf2kbQPA7g8
- VDKSe32qwKf0IQw7tGMYww==
+References: <20190516142523.117978-1-luzmaximilian@gmail.com>
+ <a0f93af3-c587-40d5-2a85-fdc0f9e6b79f@gmail.com> <e8bb212c-9894-d244-4ee1-617df3952a53@gmail.com>
+In-Reply-To: <e8bb212c-9894-d244-4ee1-617df3952a53@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 20 Jun 2019 08:53:03 +0300
+Message-ID: <CAHp75Vcf79a2_3VGfju237omDjmnhCYN18u+=m_n-tjxZUxt4A@mail.gmail.com>
+Subject: Re: [RFC 0/2] Support for buttons on newer MS Surface devices
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry
+On Wed, Jun 12, 2019 at 2:06 AM Maximilian Luz <luzmaximilian@gmail.com> wrote:
+>
+> Since there are no comments on this, should I simply submit this as patch?
 
-> I wonder if we can't simply leave the FF_EFFECT_PLAYING flag as is
-> when updating an effect. Although we still may skip over them in
-> ml_get_combo_effect() is play_at is in the future. Should we
-> immediately stop updated effects?
+No top post, please.
 
-Thinking more about it, you need to combine both approaches. If the updated effect should be playing according to the new play_at time (i.e. effect with zero delay), the FF_EFFECT_PLAYING should be left unchanged and the timer will update the force on the next tick as the check will pass (see below for possible issue). If that time is in the future, you need to both clear the flag and stop the force which should fix both the stop behavior and the update behavior inconsistency between single and multiple forces (provided it is desired from backward compatibility perspective).
+And yes, submit it as a series. Also Cc to Benjamin Tissoires.
 
-One additional thing I noticed. mm_ff_upload() with zero delay will set play_at to jiffies and call ml_schedule_timer(). ml_schedule_timer()
-will then read a fresh value of jiffies and ignore effects whose play_at is before that value. If the jiffies would be increased between those two reads, no timer would be set for that effect so update would not happen. Is there something which I am missing which would prevent that?
+> On 6/1/19 9:07 PM, Maximilian Luz wrote:
+> > Hi,
+> >
+> > any comments on this?
+> >
+> > I should also mention that this has been tested via
+> > https://github.com/jakeday/linux-surface.
+> >
+> > Maximilian
 
-With regards
-Jiri
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
