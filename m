@@ -2,88 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 386994C6EA
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2019 07:53:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B01DA4CAE6
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2019 11:33:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726082AbfFTFxR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Jun 2019 01:53:17 -0400
-Received: from mail-pl1-f177.google.com ([209.85.214.177]:39986 "EHLO
-        mail-pl1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725857AbfFTFxR (ORCPT
+        id S1726279AbfFTJdG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Jun 2019 05:33:06 -0400
+Received: from mail-io1-f72.google.com ([209.85.166.72]:42924 "EHLO
+        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726268AbfFTJdG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Jun 2019 01:53:17 -0400
-Received: by mail-pl1-f177.google.com with SMTP id a93so923025pla.7;
-        Wed, 19 Jun 2019 22:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GCWIu+pKgfVWcOGFQteSuVLw0jZjzlfHNzkQ2wuwzGQ=;
-        b=O92/TWMC2x0RmONVUUz/lsKvv4Je9F81ANSUEbndRVi/zs7d+aCvOgfgz2FOg8k5xO
-         Gh9npPp0gy5xaAJaZKyTTgRxYrR5vJm2KntyyHv/q3GtfCE5dEJ3l7xYsyUFBu4oXpIG
-         7zSSZzD+qYHRy+gZXyFZXjA9Lwtk3nHM2Gj1RDwcHb94XVV8lhzitHLtIWMJNRejPisO
-         3v8kWs6Ze6y52ueHz7X5WhF4TXX+TAn15AQMQLnhurjhX9AKhkC7FF3eaPr45/RzlgsC
-         P/WkHPPb/h4h9p0W0xqMc1g8/uIXUf5zML+UTt3T2gYEnFKZ1NsZ0/lZcXlfW346U4vh
-         zZNw==
+        Thu, 20 Jun 2019 05:33:06 -0400
+Received: by mail-io1-f72.google.com with SMTP id f22so4158754ioj.9
+        for <linux-input@vger.kernel.org>; Thu, 20 Jun 2019 02:33:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GCWIu+pKgfVWcOGFQteSuVLw0jZjzlfHNzkQ2wuwzGQ=;
-        b=j3CMwyn0FI9QcbOvXgeiXc0QnFoCV/ImCmOL/MwP2onrSyfvr9IFpWXjbOZCCjL4z4
-         raW55YuYTN8xXJvsEc/8h9N0YocqwybFC9d+w42IrZ4fQPskclN3aHSiFB9jhYzHzHzk
-         xNFc4MpHG+R4GLsMvu/0LyDJnb03eKn4jhNVS+e5g5jBTo/HPTYG+l/9Aka0vHFbHmJD
-         AuEkRUoCsd/HsqLeLCZelxWeQPzyPxw5a1w090ALsFLf+mCuZzppXnSnRNU3FVNuYi6A
-         6XnRN5U5S0kyoio9y19pQbwAqH662KTb4Zdeeyv3SA/kcusBw6P5oZS15Y3+rJy7mFha
-         hroA==
-X-Gm-Message-State: APjAAAVnoIMfIwuut88bz7Xd4zqhv8edwd2H5ZsiGP9qSaiFzsQKy1DQ
-        3/M+qS5TC2BzNza6pJqQBf66DWsXRCzdgN7Ri+Y=
-X-Google-Smtp-Source: APXvYqxZOTiC/uQeY5uXx+EXtxpwTtxGmGlw39NsLAYnsIzZi8HQBg4UrDQSLUkbdppg3XGixy6IU4vRBGlqteo8JZQ=
-X-Received: by 2002:a17:902:934a:: with SMTP id g10mr113660318plp.18.1561009996329;
- Wed, 19 Jun 2019 22:53:16 -0700 (PDT)
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=WtWpzIFG+KojeL/qLHo4CGjxOFRh5iPbQVL0zRdDcv8=;
+        b=dVtCyxvOP+2LlzrjJBSSP1CX8CSvrfHj8VDLvwEWIPNFy5o15CciUtcxoWu2QM+dE/
+         G/EBdRxwuCarMYXvSIdQfpAnM6lorHt5ZuNFTYEn9+7Om5F813UQIZBucEN5CUCNkF/H
+         hmI/f7XRPpb8lR1Z7FRKLKy6S7IivsdzWidjiL3z2T/YLYM5ifRVhqzRyn0Z5esoQWJX
+         v2ZSDEBl+oHieuW8GmV50MQTQKmDsMM7KPzfb6Hdq92bX/5x/K5nMkF6VYOquFG5/h2y
+         Ypde9jZNoPCHmXXVOZpKApEniJvBYhKJvz8zuKL/nHovpWbeDdjs0scgsNuXFjUCYSKE
+         XtDw==
+X-Gm-Message-State: APjAAAWw1/NiTCpItQ4kzzUzI+MnN5LIdpi/zr/Ti7KdzymWZPZKEZLo
+        PYeSZPHT/0klXHsQzcg7mWJYItdfXsTj/Dy2xjDHoAaigCiF
+X-Google-Smtp-Source: APXvYqxHzHMo/9j6u9oKQD3Qp+e6EO/ppYpsYS4rrYXtLgLwyo3wIGPM50AmvXp7B1oxIRClwugmz9KQHSDzxiaJ0eT6jWmcatkp
 MIME-Version: 1.0
-References: <20190516142523.117978-1-luzmaximilian@gmail.com>
- <a0f93af3-c587-40d5-2a85-fdc0f9e6b79f@gmail.com> <e8bb212c-9894-d244-4ee1-617df3952a53@gmail.com>
-In-Reply-To: <e8bb212c-9894-d244-4ee1-617df3952a53@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 20 Jun 2019 08:53:03 +0300
-Message-ID: <CAHp75Vcf79a2_3VGfju237omDjmnhCYN18u+=m_n-tjxZUxt4A@mail.gmail.com>
-Subject: Re: [RFC 0/2] Support for buttons on newer MS Surface devices
-To:     Maximilian Luz <luzmaximilian@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Chen Yu <yu.c.chen@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Received: by 2002:a6b:ed09:: with SMTP id n9mr11381595iog.153.1561023185627;
+ Thu, 20 Jun 2019 02:33:05 -0700 (PDT)
+Date:   Thu, 20 Jun 2019 02:33:05 -0700
+In-Reply-To: <0000000000005463aa0589dcfb85@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000773344058bbe0858@google.com>
+Subject: Re: INFO: trying to register non-static key in usbtouch_reset_resume
+From:   syzbot <syzbot+933daad9be4e67ba91a9@syzkaller.appspotmail.com>
+To:     allison@lohutok.net, andreyknvl@google.com,
+        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, mpe@ellerman.id.au, rfontana@redhat.com,
+        rydberg@bitmath.org, syzkaller-bugs@googlegroups.com,
+        tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jun 12, 2019 at 2:06 AM Maximilian Luz <luzmaximilian@gmail.com> wrote:
->
-> Since there are no comments on this, should I simply submit this as patch?
+syzbot has found a reproducer for the following crash on:
 
-No top post, please.
+HEAD commit:    9939f56e usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=100c063aa00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=df134eda130bb43a
+dashboard link: https://syzkaller.appspot.com/bug?extid=933daad9be4e67ba91a9
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=144fa5e6a00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13d12de6a00000
 
-And yes, submit it as a series. Also Cc to Benjamin Tissoires.
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+933daad9be4e67ba91a9@syzkaller.appspotmail.com
 
-> On 6/1/19 9:07 PM, Maximilian Luz wrote:
-> > Hi,
-> >
-> > any comments on this?
-> >
-> > I should also mention that this has been tested via
-> > https://github.com/jakeday/linux-surface.
-> >
-> > Maximilian
+usb 1-1: reset low-speed USB device number 2 using dummy_hcd
+INFO: trying to register non-static key.
+the code is fine but needs lockdep annotation.
+turning off the locking correctness validator.
+CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.2.0-rc5+ #11
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  assign_lock_key kernel/locking/lockdep.c:775 [inline]
+  register_lock_class+0x11ae/0x1240 kernel/locking/lockdep.c:1084
+  __lock_acquire+0x11d/0x5340 kernel/locking/lockdep.c:3674
+  lock_acquire+0x100/0x2b0 kernel/locking/lockdep.c:4303
+  __mutex_lock_common kernel/locking/mutex.c:926 [inline]
+  __mutex_lock+0xf9/0x12b0 kernel/locking/mutex.c:1073
+  usbtouch_reset_resume+0xb1/0x170  
+drivers/input/touchscreen/usbtouchscreen.c:1611
+  usb_resume_interface drivers/usb/core/driver.c:1242 [inline]
+  usb_resume_interface.isra.0+0x184/0x390 drivers/usb/core/driver.c:1210
+  usb_resume_both+0x23d/0x780 drivers/usb/core/driver.c:1412
+  __rpm_callback+0x27e/0x3c0 drivers/base/power/runtime.c:355
+  rpm_callback+0x18f/0x230 drivers/base/power/runtime.c:485
+  rpm_resume+0x10c5/0x1840 drivers/base/power/runtime.c:849
+  __pm_runtime_resume+0x103/0x180 drivers/base/power/runtime.c:1076
+  pm_runtime_get_sync include/linux/pm_runtime.h:226 [inline]
+  usb_autoresume_device+0x1e/0x60 drivers/usb/core/driver.c:1599
+  usb_remote_wakeup+0x7b/0xb0 drivers/usb/core/hub.c:3601
+  hub_port_connect_change drivers/usb/core/hub.c:5190 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x23d7/0x3590 drivers/usb/core/hub.c:5432
+  process_one_work+0x905/0x1570 kernel/workqueue.c:2269
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+  kthread+0x30b/0x410 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+dummy_hcd dummy_hcd.0: port status 0x00010100 has changes
+dummy_hcd dummy_hcd.0: port status 0x00010101 has changes
+dummy_hcd dummy_hcd.0: port status 0x00100303 has changes
+usb 1-1: reset low-speed USB device number 2 using dummy_hcd
+dummy_hcd dummy_hcd.0: port status 0x00100303 has changes
+usb usb1: dummy_bus_suspend
+usb usb1: dummy_bus_resume
+dummy_hcd dummy_hcd.0: port status 0x00010100 has changes
+dummy_hcd dummy_hcd.0: port status 0x00100303 has changes
+usb 1-1: reset low-speed USB device number 2 using dummy_hcd
+dummy_hcd dummy_hcd.0: port status 0x00100303 has changes
+usb usb1: dummy_bus_suspend
+usb usb1: dummy_bus_resume
+dummy_hcd dummy_hcd.0: port status 0x00010100 has changes
+dummy_hcd dummy_hcd.0: port status 0x00100303 has changes
+usb 1-1: reset low-speed USB device number 2 using dummy_hcd
+dummy_hcd dummy_hcd.0: port status 0x00100303 has changes
+usb usb1: dummy_bus_suspend
+usb usb1: dummy_bus_resume
+dummy_hcd dummy_hcd.0: port status 0x00010100 has changes
+dummy_hcd dummy_hcd.0: port status 0x00100303 has changes
+usb 1-1: reset low-speed USB device number 2 using dummy_hcd
+dummy_hcd dummy_hcd.0: port status 0x00100303 has changes
+usb usb1: dummy_bus_suspend
+usb usb1: dummy_bus_resume
+dummy_hcd dummy_hcd.0: port status 0x00010100 has changes
+dummy_hcd dummy_hcd.0: port status 0x00100303 has changes
+usb 1-1: reset low-speed USB device number 2 using dummy_hcd
+dummy_hcd dummy_hcd.0: port status 0x00100303 has changes
 
-
-
--- 
-With Best Regards,
-Andy Shevchenko
