@@ -2,104 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 953ED4DFC3
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jun 2019 06:34:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1629E4E33E
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jun 2019 11:17:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725956AbfFUEeY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jun 2019 00:34:24 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:43233 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725876AbfFUEeX (ORCPT
+        id S1726545AbfFUJRl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Jun 2019 05:17:41 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:52761 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726489AbfFUJRk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jun 2019 00:34:23 -0400
-Received: by mail-io1-f66.google.com with SMTP id k20so75954ios.10;
-        Thu, 20 Jun 2019 21:34:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ica3ySUaR522yE/ZMxZYijSnhD1xDLlEp+v8Cx/mej0=;
-        b=Mxa9wvtP/UVcehlG+S94/uUMn1COAyoRZ2nTdlBsJ3zad9huyWhwYg/cSWnwOFXbOz
-         lrmnwE1Ha/V1irJ03HR0I9WNPsv0kaCxzt4z8cy0KJMIgB49TKsVhNqNBUoxVLIZ/zWc
-         mVha4mE8S1zpx44V9n5k/ORXV9M4TCZjXUtYknxYbCu2JI+SGYniuPlW84Z19kN7IjUT
-         cQoHtsbVqvxzOBherxXPhGvK137Jsm/Om0hvM5zNbsl3vpkuiDvvCSDVqYnWxfeKm1xT
-         SBoOj7gPBq2khCIR1k3yR+m/yZHVdHpRmC0oOGLT1nM/t0+UWtqP4VY2Lrk1MNKwAm/e
-         7QpQ==
+        Fri, 21 Jun 2019 05:17:40 -0400
+Received: by mail-wm1-f66.google.com with SMTP id s3so5650197wms.2
+        for <linux-input@vger.kernel.org>; Fri, 21 Jun 2019 02:17:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ica3ySUaR522yE/ZMxZYijSnhD1xDLlEp+v8Cx/mej0=;
-        b=WHQK/toU5lubVf5UhB5peFInL4xyfo8JwNE0iGHo3zqrU9AC+sceCsKwfOiNJk8WAN
-         2u98GGRHkjIRFHq7iVrmqGcylIPuRRLqM3JzVlI74/fhbA5uSXYS+h0wFSBlJ6MmT90O
-         mA/D+8YrkKP/H4ssK/x5Gxn7Q2WU+HLr+q0Rm5aD713L+56xaUuOH45YWvnGjxUXkpX2
-         CjCxZOH2k7dmcKqnQXfjQQc1hhotuMPSgRSKX2bjjDFRFN73qoLrqv5Lp4Xv960IAOWB
-         lKQyy2pWfC0hcA0oikjurQZQtKOJKV3ZMEG3Vn+XdUFE0XtN9MYQYdULjQKmqQ216YXK
-         RQIA==
-X-Gm-Message-State: APjAAAVePo1DPVbtqHqDo/G9uLNl+cEfHkHEdy+3T55J9sIisdp4luYj
-        SfIxRfsM3F3I99vwQrxvwmFpU805p9IVM+O2hVI=
-X-Google-Smtp-Source: APXvYqypTQWp8EcBhntIVc2vxfGSjLvBmtNgQYl5tub6+s8/UsvK5TV6Kcvr1YAq20lnIcw9L9ct7MBwgyUvalDzaD0=
-X-Received: by 2002:a5e:de4d:: with SMTP id e13mr20647673ioq.272.1561091662310;
- Thu, 20 Jun 2019 21:34:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190620142801.11827-1-jeffrey.l.hugo@gmail.com> <20190620143318.11880-1-jeffrey.l.hugo@gmail.com>
-In-Reply-To: <20190620143318.11880-1-jeffrey.l.hugo@gmail.com>
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date:   Thu, 20 Jun 2019 21:34:10 -0700
-Message-ID: <CAKdAkRRstvEWXtwnLCMKoW6PcCz0W3+M9iYqVFshJpw6y_=9bA@mail.gmail.com>
-Subject: Re: [PATCH v7 1/5] Input: elan_i2c: Export the device id whitelist
-To:     Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k3dnealLbWyKFjr0ipaHscOu2tOtwFDnep9BD/IPqN0=;
+        b=acXqCDHBdjNTXp+9ZdlHWkBhBZXnP/vAGbA6CX4I1rQoWYZaRzevOQWs22CDHW0xEj
+         9mGWRAzkwkeg2DdxZG4Gl18O6JczyNYB9z1CIkKOX7STeqJJDAAbuwOacgZ4zJYa0zuX
+         EcGeWMVo37UYgay+57saBfgAblru+nJG4sE329u/nIzpUrcAPsrajM9oVXtgkZew0PMx
+         zt3Ojnx0gJRsAm9KOKFVi25Q0WYAYu5l/S10LxXM6NU7gejXnAK2CSrtCJNEZJcSi6ab
+         HAIEEnX4IuLOdirYivEh0ySVbWu+ZDCqmXA15VTGxKkYk+bkQkcQ9FjkimJ88lkASZQg
+         hOeg==
+X-Gm-Message-State: APjAAAUNQqKyJ3IdAtq+fvpnUgcGMuz/nRLcTMnBa8j6W6WbO5avLNs3
+        NbfMYGFdnJ7jCREu8HaOuCc5JQ==
+X-Google-Smtp-Source: APXvYqxHgEfyILwYCkmxsqsTCXwxiiJpJc4v55sF3T1608Z/IqVl+kc1VnKFmZhemZ3jBom5b0F/bA==
+X-Received: by 2002:a1c:bbc1:: with SMTP id l184mr3212935wmf.111.1561108658412;
+        Fri, 21 Jun 2019 02:17:38 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+        by smtp.gmail.com with ESMTPSA id r2sm1933610wme.30.2019.06.21.02.17.36
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 21 Jun 2019 02:17:37 -0700 (PDT)
+From:   Oleksandr Natalenko <oleksandr@redhat.com>
+To:     Jiri Kosina <jikos@kernel.org>
 Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        agross@kernel.org, Lee Jones <lee.jones@linaro.org>,
-        xnox@ubuntu.com, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        "open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Sebastian Parschauer <sparschauer@suse.de>,
+        Dave Young <dyoung@redhat.com>,
+        "Herton R . Krzesinski" <herton@redhat.com>,
+        Oliver Neukum <oneukum@suse.de>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH] hid: add another quirk for Chicony PixArt mouse
+Date:   Fri, 21 Jun 2019 11:17:36 +0200
+Message-Id: <20190621091736.14503-1-oleksandr@redhat.com>
+X-Mailer: git-send-email 2.22.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jeffrey,
+I've spotted another Chicony PixArt mouse in the wild, which requires
+HID_QUIRK_ALWAYS_POLL quirk, otherwise it disconnects each minute.
 
-On Thu, Jun 20, 2019 at 7:33 AM Jeffrey Hugo <jeffrey.l.hugo@gmail.com> wrote:
->  #ifdef CONFIG_OF
-> -static const struct of_device_id elan_of_match[] = {
-> -       { .compatible = "elan,ekth3000" },
-> -       { /* sentinel */ }
-> -};
+USB ID of this device is 0x04f2:0x0939.
 
-I think OF IDs should stay in this file since we agreed HID will not
-be checking them.
+We've introduced quirks like this for other models before, so lets add
+this mouse too.
 
->  MODULE_DEVICE_TABLE(of, elan_of_match);
->  #endif
->
-> diff --git a/include/linux/input/elan-i2c-ids.h b/include/linux/input/elan-i2c-ids.h
-> new file mode 100644
-> index 000000000000..8130bbebbdda
-> --- /dev/null
-> +++ b/include/linux/input/elan-i2c-ids.h
-> @@ -0,0 +1,68 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Elan I2C Touchpad devide whitelist
+Link: https://github.com/sriemer/fix-linux-mouse#usb-mouse-disconnectsreconnects-every-minute-on-linux
+Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
+---
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-s/devide/device/
-
-> + *
-> + * Copyright (C) 2019 Jeffrey Hugo.  All rights reserved.
-
-This just moves the code around. If anything I'd say it should keep
-the original Elan copyright.
-
-Thanks.
-
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index eac0c54c5970..69f0553d9d95 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -269,6 +269,7 @@
+ #define USB_DEVICE_ID_CHICONY_MULTI_TOUCH	0xb19d
+ #define USB_DEVICE_ID_CHICONY_WIRELESS	0x0618
+ #define USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE	0x1053
++#define USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE2	0x0939
+ #define USB_DEVICE_ID_CHICONY_WIRELESS2	0x1123
+ #define USB_DEVICE_ID_ASUS_AK1D		0x1125
+ #define USB_DEVICE_ID_CHICONY_TOSHIBA_WT10A	0x1408
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index e5ca6fe2ca57..671a285724f9 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -42,6 +42,7 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ATEN, USB_DEVICE_ID_ATEN_UC100KM), HID_QUIRK_NOGET },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_MULTI_TOUCH), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE2), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_WIRELESS), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHIC, USB_DEVICE_ID_CHIC_GAMEPAD), HID_QUIRK_BADPAD },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CH, USB_DEVICE_ID_CH_3AXIS_5BUTTON_STICK), HID_QUIRK_NOGET },
 -- 
-Dmitry
+2.22.0
+
