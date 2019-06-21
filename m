@@ -2,134 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E3124E633
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jun 2019 12:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F05554EA4B
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jun 2019 16:11:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726250AbfFUKgW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jun 2019 06:36:22 -0400
-Received: from mout.gmx.net ([212.227.15.19]:42117 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726311AbfFUKgW (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jun 2019 06:36:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1561113373;
-        bh=FZ3nDCFIqN8mN8VuNfZpLg/uHuIVZrVV40D1UObVCuU=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=gYr0XtF0rerojtRGK8y/dL+tkZbUSPRjbMslTtDKogey4krDMF5xZFRZJmBNxegfD
-         s21QimIAafXavDd8y4AJWZxpSp4Hw5iPvnwI6aLRPjbbcAu9YKCPtF6/wJbCOr21rH
-         8aIKi3VjdjyomNJFSsEj3TdZi9ckSBM+lzf0OymQ=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.129.11] ([95.91.214.138]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MqJm5-1iRIlz3LEJ-00nOdZ; Fri, 21
- Jun 2019 12:36:12 +0200
-Subject: Re: [PATCH] hid: add another quirk for Chicony PixArt mouse
-To:     Oleksandr Natalenko <oleksandr@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dave Young <dyoung@redhat.com>,
-        "Herton R . Krzesinski" <herton@redhat.com>,
-        Oliver Neukum <oneukum@suse.de>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20190621091736.14503-1-oleksandr@redhat.com>
- <20190621093920.qlnhbneoww7c6axw@butterfly.localdomain>
-From:   Sebastian Parschauer <s.parschauer@gmx.de>
-Message-ID: <b3cbee0c-07ef-5943-cc8f-f4fa0f854440@gmx.de>
-Date:   Fri, 21 Jun 2019 12:36:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190621093920.qlnhbneoww7c6axw@butterfly.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
+        id S1726049AbfFUOLk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Jun 2019 10:11:40 -0400
+Received: from mail-eopbgr780117.outbound.protection.outlook.com ([40.107.78.117]:45863
+        "EHLO NAM03-BY2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725985AbfFUOLk (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 21 Jun 2019 10:11:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=aampusa.onmicrosoft.com; s=selector2-aampusa-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Wkc8PlDfgnc0z0QGHwV5rL8OLqorBQx8NN9Pv+BA9LA=;
+ b=Xqj1hDkiC+qFTOK8hHZjeF3Pd5cCXG4/SKXMB7ef6M4Qz47WcXL7MtqLR3Ss22ExwSMKZs9HyAh5l7KK1NzpJQ9tn9jVSi+EGHDlvTEaVWnZ9O/7pZAIsqbbxhhqp1zpkpXWWoG0enwrM4L2QWJ2aMg05WzVgRHxYFuMCGF90sE=
+Received: from BL0PR07MB4115.namprd07.prod.outlook.com (52.132.10.149) by
+ BL0PR07MB5603.namprd07.prod.outlook.com (20.177.242.150) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.13; Fri, 21 Jun 2019 14:11:34 +0000
+Received: from BL0PR07MB4115.namprd07.prod.outlook.com
+ ([fe80::f064:5129:63c6:d3e]) by BL0PR07MB4115.namprd07.prod.outlook.com
+ ([fe80::f064:5129:63c6:d3e%6]) with mapi id 15.20.1987.014; Fri, 21 Jun 2019
+ 14:11:34 +0000
+From:   Ken Sloat <KSloat@aampglobal.com>
+To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+CC:     Kasun Beddewela <KBeddewela@aampglobal.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Ken Sloat <KSloat@aampglobal.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: RE: input: Device Tree Properties for Captouch Button Device
+ Registers
+Thread-Topic: input: Device Tree Properties for Captouch Button Device
+ Registers
+Thread-Index: AdUmniJSlNglerPZSFOVaVVYianGHABm/o3g
+Date:   Fri, 21 Jun 2019 14:11:33 +0000
+Message-ID: <BL0PR07MB41150BF0740C6F7E63FF4E11ADE70@BL0PR07MB4115.namprd07.prod.outlook.com>
+References: <BL0PR07MB4115574AA13B8F8C2E036644ADE50@BL0PR07MB4115.namprd07.prod.outlook.com>
+In-Reply-To: <BL0PR07MB4115574AA13B8F8C2E036644ADE50@BL0PR07MB4115.namprd07.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=KSloat@aampglobal.com; 
+x-originating-ip: [100.3.71.115]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 12c116e0-bea0-4d03-a3f2-08d6f6525de0
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:BL0PR07MB5603;
+x-ms-traffictypediagnostic: BL0PR07MB5603:
+x-microsoft-antispam-prvs: <BL0PR07MB5603F321029FECE485908448ADE70@BL0PR07MB5603.namprd07.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0075CB064E
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(396003)(39850400004)(376002)(136003)(366004)(13464003)(199004)(189003)(76176011)(478600001)(81166006)(71190400001)(2351001)(186003)(6506007)(26005)(2501003)(74316002)(53546011)(7696005)(66446008)(99286004)(54906003)(5660300002)(52536014)(66476007)(76116006)(66066001)(81156014)(6116002)(66946007)(3846002)(66556008)(64756008)(316002)(102836004)(72206003)(71200400001)(7736002)(256004)(9686003)(8676002)(8936002)(73956011)(80792005)(4326008)(2906002)(6436002)(68736007)(1361003)(14454004)(33656002)(6916009)(6246003)(53936002)(11346002)(446003)(476003)(25786009)(229853002)(5640700003)(55016002)(305945005)(86362001)(486006);DIR:OUT;SFP:1102;SCL:1;SRVR:BL0PR07MB5603;H:BL0PR07MB4115.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: aampglobal.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: EKLl5YENnKGwL4eX3BcUHp1kBa5NyX8+WJnpedSvTdDN9qkrYLh1HvQLqNGTSUIMvTcK5kdrEJ8RhXvWKyYrknQcOkIEUmSquQuz4FamTCSb5pdFUNgN7/VM0u5zUM67jWykjtnKburTjPRUk9bZwEwHD5mrvnvqTIldSNQbGVNSFmGNass1YgbJPJXrNjZ/k3OAP+0y/n3SEXuqEzPnpUQebKTLwXv/YnUelUBTaX/vkRXtoyxpSI1qn1nyoGxWofNoUoGMFL9pvUOCqKG5UO7/BXswdJWZYXj1Scq8RM8MbBChPYVm49vQEk5Vuzx2enu8hXC0lwHONFjl+KN506REl+pI2kA61LdLP0b++8EcNj+0/9NVh2ATt2TSm67h3XUpFtj9t71AzIMRFzWc48pLDoHoM2xIUDtfbQtJPwI=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:W6/wR0IEZxVWoFe2j3QAOvBtKC2Xi4gdB1zncHkFkRFdu1PvOnC
- LUlGvs/BfhzcPJ9q8EOz67FesZKKEVP3CQ6Le+RRDZXpLtFZ5h5Xv384Vy5ekSRFR0Y4wpl
- O/6LyJbQHfwOTKpPI8QwGoFJIxeWekMX79OEX0/GTp4yfhMy0qpBB78yPcRigLnMcOpd0ow
- UVZ72vpmXGy/eXXG68Yrg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:msNBR1fBoEY=:qpSyOprnk90y65UWlATTK6
- rFfO7TF0dwDTJNSlKZAuuLb2wceeqVnbEkCwLjMpTsj3RhTQFZGJa9OAAlQfClTazSonRPne5
- n67Hgapw6T254h76q43hrRBlh+7K3KNaQYKFH8OB7aFWRCqnq2ASatNHviuhtWMMsbs4kwPQV
- zGOD2TD94cu9/zDPdJJYka3CvLB9IrTgKuiUuKeSTJfAEIc2vqPbwzbkfVT8PPosRhUB8SqkW
- FcyNTH6cA02RV51SjPSHGe+fCx4TB/dA/C0A1HqHyrF1n62kEdgQ0a5mqULqz2K2hgxcQCPL/
- E9Gu36ou8xRHQB4ccSpXKlFm4ZY7++mI2YUiv4CKVgLFo+9Y6NOmmrDIPwyWBKlVNKRqjYMC5
- G/T0OC0ruy6k3f4/efxmoL0LrST7c6i20U4JEhaYL6eBZWf4vQPvf3XXmRBOzIsd+2aOy0Xs/
- xnXoWkbPYOizvSeJa3gVCfcBSuacgHtgdMMJ2wDQUWqOU895tEvS3FPuncCgwGR8oDeu/aMAq
- ASpJCm3tPoQWDyHCYQKUSAbBRU6qf86V6GrhnshlwHrXSY2qp4vDIHoo8fNJCJP8dqwd4Gcca
- zbQzLgdmlxGklJ/5jEITSGAl54hCTqx3+hZlJk4ss8S+5lvEn3xIAiFaWclUq2TQ8BbLqTtsd
- fY4zVmkrzTxZX9XwuEW3ac297RGj7uEHgW7y6fiDJzZNSkVcJGMCCSk9j/Mh0ep0g2BZ6QSxo
- Yj1q7mOO+vQ4gychCo3XuBuyGHX+aD0VFAOrJ+r+Ft+JiQAFUvfG5TeKc6NBUd2lGGRwZDZ5T
- FIAn3fulwhrhtRqto3pV9HEBmzdtf/efRfObHwGko4aiyAoGf5/QkQdgKpo7CS5AGFBSoYUAU
- F6Ahf20BgQk1uInMbO9eR0MQcl/8v4Qet3rFWzBMlp+0IZzfu3YErc20e98Nu0g21ITZOkczU
- +TYxAUjds150CEibV7neYBCdb00uwXmobrqLSFlKsoVuhR/8CYsAo
+MIME-Version: 1.0
+X-OriginatorOrg: aampglobal.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12c116e0-bea0-4d03-a3f2-08d6f6525de0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2019 14:11:33.9909
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: e20e3a66-8b9e-46e9-b859-cb654c1ec6ea
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ken.sloat@aampglobal.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR07MB5603
+X-MS-Exchange-CrossPremises-AuthAs: Internal
+X-MS-Exchange-CrossPremises-AuthMechanism: 04
+X-MS-Exchange-CrossPremises-AuthSource: BL0PR07MB4115.namprd07.prod.outlook.com
+X-MS-Exchange-CrossPremises-TransportTrafficType: Email
+X-MS-Exchange-CrossPremises-TransportTrafficSubType: 
+X-MS-Exchange-CrossPremises-SCL: 1
+X-MS-Exchange-CrossPremises-messagesource: StoreDriver
+X-MS-Exchange-CrossPremises-BCC: 
+X-MS-Exchange-CrossPremises-originalclientipaddress: 100.3.71.115
+X-MS-Exchange-CrossPremises-transporttraffictype: Email
+X-MS-Exchange-CrossPremises-transporttrafficsubtype: 
+X-MS-Exchange-CrossPremises-antispam-scancontext: DIR:Originating;SFV:NSPM;SKIP:0;
+X-MS-Exchange-CrossPremises-processed-by-journaling: Journal Agent
+X-OrganizationHeadersPreserved: BL0PR07MB5603.namprd07.prod.outlook.com
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Thanks, got it on my radar already since Feb 5:
+> -----Original Message-----
+> From: Ken Sloat
+> Sent: Wednesday, June 19, 2019 8:55 AM
+> To: dmitry.torokhov@gmail.com
+> Cc: Kasun Beddewela <KBeddewela@aampglobal.com>; linux-
+> input@vger.kernel.org; linux-kernel@vger.kernel.org; Ken Sloat
+> <KSloat@aampglobal.com>
+> Subject: input: Device Tree Properties for Captouch Button Device Registe=
+rs
+>=20
+> Hello Dmitry,
+>=20
+> We have a new input driver we are currently working on and would like to
+> submit
+> to the Linux kernel when we finish it. Specifically, this is a cap touch =
+IC which
+> implements potentially multiple individual proximity and cap touch button=
+s
+> (which
+> would be reported like key events as seems to be the standard). A couple =
+of
+> questions:
+>=20
+> 1. What is the preferred/proper method to expose the many registers that
+> these devices have via device tree?
+>=20
+> These devices have dozens of registers, many of which might be needed
+> depending
+> on the individual application. It wouldn't be useful in the majority of c=
+ases to
+> provide
+> default values in the driver as the registers are custom tuned to the
+> individual application.
+>=20
+> 2. Where should this device live? I am guessing in input/misc?
+>=20
+> Thanks,
+> Ken Sloat
 
-https://github.com/sriemer/fix-linux-mouse/issues/15#issuecomment-46071311=
-5
+CC'ing people from device tree mailing list since this discussion would be =
+relevant there as well, so the more generic question would be: For any devi=
+ce which requires multiple unique register configuration values per target =
+application - what is the preferred method to expose all these via devicetr=
+ee? Maybe there are some good examples of this already somewhere in the ker=
+nel drivers?
 
-If you see "Manufacturer: PixArt", then chances are high, that the
-device is affected. IMHO generic quirks like described in GitHub issue
-#20 would cover those easier.
-
-Acked-by: Sebastian Parschauer <s.parschauer@gmx.de>
-
-On 21.06.19 11:39, Oleksandr Natalenko wrote:
-> Erm. Cc: s.parschauer@gmx.de instead of inactive @suse address.
->
-> On Fri, Jun 21, 2019 at 11:17:36AM +0200, Oleksandr Natalenko wrote:
->> I've spotted another Chicony PixArt mouse in the wild, which requires
->> HID_QUIRK_ALWAYS_POLL quirk, otherwise it disconnects each minute.
->>
->> USB ID of this device is 0x04f2:0x0939.
->>
->> We've introduced quirks like this for other models before, so lets add
->> this mouse too.
->>
->> Link: https://github.com/sriemer/fix-linux-mouse#usb-mouse-disconnectsr=
-econnects-every-minute-on-linux
->> Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
->> ---
->>   drivers/hid/hid-ids.h    | 1 +
->>   drivers/hid/hid-quirks.c | 1 +
->>   2 files changed, 2 insertions(+)
->>
->> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
->> index eac0c54c5970..69f0553d9d95 100644
->> --- a/drivers/hid/hid-ids.h
->> +++ b/drivers/hid/hid-ids.h
->> @@ -269,6 +269,7 @@
->>   #define USB_DEVICE_ID_CHICONY_MULTI_TOUCH	0xb19d
->>   #define USB_DEVICE_ID_CHICONY_WIRELESS	0x0618
->>   #define USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE	0x1053
->> +#define USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE2	0x0939
->>   #define USB_DEVICE_ID_CHICONY_WIRELESS2	0x1123
->>   #define USB_DEVICE_ID_ASUS_AK1D		0x1125
->>   #define USB_DEVICE_ID_CHICONY_TOSHIBA_WT10A	0x1408
->> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
->> index e5ca6fe2ca57..671a285724f9 100644
->> --- a/drivers/hid/hid-quirks.c
->> +++ b/drivers/hid/hid-quirks.c
->> @@ -42,6 +42,7 @@ static const struct hid_device_id hid_quirks[] =3D {
->>   	{ HID_USB_DEVICE(USB_VENDOR_ID_ATEN, USB_DEVICE_ID_ATEN_UC100KM), HI=
-D_QUIRK_NOGET },
->>   	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_MULTI_=
-TOUCH), HID_QUIRK_MULTI_INPUT },
->>   	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_PIXART=
-_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
->> +	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_PIXART_=
-USB_OPTICAL_MOUSE2), HID_QUIRK_ALWAYS_POLL },
->>   	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_WIRELE=
-SS), HID_QUIRK_MULTI_INPUT },
->>   	{ HID_USB_DEVICE(USB_VENDOR_ID_CHIC, USB_DEVICE_ID_CHIC_GAMEPAD), HI=
-D_QUIRK_BADPAD },
->>   	{ HID_USB_DEVICE(USB_VENDOR_ID_CH, USB_DEVICE_ID_CH_3AXIS_5BUTTON_ST=
-ICK), HID_QUIRK_NOGET },
->> --
->> 2.22.0
->>
->
+Thanks,
+Ken Sloat
