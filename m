@@ -2,121 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DCD0D4F544
-	for <lists+linux-input@lfdr.de>; Sat, 22 Jun 2019 12:37:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 116CC4F6E0
+	for <lists+linux-input@lfdr.de>; Sat, 22 Jun 2019 18:28:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726138AbfFVKhW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 22 Jun 2019 06:37:22 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:36090 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726136AbfFVKhW (ORCPT
+        id S1726396AbfFVQ2w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 22 Jun 2019 12:28:52 -0400
+Received: from sonic301-3.consmr.mail.bf2.yahoo.com ([74.6.129.42]:40939 "EHLO
+        sonic301-3.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726386AbfFVQ2u (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 22 Jun 2019 06:37:22 -0400
-Received: by mail-pl1-f193.google.com with SMTP id k8so4229784plt.3;
-        Sat, 22 Jun 2019 03:37:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=k7WwvfoXcI9tUq1QBP5Qa53cchl1EqJ0ZRy8gPW9E2U=;
-        b=Qp+prU1Uyz7rNgMqX7M2/jSrk263qzuLkbqskPYzA09GNMAG73M84ZuQ09Xudui6oA
-         85VZY8BDvGieV/3z04BkofYhPzsgQDmo9EdkydCZuzwGf+PNgG8/NsRZ434YyTVLSk22
-         AKlihU4XZC7A5NXLs46BKA7brzaDSZotW7Km/h8fy4drxh0qx+hNV8aFjAEb31JMNMAT
-         0M9EQo1bI7x/dS9ubge6Q4rEllFZ2+/0/kqyP0LP5ttZeDbyOaQQpWyo8p0CV83u/Jdc
-         3BRnLQbwDaT63cfiLz6NWUgvdaljiFIuyUzUYy4HempKil6f645jvo4D5dibs6qbefrx
-         sOxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=k7WwvfoXcI9tUq1QBP5Qa53cchl1EqJ0ZRy8gPW9E2U=;
-        b=XEgAnTsfiR7yCWhmcz9mcchFx9G5X9YaDVvmEG/btO4/8SJRdnT00VJI7M4hX3v+l+
-         rKaF1bfL4D4N/ylO8tjDl79QIGcW7Xmtsd9S72hX4NLtob8ilsUYSDow7/cZ8W9PBI0F
-         1BtbiTC7pSfPDAwuMGY1L+9vbYtgCU2AbzhPf0PLtsLjj+Qnjvi4y3sB5AmF1o8WZaXq
-         8titS4tS6X9Jdu0kCNLreLvGAZFv4KpAPJABK2DH9BxzrMCyVqIcYwtcrRSjmry2e7UV
-         0S4X6tQPN75qASss7AzIYkK3oWaEasSS/DS6yauiizgLLys/OHDwxHFVO7HM58UsVh+N
-         /A3Q==
-X-Gm-Message-State: APjAAAVkjfe0sO39ARx22IDlZ3FMvmlQOk17Hf6L5YexLO+ZsIoQGWiy
-        tuKJXa/KcIm5mSKsntu+kKYUaOFGwp8X3Ca4E2EiE5Ar4d0=
-X-Google-Smtp-Source: APXvYqxDnivc13+v/PVx3hq9zSxPEhSaIol/UOLy7n6Cp7ndIlWq60PooDxABHP9fNxmpI0AoEgmdE8cD/sxRKzDfbA=
-X-Received: by 2002:a17:902:694a:: with SMTP id k10mr62666076plt.255.1561199841171;
- Sat, 22 Jun 2019 03:37:21 -0700 (PDT)
+        Sat, 22 Jun 2019 12:28:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1561220929; bh=3fXYToOZXvh5MOJ1JSawYDThjnynC/Ekt2gucIg6zZg=; h=Date:From:Reply-To:Subject:From:Subject; b=FwrBLUl7u665XwQeVPTq5hUQ4Ptv5qPcwgE0MfCyAxPjQW66W+sBKlTITy95Xiak8M/9mL3k87XvuhuNYmdzjOXFqAsXXJ7ZeR0tr0xQhaR4qpp9+I79zHB4JVXDeOtUnrv/ni1DEn3m49tSMIml9+1SbDvUcui/xLYzcB7mOtvlwJJC6bBkcbOwJW8drH7WnSKYQVlUvO9PRg8+IWYABo4m/HoTrmg3JSd7+tfq1bmdsTjreC9G6uwJClVG1p8XyGEOijmNqXv9Ivunj8UzUvxVldTIg/taTAKdSlSG3i+xbnz28LKLpxSK2+M63p52Vf+hNJ0OycyVj1TkO+H8OQ==
+X-YMail-OSG: BClZlNgVM1mJa1pSUAMlnjmDwJQUKDn0osVKNVIeZ6AC0JZQ8NzrV_.P2vPToBw
+ lk4l1yMYy0P1wu9iKWHPF1vwWtED.NCcY6jE.jXdELnZdUngnDzcX.f1Ik7TcPjN._6dUftCNvSG
+ 0ilPDIIh6JKut3rld3EDzfXqVTEprJFL10dLfXEmdNXy8_9HzWnLN9Uxxh6FWr8nj4DbExyF48M8
+ b8CzHn8AtWzh0fDjJqMRXb5UR1L1fHF.mq4wk_41bl8VHLLREhO8D9AiMB_Iou.TvP.xektI4Uzf
+ lBotEg54S8nbe5a5a2eamKaLSiD6XaCIzSQkrGwkgk9qzk7J4361PG1C2lAWhSULJjGYH.uKi9SH
+ 8omXh8MvwuZmVU7umqXbA4eIFWV8ruRR3qRFWtA.2B0Eer.D49EbNovsAu.wRPm8yYyL6YMdaoys
+ 3vYAkjype1yPgR0gHAH3zObnNPMrtMzQfsTzcaha59dNYsVWPRo5EvcFgAIKXVIUqnKnooWuODru
+ O4SgrdrM8PGEZGs5dJS.h.dJB3gwQ.0I1wf1Q_CLgJhbPMrumaMiWl3ifhN9G_CCxrGhRPRltqdB
+ RyAvAXGENXKEJswzM.sYWHkLQyblOWaGX5TLKzeDGaJCZVu7CtZvQ0aNcyWtqrf4SAtE7MK9SqUH
+ 7phABBxeBrGdyDkvdUQOX_EPh25.Hb3SncDKllMEIHjvEdwbQcMGmqMEDVCI8Jh0nfgpjh259ODl
+ q.bGW_sz63_QvjPWXygjUQ4RzfXiei1bHIkvbkPAHc04dS.Qr8LP1Jyxp2QD0wtNtJgo5RScK99X
+ P5NPqcNAR8eez8YgXpk3cKLQCR9JSylhL6QyUVACODhQSLMO_l73eEDpWzNQUeEQLrEwA53TFUO9
+ BXx4lR26gADp4OeWMANR3pTNDn8J7Oc5G1l.tF8AqVFtdsoB5vgCdw0tzoX9_22cJzNNteihaN9H
+ ktOSXaCeUY26x9DWNkYi7HTOCc9F4vHnioRwelB9Lv.KGDeGPUJBBPmfcn0xXC8MB2YTlUFeVHzN
+ FJsHhvFz9eJx.VwEAdhJs3DHW6xmbj9a_RSOf.BoLPiAvMAdoBe_1sVY8nFOqhuBwpkbj17TOzIW
+ ts0JEWafkyantIFw8kEnIr0AHDEAK4aB1fgOVS8TQpbEaj2tB4pKHPa4OOjXszQAPBozr7PYVj2f
+ 6AcwHFYhcmsrFfliX20p43dgFMRY8GMXgvUWeegBAeAuOTxCoUC9WvAdL
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.bf2.yahoo.com with HTTP; Sat, 22 Jun 2019 16:28:49 +0000
+Date:   Sat, 22 Jun 2019 16:28:46 +0000 (UTC)
+From:   "Miss.Fatima Yusuf" <fatimayusuf5@outlook.fr>
+Reply-To: miss.fmayusuf11@gmail.com
+Message-ID: <270302503.296556.1561220926635@mail.yahoo.com>
+Subject: From:Miss: Fatima Yusuf.
 MIME-Version: 1.0
-References: <20190621185124.28966-1-bparrot@ti.com>
-In-Reply-To: <20190621185124.28966-1-bparrot@ti.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 22 Jun 2019 13:37:10 +0300
-Message-ID: <CAHp75VdcAfmn8u0du-Y95SjMcmuJa2402tdXCNHMcme1Y925xg@mail.gmail.com>
-Subject: Re: [Patch 1/1] Input: edt-ft5x06 - disable irq handling during suspend
-To:     Benoit Parrot <bparrot@ti.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jun 21, 2019 at 9:53 PM Benoit Parrot <bparrot@ti.com> wrote:
->
-> As a wakeup source when the system is in suspend there is little point
-> trying to access a register across the i2c bus as it is probably still
-> inactive. We need to prevent the irq handler from being called during
-> suspend.
->
-
-Hmm... But how OS will know what the event to handle afterwards?
-I mean shouldn't we guarantee somehow the delivery of the event to the
-input, in this case, subsystem followed by corresponding user space?
-
-> Without this modification upon wakeup you would see the following kernel
-> error:
->
-> [ 118.733717] PM: Wakeup source GPIO0
-> [ 118.751933] edt_ft5x06 1-0038: Unable to fetch data, error: -13
->
-> Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> ---
->  drivers/input/touchscreen/edt-ft5x06.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-> index c639ebce914c..c885bfe783a4 100644
-> --- a/drivers/input/touchscreen/edt-ft5x06.c
-> +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> @@ -1200,8 +1200,10 @@ static int __maybe_unused edt_ft5x06_ts_suspend(struct device *dev)
->  {
->         struct i2c_client *client = to_i2c_client(dev);
->
-> -       if (device_may_wakeup(dev))
-> +       if (device_may_wakeup(dev)) {
->                 enable_irq_wake(client->irq);
-> +               disable_irq(client->irq);
-> +       }
->
->         return 0;
->  }
-> @@ -1210,8 +1212,10 @@ static int __maybe_unused edt_ft5x06_ts_resume(struct device *dev)
->  {
->         struct i2c_client *client = to_i2c_client(dev);
->
-> -       if (device_may_wakeup(dev))
-> +       if (device_may_wakeup(dev)) {
->                 disable_irq_wake(client->irq);
-> +               enable_irq(client->irq);
-> +       }
->
->         return 0;
->  }
-> --
-> 2.17.1
->
 
 
--- 
-With Best Regards,
-Andy Shevchenko
+From:Miss: Fatima Yusuf.
+
+For sure this mail would definitely come to you as a surprise, but do take your good time to go through it, My name is Ms. Fatima Yusuf,i am from Ivory Coast.
+
+I lost my parents a year and couple of months ago. My father was a serving director of the Agro-exporting board until his death. He was assassinated by his business partners.Before his death, he made a deposit of US$9.7 Million Dollars here in Cote d'ivoire which was for the purchase of cocoa processing machine and development of another factory before his untimely death.
+
+Being that this part of the world experiences political and crises time without number, there is no guarantee of lives and properties. I cannot invest this money here any long, despite the fact it had been my late father's industrial plans.
+
+I want you to do me a favor to receive this funds into your country or any safer place as the beneficiary, I have plans to invest this money in continuation with the investment vision of my late father, but not in this place again rather in your country. I have the vision of going into real estate and industrial production or any profitable business venture.
+
+I will be ready to compensate you with 20% of the total Amount, now all my hope is banked on you and i really wants to invest this money in your country, where there is stability of Government, political and economic welfare.
+
+My greatest worry now is how to move out of this country because my uncle is threatening to kill me as he killed my father,Please do not let anybody hear about this, it is between me and you alone because of my security reason.
+
+I am waiting to hear from you.
+Yours Sincerely,
+Miss.Fatima Yusuf.
