@@ -2,72 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 704084FBA1
-	for <lists+linux-input@lfdr.de>; Sun, 23 Jun 2019 14:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 541EA50008
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2019 05:08:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726386AbfFWMhv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Jun 2019 08:37:51 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:37743 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726086AbfFWMhv (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Jun 2019 08:37:51 -0400
-Received: by mail-ot1-f68.google.com with SMTP id s20so10840172otp.4
-        for <linux-input@vger.kernel.org>; Sun, 23 Jun 2019 05:37:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=9KSJX6DLe5SCnHV0DTLa1uLEp7ZU6ZPGnoI2zUunuoY=;
-        b=vgOELRDadVR75u9UbBeRG0t6yjBewZOJnjDnQmCcEpt+ojve2/J17BJHhTSOakKP91
-         IzyvAPGlEzrMzCFph11JiMo6ogkB5m1xYqfCJ6BsBseUNlocI7Z8WRkiW+mn89m+lk7u
-         70pWXKvaUBJSMyL1v0hjXkm8ja0gHzB+rv39V1vspWSORl/fvOrwgvGOmr9YEFjzaVM9
-         yeAI2KIK6wYFckWzaU2yx3XuhM1PBxZrPn3wDshKzeUsJzbPWG8BFgAPpLOSc5CAoBZK
-         RSKAo5vz6zhX+Dr3kpv0hBnGPMArkdK+PBXEM0D/J3nuauMsSHe0kBdJrQIdUD119Wfi
-         z60w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=9KSJX6DLe5SCnHV0DTLa1uLEp7ZU6ZPGnoI2zUunuoY=;
-        b=ASR0FlcCCCWdXUJdiCMVGD8wd4qjVhKIu04rSGXSpzlAF3U7fe/1WfABm+ce1F4915
-         oAC9ivTVxn5PKqpQL8jlmptV5gLojkRZe4mK6HrCHq2prjtHWpaaOC6vl72lqQzY0W3/
-         XvxKL40c0bumtZ3u4V6ouBQP8s6MFmHa3a5doSRJgJQ9A62+tJLIb+QvDuQ78Tfye1TC
-         imCT2P/wUwA1EvbybIWcLn6GRXnp7q77x7HnBQKnfYg6fEz/utNd5K0spqLgQPwVGk8b
-         ipK83kPcwSz9PQqdsnoZm51KZiEaFgPVMuXdcA8opQlrViJCGHkEqVBddVp0bBtrH0EH
-         1vRw==
-X-Gm-Message-State: APjAAAWq6ynZThD2KpUMoRtRCsdD4gIX5X2GoHhZoyZH1dr8i2TayzQA
-        8codladUipQwApWatnDKphFGB0LPkA0h4i3DVXY=
-X-Google-Smtp-Source: APXvYqylcDA4LS4+qFlTTbWxdkQqDna5/2nFEFNNqcoh6OcOp1e++cA6FDmdDQrQLzuH4nTl+Z7cDS75cFd3f6UX4DI=
-X-Received: by 2002:a9d:2c26:: with SMTP id f35mr84616981otb.362.1561293471058;
- Sun, 23 Jun 2019 05:37:51 -0700 (PDT)
+        id S1726980AbfFXDIe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 23 Jun 2019 23:08:34 -0400
+Received: from puleglot.ru ([195.201.32.202]:57094 "EHLO puleglot.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726858AbfFXDIe (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 23 Jun 2019 23:08:34 -0400
+X-Greylist: delayed 4500 seconds by postgrey-1.27 at vger.kernel.org; Sun, 23 Jun 2019 23:08:33 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
+        s=mymail; h=Sender:Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
+        Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=7gzZRVZMPxrYEi8p0WnYNZ3kUBTmNCNosDX5es9YDxw=; b=DlU/4SISOPzAAz1iUF9i0lhtfR
+        23IYUA5n6xmWF8nUlXgDm7QrC55EbppjloG7jdzu9qPFpG6Wdh+eBGkDAqszt+lTv8GKb1+ML8RPw
+        gmt1kON+kZ0vqoYxgdRRTXesPxFBgLq27Xv3CkDXcLhJmrYlKZYDuvT1Fm7EYoKOVtq8=;
+Received: from [2a00:1370:8125:470f:6c77:37a5:dd3b:d396] (helo=home.puleglot.ru)
+        by puleglot.ru with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <puleglot@puleglot.ru>)
+        id 1hfCAN-0002YE-RM; Mon, 24 Jun 2019 02:44:59 +0300
+From:   Alexander Tsoy <alexander@tsoy.me>
+To:     linux-input@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thomas Hellstrom <thellstrom@vmware.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: joydev - extend absolute mouse detection
+Date:   Mon, 24 Jun 2019 02:44:56 +0300
+Message-Id: <20190623234456.4074-1-alexander@tsoy.me>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Received: by 2002:a4a:a493:0:0:0:0:0 with HTTP; Sun, 23 Jun 2019 05:37:50
- -0700 (PDT)
-From:   Liz Johnson <lizj6718@gmail.com>
-Date:   Sun, 23 Jun 2019 12:37:50 +0000
-X-Google-Sender-Auth: V6udWDhvABlKKfJGB-eFUHvbdSY
-Message-ID: <CAPLmaW3UEMWnfQQoOuqzaxZq=FzWKyFYDFCMURXLOs+DeZ55pQ@mail.gmail.com>
-Subject: Hi Dear !
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dear !
+Extend event signature matching to catch more input devices emulated by
+BMC firmwares, QEMU and VMware.
 
-How are you doing today,hope fine,My name is Liz and i am a girl am 24
-years old I saw your contact email today and decided to extend my
-greetings to you, But I do have the mind that you could be a nice
-person is my believe and there are nice people out there who can
-appreciate the value of friendship, and i will like to be your friend
-even more than that,but as time goes on we will know better.
+Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+---
+ drivers/input/joydev.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
-I will be very glad if you can contact me through my email address,
-and i will tell you more about myself here is my adress(
-lizj6718@gmail.com )
-Remember the distance,color or age does not matter but love matters a
-lot in life.
-I am waiting for your reply,
-Liz.
+diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
+index ac21c050fdb0..a2b5fbba2d3b 100644
+--- a/drivers/input/joydev.c
++++ b/drivers/input/joydev.c
+@@ -808,6 +808,7 @@ static bool joydev_dev_is_blacklisted(struct input_dev *dev)
+ static bool joydev_dev_is_absolute_mouse(struct input_dev *dev)
+ {
+ 	DECLARE_BITMAP(jd_scratch, KEY_CNT);
++	bool ev_match = false;
+ 
+ 	BUILD_BUG_ON(ABS_CNT > KEY_CNT || EV_CNT > KEY_CNT);
+ 
+@@ -826,17 +827,36 @@ static bool joydev_dev_is_absolute_mouse(struct input_dev *dev)
+ 	 * considered to be an absolute mouse if the following is
+ 	 * true:
+ 	 *
+-	 * 1) Event types are exactly EV_ABS, EV_KEY and EV_SYN.
++	 * 1) Event types are exactly
++	 *      EV_ABS, EV_KEY and EV_SYN
++	 *    or
++	 *      EV_ABS, EV_KEY, EV_SYN and EV_MSC
++	 *    or
++	 *      EV_ABS, EV_KEY, EV_SYN, EV_MSC and EV_REL.
+ 	 * 2) Absolute events are exactly ABS_X and ABS_Y.
+ 	 * 3) Keys are exactly BTN_LEFT, BTN_RIGHT and BTN_MIDDLE.
+ 	 * 4) Device is not on "Amiga" bus.
+ 	 */
+ 
+ 	bitmap_zero(jd_scratch, EV_CNT);
++	/* VMware VMMouse, HP ILO2 */
+ 	__set_bit(EV_ABS, jd_scratch);
+ 	__set_bit(EV_KEY, jd_scratch);
+ 	__set_bit(EV_SYN, jd_scratch);
+-	if (!bitmap_equal(jd_scratch, dev->evbit, EV_CNT))
++	if (bitmap_equal(jd_scratch, dev->evbit, EV_CNT))
++		ev_match = true;
++
++	/* HP ILO2, AMI BMC firmware */
++	__set_bit(EV_MSC, jd_scratch);
++	if (bitmap_equal(jd_scratch, dev->evbit, EV_CNT))
++		ev_match = true;
++
++	/* VMware Virtual USB Mouse, QEMU USB Tablet, ATEN BMC firmware */
++	__set_bit(EV_REL, jd_scratch);
++	if (bitmap_equal(jd_scratch, dev->evbit, EV_CNT))
++		ev_match = true;
++
++	if (!ev_match)
+ 		return false;
+ 
+ 	bitmap_zero(jd_scratch, ABS_CNT);
+-- 
+2.21.0
+
