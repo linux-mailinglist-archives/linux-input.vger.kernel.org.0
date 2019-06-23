@@ -2,85 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A1D24FA7B
-	for <lists+linux-input@lfdr.de>; Sun, 23 Jun 2019 08:20:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2667A4FA82
+	for <lists+linux-input@lfdr.de>; Sun, 23 Jun 2019 08:31:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726050AbfFWGUE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Jun 2019 02:20:04 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:36563 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725268AbfFWGUD (ORCPT
+        id S1726393AbfFWGb6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 23 Jun 2019 02:31:58 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:40716 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725268AbfFWGb6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Jun 2019 02:20:03 -0400
-Received: by mail-pg1-f196.google.com with SMTP id f21so5377289pgi.3;
-        Sat, 22 Jun 2019 23:20:03 -0700 (PDT)
+        Sun, 23 Jun 2019 02:31:58 -0400
+Received: by mail-pf1-f194.google.com with SMTP id p184so5682087pfp.7;
+        Sat, 22 Jun 2019 23:31:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=9mpCqrfelo6ivquuYH6Epll54kxr4fDopqaPM+KB73k=;
-        b=GjowxUFQ7hLaKNIKBcKBbwUlvOyGLvAxlsVjUwdrofHopuEPo+a1UkhztXW44sqgZh
-         YRZKZ4lngUtqadckqRzHd1p99LYjwfpPfivMkXf8tjS41D1FlG/ZEeUWM8t8Xf+hTjIx
-         N1lKhW3Wc9EAGQ9dFVq1MuLaZDmVtz9IkjWBe1N83PSmIbbtfw/+e0DfBp2886olDpLa
-         9fxrtUKEoKB+trUP2fHwOxcy8k7iV/xWRxfWrvn2y+xUYX7Q2hRYF4eUTYj+dcwtMEYq
-         9IMEsFBmD+xGOr4V52DKHrrRW9ivLZzuBc5G61dLPQHnTIzplPQtOxOXgsz4WrtgiiXU
-         804g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fsg8cr6mQhG4dr4Q+MgsY02WFUAFbTzHhAJKafUHVk8=;
+        b=gniVCEkPm4LEUka8nJ29vElgDkZcMqC4EOmP3aeKTmveRGjR0Lutyl4XrMsdhNIDgn
+         hxiWjx5yjx7oiQbzVAo9PHx+79oL4xshXZZF50Cje+2YpaX5ukBw4YNwnUFbgwdm+JkI
+         mIDeuxtANkZxG8KeVGNq7JK8WCUYXqnIFUXCP1jjs1NTt9QrSf/06CRMKWelcp+I+Klq
+         1BQy7TBONOvHAG6hghzCDY9FGki53333908D2j5WlQBNX1Oq1fZUCRK3AXZEX4aVfuah
+         MmjSTpYsqWPOCLyT019yED2bAKARwHMxUBijVAy/nZbPOAknRbepLGgqVZrVTGPbxkwl
+         EcXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9mpCqrfelo6ivquuYH6Epll54kxr4fDopqaPM+KB73k=;
-        b=sqxGVIeiE4tNWMH5FgwxmrYXumE+Rve0YsMEsHC86pm2F1+XMLpZiMocGOQwJT+i84
-         L3XnDE9e66Z1dAQTWPnsGcxSVYDVuDbJSjAVnHq6otMbta7HEXtCF0RubZw1hm1pwz0f
-         ggdkkQqMWFbt/i5O+OawcanTNq4hb+As/5/gEk/bgiu5dIWfcjnUhe6jYLnDyn/v3WFF
-         EsSN2pEQiZPS++obiBPYBwUAsQX+GbzAVPrWXh03LR9SFvbgL+74/p2hr43ceJlswk6M
-         0xMcQ7cXKuDtWyKz6h6uv72Kk3xgpvdTY2I09cl28vEewSPOc04lHv66NMZlYgfG6UaC
-         6NZg==
-X-Gm-Message-State: APjAAAUejIRXFBrFty/TysuNEbvbZTcryhMvIgXI9NhyZJvIaBgOPJ/y
-        isk2hBaa6xo0G1YAhI7QWxFk2Omn
-X-Google-Smtp-Source: APXvYqxqBjv4+ha3Zmefe6KLGx/lx639gdMDP84kzUmCaXXSDPbDyQbP9a2WhTXO6Rx/bexVWBcWHA==
-X-Received: by 2002:a65:6241:: with SMTP id q1mr26168583pgv.24.1561270802696;
-        Sat, 22 Jun 2019 23:20:02 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id cx22sm8104481pjb.25.2019.06.22.23.20.01
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fsg8cr6mQhG4dr4Q+MgsY02WFUAFbTzHhAJKafUHVk8=;
+        b=S5p9R9f411AphC+sQeT1ZqaHF8gvLkPYXhauCUlo6D26S8BP5n5cCtyyg3ZC3EF5n8
+         gyk6xcBe5aSr/OwMm+hyvP4kLI1cJ/3y3tArEGVLMXoxoRo7V1igSYX+J2q6qIjv+MwH
+         OraUurjyTBRIup8IWPCVyv3vz3KJhgGM1rP1Nwh0j84D5faO0vG+zN6AutujDclMGDoW
+         plXKqQGzI2jyaNkdbeVJjvm2cZU77Xqh3zLrw1HIgvVBmRB+W6FVhHGfKXObSIY0gzxy
+         0KUy/eXeHm5YtZhPFHaOo7iSZ7A4oIn8/E+rtD/ek0WIm/slNufuruKvWJy0Dvl+tA1k
+         RefQ==
+X-Gm-Message-State: APjAAAUTTEPJiL15wvlcFR66AzhLSVBjpB82are/tjL7RG5hd1LHxxBw
+        uy3t7mKHD1g9v8h6PS3i54D2Ohan
+X-Google-Smtp-Source: APXvYqz6h+hZLJW9UhIbHs1/trA9Zst1/9rrU+BmQ7fHvjNz1mNogcFapHDpS4JuL+QeM/wlmqF5Hw==
+X-Received: by 2002:a17:90a:b387:: with SMTP id e7mr17557873pjr.113.1561271516593;
+        Sat, 22 Jun 2019 23:31:56 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id i14sm10421411pfk.0.2019.06.22.23.31.55
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sat, 22 Jun 2019 23:20:01 -0700 (PDT)
-Date:   Sat, 22 Jun 2019 23:20:00 -0700
+        Sat, 22 Jun 2019 23:31:55 -0700 (PDT)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
-        benjamin.tissoires@redhat.com
-Cc:     benjamin.tissoires@redhat.com, jikos@kernel.org,
-        hdegoede@redhat.com, bjorn.andersson@linaro.org, agross@kernel.org,
-        lee.jones@linaro.org, xnox@ubuntu.com, robh+dt@kernel.org,
-        mark.rutland@arm.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 1/5] Input: elan_i2c: Export the device id whitelist
-Message-ID: <20190623062000.GB204275@dtor-ws>
-References: <20190621144854.38568-1-jeffrey.l.hugo@gmail.com>
- <20190621145042.38637-1-jeffrey.l.hugo@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Benoit Parrot <bparrot@ti.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] Input: edt-ft5x06 - use get_unaligned_be16()
+Date:   Sat, 22 Jun 2019 23:31:52 -0700
+Message-Id: <20190623063153.261546-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190621145042.38637-1-jeffrey.l.hugo@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jun 21, 2019 at 07:50:42AM -0700, Jeffrey Hugo wrote:
-> Elan_i2c and hid-quirks work in conjunction to decide which devices each
-> driver will handle.  Elan_i2c has a whitelist of devices that should be
-> consumed by hid-quirks so that there is one master list of devices to
-> handoff between the drivers.  Put the ids in a header file so that
-> hid-quirks can consume it instead of duplicating the list.
-> 
-> Signed-off-by: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Instead of doing conversion by hand, let's use the proper accessors.
 
-Benjamin, are you happy with this version?
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/touchscreen/edt-ft5x06.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Thanks.
-
+diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+index c639ebce914c..ec770226e119 100644
+--- a/drivers/input/touchscreen/edt-ft5x06.c
++++ b/drivers/input/touchscreen/edt-ft5x06.c
+@@ -27,6 +27,7 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/input/mt.h>
+ #include <linux/input/touchscreen.h>
++#include <asm/unaligned.h>
+ 
+ #define WORK_REGISTER_THRESHOLD		0x00
+ #define WORK_REGISTER_REPORT_RATE	0x08
+@@ -239,8 +240,8 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void *dev_id)
+ 		if (tsdata->version == EDT_M06 && type == TOUCH_EVENT_DOWN)
+ 			continue;
+ 
+-		x = ((buf[0] << 8) | buf[1]) & 0x0fff;
+-		y = ((buf[2] << 8) | buf[3]) & 0x0fff;
++		x = get_unaligned_be16(buf) & 0x0fff;
++		y = get_unaligned_be16(buf + 2) & 0x0fff;
+ 		/* The FT5x26 send the y coordinate first */
+ 		if (tsdata->version == EV_FT)
+ 			swap(x, y);
 -- 
-Dmitry
+2.22.0.410.gd8fdbe21b5-goog
+
