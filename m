@@ -2,107 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DC144FA8C
-	for <lists+linux-input@lfdr.de>; Sun, 23 Jun 2019 09:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47E2C4FA93
+	for <lists+linux-input@lfdr.de>; Sun, 23 Jun 2019 09:05:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726050AbfFWHCw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Jun 2019 03:02:52 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:36425 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725268AbfFWHCw (ORCPT
+        id S1726437AbfFWHFH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 23 Jun 2019 03:05:07 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:43428 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725268AbfFWHFH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Jun 2019 03:02:52 -0400
-Received: by mail-pg1-f195.google.com with SMTP id f21so5400370pgi.3;
-        Sun, 23 Jun 2019 00:02:52 -0700 (PDT)
+        Sun, 23 Jun 2019 03:05:07 -0400
+Received: by mail-pl1-f195.google.com with SMTP id cl9so5063324plb.10;
+        Sun, 23 Jun 2019 00:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=+lsxWwYMTDZ/8niyjvkYyNKECPnsLXZWoUHb7zKfR/A=;
-        b=S0F9y0Eu8oh5fhW8NFNWHy+aioK8pXr8y9WSeQ5O2ESquJvM/4FPovntXzU0d0iiuu
-         2FgzqN51FY/WzM5ShIXbvxI613tK9yPYdScR1CfpOzcAK922V6urAbtFv+R8aEcROwQE
-         /VJyw6UvblRPZw8YrUmgR/y2NIdKJ3p7s9EcM3IyB1AgsQk4ec/X4U4VXfDBMtxKZ9bf
-         cXs29UomBSQqKbkNN2bylU9X4k680/+2VuYP689croXSShiBv8jgzPN0eVfrB9oLHVFA
-         2jnp25uTt0HIGTh0efyn7QDtW8JSzN07mMq01GYZLFzgCpEl1FNb5Sd79RZNN//W0hSK
-         vuyw==
+        bh=ZnpCzo1NN9Md21LN3g8I3RIF4YViSRZP0r1Fx0SQ3qk=;
+        b=jVEMmNei2LTirlxL0/IDX1B3y5pJJgi02yOX+2LKm83WV7r/qkwpHhzsDVlt4MlfsL
+         gLxlBAYRm+LmbywgT2m3fCT+OqBuWeB+gJkMIzbzVFjwonTWm6SkxDbPTvzik5qSEMcf
+         6YhwtJvv4gbVrCgwyAnBF4lfyoP9q0K6iR3ZxCNmHI0Ol0JEMSKrjAMIN6IfRCTiDwlX
+         nVvzAqTzJKhY1fEuS5XoSJ4zXZ+AhVTsyEcxyrttBWrLd+3N7E7fyjEOfs/kgpdX4iTn
+         ATpJlGA9iUR5jEJH8YgnCDaegvA6JtGOtXf1KuJeNAcui2MavguwTGnANMGl8+RC4thq
+         62cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=+lsxWwYMTDZ/8niyjvkYyNKECPnsLXZWoUHb7zKfR/A=;
-        b=trmX6hj/CJut1c1TcQja4yI/6nBYJmla1jgMVFZ/wTlR9x9bveLgNDxuOEAhDt5vXJ
-         0Ua++2S4irpOBu6JD9ffh020UILRMEJidlrVSKLPguhkk3lNdxckNM9EsCppJ2a+vkjo
-         0cZtLkvwToZ4Tw3rK3ln3yZmYW++YQ/as4CFhtgvW42Bu68h3OSP92xWMlZ4hXa618dQ
-         6B5TojfLElsqw1UJOI4yJvEwDrACu418o6Ep8oXl+ecJMcZlF+G78FJSBiGsrfpgIIfq
-         dpkCY3SiS54gv37DglBgj5pyeGxRUAf8bLtKbJFyc2xIpyE1wNfHbkUPoEl9lCYG0G53
-         0igw==
-X-Gm-Message-State: APjAAAVRu/tvKXzspwNxFGALTff/sPOsQ3YQrzIbZf5I3L3R/QUBBmhW
-        Nrscz9Cz9IdP/WMurt3eDrvnHBF9
-X-Google-Smtp-Source: APXvYqyfKcWx/YzKALeB3aza/MmeQhjboZJyLpGKhsLzbTmIuW6eEYytA7EIDWvj6slAscRow2+yhA==
-X-Received: by 2002:a63:dc09:: with SMTP id s9mr27194667pgg.425.1561273371482;
-        Sun, 23 Jun 2019 00:02:51 -0700 (PDT)
+        bh=ZnpCzo1NN9Md21LN3g8I3RIF4YViSRZP0r1Fx0SQ3qk=;
+        b=hyny7k3MKC/spKyzNAkI7RSis1jFpuH7rLcWXksLjTz7Z6dE2UKW0/rddlVKc2Y/4u
+         /K+hzZtb4fc7jZjOJSl5RZpeUTu/hlurCPwurArwb2q68+UDWO76gz7tzHXGcOfZ0WR1
+         gB+CgJa2aImUpXmK0+5+Yy29BuZ/RLDeoPSFHndTbhrNz3ai3JELQlxp8JJO1f1S49Oe
+         Ycfg6aB/YhMiamV3BGLo6xq0q2Mxeef3gq1r4bFNcA8tbuRRE3Y1IdwlfEFCfv5m6zZv
+         cPnNwb2dnxLpHeLmZl+bW7dW16ePGIVQYTM/fGndglTuWfMLImBZ9ogdJSJK7T2TBLZf
+         tU7g==
+X-Gm-Message-State: APjAAAXGOipPiJaAwuhkjA8gDr2rMDNO6I/pIuuBNNWoaYcXaZ8sTpEL
+        t/gZnPJCCTqNGBH6ZhoQdto=
+X-Google-Smtp-Source: APXvYqw98NyNvej0S/JhvdpiCIMWy/Pmnw7NdOwIaICwB1nXmuJIZDwQ+TpJs8zZzwVw2jutwskfnw==
+X-Received: by 2002:a17:902:2a26:: with SMTP id i35mr101268234plb.315.1561273506124;
+        Sun, 23 Jun 2019 00:05:06 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id u5sm6891502pgp.19.2019.06.23.00.02.50
+        by smtp.gmail.com with ESMTPSA id r1sm7040201pji.15.2019.06.23.00.05.05
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 23 Jun 2019 00:02:50 -0700 (PDT)
-Date:   Sun, 23 Jun 2019 00:02:49 -0700
+        Sun, 23 Jun 2019 00:05:05 -0700 (PDT)
+Date:   Sun, 23 Jun 2019 00:05:04 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "luhua.xu" <luhua.xu@mediatek.com>
-Cc:     Rob Herring <robh@kernel.org>, Marek Vasut <marex@denx.de>,
-        Nick Dyer <nick.dyer@itdev.co.uk>,
-        Richard Leitner <richard.leitner@skidata.com>,
-        Martin Kepplinger <martink@posteo.de>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        weiqi.fu@mediatek.com, wsd_upstream@mediatek.com
-Subject: Re: Kernel touch Kconfig consult
-Message-ID: <20190623070249.GD204275@dtor-ws>
-References: <1560509239.24963.25.camel@mbjsdccf07>
+To:     Maxime Ripard <maxime.ripard@bootlin.com>
+Cc:     =?iso-8859-1?Q?Myl=E8ne?= Josserand 
+        <mylene.josserand@bootlin.com>, robh+dt@kernel.org,
+        mark.rutland@arm.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        thomas.petazzoni@bootlin.com
+Subject: Re: [PATCH v1] Input: rotary-encoder - Add gpio as push button
+Message-ID: <20190623070504.GE204275@dtor-ws>
+References: <20190614133651.28396-1-mylene.josserand@bootlin.com>
+ <20190614145158.ic5n4jauzigvcpru@flea>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1560509239.24963.25.camel@mbjsdccf07>
+In-Reply-To: <20190614145158.ic5n4jauzigvcpru@flea>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Fri, Jun 14, 2019 at 04:51:58PM +0200, Maxime Ripard wrote:
+> Hi Mylene,
+> 
+> On Fri, Jun 14, 2019 at 03:36:51PM +0200, Mylène Josserand wrote:
+> > Add the support of a gpio that can be defined as a push button.
+> > Thanks to that, it is possible to emit a keycode in case of a
+> > "push" event, if the rotary supports that.
+> >
+> > The keycode to emit is defined using "linux,code" property
+> > (such as in gpio-keys).
+> >
+> > Signed-off-by: Mylène Josserand <mylene.josserand@bootlin.com>
+> > ---
+> >  .../devicetree/bindings/input/rotary-encoder.txt   |  5 +++
+> >  drivers/input/misc/rotary_encoder.c                | 50 ++++++++++++++++++++++
+> >  2 files changed, 55 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/input/rotary-encoder.txt b/Documentation/devicetree/bindings/input/rotary-encoder.txt
+> > index a644408b33b8..1cfce5d0b5c4 100644
+> > --- a/Documentation/devicetree/bindings/input/rotary-encoder.txt
+> > +++ b/Documentation/devicetree/bindings/input/rotary-encoder.txt
+> > @@ -22,6 +22,9 @@ Optional properties:
+> >  - wakeup-source: Boolean, rotary encoder can wake up the system.
+> >  - rotary-encoder,encoding: String, the method used to encode steps.
+> >    Supported are "gray" (the default and more common) and "binary".
+> > +- push-gpio: a gpio to be used as a detection of a push from the rotary.
+> 
+> According to Documentation/devicetree/bindings/gpio/gpio.txt, GPIO
+> properties with a -gpio suffix are now deprecated in favor of the
+> -gpios suffix.
+> 
+> > +- linux,code: keycode to emit with the push-gpio of this rotary encoder.
+> > +  Required property in case "push-gpio"'s one is used.
+> 
+> I guess we should make it clear in the property name that it's the
+> keycode emitted at push. Otherwise, it will be ambiguous between the
+> rotary itself, or the button.
 
-On Fri, Jun 14, 2019 at 06:47:19AM -0400, luhua.xu wrote:
-> Hi Dmitry,Rob,Marek, Nick,Richard,Martin,
-> 
-> In our  customer support experience, many smartphone have two or three
-> touch vendor mixture , and customer use one load to support all touches.
-> For easy to config touch driver  we use kernel config like this down
-> below,
->  
-> We change the config type from 'bool' to 'string'.
->  
-> config TOUCHSCREEN_MTK_TOUCH
->   string "Touch IC name for Mediatek package"
->   help
->     Set touch IC name if you have touch panel.
->     To compile this dirver for used touch IC.
->  
-> 
-> And we config touch driver like thisï¼š
-> CONFIG_TOUCHSCREEN_MTK_TOUCH="GT9886 GT1151 TD4320"
->  
-> I only use one config to support  3 touches, while we have to use 3
-> config to support 3  touch drivers if we set the config as 'bool'.
-> 
-> So can I use Kconfig like this?
-> I do look forward to receiving your reply at your convenience .
-> 
-
-I really do not see why having a sting is easier to have than 3 bools,
-especially if they pertain to different touch controllers. You must also
-have some custom processing of the config above as I am pretty sure our
-standard build tools would not work for it.
+Also, I am pretty sure someone will come up with a switch instead of a
+button shortly after ;) so I think we should have an event type there as
+well.
 
 Thanks.
 
