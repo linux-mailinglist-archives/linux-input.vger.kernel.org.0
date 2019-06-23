@@ -2,105 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 541EA50008
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2019 05:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF31B4FF17
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2019 04:08:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726980AbfFXDIe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Jun 2019 23:08:34 -0400
-Received: from puleglot.ru ([195.201.32.202]:57094 "EHLO puleglot.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726858AbfFXDIe (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Jun 2019 23:08:34 -0400
-X-Greylist: delayed 4500 seconds by postgrey-1.27 at vger.kernel.org; Sun, 23 Jun 2019 23:08:33 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
-        s=mymail; h=Sender:Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
-        Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=7gzZRVZMPxrYEi8p0WnYNZ3kUBTmNCNosDX5es9YDxw=; b=DlU/4SISOPzAAz1iUF9i0lhtfR
-        23IYUA5n6xmWF8nUlXgDm7QrC55EbppjloG7jdzu9qPFpG6Wdh+eBGkDAqszt+lTv8GKb1+ML8RPw
-        gmt1kON+kZ0vqoYxgdRRTXesPxFBgLq27Xv3CkDXcLhJmrYlKZYDuvT1Fm7EYoKOVtq8=;
-Received: from [2a00:1370:8125:470f:6c77:37a5:dd3b:d396] (helo=home.puleglot.ru)
-        by puleglot.ru with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <puleglot@puleglot.ru>)
-        id 1hfCAN-0002YE-RM; Mon, 24 Jun 2019 02:44:59 +0300
-From:   Alexander Tsoy <alexander@tsoy.me>
-To:     linux-input@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thomas Hellstrom <thellstrom@vmware.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: joydev - extend absolute mouse detection
-Date:   Mon, 24 Jun 2019 02:44:56 +0300
-Message-Id: <20190623234456.4074-1-alexander@tsoy.me>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726873AbfFXCIl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 23 Jun 2019 22:08:41 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:38482 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726328AbfFXCIl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 23 Jun 2019 22:08:41 -0400
+Received: by mail-pl1-f193.google.com with SMTP id g4so5955803plb.5
+        for <linux-input@vger.kernel.org>; Sun, 23 Jun 2019 19:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=+uWzbOBUrw1HiIIOTY4yflDE1EsmIUcZxX/Mjr4AFa8=;
+        b=Xo25iUaZSWGIZzxwsvlGdSbiYO16u5jp9akjUCbaRsb02vS9G19gtVfj2ib5LhLDnT
+         UOiAYjI+tKtXCEa9nO+Bb1Hz8020x/+wa8PVDDRZxf1U/LI2MJMM2SN0YonWTSbN6PGI
+         t6N3nvz9mA4B9OKsmZOfFUDdBE4zOR708i5oti7zruFRYRV82a6F+bUyBzOX9eeOGMhR
+         FvYCrszlvBCF3d6laN2AZjrnmKSMNr6IVnZjRjovtw1lDvk/A+dW5J5Bht+VEeaMky15
+         /fLzAfBmOZGaVwUd3ikOb0VrcydrqMJQqMBiMXznKuqL+x/LOWFCQSyPC5opse9qjQ9z
+         jIgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=+uWzbOBUrw1HiIIOTY4yflDE1EsmIUcZxX/Mjr4AFa8=;
+        b=Ub57NrEDQwXY1g06YqNZhjKi8418DPcMN68+9Rxf0t/TmQwXb/bJg1K7c6qM8zZaVI
+         gCgPW9NVomlLFG0C/XYqJUFZfKoqETV3GlENANKcW/TIQaVh2nRc/GG5FZbMcrKav3vD
+         tBBQHHFwzOWYWi2cso81TSdblMlKlEEQqKXmc6sXlabWTAntj/86aMh9MIEtxQnrLItH
+         T2ZObL+GciCTw+mocWytkWA0Y3vzvkckmukHnBQh9Y7KU15vO/X6V8wKcclHihH+3b4c
+         AUMscOtcQl4LD+y8zpMZplISg//xcawtFEdTS8sbmoQp8rr08YP73//GXdnTXmJMojV1
+         R5Mw==
+X-Gm-Message-State: APjAAAX5VfPZljLPeiEVTB3wUxwTfG5tBF14c0z8fSVpnUDk1uertTqJ
+        6KpomVlx3hhlysHQOSbdlMf9zs6a
+X-Google-Smtp-Source: APXvYqy7JmnXczUJlEJem0njK7ut9Conf8ZQJK1KVTGMSQrcor3D+BsSZGWXVxZs/xH2k+qddqj7IQ==
+X-Received: by 2002:a17:902:a81:: with SMTP id 1mr143465883plp.287.1561334017287;
+        Sun, 23 Jun 2019 16:53:37 -0700 (PDT)
+Received: from pingc-XPS-8500.corp.onewacom.com ([50.225.60.4])
+        by smtp.gmail.com with ESMTPSA id k22sm10105247pfg.77.2019.06.23.16.53.36
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sun, 23 Jun 2019 16:53:36 -0700 (PDT)
+From:   Ping Cheng <pinglinux@gmail.com>
+X-Google-Original-From: Ping Cheng <ping.cheng@wacom.com>
+To:     linux-input@vger.kernel.org, jikos@kernel.org,
+        benjamin.tissoires@redhat.com
+Cc:     killertofu@gmail.com, skomra@gmail.com,
+        Ping Cheng <ping.cheng@wacom.com>
+Subject: [PATCH] HID: wacom: add new MobileStudio Pro support
+Date:   Sun, 23 Jun 2019 16:52:43 -0700
+Message-Id: <1561333963-12055-1-git-send-email-ping.cheng@wacom.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Extend event signature matching to catch more input devices emulated by
-BMC firmwares, QEMU and VMware.
+wacom_wac_pad_event is the only routine we need to update.
 
-Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
+
 ---
- drivers/input/joydev.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+Patch is based on Jiri's for-5.3/wacom branch
 
-diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
-index ac21c050fdb0..a2b5fbba2d3b 100644
---- a/drivers/input/joydev.c
-+++ b/drivers/input/joydev.c
-@@ -808,6 +808,7 @@ static bool joydev_dev_is_blacklisted(struct input_dev *dev)
- static bool joydev_dev_is_absolute_mouse(struct input_dev *dev)
- {
- 	DECLARE_BITMAP(jd_scratch, KEY_CNT);
-+	bool ev_match = false;
+ drivers/hid/wacom_wac.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index a98ad4f..8269f46 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -2021,12 +2021,14 @@ static void wacom_wac_pad_event(struct hid_device *hdev, struct hid_field *field
+ 		 */
+ 		if (hdev->vendor == 0x56a &&
+ 		    (hdev->product == 0x34d || hdev->product == 0x34e ||  /* MobileStudio Pro */
+-		     hdev->product == 0x357 || hdev->product == 0x358)) { /* Intuos Pro 2 */
++		     hdev->product == 0x357 || hdev->product == 0x358 ||  /* Intuos Pro 2 */
++		     hdev->product == 0x399)) {				  /* MobileStudio Pro */
+ 			value = (field->logical_maximum - value);
  
- 	BUILD_BUG_ON(ABS_CNT > KEY_CNT || EV_CNT > KEY_CNT);
- 
-@@ -826,17 +827,36 @@ static bool joydev_dev_is_absolute_mouse(struct input_dev *dev)
- 	 * considered to be an absolute mouse if the following is
- 	 * true:
- 	 *
--	 * 1) Event types are exactly EV_ABS, EV_KEY and EV_SYN.
-+	 * 1) Event types are exactly
-+	 *      EV_ABS, EV_KEY and EV_SYN
-+	 *    or
-+	 *      EV_ABS, EV_KEY, EV_SYN and EV_MSC
-+	 *    or
-+	 *      EV_ABS, EV_KEY, EV_SYN, EV_MSC and EV_REL.
- 	 * 2) Absolute events are exactly ABS_X and ABS_Y.
- 	 * 3) Keys are exactly BTN_LEFT, BTN_RIGHT and BTN_MIDDLE.
- 	 * 4) Device is not on "Amiga" bus.
- 	 */
- 
- 	bitmap_zero(jd_scratch, EV_CNT);
-+	/* VMware VMMouse, HP ILO2 */
- 	__set_bit(EV_ABS, jd_scratch);
- 	__set_bit(EV_KEY, jd_scratch);
- 	__set_bit(EV_SYN, jd_scratch);
--	if (!bitmap_equal(jd_scratch, dev->evbit, EV_CNT))
-+	if (bitmap_equal(jd_scratch, dev->evbit, EV_CNT))
-+		ev_match = true;
-+
-+	/* HP ILO2, AMI BMC firmware */
-+	__set_bit(EV_MSC, jd_scratch);
-+	if (bitmap_equal(jd_scratch, dev->evbit, EV_CNT))
-+		ev_match = true;
-+
-+	/* VMware Virtual USB Mouse, QEMU USB Tablet, ATEN BMC firmware */
-+	__set_bit(EV_REL, jd_scratch);
-+	if (bitmap_equal(jd_scratch, dev->evbit, EV_CNT))
-+		ev_match = true;
-+
-+	if (!ev_match)
- 		return false;
- 
- 	bitmap_zero(jd_scratch, ABS_CNT);
+ 			if (hdev->product == 0x357 || hdev->product == 0x358)
+ 				value = wacom_offset_rotation(input, usage, value, 3, 16);
+-			else if (hdev->product == 0x34d || hdev->product == 0x34e)
++			else if (hdev->product == 0x34d || hdev->product == 0x34e ||
++				 hdev->product == 0x399)
+ 				value = wacom_offset_rotation(input, usage, value, 1, 2);
+ 		}
+ 		else {
 -- 
-2.21.0
+2.7.4
 
