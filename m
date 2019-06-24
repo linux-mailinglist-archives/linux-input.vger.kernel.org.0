@@ -2,106 +2,349 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B9735508FB
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2019 12:33:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70EE3509D3
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2019 13:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729002AbfFXKdT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Jun 2019 06:33:19 -0400
-Received: from ironport.klsmartin.com ([212.211.191.11]:54343 "EHLO
-        ironport.klsmartin.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727984AbfFXKdT (ORCPT
+        id S1727284AbfFXLdl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Jun 2019 07:33:41 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:60239 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726622AbfFXLdl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Jun 2019 06:33:19 -0400
-X-IronPort-AV: E=Sophos;i="5.63,411,1557180000"; 
-   d="scan'208";a="2040921"
-Received: from unknown (HELO hera.klsmartin.com) ([172.30.5.66])
-  by ironport.klsmartin.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 24 Jun 2019 12:33:16 +0200
-Received: from SUMMAIL01.UMK.KLS.zentral ([172.25.1.63])
-        by hera.klsmartin.com (8.14.3/8.13.1/SuSE Linux 0.7) with ESMTP id x5OAWqsc023339;
-        Mon, 24 Jun 2019 12:32:55 +0200
-Received: from SUMMBX01.UMK.KLS.zentral ([172.25.1.64]) by
- SUMMAIL01.UMK.KLS.zentral ([172.25.1.63]) with mapi id 14.03.0439.000; Mon,
- 24 Jun 2019 12:33:09 +0200
-From:   "Middelschulte, Leif" <Leif.Middelschulte@klsmartin.com>
-To:     "robh@kernel.org" <robh@kernel.org>
-CC:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>
-Subject: Re: [PATCH 01/10] dt-bindings: input: touchscreen: stmpe: add touch
- window configuration
-Thread-Topic: [PATCH 01/10] dt-bindings: input: touchscreen: stmpe: add
- touch window configuration
-Thread-Index: AQHVFKZfWxtzY275Mkuldb4w1Urs/KabiWYAgAdXhICAACBQAIAHpDkA
-Date:   Mon, 24 Jun 2019 10:33:12 +0000
-Message-ID: <8b9d362f16b817e828b774c6ac6532c6f2efb821.camel@klsmartin.com>
-References: <20190527160736.30569-1-leif.middelschulte@klsmartin.com>
-         <20190527160736.30569-2-leif.middelschulte@klsmartin.com>
-         <20190614194818.GA22146@bogus>
-         <b1f40349dced90ea2ab0c9e5dc528db883e62e8d.camel@klsmartin.com>
-         <CAL_JsqLrMk9yNAzHWCgOFaOqnHKiwSjLOfbhU5+DzLCNBD+H_w@mail.gmail.com>
-In-Reply-To: <CAL_JsqLrMk9yNAzHWCgOFaOqnHKiwSjLOfbhU5+DzLCNBD+H_w@mail.gmail.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.25.2.60]
-x-kse-serverinfo: SUMMAIL01.UMK.KLS.zentral, 9
-x-kse-attachmentfiltering-interceptor-info: protection disabled
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: Clean, bases: 24.06.2019 08:53:00
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2ED71AB4C8924248A52584C5413D964D@klsmartin.de>
-Content-Transfer-Encoding: base64
+        Mon, 24 Jun 2019 07:33:41 -0400
+Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
+        (Authenticated sender: hadess@hadess.net)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 65AF420000C;
+        Mon, 24 Jun 2019 11:33:31 +0000 (UTC)
+Message-ID: <58ee0e02bd6bee1e73f60077b940e0c5d3738253.camel@hadess.net>
+Subject: [PATCH] HID: sb0540: add support for Creative SB0540 IR receivers
+From:   Bastien Nocera <hadess@hadess.net>
+To:     linux-input@vger.kernel.org
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 24 Jun 2019 13:33:30 +0200
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-QW0gTWl0dHdvY2gsIGRlbiAxOS4wNi4yMDE5LCAwNzo1MSAtMDYwMCBzY2hyaWViIFJvYiBIZXJy
-aW5nOg0KPiBPbiBXZWQsIEp1biAxOSwgMjAxOSBhdCA1OjU2IEFNIE1pZGRlbHNjaHVsdGUsIExl
-aWYNCj4gPA0KPiBMZWlmLk1pZGRlbHNjaHVsdGVAa2xzbWFydGluLmNvbQ0KPiA+IHdyb3RlOg0K
-PiA+IEFtIEZyZWl0YWcsIGRlbiAxNC4wNi4yMDE5LCAxMzo0OCAtMDYwMCBzY2hyaWViIFJvYiBI
-ZXJyaW5nOg0KPiA+ID4gT24gTW9uLCBNYXkgMjcsIDIwMTkgYXQgMDY6MDc6MjdQTSArMDIwMCwg
-TGVpZiBNaWRkZWxzY2h1bHRlIHdyb3RlOg0KPiA+ID4gPiBUaGUgU1RNUEU4MTEgaXMgYWJsZSB0
-byBvbmx5IG1vbml0b3IgYSBzdWJ3aW5kb3cgb2YgdGhlDQo+ID4gPiA+IGVudGlyZSBzY3JlZW4u
-IFRvdWNoZXMgb3V0c2lkZSBvZiB0aGlzIHdpbmRvdyBhcmUgbmVnbGVjdGVkLg0KPiA+ID4gPiBU
-aGlzIGNoYW5nZSBhZGRzIHRoZSBjb3JyZXNwb25kaW5nIGRvY3VtZW50YXRpb24uDQo+ID4gPiAN
-Cj4gPiA+IFVubGVzcyB5b3UgYXJlIHRyeWluZyB0byBqdXN0IGZpbHRlciBvdXQgdGhlIGVkZ2Ug
-dmFsdWVzDQo+ID4gDQo+ID4gSSdtIHRyeWluZyB0byAianVzdCBmaWx0ZXIgb3V0IHRoZSBlZGdl
-IHZhbHVlcyIgYnkgZmlsdGVyaW5nIHRoZSB2YWx1ZXMNCj4gPiByaWdodCBvbiB0aGUgc21wdGUg
-bWljcm9jb250cm9sbGVyLiBJdCBpcyBhIGRldmljZSBzcGVjaWZpYyBmZWF0dXJlLCB0aGF0IGlz
-DQo+ID4gd2h5IEkgaW1wbGVtZW50ZWQgYW5kIGRvY3VtZW50ZWQgdGhlIHN1cHBvcnQuDQo+ID4g
-DQo+ID4gQnV0IHN1cmUsIG9uZSBjb3VsZCBsZWF2ZSB0aGF0IHRvIGEgY29ycmVzcG9uZGluZyBl
-bnRyeSBpbiB0aGUgaHdkYiB0aGF0DQo+ID4gd291bGQgbWFuaXB1bGF0ZSBhYnNpbmZvIHRvIGdh
-aW4gY2FsaWJyYXRlZCBpbnB1dCBbMV0uDQo+ID4gDQo+ID4gPiB3aGljaCBJIHRoaW5rIHdlIGFs
-cmVhZHkgaGF2ZSBwcm9wZXJ0aWVzIGZvciwNCj4gPiANCj4gPiBXaGlsZSB0aGVyZSBbMF0gaXMg
-InRvdWNoc2NyZWVuLW1pbi17eCx5fSIsIEkgY291bGQgbm90IHNwb3QgYSBjb3JyZXNwb25kaW5n
-DQo+ID4gInRvdWNoc2NyZWVuLW1heC17eCx5fSIuIENvdWxkIHlvdSBwb2ludCBtZSB0byB0aGUg
-cmlnaHQgcHJvcGVydHk/DQo+IA0KPiBQZXJoYXBzIGFkZCB0aGVtLiBJZiB3ZSBoYXZlIG1pbiwg
-YWRkaW5nIGEgbWF4IHNlZW1zIGxvZ2ljYWwuDQpUaGVyZSBhcmUgYHRvdWNoc2NyZWVuLXNpemUt
-eGAgYW5kIGB0b3VjaHNjcmVlbi1zaXplLXlgLCB3aGljaCBhcmUgZGVzY3JpYmVkWzBdIGFzDQoi
-aG9yaXpvbnRhbCByZXNvbHV0aW9uIG9mIHRvdWNoc2NyZWVuIChtYXhpbXVtIHggY29vcmRpbmF0
-ZSByZXBvcnRlZCArIDEpIg0KDQpUaGUgcG90ZW50aWFsbHkgbWlzbGVhZGluZyBwcm9wZXJ0eSBu
-YW1lIGFzaWRlLCB0aGUgZ2VuZXJhbA0KaW1wbGVtZW50YXRpb24gaW4gb2ZfdG91Y2hzY3JlZW4u
-Y1sxXSBhcHBsaWVzIGl0IGFzIG1heGltdW0gdmFsdWUuDQpJdCBpcyBub3QgYXBwbGllZCBhcyBy
-ZXNvbHV0aW9uIGFzIGluIHRoZSBjb250ZXh0IG9mIGlucHV0IGRldmljZXNbMl0uDQoNClNvIGhl
-cmUgYXJlIHRoZSBvcHRpb25zOg0KIEEpIEkgZ28gd2l0aCBgdG91Y2hzY3JlZW4tbWluLXt4LHl9
-YCBmb3IgbWluaW11bSB2YWx1ZXMgYW5kDQogICAgYHRvdWNoc2NyZWVuLXNpemUte3gseX1gIGZv
-ciBtYXhpbXVtIHZhbHVlcy4NCiBCKSBEZXByZWNhdGUgYHRvdWNoc2NyZWVuLXNpemUte3gseX1g
-IGZvciBuYW1lZCByZWFzb25zIGFuZA0KICAgIGludHJvZHVjZSBgdG91Y2hzY3JlZW4tbWF4LXt4
-LHl9YC4NCg0KSW4gbXkgY2FzZSwgSSBkbyBuZWVkIHRvIHNldCB0aGUgcmVzb2x1dGlvbiB0b28g
-dGhvdWdoLg0KDQpTbywgYW5vdGhlciBxdWVzdGlvbiB3b3VsZCBiZSBob3cgdG8gZ28gYWJvdXQg
-aGFuZGxpbmcgdGhlIHJlc29sdXRpb246DQogSSkgSW50cm9kdWNpbmcgYW4gZXhwbGljaXQgcmVz
-b2x1dGlvbiB0dXBsZT8gVGhpcyB3b3VsZCBiZSBiYWQNCiAgICBiZWNhdXNlIG9mIG11bHRpcGxl
-IGludmFsaWQgY29uc3RlbGF0aW9ucy4NCiBJSSkgSW1wbGljaXRseSBhcHBseWluZyBhIHJlc29s
-dXRpb24gaWYgYSBjb3Jyc3BvbmRpbmcNCiAgICAgYHRvdWNoc2NyZWVuLXt4LHl9LW1tYCBpcyBw
-cm92aWRlZCB0b28uIFRoaXMgYXBwcm9hY2ggd291bGQgY2hhbmdlDQogICAgIGJlaGF2aW9yIHRo
-b3VnaC4NCg0KDQpbMF0gaHR0cHM6Ly93d3cua2VybmVsLm9yZy9kb2MvRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL2lucHV0L3RvdWNoc2NyZWVuL3RvdWNoc2NyZWVuLnR4dA0KWzFd
-IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRz
-L2xpbnV4LmdpdC90cmVlL2RyaXZlcnMvaW5wdXQvdG91Y2hzY3JlZW4vb2ZfdG91Y2hzY3JlZW4u
-Yz9oPXY1LjItcmM2I244MQ0KWzJdIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51
-eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90cmVlL2luY2x1ZGUvdWFwaS9saW51eC9p
-bnB1dC5oI245NQ0KDQpMZWlmDQoNCj4gDQo+IFJvYg0KPiANCg==
+With initial reviews from Benjamin Tissoires.
+
+Signed-off-by: Bastien Nocera <hadess@hadess.net>
+---
+ drivers/hid/Kconfig               |   9 ++
+ drivers/hid/Makefile              |   1 +
+ drivers/hid/hid-creative-sb0540.c | 254 ++++++++++++++++++++++++++++++
+ drivers/hid/hid-ids.h             |   1 +
+ 4 files changed, 265 insertions(+)
+ create mode 100644 drivers/hid/hid-creative-sb0540.c
+
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 3872e03d9a59..ea2b080649b6 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -273,6 +273,15 @@ config HID_CP2112
+ 	and gpiochip to expose these functions of the CP2112. The
+ 	customizable USB descriptor fields are exposed as sysfs attributes.
+ 
++config HID_CREATIVE_SB0540
++	tristate "Creative SB0540 infrared receiver"
++	depends on (USB_HID)
++	---help---
++	Support for Creative infrared SB0540-compatible remote controls, such
++	as the RM-1500 and RM-1800 remotes.
++
++	Say Y here if you want support for Creative SB0540 infrared receiver.
++
+ config HID_CYPRESS
+ 	tristate "Cypress mouse and barcode readers"
+ 	depends on HID
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index cc5d827c9164..1ad662fe37b6 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -27,6 +27,7 @@ obj-$(CONFIG_HID_ALPS)		+= hid-alps.o
+ obj-$(CONFIG_HID_ACRUX)		+= hid-axff.o
+ obj-$(CONFIG_HID_APPLE)		+= hid-apple.o
+ obj-$(CONFIG_HID_APPLEIR)	+= hid-appleir.o
++obj-$(CONFIG_HID_CREATIVE_SB0540)	+= hid-creative-sb0540.c
+ obj-$(CONFIG_HID_ASUS)		+= hid-asus.o
+ obj-$(CONFIG_HID_AUREAL)	+= hid-aureal.o
+ obj-$(CONFIG_HID_BELKIN)	+= hid-belkin.o
+diff --git a/drivers/hid/hid-creative-sb0540.c b/drivers/hid/hid-creative-sb0540.c
+new file mode 100644
+index 000000000000..a3f31b178b46
+--- /dev/null
++++ b/drivers/hid/hid-creative-sb0540.c
+@@ -0,0 +1,254 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * HID driver for the Creative SB0540 receiver
++ *
++ * Copyright (C) 2019 Red Hat Inc. All Rights Reserved
++ *
++ */
++
++#include <linux/device.h>
++#include <linux/hid.h>
++#include <linux/module.h>
++#include "hid-ids.h"
++
++MODULE_AUTHOR("Bastien Nocera <hadess@hadess.net>");
++MODULE_DESCRIPTION("HID Creative SB0540 receiver");
++MODULE_LICENSE("GPL");
++
++static const unsigned short creative_sb0540_key_table[] = {
++	KEY_POWER,
++	KEY_RESERVED,		/* text: 24bit */
++	KEY_RESERVED,		/* 24bit wheel up */
++	KEY_RESERVED,		/* 24bit wheel down */
++	KEY_RESERVED,		/* text: CMSS */
++	KEY_RESERVED,		/* CMSS wheel Up */
++	KEY_RESERVED,		/* CMSS wheel Down */
++	KEY_RESERVED,		/* text: EAX */
++	KEY_RESERVED,		/* EAX wheel up */
++	KEY_RESERVED,		/* EAX wheel down */
++	KEY_RESERVED,		/* text: 3D Midi */
++	KEY_RESERVED,		/* 3D Midi wheel up */
++	KEY_RESERVED,		/* 3D Midi wheel down */
++	KEY_MUTE,
++	KEY_VOLUMEUP,
++	KEY_VOLUMEDOWN,
++	KEY_UP,
++	KEY_LEFT,
++	KEY_RIGHT,
++	KEY_REWIND,
++	KEY_OK,
++	KEY_FASTFORWARD,
++	KEY_DOWN,
++	KEY_SELECT,		/* text: Return, symbol: Jump to */
++	KEY_RESERVED,		/* text: Start */
++	KEY_RESERVED,		/* Cancel */
++	KEY_RECORD,
++	KEY_OPTION,
++	KEY_RESERVED,		/* text: Display */
++	KEY_PREVIOUS,
++	KEY_PLAY,
++	KEY_NEXT,
++	KEY_SLOW,
++	KEY_STOP,
++	KEY_NUMERIC_1,
++	KEY_NUMERIC_2,
++	KEY_NUMERIC_3,
++	KEY_NUMERIC_4,
++	KEY_NUMERIC_5,
++	KEY_NUMERIC_6,
++	KEY_NUMERIC_7,
++	KEY_NUMERIC_8,
++	KEY_NUMERIC_9,
++	KEY_NUMERIC_0
++};
++
++/* Codes and keys from lirc's
++ * remotes/creative/lircd.conf.alsa_usb
++ * order and size must match creative_sb0540_key_table[] above */
++static const unsigned short creative_sb0540_codes[] = {
++	0x619E,
++	0x916E,
++	0x926D,
++	0x936C,
++	0x718E,
++	0x946B,
++	0x956A,
++	0x8C73,
++	0x9669,
++	0x9768,
++	0x9867,
++	0x9966,
++	0x9A65,
++	0x6E91,
++	0x629D,
++	0x639C,
++	0x7B84,
++	0x6B94,
++	0x728D,
++	0x8778,
++	0x817E,
++	0x758A,
++	0x8D72,
++	0x8E71,
++	0x8877,
++	0x7C83,
++	0x738C,
++	0x827D,
++	0x7689,
++	0x7F80,
++	0x7986,
++	0x7A85,
++	0x7D82,
++	0x857A,
++	0x8B74,
++	0x8F70,
++	0x906F,
++	0x8A75,
++	0x847B,
++	0x7887,
++	0x8976,
++	0x837C,
++	0x7788,
++	0x807F
++};
++
++struct creative_sb0540 {
++	struct input_dev *input_dev;
++	struct hid_device *hid;
++	unsigned short keymap[ARRAY_SIZE(creative_sb0540_key_table)];
++};
++
++static inline u64 reverse(u64 data, int bits)
++{
++	int i;
++	u64 c;
++
++	c = 0;
++	for (i = 0; i < bits; i++) {
++		c |= (u64) (((data & (((u64) 1) << i)) ? 1 : 0)) << (bits - 1 - i);
++	}
++	return (c);
++}
++
++static int get_key(struct creative_sb0540 *creative_sb0540, u64 keycode)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(creative_sb0540_codes); i++) {
++		if (creative_sb0540_codes[i] == keycode)
++			return creative_sb0540->keymap[i];
++	}
++
++	return 0;
++
++}
++
++static int creative_sb0540_raw_event(struct hid_device *hid, struct hid_report *report,
++	 u8 *data, int len)
++{
++	struct creative_sb0540 *creative_sb0540 = hid_get_drvdata(hid);
++	u64 code, main_code;
++	int key;
++
++	if (len != 6)
++		goto out;
++
++	/* From daemons/hw_hiddev.c sb0540_rec() in lirc */
++	code = reverse(data[5], 8);
++	main_code = (code << 8) + ((~code) & 0xff);
++
++	/* Flip to get values in the same format as
++	 * remotes/creative/lircd.conf.alsa_usb in lirc */
++	main_code = ((main_code & 0xff) << 8) + ((main_code & 0xff00) >> 8);
++
++	key = get_key(creative_sb0540, main_code);
++	if (key == 0 || key == KEY_RESERVED) {
++		hid_err(hid, "Could not get a key for main_code %llX\n", main_code);
++		goto out;
++	}
++
++	input_report_key(creative_sb0540->input_dev, key, 1);
++	input_report_key(creative_sb0540->input_dev, key, 0);
++	input_sync(creative_sb0540->input_dev);
++
++out:
++	/* let hidraw and hiddev handle the report */
++	return 0;
++}
++
++static int creative_sb0540_input_configured(struct hid_device *hid,
++		struct hid_input *hidinput)
++{
++	struct input_dev *input_dev = hidinput->input;
++	struct creative_sb0540 *creative_sb0540 = hid_get_drvdata(hid);
++	int i;
++
++	creative_sb0540->input_dev = input_dev;
++
++	input_dev->keycode = creative_sb0540->keymap;
++	input_dev->keycodesize = sizeof(unsigned short);
++	input_dev->keycodemax = ARRAY_SIZE(creative_sb0540->keymap);
++
++	input_dev->evbit[0] = BIT(EV_KEY) | BIT(EV_REP);
++
++	memcpy(creative_sb0540->keymap, creative_sb0540_key_table, sizeof(creative_sb0540->keymap));
++	for (i = 0; i < ARRAY_SIZE(creative_sb0540_key_table); i++)
++		set_bit(creative_sb0540->keymap[i], input_dev->keybit);
++	clear_bit(KEY_RESERVED, input_dev->keybit);
++
++	return 0;
++}
++
++static int creative_sb0540_input_mapping(struct hid_device *hid,
++		struct hid_input *hi, struct hid_field *field,
++		struct hid_usage *usage, unsigned long **bit, int *max)
++{
++	return -1;
++}
++
++static int creative_sb0540_probe(struct hid_device *hid, const struct hid_device_id *id)
++{
++	int ret;
++	struct creative_sb0540 *creative_sb0540;
++
++	creative_sb0540 = devm_kzalloc(&hid->dev, sizeof(struct creative_sb0540), GFP_KERNEL);
++	if (!creative_sb0540)
++		return -ENOMEM;
++
++	creative_sb0540->hid = hid;
++
++	/* force input as some remotes bypass the input registration */
++	hid->quirks |= HID_QUIRK_HIDINPUT_FORCE;
++
++	hid_set_drvdata(hid, creative_sb0540);
++
++	ret = hid_parse(hid);
++	if (ret) {
++		hid_err(hid, "parse failed\n");
++		return ret;
++	}
++
++	ret = hid_hw_start(hid, HID_CONNECT_DEFAULT);
++	if (ret) {
++		hid_err(hid, "hw start failed\n");
++		return ret;
++	}
++
++	return ret;
++}
++
++static const struct hid_device_id creative_sb0540_devices[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_ID_CREATIVELABS, USB_DEVICE_ID_CREATIVE_SB0540) },
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, creative_sb0540_devices);
++
++static struct hid_driver creative_sb0540_driver = {
++	.name = "creative-sb0540",
++	.id_table = creative_sb0540_devices,
++	.raw_event = creative_sb0540_raw_event,
++	.input_configured = creative_sb0540_input_configured,
++	.probe = creative_sb0540_probe,
++	.input_mapping = creative_sb0540_input_mapping,
++};
++module_hid_driver(creative_sb0540_driver);
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 826324997686..206b7065da86 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -312,6 +312,7 @@
+ #define USB_VENDOR_ID_CREATIVELABS	0x041e
+ #define USB_DEVICE_ID_CREATIVE_SB_OMNI_SURROUND_51	0x322c
+ #define USB_DEVICE_ID_PRODIKEYS_PCMIDI	0x2801
++#define USB_DEVICE_ID_CREATIVE_SB0540	0x3100
+ 
+ #define USB_VENDOR_ID_CVTOUCH		0x1ff7
+ #define USB_DEVICE_ID_CVTOUCH_SCREEN	0x0013
+
