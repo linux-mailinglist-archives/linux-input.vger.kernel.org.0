@@ -2,98 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B48B650A9F
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2019 14:24:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80E7350B34
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2019 14:56:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730179AbfFXMYP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Jun 2019 08:24:15 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:34124 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728552AbfFXMYP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Jun 2019 08:24:15 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5OCNcJr006146;
-        Mon, 24 Jun 2019 07:23:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1561379018;
-        bh=T1q2FQcEBznzi7DLWeCI39uS9gU76CChdki0O3aXxMQ=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=DWY1fkE+g2GW/G6QTkEn34ovWtWmUempqk+L2lviBBRBH8WS/Td01h9ufhLf3J8/z
-         98L+WMy2BtTN3MMvqhhKnsSPieo3OsrEkyOJmtGavY6g8sKH6U/fymEwCmANWjn2e7
-         fSzu6i4KA8TGEv3j2MIvzG7F9L4uBwd/SwIq8PLA=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5OCNcPp005882
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 24 Jun 2019 07:23:38 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 24
- Jun 2019 07:23:38 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 24 Jun 2019 07:23:38 -0500
-Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with SMTP id x5OCNcWq000775;
-        Mon, 24 Jun 2019 07:23:38 -0500
-Date:   Mon, 24 Jun 2019 07:24:57 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [Patch 1/1] Input: edt-ft5x06 - disable irq handling during
- suspend
-Message-ID: <20190624122457.seiezk4cla2gjh5u@ti.com>
-References: <20190621185124.28966-1-bparrot@ti.com>
- <CAHp75VdcAfmn8u0du-Y95SjMcmuJa2402tdXCNHMcme1Y925xg@mail.gmail.com>
- <20190623055940.GA204275@dtor-ws>
+        id S1728134AbfFXM4i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Jun 2019 08:56:38 -0400
+Received: from uho.ysoft.cz ([81.19.3.130]:34046 "EHLO uho.ysoft.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726557AbfFXM4h (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 24 Jun 2019 08:56:37 -0400
+Received: from [10.1.8.111] (unknown [10.1.8.111])
+        by uho.ysoft.cz (Postfix) with ESMTP id 6243EA3CE0;
+        Mon, 24 Jun 2019 14:56:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+        s=20160406-ysoft-com; t=1561380995;
+        bh=ftLh3jjn96azi7D40yoVAcACOsELxiOylqDXhJNBYqY=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=F+cz7D0qNH+OMabqAaPEpFg2lOv2GVExnUwmrt73hWRux1wg4tQh8+CHFieEu6OKx
+         MnWRAJFsGjVXN0Gwp9/KEsjRgt6qQWm56YgkZlqpJj8/pSve1i8mK3LqqmIzHzKvXE
+         ACGqMio9jTjkklnaeoHDudWKXgSjVbgBO4bzkm0w=
+Subject: Re: [RFC PATCH v2 1/4] dt-bindings: input: Add support for the MPR121
+ without interrupt line
+To:     Rob Herring <robh@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>
+References: <1558098773-47416-1-git-send-email-michal.vokac@ysoft.com>
+ <1558098773-47416-2-git-send-email-michal.vokac@ysoft.com>
+ <20190613223945.GA938@bogus>
+From:   =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+Message-ID: <69302603-f1a3-8955-7d90-74a290071794@ysoft.com>
+Date:   Mon, 24 Jun 2019 14:56:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20190623055940.GA204275@dtor-ws>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20190613223945.GA938@bogus>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote on Sat [2019-Jun-22 22:59:40 -0700]:
-> On Sat, Jun 22, 2019 at 01:37:10PM +0300, Andy Shevchenko wrote:
-> > On Fri, Jun 21, 2019 at 9:53 PM Benoit Parrot <bparrot@ti.com> wrote:
-> > >
-> > > As a wakeup source when the system is in suspend there is little point
-> > > trying to access a register across the i2c bus as it is probably still
-> > > inactive. We need to prevent the irq handler from being called during
-> > > suspend.
-> > >
-> > 
-> > Hmm... But how OS will know what the event to handle afterwards?
-> > I mean shouldn't we guarantee somehow the delivery of the event to the
-> > input, in this case, subsystem followed by corresponding user space?
+On 14. 06. 19 0:39, Rob Herring wrote:
+> On Fri, May 17, 2019 at 03:12:50PM +0200, Michal Vokáč wrote:
+>> Normally, the MPR121 controller uses separate interrupt line to notify
+>> the I2C host that a key was touched/released. To support platforms that
+>> can not use the interrupt line, polling of the MPR121 registers can be
+>> used.
 > 
-> If we are using level interrupts then it will work OK, however it is
-> really easy to lose edge here, as replaying disabled edge triggered
-> interrupts is not really reliable.
+> 'separate' from what?
+
+"Separate" here is meant like "additional to the standard set of SCL
+and SDA I2C lines". Looks like inappropriately used word by
+a non-native speaker that can be omitted.
+
+>> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+>> ---
+>> Changes since v1:
+>> - Document the polled binding in the original file, do not create a new one.
+>>    (Rob)
+>>
+>>   Documentation/devicetree/bindings/input/mpr121-touchkey.txt | 9 +++++++--
+>>   1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/input/mpr121-touchkey.txt b/Documentation/devicetree/bindings/input/mpr121-touchkey.txt
+>> index b7c61ee5841b..97f55273d473 100644
+>> --- a/Documentation/devicetree/bindings/input/mpr121-touchkey.txt
+>> +++ b/Documentation/devicetree/bindings/input/mpr121-touchkey.txt
+>> @@ -1,9 +1,14 @@
+>> -* Freescale MPR121 Controllor
+>> +* Freescale MPR121 Controller
+>>   
+>>   Required Properties:
+>> -- compatible:		Should be "fsl,mpr121-touchkey"
+>> +- compatible:		Should be one of:
+>> +			- "fsl,mpr121-touchkey" - MPR121 with interrupt line
+>> +			- "fsl,mpr121-touchkey-polled" - MPR121 with polling
+>>   - reg:			The I2C slave address of the device.
+>>   - interrupts:		The interrupt number to the cpu.
+>> +			In case of "fsl,mpr121-touchkey-polled" the interrupt
+>> +			line is not used and hence the interrupts property is
+>> +			not required.
 > 
-> Benoit, what kind of interrupt do you use in your system?
+> Absence of the interrupts property is enough to determine polled mode
+> and you don't need a separate compatible string.
 
-Dmitry,
+Would not this work only if the polled mode was implemented as
+part of the current driver? I raised this question in the cover letter.
+I do not really know how this should be done.
 
-On our systems we currently used edge trigger. One example is available in
-mainline: arch/arm/boot/dts/am437x-sk-evm.dts
-632:              interrupts = <31 IRQ_TYPE_EDGE_FALLING>;
+So I implemented the polled mode in a new driver (taking the
+gpio-keys-polled as an example). Having separate compatible string is
+the only option I know of to match the right driver.
 
+Anyway, Dmitry already commented that his addition of input_polled_dev
+for creating polled input devices was not the best choice. He would
+rather like to implement polling mode for all regular input devices
+and that would allow to enable polling mode in existing drivers.
 
-Benoit
-
-> 
-> Thanks.
-> 
-> -- 
-> Dmitry
+Since I do not know how to help with that work I am stuck with the
+separate driver/compatible string solution.
