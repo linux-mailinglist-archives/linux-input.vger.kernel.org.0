@@ -2,100 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0534B50052
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2019 05:44:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9735508FB
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2019 12:33:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727317AbfFXDoR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Jun 2019 23:44:17 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:53806 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727132AbfFXDoR (ORCPT
+        id S1729002AbfFXKdT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Jun 2019 06:33:19 -0400
+Received: from ironport.klsmartin.com ([212.211.191.11]:54343 "EHLO
+        ironport.klsmartin.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727984AbfFXKdT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Jun 2019 23:44:17 -0400
-Received: from [125.35.49.90] (helo=[10.0.0.24])
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-        (Exim 4.76)
-        (envelope-from <hui.wang@canonical.com>)
-        id 1hfFtq-0004TB-7V; Mon, 24 Jun 2019 03:44:10 +0000
-Subject: Re: [PATCH v5] Input: alps - Don't handle ALPS cs19 trackpoint-only
- device
-From:   Hui Wang <hui.wang@canonical.com>
-To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali.rohar@gmail.com>
-Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-        xiaoxiao.liu-1@cn.alps.com, sliuuxiaonxiao@gmail.com,
-        xiaojian.cao@cn.alps.com, naoki.saito@alpsalpine.com,
-        hideo.kawase@alpsalpine.com
-References: <20190619063756.9714-1-hui.wang@canonical.com>
- <20190619072944.bok36smpg7hphaao@pali>
- <4c5fd996-6b19-3767-d8d2-5bf74ea10116@canonical.com>
-Message-ID: <26ae2ec6-a4bd-1fb2-9059-57542d74d74f@canonical.com>
-Date:   Mon, 24 Jun 2019 11:43:58 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        Mon, 24 Jun 2019 06:33:19 -0400
+X-IronPort-AV: E=Sophos;i="5.63,411,1557180000"; 
+   d="scan'208";a="2040921"
+Received: from unknown (HELO hera.klsmartin.com) ([172.30.5.66])
+  by ironport.klsmartin.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 24 Jun 2019 12:33:16 +0200
+Received: from SUMMAIL01.UMK.KLS.zentral ([172.25.1.63])
+        by hera.klsmartin.com (8.14.3/8.13.1/SuSE Linux 0.7) with ESMTP id x5OAWqsc023339;
+        Mon, 24 Jun 2019 12:32:55 +0200
+Received: from SUMMBX01.UMK.KLS.zentral ([172.25.1.64]) by
+ SUMMAIL01.UMK.KLS.zentral ([172.25.1.63]) with mapi id 14.03.0439.000; Mon,
+ 24 Jun 2019 12:33:09 +0200
+From:   "Middelschulte, Leif" <Leif.Middelschulte@klsmartin.com>
+To:     "robh@kernel.org" <robh@kernel.org>
+CC:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>
+Subject: Re: [PATCH 01/10] dt-bindings: input: touchscreen: stmpe: add touch
+ window configuration
+Thread-Topic: [PATCH 01/10] dt-bindings: input: touchscreen: stmpe: add
+ touch window configuration
+Thread-Index: AQHVFKZfWxtzY275Mkuldb4w1Urs/KabiWYAgAdXhICAACBQAIAHpDkA
+Date:   Mon, 24 Jun 2019 10:33:12 +0000
+Message-ID: <8b9d362f16b817e828b774c6ac6532c6f2efb821.camel@klsmartin.com>
+References: <20190527160736.30569-1-leif.middelschulte@klsmartin.com>
+         <20190527160736.30569-2-leif.middelschulte@klsmartin.com>
+         <20190614194818.GA22146@bogus>
+         <b1f40349dced90ea2ab0c9e5dc528db883e62e8d.camel@klsmartin.com>
+         <CAL_JsqLrMk9yNAzHWCgOFaOqnHKiwSjLOfbhU5+DzLCNBD+H_w@mail.gmail.com>
+In-Reply-To: <CAL_JsqLrMk9yNAzHWCgOFaOqnHKiwSjLOfbhU5+DzLCNBD+H_w@mail.gmail.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.25.2.60]
+x-kse-serverinfo: SUMMAIL01.UMK.KLS.zentral, 9
+x-kse-attachmentfiltering-interceptor-info: protection disabled
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: Clean, bases: 24.06.2019 08:53:00
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2ED71AB4C8924248A52584C5413D964D@klsmartin.de>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <4c5fd996-6b19-3767-d8d2-5bf74ea10116@canonical.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
-
-When you have time, could you please take a look at this patch?
-
-Thanks,
-
-Hui.
-
-On 2019/6/19 下午4:11, Hui Wang wrote:
->
-> On 2019/6/19 下午3:29, Pali Rohár wrote:
->> On Wednesday 19 June 2019 14:37:56 Hui Wang wrote:
->>> On a latest Lenovo laptop, the trackpoint and 3 buttons below it
->>> don't work at all, when we move the trackpoint or press those 3
->>> buttons, the kernel will print out:
->>> "Rejected trackstick packet from non DualPoint device"
->>>
->>> This device is identified as an alps touchpad but the packet has
->>> trackpoint format, so the alps.c drops the packet and prints out
->>> the message above.
->>>
->>> According to XiaoXiao's explanation, this device is named cs19 and
->>> is trackpoint-only device, its firmware is only for trackpoint, it
->>> is independent of touchpad and is a device completely different from
->>> DualPoint ones.
->>>
->>> To drive this device with mininal changes to the existing driver, we
->>> just let the alps driver not handle this device, then the trackpoint.c
->>> will be the driver of this device if the trackpoint driver is enabled.
->>> (if not, this device will fallback to a bare PS/2 device)
->>>
->>> With the trackpoint.c, this trackpoint and 3 buttons all work well,
->>> they have all features that the trackpoint should have, like
->>> scrolling-screen, drag-and-drop and frame-selection.
->>>
->>> Signed-off-by: XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
->>> Signed-off-by: Hui Wang <hui.wang@canonical.com>
->> Looks good, you can add my:
->>
->> Reviewed-by: Pali Rohár <pali.rohar@gmail.com>
->>
->> Thanks!
->>
-> Thank you Pali.
->
-> And Dmitry, suppose this patch is ok to merge, do I need to send a new 
-> patch to add "Reviewed-by: Pali Rohár <pali.rohar@gmail.com>" or you 
-> will add it yourself.
->
-> Thanks,
->
-> Hui.
->
->>> ---
->>> In the v5:
->>> change the commit header to add "fallback to a bare PS/2 device if
->>
+QW0gTWl0dHdvY2gsIGRlbiAxOS4wNi4yMDE5LCAwNzo1MSAtMDYwMCBzY2hyaWViIFJvYiBIZXJy
+aW5nOg0KPiBPbiBXZWQsIEp1biAxOSwgMjAxOSBhdCA1OjU2IEFNIE1pZGRlbHNjaHVsdGUsIExl
+aWYNCj4gPA0KPiBMZWlmLk1pZGRlbHNjaHVsdGVAa2xzbWFydGluLmNvbQ0KPiA+IHdyb3RlOg0K
+PiA+IEFtIEZyZWl0YWcsIGRlbiAxNC4wNi4yMDE5LCAxMzo0OCAtMDYwMCBzY2hyaWViIFJvYiBI
+ZXJyaW5nOg0KPiA+ID4gT24gTW9uLCBNYXkgMjcsIDIwMTkgYXQgMDY6MDc6MjdQTSArMDIwMCwg
+TGVpZiBNaWRkZWxzY2h1bHRlIHdyb3RlOg0KPiA+ID4gPiBUaGUgU1RNUEU4MTEgaXMgYWJsZSB0
+byBvbmx5IG1vbml0b3IgYSBzdWJ3aW5kb3cgb2YgdGhlDQo+ID4gPiA+IGVudGlyZSBzY3JlZW4u
+IFRvdWNoZXMgb3V0c2lkZSBvZiB0aGlzIHdpbmRvdyBhcmUgbmVnbGVjdGVkLg0KPiA+ID4gPiBU
+aGlzIGNoYW5nZSBhZGRzIHRoZSBjb3JyZXNwb25kaW5nIGRvY3VtZW50YXRpb24uDQo+ID4gPiAN
+Cj4gPiA+IFVubGVzcyB5b3UgYXJlIHRyeWluZyB0byBqdXN0IGZpbHRlciBvdXQgdGhlIGVkZ2Ug
+dmFsdWVzDQo+ID4gDQo+ID4gSSdtIHRyeWluZyB0byAianVzdCBmaWx0ZXIgb3V0IHRoZSBlZGdl
+IHZhbHVlcyIgYnkgZmlsdGVyaW5nIHRoZSB2YWx1ZXMNCj4gPiByaWdodCBvbiB0aGUgc21wdGUg
+bWljcm9jb250cm9sbGVyLiBJdCBpcyBhIGRldmljZSBzcGVjaWZpYyBmZWF0dXJlLCB0aGF0IGlz
+DQo+ID4gd2h5IEkgaW1wbGVtZW50ZWQgYW5kIGRvY3VtZW50ZWQgdGhlIHN1cHBvcnQuDQo+ID4g
+DQo+ID4gQnV0IHN1cmUsIG9uZSBjb3VsZCBsZWF2ZSB0aGF0IHRvIGEgY29ycmVzcG9uZGluZyBl
+bnRyeSBpbiB0aGUgaHdkYiB0aGF0DQo+ID4gd291bGQgbWFuaXB1bGF0ZSBhYnNpbmZvIHRvIGdh
+aW4gY2FsaWJyYXRlZCBpbnB1dCBbMV0uDQo+ID4gDQo+ID4gPiB3aGljaCBJIHRoaW5rIHdlIGFs
+cmVhZHkgaGF2ZSBwcm9wZXJ0aWVzIGZvciwNCj4gPiANCj4gPiBXaGlsZSB0aGVyZSBbMF0gaXMg
+InRvdWNoc2NyZWVuLW1pbi17eCx5fSIsIEkgY291bGQgbm90IHNwb3QgYSBjb3JyZXNwb25kaW5n
+DQo+ID4gInRvdWNoc2NyZWVuLW1heC17eCx5fSIuIENvdWxkIHlvdSBwb2ludCBtZSB0byB0aGUg
+cmlnaHQgcHJvcGVydHk/DQo+IA0KPiBQZXJoYXBzIGFkZCB0aGVtLiBJZiB3ZSBoYXZlIG1pbiwg
+YWRkaW5nIGEgbWF4IHNlZW1zIGxvZ2ljYWwuDQpUaGVyZSBhcmUgYHRvdWNoc2NyZWVuLXNpemUt
+eGAgYW5kIGB0b3VjaHNjcmVlbi1zaXplLXlgLCB3aGljaCBhcmUgZGVzY3JpYmVkWzBdIGFzDQoi
+aG9yaXpvbnRhbCByZXNvbHV0aW9uIG9mIHRvdWNoc2NyZWVuIChtYXhpbXVtIHggY29vcmRpbmF0
+ZSByZXBvcnRlZCArIDEpIg0KDQpUaGUgcG90ZW50aWFsbHkgbWlzbGVhZGluZyBwcm9wZXJ0eSBu
+YW1lIGFzaWRlLCB0aGUgZ2VuZXJhbA0KaW1wbGVtZW50YXRpb24gaW4gb2ZfdG91Y2hzY3JlZW4u
+Y1sxXSBhcHBsaWVzIGl0IGFzIG1heGltdW0gdmFsdWUuDQpJdCBpcyBub3QgYXBwbGllZCBhcyBy
+ZXNvbHV0aW9uIGFzIGluIHRoZSBjb250ZXh0IG9mIGlucHV0IGRldmljZXNbMl0uDQoNClNvIGhl
+cmUgYXJlIHRoZSBvcHRpb25zOg0KIEEpIEkgZ28gd2l0aCBgdG91Y2hzY3JlZW4tbWluLXt4LHl9
+YCBmb3IgbWluaW11bSB2YWx1ZXMgYW5kDQogICAgYHRvdWNoc2NyZWVuLXNpemUte3gseX1gIGZv
+ciBtYXhpbXVtIHZhbHVlcy4NCiBCKSBEZXByZWNhdGUgYHRvdWNoc2NyZWVuLXNpemUte3gseX1g
+IGZvciBuYW1lZCByZWFzb25zIGFuZA0KICAgIGludHJvZHVjZSBgdG91Y2hzY3JlZW4tbWF4LXt4
+LHl9YC4NCg0KSW4gbXkgY2FzZSwgSSBkbyBuZWVkIHRvIHNldCB0aGUgcmVzb2x1dGlvbiB0b28g
+dGhvdWdoLg0KDQpTbywgYW5vdGhlciBxdWVzdGlvbiB3b3VsZCBiZSBob3cgdG8gZ28gYWJvdXQg
+aGFuZGxpbmcgdGhlIHJlc29sdXRpb246DQogSSkgSW50cm9kdWNpbmcgYW4gZXhwbGljaXQgcmVz
+b2x1dGlvbiB0dXBsZT8gVGhpcyB3b3VsZCBiZSBiYWQNCiAgICBiZWNhdXNlIG9mIG11bHRpcGxl
+IGludmFsaWQgY29uc3RlbGF0aW9ucy4NCiBJSSkgSW1wbGljaXRseSBhcHBseWluZyBhIHJlc29s
+dXRpb24gaWYgYSBjb3Jyc3BvbmRpbmcNCiAgICAgYHRvdWNoc2NyZWVuLXt4LHl9LW1tYCBpcyBw
+cm92aWRlZCB0b28uIFRoaXMgYXBwcm9hY2ggd291bGQgY2hhbmdlDQogICAgIGJlaGF2aW9yIHRo
+b3VnaC4NCg0KDQpbMF0gaHR0cHM6Ly93d3cua2VybmVsLm9yZy9kb2MvRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2lucHV0L3RvdWNoc2NyZWVuL3RvdWNoc2NyZWVuLnR4dA0KWzFd
+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRz
+L2xpbnV4LmdpdC90cmVlL2RyaXZlcnMvaW5wdXQvdG91Y2hzY3JlZW4vb2ZfdG91Y2hzY3JlZW4u
+Yz9oPXY1LjItcmM2I244MQ0KWzJdIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51
+eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90cmVlL2luY2x1ZGUvdWFwaS9saW51eC9p
+bnB1dC5oI245NQ0KDQpMZWlmDQoNCj4gDQo+IFJvYg0KPiANCg==
