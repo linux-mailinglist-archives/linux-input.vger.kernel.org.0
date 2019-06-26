@@ -2,37 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A72855FA9
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2019 05:41:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCF3756086
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2019 05:52:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726387AbfFZDlV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Jun 2019 23:41:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51582 "EHLO mail.kernel.org"
+        id S1726867AbfFZDlp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Jun 2019 23:41:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52270 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726077AbfFZDlV (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Jun 2019 23:41:21 -0400
+        id S1726880AbfFZDlp (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 25 Jun 2019 23:41:45 -0400
 Received: from sasha-vm.mshome.net (mobile-107-77-172-74.mobile.att.net [107.77.172.74])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1FCC820659;
-        Wed, 26 Jun 2019 03:41:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6362F2168B;
+        Wed, 26 Jun 2019 03:41:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561520480;
-        bh=ILdNPj3z8+pezhYzm9dmkr3+dbNKAPUfRHgz8RruHVE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=cm/aPTtJt6wfLaEafSQjy45xWKhn/Uqe0U1Yp9vw7d01UG1hIt75e9fnuXYHbglHT
-         mf8wfRhuplYPZ2CP5u3f0NEx4Iof5NQgkb4y2v0uD+ibp5j6rh9QrEpE4COIfWqVlK
-         KdjLxB/iMyM2pBOmCWTIfezvXPTf2Ha3QnYmXKVA=
+        s=default; t=1561520504;
+        bh=rhVLW5hBkjFRb9VPCj9+agroOiXlytsEqAo5ZrqBteM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=HyHiRFwfQcYeSZJf5ZKGvWQrTk0IzbbfjLgKDxXeGGrGv6h61Uz6gNZPvoXsOni7d
+         SDV9s7kDnNfxU1QrtSHm/7GwZdEVnQTU79Lq3VaZv3c3oOCnHvNHdqQaMZeZ5JDjZg
+         Lnsl4v8LABC3AY5HTcTb7YpMGyAmggJ4LRJ4XUdI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
+Cc:     =?UTF-8?q?B=C5=82a=C5=BCej=20Szczygie=C5=82?= <spaz16@wp.pl>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 01/51] HID: i2c-hid: add iBall Aer3 to descriptor override
-Date:   Tue, 25 Jun 2019 23:40:17 -0400
-Message-Id: <20190626034117.23247-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.1 12/51] HID: a4tech: fix horizontal scrolling
+Date:   Tue, 25 Jun 2019 23:40:28 -0400
+Message-Id: <20190626034117.23247-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190626034117.23247-1-sashal@kernel.org>
+References: <20190626034117.23247-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -41,40 +44,66 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+From: Błażej Szczygieł <spaz16@wp.pl>
 
-[ Upstream commit eb6964fa6509b4f1152313f1e0bb67f0c54a6046 ]
+[ Upstream commit abf82e8f7e9af40a49e3d905187c662a43c96c8f ]
 
-This device uses the SIPODEV SP1064 touchpad, which does not
-supply descriptors, so it has to be added to the override
-list.
+Since recent high resolution scrolling changes the A4Tech driver must
+check for the "REL_WHEEL_HI_RES" usage code.
 
-BugLink: https://bugs.launchpad.net/bugs/1825718
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=203369
+Fixes: 2dc702c991e3774af9d7ce410eef410ca9e2357e ("HID: input: use the Resolution Multiplier for high-resolution scrolling")
+Signed-off-by: Błażej Szczygieł <spaz16@wp.pl>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/hid/hid-a4tech.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-index fd1b6eea6d2f..75078c83be1a 100644
---- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-@@ -354,6 +354,14 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
- 		},
- 		.driver_data = (void *)&sipodev_desc
- 	},
-+	{
-+		.ident = "iBall Aer3",
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "iBall"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Aer3"),
-+		},
-+		.driver_data = (void *)&sipodev_desc
-+	},
- 	{ }	/* Terminate list */
- };
+diff --git a/drivers/hid/hid-a4tech.c b/drivers/hid/hid-a4tech.c
+index 9428ea7cdf8a..c3a6ce3613fe 100644
+--- a/drivers/hid/hid-a4tech.c
++++ b/drivers/hid/hid-a4tech.c
+@@ -38,8 +38,10 @@ static int a4_input_mapped(struct hid_device *hdev, struct hid_input *hi,
+ {
+ 	struct a4tech_sc *a4 = hid_get_drvdata(hdev);
+ 
+-	if (usage->type == EV_REL && usage->code == REL_WHEEL)
++	if (usage->type == EV_REL && usage->code == REL_WHEEL_HI_RES) {
+ 		set_bit(REL_HWHEEL, *bit);
++		set_bit(REL_HWHEEL_HI_RES, *bit);
++	}
+ 
+ 	if ((a4->quirks & A4_2WHEEL_MOUSE_HACK_7) && usage->hid == 0x00090007)
+ 		return -1;
+@@ -60,7 +62,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
+ 	input = field->hidinput->input;
+ 
+ 	if (a4->quirks & A4_2WHEEL_MOUSE_HACK_B8) {
+-		if (usage->type == EV_REL && usage->code == REL_WHEEL) {
++		if (usage->type == EV_REL && usage->code == REL_WHEEL_HI_RES) {
+ 			a4->delayed_value = value;
+ 			return 1;
+ 		}
+@@ -68,6 +70,8 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
+ 		if (usage->hid == 0x000100b8) {
+ 			input_event(input, EV_REL, value ? REL_HWHEEL :
+ 					REL_WHEEL, a4->delayed_value);
++			input_event(input, EV_REL, value ? REL_HWHEEL_HI_RES :
++					REL_WHEEL_HI_RES, a4->delayed_value * 120);
+ 			return 1;
+ 		}
+ 	}
+@@ -77,8 +81,9 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
+ 		return 1;
+ 	}
+ 
+-	if (usage->code == REL_WHEEL && a4->hw_wheel) {
++	if (usage->code == REL_WHEEL_HI_RES && a4->hw_wheel) {
+ 		input_event(input, usage->type, REL_HWHEEL, value);
++		input_event(input, usage->type, REL_HWHEEL_HI_RES, value * 120);
+ 		return 1;
+ 	}
  
 -- 
 2.20.1
