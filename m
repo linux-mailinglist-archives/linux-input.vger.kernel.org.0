@@ -2,69 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DDB1565EF
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2019 11:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D38BF56659
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2019 12:12:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725876AbfFZJwV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Jun 2019 05:52:21 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:53457 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725379AbfFZJwV (ORCPT
+        id S1727026AbfFZKMY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Jun 2019 06:12:24 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:42878 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725930AbfFZKMY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Jun 2019 05:52:21 -0400
-Received: from [IPv6:2001:420:44c1:2579:95e:6256:39de:52a6] ([IPv6:2001:420:44c1:2579:95e:6256:39de:52a6])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id g4bAhWHH7SfvXg4bDhK2QV; Wed, 26 Jun 2019 11:52:19 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>
-Cc:     Florian Echtler <floe@butterbrot.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] input/touchscreen/sur40: use COLORSPACE_RAW
-Message-ID: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
-Date:   Wed, 26 Jun 2019 11:52:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        Wed, 26 Jun 2019 06:12:24 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QA8fib178790;
+        Wed, 26 Jun 2019 10:10:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2018-07-02;
+ bh=Z0zCG0SMZmwKMXv+ACtzLqdeYvRM/SfClPkGSJ8PA8s=;
+ b=X9pLfqj9VC75vmOc5mWBekP9VDo93nVKSUlAgt7fhcYSVzXGFp3jUG7GErQ/1qwgYkNS
+ Gm1fN51sWKwivKmimFkSC3Qm34zuK+lvWEAyCUIfWdLyAyJfuumsh/4fBretd9HagaRT
+ v85whqDH5eMtlF/XLwWaHojXyd8VPzSXPBHirceMBzyZm9ZNkWDHDM/ew1/IfPEMLWHI
+ zSO271mvt+TypT3He2h3v7AI5acge3CwLZPOeoboa0Hw9KgZvNs7VjmAZoA9IORWUm+G
+ rmIH5FiHw71jZq0lpepymfH1Vy+mhS8gH6xCsLRJCX7NpPaFysP7FouPLTXYk85kESP+ eA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2120.oracle.com with ESMTP id 2t9c9pscvj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 26 Jun 2019 10:10:49 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QAAlm6045874;
+        Wed, 26 Jun 2019 10:10:49 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3020.oracle.com with ESMTP id 2t9p6upt55-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 26 Jun 2019 10:10:48 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5QAAmgU005403;
+        Wed, 26 Jun 2019 10:10:48 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 26 Jun 2019 03:10:47 -0700
+Date:   Wed, 26 Jun 2019 13:10:41 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] intel-ish-hid: Fix a use after free in load_fw_from_host()
+Message-ID: <20190626101041.GE3242@mwanda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBMr5/JgxIQfuHBGSv/a8sgbsFYxLAs1xDDRDpLmOgjda0I1f16knr0njRE8bqXvawhlNtIculjIHqPfFWuVefA1wdp7PK5D39meArZ7F9u8LS1WWVSz
- K3qXUvjdAZ3QY6adxe82Y3pmYS9mDFxF+X3TdKwhwNzb2u40L2lcl1arsbuY5K3wAKfO+jIahY51Dr/XpmmViN1p7wXu+uBfqtxNwQ6R7UUH7ogqr1OoXOI1
- KA4j2xgyqG7XBsNZiDsKhv+Dy2eV5g68YoTEAS4CcKZGKul9l101NWYUKWawDlC7M+VBBHO/wRpa2Jiqtvb2xTn9y+otRcEihNaT7gXWsVvMID8Ap4BBzLVQ
- TRtjNLeJwCJIVHtWcqj0nbOBAPu+4VcciR6qZ1cia7S4SQSfhDA=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906260122
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906260122
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This driver set the colorspace to SRGB, but that makes no sense for
-a touchscreen. Use RAW instead. This also ensures consistency with the
-v4l_pix_format_touch() call that's used in v4l2-ioctl.c.
+We have to print the filename first before we can kfree it.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: 91b228107da3 ("HID: intel-ish-hid: ISH firmware loader client driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
-Dmitry, do you want to take this, or shall I? I have no preference.
----
-diff --git a/drivers/input/touchscreen/sur40.c b/drivers/input/touchscreen/sur40.c
-index 00cb1ba2d364..3fd3e862269b 100644
---- a/drivers/input/touchscreen/sur40.c
-+++ b/drivers/input/touchscreen/sur40.c
-@@ -186,7 +186,7 @@ static const struct v4l2_pix_format sur40_pix_format[] = {
- 		.width  = SENSOR_RES_X / 2,
- 		.height = SENSOR_RES_Y / 2,
- 		.field = V4L2_FIELD_NONE,
--		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.colorspace = V4L2_COLORSPACE_RAW,
- 		.bytesperline = SENSOR_RES_X / 2,
- 		.sizeimage = (SENSOR_RES_X/2) * (SENSOR_RES_Y/2),
- 	},
-@@ -195,7 +195,7 @@ static const struct v4l2_pix_format sur40_pix_format[] = {
- 		.width  = SENSOR_RES_X / 2,
- 		.height = SENSOR_RES_Y / 2,
- 		.field = V4L2_FIELD_NONE,
--		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.colorspace = V4L2_COLORSPACE_RAW,
- 		.bytesperline = SENSOR_RES_X / 2,
- 		.sizeimage = (SENSOR_RES_X/2) * (SENSOR_RES_Y/2),
- 	}
+ drivers/hid/intel-ish-hid/ishtp-fw-loader.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+index 22ba21457035..aa2dbed30fc3 100644
+--- a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
++++ b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+@@ -816,9 +816,9 @@ static int load_fw_from_host(struct ishtp_cl_data *client_data)
+ 		goto end_err_fw_release;
+ 
+ 	release_firmware(fw);
+-	kfree(filename);
+ 	dev_info(cl_data_to_dev(client_data), "ISH firmware %s loaded\n",
+ 		 filename);
++	kfree(filename);
+ 	return 0;
+ 
+ end_err_fw_release:
+-- 
+2.20.1
+
