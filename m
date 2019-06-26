@@ -2,37 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1BEB56838
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2019 14:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1785D5684C
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2019 14:09:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726329AbfFZMHN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Jun 2019 08:07:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48172 "EHLO mail.kernel.org"
+        id S1726948AbfFZMJ0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Jun 2019 08:09:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49970 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726104AbfFZMHN (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Jun 2019 08:07:13 -0400
+        id S1726131AbfFZMJ0 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 Jun 2019 08:09:26 -0400
 Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A4EAD20656;
-        Wed, 26 Jun 2019 12:07:10 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BE0BE20656;
+        Wed, 26 Jun 2019 12:09:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561550832;
-        bh=jXGutaTjejtrAQAneu9IrbdI/efrD3y52cxsTEwVDGY=;
+        s=default; t=1561550965;
+        bh=PxyK9oY0MEgJeIOucTmXIUhsIguCSExshywKlXMEEuY=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Ad1D0480qprxHCrqmW/MmgrEoYC0r8Fietb9QqJ476F3/oGBFdWBuCtThCCWv46mf
-         ugAzLfn773BdCrbVgTfERcWmSU/Ah8Upw0PFL/EEUKYMu3kgKQRGLcZJ6e47EeuWg8
-         JH3qavwhxXvLxOLFksZdedReoTCyJ5jfNsCXJ1ew=
-Date:   Wed, 26 Jun 2019 14:07:08 +0200 (CEST)
+        b=sZPAt9mZthZ+DFBoEYSPo3nfWqaDlKDAo5s27r08IaEHsdWCuKigbyO3krlDZxBPN
+         FpbPjl2ZwX4mcYt/DsAJqtrozsdw8POlxjzf5/QWqldZYMeF7Czla5CsSdEqh5QR+i
+         BIOo+FyXHDE9LEt0JUlz/QSsFQcGbjMmhTkjEHFA=
+Date:   Wed, 26 Jun 2019 14:09:21 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     hongyan.song@intel.com
-cc:     srinivas.pandruvada@linux.intel.com, linux-input@vger.kernel.org,
-        linux-iio@vger.kernel.org, hdegoede@redhat.com, jic23@kernel.org,
-        even.xu@intel.com
-Subject: Re: [PATCH v3] hid: remove NO_D3 flag when remove driver
-In-Reply-To: <1559434641-11783-1-git-send-email-hongyan.song@intel.com>
-Message-ID: <nycvar.YFH.7.76.1906261406120.27227@cbobk.fhfr.pm>
-References: <1559434641-11783-1-git-send-email-hongyan.song@intel.com>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+cc:     benjamin.tissoires@redhat.com, even.xu@intel.com,
+        hyungwoo.yang@intel.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [UPDATE][PATCH v4] HID: intel-ish-hid: fix wrong driver_data
+ usage
+In-Reply-To: <20190606045227.7515-1-srinivas.pandruvada@linux.intel.com>
+Message-ID: <nycvar.YFH.7.76.1906261409130.27227@cbobk.fhfr.pm>
+References: <20190606045227.7515-1-srinivas.pandruvada@linux.intel.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -41,26 +42,26 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 2 Jun 2019, hongyan.song@intel.com wrote:
+On Wed, 5 Jun 2019, Srinivas Pandruvada wrote:
 
-> From: Song Hongyan <hongyan.song@intel.com>
+> From: Hyungwoo Yang <hyungwoo.yang@intel.com>
 > 
-> Remove the NO_D3 flag when remove the driver and let device enter
-> into D3, it will save more power.
+> Currently, in suspend() and resume(), ishtp client drivers are using
+> driver_data to get "struct ishtp_cl_device" object which is set by
+> bus driver. It's wrong since the driver_data should not be owned bus.
+> driver_data should be owned by the corresponding ishtp client driver.
+> Due to this, some ishtp client driver like cros_ec_ishtp which uses
+> its driver_data to transfer its data to its child doesn't work correctly.
 > 
-> Signed-off-by: Song Hongyan <hongyan.song@intel.com>
+> So this patch removes setting driver_data in bus drier and instead of
+> using driver_data to get "struct ishtp_cl_device", since "struct device"
+> is embedded in "struct ishtp_cl_device", we introduce a helper function
+> that returns "struct ishtp_cl_device" from "struct device".
+> 
+> Signed-off-by: Hyungwoo Yang <hyungwoo.yang@intel.com>
 > Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
-> v3 changes: 
-> After test the former implmentation, we found FW will enter D3 when
-> system enter into S0i3. Change the implementation to meet the requirement:
-> device enter D3 and have no impact to ISH platform.
 
-Srinivas, I'd prefer changes like this to go to Linus tree in merge window 
-and not -rc phase, so I'll do that unless you tell me there is a good 
-reason to push it to Linus still in -rc.
-
-Thanks,
+Applied to for-5.2/fixes.
 
 -- 
 Jiri Kosina
