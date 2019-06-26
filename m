@@ -2,109 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BCF3756086
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2019 05:52:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DDB1565EF
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2019 11:52:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726867AbfFZDlp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Jun 2019 23:41:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52270 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726880AbfFZDlp (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Jun 2019 23:41:45 -0400
-Received: from sasha-vm.mshome.net (mobile-107-77-172-74.mobile.att.net [107.77.172.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6362F2168B;
-        Wed, 26 Jun 2019 03:41:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561520504;
-        bh=rhVLW5hBkjFRb9VPCj9+agroOiXlytsEqAo5ZrqBteM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HyHiRFwfQcYeSZJf5ZKGvWQrTk0IzbbfjLgKDxXeGGrGv6h61Uz6gNZPvoXsOni7d
-         SDV9s7kDnNfxU1QrtSHm/7GwZdEVnQTU79Lq3VaZv3c3oOCnHvNHdqQaMZeZ5JDjZg
-         Lnsl4v8LABC3AY5HTcTb7YpMGyAmggJ4LRJ4XUdI=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?B=C5=82a=C5=BCej=20Szczygie=C5=82?= <spaz16@wp.pl>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 12/51] HID: a4tech: fix horizontal scrolling
-Date:   Tue, 25 Jun 2019 23:40:28 -0400
-Message-Id: <20190626034117.23247-12-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190626034117.23247-1-sashal@kernel.org>
-References: <20190626034117.23247-1-sashal@kernel.org>
+        id S1725876AbfFZJwV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Jun 2019 05:52:21 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:53457 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725379AbfFZJwV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 Jun 2019 05:52:21 -0400
+Received: from [IPv6:2001:420:44c1:2579:95e:6256:39de:52a6] ([IPv6:2001:420:44c1:2579:95e:6256:39de:52a6])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id g4bAhWHH7SfvXg4bDhK2QV; Wed, 26 Jun 2019 11:52:19 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>
+Cc:     Florian Echtler <floe@butterbrot.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] input/touchscreen/sur40: use COLORSPACE_RAW
+Message-ID: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
+Date:   Wed, 26 Jun 2019 11:52:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfBMr5/JgxIQfuHBGSv/a8sgbsFYxLAs1xDDRDpLmOgjda0I1f16knr0njRE8bqXvawhlNtIculjIHqPfFWuVefA1wdp7PK5D39meArZ7F9u8LS1WWVSz
+ K3qXUvjdAZ3QY6adxe82Y3pmYS9mDFxF+X3TdKwhwNzb2u40L2lcl1arsbuY5K3wAKfO+jIahY51Dr/XpmmViN1p7wXu+uBfqtxNwQ6R7UUH7ogqr1OoXOI1
+ KA4j2xgyqG7XBsNZiDsKhv+Dy2eV5g68YoTEAS4CcKZGKul9l101NWYUKWawDlC7M+VBBHO/wRpa2Jiqtvb2xTn9y+otRcEihNaT7gXWsVvMID8Ap4BBzLVQ
+ TRtjNLeJwCJIVHtWcqj0nbOBAPu+4VcciR6qZ1cia7S4SQSfhDA=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Błażej Szczygieł <spaz16@wp.pl>
+This driver set the colorspace to SRGB, but that makes no sense for
+a touchscreen. Use RAW instead. This also ensures consistency with the
+v4l_pix_format_touch() call that's used in v4l2-ioctl.c.
 
-[ Upstream commit abf82e8f7e9af40a49e3d905187c662a43c96c8f ]
-
-Since recent high resolution scrolling changes the A4Tech driver must
-check for the "REL_WHEEL_HI_RES" usage code.
-
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=203369
-Fixes: 2dc702c991e3774af9d7ce410eef410ca9e2357e ("HID: input: use the Resolution Multiplier for high-resolution scrolling")
-Signed-off-by: Błażej Szczygieł <spaz16@wp.pl>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/hid/hid-a4tech.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/hid-a4tech.c b/drivers/hid/hid-a4tech.c
-index 9428ea7cdf8a..c3a6ce3613fe 100644
---- a/drivers/hid/hid-a4tech.c
-+++ b/drivers/hid/hid-a4tech.c
-@@ -38,8 +38,10 @@ static int a4_input_mapped(struct hid_device *hdev, struct hid_input *hi,
- {
- 	struct a4tech_sc *a4 = hid_get_drvdata(hdev);
- 
--	if (usage->type == EV_REL && usage->code == REL_WHEEL)
-+	if (usage->type == EV_REL && usage->code == REL_WHEEL_HI_RES) {
- 		set_bit(REL_HWHEEL, *bit);
-+		set_bit(REL_HWHEEL_HI_RES, *bit);
-+	}
- 
- 	if ((a4->quirks & A4_2WHEEL_MOUSE_HACK_7) && usage->hid == 0x00090007)
- 		return -1;
-@@ -60,7 +62,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
- 	input = field->hidinput->input;
- 
- 	if (a4->quirks & A4_2WHEEL_MOUSE_HACK_B8) {
--		if (usage->type == EV_REL && usage->code == REL_WHEEL) {
-+		if (usage->type == EV_REL && usage->code == REL_WHEEL_HI_RES) {
- 			a4->delayed_value = value;
- 			return 1;
- 		}
-@@ -68,6 +70,8 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
- 		if (usage->hid == 0x000100b8) {
- 			input_event(input, EV_REL, value ? REL_HWHEEL :
- 					REL_WHEEL, a4->delayed_value);
-+			input_event(input, EV_REL, value ? REL_HWHEEL_HI_RES :
-+					REL_WHEEL_HI_RES, a4->delayed_value * 120);
- 			return 1;
- 		}
+Dmitry, do you want to take this, or shall I? I have no preference.
+---
+diff --git a/drivers/input/touchscreen/sur40.c b/drivers/input/touchscreen/sur40.c
+index 00cb1ba2d364..3fd3e862269b 100644
+--- a/drivers/input/touchscreen/sur40.c
++++ b/drivers/input/touchscreen/sur40.c
+@@ -186,7 +186,7 @@ static const struct v4l2_pix_format sur40_pix_format[] = {
+ 		.width  = SENSOR_RES_X / 2,
+ 		.height = SENSOR_RES_Y / 2,
+ 		.field = V4L2_FIELD_NONE,
+-		.colorspace = V4L2_COLORSPACE_SRGB,
++		.colorspace = V4L2_COLORSPACE_RAW,
+ 		.bytesperline = SENSOR_RES_X / 2,
+ 		.sizeimage = (SENSOR_RES_X/2) * (SENSOR_RES_Y/2),
+ 	},
+@@ -195,7 +195,7 @@ static const struct v4l2_pix_format sur40_pix_format[] = {
+ 		.width  = SENSOR_RES_X / 2,
+ 		.height = SENSOR_RES_Y / 2,
+ 		.field = V4L2_FIELD_NONE,
+-		.colorspace = V4L2_COLORSPACE_SRGB,
++		.colorspace = V4L2_COLORSPACE_RAW,
+ 		.bytesperline = SENSOR_RES_X / 2,
+ 		.sizeimage = (SENSOR_RES_X/2) * (SENSOR_RES_Y/2),
  	}
-@@ -77,8 +81,9 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
- 		return 1;
- 	}
- 
--	if (usage->code == REL_WHEEL && a4->hw_wheel) {
-+	if (usage->code == REL_WHEEL_HI_RES && a4->hw_wheel) {
- 		input_event(input, usage->type, REL_HWHEEL, value);
-+		input_event(input, usage->type, REL_HWHEEL_HI_RES, value * 120);
- 		return 1;
- 	}
- 
--- 
-2.20.1
-
