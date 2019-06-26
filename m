@@ -2,38 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7187C56D57
+	by mail.lfdr.de (Postfix) with ESMTP id E9E5C56D58
 	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2019 17:11:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727516AbfFZPLm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Jun 2019 11:11:42 -0400
-Received: from smtp120.ord1c.emailsrvr.com ([108.166.43.120]:60325 "EHLO
+        id S1727858AbfFZPLn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Jun 2019 11:11:43 -0400
+Received: from smtp120.ord1c.emailsrvr.com ([108.166.43.120]:51876 "EHLO
         smtp120.ord1c.emailsrvr.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726948AbfFZPLm (ORCPT
+        by vger.kernel.org with ESMTP id S1726104AbfFZPLn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Jun 2019 11:11:42 -0400
+        Wed, 26 Jun 2019 11:11:43 -0400
+X-Greylist: delayed 548 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 Jun 2019 11:11:42 EDT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-        s=20190130-41we5z8j; t=1561561355;
-        bh=D5/zrBMP6scQMsXyVW3verDUx90+S2RZUhZpsdIoTZI=;
+        s=20190130-41we5z8j; t=1561561356;
+        bh=w3ydv+jwbRffdkB8VL13vocRK8V/OnsN33vW0u4uKM0=;
         h=From:To:Subject:Date:From;
-        b=l6agZFOF8VYEU8o2DS7C5L5dxHmsvyRXuv0PV1p8MzIHqazXJy8LVgjQ2AJc35FjF
-         N7kNoYfu73aS5GGUJp6CzJoJzAHhhzKrvUlok0VqTY+l7p9kWXLLBx6fXaIVkEwzRR
-         3ZHbwD6XLp9m4Mb7aduWT1Cjstdx1+CrTH4n9j/g=
+        b=jT/f1qqdorE5Dhm9QjlYIs5CCFJa3AvEZmh5q/zDQlAMEIwvfLjtSgXvzxmH7GuVg
+         NYejSidEFxfhs0mjFQPuAJyVo/otGVYU96GiYE0YvxZLxDrUiPIXka5HIlb+vQfFpl
+         UfEZbqQXGZULh9V+hA8kR1ckvinsP4/4SYh/63Vo=
 X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp16.relay.ord1c.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 90CBAC00A2;
-        Wed, 26 Jun 2019 11:02:34 -0400 (EDT)
+Received: by smtp16.relay.ord1c.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 15EABC01C6;
+        Wed, 26 Jun 2019 11:02:35 -0400 (EDT)
 X-Sender-Id: abbotti@mev.co.uk
 Received: from ian-deb.inside.mev.co.uk (remote.quintadena.com [81.133.34.160])
         (using TLSv1.2 with cipher DHE-RSA-AES128-GCM-SHA256)
         by 0.0.0.0:465 (trex/5.7.12);
-        Wed, 26 Jun 2019 11:02:35 -0400
+        Wed, 26 Jun 2019 11:02:36 -0400
 From:   Ian Abbott <abbotti@mev.co.uk>
 To:     linux-input@vger.kernel.org
 Cc:     David Herrmann <dh.herrmann@googlemail.com>,
         Jiri Kosina <jikos@kernel.org>, Ian Abbott <abbotti@mev.co.uk>
-Subject: [PATCH 1/2] HID: wiimote: make handlers[] const
-Date:   Wed, 26 Jun 2019 16:02:11 +0100
-Message-Id: <20190626150212.27967-2-abbotti@mev.co.uk>
+Subject: [PATCH 2/2] HID: wiimote: narrow spinlock range in wiimote_hid_event()
+Date:   Wed, 26 Jun 2019 16:02:12 +0100
+Message-Id: <20190626150212.27967-3-abbotti@mev.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190626150212.27967-1-abbotti@mev.co.uk>
 References: <20190626150212.27967-1-abbotti@mev.co.uk>
@@ -44,35 +45,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The `handlers[]` array contents are never modified, so use the `const`
-qualifier.
+In `wiimote_hid_event()`, the `wdata->state.lock` spinlock does not need
+to be held while searching `handlers[]` for a suitable handler function.
+Change it so the spinlock is only held during the call to the handler
+function itself.
 
 Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
 ---
- drivers/hid/hid-wiimote-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/hid/hid-wiimote-core.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/hid/hid-wiimote-core.c b/drivers/hid/hid-wiimote-core.c
-index 92874dbe4d4a..5b216f1eef58 100644
+index 5b216f1eef58..3c59c3a019f6 100644
 --- a/drivers/hid/hid-wiimote-core.c
 +++ b/drivers/hid/hid-wiimote-core.c
-@@ -1586,7 +1586,7 @@ struct wiiproto_handler {
- 	void (*func)(struct wiimote_data *wdata, const __u8 *payload);
- };
+@@ -1625,12 +1625,12 @@ static int wiimote_hid_event(struct hid_device *hdev, struct hid_report *report,
+ 	if (size < 1)
+ 		return -EINVAL;
  
--static struct wiiproto_handler handlers[] = {
-+static const struct wiiproto_handler handlers[] = {
- 	{ .id = WIIPROTO_REQ_STATUS, .size = 6, .func = handler_status },
- 	{ .id = WIIPROTO_REQ_STATUS, .size = 2, .func = handler_status_K },
- 	{ .id = WIIPROTO_REQ_DATA, .size = 21, .func = handler_data },
-@@ -1618,7 +1618,7 @@ static int wiimote_hid_event(struct hid_device *hdev, struct hid_report *report,
- 							u8 *raw_data, int size)
- {
- 	struct wiimote_data *wdata = hid_get_drvdata(hdev);
--	struct wiiproto_handler *h;
-+	const struct wiiproto_handler *h;
- 	int i;
- 	unsigned long flags;
+-	spin_lock_irqsave(&wdata->state.lock, flags);
+-
+ 	for (i = 0; handlers[i].id; ++i) {
+ 		h = &handlers[i];
+ 		if (h->id == raw_data[0] && h->size < size) {
++			spin_lock_irqsave(&wdata->state.lock, flags);
+ 			h->func(wdata, &raw_data[1]);
++			spin_unlock_irqrestore(&wdata->state.lock, flags);
+ 			break;
+ 		}
+ 	}
+@@ -1639,8 +1639,6 @@ static int wiimote_hid_event(struct hid_device *hdev, struct hid_report *report,
+ 		hid_warn(hdev, "Unhandled report %hhu size %d\n", raw_data[0],
+ 									size);
+ 
+-	spin_unlock_irqrestore(&wdata->state.lock, flags);
+-
+ 	return 0;
+ }
  
 -- 
 2.20.1
