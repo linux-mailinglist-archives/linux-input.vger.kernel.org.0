@@ -2,114 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 38DA855310
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2019 17:16:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A72855FA9
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2019 05:41:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730607AbfFYPQo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Jun 2019 11:16:44 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:38893 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727485AbfFYPQo (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Jun 2019 11:16:44 -0400
-X-Originating-IP: 83.155.44.161
-Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
-        (Authenticated sender: hadess@hadess.net)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 253B0240003;
-        Tue, 25 Jun 2019 15:16:38 +0000 (UTC)
-Message-ID: <c0eaa2b5992509bb563d4120efdfeed26d639930.camel@hadess.net>
-Subject: Re: [PATCH v2] HID: sb0540: add support for Creative SB0540 IR
- receivers
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 25 Jun 2019 17:16:38 +0200
-In-Reply-To: <nycvar.YFH.7.76.1906251710290.27227@cbobk.fhfr.pm>
-References: <bab94702a142c9f1dff291806b6f5beef99437d0.camel@hadess.net>
-         <nycvar.YFH.7.76.1906251710290.27227@cbobk.fhfr.pm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+        id S1726387AbfFZDlV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Jun 2019 23:41:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51582 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726077AbfFZDlV (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 25 Jun 2019 23:41:21 -0400
+Received: from sasha-vm.mshome.net (mobile-107-77-172-74.mobile.att.net [107.77.172.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1FCC820659;
+        Wed, 26 Jun 2019 03:41:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561520480;
+        bh=ILdNPj3z8+pezhYzm9dmkr3+dbNKAPUfRHgz8RruHVE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cm/aPTtJt6wfLaEafSQjy45xWKhn/Uqe0U1Yp9vw7d01UG1hIt75e9fnuXYHbglHT
+         mf8wfRhuplYPZ2CP5u3f0NEx4Iof5NQgkb4y2v0uD+ibp5j6rh9QrEpE4COIfWqVlK
+         KdjLxB/iMyM2pBOmCWTIfezvXPTf2Ha3QnYmXKVA=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.1 01/51] HID: i2c-hid: add iBall Aer3 to descriptor override
+Date:   Tue, 25 Jun 2019 23:40:17 -0400
+Message-Id: <20190626034117.23247-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 2019-06-25 at 17:13 +0200, Jiri Kosina wrote:
-> On Tue, 25 Jun 2019, Bastien Nocera wrote:
-> 
-> > With initial reviews from Benjamin Tissoires.
-> 
-> I guess this is not the final version of the patch then, and proper 
-> changelog will be inserted here :)
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
 
-I'm not sure what else is needed there. The rest of the information is
-in the code, in the Kconfig, etc.
+[ Upstream commit eb6964fa6509b4f1152313f1e0bb67f0c54a6046 ]
 
-> > Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> 
-> [ ... snip ... ]
-> 
-> > +config HID_CREATIVE_SB0540
-> > +	tristate "Creative SB0540 infrared receiver"
-> > +	depends on (USB_HID)
-> 
-> Could you please remove the superfluous parenthesis?
+This device uses the SIPODEV SP1064 touchpad, which does not
+supply descriptors, so it has to be added to the override
+list.
 
-I copied it from the only other entry that has that parenthesis in the
-file:
-config HID_APPLEIR
-        tristate "Apple infrared receiver"
-        depends on (USB_HID)
+BugLink: https://bugs.launchpad.net/bugs/1825718
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Do you want a patch for that?
-
-> > +	---help---
-> > +	Support for Creative infrared SB0540-compatible remote
-> > controls, such
-> > +	as the RM-1500 and RM-1800 remotes.
-> > +
-> > +	Say Y here if you want support for Creative SB0540 infrared
-> > receiver.
-> > +
-> >  config HID_CYPRESS
-> >  	tristate "Cypress mouse and barcode readers"
-> >  	depends on HID
-> > diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> > index cc5d827c9164..1ad662fe37b6 100644
-> > --- a/drivers/hid/Makefile
-> > +++ b/drivers/hid/Makefile
-> > @@ -27,6 +27,7 @@ obj-$(CONFIG_HID_ALPS)		+= hid-alps.o
-> >  obj-$(CONFIG_HID_ACRUX)		+= hid-axff.o
-> >  obj-$(CONFIG_HID_APPLE)		+= hid-apple.o
-> >  obj-$(CONFIG_HID_APPLEIR)	+= hid-appleir.o
-> > +obj-$(CONFIG_HID_CREATIVE_SB0540)	+= hid-creative-sb0540.c
-> >  obj-$(CONFIG_HID_ASUS)		+= hid-asus.o
-> >  obj-$(CONFIG_HID_AUREAL)	+= hid-aureal.o
-> >  obj-$(CONFIG_HID_BELKIN)	+= hid-belkin.o
-> > diff --git a/drivers/hid/hid-creative-sb0540.c b/drivers/hid/hid-
-> > creative-sb0540.c
-> > new file mode 100644
-> > index 000000000000..a94542cbdd33
-> > --- /dev/null
-> > +++ b/drivers/hid/hid-creative-sb0540.c
-> > @@ -0,0 +1,254 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * HID driver for the Creative SB0540 receiver
-> > + *
-> > + * Copyright (C) 2019 Red Hat Inc. All Rights Reserved
-> 
-> Given the fact you're claiming RH copyright, the patch should better
-> be 
-> signed off by from a redhat.com address I believe.
-
-If that's really needed, then I might as well put my own copyright
-there.
-
-Do you want a v2 with those changes?
-
-Cheers
+diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+index fd1b6eea6d2f..75078c83be1a 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
++++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+@@ -354,6 +354,14 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
+ 		},
+ 		.driver_data = (void *)&sipodev_desc
+ 	},
++	{
++		.ident = "iBall Aer3",
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "iBall"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Aer3"),
++		},
++		.driver_data = (void *)&sipodev_desc
++	},
+ 	{ }	/* Terminate list */
+ };
+ 
+-- 
+2.20.1
 
