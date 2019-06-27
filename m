@@ -2,256 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F9858533
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2019 17:07:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E860258E29
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2019 00:51:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726882AbfF0PHP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Jun 2019 11:07:15 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:53253 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726405AbfF0PHP (ORCPT
+        id S1726511AbfF0WvA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jun 2019 18:51:00 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:37791 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726506AbfF0WvA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Jun 2019 11:07:15 -0400
-Received: from orion.localdomain ([77.7.61.149]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MMGAg-1hxUuc45x8-00JKkU; Thu, 27 Jun 2019 17:07:13 +0200
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
-Subject: [PATCH 2/2] input: keyboard: gpio_keys_polled: use gpio lookup table
-Date:   Thu, 27 Jun 2019 17:07:11 +0200
-Message-Id: <1561648031-15887-2-git-send-email-info@metux.net>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1561648031-15887-1-git-send-email-info@metux.net>
-References: <1561648031-15887-1-git-send-email-info@metux.net>
-X-Provags-ID: V03:K1:Hws2lYSPQtdaxdpUg6NBrrKVEUPAKMyNeoto5GP7O+U7Xkcpqrd
- 2mWcXYfu8XmG83R2WRmzSYzSjEV2K1og3vtcerofW80wUoNdIGLTIbR8S3is2aiiiETGm2a
- r7SODDJC87ehNkod8A5lwTCeSahelvLURI/FggYced+RjNJILVQKj95+l5qMbXn+EVPubpT
- qy87Gw4c+z9AMifD2Sp8g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:a+OiVhE6TGU=:8qp48L5Fo8wJUr7L3QRmiB
- SOFrXvdTDjOOFStpe2qwKEP1JmNkXLE9n8Xe8hJLH6zcMScz3SXh2rdjsFKtfLCScC47OuLX5
- bsXP5SL2ot39fgulGChfD5UEL8hG+VimhjFOFeYY1AtFzQogXSUU/i37JkD6HYv6Oar5he10n
- am81SYr5AtPqNFp4TKpCbXpzdjcZBxwfwW1oGpjDztM9a20VGUSgkZJSXz1FNDScfbs0Fyd99
- VGXcTLipnPO3PECD9R1rNAR5FzUi9wgBKCnh8nX9fokjfSthzrqfgkqdqsoVYtblmP9AFD7lY
- 0bVSt7FaDC7DkXypbc1EJe1RW/f76Anp0ylKlCiLPOEhhL7VI99j0N6oDkq0B3aMw2FLXfdTL
- g0unQr5AjI8aYXobdpvcAWyev/v02Hd4x52Yg7KtAgZhlGlJZ6rBnPOCia2ujd+cfUGRNVY+m
- PfCYZaBx257vtFqqGcQmFSfydlgYnydc4DflBn1BLqSkWUm2GNy+hwEMJlMqsQqDN5/RQqLva
- 74WzkZ05qicdMy8ShDExRVgM55DON94RyF/iynfmN6U6G1niHNXnhm5ICtpjN9zf6d+tFjver
- ViU2/D7vNf9i6b7AL2QUdbX266WQjQFTO82YVp7AEM7LjFiVVIp2fi74UnskEnYe6wFFSOo12
- 3rqmvPr92fLefC6hgZQVIwO4I+Pcyyq8MEwXtk5ldB8I7tYB9cxQQ3qQAQMh86tzZVFfz3tFp
- og1qyui7WTGkuH1CMOf4C6fxH+Moc4jKw8yjzw==
+        Thu, 27 Jun 2019 18:51:00 -0400
+Received: by mail-wr1-f68.google.com with SMTP id v14so4257236wrr.4
+        for <linux-input@vger.kernel.org>; Thu, 27 Jun 2019 15:50:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=W9iMcV3G6zmKoXAUKhxFYSE5NHaLZFq1HtBlqyBDI7U=;
+        b=kD0KGez9g8V3QNzMNGtOGPFaochLQvdhOnbZuctuiTxzZbPEVaCVhANHaBCmA8S79U
+         0MOkNHWtW713IIKkeQ6pPsDMBwYGoelTD0EhDtfWm8Jx1Hfqk7m0edpxkPsAo1pL0brx
+         +RpOlv8lK1ajehh1QtfSVs5MdYDypgYO6+beAkfwh22/V1tzswHRhGGvYdiAiDj0POOF
+         vNhfu9VwJWLxrdy+htmoUFOtEzzdyc3FG9MTvdDEjCq4yXXa2KqYZG/pDxeMyy7s1evz
+         m6q9tLqDVUA40OTVcdT/2Yf7M8/8Aj1G1vPBRVOfmDM6wXGAAC1gDpnTK8aBiuowZqWQ
+         9sMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=W9iMcV3G6zmKoXAUKhxFYSE5NHaLZFq1HtBlqyBDI7U=;
+        b=t2ujCuAcefgBC4rtJ+HddDaCTm+JQcDM5TzEl+PRikEeT5kqG+6JTTm8mmUdFoupEt
+         o8hHAXy429wEd3tUol5KmzX6EVaRl+q1pcBQHfL6Fykmcun0UbcwFNwHD/A0ynmVWfFc
+         gHcmqe4a3DexR/BU0GFqiPtJA6bebxNR62RbrFNutADmVPf8PkmYo/4GcEiKf5zLG5pb
+         4xMzX90XPlOksk1jQvqRxyE/ke9h7eopgoQfyMcw8qKyn2fBN/m7ND+b2sHzrO0DKV1k
+         GB7ID/nIq/3EuAm2y1P/8m1Dw8Tk2tcH+8pIAUJBoubbXd2DNNAJEht6p1gvJle7E3CC
+         G0KQ==
+X-Gm-Message-State: APjAAAVE2m/fAnnnFs+bO2huPktSGznzWeiB+rPmk+3C0XdJsIVaLUtl
+        icDC1WNvtV5eeEVTnY0zoKA=
+X-Google-Smtp-Source: APXvYqzThx+qo1DAZzPBb8buMDMpKgujLnm3/pUFjOexxrk16qhnIKSpEGtQupnq/YVp4tjzSB0OPQ==
+X-Received: by 2002:a5d:40c2:: with SMTP id b2mr3247741wrq.326.1561675858001;
+        Thu, 27 Jun 2019 15:50:58 -0700 (PDT)
+Received: from Wall-E.localdomain (146.93.117.91.dynamic.reverse-mundo-r.com. [91.117.93.146])
+        by smtp.gmail.com with ESMTPSA id t80sm595868wmt.26.2019.06.27.15.50.56
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 27 Jun 2019 15:50:57 -0700 (PDT)
+Date:   Fri, 28 Jun 2019 00:50:55 +0200
+From:   Daniel Otero <otero.o.daniel@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>, linux-input@vger.kernel.org
+Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add info for 'Chuwi Hi10
+ Pro' touchscreen
+Message-ID: <20190627225055.GB9615@Wall-E.localdomain>
+References: <20190605232204.24679-1-otero.o.daniel@gmail.com>
+ <e434bca4-51d9-e601-5130-55eb48649ce5@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e434bca4-51d9-e601-5130-55eb48649ce5@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Support the recently introduced gpio lookup tables for
-attaching to gpio lines. So, harcoded gpio numbers aren't
-needed anymore.
+Thanks Hans!
 
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
----
- drivers/input/keyboard/gpio_keys_polled.c | 167 +++++++++++++++++++++---------
- 1 file changed, 119 insertions(+), 48 deletions(-)
+Anything else that I can do to get this accepted?
 
-diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
-index c168493..667b226 100644
---- a/drivers/input/keyboard/gpio_keys_polled.c
-+++ b/drivers/input/keyboard/gpio_keys_polled.c
-@@ -21,6 +21,7 @@
- #include <linux/platform_device.h>
- #include <linux/gpio.h>
- #include <linux/gpio/consumer.h>
-+#include <linux/gpio/machine.h>
- #include <linux/gpio_keys.h>
- #include <linux/property.h>
- 
-@@ -224,6 +225,119 @@ static void gpio_keys_polled_set_abs_params(struct input_dev *input,
- };
- MODULE_DEVICE_TABLE(of, gpio_keys_polled_of_match);
- 
-+static struct gpio_desc *gpio_keys_polled_get_gpiod_fwnode(
-+	struct device *dev,
-+	int idx,
-+	const char *desc)
-+{
-+	struct gpio_desc *gpiod;
-+	struct fwnode_handle *child;
-+	int x;
-+
-+	/* get the idx'th child node */
-+	child = device_get_next_child_node(dev, NULL);
-+	while (child && x) {
-+		child = device_get_next_child_node(dev, child);
-+		x--;
-+	}
-+
-+	if (!child) {
-+		dev_err(dev, "missing oftree child node #%d\n", idx);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	gpiod = devm_fwnode_get_gpiod_from_child(dev,
-+						 NULL,
-+						 child,
-+						 GPIOD_IN,
-+						 desc);
-+	if (IS_ERR(gpiod)) {
-+		if (PTR_ERR(gpiod) != -EPROBE_DEFER)
-+			dev_err(dev,
-+				"failed to get gpio: %ld\n",
-+				PTR_ERR(gpiod));
-+		fwnode_handle_put(child);
-+		return gpiod;
-+	}
-+
-+	return gpiod;
-+}
-+
-+static struct gpio_desc *gpio_keys_polled_get_gpiod_legacy(
-+	struct device *dev,
-+	int idx,
-+	const struct gpio_keys_button *button)
-+{
-+	/*
-+	 * Legacy GPIO number so request the GPIO here and
-+	 * convert it to descriptor.
-+	 */
-+	unsigned int flags = GPIOF_IN;
-+	struct gpio_desc *gpiod;
-+	int error;
-+
-+	dev_info(dev, "hardcoded gpio IDs are deprecated.\n");
-+
-+	if (button->active_low)
-+		flags |= GPIOF_ACTIVE_LOW;
-+
-+	error = devm_gpio_request_one(dev, button->gpio,
-+			flags, button->desc ? : DRV_NAME);
-+	if (error) {
-+		dev_err(dev,
-+			"unable to claim gpio %u, err=%d\n",
-+			button->gpio, error);
-+		return ERR_PTR(error);
-+	}
-+
-+	gpiod = gpio_to_desc(button->gpio);
-+	if (!gpiod) {
-+		dev_err(dev,
-+			"unable to convert gpio %u to descriptor\n",
-+			button->gpio);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	return gpiod;
-+}
-+
-+static struct gpio_desc *gpio_keys_polled_get_gpiod(
-+	struct device *dev,
-+	int idx,
-+	const struct gpio_keys_button *button)
-+{
-+	struct gpio_desc *gpiod = NULL;
-+	int error;
-+
-+	/* No legacy static platform data - use oftree */
-+	if (!dev_get_platdata(dev)) {
-+		return gpio_keys_polled_get_gpiod_fwnode(
-+			dev, idx, button->desc);
-+	}
-+
-+	gpiod = devm_gpiod_get_index(dev, NULL, idx, GPIOF_IN);
-+
-+	if (!IS_ERR(gpiod)) {
-+		dev_info(dev, "picked gpiod idx %d from gpio table\n", idx);
-+		gpiod_set_consumer_name(gpiod, button->desc ? : DRV_NAME);
-+		return gpiod;
-+	}
-+
-+	if (PTR_ERR(gpiod) != -ENOENT) {
-+		dev_err(dev, "failed fetching gpiod #%d: %d\n",
-+			idx, PTR_ERR(gpiod));
-+		return gpiod;
-+	}
-+
-+	/* Use legacy gpio id, if defined */
-+	if (gpio_is_valid(button->gpio)) {
-+		return gpio_keys_polled_get_gpiod_legacy(
-+			dev, idx, button);
-+	}
-+
-+	return ERR_PTR(-ENOENT);
-+}
-+
- static int gpio_keys_polled_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -288,57 +402,14 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
- 
- 		if (button->wakeup) {
- 			dev_err(dev, DRV_NAME " does not support wakeup\n");
--			fwnode_handle_put(child);
- 			return -EINVAL;
- 		}
- 
--		if (!dev_get_platdata(dev)) {
--			/* No legacy static platform data */
--			child = device_get_next_child_node(dev, child);
--			if (!child) {
--				dev_err(dev, "missing child device node\n");
--				return -EINVAL;
--			}
--
--			bdata->gpiod = devm_fwnode_get_gpiod_from_child(dev,
--								NULL, child,
--								GPIOD_IN,
--								button->desc);
--			if (IS_ERR(bdata->gpiod)) {
--				error = PTR_ERR(bdata->gpiod);
--				if (error != -EPROBE_DEFER)
--					dev_err(dev,
--						"failed to get gpio: %d\n",
--						error);
--				fwnode_handle_put(child);
--				return error;
--			}
--		} else if (gpio_is_valid(button->gpio)) {
--			/*
--			 * Legacy GPIO number so request the GPIO here and
--			 * convert it to descriptor.
--			 */
--			unsigned flags = GPIOF_IN;
--
--			if (button->active_low)
--				flags |= GPIOF_ACTIVE_LOW;
--
--			error = devm_gpio_request_one(dev, button->gpio,
--					flags, button->desc ? : DRV_NAME);
--			if (error) {
--				dev_err(dev,
--					"unable to claim gpio %u, err=%d\n",
--					button->gpio, error);
--				return error;
--			}
--
--			bdata->gpiod = gpio_to_desc(button->gpio);
--			if (!bdata->gpiod) {
--				dev_err(dev,
--					"unable to convert gpio %u to descriptor\n",
--					button->gpio);
--				return -EINVAL;
--			}
-+		bdata->gpiod = gpio_keys_polled_get_gpiod(dev, i, button);
-+
-+		if (IS_ERR(bdata->gpiod)) {
-+			dev_err(dev, "failed to fetch gpiod #%d\n", i);
-+			return PTR_ERR(bdata->gpiod);
- 		}
- 
- 		bdata->last_state = -1;
--- 
-1.9.1
+Regards,
 
+On Thu, Jun 06, 2019 at 09:33:17AM +0200, Hans de Goede wrote:
+> Hi,
+>
+> On 06-06-19 01:22, Daniel Otero wrote:
+> > Add touchscreen platform data for the 'Chuwi Hi10 Pro' tablet touchscreen.
+> >
+> > Signed-off-by: Daniel Otero <otero.o.daniel@gmail.com>
+>
+> Patch looks good to me:
+>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>
+> Regards,
+>
+> Hans
+>
+>
+> > ---
+> >   drivers/platform/x86/touchscreen_dmi.c | 25 +++++++++++++++++++++++++
+> >   1 file changed, 25 insertions(+)
+> >
+> > diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+> > index b662cb2d7cd5..d942082c5b7b 100644
+> > --- a/drivers/platform/x86/touchscreen_dmi.c
+> > +++ b/drivers/platform/x86/touchscreen_dmi.c
+> > @@ -87,6 +87,23 @@ static const struct ts_dmi_data chuwi_hi10_air_data = {
+> >   	.properties	= chuwi_hi10_air_props,
+> >   };
+> > +static const struct property_entry chuwi_hi10_pro_props[] = {
+> > +	PROPERTY_ENTRY_U32("touchscreen-size-x", 1911),
+> > +	PROPERTY_ENTRY_U32("touchscreen-size-y", 1276),
+> > +	PROPERTY_ENTRY_U32("touchscreen-min-x", 9),
+> > +	PROPERTY_ENTRY_U32("touchscreen-min-y", 9),
+> > +	PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
+> > +	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-chuwi-hi10-pro.fw"),
+> > +	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
+> > +	PROPERTY_ENTRY_BOOL("silead,home-button"),
+> > +	{ }
+> > +};
+> > +
+> > +static const struct ts_dmi_data chuwi_hi10_pro_data = {
+> > +	.acpi_name	= "MSSL1680:00",
+> > +	.properties	= chuwi_hi10_pro_props,
+> > +};
+> > +
+> >   static const struct property_entry chuwi_vi8_props[] = {
+> >   	PROPERTY_ENTRY_U32("touchscreen-min-x", 4),
+> >   	PROPERTY_ENTRY_U32("touchscreen-min-y", 6),
+> > @@ -601,6 +618,14 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+> >   			DMI_MATCH(DMI_PRODUCT_SKU, "P1W6_C109D_B"),
+> >   		},
+> >   	},
+> > +	{
+> > +		/* Chuwi Hi10 Pro (CWI529) */
+> > +		.driver_data = (void *)&chuwi_hi10_pro_data,
+> > +		.matches = {
+> > +			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
+> > +			DMI_MATCH(DMI_PRODUCT_NAME, "Hi10 pro tablet"),
+> > +		},
+> > +	},
+> >   	{
+> >   		/* Chuwi Vi8 (CWI506) */
+> >   		.driver_data = (void *)&chuwi_vi8_data,
+> >
