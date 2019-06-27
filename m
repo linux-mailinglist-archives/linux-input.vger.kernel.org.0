@@ -2,128 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0C6257725
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2019 02:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A12975772B
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2019 02:45:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729855AbfF0AnQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Jun 2019 20:43:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47132 "EHLO mail.kernel.org"
+        id S1729299AbfF0AnW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 26 Jun 2019 20:43:22 -0400
+Received: from mga09.intel.com ([134.134.136.24]:11270 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729852AbfF0AnQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Jun 2019 20:43:16 -0400
-Received: from sasha-vm.mshome.net (unknown [107.242.116.147])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 36F27214DA;
-        Thu, 27 Jun 2019 00:43:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561596195;
-        bh=zv5ArkQNzKVhkr4KOuXcuxsIBaZHqAmilWoFbD4Feso=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QZrpmoRg16x77PSvdLbDpGf6UozKZ9xd9/AM+omEFEsCerwRdK6wgPJVkHICQv19A
-         mj7ljabbH+9P0lyKjnUtkT/098Vgnq/4i1mULipFlSZH4qTWIxlxfB1YINdQaTrXx1
-         1kkRw7a7IihrMYiQSoI9n3iK4pOm8C/FYJWFsFaU=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Anson Huang <anson.huang@nxp.com>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 08/12] Input: imx_keypad - make sure keyboard can always wake up system
-Date:   Wed, 26 Jun 2019 20:42:30 -0400
-Message-Id: <20190627004236.21909-8-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190627004236.21909-1-sashal@kernel.org>
-References: <20190627004236.21909-1-sashal@kernel.org>
+        id S1729871AbfF0AnW (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 Jun 2019 20:43:22 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Jun 2019 17:43:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,421,1557212400"; 
+   d="scan'208";a="360515306"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+  by fmsmga005.fm.intel.com with ESMTP; 26 Jun 2019 17:43:20 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 26 Jun 2019 17:43:20 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 26 Jun 2019 17:43:19 -0700
+Received: from shsmsx105.ccr.corp.intel.com (10.239.4.158) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Wed, 26 Jun 2019 17:43:19 -0700
+Received: from shsmsx103.ccr.corp.intel.com ([169.254.4.83]) by
+ SHSMSX105.ccr.corp.intel.com ([169.254.11.72]) with mapi id 14.03.0439.000;
+ Thu, 27 Jun 2019 08:43:18 +0800
+From:   "Song, Hongyan" <hongyan.song@intel.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+CC:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "jic23@kernel.org" <jic23@kernel.org>,
+        "Xu, Even" <even.xu@intel.com>
+Subject: RE: [PATCH v3] hid: remove NO_D3 flag when remove driver
+Thread-Topic: [PATCH v3] hid: remove NO_D3 flag when remove driver
+Thread-Index: AQHVGNiSNbVdT14cSEyAQBwUe1GZ/qatd40AgAA4r4CAAGX8AIAAuinA
+Date:   Thu, 27 Jun 2019 00:43:18 +0000
+Message-ID: <AE3E3DFA698D6144A7445C92D1D41E2F10D92AD8@SHSMSX103.ccr.corp.intel.com>
+References: <1559434641-11783-1-git-send-email-hongyan.song@intel.com>
+  <nycvar.YFH.7.76.1906261406120.27227@cbobk.fhfr.pm>
+ <67a1ec6dd44866c29333f5b05184cc402bc20382.camel@linux.intel.com>
+ <nycvar.YFH.7.76.1906262334161.27227@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.1906262334161.27227@cbobk.fhfr.pm>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiM2YyYmQyZWYtZDJlMy00NTM1LThhZjEtYzA4MjlkZmFmMjBiIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiRTRYRVp3WDZac2dkemFrUFF1YUIzZjJsNXhpakpZK3lLK1l4OGVqWXhpSDk5ZzJcL1d1andyZjhnNmZoS3FFbGQifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.600.7
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Anson Huang <anson.huang@nxp.com>
+Hi,
+Thanks Jiri& Srinivas for the merge schedule information.
 
-[ Upstream commit ce9a53eb3dbca89e7ad86673d94ab886e9bea704 ]
+BR
+Hongyan
+-----Original Message-----
+From: Jiri Kosina [mailto:jikos@kernel.org] 
+Sent: Thursday, June 27, 2019 5:35 AM
+To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Song, Hongyan <hongyan.song@intel.com>; linux-input@vger.kernel.org; linux-iio@vger.kernel.org; hdegoede@redhat.com; jic23@kernel.org; Xu, Even <even.xu@intel.com>
+Subject: Re: [PATCH v3] hid: remove NO_D3 flag when remove driver
 
-There are several scenarios that keyboard can NOT wake up system
-from suspend, e.g., if a keyboard is depressed between system
-device suspend phase and device noirq suspend phase, the keyboard
-ISR will be called and both keyboard depress and release interrupts
-will be disabled, then keyboard will no longer be able to wake up
-system. Another scenario would be, if a keyboard is kept depressed,
-and then system goes into suspend, the expected behavior would be
-when keyboard is released, system will be waked up, but current
-implementation can NOT achieve that, because both depress and release
-interrupts are disabled in ISR, and the event check is still in
-progress.
+On Wed, 26 Jun 2019, Srinivas Pandruvada wrote:
 
-To fix these issues, need to make sure keyboard's depress or release
-interrupt is enabled after noirq device suspend phase, this patch
-moves the suspend/resume callback to noirq suspend/resume phase, and
-enable the corresponding interrupt according to current keyboard status.
+> > Srinivas, I'd prefer changes like this to go to Linus tree in merge 
+> > window and not -rc phase, so I'll do that unless you tell me there 
+> > is a good reason to push it to Linus still in -rc.
+> Correct. I will tell you if it is important enough to go to -rc 
+> release, otherwise all changes you can assume for the next merge 
+> window.
 
-Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/input/keyboard/imx_keypad.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+Thanks for your confirmation. Now queued in for-5.3/ish.
 
-diff --git a/drivers/input/keyboard/imx_keypad.c b/drivers/input/keyboard/imx_keypad.c
-index 2165f3dd328b..842c0235471d 100644
---- a/drivers/input/keyboard/imx_keypad.c
-+++ b/drivers/input/keyboard/imx_keypad.c
-@@ -530,11 +530,12 @@ static int imx_keypad_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int __maybe_unused imx_kbd_suspend(struct device *dev)
-+static int __maybe_unused imx_kbd_noirq_suspend(struct device *dev)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct imx_keypad *kbd = platform_get_drvdata(pdev);
- 	struct input_dev *input_dev = kbd->input_dev;
-+	unsigned short reg_val = readw(kbd->mmio_base + KPSR);
- 
- 	/* imx kbd can wake up system even clock is disabled */
- 	mutex_lock(&input_dev->mutex);
-@@ -544,13 +545,20 @@ static int __maybe_unused imx_kbd_suspend(struct device *dev)
- 
- 	mutex_unlock(&input_dev->mutex);
- 
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(&pdev->dev)) {
-+		if (reg_val & KBD_STAT_KPKD)
-+			reg_val |= KBD_STAT_KRIE;
-+		if (reg_val & KBD_STAT_KPKR)
-+			reg_val |= KBD_STAT_KDIE;
-+		writew(reg_val, kbd->mmio_base + KPSR);
-+
- 		enable_irq_wake(kbd->irq);
-+	}
- 
- 	return 0;
- }
- 
--static int __maybe_unused imx_kbd_resume(struct device *dev)
-+static int __maybe_unused imx_kbd_noirq_resume(struct device *dev)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct imx_keypad *kbd = platform_get_drvdata(pdev);
-@@ -574,7 +582,9 @@ static int __maybe_unused imx_kbd_resume(struct device *dev)
- 	return ret;
- }
- 
--static SIMPLE_DEV_PM_OPS(imx_kbd_pm_ops, imx_kbd_suspend, imx_kbd_resume);
-+static const struct dev_pm_ops imx_kbd_pm_ops = {
-+	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(imx_kbd_noirq_suspend, imx_kbd_noirq_resume)
-+};
- 
- static struct platform_driver imx_keypad_driver = {
- 	.driver		= {
--- 
-2.20.1
+--
+Jiri Kosina
+SUSE Labs
 
