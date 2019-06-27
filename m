@@ -2,125 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB8CC57A51
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2019 05:58:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D6C757DFB
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2019 10:12:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726810AbfF0D6i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Jun 2019 23:58:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39746 "EHLO mail.kernel.org"
+        id S1726470AbfF0IMz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jun 2019 04:12:55 -0400
+Received: from butterbrot.org ([176.9.106.16]:40901 "EHLO butterbrot.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726563AbfF0D6h (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Jun 2019 23:58:37 -0400
-Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726480AbfF0IMz (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 27 Jun 2019 04:12:55 -0400
+Received: from [141.54.178.119] (anna125.medien.uni-weimar.de [141.54.178.119])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6ACB220665;
-        Thu, 27 Jun 2019 03:58:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561607916;
-        bh=hTSxWsubMT7I39Ui6BX/OBcIaUiO8KFk30qTBy/c24g=;
-        h=Date:From:To:Cc:Subject:From;
-        b=CyIIi7kJ0TTJu02ygisu3AzlZVADuT4g/48sgLms8DcZiHo+MA/d3+ick/emsX0+6
-         p0R4vaB3OkDTT2h8MrGc/+n6xyhy0w7GGm6yI2Cp4yO7UQ7laRnw3Xur6Ug3dX/7LZ
-         I3nU3+4MmA78hrKAIbREL6bmj6cavRzFh2Jb/P1o=
-Date:   Wed, 26 Jun 2019 20:58:35 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Reminder: 3 open syzbot bugs in input subsystem
-Message-ID: <20190627035835.GF721@sol.localdomain>
+        by butterbrot.org (Postfix) with ESMTPSA id BDDEB4AE02B2;
+        Thu, 27 Jun 2019 10:12:52 +0200 (CEST)
+Subject: Re: [PATCH] input/touchscreen/sur40: use COLORSPACE_RAW
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+References: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
+From:   Florian Echtler <floe@butterbrot.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=floe@butterbrot.org; prefer-encrypt=mutual; keydata=
+ mQGiBDuvTgcRBAD3yCehD8VSv9/5ALV2PGNpRyPd/H7y4E0nh/fNHjOtq/Iy822ZQgPxP9+a
+ nbtC7KMzT0JIr5ontFH4TuMxikeE92ID+h0a755FiHAtSACXzNcLY370YfRJuTQMBANEwf/T
+ ozY7clf8uZc9emk0TLQJ7ZFksRAxd2Ql3lyGlM+jEQCg/6aPMk/pV3Jjfz01dckZH65DSb0E
+ AKcZOV/KpQwPqRE1L7yEax19p1+38InBhGQg5ZORsPDXNDKAx5TovSM/4H68DzVjCTtb1Qig
+ E2InSlT4qxOZq2hTIwsbUrl4YrOLG0msYeB+1avaVCxkjEs4e6fYX9VvJxUdgkYSmwWxzSGK
+ wiEeRlbcNGdKeVKYezNyjRKO5OnSBACb3t89sJsqaotwh+CO4cwgKbjIgHnIjH5TminqiGt9
+ chYXGA+IjkVef+Q/pWRzXj4IDC1gubW5GELuMa6WO+aMchJKfD4VDflvdUqWTuXKj6qjwxnY
+ qtX/3O7QwVFoVgkPqsl8goAPSGk5lWHIvKJJUSMFgjWG+BafnppZs/R+BbQlRmxvcmlhbiBF
+ Y2h0bGVyIDxmbG9lQGJ1dHRlcmJyb3Qub3JnPohjBBMRAgAjAhsDBgsJCAcDAgQVAggDBBYC
+ AwECHgECF4AFAk47tRkCGQEACgkQ7CzyshGvatgVzgCg9kkfrcPWEmqSADhAX4Bj83gZQEgA
+ n1PrIrMQE85069aGgJE/kuMyWUJcuQINBDuvTggQCAD2Qle3CH8IF3KiutapQvMF6PlTETlP
+ tvFuuUs4INoBp1ajFOmPQFXz0AfGy0OplK33TGSGSfgMg71l6RfUodNQ+PVZX9x2Uk89PY3b
+ zpnhV5JZzf24rnRPxfx2vIPFRzBhznzJZv8V+bv9kV7HAarTW56NoKVyOtQa8L9GAFgr5fSI
+ /VhOSdvNILSd5JEHNmszbDgNRR0PfIizHHxbLY7288kjwEPwpVsYjY67VYy4XTjTNP18F1dD
+ ox0YbN4zISy1Kv884bEpQBgRjXyEpwpy1obEAxnIByl6ypUM2Zafq9AKUJsCRtMIPWakXUGf
+ nHy9iUsiGSa6q6Jew1XpMgs7AAICCACB1zq0sSVcye/cvwTnHZyGvILT6VU8+xUxvmG9ota2
+ yuk9A+0GSnDpjNxyBkmDBVQkLLvW8lBErPYvaq9pFMeYntOhYwRP31e7rbsWh48QjfkL5M/X
+ Q5kFCTO4jVXHXYJ034x0vXamDDzFbAdUg/V/zN+KRIcEZcs8foIgC7BR6i/TsCsFHN3OHAmk
+ hZ8NRB//UIJXxq3CcBXLiu2OGFrfoSvpAp5OzMyrWneMCaySmN/i3wSYl6h3Nl4YRMH6Yx+E
+ RnNF5/cy3xUZODG1JHnEw+owc0dl3ch+oQe0t3zN5LGAznf7hYmOYl27xvym/FVA/skTD1wM
+ MZhfxLVyis75iFQEGBECAAwFAjuvTggFGwwAAAAAEgkQ7CzyshGvatgHZUdQRwABASUVAKC7
+ c7SIc/xurEhWVpzt1wPPsPOQ2wCglsSZ1yg7JIMh4o+a178IK9ozwQY=
+Message-ID: <add1e8aa-1b6c-b405-610f-585540835751@butterbrot.org>
+Date:   Thu, 27 Jun 2019 10:12:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature";
+ boundary="jsaOSkhxGIjhH4GGhJOrNMBdOqPu2x1Jm"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-[This email was generated by a script.  Let me know if you have any suggestions
-to make it better.]
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jsaOSkhxGIjhH4GGhJOrNMBdOqPu2x1Jm
+Content-Type: multipart/mixed; boundary="F1TZa4LVVBkdKuZnYvsAFw93nHVD75JsO";
+ protected-headers="v1"
+From: Florian Echtler <floe@butterbrot.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ linux-input <linux-input@vger.kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Message-ID: <add1e8aa-1b6c-b405-610f-585540835751@butterbrot.org>
+Subject: Re: [PATCH] input/touchscreen/sur40: use COLORSPACE_RAW
+References: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
+In-Reply-To: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
 
-Of the currently open syzbot reports against the upstream kernel, I've manually
-marked 3 of them as possibly being bugs in the input subsystem.  I've listed
-these reports below, sorted by an algorithm that tries to list first the reports
-most likely to be still valid, important, and actionable.
+--F1TZa4LVVBkdKuZnYvsAFw93nHVD75JsO
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
 
-Of these 3 bugs, 2 were seen in mainline in the last week.
+On 26.06.19 11:52, Hans Verkuil wrote:
+> This driver set the colorspace to SRGB, but that makes no sense for
+> a touchscreen. Use RAW instead. This also ensures consistency with the
+> v4l_pix_format_touch() call that's used in v4l2-ioctl.c.
 
-If you believe a bug is no longer valid, please close the syzbot report by
-sending a '#syz fix', '#syz dup', or '#syz invalid' command in reply to the
-original thread, as explained at https://goo.gl/tpsmEJ#status
+One question for clarification: this will only affect userspace applicati=
+ons
+which explicitly request a certain colorspace, correct?
 
-If you believe I misattributed a bug to the input subsystem, please let me know,
-and if possible forward the report to the correct people or mailing list.
+Best regards, Florian
+--=20
+SENT FROM MY DEC VT50 TERMINAL
 
-Here are the bugs:
 
---------------------------------------------------------------------------------
-Title:              WARNING in aiptek_open/usb_submit_urb
-Last occurred:      2 days ago
-Reported:           19 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=0e35393fd821f0570b2a1663a01ac7bdcd15046a
-Original thread:    https://lkml.kernel.org/lkml/0000000000001abc1c058ab95b3e@google.com/T/#u
+--F1TZa4LVVBkdKuZnYvsAFw93nHVD75JsO--
 
-This bug has a C reproducer.
+--jsaOSkhxGIjhH4GGhJOrNMBdOqPu2x1Jm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-No one has replied to the original thread for this bug yet.
+-----BEGIN PGP SIGNATURE-----
 
-This looks like a bug in an input USB driver.
+iF0EARECAB0WIQST4FP0cQIAgRXjMjXsLPKyEa9q2AUCXRR6gwAKCRDsLPKyEa9q
+2C+JAJ92ttrLtYWihQ0SGxDBI16wUorgiACeLapM9+s+dE09P2mGDbKgUEV2TdM=
+=tulV
+-----END PGP SIGNATURE-----
 
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+75cccf2b7da87fb6f84b@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/0000000000001abc1c058ab95b3e@google.com
-
---------------------------------------------------------------------------------
-Title:              INFO: trying to register non-static key in usbtouch_reset_resume
-Last occurred:      6 days ago
-Reported:           30 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=64fd387d8358406dc0037511ee44db159f6f1605
-Original thread:    https://lkml.kernel.org/lkml/0000000000005463aa0589dcfb85@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in an input USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+933daad9be4e67ba91a9@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/0000000000005463aa0589dcfb85@google.com
-
---------------------------------------------------------------------------------
-Title:              INFO: task hung in evdev_release
-Last occurred:      246 days ago
-Reported:           253 days ago
-Branches:           Mainline and others
-Dashboard link:     https://syzkaller.appspot.com/bug?id=ebbbff1dcac574b81f9fd5e07100a4879e5bf53d
-Original thread:    https://lkml.kernel.org/lkml/000000000000f1be430578524a20@google.com/T/#u
-
-This bug has a syzkaller reproducer only.
-
-syzbot has bisected this bug, but I think the bisection result is incorrect.
-
-The original thread for this bug received 1 reply, 86 days ago.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+a979743610b4755d4d57@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000f1be430578524a20@google.com
-
+--jsaOSkhxGIjhH4GGhJOrNMBdOqPu2x1Jm--
