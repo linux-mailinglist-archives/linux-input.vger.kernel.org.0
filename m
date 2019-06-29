@@ -2,110 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FAC75A284
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2019 19:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0CDE5AB7F
+	for <lists+linux-input@lfdr.de>; Sat, 29 Jun 2019 15:20:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726781AbfF1Rfq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Jun 2019 13:35:46 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:47842 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726497AbfF1Rfq (ORCPT
+        id S1726851AbfF2NU5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 29 Jun 2019 09:20:57 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:39955 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726723AbfF2NU4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Jun 2019 13:35:46 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5SHZgII110855;
-        Fri, 28 Jun 2019 12:35:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1561743342;
-        bh=IozxFK3j20SwrhOv9xhTPXdk9E84xivh5mGBBnnQs20=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=ariIGk+sB5lpsDkLf5JmT+p+oFaTGg/czmS7GrdfkB+TldOR6TFd8O2f3P9x1m5Df
-         bzeH5dXRtLXrstPA0QsnKQZoa826wBeOty+UF6gZNf8PbfwOM/pUISo7A1KtKBeBGJ
-         DNzj9VwRAfiYJN8XHfK1O608F2TMP9E2J/3w+2sE=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5SHZg3b076163
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 28 Jun 2019 12:35:42 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 28
- Jun 2019 12:35:41 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 28 Jun 2019 12:35:41 -0500
-Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with SMTP id x5SHZfCK100507;
-        Fri, 28 Jun 2019 12:35:41 -0500
-Date:   Fri, 28 Jun 2019 12:37:02 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] Input: edt-ft5x06 - simplify event reporting code
-Message-ID: <20190628173702.6wr453fmcyfdxoid@ti.com>
-References: <20190623063153.261546-1-dmitry.torokhov@gmail.com>
- <20190623063153.261546-2-dmitry.torokhov@gmail.com>
+        Sat, 29 Jun 2019 09:20:56 -0400
+Received: by mail-pl1-f195.google.com with SMTP id a93so4805250pla.7;
+        Sat, 29 Jun 2019 06:20:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qVWlkgDtNHs2MahKNDhJBOaCpu0T2opP380xlBFFRwI=;
+        b=HctMOvKuvZhajKyzllXNX3Tdfo7GSV+je4NhysGL5i4Fl4JLZsRmMatI+EOTl8Pm1A
+         vSA/GxrhooP9G3TtWop922txzsd51crNKp53hK0alP50gs4sqlA1QLT9YB90o4533ZC3
+         wPfa16vrv9T9oy2RzuK4JVFeaTXdxKpU13HWBc6IxQut/eBopKYbrvTZX3tkz4CCDx7j
+         iqApv/fMMrpzat/drrI1RDM8eZH2gQhJjvIU9RmzRAu3d55Ke2FX4GhxEIzC1rz1BySn
+         wYAbZKD5bPDSXKPak6OIrbk6Z19gv0z3qpKp0mcCufcDjRGvn1o9Bf65nig/4MWpJhcZ
+         EhYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qVWlkgDtNHs2MahKNDhJBOaCpu0T2opP380xlBFFRwI=;
+        b=B9SLL9dcavWl5hEOchEFWSTnhzCLbfnzXJ2X11XLRVAVR7NB/ng/x4tc6Uqb+3p54O
+         KUEauweljJHNwwbvcoH6P5/J8w0Bl7ajnZmxPY0icT7bP2Ed5fqkgQM3tUfogwyQ22Yd
+         dhga/2g2MNG3Sg6vu6blDsQi9kdzyOCvPAMKqpXKDTFtelGd/e3TT6ltk3gfjHJdw86a
+         KygS+59KSZQKPcj9EUkFAVMn0PnnLW7Y+RSYJ7AUXqTWKiO6WGNXKV9Yb8bCavYzWx13
+         up+6//SmZxM0NmguADMaEpcsOV9wzfdh2SpSpSpsE4wVKQfTjAd9CweDo4w405NM/OkL
+         d0jg==
+X-Gm-Message-State: APjAAAU8ggzuEZPQYSsxdIrB9zNztZCWGLElhW+rxpbS2hT41RiP6Oj4
+        tvOJ+OwSu6vvGV6XirpbLP/fGBCKshnvWCtfzMI=
+X-Google-Smtp-Source: APXvYqwSakAGTAQHXwLX9TjPzrjrFxJ5kxivNOK21r1IhP+HbenqJ9+MFSQqqVYffJBukenwrYdcC8RgJbD3dldFnnM=
+X-Received: by 2002:a17:902:934a:: with SMTP id g10mr18049015plp.18.1561814455839;
+ Sat, 29 Jun 2019 06:20:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20190623063153.261546-2-dmitry.torokhov@gmail.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20190612124053.119182-1-me@myself5.de> <736848fd-1c45-0bd9-bfd1-747c716bd953@redhat.com>
+In-Reply-To: <736848fd-1c45-0bd9-bfd1-747c716bd953@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 29 Jun 2019 16:20:44 +0300
+Message-ID: <CAHp75VcxiKMWnXe_oFu-9JCfDuXa9hOUi2Qy6bNQiREH_i621Q@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Update Hi10 Air filter
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Christian Oder <me@myself5.de>, Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote on Sat [2019-Jun-22 23:31:53 -0700]:
-> Now that input_mt_report_slot_state() returns true if slot is active we no
-> longer need a temporary for the slot state.
-> 
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+On Wed, Jun 12, 2019 at 3:55 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 12-06-19 14:40, Christian Oder wrote:
+> > Turns out the Hi10 Air is built by multiple companies so using Hampoo
+> > as a filter is not enough to cover all variants.
+> >
+> > This has been verified as working on the Hampoo and Morshow version.
+> >
+> > Signed-off-by: Christian Oder <me@myself5.de>
+>
+> Patch looks good to me:
+>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>
 
-Appears to work fine in my test:
+I have pushed it, though I forget about this issue, it went without
+this tag, sorry.
 
-Tested-by: Benoit Parrot <bparrot@ti.com>
+> Regards,
+>
+> Hans
+>
+>
+> > ---
+> >   drivers/platform/x86/touchscreen_dmi.c | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+> > index b662cb2d7cd5..61e7c4987d0d 100644
+> > --- a/drivers/platform/x86/touchscreen_dmi.c
+> > +++ b/drivers/platform/x86/touchscreen_dmi.c
+> > @@ -597,7 +597,8 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+> >               /* Chuwi Hi10 Air */
+> >               .driver_data = (void *)&chuwi_hi10_air_data,
+> >               .matches = {
+> > -                     DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
+> > +                     DMI_MATCH(DMI_SYS_VENDOR, "CHUWI INNOVATION AND TECHNOLOGY(SHENZHEN)CO.LTD"),
+> > +                     DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
+> >                       DMI_MATCH(DMI_PRODUCT_SKU, "P1W6_C109D_B"),
+> >               },
+> >       },
+> >
 
-> ---
->  drivers/input/touchscreen/edt-ft5x06.c | 13 ++++---------
->  1 file changed, 4 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-> index ec770226e119..3cc4341bbdff 100644
-> --- a/drivers/input/touchscreen/edt-ft5x06.c
-> +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> @@ -229,7 +229,6 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void *dev_id)
->  
->  	for (i = 0; i < tsdata->max_support_points; i++) {
->  		u8 *buf = &rdbuf[i * tplen + offset];
-> -		bool down;
->  
->  		type = buf[0] >> 6;
->  		/* ignore Reserved events */
-> @@ -247,16 +246,12 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void *dev_id)
->  			swap(x, y);
->  
->  		id = (buf[2] >> 4) & 0x0f;
-> -		down = type != TOUCH_EVENT_UP;
->  
->  		input_mt_slot(tsdata->input, id);
-> -		input_mt_report_slot_state(tsdata->input, MT_TOOL_FINGER, down);
-> -
-> -		if (!down)
-> -			continue;
-> -
-> -		touchscreen_report_pos(tsdata->input, &tsdata->prop, x, y,
-> -				       true);
-> +		if (input_mt_report_slot_state(tsdata->input, MT_TOOL_FINGER,
-> +					       type != TOUCH_EVENT_UP))
-> +			touchscreen_report_pos(tsdata->input, &tsdata->prop,
-> +					       x, y, true);
->  	}
->  
->  	input_mt_report_pointer_emulation(tsdata->input, true);
-> -- 
-> 2.22.0.410.gd8fdbe21b5-goog
-> 
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
