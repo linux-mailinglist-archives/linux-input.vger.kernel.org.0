@@ -2,142 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21F095B5C1
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2019 09:34:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2315E5B5D9
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2019 09:43:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727312AbfGAHez (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Jul 2019 03:34:55 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:36438 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727282AbfGAHez (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Jul 2019 03:34:55 -0400
-Received: by mail-pf1-f193.google.com with SMTP id r7so6133561pfl.3
-        for <linux-input@vger.kernel.org>; Mon, 01 Jul 2019 00:34:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=hy0qlUcKgdUgYYe+PJgXJ2TlnXkznVpLls1npCRoGyI=;
-        b=Uo3j6a67LDQpRvrdd5xgmo9iCchdeNGWe6co98OdtQqJ9VPmszfur4S4g0ggLyI06S
-         h+bL2g356idg0CJ/20fuum5F+KmeS4E5MKs4HvBAChApth7gSnrlG8IwL02+BZh5uZON
-         t1ds7Un0wxSZgy8gF7OqNybmBDU3fle7FXBiwniHAnOMor+ofTGpHobThQJtU+DK5Fcf
-         AXB4P/tv9attaZeboZXvpEC3AwuUD7SvfmzANL99zHM8KymthU8mktvpOuwaC2FeFPdE
-         OlGdfO47G6/zNkRplJeRvmy4GCCqgyuXchQL6+QPTFN40EJYTivTRukDz+XbNPmyOjAY
-         9LKQ==
+        id S1727387AbfGAHns (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Jul 2019 03:43:48 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:34219 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726036AbfGAHns (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Jul 2019 03:43:48 -0400
+Received: by mail-qt1-f195.google.com with SMTP id m29so13662870qtu.1
+        for <linux-input@vger.kernel.org>; Mon, 01 Jul 2019 00:43:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=hy0qlUcKgdUgYYe+PJgXJ2TlnXkznVpLls1npCRoGyI=;
-        b=frbuZF6EAFT6ePNQitf+gbeP2ItIOqnQoVhmpgCaA/lJxgFNE3V5qx6tY8/zZqtbwV
-         fdmSbaPi/aZ7et/wyEULq/jdWQlH4DL7c1pfui222yePjOe+41QAHBzPv7Xqtym/b8UN
-         8tR5V0/x03DjwrhlW7Q1aRhczHf/hQ1dMdiCX2KfkZ3KD1/3CQTQqNtMHFAJSgAHSViL
-         MObOCuCaJsBk2X59l6YqvcDzLUCiBpXl5uUKOgYBQdNZMeJVT0LGWvKlkIMo1bcVvf4H
-         KUYBLIAGncRaGxGBLE1jvvUjnMvnNEpBauGTdQjSXIZaADCkjeVs4zcA+7xO6Ln2pTNS
-         rUJQ==
-X-Gm-Message-State: APjAAAXafcscA306rZanXXN/ixisY90DjworOPiVhsSpR5SMPIIpXLwu
-        W9bJJdABVGyiR0jgLEJAnGStU3L7
-X-Google-Smtp-Source: APXvYqxuTfGKzUDvd3n1ncyg2ngWye7hoVPSqKfRJmp2XsCgeFr5i5PsT3xfKlsUlTWmubaKh0tuNg==
-X-Received: by 2002:a17:90a:ac14:: with SMTP id o20mr29819427pjq.114.1561966494089;
-        Mon, 01 Jul 2019 00:34:54 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id 137sm11140043pfz.112.2019.07.01.00.34.53
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 01 Jul 2019 00:34:53 -0700 (PDT)
-Date:   Mon, 1 Jul 2019 00:34:52 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Martijn Braam <martijn@brixit.nl>
-Cc:     m.felsch@pengutronix.de, robh@kernel.org,
-        linux-input@vger.kernel.org,
-        =?iso-8859-1?Q?Myl=E8ne?= Josserand 
-        <mylene.josserand@bootlin.com>
-Subject: Re: [PATCH] Input: edt-ft5x06 - add vdd supply
-Message-ID: <20190701073452.GB172968@dtor-ws>
-References: <20190514212111.21742-1-martijn@brixit.nl>
- <20190630071213.GB91171@dtor-ws>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0UsTfWVpHYdpmzlOg5dLCLxoeRRCPAWRcZZ0fFOcFn8=;
+        b=L7LxxR+SdQfw8cZhtu/qs2Yquqs7CRw5vcoY9qpwPOn1h/FP/m9G1TmgPodMNrWoz2
+         K1wPj+FPiop8aY/T5h3d7E+jxQjz1G/eBooJVLteyzd5hK/ZQMpo5QK3xfab5yVEMav0
+         KwVCkbPXzHJGzZaz/0sEYL6nvOhmq4aeu+isXMcL6oJ1B8Tufxlt1QPhr3juU0ytYTfV
+         x6Hz/kk87ga3kL/VAFrilw+GJvgvvCcM95Xdf1v5Aq68RaURQsiNOqHHR4WB8wWoCezl
+         YqCAGRYe3nWwvp42KYeHm0g467bbsQ2MdtbG3HosnLPbDsQya9/AlWkfFhjObbuFoKv4
+         UAQQ==
+X-Gm-Message-State: APjAAAUZSYyrkDYpKk30UlPXasiHdoy3H/wK0bPlsMn9Ixzpudw6/Nnm
+        W9ktSovH5HHUI6jQfVOnisCP29Jfo6XyQcpojQaL0w==
+X-Google-Smtp-Source: APXvYqxD1F2RLhZwknTYvElhwbk8NkzCqMUQKa6frA6OVbyR4/GWBSyr38Z1V1QQDUO+Zl1tU3oJFZywOgRo096yick=
+X-Received: by 2002:a0c:d4eb:: with SMTP id y40mr20009741qvh.30.1561967027524;
+ Mon, 01 Jul 2019 00:43:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190630071213.GB91171@dtor-ws>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <deaf38687dd8e9a970bc60bfd838ed62@disroot.org>
+In-Reply-To: <deaf38687dd8e9a970bc60bfd838ed62@disroot.org>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 1 Jul 2019 09:43:35 +0200
+Message-ID: <CAO-hwJ+rnGVeK7AxKitVwtnAVNn2A8ohLoGx02M50JYKE8Er8g@mail.gmail.com>
+Subject: Re: [PATCH] Input: synaptics: enable SMBUS on T480 thinkpad trackpad
+To:     colerogers@disroot.org
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Jun 30, 2019 at 12:12:13AM -0700, Dmitry Torokhov wrote:
-> Hi Martijn,
-> 
-> On Tue, May 14, 2019 at 11:21:11PM +0200, Martijn Braam wrote:
-> > Add a regulator supply request for the controller power
-> > 
-> > Signed-off-by: Martijn Braam <martijn@brixit.nl>
-> > ---
-> >  drivers/input/touchscreen/edt-ft5x06.c | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> > 
-> > diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-> > index 702bfda7ee77..226c623f8d46 100644
-> > --- a/drivers/input/touchscreen/edt-ft5x06.c
-> > +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> > @@ -29,6 +29,7 @@
-> >  #include <linux/ratelimit.h>
-> >  #include <linux/irq.h>
-> >  #include <linux/interrupt.h>
-> > +#include <linux/regulator/consumer.h>
-> >  #include <linux/input.h>
-> >  #include <linux/i2c.h>
-> >  #include <linux/kernel.h>
-> > @@ -103,6 +104,7 @@ struct edt_ft5x06_ts_data {
-> >  
-> >  	struct gpio_desc *reset_gpio;
-> >  	struct gpio_desc *wake_gpio;
-> > +	struct regulator *vdd;
-> >  
-> >  #if defined(CONFIG_DEBUG_FS)
-> >  	struct dentry *debug_dir;
-> > @@ -1092,6 +1094,22 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
-> >  		return error;
-> >  	}
-> >  
-> > +	tsdata->vdd = devm_regulator_get(&client->dev, "vdd");
-> > +	if (IS_ERR(tsdata->vdd)) {
-> > +		error = PTR_ERR(tsdata->vdd);
-> > +		if (error != -EPROBE_DEFER)
-> > +			dev_err(&client->dev,
-> > +				"Failed to get vdd regulator: %d\n", error);
-> > +		return error;
-> > +	}
-> > +
-> > +	/* power the controller */
-> > +	error = regulator_enable(tsdata->vdd);
-> > +	if (error) {
-> > +		dev_err(&client->dev, "Controller fail to enable vdd\n");
-> > +		return error;
-> > +	}
-> > +
-> >  	tsdata->wake_gpio = devm_gpiod_get_optional(&client->dev,
-> >  						    "wake", GPIOD_OUT_LOW);
-> >  	if (IS_ERR(tsdata->wake_gpio)) {
-> > @@ -1204,6 +1222,7 @@ static int edt_ft5x06_ts_remove(struct i2c_client *client)
-> >  {
-> >  	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
-> >  
-> > +	regulator_disable(tsdata->vdd);
-> 
-> This is too early. You are powering down the chip while it may still
-> generate interrupts and we'll get errors if we try to access it then.
-> Please use devm_add_action_or_reset() to include turning off the
-> regulator into devm handling of the rest of the resources.
+On Mon, Jul 1, 2019 at 2:28 AM <colerogers@disroot.org> wrote:
+>
+> From: Cole Rogers <colerogers@disroot.org>
+>
+> Thinkpad t480 laptops had some touchpad features disabled, resulting in the
+> loss of pinch to activities in GNOME, on wayland, and other touch gestures
+> being slower. This patch adds the touchpad of the t480 to the smbus_pnp_ids
+> whitelist to enable the extra features. In my testing this does not break
+> suspend (on fedora, with wayland, and GNOME, using the rc-6 kernel), while
+> also fixing the feature on a T480.
+>
+> Signed-off-by: Cole Rogers <colerogers@disroot.org>
+>
 
-Also, I just recalled that Mylène Josserand was also working on adding
-regulator handling for this driver, you want to check their work to make
-sure it is compatible.
+Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-Thanks.
-
--- 
-Dmitry
+> ---
+>  drivers/input/mouse/synaptics.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+> index b8ec30102..c8d0f5795 100644
+> --- a/drivers/input/mouse/synaptics.c
+> +++ b/drivers/input/mouse/synaptics.c
+> @@ -170,6 +170,7 @@ static const char * const smbus_pnp_ids[] = {
+>         "LEN005b", /* P50 */
+>         "LEN005e", /* T560 */
+>         "LEN0071", /* T480 */
+> +       "LEN0093", /* T480 */
+>         "LEN0072", /* X1 Carbon Gen 5 (2017) - Elan/ALPS trackpoint */
+>         "LEN0073", /* X1 Carbon G5 (Elantech) */
+>         "LEN0092", /* X1 Carbon 6 */
+> --
+> 2.21.0
