@@ -2,110 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 090AD5B5BF
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2019 09:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21F095B5C1
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2019 09:34:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727757AbfGAHch (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Jul 2019 03:32:37 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:40086 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727563AbfGAHch (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Jul 2019 03:32:37 -0400
-Received: by mail-pg1-f195.google.com with SMTP id w10so5588310pgj.7;
-        Mon, 01 Jul 2019 00:32:36 -0700 (PDT)
+        id S1727312AbfGAHez (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Jul 2019 03:34:55 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:36438 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727282AbfGAHez (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Jul 2019 03:34:55 -0400
+Received: by mail-pf1-f193.google.com with SMTP id r7so6133561pfl.3
+        for <linux-input@vger.kernel.org>; Mon, 01 Jul 2019 00:34:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=r3krFnlpSUteqfAN88gmmDAUtY8UDQsbB6kSfcYI9w0=;
-        b=vFtq0xbtvkh8R+O72XBTmT6LeIqiqq3m0B2bIkfFrOiyP7fcsGcoBbKL645QEc/CrG
-         LIemUwXcdYl9EMTVoDVCXFmLg/aG4l68vUOD348PZePBpbCSJjEUbAG+fQNndPAwYaWg
-         muAiCUP9g5CJN4g7NlsuJqhEohkC8lGLGbWE8Pz3h3UYAPzGwIQSNzd3P2zO1Fb495aI
-         4bXN5ec02F240StV1PZ56k/ciotXlkoSjN7gwZHapngONexJ/Imy44qfOhnHnC/lmSN9
-         ZhSvWGk2P04ZT6elXqNm8Jd2L9GngjEAEe7zfWCaN+4FMB+XWBQ+07UZN8oRJ2NaweMw
-         1WSA==
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=hy0qlUcKgdUgYYe+PJgXJ2TlnXkznVpLls1npCRoGyI=;
+        b=Uo3j6a67LDQpRvrdd5xgmo9iCchdeNGWe6co98OdtQqJ9VPmszfur4S4g0ggLyI06S
+         h+bL2g356idg0CJ/20fuum5F+KmeS4E5MKs4HvBAChApth7gSnrlG8IwL02+BZh5uZON
+         t1ds7Un0wxSZgy8gF7OqNybmBDU3fle7FXBiwniHAnOMor+ofTGpHobThQJtU+DK5Fcf
+         AXB4P/tv9attaZeboZXvpEC3AwuUD7SvfmzANL99zHM8KymthU8mktvpOuwaC2FeFPdE
+         OlGdfO47G6/zNkRplJeRvmy4GCCqgyuXchQL6+QPTFN40EJYTivTRukDz+XbNPmyOjAY
+         9LKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=r3krFnlpSUteqfAN88gmmDAUtY8UDQsbB6kSfcYI9w0=;
-        b=p+kMLDDtkSpTqysaZXUL/IhJM6TajUcAj0dXCFN9CwNermelEOYnQlPz2If7ZrbXtl
-         kLSQiI7T9fy1CZNQw44rcq8gvZ9AsDmjRN9FHEC1UfF7FQyg5l2jo13dwaXs+Kvqol69
-         23Ef+8FRYQSHWypbmPoGzjs6DOdVY4wz7fWp0uhnATf3oaJe8H9mHC+jugcJBY1oRiz0
-         v4T30c0UrcJ0KySFEXv74dfWymIR2RLHwtxTsJerrH3jYCrCNJ9uaWauK1BCrfC1Bz6y
-         P4CVyzYrmtoYMGsnk8uF9I788YFOAhIladrFZHYI9NQihIA5TllAB0O+nEvAEPGTGU69
-         EDEA==
-X-Gm-Message-State: APjAAAU/lJUEJx9zssc2CDA3m/RKhJ6Rk1SztubRuKi/b8jpf+P/2+Q5
-        HYRtjmVwpFPwDYKiMBlM+y8=
-X-Google-Smtp-Source: APXvYqyeTFln8z3Oa/D5uivCoSODZsncehIPi5ijNdI05rEAJngObBziiboeEm4QSVvgPVV72pOdPg==
-X-Received: by 2002:a17:90a:374f:: with SMTP id u73mr29428549pjb.4.1561966356397;
-        Mon, 01 Jul 2019 00:32:36 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=hy0qlUcKgdUgYYe+PJgXJ2TlnXkznVpLls1npCRoGyI=;
+        b=frbuZF6EAFT6ePNQitf+gbeP2ItIOqnQoVhmpgCaA/lJxgFNE3V5qx6tY8/zZqtbwV
+         fdmSbaPi/aZ7et/wyEULq/jdWQlH4DL7c1pfui222yePjOe+41QAHBzPv7Xqtym/b8UN
+         8tR5V0/x03DjwrhlW7Q1aRhczHf/hQ1dMdiCX2KfkZ3KD1/3CQTQqNtMHFAJSgAHSViL
+         MObOCuCaJsBk2X59l6YqvcDzLUCiBpXl5uUKOgYBQdNZMeJVT0LGWvKlkIMo1bcVvf4H
+         KUYBLIAGncRaGxGBLE1jvvUjnMvnNEpBauGTdQjSXIZaADCkjeVs4zcA+7xO6Ln2pTNS
+         rUJQ==
+X-Gm-Message-State: APjAAAXafcscA306rZanXXN/ixisY90DjworOPiVhsSpR5SMPIIpXLwu
+        W9bJJdABVGyiR0jgLEJAnGStU3L7
+X-Google-Smtp-Source: APXvYqxuTfGKzUDvd3n1ncyg2ngWye7hoVPSqKfRJmp2XsCgeFr5i5PsT3xfKlsUlTWmubaKh0tuNg==
+X-Received: by 2002:a17:90a:ac14:: with SMTP id o20mr29819427pjq.114.1561966494089;
+        Mon, 01 Jul 2019 00:34:54 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id q13sm10181255pgq.90.2019.07.01.00.32.35
+        by smtp.gmail.com with ESMTPSA id 137sm11140043pfz.112.2019.07.01.00.34.53
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 01 Jul 2019 00:32:35 -0700 (PDT)
-Date:   Mon, 1 Jul 2019 00:32:33 -0700
+        Mon, 01 Jul 2019 00:34:53 -0700 (PDT)
+Date:   Mon, 1 Jul 2019 00:34:52 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Benoit Parrot <bparrot@ti.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [Patch 1/1] Input: edt-ft5x06 - disable irq handling during
- suspend
-Message-ID: <20190701073233.GA172968@dtor-ws>
-References: <20190621185124.28966-1-bparrot@ti.com>
- <CAHp75VdcAfmn8u0du-Y95SjMcmuJa2402tdXCNHMcme1Y925xg@mail.gmail.com>
- <20190623055940.GA204275@dtor-ws>
- <20190624122457.seiezk4cla2gjh5u@ti.com>
+To:     Martijn Braam <martijn@brixit.nl>
+Cc:     m.felsch@pengutronix.de, robh@kernel.org,
+        linux-input@vger.kernel.org,
+        =?iso-8859-1?Q?Myl=E8ne?= Josserand 
+        <mylene.josserand@bootlin.com>
+Subject: Re: [PATCH] Input: edt-ft5x06 - add vdd supply
+Message-ID: <20190701073452.GB172968@dtor-ws>
+References: <20190514212111.21742-1-martijn@brixit.nl>
+ <20190630071213.GB91171@dtor-ws>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20190624122457.seiezk4cla2gjh5u@ti.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190630071213.GB91171@dtor-ws>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jun 24, 2019 at 07:24:57AM -0500, Benoit Parrot wrote:
-> Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote on Sat [2019-Jun-22 22:59:40 -0700]:
-> > On Sat, Jun 22, 2019 at 01:37:10PM +0300, Andy Shevchenko wrote:
-> > > On Fri, Jun 21, 2019 at 9:53 PM Benoit Parrot <bparrot@ti.com> wrote:
-> > > >
-> > > > As a wakeup source when the system is in suspend there is little point
-> > > > trying to access a register across the i2c bus as it is probably still
-> > > > inactive. We need to prevent the irq handler from being called during
-> > > > suspend.
-> > > >
-> > > 
-> > > Hmm... But how OS will know what the event to handle afterwards?
-> > > I mean shouldn't we guarantee somehow the delivery of the event to the
-> > > input, in this case, subsystem followed by corresponding user space?
-> > 
-> > If we are using level interrupts then it will work OK, however it is
-> > really easy to lose edge here, as replaying disabled edge triggered
-> > interrupts is not really reliable.
-> > 
-> > Benoit, what kind of interrupt do you use in your system?
+On Sun, Jun 30, 2019 at 12:12:13AM -0700, Dmitry Torokhov wrote:
+> Hi Martijn,
 > 
-> Dmitry,
+> On Tue, May 14, 2019 at 11:21:11PM +0200, Martijn Braam wrote:
+> > Add a regulator supply request for the controller power
+> > 
+> > Signed-off-by: Martijn Braam <martijn@brixit.nl>
+> > ---
+> >  drivers/input/touchscreen/edt-ft5x06.c | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> > 
+> > diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+> > index 702bfda7ee77..226c623f8d46 100644
+> > --- a/drivers/input/touchscreen/edt-ft5x06.c
+> > +++ b/drivers/input/touchscreen/edt-ft5x06.c
+> > @@ -29,6 +29,7 @@
+> >  #include <linux/ratelimit.h>
+> >  #include <linux/irq.h>
+> >  #include <linux/interrupt.h>
+> > +#include <linux/regulator/consumer.h>
+> >  #include <linux/input.h>
+> >  #include <linux/i2c.h>
+> >  #include <linux/kernel.h>
+> > @@ -103,6 +104,7 @@ struct edt_ft5x06_ts_data {
+> >  
+> >  	struct gpio_desc *reset_gpio;
+> >  	struct gpio_desc *wake_gpio;
+> > +	struct regulator *vdd;
+> >  
+> >  #if defined(CONFIG_DEBUG_FS)
+> >  	struct dentry *debug_dir;
+> > @@ -1092,6 +1094,22 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+> >  		return error;
+> >  	}
+> >  
+> > +	tsdata->vdd = devm_regulator_get(&client->dev, "vdd");
+> > +	if (IS_ERR(tsdata->vdd)) {
+> > +		error = PTR_ERR(tsdata->vdd);
+> > +		if (error != -EPROBE_DEFER)
+> > +			dev_err(&client->dev,
+> > +				"Failed to get vdd regulator: %d\n", error);
+> > +		return error;
+> > +	}
+> > +
+> > +	/* power the controller */
+> > +	error = regulator_enable(tsdata->vdd);
+> > +	if (error) {
+> > +		dev_err(&client->dev, "Controller fail to enable vdd\n");
+> > +		return error;
+> > +	}
+> > +
+> >  	tsdata->wake_gpio = devm_gpiod_get_optional(&client->dev,
+> >  						    "wake", GPIOD_OUT_LOW);
+> >  	if (IS_ERR(tsdata->wake_gpio)) {
+> > @@ -1204,6 +1222,7 @@ static int edt_ft5x06_ts_remove(struct i2c_client *client)
+> >  {
+> >  	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
+> >  
+> > +	regulator_disable(tsdata->vdd);
 > 
-> On our systems we currently used edge trigger. One example is available in
-> mainline: arch/arm/boot/dts/am437x-sk-evm.dts
-> 632:              interrupts = <31 IRQ_TYPE_EDGE_FALLING>;
+> This is too early. You are powering down the chip while it may still
+> generate interrupts and we'll get errors if we try to access it then.
+> Please use devm_add_action_or_reset() to include turning off the
+> regulator into devm handling of the rest of the resources.
 
-Does your device still work if you switch to level-triggered interrupt?
-
-Regarding your patch I am uncomfortable with disabling interrupts if
-interrupt is edge-triggered, as replaying edge interrupts after enabling
-is not very reliable. So we should either only disable interrupt if it
-is level-triggered, or make sure we read and process data from the
-device after re-enabling interrupt to rearm it. We'll need to make sure
-suspend does not race with interrupt handler than and also make sure we
-handle case when device does not actually has data to report.
+Also, I just recalled that Mylène Josserand was also working on adding
+regulator handling for this driver, you want to check their work to make
+sure it is compatible.
 
 Thanks.
 
