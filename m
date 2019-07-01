@@ -2,119 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC24F5B171
-	for <lists+linux-input@lfdr.de>; Sun, 30 Jun 2019 22:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DFD35B271
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2019 02:28:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726708AbfF3UPq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 30 Jun 2019 16:15:46 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46713 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726741AbfF3UPq (ORCPT
+        id S1726618AbfGAA2E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 30 Jun 2019 20:28:04 -0400
+Received: from knopi.disroot.org ([178.21.23.139]:44746 "EHLO
+        knopi.disroot.org" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726402AbfGAA2D (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 30 Jun 2019 16:15:46 -0400
-Received: by mail-wr1-f66.google.com with SMTP id n4so11446700wrw.13
-        for <linux-input@vger.kernel.org>; Sun, 30 Jun 2019 13:15:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joaomoreno-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
-        bh=9rYVKL0/pSn/eewxhzuux6rx0RJc+uzCB/js30GKxtg=;
-        b=2Ku9MTvHqt3rtESZS0nDj8fXN6pqoQYXKXuStjE/8g2T9GeCR4TwoILM5q+IglapSy
-         3GKfmOGX4x8mqa1csdJ41pgisBMCYBZmYfiZNMY5ZySlIcnm+NdovpsB+Fe0/AfA4hnQ
-         gXSy+z61trUpZ54AsGns7Ad5uo2Gr/zI4Z0v1oq5iWK/vLAIEqxIZOtuZe+zgR/3nO/G
-         syFKgnUIkcn5mR7d/Pekj7Ze8gmBOf7Hq0kwJOzuDhOEeEgjkl+y0SRF0tQVngftsa6W
-         GOmN0pZmP69yQpFefaluvk9h1UQfX7ZGy/oLc7Q8YcAN1A63joFyEqoj7ofTzKEFQl7+
-         yJ0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:cc;
-        bh=9rYVKL0/pSn/eewxhzuux6rx0RJc+uzCB/js30GKxtg=;
-        b=oPQ7KWYbWr2x97EekB1DOPxqttF/asZ+x7C1d5gafT4KCDwH8sNA1mnQ4hEDHUd121
-         wEbEL1/3RBsTtxYw/h6zI/rwmDfpitYPL4yHcAsjwiRchhy1l8BNHBrUh7BLqUNEEgpM
-         v0aDcUrrC+xYmJCIzak0rZK1ueI6B4/OHC41QFBGTfrC+5mt2G6Jp9SlsxJhTO6ezMom
-         OhB4rT1CpTezLNUqeQfbECpRptqyVa/kBMyzVijpfzSRmGbf5JDwR0oUUauEHdIba8ep
-         KMFI6mG+5k2E/UJ05oXaloINmfPYyrq2qZor5VZ/FbBx4JaupvQPaz3v1efKc+rcZG3t
-         +J5A==
-X-Gm-Message-State: APjAAAUTciqOAQAo6lOmAuCaA9m9iLBA5VEibfydwUkKbXwAj+99V4t9
-        K79IB1POOXBZYtpDI80hW54tfx+URzOntJMCda5wYw==
-X-Received: by 2002:a5d:4609:: with SMTP id t9mt1021399wrq.85.1561925743879;
- Sun, 30 Jun 2019 13:15:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190610213106.19342-1-mail@joaomoreno.com>
-In-Reply-To: <20190610213106.19342-1-mail@joaomoreno.com>
-From:   =?UTF-8?B?Sm/Do28gTW9yZW5v?= <mail@joaomoreno.com>
-Date:   Sun, 30 Jun 2019 22:15:33 +0200
-Message-ID: <CAHxFc3QC147B6j4pBztjK7stLgCveeYhJWojai_SbKNbnpC9yw@mail.gmail.com>
-Subject: Re: [PATCH] HID: apple: Fix stuck function keys when using FN
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-To:     unlisted-recipients:; (no To-header on input)
+        Sun, 30 Jun 2019 20:28:03 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by disroot.org (Postfix) with ESMTP id 3FC1735BAA;
+        Mon,  1 Jul 2019 02:28:02 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at disroot.org
+Received: from knopi.disroot.org ([127.0.0.1])
+        by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id UN81psw9be_1; Mon,  1 Jul 2019 02:28:01 +0200 (CEST)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+        t=1561940881; bh=t7j28rombFbL6cwt8pNOaQHa3pyzcppWqxQx8LfuPpM=;
+        h=Date:From:Subject:To:Cc;
+        b=cFA13tXevxwI2nCB4oG67SVnG6jmp43SVDFp4CUW63pJ18NGfFF4TgSfqGxioEhsO
+         FrFThZwAlww3YiXaLiGn6qb9/T6b5KqicfzruVBDnIU+bn10/r218Ih/dVr8PqrCUi
+         +zNxe+K3ecwSzOgL+BBWPoe4/6FQLDOLF8FBBN0wctOAEh86skK4MzmH7gTRsZzfWL
+         f8r/Qdzu+zwvcbS8QhXz3qmZOldcf4O0AN0W3T4K2qjZk42xxeGDND/UpQjyJILRV3
+         JTpHElGyIo70YkvK/RZG8ULuGN4KK1RxyjMoWu3+p6eJpV8U7w/UdQupHKWmJpM72w
+         tyNI7rSA3tjOA==
+Date:   Mon, 01 Jul 2019 00:28:00 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+From:   colerogers@disroot.org
+Message-ID: <deaf38687dd8e9a970bc60bfd838ed62@disroot.org>
+Subject: [PATCH] Input: synaptics: enable SMBUS on T480 thinkpad trackpad
+To:     linux-input@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
+        benjamin.tissoires@redhat.com
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jiri & Benjamin,
-
-Let me know if you need something else to get this patch moving forward. This
-fixes an issue I hit daily, it would be great to get it fixed.
-
-Thanks.
-
-On Mon, 10 Jun 2019 at 23:31, Joao Moreno <mail@joaomoreno.com> wrote:
->
-> This fixes an issue in which key down events for function keys would be
-> repeatedly emitted even after the user has raised the physical key. For
-> example, the driver fails to emit the F5 key up event when going through
-> the following steps:
-> - fnmode=1: hold FN, hold F5, release FN, release F5
-> - fnmode=2: hold F5, hold FN, release F5, release FN
->
-> The repeated F5 key down events can be easily verified using xev.
->
-> Signed-off-by: Joao Moreno <mail@joaomoreno.com>
-> ---
->  drivers/hid/hid-apple.c | 21 +++++++++++----------
->  1 file changed, 11 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-> index 1cb41992aaa1..81867a6fa047 100644
-> --- a/drivers/hid/hid-apple.c
-> +++ b/drivers/hid/hid-apple.c
-> @@ -205,20 +205,21 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
->                 trans = apple_find_translation (table, usage->code);
->
->                 if (trans) {
-> -                       if (test_bit(usage->code, asc->pressed_fn))
-> -                               do_translate = 1;
-> -                       else if (trans->flags & APPLE_FLAG_FKEY)
-> -                               do_translate = (fnmode == 2 && asc->fn_on) ||
-> -                                       (fnmode == 1 && !asc->fn_on);
-> +                       int fn_on = value ? asc->fn_on :
-> +                               test_bit(usage->code, asc->pressed_fn);
-> +
-> +                       if (!value)
-> +                               clear_bit(usage->code, asc->pressed_fn);
-> +                       else if (asc->fn_on)
-> +                               set_bit(usage->code, asc->pressed_fn);
-> +
-> +                       if (trans->flags & APPLE_FLAG_FKEY)
-> +                               do_translate = (fnmode == 2 && fn_on) ||
-> +                                       (fnmode == 1 && !fn_on);
->                         else
->                                 do_translate = asc->fn_on;
->
->                         if (do_translate) {
-> -                               if (value)
-> -                                       set_bit(usage->code, asc->pressed_fn);
-> -                               else
-> -                                       clear_bit(usage->code, asc->pressed_fn);
-> -
->                                 input_event(input, usage->type, trans->to,
->                                                 value);
->
-> --
-> 2.19.1
->
+From: Cole Rogers <colerogers@disroot.org>=0A=0AThinkpad t480 laptops had=
+ some touchpad features disabled, resulting in the=0Aloss of pinch to act=
+ivities in GNOME, on wayland, and other touch gestures=0Abeing slower. Th=
+is patch adds the touchpad of the t480 to the smbus_pnp_ids=0Awhitelist t=
+o enable the extra features. In my testing this does not break=0Asuspend =
+(on fedora, with wayland, and GNOME, using the rc-6 kernel), while=0Aalso=
+ fixing the feature on a T480.=0A=0ASigned-off-by: Cole Rogers <coleroger=
+s@disroot.org>=0A=0A---=0A drivers/input/mouse/synaptics.c | 1 +=0A 1 fil=
+e changed, 1 insertion(+)=0A=0Adiff --git a/drivers/input/mouse/synaptics=
+.c b/drivers/input/mouse/synaptics.c=0Aindex b8ec30102..c8d0f5795 100644=
+=0A--- a/drivers/input/mouse/synaptics.c=0A+++ b/drivers/input/mouse/syna=
+ptics.c=0A@@ -170,6 +170,7 @@ static const char * const smbus_pnp_ids[] =
+=3D {=0A        "LEN005b", /* P50 */=0A        "LEN005e", /* T560 */=0A  =
+      "LEN0071", /* T480 */=0A+       "LEN0093", /* T480 */=0A        "LE=
+N0072", /* X1 Carbon Gen 5 (2017) - Elan/ALPS trackpoint */=0A        "LE=
+N0073", /* X1 Carbon G5 (Elantech) */=0A        "LEN0092", /* X1 Carbon 6=
+ */=0A-- =0A2.21.0
