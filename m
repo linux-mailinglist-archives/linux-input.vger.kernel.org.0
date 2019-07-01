@@ -2,93 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F13F55B92D
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2019 12:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B2D85BA58
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2019 13:07:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728007AbfGAKlg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Jul 2019 06:41:36 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:44184 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727701AbfGAKlf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Jul 2019 06:41:35 -0400
-Received: by mail-pg1-f196.google.com with SMTP id i18so1185156pgl.11;
-        Mon, 01 Jul 2019 03:41:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qm0d/CL3AkP/V4Y4ZQYCIS3sz2RJH3rKXt+V91e+yAw=;
-        b=s44Z+4+tvtVjpZ+4o0FixYM973uPTWE+IO4rIWyC9KQz/f6SU7XpTikUH/0jn1GyAx
-         Rn+Z1EGiji54UfQV51rKgXDPlg5XwZXAShPrmLub2oGVO0rt2mxCVtfHA++8wUYeKbKG
-         QWf0Yx/knZjWmZfJNfa2WFOgNCM3tcmAGLGaTySaPDXqxpKIwL48nITPWlCzKZW/IeG3
-         QnLzcD/4mk+z4v2ik7/p5ot9U7NTxKsMapjxF/5dYNpb5CrAgLgyclH+71m5fMFAWlcF
-         jiUhK0c3STsJJXTULByK09dKkIn4Uf0LQmPM6qNDRsCvO+WrskhcDhGYcy9VZ9rnuiM+
-         LNJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qm0d/CL3AkP/V4Y4ZQYCIS3sz2RJH3rKXt+V91e+yAw=;
-        b=KDSe008id/W0JzqxHYGj3g/QzZbTuZQkLWWoq6AEcCTPSFeePs5l9jlicFRa4gpKJS
-         +dyIzPqreiqUyUZzrWywhVhDbMBaefrE1A+Eds0pUlh4lDfnMDWydJe+/om8yuBRJ/3E
-         EkLbTbcyygIZwA/Ik1x82qz5f1nKAMxVJB6Feut0D5FYTerLkTT90ykbLnGmQIolxVuO
-         WP1V6In7TY0dz7FM0Rgygid8Yqqr6nogbXKLla5xI09nGhJY4NRMYy8MPBtF2DmLkzZl
-         RrbBtpPRzjWVk0hGyB7ivR9MMTPYeNyjJf7SZz9y5JzOw6HHuDaXOIuefv8bgfW9FrFQ
-         cHLw==
-X-Gm-Message-State: APjAAAVEyATdxDtDPNeHzOdZy3LhwvvULUmRvpC71sGFKQR8FQ6briHo
-        7Husa2XOvk0fwdSiMY7vt+NXrVF8lYyjeq0NGu8=
-X-Google-Smtp-Source: APXvYqxy7nS2uDui+cjNUAygqng7DoFk2KoHqMLGHqfRb8SSxP/qTghmKNm130kHFZ27SwiMcoedPD8AdYSDX1/W8v8=
-X-Received: by 2002:a17:90b:8d2:: with SMTP id ds18mr31003825pjb.132.1561977695103;
- Mon, 01 Jul 2019 03:41:35 -0700 (PDT)
+        id S1728283AbfGALH5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Jul 2019 07:07:57 -0400
+Received: from forward102j.mail.yandex.net ([5.45.198.243]:44880 "EHLO
+        forward102j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727645AbfGALH4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 1 Jul 2019 07:07:56 -0400
+X-Greylist: delayed 456 seconds by postgrey-1.27 at vger.kernel.org; Mon, 01 Jul 2019 07:07:56 EDT
+Received: from mxback8o.mail.yandex.net (mxback8o.mail.yandex.net [IPv6:2a02:6b8:0:1a2d::22])
+        by forward102j.mail.yandex.net (Yandex) with ESMTP id 1F224F216B4;
+        Mon,  1 Jul 2019 14:00:19 +0300 (MSK)
+Received: from smtp1p.mail.yandex.net (smtp1p.mail.yandex.net [2a02:6b8:0:1472:2741:0:8b6:6])
+        by mxback8o.mail.yandex.net (nwsmtp/Yandex) with ESMTP id tmWiHivRlv-0IXOHGaj;
+        Mon, 01 Jul 2019 14:00:19 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hak.pw; s=mail; t=1561978819;
+        bh=FbfVOXHvafymJ0I6lv5A3M/584BgbTkRgtmMcLFbp2M=;
+        h=In-Reply-To:Cc:To:Subject:From:References:Date:Message-Id;
+        b=t+A96BwgU8UgZc1oVLckiopYBWWvEqi7HIxuEI6SguwVK+TPDXiSqyjELg//q/ylD
+         CBcV1Rm74NxGI5cNRAfnYz7kC80s6H7iVjM+bbnjLNMQOXpK39o+jbu4AKLHQrrgKo
+         G2CoQfp4wP3+bqbkoWXn0wteo2AQaXVIXTunpjWc=
+Authentication-Results: mxback8o.mail.yandex.net; dkim=pass header.i=@hak.pw
+Received: by smtp1p.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id vvIkcF89tO-0GvuB3tw;
+        Mon, 01 Jul 2019 14:00:17 +0300
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client certificate not present)
+Date:   Mon, 01 Jul 2019 12:00:13 +0100
+From:   Abou Abbad <aa@hak.pw>
+Subject: Re: HP Elite X2 1012 G1 ALPS touchpad stopped working after BIOS
+ upgrade to v1.39
+To:     masaki.ota@jp.alps.com
+Cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com
+Message-Id: <1561978813.9768.0@hak.pw>
+In-Reply-To: <1561977847.8449.0@hak.pw>
+References: <1561977847.8449.0@hak.pw>
+X-Mailer: geary/3.32.1
 MIME-Version: 1.0
-References: <20190623063153.261546-1-dmitry.torokhov@gmail.com>
- <20190623063153.261546-2-dmitry.torokhov@gmail.com> <CAHp75VfgR4d7aOG6XPBXisrfa=30pYfCJZ1Yhh2E44bs8vWmVw@mail.gmail.com>
- <20190630070552.GA91171@dtor-ws>
-In-Reply-To: <20190630070552.GA91171@dtor-ws>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 1 Jul 2019 13:41:24 +0300
-Message-ID: <CAHp75VfZn6ZuScgQtXt=5_T=LmsodG7NCCo1ABx6v9aON19c0w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Input: edt-ft5x06 - simplify event reporting code
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Benoit Parrot <bparrot@ti.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Jun 30, 2019 at 10:05 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> On Sun, Jun 23, 2019 at 10:59:18AM +0300, Andy Shevchenko wrote:
-> > On Sun, Jun 23, 2019 at 9:31 AM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > >
-> > > Now that input_mt_report_slot_state() returns true if slot is active we no
-> > > longer need a temporary for the slot state.
+=E3=81=93=E3=82=93=E3=81=AB=E3=81=A1=E3=81=AF=E3=81=BE=E3=81=95=E3=81=8D=E3=
+=81=95=E3=82=93
+(Hi Mr Masaki) just in case above is wrong!
 
-> > > -               down = type != TOUCH_EVENT_UP;
-> > >
-> > >                 input_mt_slot(tsdata->input, id);
-> > > -               input_mt_report_slot_state(tsdata->input, MT_TOOL_FINGER, down);
-> >
-> > > +               if (input_mt_report_slot_state(tsdata->input, MT_TOOL_FINGER,
-> > > +                                              type != TOUCH_EVENT_UP))
-> >
-> > Can't we simple do somethink like
-> > -               down = type != TOUCH_EVENT_UP;
-> > +               down = input_mt_report_slot_state(tsdata->input,
-> > MT_TOOL_FINGER, type != TOUCH_EVENT_UP);
->
-> Why though? The temporary was needed so we did not have to repeat the
-> expression for "contact down" condition, and now we do not need it. The
-> whole change was done so that we cab remove the temporary...
+As the title says, with help from Benjamin Tissoires, the issue seems=20
+to be that the touchpad reoports its ID being 0x120D which hid-alps.c=20
+does not handle.
 
-I see. Thanks for explanation.
+For more info, please see this thread, full of info:=20
+https://gitlab.freedesktop.org/libinput/libinput/issues/318
 
--- 
-With Best Regards,
-Andy Shevchenko
+Kind regards
+
+PS: Original message was rejected as it contained HTML, this is the=20
+plain text version.
+
+=
+
