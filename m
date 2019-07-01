@@ -2,109 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F0AD5B456
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2019 07:50:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 090AD5B5BF
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2019 09:32:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727108AbfGAFuB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Jul 2019 01:50:01 -0400
-Received: from mout.gmx.net ([212.227.15.19]:47075 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725777AbfGAFuB (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 1 Jul 2019 01:50:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1561960165;
-        bh=oc3sKYQ0mF/Td4gJJep/DqPQvOea8tFxzRguGbP7Vws=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=IOdR2wUONe8GLQd5Qx7QtrXo32UQ3X41YP8EZTGZjs76QnOWm0re05zmAt0uBCZUh
-         kCIICKGgcXJUAvq1UoRi69zHWsmZnAr+B+/Ivw9mMrqj804Nm6Hq2CLUtGn2MVvZp2
-         GcKDN33m8ISrN++3Jv4BA/KBkyxMB7tWjYCV3pdE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([95.91.214.143]) by mail.gmx.com
- (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1MZktZ-1i5HJz0xlf-00WpFc; Mon, 01 Jul 2019 07:49:24 +0200
-From:   Sebastian Parschauer <s.parschauer@gmx.de>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org,
-        Sebastian Parschauer <s.parschauer@gmx.de>,
-        stable@vger.kernel.org
-Subject: [PATCH] HID: Add another Primax PIXART OEM mouse quirk
-Date:   Mon,  1 Jul 2019 07:48:17 +0200
-Message-Id: <20190701054817.13991-1-s.parschauer@gmx.de>
-X-Mailer: git-send-email 2.16.4
-X-Provags-ID: V03:K1:iqER7KqJ739FSVKBCQj8xMiFrJiiU/1PbXgadM/Vv8+oQzkGSu2
- ABrWENv8oFNZ+T0HCZ63NNA/hQdkmuisSzwz55lTq2qOPq9cohff3Ne+w41ksDHKyigwEV+
- 1Zql0xOSq9rzwLhjGHe5c8NDLJXnz2X05KYbabdAe5iLqQKNqJEbfOmM0PnXr+irdbMtxii
- KlDsAMaXKquZ6EdOfnSKA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bTBigtiAdsA=:SPZ9QLhj5HNDb/GksVXvye
- 6tWFZlJDr4cVHVTJ8QtJdHVwWAWJkKXLX5ofUeKcEVdcHxwaKlpgeV1FqeayorpV869I253Aw
- oN6ja2wiKbfG+ZwNobvT7Tg2V3dYFdBostbeADWvwGRULDqYdSN6zOEmOkR+OBAYIz4jjNdh0
- q3cXrFh57Kr3Xvvh5uEDf0GkB3599Oq1JWIcVhMecxVF2I2QGXp8y07nuLCZgd2Nu7JwWcYdv
- /RKQUMiZr5pgR7ToySVFEzIYkP5OVh5krmH2baNC0NE7bxSaacOBU7Yfev9lRgMKEuxmjKDXI
- bLW+ht+X7yHPFViDYZf1CDKIyPCM0fPGGmNi2gvOC5OZgY7cVjqgkzw9DnoDHvS/8S2EmUxmE
- 7On8xEszicbAp/dcm1hlQSbyHitMAJs9zPFbnAfSqA9+ZiUOOeoE5CrwcORO0rp1udECGvA3n
- EXD0vdeMiAMKryWbJzzZhd0PbYXydO517vOAbZ30CBBVx+Jd2i9oIP5j8E350izKY8sBHs8Q6
- 8GOuSlqj9y6WrLTV3m4Qm2br3OwUvIui0z4nDQ1G4DMFqMfo3phLGwORRgs0KZDWop1icWIGo
- KBk3nom7ZOSqvgbSnm37rXBPC6BuYgHpzFY40Eft5CQ0kY2NsfUKHnPmby3uIQMV/Xrn8VxFe
- KnRoPFzKyyaNrmSb/5j2tmXyx4KKOtNBja21Cv7etwvIYkp/5VVFdtRtUV8VQFYXMKB8nki7B
- 0R6Tsax//ShE2zw5V8AapWmRmjR59Utfq1cvB1mxpZsDF23oXvRr7P0POQv/sk9MQbFmNU05F
- itQy/sJ/SKg0y7zmKwSBikEHALfIdTzkOyFjx/QlPj1bSIVoyBVpppNKEzoWELgRzeX23r5sw
- 7cBBue6z0SMfFBmGK0u7j7LHKEWaNm0VQkS7nwhKOAjoVz/dQZa3nmqI0B+naD97KXMlG07R3
- TdDIxbILsUpk/KzXpAnUNn/IHZSkxYjiGhXr/5phw4esBD7ycH7DQHEztsy5k+4m+vimNBczy
- Nne1q6Iv4ely/MCqyBYafnJTHMETE2znWZJGwRedEowV4+HysRMkmBchrcy6L+usvzyTeqZUS
- y1Y9kShZxGL3UE=
-Content-Transfer-Encoding: quoted-printable
+        id S1727757AbfGAHch (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Jul 2019 03:32:37 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:40086 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727563AbfGAHch (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Jul 2019 03:32:37 -0400
+Received: by mail-pg1-f195.google.com with SMTP id w10so5588310pgj.7;
+        Mon, 01 Jul 2019 00:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=r3krFnlpSUteqfAN88gmmDAUtY8UDQsbB6kSfcYI9w0=;
+        b=vFtq0xbtvkh8R+O72XBTmT6LeIqiqq3m0B2bIkfFrOiyP7fcsGcoBbKL645QEc/CrG
+         LIemUwXcdYl9EMTVoDVCXFmLg/aG4l68vUOD348PZePBpbCSJjEUbAG+fQNndPAwYaWg
+         muAiCUP9g5CJN4g7NlsuJqhEohkC8lGLGbWE8Pz3h3UYAPzGwIQSNzd3P2zO1Fb495aI
+         4bXN5ec02F240StV1PZ56k/ciotXlkoSjN7gwZHapngONexJ/Imy44qfOhnHnC/lmSN9
+         ZhSvWGk2P04ZT6elXqNm8Jd2L9GngjEAEe7zfWCaN+4FMB+XWBQ+07UZN8oRJ2NaweMw
+         1WSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=r3krFnlpSUteqfAN88gmmDAUtY8UDQsbB6kSfcYI9w0=;
+        b=p+kMLDDtkSpTqysaZXUL/IhJM6TajUcAj0dXCFN9CwNermelEOYnQlPz2If7ZrbXtl
+         kLSQiI7T9fy1CZNQw44rcq8gvZ9AsDmjRN9FHEC1UfF7FQyg5l2jo13dwaXs+Kvqol69
+         23Ef+8FRYQSHWypbmPoGzjs6DOdVY4wz7fWp0uhnATf3oaJe8H9mHC+jugcJBY1oRiz0
+         v4T30c0UrcJ0KySFEXv74dfWymIR2RLHwtxTsJerrH3jYCrCNJ9uaWauK1BCrfC1Bz6y
+         P4CVyzYrmtoYMGsnk8uF9I788YFOAhIladrFZHYI9NQihIA5TllAB0O+nEvAEPGTGU69
+         EDEA==
+X-Gm-Message-State: APjAAAU/lJUEJx9zssc2CDA3m/RKhJ6Rk1SztubRuKi/b8jpf+P/2+Q5
+        HYRtjmVwpFPwDYKiMBlM+y8=
+X-Google-Smtp-Source: APXvYqyeTFln8z3Oa/D5uivCoSODZsncehIPi5ijNdI05rEAJngObBziiboeEm4QSVvgPVV72pOdPg==
+X-Received: by 2002:a17:90a:374f:: with SMTP id u73mr29428549pjb.4.1561966356397;
+        Mon, 01 Jul 2019 00:32:36 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id q13sm10181255pgq.90.2019.07.01.00.32.35
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 01 Jul 2019 00:32:35 -0700 (PDT)
+Date:   Mon, 1 Jul 2019 00:32:33 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [Patch 1/1] Input: edt-ft5x06 - disable irq handling during
+ suspend
+Message-ID: <20190701073233.GA172968@dtor-ws>
+References: <20190621185124.28966-1-bparrot@ti.com>
+ <CAHp75VdcAfmn8u0du-Y95SjMcmuJa2402tdXCNHMcme1Y925xg@mail.gmail.com>
+ <20190623055940.GA204275@dtor-ws>
+ <20190624122457.seiezk4cla2gjh5u@ti.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190624122457.seiezk4cla2gjh5u@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The PixArt OEM mice are known for disconnecting every minute in
-runlevel 1 or 3 if they are not always polled. So add quirk
-ALWAYS_POLL for this Alienware branded Primax mouse as well.
+On Mon, Jun 24, 2019 at 07:24:57AM -0500, Benoit Parrot wrote:
+> Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote on Sat [2019-Jun-22 22:59:40 -0700]:
+> > On Sat, Jun 22, 2019 at 01:37:10PM +0300, Andy Shevchenko wrote:
+> > > On Fri, Jun 21, 2019 at 9:53 PM Benoit Parrot <bparrot@ti.com> wrote:
+> > > >
+> > > > As a wakeup source when the system is in suspend there is little point
+> > > > trying to access a register across the i2c bus as it is probably still
+> > > > inactive. We need to prevent the irq handler from being called during
+> > > > suspend.
+> > > >
+> > > 
+> > > Hmm... But how OS will know what the event to handle afterwards?
+> > > I mean shouldn't we guarantee somehow the delivery of the event to the
+> > > input, in this case, subsystem followed by corresponding user space?
+> > 
+> > If we are using level interrupts then it will work OK, however it is
+> > really easy to lose edge here, as replaying disabled edge triggered
+> > interrupts is not really reliable.
+> > 
+> > Benoit, what kind of interrupt do you use in your system?
+> 
+> Dmitry,
+> 
+> On our systems we currently used edge trigger. One example is available in
+> mainline: arch/arm/boot/dts/am437x-sk-evm.dts
+> 632:              interrupts = <31 IRQ_TYPE_EDGE_FALLING>;
 
-Daniel Schepler (@dschepler) reported and tested the quirk.
-Reference: https://github.com/sriemer/fix-linux-mouse/issues/15
+Does your device still work if you switch to level-triggered interrupt?
 
-Signed-off-by: Sebastian Parschauer <s.parschauer@gmx.de>
-CC: stable@vger.kernel.org
-=2D--
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
+Regarding your patch I am uncomfortable with disabling interrupts if
+interrupt is edge-triggered, as replaying edge interrupts after enabling
+is not very reliable. So we should either only disable interrupt if it
+is level-triggered, or make sure we read and process data from the
+device after re-enabling interrupt to rearm it. We'll need to make sure
+suspend does not race with interrupt handler than and also make sure we
+handle case when device does not actually has data to report.
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index eac0c54c5970..ea04b37cdac2 100644
-=2D-- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1238,6 +1238,7 @@
- #define USB_DEVICE_ID_PRIMAX_KEYBOARD	0x4e05
- #define USB_DEVICE_ID_PRIMAX_REZEL	0x4e72
- #define USB_DEVICE_ID_PRIMAX_PIXART_MOUSE_4D0F	0x4d0f
-+#define USB_DEVICE_ID_PRIMAX_PIXART_MOUSE_4D65	0x4d65
- #define USB_DEVICE_ID_PRIMAX_PIXART_MOUSE_4E22	0x4e22
+Thanks.
 
-
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index e5ca6fe2ca57..4aa321e35a8e 100644
-=2D-- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -129,6 +129,7 @@ static const struct hid_device_id hid_quirks[] =3D {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_PIXART, USB_DEVICE_ID_PIXART_USB_OPTICAL_=
-MOUSE), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, USB_DEVICE_ID_PRIMAX_MOUSE_4D22),=
- HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, USB_DEVICE_ID_PRIMAX_PIXART_MOUSE=
-_4D0F), HID_QUIRK_ALWAYS_POLL },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, USB_DEVICE_ID_PRIMAX_PIXART_MOUSE=
-_4D65), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, USB_DEVICE_ID_PRIMAX_PIXART_MOUSE=
-_4E22), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_PRODIGE, USB_DEVICE_ID_PRODIGE_CORDLESS),=
- HID_QUIRK_NOGET },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_QUANTA, USB_DEVICE_ID_QUANTA_OPTICAL_TOUC=
-H_3001), HID_QUIRK_NOGET },
-=2D-
-2.16.4
-
+-- 
+Dmitry
