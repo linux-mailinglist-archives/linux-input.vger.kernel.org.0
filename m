@@ -2,123 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AAA05C427
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2019 22:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 059975C658
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2019 02:38:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726652AbfGAUHa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Jul 2019 16:07:30 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:35738 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726586AbfGAUH3 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Jul 2019 16:07:29 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x61K7H0Y074025;
-        Mon, 1 Jul 2019 15:07:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1562011637;
-        bh=fJIWwF2iBk1KVn8FBnxqLr7dJbFzUQEFbPrDqwnSdu0=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=QX1tlDzgGAd/FnkHA/lGkkBuca58P8ETbOq8KYUhCe8zr1J1hOTnRAcqJyc2PLDpC
-         7tL5HZY5hUAnBhPu5qcCjqd3X1NoYYeJUrGehc9dnTazeocJCRwx6F+oR3+w+fa2IN
-         DX8Ar4GjIGlDvZJfOoejEzoHL40OvGpmsWKhOv/U=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x61K7HYF106428
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 1 Jul 2019 15:07:17 -0500
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 1 Jul
- 2019 15:07:17 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 1 Jul 2019 15:07:16 -0500
-Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with SMTP id x61K7H9Z065259;
-        Mon, 1 Jul 2019 15:07:17 -0500
-Date:   Mon, 1 Jul 2019 15:08:38 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [Patch 1/1] Input: edt-ft5x06 - disable irq handling during
- suspend
-Message-ID: <20190701200838.lnp2dmujqmeh55dh@ti.com>
-References: <20190621185124.28966-1-bparrot@ti.com>
- <CAHp75VdcAfmn8u0du-Y95SjMcmuJa2402tdXCNHMcme1Y925xg@mail.gmail.com>
- <20190623055940.GA204275@dtor-ws>
- <20190624122457.seiezk4cla2gjh5u@ti.com>
- <20190701073233.GA172968@dtor-ws>
+        id S1727013AbfGBAiW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Jul 2019 20:38:22 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:41524 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726977AbfGBAiW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Jul 2019 20:38:22 -0400
+Received: by mail-wr1-f65.google.com with SMTP id c2so15705097wrm.8;
+        Mon, 01 Jul 2019 17:38:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rVse8/70KlRnkr5stKb0afx2GZVUTkz5Ky6nNvkWhJ0=;
+        b=Mp6hT5stYzvQtGeKyvVabtSyO3oGCif0JCNJnawAzS+mi7cc+RHZI98200JnEL9zON
+         PlFFHKKFyp6AM7nHKr2tlWCSNmodub8BKny91xO2p3P4NmF2OWwaeOepQXJyCB50SKDC
+         Lcfbp4qBcgTxOFZUW2W0A0ObhDOMHdI1zHTrEqTETllUIKHij1j9cS6g+szV01BTtUdJ
+         xwNgepa6eMBvZ38Qsrm8GJVT3IbFTgP6CcYdHVx0lmhxYuee2LaxGnfc0DaSkhGLy/i8
+         j/wvQcm7ZT1mNNG601I0Jy/xBh+3RiM9C5NicAXQqcnAxGWSkNI2rvCI1nqruK0kGw3L
+         /buA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rVse8/70KlRnkr5stKb0afx2GZVUTkz5Ky6nNvkWhJ0=;
+        b=fdElCcsyo9RtXC5WIW1JflZmmUh80gzrR/nmJxGA1SwIBbv8TQ244ljbEHQek3qTCD
+         Dbjp6ZGtY+iZ2iRw0aH0YNEuKrsyGVuvBhaprkleB/r14ouDlY9DQaxxkjCNJc/OXT4l
+         OwckXnAk46wMVRGRO23FBy4kE84fuKL/8w7Fue+tlzAVhYbtn3jrbQbLy9Y3bcKlzer4
+         6VrF7/ZJ9JRPKt8VANtJb1etVaATtTsSjiNt30LDOZ0Un9E2qm9qubbNl/MFcErml40z
+         BYubG/BCof6NtJH9+8kyXx6yEcf9swkQc94ivM4cxZECuB0eVjtQJpyCLCbFHbKXelxS
+         28Hg==
+X-Gm-Message-State: APjAAAWO1ORoriea8I2af0L1+24Sqqx6cl+DT/PlBL17/PqUoZzsfWyZ
+        XltIRu+6OEsOoOk0x/HZdysIbRrT
+X-Google-Smtp-Source: APXvYqwnDuKCY+1R6+H0PCy5dnftOcQI0vFvHorJDmI1wACNuVm6Iy06UqHrDNE4S2fFVLJ5G3zoqg==
+X-Received: by 2002:adf:ec49:: with SMTP id w9mr19308394wrn.303.1562027899417;
+        Mon, 01 Jul 2019 17:38:19 -0700 (PDT)
+Received: from xws.fritz.box (p5487BBD4.dip0.t-ipconnect.de. [84.135.187.212])
+        by smtp.gmail.com with ESMTPSA id 60sm3066087wrc.68.2019.07.01.17.38.17
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 01 Jul 2019 17:38:18 -0700 (PDT)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>
+Subject: [PATCH 0/2] Support for buttons on newer MS Surface devices
+Date:   Tue,  2 Jul 2019 02:37:38 +0200
+Message-Id: <20190702003740.75970-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20190701073233.GA172968@dtor-ws>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote on Mon [2019-Jul-01 00:32:33 -0700]:
-> On Mon, Jun 24, 2019 at 07:24:57AM -0500, Benoit Parrot wrote:
-> > Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote on Sat [2019-Jun-22 22:59:40 -0700]:
-> > > On Sat, Jun 22, 2019 at 01:37:10PM +0300, Andy Shevchenko wrote:
-> > > > On Fri, Jun 21, 2019 at 9:53 PM Benoit Parrot <bparrot@ti.com> wrote:
-> > > > >
-> > > > > As a wakeup source when the system is in suspend there is little point
-> > > > > trying to access a register across the i2c bus as it is probably still
-> > > > > inactive. We need to prevent the irq handler from being called during
-> > > > > suspend.
-> > > > >
-> > > > 
-> > > > Hmm... But how OS will know what the event to handle afterwards?
-> > > > I mean shouldn't we guarantee somehow the delivery of the event to the
-> > > > input, in this case, subsystem followed by corresponding user space?
-> > > 
-> > > If we are using level interrupts then it will work OK, however it is
-> > > really easy to lose edge here, as replaying disabled edge triggered
-> > > interrupts is not really reliable.
-> > > 
-> > > Benoit, what kind of interrupt do you use in your system?
-> > 
-> > Dmitry,
-> > 
-> > On our systems we currently used edge trigger. One example is available in
-> > mainline: arch/arm/boot/dts/am437x-sk-evm.dts
-> > 632:              interrupts = <31 IRQ_TYPE_EDGE_FALLING>;
-> 
-> Does your device still work if you switch to level-triggered interrupt?
+This series adds suport for power and volume buttons on 5th and 6th
+generation Microsoft Surface devices. Specifically, it adds support for
+the power-button on the Surface Laptop 1 and Laptop 2, as well as
+support for power- and (on-device) volume-buttons on the Surface Pro 5
+(2017), Pro 6, and Book 2.
 
-That would depend on the device. But for instance on am437x, in order for
-GPIO IRQ to be detected as a wake up event they need to be edge triggered.
+These devices use the same MSHW0040 device as on the Surface Pro 4,
+however, whereas the Pro 4 uses an ACPI notify handler, the newer
+devices use GPIO interrupts to signal these events.
 
-> 
-> Regarding your patch I am uncomfortable with disabling interrupts if
-> interrupt is edge-triggered, as replaying edge interrupts after enabling
-> is not very reliable. So we should either only disable interrupt if it
-> is level-triggered, or make sure we read and process data from the
-> device after re-enabling interrupt to rearm it. We'll need to make sure
-> suspend does not race with interrupt handler than and also make sure we
-> handle case when device does not actually has data to report.
+The first patch of this series ensures that the surfacepro3_button
+driver, used for MSHW0040 on the Pro 4, does not probe for the newer
+devices. The second patch adapts soc_button_array to implement the
+actual button support.
 
-I am still not sure who would consume these events. Upon waking up from
-suspend it would take a while for user-space to be ready to consume these
-events, and by that time there may have been quite a few of them.
+I think the changes to soc_button_array in the second patch warrant a
+thorough review. I've tried to make things a bit more generic to be able
+to integrate arbitrary ACPI GPIO power-/volume-button devices more
+easily, I'm not sure if there may be reasons against this.
 
-We are currently missing those events anyways, no?
-I mean the i2c read operation during suspend is failing anyways, which
-means that particular event is already missed.
+These patches have also been tested on various Surface devices via the
+github.com/jakeday/linux-surface patchset.
 
-Regards,
-Benoit
+Changes since v1:
+  - [PATCH 1/2] platform: Fix device check for surfacepro3_button
+    No changes.
 
-> 
-> Thanks.
-> 
-> -- 
-> Dmitry
+  - [PATCH 2/2] input: soc_button_array for newer surface devices
+    Ensure the patch compiles without CONFIG_ACPI.
+
+Maximilian Luz (2):
+  platform: Fix device check for surfacepro3_button
+  input: soc_button_array for newer surface devices
+
+ drivers/input/misc/soc_button_array.c     | 145 ++++++++++++++++++++--
+ drivers/platform/x86/surfacepro3_button.c |  38 ++++++
+ 2 files changed, 171 insertions(+), 12 deletions(-)
+
+-- 
+2.22.0
+
