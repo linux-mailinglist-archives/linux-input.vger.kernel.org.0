@@ -2,28 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 494845C6C0
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2019 03:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DE9C5C6E8
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2019 04:04:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727036AbfGBBq4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Jul 2019 21:46:56 -0400
-Received: from mga02.intel.com ([134.134.136.20]:23456 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726347AbfGBBq4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 1 Jul 2019 21:46:56 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Jul 2019 18:46:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,441,1557212400"; 
-   d="scan'208";a="165505063"
-Received: from chenyu-office.sh.intel.com ([10.239.158.163])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Jul 2019 18:46:52 -0700
-Date:   Tue, 2 Jul 2019 09:57:17 +0800
-From:   Yu Chen <yu.c.chen@intel.com>
-To:     Maximilian Luz <luzmaximilian@gmail.com>
+        id S1726803AbfGBCEl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Jul 2019 22:04:41 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:34475 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726486AbfGBCEl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Jul 2019 22:04:41 -0400
+Received: by mail-wr1-f66.google.com with SMTP id u18so7678537wru.1;
+        Mon, 01 Jul 2019 19:04:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=cC24HskbbBfAYQjpG+ffaC/VHKFfDt1GzRC+shKM3B4=;
+        b=AvujA4SnQ8zxnHu93jV87ajTEC54BPX56k7Cm/ule4kFTHu+IayTzJ3o5jb5pNDXfV
+         N1LbSfF1MU/L8mGuZcuSlS9FbPI8T5zbjmNedknRRKuKKcwWPcqlWFyvwJ/9+8v++q7D
+         Aq9fgIBn982l0WFRLX/AuWX5Fw0HHltAUuBFlBPSoOPxt1LQ5BmzgpcBefapWvMrM7Am
+         NeJt1v1DJ9xjKuKS0dW6BIgxy6KZNV6PUeTDRc+7XWRsVDAn/0wy83iY+PHiPe/e4yfc
+         1splfHMkDb+yB1AyjSkzRz+TYGNwBCLhAx/SHotCy6HFQC7PleD2WTYaddQaMJ+Prr9Z
+         2b3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=cC24HskbbBfAYQjpG+ffaC/VHKFfDt1GzRC+shKM3B4=;
+        b=lCuSgp1AtLfaZDD8cyLJsY7R6NbvY3hN8TYHDLlVTOUQvotYzGij9SfVOFgQqIjx2I
+         GL6wMiNX40tlH6ytG55oZBXCfkqHMZg3ZtP38GONRsOMDQu49i8C0CzeASzwoAb6FVA1
+         oq34n3r4MsSM64AAYa4OQz3eam7u/JPr4FCz7BP0uOuY7czZz/cUQrfkv6xmo4k2QQxm
+         OrWOlxJTmp63ilrKdcRARSHzOM4fBxVHKuOtULGxxCjKntoBZWeNaovR+c6y/r9n0dcH
+         b6rZf5+iGgF4BzLhmkwOPEVLTu3rN1fBiX5fiUv2zWY5Jo3EfCzrXTAqU+vpDqwFAK/f
+         KVYQ==
+X-Gm-Message-State: APjAAAWlnwIiZThVJoOiEUW/JX99O5+H1aoQ2fUa5UWyBbrCXH8KxYMV
+        eSTjR7ZxQqh9nb0rLCmoaMo=
+X-Google-Smtp-Source: APXvYqzwMiWb7AaYJOGdenk/mB+FUODCRipS/iQOKLhn2j2Wxg8EvSYMHHlv5uD0y6hevjCLdUkLnw==
+X-Received: by 2002:adf:f649:: with SMTP id x9mr19259049wrp.86.1562033079629;
+        Mon, 01 Jul 2019 19:04:39 -0700 (PDT)
+Received: from [192.168.2.202] (pD9E5A169.dip0.t-ipconnect.de. [217.229.161.105])
+        by smtp.gmail.com with ESMTPSA id i16sm9091440wrm.37.2019.07.01.19.04.38
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Mon, 01 Jul 2019 19:04:39 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] platform: Fix device check for surfacepro3_button
+To:     Yu Chen <yu.c.chen@intel.com>
 Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         platform-driver-x86@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -31,91 +54,35 @@ Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH v2 1/2] platform: Fix device check for surfacepro3_button
-Message-ID: <20190702015717.GA20346@chenyu-office.sh.intel.com>
 References: <20190702003740.75970-1-luzmaximilian@gmail.com>
  <20190702003740.75970-2-luzmaximilian@gmail.com>
  <20190702011443.GA19902@chenyu-office.sh.intel.com>
  <91349d00-e7e2-887b-45e5-4689a401aa2f@gmail.com>
  <d7e17f54-4c33-fa8d-be03-9e507da8e495@gmail.com>
+ <20190702015717.GA20346@chenyu-office.sh.intel.com>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <3eab65a6-90d6-d598-2b16-805c28864716@gmail.com>
+Date:   Tue, 2 Jul 2019 04:04:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d7e17f54-4c33-fa8d-be03-9e507da8e495@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20190702015717.GA20346@chenyu-office.sh.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 02, 2019 at 03:33:20AM +0200, Maximilian Luz wrote:
-> On 7/2/19 3:25 AM, Maximilian Luz wrote:
-> > On 7/2/19 3:14 AM, Yu Chen wrote:
-> > > On Tue, Jul 02, 2019 at 02:37:39AM +0200, Maximilian Luz wrote:
-> > > > +/*
-> > > > + * Surface Pro 4 and Surface Book 2 / Surface Pro 2017 use the same device
-> > > > + * ID (MSHW0040) for the power/volume buttons. Make sure this is the right
-> > > > + * device by checking for the _DSM method and OEM Platform Revision.
-> > > > + */
-> > > > +static int surface_button_check_MSHW0040(struct acpi_device *dev)
-> > > > +{
-> > > > +    acpi_handle handle = dev->handle;
-> > > > +    union acpi_object *result;
-> > > > +    u64 oem_platform_rev = 0;
-> > > > +
-> > > > +    // get OEM platform revision
-> > > > +    result = acpi_evaluate_dsm_typed(handle, &MSHW0040_DSM_UUID,
-> > > > +                     MSHW0040_DSM_REVISION,
-> > > > +                     MSHW0040_DSM_GET_OMPR,
-> > > > +                     NULL, ACPI_TYPE_INTEGER);
-> > > > +
-> > > Does it mean, only 5th, 6th and newer platforms have OEM platform revision?
-> > > 3rd/4th will get NULL result? Or the opposite?
-> > 
-> > Correct, from my testing (with limited sample size) and AML code: 5th
-> > and 6th generation devices have a non-zero OEM platform revision,
-> > whereas 3rd and 4th gen. devices do not have any (i.e. result will be
-> > NULL).
-> > 
-> > > > +    if (result) {
-> > > > +        oem_platform_rev = result->integer.value;
-> > > > +        ACPI_FREE(result);
-> > > > +    }
-> > > > +
-> > > > +    dev_dbg(&dev->dev, "OEM Platform Revision %llu\n", oem_platform_rev);
-> > > > +
-> > > > +    return oem_platform_rev == 0 ? 0 : -ENODEV;
-> > > if 3rd/4th do not have this oem rev information while 5th/newer have,
-> > > why the latter returns NODEV(it actually has this info)?
-> > 
-> > Since we always expect a non-zero platform revision (for 5th/6th gen.),
-> > we can initialize it to zero and use that as "unknown"/"not available".
-> > So if it can not be determined, we return NODEV.
-> 
-> Sorry, small mistake here: If it can be determined (i.e. is 5th or 6th
-> gen.) then we return NODEV. Not the other way around.
->
-How about using a boolean, according to the function name, if a mshw0040 revison
-is detected then returns true other wise false. Other than that,
-Acked-by: Chen Yu <yu.c.chen@intel.com>
+On 7/2/19 3:57 AM, Yu Chen wrote:
+> How about using a boolean, according to the function name, if a mshw0040 revison
+> is detected then returns true other wise false. Other than that,
+> Acked-by: Chen Yu <yu.c.chen@intel.com>
 
-Best,
-Chenyu
-> Also to clarify on your last question:
-> 
-> On 7/2/19 3:14 AM, Yu Chen wrote:
-> > >   static int surface_button_add(struct acpi_device *device)
-> > >   {
-> > >   	struct surface_button *button;
-> > > @@ -154,6 +188,10 @@ static int surface_button_add(struct acpi_device *device)
-> > >   	    strlen(SURFACE_BUTTON_OBJ_NAME)))
-> > >   		return -ENODEV;
-> > > +	error = surface_button_check_MSHW0040(device);
-> > > +	if (error)
-> > > +		return error;
-> > > +
-> > ditto, 3rd/4th get error=0?
-> 
-> You are correct.
-> 
-> Maximilian
+I can change that if you want me to. Just thought this might be a bit
+more flexible in case we ever have to adapt the check for future device
+generations.
+
+Thanks,
+Maximilian
