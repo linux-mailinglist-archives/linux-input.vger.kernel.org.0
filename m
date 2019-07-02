@@ -2,52 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A0ED5D513
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2019 19:13:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DEBE5D535
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2019 19:26:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726483AbfGBRNk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Jul 2019 13:13:40 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:41870 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726303AbfGBRNk (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Jul 2019 13:13:40 -0400
-Received: by mail-pl1-f196.google.com with SMTP id m7so702164pls.8;
-        Tue, 02 Jul 2019 10:13:39 -0700 (PDT)
+        id S1726598AbfGBR0d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Jul 2019 13:26:33 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:33205 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726150AbfGBR0c (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Jul 2019 13:26:32 -0400
+Received: by mail-wr1-f65.google.com with SMTP id n9so18810838wru.0;
+        Tue, 02 Jul 2019 10:26:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CMmY/EmBDHRwzGOg6QKWgI4bnbMuLFbtkiBtFkYdt0g=;
-        b=BptMFKNJAX+benhstGMez9zdl8mS2nykF4E5vC1Ha2dII7WT/F+yQAzjn3PJ3FZ52T
-         9RiwURv25KYuUh0Z59AX6JHoyIgTKYNberdr/l+vOQZDIXQNNlOQNCleW90fJ4H5KxDj
-         aeZa/OZ/qnog9Oz1/n/gtoItr5Qm/GfI2nhCqy/8Lmq+lcRZWIICHjFg7DiKsVmpxzGm
-         Rb2vsPwSFQybIjGgPyc8JfaOvx3F52kw0q+XD+y4fnA7cbpJN+GZbWIH47pBz/FdkasO
-         CFea1MJCNem6xn3CcbSG+xnT98207tebxox+M8nTI+4QEyqfR8Ojj8BonKFPk5HykYWe
-         v6FQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GJQWdYjGRJbWGQyVM/pVQ8ZoWrqzt0Iwb6wDU6NZk2g=;
+        b=O+tny0zmZLUocyLGuzn577ZQeQVqyE3IVzVoF5ClP1sMNqM3CmWSRE4DR3QvA1BGmv
+         0LEmxDnJYQ/+nLk/aCAR8MsPwAleyo06XvyhWiyAh77rTCWL1ObF9kSyoxvCty4/GrOb
+         rLeINNDhVgwvCSw05cv+UnLNJZtJbxZxpCdx+ufK8prvVHLS+pmEad6ykSmqLtl3Vw/f
+         iDx5tMCkb1sA5CzLkn/5p4xHRx6DXSo++Gvnn0ranBCmUKuonBGE76kU/ozvhLmhw7uc
+         mSR5SbuMLIAoddU3Zk6+CyxAUuqaRdpsDoYN8HUyIK9AnRnqxJo17rD5BDb9/tIhdLyZ
+         wQ8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CMmY/EmBDHRwzGOg6QKWgI4bnbMuLFbtkiBtFkYdt0g=;
-        b=Jt/FJz7PotUQoQ5GvlmE6VN1aWMYeY+wa1Q0aeXL4RIsYeXj5lRBmx+Qj00BHJlGdd
-         Hk73q3DkJ0S0MB8IUgFxv/Uoqo9q1UxLeJTt4WG3LF2Jg/ckhEV1kMfu9+j9A7Xriyvd
-         0zInAvScBYv5el17kIM/eLASNDCGTrHBck+KtKK0lq+aXLJqhsJKpCYrKlm2f0gvDuAI
-         6qgeHncbi7r2uYBjIRIU9V5TQd37ob+PBFDUjMG8JlFIgEBUytTV1bb1nBGH0Hbirf9y
-         UcIuSzq2NGimYH8/7hAsvDl8k1e3OwJ58UWDdPVT0kGUc28QuB4T3AoHz4hRDzEGfDN8
-         iAIg==
-X-Gm-Message-State: APjAAAU2N0mWhxRQS+Hg1ayGb7ljs0snTh0/VdtL62KZDQvti/2ADxiK
-        KQl7hEBhg7dfVHEpBOt7xgvd1PpjOOWhv+b4XlM=
-X-Google-Smtp-Source: APXvYqwbztzyWoGiTMQMDfeT5/bfyf/ibZNPyr02y4RMWlBoY/ksPjxdsC3NfKSJXiOUiizWWVW6kqYH97ArSMcRR2M=
-X-Received: by 2002:a17:902:934a:: with SMTP id g10mr37207521plp.18.1562087619463;
- Tue, 02 Jul 2019 10:13:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190702003740.75970-1-luzmaximilian@gmail.com>
-In-Reply-To: <20190702003740.75970-1-luzmaximilian@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 2 Jul 2019 20:13:27 +0300
-Message-ID: <CAHp75Ve-f-piRxwG2u2djWGt2fUKkvZSDJ+XkjGKLmMZeLEYsw@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GJQWdYjGRJbWGQyVM/pVQ8ZoWrqzt0Iwb6wDU6NZk2g=;
+        b=PbR1O0Q5TcHYwQYf9T0exynGm7TCviZlMMNJjdhzBdZVAXcLb4wphEO+dj15Hbtd8v
+         a/4Q3ELttbs+foxuVflJi31GQwJEpjVSLW0SFVrZldd7AkoFP+EapUD7vxk7bHG/MJdf
+         30mUJn2wZOJcqHkQgpkySmHEpmA8PA944ajRC1FqnYQrqbud69xtJVYhwubCfdCT3Z9v
+         AZmvzelRKyORTaO/ISbfyYzP4NUyX2dryTUbnWFbp3Q/GpeWbuIgMatQqzmd6xXvJ2OF
+         S+brZrTEUY0IdfUyFWzhakK7Ezr21OZ29WbILhOoQBeyif9iBHSQq+IJALIpRrvPYhwV
+         kLEw==
+X-Gm-Message-State: APjAAAWM+1SwCzwt2WrVQswU54/b8y1E+YW0b0Rl1i22CwcmQkCoV4uF
+        Ca3WeXRRMMD6e6UeEmIRw/A=
+X-Google-Smtp-Source: APXvYqxJuQ0kjRWoYunRRlB7QJFYv0FpgfdFcDJ22PBoD8/5tt472sT0BHd+Y3eG4bgBajESQWs2iQ==
+X-Received: by 2002:adf:de8e:: with SMTP id w14mr26028921wrl.130.1562088390364;
+        Tue, 02 Jul 2019 10:26:30 -0700 (PDT)
+Received: from [192.168.2.202] (pD9E5A169.dip0.t-ipconnect.de. [217.229.161.105])
+        by smtp.gmail.com with ESMTPSA id p26sm18738909wrp.58.2019.07.02.10.26.28
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Jul 2019 10:26:29 -0700 (PDT)
 Subject: Re: [PATCH 0/2] Support for buttons on newer MS Surface devices
-To:     Maximilian Luz <luzmaximilian@gmail.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-input <linux-input@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
@@ -57,63 +56,29 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20190702003740.75970-1-luzmaximilian@gmail.com>
+ <CAHp75Ve-f-piRxwG2u2djWGt2fUKkvZSDJ+XkjGKLmMZeLEYsw@mail.gmail.com>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <c50dbd58-c0d4-1a93-b292-68df209749b9@gmail.com>
+Date:   Tue, 2 Jul 2019 19:26:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
+MIME-Version: 1.0
+In-Reply-To: <CAHp75Ve-f-piRxwG2u2djWGt2fUKkvZSDJ+XkjGKLmMZeLEYsw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 2, 2019 at 3:38 AM Maximilian Luz <luzmaximilian@gmail.com> wrote:
->
-> This series adds suport for power and volume buttons on 5th and 6th
-> generation Microsoft Surface devices. Specifically, it adds support for
-> the power-button on the Surface Laptop 1 and Laptop 2, as well as
-> support for power- and (on-device) volume-buttons on the Surface Pro 5
-> (2017), Pro 6, and Book 2.
->
-> These devices use the same MSHW0040 device as on the Surface Pro 4,
-> however, whereas the Pro 4 uses an ACPI notify handler, the newer
-> devices use GPIO interrupts to signal these events.
->
-> The first patch of this series ensures that the surfacepro3_button
-> driver, used for MSHW0040 on the Pro 4, does not probe for the newer
-> devices. The second patch adapts soc_button_array to implement the
-> actual button support.
->
-> I think the changes to soc_button_array in the second patch warrant a
-> thorough review. I've tried to make things a bit more generic to be able
-> to integrate arbitrary ACPI GPIO power-/volume-button devices more
-> easily, I'm not sure if there may be reasons against this.
->
-> These patches have also been tested on various Surface devices via the
-> github.com/jakeday/linux-surface patchset.
->
+On 7/2/19 7:13 PM, Andy Shevchenko wrote:
+> I re-pushed to my queue, though if you are going to send a new
+> version, check my repository for the titles of the patches (you need
+> to use correct templates for the subsystems).
 
-> Changes since v1:
->   - [PATCH 1/2] platform: Fix device check for surfacepro3_button
->     No changes.
->
->   - [PATCH 2/2] input: soc_button_array for newer surface devices
->     Ensure the patch compiles without CONFIG_ACPI.
+Got it, sorry for the inconvenience.
 
-I re-pushed to my queue, though if you are going to send a new
-version, check my repository for the titles of the patches (you need
-to use correct templates for the subsystems).
-
->
-> Maximilian Luz (2):
->   platform: Fix device check for surfacepro3_button
->   input: soc_button_array for newer surface devices
->
->  drivers/input/misc/soc_button_array.c     | 145 ++++++++++++++++++++--
->  drivers/platform/x86/surfacepro3_button.c |  38 ++++++
->  2 files changed, 171 insertions(+), 12 deletions(-)
->
-> --
-> 2.22.0
->
-
-
--- 
-With Best Regards,
-Andy Shevchenko
+Thank you!
+Maximilian
