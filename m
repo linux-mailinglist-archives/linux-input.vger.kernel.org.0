@@ -2,91 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 850565DBA4
-	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2019 04:18:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74D4B5DDF7
+	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2019 08:17:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728107AbfGCCQ4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Jul 2019 22:16:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55356 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728103AbfGCCQ4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 2 Jul 2019 22:16:56 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1A5B12189F;
-        Wed,  3 Jul 2019 02:16:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562120215;
-        bh=pvsV0E3wfeyMZiXx8n41Viey/p3iOFz9a2lFzgoqqr4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YXv2AX5X6ty5qIFIy7ouHuYQ7Vi5AnOO94VPwYCx5+74KWgYlF0tMFun0jEgMrynq
-         svM3djte7Sgh9+S4f676FUmXqaXkkid0N0k7BPOb9UsTCgpG/EshUwbTL62tY7N1W1
-         2/aKbomfyAeGeHHQJ6jU6UxxDPUI74zw6ti4vnMM=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 22/26] HID: multitouch: Add pointstick support for ALPS Touchpad
-Date:   Tue,  2 Jul 2019 22:16:21 -0400
-Message-Id: <20190703021625.18116-22-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190703021625.18116-1-sashal@kernel.org>
-References: <20190703021625.18116-1-sashal@kernel.org>
+        id S1726201AbfGCGRv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 3 Jul 2019 02:17:51 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33213 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726792AbfGCGRv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 3 Jul 2019 02:17:51 -0400
+Received: by mail-wr1-f68.google.com with SMTP id n9so1288304wru.0
+        for <linux-input@vger.kernel.org>; Tue, 02 Jul 2019 23:17:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=+b+ZNE8muQpXOkikX4gDxD4noa9WUcqsJTLAj8ORuJM=;
+        b=JKwTiDBL2F+xPIXodfp3SDz4pvAQOhkw28XjDRRIIYEZDf0uHXJ1kaleuATAaqGLSj
+         /lUVb0laNogltshs0CJYJM/yRK5yRpb7G7aiJv4OhPU4LA7450Dc2/qnaeiyRbXcW6sU
+         nm0PusQqZCpWiHtb9fRFRri5N45uAQ3MzhWMu9l+CFg/k5JUiRkPVLg+Nqw8/WwRE2A8
+         lGEnGR1X1u/hGIzOEXy2X1Ud6SvgllAo5AV9pnp0rHC2lFF7dZez2Of7YCaciwEvGILQ
+         iI+ghMdv9+1ejKc7ydDrAXaUhi/ErjFpwMBtxxQXrETNf0ebq/cu896eshbhURPsvkcR
+         gcqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=+b+ZNE8muQpXOkikX4gDxD4noa9WUcqsJTLAj8ORuJM=;
+        b=Eg9J6dgyi3y2dSsRBcRJA0pcWlfN2lFSM7Ar6MFHdHYuqcDQjmCVnkNAb4dBf8+csj
+         zOMBgXMWMTmRevmRXpAe1kysRiSiqSRlWOY1JyF3S9XrTk5D3a6SR+0ioI/i6lz+TM1g
+         th+GvoPqKxf35EZz9hMbtJ6D83RLg1dE20zNQ6MHnvKtE+yXMDyikYRoEpsA1TLIlGuw
+         KdiqvIgTalEsd+uwHkdozzS95rueF/OojhNb4yD1/l1rrArvzVmP6d28I2BXTghXVEeR
+         P/8G9fI9gLRTRO3ukW5vDjkQymBd0AXNc8T0okQCdvZFvWJjTvhB41obu0pVMlT8cETG
+         p/pQ==
+X-Gm-Message-State: APjAAAVnJH+JAZyufnyVCFusUGyhfTjSH79Ux0GGHNBgfu6egjKrJkdu
+        Nrs0mwMmRmFv91OF3zpeWLNppg==
+X-Google-Smtp-Source: APXvYqz+4yF7FL0ZwdGQ6A6cFS0uz4zTCMWbnntXpvljfOHA2f6i0BKfL5+UQZ2+UhOOhD69RM5yiA==
+X-Received: by 2002:a5d:494d:: with SMTP id r13mr28538311wrs.152.1562134669005;
+        Tue, 02 Jul 2019 23:17:49 -0700 (PDT)
+Received: from dell ([2.27.35.164])
+        by smtp.gmail.com with ESMTPSA id c1sm1572121wrh.1.2019.07.02.23.17.47
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 02 Jul 2019 23:17:48 -0700 (PDT)
+Date:   Wed, 3 Jul 2019 07:17:46 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Lothar =?iso-8859-1?Q?Wa=DFmann?= <LW@KARO-electronics.de>
+Cc:     Fuqian Huang <huangfq.daxian@gmail.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Richard Fontana <rfontana@redhat.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Anson Huang <anson.huang@nxp.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Luca Weiss <luca@z3ntu.xyz>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-input <linux-input@vger.kernel.org>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        H Hartley Sweeten <hsweeten@visionengravers.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Olof Johansson <olof@lixom.net>,
+        Christian Hoff <christian_hoff@gmx.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gabriel Fernandez <gabriel.fernandez@st.com>
+Subject: Re: [PATCH 2/4] input: keyboard/mouse/touchscreen/misc: Use
+ dev_get_drvdata()
+Message-ID: <20190703061746.GI4652@dell>
+References: <20190701032342.25971-1-huangfq.daxian@gmail.com>
+ <20190701075255.GD172968@dtor-ws>
+ <CABXRUiSO2Fos1V3hR5t3AviZ9Hit_y+E-Tp3PNOQj6-FKUBJBw@mail.gmail.com>
+ <CAHp75VeUo2Au66tETo3zneBpeaVU+Y+-h5zghpo+hPuB=a6-eA@mail.gmail.com>
+ <CABXRUiQ77feNzEdQ7GqNxLS9YAMybVG3eAWWSDPFdGvERaxCyg@mail.gmail.com>
+ <20190702143225.12b0fe07@karo-electronics.de>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190702143225.12b0fe07@karo-electronics.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+On Tue, 02 Jul 2019, Lothar Waßmann wrote:
 
-[ Upstream commit 0a95fc733da375de0688d0f1fd3a2869a1c1d499 ]
+> Hi,
+> 
+> On Tue, 2 Jul 2019 19:47:16 +0800 Fuqian Huang wrote:
+> > Andy Shevchenko <andy.shevchenko@gmail.com> 於 2019年7月2日週二 下午5:51寫道：
+> > >
+> > > On Tue, Jul 2, 2019 at 11:20 AM Fuqian Huang <huangfq.daxian@gmail.com> wrote:  
+> > > >
+> > > > I am not an expert on this. I just write a coccinelle script to search
+> > > > this kind of misuse and fix it in a naive way.
+> > > > Could you tell me about how to use the proper bus accessors? Then I
+> > > > will fix it up and resend a v2 patch set.  
+> > >
+> > > First, don't top post.
+> > > And answering to this, simple drop the patch.
+> > > Proper bus accessors is exactly what it's used in the current code.  
+> > 
+> > But why not use dev_get_drvdata directly.
+> > It simplifies getting the 'driver_data' from 'struct device' directly.
+> > And the platform_device here is not required.
+> > Replace it can remove the unnecessary step back and forth. (dev -> pdev -> dev).
+> > 
+> Did you check whether the compiler generates different (better) code
+> with and without your patch? My guess is it won't.
 
-There's a new ALPS touchpad/pointstick combo device that requires
-MT_CLS_WIN_8_DUAL to make its pointsitck work as a mouse.
+I can see Fuqian's point.  If bus APIs are preferred, maybe it would
+be nicer if the function was adapted to accept a platform_device
+instead?
 
-The device can be found on HP ZBook 17 G5.
+Caveat: I haven't taken the time to look into the call-site details.
+	This comment is based on just the patch alone.
 
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/hid-ids.h        | 1 +
- drivers/hid/hid-multitouch.c | 4 ++++
- 2 files changed, 5 insertions(+)
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 4ff61fb43500..700874ab9b5f 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -82,6 +82,7 @@
- #define HID_DEVICE_ID_ALPS_U1_DUAL_3BTN_PTP	0x1220
- #define HID_DEVICE_ID_ALPS_U1		0x1215
- #define HID_DEVICE_ID_ALPS_T4_BTNLESS	0x120C
-+#define HID_DEVICE_ID_ALPS_1222		0x1222
- 
- 
- #define USB_VENDOR_ID_AMI		0x046b
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 184e49036e1d..f9167d0e095c 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1788,6 +1788,10 @@ static const struct hid_device_id mt_devices[] = {
- 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
- 			USB_VENDOR_ID_ALPS_JP,
- 			HID_DEVICE_ID_ALPS_U1_DUAL_3BTN_PTP) },
-+	{ .driver_data = MT_CLS_WIN_8_DUAL,
-+		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-+			USB_VENDOR_ID_ALPS_JP,
-+			HID_DEVICE_ID_ALPS_1222) },
- 
- 	/* Lenovo X1 TAB Gen 2 */
- 	{ .driver_data = MT_CLS_WIN_8_DUAL,
 -- 
-2.20.1
-
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
