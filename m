@@ -2,56 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58A4C5E022
-	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2019 10:46:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ADBB5F4C2
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jul 2019 10:46:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727056AbfGCIqs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 3 Jul 2019 04:46:48 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51333 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727008AbfGCIqs (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 3 Jul 2019 04:46:48 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 207so1309940wma.1
-        for <linux-input@vger.kernel.org>; Wed, 03 Jul 2019 01:46:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=i7D6evORasNEkFJ1pXrTToF+6Lejs/mV9BhxHTP2Fbw=;
-        b=g2mtvbigRsAq7sCMmenw9M5UEia6/CE6L6tz8DNAVYtHgqrgVUn5GLI3LzEJQPwonZ
-         i+7wil7K5eMd2XK0M3C24lRx0vDRsJ41n0aH8gVR0tkrn5loFS0Uem4wvNPsmnxm/Q0G
-         c0KFSkMHwdPBLzWt9l+6lfGGV4oLXcUg9JEImOiWaIRyL9vAKNVhFgeOA0faJBLtWVel
-         Maoq2vND/8WiUFUWe7acEkbVJoOEQbjZ0N2YS7oPs5M55fkNwPywqAA8d2WdS4gUi9RZ
-         LbiUCqcEDEg037t9YtNsrsVwFUUnyuUdWt6rqrYBvp0u2xZN1oyt+QZwR/YB3I7iS9wu
-         B9Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=i7D6evORasNEkFJ1pXrTToF+6Lejs/mV9BhxHTP2Fbw=;
-        b=EaIhw1uVRe7jgt3UoQ12V3CWsI4zaS8gl4HbGIcwBo/NKizrR4KlrhmXJck/PwNuPP
-         8yg8hx5LjJwLTIGgR2n7GiJH8RMUrrrI8JKbuBcmZ6XcMRMQxxeykmksEA+cJ/ujJ856
-         iF4oCI8xeKmquN7InSSGbzzdyrmoRkOd49VCdpguCxB8WSMnBh1VBGXYbGIyx/DuVDBh
-         f8bXpakUwWv/vRiQY/OL8wTx0dXxLiUngwLWrhlafaIWC4oadweRdLAPgbpS3+UzB4SY
-         1AOzeFIlzSg01MX4IFugu8H8WXN9gtkUY2nAwKF51umoW3lwFnXvFBcdX6ECVEMM1Pdj
-         eksg==
-X-Gm-Message-State: APjAAAW/O/FDNx6qbRAJIvcAsBFGxZJmkPz/579DXnWSywe0cYaewgtO
-        uWfpKpJ/UQnUYfwcipKeafU=
-X-Google-Smtp-Source: APXvYqxe6ZtnoAxGu/QI3dpFmRt45f6zUB6crhagXDRCo3T6w6g5wcVCIs4uPtAlyz/3vskf9KObwg==
-X-Received: by 2002:a1c:ac81:: with SMTP id v123mr7266120wme.145.1562143606285;
-        Wed, 03 Jul 2019 01:46:46 -0700 (PDT)
-Received: from debian-brgl.home ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
-        by smtp.gmail.com with ESMTPSA id z17sm1120893wrr.13.2019.07.03.01.46.45
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Jul 2019 01:46:45 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH] input: max77650-onkey: add MODULE_ALIAS()
-Date:   Wed,  3 Jul 2019 10:46:42 +0200
-Message-Id: <20190703084642.9425-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.21.0
+        id S1727066AbfGDIqb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 4 Jul 2019 04:46:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53392 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727046AbfGDIqb (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 4 Jul 2019 04:46:31 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DE44B2189E;
+        Thu,  4 Jul 2019 08:46:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562229990;
+        bh=tC7+gI4m6/FmoXDFgw+iYQurMimFbVLSYsLJZsEwswo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=k1z/iZmhkgL1+r5CK+JywKsx41uolSAz0o6l9oruBRWsCwsK3uP7NC8yhwHmkRfmT
+         uYnpWBIafyLG3LbrauXyApoKrbN+r0LhrfsET7Ma07/BKj/2HPxh7h3pjP8QOCjSuk
+         V1ZrAdjygpzHO7Js27pZu/f0TdYw+0Cvmc/N3ge8=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Darren Hart <dvhart@infradead.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>, Jiri Slaby <jslaby@suse.com>,
+        Mans Rullgard <mans@mansr.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Gong <richard.gong@linux.intel.com>,
+        Romain Izard <romain.izard.pro@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tony Prisk <linux@prisktech.co.nz>,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-serial@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, x86@kernel.org
+Subject: [PATCH 00/11] Platform drivers, provide a way to add sysfs groups easily
+Date:   Thu,  4 Jul 2019 10:46:06 +0200
+Message-Id: <20190704084617.3602-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
@@ -59,25 +59,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+If a platform driver wants to add a sysfs group, it has to do so in a
+racy way, adding it after the driver is bound.  To resolve this issue,
+have the platform driver core do this for the driver, making the
+individual drivers logic smaller and simpler, and solving the race at
+the same time.
 
-Define a MODULE_ALIAS() in the input sub-driver for max77650 so that
-the appropriate module gets loaded together with the core mfd driver.
+All of these patches depend on the first patch.  I'll take the first one
+through my driver-core tree, and any subsystem maintainer can either ack
+their individul patch and I will be glad to also merge it, or they can
+wait until after 5.3-rc1 when the core patch hits Linus's tree and then
+take it, it's up to them.
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
----
- drivers/input/misc/max77650-onkey.c | 1 +
- 1 file changed, 1 insertion(+)
+Thank to Richard Gong for the idea and the testing of the platform
+driver patch.
 
-diff --git a/drivers/input/misc/max77650-onkey.c b/drivers/input/misc/max77650-onkey.c
-index fbf6caab7217..4d875f2ac13d 100644
---- a/drivers/input/misc/max77650-onkey.c
-+++ b/drivers/input/misc/max77650-onkey.c
-@@ -119,3 +119,4 @@ module_platform_driver(max77650_onkey_driver);
- MODULE_DESCRIPTION("MAXIM 77650/77651 ONKEY driver");
- MODULE_AUTHOR("Bartosz Golaszewski <bgolaszewski@baylibre.com>");
- MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("platform:max77650-onkey");
+Greg Kroah-Hartman (11):
+  Platform: add a dev_groups pointer to struct platform_driver
+  uio: uio_fsl_elbc_gpcm: convert platform driver to use dev_groups
+  serial: sh-sci: use driver core functions, not sysfs ones.
+  firmware: arm_scpi: convert platform driver to use dev_groups
+  olpc: x01: convert platform driver to use dev_groups
+  platform: x86: hp-wmi: convert platform driver to use dev_groups
+  video: fbdev: wm8505fb: convert platform driver to use dev_groups
+  video: fbdev: w100fb: convert platform driver to use dev_groups
+  video: fbdev: sm501fb: convert platform driver to use dev_groups
+  input: keyboard: gpio_keys: convert platform driver to use dev_groups
+  input: axp20x-pek: convert platform driver to use dev_groups
+
+ arch/x86/platform/olpc/olpc-xo1-sci.c | 17 ++++------
+ drivers/base/platform.c               | 40 +++++++++++++++--------
+ drivers/firmware/arm_scpi.c           |  5 +--
+ drivers/input/keyboard/gpio_keys.c    | 13 ++------
+ drivers/input/misc/axp20x-pek.c       | 15 ++-------
+ drivers/platform/x86/hp-wmi.c         | 47 +++++++--------------------
+ drivers/tty/serial/sh-sci.c           | 22 +++++--------
+ drivers/uio/uio_fsl_elbc_gpcm.c       | 23 +++++--------
+ drivers/video/fbdev/sm501fb.c         | 37 +++++----------------
+ drivers/video/fbdev/w100fb.c          | 23 ++++++-------
+ drivers/video/fbdev/wm8505fb.c        | 13 ++++----
+ include/linux/platform_device.h       |  1 +
+ 12 files changed, 94 insertions(+), 162 deletions(-)
+
 -- 
-2.21.0
+2.22.0
 
