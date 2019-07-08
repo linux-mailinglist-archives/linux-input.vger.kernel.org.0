@@ -2,97 +2,141 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C91EF6142D
-	for <lists+linux-input@lfdr.de>; Sun,  7 Jul 2019 08:14:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 462066194C
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jul 2019 04:25:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725854AbfGGGON (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 7 Jul 2019 02:14:13 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:35153 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725808AbfGGGON (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 7 Jul 2019 02:14:13 -0400
-Received: by mail-pf1-f196.google.com with SMTP id u14so4841195pfn.2;
-        Sat, 06 Jul 2019 23:14:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=j5vrgS9+95IhHBa7HDa1UVKPrb7RPwdim9qXDwM8OLk=;
-        b=uFvA1Q8GlVBUOsDAWk6HCh4LoYV9bv+YgCqeGPSnKhBS4tuZTiWv0ZxAe8z6xuB3HP
-         Yj5vEBULGa2Sxqu1wbsvMw3ddXjJazTgM+1J/9Qh/NB4VcnrIzAzXJDLsxepo79Ue6Sx
-         dHapa7PzqIDVOcAYBddVKFAnyDPFVCnQoJL2zOrzkcJ0ZvrKyTD8FhYqLM37caZTvPbg
-         5+wr0NnhIEuUSoKChXtzIwz7m4Jkw4tPp/XQF0m6Q6Y2vRw3/AFCyBObYpMySGnWN+IE
-         wv2TkpNVBm4Y5kRLSHEk8phdnLtY7eWskiT+XHV4X0F9Y0aO0TUR693ciVMSGMQ+YA63
-         mLMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=j5vrgS9+95IhHBa7HDa1UVKPrb7RPwdim9qXDwM8OLk=;
-        b=Tfibd7BleG0qSdA9RCC3/W3H/dcbKVMkXkp00MA/GGWhboq3MLt6ssU3S5B6Pymk4T
-         ojP7yS1z2DH4yXBSYCCuC+gQ4Nm/EIZnEdqbYVTTXkM1OMZVsUb3aaD3kDwqMGzggsKZ
-         tGqpGSCvBWGBp7v7vAUb2RVdFra0uNr4kuI7H/fJtQjwp57gGCF9lxyV8/4kcDsSgXOw
-         72sPTKetMphVQsRTNWvhTKik4kMAN0uVLrCuZmiHd4HdG7m4gTj344YUh6nsJfAwyaxF
-         Zjri7m6DEoSvll6bdk1e2ypbUPV/P0llQM0XPe/5tIYaWl2PvUPTh6YFlbj7/DqH+1oY
-         WZ6g==
-X-Gm-Message-State: APjAAAV+x75cjsJn5RKi/I8kdpBHRhBR455+MtbG2h1sBgKLMd1fOrJK
-        GRRl1Jdou7awi6FhOJ4fJFc=
-X-Google-Smtp-Source: APXvYqzhPYRNfc9z52H4efrEwBhYtYi1tx8htuDqHKn9ySzV0TCozqMZ/IIufYVsLzlJAgU5uPxBIA==
-X-Received: by 2002:a17:90a:5288:: with SMTP id w8mr15622238pjh.61.1562480052801;
-        Sat, 06 Jul 2019 23:14:12 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id o16sm31212952pgi.36.2019.07.06.23.14.12
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sat, 06 Jul 2019 23:14:12 -0700 (PDT)
-Date:   Sat, 6 Jul 2019 23:14:10 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/2] input: keyboard: gpio-keys-polled: use input name
- from pdata if available
-Message-ID: <20190707061410.GA174189@dtor-ws>
-References: <1561648031-15887-1-git-send-email-info@metux.net>
+        id S1727415AbfGHCZM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 7 Jul 2019 22:25:12 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:53365 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727388AbfGHCZM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 7 Jul 2019 22:25:12 -0400
+Received: from [113.5.7.228] (helo=localhost.localdomain)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <hui.wang@canonical.com>)
+        id 1hkJL1-0002JG-Vn; Mon, 08 Jul 2019 02:25:09 +0000
+From:   Hui Wang <hui.wang@canonical.com>
+To:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
+Cc:     pali.rohar@gmail.com, xiaoxiao.liu-1@cn.alps.com,
+        sliuuxiaonxiao@gmail.com, zhangfp1@lenovo.com,
+        hui.wang@canonical.com
+Subject: [PATCH v5 RESEND] Input: alps - Don't handle ALPS cs19 trackpoint-only device
+Date:   Mon,  8 Jul 2019 10:24:58 +0800
+Message-Id: <20190708022458.2585-1-hui.wang@canonical.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1561648031-15887-1-git-send-email-info@metux.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Enrico,
+On a latest Lenovo laptop, the trackpoint and 3 buttons below it
+don't work at all, when we move the trackpoint or press those 3
+buttons, the kernel will print out:
+"Rejected trackstick packet from non DualPoint device"
 
-On Thu, Jun 27, 2019 at 05:07:10PM +0200, Enrico Weigelt, metux IT consult wrote:
-> Instead of hardcoding the input name to the driver name
-> ('gpio-keys-polled'), allow the passing a name via platform data
-> ('name' field was already present), but default to old behaviour
-> in case of NULL.
-> 
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: linux-input@vger.kernel.org
-> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
-> ---
->  drivers/input/keyboard/gpio_keys_polled.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
-> index 1eafe6b..c168493 100644
-> --- a/drivers/input/keyboard/gpio_keys_polled.c
-> +++ b/drivers/input/keyboard/gpio_keys_polled.c
-> @@ -269,7 +269,7 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
->  
->  	input = poll_dev->input;
->  
-> -	input->name = pdev->name;
-> +	input->name = (pdata->name ? pdata->name : pdev->name);
->  	input->phys = DRV_NAME"/input0";
->  
->  	input->id.bustype = BUS_HOST;
+This device is identified as an alps touchpad but the packet has
+trackpoint format, so the alps.c drops the packet and prints out
+the message above.
 
-I also added fetching name from "label" device property ad applied,
-thank you.
+According to XiaoXiao's explanation, this device is named cs19 and
+is trackpoint-only device, its firmware is only for trackpoint, it
+is independent of touchpad and is a device completely different from
+DualPoint ones.
 
+To drive this device with mininal changes to the existing driver, we
+just let the alps driver not handle this device, then the trackpoint.c
+will be the driver of this device if the trackpoint driver is enabled.
+(if not, this device will fallback to a bare PS/2 device)
+
+With the trackpoint.c, this trackpoint and 3 buttons all work well,
+they have all features that the trackpoint should have, like
+scrolling-screen, drag-and-drop and frame-selection.
+
+Signed-off-by: XiaoXiao Liu <sliuuxiaonxiao@gmail.com>
+Signed-off-by: Hui Wang <hui.wang@canonical.com>
+Reviewed-by: Pali Rohár <pali.rohar@gmail.com>
+---
+Resend this patch to add the Reviewed-by: Pali Rohár <pali.rohar@gmail.com>
+
+Hello Dmitry,
+please take look at this patch and give some comment, Thanks. Our project
+is waiting for this patch to be upstreamed.
+
+Many Thanks.
+
+ drivers/input/mouse/alps.c | 41 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+
+diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
+index 8996323ce8d9..39e53a8f4fb1 100644
+--- a/drivers/input/mouse/alps.c
++++ b/drivers/input/mouse/alps.c
+@@ -21,6 +21,7 @@
+ 
+ #include "psmouse.h"
+ #include "alps.h"
++#include "trackpoint.h"
+ 
+ /*
+  * Definitions for ALPS version 3 and 4 command mode protocol
+@@ -2861,6 +2862,34 @@ static const struct alps_protocol_info *alps_match_table(unsigned char *e7,
+ 	return NULL;
+ }
+ 
++static bool alps_is_cs19_trackpoint(struct psmouse *psmouse)
++{
++	u8 param[2] = { 0 };
++
++	if (ps2_command(&psmouse->ps2dev,
++			param, MAKE_PS2_CMD(0, 2, TP_READ_ID)))
++		return false;
++
++	/*
++	 * param[0] contains the trackpoint device variant_id while param[1]
++	 * contains the firmware_id, so far for all alps trackpoint-only
++	 * devices, their variant_ids equal TP_VARIANT_ALPS and their
++	 * firmware_ids are 0x20~0x2f, so here we check param[0] as well as
++	 * param[1] to detect an ALPS trackpoint-only device.
++	 */
++	if ((param[0] == TP_VARIANT_ALPS) && (param[1] & 0x20)) {
++		if (IS_ENABLED(MOUSE_PS2_TRACKPOINT))
++			psmouse_dbg(psmouse,
++				    "ALPS CS19 trackpoint-only device detected, not using ALPS touchpad driver\n");
++		else
++			psmouse_warn(psmouse,
++				     "ALPS CS19 trackpoint-only device detected but MOUSE_PS2_TRACKPOINT not enabled, fallback to bare PS/2 mouse\n");
++		return true;
++	}
++
++	return false;
++}
++
+ static int alps_identify(struct psmouse *psmouse, struct alps_data *priv)
+ {
+ 	const struct alps_protocol_info *protocol;
+@@ -3161,6 +3190,18 @@ int alps_detect(struct psmouse *psmouse, bool set_properties)
+ 	if (error)
+ 		return error;
+ 
++	/*
++	 * ALPS cs19 is a trackpoint-only device, it is completely independent
++	 * of touchpad. So it is a device different from DualPoint ones, if it
++	 * is identified as a cs19 trackpoint device, we return -EINVAL here and
++	 * let trackpoint.c to drive this device, if the trackpoint driver is
++	 * not enabled, the device will fallback to a bare PS/2 mouse.
++	 * If ps2_command() fails here, we depend on the immediate followed
++	 * psmouse_reset() to reset the device to normal state.
++	 */
++	if (alps_is_cs19_trackpoint(psmouse))
++		return -EINVAL;
++
+ 	/*
+ 	 * Reset the device to make sure it is fully operational:
+ 	 * on some laptops, like certain Dell Latitudes, we may
 -- 
-Dmitry
+2.17.1
+
