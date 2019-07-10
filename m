@@ -2,134 +2,266 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A1D6C64E04
-	for <lists+linux-input@lfdr.de>; Wed, 10 Jul 2019 23:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00CDB64F05
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jul 2019 01:04:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727810AbfGJVdD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Jul 2019 17:33:03 -0400
-Received: from mail.schafweide.org ([194.59.205.151]:44352 "EHLO
-        mail.schafweide.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725911AbfGJVdC (ORCPT
+        id S1727458AbfGJXEP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Jul 2019 19:04:15 -0400
+Received: from mail-pf1-f201.google.com ([209.85.210.201]:46246 "EHLO
+        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726708AbfGJXEP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Jul 2019 17:33:02 -0400
-X-Greylist: delayed 436 seconds by postgrey-1.27 at vger.kernel.org; Wed, 10 Jul 2019 17:33:02 EDT
-Received: from [IPv6:2a07:59c6:eeff:20:ad10:4528:f8b5:a068] (unknown [IPv6:2a07:59c6:eeff:20:ad10:4528:f8b5:a068])
-        by mail.schafweide.org (Postfix) with ESMTPSA id B53791300F91
-        for <linux-input@vger.kernel.org>; Wed, 10 Jul 2019 23:25:45 +0200 (CEST)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=nord-west.org;
-        s=default; t=1562793945;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:openpgp:openpgp:autocrypt:autocrypt;
-        bh=GLX5qJ0WwSRLNVrx3m5VywHXoMXpJ0vWHUYfMT6ig8U=;
-        b=+TFX5z4R8JT4HPBJLyWw8HNxsobb6OD2D+mERByBI3i93jnvyyWxDRH1S9JQCVHQp4kWmp
-        vIdn2GQny7j4o2Aw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nord-west.org;
-        s=rsa; t=1562793945;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:openpgp:openpgp:autocrypt:autocrypt;
-        bh=GLX5qJ0WwSRLNVrx3m5VywHXoMXpJ0vWHUYfMT6ig8U=;
-        b=FXJoV8IKD1Gx6WFxGiSEy6OYl0CgufC7o6CpEtkqFcXi1eMKoxtOF2QhvWGELJsx7GJwRE
-        IanA57siVBAX/2dhxnGIy64X53yM38ZqT4DSgyMaKlumf7KafONfDb3h5k1xWHIac7lq+n
-        MzQK3IEnY94cn0XhxIgRIZRddQbmIF4=
-To:     linux-input@vger.kernel.org
-From:   Bjoern Franke <bjo@nord-west.org>
-Subject: Thinkpad A275 Trackpoint/Touchpad issues
-Openpgp: preference=signencrypt
-Autocrypt: addr=bjo@nord-west.org; prefer-encrypt=mutual; keydata=
- mQENBFj8f44BCADSkS8pPGOlEr8kZwAxF1WD9+RbIs+owDMcXH9aBk4FhNuFvZ0I0/d2rl8h
- zINV+5u7LLSCUTi97c9n4UN747Jvbnn80ZrIvg3d7wDGIPeL9qFZ/vN6XK6p5h2cJOwA4cj6
- fUIZvODsj0nAuclylHJlrDuONue87BRR9UieDDhuQNjFWSXMiLPqN0rUAgntKCv2a7KNswJM
- bmvqwaR2/UxJVNW/Ez6FYlRn8N4zGMwHgS2/KHyJ0by0CGvY7XCR94+S4xKR4fdseWs1vs0S
- Nd641LaJ544zmuJYd/2NfFmqnXkwuY2qrUjMdt/OLXENChwUDCMevUZ2sm0ACJ9bv0t1ABEB
- AAG0IUJqb2VybiBGcmFua2UgPGJqb0Bub3JkLXdlc3Qub3JnPokBVwQTAQgAQQIbAwUJBaOa
- gAULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgBYhBOdPquv6Ji+vRgIQqvz+YSc+9H1/BQJbM8fW
- AhkBAAoJEPz+YSc+9H1/PzEH/2cLGRR6UKyAzBtMV12btaAeXDgYPS8AgTwaJymtJeXriHOq
- KoHzUzipuAy+LaeO9ZXhiXSZ83IqTfv5MOd8O67VhB6ZbNH1JtRM1or9I+Mpzm+eKfyVwU4A
- OImP/ttNbkzTHNhcaws/d6jbuMPHFHyziSU96iedrPwwSqHXPkhjYQYjnJlIEFUVDGihRsFe
- ixpeKCKQs61YvgiBquElchuhmid9BrNi1P2wxD8/M3oYOfsIwvyj9EZSInT19eJR+JClvgVu
- fjhnOzRhiOJLnNQiLsyTBqiksD9Lodwsz837tpdxEKA/POOUn5Aa4ySCy4mcilDuSKNzYb2A
- UjCoJle5AQ0EWPx/jgEIAK9L7ZOOraHYnb4KuftIlSXwxJeezaqta2CEz1B48W3iKXUiKiVH
- EacdtFvk8q1UcxFxv27xZaMUygiKjwdxRtaqchKut+Az/9TimqHz/kx1eyBav4YtNZC2Krsp
- UozyKnj2707Jl1K85vxpt4BNg5VbBuv8WgjJxITTM/sJSH+QDs5yxumyAOZtyWzle//Bh21y
- jGoc1Cprl1pRpqo+2gYkFCWjuooNf1r+DYJm91EyurmU+mh00GCGDIwY/EFWSzQ6bjPWjoWy
- sretGhNiFyWt5CnkxMK+/XVA3UVLAq8IZDf2bv0vrrW6MkxvehPexZgW/AMNnFWdj7+WseR8
- kbsAEQEAAYkBPAQYAQgAJhYhBOdPquv6Ji+vRgIQqvz+YSc+9H1/BQJY/H+OAhsMBQkFo5qA
- AAoJEPz+YSc+9H1/29cIAJrSqoK2dpxcQy1d4RbrHrfeAmbllOUX8f9tGFKiF10AhqQjgiuc
- p+Q0xXHA1f62EDk/Xb+zxGScGJIQB/ViXKSZxpsMMIMCXWakUowh00TNj+oTVs1VLJtZKFc3
- eqWs13Gc5ThkvsIO5hobbkY5fEDQYBXdZKfRt73oNjwi0iy/oEHuC2eUWmeh2/iq0G38uLKZ
- tSMWv28PnkX3etOxJc4U0E0r7oTyGNRGc8+VHH8adoOccsEq4JLBg362laM7tcK4ILkgcgBe
- ZSq85EuLjjI9cD69S/siNv2lCBcB153OnjaG+5KzIz3v/Bf+jnVmIMIpmQeJuVM3chWzuagg qow=
-Message-ID: <22780e30-be80-097f-ee8b-7c8b247eecb3@nord-west.org>
-Date:   Wed, 10 Jul 2019 23:25:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-LU
-Content-Transfer-Encoding: 7bit
+        Wed, 10 Jul 2019 19:04:15 -0400
+Received: by mail-pf1-f201.google.com with SMTP id g21so2229002pfb.13
+        for <linux-input@vger.kernel.org>; Wed, 10 Jul 2019 16:04:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=ZtSCYRHrfuqeQFIWIan5FMIhgUsXnRQXRzmzNcRVTvA=;
+        b=JqyQFu/936dQlgKHtsm7+vkRRQ2FEGjcK3zyQ9FtJTEogsQurFNSrSQfqiihOFvzgu
+         Rtc9EflergHRlqVhiQVuq4nVY6xEROwEZtJS2dBlrVKGjSCsqJmnesNfSlGsIw1jEyJ+
+         5UQ6ljtGbHhdwtwJzNUMXzuKU9OQpDDcfuvGpOQmTm429CJovYJNlxYoWAlDZqKWBBoX
+         MYYrRFAtRJu1HRDuUNOSq5MO5o+EFmKQKJG5XDs2iM/kKNvBrIWDyE62CzhcMZBqp2CK
+         pwjyNgBO8PHHICfiCD5KEfHRr7Is0xnKFyALCSFmVBjzMr9Iqkam5xNclyDDqCyTK8/k
+         kvsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=ZtSCYRHrfuqeQFIWIan5FMIhgUsXnRQXRzmzNcRVTvA=;
+        b=iwAO9E/DaO8x29zbnHZcw4jmyAFiMDb47KzRGD27gXAlkXBpLZcx8pPM0geVDLXpNF
+         LF1Fee3oYfOWzqS6tPL4JutgjWcn7IHln7Jc8rSdpp8skEVt9JqFrYe3b7IbhS4f9621
+         FHN+I9k1g/5tXcPszqDzFgXgSxND82h7xYLVO/tn41oXAJOjMnheB1Jwpxo3O6aOWLP3
+         wD9z1BDCSJaQJisEitQnmWYWo/ZwpPBJraEt+h3rj4EP0i9VSPAF23kJMRj/p3PkY65W
+         l7mit7Rknf2t1qlv4I7e2C/prFpeAzfLDppS4HYQv8ByRcfbPRNs5ZtARemLHvr4mSFO
+         hcYQ==
+X-Gm-Message-State: APjAAAUzBdWwwkfYIhIGypwsDH2WsHQLfYYdZ2bV8+DgITFIlt2mTGZU
+        mrO3ZuxL2rHL2+zg53H+WwZzfxgURn4Up6M=
+X-Google-Smtp-Source: APXvYqz9nxqbgKTcnIyVtM9Cf2IExoluezUtYMDtu1yz90v1LYMQi3QOULdrycwXTXmb6qiPPCYRQd+1ZiwieEk=
+X-Received: by 2002:a63:d748:: with SMTP id w8mr764999pgi.157.1562799854045;
+ Wed, 10 Jul 2019 16:04:14 -0700 (PDT)
+Date:   Wed, 10 Jul 2019 16:04:10 -0700
+Message-Id: <20190710230410.9386-1-atifniyaz@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
+Subject: [PATCH] input: API for Setting a Timestamp from a Driver
+From:   Atif Niyaz <atifniyaz@google.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Atif Niyaz <atifniyaz11@gmail.com>,
+        Siarhei Vishniakou <svv@google.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Atif Niyaz <atifniyaz@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Currently, evdev stamps time with timestamps acquired in
+evdev_events. However, this timestamping may not be accurate in terms of
+measuring when the actual event happened. This API allows any 3rd party
+driver to be able to call input_set_timestamp, and provide a timestamp
+that can be utilized in order to provide a more accurate sense of time
+for the event
 
-I recently bought a Thinkpad A275 which unfortunately has a strange
-behaviour regarding its TrackPoint buttons [1].
-With its default configuration (no proto option for psmouse) it is
-impossible to "press" the button for a longer time, e.g. to mark text or
-middle scroll.
+Signed-off-by: Atif Niyaz <atifniyaz@google.com>
+---
+ drivers/input/evdev.c | 42 ++++++++++++++++--------------------------
+ drivers/input/input.c | 17 +++++++++++++++++
+ include/linux/input.h | 38 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 71 insertions(+), 26 deletions(-)
 
-At work I'm using now a Thinkpad X270, which seem to use the same
-TrackPoint/TrackPad and does not have the issues. I would like to
-investigate what causes the different behaviour.
+diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
+index 867c2cfd0038..a331efa0a3f6 100644
+--- a/drivers/input/evdev.c
++++ b/drivers/input/evdev.c
+@@ -25,13 +25,6 @@
+ #include <linux/cdev.h>
+ #include "input-compat.h"
+ 
+-enum evdev_clock_type {
+-	EV_CLK_REAL = 0,
+-	EV_CLK_MONO,
+-	EV_CLK_BOOT,
+-	EV_CLK_MAX
+-};
+-
+ struct evdev {
+ 	int open;
+ 	struct input_handle handle;
+@@ -53,7 +46,7 @@ struct evdev_client {
+ 	struct fasync_struct *fasync;
+ 	struct evdev *evdev;
+ 	struct list_head node;
+-	unsigned int clk_type;
++	input_clk_t clk_type;
+ 	bool revoked;
+ 	unsigned long *evmasks[EV_CNT];
+ 	unsigned int bufsize;
+@@ -150,16 +143,18 @@ static void __evdev_flush_queue(struct evdev_client *client, unsigned int type)
+ static void __evdev_queue_syn_dropped(struct evdev_client *client)
+ {
+ 	struct input_event ev;
+-	ktime_t time;
+ 	struct timespec64 ts;
++	ktime_t *time = input_get_timestamp(client->evdev->handle.dev);
+ 
+-	time = client->clk_type == EV_CLK_REAL ?
+-			ktime_get_real() :
+-			client->clk_type == EV_CLK_MONO ?
+-				ktime_get() :
+-				ktime_get_boottime();
++	switch (client->clk_type) {
++	case INPUT_CLK_REAL:
++	case INPUT_CLK_MONO:
++		ts = ktime_to_timespec64(time[client->clk_type]);
++		break;
++	default:
++		ts = ktime_to_timespec64(time[INPUT_CLK_BOOT]);
++	}
+ 
+-	ts = ktime_to_timespec64(time);
+ 	ev.input_event_sec = ts.tv_sec;
+ 	ev.input_event_usec = ts.tv_nsec / NSEC_PER_USEC;
+ 	ev.type = EV_SYN;
+@@ -185,21 +180,21 @@ static void evdev_queue_syn_dropped(struct evdev_client *client)
+ 	spin_unlock_irqrestore(&client->buffer_lock, flags);
+ }
+ 
+-static int evdev_set_clk_type(struct evdev_client *client, unsigned int clkid)
++static int evdev_set_clk_type(struct evdev_client *client, clockid_t clkid)
+ {
+ 	unsigned long flags;
+-	unsigned int clk_type;
++	input_clk_t clk_type;
+ 
+ 	switch (clkid) {
+ 
+ 	case CLOCK_REALTIME:
+-		clk_type = EV_CLK_REAL;
++		clk_type = INPUT_CLK_REAL;
+ 		break;
+ 	case CLOCK_MONOTONIC:
+-		clk_type = EV_CLK_MONO;
++		clk_type = INPUT_CLK_MONO;
+ 		break;
+ 	case CLOCK_BOOTTIME:
+-		clk_type = EV_CLK_BOOT;
++		clk_type = INPUT_CLK_BOOT;
+ 		break;
+ 	default:
+ 		return -EINVAL;
+@@ -307,12 +302,7 @@ static void evdev_events(struct input_handle *handle,
+ {
+ 	struct evdev *evdev = handle->private;
+ 	struct evdev_client *client;
+-	ktime_t ev_time[EV_CLK_MAX];
+-
+-	ev_time[EV_CLK_MONO] = ktime_get();
+-	ev_time[EV_CLK_REAL] = ktime_mono_to_real(ev_time[EV_CLK_MONO]);
+-	ev_time[EV_CLK_BOOT] = ktime_mono_to_any(ev_time[EV_CLK_MONO],
+-						 TK_OFFS_BOOT);
++	ktime_t *ev_time = input_get_timestamp(handle->dev);
+ 
+ 	rcu_read_lock();
+ 
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index 7f3c5fcb9ed6..ae8b0ee58120 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -1894,6 +1894,23 @@ void input_free_device(struct input_dev *dev)
+ }
+ EXPORT_SYMBOL(input_free_device);
+ 
++/**
++ * input_get_timestamp - get timestamp for input events
++ * @dev: input device to get timestamp from
++ *
++ * A valid timestamp is a timestamp of non-zero value.
++ */
++ktime_t *input_get_timestamp(struct input_dev *dev)
++{
++	const ktime_t invalid_timestamp = ktime_set(0, 0);
++
++	if (!ktime_compare(dev->timestamp[INPUT_CLK_MONO], ktime_zero)) {
++		input_set_timestamp(dev, ktime_get());
++	}
++	return dev->timestamp;
++}
++EXPORT_SYMBOL(input_get_timestamp);
++
+ /**
+  * input_set_capability - mark device as capable of a certain event
+  * @dev: device that is capable of emitting or accepting event
+diff --git a/include/linux/input.h b/include/linux/input.h
+index 510e78558c10..3929b62ccbe5 100644
+--- a/include/linux/input.h
++++ b/include/linux/input.h
+@@ -33,6 +33,14 @@ struct input_value {
+ 	__s32 value;
+ };
+ 
++enum input_clock_type {
++	INPUT_CLK_REAL = 0,
++	INPUT_CLK_MONO,
++	INPUT_CLK_BOOT,
++	INPUT_CLK_MAX
++};
++typedef enum input_clock_type input_clk_t;
++
+ /**
+  * struct input_dev - represents an input device
+  * @name: name of the device
+@@ -114,6 +122,8 @@ struct input_value {
+  * @vals: array of values queued in the current frame
+  * @devres_managed: indicates that devices is managed with devres framework
+  *	and needs not be explicitly unregistered or freed.
++ * @timestamp: storage for a timestamp set by input_set_timestamp called
++ *  by a driver
+  */
+ struct input_dev {
+ 	const char *name;
+@@ -184,6 +194,8 @@ struct input_dev {
+ 	struct input_value *vals;
+ 
+ 	bool devres_managed;
++
++	ktime_t timestamp[INPUT_CLK_MAX];
+ };
+ #define to_input_dev(d) container_of(d, struct input_dev, dev)
+ 
+@@ -382,6 +394,32 @@ void input_close_device(struct input_handle *);
+ 
+ int input_flush_device(struct input_handle *handle, struct file *file);
+ 
++/**
++ * input_set_timestamp - set timestamp for input events
++ * @dev: input device to set timestamp for
++ * @timestamp: the time at which the event has occurred
++ *   in CLOCK_MONOTONIC
++ *
++ * This function is intended to provide to the input system a more
++ * accurate time of when an event actually occurred. The driver should
++ * call this function as soon as a timestamp is acquired ensuring
++ * clock conversions in input_set_timestamp are done correctly.
++ *
++ * The system entering a suspend between timestamp acquisition and
++ * calling input_set_timestamp can result in inaccurate conversions.
++ *
++ */
++static inline void input_set_timestamp(struct input_dev *dev,
++	ktime_t timestamp)
++{
++	dev->timestamp[INPUT_CLK_MONO] = timestamp;
++	dev->timestamp[INPUT_CLK_REAL] = ktime_mono_to_real(timestamp);
++	dev->timestamp[INPUT_CLK_BOOT] = ktime_mono_to_any(
++		timestamp, TK_OFFS_BOOT);
++}
++
++ktime_t *input_get_timestamp(struct input_dev *dev);
++
+ void input_event(struct input_dev *dev, unsigned int type, unsigned int code, int value);
+ void input_inject_event(struct input_handle *handle, unsigned int type, unsigned int code, int value);
+ 
+-- 
+2.22.0.410.gd8fdbe21b5-goog
 
-A275:
-
-[   39.043452] psmouse serio1: synaptics: queried max coordinates: x
-[..5712], y [..4780]
-[   39.075521] psmouse serio1: synaptics: queried min coordinates: x
-[1232..], y [1074..]
-[   39.075533] psmouse serio1: synaptics: Your touchpad (PNP: LEN2053
-PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are
-not used, you might want to try setting psmouse.synaptics_intertouch to
-1 and report this to linux-input@vger.kernel.org.
-[   39.132494] psmouse serio1: synaptics: Touchpad model: 1, fw: 8.16,
-id: 0x1e2b1, caps: 0xf40aa3/0x943300/0x12e800/0x410000, board id: 3075,
-fw id: 2622508
-[   39.132537] psmouse serio1: synaptics: serio: Synaptics pass-through
-port at isa0060/serio1/input0
-[   39.169047] input: SynPS/2 Synaptics TouchPad as
-/devices/platform/i8042/serio1/input/input9
-[   39.179114] mousedev: PS/2 mouse device common for all mice
-[   39.835989] psmouse serio2: trackpoint: IBM TrackPoint firmware:
-0x0e, buttons: 3/3
-
-X270:
-[   10.051334] psmouse serio1: synaptics: Your touchpad (PNP: LEN2046
-PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are
-not used, you might want to try setting psmouse.synaptics_intertouch to
-1 and report this to linux-input@vger.kernel.org.
-[   10.113613] psmouse serio1: synaptics: Touchpad model: 1, fw: 8.2,
-id: 0x1e2b1, caps: 0xf408a3/0x943300/0x12e800/0x410000, board id: 3075,
-fw id: 2527574
-[   10.113617] psmouse serio1: synaptics: serio: Synaptics pass-through
-port at isa0060/serio1/input0
-[   10.786545] psmouse serio2: trackpoint: IBM TrackPoint firmware:
-0x0e, buttons: 3/3
-[ 2905.443640] psmouse serio2: Failed to disable mouse on
-synaptics-pt/serio0
-[ 2906.658135] psmouse serio1: synaptics: queried max coordinates: x
-[..5712], y [..4780]
-[ 2906.690080] psmouse serio1: synaptics: queried min coordinates: x
-[1232..], y [1074..]
-
-Btw, the A275 is running Arch on 5.2 and Ubuntu 19.04 on 5.0.
-
-Kind Regards
-Bjoern
-
-
-[1]https://bugzilla.kernel.org/show_bug.cgi?id=203897
