@@ -2,204 +2,299 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7CB166682
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2019 07:42:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A627B66722
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2019 08:41:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726136AbfGLFmC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 12 Jul 2019 01:42:02 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:37330 "EHLO
+        id S1725846AbfGLGli (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 12 Jul 2019 02:41:38 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:38599 "EHLO
         mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbfGLFmC (ORCPT
+        with ESMTP id S1725562AbfGLGli (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 12 Jul 2019 01:42:02 -0400
-Received: by mail-pg1-f194.google.com with SMTP id g15so4021498pgi.4;
-        Thu, 11 Jul 2019 22:42:01 -0700 (PDT)
+        Fri, 12 Jul 2019 02:41:38 -0400
+Received: by mail-pg1-f194.google.com with SMTP id z75so4083306pgz.5;
+        Thu, 11 Jul 2019 23:41:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=k8kXXqEUeontmH32jxhFa7j9uFZa9yhZzdE08uh6b8I=;
-        b=eBggFk3faNJcyYcxxwYJiS8NKST3j86xRB0LAxZrxkruACA6hGQwKMyETNe8Buu6cV
-         1TYKxDk7ZOW+hq6q7RIIzq1gGukgu/tFYRIkF2Uv37foUL/5nnV4r6kN2/Z7+b02IkJt
-         +sttay0nDRo8VbLg9hsYbK0132kGc5qnODVwPeRwU8NgzxiiyoJyK2GL+9D8pkoLKG7f
-         WaAfTWWT3FQhGOxLfnLVuNSki8LiHMQPEgqPkzwE20DZSFdbBPvkzuxMSECk4l8827kz
-         xF+iSaogQaYwQoeq7hqs9w+PAeYe72QAEyvwZoOC34Ue5GElw3zVRUCo9lmoARZwAmQb
-         +Hgw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=TqbudKcqmPicYhxMzfjPIN213dkGC+QyBM4A1+588nU=;
+        b=Q9p0q7xzXoI1Lc+XxxctCyFIgjf4+86NBaQUMF224i9/j8kfmB9DZKcKcP6cR2lnF9
+         gQtH2u1zNRbKiZWbIKpYBeb/333+TMiOphvnflJzIxPHC+6CMNU7xXJh3fPQMwpDH3CC
+         Yyd2O6eRukRBbBTSiwOE+ZWe9IHD3ULR8x2OTZzYrRy/qq+89JKtmuizw6gETS+Xp7WU
+         TxAyMKbTYke/IZdmOREa8WcaYcCsV0lboWYFd3DPoZJ9JqoZhZcHtMcMQIf02Rlkp8Zd
+         PNsBBttM0rd29w9lBBOKIzAucMDwwCawni36Hb8MfzmEMN358ZqEuIyYK/HYFxSn6oyq
+         8sdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=k8kXXqEUeontmH32jxhFa7j9uFZa9yhZzdE08uh6b8I=;
-        b=OwmtVjroTQsQ9WURbo2GpWNQ+CALVGRPwCVltT1yIcH+ojDJRoldsURQGMpHEQemXh
-         VdrKgd7YIuT8XCXyp49cB9U7HPvXbiTVgeGu5Miy4X2grG0b6Kd6+cSuGrOqrvKxrH7v
-         AWz8OBnFAolnq7smN0AgyHYZ2uJXlikI1aMEsMjIofYHUp876vRnHKitFviAVGG0XPxA
-         E1idZYn3pkzhTWXa/pW8FjZuhH4ksIW3p5ufAk3Tzxfdi/wOnIBJvQ/O+KCRbAcmC13n
-         TAtIwyWwdc2PnpP0mGwPzQe9sWYA3eG8MO58PNZmTgEFMG/irkdKRQRnGmCoFZHxNWIo
-         rYJQ==
-X-Gm-Message-State: APjAAAX4sRDkQsP03Ltt1XXcSzoaQsLvxUtL6SxskIud3RRX4wn7eyzs
-        7wE+2rnDF6Wokdym2272vTw=
-X-Google-Smtp-Source: APXvYqxSfMr0l/mOBclf58hl6ZTWqt6FlE2mVP5EZZgGtCDkUJyQXB7YBalnh5v00QsEOCC6VUzV2A==
-X-Received: by 2002:a63:755e:: with SMTP id f30mr8744416pgn.246.1562910120797;
-        Thu, 11 Jul 2019 22:42:00 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TqbudKcqmPicYhxMzfjPIN213dkGC+QyBM4A1+588nU=;
+        b=YrkmnBdXpQYaa8Rl8eByUyycvgw0z1Kz/aGVyNFooxdzTo3YBHpFqKaYzdDlZPHFA3
+         EY1+m4JPSVQY5Wdk3W63PmXXEfCaJa/h4KMoig9YwchTt+XAD6bocEAMPc3JpsoLLhMT
+         ZkFxt5mIIcWG4JSdBeV1a+Z/+AUCiu5KufL2WF4Sc3wdi/ruxxPVkcXbNYRNUz4oRFXb
+         UuDa/O2qdiG3MbPDzfx61Slsm9VVdInY5owuszsrqEgByIQJ19GD79TRVaZAu9ORDQ13
+         n41qy3INkq0p+EuK8Xsa94M5ZFq3kTLry2uKDTtebZ5KfBULuGb+2zFmewwxQD8RJyKU
+         t32Q==
+X-Gm-Message-State: APjAAAWnu9/Zic+fCBU9EvoPVsuK3dkOHVR/R/OH2G8Y8JjR0F0A+U9s
+        ah11apA1UoG6AxyKw/9urPg=
+X-Google-Smtp-Source: APXvYqyTs5YjruaHtyFSkYfl0nakyiomy/5PFAXK7KXA5jMZTEKx0EjnTVVztr7SMcaRtXaoX/BifQ==
+X-Received: by 2002:a17:90a:37ac:: with SMTP id v41mr9339113pjb.6.1562913697140;
+        Thu, 11 Jul 2019 23:41:37 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id u16sm8539111pjb.2.2019.07.11.22.42.00
+        by smtp.gmail.com with ESMTPSA id 33sm13789713pgy.22.2019.07.11.23.41.36
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 11 Jul 2019 22:42:00 -0700 (PDT)
-Date:   Thu, 11 Jul 2019 22:41:58 -0700
+        Thu, 11 Jul 2019 23:41:36 -0700 (PDT)
+Date:   Thu, 11 Jul 2019 23:41:34 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v5.3-rc0
-Message-ID: <20190712052744.GA138448@dtor-ws>
+To:     Atif Niyaz <atifniyaz@google.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>
+Cc:     Atif Niyaz <atifniyaz11@gmail.com>,
+        Siarhei Vishniakou <svv@google.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] input: API for Setting a Timestamp from a Driver
+Message-ID: <20190712064134.GA150689@dtor-ws>
+References: <20190710230410.9386-1-atifniyaz@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20190710230410.9386-1-atifniyaz@google.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+Hi Atif,
 
-Please pull from:
+On Wed, Jul 10, 2019 at 04:04:10PM -0700, Atif Niyaz wrote:
+> Currently, evdev stamps time with timestamps acquired in
+> evdev_events. However, this timestamping may not be accurate in terms of
+> measuring when the actual event happened. This API allows any 3rd party
+> driver to be able to call input_set_timestamp, and provide a timestamp
+> that can be utilized in order to provide a more accurate sense of time
+> for the event
+> 
+> Signed-off-by: Atif Niyaz <atifniyaz@google.com>
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+This looks OK to me. Benjamin, Peter, any concerns here?
 
-to receive updates for the input subsystem. You will get:
 
-- an update to Elan touchpad SMBus driver to fetch device parameters
-  (size, resolution) while it is still in PS/2 mode, before switching
-  over to SMBus, as in that mode some devices return garbage dimensions
-- update to iforce joystick driver
-- miscellaneous driver fixes
+> ---
+>  drivers/input/evdev.c | 42 ++++++++++++++++--------------------------
+>  drivers/input/input.c | 17 +++++++++++++++++
+>  include/linux/input.h | 38 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 71 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
+> index 867c2cfd0038..a331efa0a3f6 100644
+> --- a/drivers/input/evdev.c
+> +++ b/drivers/input/evdev.c
+> @@ -25,13 +25,6 @@
+>  #include <linux/cdev.h>
+>  #include "input-compat.h"
+>  
+> -enum evdev_clock_type {
+> -	EV_CLK_REAL = 0,
+> -	EV_CLK_MONO,
+> -	EV_CLK_BOOT,
+> -	EV_CLK_MAX
+> -};
+> -
+>  struct evdev {
+>  	int open;
+>  	struct input_handle handle;
+> @@ -53,7 +46,7 @@ struct evdev_client {
+>  	struct fasync_struct *fasync;
+>  	struct evdev *evdev;
+>  	struct list_head node;
+> -	unsigned int clk_type;
+> +	input_clk_t clk_type;
+>  	bool revoked;
+>  	unsigned long *evmasks[EV_CNT];
+>  	unsigned int bufsize;
+> @@ -150,16 +143,18 @@ static void __evdev_flush_queue(struct evdev_client *client, unsigned int type)
+>  static void __evdev_queue_syn_dropped(struct evdev_client *client)
+>  {
+>  	struct input_event ev;
+> -	ktime_t time;
+>  	struct timespec64 ts;
+> +	ktime_t *time = input_get_timestamp(client->evdev->handle.dev);
+>  
+> -	time = client->clk_type == EV_CLK_REAL ?
+> -			ktime_get_real() :
+> -			client->clk_type == EV_CLK_MONO ?
+> -				ktime_get() :
+> -				ktime_get_boottime();
+> +	switch (client->clk_type) {
+> +	case INPUT_CLK_REAL:
+> +	case INPUT_CLK_MONO:
+> +		ts = ktime_to_timespec64(time[client->clk_type]);
+> +		break;
+> +	default:
+> +		ts = ktime_to_timespec64(time[INPUT_CLK_BOOT]);
 
-Note that there will be a conflict in drivers/input/misc/da9063_onkey.c
-regarding SPDX header, please keep SPDX annotation that is already in
-your tree.
+Add "break" here please.
 
-Also, I am still hoping to merge applespi keyboard and trackpad driver
-in the 2nd pass for this merge window.
+> +	}
+>  
+> -	ts = ktime_to_timespec64(time);
+>  	ev.input_event_sec = ts.tv_sec;
+>  	ev.input_event_usec = ts.tv_nsec / NSEC_PER_USEC;
+>  	ev.type = EV_SYN;
+> @@ -185,21 +180,21 @@ static void evdev_queue_syn_dropped(struct evdev_client *client)
+>  	spin_unlock_irqrestore(&client->buffer_lock, flags);
+>  }
+>  
+> -static int evdev_set_clk_type(struct evdev_client *client, unsigned int clkid)
+> +static int evdev_set_clk_type(struct evdev_client *client, clockid_t clkid)
+>  {
+>  	unsigned long flags;
+> -	unsigned int clk_type;
+> +	input_clk_t clk_type;
+>  
+>  	switch (clkid) {
+>  
+>  	case CLOCK_REALTIME:
+> -		clk_type = EV_CLK_REAL;
+> +		clk_type = INPUT_CLK_REAL;
+>  		break;
+>  	case CLOCK_MONOTONIC:
+> -		clk_type = EV_CLK_MONO;
+> +		clk_type = INPUT_CLK_MONO;
+>  		break;
+>  	case CLOCK_BOOTTIME:
+> -		clk_type = EV_CLK_BOOT;
+> +		clk_type = INPUT_CLK_BOOT;
+>  		break;
+>  	default:
+>  		return -EINVAL;
+> @@ -307,12 +302,7 @@ static void evdev_events(struct input_handle *handle,
+>  {
+>  	struct evdev *evdev = handle->private;
+>  	struct evdev_client *client;
+> -	ktime_t ev_time[EV_CLK_MAX];
+> -
+> -	ev_time[EV_CLK_MONO] = ktime_get();
+> -	ev_time[EV_CLK_REAL] = ktime_mono_to_real(ev_time[EV_CLK_MONO]);
+> -	ev_time[EV_CLK_BOOT] = ktime_mono_to_any(ev_time[EV_CLK_MONO],
+> -						 TK_OFFS_BOOT);
+> +	ktime_t *ev_time = input_get_timestamp(handle->dev);
+>  
+>  	rcu_read_lock();
+>  
+> diff --git a/drivers/input/input.c b/drivers/input/input.c
+> index 7f3c5fcb9ed6..ae8b0ee58120 100644
+> --- a/drivers/input/input.c
+> +++ b/drivers/input/input.c
+> @@ -1894,6 +1894,23 @@ void input_free_device(struct input_dev *dev)
+>  }
+>  EXPORT_SYMBOL(input_free_device);
+>  
+> +/**
+> + * input_get_timestamp - get timestamp for input events
+> + * @dev: input device to get timestamp from
+> + *
+> + * A valid timestamp is a timestamp of non-zero value.
+> + */
+> +ktime_t *input_get_timestamp(struct input_dev *dev)
+> +{
+> +	const ktime_t invalid_timestamp = ktime_set(0, 0);
+> +
+> +	if (!ktime_compare(dev->timestamp[INPUT_CLK_MONO], ktime_zero)) {
 
-Changelog:
----------
+You need to replace ktime_zero with invalid_timestamp here.
 
-Alexander Tsoy (1):
-      Input: joydev - extend absolute mouse detection
+> +		input_set_timestamp(dev, ktime_get());
+> +	}
 
-Anson Huang (2):
-      Input: imx_keypad - use devm_platform_ioremap_resource() to simplify code
-      Input: imx6ul_tsc - use devm_platform_ioremap_resource() to simplify code
+No need for curly braces for 1-line body.
 
-Axel Lin (1):
-      Input: iqs5xx - remove redundant dev_set_drvdata call
+> +	return dev->timestamp;
+> +}
+> +EXPORT_SYMBOL(input_get_timestamp);
+> +
+>  /**
+>   * input_set_capability - mark device as capable of a certain event
+>   * @dev: device that is capable of emitting or accepting event
+> diff --git a/include/linux/input.h b/include/linux/input.h
+> index 510e78558c10..3929b62ccbe5 100644
+> --- a/include/linux/input.h
+> +++ b/include/linux/input.h
+> @@ -33,6 +33,14 @@ struct input_value {
+>  	__s32 value;
+>  };
+>  
+> +enum input_clock_type {
+> +	INPUT_CLK_REAL = 0,
+> +	INPUT_CLK_MONO,
+> +	INPUT_CLK_BOOT,
+> +	INPUT_CLK_MAX
+> +};
+> +typedef enum input_clock_type input_clk_t;
 
-Bartosz Golaszewski (1):
-      Input: max77650-onkey - add MODULE_ALIAS()
+We typically avoid typedefs unless we really want to hide kind of data
+we are dealing with. Let's just use "enum input_clock_type" everywhere.
 
-Benjamin Tissoires (8):
-      Input: elantech - query the min/max information beforehand too
-      Input: elantech - add helper function elantech_is_buttonpad()
-      Input: elantech - detect middle button based on firmware version
-      dt-bindings: add more optional properties for elan_i2c touchpads
-      Input: elan_i2c - do not query the info if they are provided
-      Input: elantech/SMBus - export all capabilities from the PS/2 node
-      Input: elan_i2c - handle physical middle button
-      Input: elantech - remove P52 and P72 from SMBus blacklist
-
-Cole Rogers (1):
-      Input: synaptics - enable SMBUS on T480 thinkpad trackpad
-
-Daniel Mack (1):
-      Input: eeti_ts -  read hardware state once after wakeup
-
-Dmitry Torokhov (21):
-      Input: iforce - remove "being used" silliness
-      Input: iforce - introduce transport ops
-      Input: iforce - move get_id to the transport operations
-      Input: iforce - move command completion handling to serio code
-      Input: iforce - introduce start and stop io transport ops
-      Input: iforce - add bus type and parent arguments to iforce_init_device()
-      Input: iforce - move transport data into transport modules
-      Input: iforce - split into core and transport modules
-      Input: iforce - use DMA-safe buffer when getting IDs from USB
-      Input: iforce - update formatting of switch statements
-      Input: iforce - factor out hat handling when parsing packets
-      Input: iforce - do not combine arguments for iforce_process_packet()
-      Input: iforce - signal command completion from transport code
-      Input: iforce - only call iforce_process_packet() if initialized
-      Input: iforce - allow callers supply data buffer when fetching device IDs
-      Input: iforce - use DMA-safe buffores for USB transfers
-      Input: iforce - drop bus type from iforce structure
-      Input: iforce - drop couple of temps from transport code
-      Input: iforce - use unaligned accessors, where appropriate
-      Input: edt-ft5x06 - use get_unaligned_be16()
-      Input: edt-ft5x06 - simplify event reporting code
-
-Enrico Weigelt, metux IT consult (1):
-      Input: gpio_keys_polled - allow specifying name of input device
-
-Gustavo A. R. Silva (2):
-      Input: gpio_keys_polled - use struct_size() in devm_kzalloc()
-      Input: gpio_keys - use struct_size() in devm_kzalloc()
-
-Ian Ray (1):
-      Input: atmel_mxt_ts - fix leak in mxt_update_cfg()
-
-Jeffrey Hugo (2):
-      Input: elan_i2c - export the device id whitelist
-      HID: quirks: Refactor ELAN 400 and 401 handling
-
-Nathan Huckleberry (1):
-      Input: atmel_mxt_ts - fix -Wunused-const-variable
-
-Tim Schumacher (1):
-      Input: iforce - add the Saitek R440 Force Wheel
-
-Wolfram Sang (2):
-      Input: da9063_onkey - remove platform_data support
-      Input: da9063_onkey - convert header to SPDX
-
-YueHaibing (2):
-      Input: synaptics-rmi4 - remove set but not used variable 'sensor_flags'
-      Input: tca8418 - remove set but not used variable 'max_keys'
-
-Diffstat:
---------
-
- .../devicetree/bindings/input/elan_i2c.txt         |  11 +
- drivers/hid/hid-quirks.c                           |  22 +-
- drivers/input/joydev.c                             |  24 +-
- drivers/input/joystick/iforce/Kconfig              |   8 +-
- drivers/input/joystick/iforce/Makefile             |   7 +-
- drivers/input/joystick/iforce/iforce-ff.c          |  18 +-
- drivers/input/joystick/iforce/iforce-main.c        | 178 ++++--------
- drivers/input/joystick/iforce/iforce-packets.c     | 215 +++++---------
- drivers/input/joystick/iforce/iforce-serio.c       | 161 ++++++++---
- drivers/input/joystick/iforce/iforce-usb.c         | 192 ++++++++----
- drivers/input/joystick/iforce/iforce.h             |  55 ++--
- drivers/input/keyboard/gpio_keys.c                 |   6 +-
- drivers/input/keyboard/gpio_keys_polled.c          |  10 +-
- drivers/input/keyboard/imx_keypad.c                |   4 +-
- drivers/input/keyboard/tca8418_keypad.c            |   3 +-
- drivers/input/misc/da9063_onkey.c                  |  11 +-
- drivers/input/misc/max77650-onkey.c                |   1 +
- drivers/input/mouse/elan_i2c_core.c                | 122 ++++----
- drivers/input/mouse/elantech.c                     | 322 +++++++++++----------
- drivers/input/mouse/elantech.h                     |   8 +
- drivers/input/mouse/synaptics.c                    |   1 +
- drivers/input/rmi4/rmi_f12.c                       |   6 +-
- drivers/input/touchscreen/atmel_mxt_ts.c           |  23 +-
- drivers/input/touchscreen/edt-ft5x06.c             |  18 +-
- drivers/input/touchscreen/eeti_ts.c                |  71 ++++-
- drivers/input/touchscreen/imx6ul_tsc.c             |   8 +-
- drivers/input/touchscreen/iqs5xx.c                 |   2 -
- include/linux/input/elan-i2c-ids.h                 |  76 +++++
- 28 files changed, 872 insertions(+), 711 deletions(-)
- create mode 100644 include/linux/input/elan-i2c-ids.h
-
-Thanks.
-
+> +
+>  /**
+>   * struct input_dev - represents an input device
+>   * @name: name of the device
+> @@ -114,6 +122,8 @@ struct input_value {
+>   * @vals: array of values queued in the current frame
+>   * @devres_managed: indicates that devices is managed with devres framework
+>   *	and needs not be explicitly unregistered or freed.
+> + * @timestamp: storage for a timestamp set by input_set_timestamp called
+> + *  by a driver
+>   */
+>  struct input_dev {
+>  	const char *name;
+> @@ -184,6 +194,8 @@ struct input_dev {
+>  	struct input_value *vals;
+>  
+>  	bool devres_managed;
+> +
+> +	ktime_t timestamp[INPUT_CLK_MAX];
+>  };
+>  #define to_input_dev(d) container_of(d, struct input_dev, dev)
+>  
+> @@ -382,6 +394,32 @@ void input_close_device(struct input_handle *);
+>  
+>  int input_flush_device(struct input_handle *handle, struct file *file);
+>  
+> +/**
+> + * input_set_timestamp - set timestamp for input events
+> + * @dev: input device to set timestamp for
+> + * @timestamp: the time at which the event has occurred
+> + *   in CLOCK_MONOTONIC
+> + *
+> + * This function is intended to provide to the input system a more
+> + * accurate time of when an event actually occurred. The driver should
+> + * call this function as soon as a timestamp is acquired ensuring
+> + * clock conversions in input_set_timestamp are done correctly.
+> + *
+> + * The system entering a suspend between timestamp acquisition and
+> + * calling input_set_timestamp can result in inaccurate conversions.
+> + *
+> + */
+> +static inline void input_set_timestamp(struct input_dev *dev,
+> +	ktime_t timestamp)
+> +{
+> +	dev->timestamp[INPUT_CLK_MONO] = timestamp;
+> +	dev->timestamp[INPUT_CLK_REAL] = ktime_mono_to_real(timestamp);
+> +	dev->timestamp[INPUT_CLK_BOOT] = ktime_mono_to_any(
+> +		timestamp, TK_OFFS_BOOT);
+> +}
+> +
+> +ktime_t *input_get_timestamp(struct input_dev *dev);
+> +
+>  void input_event(struct input_dev *dev, unsigned int type, unsigned int code, int value);
+>  void input_inject_event(struct input_handle *handle, unsigned int type, unsigned int code, int value);
+>  
+> -- 
+> 2.22.0.410.gd8fdbe21b5-goog
+> 
 
 -- 
 Dmitry
