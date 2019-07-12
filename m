@@ -2,61 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8191667025
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2019 15:34:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91CFB67094
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2019 15:53:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727807AbfGLNeR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 12 Jul 2019 09:34:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36644 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727800AbfGLNeR (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 12 Jul 2019 09:34:17 -0400
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 778BA206B8;
-        Fri, 12 Jul 2019 13:34:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562938456;
-        bh=7DVIw6J/+3Y+t8Z186PXZUP4BTrAdMiN89HZu0/laIE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=JxmZBIP0Tv4Cbd9X/r7+UrAbIpmxLebTvVZWWJpH+Rwa32tYYYMOwT2m5bxOCAksS
-         QpMvEonzo1PZwz4QSwOImC/ZXwqqvRjVXn1izwryJq33LRF2h6KQg9u06695s9cvWI
-         5fWqC22VuJenwx7SeAxVQsUy65anKCrXNHzrB/bQ=
-Received: by mail-qk1-f181.google.com with SMTP id r21so6398998qke.2;
-        Fri, 12 Jul 2019 06:34:16 -0700 (PDT)
-X-Gm-Message-State: APjAAAVXNZA0q0s/6hxmY2f0zLUW0W0daEgWTPpaMi+o9kN69+UkS8R9
-        Eeu2JuN0tlTGPXhiQ6lIBpJ4AxrKcz9hUckHHA==
-X-Google-Smtp-Source: APXvYqxoZc5cotlmgm5nkNDcer2rciXaWhu3NOBE539CmmHXCP4PxcjsozaAi4Fo52shXfIkxEK2Kzgw6i94UBHSDKg=
-X-Received: by 2002:a37:a010:: with SMTP id j16mr6521466qke.152.1562938455759;
- Fri, 12 Jul 2019 06:34:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190712094050.17432-1-amergnat@baylibre.com>
-In-Reply-To: <20190712094050.17432-1-amergnat@baylibre.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 12 Jul 2019 07:34:03 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLs-AGjf1A6nky+5VaTTTDyNkBPgmrGCPqyqKa=UvmLYw@mail.gmail.com>
-Message-ID: <CAL_JsqLs-AGjf1A6nky+5VaTTTDyNkBPgmrGCPqyqKa=UvmLYw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] Add PAT9125 optical tracker driver
-To:     Alexandre Mergnat <amergnat@baylibre.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
-        baylibre-upstreaming@groups.io,
+        id S1727140AbfGLNxl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 12 Jul 2019 09:53:41 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:52717 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726976AbfGLNxl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 12 Jul 2019 09:53:41 -0400
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1hlvzX-00055Z-AF; Fri, 12 Jul 2019 15:53:39 +0200
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Nick Dyer <nick@shmanahar.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Linux Input <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, patchwork-lst@pengutronix.de,
+        Chris Healy <cphealy@gmail.com>
+Subject: [PATCH] Input: atmel_mxt_ts - allow specification of config name
+Date:   Fri, 12 Jul 2019 15:53:38 +0200
+Message-Id: <20190712135338.6211-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jul 12, 2019 at 3:41 AM Alexandre Mergnat <amergnat@baylibre.com> wrote:
->
-> PixArt Imaging PAT9125 is a miniature low power optical navigation chip
-> using LASER light source enabling digital surface tracking.
+From: Nick Dyer <nick@shmanahar.org>
 
-Please resend to the DT list if you want this reviewed.
+Some systems require different touchscreen configurations depending on the
+populated touchscreen. To allow different configs to co-exist in the file
+system we need a way to tell the driver, which config should be loaded.
 
-Rob
+Signed-off-by: Nick Dyer <nick@shmanahar.org>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+lst:
+- switch to property name to not use underscore
+- Add more elaborate commit message
+---
+ Documentation/devicetree/bindings/input/atmel,maxtouch.txt | 3 +++
+ drivers/input/touchscreen/atmel_mxt_ts.c                   | 6 +++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+index c88919480d37..dd2c278824b8 100644
+--- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
++++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+@@ -31,6 +31,9 @@ Optional properties for main touchpad device:
+ 
+ - reset-gpios: GPIO specifier for the touchscreen's reset pin (active low)
+ 
++- atmel,cfg-name: Provide name of configuration file in OBP_RAW format. This
++    will be downloaded from the firmware loader on probe to the device.
++
+ Example:
+ 
+ 	touch@4b {
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index 19378f200c63..c37c5ab8d847 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -318,6 +318,7 @@ struct mxt_data {
+ 	struct t7_config t7_cfg;
+ 	struct mxt_dbg dbg;
+ 	struct gpio_desc *reset_gpio;
++	const char *cfg_name;
+ 
+ 	/* Cached parameters from object table */
+ 	u16 T5_address;
+@@ -2151,7 +2152,8 @@ static int mxt_initialize(struct mxt_data *data)
+ 	if (error)
+ 		return error;
+ 
+-	error = request_firmware_nowait(THIS_MODULE, true, MXT_CFG_NAME,
++	error = request_firmware_nowait(THIS_MODULE, true,
++					data->cfg_name ? : MXT_CFG_NAME,
+ 					&client->dev, GFP_KERNEL, data,
+ 					mxt_config_cb);
+ 	if (error) {
+@@ -3015,6 +3017,8 @@ static int mxt_parse_device_properties(struct mxt_data *data)
+ 		data->t19_num_keys = n_keys;
+ 	}
+ 
++	device_property_read_string(dev, "atmel,cfg-name", &data->cfg_name);
++
+ 	return 0;
+ }
+ 
+-- 
+2.20.1
+
