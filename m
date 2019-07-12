@@ -2,653 +2,204 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 09C35663E7
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2019 04:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7CB166682
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2019 07:42:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729310AbfGLCUq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Jul 2019 22:20:46 -0400
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:54515 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728866AbfGLCUi (ORCPT
+        id S1726136AbfGLFmC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 12 Jul 2019 01:42:02 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:37330 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726074AbfGLFmC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Jul 2019 22:20:38 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=23;SR=0;TI=SMTPD_---0TWfTwyQ_1562898030;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TWfTwyQ_1562898030)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 12 Jul 2019 10:20:30 +0800
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-omap@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-s390@vger.kernel.org,
-        kvm@vger.kernel.org, linux-sh@vger.kernel.org,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-crypto@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-serial@vger.kernel.org
-Subject: [PATCH 02/12] Documentation/arm: repointer docs to Documentation/arch/arm
-Date:   Fri, 12 Jul 2019 10:20:08 +0800
-Message-Id: <20190712022018.27989-2-alex.shi@linux.alibaba.com>
-X-Mailer: git-send-email 2.19.1.856.g8858448bb
-In-Reply-To: <20190712022018.27989-1-alex.shi@linux.alibaba.com>
-References: <20190712022018.27989-1-alex.shi@linux.alibaba.com>
+        Fri, 12 Jul 2019 01:42:02 -0400
+Received: by mail-pg1-f194.google.com with SMTP id g15so4021498pgi.4;
+        Thu, 11 Jul 2019 22:42:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=k8kXXqEUeontmH32jxhFa7j9uFZa9yhZzdE08uh6b8I=;
+        b=eBggFk3faNJcyYcxxwYJiS8NKST3j86xRB0LAxZrxkruACA6hGQwKMyETNe8Buu6cV
+         1TYKxDk7ZOW+hq6q7RIIzq1gGukgu/tFYRIkF2Uv37foUL/5nnV4r6kN2/Z7+b02IkJt
+         +sttay0nDRo8VbLg9hsYbK0132kGc5qnODVwPeRwU8NgzxiiyoJyK2GL+9D8pkoLKG7f
+         WaAfTWWT3FQhGOxLfnLVuNSki8LiHMQPEgqPkzwE20DZSFdbBPvkzuxMSECk4l8827kz
+         xF+iSaogQaYwQoeq7hqs9w+PAeYe72QAEyvwZoOC34Ue5GElw3zVRUCo9lmoARZwAmQb
+         +Hgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=k8kXXqEUeontmH32jxhFa7j9uFZa9yhZzdE08uh6b8I=;
+        b=OwmtVjroTQsQ9WURbo2GpWNQ+CALVGRPwCVltT1yIcH+ojDJRoldsURQGMpHEQemXh
+         VdrKgd7YIuT8XCXyp49cB9U7HPvXbiTVgeGu5Miy4X2grG0b6Kd6+cSuGrOqrvKxrH7v
+         AWz8OBnFAolnq7smN0AgyHYZ2uJXlikI1aMEsMjIofYHUp876vRnHKitFviAVGG0XPxA
+         E1idZYn3pkzhTWXa/pW8FjZuhH4ksIW3p5ufAk3Tzxfdi/wOnIBJvQ/O+KCRbAcmC13n
+         TAtIwyWwdc2PnpP0mGwPzQe9sWYA3eG8MO58PNZmTgEFMG/irkdKRQRnGmCoFZHxNWIo
+         rYJQ==
+X-Gm-Message-State: APjAAAX4sRDkQsP03Ltt1XXcSzoaQsLvxUtL6SxskIud3RRX4wn7eyzs
+        7wE+2rnDF6Wokdym2272vTw=
+X-Google-Smtp-Source: APXvYqxSfMr0l/mOBclf58hl6ZTWqt6FlE2mVP5EZZgGtCDkUJyQXB7YBalnh5v00QsEOCC6VUzV2A==
+X-Received: by 2002:a63:755e:: with SMTP id f30mr8744416pgn.246.1562910120797;
+        Thu, 11 Jul 2019 22:42:00 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id u16sm8539111pjb.2.2019.07.11.22.42.00
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 11 Jul 2019 22:42:00 -0700 (PDT)
+Date:   Thu, 11 Jul 2019 22:41:58 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.3-rc0
+Message-ID: <20190712052744.GA138448@dtor-ws>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Since we move 'arm/arm64' docs to Documentation/arch/{arm,arm64} dir,
-redirect the doc pointer to them.
+Hi Linus,
 
-Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Kukjin Kim <kgene@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-samsung-soc@vger.kernel.org
-Cc: linux-crypto@vger.kernel.org
-Cc: linux-input@vger.kernel.org
-Cc: linux-serial@vger.kernel.org
----
- Documentation/arch/arm/Samsung-S3C24XX/GPIO.txt    |  2 +-
- .../arch/arm/Samsung-S3C24XX/Overview.txt          |  6 +++---
- Documentation/arch/arm/Samsung/GPIO.txt            |  2 +-
- Documentation/arch/arm/Samsung/Overview.txt        |  4 ++--
- Documentation/devicetree/bindings/arm/xen.txt      |  2 +-
- Documentation/devicetree/booting-without-of.txt    |  4 ++--
- Documentation/translations/zh_CN/arm/Booting       |  4 ++--
- .../translations/zh_CN/arm/kernel_user_helpers.txt |  4 ++--
- MAINTAINERS                                        |  6 +++---
- arch/arm/Kconfig                                   |  2 +-
- arch/arm/common/mcpm_entry.c                       |  2 +-
- arch/arm/common/mcpm_head.S                        |  2 +-
- arch/arm/common/vlock.S                            |  2 +-
- arch/arm/include/asm/setup.h                       |  2 +-
- arch/arm/include/uapi/asm/setup.h                  |  2 +-
- arch/arm/kernel/entry-armv.S                       |  2 +-
- arch/arm/mach-exynos/common.h                      |  2 +-
- arch/arm/mach-ixp4xx/Kconfig                       | 14 +++++++-------
- arch/arm/mach-s3c24xx/pm.c                         |  2 +-
- arch/arm/mach-sti/Kconfig                          |  2 +-
- arch/arm/mm/Kconfig                                |  4 ++--
- arch/arm/plat-samsung/Kconfig                      |  6 +++---
- arch/arm/tools/mach-types                          |  2 +-
- arch/arm64/Kconfig                                 |  2 +-
- arch/arm64/kernel/kuser32.S                        |  2 +-
- arch/mips/bmips/setup.c                            |  2 +-
- drivers/crypto/sunxi-ss/sun4i-ss-cipher.c          |  2 +-
- drivers/crypto/sunxi-ss/sun4i-ss-core.c            |  2 +-
- drivers/crypto/sunxi-ss/sun4i-ss-hash.c            |  2 +-
- drivers/crypto/sunxi-ss/sun4i-ss.h                 |  2 +-
- drivers/input/touchscreen/sun4i-ts.c               |  2 +-
- drivers/tty/serial/Kconfig                         |  2 +-
- 32 files changed, 49 insertions(+), 49 deletions(-)
+Please pull from:
 
-diff --git a/Documentation/arch/arm/Samsung-S3C24XX/GPIO.txt b/Documentation/arch/arm/Samsung-S3C24XX/GPIO.txt
-index e8f918b96123..542a95cd82e7 100644
---- a/Documentation/arch/arm/Samsung-S3C24XX/GPIO.txt
-+++ b/Documentation/arch/arm/Samsung-S3C24XX/GPIO.txt
-@@ -12,7 +12,7 @@ Introduction
-   of the s3c2410 GPIO system, please read the Samsung provided
-   data-sheet/users manual to find out the complete list.
- 
--  See Documentation/arm/Samsung/GPIO.txt for the core implementation.
-+  See Documentation/arch/arm/Samsung/GPIO.txt for the core implementation.
- 
- 
- GPIOLIB
-diff --git a/Documentation/arch/arm/Samsung-S3C24XX/Overview.txt b/Documentation/arch/arm/Samsung-S3C24XX/Overview.txt
-index 00d3c3141e21..8d84a1c6216d 100644
---- a/Documentation/arch/arm/Samsung-S3C24XX/Overview.txt
-+++ b/Documentation/arch/arm/Samsung-S3C24XX/Overview.txt
-@@ -182,7 +182,7 @@ NAND
-   controller. If there are any problems the latest linux-mtd
-   code can be found from http://www.linux-mtd.infradead.org/
- 
--  For more information see Documentation/arm/Samsung-S3C24XX/NAND.txt
-+  For more information see Documentation/arch/arm/Samsung-S3C24XX/NAND.txt
- 
- 
- SD/MMC
-@@ -221,8 +221,8 @@ GPIO
-   As of v2.6.34, the move towards using gpiolib support is almost
-   complete, and very little of the old calls are left.
- 
--  See Documentation/arm/Samsung-S3C24XX/GPIO.txt for the S3C24XX specific
--  support and Documentation/arm/Samsung/GPIO.txt for the core Samsung
-+  See Documentation/arch/arm/Samsung-S3C24XX/GPIO.txt for the S3C24XX specific
-+  support and Documentation/arch/arm/Samsung/GPIO.txt for the core Samsung
-   implementation.
- 
- 
-diff --git a/Documentation/arch/arm/Samsung/GPIO.txt b/Documentation/arch/arm/Samsung/GPIO.txt
-index 795adfd88081..e693603f38af 100644
---- a/Documentation/arch/arm/Samsung/GPIO.txt
-+++ b/Documentation/arch/arm/Samsung/GPIO.txt
-@@ -11,7 +11,7 @@ specific calls provided alongside the drivers/gpio core.
- S3C24XX (Legacy)
- ----------------
- 
--See Documentation/arm/Samsung-S3C24XX/GPIO.txt for more information
-+See Documentation/arch/arm/Samsung-S3C24XX/GPIO.txt for more information
- about these devices. Their implementation has been brought into line
- with the core samsung implementation described in this document.
- 
-diff --git a/Documentation/arch/arm/Samsung/Overview.txt b/Documentation/arch/arm/Samsung/Overview.txt
-index 8f7309bad460..93091054a215 100644
---- a/Documentation/arch/arm/Samsung/Overview.txt
-+++ b/Documentation/arch/arm/Samsung/Overview.txt
-@@ -11,7 +11,7 @@ Introduction
- 
-   The currently supported SoCs are:
- 
--  - S3C24XX: See Documentation/arm/Samsung-S3C24XX/Overview.txt for full list
-+  - S3C24XX: See Documentation/arch/arm/Samsung-S3C24XX/Overview.txt for full list
-   - S3C64XX: S3C6400 and S3C6410
-   - S5PC110 / S5PV210
- 
-@@ -22,7 +22,7 @@ S3C24XX Systems
-   There is still documentation in Documnetation/arm/Samsung-S3C24XX/ which
-   deals with the architecture and drivers specific to these devices.
- 
--  See Documentation/arm/Samsung-S3C24XX/Overview.txt for more information
-+  See Documentation/arch/arm/Samsung-S3C24XX/Overview.txt for more information
-   on the implementation details and specific support.
- 
- 
-diff --git a/Documentation/devicetree/bindings/arm/xen.txt b/Documentation/devicetree/bindings/arm/xen.txt
-index c9b9321434ea..2533cd4f5d79 100644
---- a/Documentation/devicetree/bindings/arm/xen.txt
-+++ b/Documentation/devicetree/bindings/arm/xen.txt
-@@ -54,7 +54,7 @@ hypervisor {
- };
- 
- The format and meaning of the "xen,uefi-*" parameters are similar to those in
--Documentation/arm/uefi.txt, which are provided by the regular UEFI stub. However
-+Documentation/arch/arm/uefi.txt, which are provided by the regular UEFI stub. However
- they differ because they are provided by the Xen hypervisor, together with a set
- of UEFI runtime services implemented via hypercalls, see
- http://xenbits.xen.org/docs/unstable/hypercall/x86_64/include,public,platform.h.html.
-diff --git a/Documentation/devicetree/booting-without-of.txt b/Documentation/devicetree/booting-without-of.txt
-index 60f8640f2b2f..58d606fca7eb 100644
---- a/Documentation/devicetree/booting-without-of.txt
-+++ b/Documentation/devicetree/booting-without-of.txt
-@@ -160,7 +160,7 @@ it with special cases.
-    of the kernel image. That entry point supports two calling
-    conventions.  A summary of the interface is described here.  A full
-    description of the boot requirements is documented in
--   Documentation/arm/Booting
-+   Documentation/arch/arm/Booting
- 
-         a) ATAGS interface.  Minimal information is passed from firmware
-         to the kernel with a tagged list of predefined parameters.
-@@ -174,7 +174,7 @@ it with special cases.
-         b) Entry with a flattened device-tree block.  Firmware loads the
-         physical address of the flattened device tree block (dtb) into r2,
-         r1 is not used, but it is considered good practice to use a valid
--        machine number as described in Documentation/arm/Booting.
-+	machine number as described in Documentation/arch/arm/Booting.
- 
-                 r0 : 0
- 
-diff --git a/Documentation/translations/zh_CN/arm/Booting b/Documentation/translations/zh_CN/arm/Booting
-index 1fe866f8218f..8bcad25099b3 100644
---- a/Documentation/translations/zh_CN/arm/Booting
-+++ b/Documentation/translations/zh_CN/arm/Booting
-@@ -1,4 +1,4 @@
--Chinese translated version of Documentation/arm/Booting
-+Chinese translated version of Documentation/arch/arm/Booting
- 
- If you have any comment or update to the content, please contact the
- original document maintainer directly.  However, if you have a problem
-@@ -9,7 +9,7 @@ or if there is a problem with the translation.
- Maintainer: Russell King <linux@arm.linux.org.uk>
- Chinese maintainer: Fu Wei <tekkamanninja@gmail.com>
- ---------------------------------------------------------------------
--Documentation/arm/Booting 的中文翻译
-+Documentation/arch/arm/Booting 的中文翻译
- 
- 如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
- 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
-diff --git a/Documentation/translations/zh_CN/arm/kernel_user_helpers.txt b/Documentation/translations/zh_CN/arm/kernel_user_helpers.txt
-index cd7fc8f34cf9..ed7083e7e43d 100644
---- a/Documentation/translations/zh_CN/arm/kernel_user_helpers.txt
-+++ b/Documentation/translations/zh_CN/arm/kernel_user_helpers.txt
-@@ -1,4 +1,4 @@
--Chinese translated version of Documentation/arm/kernel_user_helpers.txt
-+Chinese translated version of Documentation/arch/arm/kernel_user_helpers.txt
- 
- If you have any comment or update to the content, please contact the
- original document maintainer directly.  However, if you have a problem
-@@ -10,7 +10,7 @@ Maintainer: Nicolas Pitre <nicolas.pitre@linaro.org>
- 		Dave Martin <dave.martin@linaro.org>
- Chinese maintainer: Fu Wei <tekkamanninja@gmail.com>
- ---------------------------------------------------------------------
--Documentation/arm/kernel_user_helpers.txt 的中文翻译
-+Documentation/arch/arm/kernel_user_helpers.txt 的中文翻译
- 
- 如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
- 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 43ca94856944..c21d5464c86f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2192,7 +2192,7 @@ F:	drivers/*/*s3c64xx*
- F:	drivers/*/*s5pv210*
- F:	drivers/memory/samsung/*
- F:	drivers/soc/samsung/*
--F:	Documentation/arm/Samsung/
-+F:	Documentation/arch/arm/Samsung/
- F:	Documentation/devicetree/bindings/arm/samsung/
- F:	Documentation/devicetree/bindings/sram/samsung-sram.txt
- F:	Documentation/devicetree/bindings/power/pd-samsung.txt
-@@ -2569,7 +2569,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
- S:	Maintained
- F:	arch/arm64/
- X:	arch/arm64/boot/dts/
--F:	Documentation/arm64/
-+F:	Documentation/arch/arm64/
- 
- AS3645A LED FLASH CONTROLLER DRIVER
- M:	Sakari Ailus <sakari.ailus@iki.fi>
-@@ -11470,7 +11470,7 @@ L:	linux-omap@vger.kernel.org
- L:	linux-fbdev@vger.kernel.org
- S:	Orphan
- F:	drivers/video/fbdev/omap2/
--F:	Documentation/arm/OMAP/DSS
-+F:	Documentation/arch/arm/OMAP/DSS
- 
- OMAP FRAMEBUFFER SUPPORT
- L:	linux-fbdev@vger.kernel.org
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index ad00e17d6988..1b276dda837d 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -2146,7 +2146,7 @@ config VFP
- 	  Say Y to include VFP support code in the kernel. This is needed
- 	  if your hardware includes a VFP unit.
- 
--	  Please see <file:Documentation/arm/VFP/release-notes.txt> for
-+	  Please see <file:Documentation/arch/arm/VFP/release-notes.txt> for
- 	  release notes and additional status information.
- 
- 	  Say N if your target does not have VFP hardware.
-diff --git a/arch/arm/common/mcpm_entry.c b/arch/arm/common/mcpm_entry.c
-index e24ad60891b2..0ed7d19e0fbe 100644
---- a/arch/arm/common/mcpm_entry.c
-+++ b/arch/arm/common/mcpm_entry.c
-@@ -21,7 +21,7 @@
- /*
-  * The public API for this code is documented in arch/arm/include/asm/mcpm.h.
-  * For a comprehensive description of the main algorithm used here, please
-- * see Documentation/arm/cluster-pm-race-avoidance.txt.
-+ * see Documentation/arch/arm/cluster-pm-race-avoidance.txt.
-  */
- 
- struct sync_struct mcpm_sync;
-diff --git a/arch/arm/common/mcpm_head.S b/arch/arm/common/mcpm_head.S
-index d5bd75dd576d..c7071314ad76 100644
---- a/arch/arm/common/mcpm_head.S
-+++ b/arch/arm/common/mcpm_head.S
-@@ -5,7 +5,7 @@
-  * Created by:  Nicolas Pitre, March 2012
-  * Copyright:   (C) 2012-2013  Linaro Limited
-  *
-- * Refer to Documentation/arm/cluster-pm-race-avoidance.txt
-+ * Refer to Documentation/arch/arm/cluster-pm-race-avoidance.txt
-  * for details of the synchronisation algorithms used here.
-  */
- 
-diff --git a/arch/arm/common/vlock.S b/arch/arm/common/vlock.S
-index 9675cc15d0c4..cfb6db2053f7 100644
---- a/arch/arm/common/vlock.S
-+++ b/arch/arm/common/vlock.S
-@@ -6,7 +6,7 @@
-  * Copyright:	(C) 2012-2013  Linaro Limited
-  *
-  * This algorithm is described in more detail in
-- * Documentation/arm/vlocks.txt.
-+ * Documentation/arch/arm/vlocks.txt.
-  */
- 
- #include <linux/linkage.h>
-diff --git a/arch/arm/include/asm/setup.h b/arch/arm/include/asm/setup.h
-index 77e5582c2259..483f9f29170a 100644
---- a/arch/arm/include/asm/setup.h
-+++ b/arch/arm/include/asm/setup.h
-@@ -5,7 +5,7 @@
-  *  Copyright (C) 1997-1999 Russell King
-  *
-  *  Structure passed to kernel to tell it about the
-- *  hardware it's running on.  See Documentation/arm/Setup
-+ *  hardware it's running on.  See Documentation/arch/arm/Setup
-  *  for more info.
-  */
- #ifndef __ASMARM_SETUP_H
-diff --git a/arch/arm/include/uapi/asm/setup.h b/arch/arm/include/uapi/asm/setup.h
-index 6b335a9ff8c8..3691ac2a00b9 100644
---- a/arch/arm/include/uapi/asm/setup.h
-+++ b/arch/arm/include/uapi/asm/setup.h
-@@ -9,7 +9,7 @@
-  * published by the Free Software Foundation.
-  *
-  *  Structure passed to kernel to tell it about the
-- *  hardware it's running on.  See Documentation/arm/Setup
-+ *  hardware it's running on.  See Documentation/arch/arm/Setup
-  *  for more info.
-  */
- #ifndef _UAPI__ASMARM_SETUP_H
-diff --git a/arch/arm/kernel/entry-armv.S b/arch/arm/kernel/entry-armv.S
-index 0b8cfdd60b90..929f6332438e 100644
---- a/arch/arm/kernel/entry-armv.S
-+++ b/arch/arm/kernel/entry-armv.S
-@@ -826,7 +826,7 @@ ENDPROC(__switch_to)
-  * existing ones.  This mechanism should be used only for things that are
-  * really small and justified, and not be abused freely.
-  *
-- * See Documentation/arm/kernel_user_helpers.txt for formal definitions.
-+ * See Documentation/arch/arm/kernel_user_helpers.txt for formal definitions.
-  */
-  THUMB(	.arm	)
- 
-diff --git a/arch/arm/mach-exynos/common.h b/arch/arm/mach-exynos/common.h
-index c93356a8d662..cd0878c5614f 100644
---- a/arch/arm/mach-exynos/common.h
-+++ b/arch/arm/mach-exynos/common.h
-@@ -106,7 +106,7 @@ void exynos_firmware_init(void);
- #define C2_STATE	(1 << 3)
- /*
-  * Magic values for bootloader indicating chosen low power mode.
-- * See also Documentation/arm/Samsung/Bootloader-interface.txt
-+ * See also Documentation/arch/arm/Samsung/Bootloader-interface.txt
-  */
- #define EXYNOS_SLEEP_MAGIC	0x00000bad
- #define EXYNOS_AFTR_MAGIC	0xfcba0d10
-diff --git a/arch/arm/mach-ixp4xx/Kconfig b/arch/arm/mach-ixp4xx/Kconfig
-index fc5378b00f3d..dd9c8009dffd 100644
---- a/arch/arm/mach-ixp4xx/Kconfig
-+++ b/arch/arm/mach-ixp4xx/Kconfig
-@@ -33,7 +33,7 @@ config MACH_AVILA
- 	help
- 	  Say 'Y' here if you want your kernel to support the Gateworks
- 	  Avila Network Platform. For more information on this platform,
--	  see <file:Documentation/arm/IXP4xx>.
-+	  see <file:Documentation/arch/arm/IXP4xx>.
- 
- config MACH_LOFT
-     bool "Loft"
-@@ -49,7 +49,7 @@ config ARCH_ADI_COYOTE
- 	help
- 	  Say 'Y' here if you want your kernel to support the ADI 
- 	  Engineering Coyote Gateway Reference Platform. For more
--	  information on this platform, see <file:Documentation/arm/IXP4xx>.
-+	  information on this platform, see <file:Documentation/arch/arm/IXP4xx>.
- 
- config MACH_GATEWAY7001
- 	bool "Gateway 7001"
-@@ -72,21 +72,21 @@ config ARCH_IXDP425
- 	help
- 	  Say 'Y' here if you want your kernel to support Intel's 
- 	  IXDP425 Development Platform (Also known as Richfield).  
--	  For more information on this platform, see <file:Documentation/arm/IXP4xx>.
-+	  For more information on this platform, see <file:Documentation/arch/arm/IXP4xx>.
- 
- config MACH_IXDPG425
- 	bool "IXDPG425"
- 	help
- 	  Say 'Y' here if you want your kernel to support Intel's
- 	  IXDPG425 Development Platform (Also known as Montajade).
--	  For more information on this platform, see <file:Documentation/arm/IXP4xx>.
-+	  For more information on this platform, see <file:Documentation/arch/arm/IXP4xx>.
- 
- config MACH_IXDP465
- 	bool "IXDP465"
- 	help
- 	  Say 'Y' here if you want your kernel to support Intel's
- 	  IXDP465 Development Platform (Also known as BMP).
--	  For more information on this platform, see <file:Documentation/arm/IXP4xx>.
-+	  For more information on this platform, see <file:Documentation/arch/arm/IXP4xx>.
- 
- config MACH_GORAMO_MLR
- 	bool "GORAMO Multi Link Router"
-@@ -99,7 +99,7 @@ config MACH_KIXRP435
- 	help
- 	  Say 'Y' here if you want your kernel to support Intel's
- 	  KIXRP435 Reference Platform.
--	  For more information on this platform, see <file:Documentation/arm/IXP4xx>.
-+	  For more information on this platform, see <file:Documentation/arch/arm/IXP4xx>.
- 
- #
- # IXCDP1100 is the exact same HW as IXDP425, but with a different machine 
-@@ -116,7 +116,7 @@ config ARCH_PRPMC1100
- 	help
- 	  Say 'Y' here if you want your kernel to support the Motorola
- 	  PrPCM1100 Processor Mezanine Module. For more information on
--	  this platform, see <file:Documentation/arm/IXP4xx>.
-+	  this platform, see <file:Documentation/arch/arm/IXP4xx>.
- 
- config MACH_NAS100D
- 	bool
-diff --git a/arch/arm/mach-s3c24xx/pm.c b/arch/arm/mach-s3c24xx/pm.c
-index adcb90645460..ff605c777976 100644
---- a/arch/arm/mach-s3c24xx/pm.c
-+++ b/arch/arm/mach-s3c24xx/pm.c
-@@ -5,7 +5,7 @@
- //
- // S3C24XX Power Manager (Suspend-To-RAM) support
- //
--// See Documentation/arm/Samsung-S3C24XX/Suspend.txt for more information
-+// See Documentation/arch/arm/Samsung-S3C24XX/Suspend.txt for more information
- //
- // Parts based on arch/arm/mach-pxa/pm.c
- //
-diff --git a/arch/arm/mach-sti/Kconfig b/arch/arm/mach-sti/Kconfig
-index b2d45cf10a3c..b3842c971d31 100644
---- a/arch/arm/mach-sti/Kconfig
-+++ b/arch/arm/mach-sti/Kconfig
-@@ -21,7 +21,7 @@ menuconfig ARCH_STI
- 	help
- 	  Include support for STMicroelectronics' STiH415/416, STiH407/10 and
- 	  STiH418 family SoCs using the Device Tree for discovery.  More
--	  information can be found in Documentation/arm/sti/ and
-+	  information can be found in Documentation/arch/arm/sti/ and
- 	  Documentation/devicetree.
- 
- if ARCH_STI
-diff --git a/arch/arm/mm/Kconfig b/arch/arm/mm/Kconfig
-index cc798115aa9b..3ef82f228947 100644
---- a/arch/arm/mm/Kconfig
-+++ b/arch/arm/mm/Kconfig
-@@ -709,7 +709,7 @@ config ARM_VIRT_EXT
- 	  assistance.
- 
- 	  A compliant bootloader is required in order to make maximum
--	  use of this feature.  Refer to Documentation/arm/Booting for
-+	  use of this feature.  Refer to Documentation/arch/arm/Booting for
- 	  details.
- 
- config SWP_EMULATE
-@@ -875,7 +875,7 @@ config KUSER_HELPERS
- 	  the CPU type fitted to the system.  This permits binaries to be
- 	  run on ARMv4 through to ARMv7 without modification.
- 
--	  See Documentation/arm/kernel_user_helpers.txt for details.
-+	  See Documentation/arch/arm/kernel_user_helpers.txt for details.
- 
- 	  However, the fixed address nature of these helpers can be used
- 	  by ROP (return orientated programming) authors when creating
-diff --git a/arch/arm/plat-samsung/Kconfig b/arch/arm/plat-samsung/Kconfig
-index 53da57fba39c..17b18f2e4b80 100644
---- a/arch/arm/plat-samsung/Kconfig
-+++ b/arch/arm/plat-samsung/Kconfig
-@@ -243,7 +243,7 @@ config SAMSUNG_PM_DEBUG
- 	depends on DEBUG_EXYNOS_UART || DEBUG_S3C24XX_UART || DEBUG_S3C2410_UART
- 	help
- 	  Say Y here if you want verbose debugging from the PM Suspend and
--	  Resume code. See <file:Documentation/arm/Samsung-S3C24XX/Suspend.txt>
-+	  Resume code. See <file:Documentation/arch/arm/Samsung-S3C24XX/Suspend.txt>
- 	  for more information.
- 
- config S3C_PM_DEBUG_LED_SMDK
-@@ -268,7 +268,7 @@ config SAMSUNG_PM_CHECK
- 	  Note, this can take several seconds depending on memory size
- 	  and CPU speed.
- 
--	  See <file:Documentation/arm/Samsung-S3C24XX/Suspend.txt>
-+	  See <file:Documentation/arch/arm/Samsung-S3C24XX/Suspend.txt>
- 
- config SAMSUNG_PM_CHECK_CHUNKSIZE
- 	int "S3C2410 PM Suspend CRC Chunksize (KiB)"
-@@ -280,7 +280,7 @@ config SAMSUNG_PM_CHECK_CHUNKSIZE
- 	  the CRC data block will take more memory, but will identify any
- 	  faults with better precision.
- 
--	  See <file:Documentation/arm/Samsung-S3C24XX/Suspend.txt>
-+	  See <file:Documentation/arch/arm/Samsung-S3C24XX/Suspend.txt>
- 
- config SAMSUNG_WAKEMASK
- 	bool
-diff --git a/arch/arm/tools/mach-types b/arch/arm/tools/mach-types
-index 4eac94c1eb6f..84f19e0b134b 100644
---- a/arch/arm/tools/mach-types
-+++ b/arch/arm/tools/mach-types
-@@ -7,7 +7,7 @@
- #   http://www.arm.linux.org.uk/developer/machines/download.php
- #
- # Please do not send patches to this file; it is automatically generated!
--# To add an entry into this database, please see Documentation/arm/README,
-+# To add an entry into this database, please see Documentation/arch/arm/README,
- # or visit:
- #
- #   http://www.arm.linux.org.uk/developer/machines/?action=new
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index c085aec9459b..68d3a3af112f 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1144,7 +1144,7 @@ config KUSER_HELPERS
- 	  the system. This permits binaries to be run on ARMv4 through
- 	  to ARMv8 without modification.
- 
--	  See Documentation/arm/kernel_user_helpers.txt for details.
-+	  See Documentation/arch/arm/kernel_user_helpers.txt for details.
- 
- 	  However, the fixed address nature of these helpers can be used
- 	  by ROP (return orientated programming) authors when creating
-diff --git a/arch/arm64/kernel/kuser32.S b/arch/arm64/kernel/kuser32.S
-index 49825e9e421e..e828a1577166 100644
---- a/arch/arm64/kernel/kuser32.S
-+++ b/arch/arm64/kernel/kuser32.S
-@@ -10,7 +10,7 @@
-  * aarch32_setup_additional_pages() and are provided for compatibility
-  * reasons with 32 bit (aarch32) applications that need them.
-  *
-- * See Documentation/arm/kernel_user_helpers.txt for formal definitions.
-+ * See Documentation/arch/arm/kernel_user_helpers.txt for formal definitions.
-  */
- 
- #include <asm/unistd.h>
-diff --git a/arch/mips/bmips/setup.c b/arch/mips/bmips/setup.c
-index 1738a06396f9..cf6a5d50cf36 100644
---- a/arch/mips/bmips/setup.c
-+++ b/arch/mips/bmips/setup.c
-@@ -162,7 +162,7 @@ void __init plat_mem_setup(void)
- 	ioport_resource.start = 0;
- 	ioport_resource.end = ~0;
- 
--	/* intended to somewhat resemble ARM; see Documentation/arm/Booting */
-+	/* intended to somewhat resemble ARM; see Documentation/arch/arm/Booting */
- 	if (fw_arg0 == 0 && fw_arg1 == 0xffffffff)
- 		dtb = phys_to_virt(fw_arg2);
- 	else if (fw_passed_dtb) /* UHI interface or appended dtb */
-diff --git a/drivers/crypto/sunxi-ss/sun4i-ss-cipher.c b/drivers/crypto/sunxi-ss/sun4i-ss-cipher.c
-index 4ab14d58e85b..333c2c83d52b 100644
---- a/drivers/crypto/sunxi-ss/sun4i-ss-cipher.c
-+++ b/drivers/crypto/sunxi-ss/sun4i-ss-cipher.c
-@@ -8,7 +8,7 @@
-  * keysize in CBC and ECB mode.
-  * Add support also for DES and 3DES in CBC and ECB mode.
-  *
-- * You could find the datasheet in Documentation/arm/sunxi/README
-+ * You could find the datasheet in Documentation/arch/arm/sunxi/README
-  */
- #include "sun4i-ss.h"
- 
-diff --git a/drivers/crypto/sunxi-ss/sun4i-ss-core.c b/drivers/crypto/sunxi-ss/sun4i-ss-core.c
-index cdcda7f059c8..f0af1847b632 100644
---- a/drivers/crypto/sunxi-ss/sun4i-ss-core.c
-+++ b/drivers/crypto/sunxi-ss/sun4i-ss-core.c
-@@ -6,7 +6,7 @@
-  *
-  * Core file which registers crypto algorithms supported by the SS.
-  *
-- * You could find a link for the datasheet in Documentation/arm/sunxi/README
-+ * You could find a link for the datasheet in Documentation/arch/arm/sunxi/README
-  */
- #include <linux/clk.h>
- #include <linux/crypto.h>
-diff --git a/drivers/crypto/sunxi-ss/sun4i-ss-hash.c b/drivers/crypto/sunxi-ss/sun4i-ss-hash.c
-index d2b6d89aad28..93c243aaf66e 100644
---- a/drivers/crypto/sunxi-ss/sun4i-ss-hash.c
-+++ b/drivers/crypto/sunxi-ss/sun4i-ss-hash.c
-@@ -6,7 +6,7 @@
-  *
-  * This file add support for MD5 and SHA1.
-  *
-- * You could find the datasheet in Documentation/arm/sunxi/README
-+ * You could find the datasheet in Documentation/arch/arm/sunxi/README
-  */
- #include "sun4i-ss.h"
- #include <linux/scatterlist.h>
-diff --git a/drivers/crypto/sunxi-ss/sun4i-ss.h b/drivers/crypto/sunxi-ss/sun4i-ss.h
-index 68b82d1a6303..0fc0f9580d0c 100644
---- a/drivers/crypto/sunxi-ss/sun4i-ss.h
-+++ b/drivers/crypto/sunxi-ss/sun4i-ss.h
-@@ -8,7 +8,7 @@
-  * Support MD5 and SHA1 hash algorithms.
-  * Support DES and 3DES
-  *
-- * You could find the datasheet in Documentation/arm/sunxi/README
-+ * You could find the datasheet in Documentation/arch/arm/sunxi/README
-  */
- 
- #include <linux/clk.h>
-diff --git a/drivers/input/touchscreen/sun4i-ts.c b/drivers/input/touchscreen/sun4i-ts.c
-index 92f6e1ae23a2..3a01766a259b 100644
---- a/drivers/input/touchscreen/sun4i-ts.c
-+++ b/drivers/input/touchscreen/sun4i-ts.c
-@@ -22,7 +22,7 @@
-  * in the kernel). So this driver offers straight forward, reliable single
-  * touch functionality only.
-  *
-- * s.a. A20 User Manual "1.15 TP" (Documentation/arm/sunxi/README)
-+ * s.a. A20 User Manual "1.15 TP" (Documentation/arch/arm/sunxi/README)
-  * (looks like the description in the A20 User Manual v1.3 is better
-  * than the one in the A10 User Manual v.1.5)
-  */
-diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
-index 0d31251e04cc..d6376d38079f 100644
---- a/drivers/tty/serial/Kconfig
-+++ b/drivers/tty/serial/Kconfig
-@@ -514,7 +514,7 @@ config SERIAL_SA1100
- 	help
- 	  If you have a machine based on a SA1100/SA1110 StrongARM(R) CPU you
- 	  can enable its onboard serial port by enabling this option.
--	  Please read <file:Documentation/arm/SA1100/serial_UART> for further
-+	  Please read <file:Documentation/arch/arm/SA1100/serial_UART> for further
- 	  info.
- 
- config SERIAL_SA1100_CONSOLE
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+
+to receive updates for the input subsystem. You will get:
+
+- an update to Elan touchpad SMBus driver to fetch device parameters
+  (size, resolution) while it is still in PS/2 mode, before switching
+  over to SMBus, as in that mode some devices return garbage dimensions
+- update to iforce joystick driver
+- miscellaneous driver fixes
+
+Note that there will be a conflict in drivers/input/misc/da9063_onkey.c
+regarding SPDX header, please keep SPDX annotation that is already in
+your tree.
+
+Also, I am still hoping to merge applespi keyboard and trackpad driver
+in the 2nd pass for this merge window.
+
+Changelog:
+---------
+
+Alexander Tsoy (1):
+      Input: joydev - extend absolute mouse detection
+
+Anson Huang (2):
+      Input: imx_keypad - use devm_platform_ioremap_resource() to simplify code
+      Input: imx6ul_tsc - use devm_platform_ioremap_resource() to simplify code
+
+Axel Lin (1):
+      Input: iqs5xx - remove redundant dev_set_drvdata call
+
+Bartosz Golaszewski (1):
+      Input: max77650-onkey - add MODULE_ALIAS()
+
+Benjamin Tissoires (8):
+      Input: elantech - query the min/max information beforehand too
+      Input: elantech - add helper function elantech_is_buttonpad()
+      Input: elantech - detect middle button based on firmware version
+      dt-bindings: add more optional properties for elan_i2c touchpads
+      Input: elan_i2c - do not query the info if they are provided
+      Input: elantech/SMBus - export all capabilities from the PS/2 node
+      Input: elan_i2c - handle physical middle button
+      Input: elantech - remove P52 and P72 from SMBus blacklist
+
+Cole Rogers (1):
+      Input: synaptics - enable SMBUS on T480 thinkpad trackpad
+
+Daniel Mack (1):
+      Input: eeti_ts -  read hardware state once after wakeup
+
+Dmitry Torokhov (21):
+      Input: iforce - remove "being used" silliness
+      Input: iforce - introduce transport ops
+      Input: iforce - move get_id to the transport operations
+      Input: iforce - move command completion handling to serio code
+      Input: iforce - introduce start and stop io transport ops
+      Input: iforce - add bus type and parent arguments to iforce_init_device()
+      Input: iforce - move transport data into transport modules
+      Input: iforce - split into core and transport modules
+      Input: iforce - use DMA-safe buffer when getting IDs from USB
+      Input: iforce - update formatting of switch statements
+      Input: iforce - factor out hat handling when parsing packets
+      Input: iforce - do not combine arguments for iforce_process_packet()
+      Input: iforce - signal command completion from transport code
+      Input: iforce - only call iforce_process_packet() if initialized
+      Input: iforce - allow callers supply data buffer when fetching device IDs
+      Input: iforce - use DMA-safe buffores for USB transfers
+      Input: iforce - drop bus type from iforce structure
+      Input: iforce - drop couple of temps from transport code
+      Input: iforce - use unaligned accessors, where appropriate
+      Input: edt-ft5x06 - use get_unaligned_be16()
+      Input: edt-ft5x06 - simplify event reporting code
+
+Enrico Weigelt, metux IT consult (1):
+      Input: gpio_keys_polled - allow specifying name of input device
+
+Gustavo A. R. Silva (2):
+      Input: gpio_keys_polled - use struct_size() in devm_kzalloc()
+      Input: gpio_keys - use struct_size() in devm_kzalloc()
+
+Ian Ray (1):
+      Input: atmel_mxt_ts - fix leak in mxt_update_cfg()
+
+Jeffrey Hugo (2):
+      Input: elan_i2c - export the device id whitelist
+      HID: quirks: Refactor ELAN 400 and 401 handling
+
+Nathan Huckleberry (1):
+      Input: atmel_mxt_ts - fix -Wunused-const-variable
+
+Tim Schumacher (1):
+      Input: iforce - add the Saitek R440 Force Wheel
+
+Wolfram Sang (2):
+      Input: da9063_onkey - remove platform_data support
+      Input: da9063_onkey - convert header to SPDX
+
+YueHaibing (2):
+      Input: synaptics-rmi4 - remove set but not used variable 'sensor_flags'
+      Input: tca8418 - remove set but not used variable 'max_keys'
+
+Diffstat:
+--------
+
+ .../devicetree/bindings/input/elan_i2c.txt         |  11 +
+ drivers/hid/hid-quirks.c                           |  22 +-
+ drivers/input/joydev.c                             |  24 +-
+ drivers/input/joystick/iforce/Kconfig              |   8 +-
+ drivers/input/joystick/iforce/Makefile             |   7 +-
+ drivers/input/joystick/iforce/iforce-ff.c          |  18 +-
+ drivers/input/joystick/iforce/iforce-main.c        | 178 ++++--------
+ drivers/input/joystick/iforce/iforce-packets.c     | 215 +++++---------
+ drivers/input/joystick/iforce/iforce-serio.c       | 161 ++++++++---
+ drivers/input/joystick/iforce/iforce-usb.c         | 192 ++++++++----
+ drivers/input/joystick/iforce/iforce.h             |  55 ++--
+ drivers/input/keyboard/gpio_keys.c                 |   6 +-
+ drivers/input/keyboard/gpio_keys_polled.c          |  10 +-
+ drivers/input/keyboard/imx_keypad.c                |   4 +-
+ drivers/input/keyboard/tca8418_keypad.c            |   3 +-
+ drivers/input/misc/da9063_onkey.c                  |  11 +-
+ drivers/input/misc/max77650-onkey.c                |   1 +
+ drivers/input/mouse/elan_i2c_core.c                | 122 ++++----
+ drivers/input/mouse/elantech.c                     | 322 +++++++++++----------
+ drivers/input/mouse/elantech.h                     |   8 +
+ drivers/input/mouse/synaptics.c                    |   1 +
+ drivers/input/rmi4/rmi_f12.c                       |   6 +-
+ drivers/input/touchscreen/atmel_mxt_ts.c           |  23 +-
+ drivers/input/touchscreen/edt-ft5x06.c             |  18 +-
+ drivers/input/touchscreen/eeti_ts.c                |  71 ++++-
+ drivers/input/touchscreen/imx6ul_tsc.c             |   8 +-
+ drivers/input/touchscreen/iqs5xx.c                 |   2 -
+ include/linux/input/elan-i2c-ids.h                 |  76 +++++
+ 28 files changed, 872 insertions(+), 711 deletions(-)
+ create mode 100644 include/linux/input/elan-i2c-ids.h
+
+Thanks.
+
+
 -- 
-2.19.1.856.g8858448bb
-
+Dmitry
