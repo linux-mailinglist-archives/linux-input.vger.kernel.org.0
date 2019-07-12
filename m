@@ -2,104 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 91CFB67094
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2019 15:53:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E80C86717C
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2019 16:34:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727140AbfGLNxl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 12 Jul 2019 09:53:41 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:52717 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726976AbfGLNxl (ORCPT
+        id S1726266AbfGLOej (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 12 Jul 2019 10:34:39 -0400
+Received: from mail-ed1-f41.google.com ([209.85.208.41]:38038 "EHLO
+        mail-ed1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727132AbfGLOej (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 12 Jul 2019 09:53:41 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1hlvzX-00055Z-AF; Fri, 12 Jul 2019 15:53:39 +0200
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Nick Dyer <nick@shmanahar.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, patchwork-lst@pengutronix.de,
-        Chris Healy <cphealy@gmail.com>
-Subject: [PATCH] Input: atmel_mxt_ts - allow specification of config name
-Date:   Fri, 12 Jul 2019 15:53:38 +0200
-Message-Id: <20190712135338.6211-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+        Fri, 12 Jul 2019 10:34:39 -0400
+Received: by mail-ed1-f41.google.com with SMTP id r12so9410574edo.5
+        for <linux-input@vger.kernel.org>; Fri, 12 Jul 2019 07:34:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=JabR0tqMX7s1qN3dwFT+tYWSdzs/4AS13i31hM4VeJ4=;
+        b=W6kyl5resUDf3mtxoEc80pQEE2XDPGjonUHJFwv7NG2B+pWgwxHYuCMhYzQL4TS9aT
+         PK4zJegYh2s3AJ72S6QNHpxQf2/QGs1DlvEw8/RQ3DgQvOtatkPDYNYGOw//lo65p4ei
+         7Ka3Uo6qmIw+427G2uMbNMlo1Z8sftAs/1pkdzI0l4UB2ysGRkNqmRCx2AXTnmZJS2yJ
+         NK6h38ywMlcrGrqgSEIJnNXwvR9iy89kzwyI2ybgnPiXNowAHdpkTlqeB6GRH9cvF1Vs
+         FGuVYJk3dUo6Tqlu80UQhpLwYpGBNWyxzrrOjQlOoOhUDVEFBIio8DSxYQxhA/sZFHAq
+         EosQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=JabR0tqMX7s1qN3dwFT+tYWSdzs/4AS13i31hM4VeJ4=;
+        b=XM/BZAfk/RjEnlj77mWzFDhId/UyeO1lPDRNDF8dZr78M8y55Lt9XUsNjRvRJUer88
+         ydJ8Br/sFz0Xw+ZLRDwOT1EEbupUm/0piGENqU0CKYvYBUa6obBb4yb2h1NXjE+YHbKT
+         usltKeCRV2NkiUotHAwLaLXeAgsRmSx8vSWqOfvQAiESvrlcFsaV8xUIhrzOCwg7Rw4b
+         RfnBXKGENeSYTS4jyXbCNHNYdhaavhhHJu9d5PMC0LZVERdhTvrvxiPXKMYjIBnvXOGG
+         YCZMgcJP7g9tKpO263hNNf/lZ8wMbogS+XMyitDmR/CFTLai3FDI4nG4wYboFvNV5t/a
+         Et/Q==
+X-Gm-Message-State: APjAAAVmFcSTXru8fpFP+8gw8KfR5Tt1ITNWkAa9yVN+0Pc6hDTK3t6M
+        /Pc1kWQNJOOM5RAejesqe8XjGBRoT/Y8bmyM21wR7LT/
+X-Google-Smtp-Source: APXvYqy6PC1ha9K+gICmIvM06fBSlrHmG6vwvt8g5kEN4xG/sfVknfKit2NUcyyPO8JThBV93ruLkDXtIRH6Emdump8=
+X-Received: by 2002:a17:907:2114:: with SMTP id qn20mr8563661ejb.138.1562942076862;
+ Fri, 12 Jul 2019 07:34:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+From:   Luis Diaz <diazluis@gmail.com>
+Date:   Fri, 12 Jul 2019 11:34:31 -0300
+Message-ID: <CAFH3yigJkW0F+gK7p971v93VH9SMxZj2UVbGLF9wNL1JwdxXnw@mail.gmail.com>
+Subject: Logitech M720 - battery level
+To:     linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nick Dyer <nick@shmanahar.org>
+Hello, I've got a Logitech M720 mouse, it works with an Unifying
+receiver or Bluetooth. Both of them report battery level, however,
+over bluetooth it's always at 100%. Unsure if this is an input bug.
 
-Some systems require different touchscreen configurations depending on the
-populated touchscreen. To allow different configs to co-exist in the file
-system we need a way to tell the driver, which config should be loaded.
+Kernel: 5.1.16-1-default (OpenSuSE Tumbleweed) This issue is present
+in previous versions too
+Mouse: Logitech M720
 
-Signed-off-by: Nick Dyer <nick@shmanahar.org>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
-lst:
-- switch to property name to not use underscore
-- Add more elaborate commit message
----
- Documentation/devicetree/bindings/input/atmel,maxtouch.txt | 3 +++
- drivers/input/touchscreen/atmel_mxt_ts.c                   | 6 +++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+* Using receiver:
+[   10.105788] hid-generic 0003:046D:405E.0008: input,hidraw5: USB HID
+v1.11 Keyboard [Logitech Unifying Device. Wireless PID:405e] on
+usb-0000:00:14.0-1.1.3:1
+[   10.277357] logitech-hidpp-device 0003:046D:405E.0008:
+input,hidraw5: USB HID v1.11 Keyboard [Logitech M720 Triathlon] on
+usb-0000:00:14.0-1.1.3:1
+[   35.587036] logitech-hidpp-device 0003:046D:405E.0008: HID++ 4.5
+device connected.
 
-diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-index c88919480d37..dd2c278824b8 100644
---- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-+++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-@@ -31,6 +31,9 @@ Optional properties for main touchpad device:
- 
- - reset-gpios: GPIO specifier for the touchscreen's reset pin (active low)
- 
-+- atmel,cfg-name: Provide name of configuration file in OBP_RAW format. This
-+    will be downloaded from the firmware loader on probe to the device.
-+
- Example:
- 
- 	touch@4b {
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 19378f200c63..c37c5ab8d847 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -318,6 +318,7 @@ struct mxt_data {
- 	struct t7_config t7_cfg;
- 	struct mxt_dbg dbg;
- 	struct gpio_desc *reset_gpio;
-+	const char *cfg_name;
- 
- 	/* Cached parameters from object table */
- 	u16 T5_address;
-@@ -2151,7 +2152,8 @@ static int mxt_initialize(struct mxt_data *data)
- 	if (error)
- 		return error;
- 
--	error = request_firmware_nowait(THIS_MODULE, true, MXT_CFG_NAME,
-+	error = request_firmware_nowait(THIS_MODULE, true,
-+					data->cfg_name ? : MXT_CFG_NAME,
- 					&client->dev, GFP_KERNEL, data,
- 					mxt_config_cb);
- 	if (error) {
-@@ -3015,6 +3017,8 @@ static int mxt_parse_device_properties(struct mxt_data *data)
- 		data->t19_num_keys = n_keys;
- 	}
- 
-+	device_property_read_string(dev, "atmel,cfg-name", &data->cfg_name);
-+
- 	return 0;
- }
- 
--- 
-2.20.1
+upower -i /org/freedesktop/UPower/devices/mouse_hidpp_battery_0
+  native-path:          hidpp_battery_0
+  model:                M720 Triathlon Multi-Device Mouse
+  serial:               405e-b5-52-35-73
+  power supply:         no
+  updated:              Fri 12 Jul 2019 11:19:28 AM -03 (25 seconds ago)
+  has history:          yes
+  has statistics:       yes
+  mouse
+    present:             yes
+    rechargeable:        yes
+    state:               unknown
+    warning-level:       none
+    battery-level:       unknown
+    percentage:          50% (should be ignored)
+    icon-name:          'battery-missing-symbolic'
 
+
+
+* Using Bluetooth:
+[25707.886746] input: M720 Triathlon Keyboard as
+/devices/virtual/misc/uhid/0005:046D:B015.0009/input/input33
+[25707.887088] input: M720 Triathlon Mouse as
+/devices/virtual/misc/uhid/0005:046D:B015.0009/input/input34
+[25707.887502] hid-generic 0005:046D:B015.0009: input,hidraw6:
+BLUETOOTH HID v0.09 Keyboard [M720 Triathlon] on F8:59:71:AC:0A:B1
+
+upower -i /org/freedesktop/UPower/devices/mouse_dev_D1_72_0D_82_B5_38
+  native-path:          /org/bluez/hci0/dev_D1_72_0D_82_B5_38
+  model:                M720 Triathlon
+  serial:               D1:72:0D:82:B5:38
+  power supply:         no
+  updated:              Wed 31 Dec 1969 09:00:00 PM -03 (1562941296 seconds ago)
+  has history:          yes
+  has statistics:       no
+  mouse
+    present:             yes
+    rechargeable:        no
+    state:               unknown
+    warning-level:       none
+    percentage:          100%
+    icon-name:          'battery-missing-symbolic'
