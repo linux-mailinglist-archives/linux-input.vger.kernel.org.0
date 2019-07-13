@@ -2,112 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E80C86717C
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2019 16:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC3A467909
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jul 2019 09:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726266AbfGLOej (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 12 Jul 2019 10:34:39 -0400
-Received: from mail-ed1-f41.google.com ([209.85.208.41]:38038 "EHLO
-        mail-ed1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727132AbfGLOej (ORCPT
+        id S1726393AbfGMHly (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 13 Jul 2019 03:41:54 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:42701 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726334AbfGMHly (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 12 Jul 2019 10:34:39 -0400
-Received: by mail-ed1-f41.google.com with SMTP id r12so9410574edo.5
-        for <linux-input@vger.kernel.org>; Fri, 12 Jul 2019 07:34:38 -0700 (PDT)
+        Sat, 13 Jul 2019 03:41:54 -0400
+Received: by mail-pl1-f195.google.com with SMTP id ay6so5868961plb.9;
+        Sat, 13 Jul 2019 00:41:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=JabR0tqMX7s1qN3dwFT+tYWSdzs/4AS13i31hM4VeJ4=;
-        b=W6kyl5resUDf3mtxoEc80pQEE2XDPGjonUHJFwv7NG2B+pWgwxHYuCMhYzQL4TS9aT
-         PK4zJegYh2s3AJ72S6QNHpxQf2/QGs1DlvEw8/RQ3DgQvOtatkPDYNYGOw//lo65p4ei
-         7Ka3Uo6qmIw+427G2uMbNMlo1Z8sftAs/1pkdzI0l4UB2ysGRkNqmRCx2AXTnmZJS2yJ
-         NK6h38ywMlcrGrqgSEIJnNXwvR9iy89kzwyI2ybgnPiXNowAHdpkTlqeB6GRH9cvF1Vs
-         FGuVYJk3dUo6Tqlu80UQhpLwYpGBNWyxzrrOjQlOoOhUDVEFBIio8DSxYQxhA/sZFHAq
-         EosQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=B3YaRkPgeUC+Qq3Z6gnyCKH1F//K+FG/d8dog1iSP80=;
+        b=D9ug5oFqbnqXENpwEYSE8z4/vvoV1mHJ9xAvKmP1Sp2+KS7tK9kGG6tJzvaq3aNo7d
+         UxWHprV5L787QBfPBP95XDmoh0wUlrftooqY2uPCzXGO2kszbBK/UdDUi8Yngj8Bq+0M
+         ZqsTHYly1O7U46FtVINcs1arh7k2MhIRU5hzicbXcODnndZa2Pnv8GGGavLWwSb/82j2
+         gxY0w3VFXnZuWRQQF6ncjvj9VhaTPBr0TIhfnYgLXxNXDE3DBP7Ax64zAGctKCyS5BGO
+         8CDu6/5tO+UVf4LcTZBxqgQgO+DbN8DPGz8RsX+KSS7Miy24NACdMrd3PUWiA9+BSfPq
+         Lfyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=JabR0tqMX7s1qN3dwFT+tYWSdzs/4AS13i31hM4VeJ4=;
-        b=XM/BZAfk/RjEnlj77mWzFDhId/UyeO1lPDRNDF8dZr78M8y55Lt9XUsNjRvRJUer88
-         ydJ8Br/sFz0Xw+ZLRDwOT1EEbupUm/0piGENqU0CKYvYBUa6obBb4yb2h1NXjE+YHbKT
-         usltKeCRV2NkiUotHAwLaLXeAgsRmSx8vSWqOfvQAiESvrlcFsaV8xUIhrzOCwg7Rw4b
-         RfnBXKGENeSYTS4jyXbCNHNYdhaavhhHJu9d5PMC0LZVERdhTvrvxiPXKMYjIBnvXOGG
-         YCZMgcJP7g9tKpO263hNNf/lZ8wMbogS+XMyitDmR/CFTLai3FDI4nG4wYboFvNV5t/a
-         Et/Q==
-X-Gm-Message-State: APjAAAVmFcSTXru8fpFP+8gw8KfR5Tt1ITNWkAa9yVN+0Pc6hDTK3t6M
-        /Pc1kWQNJOOM5RAejesqe8XjGBRoT/Y8bmyM21wR7LT/
-X-Google-Smtp-Source: APXvYqy6PC1ha9K+gICmIvM06fBSlrHmG6vwvt8g5kEN4xG/sfVknfKit2NUcyyPO8JThBV93ruLkDXtIRH6Emdump8=
-X-Received: by 2002:a17:907:2114:: with SMTP id qn20mr8563661ejb.138.1562942076862;
- Fri, 12 Jul 2019 07:34:36 -0700 (PDT)
-MIME-Version: 1.0
-From:   Luis Diaz <diazluis@gmail.com>
-Date:   Fri, 12 Jul 2019 11:34:31 -0300
-Message-ID: <CAFH3yigJkW0F+gK7p971v93VH9SMxZj2UVbGLF9wNL1JwdxXnw@mail.gmail.com>
-Subject: Logitech M720 - battery level
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=B3YaRkPgeUC+Qq3Z6gnyCKH1F//K+FG/d8dog1iSP80=;
+        b=VyOzoCyRqqLSzZn+5+cVPgDt8B+vNuaaBT8ZwraWBWXGdqYDu+F3/Qz9l+aHvGZMz9
+         nZTudwyCHzRnDPINOQ4sV//Tav1DXXkuYmtzitVn6AWogQd31N4USmoGw5mvumsXzP6d
+         I8RYJbdpz4IhgTMIrp2DDLXvLS+gv8p4qqArzDqij2eaHKYm//IaWXJP7QmG90dyCSsa
+         Iqw1sL4OGWXuoQhWYsNvZu/DsyfM50FZK9nzw28CefwgFBX3300RI34BZc4P3JN2a/Nu
+         vLe+lVl6comwoTLURiledJHb6kloyzaXpq/0cc541K10Fj2Hd0XvZsjoiGFcOZwq58Tc
+         TWyQ==
+X-Gm-Message-State: APjAAAVojbq+3quNfa/B0J083ZGOpueg8QR4plGR9CeIr53zuv2f62N0
+        H40YM+cfGyDeEzPkp7KjwGpfulVX/hE=
+X-Google-Smtp-Source: APXvYqzr6Z8pm/o/L9NjgUbQq5bbz9In8YVUfvbN54VMqedPZny72QtVcRpsO6ohVZdUyld3myRUqQ==
+X-Received: by 2002:a17:902:7087:: with SMTP id z7mr16211926plk.184.1563003713188;
+        Sat, 13 Jul 2019 00:41:53 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id q7sm14391035pff.2.2019.07.13.00.41.52
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sat, 13 Jul 2019 00:41:52 -0700 (PDT)
+Date:   Sat, 13 Jul 2019 00:41:50 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nate Graham <pointedstick@zoho.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: synaptics - enable RMI mode for HP Spectre X360
+Message-ID: <20190713074150.GA241222@dtor-ws>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello, I've got a Logitech M720 mouse, it works with an Unifying
-receiver or Bluetooth. Both of them report battery level, however,
-over bluetooth it's always at 100%. Unsure if this is an input bug.
+The 2016 kabylake HP Spectre X360 (model number 13-w013dx) works much better
+with psmouse.synaptics_intertouch=1 kernel parameter, so let's enable RMI4
+mode automatically.
 
-Kernel: 5.1.16-1-default (OpenSuSE Tumbleweed) This issue is present
-in previous versions too
-Mouse: Logitech M720
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=204115
+Reported-by: Nate Graham <pointedstick@zoho.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/mouse/synaptics.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-* Using receiver:
-[   10.105788] hid-generic 0003:046D:405E.0008: input,hidraw5: USB HID
-v1.11 Keyboard [Logitech Unifying Device. Wireless PID:405e] on
-usb-0000:00:14.0-1.1.3:1
-[   10.277357] logitech-hidpp-device 0003:046D:405E.0008:
-input,hidraw5: USB HID v1.11 Keyboard [Logitech M720 Triathlon] on
-usb-0000:00:14.0-1.1.3:1
-[   35.587036] logitech-hidpp-device 0003:046D:405E.0008: HID++ 4.5
-device connected.
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+index 7f8f4780b511..c0e188cd3811 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -182,6 +182,7 @@ static const char * const smbus_pnp_ids[] = {
+ 	"LEN2055", /* E580 */
+ 	"SYN3052", /* HP EliteBook 840 G4 */
+ 	"SYN3221", /* HP 15-ay000 */
++	"SYN323d", /* HP Spectre X360 13-w013dx */
+ 	NULL
+ };
+ 
 
-upower -i /org/freedesktop/UPower/devices/mouse_hidpp_battery_0
-  native-path:          hidpp_battery_0
-  model:                M720 Triathlon Multi-Device Mouse
-  serial:               405e-b5-52-35-73
-  power supply:         no
-  updated:              Fri 12 Jul 2019 11:19:28 AM -03 (25 seconds ago)
-  has history:          yes
-  has statistics:       yes
-  mouse
-    present:             yes
-    rechargeable:        yes
-    state:               unknown
-    warning-level:       none
-    battery-level:       unknown
-    percentage:          50% (should be ignored)
-    icon-name:          'battery-missing-symbolic'
-
-
-
-* Using Bluetooth:
-[25707.886746] input: M720 Triathlon Keyboard as
-/devices/virtual/misc/uhid/0005:046D:B015.0009/input/input33
-[25707.887088] input: M720 Triathlon Mouse as
-/devices/virtual/misc/uhid/0005:046D:B015.0009/input/input34
-[25707.887502] hid-generic 0005:046D:B015.0009: input,hidraw6:
-BLUETOOTH HID v0.09 Keyboard [M720 Triathlon] on F8:59:71:AC:0A:B1
-
-upower -i /org/freedesktop/UPower/devices/mouse_dev_D1_72_0D_82_B5_38
-  native-path:          /org/bluez/hci0/dev_D1_72_0D_82_B5_38
-  model:                M720 Triathlon
-  serial:               D1:72:0D:82:B5:38
-  power supply:         no
-  updated:              Wed 31 Dec 1969 09:00:00 PM -03 (1562941296 seconds ago)
-  has history:          yes
-  has statistics:       no
-  mouse
-    present:             yes
-    rechargeable:        no
-    state:               unknown
-    warning-level:       none
-    percentage:          100%
-    icon-name:          'battery-missing-symbolic'
+-- 
+Dmitry
