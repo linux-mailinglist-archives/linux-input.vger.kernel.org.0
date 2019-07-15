@@ -2,84 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9DE5683E5
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2019 09:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C03D684A7
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2019 09:57:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726975AbfGOHKw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Jul 2019 03:10:52 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:34836 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbfGOHKw (ORCPT
+        id S1729277AbfGOH5W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Jul 2019 03:57:22 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34870 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726170AbfGOH5V (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Jul 2019 03:10:52 -0400
-Received: by mail-pg1-f193.google.com with SMTP id s1so946875pgr.2;
-        Mon, 15 Jul 2019 00:10:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ZKdTjc8KBUPXXzOQggqXZL8HabvXh/rPTtBXZzOt6Mg=;
-        b=BTOsOS95ytg9fiZmPjbqDerEGdWiVZ4JUuAX9Y+H9YLhmIJhbeKua9uB7Tcgj3Ww3y
-         dQz/UTIsGfiBuVqtKjHU49vy4hXSavF6NTr/bxFI51qTCyfCQx0nqa8IOQOdXvCEK2Yd
-         pI6VKO73bxYWDp8hfBakcTYE9E1bu1cS90tq2gdQ6twc9z9Dx08AsAc6hPdnTGnIYqz/
-         S12Ian6rO1JoJ/w2N3UrOCo4f93S+Ri8zCtmMhuJwKCB4cB/SauFY5rnCm7Xr3MSlxQG
-         aNcrzxYUThZYTDEWtYPQA5SJnQLqPWcA/5mbfvttjKochjoDxznM5+wEq+vJpJd0G5BS
-         EuJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZKdTjc8KBUPXXzOQggqXZL8HabvXh/rPTtBXZzOt6Mg=;
-        b=lTrB3uD6S1zbp6hpmOGmzh8IEFgsxAdchybBhirtL+fOgObnoo7V4vpcB7zTAdnQO+
-         LBS0b1XUcdbGgZLZH1qaTdSd433+thV1IK3fWa2rF38TZCxfNYOJMU0DqKspFFTlMS3V
-         OV1gundWhFPdVjic1G86dV+GitHSzoUC2yCoOIDWIXmRBdNUouVgDqqztQntmLdYmU78
-         dIbFL6IZGze+1Y08KMKDKESwtA9mPCycOPlsliXVZxqyirKEGOvswzI1+xkm21ojNmNP
-         4H1CUBIVjQhVSVslRJtg87KVqjD38GthFkX87SQNPPY1OlXSaHAHHxduDdKCcwn3oVHH
-         43og==
-X-Gm-Message-State: APjAAAW12U3p1VGtFF4MngBbaaR+fYPGFQk7MRFFDJKV8ffyATmEFXc3
-        93yN3VgZDBTr4J4Qx3konoo=
-X-Google-Smtp-Source: APXvYqz070Aox+gMTy1nSal/+R2lUbCNQZy/yMqAZLaeAee+FjC6pHogtdgyQic/euKJm00w6GUU8A==
-X-Received: by 2002:a63:520f:: with SMTP id g15mr22110217pgb.28.1563174651270;
-        Mon, 15 Jul 2019 00:10:51 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id b26sm20620292pfo.129.2019.07.15.00.10.50
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 15 Jul 2019 00:10:50 -0700 (PDT)
-Date:   Mon, 15 Jul 2019 00:10:48 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Lukasz Majewski <lukma@denx.de>
-Cc:     Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Enrico Weigelt <info@metux.net>,
+        Mon, 15 Jul 2019 03:57:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=eJlbjim1fxU57ZaVX/VVgKi/dG9GtJerPxx9UJo7Fww=; b=JcDzLwBGAR3DIQ5PzjliPmdfB
+        wt3f3sg2z3AO/OuERhsRmMQS2qwxDHfr81HUZ8bO4iiwRmK3RrOm2h4/5DNGgtFEZDvuz7A8dJNNm
+        8SC+KQ1Nwm9BOBk47L69bPbiRtcflOhdeLDtFR53AOVtvZ10BSu6RTR+jOSoexCb+TOn62JzVO7/Z
+        O55lv0FaRBBJ2LYyXSZdelp0ocAQap0NW6KHdOxn0lTVtf8TDPBJOZV7LLeVVU8RcXQa7O955vRo5
+        mleM8mlHWSbuEWzj/LK75trdO7CY3hdfI2sN1X09S7ln7kgJuHQUi7kWjs9YHKWyAOp1nM2lXWTrS
+        FqvVaEtvQ==;
+Received: from [189.27.46.152] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hmvrD-0003qC-8d; Mon, 15 Jul 2019 07:57:11 +0000
+Date:   Mon, 15 Jul 2019 04:57:02 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Markus Heiser <markus.heiser@darmarit.de>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] input: touchscreen mc13xxx: Make platform data
- optional
-Message-ID: <20190715071048.GB153485@dtor-ws>
-References: <20190711222346.5245-1-lukma@denx.de>
- <20190711222346.5245-3-lukma@denx.de>
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        linux-crypto@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-input@vger.kernel.org, netdev@vger.kernel.org,
+        linux-sh@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 8/8] docs: remove extra conf.py files
+Message-ID: <20190715045702.1e2b569b@coco.lan>
+In-Reply-To: <e3ff0a8a-6956-3855-07be-9c126df2da2d@darmarit.de>
+References: <cover.1563115732.git.mchehab+samsung@kernel.org>
+        <12a160afc9e70156f671010bd4ccff9311acdc5e.1563115732.git.mchehab+samsung@kernel.org>
+        <e3ff0a8a-6956-3855-07be-9c126df2da2d@darmarit.de>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190711222346.5245-3-lukma@denx.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jul 12, 2019 at 12:23:45AM +0200, Lukasz Majewski wrote:
-> From: Sascha Hauer <s.hauer@pengutronix.de>
+Em Mon, 15 Jul 2019 08:16:54 +0200
+Markus Heiser <markus.heiser@darmarit.de> escreveu:
+
+> Hi Mauro,
 > 
-> The platform data once was optional, make it optional again. This
-> is a first step towards device tree support for the mc13xxx touchscreen
-> driver.
+> sorry, I havn't tested your patch, but one question ...
+> 
+> Am 14.07.19 um 17:10 schrieb Mauro Carvalho Chehab:
+> > Now that the latex_documents are handled automatically, we can
+> > remove those extra conf.py files.  
+> 
+> We need these conf.py also for compiling books' into HTML.  For this
+> the tags.add("subproject") is needed.  Should we realy drop this feature?
+> 
+> -- Markus --
 
-I would prefer seeing it together with patches introducing device tree
-support.
+You're right: adding "subproject" tags is needed for html. Folding this
+to patch 7/8 makes both htmldocs and pdfdocs to work with SPHINXDIRS
+without the need of a per-subdir conf.py.
 
-Thanks.
+Regards,
+Mauro
 
--- 
-Dmitry
+diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
+index 75f527ff4c95..e4a04f367b41 100644
+--- a/Documentation/sphinx/load_config.py
++++ b/Documentation/sphinx/load_config.py
+@@ -51,3 +51,7 @@ def loadConfig(namespace):
+             execfile_(config_file, config)
+             del config['__file__']
+             namespace.update(config)
++        else:
++            config = namespace.copy()
++            config['tags'].add("subproject")
++            namespace.update(config)
+
+Thanks,
+Mauro
