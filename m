@@ -2,105 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C03D684A7
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2019 09:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 857FF684D1
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2019 10:04:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729277AbfGOH5W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Jul 2019 03:57:22 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34870 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbfGOH5V (ORCPT
+        id S1729377AbfGOIEC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Jul 2019 04:04:02 -0400
+Received: from mail133-22.atl131.mandrillapp.com ([198.2.133.22]:45299 "EHLO
+        mail133-22.atl131.mandrillapp.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729144AbfGOIEC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Jul 2019 03:57:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=eJlbjim1fxU57ZaVX/VVgKi/dG9GtJerPxx9UJo7Fww=; b=JcDzLwBGAR3DIQ5PzjliPmdfB
-        wt3f3sg2z3AO/OuERhsRmMQS2qwxDHfr81HUZ8bO4iiwRmK3RrOm2h4/5DNGgtFEZDvuz7A8dJNNm
-        8SC+KQ1Nwm9BOBk47L69bPbiRtcflOhdeLDtFR53AOVtvZ10BSu6RTR+jOSoexCb+TOn62JzVO7/Z
-        O55lv0FaRBBJ2LYyXSZdelp0ocAQap0NW6KHdOxn0lTVtf8TDPBJOZV7LLeVVU8RcXQa7O955vRo5
-        mleM8mlHWSbuEWzj/LK75trdO7CY3hdfI2sN1X09S7ln7kgJuHQUi7kWjs9YHKWyAOp1nM2lXWTrS
-        FqvVaEtvQ==;
-Received: from [189.27.46.152] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hmvrD-0003qC-8d; Mon, 15 Jul 2019 07:57:11 +0000
-Date:   Mon, 15 Jul 2019 04:57:02 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>,
+        Mon, 15 Jul 2019 04:04:02 -0400
+X-Greylist: delayed 1801 seconds by postgrey-1.27 at vger.kernel.org; Mon, 15 Jul 2019 04:04:01 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=mandrill; d=nexedi.com;
+ h=From:Subject:To:Cc:Message-Id:References:In-Reply-To:Date:MIME-Version:Content-Type:Content-Transfer-Encoding; i=kirr@nexedi.com;
+ bh=VSAtOYjdYu8frJkKtKcesmwi099NUTNw9EPSls9KEqE=;
+ b=XD405b8941VRcXAU+gGOQ/4UbnMEwZhJ+qayUEbAXwWqqkpwCOYggUlYw5OcHFeCmQNR74gEvgH7
+   EvgHA4nM6U1r4q5/sGHWcOmkeJCUkUUhz7G6olSUdQPAuDoATuElG2FLowL8nHa+eTi4PKX7oi1M
+   hPYJTjJjbDACrUa0oRs=
+Received: from pmta02.mandrill.prod.atl01.rsglab.com (127.0.0.1) by mail133-22.atl131.mandrillapp.com id h5gpn21sar8c for <linux-input@vger.kernel.org>; Mon, 15 Jul 2019 07:33:59 +0000 (envelope-from <bounce-md_31050260.5d2c2c67.v1-294b69a67dc64e39b5eac935b4141913@mandrillapp.com>)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mandrillapp.com; 
+ i=@mandrillapp.com; q=dns/txt; s=mandrill; t=1563176039; h=From : 
+ Subject : To : Cc : Message-Id : References : In-Reply-To : Date : 
+ MIME-Version : Content-Type : Content-Transfer-Encoding : From : 
+ Subject : Date : X-Mandrill-User : List-Unsubscribe; 
+ bh=VSAtOYjdYu8frJkKtKcesmwi099NUTNw9EPSls9KEqE=; 
+ b=PdtJb98I5GQcqlmK+4hf2AkthiUWCVFutWAfJcAxImOTugFUxSTzl5Roq4E0iV5tw6MWkU
+ 2aoSUmAa2SdB3avczozuyyE8T+UYtv5n1bDCRLlLXMJBGe7YKQppZnivopsmz2T8w9FvhN7F
+ x6f+qE1w6s7LnaxdpdbtVCqkfiFjU=
+From:   Kirill Smelkov <kirr@nexedi.com>
+Subject: Re: [PULL] stream_open bits for Linux 5.3
+Received: from [87.98.221.171] by mandrillapp.com id 294b69a67dc64e39b5eac935b4141913; Mon, 15 Jul 2019 07:33:59 +0000
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Julia Lawall <Julia.Lawall@lip6.fr>, Jan Blunck <jblunck@suse.de>,
+        Arnd Bergmann <arnd@arndb.de>, Jiri Kosina <jikos@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        linux-crypto@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-sh@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 8/8] docs: remove extra conf.py files
-Message-ID: <20190715045702.1e2b569b@coco.lan>
-In-Reply-To: <e3ff0a8a-6956-3855-07be-9c126df2da2d@darmarit.de>
-References: <cover.1563115732.git.mchehab+samsung@kernel.org>
-        <12a160afc9e70156f671010bd4ccff9311acdc5e.1563115732.git.mchehab+samsung@kernel.org>
-        <e3ff0a8a-6956-3855-07be-9c126df2da2d@darmarit.de>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        <cocci@systeme.lip6.fr>, <linux-input@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <pr-tracker-bot@kernel.org>
+Message-Id: <20190715073353.GA3208@deco.navytux.spb.ru>
+References: <20190714141317.GA20277@deco.navytux.spb.ru> <156315060268.32091.6748401501797941411.pr-tracker-bot@kernel.org>
+In-Reply-To: <156315060268.32091.6748401501797941411.pr-tracker-bot@kernel.org>
+X-Report-Abuse: Please forward a copy of this message, including all headers, to abuse@mandrill.com
+X-Report-Abuse: You can also report abuse here: http://mandrillapp.com/contact/abuse?id=31050260.294b69a67dc64e39b5eac935b4141913
+X-Mandrill-User: md_31050260
+Date:   Mon, 15 Jul 2019 07:33:59 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Em Mon, 15 Jul 2019 08:16:54 +0200
-Markus Heiser <markus.heiser@darmarit.de> escreveu:
-
-> Hi Mauro,
+On Mon, Jul 15, 2019 at 12:30:02AM +0000, pr-tracker-bot@kernel.org wrote:
+> The pull request you sent on Sun, 14 Jul 2019 14:13:45 +0000:
 > 
-> sorry, I havn't tested your patch, but one question ...
+> > https://lab.nexedi.com/kirr/linux.git stream_open-5.3
 > 
-> Am 14.07.19 um 17:10 schrieb Mauro Carvalho Chehab:
-> > Now that the latex_documents are handled automatically, we can
-> > remove those extra conf.py files.  
-> 
-> We need these conf.py also for compiling books' into HTML.  For this
-> the tags.add("subproject") is needed.  Should we realy drop this feature?
-> 
-> -- Markus --
+> has been merged into torvalds/linux.git:
+> https://git.kernel.org/torvalds/c/fcd98147ac71f35b69e2f50b5fddc5524dd2dfa8
 
-You're right: adding "subproject" tags is needed for html. Folding this
-to patch 7/8 makes both htmldocs and pdfdocs to work with SPHINXDIRS
-without the need of a per-subdir conf.py.
-
-Regards,
-Mauro
-
-diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
-index 75f527ff4c95..e4a04f367b41 100644
---- a/Documentation/sphinx/load_config.py
-+++ b/Documentation/sphinx/load_config.py
-@@ -51,3 +51,7 @@ def loadConfig(namespace):
-             execfile_(config_file, config)
-             del config['__file__']
-             namespace.update(config)
-+        else:
-+            config = namespace.copy()
-+            config['tags'].add("subproject")
-+            namespace.update(config)
-
-Thanks,
-Mauro
+Thanks.
