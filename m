@@ -2,109 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32EBE685A9
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2019 10:43:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F9AB685E2
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2019 11:02:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729404AbfGOInz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Jul 2019 04:43:55 -0400
-Received: from mail-out.m-online.net ([212.18.0.10]:44569 "EHLO
-        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729207AbfGOInz (ORCPT
+        id S1729442AbfGOJCW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Jul 2019 05:02:22 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:44214 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729257AbfGOJCV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Jul 2019 04:43:55 -0400
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-        by mail-out.m-online.net (Postfix) with ESMTP id 45nHBJ2jVCz1rqRY;
-        Mon, 15 Jul 2019 10:43:52 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-        by mail.m-online.net (Postfix) with ESMTP id 45nHBJ1rXXz1qqkb;
-        Mon, 15 Jul 2019 10:43:52 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-        with ESMTP id 0WUjwxo_UzIK; Mon, 15 Jul 2019 10:43:51 +0200 (CEST)
-X-Auth-Info: aufoaGurxsnTU56i78vk5pU0iO0pOtGcmmxQBqK5I0g=
-Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.mnet-online.de (Postfix) with ESMTPSA;
-        Mon, 15 Jul 2019 10:43:50 +0200 (CEST)
-Date:   Mon, 15 Jul 2019 10:43:44 +0200
-From:   Lukasz Majewski <lukma@denx.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Enrico Weigelt <info@metux.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] input: touchscreen mc13xxx: Make platform data
- optional
-Message-ID: <20190715104344.3f17b660@jawa>
-In-Reply-To: <20190715071048.GB153485@dtor-ws>
-References: <20190711222346.5245-1-lukma@denx.de>
-        <20190711222346.5245-3-lukma@denx.de>
-        <20190715071048.GB153485@dtor-ws>
-Organization: denx.de
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        Mon, 15 Jul 2019 05:02:21 -0400
+Received: by mail-ed1-f65.google.com with SMTP id k8so14608534edr.11
+        for <linux-input@vger.kernel.org>; Mon, 15 Jul 2019 02:02:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iE7cuuveDosBAiWYUExanMBgFYSheRMOvkk6eKAbTHo=;
+        b=BoOC6TpZHlNJg0NxKzpAOVReKoyFpbZNxUW5ENT5p3cNnlp6i6PmTIdeMj1Pt0/pog
+         dkzHcny9cCiyHbbShOyRNP8VmAqhIMz2syqM0TIIphXaro0ECDNUepp7i2sIjUFTKsSw
+         DvfuscyBBflM1PzAMP1V8iuDbv84OCH755X/aVF/FzwNalDD1khnzEC1dleiISjoYiH3
+         0LGNIxJClsyp+aZjHkUxXRf7y2t8SZTVdugCVL6Hm0m5PRn5c5ZoirdfagCSBz6HYxRK
+         vH4ZVl2arZ0uNlOu7mru+NRL6pQSPrJ59wOW2fAJG4MmJ0mktcn/hFFbseYvwHHe6HFc
+         snRQ==
+X-Gm-Message-State: APjAAAUO+Gm7tEswT8rfiAtoNamqgt4MjSbOS+O504IhGhHIwSXtMpdv
+        CqoJg2BallU3dfoyLFaYzOXuZ6Zym9E=
+X-Google-Smtp-Source: APXvYqwoJSOqtrpBYwiemtC4p9/aW3SJkrOKn7cLsD/oXp6m5+LYsFsg2jLWSR+4CM//09c9qn4nHw==
+X-Received: by 2002:a17:906:5409:: with SMTP id q9mr19846063ejo.209.1563181339246;
+        Mon, 15 Jul 2019 02:02:19 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id lw5sm3562941ejb.59.2019.07.15.02.02.17
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Jul 2019 02:02:18 -0700 (PDT)
+Subject: Re: [PATCH 0/7] Input + HID: Add support for extra keys and LEDs on
+ Logitech "G" series keyboards
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org
+References: <20190520181525.4898-1-hdegoede@redhat.com>
+ <667518bb-d788-11ad-72b1-68c93ef7f807@redhat.com>
+Message-ID: <393215b5-9ee9-5ea3-71ed-db826424e493@redhat.com>
+Date:   Mon, 15 Jul 2019 11:02:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/wI5fB2=GD+px5yqNSN=ssGE"; protocol="application/pgp-signature"
+In-Reply-To: <667518bb-d788-11ad-72b1-68c93ef7f807@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---Sig_/wI5fB2=GD+px5yqNSN=ssGE
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Hi Dmitry,
+On 09-06-19 10:23, Hans de Goede wrote:
+> Hi,
+> 
+> On 20-05-19 20:15, Hans de Goede wrote:
+>> Hi All,
+>>
+>> Here is a patch series adding support for the extra keys and LEDs on
+>> Logitech G15, G15 v2 and G510 keyboards, as well as adding support for
+>> controlling the keyboard backlight on these models.
+>>
+>> Dmitry, the first patch adds a bunch of new key-codes for these and other
+>> similar keyboards to input-event-codes.h, the other patches depend on this.
+>> It is probably best if this patch is merged through the HID tree as part of
+>> the rest of the series. If that is ok with you, can we please have your ack
+>> for this?
+> 
+> ping?
+> 
+> Dmitry, can you please review the first patch in this series (should be an
+> easy review) and let us know how you want to proceed with this series?
 
-Thank you for your reply.
+ping again?
 
-> On Fri, Jul 12, 2019 at 12:23:45AM +0200, Lukasz Majewski wrote:
-> > From: Sascha Hauer <s.hauer@pengutronix.de>
-> >=20
-> > The platform data once was optional, make it optional again. This
-> > is a first step towards device tree support for the mc13xxx
-> > touchscreen driver. =20
->=20
-> I would prefer seeing it together with patches introducing device tree
-> support.
+It would be nice to get some progress on this series...
 
-Ok, I will merge this patch to patch 3/3.
+Regards,
 
->=20
-> Thanks.
->=20
-
-
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/wI5fB2=GD+px5yqNSN=ssGE
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAl0sPMAACgkQAR8vZIA0
-zr0wPAf/ROYmcmtX42lnrcD6g5DX74eTlwFhs9G7ptA2kZpJlmPGO1rodMjar2Fx
-UYwbBT5JTrcM4MoeAVTbydxTISQPJBzXOemHfUEe5F5nRbZNwTcc+W/EuRY/+Jtk
-jwMlqPiOCygNvrALj1Ekd+Tiew8S/Wo+QA/GZHU2V/B7VQs9eFA4ZgsZujBkCMaS
-ovGqRSb93fP0v7SbuskxPSkBCsd3BYCmitQQIS+z7VyS0FQOLEwV9c3GTUiJaJyd
-5zK2s56g/BUBLfvy3Wv80eORiOfbqKXQNBqUOBnIbmsZx7zzdit/ZTSaw32k7auC
-hLP3ZEI9JOMAoGWeS2IuqbA29JBxpg==
-=96sO
------END PGP SIGNATURE-----
-
---Sig_/wI5fB2=GD+px5yqNSN=ssGE--
+Hans
