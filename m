@@ -2,105 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B1476AE61
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jul 2019 20:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 447426AF14
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jul 2019 20:47:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725926AbfGPSTJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Jul 2019 14:19:09 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:45893 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388277AbfGPSTJ (ORCPT
+        id S2388388AbfGPSru (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Jul 2019 14:47:50 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39848 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728190AbfGPSru (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Jul 2019 14:19:09 -0400
-Received: by mail-wr1-f68.google.com with SMTP id f9so21957479wre.12;
-        Tue, 16 Jul 2019 11:19:08 -0700 (PDT)
+        Tue, 16 Jul 2019 14:47:50 -0400
+Received: by mail-wm1-f68.google.com with SMTP id u25so9319348wmc.4;
+        Tue, 16 Jul 2019 11:47:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=76U4Hcux604hTRXcPQApvKoQJ0LrG41HHfk4rrMj+pQ=;
-        b=WsNV4duaurgfdQcPLEEHYi80uoHiH6kgPixTt/5PB7SEtc8dDm3CmdV5Lo3yX9FkZs
-         aPN+9PO5enkOBflZ8cdSHbl63uexYrhIR5zspN/Thnbef455UBc0YsEC+osi+2MjlYw+
-         JN80Afh65z3SkF26IKT0ewYc6HJYuFe0NPuxMHNcLqf1fwtP9R/uqIRHgacj/6Bb6Z7o
-         bFQ694BCS8CEVmYyLP91Hvfv4xKGVjBX+zLUTXgHdnuc52s9SFaNbCmEgDWck9+O/sG9
-         1JrIXl9p+Z87BgtQ03H3TKa6JQQnir+hwbGAN6jHWAzx/P1mODiA5UxX7Nt0MZ4Ektjs
-         u59g==
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=la7tyf8ZPvrnrjwCqpENoZfGCM6j/pjcLrF4W1pZ+rY=;
+        b=Rzasgh4koX7egHkPZapYQpqOqr5V0KdP9Amkfg9lgCJK7rw363mdbEp3iWx2c3xvir
+         xdX43TR6TrHCZ50yHqFcTt5uDVyaArbRVVAu8AcH0H3ZhsWmu116mXxKkTzHhuN3kJna
+         wZ+8QLY3SR0VV+w/eJGZkKUj//jh5o2e5qtKMpgvOVXfd3OeznGIjXLfi9VAPTsHDBDv
+         wp2gh+xw6HDAb48gOIn7wNeTb90pv4ASdvju3i2LJXsnGtF9H4hSNRZ6QPOsq+tUD1G2
+         G6pynhwrr9HN4O2Rb792Nrc0qz39g8hwNkW4ERLYxMEACZUKkFFyBYuflf+A0/M6Ojm0
+         0NOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=76U4Hcux604hTRXcPQApvKoQJ0LrG41HHfk4rrMj+pQ=;
-        b=qkVFxpdUKivWJ8Ait/4K6B6nL7Jmbj/No1yr9u+eLLNo6OYd7f6NvHlYcTwgwtzRX1
-         XAv6Pn6IVtx7fBbj4Hsyk0u2xpuJCEfw/DIWDPB/6xu2hepleJYBy5QZ+LHIvfb49B0n
-         /2N3oePbS9PoRYrbahP1OlJ1TixUQbkVCUMSEHpAMBLwGpkuOImoYsLrHactmUtcDL9z
-         HZe1+/hy09/RUwkLQJGGxV28J5mEpL4T14MaiTdNrKaXixXpRxu/V7zUGFokEyzLboBe
-         hcFNSossGMp5BhyoDUEHxfKNl+TtPdR64kYQweLEI6VthWgEO9sJemUoRsHCMZslCHhp
-         PAvQ==
-X-Gm-Message-State: APjAAAUiSczMIYjbmEM0Q3WUtwf1aVsqMNl9aoyPm8WCc5IJiQQsaN6t
-        WbXtPeZ8sta1OaHKz/eBAic=
-X-Google-Smtp-Source: APXvYqwOInU76CNDBm3+Pvoq3ZNmpPzGgiGzIzn0sDNPUXwqxGKo5HTbQ4gAEYdgQeUMLsjNmSxf1Q==
-X-Received: by 2002:adf:a299:: with SMTP id s25mr30044808wra.74.1563301147356;
-        Tue, 16 Jul 2019 11:19:07 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=la7tyf8ZPvrnrjwCqpENoZfGCM6j/pjcLrF4W1pZ+rY=;
+        b=F0m0wFz7g3qaN1GkEghzJV7BzoJbx9S2TcE3IwDIO/HZJnvPiI0xos6rCy8bNY8RKN
+         NLDMMGzzSsNOtpUyHl8xL+EXeONDp8lmySSHsk1Th7yb1ctuFtbozmgOiatROYcUJFm+
+         k/VtCIqpgdya1eaIJ/VMLpdhjCy0ZIL5ooKy45037svQ2WTCuyhYQ108xLpF8UzyxzVO
+         56PZ0ddqVkHCF7e5u6thZCEoJyQZ5fQ2yQduFa0FTyEykj9QFDwqDbwffWEdDSy5KYaR
+         fmyPFVhbTvepjvatoqvcS7xsAJoaPU8eJzUMeFF3fI6UqE22Mrqy5FIeNFNHM6exjAfn
+         986Q==
+X-Gm-Message-State: APjAAAUSozQlQfoilmPH5zrBMuiP7cw9w0QpOKhvVBQmWy6HHGRzYoh5
+        VHALZ/JYXTzgMHb+ia8e3OgGfVbmPxs=
+X-Google-Smtp-Source: APXvYqy2/SaHVfv0ZA468Q8Vk4qvCfbFHdaeCRTzyNzYAfwnhcqrN0fEKdlQGtE2FC32qHEJN15Jjw==
+X-Received: by 2002:a1c:a7c6:: with SMTP id q189mr32313689wme.146.1563302867385;
+        Tue, 16 Jul 2019 11:47:47 -0700 (PDT)
 Received: from localhost (smb-adpcdg1-05.hotspot.hub-one.net. [213.174.99.133])
-        by smtp.gmail.com with ESMTPSA id r123sm20111923wme.7.2019.07.16.11.19.06
+        by smtp.gmail.com with ESMTPSA id y16sm20774858wrw.33.2019.07.16.11.47.46
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 16 Jul 2019 11:19:06 -0700 (PDT)
-Date:   Tue, 16 Jul 2019 20:19:04 +0200
+        Tue, 16 Jul 2019 11:47:46 -0700 (PDT)
+Date:   Tue, 16 Jul 2019 20:47:44 +0200
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     allison@lohutok.net, tglx@linutronix.de, info@metux.net,
-        dilinger@debian.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: psmouse - Fix build error of multiple definition
-Message-ID: <20190716181904.GB1140@penguin>
-References: <20190716065411.56780-1-yuehaibing@huawei.com>
+To:     Ronald =?iso-8859-1?Q?Tschal=E4r?= <ronald@innovation.ch>
+Cc:     Henrik Rydberg <rydberg@bitmath.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Federico Lorenzi <federico@travelground.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] Input: add Apple SPI keyboard and trackpad driver.
+Message-ID: <20190716184744.GC1140@penguin>
+References: <20190419081926.13567-1-ronald@innovation.ch>
+ <20190419081926.13567-3-ronald@innovation.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20190716065411.56780-1-yuehaibing@huawei.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190419081926.13567-3-ronald@innovation.ch>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 02:54:11PM +0800, YueHaibing wrote:
-> trackpoint_detect() should be static inline while
-> CONFIG_MOUSE_PS2_TRACKPOINT is not set. otherwire,we
-> got building fails:
-> 
-> drivers/input/mouse/alps.o: In function `trackpoint_detect':
-> alps.c:(.text+0x8e00): multiple definition of `trackpoint_detect'
-> drivers/input/mouse/psmouse-base.o:psmouse-base.c:(.text+0x1b50): first defined here
-> 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Fixes: 55e3d9224b60 ("Input: psmouse - allow disabing certain protocol extensions")
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Hi Ronald,
 
-Applied, thank you.
+On Fri, Apr 19, 2019 at 01:19:26AM -0700, Ronald Tschalär wrote:
+> The keyboard and trackpad on recent MacBook's (since 8,1) and
+> MacBookPro's (13,* and 14,*) are attached to an SPI controller instead
+> of USB, as previously. The higher level protocol is not publicly
+> documented and hence has been reverse engineered. As a consequence there
+> are still a number of unknown fields and commands. However, the known
+> parts have been working well and received extensive testing and use.
+> 
+> In order for this driver to work, the proper SPI drivers need to be
+> loaded too; for MB8,1 these are spi_pxa2xx_platform and spi_pxa2xx_pci;
+> for all others they are spi_pxa2xx_platform and intel_lpss_pci. For this
+> reason enabling this driver in the config implies enabling the above
+> drivers.
 
-> ---
->  drivers/input/mouse/trackpoint.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/mouse/trackpoint.h b/drivers/input/mouse/trackpoint.h
-> index 0afffe8..77110f3 100644
-> --- a/drivers/input/mouse/trackpoint.h
-> +++ b/drivers/input/mouse/trackpoint.h
-> @@ -158,7 +158,8 @@ struct trackpoint_data {
->  #ifdef CONFIG_MOUSE_PS2_TRACKPOINT
->  int trackpoint_detect(struct psmouse *psmouse, bool set_properties);
->  #else
-> -inline int trackpoint_detect(struct psmouse *psmouse, bool set_properties)
-> +static inline int trackpoint_detect(struct psmouse *psmouse,
-> +				    bool set_properties)
->  {
->  	return -ENOSYS;
->  }
-> -- 
-> 2.7.4
-> 
-> 
+I applied the patch (but changed __u8 to u8 as that's preferred form for
+inside the kernel, and added error handling for input_mt_init_slots) but
+we need to do some more work on the driver.
+
+My main issue is with registering touchpad device asynchronously,
+independent from the probe() function. This means (as far as I can tell)
+that any error is not really appropriately handled (as by that time it
+is too late to signal errors from probe()) and devm functions are not
+going to be called, leaving remnants of the resources in memory on
+driver unload. It also brings in issues with suspend/resume (what
+happens if you suspend really quickly while device is not registered
+yet?), etc, etc.
+
+Can we switch to calling DEV_INFO command synchronously from probe()? If
+we are concerned about it taking relatively long time we can always
+annotate the driver as having probe_type = PROBE_PREFER_ASYNCHRONOUS so
+that other devices can be probed simultaneously with applespi.
+
+Thanks.
 
 -- 
 Dmitry
