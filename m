@@ -2,20 +2,19 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC4A76A31F
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jul 2019 09:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90CB86A333
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jul 2019 09:47:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbfGPHmH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Jul 2019 03:42:07 -0400
-Received: from orion.archlinux.org ([88.198.91.70]:47232 "EHLO
+        id S1730193AbfGPHrK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Jul 2019 03:47:10 -0400
+Received: from orion.archlinux.org ([88.198.91.70]:47574 "EHLO
         orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726536AbfGPHmH (ORCPT
+        with ESMTP id S1726536AbfGPHrJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Jul 2019 03:42:07 -0400
-X-Greylist: delayed 336 seconds by postgrey-1.27 at vger.kernel.org; Tue, 16 Jul 2019 03:42:06 EDT
+        Tue, 16 Jul 2019 03:47:09 -0400
 Received: from orion.archlinux.org (localhost [127.0.0.1])
-        by orion.archlinux.org (Postfix) with ESMTP id 12BC013D942FA2;
-        Tue, 16 Jul 2019 07:36:25 +0000 (UTC)
+        by orion.archlinux.org (Postfix) with ESMTP id 1E5F013D94304F;
+        Tue, 16 Jul 2019 07:37:30 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on orion
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
@@ -28,16 +27,16 @@ Received: from saetre.corp.logitech.com?044 (unknown [154.53.1.40])
         (No client certificate requested)
         (Authenticated sender: ffy00)
         by orion.archlinux.org (Postfix) with ESMTPSA;
-        Tue, 16 Jul 2019 07:36:24 +0000 (UTC)
+        Tue, 16 Jul 2019 07:37:29 +0000 (UTC)
 From:   =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
 Cc:     nlopezcasad@logitech.com,
         =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] hid-logitech-dj: rename "gaming" receiver to "lightspeed"
-Date:   Tue, 16 Jul 2019 08:36:21 +0100
-Message-Id: <20190716073621.4290-1-lains@archlinux.org>
+Subject: [PATCH] hid-logitech-hidpp: add USB PID for some mice
+Date:   Tue, 16 Jul 2019 08:37:26 +0100
+Message-Id: <20190716073726.6726-1-lains@archlinux.org>
 X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -48,44 +47,61 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-this should help people identify the receiver. there are several
-receivers used in gaming mice. the "lightspeed" technology is pretty
-well advertise so this won't just be an obscure name.
-
 Signed-off-by: Filipe Laíns <lains@archlinux.org>
 ---
- drivers/hid/hid-ids.h         | 2 +-
- drivers/hid/hid-logitech-dj.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/hid/hid-logitech-hidpp.c | 32 +++++++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 0d695f8e1b2c..ab9d382b067d 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -768,7 +768,7 @@
- #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER		0xc52f
- #define USB_DEVICE_ID_LOGITECH_UNIFYING_RECEIVER_2	0xc532
- #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2		0xc534
--#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_GAMING	0xc539
-+#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED	0xc539
- #define USB_DEVICE_ID_SPACETRAVELLER	0xc623
- #define USB_DEVICE_ID_SPACENAVIGATOR	0xc626
- #define USB_DEVICE_ID_DINOVO_DESKTOP	0xc704
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index 6196217a7d93..4334acb49129 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -1832,9 +1832,9 @@ static const struct hid_device_id logi_dj_receivers[] = {
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
- 			 USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2),
- 	 .driver_data = recvr_type_hidpp},
--	{ /* Logitech gaming receiver (0xc539) */
-+	{ /* Logitech lightspeed receiver (0xc539) */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
--		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_GAMING),
-+		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED),
- 	 .driver_data = recvr_type_gaming_hidpp},
- 	{ /* Logitech 27 MHz HID++ 1.0 receiver (0xc513) */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_MX3000_RECEIVER),
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index e3b6245bf4b2..21268c9fa71a 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -3749,15 +3749,45 @@ static const struct hid_device_id hidpp_devices[] = {
+ 
+ 	{ L27MHZ_DEVICE(HID_ANY_ID) },
+ 
+-	{ /* Logitech G403 Gaming Mouse over USB */
++	{ /* Logitech G203/Prodigy Gaming Mouse */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC084) },
++	{ /* Logitech G302 Gaming Mouse */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC07F) },
++	{ /* Logitech G303 Gaming Mouse */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC080) },
++	{ /* Logitech G400 Gaming Mouse */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC07E) },
++	{ /* Logitech G403 Wireless Gaming Mouse over USB */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC082) },
++	{ /* Logitech G403 Gaming Mouse */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC083) },
++	{ /* Logitech G403 Hero Gaming Mouse over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC08F) },
++	{ /* Logitech G502 Proteus Core Gaming Mouse */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC07D) },
++	{ /* Logitech G502 Proteus Spectrum Gaming Mouse over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC332) },
++	{ /* Logitech G502 Hero Gaming Mouse over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC08B) },
+ 	{ /* Logitech G700 Gaming Mouse over USB */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC06B) },
++	{ /* Logitech G700s Gaming Mouse over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC07C) },
++	{ /* Logitech G703 Gaming Mouse over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC087) },
++	{ /* Logitech G703 Hero Gaming Mouse over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC090) },
+ 	{ /* Logitech G900 Gaming Mouse over USB */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC081) },
++	{ /* Logitech G903 Gaming Mouse over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC086) },
++	{ /* Logitech G903 Hero Gaming Mouse over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC091) },
+ 	{ /* Logitech G920 Wheel over USB */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_G920_WHEEL),
+ 		.driver_data = HIDPP_QUIRK_CLASS_G920 | HIDPP_QUIRK_FORCE_OUTPUT_REPORTS},
++	{ /* Logitech G Pro Gaming Mouse over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC088) },
+ 
+ 	{ /* MX5000 keyboard over Bluetooth */
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb305),
 -- 
 2.22.0
