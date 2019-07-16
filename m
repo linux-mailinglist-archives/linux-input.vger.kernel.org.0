@@ -2,109 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B9946AE5E
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jul 2019 20:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B1476AE61
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jul 2019 20:19:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388353AbfGPSTJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1725926AbfGPSTJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Tue, 16 Jul 2019 14:19:09 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51603 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725926AbfGPSTJ (ORCPT
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:45893 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388277AbfGPSTJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Tue, 16 Jul 2019 14:19:09 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 207so19635391wma.1;
-        Tue, 16 Jul 2019 11:19:06 -0700 (PDT)
+Received: by mail-wr1-f68.google.com with SMTP id f9so21957479wre.12;
+        Tue, 16 Jul 2019 11:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lIqXsG3zHlSz/3p5h6qCoCToOwuWr8K0DIq1OkVbWWI=;
-        b=oet6rX2Aa+/ya/nYryVfgg+pPATQvZlrpAldgEvp+mYtomWOthIkW+mWivHQK53jmT
-         MUOItAcn1Uc7UzCG4RnJazfQf0uCID+7ZQIR4MkELDHMT8elKflwRjKaNn+Z3n5bLN/j
-         kvwwJvnSAaIwiOgG2X+v8frP9Cw4hFLO8TTXp/mPQxiAUB5ZNVzD5oilxUDjQqezsFtY
-         IS2NRIF5nW3x7yKQDYiF8tUfo5ILSRLAuMPXSAubethr7b23jG3cvtbwwXzmZ4lWf950
-         XIFwgQM8oX/AkvX+5TU7MxqGx5zz1kWDsu7FtRdeVXaT6S62nm1mUO/mr4tQrvHrAc9U
-         IyRA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=76U4Hcux604hTRXcPQApvKoQJ0LrG41HHfk4rrMj+pQ=;
+        b=WsNV4duaurgfdQcPLEEHYi80uoHiH6kgPixTt/5PB7SEtc8dDm3CmdV5Lo3yX9FkZs
+         aPN+9PO5enkOBflZ8cdSHbl63uexYrhIR5zspN/Thnbef455UBc0YsEC+osi+2MjlYw+
+         JN80Afh65z3SkF26IKT0ewYc6HJYuFe0NPuxMHNcLqf1fwtP9R/uqIRHgacj/6Bb6Z7o
+         bFQ694BCS8CEVmYyLP91Hvfv4xKGVjBX+zLUTXgHdnuc52s9SFaNbCmEgDWck9+O/sG9
+         1JrIXl9p+Z87BgtQ03H3TKa6JQQnir+hwbGAN6jHWAzx/P1mODiA5UxX7Nt0MZ4Ektjs
+         u59g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lIqXsG3zHlSz/3p5h6qCoCToOwuWr8K0DIq1OkVbWWI=;
-        b=pKerAmxpxSFX5/XwHcg+PBmrr42kYFiJAP5Od0R2HSfYdnxjjiiNTfjx5tfNzdp4wa
-         FjfpwniwbKjSrvFOu549PDtkkcf9KAWGCG4PxLEpXHXjnwM58pBgHwk1HKAWgVIpj2zD
-         bn9/aU1vJzn8esx865d+BLpNqYr9bB53fvryQL3w4X9oC1mS9dGtQ3YsTyyR9cmCA+VA
-         0L/2a71BvVfocQLmznYV+Tcqk3EkfDt/L2TuCDkEPPwofrKXHQUo2LFsxT1CHS+TbuxB
-         7Rf08SNxGk4Ro+S8N8mmXjuoO6SVLxtr/utsPVXZQBDFTNCK8gFUaGBEFyytqoBdFCpG
-         2JAw==
-X-Gm-Message-State: APjAAAWE/g9KD1+RGkC9Gf7O2+TFjLWv8Qg2nu1GzVSWx56C51XMMavz
-        XxNInnW++FUZg43FAsdBWA8=
-X-Google-Smtp-Source: APXvYqxmAXgR0/JYyKnKQYHuf7dNpJEuNY0ngKjqjnppH4MCHWif39inWlZ8tXDUomDtRFbndZ+f7g==
-X-Received: by 2002:a7b:cc81:: with SMTP id p1mr30432041wma.107.1563301146302;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=76U4Hcux604hTRXcPQApvKoQJ0LrG41HHfk4rrMj+pQ=;
+        b=qkVFxpdUKivWJ8Ait/4K6B6nL7Jmbj/No1yr9u+eLLNo6OYd7f6NvHlYcTwgwtzRX1
+         XAv6Pn6IVtx7fBbj4Hsyk0u2xpuJCEfw/DIWDPB/6xu2hepleJYBy5QZ+LHIvfb49B0n
+         /2N3oePbS9PoRYrbahP1OlJ1TixUQbkVCUMSEHpAMBLwGpkuOImoYsLrHactmUtcDL9z
+         HZe1+/hy09/RUwkLQJGGxV28J5mEpL4T14MaiTdNrKaXixXpRxu/V7zUGFokEyzLboBe
+         hcFNSossGMp5BhyoDUEHxfKNl+TtPdR64kYQweLEI6VthWgEO9sJemUoRsHCMZslCHhp
+         PAvQ==
+X-Gm-Message-State: APjAAAUiSczMIYjbmEM0Q3WUtwf1aVsqMNl9aoyPm8WCc5IJiQQsaN6t
+        WbXtPeZ8sta1OaHKz/eBAic=
+X-Google-Smtp-Source: APXvYqwOInU76CNDBm3+Pvoq3ZNmpPzGgiGzIzn0sDNPUXwqxGKo5HTbQ4gAEYdgQeUMLsjNmSxf1Q==
+X-Received: by 2002:adf:a299:: with SMTP id s25mr30044808wra.74.1563301147356;
+        Tue, 16 Jul 2019 11:19:07 -0700 (PDT)
+Received: from localhost (smb-adpcdg1-05.hotspot.hub-one.net. [213.174.99.133])
+        by smtp.gmail.com with ESMTPSA id r123sm20111923wme.7.2019.07.16.11.19.06
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
         Tue, 16 Jul 2019 11:19:06 -0700 (PDT)
-Received: from [192.168.2.202] (pD9EA39E9.dip0.t-ipconnect.de. [217.234.57.233])
-        by smtp.gmail.com with ESMTPSA id g131sm14596386wmf.37.2019.07.16.11.19.04
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Jul 2019 11:19:05 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] input: soc_button_array for newer surface devices
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>,
-        Chen Yu <yu.c.chen@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-References: <20190702003740.75970-1-luzmaximilian@gmail.com>
- <20190702003740.75970-3-luzmaximilian@gmail.com>
- <20190716072135.GA806@penguin>
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-Message-ID: <92e13b01-7353-1430-fb38-b5098d509da2@gmail.com>
 Date:   Tue, 16 Jul 2019 20:19:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     allison@lohutok.net, tglx@linutronix.de, info@metux.net,
+        dilinger@debian.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: psmouse - Fix build error of multiple definition
+Message-ID: <20190716181904.GB1140@penguin>
+References: <20190716065411.56780-1-yuehaibing@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20190716072135.GA806@penguin>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190716065411.56780-1-yuehaibing@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, Jul 16, 2019 at 02:54:11PM +0800, YueHaibing wrote:
+> trackpoint_detect() should be static inline while
+> CONFIG_MOUSE_PS2_TRACKPOINT is not set. otherwire,we
+> got building fails:
+> 
+> drivers/input/mouse/alps.o: In function `trackpoint_detect':
+> alps.c:(.text+0x8e00): multiple definition of `trackpoint_detect'
+> drivers/input/mouse/psmouse-base.o:psmouse-base.c:(.text+0x1b50): first defined here
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 55e3d9224b60 ("Input: psmouse - allow disabing certain protocol extensions")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 
-Hi,
+Applied, thank you.
 
-On 7/16/19 9:21 AM, Dmitry Torokhov wrote:
-> When you are saying that Pro 4 and later models use different
-> notifications, does this mean that Pro 4 does not define any GPIOs?
+> ---
+>  drivers/input/mouse/trackpoint.h | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/mouse/trackpoint.h b/drivers/input/mouse/trackpoint.h
+> index 0afffe8..77110f3 100644
+> --- a/drivers/input/mouse/trackpoint.h
+> +++ b/drivers/input/mouse/trackpoint.h
+> @@ -158,7 +158,8 @@ struct trackpoint_data {
+>  #ifdef CONFIG_MOUSE_PS2_TRACKPOINT
+>  int trackpoint_detect(struct psmouse *psmouse, bool set_properties);
+>  #else
+> -inline int trackpoint_detect(struct psmouse *psmouse, bool set_properties)
+> +static inline int trackpoint_detect(struct psmouse *psmouse,
+> +				    bool set_properties)
+>  {
+>  	return -ENOSYS;
+>  }
+> -- 
+> 2.7.4
+> 
+> 
 
-Unfortunately, at least the Surface Book (first generation, buttons are
-handled the same way as on the Pro 4) has GPIOs defined in MSHW0040, but
-they are for different use. Specifically: They can detect if the
-clipboard (screen part of the device, the device basically has two parts
-that can be separated: clipboard and base) is being removed. Relying on
-the GPIOs was my first idea too, but that has been reported to shut down
-the Book 1 when the clipboard is detached.
-
-As far as I know, the OEM platform revision check is the easiest way to
-differentiate between those devices.
-
-> I do not believe -EAGAIN has any special meaning in the driver core;
-
-I think I got the -EAGAIN from an outdated LWN article when I first
-started working on this, thanks for confirming.
-
-> also when the GPIO controller is not ready gpiod_get() will return
-> -EPROBE_DEFER, which is the prober way if signalling that some resource
-> is not yet available and probe should be retries at a later time.
->
-> Moreover, I do not believe that gpiod_count() needs GPIO controller to
-> be ready, the count is taken from board firmware or static board file
-> definition, so if gpiod_count() returns 0 it should be clear indication
-> that the driver should not be used with the device.
-
-Thank you for this insight, I will update the patch accordingly.
-
-Maximilian
+-- 
+Dmitry
