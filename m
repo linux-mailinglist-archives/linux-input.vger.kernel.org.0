@@ -2,83 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6134E6A331
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jul 2019 09:47:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A1A86A42E
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jul 2019 10:49:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727075AbfGPHrI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Jul 2019 03:47:08 -0400
-Received: from orion.archlinux.org ([88.198.91.70]:47572 "EHLO
-        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726537AbfGPHrI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Jul 2019 03:47:08 -0400
-Received: from orion.archlinux.org (localhost [127.0.0.1])
-        by orion.archlinux.org (Postfix) with ESMTP id B9F3C13D9582B4;
-        Tue, 16 Jul 2019 07:37:51 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on orion
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
-        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
-        autolearn=no autolearn_force=no version=3.4.2
-X-Spam-BL-Results: 
-Received: from saetre.corp.logitech.com?044 (unknown [154.53.1.40])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: ffy00)
-        by orion.archlinux.org (Postfix) with ESMTPSA;
-        Tue, 16 Jul 2019 07:37:51 +0000 (UTC)
-From:   =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
-Cc:     nlopezcasad@logitech.com,
-        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] hid-logitech-dj: add the Powerplay receiver
-Date:   Tue, 16 Jul 2019 08:37:47 +0100
-Message-Id: <20190716073747.7616-1-lains@archlinux.org>
-X-Mailer: git-send-email 2.22.0
+        id S1728015AbfGPIsr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Jul 2019 04:48:47 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:49040 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726465AbfGPIsr (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 16 Jul 2019 04:48:47 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 99B11168B1921582D608;
+        Tue, 16 Jul 2019 16:48:44 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 16 Jul 2019 16:48:38 +0800
+From:   Mao Wenan <maowenan@huawei.com>
+To:     <dmitry.torokhov@gmail.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>, Mao Wenan <maowenan@huawei.com>
+Subject: [PATCH -next] keyboard: remove set but not used variables 'sts'
+Date:   Tue, 16 Jul 2019 16:54:23 +0800
+Message-ID: <20190716085423.19443-1-maowenan@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Signed-off-by: Filipe Laíns <lains@archlinux.org>
----
- drivers/hid/hid-ids.h         | 1 +
- drivers/hid/hid-logitech-dj.c | 4 ++++
- 2 files changed, 5 insertions(+)
+Fixes gcc '-Wunused-but-set-variable' warning:
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index ab9d382b067d..884356feb016 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -769,6 +769,7 @@
- #define USB_DEVICE_ID_LOGITECH_UNIFYING_RECEIVER_2	0xc532
- #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2		0xc534
- #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED	0xc539
-+#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_POWERPLAY	0xc53a
- #define USB_DEVICE_ID_SPACETRAVELLER	0xc623
- #define USB_DEVICE_ID_SPACENAVIGATOR	0xc626
- #define USB_DEVICE_ID_DINOVO_DESKTOP	0xc704
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index 4334acb49129..d5b47ec1510c 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -1839,6 +1839,10 @@ static const struct hid_device_id logi_dj_receivers[] = {
- 	{ /* Logitech 27 MHz HID++ 1.0 receiver (0xc513) */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_MX3000_RECEIVER),
- 	 .driver_data = recvr_type_27mhz},
-+	{ /* Logitech powerplay receiver (0xc53a) */
-+	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
-+		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_POWERPLAY),
-+	 .driver_data = recvr_type_gaming_hidpp},
- 	{ /* Logitech 27 MHz HID++ 1.0 receiver (0xc517) */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
- 		USB_DEVICE_ID_S510_RECEIVER_2),
+drivers/input/keyboard/applespi.c: In function applespi_set_bl_level:
+drivers/input/keyboard/applespi.c:902:6: warning: variable sts set but not used [-Wunused-but-set-variable]
+
+Fixes: b426ac0452093d ("Input: add Apple SPI keyboard and trackpad driver")
+
+Signed-off-by: Mao Wenan <maowenan@huawei.com>
+---
+ drivers/input/keyboard/applespi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/input/keyboard/applespi.c b/drivers/input/keyboard/applespi.c
+index c1a6843..548737e 100644
+--- a/drivers/input/keyboard/applespi.c
++++ b/drivers/input/keyboard/applespi.c
+@@ -899,7 +899,6 @@ static void applespi_set_bl_level(struct led_classdev *led_cdev,
+ 	struct applespi_data *applespi =
+ 		container_of(led_cdev, struct applespi_data, backlight_info);
+ 	unsigned long flags;
+-	int sts;
+ 
+ 	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
+ 
+@@ -916,7 +915,7 @@ static void applespi_set_bl_level(struct led_classdev *led_cdev,
+ 			 KBD_BL_LEVEL_MIN);
+ 	}
+ 
+-	sts = applespi_send_cmd_msg(applespi);
++	applespi_send_cmd_msg(applespi);
+ 
+ 	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
+ }
 -- 
-2.22.0
+2.7.4
+
