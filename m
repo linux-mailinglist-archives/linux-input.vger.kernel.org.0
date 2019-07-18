@@ -2,265 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F04D26D4E0
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2019 21:42:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 536E16D601
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2019 22:51:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391373AbfGRTlp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Jul 2019 15:41:45 -0400
-Received: from mail-vs1-f73.google.com ([209.85.217.73]:34897 "EHLO
-        mail-vs1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727687AbfGRTll (ORCPT
+        id S1727781AbfGRUvC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Jul 2019 16:51:02 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:33928 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727687AbfGRUvC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Jul 2019 15:41:41 -0400
-Received: by mail-vs1-f73.google.com with SMTP id 66so1907846vsp.2
-        for <linux-input@vger.kernel.org>; Thu, 18 Jul 2019 12:41:40 -0700 (PDT)
+        Thu, 18 Jul 2019 16:51:02 -0400
+Received: by mail-ed1-f65.google.com with SMTP id s49so32113612edb.1
+        for <linux-input@vger.kernel.org>; Thu, 18 Jul 2019 13:51:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=NyDDuPcwfKxqjN9VK9vgGqLXXuUUhCPRqo1nWMqUF1g=;
-        b=jcY2CBffEmchmiRjAf/pm1/FeJLqCiDq5um50nqrO2GRUmQc9vmAKY3qqmeZpeEcb4
-         OUxlwAIspNwOOAjJTw2LfUYNYdKdTy9x+eSVRFDtupponDaa+SDb8aeryX2t3RnmPIOm
-         6QAcB4qcixDj/Gj23xGwFKr/fJhCjkTKA25A3AH4dXlJc8uNpEZsH//7xvHA4onufzje
-         1VblSW8vhZWaTrGW4CgyI54pHVMEjwIavLuyykWQBfP3lf9RFEm+5VvIcpxCn2WOyNxF
-         f18BT4dSJsq6o4IMShzZ1Hr+7jNkyFM+0ix3z2hQqUMpdENXlUH6kdEfcssvjSPC7QxE
-         ZBWg==
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=BForRrlpL+KyZG6ISBWhJCdyq+J05d1LT1A+UYYas5E=;
+        b=K6LdhqekYHs1XneMALWEV29p0fEfMsPCvFG7OvCvCKY5zfOytRxlKroTKirIz1FbhV
+         dDks5OLED14dxYAtV4TvytRsocbWulUsNECO759sthu2uyQf0u+o4cf14bssrJa9HvwA
+         j2V3QvH34bEhBAF9cqdbO5WvOleEgdmiJ9yfmXkYBV1sCMeM3Qw1q0OxMwM+fnO/lIN+
+         pxcJxpLOHHU0GDxnZvHgqldJBDpk2WAPCw/3Bvy2OP+3ARAZ4EcjcQTWLtO0vpGMQogC
+         HVuT0nV3J/nZrSxt3aUxpnC8g7D3RjXhYfyo57VRtCwj6KssY3u7KTrC9M8uYFOSFwUM
+         KzbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=NyDDuPcwfKxqjN9VK9vgGqLXXuUUhCPRqo1nWMqUF1g=;
-        b=NkCDu5uzrdcANh30V9KMC+otqQ0vvaJ8qvyxe227g+YqJmdhA/1yppSDPBITyrh9rd
-         d7eNkBl7+4fNc7gGcee5VIXf+nZI4O68AOKEqbjbT3NJ/NjyKyjnVbPJkAEWekKFxIQe
-         WZcIpR4HM/A9kZo5/mgWy8LuOGjUJy00s7St8kBkI/M19FJA8q1RXlnkquXm13r9bbbw
-         vKOyTq/GZLpHISw9SkZIjOC4FXq6FVywBER38RnA2zVOSfJxVvyzKH7MNM0CIX6g703P
-         hNo4UZ2NRF6gCZHfNdvaHuZn9kBe+cLNPkn+Ool7RqT/v1IPOjapreIGobXIfldYab+u
-         AdmQ==
-X-Gm-Message-State: APjAAAXLjdZGQ+EL0joNaIKbzXQdOAdKyhJD6rkiFY+3t97ILhcN8utV
-        xpz0cHL75Aql3XXelXokxUKkXBQeBvqqMHU=
-X-Google-Smtp-Source: APXvYqwXqcZXkM5Ps6Nmi5nJ0iqzxvaoGR8zYdsRgH1OcvmtSFMGN0PyLHnpBNha9oOHO3/IwHPKxmc7jyTiz/4=
-X-Received: by 2002:a1f:1288:: with SMTP id 130mr19236937vks.12.1563478899563;
- Thu, 18 Jul 2019 12:41:39 -0700 (PDT)
-Date:   Thu, 18 Jul 2019 12:41:33 -0700
-Message-Id: <20190718194133.64034-1-atifniyaz@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
-Subject: [PATCH v2] input: API for Setting a Timestamp from a Driver
-From:   Atif Niyaz <atifniyaz@google.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Atif Niyaz <atifniyaz11@gmail.com>,
-        Siarhei Vishniakou <svv@google.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Atif Niyaz <atifniyaz@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BForRrlpL+KyZG6ISBWhJCdyq+J05d1LT1A+UYYas5E=;
+        b=KypLbd2IAaSL34rIwF9o5AhMdBziEMx7GTU5++KKhq7Zm7pngjnL1YlafKAbj95+HN
+         Alk7SxDW0DY+lTUrKwzmxLXTySdvHH90Ic/pscxCHi+VT5SrgXpUftM1DbQ5tYfOzg6r
+         aSqdJWJSU70rjrSVGajyBcps9+2NV4PXGQ0B26vYQXo2S+oPPn/4E6DNk0KnDPb63XMF
+         p4fhL6fW0p+Vcwcxib8vR44iADR8c2/F3rx4ymCxE1drpwRtzS0h8GLMzW1WvQXfSB2Z
+         N0K8tY8napFEICAJLLx9pZGWQ7wR/oq4arVggShyd50/xeg3LDu4ClvgUGSQjKiVcnzK
+         9wMQ==
+X-Gm-Message-State: APjAAAVZw6Eae1CBJsu2pWCrEg88iuKdNrlR7LAw6pJ3lEwXN0ZjToH9
+        /rJkC/QtCRAp8Ez7WAzhbP9mO+I836M=
+X-Google-Smtp-Source: APXvYqzU1E7Kr7xnIy1xhh0GMqtiL4RBlT4+XR82rSNavLYQuf6eNSJdueqNk8Unum0ZUANLMIEywg==
+X-Received: by 2002:a17:906:7382:: with SMTP id f2mr37006566ejl.88.1563483059794;
+        Thu, 18 Jul 2019 13:50:59 -0700 (PDT)
+Received: from ?IPv6:2001:16b8:1ce7:c900:58f4:fdce:9c5d:69b8? ([2001:16b8:1ce7:c900:58f4:fdce:9c5d:69b8])
+        by smtp.gmail.com with ESMTPSA id t18sm5793270ejz.74.2019.07.18.13.50.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 18 Jul 2019 13:50:59 -0700 (PDT)
+Subject: [PATCH] hiddev: Return EPOLLOUT from hiddev_poll
+To:     Jiri Kosina <jikos@kernel.org>,
+        linux-input <linux-input@vger.kernel.org>
+References: <3141770d-bb58-e0e9-35ac-84cc23719892@gmail.com>
+ <nycvar.YFH.7.76.1907171333160.5899@cbobk.fhfr.pm>
+From:   Fabian Henneke <fabian.henneke@gmail.com>
+Message-ID: <ad32bc93-e833-d729-3b96-f18146c9099a@gmail.com>
+Date:   Thu, 18 Jul 2019 22:50:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <nycvar.YFH.7.76.1907171333160.5899@cbobk.fhfr.pm>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Currently, evdev stamps events with timestamps acquired in evdev_events.
-However, this timestamping may not be accurate in terms of measuring
-when the actual event happened. This API allows any 3rd party driver to
-be able to call input_set_timestamp, and provide a timestamp that can be
-utilized in order to provide a more accurate sense of time for the
-event
+Always return EPOLLOUT from hiddev_poll when a device is connected.
+This is safe since hiddev_write always fails and improves compatibility
+with tools like socat.
 
-Signed-off-by: Atif Niyaz <atifniyaz@google.com>
+Signed-off-by: Fabian Henneke <fabian@henneke.me>
+In-reply-to: <nycvar.YFH.7.76.1907171333160.5899@cbobk.fhfr.pm>
 ---
- drivers/input/evdev.c | 43 +++++++++++++++++--------------------------
- drivers/input/input.c | 16 ++++++++++++++++
- include/linux/input.h | 37 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 70 insertions(+), 26 deletions(-)
+ drivers/hid/usbhid/hiddev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
-index 867c2cfd0038..3160b2223955 100644
---- a/drivers/input/evdev.c
-+++ b/drivers/input/evdev.c
-@@ -25,13 +25,6 @@
- #include <linux/cdev.h>
- #include "input-compat.h"
- 
--enum evdev_clock_type {
--	EV_CLK_REAL = 0,
--	EV_CLK_MONO,
--	EV_CLK_BOOT,
--	EV_CLK_MAX
--};
--
- struct evdev {
- 	int open;
- 	struct input_handle handle;
-@@ -53,7 +46,7 @@ struct evdev_client {
- 	struct fasync_struct *fasync;
- 	struct evdev *evdev;
- 	struct list_head node;
--	unsigned int clk_type;
-+	enum input_clock_type clk_type;
- 	bool revoked;
- 	unsigned long *evmasks[EV_CNT];
- 	unsigned int bufsize;
-@@ -150,16 +143,19 @@ static void __evdev_flush_queue(struct evdev_client *client, unsigned int type)
- static void __evdev_queue_syn_dropped(struct evdev_client *client)
- {
- 	struct input_event ev;
--	ktime_t time;
- 	struct timespec64 ts;
-+	ktime_t *time = input_get_timestamp(client->evdev->handle.dev);
- 
--	time = client->clk_type == EV_CLK_REAL ?
--			ktime_get_real() :
--			client->clk_type == EV_CLK_MONO ?
--				ktime_get() :
--				ktime_get_boottime();
-+	switch (client->clk_type) {
-+	case INPUT_CLK_REAL:
-+	case INPUT_CLK_MONO:
-+		ts = ktime_to_timespec64(time[client->clk_type]);
-+		break;
-+	default:
-+		ts = ktime_to_timespec64(time[INPUT_CLK_BOOT]);
-+		break;
-+	}
- 
--	ts = ktime_to_timespec64(time);
- 	ev.input_event_sec = ts.tv_sec;
- 	ev.input_event_usec = ts.tv_nsec / NSEC_PER_USEC;
- 	ev.type = EV_SYN;
-@@ -185,21 +181,21 @@ static void evdev_queue_syn_dropped(struct evdev_client *client)
- 	spin_unlock_irqrestore(&client->buffer_lock, flags);
- }
- 
--static int evdev_set_clk_type(struct evdev_client *client, unsigned int clkid)
-+static int evdev_set_clk_type(struct evdev_client *client, clockid_t clkid)
- {
- 	unsigned long flags;
--	unsigned int clk_type;
-+	enum input_clock_type clk_type;
- 
- 	switch (clkid) {
- 
- 	case CLOCK_REALTIME:
--		clk_type = EV_CLK_REAL;
-+		clk_type = INPUT_CLK_REAL;
- 		break;
- 	case CLOCK_MONOTONIC:
--		clk_type = EV_CLK_MONO;
-+		clk_type = INPUT_CLK_MONO;
- 		break;
- 	case CLOCK_BOOTTIME:
--		clk_type = EV_CLK_BOOT;
-+		clk_type = INPUT_CLK_BOOT;
- 		break;
- 	default:
- 		return -EINVAL;
-@@ -307,12 +303,7 @@ static void evdev_events(struct input_handle *handle,
- {
- 	struct evdev *evdev = handle->private;
- 	struct evdev_client *client;
--	ktime_t ev_time[EV_CLK_MAX];
--
--	ev_time[EV_CLK_MONO] = ktime_get();
--	ev_time[EV_CLK_REAL] = ktime_mono_to_real(ev_time[EV_CLK_MONO]);
--	ev_time[EV_CLK_BOOT] = ktime_mono_to_any(ev_time[EV_CLK_MONO],
--						 TK_OFFS_BOOT);
-+	ktime_t *ev_time = input_get_timestamp(handle->dev);
- 
- 	rcu_read_lock();
- 
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index 7f3c5fcb9ed6..b8d711980bdd 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -1894,6 +1894,22 @@ void input_free_device(struct input_dev *dev)
- }
- EXPORT_SYMBOL(input_free_device);
- 
-+/**
-+ * input_get_timestamp - get timestamp for input events
-+ * @dev: input device to get timestamp from
-+ *
-+ * A valid timestamp is a timestamp of non-zero value.
-+ */
-+ktime_t *input_get_timestamp(struct input_dev *dev)
-+{
-+	const ktime_t invalid_timestamp = ktime_set(0, 0);
-+
-+	if (!ktime_compare(dev->timestamp[INPUT_CLK_MONO], invalid_timestamp))
-+		input_set_timestamp(dev, ktime_get());
-+	return dev->timestamp;
-+}
-+EXPORT_SYMBOL(input_get_timestamp);
-+
- /**
-  * input_set_capability - mark device as capable of a certain event
-  * @dev: device that is capable of emitting or accepting event
-diff --git a/include/linux/input.h b/include/linux/input.h
-index 510e78558c10..cf8c69abb342 100644
---- a/include/linux/input.h
-+++ b/include/linux/input.h
-@@ -33,6 +33,13 @@ struct input_value {
- 	__s32 value;
- };
- 
-+enum input_clock_type {
-+	INPUT_CLK_REAL = 0,
-+	INPUT_CLK_MONO,
-+	INPUT_CLK_BOOT,
-+	INPUT_CLK_MAX
-+};
-+
- /**
-  * struct input_dev - represents an input device
-  * @name: name of the device
-@@ -114,6 +121,8 @@ struct input_value {
-  * @vals: array of values queued in the current frame
-  * @devres_managed: indicates that devices is managed with devres framework
-  *	and needs not be explicitly unregistered or freed.
-+ * @timestamp: storage for a timestamp set by input_set_timestamp called
-+ *  by a driver
-  */
- struct input_dev {
- 	const char *name;
-@@ -184,6 +193,8 @@ struct input_dev {
- 	struct input_value *vals;
- 
- 	bool devres_managed;
-+
-+	ktime_t timestamp[INPUT_CLK_MAX];
- };
- #define to_input_dev(d) container_of(d, struct input_dev, dev)
- 
-@@ -382,6 +393,32 @@ void input_close_device(struct input_handle *);
- 
- int input_flush_device(struct input_handle *handle, struct file *file);
- 
-+/**
-+ * input_set_timestamp - set timestamp for input events
-+ * @dev: input device to set timestamp for
-+ * @timestamp: the time at which the event has occurred
-+ *   in CLOCK_MONOTONIC
-+ *
-+ * This function is intended to provide to the input system a more
-+ * accurate time of when an event actually occurred. The driver should
-+ * call this function as soon as a timestamp is acquired ensuring
-+ * clock conversions in input_set_timestamp are done correctly.
-+ *
-+ * The system entering a suspend between timestamp acquisition and
-+ * calling input_set_timestamp can result in inaccurate conversions.
-+ *
-+ */
-+static inline void input_set_timestamp(struct input_dev *dev,
-+	ktime_t timestamp)
-+{
-+	dev->timestamp[INPUT_CLK_MONO] = timestamp;
-+	dev->timestamp[INPUT_CLK_REAL] = ktime_mono_to_real(timestamp);
-+	dev->timestamp[INPUT_CLK_BOOT] = ktime_mono_to_any(
-+		timestamp, TK_OFFS_BOOT);
-+}
-+
-+ktime_t *input_get_timestamp(struct input_dev *dev);
-+
- void input_event(struct input_dev *dev, unsigned int type, unsigned int code, int value);
- void input_inject_event(struct input_handle *handle, unsigned int type, unsigned int code, int value);
- 
+diff --git a/drivers/hid/usbhid/hiddev.c b/drivers/hid/usbhid/hiddev.c
+index 55b72573066b..73a76d9af974 100644
+--- a/drivers/hid/usbhid/hiddev.c
++++ b/drivers/hid/usbhid/hiddev.c
+@@ -416,7 +416,7 @@ static __poll_t hiddev_poll(struct file *file, poll_table *wait)
+
+        poll_wait(file, &list->hiddev->wait, wait);
+        if (list->head != list->tail)
+-               return EPOLLIN | EPOLLRDNORM;
++               return EPOLLIN | EPOLLRDNORM | EPOLLOUT;
+        if (!list->hiddev->exist)
+                return EPOLLERR | EPOLLHUP;
+        return 0;
 -- 
-2.22.0.510.g264f2c817a-goog
+2.20.1
 
