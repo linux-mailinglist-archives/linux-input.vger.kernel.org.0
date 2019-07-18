@@ -2,80 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 981446CE29
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2019 14:34:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FF6A6CF6C
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2019 16:05:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727742AbfGRMe1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Thu, 18 Jul 2019 08:34:27 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:43912 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727692AbfGRMe1 (ORCPT
+        id S1727685AbfGROFL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Jul 2019 10:05:11 -0400
+Received: from orion.archlinux.org ([88.198.91.70]:52180 "EHLO
+        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727708AbfGROFK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Jul 2019 08:34:27 -0400
-Received: by mail-qt1-f195.google.com with SMTP id w17so26913575qto.10;
-        Thu, 18 Jul 2019 05:34:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=YgDPxY1huva0NBQK8HCG0oQDr7LxpI+h7zIUm7eJfoE=;
-        b=XVEpPCf9gWpce3B7VSyzxQONG0+GXtgb5NCdA8zfSgiMDK/RvwlzJibBuhhyxG6pUW
-         Ei+e/V4CcVOq4Z3vMKTMdAgaRYo0usq+wZKimuXG55TGOyYsyeAvNA9aOGKLOglmmSOc
-         qOodX+TFjQAqso2KsUDjcr4iiiWcjVnwxscSeh2aDgB4hMyaDrhIG+0vWpdyQ8S0gAwa
-         UZWO5nJ7qVJAdMuyGyhhqtCGKr38bc3eLLWjJvsmTFYSLFM2YtmrEGe1e2SO27rVUjPh
-         fKSE9VYdAQAmT151KdRKWqeEec49+y98Zt7glWG/GtRdhwOabc8uiaTeptmPoeWz4C1S
-         SM7g==
-X-Gm-Message-State: APjAAAUdQjRe3L+PlOS9oC/X5XVACKfQNlN6NV3d52M07z/GidUHQzS4
-        gTzy9e0TZ00DU7zkqopVRkEtpEq3aySMbxi8shenI/HSs/E=
-X-Google-Smtp-Source: APXvYqzg5939ggftWax9rA8+LigDbV1C/i0RooF5/1N++M5M083sFjZXh/MKlbsUanzpLd4BZx56GxaBopTP8IPqhYY=
-X-Received: by 2002:aed:3e7c:: with SMTP id m57mr32163623qtf.204.1563453266382;
- Thu, 18 Jul 2019 05:34:26 -0700 (PDT)
+        Thu, 18 Jul 2019 10:05:10 -0400
+Received: from orion.archlinux.org (localhost [127.0.0.1])
+        by orion.archlinux.org (Postfix) with ESMTP id 8374213E961FB1;
+        Thu, 18 Jul 2019 14:04:59 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on orion
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
+        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
+        autolearn=no autolearn_force=no version=3.4.2
+X-Spam-BL-Results: 
+Received: from saetre.corp.logitech.com?044 (unknown [154.53.1.40])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ffy00)
+        by orion.archlinux.org (Postfix) with ESMTPSA;
+        Thu, 18 Jul 2019 14:04:58 +0000 (UTC)
+From:   =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
+Cc:     nlopezcasad@logitech.com,
+        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] hid-logitech-dj: add other Lightspeed receiver
+Date:   Thu, 18 Jul 2019 15:03:57 +0100
+Message-Id: <20190718140358.9058-1-lains@archlinux.org>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-References: <20190718020654.39860-1-yuehaibing@huawei.com> <CAK8P3a2H0o+_3Y_J3r=D5_hGCArTYeHPfPPjY3dJ+ArmqYrOfQ@mail.gmail.com>
- <20190718115827.GB2872@innovation.ch>
-In-Reply-To: <20190718115827.GB2872@innovation.ch>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 18 Jul 2019 14:34:09 +0200
-Message-ID: <CAK8P3a2Bi4xChuQH+buFtw+ODeDHPiPX=KqOuRNb9L2Koy8yYA@mail.gmail.com>
-Subject: Re: [PATCH] Input: applespi: Fix build error without CONFIG_PCI
-To:     "Life is hard, and then you die" <ronald@innovation.ch>
-Cc:     YueHaibing <yuehaibing@huawei.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hartley Sweeten <hsweeten@visionengravers.com>,
-        Rob Herring <robh@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jul 18, 2019 at 1:58 PM Life is hard, and then you die
-<ronald@innovation.ch> wrote:
-> On Thu, Jul 18, 2019 at 09:15:59AM +0200, Arnd Bergmann wrote:
-> > On Thu, Jul 18, 2019 at 4:07 AM YueHaibing <yuehaibing@huawei.com> wrote:
-> > Your patch correctly solves the spi_pxa2xx issue, but I'd prefer to instead
-> > drop the three 'imply' statements altogether, they seem to do more harm
-> > than good.
-> >
-> > (the circular dependency I saw might only happen when applying the
-> > arm32 KASAN patches, but I expect to see them merged for linux-5.4)
->
-> Isn't there more generally a problem here that this is selecting
-> MFD_INTEL_LPSS_PCI even though that depends on X86? I.e. are both ARM
-> and X86 selected at the same time? (sorry if I'm being naïve, but I
-> assumed only one arch can be selected at a time)
+This receiver seems to only be used in the G305.
 
-You can't have ARM and X86 defined at the same time, but Kconfig does
-not know that, it just sees X86 as an undefined symbol, and ARM as
-as always-enabled symbol when building for ARM.
+Signed-off-by: Filipe Laíns <lains@archlinux.org>
+---
+ drivers/hid/hid-ids.h         | 1 +
+ drivers/hid/hid-logitech-dj.c | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-In theory, 'imply' should deal with that and have no effect when there
-are missing dependencies, but it appears that this only works for
-deciding whether to turn on MFD_INTEL_LPSS_PCI, not for figuring
-out loops in the dependency chain.
-
-       Arnd
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 884356feb016..e5d0fd85e61d 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -770,6 +770,7 @@
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2		0xc534
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED	0xc539
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_POWERPLAY	0xc53a
++#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_2	0xc53f
+ #define USB_DEVICE_ID_SPACETRAVELLER	0xc623
+ #define USB_DEVICE_ID_SPACENAVIGATOR	0xc626
+ #define USB_DEVICE_ID_DINOVO_DESKTOP	0xc704
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index d5b47ec1510c..0139912c3f69 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -1836,6 +1836,10 @@ static const struct hid_device_id logi_dj_receivers[] = {
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+ 		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED),
+ 	 .driver_data = recvr_type_gaming_hidpp},
++	{ /* Logitech lightspeed receiver (0xc53f) */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
++		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_2),
++	 .driver_data = recvr_type_gaming_hidpp},
+ 	{ /* Logitech 27 MHz HID++ 1.0 receiver (0xc513) */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_MX3000_RECEIVER),
+ 	 .driver_data = recvr_type_27mhz},
+-- 
+2.22.0
