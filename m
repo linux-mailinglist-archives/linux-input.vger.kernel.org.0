@@ -2,156 +2,265 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EAA66D2FD
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2019 19:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F04D26D4E0
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2019 21:42:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727780AbfGRRna (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Jul 2019 13:43:30 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:46547 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726715AbfGRRn3 (ORCPT
+        id S2391373AbfGRTlp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Jul 2019 15:41:45 -0400
+Received: from mail-vs1-f73.google.com ([209.85.217.73]:34897 "EHLO
+        mail-vs1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727687AbfGRTll (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Jul 2019 13:43:29 -0400
-Received: by mail-pg1-f196.google.com with SMTP id i8so13200994pgm.13;
-        Thu, 18 Jul 2019 10:43:29 -0700 (PDT)
+        Thu, 18 Jul 2019 15:41:41 -0400
+Received: by mail-vs1-f73.google.com with SMTP id 66so1907846vsp.2
+        for <linux-input@vger.kernel.org>; Thu, 18 Jul 2019 12:41:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bgJaz1/uwNYSJBUmjmeSrZLCTFJJ09iSPeZA2mJT8xo=;
-        b=jSA3GDW7q7/BWdUH0lWs6dDlQT1GteQ8P2Pasx/o5ffW7YRBkZ2Wk6f+fb+LwvZG7g
-         HKVVl1J1IF9CmN32taOk926NyyIpVkkkNe3bwd8SrNsfgCuQlNxhQztZp+swBgMOhiEb
-         wAQ7tUkbXVsDh8URLwhmfVGxNcmB6wGX44QW2aXR8nPS9A+qzrOcae020HfkDluuTh0F
-         vaEXNCL4HXAtleCPnnDi8jxHKOmv8F7mV9Gw+kPhQUanjxgUYkmAp4cSWUZrJe2NG0IP
-         Ekq824XHUdWkw8k3u0QvANKGyr7nVjQZbnukuuv57xn5lTRkuC5kPba57IOhBwaO/dUC
-         MKNw==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=NyDDuPcwfKxqjN9VK9vgGqLXXuUUhCPRqo1nWMqUF1g=;
+        b=jcY2CBffEmchmiRjAf/pm1/FeJLqCiDq5um50nqrO2GRUmQc9vmAKY3qqmeZpeEcb4
+         OUxlwAIspNwOOAjJTw2LfUYNYdKdTy9x+eSVRFDtupponDaa+SDb8aeryX2t3RnmPIOm
+         6QAcB4qcixDj/Gj23xGwFKr/fJhCjkTKA25A3AH4dXlJc8uNpEZsH//7xvHA4onufzje
+         1VblSW8vhZWaTrGW4CgyI54pHVMEjwIavLuyykWQBfP3lf9RFEm+5VvIcpxCn2WOyNxF
+         f18BT4dSJsq6o4IMShzZ1Hr+7jNkyFM+0ix3z2hQqUMpdENXlUH6kdEfcssvjSPC7QxE
+         ZBWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bgJaz1/uwNYSJBUmjmeSrZLCTFJJ09iSPeZA2mJT8xo=;
-        b=AX20IgoednxKpLA/x5o2CbI0Iy2EOMx4oxvVp+boWZ5DmbI+mzASYHw1iXIrl5H7sE
-         EMll/czsTGNl51NJG+/QXMUU776tn47W3gl20o/fuRsyGYrdM/PP3u9y5PqcYbhf6yxz
-         OYqgyDCzAEGk+D+iHNFV0mIRCEngwKGpss9WYCSAzcYY/JwfmVjz/7u6nU2MRZAWN6TZ
-         K2aQO+ZPAwquq7Y6kPAhV98NvEhFQ4wNX5r3zBBzDdqtsFWePMmDu7Td0692bAit5ozA
-         Pux5N2AOnDIU30UMB3qYjloVmd2bMfMgnbdbrGV30fxgjSQK3FUmnYvGZeEOSvw5xepI
-         Me1g==
-X-Gm-Message-State: APjAAAWRxQWVOA3SL7xFqQ8e4BT6Md9KoSNzKo0MVlL2ZcSaq2VBcaYD
-        mcRaTSqwIjbggmUJMZ0MM8VH5bYYZ/rT6gHZ8Eg=
-X-Google-Smtp-Source: APXvYqwdE8wuCUFNJABcqrDglCMyaBxnEACRCfn/ezV0ammEfC1xrVkt0LxjW5WPsNQYND8JML6evEGdmxbbQAPJkcg=
-X-Received: by 2002:a63:6eca:: with SMTP id j193mr47995397pgc.74.1563471808970;
- Thu, 18 Jul 2019 10:43:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190702003740.75970-1-luzmaximilian@gmail.com> <20190702003740.75970-2-luzmaximilian@gmail.com>
-In-Reply-To: <20190702003740.75970-2-luzmaximilian@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 18 Jul 2019 20:43:18 +0300
-Message-ID: <CAHp75Ve2rPnocQ6RhdqOwEVSGdQ3v1cFoAc=KFfq2-2sDqji2A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] platform: Fix device check for surfacepro3_button
-To:     Maximilian Luz <luzmaximilian@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Chen Yu <yu.c.chen@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=NyDDuPcwfKxqjN9VK9vgGqLXXuUUhCPRqo1nWMqUF1g=;
+        b=NkCDu5uzrdcANh30V9KMC+otqQ0vvaJ8qvyxe227g+YqJmdhA/1yppSDPBITyrh9rd
+         d7eNkBl7+4fNc7gGcee5VIXf+nZI4O68AOKEqbjbT3NJ/NjyKyjnVbPJkAEWekKFxIQe
+         WZcIpR4HM/A9kZo5/mgWy8LuOGjUJy00s7St8kBkI/M19FJA8q1RXlnkquXm13r9bbbw
+         vKOyTq/GZLpHISw9SkZIjOC4FXq6FVywBER38RnA2zVOSfJxVvyzKH7MNM0CIX6g703P
+         hNo4UZ2NRF6gCZHfNdvaHuZn9kBe+cLNPkn+Ool7RqT/v1IPOjapreIGobXIfldYab+u
+         AdmQ==
+X-Gm-Message-State: APjAAAXLjdZGQ+EL0joNaIKbzXQdOAdKyhJD6rkiFY+3t97ILhcN8utV
+        xpz0cHL75Aql3XXelXokxUKkXBQeBvqqMHU=
+X-Google-Smtp-Source: APXvYqwXqcZXkM5Ps6Nmi5nJ0iqzxvaoGR8zYdsRgH1OcvmtSFMGN0PyLHnpBNha9oOHO3/IwHPKxmc7jyTiz/4=
+X-Received: by 2002:a1f:1288:: with SMTP id 130mr19236937vks.12.1563478899563;
+ Thu, 18 Jul 2019 12:41:39 -0700 (PDT)
+Date:   Thu, 18 Jul 2019 12:41:33 -0700
+Message-Id: <20190718194133.64034-1-atifniyaz@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
+Subject: [PATCH v2] input: API for Setting a Timestamp from a Driver
+From:   Atif Niyaz <atifniyaz@google.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Atif Niyaz <atifniyaz11@gmail.com>,
+        Siarhei Vishniakou <svv@google.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Atif Niyaz <atifniyaz@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 2, 2019 at 3:38 AM Maximilian Luz <luzmaximilian@gmail.com> wrote:
->
-> Do not use the surfacepro3_button driver on newer Microsoft Surface
-> models, only use it on the Surface Pro 3 and 4. Newer models (5th, 6th
-> and possibly future generations) use the same device as the Surface Pro
-> 4 to represent their volume and power buttons (MSHW0040), but their
-> acutal implementation is significantly different. This patch ensures
-> that the surfacepro3_button driver is only used on the Pro 3 and 4
-> models, allowing a different driver to bind on other models.
->
+Currently, evdev stamps events with timestamps acquired in evdev_events.
+However, this timestamping may not be accurate in terms of measuring
+when the actual event happened. This API allows any 3rd party driver to
+be able to call input_set_timestamp, and provide a timestamp that can be
+utilized in order to provide a more accurate sense of time for the
+event
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Atif Niyaz <atifniyaz@google.com>
+---
+ drivers/input/evdev.c | 43 +++++++++++++++++--------------------------
+ drivers/input/input.c | 16 ++++++++++++++++
+ include/linux/input.h | 37 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 70 insertions(+), 26 deletions(-)
 
-Assuming it will go thru Input subsystem.
-
-> Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
-> ---
->  drivers/platform/x86/surfacepro3_button.c | 38 +++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
->
-> diff --git a/drivers/platform/x86/surfacepro3_button.c b/drivers/platform/x86/surfacepro3_button.c
-> index 47c6d000465a..0e2c7dfafd9f 100644
-> --- a/drivers/platform/x86/surfacepro3_button.c
-> +++ b/drivers/platform/x86/surfacepro3_button.c
-> @@ -20,6 +20,12 @@
->  #define SURFACE_BUTTON_OBJ_NAME                "VGBI"
->  #define SURFACE_BUTTON_DEVICE_NAME     "Surface Pro 3/4 Buttons"
->
-> +#define MSHW0040_DSM_REVISION          0x01
-> +#define MSHW0040_DSM_GET_OMPR          0x02    // get OEM Platform Revision
-> +static const guid_t MSHW0040_DSM_UUID =
-> +       GUID_INIT(0x6fd05c69, 0xcde3, 0x49f4, 0x95, 0xed, 0xab, 0x16, 0x65,
-> +                 0x49, 0x80, 0x35);
-> +
->  #define SURFACE_BUTTON_NOTIFY_TABLET_MODE      0xc8
->
->  #define SURFACE_BUTTON_NOTIFY_PRESS_POWER      0xc6
-> @@ -142,6 +148,34 @@ static int surface_button_resume(struct device *dev)
->  }
->  #endif
->
-> +/*
-> + * Surface Pro 4 and Surface Book 2 / Surface Pro 2017 use the same device
-> + * ID (MSHW0040) for the power/volume buttons. Make sure this is the right
-> + * device by checking for the _DSM method and OEM Platform Revision.
-> + */
-> +static int surface_button_check_MSHW0040(struct acpi_device *dev)
-> +{
-> +       acpi_handle handle = dev->handle;
-> +       union acpi_object *result;
-> +       u64 oem_platform_rev = 0;
-> +
-> +       // get OEM platform revision
-> +       result = acpi_evaluate_dsm_typed(handle, &MSHW0040_DSM_UUID,
-> +                                        MSHW0040_DSM_REVISION,
-> +                                        MSHW0040_DSM_GET_OMPR,
-> +                                        NULL, ACPI_TYPE_INTEGER);
-> +
-> +       if (result) {
-> +               oem_platform_rev = result->integer.value;
-> +               ACPI_FREE(result);
-> +       }
-> +
-> +       dev_dbg(&dev->dev, "OEM Platform Revision %llu\n", oem_platform_rev);
-> +
-> +       return oem_platform_rev == 0 ? 0 : -ENODEV;
-> +}
-> +
-> +
->  static int surface_button_add(struct acpi_device *device)
->  {
->         struct surface_button *button;
-> @@ -154,6 +188,10 @@ static int surface_button_add(struct acpi_device *device)
->             strlen(SURFACE_BUTTON_OBJ_NAME)))
->                 return -ENODEV;
->
-> +       error = surface_button_check_MSHW0040(device);
-> +       if (error)
-> +               return error;
-> +
->         button = kzalloc(sizeof(struct surface_button), GFP_KERNEL);
->         if (!button)
->                 return -ENOMEM;
-> --
-> 2.22.0
->
-
-
+diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
+index 867c2cfd0038..3160b2223955 100644
+--- a/drivers/input/evdev.c
++++ b/drivers/input/evdev.c
+@@ -25,13 +25,6 @@
+ #include <linux/cdev.h>
+ #include "input-compat.h"
+ 
+-enum evdev_clock_type {
+-	EV_CLK_REAL = 0,
+-	EV_CLK_MONO,
+-	EV_CLK_BOOT,
+-	EV_CLK_MAX
+-};
+-
+ struct evdev {
+ 	int open;
+ 	struct input_handle handle;
+@@ -53,7 +46,7 @@ struct evdev_client {
+ 	struct fasync_struct *fasync;
+ 	struct evdev *evdev;
+ 	struct list_head node;
+-	unsigned int clk_type;
++	enum input_clock_type clk_type;
+ 	bool revoked;
+ 	unsigned long *evmasks[EV_CNT];
+ 	unsigned int bufsize;
+@@ -150,16 +143,19 @@ static void __evdev_flush_queue(struct evdev_client *client, unsigned int type)
+ static void __evdev_queue_syn_dropped(struct evdev_client *client)
+ {
+ 	struct input_event ev;
+-	ktime_t time;
+ 	struct timespec64 ts;
++	ktime_t *time = input_get_timestamp(client->evdev->handle.dev);
+ 
+-	time = client->clk_type == EV_CLK_REAL ?
+-			ktime_get_real() :
+-			client->clk_type == EV_CLK_MONO ?
+-				ktime_get() :
+-				ktime_get_boottime();
++	switch (client->clk_type) {
++	case INPUT_CLK_REAL:
++	case INPUT_CLK_MONO:
++		ts = ktime_to_timespec64(time[client->clk_type]);
++		break;
++	default:
++		ts = ktime_to_timespec64(time[INPUT_CLK_BOOT]);
++		break;
++	}
+ 
+-	ts = ktime_to_timespec64(time);
+ 	ev.input_event_sec = ts.tv_sec;
+ 	ev.input_event_usec = ts.tv_nsec / NSEC_PER_USEC;
+ 	ev.type = EV_SYN;
+@@ -185,21 +181,21 @@ static void evdev_queue_syn_dropped(struct evdev_client *client)
+ 	spin_unlock_irqrestore(&client->buffer_lock, flags);
+ }
+ 
+-static int evdev_set_clk_type(struct evdev_client *client, unsigned int clkid)
++static int evdev_set_clk_type(struct evdev_client *client, clockid_t clkid)
+ {
+ 	unsigned long flags;
+-	unsigned int clk_type;
++	enum input_clock_type clk_type;
+ 
+ 	switch (clkid) {
+ 
+ 	case CLOCK_REALTIME:
+-		clk_type = EV_CLK_REAL;
++		clk_type = INPUT_CLK_REAL;
+ 		break;
+ 	case CLOCK_MONOTONIC:
+-		clk_type = EV_CLK_MONO;
++		clk_type = INPUT_CLK_MONO;
+ 		break;
+ 	case CLOCK_BOOTTIME:
+-		clk_type = EV_CLK_BOOT;
++		clk_type = INPUT_CLK_BOOT;
+ 		break;
+ 	default:
+ 		return -EINVAL;
+@@ -307,12 +303,7 @@ static void evdev_events(struct input_handle *handle,
+ {
+ 	struct evdev *evdev = handle->private;
+ 	struct evdev_client *client;
+-	ktime_t ev_time[EV_CLK_MAX];
+-
+-	ev_time[EV_CLK_MONO] = ktime_get();
+-	ev_time[EV_CLK_REAL] = ktime_mono_to_real(ev_time[EV_CLK_MONO]);
+-	ev_time[EV_CLK_BOOT] = ktime_mono_to_any(ev_time[EV_CLK_MONO],
+-						 TK_OFFS_BOOT);
++	ktime_t *ev_time = input_get_timestamp(handle->dev);
+ 
+ 	rcu_read_lock();
+ 
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index 7f3c5fcb9ed6..b8d711980bdd 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -1894,6 +1894,22 @@ void input_free_device(struct input_dev *dev)
+ }
+ EXPORT_SYMBOL(input_free_device);
+ 
++/**
++ * input_get_timestamp - get timestamp for input events
++ * @dev: input device to get timestamp from
++ *
++ * A valid timestamp is a timestamp of non-zero value.
++ */
++ktime_t *input_get_timestamp(struct input_dev *dev)
++{
++	const ktime_t invalid_timestamp = ktime_set(0, 0);
++
++	if (!ktime_compare(dev->timestamp[INPUT_CLK_MONO], invalid_timestamp))
++		input_set_timestamp(dev, ktime_get());
++	return dev->timestamp;
++}
++EXPORT_SYMBOL(input_get_timestamp);
++
+ /**
+  * input_set_capability - mark device as capable of a certain event
+  * @dev: device that is capable of emitting or accepting event
+diff --git a/include/linux/input.h b/include/linux/input.h
+index 510e78558c10..cf8c69abb342 100644
+--- a/include/linux/input.h
++++ b/include/linux/input.h
+@@ -33,6 +33,13 @@ struct input_value {
+ 	__s32 value;
+ };
+ 
++enum input_clock_type {
++	INPUT_CLK_REAL = 0,
++	INPUT_CLK_MONO,
++	INPUT_CLK_BOOT,
++	INPUT_CLK_MAX
++};
++
+ /**
+  * struct input_dev - represents an input device
+  * @name: name of the device
+@@ -114,6 +121,8 @@ struct input_value {
+  * @vals: array of values queued in the current frame
+  * @devres_managed: indicates that devices is managed with devres framework
+  *	and needs not be explicitly unregistered or freed.
++ * @timestamp: storage for a timestamp set by input_set_timestamp called
++ *  by a driver
+  */
+ struct input_dev {
+ 	const char *name;
+@@ -184,6 +193,8 @@ struct input_dev {
+ 	struct input_value *vals;
+ 
+ 	bool devres_managed;
++
++	ktime_t timestamp[INPUT_CLK_MAX];
+ };
+ #define to_input_dev(d) container_of(d, struct input_dev, dev)
+ 
+@@ -382,6 +393,32 @@ void input_close_device(struct input_handle *);
+ 
+ int input_flush_device(struct input_handle *handle, struct file *file);
+ 
++/**
++ * input_set_timestamp - set timestamp for input events
++ * @dev: input device to set timestamp for
++ * @timestamp: the time at which the event has occurred
++ *   in CLOCK_MONOTONIC
++ *
++ * This function is intended to provide to the input system a more
++ * accurate time of when an event actually occurred. The driver should
++ * call this function as soon as a timestamp is acquired ensuring
++ * clock conversions in input_set_timestamp are done correctly.
++ *
++ * The system entering a suspend between timestamp acquisition and
++ * calling input_set_timestamp can result in inaccurate conversions.
++ *
++ */
++static inline void input_set_timestamp(struct input_dev *dev,
++	ktime_t timestamp)
++{
++	dev->timestamp[INPUT_CLK_MONO] = timestamp;
++	dev->timestamp[INPUT_CLK_REAL] = ktime_mono_to_real(timestamp);
++	dev->timestamp[INPUT_CLK_BOOT] = ktime_mono_to_any(
++		timestamp, TK_OFFS_BOOT);
++}
++
++ktime_t *input_get_timestamp(struct input_dev *dev);
++
+ void input_event(struct input_dev *dev, unsigned int type, unsigned int code, int value);
+ void input_inject_event(struct input_handle *handle, unsigned int type, unsigned int code, int value);
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.22.0.510.g264f2c817a-goog
+
