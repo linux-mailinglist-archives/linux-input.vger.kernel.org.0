@@ -2,85 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FF6A6CF6C
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2019 16:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AFEA6D14E
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2019 17:46:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727685AbfGROFL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Jul 2019 10:05:11 -0400
-Received: from orion.archlinux.org ([88.198.91.70]:52180 "EHLO
-        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727708AbfGROFK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Jul 2019 10:05:10 -0400
-Received: from orion.archlinux.org (localhost [127.0.0.1])
-        by orion.archlinux.org (Postfix) with ESMTP id 8374213E961FB1;
-        Thu, 18 Jul 2019 14:04:59 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on orion
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
-        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
-        autolearn=no autolearn_force=no version=3.4.2
-X-Spam-BL-Results: 
-Received: from saetre.corp.logitech.com?044 (unknown [154.53.1.40])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S2390241AbfGRPqb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Jul 2019 11:46:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35522 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728120AbfGRPqb (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 18 Jul 2019 11:46:31 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: ffy00)
-        by orion.archlinux.org (Postfix) with ESMTPSA;
-        Thu, 18 Jul 2019 14:04:58 +0000 (UTC)
-From:   =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
-Cc:     nlopezcasad@logitech.com,
-        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>,
+        by mx1.redhat.com (Postfix) with ESMTPS id B1FFE30ADC81;
+        Thu, 18 Jul 2019 15:46:30 +0000 (UTC)
+Received: from laptop.jcline.org (unknown [10.13.105.3])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 45B2110021B2;
+        Thu, 18 Jul 2019 15:46:28 +0000 (UTC)
+Received: from laptop.jcline.org (localhost [IPv6:::1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by laptop.jcline.org (Postfix) with ESMTPS id 9FCF6704C8E5;
+        Thu, 18 Jul 2019 11:46:27 -0400 (EDT)
+Date:   Thu, 18 Jul 2019 11:46:26 -0400
+From:   Jeremy Cline <jcline@redhat.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     wbauer1@a1.net, Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
         Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] hid-logitech-dj: add other Lightspeed receiver
-Date:   Thu, 18 Jul 2019 15:03:57 +0100
-Message-Id: <20190718140358.9058-1-lains@archlinux.org>
-X-Mailer: git-send-email 2.22.0
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] HID: input: fix a4tech horizontal wheel custom usage
+Message-ID: <20190718154626.GC25351@laptop.jcline.org>
+References: <20190611121320.30267-1-nsaenzjulienne@suse.de>
+ <CAO-hwJLAiC1o-kZ5epZHtO2GK+zc5x28pYbZH-XsY4yAuBmHWw@mail.gmail.com>
+ <5346893.KeHrH3GHoD@linux-lf90.site>
+ <CAO-hwJ+Nm+i+ehGurAxD3EQBX8-TFQ7p4J-1rV55fVA=NazgAw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAO-hwJ+Nm+i+ehGurAxD3EQBX8-TFQ7p4J-1rV55fVA=NazgAw@mail.gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Thu, 18 Jul 2019 15:46:30 +0000 (UTC)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This receiver seems to only be used in the G305.
+On Fri, Jun 14, 2019 at 03:36:03PM +0200, Benjamin Tissoires wrote:
+> Hi Wolfgang,
+> 
+> On Thu, Jun 13, 2019 at 1:49 PM Wolfgang Bauer <wbauer@tmo.at> wrote:
+> >
+> > On Tuesday, 11. Juni 2019, 16:42:37 Benjamin Tissoires wrote:
+> > > On Tue, Jun 11, 2019 at 2:13 PM Nicolas Saenz Julienne
+> > >
+> > > <nsaenzjulienne@suse.de> wrote:
+> > > > NOTE: I CC'd Wolfgang as he's the one who can test this.
+> > >
+> > > I'll wait for Wolfram to confirm that the patch works before pushing then.
+> >
+> > My name is Wolfgang, not Wolfram... ;-)
+> 
+> ouch, sorry for that (I am more used to talk to the I2C maintainer apparently)
+> 
+> > But never mind.
+> >
+> > I tested the patch meanwhile on top of kernel 5.2.rc4, where the mouse wheel
+> > actually worked.
+> 
+> Actually, I am a little bit lost here.
+> 
+> The patch mentions a fix of c01908a14bf73, which is in 5.1 final.
+> So if your mouse works in 5.2.rc4, I am not sure how
+> HID-a4tech-fix-horizontal-scrolling.patch could break it.
+> 
+> Could you be slightly more specific in what "works" and what doesn't?
+> 
 
-Signed-off-by: Filipe Laíns <lains@archlinux.org>
----
- drivers/hid/hid-ids.h         | 1 +
- drivers/hid/hid-logitech-dj.c | 4 ++++
- 2 files changed, 5 insertions(+)
+For what it's worth, at least one user has hit this issue in Fedora
+starting on stable kernel v5.1.17[0] which has commit abf82e8f7e9a
+("HID: a4tech: fix horizontal scrolling"). Applying this patch on top of
+v5.1.18 fixed the issue for them.
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 884356feb016..e5d0fd85e61d 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -770,6 +770,7 @@
- #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2		0xc534
- #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED	0xc539
- #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_POWERPLAY	0xc53a
-+#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_2	0xc53f
- #define USB_DEVICE_ID_SPACETRAVELLER	0xc623
- #define USB_DEVICE_ID_SPACENAVIGATOR	0xc626
- #define USB_DEVICE_ID_DINOVO_DESKTOP	0xc704
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index d5b47ec1510c..0139912c3f69 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -1836,6 +1836,10 @@ static const struct hid_device_id logi_dj_receivers[] = {
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
- 		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED),
- 	 .driver_data = recvr_type_gaming_hidpp},
-+	{ /* Logitech lightspeed receiver (0xc53f) */
-+	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
-+		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_2),
-+	 .driver_data = recvr_type_gaming_hidpp},
- 	{ /* Logitech 27 MHz HID++ 1.0 receiver (0xc513) */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_MX3000_RECEIVER),
- 	 .driver_data = recvr_type_27mhz},
--- 
-2.22.0
+[0] https://bugzilla.redhat.com/show_bug.cgi?id=1730762
+
+
+Regards,
+Jeremy
