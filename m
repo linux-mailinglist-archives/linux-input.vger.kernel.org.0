@@ -2,62 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 536E16D601
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2019 22:51:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96D7D6DE85
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jul 2019 06:29:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727781AbfGRUvC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Jul 2019 16:51:02 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:33928 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727687AbfGRUvC (ORCPT
+        id S1732088AbfGSE3E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Jul 2019 00:29:04 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:48560 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730095AbfGSEFx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Jul 2019 16:51:02 -0400
-Received: by mail-ed1-f65.google.com with SMTP id s49so32113612edb.1
-        for <linux-input@vger.kernel.org>; Thu, 18 Jul 2019 13:51:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=BForRrlpL+KyZG6ISBWhJCdyq+J05d1LT1A+UYYas5E=;
-        b=K6LdhqekYHs1XneMALWEV29p0fEfMsPCvFG7OvCvCKY5zfOytRxlKroTKirIz1FbhV
-         dDks5OLED14dxYAtV4TvytRsocbWulUsNECO759sthu2uyQf0u+o4cf14bssrJa9HvwA
-         j2V3QvH34bEhBAF9cqdbO5WvOleEgdmiJ9yfmXkYBV1sCMeM3Qw1q0OxMwM+fnO/lIN+
-         pxcJxpLOHHU0GDxnZvHgqldJBDpk2WAPCw/3Bvy2OP+3ARAZ4EcjcQTWLtO0vpGMQogC
-         HVuT0nV3J/nZrSxt3aUxpnC8g7D3RjXhYfyo57VRtCwj6KssY3u7KTrC9M8uYFOSFwUM
-         KzbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=BForRrlpL+KyZG6ISBWhJCdyq+J05d1LT1A+UYYas5E=;
-        b=KypLbd2IAaSL34rIwF9o5AhMdBziEMx7GTU5++KKhq7Zm7pngjnL1YlafKAbj95+HN
-         Alk7SxDW0DY+lTUrKwzmxLXTySdvHH90Ic/pscxCHi+VT5SrgXpUftM1DbQ5tYfOzg6r
-         aSqdJWJSU70rjrSVGajyBcps9+2NV4PXGQ0B26vYQXo2S+oPPn/4E6DNk0KnDPb63XMF
-         p4fhL6fW0p+Vcwcxib8vR44iADR8c2/F3rx4ymCxE1drpwRtzS0h8GLMzW1WvQXfSB2Z
-         N0K8tY8napFEICAJLLx9pZGWQ7wR/oq4arVggShyd50/xeg3LDu4ClvgUGSQjKiVcnzK
-         9wMQ==
-X-Gm-Message-State: APjAAAVZw6Eae1CBJsu2pWCrEg88iuKdNrlR7LAw6pJ3lEwXN0ZjToH9
-        /rJkC/QtCRAp8Ez7WAzhbP9mO+I836M=
-X-Google-Smtp-Source: APXvYqzU1E7Kr7xnIy1xhh0GMqtiL4RBlT4+XR82rSNavLYQuf6eNSJdueqNk8Unum0ZUANLMIEywg==
-X-Received: by 2002:a17:906:7382:: with SMTP id f2mr37006566ejl.88.1563483059794;
-        Thu, 18 Jul 2019 13:50:59 -0700 (PDT)
-Received: from ?IPv6:2001:16b8:1ce7:c900:58f4:fdce:9c5d:69b8? ([2001:16b8:1ce7:c900:58f4:fdce:9c5d:69b8])
-        by smtp.gmail.com with ESMTPSA id t18sm5793270ejz.74.2019.07.18.13.50.59
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Jul 2019 13:50:59 -0700 (PDT)
-Subject: [PATCH] hiddev: Return EPOLLOUT from hiddev_poll
-To:     Jiri Kosina <jikos@kernel.org>,
-        linux-input <linux-input@vger.kernel.org>
-References: <3141770d-bb58-e0e9-35ac-84cc23719892@gmail.com>
- <nycvar.YFH.7.76.1907171333160.5899@cbobk.fhfr.pm>
-From:   Fabian Henneke <fabian.henneke@gmail.com>
-Message-ID: <ad32bc93-e833-d729-3b96-f18146c9099a@gmail.com>
-Date:   Thu, 18 Jul 2019 22:50:58 +0200
+        Fri, 19 Jul 2019 00:05:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=8rZP02MbRSBBbscvbeC9+WMvkdTaXb3OCI4XMXn4kxA=; b=CA7z7nXmYMd0B49HXCCyEP4B2t
+        Tsl9LivcM+GTdLImucd8KdWVRv1OHB8+n+xmMbRNPPggzXoAK2bNPnVYKW+Yc+lxgrIHH2aL9JCni
+        BYBpRaNV2HDW7Nfy6iSFkXk5oPJIJlOWALCCSzVZHEqXyVKmM8snhfilDtGFNpm0MY9AvDADPvyrn
+        Hj5x9wwunkCmcUs2T+CwfiegCG71vpcJ+Pgs2pwOeA7il1P6Gn5jsEh3ccJqC553xVMKH6zn20qI+
+        JzAPDrGfG9uc4bkEZs9ST6VxzVLjkRsTZlxSjzLqVIAMuT8xpzGlhmmxoBkLcqYtE3LSWRT1NHD+0
+        tEDGckeg==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=[192.168.1.17])
+        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hoK9V-0002w4-38; Fri, 19 Jul 2019 04:05:49 +0000
+Subject: Re: [PATCH] Input: applespi: Fix build error without CONFIG_PCI
+To:     "Life is hard, and then you die" <ronald@innovation.ch>,
+        YueHaibing <yuehaibing@huawei.com>
+Cc:     dmitry.torokhov@gmail.com, hsweeten@visionengravers.com,
+        robh@kernel.org, arnd@arndb.de, andriy.shevchenko@linux.intel.com,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+References: <20190718020654.39860-1-yuehaibing@huawei.com>
+ <20190718114036.GA2872@innovation.ch>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <6a7111e2-3347-11fa-58d9-11d337a91c42@infradead.org>
+Date:   Thu, 18 Jul 2019 21:05:47 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <nycvar.YFH.7.76.1907171333160.5899@cbobk.fhfr.pm>
+In-Reply-To: <20190718114036.GA2872@innovation.ch>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -66,29 +50,59 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Always return EPOLLOUT from hiddev_poll when a device is connected.
-This is safe since hiddev_write always fails and improves compatibility
-with tools like socat.
+On 7/18/19 4:40 AM, Life is hard, and then you die wrote:
+> 
+> On Thu, Jul 18, 2019 at 10:06:54AM +0800, YueHaibing wrote:
+>> If CONFIG_KEYBOARD_APPLESPI is set to y, but
+>> CONFIG_PCI is not set, building will fails:
+>>
+>> drivers/spi/spi-pxa2xx-pci.c: In function pxa2xx_spi_pci_probe:
+>> drivers/spi/spi-pxa2xx-pci.c:208:8: error: implicit declaration of function pcim_enable_device;
+>>  did you mean pci_enable_device? [-Werror=implicit-function-declaration]
+>>   ret = pcim_enable_device(dev);
+>>         ^~~~~~~~~~~~~~~~~~
+>>         pci_enable_device
+>> drivers/spi/spi-pxa2xx-pci.c:239:8: error: implicit declaration of function pci_alloc_irq_vectors;
+>>  did you mean pci_alloc_consistent? [-Werror=implicit-function-declaration]
+>>   ret = pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_ALL_TYPES);
+>>         ^~~~~~~~~~~~~~~~~~~~~
+>>
+>> Make CONFIG_KEYBOARD_APPLESPI depends on CONFIG_PCI
+>> to fix this.
+>>
+>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>> Fixes: b426ac045209 ("Input: add Apple SPI keyboard and trackpad driver")
+>> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+>> ---
+>>  drivers/input/keyboard/Kconfig | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+>> index dd934c4..fefcc46 100644
+>> --- a/drivers/input/keyboard/Kconfig
+>> +++ b/drivers/input/keyboard/Kconfig
+>> @@ -74,7 +74,7 @@ config ATARI_KBD_CORE
+>>  config KEYBOARD_APPLESPI
+>>  	tristate "Apple SPI keyboard and trackpad"
+>>  	depends on ACPI && EFI
+>> -	depends on SPI
+>> +	depends on SPI && PCI
+>>  	depends on X86 || COMPILE_TEST
+>>  	imply SPI_PXA2XX
+>>  	imply SPI_PXA2XX_PCI
+>> -- 
+>> 2.7.4
+> 
+> I think this is more properly fixed by Dmitry's suggestion of making
+> SPI_PXA2XX_PCI depend on PCI, since it's that module, not applespi,
+> that actually needs PCI - see
+> https://www.spinics.net/lists/linux-input/msg62351.html
 
-Signed-off-by: Fabian Henneke <fabian@henneke.me>
-In-reply-to: <nycvar.YFH.7.76.1907171333160.5899@cbobk.fhfr.pm>
----
- drivers/hid/usbhid/hiddev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Dmitry's patch works for my failing test case.
 
-diff --git a/drivers/hid/usbhid/hiddev.c b/drivers/hid/usbhid/hiddev.c
-index 55b72573066b..73a76d9af974 100644
---- a/drivers/hid/usbhid/hiddev.c
-+++ b/drivers/hid/usbhid/hiddev.c
-@@ -416,7 +416,7 @@ static __poll_t hiddev_poll(struct file *file, poll_table *wait)
+Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
 
-        poll_wait(file, &list->hiddev->wait, wait);
-        if (list->head != list->tail)
--               return EPOLLIN | EPOLLRDNORM;
-+               return EPOLLIN | EPOLLRDNORM | EPOLLOUT;
-        if (!list->hiddev->exist)
-                return EPOLLERR | EPOLLHUP;
-        return 0;
+Thanks.
+
 -- 
-2.20.1
-
+~Randy
