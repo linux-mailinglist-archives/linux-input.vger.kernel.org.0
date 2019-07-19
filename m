@@ -2,473 +2,450 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C5C4B6E48D
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jul 2019 12:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ADA86E491
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jul 2019 12:54:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726373AbfGSKvw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Jul 2019 06:51:52 -0400
-Received: from mail-pl1-f176.google.com ([209.85.214.176]:43521 "EHLO
-        mail-pl1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726239AbfGSKvw (ORCPT
+        id S1726837AbfGSKxt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Jul 2019 06:53:49 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:34993 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726239AbfGSKxt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Jul 2019 06:51:52 -0400
-Received: by mail-pl1-f176.google.com with SMTP id 4so8477766pld.10;
-        Fri, 19 Jul 2019 03:51:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pHeGQrvuIZqnbU3+Zfe63uICKBYe2MWyh893KkU1oMA=;
-        b=hWGbkL1Bv3NjbOqu549YDT0TW0X1VsJ5TkbYgS2C5metxn2xQWncSbxPRBin+DSbXa
-         l3IddVIcOK55X+Bgli194YfwpN+kHyBGlcvN5Oi/1DrAVa+y30rxxv52yHRgpZQEPRrf
-         P3waNObvPA4BrcfPU7yeItavNG2JYgMHNm0CGdoOEzujPq7zxm0AbzcUIE/6yKQq1z8T
-         kvvV1YSo5fkzzcPid0oZ1z7Vv0eBaGerlGJgXemzaTC3hMHw1rH3nI0wLX2BsqRuWkKn
-         uVJC1NfpzXI62iOttQZ8ppGg81gzMkCSAjiIkOjticFB9lwIjsHGvxV62qjrOMcMm0b4
-         r5CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pHeGQrvuIZqnbU3+Zfe63uICKBYe2MWyh893KkU1oMA=;
-        b=IFcepT8mi+VGH28YynydVGkpE480elEor0GHEUW4gKyDxFUCobj5nmd3/yHu+LcGAc
-         UfCvfKBHby/A+/58TZ6Nkrt1RifGZwdasOGSuoUM3qHRpXFrmFNJVdmnh8WWKaTyvwXA
-         JSWntuxfIAtr6PcrYWjjiCw2V+9+NlIl9YE3vv+WEeUZsmeLiBrr0225hiONdrPopveB
-         V0kI38jBiJ7+U/BYXmERm8C+/LwC4v54JN/UZb3MFZ/UqFoQqxurbWOUHlAqPSxINMKL
-         qtotlHpYXR4HXvR4hpXEcp1DP7b4tmQcCbrc7tX8q4DbLKnq2ShvfMPDlokBXH72Ndig
-         uuUA==
-X-Gm-Message-State: APjAAAWjCLG3LCOAzkeKwWiY6FLoSUv0NgFctMz9SYG3dfP3NGIug3yr
-        88dLUYfdzmoygGVFuzcFuTk=
-X-Google-Smtp-Source: APXvYqzhu6/kmeGnoSN8lHhnqRdOgRPSNy+cn758HppKiSDnsBu91kvGj8SLdyKQRdwysDfluz6x6g==
-X-Received: by 2002:a17:902:9a04:: with SMTP id v4mr54589574plp.95.1563533510910;
-        Fri, 19 Jul 2019 03:51:50 -0700 (PDT)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
-        by smtp.gmail.com with ESMTPSA id v18sm17876588pgl.87.2019.07.19.03.51.46
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 19 Jul 2019 03:51:50 -0700 (PDT)
-From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH] Input: keyboard: Use dev_get_drv_data
-Date:   Fri, 19 Jul 2019 18:51:08 +0800
-Message-Id: <20190719105107.20651-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        Fri, 19 Jul 2019 06:53:49 -0400
+Received: from [192.168.178.182] ([46.223.2.3]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1McHM2-1iQnfq0JgK-00cdoo; Fri, 19 Jul 2019 12:53:46 +0200
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, markus@notsyncing.net
+References: <20190501122745.1322-1-markus@notsyncing.net>
+From:   Markus Koch <markus@notsyncing.net>
+Openpgp: preference=signencrypt
+Autocrypt: addr=markus@notsyncing.net; prefer-encrypt=mutual; keydata=
+ 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
+Subject: Re: [PATCH] Input: add support for the FlySky FS-iA6B RC receiver
+Message-ID: <62316d21-ba0a-f160-504b-f0de7fe5f5fc@notsyncing.net>
+Date:   Fri, 19 Jul 2019 12:53:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
+In-Reply-To: <20190501122745.1322-1-markus@notsyncing.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+X-Provags-ID: V03:K1:okjJdtfeZM043yQIbw/ZEzgVPVN8928dUYvR/dsiCeWoMBuJey0
+ bqP+hIM5a9dkXclfJexKuRRZ05bHkVr/SJPvAQM3DSSgsU9HMjOQc8by/OVpXTa9UaseYuy
+ WgIjiUYgL3qurFDbgfww2xwDTy3kAsxSN9ScWAzVE0V/6c/apfdOysVvuDATbOHp8tAVVZ0
+ pyC6ZNXIy30ZiA5UjvG1g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EvV/ti6zEXk=:QN42e72QHiXvk2w3KVZhwF
+ 8pD9H9YLuUpcptz/pO2ZNnNdo7f2pFBFIBoJ6EAayyjrwa7zpzdRnX9ADCrJkjcskpkyZ47+q
+ Ue2npDP217HfYljAMEfexdIRDSUo0RgApwXmNowcqeVjgVkaE3ip3s0dTSZooJ7Fs/0WDhJ4T
+ /zJ9YMmPFx3mAtcwCcyHtMUPLaxc9EdtzFjNpS6ecTfg7o+tz6YRh0a4jpOUCwmwGXPiteuYU
+ 65ekM9wqPJPNljx4tRvFhQLN5OAoWgxfmPa0JjM53SjWefgyS4Eg6X8+8xkbeg0QJcQNvHHV3
+ xsrEr73mA48Hb8H/fMm5gHlqZOyb0MsEU3cCl0PIJn9XUAqUJIDEGusSc8sMQqmASYI14p3j0
+ 6yXR31LZUMHOFlpcfngFYBP48jKwnArnwQ13Gq5rHluDFYW4v7yoQEi0qdhABrx+uVGvA1eE1
+ ay8zF+SIJSZ/Otaw8KhujmM9VzN3lImN5ObXMyl9upPNIrn69+y0M3j5oTXBd/UOmKq4Ku5VG
+ YweF2ziR3KV/20C17JETBtC2JYOKlMrgxElgXuMwfHxBEjFEV9MftAhVgO8NyzLkpefx3fCfG
+ di5blET3Gk5a1Z/ramZNFP8t2Y7pu0Mv71oky6Yqd3ehG6EtesGwCRW6jqwJxYTPpTi0EOaEF
+ 09gbIzDctiwHtdwzdEmcD7VsRZZF6i6nJgYw8C9T6jjETGWhZ1q55wIchsjrQKIivAG9pbWn+
+ rNjFXqmAu4C/CM5Th6DTBsgYZ8mFi/BcjXHAGq7JXGix8K/zQ9Nb1ynCg8w=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-dev_get_drvdata is a simpler implementation comparing
-to to_platform_device + platform_get_drvdata.
-This makes the code simpler.
+Hi,
 
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
----
- drivers/input/keyboard/ep93xx_keypad.c   | 10 ++++------
- drivers/input/keyboard/gpio_keys.c       |  3 +--
- drivers/input/keyboard/imx_keypad.c      | 10 ++++------
- drivers/input/keyboard/lpc32xx-keys.c    |  6 ++----
- drivers/input/keyboard/matrix_keypad.c   | 10 ++++------
- drivers/input/keyboard/omap4-keypad.c    | 10 ++++------
- drivers/input/keyboard/pmic8xxx-keypad.c |  6 ++----
- drivers/input/keyboard/pxa27x_keypad.c   | 10 ++++------
- drivers/input/keyboard/samsung-keypad.c  | 12 ++++--------
- drivers/input/keyboard/spear-keyboard.c  | 10 ++++------
- drivers/input/keyboard/st-keyscan.c      |  6 ++----
- drivers/input/keyboard/tegra-kbc.c       | 10 ++++------
- 12 files changed, 39 insertions(+), 64 deletions(-)
+a while back, I sent a patch to support the FS-iA6B RC receiver as a joystick: https://patchwork.kernel.org/patch/10925041/
 
-diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
-index 7c70492d9d6b..bcc8a17f9a01 100644
---- a/drivers/input/keyboard/ep93xx_keypad.c
-+++ b/drivers/input/keyboard/ep93xx_keypad.c
-@@ -178,8 +178,7 @@ static void ep93xx_keypad_close(struct input_dev *pdev)
- #ifdef CONFIG_PM_SLEEP
- static int ep93xx_keypad_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
-+	struct ep93xx_keypad *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = keypad->input_dev;
- 
- 	mutex_lock(&input_dev->mutex);
-@@ -191,7 +190,7 @@ static int ep93xx_keypad_suspend(struct device *dev)
- 
- 	mutex_unlock(&input_dev->mutex);
- 
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(dev))
- 		enable_irq_wake(keypad->irq);
- 
- 	return 0;
-@@ -199,11 +198,10 @@ static int ep93xx_keypad_suspend(struct device *dev)
- 
- static int ep93xx_keypad_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
-+	struct ep93xx_keypad *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = keypad->input_dev;
- 
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(dev))
- 		disable_irq_wake(keypad->irq);
- 
- 	mutex_lock(&input_dev->mutex);
-diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-index 03f4d152f6b7..a8db71ceb50c 100644
---- a/drivers/input/keyboard/gpio_keys.c
-+++ b/drivers/input/keyboard/gpio_keys.c
-@@ -290,8 +290,7 @@ static ssize_t gpio_keys_show_##name(struct device *dev,		\
- 				     struct device_attribute *attr,	\
- 				     char *buf)				\
- {									\
--	struct platform_device *pdev = to_platform_device(dev);		\
--	struct gpio_keys_drvdata *ddata = platform_get_drvdata(pdev);	\
-+	struct gpio_keys_drvdata *ddata = dev_get_drvdata(dev);	\
- 									\
- 	return gpio_keys_attr_show_helper(ddata, buf,			\
- 					  type, only_disabled);		\
-diff --git a/drivers/input/keyboard/imx_keypad.c b/drivers/input/keyboard/imx_keypad.c
-index 97500a2de2d5..6d3d62c82de0 100644
---- a/drivers/input/keyboard/imx_keypad.c
-+++ b/drivers/input/keyboard/imx_keypad.c
-@@ -526,8 +526,7 @@ static int imx_keypad_probe(struct platform_device *pdev)
- 
- static int __maybe_unused imx_kbd_noirq_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct imx_keypad *kbd = platform_get_drvdata(pdev);
-+	struct imx_keypad *kbd = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = kbd->input_dev;
- 	unsigned short reg_val = readw(kbd->mmio_base + KPSR);
- 
-@@ -539,7 +538,7 @@ static int __maybe_unused imx_kbd_noirq_suspend(struct device *dev)
- 
- 	mutex_unlock(&input_dev->mutex);
- 
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		if (reg_val & KBD_STAT_KPKD)
- 			reg_val |= KBD_STAT_KRIE;
- 		if (reg_val & KBD_STAT_KPKR)
-@@ -554,12 +553,11 @@ static int __maybe_unused imx_kbd_noirq_suspend(struct device *dev)
- 
- static int __maybe_unused imx_kbd_noirq_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct imx_keypad *kbd = platform_get_drvdata(pdev);
-+	struct imx_keypad *kbd = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = kbd->input_dev;
- 	int ret = 0;
- 
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(dev))
- 		disable_irq_wake(kbd->irq);
- 
- 	mutex_lock(&input_dev->mutex);
-diff --git a/drivers/input/keyboard/lpc32xx-keys.c b/drivers/input/keyboard/lpc32xx-keys.c
-index a34e3271b0c9..cc15da57cfec 100644
---- a/drivers/input/keyboard/lpc32xx-keys.c
-+++ b/drivers/input/keyboard/lpc32xx-keys.c
-@@ -269,8 +269,7 @@ static int lpc32xx_kscan_probe(struct platform_device *pdev)
- #ifdef CONFIG_PM_SLEEP
- static int lpc32xx_kscan_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct lpc32xx_kscan_drv *kscandat = platform_get_drvdata(pdev);
-+	struct lpc32xx_kscan_drv *kscandat = dev_get_drvdata(dev);
- 	struct input_dev *input = kscandat->input;
- 
- 	mutex_lock(&input->mutex);
-@@ -287,8 +286,7 @@ static int lpc32xx_kscan_suspend(struct device *dev)
- 
- static int lpc32xx_kscan_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct lpc32xx_kscan_drv *kscandat = platform_get_drvdata(pdev);
-+	struct lpc32xx_kscan_drv *kscandat = dev_get_drvdata(dev);
- 	struct input_dev *input = kscandat->input;
- 	int retval = 0;
- 
-diff --git a/drivers/input/keyboard/matrix_keypad.c b/drivers/input/keyboard/matrix_keypad.c
-index 30924b57058f..c5a294e1de95 100644
---- a/drivers/input/keyboard/matrix_keypad.c
-+++ b/drivers/input/keyboard/matrix_keypad.c
-@@ -272,12 +272,11 @@ static void matrix_keypad_disable_wakeup(struct matrix_keypad *keypad)
- 
- static int matrix_keypad_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct matrix_keypad *keypad = platform_get_drvdata(pdev);
-+	struct matrix_keypad *keypad = dev_get_drvdata(dev);
- 
- 	matrix_keypad_stop(keypad->input_dev);
- 
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(dev))
- 		matrix_keypad_enable_wakeup(keypad);
- 
- 	return 0;
-@@ -285,10 +284,9 @@ static int matrix_keypad_suspend(struct device *dev)
- 
- static int matrix_keypad_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct matrix_keypad *keypad = platform_get_drvdata(pdev);
-+	struct matrix_keypad *keypad = dev_get_drvdata(dev);
- 
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(dev))
- 		matrix_keypad_disable_wakeup(keypad);
- 
- 	matrix_keypad_start(keypad->input_dev);
-diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
-index 94c94d7f5155..a6db5494c742 100644
---- a/drivers/input/keyboard/omap4-keypad.c
-+++ b/drivers/input/keyboard/omap4-keypad.c
-@@ -412,11 +412,10 @@ MODULE_DEVICE_TABLE(of, omap_keypad_dt_match);
- #ifdef CONFIG_PM_SLEEP
- static int omap4_keypad_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct omap4_keypad *keypad_data = platform_get_drvdata(pdev);
-+	struct omap4_keypad *keypad_data = dev_get_drvdata(dev);
- 	int error;
- 
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		error = enable_irq_wake(keypad_data->irq);
- 		if (!error)
- 			keypad_data->irq_wake_enabled = true;
-@@ -427,10 +426,9 @@ static int omap4_keypad_suspend(struct device *dev)
- 
- static int omap4_keypad_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct omap4_keypad *keypad_data = platform_get_drvdata(pdev);
-+	struct omap4_keypad *keypad_data = dev_get_drvdata(dev);
- 
--	if (device_may_wakeup(&pdev->dev) && keypad_data->irq_wake_enabled) {
-+	if (device_may_wakeup(dev) && keypad_data->irq_wake_enabled) {
- 		disable_irq_wake(keypad_data->irq);
- 		keypad_data->irq_wake_enabled = false;
- 	}
-diff --git a/drivers/input/keyboard/pmic8xxx-keypad.c b/drivers/input/keyboard/pmic8xxx-keypad.c
-index d529768a1d06..1e22d276e3e9 100644
---- a/drivers/input/keyboard/pmic8xxx-keypad.c
-+++ b/drivers/input/keyboard/pmic8xxx-keypad.c
-@@ -628,8 +628,7 @@ static int pmic8xxx_kp_probe(struct platform_device *pdev)
- #ifdef CONFIG_PM_SLEEP
- static int pmic8xxx_kp_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct pmic8xxx_kp *kp = platform_get_drvdata(pdev);
-+	struct pmic8xxx_kp *kp = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = kp->input;
- 
- 	if (device_may_wakeup(dev)) {
-@@ -648,8 +647,7 @@ static int pmic8xxx_kp_suspend(struct device *dev)
- 
- static int pmic8xxx_kp_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct pmic8xxx_kp *kp = platform_get_drvdata(pdev);
-+	struct pmic8xxx_kp *kp = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = kp->input;
- 
- 	if (device_may_wakeup(dev)) {
-diff --git a/drivers/input/keyboard/pxa27x_keypad.c b/drivers/input/keyboard/pxa27x_keypad.c
-index 39023664d2f2..654e178ff39e 100644
---- a/drivers/input/keyboard/pxa27x_keypad.c
-+++ b/drivers/input/keyboard/pxa27x_keypad.c
-@@ -663,14 +663,13 @@ static void pxa27x_keypad_close(struct input_dev *dev)
- #ifdef CONFIG_PM_SLEEP
- static int pxa27x_keypad_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct pxa27x_keypad *keypad = platform_get_drvdata(pdev);
-+	struct pxa27x_keypad *keypad = dev_get_drvdata(dev);
- 
- 	/*
- 	 * If the keypad is used a wake up source, clock can not be disabled.
- 	 * Or it can not detect the key pressing.
- 	 */
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(dev))
- 		enable_irq_wake(keypad->irq);
- 	else
- 		clk_disable_unprepare(keypad->clk);
-@@ -680,8 +679,7 @@ static int pxa27x_keypad_suspend(struct device *dev)
- 
- static int pxa27x_keypad_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct pxa27x_keypad *keypad = platform_get_drvdata(pdev);
-+	struct pxa27x_keypad *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = keypad->input_dev;
- 	int ret = 0;
- 
-@@ -689,7 +687,7 @@ static int pxa27x_keypad_resume(struct device *dev)
- 	 * If the keypad is used as wake up source, the clock is not turned
- 	 * off. So do not need configure it again.
- 	 */
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		disable_irq_wake(keypad->irq);
- 	} else {
- 		mutex_lock(&input_dev->mutex);
-diff --git a/drivers/input/keyboard/samsung-keypad.c b/drivers/input/keyboard/samsung-keypad.c
-index 70c1d086bdd2..286432c4a28a 100644
---- a/drivers/input/keyboard/samsung-keypad.c
-+++ b/drivers/input/keyboard/samsung-keypad.c
-@@ -462,8 +462,7 @@ static int samsung_keypad_remove(struct platform_device *pdev)
- #ifdef CONFIG_PM
- static int samsung_keypad_runtime_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct samsung_keypad *keypad = platform_get_drvdata(pdev);
-+	struct samsung_keypad *keypad = dev_get_drvdata(dev);
- 	unsigned int val;
- 	int error;
- 
-@@ -486,8 +485,7 @@ static int samsung_keypad_runtime_suspend(struct device *dev)
- 
- static int samsung_keypad_runtime_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct samsung_keypad *keypad = platform_get_drvdata(pdev);
-+	struct samsung_keypad *keypad = dev_get_drvdata(dev);
- 	unsigned int val;
- 
- 	if (keypad->stopped)
-@@ -531,8 +529,7 @@ static void samsung_keypad_toggle_wakeup(struct samsung_keypad *keypad,
- 
- static int samsung_keypad_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct samsung_keypad *keypad = platform_get_drvdata(pdev);
-+	struct samsung_keypad *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = keypad->input_dev;
- 
- 	mutex_lock(&input_dev->mutex);
-@@ -549,8 +546,7 @@ static int samsung_keypad_suspend(struct device *dev)
- 
- static int samsung_keypad_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct samsung_keypad *keypad = platform_get_drvdata(pdev);
-+	struct samsung_keypad *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = keypad->input_dev;
- 
- 	mutex_lock(&input_dev->mutex);
-diff --git a/drivers/input/keyboard/spear-keyboard.c b/drivers/input/keyboard/spear-keyboard.c
-index 7d25fa338ab4..a0276a3376d2 100644
---- a/drivers/input/keyboard/spear-keyboard.c
-+++ b/drivers/input/keyboard/spear-keyboard.c
-@@ -288,8 +288,7 @@ static int spear_kbd_remove(struct platform_device *pdev)
- 
- static int __maybe_unused spear_kbd_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct spear_kbd *kbd = platform_get_drvdata(pdev);
-+	struct spear_kbd *kbd = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = kbd->input;
- 	unsigned int rate = 0, mode_ctl_reg, val;
- 
-@@ -300,7 +299,7 @@ static int __maybe_unused spear_kbd_suspend(struct device *dev)
- 
- 	mode_ctl_reg = readl_relaxed(kbd->io_base + MODE_CTL_REG);
- 
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		if (!enable_irq_wake(kbd->irq))
- 			kbd->irq_wake_enabled = true;
- 
-@@ -341,13 +340,12 @@ static int __maybe_unused spear_kbd_suspend(struct device *dev)
- 
- static int __maybe_unused spear_kbd_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct spear_kbd *kbd = platform_get_drvdata(pdev);
-+	struct spear_kbd *kbd = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = kbd->input;
- 
- 	mutex_lock(&input_dev->mutex);
- 
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		if (kbd->irq_wake_enabled) {
- 			kbd->irq_wake_enabled = false;
- 			disable_irq_wake(kbd->irq);
-diff --git a/drivers/input/keyboard/st-keyscan.c b/drivers/input/keyboard/st-keyscan.c
-index f097128b93fe..b00554a41321 100644
---- a/drivers/input/keyboard/st-keyscan.c
-+++ b/drivers/input/keyboard/st-keyscan.c
-@@ -215,8 +215,7 @@ static int keyscan_probe(struct platform_device *pdev)
- #ifdef CONFIG_PM_SLEEP
- static int keyscan_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct st_keyscan *keypad = platform_get_drvdata(pdev);
-+	struct st_keyscan *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input = keypad->input_dev;
- 
- 	mutex_lock(&input->mutex);
-@@ -232,8 +231,7 @@ static int keyscan_suspend(struct device *dev)
- 
- static int keyscan_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct st_keyscan *keypad = platform_get_drvdata(pdev);
-+	struct st_keyscan *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input = keypad->input_dev;
- 	int retval = 0;
- 
-diff --git a/drivers/input/keyboard/tegra-kbc.c b/drivers/input/keyboard/tegra-kbc.c
-index a37a7a9e9171..f33577944207 100644
---- a/drivers/input/keyboard/tegra-kbc.c
-+++ b/drivers/input/keyboard/tegra-kbc.c
-@@ -731,11 +731,10 @@ static void tegra_kbc_set_keypress_interrupt(struct tegra_kbc *kbc, bool enable)
- 
- static int tegra_kbc_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct tegra_kbc *kbc = platform_get_drvdata(pdev);
-+	struct tegra_kbc *kbc = dev_get_drvdata(dev);
- 
- 	mutex_lock(&kbc->idev->mutex);
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		disable_irq(kbc->irq);
- 		del_timer_sync(&kbc->timer);
- 		tegra_kbc_set_fifo_interrupt(kbc, false);
-@@ -768,12 +767,11 @@ static int tegra_kbc_suspend(struct device *dev)
- 
- static int tegra_kbc_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct tegra_kbc *kbc = platform_get_drvdata(pdev);
-+	struct tegra_kbc *kbc = dev_get_drvdata(dev);
- 	int err = 0;
- 
- 	mutex_lock(&kbc->idev->mutex);
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		disable_irq_wake(kbc->irq);
- 		tegra_kbc_setup_wakekeys(kbc, false);
- 		/* We will use fifo interrupts for key detection. */
--- 
-2.20.1
+I haven't heard back about it yet, so I just wanted to follow up.
 
+Is this patch not relevant enough for the mainline kernel? Or did I just make a mistake with the way I submitted it? It was my first patch to the kernel, and I tried to follow the guidelines as much as possible. Still, sorry if I overlooked something.
+
+Thanks,
+Markus
+
+
+On 5/1/19 2:27 PM, Markus Koch wrote:
+> This patch adds support for the FlySky FS-iA6B RC receiver (serial IBUS).
+> 
+> It allows the usage of the FlySky FS-i6 and other AFHDS compliant remote
+> controls as a joystick input device.
+> 
+> To use it, a patch to inputattach which adds the FS-iA6B as a 115200 baud
+> serial device is required. I will upstream it after this patch is merged.
+> 
+> More information about the hardware can be found here:
+> 
+> https://notsyncing.net/?p=blog&b=2018.linux-fsia6b
+> 
+> Signed-off-by: Markus Koch <markus@notsyncing.net>
+> ---
+>  MAINTAINERS                     |   6 +
+>  drivers/input/joystick/Kconfig  |  10 ++
+>  drivers/input/joystick/Makefile |   1 +
+>  drivers/input/joystick/fsia6b.c | 255 ++++++++++++++++++++++++++++++++
+>  include/uapi/linux/serio.h      |   1 +
+>  5 files changed, 273 insertions(+)
+>  create mode 100644 drivers/input/joystick/fsia6b.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f3a5c97e3419..f6d404274d45 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11779,6 +11779,12 @@ S:	Maintained
+>  F:	Documentation/input/devices/pxrc.rst
+>  F:	drivers/input/joystick/pxrc.c
+>  
+> +FLYSKY FSIA6B RC RECEIVER
+> +M:	Markus Koch <markus@notsyncing.net>
+> +L:	linux-input@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/input/joystick/fsia6b.c
+> +
+>  PHONET PROTOCOL
+>  M:	Remi Denis-Courmont <courmisch@gmail.com>
+>  S:	Supported
+> diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
+> index d8f9c6e1fc08..0eb87013823d 100644
+> --- a/drivers/input/joystick/Kconfig
+> +++ b/drivers/input/joystick/Kconfig
+> @@ -361,4 +361,14 @@ config JOYSTICK_PXRC
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called pxrc.
+>  
+> +config JOYSTICK_FSIA6B
+> +	tristate "FlySky FS-iA6B RC Receiver"
+> +	select SERIO
+> +	help
+> +	  Say Y here if you use a FlySky FS-i6 RC remote control along with the
+> +	  FS-iA6B RC receiver as a joystick input device.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called fsia6b.
+> +
+>  endif
+> diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
+> index dd0492ebbed7..aae4477a92a9 100644
+> --- a/drivers/input/joystick/Makefile
+> +++ b/drivers/input/joystick/Makefile
+> @@ -35,4 +35,5 @@ obj-$(CONFIG_JOYSTICK_WARRIOR)		+= warrior.o
+>  obj-$(CONFIG_JOYSTICK_XPAD)		+= xpad.o
+>  obj-$(CONFIG_JOYSTICK_ZHENHUA)		+= zhenhua.o
+>  obj-$(CONFIG_JOYSTICK_WALKERA0701)	+= walkera0701.o
+> +obj-$(CONFIG_JOYSTICK_FSIA6B)		+= fsia6b.o
+>  
+> diff --git a/drivers/input/joystick/fsia6b.c b/drivers/input/joystick/fsia6b.c
+> new file mode 100644
+> index 000000000000..587c2260a56f
+> --- /dev/null
+> +++ b/drivers/input/joystick/fsia6b.c
+> @@ -0,0 +1,255 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + *
+> + *  FS-iA6B iBus RC receiver kernel driver
+> + *  Copyright (C) 2018 - 2019  Markus Koch <markus@notsyncing.net>
+> + *
+> + *  This program is free software; you can redistribute it and/or modify
+> + *  it under the terms of the GNU General Public License as published by
+> + *  the Free Software Foundation; either version 2 of the License, or
+> + *  (at your option) any later version.
+> + *
+> + *  This program is distributed in the hope that it will be useful,
+> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + *  GNU General Public License for more details.
+> + *
+> + *  You should have received a copy of the GNU General Public License along
+> + *  with this program.
+> + *
+> + */
+> +
+> +/*
+> + * This driver will provide all 14 channels of the FlySky FS-ia6B RC receiver
+> + * as analog values.
+> + *
+> + * Additionally, the channels can be converted to discrete switch values.
+> + * By default, it is configured for the offical FS-i6 remote control.
+> + * If you use a different hardware configuration, you can configure it
+> + * using the `switch_config` parameter.
+> + *
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/input.h>
+> +#include <linux/serio.h>
+> +#include <linux/slab.h>
+> +#include <linux/device.h>
+> +
+> +#define DRIVER_DESC	"FS-iA6B iBus RC receiver"
+> +
+> +MODULE_AUTHOR("Markus Koch <markus@notsyncing.net>");
+> +MODULE_DESCRIPTION(DRIVER_DESC);
+> +MODULE_LICENSE("GPL");
+> +
+> +#define IBUS_SERVO_COUNT 14
+> +
+> +static char *switch_config = "00000022320000";
+> +module_param(switch_config, charp, 0444);
+> +MODULE_PARM_DESC(switch_config,
+> +		 "Amount of switch positions per channel (14 characters, 0-3)");
+> +
+> +static int fsia6b_axes[IBUS_SERVO_COUNT] = {
+> +	ABS_X, ABS_Y,
+> +	ABS_Z, ABS_RX,
+> +	ABS_RY, ABS_RZ,
+> +	ABS_HAT0X, ABS_HAT0Y,
+> +	ABS_HAT1X, ABS_HAT1Y,
+> +	ABS_HAT2X, ABS_HAT2Y,
+> +	ABS_HAT3X, ABS_HAT3Y
+> +};
+> +
+> +enum ibus_state {SYNC, COLLECT, PROCESS};
+> +
+> +struct ibus_packet {
+> +	enum ibus_state state;
+> +
+> +	int offset;
+> +	uint16_t ibuf;
+> +	uint16_t channel[IBUS_SERVO_COUNT];
+> +};
+> +
+> +struct fsia6b {
+> +	struct input_dev *dev;
+> +	struct ibus_packet packet;
+> +
+> +	char phys[32];
+> +};
+> +
+> +static irqreturn_t fsia6b_serio_irq(struct serio *serio,
+> +				    unsigned char data, unsigned int flags)
+> +{
+> +	struct fsia6b *fsia6b = serio_get_drvdata(serio);
+> +	int i;
+> +	int sw_state;
+> +	int sw_id = BTN_0;
+> +
+> +	fsia6b->packet.ibuf = (data << 8) | ((fsia6b->packet.ibuf >> 8) & 0xFF);
+> +
+> +	switch (fsia6b->packet.state) {
+> +	case SYNC:
+> +		if (fsia6b->packet.ibuf == 0x4020)
+> +			fsia6b->packet.state = COLLECT;
+> +		break;
+> +
+> +	case COLLECT:
+> +		fsia6b->packet.state = PROCESS;
+> +		break;
+> +
+> +	case PROCESS:
+> +		fsia6b->packet.channel[fsia6b->packet.offset] =
+> +				fsia6b->packet.ibuf;
+> +		fsia6b->packet.offset++;
+> +
+> +		if (fsia6b->packet.offset == IBUS_SERVO_COUNT) {
+> +			fsia6b->packet.offset = 0;
+> +			fsia6b->packet.state = SYNC;
+> +			for (i = 0; i < IBUS_SERVO_COUNT; ++i) {
+> +				input_report_abs(fsia6b->dev, fsia6b_axes[i],
+> +						 fsia6b->packet.channel[i]);
+> +
+> +				sw_state = 0;
+> +				if (fsia6b->packet.channel[i] > 1900)
+> +					sw_state = 1;
+> +				else if (fsia6b->packet.channel[i] < 1100)
+> +					sw_state = 2;
+> +
+> +				switch (switch_config[i]) {
+> +				case '3':
+> +					input_report_key(fsia6b->dev,
+> +							 sw_id++,
+> +							 sw_state == 0);
+> +					/* fall-through */
+> +				case '2':
+> +					input_report_key(fsia6b->dev,
+> +							 sw_id++,
+> +							 sw_state == 1);
+> +					/* fall-through */
+> +				case '1':
+> +					input_report_key(fsia6b->dev,
+> +							 sw_id++,
+> +							 sw_state == 2);
+> +				}
+> +			}
+> +			input_sync(fsia6b->dev);
+> +		} else {
+> +			fsia6b->packet.state = COLLECT;
+> +		}
+> +		break;
+> +	}
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int fsia6b_serio_connect(struct serio *serio, struct serio_driver *drv)
+> +{
+> +	struct fsia6b *fsia6b;
+> +	struct input_dev *input_dev;
+> +	int err;
+> +	int i, j;
+> +	int sw_id = BTN_0;
+> +
+> +	fsia6b = kzalloc(sizeof(struct fsia6b), GFP_KERNEL);
+> +	if (!fsia6b)
+> +		return -ENOMEM;
+> +
+> +	fsia6b->packet.ibuf = 0;
+> +	fsia6b->packet.offset = 0;
+> +	fsia6b->packet.state = SYNC;
+> +
+> +	serio_set_drvdata(serio, fsia6b);
+> +
+> +	err = serio_open(serio, drv);
+> +	if (err)
+> +		goto fail1;
+> +
+> +
+> +	input_dev = input_allocate_device();
+> +	err = -ENODEV;
+> +	if (!input_dev)
+> +		goto fail2;
+> +	fsia6b->dev = input_dev;
+> +
+> +	snprintf(fsia6b->phys, sizeof(fsia6b->phys), "%s/input0", serio->phys);
+> +
+> +	input_dev->name = DRIVER_DESC;
+> +	input_dev->phys = fsia6b->phys;
+> +	input_dev->id.bustype = BUS_RS232;
+> +	input_dev->id.vendor = SERIO_FSIA6B;
+> +	input_dev->id.product = serio->id.id;
+> +	input_dev->id.version = 0x0100;
+> +	input_dev->dev.parent = &serio->dev;
+> +
+> +	input_dev->evbit[0] = BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
+> +
+> +	for (i = 0; i < IBUS_SERVO_COUNT; ++i) {
+> +		input_set_abs_params(input_dev, fsia6b_axes[i],
+> +				     1000, 2000, 2, 2);
+> +	}
+> +
+> +	// Register switch configuration
+> +	for (i = 0; i < IBUS_SERVO_COUNT; ++i) {
+> +		if (((switch_config[i] == '\0') && (i != IBUS_SERVO_COUNT)) ||
+> +				(switch_config[i] < '0') ||
+> +				(switch_config[i] > '3')) {
+> +			dev_err(&fsia6b->dev->dev,
+> +				"Invalid switch configuration supplied for fsia6b.\n");
+> +			err = -EINVAL;
+> +			goto fail3;
+> +		}
+> +
+> +		for (j = '1'; j <= switch_config[i]; ++j) {
+> +			input_dev->keybit[BIT_WORD(BTN_0)] |=
+> +					BIT_MASK(sw_id++);
+> +		}
+> +
+> +	}
+> +
+> +	err = input_register_device(fsia6b->dev);
+> +	if (err)
+> +		goto fail3;
+> +
+> +	return 0;
+> +
+> +fail3:	input_free_device(input_dev);
+> +fail2:	serio_close(serio);
+> +fail1:	serio_set_drvdata(serio, NULL);
+> +	kfree(fsia6b);
+> +	return err;
+> +}
+> +
+> +static void fsia6b_serio_disconnect(struct serio *serio)
+> +{
+> +	struct fsia6b *fsia6b = serio_get_drvdata(serio);
+> +
+> +	serio_close(serio);
+> +	serio_set_drvdata(serio, NULL);
+> +	input_unregister_device(fsia6b->dev);
+> +	kfree(fsia6b);
+> +}
+> +
+> +static const struct serio_device_id fsia6b_serio_ids[] = {
+> +{
+> +	.type	= SERIO_RS232,
+> +	.proto	= SERIO_FSIA6B,
+> +	.id	= SERIO_ANY,
+> +	.extra	= SERIO_ANY,
+> +},
+> +{ 0 }
+> +};
+> +
+> +MODULE_DEVICE_TABLE(serio, fsia6b_serio_ids);
+> +
+> +struct serio_driver fsia6b_serio_drv = {
+> +	.driver		= {
+> +		.name	= "fsia6b"
+> +	},
+> +	.description	= DRIVER_DESC,
+> +	.id_table	= fsia6b_serio_ids,
+> +	.interrupt	= fsia6b_serio_irq,
+> +	.connect	= fsia6b_serio_connect,
+> +	.disconnect	= fsia6b_serio_disconnect
+> +};
+> +
+> +module_serio_driver(fsia6b_serio_drv)
+> diff --git a/include/uapi/linux/serio.h b/include/uapi/linux/serio.h
+> index a0cac1d8670d..50e991952c97 100644
+> --- a/include/uapi/linux/serio.h
+> +++ b/include/uapi/linux/serio.h
+> @@ -82,5 +82,6 @@
+>  #define SERIO_EGALAX	0x3f
+>  #define SERIO_PULSE8_CEC	0x40
+>  #define SERIO_RAINSHADOW_CEC	0x41
+> +#define SERIO_FSIA6B	0x42
+>  
+>  #endif /* _UAPI_SERIO_H */
+> 
