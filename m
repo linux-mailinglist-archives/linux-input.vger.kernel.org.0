@@ -2,100 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9B0B6E53F
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jul 2019 13:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D1A96E566
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jul 2019 14:09:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726072AbfGSLx3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Jul 2019 07:53:29 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:34280 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726243AbfGSLx2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Jul 2019 07:53:28 -0400
-Received: by mail-pf1-f195.google.com with SMTP id b13so14093738pfo.1;
-        Fri, 19 Jul 2019 04:53:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7BQWVFk5xnfvY43V3HP4RUSBIEVm8NfFwU/OWhiUguc=;
-        b=m14xS8Ld/wkugydyp1wPJICiD4EZ+GAzIwpCJUIwTOwmHroduRA2AOmXy/2OTSy/OH
-         b2nY8TqpAn7eD29M+OJ7jQ0xs2NmYlTleUX8hIvZ4JCn4nOcKyWrTIoxOk7PHqw+2efO
-         dVcoDfo17nQotY+imVuy8lIqw3klmXSskBNldqft1gmIyGmG2g8LMgOfs94K9S0arRIf
-         88aZ0VvQhi3NEMoQlfBebxeqbKVZTAJhII1aoMMX1cydv8DwmHNwZh2ooqHmwapnuDPy
-         aWNzM32UK/trXBmqx3+upJTFRdcUYLqJIoP5BmNjuyTF+4U5ThU/l2qwHix6qP6/il0H
-         7N6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7BQWVFk5xnfvY43V3HP4RUSBIEVm8NfFwU/OWhiUguc=;
-        b=P9qDg6maCC+ogAYcRtq2GEW5GI5t/9sLDFg2OYFQREGEvYBV+NwUNT9BwWq7lD/7WT
-         +SqSLZQSXPRCYcQGKDMrjGO92WqjBe936FOi6PmQfMW9Rqs/SV+fRMqlYuqDpKn3sUUR
-         ClIxTDejHeW9Z3/K3yedDEjLquRB4JRj+p32HE367BeDScfkU/0ovP4TaCAB5ClAADhm
-         NMV6EppExeaXGLJxrpcaRFaiFmf4WBfzPugffwIb/r/F+1TF0iEe33j71bT2cwrskV2O
-         1CVhFgvYGAFgqazT5lECsQe0DXCRDcICM60YX1xoMvNrz8VzoxAR6OSejQD/RjCZzxOb
-         YHVg==
-X-Gm-Message-State: APjAAAX/Cg2OTGXyzuvu+Lr18snDgLSjKIC81rnMH0rVT13ZDqQ6487H
-        ZD2GNgSGt7Wd2pTDJGG5hsY=
-X-Google-Smtp-Source: APXvYqwsybHi6eEwHb23QA32buHWpS8rl4ER9/dYM50aRVRtMMZZpWQTfL6OT5LSZ/rAAsXAj618tg==
-X-Received: by 2002:a63:4c17:: with SMTP id z23mr14499235pga.167.1563537208055;
-        Fri, 19 Jul 2019 04:53:28 -0700 (PDT)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
-        by smtp.gmail.com with ESMTPSA id v184sm30587380pfb.82.2019.07.19.04.53.25
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 19 Jul 2019 04:53:27 -0700 (PDT)
-From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH] Input: touchscreen - Use dev_get_drvdata
-Date:   Fri, 19 Jul 2019 19:53:08 +0800
-Message-Id: <20190719115307.22124-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        id S1726072AbfGSMJ3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Jul 2019 08:09:29 -0400
+Received: from mga07.intel.com ([134.134.136.100]:12983 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727994AbfGSMJ3 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 19 Jul 2019 08:09:29 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Jul 2019 05:09:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,282,1559545200"; 
+   d="scan'208";a="319949755"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 19 Jul 2019 05:09:27 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1hoRhW-0001dP-V4; Fri, 19 Jul 2019 20:09:26 +0800
+Date:   Fri, 19 Jul 2019 20:08:47 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Ronald =?unknown-8bit?B?VHNjaGFsw6Ry?= <ronald@innovation.ch>
+Cc:     kbuild-all@01.org, linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [input:next 2292/2295] drivers/input/keyboard/applespi.c:948:34:
+ sparse: sparse: cast from restricted __le16
+Message-ID: <201907192031.PePbN1Pn%lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Patchwork-Hint: ignore
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-dev_get_drvdata is a simpler implementation comparing
-to to_platform_device + platform_get_drvdata.
-This makes the code simpler.
+tree:   https://kernel.googlesource.com/pub/scm/linux/kernel/git/dtor/input.git next
+head:   771a081e44a9baa1991ef011cc453ef425591740
+commit: 038b1a05eae6666b731920e46f47d8e2332e07ff [2292/2295] Input: add Apple SPI keyboard and trackpad driver
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-rc1-7-g2b96cd8-dirty
+        git checkout 038b1a05eae6666b731920e46f47d8e2332e07ff
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+
+>> drivers/input/keyboard/applespi.c:948:34: sparse: sparse: cast from restricted __le16
+>> drivers/input/keyboard/applespi.c:948:34: sparse: sparse: cast from restricted __le16
+>> drivers/input/keyboard/applespi.c:948:34: sparse: sparse: cast from restricted __le16
+>> drivers/input/keyboard/applespi.c:948:34: sparse: sparse: cast from restricted __le16
+>> drivers/input/keyboard/applespi.c:948:34: sparse: sparse: cast from restricted __le16
+>> drivers/input/keyboard/applespi.c:948:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:949:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:949:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:949:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:949:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:949:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:949:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:950:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:950:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:950:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:950:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:950:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:950:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:951:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:951:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:951:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:951:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:951:34: sparse: sparse: cast from restricted __le16
+   drivers/input/keyboard/applespi.c:951:34: sparse: sparse: cast from restricted __le16
+>> drivers/input/keyboard/applespi.c:1615:37: sparse: sparse: incorrect type in argument 1 (different type sizes) @@    expected unsigned short [usertype] *name @@    got ype] *name @@
+>> drivers/input/keyboard/applespi.c:1615:37: sparse:    expected unsigned short [usertype] *name
+>> drivers/input/keyboard/applespi.c:1615:37: sparse:    got char *
+>> drivers/input/keyboard/applespi.c:1957:25: sparse: sparse: symbol 'applespi_pm_ops' was not declared. Should it be static?
+
+vim +948 drivers/input/keyboard/applespi.c
+
 ---
- drivers/input/touchscreen/imx6ul_tsc.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/input/touchscreen/imx6ul_tsc.c b/drivers/input/touchscreen/imx6ul_tsc.c
-index e04eecd65bbb..655652f449ec 100644
---- a/drivers/input/touchscreen/imx6ul_tsc.c
-+++ b/drivers/input/touchscreen/imx6ul_tsc.c
-@@ -507,8 +507,7 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
- 
- static int __maybe_unused imx6ul_tsc_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct imx6ul_tsc *tsc = platform_get_drvdata(pdev);
-+	struct imx6ul_tsc *tsc = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = tsc->input;
- 
- 	mutex_lock(&input_dev->mutex);
-@@ -527,8 +526,7 @@ static int __maybe_unused imx6ul_tsc_suspend(struct device *dev)
- 
- static int __maybe_unused imx6ul_tsc_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct imx6ul_tsc *tsc = platform_get_drvdata(pdev);
-+	struct imx6ul_tsc *tsc = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = tsc->input;
- 	int retval = 0;
- 
--- 
-2.20.1
-
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
