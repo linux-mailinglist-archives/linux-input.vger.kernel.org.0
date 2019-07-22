@@ -2,58 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF9B470BF9
-	for <lists+linux-input@lfdr.de>; Mon, 22 Jul 2019 23:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A25E70BFA
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jul 2019 23:48:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732905AbfGVVsq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Jul 2019 17:48:46 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:40099 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732820AbfGVVsp (ORCPT
+        id S1732919AbfGVVsr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 Jul 2019 17:48:47 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:38842 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732907AbfGVVsr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Jul 2019 17:48:45 -0400
-Received: by mail-ed1-f66.google.com with SMTP id k8so41910815eds.7;
-        Mon, 22 Jul 2019 14:48:44 -0700 (PDT)
+        Mon, 22 Jul 2019 17:48:47 -0400
+Received: by mail-ed1-f67.google.com with SMTP id r12so7147103edo.5;
+        Mon, 22 Jul 2019 14:48:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=FENI0QfMNWJ5FelefUZ+G7/NZ/3sRK983AKLe0QVPsY=;
-        b=foRZa2mKuNS0W4zx9VOG2nUDtf+PVaLSKNMRH/WoEqE8A/SBhtWy2nX2RoO68PUWGn
-         0Fp0d2oGpz6wVH4L9BX/rjXP02fw8e8ycjDwhn60M7dhZD1bR57CvVsP2jXl+Sesvemy
-         3BgbyMZEIeGgob3bIYEZxgDkM6/xxn1xsRVzYC2/I5+0Jq64tv75TyNNPNsgDctvMxtD
-         Li+GVV3rrPw2DRKepkEJk+j02qz8Ig91R3zwQWUfROA/+0QWctki903r/lUkDDvSu0YK
-         Z5nBuzWDA7oQwWeymApHbiP8+vQnTMLODjCHaGpxU7B5Mws40okzvjLhNNcsKdGc4/FR
-         kTvQ==
+        bh=inZa3TVmWFkwKROJnwjdOzwsfiSlRUzlERV4AMAiDbU=;
+        b=Kjc7Z7LbkyZQoSYGIqGObI6lmtBjBt3vDFoIHBE3IjlpFyFMt7itVoEIPg7EzqEBkl
+         2r9oOlFGi1mlcnyOXAP44kNxY2aHsO6VkgNWB1zaHyHoHMt4UiG/7yD/gDv3uLi1Rpg1
+         8rF7bLnZ+D/TXDBAokXCP38dEDpTOa98eOOt7DHgmu63o1n23PAqRxElh0dOoRa/giWn
+         p75TAJt6Qs5SIaNDwPoHcBJ7mcP1ZwyHnUWPqVVNY6B9zzsbqIN6LDsKpBWLnhL+MnR+
+         PNE7pLw2VZUHOTfsDFcuXB8wm3Tma+QmNe15fuTV3co19jvD8JDyHzlAbXE4V0O5VMO7
+         Dufg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FENI0QfMNWJ5FelefUZ+G7/NZ/3sRK983AKLe0QVPsY=;
-        b=htUqq0O1edWQVQXO21VaektRTQyP0KI1kPT+LVZ6EbTC8Wf3KJK9ypEDSS10tCXgHA
-         MaWw0XM2Qr1VD9cSZ2CRNpgLj06KZ20ALRFF5aUs1yWHmMSCoPtMuhhGn93MMbpXblqI
-         sKmD48e1tMdJSooQELJGr+vQihV2LU7jSJVIwH9YxJDkEvkTR2oUf/0CIc7cYr0uSUrC
-         WzloEirT3UQEOvfTSoFtPEHHsnaG/eQX5xermx0OVUr2weYLUhIpTHGiShCkd+ZVlGPi
-         qSFCY2hq3xhdg2JvX+CBB8d8w2P4t2XrNHTRbOfRuP3SGEaGcqvYOmxf5G1SgS980tg3
-         Kwlg==
-X-Gm-Message-State: APjAAAVbJFlKkPx8+eHR7GpGJofDOyPVxt90vZa+NFV/ya1mdb+Ev7lL
-        GnIZeHg1jJU5K3v2SUAcpec=
-X-Google-Smtp-Source: APXvYqyhoZvhyamR/6SYBtIdjJBcWbJapKFpTHtITm9MTjWGT5XBVJH7plBHhgLnsDYMitV9xTnl9w==
-X-Received: by 2002:a17:906:3018:: with SMTP id 24mr56168412ejz.187.1563832123314;
-        Mon, 22 Jul 2019 14:48:43 -0700 (PDT)
+        bh=inZa3TVmWFkwKROJnwjdOzwsfiSlRUzlERV4AMAiDbU=;
+        b=BhYyz3JgA6Z8bI0/Ng0DMjxkqAW2XogEMNaL9CgKu3epKeeL/wQ0OxFlF6SIF+VJdX
+         l858D9Wb39Rn7BIm0EN5rj0aHWFYEMNWuZFGHvt4E75JCddDNyayjMFDTKSfm/r4aDIG
+         OtA0YpdAH0bjTaO7jGFpnBTuKybGWzm7nX2Zw9UwnCPzW48nI1L/Bt/M8F3X+6ayttnX
+         BsvWfb2tWczLgS41kmZolcj7ARCYZ5qHG3VrOqfU3Lsgqg9F6wtHHATsvE7Z378SkX+m
+         Iv5NtpURhPuaDpatOtpS9L2bnPI5MLrfpHQjMBHHDRWqewRm00O+xntYpblMcxzQuzdV
+         BTzA==
+X-Gm-Message-State: APjAAAXc+oXSlxsRjVO3rVHvsdUGh387tsEyLW5EYQ8ZgDF5H0lMV6dy
+        8cvGsu3GHkCsP1wCLfwfCxQ=
+X-Google-Smtp-Source: APXvYqwaf+94HctotgfRZtaDLULEesihLhjER6anVGZWKKut2Gqj7GVw1S5B6Pok/SYDL+TqT8txlw==
+X-Received: by 2002:a17:906:340e:: with SMTP id c14mr56112743ejb.170.1563832125374;
+        Mon, 22 Jul 2019 14:48:45 -0700 (PDT)
 Received: from localhost.localdomain ([65.154.66.198])
-        by smtp.gmail.com with ESMTPSA id d4sm11315617edb.4.2019.07.22.14.48.41
+        by smtp.gmail.com with ESMTPSA id d4sm11315617edb.4.2019.07.22.14.48.43
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 22 Jul 2019 14:48:42 -0700 (PDT)
+        Mon, 22 Jul 2019 14:48:44 -0700 (PDT)
 From:   stillcompiling@gmail.com
 To:     Joe Perches <joe@perches.com>, Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org (open list:HID CORE LAYER),
         linux-kernel@vger.kernel.org (open list)
 Cc:     Joshua Clayton <stillcompiling@gmail.com>
-Subject: [PATCH v3 2/3] HID: core: Add printk_once variants to hid_warn() etc
-Date:   Mon, 22 Jul 2019 15:48:26 -0600
-Message-Id: <20190722214827.29257-2-stillcompiling@gmail.com>
+Subject: [PATCH v3 3/3] HID: core: only warn once of oversize hid report
+Date:   Mon, 22 Jul 2019 15:48:27 -0600
+Message-Id: <20190722214827.29257-3-stillcompiling@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190722214827.29257-1-stillcompiling@gmail.com>
 References: <20190722163642.10417-2-stillcompiling@gmail.com>
@@ -67,33 +67,31 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Joshua Clayton <stillcompiling@gmail.com>
 
-hid_warn_once() is needed, add the others as part of the block
+On HP spectre x360 convertible the message:
+hid-sensor-hub 001F:8087:0AC2.0002: hid_field_extract() called with n (192) > 32! (kworker/1:2)
+is continually printed many times per second, crowding out all else
+Protect dmesg by printing the warning only one time.
 
 Signed-off-by: Joshua Clayton <stillcompiling@gmail.com>
 ---
- include/linux/hid.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/hid/hid-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index e6c7efdb0458..cd41f209043f 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -1171,4 +1171,15 @@ do {									\
- #define hid_dbg(hid, fmt, ...)				\
- 	dev_dbg(&(hid)->dev, fmt, ##__VA_ARGS__)
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 210b81a56e1a..3eaee2c37931 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -1311,8 +1311,8 @@ u32 hid_field_extract(const struct hid_device *hid, u8 *report,
+ 			unsigned offset, unsigned n)
+ {
+ 	if (n > 32) {
+-		hid_warn(hid, "hid_field_extract() called with n (%d) > 32! (%s)\n",
+-			 n, current->comm);
++		hid_warn_once(hid, "%s() called with n (%d) > 32! (%s)\n",
++			      __func__, n, current->comm);
+ 		n = 32;
+ 	}
  
-+#define hid_err_once(hid, fmt, ...)			\
-+	dev_err_once(&(hid)->dev, fmt, ##__VA_ARGS__)
-+#define hid_notice_once(hid, fmt, ...)			\
-+	dev_notice_once(&(hid)->dev, fmt, ##__VA_ARGS__)
-+#define hid_warn_once(hid, fmt, ...)			\
-+	dev_warn_once(&(hid)->dev, fmt, ##__VA_ARGS__)
-+#define hid_info_once(hid, fmt, ...)			\
-+	dev_info_once(&(hid)->dev, fmt, ##__VA_ARGS__)
-+#define hid_dbg_once(hid, fmt, ...)			\
-+	dev_dbg_once(&(hid)->dev, fmt, ##__VA_ARGS__)
-+
- #endif
 -- 
 2.21.0
 
