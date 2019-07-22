@@ -2,67 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3094703CB
-	for <lists+linux-input@lfdr.de>; Mon, 22 Jul 2019 17:30:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B460B70588
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jul 2019 18:37:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729087AbfGVPa3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Jul 2019 11:30:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33121 "EHLO eggs.gnu.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728802AbfGVPa3 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Jul 2019 11:30:29 -0400
-Received: from fencepost.gnu.org ([2001:470:142:3::e]:60659)
-        by eggs.gnu.org with esmtp (Exim 4.71)
-        (envelope-from <nikolas@gnu.org>)
-        id 1hpaGi-0001wY-8d; Mon, 22 Jul 2019 11:30:28 -0400
-Received: from maldive.ccnmtl.columbia.edu ([128.59.207.92]:37352 helo=maldive.columbia.edu)
-        by fencepost.gnu.org with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
-        (Exim 4.82)
-        (envelope-from <nikolas@gnu.org>)
-        id 1hpaGh-0000PR-BH; Mon, 22 Jul 2019 11:30:27 -0400
-From:   Nikolas Nyby <nikolas@gnu.org>
-To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        trivial@kernel.org
-Cc:     Nikolas Nyby <nikolas@gnu.org>
-Subject: [PATCH] Input: applespi: fix trivial typo in struct description
-Date:   Mon, 22 Jul 2019 11:30:23 -0400
-Message-Id: <20190722153023.9912-1-nikolas@gnu.org>
-X-Mailer: git-send-email 2.22.0
+        id S1730972AbfGVQhD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 Jul 2019 12:37:03 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:45187 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729363AbfGVQhD (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 22 Jul 2019 12:37:03 -0400
+Received: by mail-ed1-f66.google.com with SMTP id x19so35266118eda.12;
+        Mon, 22 Jul 2019 09:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XC2+BtXpxqlfYcoJEbn14m6uC88iKzN7rr5nerwc4M8=;
+        b=CH+CfA8pU9bP3eqCI5E5CltgO/iukq2HzCZWkGUfJ00hRqzl4CNlAfX8VwbLAqPL6t
+         GQm3PxMdvtv8n3JUiHOXDQpfVVwYgn879dQSEvGIKEeRNWLGTWE05dX3nibRcci1T4JO
+         lDqjFIAQtzy31jEcqyxR5AkshEvAmLmN8OdZvkWg2MkdLJYRozlDO1hbxMVzcrz9cvsA
+         9LYYjij3rfamlVLSzV+RSC0nC6wFurYGArbXD3csRnPOEHoEDv70mYGLZKxcVwrbeGAr
+         Cu776rNidzBAGCYvXgqtk/O+TN5zz9zEWRoCZy5uon7kRb/LNi35B4m+0u63Xse3zNF1
+         /0mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XC2+BtXpxqlfYcoJEbn14m6uC88iKzN7rr5nerwc4M8=;
+        b=S3jMx9EOF/9TypLmHqzmFqxF4xR0OEmDcX/yhLUFVy17T1hZL5GxlSBaDt977RywiK
+         9HnVIRj2Lgas96JOCVaRq6av9xe7Jdiq4Qb/VkfDTzgAni5fjeyhJTyQqy5Mh31aVtmd
+         ST0wgGkOiBYT4VHFkVmdUKZFBRmACcAvvXpBAT36jyzGUP5huztboea6X5neFEUQhXJq
+         jkVtIcfnNIbq7wYUODljq6WhbgC5WrJyFiDgs81XklQce8EmrebTveFpsxrpl0BKN3I7
+         PygQibyvKXcEClrGxwmdOHab7BcnSu4JHglqnIinOvYtRARncRUfmk+w9/pdrDhVex6t
+         8Gbg==
+X-Gm-Message-State: APjAAAW7FPVJJ+sDhucwEjsx/L3RPc8LahAgJWRIA4nu+L/CX+SEyvj/
+        ztTBi8E+G17V4EzesG0vmUQ=
+X-Google-Smtp-Source: APXvYqxgo4UHHdY35P6Ylq49dVsMZ6dQsXjfye6ck3OVdyzTXJhnk31w9guNXglGI5JTND21QDsFgg==
+X-Received: by 2002:aa7:c486:: with SMTP id m6mr61726928edq.298.1563813421705;
+        Mon, 22 Jul 2019 09:37:01 -0700 (PDT)
+Received: from localhost.localdomain ([65.154.66.198])
+        by smtp.gmail.com with ESMTPSA id p23sm8058609ejl.43.2019.07.22.09.36.59
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 22 Jul 2019 09:37:00 -0700 (PDT)
+From:   stillcompiling@gmail.com
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org (open list:HID CORE LAYER),
+        linux-kernel@vger.kernel.org (open list)
+Cc:     Joshua Clayton <stillcompiling@gmail.com>
+Subject: [PATCH 1/2] HID: core: Add hid printk_once macros
+Date:   Mon, 22 Jul 2019 10:36:41 -0600
+Message-Id: <20190722163642.10417-1-stillcompiling@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This fixes a typo in the keyboard_protocol description.
-coodinate -> coordinate.
+From: Joshua Clayton <stillcompiling@gmail.com>
 
-Signed-off-by: Nikolas Nyby <nikolas@gnu.org>
+Make available printk_once variants to hid_warn() etc
+
+Signed-off-by: Joshua Clayton <stillcompiling@gmail.com>
 ---
- drivers/input/keyboard/applespi.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/linux/hid.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/input/keyboard/applespi.c b/drivers/input/keyboard/applespi.c
-index 548737e7aeda..8c7d12c95d2f 100644
---- a/drivers/input/keyboard/applespi.c
-+++ b/drivers/input/keyboard/applespi.c
-@@ -134,10 +134,10 @@ struct keyboard_protocol {
-  * struct tp_finger - single trackpad finger structure, le16-aligned
-  *
-  * @origin:		zero when switching track finger
-- * @abs_x:		absolute x coodinate
-- * @abs_y:		absolute y coodinate
-- * @rel_x:		relative x coodinate
-- * @rel_y:		relative y coodinate
-+ * @abs_x:		absolute x coordinate
-+ * @abs_y:		absolute y coordinate
-+ * @rel_x:		relative x coordinate
-+ * @rel_y:		relative y coordinate
-  * @tool_major:		tool area, major axis
-  * @tool_minor:		tool area, minor axis
-  * @orientation:	16384 when point, else 15 bit angle
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index d770ab1a0479..5b239712c902 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -1179,4 +1179,23 @@ do {									\
+ #define hid_dbg(hid, fmt, arg...)			\
+ 	dev_dbg(&(hid)->dev, fmt, ##arg)
+ 
++#define hid_level_once(level, hid, fmt, arg...)		\
++	dev_level_once(level, &(hid)->dev, fmt, ##arg)
++#define hid_emerg_once(hid, fmt, arg...)		\
++	dev_emerg_once(&(hid)->dev, fmt, ##arg)
++#define hid_crit_once(hid, fmt, arg...)			\
++	dev_crit_once(&(hid)->dev, fmt, ##arg)
++#define hid_alert_once(hid, fmt, arg...)		\
++	dev_alert_once(&(hid)->dev, fmt, ##arg)
++#define hid_err_once(hid, fmt, arg...)			\
++	dev_err_once(&(hid)->dev, fmt, ##arg)
++#define hid_notice_once(hid, fmt, arg...)		\
++	dev_notice_once(&(hid)->dev, fmt, ##arg)
++#define hid_warn_once(hid, fmt, arg...)			\
++	dev_warn_once(&(hid)->dev, fmt, ##arg)
++#define hid_info_once(hid, fmt, arg...)			\
++	dev_info_once(&(hid)->dev, fmt, ##arg)
++#define hid_dbg_once(hid, fmt, arg...)			\
++	dev_dbg_once(&(hid)->dev, fmt, ##arg)
++
+ #endif
 -- 
-2.22.0
+2.21.0
 
