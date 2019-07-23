@@ -2,89 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6996E716BE
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jul 2019 13:10:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ADE17170B
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jul 2019 13:29:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387458AbfGWLKz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 Jul 2019 07:10:55 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:41984 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731838AbfGWLKz (ORCPT
+        id S2389480AbfGWL3c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Jul 2019 07:29:32 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:42221 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727826AbfGWL3c (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 Jul 2019 07:10:55 -0400
-Received: by mail-pg1-f196.google.com with SMTP id t132so19256688pgb.9;
-        Tue, 23 Jul 2019 04:10:54 -0700 (PDT)
+        Tue, 23 Jul 2019 07:29:32 -0400
+Received: by mail-wr1-f67.google.com with SMTP id x1so27789687wrr.9;
+        Tue, 23 Jul 2019 04:29:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C7BHhulFR1p2fpuSJS5AyFuCRwwQBw3M6w71QuYYn7o=;
-        b=hOKunxsAnGgZZc00D/DgYI5m/ZVwEOaQgfvXavvbKxPZt4U68doqSgstSlMYIl+XfI
-         dJOJY0G/IyT8hM8U7clxbH65gY8cqVh3C4c3E6ymRfpLF+GcuJbTpBkwuzy4CPGuAqK/
-         CetIec+lh33EILsznyJvZGc8l93XTM1N/sajXDZebOgJCH4RiwV7hWvnxQH/DEk4rkJY
-         GCA4AOBFnqeDnWSIOQa6AtW+Ck26tBSUxMaGKzpFastIkBG165E7hmy361YUViNR9Tl0
-         pMDYaN/XYhvDAbYKX53LP4poE8F0O7FjWi2qBnceiNzTtm5sBs6ou4ga2mHYTTcCQ+rn
-         Rs3g==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=f8H6U0+3Sk4VYW6Aa+OCSbWW6bgtEY44sozfQ1JdKIY=;
+        b=emqkyIl67MRV4609gb6UHgsPFJpQTqlY4AIKr/P6xdna1LnwSmTV4o+KTXRKbgKxJO
+         mqNeikCn49SdlGW+GBw61Y+n265yxRMms2f7q1XcqsSBSdSZkGBlSWI1FvVEuSvrQCMR
+         K5GNF5WX5EIMFNTL6wuv7rFLTPby8/mx2C/265t6R0/uuzT5ZP9jX8Jnzrnzw+M5P2oH
+         Kh5y9HyxFL0lRtqdeUKc4S0VrXuNDEpjv6DTSzz4NMGg2wvjHXtAUBCUjTe66k5w+PaF
+         3OgAQPu303zjhz+oXRI01G/vfdFYlK/tWYr710+6b3DtsOtsfaRYfN0R8wDC6s62Vi0S
+         Aq4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=C7BHhulFR1p2fpuSJS5AyFuCRwwQBw3M6w71QuYYn7o=;
-        b=k1yKTaBzp65NJoCajedB4FVimmGDUJGl70uq/HllmyLK9ycb425xpk8LPIouTqlqtK
-         orXFHYVohrPkzt9z1Ki1XwcukCLId89e825WV2o0g/32Nuq/ndAoR/iw6t2XZ5ej0bKd
-         YvDKmbbLISO6DOt+QlJbXUQO4hChGrzMGVdoa0OnEUUV0xAqYiWxw6QSi+vGk87MhEWE
-         g1WQd++PQ6K4LjIny7z/8nzL2r79MeHJMXPJvEz1RuzZNfxjL3MgxdBkLVJ8C1hOjE+w
-         b1O06CEacLEpsDRNAWJDqSkniBuM7mfRjCq/rCyVvbidAp3sIKcwFHDpYS+GpuO/DuaA
-         3AKQ==
-X-Gm-Message-State: APjAAAU8NidzISg7vSYSvSxAWCVygTxmpUun2oaALCnrPXVK6o+oN2XL
-        k+NtErpr8n6ydV+NCkuRegs=
-X-Google-Smtp-Source: APXvYqx+1gTSH7WvKWtA4QtKsOjbm/zVH3YNrMgh0tTmFkg18NX61FQPz7fxfKD4bSt10xrNyI8wfA==
-X-Received: by 2002:a62:e710:: with SMTP id s16mr5403082pfh.183.1563880254560;
-        Tue, 23 Jul 2019 04:10:54 -0700 (PDT)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
-        by smtp.gmail.com with ESMTPSA id y11sm46675248pfb.119.2019.07.23.04.10.52
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 23 Jul 2019 04:10:54 -0700 (PDT)
-From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH] HID: intel-ish-hid: Use dev_get_drvdata where possible
-Date:   Tue, 23 Jul 2019 19:10:49 +0800
-Message-Id: <20190723111049.11067-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        bh=f8H6U0+3Sk4VYW6Aa+OCSbWW6bgtEY44sozfQ1JdKIY=;
+        b=Zyr2nLKU9tEl4DVNtJP9IRDHW4tDEcav+WL9imX7Xk7K+zD+47WcCPigG8RLkVLGow
+         62VsbCMGdM3H6qdAEooV0PPUMVUMwCWmEC36q8QenGsIh/XCff6fjNP08Ipdc86ftlq2
+         6V1kcAAftuWu/ddG1ZVM5fsWnxouHM+pOpswfD98wZjhBo6rQQ6mBQKa60aI5s9uZ/+M
+         8OxxdweItfI3pMQU4oKBY1M3oXDw/YmBzvPFzVyzQFuW4UGzAv95nrI5IRQa8eRJIeha
+         9RRVXzkt9f7wZjk6jdii0fG4AggDBtgkKkyiEF3schY1SEH1rzw3YDUG9B0GhW0OdgPR
+         HCRA==
+X-Gm-Message-State: APjAAAVFmlXsXgFPrLosU3HUVntpxMNL77s6e4B/qhhZFRniVFmNQMNR
+        2AN3X4qx5J5tmpwl3xH6AoU=
+X-Google-Smtp-Source: APXvYqyRhaDv6KIgHD/AiOmbAATBBVRRDSQIUYC9zkJu06oXfg1tQ7o6XRww3imaVKsQ687Ybt6GfQ==
+X-Received: by 2002:adf:f204:: with SMTP id p4mr2251248wro.317.1563881370004;
+        Tue, 23 Jul 2019 04:29:30 -0700 (PDT)
+Received: from [192.168.2.202] (pD9E5A8B2.dip0.t-ipconnect.de. [217.229.168.178])
+        by smtp.gmail.com with ESMTPSA id t13sm52324256wrr.0.2019.07.23.04.29.28
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 23 Jul 2019 04:29:29 -0700 (PDT)
+Subject: Re: [PATCH v3 2/2] Input: soc_button_array - Add support for newer
+ surface devices
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+References: <20190720150511.95076-1-luzmaximilian@gmail.com>
+ <20190720150511.95076-3-luzmaximilian@gmail.com>
+ <a2f75544-54ce-abce-56a4-ca226dbed51f@metux.net>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <901b9b74-4c59-9c6a-ce41-404d8885cb83@gmail.com>
+Date:   Tue, 23 Jul 2019 13:29:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <a2f75544-54ce-abce-56a4-ca226dbed51f@metux.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Instead of using to_pci_dev + pci_get_drvdata,
-use dev_get_drvdata to make code simpler.
+On 7/22/19 10:00 AM, Enrico Weigelt, metux IT consult wrote:
+> On 20.07.19 17:05, Maximilian Luz wrote:
+>> Power and volume button support for 5th and 6th generation Microsoft
+>> Surface devices via soc_button_array.
+>>
+>> Note that these devices use the same MSHW0040 device as on the Surface
+>> Pro 4, however the implementation is different (GPIOs vs. ACPI
+>> notifications). Thus some checking is required to ensure we only load
+>> this driver on the correct devices.
+> 
+> Could this also used on the older (pre pro4) devices (also using the
+> gpios directly, and leave off acpi notifications) ?
 
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
----
- drivers/hid/intel-ish-hid/ipc/pci-ish.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+As far as I can tell, no. The Pro 4 and Pro 3 don't have any GPIOs on
+MSHW0028/MSHW0040. Book 1 has GPIOs but for a different purpose. The Pro
+2 has a standard PNP0C0C power button (no idea how the volume buttons
+are handled there, but also seems to be different from what I can gather
+from DSDT). I can't say anything for the Pro 1 and non-Pro devices.
 
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index aa80b4d3b740..7047c14516c9 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -204,8 +204,7 @@ static struct device __maybe_unused *ish_resume_device;
-  */
- static void __maybe_unused ish_resume_handler(struct work_struct *work)
- {
--	struct pci_dev *pdev = to_pci_dev(ish_resume_device);
--	struct ishtp_device *dev = pci_get_drvdata(pdev);
-+	struct ishtp_device *dev = dev_get_drvdata(ish_resume_device);
- 	uint32_t fwsts;
- 	int ret;
- 
--- 
-2.20.1
-
+Maximilian
