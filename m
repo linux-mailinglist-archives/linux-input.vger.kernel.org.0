@@ -2,36 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B865972496
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2019 04:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A8BD724D2
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2019 04:41:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726851AbfGXC1j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 Jul 2019 22:27:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41986 "EHLO mail.kernel.org"
+        id S1725821AbfGXClY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Jul 2019 22:41:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46098 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726070AbfGXC1j (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 Jul 2019 22:27:39 -0400
+        id S1725372AbfGXClY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 23 Jul 2019 22:41:24 -0400
 Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 964E6229ED;
-        Wed, 24 Jul 2019 02:27:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B8BE22054F;
+        Wed, 24 Jul 2019 02:41:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563935258;
-        bh=eTh0noPArsakC5G0F3y+on2ZSDAd0Q6PKfpd7QqmvWE=;
+        s=default; t=1563936082;
+        bh=4BJpVnz9NtoVGKEWXigcPY+GsDWEePca0cBXnvCEgkM=;
         h=Date:From:To:Cc:Subject:From;
-        b=dxMnAgcHg7wtATx9HC0+yL8/iqu7GdLnyVkDmIZc5Jrl2F6qE6+TYnjNAlj90k3aT
-         d/DBnJIsieOikeemcxDICRYTLUmek+wZMelPFzIiisNI+Q0xoY8hQDGtBjTW5VRVfD
-         JQro1tRmGvfCPQ/Zh1Kc62xpKR1VCoihJ+1C8wLk=
-Date:   Tue, 23 Jul 2019 19:27:37 -0700
+        b=LSLibIUYCFxOTNdFqOiV8bSMzshK13x3F9+125mPy6j0A4mjE+z/yh+eOQ0EfiaKr
+         +FDmwlluz8UAw4Z0GInpjFZJg7Rl3+aqsoWcQU+O3r11QkfB0wcWUhMrBvlG7AVYxp
+         7rKnZZ2CmRLgMGzf3GGn0KWN44wPsbshqVerSe2s=
+Date:   Tue, 23 Jul 2019 19:41:21 -0700
 From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Reminder: 8 open syzbot bugs in input subsystem
-Message-ID: <20190724022737.GO643@sol.localdomain>
+Subject: Reminder: 3 open syzbot bugs in hid subsystem
+Message-ID: <20190724024121.GD643@sol.localdomain>
 Mail-Followup-To: linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -46,194 +47,82 @@ X-Mailing-List: linux-input@vger.kernel.org
 to make it better, or if you want it re-generated with the latest status.]
 
 Of the currently open syzbot reports against the upstream kernel, I've manually
-marked 8 of them as possibly being bugs in the input subsystem.  I've listed
-these reports below, sorted by an algorithm that tries to list first the reports
-most likely to be still valid, important, and actionable.
+marked 3 of them as possibly being bugs in the hid subsystem.  I've listed these
+reports below, sorted by an algorithm that tries to list first the reports most
+likely to be still valid, important, and actionable.
 
-Of these 8 bugs, 6 were seen in mainline in the last week.
+Of these 3 bugs, 2 were seen in mainline in the last week.
 
 If you believe a bug is no longer valid, please close the syzbot report by
 sending a '#syz fix', '#syz dup', or '#syz invalid' command in reply to the
 original thread, as explained at https://goo.gl/tpsmEJ#status
 
-If you believe I misattributed a bug to the input subsystem, please let me know,
+If you believe I misattributed a bug to the hid subsystem, please let me know,
 and if possible forward the report to the correct people or mailing list.
 
 Here are the bugs:
 
 --------------------------------------------------------------------------------
-Title:              WARNING in aiptek_open/usb_submit_urb
-Last occurred:      0 days ago
-Reported:           46 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=0e35393fd821f0570b2a1663a01ac7bdcd15046a
-Original thread:    https://lkml.kernel.org/lkml/0000000000001abc1c058ab95b3e@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in an input USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+75cccf2b7da87fb6f84b@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/0000000000001abc1c058ab95b3e@google.com
-
---------------------------------------------------------------------------------
-Title:              INFO: trying to register non-static key in usbtouch_open
+Title:              KASAN: use-after-free Read in hidraw_ioctl
 Last occurred:      0 days ago
 Reported:           0 days ago
 Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=19bb4d1c56f91465a4a9f5396f0607d487947838
-Original thread:    https://lkml.kernel.org/lkml/000000000000b69261058e589a1b@google.com/T/#u
+Dashboard link:     https://syzkaller.appspot.com/bug?id=c7e345ba243bc4476aae52a3354ccbd2a90e344e
+Original thread:    https://lkml.kernel.org/lkml/000000000000c07378058e589a29@google.com/T/#u
 
 This bug has a C reproducer.
 
 No one has replied to the original thread for this bug yet.
 
-This looks like a bug in an input USB driver.
+This looks like a bug in a hid USB driver.
 
 If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+f9c21a30eb9d374e30c1@syzkaller.appspotmail.com
+    Reported-by: syzbot+ded1794a717e3b235226@syzkaller.appspotmail.com
 
 If you send any email or patch for this bug, please reply to the original
 thread.  For the git send-email command to use, or tips on how to reply if the
 thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000b69261058e589a1b@google.com
+https://lkml.kernel.org/r/000000000000c07378058e589a29@google.com
 
 --------------------------------------------------------------------------------
-Title:              WARNING in kbtab_open/usb_submit_urb
+Title:              KASAN: use-after-free Read in usbhid_power
 Last occurred:      0 days ago
 Reported:           0 days ago
 Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=ad3a473cad38ce6fbd413eac666501abdc471d31
-Original thread:    https://lkml.kernel.org/lkml/000000000000fa7ce2058e5c8318@google.com/T/#u
+Dashboard link:     https://syzkaller.appspot.com/bug?id=36143971c5b9b0341ad4018313375a5a40cb52c8
+Original thread:    https://lkml.kernel.org/lkml/000000000000bb4247058e589a20@google.com/T/#u
 
 This bug has a C reproducer.
 
 No one has replied to the original thread for this bug yet.
 
-This looks like a bug in an input USB driver.
+This looks like a bug in a hid USB driver.
 
 If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+c7df50363aaff50aa363@syzkaller.appspotmail.com
+    Reported-by: syzbot+ef5de9c4f99c4edb4e49@syzkaller.appspotmail.com
 
 If you send any email or patch for this bug, please reply to the original
 thread.  For the git send-email command to use, or tips on how to reply if the
 thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000fa7ce2058e5c8318@google.com
+https://lkml.kernel.org/r/000000000000bb4247058e589a20@google.com
 
 --------------------------------------------------------------------------------
-Title:              WARNING in iforce_get_id_packet/usb_submit_urb
-Last occurred:      4 days ago
-Reported:           13 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=bd1dc4784ff2c89f9d35cd17b02a4a0e1baa1df4
-Original thread:    https://lkml.kernel.org/lkml/000000000000a901ed058d51adc3@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in an input USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+9584b712baf1965b590c@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please reply to the original
-thread.  For the git send-email command to use, or tips on how to reply if the
-thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000a901ed058d51adc3@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: use-after-free Read in usb_anchor_resume_wakeups
-Last occurred:      0 days ago
-Reported:           14 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=21616f648e5fb8ca17de9b869fec3b27270b9edb
-Original thread:    https://lkml.kernel.org/lkml/000000000000e9312b058d3eadb8@google.com/T/#u
-
-Unfortunately, this bug does not have a reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in an input USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+58e201002fe1e775e1ae@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please reply to the original
-thread.  For the git send-email command to use, or tips on how to reply if the
-thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000e9312b058d3eadb8@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: use-after-free Write in usb_anchor_resume_wakeups
-Last occurred:      2 days ago
-Reported:           14 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=f51395a36f8f9cc43f9538a1c961b87ff7dff3d3
-Original thread:    https://lkml.kernel.org/lkml/000000000000ede4ad058d3ead9e@google.com/T/#u
-
-Unfortunately, this bug does not have a reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in an input USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+6c355f8d5f11884fa38e@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please reply to the original
-thread.  For the git send-email command to use, or tips on how to reply if the
-thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000ede4ad058d3ead9e@google.com
-
---------------------------------------------------------------------------------
-Title:              INFO: trying to register non-static key in usbtouch_reset_resume
-Last occurred:      33 days ago
-Reported:           57 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=64fd387d8358406dc0037511ee44db159f6f1605
-Original thread:    https://lkml.kernel.org/lkml/0000000000005463aa0589dcfb85@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in an input USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+933daad9be4e67ba91a9@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/0000000000005463aa0589dcfb85@google.com
-
---------------------------------------------------------------------------------
-Title:              INFO: task hung in evdev_release
-Last occurred:      273 days ago
-Reported:           280 days ago
+Title:              INFO: task hung in fsnotify_connector_destroy_workfn (2)
+Last occurred:      32 days ago
+Reported:           311 days ago
 Branches:           Mainline and others
-Dashboard link:     https://syzkaller.appspot.com/bug?id=ebbbff1dcac574b81f9fd5e07100a4879e5bf53d
-Original thread:    https://lkml.kernel.org/lkml/000000000000f1be430578524a20@google.com/T/#u
+Dashboard link:     https://syzkaller.appspot.com/bug?id=d6011f00f49a2253c15a60ac102b2ea79e3ee8de
+Original thread:    https://lkml.kernel.org/lkml/0000000000006364200575dfc280@google.com/T/#u
 
 This bug has a syzkaller reproducer only.
 
-syzbot has bisected this bug, but I think the bisection result is incorrect.
-
-The original thread for this bug received 1 reply, 113 days ago.
+The original thread for this bug received 7 replies; the last was 301 days ago.
 
 If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+a979743610b4755d4d57@syzkaller.appspotmail.com
+    Reported-by: syzbot+6fb572170402d311dd39@syzkaller.appspotmail.com
 
 If you send any email or patch for this bug, please consider replying to the
 original thread.  For the git send-email command to use, or tips on how to reply
 if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000f1be430578524a20@google.com
+https://lkml.kernel.org/r/0000000000006364200575dfc280@google.com
 
