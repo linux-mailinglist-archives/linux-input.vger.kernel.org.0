@@ -2,127 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A8BD724D2
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2019 04:41:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B607273361
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2019 18:09:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725821AbfGXClY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 Jul 2019 22:41:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46098 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725372AbfGXClY (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 Jul 2019 22:41:24 -0400
-Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B8BE22054F;
-        Wed, 24 Jul 2019 02:41:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563936082;
-        bh=4BJpVnz9NtoVGKEWXigcPY+GsDWEePca0cBXnvCEgkM=;
-        h=Date:From:To:Cc:Subject:From;
-        b=LSLibIUYCFxOTNdFqOiV8bSMzshK13x3F9+125mPy6j0A4mjE+z/yh+eOQ0EfiaKr
-         +FDmwlluz8UAw4Z0GInpjFZJg7Rl3+aqsoWcQU+O3r11QkfB0wcWUhMrBvlG7AVYxp
-         7rKnZZ2CmRLgMGzf3GGn0KWN44wPsbshqVerSe2s=
-Date:   Tue, 23 Jul 2019 19:41:21 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Reminder: 3 open syzbot bugs in hid subsystem
-Message-ID: <20190724024121.GD643@sol.localdomain>
-Mail-Followup-To: linux-input@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+        id S1727955AbfGXQJ1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 24 Jul 2019 12:09:27 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:35192 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727786AbfGXQJ1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 24 Jul 2019 12:09:27 -0400
+Received: by mail-yw1-f67.google.com with SMTP id g19so17658255ywe.2
+        for <linux-input@vger.kernel.org>; Wed, 24 Jul 2019 09:09:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=5pJVVIp/LwA+Md6ojMBb/FcTZbPOtUyucJPo//AZiFY=;
+        b=Z+wtbQFrfmyBc2rSQ0+k/56jmv58NCJZ1o+Esux6vSn6h2M8BgKKMuzD6ZI/KYWl0y
+         Pgz4MJ6EQ2TFpubszTjXuCFWLUHgKNLJtOmXYTgRkkYuU1uPWo44VQPI/bWFb6Rh2c9C
+         GHgbYxAJfFOvY1YNCCzqbBKzo2ubijP1C2e0ln9DKHNDlK3tpWvLm4erwkLYQcqv4z1h
+         xLr5gBZTf1hgCAFyWKJXkq5Jz2+BNMhLGuQOjThftGYyl0hLq4mijsRMrvR1FQr3q9N9
+         lArKn4oUyRqcRXhJeKtBmabI8MVCKqwO1XRyEohNplrE+qAAG8wVoeL85qGI2QmMAGnR
+         HyIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=5pJVVIp/LwA+Md6ojMBb/FcTZbPOtUyucJPo//AZiFY=;
+        b=SjfbwIgaoUdKozMrSPfDXIaF2gfWEYjWB1zzCib5x9qi1ZEWifEhgII0Om3am/gAVv
+         uCb3IBayk/peblOn76bQGJXH/9lTp+OrZOmcJjpW9q2JigL4qUKhurSbH0TDu+aJ8F1i
+         qWi7+lObgIePoiHgwFoaxPT1Bh9aoxjd6z+XknCteHExHE3CRMaI1HIMZXrnytLX5kBY
+         vEgsjKZHH7k/wT1EYc2y7fwj14z7XB2slCehaGuHdJ39cDe3uW1SMwtzlqFqxVbiharp
+         iSuJhyjm709nUIe82XXwNzvz7/8ER88ynYK+QPqYnhiSFTPP6HUdLVVKWOKnP19LF5OD
+         DMdA==
+X-Gm-Message-State: APjAAAWb76tKZ5vqAQPlrhrkcaC9aS3EOUMf542tRSIqUwixSh+2TnRH
+        nDk1xQ3s1iw8kdzTktOZf+OPVBOL8MoXAbKVEs0=
+X-Google-Smtp-Source: APXvYqzuwBMt+MojgXRiEnR2dNLv7709UBYq2H/K/AsMPAScOlsvD3Ro2JqBd2LbFOMDPcoXI8cpyzHwdgMvjOWnvZg=
+X-Received: by 2002:a81:2e81:: with SMTP id u123mr46926578ywu.455.1563984566305;
+ Wed, 24 Jul 2019 09:09:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Received: by 2002:a81:140c:0:0:0:0:0 with HTTP; Wed, 24 Jul 2019 09:09:26
+ -0700 (PDT)
+From:   nelson mark <nmark6507@gmail.com>
+Date:   Wed, 24 Jul 2019 09:09:26 -0700
+Message-ID: <CABa0ZKM=U6MOd_wAD+1fqTexOds6u1ejEmzNFjt1GZFHdn+8tg@mail.gmail.com>
+Subject: CAN YOU SUPPLY?
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-[This email was generated by a script.  Let me know if you have any suggestions
-to make it better, or if you want it re-generated with the latest status.]
+Attn:Sir/Madam,
 
-Of the currently open syzbot reports against the upstream kernel, I've manually
-marked 3 of them as possibly being bugs in the hid subsystem.  I've listed these
-reports below, sorted by an algorithm that tries to list first the reports most
-likely to be still valid, important, and actionable.
+Tender is open to all potential suppliers in the Contract Procurement
+Board (CPB) here in Ghana for the supply of your products. This Tender
+is open to Foreign suppliers whose company products meet international
+standards and also willing to bid for a tender and if your not
+interested to bid please do not reply.
 
-Of these 3 bugs, 2 were seen in mainline in the last week.
+Terms of Payment: If the Contract is awarded to your company,An
+upfront payment of 80% (T/T) will be made to your account, while 20%
+will be paid before shipment.
 
-If you believe a bug is no longer valid, please close the syzbot report by
-sending a '#syz fix', '#syz dup', or '#syz invalid' command in reply to the
-original thread, as explained at https://goo.gl/tpsmEJ#status
+This Projects is for companies who are very ready to apply for Tender
+bids and have understanding the meaning of bidding for contract supply
+and you will need to do official tender registration with the Contract
+Procurement Board (CPB) when you are submitting your bidding documents
+for approval before award.
 
-If you believe I misattributed a bug to the hid subsystem, please let me know,
-and if possible forward the report to the correct people or mailing list.
+I am a commission agent.
 
-Here are the bugs:
-
---------------------------------------------------------------------------------
-Title:              KASAN: use-after-free Read in hidraw_ioctl
-Last occurred:      0 days ago
-Reported:           0 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=c7e345ba243bc4476aae52a3354ccbd2a90e344e
-Original thread:    https://lkml.kernel.org/lkml/000000000000c07378058e589a29@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in a hid USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+ded1794a717e3b235226@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please reply to the original
-thread.  For the git send-email command to use, or tips on how to reply if the
-thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000c07378058e589a29@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: use-after-free Read in usbhid_power
-Last occurred:      0 days ago
-Reported:           0 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=36143971c5b9b0341ad4018313375a5a40cb52c8
-Original thread:    https://lkml.kernel.org/lkml/000000000000bb4247058e589a20@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in a hid USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+ef5de9c4f99c4edb4e49@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please reply to the original
-thread.  For the git send-email command to use, or tips on how to reply if the
-thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000bb4247058e589a20@google.com
-
---------------------------------------------------------------------------------
-Title:              INFO: task hung in fsnotify_connector_destroy_workfn (2)
-Last occurred:      32 days ago
-Reported:           311 days ago
-Branches:           Mainline and others
-Dashboard link:     https://syzkaller.appspot.com/bug?id=d6011f00f49a2253c15a60ac102b2ea79e3ee8de
-Original thread:    https://lkml.kernel.org/lkml/0000000000006364200575dfc280@google.com/T/#u
-
-This bug has a syzkaller reproducer only.
-
-The original thread for this bug received 7 replies; the last was 301 days ago.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+6fb572170402d311dd39@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/0000000000006364200575dfc280@google.com
-
+Regards
+Mr.Nelson
+Accra-Ghana
