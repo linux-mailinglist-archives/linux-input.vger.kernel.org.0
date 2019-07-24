@@ -2,129 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 639D173D7D
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2019 22:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5520273FD8
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2019 22:36:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391801AbfGXURf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 24 Jul 2019 16:17:35 -0400
-Received: from gateway23.websitewelcome.com ([192.185.50.120]:31457 "EHLO
-        gateway23.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2391578AbfGXTuF (ORCPT
+        id S2388050AbfGXTZh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 24 Jul 2019 15:25:37 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:43303 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388043AbfGXTZh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 24 Jul 2019 15:50:05 -0400
-X-Greylist: delayed 1258 seconds by postgrey-1.27 at vger.kernel.org; Wed, 24 Jul 2019 15:50:04 EDT
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
-        by gateway23.websitewelcome.com (Postfix) with ESMTP id 82BB0CD4C
-        for <linux-input@vger.kernel.org>; Wed, 24 Jul 2019 14:29:04 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id qMwihV9gj2PzOqMwihcNIb; Wed, 24 Jul 2019 14:29:04 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=m/W0rgsCmtoOnzt1mA4FDPGJhanOVxv0dWFZlQcN8M8=; b=uDBWfruL3NbyOxjd/AwgqcMwuK
-        MmFVbgk36/XVXGl8IkfM8MAEyLFItvjvg7z1fNpy1CsRqibT9kMAXBJRJRhT+vmpArse62BOeI58Y
-        vnLcumn2KQWPxKn8ePdSBWqkP1RiEF+Fs6iQeCLxpvyYaM0zcAcAV05irPNzpU/oqY29dncu6Um40
-        GPhgtMa+hmFL0RCZ+vbRBazFBJol4l1z+/9SteEpTdnrd0McV1T40knX7p8gvQV4gwwSd8vydubAD
-        V84FW4sRjTG16EwjJ4Bu5CmtrkH1Ox1LxGMxuFdPVY3iV9Ly6Xq4Bo2eID4aXUCCKyOkgy+tKHJ62
-        GwuU2uBA==;
-Received: from cablelink-187-160-61-189.pcs.intercable.net ([187.160.61.189]:55046 helo=[192.168.0.8])
-        by gator4166.hostgator.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1hqMwi-001e1T-98; Wed, 24 Jul 2019 14:29:04 -0500
-Subject: Re: [PATCH] Input: elantech - mark expected switch fall-through
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        Wed, 24 Jul 2019 15:25:37 -0400
+Received: by mail-lf1-f65.google.com with SMTP id c19so32727182lfm.10;
+        Wed, 24 Jul 2019 12:25:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=62j7+wSkhUHI/uSOEbsFJlruhr6Za1QWHbaqDgoEVtQ=;
+        b=D/UPHHu/fRcxCNNCrIdrC/33dxO3nj5swxlbIsELJLpjb2uo7H37kp4yGQ5uAHGGtj
+         wLpgAFUMrHa1mZmTO4lu9Bh8EKH50d3EFZ7EjCX3SPIZRUaENr4lQFPThmYTI4fjVwDQ
+         iUE6dcIf/SXrAt9dwzL2DSdMsaVQp4eGs87+rxz1XpaW/abr+DOHGmb+eqv6kzEl8b8O
+         TZwRvz7aAnrDiwX6CHPs0ZhUq4/TzvEKUgH7dqL4Z+JGLo80HvGUBKVl3kJ0ANKU90jr
+         dCL7t8ONpYxKjBd9RuQ9pEFnfomu0WBuKrBZIfDyXXLV/X5254HidEocWQ2+IbuO1ZA6
+         eYFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=62j7+wSkhUHI/uSOEbsFJlruhr6Za1QWHbaqDgoEVtQ=;
+        b=A7kIPOXssOwQoHaO06HPM+jk9HywL73bV1z1nHwS11czdNjX0kfQwwhSSvFGhrD2l1
+         2PgDs08d4Jc9XKWDnACaekbGlchVlR5TwYjgYQK/RJc2VY4ujc6UCVqMUfrFx7w9vS31
+         ufpZmafIvp7baUgZIRj3UK2ZqLQYXsc3p8MqSUQObgP5ka6n0E83bE8bH8R0f1nmG0f2
+         l9psNMpWK9qKzvBxWiodaaa5xixhskykOe646Cg4WK1G3gxPALlr7xco5gZ2TL8S11Zg
+         nJtCiSAZiLK0uG/MdKj2Uw7Cbyn/QY/Bqt/FUjzNDKAVbj7IXdPOL7+GoY5XBApkOZfb
+         COHQ==
+X-Gm-Message-State: APjAAAXHRY1NXkRc6jskE3L9+GUYhJDA9d6HD4YsVJy7aTTIMe5QqJkY
+        33BGJiypb45e8cpmjK7nMPc=
+X-Google-Smtp-Source: APXvYqw7B3oyjIfw1cKuffGMQUDFrbiFo4davqC0Fk4UMrvpLwisAi0F3pd6A8VSflQTS2vwH4V40Q==
+X-Received: by 2002:a19:6e41:: with SMTP id q1mr28989439lfk.20.1563996334490;
+        Wed, 24 Jul 2019 12:25:34 -0700 (PDT)
+Received: from localhost ([188.170.223.67])
+        by smtp.gmail.com with ESMTPSA id k27sm8003487lfm.90.2019.07.24.12.25.33
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 24 Jul 2019 12:25:33 -0700 (PDT)
+Date:   Wed, 24 Jul 2019 22:25:28 +0300
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190724175202.GA9583@embeddedor> <20190724192528.GA6859@penguin>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=gustavo@embeddedor.com; keydata=
- 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
- VtSixD1uOgytAP7RWS474w==
-Message-ID: <2fc127b8-5315-4665-2693-5d85e989033c@embeddedor.com>
-Date:   Wed, 24 Jul 2019 14:29:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Subject: Re: [PATCH] Input: elantech - mark expected switch fall-through
+Message-ID: <20190724192528.GA6859@penguin>
+References: <20190724175202.GA9583@embeddedor>
 MIME-Version: 1.0
-In-Reply-To: <20190724192528.GA6859@penguin>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.160.61.189
-X-Source-L: No
-X-Exim-ID: 1hqMwi-001e1T-98
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: cablelink-187-160-61-189.pcs.intercable.net ([192.168.0.8]) [187.160.61.189]:55046
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 10
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190724175202.GA9583@embeddedor>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Gustavo,
 
+On Wed, Jul 24, 2019 at 12:52:02PM -0500, Gustavo A. R. Silva wrote:
+> In preparation to enabling -Wimplicit-fallthrough, mark switch
+> cases where we are expecting to fall through.
 > 
-> Thank you for the patch but I already pushed out similar patch.
+> This patch fixes the following warning:
 > 
+> drivers/input/mouse/elantech.c: In function 'elantech_use_host_notify':
+> drivers/input/mouse/elantech.c:1843:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>    if (dmi_get_bios_year() >= 2018)
+>       ^
+> drivers/input/mouse/elantech.c:1845:2: note: here
+>   default:
+>   ^~~~~~~
 
-Great. Good to know it's already fixed. :)
+Thank you for the patch but I already pushed out similar patch.
 
-Thanks
---
-Gustavo
+Thanks.
+
+-- 
+Dmitry
