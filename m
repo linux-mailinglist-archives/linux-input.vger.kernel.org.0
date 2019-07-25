@@ -2,66 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA43F74F46
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jul 2019 15:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 758E1750D6
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jul 2019 16:19:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726653AbfGYNZ0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Jul 2019 09:25:26 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:33948 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726543AbfGYNZ0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Jul 2019 09:25:26 -0400
-Received: by mail-io1-f69.google.com with SMTP id u84so55046745iod.1
-        for <linux-input@vger.kernel.org>; Thu, 25 Jul 2019 06:25:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=PkiEcDOK8OA4Va03g5uJ4AVkphP2WNyH087hSbHOvKg=;
-        b=ZN5U5LLyTAOCTALgs9SoeAWqYyPMgKOnIBsCrjo+X4r2rKTBPY9nuxEZ9bBeRjPRPc
-         Sebpqa04h6zB930h5xeGVCvrQ2pfWjYaE0aEq39Xg+HISnpnLqz2TLKGIv0Ppg3Yx7eM
-         sC1rPk7nMNIVXfgdkrNPTmtAHl3iGM+r2v+6U6XWL6qbxOLrHBPT5lbmXfBw7P6y0ZR/
-         yZEi1yZiIW50XR4Ik9H1noUllfr4x+Pz4ML4M0xvIYlCf/uzDdGwuYq/AQ11SD49d13b
-         gh6aA60vnjEohA9Wm7yALpJYin/afc0vO8ObKh9AkRIxu9sduCeDxsBIpJ+INFqusi5s
-         RhSQ==
-X-Gm-Message-State: APjAAAV/a8iy2VpS+QppKMhfxZNKhF1/fkOIJPZ5cFMxUgHUwd5IKEZh
-        gMCYIxmmwPMxFzTutWmHcTYkxGtSLvB+JOpidbBT7hgXeOGo
-X-Google-Smtp-Source: APXvYqz1Ndkw/UtbSazlpG7AKbE/TAniiLCL89AZe6pdDEyx3gdHbC+1SrEidwFkH1pnxzKBEcV9O8kLzRSkb1P8UJao1PqH+4mO
+        id S1726769AbfGYOT4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Jul 2019 10:19:56 -0400
+Received: from mga17.intel.com ([192.55.52.151]:19579 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725944AbfGYOT4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 25 Jul 2019 10:19:56 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Jul 2019 07:19:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,307,1559545200"; 
+   d="scan'208";a="170260059"
+Received: from bahr-mobl4.ger.corp.intel.com (HELO delly.ger.corp.intel.com) ([10.249.35.73])
+  by fmsmga008.fm.intel.com with ESMTP; 25 Jul 2019 07:19:54 -0700
+From:   Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc:     Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+        linux-input@vger.kernel.org, yuehaibing@huawei.com,
+        hdegoede@redhat.com, benjamin.tissoires@redhat.com
+Subject: [PATCH v3] HID: logitech-dj: Fix mouse detection
+Date:   Thu, 25 Jul 2019 17:19:49 +0300
+Message-Id: <20190725141949.9737-1-lionel.g.landwerlin@intel.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-X-Received: by 2002:a6b:7909:: with SMTP id i9mr50502473iop.8.1564059720532;
- Thu, 25 Jul 2019 06:02:00 -0700 (PDT)
-Date:   Thu, 25 Jul 2019 06:02:00 -0700
-In-Reply-To: <1564058593.14544.3.camel@suse.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000000cd1ca058e8108d3@google.com>
-Subject: Re: general protection fault in holtek_kbd_input_event
-From:   syzbot <syzbot+965152643a75a56737be@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
-        jikos@kernel.org, linux-input@vger.kernel.org, oneukum@suse.com,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+Now logi_dj_recv_query_paired_devices() will return a positive value
+while success, but logi_dj_probe expect zero in case of success, so
+set it to 0 before return.
 
-syzbot has tested the proposed patch and the reproducer did not trigger  
-crash:
+Fixes this error :
 
-Reported-and-tested-by:  
-syzbot+965152643a75a56737be@syzkaller.appspotmail.com
+   logitech-djreceiver: probe of 0003:046D:C534.0006 failed with error 7
 
-Tested on:
+Also prevents the pluging of the mouse dongle in/out to hang the
+system.
 
-commit:         6a3599ce usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git  
-usb-fuzzer-usb-testing-2019.07.11
-kernel config:  https://syzkaller.appspot.com/x/.config?x=700ca426ab83faae
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=135edb68600000
+v2: Drop useless retval = 0 (YueHaibing)
 
-Note: testing is done by a robot and is best-effort only.
+v3: Add explanation (YueHaibing)
+
+Signed-off-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: linux-input@vger.kernel.org
+Cc: yuehaibing@huawei.com
+Cc: hdegoede@redhat.com
+Cc: benjamin.tissoires@redhat.com
+Fixes: dbcbabf7da92 ("HID: logitech-dj: fix return value of logi_dj_recv_query_hidpp_devices")
+Reviewed-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/hid/hid-logitech-dj.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index 6196217a7d93..8cdf37309ada 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -1736,6 +1736,7 @@ static int logi_dj_probe(struct hid_device *hdev,
+ 				__func__, retval);
+ 			goto logi_dj_recv_query_paired_devices_failed;
+ 		}
++		retval = 0;
+ 	}
+ 
+ 	return retval;
+-- 
+2.22.0
+
