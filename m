@@ -2,203 +2,165 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2303C753BE
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jul 2019 18:20:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79F9C7565E
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jul 2019 19:58:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388174AbfGYQUc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Jul 2019 12:20:32 -0400
-Received: from mail-out.m-online.net ([212.18.0.9]:46624 "EHLO
-        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387564AbfGYQUc (ORCPT
+        id S1726099AbfGYR6G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Jul 2019 13:58:06 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:46207 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726673AbfGYR6F (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Jul 2019 12:20:32 -0400
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-        by mail-out.m-online.net (Postfix) with ESMTP id 45vcrX3Qf0z1rC0W;
-        Thu, 25 Jul 2019 18:20:28 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-        by mail.m-online.net (Postfix) with ESMTP id 45vcrX2hWZz1qqkH;
-        Thu, 25 Jul 2019 18:20:28 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-        with ESMTP id HEUFb3dOTyW7; Thu, 25 Jul 2019 18:20:26 +0200 (CEST)
-X-Auth-Info: guacg1qZZv5IL0kMu20zrLv3McRfSpJVVlDWMBmdmbI=
-Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.mnet-online.de (Postfix) with ESMTPSA;
-        Thu, 25 Jul 2019 18:20:26 +0200 (CEST)
-Date:   Thu, 25 Jul 2019 18:20:20 +0200
-From:   Lukasz Majewski <lukma@denx.de>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Enrico Weigelt <info@metux.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] mfd: mc13xxx: Add mc34708 adc support
-Message-ID: <20190725182020.3948c8d9@jawa>
-In-Reply-To: <20190725123641.GJ23883@dell>
-References: <20190717222602.2912-1-lukma@denx.de>
-        <20190717222602.2912-2-lukma@denx.de>
-        <20190725123641.GJ23883@dell>
-Organization: denx.de
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        Thu, 25 Jul 2019 13:58:05 -0400
+Received: by mail-pl1-f195.google.com with SMTP id c2so23668067plz.13;
+        Thu, 25 Jul 2019 10:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TpXeI3bjGZJFrAoMRGWEMRsLJE/ZUctqhpPZgA4Uju4=;
+        b=ok+ytzS/Q9CbY/1VOtr6oEyeKil7vtncL3AnGuH9fdCXnD2A3GhbiqokFNplhJe3G/
+         URl/lfz/oqLFXBH1zlNAzZl+er5dJT4I0aDzQ334dCuaHSP6RYp5i51mgT8dOvggKnH4
+         58xT2Kt0AH2DICErB3525JLaUXiMmDdKIZhij64A0D6ESK/QbKu2cfMf/hGLml3RMAKX
+         72hrZ1d/ATtOmyfTyg0iaEIwOyoLXfNsWa57EYWC0VjAQ7/37np0/o+omNVxxi5cpY9W
+         r7HEh47aN1eWyA4lIoY+by12qXRtCcuhqdC+uLDYxKFrbIohVL7qaoYMspwy7zRKK4tM
+         bFnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TpXeI3bjGZJFrAoMRGWEMRsLJE/ZUctqhpPZgA4Uju4=;
+        b=fKQpVDrYJUuTCrb1s6auTI8p/lQez5/Qrjuzv3/yVDvSgzDS6AqyN1DkIwf3siSxPY
+         bTK3TT0ijI5zqh2LvbrVmho6UQ7kGUDeIckkFuZuxulZ+wRO3zBvX4pR0WB8bbKEedLX
+         rK10FkZWmDug2Z2Zd8Kv1MwXnHAiYlD78ISi3TXIbEu/to568SAV+2Xc+hEOngkatgmT
+         J+IgVVvFDeEqItclDJWysVXu1oSAEanO+PrbSQoaVhd5dvwPyCIbCVubKQo/02THOppm
+         GcQziTs/SrcFAqYumgVG+U179J2AqivWJvw37ev03EYAd4SHXhWq0Nb6grCgvnZA6AMP
+         RP2w==
+X-Gm-Message-State: APjAAAU/huuFApT5jqHYOj366NOeVIJS8XehMAnwy38r2VGl65C/HS/c
+        SKvvPPwyisvjAz38KgLWdNvPingl81cododNtkY=
+X-Google-Smtp-Source: APXvYqz4A+vOh0bYalI3BQl0fT/OksBSxz+ankbzQWNMIQ4XulhQSKCsGcPC5zSqhii/b2k5b1DFsutGteopFql21Po=
+X-Received: by 2002:a17:902:694a:: with SMTP id k10mr91300116plt.255.1564077485133;
+ Thu, 25 Jul 2019 10:58:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/tZkyfYhowXpRWsh0jAiSQ9/"; protocol="application/pgp-signature"
+References: <20190720150511.95076-1-luzmaximilian@gmail.com> <20190720150511.95076-2-luzmaximilian@gmail.com>
+In-Reply-To: <20190720150511.95076-2-luzmaximilian@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 25 Jul 2019 20:57:53 +0300
+Message-ID: <CAHp75Ve+3c-TFeN3Dh-DB75Rjft8mY2DA8vNkrFyp7JK-ZOjDA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] platform/x86: surfacepro3_button: Fix device check
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---Sig_/tZkyfYhowXpRWsh0jAiSQ9/
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Sat, Jul 20, 2019 at 6:05 PM Maximilian Luz <luzmaximilian@gmail.com> wrote:
+>
+> Do not use the surfacepro3_button driver on newer Microsoft Surface
+> models, only use it on the Surface Pro 3 and 4. Newer models (5th, 6th
+> and possibly future generations) use the same device as the Surface Pro
+> 4 to represent their volume and power buttons (MSHW0040), but their
+> actual implementation is significantly different. This patch ensures
+> that the surfacepro3_button driver is only used on the Pro 3 and 4
+> models, allowing a different driver to bind on other models.
+>
 
-Hi Lee,
+Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-> On Thu, 18 Jul 2019, Lukasz Majewski wrote:
->=20
-> > From: Sascha Hauer <s.hauer@pengutronix.de>
-> >=20
-> > The mc34708 has an improved adc. The older variants will always
-> > convert a fixed order of channels. The mc34708 can do up to eight
-> > conversions in arbitrary channel order. Currently this extended
-> > feature is not supported. We only support touchscreen conversions
-> > now, which will be sampled in a data format compatible to the older
-> > chips in order to keep the API between the mfd and the touchscreen
-> > driver.
-> >=20
-> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> > Signed-off-by: Lukasz Majewski <lukma@denx.de>
-> >=20
-> > ---
-> > Changes for v4:
-> > - None
-> >=20
-> > Changes for v3:
-> > - None
-> >=20
-> > Changes for v2:
-> > - Change the return code patch when the mc13xxx ADC is performing
-> > conversion
-> > - Introduce new include/linux/mfd/mc34708.h header file for mc34708
-> > specific defines
-> >=20
-> > Changes from the original patches:
-> > - ADC conversion functions prototypes added to fix build error
-> > - Adjustments to make checkpatch clean (-ENOSYS, line over 80 char)
-> >=20
-> > This patch applies on top of v5.2 - SHA1:
-> > 0ecfebd2b52404ae0c54a878c872bb93363ada36 ---
-> >  drivers/mfd/mc13xxx-core.c  | 102
-> > +++++++++++++++++++++++++++++++++++++++++++-
-> > drivers/mfd/mc13xxx.h       |   3 ++ include/linux/mfd/mc34708.h |
-> > 37 ++++++++++++++++ 3 files changed, 141 insertions(+), 1
-> > deletion(-) create mode 100644 include/linux/mfd/mc34708.h
-> >=20
-> > diff --git a/drivers/mfd/mc13xxx-core.c b/drivers/mfd/mc13xxx-core.c
-> > index 1abe7432aad8..01473d6fda21 100644
-> > --- a/drivers/mfd/mc13xxx-core.c
-> > +++ b/drivers/mfd/mc13xxx-core.c
-> > @@ -12,6 +12,7 @@
-> >  #include <linux/of_device.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/mfd/core.h>
-> > +#include <linux/mfd/mc34708.h>
-> > =20
-> >  #include "mc13xxx.h"
-> > =20
-> > @@ -45,6 +46,8 @@
-> > =20
-> >  #define MC13XXX_ADC2		45
-> > =20
-> > +#define MC13XXX_ADC_WORKING		(1 << 0) =20
->=20
-> BIT(0) ?
+assuming it will go thru Input subsystem.
 
-The same convention - i.e. (1 << 0) is used in the rest of the file.
-
->=20
-> >  void mc13xxx_lock(struct mc13xxx *mc13xxx)
-> >  {
-> >  	if (!mutex_trylock(&mc13xxx->lock)) {
-> > @@ -198,22 +201,30 @@ static void mc34708_print_revision(struct
-> > mc13xxx *mc13xxx, u32 revision) maskval(revision,
-> > MC34708_REVISION_FAB)); }
-> > =20
-> > +static int mc13xxx_adc_conversion(struct mc13xxx *, unsigned int,
-> > +				  unsigned int, u8, bool, unsigned
-> > int *); +static int mc34708_adc_conversion(struct mc13xxx *,
-> > unsigned int,
-> > +				  unsigned int, u8, bool, unsigned
-> > int *); +
-> >  /* These are only exported for mc13xxx-i2c and mc13xxx-spi */
-> >  struct mc13xxx_variant mc13xxx_variant_mc13783 =3D {
-> >  	.name =3D "mc13783",
-> >  	.print_revision =3D mc13xxx_print_revision,
-> > +	.adc_do_conversion =3D mc13xxx_adc_conversion,
-> >  };
-> >  EXPORT_SYMBOL_GPL(mc13xxx_variant_mc13783); =20
->=20
-> I'd prefer to keep the call-back functions as close to zero as
-> possible.
-
-If I may ask - what is wrong with having per device callback(s) ?
-
->=20
-> It would be better to turn mc13xxx_adc_conversion() in to the catch
-> function
-
-Could you share any example?=20
-
-> choose an execution route based on some platform matching.
->=20
-
-Could you help me with giving a hint of how shall I do the "platform
-matching" in this particular driver ?=20
-
-The mc13xxx driver seems rather complex with SPI and I2C support and in
-which the subdevices are added (e.g. rtc, adc, etc).
-
-This particular patch just follows current driver design and fixes its
-usability for mc13708 drvice.
-
-> If you could do the same for print_revision too, that would be even
-> better.
->=20
-
-I would prefer to fix the driver (for mc13708) without the need to
-change the working code.
+> Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+> ---
+>  drivers/platform/x86/surfacepro3_button.c | 47 +++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+>
+> diff --git a/drivers/platform/x86/surfacepro3_button.c b/drivers/platform/x86/surfacepro3_button.c
+> index 47c6d000465a..ec515223f654 100644
+> --- a/drivers/platform/x86/surfacepro3_button.c
+> +++ b/drivers/platform/x86/surfacepro3_button.c
+> @@ -20,6 +20,12 @@
+>  #define SURFACE_BUTTON_OBJ_NAME                "VGBI"
+>  #define SURFACE_BUTTON_DEVICE_NAME     "Surface Pro 3/4 Buttons"
+>
+> +#define MSHW0040_DSM_REVISION          0x01
+> +#define MSHW0040_DSM_GET_OMPR          0x02    // get OEM Platform Revision
+> +static const guid_t MSHW0040_DSM_UUID =
+> +       GUID_INIT(0x6fd05c69, 0xcde3, 0x49f4, 0x95, 0xed, 0xab, 0x16, 0x65,
+> +                 0x49, 0x80, 0x35);
+> +
+>  #define SURFACE_BUTTON_NOTIFY_TABLET_MODE      0xc8
+>
+>  #define SURFACE_BUTTON_NOTIFY_PRESS_POWER      0xc6
+> @@ -142,6 +148,44 @@ static int surface_button_resume(struct device *dev)
+>  }
+>  #endif
+>
+> +/*
+> + * Surface Pro 4 and Surface Book 2 / Surface Pro 2017 use the same device
+> + * ID (MSHW0040) for the power/volume buttons. Make sure this is the right
+> + * device by checking for the _DSM method and OEM Platform Revision.
+> + *
+> + * Returns true if the driver should bind to this device, i.e. the device is
+> + * either MSWH0028 (Pro 3) or MSHW0040 on a Pro 4 or Book 1.
+> + */
+> +static bool surface_button_check_MSHW0040(struct acpi_device *dev)
+> +{
+> +       acpi_handle handle = dev->handle;
+> +       union acpi_object *result;
+> +       u64 oem_platform_rev = 0;       // valid revisions are nonzero
+> +
+> +       // get OEM platform revision
+> +       result = acpi_evaluate_dsm_typed(handle, &MSHW0040_DSM_UUID,
+> +                                        MSHW0040_DSM_REVISION,
+> +                                        MSHW0040_DSM_GET_OMPR,
+> +                                        NULL, ACPI_TYPE_INTEGER);
+> +
+> +       /*
+> +        * If evaluating the _DSM fails, the method is not present. This means
+> +        * that we have either MSHW0028 or MSHW0040 on Pro 4 or Book 1, so we
+> +        * should use this driver. We use revision 0 indicating it is
+> +        * unavailable.
+> +        */
+> +
+> +       if (result) {
+> +               oem_platform_rev = result->integer.value;
+> +               ACPI_FREE(result);
+> +       }
+> +
+> +       dev_dbg(&dev->dev, "OEM Platform Revision %llu\n", oem_platform_rev);
+> +
+> +       return oem_platform_rev == 0;
+> +}
+> +
+> +
+>  static int surface_button_add(struct acpi_device *device)
+>  {
+>         struct surface_button *button;
+> @@ -154,6 +198,9 @@ static int surface_button_add(struct acpi_device *device)
+>             strlen(SURFACE_BUTTON_OBJ_NAME)))
+>                 return -ENODEV;
+>
+> +       if (!surface_button_check_MSHW0040(device))
+> +               return -ENODEV;
+> +
+>         button = kzalloc(sizeof(struct surface_button), GFP_KERNEL);
+>         if (!button)
+>                 return -ENOMEM;
+> --
+> 2.22.0
+>
 
 
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/tZkyfYhowXpRWsh0jAiSQ9/
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAl051sQACgkQAR8vZIA0
-zr37bQf/fihCUC7Q46ePMNU9EdKDchQOsRruvSq9D/fYgYY4ot4m+4tow5dIRu2q
-OoZFxYr5vv2PA+lk6Wy40PxI+9J8l0IUAlTe9pz00GMGIyO16yqqEsqVusrBfP6c
-tyqcF/cgnGwme66U+Zj5aQASfRX9HRn/SK7cy86YQL/i65wqmxkGKAPKdjWuaN9e
-QHYbgcPFogs0DdO8sdmo2iXCiZmwIpRiGtW2nFTEpl7t+WDzn5w94CLo4VGOWnb5
-CJGX5U4OCq7sRyjP+Sj9dkJTN7k4TAiYDlHH1pr+Y38RQv9ECGSA0y6J1T6FxwnK
-Qp/+1yTRLQsw4T3yLCHQAxPqcTOqng==
-=vXD0
------END PGP SIGNATURE-----
-
---Sig_/tZkyfYhowXpRWsh0jAiSQ9/--
+-- 
+With Best Regards,
+Andy Shevchenko
