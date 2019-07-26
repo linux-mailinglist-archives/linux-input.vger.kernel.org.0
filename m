@@ -2,147 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53F5576AE2
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jul 2019 16:02:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7574076B74
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jul 2019 16:22:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726001AbfGZOCL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Jul 2019 10:02:11 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:42257 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728281AbfGZOCL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Jul 2019 10:02:11 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1hr0nR-0006WY-CN; Fri, 26 Jul 2019 16:02:09 +0200
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, Chris Healy <cphealy@gmail.com>,
-        Nick Dyer <nick@shmanahar.org>, kernel@pengutronix.de,
-        patchwork-lst@pengutronix.de
-Subject: [PATCH 3/3] Input: synaptics-rmi4 - simplify data read in rmi_f54_work
-Date:   Fri, 26 Jul 2019 16:02:08 +0200
-Message-Id: <20190726140208.5758-3-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190726140208.5758-1-l.stach@pengutronix.de>
-References: <20190726140208.5758-1-l.stach@pengutronix.de>
+        id S2387412AbfGZOWc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 Jul 2019 10:22:32 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:34552 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725869AbfGZOWc (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 26 Jul 2019 10:22:32 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 1DB942EE39331E641556;
+        Fri, 26 Jul 2019 22:22:30 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.439.0; Fri, 26 Jul 2019
+ 22:22:23 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <jeesw@melfas.com>, <dmitry.torokhov@gmail.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH -next] Input: melfas_mip4 - remove set but not used variables
+Date:   Fri, 26 Jul 2019 22:22:16 +0800
+Message-ID: <20190726142216.35212-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Type: text/plain
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The body of the for loop is only ever run once as the second standard_report
-element is never changed from its initial zero init, so the loop condition is
-never satisfies after the first run. Equally the start member of the first
-element is never changed from 0, so the index offset is always a constant 0.
+Fixes gcc '-Wunused-but-set-variable' warning:
 
-Remove this needless obfuscation of the code and write it in a straight
-forward manner.
+drivers/input/touchscreen/melfas_mip4.c: In function 'mip4_report_touch':
+drivers/input/touchscreen/melfas_mip4.c:474:5: warning: variable 'size' set but not used [-Wunused-but-set-variable]
+drivers/input/touchscreen/melfas_mip4.c:472:5: warning: variable 'pressure_stage' set but not used [-Wunused-but-set-variable]
+drivers/input/touchscreen/melfas_mip4.c:469:7: warning: variable 'palm' set but not used [-Wunused-but-set-variable]
+drivers/input/touchscreen/melfas_mip4.c:468:7: warning: variable 'hover' set but not used [-Wunused-but-set-variable]
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+They are never used so can be removed.
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/input/rmi4/rmi_f54.c | 48 ++++++++++++------------------------
- 1 file changed, 16 insertions(+), 32 deletions(-)
+ drivers/input/touchscreen/melfas_mip4.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/drivers/input/rmi4/rmi_f54.c b/drivers/input/rmi4/rmi_f54.c
-index 22390e89c680..5b1799bdfb62 100644
---- a/drivers/input/rmi4/rmi_f54.c
-+++ b/drivers/input/rmi4/rmi_f54.c
-@@ -81,11 +81,6 @@ static const char * const rmi_f54_report_type_names[] = {
- 					= "Full Raw Capacitance RX Offset Removed",
- };
+diff --git a/drivers/input/touchscreen/melfas_mip4.c b/drivers/input/touchscreen/melfas_mip4.c
+index 247c3aa..d291a82 100644
+--- a/drivers/input/touchscreen/melfas_mip4.c
++++ b/drivers/input/touchscreen/melfas_mip4.c
+@@ -465,13 +465,9 @@ static void mip4_report_keys(struct mip4_ts *ts, u8 *packet)
+ static void mip4_report_touch(struct mip4_ts *ts, u8 *packet)
+ {
+ 	int id;
+-	bool hover;
+-	bool palm;
+ 	bool state;
+ 	u16 x, y;
+-	u8 pressure_stage = 0;
+ 	u8 pressure;
+-	u8 size;
+ 	u8 touch_major;
+ 	u8 touch_minor;
  
--struct rmi_f54_reports {
--	int start;
--	int size;
--};
--
- struct f54_data {
- 	struct rmi_function *fn;
- 
-@@ -98,7 +93,6 @@ struct f54_data {
- 	enum rmi_f54_report_type report_type;
- 	u8 *report_data;
- 	int report_size;
--	struct rmi_f54_reports standard_report[2];
- 
- 	bool is_busy;
- 	struct mutex status_mutex;
-@@ -516,13 +510,10 @@ static void rmi_f54_work(struct work_struct *work)
- 	struct f54_data *f54 = container_of(work, struct f54_data, work.work);
- 	struct rmi_function *fn = f54->fn;
- 	u8 fifo[2];
--	struct rmi_f54_reports *report;
- 	int report_size;
- 	u8 command;
--	u8 *data;
- 	int error;
- 
--	data = f54->report_data;
- 	report_size = rmi_f54_get_report_size(f54);
- 	if (report_size == 0) {
- 		dev_err(&fn->dev, "Bad report size, report type=%d\n",
-@@ -530,8 +521,6 @@ static void rmi_f54_work(struct work_struct *work)
- 		error = -EINVAL;
- 		goto error;     /* retry won't help */
- 	}
--	f54->standard_report[0].size = report_size;
--	report = f54->standard_report;
- 
- 	mutex_lock(&f54->data_mutex);
- 
-@@ -556,28 +545,23 @@ static void rmi_f54_work(struct work_struct *work)
- 
- 	rmi_dbg(RMI_DEBUG_FN, &fn->dev, "Get report command completed, reading data\n");
- 
--	report_size = 0;
--	for (; report->size; report++) {
--		fifo[0] = report->start & 0xff;
--		fifo[1] = (report->start >> 8) & 0xff;
--		error = rmi_write_block(fn->rmi_dev,
--					fn->fd.data_base_addr + F54_FIFO_OFFSET,
--					fifo, sizeof(fifo));
--		if (error) {
--			dev_err(&fn->dev, "Failed to set fifo start offset\n");
--			goto abort;
--		}
-+	fifo[0] = 0;
-+	fifo[1] = 0;
-+	error = rmi_write_block(fn->rmi_dev,
-+				fn->fd.data_base_addr + F54_FIFO_OFFSET,
-+				fifo, sizeof(fifo));
-+	if (error) {
-+		dev_err(&fn->dev, "Failed to set fifo start offset\n");
-+		goto abort;
-+	}
- 
--		error = rmi_read_block(fn->rmi_dev, fn->fd.data_base_addr +
--				       F54_REPORT_DATA_OFFSET, data,
--				       report->size);
--		if (error) {
--			dev_err(&fn->dev, "%s: read [%d bytes] returned %d\n",
--				__func__, report->size, error);
--			goto abort;
--		}
--		data += report->size;
--		report_size += report->size;
-+	error = rmi_read_block(fn->rmi_dev, fn->fd.data_base_addr +
-+			       F54_REPORT_DATA_OFFSET, f54->report_data,
-+			       report_size);
-+	if (error) {
-+		dev_err(&fn->dev, "%s: read [%d bytes] returned %d\n",
-+			__func__, report_size, error);
-+		goto abort;
- 	}
- 
- abort:
+@@ -480,14 +476,11 @@ static void mip4_report_touch(struct mip4_ts *ts, u8 *packet)
+ 	case 1:
+ 		/* Touch only */
+ 		state = packet[0] & BIT(7);
+-		hover = packet[0] & BIT(5);
+-		palm = packet[0] & BIT(4);
+ 		id = (packet[0] & 0x0F) - 1;
+ 		x = ((packet[1] & 0x0F) << 8) | packet[2];
+ 		y = (((packet[1] >> 4) & 0x0F) << 8) |
+ 			packet[3];
+ 		pressure = packet[4];
+-		size = packet[5];
+ 		if (ts->event_format == 0) {
+ 			touch_major = packet[5];
+ 			touch_minor = packet[5];
+@@ -501,14 +494,10 @@ static void mip4_report_touch(struct mip4_ts *ts, u8 *packet)
+ 	default:
+ 		/* Touch + Force(Pressure) */
+ 		id = (packet[0] & 0x0F) - 1;
+-		hover = packet[1] & BIT(2);
+-		palm = packet[1] & BIT(1);
+ 		state = packet[1] & BIT(0);
+ 		x = ((packet[2] & 0x0F) << 8) | packet[3];
+ 		y = (((packet[2] >> 4) & 0x0F) << 8) |
+ 			packet[4];
+-		size = packet[6];
+-		pressure_stage = (packet[7] & 0xF0) >> 4;
+ 		pressure = ((packet[7] & 0x0F) << 8) |
+ 			packet[8];
+ 		touch_major = packet[9];
 -- 
-2.20.1
+2.7.4
+
 
