@@ -2,456 +2,280 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA3A576498
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jul 2019 13:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E49AA76490
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jul 2019 13:31:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726339AbfGZLcS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Jul 2019 07:32:18 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40554 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbfGZLcS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Jul 2019 07:32:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=OuafK/TTQcFkrbP+suIfTDa/h6nPmDJ0gGHTBNIInGY=; b=bdXD4iNcznYpRIDy+A6+1cNPrh
-        cV+a+fbj4fYJ2Mg+9eyczrEI2wWXXZTikDxJeLis7Y2vV/8BCmFckYIL7TCyk5M1UlhUv6eR0U/+h
-        HADLDxuO1Q1CF//PiXXy0UDgcevCFLZ3asloJtgzcFkgQmVi7C0JHTCA41LhbF69P6sC6/YUdHbYm
-        vr8rpNRfDH9dQWEAeOOqCB7xoWDgGnMbkTAJdXAALiYFU+WirA1kBnPgwfDhk4IAO74wPC5VozQrO
-        jMgKffk5q0vLdNtCiNftcTQw4rkeTh1nUc6iunzfA4KkG3jbvCm6cK/h2pCh1bEIzKYaBgeblz8ex
-        tKsbR5fg==;
-Received: from [179.95.31.157] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hqyRb-0005vN-Ss; Fri, 26 Jul 2019 11:31:28 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hqyRZ-0008Eq-NT; Fri, 26 Jul 2019 08:31:25 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, linux-sh@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Subject: [PATCH v2 10/10] docs: remove extra conf.py files
-Date:   Fri, 26 Jul 2019 08:31:24 -0300
-Message-Id: <4b04d4e7df9b638de0919417da31af491833400f.1564139914.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1564139914.git.mchehab+samsung@kernel.org>
-References: <cover.1564139914.git.mchehab+samsung@kernel.org>
+        id S1726267AbfGZLbf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 Jul 2019 07:31:35 -0400
+Received: from uho.ysoft.cz ([81.19.3.130]:42400 "EHLO uho.ysoft.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726023AbfGZLbe (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 26 Jul 2019 07:31:34 -0400
+Received: from [10.1.8.111] (unknown [10.1.8.111])
+        by uho.ysoft.cz (Postfix) with ESMTP id 2C8E8A2536;
+        Fri, 26 Jul 2019 13:31:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+        s=20160406-ysoft-com; t=1564140691;
+        bh=zRs4ConriXfESmaC5+3ZmOaU35JUrHZdPz+39redIfM=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=bhVBOdqgxEaL6viGU35gcAiweLhHecJRxJdARbSlWZfC/qHUU1ni1VEX9M6pfVGrL
+         T6pK7sXqkCrgOaUH7g88BFtsoYPzBC+v7uo2Jwiq/4uTkrRAWwAVNPnjQ1P4E/GDj7
+         jrlk5nFdA/91lt3YGqykR9NCgjVWjo0SW8BkTjq4=
+Subject: Re: [RFC PATCH v2 0/4] Input: mpr121-polled: Add polled driver for
+ MPR121
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>
+References: <1558098773-47416-1-git-send-email-michal.vokac@ysoft.com>
+ <20190521053705.GI183429@dtor-ws>
+ <ef172b24-cd27-5bb0-d8b1-718f835d0647@ysoft.com>
+ <20190725085753.GA26665@penguin>
+ <ac436c3c-fa89-f777-85b2-f38adf842e10@ysoft.com>
+ <20190725144009.GA27432@penguin>
+From:   =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+Message-ID: <dcee1139-c53f-5ea0-f387-a3aa5a9bf39f@ysoft.com>
+Date:   Fri, 26 Jul 2019 13:31:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
+In-Reply-To: <20190725144009.GA27432@penguin>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Now that the latex_documents are handled automatically, we can
-remove those extra conf.py files.
+On 25. 07. 19 16:40, Dmitry Torokhov wrote:
+> On Thu, Jul 25, 2019 at 02:58:02PM +0200, Michal Vokáč wrote:
+>> On 25. 07. 19 10:57, Dmitry Torokhov wrote:
+>>> Hi Michal,
+>>>
+>>> On Tue, May 21, 2019 at 08:51:17AM +0200, Michal Vokáč wrote:
+>>>> On 21. 05. 19 7:37, Dmitry Torokhov wrote:
+>>>>> Hi Michal,
+>>>>>
+>>>>> On Fri, May 17, 2019 at 03:12:49PM +0200, Michal Vokáč wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> I have to deal with a situation where we have a custom i.MX6 based
+>>>>>> platform in production that uses the MPR121 touchkey controller.
+>>>>>> Unfortunately the chip is connected using only the I2C interface.
+>>>>>> The interrupt line is not used. Back in 2015 (Linux v3.14), my
+>>>>>> colleague modded the existing mpr121_touchkey.c driver to use polling
+>>>>>> instead of interrupt.
+>>>>>>
+>>>>>> For quite some time yet I am in a process of updating the product from
+>>>>>> the ancient Freescale v3.14 kernel to the latest mainline and pushing
+>>>>>> any needed changes upstream. The DT files for our imx6dl-yapp4 platform
+>>>>>> already made it into v5.1-rc.
+>>>>>>
+>>>>>> I rebased and updated our mpr121 patch to the latest mainline.
+>>>>>> It is created as a separate driver, similarly to gpio_keys_polled.
+>>>>>>
+>>>>>> The I2C device is quite susceptible to ESD. An ESD test quite often
+>>>>>> causes reset of the chip or some register randomly changes its value.
+>>>>>> The [PATCH 3/4] adds a write-through register cache. With the cache
+>>>>>> this state can be detected and the device can be re-initialied.
+>>>>>>
+>>>>>> The main question is: Is there any chance that such a polled driver
+>>>>>> could be accepted? Is it correct to implement it as a separate driver
+>>>>>> or should it be done as an option in the existing driver? I can not
+>>>>>> really imagine how I would do that though..
+>>>>>>
+>>>>>> There are also certain worries that the MPR121 chip may no longer be
+>>>>>> available in nonspecifically distant future. In case of EOL I will need
+>>>>>> to add a polled driver for an other touchkey chip. May it be already
+>>>>>> in mainline or a completely new one.
+>>>>>
+>>>>> I think that my addition of input_polled_dev was ultimately a wrong
+>>>>> thing to do. I am looking into enabling polling mode for regular input
+>>>>> devices as we then can enable polling mode in existing drivers.
+>>>>
+>>>> OK, that sounds good. Especially when one needs to switch from one chip
+>>>> to another that is already in tree, the need for a whole new polling
+>>>> driver is eliminated.
+>>>
+>>> Could you please try the patch below and see if it works for your use
+>>> case? Note that I have not tried running it, but it compiles so it must
+>>> be good ;)
+>>
+>> Hi Dmitry,
+>> Thank you very much for the patch!
+>> I gave it a shot and it seems you forgot to add the input-poller.h file
+>> to the patch.. it does not compile on my side :(
+> 
+> Oops ;) Please see the updated patch below.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/admin-guide/conf.py      | 10 ----------
- Documentation/core-api/conf.py         | 10 ----------
- Documentation/crypto/conf.py           | 10 ----------
- Documentation/dev-tools/conf.py        | 10 ----------
- Documentation/doc-guide/conf.py        | 10 ----------
- Documentation/driver-api/80211/conf.py | 10 ----------
- Documentation/driver-api/conf.py       | 10 ----------
- Documentation/driver-api/pm/conf.py    | 10 ----------
- Documentation/filesystems/conf.py      | 10 ----------
- Documentation/gpu/conf.py              | 10 ----------
- Documentation/input/conf.py            | 10 ----------
- Documentation/kernel-hacking/conf.py   | 10 ----------
- Documentation/maintainer/conf.py       | 10 ----------
- Documentation/media/conf.py            | 12 ------------
- Documentation/networking/conf.py       | 10 ----------
- Documentation/process/conf.py          | 10 ----------
- Documentation/sh/conf.py               | 10 ----------
- Documentation/sound/conf.py            | 10 ----------
- Documentation/userspace-api/conf.py    | 10 ----------
- Documentation/vm/conf.py               | 10 ----------
- Documentation/x86/conf.py              | 10 ----------
- 21 files changed, 212 deletions(-)
- delete mode 100644 Documentation/admin-guide/conf.py
- delete mode 100644 Documentation/core-api/conf.py
- delete mode 100644 Documentation/crypto/conf.py
- delete mode 100644 Documentation/dev-tools/conf.py
- delete mode 100644 Documentation/doc-guide/conf.py
- delete mode 100644 Documentation/driver-api/80211/conf.py
- delete mode 100644 Documentation/driver-api/conf.py
- delete mode 100644 Documentation/driver-api/pm/conf.py
- delete mode 100644 Documentation/filesystems/conf.py
- delete mode 100644 Documentation/gpu/conf.py
- delete mode 100644 Documentation/input/conf.py
- delete mode 100644 Documentation/kernel-hacking/conf.py
- delete mode 100644 Documentation/maintainer/conf.py
- delete mode 100644 Documentation/media/conf.py
- delete mode 100644 Documentation/networking/conf.py
- delete mode 100644 Documentation/process/conf.py
- delete mode 100644 Documentation/sh/conf.py
- delete mode 100644 Documentation/sound/conf.py
- delete mode 100644 Documentation/userspace-api/conf.py
- delete mode 100644 Documentation/vm/conf.py
- delete mode 100644 Documentation/x86/conf.py
+Thank you, now it is (almost) good as you said :D
 
-diff --git a/Documentation/admin-guide/conf.py b/Documentation/admin-guide/conf.py
-deleted file mode 100644
-index 86f738953799..000000000000
---- a/Documentation/admin-guide/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = 'Linux Kernel User Documentation'
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'linux-user.tex', 'Linux Kernel User Documentation',
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/core-api/conf.py b/Documentation/core-api/conf.py
-deleted file mode 100644
-index db1f7659f3da..000000000000
---- a/Documentation/core-api/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "Core-API Documentation"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'core-api.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/crypto/conf.py b/Documentation/crypto/conf.py
-deleted file mode 100644
-index 4335d251ddf3..000000000000
---- a/Documentation/crypto/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = 'Linux Kernel Crypto API'
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'crypto-api.tex', 'Linux Kernel Crypto API manual',
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/dev-tools/conf.py b/Documentation/dev-tools/conf.py
-deleted file mode 100644
-index 7faafa3f7888..000000000000
---- a/Documentation/dev-tools/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "Development tools for the kernel"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'dev-tools.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/doc-guide/conf.py b/Documentation/doc-guide/conf.py
-deleted file mode 100644
-index fd3731182d5a..000000000000
---- a/Documentation/doc-guide/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = 'Linux Kernel Documentation Guide'
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'kernel-doc-guide.tex', 'Linux Kernel Documentation Guide',
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/driver-api/80211/conf.py b/Documentation/driver-api/80211/conf.py
-deleted file mode 100644
-index 4424b4b0b9c3..000000000000
---- a/Documentation/driver-api/80211/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "Linux 802.11 Driver Developer's Guide"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', '80211.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/driver-api/conf.py b/Documentation/driver-api/conf.py
-deleted file mode 100644
-index 202726d20088..000000000000
---- a/Documentation/driver-api/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "The Linux driver implementer's API guide"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'driver-api.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/driver-api/pm/conf.py b/Documentation/driver-api/pm/conf.py
-deleted file mode 100644
-index a89fac11272f..000000000000
---- a/Documentation/driver-api/pm/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "Device Power Management"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'pm.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/filesystems/conf.py b/Documentation/filesystems/conf.py
-deleted file mode 100644
-index ea44172af5c4..000000000000
---- a/Documentation/filesystems/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "Linux Filesystems API"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'filesystems.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/gpu/conf.py b/Documentation/gpu/conf.py
-deleted file mode 100644
-index 1757b040fb32..000000000000
---- a/Documentation/gpu/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "Linux GPU Driver Developer's Guide"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'gpu.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/input/conf.py b/Documentation/input/conf.py
-deleted file mode 100644
-index d2352fdc92ed..000000000000
---- a/Documentation/input/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "The Linux input driver subsystem"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'linux-input.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/kernel-hacking/conf.py b/Documentation/kernel-hacking/conf.py
-deleted file mode 100644
-index 3d8acf0f33ad..000000000000
---- a/Documentation/kernel-hacking/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "Kernel Hacking Guides"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'kernel-hacking.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/maintainer/conf.py b/Documentation/maintainer/conf.py
-deleted file mode 100644
-index 81e9eb7a7884..000000000000
---- a/Documentation/maintainer/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = 'Linux Kernel Development Documentation'
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'maintainer.tex', 'Linux Kernel Development Documentation',
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/media/conf.py b/Documentation/media/conf.py
-deleted file mode 100644
-index 1f194fcd2cae..000000000000
---- a/Documentation/media/conf.py
-+++ /dev/null
-@@ -1,12 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--# SPDX-License-Identifier: GPL-2.0
--
--project = 'Linux Media Subsystem Documentation'
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'media.tex', 'Linux Media Subsystem Documentation',
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/networking/conf.py b/Documentation/networking/conf.py
-deleted file mode 100644
-index 40f69e67a883..000000000000
---- a/Documentation/networking/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "Linux Networking Documentation"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'networking.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/process/conf.py b/Documentation/process/conf.py
-deleted file mode 100644
-index 1b01a80ad9ce..000000000000
---- a/Documentation/process/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = 'Linux Kernel Development Documentation'
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'process.tex', 'Linux Kernel Development Documentation',
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/sh/conf.py b/Documentation/sh/conf.py
-deleted file mode 100644
-index 1eb684a13ac8..000000000000
---- a/Documentation/sh/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "SuperH architecture implementation manual"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'sh.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/sound/conf.py b/Documentation/sound/conf.py
-deleted file mode 100644
-index 3f1fc5e74e7b..000000000000
---- a/Documentation/sound/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "Linux Sound Subsystem Documentation"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'sound.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/userspace-api/conf.py b/Documentation/userspace-api/conf.py
-deleted file mode 100644
-index 2eaf59f844e5..000000000000
---- a/Documentation/userspace-api/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "The Linux kernel user-space API guide"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'userspace-api.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/vm/conf.py b/Documentation/vm/conf.py
-deleted file mode 100644
-index 3b0b601af558..000000000000
---- a/Documentation/vm/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "Linux Memory Management Documentation"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'memory-management.tex', project,
--     'The kernel development community', 'manual'),
--]
-diff --git a/Documentation/x86/conf.py b/Documentation/x86/conf.py
-deleted file mode 100644
-index 33c5c3142e20..000000000000
---- a/Documentation/x86/conf.py
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# -*- coding: utf-8; mode: python -*-
--
--project = "X86 architecture specific documentation"
--
--tags.add("subproject")
--
--latex_documents = [
--    ('index', 'x86.tex', project,
--     'The kernel development community', 'manual'),
--]
--- 
-2.21.0
+>>
+>>> Input: add support for polling to input devices
+>>>
+>>> From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>>>
+>>> Separating "normal" and "polled" input devices was a mistake, as often we want
+>>> to allow the very same device work on both interrupt-driven and polled mode,
+>>> depending on the board on which the device is used.
+>>>
+>>> This introduces new APIs:
+>>>
+>>> - input_setup_polling
+>>> - input_set_poll_interval
+>>> - input_set_min_poll_interval
+>>> - input_set_max_poll_interval
+>>>
+>>> These new APIs allow switching an input device into polled mode with sysfs
+>>> attributes matching drivers using input_polled_dev APIs that will be eventually
+>>> removed.
+>>
+>> After reading this I am not really sure what else needs to be done
+>> to test/use the poller. I suspect I need to modify the input device
+>> driver (mpr121_touchkey.c in my case) like this:
+>>
+>> If the interrupt gpio is not provided in DT, the device driver probe
+>> function should:
+>>   - not request the threaded interrupt
+>>   - call input_setup_polling and provide it with poll_fn
+>>     Can the mpr_touchkey_interrupt function be used as is for this
+>>     purpose? The only problem I see is it returns IRQ_HANDLED.
+> 
+> I'd factor out code suitable for polling from mpr_touchkey_interrupt()
+> and then do
+> 
+> static irqreturn_t mpr_touchkey_interrupt(...)
+> {
+> 	mpr_touchkey_report(...);
+> 	return IRQ_HANDLED;
+> }
+> 
 
+Probably a trivial problem for experienced kernel hacker but I can not
+wrap my head around this - the interrupt handler takes the mpr121
+device id as an argument while the poller poll_fn takes struct input_dev.
+
+I fail to figure out how to get the device id from the input device.
+
+Here is what I have:
+
+diff --git a/drivers/input/keyboard/mpr121_touchkey.c b/drivers/input/keyboard/mpr121_touchkey.c
+index e9ceaa16b46a..1124f77ee10a 100644
+--- a/drivers/input/keyboard/mpr121_touchkey.c
++++ b/drivers/input/keyboard/mpr121_touchkey.c
+@@ -54,6 +54,10 @@
+  /* MPR121 has 12 keys */
+  #define MPR121_MAX_KEY_COUNT		12
+  
++#define MPR121_POLL_INTERVAL		50
++#define MPR121_MIN_POLL_INTERVAL	10
++#define MPR121_MAX_POLL_INTERVAL	200
++
+  struct mpr121_touchkey {
+  	struct i2c_client	*client;
+  	struct input_dev	*input_dev;
+@@ -115,9 +119,12 @@ static struct regulator *mpr121_vdd_supply_init(struct device *dev)
+  	return vdd_supply;
+  }
+  
+-static irqreturn_t mpr_touchkey_interrupt(int irq, void *dev_id)
++static void mpr_touchkey_report(struct input_dev *dev)
+  {
+-	struct mpr121_touchkey *mpr121 = dev_id;
++	/*
++	 * TODO the input_dev dev needs to be converted to mpr121 device id.
++	 */
++	struct mpr121_touchkey *mpr121 = /* TODO */;
+  	struct i2c_client *client = mpr121->client;
+  	struct input_dev *input = mpr121->input_dev;
+  	unsigned long bit_changed;
+@@ -127,14 +134,14 @@ static irqreturn_t mpr_touchkey_interrupt(int irq, void *dev_id)
+  	reg = i2c_smbus_read_byte_data(client, ELE_TOUCH_STATUS_1_ADDR);
+  	if (reg < 0) {
+  		dev_err(&client->dev, "i2c read error [%d]\n", reg);
+-		goto out;
++		return;
+  	}
+  
+  	reg <<= 8;
+  	reg |= i2c_smbus_read_byte_data(client, ELE_TOUCH_STATUS_0_ADDR);
+  	if (reg < 0) {
+  		dev_err(&client->dev, "i2c read error [%d]\n", reg);
+-		goto out;
++		return;
+  	}
+  
+  	reg &= TOUCH_STATUS_MASK;
+@@ -155,8 +162,17 @@ static irqreturn_t mpr_touchkey_interrupt(int irq, void *dev_id)
+  
+  	}
+  	input_sync(input);
++}
++
++static irqreturn_t mpr_touchkey_interrupt(int irq, void *dev_id)
++{
++	/*
++	 * TODO
++	 * mpr_touchkey_report takes struct input_dev as an argument,
++	 * not the device id.
++	 */
++	mpr_touchkey_report(/* TODO */);
+  
+-out:
+  	return IRQ_HANDLED;
+  }
+  
+@@ -232,11 +248,6 @@ static int mpr_touchkey_probe(struct i2c_client *client,
+  	int error;
+  	int i;
+  
+-	if (!client->irq) {
+-		dev_err(dev, "irq number should not be zero\n");
+-		return -EINVAL;
+-	}
+-
+  	vdd_supply = mpr121_vdd_supply_init(dev);
+  	if (IS_ERR(vdd_supply))
+  		return PTR_ERR(vdd_supply);
+@@ -289,13 +300,27 @@ static int mpr_touchkey_probe(struct i2c_client *client,
+  		return error;
+  	}
+  
+-	error = devm_request_threaded_irq(dev, client->irq, NULL,
+-					  mpr_touchkey_interrupt,
+-					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+-					  dev->driver->name, mpr121);
+-	if (error) {
+-		dev_err(dev, "Failed to register interrupt\n");
+-		return error;
++	if (client->irq) {
++		error = devm_request_threaded_irq(dev, client->irq, NULL,
++						  mpr_touchkey_interrupt,
++						  IRQF_TRIGGER_FALLING |
++						  IRQF_ONESHOT,
++						  dev->driver->name, mpr121);
++		if (error) {
++			dev_err(dev, "Failed to register interrupt\n");
++			return error;
++		}
++	} else {
++		dev_dbg(dev, "invalid IRQ number, using polling mode\n");
++		error = input_setup_polling(input_dev, mpr_touchkey_report);
++		if (error)
++			return error;
++
++		input_set_poll_interval(input_dev, MPR121_POLL_INTERVAL);
++		input_set_min_poll_interval(input_dev,
++					    MPR121_MIN_POLL_INTERVAL);
++		input_set_max_poll_interval(input_dev,
++					    MPR121_MAX_POLL_INTERVAL);
+  	}
+  
+  	error = input_register_device(input_dev);
+--
