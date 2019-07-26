@@ -2,103 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C2B77619A
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jul 2019 11:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63CAF76291
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jul 2019 11:50:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725872AbfGZJOp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Jul 2019 05:14:45 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:35537 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725842AbfGZJOo (ORCPT
+        id S1726005AbfGZJ2e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 Jul 2019 05:28:34 -0400
+Received: from mx0b-001ae601.pphosted.com ([67.231.152.168]:15766 "EHLO
+        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725978AbfGZJ2d (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Jul 2019 05:14:44 -0400
-Received: by mail-pf1-f193.google.com with SMTP id u14so24235774pfn.2;
-        Fri, 26 Jul 2019 02:14:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=TYiDJjF4yOS8bkmjhmB2OznvRayOVVC1oxEpAkjtmTY=;
-        b=I61GsoczxdHQtaJ6fHWGIB4x4LyJFbsdK7l2wJZBTM8JstVMhrNZuzZUEfXnocjdD7
-         yVW4nrN9xNDsJYYymIPOQ+1TgmY9cqEMM5hAM7Z0ZnxahB/dFGJJF/FgHKMY2EnmDuF6
-         81mqT7wx5lhXqI1xVYHgFcAWk7LWkuwy5fRbvWCIqGo1OvH6nyouRgROWhEciCu9dn3u
-         74Gku8Q9fbvNP2dSm5q2L/lflTNBXi8cUXfM5pNrtViUxxcX5B80TvJd7jIbdTi0HDCS
-         Fl605ATEigDLBGWTTlGI9lyO1mjTgwt4mma/cMy75D3CMPKpyz6owXurOGVJFwi07FHk
-         PJ3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=TYiDJjF4yOS8bkmjhmB2OznvRayOVVC1oxEpAkjtmTY=;
-        b=PjsdDRXs6Do+fL3fBaXJdeDmI5jjmNjtdfpPtg3zMJ/vJ4Wv90gtDcT6wtW0DrD+rQ
-         56V5MuTFjzWwaS2NBfJgT4Vh5TpqIiZ7E6ZEr0+tKwugoHUewy/pymnlpLrz+GMGT8wQ
-         cDGViPJwd0QMYwxYOdjb2lI+WmBBmFLU5xGlCDS7npSgus60JV5ZHRfH4OJ/eB/ypQPO
-         SwMwSb2yPloE/+Nh2eSjPMEeZZU9sq1byGo2TnGFK45xCr5iGVTG9JWvM+Vyx+25cYdp
-         gyJebwfiUSGd8ngMQt34Wq8JwdPoDjCeq2WiCJwLg0Cs8gafDCYHev3pO2Yk+JA017be
-         o1sg==
-X-Gm-Message-State: APjAAAVXjNvn/0pmVbrRtaM5WS9b+tqE1qaILmIKdrpkSv+n1GBbvQlz
-        gPwNuAFJ0uE1ms6/RW/qcyc=
-X-Google-Smtp-Source: APXvYqyzGncQMVpBKteXwxGu8JqgLDcbIaKfg9VkHM8Tr2D5sXtgT/oUseLrE64Vg0RtdqCDvWN0RA==
-X-Received: by 2002:a17:90a:1b4a:: with SMTP id q68mr96898848pjq.61.1564132484301;
-        Fri, 26 Jul 2019 02:14:44 -0700 (PDT)
-Received: from oslab.tsinghua.edu.cn ([2402:f000:4:72:808::3ca])
-        by smtp.gmail.com with ESMTPSA id g11sm54686920pgu.11.2019.07.26.02.14.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Jul 2019 02:14:43 -0700 (PDT)
-From:   Jia-Ju Bai <baijiaju1990@gmail.com>
-To:     dmitry.torokhov@gmail.com, tglx@linutronix.de,
-        gregkh@linuxfoundation.org, allison@lohutok.net,
-        rdunlap@infradead.org
-Cc:     patches@opensource.cirrus.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>
-Subject: [PATCH v2] input: touchscreen: wm97xx-core: Fix possible null-pointer dereferences in wm97xx_ts_input_open()
-Date:   Fri, 26 Jul 2019 17:14:36 +0800
-Message-Id: <20190726091436.8866-1-baijiaju1990@gmail.com>
-X-Mailer: git-send-email 2.17.0
+        Fri, 26 Jul 2019 05:28:33 -0400
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+        by mx0b-001ae601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x6Q9NkuS026201;
+        Fri, 26 Jul 2019 04:28:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PODMain02222019;
+ bh=PukIIV6EOsNKE66DWOqgfgFs5Yv2tpDoxcH85uQmCxI=;
+ b=jVGn3UklaJHuibO6vsfgUbnjvc+oAzHMsqW0/6T3EbsjfO+PBbAjU6NUXIR1DKbO/bYx
+ DZyMd10WNHM5Ku/1ToYneNI2bBsiw9t7I5q3ouzf+NjA+DYkIaprS/ZL+azhBKC7MiQV
+ rMwG35vKGBmsKB6rZMt9YTOlPNF3ws/Si02woVUxc2eueZC9bNFYU6W8JZg4jxhELgoU
+ hl/zaX++L8qq8zt52KwUsfIQdmxBFczIzXF4dDNA6KzlLQ1OlHSW2eyNNUfemAuchQbB
+ tRQeIPHb3nh26JAodYFYe2COTSV6COkxaaKgHDMbmpi6fdtYMNd4+egzDetvc6ORJDLU JQ== 
+Authentication-Results: ppops.net;
+        spf=fail smtp.mailfrom=ckeepax@opensource.cirrus.com
+Received: from ediex02.ad.cirrus.com ([87.246.76.36])
+        by mx0b-001ae601.pphosted.com with ESMTP id 2tx61nmnpm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Fri, 26 Jul 2019 04:28:19 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1591.10; Fri, 26 Jul
+ 2019 10:28:17 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.1591.10 via Frontend
+ Transport; Fri, 26 Jul 2019 10:28:17 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id B1ADF2C5;
+        Fri, 26 Jul 2019 10:28:17 +0100 (BST)
+Date:   Fri, 26 Jul 2019 10:28:17 +0100
+From:   Charles Keepax <ckeepax@opensource.cirrus.com>
+To:     Jia-Ju Bai <baijiaju1990@gmail.com>
+CC:     <dmitry.torokhov@gmail.com>, <tglx@linutronix.de>,
+        <gregkh@linuxfoundation.org>, <allison@lohutok.net>,
+        <rdunlap@infradead.org>, <patches@opensource.cirrus.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] input: touchscreen: wm97xx-core: Fix possible
+ null-pointer dereferences in wm97xx_ts_input_open()
+Message-ID: <20190726092817.GB54126@ediswmail.ad.cirrus.com>
+References: <20190726091436.8866-1-baijiaju1990@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20190726091436.8866-1-baijiaju1990@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-SPF-Result: fail
+X-Proofpoint-SPF-Record: v=spf1 include:spf-001ae601.pphosted.com include:spf.protection.outlook.com
+ -all
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 mlxscore=0
+ impostorscore=0 priorityscore=1501 adultscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 lowpriorityscore=0 mlxlogscore=939 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1906280000
+ definitions=main-1907260121
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In wm97xx_ts_input_open(), there is an if statement on line 507 to check
-whether wm->mach_ops is NULL:
-    if (wm->mach_ops && wm->mach_ops->acc_enabled)
+On Fri, Jul 26, 2019 at 05:14:36PM +0800, Jia-Ju Bai wrote:
+> In wm97xx_ts_input_open(), there is an if statement on line 507 to check
+> whether wm->mach_ops is NULL:
+>     if (wm->mach_ops && wm->mach_ops->acc_enabled)
+> 
+> When wm->mach_ops is NULL, it is used on line 521:
+>     wm97xx_init_pen_irq(wm);
+>         BUG_ON(!wm->mach_ops->irq_enable);
+>         BUG_ON(!wm->mach_ops->irq_gpio);
+>         wm97xx_reg_write(..., reg & ~(wm->mach_ops->irq_gpio))
+> 
+> Thus, possible null-pointer dereferences may occur.
+> 
+> To fix these bugs, wm->mach_ops is checked at the beginning of 
+> wm97xx_init_pen_irq().
+> 
+> These bugs found by a static analysis tool STCheck written by us.
+> 
+> Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+> ---
+> v2:
+> * Add a new check of wm->mach_ops in wm97xx_init_pen_irq().
+>   Thank Charles for helpful advice.
+> 
+> ---
+>  drivers/input/touchscreen/wm97xx-core.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/input/touchscreen/wm97xx-core.c b/drivers/input/touchscreen/wm97xx-core.c
+> index 0a174bd82915..50b016abf492 100644
+> --- a/drivers/input/touchscreen/wm97xx-core.c
+> +++ b/drivers/input/touchscreen/wm97xx-core.c
+> @@ -374,6 +374,9 @@ static int wm97xx_init_pen_irq(struct wm97xx *wm)
+>  {
+>  	u16 reg;
+>  
+> +	if (!wm->mach_ops)
+> +		return -EINVAL;
+> +
 
-When wm->mach_ops is NULL, it is used on line 521:
-    wm97xx_init_pen_irq(wm);
-        BUG_ON(!wm->mach_ops->irq_enable);
-        BUG_ON(!wm->mach_ops->irq_gpio);
-        wm97xx_reg_write(..., reg & ~(wm->mach_ops->irq_gpio))
+Probably worth adding an printk in here too, the calling function
+doesn't check the return value of this function so otherwise
+there will be no indication this failed.
 
-Thus, possible null-pointer dereferences may occur.
+Thanks,
+Charles
 
-To fix these bugs, wm->mach_ops is checked at the beginning of 
-wm97xx_init_pen_irq().
-
-These bugs found by a static analysis tool STCheck written by us.
-
-Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
----
-v2:
-* Add a new check of wm->mach_ops in wm97xx_init_pen_irq().
-  Thank Charles for helpful advice.
-
----
- drivers/input/touchscreen/wm97xx-core.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/input/touchscreen/wm97xx-core.c b/drivers/input/touchscreen/wm97xx-core.c
-index 0a174bd82915..50b016abf492 100644
---- a/drivers/input/touchscreen/wm97xx-core.c
-+++ b/drivers/input/touchscreen/wm97xx-core.c
-@@ -374,6 +374,9 @@ static int wm97xx_init_pen_irq(struct wm97xx *wm)
- {
- 	u16 reg;
- 
-+	if (!wm->mach_ops)
-+		return -EINVAL;
-+
- 	/* If an interrupt is supplied an IRQ enable operation must also be
- 	 * provided. */
- 	BUG_ON(!wm->mach_ops->irq_enable);
--- 
-2.17.0
-
+>  	/* If an interrupt is supplied an IRQ enable operation must also be
+>  	 * provided. */
+>  	BUG_ON(!wm->mach_ops->irq_enable);
+> -- 
+> 2.17.0
+> 
