@@ -2,96 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E620B777D3
-	for <lists+linux-input@lfdr.de>; Sat, 27 Jul 2019 11:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD62877885
+	for <lists+linux-input@lfdr.de>; Sat, 27 Jul 2019 14:01:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728673AbfG0JPr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 27 Jul 2019 05:15:47 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:35384 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727885AbfG0JPr (ORCPT
+        id S1728080AbfG0MBa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 27 Jul 2019 08:01:30 -0400
+Received: from mail-wm1-f44.google.com ([209.85.128.44]:34146 "EHLO
+        mail-wm1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725975AbfG0MBa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 27 Jul 2019 05:15:47 -0400
-Received: by mail-lf1-f65.google.com with SMTP id p197so38696216lfa.2;
-        Sat, 27 Jul 2019 02:15:45 -0700 (PDT)
+        Sat, 27 Jul 2019 08:01:30 -0400
+Received: by mail-wm1-f44.google.com with SMTP id w9so39712669wmd.1;
+        Sat, 27 Jul 2019 05:01:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=+rUh3TcvJcuRsnzvwE5sXn7tIbCR4ba1afiJ99NGPaY=;
-        b=oiP3UjYgO1P2U+PjmgZUjykl2BKytWCnatxa8AHUh6jF8MlShM+UXOVLh6OWmx1SFN
-         oN3ZG0dvIzyNRMIjlrZHjD088wW1UVX5NTGypkoVqEskEKvdKhRwzIfNUUz0fI1UOFdT
-         /Hg47LinJBMcI7I0VpOwV3usCOMN3XKANDbrLwNR7ky2KfGJbJronnHBwzHuJ4qsbNkt
-         4e7LqpblcFmAezY1Kbac/y3NMZ2CKNe/mK/Wol79P3b2TprlK0KClo6GLB84ximdhx3z
-         llog4PyY1cc+94nKGNYBM3UlsKtxRGoeXbCO/AhTrnYaXgJmmsV4spli0weWk0hwU9Yp
-         Fpig==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BzHuFvoRywu7/+3CAPgMLJskj79GTte0iQAInAuEBk0=;
+        b=vThsmw0tCLmat2Ys+CS8+iW9Pl+gCfZN9vcLNKCMh1M2a09MXxCJLMCNusqwvinfws
+         fjCCgTlCwXXb7rZ2zWXqG4NTL9XU6u32UUV9NdriXxnf9ufiEMAaI3/qtPXr8bYVLGCA
+         5l6pfdqm6EAvAe7hb0m492058r5IodmT92lFamS7G5Crx+yc+C+eEwnIyAOYjrCdECac
+         b4JVPTjR1nbEPOk+tueytg7MY2ac5bymNr1NWziA2OrE5Jnh/DSUKt434C0O4jNUCY+i
+         dnScdNjeqHx6m737R/RnudEoRALrNS1zxH9rVR4eZ2/cPHdNTX93AYMJlu5xJVhvmG2o
+         7LOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+rUh3TcvJcuRsnzvwE5sXn7tIbCR4ba1afiJ99NGPaY=;
-        b=HggB8hgAyF1GeENvMKam5sGS7GsUt868n3UnBPnzkrZ/6ysf/O4cSJqcJzbyVvWAMX
-         ayPTSnueQklC/V4s0+BsE7NeBEenp1D6VOwzq9Cmew27RM968/2tV9qQ4CYvCMpV/qKz
-         o5XQAxs4y7wrQkZ+m1dda4YLjnJLAhtIhC43FqaBaHyddKa/+oAvCnOD4bu4djZ2eRVq
-         G/sujRAj7oOfauLm3fvY3yX4gKVRW9SMCWnb3L8g3MQqfp0JKl96hwHRv2EanYwUc7Vo
-         DfmuHrbnkqGfr1+5j8nDok1LysuaARZpMSXlJrI0jzfYjd7F51Tfg0VkmYTV/uq7jMUv
-         FlJA==
-X-Gm-Message-State: APjAAAXSopwDoIu5o+PK4UFwn/wvEtreUUEQ7gaAwUyECPi4h6ZZ3bt6
-        LGjLUwOvo8yWQHKVJZe1YSg=
-X-Google-Smtp-Source: APXvYqxO2L8VoYDuvDuoMWh5O4GmsOA7NxLj/ZFVzL9neLCIvQFirqVxNYKNF2tzz20l4iRS5F85EQ==
-X-Received: by 2002:ac2:50cd:: with SMTP id h13mr23502535lfm.36.1564218944436;
-        Sat, 27 Jul 2019 02:15:44 -0700 (PDT)
-Received: from localhost ([188.170.223.67])
-        by smtp.gmail.com with ESMTPSA id d16sm10853347ljc.96.2019.07.27.02.15.43
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 27 Jul 2019 02:15:43 -0700 (PDT)
-Date:   Sat, 27 Jul 2019 12:15:41 +0300
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BzHuFvoRywu7/+3CAPgMLJskj79GTte0iQAInAuEBk0=;
+        b=pCKCdLw3RdfPJ+Hmf8scpIOCyfmuXRxAPJrOlgsqwyDyZhJtxJMrlpBtVlz6JbsmAv
+         1EZu55zMt6+pa/oA1EbcomGcxVPUR7tptjOgIfwOQHYrm0ijAFjKJahatsoRItnQ6ZK1
+         Sm1toTls2LieAJfuRjuxvLIWfmUrS+VoXkFwfVHQQxNp/QFW1pi6mbxSShqBHGRG7sku
+         M2bmQZ/pnA1qxhUpuxwGF0zWqr+kAbIfsA3FGldTbQ3b76ZoHARrnv21sEL28oVcTtFq
+         aazqJhkb9eje25zJk8T0PDxbOmdNLuFaBfMwV6dJUyQetP7FigrTo8IjC79PpUnWuW7D
+         KzfQ==
+X-Gm-Message-State: APjAAAXAHm9iZJidRBvZv55aCG3ivZLbHQvSjfUcjikHtmK4c9V1wca+
+        QdLNLZt8EkmIgKoNP4AltAs=
+X-Google-Smtp-Source: APXvYqwHn40PeIiZpTilHxYc5IpQAFqaPj5T57XFsRE5QMVgKup6IdGlkPTXI5DRRjhWA6EyqfFb7Q==
+X-Received: by 2002:a1c:c14b:: with SMTP id r72mr74522683wmf.166.1564228888420;
+        Sat, 27 Jul 2019 05:01:28 -0700 (PDT)
+Received: from [192.168.2.202] (p5487B5D1.dip0.t-ipconnect.de. [84.135.181.209])
+        by smtp.gmail.com with ESMTPSA id j10sm94313757wrd.26.2019.07.27.05.01.27
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Sat, 27 Jul 2019 05:01:27 -0700 (PDT)
+Subject: Re: [PATCH v3 2/2] Input: soc_button_array - Add support for newer
+ surface devices
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
         Hans de Goede <hdegoede@redhat.com>,
         Chen Yu <yu.c.chen@intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH v3 1/2] platform/x86: surfacepro3_button: Fix device check
-Message-ID: <20190727091541.GD795@penguin>
 References: <20190720150511.95076-1-luzmaximilian@gmail.com>
- <20190720150511.95076-2-luzmaximilian@gmail.com>
- <CAHp75Ve+3c-TFeN3Dh-DB75Rjft8mY2DA8vNkrFyp7JK-ZOjDA@mail.gmail.com>
+ <20190720150511.95076-3-luzmaximilian@gmail.com>
+ <20190727091443.GC795@penguin>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <fb53b082-4d83-83a6-1ae6-b9fae9dc750f@gmail.com>
+Date:   Sat, 27 Jul 2019 14:01:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75Ve+3c-TFeN3Dh-DB75Rjft8mY2DA8vNkrFyp7JK-ZOjDA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190727091443.GC795@penguin>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jul 25, 2019 at 08:57:53PM +0300, Andy Shevchenko wrote:
-> On Sat, Jul 20, 2019 at 6:05 PM Maximilian Luz <luzmaximilian@gmail.com> wrote:
-> >
-> > Do not use the surfacepro3_button driver on newer Microsoft Surface
-> > models, only use it on the Surface Pro 3 and 4. Newer models (5th, 6th
-> > and possibly future generations) use the same device as the Surface Pro
-> > 4 to represent their volume and power buttons (MSHW0040), but their
-> > actual implementation is significantly different. This patch ensures
-> > that the surfacepro3_button driver is only used on the Pro 3 and 4
-> > models, allowing a different driver to bind on other models.
-> >
+On 7/27/19 11:14 AM, Dmitry Torokhov wrote:
+> On Sat, Jul 20, 2019 at 05:05:11PM +0200, Maximilian Luz wrote:
+>> -
+>> -	error = gpiod_count(dev, NULL);
+>> -	if (error < 0) {
+>> -		dev_dbg(dev, "no GPIO attached, ignoring...\n");
+>> -		return -ENODEV;
 > 
-> Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> I do not think we need to move this into individual "check" functions.
+> It is needed in all cases so we should keep it here.
 > 
-> assuming it will go thru Input subsystem.
+> How about version below?
 
-I can take it, but I do not think it is dependent on the other change
-and thus can go through platform tree as well.
+Makes sense, looks good to me!
 
-Thanks.
-
--- 
-Dmitry
+Maximilian
