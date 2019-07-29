@@ -2,98 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BD3B78DCC
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 16:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 738CC78FBE
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 17:47:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726190AbfG2O0P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Jul 2019 10:26:15 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:40907 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726167AbfG2O0O (ORCPT
+        id S2388213AbfG2PrK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Jul 2019 11:47:10 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:35589 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387955AbfG2PrJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Jul 2019 10:26:14 -0400
-Received: from orion.localdomain ([77.4.29.213]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MmlCY-1iH1pj0Dd0-00jrbB; Mon, 29 Jul 2019 16:26:13 +0200
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
-Subject: [PATCH] input: misc: soc_button_array: use platform_device_register_resndata()
-Date:   Mon, 29 Jul 2019 16:26:12 +0200
-Message-Id: <1564410372-18506-1-git-send-email-info@metux.net>
-X-Mailer: git-send-email 1.9.1
-X-Provags-ID: V03:K1:fqc44a8/rKnpNASqG6Z6PSHWX575HMzuMroIOGhWv8fytufkDi1
- 5zIytflr0N4U8Eq4b260l5k+gSvMNqlRk3JhHmb6hyQSyfCl6p/zou2uL1FFQJN+zIYSsgz
- 3cXd5zEk44Vh9p4gatuKUEwOIUVZB9A0BY55/Pi9UST9EwATtTi0HI1eFFucBr19Kgvo7/6
- YDXJMDxHxcWo2s5Oo6Oag==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:w0TcFa6ZOp0=:dEMl3YhymDb9m78rodQEL1
- CBSzQBMLP0kue6Aj1jLMXSrVKt0fOogVXe/E8Rwkx0fsyhYbV1AmivTQK6b179neZmf0gO8ii
- MAhhXiQneBh9JwJCoXjUIrpA9LboK7IBdIUDaHYLULhF83wwDs8ORm87vBBbjBoAjjLsB5DV9
- Q4Dlo4Jrn6kfPrJRaUxiKLiEG5IJfy45gpYEdP9NjuqsW5ZyiUmYJ+TdxO+3JjBGMX4xDFcke
- cGa7YzWuh8l8iW6F+ZFBGOCbbwusWxOHTWhvxqVWdH4YRQC/Sgd9sEtyNMVnLPt4I7xYI1mAp
- ldod3ayZohR30g+j/tuzqOeb6djVWhNRMfKA22qAtj8w7YhhbObflR01fAbDMwOPa3XGgwYnz
- JuS45cCMPdAT7RdfWrToqVSpFnQDqrNG0MhJohXA+X2FJHG4jCyBXLMkQdyaRTgC7TRUFvfIv
- LWnuvMV085AGvvium27lmMGXJCzuwVcfGHocdjn1XzaHpgzymv7RcZyPaCbc/ZN2uQTmdl0ab
- iwm/ybqYqCb6QXYTZL4AJbSIDEstUVqhl0zYYxq+9X4eous6lcU4tStPqnwBK00QrW9/NIHoE
- v8cO48Xepz5JFI1rQfL+EQy5hkivCBqGstESxFtw3rwIeyXrtJLrkMTbO1td1g5n7Kr6jRwox
- JY+nXEJkgrQuErH9ecsvI/X3XOT+UzFzkI21qHDprCoSFymD08s0NB2roVEyEbGmSsM8oBT6U
- tSzeVRi2gntP+ct6ugOIdLLHWxwD8J1ZbUAD5g==
+        Mon, 29 Jul 2019 11:47:09 -0400
+Received: by mail-wr1-f68.google.com with SMTP id y4so62402900wrm.2
+        for <linux-input@vger.kernel.org>; Mon, 29 Jul 2019 08:47:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=yS8ibKa0wH35wShpFjQuRMdxr8FhaslciAiXwT1RvYk=;
+        b=j7QRj8Mc05gGh50PWEMtWmVxMsA5SaVA8GbsWlPRkbtlm2lzMDKR8q8beqj/EayZSO
+         X1I1o1EtJTyYcohFC3H6LYcqoFcguogR1qzPrEwGmgb7hJkVsPrl1fO42H5AYDQiAOON
+         nUIZT98WtqGe9X6VszBvMq262JWYDn+mdSKO7rZKhmHg2zZj0gQfLZ+z4keWwicygpQf
+         SxfTDzNye3bhmFQ2M/iCxZZdszmWaK1+MqELTIlgtmrcB7T93VeE2tnZ84pzAiFibYqC
+         m8dTQEBKFaE1xWNLuvg5DNMyWO3Usg5cwQQtVFYwht1URAy9ZP+nFPk1OCrW46MTuJLe
+         Yzww==
+X-Gm-Message-State: APjAAAWcDYlhaw82oZqnVrXfJTjdVVosRIk1TAus/IWsv5E9BaJkxk/i
+        b7ou5ha+mc8PQ8Uh7GgX/mSutg==
+X-Google-Smtp-Source: APXvYqwO55885JNiTktAulfzSGaaZ9n40IW1xBbTjIcJb32aEjyGgPg/R1Pq6BA7T+cO+MyDPxXVDQ==
+X-Received: by 2002:adf:ea45:: with SMTP id j5mr46150435wrn.11.1564415227611;
+        Mon, 29 Jul 2019 08:47:07 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id j189sm70271670wmb.48.2019.07.29.08.47.06
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Jul 2019 08:47:06 -0700 (PDT)
+Subject: Re: [PATCH v3] HID: logitech-dj: Fix mouse detection
+To:     Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc:     linux-input@vger.kernel.org, yuehaibing@huawei.com,
+        benjamin.tissoires@redhat.com,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+References: <20190725141949.9737-1-lionel.g.landwerlin@intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <ac913c98-6434-5f53-be46-732a8c0781ba@redhat.com>
+Date:   Mon, 29 Jul 2019 17:47:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190725141949.9737-1-lionel.g.landwerlin@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Enrico Weigelt <info@metux.net>
+Hi,
 
-The registration of gpio-keys device can be written much shorter
-by using the platform_device_register_resndata() helper.
+Thank you for tracking down the cause of this and for
+providing an initial patch fixing this.
 
-Signed-off-by: Enrico Weigelt <info@metux.net>
----
- drivers/input/misc/soc_button_array.c | 24 ++++++++++--------------
- 1 file changed, 10 insertions(+), 14 deletions(-)
+On 25-07-19 16:19, Lionel Landwerlin wrote:
+> Now logi_dj_recv_query_paired_devices() will return a positive value
+> while success, but logi_dj_probe expect zero in case of success, so
+> set it to 0 before return.
+> 
+> Fixes this error :
+> 
+>     logitech-djreceiver: probe of 0003:046D:C534.0006 failed with error 7
+> 
+> Also prevents the pluging of the mouse dongle in/out to hang the
+> system.
+> 
+> v2: Drop useless retval = 0 (YueHaibing)
+> 
+> v3: Add explanation (YueHaibing)
+> 
+> Signed-off-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> Cc: linux-input@vger.kernel.org
+> Cc: yuehaibing@huawei.com
+> Cc: hdegoede@redhat.com
+> Cc: benjamin.tissoires@redhat.com
+> Fixes: dbcbabf7da92 ("HID: logitech-dj: fix return value of logi_dj_recv_query_hidpp_devices")
+> Reviewed-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>   drivers/hid/hid-logitech-dj.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+> index 6196217a7d93..8cdf37309ada 100644
+> --- a/drivers/hid/hid-logitech-dj.c
+> +++ b/drivers/hid/hid-logitech-dj.c
+> @@ -1736,6 +1736,7 @@ static int logi_dj_probe(struct hid_device *hdev,
+>   				__func__, retval);
+>   			goto logi_dj_recv_query_paired_devices_failed;
+>   		}
+> +		retval = 0;
+>   	}
+>   
+>   	return retval;
 
-diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-index 5e59f8e5..f5e148b 100644
---- a/drivers/input/misc/soc_button_array.c
-+++ b/drivers/input/misc/soc_button_array.c
-@@ -110,25 +110,21 @@ static int soc_button_lookup_gpio(struct device *dev, int acpi_index)
- 	gpio_keys_pdata->nbuttons = n_buttons;
- 	gpio_keys_pdata->rep = autorepeat;
- 
--	pd = platform_device_alloc("gpio-keys", PLATFORM_DEVID_AUTO);
--	if (!pd) {
--		error = -ENOMEM;
-+	pd = platform_device_register_resndata(NULL,
-+		"gpio-keys",
-+		PLATFORM_DEVID_AUTO,
-+		NULL,
-+		0,
-+		gpio_keys_pdata,
-+		sizeof(*gpio_keys_pdata));
-+
-+	if (IS_ERR(pd)) {
-+		dev_err(&pdev->dev, "failed registering gpio-keys: %ld\n", PTR_ERR(pd));
- 		goto err_free_mem;
- 	}
- 
--	error = platform_device_add_data(pd, gpio_keys_pdata,
--					 sizeof(*gpio_keys_pdata));
--	if (error)
--		goto err_free_pdev;
--
--	error = platform_device_add(pd);
--	if (error)
--		goto err_free_pdev;
--
- 	return pd;
- 
--err_free_pdev:
--	platform_device_put(pd);
- err_free_mem:
- 	devm_kfree(&pdev->dev, gpio_keys_pdata);
- 	return ERR_PTR(error);
--- 
-1.9.1
+You are now overriding the return value with 0, even if it is an error,
+effectively undoing the result of commit dbcbabf7da92, except that an
+error will no be logged (but other then the logging nothing will change).
 
+I've just hit the issue caused by this myself after upgrading to 5.3-rc2
+myself. I've prepared a fix which properly fixes this by making
+logi_dj_recv_query_hidpp_device either return the negative error returned
+by hid_hw_raw_request or 0 when hid_hw_raw_request succeeded.
+
+I will put you in the Cc of the patch fixing for this.
+
+Regards,
+
+Hans
