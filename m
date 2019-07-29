@@ -2,260 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5C327900C
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 18:00:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1599979121
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 18:38:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728342AbfG2QAA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Jul 2019 12:00:00 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:34559 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728265AbfG2P76 (ORCPT
+        id S1729160AbfG2QiH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Jul 2019 12:38:07 -0400
+Received: from mail-io1-f72.google.com ([209.85.166.72]:43914 "EHLO
+        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726197AbfG2QiH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Jul 2019 11:59:58 -0400
-Received: from orion.localdomain ([77.4.29.213]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MQvH5-1i3RmN0P3v-00O0Kl; Mon, 29 Jul 2019 17:59:56 +0200
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
-Subject: [PATCH 1/2] input: keyboard: gpio_keys_polled: use gpio lookup table
-Date:   Mon, 29 Jul 2019 17:59:53 +0200
-Message-Id: <1564415994-22871-1-git-send-email-info@metux.net>
-X-Mailer: git-send-email 1.9.1
-X-Provags-ID: V03:K1:ZAmw34Aq9doQ/9pPHR88cUNMw9M3YJ8+/2ShDQM+6EQ3NnMWy+w
- B6PVXMC2PMrVWeYKTJZRFH9+mLHCY5j+j+9mHAzU0JNbX7mNat+WKIs+nKeU5LnTQNc/5mx
- 7MqpsfNLO0IGzq8ln4GIWQVTNtAxZp12R91XCDqnGzC7MchsmRZ3MDvveRUkhLMgV4m7uX9
- hcvVdzcydA4ija9C0t2OQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Y5lnNuufQUQ=:54uSroeLlBhPZJqSzjHy8P
- sckYNpemCUBexpbhVTLu7pWpQYkC7xlaSyWAdG4yQybYL4hNktT30FsKzkMw35MYEbtTNTh2H
- 4xk6cFDFCUtCrr+BFpnhdcd1miAltKztpeJ/a3EkNVsshTgoUZuA2RO/505+bCZ73HvjALUts
- SnlZPfQg5HD9qu9UB35KlkiZ6UFjwrwBvm9gNqEBzqFSiYFhEao9pJ3g4ZMBa71CoDaZ55Z9F
- Z84uPE3SA+p+1k7IX7Cj4xEU4s3omckavgqpFEKh0LZ7ylFjRBGtHWveTjvtzKfKjRZOWeb9+
- ZhWZKEbb0sZUZHjCSgk9967+KQirA7eiSOOwEDyhenHa7HPRoEOJiArwqQzXbNfZiY42mUjcy
- ZYSCCZvQjRoFKJff4LNL7XRTce48TzbviH9phQq/DvNChsvn8cfTQybGHDGh9iubEiJXPwkAb
- TmXxSfm6sevKF/lHvPmJleJUg9zDgFmFlUNZEJ8KgaH5VDUfaYToCL7LJjMyo3cLqJtVOOjX3
- eSux6oEzf4Ap1xAEPmGrk79MhhcPUz2wPpwTOaeGco9loFShiRQ3fvWz1PstijmvpTyeBdDGM
- PLQEpFuIHdrU92Ztyxe7pCPwOaFGAlI+X3KDFPRrvgN+1dPv8xjB2R/7CDf1ek6qOI4hjKDS4
- cVqNC8Zj8KXW5pYQW9uI5CARMRiA5N3wk29NAKj7PYUxyYj7mCJiFkIvUXdVis0NJUL0Ch8DY
- 6zh7i2duceQher7TaCZBERQpV1RXKu1QQllb+g==
+        Mon, 29 Jul 2019 12:38:07 -0400
+Received: by mail-io1-f72.google.com with SMTP id q26so68061098ioi.10
+        for <linux-input@vger.kernel.org>; Mon, 29 Jul 2019 09:38:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=wGtsh4LHVqfKGzY145InjKGz5bNHgbf3FLGwAMZ6gLQ=;
+        b=BiJr7jO0mxL+uUFWryAMY8bMYG2dy2Es0ddG7rtzEANB4z1yASf1T3mKaRWALQ1EAR
+         h1yzAwsMkB3BI6I+jl5QsaL8M9Bkys1Fptsy95GvQB5X79ZYL7RLA7Oyg6NJKsTeJ+Eh
+         vCROhXr1uWUmcoEgzzZM7ra0hNx4ZREDsN5HKb5qeRQFnzWLl7Z4329OVabqSHgOa5le
+         /Rn5SSmwMyEzkaZ1nKqU4wX3Pw0RS/afjI3fZMM2EsrGCBhcNbDv2z1Tq/rXjud/JwzE
+         fkfwufribseD/n5mdYTt23COT8VY/feOzHc10HbCdgpYK9tmlk+T6kLyvVeDsAHxkwIl
+         iW2w==
+X-Gm-Message-State: APjAAAXFinQd2Ru2c5yvS60zgZ/cS9RXQqDRLLslvwIEQuiRaEpyVIns
+        PtuLrM4C0NgXX3Aw9Ve857ggLzquzk2EaYNUXCCjshBgx16Q
+X-Google-Smtp-Source: APXvYqwxx3vJ6RmdfNcXCsQ3loSDEEjsGDpw2kG0TqsxPvnMbEdFJV4h/UsG+b1nZf4yl9FpYvgEEbT/7CHEw2g3WQRYJ6bxEeEl
+MIME-Version: 1.0
+X-Received: by 2002:a5d:87c6:: with SMTP id q6mr32794880ios.115.1564418286108;
+ Mon, 29 Jul 2019 09:38:06 -0700 (PDT)
+Date:   Mon, 29 Jul 2019 09:38:06 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000394df0058ed48487@google.com>
+Subject: WARNING in usbtouch_open
+From:   syzbot <syzbot+199ea16c7f26418b4365@syzkaller.appspotmail.com>
+To:     allison@lohutok.net, andreyknvl@google.com,
+        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
+        kstewart@linuxfoundation.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        mpe@ellerman.id.au, rydberg@bitmath.org,
+        syzkaller-bugs@googlegroups.com, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Enrico Weigelt <info@metux.net>
+Hello,
 
-Support the recently introduced gpio lookup tables for
-attaching to gpio lines. So, harcoded gpio numbers aren't
-needed anymore.
+syzbot found the following crash on:
 
-changes v3:
-    * fix printf string in gpio_keys_polled_get_gpiod()
-    * fix unused variable 'error' in gpio_keys_polled_get_gpiod()
-    * fix uninitialized variable in gpio_keys_polled_get_gpiod_fwnode()
+HEAD commit:    7f7867ff usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=1503f4ec600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=792eb47789f57810
+dashboard link: https://syzkaller.appspot.com/bug?extid=199ea16c7f26418b4365
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=173e4442600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=115482b2600000
 
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Signed-off-by: Enrico Weigelt <info@metux.net>
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+199ea16c7f26418b4365@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+WARNING: CPU: 0 PID: 1724 at kernel/locking/mutex.c:912 __mutex_lock_common  
+kernel/locking/mutex.c:912 [inline]
+WARNING: CPU: 0 PID: 1724 at kernel/locking/mutex.c:912  
+__mutex_lock+0xd31/0x1360 kernel/locking/mutex.c:1077
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 0 PID: 1724 Comm: syz-executor025 Not tainted 5.3.0-rc2+ #23
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  panic+0x2a3/0x6da kernel/panic.c:219
+  __warn.cold+0x20/0x4a kernel/panic.c:576
+  report_bug+0x262/0x2a0 lib/bug.c:186
+  fixup_bug arch/x86/kernel/traps.c:179 [inline]
+  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
+  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
+  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1026
+RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:912 [inline]
+RIP: 0010:__mutex_lock+0xd31/0x1360 kernel/locking/mutex.c:1077
+Code: d2 0f 85 f6 05 00 00 44 8b 05 bb 99 0a 02 45 85 c0 0f 85 0a f4 ff ff  
+48 c7 c6 00 87 a6 85 48 c7 c7 a0 84 a6 85 e8 f4 24 b8 fb <0f> 0b e9 f0 f3  
+ff ff 65 48 8b 1c 25 00 ef 01 00 be 08 00 00 00 48
+RSP: 0018:ffff8881d29cf740 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff812830fd RDI: ffffed103a539eda
+RBP: ffff8881d29cf8b0 R08: ffff8881d3e84800 R09: fffffbfff0d5eb25
+R10: fffffbfff0d5eb24 R11: ffffffff86af5923 R12: 0000000000000000
+R13: dffffc0000000000 R14: ffff8881d33cdbc8 R15: ffff8881d3e97140
+  usbtouch_open+0x101/0x310 drivers/input/touchscreen/usbtouchscreen.c:1537
+  input_open_device+0x170/0x280 drivers/input/input.c:607
+  evdev_open_device drivers/input/evdev.c:433 [inline]
+  evdev_open+0x3fe/0x510 drivers/input/evdev.c:518
+  chrdev_open+0x219/0x5c0 fs/char_dev.c:414
+  do_dentry_open+0x494/0x1120 fs/open.c:797
+  do_last fs/namei.c:3416 [inline]
+  path_openat+0x1430/0x3f50 fs/namei.c:3533
+  do_filp_open+0x1a1/0x280 fs/namei.c:3563
+  do_sys_open+0x3c0/0x580 fs/open.c:1089
+  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x4011f0
+Code: 01 f0 ff ff 0f 83 00 0b 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f  
+44 00 00 83 3d 9d 4b 2d 00 00 75 14 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 d4 0a 00 00 c3 48 83 ec 08 e8 3a 00 00 00
+RSP: 002b:00007ffc88d90d38 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
+RAX: ffffffffffffffda RBX: 0000000000000124 RCX: 00000000004011f0
+RDX: 0000000000000000 RSI: 0000000000020000 RDI: 00007ffc88d90d40
+RBP: 6666666666666667 R08: 000000000000000f R09: 0000000000000023
+R10: 0000000000000075 R11: 0000000000000246 R12: 0000000000402150
+R13: 00000000004021e0 R14: 0000000000000000 R15: 0000000000000000
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
+
+
 ---
- drivers/input/keyboard/gpio_keys_polled.c | 166 +++++++++++++++++++++---------
- 1 file changed, 118 insertions(+), 48 deletions(-)
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
-index 465eecf..91754de 100644
---- a/drivers/input/keyboard/gpio_keys_polled.c
-+++ b/drivers/input/keyboard/gpio_keys_polled.c
-@@ -21,6 +21,7 @@
- #include <linux/platform_device.h>
- #include <linux/gpio.h>
- #include <linux/gpio/consumer.h>
-+#include <linux/gpio/machine.h>
- #include <linux/gpio_keys.h>
- #include <linux/property.h>
- 
-@@ -226,6 +227,118 @@ static void gpio_keys_polled_set_abs_params(struct input_dev *input,
- };
- MODULE_DEVICE_TABLE(of, gpio_keys_polled_of_match);
- 
-+static struct gpio_desc *gpio_keys_polled_get_gpiod_fwnode(
-+	struct device *dev,
-+	int idx,
-+	const char *desc)
-+{
-+	struct gpio_desc *gpiod;
-+	struct fwnode_handle *child;
-+	int x = idx;
-+
-+	/* get the idx'th child node */
-+	child = device_get_next_child_node(dev, NULL);
-+	while (child && x) {
-+		child = device_get_next_child_node(dev, child);
-+		x--;
-+	}
-+
-+	if (!child) {
-+		dev_err(dev, "missing oftree child node #%d\n", idx);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	gpiod = devm_fwnode_get_gpiod_from_child(dev,
-+						 NULL,
-+						 child,
-+						 GPIOD_IN,
-+						 desc);
-+	if (IS_ERR(gpiod)) {
-+		if (PTR_ERR(gpiod) != -EPROBE_DEFER)
-+			dev_err(dev,
-+				"failed to get gpio: %ld\n",
-+				PTR_ERR(gpiod));
-+		fwnode_handle_put(child);
-+		return gpiod;
-+	}
-+
-+	return gpiod;
-+}
-+
-+static struct gpio_desc *gpio_keys_polled_get_gpiod_legacy(
-+	struct device *dev,
-+	int idx,
-+	const struct gpio_keys_button *button)
-+{
-+	/*
-+	 * Legacy GPIO number so request the GPIO here and
-+	 * convert it to descriptor.
-+	 */
-+	unsigned int flags = GPIOF_IN;
-+	struct gpio_desc *gpiod;
-+	int error;
-+
-+	dev_info(dev, "hardcoded gpio IDs are deprecated.\n");
-+
-+	if (button->active_low)
-+		flags |= GPIOF_ACTIVE_LOW;
-+
-+	error = devm_gpio_request_one(dev, button->gpio,
-+			flags, button->desc ? : DRV_NAME);
-+	if (error) {
-+		dev_err(dev,
-+			"unable to claim gpio %u, err=%d\n",
-+			button->gpio, error);
-+		return ERR_PTR(error);
-+	}
-+
-+	gpiod = gpio_to_desc(button->gpio);
-+	if (!gpiod) {
-+		dev_err(dev,
-+			"unable to convert gpio %u to descriptor\n",
-+			button->gpio);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	return gpiod;
-+}
-+
-+static struct gpio_desc *gpio_keys_polled_get_gpiod(
-+	struct device *dev,
-+	int idx,
-+	const struct gpio_keys_button *button)
-+{
-+	struct gpio_desc *gpiod = NULL;
-+
-+	/* No legacy static platform data - use oftree */
-+	if (!dev_get_platdata(dev)) {
-+		return gpio_keys_polled_get_gpiod_fwnode(
-+			dev, idx, button->desc);
-+	}
-+
-+	gpiod = devm_gpiod_get_index(dev, NULL, idx, GPIOF_IN);
-+
-+	if (!IS_ERR(gpiod)) {
-+		dev_info(dev, "picked gpiod idx %d from gpio table\n", idx);
-+		gpiod_set_consumer_name(gpiod, button->desc ? : DRV_NAME);
-+		return gpiod;
-+	}
-+
-+	if (PTR_ERR(gpiod) != -ENOENT) {
-+		dev_err(dev, "failed fetching gpiod #%d: %ld\n",
-+			idx, PTR_ERR(gpiod));
-+		return gpiod;
-+	}
-+
-+	/* Use legacy gpio id, if defined */
-+	if (gpio_is_valid(button->gpio)) {
-+		return gpio_keys_polled_get_gpiod_legacy(
-+			dev, idx, button);
-+	}
-+
-+	return ERR_PTR(-ENOENT);
-+}
-+
- static int gpio_keys_polled_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -288,57 +401,14 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
- 
- 		if (button->wakeup) {
- 			dev_err(dev, DRV_NAME " does not support wakeup\n");
--			fwnode_handle_put(child);
- 			return -EINVAL;
- 		}
- 
--		if (!dev_get_platdata(dev)) {
--			/* No legacy static platform data */
--			child = device_get_next_child_node(dev, child);
--			if (!child) {
--				dev_err(dev, "missing child device node\n");
--				return -EINVAL;
--			}
--
--			bdata->gpiod = devm_fwnode_get_gpiod_from_child(dev,
--								NULL, child,
--								GPIOD_IN,
--								button->desc);
--			if (IS_ERR(bdata->gpiod)) {
--				error = PTR_ERR(bdata->gpiod);
--				if (error != -EPROBE_DEFER)
--					dev_err(dev,
--						"failed to get gpio: %d\n",
--						error);
--				fwnode_handle_put(child);
--				return error;
--			}
--		} else if (gpio_is_valid(button->gpio)) {
--			/*
--			 * Legacy GPIO number so request the GPIO here and
--			 * convert it to descriptor.
--			 */
--			unsigned flags = GPIOF_IN;
--
--			if (button->active_low)
--				flags |= GPIOF_ACTIVE_LOW;
--
--			error = devm_gpio_request_one(dev, button->gpio,
--					flags, button->desc ? : DRV_NAME);
--			if (error) {
--				dev_err(dev,
--					"unable to claim gpio %u, err=%d\n",
--					button->gpio, error);
--				return error;
--			}
--
--			bdata->gpiod = gpio_to_desc(button->gpio);
--			if (!bdata->gpiod) {
--				dev_err(dev,
--					"unable to convert gpio %u to descriptor\n",
--					button->gpio);
--				return -EINVAL;
--			}
-+		bdata->gpiod = gpio_keys_polled_get_gpiod(dev, i, button);
-+
-+		if (IS_ERR(bdata->gpiod)) {
-+			dev_err(dev, "failed to fetch gpiod #%d\n", i);
-+			return PTR_ERR(bdata->gpiod);
- 		}
- 
- 		bdata->last_state = -1;
--- 
-1.9.1
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
