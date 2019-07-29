@@ -2,136 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 382E278C80
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 15:15:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2681E78CAD
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 15:22:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728546AbfG2NPw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Jul 2019 09:15:52 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:35852 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726973AbfG2NPv (ORCPT
+        id S2387404AbfG2NWY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Jul 2019 09:22:24 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:39078 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387413AbfG2NWY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Jul 2019 09:15:51 -0400
-Received: by mail-io1-f65.google.com with SMTP id o9so16255077iom.3;
-        Mon, 29 Jul 2019 06:15:51 -0700 (PDT)
+        Mon, 29 Jul 2019 09:22:24 -0400
+Received: by mail-io1-f66.google.com with SMTP id f4so119937769ioh.6;
+        Mon, 29 Jul 2019 06:22:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=hesoZG+TcuR2ee3ESupVuTZ9BAyVWJDa4N1y2VQSFbA=;
-        b=dxlI/uKS1x/I62djieCFmuyPj9xjbstOXhRIT8tlirULC+Cfrf57qeguUW32ksAFai
-         0cCDFsrNt6NNxY7+AW3VzzbTEZNcBvxoMRSPIrPQMdenQIG4v5CDboDBA4A3XsfXTVLU
-         HFmb9d54USSK1Jw7k3B8Nk+OXD7+PF3vBjayG1RUASPYxvowPUKmw65c6Q0TyRWurLb/
-         ZOXNTgFWYirtvTvDlKr8AK+7nRHxZeUs5ARsC8Afvqza6XSWdMt+7VqM6SCYfvidaxsL
-         ivcnl5ug5bRl4IE6nxW7vpF3qTqnze7ewJaaTGMvMs7zYv1UYY4MDdG2WH0qJZZSgMwS
-         KTvQ==
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=vzLD2iW6uYsbIT0oPIQPOII/1STR8lKUywRD1hVm9Ws=;
+        b=Kvbooi9hS7TpZtc5jFcX5PRvKHvgvbySDxOdPNmd6gpDPiNcAlamrAZrG8gFqhFsUA
+         LJB/9aVGl1zFn71NgI8QOz0JVeC873/494ALaAuQ95RyBaA2MbDO4KHBmj/eePkbT5oX
+         5uRnjkZ4BFqoMqy1/62sMqXQ8CrfBt+VWz5jhAzmX8LKu7hofqCX9oYQD42ybccxf+2x
+         IpBCbE21sCuCn/PCxMQ5nZcq9qDDiuZOLxJoznJuTyuYP7EL+7wo/bjq6ExhCLQEFYTX
+         4asN+xx2/PVIaekt5ux8AGz6JMSCTLjRcAFUFtqkSgKxQTeS019KHPP9Id1vgD4BYa38
+         uU+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=hesoZG+TcuR2ee3ESupVuTZ9BAyVWJDa4N1y2VQSFbA=;
-        b=LNcHsfSYZJv6KkgwbeVuhZu3IL1zzD8ZybAmiLgOthE2m0QnKkg6/whD+daHaARy73
-         Sei70dTDST+DVzgj//RLdSvgI4UGn7pNbGzMlvEYdPDbrWY6GUcoPbm4BYfwpTGTL5sE
-         8q+lBzA+OWtgW+BAtGS5uN61ZY9DPbknFxVyb4h9U3WVvAM2fK/f8p08R6x+fApPSy10
-         jFIPOBB6vi0sRD1ZJF69apeawq9cYxyQBV+pAnvs8uZ70Az5ErLRBb+E6GHePW35n9Wg
-         5Joi8trPfVFoWbjmdKmSMlFCzkPKOqgpwUEL7z7gNQCCvAky//LIpVmEA79+GvPGa+Oj
-         KHqw==
-X-Gm-Message-State: APjAAAWlHdKq8QdDyKJ79k+FHgpeddsWyxTz0e9pe1IalS5NLmqnAU9F
-        7B/o0T/ZgJoH+XsywbsNxnU=
-X-Google-Smtp-Source: APXvYqwoWQTwF5tIsbtyIfsCRBRQp5dFcjhYZlqA4xw1kFYGOW8RBewbcLjn8mmgVWtwQYUdZPRcCA==
-X-Received: by 2002:a5d:8347:: with SMTP id q7mr95370134ior.277.1564406150592;
-        Mon, 29 Jul 2019 06:15:50 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=vzLD2iW6uYsbIT0oPIQPOII/1STR8lKUywRD1hVm9Ws=;
+        b=DESzfwEu64SiwrblxdRA8HHqQSl45nSA3aa/lVxZoAhCikig886nGEAWeoTXyQn9MC
+         GAcaVv5p+VzPVTAEA11pNX3kCVZdzWA8Uc/NPIvPagbLlO7euGHR5PLA0PoamCzxmqJ/
+         KsKkElUFy1+oYk3UvKsqBgrtTvyZF1EZ4i3//U6uH+B9ZCpKTTiUzahwy+Bvq/MBqpqt
+         RkG+iUcZrCs2MTPd6NE7LO6t/o62PEBFQi9alD4NcH8tGSu0Ax43AAkMVzSnnUtkxpU8
+         cKVHVCiT7xqnuEO9N4QcvB49JnqzBpc4R7I0qd6r41GizBhQrceMHYlpPYmaDoPLnQv5
+         41lg==
+X-Gm-Message-State: APjAAAUEyfyxqPbvgLn+DmYqjuPp48CH3MmXU/jJUCp5QDluo4RHNQu5
+        SjRoAGi2j/B1OC0MJ3fFCHg=
+X-Google-Smtp-Source: APXvYqzMeV7wkb+weEmw78A/cpDyd/pc6AwnkmTtO1Nt+ZrZ2TjKjg197LjIOZicn/nJBqgjJ5UasA==
+X-Received: by 2002:a5d:834f:: with SMTP id q15mr30847950ior.59.1564406542921;
+        Mon, 29 Jul 2019 06:22:22 -0700 (PDT)
 Received: from localhost ([8.46.76.96])
-        by smtp.gmail.com with ESMTPSA id n22sm100665148iob.37.2019.07.29.06.15.48
+        by smtp.gmail.com with ESMTPSA id u4sm59826788iol.59.2019.07.29.06.22.20
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Jul 2019 06:15:49 -0700 (PDT)
-Date:   Mon, 29 Jul 2019 15:15:32 +0200
+        Mon, 29 Jul 2019 06:22:21 -0700 (PDT)
+Date:   Mon, 29 Jul 2019 15:22:03 +0200
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH 1/2] drivers: base: swnode: link devices to software nodes
-Message-ID: <20190729131532.GA1201@penguin>
-References: <20190713075259.243565-1-dmitry.torokhov@gmail.com>
- <20190713075259.243565-2-dmitry.torokhov@gmail.com>
- <20190729120715.GA28600@kuha.fi.intel.com>
+To:     Ronald =?iso-8859-1?Q?Tschal=E4r?= <ronald@innovation.ch>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mao Wenan <maowenan@huawei.com>,
+        Federico Lorenzi <federico@travelground.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Input: applespi - register touchpad device
+ synchronously in probe
+Message-ID: <20190729132203.GB1201@penguin>
+References: <20190721070523.24695-1-ronald@innovation.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20190729120715.GA28600@kuha.fi.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190721070523.24695-1-ronald@innovation.ch>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jul 29, 2019 at 03:07:15PM +0300, Heikki Krogerus wrote:
-> On Sat, Jul 13, 2019 at 12:52:58AM -0700, Dmitry Torokhov wrote:
-> > It is helpful to know what device, if any, a software node is tied to, so
-> > let's store a pointer to the device in software node structure. Note that
-> > children software nodes will inherit their parent's device pointer, so we
-> > do not have to traverse hierarchy to see what device the [sub]tree belongs
-> > to.
-> > 
-> > We will be using the device pointer to locate GPIO lookup tables for
-> > devices with static properties.
-> > 
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > ---
-> >  drivers/base/property.c  |  1 +
-> >  drivers/base/swnode.c    | 35 ++++++++++++++++++++++++++++++++++-
-> >  include/linux/property.h |  5 +++++
-> >  3 files changed, 40 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/base/property.c b/drivers/base/property.c
-> > index 348b37e64944..3bc93d4b35c4 100644
-> > --- a/drivers/base/property.c
-> > +++ b/drivers/base/property.c
-> > @@ -527,6 +527,7 @@ int device_add_properties(struct device *dev,
-> >  	if (IS_ERR(fwnode))
-> >  		return PTR_ERR(fwnode);
-> >  
-> > +	software_node_link_device(fwnode, dev);
-> >  	set_secondary_fwnode(dev, fwnode);
-> >  	return 0;
-> >  }
-> > diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-> > index 7fc5a18e02ad..fd12eea539b6 100644
-> > --- a/drivers/base/swnode.c
-> > +++ b/drivers/base/swnode.c
-> > @@ -24,6 +24,9 @@ struct software_node {
-> >  
-> >  	/* properties */
-> >  	const struct property_entry *properties;
-> > +
-> > +	/* device this node is associated with */
-> > +	struct device *dev;
-> >  };
+Hi Ronald,
+
+On Sun, Jul 21, 2019 at 12:05:23AM -0700, Ronald Tschalär wrote:
+> This allows errors during registration to properly fail the probe
+> function.
 > 
-> Let's not do that! The nodes can be, and in many cases are, associated
-> with multiple devices.
-
-They do? Where? I see that set of properties can be shared between
-several devices, but when we instantiate SW node we create a new
-instance for device. This is also how ACPI and OF properties work; they
-not shared between devices (or, rather, the kernel creates distinct _and
-single_ devices for instance of ACPI or OF node). I do not think we want
-swnodes work differently from the other firmware nodes.
-
+> Doing this requires waiting for a response from the device inside the
+> probe function. While this generally takes about 15ms, in case of errors
+> it could be arbitrarily long, and hence a 3 second timeout is used.
 > 
-> Every device is already linked with the software node kobject, so
-> isn't it possible to simply walk trough those links in order to check
-> the devices associated with the node?
+> This also adds 3 second timeouts to the drain functions to avoid the
+> potential for suspend or remove hanging forever.
 
-No, we need to know the exact instance of a device, not a set of
-devices, because even though some properties can be shared, others can
-not. For example, even if 2 exactly same touch controllers in the system
-have "reset-gpios" property, they won't be the same GPIO for the both of
-them.
+Question: is it possible to read command response synchronously as well?
+I.e. I was wondering if we could add 2 (or 1?) more read xfers for the
+actual result that is coming after the status response, and then we
+could use spi_sync() to send the command and read the whole thing.
 
 Thanks.
 
