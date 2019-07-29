@@ -2,89 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACC9A79351
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 20:43:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF75479356
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 20:46:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387763AbfG2Sn0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Jul 2019 14:43:26 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:44855 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387397AbfG2Sn0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Jul 2019 14:43:26 -0400
-Received: by mail-io1-f67.google.com with SMTP id s7so122163420iob.11;
-        Mon, 29 Jul 2019 11:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=geRb+xmd/f1jkfORhsVtE+k/0a+B//EFaGFVIsLhObc=;
-        b=bVGeuI7+q/E6mMswliDCz5OpxuOF2eZwPcikFI3x4GEAaaAXOXFZ+8Htj8ll/l9F2t
-         /Q/VMn6gBqwyipbpE8ng2QfLvCZpmE6bdnvk7aOgwIY2JaHwhTF0UgMlMLiSpvImPTKR
-         HigBQNrJF8VslcQO9/DI1GUodVbgwlm17LlysCTTUShA8QNosP1S/Nf2w+8tZebujVZp
-         Bf0oEFRr9pNxj1oJHJWuaxcisdKodimMFYVrKHpC/VTEBiXwrm9119y6yOI88ozlWomw
-         HKOrJsEoLIHCvmw1cyr5vrfVo0KK7UEIiRpg2fLiysi5SgYWm8qeOj87mMO/LVnoDGrH
-         JOEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=geRb+xmd/f1jkfORhsVtE+k/0a+B//EFaGFVIsLhObc=;
-        b=MM4oxbzb1dx8EYMbx/vT94u9M3eDoJbsr+RSganQsdewoopXCLnrP3Kgxzrs3LKvWm
-         tsSqpgeNLRPfFdy9cJtNEDA+2Mgf2729UHj/cHdQGkbovw7MfbTNjE1sEnHWl4jqqgE4
-         qd9+LamDN2bhJXc9nBAjSjhXOgcm0XPsFOfG6ei/HIYSlIlIgihmFyCM27Fif7/b150P
-         M88zBs1u90X+Zhxq4ZY+1QcLBWkm0PyBkGiPRzOtBVA7XcPEYWxB3UsTu22LOiy4OnVA
-         3HCWcIRQeA3RcVD1P/fRHRyKs9W5uSJ30u8IiGTuHe2AqOfagdXo9NNohHxk6WobVaKF
-         vLzQ==
-X-Gm-Message-State: APjAAAUfr9FXRqLvf4kdSVW1cdnStcdsRunDjcwRHrJx8FLfUH5UJGd4
-        hVqhTNUCl+tbSbLP52V2tcc=
-X-Google-Smtp-Source: APXvYqzChUsC55AGMMrdotkBYf7SylCuLSJNaWeI3qCUXDnZzs22DtP+LVRSR2fdOOx7zcHNUg6HRA==
-X-Received: by 2002:a02:710f:: with SMTP id n15mr75388873jac.119.1564425805584;
-        Mon, 29 Jul 2019 11:43:25 -0700 (PDT)
-Received: from localhost ([8.46.76.96])
-        by smtp.gmail.com with ESMTPSA id u4sm60634224iol.59.2019.07.29.11.43.23
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Jul 2019 11:43:25 -0700 (PDT)
-Date:   Mon, 29 Jul 2019 20:43:06 +0200
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/2] input: keyboard: gpio_keys_polled: use gpio lookup
- table
-Message-ID: <20190729184306.GA767@penguin>
-References: <1564415994-22871-1-git-send-email-info@metux.net>
- <20190729172607.GB755@penguin>
- <b2912c1d-a6d8-ad2a-3e37-19e4d3d1bd3b@metux.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b2912c1d-a6d8-ad2a-3e37-19e4d3d1bd3b@metux.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S2387555AbfG2SqA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Mon, 29 Jul 2019 14:46:00 -0400
+Received: from mx2.suse.de ([195.135.220.15]:54436 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2387512AbfG2SqA (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 29 Jul 2019 14:46:00 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 2C7F0AE62;
+        Mon, 29 Jul 2019 18:45:58 +0000 (UTC)
+Date:   Mon, 29 Jul 2019 20:45:57 +0200
+From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-mips@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Subject: Re: [PATCH v3 5/7] mfd: ioc3: Add driver for SGI IOC3 chip
+Message-Id: <20190729204557.468db2153efefda96dd41ec0@suse.de>
+In-Reply-To: <20190725114716.GB23883@dell>
+References: <20190613170636.6647-1-tbogendoerfer@suse.de>
+        <20190613170636.6647-6-tbogendoerfer@suse.de>
+        <20190725114716.GB23883@dell>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8BIT
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jul 29, 2019 at 08:14:52PM +0200, Enrico Weigelt, metux IT consult wrote:
-> On 29.07.19 19:26, Dmitry Torokhov wrote:
-> 
-> Hi,
-> 
-> > As I think I mentioned a while back I would prefer to get gpiolob >
-> > support swnode-backed properties so that the driver would not need
-> to> know about differences between ACPI, DT and static board files.
-> Indeed would be nice. But I think we should get rid of raw gpio IDs in
-> favour of gpiod lookup tables first.
-> 
-> > I just recently re-posted patches for this, let's see if we can get them > landed in the kernel.
-> Can you give me a pointer ?
+On Thu, 25 Jul 2019 12:47:16 +0100
+Lee Jones <lee.jones@linaro.org> wrote:
 
-https://patchwork.kernel.org/cover/11042915/
+> On Thu, 13 Jun 2019, Thomas Bogendoerfer wrote:
+> > +/*
+> > + * On IP30 the RTC (a DS1687) is behind the IOC3 on the generic
+> > + * ByteBus regions. We have to write the RTC address of interest to
+> > + * IOC3_BYTEBUS_DEV1, then read the data from IOC3_BYTEBUS_DEV2.
+> > + * rtc->regs already points to IOC3_BYTEBUS_DEV1.
+> > + */
+> > +#define IP30_RTC_ADDR(rtc) (rtc->regs)
+> > +#define IP30_RTC_DATA(rtc) ((rtc->regs) + IOC3_BYTEBUS_DEV2 - IOC3_BYTEBUS_DEV1)
+> > +
+> > +static u8 ip30_rtc_read(struct ds1685_priv *rtc, int reg)
+> > +{
+> > +	writeb((reg & 0x7f), IP30_RTC_ADDR(rtc));
+> > +	return readb(IP30_RTC_DATA(rtc));
+> > +}
+> > +
+> > +static void ip30_rtc_write(struct ds1685_priv *rtc, int reg, u8 value)
+> > +{
+> > +	writeb((reg & 0x7f), IP30_RTC_ADDR(rtc));
+> > +	writeb(value, IP30_RTC_DATA(rtc));
+> > +}
+> 
+> Why is this not in the RTC driver?
 
-I tried putting you on CC list there, did you not get them?
+because rtc1685 is used in different systems and accessing the chip
+differs between those systems. 
 
-Thanks.
+> > +static struct ds1685_rtc_platform_data ip30_rtc_platform_data = {
+> > +	.bcd_mode = false,
+> > +	.no_irq = false,
+> > +	.uie_unsupported = true,
+> > +	.alloc_io_resources = true,
+> 
+> > +	.plat_read = ip30_rtc_read,
+> > +	.plat_write = ip30_rtc_write,
+> 
+> Call-backs in a non-subsystem API is pretty ugly IMHO.
+
+I agree
+
+> Where are these called from?
+
+drivers/rtc/rtc-ds1685.c
+
+I could do the same as done for serial8250 and add an additional .c file
+in  drivers/rtc which handles this for SGI-IP30. Alexandre would this work
+for you as well ?
+
+> > +#define IOC3_SID(_name, _sid, _setup) \
+> > +	{								   \
+> > +		.name = _name,						   \
+> > +		.sid = (PCI_VENDOR_ID_SGI << 16) | IOC3_SUBSYS_ ## _sid,   \
+> > +		.setup = _setup,					   \
+> > +	}
+> > +
+> > +static struct {
+> > +	const char *name;
+> > +	u32 sid;
+> > +	int (*setup)(struct ioc3_priv_data *ipd);
+> > +} ioc3_infos[] = {
+> 
+> IMHO it's neater if you separate the definition and static data part.
+
+I don't quite understand what you mean here. Should I move the #define at
+the beginning of the file ? Why is it neater ?
+
+Thomas.
 
 -- 
-Dmitry
+SUSE Linux GmbH
+GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG Nürnberg)
