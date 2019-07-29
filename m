@@ -2,122 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF75479356
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 20:46:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B13987937F
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 21:01:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387555AbfG2SqA convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Mon, 29 Jul 2019 14:46:00 -0400
-Received: from mx2.suse.de ([195.135.220.15]:54436 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2387512AbfG2SqA (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Jul 2019 14:46:00 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 2C7F0AE62;
-        Mon, 29 Jul 2019 18:45:58 +0000 (UTC)
-Date:   Mon, 29 Jul 2019 20:45:57 +0200
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
+        id S1728458AbfG2TBT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Jul 2019 15:01:19 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:32770 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727089AbfG2TBT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 29 Jul 2019 15:01:19 -0400
+Received: by mail-pg1-f196.google.com with SMTP id f20so19482400pgj.0
+        for <linux-input@vger.kernel.org>; Mon, 29 Jul 2019 12:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=vBEQwBpZz0slQDA7+pzq8jYSF7xKAg3j19GwTBC3tOY=;
+        b=Ak1i10lVM+rFx8CY30gm113L7107u5QvfP6RvbYrQ11GwRn0nx+BGVldMrQSf+58Ac
+         JSsITzrH4pPChEQnAAx8FoqkQRf6WusvXfZEHFifBv03QPE/VTNjjpzQevGM2nUltzmZ
+         nvKgrfowRIMzJZq4TrbRQRy438WDtET4dvIt34n+npWxJsdJTP5aiVMEmbwjGFRZbG10
+         XKki2GE7dfKTEGKXBZLiYh0pywH+pn18dKxAiL+PfH62cqxENr4usNRyHh0EFfpDa1ZW
+         AlL/LlNwRTeV7HykRq44f70BVnmk/55eveViaYzd9XuwowcnhIPU2P0vunhxTHJHaPKK
+         Mj6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=vBEQwBpZz0slQDA7+pzq8jYSF7xKAg3j19GwTBC3tOY=;
+        b=F9SE35AjlmTvpkx9Whh7IzNNP7s020ALrpizFfcBJFwaPT4Uerc3LSkXQ3HJU0GDic
+         wFh3dM6M6xc836zMtJ5xtOstBS7IjZDucj5N3rutivFJEZTrimbW9nHksCS3IyQJ7nDU
+         B3uBHaJsP+MxPHiME0+TCDxTeVfUsXg9rcNtiT+MyAg0X53QeP4zDUpfa6bp/iRFQtql
+         mK8C1x/J3m7QL5m4NFmIfNwgya/HhSM6ST7zm+u9mgxtmGCHGkHc927L1H7Oes0sLX0n
+         X7aY1ZvUSmP+rJEPIzCiiaLj6qK79Kutq3In/8/vbC65sn5hoUs5+y+GIDJLJMNR1pHm
+         k3FQ==
+X-Gm-Message-State: APjAAAW6vnm/a+GXB+MilBkfs/5Vh7VKtF5FjM4LnGUQEO+GKDnTMHbw
+        vHoR6YTH76YmNLrxVVzrENsdUA==
+X-Google-Smtp-Source: APXvYqyr3abG5qjlbn/aT3Wi43wcnchl7owWaLT3yrQK9IwqgmSMolqGcYfafX9Q25JfCk3XXba5ug==
+X-Received: by 2002:a62:3883:: with SMTP id f125mr38341180pfa.258.1564426877895;
+        Mon, 29 Jul 2019 12:01:17 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:bc61:d85d:eb16:9036])
+        by smtp.gmail.com with ESMTPSA id i14sm96813536pfk.0.2019.07.29.12.01.16
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 29 Jul 2019 12:01:16 -0700 (PDT)
+Date:   Mon, 29 Jul 2019 12:01:11 -0700
+From:   Benson Leung <bleung@google.com>
+To:     Olivier Gay <ogay@logitech.com>
+Cc:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, linux-mips@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org
-Subject: Re: [PATCH v3 5/7] mfd: ioc3: Add driver for SGI IOC3 chip
-Message-Id: <20190729204557.468db2153efefda96dd41ec0@suse.de>
-In-Reply-To: <20190725114716.GB23883@dell>
-References: <20190613170636.6647-1-tbogendoerfer@suse.de>
-        <20190613170636.6647-6-tbogendoerfer@suse.de>
-        <20190725114716.GB23883@dell>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8BIT
+        Nestor Lopez <nlopezcasad@logitech.com>, bleung@google.com,
+        bleung@chromium.org
+Subject: Re: [PATCH] HID: logitech-dj: extend consumer usages range
+Message-ID: <20190729190111.GB24254@google.com>
+References: <20190729172152.4874-1-ogay@logitech.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="TRYliJ5NKNqkz5bu"
+Content-Disposition: inline
+In-Reply-To: <20190729172152.4874-1-ogay@logitech.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 25 Jul 2019 12:47:16 +0100
-Lee Jones <lee.jones@linaro.org> wrote:
 
-> On Thu, 13 Jun 2019, Thomas Bogendoerfer wrote:
-> > +/*
-> > + * On IP30 the RTC (a DS1687) is behind the IOC3 on the generic
-> > + * ByteBus regions. We have to write the RTC address of interest to
-> > + * IOC3_BYTEBUS_DEV1, then read the data from IOC3_BYTEBUS_DEV2.
-> > + * rtc->regs already points to IOC3_BYTEBUS_DEV1.
-> > + */
-> > +#define IP30_RTC_ADDR(rtc) (rtc->regs)
-> > +#define IP30_RTC_DATA(rtc) ((rtc->regs) + IOC3_BYTEBUS_DEV2 - IOC3_BYTEBUS_DEV1)
-> > +
-> > +static u8 ip30_rtc_read(struct ds1685_priv *rtc, int reg)
-> > +{
-> > +	writeb((reg & 0x7f), IP30_RTC_ADDR(rtc));
-> > +	return readb(IP30_RTC_DATA(rtc));
-> > +}
-> > +
-> > +static void ip30_rtc_write(struct ds1685_priv *rtc, int reg, u8 value)
-> > +{
-> > +	writeb((reg & 0x7f), IP30_RTC_ADDR(rtc));
-> > +	writeb(value, IP30_RTC_DATA(rtc));
-> > +}
-> 
-> Why is this not in the RTC driver?
+--TRYliJ5NKNqkz5bu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-because rtc1685 is used in different systems and accessing the chip
-differs between those systems. 
+Hi Oliver,
 
-> > +static struct ds1685_rtc_platform_data ip30_rtc_platform_data = {
-> > +	.bcd_mode = false,
-> > +	.no_irq = false,
-> > +	.uie_unsupported = true,
-> > +	.alloc_io_resources = true,
-> 
-> > +	.plat_read = ip30_rtc_read,
-> > +	.plat_write = ip30_rtc_write,
-> 
-> Call-backs in a non-subsystem API is pretty ugly IMHO.
+On Mon, Jul 29, 2019 at 07:21:52PM +0200, Olivier Gay wrote:
+> Extend the range of usage codes in the consumer page descriptor of
+> the driver. Some Logitech HID devices send usages in that upper range.
+>=20
+> Signed-off-by: Olivier Gay <ogay@logitech.com>
 
-I agree
+Tested-by: Benson Leung <bleung@chromium.org>
 
-> Where are these called from?
+Patch works for me on my sample when picked to the chromeos-kernel.
 
-drivers/rtc/rtc-ds1685.c
+Thanks!
+Benson
 
-I could do the same as done for serial8250 and add an additional .c file
-in  drivers/rtc which handles this for SGI-IP30. Alexandre would this work
-for you as well ?
+> ---
+>  drivers/hid/hid-logitech-dj.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+> index 6196217a7d93..0e058ddb8e1c 100644
+> --- a/drivers/hid/hid-logitech-dj.c
+> +++ b/drivers/hid/hid-logitech-dj.c
+> @@ -380,9 +380,9 @@ static const char consumer_descriptor[] =3D {
+>  	0x75, 0x10,		/* REPORT_SIZE (16)                    */
+>  	0x95, 0x02,		/* REPORT_COUNT (2)                    */
+>  	0x15, 0x01,		/* LOGICAL_MIN (1)                     */
+> -	0x26, 0x8C, 0x02,	/* LOGICAL_MAX (652)                   */
+> +	0x26, 0xFF, 0x02,	/* LOGICAL_MAX (767)                   */
+>  	0x19, 0x01,		/* USAGE_MIN (1)                       */
+> -	0x2A, 0x8C, 0x02,	/* USAGE_MAX (652)                     */
+> +	0x2A, 0xFF, 0x02,	/* USAGE_MAX (767)                     */
+>  	0x81, 0x00,		/* INPUT (Data Ary Abs)                */
+>  	0xC0,			/* END_COLLECTION                      */
+>  };				/*                                     */
+> --=20
+> 2.17.1
+>=20
 
-> > +#define IOC3_SID(_name, _sid, _setup) \
-> > +	{								   \
-> > +		.name = _name,						   \
-> > +		.sid = (PCI_VENDOR_ID_SGI << 16) | IOC3_SUBSYS_ ## _sid,   \
-> > +		.setup = _setup,					   \
-> > +	}
-> > +
-> > +static struct {
-> > +	const char *name;
-> > +	u32 sid;
-> > +	int (*setup)(struct ioc3_priv_data *ipd);
-> > +} ioc3_infos[] = {
-> 
-> IMHO it's neater if you separate the definition and static data part.
+--=20
+Benson Leung
+Staff Software Engineer
+Chrome OS Kernel
+Google Inc.
+bleung@google.com
+Chromium OS Project
+bleung@chromium.org
 
-I don't quite understand what you mean here. Should I move the #define at
-the beginning of the file ? Why is it neater ?
+--TRYliJ5NKNqkz5bu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thomas.
+-----BEGIN PGP SIGNATURE-----
 
--- 
-SUSE Linux GmbH
-GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG Nürnberg)
+iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCXT9CdwAKCRBzbaomhzOw
+wqW5AQDe864HyzJpoK13yCpLoErmE7YXhB0cws1I+EUJ+j3CswEAqWkXkkG9ZHTv
+vv62smvULFa6CcVPX0iGcj9yS4FIJwI=
+=7PK5
+-----END PGP SIGNATURE-----
+
+--TRYliJ5NKNqkz5bu--
