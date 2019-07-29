@@ -2,70 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66AC678856
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 11:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7BE178B5B
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 14:07:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726953AbfG2J0b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Jul 2019 05:26:31 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:44750 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726496AbfG2J0a (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Jul 2019 05:26:30 -0400
-Received: from 79.184.255.110.ipv4.supernova.orange.pl (79.184.255.110) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.275)
- id c2c855163dbc4f73; Mon, 29 Jul 2019 11:26:28 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
+        id S1728357AbfG2MHU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Jul 2019 08:07:20 -0400
+Received: from mga04.intel.com ([192.55.52.120]:38024 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728297AbfG2MHT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 29 Jul 2019 08:07:19 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Jul 2019 05:07:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,322,1559545200"; 
+   d="scan'208";a="190555061"
+Received: from kuha.fi.intel.com ([10.237.72.189])
+  by fmsmga001.fm.intel.com with SMTP; 29 Jul 2019 05:07:16 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 29 Jul 2019 15:07:15 +0300
+Date:   Mon, 29 Jul 2019 15:07:15 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
         "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Linux Input <linux-input@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
 Subject: Re: [PATCH 1/2] drivers: base: swnode: link devices to software nodes
-Date:   Mon, 29 Jul 2019 11:26:28 +0200
-Message-ID: <4416208.J65fGlVMeU@kreacher>
-In-Reply-To: <CACRpkdZxJZyQD4WZ68hSNGXtGS23hHDv=rrnu9oFmMN0oRNb2w@mail.gmail.com>
-References: <20190713075259.243565-1-dmitry.torokhov@gmail.com> <20190713075259.243565-2-dmitry.torokhov@gmail.com> <CACRpkdZxJZyQD4WZ68hSNGXtGS23hHDv=rrnu9oFmMN0oRNb2w@mail.gmail.com>
+Message-ID: <20190729120715.GA28600@kuha.fi.intel.com>
+References: <20190713075259.243565-1-dmitry.torokhov@gmail.com>
+ <20190713075259.243565-2-dmitry.torokhov@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190713075259.243565-2-dmitry.torokhov@gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Monday, July 29, 2019 12:11:41 AM CEST Linus Walleij wrote:
-> On Sat, Jul 13, 2019 at 9:53 AM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
+On Sat, Jul 13, 2019 at 12:52:58AM -0700, Dmitry Torokhov wrote:
+> It is helpful to know what device, if any, a software node is tied to, so
+> let's store a pointer to the device in software node structure. Note that
+> children software nodes will inherit their parent's device pointer, so we
+> do not have to traverse hierarchy to see what device the [sub]tree belongs
+> to.
 > 
-> > It is helpful to know what device, if any, a software node is tied to, so
-> > let's store a pointer to the device in software node structure. Note that
-> > children software nodes will inherit their parent's device pointer, so we
-> > do not have to traverse hierarchy to see what device the [sub]tree belongs
-> > to.
-> >
-> > We will be using the device pointer to locate GPIO lookup tables for
-> > devices with static properties.
-> >
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> We will be using the device pointer to locate GPIO lookup tables for
+> devices with static properties.
 > 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  drivers/base/property.c  |  1 +
+>  drivers/base/swnode.c    | 35 ++++++++++++++++++++++++++++++++++-
+>  include/linux/property.h |  5 +++++
+>  3 files changed, 40 insertions(+), 1 deletion(-)
 > 
-> If some device core person like Rafael and/or Greg can ACK it I can
-> apply this patch to the GPIO tree.
+> diff --git a/drivers/base/property.c b/drivers/base/property.c
+> index 348b37e64944..3bc93d4b35c4 100644
+> --- a/drivers/base/property.c
+> +++ b/drivers/base/property.c
+> @@ -527,6 +527,7 @@ int device_add_properties(struct device *dev,
+>  	if (IS_ERR(fwnode))
+>  		return PTR_ERR(fwnode);
+>  
+> +	software_node_link_device(fwnode, dev);
+>  	set_secondary_fwnode(dev, fwnode);
+>  	return 0;
+>  }
+> diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+> index 7fc5a18e02ad..fd12eea539b6 100644
+> --- a/drivers/base/swnode.c
+> +++ b/drivers/base/swnode.c
+> @@ -24,6 +24,9 @@ struct software_node {
+>  
+>  	/* properties */
+>  	const struct property_entry *properties;
+> +
+> +	/* device this node is associated with */
+> +	struct device *dev;
+>  };
 
-I don't have any concerns regarding this, so please feel free to add
+Let's not do that! The nodes can be, and in many cases are, associated
+with multiple devices.
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-
-to the commit when you apply it.
-
-Thanks!
-
+Every device is already linked with the software node kobject, so
+isn't it possible to simply walk trough those links in order to check
+the devices associated with the node?
 
 
+thanks,
+
+-- 
+heikki
