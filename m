@@ -2,110 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB9877A86E
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2019 14:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DD8D7A8C9
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2019 14:39:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727797AbfG3M2I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Jul 2019 08:28:08 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:35565 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728361AbfG3M2H (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Jul 2019 08:28:07 -0400
-Received: by mail-io1-f71.google.com with SMTP id w17so71308480iom.2
-        for <linux-input@vger.kernel.org>; Tue, 30 Jul 2019 05:28:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=UF+ZT7hkzsQOSIm9ZfReLBGT0sRMnBnJ9BkNk0fgMtk=;
-        b=pzOK+AlVslOq3FrUovEq8ec4l4Tk5Z08TAZGUAdo2S4TJf8wiJgWgPUuahKFm6iFDA
-         VSjuSY5vEDunYmzFnOh96drkIBmx+MpajBiVyjd7O6pDlRiupgsGFMRYIpv+16g2QLAa
-         69qIqSZupYbKLqwC5Ui7zUF7fLmx7bWmgKjm2qXCZH03GxRIQhqQfbEUyZam6SXYPDjI
-         KK7gM+klwufnPLLXc9JDSbms7IVXJzH2z6ERTy4x4Y9pMJXQiS5e2N8zgiq8D6u7+Qgn
-         nlw9d7JkK4oQObKxUmz84syXuzRDK39r5pKLJDUvCHtsGbi3bwNGIJb8/ynrTTELnwVn
-         GOFg==
-X-Gm-Message-State: APjAAAUPP0j5bp8gRoU1BXVe83xzUi+ocOMcu/5LhbSuOaNtIXHvWvh2
-        wnpVKOxj5aH548T4k6PGooZdfahW+mP9/+IvtJqPUoJfLJQa
-X-Google-Smtp-Source: APXvYqwylNdmLYou55ilmwLxDi//dWkQA/2GdAbuEf8sWkR2fpjRhH0kg4zKEtf78oXPD6M0flpqNynFwWxuxZd0tmIROr31LSch
+        id S1729651AbfG3Mjb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Jul 2019 08:39:31 -0400
+Received: from mga05.intel.com ([192.55.52.43]:10807 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729579AbfG3Mjb (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 30 Jul 2019 08:39:31 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Jul 2019 05:39:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,326,1559545200"; 
+   d="scan'208";a="195783793"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.145])
+  by fmsmga004.fm.intel.com with ESMTP; 30 Jul 2019 05:39:29 -0700
+Received: from andy by smile with local (Exim 4.92)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1hsRPb-0003Pd-RD; Tue, 30 Jul 2019 15:39:27 +0300
+Date:   Tue, 30 Jul 2019 15:39:27 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     "Life is hard, and then you die" <ronald@innovation.ch>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mao Wenan <maowenan@huawei.com>,
+        Federico Lorenzi <federico@travelground.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Input: applespi - register touchpad device
+ synchronously in probe
+Message-ID: <20190730123927.GN23480@smile.fi.intel.com>
+References: <20190721070523.24695-1-ronald@innovation.ch>
+ <20190729132203.GB1201@penguin>
+ <20190730065648.GA20206@innovation.ch>
 MIME-Version: 1.0
-X-Received: by 2002:a02:aa1d:: with SMTP id r29mr48117747jam.127.1564489687097;
- Tue, 30 Jul 2019 05:28:07 -0700 (PDT)
-Date:   Tue, 30 Jul 2019 05:28:07 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000000de921058ee524e1@google.com>
-Subject: KASAN: user-memory-access Read in hidraw_ioctl
-From:   syzbot <syzbot+5a8c44432a51154ff6d5@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
-        jikos@kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190730065648.GA20206@innovation.ch>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+On Mon, Jul 29, 2019 at 11:56:48PM -0700, Life is hard, and then you die wrote:
+> On Mon, Jul 29, 2019 at 03:22:03PM +0200, Dmitry Torokhov wrote:
+> > On Sun, Jul 21, 2019 at 12:05:23AM -0700, Ronald Tschalär wrote:
 
-syzbot found the following crash on:
+> > Question: is it possible to read command response synchronously as well?
+> > I.e. I was wondering if we could add 2 (or 1?) more read xfers for the
+> > actual result that is coming after the status response, and then we
+> > could use spi_sync() to send the command and read the whole thing.
+> 
+> Yes'ish. But you still need to wait for the GPE to know when to read
+> the response, and while you're doing so any number of keyboard and
+> trackpad events may arrive (i.e. you may need to do any number of read
+> xfers). I suppose those events could all just be discarded, though. So
+> something like this:
+> 
+>     assemble-info-cmd(write_msg)
 
-HEAD commit:    7f7867ff usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=13c21ab4600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=792eb47789f57810
-dashboard link: https://syzkaller.appspot.com/bug?extid=5a8c44432a51154ff6d5
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+>     spi_sync(write_msg)
+>     
+>     while (1) {
+>         wait_event_timeout(wait_queue, gpe_received, timeout)
+>         spi_sync(read_msg)
+>         if (is-info-cmd-response(read_msg))
+>             break
+>     }
 
-Unfortunately, I don't have any reproducer for this crash yet.
+Just a side note if you ever going to implement such loops.
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+5a8c44432a51154ff6d5@syzkaller.appspotmail.com
+Consider in this or similar case do {} while approach with more straight exit
+conditional.
 
-==================================================================
-BUG: KASAN: user-memory-access in _copy_to_user+0x124/0x150  
-lib/usercopy.c:27
-Read of size 148 at addr 0000100000000000 by task syz-executor.2/19576
+Like
 
-CPU: 1 PID: 19576 Comm: syz-executor.2 Not tainted 5.3.0-rc2+ #23
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  __kasan_report.cold+0x5/0x33 mm/kasan/report.c:486
-  kasan_report+0xe/0x12 mm/kasan/common.c:612
-  check_memory_region_inline mm/kasan/generic.c:185 [inline]
-  check_memory_region+0x128/0x190 mm/kasan/generic.c:192
-  _copy_to_user+0x124/0x150 lib/usercopy.c:27
-  copy_to_user include/linux/uaccess.h:152 [inline]
-  hidraw_ioctl+0x39c/0xae0 drivers/hid/hidraw.c:392
-  vfs_ioctl fs/ioctl.c:46 [inline]
-  file_ioctl fs/ioctl.c:509 [inline]
-  do_vfs_ioctl+0xd2d/0x1330 fs/ioctl.c:696
-  ksys_ioctl+0x9b/0xc0 fs/ioctl.c:713
-  __do_sys_ioctl fs/ioctl.c:720 [inline]
-  __se_sys_ioctl fs/ioctl.c:718 [inline]
-  __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:718
-  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x459829
-Code: fd b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
-48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 cb b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007f6587cfbc78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000459829
-RDX: 0000000020005640 RSI: 0000000090044802 RDI: 0000000000000004
-RBP: 000000000075c070 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6587cfc6d4
-R13: 00000000004c21db R14: 00000000004d5540 R15: 00000000ffffffff
-==================================================================
+	assemble-info-cmd(write_msg)
+
+	do {
+		spi_sync(read_msg)
+		wait_event_timeout(wait_queue, gpe_received, timeout)
+	} while (!is-info-cmd-response(read_msg)
+
+> and also modify the gpe-handler to wake the wait_queue instead of
+> issuing an spy_async() while doing the above.
+> 
+> I guess the advantage would certainly be the need to avoid the
+> spi-flushing in case of a timeout, at the expense of some slight
+> duplication of some of the received-message handling logic (would
+> refactor make most re-usable, of course).
+> 
+> So would this be the preferred approach then?
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
