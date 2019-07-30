@@ -2,44 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C742E7A180
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2019 08:56:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 210507A18B
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2019 09:01:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728215AbfG3G4t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Jul 2019 02:56:49 -0400
-Received: from chill.innovation.ch ([216.218.245.220]:57120 "EHLO
+        id S1729392AbfG3HBS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Jul 2019 03:01:18 -0400
+Received: from chill.innovation.ch ([216.218.245.220]:57186 "EHLO
         chill.innovation.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728123AbfG3G4t (ORCPT
+        with ESMTP id S1729357AbfG3HBS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Jul 2019 02:56:49 -0400
-Date:   Mon, 29 Jul 2019 23:56:48 -0700
-DKIM-Filter: OpenDKIM Filter v2.10.3 chill.innovation.ch 600D3640134
+        Tue, 30 Jul 2019 03:01:18 -0400
+Date:   Tue, 30 Jul 2019 00:01:17 -0700
+DKIM-Filter: OpenDKIM Filter v2.10.3 chill.innovation.ch B809F640134
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innovation.ch;
-        s=default; t=1564469808;
-        bh=Od2NAmDDJDdKzTDbZFvssSbYkExTHaj6TafsL+/oUOU=;
+        s=default; t=1564470077;
+        bh=odb/ex7qOOtzc025BL4OpTK8RF6DI6yzZ3QasbAko7M=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DjuNVMhMu7SHWoeMq6zE0i6PG8YYfxRz+7wFUy73qJh8QhtnrtfzovnCMHrjm2yKz
-         AKrtNOELoUzReoYWHxEEMFcgGwHWOzxYnfh0pDzlWV6rxPasKqMeGY5QXHWBOb7RiD
-         RdkLg4q6CTHyGwNwOCUtpcPmbk9g3wzcI0mdOGz/DRO4XP96TMCbdQdi1Jvy/IrG/1
-         naPhI9BGsWJvSXwcqvuyb9xew5IKkj+twXxdDT3xxfbLmzkBcSFzBbWiRoZ91MkGz2
-         yCuICdJUaUoS4U/08SxrnZsD86Qcdz7OtIbRPfsxhbKt0WpaJ/TmIx+qRj9cUsqlC1
-         3E5yYoM+KaSZQ==
+        b=DezN6DayzvMgu/0eVN8JKWYfm4qrm28k/brozTrH1P0fsv3tn3MSa7NaSubIEwMBQ
+         +D+X7IUoEfacU9ERnhifzW/WVvNH37126TwbQWeV0+oBjAVz7aG02XXybJ+6wpZfWm
+         FfDNHjl3+ZfPQZV6F7IyXH7ZWtQw0nuRq7uyUo1qAmlqoW8aY9QTqi+95haW68kUY7
+         bDETWtheGhyCZs5ByJTaU3DnkRBv+8bWpphBIhWd5FptidkrJ2EwgDz+1GwBbu/DBC
+         fZ8O6/AoG6bP3J+KwEsHnBJDnvIVaMOeHBIMPcAkSCaqtzC3uC6EQwgVj/0/tg9Rxe
+         5sWhYQRjbgiBw==
 From:   "Life is hard, and then you die" <ronald@innovation.ch>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mao Wenan <maowenan@huawei.com>,
-        Federico Lorenzi <federico@travelground.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Input: applespi - register touchpad device
- synchronously in probe
-Message-ID: <20190730065648.GA20206@innovation.ch>
-References: <20190721070523.24695-1-ronald@innovation.ch>
- <20190729132203.GB1201@penguin>
+Cc:     YueHaibing <yuehaibing@huawei.com>, nikolas@gnu.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: applespi - Fix build error
+Message-ID: <20190730070117.GB20206@innovation.ch>
+References: <20190729031455.59400-1-yuehaibing@huawei.com>
+ <20190729140438.GA2372@penguin>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190729132203.GB1201@penguin>
+In-Reply-To: <20190729140438.GA2372@penguin>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
@@ -47,52 +43,23 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
-  Hi Dmitry,
-
-On Mon, Jul 29, 2019 at 03:22:03PM +0200, Dmitry Torokhov wrote:
-> Hi Ronald,
-> 
-> On Sun, Jul 21, 2019 at 12:05:23AM -0700, Ronald Tschalär wrote:
-> > This allows errors during registration to properly fail the probe
-> > function.
+On Mon, Jul 29, 2019 at 04:04:38PM +0200, Dmitry Torokhov wrote:
+> On Mon, Jul 29, 2019 at 11:14:55AM +0800, YueHaibing wrote:
+> > If CONFIG_KEYBOARD_APPLESPI=y but CONFIG_LEDS_CLASS=m
+> > building fails:
 > > 
-> > Doing this requires waiting for a response from the device inside the
-> > probe function. While this generally takes about 15ms, in case of errors
-> > it could be arbitrarily long, and hence a 3 second timeout is used.
+> > drivers/input/keyboard/applespi.o: In function `applespi_probe':
+> > applespi.c:(.text+0x1fcd): undefined reference to `devm_led_classdev_register_ext'
 > > 
-> > This also adds 3 second timeouts to the drain functions to avoid the
-> > potential for suspend or remove hanging forever.
+> > Wrap it in LEDS_CLASS macro to fix this.
 > 
-> Question: is it possible to read command response synchronously as well?
-> I.e. I was wondering if we could add 2 (or 1?) more read xfers for the
-> actual result that is coming after the status response, and then we
-> could use spi_sync() to send the command and read the whole thing.
+> No, we should add "depends on LEDS_CLASS" to the Konfig instead.
 
-Yes'ish. But you still need to wait for the GPE to know when to read
-the response, and while you're doing so any number of keyboard and
-trackpad events may arrive (i.e. you may need to do any number of read
-xfers). I suppose those events could all just be discarded, though. So
-something like this:
-
-    assemble-info-cmd(write_msg)
-    spi_sync(write_msg)
-    
-    while (1) {
-        wait_event_timeout(wait_queue, gpe_received, timeout)
-        spi_sync(read_msg)
-        if (is-info-cmd-response(read_msg))
-            break
-    }
-
-and also modify the gpe-handler to wake the wait_queue instead of
-issuing an spy_async() while doing the above.
-
-I guess the advantage would certainly be the need to avoid the
-spi-flushing in case of a timeout, at the expense of some slight
-duplication of some of the received-message handling logic (would
-refactor make most re-usable, of course).
-
-So would this be the preferred approach then?
+While the loss of keyboard-backlight functionality is certainly not
+critical, in practice when building a kernel for desktops/laptops
+(i.e. where this module would be used) I see no real reason why you'd
+not have/want LEDS_CLASS enabled. So I'd agree with Dmitry that a
+Kconfig depends-on is probably the preferred approach.
 
 
   Cheers,
