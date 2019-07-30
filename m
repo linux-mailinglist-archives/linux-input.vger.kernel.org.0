@@ -2,54 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4776C7A08C
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2019 07:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C3E67A091
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2019 07:50:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726714AbfG3Fs5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Jul 2019 01:48:57 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:36326 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726197AbfG3Fs5 (ORCPT
+        id S1727527AbfG3Fu1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Jul 2019 01:50:27 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:36453 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726125AbfG3Fu1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Jul 2019 01:48:57 -0400
-Received: by mail-qt1-f195.google.com with SMTP id z4so61929388qtc.3
-        for <linux-input@vger.kernel.org>; Mon, 29 Jul 2019 22:48:56 -0700 (PDT)
+        Tue, 30 Jul 2019 01:50:27 -0400
+Received: by mail-qk1-f193.google.com with SMTP id g18so45748425qkl.3
+        for <linux-input@vger.kernel.org>; Mon, 29 Jul 2019 22:50:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:from:date:message-id:subject:to:cc;
-        bh=ZRrxLFcJSx1mAaERX2WRz713PxEAVuzRSDIX8aGn1Lc=;
-        b=bjgd4558oLSdTOIGYCnLAaMSPAoVYso1UwVqHCD0u29xH4DRf0uz1U04xlXv0XYLVh
-         ej+09lbHMfyzdodbDMP6F3fErqo62XxFLmHClxWk/Pu6d7ZurQbu+XZv7qQ2ycp222W5
-         8mB5kpX9FXi+p34it5sy3OUUnwt7A4LX3LuW/HJEq6hgDvk+plz1vgLSioiaPd0fPrFl
-         y4T7L8OqAKyi/Oi7RTfg4lGMA78HaVNfp2ZTllA+cR3gBygF4Dh5PC3YrZecX8HpeU6q
-         35pN8kb7qSvv6sdY4IBoMf2jDq7UgQrujxsSWoV3eddXYv9eajmWhw3yD7YECwGhVioI
-         0WpQ==
+        bh=njDeEmEYzLCu9l9YoO7jozZWHOgCi3fHHh3QfX6CFOc=;
+        b=taxN5OwQMgAeZ7sIdKr796wgkgyrmsLyZFnHAPNhgbajS9qft62aECFBWGYR0/XRzG
+         esVg8sKd7m6GMZ/heAo3kO/9IUAHlZ/g3/FfBm2xtkucUVhS47XbsjoogWDeNSOWyQAb
+         SqfYSzyOC78RPulhZHAxkJN3Gc/hz+eEJad/9TaJhOOAHOu3W5pYMx39wblK1lnxVZea
+         KBxLvxL42ioAYHBgoNaq7GMpsBsuUSK2CI8ZjahXpUM+wgEZT6CeoOaM/3tZFp/PSlGL
+         kufN4khY2r0rKjq6gJfMkV6SzKeljyekH4V2MkdPq2M8hHAl7HGi9UsRvI0aOq/D5/ah
+         KZ7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=ZRrxLFcJSx1mAaERX2WRz713PxEAVuzRSDIX8aGn1Lc=;
-        b=iEFAzsrSkG6iTtyeVIH3EplvfROdZkT7LA/+jpw2dE5D/HqQPxJvK6OHVb3dLuvF1m
-         XEgrY/Jxk3y6s6EhMjNIHp/ZhfqjmaF4YCDyB2GV5HlkdrhlOke0n+ou96hROQw+DjiI
-         NtlrY0WCbg9l8jRgM+GGi0jxeDtRXqUwsD98KrJyVBhgvPFMVdcW4u+k1ESm5KA3a/HE
-         bsCbT9Jnh4wxAgzcaNRy6++ZUaRM5YZp2PWEmT0yKXVNjT4L9f0rBY2NwnKUDgwwIi31
-         mn/998jAO+Y0M6y+jUsiJjP2Dru1labMMG3/3QUyzBdpKk7J9tXKeTcNSWLzUUXDGIDA
-         g9mA==
-X-Gm-Message-State: APjAAAXFNJJJaSTKglJ3PVAFjNGS+E2o58O/AYXBQwktuOJpQJ+QV4dB
-        45fHbr9Aj25bbXq5dIovbCXH5UhTQ5A5BLaqykk=
-X-Google-Smtp-Source: APXvYqwR4C1JvIgrEQdRCagjl9DZG/Q+7fY0ljhC+G9dzMKxONsqIJ9MldyKChCG1P6/lvSu65/mLWdCrJT+ZdXivmg=
-X-Received: by 2002:ac8:19ac:: with SMTP id u41mr78227136qtj.46.1564465736308;
- Mon, 29 Jul 2019 22:48:56 -0700 (PDT)
+        bh=njDeEmEYzLCu9l9YoO7jozZWHOgCi3fHHh3QfX6CFOc=;
+        b=BS71DzYfK4KS3BMTdrvjG0eDZWUu2okMU8BT2EzjaEMKxOYKDHUG/V+bd8AV8+TeN0
+         eW2/9x+VG0YDgPS0Ry15nWBvuS6W4BigQebv9v9E7lFJrOpNvKmR9t0WcBXTIvVpkRYQ
+         611Dmi596f9N+CXkx5HFCJmd98RHq9j9NKhsxRk8gvQm4baHL9LnHcy2Vc8VvdWkf1I6
+         kD+hAUiWz5Bl8YDz6vXKjKNGKa4Vh8znil81Sz7vA/BzE6Eks772hs7RQY2A4Y3PdPOZ
+         frpgobGVWNKzQ1ujDiqk3eUM/1xByDARu8X9worF1rx3OcJuYr60soFIu+CZgYFbkyyC
+         deJw==
+X-Gm-Message-State: APjAAAWW/enAGyyVgfN8mr2GB13n0/S4lwO81aLYifkQ3ik2IQ7GX3CV
+        tBbyYxTPMYjGuviHser6DAg/me0T+mqUBZ3B718=
+X-Google-Smtp-Source: APXvYqwp8hXqa2zgXgow+tsrnmJqee5RnDwoCb4Uk0C3AJi/RhR+QPotKN50zQbg7KWjsFzdEvNAKoTc6Pbj4fhC9Tk=
+X-Received: by 2002:ae9:ea17:: with SMTP id f23mr55879628qkg.236.1564465826187;
+ Mon, 29 Jul 2019 22:50:26 -0700 (PDT)
 MIME-Version: 1.0
 From:   Roderick Colenbrander <thunderbird2k@gmail.com>
-Date:   Mon, 29 Jul 2019 22:48:45 -0700
-Message-ID: <CAEc3jaBX6jVCNCc=g-EvuO4Z2FPz0=QV0O0P0enr0woFx6drVA@mail.gmail.com>
-Subject: 
+Date:   Mon, 29 Jul 2019 22:50:15 -0700
+Message-ID: <CAEc3jaC0yJF7oYs1TK_zcrQ6_Er5sSBD41feC8GEjpDsBs9iLA@mail.gmail.com>
+Subject: hid-sony kernel crash
 To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Jiri Kosina <jikos@kernel.org>
 Cc:     linux-input <linux-input@vger.kernel.org>, svv@google.com,
         "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
-        Hanno Zulla <abos@hanno.de>,
-        "Colenbrander, Roelof" <roderick.colenbrander@sony.com>
+        Hanno Zulla <abos@hanno.de>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
@@ -63,16 +62,14 @@ disconnecting a controller (DS4 or DS3) while rumble is ongoing. We
 think we understand the failure mechanism, but there are a few gaps in
 our understanding. We would like to confirm our understanding before
 we prepare a patch. The issue is quite urgent for us as it affects not
-just desktop Linux, but other platforms in particular Android.
+just desktop Linux, but in particular Android.
 
 Valve originally reported the issue on Ubuntu 18.04 using 4.15 kernel.
-They can produce it about 1 in 3 times during Borderlands 2 in a
-certain area with an automatic weapon which apparently generates many
-rumble events. We managed to reproduce it ourselves on this kernel,
-but not on 4.19 or newer kernels. We believe it got fixed or "hidden"
-in newer kernels (will explain more). We suspect fftest can also
-trigger the issue, haven't tried that just. The issue has likely been
-around since 3.19 kernels, but nobody uncovered until now.
+They can produce it about 1 in 3 times during Borderlands 2. We
+managed to reproduce it ourselves on this kernel, but not on 4.19 or
+newer kernels. We believe it got fixed or "hidden" in newer kernels
+(will explain more). We suspect fftest can also trigger the issue,
+haven't tried that just.
 
 The hid-sony bug is a crash due to a NULL pointer exception in
 "dualshock4_send_output_report", which accesses output_report_dmabuf.
