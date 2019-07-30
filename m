@@ -2,134 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B13987937F
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2019 21:01:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4776C7A08C
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2019 07:48:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728458AbfG2TBT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Jul 2019 15:01:19 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:32770 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727089AbfG2TBT (ORCPT
+        id S1726714AbfG3Fs5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Jul 2019 01:48:57 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:36326 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726197AbfG3Fs5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Jul 2019 15:01:19 -0400
-Received: by mail-pg1-f196.google.com with SMTP id f20so19482400pgj.0
-        for <linux-input@vger.kernel.org>; Mon, 29 Jul 2019 12:01:19 -0700 (PDT)
+        Tue, 30 Jul 2019 01:48:57 -0400
+Received: by mail-qt1-f195.google.com with SMTP id z4so61929388qtc.3
+        for <linux-input@vger.kernel.org>; Mon, 29 Jul 2019 22:48:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=vBEQwBpZz0slQDA7+pzq8jYSF7xKAg3j19GwTBC3tOY=;
-        b=Ak1i10lVM+rFx8CY30gm113L7107u5QvfP6RvbYrQ11GwRn0nx+BGVldMrQSf+58Ac
-         JSsITzrH4pPChEQnAAx8FoqkQRf6WusvXfZEHFifBv03QPE/VTNjjpzQevGM2nUltzmZ
-         nvKgrfowRIMzJZq4TrbRQRy438WDtET4dvIt34n+npWxJsdJTP5aiVMEmbwjGFRZbG10
-         XKki2GE7dfKTEGKXBZLiYh0pywH+pn18dKxAiL+PfH62cqxENr4usNRyHh0EFfpDa1ZW
-         AlL/LlNwRTeV7HykRq44f70BVnmk/55eveViaYzd9XuwowcnhIPU2P0vunhxTHJHaPKK
-         Mj6g==
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=ZRrxLFcJSx1mAaERX2WRz713PxEAVuzRSDIX8aGn1Lc=;
+        b=bjgd4558oLSdTOIGYCnLAaMSPAoVYso1UwVqHCD0u29xH4DRf0uz1U04xlXv0XYLVh
+         ej+09lbHMfyzdodbDMP6F3fErqo62XxFLmHClxWk/Pu6d7ZurQbu+XZv7qQ2ycp222W5
+         8mB5kpX9FXi+p34it5sy3OUUnwt7A4LX3LuW/HJEq6hgDvk+plz1vgLSioiaPd0fPrFl
+         y4T7L8OqAKyi/Oi7RTfg4lGMA78HaVNfp2ZTllA+cR3gBygF4Dh5PC3YrZecX8HpeU6q
+         35pN8kb7qSvv6sdY4IBoMf2jDq7UgQrujxsSWoV3eddXYv9eajmWhw3yD7YECwGhVioI
+         0WpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vBEQwBpZz0slQDA7+pzq8jYSF7xKAg3j19GwTBC3tOY=;
-        b=F9SE35AjlmTvpkx9Whh7IzNNP7s020ALrpizFfcBJFwaPT4Uerc3LSkXQ3HJU0GDic
-         wFh3dM6M6xc836zMtJ5xtOstBS7IjZDucj5N3rutivFJEZTrimbW9nHksCS3IyQJ7nDU
-         B3uBHaJsP+MxPHiME0+TCDxTeVfUsXg9rcNtiT+MyAg0X53QeP4zDUpfa6bp/iRFQtql
-         mK8C1x/J3m7QL5m4NFmIfNwgya/HhSM6ST7zm+u9mgxtmGCHGkHc927L1H7Oes0sLX0n
-         X7aY1ZvUSmP+rJEPIzCiiaLj6qK79Kutq3In/8/vbC65sn5hoUs5+y+GIDJLJMNR1pHm
-         k3FQ==
-X-Gm-Message-State: APjAAAW6vnm/a+GXB+MilBkfs/5Vh7VKtF5FjM4LnGUQEO+GKDnTMHbw
-        vHoR6YTH76YmNLrxVVzrENsdUA==
-X-Google-Smtp-Source: APXvYqyr3abG5qjlbn/aT3Wi43wcnchl7owWaLT3yrQK9IwqgmSMolqGcYfafX9Q25JfCk3XXba5ug==
-X-Received: by 2002:a62:3883:: with SMTP id f125mr38341180pfa.258.1564426877895;
-        Mon, 29 Jul 2019 12:01:17 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:bc61:d85d:eb16:9036])
-        by smtp.gmail.com with ESMTPSA id i14sm96813536pfk.0.2019.07.29.12.01.16
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 29 Jul 2019 12:01:16 -0700 (PDT)
-Date:   Mon, 29 Jul 2019 12:01:11 -0700
-From:   Benson Leung <bleung@google.com>
-To:     Olivier Gay <ogay@logitech.com>
-Cc:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Nestor Lopez <nlopezcasad@logitech.com>, bleung@google.com,
-        bleung@chromium.org
-Subject: Re: [PATCH] HID: logitech-dj: extend consumer usages range
-Message-ID: <20190729190111.GB24254@google.com>
-References: <20190729172152.4874-1-ogay@logitech.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=ZRrxLFcJSx1mAaERX2WRz713PxEAVuzRSDIX8aGn1Lc=;
+        b=iEFAzsrSkG6iTtyeVIH3EplvfROdZkT7LA/+jpw2dE5D/HqQPxJvK6OHVb3dLuvF1m
+         XEgrY/Jxk3y6s6EhMjNIHp/ZhfqjmaF4YCDyB2GV5HlkdrhlOke0n+ou96hROQw+DjiI
+         NtlrY0WCbg9l8jRgM+GGi0jxeDtRXqUwsD98KrJyVBhgvPFMVdcW4u+k1ESm5KA3a/HE
+         bsCbT9Jnh4wxAgzcaNRy6++ZUaRM5YZp2PWEmT0yKXVNjT4L9f0rBY2NwnKUDgwwIi31
+         mn/998jAO+Y0M6y+jUsiJjP2Dru1labMMG3/3QUyzBdpKk7J9tXKeTcNSWLzUUXDGIDA
+         g9mA==
+X-Gm-Message-State: APjAAAXFNJJJaSTKglJ3PVAFjNGS+E2o58O/AYXBQwktuOJpQJ+QV4dB
+        45fHbr9Aj25bbXq5dIovbCXH5UhTQ5A5BLaqykk=
+X-Google-Smtp-Source: APXvYqwR4C1JvIgrEQdRCagjl9DZG/Q+7fY0ljhC+G9dzMKxONsqIJ9MldyKChCG1P6/lvSu65/mLWdCrJT+ZdXivmg=
+X-Received: by 2002:ac8:19ac:: with SMTP id u41mr78227136qtj.46.1564465736308;
+ Mon, 29 Jul 2019 22:48:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="TRYliJ5NKNqkz5bu"
-Content-Disposition: inline
-In-Reply-To: <20190729172152.4874-1-ogay@logitech.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Mon, 29 Jul 2019 22:48:45 -0700
+Message-ID: <CAEc3jaBX6jVCNCc=g-EvuO4Z2FPz0=QV0O0P0enr0woFx6drVA@mail.gmail.com>
+Subject: 
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     linux-input <linux-input@vger.kernel.org>, svv@google.com,
+        "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
+        Hanno Zulla <abos@hanno.de>,
+        "Colenbrander, Roelof" <roderick.colenbrander@sony.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Benjamin and Jiri,
 
---TRYliJ5NKNqkz5bu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Last week, Valve notified us of a kernel crash in hid-sony when
+disconnecting a controller (DS4 or DS3) while rumble is ongoing. We
+think we understand the failure mechanism, but there are a few gaps in
+our understanding. We would like to confirm our understanding before
+we prepare a patch. The issue is quite urgent for us as it affects not
+just desktop Linux, but other platforms in particular Android.
 
-Hi Oliver,
+Valve originally reported the issue on Ubuntu 18.04 using 4.15 kernel.
+They can produce it about 1 in 3 times during Borderlands 2 in a
+certain area with an automatic weapon which apparently generates many
+rumble events. We managed to reproduce it ourselves on this kernel,
+but not on 4.19 or newer kernels. We believe it got fixed or "hidden"
+in newer kernels (will explain more). We suspect fftest can also
+trigger the issue, haven't tried that just. The issue has likely been
+around since 3.19 kernels, but nobody uncovered until now.
 
-On Mon, Jul 29, 2019 at 07:21:52PM +0200, Olivier Gay wrote:
-> Extend the range of usage codes in the consumer page descriptor of
-> the driver. Some Logitech HID devices send usages in that upper range.
->=20
-> Signed-off-by: Olivier Gay <ogay@logitech.com>
+The hid-sony bug is a crash due to a NULL pointer exception in
+"dualshock4_send_output_report", which accesses output_report_dmabuf.
+The cause is likely a condition between
+"dualshock4_send_output_report" (or "sixaxis_send_output_report") and
+"sony_remove". The output_report call is used to queue work to the
+controller e.g. for rumble or LEDs. It can be called in parallel with
+"sony_remove" and what now seems AFTER "sony_remove" finishes (yikes).
 
-Tested-by: Benson Leung <bleung@chromium.org>
+The "sony_remove" call cleans up most of the device state, which is in
+"struct sony_sc". However the "struct sony_sc" (allocated using
+devm_kzalloc) will be around until the device object is finally
+removed. We suspect the evdev nodes will also be around for some time
+in the future. We are not sure on the timing on how long this takes,
+but we suspect this can take sufficiently long for a new
+"dualshock4_send_output_report" call to be triggered on a mostly
+cleaned up device. Does this sound like a good explanation?
 
-Patch works for me on my sample when picked to the chromeos-kernel.
+4.19 and newer kernels are not affected by the crash as Hanno moved
+allocation of "output_report_dmabuf" to leverage the devm_kmalloc API.
+The buffer is around until device destruction, so until after the
+evdev nodes are gone.
 
-Thanks!
-Benson
+We have 2 potential fixes in mind, but not sure what is best.
 
-> ---
->  drivers/hid/hid-logitech-dj.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-> index 6196217a7d93..0e058ddb8e1c 100644
-> --- a/drivers/hid/hid-logitech-dj.c
-> +++ b/drivers/hid/hid-logitech-dj.c
-> @@ -380,9 +380,9 @@ static const char consumer_descriptor[] =3D {
->  	0x75, 0x10,		/* REPORT_SIZE (16)                    */
->  	0x95, 0x02,		/* REPORT_COUNT (2)                    */
->  	0x15, 0x01,		/* LOGICAL_MIN (1)                     */
-> -	0x26, 0x8C, 0x02,	/* LOGICAL_MAX (652)                   */
-> +	0x26, 0xFF, 0x02,	/* LOGICAL_MAX (767)                   */
->  	0x19, 0x01,		/* USAGE_MIN (1)                       */
-> -	0x2A, 0x8C, 0x02,	/* USAGE_MAX (652)                     */
-> +	0x2A, 0xFF, 0x02,	/* USAGE_MAX (767)                     */
->  	0x81, 0x00,		/* INPUT (Data Ary Abs)                */
->  	0xC0,			/* END_COLLECTION                      */
->  };				/*                                     */
-> --=20
-> 2.17.1
->=20
+One option is to prevent "sony_schedule_work" from scheduling new
+output reports. There are some existing variables for that e.g.
+state_worker_initialized, which should be set to "0" e.g. by
+"sony_cancel_work_sync". This might be something nice for us to do
+anyway, but still leaves a "window".
 
---=20
-Benson Leung
-Staff Software Engineer
-Chrome OS Kernel
-Google Inc.
-bleung@google.com
-Chromium OS Project
-bleung@chromium.org
+The second option is maybe calling "input_ff_destroy" to remove FF
+capability from "sony_remove". I know the input framework does it for
+us as well, but apparently it does it "too late". On a sidenote, other
+drivers might need to do the same if they are sensitive to this "time
+window" race condition. Thoughts?
 
---TRYliJ5NKNqkz5bu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCXT9CdwAKCRBzbaomhzOw
-wqW5AQDe864HyzJpoK13yCpLoErmE7YXhB0cws1I+EUJ+j3CswEAqWkXkkG9ZHTv
-vv62smvULFa6CcVPX0iGcj9yS4FIJwI=
-=7PK5
------END PGP SIGNATURE-----
-
---TRYliJ5NKNqkz5bu--
+Thanks,
+Roderick
