@@ -2,136 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CBFE37A752
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2019 13:52:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A45B7A858
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2019 14:26:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727796AbfG3Lwv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Jul 2019 07:52:51 -0400
-Received: from mga03.intel.com ([134.134.136.65]:50252 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726078AbfG3Lwv (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Jul 2019 07:52:51 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Jul 2019 04:52:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,326,1559545200"; 
-   d="scan'208";a="190845479"
-Received: from kuha.fi.intel.com ([10.237.72.189])
-  by fmsmga001.fm.intel.com with SMTP; 30 Jul 2019 04:52:47 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 30 Jul 2019 14:52:47 +0300
-Date:   Tue, 30 Jul 2019 14:52:47 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH 1/2] drivers: base: swnode: link devices to software nodes
-Message-ID: <20190730115247.GK28600@kuha.fi.intel.com>
-References: <20190713075259.243565-1-dmitry.torokhov@gmail.com>
- <20190713075259.243565-2-dmitry.torokhov@gmail.com>
- <20190729120715.GA28600@kuha.fi.intel.com>
- <20190729131532.GA1201@penguin>
+        id S1728770AbfG3M0B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Jul 2019 08:26:01 -0400
+Received: from orion.archlinux.org ([88.198.91.70]:52584 "EHLO
+        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727617AbfG3M0B (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 30 Jul 2019 08:26:01 -0400
+Received: from orion.archlinux.org (localhost [127.0.0.1])
+        by orion.archlinux.org (Postfix) with ESMTP id 6D46E141B492A8;
+        Tue, 30 Jul 2019 12:25:58 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on orion
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
+        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
+        autolearn=no autolearn_force=no version=3.4.2
+X-Spam-BL-Results: 
+Received: from saetre.corp.logitech.com?044 (unknown [154.53.1.40])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ffy00)
+        by orion.archlinux.org (Postfix) with ESMTPSA;
+        Tue, 30 Jul 2019 12:25:58 +0000 (UTC)
+From:   =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
+Cc:     nlopezcasad@logitech.com,
+        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] hid-logitech-dj: add the new Lightspeed receiver
+Date:   Tue, 30 Jul 2019 13:24:57 +0100
+Message-Id: <20190730122458.5275-1-lains@archlinux.org>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190729131532.GA1201@penguin>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jul 29, 2019 at 03:15:32PM +0200, Dmitry Torokhov wrote:
-> On Mon, Jul 29, 2019 at 03:07:15PM +0300, Heikki Krogerus wrote:
-> > On Sat, Jul 13, 2019 at 12:52:58AM -0700, Dmitry Torokhov wrote:
-> > > It is helpful to know what device, if any, a software node is tied to, so
-> > > let's store a pointer to the device in software node structure. Note that
-> > > children software nodes will inherit their parent's device pointer, so we
-> > > do not have to traverse hierarchy to see what device the [sub]tree belongs
-> > > to.
-> > > 
-> > > We will be using the device pointer to locate GPIO lookup tables for
-> > > devices with static properties.
-> > > 
-> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > ---
-> > >  drivers/base/property.c  |  1 +
-> > >  drivers/base/swnode.c    | 35 ++++++++++++++++++++++++++++++++++-
-> > >  include/linux/property.h |  5 +++++
-> > >  3 files changed, 40 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/base/property.c b/drivers/base/property.c
-> > > index 348b37e64944..3bc93d4b35c4 100644
-> > > --- a/drivers/base/property.c
-> > > +++ b/drivers/base/property.c
-> > > @@ -527,6 +527,7 @@ int device_add_properties(struct device *dev,
-> > >  	if (IS_ERR(fwnode))
-> > >  		return PTR_ERR(fwnode);
-> > >  
-> > > +	software_node_link_device(fwnode, dev);
-> > >  	set_secondary_fwnode(dev, fwnode);
-> > >  	return 0;
-> > >  }
-> > > diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-> > > index 7fc5a18e02ad..fd12eea539b6 100644
-> > > --- a/drivers/base/swnode.c
-> > > +++ b/drivers/base/swnode.c
-> > > @@ -24,6 +24,9 @@ struct software_node {
-> > >  
-> > >  	/* properties */
-> > >  	const struct property_entry *properties;
-> > > +
-> > > +	/* device this node is associated with */
-> > > +	struct device *dev;
-> > >  };
-> > 
-> > Let's not do that! The nodes can be, and in many cases are, associated
-> > with multiple devices.
-> 
-> They do? Where? I see that set of properties can be shared between
-> several devices, but when we instantiate SW node we create a new
-> instance for device. This is also how ACPI and OF properties work; they
-> not shared between devices (or, rather, the kernel creates distinct _and
-> single_ devices for instance of ACPI or OF node). I do not think we want
-> swnodes work differently from the other firmware nodes.
+This patchs adds the new Lightspeed receiver. Currently it seems to only
+be used in the G305.
 
-Having multiple devices linked to a single node is quite normal. Most
-multifunctional devices will share a single node. The USB port devices
-will share their node (if they have one) with any device that is
-attached to them. Etc.
+Signed-off-by: Filipe Laíns <lains@archlinux.org>
+---
+ drivers/hid/hid-ids.h         |  3 ++-
+ drivers/hid/hid-logitech-dj.c | 13 +++++++++++--
+ 2 files changed, 13 insertions(+), 3 deletions(-)
 
-If you want to check how this works with ACPI, then find
-"physical_node" named files from sysfs. The ACPI node folders in sysfs
-have symlinks named "physical_node<n>" for every device they are bind
-to. The first one is named just "physical_node", the second
-"physical_node1", the third "physical_node2", and so on.
-
-> > Every device is already linked with the software node kobject, so
-> > isn't it possible to simply walk trough those links in order to check
-> > the devices associated with the node?
-> 
-> No, we need to know the exact instance of a device, not a set of
-> devices, because even though some properties can be shared, others can
-> not. For example, even if 2 exactly same touch controllers in the system
-> have "reset-gpios" property, they won't be the same GPIO for the both of
-> them.
-
-I don't think I completely understand the use case you had in mind for
-this API, but since you planned to use it with the GPIO lookup tables,
-I'm going to assume it's not needed after all. Let's replace those
-with the references instead like I proposed in my reply to the 2/2
-patch.
-
-Linking a single device with a node like that is in any case not
-acceptable nor possible.
-
-
-thanks,
-
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index fb19eefbc0b3..61b954fcfc2e 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -768,7 +768,8 @@
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER		0xc52f
+ #define USB_DEVICE_ID_LOGITECH_UNIFYING_RECEIVER_2	0xc532
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2		0xc534
+-#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED	0xc539
++#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1	0xc539
++#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1	0xc53f
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_POWERPLAY	0xc53a
+ #define USB_DEVICE_ID_SPACETRAVELLER	0xc623
+ #define USB_DEVICE_ID_SPACENAVIGATOR	0xc626
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index 4a68960b131f..d718f01f56d3 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -968,7 +968,12 @@ static void logi_hidpp_recv_queue_notif(struct hid_device *hdev,
+ 		logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
+ 		break;
+ 	case 0x0c:
+-		device_type = "eQUAD Lightspeed";
++		device_type = "eQUAD Lightspeed 1";
++		logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
++		workitem.reports_supported |= STD_KEYBOARD;
++		break;
++	case 0x0d:
++		device_type = "eQUAD Lightspeed 1_1";
+ 		logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
+ 		workitem.reports_supported |= STD_KEYBOARD;
+ 		break;
+@@ -1832,7 +1837,11 @@ static const struct hid_device_id logi_dj_receivers[] = {
+ 	 .driver_data = recvr_type_hidpp},
+ 	{ /* Logitech lightspeed receiver (0xc539) */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+-		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED),
++		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1),
++	 .driver_data = recvr_type_gaming_hidpp},
++	{ /* Logitech lightspeed receiver (0xc53f) */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
++		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1),
+ 	 .driver_data = recvr_type_gaming_hidpp},
+ 	{ /* Logitech 27 MHz HID++ 1.0 receiver (0xc513) */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_MX3000_RECEIVER),
 -- 
-heikki
+2.22.0
