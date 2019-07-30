@@ -2,86 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3CDE7A5BC
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2019 12:12:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 825EF7A60D
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2019 12:31:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732300AbfG3KMV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Jul 2019 06:12:21 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43896 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726078AbfG3KMV (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Jul 2019 06:12:21 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 2735DAFB1;
-        Tue, 30 Jul 2019 10:12:20 +0000 (UTC)
-Message-ID: <1564481531.25582.22.camel@suse.com>
+        id S1727200AbfG3KbB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Jul 2019 06:31:01 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:37359 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726736AbfG3KbB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 30 Jul 2019 06:31:01 -0400
+Received: by mail-io1-f69.google.com with SMTP id v3so70960957ios.4
+        for <linux-input@vger.kernel.org>; Tue, 30 Jul 2019 03:31:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=/JDLLKCVTgj6P4LINzTI5WdAL0FV1RdWWRyqarm+YLc=;
+        b=h6NnzOaInI4Pi9J9T2EqTUBza+2A6qYQAM9U2YCZQHasXYeLVANCrh2yP+qZJcFVtP
+         zEigBU7Q6lwMSV0+d7XvbB7vFBajhiTgPxM/pv1NPthxZsLRYCJ7SW9qKJERsMs2UJ+Q
+         0hRz3fPEkA6b3/Ja+UQfJDxMVJnuRY3CHzugZhavtpaO6TUYXnzVwwVrcydA5yJUPVMn
+         LgGll9UsC/yUlBJB6MkGL1jBgPQwQLJEbgE/eaRczqDfVVml44yPGrmw3pSZS+0Fm6vs
+         pqFbe2oLqFKuK06wVPH5u3nh+BxxBQAE5ckscaq1zEzV9z8Y372HgJeDst6ER0BEOroC
+         8Ijw==
+X-Gm-Message-State: APjAAAUwleDpnHXVLizyWAvJPBY+1eYpJp+J+D8K8G6U7y+fHN4oDDg1
+        kVlVMpNzrUNCQaCnmOh3/qS1iSYCadnBM0gmaHpbGCXWWFgG
+X-Google-Smtp-Source: APXvYqy+U2um5Uxv6X2VsWwU+YOv0Pyg13yIK5HP9nRe3nmtx/LGqGu7XiWw03MqvAEgiJRAiP/ZZUTmTDN9J4NtbQVrkYnpWnZS
+MIME-Version: 1.0
+X-Received: by 2002:a02:ca19:: with SMTP id i25mr122464740jak.6.1564482660587;
+ Tue, 30 Jul 2019 03:31:00 -0700 (PDT)
+Date:   Tue, 30 Jul 2019 03:31:00 -0700
+In-Reply-To: <1564481531.25582.22.camel@suse.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000003de05e058ee38113@google.com>
 Subject: Re: WARNING in usbtouch_open
-From:   Oliver Neukum <oneukum@suse.com>
-To:     syzbot <syzbot+199ea16c7f26418b4365@syzkaller.appspotmail.com>,
-        rydberg@bitmath.org, mpe@ellerman.id.au, dmitry.torokhov@gmail.com,
-        andreyknvl@google.com, syzkaller-bugs@googlegroups.com,
-        tglx@linutronix.de, gregkh@linuxfoundation.org,
-        kstewart@linuxfoundation.org, allison@lohutok.net,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Date:   Tue, 30 Jul 2019 12:12:11 +0200
-In-Reply-To: <000000000000394df0058ed48487@google.com>
-References: <000000000000394df0058ed48487@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+From:   syzbot <syzbot+199ea16c7f26418b4365@syzkaller.appspotmail.com>
+To:     allison@lohutok.net, andreyknvl@google.com,
+        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
+        kstewart@linuxfoundation.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        mpe@ellerman.id.au, oneukum@suse.com, rydberg@bitmath.org,
+        syzkaller-bugs@googlegroups.com, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Am Montag, den 29.07.2019, 09:38 -0700 schrieb syzbot:
-> Hello,
-> 
-> syzbot found the following crash on:
-> 
-> HEAD commit:    7f7867ff usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1503f4ec600000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=792eb47789f57810
-> dashboard link: https://syzkaller.appspot.com/bug?extid=199ea16c7f26418b4365
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=173e4442600000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=115482b2600000
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+199ea16c7f26418b4365@syzkaller.appspotmail.com
+Hello,
 
-#syz test: https://github.com/google/kasan.git usb-fuzzer
+syzbot has tested the proposed patch and the reproducer did not trigger  
+crash:
 
-From 29b755588bd353d0e10ae384c2c551dffa1b3e7b Mon Sep 17 00:00:00 2001
-From: Oliver Neukum <oneukum@suse.com>
-Date: Tue, 30 Jul 2019 12:00:27 +0200
-Subject: [PATCH] usbtouchscreen: add proper initialization
+Reported-and-tested-by:  
+syzbot+199ea16c7f26418b4365@syzkaller.appspotmail.com
 
-Mutexes shall be initialized before they are used.
+Tested on:
 
-Fixes: 12e510dbc57b2 ("Input: usbtouchscreen - fix deadlock in autosuspend")
-Reported-by: syzbot+199ea16c7f26418b4365@syzkaller.appspotmail.com
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/input/touchscreen/usbtouchscreen.c | 1 +
- 1 file changed, 1 insertion(+)
+commit:         7f7867ff usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+kernel config:  https://syzkaller.appspot.com/x/.config?x=792eb47789f57810
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=1347ab44600000
 
-diff --git a/drivers/input/touchscreen/usbtouchscreen.c b/drivers/input/touchscreen/usbtouchscreen.c
-index a2cec6cacf57..caacf211f51b 100644
---- a/drivers/input/touchscreen/usbtouchscreen.c
-+++ b/drivers/input/touchscreen/usbtouchscreen.c
-@@ -1658,6 +1658,7 @@ static int usbtouch_probe(struct usb_interface *intf,
- 	input_dev = input_allocate_device();
- 	if (!usbtouch || !input_dev)
- 		goto out_free;
-+	mutex_init(&usbtouch->pm_mutex);
- 
- 	type = &usbtouch_dev_info[id->driver_info];
- 	usbtouch->type = type;
--- 
-2.16.4
-
+Note: testing is done by a robot and is best-effort only.
