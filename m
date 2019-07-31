@@ -2,161 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DFF77C41C
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2019 15:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CAA67CA4A
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2019 19:27:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729707AbfGaNyW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 Jul 2019 09:54:22 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:42204 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727708AbfGaNyV (ORCPT
+        id S1729374AbfGaR0y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 Jul 2019 13:26:54 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:44783 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727614AbfGaR0x (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 Jul 2019 09:54:21 -0400
-Received: by mail-pl1-f194.google.com with SMTP id ay6so30568515plb.9;
-        Wed, 31 Jul 2019 06:54:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=NMHoNMkwZIjttRoQclv/No/h1YkPwIfxBhh7UosFrCo=;
-        b=nt6cMM8cKfDQBR7KEsqpXraXr/TS7TxUrSquIpxxKJEIQU/KrSZUh1EdWzsGrk6M9Z
-         xQHfyseFfzYpJygezf4x6ys1Foun2MhQdR0j/UG+BJHeP7ihcP9xWSw4UJ/2m+98+Pkx
-         q2MRvvu50jo+0CEoRqs8pfOrR9gH+6VbkMo5BqqByA6lxd7IevLy9F2PozH7xUokVBhk
-         jzTYBCP7dycssJ1lTBvgu6sbJ/sD47t7TeSjrW6RO6LdOuXBzeYj3eHJ1E27Ejj45ek8
-         c20ZhFSw1OBvL7qhzRERIMgFJxNZanhNQkxtsTje9/xWqFngP+B8s+UaOEAynPlfjdZl
-         Rlrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=NMHoNMkwZIjttRoQclv/No/h1YkPwIfxBhh7UosFrCo=;
-        b=ukcfTaMR7xZ+iWfKIKtlOKSUONn625e7LRgZ8OJP+BE/73/2QdsU6ZGFriHnTHQXOD
-         tB6dtwJ5FaBQvhuHHaLapZPcEqy6zGWoI8TPaB+P4qq5SFezNYCWTcGDO3f3U/BihBaa
-         FVK7Xu4oE3FVMz+oRFJLDjbkUUVtdY8/ygICkFPhuZFLww1hSBXbh444vfqVVOO2SpSX
-         OkZtG0Ir/xVVIWCL1nA1TqfYzbYZOnOw2zR/S/KwHUf8wK+IM25WMUo+4c/UoypH1D2G
-         UV82x24EevI0ljez0ulJsbYvIxY05c3oHh3cnvPNxE4NAgVpDwOkSyDHWCGmajJ72ZD+
-         iJhA==
-X-Gm-Message-State: APjAAAUIqAZj6pFKvj2CSWms29P0kRvBKs/OYX4LYupkLAhnUwTxYfS2
-        hmslX+xWG16o4KZRFGhtlJg=
-X-Google-Smtp-Source: APXvYqwf7iFI8IPFMwE49BO1MBfggFyFXdCWGnl/9js+QXKFf0Hyn4QBBo0ttQZmr3aN8bfyhXQ08A==
-X-Received: by 2002:a17:902:8d92:: with SMTP id v18mr122418654plo.211.1564581260564;
-        Wed, 31 Jul 2019 06:54:20 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id u6sm2133736pjx.23.2019.07.31.06.54.18
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 31 Jul 2019 06:54:19 -0700 (PDT)
-Date:   Wed, 31 Jul 2019 06:54:17 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH 1/2] drivers: base: swnode: link devices to software nodes
-Message-ID: <20190731135417.GF147138@dtor-ws>
-References: <20190713075259.243565-1-dmitry.torokhov@gmail.com>
- <20190713075259.243565-2-dmitry.torokhov@gmail.com>
- <20190729120715.GA28600@kuha.fi.intel.com>
- <20190729131532.GA1201@penguin>
- <20190730115247.GK28600@kuha.fi.intel.com>
- <e36fb47b-2969-5f53-97d4-8e94b4c98283@intel.com>
+        Wed, 31 Jul 2019 13:26:53 -0400
+Received: from [192.168.1.110] ([95.117.90.94]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N2V8Z-1iMf4e3zw7-013yoL; Wed, 31 Jul 2019 19:26:52 +0200
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Subject: Re: [PATCH 1/2] input: keyboard: gpio_keys_polled: use gpio lookup
+ table
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+References: <1564415994-22871-1-git-send-email-info@metux.net>
+ <20190729172607.GB755@penguin>
+ <b2912c1d-a6d8-ad2a-3e37-19e4d3d1bd3b@metux.net>
+ <20190729184306.GA767@penguin>
+Organization: metux IT consult
+Message-ID: <af12954c-2f14-1655-70b1-928f4f20bfe2@metux.net>
+Date:   Wed, 31 Jul 2019 19:26:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e36fb47b-2969-5f53-97d4-8e94b4c98283@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190729184306.GA767@penguin>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:ykRc3wSod4pWbnrnL85Q3rRMJt3UnjBi7GhNTRbaMYEJ9Y40FBJ
+ RgmxUnj5sFhyK1p5/eWXSst3yXW45y92R1PKe8HIZmkt4u30ADdWCOgeB34yGK/UktaAJcI
+ hJubBsR48aM7XNPmCpk1X9iqa0dKDkFRb6qzfcWsJV0nBppWegLVYREnM1+Jw2S+aKdjzSV
+ w5bQXjw+20jn93HBuxihg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OyUyBz7B3Ug=:DWrfjh5nOFlWRPhRX4VjzY
+ wEPwAhyXYSYPx9GRlcFe3At/s9Gey85CgawWlQDfADHkobVtIAvihnrbLXrchVnyGOgJdz+eC
+ Rx1RnWx1X43LJgFCfdVm3NRcpUSl19mGLDGEMDUUDFuTjf3UBPnNZ3R4fMn/aztqekhLLAnoe
+ iwhIABeX3JEnxX5mNZURNftdxu7Qd1x9ucHieYnvYfhBINj8IYnpTFfj7FZAh4pnN8jts7EZs
+ TDaWJ2ZpXpvlqjXR7auxru/arfk6Y/TVZYNdifKUSYh9BptTcIXirLP5rIAEjhgp4gSZdUZyu
+ 0B/TZRvjUzp43LOnMawBQ+tT7Za/kVCryuSWJGzHIKOEQJBlLw9IM1LMgsUqcVG96fqV1hza8
+ wEQB7fq5Fw4mGkqE84bpEh7H5dnlmI8hoXYxqR40LiFqQjOmC1Ym1iE6T0KBPGCB9XmPN2181
+ Oqw3/54Zv+Voa0mvzO3w8kxrzX6cXYCikyq/+rrYnsbDy7bjfyVnaI4Yd3NXFNZXXWN18N5ZN
+ HbXYyzeDsxem2lyJ+Uao0Y68/orV7FV+lCUXjkKNcBoGqymwyDsayc1DrNZHpYBG5NcPo2y36
+ eCEMZHby0sO17AVBTc1NYTGo94OWxr0a4Vh6slabV1XAYVh/WHKvepM/Quf0DALWGeKBAuYik
+ TFrZzobEMu29Xim/REg7+OcKv9m1hfcxHPqhXP3NpFmoQ7Jkwa+FIIbkWRngiADvoMsCSRIn2
+ WKTsJuVnHQPo7X84sAVRD3kSQa6oopI9JO7iN+W/o/x2fU4rw19woEXVbQo=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 30, 2019 at 04:49:50PM +0200, Rafael J. Wysocki wrote:
-> On 7/30/2019 1:52 PM, Heikki Krogerus wrote:
-> > On Mon, Jul 29, 2019 at 03:15:32PM +0200, Dmitry Torokhov wrote:
-> > > On Mon, Jul 29, 2019 at 03:07:15PM +0300, Heikki Krogerus wrote:
-> > > > On Sat, Jul 13, 2019 at 12:52:58AM -0700, Dmitry Torokhov wrote:
-> > > > > It is helpful to know what device, if any, a software node is tied to, so
-> > > > > let's store a pointer to the device in software node structure. Note that
-> > > > > children software nodes will inherit their parent's device pointer, so we
-> > > > > do not have to traverse hierarchy to see what device the [sub]tree belongs
-> > > > > to.
-> > > > > 
-> > > > > We will be using the device pointer to locate GPIO lookup tables for
-> > > > > devices with static properties.
-> > > > > 
-> > > > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > > > ---
-> > > > >   drivers/base/property.c  |  1 +
-> > > > >   drivers/base/swnode.c    | 35 ++++++++++++++++++++++++++++++++++-
-> > > > >   include/linux/property.h |  5 +++++
-> > > > >   3 files changed, 40 insertions(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/drivers/base/property.c b/drivers/base/property.c
-> > > > > index 348b37e64944..3bc93d4b35c4 100644
-> > > > > --- a/drivers/base/property.c
-> > > > > +++ b/drivers/base/property.c
-> > > > > @@ -527,6 +527,7 @@ int device_add_properties(struct device *dev,
-> > > > >   	if (IS_ERR(fwnode))
-> > > > >   		return PTR_ERR(fwnode);
-> > > > > +	software_node_link_device(fwnode, dev);
-> > > > >   	set_secondary_fwnode(dev, fwnode);
-> > > > >   	return 0;
-> > > > >   }
-> > > > > diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-> > > > > index 7fc5a18e02ad..fd12eea539b6 100644
-> > > > > --- a/drivers/base/swnode.c
-> > > > > +++ b/drivers/base/swnode.c
-> > > > > @@ -24,6 +24,9 @@ struct software_node {
-> > > > >   	/* properties */
-> > > > >   	const struct property_entry *properties;
-> > > > > +
-> > > > > +	/* device this node is associated with */
-> > > > > +	struct device *dev;
-> > > > >   };
-> > > > Let's not do that! The nodes can be, and in many cases are, associated
-> > > > with multiple devices.
-> > > They do? Where? I see that set of properties can be shared between
-> > > several devices, but when we instantiate SW node we create a new
-> > > instance for device. This is also how ACPI and OF properties work; they
-> > > not shared between devices (or, rather, the kernel creates distinct _and
-> > > single_ devices for instance of ACPI or OF node). I do not think we want
-> > > swnodes work differently from the other firmware nodes.
-> > Having multiple devices linked to a single node is quite normal. Most
-> > multifunctional devices will share a single node. The USB port devices
-> > will share their node (if they have one) with any device that is
-> > attached to them. Etc.
-> > 
-> > If you want to check how this works with ACPI, then find
-> > "physical_node" named files from sysfs. The ACPI node folders in sysfs
-> > have symlinks named "physical_node<n>" for every device they are bind
-> > to. The first one is named just "physical_node", the second
-> > "physical_node1", the third "physical_node2", and so on.
-> > 
-> > > > Every device is already linked with the software node kobject, so
-> > > > isn't it possible to simply walk trough those links in order to check
-> > > > the devices associated with the node?
-> > > No, we need to know the exact instance of a device, not a set of
-> > > devices, because even though some properties can be shared, others can
-> > > not. For example, even if 2 exactly same touch controllers in the system
-> > > have "reset-gpios" property, they won't be the same GPIO for the both of
-> > > them.
-> > I don't think I completely understand the use case you had in mind for
-> > this API, but since you planned to use it with the GPIO lookup tables,
-> > I'm going to assume it's not needed after all. Let's replace those
-> > with the references instead like I proposed in my reply to the 2/2
-> > patch.
-> > 
-> > Linking a single device with a node like that is in any case not
-> > acceptable nor possible.
-> > 
-> I think I need to withdraw my ACK here at this point.
+On 29.07.19 20:43, Dmitry Torokhov wrote:
 
-OK, fair enough, I'll see if I can make the references that Heikki
-mentioned work for me.
+Hi,
+
+> https://patchwork.kernel.org/cover/11042915/
 
 Thanks.
 
+> I tried putting you on CC list there, did you not get them?
+
+hmm, maybe it went to one of the dozens of mailboxes where I didn't
+look at careful enough ... I'm currently just sorting by mailing list,
+but don't separate out stuff that's directly addressed to me - guess
+I'll have to fix up my mail filter rules :o
+
+Regarding your patch:
+
+How should I now setup a proper swnode object and pass it to the
+driver ?
+
+--mtx
+
 -- 
-Dmitry
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
