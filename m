@@ -2,84 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C37007C0BC
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2019 14:07:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EECD07C1DA
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2019 14:43:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbfGaMHl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 Jul 2019 08:07:41 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3269 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726185AbfGaMHl (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 Jul 2019 08:07:41 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 22A375B61237C26C2A86;
-        Wed, 31 Jul 2019 20:07:39 +0800 (CST)
-Received: from [127.0.0.1] (10.133.213.239) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Wed, 31 Jul 2019
- 20:07:36 +0800
-Subject: Re: [PATCH 5.3 regression fix] HID: logitech-dj: Really fix return
- value of logi_dj_recv_query_hidpp_devices
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-References: <20190729155036.4094-1-hdegoede@redhat.com>
-CC:     <linux-input@vger.kernel.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-From:   Yuehaibing <yuehaibing@huawei.com>
-Message-ID: <34b22c18-1ba5-dad8-f796-80cd9fdeeaf3@huawei.com>
-Date:   Wed, 31 Jul 2019 20:07:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.2.0
+        id S1727404AbfGaMn4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 Jul 2019 08:43:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36142 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726467AbfGaMn4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 31 Jul 2019 08:43:56 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 94935206B8;
+        Wed, 31 Jul 2019 12:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1564577035;
+        bh=qdKt8xMkWx3WVKyGM6p4kgZa2A5bUHnif0uObDGpacs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=2PNMPi2HyAUo2pq0bnVlLzISd0g9zVsRAilNinPTip5E5cYDt4EuxnIXHElkwTvJH
+         dPcH2fxP7sNNLV5xbJKld4HmAQXtZsA0TJ9OOL2zD56aMvLQcivlBKx2iiQgNAw2U7
+         SBbEoWYOMqoaclJc4+S40fQvW5IGe6rMUuYu8HzU=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org,
+        Richard Gong <richard.gong@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Darren Hart <dvhart@infradead.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tony Prisk <linux@prisktech.co.nz>,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        x86@kernel.org
+Subject: [PATCH v2 00/10] drivers, provide a way to add sysfs groups easily
+Date:   Wed, 31 Jul 2019 14:43:39 +0200
+Message-Id: <20190731124349.4474-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <20190729155036.4094-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.133.213.239]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2019/7/29 23:50, Hans de Goede wrote:
-> Commit dbcbabf7da92 ("HID: logitech-dj: fix return value of> logi_dj_recv_query_hidpp_devices") made logi_dj_recv_query_hidpp_devices
-> return the return value of hid_hw_raw_request instead of unconditionally
-> returning 0.
-> 
-> But hid_hw_raw_request returns the report-size on a successful request
-> (and a negative error-code on failure) where as the callers of
-> logi_dj_recv_query_hidpp_devices expect a 0 return on success.
-> 
-> This commit fixes things so that either the negative error gets returned
-> or 0 on success, fixing HID++ receivers such as the Logitech nano receivers
-> no longer working.
-> 
-> Cc: YueHaibing <yuehaibing@huawei.com>
-> Cc: Rafael J. Wysocki <rjw@rjwysocki.net>
-> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> Fixes: dbcbabf7da92 ("HID: logitech-dj: fix return value of logi_dj_recv_query_hidpp_devices")
-> Reported-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> Reported-by: Rafael J. Wysocki <rjw@rjwysocki.net>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/hid/hid-logitech-dj.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-> index 6196217a7d93..b7c3edf21235 100644
-> --- a/drivers/hid/hid-logitech-dj.c
-> +++ b/drivers/hid/hid-logitech-dj.c
-> @@ -1125,7 +1125,7 @@ static int logi_dj_recv_query_hidpp_devices(struct dj_receiver_dev *djrcv_dev)
->  				    HID_REQ_SET_REPORT);
->  
->  	kfree(hidpp_report);
-> -	return retval;
-> +	return (retval < 0) ? retval : 0;
->  }
->  
->  static int logi_dj_recv_query_paired_devices(struct dj_receiver_dev *djrcv_dev)
-> 
+This patch originally started out just as a way for platform drivers to
+easily add a sysfs group in a race-free way, but thanks to Dmitry's
+patch, this series now is for all drivers in the kernel (hey, a unified
+driver model works!!!)
 
-Reviewed-by: YueHaibing <yuehaibing@huawei.com>
+I've only converted a few platform drivers here in this series to show
+how it works, but other busses can be converted after the first patch
+goes into the tree.
+
+Here's the original 00 message, for people to get an idea of what is
+going on here:
+
+If a platform driver wants to add a sysfs group, it has to do so in a
+racy way, adding it after the driver is bound.  To resolve this issue,
+have the platform driver core do this for the driver, making the
+individual drivers logic smaller and simpler, and solving the race at
+the same time.
+
+All of these patches depend on the first patch.  I'll take the first one
+through my driver-core tree, and any subsystem maintainer can either ack
+their individul patch and I will be glad to also merge it, or they can
+wait until after 5.4-rc1 when the core patch hits Linus's tree and then
+take it, it's up to them.
+
+Thank to Richard Gong for the idea and the testing of the platform
+driver patch and to Dmitry Torokhov for rewriting the first patch to
+work well for all busses.
+
+-----
+
+V2 - work for all busses and not just platform drivers.
+
+
+Dmitry Torokhov (1):
+  driver core: add dev_groups to all drivers
+
+Greg Kroah-Hartman (9):
+  uio: uio_fsl_elbc_gpcm: convert platform driver to use dev_groups
+  input: keyboard: gpio_keys: convert platform driver to use dev_groups
+  input: axp20x-pek: convert platform driver to use dev_groups
+  firmware: arm_scpi: convert platform driver to use dev_groups
+  olpc: x01: convert platform driver to use dev_groups
+  platform: x86: hp-wmi: convert platform driver to use dev_groups
+  video: fbdev: wm8505fb: convert platform driver to use dev_groups
+  video: fbdev: w100fb: convert platform driver to use dev_groups
+  video: fbdev: sm501fb: convert platform driver to use dev_groups
+
+ arch/x86/platform/olpc/olpc-xo1-sci.c | 17 ++++------
+ drivers/base/dd.c                     | 14 ++++++++
+ drivers/firmware/arm_scpi.c           |  5 +--
+ drivers/input/keyboard/gpio_keys.c    | 13 ++------
+ drivers/input/misc/axp20x-pek.c       | 15 ++-------
+ drivers/platform/x86/hp-wmi.c         | 47 +++++++--------------------
+ drivers/uio/uio_fsl_elbc_gpcm.c       | 23 +++++--------
+ drivers/video/fbdev/sm501fb.c         | 37 +++++----------------
+ drivers/video/fbdev/w100fb.c          | 23 ++++++-------
+ drivers/video/fbdev/wm8505fb.c        | 13 ++++----
+ include/linux/device.h                |  3 ++
+ 11 files changed, 76 insertions(+), 134 deletions(-)
+
+-- 
+2.22.0
 
