@@ -2,83 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A4DFA7B570
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2019 00:03:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F307B7BBD5
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2019 10:38:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387662AbfG3WDr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Jul 2019 18:03:47 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:61630 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726869AbfG3WDr (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Jul 2019 18:03:47 -0400
-Received: from 79.184.255.110.ipv4.supernova.orange.pl (79.184.255.110) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.275)
- id c1e3c96b81337b74; Wed, 31 Jul 2019 00:03:45 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, YueHaibing <yuehaibing@huawei.com>,
-        Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Subject: Re: [PATCH 5.3 regression fix] HID: logitech-dj: Really fix return value of logi_dj_recv_query_hidpp_devices
-Date:   Wed, 31 Jul 2019 00:03:45 +0200
-Message-ID: <2839691.d4h10CChSD@kreacher>
-In-Reply-To: <20190729155036.4094-1-hdegoede@redhat.com>
-References: <20190729155036.4094-1-hdegoede@redhat.com>
+        id S1727866AbfGaIiB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 Jul 2019 04:38:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32910 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726168AbfGaIiB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 31 Jul 2019 04:38:01 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id CD99FC007359;
+        Wed, 31 Jul 2019 08:38:00 +0000 (UTC)
+Received: from gondolin (dhcp-192-232.str.redhat.com [10.33.192.232])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 30EE16012E;
+        Wed, 31 Jul 2019 08:37:54 +0000 (UTC)
+Date:   Wed, 31 Jul 2019 10:37:51 +0200
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        devel@driverdev.osuosl.org, linux-input@vger.kernel.org,
+        kvm@vger.kernel.org, "Michael S . Tsirkin" <mst@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        virtualization@lists.linux-foundation.org,
+        Jason Gunthorpe <jgg@mellanox.com>,
+        linux-mtd@lists.infradead.org,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Jiri Kosina <jkosina@suse.cz>, linux-fsdevel@vger.kernel.org,
+        ceph-devel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 12/29] compat_ioctl: move drivers to compat_ptr_ioctl
+Message-ID: <20190731103751.3cc53132.cohuck@redhat.com>
+In-Reply-To: <20190730195227.742215-1-arnd@arndb.de>
+References: <20190730192552.4014288-1-arnd@arndb.de>
+        <20190730195227.742215-1-arnd@arndb.de>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Wed, 31 Jul 2019 08:38:01 +0000 (UTC)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Monday, July 29, 2019 5:50:36 PM CEST Hans de Goede wrote:
-> Commit dbcbabf7da92 ("HID: logitech-dj: fix return value of
-> logi_dj_recv_query_hidpp_devices") made logi_dj_recv_query_hidpp_devices
-> return the return value of hid_hw_raw_request instead of unconditionally
-> returning 0.
-> 
-> But hid_hw_raw_request returns the report-size on a successful request
-> (and a negative error-code on failure) where as the callers of
-> logi_dj_recv_query_hidpp_devices expect a 0 return on success.
-> 
-> This commit fixes things so that either the negative error gets returned
-> or 0 on success, fixing HID++ receivers such as the Logitech nano receivers
-> no longer working.
-> 
-> Cc: YueHaibing <yuehaibing@huawei.com>
-> Cc: Rafael J. Wysocki <rjw@rjwysocki.net>
-> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> Fixes: dbcbabf7da92 ("HID: logitech-dj: fix return value of logi_dj_recv_query_hidpp_devices")
-> Reported-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> Reported-by: Rafael J. Wysocki <rjw@rjwysocki.net>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+On Tue, 30 Jul 2019 21:50:28 +0200
+Arnd Bergmann <arnd@arndb.de> wrote:
 
-This helps here, thanks!
-
-Tested-by: Rafael J. Wysocki <rjw@rjwysocki.net>
-
+> Each of these drivers has a copy of the same trivial helper function to
+> convert the pointer argument and then call the native ioctl handler.
+> 
+> We now have a generic implementation of that, so use it.
+> 
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+> Reviewed-by: Jason Gunthorpe <jgg@mellanox.com>
+> Reviewed-by: Jiri Kosina <jkosina@suse.cz>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/hid/hid-logitech-dj.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-> index 6196217a7d93..b7c3edf21235 100644
-> --- a/drivers/hid/hid-logitech-dj.c
-> +++ b/drivers/hid/hid-logitech-dj.c
-> @@ -1125,7 +1125,7 @@ static int logi_dj_recv_query_hidpp_devices(struct dj_receiver_dev *djrcv_dev)
->  				    HID_REQ_SET_REPORT);
->  
->  	kfree(hidpp_report);
-> -	return retval;
-> +	return (retval < 0) ? retval : 0;
->  }
->  
->  static int logi_dj_recv_query_paired_devices(struct dj_receiver_dev *djrcv_dev)
-> 
 
+>  drivers/vfio/vfio.c               | 39 +++----------------------------
 
+vfio changes:
 
-
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
