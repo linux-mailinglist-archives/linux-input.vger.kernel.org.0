@@ -2,51 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EECD07C1DA
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2019 14:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E41A77C1EC
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2019 14:44:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727404AbfGaMn4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 Jul 2019 08:43:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36142 "EHLO mail.kernel.org"
+        id S1728703AbfGaMoQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 Jul 2019 08:44:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36546 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726467AbfGaMn4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 Jul 2019 08:43:56 -0400
+        id S2388013AbfGaMoO (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 31 Jul 2019 08:44:14 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 94935206B8;
-        Wed, 31 Jul 2019 12:43:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AC5C82089E;
+        Wed, 31 Jul 2019 12:44:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564577035;
-        bh=qdKt8xMkWx3WVKyGM6p4kgZa2A5bUHnif0uObDGpacs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=2PNMPi2HyAUo2pq0bnVlLzISd0g9zVsRAilNinPTip5E5cYDt4EuxnIXHElkwTvJH
-         dPcH2fxP7sNNLV5xbJKld4HmAQXtZsA0TJ9OOL2zD56aMvLQcivlBKx2iiQgNAw2U7
-         SBbEoWYOMqoaclJc4+S40fQvW5IGe6rMUuYu8HzU=
+        s=default; t=1564577053;
+        bh=mYJJh27t+/bVqb2P718LNvvV/gjJuz87nyy7thlZJXE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=BCt5O2rqUxNFHOYho9ko4FSTDwEKfpYA21/ZZQ36r9aIv0cjPJUCnSxB6UhEsZUk5
+         18xUHVSQYnqCFpwDzlKbBMZ98TrhcDbnIqze71sULACdVKdWaQrv1aCSxMuPNl5irt
+         rpEL3LxDSu5v3OGKPR+i0EUbHbW3st2mipezsbxE=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org,
         Richard Gong <richard.gong@linux.intel.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Darren Hart <dvhart@infradead.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Prisk <linux@prisktech.co.nz>,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        x86@kernel.org
-Subject: [PATCH v2 00/10] drivers, provide a way to add sysfs groups easily
-Date:   Wed, 31 Jul 2019 14:43:39 +0200
-Message-Id: <20190731124349.4474-1-gregkh@linuxfoundation.org>
+        linux-input@vger.kernel.org
+Subject: [PATCH v2 04/10] input: axp20x-pek: convert platform driver to use dev_groups
+Date:   Wed, 31 Jul 2019 14:43:43 +0200
+Message-Id: <20190731124349.4474-5-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190731124349.4474-1-gregkh@linuxfoundation.org>
+References: <20190731124349.4474-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
@@ -54,66 +44,63 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch originally started out just as a way for platform drivers to
-easily add a sysfs group in a race-free way, but thanks to Dmitry's
-patch, this series now is for all drivers in the kernel (hey, a unified
-driver model works!!!)
+Platform drivers now have the option to have the platform core create
+and remove any needed sysfs attribute files.  So take advantage of that
+and do not register "by hand" a sysfs group of attributes.
 
-I've only converted a few platform drivers here in this series to show
-how it works, but other busses can be converted after the first patch
-goes into the tree.
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Florian Fainelli <f.fainelli@gmail.com>
+Cc: linux-input@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/input/misc/axp20x-pek.c | 15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
 
-Here's the original 00 message, for people to get an idea of what is
-going on here:
-
-If a platform driver wants to add a sysfs group, it has to do so in a
-racy way, adding it after the driver is bound.  To resolve this issue,
-have the platform driver core do this for the driver, making the
-individual drivers logic smaller and simpler, and solving the race at
-the same time.
-
-All of these patches depend on the first patch.  I'll take the first one
-through my driver-core tree, and any subsystem maintainer can either ack
-their individul patch and I will be glad to also merge it, or they can
-wait until after 5.4-rc1 when the core patch hits Linus's tree and then
-take it, it's up to them.
-
-Thank to Richard Gong for the idea and the testing of the platform
-driver patch and to Dmitry Torokhov for rewriting the first patch to
-work well for all busses.
-
------
-
-V2 - work for all busses and not just platform drivers.
-
-
-Dmitry Torokhov (1):
-  driver core: add dev_groups to all drivers
-
-Greg Kroah-Hartman (9):
-  uio: uio_fsl_elbc_gpcm: convert platform driver to use dev_groups
-  input: keyboard: gpio_keys: convert platform driver to use dev_groups
-  input: axp20x-pek: convert platform driver to use dev_groups
-  firmware: arm_scpi: convert platform driver to use dev_groups
-  olpc: x01: convert platform driver to use dev_groups
-  platform: x86: hp-wmi: convert platform driver to use dev_groups
-  video: fbdev: wm8505fb: convert platform driver to use dev_groups
-  video: fbdev: w100fb: convert platform driver to use dev_groups
-  video: fbdev: sm501fb: convert platform driver to use dev_groups
-
- arch/x86/platform/olpc/olpc-xo1-sci.c | 17 ++++------
- drivers/base/dd.c                     | 14 ++++++++
- drivers/firmware/arm_scpi.c           |  5 +--
- drivers/input/keyboard/gpio_keys.c    | 13 ++------
- drivers/input/misc/axp20x-pek.c       | 15 ++-------
- drivers/platform/x86/hp-wmi.c         | 47 +++++++--------------------
- drivers/uio/uio_fsl_elbc_gpcm.c       | 23 +++++--------
- drivers/video/fbdev/sm501fb.c         | 37 +++++----------------
- drivers/video/fbdev/w100fb.c          | 23 ++++++-------
- drivers/video/fbdev/wm8505fb.c        | 13 ++++----
- include/linux/device.h                |  3 ++
- 11 files changed, 76 insertions(+), 134 deletions(-)
-
+diff --git a/drivers/input/misc/axp20x-pek.c b/drivers/input/misc/axp20x-pek.c
+index debeeaeb8812..235925b28772 100644
+--- a/drivers/input/misc/axp20x-pek.c
++++ b/drivers/input/misc/axp20x-pek.c
+@@ -195,15 +195,12 @@ DEVICE_ATTR(startup, 0644, axp20x_show_attr_startup, axp20x_store_attr_startup);
+ DEVICE_ATTR(shutdown, 0644, axp20x_show_attr_shutdown,
+ 	    axp20x_store_attr_shutdown);
+ 
+-static struct attribute *axp20x_attributes[] = {
++static struct attribute *axp20x_attrs[] = {
+ 	&dev_attr_startup.attr,
+ 	&dev_attr_shutdown.attr,
+ 	NULL,
+ };
+-
+-static const struct attribute_group axp20x_attribute_group = {
+-	.attrs = axp20x_attributes,
+-};
++ATTRIBUTE_GROUPS(axp20x);
+ 
+ static irqreturn_t axp20x_pek_irq(int irq, void *pwr)
+ {
+@@ -356,13 +353,6 @@ static int axp20x_pek_probe(struct platform_device *pdev)
+ 
+ 	axp20x_pek->info = (struct axp20x_info *)match->driver_data;
+ 
+-	error = devm_device_add_group(&pdev->dev, &axp20x_attribute_group);
+-	if (error) {
+-		dev_err(&pdev->dev, "Failed to create sysfs attributes: %d\n",
+-			error);
+-		return error;
+-	}
+-
+ 	platform_set_drvdata(pdev, axp20x_pek);
+ 
+ 	return 0;
+@@ -411,6 +401,7 @@ static struct platform_driver axp20x_pek_driver = {
+ 	.driver		= {
+ 		.name		= "axp20x-pek",
+ 		.pm		= &axp20x_pek_pm_ops,
++		.dev_groups	= axp20x_groups,
+ 	},
+ };
+ module_platform_driver(axp20x_pek_driver);
 -- 
 2.22.0
 
