@@ -2,126 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52EAF7C3E9
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2019 15:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A91B7C3FC
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2019 15:49:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728856AbfGaNqn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 Jul 2019 09:46:43 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39001 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726115AbfGaNqm (ORCPT
+        id S1729646AbfGaNtl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 Jul 2019 09:49:41 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:46699 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726807AbfGaNtl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 Jul 2019 09:46:42 -0400
-Received: by mail-pf1-f196.google.com with SMTP id f17so27914272pfn.6;
-        Wed, 31 Jul 2019 06:46:42 -0700 (PDT)
+        Wed, 31 Jul 2019 09:49:41 -0400
+Received: by mail-pl1-f196.google.com with SMTP id c2so30493625plz.13;
+        Wed, 31 Jul 2019 06:49:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=RYIopWVWcpN8sf8fn3WkAJoSebITP0aCuEJMOu9tUgo=;
-        b=mBtfxVJW9PnBRKrB+uQBu32BkJW1DpQZK21apuGw6xkdbEf29gIZyyKKBNKsyyZm7T
-         Ga8GPsjvU27IBLreAzB7a7JBLV3nGCHxyflt8fC1EwA6VwdBfXDpx/LNS41rsT+kQ8Iy
-         zDWh6KkJWPSgwX3Ly9uADX1D/I/alhwGVlE8+MoaV6yis/Nx0NxQzD8Vasx70JUoBQLl
-         gFz9JRgRRM3XSE5pOVNr5yNywlr8SvsPxy3La4y8RJkVKMTT6V7kF44Efel3pU/5L+0q
-         wvIeY52cfH5D1V9uo9EVXnVAONdv7VVM9tng9EvnE42YXqooX738ht5TCdp+HtDTUlBG
-         PDkA==
+        bh=opJOEuBf5z8nrf90rqRO+j908pMzRnqzq5ZrkM42fSM=;
+        b=m6gTq0Oe2lP6FzEyyez0/yWj61/yEz8jEvzbcVWTNvSRVZIFxdZJ6cerV2kVt7jQDK
+         cdKSIife2bS2Mo6+6+GnO/nCj17l5ia//WejVgNaCB+DZfdjcyV04VEc1lz/5CiQiCym
+         XJbSvtlV64ICi7Aq+a7TiEJPboQaDfOVzPBVWgj4YIFUG6Y2Wdp7mU+UvWJTqoKSoB/w
+         0DIbG1aujRq2pej408Maim3fMjQ3C8fubYS6hxXV6F8GXrkqAri6q0scW65KPGNymIwe
+         84cWX2CW/IZYnLzdfhlQ4PhlNe0wekOSeCHOPEeHAqKmMkjZAjJx9Nk7V4pcH/2PgCq/
+         48Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RYIopWVWcpN8sf8fn3WkAJoSebITP0aCuEJMOu9tUgo=;
-        b=is3VUeFa+ROoe1ueeviahILRpGoR2vt0g0fmSFXpjKlk7pyQO2hKunV0EzJ0Cn4jZH
-         KO5Xhtdimwz8r8oj5JZoAT0d16sSx7n7MSVIHTF9zESJMjZzxQNpU3I8vBqbVVRAHyIo
-         Nodqm2o0ie0JZ61W8raZ+wTtWArG3leOmnk0rsl3JsaEwbWdBMWJ1wwnfoBJA1UcMPbC
-         pULnCulVKKosWPKe9oDozhic5MRbvTPJicRlLRlYfqF3aY4gHpGhzd39zRSEDHoQQHFo
-         EVPveuC2N97DngTTi+dwvM6EwTBrqrOxmSbPC3NKg0faCaLWEsbgo1nFrzhgzNGv8bIS
-         3nFA==
-X-Gm-Message-State: APjAAAWlji+V5KrzSYI7u2VRYI9OU/QiP1/JCRrZdnSWYZmfj3Xgr8Ky
-        EZAAeiIbq2Z/ixgXhHNT+FI=
-X-Google-Smtp-Source: APXvYqyJ632HMr8qTa4ZHPJ7wJMKy+mNNR1MgRTMRnjyHAyoRP9i2yT3EBmczwD7Wk7y+Y9PJWFOLg==
-X-Received: by 2002:a63:cb4f:: with SMTP id m15mr38212861pgi.100.1564580801437;
-        Wed, 31 Jul 2019 06:46:41 -0700 (PDT)
+        bh=opJOEuBf5z8nrf90rqRO+j908pMzRnqzq5ZrkM42fSM=;
+        b=PuedDXLhJZ53y/c4wDspmd/r5WEAT8WLWGJnXsAeZLJb4zlOfnsRKLxYT+4kgtCse2
+         VY3mNfvvi230WyHwwb07p2Ub1UNNrjDu2HOYfP4IbnetOmHmsr09qNf16eVF8QCayvy0
+         s0B/urJx585A8gqC9acYsYPD1XbAEJZUNJKotKO2BI7+oKNSD4sJezKseVJVGHEKNyeV
+         +raReinauHLHTJ36SeEzXqFtfxu27EhqbGlLh0wHJi/EbXuH72uYS0ZnmOQAK8+ZVnIe
+         8LK84uN2k2SJ1qKh+Q2T/EHLecmnTcyorxKFU/p0SKj5gRKbrOCzmyu2p9L25YPNX/Wd
+         utJQ==
+X-Gm-Message-State: APjAAAVHbJ7vKtWDD1cF3s+wdOednBa5AFbTUETdcJE4ScC8wPklVRGA
+        DaGqAndht9b+Ajut+Mzcd7Q=
+X-Google-Smtp-Source: APXvYqxTldSjNmHAee84xyYJi10KeWfdb6zUmWwUjd9rawIzMJ5XUM+aTQXYjS6EcdgZRPk/9T/INw==
+X-Received: by 2002:a17:902:9a04:: with SMTP id v4mr117048224plp.95.1564580980257;
+        Wed, 31 Jul 2019 06:49:40 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id u134sm66894809pfc.19.2019.07.31.06.46.40
+        by smtp.gmail.com with ESMTPSA id s24sm23379780pgm.3.2019.07.31.06.49.39
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 31 Jul 2019 06:46:40 -0700 (PDT)
-Date:   Wed, 31 Jul 2019 06:46:38 -0700
+        Wed, 31 Jul 2019 06:49:39 -0700 (PDT)
+Date:   Wed, 31 Jul 2019 06:49:37 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        Richard Gong <richard.gong@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Darren Hart <dvhart@infradead.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Prisk <linux@prisktech.co.nz>,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH v2 00/10] drivers, provide a way to add sysfs groups
- easily
-Message-ID: <20190731134638.GD147138@dtor-ws>
-References: <20190731124349.4474-1-gregkh@linuxfoundation.org>
- <20190731131045.GB147138@dtor-ws>
- <20190731133840.GN23480@smile.fi.intel.com>
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     ronald@innovation.ch, nikolas@gnu.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2] Input: applespi - Fix build error
+Message-ID: <20190731134937.GE147138@dtor-ws>
+References: <20190729031455.59400-1-yuehaibing@huawei.com>
+ <20190730133414.49008-1-yuehaibing@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190731133840.GN23480@smile.fi.intel.com>
+In-Reply-To: <20190730133414.49008-1-yuehaibing@huawei.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 04:38:40PM +0300, Andy Shevchenko wrote:
-> On Wed, Jul 31, 2019 at 06:10:45AM -0700, Dmitry Torokhov wrote:
-> > On Wed, Jul 31, 2019 at 02:43:39PM +0200, Greg Kroah-Hartman wrote:
-> > > This patch originally started out just as a way for platform drivers to
-> > > easily add a sysfs group in a race-free way, but thanks to Dmitry's
-> > > patch, this series now is for all drivers in the kernel (hey, a unified
-> > > driver model works!!!)
-> > > 
-> > > I've only converted a few platform drivers here in this series to show
-> > > how it works, but other busses can be converted after the first patch
-> > > goes into the tree.
-> > > 
-> > > Here's the original 00 message, for people to get an idea of what is
-> > > going on here:
-> > > 
-> > > If a platform driver wants to add a sysfs group, it has to do so in a
-> > > racy way, adding it after the driver is bound.  To resolve this issue,
-> > > have the platform driver core do this for the driver, making the
-> > > individual drivers logic smaller and simpler, and solving the race at
-> > > the same time.
-> > > 
-> > > All of these patches depend on the first patch.  I'll take the first one
-> > > through my driver-core tree, and any subsystem maintainer can either ack
-> > > their individul patch and I will be glad to also merge it, or they can
-> > > wait until after 5.4-rc1 when the core patch hits Linus's tree and then
-> > > take it, it's up to them.
-> > 
-> > Maybe make an immutable branch off 5.2 with just patch 1/10 so that
-> > subsystems (and the driver core tree itself) could pull it in at their
-> > leisure into their "*-next" branches and did not have to wait till 5.4
-> > or risk merge clashes?
+On Tue, Jul 30, 2019 at 09:34:14PM +0800, YueHaibing wrote:
+> If CONFIG_KEYBOARD_APPLESPI=y but CONFIG_LEDS_CLASS=m
+> building fails:
 > 
-> Isn't cherry-pick enough for one patch?
+> drivers/input/keyboard/applespi.o: In function `applespi_probe':
+> applespi.c:(.text+0x1fcd): undefined reference to `devm_led_classdev_register_ext'
+> 
+> Add "depends on LEDS_CLASS" to the Konfig
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 038b1a05eae6 ("Input: add Apple SPI keyboard and trackpad driver")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 
-With cherry-picking you run into potential merge conflicts if Greg
-changes more code in the same area. Plus, once everything is merged into
-Linus' tree, there will be N git commits adding the same thing.
+Applied, thank you.
 
-With immutable branch there is a single git commit, so merges are
-guaranteed to be clean, with no conflicts.
-
-Thanks.
+> ---
+> v2: use 'depends on LEDS_CLASS'
+> ---
+>  drivers/input/keyboard/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+> index ebb19e2..90e8a7f 100644
+> --- a/drivers/input/keyboard/Kconfig
+> +++ b/drivers/input/keyboard/Kconfig
+> @@ -76,6 +76,7 @@ config KEYBOARD_APPLESPI
+>  	depends on ACPI && EFI
+>  	depends on SPI
+>  	depends on X86 || COMPILE_TEST
+> +	depends on LEDS_CLASS
+>  	select CRC16
+>  	help
+>  	  Say Y here if you are running Linux on any Apple MacBook8,1 or later,
+> -- 
+> 2.7.4
+> 
+> 
 
 -- 
 Dmitry
