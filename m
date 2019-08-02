@@ -2,142 +2,210 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A51F47F56A
-	for <lists+linux-input@lfdr.de>; Fri,  2 Aug 2019 12:46:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 961B67F723
+	for <lists+linux-input@lfdr.de>; Fri,  2 Aug 2019 14:45:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732401AbfHBKqh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 2 Aug 2019 06:46:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34086 "EHLO mail.kernel.org"
+        id S1731445AbfHBMpG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 2 Aug 2019 08:45:06 -0400
+Received: from uho.ysoft.cz ([81.19.3.130]:40260 "EHLO uho.ysoft.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730841AbfHBKqg (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 2 Aug 2019 06:46:36 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 412262087E;
-        Fri,  2 Aug 2019 10:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564742795;
-        bh=/Xo8pj+jLNFZr+k58OkpgJ6361PxmCXwjaJe76ZgvQ4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bguPlqmbZheY1d41/TUOJypiEzni5SdqGWSfXCyvcy+41ffeFMZs7DlxzidPFbVDg
-         lNEM1JV5n0kaBfZ8Zk5BlH+xkYzf5X28x7CKgTqlP93I0FsxJiuqB/EPEYyxOrWnFb
-         eaYAOGHAUm+aLPpqIKkhug+DzWGzJ2ImmL2AUZyc=
-Date:   Fri, 2 Aug 2019 12:46:33 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S1730003AbfHBMpG (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 2 Aug 2019 08:45:06 -0400
+Received: from [10.1.8.111] (unknown [10.1.8.111])
+        by uho.ysoft.cz (Postfix) with ESMTP id 1CF12A2467;
+        Fri,  2 Aug 2019 14:45:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+        s=20160406-ysoft-com; t=1564749903;
+        bh=nvQUfKP+YLUvGkf2Egb3la6Tmn8eCU9WiK5TjnwIgDc=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=Ea9qyXXpqHlROgmKsP9rS6PDmtn/V6oA/bX/euvhuFlge7fnjadjRf3412MNNFenT
+         fsfYSE+sYfl4jOVp6daeoVzB96c4Ssy+wJGNyJTay2crCEpcKUtjuBb6ZTM8GiUt+m
+         b6SpxHhkXvRAdHFRnG3FTaUP1Mq6ny7TlNeAHTZI=
+Subject: Re: [RFC PATCH v2 0/4] Input: mpr121-polled: Add polled driver for
+ MPR121
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Richard Gong <richard.gong@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Darren Hart <dvhart@infradead.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Prisk <linux@prisktech.co.nz>,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH v2 00/10] drivers, provide a way to add sysfs groups
- easily
-Message-ID: <20190802104633.GA14823@kroah.com>
-References: <20190731124349.4474-1-gregkh@linuxfoundation.org>
- <20190731131045.GB147138@dtor-ws>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>
+References: <1558098773-47416-1-git-send-email-michal.vokac@ysoft.com>
+ <20190521053705.GI183429@dtor-ws>
+ <ef172b24-cd27-5bb0-d8b1-718f835d0647@ysoft.com>
+ <20190725085753.GA26665@penguin>
+ <ac436c3c-fa89-f777-85b2-f38adf842e10@ysoft.com>
+ <20190725144009.GA27432@penguin>
+ <dcee1139-c53f-5ea0-f387-a3aa5a9bf39f@ysoft.com>
+ <20190727073156.GA795@penguin>
+ <f06a913e-09aa-3225-a495-bb290ee2bb6f@ysoft.com>
+ <20190801234954.GA178933@dtor-ws>
+From:   =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+Message-ID: <f240ecdf-b142-02f0-2e1a-655693f4fa30@ysoft.com>
+Date:   Fri, 2 Aug 2019 14:45:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190731131045.GB147138@dtor-ws>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190801234954.GA178933@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 06:10:45AM -0700, Dmitry Torokhov wrote:
-> On Wed, Jul 31, 2019 at 02:43:39PM +0200, Greg Kroah-Hartman wrote:
-> > This patch originally started out just as a way for platform drivers to
-> > easily add a sysfs group in a race-free way, but thanks to Dmitry's
-> > patch, this series now is for all drivers in the kernel (hey, a unified
-> > driver model works!!!)
-> > 
-> > I've only converted a few platform drivers here in this series to show
-> > how it works, but other busses can be converted after the first patch
-> > goes into the tree.
-> > 
-> > Here's the original 00 message, for people to get an idea of what is
-> > going on here:
-> > 
-> > If a platform driver wants to add a sysfs group, it has to do so in a
-> > racy way, adding it after the driver is bound.  To resolve this issue,
-> > have the platform driver core do this for the driver, making the
-> > individual drivers logic smaller and simpler, and solving the race at
-> > the same time.
-> > 
-> > All of these patches depend on the first patch.  I'll take the first one
-> > through my driver-core tree, and any subsystem maintainer can either ack
-> > their individul patch and I will be glad to also merge it, or they can
-> > wait until after 5.4-rc1 when the core patch hits Linus's tree and then
-> > take it, it's up to them.
+On 02. 08. 19 1:49, Dmitry Torokhov wrote:
+> On Tue, Jul 30, 2019 at 11:25:49AM +0200, Michal Vokáč wrote:
+>> On 27. 07. 19 9:31, Dmitry Torokhov wrote:
+>>> On Fri, Jul 26, 2019 at 01:31:31PM +0200, Michal Vokáč wrote:
+>>>> On 25. 07. 19 16:40, Dmitry Torokhov wrote:
+>>>>> On Thu, Jul 25, 2019 at 02:58:02PM +0200, Michal Vokáč wrote:
+>>>>>> On 25. 07. 19 10:57, Dmitry Torokhov wrote:
+>>>>>>> Hi Michal,
+>>>>>>>
+>>>>>>> On Tue, May 21, 2019 at 08:51:17AM +0200, Michal Vokáč wrote:
+>>>>>>>> On 21. 05. 19 7:37, Dmitry Torokhov wrote:
+>>>>>>>>> Hi Michal,
+>>>>>>>>>
+>>>>>>>>> On Fri, May 17, 2019 at 03:12:49PM +0200, Michal Vokáč wrote:
+>>>>>>>>>> Hi,
+>>>>>>>>>>
+>>>>>>>>>> I have to deal with a situation where we have a custom i.MX6 based
+>>>>>>>>>> platform in production that uses the MPR121 touchkey controller.
+>>>>>>>>>> Unfortunately the chip is connected using only the I2C interface.
+>>>>>>>>>> The interrupt line is not used. Back in 2015 (Linux v3.14), my
+>>>>>>>>>> colleague modded the existing mpr121_touchkey.c driver to use polling
+>>>>>>>>>> instead of interrupt.
+>>>>>>>>>>
+>>>>>>>>>> For quite some time yet I am in a process of updating the product from
+>>>>>>>>>> the ancient Freescale v3.14 kernel to the latest mainline and pushing
+>>>>>>>>>> any needed changes upstream. The DT files for our imx6dl-yapp4 platform
+>>>>>>>>>> already made it into v5.1-rc.
+>>>>>>>>>>
+>>>>>>>>>> I rebased and updated our mpr121 patch to the latest mainline.
+>>>>>>>>>> It is created as a separate driver, similarly to gpio_keys_polled.
+>>>>>>>>>>
+>>>>>>>>>> The I2C device is quite susceptible to ESD. An ESD test quite often
+>>>>>>>>>> causes reset of the chip or some register randomly changes its value.
+>>>>>>>>>> The [PATCH 3/4] adds a write-through register cache. With the cache
+>>>>>>>>>> this state can be detected and the device can be re-initialied.
+>>>>>>>>>>
+>>>>>>>>>> The main question is: Is there any chance that such a polled driver
+>>>>>>>>>> could be accepted? Is it correct to implement it as a separate driver
+>>>>>>>>>> or should it be done as an option in the existing driver? I can not
+>>>>>>>>>> really imagine how I would do that though..
+>>>>>>>>>>
+>>>>>>>>>> There are also certain worries that the MPR121 chip may no longer be
+>>>>>>>>>> available in nonspecifically distant future. In case of EOL I will need
+>>>>>>>>>> to add a polled driver for an other touchkey chip. May it be already
+>>>>>>>>>> in mainline or a completely new one.
+>>>>>>>>>
+>>>>>>>>> I think that my addition of input_polled_dev was ultimately a wrong
+>>>>>>>>> thing to do. I am looking into enabling polling mode for regular input
+>>>>>>>>> devices as we then can enable polling mode in existing drivers.
+>>>>>>>>
+>>>>>>>> OK, that sounds good. Especially when one needs to switch from one chip
+>>>>>>>> to another that is already in tree, the need for a whole new polling
+>>>>>>>> driver is eliminated.
+>>>>>>>
+>>>>>>> Could you please try the patch below and see if it works for your use
+>>>>>>> case? Note that I have not tried running it, but it compiles so it must
+>>>>>>> be good ;)
+>>>>>>
+>>>>>> Hi Dmitry,
+>>>>>> Thank you very much for the patch!
+>>>>>> I gave it a shot and it seems you forgot to add the input-poller.h file
+>>>>>> to the patch.. it does not compile on my side :(
+>>>>>
+>>>>> Oops ;) Please see the updated patch below.
+>>>>
+>>>> Thank you, now it is (almost) good as you said :D
+>>>>
+>>>>>>
+>>>>>>> Input: add support for polling to input devices
+>>>>>>>
+>>>>>>> From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>>>>>>>
+>>>>>>> Separating "normal" and "polled" input devices was a mistake, as often we want
+>>>>>>> to allow the very same device work on both interrupt-driven and polled mode,
+>>>>>>> depending on the board on which the device is used.
+>>>>>>>
+>>>>>>> This introduces new APIs:
+>>>>>>>
+>>>>>>> - input_setup_polling
+>>>>>>> - input_set_poll_interval
+>>>>>>> - input_set_min_poll_interval
+>>>>>>> - input_set_max_poll_interval
+>>>>>>>
+>>>>>>> These new APIs allow switching an input device into polled mode with sysfs
+>>>>>>> attributes matching drivers using input_polled_dev APIs that will be eventually
+>>>>>>> removed.
+>>>>>>
+>>>>>> After reading this I am not really sure what else needs to be done
+>>>>>> to test/use the poller. I suspect I need to modify the input device
+>>>>>> driver (mpr121_touchkey.c in my case) like this:
+>>>>>>
+>>>>>> If the interrupt gpio is not provided in DT, the device driver probe
+>>>>>> function should:
+>>>>>>     - not request the threaded interrupt
+>>>>>>     - call input_setup_polling and provide it with poll_fn
+>>>>>>       Can the mpr_touchkey_interrupt function be used as is for this
+>>>>>>       purpose? The only problem I see is it returns IRQ_HANDLED.
+>>>>>
+>>>>> I'd factor out code suitable for polling from mpr_touchkey_interrupt()
+>>>>> and then do
+>>>>>
+>>>>> static irqreturn_t mpr_touchkey_interrupt(...)
+>>>>> {
+>>>>> 	mpr_touchkey_report(...);
+>>>>> 	return IRQ_HANDLED;
+>>>>> }
+>>>>>
+>>>>
+>>>> Probably a trivial problem for experienced kernel hacker but I can not
+>>>> wrap my head around this - the interrupt handler takes the mpr121
+>>>> device id as an argument while the poller poll_fn takes struct input_dev.
+>>>>
+>>>> I fail to figure out how to get the device id from the input device.
+>>>>
+>> Thanks for the hints Dmitry. I am trying my best but still have some
+>> issues with the input_set/get_drvdata.
+>>
+>> The kernel Oopses on NULL pointer dereference in mpr_touchkey_report.
+>> Here is the backtrace:
+>>
+>> [    2.916960] 8<--- cut here ---
+>> [    2.920022] Unable to handle kernel NULL pointer dereference at virtual address 000001d0
+>> [    2.928138] pgd = (ptrval)
 > 
-> Maybe make an immutable branch off 5.2 with just patch 1/10 so that
-> subsystems (and the driver core tree itself) could pull it in at their
-> leisure into their "*-next" branches and did not have to wait till 5.4
-> or risk merge clashes?
+> Ah, that's my fault I believe. Can you please try sticking
+> 
+> 	poller->input = dev;
+> 
+> into input_setup_polling()?
+> 
+Nice, that solved the problem and I confirm the poller mechanism works
+as expected. The sysfs poll/min/max interface also works just fine.
 
-I have now done this with patch 1/10.  Here's the pull info if any
-subsystem maintainer wants to suck this into their tree to provide the
-ability for drivers to add/remove attribute groups easily.
+Please Cc me when you submit your patch. I think you can already add
+my "Tested-by: Michal Vokáč <michal.vokac@ysoft.com>".
 
-This is part of my driver-core tree now, and will go to Linus for
-5.4-rc1, along with a few platform drivers that have been acked by their
-various subsystem maintainers that convert them to use this new
-functionality.
+I will send mine series when the poller is in your tree. I will include
+the proposed DT binding change, adding the "linux,poll-interrupt"
+property, though Rob did not respond to this yet.
 
-If anyone has any questions about this, please let me know.
+What about the min/max poll interval limits? Was your idea those should
+also be configurable from DT? Currently I defined some limits that are
+reasonable for our use case but may not be suitable for someone else.
 
-thanks,
+In the meantime I also need to improve reliability of the reading.
+Sometimes the keys get stuck or an electrostatic discharge causes
+reset of the chip. I will extract changes that deal with these problems
+from the RFC series and from some downstream patches and submit those
+later.
 
-greg k-h
-
--------------------
-
-The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
-
-  Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git tags/dev_groups_all_drivers
-
-for you to fetch changes up to 23b6904442d08b7dbed7622ed33b236d41a3aa8b:
-
-  driver core: add dev_groups to all drivers (2019-08-02 12:37:53 +0200)
-
-----------------------------------------------------------------
-dev_groups added to struct driver
-
-Persistent tag for others to pull this branch from
-
-This is the first patch in a longer series that adds the ability for the
-driver core to create and remove a list of attribute groups
-automatically when the device is bound/unbound from a specific driver.
-
-See:
-	https://lore.kernel.org/r/20190731124349.4474-2-gregkh@linuxfoundation.org
-for details on this patch, and examples of how to use it in other
-drivers.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Dmitry Torokhov (1):
-      driver core: add dev_groups to all drivers
-
- drivers/base/dd.c      | 14 ++++++++++++++
- include/linux/device.h |  3 +++
- 2 files changed, 17 insertions(+)
+Thank you!
+Michal
