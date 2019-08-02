@@ -2,210 +2,223 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 961B67F723
-	for <lists+linux-input@lfdr.de>; Fri,  2 Aug 2019 14:45:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7055C7F854
+	for <lists+linux-input@lfdr.de>; Fri,  2 Aug 2019 15:19:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731445AbfHBMpG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 2 Aug 2019 08:45:06 -0400
-Received: from uho.ysoft.cz ([81.19.3.130]:40260 "EHLO uho.ysoft.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730003AbfHBMpG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 2 Aug 2019 08:45:06 -0400
-Received: from [10.1.8.111] (unknown [10.1.8.111])
-        by uho.ysoft.cz (Postfix) with ESMTP id 1CF12A2467;
-        Fri,  2 Aug 2019 14:45:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
-        s=20160406-ysoft-com; t=1564749903;
-        bh=nvQUfKP+YLUvGkf2Egb3la6Tmn8eCU9WiK5TjnwIgDc=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Ea9qyXXpqHlROgmKsP9rS6PDmtn/V6oA/bX/euvhuFlge7fnjadjRf3412MNNFenT
-         fsfYSE+sYfl4jOVp6daeoVzB96c4Ssy+wJGNyJTay2crCEpcKUtjuBb6ZTM8GiUt+m
-         b6SpxHhkXvRAdHFRnG3FTaUP1Mq6ny7TlNeAHTZI=
-Subject: Re: [RFC PATCH v2 0/4] Input: mpr121-polled: Add polled driver for
- MPR121
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
+        id S2393186AbfHBNTZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 2 Aug 2019 09:19:25 -0400
+Received: from mail-out.m-online.net ([212.18.0.9]:44450 "EHLO
+        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393174AbfHBNTZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Aug 2019 09:19:25 -0400
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+        by mail-out.m-online.net (Postfix) with ESMTP id 460SRs2qrkz1rQFs;
+        Fri,  2 Aug 2019 15:19:21 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+        by mail.m-online.net (Postfix) with ESMTP id 460SRs23C3z1qqkh;
+        Fri,  2 Aug 2019 15:19:21 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
+        with ESMTP id oVhibnfya8qd; Fri,  2 Aug 2019 15:19:19 +0200 (CEST)
+X-Auth-Info: 9tvX0qGeQu8hDBS5PC39M2yz/zTWBr8qSiq/Qhrt6bg=
+Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.mnet-online.de (Postfix) with ESMTPSA;
+        Fri,  2 Aug 2019 15:19:19 +0200 (CEST)
+Date:   Fri, 2 Aug 2019 15:19:12 +0200
+From:   Lukasz Majewski <lukma@denx.de>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>
-References: <1558098773-47416-1-git-send-email-michal.vokac@ysoft.com>
- <20190521053705.GI183429@dtor-ws>
- <ef172b24-cd27-5bb0-d8b1-718f835d0647@ysoft.com>
- <20190725085753.GA26665@penguin>
- <ac436c3c-fa89-f777-85b2-f38adf842e10@ysoft.com>
- <20190725144009.GA27432@penguin>
- <dcee1139-c53f-5ea0-f387-a3aa5a9bf39f@ysoft.com>
- <20190727073156.GA795@penguin>
- <f06a913e-09aa-3225-a495-bb290ee2bb6f@ysoft.com>
- <20190801234954.GA178933@dtor-ws>
-From:   =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
-Message-ID: <f240ecdf-b142-02f0-2e1a-655693f4fa30@ysoft.com>
-Date:   Fri, 2 Aug 2019 14:45:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Enrico Weigelt <info@metux.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] mfd: mc13xxx: Add mc34708 adc support
+Message-ID: <20190802151912.26dbb296@jawa>
+In-Reply-To: <20190725182020.3948c8d9@jawa>
+References: <20190717222602.2912-1-lukma@denx.de>
+        <20190717222602.2912-2-lukma@denx.de>
+        <20190725123641.GJ23883@dell>
+        <20190725182020.3948c8d9@jawa>
+Organization: denx.de
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190801234954.GA178933@dtor-ws>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/zmE80JuW0829EruyaBP_t4j"; protocol="application/pgp-signature"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 02. 08. 19 1:49, Dmitry Torokhov wrote:
-> On Tue, Jul 30, 2019 at 11:25:49AM +0200, Michal Vokáč wrote:
->> On 27. 07. 19 9:31, Dmitry Torokhov wrote:
->>> On Fri, Jul 26, 2019 at 01:31:31PM +0200, Michal Vokáč wrote:
->>>> On 25. 07. 19 16:40, Dmitry Torokhov wrote:
->>>>> On Thu, Jul 25, 2019 at 02:58:02PM +0200, Michal Vokáč wrote:
->>>>>> On 25. 07. 19 10:57, Dmitry Torokhov wrote:
->>>>>>> Hi Michal,
->>>>>>>
->>>>>>> On Tue, May 21, 2019 at 08:51:17AM +0200, Michal Vokáč wrote:
->>>>>>>> On 21. 05. 19 7:37, Dmitry Torokhov wrote:
->>>>>>>>> Hi Michal,
->>>>>>>>>
->>>>>>>>> On Fri, May 17, 2019 at 03:12:49PM +0200, Michal Vokáč wrote:
->>>>>>>>>> Hi,
->>>>>>>>>>
->>>>>>>>>> I have to deal with a situation where we have a custom i.MX6 based
->>>>>>>>>> platform in production that uses the MPR121 touchkey controller.
->>>>>>>>>> Unfortunately the chip is connected using only the I2C interface.
->>>>>>>>>> The interrupt line is not used. Back in 2015 (Linux v3.14), my
->>>>>>>>>> colleague modded the existing mpr121_touchkey.c driver to use polling
->>>>>>>>>> instead of interrupt.
->>>>>>>>>>
->>>>>>>>>> For quite some time yet I am in a process of updating the product from
->>>>>>>>>> the ancient Freescale v3.14 kernel to the latest mainline and pushing
->>>>>>>>>> any needed changes upstream. The DT files for our imx6dl-yapp4 platform
->>>>>>>>>> already made it into v5.1-rc.
->>>>>>>>>>
->>>>>>>>>> I rebased and updated our mpr121 patch to the latest mainline.
->>>>>>>>>> It is created as a separate driver, similarly to gpio_keys_polled.
->>>>>>>>>>
->>>>>>>>>> The I2C device is quite susceptible to ESD. An ESD test quite often
->>>>>>>>>> causes reset of the chip or some register randomly changes its value.
->>>>>>>>>> The [PATCH 3/4] adds a write-through register cache. With the cache
->>>>>>>>>> this state can be detected and the device can be re-initialied.
->>>>>>>>>>
->>>>>>>>>> The main question is: Is there any chance that such a polled driver
->>>>>>>>>> could be accepted? Is it correct to implement it as a separate driver
->>>>>>>>>> or should it be done as an option in the existing driver? I can not
->>>>>>>>>> really imagine how I would do that though..
->>>>>>>>>>
->>>>>>>>>> There are also certain worries that the MPR121 chip may no longer be
->>>>>>>>>> available in nonspecifically distant future. In case of EOL I will need
->>>>>>>>>> to add a polled driver for an other touchkey chip. May it be already
->>>>>>>>>> in mainline or a completely new one.
->>>>>>>>>
->>>>>>>>> I think that my addition of input_polled_dev was ultimately a wrong
->>>>>>>>> thing to do. I am looking into enabling polling mode for regular input
->>>>>>>>> devices as we then can enable polling mode in existing drivers.
->>>>>>>>
->>>>>>>> OK, that sounds good. Especially when one needs to switch from one chip
->>>>>>>> to another that is already in tree, the need for a whole new polling
->>>>>>>> driver is eliminated.
->>>>>>>
->>>>>>> Could you please try the patch below and see if it works for your use
->>>>>>> case? Note that I have not tried running it, but it compiles so it must
->>>>>>> be good ;)
->>>>>>
->>>>>> Hi Dmitry,
->>>>>> Thank you very much for the patch!
->>>>>> I gave it a shot and it seems you forgot to add the input-poller.h file
->>>>>> to the patch.. it does not compile on my side :(
->>>>>
->>>>> Oops ;) Please see the updated patch below.
->>>>
->>>> Thank you, now it is (almost) good as you said :D
->>>>
->>>>>>
->>>>>>> Input: add support for polling to input devices
->>>>>>>
->>>>>>> From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
->>>>>>>
->>>>>>> Separating "normal" and "polled" input devices was a mistake, as often we want
->>>>>>> to allow the very same device work on both interrupt-driven and polled mode,
->>>>>>> depending on the board on which the device is used.
->>>>>>>
->>>>>>> This introduces new APIs:
->>>>>>>
->>>>>>> - input_setup_polling
->>>>>>> - input_set_poll_interval
->>>>>>> - input_set_min_poll_interval
->>>>>>> - input_set_max_poll_interval
->>>>>>>
->>>>>>> These new APIs allow switching an input device into polled mode with sysfs
->>>>>>> attributes matching drivers using input_polled_dev APIs that will be eventually
->>>>>>> removed.
->>>>>>
->>>>>> After reading this I am not really sure what else needs to be done
->>>>>> to test/use the poller. I suspect I need to modify the input device
->>>>>> driver (mpr121_touchkey.c in my case) like this:
->>>>>>
->>>>>> If the interrupt gpio is not provided in DT, the device driver probe
->>>>>> function should:
->>>>>>     - not request the threaded interrupt
->>>>>>     - call input_setup_polling and provide it with poll_fn
->>>>>>       Can the mpr_touchkey_interrupt function be used as is for this
->>>>>>       purpose? The only problem I see is it returns IRQ_HANDLED.
->>>>>
->>>>> I'd factor out code suitable for polling from mpr_touchkey_interrupt()
->>>>> and then do
->>>>>
->>>>> static irqreturn_t mpr_touchkey_interrupt(...)
->>>>> {
->>>>> 	mpr_touchkey_report(...);
->>>>> 	return IRQ_HANDLED;
->>>>> }
->>>>>
->>>>
->>>> Probably a trivial problem for experienced kernel hacker but I can not
->>>> wrap my head around this - the interrupt handler takes the mpr121
->>>> device id as an argument while the poller poll_fn takes struct input_dev.
->>>>
->>>> I fail to figure out how to get the device id from the input device.
->>>>
->> Thanks for the hints Dmitry. I am trying my best but still have some
->> issues with the input_set/get_drvdata.
->>
->> The kernel Oopses on NULL pointer dereference in mpr_touchkey_report.
->> Here is the backtrace:
->>
->> [    2.916960] 8<--- cut here ---
->> [    2.920022] Unable to handle kernel NULL pointer dereference at virtual address 000001d0
->> [    2.928138] pgd = (ptrval)
-> 
-> Ah, that's my fault I believe. Can you please try sticking
-> 
-> 	poller->input = dev;
-> 
-> into input_setup_polling()?
-> 
-Nice, that solved the problem and I confirm the poller mechanism works
-as expected. The sysfs poll/min/max interface also works just fine.
+--Sig_/zmE80JuW0829EruyaBP_t4j
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Please Cc me when you submit your patch. I think you can already add
-my "Tested-by: Michal Vokáč <michal.vokac@ysoft.com>".
+Hi Lee,
 
-I will send mine series when the poller is in your tree. I will include
-the proposed DT binding change, adding the "linux,poll-interrupt"
-property, though Rob did not respond to this yet.
+> Hi Lee,
+>=20
+> > On Thu, 18 Jul 2019, Lukasz Majewski wrote:
+> >  =20
+> > > From: Sascha Hauer <s.hauer@pengutronix.de>
+> > >=20
+> > > The mc34708 has an improved adc. The older variants will always
+> > > convert a fixed order of channels. The mc34708 can do up to eight
+> > > conversions in arbitrary channel order. Currently this extended
+> > > feature is not supported. We only support touchscreen conversions
+> > > now, which will be sampled in a data format compatible to the
+> > > older chips in order to keep the API between the mfd and the
+> > > touchscreen driver.
+> > >=20
+> > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > > Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> > >=20
+> > > ---
+> > > Changes for v4:
+> > > - None
+> > >=20
+> > > Changes for v3:
+> > > - None
+> > >=20
+> > > Changes for v2:
+> > > - Change the return code patch when the mc13xxx ADC is performing
+> > > conversion
+> > > - Introduce new include/linux/mfd/mc34708.h header file for
+> > > mc34708 specific defines
+> > >=20
+> > > Changes from the original patches:
+> > > - ADC conversion functions prototypes added to fix build error
+> > > - Adjustments to make checkpatch clean (-ENOSYS, line over 80
+> > > char)
+> > >=20
+> > > This patch applies on top of v5.2 - SHA1:
+> > > 0ecfebd2b52404ae0c54a878c872bb93363ada36 ---
+> > >  drivers/mfd/mc13xxx-core.c  | 102
+> > > +++++++++++++++++++++++++++++++++++++++++++-
+> > > drivers/mfd/mc13xxx.h       |   3 ++ include/linux/mfd/mc34708.h |
+> > > 37 ++++++++++++++++ 3 files changed, 141 insertions(+), 1
+> > > deletion(-) create mode 100644 include/linux/mfd/mc34708.h
+> > >=20
+> > > diff --git a/drivers/mfd/mc13xxx-core.c
+> > > b/drivers/mfd/mc13xxx-core.c index 1abe7432aad8..01473d6fda21
+> > > 100644 --- a/drivers/mfd/mc13xxx-core.c
+> > > +++ b/drivers/mfd/mc13xxx-core.c
+> > > @@ -12,6 +12,7 @@
+> > >  #include <linux/of_device.h>
+> > >  #include <linux/platform_device.h>
+> > >  #include <linux/mfd/core.h>
+> > > +#include <linux/mfd/mc34708.h>
+> > > =20
+> > >  #include "mc13xxx.h"
+> > > =20
+> > > @@ -45,6 +46,8 @@
+> > > =20
+> > >  #define MC13XXX_ADC2		45
+> > > =20
+> > > +#define MC13XXX_ADC_WORKING		(1 << 0)   =20
+> >=20
+> > BIT(0) ? =20
+>=20
+> The same convention - i.e. (1 << 0) is used in the rest of the file.
+>=20
+> >  =20
+> > >  void mc13xxx_lock(struct mc13xxx *mc13xxx)
+> > >  {
+> > >  	if (!mutex_trylock(&mc13xxx->lock)) {
+> > > @@ -198,22 +201,30 @@ static void mc34708_print_revision(struct
+> > > mc13xxx *mc13xxx, u32 revision) maskval(revision,
+> > > MC34708_REVISION_FAB)); }
+> > > =20
+> > > +static int mc13xxx_adc_conversion(struct mc13xxx *, unsigned int,
+> > > +				  unsigned int, u8, bool,
+> > > unsigned int *); +static int mc34708_adc_conversion(struct
+> > > mc13xxx *, unsigned int,
+> > > +				  unsigned int, u8, bool,
+> > > unsigned int *); +
+> > >  /* These are only exported for mc13xxx-i2c and mc13xxx-spi */
+> > >  struct mc13xxx_variant mc13xxx_variant_mc13783 =3D {
+> > >  	.name =3D "mc13783",
+> > >  	.print_revision =3D mc13xxx_print_revision,
+> > > +	.adc_do_conversion =3D mc13xxx_adc_conversion,
+> > >  };
+> > >  EXPORT_SYMBOL_GPL(mc13xxx_variant_mc13783);   =20
+> >=20
+> > I'd prefer to keep the call-back functions as close to zero as
+> > possible. =20
+>=20
+> If I may ask - what is wrong with having per device callback(s) ?
+>=20
+> >=20
+> > It would be better to turn mc13xxx_adc_conversion() in to the catch
+> > function =20
+>=20
+> Could you share any example?=20
+>=20
+> > choose an execution route based on some platform matching.
+> >  =20
+>=20
+> Could you help me with giving a hint of how shall I do the "platform
+> matching" in this particular driver ?=20
+>=20
+> The mc13xxx driver seems rather complex with SPI and I2C support and
+> in which the subdevices are added (e.g. rtc, adc, etc).
+>=20
+> This particular patch just follows current driver design and fixes its
+> usability for mc13708 drvice.
+>=20
+> > If you could do the same for print_revision too, that would be even
+> > better.
+> >  =20
+>=20
+> I would prefer to fix the driver (for mc13708) without the need to
+> change the working code.
+>=20
 
-What about the min/max poll interval limits? Was your idea those should
-also be configurable from DT? Currently I defined some limits that are
-reasonable for our use case but may not be suitable for someone else.
+Lee, would you find time to reply to this message?
 
-In the meantime I also need to improve reliability of the reading.
-Sometimes the keys get stuck or an electrostatic discharge causes
-reset of the chip. I will extract changes that deal with these problems
-from the RFC series and from some downstream patches and submit those
-later.
+>=20
+> Best regards,
+>=20
+> Lukasz Majewski
+>=20
+> --
+>=20
+> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+> Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
+> lukma@denx.de
 
-Thank you!
-Michal
+
+
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+
+--Sig_/zmE80JuW0829EruyaBP_t4j
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAl1EOFAACgkQAR8vZIA0
+zr1RrQgAkaqi4QhRPJw3YqkMBVlkgZlaG1nv8cETXkocLSj3pu9xyAObrunMOFDU
+p0wTmW0BiTF80P2LX4a3UIu3cINVzGIdYv1tIXj1rJLEpSirVvUa/OvbuU8GDOAB
+IV2AB9ojEBeDdgSjSdncqnFH8ZuWXB52uk5cQFATARw3uMUvi0gsNUjg+48T1Bgs
+JLh0JGEa9KZ52OOIOrFSmHGo4UOBjAUDtf3Q1yTIQ5jQKUm/dwuKdxCYLtl7dOxc
+siC5DsgauGtx+U3dPXCYahauQnjUO557c0a/uuctu+QRBkUv42kNNkud4f8GKyfP
+EZB8f6jJA5yLxXqtrNl+4AAQFkjhUQ==
+=TB5+
+-----END PGP SIGNATURE-----
+
+--Sig_/zmE80JuW0829EruyaBP_t4j--
