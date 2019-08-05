@@ -2,36 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F94681939
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2019 14:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49CCA8196D
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2019 14:38:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728058AbfHEMZs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Aug 2019 08:25:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58692 "EHLO mail.kernel.org"
+        id S1728797AbfHEMiL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Aug 2019 08:38:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60530 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727259AbfHEMZr (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 5 Aug 2019 08:25:47 -0400
+        id S1728793AbfHEMiK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 5 Aug 2019 08:38:10 -0400
 Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 399262086D;
-        Mon,  5 Aug 2019 12:25:46 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4591E2067D;
+        Mon,  5 Aug 2019 12:38:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565007947;
-        bh=z/rXzK3fVSHKaQ3W0t1WANwveIskt8hBss5bKhDSdXU=;
+        s=default; t=1565008690;
+        bh=BUB5G78uORK09bNVqnktRpi2y/1IiEfTb9E8k/FO1bE=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=fwW/JW4PPdK344AWUoKB45NQ9nRSps6rs2winulERO1bBadTWAdHDyQdnTWGpssqB
-         Es0BExOYPXj/I+pdmQAGQsL9nVxOndPCX4I0e020w01ONpp/gRKXCKeEC0PLbdWdQB
-         ojwmXi+nL2h37vsFm91aD1IGh7f0BS44ja0KJwhE=
-Date:   Mon, 5 Aug 2019 14:25:43 +0200 (CEST)
+        b=0Ngxu0+flwi3j9v61vccmmt/RSnHJRJIyfCj76d0rRjdj/GCfhUTjSXMAijH1lSR/
+         TIeunmNLiEozRRyhkCDrWTjoRZHOTZ9+uPUZf4o53V/+uX1NNiw/TbRmkurc0/D6L2
+         C/AiTXNzdKbpVbCPM1L8c5w3bqdbcIGl3YPfFgnc=
+Date:   Mon, 5 Aug 2019 14:38:06 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Sebastian Parschauer <s.parschauer@gmx.de>
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] HID: Add quirk for HP X1200 PIXART OEM mouse
-In-Reply-To: <20190724184003.12402-1-s.parschauer@gmx.de>
-Message-ID: <nycvar.YFH.7.76.1908051425350.5899@cbobk.fhfr.pm>
-References: <20190724184003.12402-1-s.parschauer@gmx.de>
+        dmitry.torokhov@gmail.com, wbauer@tmo.at,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] HID: input: fix a4tech horizontal wheel custom
+ usage
+In-Reply-To: <cd69abeb3883ff7c7e2ff8dbe4db722f4e981875.camel@suse.de>
+Message-ID: <nycvar.YFH.7.76.1908051437490.5899@cbobk.fhfr.pm>
+References: <20190611121320.30267-1-nsaenzjulienne@suse.de> <cd69abeb3883ff7c7e2ff8dbe4db722f4e981875.camel@suse.de>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,19 +42,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 24 Jul 2019, Sebastian Parschauer wrote:
+On Thu, 1 Aug 2019, Nicolas Saenz Julienne wrote:
 
-> The PixArt OEM mice are known for disconnecting every minute in
-> runlevel 1 or 3 if they are not always polled. So add quirk
-> ALWAYS_POLL for this one as well.
+> > Some a4tech mice use the 'GenericDesktop.00b8' usage to inform whether
+> > the previous wheel report was horizontal or vertical. Before
+> > c01908a14bf73 ("HID: input: add mapping for "Toggle Display" key") this
+> > usage was being mapped to 'Relative.Misc'. After the patch it's simply
+> > ignored (usage->type == 0 & usage->code == 0). Which ultimately makes
+> > hid-a4tech ignore the WHEEL/HWHEEL selection event, as it has no
+> > usage->type.
+> > 
+> > We shouldn't rely on a mapping for that usage as it's nonstandard and
+> > doesn't really map to an input event. So we bypass the mapping and make
+> > sure the custom event handling properly handles both reports.
+> > 
+> > Fixes: c01908a14bf73 ("HID: input: add mapping for "Toggle Display" key")
+> > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> > ---
 > 
-> Jonathan Teh (@jonathan-teh) reported and tested the quirk.
-> Reference: https://github.com/sriemer/fix-linux-mouse/issues/15
-> 
-> Signed-off-by: Sebastian Parschauer <s.parschauer@gmx.de>
-> CC: stable@vger.kernel.org
+> It would be nice for this patch not to get lost. It fixes issues both repoted
+> on opensuse and fedora.
 
-Applied, thanks.
+Sorry for the delay. I've now queued the patch. Thanks for fixing this,
 
 -- 
 Jiri Kosina
