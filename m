@@ -2,102 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D9DA82FCD
-	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2019 12:38:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADE4082FEA
+	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2019 12:45:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731922AbfHFKiN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Aug 2019 06:38:13 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39412 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730068AbfHFKiN (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 6 Aug 2019 06:38:13 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id AAB67AF38;
-        Tue,  6 Aug 2019 10:38:11 +0000 (UTC)
-Message-ID: <1565087891.8136.11.camel@suse.com>
-Subject: Re: KASAN: slab-out-of-bounds Write in lg4ff_init
-From:   Oliver Neukum <oneukum@suse.com>
-To:     syzbot <syzbot+94e2b9e9c7d1dd332345@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, syzkaller-bugs@googlegroups.com,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-usb@vger.kernel.org
-Date:   Tue, 06 Aug 2019 12:38:11 +0200
-In-Reply-To: <000000000000e5742c058f5dfaef@google.com>
-References: <000000000000e5742c058f5dfaef@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1732667AbfHFKob (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Aug 2019 06:44:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42020 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730068AbfHFKoa (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 6 Aug 2019 06:44:30 -0400
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E63852147A;
+        Tue,  6 Aug 2019 10:44:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565088270;
+        bh=RE4LYqyZC3nxGR4DY/hZXh7lFAak3XTUiykn9X5zQGs=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=h5Lfg02p2XPxNt0YbSYS0lK7k3nVNbP8ieel9hR9bGBc6D+7ui2q01OrgfFJYykMc
+         YSEvvODgoEX4JOjJgHWsLqPk0Ppi4CUNkn6jGZQMETFDSnXbkGXysbKWmWCuN9ISI+
+         47zJX4QYkvtDia6MxBQ0DNF2Ns38uKrNZ+dhGjuE=
+Date:   Tue, 6 Aug 2019 12:44:25 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Hillf Danton <hdanton@sina.com>
+cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzbot <syzbot+62a1e04fd3ec2abf099e@syzkaller.appspotmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Subject: Re: [PATCH resend 1/2] HID: hiddev: avoid opening a disconnected
+ device
+In-Reply-To: <20190806083858.8032-1-hdanton@sina.com>
+Message-ID: <nycvar.YFH.7.76.1908061244150.27147@cbobk.fhfr.pm>
+References: <20190806083858.8032-1-hdanton@sina.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Am Montag, den 05.08.2019, 05:38 -0700 schrieb syzbot:
-> Hello,
-> 
-> syzbot found the following crash on:
-> 
-> HEAD commit:    e96407b4 usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=144c21dc600000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=cfa2c18fb6a8068e
-> dashboard link: https://syzkaller.appspot.com/bug?extid=94e2b9e9c7d1dd332345
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=169e8542600000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10ec8262600000
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+94e2b9e9c7d1dd332345@syzkaller.appspotmail.com
-> 
-> usb 1-1: config 0 interface 0 altsetting 0 has 1 endpoint descriptor,  
-> different from the interface descriptor's value: 9
-> usb 1-1: New USB device found, idVendor=046d, idProduct=c298, bcdDevice=  
-> 0.00
-> usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-> usb 1-1: config 0 descriptor??
-> logitech 0003:046D:C298.0001: unknown main item tag 0x0
-> logitech 0003:046D:C298.0001: unknown main item tag 0x0
-> logitech 0003:046D:C298.0001: hidraw0: USB HID v0.00 Device [HID 046d:c298]  
-> on usb-dummy_hcd.0-1/input0
-> BUG: KASAN: slab-out-of-bounds in set_bit  
-> include/asm-generic/bitops-instrumented.h:28 [inline]
+Both patches applied, thanks.
 
-#syz test: https://github.com/google/kasan.git e96407b4
-
-From 90b712f3e9b9a45996eb0dfe5f489a4502c9f843 Mon Sep 17 00:00:00 2001
-From: Oliver Neukum <oneukum@suse.com>
-Date: Mon, 5 Aug 2019 16:14:47 +0200
-Subject: [PATCH] hid-lg4ff: sanity check for offsets of FF effects
-
-Malicious devices could provide huge offsets which would lead
-to setting bits in random kernel memory. Adding a sanity check.
-
-Reported-by: syzbot+94e2b9e9c7d1dd332345@syzkaller.appspotmail.com
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/hid/hid-lg4ff.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-lg4ff.c b/drivers/hid/hid-lg4ff.c
-index cefba038520c..9e63da793a0d 100644
---- a/drivers/hid/hid-lg4ff.c
-+++ b/drivers/hid/hid-lg4ff.c
-@@ -1327,8 +1327,12 @@ int lg4ff_init(struct hid_device *hid)
- 	}
- 
- 	/* Set supported force feedback capabilities */
-+	error = -ENODEV;
- 	for (j = 0; lg4ff_devices[i].ff_effects[j] >= 0; j++)
--		set_bit(lg4ff_devices[i].ff_effects[j], dev->ffbit);
-+		if (lg4ff_devices[i].ff_effects[j] < FF_CNT)
-+			set_bit(lg4ff_devices[i].ff_effects[j], dev->ffbit);
-+		else
-+			goto err_init;
- 
- 	error = input_ff_create_memless(dev, NULL, lg4ff_play);
- 
 -- 
-2.16.4
+Jiri Kosina
+SUSE Labs
 
