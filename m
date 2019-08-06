@@ -2,38 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ADE4082FEA
-	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2019 12:45:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA18E82FF2
+	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2019 12:47:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732667AbfHFKob (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Aug 2019 06:44:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42020 "EHLO mail.kernel.org"
+        id S1730844AbfHFKqx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Aug 2019 06:46:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43796 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730068AbfHFKoa (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 6 Aug 2019 06:44:30 -0400
+        id S1726877AbfHFKqx (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 6 Aug 2019 06:46:53 -0400
 Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E63852147A;
-        Tue,  6 Aug 2019 10:44:28 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AAED520818;
+        Tue,  6 Aug 2019 10:46:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565088270;
-        bh=RE4LYqyZC3nxGR4DY/hZXh7lFAak3XTUiykn9X5zQGs=;
+        s=default; t=1565088412;
+        bh=nW8mCCcPnaGE1IapBBAhGxQEOcRlhJPsGDcq9sFWs68=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=h5Lfg02p2XPxNt0YbSYS0lK7k3nVNbP8ieel9hR9bGBc6D+7ui2q01OrgfFJYykMc
-         YSEvvODgoEX4JOjJgHWsLqPk0Ppi4CUNkn6jGZQMETFDSnXbkGXysbKWmWCuN9ISI+
-         47zJX4QYkvtDia6MxBQ0DNF2Ns38uKrNZ+dhGjuE=
-Date:   Tue, 6 Aug 2019 12:44:25 +0200 (CEST)
+        b=1USLhnwTzze5zoPkXb/z47h6Iaka5qhFSIdsouPxESInJ6OjZNU2MhBP7c8udB/0c
+         ReZX9RgaOAh5s91Ph12f44J1hpViRNhxAkwPucQCWl9p1eo9Qf+WoLDXJ0ccGxxijH
+         hQpLvzjMH0IGubDu4egLYd6/pTRAHBYQzOqtkD5Q=
+Date:   Tue, 6 Aug 2019 12:46:47 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Hillf Danton <hdanton@sina.com>
-cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot <syzbot+62a1e04fd3ec2abf099e@syzkaller.appspotmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH resend 1/2] HID: hiddev: avoid opening a disconnected
- device
-In-Reply-To: <20190806083858.8032-1-hdanton@sina.com>
-Message-ID: <nycvar.YFH.7.76.1908061244150.27147@cbobk.fhfr.pm>
-References: <20190806083858.8032-1-hdanton@sina.com>
+To:     Roderick Colenbrander <roderick@gaikai.com>
+cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
+        svv@google.com, pgriffais@valvesoftware.com,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        stable@vger.kernel.org
+Subject: Re: [PATCH] HID: sony: Fix race condition between rumble and device
+ remove.
+In-Reply-To: <20190802225019.2418-1-roderick@gaikai.com>
+Message-ID: <nycvar.YFH.7.76.1908061246320.27147@cbobk.fhfr.pm>
+References: <20190802225019.2418-1-roderick@gaikai.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -42,7 +43,31 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Both patches applied, thanks.
+On Fri, 2 Aug 2019, Roderick Colenbrander wrote:
+
+> Valve reported a kernel crash on Ubuntu 18.04 when disconnecting a DS4
+> gamepad while rumble is enabled. This issue is reproducible with a
+> frequency of 1 in 3 times in the game Borderlands 2 when using an
+> automatic weapon, which triggers many rumble operations.
+> 
+> We found the issue to be a race condition between sony_remove and the
+> final device destruction by the HID / input system. The problem was
+> that sony_remove didn't clean some of its work_item state in
+> "struct sony_sc". After sony_remove work, the corresponding evdev
+> node was around for sufficient time for applications to still queue
+> rumble work after "sony_remove".
+> 
+> On pre-4.19 kernels the race condition caused a kernel crash due to a
+> NULL-pointer dereference as "sc->output_report_dmabuf" got freed during
+> sony_remove. On newer kernels this crash doesn't happen due the buffer
+> now being allocated using devm_kzalloc. However we can still queue work,
+> while the driver is an undefined state.
+> 
+> This patch fixes the described problem, by guarding the work_item
+> "state_worker" with an initialized variable, which we are setting back
+> to 0 on cleanup.
+
+Applied to for-5.3/upstream-fixes. Thanks,
 
 -- 
 Jiri Kosina
