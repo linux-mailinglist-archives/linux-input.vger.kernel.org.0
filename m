@@ -2,95 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D877A83AB8
-	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2019 22:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD56B8439D
+	for <lists+linux-input@lfdr.de>; Wed,  7 Aug 2019 07:18:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726085AbfHFU6M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Aug 2019 16:58:12 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33042 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726068AbfHFU6M (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Aug 2019 16:58:12 -0400
-Received: by mail-pf1-f196.google.com with SMTP id g2so42167202pfq.0;
-        Tue, 06 Aug 2019 13:58:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hZTsNG6Bio/AJmAU1Zseq92KqEsNF01Owji7Z6+SXkE=;
-        b=rJ1SVqI1FflYb5laPGdRcP3i+hrhR5WqAqQQlGDWeDfIW1kuI+5CaAaHCcG9wPTiJT
-         VAhndfrQGid6aczd3WheOk1Z6v14i45wVa5ifP9O3FEXpEpPxePWvoOCjc2KD7eQXgeq
-         bi0p91ymuhhu7sF2bg0fP4fiMEoTkYts/HoCQVx2wE0jqvB6WOAcVKGIuwplW59E9Iej
-         sf/Y4S+gfQLEpHweC7mITJoQ+qK3aRHyi3dr+hswvTG7hzujaWubtWZlhlkc4ibPnVxc
-         DEltCWQJtOsbQsDxLq5i5epD85aRr8HnHZQqyl6NQAZbKkwBhIiVQtpsWRwDT8AQ/W2t
-         EGKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hZTsNG6Bio/AJmAU1Zseq92KqEsNF01Owji7Z6+SXkE=;
-        b=K3w4Kazqz64RHsJiMU56D+i9pC7k6o1LaP2zjlezPBYZASjpjkD80x4kLECtiBPd/x
-         XMnBAtoYtETa9pdhjAoVEr3AwFYLLnRKRCjQjVDjdinTdgnTLz16JIL8Gic2v5xvkUlc
-         lfBeSLtVqK70ZIyMU+mEYbpwmmo5As9739Es2eAu0aRHmg1wROxx29Euf5T1SQwNRW9T
-         K0UFaD2OKEsaV7DtIbeVEJR1AFcLIMCiAsgjl25nDo93M4LG6TVeIho6UVaIZKs+p99F
-         lZ9MldOhTZ72f0NJqKI4i9rV45HTW0f6mVzEVi2mkQUUDsNVTewMmIeOHtEHd69a5ZCg
-         euPg==
-X-Gm-Message-State: APjAAAVxa9vRKpCWWUKe7/ZP/Qlay043HrwbpCNW/E5VPe8jNHPk1vOn
-        njDZVKtJk381Y/8A0oZI1z3yLioK
-X-Google-Smtp-Source: APXvYqwKGkllarMcKeQEJDUp1fVEiqSjn+ylBqyFpTwYYj6aEelr8VJ6IuPkTLCxLaQmUdVN3NvIQQ==
-X-Received: by 2002:aa7:91cc:: with SMTP id z12mr5697539pfa.76.1565125091639;
-        Tue, 06 Aug 2019 13:58:11 -0700 (PDT)
-Received: from US-191-ENG0002.corp.onewacom.com ([50.225.60.4])
-        by smtp.gmail.com with ESMTPSA id k8sm83005126pgm.14.2019.08.06.13.58.10
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 06 Aug 2019 13:58:10 -0700 (PDT)
-From:   "Gerecke, Jason" <killertofu@gmail.com>
-X-Google-Original-From: "Gerecke, Jason" <jason.gerecke@wacom.com>
-To:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Ping Cheng <pinglinux@gmail.com>,
+        id S1725834AbfHGFSn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Aug 2019 01:18:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50642 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725809AbfHGFSn (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 7 Aug 2019 01:18:43 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C13CB217D7;
+        Wed,  7 Aug 2019 05:18:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565155122;
+        bh=2CHfavmayPi4Q4Um/B9uDR6af4m0sXzNVY+hOxvF/2Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ELMc1W/w9+8/qniSuJqkm8jtd6FIrqbZg4moXipZSWpr3rxRNRNZ5ug+0fFX562c0
+         34tHnsMPlVbEKY2XF2MKoKWMKMcHAtu+Zk7aw9PlBBwgu1etBQ1a9ayJn4cExFBcoN
+         LYak4MKSoz1UiS3CXIsDKtV2bukFAd3QfHXa3iqw=
+Date:   Wed, 7 Aug 2019 07:18:39 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "Gerecke, Jason" <killertofu@gmail.com>
+Cc:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ping Cheng <pinglinux@gmail.com>,
         Aaron Armstrong Skomra <skomra@gmail.com>,
         Jason Gerecke <jason.gerecke@wacom.com>, stable@vger.kernel.org
-Subject: [PATCH] HID: wacom: Correct distance scale for 2nd-gen Intuos devices
-Date:   Tue,  6 Aug 2019 13:58:05 -0700
-Message-Id: <20190806205805.21168-1-jason.gerecke@wacom.com>
-X-Mailer: git-send-email 2.22.0
+Subject: Re: [PATCH] HID: wacom: Correct distance scale for 2nd-gen Intuos
+ devices
+Message-ID: <20190807051839.GA26833@kroah.com>
+References: <20190806205805.21168-1-jason.gerecke@wacom.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190806205805.21168-1-jason.gerecke@wacom.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jason Gerecke <jason.gerecke@wacom.com>
+On Tue, Aug 06, 2019 at 01:58:05PM -0700, Gerecke, Jason wrote:
+> From: Jason Gerecke <jason.gerecke@wacom.com>
+> 
+> Distance values reported by 2nd-gen Intuos tablets are on an inveted scale
+> (0 == far, 63 == near). We need to change them over to a normal scale before
+> reporting to userspace or else userspace drivers and applications can get
+> confused.
+> 
+> Ref: https://github.com/linuxwacom/input-wacom/issues/98
+> Fixes: eda01dab53 ("HID: wacom: Add four new Intuos devices")
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> Cc: <stable@vger.kernel.org> # v4.4+
+> ---
+>  drivers/hid/wacom_wac.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+> index 7a8ddc999a8e..879e41fbf604 100644
+> --- a/drivers/hid/wacom_wac.c
+> +++ b/drivers/hid/wacom_wac.c
+> @@ -846,6 +846,9 @@ static int wacom_intuos_general(struct wacom_wac *wacom)
+>  		y >>= 1;
+>  		distance >>= 1;
+>  	}
+> +	if (features->type == INTUOSHT2) {
+> +		distance = features->distance_max - distance;
+> +	}
 
-Distance values reported by 2nd-gen Intuos tablets are on an inveted scale
-(0 == far, 63 == near). We need to change them over to a normal scale before
-reporting to userspace or else userspace drivers and applications can get
-confused.
-
-Ref: https://github.com/linuxwacom/input-wacom/issues/98
-Fixes: eda01dab53 ("HID: wacom: Add four new Intuos devices")
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-Cc: <stable@vger.kernel.org> # v4.4+
----
- drivers/hid/wacom_wac.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 7a8ddc999a8e..879e41fbf604 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -846,6 +846,9 @@ static int wacom_intuos_general(struct wacom_wac *wacom)
- 		y >>= 1;
- 		distance >>= 1;
- 	}
-+	if (features->type == INTUOSHT2) {
-+		distance = features->distance_max - distance;
-+	}
- 	input_report_abs(input, ABS_X, x);
- 	input_report_abs(input, ABS_Y, y);
- 	input_report_abs(input, ABS_DISTANCE, distance);
--- 
-2.22.0
+{ } not needed, always run checkpatch.pl before sending stuff out :(
 
