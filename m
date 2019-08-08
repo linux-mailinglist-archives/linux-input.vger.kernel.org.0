@@ -2,114 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F079F86C7E
-	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2019 23:33:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF02186C90
+	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2019 23:43:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404365AbfHHVdJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Aug 2019 17:33:09 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:39043 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730768AbfHHVdI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Aug 2019 17:33:08 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1N2SXX-1iJjYP1UhL-013u5K; Thu, 08 Aug 2019 23:32:46 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Tony Lindgren <tony@atomide.com>,
+        id S2390451AbfHHVnC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Aug 2019 17:43:02 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:42903 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733295AbfHHVnC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Aug 2019 17:43:02 -0400
+Received: by mail-pf1-f194.google.com with SMTP id q10so44811088pff.9;
+        Thu, 08 Aug 2019 14:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=1bNgei30R6lkF3hz+NsVCnBAfvYU1eRUdoqwp3463t0=;
+        b=PysEoIwt1QJUUowEDG3pVbNXkkflSPVaaCMFeBIrhGNvwPHuXwGT/TPYdysEaTJI3b
+         UV1nmlhyB52On3hIZeqIP71Pys6yrENCPU5q2zZKsebz16UcrAWC2W1kCIBJ6liUp/kq
+         r0xvqRlxjLLMakLhHlTzi1Y9xGICGoA1xer3kNcciftJR+6M+6jlc8WkEWm0zJZRv/5i
+         vS7VQaEBefSYc5Ru6fSuinXx9Q8JEw8XQq8VSyvcrVVkK2K/Urjh3ZSN2teV7rxf39XB
+         2n9xCZ97baGKPApYifT0fumuWGrozzknixJosH5u4UELLWRedE+lC2KljjtJVNTSUDbN
+         LQUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1bNgei30R6lkF3hz+NsVCnBAfvYU1eRUdoqwp3463t0=;
+        b=bCg00S9L9WotvyPmNtM1E1dQYU9eYUBS7hnkNBQg2w98XUjsL9kC0f8OfduFVK9hZ9
+         rWPx2ti5THuRhuSd6tZxiKMBjPvCls1tzI7hxfeylhbUDXCnXpID9hG5YUgUsbfyb2nF
+         eM2/K3EifLcTY5gaI7WKutu2nRgPU7h/ttHuYW4Um9ogirgefnnsgdaxR/Rl/kZYV6xe
+         h5jAC33WL9IcLvOrGMf87gdySU6aMXsu97B8YhE4vngacfyneRXshZKa170UPAoLzXns
+         V/yV17Xf5VcrIRcbGgXXLsieyXE15a7ZKHFFObBt794Xov/U195tPjxL3JEjqyOnCfWL
+         G2XA==
+X-Gm-Message-State: APjAAAWoHJuH8tobvQCqkoNsTf0l2BAm8n3ey6s4c+49L5WopvOo4Ral
+        WNsMgaXmmyFc4sysCPHNIxw=
+X-Google-Smtp-Source: APXvYqwEYgsfXg+hfoqo9RDdSe7+E36ffIyFkz/VT7eIvM9O8msVvBj84QMApyZWdQt9WCiZrKVPCw==
+X-Received: by 2002:a63:e306:: with SMTP id f6mr14301648pgh.39.1565300580917;
+        Thu, 08 Aug 2019 14:43:00 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id ev3sm16522616pjb.3.2019.08.08.14.42.59
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 08 Aug 2019 14:42:59 -0700 (PDT)
+Date:   Thu, 8 Aug 2019 14:42:57 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Tony Lindgren <tony@atomide.com>,
         Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
         Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 13/22] input: omap: void using mach/*.h headers
-Date:   Thu,  8 Aug 2019 23:22:22 +0200
-Message-Id: <20190808212234.2213262-14-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20190808212234.2213262-1-arnd@arndb.de>
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 13/22] input: omap: void using mach/*.h headers
+Message-ID: <20190808214257.GF178933@dtor-ws>
 References: <20190808212234.2213262-1-arnd@arndb.de>
+ <20190808212234.2213262-14-arnd@arndb.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0qwRTzGn4JfIF8ObhfLNMcpu9yXXizpeKZ8JtVuzRlduJYrIrTu
- owiYK1M1BeeoZObfRphHoHoFwE+LOiX1ZpIVXkWVJtlA88FwZOwAIEAQbxkA8rw8748tobB
- L9R6rqG2/KIub8SMBItoK1omiDtfLnP875ZN5v9Eufa/Mx0BciFuGxuBgBOUg7D8lrz107Y
- qJOAe4I7l7LshByQ3Mdow==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JgEEBB+Nyt4=:+ecHhOdRNmpMi0QmvTk9tX
- AfQJzmotHNEyy9KCrM19P66/zQDazl3bg2tJ+M+2ZhB3w0Pfi5F2qVquAQWHyea8B6OmOZPJJ
- rMrn2zHs8MJkdSocphIKI+d+42gnDD/CyqvQygING4qU3VnKlyS9aSPz+DHiPY45H5yrXLm4R
- HGhliXsHWLBfBCLLdHBsQBG9Fn7nb9shKsdKUd0RCTc9H+NL0+jvam/J4a/H+wAnaujdU7WkV
- 4XjuRJWohQzkqQ2KINCjT11dKquWKHrIDji21hm7+2UL474wQXwVQntB+ITNN2b8MFNzUVZmC
- UzRqTr4p7HYT5+84yk/XS3iOc51ornjSVYNWtH/cl8KUbxTLmKxrej8ueDXXiSeUkdI7Jp2F9
- C8H9xT5Tyu0s/jS8SdeGRPBZaybm2E1MDTXAlAU3xVjqBwTGHtY8955JUx9ZMtj7rj0sbLzEF
- O5hT3csOX0aeCQnPolpQoAYxL4hfwcqxfb+S2tTn86UspX2zS5u08CxVOrMih2QmL3bXFlExH
- +GItpsT+J32ExrxVkIgvPttP0pMM6usCnylxJ0moUaHDYy64nITYpqSLMrMzuSjQt3Od+cqg0
- lbbtxxfp5L2Hm/EcUBx+kjv3Z3UMMWpJlkOAtvoJGRxpFnc7TP0rgTCTE6fFPUNEEE8WtUlyb
- oM6GcEl4frLnerFpxkYM7OPEFP/EzV6XTValbc7jE8p/dVKnk8AyKUhD5CpIQaJsfZX62abRe
- Hnt62LZOJIQW6SH5yDCE75jMXH1QZzmGtmfZNA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190808212234.2213262-14-arnd@arndb.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-By using the new linux/soc/ti/omap1-io.h header instead,
-compile-testing can be enabled, and a CONFIG_ARCH_MULTIPLATFORM
-conversion of omap1 may eventually be possible.
+Hi Arnd,
 
-The warning in the header file gets removed in order to
-allow CONFIG_COMPILE_TEST.
+On Thu, Aug 08, 2019 at 11:22:22PM +0200, Arnd Bergmann wrote:
+> By using the new linux/soc/ti/omap1-io.h header instead,
+> compile-testing can be enabled, and a CONFIG_ARCH_MULTIPLATFORM
+> conversion of omap1 may eventually be possible.
+> 
+> The warning in the header file gets removed in order to
+> allow CONFIG_COMPILE_TEST.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/input/keyboard/Kconfig            | 2 +-
- drivers/input/keyboard/omap-keypad.c      | 1 +
- include/linux/platform_data/keypad-omap.h | 5 -----
- 3 files changed, 2 insertions(+), 6 deletions(-)
+Given that we want to migrate people off this driver everywhere but
+OMAP1 I wonder why we would want to improve compile coverage of it.
 
-diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-index 5f1a3b3ee0fb..b454d262906b 100644
---- a/drivers/input/keyboard/Kconfig
-+++ b/drivers/input/keyboard/Kconfig
-@@ -658,7 +658,7 @@ config KEYBOARD_IPAQ_MICRO
- 
- config KEYBOARD_OMAP
- 	tristate "TI OMAP keypad support"
--	depends on ARCH_OMAP1
-+	depends on ARCH_OMAP1 || COMPILE_TEST
- 	select INPUT_MATRIXKMAP
- 	help
- 	  Say Y here if you want to use the OMAP keypad.
-diff --git a/drivers/input/keyboard/omap-keypad.c b/drivers/input/keyboard/omap-keypad.c
-index 5fe7a5633e33..31da8e878535 100644
---- a/drivers/input/keyboard/omap-keypad.c
-+++ b/drivers/input/keyboard/omap-keypad.c
-@@ -24,6 +24,7 @@
- #include <linux/gpio.h>
- #include <linux/platform_data/gpio-omap.h>
- #include <linux/platform_data/keypad-omap.h>
-+#include <linux/soc/ti/omap1-io.h>
- 
- #undef NEW_BOARD_LEARNING_MODE
- 
-diff --git a/include/linux/platform_data/keypad-omap.h b/include/linux/platform_data/keypad-omap.h
-index 3e7c64c854f4..6f058eb188c4 100644
---- a/include/linux/platform_data/keypad-omap.h
-+++ b/include/linux/platform_data/keypad-omap.h
-@@ -5,11 +5,6 @@
- #ifndef __KEYPAD_OMAP_H
- #define __KEYPAD_OMAP_H
- 
--#ifndef CONFIG_ARCH_OMAP1
--#warning Please update the board to use matrix-keypad driver
--#define omap_readw(reg)		0
--#define omap_writew(val, reg)	do {} while (0)
--#endif
- #include <linux/input/matrix_keypad.h>
- 
- struct omap_kp_platform_data {
+Thanks.
+
 -- 
-2.20.0
-
+Dmitry
