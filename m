@@ -2,259 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CC9087756
-	for <lists+linux-input@lfdr.de>; Fri,  9 Aug 2019 12:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 198028784E
+	for <lists+linux-input@lfdr.de>; Fri,  9 Aug 2019 13:23:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406488AbfHIKdC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Aug 2019 06:33:02 -0400
-Received: from mx2.suse.de ([195.135.220.15]:41870 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2406477AbfHIKcy (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 9 Aug 2019 06:32:54 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 78980B04F;
-        Fri,  9 Aug 2019 10:32:51 +0000 (UTC)
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        id S1726195AbfHILXl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Aug 2019 07:23:41 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:43210 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726152AbfHILXk (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Aug 2019 07:23:40 -0400
+Received: by mail-qt1-f193.google.com with SMTP id w17so14770656qto.10;
+        Fri, 09 Aug 2019 04:23:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gRvZxPuek6JRQruqkUJVQMjk/VZ8xO7dmw6h4WlzFd8=;
+        b=WuaD4yAT13VVQavIIanPYMWs5+oqp9KI29Q+xHlYVB7kU1d3Zww6FUKKWuzIx+8Ktl
+         yFhaN69ky24Y+DsAc/997F3Xl3ggb4Wb5Dd2/mk1RhiuEChJfypa9YPl0vS/y6eB+2Se
+         tfQ181d5FukxVH1ASnDRfBSxV3SrXHjKPqv3Wgv0XatKegTLK4Z/Hku3xpysOjWMxTer
+         2ftZ0PYk9on7TntwuR2xA9cKHJJcBW03NRnEfOXVxDErysGr9GBcqou102NSjouL4td/
+         sIqb3ekeKlBEGRZgodiMOImiOGmsUgMRfblRrq/XJdd+zH/ckKW4ZnwuuvB9qSOzWr63
+         gzYg==
+X-Gm-Message-State: APjAAAWwrlx+lQ20E8NqbfqMQZA0AuztnVm6ZDx0IgJcQC0vY+6vN5Pd
+        jpXZjC7siOENGeQgOWEgVHmXRss/iMgo1GmvfMU=
+X-Google-Smtp-Source: APXvYqwyfun0rS3dI0VPy9YQLTjb23p3p5REd7rS9TuRRKEk5l8WvDyNNaWtDch5+OMsqDgqQyJPBtXPE6lfaVR0VOI=
+X-Received: by 2002:ac8:5311:: with SMTP id t17mr17162360qtn.304.1565349819769;
+ Fri, 09 Aug 2019 04:23:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190808212234.2213262-1-arnd@arndb.de> <20190808212234.2213262-14-arnd@arndb.de>
+ <20190808214257.GF178933@dtor-ws> <CAK8P3a2TOcjxwCBGkZAhMAf9HuTL=FAB1e0=FAg+oHB0U1nJ0A@mail.gmail.com>
+ <20190808221950.GG178933@dtor-ws> <20190808233941.v6elo2mdji5awylu@earth.universe>
+In-Reply-To: <20190808233941.v6elo2mdji5awylu@earth.universe>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 9 Aug 2019 13:23:23 +0200
+Message-ID: <CAK8P3a1QUo=qCGMdojN2RZmpr_kmkqBcJXAOab06yRgSzz4VzQ@mail.gmail.com>
+Subject: Re: [PATCH 13/22] input: omap: void using mach/*.h headers
+To:     Sebastian Reichel <sre@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Tony Lindgren <tony@atomide.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Evgeniy Polyakov <zbr@ioremap.net>, linux-mips@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org
-Subject: [PATCH v4 9/9] Input: add IOC3 serio driver
-Date:   Fri,  9 Aug 2019 12:32:31 +0200
-Message-Id: <20190809103235.16338-10-tbogendoerfer@suse.de>
-X-Mailer: git-send-email 2.13.7
-In-Reply-To: <20190809103235.16338-1-tbogendoerfer@suse.de>
-References: <20190809103235.16338-1-tbogendoerfer@suse.de>
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        linux-omap <linux-omap@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds a platform driver for supporting keyboard and mouse
-interface of SGI IOC3 chips.
+On Fri, Aug 9, 2019 at 1:39 AM Sebastian Reichel <sre@kernel.org> wrote:
+> On Thu, Aug 08, 2019 at 03:19:50PM -0700, Dmitry Torokhov wrote:
+> > On Thu, Aug 08, 2019 at 11:46:45PM +0200, Arnd Bergmann wrote:
+> > > On Thu, Aug 8, 2019 at 11:43 PM Dmitry Torokhov wrote:
+> > > > On Thu, Aug 08, 2019 at 11:22:22PM +0200, Arnd Bergmann wrote:
+> > > > > By using the new linux/soc/ti/omap1-io.h header instead,
+> > > > > compile-testing can be enabled, and a CONFIG_ARCH_MULTIPLATFORM
+> > > > > conversion of omap1 may eventually be possible.
+> > > > >
+> > > > > The warning in the header file gets removed in order to
+> > > > > allow CONFIG_COMPILE_TEST.
+> > > >
+> > > > Given that we want to migrate people off this driver everywhere but
+> > > > OMAP1 I wonder why we would want to improve compile coverage of it.
+> > >
+> > > Mainly for consistency: I'm converting all omap1 drivers in this series to
+> > > not rely on mach/* headers and to let them be compiled standalone.
+> > > The other drivers don't have a replacement, so I could treat this different
+> > > from the rest and skip the Kconfig and platform_data changes if you
+> > > prefer.
+> >
+> > Yes, because at least with the version you posted we are losing the
+> > #warning telling people to move to matrix_keypad. We could do:
+> >
+> > #ifndef CONFIG_COMPILE_TEST
+> > #warning ...
+> > #endif
+> >
+> > if you really want to allow compiling standalone for testing.
 
-Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
----
- drivers/input/serio/Kconfig   |  10 +++
- drivers/input/serio/Makefile  |   1 +
- drivers/input/serio/ioc3kbd.c | 163 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 174 insertions(+)
- create mode 100644 drivers/input/serio/ioc3kbd.c
+No, I'll just drop the compile-test portion and leave the warning
+untouched, leaving only the header file include as a preparation
+for multiplatform support then.
 
-diff --git a/drivers/input/serio/Kconfig b/drivers/input/serio/Kconfig
-index f3e18f8ef9ca..373a1646019e 100644
---- a/drivers/input/serio/Kconfig
-+++ b/drivers/input/serio/Kconfig
-@@ -165,6 +165,16 @@ config SERIO_MACEPS2
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called maceps2.
- 
-+config SERIO_SGI_IOC3
-+	tristate "SGI IOC3 PS/2 controller"
-+	depends on SGI_MFD_IOC3
-+	help
-+	  Say Y here if you have an SGI Onyx2, SGI Octane or IOC3 PCI card
-+	  and you want to attach and use a keyboard, mouse, or both.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called ioc3kbd.
-+
- config SERIO_LIBPS2
- 	tristate "PS/2 driver library"
- 	depends on SERIO_I8042 || SERIO_I8042=n
-diff --git a/drivers/input/serio/Makefile b/drivers/input/serio/Makefile
-index 67950a5ccb3f..6d97bad7b844 100644
---- a/drivers/input/serio/Makefile
-+++ b/drivers/input/serio/Makefile
-@@ -20,6 +20,7 @@ obj-$(CONFIG_HIL_MLC)		+= hp_sdc_mlc.o hil_mlc.o
- obj-$(CONFIG_SERIO_PCIPS2)	+= pcips2.o
- obj-$(CONFIG_SERIO_PS2MULT)	+= ps2mult.o
- obj-$(CONFIG_SERIO_MACEPS2)	+= maceps2.o
-+obj-$(CONFIG_SERIO_SGI_IOC3)	+= ioc3kbd.o
- obj-$(CONFIG_SERIO_LIBPS2)	+= libps2.o
- obj-$(CONFIG_SERIO_RAW)		+= serio_raw.o
- obj-$(CONFIG_SERIO_AMS_DELTA)	+= ams_delta_serio.o
-diff --git a/drivers/input/serio/ioc3kbd.c b/drivers/input/serio/ioc3kbd.c
-new file mode 100644
-index 000000000000..6840e3c23fed
---- /dev/null
-+++ b/drivers/input/serio/ioc3kbd.c
-@@ -0,0 +1,163 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * SGI IOC3 PS/2 controller driver for linux
-+ *
-+ * Copyright (C) 2019 Thomas Bogendoerfer <tbogendoerfer@suse.de>
-+ *
-+ * Based on code Copyright (C) 2005 Stanislaw Skowronek <skylark@unaligned.org>
-+ *               Copyright (C) 2009 Johannes Dickgreber <tanzy@gmx.de>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/init.h>
-+#include <linux/io.h>
-+#include <linux/serio.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+
-+#include <asm/sn/ioc3.h>
-+
-+struct ioc3kbd_data {
-+	struct ioc3_serioregs __iomem *regs;
-+	struct serio *kbd, *aux;
-+	int irq;
-+};
-+
-+static int ioc3kbd_write(struct serio *dev, u8 val)
-+{
-+	struct ioc3kbd_data *d = dev->port_data;
-+	unsigned long timeout = 0;
-+	u32 mask;
-+
-+	mask = (dev == d->aux) ? KM_CSR_M_WRT_PEND : KM_CSR_K_WRT_PEND;
-+	while ((readl(&d->regs->km_csr) & mask) && (timeout < 1000)) {
-+		udelay(100);
-+		timeout++;
-+	}
-+
-+	if (timeout >= 1000)
-+		return -ETIMEDOUT;
-+
-+	writel(val, dev == d->aux ? &d->regs->m_wd : &d->regs->k_wd);
-+
-+	return 0;
-+}
-+
-+static irqreturn_t ioc3kbd_intr(int itq, void *dev_id)
-+{
-+	struct ioc3kbd_data *d = dev_id;
-+	u32 data_k, data_m;
-+
-+	data_k = readl(&d->regs->k_rd);
-+	data_m = readl(&d->regs->m_rd);
-+
-+	if (data_k & KM_RD_VALID_0)
-+		serio_interrupt(d->kbd, (data_k >> KM_RD_DATA_0_SHIFT) & 0xff,
-+				0);
-+	if (data_k & KM_RD_VALID_1)
-+		serio_interrupt(d->kbd, (data_k >> KM_RD_DATA_1_SHIFT) & 0xff,
-+				0);
-+	if (data_k & KM_RD_VALID_2)
-+		serio_interrupt(d->kbd, (data_k >> KM_RD_DATA_2_SHIFT) & 0xff,
-+				0);
-+	if (data_m & KM_RD_VALID_0)
-+		serio_interrupt(d->aux, (data_m >> KM_RD_DATA_0_SHIFT) & 0xff,
-+				0);
-+	if (data_m & KM_RD_VALID_1)
-+		serio_interrupt(d->aux, (data_m >> KM_RD_DATA_1_SHIFT) & 0xff,
-+				0);
-+	if (data_m & KM_RD_VALID_2)
-+		serio_interrupt(d->aux, (data_m >> KM_RD_DATA_2_SHIFT) & 0xff,
-+				0);
-+
-+	return 0;
-+}
-+
-+static int ioc3kbd_probe(struct platform_device *pdev)
-+{
-+	struct ioc3_serioregs __iomem *regs;
-+	struct device *dev = &pdev->dev;
-+	struct ioc3kbd_data *d;
-+	struct serio *sk, *sa;
-+	int irq, ret;
-+
-+	regs = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(regs))
-+		return PTR_ERR(regs);
-+
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return -ENXIO;
-+
-+	d = devm_kzalloc(&pdev->dev, sizeof(*d), GFP_KERNEL);
-+	if (!d)
-+		return -ENOMEM;
-+
-+	sk = kzalloc(sizeof(*sk), GFP_KERNEL);
-+	if (!sk)
-+		return -ENOMEM;
-+
-+	sa = kzalloc(sizeof(*sa), GFP_KERNEL);
-+	if (!sa) {
-+		kfree(sk);
-+		return -ENOMEM;
-+	}
-+
-+	sk->id.type = SERIO_8042;
-+	sk->write = ioc3kbd_write;
-+	snprintf(sk->name, sizeof(sk->name), "IOC3 keyboard %d", pdev->id);
-+	snprintf(sk->phys, sizeof(sk->phys), "ioc3/serio%dkbd", pdev->id);
-+	sk->port_data = d;
-+	sk->dev.parent = &pdev->dev;
-+
-+	sa->id.type = SERIO_8042;
-+	sa->write = ioc3kbd_write;
-+	snprintf(sa->name, sizeof(sa->name), "IOC3 auxiliary %d", pdev->id);
-+	snprintf(sa->phys, sizeof(sa->phys), "ioc3/serio%daux", pdev->id);
-+	sa->port_data = d;
-+	sa->dev.parent = dev;
-+
-+	d->regs = regs;
-+	d->kbd = sk;
-+	d->aux = sa;
-+	d->irq = irq;
-+
-+	platform_set_drvdata(pdev, d);
-+	serio_register_port(d->kbd);
-+	serio_register_port(d->aux);
-+
-+	ret = devm_request_irq(&pdev->dev, irq, ioc3kbd_intr, IRQF_SHARED,
-+			       "ioc3-kbd", d);
-+	if (ret) {
-+		dev_err(&pdev->dev, "could not request IRQ %d\n", irq);
-+		serio_unregister_port(d->kbd);
-+		serio_unregister_port(d->aux);
-+		kfree(sk);
-+		kfree(sa);
-+		return ret;
-+	}
-+	return 0;
-+}
-+
-+static int ioc3kbd_remove(struct platform_device *pdev)
-+{
-+	struct ioc3kbd_data *d = platform_get_drvdata(pdev);
-+
-+	devm_free_irq(&pdev->dev, d->irq, d);
-+	serio_unregister_port(d->kbd);
-+	serio_unregister_port(d->aux);
-+	return 0;
-+}
-+
-+static struct platform_driver ioc3kbd_driver = {
-+	.probe          = ioc3kbd_probe,
-+	.remove         = ioc3kbd_remove,
-+	.driver = {
-+		.name = "ioc3-kbd",
-+	},
-+};
-+module_platform_driver(ioc3kbd_driver);
-+
-+MODULE_AUTHOR("Thomas Bogendoerfer <tbogendoerfer@suse.de>");
-+MODULE_DESCRIPTION("SGI IOC3 serio driver");
-+MODULE_LICENSE("GPL");
--- 
-2.13.7
+> FWIW the driver depends on ARCH_OMAP1 and the warning is
+> only printed for !ARCH_OMAP1. In other words: The warning
+> is never printed at the moment. All OMAP2+ boards moved to
+> matrix-keypad long time ago and the driver does not support
+> OMAP2+ anymore since f799a3d8fe170 from 2012.
 
+Right, it also seems extremely unlikely that any new platform
+would start using the header, and it also doesn't look like
+anyone is interested in moving omap1 over to matrix-keypad.
+
+       Arnd
