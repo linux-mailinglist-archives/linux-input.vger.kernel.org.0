@@ -2,110 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B352879D0
-	for <lists+linux-input@lfdr.de>; Fri,  9 Aug 2019 14:23:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26CDF87C99
+	for <lists+linux-input@lfdr.de>; Fri,  9 Aug 2019 16:26:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406722AbfHIMXC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Aug 2019 08:23:02 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:51125 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406048AbfHIMXB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Aug 2019 08:23:01 -0400
-X-Originating-IP: 176.129.6.65
-Received: from localhost (car62-h01-176-129-6-65.dsl.sta.abo.bbox.fr [176.129.6.65])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 0B65C6000F;
-        Fri,  9 Aug 2019 12:22:56 +0000 (UTC)
-Date:   Fri, 9 Aug 2019 14:22:54 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, linux-mips@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org
-Subject: Re: [PATCH v3 5/7] mfd: ioc3: Add driver for SGI IOC3 chip
-Message-ID: <20190809122254.GN3600@piout.net>
-References: <20190613170636.6647-1-tbogendoerfer@suse.de>
- <20190613170636.6647-6-tbogendoerfer@suse.de>
- <20190725114716.GB23883@dell>
- <20190729204557.468db2153efefda96dd41ec0@suse.de>
+        id S2406285AbfHIO0x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Aug 2019 10:26:53 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:36999 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726037AbfHIO0x (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Aug 2019 10:26:53 -0400
+Received: by mail-pg1-f196.google.com with SMTP id d1so13133724pgp.4
+        for <linux-input@vger.kernel.org>; Fri, 09 Aug 2019 07:26:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=NJo+pVqMDNA4smLIKs9RuPihrAcF5xIPFF0cyL9uEB8=;
+        b=LtWe6SoDdt9Nz/G9FRBYzCWr+fs+Q/uV+bN50sYeEJwHSsk9L57wWMnoIulh9yrTHn
+         j96VyOt3pQdb+u2woSXhGgC2BjLxzOpjahC8GK1y3iTECMqRrBDszibYeT8u/3w4bcl6
+         iFJm1tiCX5zmdQBLLzH7wA0xqaa7vz6aQQdcoQtmyDS5mRx9nWO7ijLEzqRAaXOq1TBX
+         XHkST29W0OHwHMyYiXaXd603lWE3Oi2rp/qHXN6Tb0EhnngC1go8ULR0N8TeUTVq2ujN
+         DxQhgt5XyMZqFdq2BEGExwt5sgC8IfhZ2mdR+d+82hCD925vwhPXL/SG+WA2CofvckTR
+         DwZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=NJo+pVqMDNA4smLIKs9RuPihrAcF5xIPFF0cyL9uEB8=;
+        b=nkV+bn3gsWu/TG+VuRoUg1wwMmAOKBjBqrz3jwsdEOVD5X34On9zgAH40OungJpI0P
+         acC7tNwB6dczI7nzrpVvaST5yPwvnaM7YkrAeP307HNf+IsviKcdJUFTBqIb7JLnvCYw
+         XxBt1LQRkQ7H8vGeXKVWkt1bOHuL0szd6elBnLbjf1tuXEse/Vyoyl9Az2CAaQPX2LtE
+         VHGu8QBhmYKRBWXs0pROXSZga16Tiuc92DRvJUZ9pL2QrxGpT9YTVrIuykqZ4yppRM5s
+         BzvDnDThJve//KCufuDfrBiIYyCCancL536OqAkvf5oKIm6t/UTL8K75oOebje1KorFS
+         7olQ==
+X-Gm-Message-State: APjAAAVjnxjLj1x6QCFJ9cxGX062yxWPWRS8ngOBxwlNCvdM5LI3aNE0
+        j8PaYnFKkvxApG4iq1BeWDs=
+X-Google-Smtp-Source: APXvYqzvbSavNv8CLEyCXVESDM8SVWJEk+VLhJvkW4CDMtrPnf5eIsDB4uYqWOTjikPs45T7g6z9Rg==
+X-Received: by 2002:a63:61cd:: with SMTP id v196mr18035947pgb.263.1565360811888;
+        Fri, 09 Aug 2019 07:26:51 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id y23sm105116128pfo.106.2019.08.09.07.26.51
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 09 Aug 2019 07:26:51 -0700 (PDT)
+Date:   Fri, 9 Aug 2019 07:26:49 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Linux Input <linux-input@vger.kernel.org>
+Subject: Re: [PATCH] Input: bu21013_ts: Convert to use GPIO descriptors
+Message-ID: <20190809142649.GH178933@dtor-ws>
+References: <20190808144458.1258-1-linus.walleij@linaro.org>
+ <20190808190334.GE178933@dtor-ws>
+ <CACRpkdbp20f2D8ezPiLdSjpxYvq0OkM9rnGJocT8trj2Jyb0aQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190729204557.468db2153efefda96dd41ec0@suse.de>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+In-Reply-To: <CACRpkdbp20f2D8ezPiLdSjpxYvq0OkM9rnGJocT8trj2Jyb0aQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 29/07/2019 20:45:57+0200, Thomas Bogendoerfer wrote:
-> On Thu, 25 Jul 2019 12:47:16 +0100
-> Lee Jones <lee.jones@linaro.org> wrote:
+On Fri, Aug 09, 2019 at 10:10:59AM +0200, Linus Walleij wrote:
+> On Thu, Aug 8, 2019 at 9:03 PM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
 > 
-> > On Thu, 13 Jun 2019, Thomas Bogendoerfer wrote:
-> > > +/*
-> > > + * On IP30 the RTC (a DS1687) is behind the IOC3 on the generic
-> > > + * ByteBus regions. We have to write the RTC address of interest to
-> > > + * IOC3_BYTEBUS_DEV1, then read the data from IOC3_BYTEBUS_DEV2.
-> > > + * rtc->regs already points to IOC3_BYTEBUS_DEV1.
-> > > + */
-> > > +#define IP30_RTC_ADDR(rtc) (rtc->regs)
-> > > +#define IP30_RTC_DATA(rtc) ((rtc->regs) + IOC3_BYTEBUS_DEV2 - IOC3_BYTEBUS_DEV1)
-> > > +
-> > > +static u8 ip30_rtc_read(struct ds1685_priv *rtc, int reg)
-> > > +{
-> > > +	writeb((reg & 0x7f), IP30_RTC_ADDR(rtc));
-> > > +	return readb(IP30_RTC_DATA(rtc));
-> > > +}
-> > > +
-> > > +static void ip30_rtc_write(struct ds1685_priv *rtc, int reg, u8 value)
-> > > +{
-> > > +	writeb((reg & 0x7f), IP30_RTC_ADDR(rtc));
-> > > +	writeb(value, IP30_RTC_DATA(rtc));
-> > > +}
-> > 
-> > Why is this not in the RTC driver?
+> > Do you have a device to test this on?
 > 
-> because rtc1685 is used in different systems and accessing the chip
-> differs between those systems. 
+> Actually, yes! I will try to kick it into action and mention in the commit
+> that it is tested on that device.
 > 
-> > > +static struct ds1685_rtc_platform_data ip30_rtc_platform_data = {
-> > > +	.bcd_mode = false,
-> > > +	.no_irq = false,
-> > > +	.uie_unsupported = true,
-> > > +	.alloc_io_resources = true,
-> > 
-> > > +	.plat_read = ip30_rtc_read,
-> > > +	.plat_write = ip30_rtc_write,
-> > 
-> > Call-backs in a non-subsystem API is pretty ugly IMHO.
+> > I am not very fond of mixing up
+> > devm and non-devm resources, so if we are cleaning it up I'd like to do
+> > more cleanups...
 > 
-> I agree
-> 
-> > Where are these called from?
-> 
-> drivers/rtc/rtc-ds1685.c
-> 
-> I could do the same as done for serial8250 and add an additional .c file
-> in  drivers/rtc which handles this for SGI-IP30. Alexandre would this work
-> for you as well ?
-> 
+> That's fine. I will send some cleanups and move more stuff to
+> devm_* when I have the device up and running.
 
-As it is not particularly big, you could put that directly in
-rtc-ds1685.c.
+Hold on, I have a few patches, I'll send them your way later today.
 
+Thanks.
 
 -- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Dmitry
