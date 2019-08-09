@@ -2,126 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BD8486DF4
-	for <lists+linux-input@lfdr.de>; Fri,  9 Aug 2019 01:39:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EB7D87151
+	for <lists+linux-input@lfdr.de>; Fri,  9 Aug 2019 07:18:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404533AbfHHXjp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Aug 2019 19:39:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52606 "EHLO mail.kernel.org"
+        id S1726792AbfHIFSX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Aug 2019 01:18:23 -0400
+Received: from mga07.intel.com ([134.134.136.100]:51999 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404499AbfHHXjp (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 8 Aug 2019 19:39:45 -0400
-Received: from earth.universe (unknown [185.62.205.103])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E81492173E;
-        Thu,  8 Aug 2019 23:39:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565307584;
-        bh=hLWsFUdUcKRF0BwHo3bvjZSVzrjv6mmq4xPi05kJJ/4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MNHo0Mqax8BfZY/2I5nzeHuwwEznk/RUpCQqzDq5omoeaheqwojMryMSScBtB/j6i
-         ZkP/qKLkKnKBH1AUuMgnk+/eja3bpIvXgmrJUBDlXR7ntXrtowug2350E3I2okc6Pj
-         OcfXU/hIqST1Lafe5ba18WaxT4KTNKp1GRy5/J/Y=
-Received: by earth.universe (Postfix, from userid 1000)
-        id 68EEC3C0944; Fri,  9 Aug 2019 01:39:41 +0200 (CEST)
-Date:   Fri, 9 Aug 2019 01:39:41 +0200
-From:   Sebastian Reichel <sre@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Tony Lindgren <tony@atomide.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        linux-omap <linux-omap@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 13/22] input: omap: void using mach/*.h headers
-Message-ID: <20190808233941.v6elo2mdji5awylu@earth.universe>
-References: <20190808212234.2213262-1-arnd@arndb.de>
- <20190808212234.2213262-14-arnd@arndb.de>
- <20190808214257.GF178933@dtor-ws>
- <CAK8P3a2TOcjxwCBGkZAhMAf9HuTL=FAB1e0=FAg+oHB0U1nJ0A@mail.gmail.com>
- <20190808221950.GG178933@dtor-ws>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4tjmcfjvugwwn6md"
-Content-Disposition: inline
-In-Reply-To: <20190808221950.GG178933@dtor-ws>
-User-Agent: NeoMutt/20180716
+        id S1725989AbfHIFSX (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 9 Aug 2019 01:18:23 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Aug 2019 22:18:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,364,1559545200"; 
+   d="scan'208";a="350396679"
+Received: from fengxu-ubuntu.sh.intel.com ([10.239.154.117])
+  by orsmga005.jf.intel.com with ESMTP; 08 Aug 2019 22:18:21 -0700
+From:   Even Xu <even.xu@intel.com>
+To:     jikos@kernel.org, linux-input@vger.kernel.org
+Cc:     srinivas.pandruvada@linux.intel.com, Even Xu <even.xu@intel.com>
+Subject: [PATCH] hid: intel-ish-hid: ipc: add EHL device id
+Date:   Fri,  9 Aug 2019 21:18:29 +0800
+Message-Id: <20190809131829.6126-1-even.xu@intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+EHL is a new platform using ishtp solution, add its device id
+to support list.
 
---4tjmcfjvugwwn6md
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Even Xu <even.xu@intel.com>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ drivers/hid/intel-ish-hid/ipc/hw-ish.h  | 1 +
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-Hi,
+diff --git a/drivers/hid/intel-ish-hid/ipc/hw-ish.h b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
+index 1065692f90e2..5792a104000a 100644
+--- a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
++++ b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
+@@ -24,6 +24,7 @@
+ #define ICL_MOBILE_DEVICE_ID	0x34FC
+ #define SPT_H_DEVICE_ID		0xA135
+ #define CML_LP_DEVICE_ID	0x02FC
++#define EHL_Ax_DEVICE_ID	0x4BB3
+ 
+ #define	REVISION_ID_CHT_A0	0x6
+ #define	REVISION_ID_CHT_Ax_SI	0x0
+diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+index aa80b4d3b740..279567baca3d 100644
+--- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
++++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+@@ -33,6 +33,7 @@ static const struct pci_device_id ish_pci_tbl[] = {
+ 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ICL_MOBILE_DEVICE_ID)},
+ 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, SPT_H_DEVICE_ID)},
+ 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, CML_LP_DEVICE_ID)},
++	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, EHL_Ax_DEVICE_ID)},
+ 	{0, }
+ };
+ MODULE_DEVICE_TABLE(pci, ish_pci_tbl);
+-- 
+2.17.1
 
-On Thu, Aug 08, 2019 at 03:19:50PM -0700, Dmitry Torokhov wrote:
-> On Thu, Aug 08, 2019 at 11:46:45PM +0200, Arnd Bergmann wrote:
-> > On Thu, Aug 8, 2019 at 11:43 PM Dmitry Torokhov wrote:
-> > > On Thu, Aug 08, 2019 at 11:22:22PM +0200, Arnd Bergmann wrote:
-> > > > By using the new linux/soc/ti/omap1-io.h header instead,
-> > > > compile-testing can be enabled, and a CONFIG_ARCH_MULTIPLATFORM
-> > > > conversion of omap1 may eventually be possible.
-> > > >
-> > > > The warning in the header file gets removed in order to
-> > > > allow CONFIG_COMPILE_TEST.
-> > >
-> > > Given that we want to migrate people off this driver everywhere but
-> > > OMAP1 I wonder why we would want to improve compile coverage of it.
-> >=20
-> > Mainly for consistency: I'm converting all omap1 drivers in this series=
- to
-> > not rely on mach/* headers and to let them be compiled standalone.
-> > The other drivers don't have a replacement, so I could treat this diffe=
-rent
-> > from the rest and skip the Kconfig and platform_data changes if you
-> > prefer.
->=20
-> Yes, because at least with the version you posted we are losing the
-> #warning telling people to move to matrix_keypad. We could do:
->=20
-> #ifndef CONFIG_COMPILE_TEST
-> #warning ...
-> #endif
->=20
-> if you really want to allow compiling standalone for testing.
-
-FWIW the driver depends on ARCH_OMAP1 and the warning is
-only printed for !ARCH_OMAP1. In other words: The warning
-is never printed at the moment. All OMAP2+ boards moved to
-matrix-keypad long time ago and the driver does not support
-OMAP2+ anymore since f799a3d8fe170 from 2012.
-
--- Sebastian
-
---4tjmcfjvugwwn6md
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl1MsroACgkQ2O7X88g7
-+poQJBAAnjfNcZ21PrPoH/EmfeeRe4fGSZaNSCLXNqf+HuY+WIUD72F8q4ywHwvn
-Fkm85facQO3vu6RCVoapSh5nZVHkL/WyM6fqDhJDuBZvqleHE68sgmBY9KIgg7ur
-qeYMF4ul4BhvC218JY0dM/xwV0uwp61g3T+4vgUPvT3YsnB5uoYa7wT2D71lilr8
-Q+S/Az/rTrrn7uI1vKXZjfUKsm/cWuWyAHbzgH7Ax8f/gxcLUoHS1IUTiwyCFzKJ
-BxAGPsZziw7Un8d3LPwcSzqB9VslryGs4hiuiaSAYaYN6+NrjjlCI7wka+HFfKGO
-0OumM77eQCkVNgCSafoTxJWZZo9HsTAeKkJy1iDGWVeiSWqHKPUj/YDj6ityxuba
-5LKhZan4Gx1JoihDEw69N/a0ZxNvYJzHPBffqHbSLOc7QkWeveoSUMGgJjLLNl/f
-UD7U1rC1ugAz3jqmgS5it+35pCA17glrVtIPzDsTPx90lGK0lxe+krbPClVkeckP
-IIkuf4xyJtsep5fQQDGxtCape8V52GtQYre1BjBxQU/k7KUGR+08gkiRmc3x8qvK
-v05wmqSeIyGXox8WrvB/hARab8/2nTA6hf+LedV+ofvNzRGBKM8hrgdpfveXlwhF
-HEJ74R2g3SOIxtXz/CuFWgUwsHEEF1NlaBOAaNa+1H9tFMMRgIo=
-=sia4
------END PGP SIGNATURE-----
-
---4tjmcfjvugwwn6md--
