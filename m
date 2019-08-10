@@ -2,114 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7079F88C55
-	for <lists+linux-input@lfdr.de>; Sat, 10 Aug 2019 18:50:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16FCF88C81
+	for <lists+linux-input@lfdr.de>; Sat, 10 Aug 2019 19:44:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726112AbfHJQuQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 10 Aug 2019 12:50:16 -0400
-Received: from mail-out.m-online.net ([212.18.0.9]:37833 "EHLO
-        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726055AbfHJQuP (ORCPT
+        id S1726104AbfHJRov (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 10 Aug 2019 13:44:51 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36950 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726057AbfHJRov (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 10 Aug 2019 12:50:15 -0400
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-        by mail-out.m-online.net (Postfix) with ESMTP id 465SlR5qn2z1rJsk;
-        Sat, 10 Aug 2019 18:50:11 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-        by mail.m-online.net (Postfix) with ESMTP id 465SlR5JMfz1qqkK;
-        Sat, 10 Aug 2019 18:50:11 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-        with ESMTP id CF54ACGlooTf; Sat, 10 Aug 2019 18:50:09 +0200 (CEST)
-X-Auth-Info: pX9osQWmeFHbN1WmuBJXAirQpSB5+i/AnrtIfvY2ZTs=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.mnet-online.de (Postfix) with ESMTPSA;
-        Sat, 10 Aug 2019 18:50:09 +0200 (CEST)
-Subject: Re: [PATCH 2/2] Input: ili210x - add ILI2117 support
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        Sat, 10 Aug 2019 13:44:51 -0400
+Received: by mail-pg1-f194.google.com with SMTP id d1so14588086pgp.4
+        for <linux-input@vger.kernel.org>; Sat, 10 Aug 2019 10:44:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=gx03W705Yw5Ng6rv/3doM27aVo+51vXKRYxQUBf3xJQ=;
+        b=skdvEqothAZNZfccOgklJfV9U9e2h5abK/4cCAUP7UVjJpAB09VB2RgSP8qRBGy1Pn
+         Rqaif/WkYIKVEGpw24VdDr+6j99OOJx9NnHxBhhkUDRWIKOxFBNEg9kylpBQgrdJGHAm
+         euDkkKfSc/+QzzTOjnRNwBEMq/rfvP83YgP2CZQaeIcCh6092KzNZM+xFtqxodD2RBIy
+         22QS7N5YQpz9VNosUSiQlLhKaf7Tff2cDQlj7UNrg579iymZYL6fJ9Hydo864jySyWyr
+         IDN60ZtDpIQdwKK1hXQAoVJJhTevG4JJjoFmJNi0rrv/17NldC6aDX3CxXzRHbKFt7gL
+         qDPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gx03W705Yw5Ng6rv/3doM27aVo+51vXKRYxQUBf3xJQ=;
+        b=latUQBJRY6i2fiZNzfbRS+F2bbWM7OV8rb3v56Tx5zze+b1tHIjcbPdiBadae/2nDK
+         MnxSC3RgxZhr4eleVXa79H1PsB27ZFTEDgHfw3+9tD5JwFfKAS4DzTMDvdTwNoh3bqg0
+         L94P/mEEweMTAOmqmokRRPMmjnrnf4Jj4725xfMF39Qt8NBubtBmVBiU7i8zrBI1kVYM
+         ZfRkGOezOBo+jfJv3ODsIkeL2xawL1mzyeggIJxxzIAz8DnUIKDvkPN+rH8FVfAr4XOo
+         kFo+AssX96maNUZxj4S4ESEXKsbVptJTZJ4RMJ33l+0MjQN4SwUWg9vlU3VcMzhab11h
+         739Q==
+X-Gm-Message-State: APjAAAXo7wL2aucEZm7O+iOeTOq6W5q5vKvAzU4XMND7Y83fBFmXnp2Z
+        68DHK/NsKoZIZDoO2V8Rbsk=
+X-Google-Smtp-Source: APXvYqy1H22SkuP53luwaBzlAtW9T4th6q/GwIiCHrVKW5k6U4r/kxT9A/ug+XGvQwdaKGJQ47wuMw==
+X-Received: by 2002:aa7:8189:: with SMTP id g9mr28319717pfi.143.1565459089929;
+        Sat, 10 Aug 2019 10:44:49 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id d189sm8285069pfd.165.2019.08.10.10.44.49
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sat, 10 Aug 2019 10:44:49 -0700 (PDT)
+Date:   Sat, 10 Aug 2019 10:44:47 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Marek Vasut <marex@denx.de>
 Cc:     linux-input@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
         Olivier Sobrie <olivier@sobrie.be>,
         Philipp Puschmann <pp@emlix.com>
+Subject: Re: [PATCH 2/2] Input: ili210x - add ILI2117 support
+Message-ID: <20190810174447.GR178933@dtor-ws>
 References: <20190302141704.32547-1-marex@denx.de>
- <20190302141704.32547-2-marex@denx.de> <20190810164137.GQ178933@dtor-ws>
-From:   Marek Vasut <marex@denx.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=marex@denx.de; prefer-encrypt=mutual; keydata=
- mQINBFHmnxgBEACuQOC6Kaw/32MTeUJdFuDZ1FrbG76a0Ys/I02Kj9jXDmCCLvqq18Z4A1b0
- xbuMKGDy5WR77fqGV8zADUo6i1ATgCZeg+SRmQROF8r9K6n6digTznBySSLANhN3kXUMNRE1
- WEIBGCZJ5FF+Qq59AkAUTB8CiIzfEW98o7lUjeEume/78wR18+QW+2z6eYli2qNECceRINXT
- zS3oxRMr+ivqEUGKvMBC/WNLuvJoCGsfSQc2I+uGEU7MOdOCC6SsKdnPBGKYth5Ieb16bRS1
- b9M5BoEKTEzDCOWn92OxeHX6M2gLEMQobfM0RdIowMfWaUHdci2cLUTyL0T/P/gIpHMR2LhL
- 8sdbNZufgv73s9PDgxTWMzypXimMJ7VZmVh9I2nQd2xm8+uE1rghqb90aEMFCTwUlrz4Qhjh
- vmczd2ScuuOMLzHEaaoOrMGbaWIEFcJvQgyHzJgMPgnG64eDq6uGyBEXRc3bBzv7B765Hcg8
- SSNqoUstjuQQlGp3y3Yj16l+PyZ3Ucy2swFYLVPTc35xFBk/uGEIhGncoFpOX29rxt9M8r5G
- hm7395m0GmDy50H/HN61/S8EPvM3HUjqBvX1EqU+vJXfwozxkKpIwcjx7h3W+PPS9TUb7r5v
- vHCqnrWRd/m6KWbCJsv0rsIU66o2qKYX5cIHV6u6Y7Zm7BtHfwARAQABtBtNYXJlayBWYXN1
- dCA8bWFyZXhAZGVueC5kZT6JAjgEEwECACIFAlHmnxgCGwMGCwkIBwMCBhUIAgkKCwQWAgMB
- Ah4BAheAAAoJEOtsLUEh5B0XLk0QAINOYFYB3v4KjXSFHYBQLlDblqhXvVtjyQHMiJsY1BMO
- mMrANUJQtpY3UkYquFspe2GBiFQbfW+mDlwFlSNpzaJ68qGEK+57I/MufsZKV6Ze9j7QeClu
- orYH+zfIBI7sn0HkY/MWN/Z270gRv2xSxDBP/8SPdB53EkImLZUFOo4/5eyuQ4t8HLgol02u
- 2ncwXrnT036QC3SiNJDCJhwkpjvamPHghxr8hbIwkdOLZlYWfl0yzYzQohl8zBEwtBxl5cS4
- 1TcrgBXsanQUMVNBpl0s8nQLKuHJNPOAhBnKstAe54yY3iWswYayHqqgqIQldcDqttHhdTJW
- mb9hTSf5p6fnZqcsfi3PUFwj5PJSN3aAbF8w42FwRvIOWbksFIWXpxYI3mq2TmX4GtlKdlF8
- xT+Q+Cbk538IBV4OQ5BapuYHs1C1ff9gVC0rfrCEloyteHafHwOv3ZuEGPlH89Rl4EjRvJxX
- 8nE0sCiq6yUbpom8xRA5nFwA0bbTDwhH5RD/952bZraLpWcdJ6cWA2gefd2+2fy0268xyHmD
- m87B49BIaAsZ2kvEb/scCZ/CvPHjHLAjr+/GsdzOxwB68P41ZajujMDmbka00CyeAl88pgLX
- tTkPvAzuEDpRoJmg8zrQqrsmEKSdhFJhZ7d2MMKpCcVnInByXjM+1GEfSisTgWnluQINBFHm
- nxgBEAC8MpoO1s1AB0uRQGXlhYzkYvxkDGAe50/18ct2K6ORSv7HjCmZBjJX+2xTPSmML9ju
- 3P0KrlnRdT8qCh+ozijffLjm5X9Fk+6mGQ56UQzivuPNlgyC3epF3Z58VPVQcIfE2/pdAxtZ
- zKc4P5t2yo5qk635huo0NvNg5mRhvfZ7mZpZuBahkHguR0Heh/tnGCa2v5P6uFbGX8+6rAA8
- EKxl5Tclf27PFZwbIWL1buS9RwgzsHj2TFnnEFIcWdMHyGy2GT8JMgY0VwxKebzGJg2RqfOL
- PaPjnvnXHAIYEknQp0TUtUiNxm0PBa4IQ30XhrB9D5QYdcw/DVvCzb9qyIlaQKEqHZm1fGU4
- iCsH3jV+5D4Lrn5JfXc/+A1NsLUq/NFIYhphbX4fGjR2QdZJrDnGVcxSlwP7CeRuxGELrASz
- m4G4Q0mYz7HdAlzBJHi8Ej4yC9l7PPlnxdUcAwheLxGwzMCf5vxw1C6Zi8PvKu/sY7Bha9XJ
- plvuLBi7QrkD8mZEzt+xC9nWRt7hL47+UvyduFe4qDMTPrW20ROxCykC36gj53YhqqLblioX
- 2//vGLKj8x+LiLSTwjkLkrwOremhdTqr457511vOXyaZyOlWhFjN+4j9xwbbg1IWwMenRAb7
- Qwuipck6fN2o+PK9i6t6pWXrUDNI/VCMbimnuqPwAQARAQABiQIfBBgBAgAJBQJR5p8YAhsM
- AAoJEOtsLUEh5B0XMqAP/1HbrClefDZ/Lvvo89mgC56vWzEstmFo8EihqxVZvpkiCjJoCH53
- VCYeGl41p0y6K5gaLT28s9waVHBw+dhpwABba3neV/vyXv0wUtvkS3T0e4zruYFWw0lQoZi+
- 8rtXTsuWN5t3u8avXsrdqD0CteTJdgZ7yBV8bBvK2ekqFMS/cLC+MoYlmUFn6Tcxmv0x8QZY
- ux6ts9YpUvx8QxMJt9vfwt1WIUEFKR3JQdrZmbPGqWJ3s+u/C+v9stC5qf2eYafRjzy05lEn
- B06W5D5Uc+FGEhuzq4G0eRLgivMoC0Eqz7HuwGcRAJYQILQ3Vzd4oHKPoUAtvlKqUwDmHodT
- HPmN73JMsvO3jLrSdl4k6o3CdlS/DI0Eto4fD0Wqh6d5q11u1TOM7+/LehWrOOoGVqRc6FFT
- ofck6h6rN/Urwkr1nWQ3kgO1cd/gevqy8Tevo/qkPYIf71BlypcXhKqn6IPjkq4QLiDPRjHM
- tgPc2T/X/ETe5eCuhxMytIYbt1fK2pDXPoIKbbDK4uEmg9USXZ+pYrac4PFo1d+6D6vmTjRZ
- GRRITOVpKgBndfPyqofxeKNKGdNf9FS/x89RlnDWXsQHm+0pXguSRG9XdB16ZFNgeo8SeZVr
- qc9uLfhyQp/zB6qEnuX1TToug7PuDgcNZdjN3vgTXyno2TFMxp/LKHqg
-Message-ID: <27428362-1bfc-de9a-da19-c47a9d483e9e@denx.de>
-Date:   Sat, 10 Aug 2019 18:50:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ <20190302141704.32547-2-marex@denx.de>
+ <20190810164137.GQ178933@dtor-ws>
+ <27428362-1bfc-de9a-da19-c47a9d483e9e@denx.de>
 MIME-Version: 1.0
-In-Reply-To: <20190810164137.GQ178933@dtor-ws>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <27428362-1bfc-de9a-da19-c47a9d483e9e@denx.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 8/10/19 6:41 PM, Dmitry Torokhov wrote:
-> Hi Marek,
-
-Hi,
-
-> On Sat, Mar 02, 2019 at 03:17:04PM +0100, Marek Vasut wrote:
->> Add support for ILI2117 touch controller. This controller is similar
->> to the ILI210x and ILI251x, except for the following differences:
->> - Reading out of touch data must happen at most 300 mS after the
->>   interrupt line was asserted. No command must be sent, the data
->>   are returned upon pure I2C read of 43 bytes long.
->> - Supports 10 simultaneous touch inputs.
->> - Touch data format is slightly different.
+On Sat, Aug 10, 2019 at 06:50:08PM +0200, Marek Vasut wrote:
+> On 8/10/19 6:41 PM, Dmitry Torokhov wrote:
+> > Hi Marek,
 > 
-> So with this and also I see there is another ili2117a submission, I do
-> believe that we need to switch to using function pointers instead of
-> if/else if/else style cheking of the model.
+> Hi,
+> 
+> > On Sat, Mar 02, 2019 at 03:17:04PM +0100, Marek Vasut wrote:
+> >> Add support for ILI2117 touch controller. This controller is similar
+> >> to the ILI210x and ILI251x, except for the following differences:
+> >> - Reading out of touch data must happen at most 300 mS after the
+> >>   interrupt line was asserted. No command must be sent, the data
+> >>   are returned upon pure I2C read of 43 bytes long.
+> >> - Supports 10 simultaneous touch inputs.
+> >> - Touch data format is slightly different.
+> > 
+> > So with this and also I see there is another ili2117a submission, I do
+> > believe that we need to switch to using function pointers instead of
+> > if/else if/else style cheking of the model.
+> 
+> How about we add tested functionality in first and only then do bigger
+> untested changes ? I think that would work better for everyone.
 
-How about we add tested functionality in first and only then do bigger
-untested changes ? I think that would work better for everyone.
+Sorry, I would really prefer to do what is right and build additional
+functionality on top of the good foundation. I asked to switch to the
+function pointers before, but you did not want to citing performance
+(even though we are using function pointers everywhere in the kernel),
+now I gave a draft implementation, I hope you can use it.
+
+Thanks.
+
+-- 
+Dmitry
