@@ -2,143 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A1EFA88E89
-	for <lists+linux-input@lfdr.de>; Sat, 10 Aug 2019 23:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5E4A8901B
+	for <lists+linux-input@lfdr.de>; Sun, 11 Aug 2019 09:29:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726377AbfHJVaf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 10 Aug 2019 17:30:35 -0400
-Received: from mail-out.m-online.net ([212.18.0.9]:55242 "EHLO
-        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725863AbfHJVaf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 10 Aug 2019 17:30:35 -0400
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-        by mail-out.m-online.net (Postfix) with ESMTP id 465Zyv3XCsz1rGhk;
-        Sat, 10 Aug 2019 23:30:31 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-        by mail.m-online.net (Postfix) with ESMTP id 465Zyv2lDRz1qqkK;
-        Sat, 10 Aug 2019 23:30:31 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-        with ESMTP id OSBybnqtUL3U; Sat, 10 Aug 2019 23:30:30 +0200 (CEST)
-X-Auth-Info: QVVZC1Eq5gBOJlGswVC82U9AFJPWyCRO+MIOMOcI60M=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
+        id S1725855AbfHKH3N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 11 Aug 2019 03:29:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50670 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725776AbfHKH3M (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 11 Aug 2019 03:29:12 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.mnet-online.de (Postfix) with ESMTPSA;
-        Sat, 10 Aug 2019 23:30:30 +0200 (CEST)
-Subject: Re: [PATCH 2/2] Input: ili210x - add ILI2117 support
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
-        Olivier Sobrie <olivier@sobrie.be>,
-        Philipp Puschmann <pp@emlix.com>
-References: <20190302141704.32547-1-marex@denx.de>
- <20190302141704.32547-2-marex@denx.de> <20190810164137.GQ178933@dtor-ws>
- <27428362-1bfc-de9a-da19-c47a9d483e9e@denx.de>
- <20190810174447.GR178933@dtor-ws>
- <4c284f45-fd6f-4bc1-bf58-ea9ae8c601bf@denx.de>
- <20190810190513.GS178933@dtor-ws>
-From:   Marek Vasut <marex@denx.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=marex@denx.de; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <4a1bdf7a-2d6b-0753-a5b9-f4d94f1c26a7@denx.de>
-Date:   Sat, 10 Aug 2019 23:30:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        by mail.kernel.org (Postfix) with ESMTPSA id ECADB208C2;
+        Sun, 11 Aug 2019 07:29:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565508551;
+        bh=a18vG4RFaJ1WnQTrQP/A7Fv6lll+Bd1t6q3Pb5dEzII=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xU+1adYVSI0rMNnzRsoaowKdWgU0WokCNDwfBQFfhdWcc0YLPAbaxq7M1xbn75oiY
+         5odMmCfDZPXgCz+VwOJ5EV3UWRBqLembaQb7hDHGqkUEY77vH66CWdV0Pi84Rnz0AR
+         0br1/8rebHmNysYMMg97eMbkughzY/rR4olgmZ3k=
+Date:   Sun, 11 Aug 2019 09:29:07 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Thomas Bogendoerfer <tbogendoerfer@suse.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jiri Slaby <jslaby@suse.com>,
+        Evgeniy Polyakov <zbr@ioremap.net>, linux-mips@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:REAL TIME CLOCK (RTC) SUBSYSTEM" 
+        <linux-rtc@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
+Subject: Re: [PATCH v4 8/9] MIPS: SGI-IP27: fix readb/writeb addressing
+Message-ID: <20190811072907.GA1416@kroah.com>
+References: <20190809103235.16338-1-tbogendoerfer@suse.de>
+ <20190809103235.16338-9-tbogendoerfer@suse.de>
+ <CAHp75Vd_083R9sRsspVuJ3ZMTxpVR79PF5Lg-bpnMxRfN+b7wA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190810190513.GS178933@dtor-ws>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75Vd_083R9sRsspVuJ3ZMTxpVR79PF5Lg-bpnMxRfN+b7wA@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 8/10/19 9:05 PM, Dmitry Torokhov wrote:
-> On Sat, Aug 10, 2019 at 08:00:14PM +0200, Marek Vasut wrote:
->> On 8/10/19 7:44 PM, Dmitry Torokhov wrote:
->>> On Sat, Aug 10, 2019 at 06:50:08PM +0200, Marek Vasut wrote:
->>>> On 8/10/19 6:41 PM, Dmitry Torokhov wrote:
->>>>> Hi Marek,
->>>>
->>>> Hi,
->>>>
->>>>> On Sat, Mar 02, 2019 at 03:17:04PM +0100, Marek Vasut wrote:
->>>>>> Add support for ILI2117 touch controller. This controller is similar
->>>>>> to the ILI210x and ILI251x, except for the following differences:
->>>>>> - Reading out of touch data must happen at most 300 mS after the
->>>>>>   interrupt line was asserted. No command must be sent, the data
->>>>>>   are returned upon pure I2C read of 43 bytes long.
->>>>>> - Supports 10 simultaneous touch inputs.
->>>>>> - Touch data format is slightly different.
->>>>>
->>>>> So with this and also I see there is another ili2117a submission, I do
->>>>> believe that we need to switch to using function pointers instead of
->>>>> if/else if/else style cheking of the model.
->>>>
->>>> How about we add tested functionality in first and only then do bigger
->>>> untested changes ? I think that would work better for everyone.
->>>
->>> Sorry, I would really prefer to do what is right and build additional
->>> functionality on top of the good foundation. I asked to switch to the
->>> function pointers before, but you did not want to citing performance
->>> (even though we are using function pointers everywhere in the kernel),
->>> now I gave a draft implementation, I hope you can use it.
->>
->> So why can't we add tested code in first and then add new huge untested
->> patch on top and start testing it ? I think doing it in reverse is
->> actually not helpful, if there is a problem in this massive new patch,
->> it could be reverted without losing functionality.
+On Sat, Aug 10, 2019 at 04:22:23PM +0300, Andy Shevchenko wrote:
+> On Fri, Aug 9, 2019 at 1:34 PM Thomas Bogendoerfer
+> <tbogendoerfer@suse.de> wrote:
+> >
+> > Our chosen byte swapping, which is what firmware already uses, is to
+> > do readl/writel by normal lw/sw intructions (data invariance). This
+> > also means we need to mangle addresses for u8 and u16 accesses. The
+> > mangling for 16bit has been done aready, but 8bit one was missing.
+> > Correcting this causes different addresses for accesses to the
+> > SuperIO and local bus of the IOC3 chip. This is fixed by changing
+> > byte order in ioc3 and m48rtc_rtc structs.
 > 
-> We still have 4 weeks till merge window + stabilization time past it.
+> >  /* serial port register map */
+> >  struct ioc3_serialregs {
+> > -       uint32_t        sscr;
+> > -       uint32_t        stpir;
+> > -       uint32_t        stcir;
+> > -       uint32_t        srpir;
+> > -       uint32_t        srcir;
+> > -       uint32_t        srtr;
+> > -       uint32_t        shadow;
+> > +       u32     sscr;
+> > +       u32     stpir;
+> > +       u32     stcir;
+> > +       u32     srpir;
+> > +       u32     srcir;
+> > +       u32     srtr;
+> > +       u32     shadow;
+> >  };
+> 
+> Isn't it a churn? AFAIU kernel documentation the uint32_t is okay to
+> use, just be consistent inside one module / driver.
+> Am I mistaken?
 
-Sure, but this patch was posted 5 months ago and was in real world
-deployment since, so it has 5 months of practical testing. I don't want
-to throw that away.
+No, but really it uint* shouldn't be used anywhere in the kernel source
+as it does not make sense.
 
-The patch you want me to test can easily be rebased on the ILI2117
-support and then we retain those months of testing, which I think is
-much better.
+thanks,
+
+greg k-h
