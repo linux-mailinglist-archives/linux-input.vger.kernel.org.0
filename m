@@ -2,87 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BEFD89026
-	for <lists+linux-input@lfdr.de>; Sun, 11 Aug 2019 09:32:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF08C891C5
+	for <lists+linux-input@lfdr.de>; Sun, 11 Aug 2019 15:10:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725813AbfHKHcS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Sun, 11 Aug 2019 03:32:18 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56438 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725810AbfHKHcS (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 11 Aug 2019 03:32:18 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id A6A50AD73;
-        Sun, 11 Aug 2019 07:32:15 +0000 (UTC)
-Date:   Sun, 11 Aug 2019 09:32:12 +0200
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Jakub Kicinski <jakub.kicinski@netronome.com>
-Cc:     Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Evgeniy Polyakov <zbr@ioremap.net>, linux-mips@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org
-Subject: Re: [PATCH v4 7/9] mfd: ioc3: Add driver for SGI IOC3 chip
-Message-Id: <20190811093212.88635fb1a6c796a073ec71ff@suse.de>
-In-Reply-To: <20190809142222.4558691e@cakuba.netronome.com>
-References: <20190809103235.16338-1-tbogendoerfer@suse.de>
-        <20190809103235.16338-8-tbogendoerfer@suse.de>
-        <20190809142222.4558691e@cakuba.netronome.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8BIT
+        id S1726466AbfHKNKY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 11 Aug 2019 09:10:24 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:45750 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726417AbfHKNKY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 11 Aug 2019 09:10:24 -0400
+Received: by mail-lf1-f68.google.com with SMTP id a30so9500576lfk.12
+        for <linux-input@vger.kernel.org>; Sun, 11 Aug 2019 06:10:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=aXuVXQ1CI1Q33vp8+u6UgQUuiONvd3hkIAI7gf0XzVg=;
+        b=ZSQOuI4Lkhfjq6An2lCI3VTOUGa3QFz4LKlD7/amqK6u9GQj6tJwFV8qoqWXQ9U6VT
+         qeC1kHBonItODUyiWcZ5UjSDO/a9ciIm8wga7CXwOtb92pXUNyFUT0uSk7hrpgsIi9Iu
+         QkB8uCrt6NYeZ1VggroeWtQO3alaGeU+iFRL3X7JrlHviLVezi7SzbDEcmMHTqE/aMOP
+         oeLF+Ka5MNkgjCmyj/VOgASSrHXNwHfrSNhXE8C5BCe3FxGwGCMonVVTE5vODbtCCTFF
+         uXDcCLHNfjl2NWjE4DX4BWRs1TJiYyKlurjIUifww3DeCTY6jgcLxBa9WGtHthmLx79r
+         pLnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=aXuVXQ1CI1Q33vp8+u6UgQUuiONvd3hkIAI7gf0XzVg=;
+        b=aZom6wrsfeb1nm03n69FobOC89aYpduFwJIwafhrtvZjbkE48CR1njb8rwG4+PVAN+
+         YitGXs3FakfUgVpQFTg0pmVHZ9OLHxUbePTXlk2eknVV4QgJ5lU9s7GYmgdw6chSPp+R
+         ui96EzUY5b14vWvGL2DL29GiqEFyIVYDdFkmQqgsK9a065ERqzqOpZFTW7ivYTY9M9bB
+         TXVOBFvmXiB/wSw1erxb7gy4GqLcmhKpFY40Mk9afXNXJmQ8R99r3bQlSo9vLqZmJ6Bt
+         JQYr3sn1GXsxfn1wy+qMMFuqyeqLyz/t0X8+P0Gndxy4w0y1jd2QCxcvp6/lcpF+wO2n
+         V1cQ==
+X-Gm-Message-State: APjAAAXvXMC5Pd/fsKYcFuU7U7y6mnEPYosiQVtypb1oSoXwdnPqkALv
+        x16kBOxK7nNuPfn+8NwIb+jvUuQ9DGwdhd68dz4=
+X-Google-Smtp-Source: APXvYqzm752OyUJ6fvZ1OaDtyJJaiVCTGqvbH+me99qVQX3IWsI8x8bHS6EHbJr/LxCRSyESFzTfVHkduGh1kfI1/Eg=
+X-Received: by 2002:ac2:5468:: with SMTP id e8mr17276811lfn.2.1565529022153;
+ Sun, 11 Aug 2019 06:10:22 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a2e:8e92:0:0:0:0:0 with HTTP; Sun, 11 Aug 2019 06:10:21
+ -0700 (PDT)
+Reply-To: av98074791@gmail.com
+From:   Veronica Ali <sodjine.sani@gmail.com>
+Date:   Sun, 11 Aug 2019 06:10:21 -0700
+Message-ID: <CANqN61ntTJ3YeZ8G850HKuzKzQsD84YMAxOhjTXwxk24hrSu3Q@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 9 Aug 2019 14:22:22 -0700
-Jakub Kicinski <jakub.kicinski@netronome.com> wrote:
+hi, My name is Veronica Ali. a France Nationality, I am a widow,
+currently hospitalized due to cancer illness . Meanwhile, I have
+decided to donate my fund to you as a reliable individual that will
+use this money wisely, =E2=82=AC3,800.000 Million Euros. to help the poor a=
+nd
+less privileged.
 
-> On Fri,  9 Aug 2019 12:32:29 +0200, Thomas Bogendoerfer wrote:
-> > SGI IOC3 chip has integrated ethernet, keyboard and mouse interface.
-> > It also supports connecting a SuperIO chip for serial and parallel
-> > interfaces. IOC3 is used inside various SGI systemboards and add-on
-> > cards with different equipped external interfaces.
-> > 
-> > Support for ethernet and serial interfaces were implemented inside
-> > the network driver. This patchset moves out the not network related
-> > parts to a new MFD driver, which takes care of card detection,
-> > setup of platform devices and interrupt distribution for the subdevices.
-> > 
-> > Serial portion: Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > 
-> > Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
-> 
-> There are a lot of changes in the ethernet part which are not easy to
-> explain by the introduction of the other MFD parts.. Could you possibly
-> break this change up into smaller chunks?
+Sorry if you received this letter in your spam, is due to recent
+connection error here in the country. So if you are willing to accept
+this offer and do exactly as I will instruct, then get back to me for
+more details.
 
-working on it
-
-> Also please don't use stdint types in the kernel, please try checkpatch
-> to catch coding style issues.
-
-my patch already reduces them and checkpatch only warns about usage of printk
-for the network part. Changing that to dev_warn/dev_err in the mfd patch didn't
-seem the right thing to do. As I'm splitting the conversion patch into a few
-steps I could also replace the printks.
-
-Thomas.
-
--- 
-SUSE Linux GmbH
-GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG Nürnberg)
+Mrs Veronica Ali.
