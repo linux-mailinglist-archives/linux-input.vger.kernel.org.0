@@ -2,211 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98D9889AEE
-	for <lists+linux-input@lfdr.de>; Mon, 12 Aug 2019 12:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 820E889DB1
+	for <lists+linux-input@lfdr.de>; Mon, 12 Aug 2019 14:10:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727605AbfHLKIu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Aug 2019 06:08:50 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:40629 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727564AbfHLKIt (ORCPT
+        id S1728604AbfHLMIP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Aug 2019 08:08:15 -0400
+Received: from mail-ot1-f72.google.com ([209.85.210.72]:40388 "EHLO
+        mail-ot1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728585AbfHLMII (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Aug 2019 06:08:49 -0400
-Received: by mail-wr1-f66.google.com with SMTP id r1so4951800wrl.7
-        for <linux-input@vger.kernel.org>; Mon, 12 Aug 2019 03:08:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=iSUWZthkT5NzdIgl34+cYotng+ccjbgaBsS9HBt2QpI=;
-        b=fDdqVHCRpjoHrQfUYYjb7rs/gyyidY3ytmy/UeoeKwQJgSBSpkd6BIOeUlatWuDg6c
-         Vq6aor2/IeaEEbMUdepTGe+20qI+GJBleu7gnh1fTEy0AtD22SaAt92/ljzmWtmBsD2h
-         J3MnfLJns9LGkZ22sSsN4sAGKQ7/ouMNxpU1Je/9KmVrTNcZCg7ueUrKhDzCekaHkgS7
-         a8r12ZS/0pRSGJL2RGV5tnrHH8IDbxRizpZK+cPLYVmLuZuWfJtiv9t6z08drKV3g2wA
-         GXQoNIfqsrvNEBJkoZh66iknbQh8ZpOYe+OtI21kj9Mfme5CnyyFRVCdC/0FnZscc6ka
-         2yFQ==
+        Mon, 12 Aug 2019 08:08:08 -0400
+Received: by mail-ot1-f72.google.com with SMTP id o21so16064255otj.7
+        for <linux-input@vger.kernel.org>; Mon, 12 Aug 2019 05:08:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=iSUWZthkT5NzdIgl34+cYotng+ccjbgaBsS9HBt2QpI=;
-        b=qQaScf5ZFR/v/Wix5rlQ07HpdQlXxtlVqo2HbNDE+8lQuAQwgqD9yTFKY6cotrlH+u
-         3dIsAtO3/viWfwYwOCTFcTIww4mBDIHRORQgcDV/OBsYxIjE7KImQjsB3IWQtmhNwGAw
-         p/jLaI6xgjhV6XHK2kRhHK4qnUae3xjO6dtmyFCN0AIPkHS/1AQI1w85DNOGfYh5iOFB
-         A7MT+mFMnondcTDnHVpzioyqrHPQsopOuBXq/+ZV9Jy0VqbXbiLBcgKJfj2uiDAmgluA
-         iHK9wfQt8bVwYE51kOq08zyqwwPjTnVoziCgS0iumUdM9krgpT/ax7X54MVP9Gjcq9RT
-         H7Kg==
-X-Gm-Message-State: APjAAAV71HSirrsDMDra8MfP8OuZvf5udV7ke6F5iBFZwaqyfxqF/uSX
-        tTEBHVDoVUPgqPtyLWZF35NyhA==
-X-Google-Smtp-Source: APXvYqxXdcW7172rHwWqsloeJ92Ae2s3Za7LKpR+s//Kn+kNFnC//fGd81qnjDWE0u84R3aq4MlUUw==
-X-Received: by 2002:adf:c803:: with SMTP id d3mr41322658wrh.130.1565604526947;
-        Mon, 12 Aug 2019 03:08:46 -0700 (PDT)
-Received: from dell ([2.27.35.255])
-        by smtp.gmail.com with ESMTPSA id 4sm620554wmd.26.2019.08.12.03.08.46
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 12 Aug 2019 03:08:46 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 11:08:44 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Lukasz Majewski <lukma@denx.de>
-Cc:     linux-kernel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Enrico Weigelt <info@metux.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] mfd: mc13xxx: Add mc34708 adc support
-Message-ID: <20190812100844.GE26727@dell>
-References: <20190717222602.2912-1-lukma@denx.de>
- <20190717222602.2912-2-lukma@denx.de>
- <20190725123641.GJ23883@dell>
- <20190725182020.3948c8d9@jawa>
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=Ywj85VvT42ExBz1omSPQeO7VLLMCmBGtLJt3+nZQbNo=;
+        b=RTDIBSZRc0FMQWhGhDAixDXj/G1ptNdFdgjU9ZQWgL7g9XoDn0xVbr4Tq6xUVmr/Tx
+         e8KcgcTeGQZAgyeeS7SUOE7DiBIUX+p82eg17FJuMedI+m7RhK6pEo/HpG/HqVj7W0FY
+         2+He7dGiih4YNc6BjkMyJcRAHJkIbCnns7MdNHFI06sMnNdDRwx1IdpAUqfi9GLFk8Li
+         HEA+KiSiu90v5JwxHo3wKghD3mMq2CQfEXsNYHJZc+2Kk3EAdDW0HwphOPOJ7oIdYoMG
+         ILDhLTMkdua/4SSY7L8As11lflKs+DwDiBKQufIN+JN7K8uA511PPjTC16lMrQurNAub
+         C5gw==
+X-Gm-Message-State: APjAAAWsDjOCW2qoTG0bmIfdPu0cXAqnRRkutKxIdkyNRLLq0Ch+EbJ2
+        7HazqTFiX+XxqjW5fyj46O5eCZI86r42TAek0DM4nqfdFRUS
+X-Google-Smtp-Source: APXvYqw57Z0WD+ihkt6puj9Q98EY0wy6sFf1kTwmhhtxdW9KPPfqxuVsgwRXQa90DCSpwlbWwlKgaveug83sQqr4/eEstXeWMz/M
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190725182020.3948c8d9@jawa>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Received: by 2002:a6b:7909:: with SMTP id i9mr33373116iop.8.1565611687290;
+ Mon, 12 Aug 2019 05:08:07 -0700 (PDT)
+Date:   Mon, 12 Aug 2019 05:08:07 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000007a3d3b058fea6016@google.com>
+Subject: KMSAN: uninit-value in gtco_probe
+From:   syzbot <syzbot+bb54195a43a54b1e5e5e@syzkaller.appspotmail.com>
+To:     dmitry.torokhov@gmail.com, glider@google.com,
+        granthernandez@google.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 25 Jul 2019, Lukasz Majewski wrote:
-> > On Thu, 18 Jul 2019, Lukasz Majewski wrote:
-> > 
-> > > From: Sascha Hauer <s.hauer@pengutronix.de>
-> > > 
-> > > The mc34708 has an improved adc. The older variants will always
-> > > convert a fixed order of channels. The mc34708 can do up to eight
-> > > conversions in arbitrary channel order. Currently this extended
-> > > feature is not supported. We only support touchscreen conversions
-> > > now, which will be sampled in a data format compatible to the older
-> > > chips in order to keep the API between the mfd and the touchscreen
-> > > driver.
-> > > 
-> > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> > > Signed-off-by: Lukasz Majewski <lukma@denx.de>
-> > > 
-> > > ---
-> > > Changes for v4:
-> > > - None
-> > > 
-> > > Changes for v3:
-> > > - None
-> > > 
-> > > Changes for v2:
-> > > - Change the return code patch when the mc13xxx ADC is performing
-> > > conversion
-> > > - Introduce new include/linux/mfd/mc34708.h header file for mc34708
-> > > specific defines
-> > > 
-> > > Changes from the original patches:
-> > > - ADC conversion functions prototypes added to fix build error
-> > > - Adjustments to make checkpatch clean (-ENOSYS, line over 80 char)
-> > > 
-> > > This patch applies on top of v5.2 - SHA1:
-> > > 0ecfebd2b52404ae0c54a878c872bb93363ada36 ---
-> > >  drivers/mfd/mc13xxx-core.c  | 102
-> > > +++++++++++++++++++++++++++++++++++++++++++-
-> > > drivers/mfd/mc13xxx.h       |   3 ++ include/linux/mfd/mc34708.h |
-> > > 37 ++++++++++++++++ 3 files changed, 141 insertions(+), 1
-> > > deletion(-) create mode 100644 include/linux/mfd/mc34708.h
-> > > 
-> > > diff --git a/drivers/mfd/mc13xxx-core.c b/drivers/mfd/mc13xxx-core.c
-> > > index 1abe7432aad8..01473d6fda21 100644
-> > > --- a/drivers/mfd/mc13xxx-core.c
-> > > +++ b/drivers/mfd/mc13xxx-core.c
-> > > @@ -12,6 +12,7 @@
-> > >  #include <linux/of_device.h>
-> > >  #include <linux/platform_device.h>
-> > >  #include <linux/mfd/core.h>
-> > > +#include <linux/mfd/mc34708.h>
-> > >  
-> > >  #include "mc13xxx.h"
-> > >  
-> > > @@ -45,6 +46,8 @@
-> > >  
-> > >  #define MC13XXX_ADC2		45
-> > >  
-> > > +#define MC13XXX_ADC_WORKING		(1 << 0)  
-> > 
-> > BIT(0) ?
-> 
-> The same convention - i.e. (1 << 0) is used in the rest of the file.
+Hello,
 
-Very well, but please consider converting it subsequently.
+syzbot found the following crash on:
 
-> > >  void mc13xxx_lock(struct mc13xxx *mc13xxx)
-> > >  {
-> > >  	if (!mutex_trylock(&mc13xxx->lock)) {
-> > > @@ -198,22 +201,30 @@ static void mc34708_print_revision(struct
-> > > mc13xxx *mc13xxx, u32 revision) maskval(revision,
-> > > MC34708_REVISION_FAB)); }
-> > >  
-> > > +static int mc13xxx_adc_conversion(struct mc13xxx *, unsigned int,
-> > > +				  unsigned int, u8, bool, unsigned
-> > > int *); +static int mc34708_adc_conversion(struct mc13xxx *,
-> > > unsigned int,
-> > > +				  unsigned int, u8, bool, unsigned
-> > > int *); +
-> > >  /* These are only exported for mc13xxx-i2c and mc13xxx-spi */
-> > >  struct mc13xxx_variant mc13xxx_variant_mc13783 = {
-> > >  	.name = "mc13783",
-> > >  	.print_revision = mc13xxx_print_revision,
-> > > +	.adc_do_conversion = mc13xxx_adc_conversion,
-> > >  };
-> > >  EXPORT_SYMBOL_GPL(mc13xxx_variant_mc13783);  
-> > 
-> > I'd prefer to keep the call-back functions as close to zero as
-> > possible.
-> 
-> If I may ask - what is wrong with having per device callback(s) ?
+HEAD commit:    61ccdad1 Revert "drm/bochs: Use shadow buffer for bochs fr..
+git tree:       kmsan
+console output: https://syzkaller.appspot.com/x/log.txt?x=15e29b26600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=27abc558ecb16a3b
+dashboard link: https://syzkaller.appspot.com/bug?extid=bb54195a43a54b1e5e5e
+compiler:       clang version 9.0.0 (/home/glider/llvm/clang  
+80fee25776c2fb61e74c1ecb1a523375c2500b69)
 
-Call-backs are ugly and hard to read/debug.
+Unfortunately, I don't have any reproducer for this crash yet.
 
-If they can be avoided, they should be, IMHO>
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+bb54195a43a54b1e5e5e@syzkaller.appspotmail.com
 
-> > It would be better to turn mc13xxx_adc_conversion() in to the catch
-> > function
-> 
-> Could you share any example? 
+usb 6-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+usb 6-1: config 0 descriptor??
+gtco 6-1:0.219: Collection level already at zero
+==================================================================
+BUG: KMSAN: uninit-value in parse_hid_report_descriptor  
+drivers/input/tablet/gtco.c:297 [inline]
+BUG: KMSAN: uninit-value in gtco_probe+0x18c7/0x3520  
+drivers/input/tablet/gtco.c:938
+CPU: 1 PID: 12046 Comm: kworker/1:0 Not tainted 5.3.0-rc3+ #17
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x191/0x1f0 lib/dump_stack.c:113
+  kmsan_report+0x162/0x2d0 mm/kmsan/kmsan_report.c:109
+  __msan_warning+0x75/0xe0 mm/kmsan/kmsan_instr.c:294
+  parse_hid_report_descriptor drivers/input/tablet/gtco.c:297 [inline]
+  gtco_probe+0x18c7/0x3520 drivers/input/tablet/gtco.c:938
+  usb_probe_interface+0xd19/0x1310 drivers/usb/core/driver.c:361
+  really_probe+0x1373/0x1dc0 drivers/base/dd.c:552
+  driver_probe_device+0x1ba/0x510 drivers/base/dd.c:709
+  __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:816
+  bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
+  __device_attach+0x489/0x750 drivers/base/dd.c:882
+  device_initial_probe+0x4a/0x60 drivers/base/dd.c:929
+  bus_probe_device+0x131/0x390 drivers/base/bus.c:514
+  device_add+0x25b5/0x2df0 drivers/base/core.c:2114
+  usb_set_configuration+0x309f/0x3710 drivers/usb/core/message.c:2027
+  generic_probe+0xe7/0x280 drivers/usb/core/generic.c:210
+  usb_probe_device+0x146/0x200 drivers/usb/core/driver.c:266
+  really_probe+0x1373/0x1dc0 drivers/base/dd.c:552
+  driver_probe_device+0x1ba/0x510 drivers/base/dd.c:709
+  __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:816
+  bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
+  __device_attach+0x489/0x750 drivers/base/dd.c:882
+  device_initial_probe+0x4a/0x60 drivers/base/dd.c:929
+  bus_probe_device+0x131/0x390 drivers/base/bus.c:514
+  device_add+0x25b5/0x2df0 drivers/base/core.c:2114
+  usb_new_device+0x23e5/0x2fb0 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+  port_event drivers/usb/core/hub.c:5359 [inline]
+  hub_event+0x581d/0x72f0 drivers/usb/core/hub.c:5441
+  process_one_work+0x1572/0x1ef0 kernel/workqueue.c:2269
+  worker_thread+0x111b/0x2460 kernel/workqueue.c:2415
+  kthread+0x4b5/0x4f0 kernel/kthread.c:256
+  ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
 
-Just put the code doing the conversion into mc13xxx_adc_conversion()
-and remove the call-back.
+Uninit was stored to memory at:
+  kmsan_save_stack_with_flags mm/kmsan/kmsan.c:187 [inline]
+  kmsan_internal_chain_origin+0xcc/0x150 mm/kmsan/kmsan.c:345
+  __msan_chain_origin+0x6b/0xe0 mm/kmsan/kmsan_instr.c:190
+  parse_hid_report_descriptor drivers/input/tablet/gtco.c:298 [inline]
+  gtco_probe+0x1a7c/0x3520 drivers/input/tablet/gtco.c:938
+  usb_probe_interface+0xd19/0x1310 drivers/usb/core/driver.c:361
+  really_probe+0x1373/0x1dc0 drivers/base/dd.c:552
+  driver_probe_device+0x1ba/0x510 drivers/base/dd.c:709
+  __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:816
+  bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
+  __device_attach+0x489/0x750 drivers/base/dd.c:882
+  device_initial_probe+0x4a/0x60 drivers/base/dd.c:929
+  bus_probe_device+0x131/0x390 drivers/base/bus.c:514
+  device_add+0x25b5/0x2df0 drivers/base/core.c:2114
+  usb_set_configuration+0x309f/0x3710 drivers/usb/core/message.c:2027
+  generic_probe+0xe7/0x280 drivers/usb/core/generic.c:210
+  usb_probe_device+0x146/0x200 drivers/usb/core/driver.c:266
+  really_probe+0x1373/0x1dc0 drivers/base/dd.c:552
+  driver_probe_device+0x1ba/0x510 drivers/base/dd.c:709
+  __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:816
+  bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
+  __device_attach+0x489/0x750 drivers/base/dd.c:882
+  device_initial_probe+0x4a/0x60 drivers/base/dd.c:929
+  bus_probe_device+0x131/0x390 drivers/base/bus.c:514
+  device_add+0x25b5/0x2df0 drivers/base/core.c:2114
+  usb_new_device+0x23e5/0x2fb0 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+  port_event drivers/usb/core/hub.c:5359 [inline]
+  hub_event+0x581d/0x72f0 drivers/usb/core/hub.c:5441
+  process_one_work+0x1572/0x1ef0 kernel/workqueue.c:2269
+  worker_thread+0x111b/0x2460 kernel/workqueue.c:2415
+  kthread+0x4b5/0x4f0 kernel/kthread.c:256
+  ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
 
-> > choose an execution route based on some platform matching.
-> > 
-> 
-> Could you help me with giving a hint of how shall I do the "platform
-> matching" in this particular driver ? 
+Local variable description: ----globalval.i@gtco_probe
+Variable was created at:
+  parse_hid_report_descriptor drivers/input/tablet/gtco.c:221 [inline]
+  gtco_probe+0xcd6/0x3520 drivers/input/tablet/gtco.c:938
+  usb_probe_interface+0xd19/0x1310 drivers/usb/core/driver.c:361
+==================================================================
 
-We normally match on some platform ID, rather than passing around
-pointers to structures containing pointers to device specific
-functions.
 
-> The mc13xxx driver seems rather complex with SPI and I2C support and in
-> which the subdevices are added (e.g. rtc, adc, etc).
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Not sure I follow your point?
-
-> This particular patch just follows current driver design and fixes its
-> usability for mc13708 drvice.
-
-Right, but it is the current driver design that I'm trying to change.
-
-> > If you could do the same for print_revision too, that would be even
-> > better.
-> 
-> I would prefer to fix the driver (for mc13708) without the need to
-> change the working code.
-
-Okay, but no additional call-backs please.
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
