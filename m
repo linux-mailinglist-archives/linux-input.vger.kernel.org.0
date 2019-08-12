@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5DD889781
-	for <lists+linux-input@lfdr.de>; Mon, 12 Aug 2019 09:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A03F89786
+	for <lists+linux-input@lfdr.de>; Mon, 12 Aug 2019 09:08:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725923AbfHLHHL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Aug 2019 03:07:11 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:32841 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725774AbfHLHHL (ORCPT
+        id S1725843AbfHLHIi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Aug 2019 03:08:38 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:45937 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725774AbfHLHIi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Aug 2019 03:07:11 -0400
-Received: by mail-pg1-f195.google.com with SMTP id n190so8204405pgn.0
-        for <linux-input@vger.kernel.org>; Mon, 12 Aug 2019 00:07:10 -0700 (PDT)
+        Mon, 12 Aug 2019 03:08:38 -0400
+Received: by mail-pl1-f193.google.com with SMTP id y8so5412084plr.12
+        for <linux-input@vger.kernel.org>; Mon, 12 Aug 2019 00:08:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
         bh=kQ4PwkyzEMQFF8PsFiRRICWroSTf4FglYuM5NsGmpcw=;
-        b=r22qfj9yjGD8TXNiPWVxizb3Md8s0Vh7Ne/bWkXI6rlhkB7YWCRIyCSexbxG3kYlmw
-         sceJ99GKc0VyBzb9YBTX3XXZPVuf5lNcYdPv0VuOFlcYsQoQmPJRZcbe+U4imwLcE58h
-         joxIWj5B5015YdKwYA2c5y1STNxmVLE6EEZNwrAGy8vEM9YYc/RsOUBypP98xctRVwsv
-         ByNeJgd3Muu9KB1L+KOuNXTp/3OxOid1tyo1QL+qhyuzBqtDhMGyGQ9N9OEMkVxL+xkK
-         GX2WZZVSRpcXrEmMgyNoTWYuKZPloX85ux2aw15OifRaqDu67OWDAj4Juc4xFT+K9iEQ
-         w3DA==
+        b=ee7qOi+Ei+rF1sMNyIcAChlmx92JZwzIjZ7dCTSe8YRMkzhSY7kMXtH5Kc5jkeMGvn
+         b5nSJUrlR4aDXix/rF1Ov+e+SWx6ccFDCWLZVkO6HMxJQL5y5kyd2QoRtvvC3/XKEh5H
+         XZr/CuD8BMD23HB2B4HfyCibpNpqQp24Q0vlYDbv3CCZLxDBuMYrLYAeuZ/QXy3Hzget
+         HarBfps1+yZCVc+mdKM3Hv8MyCx4BDPl8gwDpZhQnwWF3/PFtoN6hjRtTda4UYuFGh4y
+         CAqBLNmOPvLpqD+sbJr2uCNC3x9EHXSSWYrO/N2maS4qRJ+ws8+tUFBxwOZTVzx45+/G
+         NZ1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
         bh=kQ4PwkyzEMQFF8PsFiRRICWroSTf4FglYuM5NsGmpcw=;
-        b=PEHyzcZPOAgLzKh9sfpRjyx8+nMaT+YUgB/CTMlkdBR38J06n4KSq5kgyG2gv7gOXP
-         ChG4SY+C2saOGVSYF7NW0TPAidPn+Ou5RWFiA6umyly2a+x5W6wqEAgwK9nYlxopYwZ4
-         gd++dJEG97O3INRrUW2PWOK1THzekKzkBx6VLEJ1BqjEgfSVzOkPYpds0npMNz63aVfR
-         jA0hM5vYTcvSF9ZVrfEp4sJbLoLz2JgB2tjKnO9lk8qh1IAIDReN2ISMnUr7+AoPxXDN
-         ThbnoBRYiyfR9rPd1l2KljxmXp19Tb3jPjsrY3HGfmu8/Bf1VBtAUTVe9OST+G+jDRDr
-         vWcA==
-X-Gm-Message-State: APjAAAXI/hiMkTITZubQ8f3zf1zLzq9HcPx8Ws+hZ+65YmukYT9xW65H
-        BT6nWmQIiVGLjMhRax/U8VI=
-X-Google-Smtp-Source: APXvYqzS+FJblxQJfNtrL3Jy0Mfg8Vonfw4scfObUYFq1zBEGCJwiWi5c2Z73bhapALnP+AOOboRzA==
-X-Received: by 2002:a65:4808:: with SMTP id h8mr11948742pgs.22.1565593630085;
-        Mon, 12 Aug 2019 00:07:10 -0700 (PDT)
+        b=jX784xq1k3uG9pWA7sfh5U4cAPANFDw8/vo7RBBGpGbb6Knzsb8mNCwCrJZY7ABgm4
+         m0OYp7AllPuC0Cx+Hjru5WC7GAOik9K7avO8f8zq57v4FqKA6Ou2c4BqCcjc/oJyuKOA
+         gXQ7JwRcp3yte7YPGIrbXQHxumodYYV3YHQN+/yc01sA4nqw0Rav3Aq0OTKUF4A5r07I
+         vqzGmCS29HoPk6A/SS2b7jA+NhnDa+b5X9amxxtlePvQ7iV1aTQ4NsImb3AHwFfjHixT
+         x8cpaydclknIwmzaP+cDqmlD0XzfbOw3h5O5Z+m8f1PongunpryLG2W6ujoFKb/nXKeu
+         zXHQ==
+X-Gm-Message-State: APjAAAW7JgyeSgvIAbxOT1qFOmNw0TzAQGadN2rxtrboZnoTdiMhQjHC
+        Sx9B2cjRR42cpSzrn+TI8co=
+X-Google-Smtp-Source: APXvYqyCahdJ47Ak2EBoERz7yCOzVf7sdVkt+B47PpxNSKaSYeB7Lo+SwjiPDzciCfS6WVlDffuogQ==
+X-Received: by 2002:a17:902:8d8d:: with SMTP id v13mr11802711plo.137.1565593717280;
+        Mon, 12 Aug 2019 00:08:37 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id p2sm147232652pfb.118.2019.08.12.00.07.09
+        by smtp.gmail.com with ESMTPSA id s11sm111162284pgv.13.2019.08.12.00.08.35
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 12 Aug 2019 00:07:09 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 00:07:07 -0700
+        Mon, 12 Aug 2019 00:08:36 -0700 (PDT)
+Date:   Mon, 12 Aug 2019 00:08:34 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Ronald =?iso-8859-1?Q?Tschal=E4r?= <ronald@innovation.ch>,
@@ -55,7 +55,7 @@ Cc:     Ronald =?iso-8859-1?Q?Tschal=E4r?= <ronald@innovation.ch>,
         Mao Wenan <maowenan@huawei.com>, linux-input@vger.kernel.org
 Subject: Re: [PATCH] input: applespi: no need to check return value of
  debugfs_create functions
-Message-ID: <20190812070707.GY178933@dtor-ws>
+Message-ID: <20190812070834.GZ178933@dtor-ws>
 References: <20190810105734.GA27563@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
