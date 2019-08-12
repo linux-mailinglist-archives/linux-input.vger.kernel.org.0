@@ -2,176 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3DE18A335
-	for <lists+linux-input@lfdr.de>; Mon, 12 Aug 2019 18:24:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85C2D8A343
+	for <lists+linux-input@lfdr.de>; Mon, 12 Aug 2019 18:26:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726715AbfHLQXi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Aug 2019 12:23:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36340 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725887AbfHLQXh (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Aug 2019 12:23:37 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C0FF7C04510D;
-        Mon, 12 Aug 2019 16:23:36 +0000 (UTC)
-Received: from plouf.redhat.com (ovpn-117-165.ams2.redhat.com [10.36.117.165])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6C94784F4;
-        Mon, 12 Aug 2019 16:23:35 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Matthias Fend <Matthias.Fend@wolfvision.net>,
+        id S1726515AbfHLQ0k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Aug 2019 12:26:40 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:33937 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725887AbfHLQ0j (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 12 Aug 2019 12:26:39 -0400
+Received: by mail-wm1-f68.google.com with SMTP id e8so354451wme.1
+        for <linux-input@vger.kernel.org>; Mon, 12 Aug 2019 09:26:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BCSV8W8crhzepNxJm5ULkSzkz8tlFR9gxIdG65AHcyk=;
+        b=N6wGM8/gEm42RgPf10BNxkMZGdxQHdGI+exMo6I3pcWQ2KTEDbaC5fB6PQCzSYlg9I
+         qWE6PT4NsA/P4Y4vXJcrEz7CqSvANmuqZ1l7PQARMwMLgOmFuIlZmGrJAVsYNQ+2N/1N
+         wtGkzkqCRgK89JvW0phiSSdxQIxhM2kvOadnVqGEAWitc/zXD3/n18N8A8I7zVkn2pEZ
+         6uDCC0UFIbAeykfDXkv0TeenBC179EitgtKGmO5Yan3MrjcDpy83Hj2C1YXV1b/oHcKZ
+         F1pweP1WIxkW+iKkxL3pEG+gP1AzGbq5moF5TBQ5st7j4hNAj6lbHSUFxSVfI0rsCL/G
+         uLLQ==
+X-Gm-Message-State: APjAAAWNEVYhF6qniZo472AS1m/3nKm3nLSh2wCR8jREI3wc1Eu2ExkU
+        Fs4SvVZbcc+nKzXNdJAT2CWP3Q==
+X-Google-Smtp-Source: APXvYqyG/4/23Y7sZK2DpewmP+kdZ2n2Y2MnTD7Ivy/oXpB7X5leUEUuNTZmoKAgfV7nollf6ogoIw==
+X-Received: by 2002:a05:600c:254e:: with SMTP id e14mr143925wma.150.1565627197871;
+        Mon, 12 Aug 2019 09:26:37 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id w15sm76719wmi.19.2019.08.12.09.26.37
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Mon, 12 Aug 2019 09:26:37 -0700 (PDT)
+Subject: Re: [PATCH] HID: logitech-dj: add support of the G700(s) receiver
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Jiri Kosina <jikos@kernel.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH 2/2] HID: multitouch: add support for the Smart Tech panel
-Date:   Mon, 12 Aug 2019 18:23:26 +0200
-Message-Id: <20190812162326.14253-3-benjamin.tissoires@redhat.com>
-In-Reply-To: <20190812162326.14253-1-benjamin.tissoires@redhat.com>
-References: <20190812162326.14253-1-benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190812160804.11803-1-benjamin.tissoires@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <f97403fd-4bf0-f82b-06e7-8bf4dcb2b2aa@redhat.com>
+Date:   Mon, 12 Aug 2019 18:26:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Mon, 12 Aug 2019 16:23:36 +0000 (UTC)
+In-Reply-To: <20190812160804.11803-1-benjamin.tissoires@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This panel is not very friendly to us:
-it exposes multiple multitouch collections, some of them being of
-logical application stylus.
+Hi,
 
-Usually, a device has only one report per application, and that is
-what I assumed in commit 8dfe14b3b47f ("HID: multitouch: ditch mt_report_id")
+On 12-08-19 18:08, Benjamin Tissoires wrote:
+> Both the G700 and the G700s are sharing the same receiver.
+> Include support for this receiver in hid-logitech-dj so that userspace
+> can differentiate both.
+> 
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-To avoid breaking all working device, add a new class and a new quirk
-for that situation.
+Nice, looks good to me:
 
-Reported-and-tested-by: Matthias Fend <Matthias.Fend@wolfvision.net>
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
----
- drivers/hid/hid-multitouch.c | 34 ++++++++++++++++++++++++++++------
- 1 file changed, 28 insertions(+), 6 deletions(-)
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 0d190d93ca7c..3cfeb1629f79 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -68,6 +68,7 @@ MODULE_LICENSE("GPL");
- #define MT_QUIRK_STICKY_FINGERS		BIT(16)
- #define MT_QUIRK_ASUS_CUSTOM_UP		BIT(17)
- #define MT_QUIRK_WIN8_PTP_BUTTONS	BIT(18)
-+#define MT_QUIRK_SEPARATE_APP_REPORT	BIT(19)
- 
- #define MT_INPUTMODE_TOUCHSCREEN	0x02
- #define MT_INPUTMODE_TOUCHPAD		0x03
-@@ -103,6 +104,7 @@ struct mt_usages {
- struct mt_application {
- 	struct list_head list;
- 	unsigned int application;
-+	unsigned int report_id;
- 	struct list_head mt_usages;	/* mt usages list */
- 
- 	__s32 quirks;
-@@ -203,6 +205,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
- #define MT_CLS_VTL				0x0110
- #define MT_CLS_GOOGLE				0x0111
- #define MT_CLS_RAZER_BLADE_STEALTH		0x0112
-+#define MT_CLS_SMART_TECH			0x0113
- 
- #define MT_DEFAULT_MAXCONTACT	10
- #define MT_MAX_MAXCONTACT	250
-@@ -354,6 +357,12 @@ static const struct mt_class mt_classes[] = {
- 			MT_QUIRK_CONTACT_CNT_ACCURATE |
- 			MT_QUIRK_WIN8_PTP_BUTTONS,
- 	},
-+	{ .name = MT_CLS_SMART_TECH,
-+		.quirks = MT_QUIRK_ALWAYS_VALID |
-+			MT_QUIRK_IGNORE_DUPLICATES |
-+			MT_QUIRK_CONTACT_CNT_ACCURATE |
-+			MT_QUIRK_SEPARATE_APP_REPORT,
-+	},
- 	{ }
- };
- 
-@@ -510,8 +519,9 @@ static struct mt_usages *mt_allocate_usage(struct hid_device *hdev,
- }
- 
- static struct mt_application *mt_allocate_application(struct mt_device *td,
--						      unsigned int application)
-+						      struct hid_report *report)
- {
-+	unsigned int application = report->application;
- 	struct mt_application *mt_application;
- 
- 	mt_application = devm_kzalloc(&td->hdev->dev, sizeof(*mt_application),
-@@ -536,6 +546,7 @@ static struct mt_application *mt_allocate_application(struct mt_device *td,
- 	mt_application->scantime = DEFAULT_ZERO;
- 	mt_application->raw_cc = DEFAULT_ZERO;
- 	mt_application->quirks = td->mtclass.quirks;
-+	mt_application->report_id = report->id;
- 
- 	list_add_tail(&mt_application->list, &td->applications);
- 
-@@ -543,19 +554,23 @@ static struct mt_application *mt_allocate_application(struct mt_device *td,
- }
- 
- static struct mt_application *mt_find_application(struct mt_device *td,
--						  unsigned int application)
-+						  struct hid_report *report)
- {
-+	unsigned int application = report->application;
- 	struct mt_application *tmp, *mt_application = NULL;
- 
- 	list_for_each_entry(tmp, &td->applications, list) {
- 		if (application == tmp->application) {
--			mt_application = tmp;
--			break;
-+			if (!(td->mtclass.quirks & MT_QUIRK_SEPARATE_APP_REPORT) ||
-+			    tmp->report_id == report->id) {
-+				mt_application = tmp;
-+				break;
-+			}
- 		}
- 	}
- 
- 	if (!mt_application)
--		mt_application = mt_allocate_application(td, application);
-+		mt_application = mt_allocate_application(td, report);
- 
- 	return mt_application;
- }
-@@ -572,7 +587,7 @@ static struct mt_report_data *mt_allocate_report_data(struct mt_device *td,
- 		return NULL;
- 
- 	rdata->report = report;
--	rdata->application = mt_find_application(td, report->application);
-+	rdata->application = mt_find_application(td, report);
- 
- 	if (!rdata->application) {
- 		devm_kfree(&td->hdev->dev, rdata);
-@@ -1562,6 +1577,9 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
- 	case HID_VD_ASUS_CUSTOM_MEDIA_KEYS:
- 		suffix = "Custom Media Keys";
- 		break;
-+	case HID_DG_PEN:
-+		suffix = "Stylus";
-+		break;
- 	default:
- 		suffix = "UNKNOWN";
- 		break;
-@@ -2023,6 +2041,10 @@ static const struct hid_device_id mt_devices[] = {
- 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
- 			USB_VENDOR_ID_SYNAPTICS, 0x8323) },
- 
-+	/* Smart Tech panels */
-+	{ .driver_data = MT_CLS_SMART_TECH,
-+		MT_USB_DEVICE(0x0b8c, 0x0092)},
-+
- 	/* Stantum panels */
- 	{ .driver_data = MT_CLS_CONFIDENCE,
- 		MT_USB_DEVICE(USB_VENDOR_ID_STANTUM_STM,
--- 
-2.19.2
+Regards,
 
+Hans
+
+
+
+> ---
+>   drivers/hid/hid-logitech-dj.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+> index c547cba05fbb..d6250b0cb9f8 100644
+> --- a/drivers/hid/hid-logitech-dj.c
+> +++ b/drivers/hid/hid-logitech-dj.c
+> @@ -959,6 +959,7 @@ static void logi_hidpp_recv_queue_notif(struct hid_device *hdev,
+>   		break;
+>   	case 0x07:
+>   		device_type = "eQUAD step 4 Gaming";
+> +		logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
+>   		break;
+>   	case 0x08:
+>   		device_type = "eQUAD step 4 for gamepads";
+> @@ -1832,6 +1833,10 @@ static const struct hid_device_id logi_dj_receivers[] = {
+>   	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+>   			 USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2),
+>   	 .driver_data = recvr_type_hidpp},
+> +	{ /* Logitech G700(s) receiver (0xc531) */
+> +	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+> +		0xc531),
+> +	 .driver_data = recvr_type_gaming_hidpp},
+>   	{ /* Logitech lightspeed receiver (0xc539) */
+>   	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+>   		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED),
+> 
