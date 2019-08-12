@@ -2,192 +2,211 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B63189A67
-	for <lists+linux-input@lfdr.de>; Mon, 12 Aug 2019 11:50:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98D9889AEE
+	for <lists+linux-input@lfdr.de>; Mon, 12 Aug 2019 12:09:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727605AbfHLJuC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Aug 2019 05:50:02 -0400
-Received: from mail-ot1-f72.google.com ([209.85.210.72]:52541 "EHLO
-        mail-ot1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727425AbfHLJuC (ORCPT
+        id S1727605AbfHLKIu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Aug 2019 06:08:50 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:40629 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727564AbfHLKIt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Aug 2019 05:50:02 -0400
-Received: by mail-ot1-f72.google.com with SMTP id 88so4336400otc.19
-        for <linux-input@vger.kernel.org>; Mon, 12 Aug 2019 02:50:01 -0700 (PDT)
+        Mon, 12 Aug 2019 06:08:49 -0400
+Received: by mail-wr1-f66.google.com with SMTP id r1so4951800wrl.7
+        for <linux-input@vger.kernel.org>; Mon, 12 Aug 2019 03:08:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=iSUWZthkT5NzdIgl34+cYotng+ccjbgaBsS9HBt2QpI=;
+        b=fDdqVHCRpjoHrQfUYYjb7rs/gyyidY3ytmy/UeoeKwQJgSBSpkd6BIOeUlatWuDg6c
+         Vq6aor2/IeaEEbMUdepTGe+20qI+GJBleu7gnh1fTEy0AtD22SaAt92/ljzmWtmBsD2h
+         J3MnfLJns9LGkZ22sSsN4sAGKQ7/ouMNxpU1Je/9KmVrTNcZCg7ueUrKhDzCekaHkgS7
+         a8r12ZS/0pRSGJL2RGV5tnrHH8IDbxRizpZK+cPLYVmLuZuWfJtiv9t6z08drKV3g2wA
+         GXQoNIfqsrvNEBJkoZh66iknbQh8ZpOYe+OtI21kj9Mfme5CnyyFRVCdC/0FnZscc6ka
+         2yFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=+gJ6vT0eRzHl6Kefc3x6OXPPp9+GyuRZ/8pQ2kcNNpE=;
-        b=EGz9CyB9Zzr7qFwx8m/JadAk68uTcm++URG3PUV72fNkxfjyF/RO7pqp5wg5+ni1wA
-         YRYzPn6StoMoo4lXMUUUQUuoWX/MGDDJ7N0qYeAYbk2n9lhxpkYzgSkp9i+VU5c22ntz
-         oXPG3XGWJvXwHvOHpP9c+n5N3wFexCtnJwC12wJgq0ZwuFJvEafSxyz0/pOFgiuEFkTo
-         dZinhnzPC4LQdpSRqyu0SBVzkVlXAvNpofSPIprR6H3otKL2kPTTDHiCsPdSrRCdtOUw
-         n38Y7PQRap68FDNtYbS+eZDhDxW4V8eJlmPpWA3JN3PQZgW2kcs28Q5BmY8gQ7ZsZYb/
-         Cxpw==
-X-Gm-Message-State: APjAAAVljxh9dD7iTU5yqg02dyF3WU5QKAk4K/naFcrr/DYxHFQtk6jj
-        5FdKUMwM3adTsSqX7sLVUOGSPqRBeVIrMLimasbDbAaEd6Vy
-X-Google-Smtp-Source: APXvYqzmCcPpAOBdNuD9Ev1pqPdV19MSSMdBj0L/pBv6PPj9f2Tfbbyx1IkifM/VxR8c/6dmTyzBT3m7EUYjHqo6Wft5+wVWKH76
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=iSUWZthkT5NzdIgl34+cYotng+ccjbgaBsS9HBt2QpI=;
+        b=qQaScf5ZFR/v/Wix5rlQ07HpdQlXxtlVqo2HbNDE+8lQuAQwgqD9yTFKY6cotrlH+u
+         3dIsAtO3/viWfwYwOCTFcTIww4mBDIHRORQgcDV/OBsYxIjE7KImQjsB3IWQtmhNwGAw
+         p/jLaI6xgjhV6XHK2kRhHK4qnUae3xjO6dtmyFCN0AIPkHS/1AQI1w85DNOGfYh5iOFB
+         A7MT+mFMnondcTDnHVpzioyqrHPQsopOuBXq/+ZV9Jy0VqbXbiLBcgKJfj2uiDAmgluA
+         iHK9wfQt8bVwYE51kOq08zyqwwPjTnVoziCgS0iumUdM9krgpT/ax7X54MVP9Gjcq9RT
+         H7Kg==
+X-Gm-Message-State: APjAAAV71HSirrsDMDra8MfP8OuZvf5udV7ke6F5iBFZwaqyfxqF/uSX
+        tTEBHVDoVUPgqPtyLWZF35NyhA==
+X-Google-Smtp-Source: APXvYqxXdcW7172rHwWqsloeJ92Ae2s3Za7LKpR+s//Kn+kNFnC//fGd81qnjDWE0u84R3aq4MlUUw==
+X-Received: by 2002:adf:c803:: with SMTP id d3mr41322658wrh.130.1565604526947;
+        Mon, 12 Aug 2019 03:08:46 -0700 (PDT)
+Received: from dell ([2.27.35.255])
+        by smtp.gmail.com with ESMTPSA id 4sm620554wmd.26.2019.08.12.03.08.46
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 12 Aug 2019 03:08:46 -0700 (PDT)
+Date:   Mon, 12 Aug 2019 11:08:44 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Lukasz Majewski <lukma@denx.de>
+Cc:     linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Enrico Weigelt <info@metux.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] mfd: mc13xxx: Add mc34708 adc support
+Message-ID: <20190812100844.GE26727@dell>
+References: <20190717222602.2912-1-lukma@denx.de>
+ <20190717222602.2912-2-lukma@denx.de>
+ <20190725123641.GJ23883@dell>
+ <20190725182020.3948c8d9@jawa>
 MIME-Version: 1.0
-X-Received: by 2002:a02:a1c7:: with SMTP id o7mr37620966jah.26.1565603401135;
- Mon, 12 Aug 2019 02:50:01 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 02:50:01 -0700
-In-Reply-To: <1565602332.14671.5.camel@suse.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009587b8058fe87274@google.com>
-Subject: Re: KASAN: slab-out-of-bounds Read in hidraw_ioctl
-From:   syzbot <syzbot+5a6c4ec678a0c6ee84ba@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
-        jikos@kernel.org, linux-input@vger.kernel.org,
-        linux-usb@vger.kernel.org, oneukum@suse.com,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190725182020.3948c8d9@jawa>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+On Thu, 25 Jul 2019, Lukasz Majewski wrote:
+> > On Thu, 18 Jul 2019, Lukasz Majewski wrote:
+> > 
+> > > From: Sascha Hauer <s.hauer@pengutronix.de>
+> > > 
+> > > The mc34708 has an improved adc. The older variants will always
+> > > convert a fixed order of channels. The mc34708 can do up to eight
+> > > conversions in arbitrary channel order. Currently this extended
+> > > feature is not supported. We only support touchscreen conversions
+> > > now, which will be sampled in a data format compatible to the older
+> > > chips in order to keep the API between the mfd and the touchscreen
+> > > driver.
+> > > 
+> > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > > Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> > > 
+> > > ---
+> > > Changes for v4:
+> > > - None
+> > > 
+> > > Changes for v3:
+> > > - None
+> > > 
+> > > Changes for v2:
+> > > - Change the return code patch when the mc13xxx ADC is performing
+> > > conversion
+> > > - Introduce new include/linux/mfd/mc34708.h header file for mc34708
+> > > specific defines
+> > > 
+> > > Changes from the original patches:
+> > > - ADC conversion functions prototypes added to fix build error
+> > > - Adjustments to make checkpatch clean (-ENOSYS, line over 80 char)
+> > > 
+> > > This patch applies on top of v5.2 - SHA1:
+> > > 0ecfebd2b52404ae0c54a878c872bb93363ada36 ---
+> > >  drivers/mfd/mc13xxx-core.c  | 102
+> > > +++++++++++++++++++++++++++++++++++++++++++-
+> > > drivers/mfd/mc13xxx.h       |   3 ++ include/linux/mfd/mc34708.h |
+> > > 37 ++++++++++++++++ 3 files changed, 141 insertions(+), 1
+> > > deletion(-) create mode 100644 include/linux/mfd/mc34708.h
+> > > 
+> > > diff --git a/drivers/mfd/mc13xxx-core.c b/drivers/mfd/mc13xxx-core.c
+> > > index 1abe7432aad8..01473d6fda21 100644
+> > > --- a/drivers/mfd/mc13xxx-core.c
+> > > +++ b/drivers/mfd/mc13xxx-core.c
+> > > @@ -12,6 +12,7 @@
+> > >  #include <linux/of_device.h>
+> > >  #include <linux/platform_device.h>
+> > >  #include <linux/mfd/core.h>
+> > > +#include <linux/mfd/mc34708.h>
+> > >  
+> > >  #include "mc13xxx.h"
+> > >  
+> > > @@ -45,6 +46,8 @@
+> > >  
+> > >  #define MC13XXX_ADC2		45
+> > >  
+> > > +#define MC13XXX_ADC_WORKING		(1 << 0)  
+> > 
+> > BIT(0) ?
+> 
+> The same convention - i.e. (1 << 0) is used in the rest of the file.
 
-syzbot has tested the proposed patch but the reproducer still triggered  
-crash:
-KASAN: slab-out-of-bounds Read in hidraw_ioctl
+Very well, but please consider converting it subsequently.
 
-==================================================================
-BUG: KASAN: slab-out-of-bounds in strnlen+0x75/0x80 lib/string.c:542
-Read of size 1 at addr ffff8881d6a51f38 by task syz-executor.2/2785
+> > >  void mc13xxx_lock(struct mc13xxx *mc13xxx)
+> > >  {
+> > >  	if (!mutex_trylock(&mc13xxx->lock)) {
+> > > @@ -198,22 +201,30 @@ static void mc34708_print_revision(struct
+> > > mc13xxx *mc13xxx, u32 revision) maskval(revision,
+> > > MC34708_REVISION_FAB)); }
+> > >  
+> > > +static int mc13xxx_adc_conversion(struct mc13xxx *, unsigned int,
+> > > +				  unsigned int, u8, bool, unsigned
+> > > int *); +static int mc34708_adc_conversion(struct mc13xxx *,
+> > > unsigned int,
+> > > +				  unsigned int, u8, bool, unsigned
+> > > int *); +
+> > >  /* These are only exported for mc13xxx-i2c and mc13xxx-spi */
+> > >  struct mc13xxx_variant mc13xxx_variant_mc13783 = {
+> > >  	.name = "mc13783",
+> > >  	.print_revision = mc13xxx_print_revision,
+> > > +	.adc_do_conversion = mc13xxx_adc_conversion,
+> > >  };
+> > >  EXPORT_SYMBOL_GPL(mc13xxx_variant_mc13783);  
+> > 
+> > I'd prefer to keep the call-back functions as close to zero as
+> > possible.
+> 
+> If I may ask - what is wrong with having per device callback(s) ?
 
-CPU: 1 PID: 2785 Comm: syz-executor.2 Not tainted 5.3.0-rc2+ #1
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  print_address_description+0x6a/0x32c mm/kasan/report.c:351
-  __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
-  kasan_report+0xe/0x12 mm/kasan/common.c:612
-  strnlen+0x75/0x80 lib/string.c:542
-  strnlen include/linux/string.h:292 [inline]
-  hidraw_ioctl+0x247/0xaa0 drivers/hid/hidraw.c:446
-  vfs_ioctl fs/ioctl.c:46 [inline]
-  file_ioctl fs/ioctl.c:509 [inline]
-  do_vfs_ioctl+0xd2d/0x1330 fs/ioctl.c:696
-  ksys_ioctl+0x9b/0xc0 fs/ioctl.c:713
-  __do_sys_ioctl fs/ioctl.c:720 [inline]
-  __se_sys_ioctl fs/ioctl.c:718 [inline]
-  __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:718
-  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x459829
-Code: fd b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
-48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 cb b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007fc7df1d0c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000459829
-RDX: 0000000000000000 RSI: 0000000080404805 RDI: 0000000000000004
-RBP: 000000000075bf20 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007fc7df1d16d4
-R13: 00000000004c21de R14: 00000000004d5620 R15: 00000000ffffffff
+Call-backs are ugly and hard to read/debug.
 
-Allocated by task 2868:
-  save_stack+0x1b/0x80 mm/kasan/common.c:69
-  set_track mm/kasan/common.c:77 [inline]
-  __kasan_kmalloc mm/kasan/common.c:487 [inline]
-  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:460
-  slab_post_alloc_hook mm/slab.h:520 [inline]
-  slab_alloc_node mm/slub.c:2766 [inline]
-  __kmalloc_node_track_caller+0xd0/0x230 mm/slub.c:4361
-  __kmalloc_reserve.isra.0+0x39/0xe0 net/core/skbuff.c:141
-  __alloc_skb+0xef/0x5a0 net/core/skbuff.c:209
-  alloc_skb include/linux/skbuff.h:1055 [inline]
-  alloc_uevent_skb+0x7b/0x210 lib/kobject_uevent.c:289
-  uevent_net_broadcast_untagged lib/kobject_uevent.c:325 [inline]
-  kobject_uevent_net_broadcast lib/kobject_uevent.c:408 [inline]
-  kobject_uevent_env+0x8ee/0x1160 lib/kobject_uevent.c:592
-  device_add+0xade/0x16f0 drivers/base/core.c:2113
-  hid_add_device+0x33c/0x990 drivers/hid/hid-core.c:2365
-  usbhid_probe+0xa81/0xfa0 drivers/hid/usbhid/hid-core.c:1386
-  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-  really_probe+0x281/0x650 drivers/base/dd.c:548
-  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:709
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:816
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:882
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2114
-  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
-  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-  really_probe+0x281/0x650 drivers/base/dd.c:548
-  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:709
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:816
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:882
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2114
-  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
-  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
-  port_event drivers/usb/core/hub.c:5359 [inline]
-  hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
-  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
-  kthread+0x318/0x420 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+If they can be avoided, they should be, IMHO>
 
-Freed by task 238:
-  save_stack+0x1b/0x80 mm/kasan/common.c:69
-  set_track mm/kasan/common.c:77 [inline]
-  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:449
-  slab_free_hook mm/slub.c:1423 [inline]
-  slab_free_freelist_hook mm/slub.c:1470 [inline]
-  slab_free mm/slub.c:3012 [inline]
-  kfree+0xe4/0x2f0 mm/slub.c:3953
-  skb_free_head+0x8b/0xa0 net/core/skbuff.c:591
-  skb_release_data+0x41f/0x7c0 net/core/skbuff.c:611
-  skb_release_all+0x46/0x60 net/core/skbuff.c:665
-  __kfree_skb net/core/skbuff.c:679 [inline]
-  consume_skb net/core/skbuff.c:838 [inline]
-  consume_skb+0xd9/0x320 net/core/skbuff.c:832
-  skb_free_datagram+0x16/0xf0 net/core/datagram.c:328
-  netlink_recvmsg+0x65e/0xee0 net/netlink/af_netlink.c:1996
-  sock_recvmsg_nosec net/socket.c:871 [inline]
-  sock_recvmsg net/socket.c:889 [inline]
-  sock_recvmsg+0xca/0x110 net/socket.c:885
-  ___sys_recvmsg+0x271/0x5a0 net/socket.c:2480
-  __sys_recvmsg+0xe9/0x1b0 net/socket.c:2537
-  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> > It would be better to turn mc13xxx_adc_conversion() in to the catch
+> > function
+> 
+> Could you share any example? 
 
-The buggy address belongs to the object at ffff8881d6a51b00
-  which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 56 bytes to the right of
-  1024-byte region [ffff8881d6a51b00, ffff8881d6a51f00)
-The buggy address belongs to the page:
-page:ffffea00075a9400 refcount:1 mapcount:0 mapping:ffff8881da002280  
-index:0x0 compound_mapcount: 0
-flags: 0x200000000010200(slab|head)
-raw: 0200000000010200 dead000000000100 dead000000000122 ffff8881da002280
-raw: 0000000000000000 00000000000e000e 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
+Just put the code doing the conversion into mc13xxx_adc_conversion()
+and remove the call-back.
 
-Memory state around the buggy address:
-  ffff8881d6a51e00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881d6a51e80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ffff8881d6a51f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-                                         ^
-  ffff8881d6a51f80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881d6a52000: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+> > choose an execution route based on some platform matching.
+> > 
+> 
+> Could you help me with giving a hint of how shall I do the "platform
+> matching" in this particular driver ? 
 
+We normally match on some platform ID, rather than passing around
+pointers to structures containing pointers to device specific
+functions.
 
-Tested on:
+> The mc13xxx driver seems rather complex with SPI and I2C support and in
+> which the subdevices are added (e.g. rtc, adc, etc).
 
-commit:         e96407b4 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=1183deee600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cfa2c18fb6a8068e
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1603c7c2600000
+Not sure I follow your point?
 
+> This particular patch just follows current driver design and fixes its
+> usability for mc13708 drvice.
+
+Right, but it is the current driver design that I'm trying to change.
+
+> > If you could do the same for print_revision too, that would be even
+> > better.
+> 
+> I would prefer to fix the driver (for mc13708) without the need to
+> change the working code.
+
+Okay, but no additional call-backs please.
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
