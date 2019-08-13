@@ -2,68 +2,174 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D58C8AAB1
-	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2019 00:46:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3763E8AF0B
+	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2019 08:00:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726997AbfHLWqe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Aug 2019 18:46:34 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37184 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726488AbfHLWqe (ORCPT
+        id S1725820AbfHMGAS convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Tue, 13 Aug 2019 02:00:18 -0400
+Received: from smtprelay.restena.lu ([158.64.1.62]:35712 "EHLO
+        smtprelay.restena.lu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725815AbfHMGAS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Aug 2019 18:46:34 -0400
-Received: by mail-ot1-f65.google.com with SMTP id f17so29896720otq.4;
-        Mon, 12 Aug 2019 15:46:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=KS0Ggk8/WnDOHf4y0WafUwtXAfrRj3bnVPQpHZODwE4=;
-        b=QHoSayy4NpFioKOE8MZpp4eC2XYT0sDp52QUEDqsXkgBmQI8IGKxGRmJcTMxIrPg40
-         tTQne/6wy033BsKgNqU6nQELNsl8wmmlc58EmOi2TpdiSu6HQOQylPR6MO7WceBIfJvB
-         EwMS93uxLJgwbwpE0NvOT3F9jbsvrCrAd0y+zdIEYaFd2GtUnckyu18vuOM5bNPo2vZV
-         LOsMqp3rHKXiUMaX5zTKnfHbACrSIfMVIW/EqozIYw1fNfjVpWohf5Gu+CNaSt39R/VG
-         TfTzRSYUTSUm0mfj+12y1B1isvkfiPUbpTEcUCkZhtRJWrfugTqs2UpgvRyvWRndkwTq
-         Rarg==
-X-Gm-Message-State: APjAAAVp0K8nHtdaNetJ82CeWm6/Ytd9GcJe35dPWjaYZjJUR6VMztzO
-        F8hWhnPS7Z1CT4NJDw3MtA==
-X-Google-Smtp-Source: APXvYqw0DHsEGO4r5uXAMeKV/9aPKTqdrrYppFG758qnraHchXhK+sOX7jXcXCutn/8jBoF6ZW+NBg==
-X-Received: by 2002:a6b:6012:: with SMTP id r18mr37836641iog.241.1565649993800;
-        Mon, 12 Aug 2019 15:46:33 -0700 (PDT)
-Received: from localhost ([64.188.179.254])
-        by smtp.gmail.com with ESMTPSA id f1sm11650956ioh.73.2019.08.12.15.46.32
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 12 Aug 2019 15:46:33 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 16:46:32 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Alexandre Mergnat <amergnat@baylibre.com>
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com, jic23@kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        baylibre-upstreaming@groups.io, dmitry.torokhov@gmail.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        Alexandre Mergnat <amergnat@baylibre.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: Add pixart vendor
-Message-ID: <20190812224632.GA12010@bogus>
-References: <20190713080455.17513-1-amergnat@baylibre.com>
- <20190713080455.17513-2-amergnat@baylibre.com>
+        Tue, 13 Aug 2019 02:00:18 -0400
+X-Greylist: delayed 371 seconds by postgrey-1.27 at vger.kernel.org; Tue, 13 Aug 2019 02:00:17 EDT
+Received: from pluto.restena.lu (pluto.restena.lu [IPv6:2001:a18:1:10::156])
+        by smtprelay.restena.lu (Postfix) with ESMTPS id 2C46440CEB;
+        Tue, 13 Aug 2019 07:54:00 +0200 (CEST)
+Date:   Tue, 13 Aug 2019 07:53:58 +0200
+From:   Bruno =?UTF-8?B?UHLDqW1vbnQ=?= <bonbons@linux-vserver.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] HID: do not call hid_set_drvdata(hdev, NULL) in
+ drivers
+Message-ID: <20190813075358.2a3cbfbd@pluto.restena.lu>
+In-Reply-To: <20190812162740.15898-2-benjamin.tissoires@redhat.com>
+References: <20190812162740.15898-1-benjamin.tissoires@redhat.com>
+        <20190812162740.15898-2-benjamin.tissoires@redhat.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190713080455.17513-2-amergnat@baylibre.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 13 Jul 2019 10:04:53 +0200, Alexandre Mergnat wrote:
-> PixArt Imaging Inc. is expertized in CMOS image sensors (CIS),
-> capacitive touch controllers and related imaging application development.
+On Mon, 12 Aug 2019 18:27:39 +0200 Benjamin Tissoires wrote:
+> This is a common pattern in the HID drivers to reset the drvdata. Some
+> do it properly, some do it only in case of failure.
 > 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+> But, this is actually already handled by driver core, so there is no need
+> to do it manually.
 > 
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+For hid-picolcd_core.c:
+  Acked-by: Bruno Prémont <bonbons@linux-vserver.org>
+
+> ---
+>  drivers/hid/hid-cougar.c       | 6 ++----
+>  drivers/hid/hid-gfrm.c         | 7 -------
+>  drivers/hid/hid-lenovo.c       | 2 --
+>  drivers/hid/hid-picolcd_core.c | 7 +------
+>  drivers/hid/hid-sensor-hub.c   | 1 -
+>  5 files changed, 3 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-cougar.c b/drivers/hid/hid-cougar.c
+> index e0bb7b34f3a4..4ff3bc1d25e2 100644
+> --- a/drivers/hid/hid-cougar.c
+> +++ b/drivers/hid/hid-cougar.c
+> @@ -207,7 +207,7 @@ static int cougar_probe(struct hid_device *hdev,
+>  	error = hid_parse(hdev);
+>  	if (error) {
+>  		hid_err(hdev, "parse failed\n");
+> -		goto fail;
+> +		return error;
+>  	}
+>  
+>  	if (hdev->collection->usage == COUGAR_VENDOR_USAGE) {
+> @@ -219,7 +219,7 @@ static int cougar_probe(struct hid_device *hdev,
+>  	error = hid_hw_start(hdev, connect_mask);
+>  	if (error) {
+>  		hid_err(hdev, "hw start failed\n");
+> -		goto fail;
+> +		return error;
+>  	}
+>  
+>  	error = cougar_bind_shared_data(hdev, cougar);
+> @@ -249,8 +249,6 @@ static int cougar_probe(struct hid_device *hdev,
+>  
+>  fail_stop_and_cleanup:
+>  	hid_hw_stop(hdev);
+> -fail:
+> -	hid_set_drvdata(hdev, NULL);
+>  	return error;
+>  }
+>  
+> diff --git a/drivers/hid/hid-gfrm.c b/drivers/hid/hid-gfrm.c
+> index 86c317320bf2..699186ff2349 100644
+> --- a/drivers/hid/hid-gfrm.c
+> +++ b/drivers/hid/hid-gfrm.c
+> @@ -123,12 +123,6 @@ static int gfrm_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>  	return ret;
+>  }
+>  
+> -static void gfrm_remove(struct hid_device *hdev)
+> -{
+> -	hid_hw_stop(hdev);
+> -	hid_set_drvdata(hdev, NULL);
+> -}
+> -
+>  static const struct hid_device_id gfrm_devices[] = {
+>  	{ HID_BLUETOOTH_DEVICE(0x58, 0x2000),
+>  		.driver_data = GFRM100 },
+> @@ -142,7 +136,6 @@ static struct hid_driver gfrm_driver = {
+>  	.name = "gfrm",
+>  	.id_table = gfrm_devices,
+>  	.probe = gfrm_probe,
+> -	.remove = gfrm_remove,
+>  	.input_mapping = gfrm_input_mapping,
+>  	.raw_event = gfrm_raw_event,
+>  	.input_configured = gfrm_input_configured,
+> diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
+> index 364bc7f11d9d..96fa2a2c2cd3 100644
+> --- a/drivers/hid/hid-lenovo.c
+> +++ b/drivers/hid/hid-lenovo.c
+> @@ -866,8 +866,6 @@ static void lenovo_remove_tpkbd(struct hid_device *hdev)
+>  
+>  	led_classdev_unregister(&data_pointer->led_micmute);
+>  	led_classdev_unregister(&data_pointer->led_mute);
+> -
+> -	hid_set_drvdata(hdev, NULL);
+>  }
+>  
+>  static void lenovo_remove_cptkbd(struct hid_device *hdev)
+> diff --git a/drivers/hid/hid-picolcd_core.c b/drivers/hid/hid-picolcd_core.c
+> index 5f7a39a5d4af..1b5c63241af0 100644
+> --- a/drivers/hid/hid-picolcd_core.c
+> +++ b/drivers/hid/hid-picolcd_core.c
+> @@ -534,8 +534,7 @@ static int picolcd_probe(struct hid_device *hdev,
+>  	data = kzalloc(sizeof(struct picolcd_data), GFP_KERNEL);
+>  	if (data == NULL) {
+>  		hid_err(hdev, "can't allocate space for Minibox PicoLCD device data\n");
+> -		error = -ENOMEM;
+> -		goto err_no_cleanup;
+> +		return -ENOMEM;
+>  	}
+>  
+>  	spin_lock_init(&data->lock);
+> @@ -597,9 +596,6 @@ static int picolcd_probe(struct hid_device *hdev,
+>  	hid_hw_stop(hdev);
+>  err_cleanup_data:
+>  	kfree(data);
+> -err_no_cleanup:
+> -	hid_set_drvdata(hdev, NULL);
+> -
+>  	return error;
+>  }
+>  
+> @@ -635,7 +631,6 @@ static void picolcd_remove(struct hid_device *hdev)
+>  	picolcd_exit_cir(data);
+>  	picolcd_exit_keys(data);
+>  
+> -	hid_set_drvdata(hdev, NULL);
+>  	mutex_destroy(&data->mutex);
+>  	/* Finally, clean up the picolcd data itself */
+>  	kfree(data);
+> diff --git a/drivers/hid/hid-sensor-hub.c b/drivers/hid/hid-sensor-hub.c
+> index be92a6f79687..94c7398b5c27 100644
+> --- a/drivers/hid/hid-sensor-hub.c
+> +++ b/drivers/hid/hid-sensor-hub.c
+> @@ -742,7 +742,6 @@ static void sensor_hub_remove(struct hid_device *hdev)
+>  	}
+>  	spin_unlock_irqrestore(&data->lock, flags);
+>  	mfd_remove_devices(&hdev->dev);
+> -	hid_set_drvdata(hdev, NULL);
+>  	mutex_destroy(&data->mutex);
+>  }
+>  
