@@ -2,108 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BA538B452
-	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2019 11:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67E4C8B460
+	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2019 11:40:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727890AbfHMJi3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Aug 2019 05:38:29 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:39733 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727666AbfHMJi3 (ORCPT
+        id S1727129AbfHMJkm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Aug 2019 05:40:42 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:37549 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726769AbfHMJki (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Aug 2019 05:38:29 -0400
-Received: by mail-pf1-f194.google.com with SMTP id f17so47287390pfn.6
-        for <linux-input@vger.kernel.org>; Tue, 13 Aug 2019 02:38:29 -0700 (PDT)
+        Tue, 13 Aug 2019 05:40:38 -0400
+Received: by mail-wm1-f66.google.com with SMTP id z23so863671wmf.2
+        for <linux-input@vger.kernel.org>; Tue, 13 Aug 2019 02:40:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RaD6A+K4/8jdvOIsXluiNkAgL7M1+kFjGExIzAUXUW8=;
-        b=P9qJfWwQxPZfidskchVBFJ6nzdSG06wa9bYO4Ka8Z3FpbaIb/pOM0nWavs1Rp0cmwE
-         avzBz1VE8gXB7z8yFrZriS82QzSv0+jDDzi0wloLQEWVaq4cFhu7k0W3SFCupnzo7Awb
-         ok5s05HaN62VYRuFe331qpIqNLxTOiLF3gKl4=
+        d=linaro.org; s=google;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=t6fEiZ4sytTb7mfNqU+GHgkx4N2cyC0uVxBfUPG4iKY=;
+        b=ZvsLh64Nk3rAwaI66fNByKOuqlUAVATJ7Anm+IGbigwF8Q1o/w3VJaWo75OL9J4RRh
+         P6MM9VWap5aQfI/N7Lx2+MPdZtbDCPIaa38ij3O+dLMzs1uq4WksSPOpkiqrGPZURKOw
+         F9ySGABl4fJIkLR2xFs7vzM02DlcYhTIt+TzjRUa9xYdL1zKROAHi2grMg0I75OWzLFr
+         dNy0bYJ1bjGDxrwJnHYFPYYpdH9lagy5q2wRtvnRF6Vu6oz+I/mHuHZFELJiQ2Sm7GuK
+         YRLTo+KSwWDHBc4xeE4N5MDdSOEMhHG+XEenWOrsZXIIrZFvWTBFsPxKm2ppGMuAc3HW
+         6jiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=RaD6A+K4/8jdvOIsXluiNkAgL7M1+kFjGExIzAUXUW8=;
-        b=IdK7gMi3JWnqsMmebs5iDnuw6CnuBP3hHiJr4jux2zAfKUmXQ/qvlu+7FuQGms8S3l
-         8w0SzjVmw9W+0lpizAqeQaG9y9ellxfM3h4hHO8XN30Eqp7qSN1mm+e8L5dFuQhpRaxn
-         tBwvLNmjXuInKC0kDLglxQP+lNsndDzbPrOJQ4TF12r+mvUeWMOLJ5vZhuuuKSsnDL48
-         HRF9M3yQ1BG5eLYis5xAZ+2woVbYi6dpN2UPNDvs1g6BYta6f5653JWdjuFCI3skMX7w
-         8tuNBIsqauC5e5XpP/BA8aL2cmCbdLW/85fn0Y6NzGI1r5LRxVC166PexnzWE559aYlo
-         U5Ow==
-X-Gm-Message-State: APjAAAUjumCItKFd2ABZKY/ZUtAXBRjjTxj6TVpLw6cf1oJWbBrAmNhC
-        BYupABernnT+9QjL4uYClaURgg==
-X-Google-Smtp-Source: APXvYqy+sJLrmolDFV0o4Mz+fxfscm7CXTjw8yiXTupKIB8qVuUNk3Kz27oocXNCPBU7aDi5xwq5dA==
-X-Received: by 2002:a17:90a:be06:: with SMTP id a6mr1383491pjs.92.1565689108872;
-        Tue, 13 Aug 2019 02:38:28 -0700 (PDT)
-Received: from fshao-glinux.tpe.corp.google.com ([2401:fa00:1:10:c4f0:9345:d0e8:a355])
-        by smtp.gmail.com with ESMTPSA id d2sm993283pjs.21.2019.08.13.02.38.26
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 13 Aug 2019 02:38:28 -0700 (PDT)
-From:   Fei Shao <fshao@chromium.org>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Ting Shen <phoenixshen@chromium.org>,
-        Brian Norris <briannorris@chromium.org>,
-        Fei Shao <fshao@chromium.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: cros_ec_keyb: Add back missing mask for event_type
-Date:   Tue, 13 Aug 2019 17:38:21 +0800
-Message-Id: <20190813093821.74158-1-fshao@chromium.org>
-X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
+        bh=t6fEiZ4sytTb7mfNqU+GHgkx4N2cyC0uVxBfUPG4iKY=;
+        b=h/GHk6m9TfgxrZouNivf63vpzSWU4VfirKaFhHzrtrizO/ExabTIVfEMM8v+WuYVVq
+         nLSod+vLQK8PxVvBhg6CZJakw9Iu4RpIIbiT8jKztcj7gWHg+w5UVTQRroG/ponXXFv6
+         eFQ34cGhnPFfXmMfffE8cLMbA/3w3NbsQBcnkn+kebLZf0+IUJlMGHv16BBMxXIl7ax3
+         2i9UVQIdAejO+Sl3ry3Ly8LfGmvVEi6FzZTYsJK3h8pwCWY73v2dPYVukmDVOHWm8SqS
+         sxACm8+xQbEEBTrAj31qXzwGWFkzNv3YZBsamHWRZPi/u2vC7dts+LLkMt9VB0b8OafT
+         iNgg==
+X-Gm-Message-State: APjAAAVY0gfeS7+bN6b4/QOX/tu7Lq/T2ShluLJDqD3azA1sESTl38p1
+        pMmmYTKdoMGjF2HH5al6M5q6zw==
+X-Google-Smtp-Source: APXvYqxtZp5y+W/eo8hxCFccDh9B73EN2zN9q/ucA2LVNH+5drh1g1mUkC7z2xIrJUpFbM+AMvB0iA==
+X-Received: by 2002:a1c:9a4b:: with SMTP id c72mr2089507wme.102.1565689236579;
+        Tue, 13 Aug 2019 02:40:36 -0700 (PDT)
+Received: from [192.168.86.34] (cpc89974-aztw32-2-0-cust43.18-1.cable.virginm.net. [86.30.250.44])
+        by smtp.googlemail.com with ESMTPSA id f12sm122487785wrg.5.2019.08.13.02.40.34
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 13 Aug 2019 02:40:35 -0700 (PDT)
+Subject: Re: [PATCH v4 3/9] nvmem: core: add nvmem_device_find
+To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Evgeniy Polyakov <zbr@ioremap.net>, linux-mips@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org
+References: <20190809103235.16338-1-tbogendoerfer@suse.de>
+ <20190809103235.16338-4-tbogendoerfer@suse.de>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Message-ID: <8d18de64-9234-fcba-aa3d-b46789eb62a5@linaro.org>
+Date:   Tue, 13 Aug 2019 10:40:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190809103235.16338-4-tbogendoerfer@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In the previous patch we didn't mask out event_type in case statement,
-so switches are always picked instead of buttons, which results in
-ChromeOS devices misbehaving when power button is pressed.
-This patch adds back the missing mask.
 
-Fixes: d096aa3eb604 ("Input: cros_ec_keyb: mask out extra flags in event_type")
-Signed-off-by: Fei Shao <fshao@chromium.org>
----
- drivers/input/keyboard/cros_ec_keyb.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index 38cb6d82d8fe..bef7bee6f05e 100644
---- a/drivers/input/keyboard/cros_ec_keyb.c
-+++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -226,6 +226,8 @@ static int cros_ec_keyb_work(struct notifier_block *nb,
- {
- 	struct cros_ec_keyb *ckdev = container_of(nb, struct cros_ec_keyb,
- 						  notifier);
-+	uint8_t mkbp_event_type = ckdev->ec->event_data.event_type &
-+				  EC_MKBP_EVENT_TYPE_MASK;
- 	u32 val;
- 	unsigned int ev_type;
+On 09/08/2019 11:32, Thomas Bogendoerfer wrote:
+> nvmem_device_find provides a way to search for nvmem devices with
+> the help of a match function simlair to bus_find_device.
+> 
+> Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
+> ---
+>   drivers/nvmem/core.c           | 62 ++++++++++++++++++++++--------------------
+>   include/linux/nvmem-consumer.h |  9 ++++++
+>   2 files changed, 41 insertions(+), 30 deletions(-)
 
-@@ -237,7 +239,7 @@ static int cros_ec_keyb_work(struct notifier_block *nb,
- 	if (queued_during_suspend && !device_may_wakeup(ckdev->dev))
- 		return NOTIFY_OK;
+Have you considered using nvmem_register_notifier() ?
 
--	switch (ckdev->ec->event_data.event_type & EC_MKBP_EVENT_TYPE_MASK) {
-+	switch (mkbp_event_type) {
- 	case EC_MKBP_EVENT_KEY_MATRIX:
- 		pm_wakeup_event(ckdev->dev, 0);
 
-@@ -264,7 +266,7 @@ static int cros_ec_keyb_work(struct notifier_block *nb,
- 	case EC_MKBP_EVENT_SWITCH:
- 		pm_wakeup_event(ckdev->dev, 0);
-
--		if (ckdev->ec->event_data.event_type == EC_MKBP_EVENT_BUTTON) {
-+		if (mkbp_event_type == EC_MKBP_EVENT_BUTTON) {
- 			val = get_unaligned_le32(
- 					&ckdev->ec->event_data.data.buttons);
- 			ev_type = EV_KEY;
---
-2.23.0.rc1.153.gdeed80330f-goog
+--srini
