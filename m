@@ -2,35 +2,34 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BA368C6D4
-	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2019 04:19:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D22B8C74D
+	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2019 04:22:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729706AbfHNCTX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Aug 2019 22:19:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50246 "EHLO mail.kernel.org"
+        id S1729498AbfHNCWt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Aug 2019 22:22:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49584 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728601AbfHNCTW (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Aug 2019 22:19:22 -0400
+        id S1728123AbfHNCSi (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 13 Aug 2019 22:18:38 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 279902173B;
-        Wed, 14 Aug 2019 02:19:20 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0A65D20842;
+        Wed, 14 Aug 2019 02:18:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565749160;
-        bh=IOPdm9k3VPoaPXeXZ9z/V6zcLHMRjbCmVT1iw1qRiZE=;
+        s=default; t=1565749117;
+        bh=Ifj00gfVsgvP+iQz6eKGgCcOciA1KGPr8g0npFZqP+o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ma5xwHlN6o93B2tKNuOIw7sF23SWKkpob32bCLyn+SOSz3w+2nsK30mnIHEjej3r9
-         57rM1wiHUbc5jDeetMFuW5g7/02AtCvvT/gOv5fTmXKXBoNRaRxur0EZYdAlRfmJTm
-         X363edb+yffdapB3Wm//kR0KvU+iCbZdkSswC43I=
+        b=GLAidyxc6SQVPKLObWsC1Xnv6oGjSRNFS695GyO5gD0LSdpnQe3nCK9H4aXPg3JpT
+         2pWaOB68HGYLqkboJZtxuiWxeFkHVQF8LXOwIwarJGS9kchh19iNUi2YTG3h2lTvYD
+         9NGZrX1xWgEKPGBjMkKngx9y+moLofMfvvQGqtdo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 28/44] HID: input: fix a4tech horizontal wheel custom usage
-Date:   Tue, 13 Aug 2019 22:18:17 -0400
-Message-Id: <20190814021834.16662-28-sashal@kernel.org>
+Cc:     Ilya Trukhanov <lahvuun@gmail.com>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 02/44] HID: Add 044f:b320 ThrustMaster, Inc. 2 in 1 DT
+Date:   Tue, 13 Aug 2019 22:17:51 -0400
+Message-Id: <20190814021834.16662-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190814021834.16662-1-sashal@kernel.org>
 References: <20190814021834.16662-1-sashal@kernel.org>
@@ -43,98 +42,65 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+From: Ilya Trukhanov <lahvuun@gmail.com>
 
-[ Upstream commit 1c703b53e5bfb5c2205c30f0fb157ce271fd42fb ]
+[ Upstream commit 65f11c72780fa9d598df88def045ccb6a885cf80 ]
 
-Some a4tech mice use the 'GenericDesktop.00b8' usage to inform whether
-the previous wheel report was horizontal or vertical. Before
-c01908a14bf73 ("HID: input: add mapping for "Toggle Display" key") this
-usage was being mapped to 'Relative.Misc'. After the patch it's simply
-ignored (usage->type == 0 & usage->code == 0). Which ultimately makes
-hid-a4tech ignore the WHEEL/HWHEEL selection event, as it has no
-usage->type.
+Enable force feedback for the Thrustmaster Dual Trigger 2 in 1 Rumble Force
+gamepad. Compared to other Thrustmaster devices, left and right rumble
+motors here are swapped.
 
-We shouldn't rely on a mapping for that usage as it's nonstandard and
-doesn't really map to an input event. So we bypass the mapping and make
-sure the custom event handling properly handles both reports.
-
-Fixes: c01908a14bf73 ("HID: input: add mapping for "Toggle Display" key")
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Signed-off-by: Ilya Trukhanov <lahvuun@gmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-a4tech.c | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+ drivers/hid/hid-tmff.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/hid/hid-a4tech.c b/drivers/hid/hid-a4tech.c
-index 9428ea7cdf8a0..c52bd163abb3e 100644
---- a/drivers/hid/hid-a4tech.c
-+++ b/drivers/hid/hid-a4tech.c
-@@ -26,12 +26,36 @@
- #define A4_2WHEEL_MOUSE_HACK_7	0x01
- #define A4_2WHEEL_MOUSE_HACK_B8	0x02
+diff --git a/drivers/hid/hid-tmff.c b/drivers/hid/hid-tmff.c
+index b83376077d722..cfa0cb22c9b3c 100644
+--- a/drivers/hid/hid-tmff.c
++++ b/drivers/hid/hid-tmff.c
+@@ -34,6 +34,8 @@
  
-+#define A4_WHEEL_ORIENTATION	(HID_UP_GENDESK | 0x000000b8)
-+
- struct a4tech_sc {
- 	unsigned long quirks;
- 	unsigned int hw_wheel;
- 	__s32 delayed_value;
- };
+ #include "hid-ids.h"
  
-+static int a4_input_mapping(struct hid_device *hdev, struct hid_input *hi,
-+			    struct hid_field *field, struct hid_usage *usage,
-+			    unsigned long **bit, int *max)
-+{
-+	struct a4tech_sc *a4 = hid_get_drvdata(hdev);
++#define THRUSTMASTER_DEVICE_ID_2_IN_1_DT	0xb320
 +
-+	if (a4->quirks & A4_2WHEEL_MOUSE_HACK_B8 &&
-+	    usage->hid == A4_WHEEL_ORIENTATION) {
-+		/*
-+		 * We do not want to have this usage mapped to anything as it's
-+		 * nonstandard and doesn't really behave like an HID report.
-+		 * It's only selecting the orientation (vertical/horizontal) of
-+		 * the previous mouse wheel report. The input_events will be
-+		 * generated once both reports are recorded in a4_event().
-+		 */
-+		return -1;
-+	}
-+
-+	return 0;
-+
-+}
-+
- static int a4_input_mapped(struct hid_device *hdev, struct hid_input *hi,
- 		struct hid_field *field, struct hid_usage *usage,
- 		unsigned long **bit, int *max)
-@@ -53,8 +77,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
- 	struct a4tech_sc *a4 = hid_get_drvdata(hdev);
- 	struct input_dev *input;
+ static const signed short ff_rumble[] = {
+ 	FF_RUMBLE,
+ 	-1
+@@ -88,6 +90,7 @@ static int tmff_play(struct input_dev *dev, void *data,
+ 	struct hid_field *ff_field = tmff->ff_field;
+ 	int x, y;
+ 	int left, right;	/* Rumbling */
++	int motor_swap;
  
--	if (!(hdev->claimed & HID_CLAIMED_INPUT) || !field->hidinput ||
--			!usage->type)
-+	if (!(hdev->claimed & HID_CLAIMED_INPUT) || !field->hidinput)
- 		return 0;
+ 	switch (effect->type) {
+ 	case FF_CONSTANT:
+@@ -112,6 +115,13 @@ static int tmff_play(struct input_dev *dev, void *data,
+ 					ff_field->logical_minimum,
+ 					ff_field->logical_maximum);
  
- 	input = field->hidinput->input;
-@@ -65,7 +88,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
- 			return 1;
- 		}
- 
--		if (usage->hid == 0x000100b8) {
-+		if (usage->hid == A4_WHEEL_ORIENTATION) {
- 			input_event(input, EV_REL, value ? REL_HWHEEL :
- 					REL_WHEEL, a4->delayed_value);
- 			return 1;
-@@ -129,6 +152,7 @@ MODULE_DEVICE_TABLE(hid, a4_devices);
- static struct hid_driver a4_driver = {
- 	.name = "a4tech",
- 	.id_table = a4_devices,
-+	.input_mapping = a4_input_mapping,
- 	.input_mapped = a4_input_mapped,
- 	.event = a4_event,
- 	.probe = a4_probe,
++		/* 2-in-1 strong motor is left */
++		if (hid->product == THRUSTMASTER_DEVICE_ID_2_IN_1_DT) {
++			motor_swap = left;
++			left = right;
++			right = motor_swap;
++		}
++
+ 		dbg_hid("(left,right)=(%08x, %08x)\n", left, right);
+ 		ff_field->value[0] = left;
+ 		ff_field->value[1] = right;
+@@ -238,6 +248,8 @@ static const struct hid_device_id tm_devices[] = {
+ 		.driver_data = (unsigned long)ff_rumble },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_THRUSTMASTER, 0xb304),   /* FireStorm Dual Power 2 (and 3) */
+ 		.driver_data = (unsigned long)ff_rumble },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_THRUSTMASTER, THRUSTMASTER_DEVICE_ID_2_IN_1_DT),   /* Dual Trigger 2-in-1 */
++		.driver_data = (unsigned long)ff_rumble },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_THRUSTMASTER, 0xb323),   /* Dual Trigger 3-in-1 (PC Mode) */
+ 		.driver_data = (unsigned long)ff_rumble },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_THRUSTMASTER, 0xb324),   /* Dual Trigger 3-in-1 (PS3 Mode) */
 -- 
 2.20.1
 
