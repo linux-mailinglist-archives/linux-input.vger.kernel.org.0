@@ -2,39 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6463F8C7D2
-	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2019 04:27:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4643F8C98D
+	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2019 04:39:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729295AbfHNC1R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Aug 2019 22:27:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54566 "EHLO mail.kernel.org"
+        id S1728230AbfHNCjp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Aug 2019 22:39:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43546 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729521AbfHNC0a (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Aug 2019 22:26:30 -0400
+        id S1727330AbfHNCLT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 13 Aug 2019 22:11:19 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7F9C32085A;
-        Wed, 14 Aug 2019 02:26:28 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BAF112084D;
+        Wed, 14 Aug 2019 02:11:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565749589;
-        bh=ATgu5sVMXu5Bvc2XYr6x+coYMNy3bq3/q+Ll4nIE4aU=;
+        s=default; t=1565748678;
+        bh=NWEhux/shzzHGahBym2neo05PMTgvEskeKI4ohuns9Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dqjTsoy3GsTy7Ckl63yeC6G4JvfTuAImNO5L4Rm0oX1P7/wkSLEbY2/F+umeEeQuO
-         3TxtQtmSvfem50+grOkB1eO7patddNbhj7FJ/oU/PWKUqKyKDP1PQaRIzKORidek0G
-         Ul0EipEyYX+tvMk88C1IjwnO/TtrA+3i2kbMNOA0=
+        b=QWDzKrKy0tQA/OSKCfENcLDYnG/iBwtrjixeSP0qeZs68fpvm9uGk0YNBGBpF8zOo
+         xSDMn8c9RmMKBFrc6o4490jSJFj6Y33KPyEdl6moY6BFt7bhRZNtTo4cdZY1F82MyF
+         Ha16VmxfQoqny/JPJ50GA4xN81p6ovK2R3Sj+Stw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>,
-        syzbot+5efc10c005014d061a74@syzkaller.appspotmail.com,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+Cc:     Ilya Trukhanov <lahvuun@gmail.com>, Jiri Kosina <jkosina@suse.cz>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 22/28] Input: iforce - add sanity checks
-Date:   Tue, 13 Aug 2019 22:25:44 -0400
-Message-Id: <20190814022550.17463-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.2 017/123] HID: Add 044f:b320 ThrustMaster, Inc. 2 in 1 DT
+Date:   Tue, 13 Aug 2019 22:09:01 -0400
+Message-Id: <20190814021047.14828-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190814022550.17463-1-sashal@kernel.org>
-References: <20190814022550.17463-1-sashal@kernel.org>
+In-Reply-To: <20190814021047.14828-1-sashal@kernel.org>
+References: <20190814021047.14828-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,38 +42,65 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Oliver Neukum <oneukum@suse.com>
+From: Ilya Trukhanov <lahvuun@gmail.com>
 
-[ Upstream commit 849f5ae3a513c550cad741c68dd3d7eb2bcc2a2c ]
+[ Upstream commit 65f11c72780fa9d598df88def045ccb6a885cf80 ]
 
-The endpoint type should also be checked before a device
-is accepted.
+Enable force feedback for the Thrustmaster Dual Trigger 2 in 1 Rumble Force
+gamepad. Compared to other Thrustmaster devices, left and right rumble
+motors here are swapped.
 
-Reported-by: syzbot+5efc10c005014d061a74@syzkaller.appspotmail.com
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Ilya Trukhanov <lahvuun@gmail.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/joystick/iforce/iforce-usb.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/hid/hid-tmff.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/input/joystick/iforce/iforce-usb.c b/drivers/input/joystick/iforce/iforce-usb.c
-index db64adfbe1aff..3e1ea912b41d1 100644
---- a/drivers/input/joystick/iforce/iforce-usb.c
-+++ b/drivers/input/joystick/iforce/iforce-usb.c
-@@ -145,7 +145,12 @@ static int iforce_usb_probe(struct usb_interface *intf,
- 		return -ENODEV;
+diff --git a/drivers/hid/hid-tmff.c b/drivers/hid/hid-tmff.c
+index e12f2588ddebb..bdfc5ff3b2c5c 100644
+--- a/drivers/hid/hid-tmff.c
++++ b/drivers/hid/hid-tmff.c
+@@ -22,6 +22,8 @@
  
- 	epirq = &interface->endpoint[0].desc;
-+	if (!usb_endpoint_is_int_in(epirq))
-+		return -ENODEV;
+ #include "hid-ids.h"
+ 
++#define THRUSTMASTER_DEVICE_ID_2_IN_1_DT	0xb320
 +
- 	epout = &interface->endpoint[1].desc;
-+	if (!usb_endpoint_is_int_out(epout))
-+		return -ENODEV;
+ static const signed short ff_rumble[] = {
+ 	FF_RUMBLE,
+ 	-1
+@@ -76,6 +78,7 @@ static int tmff_play(struct input_dev *dev, void *data,
+ 	struct hid_field *ff_field = tmff->ff_field;
+ 	int x, y;
+ 	int left, right;	/* Rumbling */
++	int motor_swap;
  
- 	if (!(iforce = kzalloc(sizeof(struct iforce) + 32, GFP_KERNEL)))
- 		goto fail;
+ 	switch (effect->type) {
+ 	case FF_CONSTANT:
+@@ -100,6 +103,13 @@ static int tmff_play(struct input_dev *dev, void *data,
+ 					ff_field->logical_minimum,
+ 					ff_field->logical_maximum);
+ 
++		/* 2-in-1 strong motor is left */
++		if (hid->product == THRUSTMASTER_DEVICE_ID_2_IN_1_DT) {
++			motor_swap = left;
++			left = right;
++			right = motor_swap;
++		}
++
+ 		dbg_hid("(left,right)=(%08x, %08x)\n", left, right);
+ 		ff_field->value[0] = left;
+ 		ff_field->value[1] = right;
+@@ -226,6 +236,8 @@ static const struct hid_device_id tm_devices[] = {
+ 		.driver_data = (unsigned long)ff_rumble },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_THRUSTMASTER, 0xb304),   /* FireStorm Dual Power 2 (and 3) */
+ 		.driver_data = (unsigned long)ff_rumble },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_THRUSTMASTER, THRUSTMASTER_DEVICE_ID_2_IN_1_DT),   /* Dual Trigger 2-in-1 */
++		.driver_data = (unsigned long)ff_rumble },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_THRUSTMASTER, 0xb323),   /* Dual Trigger 3-in-1 (PC Mode) */
+ 		.driver_data = (unsigned long)ff_rumble },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_THRUSTMASTER, 0xb324),   /* Dual Trigger 3-in-1 (PS3 Mode) */
 -- 
 2.20.1
 
