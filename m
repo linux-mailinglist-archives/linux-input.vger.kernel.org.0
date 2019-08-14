@@ -2,39 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16E5D8C635
-	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2019 04:14:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F270B8C6A0
+	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2019 04:17:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728453AbfHNCNu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Aug 2019 22:13:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45826 "EHLO mail.kernel.org"
+        id S1729300AbfHNCRG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Aug 2019 22:17:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48426 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728430AbfHNCNs (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Aug 2019 22:13:48 -0400
+        id S1729295AbfHNCRG (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 13 Aug 2019 22:17:06 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5BE0E20843;
-        Wed, 14 Aug 2019 02:13:46 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 789122085A;
+        Wed, 14 Aug 2019 02:17:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565748827;
-        bh=X+Ec1Epi8YKzHbbrViQD/m0/f4StJkTKOw6RGCVSHYI=;
+        s=default; t=1565749025;
+        bh=MLP40Xee1XZVetBmWFSJCKBW+PStioixF9jdljQ31A4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HccSGUEDp01Xnr0iuZeN/fmJ9AAiqvCo8N3ScCELPhf+EoBGqs+221qYAdoY+cMJl
-         7FTwJHcVQ4Ri3UJ1NgXj5rE3iZ8FhyIHgKgfEwR+V/RIgI6wqN/BjgLro/z7MQ9SAr
-         371jwFqrq6EvYgDm9d7fi4MFkE318xPaeSsxxcsU=
+        b=V+O5sCE4S+a8TMzUE5AC3sE6GWXChHLbGgpIIHdv6nDDBL+ytRrXtcatUPPfnr2oI
+         NXSe+4B5K88cQfIEjNHVf8PBkecG6XPxQf6iA7GXj/YLH2z7desKAtkAcTilBrfhfA
+         3KYIflwjeyZZDH8xdVw+mbnjgQGqwaCemAmomv7M=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>,
         syzbot+965152643a75a56737be@syzkaller.appspotmail.com,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 087/123] HID: holtek: test for sanity of intfdata
-Date:   Tue, 13 Aug 2019 22:10:11 -0400
-Message-Id: <20190814021047.14828-87-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 43/68] HID: holtek: test for sanity of intfdata
+Date:   Tue, 13 Aug 2019 22:15:21 -0400
+Message-Id: <20190814021548.16001-43-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190814021047.14828-1-sashal@kernel.org>
-References: <20190814021047.14828-1-sashal@kernel.org>
+In-Reply-To: <20190814021548.16001-1-sashal@kernel.org>
+References: <20190814021548.16001-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -62,10 +62,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hid/hid-holtek-kbd.c b/drivers/hid/hid-holtek-kbd.c
-index b3d502421b79d..0a38e8e9bc783 100644
+index 6e1a4a4fc0c10..ab9da597106fa 100644
 --- a/drivers/hid/hid-holtek-kbd.c
 +++ b/drivers/hid/hid-holtek-kbd.c
-@@ -123,9 +123,14 @@ static int holtek_kbd_input_event(struct input_dev *dev, unsigned int type,
+@@ -126,9 +126,14 @@ static int holtek_kbd_input_event(struct input_dev *dev, unsigned int type,
  
  	/* Locate the boot interface, to receive the LED change events */
  	struct usb_interface *boot_interface = usb_ifnum_to_if(usb_dev, 0);
