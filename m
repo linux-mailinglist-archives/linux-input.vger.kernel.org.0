@@ -2,45 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56BA38FE2C
-	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08DBB8FE4A
+	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727410AbfHPIim (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Aug 2019 04:38:42 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:53868 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727398AbfHPIil (ORCPT
+        id S1727193AbfHPIji (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Aug 2019 04:39:38 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:1996 "EHLO
+        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727080AbfHPIjS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:38:41 -0400
-X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Aug 2019 04:38:29 EDT
-IronPort-SDR: o9Sne1YlyX5ktyy3v//+78AjJYaW2JDSRiR0BeLknzmCdHktvBHp0pD4JotCeLuCf845Fe5exj
- ro5dfsKXr1sCBwv4Oj9Pn935pFOlgz+K2yJnOY1O8hIjtvRuAm5Uy0DX2ttZOiIZSE37M+ca2L
- St/rtK0R/qyLF4jO7hKmB7ftRiR3I6Bu0crl/sS6kcTJKGuClYwVaQWJM8w39sQwmLW9Thivks
- sWMth8acoPaXrGTclEF3ZGaKi0a/GIl/ChCH6gp+M/TgQhA7cRZtLUOa+mzYiYap/l92xWkHOj
- iAU=
+        Fri, 16 Aug 2019 04:39:18 -0400
+IronPort-SDR: jwVPDsohESBSb8RzbyDi8hxyKOoKAGp05QutlvVqrui+piDeLlqs6uKwzsAWRJT8wuVhWPMY0n
+ 8kFuxnvXPRiTlvzfsuifFWR/PXUFJJg6dCzPgujo5QTg87QEnpwUYkeCOJsNcgvjEqfSQ9STbv
+ Ha6wwyp5ZWnpB9yu8h/NMK5Xr43kC4KZwqA16MSDbP5qbyS162u0pl55VHgyX6rT/vr75RdnZT
+ 204AaiisH8CLn5rpxgFF/ycCHsGYnKEge6T5kljVHI16B9XwnGoAXHE1mg1agPo0j5SI2yUNno
+ qTc=
 X-IronPort-AV: E=Sophos;i="5.64,391,1559548800"; 
-   d="scan'208";a="42311176"
+   d="scan'208";a="40484213"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa1.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:31:35 -0800
-IronPort-SDR: 0a/inh3Kj+i+d6sZUXuAhhHiL07++jxx5Xn311LOqsP/WXCKcAdKyXknB3mbSSGUvqTtMtVwn/
- EPmw5svv0bxCLQGqqQBNpVlzSAUqQIp78kRikipKBLtvu9yusEm3ho0oaZhcp4ZiAj/I36UkHd
- cG8ttRNmDsHHyNIEWg1Q7q16/TBEbrAWQVq7t6FdurzdS96+Bz1TfDMDCXcenDOVjgTmYJKfRz
- ileHXn4xo7VoEgnSPEmLnReXX9YuMYvOsGr8+yqkMi454/9zqwycVnfOiKFJTJuxtPaxhV6ubK
- qRg=
+  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:32:10 -0800
+IronPort-SDR: 8NgMj8R+DtMM6YJoMIYeTngr6RmQekUfaZYaHJJlSlL/ntBZCwY9MDTz3G7cl9w/gbq/BGBQCb
+ VcTrju5uURf2MPqxSlU2i4V2/JkC2aPXVeULD42a9OLtR+NhgtRxpGJOtUPSM8AtEYYZA6iiTv
+ r7umK/6QK9mn8qLCmdPlooqU1OPDBWdFWBMEtpn0bVgu29KoKEfSKrbCnbglP+8RoFKw7CAgU5
+ N4a3JNYZ7myb5vGRaeWPQ2p1RhaNnnFN3dSnQsxQ1xLLvS3qKjxa7Q6vdfYt+tBjL0OOwoJd+y
+ GbI=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v1 09/63] Input: atmel_mxt_ts - handle reports from T47 Stylus object
-Date:   Fri, 16 Aug 2019 17:30:36 +0900
-Message-ID: <20190816083130.18250-5-jiada_wang@mentor.com>
+Subject: [PATCH v1 10/63] Input: atmel_mxt_ts - implement support for T107 active stylus
+Date:   Fri, 16 Aug 2019 17:31:25 +0900
+Message-ID: <20190816083218.18402-1-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20190816083130.18250-1-jiada_wang@mentor.com>
-References: <20190816083130.18250-1-jiada_wang@mentor.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
-X-ClientProxiedBy: SVR-ORW-MBX-05.mgc.mentorg.com (147.34.90.205) To
+X-ClientProxiedBy: svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203) To
  svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
@@ -50,57 +47,256 @@ X-Mailing-List: linux-input@vger.kernel.org
 From: Nick Dyer <nick.dyer@itdev.co.uk>
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-Acked-by: Benson Leung <bleung@chromium.org>
-Acked-by: Yufeng Shen <miletus@chromium.org>
-(cherry picked from ndyer/linux/for-upstream commit 56405a5ea08eb34cfe83f3121867c9de0a5c48c1)
+(cherry picked from ndyer/linux/for-upstream commit 20e357dd9acf8c2040068c8b22d6bc1401a1893f)
+[gdavis: Forward port and fix conflicts due to applying upstream commit
+	 96a938aa214e ("Input: atmel_mxt_ts - remove platform data
+	 support").]
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 117 ++++++++++++++++++++++-
+ 1 file changed, 113 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 99b87042dfe5..adf63ecf6b8e 100644
+index adf63ecf6b8e..482d435c80ea 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -822,6 +822,7 @@ static void mxt_proc_t9_message(struct mxt_data *data, u8 *message)
- 	int area;
- 	int amplitude;
- 	u8 vector;
-+	int tool;
+@@ -72,6 +72,7 @@
+ #define MXT_SPT_CTECONFIG_T46		46
+ #define MXT_SPT_DYNAMICCONFIGURATIONCONTAINER_T71 71
+ #define MXT_TOUCH_MULTITOUCHSCREEN_T100 100
++#define MXT_PROCI_ACTIVESTYLUS_T107	107
  
- 	id = message[0] - data->T9_reportid_min;
- 	status = message[1];
-@@ -835,6 +836,7 @@ static void mxt_proc_t9_message(struct mxt_data *data, u8 *message)
- 		y >>= 2;
+ /* MXT_GEN_MESSAGE_T5 object */
+ #define MXT_RPTID_NOMSG		0xff
+@@ -181,6 +182,7 @@ struct t37_debug {
+ enum t100_type {
+ 	MXT_T100_TYPE_FINGER		= 1,
+ 	MXT_T100_TYPE_PASSIVE_STYLUS	= 2,
++	MXT_T100_TYPE_ACTIVE_STYLUS	= 3,
+ 	MXT_T100_TYPE_HOVERING_FINGER	= 4,
+ 	MXT_T100_TYPE_GLOVE		= 5,
+ 	MXT_T100_TYPE_LARGE_TOUCH	= 6,
+@@ -192,6 +194,16 @@ enum t100_type {
+ #define MXT_TOUCH_MAJOR_DEFAULT		1
+ #define MXT_PRESSURE_DEFAULT		1
  
- 	area = message[5];
++/* Gen2 Active Stylus */
++#define MXT_T107_STYLUS_STYAUX		42
++#define MXT_T107_STYLUS_STYAUX_PRESSURE	BIT(0)
++#define MXT_T107_STYLUS_STYAUX_PEAK	BIT(4)
 +
- 	amplitude = message[6];
- 	vector = message[7];
++#define MXT_T107_STYLUS_HOVER		BIT(0)
++#define MXT_T107_STYLUS_TIPSWITCH	BIT(1)
++#define MXT_T107_STYLUS_BUTTON0		BIT(2)
++#define MXT_T107_STYLUS_BUTTON1		BIT(3)
++
+ /* Delay times */
+ #define MXT_BACKUP_TIME		50	/* msec */
+ #define MXT_RESET_GPIO_TIME	20	/* msec */
+@@ -313,10 +325,12 @@ struct mxt_data {
+ 	struct t7_config t7_cfg;
+ 	struct mxt_dbg dbg;
+ 	struct gpio_desc *reset_gpio;
+-	bool use_retrigen_workaround;
+ 	unsigned long t15_keystatus;
+ 	int t15_num_keys;
+ 	const unsigned int *t15_keymap;
++	u8 stylus_aux_pressure;
++	u8 stylus_aux_peak;
++	bool use_retrigen_workaround;
  
-@@ -864,12 +866,20 @@ static void mxt_proc_t9_message(struct mxt_data *data, u8 *message)
- 			mxt_input_sync(data);
+ 	/* Cached parameters from object table */
+ 	u16 T5_address;
+@@ -337,6 +351,7 @@ struct mxt_data {
+ 	u8 T48_reportid;
+ 	u8 T100_reportid_min;
+ 	u8 T100_reportid_max;
++	u16 T107_address;
+ 
+ 	/* for fw update in bootloader */
+ 	struct completion bl_completion;
+@@ -907,6 +922,8 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+ 	u8 major = 0;
+ 	u8 pressure = 0;
+ 	u8 orientation = 0;
++	bool active = false;
++	bool hover = false;
+ 
+ 	id = message[0] - data->T100_reportid_min - 2;
+ 
+@@ -925,6 +942,8 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+ 		case MXT_T100_TYPE_HOVERING_FINGER:
+ 			tool = MT_TOOL_FINGER;
+ 			distance = MXT_DISTANCE_HOVERING;
++			hover = true;
++			active = true;
+ 
+ 			if (data->t100_aux_vect)
+ 				orientation = message[data->t100_aux_vect];
+@@ -935,6 +954,8 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+ 		case MXT_T100_TYPE_GLOVE:
+ 			tool = MT_TOOL_FINGER;
+ 			distance = MXT_DISTANCE_ACTIVE_TOUCH;
++			hover = false;
++			active = true;
+ 
+ 			if (data->t100_aux_area)
+ 				major = message[data->t100_aux_area];
+@@ -949,6 +970,9 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+ 
+ 		case MXT_T100_TYPE_PASSIVE_STYLUS:
+ 			tool = MT_TOOL_PEN;
++			distance = MXT_DISTANCE_ACTIVE_TOUCH;
++			hover = false;
++			active = true;
+ 
+ 			/*
+ 			 * Passive stylus is reported with size zero so
+@@ -961,6 +985,31 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+ 
+ 			break;
+ 
++		case MXT_T100_TYPE_ACTIVE_STYLUS:
++			/* Report input buttons */
++			input_report_key(input_dev, BTN_STYLUS,
++					 message[6] & MXT_T107_STYLUS_BUTTON0);
++			input_report_key(input_dev, BTN_STYLUS2,
++					 message[6] & MXT_T107_STYLUS_BUTTON1);
++
++			/* stylus in range, but position unavailable */
++			if (!(message[6] & MXT_T107_STYLUS_HOVER))
++				break;
++
++			tool = MT_TOOL_PEN;
++			distance = MXT_DISTANCE_ACTIVE_TOUCH;
++			active = true;
++			major = MXT_TOUCH_MAJOR_DEFAULT;
++
++			if (!(message[6] & MXT_T107_STYLUS_TIPSWITCH)) {
++				hover = true;
++				distance = MXT_DISTANCE_HOVERING;
++			} else if (data->stylus_aux_pressure) {
++				pressure = message[data->stylus_aux_pressure];
++			}
++
++			break;
++
+ 		case MXT_T100_TYPE_LARGE_TOUCH:
+ 			/* Ignore suppressed touch */
+ 			break;
+@@ -975,12 +1024,12 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+ 	 * Values reported should be non-zero if tool is touching the
+ 	 * device
+ 	 */
+-	if (!pressure && type != MXT_T100_TYPE_HOVERING_FINGER)
++	if (!pressure && !hover)
+ 		pressure = MXT_PRESSURE_DEFAULT;
+ 
+ 	input_mt_slot(input_dev, id);
+ 
+-	if (status & MXT_T100_DETECT) {
++	if (active) {
+ 		dev_dbg(dev, "[%u] type:%u x:%u y:%u a:%02X p:%02X v:%02X\n",
+ 			id, type, x, y, major, pressure, orientation);
+ 
+@@ -991,6 +1040,7 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+ 		input_report_abs(input_dev, ABS_MT_PRESSURE, pressure);
+ 		input_report_abs(input_dev, ABS_MT_DISTANCE, distance);
+ 		input_report_abs(input_dev, ABS_MT_ORIENTATION, orientation);
++
+ 	} else {
+ 		dev_dbg(dev, "[%u] release\n", id);
+ 
+@@ -1860,6 +1910,9 @@ static int mxt_parse_object_table(struct mxt_data *data,
+ 			/* first two report IDs reserved */
+ 			data->num_touchids = object->num_report_ids - 2;
+ 			break;
++		case MXT_PROCI_ACTIVESTYLUS_T107:
++			data->T107_address = object->start_address;
++			break;
  		}
  
-+		/* A size of zero indicates touch is from a linked T47 Stylus */
-+		if (area == 0) {
-+			area = MXT_TOUCH_MAJOR_DEFAULT;
-+			tool = MT_TOOL_PEN;
-+		} else {
-+			tool = MT_TOOL_FINGER;
-+		}
-+
- 		/* if active, pressure must be non-zero */
- 		if (!amplitude)
- 			amplitude = MXT_PRESSURE_DEFAULT;
+ 		end_address = object->start_address
+@@ -2020,6 +2073,54 @@ static int mxt_read_t9_resolution(struct mxt_data *data)
+ 	return 0;
+ }
  
- 		/* Touch active */
--		input_mt_report_slot_state(input_dev, MT_TOOL_FINGER, 1);
-+		input_mt_report_slot_state(input_dev, tool, 1);
- 		input_report_abs(input_dev, ABS_MT_POSITION_X, x);
- 		input_report_abs(input_dev, ABS_MT_POSITION_Y, y);
- 		input_report_abs(input_dev, ABS_MT_PRESSURE, amplitude);
++static int mxt_set_up_active_stylus(struct input_dev *input_dev,
++				    struct mxt_data *data)
++{
++	struct i2c_client *client = data->client;
++	int error;
++	struct mxt_object *object;
++	u8 styaux;
++	int aux;
++	u8 ctrl;
++
++	object = mxt_get_object(data, MXT_PROCI_ACTIVESTYLUS_T107);
++	if (!object)
++		return 0;
++
++	error = __mxt_read_reg(client, object->start_address, 1, &ctrl);
++	if (error)
++		return error;
++
++	/* Check enable bit */
++	if (!(ctrl & 0x01))
++		return 0;
++
++	error = __mxt_read_reg(client,
++			       object->start_address + MXT_T107_STYLUS_STYAUX,
++			       1, &styaux);
++	if (error)
++		return error;
++
++	/* map aux bits */
++	aux = 7;
++
++	if (styaux & MXT_T107_STYLUS_STYAUX_PRESSURE)
++		data->stylus_aux_pressure = aux++;
++
++	if (styaux & MXT_T107_STYLUS_STYAUX_PEAK)
++		data->stylus_aux_peak = aux++;
++
++	input_set_capability(input_dev, EV_KEY, BTN_STYLUS);
++	input_set_capability(input_dev, EV_KEY, BTN_STYLUS2);
++	input_set_abs_params(input_dev, ABS_MT_TOOL_TYPE, 0, MT_TOOL_MAX, 0, 0);
++
++	dev_dbg(&client->dev,
++		"T107 active stylus, aux map pressure:%u peak:%u\n",
++		data->stylus_aux_pressure, data->stylus_aux_peak);
++
++	return 0;
++}
++
+ static int mxt_read_t100_config(struct mxt_data *data)
+ {
+ 	struct i2c_client *client = data->client;
+@@ -2226,7 +2327,7 @@ static int mxt_initialize_input_device(struct mxt_data *data)
+ 
+ 	if (data->multitouch == MXT_TOUCH_MULTI_T9 ||
+ 	    (data->multitouch == MXT_TOUCH_MULTITOUCHSCREEN_T100 &&
+-	     data->t100_aux_ampl)) {
++	     (data->t100_aux_ampl || data->stylus_aux_pressure))) {
+ 		input_set_abs_params(input_dev, ABS_MT_PRESSURE,
+ 				     0, 255, 0, 0);
+ 	}
+@@ -2244,6 +2345,14 @@ static int mxt_initialize_input_device(struct mxt_data *data)
+ 				     0, 255, 0, 0);
+ 	}
+ 
++	/* For T107 Active Stylus */
++	if (data->multitouch == MXT_TOUCH_MULTITOUCHSCREEN_T100 &&
++	    data->T107_address) {
++		error = mxt_set_up_active_stylus(input_dev, data);
++		if (error)
++			dev_warn(dev, "Failed to read T107 config\n");
++	}
++
+ 	/* For T15 Key Array */
+ 	if (data->T15_reportid_min) {
+ 		data->t15_keystatus = 0;
 -- 
 2.19.2
 
