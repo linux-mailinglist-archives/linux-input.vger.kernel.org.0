@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E561E8FE4C
-	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E45A8FE37
+	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727080AbfHPIjv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Aug 2019 04:39:51 -0400
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:1980 "EHLO
+        id S1727044AbfHPIjB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Aug 2019 04:39:01 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:1982 "EHLO
         esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727351AbfHPIi5 (ORCPT
+        with ESMTP id S1727471AbfHPIjA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:38:57 -0400
-IronPort-SDR: B/UKMTMgL1V3rYDOf1AD4z2OH5lmZBsv5s71Z6ieqgVwAO1DuonYMGPPwqgXSJJrn7cQ+xrOon
- QeMav4V4xhwz07wJHFaZXWS9G+qecRUysuL+XLBK6kPtOT2iM75cTYxcXFK9mHVzT82sNEpffD
- +V82Gbta25bEQQf00Ch8Ob6HQVofk1oL9ZWibtAvTJEWNI+KvhJfxrFVleRL/Pfy9+T5hz4oL/
- AVInmdMkLxWsHk3hDEUhs9A9lRPf2c7NKjW435v+mlRwpZCmApuqpD6nUeVxZmb4gvkK47xLXl
- ELo=
+        Fri, 16 Aug 2019 04:39:00 -0400
+IronPort-SDR: hWubHu6auLGcK6N4LbDE7yZ1xo4CvOgf8ipO4opVAAl28D5jJkyIyqw7xP7Uq19NH6YErmj7Ku
+ AbOBNIX7yOrmu+fD41MndrbLDx3B2uhkWF4I0sXD/YzHqO6bFZCgwYJMexUwM6FoFp1QHbg3LV
+ I2SItEEvpq0AagOnDAf82XeXF9w+HYYV+LZ1gpXw+DL0H5KucHvyzBFVAhIIkwVQgrjU1GaxER
+ Go8lPT2yfUqKSsipuQAO9IAZIkE7zDd+T+aAmFSrmCjySMFcdSL3sH2f8bn52Rqk0b9RtaJF1D
+ I/M=
 X-IronPort-AV: E=Sophos;i="5.64,391,1559548800"; 
-   d="scan'208";a="40484323"
+   d="scan'208";a="40484324"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:35:53 -0800
-IronPort-SDR: 3LRlwUxcL/PU660HasXBGP8vJSlmCapd5ni4O/SblKBQMfOfu1EQj3pcmuJsV60kUMntA6Tc6J
- zCfPvv3u/vSyf1s1bObTqvPCtYW2y4gzGfDvYPxjTKZE0ETQZKb5qKcfQIFQnAhVQgHbyBEgjC
- oy3Qc67pxN3FvQk+G4/7xM2gd8kEpSpzqn80XS1gXo6WxC1EVpZ0hHb5XUp1wtzCIQI6lFBX1G
- KBHuGu/rCN3E9Bg8WmnWali7wgmNFpFUWICp2Vukg4BzdtoI64b5jEZ8PS7kbnYvVLa6t1194s
- +po=
+  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:35:56 -0800
+IronPort-SDR: RLpmb9MVfpAydiwFlcLgOLBYRumCb0/Vgb0tow8qsmoC5UziuHoDTmem4YB7mQ7p8iSUQDqdvo
+ KCQU4NGv6fveiXK+Wrv7fbK+vXBBy7mF1OjVJC/+ra21zd58Loi5ZKIkUI+10LB8hOd/8lIVWP
+ 3HSheNWXZfBkTn6fbPfjIztLk7iCUbwn6PnYpxSuckwMqB8JJnqVdIdmff689Joaijka577dlw
+ ZDIDPUBfWGm1RmEpR1t2OOmhZlA+bWzP5fvolOLmzNp6xQbF8kKn0UqzuplBKLIjX+TX0aSHWf
+ wYs=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v1 41/63] Input: touchscreen: Atmel: Enable IRQ_DISABLE_UNLAZY flag for interrupt
-Date:   Fri, 16 Aug 2019 17:35:36 +0900
-Message-ID: <20190816083558.19189-2-jiada_wang@mentor.com>
+Subject: [PATCH v2 42/63] Input: atmel_mxt_ts: Limit the max bytes transferred in an i2c transaction
+Date:   Fri, 16 Aug 2019 17:35:37 +0900
+Message-ID: <20190816083558.19189-3-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190816083558.19189-1-jiada_wang@mentor.com>
 References: <20190816083558.19189-1-jiada_wang@mentor.com>
@@ -46,82 +46,103 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
+From: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
 
-The de-/serializer driver has defined only irq_mask "ds90ub927_irq_mask" and
-irq_unmask "ds90ub927_irq_unmask" callback functions. And de-/serializer
-driver doesn't implement the irq_disable and irq_enable callback functions.
-Hence inorder to invoke irq_mask callback function when disable_irq_nosync is
-called the IRQ_DISABLE_UNLAZY interrupt flag should be set. If not the
-disable_irq_nosync will just increment the depth field in the irq
-descriptor only once as shown below.
+In mxt_process_messages_until_invalid() function, driver tries to read
+all possible reportid in a single i2c transaction. Number of bytes read
+is limited by the max_reportid parameter.
+If the max_reportid is a very large value, then a large chunk of bytes
+will be requested from the controller in a single i2c transaction.
+This transaction can fail due to timeout. This is visible when the
+Atmel controller is connected to the SOC via a i2c mux hardware.
+New property 'atmel,mtu' is created. This property limits the maximum
+number of bytes that can read/transferred in an i2c transcation
 
-disable_irq_nosync
- __disable_irq_nosync
-  __disable_irq (desc->depth++)
-   irq_disable
-    if irq_disable present -----------> if IRQ_DISABLE_UNLAZYflag set
-             |                  no                  |
-         yes |                                  yes |
-             |                                      |
-     desc->irq_data.chip->irq_disable   desc->irq_data.chip->irq_unmask
-                                         (ds90ub927_irq_mask)
-                                          disable_irq
-                                           __disable_irq_nosync
-                                            __disable_irq
-(desc->depth++)
-But the enable_irq will try to decrement the depth field twice which generates
-the backtrace stating "Unbalanced enable for irq 293". This is because there is
-no IRQ_DISABLE_UNLAZY flag check while calling irq_unmask callback function
-of the "ds90ub927_irq_unmask" de-/serializer via enable_irq.
-
-enable_irq
- __enable_irq (desc->depth--)
-  irq_enable
-   if irq_enable present -------------> desc->irq_data.chip->irq_unmask
-              |                no        (ds90ub927_irq_unmask)
-          yes |                            enable_irq
-              |                             __enable_irq (desc->depth--)
-    (desc->irq_data.chip->irq_enable)
-
-Signed-off-by: Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
+Signed-off-by: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../bindings/input/atmel,maxtouch.txt         |  3 +++
+ drivers/input/touchscreen/atmel_mxt_ts.c      | 26 +++++++++++++++++--
+ 2 files changed, 27 insertions(+), 2 deletions(-)
 
+diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+index 7afe12a93202..a7f9a8e551f7 100644
+--- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
++++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+@@ -45,6 +45,8 @@ Optional properties for main touchpad device:
+ - atmel,gpios: Specify the GPIO input pins whose status will be read via the
+     /sys/class/input/input<n>/backlight_error<x> sysfs entries.
+ 
++- atmel,mtu: Maximum number of bytes that can read/transferred in an i2c transaction
++
+ Example:
+ 
+ 	touch@4b {
+@@ -52,6 +54,7 @@ Example:
+ 		reg = <0x4b>;
+ 		interrupt-parent = <&gpio>;
+ 		interrupts = <TEGRA_GPIO(W, 3) IRQ_TYPE_LEVEL_LOW>;
++		atmel,mtu = <200>
+ 
+ 		atmel,gpios {
+ 			backlight_error1 {
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index bc94adec6631..c6ba061098c0 100644
+index c6ba061098c0..e315ad3a8d2a 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -4349,6 +4349,8 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 	snprintf(data->phys, sizeof(data->phys), "i2c-%u-%04x/input0",
- 		 client->adapter->nr, client->addr);
+@@ -421,6 +421,7 @@ struct mxt_data {
+ 	unsigned long gpio_input_pin_status;
+ 	struct attribute_group gpio_attrs;
+ 	unsigned long gpio_input_pin_status_default;
++	unsigned int mtu;
  
-+	irq_set_status_flags(client->irq, IRQ_DISABLE_UNLAZY);
-+
- 	data->client = client;
- 	i2c_set_clientdata(client, data);
- 
-@@ -4434,6 +4436,8 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		sysfs_remove_link(&client->dev.kobj, "reset");
- 		gpiod_unexport(data->reset_gpio);
- 	}
-+	if (data->irq)
-+		irq_clear_status_flags(data->irq, IRQ_DISABLE_UNLAZY);
- 	return error;
+ 	bool t25_status;
+ };
+@@ -1522,13 +1523,30 @@ static irqreturn_t mxt_process_messages_t44(struct mxt_data *data)
+ 	return IRQ_HANDLED;
  }
  
-@@ -4449,6 +4453,8 @@ static int mxt_remove(struct i2c_client *client)
- 	}
- 	mxt_debug_msg_remove(data);
- 	mxt_sysfs_remove(data);
-+	if (data->irq)
-+		irq_clear_status_flags(data->irq, IRQ_DISABLE_UNLAZY);
- 	mxt_free_input_device(data);
- 	mxt_free_object_table(data);
++static u8 mxt_max_msg_read_count(struct mxt_data *data)
++{
++	u8 count_limit = data->mtu / data->T5_msg_size;
++
++	if (!data->mtu)
++		return data->max_reportid;
++
++	if (data->mtu < data->T5_msg_size) {
++		WARN(1, "mtu set is lesser than the T5 message size\n");
++		/* Return count of 1, as fallback */
++		return 1;
++	}
++
++	return min(count_limit, data->max_reportid);
++}
++
+ static int mxt_process_messages_until_invalid(struct mxt_data *data)
+ {
+ 	struct device *dev = &data->client->dev;
+ 	int count, read;
+-	u8 tries = 2;
++	int tries;
  
+-	count = data->max_reportid;
++	count = mxt_max_msg_read_count(data);
++	tries = (data->max_reportid / count) + 1;
+ 
+ 	/* Read messages until we force an invalid */
+ 	do {
+@@ -4290,6 +4308,10 @@ static int mxt_parse_device_properties(struct mxt_data *data)
+ 			of_node_put(np_gpio);
+ 	}
+ 
++	device_property_read_u32(dev, "atmel,mtu", &data->mtu);
++	if (data->mtu)
++		dev_dbg(dev, "mtu is set as %d\n", data->mtu);
++
+ 	return 0;
+ 
+ err_gpios_property_put:
 -- 
 2.19.2
 
