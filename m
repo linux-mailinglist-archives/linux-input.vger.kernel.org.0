@@ -2,163 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B311B8FE09
-	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C21CD8FDFB
+	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:37:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727141AbfHPIhu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Aug 2019 04:37:50 -0400
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:1938 "EHLO
+        id S1726899AbfHPIhQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Aug 2019 04:37:16 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:1919 "EHLO
         esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727120AbfHPIhu (ORCPT
+        with ESMTP id S1726810AbfHPIhQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:37:50 -0400
-IronPort-SDR: 5OZnd0+IWRtCYMBQ9pRV0crmdquDlfRHSnJSrj7lVOFefzi/iLPOoBAKUVZZudax+Hx9Ti4FOz
- v3gLB6C93O3PHLRNPAozH3XziJpAGa5YlDm18UJXZqGxkVXNW66GgKwEJR1kqaPye9fkTg/LJA
- 8ypKMyItCeTpo6o47fivpl1/DR+Ih5odiFBlCDLHVzLEP+fFjFSvxPPHULnXSH0Y6rv7LMWaEB
- e17GWecwNae8o1p/C32zOkYDoeEZBkOpssLY0IQ7o+SRU+rzvpoB3gcuvLM10YWlETm1u98JmL
- Qjc=
+        Fri, 16 Aug 2019 04:37:16 -0400
+X-Greylist: delayed 306 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Aug 2019 04:37:16 EDT
+IronPort-SDR: VmNrKHCByHWrkM4V4KRDR4+Hxrqu1hMZI6D/4tWcIwqjmiavILAkaZ2jHnmYJHNjz1ZpyTsisq
+ SmoYDTD46b9e+oXHKfJKLOc/lPP6LoGNz2i2NwDi93mfXFbrEaKn5mARIcKR3Iuce2gYDg5mXT
+ OjXQcQr6Zsow7mQNmDob6U8FwR3p2QsdQ1s7Ll+8prOh94gs+d50GvIiDlbdj/mcsx/ghaVbWV
+ lwuu17zglNbPB63CJv+8kUdTjaDbD0hm0tXEuk3oJGc1i0u/eCb4IWGAxDpwYfzskErfK+twVS
+ ilY=
 X-IronPort-AV: E=Sophos;i="5.64,391,1559548800"; 
-   d="scan'208";a="40484267"
+   d="scan'208";a="40484352"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:34:44 -0800
-IronPort-SDR: FO3knajk6ks0egcJg/gYdS+8eGqB28S17MTWXWTkvmmDK4kr6kmUjVFqJSxipm4Bf4U5RXgAEf
- bWAnPj9KlRsB2YBpl8C5uqAq/s7UMIpGMvdv5uL5tZmTPtZV2jAIaIUWCNffpL4grwfSc70Twe
- UEy4f24wny1k3WqBWX/b/K4L2EWIFyYkyj9pvjhDrWvHl0ZuPJnDyCB+WGhKuo0Ml6AxtP1Plt
- CQUz54WE/rBHihlHFiERyvvZm4JlKv+S/qbmXEc4yWXgY0BZKOWUZQA+TEhtSgcBn/teZ1TNQx
- 5/U=
+  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:37:15 -0800
+IronPort-SDR: Tt9VHoDr4caUaTTUn3oLYZMU5Y8pWis5x0HIUll2oqUXLzbUMJ6ZlDxogSs3WpLnYS5fRTF0st
+ yL1ZdOK8cPObsZdEkVuxBWCbRqUtdy7o5/OHGMTGZutUX9Kt3TugbLSfFRRs5Ad3/NNF2sFMsD
+ OlaWlx2BiMjncRA2btmXng8F4pfd6Z+D0YeuFgy25Eu8bwGVLEucJ2pLDjXNeiRDbktIhWmc1T
+ zVBKbcYxxob1yCwAN/gpZKJFbykxnwFKeJyk/qJthvakCxmBSqFVTiVYMQw5JRc4ly6gYP/OMX
+ Z3w=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v1 30/63] Input: atmel_mxt_ts - implement debug output for messages
-Date:   Fri, 16 Aug 2019 17:34:18 +0900
-Message-ID: <20190816083451.18947-1-jiada_wang@mentor.com>
+Subject: [PATCH v1 45/63] Input: Atmel: improve error handling in mxt_start()
+Date:   Fri, 16 Aug 2019 17:37:06 +0900
+Message-ID: <20190816083724.19341-1-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
-X-ClientProxiedBy: SVR-ORW-MBX-07.mgc.mentorg.com (147.34.90.207) To
+X-ClientProxiedBy: svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203) To
  svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nick Dyer <nick.dyer@itdev.co.uk>
+From: Deepak Das <deepak_das@mentor.com>
 
-Add a debug switch which causes all messages from the touch controller to
-be dumped to the dmesg log with a set prefix "MXT MSG:". This is used by
-Atmel user-space utilities to debug touch operation. Enabling this output
-does impact touch performance.
+mxt_start() does not return error in any of
+the failure cases which will allow input_dev->open()
+to return success even in case of any failure.
 
-Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-(cherry picked from ndyer/linux/for-upstream commit 3c3fcfdd4889dfeb1c80ae8cd94a622c6342b06a)
-[gdavis: Forward port and fix conflicts.]
+This commit modifies mxt_start() to return error
+in failure cases.
+
+Signed-off-by: Deepak Das <deepak_das@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 44 ++++++++++++++++++++++--
- 1 file changed, 41 insertions(+), 3 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 31 ++++++++++++------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index ba608d04ee82..e317900279ed 100644
+index ed5b98c067e8..232262736029 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -335,6 +335,7 @@ struct mxt_data {
- 	u8 t100_aux_ampl;
- 	u8 t100_aux_area;
- 	u8 t100_aux_vect;
-+	bool debug_enabled;
- 	u8 max_reportid;
- 	u32 config_crc;
- 	u32 info_crc;
-@@ -460,8 +461,8 @@ static bool mxt_object_readable(unsigned int type)
+@@ -4043,12 +4043,13 @@ static int mxt_start(struct mxt_data *data)
  
- static void mxt_dump_message(struct mxt_data *data, u8 *message)
- {
--	dev_dbg(&data->client->dev, "message: %*ph\n",
--		data->T5_msg_size, message);
-+	dev_dbg(&data->client->dev, "MXT MSG: %*ph\n",
-+		       data->T5_msg_size, message);
- }
+ 	switch (data->suspend_mode) {
+ 	case MXT_SUSPEND_T9_CTRL:
+-		mxt_soft_reset(data);
+-
++		ret = mxt_soft_reset(data);
++		if (ret)
++			break;
+ 		/* Touch enable */
+ 		/* 0x83 = SCANEN | RPTEN | ENABLE */
+-		mxt_write_object(data,
+-				MXT_TOUCH_MULTI_T9, MXT_T9_CTRL, 0x83);
++		ret = mxt_write_object(data,
++				       MXT_TOUCH_MULTI_T9, MXT_T9_CTRL, 0x83);
+ 		break;
  
- static int mxt_wait_for_completion(struct mxt_data *data,
-@@ -1213,6 +1214,7 @@ static void mxt_proc_t93_messages(struct mxt_data *data, u8 *msg)
- static int mxt_proc_message(struct mxt_data *data, u8 *message)
- {
- 	u8 report_id = message[0];
-+	bool dump = data->debug_enabled;
+ 	case MXT_SUSPEND_REGULATOR:
+@@ -4062,27 +4063,26 @@ static int mxt_start(struct mxt_data *data)
+ 		 * Discard any touch messages still in message buffer
+ 		 * from before chip went to sleep
+ 		 */
+-		mxt_process_messages_until_invalid(data);
++		ret = mxt_process_messages_until_invalid(data);
++		if (ret)
++			break;
  
- 	if (report_id == MXT_RPTID_NOMSG)
- 		return 0;
-@@ -1247,9 +1249,12 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
- 	} else if (report_id == data->T93_reportid) {
- 		mxt_proc_t93_messages(data, message);
- 	} else {
--		mxt_dump_message(data, message);
-+		dump = true;
+ 		ret = mxt_set_t7_power_cfg(data, MXT_POWER_CFG_RUN);
+ 		if (ret)
+-			return ret;
++			break;
+ 
+ 		/* Recalibrate since chip has been in deep sleep */
+ 		ret = mxt_t6_command(data, MXT_COMMAND_CALIBRATE, 1, false);
+ 		if (ret)
+-			return ret;
++			break;
+ 
+ 		ret = mxt_acquire_irq(data);
+-		if (ret)
+-			return ret;
+-
+-		break;
  	}
  
-+	if (dump)
-+		mxt_dump_message(data, message);
-+
- 	return 1;
- }
+-	data->suspended = false;
++	if (!ret)
++		data->suspended = false;
  
-@@ -3518,6 +3523,36 @@ static ssize_t mxt_update_cfg_store(struct device *dev,
- 	return ret;
- }
- 
-+static ssize_t mxt_debug_enable_show(struct device *dev,
-+	struct device_attribute *attr, char *buf)
-+{
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+	char c;
-+
-+	c = data->debug_enabled ? '1' : '0';
-+	return scnprintf(buf, PAGE_SIZE, "%c\n", c);
-+}
-+
-+static ssize_t mxt_debug_enable_store(struct device *dev,
-+	struct device_attribute *attr, const char *buf, size_t count)
-+{
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+	u8 i;
-+	ssize_t ret;
-+
-+	if (kstrtou8(buf, 0, &i) == 0 && i < 2) {
-+		data->debug_enabled = (i == 1);
-+
-+		dev_dbg(dev, "%s\n", i ? "debug enabled" : "debug disabled");
-+		ret = count;
-+	} else {
-+		dev_dbg(dev, "debug_enabled write error\n");
-+		ret = -EINVAL;
-+	}
-+
+-	return 0;
 +	return ret;
-+}
-+
- static DEVICE_ATTR(update_fw, S_IWUSR, NULL, mxt_update_fw_store);
+ }
  
- static struct attribute *mxt_fw_attrs[] = {
-@@ -3534,6 +3569,8 @@ static DEVICE_ATTR(hw_version, S_IRUGO, mxt_hw_version_show, NULL);
- static DEVICE_ATTR(object, S_IRUGO, mxt_object_show, NULL);
- static DEVICE_ATTR(update_cfg, S_IWUSR, NULL, mxt_update_cfg_store);
- static DEVICE_ATTR(config_crc, S_IRUGO, mxt_config_crc_show, NULL);
-+static DEVICE_ATTR(debug_enable, S_IWUSR | S_IRUSR, mxt_debug_enable_show,
-+		   mxt_debug_enable_store);
+ static int mxt_stop(struct mxt_data *data)
+@@ -4511,6 +4511,7 @@ static int __maybe_unused mxt_resume(struct device *dev)
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct mxt_data *data = i2c_get_clientdata(client);
+ 	struct input_dev *input_dev = data->input_dev;
++	int ret = 0;
  
- static struct attribute *mxt_attrs[] = {
- 	&dev_attr_fw_version.attr,
-@@ -3541,6 +3578,7 @@ static struct attribute *mxt_attrs[] = {
- 	&dev_attr_object.attr,
- 	&dev_attr_update_cfg.attr,
- 	&dev_attr_config_crc.attr,
-+	&dev_attr_debug_enable.attr,
- 	NULL
- };
+ 	if (!input_dev)
+ 		return 0;
+@@ -4518,11 +4519,11 @@ static int __maybe_unused mxt_resume(struct device *dev)
+ 	mutex_lock(&input_dev->mutex);
  
+ 	if (input_dev->users)
+-		mxt_start(data);
++		ret = mxt_start(data);
+ 
+ 	mutex_unlock(&input_dev->mutex);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static SIMPLE_DEV_PM_OPS(mxt_pm_ops, mxt_suspend, mxt_resume);
 -- 
 2.19.2
 
