@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A1C268FE52
-	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A7208FE54
+	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727253AbfHPIkF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Aug 2019 04:40:05 -0400
+        id S1727208AbfHPIkL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Aug 2019 04:40:11 -0400
 Received: from esa2.mentor.iphmx.com ([68.232.141.98]:27764 "EHLO
         esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727575AbfHPIkE (ORCPT
+        with ESMTP id S1727598AbfHPIkH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:40:04 -0400
-IronPort-SDR: xz5G3kzr1PpqPVF9DnBt+iw4OVQV3xO5LzTg96klTkPb5WcmDU2VoE7Oaz+p35tR7rKSZKYrkg
- lCG7jr96sI+A4sG7iKvXWtQN70iwKTSebOUs0YRcAm0/9AIbfrCd2fJ8IU/uv37PPu5CURUDwP
- cLhp5QI/vRy3xXP1FKXt6Zbuf2GKhmYFdneVbjpNitp7K4Yz7MiypWynpJlnJ3X4NEfQKr6AEG
- aYspZO3OeiOV4WNwroh42FxHdJOXZOUNGZhLrBaKHvECxJ7GJKRqLUo9MDBeFRVIbY94JKly4O
- 0/Q=
+        Fri, 16 Aug 2019 04:40:07 -0400
+IronPort-SDR: 0ivwSocSH5t+njROyY2iShWDpFr0BZTPp6Ql7caAqGgLVAJE44YdoYJTLS0prcHyiiKK08Sj1H
+ 1me+JzWfJqeREOU4JPsj+AmJiyrkC82V0W35RTW+CwhJzzKV4hIkquXMCZhDxF538J4f6Tz6Mk
+ SMcqwAwN9X94hRrttOF+tM7r+7lmqg2Yxnhn4t513GNTSYsM5LgUS5sGq86j8zMkN0mz+wlZIn
+ hWAoj7VI2mUNCzXcTMSxoY/uIDjBWDGIhPu5PJNBzv+TjDWvGj3mKbfeCi/r7yshhskc8uXUAX
+ 3r8=
 X-IronPort-AV: E=Sophos;i="5.64,391,1559548800"; 
-   d="scan'208";a="40484246"
+   d="scan'208";a="40484248"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:32:58 -0800
-IronPort-SDR: cOWxn1GS6OhR2EzAAfq+GSQu+yyU3QackfO41LJpuJKuxZIl0FudhhWraYJD3ilxNzDqs9MLaR
- 6FutsMkbuQWD2Ae0KMOKKRzjX9w2o4dI0rYJmpW5TA3wNpxrSIe4EhjUDZKAsJ4NPNv2gsNnEC
- 7mtXWufrN3yJ0aeuwI0Ujr/M0q086eSX/qpqa7ENNCNqaDMX1wcrcpJFI4HRvNCPNAOU3RMeH2
- yxLuLcxfqQFbS8LH/VQDMrZdSGd3CjThyUepjjGex8yJr/d7S6MoF1KDUQcs0t/ANJGCjxWXmm
- zUQ=
+  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:33:02 -0800
+IronPort-SDR: U779ohsLHQY+TGeVqIr6nGEKNsN3nI748qUitWSvxcdsJUIORqTimDL4YG/8rxi+83DyqFQ1gi
+ ZlT+dTOD1G7SgrM4w2s7SoPP9fCZlvPwXpX/VFBvoZvuP0OC5rAs4dxN9/4YpPgupRiFmd/FrX
+ c15o589xclkzbSksLXjAevD94pxtZ3u03W/ILraJZehyzNTO6V1TLnS6ydMsdTSpdCYQW7AgcF
+ pkFtyWRKU2gLioa+n7y7nB4FPMdbRGfR/+dP6R6m8h0Rt+UDbFzEH1+4shJcsiLr2TuPDY8Wgg
+ OMU=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v1 18/63] Input: atmel_mxt_ts - add config checksum attribute to sysfs
-Date:   Fri, 16 Aug 2019 17:32:12 +0900
-Message-ID: <20190816083257.18546-4-jiada_wang@mentor.com>
+Subject: [PATCH v1 19/63] Input: atmel_mxt_ts - check data->input_dev is not null in mxt_input_sync()
+Date:   Fri, 16 Aug 2019 17:32:13 +0900
+Message-ID: <20190816083257.18546-5-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190816083257.18546-1-jiada_wang@mentor.com>
 References: <20190816083257.18546-1-jiada_wang@mentor.com>
@@ -46,52 +46,50 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: karl tsou <karl.funlab@gmail.com>
+From: Janus Cheng <drxaero@gmail.com>
+
+* Symptom: if update_fw and update_cfg, kernel panic occurs.
+* Reproducibility: 10%
+* Root Cause:
+  - If update_fw, the T6 will send a CFG_ERR message periodically.
+  - After that, update_cfg process begin, the mxt_update_cfg_store() will
+    invoke mxt_free_input_device() and nullify data->input_dev.
+  - The CFG_ERR message will trigger mxt_interrupt(), and mxt_input_sync()
+    will be invoked by mxt_process_messages_t44(). And mxt_input_sync()
+    references a NULL data->input_dev and kernel panic occurs.
+
+TrackerRMS TKT-004235
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-(cherry picked from ndyer/linux/for-upstream commit 03477477ddbe5dcad42853ab3f84166a8f807acf)
-[gdavis: Forward port and fix conflicts.]
+(cherry picked from ndyer/linux/for-upstream commit c909ada856861f305653b127db3ea0fa60264331)
+[gdavis: Resolve forward port conflicts due to applying upstream
+	 commit 96a938aa214e ("Input: atmel_mxt_ts - remove platform
+	 data support").]
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 4f335c3da994..a4f8364ecca9 100644
+index a4f8364ecca9..99e5c84d207a 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -3122,6 +3122,15 @@ static int mxt_configure_objects(struct mxt_data *data,
- 	return error;
+@@ -837,9 +837,11 @@ static void mxt_input_button(struct mxt_data *data, u8 *message)
+ 
+ static void mxt_input_sync(struct mxt_data *data)
+ {
+-	input_mt_report_pointer_emulation(data->input_dev,
+-					  data->t19_num_keys);
+-	input_sync(data->input_dev);
++	if (data->input_dev) {
++		input_mt_report_pointer_emulation(data->input_dev,
++						  data->t19_num_keys);
++		input_sync(data->input_dev);
++	}
  }
  
-+/* Configuration crc check sum is returned as hex xxxxxx */
-+static ssize_t mxt_config_crc_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%06x\n", data->config_crc);
-+}
-+
- /* Firmware Version is returned as Major.Minor.Build */
- static ssize_t mxt_fw_version_show(struct device *dev,
- 				   struct device_attribute *attr, char *buf)
-@@ -3475,12 +3484,14 @@ static DEVICE_ATTR(fw_version, S_IRUGO, mxt_fw_version_show, NULL);
- static DEVICE_ATTR(hw_version, S_IRUGO, mxt_hw_version_show, NULL);
- static DEVICE_ATTR(object, S_IRUGO, mxt_object_show, NULL);
- static DEVICE_ATTR(update_cfg, S_IWUSR, NULL, mxt_update_cfg_store);
-+static DEVICE_ATTR(config_crc, S_IRUGO, mxt_config_crc_show, NULL);
- 
- static struct attribute *mxt_attrs[] = {
- 	&dev_attr_fw_version.attr,
- 	&dev_attr_hw_version.attr,
- 	&dev_attr_object.attr,
- 	&dev_attr_update_cfg.attr,
-+	&dev_attr_config_crc.attr,
- 	NULL
- };
- 
+ static void mxt_proc_t9_message(struct mxt_data *data, u8 *message)
 -- 
 2.19.2
 
