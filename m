@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B2AC8FDF8
+	by mail.lfdr.de (Postfix) with ESMTP id E4AD88FDF9
 	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:37:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726882AbfHPIg7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Aug 2019 04:36:59 -0400
+        id S1726842AbfHPIhB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Aug 2019 04:37:01 -0400
 Received: from esa4.mentor.iphmx.com ([68.232.137.252]:36109 "EHLO
         esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726810AbfHPIg6 (ORCPT
+        with ESMTP id S1726810AbfHPIhB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:36:58 -0400
-IronPort-SDR: DiYysd6yvNtLf0bMDyWvxoGBCiMDI3MYcjOfCaJArQsKeVTWf03P6QE6mLdvzMEzcM5eAtAxPz
- NxKQznCEA4U8T+/DTaD3DQZP2C2CBTP0Tb66U10fFrBS/nwiNOVI/iWt4lGQaQc5eBP7tbhhax
- vcuxO5wNUUUSjcYc/JvRb5aeqV4bUbj8vEmbaK8WzvB34WvRtWPAJkMuz0uoY1ImtWv83GvdSC
- YQVb+dBjl0YaL/xsCMsv2zMPs+X8VduiHCDOElOt81dU5QLefFVd1zbSnxxmBZRwlkjpQY0G4k
- Gzo=
+        Fri, 16 Aug 2019 04:37:01 -0400
+IronPort-SDR: ReNLheUIcuh8SSEsLyGPy1pfzmFqfpLXYqPXO/PuqnFMbgytdO5+eBXGehayrkcwXtr9T7VLEm
+ cCwAqk9Qo7nOS6AhPaFVwuy9eXvrqy45eWtqFZZiM5xHsBe3Js0D10vhyZKQBaUVvxD/yPDr8E
+ dJ8MUSW+QNpYkdtT5uDVk/79gQgPJFO8iM9dVWHPSMXVBaK6teTYgzsGegeeSSbFR63ZqsuVb/
+ 49uiT7RywV98a8kGEWrsiDrk+1cVjlFoc6bsZGmTWNcrZUoY0uNwRWDp/XWmhVOgDkLb+zVDLE
+ hdE=
 X-IronPort-AV: E=Sophos;i="5.64,391,1559548800"; 
-   d="scan'208";a="40518975"
+   d="scan'208";a="40518977"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa4.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:29:51 -0800
-IronPort-SDR: GDG+4iOkebz3YHOdHYnujUGG4uFTLsHyhYK4bsWcvb38apiLbtAc8zOFQ7rq2xjzqKqmvVSFQi
- mMYBiMU6wtXJ6VbMQk5pGXrSvTPruf/bb+R7wjQWap5Fk4FapLw86WFOWJTDgWmion0sLDPo4E
- 87Hf685h1B0yqYsYx1eDVFdYKgA/BCyqiIw/f4s+uIi3xjx/pNdqky09qifQZ77wSYeYDknRHE
- cR0Dx7LSkoEbgAj2RC/LXoRl+CJtA+b8+QcrrMrPezYSuh0aTynJb48P6B0+RtuH74KCgz29Wg
- 1nI=
+  by esa4.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:29:55 -0800
+IronPort-SDR: R3E1uA730EC2UL2bG2Sf/EHt7+o/g4MY7yiqeYt96rQsrEqwtRyO15E1YNuIegO3S2/wo9HQbl
+ NqOEj6ho9k/8El5Uussojyu2atFdGpo3KtCj5mtEXPQ1RaKI6C75fbJdMfSgZKq+bUJoOcZBS4
+ Xi9/uPkqqdA/zg2oLpvft6TaUPX63LiezTxuGWPU49s/MSOanelkuZaZ0qFgkqWZQjRLz2620a
+ 2bUlaIAgYhRiPF1TvaB5pgGZSXT0MWxUnY88+jJmHCVgPS/edFlXMXGug0gcTUR3hDCcV4+P7i
+ nXA=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v1 02/63] Input: atmel_mxt_ts - rework sysfs init/remove
-Date:   Fri, 16 Aug 2019 17:28:51 +0900
-Message-ID: <20190816082952.17985-3-jiada_wang@mentor.com>
+Subject: [PATCH v1 03/63] Input: atmel_mxt_ts - only read messages in mxt_acquire_irq() when necessary
+Date:   Fri, 16 Aug 2019 17:28:52 +0900
+Message-ID: <20190816082952.17985-4-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190816082952.17985-1-jiada_wang@mentor.com>
 References: <20190816082952.17985-1-jiada_wang@mentor.com>
@@ -48,166 +48,154 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-An error in the sysfs init may otherwise interfere with the async return
-from the firmware loader
+The workaround of reading all messages until an invalid is received is a
+way of forcing the CHG line high, which means that when using
+edge-triggered interrupts the interrupt can be acquired.
+
+With level-triggered interrupts the workaround is unnecessary.
+
+Also, most recent maXTouch chips have a feature called RETRIGEN which, when
+enabled, reasserts the interrupt line every cycle if there are messages
+waiting. This also makes the workaround unnecessary.
+
+Note: the RETRIGEN feature is only in some firmware versions/chips, it's
+not valid simply to enable the bit.
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-(cherry picked from ndyer/linux/for-upstream commit 3114584ae77c2b03b6dad87174f010d002e9c05d)
-[gdavis: Forward port and fixup conflicts. Also fixed sysfs leaks in
-	 both the mxt_initialize() and mxt_probe() error return cases.]
+Acked-by: Benson Leung <bleung@chromium.org>
+Acked-by: Yufeng Shen <miletus@chromium.org>
+(cherry picked from ndyer/linux/for-upstream commit 1ae4e8281e491b22442cd5acdfca1862555f8ecb)
+[gdavis: Fix conflicts due to v4.6-rc7 commit eb43335c4095 ("Input:
+	 atmel_mxt_ts - use mxt_acquire_irq in mxt_soft_reset").]
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 71 +++++++++++++++++++-----
- 1 file changed, 57 insertions(+), 14 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 49 ++++++++++++++++++++++--
+ 1 file changed, 46 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 573b94a049b2..79e35c929857 100644
+index 79e35c929857..9b165d23e092 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -2090,6 +2090,9 @@ static int mxt_initialize_input_device(struct mxt_data *data)
- 	return error;
- }
+@@ -20,6 +20,7 @@
+ #include <linux/i2c.h>
+ #include <linux/input/mt.h>
+ #include <linux/interrupt.h>
++#include <linux/irq.h>
+ #include <linux/of.h>
+ #include <linux/property.h>
+ #include <linux/slab.h>
+@@ -129,6 +130,7 @@ struct t9_range {
+ /* MXT_SPT_COMMSCONFIG_T18 */
+ #define MXT_COMMS_CTRL		0
+ #define MXT_COMMS_CMD		1
++#define MXT_COMMS_RETRIGEN      BIT(6)
  
-+static int mxt_sysfs_init(struct mxt_data *data);
-+static void mxt_sysfs_remove(struct mxt_data *data);
-+
- static int mxt_configure_objects(struct mxt_data *data,
- 				 const struct firmware *cfg);
+ /* MXT_DEBUG_DIAGNOSTIC_T37 */
+ #define MXT_DIAGNOSTIC_PAGEUP	0x01
+@@ -308,6 +310,7 @@ struct mxt_data {
+ 	struct t7_config t7_cfg;
+ 	struct mxt_dbg dbg;
+ 	struct gpio_desc *reset_gpio;
++	bool use_retrigen_workaround;
  
-@@ -2141,16 +2144,24 @@ static int mxt_initialize(struct mxt_data *data)
- 	if (error)
- 		return error;
+ 	/* Cached parameters from object table */
+ 	u16 T5_address;
+@@ -318,6 +321,7 @@ struct mxt_data {
+ 	u16 T71_address;
+ 	u8 T9_reportid_min;
+ 	u8 T9_reportid_max;
++	u16 T18_address;
+ 	u8 T19_reportid;
+ 	u16 T44_address;
+ 	u8 T100_reportid_min;
+@@ -1190,9 +1194,11 @@ static int mxt_acquire_irq(struct mxt_data *data)
  
-+	error = mxt_sysfs_init(data);
-+	if (error)
-+		return error;
-+
- 	error = request_firmware_nowait(THIS_MODULE, true, MXT_CFG_NAME,
- 					&client->dev, GFP_KERNEL, data,
- 					mxt_config_cb);
- 	if (error) {
- 		dev_err(&client->dev, "Failed to invoke firmware loader: %d\n",
- 			error);
+ 	enable_irq(data->irq);
+ 
+-	error = mxt_process_messages_until_invalid(data);
+-	if (error)
 -		return error;
-+		goto err_free_sysfs;
- 	}
++	if (data->use_retrigen_workaround) {
++		error = mxt_process_messages_until_invalid(data);
++		if (error)
++			return error;
++	}
  
  	return 0;
-+
-+err_free_sysfs:
-+	mxt_sysfs_remove(data);
-+	return error;
+ }
+@@ -1282,6 +1288,31 @@ static u32 mxt_calculate_crc(u8 *base, off_t start_off, off_t end_off)
+ 	return crc;
  }
  
- static int mxt_set_t7_power_cfg(struct mxt_data *data, u8 sleep)
-@@ -2803,6 +2814,7 @@ static int mxt_load_fw(struct device *dev, const char *fn)
- 		if (ret)
- 			goto release_firmware;
- 
-+		mxt_sysfs_remove(data);
- 		mxt_free_input_device(data);
- 		mxt_free_object_table(data);
- 	} else {
-@@ -2909,16 +2921,25 @@ static ssize_t mxt_update_fw_store(struct device *dev,
- 	return count;
- }
- 
-+static DEVICE_ATTR(update_fw, S_IWUSR, NULL, mxt_update_fw_store);
-+
-+static struct attribute *mxt_fw_attrs[] = {
-+	&dev_attr_update_fw.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group mxt_fw_attr_group = {
-+	.attrs = mxt_fw_attrs,
-+};
-+
- static DEVICE_ATTR(fw_version, S_IRUGO, mxt_fw_version_show, NULL);
- static DEVICE_ATTR(hw_version, S_IRUGO, mxt_hw_version_show, NULL);
- static DEVICE_ATTR(object, S_IRUGO, mxt_object_show, NULL);
--static DEVICE_ATTR(update_fw, S_IWUSR, NULL, mxt_update_fw_store);
- 
- static struct attribute *mxt_attrs[] = {
- 	&dev_attr_fw_version.attr,
- 	&dev_attr_hw_version.attr,
- 	&dev_attr_object.attr,
--	&dev_attr_update_fw.attr,
- 	NULL
- };
- 
-@@ -2926,6 +2947,28 @@ static const struct attribute_group mxt_attr_group = {
- 	.attrs = mxt_attrs,
- };
- 
-+static int mxt_sysfs_init(struct mxt_data *data)
++static int mxt_check_retrigen(struct mxt_data *data)
 +{
 +	struct i2c_client *client = data->client;
 +	int error;
++	int val;
 +
-+	error = sysfs_create_group(&client->dev.kobj, &mxt_attr_group);
-+	if (error) {
-+		dev_err(&client->dev, "Failure %d creating sysfs group\n",
-+			error);
-+		return error;
++	if (irq_get_trigger_type(data->irq) & IRQF_TRIGGER_LOW)
++		return 0;
++
++	if (data->T18_address) {
++		error = __mxt_read_reg(client,
++				       data->T18_address + MXT_COMMS_CTRL,
++				       1, &val);
++		if (error)
++			return error;
++
++		if (val & MXT_COMMS_RETRIGEN)
++			return 0;
 +	}
 +
++	dev_warn(&client->dev, "Enabling RETRIGEN workaround\n");
++	data->use_retrigen_workaround = true;
 +	return 0;
 +}
 +
-+static void mxt_sysfs_remove(struct mxt_data *data)
-+{
-+	struct i2c_client *client = data->client;
-+
-+	sysfs_remove_group(&client->dev.kobj, &mxt_attr_group);
-+}
-+
- static void mxt_start(struct mxt_data *data)
+ static int mxt_prepare_cfg_mem(struct mxt_data *data, struct mxt_cfg *cfg)
  {
- 	switch (data->suspend_mode) {
-@@ -3109,22 +3152,21 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		msleep(MXT_RESET_INVALID_CHG);
- 	}
+ 	struct device *dev = &data->client->dev;
+@@ -1561,6 +1592,10 @@ static int mxt_update_cfg(struct mxt_data *data, const struct firmware *fw)
  
--	error = mxt_initialize(data);
--	if (error)
--		return error;
--
--	error = sysfs_create_group(&client->dev.kobj, &mxt_attr_group);
-+	error = sysfs_create_group(&client->dev.kobj, &mxt_fw_attr_group);
- 	if (error) {
--		dev_err(&client->dev, "Failure %d creating sysfs group\n",
-+		dev_err(&client->dev, "Failure %d creating fw sysfs group\n",
- 			error);
--		goto err_free_object;
-+		return error;
- 	}
+ 	mxt_update_crc(data, MXT_COMMAND_BACKUPNV, MXT_BACKUP_VALUE);
  
-+	error = mxt_initialize(data);
-+	if (error)
-+		goto err_sysfs_remove_group;
++	ret = mxt_check_retrigen(data);
++	if (ret)
++		goto release_mem;
 +
- 	return 0;
+ 	ret = mxt_soft_reset(data);
+ 	if (ret)
+ 		goto release_mem;
+@@ -1604,6 +1639,7 @@ static void mxt_free_object_table(struct mxt_data *data)
+ 	data->T71_address = 0;
+ 	data->T9_reportid_min = 0;
+ 	data->T9_reportid_max = 0;
++	data->T18_address = 0;
+ 	data->T19_reportid = 0;
+ 	data->T44_address = 0;
+ 	data->T100_reportid_min = 0;
+@@ -1678,6 +1714,9 @@ static int mxt_parse_object_table(struct mxt_data *data,
+ 						object->num_report_ids - 1;
+ 			data->num_touchids = object->num_report_ids;
+ 			break;
++		case MXT_SPT_COMMSCONFIG_T18:
++			data->T18_address = object->start_address;
++			break;
+ 		case MXT_SPT_MESSAGECOUNT_T44:
+ 			data->T44_address = object->start_address;
+ 			break;
+@@ -2140,6 +2179,10 @@ static int mxt_initialize(struct mxt_data *data)
+ 		msleep(MXT_FW_RESET_TIME);
+ 	}
  
--err_free_object:
--	mxt_free_input_device(data);
--	mxt_free_object_table(data);
-+err_sysfs_remove_group:
-+	sysfs_remove_group(&client->dev.kobj, &mxt_fw_attr_group);
- 	return error;
- }
- 
-@@ -3133,7 +3175,8 @@ static int mxt_remove(struct i2c_client *client)
- 	struct mxt_data *data = i2c_get_clientdata(client);
- 
- 	disable_irq(data->irq);
--	sysfs_remove_group(&client->dev.kobj, &mxt_attr_group);
-+	sysfs_remove_group(&client->dev.kobj, &mxt_fw_attr_group);
-+	mxt_sysfs_remove(data);
- 	mxt_free_input_device(data);
- 	mxt_free_object_table(data);
- 
++	error = mxt_check_retrigen(data);
++	if (error)
++		return error;
++
+ 	error = mxt_acquire_irq(data);
+ 	if (error)
+ 		return error;
 -- 
 2.19.2
 
