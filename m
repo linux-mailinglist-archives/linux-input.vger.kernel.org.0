@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 440698FE5A
-	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:41:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F31E8FE26
+	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727315AbfHPIk1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Aug 2019 04:40:27 -0400
+        id S1727367AbfHPIif (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Aug 2019 04:38:35 -0400
 Received: from esa3.mentor.iphmx.com ([68.232.137.180]:42029 "EHLO
         esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727333AbfHPIib (ORCPT
+        with ESMTP id S1727366AbfHPIie (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:38:31 -0400
-IronPort-SDR: Ly78b6QebDGjPRsRWo/DQT8E5vqEupeRcJoVVX5/GPzdLaK6e1hSgco8Kv7Ksza2tf2nTdCPkI
- xPR0i8ZB7rmYFWmHKLcEZs2VOIXUL4I+2s+bUc8PcU9kOtHY8smrTzOiM6p6ls0laStrFYwdOB
- pmFVhu2Azydxo2i9bdOU3JN0PIpOig1F7nPdMD9hTXXxDfcXYN0/SLTg9iq2NOLYSIxqWPj5G8
- hiY0rUgYOJDt4med7lmRcjR2imzkp49Do6sotOFKHtyorND/7fIhE1jjPsY8PeVcB/hHtl5Gaw
- lsg=
+        Fri, 16 Aug 2019 04:38:34 -0400
+IronPort-SDR: XERSumQLEwzao22T1ipSoftfuHzTe66UGffkKgp67DHuqL/RMHZLLK0s1Nl1BWGKv4X8oQP2UY
+ 2qA2A3AcR9NJhmpqOErGP0p4RJDJCmwIpuBlYgnikRt3LJ8EbjHBCt6leqlXM8d+vKVix6VAxg
+ TKNpebvMmGuW5HME0L9ZnIFOHLjcbgfD/xhoQWpneNJqKEZfB54DqdYFk4ylmhh3piwbao3G/q
+ ltD1wj01rddUHhNX/MHicHr7fn6pe4LLhfqlz9yhpb5E5DCxVf5Z8sRfMnJCrFPQl4mtO1U7C6
+ qJk=
 X-IronPort-AV: E=Sophos;i="5.64,391,1559548800"; 
-   d="scan'208";a="40507250"
+   d="scan'208";a="40507251"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa3.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:38:30 -0800
-IronPort-SDR: 2k0m6Ynn8cFlHoqfMBk1ZPmQ1p0/8WV836a51VjtBgp0aKLZwqgoRrRF59OZQ8TeezQ1mHngvF
- V7ZO6eVqD+ZBGm3V7N8KLsJKtEE4r7k9stItbpaFGZQsFjJ3kfU2dteBy2b55HtvwdKbuZd0Kk
- IazP7mUAGkUm6ZJvsPRZ+gusfW/C3G8Er9WXYIZYzaSmGhPVm36Jb3H7U5yl6soBJvH6lkbkAz
- SKkXa1jR1hBPAXKw5WPkqTtIwn58ccM08YTsaRUsO5e+Qxh1y2YKSNalRMKXGL4RkAMXvr6MQr
- M0Y=
+  by esa3.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:38:33 -0800
+IronPort-SDR: T2VK5ySOgnjFEA/4txlIECe+/Xsy0+IXGiNFBMWiT5xDLZmg1LT3Gz8btLAPk5oTZ+IuOUDxJZ
+ jzpP/q7IFXGoVI8K/as0d+WcMTDxGdUhVCSkZcLr0Wg2PDO7lF23ALiQ7ktWwhGZBYD4ub2EV5
+ Wyl17Vb6e8UvZUyshjBjUZzuRskpwRuwwvs3C21ye8sDUZLJrKno9yqAuxZVFDVTjOB3rNPzNn
+ hBawcgLu1i5mBAxTTr5syVjtoc04zYAAWwtAiUNf5GDhm57GwN7vmw+yUqHwPscF94UU5HXvXk
+ mtc=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v1 58/63] Input: atmel_mxt_ts: Remove sysfs attributes during driver detach
-Date:   Fri, 16 Aug 2019 17:38:25 +0900
-Message-ID: <20190816083830.19553-4-jiada_wang@mentor.com>
+Subject: [PATCH v1 59/63] Input: atmel_mxt_ts: Prevent crash due to freeing of input device
+Date:   Fri, 16 Aug 2019 17:38:26 +0900
+Message-ID: <20190816083830.19553-5-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190816083830.19553-1-jiada_wang@mentor.com>
 References: <20190816083830.19553-1-jiada_wang@mentor.com>
@@ -46,44 +46,80 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Sanjeev Chugh <Sanjeev_Chugh@mentor.com>
+From: Bhuvanesh Surachari <Bhuvanesh_Surachari@mentor.com>
 
-This change prevents a scenario when sysfs attributes for Atmel touch
-controller driver are being accessed by userland while touch driver
-module unloading has already begun. At present, sysfs attribute files
-are created at device probe but they are not removed while driver is
-being detached.
+Move sysfs creation after intializing the input device to
+prevent crash due to freeing of input device by function via sysfs.
 
-This change will prevent calls to generic driver layer when the sysfs
-driver attributes files are already deleted. Therefore, kernel will not
-attempt to invoke driver routines for showing the sysfs atrributes.
-
-Signed-off-by: Sanjeev Chugh <Sanjeev_Chugh@mentor.com>
+Signed-off-by: Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
+Signed-off-by: Sanjeev Chugh <sanjeev_chugh@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 234e3031ba42..431c2c54eab0 100644
+index 431c2c54eab0..8e95f46a30d7 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -2255,10 +2255,12 @@ static int mxt_update_cfg(struct mxt_data *data, const struct firmware *fw)
- static void mxt_free_input_device(struct mxt_data *data)
- {
- 	if (data->input_dev) {
--		struct input_dev *dev = data->input_dev;
-+		struct input_dev *input_dev = data->input_dev;
- 
- 		data->input_dev = NULL;
--		input_unregister_device(dev);
-+		sysfs_remove_group(&input_dev->dev.kobj,
-+				   &data->gpio_attrs);
-+		input_unregister_device(input_dev);
+@@ -2962,6 +2962,8 @@ static int mxt_initialize_input_device(struct mxt_data *data)
+ 		goto err_free_mem;
  	}
- }
  
++	data->input_dev = input_dev;
++
+ 	if (data->gpio_attrs.attrs) {
+ 		error = sysfs_create_group(&input_dev->dev.kobj,
+ 					   &data->gpio_attrs);
+@@ -2972,11 +2974,10 @@ static int mxt_initialize_input_device(struct mxt_data *data)
+ 		}
+ 	}
+ 
+-	data->input_dev = input_dev;
+-
+ 	return 0;
+ 
+ err_free_mem:
++	data->input_dev = NULL;
+ 	input_free_device(input_dev);
+ 	return error;
+ }
+@@ -4597,13 +4598,6 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 		msleep(MXT_RESET_TIME);
+ 	}
+ 
+-	error = sysfs_create_group(&client->dev.kobj, &mxt_fw_attr_group);
+-	if (error) {
+-		dev_err(&client->dev, "Failure %d creating fw sysfs group\n",
+-			error);
+-		return error;
+-	}
+-
+ 	INIT_WORK(&data->watchdog_work, mxt_watchdog_work);
+ 
+ 	/* setup watchdog timer */
+@@ -4613,11 +4607,18 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 
+ 	error = mxt_initialize(data);
+ 	if (error)
+-		goto err_free_object;
++		goto err_del_wd_timer;
++
++	error = sysfs_create_group(&client->dev.kobj, &mxt_fw_attr_group);
++	if (error) {
++		dev_err(&client->dev, "Failure %d creating fw sysfs group\n",
++			error);
++		goto err_del_wd_timer;
++	}
+ 
+ 	return 0;
+ 
+-err_free_object:
++err_del_wd_timer:
+ 	cancel_work_sync(&data->watchdog_work);
+ 	mxt_stop_wd_timer(data);
+ 	mxt_free_input_device(data);
 -- 
 2.19.2
 
