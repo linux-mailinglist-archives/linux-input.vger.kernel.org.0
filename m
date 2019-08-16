@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A44CA8FE3A
-	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C95F8FE3C
+	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727052AbfHPIjE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Aug 2019 04:39:04 -0400
+        id S1727041AbfHPIjJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Aug 2019 04:39:09 -0400
 Received: from esa2.mentor.iphmx.com ([68.232.141.98]:1982 "EHLO
         esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727041AbfHPIjE (ORCPT
+        with ESMTP id S1727042AbfHPIjE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Fri, 16 Aug 2019 04:39:04 -0400
-IronPort-SDR: rnwDgqUG3xmR0wtwdABN0hMygBAECTJ1UT2q0lb+Idy2CdgQiBsYLctuAmGMBXP196e7amLRSL
- 1XlbcrdNfo8/pbdB7GVOQFoFVu+k58GUFbQQ2uWPMNFDG55z3mZfcNKN3Nm4nLpdqCHleu0ZLl
- Oh8s/xvMq6i0EhEmMpgIiUl5kYEP1Leg2Wsh12Gee8Gooc29M5RUO8mo9X205yHFR0T/To5WxV
- 2rf6rYRdvnlSgezb+RLrXRnqT299J8h9IjL9XDFA5c+Y1F8eaBRqiM6DDXJmMxXO+0sKln2mnv
- fwo=
+IronPort-SDR: /WgcQufq0UnD4IkzvHbzwsgL0ldP0dSORU93PeD1tsHU2SA1wrP+GjPe6hzGiUm+cEn3bqYIiq
+ cvM4sXeKtTlF7RTc8qOwpkbS8F7liw4MFi+LS0jxoEB18y6rPJn0aR7kn2rvA1clVqHIgdYUYc
+ kXXncZDPZ9UAShnE7y5mfcmwL7tAqm8CbcCuazpq07QVsXJumP//LfvUzgssSk6gUqjkP59yWc
+ B5kCQkk9IP8vMNIs/S/2oonMrB9Rj1TabJnkbQR7MgqvkgsZPChkSd/YGa+Wk+nd0dp0H4EW/9
+ mVQ=
 X-IronPort-AV: E=Sophos;i="5.64,391,1559548800"; 
-   d="scan'208";a="40484326"
+   d="scan'208";a="40484327"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:35:59 -0800
-IronPort-SDR: /ANvxHRvxgDKA6tGt6y914PfrODrzSoMNWY4pUS4PGVl2eB8WiWGX2K9lRd/A7A1tF3DDVzMnm
- SzNq9bebixDf2eMsBFi8yGXmgjRhzGVccAUgBE6Q+r61WniA+yUW7zUa+Iy0paFEHOHUAA+QXZ
- puXX71G+YdwmgVV9Py8FcUZj4OdEVHN4fd/WEH9JHQE1wIucKWWSaU4n4zSeejTqiGZ772/ZgA
- 4VdZKzOJLhiNaI/KV6FuHtHfShOLhCGJ9CkHTezU07IgRwq3hms0s6ApiO0CLW95/9NLW+1Y4N
- IzQ=
+  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:36:02 -0800
+IronPort-SDR: hS5dIKkLQR0nnEiyMntKgyyRj9f4vJ9xOQw/VT9czNqRZmsmAT6q5m3LadHoLcHqQJg75FvjuO
+ nzO6Mk0KxFQBacgS1wrMvW8Xsx36cVjEr0oIy6/UWxkkM1qQVamMILwWluozXhLl/ImfYzmjdU
+ tqIGWkukIzSCb+AKvtt9We9xNqov9aMG3LRXdnNHiLw6j2oNH14vQrRDw3+jE8OkkhElKPjqyC
+ EXCbTmLuuizl8cLHE2VYcUkXRgGzPoRXWXBgj/ADQJAbJuam5e2MlG9PtuUo6FdSQLbTP91XCC
+ cbg=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v1 43/63] Input: atmel_mxt_ts: update stale use_retrigen_workaround flag
-Date:   Fri, 16 Aug 2019 17:35:38 +0900
-Message-ID: <20190816083558.19189-4-jiada_wang@mentor.com>
+Subject: [PATCH v1 44/63] Input: atmel_mxt_ts: return error from mxt_process_messages_until_invalid()
+Date:   Fri, 16 Aug 2019 17:35:39 +0900
+Message-ID: <20190816083558.19189-5-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190816083558.19189-1-jiada_wang@mentor.com>
 References: <20190816083558.19189-1-jiada_wang@mentor.com>
@@ -46,14 +46,13 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
+From: Dean Jenkins <Dean_Jenkins@mentor.com>
 
-If after configuration update, retrigen status is enabled, the
-mxt_check_retrigen() function, called after configuration update,
-does not clear the use_retrigen_workaround flag, if it was previously
-set.
+mxt_process_messages_until_invalid() failed to propagate the error
+code from mxt_read_and_process_messages() so return the error code.
 
-Signed-off-by: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
+Signed-off-by: Dean Jenkins <Dean_Jenkins@mentor.com>
+Signed-off-by: Deepak Das <deepak_das@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
@@ -61,18 +60,18 @@ Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index e315ad3a8d2a..b3d40390abb6 100644
+index b3d40390abb6..ed5b98c067e8 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -1857,6 +1857,8 @@ static int mxt_check_retrigen(struct mxt_data *data)
- 	int error;
- 	int val;
- 
-+	data->use_retrigen_workaround = false;
-+
- 	if (irq_get_trigger_type(data->irq) & IRQF_TRIGGER_LOW)
- 		return 0;
- 
+@@ -1551,6 +1551,8 @@ static int mxt_process_messages_until_invalid(struct mxt_data *data)
+ 	/* Read messages until we force an invalid */
+ 	do {
+ 		read = mxt_read_and_process_messages(data, count);
++		if (read < 0)
++			return read;
+ 		if (read < count)
+ 			return 0;
+ 	} while (--tries);
 -- 
 2.19.2
 
