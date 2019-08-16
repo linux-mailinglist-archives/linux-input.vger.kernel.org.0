@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84B8C8FE01
-	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EA0B8FE03
+	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:38:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727035AbfHPIh0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Aug 2019 04:37:26 -0400
+        id S1727072AbfHPIhb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Aug 2019 04:37:31 -0400
 Received: from esa2.mentor.iphmx.com ([68.232.141.98]:1919 "EHLO
         esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726810AbfHPIh0 (ORCPT
+        with ESMTP id S1726810AbfHPIh2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:37:26 -0400
+        Fri, 16 Aug 2019 04:37:28 -0400
 X-Greylist: delayed 306 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Aug 2019 04:37:16 EDT
-IronPort-SDR: kWNcfRYQMgWX4Dr4DT+JqrmPT6u5yKmBCnZhjyRZ0BI7N7+XCkFg7t1/mCqSXeiEDnp2sAt81C
- HfoqmhzpPuc+rPK805G4Yz/3R+4F7aYt6AI2vrIViWF7nsGmR0RGCF5v0cEs+rM2eowZRvXa80
- bEsZzknKy3koX7OyOAqqbOKT8Fz7BEcjyiVUcDR8dol0HbYqpm0SR0ZN4UWUcrXI7u88rMzFqi
- CAcZ1Qokz8CLqF8Q8ddjKt90zSWhJ5hzw8YdU+sYo/n3/N3orA41kBfu2XtinNz5Jq6F/A7Amw
- /cc=
+IronPort-SDR: 46TX7M5M37P8wAjP48FKCRPO9OQed3xgGgJkJ/hsCb6T5ilfGdfPcEtkd9Fx7cuq1vlW/auLDi
+ LnyLGw2k8IDBDv0ilPEg9Mgax5RzdTk05+0eTUeyjpgj/TwBGKa6jpBHGhCX827gJUKRLwwl6Z
+ T9hwTGTgZn/CP55MhQJAWhKDllnsZPywa1ICKyV+nEmZRjUsBgaUmfa9Bi9glEUmhaNhsAbwzB
+ gpbQ2dCI/UEQVqVMEJ7qdpYgH+m415Z7FXX4jOk33bYls0bu+2HpHJP6nu+EV2sORAj2oHN8L5
+ Lko=
 X-IronPort-AV: E=Sophos;i="5.64,391,1559548800"; 
-   d="scan'208";a="40484356"
+   d="scan'208";a="40484358"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:37:24 -0800
-IronPort-SDR: E0BIwnwzgEIRUhRPHiwV4y/g4pExO7tdDvpod3o0QLHdvZHW/O2wh4Ym8TLoItcjjZ0unCIi53
- jqGD2bYEhPT98CHUvpaY3DyWfbt6b4BMBdLhbYFVqylqVov0AYOCIVdf3hdRYH+3nD5WxLRVQE
- LM6ltmu8s/wSZ5AYblvIa3yfCygw8Jh1hq178MNdyDGqib7DZhJNIQO70rEFjAGy+yDsknzEnW
- yJZKdQxQwOg3DWErFzPp96OS1vb7M10Fnqxp8Fg0oWVHfL6+8RQeM9PjnfLGHrFACjyz/6r2ms
- 69s=
+  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:37:27 -0800
+IronPort-SDR: Q6iKXML1o0G+yPHEyCng0OT2SY59gDhwzHlQ8uLw3h0O2PLhWc9uNWf3L2SEbPkUhzl3pWNWVP
+ GmWjIM0zhZki1r8eW11ayKq0apYl8aXZ8ttCpRZbIs1u5ebRorxf8K1xh8K0EPS7wwF5PSVa3o
+ W2amPgXX/CJwdszzziMSxokHLwOLjvWong5jfgvb3YnWiaEVXPc7ApKtbmiKb92cYzhDCfvUrz
+ ZeDOrH/C+7T0baQgf79c7wJYc4nNMbYF0gyYZJHHUI+2znTUnOTNtyWcLsH22TflGbr/THrxzR
+ pic=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v1 48/63] input: atmel_mxt_ts: move bootloader probe from mxt_initialize()
-Date:   Fri, 16 Aug 2019 17:37:09 +0900
-Message-ID: <20190816083724.19341-4-jiada_wang@mentor.com>
+Subject: [PATCH v1 49/63] Input: Atmel: Improve error handling in mxt_initialize_input_device()
+Date:   Fri, 16 Aug 2019 17:37:10 +0900
+Message-ID: <20190816083724.19341-5-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190816083724.19341-1-jiada_wang@mentor.com>
 References: <20190816083724.19341-1-jiada_wang@mentor.com>
@@ -49,85 +49,50 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Deepak Das <deepak_das@mentor.com>
 
-Validity of bootloader address is now checked before checking the
-bootloader status so mxt_lookup_bootloader_address() was moved
-from mxt_probe_bootloader() to mxt_initialize().
-Above changes added lot of bootloader mode verification code into
-mxt_initialize() which made this function longer and unreadable.
-mxt_bootloader_status() moves bootloader mode verification code from
-mxt_initialize() to make it cleaner.
+Currently Driver probe continues with a warning message when it fails to
+get the proper multitouch object configurations like TouchScreen resolution.
+But Driver probe should fail in case of above scneario because it will not behave
+as expected without the proper touchscreen configurations.
+
+This commit modifies mxt_initialize_input_device() to return error when it fails
+to get the proper touch screen configurations.
 
 Signed-off-by: Deepak Das <deepak_das@mentor.com>
+Signed-off-by: Dean Jenkins <Dean_Jenkins@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 45 +++++++++++++++---------
- 1 file changed, 28 insertions(+), 17 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index dec9f2b2c64d..27b908a50b66 100644
+index 27b908a50b66..b17af89a4711 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -2917,6 +2917,32 @@ static void mxt_config_cb(const struct firmware *cfg, void *ctx)
- 	release_firmware(cfg);
- }
- 
-+static int mxt_bootloader_status(struct mxt_data *data)
-+{
-+	struct i2c_client *client = data->client;
-+	int error;
-+
-+	error = mxt_lookup_bootloader_address(data, false);
-+	if (error) {
-+		dev_info(&client->dev,
-+			 "Bootloader address is not specified\n");
-+		return error;
-+	}
-+	/* Check bootloader state */
-+	error = mxt_probe_bootloader(data);
-+	if (error) {
-+		dev_info(&client->dev, "Trying alternate bootloader address\n");
-+		mxt_lookup_bootloader_address(data, true);
-+		error = mxt_probe_bootloader(data);
+@@ -2749,15 +2749,19 @@ static int mxt_initialize_input_device(struct mxt_data *data)
+ 	case MXT_TOUCH_MULTI_T9:
+ 		num_mt_slots = data->T9_reportid_max - data->T9_reportid_min + 1;
+ 		error = mxt_read_t9_resolution(data);
+-		if (error)
+-			dev_warn(dev, "Failed to initialize T9 resolution\n");
 +		if (error) {
-+			dev_err(&client->dev,
-+				"Chip is not in appmode or bootloader mode\n");
++			dev_err(dev, "Failed to initialize T9 resolution\n");
 +			return error;
 +		}
-+	}
-+	return 0;
-+}
-+
- static int mxt_initialize(struct mxt_data *data)
- {
- 	struct i2c_client *client = data->client;
-@@ -2932,24 +2958,9 @@ static int mxt_initialize(struct mxt_data *data)
- 			 "info block read failed (%d), so try bootloader method\n",
- 			 error);
+ 		break;
  
--		error = mxt_lookup_bootloader_address(data, false);
--		if (error) {
--			dev_info(&client->dev,
--				 "Bootloader address is not specified\n");
-+		error = mxt_bootloader_status(data);
-+		if (error)
- 			return error;
--		}
--		/* Check bootloader state */
--		error = mxt_probe_bootloader(data);
--		if (error) {
--			dev_info(&client->dev, "Trying alternate bootloader address\n");
--			mxt_lookup_bootloader_address(data, true);
--			error = mxt_probe_bootloader(data);
--			if (error) {
--				dev_err(&client->dev,
--					"Chip is not in appmode or bootloader mode\n");
--				return error;
--			}
--		}
+ 	case MXT_TOUCH_MULTITOUCHSCREEN_T100:
+ 		num_mt_slots = data->num_touchids;
+ 		error = mxt_read_t100_config(data);
+-		if (error)
+-			dev_warn(dev, "Failed to read T100 config\n");
++		if (error) {
++			dev_err(dev, "Failed to read T100 config\n");
++			return error;
++		}
+ 		break;
  
- 		/* OK, we are in bootloader, see if we can recover */
- 		if (++recovery_attempts > 1) {
+ 	default:
 -- 
 2.19.2
 
