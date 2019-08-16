@@ -2,118 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF3BE8FE10
-	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF03E8FE22
+	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727238AbfHPIiC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Aug 2019 04:38:02 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:36144 "EHLO
-        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727181AbfHPIiC (ORCPT
+        id S1727339AbfHPIib (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Aug 2019 04:38:31 -0400
+Received: from esa1.mentor.iphmx.com ([68.232.129.153]:53868 "EHLO
+        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727320AbfHPIia (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:38:02 -0400
-IronPort-SDR: TKOiwvEd9WJt74ZmCY4xqKrAoSmyGEf9JE4NoNW/kaiMg/AYeZyn+aDjSkw+n8dmfR9P9laQdz
- HnnhMWx5w/Wb+Iav+4XyvnCPnynCHhmP1MDJ1rX+qkQnsjSRspe2bL6rjTujUcpFmHxFVU/ElG
- Eiw+2rDBCptG4pBmsSKqbRpHMkQ/Eaw8VMXTtg096a2WoI2d1Cba/GjywUB8lgu8Wqacz+tlzV
- x6lDJB4DtaWc/HQl28328i+QduV1mVkVShGyayIt1av0xSdvY/BsV6lr1Y7J4VdpaY4Ku0mvvY
- SgY=
+        Fri, 16 Aug 2019 04:38:30 -0400
+X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Aug 2019 04:38:29 EDT
+IronPort-SDR: jfRDbw1S8YRBPqt+J84K8slLE4gsgaJatVotuCTLp9Hral3Y2OENz7wZr/DJSlkfWWeENTr90+
+ QCa+Ztu+LyCvNxHgQUDnulaC2iUs0iEaA0g+FUrQF8FSjiRh0rkNAKLAlt++S6d3RmmPo8cq25
+ uheXLL9V4eUYx8UKzPaJCMx0/jvzSKF5/NbI1OryyilBNt1aEghZVIPdHU1AdSsUCuuY0Dmyks
+ qrHc2q54Z2ecQLMMIASSJiUVpdEBp8GVOmsqs2VpxLLVf14eIHL1I+lFjMA0Rj4vawswxz63tN
+ dss=
 X-IronPort-AV: E=Sophos;i="5.64,391,1559548800"; 
-   d="scan'208";a="40519185"
+   d="scan'208";a="42311163"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa4.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:38:01 -0800
-IronPort-SDR: J19cBAZu7PE2K/dbL1OaRojP3so/fU5R50OB8ozbUtDkAOqe+CS4tJkGFPnirbiTfNOZ06juFo
- CHWIMmc9JLOVaNeBGljNzXDVFnEAxIGgTIgYgGr9IMeWL2HnCKG9pKAY52XAgyEfcg9LHdJq01
- UaQ2beG6lqYSlO0rEaAhbAt951v+xINuE4apkyzj5ftMaqmIeUNLCYSQx032lKTWx4uokBZdQk
- lbbEinZ84sA3iL7EiubAEBgWVCTwvaeLjmxPWgcToeCE7MG8bWq0bvGM2v2DRjmH30fE6XIZ7x
- mcQ=
+  by esa1.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:31:22 -0800
+IronPort-SDR: /xFAlds9JZIhX3B1SMnMM9Ubdb1uxwyIAevS0jnulAsEQ4rttYm/mR2AUKI32WMnVDOUh1qc+V
+ fuQIyqB5osy61oBUcQdJ/mPxFNNVIMt/v4a9HiJ3l+s8A7Rsyf+xlDWZ3YrhwIBc/qlG9iHnKp
+ 6MMal5VfXNvX0pDeeZjykxM60JCSRBSZDIKuJRB95vhHBMPIct1+b0BN/w2io1r7VwG8OBCAFD
+ mF7nS57ejw2hN4k2szTCTXwsoWDDySYxgWWRaIYEWnAiAX08NOeWOM9cUPgRlq+JE9k1sHvRHe
+ EQ0=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v1 54/63] Input: atmel_mxt_ts: Avoid race condition in freeing of input device
-Date:   Fri, 16 Aug 2019 17:37:48 +0900
-Message-ID: <20190816083757.19449-5-jiada_wang@mentor.com>
+Subject: [PATCH v1 05/63] Input: atmel_mxt_ts - output status from T48 Noise Supression
+Date:   Fri, 16 Aug 2019 17:30:32 +0900
+Message-ID: <20190816083130.18250-1-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20190816083757.19449-1-jiada_wang@mentor.com>
-References: <20190816083757.19449-1-jiada_wang@mentor.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
-X-ClientProxiedBy: svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202) To
+X-ClientProxiedBy: SVR-ORW-MBX-05.mgc.mentorg.com (147.34.90.205) To
  svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
+From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-From the static analysis of the code it seems that there could be a
-race condition leading to crash while freeing input device in
-mxt_free_input_device(). The backtrace of crash is as shown below:
-
-Unable to handle kernel NULL pointer dereference at virtual address 0000003c
-Internal error: Oops: 17 [#1] PREEMPT SMP ARM
-CPU: 1 PID: 229 Comm: load_firmware.s Not tainted 3.14.79-00978-g58395f0ebac4 #1
-PC is at kernfs_find_ns+0x14/0xf0
-LR is at kernfs_find_and_get_ns+0x34/0x50
-Backtrace:
-[<801745c0>] (kernfs_find_ns) from [<801746e4>] (kernfs_find_and_get_ns+0x34/0x50)
-[<801746b0>] (kernfs_find_and_get_ns) from [<801730c8>] (sysfs_unmerge_group+0x20/0x60)
-[<801730a8>] (sysfs_unmerge_group) from [<80328490>] (pm_qos_sysfs_remove_latency+0x18/0x20)
-[<80328478>] (pm_qos_sysfs_remove_latency) from [<80329844>] (dev_pm_qos_constraints_destroy+0x20/0x128)
-[<80329824>] (dev_pm_qos_constraints_destroy) from [<80328510>] (dpm_sysfs_remove+0x18/0x44)
-[<803284f8>] (dpm_sysfs_remove) from [<80320514>] (device_del+0x3c/0x178)
-[<803204d8>] (device_del) from [<803b5ae8>] (__input_unregister_device+0x120/0x134)
-[<803b59c8>] (__input_unregister_device) from [<803b5b68>] (input_unregister_device+0x54/0x74)
-[<803b5b14>] (input_unregister_device) from [<7f1288bc>] (mxt_debug_enable_store+0x1a8/0x2c4 [atmel_mxt_ts])
-[<7f12888c>] (mxt_debug_enable_store [atmel_mxt_ts]) from [<7f12b534>] (mxt_update_cfg_store+0xc4/0x154 [atmel_mxt_ts])
-[<7f12b470>] (mxt_update_cfg_store [atmel_mxt_ts]) from [<8031f4e8>] (dev_attr_store+0x20/0x2c)
-[<8031f4c8>] (dev_attr_store) from [<80172558>] (sysfs_kf_write+0x40/0x4c)
-[<80172518>] (sysfs_kf_write) from [<801756fc>] (kernfs_fop_write+0xf8/0x140)
-[<80175604>] (kernfs_fop_write) from [<801136e0>] (vfs_write+0xd8/0x16c)
-[<80113608>] (vfs_write) from [<80113c34>] (SyS_write+0x50/0x90)
-[<80113be4>] (SyS_write) from [<8000e0a0>] (ret_fast_syscall+0x0/0x38)
-
-Note: mxt_free_input_device() is misrepresented as mxt_debug_enable_store()
-in the crash backtrace. From the disassembly of the atmel_mxt_ts.ko, address
-pointed by (mxt_debug_enable_store+0x1a8/0x2c4 [atmel_mxt_ts]) refers to
-mxt_free_input_device()
-
-There is speculation that this race condition may occur while
-configuration (firmware) is loading and driver is being unloaded parallely.
-
-The solution is to take a local pointer to data->input_dev with the lock
-held and then to set data->input_dev to NULL to prevent any parallel
-thread from executing input_unregister_device() for a second time overall
-so avoiding the crash. The lock is released and the local pointer is
-safely used by input_unregister_device() so this function only runs a
-single time overall.
-
-Signed-off-by: Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
-Signed-off-by: Sanjeev Chugh <sanjeev_chugh@mentor.com>
+Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
+Acked-by: Benson Leung <bleung@chromium.org>
+Acked-by: Yufeng Shen <miletus@chromium.org>
+(cherry picked from ndyer/linux/for-upstream commit 2895a6ff150a49f27a02938f8d262be238b296d8)
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 25 ++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 79fc6561f6ad..35d92751e49f 100644
+index 2d70ddf71cd9..a75c35c6f9f9 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -2221,8 +2221,10 @@ static int mxt_update_cfg(struct mxt_data *data, const struct firmware *fw)
- static void mxt_free_input_device(struct mxt_data *data)
- {
- 	if (data->input_dev) {
--		input_unregister_device(data->input_dev);
-+		struct input_dev *dev = data->input_dev;
-+
- 		data->input_dev = NULL;
-+		input_unregister_device(dev);
- 	}
+@@ -324,6 +324,7 @@ struct mxt_data {
+ 	u16 T18_address;
+ 	u8 T19_reportid;
+ 	u16 T44_address;
++	u8 T48_reportid;
+ 	u8 T100_reportid_min;
+ 	u8 T100_reportid_max;
+ 
+@@ -977,6 +978,24 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+ 	data->update_input = true;
  }
  
++static int mxt_proc_t48_messages(struct mxt_data *data, u8 *msg)
++{
++	struct device *dev = &data->client->dev;
++	u8 status, state;
++
++	status = msg[1];
++	state  = msg[4];
++
++	dev_dbg(dev, "T48 state %d status %02X %s%s%s%s%s\n", state, status,
++		status & 0x01 ? "FREQCHG " : "",
++		status & 0x02 ? "APXCHG " : "",
++		status & 0x04 ? "ALGOERR " : "",
++		status & 0x10 ? "STATCHG " : "",
++		status & 0x20 ? "NLVLCHG " : "");
++
++	return 0;
++}
++
+ static int mxt_proc_message(struct mxt_data *data, u8 *message)
+ {
+ 	u8 report_id = message[0];
+@@ -986,6 +1005,8 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
+ 
+ 	if (report_id == data->T6_reportid) {
+ 		mxt_proc_t6_messages(data, message);
++	} else if (report_id == data->T48_reportid) {
++		mxt_proc_t48_messages(data, message);
+ 	} else if (!data->input_dev) {
+ 		/*
+ 		 * Do not report events if input device
+@@ -1663,6 +1684,7 @@ static void mxt_free_object_table(struct mxt_data *data)
+ 	data->T18_address = 0;
+ 	data->T19_reportid = 0;
+ 	data->T44_address = 0;
++	data->T48_reportid = 0;
+ 	data->T100_reportid_min = 0;
+ 	data->T100_reportid_max = 0;
+ 	data->max_reportid = 0;
+@@ -1744,6 +1766,9 @@ static int mxt_parse_object_table(struct mxt_data *data,
+ 		case MXT_SPT_GPIOPWM_T19:
+ 			data->T19_reportid = min_id;
+ 			break;
++		case MXT_PROCG_NOISESUPPRESSION_T48:
++			data->T48_reportid = min_id;
++			break;
+ 		case MXT_TOUCH_MULTITOUCHSCREEN_T100:
+ 			data->multitouch = MXT_TOUCH_MULTITOUCHSCREEN_T100;
+ 			data->T100_reportid_min = min_id;
 -- 
 2.19.2
 
