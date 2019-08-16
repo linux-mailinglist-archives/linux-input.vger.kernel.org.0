@@ -2,44 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 38F578FE46
-	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE2FD8FE4E
+	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727556AbfHPIja (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Aug 2019 04:39:30 -0400
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:1996 "EHLO
+        id S1727104AbfHPIj6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Aug 2019 04:39:58 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:27764 "EHLO
         esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727551AbfHPIj3 (ORCPT
+        with ESMTP id S1727216AbfHPIj5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:39:29 -0400
-IronPort-SDR: jMTWSYKwTv+f/59+vjidh3lihfWO/lsWosTIrGUHjQ+PaEIwbJcNytz2JlU8/lQ82kUL9l1Uzs
- m9PP5xTTWTi7rVff7yJ1Nfcxdfbs7oNOLt2jkfvyPZc8KE6oCuItGgEv5ltnN9ZKj+NsS2N/Kj
- hYtDkmBM+vAtq8F3BBCgq/aPJJbu90XdhjMX9mxrwDwW1O7uHrjkYbAn3enNqhYKzbO3ui9zyA
- 7dgCbilla+q3qOHzj6cDNvSpUSXBJniIZ+YRJX9SOD95+3orik8EFs2q7yPCHaRK0XHZ8hQ7RM
- 80w=
+        Fri, 16 Aug 2019 04:39:57 -0400
+IronPort-SDR: J7QWIrT8UusX5CzljWl9EqwoAIFXnGQcGj2lxuvmTEivc1S/ZPu7f3wyoF51ECUvDQbOjCK8fR
+ bTLoIxuSQoQQr84Z8cYqUwuu8JqdxqgHau1Stpf9MRluPyuqZ7NjfvtNC1WwGgkMhfPMwPEvqT
+ 8118mYGmmmNYNahFmrjKUcbzBu3razfYOU4ceIGM07rcvfc9BpHQ4pSGnzzfLr79xeQq86UIJx
+ PFVEuwBnleWKOB9fzATLW0cG2fjkhqcPTx6PgKnr4GKUsSjmtuumcM7qPQ4JW7V1EvvxV0PNAL
+ 4Z0=
 X-IronPort-AV: E=Sophos;i="5.64,391,1559548800"; 
-   d="scan'208";a="40484230"
+   d="scan'208";a="40484243"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:32:22 -0800
-IronPort-SDR: M0eyjM8QbXZ/wqXkpIuo27hWWluIZ0SBC1aXTl80/qi+I+T6yM5EFIeKUoaROsrx63JiXMkte+
- 3/Swi7HTnNPHG1NDJY/BKfgw7nOaGUo9VPFeAuHQiplu7xtoftM9BQAK7YCRPwCdp7F7710xI2
- LOuSuJ12we+UwbdCpPI/thlU3HqM24bl7a1PVw4cGMVHD3M0FqLH/p2vO/uQ+ZND4ZFqq1xcGX
- ierdBkRCoMKWS7ardo8QLnq0uqs+JWygJYjxbVpCq82R1MbTdkuvg0vIiZWIpL+NuQXSXZZLd+
- cnY=
+  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:32:49 -0800
+IronPort-SDR: q/eSnvVJPY1P7BjIllAjv5RKLn5lZoR+kwsoOF9eItRYcUPgbA4fXGZa7xX5ikv2sbrszn2afo
+ Buuco2UB7akC8CHH0TOMQ4Uu3pSu+7+eg7h2XTyE1CuA9cAwDnNMdzf2eJx3v4Nmk+1WKefSEO
+ XKgGoZnIFIX4FCwjc08LQ6aSYbv6fx8NGRe158aOr7eIEuR1NfwK0zs2i3B8ze7tc76RBi9srx
+ iEyD8vLksm3eTkf8hQp9v4yfjQYlxhiHvv0v38XjwO339TLVCGdnG5cXY65WWR5rpbTCUxScvC
+ Vrs=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v1 14/63] Input: atmel_mxt_ts - report failures in suspend/resume
-Date:   Fri, 16 Aug 2019 17:31:29 +0900
-Message-ID: <20190816083218.18402-5-jiada_wang@mentor.com>
+Subject: [PATCH v1 15/63] Input: atmel_mxt_ts - allow specification of firmware file name
+Date:   Fri, 16 Aug 2019 17:32:09 +0900
+Message-ID: <20190816083257.18546-1-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20190816083218.18402-1-jiada_wang@mentor.com>
-References: <20190816083218.18402-1-jiada_wang@mentor.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
-X-ClientProxiedBy: svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203) To
+X-ClientProxiedBy: svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202) To
  svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
@@ -48,130 +46,113 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-(cherry picked from ndyer/linux/for-upstream commit 93a57575403de4dd07cd64807d3c2ed7f2cca262)
-[gdavis: Resolve forward port conflicts due to applying upstream
-	 commit 96a938aa214e ("Input: atmel_mxt_ts - remove platform
-	 data support").]
+On platforms which have multiple device instances using this driver, the
+firmware may be different on each device. This patch makes the user give
+the name of the firmware file when flashing.
+
+This also prevents accidental triggering of the firmware load process.
+
+Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
+Acked-by: Benson Leung <bleung@chromium.org>
+Acked-by: Yufeng Shen <miletus@chromium.org>
+(cherry picked from ndyer/linux/for-upstream commit 76ebb7cee971cb42dfb0a3a9224403b8b09abcf1)
+[gdavis: Forward port and fix conflicts.]
 Signed-off-by: George G. Davis <george_davis@mentor.com>
-[jiada: Fix compilation warning]
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 51 ++++++++++++++++++------
- 1 file changed, 39 insertions(+), 12 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 43 ++++++++++++++++++++----
+ 1 file changed, 37 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 907eebeff465..a54c595c76b9 100644
+index a54c595c76b9..ca317d267be1 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -3421,10 +3421,12 @@ static void mxt_reset_slots(struct mxt_data *data)
- 	mxt_input_sync(data);
+@@ -33,8 +33,7 @@
+ #include <media/videobuf2-vmalloc.h>
+ #include <dt-bindings/input/atmel_mxt_ts.h>
+ 
+-/* Firmware files */
+-#define MXT_FW_NAME		"maxtouch.fw"
++/* Configuration file */
+ #define MXT_CFG_NAME		"maxtouch.cfg"
+ #define MXT_CFG_MAGIC		"OBP_RAW V1"
+ 
+@@ -335,6 +334,7 @@ struct mxt_data {
+ 	bool use_retrigen_workaround;
+ 	struct regulator *reg_vdd;
+ 	struct regulator *reg_avdd;
++	char *fw_name;
+ 
+ 	/* Cached parameters from object table */
+ 	u16 T5_address;
+@@ -3203,7 +3203,7 @@ static int mxt_check_firmware_format(struct device *dev,
+ 	return -EINVAL;
  }
  
--static void mxt_start(struct mxt_data *data)
-+static int mxt_start(struct mxt_data *data)
+-static int mxt_load_fw(struct device *dev, const char *fn)
++static int mxt_load_fw(struct device *dev)
  {
-+	int ret = 0;
-+
- 	if (!data->suspended || data->in_bootloader)
--		return;
-+		return 0;
+ 	struct mxt_data *data = dev_get_drvdata(dev);
+ 	const struct firmware *fw = NULL;
+@@ -3213,9 +3213,9 @@ static int mxt_load_fw(struct device *dev, const char *fn)
+ 	unsigned int frame = 0;
+ 	int ret;
  
- 	switch (data->suspend_mode) {
- 	case MXT_SUSPEND_T9_CTRL:
-@@ -3449,28 +3451,42 @@ static void mxt_start(struct mxt_data *data)
- 		 */
- 		mxt_process_messages_until_invalid(data);
- 
--		mxt_set_t7_power_cfg(data, MXT_POWER_CFG_RUN);
-+		ret = mxt_set_t7_power_cfg(data, MXT_POWER_CFG_RUN);
-+		if (ret)
-+			return ret;
- 
- 		/* Recalibrate since chip has been in deep sleep */
--		mxt_t6_command(data, MXT_COMMAND_CALIBRATE, 1, false);
-+		ret = mxt_t6_command(data, MXT_COMMAND_CALIBRATE, 1, false);
-+		if (ret)
-+			return ret;
-+
-+		ret = mxt_acquire_irq(data);
-+		if (ret)
-+			return ret;
- 
--		mxt_acquire_irq(data);
- 		break;
+-	ret = request_firmware(&fw, fn, dev);
++	ret = request_firmware(&fw, data->fw_name, dev);
+ 	if (ret) {
+-		dev_err(dev, "Unable to open firmware %s\n", fn);
++		dev_err(dev, "Unable to open firmware %s\n", data->fw_name);
+ 		return ret;
  	}
  
- 	data->suspended = false;
+@@ -3335,6 +3335,33 @@ static int mxt_load_fw(struct device *dev, const char *fn)
+ 	return ret;
+ }
+ 
++static int mxt_update_file_name(struct device *dev, char **file_name,
++				const char *buf, size_t count)
++{
++	char *file_name_tmp;
++
++	/* Simple sanity check */
++	if (count > 64) {
++		dev_warn(dev, "File name too long\n");
++		return -EINVAL;
++	}
++
++	file_name_tmp = krealloc(*file_name, count + 1, GFP_KERNEL);
++	if (!file_name_tmp)
++		return -ENOMEM;
++
++	*file_name = file_name_tmp;
++	memcpy(*file_name, buf, count);
++
++	/* Echo into the sysfs entry may append newline at the end of buf */
++	if (buf[count - 1] == '\n')
++		(*file_name)[count - 1] = '\0';
++	else
++		(*file_name)[count] = '\0';
 +
 +	return 0;
- }
- 
--static void mxt_stop(struct mxt_data *data)
-+static int mxt_stop(struct mxt_data *data)
- {
-+	int ret;
++}
 +
- 	if (data->suspended || data->in_bootloader)
--		return;
-+		return 0;
+ static ssize_t mxt_update_fw_store(struct device *dev,
+ 					struct device_attribute *attr,
+ 					const char *buf, size_t count)
+@@ -3342,7 +3369,11 @@ static ssize_t mxt_update_fw_store(struct device *dev,
+ 	struct mxt_data *data = dev_get_drvdata(dev);
+ 	int error;
  
- 	switch (data->suspend_mode) {
- 	case MXT_SUSPEND_T9_CTRL:
- 		/* Touch disable */
--		mxt_write_object(data,
-+		ret = mxt_write_object(data,
- 				MXT_TOUCH_MULTI_T9, MXT_T9_CTRL, 0);
-+		if (ret)
-+			return ret;
+-	error = mxt_load_fw(dev, MXT_FW_NAME);
++	error = mxt_update_file_name(dev, &data->fw_name, buf, count);
++	if (error)
++		return error;
 +
- 		break;
- 
- 	case MXT_SUSPEND_REGULATOR:
-@@ -3483,29 +3499,40 @@ static void mxt_stop(struct mxt_data *data)
- 	default:
- 		disable_irq(data->irq);
- 
--		mxt_set_t7_power_cfg(data, MXT_POWER_CFG_DEEPSLEEP);
-+		ret = mxt_set_t7_power_cfg(data, MXT_POWER_CFG_DEEPSLEEP);
-+		if (ret)
-+			return ret;
- 
- 		mxt_reset_slots(data);
- 		break;
- 	}
- 
- 	data->suspended = true;
-+	return 0;
- }
- 
- static int mxt_input_open(struct input_dev *dev)
- {
- 	struct mxt_data *data = input_get_drvdata(dev);
-+	int ret;
- 
--	mxt_start(data);
-+	ret = mxt_start(data);
- 
--	return 0;
-+	if (ret)
-+		dev_err(&data->client->dev, "%s failed rc=%d\n", __func__, ret);
-+
-+	return ret;
- }
- 
- static void mxt_input_close(struct input_dev *dev)
- {
- 	struct mxt_data *data = input_get_drvdata(dev);
-+	int ret;
- 
--	mxt_stop(data);
-+	ret = mxt_stop(data);
-+
-+	if (ret)
-+		dev_err(&data->client->dev, "%s failed rc=%d\n", __func__, ret);
- }
- 
- static int mxt_parse_device_properties(struct mxt_data *data)
++	error = mxt_load_fw(dev);
+ 	if (error) {
+ 		dev_err(dev, "The firmware update failed(%d)\n", error);
+ 		count = error;
 -- 
 2.19.2
 
