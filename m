@@ -2,122 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7262F906FA
-	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 19:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0D9B907E5
+	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 20:49:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727382AbfHPRea (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Aug 2019 13:34:30 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:36594 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727357AbfHPRea (ORCPT
+        id S1727466AbfHPSta (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Aug 2019 14:49:30 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:35661 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727286AbfHPSta (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Aug 2019 13:34:30 -0400
-Received: by mail-pg1-f193.google.com with SMTP id l21so3277932pgm.3;
-        Fri, 16 Aug 2019 10:34:30 -0700 (PDT)
+        Fri, 16 Aug 2019 14:49:30 -0400
+Received: by mail-pf1-f194.google.com with SMTP id d85so3565421pfd.2
+        for <linux-input@vger.kernel.org>; Fri, 16 Aug 2019 11:49:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=fkHMgcTeIB2aA6dkreXkXm9LjS4qpjG21Q/r9CswN44=;
-        b=i0vjf5dlYtypGdXdbR249NGqlEEK/4dXMMMv08+xbhvMEzohZB4TTbdeXuPOD9rB2j
-         +3NxnyQQUlRAxTX1N2yUVk7h/mR353BgK0wqkGEF4DL1gTi3ukwKMe3AzUgvoB23czOH
-         /Vst09EFJF2Cw/co6uPx0l3VsFKWK33RJRylizUHO6OavhVo3L/xQqfgzwLPkV2TMRrx
-         eqTZVFbQDE4EshOJzVpSEH6w4qrnv2XHjG/G04gEx0yyVsmIgfJmrWYUKaN8CnPt9xig
-         T8wELKbTHXNbAFrFgSyZ0cCqi+juRe4G2jgogvNON47JUf5EetyEqVfWR3oCQ+hokxMK
-         dpTg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b/WcelaoGr/NNDEERBcLYe+oid89ukM4Ae+l9dY401g=;
+        b=iHACLq8icSwd5+8QHZDMd4ChFiyvD93KI/2ZstmV7AvVFeGJ7XE6Hzla9quTsCYFut
+         Mze8fOdy+j1GiFvweoAYrzNGyHNE094daJpCtG7Mq+BuEty65Vi10aXh5qqpdW713Dsd
+         E/EtNRSbmjDRaKoA9ljL6MXwf3s6n68c/M15YDRmweFbtes7eSV3g3yFlta2tp2Ynlw1
+         +jjfyQn2IMV1FW6uspPvarnNKY9xJ/kn0pFLjRHEJD3F+oByxdxnsLDFH3noGNdp596s
+         uEMgLWmjgfvtvzfVVXSQj83KAOaz2OVo2NBx8xEpTy4MPfBapaMaAkk63ZKjpocgNlNY
+         D6mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fkHMgcTeIB2aA6dkreXkXm9LjS4qpjG21Q/r9CswN44=;
-        b=fNeOet/OzWSAVHX4UjCzBCVU7k6qtYj+GXlw2+Qb3My6Jho5p8A700TPnm0NbKNsDj
-         Yrx6CQZx3ZaT/DITq4Fd9tXFWrmOCxZaIuueoWVuRZZeZRaYlL7F1UpHwmKRnlGErbFF
-         +8i69qy1Y+Ta/z8KruEQRI4lJpE2m/cufANojrsRe9VNPVVREdxmVv5LNZx3I1KahyLa
-         L+sjQZ2iVkxudOtnttiG0np2lN6VlHzPPeHc1LhxWXtcQLof9C8xh0QFgJ9ylCuK6cBy
-         dXku/LvKXlMGXu8W0jkqcm7LmhQ+h2uMfbesNofEZOkSLoSyG7j2iEwO7IXM1pvOfp8a
-         k9hw==
-X-Gm-Message-State: APjAAAU5iX2qi/P2dXnoxglRn4WAO5Tdj801kmGCtBED9orLeCUhueXi
-        YVMN5tGnv/EOvVO0uzTSyDRH8clx
-X-Google-Smtp-Source: APXvYqyOfqU3InZ4uy+FEs45U71ydmSmY9M9U7E/2t765p7/SglW4DrH8ntY/zAKRq5BxTXS3GqfuA==
-X-Received: by 2002:a63:61cf:: with SMTP id v198mr8671196pgb.217.1565976869446;
-        Fri, 16 Aug 2019 10:34:29 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id v6sm4084728pjn.13.2019.08.16.10.34.28
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b/WcelaoGr/NNDEERBcLYe+oid89ukM4Ae+l9dY401g=;
+        b=SDj7HeaJxkWyMvKo8+EkekHeolemMv44wwVxvg7EOrUzyh8eGeTfZBW5mcu+H7Aqhd
+         31+eqtlEbWs8a0At/x2gse1Uty7dyWoGQRMJsr7IK3LIaE68xTLhOIBP7J/IO6ibuu3r
+         LNajDpI0eW87i/gHTgEhJXpIc+fS0RBf3NkaRd9fRawFNHWlcOGOSy+G/4v6swVyDLIp
+         mLbF1CBP5KyhJVRFZJl2UBddEe4MD1rXYyhkZGSEVJG5n/OAI6qgqnwiFiCTWJi53xyj
+         1OjAjtYxhBaA0/5tCjbOZkp6C/Sr4g9b9PgUrEamwOHvJhXNEMNX9IOLW6VQh+uCEaBa
+         2FAA==
+X-Gm-Message-State: APjAAAVFULSI5T+GeLr0vW4meX8BC4dOCWniPyOTfrJI5oHQBqNireVP
+        fwr/QlVfgtV33ozfunxGjF1ZDtjf
+X-Google-Smtp-Source: APXvYqxIrpO8kSu0zklPJFFj7c6LjA/HBIQeQzJVGf09brE5eMOM9Xjm/BSshAj74nIZMgLGM6t7gg==
+X-Received: by 2002:a17:90a:bf0e:: with SMTP id c14mr7643601pjs.140.1565981369735;
+        Fri, 16 Aug 2019 11:49:29 -0700 (PDT)
+Received: from horus.lan (75-164-171-222.ptld.qwest.net. [75.164.171.222])
+        by smtp.gmail.com with ESMTPSA id g8sm5462550pgk.1.2019.08.16.11.49.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2019 10:34:28 -0700 (PDT)
-Date:   Fri, 16 Aug 2019 10:34:26 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jiada Wang <jiada_wang@mentor.com>
-Cc:     nick@shmanahar.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, george_davis@mentor.com
-Subject: Re: [PATCH v1 06/63] Input: atmel_mxt_ts - output status from T42
- Touch Suppression
-Message-ID: <20190816173426.GM121898@dtor-ws>
-References: <20190816083130.18250-1-jiada_wang@mentor.com>
- <20190816083130.18250-2-jiada_wang@mentor.com>
+        Fri, 16 Aug 2019 11:49:29 -0700 (PDT)
+From:   Jason Gerecke <killertofu@gmail.com>
+X-Google-Original-From: Jason Gerecke <jason.gerecke@wacom.com>
+To:     linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>
+Subject: [PATCH] Input: wacom_w8001 - Allocate additional space for 'phys'
+Date:   Fri, 16 Aug 2019 11:49:27 -0700
+Message-Id: <20190816184927.24525-1-jason.gerecke@wacom.com>
+X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190816083130.18250-2-jiada_wang@mentor.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Aug 16, 2019 at 05:30:33PM +0900, Jiada Wang wrote:
-> From: Nick Dyer <nick.dyer@itdev.co.uk>
-> 
-> Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-> Acked-by: Benson Leung <bleung@chromium.org>
-> Acked-by: Yufeng Shen <miletus@chromium.org>
-> (cherry picked from ndyer/linux/for-upstream commit ab95b5a309999d2c098daaa9f88d9fcfae7eb516)
-> Signed-off-by: George G. Davis <george_davis@mentor.com>
-> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
-> ---
->  drivers/input/touchscreen/atmel_mxt_ts.c | 25 ++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-> index a75c35c6f9f9..9226ec528adf 100644
-> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
-> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-> @@ -155,6 +155,9 @@ struct t37_debug {
->  #define MXT_RESET_VALUE		0x01
->  #define MXT_BACKUP_VALUE	0x55
->  
-> +/* Define for MXT_PROCI_TOUCHSUPPRESSION_T42 */
-> +#define MXT_T42_MSG_TCHSUP	BIT(0)
-> +
->  /* T100 Multiple Touch Touchscreen */
->  #define MXT_T100_CTRL		0
->  #define MXT_T100_CFG1		1
-> @@ -323,6 +326,8 @@ struct mxt_data {
->  	u8 T9_reportid_max;
->  	u16 T18_address;
->  	u8 T19_reportid;
-> +	u8 T42_reportid_min;
-> +	u8 T42_reportid_max;
->  	u16 T44_address;
->  	u8 T48_reportid;
->  	u8 T100_reportid_min;
-> @@ -978,6 +983,17 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
->  	data->update_input = true;
->  }
->  
-> +static void mxt_proc_t42_messages(struct mxt_data *data, u8 *msg)
-> +{
-> +	struct device *dev = &data->client->dev;
-> +	u8 status = msg[1];
-> +
-> +	if (status & MXT_T42_MSG_TCHSUP)
-> +		dev_info(dev, "T42 suppress\n");
-> +	else
-> +		dev_info(dev, "T42 normal\n");
+GCC warns that the output of our call to 'snprintf' in 'w8001_connect'
+may be truncated since both 'serio->phys' and 'w8001->phys' are 32 bytes
+in length. Increase the amount of space allocated for the latter to
+compensate.
 
-dev_dbg(). There is no need to flood the logs with this. I'd assume this
-is for assisting in bringup. Should there be some more generic way of
-monitoring the status?
+Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+---
+ drivers/input/touchscreen/wacom_w8001.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/input/touchscreen/wacom_w8001.c b/drivers/input/touchscreen/wacom_w8001.c
+index 3715d1eace92..691285ace228 100644
+--- a/drivers/input/touchscreen/wacom_w8001.c
++++ b/drivers/input/touchscreen/wacom_w8001.c
+@@ -27,6 +27,8 @@ MODULE_AUTHOR("Jaya Kumar <jayakumar.lkml@gmail.com>");
+ MODULE_DESCRIPTION(DRIVER_DESC);
+ MODULE_LICENSE("GPL");
+ 
++#define W8001_MAX_PHYS		42
++
+ #define W8001_MAX_LENGTH	13
+ #define W8001_LEAD_MASK		0x80
+ #define W8001_LEAD_BYTE		0x80
+@@ -89,7 +91,7 @@ struct w8001 {
+ 	unsigned char response_type;
+ 	unsigned char response[W8001_MAX_LENGTH];
+ 	unsigned char data[W8001_MAX_LENGTH];
+-	char phys[32];
++	char phys[W8001_MAX_PHYS];
+ 	int type;
+ 	unsigned int pktlen;
+ 	u16 max_touch_x;
 -- 
-Dmitry
+2.22.1
+
