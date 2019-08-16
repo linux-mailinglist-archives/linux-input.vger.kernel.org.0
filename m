@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68CAB8FE42
-	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50A648FE44
+	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727536AbfHPIjX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Aug 2019 04:39:23 -0400
+        id S1727533AbfHPIj0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Aug 2019 04:39:26 -0400
 Received: from esa2.mentor.iphmx.com ([68.232.141.98]:1996 "EHLO
         esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727533AbfHPIjW (ORCPT
+        with ESMTP id S1727547AbfHPIj0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:39:22 -0400
-IronPort-SDR: X0FCrFFjgNuzHFsqsny/Ydr5FtjKoMxYY2W+p7odMDk5Ew21UllshHYnrAgSJfg/KFAz518lNk
- iBUpvTycJbSDS+lxi7DUH1Yfmk548bl2SPH79YZRsS6UndYB/BaVpb3C4Omp1gwk4aC09tQUdk
- lX3K9x3/MR+Gqf23f9y8ss4bvF2D0RgWcJ2Og1rOfHYLTlj4neQhfb4NQc+bnAliYvneyUjJz+
- +InV/g9HGcjnFYF395G7kYpjMbyZUVjV00inNL0OPbP2kqSW06jrqYZPqkOQt24rrZtlsiNSlp
- 66A=
+        Fri, 16 Aug 2019 04:39:26 -0400
+IronPort-SDR: 0SKymXUETSbIrCgi4oB44jbgHRkdGtNenKwOawnrduuMgIOcGJK6buSrs2Lvmil6mCB7+mZ91e
+ TpWpPNTORz/fM8YiKs2Nl9RcrOonQop+apm78+uiNIrSXPO4PwqRiCIUm+u2M+iRI0hZ6LTmRZ
+ vtvqukWg7AgN9SCAvgjOyupS42yFkv02eOe/gJ7/OeMdGTYsO0MN6M4eB16X0DLp/2kNiJdnbK
+ /ms6I/R9dYDEwuOoK+C3njosTKu33sYGYXWWid6oYUhK6flocHvprgnGjSkA2e8vXfFzs0GOj+
+ wYQ=
 X-IronPort-AV: E=Sophos;i="5.64,391,1559548800"; 
-   d="scan'208";a="40484220"
+   d="scan'208";a="40484225"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:32:16 -0800
-IronPort-SDR: 5U55ITH8BqutNbmluY/ffXup0OqEclZpA4b+GkHc/8wGLBCTJvZZA8eT48MQHTqdrs8dmSaNbL
- DAm0dfiHRsOKZ74yWEbscX/fie4FvrtB9G1a4F8is3DmeU2XoRWE0tSOQT8Ir3Ex6VOk27yWmA
- u03FpNLOKGzx+jur3CarKww7W7rvqIrOt5t+F6XYeq7BB1ZVuzXnwmhska8ejW85XfmWI4x6rJ
- 8E6f43i+tosCzmsChNlQcsgC/66ghGpXU7tXLalOJdvGjHaVEyw04p9Ld+KrKhGdWvYFZmh512
- UZM=
+  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:32:19 -0800
+IronPort-SDR: khxXwrA5TRP+Dy5Idujrz0thVjYInAm4ZUAIl8XNvjJxD6ABwdH5m4stJkDwydqMAsv+WhPQeh
+ pe4Lp4NEG5nq45WEWYyudp8v10UaQ/1y48TYfM6fkvfhkPEj9/huC6Y7Pw4EkdBYcF6ulYvsOJ
+ W4y15BmA+JO22b02jVOymuUQ9brx00TPQKfnoGRUUoUShmEelu4Ck17DuL++In0W5aWJyvAhuT
+ 7xZ6jT8WHKtxBCAFqBhWn6kERYkjEpRHFSPN22bshGZbzMzJAUNeagnbv13pVDVvbEbYyCnNVm
+ RrU=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v1 12/63] Input: atmel_mxt_ts - release touch state during suspend
-Date:   Fri, 16 Aug 2019 17:31:27 +0900
-Message-ID: <20190816083218.18402-3-jiada_wang@mentor.com>
+Subject: [PATCH v1 13/63] Input: atmel_mxt_ts - add regulator control support
+Date:   Fri, 16 Aug 2019 17:31:28 +0900
+Message-ID: <20190816083218.18402-4-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190816083218.18402-1-jiada_wang@mentor.com>
 References: <20190816083218.18402-1-jiada_wang@mentor.com>
@@ -48,154 +48,326 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-If fingers are down as the MXT chip goes into suspend it does not send a
-lift message. In addition, it may not complete its final measurement cycle
-immediately, which means touch messages may be received by the interrupt
-handler after mxt_stop() has completed.
+Allow the driver to optionally manage enabling/disable power to the touch
+controller itself. If the regulators are not present then use the deep
+sleep power mode instead.
 
-So:
-- disable irq during suspend
-- flush any messages created after suspend
-- tell app layer that slots were released at suspend
+For a correct power on sequence, it is required that we have control over
+the RESET line.
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
 Acked-by: Benson Leung <bleung@chromium.org>
 Acked-by: Yufeng Shen <miletus@chromium.org>
-(cherry picked from ndyer/linux/for-upstream commit 26794433086dbc7dea18d2f6a1c8d61ab25bcfda)
-[gdavis: Resolve forward port conflicts due to applying upstream
-	 commit 96a938aa214e ("Input: atmel_mxt_ts - remove platform
-	 data support").]
+(cherry picked from ndyer/linux/for-upstream commit 14052b61bb66c2f2283c00e733e131be7a9b8bfc)
+[gdavis: Resolve forward port conflicts due to v4.14-rc1 commmit
+	 f657b00df22e ("Input: atmel_mxt_ts - add support for reset
+	 line") and applying upstream commit 96a938aa214e ("Input:
+	 atmel_mxt_ts - remove platform data support").]
 Signed-off-by: George G. Davis <george_davis@mentor.com>
-[gdavis: Squash fix from Dirk Behme:
-	 - Input: atmel_mxt_ts - remove superfluous data->suspended]
+[gdavis: Squash fixes from Dirk Behme:
+	 - Input: atmel_mxt_ts - in failure case disable the regulator
+	 - Input: atmel_mxt_ts - disable only enabled regulators
+	 - Input: atmel_mxt_ts - use devm_regulator_get()]
 Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
 ---
 Notes:
-- Squash fix from Dirk Behme:
-  + Input: atmel_mxt_ts - remove superfluous data->suspended
+- Squash fixes by Dirk Behme:
+  + Input: atmel_mxt_ts - in failure case disable the regulator
 
-    data->suspended is already set to false in mxt_load_fw(), so it's not
-    needed here.
+    If the second regulator_enable(), disable the previously enabled
+    regulator, again.
+  + Input: atmel_mxt_ts - disable only enabled regulators
 
+    As enabling the regulators in mxt_regulator_enable() might fail,
+    check if the regulators are really enabled and disable them only
+    in this case.
+  + Input: atmel_mxt_ts - use devm_regulator_get()
+
+    Switch to devm_regulator_get() enabling us to drop the regulator_put()
+    in the remove function.
+
+[jiada: Resolve forward port conflicts due to commit
+	5cecc2bccc03f ("Input: atmel_mxt_ts - fix
+	-Wunused-const-variable")]
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 52 ++++++++++++++++++++++--
- 1 file changed, 49 insertions(+), 3 deletions(-)
+ .../bindings/input/atmel,maxtouch.txt         |   6 +
+ MAINTAINERS                                   |   1 +
+ drivers/input/touchscreen/atmel_mxt_ts.c      | 130 ++++++++++++++++--
+ include/dt-bindings/input/atmel_mxt_ts.h      |  22 +++
+ 4 files changed, 150 insertions(+), 9 deletions(-)
+ create mode 100644 include/dt-bindings/input/atmel_mxt_ts.h
 
+diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+index c88919480d37..e28139ce3cae 100644
+--- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
++++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+@@ -31,6 +31,12 @@ Optional properties for main touchpad device:
+ 
+ - reset-gpios: GPIO specifier for the touchscreen's reset pin (active low)
+ 
++- atmel,suspend-mode: Select method used to suspend:
++    MXT_SUSPEND_DEEP_SLEEP - use T7 to suspend the device into deep sleep
++    MXT_SUSPEND_T9_CTRL - use T9.CTRL to turn off touch processing
++    MXT_SUSPEND_REGULATOR - use regulators to power down device during suspend
++    Definitions are in <dt-bindings/input/atmel_mxt_ts.h>.
++
+ Example:
+ 
+ 	touch@4b {
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 47800d32cfbc..1509bb9072fc 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2777,6 +2777,7 @@ T:	git git://github.com/ndyer/linux.git
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+ F:	drivers/input/touchscreen/atmel_mxt_ts.c
++F:	include/dt-bindings/input/atmel_mxt_ts.h
+ 
+ ATMEL WIRELESS DRIVER
+ M:	Simon Kelley <simon@thekelleys.org.uk>
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 8f7e1aa01f39..515882df5509 100644
+index 515882df5509..907eebeff465 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -372,6 +372,9 @@ struct mxt_data {
- 	unsigned int t19_num_keys;
+@@ -26,10 +26,12 @@
+ #include <linux/slab.h>
+ #include <linux/gpio/consumer.h>
+ #include <asm/unaligned.h>
++#include <linux/regulator/consumer.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ioctl.h>
+ #include <media/videobuf2-v4l2.h>
+ #include <media/videobuf2-vmalloc.h>
++#include <dt-bindings/input/atmel_mxt_ts.h>
  
- 	enum mxt_suspend_mode suspend_mode;
-+
-+	/* Indicates whether device is in suspend */
-+	bool suspended;
+ /* Firmware files */
+ #define MXT_FW_NAME		"maxtouch.fw"
+@@ -215,6 +217,9 @@ enum t100_type {
+ #define MXT_CRC_TIMEOUT		1000	/* msec */
+ #define MXT_FW_RESET_TIME	3000	/* msec */
+ #define MXT_FW_CHG_TIMEOUT	300	/* msec */
++#define MXT_REGULATOR_DELAY	150	/* msec */
++#define MXT_CHG_DELAY	        100	/* msec */
++#define MXT_POWERON_DELAY	150	/* msec */
+ 
+ /* Command to unlock bootloader */
+ #define MXT_UNLOCK_CMD_MSB	0xaa
+@@ -275,11 +280,6 @@ enum v4l_dbg_inputs {
+ 	MXT_V4L_INPUT_MAX,
  };
  
- struct mxt_vb2_buffer {
-@@ -1150,10 +1153,10 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
- 		mxt_proc_t42_messages(data, message);
- 	} else if (report_id == data->T48_reportid) {
- 		mxt_proc_t48_messages(data, message);
--	} else if (!data->input_dev) {
-+	} else if (!data->input_dev || data->suspended) {
- 		/*
--		 * Do not report events if input device
--		 * is not yet registered.
-+		 * Do not report events if input device is not
-+		 * yet registered or returning from suspend
- 		 */
- 		mxt_dump_message(data, message);
- 	} else if (report_id >= data->T9_reportid_min &&
-@@ -3131,6 +3134,11 @@ static int mxt_load_fw(struct device *dev, const char *fn)
- 	if (ret)
- 		goto release_firmware;
+-enum mxt_suspend_mode {
+-	MXT_SUSPEND_DEEP_SLEEP	= 0,
+-	MXT_SUSPEND_T9_CTRL	= 1,
+-};
+-
+ /* Config update context */
+ struct mxt_cfg {
+ 	u8 *raw;
+@@ -333,6 +333,8 @@ struct mxt_data {
+ 	u8 stylus_aux_pressure;
+ 	u8 stylus_aux_peak;
+ 	bool use_retrigen_workaround;
++	struct regulator *reg_vdd;
++	struct regulator *reg_avdd;
  
-+	if (data->suspended) {
-+		enable_irq(data->irq);
-+		data->suspended = false;
-+	}
-+
- 	if (!data->in_bootloader) {
- 		/* Change to the bootloader mode */
- 		data->in_bootloader = true;
-@@ -3302,8 +3310,27 @@ static void mxt_sysfs_remove(struct mxt_data *data)
- 	sysfs_remove_group(&client->dev.kobj, &mxt_attr_group);
+ 	/* Cached parameters from object table */
+ 	u16 T5_address;
+@@ -2070,6 +2072,94 @@ static int mxt_read_info_block(struct mxt_data *data)
+ 	return error;
  }
  
-+static void mxt_reset_slots(struct mxt_data *data)
++static void mxt_regulator_enable(struct mxt_data *data)
 +{
-+	struct input_dev *input_dev = data->input_dev;
-+	int id;
++	int error;
 +
-+	if (!input_dev)
++	if (!data->reg_vdd || !data->reg_avdd)
 +		return;
 +
-+	for (id = 0; id < data->num_touchids; id++) {
-+		input_mt_slot(input_dev, id);
-+		input_mt_report_slot_state(input_dev, MT_TOOL_FINGER, 0);
++	gpiod_set_value(data->reset_gpio, 0);
++
++	error = regulator_enable(data->reg_vdd);
++	if (error)
++		return;
++
++	error = regulator_enable(data->reg_avdd);
++	if (error) {
++		regulator_disable(data->reg_vdd);
++		return;
 +	}
 +
-+	mxt_input_sync(data);
++	/*
++	 * According to maXTouch power sequencing specification, RESET line
++	 * must be kept low until some time after regulators come up to
++	 * voltage
++	 */
++	msleep(MXT_REGULATOR_DELAY);
++	gpiod_set_value(data->reset_gpio, 1);
++	msleep(MXT_CHG_DELAY);
++
++retry_wait:
++	reinit_completion(&data->bl_completion);
++	data->in_bootloader = true;
++	error = mxt_wait_for_completion(data, &data->bl_completion,
++					MXT_POWERON_DELAY);
++	if (error == -EINTR)
++		goto retry_wait;
++
++	data->in_bootloader = false;
 +}
 +
- static void mxt_start(struct mxt_data *data)
- {
-+	if (!data->suspended || data->in_bootloader)
++static void mxt_regulator_disable(struct mxt_data *data)
++{
++	if (!data->reg_vdd || !data->reg_avdd)
 +		return;
 +
- 	switch (data->suspend_mode) {
- 	case MXT_SUSPEND_T9_CTRL:
- 		mxt_soft_reset(data);
-@@ -3316,16 +3343,29 @@ static void mxt_start(struct mxt_data *data)
- 
- 	case MXT_SUSPEND_DEEP_SLEEP:
- 	default:
-+		/*
-+		 * Discard any touch messages still in message buffer
-+		 * from before chip went to sleep
-+		 */
-+		mxt_process_messages_until_invalid(data);
++	if (regulator_is_enabled(data->reg_vdd))
++		regulator_disable(data->reg_vdd);
++	if (regulator_is_enabled(data->reg_avdd))
++		regulator_disable(data->reg_avdd);
++}
 +
- 		mxt_set_t7_power_cfg(data, MXT_POWER_CFG_RUN);
- 
- 		/* Recalibrate since chip has been in deep sleep */
- 		mxt_t6_command(data, MXT_COMMAND_CALIBRATE, 1, false);
++static int mxt_probe_regulators(struct mxt_data *data)
++{
++	struct device *dev = &data->client->dev;
++	int error;
 +
-+		mxt_acquire_irq(data);
- 		break;
++	/* Must have reset GPIO to use regulator support */
++	if (!data->reset_gpio) {
++		error = -EINVAL;
++		goto fail;
++	}
++
++	data->reg_vdd = devm_regulator_get(dev, "vdd");
++	if (IS_ERR(data->reg_vdd)) {
++		error = PTR_ERR(data->reg_vdd);
++		dev_err(dev, "Error %d getting vdd regulator\n", error);
++		goto fail;
++	}
++
++	data->reg_avdd = devm_regulator_get(dev, "avdd");
++	if (IS_ERR(data->reg_avdd)) {
++		error = PTR_ERR(data->reg_avdd);
++		dev_err(dev, "Error %d getting avdd regulator\n", error);
++		goto fail_release;
++	}
++
++	mxt_regulator_enable(data);
++
++	dev_dbg(dev, "Initialised regulators\n");
++	return 0;
++
++fail_release:
++	regulator_put(data->reg_vdd);
++fail:
++	data->reg_vdd = NULL;
++	data->reg_avdd = NULL;
++	return error;
++}
++
+ static int mxt_read_t9_resolution(struct mxt_data *data)
+ {
+ 	struct i2c_client *client = data->client;
+@@ -3135,7 +3225,12 @@ static int mxt_load_fw(struct device *dev, const char *fn)
+ 		goto release_firmware;
+ 
+ 	if (data->suspended) {
+-		enable_irq(data->irq);
++		if (data->suspend_mode == MXT_SUSPEND_REGULATOR)
++			mxt_regulator_enable(data);
++
++		if (data->suspend_mode == MXT_SUSPEND_DEEP_SLEEP)
++			enable_irq(data->irq);
++
+ 		data->suspended = false;
  	}
-+
-+	data->suspended = false;
- }
  
- static void mxt_stop(struct mxt_data *data)
- {
-+	if (data->suspended || data->in_bootloader)
-+		return;
-+
- 	switch (data->suspend_mode) {
- 	case MXT_SUSPEND_T9_CTRL:
- 		/* Touch disable */
-@@ -3335,9 +3375,15 @@ static void mxt_stop(struct mxt_data *data)
+@@ -3341,6 +3436,11 @@ static void mxt_start(struct mxt_data *data)
+ 				MXT_TOUCH_MULTI_T9, MXT_T9_CTRL, 0x83);
+ 		break;
  
++	case MXT_SUSPEND_REGULATOR:
++		enable_irq(data->irq);
++		mxt_regulator_enable(data);
++		break;
++
  	case MXT_SUSPEND_DEEP_SLEEP:
  	default:
+ 		/*
+@@ -3373,6 +3473,12 @@ static void mxt_stop(struct mxt_data *data)
+ 				MXT_TOUCH_MULTI_T9, MXT_T9_CTRL, 0);
+ 		break;
+ 
++	case MXT_SUSPEND_REGULATOR:
 +		disable_irq(data->irq);
-+
- 		mxt_set_t7_power_cfg(data, MXT_POWER_CFG_DEEPSLEEP);
-+
++		mxt_regulator_disable(data);
 +		mxt_reset_slots(data);
- 		break;
- 	}
++		break;
 +
-+	data->suspended = true;
+ 	case MXT_SUSPEND_DEEP_SLEEP:
+ 	default:
+ 		disable_irq(data->irq);
+@@ -3437,6 +3543,8 @@ static int mxt_parse_device_properties(struct mxt_data *data)
+ 		data->t19_num_keys = n_keys;
+ 	}
+ 
++	device_property_read_u32(dev, "atmel,suspend-mode", &data->suspend_mode);
++
+ 	return 0;
  }
  
- static int mxt_input_open(struct input_dev *dev)
+@@ -3523,14 +3631,18 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 		return error;
+ 	}
+ 
+-	disable_irq(client->irq);
+-
+-	if (data->reset_gpio) {
++	if (data->suspend_mode == MXT_SUSPEND_REGULATOR) {
++		error = mxt_probe_regulators(data);
++		if (error)
++			return error;
++	} else if (data->reset_gpio) {
+ 		msleep(MXT_RESET_GPIO_TIME);
+ 		gpiod_set_value(data->reset_gpio, 1);
+ 		msleep(MXT_RESET_INVALID_CHG);
+ 	}
+ 
++	disable_irq(data->irq);
++
+ 	error = sysfs_create_group(&client->dev.kobj, &mxt_fw_attr_group);
+ 	if (error) {
+ 		dev_err(&client->dev, "Failure %d creating fw sysfs group\n",
+diff --git a/include/dt-bindings/input/atmel_mxt_ts.h b/include/dt-bindings/input/atmel_mxt_ts.h
+new file mode 100644
+index 000000000000..e4c4c0f6fa37
+--- /dev/null
++++ b/include/dt-bindings/input/atmel_mxt_ts.h
+@@ -0,0 +1,22 @@
++/*
++ * Atmel maXTouch Touchscreen driver
++ *
++ * Copyright (C) 2015 Atmel Corporation
++ * Author: Nick Dyer <nick.dyer@itdev.co.uk>
++ *
++ * This program is free software; you can redistribute  it and/or modify it
++ * under  the terms of  the GNU General  Public License as published by the
++ * Free Software Foundation;  either version 2 of the  License, or (at your
++ * option) any later version.
++ */
++
++#ifndef __DT_BINDINGS_ATMEL_MXT_TS_H
++#define __DT_BINDINGS_ATMEL_MXT_TS_H
++
++enum mxt_suspend_mode {
++	MXT_SUSPEND_DEEP_SLEEP = 0,
++	MXT_SUSPEND_T9_CTRL = 1,
++	MXT_SUSPEND_REGULATOR = 2,
++};
++
++#endif /* __DT_BINDINGS_ATMEL_MXT_TS_H */
 -- 
 2.19.2
 
