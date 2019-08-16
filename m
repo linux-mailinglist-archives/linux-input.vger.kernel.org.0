@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 285D38FE1A
+	by mail.lfdr.de (Postfix) with ESMTP id 967C58FE1B
 	for <lists+linux-input@lfdr.de>; Fri, 16 Aug 2019 10:40:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727262AbfHPIiO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1727218AbfHPIiO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Fri, 16 Aug 2019 04:38:14 -0400
 Received: from esa2.mentor.iphmx.com ([68.232.141.98]:1938 "EHLO
         esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727188AbfHPIhy (ORCPT
+        with ESMTP id S1727201AbfHPIh4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:37:54 -0400
-IronPort-SDR: x+Neg6DEikbNciWRyerP97b11ShstSwxEk1Jbv6o+1deiD1Wx5EaVvxUCVjFnstgqqyaMLLIjd
- jLLyhtNkNv2rqRcQYgOvwUcAVFce7jUd7Jf0rV/mAfDWSjktwvw/7SaNaKVFPRJ67ckS3/hXxS
- 5WXT2eeWkkX5EBguujjWBLgCT9M/X5fVdROXedNa5Su/zTZdUC4naCQO6PM0o75ohCWUbDL4yO
- K0jh1GnZ8KPJldma4/3icLujPsYmPJ+yPvJTb/yxvjXQP8EMwVVv+Kk2D8RbwiMkWoDUUwXr0H
- ymQ=
+        Fri, 16 Aug 2019 04:37:56 -0400
+IronPort-SDR: GBTdZV0vDjaVHK/T1ivaSYRI2YkjjZDBE8ddHK7+46SFHNrI+v7IQHAzN4UODIi2eI0aDmAZBK
+ rii0maDJ970WgiD7xYbpOgQ9mQWGw0fgjvmm9fDRJGeRthxpoR2J3poW5nrPSymKf9ulGiBnoY
+ cg736ZxBs0tEfre98XxYSl9E81wYpWzrjIiSDx7sauW+/7yP/pONsllgsAkyy2cwIdNWr8TlNr
+ a6xidlHNJ35BBea/wstpvauXXb4A9HonXumtwRuuKpQqH0D1I6lU8hPkdhtIVQCeiatnahD7Q8
+ 4Lk=
 X-IronPort-AV: E=Sophos;i="5.64,391,1559548800"; 
-   d="scan'208";a="40484293"
+   d="scan'208";a="40484294"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:34:49 -0800
-IronPort-SDR: PT2eXVOgIBcC5AYfze/n4hFAtm20zNRk7CHprq7InJWcfvGDraVPWYzXoL0o45u23u2mMBY3g8
- JV1/x10gNymNMLWoqSvpF9aEPMS5QkTiLJulrOvS1WhA2u0O2dr6zOQLc7qHAH+N63bfEtRydH
- lPT1Vam530nQIBg7/f/GR16E0eWHdAJitMAErGQxu6JqrPMiLePy69lgCWrR2IREmPjMrjiVF6
- n6QlN0bHW+jAamF6Vq6oHbD9t96Py2ORyjPh41/6lPCqrmf+UDNwAymmW0h/b6UhewDQYdSVvi
- Vig=
+  by esa2.mentor.iphmx.com with ESMTP; 16 Aug 2019 00:34:52 -0800
+IronPort-SDR: AMNkO82KQJcHXkj8uainweV+4M1MLG6kpGJ3+Cr/9ttOBg9cHBfythoF0xJ8Atg14JycN802L5
+ i9mPzGRO4WuCPOGH1Nv094KZ7AyiJ9olIqYLJIOEen25+ZRrM7DspHI7++7MSnDR+bEDDPCf7w
+ RYT7N2+M8bixbrgiP0KN0NmgEPm4D+KE+E2EfvuLUJU9dt3hzZR34mjrurLJ05HquxgGZLsOXI
+ jEhLtawU3Rs0oUlyuHzSTIlAZaxb8S/xyMyM2kw3ZanpYbJ1ic3Jxgyrn+tQrB1yTmb1KRJt+R
+ Ftc=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v1 32/63] Input: atmel_mxt_ts - implement improved debug message interface
-Date:   Fri, 16 Aug 2019 17:34:20 +0900
-Message-ID: <20190816083451.18947-3-jiada_wang@mentor.com>
+Subject: [PATCH v1 33/63] Input: atmel_mxt_ts - eliminate data->raw_info_block
+Date:   Fri, 16 Aug 2019 17:34:21 +0900
+Message-ID: <20190816083451.18947-4-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190816083451.18947-1-jiada_wang@mentor.com>
 References: <20190816083451.18947-1-jiada_wang@mentor.com>
@@ -46,340 +46,59 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nick Dyer <nick.dyer@itdev.co.uk>
+Dynamically allocated in mxt_read_info_block() buffer buf is assigned
+both to data->info and data->raw_info_block, having both data->info
+and data->raw_info_block is redundant and confusing.
 
-Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-(cherry picked from ndyer/linux/for-upstream commit 078569c13c88dcb6f8d882bfe17168587712df7d)
-[gdavis: Resolve forward port conflicts due to v4.14.51 commit
-	 960fe000b1d3 ("Input: atmel_mxt_ts - fix the firmware
-	 update").]
-Signed-off-by: George G. Davis <george_davis@mentor.com>
-[gdavis: Squash fixes from Dirk Behme:
-	 - Input: atmel_mxt_ts - add missing unlock in error path
-	 - Input: atmel_mxt_ts - add missing unlock in error path
-	 - Input: atmel_mxt_ts - call mxt_debug_msg_remove() in error path
-	 - Input: atmel_mxt_ts - protect debug_v2_enabled by mutex
-Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
-[gdavis: Squash fix from Vladimir Zapolskiy:
-	 - Input: atmel_mxt_ts - simplify debug_msg binary attribute
-	   handling]
-Signed-off-by: Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
----
-Notes:
-- Squash fixes from Dirk Behme:
-  + Input: atmel_mxt_ts - add missing unlock in error path
-
-    Unlock the mutex in case the function is exited in the error case.
-  + Input: atmel_mxt_ts - add missing unlock in error path
-  + Input: atmel_mxt_ts - protect debug_v2_enabled by mutex
-
-    Put the modification of debug_v2_enabled into the protected section.
-    Same as in mxt_debug_msg_enable().
-  + Input: atmel_mxt_ts - call mxt_debug_msg_remove() in error path
-
-    Add the missing mxt_debug_msg_remove() to the error path.
-- Squash fix from Vladimir Zapolskiy:
-  + Input: atmel_mxt_ts - simplify debug_msg binary attribute handling
-
-    The change introduces several updates, but all of them are related to
-    "debug_msg" binary attribute:
-
-    * removed dynamic initialization of data->debug_msg_attr
-    * removed mxt_debug_msg_write callback
-    * removed wrong check in mxt_debug_msg_remove()
-    * mxt_debug_msg_remove() now is not called from mxt_free_object_table()
-      avoiding multiple double deallocations.
+This patch eliminates data->raw_info_block.
 
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+Signed-off-by: George G. Davis <george_davis@mentor.com>
+Signed-off-by: Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 189 ++++++++++++++++++++++-
- 1 file changed, 187 insertions(+), 2 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 05b21c9c0c04..e185d10c2cac 100644
+index e185d10c2cac..248d4b239bf6 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -242,6 +242,8 @@ enum t100_type {
+@@ -323,7 +323,6 @@ struct mxt_data {
+ 	char phys[64];		/* device physical location */
+ 	struct mxt_object *object_table;
+ 	struct mxt_info *info;
+-	void *raw_info_block;
+ 	unsigned int irq;
+ 	unsigned int max_x;
+ 	unsigned int max_y;
+@@ -2060,9 +2059,8 @@ static void mxt_free_object_table(struct mxt_data *data)
+ 	v4l2_device_unregister(&data->dbg.v4l2);
+ #endif
+ 	data->object_table = NULL;
++	kfree(data->info);
+ 	data->info = NULL;
+-	kfree(data->raw_info_block);
+-	data->raw_info_block = NULL;
+ 	kfree(data->msg_buf);
+ 	data->msg_buf = NULL;
+ 	data->T5_address = 0;
+@@ -2231,7 +2229,7 @@ static int mxt_read_info_block(struct mxt_data *data)
+ 	u8 *crc_ptr;
  
- #define MXT_PIXELS_PER_MM	20
+ 	/* If info block already allocated, free it */
+-	if (data->raw_info_block)
++	if (data->info)
+ 		mxt_free_object_table(data);
  
-+#define DEBUG_MSG_MAX		200
-+
- struct mxt_info {
- 	u8 family_id;
- 	u8 variant_id;
-@@ -337,6 +339,11 @@ struct mxt_data {
- 	u8 t100_aux_vect;
- 	struct bin_attribute mem_access_attr;
- 	bool debug_enabled;
-+	bool debug_v2_enabled;
-+	u8 *debug_msg_data;
-+	u16 debug_msg_count;
-+	struct bin_attribute *debug_msg_attr;
-+	struct mutex debug_msg_lock;
- 	u8 max_reportid;
- 	u32 config_crc;
- 	u32 info_crc;
-@@ -466,6 +473,139 @@ static void mxt_dump_message(struct mxt_data *data, u8 *message)
- 		       data->T5_msg_size, message);
- }
- 
-+static void mxt_debug_msg_enable(struct mxt_data *data)
-+{
-+	struct device *dev = &data->client->dev;
-+
-+	if (data->debug_v2_enabled)
-+		return;
-+
-+	mutex_lock(&data->debug_msg_lock);
-+
-+	data->debug_msg_data = kcalloc(DEBUG_MSG_MAX,
-+				data->T5_msg_size, GFP_KERNEL);
-+	if (!data->debug_msg_data) {
-+		mutex_unlock(&data->debug_msg_lock);
-+		return;
-+	}
-+
-+	data->debug_v2_enabled = true;
-+	mutex_unlock(&data->debug_msg_lock);
-+
-+	dev_dbg(dev, "Enabled message output\n");
-+}
-+
-+static void mxt_debug_msg_disable(struct mxt_data *data)
-+{
-+	struct device *dev = &data->client->dev;
-+
-+	if (!data->debug_v2_enabled)
-+		return;
-+
-+	mutex_lock(&data->debug_msg_lock);
-+
-+	data->debug_v2_enabled = false;
-+
-+	kfree(data->debug_msg_data);
-+	data->debug_msg_data = NULL;
-+	data->debug_msg_count = 0;
-+	mutex_unlock(&data->debug_msg_lock);
-+	dev_dbg(dev, "Disabled message output\n");
-+}
-+
-+static void mxt_debug_msg_add(struct mxt_data *data, u8 *msg)
-+{
-+	struct device *dev = &data->client->dev;
-+
-+	mutex_lock(&data->debug_msg_lock);
-+
-+	if (!data->debug_msg_data) {
-+		mutex_unlock(&data->debug_msg_lock);
-+		dev_err(dev, "No buffer!\n");
-+		return;
-+	}
-+
-+	if (data->debug_msg_count < DEBUG_MSG_MAX) {
-+		memcpy(data->debug_msg_data +
-+		       data->debug_msg_count * data->T5_msg_size,
-+		       msg,
-+		       data->T5_msg_size);
-+		data->debug_msg_count++;
-+	} else {
-+		dev_dbg(dev, "Discarding %u messages\n", data->debug_msg_count);
-+		data->debug_msg_count = 0;
-+	}
-+
-+	mutex_unlock(&data->debug_msg_lock);
-+
-+	sysfs_notify(&data->client->dev.kobj, NULL, "debug_notify");
-+}
-+
-+static ssize_t mxt_debug_msg_read(struct file *filp, struct kobject *kobj,
-+	struct bin_attribute *bin_attr, char *buf, loff_t off, size_t bytes)
-+{
-+	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+	int count;
-+	size_t bytes_read;
-+
-+	if (!data->debug_msg_data) {
-+		dev_err(dev, "No buffer!\n");
-+		return 0;
-+	}
-+
-+	count = bytes / data->T5_msg_size;
-+
-+	if (count > DEBUG_MSG_MAX)
-+		count = DEBUG_MSG_MAX;
-+
-+	mutex_lock(&data->debug_msg_lock);
-+
-+	if (count > data->debug_msg_count)
-+		count = data->debug_msg_count;
-+
-+	bytes_read = count * data->T5_msg_size;
-+
-+	memcpy(buf, data->debug_msg_data, bytes_read);
-+	data->debug_msg_count = 0;
-+
-+	mutex_unlock(&data->debug_msg_lock);
-+
-+	return bytes_read;
-+}
-+
-+static struct bin_attribute debug_msg_attr = {
-+	.attr = {
-+		.name = "debug_msg",
-+		.mode = 0444,
-+	},
-+	.read = mxt_debug_msg_read,
-+};
-+
-+static int mxt_debug_msg_init(struct mxt_data *data)
-+{
-+	/*
-+	 * Binary attribute is not used in callback, removal is done by name,
-+	 * so it is safe to update a single struct bin_attribute entity
-+	 */
-+	debug_msg_attr.size = data->T5_msg_size * DEBUG_MSG_MAX;
-+	data->debug_msg_attr = &debug_msg_attr;
-+
-+	if (sysfs_create_bin_file(&data->client->dev.kobj,
-+				  data->debug_msg_attr) < 0) {
-+		dev_err(&data->client->dev, "Failed to create %s\n",
-+			debug_msg_attr.attr.name);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static void mxt_debug_msg_remove(struct mxt_data *data)
-+{
-+	sysfs_remove_bin_file(&data->client->dev.kobj, data->debug_msg_attr);
-+}
-+
- static int mxt_wait_for_completion(struct mxt_data *data,
- 				   struct completion *comp,
- 				   unsigned int timeout_ms)
-@@ -1256,6 +1396,9 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
- 	if (dump)
- 		mxt_dump_message(data, message);
- 
-+	if (data->debug_v2_enabled)
-+		mxt_debug_msg_add(data, message);
-+
- 	return 1;
- }
- 
-@@ -2671,6 +2814,10 @@ static int mxt_initialize(struct mxt_data *data)
- 	if (error)
- 		return error;
- 
-+	error = mxt_debug_msg_init(data);
-+	if (error)
-+		goto err_free_sysfs;
-+
- 	if (data->cfg_name) {
- 		error = request_firmware_nowait(THIS_MODULE, true,
- 						data->cfg_name,
-@@ -2680,16 +2827,18 @@ static int mxt_initialize(struct mxt_data *data)
- 		if (error) {
- 			dev_err(&client->dev, "Failed to invoke firmware loader: %d\n",
- 				error);
--			goto err_free_sysfs;
-+			goto err_free_dbg_msg;
- 		}
- 	} else {
- 		error = mxt_configure_objects(data, NULL);
- 		if (error)
--			goto err_free_sysfs;
-+			goto err_free_dbg_msg;
+ 	/* Read 7-byte ID information block starting at address 0 */
+@@ -2282,7 +2280,6 @@ static int mxt_read_info_block(struct mxt_data *data)
+ 		goto err_free_mem;
  	}
  
- 	return 0;
+-	data->raw_info_block = id_buf;
+ 	data->info = (struct mxt_info *)id_buf;
  
-+err_free_dbg_msg:
-+	mxt_debug_msg_remove(data);
- err_free_sysfs:
- 	mxt_sysfs_remove(data);
- 	return error;
-@@ -3351,6 +3500,7 @@ static int mxt_enter_bootloader(struct mxt_data *data)
- 			return ret;
- 
- 		data->in_bootloader = true;
-+		mxt_debug_msg_remove(data);
- 		mxt_sysfs_remove(data);
- 		mxt_free_input_device(data);
- 		mxt_free_object_table(data);
-@@ -3534,6 +3684,34 @@ static ssize_t mxt_debug_enable_show(struct device *dev,
- 	return scnprintf(buf, PAGE_SIZE, "%c\n", c);
- }
- 
-+static ssize_t mxt_debug_notify_show(struct device *dev,
-+	struct device_attribute *attr, char *buf)
-+{
-+	return sprintf(buf, "0\n");
-+}
-+
-+static ssize_t mxt_debug_v2_enable_store(struct device *dev,
-+	struct device_attribute *attr, const char *buf, size_t count)
-+{
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+	u8 i;
-+	ssize_t ret;
-+
-+	if (kstrtou8(buf, 0, &i) == 0 && i < 2) {
-+		if (i == 1)
-+			mxt_debug_msg_enable(data);
-+		else
-+			mxt_debug_msg_disable(data);
-+
-+		ret = count;
-+	} else {
-+		dev_dbg(dev, "debug_enabled write error\n");
-+		ret = -EINVAL;
-+	}
-+
-+	return ret;
-+}
-+
- static ssize_t mxt_debug_enable_store(struct device *dev,
- 	struct device_attribute *attr, const char *buf, size_t count)
- {
-@@ -3622,6 +3800,9 @@ static DEVICE_ATTR(update_cfg, S_IWUSR, NULL, mxt_update_cfg_store);
- static DEVICE_ATTR(config_crc, S_IRUGO, mxt_config_crc_show, NULL);
- static DEVICE_ATTR(debug_enable, S_IWUSR | S_IRUSR, mxt_debug_enable_show,
- 		   mxt_debug_enable_store);
-+static DEVICE_ATTR(debug_v2_enable, S_IWUSR | S_IRUSR, NULL,
-+		   mxt_debug_v2_enable_store);
-+static DEVICE_ATTR(debug_notify, S_IRUGO, mxt_debug_notify_show, NULL);
- 
- static struct attribute *mxt_attrs[] = {
- 	&dev_attr_fw_version.attr,
-@@ -3630,6 +3811,8 @@ static struct attribute *mxt_attrs[] = {
- 	&dev_attr_update_cfg.attr,
- 	&dev_attr_config_crc.attr,
- 	&dev_attr_debug_enable.attr,
-+	&dev_attr_debug_v2_enable.attr,
-+	&dev_attr_debug_notify.attr,
- 	NULL
- };
- 
-@@ -3914,6 +4097,7 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 	init_completion(&data->chg_completion);
- 	init_completion(&data->reset_completion);
- 	init_completion(&data->crc_completion);
-+	mutex_init(&data->debug_msg_lock);
- 
- 	data->suspend_mode = dmi_check_system(chromebook_T9_suspend_dmi) ?
- 		MXT_SUSPEND_T9_CTRL : MXT_SUSPEND_DEEP_SLEEP;
-@@ -3976,6 +4160,7 @@ static int mxt_remove(struct i2c_client *client)
- 
- 	disable_irq(data->irq);
- 	sysfs_remove_group(&client->dev.kobj, &mxt_fw_attr_group);
-+	mxt_debug_msg_remove(data);
- 	mxt_sysfs_remove(data);
- 	mxt_free_input_device(data);
- 	mxt_free_object_table(data);
+ 	dev_info(&client->dev,
 -- 
 2.19.2
 
