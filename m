@@ -2,69 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C6C19194B
-	for <lists+linux-input@lfdr.de>; Sun, 18 Aug 2019 21:37:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38FE891B1C
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2019 04:52:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726089AbfHRThC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 18 Aug 2019 15:37:02 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:54656 "EHLO mail.skyhub.de"
+        id S1726186AbfHSCwY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 18 Aug 2019 22:52:24 -0400
+Received: from mga14.intel.com ([192.55.52.115]:34893 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726005AbfHRThC (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 18 Aug 2019 15:37:02 -0400
-Received: from zn.tnic (p200300EC2F259C009DE1F825CAC07DED.dip0.t-ipconnect.de [IPv6:2003:ec:2f25:9c00:9de1:f825:cac0:7ded])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8F63F1EC0682;
-        Sun, 18 Aug 2019 21:37:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1566157020;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TBGJ/bm31ctHahHHgkIJ75Dakb8+noJAqut4gxtY15g=;
-        b=qpezTeVoohh8hAds5lug0Ux2VUAtOCmGMSYFSIyIueMf2ihzSjcixi7ZfMunjuWgVtRshR
-        LRD4sKZ+gZL8df2TRdups7v07iRLuIF4cgrQqABlnuJHC8qnq0N/QpsJp4KmSD8svcZnyT
-        syoMDpEcbKQaIAHqwOs79MpvD4epXe8=
-Date:   Sun, 18 Aug 2019 21:37:45 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Thomas =?utf-8?Q?Hellstr=C3=B6m_=28VMware=29?= 
-        <thomas_os@shipmail.org>
-Cc:     linux-kernel@vger.kernel.org, pv-drivers@vmware.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 0/4] Add support for updated vmware hypercall instruction
-Message-ID: <20190818193744.GB29353@zn.tnic>
-References: <20190818143316.4906-1-thomas_os@shipmail.org>
- <20190818180929.GA29353@zn.tnic>
- <c0f32d6b-3b6a-f931-071f-9fb308efba00@shipmail.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c0f32d6b-3b6a-f931-071f-9fb308efba00@shipmail.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726162AbfHSCwY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 18 Aug 2019 22:52:24 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Aug 2019 19:52:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; 
+   d="scan'208";a="329242805"
+Received: from spandruv-mobl3.jf.intel.com ([10.252.197.211])
+  by orsmga004.jf.intel.com with ESMTP; 18 Aug 2019 19:52:23 -0700
+Message-ID: <77a8df403934d85967dcdb221862c13e15c26112.camel@linux.intel.com>
+Subject: Re: [PATCH v2 0/3] HID: intel-ish-hid: support s2idle and s3 in
+ ish_suspend()
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Zhang Lixu <lixu.zhang@intel.com>, linux-input@vger.kernel.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-kernel@vger.kernel.org
+Date:   Sun, 18 Aug 2019 19:52:23 -0700
+In-Reply-To: <20190808102113.27802-1-lixu.zhang@intel.com>
+References: <20190808102113.27802-1-lixu.zhang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Aug 18, 2019 at 09:02:04PM +0200, Thomas Hellström (VMware) wrote:
-> I was trying to be clever and avoid spamming people with stuff they might
-> not care about.
+On Thu, 2019-08-08 at 18:21 +0800, Zhang Lixu wrote:
+> Currently, the NO_D3 flag is set in ish_probe(), the intel-ish-ipc
+> driver
+> puts the ISH into D0i3 when system enter both suspend-to-idle(S0ix)
+> and
+> suspend-to-mem(S3). These patches are to put the ISH into D3 when
+> system
+> enter S3 and put the ISH into D0i3 when system enter S0ix.
+> 
+> I tested these patches on the following platforms:
+> ISH 5.2: ICL
+> ISH 5.0: CNL CFL WHL CML
+> ISH 4.0: GLK
+> ISH 3.0: KBL
+> 
+> Test steps:
+> * Run the IIO Sensor tool to read the accel_3d sensor data
+> * Run cmd "echo mem > /sys/power/state" to suspend-to-mem
+> * Press the keyboard to wake up OS.
+> * Check if the tool can get the sensor data after OS resume.
+> * Run cmd "echo freeze > /sys/power/state" to suspend-to-idle
+> * Press the keyboard to wake up OS.
+> * Check if the tool can get the sensor data after OS resume.
+> 
+> Test results:
+> The tool can get the accel_3d sensor data after resuming from both
+> suspend-to-mem and suspend-to-idle.
+> 
+> Changes from v1:
+> * Fix the indentation issue
+> * Elaborate the reason to remove the NO_D3 flag
+> * Split the PATCH v1 to three changes, and try to minimize the lines
+> change
+> 
+> Zhang Lixu (3):
+>   HID: intel-ish-hid: ipc: set NO_D3 flag only when needed
+>   HID: intel-ish-hid: ipc: make ish suspend paths clear
+>   HID: intel-ish-hid: ipc: check the NO_D3 flag to distinguish resume
+>     paths
+> 
 
-Sure but if, for example, you're adding VMWARE_HYPERCALL in patch 2 and
-the users are in the following patches, it would be helpful if I could
-see them too. That is one good reason to CC everybody with the whole
-patchset.
+For the series:
 
-Thx.
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
--- 
-Regards/Gruss,
-    Boris.
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
+>  drivers/hid/intel-ish-hid/ipc/hw-ish.h  |  1 +
+>  drivers/hid/intel-ish-hid/ipc/ipc.c     |  2 +-
+>  drivers/hid/intel-ish-hid/ipc/pci-ish.c | 95 +++++++++++++++------
+> ----
+>  3 files changed, 61 insertions(+), 37 deletions(-)
+> 
+
