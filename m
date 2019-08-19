@@ -2,276 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD00192596
-	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2019 15:55:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 329E394960
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2019 18:04:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727308AbfHSNzV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Aug 2019 09:55:21 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:40752 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726987AbfHSNzU (ORCPT
+        id S1727813AbfHSQDr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Aug 2019 12:03:47 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:44787 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727768AbfHSQDr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Aug 2019 09:55:20 -0400
-Received: from [123.123.253.197] (helo=localhost.localdomain)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <hui.wang@canonical.com>)
-        id 1hzi7x-0003wP-3g; Mon, 19 Aug 2019 13:55:18 +0000
-From:   Hui Wang <hui.wang@canonical.com>
-To:     linux-input@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com
-Subject: [PATCH] Input: psmouse - drop all unneeded functions from mouse headers
-Date:   Mon, 19 Aug 2019 21:55:00 +0800
-Message-Id: <20190819135500.3261-1-hui.wang@canonical.com>
-X-Mailer: git-send-email 2.17.1
+        Mon, 19 Aug 2019 12:03:47 -0400
+Received: by mail-wr1-f65.google.com with SMTP id p17so9266341wrf.11
+        for <linux-input@vger.kernel.org>; Mon, 19 Aug 2019 09:03:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=6CiC3PI+TmOa2p2Q2SeB4X/ZsXshUT7DqEoOM5ckDHQ=;
+        b=G0jEj9zV3eHqI1j8W40/3fnNs82adJ3/UEI+kEZAZDf+H9nczzYzLB/t1dOYuND52g
+         Zsqaw5E9SNMHuyCkZVr0K5I2rB0mxLGPmbSFeGR4ex2qV5IdSd5d2ykx2F2C0Gd7ARkD
+         hW5Jpr+nDc5SEg5xkamYzxCLL4hT3dz2e9wk325giL2Ct76TMMgslshO1RP4NdwNnH8d
+         jFlC6RdBu845K9FlsgHXaEhavopGWu07xmmfSHsVtW/UphPyk1cNpWaSumgBpOO9Rrw7
+         QNyGYu3l0FiA9KGS7h/Wz6vwSFfGlXgkqbji+U0d6WQLRwMrNYh4giZ/pypWafEJHvI6
+         sGSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=6CiC3PI+TmOa2p2Q2SeB4X/ZsXshUT7DqEoOM5ckDHQ=;
+        b=llQBd7AYTTHrgEiH/u+ZgAOsxLb1ZBjD0oKySQxV+PWz+1P/hhUw9jrdep3wKniT7h
+         WG02ypN8WqJ9OG/pf6V+C2AcXkFeaqtEQlBL6Rz5j/5QSTgnpi33aV+rl7EppExzxt+6
+         ME9B+X3PXEDdUETTLQj3GfcE4IMjLkrc/9jcfmW3tnePtz7u7cg7GXE8NthlGOn6k2uB
+         M0zHm/83Bip1PcNBA7xBvV73XhPID5zb1DT46XAdZ9mViKE47UNdvyopH2Jybvpjt880
+         wKZodQMg4h3cKxspLzjTskBht+U5M7D8cTAxr8188Y4vNIafdce3TDNsu1BV/9gR3CH3
+         b64g==
+X-Gm-Message-State: APjAAAVwKiYIMx45XXCS92iBRdLDiNwZmIsbSFEbKykzDSuxXZc0h4Q8
+        /Fh5eV28QRLi2Ab7OxmmS7v1Jw==
+X-Google-Smtp-Source: APXvYqx1eK0G7jwYaqgVAS+nqtWjQWIhjZxh4MmgupwqIPPmzYQcW6th/ak/QwO45xkaGiS3mSuXgQ==
+X-Received: by 2002:a5d:554e:: with SMTP id g14mr14857333wrw.68.1566230625109;
+        Mon, 19 Aug 2019 09:03:45 -0700 (PDT)
+Received: from [192.168.86.34] (cpc89974-aztw32-2-0-cust43.18-1.cable.virginm.net. [86.30.250.44])
+        by smtp.googlemail.com with ESMTPSA id s2sm13301910wrp.32.2019.08.19.09.03.42
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 19 Aug 2019 09:03:43 -0700 (PDT)
+Subject: Re: [PATCH v4 3/9] nvmem: core: add nvmem_device_find
+To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc:     Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Evgeniy Polyakov <zbr@ioremap.net>, linux-mips@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org
+References: <20190809103235.16338-1-tbogendoerfer@suse.de>
+ <20190809103235.16338-4-tbogendoerfer@suse.de>
+ <8d18de64-9234-fcba-aa3d-b46789eb62a5@linaro.org>
+ <20190814134616.b4dab3c0aa6ac913d78edb6a@suse.de>
+ <31d680ee-ddb3-8536-c915-576222d263e1@linaro.org>
+ <20190816140942.GA15050@alpha.franken.de>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Message-ID: <fca76e6d-fa0b-176b-abcf-e7551b22e6a9@linaro.org>
+Date:   Mon, 19 Aug 2019 17:03:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190816140942.GA15050@alpha.franken.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Recently we had a building error if we enable the MOUSE_PS2_ALPS while
-disable the MOUSE_PS2_TRACKPOINT, and was fixed by 49e6979e7e92
-("Input: psmouse - fix build error of multiple definition").
 
-We could improve that fix by dropping all unneeded functions from
-the header, it is safe to do that since those functions are not
-directly called by psmouse-base.c anymore.
 
-Signed-off-by: Hui Wang <hui.wang@canonical.com>
----
- drivers/input/mouse/alps.h         |  9 ---------
- drivers/input/mouse/byd.h          |  9 ---------
- drivers/input/mouse/cypress_ps2.h  |  9 ---------
- drivers/input/mouse/elantech.h     | 13 -------------
- drivers/input/mouse/hgpk.h         |  8 --------
- drivers/input/mouse/lifebook.h     |  8 --------
- drivers/input/mouse/logips2pp.h    |  5 -----
- drivers/input/mouse/sentelic.h     |  9 ---------
- drivers/input/mouse/touchkit_ps2.h |  6 ------
- drivers/input/mouse/trackpoint.h   |  6 ------
- drivers/input/mouse/vmmouse.h      |  9 ---------
- 11 files changed, 91 deletions(-)
+On 16/08/2019 15:09, Thomas Bogendoerfer wrote:
+> On Wed, Aug 14, 2019 at 01:52:49PM +0100, Srinivas Kandagatla wrote:
+>> On 14/08/2019 12:46, Thomas Bogendoerfer wrote:
+>>> On Tue, 13 Aug 2019 10:40:34 +0100
+>>> Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
+>>>> On 09/08/2019 11:32, Thomas Bogendoerfer wrote:
+>>>>> nvmem_device_find provides a way to search for nvmem devices with
+>>>>> the help of a match function simlair to bus_find_device.
+>>>>>
+>>>>> Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
+>>>>> ---
+>>>>>    drivers/nvmem/core.c           | 62 ++++++++++++++++++++++--------------------
+>>>>>    include/linux/nvmem-consumer.h |  9 ++++++
+>>>>>    2 files changed, 41 insertions(+), 30 deletions(-)
+>>>>
+>>>> Have you considered using nvmem_register_notifier() ?
+>>>
+>>> yes, that was the first idea. But then I realized I need to build up
+>>> a private database of information already present in nvmem bus. So I
+>>> looked for a way to retrieve it from there. Unfortunately I couldn't
+>>> use bus_find_device directly, because nvmem_bus_type and struct nvmem_device
+>>> is hidden. So I refactured the lookup code and added a more universal
+>>> lookup function, which fits my needs and should be usable for more.
+>> I see your point.
+>>
+>> overall the patch as it is look good, but recently we added more generic
+>> lookups for DT node, looks like part of your patch is un-doing generic
+>> device name lookup.
+>>
+>> DT node match lookup is in https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/log/?h=generic_lookup_helpers
+> 
+> these patches are not in Linus tree, yet. I guess they will show up
+> in 5.4. No idea how to deal with it right now, do you ?
+All these patches are due to go in next merge window,
+You should base your patch on top of linux-next.
 
-diff --git a/drivers/input/mouse/alps.h b/drivers/input/mouse/alps.h
-index f4bab629739c..74ad10327c48 100644
---- a/drivers/input/mouse/alps.h
-+++ b/drivers/input/mouse/alps.h
-@@ -326,15 +326,6 @@ struct alps_data {
- #ifdef CONFIG_MOUSE_PS2_ALPS
- int alps_detect(struct psmouse *psmouse, bool set_properties);
- int alps_init(struct psmouse *psmouse);
--#else
--inline int alps_detect(struct psmouse *psmouse, bool set_properties)
--{
--	return -ENOSYS;
--}
--inline int alps_init(struct psmouse *psmouse)
--{
--	return -ENOSYS;
--}
- #endif /* CONFIG_MOUSE_PS2_ALPS */
- 
- #endif
-diff --git a/drivers/input/mouse/byd.h b/drivers/input/mouse/byd.h
-index 8cb90d904186..6f0d16708004 100644
---- a/drivers/input/mouse/byd.h
-+++ b/drivers/input/mouse/byd.h
-@@ -5,15 +5,6 @@
- #ifdef CONFIG_MOUSE_PS2_BYD
- int byd_detect(struct psmouse *psmouse, bool set_properties);
- int byd_init(struct psmouse *psmouse);
--#else
--static inline int byd_detect(struct psmouse *psmouse, bool set_properties)
--{
--	return -ENOSYS;
--}
--static inline int byd_init(struct psmouse *psmouse)
--{
--	return -ENOSYS;
--}
- #endif /* CONFIG_MOUSE_PS2_BYD */
- 
- #endif /* _BYD_H */
-diff --git a/drivers/input/mouse/cypress_ps2.h b/drivers/input/mouse/cypress_ps2.h
-index 1eaddd818004..aee5a400771b 100644
---- a/drivers/input/mouse/cypress_ps2.h
-+++ b/drivers/input/mouse/cypress_ps2.h
-@@ -173,15 +173,6 @@ struct cytp_data {
- #ifdef CONFIG_MOUSE_PS2_CYPRESS
- int cypress_detect(struct psmouse *psmouse, bool set_properties);
- int cypress_init(struct psmouse *psmouse);
--#else
--inline int cypress_detect(struct psmouse *psmouse, bool set_properties)
--{
--	return -ENOSYS;
--}
--inline int cypress_init(struct psmouse *psmouse)
--{
--	return -ENOSYS;
--}
- #endif /* CONFIG_MOUSE_PS2_CYPRESS */
- 
- #endif  /* _CYPRESS_PS2_H */
-diff --git a/drivers/input/mouse/elantech.h b/drivers/input/mouse/elantech.h
-index 46343998522b..a5631f120f60 100644
---- a/drivers/input/mouse/elantech.h
-+++ b/drivers/input/mouse/elantech.h
-@@ -189,27 +189,14 @@ int elantech_detect(struct psmouse *psmouse, bool set_properties);
- int elantech_init_ps2(struct psmouse *psmouse);
- int elantech_init(struct psmouse *psmouse);
- #else
--static inline int elantech_detect(struct psmouse *psmouse, bool set_properties)
--{
--	return -ENOSYS;
--}
- static inline int elantech_init(struct psmouse *psmouse)
- {
- 	return -ENOSYS;
- }
--static inline int elantech_init_ps2(struct psmouse *psmouse)
--{
--	return -ENOSYS;
--}
- #endif /* CONFIG_MOUSE_PS2_ELANTECH */
- 
- #if defined(CONFIG_MOUSE_PS2_ELANTECH_SMBUS)
- int elantech_init_smbus(struct psmouse *psmouse);
--#else
--static inline int elantech_init_smbus(struct psmouse *psmouse)
--{
--	return -ENOSYS;
--}
- #endif /* CONFIG_MOUSE_PS2_ELANTECH_SMBUS */
- 
- #endif
-diff --git a/drivers/input/mouse/hgpk.h b/drivers/input/mouse/hgpk.h
-index 98b7b384229b..a498b9d60a5a 100644
---- a/drivers/input/mouse/hgpk.h
-+++ b/drivers/input/mouse/hgpk.h
-@@ -55,14 +55,6 @@ int hgpk_init(struct psmouse *psmouse);
- static inline void hgpk_module_init(void)
- {
- }
--static inline int hgpk_detect(struct psmouse *psmouse, bool set_properties)
--{
--	return -ENODEV;
--}
--static inline int hgpk_init(struct psmouse *psmouse)
--{
--	return -ENODEV;
--}
- #endif
- 
- #endif
-diff --git a/drivers/input/mouse/lifebook.h b/drivers/input/mouse/lifebook.h
-index 573f2ca1983d..546c1427ab03 100644
---- a/drivers/input/mouse/lifebook.h
-+++ b/drivers/input/mouse/lifebook.h
-@@ -16,14 +16,6 @@ int lifebook_init(struct psmouse *psmouse);
- static inline void lifebook_module_init(void)
- {
- }
--static inline int lifebook_detect(struct psmouse *psmouse, bool set_properties)
--{
--	return -ENOSYS;
--}
--static inline int lifebook_init(struct psmouse *psmouse)
--{
--	return -ENOSYS;
--}
- #endif
- 
- #endif
-diff --git a/drivers/input/mouse/logips2pp.h b/drivers/input/mouse/logips2pp.h
-index 5f9344135f70..e90d998f1e13 100644
---- a/drivers/input/mouse/logips2pp.h
-+++ b/drivers/input/mouse/logips2pp.h
-@@ -10,11 +10,6 @@
- 
- #ifdef CONFIG_MOUSE_PS2_LOGIPS2PP
- int ps2pp_detect(struct psmouse *psmouse, bool set_properties);
--#else
--static inline int ps2pp_detect(struct psmouse *psmouse, bool set_properties)
--{
--	return -ENOSYS;
--}
- #endif /* CONFIG_MOUSE_PS2_LOGIPS2PP */
- 
- #endif
-diff --git a/drivers/input/mouse/sentelic.h b/drivers/input/mouse/sentelic.h
-index dc88a93adf85..ac2fc0967bbe 100644
---- a/drivers/input/mouse/sentelic.h
-+++ b/drivers/input/mouse/sentelic.h
-@@ -109,15 +109,6 @@ struct fsp_data {
- #ifdef CONFIG_MOUSE_PS2_SENTELIC
- extern int fsp_detect(struct psmouse *psmouse, bool set_properties);
- extern int fsp_init(struct psmouse *psmouse);
--#else
--static inline int fsp_detect(struct psmouse *psmouse, bool set_properties)
--{
--	return -ENOSYS;
--}
--static inline int fsp_init(struct psmouse *psmouse)
--{
--	return -ENOSYS;
--}
- #endif
- 
- #endif	/* __KERNEL__ */
-diff --git a/drivers/input/mouse/touchkit_ps2.h b/drivers/input/mouse/touchkit_ps2.h
-index 5acb76464a5b..b072b30ffa44 100644
---- a/drivers/input/mouse/touchkit_ps2.h
-+++ b/drivers/input/mouse/touchkit_ps2.h
-@@ -11,12 +11,6 @@
- 
- #ifdef CONFIG_MOUSE_PS2_TOUCHKIT
- int touchkit_ps2_detect(struct psmouse *psmouse, bool set_properties);
--#else
--static inline int touchkit_ps2_detect(struct psmouse *psmouse,
--				      bool set_properties)
--{
--	return -ENOSYS;
--}
- #endif /* CONFIG_MOUSE_PS2_TOUCHKIT */
- 
- #endif
-diff --git a/drivers/input/mouse/trackpoint.h b/drivers/input/mouse/trackpoint.h
-index 77110f3ec21d..d603bd8bdc5c 100644
---- a/drivers/input/mouse/trackpoint.h
-+++ b/drivers/input/mouse/trackpoint.h
-@@ -157,12 +157,6 @@ struct trackpoint_data {
- 
- #ifdef CONFIG_MOUSE_PS2_TRACKPOINT
- int trackpoint_detect(struct psmouse *psmouse, bool set_properties);
--#else
--static inline int trackpoint_detect(struct psmouse *psmouse,
--				    bool set_properties)
--{
--	return -ENOSYS;
--}
- #endif /* CONFIG_MOUSE_PS2_TRACKPOINT */
- 
- #endif /* _TRACKPOINT_H */
-diff --git a/drivers/input/mouse/vmmouse.h b/drivers/input/mouse/vmmouse.h
-index 774549a12930..dcdeb4f95ceb 100644
---- a/drivers/input/mouse/vmmouse.h
-+++ b/drivers/input/mouse/vmmouse.h
-@@ -13,15 +13,6 @@
- 
- int vmmouse_detect(struct psmouse *psmouse, bool set_properties);
- int vmmouse_init(struct psmouse *psmouse);
--#else
--static inline int vmmouse_detect(struct psmouse *psmouse, bool set_properties)
--{
--	return -ENOSYS;
--}
--static inline int vmmouse_init(struct psmouse *psmouse)
--{
--	return -ENOSYS;
--}
- #endif
- 
- #endif
--- 
-2.17.1
-
+thanks,
+srini
+> 
+>> Other missing bit is adding this api to documentation in
+>> ./Documentation/driver-api/nvmem.rst
+> 
+> ok, will do.
+> 
+> Thomas.
+> 
