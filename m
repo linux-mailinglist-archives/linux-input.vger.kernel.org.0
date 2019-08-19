@@ -2,97 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B21E94B8B
-	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2019 19:20:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54AAB94CC4
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2019 20:26:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727744AbfHSRU4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Aug 2019 13:20:56 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:44734 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727483AbfHSRU4 (ORCPT
+        id S1728275AbfHSS0i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Aug 2019 14:26:38 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:36016 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727970AbfHSS0i (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Aug 2019 13:20:56 -0400
-Received: by mail-pl1-f196.google.com with SMTP id t14so1264430plr.11;
-        Mon, 19 Aug 2019 10:20:56 -0700 (PDT)
+        Mon, 19 Aug 2019 14:26:38 -0400
+Received: by mail-pl1-f195.google.com with SMTP id f19so952687plr.3
+        for <linux-input@vger.kernel.org>; Mon, 19 Aug 2019 11:26:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=uWdwCDtMPlF5hq0FEH+qYu81o8cFADCpXoKSQ8ivLek=;
-        b=SFYJalwmyQRBvKkvlFzn8QHgdWRc6Z37eBV3BYP+8iEJbiAe2MGk0PsSV2f/WyJfcI
-         HbQ0dH7fEAoxv9tHc+zxy6FKCBQ2bzlu0lK/qZAj+cHoyDDYbM+MxUTemNv0j6PAqMTA
-         E9eT6fv5LIgEljpjBDF9BGTu4VQ3nDXIYvQgeKd7FC8V8UXvImpsaCdqwu/asuCv+2XK
-         Zjuf5n/Mht2z2YfzS/50Mv8QQaoZANk4qq0YGV0g+HdimrSQsZCHhdcDkdI8+o3CX/IY
-         st3g6JcAZ/YKueQz4js6NVYzWmTptzlA7E08RZtVOAbDv/bfy9tNkDpuQ0nGsa5C09kk
-         XR1A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=1onH/yacP56E3Llapycul3pigysohlsDrwsQggNYxVw=;
+        b=meggVbl5pbyx3xkD2SRimOSZhLvaYUdmffrBXP+fudI6aiVYOBCoN4093p9q4uBM6a
+         euxNsm5rWWDyiLeQLSIaS+hI0edUTDNz117S0gdHlY2cbYk6+3wlnqDMIlAuds5EGl7r
+         GxlPnpdCDIhUgH79gYB93FLnXzTxJ09AgmL9o+2SFmXoct0rOJNBowD8xoj+K9BdIjnl
+         xpnmRkB4SB7v/QyCr7kBKvaa0FrLDsBw7jNVbkMfmWXWt7VLpZTpHWqaGqHYw1SCcm96
+         D7ZMEVk0xo6VYqm78MBjZYtf/WppVkUg95hbXlE5d74TrSQ9VvAwOQZmxkB0dGQT3BfX
+         528A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=uWdwCDtMPlF5hq0FEH+qYu81o8cFADCpXoKSQ8ivLek=;
-        b=W8kPbados6B75XDbHS4/8eKIz4XlzEIdhnAVu74/mbq0lykXyF3JZZXWp+jmPYL8rD
-         IWZ8tG20StJpnuNHQ49P2hD6ZYvCkEHlUuBqg4p7CWaLix2GfK6jGpuT7VQDFTjJsIkT
-         ZCVt2xHQNMb1auaafHZaaTwa4NyHjAwTHWsMUcnJSk0M5STC853yF144aECsVsc6H0ty
-         FNGhQtwfQjzokk/RlGTEAmdhdyOJY/AA2gjd1TjX2bNkVjhzThEzx3fhFrB5HWJYta/+
-         cxht6vQ+ub6g+NWcYEfzZkCjYPcQT1yjiKPk9NkDZGA7T1yKizmR4tCTqg1KA0Ek/oQN
-         tLxg==
-X-Gm-Message-State: APjAAAVSAjRySaQ1EzlhwnZNhxZ9jUbk/cpUonqptNjokCaQfMTkXusz
-        CqwTcaC5DDcIbphEcauZevE=
-X-Google-Smtp-Source: APXvYqy0oqizQ6Kon+/I+vQ+MA1p+hIMl6O01J1Lm6doaFsJfKyC3pT2kDX439hEyCY2ns5Nwa/NqQ==
-X-Received: by 2002:a17:902:145:: with SMTP id 63mr11671732plb.55.1566235255530;
-        Mon, 19 Aug 2019 10:20:55 -0700 (PDT)
-Received: from west.Home ([97.115.133.135])
-        by smtp.googlemail.com with ESMTPSA id f6sm14974396pga.50.2019.08.19.10.20.54
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 19 Aug 2019 10:20:54 -0700 (PDT)
-From:   Aaron Armstrong Skomra <skomra@gmail.com>
-X-Google-Original-From: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-To:     sashal@kernel.org, linux-input@vger.kernel.org, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, ping.cheng@wacom.com,
-        jason.gerecke@wacom.com
-Cc:     Aaron Armstrong Skomra <aaron.skomra@wacom.com>,
-        "# v4 . 3+" <stable@vger.kernel.org>
-Subject: [PATCH] HID: wacom: correct misreported EKR ring values
-Date:   Mon, 19 Aug 2019 10:20:30 -0700
-Message-Id: <1566235230-11617-1-git-send-email-aaron.skomra@wacom.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20190817181109.33F1B2173B@mail.kernel.org>
-References: <20190817181109.33F1B2173B@mail.kernel.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1onH/yacP56E3Llapycul3pigysohlsDrwsQggNYxVw=;
+        b=MbEU64RzVv5QZcEpqxDwioHf0QpqYKGg8sTE1BNOQaU2ASgoZhwDAeX+S0CFFWwm8H
+         JDSE4U16wEpfgg7XSZ8tSbET7Qiko1WxzXuYpW8xS8DaRTR56nVBsrNelz3S0jdCpzDC
+         j4o1pqnzOFnLEeyamgiYFPmvQu21U6Vqy6TGYyp5xY8No1y1qD75vHXYa39VZ5uaQN58
+         puAEBc34TsveU4nKT92hURJwE7eiID3SKlpsBvWN2rUJGoxUqvRQ6zIklIOzsnB2DwCc
+         I4uRDvwzL5OFaBjuXKouNgmBlCipFW1WMEQY1HM+LY4g1VRYp78cWPmS0Y7dB82mFwSy
+         uZfg==
+X-Gm-Message-State: APjAAAU4bfh93OploWotcvAEYyhGIt9/7TsAC+2XMqb3fIyoOu1eTBsf
+        ZIFwLXHMYHZ9RhTL5lasV4C16tpb
+X-Google-Smtp-Source: APXvYqzBo9qlBv0Lnel2ec+03EXnUSi2nffPGuu13psYrd6V/5TZPUZRdMPWco4hQvPTNa3TQbL9qw==
+X-Received: by 2002:a17:902:830c:: with SMTP id bd12mr24441054plb.237.1566239197251;
+        Mon, 19 Aug 2019 11:26:37 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id h11sm13918911pgv.5.2019.08.19.11.26.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2019 11:26:36 -0700 (PDT)
+Date:   Mon, 19 Aug 2019 11:26:34 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hui Wang <hui.wang@canonical.com>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: psmouse - drop all unneeded functions from mouse
+ headers
+Message-ID: <20190819182634.GN121898@dtor-ws>
+References: <20190819135500.3261-1-hui.wang@canonical.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190819135500.3261-1-hui.wang@canonical.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The EKR ring claims a range of 0 to 71 but actually reports
-values 1 to 72. The ring is used in relative mode so this
-change should not affect users.
+Hi Hui,
 
-Signed-off-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-Fixes: 72b236d60218f ("HID: wacom: Add support for Express Key Remote.")
-Cc: <stable@vger.kernel.org> # v4.3+
-Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
-Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
----
-My first attempt at sending this 
-patch specifically targeted to v4.9.189
+On Mon, Aug 19, 2019 at 09:55:00PM +0800, Hui Wang wrote:
+> Recently we had a building error if we enable the MOUSE_PS2_ALPS while
+> disable the MOUSE_PS2_TRACKPOINT, and was fixed by 49e6979e7e92
+> ("Input: psmouse - fix build error of multiple definition").
+> 
+> We could improve that fix by dropping all unneeded functions from
+> the header, it is safe to do that since those functions are not
+> directly called by psmouse-base.c anymore.
+> 
+> Signed-off-by: Hui Wang <hui.wang@canonical.com>
+> ---
+>  drivers/input/mouse/alps.h         |  9 ---------
+>  drivers/input/mouse/byd.h          |  9 ---------
+>  drivers/input/mouse/cypress_ps2.h  |  9 ---------
+>  drivers/input/mouse/elantech.h     | 13 -------------
+>  drivers/input/mouse/hgpk.h         |  8 --------
+>  drivers/input/mouse/lifebook.h     |  8 --------
+>  drivers/input/mouse/logips2pp.h    |  5 -----
+>  drivers/input/mouse/sentelic.h     |  9 ---------
+>  drivers/input/mouse/touchkit_ps2.h |  6 ------
+>  drivers/input/mouse/trackpoint.h   |  6 ------
+>  drivers/input/mouse/vmmouse.h      |  9 ---------
+>  11 files changed, 91 deletions(-)
+> 
+> diff --git a/drivers/input/mouse/alps.h b/drivers/input/mouse/alps.h
+> index f4bab629739c..74ad10327c48 100644
+> --- a/drivers/input/mouse/alps.h
+> +++ b/drivers/input/mouse/alps.h
+> @@ -326,15 +326,6 @@ struct alps_data {
+>  #ifdef CONFIG_MOUSE_PS2_ALPS
 
-neglected the "in-reply-to" in git send-email. My apologies.
+Do we need to keep the CONFIG_MOUSE_* guards if we are dropping stubs?
 
- drivers/hid/wacom_wac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>  int alps_detect(struct psmouse *psmouse, bool set_properties);
+>  int alps_init(struct psmouse *psmouse);
+> -#else
+> -inline int alps_detect(struct psmouse *psmouse, bool set_properties)
+> -{
+> -	return -ENOSYS;
+> -}
+> -inline int alps_init(struct psmouse *psmouse)
+> -{
+> -	return -ENOSYS;
+> -}
+>  #endif /* CONFIG_MOUSE_PS2_ALPS */
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 6c3bf8846b52..949761dd29ca 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -819,7 +819,7 @@ static int wacom_remote_irq(struct wacom_wac *wacom_wac, size_t len)
- 	input_report_key(input, BTN_BASE2, (data[11] & 0x02));
- 
- 	if (data[12] & 0x80)
--		input_report_abs(input, ABS_WHEEL, (data[12] & 0x7f));
-+		input_report_abs(input, ABS_WHEEL, (data[12] & 0x7f) - 1);
- 	else
- 		input_report_abs(input, ABS_WHEEL, 0);
- 
--- 
-2.17.1
+Thanks.
 
+- 
+Dmitry
