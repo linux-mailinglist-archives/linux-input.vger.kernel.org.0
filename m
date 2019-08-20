@@ -2,91 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8F069593F
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 10:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FB5D95A08
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 10:43:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729246AbfHTIRh convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Tue, 20 Aug 2019 04:17:37 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51140 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729150AbfHTIRh (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Aug 2019 04:17:37 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 6F5DEAEA1;
-        Tue, 20 Aug 2019 08:17:35 +0000 (UTC)
-Date:   Tue, 20 Aug 2019 10:17:34 +0200
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Evgeniy Polyakov <zbr@ioremap.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v5 15/17] mfd: ioc3: Add driver for SGI IOC3 chip
-Message-Id: <20190820101734.bffe41588e0c92094b9dba3d@suse.de>
-In-Reply-To: <20190820062308.GK3545@piout.net>
-References: <20190819163144.3478-1-tbogendoerfer@suse.de>
-        <20190819163144.3478-16-tbogendoerfer@suse.de>
-        <20190820062308.GK3545@piout.net>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8BIT
+        id S1729308AbfHTIn2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Aug 2019 04:43:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59866 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728545AbfHTIn2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 20 Aug 2019 04:43:28 -0400
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4E88823777;
+        Tue, 20 Aug 2019 08:43:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566290607;
+        bh=yVHdciJ6Uf7f0XT+WZlY2UlBsVWUFoNWCV7vCgtCN7s=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=yt5ZNkw/0l/1ehGE9jhqxA/jYLiAKZhEu9WjGCFI2Lkh1d+AdJqDDNJGW56GlZqfA
+         fIxSpRV72y/4HCQMan2DU+W5ndr9dAt5ItcwnyHu0Aon9tqkwLA0+sCXlooJZ0hfhR
+         lGr+x1pYJ7fW/dvcqRQffAauX7NQzErwIRmoP7CE=
+Date:   Tue, 20 Aug 2019 10:43:17 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Aaron Armstrong Skomra <skomra@gmail.com>
+cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
+        ping.cheng@wacom.com, jason.gerecke@wacom.com,
+        Aaron Armstrong Skomra <aaron.skomra@wacom.com>,
+        "# v4 . 3+" <stable@vger.kernel.org>
+Subject: Re: [PATCH] HID: wacom: correct misreported EKR ring values
+In-Reply-To: <1565982054-29236-1-git-send-email-aaron.skomra@wacom.com>
+Message-ID: <nycvar.YFH.7.76.1908201043020.27147@cbobk.fhfr.pm>
+References: <1565982054-29236-1-git-send-email-aaron.skomra@wacom.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 20 Aug 2019 08:23:08 +0200
-Alexandre Belloni <alexandre.belloni@bootlin.com> wrote:
-> On 19/08/2019 18:31:38+0200, Thomas Bogendoerfer wrote:
-> > diff --git a/drivers/mfd/ioc3.c b/drivers/mfd/ioc3.c
-> > new file mode 100644
-> > index 000000000000..5bcb3461a189
-> > --- /dev/null
-> > +++ b/drivers/mfd/ioc3.c
-> > @@ -0,0 +1,586 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * SGI IOC3 multifunction device driver
-> > + *
-> > + * Copyright (C) 2018, 2019 Thomas Bogendoerfer <tbogendoerfer@suse.de>
-> > + *
-> > + * Based on work by:
-> > + *   Stanislaw Skowronek <skylark@unaligned.org>
-> > + *   Joshua Kinard <kumba@gentoo.org>
-> > + *   Brent Casavant <bcasavan@sgi.com> - IOC4 master driver
-> > + *   Pat Gefre <pfg@sgi.com> - IOC3 serial port IRQ demuxer
-> > + */
-> > +
-> > +#include <linux/delay.h>
-> > +#include <linux/errno.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/mfd/core.h>
-> > +#include <linux/module.h>
-> > +#include <linux/pci.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/platform_data/sgi-w1.h>
-> > +#include <linux/rtc/ds1685.h>
-> I don't think this include is necessary.
+On Fri, 16 Aug 2019, Aaron Armstrong Skomra wrote:
 
-you are right. I'll move it to the patch where IP30 systemboard gets added.
+> The EKR ring claims a range of 0 to 71 but actually reports
+> values 1 to 72. The ring is used in relative mode so this
+> change should not affect users.
+> 
+> Signed-off-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
+> Fixes: 72b236d60218f ("HID: wacom: Add support for Express Key Remote.")
+> Cc: <stable@vger.kernel.org> # v4.3+
+> Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
+> Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
 
-Thanks,
-Thomas.
+Queued for 5.3, thanks Aaron.
 
 -- 
-SUSE Linux GmbH
-GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG Nürnberg)
+Jiri Kosina
+SUSE Labs
+
