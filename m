@@ -2,61 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FB5D95A08
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 10:43:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64A9F95CBC
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 12:56:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729308AbfHTIn2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Aug 2019 04:43:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59866 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728545AbfHTIn2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Aug 2019 04:43:28 -0400
-Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4E88823777;
-        Tue, 20 Aug 2019 08:43:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566290607;
-        bh=yVHdciJ6Uf7f0XT+WZlY2UlBsVWUFoNWCV7vCgtCN7s=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=yt5ZNkw/0l/1ehGE9jhqxA/jYLiAKZhEu9WjGCFI2Lkh1d+AdJqDDNJGW56GlZqfA
-         fIxSpRV72y/4HCQMan2DU+W5ndr9dAt5ItcwnyHu0Aon9tqkwLA0+sCXlooJZ0hfhR
-         lGr+x1pYJ7fW/dvcqRQffAauX7NQzErwIRmoP7CE=
-Date:   Tue, 20 Aug 2019 10:43:17 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Aaron Armstrong Skomra <skomra@gmail.com>
-cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
-        ping.cheng@wacom.com, jason.gerecke@wacom.com,
-        Aaron Armstrong Skomra <aaron.skomra@wacom.com>,
-        "# v4 . 3+" <stable@vger.kernel.org>
-Subject: Re: [PATCH] HID: wacom: correct misreported EKR ring values
-In-Reply-To: <1565982054-29236-1-git-send-email-aaron.skomra@wacom.com>
-Message-ID: <nycvar.YFH.7.76.1908201043020.27147@cbobk.fhfr.pm>
-References: <1565982054-29236-1-git-send-email-aaron.skomra@wacom.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1729752AbfHTK4W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Aug 2019 06:56:22 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:50147 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729726AbfHTK4W (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 20 Aug 2019 06:56:22 -0400
+Received: from orion.localdomain ([95.117.23.32]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MG9c4-1i3MGm2nIi-00GX5c; Tue, 20 Aug 2019 12:56:12 +0200
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     pali.rohar@gmail.com, dmitry.torokhov@gmail.com,
+        linux-input@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net
+Subject: [PATCH 1/2] fs: ntfs: drop unneeded likely() call around IS_ERR()
+Date:   Tue, 20 Aug 2019 12:56:11 +0200
+Message-Id: <1566298572-12409-1-git-send-email-info@metux.net>
+X-Mailer: git-send-email 1.9.1
+X-Provags-ID: V03:K1:X0bL9kCI73MtDlPdTq2uEsLqyQMLuaPrFjP/C6b4lIR5Z/L0S5C
+ AY5OLqdWdxHFXZd+4Qown7BcrfbDwmY64obA51lAQz/MEbVxmhAmacfvsOFnrmNNGsiYVaS
+ tBdCnOLL5E1cqSM22KQ+xm8yuxgl9qzumMJ5pVbIYXgirXKuU5OcDEXYIibfxykbJij5I89
+ 2Ll9OPUhe19o2y2M+mwtA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gskhGNcCx2o=:wLmfQXmK0M8LYxKWg7Jf8T
+ gK+5tQlYzBITYMavumo+LftMpKxvcaXO+XoEe4Fw94t17B1zhpzL84f/oJCWz4RctllOfGn5l
+ dEaGQU3O+N3VyuiTUEbw/HG3z+2rilnqpAOMPu3GzDoQj9aolbQXzAFrPicWBOliIW3JKwdrl
+ S7BjrHSXMURRacfM+e+7hP0O+ott1okZEaRyPMg41a+uPiugb2OCa4/keOW2YIaaI8hrDb5yK
+ m4uywVsDjw/6o9RGWE4hYR92dq2mobJTrShS2NoasQXyqcQZwG1FEbCXf+xDyAv5AajgNwhHo
+ 1bO5Ynrsa09v0u5SimM3Ybrd8XbJrEX51pIenksgmID7ArfU1MZZE8qptsVNQ91A4Nod9bi6u
+ Z0ZEksWOWBA2g7zwHtBcqteposaulclr2zJApH9RmybgwYO7mOEaBv2umUh8Sk1CbrXxUmpz9
+ /SC5+acIGKAvyIXXsfm9JIioJQrc2xWknf3sac21e4rcZkarbh+zaknvnanb6zYu6khU9wkCC
+ I7yAKJqfrH6N2JSoD/WV9sEv3Q7tDfJr7nGpW5eaQZWBNOp52wqfNr/AGOKsM6F/10L44q1TE
+ XOWl+eKCcm2CUdQ7DHCf5sEMW5CLSi0sqQa9U0X6GyIv7FNTN2F7ldhMvHzSZ5EE+YRpOSjUq
+ rtloPtUsASfwbmAfN1IwysVkgTtewuOZyjRr9jrG8Mv4fG0fAlxTsbFd9SUgorkj32FzA+Gms
+ xITCZCvNCJf+YhDVPEmNt7O7/5RhetptLlQyBw==
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 16 Aug 2019, Aaron Armstrong Skomra wrote:
+From: Enrico Weigelt <info@metux.net>
 
-> The EKR ring claims a range of 0 to 71 but actually reports
-> values 1 to 72. The ring is used in relative mode so this
-> change should not affect users.
-> 
-> Signed-off-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-> Fixes: 72b236d60218f ("HID: wacom: Add support for Express Key Remote.")
-> Cc: <stable@vger.kernel.org> # v4.3+
-> Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
-> Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
+IS_ERR() already calls unlikely(), so this extra likely() call
+around the !IS_ERR() is not needed.
 
-Queued for 5.3, thanks Aaron.
+Signed-off-by: Enrico Weigelt <info@metux.net>
+---
+ fs/ntfs/mft.c     | 8 ++++----
+ fs/ntfs/namei.c   | 2 +-
+ fs/ntfs/runlist.c | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/fs/ntfs/mft.c b/fs/ntfs/mft.c
+index 20c841a..06f706b 100644
+--- a/fs/ntfs/mft.c
++++ b/fs/ntfs/mft.c
+@@ -71,7 +71,7 @@ static inline MFT_RECORD *map_mft_record_page(ntfs_inode *ni)
+ 	}
+ 	/* Read, map, and pin the page. */
+ 	page = ntfs_map_page(mft_vi->i_mapping, index);
+-	if (likely(!IS_ERR(page))) {
++	if (!IS_ERR(page)) {
+ 		/* Catch multi sector transfer fixup errors. */
+ 		if (likely(ntfs_is_mft_recordp((le32*)(page_address(page) +
+ 				ofs)))) {
+@@ -154,7 +154,7 @@ MFT_RECORD *map_mft_record(ntfs_inode *ni)
+ 	mutex_lock(&ni->mrec_lock);
+ 
+ 	m = map_mft_record_page(ni);
+-	if (likely(!IS_ERR(m)))
++	if (!IS_ERR(m))
+ 		return m;
+ 
+ 	mutex_unlock(&ni->mrec_lock);
+@@ -271,7 +271,7 @@ MFT_RECORD *map_extent_mft_record(ntfs_inode *base_ni, MFT_REF mref,
+ 		m = map_mft_record(ni);
+ 		/* map_mft_record() has incremented this on success. */
+ 		atomic_dec(&ni->count);
+-		if (likely(!IS_ERR(m))) {
++		if (!IS_ERR(m)) {
+ 			/* Verify the sequence number. */
+ 			if (likely(le16_to_cpu(m->sequence_number) == seq_no)) {
+ 				ntfs_debug("Done 1.");
+@@ -1776,7 +1776,7 @@ static int ntfs_mft_data_extend_allocation_nolock(ntfs_volume *vol)
+ 	do {
+ 		rl2 = ntfs_cluster_alloc(vol, old_last_vcn, nr, lcn, MFT_ZONE,
+ 				true);
+-		if (likely(!IS_ERR(rl2)))
++		if (!IS_ERR(rl2))
+ 			break;
+ 		if (PTR_ERR(rl2) != -ENOSPC || nr == min_nr) {
+ 			ntfs_error(vol->sb, "Failed to allocate the minimal "
+diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
+index 2d3cc9e..4e6a44b 100644
+--- a/fs/ntfs/namei.c
++++ b/fs/ntfs/namei.c
+@@ -115,7 +115,7 @@ static struct dentry *ntfs_lookup(struct inode *dir_ino, struct dentry *dent,
+ 		dent_ino = MREF(mref);
+ 		ntfs_debug("Found inode 0x%lx. Calling ntfs_iget.", dent_ino);
+ 		dent_inode = ntfs_iget(vol->sb, dent_ino);
+-		if (likely(!IS_ERR(dent_inode))) {
++		if (!IS_ERR(dent_inode)) {
+ 			/* Consistency check. */
+ 			if (is_bad_inode(dent_inode) || MSEQNO(mref) ==
+ 					NTFS_I(dent_inode)->seq_no ||
+diff --git a/fs/ntfs/runlist.c b/fs/ntfs/runlist.c
+index 508744a..97932fb 100644
+--- a/fs/ntfs/runlist.c
++++ b/fs/ntfs/runlist.c
+@@ -951,7 +951,7 @@ runlist_element *ntfs_mapping_pairs_decompress(const ntfs_volume *vol,
+ 	}
+ 	/* Now combine the new and old runlists checking for overlaps. */
+ 	old_rl = ntfs_runlists_merge(old_rl, rl);
+-	if (likely(!IS_ERR(old_rl)))
++	if (!IS_ERR(old_rl))
+ 		return old_rl;
+ 	ntfs_free(rl);
+ 	ntfs_error(vol->sb, "Failed to merge runlists.");
 -- 
-Jiri Kosina
-SUSE Labs
+1.9.1
 
