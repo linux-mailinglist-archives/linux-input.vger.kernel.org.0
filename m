@@ -2,82 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 986CF96339
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 16:56:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 706A39636A
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 16:59:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730002AbfHTO4E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Aug 2019 10:56:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46436 "EHLO mail.kernel.org"
+        id S1726981AbfHTO7S (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Aug 2019 10:59:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47814 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729980AbfHTO4E (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Aug 2019 10:56:04 -0400
+        id S1730277AbfHTO6j (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 20 Aug 2019 10:58:39 -0400
 Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D333122DA7;
-        Tue, 20 Aug 2019 14:56:02 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D14C922DA9;
+        Tue, 20 Aug 2019 14:58:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566312963;
-        bh=Qqfrzt5dcyq5vRFymiw4VbTMoZDLKcixhsTKSLZ9lFg=;
+        s=default; t=1566313119;
+        bh=vdmmmwS+x0NcUAnfqZFzhfPdflObUDN6RHnWgeQIDBs=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=aRUT4QX4tuTBSZx5dLNdCPB0uHXAJ0OS5y+lgKGJwudGZ9OSMNaOEd2IsjspHHINy
-         T1EvrPRM27y/E7W1VaLWcAlsyPhBLybGvayMTNDO7wWJ4nEQpy/antfQ6u/9Ihk0c/
-         9vufxk/OUdIVzUUC2jeVxXCrXvVJViMo4qoKWeig=
-Date:   Tue, 20 Aug 2019 16:55:53 +0200 (CEST)
+        b=IYkdbknPe8C+AFrwwrcxUXsdzZ9Q0vdKsb+WF6iF4GSZK8MTyjH5Gm8IAPy9FuaTj
+         +Oengge2+NkpbvwYtQBpZnUYZCQ7/cQtGHiD/OTK/fr9l4+AeGM+b6T8AIWc4C+p6x
+         KWcnndGIoWzJ4ifBA7ra0z6JFiizWh4vMiZINOzk=
+Date:   Tue, 20 Aug 2019 16:58:28 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Jason Gerecke <killertofu@gmail.com>
 cc:     linux-input@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] HID: fix error message in hid_open_report()
-In-Reply-To: <1230b0c19fd21fdc4d0eb30f3e32e67fff86fef9.1563818405.git.mirq-linux@rere.qmqm.pl>
-Message-ID: <nycvar.YFH.7.76.1908201655030.27147@cbobk.fhfr.pm>
-References: <1230b0c19fd21fdc4d0eb30f3e32e67fff86fef9.1563818405.git.mirq-linux@rere.qmqm.pl>
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Aaron Armstrong Skomra <aaron.skomra@wacom.com>
+Subject: Re: [PATCH] HID: wacom: Fix several minor compiler warnings
+In-Reply-To: <20190816185426.25137-1-jason.gerecke@wacom.com>
+Message-ID: <nycvar.YFH.7.76.1908201658150.27147@cbobk.fhfr.pm>
+References: <20190816185426.25137-1-jason.gerecke@wacom.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 22 Jul 2019, Michał Mirosław wrote:
+On Fri, 16 Aug 2019, Jason Gerecke wrote:
 
-> On HID report descriptor parsing error the code displays bogus
-> pointer instead of error offset (subtracts start=NULL from end).
-> Make the message more useful by displaying correct error offset
-> and include total buffer size for reference.
+> Addresses a few issues that were noticed when compiling with non-default
+> warnings enabled. The trimmed-down warnings in the order they are fixed
+> below are:
 > 
-> This was carried over from ancient times - "Fixed" commit just
-> promoted the message from DEBUG to ERROR.
+> * declaration of 'size' shadows a parameter
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: 8c3d52fc393b ("HID: make parser more verbose about parsing errors by default")
-> Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-[ ... snip ... ]
-> @@ -1230,7 +1232,8 @@ int hid_open_report(struct hid_device *device)
->  		}
->  	}
->  
-> -	hid_err(device, "item fetching failed at offset %d\n", (int)(end - start));
-> +	hid_err(device, "item fetching failed at offset %zu/%zu\n",
-> +		size - (end - start), size);
+> * '%s' directive output may be truncated writing up to 5 bytes into a
+>   region of size between 1 and 64
+> 
+> * pointer targets in initialization of 'char *' from 'unsigned char *'
+>   differ in signedness
+> 
+> * left shift of negative value
+> 
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> Reviewed-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
 
-Hi Michal,
-
-thanks for the fix.
-
-This causes:
-
-drivers/hid/hid-core.c: In function ‘hid_open_report’:
-drivers/hid/hid-core.c:1235:2: warning: format ‘%zu’ expects argument of type ‘size_t’, but argument 4 has type ‘unsigned int’ [-Wformat=]
-  hid_err(device, "item fetching failed at offset %zu/%zu\n",
-  ^
-
-could you please fix that up and resubmit?
-
-Thanks,
+Applied to for-5.4/wacom.
 
 -- 
 Jiri Kosina
