@@ -2,94 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DA2695D06
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 13:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F057595D0C
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 13:17:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728503AbfHTLQM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Aug 2019 07:16:12 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:54133 "EHLO
+        id S1728414AbfHTLQq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Aug 2019 07:16:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:50069 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728414AbfHTLQL (ORCPT
+        with ESMTP id S1728283AbfHTLQp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Aug 2019 07:16:11 -0400
-Received: from [192.168.1.110] ([95.117.23.32]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1M8QBa-1hvcGg03Oq-004QRK; Tue, 20 Aug 2019 13:16:10 +0200
-Subject: Re: [PATCH] input: misc: soc_button_array: use
- platform_device_register_resndata()
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-References: <1564410372-18506-1-git-send-email-info@metux.net>
- <20190729172313.GA755@penguin>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Organization: metux IT consult
-Message-ID: <6781780e-a01f-a9f4-62fa-c36e105a4b76@metux.net>
-Date:   Tue, 20 Aug 2019 13:16:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190729172313.GA755@penguin>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:PQPE9hNcWVuDwUGcotS3kp/AOb4M67BDPM5QWpPFH14NjMIsj5T
- 7KR/tRuhB+b0/awpCX5Pffo/iMTmNoSOl3rLe6oibOO4Oi19/0eay18EGtVeBnlHAhTGQ8u
- 7tg2rxg0YTSR3OKzKKAEkDrfObXMXvwCpci7labeqir7WWTVmi+mJo8v2lg8BnBYIVGVdSg
- qeouxYE1Q2nYejqhlMuJQ==
+        Tue, 20 Aug 2019 07:16:45 -0400
+Received: from orion.localdomain ([95.117.23.32]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1Ma1kC-1hnsXH3aGS-00VvHO; Tue, 20 Aug 2019 13:16:43 +0200
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
+Subject: [PATCH v2] input: misc: soc_button_array: use platform_device_register_resndata()
+Date:   Tue, 20 Aug 2019 13:16:43 +0200
+Message-Id: <1566299803-19243-1-git-send-email-info@metux.net>
+X-Mailer: git-send-email 1.9.1
+X-Provags-ID: V03:K1:ykp0uwNUrMJ37Zjv0MwjWaNXs119iqbYMBVNilf0A12tg/NS60I
+ B7murAtFTgN66HyoqxmsLrljma/rsHjVppuLfMd+YAsuQgAfO6sJzxPY4cHEQHwasSJFxxo
+ HP8edHNSk1krsKs+HNuOJWEZhfrPKKu/TsWz9gGSq1efoGcEjVe4A92r//4HQKWNO5alxZ3
+ QxRdB/l+ak6mR5Eu16z2Q==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0En8AnrOR8o=:SUFmKTawDT3GkJs1TrqqVR
- t9e1bW9t6ZB4p8sE8Rh+v3psE6sT5zza2pUVw7glpYBkU0V6awgiUyr5Y5CiuBwu5jsvcipXV
- gC++9PokfJNV52wuNjZgI+F3jPX2ooGqA5PR+dDtvItw7zBxMwBB1t1jvCeevhEq+NpaROkaA
- lX6OSfYoVmr1KbRCrcrP+Bx6DStgkbxyph8yVwXw4YVCWwuoU7xsPi+fqy7jVTyPr33THjGPW
- AyUuH69gEmZJmPgRaGrs5Hluw0C+GwNL6mtCPUbZa9eQNEd6yCUWmMjpGIsSsqm88tXIvkMbY
- +PdDuU1fXt4Y0ngZ4sNDQE8O2VmIKgUitnLYU2cbIb3n906MXHdKqKvb2qZp0CgOwu8cAJvc5
- OqNT8q+we92VTEwOHcTxiDUhQ5uIMhVZbWQBuJE/Xlb84cErWFlkJn/3f2ncZNu0dpRGe2Ipf
- zkMI0uhQc43po/V9jxZ7W2krFfY0hUQdPRNEo91VTzpmrj2IxdmxVbudJMVJVDkIjO+AtktCX
- Nhd5yc6DzFbHqfFnx8dFufEx4UpDlL2OsseDbqBXAcXshXxeMd1Wm/T/TFB2PSoKp9cAGtRCb
- ASyA7sFoDZbTPO+YxZKwZK4VqW7lFVAvGgQuWPmJyX7vIcCMNe2IdT3bufgucQcV2GbYsP9mx
- qsn90f/HgPI8rUGQehlJzr6/qbO1wgZ+udxCwg6TxCvwDNqV68llDjpTF7HUQwdSZHNu0qpLm
- ZtWehENYpx+Sqw9xoUf160NXaDJZjc8bn4anq6tXvUJ8HhsvXq7TiePUj2A=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:koxA6XU8Wi4=:d005a/oMI6DbyRdcMlBl3R
+ Zfp2PIJ1K+LzgZ4MHayMtS1m29IwwRre1U4X/ar7Fc/C3Qh43Ndd2NT9rncv/4whXwMUbS21a
+ D61TMiqn4pY3BkPDrt79FkKUIhghAEEb6C9rPe1BddZZl664IXrZr27d4b7JQikObLKosyfKD
+ O618o+WNHh0TJL+rkpAerA5BpkpdKCg1qroaJw0BETExz6wcuRnZJkOECYKqTBXhCHFC8vH3N
+ hWNxJ+yK+p2+oi9cUAsdIuqkrclbL8cOfmHciVdL7pBo6ocNrR6j+FfqWk+Ux2D2s261lby+y
+ sJD0q5FFOOBWVDHEYhh1xmD8PuLXx+5YA6lYUedXovG6C1YnsUBM4XKQOV8vc9EK68CoD3qLP
+ AHS7IxNzcIsNvVipzBoOoxiMV0pDYTpyZy+boLW7rV8JbdvAOvEXUQ3npt9THg5f78Lr/WVKv
+ mCinzKyV+iiVe1JiPCbcps5iwCM1ZOHHOGGOJHzAUVlBpvQF4Ry7zOdt0au6l1476sbgb2Po2
+ NZZeWpYcneDR7+5+HcX2bo5ra4nglhXKUiVcFqiLU+KHe0x09CXemHqSlE1yMFkWJYUCCy7F6
+ hU0RajL5tPnBhYqwD/wWy3r4rdKLhEWXeP6NdZYwVrzlJX6SZlyTc1Hf/T+lnAdyCVUDun+em
+ A3U7odzPQwKO0CH2ELSNFXRaD2TeZYmC/MPRjINQ/numf4MtW4ZKyNLjLzvEOptauzPmISLnN
+ kZMjPnX7H1WZ8x0nBtuZlrbBJqcDK8NDaecDQA==
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 29.07.19 19:23, Dmitry Torokhov wrote:
+From: Enrico Weigelt <info@metux.net>
 
-Hi,
+The registration of gpio-keys device can be written much shorter
+by using the platform_device_register_resndata() helper.
 
-> I wonder if we should pass &pdev->dev instead of NULL here to form
-> proper device hierarchy, now that we have this option.
+v2:
+    * pass &pdev->dev to platform_device_register_resndata()
+    * fixed errval on failed platform_device_register_resndata()
 
-good point, thanks, fixed in v2.
+Signed-off-by: Enrico Weigelt <info@metux.net>
+---
+ drivers/input/misc/soc_button_array.c | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-
->> +		"gpio-keys",
->> +		PLATFORM_DEVID_AUTO,
->> +		NULL,
->> +		0,
->> +		gpio_keys_pdata,
->> +		sizeof(*gpio_keys_pdata));
->> +
->> +	if (IS_ERR(pd)) {
->> +		dev_err(&pdev->dev, "failed registering gpio-keys: %ld\n", PTR_ERR(pd));
->>   		goto err_free_mem;
-> 
-> Since you did not assign 'error' value here this goto will result in the
-> function returning 0 even if platform_device_register_resndata() failed.
-
-Uh, thanks. IMHO it's even worse: 'error' could be uninitialized.
-
-
-I'm sending v2 separately.
-
-
-Thanks for your review.
-
---mtx
-
+diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+index 5e59f8e5..27550f9 100644
+--- a/drivers/input/misc/soc_button_array.c
++++ b/drivers/input/misc/soc_button_array.c
+@@ -110,25 +110,24 @@ static int soc_button_lookup_gpio(struct device *dev, int acpi_index)
+ 	gpio_keys_pdata->nbuttons = n_buttons;
+ 	gpio_keys_pdata->rep = autorepeat;
+ 
+-	pd = platform_device_alloc("gpio-keys", PLATFORM_DEVID_AUTO);
+-	if (!pd) {
+-		error = -ENOMEM;
++	pd = platform_device_register_resndata(
++		&pdev->dev,
++		"gpio-keys",
++		PLATFORM_DEVID_AUTO,
++		NULL,
++		0,
++		gpio_keys_pdata,
++		sizeof(*gpio_keys_pdata));
++
++	error = PTR_ERR_OR_ZERO(pd);
++
++	if (IS_ERR(pd)) {
++		dev_err(&pdev->dev, "failed registering gpio-keys: %ld\n", PTR_ERR(pd));
+ 		goto err_free_mem;
+ 	}
+ 
+-	error = platform_device_add_data(pd, gpio_keys_pdata,
+-					 sizeof(*gpio_keys_pdata));
+-	if (error)
+-		goto err_free_pdev;
+-
+-	error = platform_device_add(pd);
+-	if (error)
+-		goto err_free_pdev;
+-
+ 	return pd;
+ 
+-err_free_pdev:
+-	platform_device_put(pd);
+ err_free_mem:
+ 	devm_kfree(&pdev->dev, gpio_keys_pdata);
+ 	return ERR_PTR(error);
 -- 
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+1.9.1
+
