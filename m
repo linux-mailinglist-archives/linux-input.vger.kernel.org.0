@@ -2,97 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FB37954E9
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 05:15:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DE14954F4
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 05:18:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728950AbfHTDOz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Aug 2019 23:14:55 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:57869 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728945AbfHTDOz (ORCPT
+        id S1728777AbfHTDSK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Aug 2019 23:18:10 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:40512 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728647AbfHTDSK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Aug 2019 23:14:55 -0400
-Received: from [125.35.49.90] (helo=[10.0.0.30])
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-        (Exim 4.76)
-        (envelope-from <hui.wang@canonical.com>)
-        id 1hzubl-0001zh-1d; Tue, 20 Aug 2019 03:14:53 +0000
-Subject: Re: [PATCH] Input: psmouse - drop all unneeded functions from mouse
- headers
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-References: <20190819135500.3261-1-hui.wang@canonical.com>
- <20190819182634.GN121898@dtor-ws>
-From:   Hui Wang <hui.wang@canonical.com>
-Message-ID: <762de72c-2dc8-6fd0-2fa8-081a179a0c4c@canonical.com>
-Date:   Tue, 20 Aug 2019 11:14:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Mon, 19 Aug 2019 23:18:10 -0400
+Received: by mail-pg1-f193.google.com with SMTP id w10so2345575pgj.7;
+        Mon, 19 Aug 2019 20:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=5e6eaDGk/6j5T5h1NKftcrs+tBj3G4/S+VohjD6nD6U=;
+        b=WVls6EByLVpXNPmLfFFZy/d/Vw1FhdBighDj3pt2mLWCZqhhVzfbnZBGKil4hoXHeI
+         W/5hA7gbP5Lyi5p7tTtPNYOmTvdxJOfKC9E+k3YA2bwI4G9ctxI3oJBbLgkiNLeykE9G
+         I7PTjVUzm0iOu9i3yFBBInlEt9vtOS+3UN+R3bKT1FrHwzxxUvzh52Fb97to8j/K0ba6
+         gugPzQURBScEZdhvpXbsMVQWYk6a9FQ1DQ//67gxp6e6gjk1q7CHdTndhKTXI46pcLD9
+         lTtfhLQQxFtRzIsAHObwBzQyv5DOaLjqGS9ArSayYNcGm2/3YgSWdsJs9q6UVXJzlel6
+         IrkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=5e6eaDGk/6j5T5h1NKftcrs+tBj3G4/S+VohjD6nD6U=;
+        b=hdw1eVAV+NQ+h500UTNBVXww6uGCn7NRgdpBn5w2/KOWdbsddI7OJP2AaD/oRktb0K
+         Gev7lOywCY41x3R0vvirKRgpTegvu1ZMSyHXdulIiy3hbKQVWRwuSVZq/BnA8Eas/GYZ
+         8p7EWUs7z4vXY0YftZuMNoqGAjS/kBMt6pO0Q/Ds2v7rEBrtRlbJziStBrEgu+ogad24
+         i030suyToEBFjuAGE4H9phzWSsl/NufOC9wpC6ectUcE2mBneFfKL3YUwHq06QkHENz4
+         QTwwiZkyTS7f58umaDGcvrUK3+mouICshrxrvq/vLHzJtSmbmadQnMqWaKL2Y9gzPG9X
+         6fUQ==
+X-Gm-Message-State: APjAAAVpvwCjbLW0lDgN3TlKOKNHu+60xqxDs/ueagZXLMp3FxvnmDxO
+        LFFybkaqR8c5yPiz4pQROJE=
+X-Google-Smtp-Source: APXvYqzIxDeuruppnpbEE0Lz3eELVRgwuAlSlZ6eXS+PP+RSzTHa/+wnpV9TezWBvzTJXrb5dE4ZLg==
+X-Received: by 2002:a17:90a:ac0a:: with SMTP id o10mr4476048pjq.143.1566271088648;
+        Mon, 19 Aug 2019 20:18:08 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id t7sm17671364pfh.101.2019.08.19.20.18.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2019 20:18:07 -0700 (PDT)
+Date:   Mon, 19 Aug 2019 20:18:05 -0700
+From:   "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+To:     Dexuan Cui <decui@microsoft.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "sashal@kernel.org" <sashal@kernel.org>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Input: hyperv-keyboard: Use in-place iterator API in the
+ channel callback
+Message-ID: <20190820031805.GO121898@dtor-ws>
+References: <1566270066-27546-1-git-send-email-decui@microsoft.com>
 MIME-Version: 1.0
-In-Reply-To: <20190819182634.GN121898@dtor-ws>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1566270066-27546-1-git-send-email-decui@microsoft.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, Aug 20, 2019 at 03:01:23AM +0000, Dexuan Cui wrote:
+> Simplify the ring buffer handling with the in-place API.
+> 
+> Also avoid the dynamic allocation and the memory leak in the channel
+> callback function.
+> 
+> Signed-off-by: Dexuan Cui <decui@microsoft.com>
+> ---
+> 
+> Hi Dmitry, can this patch go through Sasha's hyperv tree:
+> https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git
+> 
+> This is a purely Hyper-V specific change.
 
-On 2019/8/20 上午2:26, Dmitry Torokhov wrote:
-> Hi Hui,
->
-> On Mon, Aug 19, 2019 at 09:55:00PM +0800, Hui Wang wrote:
->> Recently we had a building error if we enable the MOUSE_PS2_ALPS while
->> disable the MOUSE_PS2_TRACKPOINT, and was fixed by 49e6979e7e92
->> ("Input: psmouse - fix build error of multiple definition").
->>
->> We could improve that fix by dropping all unneeded functions from
->> the header, it is safe to do that since those functions are not
->> directly called by psmouse-base.c anymore.
->>
->> Signed-off-by: Hui Wang <hui.wang@canonical.com>
->> ---
->>   drivers/input/mouse/alps.h         |  9 ---------
->>   drivers/input/mouse/byd.h          |  9 ---------
->>   drivers/input/mouse/cypress_ps2.h  |  9 ---------
->>   drivers/input/mouse/elantech.h     | 13 -------------
->>   drivers/input/mouse/hgpk.h         |  8 --------
->>   drivers/input/mouse/lifebook.h     |  8 --------
->>   drivers/input/mouse/logips2pp.h    |  5 -----
->>   drivers/input/mouse/sentelic.h     |  9 ---------
->>   drivers/input/mouse/touchkit_ps2.h |  6 ------
->>   drivers/input/mouse/trackpoint.h   |  6 ------
->>   drivers/input/mouse/vmmouse.h      |  9 ---------
->>   11 files changed, 91 deletions(-)
->>
->> diff --git a/drivers/input/mouse/alps.h b/drivers/input/mouse/alps.h
->> index f4bab629739c..74ad10327c48 100644
->> --- a/drivers/input/mouse/alps.h
->> +++ b/drivers/input/mouse/alps.h
->> @@ -326,15 +326,6 @@ struct alps_data {
->>   #ifdef CONFIG_MOUSE_PS2_ALPS
-> Do we need to keep the CONFIG_MOUSE_* guards if we are dropping stubs?
+Sure, no problem.
 
-No, we don't need to keep them, will drop them all in the v2.
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Thanks.
-
->
->>   int alps_detect(struct psmouse *psmouse, bool set_properties);
->>   int alps_init(struct psmouse *psmouse);
->> -#else
->> -inline int alps_detect(struct psmouse *psmouse, bool set_properties)
->> -{
->> -	return -ENOSYS;
->> -}
->> -inline int alps_init(struct psmouse *psmouse)
->> -{
->> -	return -ENOSYS;
->> -}
->>   #endif /* CONFIG_MOUSE_PS2_ALPS */
-> Thanks.
->
+> 
+>  drivers/input/serio/hyperv-keyboard.c | 35 ++++++-----------------------------
+>  1 file changed, 6 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
+> index 88ae7c2..e486a8a 100644
+> --- a/drivers/input/serio/hyperv-keyboard.c
+> +++ b/drivers/input/serio/hyperv-keyboard.c
+> @@ -237,40 +237,17 @@ static void hv_kbd_handle_received_packet(struct hv_device *hv_dev,
+>  
+>  static void hv_kbd_on_channel_callback(void *context)
+>  {
+> +	struct vmpacket_descriptor *desc;
+>  	struct hv_device *hv_dev = context;
+> -	void *buffer;
+> -	int bufferlen = 0x100; /* Start with sensible size */
+>  	u32 bytes_recvd;
+>  	u64 req_id;
+> -	int error;
+>  
+> -	buffer = kmalloc(bufferlen, GFP_ATOMIC);
+> -	if (!buffer)
+> -		return;
 > -
-> Dmitry
->
+> -	while (1) {
+> -		error = vmbus_recvpacket_raw(hv_dev->channel, buffer, bufferlen,
+> -					     &bytes_recvd, &req_id);
+> -		switch (error) {
+> -		case 0:
+> -			if (bytes_recvd == 0) {
+> -				kfree(buffer);
+> -				return;
+> -			}
+> -
+> -			hv_kbd_handle_received_packet(hv_dev, buffer,
+> -						      bytes_recvd, req_id);
+> -			break;
+> +	foreach_vmbus_pkt(desc, hv_dev->channel) {
+> +		bytes_recvd = desc->len8 * 8;
+> +		req_id = desc->trans_id;
+>  
+> -		case -ENOBUFS:
+> -			kfree(buffer);
+> -			/* Handle large packet */
+> -			bufferlen = bytes_recvd;
+> -			buffer = kmalloc(bytes_recvd, GFP_ATOMIC);
+> -			if (!buffer)
+> -				return;
+> -			break;
+> -		}
+> +		hv_kbd_handle_received_packet(hv_dev, desc, bytes_recvd,
+> +					      req_id);
+>  	}
+>  }
+>  
+> -- 
+> 1.8.3.1
+> 
+
+-- 
+Dmitry
