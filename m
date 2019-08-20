@@ -2,74 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 015A595CB9
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 12:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DA2695D06
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 13:16:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729527AbfHTK4V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Aug 2019 06:56:21 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:44747 "EHLO
+        id S1728503AbfHTLQM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Aug 2019 07:16:12 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:54133 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728842AbfHTK4V (ORCPT
+        with ESMTP id S1728414AbfHTLQL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Aug 2019 06:56:21 -0400
-Received: from orion.localdomain ([95.117.23.32]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N7zJj-1iL0so05K7-0154qV; Tue, 20 Aug 2019 12:56:13 +0200
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     pali.rohar@gmail.com, dmitry.torokhov@gmail.com,
-        linux-input@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net
-Subject: [PATCH 2/2] drivers: input: mouse: alps: drop unneeded likely() call around IS_ERR()
-Date:   Tue, 20 Aug 2019 12:56:12 +0200
-Message-Id: <1566298572-12409-2-git-send-email-info@metux.net>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1566298572-12409-1-git-send-email-info@metux.net>
-References: <1566298572-12409-1-git-send-email-info@metux.net>
-X-Provags-ID: V03:K1:whkxWFqHpdHfrjQsHABxXf1siumYRLGP1V4hb0olYemOQT1Nzjf
- qMmymy5q7ZV5VEDz5lK7NyHZGO0O9prrItp68Ft6NqId8+BdUy0rqRRUJj53S9mX+ow93BY
- coIjXUof8+bn3SkO6vNDrjHwgPAHAZCtjVpliAtWXKgvs40v6di15iK2WEP1BWHC7hZDf+L
- VpunXR1NttP6PMIh/Ukog==
+        Tue, 20 Aug 2019 07:16:11 -0400
+Received: from [192.168.1.110] ([95.117.23.32]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M8QBa-1hvcGg03Oq-004QRK; Tue, 20 Aug 2019 13:16:10 +0200
+Subject: Re: [PATCH] input: misc: soc_button_array: use
+ platform_device_register_resndata()
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+References: <1564410372-18506-1-git-send-email-info@metux.net>
+ <20190729172313.GA755@penguin>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <6781780e-a01f-a9f4-62fa-c36e105a4b76@metux.net>
+Date:   Tue, 20 Aug 2019 13:16:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190729172313.GA755@penguin>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:PQPE9hNcWVuDwUGcotS3kp/AOb4M67BDPM5QWpPFH14NjMIsj5T
+ 7KR/tRuhB+b0/awpCX5Pffo/iMTmNoSOl3rLe6oibOO4Oi19/0eay18EGtVeBnlHAhTGQ8u
+ 7tg2rxg0YTSR3OKzKKAEkDrfObXMXvwCpci7labeqir7WWTVmi+mJo8v2lg8BnBYIVGVdSg
+ qeouxYE1Q2nYejqhlMuJQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+DIcX1QlTiw=:nVNYVKLc+ATQtvzPHMsY+Y
- +Ne3LJmQHZB5q06NivPCAYHDc9Ak6JezzxvQyViqN2U9lY4+XaSdP7Durz5Jd5MaiAXBeTE28
- rQWJKQDoJjUub07K+CjNs84BvE770bXjwfHRCLexa5eTBgB/tfzW3XCkAD7By3HtOn2577NlZ
- XKpTlZF0087qKbXV0g0AScBkUKRcUGDGVfd5DYUufjDOZCRH74AzQj6+Ue3PzCgmmbDIkGINb
- GIqUM4WxfuyedytTyJFElXV2322RvWN/eM2IvLJw7g8RwiNIMcMdQklWrfm5IRsJRDLiNH9XD
- 4sbO9kSfS6LhY37LKQSKKEoRBe/sJBWCV8VLFrkx1T8HJT2kbvPDsVeHITVrxFGRo9ity07gu
- 2Rat4b4lQ1aTUFDIYe1S28i5WOJ0jaWf2essY9zYpMIyo05qL4weRnTxqPaTEMWua7WPNUrQG
- fTkJnD+ir0Nif1aeh2mouu6AnYta6teQq+g473AXuMn09kRWBBzDqsIgcdXBZBS0eUfRfVO6v
- cQDbuCrC2PGDK27BsmI+kCyjSYURHlmOq0c0y7VpaE5y+Xo/BGb2KL3lsd2pLKcSAYSJp5QPS
- aXk3YRjN3CDhNq2XAWGYJcq0UFeK27TCCEKf+8dfWGAvkXGcOREy3KsrtxniHUq1LiXdyj5r2
- Dufff3BUhJXzSO+83UteUzHohchevLG9Hq2Ne56Qlf7IhZ5Cd7VZhFbLna1u6lyfYvlfa+fXn
- R0sFKPegY1lNccaNu7R9tg/cekmmHzt/R4mAqg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0En8AnrOR8o=:SUFmKTawDT3GkJs1TrqqVR
+ t9e1bW9t6ZB4p8sE8Rh+v3psE6sT5zza2pUVw7glpYBkU0V6awgiUyr5Y5CiuBwu5jsvcipXV
+ gC++9PokfJNV52wuNjZgI+F3jPX2ooGqA5PR+dDtvItw7zBxMwBB1t1jvCeevhEq+NpaROkaA
+ lX6OSfYoVmr1KbRCrcrP+Bx6DStgkbxyph8yVwXw4YVCWwuoU7xsPi+fqy7jVTyPr33THjGPW
+ AyUuH69gEmZJmPgRaGrs5Hluw0C+GwNL6mtCPUbZa9eQNEd6yCUWmMjpGIsSsqm88tXIvkMbY
+ +PdDuU1fXt4Y0ngZ4sNDQE8O2VmIKgUitnLYU2cbIb3n906MXHdKqKvb2qZp0CgOwu8cAJvc5
+ OqNT8q+we92VTEwOHcTxiDUhQ5uIMhVZbWQBuJE/Xlb84cErWFlkJn/3f2ncZNu0dpRGe2Ipf
+ zkMI0uhQc43po/V9jxZ7W2krFfY0hUQdPRNEo91VTzpmrj2IxdmxVbudJMVJVDkIjO+AtktCX
+ Nhd5yc6DzFbHqfFnx8dFufEx4UpDlL2OsseDbqBXAcXshXxeMd1Wm/T/TFB2PSoKp9cAGtRCb
+ ASyA7sFoDZbTPO+YxZKwZK4VqW7lFVAvGgQuWPmJyX7vIcCMNe2IdT3bufgucQcV2GbYsP9mx
+ qsn90f/HgPI8rUGQehlJzr6/qbO1wgZ+udxCwg6TxCvwDNqV68llDjpTF7HUQwdSZHNu0qpLm
+ ZtWehENYpx+Sqw9xoUf160NXaDJZjc8bn4anq6tXvUJ8HhsvXq7TiePUj2A=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Enrico Weigelt <info@metux.net>
+On 29.07.19 19:23, Dmitry Torokhov wrote:
 
-IS_ERR() already calls unlikely(), so this extra unlikely() call
-around IS_ERR() is not needed.
+Hi,
 
-Signed-off-by: Enrico Weigelt <info@metux.net>
----
- drivers/input/mouse/alps.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> I wonder if we should pass &pdev->dev instead of NULL here to form
+> proper device hierarchy, now that we have this option.
 
-diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
-index 34700ed..ed16614 100644
---- a/drivers/input/mouse/alps.c
-+++ b/drivers/input/mouse/alps.c
-@@ -1476,7 +1476,7 @@ static void alps_report_bare_ps2_packet(struct psmouse *psmouse,
- 		/* On V2 devices the DualPoint Stick reports bare packets */
- 		dev = priv->dev2;
- 		dev2 = psmouse->dev;
--	} else if (unlikely(IS_ERR_OR_NULL(priv->dev3))) {
-+	} else if (IS_ERR_OR_NULL(priv->dev3)) {
- 		/* Register dev3 mouse if we received PS/2 packet first time */
- 		if (!IS_ERR(priv->dev3))
- 			psmouse_queue_work(psmouse, &priv->dev3_register_work,
+good point, thanks, fixed in v2.
+
+
+>> +		"gpio-keys",
+>> +		PLATFORM_DEVID_AUTO,
+>> +		NULL,
+>> +		0,
+>> +		gpio_keys_pdata,
+>> +		sizeof(*gpio_keys_pdata));
+>> +
+>> +	if (IS_ERR(pd)) {
+>> +		dev_err(&pdev->dev, "failed registering gpio-keys: %ld\n", PTR_ERR(pd));
+>>   		goto err_free_mem;
+> 
+> Since you did not assign 'error' value here this goto will result in the
+> function returning 0 even if platform_device_register_resndata() failed.
+
+Uh, thanks. IMHO it's even worse: 'error' could be uninitialized.
+
+
+I'm sending v2 separately.
+
+
+Thanks for your review.
+
+--mtx
+
 -- 
-1.9.1
-
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
