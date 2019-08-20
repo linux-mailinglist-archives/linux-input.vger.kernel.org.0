@@ -2,152 +2,329 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DE14954F4
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 05:18:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7D07956BB
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 07:38:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728777AbfHTDSK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Aug 2019 23:18:10 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:40512 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728647AbfHTDSK (ORCPT
+        id S1729024AbfHTFh1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Aug 2019 01:37:27 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:35499 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728957AbfHTFh0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Aug 2019 23:18:10 -0400
-Received: by mail-pg1-f193.google.com with SMTP id w10so2345575pgj.7;
-        Mon, 19 Aug 2019 20:18:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=5e6eaDGk/6j5T5h1NKftcrs+tBj3G4/S+VohjD6nD6U=;
-        b=WVls6EByLVpXNPmLfFFZy/d/Vw1FhdBighDj3pt2mLWCZqhhVzfbnZBGKil4hoXHeI
-         W/5hA7gbP5Lyi5p7tTtPNYOmTvdxJOfKC9E+k3YA2bwI4G9ctxI3oJBbLgkiNLeykE9G
-         I7PTjVUzm0iOu9i3yFBBInlEt9vtOS+3UN+R3bKT1FrHwzxxUvzh52Fb97to8j/K0ba6
-         gugPzQURBScEZdhvpXbsMVQWYk6a9FQ1DQ//67gxp6e6gjk1q7CHdTndhKTXI46pcLD9
-         lTtfhLQQxFtRzIsAHObwBzQyv5DOaLjqGS9ArSayYNcGm2/3YgSWdsJs9q6UVXJzlel6
-         IrkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5e6eaDGk/6j5T5h1NKftcrs+tBj3G4/S+VohjD6nD6U=;
-        b=hdw1eVAV+NQ+h500UTNBVXww6uGCn7NRgdpBn5w2/KOWdbsddI7OJP2AaD/oRktb0K
-         Gev7lOywCY41x3R0vvirKRgpTegvu1ZMSyHXdulIiy3hbKQVWRwuSVZq/BnA8Eas/GYZ
-         8p7EWUs7z4vXY0YftZuMNoqGAjS/kBMt6pO0Q/Ds2v7rEBrtRlbJziStBrEgu+ogad24
-         i030suyToEBFjuAGE4H9phzWSsl/NufOC9wpC6ectUcE2mBneFfKL3YUwHq06QkHENz4
-         QTwwiZkyTS7f58umaDGcvrUK3+mouICshrxrvq/vLHzJtSmbmadQnMqWaKL2Y9gzPG9X
-         6fUQ==
-X-Gm-Message-State: APjAAAVpvwCjbLW0lDgN3TlKOKNHu+60xqxDs/ueagZXLMp3FxvnmDxO
-        LFFybkaqR8c5yPiz4pQROJE=
-X-Google-Smtp-Source: APXvYqzIxDeuruppnpbEE0Lz3eELVRgwuAlSlZ6eXS+PP+RSzTHa/+wnpV9TezWBvzTJXrb5dE4ZLg==
-X-Received: by 2002:a17:90a:ac0a:: with SMTP id o10mr4476048pjq.143.1566271088648;
-        Mon, 19 Aug 2019 20:18:08 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id t7sm17671364pfh.101.2019.08.19.20.18.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2019 20:18:07 -0700 (PDT)
-Date:   Mon, 19 Aug 2019 20:18:05 -0700
-From:   "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
-To:     Dexuan Cui <decui@microsoft.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "sashal@kernel.org" <sashal@kernel.org>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Input: hyperv-keyboard: Use in-place iterator API in the
- channel callback
-Message-ID: <20190820031805.GO121898@dtor-ws>
-References: <1566270066-27546-1-git-send-email-decui@microsoft.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1566270066-27546-1-git-send-email-decui@microsoft.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Tue, 20 Aug 2019 01:37:26 -0400
+Received: from [125.35.49.90] (helo=localhost.localdomain)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <hui.wang@canonical.com>)
+        id 1hzwpc-00035E-Rt; Tue, 20 Aug 2019 05:37:23 +0000
+From:   Hui Wang <hui.wang@canonical.com>
+To:     linux-input@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com
+Subject: [PATCH v2] Input: psmouse - drop all unneeded functions from mouse headers
+Date:   Tue, 20 Aug 2019 13:36:50 +0800
+Message-Id: <20190820053650.8847-1-hui.wang@canonical.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 20, 2019 at 03:01:23AM +0000, Dexuan Cui wrote:
-> Simplify the ring buffer handling with the in-place API.
-> 
-> Also avoid the dynamic allocation and the memory leak in the channel
-> callback function.
-> 
-> Signed-off-by: Dexuan Cui <decui@microsoft.com>
-> ---
-> 
-> Hi Dmitry, can this patch go through Sasha's hyperv tree:
-> https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git
-> 
-> This is a purely Hyper-V specific change.
+Recently we had a building error if we enable the MOUSE_PS2_ALPS while
+disable the MOUSE_PS2_TRACKPOINT, and was fixed by 49e6979e7e92
+("Input: psmouse - fix build error of multiple definition").
 
-Sure, no problem.
+We could improve that fix by dropping all unneeded functions and
+CONFIG_MOUSE_ guards from the header, it is safe to do that since
+those functions are not directly called by psmouse-base.c anymore.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Hui Wang <hui.wang@canonical.com>
+---
+ drivers/input/mouse/alps.h         | 11 -----------
+ drivers/input/mouse/byd.h          | 11 -----------
+ drivers/input/mouse/cypress_ps2.h  | 11 -----------
+ drivers/input/mouse/elantech.h     | 18 ++----------------
+ drivers/input/mouse/hgpk.h         | 13 +++----------
+ drivers/input/mouse/lifebook.h     | 13 +++----------
+ drivers/input/mouse/logips2pp.h    |  7 -------
+ drivers/input/mouse/sentelic.h     | 11 -----------
+ drivers/input/mouse/touchkit_ps2.h |  8 --------
+ drivers/input/mouse/trackpoint.h   |  8 --------
+ drivers/input/mouse/vmmouse.h      | 11 -----------
+ 11 files changed, 8 insertions(+), 114 deletions(-)
 
-> 
->  drivers/input/serio/hyperv-keyboard.c | 35 ++++++-----------------------------
->  1 file changed, 6 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
-> index 88ae7c2..e486a8a 100644
-> --- a/drivers/input/serio/hyperv-keyboard.c
-> +++ b/drivers/input/serio/hyperv-keyboard.c
-> @@ -237,40 +237,17 @@ static void hv_kbd_handle_received_packet(struct hv_device *hv_dev,
->  
->  static void hv_kbd_on_channel_callback(void *context)
->  {
-> +	struct vmpacket_descriptor *desc;
->  	struct hv_device *hv_dev = context;
-> -	void *buffer;
-> -	int bufferlen = 0x100; /* Start with sensible size */
->  	u32 bytes_recvd;
->  	u64 req_id;
-> -	int error;
->  
-> -	buffer = kmalloc(bufferlen, GFP_ATOMIC);
-> -	if (!buffer)
-> -		return;
-> -
-> -	while (1) {
-> -		error = vmbus_recvpacket_raw(hv_dev->channel, buffer, bufferlen,
-> -					     &bytes_recvd, &req_id);
-> -		switch (error) {
-> -		case 0:
-> -			if (bytes_recvd == 0) {
-> -				kfree(buffer);
-> -				return;
-> -			}
-> -
-> -			hv_kbd_handle_received_packet(hv_dev, buffer,
-> -						      bytes_recvd, req_id);
-> -			break;
-> +	foreach_vmbus_pkt(desc, hv_dev->channel) {
-> +		bytes_recvd = desc->len8 * 8;
-> +		req_id = desc->trans_id;
->  
-> -		case -ENOBUFS:
-> -			kfree(buffer);
-> -			/* Handle large packet */
-> -			bufferlen = bytes_recvd;
-> -			buffer = kmalloc(bytes_recvd, GFP_ATOMIC);
-> -			if (!buffer)
-> -				return;
-> -			break;
-> -		}
-> +		hv_kbd_handle_received_packet(hv_dev, desc, bytes_recvd,
-> +					      req_id);
->  	}
->  }
->  
-> -- 
-> 1.8.3.1
-> 
-
+diff --git a/drivers/input/mouse/alps.h b/drivers/input/mouse/alps.h
+index f4bab629739c..0a1048cf23f6 100644
+--- a/drivers/input/mouse/alps.h
++++ b/drivers/input/mouse/alps.h
+@@ -323,18 +323,7 @@ struct alps_data {
+ 
+ #define ALPS_QUIRK_TRACKSTICK_BUTTONS	1 /* trakcstick buttons in trackstick packet */
+ 
+-#ifdef CONFIG_MOUSE_PS2_ALPS
+ int alps_detect(struct psmouse *psmouse, bool set_properties);
+ int alps_init(struct psmouse *psmouse);
+-#else
+-inline int alps_detect(struct psmouse *psmouse, bool set_properties)
+-{
+-	return -ENOSYS;
+-}
+-inline int alps_init(struct psmouse *psmouse)
+-{
+-	return -ENOSYS;
+-}
+-#endif /* CONFIG_MOUSE_PS2_ALPS */
+ 
+ #endif
+diff --git a/drivers/input/mouse/byd.h b/drivers/input/mouse/byd.h
+index 8cb90d904186..ff2771e2dd2e 100644
+--- a/drivers/input/mouse/byd.h
++++ b/drivers/input/mouse/byd.h
+@@ -2,18 +2,7 @@
+ #ifndef _BYD_H
+ #define _BYD_H
+ 
+-#ifdef CONFIG_MOUSE_PS2_BYD
+ int byd_detect(struct psmouse *psmouse, bool set_properties);
+ int byd_init(struct psmouse *psmouse);
+-#else
+-static inline int byd_detect(struct psmouse *psmouse, bool set_properties)
+-{
+-	return -ENOSYS;
+-}
+-static inline int byd_init(struct psmouse *psmouse)
+-{
+-	return -ENOSYS;
+-}
+-#endif /* CONFIG_MOUSE_PS2_BYD */
+ 
+ #endif /* _BYD_H */
+diff --git a/drivers/input/mouse/cypress_ps2.h b/drivers/input/mouse/cypress_ps2.h
+index 1eaddd818004..bb4979d06bf9 100644
+--- a/drivers/input/mouse/cypress_ps2.h
++++ b/drivers/input/mouse/cypress_ps2.h
+@@ -170,18 +170,7 @@ struct cytp_data {
+ };
+ 
+ 
+-#ifdef CONFIG_MOUSE_PS2_CYPRESS
+ int cypress_detect(struct psmouse *psmouse, bool set_properties);
+ int cypress_init(struct psmouse *psmouse);
+-#else
+-inline int cypress_detect(struct psmouse *psmouse, bool set_properties)
+-{
+-	return -ENOSYS;
+-}
+-inline int cypress_init(struct psmouse *psmouse)
+-{
+-	return -ENOSYS;
+-}
+-#endif /* CONFIG_MOUSE_PS2_CYPRESS */
+ 
+ #endif  /* _CYPRESS_PS2_H */
+diff --git a/drivers/input/mouse/elantech.h b/drivers/input/mouse/elantech.h
+index 46343998522b..e0a3e59d4f1b 100644
+--- a/drivers/input/mouse/elantech.h
++++ b/drivers/input/mouse/elantech.h
+@@ -184,32 +184,18 @@ struct elantech_data {
+ 	void (*original_set_rate)(struct psmouse *psmouse, unsigned int rate);
+ };
+ 
+-#ifdef CONFIG_MOUSE_PS2_ELANTECH
+ int elantech_detect(struct psmouse *psmouse, bool set_properties);
+ int elantech_init_ps2(struct psmouse *psmouse);
++
++#ifdef CONFIG_MOUSE_PS2_ELANTECH
+ int elantech_init(struct psmouse *psmouse);
+ #else
+-static inline int elantech_detect(struct psmouse *psmouse, bool set_properties)
+-{
+-	return -ENOSYS;
+-}
+ static inline int elantech_init(struct psmouse *psmouse)
+ {
+ 	return -ENOSYS;
+ }
+-static inline int elantech_init_ps2(struct psmouse *psmouse)
+-{
+-	return -ENOSYS;
+-}
+ #endif /* CONFIG_MOUSE_PS2_ELANTECH */
+ 
+-#if defined(CONFIG_MOUSE_PS2_ELANTECH_SMBUS)
+ int elantech_init_smbus(struct psmouse *psmouse);
+-#else
+-static inline int elantech_init_smbus(struct psmouse *psmouse)
+-{
+-	return -ENOSYS;
+-}
+-#endif /* CONFIG_MOUSE_PS2_ELANTECH_SMBUS */
+ 
+ #endif
+diff --git a/drivers/input/mouse/hgpk.h b/drivers/input/mouse/hgpk.h
+index 98b7b384229b..ce041591f1a8 100644
+--- a/drivers/input/mouse/hgpk.h
++++ b/drivers/input/mouse/hgpk.h
+@@ -47,22 +47,15 @@ struct hgpk_data {
+ 	int xsaw_secondary, ysaw_secondary; /* jumpiness detection */
+ };
+ 
+-#ifdef CONFIG_MOUSE_PS2_OLPC
+-void hgpk_module_init(void);
+ int hgpk_detect(struct psmouse *psmouse, bool set_properties);
+ int hgpk_init(struct psmouse *psmouse);
++
++#ifdef CONFIG_MOUSE_PS2_OLPC
++void hgpk_module_init(void);
+ #else
+ static inline void hgpk_module_init(void)
+ {
+ }
+-static inline int hgpk_detect(struct psmouse *psmouse, bool set_properties)
+-{
+-	return -ENODEV;
+-}
+-static inline int hgpk_init(struct psmouse *psmouse)
+-{
+-	return -ENODEV;
+-}
+ #endif
+ 
+ #endif
+diff --git a/drivers/input/mouse/lifebook.h b/drivers/input/mouse/lifebook.h
+index 573f2ca1983d..d989cca62dd6 100644
+--- a/drivers/input/mouse/lifebook.h
++++ b/drivers/input/mouse/lifebook.h
+@@ -8,22 +8,15 @@
+ #ifndef _LIFEBOOK_H
+ #define _LIFEBOOK_H
+ 
+-#ifdef CONFIG_MOUSE_PS2_LIFEBOOK
+-void lifebook_module_init(void);
+ int lifebook_detect(struct psmouse *psmouse, bool set_properties);
+ int lifebook_init(struct psmouse *psmouse);
++
++#ifdef CONFIG_MOUSE_PS2_LIFEBOOK
++void lifebook_module_init(void);
+ #else
+ static inline void lifebook_module_init(void)
+ {
+ }
+-static inline int lifebook_detect(struct psmouse *psmouse, bool set_properties)
+-{
+-	return -ENOSYS;
+-}
+-static inline int lifebook_init(struct psmouse *psmouse)
+-{
+-	return -ENOSYS;
+-}
+ #endif
+ 
+ #endif
+diff --git a/drivers/input/mouse/logips2pp.h b/drivers/input/mouse/logips2pp.h
+index 5f9344135f70..df885c4874df 100644
+--- a/drivers/input/mouse/logips2pp.h
++++ b/drivers/input/mouse/logips2pp.h
+@@ -8,13 +8,6 @@
+ #ifndef _LOGIPS2PP_H
+ #define _LOGIPS2PP_H
+ 
+-#ifdef CONFIG_MOUSE_PS2_LOGIPS2PP
+ int ps2pp_detect(struct psmouse *psmouse, bool set_properties);
+-#else
+-static inline int ps2pp_detect(struct psmouse *psmouse, bool set_properties)
+-{
+-	return -ENOSYS;
+-}
+-#endif /* CONFIG_MOUSE_PS2_LOGIPS2PP */
+ 
+ #endif
+diff --git a/drivers/input/mouse/sentelic.h b/drivers/input/mouse/sentelic.h
+index dc88a93adf85..02cac0e7ad63 100644
+--- a/drivers/input/mouse/sentelic.h
++++ b/drivers/input/mouse/sentelic.h
+@@ -106,19 +106,8 @@ struct fsp_data {
+ 	unsigned int	last_mt_fgr;	/* Last seen finger(multitouch) */
+ };
+ 
+-#ifdef CONFIG_MOUSE_PS2_SENTELIC
+ extern int fsp_detect(struct psmouse *psmouse, bool set_properties);
+ extern int fsp_init(struct psmouse *psmouse);
+-#else
+-static inline int fsp_detect(struct psmouse *psmouse, bool set_properties)
+-{
+-	return -ENOSYS;
+-}
+-static inline int fsp_init(struct psmouse *psmouse)
+-{
+-	return -ENOSYS;
+-}
+-#endif
+ 
+ #endif	/* __KERNEL__ */
+ 
+diff --git a/drivers/input/mouse/touchkit_ps2.h b/drivers/input/mouse/touchkit_ps2.h
+index 5acb76464a5b..c808fe6c782f 100644
+--- a/drivers/input/mouse/touchkit_ps2.h
++++ b/drivers/input/mouse/touchkit_ps2.h
+@@ -9,14 +9,6 @@
+ #ifndef _TOUCHKIT_PS2_H
+ #define _TOUCHKIT_PS2_H
+ 
+-#ifdef CONFIG_MOUSE_PS2_TOUCHKIT
+ int touchkit_ps2_detect(struct psmouse *psmouse, bool set_properties);
+-#else
+-static inline int touchkit_ps2_detect(struct psmouse *psmouse,
+-				      bool set_properties)
+-{
+-	return -ENOSYS;
+-}
+-#endif /* CONFIG_MOUSE_PS2_TOUCHKIT */
+ 
+ #endif
+diff --git a/drivers/input/mouse/trackpoint.h b/drivers/input/mouse/trackpoint.h
+index 77110f3ec21d..5cb93ed26085 100644
+--- a/drivers/input/mouse/trackpoint.h
++++ b/drivers/input/mouse/trackpoint.h
+@@ -155,14 +155,6 @@ struct trackpoint_data {
+ 	bool ext_dev;
+ };
+ 
+-#ifdef CONFIG_MOUSE_PS2_TRACKPOINT
+ int trackpoint_detect(struct psmouse *psmouse, bool set_properties);
+-#else
+-static inline int trackpoint_detect(struct psmouse *psmouse,
+-				    bool set_properties)
+-{
+-	return -ENOSYS;
+-}
+-#endif /* CONFIG_MOUSE_PS2_TRACKPOINT */
+ 
+ #endif /* _TRACKPOINT_H */
+diff --git a/drivers/input/mouse/vmmouse.h b/drivers/input/mouse/vmmouse.h
+index 774549a12930..90157aecade7 100644
+--- a/drivers/input/mouse/vmmouse.h
++++ b/drivers/input/mouse/vmmouse.h
+@@ -8,20 +8,9 @@
+ #ifndef _VMMOUSE_H
+ #define _VMMOUSE_H
+ 
+-#ifdef CONFIG_MOUSE_PS2_VMMOUSE
+ #define VMMOUSE_PSNAME  "VirtualPS/2"
+ 
+ int vmmouse_detect(struct psmouse *psmouse, bool set_properties);
+ int vmmouse_init(struct psmouse *psmouse);
+-#else
+-static inline int vmmouse_detect(struct psmouse *psmouse, bool set_properties)
+-{
+-	return -ENOSYS;
+-}
+-static inline int vmmouse_init(struct psmouse *psmouse)
+-{
+-	return -ENOSYS;
+-}
+-#endif
+ 
+ #endif
 -- 
-Dmitry
+2.17.1
+
