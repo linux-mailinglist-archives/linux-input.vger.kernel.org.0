@@ -2,370 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9109A96908
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 21:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E825969E8
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 22:00:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730618AbfHTTH0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Aug 2019 15:07:26 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:34725 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730628AbfHTTH0 (ORCPT
+        id S1730840AbfHTUAW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Aug 2019 16:00:22 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:37082 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1730837AbfHTUAW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Aug 2019 15:07:26 -0400
-Received: by mail-pf1-f195.google.com with SMTP id b24so3952891pfp.1
-        for <linux-input@vger.kernel.org>; Tue, 20 Aug 2019 12:07:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=C2WAhE5PmBkXc3zmBZf/icO+i/DafkFznONWpVRnBUo=;
-        b=YTjzDFgbDYp5ZE9i0w4fXkKHYfDXGWjKGOZIGBKGzytrj2rNf8hSg6W0n4UwMeE4nJ
-         Lgt/wnR0jYrr1ykn0s77EUguMVFrZsS3lZHj/qfLE/ALJeksJJ523tyQw1BMzoHOW6kR
-         qnGyQd0olOQs4dXab/eK7ieSDU4B9C/27cjHxCODaP+unTnCjjBbvbkkODXWxxy4EASX
-         AAPDIBXHl2KPVsncmTKbVpgWwHr7bXPCY+JICD2GeAsPerdFCREkuZd4Y2oy3MZCr5bt
-         yNarMZbP0532ZGpZOwHmryNyWi8zakp0vJV/Svwukd7J+PgauPRnRcnRzre2nYuKEyb9
-         G8rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=C2WAhE5PmBkXc3zmBZf/icO+i/DafkFznONWpVRnBUo=;
-        b=LFX3KS4rW8AyT9tf53zfEK60xHEAEshl7FHb6mMBTBI1BJ5x8T4BpROm0BZCG8dfM2
-         JErazMYInuUKSBwTG9UCyqMvIT7Kspx+Vgg/yjbxxQyg48LdT03Yn0mrOipMyxmngC/Z
-         9uOX/d/uzgqXBXdq3erLjxZAAHUyGD6Nkkjf++LwC4eFGS1148bkT16DDofqqYhcnaHW
-         K7YOoLYSHoR+EGGbH5VrC67KVq9xmmG5g4cNWdt6XJqJAMiNNJ7ZPc6Y7TMrzaQQOmDe
-         vwLjcZ0zXQQcQYIAnbVN+28APE3+Mhk9Se200U408fc4dj0YFr0FDNvltHAy2GuFLrYs
-         N9+A==
-X-Gm-Message-State: APjAAAXRuf3ofwG+uXTKKbfi5xA4ACq+YfdXPny+LES3vdKLunSPLpfw
-        qCNKtRM9wz5eDbiuMnwhaCI=
-X-Google-Smtp-Source: APXvYqzMJJ4dESBa+B/2KOk48X+DUiLtRbItQz8bJalRe2PqB63OJ9tQ9C9JXkD1MWNdhnF0NEe6bA==
-X-Received: by 2002:a63:b555:: with SMTP id u21mr26396955pgo.222.1566328045357;
-        Tue, 20 Aug 2019 12:07:25 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id s6sm19889705pfs.122.2019.08.20.12.07.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2019 12:07:24 -0700 (PDT)
-Date:   Tue, 20 Aug 2019 12:07:22 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hui Wang <hui.wang@canonical.com>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] Input: psmouse - drop all unneeded functions from
- mouse headers
-Message-ID: <20190820190722.GQ121898@dtor-ws>
-References: <20190820053650.8847-1-hui.wang@canonical.com>
+        Tue, 20 Aug 2019 16:00:22 -0400
+Received: (qmail 8410 invoked by uid 2102); 20 Aug 2019 16:00:21 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 20 Aug 2019 16:00:21 -0400
+Date:   Tue, 20 Aug 2019 16:00:21 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Jiri Kosina <jikos@kernel.org>
+cc:     andreyknvl@google.com, <gustavo@embeddedor.com>,
+        <hdanton@sina.com>, <syzkaller-bugs@googlegroups.com>,
+        <linux-input@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>
+Subject: [PATCH] HID: USB: Fix general protection fault caused by Logitech
+ driver
+In-Reply-To: <Pine.LNX.4.44L0.1908151333220.1343-100000@iolanthe.rowland.org>
+Message-ID: <Pine.LNX.4.44L0.1908201557220.1573-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190820053650.8847-1-hui.wang@canonical.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 20, 2019 at 01:36:50PM +0800, Hui Wang wrote:
-> Recently we had a building error if we enable the MOUSE_PS2_ALPS while
-> disable the MOUSE_PS2_TRACKPOINT, and was fixed by 49e6979e7e92
-> ("Input: psmouse - fix build error of multiple definition").
-> 
-> We could improve that fix by dropping all unneeded functions and
-> CONFIG_MOUSE_ guards from the header, it is safe to do that since
-> those functions are not directly called by psmouse-base.c anymore.
-> 
-> Signed-off-by: Hui Wang <hui.wang@canonical.com>
+The syzbot fuzzer found a general protection fault in the HID subsystem:
 
-Applied, thank you.
+kasan: CONFIG_KASAN_INLINE enabled
+kasan: GPF could be caused by NULL-ptr deref or user memory access
+general protection fault: 0000 [#1] SMP KASAN
+CPU: 0 PID: 3715 Comm: syz-executor.3 Not tainted 5.2.0-rc6+ #15
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+RIP: 0010:__pm_runtime_resume+0x49/0x180 drivers/base/power/runtime.c:1069
+Code: ed 74 d5 fe 45 85 ed 0f 85 9a 00 00 00 e8 6f 73 d5 fe 48 8d bd c1 02  
+00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <0f> b6 04 02 48  
+89 fa 83 e2 07 38 d0 7f 08 84 c0 0f 85 fe 00 00 00
+RSP: 0018:ffff8881d99d78e0 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: 0000000000000020 RCX: ffffc90003f3f000
+RDX: 0000000416d8686d RSI: ffffffff82676841 RDI: 00000020b6c3436a
+RBP: 00000020b6c340a9 R08: ffff8881c6d64800 R09: fffffbfff0e84c25
+R10: ffff8881d99d7940 R11: ffffffff87426127 R12: 0000000000000004
+R13: 0000000000000000 R14: ffff8881d9b94000 R15: ffffffff897f9048
+FS:  00007f047f542700(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b30f21000 CR3: 00000001ca032000 CR4: 00000000001406f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+  pm_runtime_get_sync include/linux/pm_runtime.h:226 [inline]
+  usb_autopm_get_interface+0x1b/0x50 drivers/usb/core/driver.c:1707
+  usbhid_power+0x7c/0xe0 drivers/hid/usbhid/hid-core.c:1234
+  hid_hw_power include/linux/hid.h:1038 [inline]
+  hidraw_open+0x20d/0x740 drivers/hid/hidraw.c:282
+  chrdev_open+0x219/0x5c0 fs/char_dev.c:413
+  do_dentry_open+0x497/0x1040 fs/open.c:778
+  do_last fs/namei.c:3416 [inline]
+  path_openat+0x1430/0x3ff0 fs/namei.c:3533
+  do_filp_open+0x1a1/0x280 fs/namei.c:3563
+  do_sys_open+0x3c0/0x580 fs/open.c:1070
+  do_syscall_64+0xb7/0x560 arch/x86/entry/common.c:301
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
 
-> ---
->  drivers/input/mouse/alps.h         | 11 -----------
->  drivers/input/mouse/byd.h          | 11 -----------
->  drivers/input/mouse/cypress_ps2.h  | 11 -----------
->  drivers/input/mouse/elantech.h     | 18 ++----------------
->  drivers/input/mouse/hgpk.h         | 13 +++----------
->  drivers/input/mouse/lifebook.h     | 13 +++----------
->  drivers/input/mouse/logips2pp.h    |  7 -------
->  drivers/input/mouse/sentelic.h     | 11 -----------
->  drivers/input/mouse/touchkit_ps2.h |  8 --------
->  drivers/input/mouse/trackpoint.h   |  8 --------
->  drivers/input/mouse/vmmouse.h      | 11 -----------
->  11 files changed, 8 insertions(+), 114 deletions(-)
-> 
-> diff --git a/drivers/input/mouse/alps.h b/drivers/input/mouse/alps.h
-> index f4bab629739c..0a1048cf23f6 100644
-> --- a/drivers/input/mouse/alps.h
-> +++ b/drivers/input/mouse/alps.h
-> @@ -323,18 +323,7 @@ struct alps_data {
->  
->  #define ALPS_QUIRK_TRACKSTICK_BUTTONS	1 /* trakcstick buttons in trackstick packet */
->  
-> -#ifdef CONFIG_MOUSE_PS2_ALPS
->  int alps_detect(struct psmouse *psmouse, bool set_properties);
->  int alps_init(struct psmouse *psmouse);
-> -#else
-> -inline int alps_detect(struct psmouse *psmouse, bool set_properties)
-> -{
-> -	return -ENOSYS;
-> -}
-> -inline int alps_init(struct psmouse *psmouse)
-> -{
-> -	return -ENOSYS;
-> -}
-> -#endif /* CONFIG_MOUSE_PS2_ALPS */
->  
->  #endif
-> diff --git a/drivers/input/mouse/byd.h b/drivers/input/mouse/byd.h
-> index 8cb90d904186..ff2771e2dd2e 100644
-> --- a/drivers/input/mouse/byd.h
-> +++ b/drivers/input/mouse/byd.h
-> @@ -2,18 +2,7 @@
->  #ifndef _BYD_H
->  #define _BYD_H
->  
-> -#ifdef CONFIG_MOUSE_PS2_BYD
->  int byd_detect(struct psmouse *psmouse, bool set_properties);
->  int byd_init(struct psmouse *psmouse);
-> -#else
-> -static inline int byd_detect(struct psmouse *psmouse, bool set_properties)
-> -{
-> -	return -ENOSYS;
-> -}
-> -static inline int byd_init(struct psmouse *psmouse)
-> -{
-> -	return -ENOSYS;
-> -}
-> -#endif /* CONFIG_MOUSE_PS2_BYD */
->  
->  #endif /* _BYD_H */
-> diff --git a/drivers/input/mouse/cypress_ps2.h b/drivers/input/mouse/cypress_ps2.h
-> index 1eaddd818004..bb4979d06bf9 100644
-> --- a/drivers/input/mouse/cypress_ps2.h
-> +++ b/drivers/input/mouse/cypress_ps2.h
-> @@ -170,18 +170,7 @@ struct cytp_data {
->  };
->  
->  
-> -#ifdef CONFIG_MOUSE_PS2_CYPRESS
->  int cypress_detect(struct psmouse *psmouse, bool set_properties);
->  int cypress_init(struct psmouse *psmouse);
-> -#else
-> -inline int cypress_detect(struct psmouse *psmouse, bool set_properties)
-> -{
-> -	return -ENOSYS;
-> -}
-> -inline int cypress_init(struct psmouse *psmouse)
-> -{
-> -	return -ENOSYS;
-> -}
-> -#endif /* CONFIG_MOUSE_PS2_CYPRESS */
->  
->  #endif  /* _CYPRESS_PS2_H */
-> diff --git a/drivers/input/mouse/elantech.h b/drivers/input/mouse/elantech.h
-> index 46343998522b..e0a3e59d4f1b 100644
-> --- a/drivers/input/mouse/elantech.h
-> +++ b/drivers/input/mouse/elantech.h
-> @@ -184,32 +184,18 @@ struct elantech_data {
->  	void (*original_set_rate)(struct psmouse *psmouse, unsigned int rate);
->  };
->  
-> -#ifdef CONFIG_MOUSE_PS2_ELANTECH
->  int elantech_detect(struct psmouse *psmouse, bool set_properties);
->  int elantech_init_ps2(struct psmouse *psmouse);
-> +
-> +#ifdef CONFIG_MOUSE_PS2_ELANTECH
->  int elantech_init(struct psmouse *psmouse);
->  #else
-> -static inline int elantech_detect(struct psmouse *psmouse, bool set_properties)
-> -{
-> -	return -ENOSYS;
-> -}
->  static inline int elantech_init(struct psmouse *psmouse)
->  {
->  	return -ENOSYS;
->  }
-> -static inline int elantech_init_ps2(struct psmouse *psmouse)
-> -{
-> -	return -ENOSYS;
-> -}
->  #endif /* CONFIG_MOUSE_PS2_ELANTECH */
->  
-> -#if defined(CONFIG_MOUSE_PS2_ELANTECH_SMBUS)
->  int elantech_init_smbus(struct psmouse *psmouse);
-> -#else
-> -static inline int elantech_init_smbus(struct psmouse *psmouse)
-> -{
-> -	return -ENOSYS;
-> -}
-> -#endif /* CONFIG_MOUSE_PS2_ELANTECH_SMBUS */
->  
->  #endif
-> diff --git a/drivers/input/mouse/hgpk.h b/drivers/input/mouse/hgpk.h
-> index 98b7b384229b..ce041591f1a8 100644
-> --- a/drivers/input/mouse/hgpk.h
-> +++ b/drivers/input/mouse/hgpk.h
-> @@ -47,22 +47,15 @@ struct hgpk_data {
->  	int xsaw_secondary, ysaw_secondary; /* jumpiness detection */
->  };
->  
-> -#ifdef CONFIG_MOUSE_PS2_OLPC
-> -void hgpk_module_init(void);
->  int hgpk_detect(struct psmouse *psmouse, bool set_properties);
->  int hgpk_init(struct psmouse *psmouse);
-> +
-> +#ifdef CONFIG_MOUSE_PS2_OLPC
-> +void hgpk_module_init(void);
->  #else
->  static inline void hgpk_module_init(void)
->  {
->  }
-> -static inline int hgpk_detect(struct psmouse *psmouse, bool set_properties)
-> -{
-> -	return -ENODEV;
-> -}
-> -static inline int hgpk_init(struct psmouse *psmouse)
-> -{
-> -	return -ENODEV;
-> -}
->  #endif
->  
->  #endif
-> diff --git a/drivers/input/mouse/lifebook.h b/drivers/input/mouse/lifebook.h
-> index 573f2ca1983d..d989cca62dd6 100644
-> --- a/drivers/input/mouse/lifebook.h
-> +++ b/drivers/input/mouse/lifebook.h
-> @@ -8,22 +8,15 @@
->  #ifndef _LIFEBOOK_H
->  #define _LIFEBOOK_H
->  
-> -#ifdef CONFIG_MOUSE_PS2_LIFEBOOK
-> -void lifebook_module_init(void);
->  int lifebook_detect(struct psmouse *psmouse, bool set_properties);
->  int lifebook_init(struct psmouse *psmouse);
-> +
-> +#ifdef CONFIG_MOUSE_PS2_LIFEBOOK
-> +void lifebook_module_init(void);
->  #else
->  static inline void lifebook_module_init(void)
->  {
->  }
-> -static inline int lifebook_detect(struct psmouse *psmouse, bool set_properties)
-> -{
-> -	return -ENOSYS;
-> -}
-> -static inline int lifebook_init(struct psmouse *psmouse)
-> -{
-> -	return -ENOSYS;
-> -}
->  #endif
->  
->  #endif
-> diff --git a/drivers/input/mouse/logips2pp.h b/drivers/input/mouse/logips2pp.h
-> index 5f9344135f70..df885c4874df 100644
-> --- a/drivers/input/mouse/logips2pp.h
-> +++ b/drivers/input/mouse/logips2pp.h
-> @@ -8,13 +8,6 @@
->  #ifndef _LOGIPS2PP_H
->  #define _LOGIPS2PP_H
->  
-> -#ifdef CONFIG_MOUSE_PS2_LOGIPS2PP
->  int ps2pp_detect(struct psmouse *psmouse, bool set_properties);
-> -#else
-> -static inline int ps2pp_detect(struct psmouse *psmouse, bool set_properties)
-> -{
-> -	return -ENOSYS;
-> -}
-> -#endif /* CONFIG_MOUSE_PS2_LOGIPS2PP */
->  
->  #endif
-> diff --git a/drivers/input/mouse/sentelic.h b/drivers/input/mouse/sentelic.h
-> index dc88a93adf85..02cac0e7ad63 100644
-> --- a/drivers/input/mouse/sentelic.h
-> +++ b/drivers/input/mouse/sentelic.h
-> @@ -106,19 +106,8 @@ struct fsp_data {
->  	unsigned int	last_mt_fgr;	/* Last seen finger(multitouch) */
->  };
->  
-> -#ifdef CONFIG_MOUSE_PS2_SENTELIC
->  extern int fsp_detect(struct psmouse *psmouse, bool set_properties);
->  extern int fsp_init(struct psmouse *psmouse);
-> -#else
-> -static inline int fsp_detect(struct psmouse *psmouse, bool set_properties)
-> -{
-> -	return -ENOSYS;
-> -}
-> -static inline int fsp_init(struct psmouse *psmouse)
-> -{
-> -	return -ENOSYS;
-> -}
-> -#endif
->  
->  #endif	/* __KERNEL__ */
->  
-> diff --git a/drivers/input/mouse/touchkit_ps2.h b/drivers/input/mouse/touchkit_ps2.h
-> index 5acb76464a5b..c808fe6c782f 100644
-> --- a/drivers/input/mouse/touchkit_ps2.h
-> +++ b/drivers/input/mouse/touchkit_ps2.h
-> @@ -9,14 +9,6 @@
->  #ifndef _TOUCHKIT_PS2_H
->  #define _TOUCHKIT_PS2_H
->  
-> -#ifdef CONFIG_MOUSE_PS2_TOUCHKIT
->  int touchkit_ps2_detect(struct psmouse *psmouse, bool set_properties);
-> -#else
-> -static inline int touchkit_ps2_detect(struct psmouse *psmouse,
-> -				      bool set_properties)
-> -{
-> -	return -ENOSYS;
-> -}
-> -#endif /* CONFIG_MOUSE_PS2_TOUCHKIT */
->  
->  #endif
-> diff --git a/drivers/input/mouse/trackpoint.h b/drivers/input/mouse/trackpoint.h
-> index 77110f3ec21d..5cb93ed26085 100644
-> --- a/drivers/input/mouse/trackpoint.h
-> +++ b/drivers/input/mouse/trackpoint.h
-> @@ -155,14 +155,6 @@ struct trackpoint_data {
->  	bool ext_dev;
->  };
->  
-> -#ifdef CONFIG_MOUSE_PS2_TRACKPOINT
->  int trackpoint_detect(struct psmouse *psmouse, bool set_properties);
-> -#else
-> -static inline int trackpoint_detect(struct psmouse *psmouse,
-> -				    bool set_properties)
-> -{
-> -	return -ENOSYS;
-> -}
-> -#endif /* CONFIG_MOUSE_PS2_TRACKPOINT */
->  
->  #endif /* _TRACKPOINT_H */
-> diff --git a/drivers/input/mouse/vmmouse.h b/drivers/input/mouse/vmmouse.h
-> index 774549a12930..90157aecade7 100644
-> --- a/drivers/input/mouse/vmmouse.h
-> +++ b/drivers/input/mouse/vmmouse.h
-> @@ -8,20 +8,9 @@
->  #ifndef _VMMOUSE_H
->  #define _VMMOUSE_H
->  
-> -#ifdef CONFIG_MOUSE_PS2_VMMOUSE
->  #define VMMOUSE_PSNAME  "VirtualPS/2"
->  
->  int vmmouse_detect(struct psmouse *psmouse, bool set_properties);
->  int vmmouse_init(struct psmouse *psmouse);
-> -#else
-> -static inline int vmmouse_detect(struct psmouse *psmouse, bool set_properties)
-> -{
-> -	return -ENOSYS;
-> -}
-> -static inline int vmmouse_init(struct psmouse *psmouse)
-> -{
-> -	return -ENOSYS;
-> -}
-> -#endif
->  
->  #endif
-> -- 
-> 2.17.1
-> 
+It turns out the fault was caused by a bug in the HID Logitech driver,
+which violates the requirement that every pathway calling
+hid_hw_start() must also call hid_hw_stop().  This patch fixes the bug
+by making sure the requirement is met.
 
--- 
-Dmitry
+Reported-and-tested-by: syzbot+3cbe5cd105d2ad56a1df@syzkaller.appspotmail.com
+Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+CC: <stable@vger.kernel.org>
+
+---
+
+[as1909]
+
+
+ drivers/hid/hid-lg.c    |   10 ++++++----
+ drivers/hid/hid-lg4ff.c |    1 -
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+
+Index: usb-devel/drivers/hid/hid-lg.c
+===================================================================
+--- usb-devel.orig/drivers/hid/hid-lg.c
++++ usb-devel/drivers/hid/hid-lg.c
+@@ -818,7 +818,7 @@ static int lg_probe(struct hid_device *h
+ 
+ 		if (!buf) {
+ 			ret = -ENOMEM;
+-			goto err_free;
++			goto err_stop;
+ 		}
+ 
+ 		ret = hid_hw_raw_request(hdev, buf[0], buf, sizeof(cbuf),
+@@ -850,9 +850,12 @@ static int lg_probe(struct hid_device *h
+ 		ret = lg4ff_init(hdev);
+ 
+ 	if (ret)
+-		goto err_free;
++		goto err_stop;
+ 
+ 	return 0;
++
++err_stop:
++	hid_hw_stop(hdev);
+ err_free:
+ 	kfree(drv_data);
+ 	return ret;
+@@ -863,8 +866,7 @@ static void lg_remove(struct hid_device
+ 	struct lg_drv_data *drv_data = hid_get_drvdata(hdev);
+ 	if (drv_data->quirks & LG_FF4)
+ 		lg4ff_deinit(hdev);
+-	else
+-		hid_hw_stop(hdev);
++	hid_hw_stop(hdev);
+ 	kfree(drv_data);
+ }
+ 
+Index: usb-devel/drivers/hid/hid-lg4ff.c
+===================================================================
+--- usb-devel.orig/drivers/hid/hid-lg4ff.c
++++ usb-devel/drivers/hid/hid-lg4ff.c
+@@ -1477,7 +1477,6 @@ int lg4ff_deinit(struct hid_device *hid)
+ 		}
+ 	}
+ #endif
+-	hid_hw_stop(hid);
+ 	drv_data->device_props = NULL;
+ 
+ 	kfree(entry);
+
