@@ -2,119 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61E0897F41
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 17:44:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C003397F43
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 17:44:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727568AbfHUPoe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Aug 2019 11:44:34 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:36992 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727553AbfHUPoe (ORCPT
+        id S1727822AbfHUPoh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Aug 2019 11:44:37 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:35883 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727553AbfHUPog (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Aug 2019 11:44:34 -0400
-Received: by mail-pg1-f195.google.com with SMTP id d1so1535838pgp.4;
-        Wed, 21 Aug 2019 08:44:33 -0700 (PDT)
+        Wed, 21 Aug 2019 11:44:36 -0400
+Received: by mail-pf1-f194.google.com with SMTP id w2so1688460pfi.3
+        for <linux-input@vger.kernel.org>; Wed, 21 Aug 2019 08:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=rpekFqyZj3l++WQEb7CaA2EK93VudltOovvbUJ4E8Hk=;
-        b=LP6mKtvxisckWHY8p7xJJz6IneM36EXGa2X4VysZ5bTanqqYgZpoMXx3/dfy8rAain
-         nEXI1vDMvVFN16Hz2tdkHpicjVyCm+Fk5ax3ZnOup3blLuJcxjuB7gbLPtNHj5w2YjQK
-         eLgaTDg6EjEj0V1PLT7XDxkCmoqNhKJ2WkWuikfLbe1/g+/kF3TfXh2Ht0mc8sNo/LKR
-         cOMVAQz0tfbE2EewNkpAAJUgIzVFnqeYAEPEM4YhmY3aIa+tPmZNkKLhfkrpF168YMpi
-         hXQaMj2Lz8DATsJqgB4LQ2zw8Ug+i4CZA8Rkrji2TITrCmJ4qYRGjuFe8z7pwPJp2IeD
-         U7OQ==
+         :content-disposition:in-reply-to:user-agent;
+        bh=oDutW/I35TP+jX1O/z5kU6iTGS5iSehx2vcFXJv5b5I=;
+        b=UCoMZT1CeGIB6kqbX8RgNf36WSiKEsxNpsU1oEf+H6+lALhE3VVgCD+opMVaKEksTf
+         kbmFYSDZfWGxvuXdwfAzyfBFyeZqx+kfUARWGufaV6inhcI2CtnPUPLuteYaLHMLBshj
+         iiUXVORALrqWrHuC/3fSbKMBYSPTIAIF2MqmRYW8N7MPzKgNpMXEmUR4ol8U8+otxsHl
+         9rCU2kb3Q5M9VJzdLvEv9EXUYkTTVJUIXGbbocEV0yz7PhAvNaOV1E4b7+74LtCruzlL
+         MoS88ZlfInYNE2b4T3yckDQNrtCNI2DSvZrVFxtxxjeBBUZ96218hG5Z61YsyxK7FwYh
+         jdXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=rpekFqyZj3l++WQEb7CaA2EK93VudltOovvbUJ4E8Hk=;
-        b=Fas90mKMlHwK9BqxfLjZuvm6FKa3Cm5qs1h504g5Igil6NAwob4p9FDp5yHbZqv3LI
-         R1LmILQifIrraV7AvN62owtBPMeM18xWQ0Y7QfTLG8ebRIifyQTKLHZNUO7u20L0/WNE
-         gGb9qqxcsT1J5ucks6Ra+Ls3h1gOokDmcXDEodFgw4Gb6aWqsohJOl7jj6ZbwMOz9WNB
-         dA+wePpMryeSlOkLiSRFkTkv526NnqO/0c9C04N6GBJe4whDiin4PrvpGAKpqsBlUb5J
-         vGwxVGfflyhDXi//9XPBCWfPfntMjGoAisOWDJOHhVLjYb0GG/xf+BNDqjKfChHEKlvm
-         4lVA==
-X-Gm-Message-State: APjAAAUxbeGms+qlFh8bVBTa3KgGRXx1Fu02WXtTMi8H7oMndBCTyGes
-        gdogytEIYZrtM8PClfM7hTE=
-X-Google-Smtp-Source: APXvYqz1i4DT2loqS6ywADscFmkdWQr9CzJdfaAjI7m57Ak+9WrzsLRlfByHabNBrs3E+jHne9VPnQ==
-X-Received: by 2002:a62:76d5:: with SMTP id r204mr35736589pfc.252.1566402273255;
-        Wed, 21 Aug 2019 08:44:33 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oDutW/I35TP+jX1O/z5kU6iTGS5iSehx2vcFXJv5b5I=;
+        b=mLvi+ucmu6LImEEJEo7WGUcSIjA71Ez/qM6eileVwD/uBzQrufYLCk3yJX0lNPOMhx
+         EdHSzIfErcXJoMew+d/2wCDFPBAxH+fbaloLCfC/ur+HG3Aq/KjIySQrqiUyNSQ4HJ2U
+         TjnL4bEPaI+adMz63o2pBnkGja+EVrreew0/NkeJqxXbrB8OJqL+9meIhUvOs7e8nIfO
+         K3C9ICNW5IX4n1rcg9yt6zl6efkpNgew3/sJr1hwMbl2GHE7xnwDQa2jbjvfAbBtEUgE
+         li2dgZNR06mkeh+3EVXducsaLZ1Cgi9/WAqx4rdH1ESkkarY8cAIa/8DnpfFCysTz3xS
+         //6g==
+X-Gm-Message-State: APjAAAX/ASBeB8hY8Nv14oaHpj0KvL5vRqLvwJ2WjLDbmRUaecUpQXEd
+        ta6VmSDA6oKnyRur41PGJ+w=
+X-Google-Smtp-Source: APXvYqzLY9zWRFMxwQpByTGyw3hhxj8tPBVrYmen1stsrfuOs5M16rZTUl59Nx5s7+sFh9f0sRp73w==
+X-Received: by 2002:a62:cec4:: with SMTP id y187mr36026625pfg.84.1566402275934;
+        Wed, 21 Aug 2019 08:44:35 -0700 (PDT)
 Received: from localhost (wsip-184-188-36-2.sd.sd.cox.net. [184.188.36.2])
-        by smtp.gmail.com with ESMTPSA id d18sm20130408pgi.40.2019.08.21.08.44.32
+        by smtp.gmail.com with ESMTPSA id j6sm40452491pfg.158.2019.08.21.08.44.34
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 21 Aug 2019 08:44:32 -0700 (PDT)
-Date:   Tue, 20 Aug 2019 22:09:25 -0700
+        Wed, 21 Aug 2019 08:44:34 -0700 (PDT)
+Date:   Tue, 20 Aug 2019 22:10:07 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Thomas =?iso-8859-1?Q?Hellstr=F6m_=28VMware=29?= 
-        <thomas_os@shipmail.org>
-Cc:     linux-kernel@vger.kernel.org, pv-drivers@vmware.com,
-        Thomas Hellstrom <thellstrom@vmware.com>,
-        linux-input@vger.kernel.org, Doug Covelli <dcovelli@vmware.com>
-Subject: Re: [PATCH 4/4] input/vmmouse: Update the backdoor call with support
- for new instructions
-Message-ID: <20190821050925.GA566@penguin>
-References: <20190818143316.4906-1-thomas_os@shipmail.org>
- <20190818143316.4906-5-thomas_os@shipmail.org>
+To:     Jason Gerecke <killertofu@gmail.com>
+Cc:     linux-input@vger.kernel.org, Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>
+Subject: Re: [PATCH] Input: wacom_w8001 - Allocate additional space for 'phys'
+Message-ID: <20190821051007.GB566@penguin>
+References: <20190816184927.24525-1-jason.gerecke@wacom.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190818143316.4906-5-thomas_os@shipmail.org>
+In-Reply-To: <20190816184927.24525-1-jason.gerecke@wacom.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Aug 18, 2019 at 04:33:16PM +0200, Thomas Hellström (VMware) wrote:
-> From: Thomas Hellstrom <thellstrom@vmware.com>
+On Fri, Aug 16, 2019 at 11:49:27AM -0700, Jason Gerecke wrote:
+> GCC warns that the output of our call to 'snprintf' in 'w8001_connect'
+> may be truncated since both 'serio->phys' and 'w8001->phys' are 32 bytes
+> in length. Increase the amount of space allocated for the latter to
+> compensate.
 > 
-> Use the definition provided by include/asm/vmware.h
-> 
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: <linux-input@vger.kernel.org>
-> Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
-> Reviewed-by: Doug Covelli <dcovelli@vmware.com>
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Please feel free to merge with the rest of the patches introducing
-VMWARE_HYPERCALL.
+Applied, thank you.
 
 > ---
->  drivers/input/mouse/vmmouse.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/input/touchscreen/wacom_w8001.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/input/mouse/vmmouse.c b/drivers/input/mouse/vmmouse.c
-> index 871e5b5ab129..0c7707c7bede 100644
-> --- a/drivers/input/mouse/vmmouse.c
-> +++ b/drivers/input/mouse/vmmouse.c
-> @@ -16,6 +16,7 @@
->  #include <linux/slab.h>
->  #include <linux/module.h>
->  #include <asm/hypervisor.h>
-> +#include <asm/vmware.h>
+> diff --git a/drivers/input/touchscreen/wacom_w8001.c b/drivers/input/touchscreen/wacom_w8001.c
+> index 3715d1eace92..691285ace228 100644
+> --- a/drivers/input/touchscreen/wacom_w8001.c
+> +++ b/drivers/input/touchscreen/wacom_w8001.c
+> @@ -27,6 +27,8 @@ MODULE_AUTHOR("Jaya Kumar <jayakumar.lkml@gmail.com>");
+>  MODULE_DESCRIPTION(DRIVER_DESC);
+>  MODULE_LICENSE("GPL");
 >  
->  #include "psmouse.h"
->  #include "vmmouse.h"
-> @@ -84,7 +85,7 @@ struct vmmouse_data {
->  #define VMMOUSE_CMD(cmd, in1, out1, out2, out3, out4)	\
->  ({							\
->  	unsigned long __dummy1, __dummy2;		\
-> -	__asm__ __volatile__ ("inl %%dx" :		\
-> +	__asm__ __volatile__ (VMWARE_HYPERCALL :	\
->  		"=a"(out1),				\
->  		"=b"(out2),				\
->  		"=c"(out3),				\
+> +#define W8001_MAX_PHYS		42
+> +
+>  #define W8001_MAX_LENGTH	13
+>  #define W8001_LEAD_MASK		0x80
+>  #define W8001_LEAD_BYTE		0x80
+> @@ -89,7 +91,7 @@ struct w8001 {
+>  	unsigned char response_type;
+>  	unsigned char response[W8001_MAX_LENGTH];
+>  	unsigned char data[W8001_MAX_LENGTH];
+> -	char phys[32];
+> +	char phys[W8001_MAX_PHYS];
+>  	int type;
+>  	unsigned int pktlen;
+>  	u16 max_touch_x;
 > -- 
-> 2.20.1
+> 2.22.1
 > 
-
-Thanks.
 
 -- 
 Dmitry
