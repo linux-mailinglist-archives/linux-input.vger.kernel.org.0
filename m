@@ -2,153 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88C879819F
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 19:43:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2526981BA
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 19:49:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728085AbfHURnC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Aug 2019 13:43:02 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:39050 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727685AbfHURnB (ORCPT
+        id S1727683AbfHURtB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Aug 2019 13:49:01 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42583 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727416AbfHURtB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Aug 2019 13:43:01 -0400
-Received: by mail-pg1-f194.google.com with SMTP id u17so1719398pgi.6;
-        Wed, 21 Aug 2019 10:43:01 -0700 (PDT)
+        Wed, 21 Aug 2019 13:49:01 -0400
+Received: by mail-pf1-f193.google.com with SMTP id i30so1894474pfk.9;
+        Wed, 21 Aug 2019 10:49:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=vktIy0TSpcc19xMgGhdmnbgjHLgZeK7LsjqhPmlI8NA=;
-        b=HC+Mkk1Gu5eqrSDBCAP1AC8nVrNBDGWMHYW0UG5D2H0nUYL01dzEJxukIVG2IFJhrc
-         HuINwtp38jH0me3cQsyAzE60qaOueL2lZeC+Z986GiSnFW6kob/mLDu2/xWjhISPeBxc
-         Y/kKeQuhRExBM/XqGAWFzPjjoMeNu1HziYtwe9WkYgWUqtGCS8/39MObCoh92hYcaTdB
-         XiaatTDjur/uqvWaVHQ4fbFvCyrY8fizW1OTOpFVJVgKl5COfOvObzIbopgZAHi34wgb
-         BT4HEsRQzUc5OxMnncXJdJWg+UMrNE4Jscm6IK2r+q2940b+pK0u/YxOupaqkX4G10U7
-         PIlg==
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=cuc7KArAwEZwDVhK9UQGoIlx3cYOJWBMGimfd+D8qCg=;
+        b=Z2IrsROHrgGddTp70xQRuUmUImik5DFHyqPJBEP6guIEvSGDYKGOJna9rw7t2aVLZw
+         foYQrmnHtGq7Ki7PRB8NZf6Wscpv2fB8sQzAzCM3hvTSLmICTHHqRS6eGMXcU5XfWYil
+         U9xbtD0Eidq+jfFOoCyDwd5nP7gONspQC/4BXhg232blHOWG/686CZP4efQEqta+HQ6L
+         EaHUBPyG1vfuzRn9Ph84/Phanu0+JN9lEgn8ucc6f7+GYXaMNkJ3DJw6yU/BpUI1VEGV
+         mvBtumjQUGWk73sIGUkrpqkWO5LnqA0IRIeLsgHUZaNQswv/eJuVjfXUeRhwBupXGGI2
+         lq9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vktIy0TSpcc19xMgGhdmnbgjHLgZeK7LsjqhPmlI8NA=;
-        b=EYJtjRoOCi/n9Iml4KE/XUSI/csnu5reaQxy9++TdypuD9qfNzY0EeYFGGRYzmwKlY
-         UUVzpGXKuFDv8w5IU9vOVFUP4QsuMrTcSwk/r+AB9v75gNeuFFQ3Rr7tbr1WYbfveqip
-         7nPthkBRHgDhXpyhqXPBhdl9qN0KfuPM/AQrtH+07rPospcgcuguZjCQV2m+B9vOmXEB
-         MPwTq0x3Di7U0YpKTRrhCT/ifHb8ITXeKIWz81Cg2yzjx9RS/1WoEWE3Hzj5fY6jHkii
-         9mG6qMjdWOWsqogJTTw0cqtSGsMBYg0XV+Q4pxeZjsh2IrsyGqqv04xuys9uQWFSwhYZ
-         0dAQ==
-X-Gm-Message-State: APjAAAXHfpnEHfZMiCDe9wBciRN3oqIQPnJXNgLyOZG7zZXGr0y/pVvp
-        6XtIDQxaOHKtgTykIMqanwQ=
-X-Google-Smtp-Source: APXvYqxB4symrJgN/ySME/vlU0HGxs+7dIxhVZIbQD1KUlklUkDhYk8DKAvofJiv2EWpwvoHK1f65Q==
-X-Received: by 2002:a63:7c0d:: with SMTP id x13mr29953004pgc.360.1566409380239;
-        Wed, 21 Aug 2019 10:43:00 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=cuc7KArAwEZwDVhK9UQGoIlx3cYOJWBMGimfd+D8qCg=;
+        b=b5qRgngRFTTI6vfxDoBXV1Yfbbka0hpr2rNyglfJ3koqQnZf3jmRvcNtaLBkyB9Hcn
+         avBhkjzR4bHMB5jnTtFcnRYFWIaCbM4wMC40cbN+5E4WWA3vLzV/w9Eoxoozo6SMfl5W
+         2tGan2IaL/X0OJazDjuGqEIhOIAn9JQEsdoamXbAHpKJYUHstHBNtHUdOJd1/awFu2Ct
+         ebIYMVITOBt2N4Ccux7YkeY5pEGBq+paDyB3N2/+2ZnASVqt8xPTHdezo8w3x6ksOHGt
+         gcGA6q8SrTafRsxO5VD6PdSCqqPrE7DtqYk3y+dtJrtjncT+G1hiP7Dt1P+ve6VfQy28
+         mOvA==
+X-Gm-Message-State: APjAAAUVpiras1mOqo/OhVnycSJIivyaZ88NudF6qThlx75RL/evaPp3
+        OZGCrO0KllHJ4Hm9vt0SPn0=
+X-Google-Smtp-Source: APXvYqx/voWIbNubBp2JnHr/iFkLr4llW1oBCP0mDz/dkwGM2Fjc8HNeHtK4u6PGmDt5386t4ke/Mw==
+X-Received: by 2002:a17:90a:dac3:: with SMTP id g3mr1165426pjx.45.1566409740377;
+        Wed, 21 Aug 2019 10:49:00 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id j187sm34085941pfg.178.2019.08.21.10.42.59
+        by smtp.gmail.com with ESMTPSA id b5sm23381967pfo.149.2019.08.21.10.48.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2019 10:42:59 -0700 (PDT)
-Date:   Wed, 21 Aug 2019 10:42:57 -0700
+        Wed, 21 Aug 2019 10:48:59 -0700 (PDT)
+Date:   Wed, 21 Aug 2019 10:48:57 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Linux Input <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/11] Face lift for bu21013_ts driver
-Message-ID: <20190821174257.GC76194@dtor-ws>
-References: <20190810002039.95876-1-dmitry.torokhov@gmail.com>
- <CACRpkdZo9so+5UoT3QpFmL_8NZT1d1i7Yab202RNn8gDfnPK7A@mail.gmail.com>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali.rohar@gmail.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-ntfs-dev@lists.sourceforge.net
+Subject: Re: [PATCH 2/2] drivers: input: mouse: alps: drop unneeded likely()
+ call around IS_ERR()
+Message-ID: <20190821174857.GD76194@dtor-ws>
+References: <1566298572-12409-1-git-send-email-info@metux.net>
+ <1566298572-12409-2-git-send-email-info@metux.net>
+ <20190820111719.7blyk5jstgwde2ae@pali>
+ <02f5b546-5c30-4998-19b2-76b816a35371@metux.net>
+ <20190820142204.x352bftlvnb7s57n@pali>
+ <2cd7178e-9713-7678-a02d-dde91e990c1e@metux.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CACRpkdZo9so+5UoT3QpFmL_8NZT1d1i7Yab202RNn8gDfnPK7A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2cd7178e-9713-7678-a02d-dde91e990c1e@metux.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 21, 2019 at 02:39:41PM +0200, Linus Walleij wrote:
-> On Sat, Aug 10, 2019 at 2:20 AM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> 
-> > So your patch has prompted me to take a look at the driver and
-> > try to clean it up. I am sure I screwed up somewhere, but you said
-> > you have the device, so please take a look at the series and
-> > see if you can salvage them
-> 
-> I will funnel patch 1/11 in the ARM SoC tree.
-> 
-> The rest work fine except on the resource release in the error path. I had
-> to do this:
-> 
-> diff --git a/drivers/input/touchscreen/bu21013_ts.c
-> b/drivers/input/touchscreen/bu21013_ts.c
-> index c89a00a6e67c..bdae4cd4243a 100644
-> --- a/drivers/input/touchscreen/bu21013_ts.c
-> +++ b/drivers/input/touchscreen/bu21013_ts.c
-> @@ -390,18 +390,18 @@ static int bu21013_init_chip(struct bu21013_ts *ts)
->   return 0;
->  }
-> 
-> -static void bu21013_power_off(void *_ts)
-> +static void bu21013_power_off(void *data)
->  {
-> - struct bu21013_ts *ts = ts;
-> + struct regulator *regulator = data;
-> 
-> - regulator_disable(ts->regulator);
-> + regulator_disable(regulator);
->  }
-> 
-> -static void bu21013_disable_chip(void *_ts)
-> +static void bu21013_disable_chip(void *data)
->  {
-> - struct bu21013_ts *ts = ts;
-> + struct gpio_desc *gpiod = data;
-> 
-> - gpiod_set_value(ts->cs_gpiod, 0);
-> + gpiod_set_value(gpiod, 0);
->  }
-> 
->  static int bu21013_probe(struct i2c_client *client,
-> @@ -488,7 +488,8 @@ static int bu21013_probe(struct i2c_client *client,
->   return error;
->   }
-> 
-> - error = devm_add_action_or_reset(&client->dev, bu21013_power_off, ts);
-> + error = devm_add_action_or_reset(&client->dev, bu21013_power_off,
-> + ts->regulator);
->   if (error) {
->   dev_err(&client->dev, "failed to install power off handler\n");
->   return error;
-> @@ -505,7 +506,7 @@ static int bu21013_probe(struct i2c_client *client,
->   gpiod_set_consumer_name(ts->cs_gpiod, "BU21013 CS");
-> 
->   error = devm_add_action_or_reset(&client->dev,
-> - bu21013_disable_chip, ts);
-> + bu21013_disable_chip, ts->cs_gpiod);
->   if (error) {
->   dev_err(&client->dev,
->   "failed to install chip disable handler\n");
-> 
-> 
-> I think this is because when probe() fails it first free:s the devm_kzalloc()
-> allocations, so the ts->foo will result in NULL dereference.
+Hi,
 
-No, the release is done in opposite order of acquiring resources,
-anything else would be madness and would not work.
+On Wed, Aug 21, 2019 at 01:37:09PM +0200, Enrico Weigelt, metux IT consult wrote:
+> On 20.08.19 16:22, Pali Rohár wrote:
+> 
+> Hi,
+> 
+> > > In that case, wouldn't a comment be more suitable for that ?
+> > 
+> > And why to add comment if current state of code is more-readable and
+> > does not need it?
+> 
+> Readability is probably a bit subjective :p
+> 
+> With ongoing efforts of automatically identifying redundant code pathes,
+> the current situation causes the same discussion coming up over and over
+> again. Sooner or later somebody might get the idea to add a comment on
+> that line, that it's exactly as intented :o
+> 
+> OTOH, I'm unsure whether it's important to document that is particular
+> error path is unlikely, while we don't do it in thousands of other
+> places. IMHO, error pathes are supposed to be unlikely by nature,
+> otherwise we wouldn't call it an error situation ;-)
+> 
+> > People normally add comments to code which is problematic to understand
+> > or is somehow tricky, no so obvious or document how should code behave.
+> 
+> Yes, but isn't this case so obvious that it doesn't need any
+> documentation at all ? Is it so important to never ever forget that this
+> particular path is a rare situation ?
 
-The issue is this:
+Because if I see "if (IS_ERR(...))" in an interrupt path I will try to
+see if it can be optimized out, but in this particular case we document
+it with explicit "unlikely" and I know that I do not need to bother.
 
-static void bu21013_disable_chip(void *_ts)
-{
-	struct bu21013_ts *ts = ts;
-
-which shuts up gcc about the fact that 'ts' is uninitialized, it should
-have said "ts = _ts". I guess it is a lesson for me to not call the voi
-d pointer argument almost the same name as the structure, as it is easy
-to miss in the review. The compiler would not care in either case, but a
-human might have noticed.
-
-Can you please try making this change (and the same in power off
-handler)?
+The fact that there is unlikely in IS_ERR is an implementation detail.
+It may be gone tomorrow. I do not want to have to remember all
+implementation details of all kernel APIs and readjust the code all the
+time as they are change underneath me.
 
 Thanks.
 
