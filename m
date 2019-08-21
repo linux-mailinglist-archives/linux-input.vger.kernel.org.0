@@ -2,52 +2,139 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E655997697
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 12:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D382297803
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 13:37:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726591AbfHUKAm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Aug 2019 06:00:42 -0400
-Received: from sonic313-56.consmr.mail.ne1.yahoo.com ([66.163.185.31]:38803
-        "EHLO sonic313-56.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726370AbfHUKAl (ORCPT
+        id S1726349AbfHULhV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Aug 2019 07:37:21 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:51233 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726227AbfHULhV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Aug 2019 06:00:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1566381641; bh=dcTiwyjf7KOS+zV3lspZxuhObKUMmeaoofozGBWkzpg=; h=Date:From:Reply-To:Subject:From:Subject; b=MFZCwjFYw3ARuxoIDtnxCK99BbnmqkCMEL5bhCatf3dc8FKo64BN0OP+ZLeDKn1a7uVCZ4e6jcezAKEMkyMwD3W3rG2v0/Myk2KeYoebBzepVfYQyAbjIMQBx+ZMN+YDEFHMfPhOqzNPm7VrC56mzSUiVMQB2eZpIddQT3kA42Vm/unBID5T1pejE0/uCet2GMzxslS64PVrL7t7tcN2051k+x0/hkt2pyfd9jGfNSlx6xkoYks3vpL5nFT1wLB/FSF/3dY/rdqLYg9VPMFPw7IYfxbZkDhoIe/yXIaSFirkmUtK7MIUbg1oO5vm3XXmsphpheoxgPJgjX+S6mAdjA==
-X-YMail-OSG: WxAKVFEVM1lBB8hn8Wrl_5cBz03M7.YjRhgcRj2VDtOt4D1q9LjlLquNfzoFA7N
- f0qlA4BuGtMb0rtowffWE1sF8AfgE9Vi2pSo5dVkRRvqc2IkAkk9qcc84FCeJ7mtoPy.yJ9pjF6f
- l.ZqHtIHLj4JziQUx3NHd.Rgk10HbsEcWnT7JNvv2TF2rCc2kaDF0eFe2b0Ph6iG_PmtWUWyrh7e
- BvtgdZnNT5T4U_b4QtU8VIJV.5XdKaFLVWBCVrl6dMHf6IdXJyFWOFJENNQrD9KQBC9KzYQkxUDx
- lKJsoPUcO0MlWtz2ZaZ7spF4p0zQwvB6mMEySPsA9pb9c0Bb2lze6xY7cxhsCTt2NtAiVoYk_7kK
- xaXTyrTE9rfPkdml4NVMzPx0TIaj1Kwp9KRdd4jyFCKZVBo.Dfs6fd7dSOsL4Xc4meb5dMpGsa4o
- PSghYfm4azG_wXOMkbpUYDFOdX6KwNYfxuFqWi5zA5vT4ak5jyKz8_2nnRarPa6I62NB89lLewOM
- V3F.SjeXv9cnI_uYcg_9UdEP6F3vv9e8iQf38eshhEEZUS4tayaqAyFE9fp0HZDrCu7opnM7xJNH
- 9l415TMKxBhuZHm9aulF.HkHmKMU_FDw5RB3VpAniP.w3Zr4RxoDWji9PEclDKCxms4ee3AhMeOc
- fdglBV3_SzFHmc9xHI7.nAOwB.wLGs1RlBpzzESMsyOVp8YaPh1xhqdzBBJo.9Dmq7qAau4kEV75
- yAiNBRdjEEO.fF2nGFpXUowsAcTj6WEuJ_p3OItmylGCRCwypXfEFOqfFqS4Ti_HFAArKGDi_.T5
- mYxFMDEtIoaVZ9EG2a_Rv8R9j2cLCo96pI9NNTksKobUr7fPrc_Dc6rO_5M7rYSqZbeVRgm.Js3H
- zXkL7U_ldUAjJIpWpzT0PxpQKk8oOdWHgZBXJpKAnCB6LBClJ1cdynuB7Ac5aUoElNYQOChrGlGF
- 6XPu85mbh232dJ1O4ivWovP5wIBq_AoE0GJH2TQBumRjyPrimU3WBksu1v4RDRb0rD_snt5.1kTL
- OMkg8TJ4XMMY.v..boYM6zsF2nZg.G5d8BbGoJlOwv7HDFykL1R2rbcCQ2tMjujIB.viD1VHpbbf
- tQx_2vKiuEM5TLYYxheGUED8.tz48CzlRbCWO8DcGvWpM5WsTF7EGrEbTw5G3q_wvu8G6rDMFNfO
- NDmz7PsokusJHOSe5Kxv3KwtuSOUSITu593O6yAzi8qqcRm0f5ODKkHckxsNrWMQiNpsT7ME-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.ne1.yahoo.com with HTTP; Wed, 21 Aug 2019 10:00:41 +0000
-Date:   Wed, 21 Aug 2019 10:00:36 +0000 (UTC)
-From:   Ali Mahmood <musamahmood58@gmail.com>
-Reply-To: alimahmood67@yahoo.com
-Message-ID: <132474112.126958.1566381636337@mail.yahoo.com>
-Subject: I NEED YOUR URGENT RESPONSE TO THIS EMAIL.
+        Wed, 21 Aug 2019 07:37:21 -0400
+Received: from [192.168.1.110] ([77.2.122.154]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MEmtx-1i2qxq3AXj-00GHHv; Wed, 21 Aug 2019 13:37:09 +0200
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Subject: Re: [PATCH 2/2] drivers: input: mouse: alps: drop unneeded likely()
+ call around IS_ERR()
+To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali.rohar@gmail.com>
+Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
+        linux-input@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net
+References: <1566298572-12409-1-git-send-email-info@metux.net>
+ <1566298572-12409-2-git-send-email-info@metux.net>
+ <20190820111719.7blyk5jstgwde2ae@pali>
+ <02f5b546-5c30-4998-19b2-76b816a35371@metux.net>
+ <20190820142204.x352bftlvnb7s57n@pali>
+Organization: metux IT consult
+Message-ID: <2cd7178e-9713-7678-a02d-dde91e990c1e@metux.net>
+Date:   Wed, 21 Aug 2019 13:37:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <20190820142204.x352bftlvnb7s57n@pali>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:TAM1S1diYp1x9eYX3uAvyZMSjHGQSUnUc1WSjiNRocDkmneY3z0
+ iXGpXmT1t2oyCz25vKG8Y6k73a4SVxurukNsHHcpLnYsf3xT/CACA1PIZoz9t4/ZHw2NPQv
+ bEz28CK1uMnfHL2hWdEgJYdtZFI2guJPEO7blvOtHkh6qZH3VEfNA1xdjYIUEVvPGNgVImd
+ iaYmz6eLxcUFsX4ZVbJWg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9eE30JboH3Q=:m0XNk5lqcwxYcs38IkYSz0
+ s5btQg24tWKE1ZN2aB/frmeLpCh1qytc6l4d2WnDlqPNZNeI4+kptRhJW/uJxL9Md8UJGHLIZ
+ idyXKUyLjqZmL2zScviARSetepvK5DzGY0GYQVENhjnv99vvSnrhTzxVYRCkyWZFGlWCOCcj8
+ 79PO6s0b72W/Bv7tA6gfWVeVhyUMtZaUU8WkRRFj/IqdCaaeHQl3BHWLGNdL3iT6RCxNn+eaz
+ hcp9cyuUgwVXTIb7JPJdPp8v8owDjRxqWBwF496ZOhblgrryfumOsthUkm0S3BW8fHUeAd4q/
+ y9RrjdPdEcdwlyfcboj2+fppz4Rggjrj+INLGDcQKZxDn2gKL6ly23bojt3z5/eOPlsvVDeI7
+ KzUjp2jmKYB1MBI9nFB08NeJkxXmJFXLsR1bWvE2/vsS/pZmJp5XoFLlbuJmGElfamOrJkXKO
+ 7fIgxZsUSDAukblKdkooJgvbzFaQpQocoplEyhzlhpiO4f7mocYJ0gUo6IIjCiHDnLhBOx+YU
+ dzP/m5qeacJimpZUebMsGXHsr/v/Ycc1tFV8HnU/KUa3On7s5OQE1BaAHqA4VTccmNAVA34fX
+ nkU4x8mq0op/z5NRbKA/IcXWt51iFKb9dIk/KO4DDWETOecFzOnhbRrfAcwGBWAcScywgQSok
+ KHd6BbV3j/pLbE+5hmDbnWkupOo8q4ueH6vmny3Q0Q+wEl2RcTH3XSj/V1YN2US6SRmuzCUl3
+ Ob4A8PqzIbXp321LyAArYddZXW9Kd31isTcgb4Hks6QfLRAL+5DnMA1ERQw=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Friend,
+On 20.08.19 16:22, Pali Rohár wrote:
 
-My Name is Mr Ali Mahmood, i have a business transaction. I will be very glad if you can
-assist me to receive this sum of ( $22 Million dollars.) into your bank account for the benefit of our both families, reply me if you are interested in this business.
+Hi,
 
-Mr Ali Mahmood
+>> In that case, wouldn't a comment be more suitable for that ?
+> 
+> And why to add comment if current state of code is more-readable and
+> does not need it?
+
+Readability is probably a bit subjective :p
+
+With ongoing efforts of automatically identifying redundant code pathes,
+the current situation causes the same discussion coming up over and over
+again. Sooner or later somebody might get the idea to add a comment on
+that line, that it's exactly as intented :o
+
+OTOH, I'm unsure whether it's important to document that is particular
+error path is unlikely, while we don't do it in thousands of other
+places. IMHO, error pathes are supposed to be unlikely by nature,
+otherwise we wouldn't call it an error situation ;-)
+
+> People normally add comments to code which is problematic to understand
+> or is somehow tricky, no so obvious or document how should code behave.
+
+Yes, but isn't this case so obvious that it doesn't need any
+documentation at all ? Is it so important to never ever forget that this
+particular path is a rare situation ?
+
+I might be wrong, but IMHO the likely()/unlikely() macros have been
+introduced for optimization (better pipeline optimization for the
+frequent cases).
+
+> People first need to understand that static code analysis cannot work
+> 100% reliably and always is needed to properly review changes.
+
+Yes, but we see that this particular case is coming up again and again,
+from different people, who can't know the background of this (nobody
+can read the whole lkml and remember everything). This could be
+prevented by adding a comment on that line, but then the macro call
+just for documentation wouldn't be necessary anymore.
+
+> And if the only reason for this change is to satisfy some static code
+> analysis program,
+
+Actually, it's more for people who're using the tools for the purpose
+of tidying up the code and find potential problems. They need some
+information to act on properly, which is currently missing ...
+
+> would not it better to teach this program to no
+> generate such false-positive results?
+
+Okay, but how to do that practically ? There's no information in the
+code which neither some tool nor any human could recognize this false
+alarm. That information is just in your brain, now also in mine, and
+the other folks who previously proposed the same change (assuming they
+still recall it after years).
+
+Blacklisting doesn't seem to be a good idea in the long run. Once going
+that route, such blacklists grow quickly and get hard to maintain (we
+now have two entirely separately maintained data sources that need to
+be synced manually, when something changes).
+
+I believe the code should be kinda self-documenting, so the reader
+shouldn't need any detailed special knowledge to understand it. IMHO,
+when such discussions on actual implementation details come up, the
+code isn't expressive enough.
+
+How can we improve the situation ?
+
+Shall we consider introducing yet another macro (explicitly different
+name) for stating/documenting such cases ?
+
+
+--mtx
+
+-- 
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
