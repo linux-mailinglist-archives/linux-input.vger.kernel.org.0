@@ -2,98 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A69497F70
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 17:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2348097F9E
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 18:04:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727874AbfHUPxw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Aug 2019 11:53:52 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:53668 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727555AbfHUPxw (ORCPT
+        id S1728558AbfHUQD6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Aug 2019 12:03:58 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:37240 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727480AbfHUQD5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Aug 2019 11:53:52 -0400
-Received: (qmail 5312 invoked by uid 2102); 21 Aug 2019 11:53:51 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 21 Aug 2019 11:53:51 -0400
-Date:   Wed, 21 Aug 2019 11:53:51 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     syzbot <syzbot+5a6c4ec678a0c6ee84ba@syzkaller.appspotmail.com>
-cc:     andreyknvl@google.com, <benjamin.tissoires@redhat.com>,
-        <jikos@kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <syzkaller-bugs@googlegroups.com>
-Subject: Re: KASAN: slab-out-of-bounds Read in hidraw_ioctl
-In-Reply-To: <000000000000940ec30590a1b35e@google.com>
-Message-ID: <Pine.LNX.4.44L0.1908211152230.1816-100000@iolanthe.rowland.org>
+        Wed, 21 Aug 2019 12:03:57 -0400
+Received: by mail-pl1-f196.google.com with SMTP id bj8so1567453plb.4;
+        Wed, 21 Aug 2019 09:03:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=sK36cCquOF5JpYDhHcSG882sVJ66GrerDAKUpKFlmIE=;
+        b=IhDkcYFGbn1FO+a2df3L+AbR0/WlPpfhzlf2+iWjRX/wBpscNkz0csaFfwGDd+URM3
+         4DlOPjjAAw7NPlmjwg7u5XqjdXUAgORMHpnUUWwuAQQjMOzhQuDCV9cNleTI5RHP9fDQ
+         vXRtFdI9V0QwEjW64jbjcj+jlHudt6UjQpDvXpIj3qrhzoE2v6fByR4dTTRVx7hAj3/P
+         P6TEEvo6w7IVflPOvpI6sBCrxNQDKAfE+6M+fthXVlAFyd8eUY2htE6odPeUtHq9PeCW
+         IcNlg25akBgBMZNTBNiHP+8l4rBbvX9SocgAwTaFBx9TyvLbDgPNnr1W14w/VyZ0E4rJ
+         IDCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=sK36cCquOF5JpYDhHcSG882sVJ66GrerDAKUpKFlmIE=;
+        b=KuqgKg9RdX7+rGPKNbBmR5bm6HVOkibcW8IVEoWVsGhg3v+f/D7ApsYSmFGq4byXNN
+         Sm8vHG0X06MXIRZo5iFriSjotGYFYj/bMTd+qoACrPbilsXvSCyVb6Z5cdhS420xfR1z
+         JVhwF4UoZH8hVMDE8hHUNoZSiJH9DxW2FJE6w7P5G5z9D3Cp410ioPQe5+xPW+lyGnCH
+         mhK7wQERdhKuDVv9Pr7narCChPf4O0xlQuMQy9bOCYvpsiEZHuHg79m7eVNDZq3EzXJW
+         /eq8YjYNu5x10sxUntYFAUN843VDFzw66lzBW27BTYktqaJaBx9mzePz8opn8Nyzpdod
+         2gEg==
+X-Gm-Message-State: APjAAAUerWWRRgcrDBa0XpdWBUKqnV6D1Ej9R4BHU30/Tm27l/ji1t/c
+        NJlOqCqXvDeo2t0yur9Ml4Q=
+X-Google-Smtp-Source: APXvYqzNqXSENxzGkZjNibXp0JX98LVS/d77pjQZhkQt3ndUJTQnJfzh95dd/VhbttVkaAPoXOz7WA==
+X-Received: by 2002:a17:902:1123:: with SMTP id d32mr3649506pla.218.1566403436201;
+        Wed, 21 Aug 2019 09:03:56 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id e9sm32640892pfh.155.2019.08.21.09.03.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2019 09:03:53 -0700 (PDT)
+Date:   Wed, 21 Aug 2019 09:03:51 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Thomas =?iso-8859-1?Q?Hellstr=F6m_=28VMware=29?= 
+        <thomas_os@shipmail.org>
+Cc:     linux-kernel@vger.kernel.org, pv-drivers@vmware.com,
+        Thomas Hellstrom <thellstrom@vmware.com>,
+        linux-input@vger.kernel.org, Doug Covelli <dcovelli@vmware.com>
+Subject: Re: [PATCH 4/4] input/vmmouse: Update the backdoor call with support
+ for new instructions
+Message-ID: <20190821160351.GA76194@dtor-ws>
+References: <20190818143316.4906-1-thomas_os@shipmail.org>
+ <20190818143316.4906-5-thomas_os@shipmail.org>
+ <20190821050925.GA566@penguin>
+ <027a55d6-ab26-ef9c-bd89-93a38f96160b@shipmail.org>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <027a55d6-ab26-ef9c-bd89-93a38f96160b@shipmail.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 21 Aug 2019, syzbot wrote:
-
-> Hello,
+On Wed, Aug 21, 2019 at 05:48:23PM +0200, Thomas Hellström (VMware) wrote:
+> On 8/21/19 7:09 AM, Dmitry Torokhov wrote:
+> > On Sun, Aug 18, 2019 at 04:33:16PM +0200, Thomas Hellström (VMware) wrote:
+> > > From: Thomas Hellstrom <thellstrom@vmware.com>
+> > > 
+> > > Use the definition provided by include/asm/vmware.h
+> > > 
+> > > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > > Cc: <linux-input@vger.kernel.org>
+> > > Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
+> > > Reviewed-by: Doug Covelli <dcovelli@vmware.com>
+> > Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > 
+> > Please feel free to merge with the rest of the patches introducing
+> > VMWARE_HYPERCALL.
 > 
-> syzbot has tested the proposed patch but the reproducer still triggered  
-> crash:
-> KASAN: slab-out-of-bounds Read in hidraw_ioctl
+> Thanks, Dmitry!
 > 
-> ==================================================================
-> BUG: KASAN: slab-out-of-bounds in strlen+0x79/0x90 lib/string.c:525
-> Read of size 1 at addr ffff8881d619df38 by task syz-executor.5/2984
-> 
-> CPU: 0 PID: 2984 Comm: syz-executor.5 Not tainted 5.3.0-rc2+ #1
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-> Google 01/01/2011
-> Call Trace:
->   __dump_stack lib/dump_stack.c:77 [inline]
->   dump_stack+0xca/0x13e lib/dump_stack.c:113
->   print_address_description+0x6a/0x32c mm/kasan/report.c:351
->   __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
->   kasan_report+0xe/0x12 mm/kasan/common.c:612
->   strlen+0x79/0x90 lib/string.c:525
->   strlen include/linux/string.h:281 [inline]
->   hidraw_ioctl+0x245/0xae0 drivers/hid/hidraw.c:446
->   vfs_ioctl fs/ioctl.c:46 [inline]
->   file_ioctl fs/ioctl.c:509 [inline]
->   do_vfs_ioctl+0xd2d/0x1330 fs/ioctl.c:696
->   ksys_ioctl+0x9b/0xc0 fs/ioctl.c:713
->   __do_sys_ioctl fs/ioctl.c:720 [inline]
->   __se_sys_ioctl fs/ioctl.c:718 [inline]
->   __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:718
->   do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
->   entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> RIP: 0033:0x459829
-> Code: fd b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
-> 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
-> ff 0f 83 cb b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00
-> RSP: 002b:00007f19881acc78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000459829
-> RDX: 0000000000000000 RSI: 0000000080404805 RDI: 0000000000000004
-> RBP: 000000000075bfc8 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000246 R12: 00007f19881ad6d4
-> R13: 00000000004c21de R14: 00000000004d5620 R15: 00000000ffffffff
+> I have a version 2 of the patch were the only difference is that edx is
+> initialized to zero which is default for vmcall / vmmcall. Can I use your
+> ack for that one as well?
 
-Looks like a test is missing in hidraw_ioctl.
+Yes, sure.
 
-Alan Stern
-
-#syz test: https://github.com/google/kasan.git e96407b4
-
-Index: usb-devel/drivers/hid/hidraw.c
-===================================================================
---- usb-devel.orig/drivers/hid/hidraw.c
-+++ usb-devel/drivers/hid/hidraw.c
-@@ -370,7 +370,7 @@ static long hidraw_ioctl(struct file *fi
- 
- 	mutex_lock(&minors_lock);
- 	dev = hidraw_table[minor];
--	if (!dev) {
-+	if (!dev || !dev->exist) {
- 		ret = -ENODEV;
- 		goto out;
- 	}
-
+-- 
+Dmitry
