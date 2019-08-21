@@ -2,126 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6474B97FB1
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 18:09:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 389A997FC4
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 18:14:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727480AbfHUQJl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Aug 2019 12:09:41 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:34432 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727401AbfHUQJl (ORCPT
+        id S1728507AbfHUQNB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Aug 2019 12:13:01 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:39924 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728098AbfHUQNB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Aug 2019 12:09:41 -0400
-Received: by mail-pl1-f194.google.com with SMTP id d3so1586088plr.1
-        for <linux-input@vger.kernel.org>; Wed, 21 Aug 2019 09:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=wOS0XsuioRQ5jfgbyZ60BOQMTCfok/qmKANuYxPzuAs=;
-        b=YVDnULprI2vnIoDIEZ4mtNkbbR8ROckm8uPhhhn3rKTidR22tOR2KqmKdPMzUJPP+N
-         j3bQM59rmU5v0tXVs+h8VqAWrSX9p51JgZUAg/4tUwBuMISeqh7n0CcgURtV4ROLw6v2
-         YJVFWCU1gYcdCmoCW87r7oU0GX+wv3+OjJMfZofmcJEx5VYJlhEcd38wjUv4TNb/bqWQ
-         SzqB3VtfnxIVhhHilZo2TTYHOLWXAIi8De+MIc7PLlc8H0WCMSf/BoGapg3iPR9AAc7j
-         oz/So1D54LtHfd9AKMuWq1HM9cjh1ESnl5hvDjZafO9+ouEe7oMmUM3ApLs4SBSD2SMt
-         KabQ==
+        Wed, 21 Aug 2019 12:13:01 -0400
+Received: by mail-io1-f70.google.com with SMTP id g12so3105100iok.6
+        for <linux-input@vger.kernel.org>; Wed, 21 Aug 2019 09:13:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wOS0XsuioRQ5jfgbyZ60BOQMTCfok/qmKANuYxPzuAs=;
-        b=DwSKsE9/+253SY7To1ggCp/j/qf2mHryxIwzbHjeYJTIdLAGVr7Xx1wFBKC5dc0m25
-         qGApdjKCwY3JkLmpi8Wy10jtSL1fm/AYhl+sTBBGqfxfngFkkv1EFaradWQA8XgtUjXB
-         CYiz6hhtejFDxGIMvU/7H0jNABhzHjhCVb8SHa4tTIfNCJIDSqn1+598JSnuw2L8RTej
-         vMtpVJw6162o5P1cHiNNgVavUhI7Hoyya9qCVI05PFwt2Ls/ZCDof+dnctlN/PRzYflX
-         TEWoDBaJp4lsanP8skYcHnjPIYcj6tj8LMtQCm7b2vlDx7/92J80faQwqhDZCMbCj1G5
-         kiPw==
-X-Gm-Message-State: APjAAAUAru3cdquu4j0DbFDZQSaRxEH/LIRIDSxRyT6touTVKXUPUdAB
-        Jg8jcYqxzEelEbUSRtQH1hI=
-X-Google-Smtp-Source: APXvYqxhpLgWGcJlQl0n/pYZCkFD2+F0bwDmwSb57R+vJroS6bgYb/2crQt4p6okPDjzHDvcH1actA==
-X-Received: by 2002:a17:902:654f:: with SMTP id d15mr32243995pln.253.1566403780172;
-        Wed, 21 Aug 2019 09:09:40 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id q8sm284903pjq.20.2019.08.21.09.09.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2019 09:09:38 -0700 (PDT)
-Date:   Wed, 21 Aug 2019 09:09:36 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-input@vger.kernel.org,
-        "H . Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [PATCH] Input: tsc2007 - use GPIO descriptor
-Message-ID: <20190821160936.GB76194@dtor-ws>
-References: <20190821085503.8062-1-linus.walleij@linaro.org>
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=Yd53F92BJf3zn8wGZ0U/s186p5/9JYi4U18PT1EI33k=;
+        b=nn9r8smXsxzmVzaK1UWiVZHteudDIUxZ53o1ItSh8Ofp2lhIvZ9Jj6cfct40qMw3J7
+         BFm2x4wxYv+GjolHoF8+3c81DTiANGJ1KelyhmPCudG38DQBVLZrC+PH7H1rqHClTCBb
+         7pTWNjNPsPmMT53Wp0CwKzVuehCOYeS1QzO+Hl/tgV1FMi9K5i5QdwbKm3gNKgjNuyPQ
+         nB/OWRTnZNDAWFCBIj3TOsrV3ozQSjvUPW9bfuJFIjOwuEwModjL8thmZ8IeZqMECC7U
+         55haIINlNfSZbEUeWPYL84WimDrHuZfo4oVq3SzU/iGo49AUt/7DVsGOagEdz7PRUkDW
+         EWlw==
+X-Gm-Message-State: APjAAAUjXav5Wx97wyJnaQ6l0AEOlvH84BfQ9gGkrcNHuaHBK1Kkvntv
+        765y+6TbxhLUyLjWstcDv/nd26G/EjmqnqOQx9fCJcN7ueTF
+X-Google-Smtp-Source: APXvYqxcWw4L/Vqh6e7csZoUh1Wfmtb8A9sqnIV6jLU54MAVbBAkuO9AjSyCECyy2tXi/H0bOGqXzMrcgTX9GXvsiDZcYJ+jvrY/
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190821085503.8062-1-linus.walleij@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Received: by 2002:a5d:9681:: with SMTP id m1mr6432416ion.291.1566403980448;
+ Wed, 21 Aug 2019 09:13:00 -0700 (PDT)
+Date:   Wed, 21 Aug 2019 09:13:00 -0700
+In-Reply-To: <Pine.LNX.4.44L0.1908211152230.1816-100000@iolanthe.rowland.org>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000d45a4c0590a2d8bd@google.com>
+Subject: Re: KASAN: slab-out-of-bounds Read in hidraw_ioctl
+From:   syzbot <syzbot+5a6c4ec678a0c6ee84ba@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+Hello,
 
-On Wed, Aug 21, 2019 at 10:55:03AM +0200, Linus Walleij wrote:
-> This switches the TSC2007 to use a GPIO descriptor to read
-> the pendown GPIO line.
-> 
-> Cc: H. Nikolaus Schaller <hns@goldelico.com>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  drivers/input/touchscreen/tsc2007.h      |  4 +++-
->  drivers/input/touchscreen/tsc2007_core.c | 14 +++++++-------
->  2 files changed, 10 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/tsc2007.h b/drivers/input/touchscreen/tsc2007.h
-> index 91c60bf6dcaf..0306c38b56c7 100644
-> --- a/drivers/input/touchscreen/tsc2007.h
-> +++ b/drivers/input/touchscreen/tsc2007.h
-> @@ -49,6 +49,8 @@
->  #define READ_X		(ADC_ON_12BIT | TSC2007_MEASURE_X)
->  #define PWRDOWN		(TSC2007_12BIT | TSC2007_POWER_OFF_IRQ_EN)
->  
-> +struct gpio_desc;
-> +
->  struct ts_event {
->  	u16	x;
->  	u16	y;
-> @@ -69,7 +71,7 @@ struct tsc2007 {
->  	int			fuzzy;
->  	int			fuzzz;
->  
-> -	unsigned int		gpio;
-> +	struct gpio_desc	*gpiod;
->  	int			irq;
->  
->  	wait_queue_head_t	wait;
-> diff --git a/drivers/input/touchscreen/tsc2007_core.c b/drivers/input/touchscreen/tsc2007_core.c
-> index 3b80abfc1eca..5d9c6128622e 100644
-> --- a/drivers/input/touchscreen/tsc2007_core.c
-> +++ b/drivers/input/touchscreen/tsc2007_core.c
-> @@ -23,7 +23,7 @@
->  #include <linux/interrupt.h>
->  #include <linux/i2c.h>
->  #include <linux/of_device.h>
-> -#include <linux/of_gpio.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/platform_data/tsc2007.h>
->  #include "tsc2007.h"
->  
-> @@ -226,7 +226,7 @@ static int tsc2007_get_pendown_state_gpio(struct device *dev)
->  	struct i2c_client *client = to_i2c_client(dev);
->  	struct tsc2007 *ts = i2c_get_clientdata(client);
->  
-> -	return !gpio_get_value(ts->gpio);
-> +	return !gpiod_get_value(ts->gpiod);
+syzbot has tested the proposed patch and the reproducer did not trigger  
+crash:
 
-We need to drop the negation here and make sure DTS specifies proper
-polarity for GPIOs.
+Reported-and-tested-by:  
+syzbot+5a6c4ec678a0c6ee84ba@syzkaller.appspotmail.com
 
-Thanks.
+Tested on:
 
--- 
-Dmitry
+commit:         e96407b4 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cfa2c18fb6a8068e
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=13dca42e600000
+
+Note: testing is done by a robot and is best-effort only.
