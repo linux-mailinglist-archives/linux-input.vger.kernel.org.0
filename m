@@ -2,147 +2,175 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE55D97C29
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 16:10:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D367997C2E
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 16:11:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729125AbfHUOKd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Aug 2019 10:10:33 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33659 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726371AbfHUOKc (ORCPT
+        id S1728641AbfHUOLm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Aug 2019 10:11:42 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:45146 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728985AbfHUOLl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Aug 2019 10:10:32 -0400
-Received: by mail-pf1-f196.google.com with SMTP id g2so1533291pfq.0
-        for <linux-input@vger.kernel.org>; Wed, 21 Aug 2019 07:10:32 -0700 (PDT)
+        Wed, 21 Aug 2019 10:11:41 -0400
+Received: by mail-pl1-f193.google.com with SMTP id y8so1393352plr.12
+        for <linux-input@vger.kernel.org>; Wed, 21 Aug 2019 07:11:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Ue/4IYoQeL9A0W6aMybGXh4qABvjCO5qT8fbkA5W6Ss=;
-        b=j5WhHLYUGwLKS9upchIWKEpAgy5jRiUMwq8mXlxg+J/Xe9OGcwkasDe51SvBqKJMwr
-         NHtbScjIi/KiA0+TXOYAx4xNnTyY5XiIIvPMNcC5zDI9tytfaTNZCD3ER/KaqfTKrJDb
-         60Mhq4RIn1m7ohQItoDHQZVRrPYHUgeyXGX9z5u2WQB/lLZDrG7FwbsFiHNfwCv6H/0E
-         mopSMWpaxVJRqcg5k9hIqoJhznUpoa32gqG+vhlWQePEi3Bjs6RCUN9bmhhdxGvWHQdx
-         8y/wT8Zw44uNt5iK8KnAe0qz5teGhrt3IRBBpGgoeYH34afiMIRh7ZRu9WdQ2At2JjVB
-         UQuQ==
+        bh=KyagEtJwr97UZhdPVPlAODAj+hx3jo919OKvpo2MSic=;
+        b=ojXjp/h8E1nyEqRFj88NYU1iP/VXNza9U3qHSeAnHpCRePXgEDOKJlEH+vJjoIojJc
+         aariDNBTGPIbyAi8DVwCIk7dNDnPsGNa/+J2op6ch39qMx62W4MTga8yU89UJJNOAw4H
+         ReumPDhO0Mv+g1GVxQzeEe+POilIwIHeo5n4TI3oa1G22t3v/MNmThRCzSW7yVuAcQPb
+         +7Zjko62eAuUrhJizKPOAca13CGSnX1VFwlptMDB0FfpTyzO7pLjAQt5azwiTcnEy7h2
+         T+9rpqC69SvUUt0Tx304zDAkH07R5BTZwfB+1Mj6COhs+eCy9T962CB6eEpG4xSiTYOY
+         h3ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Ue/4IYoQeL9A0W6aMybGXh4qABvjCO5qT8fbkA5W6Ss=;
-        b=fNk3H2XkFj8zkBWkm2NLYlSBDmq8MbCXiqcXEdHheMnWWXKd2LWxtYG15v+XHyTDKo
-         mJWlGuRcuBsxm86ESRLC8oyORR3JKZ+V0uUsJXO45w4hbFXYiq3w/CoyqoUQOc8yGnMU
-         jUQoQ4/H4liYuQmH9MQY63CkXWTsItfVJPz0Ov8vVA0YiaqK/iZu/lABdM2QJof8KE8D
-         mzMTGJhqq4sYorcXqMAtKly0DGS6Qc5QV1JR4kq+g2CZW0XeKy924a7Et8ARU1ajKqf5
-         NmZp8HlFW1wRyqXpbrDuM3YieZGEvGBuoS+/+PSebEeGOXFosjaeS5NUsQ13MEo+gySi
-         /FZQ==
-X-Gm-Message-State: APjAAAU4ZeWO9oGsB9SPijhsbHmdJnHDBAFF+EFTm6xk0u3WZxsjqSgN
-        pc9AAHowr2gI7u4Uowdacg3LxHyXIcEGcmHOe66Yiw==
-X-Google-Smtp-Source: APXvYqzNZG8TIxZBCA3evuvZ1lpzdFqGvUjIwf3tWPeEEg19EDstl6hIXS5CNuyFPm6UFNZyThxfwitkaDoA4CktRqA=
-X-Received: by 2002:aa7:9e0a:: with SMTP id y10mr35469611pfq.93.1566396631737;
- Wed, 21 Aug 2019 07:10:31 -0700 (PDT)
+        bh=KyagEtJwr97UZhdPVPlAODAj+hx3jo919OKvpo2MSic=;
+        b=KEuYaas7MWjtpOUnd7ngnXxEg22qBX0jZSi4hAzHZ28VPf/gpFx2UD3sBS5ar2JnLQ
+         GpKwOa6y2dKMeRpZX6SfEiLUVBXbSqqCM8hxTv7I0o456Ea2gxRS74nmzjs/akrd4c+u
+         AZj1tgJMO+Iq9ks2HBFUCjFLCDuQ20f/qaX1fLM7rb68Vj95Nuea+xGCXmUYCqhJWFTc
+         6HdcR1hAe0x++DBb3PDkDOSnsAYcMlxu0z18NKmsjRjH1QkSpCydnpA2ESgPbXxRxQ5d
+         ftddb2gpMzjwpAGRBMljNuE99EaMyw42mNT90ycDLBkTEAZ6BBUSukPCs25u+Ftf236n
+         t2Rg==
+X-Gm-Message-State: APjAAAVwfjiFHnlgvffqcKkb4i46qrp9cDoBnf2ymUEJycUfeBWtd1k+
+        CS4hYofJaffAjGgIi+O6SC8qyQEoVtjtDEfpJ8Lmbw==
+X-Google-Smtp-Source: APXvYqyWV2KRIHOx8oe5wfeuOfF+QVP6oODv57mZnFYHI8bNSwb1xa/oOmvMoDGAUt8iKyhvezgFuKXNl5AlBcfpHJo=
+X-Received: by 2002:a17:902:8649:: with SMTP id y9mr31542383plt.252.1566396700708;
+ Wed, 21 Aug 2019 07:11:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAAeHK+x-q8u_-qyc6=5QjuLAtQafOftdmK_JEFVrvzjmowf2Ow@mail.gmail.com>
- <000000000000ed58060590a0aa30@google.com>
-In-Reply-To: <000000000000ed58060590a0aa30@google.com>
+References: <Pine.LNX.4.44L0.1908151333220.1343-100000@iolanthe.rowland.org> <Pine.LNX.4.44L0.1908201557220.1573-100000@iolanthe.rowland.org>
+In-Reply-To: <Pine.LNX.4.44L0.1908201557220.1573-100000@iolanthe.rowland.org>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Wed, 21 Aug 2019 16:10:20 +0200
-Message-ID: <CAAeHK+xQc5Ce6TwtERTmQ+6qSbuAmGikxCU5SNTdcDAynDEiig@mail.gmail.com>
-Subject: Re: KASAN: slab-out-of-bounds Read in hidraw_ioctl
-To:     syzbot <syzbot+5a6c4ec678a0c6ee84ba@syzkaller.appspotmail.com>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Date:   Wed, 21 Aug 2019 16:11:29 +0200
+Message-ID: <CAAeHK+wLYsc91CAdEO+mPhEH4ZzBhU35dQ7BNuDw8cwxGh0LkA@mail.gmail.com>
+Subject: Re: [PATCH] HID: USB: Fix general protection fault caused by Logitech driver
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Hillf Danton <hdanton@sina.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        linux-input@vger.kernel.org, USB list <linux-usb@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 21, 2019 at 3:37 PM syzbot
-<syzbot+5a6c4ec678a0c6ee84ba@syzkaller.appspotmail.com> wrote:
+On Tue, Aug 20, 2019 at 10:00 PM Alan Stern <stern@rowland.harvard.edu> wrote:
 >
-> Hello,
+> The syzbot fuzzer found a general protection fault in the HID subsystem:
 >
-> syzbot has tested the proposed patch but the reproducer still triggered
-> crash:
-> KASAN: slab-out-of-bounds Read in hidraw_ioctl
-
-Same here, a different bug.
-
->
-> ==================================================================
-> BUG: KASAN: slab-out-of-bounds in strlen+0x79/0x90 lib/string.c:525
-> Read of size 1 at addr ffff8881c8035f38 by task syz-executor.4/2833
->
-> CPU: 1 PID: 2833 Comm: syz-executor.4 Not tainted 5.3.0-rc2+ #1
+> kasan: CONFIG_KASAN_INLINE enabled
+> kasan: GPF could be caused by NULL-ptr deref or user memory access
+> general protection fault: 0000 [#1] SMP KASAN
+> CPU: 0 PID: 3715 Comm: syz-executor.3 Not tainted 5.2.0-rc6+ #15
 > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
 > Google 01/01/2011
+> RIP: 0010:__pm_runtime_resume+0x49/0x180 drivers/base/power/runtime.c:1069
+> Code: ed 74 d5 fe 45 85 ed 0f 85 9a 00 00 00 e8 6f 73 d5 fe 48 8d bd c1 02
+> 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <0f> b6 04 02 48
+> 89 fa 83 e2 07 38 d0 7f 08 84 c0 0f 85 fe 00 00 00
+> RSP: 0018:ffff8881d99d78e0 EFLAGS: 00010202
+> RAX: dffffc0000000000 RBX: 0000000000000020 RCX: ffffc90003f3f000
+> RDX: 0000000416d8686d RSI: ffffffff82676841 RDI: 00000020b6c3436a
+> RBP: 00000020b6c340a9 R08: ffff8881c6d64800 R09: fffffbfff0e84c25
+> R10: ffff8881d99d7940 R11: ffffffff87426127 R12: 0000000000000004
+> R13: 0000000000000000 R14: ffff8881d9b94000 R15: ffffffff897f9048
+> FS:  00007f047f542700(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000001b30f21000 CR3: 00000001ca032000 CR4: 00000000001406f0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 > Call Trace:
->   __dump_stack lib/dump_stack.c:77 [inline]
->   dump_stack+0xca/0x13e lib/dump_stack.c:113
->   print_address_description+0x6a/0x32c mm/kasan/report.c:351
->   __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
->   kasan_report+0xe/0x12 mm/kasan/common.c:612
->   strlen+0x79/0x90 lib/string.c:525
->   strlen include/linux/string.h:281 [inline]
->   hidraw_ioctl+0x245/0xae0 drivers/hid/hidraw.c:446
->   vfs_ioctl fs/ioctl.c:46 [inline]
->   file_ioctl fs/ioctl.c:509 [inline]
->   do_vfs_ioctl+0xd2d/0x1330 fs/ioctl.c:696
->   ksys_ioctl+0x9b/0xc0 fs/ioctl.c:713
->   __do_sys_ioctl fs/ioctl.c:720 [inline]
->   __se_sys_ioctl fs/ioctl.c:718 [inline]
->   __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:718
->   do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
+>   pm_runtime_get_sync include/linux/pm_runtime.h:226 [inline]
+>   usb_autopm_get_interface+0x1b/0x50 drivers/usb/core/driver.c:1707
+>   usbhid_power+0x7c/0xe0 drivers/hid/usbhid/hid-core.c:1234
+>   hid_hw_power include/linux/hid.h:1038 [inline]
+>   hidraw_open+0x20d/0x740 drivers/hid/hidraw.c:282
+>   chrdev_open+0x219/0x5c0 fs/char_dev.c:413
+>   do_dentry_open+0x497/0x1040 fs/open.c:778
+>   do_last fs/namei.c:3416 [inline]
+>   path_openat+0x1430/0x3ff0 fs/namei.c:3533
+>   do_filp_open+0x1a1/0x280 fs/namei.c:3563
+>   do_sys_open+0x3c0/0x580 fs/open.c:1070
+>   do_syscall_64+0xb7/0x560 arch/x86/entry/common.c:301
 >   entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> RIP: 0033:0x459829
-> Code: fd b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7
-> 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff
-> ff 0f 83 cb b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00
-> RSP: 002b:00007f7a68f6dc78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000459829
-> RDX: 0000000000000000 RSI: 0000000080404805 RDI: 0000000000000004
-> RBP: 000000000075bf20 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000246 R12: 00007f7a68f6e6d4
-> R13: 00000000004c21de R14: 00000000004d5620 R15: 00000000ffffffff
 >
-> Allocated by task 0:
-> (stack is not available)
+> It turns out the fault was caused by a bug in the HID Logitech driver,
+> which violates the requirement that every pathway calling
+> hid_hw_start() must also call hid_hw_stop().  This patch fixes the bug
+> by making sure the requirement is met.
 >
-> Freed by task 0:
-> (stack is not available)
+> Reported-and-tested-by: syzbot+3cbe5cd105d2ad56a1df@syzkaller.appspotmail.com
+> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> CC: <stable@vger.kernel.org>
+
+This bug has manifested in a bunch of different ways and produced
+multiple confusing syzbot reports. Thank you for tracking this down
+and fixing it, Alan!
+
+
 >
-> The buggy address belongs to the object at ffff8881c8035e60
->   which belongs to the cache shmem_inode_cache of size 1168
-> The buggy address is located 216 bytes inside of
->   1168-byte region [ffff8881c8035e60, ffff8881c80362f0)
-> The buggy address belongs to the page:
-> page:ffffea0007200d00 refcount:1 mapcount:0 mapping:ffff8881da115180
-> index:0x0 compound_mapcount: 0
-> flags: 0x200000000010200(slab|head)
-> raw: 0200000000010200 dead000000000100 dead000000000122 ffff8881da115180
-> raw: 0000000000000000 00000000800c000c 00000001ffffffff 0000000000000000
-> page dumped because: kasan: bad access detected
+> ---
 >
-> Memory state around the buggy address:
->   ffff8881c8035e00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->   ffff8881c8035e80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> > ffff8881c8035f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->                                          ^
->   ffff8881c8035f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->   ffff8881c8036000: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> ==================================================================
+> [as1909]
 >
 >
-> Tested on:
+>  drivers/hid/hid-lg.c    |   10 ++++++----
+>  drivers/hid/hid-lg4ff.c |    1 -
+>  2 files changed, 6 insertions(+), 5 deletions(-)
 >
-> commit:         e96407b4 usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan.git
-> console output: https://syzkaller.appspot.com/x/log.txt?x=14f14a1e600000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=cfa2c18fb6a8068e
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> patch:          https://syzkaller.appspot.com/x/patch.diff?x=171cd95a600000
+> Index: usb-devel/drivers/hid/hid-lg.c
+> ===================================================================
+> --- usb-devel.orig/drivers/hid/hid-lg.c
+> +++ usb-devel/drivers/hid/hid-lg.c
+> @@ -818,7 +818,7 @@ static int lg_probe(struct hid_device *h
+>
+>                 if (!buf) {
+>                         ret = -ENOMEM;
+> -                       goto err_free;
+> +                       goto err_stop;
+>                 }
+>
+>                 ret = hid_hw_raw_request(hdev, buf[0], buf, sizeof(cbuf),
+> @@ -850,9 +850,12 @@ static int lg_probe(struct hid_device *h
+>                 ret = lg4ff_init(hdev);
+>
+>         if (ret)
+> -               goto err_free;
+> +               goto err_stop;
+>
+>         return 0;
+> +
+> +err_stop:
+> +       hid_hw_stop(hdev);
+>  err_free:
+>         kfree(drv_data);
+>         return ret;
+> @@ -863,8 +866,7 @@ static void lg_remove(struct hid_device
+>         struct lg_drv_data *drv_data = hid_get_drvdata(hdev);
+>         if (drv_data->quirks & LG_FF4)
+>                 lg4ff_deinit(hdev);
+> -       else
+> -               hid_hw_stop(hdev);
+> +       hid_hw_stop(hdev);
+>         kfree(drv_data);
+>  }
+>
+> Index: usb-devel/drivers/hid/hid-lg4ff.c
+> ===================================================================
+> --- usb-devel.orig/drivers/hid/hid-lg4ff.c
+> +++ usb-devel/drivers/hid/hid-lg4ff.c
+> @@ -1477,7 +1477,6 @@ int lg4ff_deinit(struct hid_device *hid)
+>                 }
+>         }
+>  #endif
+> -       hid_hw_stop(hid);
+>         drv_data->device_props = NULL;
+>
+>         kfree(entry);
 >
