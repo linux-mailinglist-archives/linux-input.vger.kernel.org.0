@@ -2,94 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06A4A97F58
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 17:49:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A69497F70
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 17:53:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728952AbfHUPsa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Aug 2019 11:48:30 -0400
-Received: from ste-pvt-msa1.bahnhof.se ([213.80.101.70]:29549 "EHLO
-        ste-pvt-msa1.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728840AbfHUPs3 (ORCPT
+        id S1727874AbfHUPxw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Aug 2019 11:53:52 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:53668 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1727555AbfHUPxw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Aug 2019 11:48:29 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 319A93F6FD;
-        Wed, 21 Aug 2019 17:48:26 +0200 (CEST)
-Authentication-Results: ste-pvt-msa1.bahnhof.se;
-        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=ecCdMDUX;
-        dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
-        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
-        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
-        autolearn=ham autolearn_force=no
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
-        by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 5_BESL_KmbX2; Wed, 21 Aug 2019 17:48:25 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        (Authenticated sender: mb878879)
-        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id B41E23F6DC;
-        Wed, 21 Aug 2019 17:48:24 +0200 (CEST)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        by mail1.shipmail.org (Postfix) with ESMTPSA id EB2EA3602D6;
-        Wed, 21 Aug 2019 17:48:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
-        t=1566402504; bh=fcgSl5DKVkYug+EcSMguajG35Q4SWrsZPSDglOO5M/I=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=ecCdMDUXP+o2fIzs4cRai9GmFjJWyqXjqO7bcLjHnOTjhjkzH167yNCB8CYywNbMi
-         iEf4XMgEk9k4bQsljRIdtpdEucWmIkckNcA7e1O+aDpOe82ub7qGTfMIyfPepJB51+
-         OIn5udOtHF0ggr4ekNoMg9EaTOS+dRcgZCrPxZFE=
-Subject: Re: [PATCH 4/4] input/vmmouse: Update the backdoor call with support
- for new instructions
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, pv-drivers@vmware.com,
-        Thomas Hellstrom <thellstrom@vmware.com>,
-        linux-input@vger.kernel.org, Doug Covelli <dcovelli@vmware.com>
-References: <20190818143316.4906-1-thomas_os@shipmail.org>
- <20190818143316.4906-5-thomas_os@shipmail.org> <20190821050925.GA566@penguin>
-From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= 
-        <thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <027a55d6-ab26-ef9c-bd89-93a38f96160b@shipmail.org>
-Date:   Wed, 21 Aug 2019 17:48:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Wed, 21 Aug 2019 11:53:52 -0400
+Received: (qmail 5312 invoked by uid 2102); 21 Aug 2019 11:53:51 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 21 Aug 2019 11:53:51 -0400
+Date:   Wed, 21 Aug 2019 11:53:51 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     syzbot <syzbot+5a6c4ec678a0c6ee84ba@syzkaller.appspotmail.com>
+cc:     andreyknvl@google.com, <benjamin.tissoires@redhat.com>,
+        <jikos@kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: Re: KASAN: slab-out-of-bounds Read in hidraw_ioctl
+In-Reply-To: <000000000000940ec30590a1b35e@google.com>
+Message-ID: <Pine.LNX.4.44L0.1908211152230.1816-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-In-Reply-To: <20190821050925.GA566@penguin>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 8/21/19 7:09 AM, Dmitry Torokhov wrote:
-> On Sun, Aug 18, 2019 at 04:33:16PM +0200, Thomas Hellström (VMware) wrote:
->> From: Thomas Hellstrom <thellstrom@vmware.com>
->>
->> Use the definition provided by include/asm/vmware.h
->>
->> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
->> Cc: <linux-input@vger.kernel.org>
->> Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
->> Reviewed-by: Doug Covelli <dcovelli@vmware.com>
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
->
-> Please feel free to merge with the rest of the patches introducing
-> VMWARE_HYPERCALL.
+On Wed, 21 Aug 2019, syzbot wrote:
 
-Thanks, Dmitry!
+> Hello,
+> 
+> syzbot has tested the proposed patch but the reproducer still triggered  
+> crash:
+> KASAN: slab-out-of-bounds Read in hidraw_ioctl
+> 
+> ==================================================================
+> BUG: KASAN: slab-out-of-bounds in strlen+0x79/0x90 lib/string.c:525
+> Read of size 1 at addr ffff8881d619df38 by task syz-executor.5/2984
+> 
+> CPU: 0 PID: 2984 Comm: syz-executor.5 Not tainted 5.3.0-rc2+ #1
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+> Google 01/01/2011
+> Call Trace:
+>   __dump_stack lib/dump_stack.c:77 [inline]
+>   dump_stack+0xca/0x13e lib/dump_stack.c:113
+>   print_address_description+0x6a/0x32c mm/kasan/report.c:351
+>   __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
+>   kasan_report+0xe/0x12 mm/kasan/common.c:612
+>   strlen+0x79/0x90 lib/string.c:525
+>   strlen include/linux/string.h:281 [inline]
+>   hidraw_ioctl+0x245/0xae0 drivers/hid/hidraw.c:446
+>   vfs_ioctl fs/ioctl.c:46 [inline]
+>   file_ioctl fs/ioctl.c:509 [inline]
+>   do_vfs_ioctl+0xd2d/0x1330 fs/ioctl.c:696
+>   ksys_ioctl+0x9b/0xc0 fs/ioctl.c:713
+>   __do_sys_ioctl fs/ioctl.c:720 [inline]
+>   __se_sys_ioctl fs/ioctl.c:718 [inline]
+>   __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:718
+>   do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
+>   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> RIP: 0033:0x459829
+> Code: fd b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
+> 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+> ff 0f 83 cb b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+> RSP: 002b:00007f19881acc78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000459829
+> RDX: 0000000000000000 RSI: 0000000080404805 RDI: 0000000000000004
+> RBP: 000000000075bfc8 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000246 R12: 00007f19881ad6d4
+> R13: 00000000004c21de R14: 00000000004d5620 R15: 00000000ffffffff
 
-I have a version 2 of the patch were the only difference is that edx is 
-initialized to zero which is default for vmcall / vmmcall. Can I use 
-your ack for that one as well?
+Looks like a test is missing in hidraw_ioctl.
 
-Thanks,
+Alan Stern
 
-Thomas
+#syz test: https://github.com/google/kasan.git e96407b4
 
+Index: usb-devel/drivers/hid/hidraw.c
+===================================================================
+--- usb-devel.orig/drivers/hid/hidraw.c
++++ usb-devel/drivers/hid/hidraw.c
+@@ -370,7 +370,7 @@ static long hidraw_ioctl(struct file *fi
+ 
+ 	mutex_lock(&minors_lock);
+ 	dev = hidraw_table[minor];
+-	if (!dev) {
++	if (!dev || !dev->exist) {
+ 		ret = -ENODEV;
+ 		goto out;
+ 	}
 
