@@ -2,107 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C003397F43
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 17:44:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06A4A97F58
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 17:49:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727822AbfHUPoh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Aug 2019 11:44:37 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:35883 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727553AbfHUPog (ORCPT
+        id S1728952AbfHUPsa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Aug 2019 11:48:30 -0400
+Received: from ste-pvt-msa1.bahnhof.se ([213.80.101.70]:29549 "EHLO
+        ste-pvt-msa1.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728840AbfHUPs3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Aug 2019 11:44:36 -0400
-Received: by mail-pf1-f194.google.com with SMTP id w2so1688460pfi.3
-        for <linux-input@vger.kernel.org>; Wed, 21 Aug 2019 08:44:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=oDutW/I35TP+jX1O/z5kU6iTGS5iSehx2vcFXJv5b5I=;
-        b=UCoMZT1CeGIB6kqbX8RgNf36WSiKEsxNpsU1oEf+H6+lALhE3VVgCD+opMVaKEksTf
-         kbmFYSDZfWGxvuXdwfAzyfBFyeZqx+kfUARWGufaV6inhcI2CtnPUPLuteYaLHMLBshj
-         iiUXVORALrqWrHuC/3fSbKMBYSPTIAIF2MqmRYW8N7MPzKgNpMXEmUR4ol8U8+otxsHl
-         9rCU2kb3Q5M9VJzdLvEv9EXUYkTTVJUIXGbbocEV0yz7PhAvNaOV1E4b7+74LtCruzlL
-         MoS88ZlfInYNE2b4T3yckDQNrtCNI2DSvZrVFxtxxjeBBUZ96218hG5Z61YsyxK7FwYh
-         jdXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=oDutW/I35TP+jX1O/z5kU6iTGS5iSehx2vcFXJv5b5I=;
-        b=mLvi+ucmu6LImEEJEo7WGUcSIjA71Ez/qM6eileVwD/uBzQrufYLCk3yJX0lNPOMhx
-         EdHSzIfErcXJoMew+d/2wCDFPBAxH+fbaloLCfC/ur+HG3Aq/KjIySQrqiUyNSQ4HJ2U
-         TjnL4bEPaI+adMz63o2pBnkGja+EVrreew0/NkeJqxXbrB8OJqL+9meIhUvOs7e8nIfO
-         K3C9ICNW5IX4n1rcg9yt6zl6efkpNgew3/sJr1hwMbl2GHE7xnwDQa2jbjvfAbBtEUgE
-         li2dgZNR06mkeh+3EVXducsaLZ1Cgi9/WAqx4rdH1ESkkarY8cAIa/8DnpfFCysTz3xS
-         //6g==
-X-Gm-Message-State: APjAAAX/ASBeB8hY8Nv14oaHpj0KvL5vRqLvwJ2WjLDbmRUaecUpQXEd
-        ta6VmSDA6oKnyRur41PGJ+w=
-X-Google-Smtp-Source: APXvYqzLY9zWRFMxwQpByTGyw3hhxj8tPBVrYmen1stsrfuOs5M16rZTUl59Nx5s7+sFh9f0sRp73w==
-X-Received: by 2002:a62:cec4:: with SMTP id y187mr36026625pfg.84.1566402275934;
-        Wed, 21 Aug 2019 08:44:35 -0700 (PDT)
-Received: from localhost (wsip-184-188-36-2.sd.sd.cox.net. [184.188.36.2])
-        by smtp.gmail.com with ESMTPSA id j6sm40452491pfg.158.2019.08.21.08.44.34
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 21 Aug 2019 08:44:34 -0700 (PDT)
-Date:   Tue, 20 Aug 2019 22:10:07 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jason Gerecke <killertofu@gmail.com>
-Cc:     linux-input@vger.kernel.org, Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>
-Subject: Re: [PATCH] Input: wacom_w8001 - Allocate additional space for 'phys'
-Message-ID: <20190821051007.GB566@penguin>
-References: <20190816184927.24525-1-jason.gerecke@wacom.com>
+        Wed, 21 Aug 2019 11:48:29 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 319A93F6FD;
+        Wed, 21 Aug 2019 17:48:26 +0200 (CEST)
+Authentication-Results: ste-pvt-msa1.bahnhof.se;
+        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=ecCdMDUX;
+        dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+        autolearn=ham autolearn_force=no
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+        by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 5_BESL_KmbX2; Wed, 21 Aug 2019 17:48:25 +0200 (CEST)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        (Authenticated sender: mb878879)
+        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id B41E23F6DC;
+        Wed, 21 Aug 2019 17:48:24 +0200 (CEST)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        by mail1.shipmail.org (Postfix) with ESMTPSA id EB2EA3602D6;
+        Wed, 21 Aug 2019 17:48:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+        t=1566402504; bh=fcgSl5DKVkYug+EcSMguajG35Q4SWrsZPSDglOO5M/I=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=ecCdMDUXP+o2fIzs4cRai9GmFjJWyqXjqO7bcLjHnOTjhjkzH167yNCB8CYywNbMi
+         iEf4XMgEk9k4bQsljRIdtpdEucWmIkckNcA7e1O+aDpOe82ub7qGTfMIyfPepJB51+
+         OIn5udOtHF0ggr4ekNoMg9EaTOS+dRcgZCrPxZFE=
+Subject: Re: [PATCH 4/4] input/vmmouse: Update the backdoor call with support
+ for new instructions
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, pv-drivers@vmware.com,
+        Thomas Hellstrom <thellstrom@vmware.com>,
+        linux-input@vger.kernel.org, Doug Covelli <dcovelli@vmware.com>
+References: <20190818143316.4906-1-thomas_os@shipmail.org>
+ <20190818143316.4906-5-thomas_os@shipmail.org> <20190821050925.GA566@penguin>
+From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= 
+        <thomas_os@shipmail.org>
+Organization: VMware Inc.
+Message-ID: <027a55d6-ab26-ef9c-bd89-93a38f96160b@shipmail.org>
+Date:   Wed, 21 Aug 2019 17:48:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190816184927.24525-1-jason.gerecke@wacom.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190821050925.GA566@penguin>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Aug 16, 2019 at 11:49:27AM -0700, Jason Gerecke wrote:
-> GCC warns that the output of our call to 'snprintf' in 'w8001_connect'
-> may be truncated since both 'serio->phys' and 'w8001->phys' are 32 bytes
-> in length. Increase the amount of space allocated for the latter to
-> compensate.
-> 
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+On 8/21/19 7:09 AM, Dmitry Torokhov wrote:
+> On Sun, Aug 18, 2019 at 04:33:16PM +0200, Thomas Hellström (VMware) wrote:
+>> From: Thomas Hellstrom <thellstrom@vmware.com>
+>>
+>> Use the definition provided by include/asm/vmware.h
+>>
+>> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>> Cc: <linux-input@vger.kernel.org>
+>> Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
+>> Reviewed-by: Doug Covelli <dcovelli@vmware.com>
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>
+> Please feel free to merge with the rest of the patches introducing
+> VMWARE_HYPERCALL.
 
-Applied, thank you.
+Thanks, Dmitry!
 
-> ---
->  drivers/input/touchscreen/wacom_w8001.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/wacom_w8001.c b/drivers/input/touchscreen/wacom_w8001.c
-> index 3715d1eace92..691285ace228 100644
-> --- a/drivers/input/touchscreen/wacom_w8001.c
-> +++ b/drivers/input/touchscreen/wacom_w8001.c
-> @@ -27,6 +27,8 @@ MODULE_AUTHOR("Jaya Kumar <jayakumar.lkml@gmail.com>");
->  MODULE_DESCRIPTION(DRIVER_DESC);
->  MODULE_LICENSE("GPL");
->  
-> +#define W8001_MAX_PHYS		42
-> +
->  #define W8001_MAX_LENGTH	13
->  #define W8001_LEAD_MASK		0x80
->  #define W8001_LEAD_BYTE		0x80
-> @@ -89,7 +91,7 @@ struct w8001 {
->  	unsigned char response_type;
->  	unsigned char response[W8001_MAX_LENGTH];
->  	unsigned char data[W8001_MAX_LENGTH];
-> -	char phys[32];
-> +	char phys[W8001_MAX_PHYS];
->  	int type;
->  	unsigned int pktlen;
->  	u16 max_touch_x;
-> -- 
-> 2.22.1
-> 
+I have a version 2 of the patch were the only difference is that edx is 
+initialized to zero which is default for vmcall / vmmcall. Can I use 
+your ack for that one as well?
 
--- 
-Dmitry
+Thanks,
+
+Thomas
+
+
