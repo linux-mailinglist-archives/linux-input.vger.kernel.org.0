@@ -2,140 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E825969E8
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2019 22:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE02997031
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 05:20:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730840AbfHTUAW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Aug 2019 16:00:22 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:37082 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1730837AbfHTUAW (ORCPT
+        id S1726864AbfHUDUU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Aug 2019 23:20:20 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:33937 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726693AbfHUDUT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Aug 2019 16:00:22 -0400
-Received: (qmail 8410 invoked by uid 2102); 20 Aug 2019 16:00:21 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 20 Aug 2019 16:00:21 -0400
-Date:   Tue, 20 Aug 2019 16:00:21 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Jiri Kosina <jikos@kernel.org>
-cc:     andreyknvl@google.com, <gustavo@embeddedor.com>,
-        <hdanton@sina.com>, <syzkaller-bugs@googlegroups.com>,
-        <linux-input@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>
-Subject: [PATCH] HID: USB: Fix general protection fault caused by Logitech
- driver
-In-Reply-To: <Pine.LNX.4.44L0.1908151333220.1343-100000@iolanthe.rowland.org>
-Message-ID: <Pine.LNX.4.44L0.1908201557220.1573-100000@iolanthe.rowland.org>
+        Tue, 20 Aug 2019 23:20:19 -0400
+Received: by mail-pg1-f194.google.com with SMTP id n9so481606pgc.1;
+        Tue, 20 Aug 2019 20:20:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=LzDQ1uoO2SpyVOT5FGWb4IORX7EKp5J+tij1Lu0cj5o=;
+        b=HqEU5RQfOZMKYvYhq7nhdWvUpBVD5Tue+TBRxLYeM7sssFt4rl/bjHUDwb6UAVIDLs
+         jNqHw8sYwf7qm409tlo/z/PDoHCIffIlIUkdaHHXWUlxZBlDU3hZn7qxiezHIVM9AUAv
+         v44ec76h3is6u1A6oCJjn2x2KL3LB9XhA3z5hdstUJ4tgKhW6r+cGO659Pwl+PmNElor
+         2TM6XjjtqRCI3msQF7jngqXEFdiAtwPS/uWrsyUHCvoFvFKd2l7Ku6Ly81QfVmycMJvT
+         wIdbogK00K2gcBTmj6ksOTBWmGbTAZorS9AqLvPf2D5M0nKZSgvuNi5fHweV9fV1w3Ke
+         RTXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=LzDQ1uoO2SpyVOT5FGWb4IORX7EKp5J+tij1Lu0cj5o=;
+        b=LBZZP1AK6QTauh1gQ+r4GAk+hkPHvo6PJcA0i+Pm7KditSWp+FjmJ9v7GS383cI7Hw
+         HkF/wguF/qHn5Q7IoleuNF9oEFJPUvn+i0x5imq++cNytVvOzBHsuRQRUYS/PzkwYbpe
+         NMVtv6/J2CZxlkjNMG2p9MgNedbG90d5HgGMaqddQ7AmdJVMX108QSkUkeJluY3GQdoo
+         nO5ochYN9c8+uTaeGlaJQLT3E/M4FjOcTOOUjG066bkKcasLUWZLblXVcPrgF9TIp2eO
+         sy55IeqRP0CYCwHdm3mQuxpaW4afKMRa7JAuxPRD634l1dfixgqMLZCKXZSS/zHiAN1t
+         cmrw==
+X-Gm-Message-State: APjAAAXCLBkVQ1j+2P+SWAcr59FtYKetxL0vutQgpk9NsYMJsZ/fNpT8
+        t0a+1+cz7HeEOk3k4NhU7DHgwLOz
+X-Google-Smtp-Source: APXvYqybKR/1e9MFwTH4J0r05eyXIDuKH8zpxgb6cBWwJdHr3Vn3Izn980vhvSv24EvE7TMIeM/2bw==
+X-Received: by 2002:a63:e610:: with SMTP id g16mr26903872pgh.392.1566357618757;
+        Tue, 20 Aug 2019 20:20:18 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id d18sm18015565pgi.40.2019.08.20.20.20.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Aug 2019 20:20:17 -0700 (PDT)
+Date:   Tue, 20 Aug 2019 20:20:15 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2] (submitted) input: misc: soc_button_array: use
+ platform_device_register_resndata()
+Message-ID: <20190821032015.GR121898@dtor-ws>
+References: <1566303944-15321-1-git-send-email-info@metux.net>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1566303944-15321-1-git-send-email-info@metux.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The syzbot fuzzer found a general protection fault in the HID subsystem:
+Hi Enrico,
 
-kasan: CONFIG_KASAN_INLINE enabled
-kasan: GPF could be caused by NULL-ptr deref or user memory access
-general protection fault: 0000 [#1] SMP KASAN
-CPU: 0 PID: 3715 Comm: syz-executor.3 Not tainted 5.2.0-rc6+ #15
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-RIP: 0010:__pm_runtime_resume+0x49/0x180 drivers/base/power/runtime.c:1069
-Code: ed 74 d5 fe 45 85 ed 0f 85 9a 00 00 00 e8 6f 73 d5 fe 48 8d bd c1 02  
-00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <0f> b6 04 02 48  
-89 fa 83 e2 07 38 d0 7f 08 84 c0 0f 85 fe 00 00 00
-RSP: 0018:ffff8881d99d78e0 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: 0000000000000020 RCX: ffffc90003f3f000
-RDX: 0000000416d8686d RSI: ffffffff82676841 RDI: 00000020b6c3436a
-RBP: 00000020b6c340a9 R08: ffff8881c6d64800 R09: fffffbfff0e84c25
-R10: ffff8881d99d7940 R11: ffffffff87426127 R12: 0000000000000004
-R13: 0000000000000000 R14: ffff8881d9b94000 R15: ffffffff897f9048
-FS:  00007f047f542700(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000001b30f21000 CR3: 00000001ca032000 CR4: 00000000001406f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
-  pm_runtime_get_sync include/linux/pm_runtime.h:226 [inline]
-  usb_autopm_get_interface+0x1b/0x50 drivers/usb/core/driver.c:1707
-  usbhid_power+0x7c/0xe0 drivers/hid/usbhid/hid-core.c:1234
-  hid_hw_power include/linux/hid.h:1038 [inline]
-  hidraw_open+0x20d/0x740 drivers/hid/hidraw.c:282
-  chrdev_open+0x219/0x5c0 fs/char_dev.c:413
-  do_dentry_open+0x497/0x1040 fs/open.c:778
-  do_last fs/namei.c:3416 [inline]
-  path_openat+0x1430/0x3ff0 fs/namei.c:3533
-  do_filp_open+0x1a1/0x280 fs/namei.c:3563
-  do_sys_open+0x3c0/0x580 fs/open.c:1070
-  do_syscall_64+0xb7/0x560 arch/x86/entry/common.c:301
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+On Tue, Aug 20, 2019 at 02:25:44PM +0200, Enrico Weigelt, metux IT consult wrote:
+> From: Enrico Weigelt <info@metux.net>
+> 
+> The registration of gpio-keys device can be written much shorter
+> by using the platform_device_register_resndata() helper.
+> 
+> v2:
+>     * pass &pdev->dev to platform_device_register_resndata()
+>     * fixed errval on failed platform_device_register_resndata()
+> 
+> Signed-off-by: Enrico Weigelt <info@metux.net>
+> ---
+>  drivers/input/misc/soc_button_array.c | 27 +++++++++++++--------------
+>  1 file changed, 13 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+> index 5e59f8e5..27550f9 100644
+> --- a/drivers/input/misc/soc_button_array.c
+> +++ b/drivers/input/misc/soc_button_array.c
+> @@ -110,25 +110,24 @@ static int soc_button_lookup_gpio(struct device *dev, int acpi_index)
+>  	gpio_keys_pdata->nbuttons = n_buttons;
+>  	gpio_keys_pdata->rep = autorepeat;
+>  
+> -	pd = platform_device_alloc("gpio-keys", PLATFORM_DEVID_AUTO);
+> -	if (!pd) {
+> -		error = -ENOMEM;
+> +	pd = platform_device_register_resndata(
+> +		&pdev->dev,
+> +		"gpio-keys",
+> +		PLATFORM_DEVID_AUTO,
+> +		NULL,
+> +		0,
+> +		gpio_keys_pdata,
+> +		sizeof(*gpio_keys_pdata));
+> +
+> +	error = PTR_ERR_OR_ZERO(pd);
+> +
+> +	if (IS_ERR(pd)) {
 
-It turns out the fault was caused by a bug in the HID Logitech driver,
-which violates the requirement that every pathway calling
-hid_hw_start() must also call hid_hw_stop().  This patch fixes the bug
-by making sure the requirement is met.
+I changed this and the PTR_ERR() to simply "error" and applied.
 
-Reported-and-tested-by: syzbot+3cbe5cd105d2ad56a1df@syzkaller.appspotmail.com
-Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-CC: <stable@vger.kernel.org>
+> +		dev_err(&pdev->dev, "failed registering gpio-keys: %ld\n", PTR_ERR(pd));
+>  		goto err_free_mem;
+>  	}
+>  
+> -	error = platform_device_add_data(pd, gpio_keys_pdata,
+> -					 sizeof(*gpio_keys_pdata));
+> -	if (error)
+> -		goto err_free_pdev;
+> -
+> -	error = platform_device_add(pd);
+> -	if (error)
+> -		goto err_free_pdev;
+> -
+>  	return pd;
+>  
+> -err_free_pdev:
+> -	platform_device_put(pd);
+>  err_free_mem:
+>  	devm_kfree(&pdev->dev, gpio_keys_pdata);
+>  	return ERR_PTR(error);
+> -- 
+> 1.9.1
+> 
 
----
+Thanks.
 
-[as1909]
-
-
- drivers/hid/hid-lg.c    |   10 ++++++----
- drivers/hid/hid-lg4ff.c |    1 -
- 2 files changed, 6 insertions(+), 5 deletions(-)
-
-Index: usb-devel/drivers/hid/hid-lg.c
-===================================================================
---- usb-devel.orig/drivers/hid/hid-lg.c
-+++ usb-devel/drivers/hid/hid-lg.c
-@@ -818,7 +818,7 @@ static int lg_probe(struct hid_device *h
- 
- 		if (!buf) {
- 			ret = -ENOMEM;
--			goto err_free;
-+			goto err_stop;
- 		}
- 
- 		ret = hid_hw_raw_request(hdev, buf[0], buf, sizeof(cbuf),
-@@ -850,9 +850,12 @@ static int lg_probe(struct hid_device *h
- 		ret = lg4ff_init(hdev);
- 
- 	if (ret)
--		goto err_free;
-+		goto err_stop;
- 
- 	return 0;
-+
-+err_stop:
-+	hid_hw_stop(hdev);
- err_free:
- 	kfree(drv_data);
- 	return ret;
-@@ -863,8 +866,7 @@ static void lg_remove(struct hid_device
- 	struct lg_drv_data *drv_data = hid_get_drvdata(hdev);
- 	if (drv_data->quirks & LG_FF4)
- 		lg4ff_deinit(hdev);
--	else
--		hid_hw_stop(hdev);
-+	hid_hw_stop(hdev);
- 	kfree(drv_data);
- }
- 
-Index: usb-devel/drivers/hid/hid-lg4ff.c
-===================================================================
---- usb-devel.orig/drivers/hid/hid-lg4ff.c
-+++ usb-devel/drivers/hid/hid-lg4ff.c
-@@ -1477,7 +1477,6 @@ int lg4ff_deinit(struct hid_device *hid)
- 		}
- 	}
- #endif
--	hid_hw_stop(hid);
- 	drv_data->device_props = NULL;
- 
- 	kfree(entry);
-
+-- 
+Dmitry
