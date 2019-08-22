@@ -2,156 +2,452 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C470C99758
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 16:52:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B182599797
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 17:01:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731942AbfHVOt6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Aug 2019 10:49:58 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:52248 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1731572AbfHVOt6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Aug 2019 10:49:58 -0400
-Received: (qmail 1325 invoked by uid 2102); 22 Aug 2019 10:49:57 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 22 Aug 2019 10:49:57 -0400
-Date:   Thu, 22 Aug 2019 10:49:57 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
-cc:     Oliver Neukum <oneukum@suse.com>, <jikos@kernel.org>,
-        <benjamin.tissoires@redhat.com>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] HID: quirks: Disable runtime suspend on Microsoft Corp.
- Basic Optical Mouse v2.0
-In-Reply-To: <D6E31CB0-BC2B-4B52-AF18-4BE990D3FDA5@canonical.com>
-Message-ID: <Pine.LNX.4.44L0.1908221043080.1311-100000@iolanthe.rowland.org>
+        id S1732235AbfHVPAr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Aug 2019 11:00:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47314 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725886AbfHVPAq (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 22 Aug 2019 11:00:46 -0400
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id A618CC04BD48
+        for <linux-input@vger.kernel.org>; Thu, 22 Aug 2019 15:00:45 +0000 (UTC)
+Received: by mail-qt1-f199.google.com with SMTP id 38so6803219qtx.3
+        for <linux-input@vger.kernel.org>; Thu, 22 Aug 2019 08:00:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wASUxJ6gbVgQglL3u1GwM8E2FZCBltj/K9lYhBgCNxs=;
+        b=U53MfB4TYwXzmdDENXEs003jU89bR88ZHvDnkVJ8KPzIdDXgEy3kRtBv7UHvReHH+A
+         36jO6Jk4lzm6esy2HFPJ6z07BfanDxU4LOU1kRpxUTlsI0bxazf3+yy2YGOHO9tKMLvU
+         4BLyRN2lrZe4xhNY+o9JHhlS6bW6pn73tRqbmTwUCCUYaVoMtPscZKjSieDW5F++dVXA
+         xot0M2otC+FWks5Jcv2tfzIUUx6SxL9MFDpueOfWd/hFyd3mXW0CR19rig7MAK127QbF
+         4I6Aog985Sb/hlvrQhPMI0XXMCX+vgwnJpgmSraXrbsFYiR7suWeZzlTBGRbxML84Phz
+         8wWg==
+X-Gm-Message-State: APjAAAWz8z8nPEF2NI14sSRUcvVoQW7kvwLo4l0Di8Y8GuDIyla1xGHr
+        CvVs1dOQdRw6OdZlZR9NX4GRs7+Q6gaE7f+6A45rAO8d39+gPgRVEv3iJYCUYwiftHOancOu87P
+        28+I3iz4yynNAAUNX2D6Gecs/LWRfluO/3Ssy+ww=
+X-Received: by 2002:ac8:60a:: with SMTP id d10mr35783692qth.31.1566486044809;
+        Thu, 22 Aug 2019 08:00:44 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqza0GDdnKc1dsuCpEA2dVH1Bw8YuoPLQQNyJ6fWS/kHmXXMuhHljOSl92Ja5G0pYqs2km/n2E8Eo2Wjt4BvRzQ=
+X-Received: by 2002:ac8:60a:: with SMTP id d10mr35783643qth.31.1566486044444;
+ Thu, 22 Aug 2019 08:00:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+References: <20190821205937.4929-1-hdegoede@redhat.com> <20190821205937.4929-7-hdegoede@redhat.com>
+In-Reply-To: <20190821205937.4929-7-hdegoede@redhat.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 22 Aug 2019 17:00:31 +0200
+Message-ID: <CAO-hwJLyNLYvWmqbFk+qGN3dn-pt3NOo1EwCay9s99ZTL8oK2Q@mail.gmail.com>
+Subject: Re: [PATCH v2 6/7] HID: lg-g15: Add support for controlling the
+ G510's RGB backlight
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 22 Aug 2019, Kai-Heng Feng wrote:
+Hi Hans,
 
-> at 18:38, Oliver Neukum <oneukum@suse.com> wrote:
-> 
-> > Am Donnerstag, den 22.08.2019, 18:04 +0800 schrieb Kai-Heng Feng:
-> >> Hi Oliver,
-> >>
-> >> at 17:45, Oliver Neukum <oneukum@suse.com> wrote:
-> >>
-> >>> Am Donnerstag, den 22.08.2019, 17:17 +0800 schrieb Kai-Heng Feng:
-> >>>> The optical sensor of the mouse gets turned off when it's runtime
-> >>>> suspended, so moving the mouse can't wake the mouse up, despite that
-> >>>> USB remote wakeup is successfully set.
-> >>>>
-> >>>> Introduce a new quirk to prevent the mouse from getting runtime
-> >>>> suspended.
-> >>>
-> >>> Hi,
-> >>>
-> >>> I am afraid this is a bad approach in principle. The device
-> >>> behaves according to spec.
-> >>
-> >> Can you please point out which spec it is? Is it USB 2.0 spec?
-> >
-> > Well, sort of. The USB spec merely states how to enter and exit
-> > a suspended state and that device state must not be lost.
-> > It does not tell you what a suspended device must be able to do.
-> 
-> But shouldn’t remote wakeup signaling wakes the device up and let it exit  
-> suspend state?
-> Or it’s okay to let the device be suspended when remote wakeup is needed  
-> but broken?
-> 
-> >
-> >>> And it behaves like most hardware.
-> >>
-> >> So seems like most hardware are broken.
-> >> Maybe a more appropriate solution is to disable RPM for all USB mice.
-> >
-> > That is a decision a distro certainly can make. However, the kernel
-> > does not, by default, call usb_enable_autosuspend() for HID devices
-> > for this very reason. It is enabled by default only for hubs,
-> > BT dongles and UVC cameras (and some minor devices)
-> >
-> > In other words, if on your system it is on, you need to look
-> > at udev, not the kernel.
-> 
-> So if a device is broken when “power/control” is flipped by user, we should  
-> deal it at userspace? That doesn’t sound right to me.
-> 
-> >
-> >>> If you do not want runtime PM for such devices, do not switch
-> >>> it on.
-> >>
-> >> A device should work regardless of runtime PM status.
-> >
-> > Well, no. Runtime PM is a trade off. You lose something if you use
-> > it. If it worked just as well as full power, you would never use
-> > full power, would you?
-> 
-> I am not asking the suspended state to work as full power, but to prevent a  
-> device enters suspend state because of broken remote wakeup.
-> 
-> >
-> > Whether the loss of functionality or performance is worth the energy
-> > savings is a policy decision. Hence it belongs into udev.
-> > Ideally the kernel would tell user space what will work in a
-> > suspended state. Unfortunately HID does not provide support for that.
-> 
-> I really don’t think “loss of functionally” belongs to policy decision. But  
-> that’s just my opinion.
-> 
-> >
-> > This is a deficiency of user space. The kernel has an ioctl()
-> > to let user space tell it, whether a device is fully needed.
-> > X does not use them.
-> 
-> Ok, I’ll take a look at other device drivers that use it.
-> 
-> >
-> >>> The refcounting needs to be done correctly.
-> >>
-> >> Will do.
-> >
-> > Well, I am afraid your patch breaks it and if you do not break
-> > it, the patch is reduced to nothing.
-> 
-> Maybe just calling usb_autopm_put_interface() in usbhid_close() to balance  
-> the refcount?
-> 
-> >
-> >>> This patch does something that udev should do and in a
-> >>> questionable manner.
-> >>
-> >> IMO if the device doesn’t support runtime suspend, then it needs to be
-> >> disabled in kernel but not workaround in userspace.
-> >
-> > You switch it on from user space. Of course the kernel default
-> > must be safe, as you said. It already is.
-> 
-> I’d also like to hear maintainers' opinion on this issue.
+On Wed, Aug 21, 2019 at 10:59 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Note that the keyboard has a backlight on/off toggle button. If the
+> backlight is turned off through that button, then any changes we make
+> will be ignored and we cannot turn it back on again from the host.
+>
+> To workaround this we write the last set RGB values when we receive an
+> event indicating that the backlight has been turned on again.
 
-I agree with Oliver.  There is no formal requirement on what actions
-should cause a mouse to generate a remote wakeup request.  Some mice
-will do it when they are moved and some mice won't.
+Not a formal review, yet, but I have the new sparse complain with this patch:
 
-If you don't like the way a particular mouse behaves then you should
-not allow it to go into runtime suspend.  By default, the kernel
-prevents _all_ USB mice from being runtime suspended; the only way a
-mouse can be suspended is if some userspace program tells the kernel to
-allow it.
+drivers/hid/hid-lg-g15.c:xxx:5:.warning: symbol
+'lg_g15_get_initial_led_brightness' was not declared. Should it be
+static?
 
-It might be a udev script which does this, or a powertop setting, or
-something else.  Regardless, what the kernel does is correct.  
-Furthermore, the kernel has to accomodate users who don't mind pressing
-a mouse button to wake up their mice.  For their sake, the kernel
-should not forbid a mouse from ever going into runtime suspend merely
-because it won't generate a wakeup request when it is moved.
+Cheers,
+Benjamin
 
-Alan Stern
-
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/hid/hid-lg-g15.c | 272 ++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 257 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
+> index 62b3ae8a59a6..57640417d49d 100644
+> --- a/drivers/hid/hid-lg-g15.c
+> +++ b/drivers/hid/hid-lg-g15.c
+> @@ -19,6 +19,10 @@
+>
+>  #define LG_G15_FEATURE_REPORT          0x02
+>
+> +#define LG_G510_FEATURE_M_KEYS_LEDS    0x04
+> +#define LG_G510_FEATURE_BACKLIGHT_RGB  0x05
+> +#define LG_G510_FEATURE_POWER_ON_RGB   0x06
+> +
+>  enum lg_g15_model {
+>         LG_G15,
+>         LG_G15_V2,
+> @@ -41,6 +45,7 @@ struct lg_g15_led {
+>         struct led_classdev cdev;
+>         enum led_brightness brightness;
+>         enum lg_g15_led_type led;
+> +       u8 red, green, blue;
+>  };
+>
+>  struct lg_g15_data {
+> @@ -56,13 +61,12 @@ struct lg_g15_data {
+>         bool game_mode_enabled;
+>  };
+>
+> +/******** G15 and G15 v2 LED functions ********/
+> +
+>  static int lg_g15_update_led_brightness(struct lg_g15_data *g15)
+>  {
+>         int ret;
+>
+> -       if (g15->model == LG_G510 || g15->model == LG_G510_USB_AUDIO)
+> -               return 0;
+> -
+>         ret = hid_hw_raw_request(g15->hdev, LG_G15_FEATURE_REPORT,
+>                                  g15->transfer_buf, 4,
+>                                  HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
+> @@ -183,6 +187,198 @@ static void lg_g15_leds_changed_work(struct work_struct *work)
+>         }
+>  }
+>
+> +/******** G510 LED functions ********/
+> +
+> +static int lg_g510_get_initial_led_brightness(struct lg_g15_data *g15, int i)
+> +{
+> +       int ret, high;
+> +
+> +       ret = hid_hw_raw_request(g15->hdev, LG_G510_FEATURE_BACKLIGHT_RGB + i,
+> +                                g15->transfer_buf, 4,
+> +                                HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
+> +       if (ret != 4) {
+> +               hid_err(g15->hdev, "Error getting LED brightness: %d\n", ret);
+> +               return (ret < 0) ? ret : -EIO;
+> +       }
+> +
+> +       high = max3(g15->transfer_buf[1], g15->transfer_buf[2],
+> +                   g15->transfer_buf[3]);
+> +
+> +       if (high) {
+> +               g15->leds[i].red =
+> +                       DIV_ROUND_CLOSEST(g15->transfer_buf[1] * 255, high);
+> +               g15->leds[i].green =
+> +                       DIV_ROUND_CLOSEST(g15->transfer_buf[2] * 255, high);
+> +               g15->leds[i].blue =
+> +                       DIV_ROUND_CLOSEST(g15->transfer_buf[3] * 255, high);
+> +               g15->leds[i].brightness = high;
+> +       } else {
+> +               g15->leds[i].red   = 255;
+> +               g15->leds[i].green = 255;
+> +               g15->leds[i].blue  = 255;
+> +               g15->leds[i].brightness = 0;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +/* Must be called with g15->mutex locked */
+> +static int lg_g510_kbd_led_write(struct lg_g15_data *g15,
+> +                                struct lg_g15_led *g15_led,
+> +                                enum led_brightness brightness)
+> +{
+> +       int ret;
+> +
+> +       g15->transfer_buf[0] = 5 + g15_led->led;
+> +       g15->transfer_buf[1] =
+> +               DIV_ROUND_CLOSEST(g15_led->red * brightness, 255);
+> +       g15->transfer_buf[2] =
+> +               DIV_ROUND_CLOSEST(g15_led->green * brightness, 255);
+> +       g15->transfer_buf[3] =
+> +               DIV_ROUND_CLOSEST(g15_led->blue * brightness, 255);
+> +
+> +       ret = hid_hw_raw_request(g15->hdev,
+> +                                LG_G510_FEATURE_BACKLIGHT_RGB + g15_led->led,
+> +                                g15->transfer_buf, 4,
+> +                                HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
+> +       if (ret == 4) {
+> +               /* Success */
+> +               g15_led->brightness = brightness;
+> +               ret = 0;
+> +       } else {
+> +               hid_err(g15->hdev, "Error setting LED brightness: %d\n", ret);
+> +               ret = (ret < 0) ? ret : -EIO;
+> +       }
+> +
+> +       return ret;
+> +}
+> +
+> +static int lg_g510_kbd_led_set(struct led_classdev *led_cdev,
+> +                              enum led_brightness brightness)
+> +{
+> +       struct lg_g15_led *g15_led =
+> +               container_of(led_cdev, struct lg_g15_led, cdev);
+> +       struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
+> +       int ret;
+> +
+> +       /* Ignore LED off on unregister / keyboard unplug */
+> +       if (led_cdev->flags & LED_UNREGISTERING)
+> +               return 0;
+> +
+> +       mutex_lock(&g15->mutex);
+> +       ret = lg_g510_kbd_led_write(g15, g15_led, brightness);
+> +       mutex_unlock(&g15->mutex);
+> +
+> +       return ret;
+> +}
+> +
+> +static enum led_brightness lg_g510_kbd_led_get(struct led_classdev *led_cdev)
+> +{
+> +       struct lg_g15_led *g15_led =
+> +               container_of(led_cdev, struct lg_g15_led, cdev);
+> +
+> +       return g15_led->brightness;
+> +}
+> +
+> +static ssize_t color_store(struct device *dev, struct device_attribute *attr,
+> +                          const char *buf, size_t count)
+> +{
+> +       struct led_classdev *led_cdev = dev_get_drvdata(dev);
+> +       struct lg_g15_led *g15_led =
+> +               container_of(led_cdev, struct lg_g15_led, cdev);
+> +       struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
+> +       unsigned long value;
+> +       int ret;
+> +
+> +       if (count < 7 || (count == 8 && buf[7] != '\n') || count > 8)
+> +               return -EINVAL;
+> +
+> +       if (buf[0] != '#')
+> +               return -EINVAL;
+> +
+> +       ret = kstrtoul(buf + 1, 16, &value);
+> +       if (ret)
+> +               return ret;
+> +
+> +       mutex_lock(&g15->mutex);
+> +       g15_led->red   = (value & 0xff0000) >> 16;
+> +       g15_led->green = (value & 0x00ff00) >> 8;
+> +       g15_led->blue  = (value & 0x0000ff);
+> +       ret = lg_g510_kbd_led_write(g15, g15_led, g15_led->brightness);
+> +       mutex_unlock(&g15->mutex);
+> +
+> +       return (ret < 0) ? ret : count;
+> +}
+> +
+> +static ssize_t color_show(struct device *dev, struct device_attribute *attr,
+> +                         char *buf)
+> +{
+> +       struct led_classdev *led_cdev = dev_get_drvdata(dev);
+> +       struct lg_g15_led *g15_led =
+> +               container_of(led_cdev, struct lg_g15_led, cdev);
+> +       struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
+> +       ssize_t ret;
+> +
+> +       mutex_lock(&g15->mutex);
+> +       ret = sprintf(buf, "#%02x%02x%02x\n",
+> +                     g15_led->red, g15_led->green, g15_led->blue);
+> +       mutex_unlock(&g15->mutex);
+> +
+> +       return ret;
+> +}
+> +
+> +static DEVICE_ATTR_RW(color);
+> +
+> +static struct attribute *lg_g510_kbd_led_attrs[] = {
+> +       &dev_attr_color.attr,
+> +       NULL,
+> +};
+> +
+> +static const struct attribute_group lg_g510_kbd_led_group = {
+> +       .attrs = lg_g510_kbd_led_attrs,
+> +};
+> +
+> +static const struct attribute_group *lg_g510_kbd_led_groups[] = {
+> +       &lg_g510_kbd_led_group,
+> +       NULL,
+> +};
+> +
+> +static void lg_g510_leds_sync_work(struct work_struct *work)
+> +{
+> +       struct lg_g15_data *g15 = container_of(work, struct lg_g15_data, work);
+> +
+> +       mutex_lock(&g15->mutex);
+> +       lg_g510_kbd_led_write(g15, &g15->leds[LG_G15_KBD_BRIGHTNESS],
+> +                             g15->leds[LG_G15_KBD_BRIGHTNESS].brightness);
+> +       mutex_unlock(&g15->mutex);
+> +}
+> +
+> +/******** Generic LED functions ********/
+> +int lg_g15_get_initial_led_brightness(struct lg_g15_data *g15)
+> +{
+> +       int ret;
+> +
+> +       switch (g15->model) {
+> +       case LG_G15:
+> +       case LG_G15_V2:
+> +               return lg_g15_update_led_brightness(g15);
+> +       case LG_G510:
+> +       case LG_G510_USB_AUDIO:
+> +               ret = lg_g510_get_initial_led_brightness(g15, 0);
+> +               if (ret)
+> +                       return ret;
+> +
+> +               ret = lg_g510_get_initial_led_brightness(g15, 1);
+> +               if (ret)
+> +                       return ret;
+> +
+> +               return 0;
+> +       }
+> +       return -EINVAL; /* Never reached */
+> +}
+> +
+> +/******** Input functions ********/
+> +
+>  /* On the G15 Mark I Logitech has been quite creative with which bit is what */
+>  static int lg_g15_event(struct lg_g15_data *g15, u8 *data, int size)
+>  {
+> @@ -306,6 +502,22 @@ static int lg_g510_event(struct lg_g15_data *g15, u8 *data, int size)
+>         return 0;
+>  }
+>
+> +static int lg_g510_leds_event(struct lg_g15_data *g15, u8 *data, int size)
+> +{
+> +       bool backlight_disabled;
+> +
+> +       /*
+> +        * The G510 ignores backlight updates when the backlight is turned off
+> +        * through the light toggle button on the keyboard, to work around this
+> +        * we queue a workitem to sync values when the backlight is turned on.
+> +        */
+> +       backlight_disabled = data[1] & 0x04;
+> +       if (!backlight_disabled)
+> +               schedule_work(&g15->work);
+> +
+> +       return 0;
+> +}
+> +
+>  static int lg_g15_raw_event(struct hid_device *hdev, struct hid_report *report,
+>                             u8 *data, int size)
+>  {
+> @@ -327,6 +539,8 @@ static int lg_g15_raw_event(struct hid_device *hdev, struct hid_report *report,
+>         case LG_G510_USB_AUDIO:
+>                 if (data[0] == 0x03 && size == 5)
+>                         return lg_g510_event(g15, data, size);
+> +               if (data[0] == 0x04 && size == 2)
+> +                       return lg_g510_leds_event(g15, data, size);
+>                 break;
+>         }
+>
+> @@ -360,13 +574,42 @@ static int lg_g15_register_led(struct lg_g15_data *g15, int i)
+>
+>         g15->leds[i].led = i;
+>         g15->leds[i].cdev.name = led_names[i];
+> -       g15->leds[i].cdev.brightness_set_blocking = lg_g15_led_set;
+> -       g15->leds[i].cdev.brightness_get = lg_g15_led_get;
+> -       if (i < LG_G15_BRIGHTNESS_MAX) {
+> -               g15->leds[i].cdev.flags = LED_BRIGHT_HW_CHANGED;
+> -               g15->leds[i].cdev.max_brightness = 2;
+> -       } else {
+> -               g15->leds[i].cdev.max_brightness = 1;
+> +
+> +       switch (g15->model) {
+> +       case LG_G15:
+> +       case LG_G15_V2:
+> +               g15->leds[i].cdev.brightness_set_blocking = lg_g15_led_set;
+> +               g15->leds[i].cdev.brightness_get = lg_g15_led_get;
+> +               if (i < LG_G15_BRIGHTNESS_MAX) {
+> +                       g15->leds[i].cdev.flags = LED_BRIGHT_HW_CHANGED;
+> +                       g15->leds[i].cdev.max_brightness = 2;
+> +               } else {
+> +                       g15->leds[i].cdev.max_brightness = 1;
+> +               }
+> +               break;
+> +       case LG_G510:
+> +       case LG_G510_USB_AUDIO:
+> +               switch (i) {
+> +               case LG_G15_LCD_BRIGHTNESS:
+> +                       /*
+> +                        * The G510 does not have a separate LCD brightness,
+> +                        * but it does have a separate power-on (reset) value.
+> +                        */
+> +                       g15->leds[i].cdev.name = "g15::power_on_backlight_val";
+> +                       /* fall through */
+> +               case LG_G15_KBD_BRIGHTNESS:
+> +                       g15->leds[i].cdev.brightness_set_blocking =
+> +                               lg_g510_kbd_led_set;
+> +                       g15->leds[i].cdev.brightness_get =
+> +                               lg_g510_kbd_led_get;
+> +                       g15->leds[i].cdev.max_brightness = 255;
+> +                       g15->leds[i].cdev.groups = lg_g510_kbd_led_groups;
+> +                       break;
+> +               default:
+> +                       /* TODO: Add support for M1 - M3 and MR leds */
+> +                       return 0;
+> +               }
+> +               break;
+>         }
+>
+>         return devm_led_classdev_register(&g15->hdev->dev, &g15->leds[i].cdev);
+> @@ -414,11 +657,11 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>
+>         g15->hdev = hdev;
+>         g15->model = id->driver_data;
+> -       INIT_WORK(&g15->work, lg_g15_leds_changed_work);
+>         hid_set_drvdata(hdev, (void *)g15);
+>
+>         switch (g15->model) {
+>         case LG_G15:
+> +               INIT_WORK(&g15->work, lg_g15_leds_changed_work);
+>                 /*
+>                  * The G15 and G15 v2 use a separate usb-device (on a builtin
+>                  * hub) which emulates a keyboard for the F1 - F12 emulation
+> @@ -430,12 +673,14 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>                 gkeys = 18;
+>                 break;
+>         case LG_G15_V2:
+> +               INIT_WORK(&g15->work, lg_g15_leds_changed_work);
+>                 connect_mask = HID_CONNECT_HIDRAW;
+>                 gkeys_settings_output_report = 0x02;
+>                 gkeys = 6;
+>                 break;
+>         case LG_G510:
+>         case LG_G510_USB_AUDIO:
+> +               INIT_WORK(&g15->work, lg_g510_leds_sync_work);
+>                 connect_mask = HID_CONNECT_HIDINPUT | HID_CONNECT_HIDRAW;
+>                 gkeys_settings_feature_report = 0x01;
+>                 gkeys = 18;
+> @@ -476,7 +721,7 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>         }
+>
+>         /* Get initial brightness levels */
+> -       ret = lg_g15_update_led_brightness(g15);
+> +       ret = lg_g15_get_initial_led_brightness(g15);
+>         if (ret)
+>                 goto error_hw_stop;
+>
+> @@ -523,9 +768,6 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>         if (ret)
+>                 goto error_hw_stop;
+>
+> -       if (g15->model == LG_G510 || g15->model == LG_G510_USB_AUDIO)
+> -               return 0;
+> -
+>         /* Register LED devices */
+>         for (i = 0; i < LG_G15_LED_MAX; i++) {
+>                 ret = lg_g15_register_led(g15, i);
+> --
+> 2.23.0.rc2
+>
