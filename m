@@ -2,123 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A97598AD2
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 07:24:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B8E198AF1
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 07:53:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726852AbfHVFYp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Aug 2019 01:24:45 -0400
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:18158 "EHLO
+        id S1731411AbfHVFxC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Aug 2019 01:53:02 -0400
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:18443 "EHLO
         esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725710AbfHVFYp (ORCPT
+        with ESMTP id S1731379AbfHVFxC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Aug 2019 01:24:45 -0400
-IronPort-SDR: 3H6w9hvd9Rzw5T9ljf00OEusFFCBovyHPtGxTQ9zJE0tfv2enJbNgL4yyUpx+Pe/GoGDsCAzUG
- ihk0aPMOy/sdnt3367zEeDDY4Zrg5087K09Rh0Xmop7CLPxueFMpWzMyBffz/saqo+e3NKjgYR
- whXSKN7G6bV5Cl+3Ov9HSv2pgx6NgSc5aHWu58MDdEPVVT5K0Y1tsGAl18LvXxL2qbKVuBNuyz
- IMXZcrLVActYZmqLgl/vnxdgAzE+ID1MFyT8Fv0mbl+3Cq3dDZXmrunmqgDL5X8TRW+jJxVV/J
- Iu0=
+        Thu, 22 Aug 2019 01:53:02 -0400
+IronPort-SDR: Rz/vsKz/ZrCwjli1wyH8FQkneU0NPS8mLn5x8RbAx625ZpfvcoM9XkZJBr45q9X5F6RemBp6wV
+ juh9wupgc8dV5wxXD/uui0ChjT7IVWIqO/hCKW2/XBK4AxLAZIic/0saDMNmPSlavjZvRRVqzh
+ sBPRfI0tmzrms7PDsAuZKhDP+n9wWsUUcUMScfa5W/fUG+wFbNlYcnpB/zkCe1b8fb7ZDNU2hn
+ SRgqY0LuuwqJnnQ8Z/rKb5Wd/NuTq0t0bBsXs0QWXXBsmFXYoznpuhun7FLErreJHSCe7rRAUB
+ +Oc=
 X-IronPort-AV: E=Sophos;i="5.64,415,1559548800"; 
-   d="scan'208";a="40662973"
+   d="scan'208";a="40663374"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 21 Aug 2019 21:24:44 -0800
-IronPort-SDR: ytXDY1HL31EmIsp7bVLWwQ0GsHktTIcm+bDVDts1rG3xTyJoIsLtbl9JfT1VRGNCAJPtBA8hGY
- v7dav1CS+OQc9SiUDpPMT7pq71PS/aw9X6HGSIy/uFpYwsGFTC16VR4A9nmMopquvh5q1xgd4/
- kcqG8l5K4tV4ZP8yST999d8gzPVvxnuzg+x7tJLOxDDUNBiJfZXQtUNpcPeWGBJ1XpFBufG5ow
- 5rgeu52SnKCeFSb5wLCnF9hw/3inmUiDg7++5526tTWkrYrXDiXwf9jh52Ht9PAdDqdU0wCk04
- 4vI=
-Subject: Re: [PATCH v1 04/63] Input: atmel_mxt_ts - split large i2c transfers
- into blocks
+  by esa3.mentor.iphmx.com with ESMTP; 21 Aug 2019 21:53:01 -0800
+IronPort-SDR: O8JRi/Ew6E4tPqjpwTRnG377DfKmvYUuUS4skw+4Ce9z5P/4q5k8t5ZpaW6q4+kYLQwKYYlw8/
+ v0D0yPPIvXgUh4O2s3y6hZlzR2JLLKgHmYUvw9Z3QFv6vDHGAujdFQzedvp0f4VPofyZMufQOp
+ nFpivY9vOX9HAb37zTzjC+29heVpwI8YzynO3mVzQsaeBXQSuJes/hJAg6iIIWrdxzxhKBGhlP
+ k+waTjLK53o+LGXWF46DdJFBMZuE1G1CtlbPKi0y6drqd3g5S9ZzwiCUBKri4u//JG4eB0zA8Z
+ U2w=
+Subject: Re: [PATCH v1 06/63] Input: atmel_mxt_ts - output status from T42
+ Touch Suppression
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 CC:     <nick@shmanahar.org>, <linux-input@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <george_davis@mentor.com>
-References: <20190816082952.17985-1-jiada_wang@mentor.com>
- <20190816082952.17985-5-jiada_wang@mentor.com>
- <20190816171837.GG121898@dtor-ws>
+References: <20190816083130.18250-1-jiada_wang@mentor.com>
+ <20190816083130.18250-2-jiada_wang@mentor.com>
+ <20190816173426.GM121898@dtor-ws>
 From:   Jiada Wang <jiada_wang@mentor.com>
-Message-ID: <4f9aaee0-c3de-3ad4-4c66-333afd92240e@mentor.com>
-Date:   Thu, 22 Aug 2019 14:24:39 +0900
+Message-ID: <07f3ff0d-5076-2b36-ece4-5fce8ceada8f@mentor.com>
+Date:   Thu, 22 Aug 2019 14:52:57 +0900
 User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190816171837.GG121898@dtor-ws>
+In-Reply-To: <20190816173426.GM121898@dtor-ws>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SVR-ORW-MBX-07.mgc.mentorg.com (147.34.90.207) To
+X-ClientProxiedBy: svr-orw-mbx-08.mgc.mentorg.com (147.34.90.208) To
  svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry
+Hi
 
-On 2019/08/17 2:18, Dmitry Torokhov wrote:
-> On Fri, Aug 16, 2019 at 05:28:53PM +0900, Jiada Wang wrote:
+On 2019/08/17 2:34, Dmitry Torokhov wrote:
+> On Fri, Aug 16, 2019 at 05:30:33PM +0900, Jiada Wang wrote:
 >> From: Nick Dyer <nick.dyer@itdev.co.uk>
 >>
->> On some firmware variants, the size of the info block exceeds what can
->> be read in a single transfer.
->>
 >> Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
->> (cherry picked from ndyer/linux/for-upstream commit 74c4f5277cfa403d43fafc404119dc57a08677db)
->> [gdavis: Forward port and fix conflicts due to v4.14.51 commit
->> 	 960fe000b1d3 ("Input: atmel_mxt_ts - fix the firmware
->> 	 update").]
+>> Acked-by: Benson Leung <bleung@chromium.org>
+>> Acked-by: Yufeng Shen <miletus@chromium.org>
+>> (cherry picked from ndyer/linux/for-upstream commit ab95b5a309999d2c098daaa9f88d9fcfae7eb516)
 >> Signed-off-by: George G. Davis <george_davis@mentor.com>
 >> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 >> ---
->>   drivers/input/touchscreen/atmel_mxt_ts.c | 27 +++++++++++++++++++++---
->>   1 file changed, 24 insertions(+), 3 deletions(-)
+>>   drivers/input/touchscreen/atmel_mxt_ts.c | 25 ++++++++++++++++++++++++
+>>   1 file changed, 25 insertions(+)
 >>
 >> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
->> index 9b165d23e092..2d70ddf71cd9 100644
+>> index a75c35c6f9f9..9226ec528adf 100644
 >> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 >> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
->> @@ -40,7 +40,7 @@
->>   #define MXT_OBJECT_START	0x07
->>   #define MXT_OBJECT_SIZE		6
->>   #define MXT_INFO_CHECKSUM_SIZE	3
->> -#define MXT_MAX_BLOCK_WRITE	256
->> +#define MXT_MAX_BLOCK_WRITE	255
+>> @@ -155,6 +155,9 @@ struct t37_debug {
+>>   #define MXT_RESET_VALUE		0x01
+>>   #define MXT_BACKUP_VALUE	0x55
 >>   
->>   /* Object types */
->>   #define MXT_DEBUG_DIAGNOSTIC_T37	37
->> @@ -659,6 +659,27 @@ static int __mxt_read_reg(struct i2c_client *client,
->>   	return ret;
+>> +/* Define for MXT_PROCI_TOUCHSUPPRESSION_T42 */
+>> +#define MXT_T42_MSG_TCHSUP	BIT(0)
+>> +
+>>   /* T100 Multiple Touch Touchscreen */
+>>   #define MXT_T100_CTRL		0
+>>   #define MXT_T100_CFG1		1
+>> @@ -323,6 +326,8 @@ struct mxt_data {
+>>   	u8 T9_reportid_max;
+>>   	u16 T18_address;
+>>   	u8 T19_reportid;
+>> +	u8 T42_reportid_min;
+>> +	u8 T42_reportid_max;
+>>   	u16 T44_address;
+>>   	u8 T48_reportid;
+>>   	u8 T100_reportid_min;
+>> @@ -978,6 +983,17 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+>>   	data->update_input = true;
 >>   }
 >>   
->> +static int mxt_read_blks(struct mxt_data *data, u16 start, u16 count, u8 *buf)
-> 
-> Can we call this __mxt_read_reg() and the original read reg call
-> __mxt_read_chunk()?
->
-yes, I will update in v2 patch-set,
-so that every call to __mxt_read_reg() in atmel driver,
-can have the feature to split large size transfer.
-
-Thanks,
-Jiada
-
+>> +static void mxt_proc_t42_messages(struct mxt_data *data, u8 *msg)
 >> +{
->> +	u16 offset = 0;
->> +	int error;
->> +	u16 size;
+>> +	struct device *dev = &data->client->dev;
+>> +	u8 status = msg[1];
 >> +
->> +	while (offset < count) {
->> +		size = min(MXT_MAX_BLOCK_WRITE, count - offset);
->> +
->> +		error = __mxt_read_reg(data->client,
->> +				       start + offset,
->> +				       size, buf + offset);
->> +		if (error)
->> +			return error;
->> +
->> +		offset += size;
->> +	}
->> +
->> +	return 0;
->> +}
+>> +	if (status & MXT_T42_MSG_TCHSUP)
+>> +		dev_info(dev, "T42 suppress\n");
+>> +	else
+>> +		dev_info(dev, "T42 normal\n");
 > 
-> Thanks.
+> dev_dbg(). There is no need to flood the logs with this. I'd assume this
+> is for assisting in bringup. Should there be some more generic way of
+> monitoring the status?
 > 
+will replace with dev_dbg() in v2 patchset
+
+thanks,
+Jiada
