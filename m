@@ -2,168 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FEED9861F
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2019 22:59:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21E28989E7
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 05:37:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730596AbfHUU7w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Aug 2019 16:59:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52778 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728485AbfHUU7w (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Aug 2019 16:59:52 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2C9A17EB8A;
-        Wed, 21 Aug 2019 20:59:52 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-29.ams2.redhat.com [10.36.116.29])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1365A5DA32;
-        Wed, 21 Aug 2019 20:59:50 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Subject: [PATCH v2 7/7] HID: lg-g15: Add support for the G510's M1-M3 and MR LEDs
-Date:   Wed, 21 Aug 2019 22:59:37 +0200
-Message-Id: <20190821205937.4929-8-hdegoede@redhat.com>
-In-Reply-To: <20190821205937.4929-1-hdegoede@redhat.com>
-References: <20190821205937.4929-1-hdegoede@redhat.com>
+        id S1729212AbfHVDhU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Aug 2019 23:37:20 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:42898 "EHLO
+        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728275AbfHVDhU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 21 Aug 2019 23:37:20 -0400
+IronPort-SDR: 3IyRZjWhAPCvFyFzdZKgUjmoPesQJQtV4T2H9YWESXKo2QpeaGQtmTQDLotdCW7pLJs+YmqE3x
+ p5hV/VdWUDxCoqbEZVqRQiJ8bRkhDHdP5gLQM69zyNjCl7k4ADmK5c7yV7TzGdeb5kk354WawT
+ 7LqLUWojhrQzJgCjNCUY8mVeS7wUUHxCUCcUXWW8B8Ya+lP2bE7xMvnLnCk/caD+tymqBChyWp
+ lGXM7h2ncaiesREDGX4gnv3USNo8cyXw1XDW2Fi6NOQpq9h6kekFMJsM4gJjM38SiajlenZuka
+ l3g=
+X-IronPort-AV: E=Sophos;i="5.64,415,1559548800"; 
+   d="scan'208";a="40633198"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa2.mentor.iphmx.com with ESMTP; 21 Aug 2019 19:37:19 -0800
+IronPort-SDR: knej7h//JlhpiEVQ7A8cM21t3Tj7uWAZJhNy2Dh3bBaBtIWQdiB9h6lYm/zpZN+JDJpP+NZg5Y
+ U3GEISDT8GZaSNBgDT9qNRwVVj3KqEwKysOmlob4/TXPHgbukoACxZtsbeURHRBYESudzFruBC
+ +jjsxSHPyJY2OnKuvDljpLJWSa91MevcS6/dAr0vkHJUHqqUP62BSl6uvrfL5+nV2BJhMr136/
+ 2FGMwfdjUaHjM2uiD251CbOk0rRt7vpdpVbK8xwirDE+jvJQu7XHoL5EMG+T0HwJ1Ol41hwezO
+ awU=
+Subject: Re: [PATCH v1 03/63] Input: atmel_mxt_ts - only read messages in
+ mxt_acquire_irq() when necessary
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC:     <nick@shmanahar.org>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <george_davis@mentor.com>
+References: <20190816082952.17985-1-jiada_wang@mentor.com>
+ <20190816082952.17985-4-jiada_wang@mentor.com>
+ <20190816171622.GF121898@dtor-ws>
+ <558e1227-7671-0838-d4e0-f234833c0973@mentor.com>
+ <20190821175422.GE76194@dtor-ws>
+From:   Jiada Wang <jiada_wang@mentor.com>
+Message-ID: <cab8d0cd-21ec-3844-5e4f-eb5b582aa432@mentor.com>
+Date:   Thu, 22 Aug 2019 12:37:12 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.71]); Wed, 21 Aug 2019 20:59:52 +0000 (UTC)
+In-Reply-To: <20190821175422.GE76194@dtor-ws>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203) To
+ svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for controlling the LEDs below the M1-M3 and MR keys
-on the G510.
+Hi
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/hid/hid-lg-g15.c | 93 ++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 90 insertions(+), 3 deletions(-)
+On 2019/08/22 2:54, Dmitry Torokhov wrote:
+> On Wed, Aug 21, 2019 at 10:26:31PM +0900, Jiada Wang wrote:
+>> Hi Dmitry
+>>
+>> On 2019/08/17 2:16, Dmitry Torokhov wrote:
+>>> On Fri, Aug 16, 2019 at 05:28:52PM +0900, Jiada Wang wrote:
+>>>> From: Nick Dyer <nick.dyer@itdev.co.uk>
+>>>>
+>>>> The workaround of reading all messages until an invalid is received is a
+>>>> way of forcing the CHG line high, which means that when using
+>>>> edge-triggered interrupts the interrupt can be acquired.
+>>>>
+>>>> With level-triggered interrupts the workaround is unnecessary.
+>>>>
+>>>> Also, most recent maXTouch chips have a feature called RETRIGEN which, when
+>>>> enabled, reasserts the interrupt line every cycle if there are messages
+>>>> waiting. This also makes the workaround unnecessary.
+>>>>
+>>>> Note: the RETRIGEN feature is only in some firmware versions/chips, it's
+>>>> not valid simply to enable the bit.
+>>>
+>>> Instead of trying to work around of misconfiguration for IRQ/firmware,
+>>> can we simply error out of probe if we see a level interrupt with
+>>> !RETRIGEN firmware?
+>>>
+>> I think for old firmwares, which doesn't support RETRIGEN feature, this
+>> workaround is needed, otherwise we will break all old firmwares, which
+>> configured with edge-triggered IRQ
+> 
+> Do you know if there are any? I know Chrome OS firmware have RETRIGEN
+> activated and they are pretty old (original Pixel is from 2013). But if
+> we indeed have devices with edge interrupt and old not firmware that
+> does not retrigger, I guess we'll have to keep it...
+> 
 
-diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
-index 57640417d49d..83614353e2ab 100644
---- a/drivers/hid/hid-lg-g15.c
-+++ b/drivers/hid/hid-lg-g15.c
-@@ -353,6 +353,90 @@ static void lg_g510_leds_sync_work(struct work_struct *work)
- 	mutex_unlock(&g15->mutex);
- }
- 
-+static int lg_g510_update_mkey_led_brightness(struct lg_g15_data *g15)
-+{
-+	int ret;
-+
-+	ret = hid_hw_raw_request(g15->hdev, LG_G510_FEATURE_M_KEYS_LEDS,
-+				 g15->transfer_buf, 2,
-+				 HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
-+	if (ret != 2) {
-+		hid_err(g15->hdev, "Error getting LED brightness: %d\n", ret);
-+		ret = (ret < 0) ? ret : -EIO;
-+	}
-+
-+	g15->leds[LG_G15_MACRO_PRESET1].brightness =
-+		!!(g15->transfer_buf[1] & 0x80);
-+	g15->leds[LG_G15_MACRO_PRESET2].brightness =
-+		!!(g15->transfer_buf[1] & 0x40);
-+	g15->leds[LG_G15_MACRO_PRESET3].brightness =
-+		!!(g15->transfer_buf[1] & 0x20);
-+	g15->leds[LG_G15_MACRO_RECORD].brightness =
-+		!!(g15->transfer_buf[1] & 0x10);
-+
-+	return 0;
-+}
-+
-+static enum led_brightness lg_g510_mkey_led_get(struct led_classdev *led_cdev)
-+{
-+	struct lg_g15_led *g15_led =
-+		container_of(led_cdev, struct lg_g15_led, cdev);
-+	struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
-+	enum led_brightness brightness;
-+
-+	mutex_lock(&g15->mutex);
-+	lg_g510_update_mkey_led_brightness(g15);
-+	brightness = g15->leds[g15_led->led].brightness;
-+	mutex_unlock(&g15->mutex);
-+
-+	return brightness;
-+}
-+
-+static int lg_g510_mkey_led_set(struct led_classdev *led_cdev,
-+				enum led_brightness brightness)
-+{
-+	struct lg_g15_led *g15_led =
-+		container_of(led_cdev, struct lg_g15_led, cdev);
-+	struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
-+	u8 val, mask = 0;
-+	int i, ret;
-+
-+	/* Ignore LED off on unregister / keyboard unplug */
-+	if (led_cdev->flags & LED_UNREGISTERING)
-+		return 0;
-+
-+	mutex_lock(&g15->mutex);
-+
-+	for (i = LG_G15_MACRO_PRESET1; i < LG_G15_LED_MAX; i++) {
-+		if (i == g15_led->led)
-+			val = brightness;
-+		else
-+			val = g15->leds[i].brightness;
-+
-+		if (val)
-+			mask |= 0x80 >> (i - LG_G15_MACRO_PRESET1);
-+	}
-+
-+	g15->transfer_buf[0] = LG_G510_FEATURE_M_KEYS_LEDS;
-+	g15->transfer_buf[1] = mask;
-+
-+	ret = hid_hw_raw_request(g15->hdev, LG_G510_FEATURE_M_KEYS_LEDS,
-+				 g15->transfer_buf, 2,
-+				 HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
-+	if (ret == 2) {
-+		/* Success */
-+		g15_led->brightness = brightness;
-+		ret = 0;
-+	} else {
-+		hid_err(g15->hdev, "Error setting LED brightness: %d\n", ret);
-+		ret = (ret < 0) ? ret : -EIO;
-+	}
-+
-+	mutex_unlock(&g15->mutex);
-+
-+	return ret;
-+}
-+
- /******** Generic LED functions ********/
- int lg_g15_get_initial_led_brightness(struct lg_g15_data *g15)
- {
-@@ -372,7 +456,7 @@ int lg_g15_get_initial_led_brightness(struct lg_g15_data *g15)
- 		if (ret)
- 			return ret;
- 
--		return 0;
-+		return lg_g510_update_mkey_led_brightness(g15);
- 	}
- 	return -EINVAL; /* Never reached */
- }
-@@ -606,8 +690,11 @@ static int lg_g15_register_led(struct lg_g15_data *g15, int i)
- 			g15->leds[i].cdev.groups = lg_g510_kbd_led_groups;
- 			break;
- 		default:
--			/* TODO: Add support for M1 - M3 and MR leds */
--			return 0;
-+			g15->leds[i].cdev.brightness_set_blocking =
-+				lg_g510_mkey_led_set;
-+			g15->leds[i].cdev.brightness_get =
-+				lg_g510_mkey_led_get;
-+			g15->leds[i].cdev.max_brightness = 1;
- 		}
- 		break;
- 	}
--- 
-2.23.0.rc2
+Honestly I don't know firmwares/chips which don't support RETRIGEN feature.
 
+BUT Dyer originally authored this patch in 2012, I assume here "old" 
+firmware/chips means, those before 2012.
+
+
+Thanks,
+Jiada
+
+> Thanks.
+> 
