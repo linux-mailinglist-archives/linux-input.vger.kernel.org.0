@@ -2,84 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F9DE9991D
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 18:25:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E45469997E
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 18:46:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389927AbfHVQZS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Aug 2019 12:25:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44892 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732572AbfHVQZS (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Aug 2019 12:25:18 -0400
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 03B3C59451
-        for <linux-input@vger.kernel.org>; Thu, 22 Aug 2019 16:25:18 +0000 (UTC)
-Received: by mail-qt1-f198.google.com with SMTP id h15so7025445qtq.18
-        for <linux-input@vger.kernel.org>; Thu, 22 Aug 2019 09:25:17 -0700 (PDT)
+        id S1731976AbfHVQoC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Aug 2019 12:44:02 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:43526 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731880AbfHVQoC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 22 Aug 2019 12:44:02 -0400
+Received: by mail-pl1-f195.google.com with SMTP id 4so3767376pld.10;
+        Thu, 22 Aug 2019 09:44:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=x9uce55kb6LZ9BYo7W+bqT1uxPy/bJS6Nheim+gxljU=;
+        b=bJBIjamPcgpm1ZXLpSxXD0oE/Ox67cJ9ESF+xyrbA/SkjeUjRz3OYUPh/q+mkf6WPW
+         gszvgZjW5Ii222UQ9cZcihxFW9h+rMspa/JpeAzL9LDsIz1jJ2swtPZe1+VUL+eFM9Qw
+         v4aTIGmNbz/8XbkanLChrI9PtQkDfbDkLzjQUvgRF1GkSFAHkj43uMm8zG5WdJd86Uqq
+         25hDzDwOIyhEmj0XRkqFgyrD7sWCaS3R/HCu4C/fUeMTPu+4fYv0uhFml2qpve1ViKF6
+         a/v6zkuV7yow07+jTxSnJu5/hqZ1aa54rlkappzHoqjQnR0pBhSNVwj70K8m/FAFnW1J
+         8e4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BobyCGhcbReGb3WBS4gHw8mqIof48hpNCYG3u+entU0=;
-        b=TC2aoEnQhzxiTF0PI/3Tdbx5UfPWFknFouyOmJUDwBF3pXVODupjT+lEfaKBimRMDY
-         sqrwyLZMB6/7Ei5NbX6TL7GP5B76L8JhYOOj3zdJ1zchNBfeR+s+bUTXF+nqgtbUVznQ
-         pBByyDcPEb3NEMvFFpPJBL63L1zL9I5SS3babeYZu00u+B8pPLRVgNJN0lHZD1xGpCRM
-         /2qUy4F0bPVYHGqECEiWladWTYPJHmdowKyGG4cFxFurULoRpArwIdiX6TbXJi17nwXg
-         PiA2GucUqaywlPs/WD8i8HDFx5aQVF11GXwWe5UyumZsrB/9H2HUs81bkzglntJZD5Db
-         LQUQ==
-X-Gm-Message-State: APjAAAW53Q/ArhKMhahzncoQmL14fIhke8mw35jpF94T8Q6bBbI7fNO7
-        D50qoD6MOOWI6apmLhKJQLt+LLTAydyQ1PQHU4yaqLadHVED+VFoKug6FVKUR2CDhILy0xwDQJx
-        1SdJcrOXAqqSjK85n7N8n1hUQlQL5txhiu5GObOg=
-X-Received: by 2002:a37:9bce:: with SMTP id d197mr37776553qke.230.1566491117397;
-        Thu, 22 Aug 2019 09:25:17 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwCzxx9GIlrS4XEeCbX2mQfjnH5qofbbfKKPHcUlTryzHxO5TNoQ52Nj0sQTldgDLnPN/3HYP791B71A1K3g2k=
-X-Received: by 2002:a37:9bce:: with SMTP id d197mr37776528qke.230.1566491117241;
- Thu, 22 Aug 2019 09:25:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190812162326.14253-1-benjamin.tissoires@redhat.com>
-In-Reply-To: <20190812162326.14253-1-benjamin.tissoires@redhat.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 22 Aug 2019 18:25:05 +0200
-Message-ID: <CAO-hwJ+kujRCBw-A8HV7ppLbnD-nkOsqFd3_KgCD9UBR23oq2w@mail.gmail.com>
-Subject: Re: [PATCH 0/2] HID multitouch: small fixes
-To:     Matthias Fend <Matthias.Fend@wolfvision.net>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=x9uce55kb6LZ9BYo7W+bqT1uxPy/bJS6Nheim+gxljU=;
+        b=BitY8RPyuPv+IhDjAqlTsTOQ2sAncWTRBjdsARK94A7jrLLJVMTEObQBpOlQ5hNdVi
+         uxBG8H9HwL8WOcAi+Lq8gl7F/9xZJelUivKEoJLWRMbt9XW8FH6nTQjFVuSHUa2YAVjn
+         3mmMWAlWJcEswxyXBD/LNGvOpjhZkJq8sawK5fElp4qwkueNXW7BqYMiO2fdXcddlUpX
+         ifNzW4PsqTFCHablKd8RfTWhZhRgqFW0KCQG4hUjWjMSuNS5g4twZ/IgfQxc4+KiWTRW
+         bSLYmpqUWvVSJlS/9G3kbBsBv5rKI3X0thaZjKwymj1MEtTdUQZNaWqahDcOu061WOYp
+         Eukw==
+X-Gm-Message-State: APjAAAUTX+8hi38MYG1jzwaJJpnPwRrdFywFipMUR4qM6V9NGTDOJoVT
+        2zacugH3DO7AvWZI4Lfx+lY=
+X-Google-Smtp-Source: APXvYqxe6fOEzOe3vusXfkDM0IxXECeWeFZdwOpLMUqOaDlOvoQ66CBYHAGy9zDgc8muHzhUyugvfQ==
+X-Received: by 2002:a17:902:9686:: with SMTP id n6mr39475715plp.113.1566492241825;
+        Thu, 22 Aug 2019 09:44:01 -0700 (PDT)
+Received: from localhost.localdomain ([106.51.107.181])
+        by smtp.gmail.com with ESMTPSA id br18sm83722pjb.20.2019.08.22.09.43.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Thu, 22 Aug 2019 09:44:01 -0700 (PDT)
+From:   Rishi Gupta <gupt21@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rishi Gupta <gupt21@gmail.com>
+Subject: [PATCH] HID: hidraw: replace printk() with corresponding pr_xx() variant
+Date:   Thu, 22 Aug 2019 22:13:52 +0530
+Message-Id: <1566492232-13590-1-git-send-email-gupt21@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 12, 2019 at 6:23 PM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> First one should prevent us to add more quirks for Win8 devices
-> that have a trackstick.
-> Second one is a weird device that doesnt work properly in recent
-> kernels.
+This commit replaces direct invocations of printk with
+their appropriate pr_info/warn() variant.
 
-Looks like there is not much traction for this series.
+Signed-off-by: Rishi Gupta <gupt21@gmail.com>
+---
+ drivers/hid/hidraw.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-The test suite is still passing, so I applied the series in for-5.4/multitouch
+diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
+index 006bd6f..67b652b 100644
+--- a/drivers/hid/hidraw.c
++++ b/drivers/hid/hidraw.c
+@@ -197,14 +197,14 @@ static ssize_t hidraw_get_report(struct file *file, char __user *buffer, size_t
+ 	}
+ 
+ 	if (count > HID_MAX_BUFFER_SIZE) {
+-		printk(KERN_WARNING "hidraw: pid %d passed too large report\n",
++		pr_warn("hidraw: pid %d passed too large report\n",
+ 				task_pid_nr(current));
+ 		ret = -EINVAL;
+ 		goto out;
+ 	}
+ 
+ 	if (count < 2) {
+-		printk(KERN_WARNING "hidraw: pid %d passed too short report\n",
++		pr_warn("hidraw: pid %d passed too short report\n",
+ 				task_pid_nr(current));
+ 		ret = -EINVAL;
+ 		goto out;
+@@ -597,7 +597,7 @@ int __init hidraw_init(void)
+ 	if (result < 0)
+ 		goto error_class;
+ 
+-	printk(KERN_INFO "hidraw: raw HID events driver (C) Jiri Kosina\n");
++	pr_info("hidraw: raw HID events driver (C) Jiri Kosina\n");
+ out:
+ 	return result;
+ 
+-- 
+2.7.4
 
-Cheers,
-Benjamin
-
->
-> Cheers,
-> Benjamin
->
-> Benjamin Tissoires (2):
->   HID: multitouch: do not filter mice nodes
->   HID: multitouch: add support for the Smart Tech panel
->
->  drivers/hid/hid-multitouch.c | 37 +++++++++++++++++++++++++++++-------
->  1 file changed, 30 insertions(+), 7 deletions(-)
->
-> --
-> 2.19.2
->
