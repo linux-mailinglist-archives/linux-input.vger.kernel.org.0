@@ -2,107 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B687298B58
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 08:25:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FBB698C9C
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 09:51:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731307AbfHVGZK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Aug 2019 02:25:10 -0400
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:1589 "EHLO
-        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731207AbfHVGZK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Aug 2019 02:25:10 -0400
-IronPort-SDR: TGKdgOxBsUdqfC9rwbY+8tp1qCxvPZewjXJTNNl0+k28R5SIEptml7RGqD3vai/Ij1QEz4Zdye
- areO5hTMBQqxr0Ed4M4uyV3d5M+2qQnifjzHuKpwO/ErJhaElddjig8Dg7xz3Y7pYaPt7ejGxo
- 2ibzWytEja7pdi6w6EIxEuIwnJDCxf1pC7QU6oK1aqli54NNjJS29d+KCnBdI+Jo+GWzYzZUx4
- +eJ5oJaeFwcBzdkPlL5+ahqOa6vcHJ6n9f0Xup/V8rxywv2dFpnMz/zfDesdafm6US7l+iY1fd
- Xng=
-X-IronPort-AV: E=Sophos;i="5.64,415,1559548800"; 
-   d="scan'208";a="40635811"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 21 Aug 2019 22:25:09 -0800
-IronPort-SDR: v0CzMTbbBoGL4OTJN3qsIqkQxhM69euwIsQ8Ps1PRYARSfL3gKyJNMUqi9ypXepFXZUVXu8bZe
- ezta3FO60VPwdZTRvZnJkqqPkCCi3UVgQjon0A71Y5L3u1CYYwS5o0nsKDMViYra94Lh1YjE/x
- 7uCa+69KPpEtNCiAVlrQYGdCmcJ30Edl4abi6zR7f1x6lAYM6EawHKqQ7WTYq89rkwvRJMzC1P
- VrTjmvSYkA5Ph6BcnfNai6QMSo931on2xsnl/2/UT/q4KzI+DKuMpieQE1UduVFKicFudwUJ8q
- 56k=
-Subject: Re: [PATCH v1 41/63] Input: touchscreen: Atmel: Enable
- IRQ_DISABLE_UNLAZY flag for interrupt
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     <nick@shmanahar.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <george_davis@mentor.com>
-References: <20190816083558.19189-1-jiada_wang@mentor.com>
- <20190816083558.19189-2-jiada_wang@mentor.com>
- <20190816172615.GJ121898@dtor-ws>
-From:   Jiada Wang <jiada_wang@mentor.com>
-Message-ID: <0c4edce0-1295-e36b-e658-c109dfca867e@mentor.com>
-Date:   Thu, 22 Aug 2019 15:25:05 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1730287AbfHVHvU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Aug 2019 03:51:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48312 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726096AbfHVHvT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 22 Aug 2019 03:51:19 -0400
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 14431206BB;
+        Thu, 22 Aug 2019 07:51:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566460278;
+        bh=gLTtUwjy64ipJy2k/NTk5sFH5pVXBUlnIh6g4ASn+h8=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=Ky2LBlrT7dFKvo9bJZuLrmlUMzoL9mOIepdmpgN/5J0U2GQszKq8c812XWtyPgZAJ
+         VQvOcfVXrgKM1EtiW/FChHV8/AgFYBqM992VbtmAy8hGBAp/PrrbpQv1zWt7fcmGsP
+         tR3+UWfrdGzHxQLWk0LXQMb34AAoDtpVDawK0ge8=
+Date:   Thu, 22 Aug 2019 09:51:07 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Alan Stern <stern@rowland.harvard.edu>
+cc:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] HID: hidraw: Fix invalid read in hidraw_ioctl
+In-Reply-To: <Pine.LNX.4.44L0.1908211323030.1816-100000@iolanthe.rowland.org>
+Message-ID: <nycvar.YFH.7.76.1908220950470.27147@cbobk.fhfr.pm>
+References: <Pine.LNX.4.44L0.1908211323030.1816-100000@iolanthe.rowland.org>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <20190816172615.GJ121898@dtor-ws>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203) To
- svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry
+On Wed, 21 Aug 2019, Alan Stern wrote:
 
-On 2019/08/17 2:26, Dmitry Torokhov wrote:
-> On Fri, Aug 16, 2019 at 05:35:36PM +0900, Jiada Wang wrote:
->> From: Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
->>
->> The de-/serializer driver has defined only irq_mask "ds90ub927_irq_mask" and
->> irq_unmask "ds90ub927_irq_unmask" callback functions. And de-/serializer
->> driver doesn't implement the irq_disable and irq_enable callback functions.
->> Hence inorder to invoke irq_mask callback function when disable_irq_nosync is
->> called the IRQ_DISABLE_UNLAZY interrupt flag should be set. If not the
->> disable_irq_nosync will just increment the depth field in the irq
->> descriptor only once as shown below.
->>
->> disable_irq_nosync
->>   __disable_irq_nosync
->>    __disable_irq (desc->depth++)
->>     irq_disable
->>      if irq_disable present -----------> if IRQ_DISABLE_UNLAZYflag set
->>               |                  no                  |
->>           yes |                                  yes |
->>               |                                      |
->>       desc->irq_data.chip->irq_disable   desc->irq_data.chip->irq_unmask
->>                                           (ds90ub927_irq_mask)
->>                                            disable_irq
->>                                             __disable_irq_nosync
->>                                              __disable_irq
->> (desc->depth++)
->> But the enable_irq will try to decrement the depth field twice which generates
->> the backtrace stating "Unbalanced enable for irq 293". This is because there is
->> no IRQ_DISABLE_UNLAZY flag check while calling irq_unmask callback function
->> of the "ds90ub927_irq_unmask" de-/serializer via enable_irq.
->>
->> enable_irq
->>   __enable_irq (desc->depth--)
->>    irq_enable
->>     if irq_enable present -------------> desc->irq_data.chip->irq_unmask
->>                |                no        (ds90ub927_irq_unmask)
->>            yes |                            enable_irq
->>                |                             __enable_irq (desc->depth--)
->>      (desc->irq_data.chip->irq_enable)
+> The syzbot fuzzer has reported a pair of problems in the
+> hidraw_ioctl() function: slab-out-of-bounds read and use-after-free
+> read.  An example of the first:
 > 
-> I'd prefer if we instead did not use the disable_irq_nosync() in the
-> driver.
->
-sorry for the mistake, during forward port,
-I have already eliminated disable_irq_nosync(),
-so this patch is no longer needed,
-will drop it in v2 patch-set
-
-Thanks，
-Jiada
-
-> Thanks.
+> BUG: KASAN: slab-out-of-bounds in strlen+0x79/0x90 lib/string.c:525
+> Read of size 1 at addr ffff8881c8035f38 by task syz-executor.4/2833
 > 
+> CPU: 1 PID: 2833 Comm: syz-executor.4 Not tainted 5.3.0-rc2+ #1
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+> Google 01/01/2011
+> Call Trace:
+>   __dump_stack lib/dump_stack.c:77 [inline]
+>   dump_stack+0xca/0x13e lib/dump_stack.c:113
+>   print_address_description+0x6a/0x32c mm/kasan/report.c:351
+>   __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
+>   kasan_report+0xe/0x12 mm/kasan/common.c:612
+>   strlen+0x79/0x90 lib/string.c:525
+>   strlen include/linux/string.h:281 [inline]
+>   hidraw_ioctl+0x245/0xae0 drivers/hid/hidraw.c:446
+>   vfs_ioctl fs/ioctl.c:46 [inline]
+>   file_ioctl fs/ioctl.c:509 [inline]
+>   do_vfs_ioctl+0xd2d/0x1330 fs/ioctl.c:696
+>   ksys_ioctl+0x9b/0xc0 fs/ioctl.c:713
+>   __do_sys_ioctl fs/ioctl.c:720 [inline]
+>   __se_sys_ioctl fs/ioctl.c:718 [inline]
+>   __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:718
+>   do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
+>   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> RIP: 0033:0x459829
+> Code: fd b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
+> 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+> ff 0f 83 cb b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+> RSP: 002b:00007f7a68f6dc78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000459829
+> RDX: 0000000000000000 RSI: 0000000080404805 RDI: 0000000000000004
+> RBP: 000000000075bf20 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000246 R12: 00007f7a68f6e6d4
+> R13: 00000000004c21de R14: 00000000004d5620 R15: 00000000ffffffff
+> 
+> The two problems have the same cause: hidraw_ioctl() fails to test
+> whether the device has been removed.  This patch adds the missing test.
+> 
+> Reported-and-tested-by: syzbot+5a6c4ec678a0c6ee84ba@syzkaller.appspotmail.com
+> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+
+Thanks a lot Alan for chasing this; I've applied the patch.
+
+-- 
+Jiri Kosina
+SUSE Labs
+
