@@ -2,131 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EAED59A103
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 22:20:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B180A9A10B
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 22:21:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391021AbfHVUTC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Aug 2019 16:19:02 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:41161 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388389AbfHVUTB (ORCPT
+        id S1731848AbfHVUVQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Aug 2019 16:21:16 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:53060 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726332AbfHVUVQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Aug 2019 16:19:01 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 74EA621731;
-        Thu, 22 Aug 2019 16:19:00 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Thu, 22 Aug 2019 16:19:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        pedrovanzella.com; h=from:to:cc:subject:date:message-id
-        :in-reply-to:references:mime-version:content-transfer-encoding;
-         s=fm3; bh=4c/lgLrm3F1n9YEmiMR6OTt64iylYrDgHb9+YtfNw1E=; b=4e8V4
-        3r8ASOsXBF5O+3zQlbspZ9VW6EYKXlYm8NKto2VRtHRVhKXcGg390t0vukjJQRZk
-        YzFtz5mXJzoVInMEnJnwFEdqLmLWmIC5tF5dYSzKsWI9NNvQ5abpUwYSIu35JitF
-        +C9ZhfY49gOlzr7dHwxhOxGTjg4B2DymlbbuGyvYrqvsCTjXFlsFW4KvNeA/WSOD
-        KYln6znTkJGoMigsSuQ0X1LT0nPgeQbn2MeyK3ARd1zbwtmzMDAZJ9D1eZU+mN+Y
-        2atz0iZ+WSvYH4S39Du0djmNlV05CCrLzuFCS2K6NniUwUE2RAmODWCKgthGx2pP
-        5EhfmdoJUYh3IBqUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=4c/lgLrm3F1n9YEmiMR6OTt64iylYrDgHb9+YtfNw1E=; b=h76D8Cxf
-        cjRYlUVHunWd4EbFsOsR7eZNe8kalymLglb6xv3wPGb0+IhxagfZeCIEz5rEJhZK
-        7nppRXiq+nYrQ/y4zRdJag2vNDHlRoyHAr9fbIMizh9PIcqR25laTPQOgjWHFvzW
-        mY37kXTZYRA8zJZJHUuoPy2G0uv1GX+JqphKzrrNgE0ZwoPhWfQVTdF5dKJWLxtv
-        VPv96ra4HkYG45DE52d1QmVR20gfoJzsfTqg82umgj+y2BzWgzdP1jrh0evHIqTC
-        PxSSffP766ZkYSIXFeaZvDWg/Ydt3eZgk8ozTYgpNbtHqip8YZ6HZ5Iu2ZZAzVeG
-        TCNLnZe/TjWcMQ==
-X-ME-Sender: <xms:s_heXWWSGalQHqGFEHPAbXvkI_-8Kg1CdXU8T8u6XP5M_xDsPikfyw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudegiedguddtgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomheprfgvughr
-    ohcugggrnhiivghllhgruceophgvughrohesphgvughrohhvrghniigvlhhlrgdrtghomh
-    eqnecukfhppedujeegrdekkedrledrudegleenucfrrghrrghmpehmrghilhhfrhhomhep
-    phgvughrohesphgvughrohhvrghniigvlhhlrgdrtghomhenucevlhhushhtvghrufhiii
-    gvpedt
-X-ME-Proxy: <xmx:tPheXQH2c_5q-tjR4mbyw2dNSpe6ii08D6f3wS2Ghs8k03QcxxQNiA>
-    <xmx:tPheXdCXFsv5SeEQ06NdnLB7aI-ezofDrxno0N0uQ3ZGKmoKWRDUmw>
-    <xmx:tPheXSzROuDoaZjpSiw7VSJEP_ZvefrprpxLamo5NvF-e6iWw5_SyA>
-    <xmx:tPheXQs-gLyuVHOT3JkAFVSf3r3W4b7aNgl6WOfmCH55N8ZDvpJ9wA>
-Received: from localhost (toroon020aw-lp130-07-174-88-9-149.dsl.bell.ca [174.88.9.149])
-        by mail.messagingengine.com (Postfix) with ESMTPA id CBECED6005B;
-        Thu, 22 Aug 2019 16:18:59 -0400 (EDT)
-From:   Pedro Vanzella <pedro@pedrovanzella.com>
-To:     linux-input@vger.kernel.org
-Cc:     lains@archlinux.org, Pedro Vanzella <pedro@pedrovanzella.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/4] hid-logitech-hidpp: add quirk to handle battery voltage
-Date:   Thu, 22 Aug 2019 16:18:45 -0400
-Message-Id: <20190822201849.28924-2-pedro@pedrovanzella.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190822201849.28924-1-pedro@pedrovanzella.com>
-References: <20190822201849.28924-1-pedro@pedrovanzella.com>
+        Thu, 22 Aug 2019 16:21:16 -0400
+Received: (qmail 4851 invoked by uid 2102); 22 Aug 2019 16:21:15 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 22 Aug 2019 16:21:15 -0400
+Date:   Thu, 22 Aug 2019 16:21:15 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Andrey Konovalov <andreyknvl@google.com>
+cc:     Jiri Kosina <jikos@kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Hillf Danton <hdanton@sina.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        <linux-input@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH] HID: USB: Fix general protection fault caused by Logitech
+ driver
+In-Reply-To: <CAAeHK+yt=YMvEpvuj2KfA4vnN=ZRFesRCEQJ6450M5JYmFWuDA@mail.gmail.com>
+Message-ID: <Pine.LNX.4.44L0.1908221619370.1311-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This quirk allows us to pick which devices support the 0x1001 hidpp
-feature to read the battery voltage.
+On Thu, 22 Aug 2019, Andrey Konovalov wrote:
 
-Signed-off-by: Pedro Vanzella <pedro@pedrovanzella.com>
----
- drivers/hid/hid-logitech-hidpp.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+> On Thu, Aug 22, 2019 at 7:11 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> >
+> > On Thu, 22 Aug 2019, Andrey Konovalov wrote:
+> >
+> > > Hi Alan,
+> > >
+> > > I've ran the fuzzer with your patches applied overnight and noticed
+> > > another fallout of similar bugs. I think they are caused by a similar
+> > > issue in the sony HID driver. There's no hid_hw_stop() call in the "if
+> > > (!(hdev->claimed & HID_CLAIMED_INPUT))" case in sony_probe(). Does it
+> > > look like a bug to you?
+> >
+> > It looks like the relevant hid_hw_stop() call is the one at the end of
+> > sony_configure_input().  But I can't tell if doing that way is valid or
+> > not -- in practice the code would end up calling hid_disconnect() while
+> > hid_connect() was still running, which doesn't seem like a good idea.
+> >
+> > There's a comment about this near the end of sony_probe().  I suspect
+> > it would be better to call hid_hw_stop() in the conditional code
+> > following that comment rather than in sony_configure_input().
+> >
+> > Either way, these are all things Jiri should know about or check up on.
+> >
+> > Have you gotten any test results from syzbot exercising these pathways?
+> > You ought to be able to tell which HID driver is involved by looking
+> > through the console output.
+> 
+> Yes, a typical crash is below, that's why I thought it's the sony
+> driver. Adding hid_hw_stop() in sony_probe() stops the issue from
+> happening, but I don't know whether it's the right fix.
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 0179f7ed77e5..402ddba93adc 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -59,7 +59,8 @@ MODULE_PARM_DESC(disable_tap_to_click,
- #define HIDPP_QUIRK_CLASS_G920			BIT(3)
- #define HIDPP_QUIRK_CLASS_K750			BIT(4)
- 
--/* bits 2..20 are reserved for classes */
-+/* bits 2..1f are reserved for classes */
-+#define HIDPP_QUIRK_BATTERY_VOLTAGE_X1001	BIT(20)
- /* #define HIDPP_QUIRK_CONNECT_EVENTS		BIT(21) disabled */
- #define HIDPP_QUIRK_WTP_PHYSICAL_BUTTONS	BIT(22)
- #define HIDPP_QUIRK_NO_HIDINPUT			BIT(23)
-@@ -3732,6 +3733,13 @@ static const struct hid_device_id hidpp_devices[] = {
- 	  LDJ_DEVICE(0xb30b),
- 	  .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
- 
-+	{ /* Logitech G403 Gaming Mouse over Lightspeed */
-+	  LDJ_DEVICE(0x405d),
-+	  .driver_data = HIDPP_QUIRK_BATTERY_VOLTAGE_X1001 },
-+	{ /* Logitech G900 Gaming Mouse over Lightspeed */
-+	  LDJ_DEVICE(0x4053),
-+	  .driver_data = HIDPP_QUIRK_BATTERY_VOLTAGE_X1001 },
-+
- 	{ LDJ_DEVICE(HID_ANY_ID) },
- 
- 	{ /* Keyboard LX501 (Y-RR53) */
-@@ -3750,13 +3758,15 @@ static const struct hid_device_id hidpp_devices[] = {
- 	{ L27MHZ_DEVICE(HID_ANY_ID) },
- 
- 	{ /* Logitech G403 Wireless Gaming Mouse over USB */
--	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC082) },
-+	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC082),
-+	  .driver_data = HIDPP_QUIRK_BATTERY_VOLTAGE_X1001 },
- 	{ /* Logitech G703 Gaming Mouse over USB */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC087) },
- 	{ /* Logitech G703 Hero Gaming Mouse over USB */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC090) },
- 	{ /* Logitech G900 Gaming Mouse over USB */
--	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC081) },
-+	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC081),
-+	  .driver_data = HIDPP_QUIRK_BATTERY_VOLTAGE_X1001 },
- 	{ /* Logitech G903 Gaming Mouse over USB */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC086) },
- 	{ /* Logitech G903 Hero Gaming Mouse over USB */
--- 
-2.23.0
+Probably you have to add hid_hw_stop() in sony_probe() and remove it 
+from sony_configure_input().  But like I said above, Jiri should look 
+into this.
+
+Alan Stern
 
