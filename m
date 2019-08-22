@@ -2,470 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AC7699822
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 17:28:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 195FB99884
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 17:50:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731077AbfHVP2j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Aug 2019 11:28:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59808 "EHLO mx1.redhat.com"
+        id S1726387AbfHVPtr convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 22 Aug 2019 11:49:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46080 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728964AbfHVP2j (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Aug 2019 11:28:39 -0400
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+        id S1728903AbfHVPtr (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 22 Aug 2019 11:49:47 -0400
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 88E2CC028320
-        for <linux-input@vger.kernel.org>; Thu, 22 Aug 2019 15:28:38 +0000 (UTC)
-Received: by mail-qt1-f200.google.com with SMTP id l22so2367490qtq.5
-        for <linux-input@vger.kernel.org>; Thu, 22 Aug 2019 08:28:38 -0700 (PDT)
+        by mx1.redhat.com (Postfix) with ESMTPS id 8C1837575F
+        for <linux-input@vger.kernel.org>; Thu, 22 Aug 2019 15:49:46 +0000 (UTC)
+Received: by mail-qk1-f198.google.com with SMTP id l64so6245412qkb.5
+        for <linux-input@vger.kernel.org>; Thu, 22 Aug 2019 08:49:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ul/OQQd/clQ27vc+UYBN82vZMx/th1m32WtXkjVh9rI=;
-        b=c97bNOz9j4XQsAg59cBkfciX9tR/sZJtNQ1Oi/8JGB7B7mA4n2etKMqqApB/vCTHeU
-         rb1a09vT7IjTasVtPrwyUYXLnicxb5ei7gBdN9ivTJEorLkTPK4COpmVQsR7qb+1P2sk
-         PVqh3NiH2jNmEAnejMicKDmE45t3m+ArYiHabWWCrhfhKTJdjhCTMiBg5FZGvxE8LMKi
-         UOe/J9MOZS9IN9TVOSZo5bLer3SXd+7xhgm/R+jc8grfkFdyLHjz+BwXIrdvhkCrhwIX
-         QThvjOwrs3ESz1KJYjMWZdWWov1gUHlH1aUrh+FUgnYXLk1D7/zVYgkLClGeqbY0lQ8J
-         aKsg==
-X-Gm-Message-State: APjAAAWhmgyvs6OKQAim9oFFy8ZYL7VFp/LY1Dh+A6v9iK4p8EWY9cEv
-        DNjQKjR/ExJwW0GsYPORxv9ajvKMoPM3FeK75HGjN75CAUPcxnI4+JCAFEeM8SJdfN1XLmZi/KD
-        97gzA1KSKXn0BOk5CaGeihQHYmD0aR5WfPaSPMF4=
-X-Received: by 2002:ac8:4910:: with SMTP id e16mr151881qtq.260.1566487717795;
-        Thu, 22 Aug 2019 08:28:37 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwjX0MJAOjyUtGK43kPI2O9T7FkhxSgIxbj5Cs2vDJ/4/4yWyX3aeumXqtVOg/tbF9uveq+AfFJo0G5UKQJxzI=
-X-Received: by 2002:ac8:4910:: with SMTP id e16mr151848qtq.260.1566487717539;
- Thu, 22 Aug 2019 08:28:37 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=pskUH55ezZZYsmq8KUNRt7ni5u96u5d8lg/XOqXA4+M=;
+        b=eQ4mrgBIUjWCjVquw6djAqZpHruKrGTfMv6NRae23y/IBVFCvVWAfYv023Js1VUC5H
+         sqU0f5rG8bVUEmA/oTo2JqhtwtZwyEPsoB+6iXwhRpyqRobekPxrzkc6h1hmkmdV2kuV
+         uBw/UBkWUtiXOcaV/Wba5nOdgWPhLZTvxr6teX6csAqqsR4wUesb2Sb1vAAeX5CJ5xyN
+         H+XWOPACcsn9Wg/Vp2J/vcQFtcg6SUe8uBy7QjB6PlRr9lazXG/y4Cx3Z/oYXenVSEGc
+         fVeqXrluj/qpE76VmIBvRacv00GAS6vWDzONaAUgrTz/Ye6z3+uAYZE6ayBk4QfNPzxq
+         AUrA==
+X-Gm-Message-State: APjAAAXMZlkN3P9wDtrAvIDQY/KzOoFlfngVOqhfe6LQlM+YHZ01vOAP
+        h/COE9RWSNnBxouI4EjrhtiK0HhN9Cz04ZoGCOMNkVEF0sisA+smMoiVB65f40OtiVpSw1E9zlx
+        TF711+AOIoldBBXma7uhoh0P8ZdkIGRxRWFhaYL4=
+X-Received: by 2002:ac8:4910:: with SMTP id e16mr266350qtq.260.1566488985926;
+        Thu, 22 Aug 2019 08:49:45 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyDNL9hS7kz+2UHvZzCqEyaX9aCTR8za8u3UmrYTh3Cn122EQGqfKTcIr5o5tLp6aHPhmOEO5LlwvF9Y89t/9k=
+X-Received: by 2002:ac8:4910:: with SMTP id e16mr266332qtq.260.1566488985726;
+ Thu, 22 Aug 2019 08:49:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190821205937.4929-1-hdegoede@redhat.com> <20190821205937.4929-7-hdegoede@redhat.com>
- <CAO-hwJLyNLYvWmqbFk+qGN3dn-pt3NOo1EwCay9s99ZTL8oK2Q@mail.gmail.com> <9d984d52-41fd-602b-23c0-6c6f44f2afe5@redhat.com>
-In-Reply-To: <9d984d52-41fd-602b-23c0-6c6f44f2afe5@redhat.com>
+References: <20190812162740.15898-1-benjamin.tissoires@redhat.com>
+ <20190812162740.15898-3-benjamin.tissoires@redhat.com> <CANRwn3QQcGVGx2KjoU0sG70gSjzwjDKUuL_8q-oYFHRYrn4qGQ@mail.gmail.com>
+In-Reply-To: <CANRwn3QQcGVGx2KjoU0sG70gSjzwjDKUuL_8q-oYFHRYrn4qGQ@mail.gmail.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 22 Aug 2019 17:28:25 +0200
-Message-ID: <CAO-hwJL-QzyZ5HTgOa=aQhCcG46va+ojk3hv10kEL0QcM12xVA@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] HID: lg-g15: Add support for controlling the
- G510's RGB backlight
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Date:   Thu, 22 Aug 2019 17:49:34 +0200
+Message-ID: <CAO-hwJLyHYmBKiEvcWebr5tyic9tnm1tydgqt8CimxsEaPWrYw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] HID: wacom: do not call hid_set_drvdata(hdev, NULL)
+To:     Jason Gerecke <killertofu@gmail.com>
+Cc:     =?UTF-8?Q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Aug 22, 2019 at 5:26 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On Sat, Aug 17, 2019 at 12:04 AM Jason Gerecke <killertofu@gmail.com> wrote:
 >
-> Hi,
+> On Mon, Aug 12, 2019 at 9:29 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > This is a common pattern in the HID drivers to reset the drvdata.
+> > However, this is actually already handled by driver core, so there
+> > is no need to do it manually.
+> >
+> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 >
-> On 22-08-19 17:00, Benjamin Tissoires wrote:
-> > Hi Hans,
-> >
-> > On Wed, Aug 21, 2019 at 10:59 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> >>
-> >> Note that the keyboard has a backlight on/off toggle button. If the
-> >> backlight is turned off through that button, then any changes we make
-> >> will be ignored and we cannot turn it back on again from the host.
-> >>
-> >> To workaround this we write the last set RGB values when we receive an
-> >> event indicating that the backlight has been turned on again.
-> >
-> > Not a formal review, yet, but I have the new sparse complain with this patch:
-> >
-> > drivers/hid/hid-lg-g15.c:xxx:5:.warning: symbol
-> > 'lg_g15_get_initial_led_brightness' was not declared. Should it be
-> > static?
->
-> Yes that is a valid sparse remark. I will wait for the full review
-> before respinning the series, or do you want me to respin the series now?
+> Acked-by: Jason Gerecke <jason.gerecke@wacom.com>
 
-nah, no need to respin the series now. Please keep that in mind for v2.
-I just noticed that the CI failed for this series, and if I do not
-send the notification right now, I'll likely forget about it later.
+Thanks
+
+Applied to for-5.4/wacom
 
 Cheers,
 Benjamin
 
 >
-> Regards,
+> Jason
+> ---
+> Now instead of four in the eights place /
+> you’ve got three, ‘Cause you added one  /
+> (That is to say, eight) to the two,     /
+> But you can’t take seven from three,    /
+> So you look at the sixty-fours....
 >
-> Hans
 >
->
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >> ---
-> >>   drivers/hid/hid-lg-g15.c | 272 ++++++++++++++++++++++++++++++++++++---
-> >>   1 file changed, 257 insertions(+), 15 deletions(-)
-> >>
-> >> diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
-> >> index 62b3ae8a59a6..57640417d49d 100644
-> >> --- a/drivers/hid/hid-lg-g15.c
-> >> +++ b/drivers/hid/hid-lg-g15.c
-> >> @@ -19,6 +19,10 @@
-> >>
-> >>   #define LG_G15_FEATURE_REPORT          0x02
-> >>
-> >> +#define LG_G510_FEATURE_M_KEYS_LEDS    0x04
-> >> +#define LG_G510_FEATURE_BACKLIGHT_RGB  0x05
-> >> +#define LG_G510_FEATURE_POWER_ON_RGB   0x06
-> >> +
-> >>   enum lg_g15_model {
-> >>          LG_G15,
-> >>          LG_G15_V2,
-> >> @@ -41,6 +45,7 @@ struct lg_g15_led {
-> >>          struct led_classdev cdev;
-> >>          enum led_brightness brightness;
-> >>          enum lg_g15_led_type led;
-> >> +       u8 red, green, blue;
-> >>   };
-> >>
-> >>   struct lg_g15_data {
-> >> @@ -56,13 +61,12 @@ struct lg_g15_data {
-> >>          bool game_mode_enabled;
-> >>   };
-> >>
-> >> +/******** G15 and G15 v2 LED functions ********/
-> >> +
-> >>   static int lg_g15_update_led_brightness(struct lg_g15_data *g15)
-> >>   {
-> >>          int ret;
-> >>
-> >> -       if (g15->model == LG_G510 || g15->model == LG_G510_USB_AUDIO)
-> >> -               return 0;
-> >> -
-> >>          ret = hid_hw_raw_request(g15->hdev, LG_G15_FEATURE_REPORT,
-> >>                                   g15->transfer_buf, 4,
-> >>                                   HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
-> >> @@ -183,6 +187,198 @@ static void lg_g15_leds_changed_work(struct work_struct *work)
-> >>          }
-> >>   }
-> >>
-> >> +/******** G510 LED functions ********/
-> >> +
-> >> +static int lg_g510_get_initial_led_brightness(struct lg_g15_data *g15, int i)
-> >> +{
-> >> +       int ret, high;
-> >> +
-> >> +       ret = hid_hw_raw_request(g15->hdev, LG_G510_FEATURE_BACKLIGHT_RGB + i,
-> >> +                                g15->transfer_buf, 4,
-> >> +                                HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
-> >> +       if (ret != 4) {
-> >> +               hid_err(g15->hdev, "Error getting LED brightness: %d\n", ret);
-> >> +               return (ret < 0) ? ret : -EIO;
-> >> +       }
-> >> +
-> >> +       high = max3(g15->transfer_buf[1], g15->transfer_buf[2],
-> >> +                   g15->transfer_buf[3]);
-> >> +
-> >> +       if (high) {
-> >> +               g15->leds[i].red =
-> >> +                       DIV_ROUND_CLOSEST(g15->transfer_buf[1] * 255, high);
-> >> +               g15->leds[i].green =
-> >> +                       DIV_ROUND_CLOSEST(g15->transfer_buf[2] * 255, high);
-> >> +               g15->leds[i].blue =
-> >> +                       DIV_ROUND_CLOSEST(g15->transfer_buf[3] * 255, high);
-> >> +               g15->leds[i].brightness = high;
-> >> +       } else {
-> >> +               g15->leds[i].red   = 255;
-> >> +               g15->leds[i].green = 255;
-> >> +               g15->leds[i].blue  = 255;
-> >> +               g15->leds[i].brightness = 0;
-> >> +       }
-> >> +
-> >> +       return 0;
-> >> +}
-> >> +
-> >> +/* Must be called with g15->mutex locked */
-> >> +static int lg_g510_kbd_led_write(struct lg_g15_data *g15,
-> >> +                                struct lg_g15_led *g15_led,
-> >> +                                enum led_brightness brightness)
-> >> +{
-> >> +       int ret;
-> >> +
-> >> +       g15->transfer_buf[0] = 5 + g15_led->led;
-> >> +       g15->transfer_buf[1] =
-> >> +               DIV_ROUND_CLOSEST(g15_led->red * brightness, 255);
-> >> +       g15->transfer_buf[2] =
-> >> +               DIV_ROUND_CLOSEST(g15_led->green * brightness, 255);
-> >> +       g15->transfer_buf[3] =
-> >> +               DIV_ROUND_CLOSEST(g15_led->blue * brightness, 255);
-> >> +
-> >> +       ret = hid_hw_raw_request(g15->hdev,
-> >> +                                LG_G510_FEATURE_BACKLIGHT_RGB + g15_led->led,
-> >> +                                g15->transfer_buf, 4,
-> >> +                                HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
-> >> +       if (ret == 4) {
-> >> +               /* Success */
-> >> +               g15_led->brightness = brightness;
-> >> +               ret = 0;
-> >> +       } else {
-> >> +               hid_err(g15->hdev, "Error setting LED brightness: %d\n", ret);
-> >> +               ret = (ret < 0) ? ret : -EIO;
-> >> +       }
-> >> +
-> >> +       return ret;
-> >> +}
-> >> +
-> >> +static int lg_g510_kbd_led_set(struct led_classdev *led_cdev,
-> >> +                              enum led_brightness brightness)
-> >> +{
-> >> +       struct lg_g15_led *g15_led =
-> >> +               container_of(led_cdev, struct lg_g15_led, cdev);
-> >> +       struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
-> >> +       int ret;
-> >> +
-> >> +       /* Ignore LED off on unregister / keyboard unplug */
-> >> +       if (led_cdev->flags & LED_UNREGISTERING)
-> >> +               return 0;
-> >> +
-> >> +       mutex_lock(&g15->mutex);
-> >> +       ret = lg_g510_kbd_led_write(g15, g15_led, brightness);
-> >> +       mutex_unlock(&g15->mutex);
-> >> +
-> >> +       return ret;
-> >> +}
-> >> +
-> >> +static enum led_brightness lg_g510_kbd_led_get(struct led_classdev *led_cdev)
-> >> +{
-> >> +       struct lg_g15_led *g15_led =
-> >> +               container_of(led_cdev, struct lg_g15_led, cdev);
-> >> +
-> >> +       return g15_led->brightness;
-> >> +}
-> >> +
-> >> +static ssize_t color_store(struct device *dev, struct device_attribute *attr,
-> >> +                          const char *buf, size_t count)
-> >> +{
-> >> +       struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> >> +       struct lg_g15_led *g15_led =
-> >> +               container_of(led_cdev, struct lg_g15_led, cdev);
-> >> +       struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
-> >> +       unsigned long value;
-> >> +       int ret;
-> >> +
-> >> +       if (count < 7 || (count == 8 && buf[7] != '\n') || count > 8)
-> >> +               return -EINVAL;
-> >> +
-> >> +       if (buf[0] != '#')
-> >> +               return -EINVAL;
-> >> +
-> >> +       ret = kstrtoul(buf + 1, 16, &value);
-> >> +       if (ret)
-> >> +               return ret;
-> >> +
-> >> +       mutex_lock(&g15->mutex);
-> >> +       g15_led->red   = (value & 0xff0000) >> 16;
-> >> +       g15_led->green = (value & 0x00ff00) >> 8;
-> >> +       g15_led->blue  = (value & 0x0000ff);
-> >> +       ret = lg_g510_kbd_led_write(g15, g15_led, g15_led->brightness);
-> >> +       mutex_unlock(&g15->mutex);
-> >> +
-> >> +       return (ret < 0) ? ret : count;
-> >> +}
-> >> +
-> >> +static ssize_t color_show(struct device *dev, struct device_attribute *attr,
-> >> +                         char *buf)
-> >> +{
-> >> +       struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> >> +       struct lg_g15_led *g15_led =
-> >> +               container_of(led_cdev, struct lg_g15_led, cdev);
-> >> +       struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
-> >> +       ssize_t ret;
-> >> +
-> >> +       mutex_lock(&g15->mutex);
-> >> +       ret = sprintf(buf, "#%02x%02x%02x\n",
-> >> +                     g15_led->red, g15_led->green, g15_led->blue);
-> >> +       mutex_unlock(&g15->mutex);
-> >> +
-> >> +       return ret;
-> >> +}
-> >> +
-> >> +static DEVICE_ATTR_RW(color);
-> >> +
-> >> +static struct attribute *lg_g510_kbd_led_attrs[] = {
-> >> +       &dev_attr_color.attr,
-> >> +       NULL,
-> >> +};
-> >> +
-> >> +static const struct attribute_group lg_g510_kbd_led_group = {
-> >> +       .attrs = lg_g510_kbd_led_attrs,
-> >> +};
-> >> +
-> >> +static const struct attribute_group *lg_g510_kbd_led_groups[] = {
-> >> +       &lg_g510_kbd_led_group,
-> >> +       NULL,
-> >> +};
-> >> +
-> >> +static void lg_g510_leds_sync_work(struct work_struct *work)
-> >> +{
-> >> +       struct lg_g15_data *g15 = container_of(work, struct lg_g15_data, work);
-> >> +
-> >> +       mutex_lock(&g15->mutex);
-> >> +       lg_g510_kbd_led_write(g15, &g15->leds[LG_G15_KBD_BRIGHTNESS],
-> >> +                             g15->leds[LG_G15_KBD_BRIGHTNESS].brightness);
-> >> +       mutex_unlock(&g15->mutex);
-> >> +}
-> >> +
-> >> +/******** Generic LED functions ********/
-> >> +int lg_g15_get_initial_led_brightness(struct lg_g15_data *g15)
-> >> +{
-> >> +       int ret;
-> >> +
-> >> +       switch (g15->model) {
-> >> +       case LG_G15:
-> >> +       case LG_G15_V2:
-> >> +               return lg_g15_update_led_brightness(g15);
-> >> +       case LG_G510:
-> >> +       case LG_G510_USB_AUDIO:
-> >> +               ret = lg_g510_get_initial_led_brightness(g15, 0);
-> >> +               if (ret)
-> >> +                       return ret;
-> >> +
-> >> +               ret = lg_g510_get_initial_led_brightness(g15, 1);
-> >> +               if (ret)
-> >> +                       return ret;
-> >> +
-> >> +               return 0;
-> >> +       }
-> >> +       return -EINVAL; /* Never reached */
-> >> +}
-> >> +
-> >> +/******** Input functions ********/
-> >> +
-> >>   /* On the G15 Mark I Logitech has been quite creative with which bit is what */
-> >>   static int lg_g15_event(struct lg_g15_data *g15, u8 *data, int size)
-> >>   {
-> >> @@ -306,6 +502,22 @@ static int lg_g510_event(struct lg_g15_data *g15, u8 *data, int size)
-> >>          return 0;
-> >>   }
-> >>
-> >> +static int lg_g510_leds_event(struct lg_g15_data *g15, u8 *data, int size)
-> >> +{
-> >> +       bool backlight_disabled;
-> >> +
-> >> +       /*
-> >> +        * The G510 ignores backlight updates when the backlight is turned off
-> >> +        * through the light toggle button on the keyboard, to work around this
-> >> +        * we queue a workitem to sync values when the backlight is turned on.
-> >> +        */
-> >> +       backlight_disabled = data[1] & 0x04;
-> >> +       if (!backlight_disabled)
-> >> +               schedule_work(&g15->work);
-> >> +
-> >> +       return 0;
-> >> +}
-> >> +
-> >>   static int lg_g15_raw_event(struct hid_device *hdev, struct hid_report *report,
-> >>                              u8 *data, int size)
-> >>   {
-> >> @@ -327,6 +539,8 @@ static int lg_g15_raw_event(struct hid_device *hdev, struct hid_report *report,
-> >>          case LG_G510_USB_AUDIO:
-> >>                  if (data[0] == 0x03 && size == 5)
-> >>                          return lg_g510_event(g15, data, size);
-> >> +               if (data[0] == 0x04 && size == 2)
-> >> +                       return lg_g510_leds_event(g15, data, size);
-> >>                  break;
-> >>          }
-> >>
-> >> @@ -360,13 +574,42 @@ static int lg_g15_register_led(struct lg_g15_data *g15, int i)
-> >>
-> >>          g15->leds[i].led = i;
-> >>          g15->leds[i].cdev.name = led_names[i];
-> >> -       g15->leds[i].cdev.brightness_set_blocking = lg_g15_led_set;
-> >> -       g15->leds[i].cdev.brightness_get = lg_g15_led_get;
-> >> -       if (i < LG_G15_BRIGHTNESS_MAX) {
-> >> -               g15->leds[i].cdev.flags = LED_BRIGHT_HW_CHANGED;
-> >> -               g15->leds[i].cdev.max_brightness = 2;
-> >> -       } else {
-> >> -               g15->leds[i].cdev.max_brightness = 1;
-> >> +
-> >> +       switch (g15->model) {
-> >> +       case LG_G15:
-> >> +       case LG_G15_V2:
-> >> +               g15->leds[i].cdev.brightness_set_blocking = lg_g15_led_set;
-> >> +               g15->leds[i].cdev.brightness_get = lg_g15_led_get;
-> >> +               if (i < LG_G15_BRIGHTNESS_MAX) {
-> >> +                       g15->leds[i].cdev.flags = LED_BRIGHT_HW_CHANGED;
-> >> +                       g15->leds[i].cdev.max_brightness = 2;
-> >> +               } else {
-> >> +                       g15->leds[i].cdev.max_brightness = 1;
-> >> +               }
-> >> +               break;
-> >> +       case LG_G510:
-> >> +       case LG_G510_USB_AUDIO:
-> >> +               switch (i) {
-> >> +               case LG_G15_LCD_BRIGHTNESS:
-> >> +                       /*
-> >> +                        * The G510 does not have a separate LCD brightness,
-> >> +                        * but it does have a separate power-on (reset) value.
-> >> +                        */
-> >> +                       g15->leds[i].cdev.name = "g15::power_on_backlight_val";
-> >> +                       /* fall through */
-> >> +               case LG_G15_KBD_BRIGHTNESS:
-> >> +                       g15->leds[i].cdev.brightness_set_blocking =
-> >> +                               lg_g510_kbd_led_set;
-> >> +                       g15->leds[i].cdev.brightness_get =
-> >> +                               lg_g510_kbd_led_get;
-> >> +                       g15->leds[i].cdev.max_brightness = 255;
-> >> +                       g15->leds[i].cdev.groups = lg_g510_kbd_led_groups;
-> >> +                       break;
-> >> +               default:
-> >> +                       /* TODO: Add support for M1 - M3 and MR leds */
-> >> +                       return 0;
-> >> +               }
-> >> +               break;
-> >>          }
-> >>
-> >>          return devm_led_classdev_register(&g15->hdev->dev, &g15->leds[i].cdev);
-> >> @@ -414,11 +657,11 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >>
-> >>          g15->hdev = hdev;
-> >>          g15->model = id->driver_data;
-> >> -       INIT_WORK(&g15->work, lg_g15_leds_changed_work);
-> >>          hid_set_drvdata(hdev, (void *)g15);
-> >>
-> >>          switch (g15->model) {
-> >>          case LG_G15:
-> >> +               INIT_WORK(&g15->work, lg_g15_leds_changed_work);
-> >>                  /*
-> >>                   * The G15 and G15 v2 use a separate usb-device (on a builtin
-> >>                   * hub) which emulates a keyboard for the F1 - F12 emulation
-> >> @@ -430,12 +673,14 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >>                  gkeys = 18;
-> >>                  break;
-> >>          case LG_G15_V2:
-> >> +               INIT_WORK(&g15->work, lg_g15_leds_changed_work);
-> >>                  connect_mask = HID_CONNECT_HIDRAW;
-> >>                  gkeys_settings_output_report = 0x02;
-> >>                  gkeys = 6;
-> >>                  break;
-> >>          case LG_G510:
-> >>          case LG_G510_USB_AUDIO:
-> >> +               INIT_WORK(&g15->work, lg_g510_leds_sync_work);
-> >>                  connect_mask = HID_CONNECT_HIDINPUT | HID_CONNECT_HIDRAW;
-> >>                  gkeys_settings_feature_report = 0x01;
-> >>                  gkeys = 18;
-> >> @@ -476,7 +721,7 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >>          }
-> >>
-> >>          /* Get initial brightness levels */
-> >> -       ret = lg_g15_update_led_brightness(g15);
-> >> +       ret = lg_g15_get_initial_led_brightness(g15);
-> >>          if (ret)
-> >>                  goto error_hw_stop;
-> >>
-> >> @@ -523,9 +768,6 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >>          if (ret)
-> >>                  goto error_hw_stop;
-> >>
-> >> -       if (g15->model == LG_G510 || g15->model == LG_G510_USB_AUDIO)
-> >> -               return 0;
-> >> -
-> >>          /* Register LED devices */
-> >>          for (i = 0; i < LG_G15_LED_MAX; i++) {
-> >>                  ret = lg_g15_register_led(g15, i);
-> >> --
-> >> 2.23.0.rc2
-> >>
+> > ---
+> >  drivers/hid/wacom_sys.c | 18 +++++-------------
+> >  1 file changed, 5 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+> > index 53bddb50aeba..69ccfdd51a6f 100644
+> > --- a/drivers/hid/wacom_sys.c
+> > +++ b/drivers/hid/wacom_sys.c
+> > @@ -2718,14 +2718,12 @@ static int wacom_probe(struct hid_device *hdev,
+> >         wacom_wac->features = *((struct wacom_features *)id->driver_data);
+> >         features = &wacom_wac->features;
+> >
+> > -       if (features->check_for_hid_type && features->hid_type != hdev->type) {
+> > -               error = -ENODEV;
+> > -               goto fail;
+> > -       }
+> > +       if (features->check_for_hid_type && features->hid_type != hdev->type)
+> > +               return -ENODEV;
+> >
+> >         error = kfifo_alloc(&wacom_wac->pen_fifo, WACOM_PKGLEN_MAX, GFP_KERNEL);
+> >         if (error)
+> > -               goto fail;
+> > +               return error;
+> >
+> >         wacom_wac->hid_data.inputmode = -1;
+> >         wacom_wac->mode_report = -1;
+> > @@ -2743,12 +2741,12 @@ static int wacom_probe(struct hid_device *hdev,
+> >         error = hid_parse(hdev);
+> >         if (error) {
+> >                 hid_err(hdev, "parse failed\n");
+> > -               goto fail;
+> > +               return error;
+> >         }
+> >
+> >         error = wacom_parse_and_register(wacom, false);
+> >         if (error)
+> > -               goto fail;
+> > +               return error;
+> >
+> >         if (hdev->bus == BUS_BLUETOOTH) {
+> >                 error = device_create_file(&hdev->dev, &dev_attr_speed);
+> > @@ -2759,10 +2757,6 @@ static int wacom_probe(struct hid_device *hdev,
+> >         }
+> >
+> >         return 0;
+> > -
+> > -fail:
+> > -       hid_set_drvdata(hdev, NULL);
+> > -       return error;
+> >  }
+> >
+> >  static void wacom_remove(struct hid_device *hdev)
+> > @@ -2791,8 +2785,6 @@ static void wacom_remove(struct hid_device *hdev)
+> >                 wacom_release_resources(wacom);
+> >
+> >         kfifo_free(&wacom_wac->pen_fifo);
+> > -
+> > -       hid_set_drvdata(hdev, NULL);
+> >  }
+> >
+> >  #ifdef CONFIG_PM
+> > --
+> > 2.19.2
+> >
