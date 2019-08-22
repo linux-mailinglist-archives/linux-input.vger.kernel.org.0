@@ -2,92 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 625CB993DA
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 14:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2345299408
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 14:45:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388663AbfHVMeN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Aug 2019 08:34:13 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:37527 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387684AbfHVMeM (ORCPT
+        id S1732359AbfHVMmQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Aug 2019 08:42:16 -0400
+Received: from mail-wm1-f42.google.com ([209.85.128.42]:52252 "EHLO
+        mail-wm1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732129AbfHVMmQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Aug 2019 08:34:12 -0400
-Received: by mail-lf1-f67.google.com with SMTP id c9so4419975lfh.4
-        for <linux-input@vger.kernel.org>; Thu, 22 Aug 2019 05:34:11 -0700 (PDT)
+        Thu, 22 Aug 2019 08:42:16 -0400
+Received: by mail-wm1-f42.google.com with SMTP id o4so5499399wmh.2
+        for <linux-input@vger.kernel.org>; Thu, 22 Aug 2019 05:42:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=aWwEGZ7IKPwlD1SyN53LweuoS+rG8j2WBRgPDxMagPA=;
-        b=qQwouDogyXJvS+YAsG7u3jI4chdOO2iCwbnUv4qV7/t3H0mpAnkar5BQ6W4yzvm3w4
-         MFy7lbM3I35ux+N13OWQLqMSp+JYBfamJOBS4Rv9YtwGFbdx/1nZ3P/IH2tA3AOy5PjU
-         kwMZko6qlgHP0UHJGHFvzgceOWtw4tjNefrQZ96MP6AChhfKt94B36gjTZhv6W5d2u3q
-         XLX/JEQ53zQai3qewoG2X6xDeNJ4HOzQU6TV4Cb4zGt4uQQf5AD05mnaufLgjsYbqLh0
-         X5GVMmJW05ufNL+28p6nLz0lCjVsZITmyIS1mIvW9/VAX3eTcLMat0TkK0bawj8l1wal
-         unaQ==
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=NLEUkhyas12+K+dGeLHSrY3OmEuz5EYl3tuZ1zgI3Vk=;
+        b=NM8oJzFmXpAUNUXY9rrbt7vViNOTIjBVmjd7bup7b9Nk2u/pgqoZJt34zc4++apCcQ
+         5H5Y5kIbd0TEwQTSdX13wY6PJUy0yDvkGfKu4/9adDdFCe6+twdghluF3mO0VFpsJ09P
+         UPXF0hHVFXr+9ccbwgyZ57Kv3bECVaj0b8Cltwtc9zAIHLgQEZPbnSDdjmGwPIIa/TWS
+         hoDwNJSG/gFAaXVLFg7eBjPDie0wlUnIqls+My7afwt7QuraKVfdvHJ70M00g6pqyADq
+         ywPZOuH4srdq169ZxHM29V21mkJ4XJrshwxCOzj1LACqsUCuc4wDA6tRP+azZTtpknYv
+         9j6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=aWwEGZ7IKPwlD1SyN53LweuoS+rG8j2WBRgPDxMagPA=;
-        b=hskanM5WgXZQlfIPUKkwUCX4cQ3PoA6EUJyjHkQSrAm3YTT2mGeZpR2p25LZvN/Bg1
-         qlj6Aol4FLOGpOhK51o7O2NOw1zU1yESkVP82x3+/NgdaBtM0XD4LCF4Gq71XDzelF7r
-         3TpZZXRGbWZcJZPF7lEVBOpTQEJt/K8pTglhZqvTycPwgLUIjVUNaWh06Bg926Sw66t+
-         IPLKzlxH0sJmST9SheKN68Gj4AUFvBaO6jLtZEEJFHy9jkGp1ZSpVGNEdrrLOz9MzirJ
-         oWeOU/fGVXCC7uWWQZ8wvKD0JHBLYRRF8zDS3xNkOQe4Iq5EnxhrGLWscZGHtt7pPy9/
-         jkQQ==
-X-Gm-Message-State: APjAAAUsS2SzgIBpB2fBs2QqZj/tss3bHS6snqLUKI7EiI8NaFQWrNHu
-        3oLbIPQtJdXLz9lp1c7hMNYFopTkf8I0yxMlb/w=
-X-Google-Smtp-Source: APXvYqyvt2RXzV9cZsTsiBwjcFFEoyd1HLlAwIQQPxXOemblWJ85A0QXgz94gt7tcllsT417ikCMvXpOU1ZxhrqMZqI=
-X-Received: by 2002:ac2:42c3:: with SMTP id n3mr13722899lfl.117.1566477250738;
- Thu, 22 Aug 2019 05:34:10 -0700 (PDT)
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-transfer-encoding:content-language;
+        bh=NLEUkhyas12+K+dGeLHSrY3OmEuz5EYl3tuZ1zgI3Vk=;
+        b=oPCvuMxxOKn+XffpNod5fp+S9Uy3iwXxh6f/ykWGTcv5I4rFwXvA0RdgNCH2+GF7ir
+         7Ae60gij42R8+ypxYmdI6ZSpwpx/scdxgW4t+E69xTmW1/jxfVwhCo0vBy4SP9TtUWfJ
+         LdVgAgDO0i7N01k9aRJbteAM5BdW9EbYfETEPKpy6NKrxGj6K4V3WmcjeaNo28O0Egpj
+         gwER/U5gX8pUSOFrxC5XoUFhMAMUSKYQzeeiGHXF/XEF+upAqUaPMSO2niRTqPgyrxVq
+         kM9cUWgYP7ZA+TGG06QUz9v/04o0pVc5yztJfCqMd6smJNHmgJ55694+CbBcuK9c5wVj
+         HiHg==
+X-Gm-Message-State: APjAAAXubEMHnpb2v02krRjLw7BQpDQo7P27DpQ3dtaKcVNXInMKl6wm
+        cyDBm/sXmEosxOEAcfZyEhLUKMP5
+X-Google-Smtp-Source: APXvYqwIZn4qLR6Ec8SDz8h6qlkhfSDI1RpqO8lSY8JnDLQpPw2IDKzxTw3ffu/q87txv8qEA10cBw==
+X-Received: by 2002:a05:600c:206:: with SMTP id 6mr6161271wmi.91.1566477734052;
+        Thu, 22 Aug 2019 05:42:14 -0700 (PDT)
+Received: from [192.168.10.10] (static-74-10-229-77.ipcom.comunitel.net. [77.229.10.74])
+        by smtp.gmail.com with ESMTPSA id o129sm8525722wmb.41.2019.08.22.05.42.13
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Aug 2019 05:42:13 -0700 (PDT)
+To:     linux-input@vger.kernel.org
+From:   Bernat <bernat.arlandis@gmail.com>
+Subject: What happened to ff-memless-next?
+Message-ID: <42eb124e-5b8c-9817-b8c2-c11d82958c08@gmail.com>
+Date:   Thu, 22 Aug 2019 14:42:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Received: by 2002:ab3:6a0f:0:0:0:0:0 with HTTP; Thu, 22 Aug 2019 05:34:10
- -0700 (PDT)
-Reply-To: eku.lawfirm@gmail.com
-From:   "Law firm(Eku and Associates)" <ezeobodo1@gmail.com>
-Date:   Thu, 22 Aug 2019 12:34:10 +0000
-Message-ID: <CAN-_bTZ04fanuBw0m=mWQFHTKscwdYgns3LR19ZdaFDanOVNGQ@mail.gmail.com>
-Subject: MY $25,000,000.00 INVESTMENT PROPOSAL WITH YOU AND IN YOUR COUNTRY.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: roa-ES-val
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---=20
-Dear,
-With due respect this is not spam or Scam mail, because I have
-contacted you before and there was no response from you,I apologise if
-the contents of this mail are contrary to your moral ethics, which I
-feel may be of great disturbance to your person, but please treat this
-with absolute confidentiality, believing that this email reaches you
-in good faith. My contacting you is not a mistake or a coincidence
-because God can use any person known or unknown to accomplish great
-things.
-I am a lawyer and I have an investment business proposal to offer you.
-It is not official but should be considered as legal and confidential
-business. I have a customer's deposit of $US25 million dollars ready
-to be moved for investment if you can partner with us. We are ready to
-offer you 10% of this total amount as your compensation for supporting
-the transaction to completion. If you are interested to help me please
-reply me with your full details as stated below:
-(1) Your full names:
-(2) Your address:
-(3) Your occupation:
-(4) Your mobile telephone number:
-(5) Your nationality:
-(6) Your present location:
-(7) Your age:
-So that I will provide you more details on what to do and what is
-required for successful completion.
-Note: DO NOT REPLY ME IF YOU ARE NOT INTERESTED AND WITHOUT THE ABOVE
-MENTIONED DETAILS
+Hi.
 
-Sinc=C3=A8rement v=C3=B4tre,
-Avocat Etienne Eku Esq.(Lawfirm)
-Procureur principal. De Cabinet d=E2=80=99avocats de l=E2=80=99Afrique de l=
-=E2=80=99ouest.
-Skype:westafricalawfirm
+I own a Logitech G29 driving wheel and have discovered that FFB effects 
+are not implemented while on the G920 driving wheel they are working. If 
+I've understood correctly this difference is related to the handling of 
+FFB effects by the device. The former device needs the FFB commands that 
+make an effect to be sent in realtime while the latter can be 
+programmed. Is this right? Anyway, on other OSs these devices are 
+considered feature equivalent and work pressumably the same.
+
+I've been trying to track work on the Logitech driver to implement these 
+effects: https://lwn.net/Articles/595619/
+
+It seems Michal Malý put a lot of work into this already. I don't know 
+what happened to these patches. Why didn't they never get integrated?
+
+I'd like to know if there's something that can be done to make some 
+progress. There's a group of enthusiasts that would like to see this 
+implemented.
+
+Thanks.
+
+-- 
+Bernat Arlandis
+
