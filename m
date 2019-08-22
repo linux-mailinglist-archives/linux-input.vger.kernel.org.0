@@ -2,164 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4EEB9A0ED
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 22:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA34F9A0FA
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 22:19:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388924AbfHVUOg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Aug 2019 16:14:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40104 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388845AbfHVUOg (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Aug 2019 16:14:36 -0400
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id AE4CC7E44B
-        for <linux-input@vger.kernel.org>; Thu, 22 Aug 2019 20:14:35 +0000 (UTC)
-Received: by mail-ed1-f69.google.com with SMTP id r21so4000720edc.6
-        for <linux-input@vger.kernel.org>; Thu, 22 Aug 2019 13:14:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Y6bQf+vBMvNZfxqlbhVeyibdR2R3c2eZFnGcUbXcd9o=;
-        b=ErB2cjzGPm08k15GcRxZt3+qqaas1RBpQjv49x6iPXT1dzIcyYv94urT8Y5Ln7sMy0
-         wWsMjoL8MBGgbdengmkgchFlaopGeeZWQgPLUbBq30ggmroPMqQqdlJC0XDJSzLhomfM
-         VsfRkbo2I0byug7qFWIXOlDB35LNOMUNegPmZX1GoYJ/7RuxhFvq7DKORyOpoTgLQrpa
-         czE7c37mEDaQfdSEOwH3bIRvl/j6KK16uyMm7vzaxrVOp4cclwg2OKCgJsBcjap3BQNh
-         yTIn7OLe7uHOnL6jDZ6D7Ns2C0SgTpSfyZCGMGw8tBkBJrPL7XGIqE8iQ/t+cwkg2H2G
-         vyvA==
-X-Gm-Message-State: APjAAAWvOL9XryaMwcJ/PJvHj7Il2Des5x3FB4RU8uy3nhhnJzKqPniY
-        xno/0edtfYYMncIY8Sd6y2zDR3LCpsGp/dYc0PluLHAw/vwujyhhWW0hjc+nMxVSz89nC9MUHuZ
-        5fFBO4+Ynoh0CXTEj7SiYRvM=
-X-Received: by 2002:a17:906:28ce:: with SMTP id p14mr1039023ejd.306.1566504873458;
-        Thu, 22 Aug 2019 13:14:33 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwhCocjNs4NBvo4SKVcDy3Ce9gl/gTlaRvxMn0jIl3IIMAdUGdMu2ZY4gRKaClpyHPmePQQRg==
-X-Received: by 2002:a17:906:28ce:: with SMTP id p14mr1039006ejd.306.1566504873253;
-        Thu, 22 Aug 2019 13:14:33 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id k12sm82677edr.84.2019.08.22.13.14.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Aug 2019 13:14:32 -0700 (PDT)
-Subject: Re: [PATCH v2 1/7] Input: Add event-codes for macro keys found on
- various keyboards
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
+        id S2390489AbfHVUTB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Aug 2019 16:19:01 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:58675 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2387441AbfHVUTA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 22 Aug 2019 16:19:00 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id A24AC210DC;
+        Thu, 22 Aug 2019 16:18:59 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Thu, 22 Aug 2019 16:18:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        pedrovanzella.com; h=from:to:cc:subject:date:message-id
+        :mime-version:content-transfer-encoding; s=fm3; bh=v74Gs0E9r7y8M
+        aL4VW5da3joTsP2Xv4qSIdJw1utIeU=; b=qXK47UOGPJvozyGgKHsuJfWCy48Uv
+        BMaB6keWW/2v2wdRNM3Nrm+pQrPjboeSvSZdBrcLbBTqQvDoyNAhcAh7uTSTIIIk
+        jLIBnxFlRJyUtFwm0AJB8J3fyF9ouM4jS+z/QuDsgdgilzIjjhqE+Az+qwE/1QJW
+        BTFbuFuaFZ+gbjRBgupg1zPoZ3LWM99fXcyHmu+eZ3fRICCpYoRw1N7RQ+sT3/bX
+        FcQchaBnQVWykt09x/iFR5VFJiuPzKcqC5uJJc8SIx0Y5aZ6OF4RAIFFBXVMKZkf
+        rVgIC0ZBCF0KJVH4LHqcyqlBCb3I5j475PKlojVSu1EHckDdUSHFrEwMQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=v74Gs0E9r7y8MaL4V
+        W5da3joTsP2Xv4qSIdJw1utIeU=; b=UAJJBaxXu1yn3dGeSRSVhdClRybAdZxHz
+        Yjv7HQgP4Zfl90WSVu6Wv1nUYiHivo43yUI/voty/C4cRULvf3lcZV6hauKvwd4t
+        YXzp/4iKqUcsCL6/vSbJK2ccFL0a01RmGt5DkGmnitBnjYW0P598BdlJIF56p7sI
+        4dTVLQ1kP3D3k70Sha3F2rN9waf4rhvQBjuIfP4dgYMYTKS1z350SZkaX7HUEbMz
+        LbMmblEqnHWrX3WA1o2D1y7bshPpnpd2YekIQtueGP8y2jy87NOPxnI92pwEkvlS
+        CzHDh+4Lk+EQLblkHfCs7/QwH5dz6rALYUy3v42UtS9jHYQQyIfzw==
+X-ME-Sender: <xms:s_heXSTSDR2qZMgTFCQGazbmhpvXyV9hZ5YdlEUwca3cuS1Ctcgg4A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudegiedguddtgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheprfgvughrohcu
+    gggrnhiivghllhgruceophgvughrohesphgvughrohhvrghniigvlhhlrgdrtghomheqne
+    cukfhppedujeegrdekkedrledrudegleenucfrrghrrghmpehmrghilhhfrhhomhepphgv
+    ughrohesphgvughrohhvrghniigvlhhlrgdrtghomhenucevlhhushhtvghrufhiiigvpe
+    dt
+X-ME-Proxy: <xmx:s_heXT3aI-bMzub36CU9w25Pz6uzh8P4zYVZ3VgkS5PQES1kmCvS8A>
+    <xmx:s_heXVx0MeBlQgB6GWWW_l6YXrndrfNlGnKv3yo61SqAqy5VbhhuYA>
+    <xmx:s_heXe9Au-Z_b7Qg2PV3IQnx_wDBWkQoo-ye70m9fz_QOO58bZlhug>
+    <xmx:s_heXdbsnXwOelpjkJiDdjhOfSk9w5BPURvpGSo0-b1RHdpetcjYaA>
+Received: from localhost (toroon020aw-lp130-07-174-88-9-149.dsl.bell.ca [174.88.9.149])
+        by mail.messagingengine.com (Postfix) with ESMTPA id BF3B78005A;
+        Thu, 22 Aug 2019 16:18:58 -0400 (EDT)
+From:   Pedro Vanzella <pedro@pedrovanzella.com>
+To:     linux-input@vger.kernel.org
+Cc:     lains@archlinux.org, Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-References: <20190821205937.4929-1-hdegoede@redhat.com>
- <20190821205937.4929-2-hdegoede@redhat.com> <20190822180604.GG76194@dtor-ws>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <8f356b32-97e8-6603-6d46-8a643763acb5@redhat.com>
-Date:   Thu, 22 Aug 2019 22:14:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        linux-kernel@vger.kernel.org
+Subject: [Resubmit] Read battery voltage from Logitech Gaming mice
+Date:   Thu, 22 Aug 2019 16:18:44 -0400
+Message-Id: <20190822201849.28924-1-pedro@pedrovanzella.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20190822180604.GG76194@dtor-ws>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Resumitting this after having rebased it against the latest changes.
 
-On 22-08-19 20:06, Dmitry Torokhov wrote:
-> Hi Hans,
-> 
-> On Wed, Aug 21, 2019 at 10:59:31PM +0200, Hans de Goede wrote:
->> Various keyboards have macro keys, which are intended to have user
->> programmable actions / key-sequences bound to them. In some cases these
->> macro keys are actually programmable in hardware, but more often they
->> basically are just extra keys and the playback of the key-sequence is done
->> by software running on the host.
->>
->> One example of keyboards with macro-keys are various "internet" / "office"
->> keyboards have a set of so-called "Smart Keys", typically a set of 4 keys
->> labeled "[A]" - "[D]".
->>
->> Another example are gaming keyboards, such as the Logitech G15 Gaming
->> keyboard, which has 18 "G"aming keys labeled "G1" to G18", 3 keys to select
->> macro presets labeled "M1" - "M3" and a key to start recording a macro
->> called "MR" note that even though there us a record key everything is
->> handled in sw on the host.
->>
->> Besides macro keys the G15 (and other gaming keyboards) also has a buildin
->> LCD panel where the contents are controlled by the host. There are 5 keys
->> directly below the LCD intended for controlling a menu shown on the LCD.
->>
->> The Microsoft SideWinder X6 keyboard is another gaming keyboard example,
->> this keyboard has 30 "S"idewinder keys and a key to cycle through
->> macro-presets.
->>
->> After discussion between various involved userspace people we've come to
->> the conclusion that since these are all really just extra keys we should
->> simply treat them as such and give them their own event-codes, see:
->> https://github.com/libratbag/libratbag/issues/172
->>
->> This commit adds the following new KEY_ defines for this:
->>
->> KEY_LCD_MENU1 - KEY_LCD_MENU5, KEY_MACRO_RECORD, KEY_MACRO_PRESET_CYCLE,
->> KEY_MACRO_PRESET1 - KEY_MACRO_PRESET3, KEY_MACRO1 - KEY_MACRO30.
->>
->> The defines leave room for adding some more LCD-menu, preset or macro keys,
->> the maximum values above are based on the maximum values to support all
->> currently known internet, office and gaming keyboards.
-> 
-> I must say that I am not too hot on having these in the keys space,
-> with the exception of KEY_MACRO_RECORD_* as we were trying to allow
-> userspace consumers to know what keys are supposed to mean, instead of
-> just blanked "programmable" keys. Still, we have the BTN_TRIGGER_HAPPY.
-> 
-> I guess as long as we do not try to use the new range for keys that have
-> a defined meaning but lack their own button code it is OK.
+The gaming line of Logitech devices doesn't use the old hidpp20
+feature for battery level reporting. Instead, they report the 
+current voltage of the battery, in millivolts.
 
-Right, these new codes are for key which are intended to be user programmable,
-they have no icon on them / no defined meaning. They come with markings
-like G1-G18 (for the Logitech _G_aming series), but they have no meaning and
-under Windows they do not function at all without host side software turning
-them intro macro keys. Other keyboards have markings like e.g. S1 - S30 for
-the Microsoft _S_idewinder series, again the intended use for these keys is
-use as macro keys configured through host side software...
+This patch set handles this case by adding a quirk to the 
+devices we know to have this new feature, in both wired 
+and wireless mode.
 
-Do you want me to add a big fat comment to the next version spelling this
-out extra explicitly ?
+This version of the patch set is better split, as well as adding the
+quirk to make sure we don't needlessly probe every device connected.
 
->> BugLink: https://github.com/libratbag/libratbag/issues/172
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>   include/uapi/linux/input-event-codes.h | 54 ++++++++++++++++++++++++++
->>   1 file changed, 54 insertions(+)
->>
->> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
->> index 85387c76c24f..80df3a6d6bcb 100644
->> --- a/include/uapi/linux/input-event-codes.h
->> +++ b/include/uapi/linux/input-event-codes.h
->> @@ -650,6 +650,60 @@
->>   #define KEY_DATA			0x277
->>   #define KEY_ONSCREEN_KEYBOARD		0x278
->>   
->> +/*
->> + * Some keyboards have a buildin LCD panel where the contents are controlled
->> + * by the host. Often these have a number of keys directly below the LCD
->> + * intended for controlling a menu shown on the LCD. These keys often don't
->> + * have any labelling so we just name them KEY_LCD_MENU#
->> + */
->> +#define KEY_LCD_MENU1			0x280
-> 
-> KEY_KBD_LCD_MENUn to show that it is supposed to control the LCD *on*
-> the keyboard?
 
-KEY_KBD_LCD_MENUn works for me, I will change to this for v3 of the patchset.
-
-> I also wonder if we could move it down by 16 to start with 0x290? This
-> will give us more buffer for new keycodes.
-
-Sure, will do for v3.
-
-Regards,
-
-Hans
