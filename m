@@ -2,99 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E45469997E
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 18:46:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DE9A99A3B
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2019 19:11:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731976AbfHVQoC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Aug 2019 12:44:02 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:43526 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731880AbfHVQoC (ORCPT
+        id S1732425AbfHVRLl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Aug 2019 13:11:41 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:52678 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S2390936AbfHVRLi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Aug 2019 12:44:02 -0400
-Received: by mail-pl1-f195.google.com with SMTP id 4so3767376pld.10;
-        Thu, 22 Aug 2019 09:44:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=x9uce55kb6LZ9BYo7W+bqT1uxPy/bJS6Nheim+gxljU=;
-        b=bJBIjamPcgpm1ZXLpSxXD0oE/Ox67cJ9ESF+xyrbA/SkjeUjRz3OYUPh/q+mkf6WPW
-         gszvgZjW5Ii222UQ9cZcihxFW9h+rMspa/JpeAzL9LDsIz1jJ2swtPZe1+VUL+eFM9Qw
-         v4aTIGmNbz/8XbkanLChrI9PtQkDfbDkLzjQUvgRF1GkSFAHkj43uMm8zG5WdJd86Uqq
-         25hDzDwOIyhEmj0XRkqFgyrD7sWCaS3R/HCu4C/fUeMTPu+4fYv0uhFml2qpve1ViKF6
-         a/v6zkuV7yow07+jTxSnJu5/hqZ1aa54rlkappzHoqjQnR0pBhSNVwj70K8m/FAFnW1J
-         8e4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=x9uce55kb6LZ9BYo7W+bqT1uxPy/bJS6Nheim+gxljU=;
-        b=BitY8RPyuPv+IhDjAqlTsTOQ2sAncWTRBjdsARK94A7jrLLJVMTEObQBpOlQ5hNdVi
-         uxBG8H9HwL8WOcAi+Lq8gl7F/9xZJelUivKEoJLWRMbt9XW8FH6nTQjFVuSHUa2YAVjn
-         3mmMWAlWJcEswxyXBD/LNGvOpjhZkJq8sawK5fElp4qwkueNXW7BqYMiO2fdXcddlUpX
-         ifNzW4PsqTFCHablKd8RfTWhZhRgqFW0KCQG4hUjWjMSuNS5g4twZ/IgfQxc4+KiWTRW
-         bSLYmpqUWvVSJlS/9G3kbBsBv5rKI3X0thaZjKwymj1MEtTdUQZNaWqahDcOu061WOYp
-         Eukw==
-X-Gm-Message-State: APjAAAUTX+8hi38MYG1jzwaJJpnPwRrdFywFipMUR4qM6V9NGTDOJoVT
-        2zacugH3DO7AvWZI4Lfx+lY=
-X-Google-Smtp-Source: APXvYqxe6fOEzOe3vusXfkDM0IxXECeWeFZdwOpLMUqOaDlOvoQ66CBYHAGy9zDgc8muHzhUyugvfQ==
-X-Received: by 2002:a17:902:9686:: with SMTP id n6mr39475715plp.113.1566492241825;
-        Thu, 22 Aug 2019 09:44:01 -0700 (PDT)
-Received: from localhost.localdomain ([106.51.107.181])
-        by smtp.gmail.com with ESMTPSA id br18sm83722pjb.20.2019.08.22.09.43.59
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 22 Aug 2019 09:44:01 -0700 (PDT)
-From:   Rishi Gupta <gupt21@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rishi Gupta <gupt21@gmail.com>
-Subject: [PATCH] HID: hidraw: replace printk() with corresponding pr_xx() variant
-Date:   Thu, 22 Aug 2019 22:13:52 +0530
-Message-Id: <1566492232-13590-1-git-send-email-gupt21@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        Thu, 22 Aug 2019 13:11:38 -0400
+Received: (qmail 3512 invoked by uid 2102); 22 Aug 2019 13:11:37 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 22 Aug 2019 13:11:37 -0400
+Date:   Thu, 22 Aug 2019 13:11:37 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Andrey Konovalov <andreyknvl@google.com>
+cc:     Jiri Kosina <jikos@kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Hillf Danton <hdanton@sina.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        <linux-input@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH] HID: USB: Fix general protection fault caused by Logitech
+ driver
+In-Reply-To: <CAAeHK+zarjL9AWcOTMMfMgE7+vk8W2HQTvjR1x3n6H6QPYC1aQ@mail.gmail.com>
+Message-ID: <Pine.LNX.4.44L0.1908221253180.1311-100000@iolanthe.rowland.org>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This commit replaces direct invocations of printk with
-their appropriate pr_info/warn() variant.
+On Thu, 22 Aug 2019, Andrey Konovalov wrote:
 
-Signed-off-by: Rishi Gupta <gupt21@gmail.com>
----
- drivers/hid/hidraw.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> Hi Alan,
+> 
+> I've ran the fuzzer with your patches applied overnight and noticed
+> another fallout of similar bugs. I think they are caused by a similar
+> issue in the sony HID driver. There's no hid_hw_stop() call in the "if
+> (!(hdev->claimed & HID_CLAIMED_INPUT))" case in sony_probe(). Does it
+> look like a bug to you?
 
-diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
-index 006bd6f..67b652b 100644
---- a/drivers/hid/hidraw.c
-+++ b/drivers/hid/hidraw.c
-@@ -197,14 +197,14 @@ static ssize_t hidraw_get_report(struct file *file, char __user *buffer, size_t
- 	}
- 
- 	if (count > HID_MAX_BUFFER_SIZE) {
--		printk(KERN_WARNING "hidraw: pid %d passed too large report\n",
-+		pr_warn("hidraw: pid %d passed too large report\n",
- 				task_pid_nr(current));
- 		ret = -EINVAL;
- 		goto out;
- 	}
- 
- 	if (count < 2) {
--		printk(KERN_WARNING "hidraw: pid %d passed too short report\n",
-+		pr_warn("hidraw: pid %d passed too short report\n",
- 				task_pid_nr(current));
- 		ret = -EINVAL;
- 		goto out;
-@@ -597,7 +597,7 @@ int __init hidraw_init(void)
- 	if (result < 0)
- 		goto error_class;
- 
--	printk(KERN_INFO "hidraw: raw HID events driver (C) Jiri Kosina\n");
-+	pr_info("hidraw: raw HID events driver (C) Jiri Kosina\n");
- out:
- 	return result;
- 
--- 
-2.7.4
+It looks like the relevant hid_hw_stop() call is the one at the end of
+sony_configure_input().  But I can't tell if doing that way is valid or
+not -- in practice the code would end up calling hid_disconnect() while
+hid_connect() was still running, which doesn't seem like a good idea.
+
+There's a comment about this near the end of sony_probe().  I suspect
+it would be better to call hid_hw_stop() in the conditional code
+following that comment rather than in sony_configure_input().
+
+Either way, these are all things Jiri should know about or check up on.
+
+Have you gotten any test results from syzbot exercising these pathways?  
+You ought to be able to tell which HID driver is involved by looking
+through the console output.
+
+Alan Stern
 
