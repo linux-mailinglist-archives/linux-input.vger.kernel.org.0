@@ -2,112 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB5899AC6E
-	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2019 12:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 283179AC77
+	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2019 12:07:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391832AbfHWKGW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Aug 2019 06:06:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46974 "EHLO mx1.redhat.com"
+        id S2392064AbfHWKHL convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Fri, 23 Aug 2019 06:07:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50782 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732134AbfHWKGV (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Aug 2019 06:06:21 -0400
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+        id S2391995AbfHWKHE (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 23 Aug 2019 06:07:04 -0400
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 3B5E9756
-        for <linux-input@vger.kernel.org>; Fri, 23 Aug 2019 10:06:21 +0000 (UTC)
-Received: by mail-qt1-f200.google.com with SMTP id l17so9329678qtk.16
-        for <linux-input@vger.kernel.org>; Fri, 23 Aug 2019 03:06:21 -0700 (PDT)
+        by mx1.redhat.com (Postfix) with ESMTPS id AD0BAC050061
+        for <linux-input@vger.kernel.org>; Fri, 23 Aug 2019 10:07:03 +0000 (UTC)
+Received: by mail-qk1-f199.google.com with SMTP id d203so8571410qke.4
+        for <linux-input@vger.kernel.org>; Fri, 23 Aug 2019 03:07:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vUUAeJTtmIxTNqg7kNNROuCzphWk1QF2DOAGWrCpWnQ=;
-        b=H2PEfvpNkLQsBoUPTkzPzcW/my+tT4rx7Vbx0HlSHay7Dbm4ek/i3QCp1V/0D+uu+m
-         +Doa8VC/6MyF/SdnKV2ZW8see8r3vnwPco17dU/GKuJViXTPH8DTdFceiZqZbvYt3L0m
-         I0QZdlsOjJ8wcLRc05BV9KZDLcGFIb11d9VNLGIhWLVznZU5i5sdiJacSkO3Qp2d80BM
-         ntwkaUHk4AernzV43lq5Zz2+rm+859ztZ2+hQZrMVEmuhVgUlb4ujkNok+wShQTkWBwD
-         sMO9D80bV89a78cMI/GwUXHz4YexN6/7qtz/+/Zc0mdnotS05FPHFAUomdqOQMt4CX0X
-         lIvQ==
-X-Gm-Message-State: APjAAAUA7SEDQmwEFfDEHMeJbTLhfSYekmloDI4o5c90h9FMgT2guiQJ
-        svt0Ave3rZFe6kRaQu/X/OGwUqmSGplmj1Ze+1bk83zX9WyfaXNuMF3sLkb4WpKHXxdKE4p9r8C
-        lIZAt8KSa3bHceF71vInZ93+XTWpI7yt69P0OgP8=
-X-Received: by 2002:a0c:ea4f:: with SMTP id u15mr3171947qvp.115.1566554780531;
-        Fri, 23 Aug 2019 03:06:20 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx5wdvO61FFMPBv7cBENwR71pjtOKIzpiJF9bqI6Dig5gj1cRdn0UNzY6fNdL3OJKVDZOFvuGqiNV3oIZX9WEM=
-X-Received: by 2002:a0c:ea4f:: with SMTP id u15mr3171936qvp.115.1566554780277;
- Fri, 23 Aug 2019 03:06:20 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1qTrupegLo3u3nuR5XIE3rXtDob+SQqNerz4BULqfAk=;
+        b=Z4Bre9TY4ff+p6en5EduPA6i8bgLifkF2S7QZbDUUgXgK16N2vyX+2yYqXvrszemg/
+         n0jw03TIql3b0rLu6VkAA+YDS/tHqdtTZwTRr7PIU3L8XAX7HH3rSTAm0LfaWrwn+A/g
+         x4pdseKY1HbqlOCIhMloZ9Kf3if0XwLOI84hEEozh2xrhy5lP+yio/bEBXIjGxSrQf/3
+         xGrLZjS8DzHgYvTD5vrMbJODbre9oMkrb6I45S2GngCFzqbzKWZ1BRyTV77TY7pPUfnV
+         9ilGoDNhbL4WKNwxVuTtaiyy9BscOiSXkrNYWYwaqvV9BF6V9N2LG8bVEGn8vrUR2B21
+         fzrg==
+X-Gm-Message-State: APjAAAWHOkl1KtNuXxpbN8b1ejRuTter7Sl646FGy1SqGqa2oukA64NA
+        2grL7HeWWC6fjaM5BPyYHypoeSkPhV5bl8uANeGDo4qmrynJJuoWXaD2vIvtOjMWybgAL4nqQv6
+        Rob8An3/nnwLFf7Aga99a7z4FUYBgD6F9wDbXqeI=
+X-Received: by 2002:ad4:4974:: with SMTP id p20mr3008447qvy.29.1566554822994;
+        Fri, 23 Aug 2019 03:07:02 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxNwW5Vj+CElg3egvLGrz0tB/3keOZ4CzgCNyFMXCyW2lgOmeoRIPAm0sFQuM0jFiHntpZDy1KFOILCqvhXN5s=
+X-Received: by 2002:ad4:4974:: with SMTP id p20mr3008436qvy.29.1566554822772;
+ Fri, 23 Aug 2019 03:07:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190812160804.11803-1-benjamin.tissoires@redhat.com> <f97403fd-4bf0-f82b-06e7-8bf4dcb2b2aa@redhat.com>
-In-Reply-To: <f97403fd-4bf0-f82b-06e7-8bf4dcb2b2aa@redhat.com>
+References: <20190730122458.5275-1-lains@archlinux.org>
+In-Reply-To: <20190730122458.5275-1-lains@archlinux.org>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 23 Aug 2019 12:06:07 +0200
-Message-ID: <CAO-hwJL2PeHNWsaPvWER7dSaG3iHPGZuWhLY54Z_dpTN=pBaPg@mail.gmail.com>
-Subject: Re: [PATCH] HID: logitech-dj: add support of the G700(s) receiver
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
+Date:   Fri, 23 Aug 2019 12:06:51 +0200
+Message-ID: <CAO-hwJJ2kFoAp8at_a+KRfjivZ2VnbNDXsx=BBQbiEDLZ==3Sg@mail.gmail.com>
+Subject: Re: [PATCH v2] hid-logitech-dj: add the new Lightspeed receiver
+To:     =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>
+Cc:     Nestor Lopez Casado <nlopezcasad@logitech.com>,
+        Jiri Kosina <jikos@kernel.org>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 12, 2019 at 6:26 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On Tue, Jul 30, 2019 at 2:26 PM Filipe Laíns <lains@archlinux.org> wrote:
 >
-> Hi,
+> This patchs adds the new Lightspeed receiver. Currently it seems to only
+> be used in the G305.
 >
-> On 12-08-19 18:08, Benjamin Tissoires wrote:
-> > Both the G700 and the G700s are sharing the same receiver.
-> > Include support for this receiver in hid-logitech-dj so that userspace
-> > can differentiate both.
-> >
-> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->
-> Nice, looks good to me:
->
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-thanks
+> Signed-off-by: Filipe Laíns <lains@archlinux.org>
 
 Applied to for-5.4/logitech
 
 Cheers,
 Benjamin
 
+> ---
+>  drivers/hid/hid-ids.h         |  3 ++-
+>  drivers/hid/hid-logitech-dj.c | 13 +++++++++++--
+>  2 files changed, 13 insertions(+), 3 deletions(-)
 >
-> Regards,
->
-> Hans
->
->
->
-> > ---
-> >   drivers/hid/hid-logitech-dj.c | 5 +++++
-> >   1 file changed, 5 insertions(+)
-> >
-> > diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-> > index c547cba05fbb..d6250b0cb9f8 100644
-> > --- a/drivers/hid/hid-logitech-dj.c
-> > +++ b/drivers/hid/hid-logitech-dj.c
-> > @@ -959,6 +959,7 @@ static void logi_hidpp_recv_queue_notif(struct hid_device *hdev,
-> >               break;
-> >       case 0x07:
-> >               device_type = "eQUAD step 4 Gaming";
-> > +             logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
-> >               break;
-> >       case 0x08:
-> >               device_type = "eQUAD step 4 for gamepads";
-> > @@ -1832,6 +1833,10 @@ static const struct hid_device_id logi_dj_receivers[] = {
-> >         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
-> >                        USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2),
-> >        .driver_data = recvr_type_hidpp},
-> > +     { /* Logitech G700(s) receiver (0xc531) */
-> > +       HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
-> > +             0xc531),
-> > +      .driver_data = recvr_type_gaming_hidpp},
-> >       { /* Logitech lightspeed receiver (0xc539) */
-> >         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
-> >               USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED),
-> >
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index fb19eefbc0b3..61b954fcfc2e 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -768,7 +768,8 @@
+>  #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER           0xc52f
+>  #define USB_DEVICE_ID_LOGITECH_UNIFYING_RECEIVER_2     0xc532
+>  #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2         0xc534
+> -#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED        0xc539
+> +#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1      0xc539
+> +#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1    0xc53f
+>  #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_POWERPLAY 0xc53a
+>  #define USB_DEVICE_ID_SPACETRAVELLER   0xc623
+>  #define USB_DEVICE_ID_SPACENAVIGATOR   0xc626
+> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+> index 4a68960b131f..d718f01f56d3 100644
+> --- a/drivers/hid/hid-logitech-dj.c
+> +++ b/drivers/hid/hid-logitech-dj.c
+> @@ -968,7 +968,12 @@ static void logi_hidpp_recv_queue_notif(struct hid_device *hdev,
+>                 logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
+>                 break;
+>         case 0x0c:
+> -               device_type = "eQUAD Lightspeed";
+> +               device_type = "eQUAD Lightspeed 1";
+> +               logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
+> +               workitem.reports_supported |= STD_KEYBOARD;
+> +               break;
+> +       case 0x0d:
+> +               device_type = "eQUAD Lightspeed 1_1";
+>                 logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
+>                 workitem.reports_supported |= STD_KEYBOARD;
+>                 break;
+> @@ -1832,7 +1837,11 @@ static const struct hid_device_id logi_dj_receivers[] = {
+>          .driver_data = recvr_type_hidpp},
+>         { /* Logitech lightspeed receiver (0xc539) */
+>           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+> -               USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED),
+> +               USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1),
+> +        .driver_data = recvr_type_gaming_hidpp},
+> +       { /* Logitech lightspeed receiver (0xc53f) */
+> +         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+> +               USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1),
+>          .driver_data = recvr_type_gaming_hidpp},
+>         { /* Logitech 27 MHz HID++ 1.0 receiver (0xc513) */
+>           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_MX3000_RECEIVER),
+> --
+> 2.22.0
