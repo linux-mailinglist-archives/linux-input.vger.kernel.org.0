@@ -2,123 +2,194 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 735659B1FD
-	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2019 16:30:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 450349B20F
+	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2019 16:33:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393931AbfHWO31 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Aug 2019 10:29:27 -0400
-Received: from orion.archlinux.org ([88.198.91.70]:33726 "EHLO
-        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390586AbfHWO31 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Aug 2019 10:29:27 -0400
-Received: from orion.archlinux.org (localhost [127.0.0.1])
-        by orion.archlinux.org (Postfix) with ESMTP id 6C95114C6B3B17;
-        Fri, 23 Aug 2019 14:29:24 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on orion.archlinux.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
-        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
-        autolearn=no autolearn_force=no version=3.4.2
-X-Spam-BL-Results: 
-Received: from saetre (unknown [154.53.1.40])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S2395325AbfHWOdG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Aug 2019 10:33:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42508 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2391432AbfHWOdF (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 23 Aug 2019 10:33:05 -0400
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        (Authenticated sender: ffy00)
-        by orion.archlinux.org (Postfix) with ESMTPSA;
-        Fri, 23 Aug 2019 14:29:24 +0000 (UTC)
-Message-ID: <c9acf405f4e10e587809fe88a07ffa882a6ed7de.camel@archlinux.org>
+        by mx1.redhat.com (Postfix) with ESMTPS id 022C35AFD9
+        for <linux-input@vger.kernel.org>; Fri, 23 Aug 2019 14:33:05 +0000 (UTC)
+Received: by mail-qk1-f200.google.com with SMTP id o4so9150163qkg.11
+        for <linux-input@vger.kernel.org>; Fri, 23 Aug 2019 07:33:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WAme3bkkJ+z3Qaa0evl+EyyRu31KuZX6C53UkTEC/Gg=;
+        b=YSOS5gd1KqqGHhbYQWv3zRd80fw/kiScKoIYyirAIBYXawQhVaRWea6vIvaJUdYmED
+         HeWZoPivnRZSXJxaDTflSlR/PfHAG0ks+uxtk4P4cx22ch9SX9JJVQw1wfhEJv+DD0oc
+         iEsryoWaeCHV1FOT44XGfn30VBe3enCri+y5d3DaBVY8ikp1Ca1dJPCZNmAEK90aI7w9
+         a+shHG1yb4PHmndeXxFanejYA9ppkRNQd6TIa22rxdKy/gBKqqCHQrtH3y6X5E37gygY
+         L2dwG1oGn2sfIcTQ7S1MVr+vmJdtq+sq3aMS9FjrsNA/19/bBe2GdfPd5AC2PK6ut1pN
+         OPJw==
+X-Gm-Message-State: APjAAAW8KHVivjOsD1DuHU6HNlfa3DZs92DxGFk15ClpUgNf3GeZytFf
+        eobB4W2GF5U9OLz1ad9I350Wb/AViF+K7yAHq7V9R3vp0Q8h9TihuuJGKEOXwKpWH1NYbB8ngbL
+        AcU1cDuSo8wAURYn9oaTUlYt2df9r9OOZtW/VkBs=
+X-Received: by 2002:a05:620a:1310:: with SMTP id o16mr4043631qkj.27.1566570784301;
+        Fri, 23 Aug 2019 07:33:04 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwbykObo+3+44r4UuZMZ22BwKoZcxnQ/KoH9p6VN5hL1eBq5fByxj5ezCmvyxv/EU/tPrTWvsrSL9dqfWDF76o=
+X-Received: by 2002:a05:620a:1310:: with SMTP id o16mr4043607qkj.27.1566570784058;
+ Fri, 23 Aug 2019 07:33:04 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190822201849.28924-1-pedro@pedrovanzella.com>
+ <CAO-hwJKQcTpmk8cVf-YmKu2awXv_53=qfpy2yfmy2rgMu_DEug@mail.gmail.com> <e6014a01-1094-9ec7-9b37-2abdf70e305f@pedrovanzella.com>
+In-Reply-To: <e6014a01-1094-9ec7-9b37-2abdf70e305f@pedrovanzella.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 23 Aug 2019 16:32:52 +0200
+Message-ID: <CAO-hwJ+=dAyFnUfiPSmiGpzYTj=9BPDdeKQOY7UoCOvwQ5CH7Q@mail.gmail.com>
 Subject: Re: [Resubmit] Read battery voltage from Logitech Gaming mice
-From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
 To:     Pedro Vanzella <pedro@pedrovanzella.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+        Bastien Nocera <hadess@hadess.net>
 Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>,
         Jiri Kosina <jikos@kernel.org>,
         lkml <linux-kernel@vger.kernel.org>
-In-Reply-To: <e6014a01-1094-9ec7-9b37-2abdf70e305f@pedrovanzella.com>
-References: <20190822201849.28924-1-pedro@pedrovanzella.com>
-         <CAO-hwJKQcTpmk8cVf-YmKu2awXv_53=qfpy2yfmy2rgMu_DEug@mail.gmail.com>
-         <e6014a01-1094-9ec7-9b37-2abdf70e305f@pedrovanzella.com>
-Organization: Archlinux
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-xuWjDQq/RSZ7ZoquJLBK"
-Date:   Fri, 23 Aug 2019 15:29:23 +0100
-MIME-Version: 1.0
-User-Agent: Evolution 3.32.4 
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
---=-xuWjDQq/RSZ7ZoquJLBK
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 2019-08-23 at 10:22 -0400, Pedro Vanzella wrote:
-> I actually resubmitted by Filipe's request, since the patches weren't=20
-> applying cleanly anymore. The idea was to apply these patches and in the=
-=20
+On Fri, Aug 23, 2019 at 4:22 PM Pedro Vanzella <pedro@pedrovanzella.com> wrote:
+>
+> Hi Benjamin,
+>
+> On 8/23/19 4:25 AM, Benjamin Tissoires wrote:
+> > Hi Pedro,
+> >
+> > On Thu, Aug 22, 2019 at 10:19 PM Pedro Vanzella <pedro@pedrovanzella.com> wrote:
+> >>
+> >> Resumitting this after having rebased it against the latest changes.
+> >
+> > thanks for resubmitting. Sorry I wasn't able to provide feedback on
+> > the last revision
+> >
+>
+> No worries, I know how these things are.
+>
+> >>
+> >> The gaming line of Logitech devices doesn't use the old hidpp20
+> >> feature for battery level reporting. Instead, they report the
+> >> current voltage of the battery, in millivolts.
+> >>
+> >> This patch set handles this case by adding a quirk to the
+> >> devices we know to have this new feature, in both wired
+> >> and wireless mode.
+> >
+> > So the quirk is in the end a bad idea after all. I had some chats with
+> > Filipe that made me realize this.
+>
+> I actually resubmitted by Filipe's request, since the patches weren't
+> applying cleanly anymore. The idea was to apply these patches and in the
 > future refactor the code to use the feature discovery routines.
+>
+> > Re-reading our previous exchanges also made me understood why I wasn't
+> > happy with the initial submission: for every request the code was
+> > checking both features 0x1000 and 0x1001 when we can remember this
+> > once and for all during hidpp_initialize_battery().
+>
+> Yeah I wasn't too happy about this either, but since there was nothing
+> prohibiting some device to have both features enabled, I thought this
+> wasn't too horrible.
 
-Yes, I want to refactor everything so I though there was no point in us
-changing the patch set again. I did not review the first revision of
-the patch set so if that works for you (Benjamin) we can just merge
-that.
+I honestly don't think we will find one device that has both features
+enabled. It doesn't make sense as the "new" feature allows for fine
+tuning in the software, which would be moot if you also enable the
+percentage.
 
-> So we (you, me and Filipe) should probably come up with an action plan=
-=20
-> here. The way I see it there are two issues here: one is adding this=20
-> feature, and the other is refactoring to use feature discovery for all=
-=20
-> features. There are advantages and disadvantages to doing one or another=
-=20
+>
+> >
+> > So I think we should remove the useless quirk in the end (bad idea
+> > from me, I concede), and instead during hidpp_initialize_battery() set
+> > the correct HIDPP_CAPABILITY_*.
+> > Not entirely sure if we should try to call 0x1000, or 0x1001 or if we
+> > should rely on the 0x0001 feature to know which feature is available,
+> > but this should be implementation detail.
+>
+> I like the idea of calling 0x0001 once on device boot much better. I
+> think we could easily just fetch the location for the features we know
+> about and want to deal with once only. This also makes sure we support
+> every single device that supports this feature, so that is a huge plus.
+>
+> In fact, I think we should _not_ call 0x0001 on battery init, but only
+> call battery init _after_ we called 0x0001 and discovered either 0x1000
+> or 0x1001 (or the solar battery feature, or any other one that might
+> crop up in the feature).
+
+ack for that
+
+>
+> >
+> >>
+> >> This version of the patch set is better split, as well as adding the
+> >> quirk to make sure we don't needlessly probe every device connected.
+> >
+> > It is for sure easy to review, but doesn't make much sense in the end.
+> > I think we should squash all the patches together as you are just
+> > adding one feature in the driver, and it is a little bit disturbing to
+> > first add the quirk that has no use, then set up the structs when they
+> > are not used, and so on, so forth.
+>
+> You're right. My first instinct was to send a single patch. As much as I
+> tested this, I always feel like breaking the patch up post-facto will
+> break a git bisect in the future and everyone will hate me :P
+
+as long as the patches are compiling and are not breaking, git bisect
+will not be a problem. However, we might end up with the last one,
+which is not very explicit in what it does as it just enables the
+features implemented previously.
+
+>
+> So we (you, me and Filipe) should probably come up with an action plan
+> here. The way I see it there are two issues here: one is adding this
+> feature, and the other is refactoring to use feature discovery for all
+> features. There are advantages and disadvantages to doing one or another
 > first and we might want to discuss that.
->=20
-> By merging this first (probably after I resubmit it as a single squashed=
-=20
-> patch) we get to test it a bit better and have a usable feature sooner.=
-=20
-> Plenty of people have been requesting this and there is plenty of stuff=
-=20
-> that can be built on top of it, but only once this is actually merged I=
-=20
+>
+> By merging this first (probably after I resubmit it as a single squashed
+> patch) we get to test it a bit better and have a usable feature sooner.
+> Plenty of people have been requesting this and there is plenty of stuff
+> that can be built on top of it, but only once this is actually merged I
 > think.
->=20
-> On the other hand, by first refactoring the rest of the code to use=20
-> 0x0001 we avoid some rework on this patch. It should be minor, as most=
-=20
-> functions here do all the heavy lifting after the initial feature=20
+>
+> On the other hand, by first refactoring the rest of the code to use
+> 0x0001 we avoid some rework on this patch. It should be minor, as most
+> functions here do all the heavy lifting after the initial feature
 > discovery, and are thus mostly independent from how that is done.
->=20
+>
 > I'm happy either way, so just let me know what you guys decide.
 
-I am also fine either way so I think we should just re-send the first
-revision of your patch set as Benjamin requested.
+I think we should merge your v3 squashed series with a slight
+autodetection during battery init, like the method you used in the v1.
+This would remove the quirk, but keep the straightforward commands
+when addressing battery data.
 
-Thank you,
-Filipe La=C3=ADns
+Relying on 0x0001 should be done separately and can come in in a later
+patch IMO (unless you plan to work on it, in which case you can send
+both at once).
 
---=-xuWjDQq/RSZ7ZoquJLBK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+The problem I have with quirks, and that I explained to Filipe on IRC
+is that this is kernel ABI. Even if there is a very low chance we have
+someone using this, re-using the same drv_data bit in the future might
+break someone's device.
 
------BEGIN PGP SIGNATURE-----
+>
+> If you guys (or anyone else reading this on the public list, really) has
+> any input - naming things being notoriosly hard, I'm actually happy with
+> nitpicking - I'd appreciate it. On that note, come to think of it, I'm
+> not 100% sure reporting the voltage in milivolts is the standard way. I
+> looked through the docs, but found no solid guideline. It was either
+> that or a float, so I think I made the right call here, but still.
 
-iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAl1f+D4ACgkQ+JPGdIFq
-qV2ezw/8CXhS7XgzWsqZOz7/x3H2JtpFxmu1CUKSz4RQde8zc0lygZKJumdkJqU0
-8f6FeqBwLdAM+XHZg8qM+RHeg7zoXK9cKLVxiZphxo+bA0sDvAkjvczZ7juTyVQm
-oQUxrvSPUU69iUvVE7crB1IYDq49rWZAtXDMrrajXojciXmeipbqfiJZn+EclPrF
-rqZ2WFzlzpeM62pWCJ2vv9fxpBHWw8lGtdYPiehvE14Ot03ph3nVhzNSH8aHLptU
-bb+54QaEgDVXqyIdjvle0PUk2kRTbg+THb6anjXtaQQHcZj2Hibphnz36Pc7p1aU
-bWhGtyLgX3u5wEXS9jvXxCsnqt1yZ0QHt7ri03WVVBQQqFiq2f083c3y6uoqTQRi
-ya5EqpHHN1mtjLAKGodbO74n793kj5V2eLXY0TdjmrtDqluG8sPY7jm8zcU5RvBK
-V3ybuLGvkd9JHlpcgH4QKJ6VtVwhWPtz1DThjF8z69bhkWsijdtrzxFg8WXJnB+G
-IsnTwuZaa0ytvUa94X0160588+qK0AoMQ048EfS2M0NF9d7u41jEJoG7qK+gNzc9
-3JN63STo9eFGkp6Bowzj6U/KtjqCOMKknr/pqZihyk1fSja9R6dhoWzb1BEK+gyA
-KXMU7Q48jGa26os47hA4m9Th6/D1aLIx5gxFVo3JpG1Q6A6cc5o=
-=G32C
------END PGP SIGNATURE-----
+I am not sure either. Adding Bastien as he has a lot more experience in upower.
 
---=-xuWjDQq/RSZ7ZoquJLBK--
+But I am under the impression that the kernel part is more "try to
+deal with whatever the hardware provides, and deal with it in user
+space".
