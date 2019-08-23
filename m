@@ -2,260 +2,185 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E7DD9AFA3
-	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2019 14:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C43FE9B1CA
+	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2019 16:22:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389646AbfHWMgY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Aug 2019 08:36:24 -0400
-Received: from protonic.xs4all.nl ([83.163.252.89]:57253 "EHLO protonic.nl"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2387932AbfHWMgY (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Aug 2019 08:36:24 -0400
-X-Greylist: delayed 442 seconds by postgrey-1.27 at vger.kernel.org; Fri, 23 Aug 2019 08:36:23 EDT
-Received: from erd987.prtnl (erd987.prtnl [192.168.237.3])
-        by sparta (Postfix) with ESMTP id 7B3D244A009E;
-        Fri, 23 Aug 2019 14:30:56 +0200 (CEST)
-From:   Robin van der Gracht <robin@protonic.nl>
-To:     Robin van der Gracht <robin@protonic.nl>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Robin Gong <yibin.gong@nxp.com>, Adam Ford <aford173@gmail.com>
-Subject: [PATCH] input: keyboard: snvs_pwrkey: Send press and release event for i.MX6 S,DL and Q
-Date:   Fri, 23 Aug 2019 14:30:02 +0200
-Message-Id: <20190823123002.10448-1-robin@protonic.nl>
-X-Mailer: git-send-email 2.20.1
+        id S2388877AbfHWOWV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Aug 2019 10:22:21 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:35829 "EHLO
+        wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731879AbfHWOWV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 23 Aug 2019 10:22:21 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.west.internal (Postfix) with ESMTP id 9C1793C2;
+        Fri, 23 Aug 2019 10:22:19 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Fri, 23 Aug 2019 10:22:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        pedrovanzella.com; h=subject:to:cc:references:from:message-id
+        :date:mime-version:in-reply-to:content-type
+        :content-transfer-encoding; s=fm3; bh=EfJbH9OnjtKj3CUw1B8NweZdaH
+        ec7Po9qpFZEwcvYrI=; b=uTYtomk7fnjsuB+Qb5dnNGMqMMgTm04p3WAXh1nrFw
+        VrUGpe3iGSZJihcXwupkzpdsl844IOyfiMTtEJ2D2ZN1P4Izy9OWKPsDiiRplT0u
+        /GGeP5ET0MnTglPST/YwV7JZApPyDHbOiDahyyHohaSE1XBlLW5gRkV/73yYpxxB
+        WYec5KddR4eSh4cbtnhEosVKTZImz6Q7uoJWnWGpQCRlnvkCvXaDg09vD0Lvoc4A
+        Iw+3cYVb/earPt4J0iQZkEQISMj65sWa0dYFQARifzJ+cBp4dgcPqttxd7ZobNqq
+        GUHuEsYysLBCHfMM7LOanGZhWn8+ouMQkiD9aGvDNg+g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=EfJbH9OnjtKj3CUw1B8NweZdaHec7Po9qpFZEwcvY
+        rI=; b=Ypi5VS697rlEot91gUSkgrcHUdK2a07L4aMrA3pGXWHgOzVLij/BUvcrv
+        I6/rMBokzP2V6lJWqoPBtLlH3P/VxF+m3rP64b9gcxukzl+aw2UZFOioGkbZHCBw
+        FzztRDjnSbIvuUL9zJ2cd3uo1mgLk13jABNBrquUa+vKKOBf470IE19c6pbXUhsW
+        t1Z6DC6vgOmKqT4tyZqqVC6AJF+RsXbGi1pbJTAJ4mlhpjbU2GHhwxXnpBHcOiMi
+        cWjWbDNZktVLrCt0K0CClrNcZ0g1gG8OgTHjCqI0M4G41BeviGGVe2XP56vRw8bj
+        atFZ2CEHBzTtja5v/QLqnuqSFDTgg==
+X-ME-Sender: <xms:mvZfXaeV44b2Cp0xkv_oTz9chBGil9v4vBfen-eicCJcn_HhT6PXJg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedgjeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomheprfgvughr
+    ohcugggrnhiivghllhgruceophgvughrohesphgvughrohhvrghniigvlhhlrgdrtghomh
+    eqnecukfhppedujeegrdekkedrledrudegleenucfrrghrrghmpehmrghilhhfrhhomhep
+    phgvughrohesphgvughrohhvrghniigvlhhlrgdrtghomhenucevlhhushhtvghrufhiii
+    gvpedt
+X-ME-Proxy: <xmx:mvZfXSAfu7NKSfBc49k2vXugBfcbbdNOeBhXCzt-i6IrD06dYvb04Q>
+    <xmx:mvZfXcZ_BTcCmRhooDg7M0CpmpjKx6iKXB25pOp_dN4KzizMKvNDQA>
+    <xmx:mvZfXS5SgzMLSnrmfc-aCqIUaDStoYIbchQ5YYnKIyn8P7h20lH2pQ>
+    <xmx:m_ZfXUMkWbjiD7l1h3BGQtdFc8Xh2M61BihaKKk0EV9Dhf0YkuyPEg>
+Received: from [192.168.2.40] (toroon020aw-lp130-07-174-88-9-149.dsl.bell.ca [174.88.9.149])
+        by mail.messagingengine.com (Postfix) with ESMTPA id E5E098005C;
+        Fri, 23 Aug 2019 10:22:17 -0400 (EDT)
+Subject: Re: [Resubmit] Read battery voltage from Logitech Gaming mice
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@archlinux.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <20190822201849.28924-1-pedro@pedrovanzella.com>
+ <CAO-hwJKQcTpmk8cVf-YmKu2awXv_53=qfpy2yfmy2rgMu_DEug@mail.gmail.com>
+From:   Pedro Vanzella <pedro@pedrovanzella.com>
+Message-ID: <e6014a01-1094-9ec7-9b37-2abdf70e305f@pedrovanzella.com>
+Date:   Fri, 23 Aug 2019 10:22:14 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAO-hwJKQcTpmk8cVf-YmKu2awXv_53=qfpy2yfmy2rgMu_DEug@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The older generation i.MX6 processors send a powerdown request interrupt if
-the powerkey is released before a hard shutdown (5 second press). This should
-allow software to bring down the SoC safely.
+Hi Benjamin,
 
-For this driver to work as a regular powerkey with the older SoCs, we need to
-send a keypress AND release when we get the powerdown request interrupt.
+On 8/23/19 4:25 AM, Benjamin Tissoires wrote:
+> Hi Pedro,
+> 
+> On Thu, Aug 22, 2019 at 10:19 PM Pedro Vanzella <pedro@pedrovanzella.com> wrote:
+>>
+>> Resumitting this after having rebased it against the latest changes.
+> 
+> thanks for resubmitting. Sorry I wasn't able to provide feedback on
+> the last revision
+> 
 
-Signed-off-by: Robin van der Gracht <robin@protonic.nl>
----
- arch/arm/boot/dts/imx6qdl.dtsi       |  2 +-
- arch/arm/boot/dts/imx6sll.dtsi       |  2 +-
- arch/arm/boot/dts/imx6sx.dtsi        |  2 +-
- arch/arm/boot/dts/imx6ul.dtsi        |  2 +-
- arch/arm/boot/dts/imx7s.dtsi         |  2 +-
- drivers/input/keyboard/Kconfig       |  2 +-
- drivers/input/keyboard/snvs_pwrkey.c | 59 +++++++++++++++++++++++-----
- 7 files changed, 56 insertions(+), 15 deletions(-)
+No worries, I know how these things are.
 
-diff --git a/arch/arm/boot/dts/imx6qdl.dtsi b/arch/arm/boot/dts/imx6qdl.dtsi
-index b3a77bcf00d51..c10d12658743c 100644
---- a/arch/arm/boot/dts/imx6qdl.dtsi
-+++ b/arch/arm/boot/dts/imx6qdl.dtsi
-@@ -836,7 +836,7 @@
- 				};
- 
- 				snvs_pwrkey: snvs-powerkey {
--					compatible = "fsl,sec-v4.0-pwrkey";
-+					compatible = "fsl,imx6qdl-sec-v4.0-pwrkey";
- 					regmap = <&snvs>;
- 					interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
- 					linux,keycode = <KEY_POWER>;
-diff --git a/arch/arm/boot/dts/imx6sll.dtsi b/arch/arm/boot/dts/imx6sll.dtsi
-index 1b4899f0fcded..91c7d5bdcc359 100644
---- a/arch/arm/boot/dts/imx6sll.dtsi
-+++ b/arch/arm/boot/dts/imx6sll.dtsi
-@@ -571,7 +571,7 @@
- 				};
- 
- 				snvs_pwrkey: snvs-powerkey {
--					compatible = "fsl,sec-v4.0-pwrkey";
-+					compatible = "fsl,imx6sx-sec-v4.0-pwrkey";
- 					regmap = <&snvs>;
- 					interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
- 					linux,keycode = <KEY_POWER>;
-diff --git a/arch/arm/boot/dts/imx6sx.dtsi b/arch/arm/boot/dts/imx6sx.dtsi
-index b16a123990a26..b6736db65350f 100644
---- a/arch/arm/boot/dts/imx6sx.dtsi
-+++ b/arch/arm/boot/dts/imx6sx.dtsi
-@@ -733,7 +733,7 @@
- 				};
- 
- 				snvs_pwrkey: snvs-powerkey {
--					compatible = "fsl,sec-v4.0-pwrkey";
-+					compatible = "fsl,imx6sx-sec-v4.0-pwrkey";
- 					regmap = <&snvs>;
- 					interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
- 					linux,keycode = <KEY_POWER>;
-diff --git a/arch/arm/boot/dts/imx6ul.dtsi b/arch/arm/boot/dts/imx6ul.dtsi
-index a7f6d1d58e20d..d4678c52b55db 100644
---- a/arch/arm/boot/dts/imx6ul.dtsi
-+++ b/arch/arm/boot/dts/imx6ul.dtsi
-@@ -644,7 +644,7 @@
- 				};
- 
- 				snvs_pwrkey: snvs-powerkey {
--					compatible = "fsl,sec-v4.0-pwrkey";
-+					compatible = "fsl,imx6sx-sec-v4.0-pwrkey";
- 					regmap = <&snvs>;
- 					interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
- 					linux,keycode = <KEY_POWER>;
-diff --git a/arch/arm/boot/dts/imx7s.dtsi b/arch/arm/boot/dts/imx7s.dtsi
-index 106711d2c01b0..bb68c23beb199 100644
---- a/arch/arm/boot/dts/imx7s.dtsi
-+++ b/arch/arm/boot/dts/imx7s.dtsi
-@@ -604,7 +604,7 @@
- 				};
- 
- 				snvs_pwrkey: snvs-powerkey {
--					compatible = "fsl,sec-v4.0-pwrkey";
-+					compatible = "fsl,imx6sx-sec-v4.0-pwrkey";
- 					regmap = <&snvs>;
- 					interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
- 					linux,keycode = <KEY_POWER>;
-diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-index 7c4f19dab34fd..937e58da5ce17 100644
---- a/drivers/input/keyboard/Kconfig
-+++ b/drivers/input/keyboard/Kconfig
-@@ -436,7 +436,7 @@ config KEYBOARD_SNVS_PWRKEY
- 	depends on OF
- 	help
- 	  This is the snvs powerkey driver for the Freescale i.MX application
--	  processors that are newer than i.MX6 SX.
-+	  processors.
- 
- 	  To compile this driver as a module, choose M here; the
- 	  module will be called snvs_pwrkey.
-diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/keyboard/snvs_pwrkey.c
-index 5342d8d45f811..c321e5f2d1087 100644
---- a/drivers/input/keyboard/snvs_pwrkey.c
-+++ b/drivers/input/keyboard/snvs_pwrkey.c
-@@ -29,6 +29,11 @@
- #define DEBOUNCE_TIME 30
- #define REPEAT_INTERVAL 60
- 
-+enum imx_snvs_hwtype {
-+	IMX6SX_SNVS,	/* i.MX6 SoloX and newer */
-+	IMX6QDL_SNVS,	/* i.MX6 Solo, DualLite adn Quad */
-+};
-+
- struct pwrkey_drv_data {
- 	struct regmap *snvs;
- 	int irq;
-@@ -37,6 +42,19 @@ struct pwrkey_drv_data {
- 	int wakeup;
- 	struct timer_list check_timer;
- 	struct input_dev *input;
-+	enum imx_snvs_hwtype hwtype;
-+};
-+
-+static const struct platform_device_id imx_snvs_devtype[] = {
-+	{
-+		.name = "imx6sx-snvs-pwrkey",
-+		.driver_data = IMX6SX_SNVS,
-+	}, {
-+		.name = "imx6qdl-snvs-pwrkey",
-+		.driver_data = IMX6QDL_SNVS,
-+	}, {
-+		/* sentinel */
-+	}
- };
- 
- static void imx_imx_snvs_check_for_events(struct timer_list *t)
-@@ -67,13 +85,23 @@ static irqreturn_t imx_snvs_pwrkey_interrupt(int irq, void *dev_id)
- {
- 	struct platform_device *pdev = dev_id;
- 	struct pwrkey_drv_data *pdata = platform_get_drvdata(pdev);
-+	struct input_dev *input = pdata->input;
- 	u32 lp_status;
- 
--	pm_wakeup_event(pdata->input->dev.parent, 0);
-+	pm_wakeup_event(input->dev.parent, 0);
- 
- 	regmap_read(pdata->snvs, SNVS_LPSR_REG, &lp_status);
--	if (lp_status & SNVS_LPSR_SPO)
--		mod_timer(&pdata->check_timer, jiffies + msecs_to_jiffies(DEBOUNCE_TIME));
-+	if (lp_status & SNVS_LPSR_SPO) {
-+		if (pdata->hwtype == IMX6QDL_SNVS) {
-+			input_report_key(input, pdata->keycode, 1);
-+			input_report_key(input, pdata->keycode, 0);
-+			input_sync(input);
-+			pm_relax(input->dev.parent);
-+		} else {
-+			mod_timer(&pdata->check_timer,
-+				jiffies + msecs_to_jiffies(DEBOUNCE_TIME));
-+		}
-+	}
- 
- 	/* clear SPO status */
- 	regmap_write(pdata->snvs, SNVS_LPSR_REG, SNVS_LPSR_SPO);
-@@ -88,11 +116,24 @@ static void imx_snvs_pwrkey_act(void *pdata)
- 	del_timer_sync(&pd->check_timer);
- }
- 
-+static const struct of_device_id imx_snvs_pwrkey_ids[] = {
-+	{
-+		.compatible = "fsl,imx6sx-sec-v4.0-pwrkey",
-+		.data = &imx_snvs_devtype[IMX6SX_SNVS],
-+	}, {
-+		.compatible = "fsl,imx6qdl-sec-v4.0-pwrkey",
-+		.data = &imx_snvs_devtype[IMX6QDL_SNVS],
-+	},
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, imx_snvs_pwrkey_ids);
-+
- static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
- {
- 	struct pwrkey_drv_data *pdata = NULL;
- 	struct input_dev *input = NULL;
- 	struct device_node *np;
-+	const struct of_device_id *of_id;
- 	int error;
- 
- 	/* Get SNVS register Page */
-@@ -100,6 +141,11 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
- 	if (!np)
- 		return -ENODEV;
- 
-+	of_id = of_match_node(imx_snvs_pwrkey_ids, np);
-+	if (!of_id)
-+		return -ENODEV;
-+	pdev->id_entry = of_id->data;
-+
- 	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
- 	if (!pdata)
- 		return -ENOMEM;
-@@ -116,6 +162,7 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
- 	}
- 
- 	pdata->wakeup = of_property_read_bool(np, "wakeup-source");
-+	pdata->hwtype = pdev->id_entry->driver_data;
- 
- 	pdata->irq = platform_get_irq(pdev, 0);
- 	if (pdata->irq < 0) {
-@@ -175,12 +222,6 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static const struct of_device_id imx_snvs_pwrkey_ids[] = {
--	{ .compatible = "fsl,sec-v4.0-pwrkey" },
--	{ /* sentinel */ }
--};
--MODULE_DEVICE_TABLE(of, imx_snvs_pwrkey_ids);
--
- static struct platform_driver imx_snvs_pwrkey_driver = {
- 	.driver = {
- 		.name = "snvs_pwrkey",
--- 
-2.20.1
+>>
+>> The gaming line of Logitech devices doesn't use the old hidpp20
+>> feature for battery level reporting. Instead, they report the
+>> current voltage of the battery, in millivolts.
+>>
+>> This patch set handles this case by adding a quirk to the
+>> devices we know to have this new feature, in both wired
+>> and wireless mode.
+> 
+> So the quirk is in the end a bad idea after all. I had some chats with
+> Filipe that made me realize this.
 
+I actually resubmitted by Filipe's request, since the patches weren't 
+applying cleanly anymore. The idea was to apply these patches and in the 
+future refactor the code to use the feature discovery routines.
+
+> Re-reading our previous exchanges also made me understood why I wasn't
+> happy with the initial submission: for every request the code was
+> checking both features 0x1000 and 0x1001 when we can remember this
+> once and for all during hidpp_initialize_battery().
+
+Yeah I wasn't too happy about this either, but since there was nothing 
+prohibiting some device to have both features enabled, I thought this 
+wasn't too horrible.
+
+> 
+> So I think we should remove the useless quirk in the end (bad idea
+> from me, I concede), and instead during hidpp_initialize_battery() set
+> the correct HIDPP_CAPABILITY_*.
+> Not entirely sure if we should try to call 0x1000, or 0x1001 or if we
+> should rely on the 0x0001 feature to know which feature is available,
+> but this should be implementation detail.
+
+I like the idea of calling 0x0001 once on device boot much better. I 
+think we could easily just fetch the location for the features we know 
+about and want to deal with once only. This also makes sure we support 
+every single device that supports this feature, so that is a huge plus.
+
+In fact, I think we should _not_ call 0x0001 on battery init, but only 
+call battery init _after_ we called 0x0001 and discovered either 0x1000 
+or 0x1001 (or the solar battery feature, or any other one that might 
+crop up in the feature).
+
+> 
+>>
+>> This version of the patch set is better split, as well as adding the
+>> quirk to make sure we don't needlessly probe every device connected.
+> 
+> It is for sure easy to review, but doesn't make much sense in the end.
+> I think we should squash all the patches together as you are just
+> adding one feature in the driver, and it is a little bit disturbing to
+> first add the quirk that has no use, then set up the structs when they
+> are not used, and so on, so forth.
+
+You're right. My first instinct was to send a single patch. As much as I 
+tested this, I always feel like breaking the patch up post-facto will 
+break a git bisect in the future and everyone will hate me :P
+
+So we (you, me and Filipe) should probably come up with an action plan 
+here. The way I see it there are two issues here: one is adding this 
+feature, and the other is refactoring to use feature discovery for all 
+features. There are advantages and disadvantages to doing one or another 
+first and we might want to discuss that.
+
+By merging this first (probably after I resubmit it as a single squashed 
+patch) we get to test it a bit better and have a usable feature sooner. 
+Plenty of people have been requesting this and there is plenty of stuff 
+that can be built on top of it, but only once this is actually merged I 
+think.
+
+On the other hand, by first refactoring the rest of the code to use 
+0x0001 we avoid some rework on this patch. It should be minor, as most 
+functions here do all the heavy lifting after the initial feature 
+discovery, and are thus mostly independent from how that is done.
+
+I'm happy either way, so just let me know what you guys decide.
+
+If you guys (or anyone else reading this on the public list, really) has 
+any input - naming things being notoriosly hard, I'm actually happy with 
+nitpicking - I'd appreciate it. On that note, come to think of it, I'm 
+not 100% sure reporting the voltage in milivolts is the standard way. I 
+looked through the docs, but found no solid guideline. It was either 
+that or a float, so I think I made the right call here, but still.
+
+- Pedro
+
+> 
+> Cheers,
+> Benjamin
+> 
+>>
+>>
