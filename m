@@ -2,103 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 824629AA43
-	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2019 10:27:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AB159AB54
+	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2019 11:30:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732096AbfHWIZ7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Aug 2019 04:25:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58244 "EHLO mx1.redhat.com"
+        id S1732011AbfHWJ3f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Aug 2019 05:29:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52126 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731428AbfHWIZ6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Aug 2019 04:25:58 -0400
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1731961AbfHWJ3f (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 23 Aug 2019 05:29:35 -0400
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 8970F10A1B
-        for <linux-input@vger.kernel.org>; Fri, 23 Aug 2019 08:25:58 +0000 (UTC)
-Received: by mail-qk1-f200.google.com with SMTP id b13so8362761qkk.20
-        for <linux-input@vger.kernel.org>; Fri, 23 Aug 2019 01:25:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VjFqKkU/rr1wSVqQW2FjKWVFmd3zU0NlYrJ5LLeu7CA=;
-        b=aVXTOlGVgbCxJpfdMcq3pgGN48VfWUXZOu/Et3G3wrqiq4v/Di+Nyud3iDttlihnOI
-         WPOAujNEd41CXYw4KPmdzcgyXW2V8CIP2rWxhs6basTUWrmL7HN82q4K6CQHYEUoPxVQ
-         mphtf//MWpEiqDiUsCl16a1MHwxIEmZ/9ClZbwhvrQtlrIfS0EsaALem+LarRcIf384E
-         iuGK9jiG3eYaNUdU+o0EBf+8kWj4k0w1X5eHfkz1m6K44U9qW4IH9EUMv/7OGCMOwSlG
-         BT4RzEto9bdva9oy9RoVAsFnOBTlEFJtsbJgcKsLI2rxIEoyBO2vKHgmwRKzf986By/U
-         K2EQ==
-X-Gm-Message-State: APjAAAWOANs/1waUnf3/6U7qZpqF2QB3y8kyYi3GW0JVK0134TgAXBkU
-        zM2jJRb9NyGUWiy11X9xEAIl+YVmj5pT5YlxlF/eTzjY/CRMFy+Aup6ll3L5ARdaFQBLfrYUwrE
-        At+4Z0f5qxWq0YtYamYdtkzSbblxHzv1C/GyqiO4=
-X-Received: by 2002:a37:7cc3:: with SMTP id x186mr2952753qkc.169.1566548757933;
-        Fri, 23 Aug 2019 01:25:57 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxNX4lU3xyrEi8AXJCSV1OukASjVTtdoDCQ51j+nsk2GbCz5NAdQVvXyjy2qAxcjjN6hawR5X8aynRxBKBw8WM=
-X-Received: by 2002:a37:7cc3:: with SMTP id x186mr2952739qkc.169.1566548757737;
- Fri, 23 Aug 2019 01:25:57 -0700 (PDT)
+        by mail.kernel.org (Postfix) with ESMTPSA id C76EA21726;
+        Fri, 23 Aug 2019 09:29:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566552574;
+        bh=XenzbbR3aGpSz8r7B1SXYn9xAm7cNzeX0FUnGdLYkqs=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=FdDx7TANHjCBSkoMzhQhlztLcWAU6ALKr5+4yX6EwqKKmAX7B3Cu8bw9rnc7yIN4A
+         Y3DZuYRfoAUmOX+GuCoOIWkEp2NZ6kD1PKVakdTdfU5JFHjJHpFDmd8KGQW7fkMMNI
+         RieqpzgBzkAAA5T/vR1PdBCo+oDbifRDGjHZcY1Q=
+Date:   Fri, 23 Aug 2019 11:29:22 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Alan Stern <stern@rowland.harvard.edu>
+cc:     Andrey Konovalov <andreyknvl@google.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Hillf Danton <hdanton@sina.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        linux-input@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH] HID: USB: Fix general protection fault caused by Logitech
+ driver
+In-Reply-To: <Pine.LNX.4.44L0.1908221619370.1311-100000@iolanthe.rowland.org>
+Message-ID: <nycvar.YFH.7.76.1908231128260.27147@cbobk.fhfr.pm>
+References: <Pine.LNX.4.44L0.1908221619370.1311-100000@iolanthe.rowland.org>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <20190822201849.28924-1-pedro@pedrovanzella.com>
-In-Reply-To: <20190822201849.28924-1-pedro@pedrovanzella.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 23 Aug 2019 10:25:46 +0200
-Message-ID: <CAO-hwJKQcTpmk8cVf-YmKu2awXv_53=qfpy2yfmy2rgMu_DEug@mail.gmail.com>
-Subject: Re: [Resubmit] Read battery voltage from Logitech Gaming mice
-To:     Pedro Vanzella <pedro@pedrovanzella.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Pedro,
+On Thu, 22 Aug 2019, Alan Stern wrote:
 
-On Thu, Aug 22, 2019 at 10:19 PM Pedro Vanzella <pedro@pedrovanzella.com> wrote:
->
-> Resumitting this after having rebased it against the latest changes.
+> > > > I've ran the fuzzer with your patches applied overnight and noticed
+> > > > another fallout of similar bugs. I think they are caused by a similar
+> > > > issue in the sony HID driver. There's no hid_hw_stop() call in the "if
+> > > > (!(hdev->claimed & HID_CLAIMED_INPUT))" case in sony_probe(). Does it
+> > > > look like a bug to you?
+> > >
+> > > It looks like the relevant hid_hw_stop() call is the one at the end of
+> > > sony_configure_input().  But I can't tell if doing that way is valid or
+> > > not -- in practice the code would end up calling hid_disconnect() while
+> > > hid_connect() was still running, which doesn't seem like a good idea.
+> > >
+> > > There's a comment about this near the end of sony_probe().  I suspect
+> > > it would be better to call hid_hw_stop() in the conditional code
+> > > following that comment rather than in sony_configure_input().
+> > >
+> > > Either way, these are all things Jiri should know about or check up on.
+> > >
+> > > Have you gotten any test results from syzbot exercising these pathways?
+> > > You ought to be able to tell which HID driver is involved by looking
+> > > through the console output.
+> > 
+> > Yes, a typical crash is below, that's why I thought it's the sony
+> > driver. Adding hid_hw_stop() in sony_probe() stops the issue from
+> > happening, but I don't know whether it's the right fix.
+> 
+> Probably you have to add hid_hw_stop() in sony_probe() and remove it 
+> from sony_configure_input().  But like I said above, Jiri should look 
+> into this.
 
-thanks for resubmitting. Sorry I wasn't able to provide feedback on
-the last revision
+It almost certainly is, thanks.
 
->
-> The gaming line of Logitech devices doesn't use the old hidpp20
-> feature for battery level reporting. Instead, they report the
-> current voltage of the battery, in millivolts.
->
-> This patch set handles this case by adding a quirk to the
-> devices we know to have this new feature, in both wired
-> and wireless mode.
+Adding Roderick to CC ... Roderick, will you be able to test and submit 
+a patch fixing that?
 
-So the quirk is in the end a bad idea after all. I had some chats with
-Filipe that made me realize this.
-Re-reading our previous exchanges also made me understood why I wasn't
-happy with the initial submission: for every request the code was
-checking both features 0x1000 and 0x1001 when we can remember this
-once and for all during hidpp_initialize_battery().
+-- 
+Jiri Kosina
+SUSE Labs
 
-So I think we should remove the useless quirk in the end (bad idea
-from me, I concede), and instead during hidpp_initialize_battery() set
-the correct HIDPP_CAPABILITY_*.
-Not entirely sure if we should try to call 0x1000, or 0x1001 or if we
-should rely on the 0x0001 feature to know which feature is available,
-but this should be implementation detail.
-
->
-> This version of the patch set is better split, as well as adding the
-> quirk to make sure we don't needlessly probe every device connected.
-
-It is for sure easy to review, but doesn't make much sense in the end.
-I think we should squash all the patches together as you are just
-adding one feature in the driver, and it is a little bit disturbing to
-first add the quirk that has no use, then set up the structs when they
-are not used, and so on, so forth.
-
-Cheers,
-Benjamin
-
->
->
