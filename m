@@ -2,86 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AB159AB54
-	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2019 11:30:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB5899AC6E
+	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2019 12:06:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732011AbfHWJ3f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Aug 2019 05:29:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52126 "EHLO mail.kernel.org"
+        id S2391832AbfHWKGW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Aug 2019 06:06:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46974 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731961AbfHWJ3f (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Aug 2019 05:29:35 -0400
-Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1732134AbfHWKGV (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 23 Aug 2019 06:06:21 -0400
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C76EA21726;
-        Fri, 23 Aug 2019 09:29:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566552574;
-        bh=XenzbbR3aGpSz8r7B1SXYn9xAm7cNzeX0FUnGdLYkqs=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=FdDx7TANHjCBSkoMzhQhlztLcWAU6ALKr5+4yX6EwqKKmAX7B3Cu8bw9rnc7yIN4A
-         Y3DZuYRfoAUmOX+GuCoOIWkEp2NZ6kD1PKVakdTdfU5JFHjJHpFDmd8KGQW7fkMMNI
-         RieqpzgBzkAAA5T/vR1PdBCo+oDbifRDGjHZcY1Q=
-Date:   Fri, 23 Aug 2019 11:29:22 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-cc:     Andrey Konovalov <andreyknvl@google.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Hillf Danton <hdanton@sina.com>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        linux-input@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH] HID: USB: Fix general protection fault caused by Logitech
- driver
-In-Reply-To: <Pine.LNX.4.44L0.1908221619370.1311-100000@iolanthe.rowland.org>
-Message-ID: <nycvar.YFH.7.76.1908231128260.27147@cbobk.fhfr.pm>
-References: <Pine.LNX.4.44L0.1908221619370.1311-100000@iolanthe.rowland.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        by mx1.redhat.com (Postfix) with ESMTPS id 3B5E9756
+        for <linux-input@vger.kernel.org>; Fri, 23 Aug 2019 10:06:21 +0000 (UTC)
+Received: by mail-qt1-f200.google.com with SMTP id l17so9329678qtk.16
+        for <linux-input@vger.kernel.org>; Fri, 23 Aug 2019 03:06:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vUUAeJTtmIxTNqg7kNNROuCzphWk1QF2DOAGWrCpWnQ=;
+        b=H2PEfvpNkLQsBoUPTkzPzcW/my+tT4rx7Vbx0HlSHay7Dbm4ek/i3QCp1V/0D+uu+m
+         +Doa8VC/6MyF/SdnKV2ZW8see8r3vnwPco17dU/GKuJViXTPH8DTdFceiZqZbvYt3L0m
+         I0QZdlsOjJ8wcLRc05BV9KZDLcGFIb11d9VNLGIhWLVznZU5i5sdiJacSkO3Qp2d80BM
+         ntwkaUHk4AernzV43lq5Zz2+rm+859ztZ2+hQZrMVEmuhVgUlb4ujkNok+wShQTkWBwD
+         sMO9D80bV89a78cMI/GwUXHz4YexN6/7qtz/+/Zc0mdnotS05FPHFAUomdqOQMt4CX0X
+         lIvQ==
+X-Gm-Message-State: APjAAAUA7SEDQmwEFfDEHMeJbTLhfSYekmloDI4o5c90h9FMgT2guiQJ
+        svt0Ave3rZFe6kRaQu/X/OGwUqmSGplmj1Ze+1bk83zX9WyfaXNuMF3sLkb4WpKHXxdKE4p9r8C
+        lIZAt8KSa3bHceF71vInZ93+XTWpI7yt69P0OgP8=
+X-Received: by 2002:a0c:ea4f:: with SMTP id u15mr3171947qvp.115.1566554780531;
+        Fri, 23 Aug 2019 03:06:20 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx5wdvO61FFMPBv7cBENwR71pjtOKIzpiJF9bqI6Dig5gj1cRdn0UNzY6fNdL3OJKVDZOFvuGqiNV3oIZX9WEM=
+X-Received: by 2002:a0c:ea4f:: with SMTP id u15mr3171936qvp.115.1566554780277;
+ Fri, 23 Aug 2019 03:06:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20190812160804.11803-1-benjamin.tissoires@redhat.com> <f97403fd-4bf0-f82b-06e7-8bf4dcb2b2aa@redhat.com>
+In-Reply-To: <f97403fd-4bf0-f82b-06e7-8bf4dcb2b2aa@redhat.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 23 Aug 2019 12:06:07 +0200
+Message-ID: <CAO-hwJL2PeHNWsaPvWER7dSaG3iHPGZuWhLY54Z_dpTN=pBaPg@mail.gmail.com>
+Subject: Re: [PATCH] HID: logitech-dj: add support of the G700(s) receiver
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 22 Aug 2019, Alan Stern wrote:
+On Mon, Aug 12, 2019 at 6:26 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 12-08-19 18:08, Benjamin Tissoires wrote:
+> > Both the G700 and the G700s are sharing the same receiver.
+> > Include support for this receiver in hid-logitech-dj so that userspace
+> > can differentiate both.
+> >
+> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>
+> Nice, looks good to me:
+>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-> > > > I've ran the fuzzer with your patches applied overnight and noticed
-> > > > another fallout of similar bugs. I think they are caused by a similar
-> > > > issue in the sony HID driver. There's no hid_hw_stop() call in the "if
-> > > > (!(hdev->claimed & HID_CLAIMED_INPUT))" case in sony_probe(). Does it
-> > > > look like a bug to you?
-> > >
-> > > It looks like the relevant hid_hw_stop() call is the one at the end of
-> > > sony_configure_input().  But I can't tell if doing that way is valid or
-> > > not -- in practice the code would end up calling hid_disconnect() while
-> > > hid_connect() was still running, which doesn't seem like a good idea.
-> > >
-> > > There's a comment about this near the end of sony_probe().  I suspect
-> > > it would be better to call hid_hw_stop() in the conditional code
-> > > following that comment rather than in sony_configure_input().
-> > >
-> > > Either way, these are all things Jiri should know about or check up on.
-> > >
-> > > Have you gotten any test results from syzbot exercising these pathways?
-> > > You ought to be able to tell which HID driver is involved by looking
-> > > through the console output.
-> > 
-> > Yes, a typical crash is below, that's why I thought it's the sony
-> > driver. Adding hid_hw_stop() in sony_probe() stops the issue from
-> > happening, but I don't know whether it's the right fix.
-> 
-> Probably you have to add hid_hw_stop() in sony_probe() and remove it 
-> from sony_configure_input().  But like I said above, Jiri should look 
-> into this.
+thanks
 
-It almost certainly is, thanks.
+Applied to for-5.4/logitech
 
-Adding Roderick to CC ... Roderick, will you be able to test and submit 
-a patch fixing that?
+Cheers,
+Benjamin
 
--- 
-Jiri Kosina
-SUSE Labs
-
+>
+> Regards,
+>
+> Hans
+>
+>
+>
+> > ---
+> >   drivers/hid/hid-logitech-dj.c | 5 +++++
+> >   1 file changed, 5 insertions(+)
+> >
+> > diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+> > index c547cba05fbb..d6250b0cb9f8 100644
+> > --- a/drivers/hid/hid-logitech-dj.c
+> > +++ b/drivers/hid/hid-logitech-dj.c
+> > @@ -959,6 +959,7 @@ static void logi_hidpp_recv_queue_notif(struct hid_device *hdev,
+> >               break;
+> >       case 0x07:
+> >               device_type = "eQUAD step 4 Gaming";
+> > +             logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
+> >               break;
+> >       case 0x08:
+> >               device_type = "eQUAD step 4 for gamepads";
+> > @@ -1832,6 +1833,10 @@ static const struct hid_device_id logi_dj_receivers[] = {
+> >         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+> >                        USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2),
+> >        .driver_data = recvr_type_hidpp},
+> > +     { /* Logitech G700(s) receiver (0xc531) */
+> > +       HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+> > +             0xc531),
+> > +      .driver_data = recvr_type_gaming_hidpp},
+> >       { /* Logitech lightspeed receiver (0xc539) */
+> >         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+> >               USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED),
+> >
