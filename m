@@ -2,236 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F0C69CDF1
-	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2019 13:19:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 165789D8C8
+	for <lists+linux-input@lfdr.de>; Tue, 27 Aug 2019 00:00:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727102AbfHZLTv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 26 Aug 2019 07:19:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39006 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726866AbfHZLTu (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 26 Aug 2019 07:19:50 -0400
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 946CE3B77
-        for <linux-input@vger.kernel.org>; Mon, 26 Aug 2019 11:19:49 +0000 (UTC)
-Received: by mail-ed1-f72.google.com with SMTP id w22so9396423edx.8
-        for <linux-input@vger.kernel.org>; Mon, 26 Aug 2019 04:19:49 -0700 (PDT)
+        id S1726257AbfHZWA1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 26 Aug 2019 18:00:27 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:42798 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725933AbfHZWA0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 26 Aug 2019 18:00:26 -0400
+Received: by mail-pg1-f194.google.com with SMTP id p3so11381046pgb.9;
+        Mon, 26 Aug 2019 15:00:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=QundPzgYfC/K73sFx47R4ZcLhuZTaRK8uTxQax5u8J8=;
+        b=bH1h97nB8UQXZo1Akpx6/6dRrbOsMc4EWh45viwTK88KkkOt7rroHS5cpC4nmwdvXu
+         0zidSiMECchfEMwIamoVHDvsVJM9WuLKacA0w6TZTC5qXSAkH6NYzvUeGsvH07rRuW0X
+         ELRYlgkaKChO1eGdgrzA5xWxSnQlahdeVtFVkvXDR6N1uu32EFjDYmJJJeikxR8UBJ3b
+         L+LVy/uMhaT6c8wRFXanroLx50hz9kiouOTNQllmON8T4G3k+uyGuNhDkCgwT6unB/+D
+         u6iI0CIQqjqD+DqT6ig4S89w5PQDXOD6M91Di2YUmxzVgwxREk1KXEGvS4BzMrVabfq5
+         Z2Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4qUpb3wCTHM1fU96ef9SzrMItNaS4Q9j1q67CV3ibIA=;
-        b=txW6rZ4KMrnaaBTucitpDonWaXwbow2+bFeXwxyU9ryWemxL6EMv56ulCz+HJ0ZF+Q
-         tmSHSfYjIl8GJh+E2e+qE+vKIuJlzE4P1TA5V3RvaosiSCA6rqnDnZodivZOK46a5Oa5
-         wbAsZG0FGDISzMREfBNS9pwXdTUw/Pm9JmgFp68/PkuzjLeS4xRqbuSpdQ5jMcZiSbGF
-         7HmrjU6jHDihcTkPAZYHABUjXW2LF58UdbubRWDEPDGl/I09sTlXfPuVoJ+dp3NaB5K0
-         zcxcS2XM9kNZoyIoyhGpMacoyqKHgkiiZhvYvUXAdNYSc3LOCSXdV3VVRLY8stKijmj5
-         Nw5A==
-X-Gm-Message-State: APjAAAXsLpqdvrP5AHzlg13D81y06FQZDkU4FfMShHAbJ2Kq1si/Cm0e
-        WN+c3Prap9t/Vu2KCMAVZHsn7LWKXjSbwVOuvR/0DAjrFZjPA8OmKoT0BToFom58uPuLCUsGr2c
-        9PyOoT7j13+ZE98b7kvvDN2Y=
-X-Received: by 2002:aa7:db12:: with SMTP id t18mr17977139eds.266.1566818387927;
-        Mon, 26 Aug 2019 04:19:47 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxCnmDjJvCgvjFutK+znlJJJ7Z0I6CqQEM58WMaQufI5WwMO9+UW2qewF1kOS1EpCoRFSvzHA==
-X-Received: by 2002:aa7:db12:: with SMTP id t18mr17977124eds.266.1566818387703;
-        Mon, 26 Aug 2019 04:19:47 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id p5sm1258651edr.72.2019.08.26.04.19.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Aug 2019 04:19:47 -0700 (PDT)
-Subject: Re: [PATCH] HID: logitech-dj: Fix crash when initial
- logi_dj_recv_query_paired_devices fails
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        "3.8+" <stable@vger.kernel.org>
-References: <20190825153542.79245-1-hdegoede@redhat.com>
- <CAO-hwJ+AiViJg34dNKz05HfvnPVqigD7ZLyJpfsviBH8Rs0L2g@mail.gmail.com>
- <d5ff19d7-4a0c-6c38-2d97-fcc33a8cdedb@redhat.com>
- <CAO-hwJ+O34__f2CFH7-kBQc_95ur1A_yyBe7PXDmGAsQA8ZR7w@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <6f29a4b3-4aac-fc42-7b6c-9e0f8e019d9c@redhat.com>
-Date:   Mon, 26 Aug 2019 13:19:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=QundPzgYfC/K73sFx47R4ZcLhuZTaRK8uTxQax5u8J8=;
+        b=oPuygbL0Rlt6hSRKgtcBaCShMemclLZM4qmwv5g81iTlaOVC5bY4M2Cw/SsnjeedpV
+         CQE75ZxQFiXO2fNtvRpF9rwFagryDr4yVh+wogoVayQk8Ja/307Qr8kNuVVj7pJnYuoi
+         ndd4UisYApBHACzPDeYN+KnpStOY7lLApdU8fnjH+hzDfzkRTR6rBdoFxdJ3PnZ7zPtk
+         eT6W3+nv+TPB/uG5hvoFtcQNn4eLnQ2cIAZ60vem6CEHIl/smh3iexmsBPLn8yCNGMKb
+         8759EboNGM12SVrd+GFQjSmoPazaSWhaBDxtngq7QzTuWJ1eJpklW3lYKA+4uIX/c6QZ
+         d27w==
+X-Gm-Message-State: APjAAAWPDFi292Xquvm69pA+xjmCxLq97soqq8I5m91/D0/ZBnwon9hC
+        +ZO4Zf4x7jaSU7m+UeocMO4=
+X-Google-Smtp-Source: APXvYqzWxoRcFFhqCWqeVbZS+EnvG3Nk1HyugsCQ5YnNomlIVcOQgAanuXy6QByI5JLqwPLVGiUZPA==
+X-Received: by 2002:a65:5043:: with SMTP id k3mr5303984pgo.406.1566856825427;
+        Mon, 26 Aug 2019 15:00:25 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id b18sm5474156pfi.160.2019.08.26.15.00.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Aug 2019 15:00:24 -0700 (PDT)
+Date:   Mon, 26 Aug 2019 15:00:22 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-input@vger.kernel.org, Denis Carikli <denis@eukrea.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        "H . Nikolaus Schaller" <hns@goldelico.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2] Input: tsc2007 - use GPIO descriptor
+Message-ID: <20190826220022.GA7663@dtor-ws>
+References: <20190823071021.5598-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAO-hwJ+O34__f2CFH7-kBQc_95ur1A_yyBe7PXDmGAsQA8ZR7w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190823071021.5598-1-linus.walleij@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Linus,
 
-On 26-08-19 11:41, Benjamin Tissoires wrote:
-> On Mon, Aug 26, 2019 at 11:04 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 26-08-19 09:46, Benjamin Tissoires wrote:
->>> Hi Hans,
->>>
->>> On Sun, Aug 25, 2019 at 5:35 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>>>
->>>> Before this commit dj_probe would exit with an error if the initial
->>>> logi_dj_recv_query_paired_devices fails. The initial call may fail
->>>> when the receiver is connected through a kvm and the focus is away.
->>>>
->>>> When the call fails this causes 2 problems:
->>>>
->>>> 1) dj_probe calls logi_dj_recv_query_paired_devices after calling
->>>> hid_device_io_start() so a HID report may have been received in between
->>>> and our delayedwork_callback may be running. It seems that the initial
->>>> logi_dj_recv_query_paired_devices failure happening with some KVMs triggers
->>>> this exact scenario, causing the work-queue to run on free-ed memory,
->>>> leading to:
->>>>
->>>>    BUG: unable to handle page fault for address: 0000000000001e88
->>>>    #PF: supervisor read access in kernel mode
->>>>    #PF: error_code(0x0000) - not-present page
->>>>    PGD 0 P4D 0
->>>>    Oops: 0000 [#1] SMP PTI
->>>>    CPU: 3 PID: 257 Comm: kworker/3:3 Tainted: G           OE     5.3.0-rc5+ #100
->>>>    Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./B150M Pro4S/D3, BIOS P7.10 12/06/2016
->>>>    Workqueue: events 0xffffffffc02ba200
->>>>    RIP: 0010:0xffffffffc02ba1bd
->>>>    Code: e8 e8 13 00 d8 48 89 c5 48 85 c0 74 4c 48 8b 7b 10 48 89 ea b9 07 00 00 00 41 b9 09 00 00 00 41 b8 01 00 00 00 be 10 00 00 00 <48> 8b 87 88 1e 00 00 48 8b 40 40 e8 b3 6b b4 d8 48 89 ef 41 89 c4
->>>>    RSP: 0018:ffffb760c046bdb8 EFLAGS: 00010286
->>>>    RAX: ffff935038ea4550 RBX: ffff935046778000 RCX: 0000000000000007
->>>>    RDX: ffff935038ea4550 RSI: 0000000000000010 RDI: 0000000000000000
->>>>    RBP: ffff935038ea4550 R08: 0000000000000001 R09: 0000000000000009
->>>>    R10: 000000000000e011 R11: 0000000000000001 R12: ffff9350467780e8
->>>>    R13: ffff935046778000 R14: 0000000000000000 R15: ffff935046778070
->>>>    FS:  0000000000000000(0000) GS:ffff935054e00000(0000) knlGS:0000000000000000
->>>>    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>>    CR2: 0000000000001e88 CR3: 000000075a612002 CR4: 00000000003606e0
->>>>    DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
->>>>    DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
->>>>    Call Trace:
->>>>     0xffffffffc02ba2f7
->>>>     ? process_one_work+0x1b1/0x560
->>>>     process_one_work+0x234/0x560
->>>>     worker_thread+0x50/0x3b0
->>>>     kthread+0x10a/0x140
->>>>     ? process_one_work+0x560/0x560
->>>>     ? kthread_park+0x80/0x80
->>>>     ret_from_fork+0x3a/0x50
->>>>    Modules linked in: vboxpci(O) vboxnetadp(O) vboxnetflt(O) vboxdrv(O) bnep vfat fat btusb btrtl btbcm btintel bluetooth intel_rapl_msr ecdh_generic rfkill ecc snd_usb_audio snd_usbmidi_lib intel_rapl_common snd_rawmidi mc x86_pkg_temp_thermal intel_powerclamp coretemp iTCO_wdt iTCO_vendor_support mei_wdt mei_hdcp ppdev kvm_intel kvm irqbypass crct10dif_pclmul crc32_generic crc32_pclmul snd_hda_codec_hdmi snd_hda_codec_realtek snd_hda_codec_generic ledtrig_audio ghash_clmulni_intel intel_cstate snd_hda_intel snd_hda_codec intel_uncore snd_hda_core snd_hwdep intel_rapl_perf snd_seq snd_seq_device snd_pcm snd_timer intel_wmi_thunderbolt snd e1000e soundcore mxm_wmi i2c_i801 bfq mei_me mei intel_pch_thermal parport_pc parport acpi_pad binfmt_misc hid_lg_g15(E) hid_logitech_dj(E) i915 crc32c_intel i2c_algo_bit drm_kms_helper nvme nvme_core drm wmi video uas usb_storage i2c_dev
->>>>    CR2: 0000000000001e88
->>>>    ---[ end trace 1d3f8afdcfcbd842 ]---
->>>>
->>>> 2) Even if we were to fix 1. by making sure the work is stopped before
->>>> failing probe, failing probe is the wrong thing to do, we have
->>>> logi_dj_recv_queue_unknown_work to deal with the initial
->>>> logi_dj_recv_query_paired_devices failure.
->>>>
->>>> Rather then error-ing out of the probe, causing the receiver to not work at
->>>> all we should rely on this, so that the attached devices will get properly
->>>> enumerated once the KVM focus is switched back.
->>>>
->>>> Cc: stable@vger.kernel.org
->>>> Fixes: 74808f9115ce ("HID: logitech-dj: add support for non unifying receivers")
->>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>>> ---
->>>
->>> Patch looks good to me, but doesn't logi_dj_recv_switch_to_dj_mode()
->>> has the same potential issue?
->>
->> logi_dj_recv_query_paired_devices() solicits data being send from the
->> device, so we do: hid_device_io_start(hdev); just before calling it.
+On Fri, Aug 23, 2019 at 09:10:21AM +0200, Linus Walleij wrote:
+> This switches the TSC2007 to use a GPIO descriptor to read
+> the pendown GPIO line.
 > 
-> Right, so the patch is just about fixing the workqueue item (and a
-> little bit of the device too)
+> As this will make the gpiolib start to respect polarity
+> inversion flags on the GPIO lines, drop the inversion when
+> reading the line with gpio_get_value(), fix two offenders
+> in the i.MX device trees, and also emphasize the importance
+> of marking the polarity right in the device tree bindings.
 > 
-> [/me tries to understand the KVM implications]
+> Cc: Denis Carikli <denis@eukrea.com>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: H. Nikolaus Schaller <hns@goldelico.com>
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v1->v2:
+> - Drop inversion on the GPIO descriptor value, rely on the
+>   gpiolib to handle polarity inversion.
+> - Comb through device trees, identify two offenders, fix
+>   them as part of the patch for a clean cut.
+> - Also fix the device tree bindings.
+> ---
+>  .../bindings/input/touchscreen/tsc2007.txt         |  5 +++--
+>  arch/arm/boot/dts/imx35-eukrea-cpuimx35.dtsi       |  3 ++-
+>  arch/arm/boot/dts/imx51-eukrea-cpuimx51.dtsi       |  3 ++-
+>  drivers/input/touchscreen/tsc2007.h                |  4 +++-
+>  drivers/input/touchscreen/tsc2007_core.c           | 14 +++++++-------
+>  5 files changed, 17 insertions(+), 12 deletions(-)
 > 
->>
->> logi_dj_recv_switch_to_dj_mode() is done before the hid_device_io_start()
->> so it cannot cause the work to get queued.
->>
->> Also logi_dj_recv_switch_to_dj_mode() failing is something we cannot
->> recover from.
-> 
-> There is one thing I do not get.
-> When the KVM hadn't the focus on the device, how can it not forward
-> reports when you can actually call logi_dj_recv_switch_to_dj_mode()?
-> Does it present the device to all the hosts connected to it and just
-> filter the input reports to the "focused" one, or is it something
-> different?
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/tsc2007.txt b/Documentation/devicetree/bindings/input/touchscreen/tsc2007.txt
+> index ed00f61b8c08..b08b54d49699 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/tsc2007.txt
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/tsc2007.txt
+> @@ -7,7 +7,8 @@ Required properties:
+>  
+>  Optional properties:
+>  - gpios: the interrupt gpio the chip is connected to (trough the penirq pin).
+> -  The penirq pin goes to low when the panel is touched.
+> +  The penirq pin goes to low when the panel is touched, so make sure to tag
+> +  the GPIO line with GPIO_ACTIVE_LOW.
 
-I honestly do not know, I have tested with this exact same kvm before and
-then the logi_dj_recv_query_paired_devices() call worked, but the
-input-reports send in response to it where forwarded to the wrong machine.
+I think this is too strong. I am sure that one can come up with a way to
+connect the attention signal though polarity inverter and then one would
+have to specify GPIO_ACTIVE_HIGH in the DT.
 
-And later when focus got restored the unknown handler would redo
-logi_dj_recv_query_paired_devices() and all was well.
+Can we say:
 
-For some reason, yesterday when I hit this bug and it crashes my workstation
-as well as another machine attached to the KVM also running 5.3-rc5, I am now
-getting -32 (EPIPE / USB endpoint stalled) errors from the
-logi_dj_recv_switch_to_dj_mode() call. I think it may have something TODO
-with which of the 2 USB ports on the KVM for mouse and kbd the dongle is in,
-but I have not confirmed this yet.
-
-Also I did do a firmware update of the KVM a while ago, I would like to think
-that that was done before my previous round of testing. But I'm not sure.
-
-TL;DR: The logi_dj_recv_query_paired_devices() call failing with EPIPE
-when the focus is switched away is new and I do not know why this is
-happening, but it does crash my machine(s) without the fix.
-
-logi_dj_recv_switch_to_dj_mode() OTOH seems to not care where the focus is...
-
-> And in the case logi_dj_recv_switch_to_dj_mode() failed, on a kvm it
-> should not have much implications, because as long as one host
-> converts the receiver to the DJ mode and the receiver keeps being
-> powered on, it won't change back to the non DJ mode...
-
-True.
-
-> Anyway, I have queued the patch locally for testing, and will push it soon.
+The penirq pin goes to low when the panel is touched, so GPIO line
+should normally be tagged with GPIO_ACTIVE_LOW.
 
 Thanks.
 
-Regards,
-
-Hans
-
-
-
->>>>    drivers/hid/hid-logitech-dj.c | 10 +++++-----
->>>>    1 file changed, 5 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
->>>> index cc47f948c1d0..7badbaa18878 100644
->>>> --- a/drivers/hid/hid-logitech-dj.c
->>>> +++ b/drivers/hid/hid-logitech-dj.c
->>>> @@ -1734,14 +1734,14 @@ static int logi_dj_probe(struct hid_device *hdev,
->>>>                   if (retval < 0) {
->>>>                           hid_err(hdev, "%s: logi_dj_recv_query_paired_devices error:%d\n",
->>>>                                   __func__, retval);
->>>> -                       goto logi_dj_recv_query_paired_devices_failed;
->>>> +                       /*
->>>> +                        * This can happen with a KVM, let the probe succeed,
->>>> +                        * logi_dj_recv_queue_unknown_work will retry later.
->>>> +                        */
->>>>                   }
->>>>           }
->>>>
->>>> -       return retval;
->>>> -
->>>> -logi_dj_recv_query_paired_devices_failed:
->>>> -       hid_hw_close(hdev);
->>>> +       return 0;
->>>>
->>>>    llopen_failed:
->>>>    switch_to_dj_mode_fail:
->>>> --
->>>> 2.23.0
->>>>
+-- 
+Dmitry
