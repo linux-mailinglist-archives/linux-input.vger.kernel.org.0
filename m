@@ -2,71 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46A459E7F8
-	for <lists+linux-input@lfdr.de>; Tue, 27 Aug 2019 14:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 881139E84F
+	for <lists+linux-input@lfdr.de>; Tue, 27 Aug 2019 14:48:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729353AbfH0Mbx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 27 Aug 2019 08:31:53 -0400
-Received: from protonic.xs4all.nl ([83.163.252.89]:52918 "EHLO protonic.nl"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726140AbfH0Mbw (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 27 Aug 2019 08:31:52 -0400
-Received: from erd987.prtnl (erd987.prtnl [192.168.237.3])
-        by sparta (Postfix) with ESMTP id 8694B44A00C5;
-        Tue, 27 Aug 2019 14:33:48 +0200 (CEST)
-From:   Robin van der Gracht <robin@protonic.nl>
-To:     Robin Gong <yibin.gong@nxp.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "devicetree @ vger . kernel . org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel @ lists . infradead . org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel @ vger . kernel . org" <linux-kernel@vger.kernel.org>,
-        "linux-input @ vger . kernel . org" <linux-input@vger.kernel.org>,
-        Adam Ford <aford173@gmail.com>,
-        Robin van der Gracht <robin@protonic.nl>
-Subject: [PATCH v2 2/2] arm: dts: imx6qdl: snvs-pwrkey: Change compatible string
-Date:   Tue, 27 Aug 2019 14:32:16 +0200
-Message-Id: <20190827123216.32728-2-robin@protonic.nl>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190827123216.32728-1-robin@protonic.nl>
-References: <20190827123216.32728-1-robin@protonic.nl>
+        id S1726735AbfH0MsO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 27 Aug 2019 08:48:14 -0400
+Received: from ml01.weidahitech.com ([61.222.87.235]:2740 "EHLO
+        ml01.weidahitech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726065AbfH0MsO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 27 Aug 2019 08:48:14 -0400
+X-Greylist: delayed 487 seconds by postgrey-1.27 at vger.kernel.org; Tue, 27 Aug 2019 08:48:13 EDT
+Received: from mail02.WHT.local (mail02.wht.local [192.168.10.16])
+        by ml01.weidahitech.com (8.13.8/8.13.8) with ESMTP id x7RCduGf024010;
+        Tue, 27 Aug 2019 20:39:56 +0800
+Received: from x-Veriton-M4620G.WHT.local (192.168.10.88) by MAIL02.WHT.local
+ (192.168.10.16) with Microsoft SMTP Server id 14.2.347.0; Tue, 27 Aug 2019
+ 20:39:58 +0800
+From:   <hn.chen@weidahitech.com>
+To:     <linux-input@vger.kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <dmitry.torokhov@gmail.com>,
+        <hn.chen@weidahitech.com>
+Subject: [PATCH] Input: modify quirks of i2c-hid driver for weida's devices
+Date:   Tue, 27 Aug 2019 20:47:16 +0800
+Message-ID: <1566910036-10516-1-git-send-email-hn.chen@weidahitech.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The older imx6 SoCs do not send a power key press interrupt, instead it
-sends a power down request interrupt when the key is released between
-750ms and 5 seconds. The driver uses a different compatible string to ID
-the older SoCs.
+From: HungNien Chen <hn.chen@weidahitech.com>
 
-Signed-off-by: Robin van der Gracht <robin@protonic.nl>
+This 'SET_PWR_WAKEUP_DEV' quirk only works for weida's devices with pid
+0xC300 & 0xC301. Some weida's devices with other pids also need this quirk
+now. Use 'HID_ANY_ID' instead of 0xC300 to make all of weida's devices can be
+fixed on the power on issue. This modification should be safe since devices
+without power on issue will send the power on command only once.
+
+Signed-off-by: HungNien Chen <hn.chen@weidahitech.com>
 ---
- arch/arm/boot/dts/imx6qdl.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/i2c-hid/i2c-hid-core.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/arch/arm/boot/dts/imx6qdl.dtsi b/arch/arm/boot/dts/imx6qdl.dtsi
-index b3a77bcf00d5..91b97816881c 100644
---- a/arch/arm/boot/dts/imx6qdl.dtsi
-+++ b/arch/arm/boot/dts/imx6qdl.dtsi
-@@ -836,7 +836,7 @@
- 				};
- 
- 				snvs_pwrkey: snvs-powerkey {
--					compatible = "fsl,sec-v4.0-pwrkey";
-+					compatible = "fsl,imx6qdl-snvs-pwrkey";
- 					regmap = <&snvs>;
- 					interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
- 					linux,keycode = <KEY_POWER>;
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 90164fe..2a7c6e3 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -169,9 +169,7 @@ struct i2c_hid {
+ 	__u16 idProduct;
+ 	__u32 quirks;
+ } i2c_hid_quirks[] = {
+-	{ USB_VENDOR_ID_WEIDA, USB_DEVICE_ID_WEIDA_8752,
+-		I2C_HID_QUIRK_SET_PWR_WAKEUP_DEV },
+-	{ USB_VENDOR_ID_WEIDA, USB_DEVICE_ID_WEIDA_8755,
++	{ USB_VENDOR_ID_WEIDA, HID_ANY_ID,
+ 		I2C_HID_QUIRK_SET_PWR_WAKEUP_DEV },
+ 	{ I2C_VENDOR_ID_HANTICK, I2C_PRODUCT_ID_HANTICK_5288,
+ 		I2C_HID_QUIRK_NO_IRQ_AFTER_RESET |
 -- 
-2.20.1
+1.9.1
 
