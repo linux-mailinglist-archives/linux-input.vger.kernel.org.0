@@ -2,71 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A66D9DE1A
-	for <lists+linux-input@lfdr.de>; Tue, 27 Aug 2019 08:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 326669DEF0
+	for <lists+linux-input@lfdr.de>; Tue, 27 Aug 2019 09:43:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729149AbfH0GcE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 27 Aug 2019 02:32:04 -0400
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:23260 "EHLO
-        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729545AbfH0GcE (ORCPT
+        id S1726333AbfH0HnA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 27 Aug 2019 03:43:00 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:36584 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725825AbfH0HnA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 27 Aug 2019 02:32:04 -0400
-IronPort-SDR: AcdhZaMJwmtTUk+IqeN3rqsH6IHGCuWB068rm643HJ8pXx4bMGUE9DMgTrkKfer+f2OER9iz5f
- mHrF2mN8Lzu3vs5Z+P0js7jXiUF1ZQC+lnIea6dVmMul5DWfgXYzocFvHMSn4v/GkTwiFwbqtw
- /ie/v9dpIqPxi8u/6B0rhhXv6ArbhjObkA/99u7RtdDcXuDhx82HBP2OXzCYipCEV/s5h2x4eY
- asQGcRq3a28uhs4PRKNkUaAEyY/g4GXbjtjizqjwCvh8BeHgqmIxgtn12daFoHlUWqI2/cNOvT
- khI=
-X-IronPort-AV: E=Sophos;i="5.64,436,1559548800"; 
-   d="scan'208";a="40755058"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 26 Aug 2019 22:32:03 -0800
-IronPort-SDR: mIHUgKsrd+kLjnVFW+oAZWuv2w6FEzx5ir6k+10stDNQcNVFoxS5523zlZkT+vLUMdgLphB32M
- OsXxwLHNza26T7VoZ7LxW03emG9simoqOWbz63o8f9XuvyqWMu1+tiU9sul29MVXtHWkBeoy3z
- UbzwCBUqEkWfHCfMnqGSLeSsLF3ug31QfyhRL2Ni/BS7L73bIv2UkfasbfXYa+9zt2TzXSw+e2
- nYCCGTLctwd/GllnXUOdRXk/IPnXhkS2eXmPCF+cLpvbhtXqCANyEfy//bQGV2rEAnQoHZtBT6
- JTo=
-From:   Jiada Wang <jiada_wang@mentor.com>
-To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <jiada_wang@mentor.com>, <george_davis@mentor.com>
-Subject: [PATCH v2 49/49] Input: atmel_mxt_ts - Fix compilation warning
-Date:   Tue, 27 Aug 2019 15:32:01 +0900
-Message-ID: <20190827063201.21048-5-jiada_wang@mentor.com>
-X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20190827063201.21048-1-jiada_wang@mentor.com>
-References: <20190827063201.21048-1-jiada_wang@mentor.com>
+        Tue, 27 Aug 2019 03:43:00 -0400
+Received: by mail-lj1-f193.google.com with SMTP id u15so17527965ljl.3
+        for <linux-input@vger.kernel.org>; Tue, 27 Aug 2019 00:42:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DbaQN5lQG5PhayNJm6ofuK4UBXmTcy1tI10d3jvgHCU=;
+        b=A6eWBMhHhLQjZxk0QZVj1/zy6hsxB6T9+koUgWtRrGfFHhRAinL2GFgmFw3eqYfzIy
+         4LPQ4K8BjydZGt4cCEAuFHtf7AgHOEZ4zBPnxUf1IorkwshlPrmPLr6BmI0aos/dhDFo
+         u5ClpEPLp2+/pvdPCOF+Q32817xbmc0SpN1J9CMj01595p1t39y8wGUbZao1edH1yPbj
+         QXfUyhkDlLPbnNnIVDDxT63K7Xf/tAMHiPKD0xk1LPHcH9A6Uq96LG4uObZrMTNcLl6H
+         fqIj23OrqRFi/Yrj4SUuuOuXWe8P82DHUSb2A87eiMYfV3bAaPFIN1z10DdKrB23FxvM
+         PcHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DbaQN5lQG5PhayNJm6ofuK4UBXmTcy1tI10d3jvgHCU=;
+        b=r9kEvkWwqYJN5vHDb1/s7FwXLq/iamHwJ6lo/z5BattWwGc/5qvNvvS8b2qsQkp5L8
+         4rbjuU1bLesI3u1X/pybJDmmxgqkwdok2xq+pYPrTFvtOGqKoTscC9C87lKIpvrMxsV0
+         78OJ9vt9vw/PS5ays7pkkPohquUI3P+5KgWXDyiRZ4D37vsRf631JmXv7cM9RJZIpWQY
+         FHiZzP+kfESRg5cqVlQ1dYwKgimzv1CCxNpaIJNz7b/4nBG3OWj/OccW239gfGHzWqGe
+         1k1VoT7+NoD5c/wDDSiqgJS6QCpfwqZrrCfhY8ZRtm39tm3Dja75Ck69S9nGeMgP/FfR
+         6K9Q==
+X-Gm-Message-State: APjAAAVKTg5ni1b0X6gNGLl9U7W2bF3ZfaaxM6wP/6UIS6m1e8uUen1o
+        qlQF/WONt+A3j0XKnOhXAzE3Gwewpc5zwrnbzrn9pQ==
+X-Google-Smtp-Source: APXvYqzheeGJyqRkncJ2J0YcY4zURcDf5exuFHynMcmTIs31SslHtjb2DBsUHTeshcC0qadJggmKkGlpScdKw+hMgdw=
+X-Received: by 2002:a05:651c:28c:: with SMTP id b12mr13161238ljo.69.1566891778138;
+ Tue, 27 Aug 2019 00:42:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-ClientProxiedBy: SVR-ORW-MBX-07.mgc.mentorg.com (147.34.90.207) To
- svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
+References: <20190823071021.5598-1-linus.walleij@linaro.org> <20190826220022.GA7663@dtor-ws>
+In-Reply-To: <20190826220022.GA7663@dtor-ws>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 27 Aug 2019 09:42:46 +0200
+Message-ID: <CACRpkdbv8yVP==WDo-wBgotyvnPhApTCD2x7oamCHBQKuNp3RQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Input: tsc2007 - use GPIO descriptor
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Linux Input <linux-input@vger.kernel.org>,
+        Denis Carikli <denis@eukrea.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        "H . Nikolaus Schaller" <hns@goldelico.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-fix "make W=1" compilation warnings from Atmel driver
-as per the compilation logs.
+On Tue, Aug 27, 2019 at 12:00 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
-Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> >  Optional properties:
+> >  - gpios: the interrupt gpio the chip is connected to (trough the penirq pin).
+> > -  The penirq pin goes to low when the panel is touched.
+> > +  The penirq pin goes to low when the panel is touched, so make sure to tag
+> > +  the GPIO line with GPIO_ACTIVE_LOW.
+>
+> I think this is too strong. I am sure that one can come up with a way to
+> connect the attention signal though polarity inverter and then one would
+> have to specify GPIO_ACTIVE_HIGH in the DT.
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index a461220cd336..115c94d3f0d4 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -2046,7 +2046,7 @@ static int mxt_prepare_cfg_mem(struct mxt_data *data, struct mxt_cfg *cfg)
- 
- 			byte_offset = reg + i - cfg->start_ofs;
- 
--			if (byte_offset >= 0 && byte_offset < cfg->mem_size) {
-+			if (byte_offset < cfg->mem_size) {
- 				*(cfg->mem + byte_offset) = val;
- 			} else {
- 				dev_err(dev, "Bad object: reg:%d, T%d, ofs=%d\n",
--- 
-2.19.2
+Yeah this is something that has been discussed recently as
+Harish is suggesting to add an actual inverter to the device
+tree model. As the description of reality in the device tree is
+incomplete, these flags, which should nominally be consumer
+flags and indicate the behavior of the consumer, becomes
+a panacea for solving shortcomings in the device tree model.
 
+I am in favor of introducing explicit inverters in device tree,
+as it makes the descriptions more consistent: e.g. regulators
+are consumer oriented, they even model rails to make things
+very clear on where a voltage applies, whereas GPIO polarity
+is defined as "trial-and-error until whatever makes the system
+run" more or less.
+
+> Can we say:
+>
+> The penirq pin goes to low when the panel is touched, so GPIO line
+> should normally be tagged with GPIO_ACTIVE_LOW.
+
+Sure, this is not the place for hashing out DT design issues,
+can you fix when applying or should I send a new version?
+
+Yours,
+Linus Walleij
