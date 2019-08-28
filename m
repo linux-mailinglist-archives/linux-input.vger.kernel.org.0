@@ -2,119 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51E559FACE
-	for <lists+linux-input@lfdr.de>; Wed, 28 Aug 2019 08:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 309C19FAF1
+	for <lists+linux-input@lfdr.de>; Wed, 28 Aug 2019 08:58:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726341AbfH1Gvf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Aug 2019 02:51:35 -0400
-Received: from mail-eopbgr1410073.outbound.protection.outlook.com ([40.107.141.73]:49143
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726253AbfH1Gvf (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Aug 2019 02:51:35 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gbJGtAkyXzTsmSmTEruOJBfoMb5sC/R42Um5d4+tKG+dWwgDzLj0nBy14PifxzWzDOMJKoqhEin2lijenuKA5/5QLX4o/9uNDEj6+VIGQoq85P+DtE9h56KOcixoJYGPg7S2UXaDlqjfAtMUjnx94cHDsQcSFAUHJc6k3lwdIDeB0Rrj/OvkS4meM+9GxdA3dDgFnEf+0eGfqFGnE1j+cih8QP+bGEVXQsIlyN7b40N9SNf4MvvLTY1ObPWhgNgm4PNNFPIvA5/RFyqRYg1OLHSlY1w1Cr6oVD+oMRWGOXRQURDQjbZlInO+0cSoZRhVUY1DsHY8bEltYbo0tcenOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4NHd1Asev9L6OvVGS6q1oE5x++qjzEnBsT57Ej0+Noc=;
- b=oc9JXCa9thpOgmYIB3hwblE+R4VkffKhjABJ+B/WjMCw7eUzofnWWbqJgNCnlPr7dEgMxO/a79osTfOnzIkWODgwlLFeHvxujbQmhyT4rtrS7S1tVreDPLrEpZUgF5EPifUQrBGtqB866E2wW1MWyaGbrjrkKNUPSq4buOiiq4EiT/5Z8rwtimp/icg1A2xqM5I9TWXFAyWvhUDvBPyGqRMELBuENDU9WpAdZ7Wb0cFrvlRuZvYPXMG7VG4rmc7/GXPRnJgRFrjw7oESCFq89Hmgh76xOI9x2K0ThsxjIZZiotb8bq6Nz9MXUnCvy7uV6bqxJGcPKgIOqGwykry0sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cn.alps.com; dmarc=pass action=none header.from=cn.alps.com;
- dkim=pass header.d=cn.alps.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=alpsgroup.onmicrosoft.com; s=selector2-alpsgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4NHd1Asev9L6OvVGS6q1oE5x++qjzEnBsT57Ej0+Noc=;
- b=KQ6Ojwh+WZo+DyRQkncrJ6MXBL+eckMtE7eyjSLQocxFFAgr1AETB3eZtq8e9sRzZ3yU0oO7GXbvh2mn6wNktzVcoIcJHBDG87spXdJplf4+skb8lUWVM9MMMgigKpZQF8FsonhQ1NMuMKXlUWuNdGQR+1hPKcSKP7LXuX9SSGg=
-Received: from TYXPR01MB1470.jpnprd01.prod.outlook.com (52.133.166.12) by
- TYXPR01MB1775.jpnprd01.prod.outlook.com (52.133.167.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2199.20; Wed, 28 Aug 2019 06:51:30 +0000
-Received: from TYXPR01MB1470.jpnprd01.prod.outlook.com
- ([fe80::197:990c:d09a:b477]) by TYXPR01MB1470.jpnprd01.prod.outlook.com
- ([fe80::197:990c:d09a:b477%5]) with mapi id 15.20.2199.021; Wed, 28 Aug 2019
- 06:51:30 +0000
-From:   Xiaojian Cao <xiaojian.cao@cn.alps.com>
-To:     Masaki Ota <masaki.ota@alpsalpine.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-CC:     Mario Limonciello <mario.limonciello@dell.com>,
+        id S1726422AbfH1G6T (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Aug 2019 02:58:19 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:60197 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726209AbfH1G6T (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 28 Aug 2019 02:58:19 -0400
+Received: from mail-pf1-f200.google.com ([209.85.210.200])
+        by youngberry.canonical.com with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1i2ruL-0001cj-Nd
+        for linux-input@vger.kernel.org; Wed, 28 Aug 2019 06:58:17 +0000
+Received: by mail-pf1-f200.google.com with SMTP id 191so1331890pfy.20
+        for <linux-input@vger.kernel.org>; Tue, 27 Aug 2019 23:58:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=lDeIrAUIfVo2Ua+qxn8ksD32RlhqrBouuBivl44BnRs=;
+        b=rluGtHyfsEN6SyqVcJ4CI/NUITXc6aq1M0HXPigtXKTcBpJIyUTv4pkKVXgNVwZP4C
+         HONZXqCV/Oxk5zGg2YrGi5L+AbH+nKdgdXeaAG7cI1cN0W1QqknrbJ1xh2aznDdc/VwZ
+         0NuntZdrpNS9/93VkMn4av07eQx9zq1tfk/sBAAxHuClOT8mK0lPRRQZCzY+nHudW2By
+         L1SKoVOakFc8LXjaEbEnXhZ6GeKUcsTfcDx5w360O2jJuHqDusoLJYsG5AVqXi3753tL
+         jCcbKok4n9kZPCLv1zmk52vDO/HOosFvRH78N9FHA/tUJCCr1f4yqM5AYdrMTDu4SK2n
+         /IGg==
+X-Gm-Message-State: APjAAAUFJIVOi3lzGd11aOFYoqoQqBse9AD1ijK0D0Z6rGv1p6q6aQZ/
+        AAnI/Kh8OwRhL6wJfaMF7Q1sRoSzM+wu2dtINamh9JWIg4bTbW/gxQwYFgP8n98QBMqble9RH38
+        UJF+gm4RCle3aQCm5Zu7i8JSqLkJuD2L02mc8/3Rk
+X-Received: by 2002:aa7:9d07:: with SMTP id k7mr2913094pfp.94.1566975496477;
+        Tue, 27 Aug 2019 23:58:16 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqykCOEs8kS8VQJdo5slAh1IdyDPUUB+YNVh1Kyy11Sk17bBpLbObwVJjU8oH1EfkmArl+qP1Q==
+X-Received: by 2002:aa7:9d07:: with SMTP id k7mr2913079pfp.94.1566975496228;
+        Tue, 27 Aug 2019 23:58:16 -0700 (PDT)
+Received: from 2001-b011-380f-3c42-f8f8-a260-49a8-d1ed.dynamic-ip6.hinet.net (2001-b011-380f-3c42-f8f8-a260-49a8-d1ed.dynamic-ip6.hinet.net. [2001:b011:380f:3c42:f8f8:a260:49a8:d1ed])
+        by smtp.gmail.com with ESMTPSA id p90sm2909164pjp.7.2019.08.27.23.58.14
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 27 Aug 2019 23:58:15 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8;
+        delsp=yes;
+        format=flowed
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+Subject: Re: Alps touchpad generates IRQ storm after S3
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <TYXPR01MB1470902D804A47EE72013006C8A30@TYXPR01MB1470.jpnprd01.prod.outlook.com>
+Date:   Wed, 28 Aug 2019 14:58:12 +0800
+Cc:     Masaki Ota <masaki.ota@alpsalpine.com>,
+        Mario Limonciello <mario.limonciello@dell.com>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Naoki Saito <naoki.saito@alpsalpine.com>
-Subject: RE: Alps touchpad generates IRQ storm after S3
-Thread-Topic: Alps touchpad generates IRQ storm after S3
-Thread-Index: AQHVXWj4yiA/dCbgb0asvogI8mRWOKcQF8vAgAAHJ9A=
-Date:   Wed, 28 Aug 2019 06:51:30 +0000
-Message-ID: <TYXPR01MB1470902D804A47EE72013006C8A30@TYXPR01MB1470.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <A118551C-A0D9-485F-91F7-44A5BE228B99@canonical.com>
 References: <44F93018-5F13-4932-A5AC-9D288CDF68DD@canonical.com>
  <TYAPR01MB30223CB8A576C7809F6382C1ECA30@TYAPR01MB3022.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYAPR01MB30223CB8A576C7809F6382C1ECA30@TYAPR01MB3022.jpnprd01.prod.outlook.com>
-Accept-Language: en-US, zh-CN
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=xiaojian.cao@cn.alps.com; 
-x-originating-ip: [58.247.0.86]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a988ff8b-a400-4800-8563-08d72b842865
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYXPR01MB1775;
-x-ms-traffictypediagnostic: TYXPR01MB1775:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYXPR01MB17752DAAA1DF106D164AD35FC8A30@TYXPR01MB1775.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 014304E855
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(376002)(346002)(136003)(39860400002)(396003)(13464003)(189003)(199004)(256004)(66556008)(316002)(107886003)(446003)(53936002)(85182001)(76176011)(476003)(11346002)(486006)(54906003)(7696005)(478600001)(110136005)(66066001)(6246003)(52536014)(14444005)(8936002)(81166006)(81156014)(71200400001)(229853002)(71190400001)(5660300002)(8676002)(6116002)(86362001)(4326008)(14454004)(33656002)(3846002)(7736002)(305945005)(186003)(9686003)(55016002)(26005)(2906002)(6436002)(99286004)(66446008)(6506007)(53546011)(64756008)(66476007)(74316002)(76116006)(25786009)(102836004)(66946007);DIR:OUT;SFP:1101;SCL:1;SRVR:TYXPR01MB1775;H:TYXPR01MB1470.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
-received-spf: None (protection.outlook.com: cn.alps.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: ntWzmQWnUpBJbs/UYgidh/VOhEowIp8g8dPzmWm0brUc+kl6uAYyDUG2ocUtMbBT2Gk9sHvNLrO4JHMdWc8dVbegK9ONDesYyy4QWEREgfvGbxoeg6FgVGACAjkA0ntXCvvMhKWWGn/TsLclTF8z99YQjhiO+pM9sHhJBlSe0Mq/yimnw//KYI7JQJ2p7C9ZpYN13cS08XKPpPXjl2Mn7+K/3Wxs1SCTrQOTV8HYYTsKuqdtdGn4/FzUI712ZPMtowkciKDO0mQ53hrc7pMd/9tUa0a0gC2zi8htrDjUWZuplAdWeC+jbtRrlC+G5bWn7e/4370uzrCuoVc2zXJKft+lwXsKH5FJd6FecoxSibN4usHpJLca2fbahfGHwqxLxIetgYT61c9YvvVPAkexHloRwHWsnJoINTaYEkGQIxQ=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: cn.alps.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a988ff8b-a400-4800-8563-08d72b842865
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2019 06:51:30.5546
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 57e76998-77bd-4b82-a424-198f46eb2254
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Zz/2fskaiyNYEm9qsg0eK6h4ah/LvM8+voymSBloLaycjQdKYDOgqMU08CYSYC6MlKuaqB7SHqcEpQNvy1+43j0RikpjEHNhbjzYmAwXNtU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1775
+ <TYXPR01MB1470902D804A47EE72013006C8A30@TYXPR01MB1470.jpnprd01.prod.outlook.com>
+To:     Xiaojian Cao <xiaojian.cao@cn.alps.com>
+X-Mailer: Apple Mail (2.3445.104.11)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-SGkgT3RhLXNhbiwNCg0KT0ssIHdlIHdpbGwgbG9vayBpbnRvIGl0Lg0KDQoNCkhpIEthaS1IZW5n
-LA0KDQpXZSB3aWxsIHRyeSB0byByZXByb2R1Y2UgdGhpcyBpc3N1ZSBmaXJzdCwgY291bGQgeW91
-IHBsZWFzZSB0ZWxsIG1lIHRoZSB0YXJnZXQgVWJ1bnR1IHZlcnNpb24/DQoNCkJlc3QgcmVnYXJk
-cywgDQpKYXNvbg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTog5aSq55SwIOec
-n+WWnCBNYXNha2kgT3RhIDxtYXNha2kub3RhQGFscHNhbHBpbmUuY29tPiANClNlbnQ6IFdlZG5l
-c2RheSwgQXVndXN0IDI4LCAyMDE5IDI6MzUgUE0NClRvOiDmm7kg5puJ5bu6IFhpYW9qaWFuIENh
-byA8eGlhb2ppYW4uY2FvQGNuLmFscHMuY29tPjsgS2FpLUhlbmcgRmVuZyA8a2FpLmhlbmcuZmVu
-Z0BjYW5vbmljYWwuY29tPg0KQ2M6IE1hcmlvIExpbW9uY2llbGxvIDxtYXJpby5saW1vbmNpZWxs
-b0BkZWxsLmNvbT47IG9wZW4gbGlzdDpISUQgQ09SRSBMQVlFUiA8bGludXgtaW5wdXRAdmdlci5r
-ZXJuZWwub3JnPjsgTGludXggS2VybmVsIE1haWxpbmcgTGlzdCA8bGludXgta2VybmVsQHZnZXIu
-a2VybmVsLm9yZz47IOaWieiXpCDnm7TmqLkgTmFva2kgU2FpdG8gPG5hb2tpLnNhaXRvQGFscHNh
-bHBpbmUuY29tPg0KU3ViamVjdDogUkU6IEFscHMgdG91Y2hwYWQgZ2VuZXJhdGVzIElSUSBzdG9y
-bSBhZnRlciBTMw0KDQpIaSwgS2FpLUhlbmcsDQoNClNvcnJ5LCBJJ20gbm90IGluIGNoYXJnZSBv
-ZiBMaW51eCB0YXNrIG5vdy4NCg0KSGksIFhpYW9KaWFuLA0KDQpQbGVhc2UgY2hlY2sgdGhlIGZv
-bGxvd2luZyBtYWlsLg0KSWYgeW91IGhhdmUgYW55IHF1ZXN0aW9uLCBwbGVhc2UgYXNrIEthaS1I
-ZW5nLg0KDQpCZXN0IFJlZ2FyZHMsDQpNYXNha2kgT3RhDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2Ut
-LS0tLQ0KRnJvbTogS2FpLUhlbmcgRmVuZyA8a2FpLmhlbmcuZmVuZ0BjYW5vbmljYWwuY29tPiAN
-ClNlbnQ6IFdlZG5lc2RheSwgQXVndXN0IDI4LCAyMDE5IDM6MjIgUE0NClRvOiDlpKrnlLAg55yf
-5ZacIE1hc2FraSBPdGEgPG1hc2FraS5vdGFAYWxwc2FscGluZS5jb20+DQpDYzogTWFyaW8gTGlt
-b25jaWVsbG8gPG1hcmlvLmxpbW9uY2llbGxvQGRlbGwuY29tPjsgb3BlbiBsaXN0OkhJRCBDT1JF
-IExBWUVSIDxsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmc+OyBMaW51eCBLZXJuZWwgTWFpbGlu
-ZyBMaXN0IDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPg0KU3ViamVjdDogQWxwcyB0b3Vj
-aHBhZCBnZW5lcmF0ZXMgSVJRIHN0b3JtIGFmdGVyIFMzDQoNCkhpIE1hc2FraSwNCg0KVGhlIEFs
-cHMgdG91Y2hwYWQgKDA0NEU6MTIyMCkgb24gRGVsbCBQcmVjaXNpb24gNzUzMCBjYXVzZXMgSVJR
-IHN0b3JtIGFmdGVyIHN5c3RlbSBzdXNwZW5kIChTMykuDQpDb21taXQgIkhJRDogaTJjLWhpZDog
-RG9uJ3QgcmVzZXQgZGV2aWNlIHVwb24gc3lzdGVtIHJlc3VtZeKAnSB3aGljaCBzb2x2ZXMgdGhl
-IHNhbWUgaXNzdWUgZm9yIG90aGVyIHZlbmRvcnMsIGNhdXNlIHRoZSBpc3N1ZSBvbiBBbHBzIHRv
-dWNocGFkLg0KU28gSeKAmWQgbGlrZSB0byBrbm93IHRoZSBjb3JyZWN0IGNvbW1hbmQgQWxwcyB0
-b3VjaHBhZCBleHBlY3RzIGFmdGVyIHN5c3RlbSByZXN1bWUuDQoNCkFsc28gQ2MgTWFyaW8gYmVj
-YXVzZSB0aGlzIGNvdWxkIHJlbGF0ZSB0byBCSU9TLg0KDQpLYWktSGVuZw0K
+Hi Xiaojian,
+
+at 14:51, Xiaojian Cao <xiaojian.cao@cn.alps.com> wrote:
+
+> Hi Ota-san,
+>
+> OK, we will look into it.
+>
+>
+> Hi Kai-Heng,
+>
+> We will try to reproduce this issue first, could you please tell me the  
+> target Ubuntu version?
+
+It’s distro-agnostic, any distro with mainline Linux can reproduce the issue.
+
+Kai-Heng
+
+>
+> Best regards,
+> Jason
+>
+> -----Original Message-----
+> From: 太田 真喜 Masaki Ota <masaki.ota@alpsalpine.com>
+> Sent: Wednesday, August 28, 2019 2:35 PM
+> To: 曹 曉建 Xiaojian Cao <xiaojian.cao@cn.alps.com>; Kai-Heng Feng  
+> <kai.heng.feng@canonical.com>
+> Cc: Mario Limonciello <mario.limonciello@dell.com>; open list:HID CORE  
+> LAYER <linux-input@vger.kernel.org>; Linux Kernel Mailing List  
+> <linux-kernel@vger.kernel.org>; 斉藤 直樹 Naoki Saito  
+> <naoki.saito@alpsalpine.com>
+> Subject: RE: Alps touchpad generates IRQ storm after S3
+>
+> Hi, Kai-Heng,
+>
+> Sorry, I'm not in charge of Linux task now.
+>
+> Hi, XiaoJian,
+>
+> Please check the following mail.
+> If you have any question, please ask Kai-Heng.
+>
+> Best Regards,
+> Masaki Ota
+> -----Original Message-----
+> From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> Sent: Wednesday, August 28, 2019 3:22 PM
+> To: 太田 真喜 Masaki Ota <masaki.ota@alpsalpine.com>
+> Cc: Mario Limonciello <mario.limonciello@dell.com>; open list:HID CORE  
+> LAYER <linux-input@vger.kernel.org>; Linux Kernel Mailing List  
+> <linux-kernel@vger.kernel.org>
+> Subject: Alps touchpad generates IRQ storm after S3
+>
+> Hi Masaki,
+>
+> The Alps touchpad (044E:1220) on Dell Precision 7530 causes IRQ storm  
+> after system suspend (S3).
+> Commit "HID: i2c-hid: Don't reset device upon system resume” which solves  
+> the same issue for other vendors, cause the issue on Alps touchpad.
+> So I’d like to know the correct command Alps touchpad expects after  
+> system resume.
+>
+> Also Cc Mario because this could relate to BIOS.
+>
+> Kai-Heng
+
+
