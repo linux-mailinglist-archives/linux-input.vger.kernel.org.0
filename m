@@ -2,67 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A9EBA0639
-	for <lists+linux-input@lfdr.de>; Wed, 28 Aug 2019 17:24:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 451CEA0E34
+	for <lists+linux-input@lfdr.de>; Thu, 29 Aug 2019 01:26:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726429AbfH1PYD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Aug 2019 11:24:03 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:38742 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726415AbfH1PYD (ORCPT
+        id S1726926AbfH1X0a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Aug 2019 19:26:30 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:43105 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726787AbfH1X0a (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Aug 2019 11:24:03 -0400
-Received: by mail-wr1-f68.google.com with SMTP id e16so230266wro.5
-        for <linux-input@vger.kernel.org>; Wed, 28 Aug 2019 08:24:01 -0700 (PDT)
+        Wed, 28 Aug 2019 19:26:30 -0400
+Received: by mail-io1-f65.google.com with SMTP id 18so3006426ioe.10;
+        Wed, 28 Aug 2019 16:26:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=zXK8wSxYeU6mTfAA+o9q9brcj/U7vzDk9wL4rKw+72U=;
-        b=AXaMN9bzgV11s252ty+JzpeSoGhc/GNw1fA+AQlA37KAflIF4V57Gg2RxEQxMe6bE2
-         k1cAQvbLuOTgPD1y/XDzGgdtU102aTe/6NbZ+VCeutFWgEn8Q5raqdFfThPyVvy8MCD9
-         txHlbdcukWqsBJ/cw9+wy5M6E0Ls9/ZFtrLxvnrPOC37Ty2UuxiBvyPIqegO3CcrXu6I
-         IJzga7j/6WP5S/24naMS5O9R50e+/NcnwcKejfzQgg8L0wipkIxSt9qVK5vbqGioRafi
-         XUyoAl83J+VEgAO7xqLXAlZ6KBDdilFflh6NBQnk+itRuwdOXsTJFgI+LkXs2s0rmSxp
-         C7LA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zoBlXvJBemCrQzD12jpiGB+4gV2+A+K5Uq/oaYZLfFM=;
+        b=kIAEbPzMuxNRXuFYEiPtRR1a/KgojVQESDxJLyvyh3NwmbXEAq0U/nfjdEcuUDtB92
+         2nlRfn/kxtFVVN5IUpViUy35tdTSaBaIydEX58MGPq1B1KacUqaAuV5noU0AMtaLfad9
+         27j2m8soL7vuwiSkZKxsQEHnjIXjEF4Hq/XmZEaQh6VpD8Kk3HqwRWc8Y3TsiQruqcQx
+         +ZqMCFNRDcPn3YNhJgpwUjSzTxles9+s2SumNLoZ/LjSSsDLMvTlGToidkVVHWJ4KHK6
+         VmhaR8b90Qw0XQB/52mVmK80Mt6jfTzzqtpi5HFZecUCOfRbUlG/msILdr36Ch3cDTbe
+         yxHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=zXK8wSxYeU6mTfAA+o9q9brcj/U7vzDk9wL4rKw+72U=;
-        b=mxO7aewHllxanRoWW/keDg5jjfJzOJ8RbuVCjDO7Z9McIyLTgdEXJ81dlgvYwn7v2x
-         TxASsfXd8U6GQtvCBptX3oaKI4rkQZ/3IexG/Hn6HbwzQ6EoCmU5/5cbLE6TNOzqJDMK
-         xgdDCkEzOCA89t5l060DlR3TO3NkwTaUDwMJJnPJYIb0XMGuIIqfwVmcBEb01Txj4tol
-         2t4XVuzIQOpjW5wmbvmrr1z8OYPpuvvL7TQ6IAxGRzvQPewLWs355fS/H5sRjACo8iLE
-         VFDSHT2oCR6iU5qhpjTJrbQ+r3ZyF9nDYPyQWF2qoUyu0oMOIwU9DdiCeWBbVRvh5sBN
-         kTgg==
-X-Gm-Message-State: APjAAAV2mb82izwd09ZEr8RxOP0duZ2oeYIw8UprDHjC7JKXOJWJ8eDN
-        +Ls3jMthqozUkJ0dyxQqspR7Aa772DRS9ZB7H5E=
-X-Google-Smtp-Source: APXvYqxA7gQscNo8aD00S4m0BFQRXBCE7mogMMTR6ZEW/dN5Vh0AVR/9jg5lLBjDrQdQSaSfiMuCQ97lR/d3F2fOjZs=
-X-Received: by 2002:adf:de02:: with SMTP id b2mr5449626wrm.204.1567005840948;
- Wed, 28 Aug 2019 08:24:00 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zoBlXvJBemCrQzD12jpiGB+4gV2+A+K5Uq/oaYZLfFM=;
+        b=o2IbC0jyWH2wMGqXPX/SfuiaY5mfaxJZk7lMJqqqmY2eIfjcwRUww6rUz+Yl4LJb4X
+         U1E1Ch5MuKyt25dQdYlj9YmR2N/VeAkdW3pJ8z0yyu2PbJwvkdvRCiAxekVJU4tVz4YQ
+         KPa4ai0cLw9yAjr4K4AOGMPFTRdi1jB3aA2aJjvVE/Yzr5/tO1VcWyZjXjW3QQEY4TvZ
+         JwBMOfCGzgYSycHaRYifZiyX+PtJP/UzUFSxO4L+pcbnLc07iJe8yNa7VucTvFupXqvr
+         wMsK+3o/DANlispMIAUSL1WadU+7ZxMsqNCEOvH8+Pvt6BcgvfmXuUpdcpZjVa0x2Zpn
+         CrRw==
+X-Gm-Message-State: APjAAAUoFvLwLFNjA6giNKEGXH2nYyCKJRedmUCD4BwbXCN4eMjLpYq8
+        69wreXV3zCjSElI6IHrXGR0j5FAE4s3auZgy7hY=
+X-Google-Smtp-Source: APXvYqzCr9nOj8u2ubz2JBvXZlpBEYIdJ0GJ3orLlkf54oaD7wClp5YKIHvIaJ6PocaL3keC0ZUSU5i5MzGxlSf//wU=
+X-Received: by 2002:a6b:901:: with SMTP id t1mr2602161ioi.6.1567034788892;
+ Wed, 28 Aug 2019 16:26:28 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a1c:2382:0:0:0:0:0 with HTTP; Wed, 28 Aug 2019 08:24:00
- -0700 (PDT)
-Reply-To: linelink008@gmail.com
-From:   AZIM HASHIM PREMJI <linelink006@gmail.com>
-Date:   Wed, 28 Aug 2019 08:24:00 -0700
-Message-ID: <CAG4TvbRUPnXue4CauES2FG=cAbJmOYkEEpvRG8sjjzZDmbjusw@mail.gmail.com>
-Subject: =?UTF-8?Q?HERZLICHEN_GL=C3=9CCKWUNSCH_=E2=82=AC_1=2C000=2E000=2C00_wurde_an_Si?=
-        =?UTF-8?Q?e_gespendet?=
-To:     undisclosed-recipients:;
+References: <20190812152022.27963-1-stillcompiling@gmail.com> <20190812152022.27963-4-stillcompiling@gmail.com>
+In-Reply-To: <20190812152022.27963-4-stillcompiling@gmail.com>
+From:   Joshua Clayton <stillcompiling@gmail.com>
+Date:   Wed, 28 Aug 2019 17:26:18 -0600
+Message-ID: <CAMB+bfK9Oge1T96aJkuvpoAdUSsm+YxY1W70b62gUMMBKfD8vg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] HID: core: fix dmesg flooding if report field
+ larger than 32bit
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Cc:     Joe Perches <joe@perches.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Ich bin der Vorsitzende von Wipro Limited. Ich habe 25 Prozent meines
-pers=C3=B6nlichen Verm=C3=B6gens verschenkt
-f=C3=BCr die Wohlfahrt. Und ich habe zugesagt, den Rest von 25% dieses Jahr
-2019 an zu vergeben
-Privatpersonen .. Ich habe mich entschieden, Ihnen =E2=82=AC1.000.000,00 zu
-spenden. Wenn du bist
-Interesse an meiner Spende, kontaktieren Sie mich f=C3=BCr weitere Informat=
-ionen.
+ping?
+I'd love to see this get in.
+with distro kernel I have effectively no dmesg due to this issue
+
+On Mon, Aug 12, 2019 at 9:20 AM <stillcompiling@gmail.com> wrote:
+>
+> From: Joshua Clayton <stillcompiling@gmail.com>
+>
+> Only warn once of oversize hid report value field
+>
+> On HP spectre x360 convertible the message:
+> hid-sensor-hub 001F:8087:0AC2.0002: hid_field_extract() called with n (192) > 32! (kworker/1:2)
+> is continually printed many times per second, crowding out all else.
+> Protect dmesg by printing the warning only one time.
+>
+> The size of the hid report field data structure should probably be increased.
+> The data structure is treated as a u32 in Linux, but an unlimited number
+> of bits in the USB hid spec, so there is some rearchitecture needed now that
+> devices are sending more than 32 bits.
+>
+> Signed-off-by: Joshua Clayton <stillcompiling@gmail.com>
+>
+> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> index 210b81a56e1a..3eaee2c37931 100644
+> --- a/drivers/hid/hid-core.c
+> +++ b/drivers/hid/hid-core.c
+> @@ -1311,8 +1311,8 @@ u32 hid_field_extract(const struct hid_device *hid, u8 *report,
+>                         unsigned offset, unsigned n)
+>  {
+>         if (n > 32) {
+> -               hid_warn(hid, "hid_field_extract() called with n (%d) > 32! (%s)\n",
+> -                        n, current->comm);
+> +               hid_warn_once(hid, "%s() called with n (%d) > 32! (%s)\n",
+> +                             __func__, n, current->comm);
+>                 n = 32;
+>         }
+>
+> --
+> 2.21.0
+>
