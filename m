@@ -2,119 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD2A4A0338
-	for <lists+linux-input@lfdr.de>; Wed, 28 Aug 2019 15:31:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4415A0536
+	for <lists+linux-input@lfdr.de>; Wed, 28 Aug 2019 16:43:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726454AbfH1NbD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Aug 2019 09:31:03 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:47258 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726368AbfH1NbC (ORCPT
+        id S1726397AbfH1Onl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Aug 2019 10:43:41 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:44831 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726315AbfH1Onk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Aug 2019 09:31:02 -0400
-Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tip-bot2@linutronix.de>)
-        id 1i2y2K-0004Mf-Ip; Wed, 28 Aug 2019 15:30:56 +0200
-Received: from [127.0.1.1] (localhost [IPv6:::1])
-        by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id 3114E1C0DE2;
-        Wed, 28 Aug 2019 15:30:56 +0200 (CEST)
-Date:   Wed, 28 Aug 2019 13:30:56 -0000
-From:   "tip-bot2 for Thomas Hellstrom" <tip-bot2@linutronix.de>
-Reply-to: linux-kernel@vger.kernel.org
-To:     linux-tip-commits@vger.kernel.org
-Subject: [tip: x86/vmware] input/vmmouse: Update the backdoor call with
- support for new instructions
-Cc:     Thomas Hellstrom <thellstrom@vmware.com>,
-        Borislav Petkov <bp@suse.de>,
-        Doug Covelli <dcovelli@vmware.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        linux-input@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        <pv-drivers@vmware.com>, "x86-ml" <x86@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
-        linux-kernel@vger.kernel.org
-In-Reply-To: <20190828080353.12658-5-thomas_os@shipmail.org>
-References: <20190828080353.12658-5-thomas_os@shipmail.org>
-MIME-Version: 1.0
-Message-ID: <156699905611.5321.15444519862547054670.tip-bot2@tip-bot2>
-X-Mailer: tip-git-log-daemon
-Robot-ID: <tip-bot2.linutronix.de>
-Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+        Wed, 28 Aug 2019 10:43:40 -0400
+Received: from mail-pl1-f200.google.com ([209.85.214.200])
+        by youngberry.canonical.com with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1i2zAg-0007sd-Cv
+        for linux-input@vger.kernel.org; Wed, 28 Aug 2019 14:43:38 +0000
+Received: by mail-pl1-f200.google.com with SMTP id f5so99350plr.0
+        for <linux-input@vger.kernel.org>; Wed, 28 Aug 2019 07:43:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=72loJw2E4prnYu2bHnqkOxrbxvpeYzeWqqougV4V12o=;
+        b=aRjLG1HqpTYn0yhjuV/E5ZApf/QnSCaYMQzuEWgxh0NFp8kFGevYSx1eH1WskjZTKR
+         mZsVucu5Asdg5S3TnUn0KNvdZXQ69Evf2OouTsqeb8j1KW39bryWqdjyRqOwO3IxwZuc
+         rTWL1swz2AQEAgGVv71o2nymXPDvzueIPVt/mnQFpIttQU6j3vrFXcqM7LWpAQbo9k4N
+         RMZfwgyjF8JwfMcarpfA29U06fPDcD6PVGwVUMsa9mXSVHYluVVRrDtkLD+duW3s2g/l
+         mtHX+eiFkR0mn7jwplm638k2h438Qpjl7VyDaARkJUAu3vefkVTD4pQyPjkgDNBQQR4c
+         dyOg==
+X-Gm-Message-State: APjAAAUppOyJQLEh8Fqgt+wn9kiQ7c7ott3O4uqhh++1lbdH6P2UmLPb
+        cEUjIgvvoTWEscUO08GWfZDZCWNK0/i2Vd14S1gvpE0wz6NS71fv0skRAzrc93Va8wcuDJnsGfA
+        cpXUT482XFGTegCwwWHYwUPPXgaf9kAWSZkqsAt60
+X-Received: by 2002:a17:90a:5d0d:: with SMTP id s13mr4582563pji.133.1567003417014;
+        Wed, 28 Aug 2019 07:43:37 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxL3rfIbXwPyv0+NNICU20lJfi4k7SBT61KY+ctfFExjZnGrr1gvd06tr2Bm/DtSiHV9tmc/w==
+X-Received: by 2002:a17:90a:5d0d:: with SMTP id s13mr4582519pji.133.1567003416579;
+        Wed, 28 Aug 2019 07:43:36 -0700 (PDT)
+Received: from 2001-b011-380f-3c42-f8f8-a260-49a8-d1ed.dynamic-ip6.hinet.net (2001-b011-380f-3c42-f8f8-a260-49a8-d1ed.dynamic-ip6.hinet.net. [2001:b011:380f:3c42:f8f8:a260:49a8:d1ed])
+        by smtp.gmail.com with ESMTPSA id y194sm3121815pfg.116.2019.08.28.07.43.34
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 28 Aug 2019 07:43:36 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8;
+        delsp=yes;
+        format=flowed
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+Subject: Re: Alps touchpad generates IRQ storm after S3
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <39b2e63e339447e8b09b2601abf3d1ba@AUSX13MPC101.AMER.DELL.COM>
+Date:   Wed, 28 Aug 2019 22:43:33 +0800
+Cc:     xiaojian.cao@cn.alps.com, masaki.ota@alpsalpine.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        naoki.saito@alpsalpine.com
+Content-Transfer-Encoding: 8bit
+Message-Id: <BFBB1DB9-00B6-497E-80D1-5168CF16B889@canonical.com>
+References: <44F93018-5F13-4932-A5AC-9D288CDF68DD@canonical.com>
+ <TYAPR01MB30223CB8A576C7809F6382C1ECA30@TYAPR01MB3022.jpnprd01.prod.outlook.com>
+ <TYXPR01MB1470902D804A47EE72013006C8A30@TYXPR01MB1470.jpnprd01.prod.outlook.com>
+ <A118551C-A0D9-485F-91F7-44A5BE228B99@canonical.com>
+ <39b2e63e339447e8b09b2601abf3d1ba@AUSX13MPC101.AMER.DELL.COM>
+To:     Mario.Limonciello@dell.com
+X-Mailer: Apple Mail (2.3445.104.11)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The following commit has been merged into the x86/vmware branch of tip:
+Hi Mario,
 
-Commit-ID:     f7b15c74cffd760ec9959078982d8268a38456c4
-Gitweb:        https://git.kernel.org/tip/f7b15c74cffd760ec9959078982d8268a38456c4
-Author:        Thomas Hellstrom <thellstrom@vmware.com>
-AuthorDate:    Wed, 28 Aug 2019 10:03:53 +02:00
-Committer:     Borislav Petkov <bp@suse.de>
-CommitterDate: Wed, 28 Aug 2019 13:43:01 +02:00
+at 21:25, <Mario.Limonciello@dell.com> <Mario.Limonciello@dell.com> wrote:
 
-input/vmmouse: Update the backdoor call with support for new instructions
+> KH,
+>
+> Just make sure I understand details.
+>
+>> Commit "HID: i2c-hid: Don't reset device upon system resume
+>
+> If you revert this it's fixed on this system?
 
-Use the definition provided by include/asm/vmware.h.
+Yes. Once reset is used instead of  the issue is gone.
 
-Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Reviewed-by: Doug Covelli <dcovelli@vmware.com>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: linux-input@vger.kernel.org
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-Cc: <pv-drivers@vmware.com>
-Cc: x86-ml <x86@kernel.org>
-Link: https://lkml.kernel.org/r/20190828080353.12658-5-thomas_os@shipmail.org
----
- drivers/input/mouse/vmmouse.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> In that commit you had mentioned if this causes problems it might be worth
+> quirking just Raydium but commit afbb1169ed5b58cfca017e368b53e019cf285853
+> confirmed that it helped several other systems too.
+>
+> If the conclusion from this investigation this is only fixable via  
+> touchpad FW update
+> it might be worth quirking this touchpad/touchpad FW/system combination.
 
-diff --git a/drivers/input/mouse/vmmouse.c b/drivers/input/mouse/vmmouse.c
-index 871e5b5..148245c 100644
---- a/drivers/input/mouse/vmmouse.c
-+++ b/drivers/input/mouse/vmmouse.c
-@@ -16,12 +16,12 @@
- #include <linux/slab.h>
- #include <linux/module.h>
- #include <asm/hypervisor.h>
-+#include <asm/vmware.h>
- 
- #include "psmouse.h"
- #include "vmmouse.h"
- 
- #define VMMOUSE_PROTO_MAGIC			0x564D5868U
--#define VMMOUSE_PROTO_PORT			0x5658
- 
- /*
-  * Main commands supported by the vmmouse hypervisor port.
-@@ -84,7 +84,7 @@ struct vmmouse_data {
- #define VMMOUSE_CMD(cmd, in1, out1, out2, out3, out4)	\
- ({							\
- 	unsigned long __dummy1, __dummy2;		\
--	__asm__ __volatile__ ("inl %%dx" :		\
-+	__asm__ __volatile__ (VMWARE_HYPERCALL :	\
- 		"=a"(out1),				\
- 		"=b"(out2),				\
- 		"=c"(out3),				\
-@@ -94,7 +94,7 @@ struct vmmouse_data {
- 		"a"(VMMOUSE_PROTO_MAGIC),		\
- 		"b"(in1),				\
- 		"c"(VMMOUSE_PROTO_CMD_##cmd),		\
--		"d"(VMMOUSE_PROTO_PORT) :		\
-+		"d"(0) :			        \
- 		"memory");		                \
- })
- 
+Hopefully there’s a better solution from ALPS :)
+
+>
+>> Also Cc Mario because this could relate to BIOS.
+>
+> Also I assume this is on current stable BIOS/EC release, right?
+
+Yes. The BIOS version is 1.10.1.
+
+The IRQ storm stops as soon as the touchpad gets touched.
+
+Kai-Heng
+
+>
+> Thanks,
+>
+>> -----Original Message-----
+>> From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>> Sent: Wednesday, August 28, 2019 1:58 AM
+>> To: Xiaojian Cao
+>> Cc: Masaki Ota; Limonciello, Mario; open list:HID CORE LAYER; Linux Kernel
+>> Mailing List; Naoki Saito
+>> Subject: Re: Alps touchpad generates IRQ storm after S3
+>>
+>>
+>> [EXTERNAL EMAIL]
+>>
+>> Hi Xiaojian,
+>>
+>> at 14:51, Xiaojian Cao <xiaojian.cao@cn.alps.com> wrote:
+>>
+>>> Hi Ota-san,
+>>>
+>>> OK, we will look into it.
+>>>
+>>>
+>>> Hi Kai-Heng,
+>>>
+>>> We will try to reproduce this issue first, could you please tell me the
+>>> target Ubuntu version?
+>>
+>> It’s distro-agnostic, any distro with mainline Linux can reproduce the  
+>> issue.
+>>
+>> Kai-Heng
+>>
+>>> Best regards,
+>>> Jason
+>>>
+>>> -----Original Message-----
+>>> From: 太田 真喜 Masaki Ota <masaki.ota@alpsalpine.com>
+>>> Sent: Wednesday, August 28, 2019 2:35 PM
+>>> To: 曹 曉建 Xiaojian Cao <xiaojian.cao@cn.alps.com>; Kai-Heng Feng
+>>> <kai.heng.feng@canonical.com>
+>>> Cc: Mario Limonciello <mario.limonciello@dell.com>; open list:HID CORE
+>>> LAYER <linux-input@vger.kernel.org>; Linux Kernel Mailing List
+>>> <linux-kernel@vger.kernel.org>; 斉藤 直樹 Naoki Saito
+>>> <naoki.saito@alpsalpine.com>
+>>> Subject: RE: Alps touchpad generates IRQ storm after S3
+>>>
+>>> Hi, Kai-Heng,
+>>>
+>>> Sorry, I'm not in charge of Linux task now.
+>>>
+>>> Hi, XiaoJian,
+>>>
+>>> Please check the following mail.
+>>> If you have any question, please ask Kai-Heng.
+>>>
+>>> Best Regards,
+>>> Masaki Ota
+>>> -----Original Message-----
+>>> From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>>> Sent: Wednesday, August 28, 2019 3:22 PM
+>>> To: 太田 真喜 Masaki Ota <masaki.ota@alpsalpine.com>
+>>> Cc: Mario Limonciello <mario.limonciello@dell.com>; open list:HID CORE
+>>> LAYER <linux-input@vger.kernel.org>; Linux Kernel Mailing List
+>>> <linux-kernel@vger.kernel.org>
+>>> Subject: Alps touchpad generates IRQ storm after S3
+>>>
+>>> Hi Masaki,
+>>>
+>>> The Alps touchpad (044E:1220) on Dell Precision 7530 causes IRQ storm
+>>> after system suspend (S3).
+>>> Commit "HID: i2c-hid: Don't reset device upon system resume” which solves
+>>> the same issue for other vendors, cause the issue on Alps touchpad.
+>>> So I’d like to know the correct command Alps touchpad expects after
+>>> system resume.
+>>>
+>>> Also Cc Mario because this could relate to BIOS.
+>>>
+>>> Kai-Heng
+
+
