@@ -2,54 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE2E29FEED
-	for <lists+linux-input@lfdr.de>; Wed, 28 Aug 2019 11:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A79719FEEE
+	for <lists+linux-input@lfdr.de>; Wed, 28 Aug 2019 11:54:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726273AbfH1JyV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Aug 2019 05:54:21 -0400
-Received: from mail-pl1-f174.google.com ([209.85.214.174]:45663 "EHLO
-        mail-pl1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726368AbfH1JyV (ORCPT
+        id S1726378AbfH1JyY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Aug 2019 05:54:24 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:36213 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726368AbfH1JyY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Aug 2019 05:54:21 -0400
-Received: by mail-pl1-f174.google.com with SMTP id y8so988243plr.12
-        for <linux-input@vger.kernel.org>; Wed, 28 Aug 2019 02:54:20 -0700 (PDT)
+        Wed, 28 Aug 2019 05:54:24 -0400
+Received: by mail-pf1-f196.google.com with SMTP id w2so1391610pfi.3
+        for <linux-input@vger.kernel.org>; Wed, 28 Aug 2019 02:54:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=UQnwzKcveqCmOUaA3/3c8b6J5UefneOvlIC1zJw4bkw=;
-        b=CZi2n7W77Z0A7UyWNTMUBJtOH8WJK7Ggqtowll+q3WUbEImB7ARxf5S2RU1880C8Vn
-         F22+VNw0MEfFNkSWeUg1mwlvkYRchzdZT5dZFlbQajBH2oL8Z3kqCDr3Nx69K72daNuO
-         uG5pzY7geX6lIYrWLClTXk0WBMG1aCCD1ih1XNOf/N6loFYc19fUjn5vhejcPBrfYN/g
-         iKTSYyr5psTjy7kH74iqFCQm44fbhfX0Di4ViQ0kamAtFAG+8/wpsRTKwg7yJf9cFsmt
-         h4ZGJBLu8Qu58qzWMIEtqTBVK4Yv9N4iD0Lv8I1p5TYO9YMAymVnooT4J8exMG9Sow0o
-         ISYg==
+        bh=H99pz8hJRALi07IvORKmej1UWm69GcBOFPDW+oTWEQY=;
+        b=oLVaBKho4x17A6fx60576uVdEm5Ec6Kur4sF1rCZKP5Vd3vXKq/j1IQ2Q3C5gShSQP
+         Q7UrT6WeHpCrA0Z/WVintWhHyxCXNbh7mm325T8HgsxJ1vlmckQ1opw5S45U6dWmOuc5
+         Bd2giiqx4x6iAF2Db7EPo+9fFTQTqZPDeUVcNbeskfESqZC1sIo0fQ4JfrIFh7Kil0K4
+         WjUy29wR4Lab3ZZQWnPVOix/vm0w+THsGEUXR6p0WuRhNNd1iywQhq6wLfcXBSbZO5+4
+         itbp7U4A6PTvGeA8vDUJs1MLRimJ/0Sw0z4qa+4a7m7cDMfT2gkmJUk1cbXioAjlO911
+         SQSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=UQnwzKcveqCmOUaA3/3c8b6J5UefneOvlIC1zJw4bkw=;
-        b=BZ35WPEcPDiL7rBQB0u7qPVsCs1eonmK5q6MFhgb7wIvPzJ/N4uscRWxNIQWW6phUB
-         B4Cn2rCImmoNX9A7YKeyqjBdnv2ahvOwuj9tJUfEEIS4snLKqzELnVHQFk3ivuMbnZlz
-         631w8eyJkvK+Aq1f4HNYURk/AiHTGHHgxKNS7cZdl5YUDrIrX9c+0FmxvZSV9K45nCXa
-         fK3pHmjdExaux+eCheK1t7UCIUC41wupOh2TgBHUXd/naUdV2Z/AOPLG/NTe7Md1FWNk
-         80k1BkiWPsvV+UDKsUz4bTpC6U+n0bJdOfIH7HK7BRYjgilq6ZplPxbmWO4/yJY95a4Z
-         L3Qw==
-X-Gm-Message-State: APjAAAWCL3Us6YHfl1zm/CoYAdsSYgI35azPNkBl+Uka4K3ooXGG/bIM
-        ZC5g4ieMg1VswNDAGwk4D3lfIoEU
-X-Google-Smtp-Source: APXvYqzo6NwiDSB73LYa79Qw5+Gu0rESWTZU38nCxLV73kFUc8a4keCtjl5+K+ciUkA6mjkGA6/xjw==
-X-Received: by 2002:a17:902:3064:: with SMTP id u91mr3485177plb.244.1566986060286;
-        Wed, 28 Aug 2019 02:54:20 -0700 (PDT)
+        bh=H99pz8hJRALi07IvORKmej1UWm69GcBOFPDW+oTWEQY=;
+        b=KF8vLMn67EXO5eyZespnznirVay7KzxgbY7AMgB0jWhmL6y/M2ZJsWedVHv9mSADMV
+         8EF856L+rR7Gzi5eDhx8TO9tdwjC12ymOdbLTIZ3jQ9jy93hnkIh8DHSKjoq8S+561XA
+         ixuQ9Ej5EiIOO5slB3xt2lGTfk/ZIlWSWtDFlP9KbegOsvIEcsmcjhXXTA0bfb17Flmy
+         r0AKDT5vibKoVKbTav6V/RD04TyXaqulctYVGfT97mU/osVSL+fzmjYfo0Aru6EpE5Wb
+         BZS0ItZmaEIfMOpOLk1pbD6sj+m4JHnCLmrXsYgfE6MsdJG4q3ltUtuL7LEYYV6dQSkl
+         1eCQ==
+X-Gm-Message-State: APjAAAUw3Bda27369KSHy1gIFqkLS0lhagnUcs+O5eSGf1PuDzKc8zFQ
+        afOBN+ELEGOm9MaPd5rlesgBDiMG
+X-Google-Smtp-Source: APXvYqx/Y4cB/YDSKkkyAng422qFflMduovsBqEuBIjK0wigs8+fhOXRVApogqbciSvoiqOklJdvpg==
+X-Received: by 2002:a17:90a:22c9:: with SMTP id s67mr3384299pjc.22.1566986062607;
+        Wed, 28 Aug 2019 02:54:22 -0700 (PDT)
 Received: from localhost.localdomain ([39.117.32.11])
-        by smtp.gmail.com with ESMTPSA id m13sm2101432pgn.57.2019.08.28.02.54.18
+        by smtp.gmail.com with ESMTPSA id m13sm2101432pgn.57.2019.08.28.02.54.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2019 02:54:19 -0700 (PDT)
+        Wed, 28 Aug 2019 02:54:22 -0700 (PDT)
 From:   Jongpil Jung <jongpuls@gmail.com>
 To:     linux-input@vger.kernel.org
 Cc:     Jongpil Jung <jongpil19.jung@samsung.corp-partner.google.com>
-Subject: [PATCH 6/8] Input: atmel_mxt_ts - add active to idle timeout in T7.
-Date:   Wed, 28 Aug 2019 18:53:47 +0900
-Message-Id: <20190828095349.30607-6-jongpuls@gmail.com>
+Subject: [PATCH 7/8] Input: atmel_mxt_ts - add interface to read/write config file name.
+Date:   Wed, 28 Aug 2019 18:53:48 +0900
+Message-Id: <20190828095349.30607-7-jongpuls@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190828095349.30607-1-jongpuls@gmail.com>
 References: <20190828095349.30607-1-jongpuls@gmail.com>
@@ -60,57 +60,158 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Jongpil Jung <jongpil19.jung@samsung.corp-partner.google.com>
 
-T7 has active to idle timeout information. Add active to idle timeout
-information into structure so that we can refer information easily.
+Add interface to change config/firmware file name easily.
+So, we can pass file name to kernel space before we update
+config/firmware.
 
-Change-Id: Ie4682cff3d3bb1b8b537702656862eb34f64a0b8
+Change-Id: I5b0253feb47e62d7013148f5ef117a9f2ba0b162
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 97 ++++++++++++++++++++++++
+ 1 file changed, 97 insertions(+)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 723ff75e798a..3a17adf04e2a 100644
+index 3a17adf04e2a..2f1013c97433 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -94,6 +94,7 @@
- struct t7_config {
- 	u8 idle;
- 	u8 active;
-+	u8 activetoidleto;
- } __packed;
+@@ -334,6 +334,12 @@ struct mxt_data {
+ 	/* for config update handling */
+ 	struct completion crc_completion;
  
- #define MXT_POWER_CFG_RUN		0
-@@ -2176,6 +2177,8 @@ static int mxt_set_t7_power_cfg(struct mxt_data *data, u8 sleep)
- 	struct t7_config *new_config;
- 	struct t7_config deepsleep = { .active = 0, .idle = 0 };
- 
-+	deepsleep.activetoidleto = data->t7_cfg.activetoidleto;
++	/* firmware file name */
++	char *fw_file;
 +
- 	if (sleep == MXT_POWER_CFG_DEEPSLEEP)
- 		new_config = &deepsleep;
- 	else
-@@ -2186,8 +2189,8 @@ static int mxt_set_t7_power_cfg(struct mxt_data *data, u8 sleep)
++	/* config file name */
++	char *config_file;
++
+ 	u32 *t19_keymap;
+ 	unsigned int t19_num_keys;
+ 
+@@ -2681,6 +2687,42 @@ static int mxt_configure_objects(struct mxt_data *data,
+ 	return 0;
+ }
+ 
++static int mxt_update_file_name(struct device *dev, char **file_name,
++				const char *buf, size_t count)
++{
++	char *new_file_name;
++
++	/* Simple sanity check */
++	if (count > 64) {
++		dev_warn(dev, "File name too long\n");
++		return -EINVAL;
++	}
++
++	/* FIXME: devm_kmemdup() when available */
++	new_file_name = devm_kmalloc(dev, count + 1, GFP_KERNEL);
++	if (!new_file_name) {
++		dev_warn(dev, "no memory\n");
++		return -ENOMEM;
++	}
++
++	memcpy(new_file_name, buf, count + 1);
++
++	dev_dbg(dev, "new file name %s\n", new_file_name);
++
++	/* Echo into the sysfs entry may append newline at the end of buf */
++	if (new_file_name[count - 1] == '\n')
++		count--;
++
++	new_file_name[count] = '\0';
++
++	if (*file_name)
++		devm_kfree(dev, *file_name);
++
++	*file_name = new_file_name;
++
++	return 0;
++}
++
+ static ssize_t mxt_backupnv_store(struct device *dev,
+ 				  struct device_attribute *attr,
+ 				  const char *buf, size_t count)
+@@ -2718,6 +2760,45 @@ static ssize_t mxt_config_csum_show(struct device *dev,
+ 	return scnprintf(buf, PAGE_SIZE, "%06x\n", data->config_crc);
+ }
+ 
++static ssize_t mxt_config_file_show(struct device *dev,
++				    struct device_attribute *attr, char *buf)
++{
++	struct mxt_data *data = dev_get_drvdata(dev);
++	return scnprintf(buf, PAGE_SIZE, "%s\n", data->config_file);
++}
++
++static ssize_t mxt_config_file_store(struct device *dev,
++				     struct device_attribute *attr,
++				     const char *buf, size_t count)
++{
++	struct mxt_data *data = dev_get_drvdata(dev);
++	int ret;
++
++	ret = mxt_update_file_name(dev, &data->config_file, buf, count);
++	return ret ? ret : count;
++}
++
++static ssize_t mxt_fw_file_show(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct mxt_data *data = dev_get_drvdata(dev);
++	return scnprintf(buf, PAGE_SIZE, "%s\n", data->fw_file);
++}
++
++static ssize_t mxt_fw_file_store(struct device *dev,
++				 struct device_attribute *attr,
++				 const char *buf, size_t count)
++{
++	struct mxt_data *data = dev_get_drvdata(dev);
++	int ret;
++
++	ret = mxt_update_file_name(dev, &data->fw_file, buf, count);
++	if (ret)
++		return ret;
++
++	return count;
++}
++
+ /* Firmware Version is returned as Major.Minor.Build */
+ static ssize_t mxt_fw_version_show(struct device *dev,
+ 				   struct device_attribute *attr, char *buf)
+@@ -2985,6 +3066,10 @@ static ssize_t mxt_update_fw_store(struct device *dev,
+ static DEVICE_ATTR(backupnv, S_IWUSR, NULL, mxt_backupnv_store);
+ static DEVICE_ATTR(calibrate, S_IWUSR, NULL, mxt_calibrate_store);
+ static DEVICE_ATTR(config_csum, S_IRUGO, mxt_config_csum_show, NULL);
++static DEVICE_ATTR(config_file, S_IRUGO | S_IWUSR, mxt_config_file_show,
++		   mxt_config_file_store);
++static DEVICE_ATTR(fw_file, S_IRUGO | S_IWUSR, mxt_fw_file_show,
++		   mxt_fw_file_store);
+ static DEVICE_ATTR(fw_version, S_IRUGO, mxt_fw_version_show, NULL);
+ static DEVICE_ATTR(hw_version, S_IRUGO, mxt_hw_version_show, NULL);
+ static DEVICE_ATTR(info_csum, S_IRUGO, mxt_info_csum_show, NULL);
+@@ -2996,6 +3081,8 @@ static struct attribute *mxt_attrs[] = {
+ 	&dev_attr_backupnv.attr,
+ 	&dev_attr_calibrate.attr,
+ 	&dev_attr_config_csum.attr,
++	&dev_attr_config_file.attr,
++	&dev_attr_fw_file.attr,
+ 	&dev_attr_fw_version.attr,
+ 	&dev_attr_hw_version.attr,
+ 	&dev_attr_info_csum.attr,
+@@ -3167,6 +3254,16 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
  	if (error)
  		return error;
  
--	dev_dbg(dev, "Set T7 ACTV:%d IDLE:%d\n",
--		new_config->active, new_config->idle);
-+	dev_dbg(dev, "Set T7 ACTV:%d IDLE:%d ACTV2IDLETO:%d\n",
-+		new_config->active, new_config->idle, new_config->activetoidleto);
- 
- 	return 0;
- }
-@@ -2218,8 +2221,8 @@ static int mxt_init_t7_power_cfg(struct mxt_data *data)
- 		}
- 	}
- 
--	dev_dbg(dev, "Initialized power cfg: ACTV %d, IDLE %d\n",
--		data->t7_cfg.active, data->t7_cfg.idle);
-+	dev_dbg(dev, "Initialized power cfg: ACTV %d, IDLE %d, ACTV2IDLETO:%d\n",
-+		data->t7_cfg.active, data->t7_cfg.idle, data->t7_cfg.activetoidleto);
- 	return 0;
- }
- 
++	error = mxt_update_file_name(&client->dev, &data->fw_file, MXT_FW_NAME,
++				     strlen(MXT_FW_NAME));
++	if (error)
++		return error;
++
++	error = mxt_update_file_name(&client->dev, &data->config_file,
++				     MXT_CFG_NAME, strlen(MXT_CFG_NAME));
++	if (error)
++		return error;
++
+ 	data->reset_gpio = devm_gpiod_get_optional(&client->dev,
+ 						   "reset", GPIOD_OUT_LOW);
+ 	if (IS_ERR(data->reset_gpio)) {
 -- 
 2.17.1
 
