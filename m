@@ -2,35 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 158EAA2493
-	for <lists+linux-input@lfdr.de>; Thu, 29 Aug 2019 20:24:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73FBEA248D
+	for <lists+linux-input@lfdr.de>; Thu, 29 Aug 2019 20:24:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728700AbfH2SYQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Aug 2019 14:24:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58568 "EHLO mail.kernel.org"
+        id S1729753AbfH2SQi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Aug 2019 14:16:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58638 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729791AbfH2SQd (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Aug 2019 14:16:33 -0400
+        id S1729808AbfH2SQh (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 29 Aug 2019 14:16:37 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A3A4323404;
-        Thu, 29 Aug 2019 18:16:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3C72023429;
+        Thu, 29 Aug 2019 18:16:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567102592;
-        bh=6edj2RMHxJ1GdalHBATV/N2v4H6FUIHzV4FX8tASp94=;
+        s=default; t=1567102596;
+        bh=xsvxJCthlLanLZJABP2L2TiicScc0UTWZw5aZ2Af/4k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jQWQD69OESZgHZN4suBOf/kTyUZkaQTU7bRdoRmRo1MOox2TUzlcC60E4BQE5hVxh
-         qsx5uoVO1BkrFYd3s4Jfefm+7fSjLJ8Sqs8FB1ynbQh/37Ne5EbfBMdQd1bPe4Y2FN
-         HsPTYZO2YY6Uqa2UGr5FKaTMt9qyZmentxQH4bJU=
+        b=uxVrAAQnvyN+XeiMAkLmIC5WHxtOAWR+wuptytfS4HDZRYlnRQgo3F3okepqHg0eT
+         c+Y6wWX0S2Obv25PLX8N2xYDQI3oPBGfz4dnTI9eBUhxBYhDlwkwHdGQIbqjhZDVCH
+         nah+Rl6Ik05RW2ChMrgixYz1kYueX0ASedvRN+nc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+Cc:     Dexuan Cui <decui@microsoft.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 30/45] HID: cp2112: prevent sleeping function called from invalid context
-Date:   Thu, 29 Aug 2019 14:15:30 -0400
-Message-Id: <20190829181547.8280-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 32/45] Input: hyperv-keyboard: Use in-place iterator API in the channel callback
+Date:   Thu, 29 Aug 2019 14:15:32 -0400
+Message-Id: <20190829181547.8280-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190829181547.8280-1-sashal@kernel.org>
 References: <20190829181547.8280-1-sashal@kernel.org>
@@ -43,52 +44,73 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+From: Dexuan Cui <decui@microsoft.com>
 
-[ Upstream commit 2d05dba2b25ecb0f8fc3a0b4eb2232da6454a47b ]
+[ Upstream commit d09bc83640d524b8467a660db7b1d15e6562a1de ]
 
-When calling request_threaded_irq() with a CP2112, the function
-cp2112_gpio_irq_startup() is called in a IRQ context.
+Simplify the ring buffer handling with the in-place API.
 
-Therefore we can not sleep, and we can not call
-cp2112_gpio_direction_input() there.
+Also avoid the dynamic allocation and the memory leak in the channel
+callback function.
 
-Move the call to cp2112_gpio_direction_input() earlier to have a working
-driver.
-
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Dexuan Cui <decui@microsoft.com>
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-cp2112.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/input/serio/hyperv-keyboard.c | 35 +++++----------------------
+ 1 file changed, 6 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-index 271f31461da42..6f65f52572368 100644
---- a/drivers/hid/hid-cp2112.c
-+++ b/drivers/hid/hid-cp2112.c
-@@ -1160,8 +1160,6 @@ static unsigned int cp2112_gpio_irq_startup(struct irq_data *d)
+diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
+index a8b9be3e28db7..7d0a5ccf57751 100644
+--- a/drivers/input/serio/hyperv-keyboard.c
++++ b/drivers/input/serio/hyperv-keyboard.c
+@@ -245,40 +245,17 @@ static void hv_kbd_handle_received_packet(struct hv_device *hv_dev,
  
- 	INIT_DELAYED_WORK(&dev->gpio_poll_worker, cp2112_gpio_poll_callback);
+ static void hv_kbd_on_channel_callback(void *context)
+ {
++	struct vmpacket_descriptor *desc;
+ 	struct hv_device *hv_dev = context;
+-	void *buffer;
+-	int bufferlen = 0x100; /* Start with sensible size */
+ 	u32 bytes_recvd;
+ 	u64 req_id;
+-	int error;
  
--	cp2112_gpio_direction_input(gc, d->hwirq);
+-	buffer = kmalloc(bufferlen, GFP_ATOMIC);
+-	if (!buffer)
+-		return;
 -
- 	if (!dev->gpio_poll) {
- 		dev->gpio_poll = true;
- 		schedule_delayed_work(&dev->gpio_poll_worker, 0);
-@@ -1209,6 +1207,12 @@ static int __maybe_unused cp2112_allocate_irq(struct cp2112_device *dev,
- 		return PTR_ERR(dev->desc[pin]);
- 	}
+-	while (1) {
+-		error = vmbus_recvpacket_raw(hv_dev->channel, buffer, bufferlen,
+-					     &bytes_recvd, &req_id);
+-		switch (error) {
+-		case 0:
+-			if (bytes_recvd == 0) {
+-				kfree(buffer);
+-				return;
+-			}
+-
+-			hv_kbd_handle_received_packet(hv_dev, buffer,
+-						      bytes_recvd, req_id);
+-			break;
++	foreach_vmbus_pkt(desc, hv_dev->channel) {
++		bytes_recvd = desc->len8 * 8;
++		req_id = desc->trans_id;
  
-+	ret = cp2112_gpio_direction_input(&dev->gc, pin);
-+	if (ret < 0) {
-+		dev_err(dev->gc.parent, "Failed to set GPIO to input dir\n");
-+		goto err_desc;
-+	}
-+
- 	ret = gpiochip_lock_as_irq(&dev->gc, pin);
- 	if (ret) {
- 		dev_err(dev->gc.parent, "Failed to lock GPIO as interrupt\n");
+-		case -ENOBUFS:
+-			kfree(buffer);
+-			/* Handle large packet */
+-			bufferlen = bytes_recvd;
+-			buffer = kmalloc(bytes_recvd, GFP_ATOMIC);
+-			if (!buffer)
+-				return;
+-			break;
+-		}
++		hv_kbd_handle_received_packet(hv_dev, desc, bytes_recvd,
++					      req_id);
+ 	}
+ }
+ 
 -- 
 2.20.1
 
