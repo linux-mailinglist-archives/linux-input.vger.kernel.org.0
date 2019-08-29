@@ -2,139 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2BA2A1701
-	for <lists+linux-input@lfdr.de>; Thu, 29 Aug 2019 12:52:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48FA5A1963
+	for <lists+linux-input@lfdr.de>; Thu, 29 Aug 2019 13:51:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728309AbfH2Kwu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Aug 2019 06:52:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58760 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728438AbfH2KvF (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Aug 2019 06:51:05 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9B7302173E;
-        Thu, 29 Aug 2019 10:51:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567075864;
-        bh=IOPdm9k3VPoaPXeXZ9z/V6zcLHMRjbCmVT1iw1qRiZE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KRI3H86cx8AqSUL1ujDX2UemCzhMrHvm9XkVGToEBHs9dJKJVzvR77cfC6NYQUqrb
-         QO/AtAC3k0vzFnM85ryEs7YaZskendeaSziEf//1MT03N0YvupLu6WUq8JNYxGCwar
-         rPrnTzDSe4HJgVF8A1D2zAHy3LTjd3yz6jckwLqU=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 3/8] HID: input: fix a4tech horizontal wheel custom usage
-Date:   Thu, 29 Aug 2019 06:50:55 -0400
-Message-Id: <20190829105100.2649-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190829105100.2649-1-sashal@kernel.org>
-References: <20190829105100.2649-1-sashal@kernel.org>
+        id S1726979AbfH2LvD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Aug 2019 07:51:03 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:40605 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727176AbfH2LvC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 29 Aug 2019 07:51:02 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1i3Ix4-0002md-Ut; Thu, 29 Aug 2019 13:50:54 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1i3Ix2-0007yd-A0; Thu, 29 Aug 2019 13:50:52 +0200
+Date:   Thu, 29 Aug 2019 13:50:52 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Robin Gong <yibin.gong@nxp.com>
+Cc:     robin <robin@protonic.nl>, Mark Rutland <mark.rutland@arm.com>,
+        "devicetree @ vger . kernel . org" <devicetree@vger.kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "linux-kernel @ vger . kernel . org" <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        "linux-input @ vger . kernel . org" <linux-input@vger.kernel.org>,
+        Adam Ford <aford173@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        "linux-arm-kernel @ lists . infradead . org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2 1/2] input: keyboard: snvs_pwrkey: Send key events for
+ i.MX6 S, DL and Q
+Message-ID: <20190829115052.s2m4jw4p3rknqoxb@pengutronix.de>
+References: <20190827123216.32728-1-robin@protonic.nl>
+ <20190828091550.pdc57wanu6twew5p@pengutronix.de>
+ <6d353af709ea545cc34abca5c40674e3@protonic.nl>
+ <20190829081712.timamprawezzbesn@pengutronix.de>
+ <VE1PR04MB6638A54664EE3FFE16BD419189A20@VE1PR04MB6638.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <VE1PR04MB6638A54664EE3FFE16BD419189A20@VE1PR04MB6638.eurprd04.prod.outlook.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 13:49:36 up 103 days, 18:07, 63 users,  load average: 0.02, 0.01,
+ 0.00
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+On 19-08-29 09:11, Robin Gong wrote:
+> 
+> On 2019-08-29 16:17, Marco Felsch wrote:
+> > > > While reading the rm it seems that
+> > > > the snvs block has a dedicated version register. IMHO this could be
+> > > > a better way to apply the change also to existing devices with old
+> > > > firmware.
+> > >
+> > > I thought the same thing, and fully agree with you. However I do not
+> > > have a way to determine which versions are out there. Since I couldn't
+> > > find any documentation on this, and I only have i.MX6 S/DL, D/Q and UL
+> > laying around.
+> > 
+> > @NXP Kernel Team
+> > Can we get some more information here?
+> Go ahead, please. That snvs version register SNVS_HPVIDR1 should work as expect.
+> MINOR_REV checking is enough, none-zero means for soc after i.mx6sx, but
+> Zero means i.mx6q/dl/sl elder soc.
 
-[ Upstream commit 1c703b53e5bfb5c2205c30f0fb157ce271fd42fb ]
+Thanks. Robin can you integrate that so we can drop the different
+dt-handling?
 
-Some a4tech mice use the 'GenericDesktop.00b8' usage to inform whether
-the previous wheel report was horizontal or vertical. Before
-c01908a14bf73 ("HID: input: add mapping for "Toggle Display" key") this
-usage was being mapped to 'Relative.Misc'. After the patch it's simply
-ignored (usage->type == 0 & usage->code == 0). Which ultimately makes
-hid-a4tech ignore the WHEEL/HWHEEL selection event, as it has no
-usage->type.
+Regards,
+  Marco
 
-We shouldn't rely on a mapping for that usage as it's nonstandard and
-doesn't really map to an input event. So we bypass the mapping and make
-sure the custom event handling properly handles both reports.
+> > 
+> > Regards,
+> >   Marco
+> > 
+> > > Regards,
+> > > Robin van der Gracht
+> > >
+> > 
+> > --
+> > Pengutronix e.K.                           |
+> > |
+> > Industrial Linux Solutions                 |
+> > https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fwww.p
+> > engutronix.de%2F&amp;data=02%7C01%7Cyibin.gong%40nxp.com%7C8d4e1
+> > 0cd77bd4652f3eb08d72c594e76%7C686ea1d3bc2b4c6fa92cd99c5c301635%7
+> > C0%7C0%7C637026634390359345&amp;sdata=mhXlUxmLWg8qtwhPQfkJZm
+> > VAn4QQ3YybLOSh83uf27E%3D&amp;reserved=0  |
+> > Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0
+> > |
+> > Amtsgericht Hildesheim, HRA 2686           | Fax:
+> > +49-5121-206917-5555 |
+> 
 
-Fixes: c01908a14bf73 ("HID: input: add mapping for "Toggle Display" key")
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/hid-a4tech.c | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/hid-a4tech.c b/drivers/hid/hid-a4tech.c
-index 9428ea7cdf8a0..c52bd163abb3e 100644
---- a/drivers/hid/hid-a4tech.c
-+++ b/drivers/hid/hid-a4tech.c
-@@ -26,12 +26,36 @@
- #define A4_2WHEEL_MOUSE_HACK_7	0x01
- #define A4_2WHEEL_MOUSE_HACK_B8	0x02
- 
-+#define A4_WHEEL_ORIENTATION	(HID_UP_GENDESK | 0x000000b8)
-+
- struct a4tech_sc {
- 	unsigned long quirks;
- 	unsigned int hw_wheel;
- 	__s32 delayed_value;
- };
- 
-+static int a4_input_mapping(struct hid_device *hdev, struct hid_input *hi,
-+			    struct hid_field *field, struct hid_usage *usage,
-+			    unsigned long **bit, int *max)
-+{
-+	struct a4tech_sc *a4 = hid_get_drvdata(hdev);
-+
-+	if (a4->quirks & A4_2WHEEL_MOUSE_HACK_B8 &&
-+	    usage->hid == A4_WHEEL_ORIENTATION) {
-+		/*
-+		 * We do not want to have this usage mapped to anything as it's
-+		 * nonstandard and doesn't really behave like an HID report.
-+		 * It's only selecting the orientation (vertical/horizontal) of
-+		 * the previous mouse wheel report. The input_events will be
-+		 * generated once both reports are recorded in a4_event().
-+		 */
-+		return -1;
-+	}
-+
-+	return 0;
-+
-+}
-+
- static int a4_input_mapped(struct hid_device *hdev, struct hid_input *hi,
- 		struct hid_field *field, struct hid_usage *usage,
- 		unsigned long **bit, int *max)
-@@ -53,8 +77,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
- 	struct a4tech_sc *a4 = hid_get_drvdata(hdev);
- 	struct input_dev *input;
- 
--	if (!(hdev->claimed & HID_CLAIMED_INPUT) || !field->hidinput ||
--			!usage->type)
-+	if (!(hdev->claimed & HID_CLAIMED_INPUT) || !field->hidinput)
- 		return 0;
- 
- 	input = field->hidinput->input;
-@@ -65,7 +88,7 @@ static int a4_event(struct hid_device *hdev, struct hid_field *field,
- 			return 1;
- 		}
- 
--		if (usage->hid == 0x000100b8) {
-+		if (usage->hid == A4_WHEEL_ORIENTATION) {
- 			input_event(input, EV_REL, value ? REL_HWHEEL :
- 					REL_WHEEL, a4->delayed_value);
- 			return 1;
-@@ -129,6 +152,7 @@ MODULE_DEVICE_TABLE(hid, a4_devices);
- static struct hid_driver a4_driver = {
- 	.name = "a4tech",
- 	.id_table = a4_devices,
-+	.input_mapping = a4_input_mapping,
- 	.input_mapped = a4_input_mapped,
- 	.event = a4_event,
- 	.probe = a4_probe,
 -- 
-2.20.1
-
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
