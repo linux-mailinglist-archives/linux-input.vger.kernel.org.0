@@ -2,99 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6480A3A39
-	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2019 17:21:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9075FA3A67
+	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2019 17:33:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727896AbfH3PVy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Aug 2019 11:21:54 -0400
-Received: from mga05.intel.com ([192.55.52.43]:57755 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727135AbfH3PVy (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Aug 2019 11:21:54 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2019 08:21:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,447,1559545200"; 
-   d="scan'208";a="186329765"
-Received: from pl-dbox.sh.intel.com (HELO intel.com) ([10.239.13.128])
-  by orsmga006.jf.intel.com with ESMTP; 30 Aug 2019 08:21:50 -0700
-Date:   Fri, 30 Aug 2019 23:26:15 +0800
-From:   Philip Li <philip.li@intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        kbuild test robot <lkp@intel.com>,
-        linux-input@vger.kernel.org,
-        Thomas Hellstrom <thellstrom@vmware.com>,
-        x86-ml <x86@kernel.org>, linux-tip-commits@vger.kernel.org,
-        pv-drivers@vmware.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        tip-bot2 for Thomas Hellstrom <tip-bot2@linutronix.de>,
-        Doug Covelli <dcovelli@vmware.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        kbuild-all@01.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@kernel.org>
-Subject: Re: [kbuild-all] [tip: x86/vmware] input/vmmouse: Update the
- backdoor call with support for new instructions
-Message-ID: <20190830152615.GA13754@intel.com>
-References: <201908292325.aLXyyzEx%lkp@intel.com>
- <20190829163353.GC2132@zn.tnic>
- <20190830010349.GD857@intel.com>
- <alpine.DEB.2.21.1908300802390.1938@nanos.tec.linutronix.de>
- <20190830062053.GA2598@intel.com>
- <20190830080650.GA30413@zn.tnic>
- <20190830143645.GA4784@intel.com>
- <20190830144628.GC30413@zn.tnic>
- <20190830150002.GA6931@intel.com>
- <20190830150653.GD30413@zn.tnic>
+        id S1728202AbfH3Pc7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Aug 2019 11:32:59 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:44528 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727935AbfH3Pc7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 30 Aug 2019 11:32:59 -0400
+Received: by mail-pf1-f194.google.com with SMTP id c81so4853006pfc.11
+        for <linux-input@vger.kernel.org>; Fri, 30 Aug 2019 08:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=typeblog-net.20150623.gappssmtp.com; s=20150623;
+        h=date:user-agent:in-reply-to:references:mime-version
+         :content-transfer-encoding:subject:to:cc:from:message-id;
+        bh=akL/vzGq+lNV9YkALeJQ4aXXX3G8w5n79bs7dYEdyvc=;
+        b=jA2jg3EMAc+Z03EJefu2AjTGWyurMgUv5WPaiMUdJetx9G66cfmRCPao9YkhUXW5n9
+         n2XKm2WJJbb97jOllhEGi7VRlR7QnwJ1xq37V9tFvUZx4fdikRK9fPInZWbh9G7Vo6C3
+         xWkaoZyMRnrop1UzkWtTJi2icL4lA7W/HlkCHVZ1NaKVVgwdyLUE1k683xiNtTOW8sCu
+         LCHVIQ7wJRWo0enwCii8AJSZn/OmXumOkwFLbmfhc9pJJgivF6tCRiapM5rbB3vpwkkY
+         O+PnsETVQc9vtlYmmgqdUTogb3AWHgj+Ol9L6TdOaDaJme/1KvKrzSsREjcIzMqDMOaB
+         pRAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:user-agent:in-reply-to:references
+         :mime-version:content-transfer-encoding:subject:to:cc:from
+         :message-id;
+        bh=akL/vzGq+lNV9YkALeJQ4aXXX3G8w5n79bs7dYEdyvc=;
+        b=hu0my37oI3vEZPTQzKTNmGwnQtp8+aJsu76Uuo4m2NdlHSUruhLMfwOXP6P2rb5w11
+         gBJYGa9Fmp8Az71yNQdVsY71UbFWSliJpUB7ch378EZqyx3qLw4N2mom1QM6q/YUtXYx
+         mP5QNfqEkTqGZAmQf6CTHqVuXhDGcijf8ojYZdZ4I1tEHbmZGZKY4F00WYUZ56z2BsXR
+         TH8eilV1DmwNnnH+h4Qgcg4CZLtn8Ns15J6Oq9psDgUp8W+Yv0S9CgbRoaWsmL53vX61
+         /Z64SdCPSuAjV+l+rKFtHmHklQ6KDlmDBfH6OFMHizPNU3jc4/gyPSUyewYzxW2bfnsO
+         KSPg==
+X-Gm-Message-State: APjAAAUMWOhIYcImQaB6enK7d6gYA98FGuQ9ivN7NjFmKsxxgR2gnZlu
+        BSlE4utICLciSZLt9bP6M7yZpQ==
+X-Google-Smtp-Source: APXvYqwCk3b/JUPn4IzgflSH3AD53+n85ervNpkFp1wYSX70ki280dLNL7xph+UzpG0nQUx7mcn6Yg==
+X-Received: by 2002:a62:640e:: with SMTP id y14mr18441295pfb.222.1567179178862;
+        Fri, 30 Aug 2019 08:32:58 -0700 (PDT)
+Received: from [172.19.0.1] ([91.207.174.229])
+        by smtp.gmail.com with ESMTPSA id a13sm6572268pfn.104.2019.08.30.08.32.57
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 30 Aug 2019 08:32:58 -0700 (PDT)
+Date:   Fri, 30 Aug 2019 23:32:53 +0800
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20190830115505.GX2680@smile.fi.intel.com>
+References: <20190830000024.20384-1-peter@typeblog.net> <20190830000024.20384-2-peter@typeblog.net> <20190830115505.GX2680@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190830150653.GD30413@zn.tnic>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/2] touchscreen: goodix: define GPIO mapping for GPD P2 Max
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org
+From:   Peter Cai <peter@typeblog.net>
+Message-ID: <D5227099-6120-446B-A39D-6AE437F5E11E@typeblog.net>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Aug 30, 2019 at 05:06:53PM +0200, Borislav Petkov wrote:
-> On Fri, Aug 30, 2019 at 11:00:02PM +0800, Philip Li wrote:
-> > Early on, there's requirement to blacklist a few branches, which is configured
-> > as below
-> > 	blacklist_branch: auto-.*|tmp-.*|base-.*|test.*|.*-for-linus
-> 
-> Looks about right.
-> 
-> > Except the blacklist branches, we will monitor all other branches.
-> 
-> Ok, good to know. Just as an optimization to your workflow, in case
-> you're interested: the tip/master branch merges all tip branches so if
-> you're trying to prioritize which branches to test first due to resource
-> constraints, I'd go with tip/master first and then, when I have free
-> cycles, I'd do the topic branches.
-thanks a lot for the advice. Meanwhile, the internal logic merges branches
-to test once to speed up, most of time, more branches will not increase the
-build testing workload. Of course, for the non merged branches, we need
-test individually, and we will take this information into consideration
-to add to our TODO.
+On August 30, 2019 7:55:05 PM GMT+08:00, Andy Shevchenko <andriy=2Eshevchen=
+ko@linux=2Eintel=2Ecom> wrote:
+>On Fri, Aug 30, 2019 at 08:00:24AM +0800, Peter Cai wrote:
+>> The firmware of GPD P2 Max could not handle panel resets although
+>code
+>> is present in DSDT=2E The kernel needs to take on this job instead, but
+>> the DSDT does not provide _DSD, rendering kernel helpless when trying
+>to
+>> find the respective GPIO pins=2E
+>>=20
+>> Fortunately, this time GPD has proper DMI vendor / product strings
+>that
+>> we could match against=2E We simply apply an acpi_gpio_mapping table
+>when
+>> GPD P2 Max is matched=2E
+>>=20
+>> Additionally, the DSDT definition of the irq pin specifies a wrong
+>> polarity=2E The new quirk introduced in the previous patch
+>> (ACPI_GPIO_QUIRK_OVERRIDE_POLARITY) is applied to correct this=2E
+>
+>> +#ifdef CONFIG_ACPI
+>
+>I guess most of these #ifdef:s makes code less readable for exchange of
+>saving
+>few bytes in the module footprint=2E
+>
+>> +	{ "irq-gpios", &irq_gpios_default, 1,
+>> +		ACPI_GPIO_QUIRK_OVERRIDE_POLARITY },
+>
+>One line?
+>
+>> +		=2Ematches =3D {
+>> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+>> +			DMI_MATCH(DMI_PRODUCT_NAME, "P2 MAX")
+>
+>Comma at the end?
+>
+>> +		},
+>> +		=2Edriver_data =3D &gpio_mapping_force_irq_active_high
+>
+>Ditto=2E
 
-> 
-> Just as an idea...
-> 
-> > We also support pull request to update the
-> > configuration or email us to update. Refer to
-> > https://github.com/intel/lkp-tests/blob/master/repo/linux/tip.
-> 
-> Ok, cool. I'll talk to tglx about it and might even send you a pull
-> request.
-> 
-> Thx.
-> 
-> -- 
-> Regards/Gruss,
->     Boris.
-> 
-> Good mailing practices for 400: avoid top-posting and trim the reply.
+> I guess most of these #ifdef:s makes code less readable for exchange of =
+saving
+few bytes in the module footprint=2E
+
+Since they can only be used when ACPI is supported (devm_acpi_dev_add_driv=
+er_gpios does not exist without ACPI defined, thus the last guard must exis=
+t), if they were not guarded then we would be left with a bunch of unused v=
+ariables warnings when building without ACPI which doesn't seem good=2E
+
+Should we use __maybe_unused here instead of #ifdef guards?
+
+> Comma at the end?
+
+I was trying to follow the style of this driver but it doesn't seem to be =
+really consistent within itself=2E Another dmi_system_id definition in the =
+same file mixed both styles so I was kind of confused=2E
+
+--=20
+Regards,
+Xiyu Cai
