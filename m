@@ -2,24 +2,24 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 759B1A333C
+	by mail.lfdr.de (Postfix) with ESMTP id DF8D9A333D
 	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2019 10:56:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727603AbfH3IzR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Aug 2019 04:55:17 -0400
-Received: from inva021.nxp.com ([92.121.34.21]:45884 "EHLO inva021.nxp.com"
+        id S1727234AbfH3IzU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Aug 2019 04:55:20 -0400
+Received: from inva021.nxp.com ([92.121.34.21]:46006 "EHLO inva021.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726495AbfH3IzQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Aug 2019 04:55:16 -0400
+        id S1727770AbfH3IzT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 30 Aug 2019 04:55:19 -0400
 Received: from inva021.nxp.com (localhost [127.0.0.1])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 5B1152003F4;
-        Fri, 30 Aug 2019 10:55:14 +0200 (CEST)
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 55BF02003E8;
+        Fri, 30 Aug 2019 10:55:17 +0200 (CEST)
 Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 571362001C0;
-        Fri, 30 Aug 2019 10:54:56 +0200 (CEST)
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 23EC52001E2;
+        Fri, 30 Aug 2019 10:54:59 +0200 (CEST)
 Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id EF46E40281;
-        Fri, 30 Aug 2019 16:54:41 +0800 (SGT)
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id BFADE402BE;
+        Fri, 30 Aug 2019 16:54:44 +0800 (SGT)
 From:   Anson Huang <Anson.Huang@nxp.com>
 To:     robh+dt@kernel.org, mark.rutland@arm.com, shawnguo@kernel.org,
         s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
@@ -36,64 +36,244 @@ To:     robh+dt@kernel.org, mark.rutland@arm.com, shawnguo@kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-input@vger.kernel.org
 Cc:     Linux-imx@nxp.com
-Subject: [PATCH 1/5] dt-bindings: fsl: scu: add scu power key binding
-Date:   Fri, 30 Aug 2019 16:53:45 -0400
-Message-Id: <1567198429-27886-1-git-send-email-Anson.Huang@nxp.com>
+Subject: [PATCH 2/5] input: keyboard: imx_sc: Add i.MX system controller power key support
+Date:   Fri, 30 Aug 2019 16:53:46 -0400
+Message-Id: <1567198429-27886-2-git-send-email-Anson.Huang@nxp.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1567198429-27886-1-git-send-email-Anson.Huang@nxp.com>
+References: <1567198429-27886-1-git-send-email-Anson.Huang@nxp.com>
 X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-NXP i.MX8QXP is an ARMv8 SoC with a Cortex-M4 core inside as
-system controller, the system controller is in charge of system
-power, clock and power key event etc. management, Linux kernel
-has to communicate with system controller via MU (message unit)
-IPC to get power key event, add binding doc for i.MX system
-controller power key driver.
+i.MX8QXP is an ARMv8 SoC which has a Cortex-M4 system controller
+inside, the system controller is in charge of controlling power,
+clock and power key etc..
+
+Add i.MX system controller power key driver support, Linux kernel
+has to communicate with system controller via MU (message unit) IPC
+to get power key's status.
 
 Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
 ---
- .../devicetree/bindings/arm/freescale/fsl,scu.txt      | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/input/keyboard/Kconfig         |   7 ++
+ drivers/input/keyboard/Makefile        |   1 +
+ drivers/input/keyboard/imx_sc_pwrkey.c | 174 +++++++++++++++++++++++++++++++++
+ 3 files changed, 182 insertions(+)
+ create mode 100644 drivers/input/keyboard/imx_sc_pwrkey.c
 
-diff --git a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
-index c149fad..001d0b7 100644
---- a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
-+++ b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
-@@ -157,6 +157,17 @@ Required properties:
- Optional properties:
- - timeout-sec: contains the watchdog timeout in seconds.
+diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+index 2e6d288..3aaeb9c 100644
+--- a/drivers/input/keyboard/Kconfig
++++ b/drivers/input/keyboard/Kconfig
+@@ -469,6 +469,13 @@ config KEYBOARD_IMX
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called imx_keypad.
  
-+Power key bindings based on SCU Message Protocol
-+------------------------------------------------------------
++config KEYBOARD_IMX_SC_PWRKEY
++	tristate "IMX SCU Power Key Driver"
++	depends on IMX_SCU
++	help
++	  This is the system controller powerkey driver for NXP i.MX SoCs with
++	  system controller inside.
 +
-+Required properties:
-+- compatible: should be:
-+              "fsl,imx8qxp-sc-pwrkey"
-+              followed by "fsl,imx-sc-pwrkey";
-+- linux,keycodes: See Documentation/devicetree/bindings/input/keys.txt
-+Optional Properties:
-+- wakeup-source: See Documentation/devicetree/bindings/power/wakeup-source.txt
+ config KEYBOARD_NEWTON
+ 	tristate "Newton keyboard"
+ 	select SERIO
+diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
+index 9510325..9ea5585 100644
+--- a/drivers/input/keyboard/Makefile
++++ b/drivers/input/keyboard/Makefile
+@@ -29,6 +29,7 @@ obj-$(CONFIG_KEYBOARD_HIL)		+= hil_kbd.o
+ obj-$(CONFIG_KEYBOARD_HIL_OLD)		+= hilkbd.o
+ obj-$(CONFIG_KEYBOARD_IPAQ_MICRO)	+= ipaq-micro-keys.o
+ obj-$(CONFIG_KEYBOARD_IMX)		+= imx_keypad.o
++obj-$(CONFIG_KEYBOARD_IMX_SC_PWRKEY)	+= imx_sc_pwrkey.o
+ obj-$(CONFIG_KEYBOARD_HP6XX)		+= jornada680_kbd.o
+ obj-$(CONFIG_KEYBOARD_HP7XX)		+= jornada720_kbd.o
+ obj-$(CONFIG_KEYBOARD_LKKBD)		+= lkkbd.o
+diff --git a/drivers/input/keyboard/imx_sc_pwrkey.c b/drivers/input/keyboard/imx_sc_pwrkey.c
+new file mode 100644
+index 0000000..6cb392f
+--- /dev/null
++++ b/drivers/input/keyboard/imx_sc_pwrkey.c
+@@ -0,0 +1,174 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2019 NXP.
++ */
 +
- Example (imx8qxp):
- -------------
- aliases {
-@@ -220,6 +231,13 @@ firmware {
- 			compatible = "fsl,imx8qxp-sc-rtc";
- 		};
- 
-+		scu_pwrkey: scu-pwrkey {
-+			compatible = "fsl,imx8qxp-sc-pwrkey", "fsl,imx-sc-pwrkey";
-+			linux,keycode = <KEY_POWER>;
-+			wakeup-source;
-+			status = "disabled";
-+		};
++#include <linux/device.h>
++#include <linux/err.h>
++#include <linux/firmware/imx/sci.h>
++#include <linux/init.h>
++#include <linux/input.h>
++#include <linux/interrupt.h>
++#include <linux/jiffies.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_address.h>
++#include <linux/platform_device.h>
 +
- 		watchdog {
- 			compatible = "fsl,imx8qxp-sc-wdt", "fsl,imx-sc-wdt";
- 			timeout-sec = <60>;
++#define DEBOUNCE_TIME	100
++#define REPEAT_INTERVAL	60
++
++#define SC_IRQ_BUTTON		1
++#define SC_IRQ_GROUP_WAKE	3
++#define IMX_SC_MISC_FUNC_GET_BUTTON_STATUS	18
++
++struct imx_pwrkey_drv_data {
++	int keycode;
++	bool keystate;  /* 1: pressed, 0: release */
++	bool delay_check;
++	int wakeup;
++	struct delayed_work check_work;
++	struct input_dev *input;
++};
++
++struct imx_sc_msg_pwrkey {
++	struct imx_sc_rpc_msg hdr;
++	u8 state;
++};
++static struct imx_pwrkey_drv_data *pdata;
++static struct imx_sc_ipc *pwrkey_ipc_handle;
++
++static int imx_sc_pwrkey_notify(struct notifier_block *nb,
++				unsigned long event, void *group)
++{
++	if ((event & SC_IRQ_BUTTON) && (*(u8 *)group == SC_IRQ_GROUP_WAKE)
++	    && !pdata->delay_check) {
++		pdata->delay_check = 1;
++		schedule_delayed_work(&pdata->check_work,
++				      msecs_to_jiffies(REPEAT_INTERVAL));
++	}
++
++	return 0;
++}
++
++static void imx_sc_check_for_events(struct work_struct *work)
++{
++	struct input_dev *input = pdata->input;
++	struct imx_sc_msg_pwrkey msg;
++	struct imx_sc_rpc_msg *hdr = &msg.hdr;
++	bool state;
++
++	hdr->ver = IMX_SC_RPC_VERSION;
++	hdr->svc = IMX_SC_RPC_SVC_MISC;
++	hdr->func = IMX_SC_MISC_FUNC_GET_BUTTON_STATUS;
++	hdr->size = 1;
++
++	/*
++	 * Current SCU firmware does NOT have return value for
++	 * this API, that means it is always successful.
++	 */
++	imx_scu_call_rpc(pwrkey_ipc_handle, &msg, true);
++	state = msg.state;
++
++	if (!state && !pdata->keystate)
++		state = true;
++
++	if (state ^ pdata->keystate) {
++		pm_wakeup_event(input->dev.parent, 0);
++		pdata->keystate = !!state;
++		input_event(input, EV_KEY, pdata->keycode, !!state);
++		input_sync(input);
++		if (!state)
++			pdata->delay_check = 0;
++		pm_relax(pdata->input->dev.parent);
++	}
++
++	if (state)
++		schedule_delayed_work(&pdata->check_work,
++				      msecs_to_jiffies(DEBOUNCE_TIME));
++}
++
++static struct notifier_block imx_sc_pwrkey_notifier = {
++	.notifier_call = imx_sc_pwrkey_notify,
++};
++
++static int imx_sc_pwrkey_probe(struct platform_device *pdev)
++{
++	struct device_node *np = pdev->dev.of_node;
++	struct input_dev *input;
++	int ret;
++
++	ret = imx_scu_get_handle(&pwrkey_ipc_handle);
++	if (ret)
++		return ret;
++
++	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
++	if (!pdata)
++		return -ENOMEM;
++
++	if (of_property_read_u32(np, "linux,keycode", &pdata->keycode)) {
++		pdata->keycode = KEY_POWER;
++		dev_warn(&pdev->dev, "KEY_POWER without setting in dts\n");
++	}
++
++	INIT_DELAYED_WORK(&pdata->check_work, imx_sc_check_for_events);
++
++	pdata->wakeup = of_property_read_bool(np, "wakeup-source");
++
++	input = devm_input_allocate_device(&pdev->dev);
++	if (!input) {
++		dev_err(&pdev->dev, "failed to allocate the input device\n");
++		return -ENOMEM;
++	}
++
++	input->name = pdev->name;
++	input->phys = "imx-sc-pwrkey/input0";
++	input->id.bustype = BUS_HOST;
++
++	input_set_capability(input, EV_KEY, pdata->keycode);
++
++	ret = input_register_device(input);
++	if (ret < 0) {
++		dev_err(&pdev->dev, "failed to register input device\n");
++		return ret;
++	}
++
++	pdata->input = input;
++	platform_set_drvdata(pdev, pdata);
++
++	device_init_wakeup(&pdev->dev, !!(pdata->wakeup));
++
++	ret = imx_scu_irq_group_enable(SC_IRQ_GROUP_WAKE, SC_IRQ_BUTTON, true);
++	if (ret) {
++		dev_warn(&pdev->dev, "enable scu group irq failed\n");
++		return ret;
++	}
++
++	ret = imx_scu_irq_register_notifier(&imx_sc_pwrkey_notifier);
++	if (ret) {
++		imx_scu_irq_group_enable(SC_IRQ_GROUP_WAKE, SC_IRQ_BUTTON, false);
++		dev_warn(&pdev->dev, "register scu notifier failed\n");
++	}
++
++	return ret;
++}
++
++static const struct of_device_id imx_sc_pwrkey_ids[] = {
++	{ .compatible = "fsl,imx-sc-pwrkey" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, imx_sc_pwrkey_ids);
++
++static struct platform_driver imx_sc_pwrkey_driver = {
++	.driver = {
++		.name = "imx-sc-pwrkey",
++		.of_match_table = imx_sc_pwrkey_ids,
++	},
++	.probe = imx_sc_pwrkey_probe,
++};
++module_platform_driver(imx_sc_pwrkey_driver);
++
++MODULE_AUTHOR("Anson Huang <Anson.Huang@nxp.com>");
++MODULE_DESCRIPTION("i.MX System Controller Power Key Driver");
++MODULE_LICENSE("GPL v2");
 -- 
 2.7.4
 
