@@ -2,79 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C7FBA31CD
-	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2019 10:06:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 759B1A333C
+	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2019 10:56:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728289AbfH3IG6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Aug 2019 04:06:58 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:42988 "EHLO mail.skyhub.de"
+        id S1727603AbfH3IzR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Aug 2019 04:55:17 -0400
+Received: from inva021.nxp.com ([92.121.34.21]:45884 "EHLO inva021.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727850AbfH3IG6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Aug 2019 04:06:58 -0400
-Received: from zn.tnic (p200300EC2F0AAA00D143FB30E0E334BB.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:aa00:d143:fb30:e0e3:34bb])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1730D1EC08E5;
-        Fri, 30 Aug 2019 10:06:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1567152416;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=qXLbeGuCB4Q7DKwqF4nt9wPYEUvkZL9LoEnennVSvS4=;
-        b=qlDbJykMOgPx7lXzq2UWDmuqF6MhWEeP6Y3t3rFOnYgASqSDdn7vxp14p41LwcuuqtGJ1X
-        5MXAOx1jhcSa4KSRabjnGQeMaiSyM0rqrSdcE8Bez/AUd0s5OvOmshnOQhkNvfd272S5ch
-        zLj35RlTRCchYcsteoG7QV4qj1qNb80=
-Date:   Fri, 30 Aug 2019 10:06:50 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Philip Li <philip.li@intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        kbuild test robot <lkp@intel.com>,
-        linux-input@vger.kernel.org,
-        Thomas Hellstrom <thellstrom@vmware.com>,
-        x86-ml <x86@kernel.org>, linux-tip-commits@vger.kernel.org,
-        pv-drivers@vmware.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        tip-bot2 for Thomas Hellstrom <tip-bot2@linutronix.de>,
-        Doug Covelli <dcovelli@vmware.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        kbuild-all@01.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@kernel.org>
-Subject: Re: [kbuild-all] [tip: x86/vmware] input/vmmouse: Update the
- backdoor call with support for new instructions
-Message-ID: <20190830080650.GA30413@zn.tnic>
-References: <156699905611.5321.15444519862547054670.tip-bot2@tip-bot2>
- <201908292325.aLXyyzEx%lkp@intel.com>
- <20190829163353.GC2132@zn.tnic>
- <20190830010349.GD857@intel.com>
- <alpine.DEB.2.21.1908300802390.1938@nanos.tec.linutronix.de>
- <20190830062053.GA2598@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190830062053.GA2598@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726495AbfH3IzQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 30 Aug 2019 04:55:16 -0400
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 5B1152003F4;
+        Fri, 30 Aug 2019 10:55:14 +0200 (CEST)
+Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 571362001C0;
+        Fri, 30 Aug 2019 10:54:56 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id EF46E40281;
+        Fri, 30 Aug 2019 16:54:41 +0800 (SGT)
+From:   Anson Huang <Anson.Huang@nxp.com>
+To:     robh+dt@kernel.org, mark.rutland@arm.com, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        catalin.marinas@arm.com, will@kernel.org,
+        dmitry.torokhov@gmail.com, aisheng.dong@nxp.com,
+        ulf.hansson@linaro.org, fugang.duan@nxp.com, peng.fan@nxp.com,
+        daniel.baluta@nxp.com, leonard.crestez@nxp.com, olof@lixom.net,
+        mripard@kernel.org, arnd@arndb.de, jagan@amarulasolutions.com,
+        bjorn.andersson@linaro.org, dinguyen@kernel.org,
+        marcin.juszkiewicz@linaro.org, hsweeten@visionengravers.com,
+        tglx@linutronix.de, gregkh@linuxfoundation.org, stefan@agner.ch,
+        ronald@innovation.ch, ping.bai@nxp.com, m.felsch@pengutronix.de,
+        andriy.shevchenko@linux.intel.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org
+Cc:     Linux-imx@nxp.com
+Subject: [PATCH 1/5] dt-bindings: fsl: scu: add scu power key binding
+Date:   Fri, 30 Aug 2019 16:53:45 -0400
+Message-Id: <1567198429-27886-1-git-send-email-Anson.Huang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Aug 30, 2019 at 02:20:53PM +0800, Philip Li wrote:
-> thanks for your patience. I just realize we actually block tip-bot, but
-> not tip-bot2. I will update the logic to avoid this issue, and we will
-> keep monitor for a while to fix new issue if any.
+NXP i.MX8QXP is an ARMv8 SoC with a Cortex-M4 core inside as
+system controller, the system controller is in charge of system
+power, clock and power key event etc. management, Linux kernel
+has to communicate with system controller via MU (message unit)
+IPC to get power key event, add binding doc for i.MX system
+controller power key driver.
 
-... and just to reiterate: it would be a *lot-lot* more useful if you
-guys tested the single tip branches or the combined tip/master on a
-daily basis as that is the x86 queue that goes to Linus eventually. That
-is, if you do not test it already. But we don't get any "we tested this
-branch" email so I'm thinking you don't...
+Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
+---
+ .../devicetree/bindings/arm/freescale/fsl,scu.txt      | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Thx.
-
+diff --git a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
+index c149fad..001d0b7 100644
+--- a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
++++ b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
+@@ -157,6 +157,17 @@ Required properties:
+ Optional properties:
+ - timeout-sec: contains the watchdog timeout in seconds.
+ 
++Power key bindings based on SCU Message Protocol
++------------------------------------------------------------
++
++Required properties:
++- compatible: should be:
++              "fsl,imx8qxp-sc-pwrkey"
++              followed by "fsl,imx-sc-pwrkey";
++- linux,keycodes: See Documentation/devicetree/bindings/input/keys.txt
++Optional Properties:
++- wakeup-source: See Documentation/devicetree/bindings/power/wakeup-source.txt
++
+ Example (imx8qxp):
+ -------------
+ aliases {
+@@ -220,6 +231,13 @@ firmware {
+ 			compatible = "fsl,imx8qxp-sc-rtc";
+ 		};
+ 
++		scu_pwrkey: scu-pwrkey {
++			compatible = "fsl,imx8qxp-sc-pwrkey", "fsl,imx-sc-pwrkey";
++			linux,keycode = <KEY_POWER>;
++			wakeup-source;
++			status = "disabled";
++		};
++
+ 		watchdog {
+ 			compatible = "fsl,imx8qxp-sc-wdt", "fsl,imx-sc-wdt";
+ 			timeout-sec = <60>;
 -- 
-Regards/Gruss,
-    Boris.
+2.7.4
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
