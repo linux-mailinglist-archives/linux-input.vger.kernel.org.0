@@ -2,72 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 38D4FA3333
-	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2019 10:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11EDBA35E3
+	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2019 13:42:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728042AbfH3Iz1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Aug 2019 04:55:27 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:40036 "EHLO inva020.nxp.com"
+        id S1727812AbfH3Lmb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Aug 2019 07:42:31 -0400
+Received: from mga11.intel.com ([192.55.52.93]:59451 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727994AbfH3Iz0 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Aug 2019 04:55:26 -0400
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 9F0DB1A092C;
-        Fri, 30 Aug 2019 10:55:25 +0200 (CEST)
-Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 3E2711A042B;
-        Fri, 30 Aug 2019 10:55:07 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 3C6444030E;
-        Fri, 30 Aug 2019 16:54:53 +0800 (SGT)
-From:   Anson Huang <Anson.Huang@nxp.com>
-To:     robh+dt@kernel.org, mark.rutland@arm.com, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        catalin.marinas@arm.com, will@kernel.org,
-        dmitry.torokhov@gmail.com, aisheng.dong@nxp.com,
-        ulf.hansson@linaro.org, fugang.duan@nxp.com, peng.fan@nxp.com,
-        daniel.baluta@nxp.com, leonard.crestez@nxp.com, olof@lixom.net,
-        mripard@kernel.org, arnd@arndb.de, jagan@amarulasolutions.com,
-        bjorn.andersson@linaro.org, dinguyen@kernel.org,
-        marcin.juszkiewicz@linaro.org, hsweeten@visionengravers.com,
-        tglx@linutronix.de, gregkh@linuxfoundation.org, stefan@agner.ch,
-        ronald@innovation.ch, ping.bai@nxp.com, m.felsch@pengutronix.de,
-        andriy.shevchenko@linux.intel.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        id S1727417AbfH3Lma (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 30 Aug 2019 07:42:30 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2019 04:42:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,447,1559545200"; 
+   d="scan'208";a="181183877"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga008.fm.intel.com with ESMTP; 30 Aug 2019 04:42:27 -0700
+Received: from andy by smile with local (Exim 4.92.1)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1i3fIQ-00071d-4V; Fri, 30 Aug 2019 14:42:26 +0300
+Date:   Fri, 30 Aug 2019 14:42:26 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Peter Cai <peter@typeblog.net>
+Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-input@vger.kernel.org
-Cc:     Linux-imx@nxp.com
-Subject: [PATCH 5/5] arm64: defconfig: Enable CONFIG_KEYBOARD_IMX_SC_PWRKEY as module
-Date:   Fri, 30 Aug 2019 16:53:49 -0400
-Message-Id: <1567198429-27886-5-git-send-email-Anson.Huang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1567198429-27886-1-git-send-email-Anson.Huang@nxp.com>
-References: <1567198429-27886-1-git-send-email-Anson.Huang@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: Re: [PATCH 1/2] gpio: acpi: add quirk to override GpioInt polarity
+Message-ID: <20190830114226.GW2680@smile.fi.intel.com>
+References: <20190830000024.20384-1-peter@typeblog.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190830000024.20384-1-peter@typeblog.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Select CONFIG_KEYBOARD_IMX_SC_PWRKEY as module by default to
-support i.MX8QXP power key driver.
+On Fri, Aug 30, 2019 at 08:00:23AM +0800, Peter Cai wrote:
+> On GPD P2 Max, the firmware could not reset the touch panel correctly.
+> The kernel needs to take on the job instead, but the GpioInt definition
+> in DSDT specifies ActiveHigh while the GPIO pin should actually be
+> ActiveLow.
+> 
+> We need to override the polarity defined by DSDT. The GPIO driver
+> already allows defining polarity in acpi_gpio_params, but the option is
+> not applied to GpioInt.
+> 
+> This patch adds a new quirk that enables the polarity specified in
+> acpi_gpio_params to also be applied to GpioInt.
 
-Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+In general if it's really the case, I'm not objecting to have another quirk.
+So, I would wait for the comments on the second patch to see how it's going.
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 49bb3d4..8178737 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -313,6 +313,7 @@ CONFIG_INPUT_EVDEV=y
- CONFIG_KEYBOARD_ADC=m
- CONFIG_KEYBOARD_GPIO=y
- CONFIG_KEYBOARD_SNVS_PWRKEY=m
-+CONFIG_KEYBOARD_IMX_SC_PWRKEY=m
- CONFIG_KEYBOARD_CROS_EC=y
- CONFIG_INPUT_TOUCHSCREEN=y
- CONFIG_TOUCHSCREEN_ATMEL_MXT=m
+>  include/linux/acpi.h        |  6 ++++++
+
+The GPIO part of the header had been moved to the drivers/gpio/gpiolib-acpi.h.
+Please, base your series on top of the gpio/for-next.
+
+>  			lookup->info.flags = GPIOD_IN;
+> -			lookup->info.polarity = agpio->polarity;
+
+> +			if (lookup->info.quirks &
+> +					ACPI_GPIO_QUIRK_OVERRIDE_POLARITY) {
+
+Disregard checkpatch I would leave this on one line.
+
+> +				dev_warn(&lookup->info.adev->dev, FW_BUG "Incorrect polarity specified by GpioInt, overriding.\n");
+> +				lookup->info.polarity = lookup->active_low;
+> +			} else {
+> +				lookup->info.polarity = agpio->polarity;
+> +			}
+>  			lookup->info.triggering = agpio->triggering;
+
+Since the quirk makes sense only for GpioInt and basically no-op for GpioIo,
+I would move the check out of if (gpioint) {} else {} conditional:
+
+	if (gpioint) {
+		...
+	} else {
+		...
+	}
+
+	if (quirk) {
+		dev_warn();
+		polarity = ...;
+	}
+
 -- 
-2.7.4
+With Best Regards,
+Andy Shevchenko
+
 
