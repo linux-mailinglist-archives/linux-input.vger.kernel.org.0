@@ -2,26 +2,26 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36B85A39D6
-	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2019 17:04:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6480A3A39
+	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2019 17:21:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727135AbfH3PEg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Aug 2019 11:04:36 -0400
-Received: from mga11.intel.com ([192.55.52.93]:10371 "EHLO mga11.intel.com"
+        id S1727896AbfH3PVy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Aug 2019 11:21:54 -0400
+Received: from mga05.intel.com ([192.55.52.43]:57755 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727603AbfH3PEg (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Aug 2019 11:04:36 -0400
+        id S1727135AbfH3PVy (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 30 Aug 2019 11:21:54 -0400
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2019 08:04:35 -0700
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2019 08:21:53 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,447,1559545200"; 
-   d="scan'208";a="175634219"
+   d="scan'208";a="186329765"
 Received: from pl-dbox.sh.intel.com (HELO intel.com) ([10.239.13.128])
-  by orsmga008.jf.intel.com with ESMTP; 30 Aug 2019 08:04:31 -0700
-Date:   Fri, 30 Aug 2019 23:08:56 +0800
+  by orsmga006.jf.intel.com with ESMTP; 30 Aug 2019 08:21:50 -0700
+Date:   Fri, 30 Aug 2019 23:26:15 +0800
 From:   Philip Li <philip.li@intel.com>
 To:     Borislav Petkov <bp@alien8.de>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
@@ -39,9 +39,8 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@kernel.org>
 Subject: Re: [kbuild-all] [tip: x86/vmware] input/vmmouse: Update the
  backdoor call with support for new instructions
-Message-ID: <20190830150856.GB6931@intel.com>
-References: <156699905611.5321.15444519862547054670.tip-bot2@tip-bot2>
- <201908292325.aLXyyzEx%lkp@intel.com>
+Message-ID: <20190830152615.GA13754@intel.com>
+References: <201908292325.aLXyyzEx%lkp@intel.com>
  <20190829163353.GC2132@zn.tnic>
  <20190830010349.GD857@intel.com>
  <alpine.DEB.2.21.1908300802390.1938@nanos.tec.linutronix.de>
@@ -50,52 +49,52 @@ References: <156699905611.5321.15444519862547054670.tip-bot2@tip-bot2>
  <20190830143645.GA4784@intel.com>
  <20190830144628.GC30413@zn.tnic>
  <20190830150002.GA6931@intel.com>
+ <20190830150653.GD30413@zn.tnic>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190830150002.GA6931@intel.com>
+In-Reply-To: <20190830150653.GD30413@zn.tnic>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Aug 30, 2019 at 11:00:02PM +0800, Philip Li wrote:
-> On Fri, Aug 30, 2019 at 04:46:28PM +0200, Borislav Petkov wrote:
-> > On Fri, Aug 30, 2019 at 10:36:45PM +0800, Philip Li wrote:
-> > > yes, we monitor the repo pub/scm/linux/kernel/git/tip/tip.git, and will
-> > > send build status of head
-> > 
-> > ... and what you call "head" is the "master" branch on that repo, right?
-> Hi Boris, you are right. It is the head of monitored branch, here master branch is
-> one of the branches on this repo that we monitor.
+On Fri, Aug 30, 2019 at 05:06:53PM +0200, Borislav Petkov wrote:
+> On Fri, Aug 30, 2019 at 11:00:02PM +0800, Philip Li wrote:
+> > Early on, there's requirement to blacklist a few branches, which is configured
+> > as below
+> > 	blacklist_branch: auto-.*|tmp-.*|base-.*|test.*|.*-for-linus
 > 
-> Early on, there's requirement to blacklist a few branches, which is configured
-> as below
-> 	blacklist_branch: auto-.*|tmp-.*|base-.*|test.*|.*-for-linus
+> Looks about right.
 > 
-> Except the blacklist branches, we will monitor all other branches. We also
-> support pull request to update the configuration or email us to update.
-> Refer to https://github.com/intel/lkp-tests/blob/master/repo/linux/tip.
+> > Except the blacklist branches, we will monitor all other branches.
 > 
-> Thanks
-> 
-> > Just making sure you got that right.
-> > 
-> > > (like BUILD SUCCESS or REGRESSION), also provide bisect report of
-> > > unique error for first bad commit.
-> > 
-> > Perfect!
-hi Boris, for the build status notification, we currently send to below
-address, is it still valid? If not, can you suggest one for us?
+> Ok, good to know. Just as an optimization to your workflow, in case
+> you're interested: the tip/master branch merges all tip branches so if
+> you're trying to prioritize which branches to test first due to resource
+> constraints, I'd go with tip/master first and then, when I have free
+> cycles, I'd do the topic branches.
+thanks a lot for the advice. Meanwhile, the internal logic merges branches
+to test once to speed up, most of time, more branches will not increase the
+build testing workload. Of course, for the non merged branches, we need
+test individually, and we will take this information into consideration
+to add to our TODO.
 
-tip build status <tipbuild@zytor.com>
-
-> > 
-> > Thx.
-> > 
-> > -- 
-> > Regards/Gruss,
-> >     Boris.
-> > 
-> > Good mailing practices for 400: avoid top-posting and trim the reply.
+> 
+> Just as an idea...
+> 
+> > We also support pull request to update the
+> > configuration or email us to update. Refer to
+> > https://github.com/intel/lkp-tests/blob/master/repo/linux/tip.
+> 
+> Ok, cool. I'll talk to tglx about it and might even send you a pull
+> request.
+> 
+> Thx.
+> 
+> -- 
+> Regards/Gruss,
+>     Boris.
+> 
+> Good mailing practices for 400: avoid top-posting and trim the reply.
