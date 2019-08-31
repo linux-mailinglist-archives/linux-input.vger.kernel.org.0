@@ -2,146 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8269A41E8
-	for <lists+linux-input@lfdr.de>; Sat, 31 Aug 2019 05:10:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 548FCA4399
+	for <lists+linux-input@lfdr.de>; Sat, 31 Aug 2019 11:16:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728373AbfHaDKk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Aug 2019 23:10:40 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:40981 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728334AbfHaDKj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Aug 2019 23:10:39 -0400
-Received: by mail-pg1-f194.google.com with SMTP id x15so4439917pgg.8
-        for <linux-input@vger.kernel.org>; Fri, 30 Aug 2019 20:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=typeblog-net.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=SXbglKvD0SQmCRxcZtB9WBlJczTPMt6e3pZqM3DgZ18=;
-        b=KlKjRfvad7u6uFblyFqzf8FnNcX/HdKZa8Ou7elxmC+GPWRiGv+M/RH//EOe2nn4WN
-         kTz+vJODFike6WQUKh1X9zklhP/gQSg7k7yme0uYvo3xoTNXSWWdukoFtziz0ugRRCJk
-         t48o7jdirGq7ZMKPb/rUguEBC2sL/3AOcRGxLv3vrocVmgly3k6DzImNxELKh3fZpHA8
-         ShSM0+CW3qBBi8sQZ4RUv7/ZQVA0Tra/QbupG06R2cMpu3WfNpJjwG489pxusCqsYlZp
-         HPW9iZpwXScQT0SuB1dKoi7Rqi2Kk9KpVOfTEkhsSU0RX2Rwhj+cUdkFV9fH7Xi1PWmn
-         ZTsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SXbglKvD0SQmCRxcZtB9WBlJczTPMt6e3pZqM3DgZ18=;
-        b=YniW9NPjthk784HpQGj3+O6dvyLomh6oKJeOR+Fj2TI5bwHLdgI3GkjkH7/8j/h8Xc
-         0P+N66NMnSfJ2GxPRxDVzEdj3LDIxN3KL4rQsGLfl5r8qMGoEGP9OnlyCqu29zJ1NY9o
-         CpcXqlZDwlyBTgfY0ErFc7oC9hZi98gKmQV7bxey5bVq14zZLo3gY2EM9VJGwSGWEjVW
-         5OgWmpTqPuKj/0R/pvKDwADkPXpasNGyTYJs9L81PywRoREtDtutKsdcS4YofVuUHSGs
-         KY4uvEMB48iXYm9YU1EQUoIj/7AJogh6VFWhq5i7j5J4Ne/aVsFkDrK9I+BKoPfxBEWs
-         LMaw==
-X-Gm-Message-State: APjAAAUlMvKDIgnZTRX8YFvWK21B2rMA3DQtPe6F0KmLz4u9ccvh5wP+
-        UcvUMNoRCm6bXP5dn/xSRyLARQ==
-X-Google-Smtp-Source: APXvYqy3AvEy6GfXGMsBVelFOUgqliOk3kGp0ODR2dCYzbwoReny6L9IgY3VfEzMVZ4Htgn0gs/zcw==
-X-Received: by 2002:a17:90a:a00b:: with SMTP id q11mr1783420pjp.91.1567221039116;
-        Fri, 30 Aug 2019 20:10:39 -0700 (PDT)
-Received: from peter-pc.home ([91.207.174.229])
-        by smtp.gmail.com with ESMTPSA id 185sm10961454pff.54.2019.08.30.20.10.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2019 20:10:38 -0700 (PDT)
-From:   Peter Cai <peter@typeblog.net>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>, Peter Cai <peter@typeblog.net>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bastien Nocera <hadess@hadess.net>,
+        id S1726102AbfHaJQY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 31 Aug 2019 05:16:24 -0400
+Received: from mout.web.de ([212.227.15.3]:54289 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726062AbfHaJQY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 31 Aug 2019 05:16:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1567242926;
+        bh=W42yxbYmQCv9tl6YPZs0YFC5fDpZrDuUEO40d5+J5IY=;
+        h=X-UI-Sender-Class:To:Cc:References:Subject:From:Date:In-Reply-To;
+        b=Rb418DWmi/RVbd8sECvNY7M6am3zzXtvu6Z8MKvDEcaqy80J5NzEeIsZquRc+o3+K
+         RcMPUbulCWil2CYSmPwWqfOWbsvJq8lYGIRKuYobskoTbIVH51G/a5nLZzGK7B0dUo
+         Ub/VAcIMteSPNk9yZ43wLPYl/AxtOIz+Ty7w1ZYE=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([93.132.129.60]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MXHt7-1hjODj0cab-00WIUk; Sat, 31
+ Aug 2019 11:15:26 +0200
+To:     Denis Efremov <efremov@linux.com>, Joe Perches <joe@perches.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Anton Altaparmakov <anton@tuxera.com>,
+        Andy Whitcroft <apw@canonical.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Boris Pismenny <borisp@mellanox.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dennis Dalessandro <dennis.dalessandro@intel.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH v2 2/2] touchscreen: goodix: define GPIO mapping for GPD P2 Max
-Date:   Sat, 31 Aug 2019 11:09:15 +0800
-Message-Id: <20190831030916.13172-2-peter@typeblog.net>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190831030916.13172-1-peter@typeblog.net>
-References: <20190831030916.13172-1-peter@typeblog.net>
+        dri-devel@lists.freedesktop.org,
+        Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>,
+        =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ntfs-dev@lists.sourceforge.net, linux-rdma@vger.kernel.org,
+        linux-wimax@intel.com, linux-xfs@vger.kernel.org,
+        Mike Marciniszyn <mike.marciniszyn@intel.com>,
+        netdev@vger.kernel.org,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali.rohar@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Saeed Mahameed <saeedm@mellanox.com>,
+        Sean Paul <sean@poorly.run>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        xen-devel@lists.xenproject.org, Enrico Weigelt <lkml@metux.net>
+References: <20190829165025.15750-1-efremov@linux.com>
+Subject: Re: [PATCH v3 01/11] checkpatch: check for nested (un)?likely() calls
+From:   Markus Elfring <Markus.Elfring@web.de>
+Message-ID: <0d9345ed-f16a-de0b-6125-1f663765eb46@web.de>
+Date:   Sat, 31 Aug 2019 11:15:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <20190829165025.15750-1-efremov@linux.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:qKSdXHHLYLKjlRCvxxm0CG4/ObWxvY7GHVNBMu8mxxGycRrayx8
+ 4PbzO2dvqjNnF+AFg4bA1W4zmeQSpNZ7vt9DbPnL5lk34WKJYWD9NUPM0PlrCLMjYkm1F6U
+ BXfMva6PP5qxs+6jegtT9nR1r+jzSjNeTTC2AqMHglXEtSWbQLq9Fa4eMsUVMGo2eepnDXr
+ VwnOxGgwPijQTQTX/f+uw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nkNVUAuCw5k=:pAP5U5L7C1x2boPp1IRXmn
+ D13IzlXT/kI0Odb0OEskHBv1fRCMj7J727enJOB+vAgZd2n6ZXAAaWlSqHLVcohKzncPx6QpO
+ Jkkz3w/W/rmQNzfpoIhIUW3Uccf/fl14QBw5X5i4PyFGDK9jzI0Phtg8JML9FgdHalKCIpNWP
+ o213QJNReSqJUzIClMxbcGq2voyTmxMmGEwBIXqC58OGwigFy7zuu2Fy5ondTj8F6i3gbb38h
+ c6JrfIYpAxvFnO9nRMcO25oqflwZdAfHvFzJ2iu+3r8XsTgWukdxyVbMiL8ftz50QxC2DJqzq
+ Ayqcpn0a9Y7cTytKg/qxVHdxdOIF48+PWbHaSEgzP4SLLOPElveDdWhJEc0vM5xdTU1Dqb7hM
+ NcCaA0zHOKUIDqcYJ6jN44G6CZgVS/MFofCq8QcCo4GFiBNWMHS4cmZtOpUQJMXQuRbrwvm5s
+ QLUFHQhzpAX2K0Aj8VIVILu1mHvF1oeAJg0lG6KqkOeZEm+Unicxfz9HErsixNGFodYh0D3/K
+ Pus4ocado7zBlJoZThrgPZ8TvIHn8mX0WI7LW+JhXvD1rFkJmT4VMVuezkSvp3NJ9GaBnkiEN
+ 2DsKyjBxY/6mcp9cg5MLZTh0zU4f7ZpgvIRT7mBBrJ5TGKKmZLH7U/Z5qQmwJz28iIVaVlH4p
+ wK8w2niZej5noXMTOemcJJnIR+evko7BhWXbZHiUAALjl38emkz357bvLjEkVGm7h8qIAQyjv
+ 9Ffe8YuiaY+tWayyEFK6qfYIHwGdEZNrYmIuX9tupSwJCJ8bCFsx9n7SNCZvSRm61MjQsWB76
+ icYRtytGOYmCsolycXG6KEM734RMbdaPv2pCjSKPk80uNsPY10n0pxzKUpdSnG1O5lboelK/K
+ +pQTb7oUbCkyxCvKMOBAo+HHvPT1QQcSGkQreepWbCChdY7O5TxdjvwnEYYPBYSyBIKA4j2t6
+ gmzI4FQ5Tbv5lKlap9HBlQSeD5ynZnaeINJfHFu/XpQei9uMkeptC8IYqtcno5/KHj4gVLoN6
+ dvIF455p6LB73n4l5ci1UNJB4L7BiFhMmqFWnfszzCVLZrOOA94053rwKZECu2B8PgnRB8RwQ
+ RHR8X1QZRRFkw/YnadMqgavlvTg6QJ2wAh3pxzJ+iXjpxC1IgfnMhR3w1p3UqTC4whz3ngKbv
+ qqUbKY+8ilN57KkwviQJZULRks7t3CtGMgptQJeouQnu6rZg==
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The firmware of GPD P2 Max could not handle panel resets although code
-is present in DSDT. The kernel needs to take on this job instead, but
-the DSDT does not provide _DSD, rendering kernel helpless when trying to
-find the respective GPIO pins.
+> +# nested likely/unlikely calls
+> +		if ($line =3D~ /\b(?:(?:un)?likely)\s*\(\s*!?\s*(IS_ERR(?:_OR_NULL|_V=
+ALUE)?|WARN)/) {
+> +			WARN("LIKELY_MISUSE",
 
-Fortunately, this time GPD has proper DMI vendor / product strings that
-we could match against. We simply apply an acpi_gpio_mapping table when
-GPD P2 Max is matched.
+How do you think about to use the specification =E2=80=9C(?:IS_ERR(?:_(?:O=
+R_NULL|VALUE))?|WARN)=E2=80=9D
+in this regular expression?
 
-Additionally, the DSDT definition of the irq pin specifies a wrong
-polarity. The new quirk introduced in the previous patch
-(ACPI_GPIO_QUIRK_OVERRIDE_POLARITY) is applied to correct this.
-
-Signed-off-by: Peter Cai <peter@typeblog.net>
----
-
-v2: removed '#ifdef CONFIG_ACPI' as per suggestion. The #ifdef guards
-for CONFIG_DMI is kept for consistency with the other dmi_system_id
-definition in the same file.
----
- drivers/input/touchscreen/goodix.c | 31 ++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index 5178ea8b5f30..df476f7dcd95 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -144,6 +144,31 @@ static const struct dmi_system_id rotated_screen[] = {
- 	{}
- };
- 
-+static const struct acpi_gpio_params irq_gpios_default = { 0, 0, false };
-+static const struct acpi_gpio_params reset_gpios_default = { 1, 0, false };
-+static const struct acpi_gpio_mapping gpio_mapping_force_irq_active_high[] = {
-+	{ "irq-gpios", &irq_gpios_default, 1, ACPI_GPIO_QUIRK_OVERRIDE_POLARITY },
-+	{ "reset-gpios", &reset_gpios_default, 1 },
-+	{}
-+};
-+
-+/*
-+ * Devices that need acpi_gpio_mapping to function correctly
-+ */
-+static const struct dmi_system_id need_gpio_mapping[] = {
-+#if defined(CONFIG_DMI) && defined(CONFIG_X86)
-+	{
-+		.ident = "GPD P2 Max",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "P2 MAX")
-+		},
-+		.driver_data = &gpio_mapping_force_irq_active_high
-+	},
-+#endif
-+	{}
-+};
-+
- /**
-  * goodix_i2c_read - read data from a register of the i2c slave device.
-  *
-@@ -795,6 +820,12 @@ static int goodix_ts_probe(struct i2c_client *client,
- {
- 	struct goodix_ts_data *ts;
- 	int error;
-+	struct dmi_system_id *dmi_match;
-+
-+	dmi_match = dmi_first_match(need_gpio_mapping);
-+	if (dmi_match)
-+		devm_acpi_dev_add_driver_gpios(&client->dev,
-+					       dmi_match->driver_data);
- 
- 	dev_dbg(&client->dev, "I2C Address: 0x%02x\n", client->addr);
- 
--- 
-2.23.0
-
+Regards,
+Markus
