@@ -2,125 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A73F8A464D
-	for <lists+linux-input@lfdr.de>; Sat, 31 Aug 2019 23:04:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 780F2A4B22
+	for <lists+linux-input@lfdr.de>; Sun,  1 Sep 2019 20:23:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728512AbfHaVEE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 31 Aug 2019 17:04:04 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:36475 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728327AbfHaVEE (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 31 Aug 2019 17:04:04 -0400
-Received: by mail-pg1-f193.google.com with SMTP id l21so5280616pgm.3;
-        Sat, 31 Aug 2019 14:04:04 -0700 (PDT)
+        id S1728980AbfIASXV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 1 Sep 2019 14:23:21 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:37799 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728982AbfIASXV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 1 Sep 2019 14:23:21 -0400
+Received: by mail-pl1-f195.google.com with SMTP id b10so475488plr.4
+        for <linux-input@vger.kernel.org>; Sun, 01 Sep 2019 11:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
+        h=date:from:to:subject:message-id:mime-version:content-disposition
          :user-agent;
-        bh=JOkt1Xq1yrsHfK/1NpnOnxpeuczROWMDFL17g6IfVAA=;
-        b=pV/9auGEPtAoN12YoL+WtRizQy+cGjQu2nV8KDGbUbXYnlnNQFLkITroADOozo/bVk
-         3RR24DJpQDUxnJqfupZIw/meeyUoQ120UzhQP4/fevuzjLt1lEWt8IEldCxg7mQxgsta
-         Aha25WCZZ/gc7MaeqmiciWpYwcsNmYpf+Zl0M201YWCAJu7Ez/9Fa6fZf8CdpsDaggcC
-         sPMsPJZp9ciwcfq4v6bE0BnT0yp5q6Qq6CUMWCBMJulsMpLMVcmLGnFiNcnIewRsraaE
-         XtxK0jm/a+Yb4TZBG9PH9a+SU6z52+BGVNu4p7hIe+ex4CZ+yfoqM3yrfZRayCYZAmOA
-         ezWQ==
+        bh=3G1nRQbjs8SFiG1yiAC43aJ9B5eOgf9o/zHOW2uk/Jk=;
+        b=ADU5QFdgu0CyiNCFlch2vvAeTZ1ACP4klB8PKxA5d7m9g/AeoLDiyEbpHKLcR+rdqr
+         1XmPV/9ZI9rn+J62POtlBc66BWNW3APxwv/hBL9mqCJ9ZXHHB99FsDQmpLkY7qwYnbm7
+         4Io7yAR68DVLvds9/kNJ55A5aN43HFz7SN+9ySQPdOjzwru7l0NglYR3itrn28gvsLms
+         noLAQ6qCL8nineT70+DsdsL2r67hqx/Dai3sFnM2CjvUREMxFCc+C4XkamBG9XBUQPg6
+         hlqIS82IjuNKGs2+WqkSKTtRZx2LTzpsukjeZoVnnsOKcoDVXjTDVCcdIH3PQcgRi3b0
+         hCqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=JOkt1Xq1yrsHfK/1NpnOnxpeuczROWMDFL17g6IfVAA=;
-        b=XPqVjstYr3aFhr35e7wl034unS5hS0xeQQLUHGik5sXQv52rFC6QJPD05JvvQ0y7HC
-         j1LA4+xgcw586AsLvs7GbSs6i/hx9B27Nm/yHjikaET2CExJNMODNORkOu2pulmpdnP/
-         cPWBtXlGNCHiYFRBYPebKvjMqw5bVzUGnTpWPP9VGxy12t4kf09mIyOyJwX+8wnA4XQD
-         bwuzNWUwnXWTThgNOoAoOk8ymv+ffwBp2bx8kvKlVo1suciCKITVC7J/lKmT5+yp9s0d
-         IHTRPfC+abZITZeeynVo0NroL5pQVXVNBnFz/hC350tXV7kCML2Cv1oGPC13a2FWoyBx
-         /ARg==
-X-Gm-Message-State: APjAAAUGdL4kcG4cQFiCBJLu8KNElOkPglSts1vCFbvBHubIOf1SQ2Rh
-        PIXJ8RjWeeR2pVejyOt0YYQ=
-X-Google-Smtp-Source: APXvYqzdaNFWsM3zFbednYIknaU60A9528Id43oO8nAEdhY30GFnFt0YgFp5NBg0nx83Gr3h0aS3vA==
-X-Received: by 2002:a17:90a:8914:: with SMTP id u20mr5249657pjn.111.1567285443314;
-        Sat, 31 Aug 2019 14:04:03 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id r28sm7774474pfg.62.2019.08.31.14.03.58
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=3G1nRQbjs8SFiG1yiAC43aJ9B5eOgf9o/zHOW2uk/Jk=;
+        b=aYZJnZNZGJ5RYtr/HaghyuMds4Ul/Q7VAuvPsO9fetBE8cnhAITtML+hXYI+BhiTvL
+         YOmUma+nH/I7XCewVe0ZToHmROd1uiPApSH1YWNVsrrcyUTWP/XU1r+C3vtdU+ALE3pz
+         7myP8oWZ3z8faRIRq4GusKOHLvg/xtNwKDiKJZLsybCOc1V9s4wXYPfb3mYB/g161Naq
+         vvDMBc51PcyI7RvzQyXTQl60zMjV/L3PwvY7gofI4k8Pu0LetZUdn7lCj7jFFyLlltWO
+         guO3lFBsIuUG363ZTUMKwnN6A2E0glAPB8F2XwUTolloG1JVl1LiA1pAXZSGk1AL15Rn
+         dKlQ==
+X-Gm-Message-State: APjAAAVursUao1r7IWBvh+lWHHABoa3mzKHY8qOrJElad4JPLCuRYaSN
+        vYG9LYPNtCEX8Fe6VgR11+Y=
+X-Google-Smtp-Source: APXvYqzyaW6hW9TytFUpjpf9xvSsMdssCGj0OIX5JV3JiY5PlRmqRybnHE9bM56Zk6EhZUDSRfO7UQ==
+X-Received: by 2002:a17:902:6b88:: with SMTP id p8mr25452515plk.95.1567362200258;
+        Sun, 01 Sep 2019 11:23:20 -0700 (PDT)
+Received: from ahmlpt0706 ([106.222.7.131])
+        by smtp.gmail.com with ESMTPSA id 136sm15333416pfz.123.2019.09.01.11.23.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Aug 2019 14:03:59 -0700 (PDT)
-Date:   Sat, 31 Aug 2019 14:03:56 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Joe Perches <joe@perches.com>
-Cc:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali.rohar@gmail.com>,
-        Denis Efremov <efremov@linux.com>,
-        linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v3 09/11] Input: alps - remove unlikely() from IS_ERR*()
- condition
-Message-ID: <20190831210356.GI187474@dtor-ws>
-References: <20190829165025.15750-1-efremov@linux.com>
- <20190829165025.15750-9-efremov@linux.com>
- <20190829175039.GA187474@dtor-ws>
- <20190831152500.eg7xqo5ace6wu427@pali>
- <762056d9c081c40f3fc760c9af79d6851f0a65e5.camel@perches.com>
+        Sun, 01 Sep 2019 11:23:19 -0700 (PDT)
+Date:   Sun, 1 Sep 2019 23:53:09 +0530
+From:   Saiyam Doshi <saiyamdoshi.in@gmail.com>
+To:     robh@kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH] input: touchscreen: Add NULL pointer check before dereference
+Message-ID: <20190901182309.GA5574@ahmlpt0706>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <762056d9c081c40f3fc760c9af79d6851f0a65e5.camel@perches.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Aug 31, 2019 at 01:32:02PM -0700, Joe Perches wrote:
-> On Sat, 2019-08-31 at 17:25 +0200, Pali Rohár wrote:
-> > On Thursday 29 August 2019 10:50:39 Dmitry Torokhov wrote:
-> > > On Thu, Aug 29, 2019 at 07:50:23PM +0300, Denis Efremov wrote:
-> > > > "unlikely(IS_ERR_OR_NULL(x))" is excessive. IS_ERR_OR_NULL() already uses
-> > > > unlikely() internally.
-> > > 
-> > > The keyword here is _internally_.
-> > > 
-> > > https://lore.kernel.org/lkml/20190821174857.GD76194@dtor-ws/
-> > > 
-> > > So please no.
-> 
-> I think it poor form not to simply restate your original
-> objection from 4 message levels below this link
+In sx8654_probe function, if call to device_get_match_data()
+return NULL, it dereferences driver_data from 'id'.
 
-Thank you for the lesson in etiquette, but I posted reference to the
-very message I wanted.
+To avoid NULL pointer dereference, add check to make sure
+'id' is not NULL.
 
-> 
-> https://lists.gt.net/linux/kernel/2269724
-> 
->    Hm... I do not like this change. If I read code 
->     
->     if (unlikely(IS_ERR_OR_NULL(priv->dev3))) 
->     
->    then I know that it is really unlikely that condition will be truth and 
->    so this is some case of error/exception or something that normally does 
->    not happen too much. 
->     
->    But if I read code 
->     
->     if (IS_ERR_OR_NULL(priv->dev3)) 
->     
->    I know nothing about chance that this condition will be truth. Explicit 
->    unlikely in previous example give me more information. 
->     
-> I alslo think this argument is dubious as it also applies
-> to any IS_ERR and all the unlikely uses have been removed
-> from those.
+Signed-off-by: Saiyam Doshi <saiyamdoshi.in@gmail.com>
+---
+ drivers/input/touchscreen/sx8654.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-No, if you read the reference I posted, the argument does not apply to
-all IS_ERR() instances. Majority of them are in probe() paths where we
-do not really care about likely/unlikely. Here we are dealing with
-IS_ERR in a [fairly] hot path.
-
-Thanks.
-
+diff --git a/drivers/input/touchscreen/sx8654.c b/drivers/input/touchscreen/sx8654.c
+index de85e57b2486..7121a3d41555 100644
+--- a/drivers/input/touchscreen/sx8654.c
++++ b/drivers/input/touchscreen/sx8654.c
+@@ -333,7 +333,7 @@ static int sx8654_probe(struct i2c_client *client,
+ 	dev_dbg(&client->dev, "got GPIO reset pin\n");
+ 
+ 	sx8654->data = device_get_match_data(&client->dev);
+-	if (!sx8654->data)
++	if (!sx8654->data && id)
+ 		sx8654->data = (const struct sx865x_data *)id->driver_data;
+ 	if (!sx8654->data) {
+ 		dev_err(&client->dev, "invalid or missing device data\n");
 -- 
-Dmitry
+2.20.1
+
