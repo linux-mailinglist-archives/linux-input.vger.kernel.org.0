@@ -2,102 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19083A5527
-	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2019 13:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82225A5686
+	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2019 14:46:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731010AbfIBLkp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Sep 2019 07:40:45 -0400
-Received: from uho.ysoft.cz ([81.19.3.130]:43766 "EHLO uho.ysoft.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730976AbfIBLko (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 2 Sep 2019 07:40:44 -0400
-Received: from iota-build.ysoft.local (unknown [10.1.5.151])
-        by uho.ysoft.cz (Postfix) with ESMTP id E4F15A3574;
-        Mon,  2 Sep 2019 13:40:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
-        s=20160406-ysoft-com; t=1567424442;
-        bh=PjuJDh0bFIw630kDJiy/OkDEZMwlE36bDJDHUqupigA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SQ48pEPjB0Mya7bmNnybwD9ZSAkrFHj3ZmByjc3lnQ7zqEIS5SOCb7Wl9p8bnBfWE
-         MW5TtVPMZIOGn3JjXaNxCOK6UeWMT+IEyFu9nLNRv0jaZo/tVuAtLnya/8mA+1g5lr
-         tV+qocwEinB2o12wh/HcKLIi8eaJSk04bn3Z7YZc=
-From:   =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
-Subject: [PATCH input-next 4/4] ARM: dts: imx6dl-yapp4: Enable the MPR121 touchkey controller on Hydra
-Date:   Mon,  2 Sep 2019 13:40:17 +0200
-Message-Id: <1567424417-3914-5-git-send-email-michal.vokac@ysoft.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1567424417-3914-1-git-send-email-michal.vokac@ysoft.com>
-References: <1567424417-3914-1-git-send-email-michal.vokac@ysoft.com>
+        id S1730582AbfIBMqC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Sep 2019 08:46:02 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:35601 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730544AbfIBMqC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Sep 2019 08:46:02 -0400
+Received: by mail-pf1-f193.google.com with SMTP id 205so6502247pfw.2
+        for <linux-input@vger.kernel.org>; Mon, 02 Sep 2019 05:46:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=typeblog-net.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=UxK0D/fheIqSygqLr5s8Jq9AxF3QesYF0ilcNylte7o=;
+        b=xZeRG54YWKgB5dbF3y59khScl7yI/HflO++6A95O/QzD0f+8H5FUe2QQ3uAhJzFOqW
+         MOZhRtvQsBNttdrNi6MzxpT9+vo+cisz5qhPDQhREQA2QDNNLA2JR8SF4xoUAe0v7Ju0
+         uDuMxGHHYUZFf9CHrGwFQEI3PszflA2AtaQ8qPf4tyjkU9iFpBKQ2wWTdDX2V1ODXDqB
+         5Vv9Vd0Lty5qxiYaMFwrRNYzk+TYv6WpdYIPAyM+o/Fninkl1JRoboszMWFnjzGQiEFn
+         dGv7QXx+L13ylOkzwOA3ssTwjv36EHLkuJ3yFJAo74527kCN8levJC1nPNfz+YY7WZHc
+         K2ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=UxK0D/fheIqSygqLr5s8Jq9AxF3QesYF0ilcNylte7o=;
+        b=hd5AtuNiq2cTgAciCXGdaHWjb+4P9Phgv2IRbBbF6v3LFhqN9CZtu4UMMBloXvUmqc
+         /dAan5efYG21ps4EMugmxRJASZzEBLbDiLWEbnyNAnMpWjerSKa4m1jOzFV529OcH/FA
+         tSlDyPRoX4n0GNehqh0q3QX8P1z/FsN+cP7Dbc5T1YKUa8dH/fvuN4PGK3VOJM4qAayS
+         DVJKUDV9r0MQMkzmRrkc2/zEYhTGg8y670wZ279tsKg883mbK+ecaplMUsKvTVaDw1sK
+         yRBhzgDF/87AAIjhh2Pngxfcn33zfVtEc7RM7SN4jy11io8BynGdgTiIZflaejcGRhkJ
+         yimg==
+X-Gm-Message-State: APjAAAXEusK7UFgMxc3JUpXwqxhHVAUpZPWMafM2SgUZV91/IBsK3N37
+        EdRauAZshlyPtBerM+IAl0sLCA==
+X-Google-Smtp-Source: APXvYqxIvcyPxpnb3yh6eeP7HxC1AmtMZNRoGdxnjCor2F+TkQe4/r3whehjlKum19mXExKsD3b4OQ==
+X-Received: by 2002:a17:90a:d0c6:: with SMTP id y6mr3298714pjw.76.1567428361563;
+        Mon, 02 Sep 2019 05:46:01 -0700 (PDT)
+Received: from peter-pc.home ([91.207.174.229])
+        by smtp.gmail.com with ESMTPSA id 2sm15884652pjh.13.2019.09.02.05.45.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Sep 2019 05:46:00 -0700 (PDT)
+From:   Peter Cai <peter@typeblog.net>
+Cc:     Peter Cai <peter@typeblog.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH v3 1/2] gpio: acpi: add quirk to override GpioInt polarity
+Date:   Mon,  2 Sep 2019 20:43:51 +0800
+Message-Id: <20190902124352.12291-1-peter@typeblog.net>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190831030916.13172-1-peter@typeblog.net>
+References: <20190831030916.13172-1-peter@typeblog.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add the touch keyboard present on Hydra board. The controller
-is connected only using I2C lines. The interrupt line is not
-available hence we use the polling mode.
+On GPD P2 Max, the firmware could not reset the touch panel correctly.
+The kernel needs to take on the job instead, but the GpioInt definition
+in DSDT specifies ActiveHigh while the GPIO pin should actually be
+ActiveLow.
 
-Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+We need to override the polarity defined by DSDT. The GPIO driver
+already allows defining polarity in acpi_gpio_params, but the option is
+not applied to GpioInt.
+
+This patch adds a new quirk that enables the polarity specified in
+acpi_gpio_params to also be applied to GpioInt.
+
+Signed-off-by: Peter Cai <peter@typeblog.net>
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- arch/arm/boot/dts/imx6dl-yapp4-common.dtsi | 13 +++++++++++++
- arch/arm/boot/dts/imx6dl-yapp4-hydra.dts   |  4 ++++
- 2 files changed, 17 insertions(+)
 
-diff --git a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
-index e8d800fec637..49e2bcd21a00 100644
---- a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
-+++ b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
-@@ -4,6 +4,7 @@
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/input/input.h>
- #include <dt-bindings/pwm/pwm.h>
- 
- / {
-@@ -330,6 +331,18 @@
- 		vcc-supply = <&sw2_reg>;
- 		status = "disabled";
- 	};
+v2: rebased to gpio/for-next, moved quirk out of the gpioint
+conditional.
+
+v3: no change, series update.
+---
+ drivers/gpio/gpiolib-acpi.c   | 9 +++++++++
+ include/linux/gpio/consumer.h | 6 ++++++
+ 2 files changed, 15 insertions(+)
+
+diff --git a/drivers/gpio/gpiolib-acpi.c b/drivers/gpio/gpiolib-acpi.c
+index fdee8afa5339..ab16ea61a8fa 100644
+--- a/drivers/gpio/gpiolib-acpi.c
++++ b/drivers/gpio/gpiolib-acpi.c
+@@ -603,6 +603,15 @@ static int acpi_populate_gpio_lookup(struct acpi_resource *ares, void *data)
+ 			lookup->info.flags = acpi_gpio_to_gpiod_flags(agpio);
+ 			lookup->info.polarity = lookup->active_low;
+ 		}
 +
-+	touchkeys: keys@5a {
-+		compatible = "fsl,mpr121-touchkey";
-+		reg = <0x5a>;
-+		vdd-supply = <&sw2_reg>;
-+		autorepeat;
-+		linux,keycodes = <KEY_1>, <KEY_2>, <KEY_3>, <KEY_4>, <KEY_5>,
-+				<KEY_6>, <KEY_7>, <KEY_8>, <KEY_9>,
-+				<KEY_BACKSPACE>, <KEY_0>, <KEY_ENTER>;
-+		linux,poll-interval = <50>;
-+		status = "disabled";
-+	};
- };
++		/*
++		 * Override the polarity specified by GpioInt if
++		 * ACPI_GPIO_QUIRK_OVERRIDE_POLARITY is set.
++		 */
++		if (lookup->info.quirks & ACPI_GPIO_QUIRK_OVERRIDE_POLARITY) {
++			dev_warn(&lookup->info.adev->dev, FW_BUG "Incorrect polarity specified by GpioInt, overriding.\n");
++			lookup->info.polarity = lookup->active_low;
++		}
+ 	}
  
- &iomuxc {
-diff --git a/arch/arm/boot/dts/imx6dl-yapp4-hydra.dts b/arch/arm/boot/dts/imx6dl-yapp4-hydra.dts
-index f97927064750..84c275bfdd38 100644
---- a/arch/arm/boot/dts/imx6dl-yapp4-hydra.dts
-+++ b/arch/arm/boot/dts/imx6dl-yapp4-hydra.dts
-@@ -45,6 +45,10 @@
- 	status = "okay";
- };
+ 	return 1;
+diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
+index b70af921c614..7e9f24ebb085 100644
+--- a/include/linux/gpio/consumer.h
++++ b/include/linux/gpio/consumer.h
+@@ -622,6 +622,12 @@ struct acpi_gpio_mapping {
+  * get GpioIo type explicitly, this quirk may be used.
+  */
+ #define ACPI_GPIO_QUIRK_ONLY_GPIOIO		BIT(1)
++/*
++ * Use the GPIO polarity (ActiveHigh / ActiveLow) from acpi_gpio_params
++ * for GpioInt as well. The default behavior is to use the one specified
++ * by GpioInt, which can be incorrect on some devices.
++ */
++#define ACPI_GPIO_QUIRK_OVERRIDE_POLARITY	BIT(2)
  
-+&touchkeys {
-+	status = "okay";
-+};
-+
- &usdhc3 {
- 	status = "okay";
+ 	unsigned int quirks;
  };
 -- 
-2.1.4
+2.23.0
 
