@@ -2,57 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A627A52B6
-	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2019 11:23:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98352A52F4
+	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2019 11:36:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730283AbfIBJXp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Sep 2019 05:23:45 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:45099 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729603AbfIBJXp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Sep 2019 05:23:45 -0400
-X-Originating-IP: 83.155.44.161
-Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
-        (Authenticated sender: hadess@hadess.net)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 04D171BF221;
-        Mon,  2 Sep 2019 09:23:41 +0000 (UTC)
-Message-ID: <99cffa73439fd0d59fa738d786545f5a6e35ab4d.camel@hadess.net>
-Subject: Re: [PATCH v5] hid-logitech-hidpp: read battery voltage from newer
- devices
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Pedro Vanzella <pedro@pedrovanzella.com>,
-        linux-input@vger.kernel.org
-Cc:     lains@archlinux.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org
-Date:   Mon, 02 Sep 2019 11:23:41 +0200
-In-Reply-To: <20190831175659.7404-1-pedro@pedrovanzella.com>
-References: <20190831175659.7404-1-pedro@pedrovanzella.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        id S1731186AbfIBJgy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Sep 2019 05:36:54 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:34398 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731184AbfIBJgy (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 2 Sep 2019 05:36:54 -0400
+Received: from zn.tnic (p200300EC2F064300457D028AAFF6D0C1.dip0.t-ipconnect.de [IPv6:2003:ec:2f06:4300:457d:28a:aff6:d0c1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A77E21EC06F3;
+        Mon,  2 Sep 2019 11:36:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1567417012;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=uMMyoFANBQiUKkXtM+OKELpLztUx2WSmL1GhIv0sKAU=;
+        b=PxjOk9O0dXU9E7bIKDD2ZEc8hbly/jAUZbTtsoHimpotQwXLizCKcd6cVmjf06OhCOxE77
+        djGhJr720LyUela8JuoFpGaw56lj7C29LUqDO/k0KMvE3l0E0g7L4/G4jfMR4YnY16lqTo
+        2aeSwLB8dHhL7pqEyOi9p+YwStKBi7I=
+Date:   Mon, 2 Sep 2019 11:36:51 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Philip Li <philip.li@intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        kbuild test robot <lkp@intel.com>,
+        linux-input@vger.kernel.org,
+        Thomas Hellstrom <thellstrom@vmware.com>,
+        x86-ml <x86@kernel.org>, linux-tip-commits@vger.kernel.org,
+        pv-drivers@vmware.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        tip-bot2 for Thomas Hellstrom <tip-bot2@linutronix.de>,
+        Doug Covelli <dcovelli@vmware.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        kbuild-all@01.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@kernel.org>
+Subject: Re: [kbuild-all] [tip: x86/vmware] input/vmmouse: Update the
+ backdoor call with support for new instructions
+Message-ID: <20190902093651.GC9605@zn.tnic>
+References: <20190830010349.GD857@intel.com>
+ <alpine.DEB.2.21.1908300802390.1938@nanos.tec.linutronix.de>
+ <20190830062053.GA2598@intel.com>
+ <20190830080650.GA30413@zn.tnic>
+ <20190830143645.GA4784@intel.com>
+ <20190830144628.GC30413@zn.tnic>
+ <20190830150002.GA6931@intel.com>
+ <20190830150856.GB6931@intel.com>
+ <20190830193557.GF30413@zn.tnic>
+ <20190902011342.GA14687@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190902011342.GA14687@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 2019-08-31 at 13:56 -0400, Pedro Vanzella wrote:
-> Newer Logitech mice report their battery voltage through feature
-> 0x1001
-> instead of the battery levels through feature 0x1000.
-> 
-> When the device is brought up and we try to query the battery, figure
-> out if it supports the old or the new feature. If it supports the new
-> feature, record the feature index and read the battery voltage and
-> its status.
+On Mon, Sep 02, 2019 at 09:13:42AM +0800, Philip Li wrote:
+> Thanks Boris, it is applied, and will take effect soon.
 
-FWIW, it wasn't clear to me that there were 3 bytes, and the last one
-would contain the battery status. I was under the impression reading
-this that the only thing the mouse would send back would be the
-voltage, so this might need a slight rewording.
+Seems to has taken effect. I got the first build report.
 
-Did you test this with upower? Did it work as you expected?
+Thx!
 
-Cheers
+-- 
+Regards/Gruss,
+    Boris.
 
+Good mailing practices for 400: avoid top-posting and trim the reply.
