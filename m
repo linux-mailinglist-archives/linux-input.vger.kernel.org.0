@@ -2,86 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 780F2A4B22
-	for <lists+linux-input@lfdr.de>; Sun,  1 Sep 2019 20:23:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18AE6A4D08
+	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2019 03:09:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728980AbfIASXV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 1 Sep 2019 14:23:21 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:37799 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728982AbfIASXV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 1 Sep 2019 14:23:21 -0400
-Received: by mail-pl1-f195.google.com with SMTP id b10so475488plr.4
-        for <linux-input@vger.kernel.org>; Sun, 01 Sep 2019 11:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=3G1nRQbjs8SFiG1yiAC43aJ9B5eOgf9o/zHOW2uk/Jk=;
-        b=ADU5QFdgu0CyiNCFlch2vvAeTZ1ACP4klB8PKxA5d7m9g/AeoLDiyEbpHKLcR+rdqr
-         1XmPV/9ZI9rn+J62POtlBc66BWNW3APxwv/hBL9mqCJ9ZXHHB99FsDQmpLkY7qwYnbm7
-         4Io7yAR68DVLvds9/kNJ55A5aN43HFz7SN+9ySQPdOjzwru7l0NglYR3itrn28gvsLms
-         noLAQ6qCL8nineT70+DsdsL2r67hqx/Dai3sFnM2CjvUREMxFCc+C4XkamBG9XBUQPg6
-         hlqIS82IjuNKGs2+WqkSKTtRZx2LTzpsukjeZoVnnsOKcoDVXjTDVCcdIH3PQcgRi3b0
-         hCqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=3G1nRQbjs8SFiG1yiAC43aJ9B5eOgf9o/zHOW2uk/Jk=;
-        b=aYZJnZNZGJ5RYtr/HaghyuMds4Ul/Q7VAuvPsO9fetBE8cnhAITtML+hXYI+BhiTvL
-         YOmUma+nH/I7XCewVe0ZToHmROd1uiPApSH1YWNVsrrcyUTWP/XU1r+C3vtdU+ALE3pz
-         7myP8oWZ3z8faRIRq4GusKOHLvg/xtNwKDiKJZLsybCOc1V9s4wXYPfb3mYB/g161Naq
-         vvDMBc51PcyI7RvzQyXTQl60zMjV/L3PwvY7gofI4k8Pu0LetZUdn7lCj7jFFyLlltWO
-         guO3lFBsIuUG363ZTUMKwnN6A2E0glAPB8F2XwUTolloG1JVl1LiA1pAXZSGk1AL15Rn
-         dKlQ==
-X-Gm-Message-State: APjAAAVursUao1r7IWBvh+lWHHABoa3mzKHY8qOrJElad4JPLCuRYaSN
-        vYG9LYPNtCEX8Fe6VgR11+Y=
-X-Google-Smtp-Source: APXvYqzyaW6hW9TytFUpjpf9xvSsMdssCGj0OIX5JV3JiY5PlRmqRybnHE9bM56Zk6EhZUDSRfO7UQ==
-X-Received: by 2002:a17:902:6b88:: with SMTP id p8mr25452515plk.95.1567362200258;
-        Sun, 01 Sep 2019 11:23:20 -0700 (PDT)
-Received: from ahmlpt0706 ([106.222.7.131])
-        by smtp.gmail.com with ESMTPSA id 136sm15333416pfz.123.2019.09.01.11.23.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Sep 2019 11:23:19 -0700 (PDT)
-Date:   Sun, 1 Sep 2019 23:53:09 +0530
-From:   Saiyam Doshi <saiyamdoshi.in@gmail.com>
-To:     robh@kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH] input: touchscreen: Add NULL pointer check before dereference
-Message-ID: <20190901182309.GA5574@ahmlpt0706>
+        id S1729233AbfIBBJR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 1 Sep 2019 21:09:17 -0400
+Received: from mga05.intel.com ([192.55.52.43]:10038 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729169AbfIBBJQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 1 Sep 2019 21:09:16 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Sep 2019 18:09:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,457,1559545200"; 
+   d="scan'208";a="183190007"
+Received: from pl-dbox.sh.intel.com (HELO intel.com) ([10.239.13.128])
+  by fmsmga007.fm.intel.com with ESMTP; 01 Sep 2019 18:09:13 -0700
+Date:   Mon, 2 Sep 2019 09:13:42 +0800
+From:   Philip Li <philip.li@intel.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        kbuild test robot <lkp@intel.com>,
+        linux-input@vger.kernel.org,
+        Thomas Hellstrom <thellstrom@vmware.com>,
+        x86-ml <x86@kernel.org>, linux-tip-commits@vger.kernel.org,
+        pv-drivers@vmware.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        tip-bot2 for Thomas Hellstrom <tip-bot2@linutronix.de>,
+        Doug Covelli <dcovelli@vmware.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        kbuild-all@01.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@kernel.org>
+Subject: Re: [kbuild-all] [tip: x86/vmware] input/vmmouse: Update the
+ backdoor call with support for new instructions
+Message-ID: <20190902011342.GA14687@intel.com>
+References: <20190829163353.GC2132@zn.tnic>
+ <20190830010349.GD857@intel.com>
+ <alpine.DEB.2.21.1908300802390.1938@nanos.tec.linutronix.de>
+ <20190830062053.GA2598@intel.com>
+ <20190830080650.GA30413@zn.tnic>
+ <20190830143645.GA4784@intel.com>
+ <20190830144628.GC30413@zn.tnic>
+ <20190830150002.GA6931@intel.com>
+ <20190830150856.GB6931@intel.com>
+ <20190830193557.GF30413@zn.tnic>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190830193557.GF30413@zn.tnic>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In sx8654_probe function, if call to device_get_match_data()
-return NULL, it dereferences driver_data from 'id'.
+On Fri, Aug 30, 2019 at 09:35:57PM +0200, Borislav Petkov wrote:
+> On Fri, Aug 30, 2019 at 11:08:56PM +0800, Philip Li wrote:
+> > hi Boris, for the build status notification, we currently send to below
+> > address, is it still valid? If not, can you suggest one for us?
+> 
+> Sure, here's an update patch ontop of your master branch:
+Thanks Boris, it is applied, and will take effect soon.
 
-To avoid NULL pointer dereference, add check to make sure
-'id' is not NULL.
-
-Signed-off-by: Saiyam Doshi <saiyamdoshi.in@gmail.com>
----
- drivers/input/touchscreen/sx8654.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/input/touchscreen/sx8654.c b/drivers/input/touchscreen/sx8654.c
-index de85e57b2486..7121a3d41555 100644
---- a/drivers/input/touchscreen/sx8654.c
-+++ b/drivers/input/touchscreen/sx8654.c
-@@ -333,7 +333,7 @@ static int sx8654_probe(struct i2c_client *client,
- 	dev_dbg(&client->dev, "got GPIO reset pin\n");
- 
- 	sx8654->data = device_get_match_data(&client->dev);
--	if (!sx8654->data)
-+	if (!sx8654->data && id)
- 		sx8654->data = (const struct sx865x_data *)id->driver_data;
- 	if (!sx8654->data) {
- 		dev_err(&client->dev, "invalid or missing device data\n");
--- 
-2.20.1
-
+> 
+> ---
+> From: Borislav Petkov <bp@suse.de>
+> Date: Fri, 30 Aug 2019 21:33:29 +0200
+> Subject: [PATCH] repo/linux/tip: Update tip tree contact information
+> 
+> Replace hpa with Borislav and change contact mail address.
+> 
+> Signed-off-by: Borislav Petkov <bp@suse.de>
+> ---
+>  repo/linux/tip | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/repo/linux/tip b/repo/linux/tip
+> index 4fc5d88176fd..96a7dec66f97 100644
+> --- a/repo/linux/tip
+> +++ b/repo/linux/tip
+> @@ -2,11 +2,11 @@ url: https://kernel.googlesource.com/pub/scm/linux/kernel/git/tip/tip.git
+>  integration_testing_branches: auto-latest
+>  mail_cc:
+>  - linux-kernel@vger.kernel.org
+> -- tipbuild@zytor.com
+> +- x86@kernel.org
+>  owner:
+>  - Ingo Molnar <mingo@kernel.org>
+> -- H. Peter Anvin <hpa@zytor.com>
+>  - Thomas Gleixner <tglx@linutronix.de>
+> +- Borislav Petkov <bp@suse.de>
+>  subsystems:
+>  - x86
+>  - fpu
+> @@ -16,4 +16,4 @@ subsystems:
+>  - locking
+>  blacklist_branch: auto-.*|tmp-.*|base-.*|test.*|.*-for-linus
+>  notify_build_success_branch: .*
+> -build_success_mail_to: tip build status <tipbuild@zytor.com>
+> +build_success_mail_to: x86-ml <x86@kernel.org>
+> -- 
+> 2.21.0
+> 
+> Thx.
+> 
+> -- 
+> Regards/Gruss,
+>     Boris.
+> 
+> Good mailing practices for 400: avoid top-posting and trim the reply.
