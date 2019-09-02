@@ -2,95 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0D6CA57BF
-	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2019 15:37:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABF6FA5819
+	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2019 15:41:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730289AbfIBNgl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Sep 2019 09:36:41 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:42778 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730207AbfIBNgh (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Sep 2019 09:36:37 -0400
-Received: by mail-lj1-f195.google.com with SMTP id y23so1806564lje.9
-        for <linux-input@vger.kernel.org>; Mon, 02 Sep 2019 06:36:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8LhD/sF/NTN0NjoFAgiiHQ7UUs0ybG0eLJoGIh+N4ts=;
-        b=yt5Kk70QvcaLMsgSVuGuAG4SWM+BIcLIE5gou9GHOehJB4r9b6weJu+L7oHTmKWf1G
-         fX/yXW2q6/k6BNw8YAh51Jz1YplyVXmpWkzRX/rbuKi1zIv8GcZA3hbylkT11Dc7iaf2
-         UGWvbJ0bU+abLpXT6JPE+sKYsFDh14BO9haw58yB5Jesu632ftsPtb7jEp+yQsLtBeua
-         h6bewrNUmYJldinBXbVXilFKl05GC6gWO8jL+Ees9sIZ+roT2Xq6s4iZF1aIs4QqX4Va
-         fNgWF6FpKWU72uZOR1YsWCa5OnA/ZEmxIr5AAA9nCB5JlphyvX/FIT4W0Oxgn0gPqATz
-         CsuA==
+        id S1731307AbfIBNjS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Sep 2019 09:39:18 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:52821 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731290AbfIBNjS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Sep 2019 09:39:18 -0400
+Received: by mail-wm1-f67.google.com with SMTP id t17so14649036wmi.2;
+        Mon, 02 Sep 2019 06:39:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8LhD/sF/NTN0NjoFAgiiHQ7UUs0ybG0eLJoGIh+N4ts=;
-        b=Mudgse7kZZeNvgSjR4/O/+f2KYuqf5UXjtwjZD22IW/ge7HAG7ffwdRrdN25UwDrMb
-         oNcoqFFSj91nItXqFGa17jqoNfgtd0OlZ7nH4Ru01azi2Gft2zSXEv0dkDgom52clB0c
-         ToWAv96j7TVrg/K7X6rrswuR6ZvhL1EjjEyzs/qaWzmcPbNHxNtYUAkKZHgWrfLMrpPs
-         RfibrD6MQtRoznsvJ11J1HsbZr3gSYHnQpKFuNnyxk9GqXkgHPoKI2+JD3V5FZYE7rpq
-         RfSeLKS58mNbKVQ0S16Auk8ygY7nSmUOVmeB1q5YMMejSMVHR7DvUPCZ17CRF66BVk1i
-         fmVQ==
-X-Gm-Message-State: APjAAAV6xxAb4SfHZxkjF4Kckk0wtnAj/CRhT50GjhvhC8zw9P0aNe7k
-        9BYbh9/aWJ4B7MqGDp+F7BXtjFU+waq8cLe1SULFpw==
-X-Google-Smtp-Source: APXvYqy/56/JZhH9u5h/dgz83LrB1WA4WlE3a52G84UNe7DNmvw7eo78678HYTfzEBqzkAB8w0uR5xAG6bAC2llAAJg=
-X-Received: by 2002:a2e:3a0e:: with SMTP id h14mr16425420lja.180.1567431395793;
- Mon, 02 Sep 2019 06:36:35 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=M0OACsjJM/vFX4zZJBUZMzKJ/8JnqkMV5QQXF6yqIpw=;
+        b=GvJr9+ogweiL3yV6clbltN0YUs/nKQsG+nCwo0cY9aHWWqy2NrynnKtTZJ3l2CsE+4
+         O/LnFU6w76e0BxMVnKQBHTupQ6NH58zaPtHw1FfRi+Tz8lEirJP2a9TmVOwGP74aH2vD
+         zyRpRO0FP2N8smLdrJiMIw/WOTrKpWn9bUxd3EYM2qZIXkdVXeK/bu+qtTPwmUlvV6Tk
+         q1l/TTVKsN8nghyVbPvnhgytZmE1GvU/5qKihPckS/ExalmybGE/zkViK4V1vMCyKjFM
+         GoFilllwlv16pAbyC0GkIOM3YBnraZGG2XfPNroWexhS+RNcAlyiPV8ILV/wmfcLQL7P
+         +b0g==
+X-Gm-Message-State: APjAAAVGVSFLJoExbysWrR5YzSdzHjaNQVyVPTew09IURR9R4ABPcdXs
+        tCYU1m0SN18TIimqyN8UXg==
+X-Google-Smtp-Source: APXvYqypcMzdNic7ziNevmFZ8BaxYjbIqLahyGSd0YIMXh2YBwVcb/OvssGZQd+0DzdiFqCWRfYvcQ==
+X-Received: by 2002:a1c:3d03:: with SMTP id k3mr37181683wma.138.1567431555922;
+        Mon, 02 Sep 2019 06:39:15 -0700 (PDT)
+Received: from localhost ([212.187.182.166])
+        by smtp.gmail.com with ESMTPSA id s19sm28771567wrb.94.2019.09.02.06.39.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Sep 2019 06:39:15 -0700 (PDT)
+Date:   Mon, 02 Sep 2019 14:39:14 +0100
+From:   Rob Herring <robh@kernel.org>
+To:     Anson Huang <Anson.Huang@nxp.com>
+Cc:     mark.rutland@arm.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, catalin.marinas@arm.com,
+        will@kernel.org, dmitry.torokhov@gmail.com, aisheng.dong@nxp.com,
+        ulf.hansson@linaro.org, fugang.duan@nxp.com, peng.fan@nxp.com,
+        daniel.baluta@nxp.com, leonard.crestez@nxp.com, olof@lixom.net,
+        mripard@kernel.org, arnd@arndb.de, jagan@amarulasolutions.com,
+        bjorn.andersson@linaro.org, dinguyen@kernel.org,
+        marcin.juszkiewicz@linaro.org, hsweeten@visionengravers.com,
+        tglx@linutronix.de, gregkh@linuxfoundation.org, stefan@agner.ch,
+        ronald@innovation.ch, ping.bai@nxp.com, m.felsch@pengutronix.de,
+        andriy.shevchenko@linux.intel.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org, Linux-imx@nxp.com
+Subject: Re: [PATCH 1/5] dt-bindings: fsl: scu: add scu power key binding
+Message-ID: <20190902043521.GA14143@bogus>
+References: <1567198429-27886-1-git-send-email-Anson.Huang@nxp.com>
 MIME-Version: 1.0
-References: <20190831030916.13172-1-peter@typeblog.net> <20190902100141.GW2680@smile.fi.intel.com>
-In-Reply-To: <20190902100141.GW2680@smile.fi.intel.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 2 Sep 2019 15:36:24 +0200
-Message-ID: <CACRpkdaY_TT_m3XEh_J9TqMQijzUieQDBn+t4=uGUyfP+V0Hzg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] gpio: acpi: add quirk to override GpioInt polarity
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Peter Cai <peter@typeblog.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1567198429-27886-1-git-send-email-Anson.Huang@nxp.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Sep 2, 2019 at 12:01 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> On Sat, Aug 31, 2019 at 11:09:14AM +0800, Peter Cai wrote:
-> > On GPD P2 Max, the firmware could not reset the touch panel correctly.
-> > The kernel needs to take on the job instead, but the GpioInt definition
-> > in DSDT specifies ActiveHigh while the GPIO pin should actually be
-> > ActiveLow.
-> >
-> > We need to override the polarity defined by DSDT. The GPIO driver
-> > already allows defining polarity in acpi_gpio_params, but the option is
-> > not applied to GpioInt.
-> >
-> > This patch adds a new quirk that enables the polarity specified in
-> > acpi_gpio_params to also be applied to GpioInt.
->
-> Thank you for an update!
->
-> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->
-> on the condition that Dmitry and other input / Goodix developers are okay with
-> the approach in general.
+On Fri, Aug 30, 2019 at 04:53:45PM -0400, Anson Huang wrote:
+> NXP i.MX8QXP is an ARMv8 SoC with a Cortex-M4 core inside as
+> system controller, the system controller is in charge of system
+> power, clock and power key event etc. management, Linux kernel
+> has to communicate with system controller via MU (message unit)
+> IPC to get power key event, add binding doc for i.MX system
+> controller power key driver.
+> 
+> Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
+> ---
+>  .../devicetree/bindings/arm/freescale/fsl,scu.txt      | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
+> index c149fad..001d0b7 100644
+> --- a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
+> +++ b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
+> @@ -157,6 +157,17 @@ Required properties:
+>  Optional properties:
+>  - timeout-sec: contains the watchdog timeout in seconds.
+>  
+> +Power key bindings based on SCU Message Protocol
+> +------------------------------------------------------------
+> +
+> +Required properties:
+> +- compatible: should be:
+> +              "fsl,imx8qxp-sc-pwrkey"
+> +              followed by "fsl,imx-sc-pwrkey";
+> +- linux,keycodes: See Documentation/devicetree/bindings/input/keys.txt
+> +Optional Properties:
+> +- wakeup-source: See Documentation/devicetree/bindings/power/wakeup-source.txt
+> +
+>  Example (imx8qxp):
+>  -------------
+>  aliases {
+> @@ -220,6 +231,13 @@ firmware {
+>  			compatible = "fsl,imx8qxp-sc-rtc";
+>  		};
+>  
+> +		scu_pwrkey: scu-pwrkey {
+> +			compatible = "fsl,imx8qxp-sc-pwrkey", "fsl,imx-sc-pwrkey";
+> +			linux,keycode = <KEY_POWER>;
+> +			wakeup-source;
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
-In case Dmitry needs to merge this.
+wakeup-source implies an interrupt property.
 
-Or should I simply merge this patch to the GPIO tree?
+> +			status = "disabled";
 
-Yours,
-Linus Walleij
+Don't should status in examples.
+
+> +		};
+> +
+>  		watchdog {
+>  			compatible = "fsl,imx8qxp-sc-wdt", "fsl,imx-sc-wdt";
+>  			timeout-sec = <60>;
+> -- 
+> 2.7.4
+> 
+
