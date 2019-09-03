@@ -2,39 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B2E4A683F
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2019 14:09:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BFF2A683A
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2019 14:09:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729301AbfICMJF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Sep 2019 08:09:05 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:42846 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728995AbfICMIK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Sep 2019 08:08:10 -0400
-Received: by mail-io1-f71.google.com with SMTP id x9so22825501ior.9
-        for <linux-input@vger.kernel.org>; Tue, 03 Sep 2019 05:08:09 -0700 (PDT)
+        id S1729096AbfICMJA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Sep 2019 08:09:00 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:47029 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729088AbfICMIL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Sep 2019 08:08:11 -0400
+Received: by mail-io1-f70.google.com with SMTP id o3so8640543iom.13
+        for <linux-input@vger.kernel.org>; Tue, 03 Sep 2019 05:08:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=aX4G0iDqPx+MweGp7YMY5V/3PPLadE9WmDWOVG4Z+nc=;
-        b=k24XQKfmKkETf4m/JDro0cRWtZro6EFirz7Mc5k9hMq+ZpFKb0AaF6voKd01NB57Gw
-         GxwaEqO7XXvAgtSstqivZkE8qh1alScPIuS8WiWWqVL+tEjRTsvlX5gvOEKkmKLPlQfz
-         4XmCyv9RYlLKNV6DZ2K0Wl39+MqDLIaLTpoMg2OBHIs0ONNvxMVb2MoU5+KfRmhUZ0iO
-         R01aZrcExWQdcqgcVcStYPpM43kpMdgh1lf5zFq59Zxb8uL/boM5usmjWn7vJ8ggx+gQ
-         PjLJgTYxwZvYbKggdsHhGEd8g8pSRK2PdL8gnI3mEQzFtUAkZcbxVKpzO+2CW52LJEPE
-         gYSQ==
-X-Gm-Message-State: APjAAAXnkrIp22vZjvoX9taKPYj7dPj58jLilm70p8UPfijXSf5vmnnN
-        MrC3fu0LjK9iogiXdFFp4m8dV4jUqIUtOnBnkNQIyssoXaaI
-X-Google-Smtp-Source: APXvYqzJ8UukIHJyCYHiMvGaItBRCKLR13k6V9qAbiaot38Gz3camB4GoeBD26AhIWOCUTf+bC5Dx1KcX49tS/7YmKtM9JYU7wIu
+        bh=+TyJ0OG+pPp/DvJlej8bfcgO9uWPlVMHlJBQUM4x4e4=;
+        b=YyhwLfP0MiL79nh0yG2/9ztBuToES4aBPHNqRKUZMK1mLZFte6JpTh1QVtPoAv9fai
+         Cld3FIoHs3DnQC/db0PawaW58P+dRwO8FBKYrlEzjXNoSVWxu9Tw4pUVbv0CnjyoFF0K
+         jm4YZAjydTOzEigSQp2zIHiX+atnTPISb3XQbNrH0AafWiQ3LjtCESlOKd+pxtwXCjO0
+         ZsggoWcpeGqULYsgGdGag7uUXDElPbjvefWoLqZ6pd118f4/8RuLJStsh25yERY7PDHY
+         jjlFHalosqJ0pzf2bJ3lx2eddBYC3wLxWAJfbHzWz0auEZ+9j2VyVrAyj5QFhJuodcpk
+         Sq/g==
+X-Gm-Message-State: APjAAAVhk2VXmpnyg8xplnp4a7Moud1TBhwaQaW5lxT8NLdrasjrL1s+
+        N8qLXXDVnk3CSJ2uizCdtMI9QgWTpNWaGOYWsT5iBkiPBUgF
+X-Google-Smtp-Source: APXvYqwoaPI8LWTk3EClq2Sd2SgccAwr6DL1QApT7yvnOxkC1F2kOs7555u/MDme+whxIW+TPpWRqTspOTNuEf+TULLMgC0UsAcx
 MIME-Version: 1.0
-X-Received: by 2002:a5d:96cb:: with SMTP id r11mr41808403iol.200.1567512489310;
- Tue, 03 Sep 2019 05:08:09 -0700 (PDT)
-Date:   Tue, 03 Sep 2019 05:08:09 -0700
+X-Received: by 2002:a5e:d80e:: with SMTP id l14mr10372843iok.217.1567512490089;
+ Tue, 03 Sep 2019 05:08:10 -0700 (PDT)
+Date:   Tue, 03 Sep 2019 05:08:10 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001b41900591a4f149@google.com>
-Subject: WARNING: ODEBUG bug in usbhid_disconnect (2)
-From:   syzbot <syzbot+14b53bfeb17f2b210eb7@syzkaller.appspotmail.com>
+Message-ID: <0000000000002725f40591a4f118@google.com>
+Subject: general protection fault in pk_probe
+From:   syzbot <syzbot+1088533649dafa1c9004@syzkaller.appspotmail.com>
 To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
         jikos@kernel.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
@@ -51,70 +51,105 @@ syzbot found the following crash on:
 
 HEAD commit:    eea39f24 usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=173983ac600000
+console output: https://syzkaller.appspot.com/x/log.txt?x=14c3589e600000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=d0c62209eedfd54e
-dashboard link: https://syzkaller.appspot.com/bug?extid=14b53bfeb17f2b210eb7
+dashboard link: https://syzkaller.appspot.com/bug?extid=1088533649dafa1c9004
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10d36aca600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=178e208e600000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1667cc66600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10f30dbc600000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+14b53bfeb17f2b210eb7@syzkaller.appspotmail.com
+Reported-by: syzbot+1088533649dafa1c9004@syzkaller.appspotmail.com
 
-------------[ cut here ]------------
-ODEBUG: free active (active state 0) object type: timer_list hint:  
-hid_retry_timeout+0x0/0xd0 drivers/hid/usbhid/hid-core.c:712
-WARNING: CPU: 1 PID: 17 at lib/debugobjects.c:481  
-debug_print_object+0x160/0x250 lib/debugobjects.c:481
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 1 PID: 17 Comm: kworker/1:0 Not tainted 5.3.0-rc5+ #28
+prodikeys 0003:041E:2801.0001: unknown main item tag 0x0
+prodikeys 0003:041E:2801.0001: unknown main item tag 0x0
+prodikeys 0003:041E:2801.0001: hidraw0: USB HID v0.00 Device [HID  
+041e:2801] on usb-dummy_hcd.0-1/input1
+kasan: CONFIG_KASAN_INLINE enabled
+kasan: GPF could be caused by NULL-ptr deref or user memory access
+general protection fault: 0000 [#1] SMP KASAN
+CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.3.0-rc5+ #28
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
 Workqueue: usb_hub_wq hub_event
+RIP: 0010:pcmidi_submit_output_report drivers/hid/hid-prodikeys.c:300  
+[inline]
+RIP: 0010:pcmidi_set_operational drivers/hid/hid-prodikeys.c:558 [inline]
+RIP: 0010:pcmidi_snd_initialise drivers/hid/hid-prodikeys.c:686 [inline]
+RIP: 0010:pk_probe+0xb51/0xfd0 drivers/hid/hid-prodikeys.c:836
+Code: 0f 85 50 04 00 00 48 8b 04 24 4c 89 7d 10 48 8b 58 08 e8 b2 53 e4 fc  
+48 8b 54 24 20 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 0f  
+85 13 04 00 00 48 ba 00 00 00 00 00 fc ff df 49 8b
+RSP: 0018:ffff8881da20ee10 EFLAGS: 00010206
+RAX: dffffc0000000000 RBX: ffff8881d2d40000 RCX: ffffffff8459833e
+RDX: 0000000000000006 RSI: ffffffff8459862e RDI: ffff8881d2aee610
+RBP: ffff8881d2aee600 R08: ffff8881da1f9800 R09: ffffed103b64677c
+R10: ffffed103b64677b R11: ffff8881db233bdb R12: ffff8881d2d40000
+R13: 0000000000000000 R14: ffff8881d4ec4ab0 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f2fc6afa518 CR3: 00000001d099d000 CR4: 00000000001406f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  panic+0x2a3/0x6da kernel/panic.c:219
-  __warn.cold+0x20/0x4a kernel/panic.c:576
-  report_bug+0x262/0x2a0 lib/bug.c:186
-  fixup_bug arch/x86/kernel/traps.c:179 [inline]
-  fixup_bug arch/x86/kernel/traps.c:174 [inline]
-  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
-  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
-  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1028
-RIP: 0010:debug_print_object+0x160/0x250 lib/debugobjects.c:481
-Code: dd 80 ef da 85 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 bf 00 00 00 48  
-8b 14 dd 80 ef da 85 48 c7 c7 c0 e4 da 85 e8 e5 dd 31 ff <0f> 0b 83 05 4b  
-0f a8 05 01 48 83 c4 20 5b 5d 41 5c 41 5d c3 48 89
-RSP: 0018:ffff8881da24f718 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: 0000000000000003 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff81288cfd RDI: ffffed103b449ed5
-RBP: 0000000000000001 R08: ffff8881da233000 R09: fffffbfff11ad79a
-R10: fffffbfff11ad799 R11: ffffffff88d6bccf R12: ffffffff86d0dc60
-R13: ffffffff812e7b70 R14: ffff8881c9d5a8c8 R15: ffff8881cf8943f0
-  __debug_check_no_obj_freed lib/debugobjects.c:963 [inline]
-  debug_check_no_obj_freed+0x2df/0x443 lib/debugobjects.c:994
-  free_pages_prepare mm/page_alloc.c:1174 [inline]
-  __free_pages_ok+0x222/0x1d70 mm/page_alloc.c:1420
-  usbhid_disconnect+0xab/0xd0 drivers/hid/usbhid/hid-core.c:1414
-  usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
-  __device_release_driver drivers/base/dd.c:1134 [inline]
-  device_release_driver_internal+0x42f/0x500 drivers/base/dd.c:1165
-  bus_remove_device+0x2dc/0x4a0 drivers/base/bus.c:556
-  device_del+0x420/0xb10 drivers/base/core.c:2339
-  usb_disable_device+0x211/0x690 drivers/usb/core/message.c:1237
-  usb_disconnect+0x284/0x8d0 drivers/usb/core/hub.c:2199
-  hub_port_connect drivers/usb/core/hub.c:4949 [inline]
+  hid_device_probe+0x2be/0x3f0 drivers/hid/hid-core.c:2209
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2165
+  hid_add_device+0x33c/0x990 drivers/hid/hid-core.c:2365
+  usbhid_probe+0xa81/0xfa0 drivers/hid/usbhid/hid-core.c:1386
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2165
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2165
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
   hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
   port_event drivers/usb/core/hub.c:5359 [inline]
-  hub_event+0x1454/0x3640 drivers/usb/core/hub.c:5441
+  hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
   process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
   kthread+0x318/0x420 kernel/kthread.c:255
   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
+Modules linked in:
+---[ end trace 57a1aecde3464295 ]---
+RIP: 0010:pcmidi_submit_output_report drivers/hid/hid-prodikeys.c:300  
+[inline]
+RIP: 0010:pcmidi_set_operational drivers/hid/hid-prodikeys.c:558 [inline]
+RIP: 0010:pcmidi_snd_initialise drivers/hid/hid-prodikeys.c:686 [inline]
+RIP: 0010:pk_probe+0xb51/0xfd0 drivers/hid/hid-prodikeys.c:836
+Code: 0f 85 50 04 00 00 48 8b 04 24 4c 89 7d 10 48 8b 58 08 e8 b2 53 e4 fc  
+48 8b 54 24 20 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 0f  
+85 13 04 00 00 48 ba 00 00 00 00 00 fc ff df 49 8b
+RSP: 0018:ffff8881da20ee10 EFLAGS: 00010206
+RAX: dffffc0000000000 RBX: ffff8881d2d40000 RCX: ffffffff8459833e
+RDX: 0000000000000006 RSI: ffffffff8459862e RDI: ffff8881d2aee610
+RBP: ffff8881d2aee600 R08: ffff8881da1f9800 R09: ffffed103b64677c
+R10: ffffed103b64677b R11: ffff8881db233bdb R12: ffff8881d2d40000
+R13: 0000000000000000 R14: ffff8881d4ec4ab0 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f2fc6afa518 CR3: 00000001d099d000 CR4: 00000000001406f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
 
 ---
