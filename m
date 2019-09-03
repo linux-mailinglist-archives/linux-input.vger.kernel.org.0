@@ -2,55 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC39CA6576
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2019 11:36:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFDEBA6582
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2019 11:37:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728094AbfICJgw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Sep 2019 05:36:52 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:33781 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728262AbfICJgw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Sep 2019 05:36:52 -0400
-Received: by mail-lj1-f195.google.com with SMTP id z17so15359390ljz.0
-        for <linux-input@vger.kernel.org>; Tue, 03 Sep 2019 02:36:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=iLigV3YgKAxP19L90KLVNxgy3pTtz1rxY62KviN+jEc=;
-        b=INB0xXe2yfYC51B+WVV/oRU6XtD3awuLAYO8fgoqyj+Gc7u6+wYZpQwj9kyHxj6UzG
-         Gn9fxty7gwniNiNkk95KbmHdPc6+UubLtF8MeCJFhn6//RGtBPq6mIYaL27M5w0LbzCZ
-         WGTAHXSj6vbcUQwgDcytJi8A5SFDHvBh0Va8MHEXS+67z8hpEs5tp1Rfevo16Lk+6Ube
-         i5H3MOVgvJaofZmJ9DjCuDXQf9bROh6A5df/QmGDbBkRTZz6omllWl6JwrmkvmNne6mB
-         G1g8zYbQAoTxzXV8m0mR/y8ITXz/3VrsIX3s0RpItVdRprrI56DrwlgCCnHz3OX9IYBA
-         osEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=iLigV3YgKAxP19L90KLVNxgy3pTtz1rxY62KviN+jEc=;
-        b=cNF1vH6wSO3kv0zudsnNsKrrbfjGZ0+kYwaYyeYaoPi4389NcZzVmPqPetXUbqHLie
-         +OL4i/6G+34qQdjWFDfErAFgC8CJ9c5J7XdXUZf2oKeIFrvlahO3whc7QTg0jv1lVPUJ
-         NfyqinVInti+fDKhtVdBmV7whPxSnjvbnK8NJQxgAQiu2xnb8HRzDfqqNCAlZB4jwWF+
-         UAc1x6r/lityzUD1wp27DMs47YLyALRmh7/PowEN/fvqrmCLBxzOS4m+mggYjFjXOkD9
-         Wfra1Za9xZSdJBlbzYZ13BkqPgYfsrll/hGqGXkRnvyzAjBNNKFtpnjhN/GJEPIYNgBA
-         /BHw==
-X-Gm-Message-State: APjAAAX7ywy+Y8KR989Q/o3Bb7IGtU+5zjDJ8GB652bh+z1DME5PDWGR
-        0Yd6vcqiN8wGocHr8N5ZRy3hR/F69C5h2HgVQ5w=
-X-Google-Smtp-Source: APXvYqw65JFPWRMpW6WU2CBBqWfs0j7v6I8pGh40RFp9abmlYgINz5Bygk7puUpI7zEyeUSsvIErbPLXjoaK/XC/I6E=
-X-Received: by 2002:a2e:8091:: with SMTP id i17mr12278149ljg.13.1567503410287;
- Tue, 03 Sep 2019 02:36:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a2e:9258:0:0:0:0:0 with HTTP; Tue, 3 Sep 2019 02:36:50 -0700 (PDT)
-From:   johnson idama <jidama02@gmail.com>
-Date:   Tue, 3 Sep 2019 11:36:50 +0200
-Message-ID: <CANt-u2B_UvbX4GMSeuH+fzjq79wsCCt6qCMHS2h1HXgMbM1qrQ@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        id S1728176AbfICJh6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Sep 2019 05:37:58 -0400
+Received: from inva021.nxp.com ([92.121.34.21]:54534 "EHLO inva021.nxp.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728122AbfICJh6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 3 Sep 2019 05:37:58 -0400
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 8FAFC200303;
+        Tue,  3 Sep 2019 11:37:55 +0200 (CEST)
+Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 65B222002FD;
+        Tue,  3 Sep 2019 11:37:37 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 71247402B7;
+        Tue,  3 Sep 2019 17:37:23 +0800 (SGT)
+From:   Anson Huang <Anson.Huang@nxp.com>
+To:     robh+dt@kernel.org, mark.rutland@arm.com, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        catalin.marinas@arm.com, will@kernel.org,
+        dmitry.torokhov@gmail.com, aisheng.dong@nxp.com,
+        ulf.hansson@linaro.org, fugang.duan@nxp.com, peng.fan@nxp.com,
+        daniel.baluta@nxp.com, leonard.crestez@nxp.com, mripard@kernel.org,
+        olof@lixom.net, arnd@arndb.de, jagan@amarulasolutions.com,
+        bjorn.andersson@linaro.org, dinguyen@kernel.org,
+        marcin.juszkiewicz@linaro.org, stefan@agner.ch,
+        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
+        yuehaibing@huawei.com, tglx@linutronix.de, ronald@innovation.ch,
+        m.felsch@pengutronix.de, ping.bai@nxp.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org
+Cc:     Linux-imx@nxp.com
+Subject: [PATCH V3 1/5] dt-bindings: fsl: scu: add scu key binding
+Date:   Tue,  3 Sep 2019 17:36:36 -0400
+Message-Id: <1567546600-21566-1-git-send-email-Anson.Huang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I am Barrister Johnson Idama, I have not hear from you regarding to my
-message i sent to you,Did you received my message i send????? Let me
-know.
+NXP i.MX8QXP is an ARMv8 SoC with a Cortex-M4 core inside as
+system controller, the system controller is in charge of system
+power, clock and scu key event etc. management, Linux kernel has
+to communicate with system controller via MU (message unit) IPC
+to get scu key event, add binding doc for i.MX system controller
+key driver.
+
+Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
+---
+Changes since V2:
+	- use "key" instead of "pwrkey" as the key function can be defined in DT.
+---
+ .../devicetree/bindings/arm/freescale/fsl,scu.txt          | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
+index c149fad..5eab7d0 100644
+--- a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
++++ b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
+@@ -157,6 +157,15 @@ Required properties:
+ Optional properties:
+ - timeout-sec: contains the watchdog timeout in seconds.
+ 
++SCU key bindings based on SCU Message Protocol
++------------------------------------------------------------
++
++Required properties:
++- compatible: should be:
++              "fsl,imx8qxp-sc-key"
++              followed by "fsl,imx-sc-key";
++- linux,keycodes: See Documentation/devicetree/bindings/input/keys.txt
++
+ Example (imx8qxp):
+ -------------
+ aliases {
+@@ -220,6 +229,11 @@ firmware {
+ 			compatible = "fsl,imx8qxp-sc-rtc";
+ 		};
+ 
++		scu_key: scu-key {
++			compatible = "fsl,imx8qxp-sc-key", "fsl,imx-sc-key";
++			linux,keycode = <KEY_POWER>;
++		};
++
+ 		watchdog {
+ 			compatible = "fsl,imx8qxp-sc-wdt", "fsl,imx-sc-wdt";
+ 			timeout-sec = <60>;
+-- 
+2.7.4
+
