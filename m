@@ -2,37 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 915DCA82D6
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2019 14:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A394CA88BD
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2019 21:22:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727544AbfIDMdG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Sep 2019 08:33:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53884 "EHLO mail.kernel.org"
+        id S1730769AbfIDOXq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Sep 2019 10:23:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55376 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726589AbfIDMdG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 4 Sep 2019 08:33:06 -0400
+        id S1730572AbfIDOXq (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 4 Sep 2019 10:23:46 -0400
 Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0F33721670;
-        Wed,  4 Sep 2019 12:33:03 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 03ED422CED;
+        Wed,  4 Sep 2019 14:23:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567600385;
-        bh=iuK4+h4YFFTVKBy7pPD8lTU3pbW/2NrPyHqI2eq7oMw=;
+        s=default; t=1567607025;
+        bh=q4hCRkM7CBlSJ5qN5g57oao1y0pVDCO/sOHQjBQihhY=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=F0Az6iIBAvsG7fsXxY/+AWi2NV2/m2GV8hoAIXjALmOOhlgKr3IMmRG/798rn7MC1
-         QmfDfBFx2xHXK6IyGww1Lh5rbkb1IIK3ZlKABmktrMPS3D+v1p7Kkf9m0xtuZjmGov
-         xwwkP4calS2qlzvRpmN06gFLWxUNhgONLwyndb+Q=
-Date:   Wed, 4 Sep 2019 14:32:39 +0200 (CEST)
+        b=Hp6aanycZdKm59KxYy4A+pXujfEVf/oWNkMVKfp/xIX8ftyzXDe/l4sNuzlwOny+B
+         9s3gfctACIDYIRlj66faWLbQjPtqk7nqrm83ulFHPVPLvXIgkinDIk1DoJf+x0ervO
+         /otWvmmupU9DuhGRi4ikQCrs5YEoltQY9JsDo4no=
+Date:   Wed, 4 Sep 2019 16:23:27 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     hn.chen@weidahitech.com
-cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
-        linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com
-Subject: Re: [PATCH] HID: modify quirks of i2c-hid driver for weida's
- devices
-In-Reply-To: <1567151910-3819-1-git-send-email-hn.chen@weidahitech.com>
-Message-ID: <nycvar.YFH.7.76.1909041432310.31470@cbobk.fhfr.pm>
-References: <1567151910-3819-1-git-send-email-hn.chen@weidahitech.com>
+To:     Dexuan Cui <decui@microsoft.com>
+cc:     "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "sashal@kernel.org" <sashal@kernel.org>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] HID: hyperv: Use in-place iterator API in the channel
+ callback
+In-Reply-To: <KU1P153MB016679060F4360071B751AF0BFB90@KU1P153MB0166.APCP153.PROD.OUTLOOK.COM>
+Message-ID: <nycvar.YFH.7.76.1909041623050.31470@cbobk.fhfr.pm>
+References: <1566269763-26817-1-git-send-email-decui@microsoft.com> <KU1P153MB016679060F4360071B751AF0BFB90@KU1P153MB0166.APCP153.PROD.OUTLOOK.COM>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -41,17 +50,25 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 30 Aug 2019, hn.chen@weidahitech.com wrote:
+On Tue, 3 Sep 2019, Dexuan Cui wrote:
 
-> From: HungNien Chen <hn.chen@weidahitech.com>
+> > Hi Jiri, Benjamin, can this patch go through Sasha's hyperv tree:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git
+> > 
+> > This is a purely Hyper-V specific change.
 > 
-> This 'SET_PWR_WAKEUP_DEV' quirk only works for weida's devices with pid
-> 0xC300 & 0xC301. Some weida's devices with other pids also need this quirk
-> now. Use 'HID_ANY_ID' instead of 0xC300 to make all of weida's devices can be
-> fixed on the power on issue. This modification should be safe since devices
-> without power on issue will send the power on command only once.
+> Hi Jiri, Benjamin,
+> Are you OK if this patch for the Hyper-V HID driver goes through the Hyper-V
+> tree maintained by Sasha Levin? It's a purely Hyper-V change, and I have
+> been using the patch for several months and there is no regression.
 
-Applied, thanks.
+No problem with that. Feel free to add
+
+	Acked-by: Jiri Kosina <jkosina@suse.cz>
+
+in that case.
+
+Thanks,
 
 -- 
 Jiri Kosina
