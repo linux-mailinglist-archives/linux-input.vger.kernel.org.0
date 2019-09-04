@@ -2,90 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F00BBA93FF
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2019 22:44:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F590A94E1
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2019 23:22:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729727AbfIDUo7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Sep 2019 16:44:59 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:40024 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728526AbfIDUo7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Sep 2019 16:44:59 -0400
-Received: by mail-pf1-f193.google.com with SMTP id x127so29891pfb.7
-        for <linux-input@vger.kernel.org>; Wed, 04 Sep 2019 13:44:59 -0700 (PDT)
+        id S1727741AbfIDVW2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Sep 2019 17:22:28 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:34169 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727809AbfIDVW2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Sep 2019 17:22:28 -0400
+Received: by mail-pf1-f195.google.com with SMTP id r12so120222pfh.1
+        for <linux-input@vger.kernel.org>; Wed, 04 Sep 2019 14:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=vnrHMw4gB/Qh2iK4DZCZ2LhIIegPX2hnPgxOxmqO+po=;
-        b=mV8LF3ccV3sYkimNAIjUieFAD49gtdH7oqr0FALvV30G9dX0Nr7930E5Y5/jKsuqDo
-         7CfVjPH2OobrGwL0IrqeDhX9CDnvwLS4N0IPtiNHaNIQSmq/F1hZiMBStboXuUxcQXJu
-         lRyyAKbnwwPaG9N5Bi+o3sd0KuWpLqAUSWoBNVg1sJl7s0HjvkCRYVeMUrnWCHFxyulM
-         PaSdkAvg6mHy0TYI8+Mr3hZGQD6DGEt3MztZ29AAsjTOmltGmHeB0Ab8qwVqi5WlNvB+
-         1A1YhbGHGbmQd5l9xhXULugasVBcZCZqcwX1g1w5DU8+kbT9lP3CmOE5mA6DhO9LSVvZ
-         vRvg==
+        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JvwLgkmmjAl628Brus4ThOE7t466M3kG5Shz3vvX9xI=;
+        b=xFsLkED3YwWJ799oa/ZPkIypkSR+u/J+K+ES+ZG9ErRX9tp/WJSwlsiRHjOqWVKBC/
+         yiSVBI6V/H8lvU6S3A5xGhDVugkNW5x/9UhwX6yU09iuLTDH3Epobr3yuVVALL+Ei5Ea
+         5Eohcwj8bbsuoZ4cKalD+aP+AEs/WcIjshkZwEZkLPjGZ7MIcEVZkAulElE+zBwn02MI
+         ypYLiNcgNnksgjrMc/eGqNxd9mBjgeKDYKeRQ0ZW3dKN3ZGL/rT3xdvFd1tx/JXwNW12
+         UALpa3OTbgFEJxms5HB70VbssMEzuPHPG8aZblc7BzAr8YWfyNQr/0npREjaNsUB1mYe
+         qXXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=vnrHMw4gB/Qh2iK4DZCZ2LhIIegPX2hnPgxOxmqO+po=;
-        b=b7efutnSbI2k/oKrhqnxvxysh1MWZQIm0LsUXdCq98kj3gSAz/6RruUAveEvEF8E7D
-         qneYInvTk16GJucCjUKpwq6/0m1Xta/AFGPdKQSbgyVUnG3T8fhzUSDIlA00B8yQSYXn
-         IeO80LI11zt9C/oS7dkGFNKEKk9363BlgAqOVRoc4tcNUYOLBOQdmQmIH976nKaycbLl
-         L3YoFWbsYBwFhj9U6+Pykrec7hvzQTK1w5U3XtmWHGxdbpgTn4Ar+1QyUm2vMCm2SqCK
-         IcHp6wx8V92GNPcQG3GuDKsZB0HkeZJ8K3TuG8bkW4mdy9LEwhZDgzayZSoH9VBEAxyj
-         jZ5Q==
-X-Gm-Message-State: APjAAAUouFHi1U8M9zxIiCJ2hWfn3Ua0/gSiomZMTuIdk/b+lGe40UNR
-        QTjBb84qc/iM4xXndWTm9mxsI8gJVsM=
-X-Google-Smtp-Source: APXvYqyv4SfhOS+EpWUgELBCiRtZ9ikzhrAJEEJXUXNcIdUsNacKmfH4V3lZrIwtSj4wLrWuEhUX1Q==
-X-Received: by 2002:a17:90a:1916:: with SMTP id 22mr171616pjg.62.1567629898488;
-        Wed, 04 Sep 2019 13:44:58 -0700 (PDT)
-Received: from pingc-XPS-8500.corp.onewacom.com (75-148-82-17-Oregon.hfc.comcastbusiness.net. [75.148.82.17])
-        by smtp.gmail.com with ESMTPSA id bb7sm3550647pjb.2.2019.09.04.13.44.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Wed, 04 Sep 2019 13:44:57 -0700 (PDT)
-From:   Ping Cheng <pinglinux@gmail.com>
-X-Google-Original-From: Ping Cheng <ping.cheng@wacom.com>
-To:     linux-input@vger.kernel.org
-Cc:     jkosina@suse.cz, Ping Cheng <ping.cheng@wacom.com>
-Subject: [PATCH] HID: wacom: add new MobileStudio Pro 13 support
-Date:   Wed,  4 Sep 2019 13:43:23 -0700
-Message-Id: <1567629803-12451-1-git-send-email-ping.cheng@wacom.com>
-X-Mailer: git-send-email 2.7.4
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JvwLgkmmjAl628Brus4ThOE7t466M3kG5Shz3vvX9xI=;
+        b=D4gMgW83KSKDzKzMLJzt9zPsAgHtV7STRBgaGlnyOe39E/Et73pfLUbn+QM4hjSyEr
+         d8zVirEKsfr/axqjKE6t3itSQtCjLTEn7frzP4VjXbWs86mn9e94+hiKMlT92UBjFMMZ
+         d7TOsMyV91E2tnJekm6k53ceHP4MnK7eqSPVmEqHoz8Pq5TKAANmiEuwlYDRwK7IdEFT
+         k/LZgqyYWxEbOfrpGt2q8LAJH+1VsIoomidmHZSdQLHGVlkrhuRu2sPbq3KKknDjB8Yp
+         +7rO5n42OwOM3vRd1EUvxof4rPYtiDQUlJNjosVBCOwj5k7n/KCbj8nP7bzWUH3gAfy0
+         tUpg==
+X-Gm-Message-State: APjAAAUsNx0suqJ4Tplw+uPtGokVOsAvelwKGvKKNfDpxJrIffSXujn5
+        7T8+9nHvfN2XWp8+ODnqVOtWXEPfiQY=
+X-Google-Smtp-Source: APXvYqxDXXyrTmUib/0fnG6GcGHc9UZ0ahc7wkm9JaUgcGRUiDHgygqusTfszzwituXj92wddxZ9vQ==
+X-Received: by 2002:a63:3387:: with SMTP id z129mr149653pgz.177.1567632147070;
+        Wed, 04 Sep 2019 14:22:27 -0700 (PDT)
+Received: from roderick.ad.gaikai.biz ([100.42.98.196])
+        by smtp.gmail.com with ESMTPSA id h186sm1505103pfb.63.2019.09.04.14.22.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2019 14:22:25 -0700 (PDT)
+From:   Roderick Colenbrander <roderick@gaikai.com>
+To:     linux-input@vger.kernel.org, jikos@kernel.org,
+        andreyknvl@google.com
+Cc:     Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        stable@vger.kernel.org
+Subject: [PATCH] HID: sony: Fix memory corruption issue on cleanup.
+Date:   Wed,  4 Sep 2019 14:22:11 -0700
+Message-Id: <20190904212211.29832-1-roderick@gaikai.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-wacom_wac_pad_event is the only routine we need to update.
+From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 
-Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
+The sony driver is not properly cleaning up from potential failures in
+sony_input_configured. Currently it calls hid_hw_stop, while hid_connect
+is still running. This is not a good idea, instead hid_hw_stop should
+be moved to sony_probe. Similar changes were recently made to Logitech
+drivers, which were also doing improper cleanup.
 
+Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+CC: stable@vger.kernel.org
 ---
-Patch is based on Jiri's for-5.4/wacom branch
----
- drivers/hid/wacom_wac.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/hid/hid-sony.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 6b739c1..85a3082 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -2093,14 +2093,14 @@ static void wacom_wac_pad_event(struct hid_device *hdev, struct hid_field *field
- 		    (hdev->product == 0x34d || hdev->product == 0x34e ||  /* MobileStudio Pro */
- 		     hdev->product == 0x357 || hdev->product == 0x358 ||  /* Intuos Pro 2 */
- 		     hdev->product == 0x392 ||				  /* Intuos Pro 2 */
--		     hdev->product == 0x399)) {				  /* MobileStudio Pro */
-+		     hdev->product == 0x398 || hdev->product == 0x399)) { /* MobileStudio Pro */
- 			value = (field->logical_maximum - value);
+diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
+index 31f1023214d3..09f2c617b09f 100644
+--- a/drivers/hid/hid-sony.c
++++ b/drivers/hid/hid-sony.c
+@@ -2806,7 +2806,6 @@ static int sony_input_configured(struct hid_device *hdev,
+ 	sony_cancel_work_sync(sc);
+ 	sony_remove_dev_list(sc);
+ 	sony_release_device_id(sc);
+-	hid_hw_stop(hdev);
+ 	return ret;
+ }
  
- 			if (hdev->product == 0x357 || hdev->product == 0x358 ||
- 			    hdev->product == 0x392)
- 				value = wacom_offset_rotation(input, usage, value, 3, 16);
- 			else if (hdev->product == 0x34d || hdev->product == 0x34e ||
--				 hdev->product == 0x399)
-+				 hdev->product == 0x398 || hdev->product == 0x399)
- 				value = wacom_offset_rotation(input, usage, value, 1, 2);
- 		}
- 		else {
+@@ -2868,6 +2867,7 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	 */
+ 	if (!(hdev->claimed & HID_CLAIMED_INPUT)) {
+ 		hid_err(hdev, "failed to claim input\n");
++		hid_hw_stop(hdev);
+ 		return -ENODEV;
+ 	}
+ 
 -- 
-2.7.4
+2.21.0
 
