@@ -2,28 +2,28 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D70A3AA964
-	for <lists+linux-input@lfdr.de>; Thu,  5 Sep 2019 18:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE0ABAAA17
+	for <lists+linux-input@lfdr.de>; Thu,  5 Sep 2019 19:36:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731716AbfIEQyL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Sep 2019 12:54:11 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:41040 "EHLO
+        id S1730537AbfIERg6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Sep 2019 13:36:58 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:41789 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728254AbfIEQyK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Sep 2019 12:54:10 -0400
+        with ESMTP id S1727143AbfIERg5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Sep 2019 13:36:57 -0400
 Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
         by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
         (Exim 4.76)
         (envelope-from <colin.king@canonical.com>)
-        id 1i5v1L-0006eF-4q; Thu, 05 Sep 2019 16:54:07 +0000
+        id 1i5vgl-00017A-FQ; Thu, 05 Sep 2019 17:36:55 +0000
 From:   Colin King <colin.king@canonical.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-input@vger.kernel.org
 Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: prodikeys: make array keys static const, makes object smaller
-Date:   Thu,  5 Sep 2019 17:54:06 +0100
-Message-Id: <20190905165406.24641-1-colin.king@canonical.com>
+Subject: [PATCH] input: sidewinder: make array seq static const, makes object smaller
+Date:   Thu,  5 Sep 2019 18:36:55 +0100
+Message-Id: <20190905173655.5621-1-colin.king@canonical.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -35,46 +35,37 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Colin Ian King <colin.king@canonical.com>
 
-Don't populate the array keys on the stack but instead make it
-static const. Makes the object code smaller by 166 bytes.
+Don't populate the array seq on the stack but instead make it
+static const. Makes the object code smaller by 30 bytes.
 
 Before:
    text	   data	    bss	    dec	    hex	filename
-  18931	   5872	    480	  25283	   62c3	drivers/hid/hid-prodikeys.o
+  22284	   3184	      0	  25468	   637c	drivers/input/joystick/sidewinder.o
 
 After:
    text	   data	    bss	    dec	    hex	filename
-  18669	   5968	    480	  25117	   621d	drivers/hid/hid-prodikeys.o
+  22158	   3280	      0	  25438	   635e	drivers/input/joystick/sidewinder.o
 
 (gcc version 9.2.1, amd64)
 
 Signed-off-by: Colin Ian King <colin.king@canonical.com>
 ---
- drivers/hid/hid-prodikeys.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/input/joystick/sidewinder.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-prodikeys.c b/drivers/hid/hid-prodikeys.c
-index 21544ebff855..fb6841ebe4d9 100644
---- a/drivers/hid/hid-prodikeys.c
-+++ b/drivers/hid/hid-prodikeys.c
-@@ -516,7 +516,7 @@ static void pcmidi_setup_extra_keys(
- 		MY PICTURES =>	KEY_WORDPROCESSOR
- 		MY MUSIC=>	KEY_SPREADSHEET
- 	*/
--	unsigned int keys[] = {
-+	static const unsigned int keys[] = {
- 		KEY_FN,
- 		KEY_MESSENGER, KEY_CALENDAR,
- 		KEY_ADDRESSBOOK, KEY_DOCUMENTS,
-@@ -532,7 +532,7 @@ static void pcmidi_setup_extra_keys(
- 		0
- 	};
+diff --git a/drivers/input/joystick/sidewinder.c b/drivers/input/joystick/sidewinder.c
+index 0284da874a2b..1777e68c9f02 100644
+--- a/drivers/input/joystick/sidewinder.c
++++ b/drivers/input/joystick/sidewinder.c
+@@ -223,7 +223,7 @@ static __u64 sw_get_bits(unsigned char *buf, int pos, int num, char bits)
  
--	unsigned int *pkeys = &keys[0];
-+	const unsigned int *pkeys = &keys[0];
- 	unsigned short i;
+ static void sw_init_digital(struct gameport *gameport)
+ {
+-	int seq[] = { 140, 140+725, 140+300, 0 };
++	static const int seq[] = { 140, 140+725, 140+300, 0 };
+ 	unsigned long flags;
+ 	int i, t;
  
- 	if (pm->ifnum != 1)  /* only set up ONCE for interace 1 */
 -- 
 2.20.1
 
