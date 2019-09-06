@@ -2,75 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE223AB527
-	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2019 11:53:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4550AB69C
+	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2019 13:07:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728983AbfIFJxv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Sep 2019 05:53:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58734 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727171AbfIFJxv (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 6 Sep 2019 05:53:51 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AB1A5206CD;
-        Fri,  6 Sep 2019 09:53:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567763631;
-        bh=Pi0RvVNnF1dvEG/9kbwpUl+xtcxVMY6sbD/U78ApVTM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=todaL+blqDF/N6UroUoQv5Nhj4zHiK6P+yDLDm/WUSmVZXUJAtGJ497rWxAOHAhGT
-         WSoWjHdZM6/exF5BAMmwOLi7qe2frosYK7rU47d4xp7eM2cnMSkTzw1ynUK8q/dYmF
-         rGeUBrtUbZ9bTlJJbqsvhFjGw1eh5IInTfLwNwJQ=
-Date:   Fri, 6 Sep 2019 11:53:47 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        id S2392159AbfIFLHf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Sep 2019 07:07:35 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:47010 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390377AbfIFLHf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Sep 2019 07:07:35 -0400
+Received: by mail-wr1-f68.google.com with SMTP id h7so6120772wrt.13;
+        Fri, 06 Sep 2019 04:07:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=JUfMY89FxK/4PZfbkgvJJAvRZHgggwqGP387mVBSBec=;
+        b=S3M0xG/jx0E4rGxCy8CVN6/zRlA0cXFS8/IV9aQhtVEJinXzEXPDKns32hds3EHFQI
+         DNM7KPNRAgRlaspudMCUM06Fe88Ur24TVa2js4g1T9CQpHTBg6BWpXZ7bc5XUgZ1//FJ
+         AGkdM4p7w8NdNpGUCI+Apy7DkYG+DVjq04Qom6nd4w/W0cY204ZTDtZQKEGjsbyvv/qY
+         WZOAqaasWNldcqXmCwbpQw+BWOJ1B1OVJO6T844q6WtqVC/IwEh91WeoXL4+HAHsILzu
+         deUs4dmp6iUimlvCrurIW5IXNaGM0DnSV4/zbFkwUHifGY67NuGs0UQw3jcOElSNqtGd
+         tIdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=JUfMY89FxK/4PZfbkgvJJAvRZHgggwqGP387mVBSBec=;
+        b=YfbVdTjBzJpV7t5/WJm8l5OL9+f23vG+Rn0R9JDMjTxfQZUgr1uYBvANeeD87lTYUa
+         0kFfuRW9trsNgaxdJ85JYuXGGJu25ARRzu3kKIFM4u1WIm4t1cFRcOuzIL01t9timqxp
+         nbrqBZB7yxz4WLqb9tqrOXbmDPAezE5kYf4a/6qpdWiDF5MEMnOZUK+OPeXjjcXin+Go
+         6ERbW9869bjuQOEX9OrG+P6GF/Ftr0+CSanB3xIngygDFnanokQjwwqgmbIHAzovvw+Y
+         mPoCRug3eDERtoOtWFS4MwTEt0RutAVHicQp82RpwrXFS9r6m79bBa3Tz6EpAetzWRRX
+         RfZQ==
+X-Gm-Message-State: APjAAAUXiE/btcG8HwA8+kuw1SkhjCWz6A01GGPDfc+d+TWpqHQeEl62
+        dTctPC2MCR16vqHdlG5EE3U=
+X-Google-Smtp-Source: APXvYqwUgxvFFbfK4J/6FC9T0gRHiyy2dDDvOAgb/kCod1chhRzVIAEm94KmawloJ8DHxeqDd3WgfQ==
+X-Received: by 2002:a05:6000:108e:: with SMTP id y14mr6517608wrw.344.1567768052678;
+        Fri, 06 Sep 2019 04:07:32 -0700 (PDT)
+Received: from Akatsuki.lan (bzq-109-67-210-71.red.bezeqint.net. [109.67.210.71])
+        by smtp.googlemail.com with ESMTPSA id j30sm7949283wrb.66.2019.09.06.04.07.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Sep 2019 04:07:32 -0700 (PDT)
+From:   Dan Elkouby <streetwalkermc@gmail.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Dan Elkouby <streetwalkermc@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Johan Hedberg <johan.hedberg@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Fabian Henneke <fabian.henneke@gmail.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrea Parri <andrea.parri@amarulasolutions.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH stable 5.2/4.19] Revert "Input: elantech - enable SMBus
- on new (2018+) systems"
-Message-ID: <20190906095347.GC16843@kroah.com>
-References: <20190906085345.26279-1-benjamin.tissoires@redhat.com>
+        linux-bluetooth@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH] Bluetooth: hidp: Fix assumptions on the return value of hidp_send_message
+Date:   Fri,  6 Sep 2019 14:06:44 +0300
+Message-Id: <20190906110645.27601-1-streetwalkermc@gmail.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190906101306.GA12017@kadam>
+References: <20190906101306.GA12017@kadam>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190906085345.26279-1-benjamin.tissoires@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Sep 06, 2019 at 10:53:45AM +0200, Benjamin Tissoires wrote:
-> This reverts commit 60956b018bfe23b879405a7d88103d0a8f06a5e3.
-> 
-> This patch depends on an other series:
-> https://patchwork.kernel.org/project/linux-input/list/?series=122327&state=%2A&archive=both
-> 
-> It was a mistake to backport it in the v5.2 branch, as there
-> is a high chance we encounter a touchpad that needs the series
-> above.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=204733
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=204771
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> 
-> ---
-> 
-> Hi,
-> 
-> this is a stable only patch aimed at kernels v5.2 and v4.19 branches.
-> 
-> We already have 2 bug reports of a failing touchpad, and I don't think
-> it is worth trying to get a smoother touchpad if we randomly
-> break a few of them in the way.
+hidp_send_message was changed to return non-zero values on success,
+which some other bits did not expect. This caused spurious errors to be
+propagated through the stack, breaking some drivers, such as hid-sony
+for the Dualshock 4 in Bluetooth mode.
 
-Now reverted, I'll push out some new releases with that now so people's
-machines get back to a working state.
+As pointed out by Dan Carpenter, hid-microsoft directly relied on that
+assumption as well.
 
-thanks,
+Fixes: 48d9cc9d85dd ("Bluetooth: hidp: Let hidp_send_message return number of queued bytes")
 
-greg k-h
+Signed-off-by: Dan Elkouby <streetwalkermc@gmail.com>
+---
+ drivers/hid/hid-microsoft.c | 2 +-
+ net/bluetooth/hidp/core.c   | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/hid/hid-microsoft.c b/drivers/hid/hid-microsoft.c
+index 8b3a922bdad3..2cf83856f2e4 100644
+--- a/drivers/hid/hid-microsoft.c
++++ b/drivers/hid/hid-microsoft.c
+@@ -303,7 +303,7 @@ static void ms_ff_worker(struct work_struct *work)
+ 	r->magnitude[MAGNITUDE_WEAK] = ms->weak;     /* right actuator */
+ 
+ 	ret = hid_hw_output_report(hdev, (__u8 *)r, sizeof(*r));
+-	if (ret)
++	if (ret < 0)
+ 		hid_warn(hdev, "failed to send FF report\n");
+ }
+ 
+diff --git a/net/bluetooth/hidp/core.c b/net/bluetooth/hidp/core.c
+index 8d889969ae7e..bef84b95e2c4 100644
+--- a/net/bluetooth/hidp/core.c
++++ b/net/bluetooth/hidp/core.c
+@@ -267,7 +267,7 @@ static int hidp_get_raw_report(struct hid_device *hid,
+ 	set_bit(HIDP_WAITING_FOR_RETURN, &session->flags);
+ 	data[0] = report_number;
+ 	ret = hidp_send_ctrl_message(session, report_type, data, 1);
+-	if (ret)
++	if (ret < 0)
+ 		goto err;
+ 
+ 	/* Wait for the return of the report. The returned report
+@@ -343,7 +343,7 @@ static int hidp_set_raw_report(struct hid_device *hid, unsigned char reportnum,
+ 	data[0] = reportnum;
+ 	set_bit(HIDP_WAITING_FOR_SEND_ACK, &session->flags);
+ 	ret = hidp_send_ctrl_message(session, report_type, data, count);
+-	if (ret)
++	if (ret < 0)
+ 		goto err;
+ 
+ 	/* Wait for the ACK from the device. */
+-- 
+2.23.0
+
