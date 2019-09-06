@@ -2,150 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3844EAB46E
-	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2019 10:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26698AB47D
+	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2019 10:59:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732445AbfIFIxx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Sep 2019 04:53:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58912 "EHLO mx1.redhat.com"
+        id S2388100AbfIFI75 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Sep 2019 04:59:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33550 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726936AbfIFIxw (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 6 Sep 2019 04:53:52 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        id S1730412AbfIFI75 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 6 Sep 2019 04:59:57 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A0321C04FFE0;
-        Fri,  6 Sep 2019 08:53:52 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 040D7883820;
+        Fri,  6 Sep 2019 08:59:57 +0000 (UTC)
 Received: from plouf.redhat.com (ovpn-204-26.brq.redhat.com [10.40.204.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 77BD5600CC;
-        Fri,  6 Sep 2019 08:53:48 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 525CE5C1D8;
+        Fri,  6 Sep 2019 08:59:53 +0000 (UTC)
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH stable 5.2/4.19] Revert "Input: elantech - enable SMBus on new (2018+) systems"
-Date:   Fri,  6 Sep 2019 10:53:45 +0200
-Message-Id: <20190906085345.26279-1-benjamin.tissoires@redhat.com>
+Subject: [PATCH] Input - elan_i2c: remove Lenovo Legion Y7000 PnpID
+Date:   Fri,  6 Sep 2019 10:59:48 +0200
+Message-Id: <20190906085948.27470-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Fri, 06 Sep 2019 08:53:52 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.69]); Fri, 06 Sep 2019 08:59:57 +0000 (UTC)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This reverts commit 60956b018bfe23b879405a7d88103d0a8f06a5e3.
+Looks like the Bios of the Lenovo Legion Y7000 is using ELAN061B
+when the actual device is supposed to be used with hid-multitouch.
 
-This patch depends on an other series:
-https://patchwork.kernel.org/project/linux-input/list/?series=122327&state=%2A&archive=both
+Remove it from the list of the supported device, hoping that
+no one will complain about the loss in functionality.
 
-It was a mistake to backport it in the v5.2 branch, as there
-is a high chance we encounter a touchpad that needs the series
-above.
-
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=204733
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=204771
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=203467
+Fixes: Fixes: 738c06d0e456 ("Input: elan_i2c - add hardware ID for multiple Lenovo laptops")
 Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-
 ---
 
-Hi,
+Note to self: once this gets in, we need to send a similar patch
+to stable, as there are a few stable branches with this PnpID.
 
-this is a stable only patch aimed at kernels v5.2 and v4.19 branches.
 
-We already have 2 bug reports of a failing touchpad, and I don't think
-it is worth trying to get a smoother touchpad if we randomly
-break a few of them in the way.
+ include/linux/input/elan-i2c-ids.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-Benjamin
----
- drivers/input/mouse/elantech.c | 54 ++++++++++++++++++----------------
- 1 file changed, 29 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-index a47c7add4e0e..a4345052abd2 100644
---- a/drivers/input/mouse/elantech.c
-+++ b/drivers/input/mouse/elantech.c
-@@ -1807,30 +1807,6 @@ static int elantech_create_smbus(struct psmouse *psmouse,
- 				  leave_breadcrumbs);
- }
- 
--static bool elantech_use_host_notify(struct psmouse *psmouse,
--				     struct elantech_device_info *info)
--{
--	if (ETP_NEW_IC_SMBUS_HOST_NOTIFY(info->fw_version))
--		return true;
--
--	switch (info->bus) {
--	case ETP_BUS_PS2_ONLY:
--		/* expected case */
--		break;
--	case ETP_BUS_SMB_HST_NTFY_ONLY:
--	case ETP_BUS_PS2_SMB_HST_NTFY:
--		/* SMbus implementation is stable since 2018 */
--		if (dmi_get_bios_year() >= 2018)
--			return true;
--	default:
--		psmouse_dbg(psmouse,
--			    "Ignoring SMBus bus provider %d\n", info->bus);
--		break;
--	}
--
--	return false;
--}
--
- /**
-  * elantech_setup_smbus - called once the PS/2 devices are enumerated
-  * and decides to instantiate a SMBus InterTouch device.
-@@ -1850,7 +1826,7 @@ static int elantech_setup_smbus(struct psmouse *psmouse,
- 		 * i2c_blacklist_pnp_ids.
- 		 * Old ICs are up to the user to decide.
- 		 */
--		if (!elantech_use_host_notify(psmouse, info) ||
-+		if (!ETP_NEW_IC_SMBUS_HOST_NOTIFY(info->fw_version) ||
- 		    psmouse_matches_pnp_id(psmouse, i2c_blacklist_pnp_ids))
- 			return -ENXIO;
- 	}
-@@ -1870,6 +1846,34 @@ static int elantech_setup_smbus(struct psmouse *psmouse,
- 	return 0;
- }
- 
-+static bool elantech_use_host_notify(struct psmouse *psmouse,
-+				     struct elantech_device_info *info)
-+{
-+	if (ETP_NEW_IC_SMBUS_HOST_NOTIFY(info->fw_version))
-+		return true;
-+
-+	switch (info->bus) {
-+	case ETP_BUS_PS2_ONLY:
-+		/* expected case */
-+		break;
-+	case ETP_BUS_SMB_ALERT_ONLY:
-+		/* fall-through  */
-+	case ETP_BUS_PS2_SMB_ALERT:
-+		psmouse_dbg(psmouse, "Ignoring SMBus provider through alert protocol.\n");
-+		break;
-+	case ETP_BUS_SMB_HST_NTFY_ONLY:
-+		/* fall-through  */
-+	case ETP_BUS_PS2_SMB_HST_NTFY:
-+		return true;
-+	default:
-+		psmouse_dbg(psmouse,
-+			    "Ignoring SMBus bus provider %d.\n",
-+			    info->bus);
-+	}
-+
-+	return false;
-+}
-+
- int elantech_init_smbus(struct psmouse *psmouse)
- {
- 	struct elantech_device_info info;
+diff --git a/include/linux/input/elan-i2c-ids.h b/include/linux/input/elan-i2c-ids.h
+index ceabb01a6a7d..1ecb6b45812c 100644
+--- a/include/linux/input/elan-i2c-ids.h
++++ b/include/linux/input/elan-i2c-ids.h
+@@ -48,7 +48,7 @@ static const struct acpi_device_id elan_acpi_id[] = {
+ 	{ "ELAN0618", 0 },
+ 	{ "ELAN0619", 0 },
+ 	{ "ELAN061A", 0 },
+-	{ "ELAN061B", 0 },
++/*	{ "ELAN061B", 0 }, not working on the Lenovo Legion Y7000 */
+ 	{ "ELAN061C", 0 },
+ 	{ "ELAN061D", 0 },
+ 	{ "ELAN061E", 0 },
 -- 
 2.21.0
 
