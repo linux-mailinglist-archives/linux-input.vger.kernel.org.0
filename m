@@ -2,16 +2,16 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 02D86AFBBD
-	for <lists+linux-input@lfdr.de>; Wed, 11 Sep 2019 13:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ED4FAFBBE
+	for <lists+linux-input@lfdr.de>; Wed, 11 Sep 2019 13:48:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727121AbfIKLsk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Sep 2019 07:48:40 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:38096 "EHLO
+        id S1726793AbfIKLsq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Sep 2019 07:48:46 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:25489 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726341AbfIKLsj (ORCPT
+        with ESMTP id S1726341AbfIKLsq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Sep 2019 07:48:39 -0400
+        Wed, 11 Sep 2019 07:48:46 -0400
 X-UUID: afe9b7bccc0244c49ffd4eee38f98506-20190911
 X-UUID: afe9b7bccc0244c49ffd4eee38f98506-20190911
 Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
