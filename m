@@ -2,268 +2,227 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32C82B05F6
-	for <lists+linux-input@lfdr.de>; Thu, 12 Sep 2019 01:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D2CEB0C3D
+	for <lists+linux-input@lfdr.de>; Thu, 12 Sep 2019 12:06:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728900AbfIKXgZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Sep 2019 19:36:25 -0400
-Received: from mail-eopbgr770109.outbound.protection.outlook.com ([40.107.77.109]:49024
-        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726525AbfIKXgY (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Sep 2019 19:36:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nGWGYcSmj1kFy8eA9TUOM0Aqrm7IvPgTrhMUr4rq/rxj6Nn2fG5EUwaCrRXSMOEI1DyGaHpHAJvNqD+8982sMFjcu0WMmCyvOp9Bam9hV5TAWz9cn/3VG3uy60adi9Qao/KtML7WaQ6T33TSmuT+ouaqLu9DBU3y2/7KTRGzSjPUVqOO63OSkr86cIRxtRrADgB3keEKxJC5/gYsU4I20LDWvWF5sbCh49oB7aYri6PixGRB7mhsMt6+7gy5DSE+oOmfUoDn22yJSa/uY4YkM8PX5tKMInYu+t/vytQmtb4LnWUeJFVce4eosy0EnRg3L1R6cSC3OykfV/ySI/fAFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3tjlU0OljVrgHztQJYfWZNuO5bT/qBl3QcXYAUNV/Dk=;
- b=OebsIpBsAH4iSjz8pZ4HCdbMq9QTwVzGeLZPordtBZPfVRW362sO1hVCOpXCWkfZ6X3HjWPb6xhCYjXImPnhIvGhfcqADD1uB3Aw1Lv79bqJFQIvrNryvQ6T0LxERUrOb6cjrAkedy2Eod3OcLtdSqWH/2Gs4IhpQbSuBtSPm6+U1I3t03W7GF8aPgj1Eip4zUZBJPbrj7/MiPaE7/+JFQJgu24mqM6VSfcXqCGKMFppWNltThi9c1QVUZ7yx2aQJFE8+ngKR8tiM62/RBmFuT9PhxlY5g1eClo+Afu48IuJX1XDEnIVq3r3kxF/PNppNhnl9Siif9cItMc5baDSyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3tjlU0OljVrgHztQJYfWZNuO5bT/qBl3QcXYAUNV/Dk=;
- b=CVgtYY+gUSOKY2AXjmDKlXGqwq3L4qw7G5M6shVsl2drMO04/PMIfuNvgNk2sRX2GLTqHN3vs8Y1rrEw9v1alWT4mbe5x4PhdzO22f8z6CGaeGAo6Ltf0PCz//kt19gpx/WQiIQ6UA+/x0EN0d48UeuGAvnsXXCFVJc2qEk1IDQ=
-Received: from SN6PR2101MB0942.namprd21.prod.outlook.com (52.132.114.19) by
- SN6PR2101MB0909.namprd21.prod.outlook.com (52.132.117.10) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.10; Wed, 11 Sep 2019 23:36:20 +0000
-Received: from SN6PR2101MB0942.namprd21.prod.outlook.com
- ([fe80::dd56:aa4f:204f:86a4]) by SN6PR2101MB0942.namprd21.prod.outlook.com
- ([fe80::dd56:aa4f:204f:86a4%3]) with mapi id 15.20.2263.005; Wed, 11 Sep 2019
- 23:36:20 +0000
-From:   Dexuan Cui <decui@microsoft.com>
-To:     KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        "sashal@kernel.org" <sashal@kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>
-CC:     Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH] Input: hyperv-keyboard: Add the support of hibernation
-Thread-Topic: [PATCH] Input: hyperv-keyboard: Add the support of hibernation
-Thread-Index: AQHVaPm39kQxgd5AR02N8GdQied+pA==
-Date:   Wed, 11 Sep 2019 23:36:20 +0000
-Message-ID: <1568244975-66795-1-git-send-email-decui@microsoft.com>
-Reply-To: Dexuan Cui <decui@microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: MWHPR21CA0065.namprd21.prod.outlook.com (10.172.93.155) To
- SN6PR2101MB0942.namprd21.prod.outlook.com (52.132.114.19)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=decui@microsoft.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 1.8.3.1
-x-originating-ip: [13.77.154.182]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 22c4f6c3-bbff-427d-18cf-08d73710d974
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:SN6PR2101MB0909;
-x-ms-traffictypediagnostic: SN6PR2101MB0909:|SN6PR2101MB0909:
-x-ms-exchange-transport-forked: True
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <SN6PR2101MB0909BD4BC84B743D2E72434DBFB10@SN6PR2101MB0909.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0157DEB61B
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(366004)(136003)(376002)(346002)(39860400002)(396003)(189003)(199004)(3450700001)(6512007)(6306002)(486006)(476003)(2616005)(2201001)(14444005)(256004)(6486002)(86362001)(36756003)(5660300002)(186003)(4326008)(102836004)(6436002)(53936002)(25786009)(26005)(107886003)(10290500003)(316002)(478600001)(2501003)(43066004)(52116002)(14454004)(386003)(6506007)(110136005)(66066001)(99286004)(1511001)(22452003)(6636002)(4720700003)(71200400001)(71190400001)(305945005)(66446008)(66946007)(66476007)(66556008)(64756008)(50226002)(966005)(10090500001)(7736002)(2906002)(81156014)(8676002)(8936002)(81166006)(6116002)(3846002);DIR:OUT;SFP:1102;SCL:1;SRVR:SN6PR2101MB0909;H:SN6PR2101MB0942.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: jim8W07laIGi/r8ctVhsMWg3ome5lJoSZGqcFYxPP6RCZv7k0ZYD+uzpKF4qitPyqRJb6id1RT3J6All6zUk3JUZepxTWCrrJ8YRD5J76B1P15bLrpAHGx4O6GakR7GlqLi3XxoQLv+Rz7a/Ycis+DsgIGjlqSZz1k7OAXH4Qyn6Z8nfZSuHTTz8lZMBi9TXVHnTwa1YH0xPJg5BB9Xg7u6jVn9Jsq72B9l/BKE/Wd2LHiltUgbz5lOhHpZfVVMNZxmAWUp3D5hplBwmxc0eIIYnYOItTqUDnrcEYr179vfgAJcbMz+f4yn6pUf7ONUxMUjjyleJP+eoep4KhQnsjUk0khpD0Gfme4XYSSFLX75XonOsphdRjfVpuz9AhJcl8YUWjoKHYDElKOOLOJNwqepjwM5zPp/kV3HMJ7jTylk=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        id S1730749AbfILKGA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Sep 2019 06:06:00 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:56053 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730450AbfILKF7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 12 Sep 2019 06:05:59 -0400
+Received: by mail-wm1-f67.google.com with SMTP id g207so6743479wmg.5
+        for <linux-input@vger.kernel.org>; Thu, 12 Sep 2019 03:05:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:subject:message-id:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=/Z9HkP+XLaY0RmHGUim+S2WyPUX2d1uw38xIvTwui4k=;
+        b=Tqa2b0ZkIvC1jF2uCZl1tWi0P3m0cZraXfT9EsNTbyCe5A5lfrgt5qcXx7egHFhkuW
+         ORQiNe2tlIsaV+Ka9zNBQV++r82CdeZwEhr4vFCerFaqrM5tJ2VOsVyz/5E4D2UCfyEl
+         hy7tuRWyCb4ZwHhlcx5rj0P/qw+9Cf9jX3CVhqiAF4QXpaRcQe3F7eg87Ifk+Yw8YuqM
+         yu8M4zf4rfjHPnpFOFDDX00SBoEX4JSOIcMlfNLUZqkBvRKRB5z9zyYpbKkLYz+bOauc
+         uODKLLBJZok6NsWAcNtcEX2j63eYixk/DI+M02F5YqdmvX0mABNGhqhZSA+4CcD4SZaU
+         vSLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=/Z9HkP+XLaY0RmHGUim+S2WyPUX2d1uw38xIvTwui4k=;
+        b=SqTaXUOgC+JGbiSZ9Dj8WmK9exextci/+cbssffblgLaHXo3ZS6qs3c+cJtKdMHGqH
+         jJaNWib+zDbAqJoPmewF8a/axu3erSCKsq0HJCoc40fpWyFmY0xaSLqCHiAMlNJSJeTC
+         amHE92aPqk5MuAOWrN4zDR2dOnJEC2Lm+WILbpEkdJsCSb3THXlnQY6QOvCjb3//WYP7
+         IlAtq/Kei1LD3J0rvXPsXRhJWnFdx4gs5n1pOHCahFRoFitkhNYacgzXN671SEWPTOmX
+         kpqshfi4KNxDIU2FdsjhJRitjZ0q3ebmE63SoJGvrNV0y8jwaCCYebRD1hehlpKQr2qT
+         6JcQ==
+X-Gm-Message-State: APjAAAXOS/K9jqPDtAEB1uWbDgJurzZ8l4vkVt0KY71oSqmpz45wWVAm
+        fXQ8pj0Bav0Lkd2dhqaIC/nS+E7eXhZeMKQ7
+X-Google-Smtp-Source: APXvYqxUxwqd94gLa+Ysyu59LeoU4NCfWANUbFHR2bXowNpwBfeLUh1iWtNTtpCRqkPK59mgGqt+qQ==
+X-Received: by 2002:a1c:a558:: with SMTP id o85mr7629550wme.30.1568282755742;
+        Thu, 12 Sep 2019 03:05:55 -0700 (PDT)
+Received: from google.com ([2a00:79e0:d:210:1e51:7ba0:c57b:6743])
+        by smtp.gmail.com with ESMTPSA id q19sm34024795wra.89.2019.09.12.03.05.54
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Sep 2019 03:05:54 -0700 (PDT)
+Date:   Thu, 12 Sep 2019 11:05:50 +0100
+From:   Siarhei Vishniakou <svv@google.com>
+To:     linux-input@vger.kernel.org
+Subject: Re: Regression post "HID: core: move Usage Page concatenation to
+ Main item"
+Message-ID: <20190912100550.GA252117@google.com>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22c4f6c3-bbff-427d-18cf-08d73710d974
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2019 23:36:20.6181
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IjwdcGbEXvp4reNWaXVpCME61SOU4FisNki3pc1gZgnCYka1cgVz+q2rcntEOiKLeJqzoxvJiz77TLgHyJxomQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR2101MB0909
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <65865f56882af2baf8389458c5e6f05096f36818.camel@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-We need hv_kbd_pm_notify() to make sure the pm_wakeup_hard_event() call
-does not prevent the system from entering hibernation: the hibernation
-is a relatively long process, which can be aborted by the call
-pm_wakeup_hard_event(), which is invoked upon keyboard events.
+Hello,
 
-Signed-off-by: Dexuan Cui <decui@microsoft.com>
+The broken test in question is representing an actual, shipped device. The test
+uses development vendor id 0x18d1 and product id 0x2c40. The actual shipped
+device was Asus Gamepad, which is still being used and sold today.
+Asus Gamepad has vendor id 0x0b05 and product id 0x4500.
+The descriptor in the Android CTS test is identical to the one reported by
+the actual joystick.
+
+This patch means that all of the existing Asus Gamepad controllers will no longer
+function on Linux and Android.
+
+If reverting this patch is not feasible, can we please consider adding a custom
+driver for Asus Gamepad?
+I'm attaching a patch to fix up the descriptor that is based on the updated
+descriptor provided by a partner.
+
+
+From 0fcd0fb045e450d895f79de7377b00e08f4bd720 Mon Sep 17 00:00:00 2001
+From: Siarhei Vishniakou <svv@google.com>
+Date: Fri, 23 Aug 2019 14:20:32 +0100
+Subject: [PATCH] Add Asus Gamepad descriptor fix
+
+Asus Gamepad descriptor got broken by a recent kernel update. Fix it
+here by overriding with a custom value.
+
+Test: atest AsusGamepadTestCase
+Signed-Off-By: Siarhei Vishniakou <svv@google.com>
 ---
+ drivers/hid/Kconfig                 |  6 +++
+ drivers/hid/Makefile                |  1 +
+ drivers/hid/hid-asus-gamepad.c      | 66 +++++++++++++++++++++++++++++
+ drivers/hid/hid-core.c              |  1 +
+ drivers/hid/hid-ids.h               |  1 +
+ 5 files changed, 75 insertions(+)
+ create mode 100644 drivers/hid/hid-asus-gamepad.c
 
-This patch is basically a pure Hyper-V specific change and it has a
-build dependency on the commit 271b2224d42f ("Drivers: hv: vmbus: Implement
-suspend/resume for VSC drivers for hibernation"), which is on Sasha Levin's
-Hyper-V tree's hyperv-next branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git/log/?h=3Dh=
-yperv-next
-
-I request this patch should go through Sasha's tree rather than the
-input subsystemi's tree.
-
-Hi Dmitry, can you please Ack?
-
- drivers/input/serio/hyperv-keyboard.c | 68 +++++++++++++++++++++++++++++++=
-+---
- 1 file changed, 63 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hy=
-perv-keyboard.c
-index 88ae7c2..277dc4c 100644
---- a/drivers/input/serio/hyperv-keyboard.c
-+++ b/drivers/input/serio/hyperv-keyboard.c
-@@ -10,6 +10,7 @@
- #include <linux/hyperv.h>
- #include <linux/serio.h>
- #include <linux/slab.h>
-+#include <linux/suspend.h>
-=20
- /*
-  * Current version 1.0
-@@ -95,6 +96,9 @@ struct hv_kbd_dev {
- 	struct completion wait_event;
- 	spinlock_t lock; /* protects 'started' field */
- 	bool started;
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 8eed456a67be..7ba54b2ddf7a 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -144,6 +144,12 @@ config HID_ASUS
+ 	- EeeBook X205TA
+ 	- VivoBook E200HA
+ 
++config HID_ASUS_GAMEPAD
++	tristate "Asus Gamepad"
++	depends on HID
++	---help---
++	Support for Asus Gamepad joystick.
 +
-+	struct notifier_block pm_nb;
-+	bool hibernation_in_progress;
- };
-=20
- static void hv_kbd_on_receive(struct hv_device *hv_dev,
-@@ -168,7 +172,7 @@ static void hv_kbd_on_receive(struct hv_device *hv_dev,
- 		 * "echo freeze > /sys/power/state" can't really enter the
- 		 * state because the Enter-UP can trigger a wakeup at once.
- 		 */
--		if (!(info & IS_BREAK))
-+		if (!(info & IS_BREAK) && !kbd_dev->hibernation_in_progress)
- 			pm_wakeup_hard_event(&hv_dev->device);
-=20
- 		break;
-@@ -179,10 +183,10 @@ static void hv_kbd_on_receive(struct hv_device *hv_de=
-v,
- 	}
- }
-=20
--static void hv_kbd_handle_received_packet(struct hv_device *hv_dev,
--					  struct vmpacket_descriptor *desc,
--					  u32 bytes_recvd,
--					  u64 req_id)
-+static void
-+hv_kbd_handle_received_packet(struct hv_device *hv_dev,
-+			      const struct vmpacket_descriptor *desc,
-+			      u32 bytes_recvd, u64 req_id)
- {
- 	struct synth_kbd_msg *msg;
- 	u32 msg_sz;
-@@ -282,6 +286,8 @@ static int hv_kbd_connect_to_vsp(struct hv_device *hv_d=
-ev)
- 	u32 proto_status;
- 	int error;
-=20
-+	reinit_completion(&kbd_dev->wait_event);
+ config HID_AUREAL
+ 	tristate "Aureal"
+ 	depends on HID
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index 86b2b5785fd2..d8a622a4feea 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -26,6 +26,7 @@ obj-$(CONFIG_HID_ACRUX)		+= hid-axff.o
+ obj-$(CONFIG_HID_APPLE)		+= hid-apple.o
+ obj-$(CONFIG_HID_APPLEIR)	+= hid-appleir.o
+ obj-$(CONFIG_HID_ASUS)		+= hid-asus.o
++obj-$(CONFIG_HID_ASUS_GAMEPAD)	+= hid-asus-gamepad.o
+ obj-$(CONFIG_HID_AUREAL)	+= hid-aureal.o
+ obj-$(CONFIG_HID_BELKIN)	+= hid-belkin.o
+ obj-$(CONFIG_HID_BETOP_FF)	+= hid-betopff.o
+diff --git a/drivers/hid/hid-asus-gamepad.c b/drivers/hid/hid-asus-gamepad.c
+new file mode 100644
+index 000000000000..799c3c9f5057
+--- /dev/null
++++ b/drivers/hid/hid-asus-gamepad.c
+@@ -0,0 +1,66 @@
++/*
++ *  HID driver for Asus Gamepad.
++ *  Fix the descriptor due to tightening HID specifications.
++ *  Copyright (c) 2019 Siarhei Vishniakou <svv@google.com>
++ *
++ *  Based on a patch contributed by JeiFeng Lee and Thunder Yu.
++ */
 +
- 	request =3D &kbd_dev->protocol_req;
- 	memset(request, 0, sizeof(struct synth_kbd_protocol_request));
- 	request->header.type =3D __cpu_to_le32(SYNTH_KBD_PROTOCOL_REQUEST);
-@@ -332,6 +338,29 @@ static void hv_kbd_stop(struct serio *serio)
- 	spin_unlock_irqrestore(&kbd_dev->lock, flags);
- }
-=20
-+static int hv_kbd_pm_notify(struct notifier_block *nb,
-+			    unsigned long val, void *ign)
++/*
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the Free
++ * Software Foundation; either version 2 of the License, or (at your option)
++ * any later version.
++ */
++
++#include <linux/device.h>
++#include <linux/hid.h>
++#include <linux/module.h>
++
++#include "hid-ids.h"
++
++static __u8 GAMEPAD_DESCRIPTOR[] = {
++	0x05, 0x01, 0x09, 0x05, 0xa1, 0x01, 0x85, 0x01, 0x05, 0x09, 0x0a,
++	0x01, 0x00, 0x0a, 0x02, 0x00, 0x0a, 0x04, 0x00, 0x0a, 0x05, 0x00,
++	0x0a, 0x07, 0x00, 0x0a, 0x08, 0x00, 0x0a, 0x0e, 0x00, 0x0a, 0x0f,
++	0x00, 0x0a, 0x0d, 0x00, 0x15, 0x00, 0x25, 0x01, 0x75, 0x01, 0x95,
++	0x09, 0x81, 0x02, 0x05, 0x0c, 0x0a, 0x24, 0x02, 0x0a, 0x23, 0x02,
++	0x95, 0x02, 0x81, 0x02, 0x75, 0x01, 0x95, 0x01, 0x81, 0x03, 0x05,
++	0x01, 0x75, 0x04, 0x95, 0x01, 0x25, 0x07, 0x46, 0x3b, 0x01, 0x66,
++	0x14, 0x00, 0x09, 0x39, 0x81, 0x42, 0x66, 0x00, 0x00, 0x09, 0x01,
++	0xa1, 0x00, 0x09, 0x30, 0x09, 0x31, 0x09, 0x32, 0x09, 0x35, 0x15,
++	0x00, 0x26, 0xff, 0x00, 0x35, 0x00, 0x46, 0xff, 0x00, 0x75, 0x08,
++	0x95, 0x04, 0x81, 0x02, 0x05, 0x02, 0x09, 0xc5, 0x09, 0xc4, 0x95,
++	0x02, 0x81, 0x02, 0xc0, 0x85, 0x02, 0x05, 0x08, 0x0a, 0x01, 0x00,
++	0x0a, 0x02, 0x00, 0x0a, 0x03, 0x00, 0x0a, 0x04, 0x00, 0x15, 0x00,
++	0x25, 0x01, 0x75, 0x01, 0x95, 0x04, 0x91, 0x02, 0x75, 0x04, 0x95,
++	0x01, 0x91, 0x03, 0xc0, 0x05, 0x0c, 0x09, 0x01, 0xa1, 0x01, 0x85,
++	0x03, 0x05, 0x01, 0x09, 0x06, 0xa1, 0x02, 0x05, 0x06, 0x09, 0x20,
++	0x15, 0x00, 0x26, 0xff, 0x00, 0x75, 0x08, 0x95, 0x01, 0x81, 0x02,
++	0x06, 0xbc, 0xff, 0x0a, 0xad, 0xbd, 0x75, 0x08, 0x95, 0x06, 0x81,
++	0x02, 0xc0, 0xc0};
++
++static __u8 *asus_gamepad_report_fixup(struct hid_device *hdev,
++					__u8 *rdesc, unsigned int *rsize)
 +{
-+	struct hv_kbd_dev *kbd_dev;
-+
-+	kbd_dev =3D container_of(nb, struct hv_kbd_dev, pm_nb);
-+
-+	switch (val) {
-+	case PM_HIBERNATION_PREPARE:
-+	case PM_RESTORE_PREPARE:
-+		kbd_dev->hibernation_in_progress =3D true;
-+		return NOTIFY_OK;
-+
-+	case PM_POST_HIBERNATION:
-+	case PM_POST_RESTORE:
-+		kbd_dev->hibernation_in_progress =3D false;
-+		return NOTIFY_OK;
-+
-+	default:
-+		return NOTIFY_DONE;
++	if (hdev->product == USB_DEVICE_ID_ASUSTEK_GAMEPAD) {
++		hid_info(hdev, "Fixing up Asus Gamepad report descriptor\n");
++		*rsize = ARRAY_SIZE(GAMEPAD_DESCRIPTOR);
++		return GAMEPAD_DESCRIPTOR;
 +	}
++	return rdesc;
 +}
 +
- static int hv_kbd_probe(struct hv_device *hv_dev,
- 			const struct hv_vmbus_device_id *dev_id)
- {
-@@ -380,6 +409,9 @@ static int hv_kbd_probe(struct hv_device *hv_dev,
-=20
- 	device_init_wakeup(&hv_dev->device, true);
-=20
-+	kbd_dev->pm_nb.notifier_call =3D hv_kbd_pm_notify;
-+	register_pm_notifier(&kbd_dev->pm_nb);
++static const struct hid_device_id asus_devices[] = {
++	{HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_ASUSTEK,
++					USB_DEVICE_ID_ASUSTEK_GAMEPAD)},
++};
++MODULE_DEVICE_TABLE(hid, asus_devices);
 +
- 	return 0;
-=20
- err_close_vmbus:
-@@ -394,6 +426,7 @@ static int hv_kbd_remove(struct hv_device *hv_dev)
- {
- 	struct hv_kbd_dev *kbd_dev =3D hv_get_drvdata(hv_dev);
-=20
-+	unregister_pm_notifier(&kbd_dev->pm_nb);
- 	serio_unregister_port(kbd_dev->hv_serio);
- 	vmbus_close(hv_dev->channel);
- 	kfree(kbd_dev);
-@@ -403,6 +436,29 @@ static int hv_kbd_remove(struct hv_device *hv_dev)
- 	return 0;
- }
-=20
-+static int hv_kbd_suspend(struct hv_device *hv_dev)
-+{
-+	vmbus_close(hv_dev->channel);
++static struct hid_driver asus_driver = {
++	.name = "asus-gamepad",
++	.id_table = asus_devices,
++	.report_fixup = asus_gamepad_report_fixup};
++module_hid_driver(asus_driver);
 +
-+	return 0;
-+}
-+
-+static int hv_kbd_resume(struct hv_device *hv_dev)
-+{
-+	int ret;
-+
-+	ret =3D vmbus_open(hv_dev->channel,
-+			 KBD_VSC_SEND_RING_BUFFER_SIZE,
-+			 KBD_VSC_RECV_RING_BUFFER_SIZE,
-+			 NULL, 0,
-+			 hv_kbd_on_channel_callback,
-+			 hv_dev);
-+	if (ret =3D=3D 0)
-+		ret =3D hv_kbd_connect_to_vsp(hv_dev);
-+
-+	return ret;
-+}
-+
- static const struct hv_vmbus_device_id id_table[] =3D {
- 	/* Keyboard guid */
- 	{ HV_KBD_GUID, },
-@@ -416,6 +472,8 @@ static int hv_kbd_remove(struct hv_device *hv_dev)
- 	.id_table =3D id_table,
- 	.probe =3D hv_kbd_probe,
- 	.remove =3D hv_kbd_remove,
-+	.suspend =3D hv_kbd_suspend,
-+	.resume =3D hv_kbd_resume,
- 	.driver =3D {
- 		.probe_type =3D PROBE_PREFER_ASYNCHRONOUS,
- 	},
---=20
-1.8.3.1
++MODULE_LICENSE("GPL");
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 832ff592a4bf..b51e0ba093aa 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -1873,6 +1873,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_FOUNTAIN_TP_ONLY) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER1_TP_ONLY) },
+ 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_NOTEBOOK_KEYBOARD) },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_GAMEPAD) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_AUREAL, USB_DEVICE_ID_AUREAL_W01RN) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_BELKIN, USB_DEVICE_ID_FLIP_KVM) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_BETOP_2185BFM, 0x2208) },
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 6f4c84d824e6..138c28639107 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -173,6 +173,7 @@
+ #define USB_DEVICE_ID_ASUSTEK_MULTITOUCH_YFO	0x0186
+ 
+ #define USB_VENDOR_ID_ASUSTEK		0x0b05
++#define USB_DEVICE_ID_ASUSTEK_GAMEPAD      0x4500
+ #define USB_DEVICE_ID_ASUSTEK_LCM	0x1726
+ #define USB_DEVICE_ID_ASUSTEK_LCM2	0x175b
+ #define USB_DEVICE_ID_ASUSTEK_NOTEBOOK_KEYBOARD	0x8585
+-- 
 
