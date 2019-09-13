@@ -2,118 +2,146 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D1BAB173F
+	by mail.lfdr.de (Postfix) with ESMTP id 96DE1B1740
 	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2019 04:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727063AbfIMCkk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Sep 2019 22:40:40 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:38687 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727025AbfIMCkj (ORCPT
+        id S1726754AbfIMCk5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Sep 2019 22:40:57 -0400
+Received: from mail-40133.protonmail.ch ([185.70.40.133]:38135 "EHLO
+        mail-40133.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726905AbfIMCk5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Sep 2019 22:40:39 -0400
-Received: by mail-pf1-f194.google.com with SMTP id h195so17154370pfe.5;
-        Thu, 12 Sep 2019 19:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=AY4bUcVWchtwG9esP1UGAyX2b8Gfs7RqsAhuxCHMkLI=;
-        b=E/JYAGpXMeY+5IsnZRCtIe1ec7FVy2T35Xmy0oeufUHQWJVU/z3rJZVEv/wfmFpVbc
-         qxFpGR9nfwesUfT4hVvZO862Fmvw0wHKercdu3RLLFpd0+ynYvfCxIk3rGhHsnA3yMZj
-         l5JCZAHin060vBWS1Z293LHCwsZ75XcSOnnsDzAQbynG2CKO1CQD8fmj1J1CushMUL9q
-         XWmIzNcLgtEx2/3Xa/G0HrapHG2yZZUVNSs7a2v1HZwoy8kZW5f9XmwSuX3ZhmelkWNw
-         HRI/Oamd8mAEBEawVvrwuLFq2gNDVm2HDM2NkKIXyHyirPq2SIlvp1wMLvZvp6KRbXBQ
-         579g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=AY4bUcVWchtwG9esP1UGAyX2b8Gfs7RqsAhuxCHMkLI=;
-        b=qB+wCi5/4guy/+3rgBymxs1hKalLd/2wgu4BJAbOGC7DU5hVTM09OKaesRQOEaKqJw
-         KNRrecr0+54aCfOEjEBvRmv7yBwFm1c3tZtTY6N/APa1MsYsmk/uNeIypjzuqX2zyIqa
-         MxJ3/LCAb+u5xTp2SfAK0jB8tfweYwiI4OwSiSMgsj6UuewrtveLVNW0NwRSy1rQSRWI
-         qD7qE3p6qQh6D2JqYrZWJ/nHR4g5dRrhfdNK02YCYMYGCOTENxdZU/fUwfHaEmZyqyPm
-         8CuP3UqBJaoM1XLsvVeogWO+GMN77IMnsitJFN14pRNPgFnu/lRgmWhQh6LhDU7XIDyX
-         9q/w==
-X-Gm-Message-State: APjAAAUGqeUjO56oQ/OdSyyyeg0T7W+Np7dDrT9+9jRCqygwJrjiPyDK
-        tg6UngTkRK8+3YfceNiSUAE=
-X-Google-Smtp-Source: APXvYqzFTUjtZnyoFyuOvHU2ogKHd28KSq9Q4uVfrRzz2l8QkL1nTHhbcUlKl7WnOH/vYlL1Ifk/kQ==
-X-Received: by 2002:aa7:8b09:: with SMTP id f9mr48451551pfd.23.1568342437077;
-        Thu, 12 Sep 2019 19:40:37 -0700 (PDT)
-Received: from localhost (c-73-158-250-148.hsd1.ca.comcast.net. [73.158.250.148])
-        by smtp.gmail.com with ESMTPSA id i74sm40223070pfe.28.2019.09.12.19.40.36
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 12 Sep 2019 19:40:36 -0700 (PDT)
-Date:   Thu, 12 Sep 2019 21:31:19 +0100
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Rishi Gupta <gupt21@gmail.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: hidraw: replace printk() with corresponding pr_xx()
- variant
-Message-ID: <20190912203119.GC636@penguin>
-References: <1566492232-13590-1-git-send-email-gupt21@gmail.com>
+        Thu, 12 Sep 2019 22:40:57 -0400
+Date:   Fri, 13 Sep 2019 02:40:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=default; t=1568342455;
+        bh=V4PbAJ58X+/Rvcujigi4yKfg4K9q6TNuxl6Z4Nsh+s4=;
+        h=Date:To:From:Reply-To:Subject:Feedback-ID:From;
+        b=X4VoIHWlfPPNXVjhp9jqh+Cb+7h7kAcuPtMqBGZcjHJnY6IiqRaYbibqX76//CVYE
+         w9xpj/4ti9PbegiFoFDhBMIoFTVDBUWat4fvT/xp7SbylT5BckEJhUmha032gTFjjQ
+         Jep0GpipevgNyk6+h8agTPGs3P2XUX89gyE//cHE=
+To:     "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+From:   Mazin Rezk <mnrzk@protonmail.com>
+Reply-To: Mazin Rezk <mnrzk@protonmail.com>
+Subject: [PATCH] HID: hid-logitech-hidpp: Implement support for some Bluetooth HID++ devices
+Message-ID: <M62zU6SvjXwzMOfaYM9ls_HwcF3BKMKV5nRDcJViW9i4nQZOh2wIvwX8o80CVGpYYUywrOPfJHFT3uvNvEC2ZDiA77jSoUZv5_mc9xE0HEk=@protonmail.com>
+Feedback-ID: 18B_FC5q-t32TXzMsVp9BgkgrdNH3iwklfW8WOrHrcxZA0WRj7JodCh5VXKxs6A3OaiHK0QNd8wi3SImKex8yQ==:Ext:ProtonMail
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1566492232-13590-1-git-send-email-gupt21@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_REPLYTO
+        autolearn=no autolearn_force=no version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Rishi,
+This patch adds support the MX Anywhere 2, MX Anywhere 2S, MX Master, and M=
+X Master 2S over Bluetooth to the hid-logitech-hidpp module. This patch als=
+o implements a foundation for other Bluetooth devices to be added to the mo=
+dule.
 
-On Thu, Aug 22, 2019 at 10:13:52PM +0530, Rishi Gupta wrote:
-> This commit replaces direct invocations of printk with
-> their appropriate pr_info/warn() variant.
-> 
-> Signed-off-by: Rishi Gupta <gupt21@gmail.com>
-> ---
->  drivers/hid/hidraw.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
-> index 006bd6f..67b652b 100644
-> --- a/drivers/hid/hidraw.c
-> +++ b/drivers/hid/hidraw.c
-> @@ -197,14 +197,14 @@ static ssize_t hidraw_get_report(struct file *file, char __user *buffer, size_t
->  	}
->  
->  	if (count > HID_MAX_BUFFER_SIZE) {
-> -		printk(KERN_WARNING "hidraw: pid %d passed too large report\n",
-> +		pr_warn("hidraw: pid %d passed too large report\n",
->  				task_pid_nr(current));
+Changes include:
+1) Adding the device IDs for the aforementioned mice over Bluetooth (these =
+IDs have been copied from the libratbag device database). Their quirks have=
+ been based on their DJ device counterparts.
+2) Adding an additional HIDPP_QUIRK_BLUETOOTH_MISSING_SHORT_ID as these dev=
+ices do not support Short HID++ reports. This quirk causes short reports to=
+ be sent as long reports to the device and overrides the device validation =
+to only check if the long report descriptor exists. Without this quirk, the=
+se devices will fail the HID++ device validation.
 
-If you are doing this, you should also look into pr_fmt() so that we do
-not need to manually add "hidraw: " prefix to the messages.
+Note about these changes: I only own an MX Master (b01e) so I have not been=
+ able to test this patch on other devices. However, I have also noticed tha=
+t the MX Master 2S over Bluetooth does not pass the original HID++ report d=
+escriptor tests which leads me to believe all MX Bluetooth LE devices are m=
+issing short report descriptors. Further testing with the other devices may=
+ be required.
 
->  		ret = -EINVAL;
->  		goto out;
->  	}
->  
->  	if (count < 2) {
-> -		printk(KERN_WARNING "hidraw: pid %d passed too short report\n",
-> +		pr_warn("hidraw: pid %d passed too short report\n",
->  				task_pid_nr(current));
->  		ret = -EINVAL;
->  		goto out;
-> @@ -597,7 +597,7 @@ int __init hidraw_init(void)
->  	if (result < 0)
->  		goto error_class;
->  
-> -	printk(KERN_INFO "hidraw: raw HID events driver (C) Jiri Kosina\n");
-> +	pr_info("hidraw: raw HID events driver (C) Jiri Kosina\n");
->  out:
->  	return result;
->  
-> -- 
-> 2.7.4
-> 
+Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
+---
+ drivers/hid/hid-logitech-hidpp.c | 39 ++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-Thanks.
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
+dpp.c
+index 0179f7ed77e5..a80c4486756c 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -72,6 +72,9 @@ MODULE_PARM_DESC(disable_tap_to_click,
+ #define HIDPP_QUIRK_HIDPP_EXTRA_MOUSE_BTNS=09BIT(30)
+ #define HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS=09BIT(31)
 
--- 
-Dmitry
++/* This is required to fix report ids on some bluetooth devices */
++#define HIDPP_QUIRK_BLUETOOTH_MISSING_SHORT_ID=09BIT(32)
++
+ /* These are just aliases for now */
+ #define HIDPP_QUIRK_KBD_SCROLL_WHEEL HIDPP_QUIRK_HIDPP_WHEELS
+ #define HIDPP_QUIRK_KBD_ZOOM_WHEEL   HIDPP_QUIRK_HIDPP_WHEELS
+@@ -340,6 +343,11 @@ static int hidpp_send_rap_command_sync(struct hidpp_de=
+vice *hidpp_dev,
+ =09struct hidpp_report *message;
+ =09int ret, max_count;
+
++=09/* Force long reports on devices that do not support short reports */
++=09if (hidpp_dev-&gt;quirks &amp; HIDPP_QUIRK_BLUETOOTH_MISSING_SHORT_ID &=
+amp;&amp;
++=09    report_id =3D=3D REPORT_ID_HIDPP_SHORT)
++=09=09report_id =3D REPORT_ID_HIDPP_LONG;
++
+ =09switch (report_id) {
+ =09case REPORT_ID_HIDPP_SHORT:
+ =09=09max_count =3D HIDPP_REPORT_SHORT_LENGTH - 4;
+@@ -3482,6 +3490,12 @@ static bool hidpp_validate_report(struct hid_device =
+*hdev, int id,
+
+ static bool hidpp_validate_device(struct hid_device *hdev)
+ {
++=09struct hidpp_device *hidpp =3D hid_get_drvdata(hdev);
++=09/* Skip the short report check if the device does not support it */
++=09if (hidpp-&gt;quirks &amp; HIDPP_QUIRK_BLUETOOTH_MISSING_SHORT_ID)
++=09=09return hidpp_validate_report(hdev, REPORT_ID_HIDPP_LONG,
++=09=09=09=09=09     HIDPP_REPORT_LONG_LENGTH, false);
++
+ =09return hidpp_validate_report(hdev, REPORT_ID_HIDPP_SHORT,
+ =09=09=09=09     HIDPP_REPORT_SHORT_LENGTH, false) &amp;&amp;
+ =09       hidpp_validate_report(hdev, REPORT_ID_HIDPP_LONG,
+@@ -3773,6 +3787,31 @@ static const struct hid_device_id hidpp_devices[] =
+=3D {
+ =09{ /* MX5500 keyboard over Bluetooth */
+ =09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
+ =09  .driver_data =3D HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
++=09{ /* MX Anywhere 2 mouse over Bluetooth */
++=09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb013),
++=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
++=09=09=09 HIDPP_QUIRK_BLUETOOTH_MISSING_SHORT_ID },
++=09{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb018),
++=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
++=09=09=09 HIDPP_QUIRK_BLUETOOTH_MISSING_SHORT_ID },
++=09{ /* MX Anywhere 2S mouse over Bluetooth */
++=09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01a),
++=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
++=09=09=09 HIDPP_QUIRK_BLUETOOTH_MISSING_SHORT_ID },
++=09{ /* MX Master mouse over Bluetooth */
++=09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb012),
++=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
++=09=09=09 HIDPP_QUIRK_BLUETOOTH_MISSING_SHORT_ID },
++=09{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb017),
++=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
++=09=09=09 HIDPP_QUIRK_BLUETOOTH_MISSING_SHORT_ID },
++=09{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e),
++=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
++=09=09=09 HIDPP_QUIRK_BLUETOOTH_MISSING_SHORT_ID },
++=09{ /* MX Master 2S mouse over Bluetooth */
++=09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb019),
++=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
++=09=09=09 HIDPP_QUIRK_BLUETOOTH_MISSING_SHORT_ID },
+ =09{}
+ };
+
+--
+2.23.0
+
