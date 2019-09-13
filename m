@@ -2,180 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB539B190B
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2019 09:39:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E19BB2775
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2019 23:45:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728678AbfIMHj1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Sep 2019 03:39:27 -0400
-Received: from protonic.xs4all.nl ([83.163.252.89]:42140 "EHLO protonic.nl"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728666AbfIMHj1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Sep 2019 03:39:27 -0400
-Received: from webmail.promanet.nl (edge2.prtnl [192.168.1.170])
-        by sparta (Postfix) with ESMTP id DA51D44A00CB;
-        Fri, 13 Sep 2019 09:41:27 +0200 (CEST)
+        id S1731342AbfIMVpu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Sep 2019 17:45:50 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:42477 "EHLO
+        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730990AbfIMVpu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 13 Sep 2019 17:45:50 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id C72AB21C39;
+        Fri, 13 Sep 2019 17:45:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Fri, 13 Sep 2019 17:45:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        pedrovanzella.com; h=subject:to:cc:references:from:message-id
+        :date:mime-version:in-reply-to:content-type
+        :content-transfer-encoding; s=fm1; bh=I5KYFSSfB4WK2rrNM9kVDaLOfX
+        vwrxisel5lvyCFyjY=; b=dBO2ZaWcH4b2o4/H5w7CFZxsfhZngszuT1tRyHIp1g
+        +Tgo6BqwYStcsXS0NUmuNhUrJxBNMHW8kzk5W5SrGeyzWNcTNtWHymmLi0goDVtN
+        NqCXvkroqxFDgfUvWS9FfdCtIhrrzI/yGbJ28ZUIzHlhFV8aNUQh8gJ8nuQzhAWD
+        NI+o7i95XVG0oOToyP42DzLq12fdjq5+mRmDMZLq8SE4v/TmmQPrvTBYZhwx8BWU
+        1JH/2wHsXGO22dTNOwQsHEC7Zpy2sbaQ0dtRjZ3gQsfQgxqMWwEWiSh0vpA5NJqA
+        2Sfl2597+lVLriggCt4uiHTd62Xh5w2kItyBbOZOoA6w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=I5KYFSSfB4WK2rrNM9kVDaLOfXvwrxisel5lvyCFy
+        jY=; b=XfAkFq8qCqzv2od14xY8ZjZJpEzooNcMQZ/NfQ6rHNaxBb6kia1IsYwDi
+        bT9pXG4g+Enj05qQs+hG3JfWeaauhMeS7g/qAu5+SMj8v4i78VRxvvYwgjqDHHHi
+        MmzqTGSQ6zBmWaHpjdnHMzQtUV9jolC4BmmXwuTmxTINVBFY8QBBpWhNN4kP+jqq
+        QdIh+tqL1CxAt+mrh8YTdDJL6Cc2c7uVclJwRCL9gsPDNVT0ykZw+NLerNT8xdxC
+        pP2A6QFWZIboFVVMxDCm4/Ph1FK8eFeuLP7lu6m+6t2kV8cS65/vAc79BK1LFSZR
+        GQV6D4Z5z6kLSpPkEnh7hwFOyE/XQ==
+X-ME-Sender: <xms:Cw58XdY_fZS2Z1Vk9nF6lv4Kj5DJXjnt1ORAoYVlKThjVq7Jb-PDmQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrtdejgdduieegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomheprfgvughr
+    ohcugggrnhiivghllhgruceophgvughrohesphgvughrohhvrghniigvlhhlrgdrtghomh
+    eqnecukfhppedukeegrddugeehrddufedtrdegjeenucfrrghrrghmpehmrghilhhfrhho
+    mhepphgvughrohesphgvughrohhvrghniigvlhhlrgdrtghomhenucevlhhushhtvghruf
+    hiiigvpedt
+X-ME-Proxy: <xmx:Cw58XZFZhZyEE1FfKODeAmyWMjQSoco98Sz_7xybwYYgPfC-qj505Q>
+    <xmx:Cw58XX1LXP5yBHYDhZcM9TVTuYNCfzl-poTXEx5uqaZO126EB1lB2Q>
+    <xmx:Cw58XfaeDWkhyWSjt-npZ8RlhvYPkMjyxKLU1G2K1WAH_qlgDRQg1w>
+    <xmx:DA58Xd9rO8cYbbSXnN7DFy7XqMXQgftx7LKxLpa9bOPnPzYHh88i4A>
+Received: from [192.168.2.43] (toroon020aw-lp130-01-184-145-130-47.dsl.bell.ca [184.145.130.47])
+        by mail.messagingengine.com (Postfix) with ESMTPA id E618280064;
+        Fri, 13 Sep 2019 17:45:46 -0400 (EDT)
+Subject: Re: [PATCH v5] hid-logitech-hidpp: read battery voltage from newer
+ devices
+To:     =?UTF-8?Q?Filipe_La=c3=adns?= <lains@archlinux.org>,
+        linux-input@vger.kernel.org
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org
+References: <20190831175659.7404-1-pedro@pedrovanzella.com>
+ <80785df1c804796a01bbfbae4b2aeda66f30d7c5.camel@archlinux.org>
+From:   Pedro Vanzella <pedro@pedrovanzella.com>
+Message-ID: <cb3e7c8f-b8f9-7a59-d358-8682625e4adf@pedrovanzella.com>
+Date:   Fri, 13 Sep 2019 17:45:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Fri, 13 Sep 2019 09:39:26 +0200
-From:   robin <robin@protonic.nl>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     "linux-input @ vger . kernel . org" <linux-input@vger.kernel.org>,
-        "linux-kernel @ vger . kernel . org" <linux-kernel@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        RobinGong <yibin.gong@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Adam Ford <aford173@gmail.com>,
-        "linux-arm-kernel @ lists . infradead . org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v3] input: keyboard: snvs_pwrkey: Send key events for
- i.MX6 S, DL and Q
-In-Reply-To: <20190904065248.4i7q2vuxxt2xdnrr@pengutronix.de>
-References: <20190904062329.97520-1-robin@protonic.nl>
- <20190904065248.4i7q2vuxxt2xdnrr@pengutronix.de>
-Message-ID: <f12945994b66c5e605c0a121e7ad0526@protonic.nl>
-X-Sender: robin@protonic.nl
-User-Agent: Roundcube Webmail/1.3.6
+In-Reply-To: <80785df1c804796a01bbfbae4b2aeda66f30d7c5.camel@archlinux.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2019-09-04 08:52, Marco Felsch wrote:
-> Hi Robin,
-> 
-> thanks for the patch it looks quite good, just two minor nitpicks.
-> 
-> On 19-09-04 06:23, Robin van der Gracht wrote:
->> The first generation i.MX6 processors does not send an interrupt when 
->> the
->> power key is pressed. It sends a power down request interrupt if the 
->> key is
->> released before a hard shutdown (5 second press). This should allow
->> software to bring down the SoC safely.
->> 
->> For this driver to work as a regular power key with the older SoCs, we 
->> need
->> to send a keypress AND release when we get the power down request irq.
->> 
->> Signed-off-by: Robin van der Gracht <robin@protonic.nl>
->> ---
->> 
->> Changes v2 -> v3:
->>  - Drop alt compatible string for identifying first revision snvs 
->> hardware,
->>    read minor revision from register instead.
->>  - Drop imx6qdl.dtsi modification and device-tree binding 
->> documentation.
->>  - Add an additional input_sync() to create 2 seperate input reports 
->> for press
->>    and release.
->> 
->>  drivers/input/keyboard/Kconfig       |  2 +-
->>  drivers/input/keyboard/snvs_pwrkey.c | 28 
->> ++++++++++++++++++++++++++--
->>  2 files changed, 27 insertions(+), 3 deletions(-)
->> 
->> diff --git a/drivers/input/keyboard/Kconfig 
->> b/drivers/input/keyboard/Kconfig
->> index 7c4f19dab34f..937e58da5ce1 100644
->> --- a/drivers/input/keyboard/Kconfig
->> +++ b/drivers/input/keyboard/Kconfig
->> @@ -436,7 +436,7 @@ config KEYBOARD_SNVS_PWRKEY
->>  	depends on OF
->>  	help
->>  	  This is the snvs powerkey driver for the Freescale i.MX 
->> application
->> -	  processors that are newer than i.MX6 SX.
->> +	  processors.
->> 
->>  	  To compile this driver as a module, choose M here; the
->>  	  module will be called snvs_pwrkey.
->> diff --git a/drivers/input/keyboard/snvs_pwrkey.c 
->> b/drivers/input/keyboard/snvs_pwrkey.c
->> index 5342d8d45f81..828580eee0d2 100644
->> --- a/drivers/input/keyboard/snvs_pwrkey.c
->> +++ b/drivers/input/keyboard/snvs_pwrkey.c
->> @@ -19,6 +19,7 @@
->>  #include <linux/mfd/syscon.h>
->>  #include <linux/regmap.h>
->> 
->> +#define SNVS_HPVIDR1_REG 0xF8
->>  #define SNVS_LPSR_REG	0x4C	/* LP Status Register */
->>  #define SNVS_LPCR_REG	0x38	/* LP Control Register */
->>  #define SNVS_HPSR_REG	0x14
->> @@ -37,6 +38,7 @@ struct pwrkey_drv_data {
->>  	int wakeup;
->>  	struct timer_list check_timer;
->>  	struct input_dev *input;
->> +	u8 minor_rev;
->>  };
->> 
->>  static void imx_imx_snvs_check_for_events(struct timer_list *t)
->> @@ -45,6 +47,20 @@ static void imx_imx_snvs_check_for_events(struct 
->> timer_list *t)
->>  	struct input_dev *input = pdata->input;
->>  	u32 state;
->> 
->> +	if (pdata->minor_rev == 0) {
-> 
-> Should we use a define here and ..
-> 
->> +		/*
->> +		 * The first generation i.MX6 SoCs only sends an interrupt on
->> +		 * button release. To mimic power-key usage, we'll prepend a
->> +		 * press event.
->> +		 */
->> +		input_report_key(input, pdata->keycode, 1);
->> +		input_sync(input);
->> +		input_report_key(input, pdata->keycode, 0);
->> +		input_sync(input);
->> +		pm_relax(input->dev.parent);
->> +		return;
+On 9/9/19 8:00 AM, Filipe Laíns wrote:
+> On Sat, 2019-08-31 at 13:56 -0400, Pedro Vanzella wrote:
+>> +static int hidpp20_battery_map_status_voltage(u8 data[3], int
+>> *voltage)
+>> +{
+>> +	int status;
+>> +
+>> +	switch (data[2]) {
+>> +	case 0x00: /* discharging */
+>> +		status = POWER_SUPPLY_STATUS_DISCHARGING;
+>> +		break;
+>> +	case 0x10: /* wireless charging */
+>> +	case 0x80: /* charging */
+>> +		status = POWER_SUPPLY_STATUS_CHARGING;
+>> +		break;
+>> +	case 0x81: /* fully charged */
+>> +		status = POWER_SUPPLY_STATUS_FULL;
+>> +		break;
+>> +	default:
+>> +		status = POWER_SUPPLY_STATUS_NOT_CHARGING;
 >> +	}
 >> +
->>  	regmap_read(pdata->snvs, SNVS_HPSR_REG, &state);
->>  	state = state & SNVS_HPSR_BTN ? 1 : 0;
->> 
->> @@ -67,13 +83,17 @@ static irqreturn_t imx_snvs_pwrkey_interrupt(int 
->> irq, void *dev_id)
->>  {
->>  	struct platform_device *pdev = dev_id;
->>  	struct pwrkey_drv_data *pdata = platform_get_drvdata(pdev);
->> +	unsigned long expire = jiffies;
->>  	u32 lp_status;
->> 
->>  	pm_wakeup_event(pdata->input->dev.parent, 0);
->> 
->>  	regmap_read(pdata->snvs, SNVS_LPSR_REG, &lp_status);
->> -	if (lp_status & SNVS_LPSR_SPO)
->> -		mod_timer(&pdata->check_timer, jiffies + 
->> msecs_to_jiffies(DEBOUNCE_TIME));
->> +	if (lp_status & SNVS_LPSR_SPO) {
->> +		if (pdata->minor_rev > 0)
+>> +	*voltage = get_unaligned_be16(data);
+>> +
+>> +	return status;
+>> +}
 > 
-> here? Just a nitpick, feel free to add/drop it.
+> Here's the missing specification:
+> 
+> +--------+-------------------------------------------------------------------------+
+> |  byte  |                                    2                                    |
+> +--------+--------------+------------+------------+----------+----------+----------+
+> |   bit  |     0..2     |      3     |      4     |     5    |     6    |     7    |
+> +--------+--------------+------------+------------+----------+----------+----------+
+> | buffer | chargeStatus | fastCharge | slowCharge | critical | (unused) | extPower |
+> +--------+--------------+------------+------------+----------+----------+----------+
+> Table 1 - battery voltage (0x1001), getBatteryInfo() (ASE 0), 3rd byte
+> 
+> +-------+--------------------------------------+
+> | value |                meaning               |
+> +-------+--------------------------------------+
+> |   0   | Charging                             |
+> +-------+--------------------------------------+
+> |   1   | End of charge (100% charged)         |
+> +-------+--------------------------------------+
+> |   2   | Charge stopped (any "normal" reason) |
+> +-------+--------------------------------------+
+> |   7   | Hardware error                       |
+> +-------+--------------------------------------+
+> Table 2 - chargeStatus value
+> 
+> I know this is already on the 5th revision but could you please change
+> hidpp20_battery_map_status_voltage() to properly handle the 3rd byte?
+> Also, if you could make sure those values are properly exported via
+> sysfs it would be great! We will need them for proper upower support.
 
-Like a Macro?
+Sure thing. I'll have a new patch in a few days.
 
-#define FIRST_HW_REV(pdata)      (pdata->minor_rev == 0)
+Thanks for figuring that stuff out, by the way.
 
-if (FIRST_HW_REV(pdata) {
-         ...
-}
-
-
-or just a define to identify the minor rev used for the first hw 
-revision
-
-
-#define FIRST_HW_MINOR_REV       0
-
-if (pdata->minor_rev == FIRST_HW_MINOR_REV) {
-         ...
-}
-
-Regards,
-Robin van der Gracht
+> 
+> Sorry for not saying this in my first review. Since then I have done
+> some testing and I discovered that if we want to get accurate upower
+> support we will need the values exposed by the 3rd byte to be
+> exported properly.
+> 
+> I am not sure about the endianness of chargeStatus but you can find
+> that easily.
+> 
+> Thank you!
+> Filipe Laíns
+> 
