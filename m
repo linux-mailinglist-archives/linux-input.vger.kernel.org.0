@@ -2,130 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 663D6B4184
-	for <lists+linux-input@lfdr.de>; Mon, 16 Sep 2019 22:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF53BB43D6
+	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 00:16:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391189AbfIPUD0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 Sep 2019 16:03:26 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:34541 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391187AbfIPUD0 (ORCPT
+        id S1727999AbfIPWQL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 Sep 2019 18:16:11 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:36639 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729632AbfIPWQL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 Sep 2019 16:03:26 -0400
-Received: by mail-pg1-f195.google.com with SMTP id n9so616848pgc.1
-        for <linux-input@vger.kernel.org>; Mon, 16 Sep 2019 13:03:25 -0700 (PDT)
+        Mon, 16 Sep 2019 18:16:11 -0400
+Received: by mail-lf1-f65.google.com with SMTP id x80so1223881lff.3
+        for <linux-input@vger.kernel.org>; Mon, 16 Sep 2019 15:16:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=K9MMfXShmXoSvIjhKLQWDRDFiDu3n+MfJTN+sGiQ2k4=;
-        b=bGnQvSymIpD+YH+h6yIfRstItOuZOXuFiK941OC9tY+hPxaJDajaYGxSTWmEyJ59JO
-         edv2IMlDsI1aPpPImp4JWxmWc3BNIa/nepq4odIZlM/zb+8bhVhdyaLI37PjRJeuTnuO
-         eJORufmtBiEY4HcYLTPLTJ+aCpVwXDPWAgudDlK/IMDXSRk+qefqWqD19nt7pOm7lmiX
-         J0zvC5m6FNtvofEi14S8wb+u/oC6j0mGdyWyx4DHZc9qSlnNmEYk3S0yNrSp3RLlIBLn
-         X8hNK1p4n+UzumvJ2B/H0n+Ar45St37qsXtGRO7jQU2hEIKRyA1GqUbJ79ncnBgyXful
-         Ocuw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OjeXXmneEY1+cdlBCuXNvkRTitrNfKZl6S7JEd4/kjY=;
+        b=Iv5FO+HJMQkyTKLUaJdQl9XuV/HZf9Bg4skseGPfLwijPhuo8l2GP8s3pqER2RTKNr
+         XnX4gIl7ydaUQDSG74VpTyk5fNrZCiD3c1MsizczxBusbkgerfayLUng6BEbGn/FlgFI
+         o5qEuDh1Z31Phe+X31dWtC5Wa/drv1+8jUDgvrUwE0e/+Kj2pH/CyMaYoB6HmwQA7U3U
+         Jfxsk2h0LpXGyEAKuEuIdbDKm9iWbf2kTOkWTDU1MBBi2hpkuFpUb30ASwP91UjZ3n3E
+         m35uSGbgqyYPbB1XhimNbBrfJhZIelCaOlL1mKUBCTD5rqcxlDJvj0DNcvEeMZphtSNp
+         zXog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=K9MMfXShmXoSvIjhKLQWDRDFiDu3n+MfJTN+sGiQ2k4=;
-        b=AMm4ZeH2ujFBMZRri4poKGMArr/K7Fr+sAfNArI0jWfDNg4MgFJBwd5QgrBex2eWvH
-         xyCMU2v7kZRqGbINf5ZdIgpFk4MI4aOHLXvr4lQAghuE6j8nJD4sp49dk8knzoCGmMWT
-         ismG3yMv07Y0yu4vNQ/mJEK1cm/sM/MzlBKMZceg+Tco1pud4bJ0GVRoXehAsMyoRkKm
-         2yRcNGjUMe33AbJnochYySzBuhoMHJ7aYBkV4cL6uOnP+dScl5VXsXtEkTOR+lde2ITZ
-         /GeGyCInL4/IsFrBletcP3CZCP7q0dAE0J7L+SA8NFu9rBDgZt+C0DEk3BhSVXjV+tQ9
-         uiBg==
-X-Gm-Message-State: APjAAAWZzMKHXefedvL7raEg2L/jqQkC5+ewzlOCq9wpnTuWniE7v2aI
-        A4nZiS+WlQdnOwRgjh5ltzG4eA==
-X-Google-Smtp-Source: APXvYqxHN8FxSX9nmUGKIX5HATBjY+YlsUCztaSZH/l/KMfUl5nSoI0PbmFiQWTwJS9Xet+V2xg8FQ==
-X-Received: by 2002:a63:161b:: with SMTP id w27mr853320pgl.38.1568664204886;
-        Mon, 16 Sep 2019 13:03:24 -0700 (PDT)
-Received: from [2620:15c:17:3:3a5:23a7:5e32:4598] ([2620:15c:17:3:3a5:23a7:5e32:4598])
-        by smtp.gmail.com with ESMTPSA id u18sm11141860pge.69.2019.09.16.13.03.24
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OjeXXmneEY1+cdlBCuXNvkRTitrNfKZl6S7JEd4/kjY=;
+        b=g5rgHVI+8X0p+bRufKr5jmwFpNQDcfYWjjhwlZy62FXRAcwjo5Jrh2D8ypNx0mehUU
+         WNr+kovzESzx50W9YFhWykELUwkVmCXrRSwZIfCz3f9cnTPJrhQFT3znAkzebmxYnokL
+         24gfiBerI0bVuQL+R6Mmra8aBooW5sqfclhe7s20q+h9gUCXp9mqQFUBLy90Nw0fCgUL
+         N4WdCQwQl+o9kuPsEF9J4n91w6XHYg3trFcU/Lb/PyZbBhw/jZBk8DtB3Qj/vJYB8sOZ
+         lP/sYUMXmTAHjBwemhr/6Dcxfusw+c0jH8p34XYg/8horVk6AQqYn64WQv7tC27wTJLi
+         yIng==
+X-Gm-Message-State: APjAAAW6i15wDIOGbuzys831lvvjOsKYOOs6VklkQB2d7Nm6lKF0+/xh
+        VXIkTTfyCGUBYsbDrPTl8zU=
+X-Google-Smtp-Source: APXvYqx3EuJuFO2ue5jqsylbs8CCahe5BmrxBCKoh1Oj4Dy+u8NnDQvcSz/MwWmRCXRApmk8Vo4Dog==
+X-Received: by 2002:a19:beca:: with SMTP id o193mr228718lff.137.1568672169008;
+        Mon, 16 Sep 2019 15:16:09 -0700 (PDT)
+Received: from localhost.localdomain ([46.216.138.44])
+        by smtp.gmail.com with ESMTPSA id g1sm39161ljl.31.2019.09.16.15.16.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2019 13:03:24 -0700 (PDT)
-Date:   Mon, 16 Sep 2019 13:03:23 -0700 (PDT)
-From:   David Rientjes <rientjes@google.com>
-X-X-Sender: rientjes@chino.kir.corp.google.com
-To:     syzbot <syzbot+38e7237add3712479d65@syzkaller.appspotmail.com>
-cc:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
-        jikos@kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Subject: Re: WARNING in implement
-In-Reply-To: <0000000000002b27c60592b00f38@google.com>
-Message-ID: <alpine.DEB.2.21.1909161302370.118156@chino.kir.corp.google.com>
-References: <0000000000002b27c60592b00f38@google.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        Mon, 16 Sep 2019 15:16:07 -0700 (PDT)
+Received: from jek by localhost.localdomain with local (Exim 4.92.1)
+        (envelope-from <jekhor@gmail.com>)
+        id 1i9zHz-0000CH-TL; Tue, 17 Sep 2019 01:16:07 +0300
+From:   Yauhen Kharuzhy <jekhor@gmail.com>
+To:     Bastien Nocera <hadess@hadess.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Henrik Rydberg <rydberg@bitmath.org>,
+        Yauhen Kharuzhy <jekhor@gmail.com>
+Subject: [RESEND PATCH 0/1] Add 9-bytes reports support for goodix TS
+Date:   Tue, 17 Sep 2019 01:16:01 +0300
+Message-Id: <20190916221602.715-1-jekhor@gmail.com>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 16 Sep 2019, syzbot wrote:
+This is re-send of previous patch from 10 Feb 2019, without of any
+changes.
 
-> Hello,
-> 
-> syzbot found the following crash on:
-> 
-> HEAD commit:    f0df5c1b usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=170b213e600000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=5c6633fa4ed00be5
-> dashboard link: https://syzkaller.appspot.com/bug?extid=38e7237add3712479d65
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16830dc1600000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11f2d3fa600000
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+38e7237add3712479d65@syzkaller.appspotmail.com
-> 
-> keytouch 0003:0926:3333.0001: implement() called with too large value 32769
-> (n: 1)! (kworker/0:1)
-> ------------[ cut here ]------------
-> WARNING: CPU: 0 PID: 12 at drivers/hid/hid-core.c:1370
-> implement.cold+0x40/0x81 drivers/hid/hid-core.c:1370
-> Kernel panic - not syncing: panic_on_warn set ...
-> CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.3.0-rc7+ #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google
-> 01/01/2011
-> Workqueue: events hidinput_led_worker
-> Call Trace:
-> __dump_stack lib/dump_stack.c:77 [inline]
-> dump_stack+0xca/0x13e lib/dump_stack.c:113
-> panic+0x2a3/0x6da kernel/panic.c:219
-> __warn.cold+0x20/0x4a kernel/panic.c:576
-> report_bug+0x262/0x2a0 lib/bug.c:186
-> fixup_bug arch/x86/kernel/traps.c:179 [inline]
-> fixup_bug arch/x86/kernel/traps.c:174 [inline]
-> do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
-> do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
-> invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1028
-> RIP: 0010:implement.cold+0x40/0x81 drivers/hid/hid-core.c:1370
-> Code: 00 ef 01 00 48 c7 c2 a0 ac 52 86 48 c7 c6 c0 8a 52 86 4c 8d 88 70 06 00
-> 00 e8 3f 3b 1a fe 48 c7 c7 20 8b 52 86 e8 fc 4e d7 fc <0f> 0b 44 21 e5 e9 06
-> 3a ff ff e8 64 ad ec fc 49 8d bd 28 19 00 00
-> RSP: 0018:ffff8881da20fb88 EFLAGS: 00010082
-> RAX: 0000000000000024 RBX: 0000000000000000 RCX: 0000000000000000
-> RDX: 0000000000000000 RSI: ffffffff81288ddd RDI: ffffed103b441f63
-> RBP: 0000000000008001 R08: 0000000000000024 R09: ffffed103b643ee7
-> R10: ffffed103b643ee6 R11: ffff8881db21f737 R12: 0000000000000001
-> R13: ffff8881d28d8000 R14: 0000000000000001 R15: 0000000000000001
-> hid_output_field drivers/hid/hid-core.c:1543 [inline]
-> hid_output_report+0x2dc/0x4c0 drivers/hid/hid-core.c:1562
-> __usbhid_submit_report drivers/hid/usbhid/hid-core.c:593 [inline]
-> usbhid_submit_report+0x65c/0xde0 drivers/hid/usbhid/hid-core.c:638
-> usbhid_request+0x3c/0x70 drivers/hid/usbhid/hid-core.c:1252
-> hidinput_led_worker+0xbd/0x360 drivers/hid/hid-input.c:1495
-> process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-> worker_thread+0x96/0xe20 kernel/workqueue.c:2415
-> kthread+0x318/0x420 kernel/kthread.c:255
-> ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+Following patch adds support for 9-bytes format of contact data reports
+found in Lenovo YB1-X91L tablet (Yoga Book). Seems that this tablet has
+GT9110 chip with custom firmware.
 
-I assume this is the same issue as 
-https://marc.info/?l=linux-kernel&m=156865976021549 and any fix for that 
-issue would apply to this one as well.  Looks like syzbot found Benjamin 
-and Jiri already.
+Here is dump of config data:
+0x8040: xx xx xx xx xx xx xx 4e b0 04 80 07 0a 05 20 01
+0x8050: c8 1e 05 41 2d 03 00 00 00 00 00 00 00 00 00 00
+0x8060: 00 00 95 35 ff 14 16 e5 26 03 07 00 1b 03 11 00
+0x8070: 00 00 00 0b 0f 07 12 03 00 00 0a 1e 54 c0 04 00
+0x8080: 00 00 04 c3 0b 00 ac 0d 00 8e 11 00 7c 15 00 6d
+0x8090: 1b 00 6c 00 00 00 00 00 00 00 00 00 00 00 00 00
+0x80a0: 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 20
+0x80b0: 00 00 00 00 00 50 00 1d 1c 1b 1a 19 18 17 16 15
+0x80c0: 14 13 12 11 10 0f 0e 0d 0c 0b 0a 09 08 07 06 05
+0x80d0: 04 03 02 01 00 2a 29 28 27 26 25 24 23 22 21 20
+0x80e0: 1f 1e 1d 1c 1b 19 18 17 16 15 14 13 12 11 10 0f
+0x80f0: 0e 0d 0c 0b 0a 09 08 07 06 05 04 03 02 01 00 fe
+0x8100: 00
+
+0x8140: 39 31 31 30 03 20 b0 04 80 07 00 00 00 04
+
+I didn't find any way to reliable detect of format using only the config
+data, so DMI check for machine name is used.
+
+Yauhen Kharuzhy (1):
+  goodix touchscreen: Add support for 9-bytes reports
+
+ drivers/input/touchscreen/goodix.c | 58 +++++++++++++++++++++++++-----
+ 1 file changed, 50 insertions(+), 8 deletions(-)
+
+-- 
+2.23.0.rc1
+
