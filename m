@@ -2,90 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED1D5B5369
-	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 18:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B824FB5386
+	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 19:02:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726204AbfIQQwt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Sep 2019 12:52:49 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:35643 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725991AbfIQQwt (ORCPT
+        id S1728630AbfIQRCH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Sep 2019 13:02:07 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43078 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726134AbfIQRCH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Sep 2019 12:52:49 -0400
-Received: by mail-pg1-f196.google.com with SMTP id a24so2336991pgj.2;
-        Tue, 17 Sep 2019 09:52:48 -0700 (PDT)
+        Tue, 17 Sep 2019 13:02:07 -0400
+Received: by mail-pf1-f193.google.com with SMTP id a2so2505040pfo.10;
+        Tue, 17 Sep 2019 10:02:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=F4mNcaR90fbEud0o28hQFrCgK7lN9DAYPGliFgF36+c=;
-        b=UBYdpKyY+kAHd10rc4d/70CMnRHhqTzZUb5e+m6uEiTBY1Ey8EVGLRbNLeSaJsHEbz
-         DmbW88HsI74fAXwom4Ocnuoi6crHAp9Uql/ZcI382MhgvFWwi3u7F8c5wDZguV5p+t5A
-         8Lpm9A5RCQykNyEu0s0mgF3miHsnHOPyVzupye3dqE8/PRAorKVRBx36chb34YukWH70
-         tY871JSb9/pSiopUI+N+jhcIanx8SQMHEwyVLbBuTHp1g5ITE+oDH7GgPdS1pah+Z9D/
-         e9njzZb/TKbCihzNOEAaA/NEkig15t9fh962SbyT6Q40MZNDYW1W0Xspg7x/KS/6eePz
-         QlOA==
+        bh=yjvgVAX10hQcQOXmjulUL0Ymv6qJVhXERMjZnBg4j9w=;
+        b=scfyELVARGy5wBalIBPt8LnpoigYHnVhVZEiO8VDh9a6rTTFRhvJHktQyrwfZLcM8x
+         WMy2Lw3tTRZXw27paGJBSWKVTbRde9Wezl8e8E0uyhzzizLgGVU2Z1ZdlxFVuDjiqixm
+         9dfaz3iZe9lLBpbgzUFQCW6HZFf8+XymgKHdzGA04dr5oQ+WyNq1Lffr5LMcfzyf3YP+
+         Z/8laRTObqWcswe/p5P5cUl5dQm/f2cNuztS3p2t+jtNVj/HOOSsZZHLBuhVhblTr1Jr
+         AtP4Z1ej6sOtEa+XOcyZ6hLmjmEO31PpXjQHNeTUjUMkOPha5FsEY5LnTwJZkYxW4PhC
+         hahg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=F4mNcaR90fbEud0o28hQFrCgK7lN9DAYPGliFgF36+c=;
-        b=a1hGHy4x9EejyxnL8ruiLbUzrnIjW78W3BMspEy1rFF6EXWviYhTbnwYSF/b/4A8sJ
-         DxDvDeSXwuZaCj7THC0sp7X9Xp9TYtNRQfF5ANZSuH+jH5NCekV8YrsfDe2OBOSjZuvz
-         mx1ZS6NXyU2OpW6yHlJdvrY3Yk92jsKHmHadXeQqUHeN7WPTvDF92j4HX8FUQMWRbsHn
-         5RLxk/cymdkJyak4VmXId0YYhIffwTWYVOx9pUT3yS1UCYeHn6uC5HQIsia984ZJwR9d
-         gcyUD4CoBfILHIHx3SOKd9o1iW1R9iArdQ/v5x0fNZafVHDlSCupPaQeeD4zuPWA0n8Y
-         B9oQ==
-X-Gm-Message-State: APjAAAWVYfc0QhRuGs/EE/gJYCgy5cLo9WYdw6mpxyigMTTDXyPg3o01
-        GQEuk1atb0wmnIxHe7DOLaxAxrOH
-X-Google-Smtp-Source: APXvYqz4YdNbxbKX7cc6SvfrKaff72QVBlZL3bPSJJUjwlebLV5Lo0tjFA5ghgNBLUJ93iv1ng/dCw==
-X-Received: by 2002:a17:90a:9f04:: with SMTP id n4mr5996113pjp.109.1568739168285;
-        Tue, 17 Sep 2019 09:52:48 -0700 (PDT)
+        bh=yjvgVAX10hQcQOXmjulUL0Ymv6qJVhXERMjZnBg4j9w=;
+        b=UHOyvD4nG7RtDEOm0dYqqD9Shi8pMFS3b2z0wXmT92mowReJEitqZqo+9aJalfiRsC
+         Ljeu4Zu3nzn/jIiPT48TkzT2OIu2cOjncwzm+cOheiY/cN23d91SeCqqxkUMhvw1vZVf
+         zWngUeDVuhLnK+iU8zaw0C8uEwjUmYUHbMuv9YfiIUCjfkZ+QUTk2B5j6vJB0YMWPACm
+         h5DJKxEoMwqcMqqcI/ntx1qans0g66nXTQBbvxRHZ699Nkyyr4LgpQqhTwJwgML7eW8F
+         o/sNmq7vw+wGHOYH/nsns4hArmP/tqQOH8CQ29ggOlhUq4qQOHBrapjyNe8Vw5tEQuhF
+         NJLA==
+X-Gm-Message-State: APjAAAXvOh8JraYTOL3va8AESKxh1krTZ5FtpKuVyMVZp0pSwAWWIWjv
+        Lc4vBdS7phm1fktWzh3+I4c=
+X-Google-Smtp-Source: APXvYqw73NBG3kowk41SxosYfL+G9OEk80H8tt7WWXPB4Niywp1W2jQUw9ceRRTQwzqEegqZhgZhRA==
+X-Received: by 2002:a17:90a:3301:: with SMTP id m1mr6164310pjb.27.1568739726749;
+        Tue, 17 Sep 2019 10:02:06 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id d1sm5004884pfc.98.2019.09.17.09.52.46
+        by smtp.gmail.com with ESMTPSA id t13sm2916622pfe.69.2019.09.17.10.02.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2019 09:52:47 -0700 (PDT)
-Date:   Tue, 17 Sep 2019 09:52:45 -0700
+        Tue, 17 Sep 2019 10:02:05 -0700 (PDT)
+Date:   Tue, 17 Sep 2019 10:02:03 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Marco Felsch <m.felsch@pengutronix.de>, robh+dt@kernel.org,
-        bparrot@ti.com, simon.budig@kernelconcepts.de, hdegoede@redhat.com,
-        fcooper@ti.com, linux-input@vger.kernel.org,
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        robh+dt@kernel.org, bparrot@ti.com, simon.budig@kernelconcepts.de,
+        hdegoede@redhat.com, fcooper@ti.com, linux-input@vger.kernel.org,
         devicetree@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 6/6] Input: edt-ft5x06 - add supply voltage support
-Message-ID: <20190917165245.GM237523@dtor-ws>
+Subject: Re: [PATCH 3/6] Input: edt-ft5x06 - add support to disable the
+ wakeup-source
+Message-ID: <20190917170203.GN237523@dtor-ws>
 References: <20190917155808.27818-1-m.felsch@pengutronix.de>
- <20190917155808.27818-7-m.felsch@pengutronix.de>
- <20190917163536.GI2680@smile.fi.intel.com>
+ <20190917155808.27818-4-m.felsch@pengutronix.de>
+ <20190917163215.GH2680@smile.fi.intel.com>
+ <20190917164639.bsspf3xoqfggpxwj@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190917163536.GI2680@smile.fi.intel.com>
+In-Reply-To: <20190917164639.bsspf3xoqfggpxwj@pengutronix.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 17, 2019 at 07:35:36PM +0300, Andy Shevchenko wrote:
-> On Tue, Sep 17, 2019 at 05:58:08PM +0200, Marco Felsch wrote:
-> > Currently the driver do not care about the regulator which supplies the
-> > controller. This can lead into problems since we support (deep-)sleep
-> > because the regulator can be turned off before we send the (deep-)sleep
-> > command to the controller. Using a own regulator improves the power
-> > consumption during sleep even more.
+On Tue, Sep 17, 2019 at 06:46:39PM +0200, Marco Felsch wrote:
+> On 19-09-17 19:32, Andy Shevchenko wrote:
+> > On Tue, Sep 17, 2019 at 05:58:05PM +0200, Marco Felsch wrote:
+> > > Since day one the touch controller acts as wakeup-source. This seems to
+> > > be wrong since the device supports deep-sleep mechanism [1] which
+> > > requires a reset to leave it. Also some designs won't use the
+> > > touchscreen as wakeup-source.
+> > > 
+> > > Add a firmware property to address this. The common 'wakeup-source'
+> > > property can't be used for that because the driver must be backward
+> > > compatible with old firmwares which may assume the default on
+> > > wakeup-source behaviour. So we need to go the other way by explicit
+> > > disable the wakeup-source capability.
+> > > 
+> > 
+> > > [1] https://www.newhavendisplay.com/appnotes/datasheets/touchpanel/ \
+> > >     FT5x26.pdf
+> > 
+> > Please, don't split URLs
 > 
-> > +	tsdata->vdd = devm_regulator_get(&client->dev, "vdd");
-> > +	if (IS_ERR(tsdata->vdd)) {
-> > +		error = PTR_ERR(tsdata->vdd);
-> > +		if (error == -EPROBE_DEFER)
-> > +			return error;
-> 
-> Before it worked w/o regulator. You have to make it optional.
+> Hm.. then checkpatch complains.. If you prefer it, I can change it in
+> the v2.
 
-No, regulators are funky this way. If there isn't one declared in the
-device tree then a dummy is created automatically. Optional regulators
-are only to be used when parts of an IC can be powered up separately.
+Checkpatch complains about valid things and it complains about insane
+things. In this case simply ignore it.
 
 Thanks.
 
