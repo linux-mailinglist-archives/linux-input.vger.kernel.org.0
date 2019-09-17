@@ -2,139 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44AEFB5543
-	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 20:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C875B556F
+	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 20:39:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727746AbfIQSYw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Sep 2019 14:24:52 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:39218 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1729126AbfIQSYw (ORCPT
+        id S1726074AbfIQSjR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Sep 2019 14:39:17 -0400
+Received: from mailrelay4-2.pub.mailoutpod1-cph3.one.com ([46.30.212.3]:55582
+        "EHLO mailrelay4-2.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726059AbfIQSjR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Sep 2019 14:24:52 -0400
-Received: (qmail 6810 invoked by uid 2102); 17 Sep 2019 14:24:51 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 17 Sep 2019 14:24:51 -0400
-Date:   Tue, 17 Sep 2019 14:24:51 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     syzbot <syzbot+403741a091bf41d4ae79@syzkaller.appspotmail.com>
-cc:     andreyknvl@google.com, <benjamin.tissoires@redhat.com>,
-        <jikos@kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <syzkaller-bugs@googlegroups.com>
-Subject: Re: KASAN: slab-out-of-bounds Write in ga_probe
-In-Reply-To: <000000000000cd1def0592ab9697@google.com>
-Message-ID: <Pine.LNX.4.44L0.1909171423360.1590-100000@iolanthe.rowland.org>
+        Tue, 17 Sep 2019 14:39:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bitmath.org; s=20140924;
+        h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
+         message-id:from:references:cc:to:subject:from;
+        bh=2QCEbDkNTVlepmxfafwkDO+VtRnQKigkL8ILiS9erYo=;
+        b=i54V4mb44f3KPaPCXXwcmOKK2reosPHOkefCdH94bX4dNRBYrfF6vas3EfbFXDr9IV4wufI8IYY5D
+         LEem8usf73om5pI1FU64FkRNrxlIcSmx0K6QgG7iEaaMvFvSTEmB7PqBpWPiOeLYFHG+0QtP23y4ZT
+         lOwCjXHS6ngQrvT8=
+X-HalOne-Cookie: 3202c1e5ddf8ba5138876360452462549f22ef0d
+X-HalOne-ID: 34d1a670-d978-11e9-8285-d0431ea8bb10
+Received: from [192.168.19.13] (unknown [98.128.166.173])
+        by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+        id 34d1a670-d978-11e9-8285-d0431ea8bb10;
+        Tue, 17 Sep 2019 18:23:11 +0000 (UTC)
+Subject: Re: [PATCH v3 02/49] Input: introduce input_mt_report_slot_inactive
+To:     Jiada Wang <jiada_wang@mentor.com>, nick@shmanahar.org,
+        dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190917093320.18134-1-jiada_wang@mentor.com>
+ <20190917093320.18134-3-jiada_wang@mentor.com>
+From:   Henrik Rydberg <rydberg@bitmath.org>
+Message-ID: <546c8205-ecb7-1c34-3727-b10c7ff86232@bitmath.org>
+Date:   Tue, 17 Sep 2019 20:25:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+In-Reply-To: <20190917093320.18134-3-jiada_wang@mentor.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 16 Sep 2019, syzbot wrote:
+Hi Jiada,
 
-> Hello,
-> 
-> syzbot found the following crash on:
-> 
-> HEAD commit:    f0df5c1b usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=14045831600000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=5c6633fa4ed00be5
-> dashboard link: https://syzkaller.appspot.com/bug?extid=403741a091bf41d4ae79
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13c1e62d600000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=166a3a95600000
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+403741a091bf41d4ae79@syzkaller.appspotmail.com
-> 
-> usb 1-1: config 0 interface 0 altsetting 0 has 1 endpoint descriptor,  
-> different from the interface descriptor's value: 9
-> usb 1-1: New USB device found, idVendor=0e8f, idProduct=0012, bcdDevice=  
-> 0.00
-> usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-> usb 1-1: config 0 descriptor??
-> greenasia 0003:0E8F:0012.0001: unknown main item tag 0x0
-> greenasia 0003:0E8F:0012.0001: hidraw0: USB HID v0.00 Device [HID  
-> 0e8f:0012] on usb-dummy_hcd.0-1/input0
-> ==================================================================
-> BUG: KASAN: slab-out-of-bounds in set_bit  
-> include/asm-generic/bitops-instrumented.h:28 [inline]
-> BUG: KASAN: slab-out-of-bounds in gaff_init drivers/hid/hid-gaff.c:97  
-> [inline]
-> BUG: KASAN: slab-out-of-bounds in ga_probe+0x1fd/0x6f0  
-> drivers/hid/hid-gaff.c:146
-> Write of size 8 at addr ffff8881d9acafc0 by task kworker/1:1/78
-> 
-> CPU: 1 PID: 78 Comm: kworker/1:1 Not tainted 5.3.0-rc7+ #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-> Google 01/01/2011
-> Workqueue: usb_hub_wq hub_event
-> Call Trace:
->   __dump_stack lib/dump_stack.c:77 [inline]
->   dump_stack+0xca/0x13e lib/dump_stack.c:113
->   print_address_description+0x6a/0x32c mm/kasan/report.c:351
->   __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
->   kasan_report+0xe/0x12 mm/kasan/common.c:618
->   check_memory_region_inline mm/kasan/generic.c:185 [inline]
->   check_memory_region+0x128/0x190 mm/kasan/generic.c:192
->   set_bit include/asm-generic/bitops-instrumented.h:28 [inline]
->   gaff_init drivers/hid/hid-gaff.c:97 [inline]
->   ga_probe+0x1fd/0x6f0 drivers/hid/hid-gaff.c:146
->   hid_device_probe+0x2be/0x3f0 drivers/hid/hid-core.c:2209
->   really_probe+0x281/0x6d0 drivers/base/dd.c:548
->   driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
->   __device_attach_driver+0x
-> 
-> 
-> ---
-> This bug is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
-> 
-> syzbot will keep track of this bug report. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> syzbot can test patches for this bug, for details see:
-> https://goo.gl/tpsmEJ#testing-patches
+> input_mt_report_slot_state() ignores the tool when the slot is closed.
+> which has caused a bit of confusion.
+> This patch introduces input_mt_report_slot_inactive() to report slot
+> inactive state.
+> replaces all input_mt_report_slot_state() with
+> input_mt_report_slot_inactive() in case of close of slot.
 
-The driver assumes that the device contains an input.
+This patch looks very odd, I am afraid.
 
-Alan Stern
+When a driver needs to use input_mt functions, it first calls 
+input_mt_init_slots() during setup. The MT state then remains in effect 
+until the driver is destroyed. Thus, there is no valid case when 
+input_mt_report_slot_state() would fail to execute the line
 
-https://github.com/google/kasan.git f0df5c1b
+    input_event(dev, EV_ABS, ABS_MT_TRACKING_ID, -1)
 
- drivers/hid/hid-gaff.c |   12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+when active == false.
 
-Index: usb-devel/drivers/hid/hid-gaff.c
-===================================================================
---- usb-devel.orig/drivers/hid/hid-gaff.c
-+++ usb-devel/drivers/hid/hid-gaff.c
-@@ -64,14 +64,20 @@ static int gaff_init(struct hid_device *
- {
- 	struct gaff_device *gaff;
- 	struct hid_report *report;
--	struct hid_input *hidinput = list_entry(hid->inputs.next,
--						struct hid_input, list);
-+	struct hid_input *hidinput;
- 	struct list_head *report_list =
- 			&hid->report_enum[HID_OUTPUT_REPORT].report_list;
- 	struct list_head *report_ptr = report_list;
--	struct input_dev *dev = hidinput->input;
-+	struct input_dev *dev;
- 	int error;
- 
-+	if (list_empty(&hid->inputs)) {
-+		hid_err(hid, "no inputs found\n");
-+		return -ENODEV;
-+	}
-+	hidinput = list_entry(hid->inputs.next, struct hid_input, list);
-+	dev = hidinput->input;
-+
- 	if (list_empty(report_list)) {
- 		hid_err(hid, "no output reports found\n");
- 		return -ENODEV;
+What input_mt_report_slot_state() does do, however, is to ignore the 
+event when no MT state has been set, which does happen for some drivers 
+handling both normal and MT devices. Changing such a driver in the way 
+you suggest would introduce new events in existing, working cases, and 
+possibly break userspace. We should try very hard to avoid it.
+
+Thanks,
+
+Henrik
+
 
