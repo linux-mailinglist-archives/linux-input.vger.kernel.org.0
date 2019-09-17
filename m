@@ -2,88 +2,139 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CEEDB5494
-	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 19:50:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44AEFB5543
+	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 20:24:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726583AbfIQRuP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Sep 2019 13:50:15 -0400
-Received: from mga17.intel.com ([192.55.52.151]:7311 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727076AbfIQRuP (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Sep 2019 13:50:15 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Sep 2019 10:50:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,517,1559545200"; 
-   d="scan'208";a="211572348"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Sep 2019 10:50:12 -0700
-Received: from andy by smile with local (Exim 4.92.1)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1iAHcA-0002ba-Vq; Tue, 17 Sep 2019 20:50:10 +0300
-Date:   Tue, 17 Sep 2019 20:50:10 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Marco Felsch <m.felsch@pengutronix.de>, robh+dt@kernel.org,
-        bparrot@ti.com, simon.budig@kernelconcepts.de, hdegoede@redhat.com,
-        fcooper@ti.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 6/6] Input: edt-ft5x06 - add supply voltage support
-Message-ID: <20190917175010.GM2680@smile.fi.intel.com>
-References: <20190917155808.27818-1-m.felsch@pengutronix.de>
- <20190917155808.27818-7-m.felsch@pengutronix.de>
- <20190917163536.GI2680@smile.fi.intel.com>
- <20190917165245.GM237523@dtor-ws>
- <20190917171246.GL2680@smile.fi.intel.com>
- <20190917172105.GP237523@dtor-ws>
+        id S1727746AbfIQSYw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Sep 2019 14:24:52 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:39218 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1729126AbfIQSYw (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 17 Sep 2019 14:24:52 -0400
+Received: (qmail 6810 invoked by uid 2102); 17 Sep 2019 14:24:51 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 17 Sep 2019 14:24:51 -0400
+Date:   Tue, 17 Sep 2019 14:24:51 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     syzbot <syzbot+403741a091bf41d4ae79@syzkaller.appspotmail.com>
+cc:     andreyknvl@google.com, <benjamin.tissoires@redhat.com>,
+        <jikos@kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: Re: KASAN: slab-out-of-bounds Write in ga_probe
+In-Reply-To: <000000000000cd1def0592ab9697@google.com>
+Message-ID: <Pine.LNX.4.44L0.1909171423360.1590-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190917172105.GP237523@dtor-ws>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 17, 2019 at 10:21:05AM -0700, Dmitry Torokhov wrote:
-> On Tue, Sep 17, 2019 at 08:12:46PM +0300, Andy Shevchenko wrote:
-> > On Tue, Sep 17, 2019 at 09:52:45AM -0700, Dmitry Torokhov wrote:
-> > > On Tue, Sep 17, 2019 at 07:35:36PM +0300, Andy Shevchenko wrote:
-> > > > On Tue, Sep 17, 2019 at 05:58:08PM +0200, Marco Felsch wrote:
-> > > > > Currently the driver do not care about the regulator which supplies the
-> > > > > controller. This can lead into problems since we support (deep-)sleep
-> > > > > because the regulator can be turned off before we send the (deep-)sleep
-> > > > > command to the controller. Using a own regulator improves the power
-> > > > > consumption during sleep even more.
-> > > > 
-> > > > > +	tsdata->vdd = devm_regulator_get(&client->dev, "vdd");
-> > > > > +	if (IS_ERR(tsdata->vdd)) {
-> > > > > +		error = PTR_ERR(tsdata->vdd);
-> > > > > +		if (error == -EPROBE_DEFER)
-> > > > > +			return error;
-> > > > 
-> > > > Before it worked w/o regulator. You have to make it optional.
-> > > 
-> > > No, regulators are funky this way. If there isn't one declared in the
-> > > device tree then a dummy is created automatically. Optional regulators
-> > > are only to be used when parts of an IC can be powered up separately.
-> > 
-> > It depends if platform has full constrains or not.
+On Mon, 16 Sep 2019, syzbot wrote:
+
+> Hello,
 > 
-> Full constraints is the default behavior. Do we even have platforms that
-> are not? ACPI and DT are fully-constrained, so that leaves legacy
-> boards... But there isn't a single one in the tree that uses this
-> driver.
+> syzbot found the following crash on:
+> 
+> HEAD commit:    f0df5c1b usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=14045831600000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=5c6633fa4ed00be5
+> dashboard link: https://syzkaller.appspot.com/bug?extid=403741a091bf41d4ae79
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13c1e62d600000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=166a3a95600000
+> 
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+403741a091bf41d4ae79@syzkaller.appspotmail.com
+> 
+> usb 1-1: config 0 interface 0 altsetting 0 has 1 endpoint descriptor,  
+> different from the interface descriptor's value: 9
+> usb 1-1: New USB device found, idVendor=0e8f, idProduct=0012, bcdDevice=  
+> 0.00
+> usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+> usb 1-1: config 0 descriptor??
+> greenasia 0003:0E8F:0012.0001: unknown main item tag 0x0
+> greenasia 0003:0E8F:0012.0001: hidraw0: USB HID v0.00 Device [HID  
+> 0e8f:0012] on usb-dummy_hcd.0-1/input0
+> ==================================================================
+> BUG: KASAN: slab-out-of-bounds in set_bit  
+> include/asm-generic/bitops-instrumented.h:28 [inline]
+> BUG: KASAN: slab-out-of-bounds in gaff_init drivers/hid/hid-gaff.c:97  
+> [inline]
+> BUG: KASAN: slab-out-of-bounds in ga_probe+0x1fd/0x6f0  
+> drivers/hid/hid-gaff.c:146
+> Write of size 8 at addr ffff8881d9acafc0 by task kworker/1:1/78
+> 
+> CPU: 1 PID: 78 Comm: kworker/1:1 Not tainted 5.3.0-rc7+ #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+> Google 01/01/2011
+> Workqueue: usb_hub_wq hub_event
+> Call Trace:
+>   __dump_stack lib/dump_stack.c:77 [inline]
+>   dump_stack+0xca/0x13e lib/dump_stack.c:113
+>   print_address_description+0x6a/0x32c mm/kasan/report.c:351
+>   __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
+>   kasan_report+0xe/0x12 mm/kasan/common.c:618
+>   check_memory_region_inline mm/kasan/generic.c:185 [inline]
+>   check_memory_region+0x128/0x190 mm/kasan/generic.c:192
+>   set_bit include/asm-generic/bitops-instrumented.h:28 [inline]
+>   gaff_init drivers/hid/hid-gaff.c:97 [inline]
+>   ga_probe+0x1fd/0x6f0 drivers/hid/hid-gaff.c:146
+>   hid_device_probe+0x2be/0x3f0 drivers/hid/hid-core.c:2209
+>   really_probe+0x281/0x6d0 drivers/base/dd.c:548
+>   driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+>   __device_attach_driver+0x
+> 
+> 
+> ---
+> This bug is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+> 
+> syzbot will keep track of this bug report. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> syzbot can test patches for this bug, for details see:
+> https://goo.gl/tpsmEJ#testing-patches
 
-Fine then!
+The driver assumes that the device contains an input.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Alan Stern
 
+https://github.com/google/kasan.git f0df5c1b
+
+ drivers/hid/hid-gaff.c |   12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+Index: usb-devel/drivers/hid/hid-gaff.c
+===================================================================
+--- usb-devel.orig/drivers/hid/hid-gaff.c
++++ usb-devel/drivers/hid/hid-gaff.c
+@@ -64,14 +64,20 @@ static int gaff_init(struct hid_device *
+ {
+ 	struct gaff_device *gaff;
+ 	struct hid_report *report;
+-	struct hid_input *hidinput = list_entry(hid->inputs.next,
+-						struct hid_input, list);
++	struct hid_input *hidinput;
+ 	struct list_head *report_list =
+ 			&hid->report_enum[HID_OUTPUT_REPORT].report_list;
+ 	struct list_head *report_ptr = report_list;
+-	struct input_dev *dev = hidinput->input;
++	struct input_dev *dev;
+ 	int error;
+ 
++	if (list_empty(&hid->inputs)) {
++		hid_err(hid, "no inputs found\n");
++		return -ENODEV;
++	}
++	hidinput = list_entry(hid->inputs.next, struct hid_input, list);
++	dev = hidinput->input;
++
+ 	if (list_empty(report_list)) {
+ 		hid_err(hid, "no output reports found\n");
+ 		return -ENODEV;
 
