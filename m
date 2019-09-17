@@ -2,39 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 62AA5B4AE4
-	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 11:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46F46B4AE8
+	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 11:40:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728718AbfIQJkU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Sep 2019 05:40:20 -0400
+        id S1727006AbfIQJkY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Sep 2019 05:40:24 -0400
 Received: from esa3.mentor.iphmx.com ([68.232.137.180]:20545 "EHLO
         esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727534AbfIQJkU (ORCPT
+        with ESMTP id S1727534AbfIQJkV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Sep 2019 05:40:20 -0400
-IronPort-SDR: Ekppn3Ko7y0Kqrzl3fNcHN/RpWG2fAkT33rMW6rbj+4zuUvY6oFBJM6bbmLei08UR4pBlPwqCl
- 0KgMHEtfkvaBT0pCj7GjvbhgmtUFH40etKnnsNkgK6xHDTbWmt8MEGm4C51y+7RXyygHZixDgV
- cdWesKTHmAIzwjn/0R7MwGNVa/KWJjh2c+GAcB648v882CSwkqhz+HKOIe1X3MmTmxtotx7roW
- E0Tg+yESrjRI3rqSibWvIVO6b8EXOVIjKaRKZ/pyYjagPe4ilBHw2Hv40oPxG8VCv6WKrzFCfi
- 5ow=
+        Tue, 17 Sep 2019 05:40:21 -0400
+IronPort-SDR: CvEK2THQ7Sa7hj2uHH8yuDJRM97oYITtAE0+aXTb0xY11p1Wh57jcfCrk4f5V43Dwo2vLD2FfY
+ odzdJAVknnXeK8lbPeARuS4Si0tcWE8pHFsk5GoiFsGI1dFuFgj6bac1JaecpWXCNa2IRZwPYZ
+ AV1Qc6TPtQ7QQcxj2dBeOpBgOGgHJzT7Fn6stgImXs0qZWhGu1XmFhUL3bIspLbzHPe0SegtiM
+ o582M+BYKCZSZ1MSUmhyUKUZ+0umEEfxwdXULe9E/iw9ZKlqlRUygqURv1fLcLeusUxbTsZhw1
+ Geg=
 X-IronPort-AV: E=Sophos;i="5.64,515,1559548800"; 
-   d="scan'208";a="41416536"
+   d="scan'208";a="41416543"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 17 Sep 2019 01:40:00 -0800
-IronPort-SDR: NxQL+RykyzPw+QJPCKBXk1uLYhYC40gcDKfTFHNtO9QEU8lOWiMyIZqW3ilGaHMY7kSTkm+2Sa
- FqiItPs6pBmbaNFSgV2LqM8Wl2sTOsPcbvBRk5gT7a8dBPEgGoPgnRLeXISA3hOUIO22gnjGGq
- uIHGi9cWNH1WlqESalhWeFnjYn48QuGnyG9hE41p+ZgZqzd6r4ZzSvkQQxyJgb3XH/E6q8S4t+
- 3uY0diyeZraPYxJGbJ+EVBjASNqtwadnUmRY1GwatmvGRrzPONWX1qh2JL5JQ4SegY30QHe06/
- Q0Y=
+  by esa3.mentor.iphmx.com with ESMTP; 17 Sep 2019 01:40:03 -0800
+IronPort-SDR: A7+iHF8M/KEwpBF4bfWSfnjmnxKU9q0UeoG5X4YNuzzZyX7IakxHF393YMZepWPHAQX6D1PW2t
+ UlaXPNrLWlg1dyzgn1BNqHwkTzj8RuIVRrP60Xv0DRF6+UxnapJR5ZF9c1ZpAPCWIrqz2/y9O0
+ Td5TsEIYvWBW3dEHiBEy9mvckfJQ/kyX0AMEC3mNhRazO21JkPsSPcBJrWyXJZjNMX1mVt+pGB
+ 7uWcQ8XGDnE5s72YMOdF+bP4GjYlwAH1tfx5HnmsB4Q/4Dn1VxQ3tor3x76syBnpn1iJsJ6og2
+ Mik=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v3 26/49] Input: atmel_mxt_ts - delay enabling IRQ when not using regulators
-Date:   Tue, 17 Sep 2019 18:38:52 +0900
-Message-ID: <20190917093915.18645-7-jiada_wang@mentor.com>
+Subject: [PATCH v3 27/49] Input: atmel_mxt_ts - implement I2C retries
+Date:   Tue, 17 Sep 2019 18:38:53 +0900
+Message-ID: <20190917093915.18645-8-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190917093915.18645-1-jiada_wang@mentor.com>
 References: <20190917093915.18645-1-jiada_wang@mentor.com>
@@ -50,108 +50,108 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-The path of enabling the IRQ in the probe function is not safe in level
-triggered operation, if it was already powered up and there is a message
-waiting on the device (eg finger down) because the object table has not yet
-been read. This forces the ISR into a hard loop.
-
-Delay enabling the interrupt until it is first needed.
+Some maXTouch chips (eg mXT1386) will not respond on the first I2C request
+when they are in a sleep state. It must be retried after a delay for the
+chip to wake up.
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-(cherry picked from ndyer/linux/for-upstream commit 64c9dadc4a3250a185baf06ab0f628be45d5d9a0)
-[gdavis: Resolve forward port conflicts due to v4.14-rc1 commit
-	 8cc8446b9b62 ("Input: atmel_mxt_ts - use more managed
-	 resources") and applying upstream commit 96a938aa214e ("Input:
-	 atmel_mxt_ts - remove platform data support").]
+Acked-by: Yufeng Shen <miletus@chromium.org>
+(cherry picked from ndyer/linux/for-upstream commit 63fd7a2cd03c3a572a5db39c52f4856819e1835d)
+[gdavis: Forward port and fix conflicts.]
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 40 +++++++++++++++---------
- 1 file changed, 26 insertions(+), 14 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 45 ++++++++++++++++--------
+ 1 file changed, 30 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 49d06eb0c6ee..0ff144529eda 100644
+index 0ff144529eda..cf77f46dd08d 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -1451,9 +1451,24 @@ static int mxt_acquire_irq(struct mxt_data *data)
- {
- 	int error;
+@@ -216,6 +216,7 @@ enum t100_type {
+ #define MXT_CRC_TIMEOUT		1000	/* msec */
+ #define MXT_FW_RESET_TIME	3000	/* msec */
+ #define MXT_FW_CHG_TIMEOUT	300	/* msec */
++#define MXT_WAKEUP_TIME		25	/* msec */
+ #define MXT_REGULATOR_DELAY	150	/* msec */
+ #define MXT_CHG_DELAY	        100	/* msec */
+ #define MXT_POWERON_DELAY	150	/* msec */
+@@ -723,6 +724,7 @@ static int __mxt_read_chunk(struct i2c_client *client,
+ 	struct i2c_msg xfer[2];
+ 	u8 buf[2];
+ 	int ret;
++	bool retry = false;
  
--	enable_irq(data->irq);
-+	if (!data->irq) {
-+		error = devm_request_threaded_irq(&data->client->dev,
-+						  data->client->irq,
-+						  NULL, mxt_interrupt,
-+						  IRQF_ONESHOT,
-+						  data->client->name, data);
-+		if (error) {
-+			dev_err(&data->client->dev, "Error requesting irq\n");
-+			return error;
+ 	buf[0] = reg & 0xff;
+ 	buf[1] = (reg >> 8) & 0xff;
+@@ -739,17 +741,22 @@ static int __mxt_read_chunk(struct i2c_client *client,
+ 	xfer[1].len = len;
+ 	xfer[1].buf = val;
+ 
+-	ret = i2c_transfer(client->adapter, xfer, 2);
+-	if (ret == 2) {
+-		ret = 0;
+-	} else {
+-		if (ret >= 0)
+-			ret = -EIO;
+-		dev_err(&client->dev, "%s: i2c transfer failed (%d)\n",
+-			__func__, ret);
++retry_read:
++	ret = i2c_transfer(client->adapter, xfer, ARRAY_SIZE(xfer));
++	if (ret != ARRAY_SIZE(xfer)) {
++		if (!retry) {
++			dev_dbg(&client->dev, "%s: i2c retry\n", __func__);
++			msleep(MXT_WAKEUP_TIME);
++			retry = true;
++			goto retry_read;
++		} else {
++			dev_err(&client->dev, "%s: i2c transfer failed (%d)\n",
++				__func__, ret);
++			return -EIO;
 +		}
-+
-+		/* Presence of data->irq means IRQ initialised */
-+		data->irq = data->client->irq;
+ 	}
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int __mxt_read_reg(struct i2c_client *client,
+@@ -780,6 +787,7 @@ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
+ 	u8 *buf;
+ 	size_t count;
+ 	int ret;
++	bool retry = false;
+ 
+ 	count = len + 2;
+ 	buf = kmalloc(count, GFP_KERNEL);
+@@ -790,14 +798,21 @@ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
+ 	buf[1] = (reg >> 8) & 0xff;
+ 	memcpy(&buf[2], val, len);
+ 
++retry_write:
+ 	ret = i2c_master_send(client, buf, count);
+-	if (ret == count) {
+-		ret = 0;
+-	} else {
+-		if (ret >= 0)
++	if (ret != count) {
++		if (!retry) {
++			dev_dbg(&client->dev, "%s: i2c retry\n", __func__);
++			msleep(MXT_WAKEUP_TIME);
++			retry = true;
++			goto retry_write;
++		} else {
++			dev_err(&client->dev, "%s: i2c send failed (%d)\n",
++				__func__, ret);
+ 			ret = -EIO;
+-		dev_err(&client->dev, "%s: i2c send failed (%d)\n",
+-			__func__, ret);
++		}
 +	} else {
-+		enable_irq(data->irq);
-+	}
- 
--	if (data->use_retrigen_workaround) {
-+	if (data->object_table && data->use_retrigen_workaround) {
- 		error = mxt_process_messages_until_invalid(data);
- 		if (error)
- 			return error;
-@@ -3373,7 +3388,9 @@ static int mxt_load_fw(struct device *dev)
- 			goto release_firmware;
++		ret = 0;
  	}
  
--	enable_irq(data->irq);
-+	ret = mxt_acquire_irq(data);
-+	if (ret)
-+		goto release_firmware;
- 
- 	/* Poll after 0.1s if no interrupt received */
- 	schedule_delayed_work(&data->flash->work, msecs_to_jiffies(100));
-@@ -3801,7 +3818,6 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		 client->adapter->nr, client->addr);
- 
- 	data->client = client;
--	data->irq = client->irq;
- 	i2c_set_clientdata(client, data);
- 
- 	init_completion(&data->chg_completion);
-@@ -3829,26 +3845,22 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		return error;
- 	}
- 
--	error = devm_request_threaded_irq(&client->dev, client->irq,
--					  NULL, mxt_interrupt, IRQF_ONESHOT,
--					  client->name, data);
--	if (error) {
--		dev_err(&client->dev, "Failed to register interrupt\n");
--		return error;
--	}
--
- 	if (data->suspend_mode == MXT_SUSPEND_REGULATOR) {
-+		error = mxt_acquire_irq(data);
-+		if (error)
-+			return error;
-+
- 		error = mxt_probe_regulators(data);
- 		if (error)
- 			return error;
-+
-+		disable_irq(data->irq);
- 	} else if (data->reset_gpio) {
- 		msleep(MXT_RESET_GPIO_TIME);
- 		gpiod_set_value(data->reset_gpio, 1);
- 		msleep(MXT_RESET_INVALID_CHG);
- 	}
- 
--	disable_irq(data->irq);
--
- 	error = mxt_initialize(data);
- 	if (error)
- 		return error;
+ 	kfree(buf);
 -- 
 2.19.2
 
