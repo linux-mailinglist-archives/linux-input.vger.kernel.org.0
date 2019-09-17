@@ -2,24 +2,24 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 83009B45E2
-	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 05:14:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FB0CB45E4
+	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 05:14:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392156AbfIQDOK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 Sep 2019 23:14:10 -0400
-Received: from inva021.nxp.com ([92.121.34.21]:40110 "EHLO inva021.nxp.com"
+        id S2392162AbfIQDOL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 Sep 2019 23:14:11 -0400
+Received: from inva021.nxp.com ([92.121.34.21]:40178 "EHLO inva021.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392148AbfIQDOJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 Sep 2019 23:14:09 -0400
+        id S1728874AbfIQDOK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 16 Sep 2019 23:14:10 -0400
 Received: from inva021.nxp.com (localhost [127.0.0.1])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 716A8200637;
-        Tue, 17 Sep 2019 05:14:06 +0200 (CEST)
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 0E709200640;
+        Tue, 17 Sep 2019 05:14:09 +0200 (CEST)
 Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 74D12200639;
-        Tue, 17 Sep 2019 05:13:45 +0200 (CEST)
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 6A39420063D;
+        Tue, 17 Sep 2019 05:13:47 +0200 (CEST)
 Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 1AE47402FC;
-        Tue, 17 Sep 2019 11:13:31 +0800 (SGT)
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id E922E40307;
+        Tue, 17 Sep 2019 11:13:33 +0800 (SGT)
 From:   Anson Huang <Anson.Huang@nxp.com>
 To:     robh+dt@kernel.org, mark.rutland@arm.com, shawnguo@kernel.org,
         s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
@@ -36,9 +36,9 @@ To:     robh+dt@kernel.org, mark.rutland@arm.com, shawnguo@kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org
 Cc:     Linux-imx@nxp.com
-Subject: [PATCH RESEND V5 3/5] arm64: dts: imx8qxp: Add scu key node
-Date:   Tue, 17 Sep 2019 11:12:17 +0800
-Message-Id: <1568689939-8871-3-git-send-email-Anson.Huang@nxp.com>
+Subject: [PATCH RESEND V5 4/5] arm64: dts: imx8qxp-mek: Enable scu key
+Date:   Tue, 17 Sep 2019 11:12:18 +0800
+Message-Id: <1568689939-8871-4-git-send-email-Anson.Huang@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1568689939-8871-1-git-send-email-Anson.Huang@nxp.com>
 References: <1568689939-8871-1-git-send-email-Anson.Huang@nxp.com>
@@ -48,41 +48,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add scu key node for i.MX8QXP, disabled by default as it
-depends on board design.
+Enable scu key for i.MX8QXP MEK board.
 
 Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
 ---
 No changes.
 ---
- arch/arm64/boot/dts/freescale/imx8qxp.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/arm64/boot/dts/freescale/imx8qxp-mek.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
-index 1133b41..71e38c1 100644
---- a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
-@@ -8,6 +8,7 @@
- #include <dt-bindings/clock/imx8-clock.h>
- #include <dt-bindings/firmware/imx/rsrc.h>
- #include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/input/input.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/pinctrl/pads-imx8qxp.h>
- 
-@@ -174,6 +175,12 @@
- 			#power-domain-cells = <1>;
- 		};
- 
-+		scu_key: scu-key {
-+			compatible = "fsl,imx8qxp-sc-key", "fsl,imx-sc-key";
-+			linux,keycode = <KEY_POWER>;
-+			status = "disabled";
-+		};
+diff --git a/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts b/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
+index 1946805..88dd9132 100644
+--- a/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
++++ b/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
+@@ -234,3 +234,7 @@
+ &adma_dsp {
+ 	status = "okay";
+ };
 +
- 		rtc: rtc {
- 			compatible = "fsl,imx8qxp-sc-rtc";
- 		};
++&scu_key {
++	status = "okay";
++};
 -- 
 2.7.4
 
