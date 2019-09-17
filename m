@@ -2,78 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B874B53B4
-	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 19:12:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B82E0B53D7
+	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 19:18:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726213AbfIQRMw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Sep 2019 13:12:52 -0400
-Received: from mga11.intel.com ([192.55.52.93]:41656 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726169AbfIQRMw (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Sep 2019 13:12:52 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Sep 2019 10:12:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,517,1559545200"; 
-   d="scan'208";a="191453000"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga006.jf.intel.com with ESMTP; 17 Sep 2019 10:12:48 -0700
-Received: from andy by smile with local (Exim 4.92.1)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1iAH1y-0002B1-Sg; Tue, 17 Sep 2019 20:12:46 +0300
-Date:   Tue, 17 Sep 2019 20:12:46 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+        id S1727296AbfIQRSY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Sep 2019 13:18:24 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:59011 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726616AbfIQRSY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 17 Sep 2019 13:18:24 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iAH7I-0006lV-HY; Tue, 17 Sep 2019 19:18:16 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iAH7G-0001Ca-SP; Tue, 17 Sep 2019 19:18:14 +0200
+Date:   Tue, 17 Sep 2019 19:18:14 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Marco Felsch <m.felsch@pengutronix.de>, robh+dt@kernel.org,
-        bparrot@ti.com, simon.budig@kernelconcepts.de, hdegoede@redhat.com,
-        fcooper@ti.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 6/6] Input: edt-ft5x06 - add supply voltage support
-Message-ID: <20190917171246.GL2680@smile.fi.intel.com>
+Cc:     robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
+        bparrot@ti.com, andy.shevchenko@gmail.com,
+        simon.budig@kernelconcepts.de, hdegoede@redhat.com, fcooper@ti.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 2/6] dt-bindings: Input: edt-ft5x06 - add disable
+ wakeup-source documentation
+Message-ID: <20190917171814.owcttekv56xgmsts@pengutronix.de>
 References: <20190917155808.27818-1-m.felsch@pengutronix.de>
- <20190917155808.27818-7-m.felsch@pengutronix.de>
- <20190917163536.GI2680@smile.fi.intel.com>
- <20190917165245.GM237523@dtor-ws>
+ <20190917155808.27818-3-m.felsch@pengutronix.de>
+ <20190917170743.GO237523@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190917165245.GM237523@dtor-ws>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190917170743.GO237523@dtor-ws>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 19:09:31 up 122 days, 23:27, 70 users,  load average: 0.03, 0.04,
+ 0.01
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 17, 2019 at 09:52:45AM -0700, Dmitry Torokhov wrote:
-> On Tue, Sep 17, 2019 at 07:35:36PM +0300, Andy Shevchenko wrote:
-> > On Tue, Sep 17, 2019 at 05:58:08PM +0200, Marco Felsch wrote:
-> > > Currently the driver do not care about the regulator which supplies the
-> > > controller. This can lead into problems since we support (deep-)sleep
-> > > because the regulator can be turned off before we send the (deep-)sleep
-> > > command to the controller. Using a own regulator improves the power
-> > > consumption during sleep even more.
-> > 
-> > > +	tsdata->vdd = devm_regulator_get(&client->dev, "vdd");
-> > > +	if (IS_ERR(tsdata->vdd)) {
-> > > +		error = PTR_ERR(tsdata->vdd);
-> > > +		if (error == -EPROBE_DEFER)
-> > > +			return error;
-> > 
-> > Before it worked w/o regulator. You have to make it optional.
-> 
-> No, regulators are funky this way. If there isn't one declared in the
-> device tree then a dummy is created automatically. Optional regulators
-> are only to be used when parts of an IC can be powered up separately.
+Hi Dmitry,
 
-It depends if platform has full constrains or not.
-For the former, indeed, you are right, for the latter, we will get -ENODEV.
+On 19-09-17 10:07, Dmitry Torokhov wrote:
+> On Tue, Sep 17, 2019 at 05:58:04PM +0200, Marco Felsch wrote:
+> > The default driver behaviour is to enable the wakeup-source everytime.
+> > There are hardware designs which have a dedicated gpio to act as wakeup
+> > device. So it must be allowed to disable the wakeup-source capability.
+> > 
+> > This patch adds the binding documentation to disable the wakeup-source
+> > capability.
+> > 
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > ---
+> >  .../devicetree/bindings/input/touchscreen/edt-ft5x06.txt      | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
+> > index 870b8c5cce9b..4d6524fe3cf4 100644
+> > --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
+> > +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
+> > @@ -35,6 +35,10 @@ Optional properties:
+> >   - pinctrl-0:   a phandle pointing to the pin settings for the
+> >                  control gpios
+> >  
+> > + - edt,disable-wakeup-source: If left the device will act as wakeup-source
+> > +			      (for legacy compatibility). Add the property
+> > +			      so the device won't act as wakeup-source.
+> 
+> I think this is too ugly and I consider it being a bug in the driver
+> that it enables wakeup unconditionally.
+
+That's right.
+
+> Let's just update DTS in tree for devices that actually want it (I am
+> curious how many that do not declare "wakeup-source" have it working and
+> actually want it) and key the dirver behavior off the standard property.
+
+There are a few DTS using this driver and the current driver behaviour.
+We need to keep the backward compatibility since the DTB is part of the
+firmware and firmware isn't always included during a system-update. I
+know its ugly but IMHO that's the right way to go to keep the backward
+compatibility. Let us see what the DT-folk says.
+
+> Until we start seeing this controller in devices that actually have DTS
+> in hardware device tree I think it is better to use standard property.
+
+Sorry, I didn't get you here..
+
+Regards,
+  Marco
+
+
+> 
+> Thanks.
+> 
+> -- 
+> Dmitry
+> 
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
