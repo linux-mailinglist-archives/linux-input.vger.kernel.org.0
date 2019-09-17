@@ -2,98 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B824FB5386
-	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 19:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D0E7B53A8
+	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 19:08:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728630AbfIQRCH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Sep 2019 13:02:07 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:43078 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726134AbfIQRCH (ORCPT
+        id S1730791AbfIQRHs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Sep 2019 13:07:48 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:35233 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727398AbfIQRHr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Sep 2019 13:02:07 -0400
-Received: by mail-pf1-f193.google.com with SMTP id a2so2505040pfo.10;
-        Tue, 17 Sep 2019 10:02:07 -0700 (PDT)
+        Tue, 17 Sep 2019 13:07:47 -0400
+Received: by mail-pf1-f196.google.com with SMTP id 205so2538541pfw.2;
+        Tue, 17 Sep 2019 10:07:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=yjvgVAX10hQcQOXmjulUL0Ymv6qJVhXERMjZnBg4j9w=;
-        b=scfyELVARGy5wBalIBPt8LnpoigYHnVhVZEiO8VDh9a6rTTFRhvJHktQyrwfZLcM8x
-         WMy2Lw3tTRZXw27paGJBSWKVTbRde9Wezl8e8E0uyhzzizLgGVU2Z1ZdlxFVuDjiqixm
-         9dfaz3iZe9lLBpbgzUFQCW6HZFf8+XymgKHdzGA04dr5oQ+WyNq1Lffr5LMcfzyf3YP+
-         Z/8laRTObqWcswe/p5P5cUl5dQm/f2cNuztS3p2t+jtNVj/HOOSsZZHLBuhVhblTr1Jr
-         AtP4Z1ej6sOtEa+XOcyZ6hLmjmEO31PpXjQHNeTUjUMkOPha5FsEY5LnTwJZkYxW4PhC
-         hahg==
+        bh=XD9SG7vl2EiQGBElZCh6migVsB7ZbmqK8Jqpp/W1o1E=;
+        b=Fgj4HFMrk4+/1bxzotMmyTQxQh9GnXWldcLojvTQLgU20RQWS1E97VldVjqkGfTR9v
+         ica5pzgZROEpXGqWLI8yP79aRZvFPnF1WocANtRt9zAfl8sVzzOCJNC9/pE76Ho3ARwp
+         pvDdkt+mJH1K67vNdgZGHR6FVhkeVARXAEWa5P0wLzpTRBkI5gnYUspQqRAe0RkqQLF0
+         rBA8Nk1Pdq/pdg/2zuJPvzmay+h7RU8NyJMclp18gcjnIepoMGIWPtKReKsz5LLwscXq
+         5+oh+y0WqkHoDLlg5Zv2GireMaMuiRjR7oGy3j8Usxr/JVUNeBRBxqfD5HEZpwtHZqgO
+         0ZsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=yjvgVAX10hQcQOXmjulUL0Ymv6qJVhXERMjZnBg4j9w=;
-        b=UHOyvD4nG7RtDEOm0dYqqD9Shi8pMFS3b2z0wXmT92mowReJEitqZqo+9aJalfiRsC
-         Ljeu4Zu3nzn/jIiPT48TkzT2OIu2cOjncwzm+cOheiY/cN23d91SeCqqxkUMhvw1vZVf
-         zWngUeDVuhLnK+iU8zaw0C8uEwjUmYUHbMuv9YfiIUCjfkZ+QUTk2B5j6vJB0YMWPACm
-         h5DJKxEoMwqcMqqcI/ntx1qans0g66nXTQBbvxRHZ699Nkyyr4LgpQqhTwJwgML7eW8F
-         o/sNmq7vw+wGHOYH/nsns4hArmP/tqQOH8CQ29ggOlhUq4qQOHBrapjyNe8Vw5tEQuhF
-         NJLA==
-X-Gm-Message-State: APjAAAXvOh8JraYTOL3va8AESKxh1krTZ5FtpKuVyMVZp0pSwAWWIWjv
-        Lc4vBdS7phm1fktWzh3+I4c=
-X-Google-Smtp-Source: APXvYqw73NBG3kowk41SxosYfL+G9OEk80H8tt7WWXPB4Niywp1W2jQUw9ceRRTQwzqEegqZhgZhRA==
-X-Received: by 2002:a17:90a:3301:: with SMTP id m1mr6164310pjb.27.1568739726749;
-        Tue, 17 Sep 2019 10:02:06 -0700 (PDT)
+        bh=XD9SG7vl2EiQGBElZCh6migVsB7ZbmqK8Jqpp/W1o1E=;
+        b=gwe5XjaS/a7cNVbY1HfpU4f8YOn3ZoiDCXAjwUCGGVwOMmLtos0vKWOv3q8Hb93YwX
+         ZQ4aM6g3y53uHI7MUQSsZk2cHbm+9qvQuPMbSbHX+Y4CsRaNRe02Q3SB00YDLDSy0zjo
+         Kg9shXBeiLkM3RtkJAM3pyVSJN0kHJu3ZVN58I4Q9Yorh31tXcNgD1SAEJ5oBYcyKMEz
+         wpv4VhupkU1adesnwigmtHTRyufRmGQsNbNH06VLTJhDRWBE7zOvc9EBEbSa8jQgcpkG
+         PeOhabgavttGljllXslB4ATrPe95/dt2BwTPKD81vHJWnaNx84PtLVbiuQxvl7YZ3NO9
+         MxGw==
+X-Gm-Message-State: APjAAAWoCYr7PpNRRp6TOGVWQDjgciJJuJezFyxL2idjTpuijpVgvrKZ
+        xoIIefJLX9OO7FVUKmiOrUQ=
+X-Google-Smtp-Source: APXvYqwChsTq10x+bKhqoisADNSRJjZXGxzbJzRhd+Soory6OdJUnJeLh6d59QvZF353vIiBtbRnoQ==
+X-Received: by 2002:a17:90a:ca05:: with SMTP id x5mr5933815pjt.66.1568740066689;
+        Tue, 17 Sep 2019 10:07:46 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id t13sm2916622pfe.69.2019.09.17.10.02.05
+        by smtp.gmail.com with ESMTPSA id z2sm5337314pfq.58.2019.09.17.10.07.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2019 10:02:05 -0700 (PDT)
-Date:   Tue, 17 Sep 2019 10:02:03 -0700
+        Tue, 17 Sep 2019 10:07:45 -0700 (PDT)
+Date:   Tue, 17 Sep 2019 10:07:43 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        robh+dt@kernel.org, bparrot@ti.com, simon.budig@kernelconcepts.de,
-        hdegoede@redhat.com, fcooper@ti.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 3/6] Input: edt-ft5x06 - add support to disable the
- wakeup-source
-Message-ID: <20190917170203.GN237523@dtor-ws>
+Cc:     robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
+        bparrot@ti.com, andy.shevchenko@gmail.com,
+        simon.budig@kernelconcepts.de, hdegoede@redhat.com, fcooper@ti.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 2/6] dt-bindings: Input: edt-ft5x06 - add disable
+ wakeup-source documentation
+Message-ID: <20190917170743.GO237523@dtor-ws>
 References: <20190917155808.27818-1-m.felsch@pengutronix.de>
- <20190917155808.27818-4-m.felsch@pengutronix.de>
- <20190917163215.GH2680@smile.fi.intel.com>
- <20190917164639.bsspf3xoqfggpxwj@pengutronix.de>
+ <20190917155808.27818-3-m.felsch@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190917164639.bsspf3xoqfggpxwj@pengutronix.de>
+In-Reply-To: <20190917155808.27818-3-m.felsch@pengutronix.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 17, 2019 at 06:46:39PM +0200, Marco Felsch wrote:
-> On 19-09-17 19:32, Andy Shevchenko wrote:
-> > On Tue, Sep 17, 2019 at 05:58:05PM +0200, Marco Felsch wrote:
-> > > Since day one the touch controller acts as wakeup-source. This seems to
-> > > be wrong since the device supports deep-sleep mechanism [1] which
-> > > requires a reset to leave it. Also some designs won't use the
-> > > touchscreen as wakeup-source.
-> > > 
-> > > Add a firmware property to address this. The common 'wakeup-source'
-> > > property can't be used for that because the driver must be backward
-> > > compatible with old firmwares which may assume the default on
-> > > wakeup-source behaviour. So we need to go the other way by explicit
-> > > disable the wakeup-source capability.
-> > > 
-> > 
-> > > [1] https://www.newhavendisplay.com/appnotes/datasheets/touchpanel/ \
-> > >     FT5x26.pdf
-> > 
-> > Please, don't split URLs
+On Tue, Sep 17, 2019 at 05:58:04PM +0200, Marco Felsch wrote:
+> The default driver behaviour is to enable the wakeup-source everytime.
+> There are hardware designs which have a dedicated gpio to act as wakeup
+> device. So it must be allowed to disable the wakeup-source capability.
 > 
-> Hm.. then checkpatch complains.. If you prefer it, I can change it in
-> the v2.
+> This patch adds the binding documentation to disable the wakeup-source
+> capability.
+> 
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> ---
+>  .../devicetree/bindings/input/touchscreen/edt-ft5x06.txt      | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
+> index 870b8c5cce9b..4d6524fe3cf4 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
+> @@ -35,6 +35,10 @@ Optional properties:
+>   - pinctrl-0:   a phandle pointing to the pin settings for the
+>                  control gpios
+>  
+> + - edt,disable-wakeup-source: If left the device will act as wakeup-source
+> +			      (for legacy compatibility). Add the property
+> +			      so the device won't act as wakeup-source.
 
-Checkpatch complains about valid things and it complains about insane
-things. In this case simply ignore it.
+I think this is too ugly and I consider it being a bug in the driver
+that it enables wakeup unconditionally.
+
+Let's just update DTS in tree for devices that actually want it (I am
+curious how many that do not declare "wakeup-source" have it working and
+actually want it) and key the dirver behavior off the standard property.
+Until we start seeing this controller in devices that actually have DTS
+in hardware device tree I think it is better to use standard property.
 
 Thanks.
 
