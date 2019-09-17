@@ -2,33 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7163AB535B
-	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 18:51:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED1D5B5369
+	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2019 18:52:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727545AbfIQQvc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Sep 2019 12:51:32 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:32815 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727168AbfIQQvc (ORCPT
+        id S1726204AbfIQQwt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Sep 2019 12:52:49 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:35643 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725991AbfIQQwt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Sep 2019 12:51:32 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iAGhJ-00041v-De; Tue, 17 Sep 2019 18:51:25 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iAGhI-000067-PQ; Tue, 17 Sep 2019 18:51:24 +0200
-Date:   Tue, 17 Sep 2019 18:51:24 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
+        Tue, 17 Sep 2019 12:52:49 -0400
+Received: by mail-pg1-f196.google.com with SMTP id a24so2336991pgj.2;
+        Tue, 17 Sep 2019 09:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=F4mNcaR90fbEud0o28hQFrCgK7lN9DAYPGliFgF36+c=;
+        b=UBYdpKyY+kAHd10rc4d/70CMnRHhqTzZUb5e+m6uEiTBY1Ey8EVGLRbNLeSaJsHEbz
+         DmbW88HsI74fAXwom4Ocnuoi6crHAp9Uql/ZcI382MhgvFWwi3u7F8c5wDZguV5p+t5A
+         8Lpm9A5RCQykNyEu0s0mgF3miHsnHOPyVzupye3dqE8/PRAorKVRBx36chb34YukWH70
+         tY871JSb9/pSiopUI+N+jhcIanx8SQMHEwyVLbBuTHp1g5ITE+oDH7GgPdS1pah+Z9D/
+         e9njzZb/TKbCihzNOEAaA/NEkig15t9fh962SbyT6Q40MZNDYW1W0Xspg7x/KS/6eePz
+         QlOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=F4mNcaR90fbEud0o28hQFrCgK7lN9DAYPGliFgF36+c=;
+        b=a1hGHy4x9EejyxnL8ruiLbUzrnIjW78W3BMspEy1rFF6EXWviYhTbnwYSF/b/4A8sJ
+         DxDvDeSXwuZaCj7THC0sp7X9Xp9TYtNRQfF5ANZSuH+jH5NCekV8YrsfDe2OBOSjZuvz
+         mx1ZS6NXyU2OpW6yHlJdvrY3Yk92jsKHmHadXeQqUHeN7WPTvDF92j4HX8FUQMWRbsHn
+         5RLxk/cymdkJyak4VmXId0YYhIffwTWYVOx9pUT3yS1UCYeHn6uC5HQIsia984ZJwR9d
+         gcyUD4CoBfILHIHx3SOKd9o1iW1R9iArdQ/v5x0fNZafVHDlSCupPaQeeD4zuPWA0n8Y
+         B9oQ==
+X-Gm-Message-State: APjAAAWVYfc0QhRuGs/EE/gJYCgy5cLo9WYdw6mpxyigMTTDXyPg3o01
+        GQEuk1atb0wmnIxHe7DOLaxAxrOH
+X-Google-Smtp-Source: APXvYqz4YdNbxbKX7cc6SvfrKaff72QVBlZL3bPSJJUjwlebLV5Lo0tjFA5ghgNBLUJ93iv1ng/dCw==
+X-Received: by 2002:a17:90a:9f04:: with SMTP id n4mr5996113pjp.109.1568739168285;
+        Tue, 17 Sep 2019 09:52:48 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id d1sm5004884pfc.98.2019.09.17.09.52.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Sep 2019 09:52:47 -0700 (PDT)
+Date:   Tue, 17 Sep 2019 09:52:45 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     robh+dt@kernel.org, dmitry.torokhov@gmail.com, bparrot@ti.com,
-        simon.budig@kernelconcepts.de, hdegoede@redhat.com, fcooper@ti.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de
+Cc:     Marco Felsch <m.felsch@pengutronix.de>, robh+dt@kernel.org,
+        bparrot@ti.com, simon.budig@kernelconcepts.de, hdegoede@redhat.com,
+        fcooper@ti.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, kernel@pengutronix.de
 Subject: Re: [PATCH 6/6] Input: edt-ft5x06 - add supply voltage support
-Message-ID: <20190917165124.4i2ctextifucz2xo@pengutronix.de>
+Message-ID: <20190917165245.GM237523@dtor-ws>
 References: <20190917155808.27818-1-m.felsch@pengutronix.de>
  <20190917155808.27818-7-m.felsch@pengutronix.de>
  <20190917163536.GI2680@smile.fi.intel.com>
@@ -36,24 +61,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20190917163536.GI2680@smile.fi.intel.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 18:46:52 up 122 days, 23:05, 70 users,  load average: 0.02, 0.02,
- 0.00
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 19-09-17 19:35, Andy Shevchenko wrote:
+On Tue, Sep 17, 2019 at 07:35:36PM +0300, Andy Shevchenko wrote:
 > On Tue, Sep 17, 2019 at 05:58:08PM +0200, Marco Felsch wrote:
 > > Currently the driver do not care about the regulator which supplies the
 > > controller. This can lead into problems since we support (deep-)sleep
@@ -69,35 +83,11 @@ On 19-09-17 19:35, Andy Shevchenko wrote:
 > 
 > Before it worked w/o regulator. You have to make it optional.
 
-devm_regulator_get will return a dummy regulator if no one is specified
-so it is optional.
+No, regulators are funky this way. If there isn't one declared in the
+device tree then a dummy is created automatically. Optional regulators
+are only to be used when parts of an IC can be powered up separately.
 
-Regards,
-  Marco
-
-
-> 
-> > +		dev_err(&client->dev,
-> > +			"Failed to request vdd-supply, error %d\n", error);
-> > +		return error;
-> > +	}
-> > +
-> > +	error = regulator_enable(tsdata->vdd);
-> > +	if (error) {
-> > +		dev_err(&client->dev,
-> > +			"Failed to enable vdd-supply, error %d\n", error);
-> > +		return error;
-> > +	}
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
-> 
+Thanks.
 
 -- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Dmitry
