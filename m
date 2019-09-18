@@ -2,136 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D40C3B5EA1
-	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2019 10:06:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81137B5F41
+	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2019 10:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728459AbfIRIGU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Sep 2019 04:06:20 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:51421 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725298AbfIRIGU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Sep 2019 04:06:20 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iAUyY-0004o8-KH; Wed, 18 Sep 2019 10:06:10 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iAUyX-0006cV-2Z; Wed, 18 Sep 2019 10:06:09 +0200
-Date:   Wed, 18 Sep 2019 10:06:09 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
-        bparrot@ti.com, andy.shevchenko@gmail.com,
-        simon.budig@kernelconcepts.de, hdegoede@redhat.com, fcooper@ti.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de
+        id S1726278AbfIRIbf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Sep 2019 04:31:35 -0400
+Received: from mga17.intel.com ([192.55.52.151]:43235 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725866AbfIRIbf (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 18 Sep 2019 04:31:35 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Sep 2019 01:31:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,520,1559545200"; 
+   d="scan'208";a="211784281"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga004.fm.intel.com with ESMTP; 18 Sep 2019 01:31:31 -0700
+Received: from andy by smile with local (Exim 4.92.1)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1iAVN4-0003pj-J4; Wed, 18 Sep 2019 11:31:30 +0300
+Date:   Wed, 18 Sep 2019 11:31:30 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>, robh+dt@kernel.org,
+        bparrot@ti.com, simon.budig@kernelconcepts.de, hdegoede@redhat.com,
+        fcooper@ti.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, kernel@pengutronix.de
 Subject: Re: [PATCH 2/6] dt-bindings: Input: edt-ft5x06 - add disable
  wakeup-source documentation
-Message-ID: <20190918080609.ynra4m5dbbze5dbz@pengutronix.de>
+Message-ID: <20190918083130.GQ2680@smile.fi.intel.com>
 References: <20190917155808.27818-1-m.felsch@pengutronix.de>
  <20190917155808.27818-3-m.felsch@pengutronix.de>
  <20190917170743.GO237523@dtor-ws>
  <20190917171814.owcttekv56xgmsts@pengutronix.de>
  <20190917172658.GQ237523@dtor-ws>
+ <20190918080609.ynra4m5dbbze5dbz@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190917172658.GQ237523@dtor-ws>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 10:04:14 up 123 days, 14:22, 70 users,  load average: 0.11, 0.10,
- 0.05
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+In-Reply-To: <20190918080609.ynra4m5dbbze5dbz@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 19-09-17 10:26, Dmitry Torokhov wrote:
-> On Tue, Sep 17, 2019 at 07:18:14PM +0200, Marco Felsch wrote:
-> > Hi Dmitry,
-> > 
-> > On 19-09-17 10:07, Dmitry Torokhov wrote:
-> > > On Tue, Sep 17, 2019 at 05:58:04PM +0200, Marco Felsch wrote:
-> > > > The default driver behaviour is to enable the wakeup-source everytime.
-> > > > There are hardware designs which have a dedicated gpio to act as wakeup
-> > > > device. So it must be allowed to disable the wakeup-source capability.
-> > > > 
-> > > > This patch adds the binding documentation to disable the wakeup-source
-> > > > capability.
-> > > > 
-> > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > > ---
-> > > >  .../devicetree/bindings/input/touchscreen/edt-ft5x06.txt      | 4 ++++
-> > > >  1 file changed, 4 insertions(+)
-> > > > 
-> > > > diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
-> > > > index 870b8c5cce9b..4d6524fe3cf4 100644
-> > > > --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
-> > > > +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
-> > > > @@ -35,6 +35,10 @@ Optional properties:
-> > > >   - pinctrl-0:   a phandle pointing to the pin settings for the
-> > > >                  control gpios
-> > > >  
-> > > > + - edt,disable-wakeup-source: If left the device will act as wakeup-source
-> > > > +			      (for legacy compatibility). Add the property
-> > > > +			      so the device won't act as wakeup-source.
-> > > 
-> > > I think this is too ugly and I consider it being a bug in the driver
-> > > that it enables wakeup unconditionally.
-> > 
-> > That's right.
-> > 
-> > > Let's just update DTS in tree for devices that actually want it (I am
-> > > curious how many that do not declare "wakeup-source" have it working and
-> > > actually want it) and key the dirver behavior off the standard property.
-> > 
-> > There are a few DTS using this driver and the current driver behaviour.
-> > We need to keep the backward compatibility since the DTB is part of the
-> > firmware and firmware isn't always included during a system-update. I
-> > know its ugly but IMHO that's the right way to go to keep the backward
-> > compatibility. Let us see what the DT-folk says.
-> > 
-> > > Until we start seeing this controller in devices that actually have DTS
-> > > in hardware device tree I think it is better to use standard property.
-> > 
-> > Sorry, I didn't get you here..
+On Wed, Sep 18, 2019 at 10:06:09AM +0200, Marco Felsch wrote:
+> On 19-09-17 10:26, Dmitry Torokhov wrote:
+> > On Tue, Sep 17, 2019 at 07:18:14PM +0200, Marco Felsch wrote:
+> > > On 19-09-17 10:07, Dmitry Torokhov wrote:
+
+> > What I was trying to say is that I have not actually seen DTB that is
+> > part of hardware or separately upgradable frimware (not talking about
+> > ppc or sparc boxes, but ones that might be using this driver). It is
+> > always built into the kernel in my experience, so backward compatibility
+> > is simply a tool that is being used to prevent us from being too wild
+> > with hacking on bindings, but rarely a practical concern.
 > 
-> What I was trying to say is that I have not actually seen DTB that is
-> part of hardware or separately upgradable frimware (not talking about
-> ppc or sparc boxes, but ones that might be using this driver). It is
-> always built into the kernel in my experience, so backward compatibility
-> is simply a tool that is being used to prevent us from being too wild
-> with hacking on bindings, but rarely a practical concern.
-
-Thanks, now I got you :)
-
-> In cases like this I think it is worthwhile to simply update in-tree
-> DTS and arrive at a sane binding.
-
-I'm with you, should we wait for Rob's ack before we go this way?
-
-Regards,
-  Marco
-
-> Thanks.
+> Thanks, now I got you :)
 > 
-> -- 
-> Dmitry
+> > In cases like this I think it is worthwhile to simply update in-tree
+> > DTS and arrive at a sane binding.
 > 
+> I'm with you, should we wait for Rob's ack before we go this way?
+
+I also support this way.
 
 -- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+With Best Regards,
+Andy Shevchenko
+
+
