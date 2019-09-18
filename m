@@ -2,361 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5A11B6382
-	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2019 14:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89A85B673A
+	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2019 17:35:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726835AbfIRMoq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Sep 2019 08:44:46 -0400
-Received: from mail-40136.protonmail.ch ([185.70.40.136]:24043 "EHLO
-        mail-40136.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725902AbfIRMoq (ORCPT
+        id S1731657AbfIRPfe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Sep 2019 11:35:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44134 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1730667AbfIRPfe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Sep 2019 08:44:46 -0400
-Date:   Wed, 18 Sep 2019 12:44:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=default; t=1568810682;
-        bh=cUx3cYCCkgFSSgHC4pPEf+wrE1uu0jHweDuACqVzhng=;
-        h=Date:To:From:Reply-To:Subject:Feedback-ID:From;
-        b=fgjg+qFEQY1tOlH2u5h7yO676vmGK2ENStxAEf8Fr7T+a/ZYTqxqcO4DHOWCmMffu
-         x5+EzW9+gDeJyRIDULUfKHLkP5kG5x5lGHl8wXguT/Ig41ZqMZvpFIbbw5yqYz0Vjc
-         L11WuGYu8Rx4zn84Zk6n8IILS13ErYWaEA3dHY+U=
-To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "jikos@kernel.org" <jikos@kernel.org>
-From:   Mazin Rezk <mnrzk@protonmail.com>
-Reply-To: Mazin Rezk <mnrzk@protonmail.com>
-Subject: [PATCH RESEND V2] HID: hid-logitech-hidpp: Implement support for some Bluetooth HID++ devices
-Message-ID: <ATZsWjU_J53a3qyKgb8BWLXY7N7UqGilAA9eAyGhQSBUw2z30AwA8rpsdNFejxH4UvYxb6dsY8-jJknYfafTVWF4mMuVDGdtXki7_x7l77g=@protonmail.com>
-Feedback-ID: 18B_FC5q-t32TXzMsVp9BgkgrdNH3iwklfW8WOrHrcxZA0WRj7JodCh5VXKxs6A3OaiHK0QNd8wi3SImKex8yQ==:Ext:ProtonMail
+        Wed, 18 Sep 2019 11:35:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1568820932;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Jl3xf+SlbbmgNVj3rIhprzvu6KTO4+fHOB8Vm/+azHE=;
+        b=f2VNA+3yOycD8qpXIaSZfyrRAbT0w8RGKq/hLDe1gq67+l+5BdMwIsKqDT9RQP9sFsnsLl
+        qlpRcBJHHg6byj4WcjMPTpIqp3W0Cn8GbaAGe4zzb0hF+M1pvQ9mKbbcZA0l6NzujslaEO
+        R416CoZ6vIL6uBIdRBFAyGe4Gjzaoh4=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-277-ZjoEqhQUPFeJZEZjrip7kw-1; Wed, 18 Sep 2019 11:35:31 -0400
+Received: by mail-qt1-f198.google.com with SMTP id m6so418302qtk.23
+        for <linux-input@vger.kernel.org>; Wed, 18 Sep 2019 08:35:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+5euqK1Uayja2/4T0pIwBXXljs7m3c7t7lzxpmy9RYE=;
+        b=sqsVaq5SJLR1/trnrJzA/YUMSLVXa5DCiSsVOoyaGHr3fZ/xRYXPvAz9YMCcdTjuDs
+         +y033N9JkWWTqsNsQiglnIushA6GX3VRNMV+5Uw4FIMs/olLyL5iXMu3d+ifbdsmKABL
+         kkltnCGZ2Ebaivq6TptHQeUFh6igeNtta0DUiKNGpNbRQDeGhDsNBRbJQw7k1peaw6YU
+         3wDgC4ALb2k0Jeg/tgcN9GqNUrWnSo7oC2xq8gCs6q2yZ3GwoJOwJeI0zEhgVPRVzYnX
+         5yNIybNLdrDTIgNVS0sHDmMUWNQk3mw9hnk3PHXhFAZ5SwK0G/kYXwLBLPe7BXh+KPBv
+         MXnQ==
+X-Gm-Message-State: APjAAAXJGeP1/r/aWF4DuhhYsCVpZrwIG87zjinj52Al693b/u83+f3f
+        uOJWTJW0NYb5/oyP5NVw++ve8c3iD8nlcrh4SLuVx/W+CnfQepErOoQCdc0EOMWMa0l0kWCm0PP
+        qiq5RN/d2J/qo4Qsb0RNgNhGcEFMyJfFG7H1fA80=
+X-Received: by 2002:ac8:4251:: with SMTP id r17mr4751032qtm.260.1568820930808;
+        Wed, 18 Sep 2019 08:35:30 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyMAkC4LzPBLYmzrgRhTnQzsI/ZM7Fw1Sk0DnmqW0xRDSNMXxOjuj8sChl5/Ge6r4tOqKvUzYmuesragQTuOrU=
+X-Received: by 2002:ac8:4251:: with SMTP id r17mr4751014qtm.260.1568820930584;
+ Wed, 18 Sep 2019 08:35:30 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190812152022.27963-1-stillcompiling@gmail.com>
+ <20190812152022.27963-4-stillcompiling@gmail.com> <CAMB+bfK9Oge1T96aJkuvpoAdUSsm+YxY1W70b62gUMMBKfD8vg@mail.gmail.com>
+In-Reply-To: <CAMB+bfK9Oge1T96aJkuvpoAdUSsm+YxY1W70b62gUMMBKfD8vg@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 18 Sep 2019 17:35:19 +0200
+Message-ID: <CAO-hwJLVS0G+TtShbBQ6j9_aCAKjb_AsvoN2HkR+zKpd98MKRw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] HID: core: fix dmesg flooding if report field
+ larger than 32bit
+To:     Joshua Clayton <stillcompiling@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Joe Perches <joe@perches.com>
+X-MC-Unique: ZjoEqhQUPFeJZEZjrip7kw-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.4 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_REPLYTO
-        autolearn=no autolearn_force=no version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thursday, September 12, 2019 10:40 PM, Mazin Rezk <mnrzk@protonmail.com>=
- wrote:
-
-> This patch adds support the MX Anywhere 2, MX Anywhere 2S, MX Master, and
-> MX Master 2S over Bluetooth to the hid-logitech-hidpp module. This patch =
-also
-> implements a foundation for other Bluetooth devices to be added to the mo=
-dule.
+On Thu, Aug 29, 2019 at 1:26 AM Joshua Clayton <stillcompiling@gmail.com> w=
+rote:
 >
-> Changes include:
+> ping?
+> I'd love to see this get in.
+> with distro kernel I have effectively no dmesg due to this issue
+
+Apologies for the delay.
+
+I really thought we should find a better way of fixing this, until I
+got a laptop affected by it. This series is a must have.
+
+Applied to for-5.4/core
+
+Cheers,
+Benjamin
+
 >
-> 1.  Adding the device IDs for the aforementioned mice over Bluetooth (the=
-se
-> IDs have been copied from the libratbag device database). Their quirks ha=
-ve
-> been based on their DJ device counterparts.
-> 2.  Adding an additional HIDPP_QUIRK_BLUETOOTH_MISSING_SHORT_ID as these
-> devices do not support Short HID++ reports. This quirk causes short repor=
-ts to
-> be sent as long reports to the device and overrides the device validation=
- to
-> only check if the long report descriptor exists. Without this quirk, thes=
-e
-> devices will fail the HID++ device validation.
->
-> Note about these changes: I only own an MX Master (b01e) so I have not be=
-en
-> able to test this patch on other devices. However, I have also noticed th=
-at
-> the MX Master 2S over Bluetooth does not pass the original HID++ report
-> descriptor tests which leads me to believe all MX Bluetooth LE devices ar=
-e
-> missing short report descriptors. Further testing with the other devices =
-may
-> be required.
-
-In addition to the previous changes:
-
-I recently noticed that the patch I previously submitted does not properly =
-apply
-and contains a bug that would cause the added devices not to properly parse
-connection events.
-
-The added Bluetooth devices do not support 0x41 connection events and inste=
-ad
-use feature 0x1d4b (WirelessDeviceStatus). HIDPP_QUIRK_WIRELESS_DEVICE_STAT=
-US
-causes hidpp_report_is_connect_event to check if the feature ID of the even=
-t is
-0x1d4b instead.
-
-In order to avoid sending device reports while processing events, an array =
-of
-all feature IDs is created and stored in the hidpp_device when any HID++ 2.=
-0
-device is probed.
-
-This array is created by calling FeatureSet (0x0001), getting the feature c=
-ount,
-and setting each feature index in the array to its corresponding feature.
-
-Since these devices are both missing a short report and use WirelessDeviceS=
-tatus,
-I decided to call the quirk HIDPP_QUIRK_CLASS_BLUETOOTH and I added the add=
-itional
-quirks HIDPP_QUIRK_MISSING_SHORT_REPORTS and HIDPP_QUIRK_WIRELESS_DEVICE_ST=
-ATUS
-as aliases and potential catch-alls in the future.
-
-Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
----
- drivers/hid/hid-logitech-hidpp.c | 152 ++++++++++++++++++++++++++++++-
- 1 file changed, 149 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
-dpp.c
-index 0179f7ed77e5..3f40d53dcfa1 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -58,6 +58,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
- #define HIDPP_QUIRK_CLASS_K400=09=09=09BIT(2)
- #define HIDPP_QUIRK_CLASS_G920=09=09=09BIT(3)
- #define HIDPP_QUIRK_CLASS_K750=09=09=09BIT(4)
-+#define HIDPP_QUIRK_CLASS_BLUETOOTH=09=09BIT(5)
-
- /* bits 2..20 are reserved for classes */
- /* #define HIDPP_QUIRK_CONNECT_EVENTS=09=09BIT(21) disabled */
-@@ -81,6 +82,10 @@ MODULE_PARM_DESC(disable_tap_to_click,
- =09=09=09=09=09 HIDPP_QUIRK_HI_RES_SCROLL_X2120 | \
- =09=09=09=09=09 HIDPP_QUIRK_HI_RES_SCROLL_X2121)
-
-+/* Just an alias for now, may possibly be a catch-all in the future */
-+#define HIDPP_QUIRK_MISSING_SHORT_REPORTS=09HIDPP_QUIRK_CLASS_BLUETOOTH
-+#define HIDPP_QUIRK_WIRELESS_DEVICE_STATUS=09HIDPP_QUIRK_CLASS_BLUETOOTH
-+
- #define HIDPP_QUIRK_DELAYED_INIT=09=09HIDPP_QUIRK_NO_HIDINPUT
-
- #define HIDPP_CAPABILITY_HIDPP10_BATTERY=09BIT(0)
-@@ -186,6 +191,9 @@ struct hidpp_device {
-
- =09struct hidpp_battery battery;
- =09struct hidpp_scroll_counter vertical_wheel_counter;
-+
-+=09u16 *features;
-+=09u8 feature_count;
- };
-
- /* HID++ 1.0 error codes */
-@@ -340,6 +348,11 @@ static int hidpp_send_rap_command_sync(struct hidpp_de=
-vice *hidpp_dev,
- =09struct hidpp_report *message;
- =09int ret, max_count;
-
-+=09/* Force long reports on devices that do not support short reports */
-+=09if (hidpp_dev->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS &&
-+=09    report_id =3D=3D REPORT_ID_HIDPP_SHORT)
-+=09=09report_id =3D REPORT_ID_HIDPP_LONG;
-+
- =09switch (report_id) {
- =09case REPORT_ID_HIDPP_SHORT:
- =09=09max_count =3D HIDPP_REPORT_SHORT_LENGTH - 4;
-@@ -393,9 +406,22 @@ static inline bool hidpp_match_error(struct hidpp_repo=
-rt *question,
- =09    (answer->fap.params[0] =3D=3D question->fap.funcindex_clientid);
- }
-
--static inline bool hidpp_report_is_connect_event(struct hidpp_report *repo=
-rt)
-+#define HIDPP_PAGE_WIRELESS_DEVICE_STATUS=09=090x1d4b
-+
-+static inline bool hidpp_report_is_connect_event(struct hidpp_device *hidp=
-p,
-+=09=09=09=09=09=09 struct hidpp_report *report)
- {
--=09return (report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) &&
-+=09if (hidpp->quirks & HIDPP_QUIRK_WIRELESS_DEVICE_STATUS) {
-+=09=09/* If feature is invalid, skip array check */
-+=09=09if (report->fap.feature_index > hidpp->feature_count)
-+=09=09=09return false;
-+
-+=09=09return (hidpp->features[report->fap.feature_index] =3D=3D
-+=09=09=09 HIDPP_PAGE_WIRELESS_DEVICE_STATUS);
-+=09}
-+
-+=09return ((report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) ||
-+=09=09(hidpp->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS)) &&
- =09=09(report->rap.sub_id =3D=3D 0x41);
- }
-
-@@ -901,6 +927,84 @@ static int hidpp_root_get_protocol_version(struct hidp=
-p_device *hidpp)
- =09return 0;
- }
-
-+/* -----------------------------------------------------------------------=
---- */
-+/* 0x0001: FeatureSet                                                     =
-    */
-+/* -----------------------------------------------------------------------=
---- */
-+
-+#define HIDPP_PAGE_FEATURESET=09=09=09=090x0001
-+
-+#define CMD_FEATURESET_GET_COUNT=09=09=090x00
-+#define CMD_FEATURESET_GET_FEATURE=09=09=090x11
-+
-+static int hidpp20_featureset_get_feature(struct hidpp_device *hidpp,
-+=09u8 featureset_index, u8 feature_index, u16 *feature_id)
-+{
-+=09struct hidpp_report response;
-+=09int ret;
-+
-+=09ret =3D hidpp_send_fap_command_sync(hidpp, featureset_index,
-+=09=09CMD_FEATURESET_GET_FEATURE, &feature_index, 1, &response);
-+
-+=09if (ret)
-+=09=09return ret;
-+
-+=09*feature_id =3D (response.fap.params[0] << 8) | response.fap.params[1];
-+
-+=09return ret;
-+}
-+
-+static int hidpp20_featureset_get_count(struct hidpp_device *hidpp,
-+=09u8 feature_index, u8 *count)
-+{
-+=09struct hidpp_report response;
-+=09int ret;
-+
-+=09ret =3D hidpp_send_fap_command_sync(hidpp, feature_index,
-+=09=09CMD_FEATURESET_GET_COUNT, NULL, 0, &response);
-+
-+=09if (ret)
-+=09=09return ret;
-+
-+=09*count =3D response.fap.params[0];
-+
-+=09return ret;
-+}
-+
-+static int hidpp20_get_features(struct hidpp_device *hidpp)
-+{
-+=09int ret;
-+=09u8 featureset_index, featureset_type;
-+=09u8 i;
-+
-+=09hidpp->feature_count =3D 0;
-+
-+=09ret =3D hidpp_root_get_feature(hidpp, HIDPP_PAGE_FEATURESET,
-+=09=09=09=09     &featureset_index, &featureset_type);
-+
-+=09if (ret =3D=3D -ENOENT) {
-+=09=09hid_warn(hidpp->hid_dev, "Unable to retrieve feature set.");
-+=09=09return 0;
-+=09}
-+
-+=09if (ret)
-+=09=09return ret;
-+
-+=09ret =3D hidpp20_featureset_get_count(hidpp, featureset_index,
-+=09=09&hidpp->feature_count);
-+
-+=09if (ret)
-+=09=09return ret;
-+
-+=09hidpp->features =3D devm_kzalloc(&hidpp->hid_dev->dev,
-+=09=09=09hidpp->feature_count * sizeof(u16), GFP_KERNEL);
-+
-+=09for (i =3D 0; i < hidpp->feature_count && !ret; i++)
-+=09=09ret =3D hidpp20_featureset_get_feature(hidpp, featureset_index,
-+=09=09=09=09i, &(hidpp->features[i]));
-+
-+=09return ret;
-+}
-+
- /* -----------------------------------------------------------------------=
---- */
- /* 0x0005: GetDeviceNameType                                              =
-    */
- /* -----------------------------------------------------------------------=
---- */
-@@ -3068,7 +3172,7 @@ static int hidpp_raw_hidpp_event(struct hidpp_device =
-*hidpp, u8 *data,
- =09=09}
- =09}
-
--=09if (unlikely(hidpp_report_is_connect_event(report))) {
-+=09if (unlikely(hidpp_report_is_connect_event(hidpp, report))) {
- =09=09atomic_set(&hidpp->connected,
- =09=09=09=09!(report->rap.params[0] & (1 << 6)));
- =09=09if (schedule_work(&hidpp->work) =3D=3D 0)
-@@ -3482,6 +3586,12 @@ static bool hidpp_validate_report(struct hid_device =
-*hdev, int id,
-
- static bool hidpp_validate_device(struct hid_device *hdev)
- {
-+=09struct hidpp_device *hidpp =3D hid_get_drvdata(hdev);
-+=09/* Skip the short report check if the device does not support it */
-+=09if (hidpp->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS)
-+=09=09return hidpp_validate_report(hdev, REPORT_ID_HIDPP_LONG,
-+=09=09=09=09=09     HIDPP_REPORT_LONG_LENGTH, false);
-+
- =09return hidpp_validate_report(hdev, REPORT_ID_HIDPP_SHORT,
- =09=09=09=09     HIDPP_REPORT_SHORT_LENGTH, false) &&
- =09       hidpp_validate_report(hdev, REPORT_ID_HIDPP_LONG,
-@@ -3619,6 +3729,17 @@ static int hidpp_probe(struct hid_device *hdev, cons=
-t struct hid_device_id *id)
- =09=09=09goto hid_hw_init_fail;
- =09}
-
-+=09/* Cache feature indexes and IDs to check reports faster */
-+=09if (hidpp->protocol_major >=3D 2) {
-+=09=09if (hidpp20_get_features(hidpp)) {
-+=09=09=09hid_err(hdev, "%s:hidpp20_get_features returned error\n",
-+=09=09=09=09__func__);
-+=09=09=09goto hid_hw_init_fail;
-+=09=09}
-+=09} else {
-+=09=09hidpp->feature_count =3D 0;
-+=09}
-+
- =09hidpp_connect_event(hidpp);
-
- =09/* Reset the HID node state */
-@@ -3773,6 +3894,31 @@ static const struct hid_device_id hidpp_devices[] =
-=3D {
- =09{ /* MX5500 keyboard over Bluetooth */
- =09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
- =09  .driver_data =3D HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
-+=09{ /* MX Anywhere 2 mouse over Bluetooth */
-+=09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb013),
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09HIDPP_QUIRK_CLASS_BLUETOOTH },
-+=09{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb018),
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
-+=09{ /* MX Anywhere 2S mouse over Bluetooth */
-+=09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01a),
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
-+=09{ /* MX Master mouse over Bluetooth */
-+=09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb012),
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
-+=09{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb017),
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
-+=09{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e),
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
-+=09{ /* MX Master 2S mouse over Bluetooth */
-+=09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb019),
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
- =09{}
- };
-
---
-2.23.0
+> On Mon, Aug 12, 2019 at 9:20 AM <stillcompiling@gmail.com> wrote:
+> >
+> > From: Joshua Clayton <stillcompiling@gmail.com>
+> >
+> > Only warn once of oversize hid report value field
+> >
+> > On HP spectre x360 convertible the message:
+> > hid-sensor-hub 001F:8087:0AC2.0002: hid_field_extract() called with n (=
+192) > 32! (kworker/1:2)
+> > is continually printed many times per second, crowding out all else.
+> > Protect dmesg by printing the warning only one time.
+> >
+> > The size of the hid report field data structure should probably be incr=
+eased.
+> > The data structure is treated as a u32 in Linux, but an unlimited numbe=
+r
+> > of bits in the USB hid spec, so there is some rearchitecture needed now=
+ that
+> > devices are sending more than 32 bits.
+> >
+> > Signed-off-by: Joshua Clayton <stillcompiling@gmail.com>
+> >
+> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > index 210b81a56e1a..3eaee2c37931 100644
+> > --- a/drivers/hid/hid-core.c
+> > +++ b/drivers/hid/hid-core.c
+> > @@ -1311,8 +1311,8 @@ u32 hid_field_extract(const struct hid_device *hi=
+d, u8 *report,
+> >                         unsigned offset, unsigned n)
+> >  {
+> >         if (n > 32) {
+> > -               hid_warn(hid, "hid_field_extract() called with n (%d) >=
+ 32! (%s)\n",
+> > -                        n, current->comm);
+> > +               hid_warn_once(hid, "%s() called with n (%d) > 32! (%s)\=
+n",
+> > +                             __func__, n, current->comm);
+> >                 n =3D 32;
+> >         }
+> >
+> > --
+> > 2.21.0
+> >
 
