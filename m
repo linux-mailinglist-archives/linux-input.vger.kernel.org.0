@@ -2,157 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DBC07B814D
-	for <lists+linux-input@lfdr.de>; Thu, 19 Sep 2019 21:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C90BBB81C4
+	for <lists+linux-input@lfdr.de>; Thu, 19 Sep 2019 21:51:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392334AbfISTTa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Sep 2019 15:19:30 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:48362 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S2392331AbfISTT3 (ORCPT
+        id S2404491AbfISTvF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Sep 2019 15:51:05 -0400
+Received: from werkudoro.jatengprov.go.id ([103.9.227.34]:45448 "EHLO
+        werkudoro.jatengprov.go.id" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2404481AbfISTvF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Sep 2019 15:19:29 -0400
-Received: (qmail 7399 invoked by uid 2102); 19 Sep 2019 15:19:28 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 19 Sep 2019 15:19:28 -0400
-Date:   Thu, 19 Sep 2019 15:19:28 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Andrey Konovalov <andreyknvl@google.com>
-cc:     syzbot <syzbot+403741a091bf41d4ae79@syzkaller.appspotmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>, <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: Re: KASAN: slab-out-of-bounds Write in ga_probe
-In-Reply-To: <CAAeHK+wh0bQKRXU_7fOC5XZKUUL1QW8DskCBJKQACwqZd=tZyw@mail.gmail.com>
-Message-ID: <Pine.LNX.4.44L0.1909191515350.6904-100000@iolanthe.rowland.org>
+        Thu, 19 Sep 2019 15:51:05 -0400
+X-Greylist: delayed 30804 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Sep 2019 15:51:04 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=jatengprov.go.id; s=default; h=Message-ID:Reply-To:To:From:Date:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Subject:Cc:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=IlrCxIBWvxOzPALn47D3+2101Gu2SIzn6UIt1KekVro=; b=UFkjypvY3zJfWrf2OKq4ot/1g
+        wBlXrpqu/KR60T7dh2v3iK4BjrrPb+42PJ+MSKo1DyyaObN7yJMb1RFtYJ8IhwaKBK0XzA9rdC73N
+        ht4X+hejJVQCxnl2nxNNvhkTwW9g9WZIeZ/g3sZOwDSZCf+ugnWooz/mydfQV2i2mkXopefu0jd0I
+        vWs0mstcp/pn6Sg7MW29IqgCB9Y7niI8D8wAGJtVpOrVONez+ypx/Uiyy1QGQ4gLE/cP0b4kPHDzv
+        Zfh3fNaZWxL90WzjxX+xtw+PF18RCZtusjDE0A88zEzsdmUmOlWEiV1iud80pA6JB9lcJ2w5bKzMS
+        X1jW6dQcg==;
+Received: from localhost ([127.0.0.1]:40052 helo=werkudoro.jatengprov.go.id)
+        by werkudoro.jatengprov.go.id with esmtpa (Exim 4.92)
+        (envelope-from <bpsdmd@jatengprov.go.id>)
+        id 1iAuPJ-0000hD-4w; Thu, 19 Sep 2019 18:15:30 +0700
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Thu, 19 Sep 2019 18:15:29 +0700
+From:   =?UTF-8?Q?=D0=B0=D0=B4=D0=BC=D0=B8=D0=BD=D0=B8=D1=81=D1=82=D1=80?=
+         =?UTF-8?Q?=D0=B0=D1=82=D0=BE=D1=80?= <bpsdmd@jatengprov.go.id>
+To:     undisclosed-recipients:;
+Reply-To: mailsss@mail2world.com
+Mail-Reply-To: mailsss@mail2world.com
+Message-ID: <3f1518d5d3d1582f69bc203be46ea474@jatengprov.go.id>
+X-Sender: bpsdmd@jatengprov.go.id
+User-Agent: Roundcube Webmail/1.3.8
+X-OutGoing-Spam-Status: No, score=3.3
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - werkudoro.jatengprov.go.id
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - jatengprov.go.id
+X-Get-Message-Sender-Via: werkudoro.jatengprov.go.id: authenticated_id: bpsdmd@jatengprov.go.id
+X-Authenticated-Sender: werkudoro.jatengprov.go.id: bpsdmd@jatengprov.go.id
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 19 Sep 2019, Andrey Konovalov wrote:
-
-> On Tue, Sep 17, 2019 at 8:24 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> >
-> > On Mon, 16 Sep 2019, syzbot wrote:
-> >
-> > > Hello,
-> > >
-> > > syzbot found the following crash on:
-> > >
-> > > HEAD commit:    f0df5c1b usb-fuzzer: main usb gadget fuzzer driver
-> > > git tree:       https://github.com/google/kasan.git usb-fuzzer
-> > > console output: https://syzkaller.appspot.com/x/log.txt?x=14045831600000
-> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=5c6633fa4ed00be5
-> > > dashboard link: https://syzkaller.appspot.com/bug?extid=403741a091bf41d4ae79
-> > > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13c1e62d600000
-> > > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=166a3a95600000
-> > >
-> > > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > > Reported-by: syzbot+403741a091bf41d4ae79@syzkaller.appspotmail.com
-> > >
-> > > usb 1-1: config 0 interface 0 altsetting 0 has 1 endpoint descriptor,
-> > > different from the interface descriptor's value: 9
-> > > usb 1-1: New USB device found, idVendor=0e8f, idProduct=0012, bcdDevice=
-> > > 0.00
-> > > usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-> > > usb 1-1: config 0 descriptor??
-> > > greenasia 0003:0E8F:0012.0001: unknown main item tag 0x0
-> > > greenasia 0003:0E8F:0012.0001: hidraw0: USB HID v0.00 Device [HID
-> > > 0e8f:0012] on usb-dummy_hcd.0-1/input0
-> > > ==================================================================
-> > > BUG: KASAN: slab-out-of-bounds in set_bit
-> > > include/asm-generic/bitops-instrumented.h:28 [inline]
-> > > BUG: KASAN: slab-out-of-bounds in gaff_init drivers/hid/hid-gaff.c:97
-> > > [inline]
-> > > BUG: KASAN: slab-out-of-bounds in ga_probe+0x1fd/0x6f0
-> > > drivers/hid/hid-gaff.c:146
-> > > Write of size 8 at addr ffff8881d9acafc0 by task kworker/1:1/78
-> > >
-> > > CPU: 1 PID: 78 Comm: kworker/1:1 Not tainted 5.3.0-rc7+ #0
-> > > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-> > > Google 01/01/2011
-> > > Workqueue: usb_hub_wq hub_event
-> > > Call Trace:
-> > >   __dump_stack lib/dump_stack.c:77 [inline]
-> > >   dump_stack+0xca/0x13e lib/dump_stack.c:113
-> > >   print_address_description+0x6a/0x32c mm/kasan/report.c:351
-> > >   __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
-> > >   kasan_report+0xe/0x12 mm/kasan/common.c:618
-> > >   check_memory_region_inline mm/kasan/generic.c:185 [inline]
-> > >   check_memory_region+0x128/0x190 mm/kasan/generic.c:192
-> > >   set_bit include/asm-generic/bitops-instrumented.h:28 [inline]
-> > >   gaff_init drivers/hid/hid-gaff.c:97 [inline]
-> > >   ga_probe+0x1fd/0x6f0 drivers/hid/hid-gaff.c:146
-> > >   hid_device_probe+0x2be/0x3f0 drivers/hid/hid-core.c:2209
-> > >   really_probe+0x281/0x6d0 drivers/base/dd.c:548
-> > >   driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
-> > >   __device_attach_driver+0x
-> > >
-> > >
-> > > ---
-> > > This bug is generated by a bot. It may contain errors.
-> > > See https://goo.gl/tpsmEJ for more information about syzbot.
-> > > syzbot engineers can be reached at syzkaller@googlegroups.com.
-> > >
-> > > syzbot will keep track of this bug report. See:
-> > > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> > > syzbot can test patches for this bug, for details see:
-> > > https://goo.gl/tpsmEJ#testing-patches
-> >
-> > The driver assumes that the device contains an input.
-> 
-> BTW, these two reports look fairly similar:
-> 
-> https://syzkaller.appspot.com/bug?extid=94e2b9e9c7d1dd332345
-> https://syzkaller.appspot.com/bug?extid=1e86e2ccce227cca899b
-
-Indeed they do.  I don't have time to patch them now; maybe next week.
-Unless you or someone else would like to do it first...  :-)  
-
-Essentially the same fix should work for each of these -- looks like
-they were written using copy-and-paste.  In fact, a quick grep through
-drivers/hid/*.c shows about 9 of them with the same suspect
-initialization code for hidinput.
-
-Alan Stern          
 
 
-> >  drivers/hid/hid-gaff.c |   12 +++++++++---
-> >  1 file changed, 9 insertions(+), 3 deletions(-)
-> >
-> > Index: usb-devel/drivers/hid/hid-gaff.c
-> > ===================================================================
-> > --- usb-devel.orig/drivers/hid/hid-gaff.c
-> > +++ usb-devel/drivers/hid/hid-gaff.c
-> > @@ -64,14 +64,20 @@ static int gaff_init(struct hid_device *
-> >  {
-> >         struct gaff_device *gaff;
-> >         struct hid_report *report;
-> > -       struct hid_input *hidinput = list_entry(hid->inputs.next,
-> > -                                               struct hid_input, list);
-> > +       struct hid_input *hidinput;
-> >         struct list_head *report_list =
-> >                         &hid->report_enum[HID_OUTPUT_REPORT].report_list;
-> >         struct list_head *report_ptr = report_list;
-> > -       struct input_dev *dev = hidinput->input;
-> > +       struct input_dev *dev;
-> >         int error;
-> >
-> > +       if (list_empty(&hid->inputs)) {
-> > +               hid_err(hid, "no inputs found\n");
-> > +               return -ENODEV;
-> > +       }
-> > +       hidinput = list_entry(hid->inputs.next, struct hid_input, list);
-> > +       dev = hidinput->input;
-> > +
-> >         if (list_empty(report_list)) {
-> >                 hid_err(hid, "no output reports found\n");
-> >                 return -ENODEV;
+-- 
+ВНИМАНИЕ;
 
+В вашем почтовом ящике превышен лимит
+хранилища, который составляет 5 ГБ, как
+определено администратором, который в
+настоящее время работает на 10,9 ГБ.
+Возможно, вы не сможете отправлять или
+получать новую почту, пока вы не
+подтвердите свою почту. Чтобы
+подтвердить свой почтовый ящик,
+отправьте следующую информацию ниже:
+
+название:
+Имя пользователя:
+пароль:
+Подтвердите Пароль:
+Эл. адрес:
+Телефон:
+
+Если вы не сможете подтвердить свой
+почтовый ящик, ваш почтовый ящик будет
+отключен!
+
+Приносим извинения за неудобства.
+Код подтверждения: en: 006,524.RU
+Техническая поддержка почты © 2019
+
+благодарю вас
+Системный администратор.
