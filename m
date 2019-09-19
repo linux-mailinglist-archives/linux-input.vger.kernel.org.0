@@ -2,91 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C90BBB81C4
-	for <lists+linux-input@lfdr.de>; Thu, 19 Sep 2019 21:51:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77D55B835D
+	for <lists+linux-input@lfdr.de>; Thu, 19 Sep 2019 23:30:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404491AbfISTvF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Sep 2019 15:51:05 -0400
-Received: from werkudoro.jatengprov.go.id ([103.9.227.34]:45448 "EHLO
-        werkudoro.jatengprov.go.id" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2404481AbfISTvF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Sep 2019 15:51:05 -0400
-X-Greylist: delayed 30804 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Sep 2019 15:51:04 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=jatengprov.go.id; s=default; h=Message-ID:Reply-To:To:From:Date:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Subject:Cc:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=IlrCxIBWvxOzPALn47D3+2101Gu2SIzn6UIt1KekVro=; b=UFkjypvY3zJfWrf2OKq4ot/1g
-        wBlXrpqu/KR60T7dh2v3iK4BjrrPb+42PJ+MSKo1DyyaObN7yJMb1RFtYJ8IhwaKBK0XzA9rdC73N
-        ht4X+hejJVQCxnl2nxNNvhkTwW9g9WZIeZ/g3sZOwDSZCf+ugnWooz/mydfQV2i2mkXopefu0jd0I
-        vWs0mstcp/pn6Sg7MW29IqgCB9Y7niI8D8wAGJtVpOrVONez+ypx/Uiyy1QGQ4gLE/cP0b4kPHDzv
-        Zfh3fNaZWxL90WzjxX+xtw+PF18RCZtusjDE0A88zEzsdmUmOlWEiV1iud80pA6JB9lcJ2w5bKzMS
-        X1jW6dQcg==;
-Received: from localhost ([127.0.0.1]:40052 helo=werkudoro.jatengprov.go.id)
-        by werkudoro.jatengprov.go.id with esmtpa (Exim 4.92)
-        (envelope-from <bpsdmd@jatengprov.go.id>)
-        id 1iAuPJ-0000hD-4w; Thu, 19 Sep 2019 18:15:30 +0700
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Thu, 19 Sep 2019 18:15:29 +0700
-From:   =?UTF-8?Q?=D0=B0=D0=B4=D0=BC=D0=B8=D0=BD=D0=B8=D1=81=D1=82=D1=80?=
-         =?UTF-8?Q?=D0=B0=D1=82=D0=BE=D1=80?= <bpsdmd@jatengprov.go.id>
-To:     undisclosed-recipients:;
-Reply-To: mailsss@mail2world.com
-Mail-Reply-To: mailsss@mail2world.com
-Message-ID: <3f1518d5d3d1582f69bc203be46ea474@jatengprov.go.id>
-X-Sender: bpsdmd@jatengprov.go.id
-User-Agent: Roundcube Webmail/1.3.8
-X-OutGoing-Spam-Status: No, score=3.3
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - werkudoro.jatengprov.go.id
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - jatengprov.go.id
-X-Get-Message-Sender-Via: werkudoro.jatengprov.go.id: authenticated_id: bpsdmd@jatengprov.go.id
-X-Authenticated-Sender: werkudoro.jatengprov.go.id: bpsdmd@jatengprov.go.id
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+        id S2404788AbfISVa3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Sep 2019 17:30:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60354 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2403945AbfISVa3 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 19 Sep 2019 17:30:29 -0400
+Subject: Re: [git pull] Input updates for v5.4-rc0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568928628;
+        bh=uaFnLzQBwhA4k9xpomHDaGT9r02uJmtRZ8iEhZl2EO4=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=WAqLggofYciyojaZGn4xm2l4/G5J44SwP14GqV51fftIPicOHGo2MxHbgqr6TjdGi
+         +fsBGl3Ar+18w6BivYaqllfsK7lmsZdj2kv1psSOB4+orbN2wEe0YwHklUPFeQcA1y
+         CeSqYvqAIbWzlfXePtQ7jw0/Si3TBewlPFU/c6VQ=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20190917234004.GA145240@dtor-ws>
+References: <20190917234004.GA145240@dtor-ws>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190917234004.GA145240@dtor-ws>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+X-PR-Tracked-Commit-Id: 0898782247ae533d1f4e47a06bc5d4870931b284
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: c6cfaf4f86d9d15e5541adb3bb899d0b80f89ec7
+Message-Id: <156892862889.30913.1553387579406573122.pr-tracker-bot@kernel.org>
+Date:   Thu, 19 Sep 2019 21:30:28 +0000
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+The pull request you sent on Tue, 17 Sep 2019 16:40:04 -0700:
 
+> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/c6cfaf4f86d9d15e5541adb3bb899d0b80f89ec7
+
+Thank you!
 
 -- 
-ВНИМАНИЕ;
-
-В вашем почтовом ящике превышен лимит
-хранилища, который составляет 5 ГБ, как
-определено администратором, который в
-настоящее время работает на 10,9 ГБ.
-Возможно, вы не сможете отправлять или
-получать новую почту, пока вы не
-подтвердите свою почту. Чтобы
-подтвердить свой почтовый ящик,
-отправьте следующую информацию ниже:
-
-название:
-Имя пользователя:
-пароль:
-Подтвердите Пароль:
-Эл. адрес:
-Телефон:
-
-Если вы не сможете подтвердить свой
-почтовый ящик, ваш почтовый ящик будет
-отключен!
-
-Приносим извинения за неудобства.
-Код подтверждения: en: 006,524.RU
-Техническая поддержка почты © 2019
-
-благодарю вас
-Системный администратор.
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
