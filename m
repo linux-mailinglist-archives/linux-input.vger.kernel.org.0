@@ -2,54 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BC63BA20D
-	for <lists+linux-input@lfdr.de>; Sun, 22 Sep 2019 13:41:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D3C0BA212
+	for <lists+linux-input@lfdr.de>; Sun, 22 Sep 2019 13:45:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728551AbfIVLlC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 22 Sep 2019 07:41:02 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:42346 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728182AbfIVLlC (ORCPT
+        id S1728598AbfIVLpD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 22 Sep 2019 07:45:03 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:37657 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728182AbfIVLpD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 22 Sep 2019 07:41:02 -0400
-Received: by mail-pg1-f193.google.com with SMTP id z12so6260429pgp.9
-        for <linux-input@vger.kernel.org>; Sun, 22 Sep 2019 04:41:01 -0700 (PDT)
+        Sun, 22 Sep 2019 07:45:03 -0400
+Received: by mail-pg1-f194.google.com with SMTP id c17so6280539pgg.4
+        for <linux-input@vger.kernel.org>; Sun, 22 Sep 2019 04:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:cc:message-id:mime-version:content-disposition:user-agent;
-        bh=eEaxqTTfK2bFUDK9nZAPVdIjNfwI3q73Rob/B6vAAC0=;
-        b=IrrYjWoA1ukoLa9//7YBipnFENx7On3zv2PFzwwK0v3sNIy+gAEwgCoH+pFarwNSdr
-         P2K1YMBq5SFP63ihWr3ZrYtpIuaYZeDS3moCgjodvNuFeClUXQc4PHzBwmIj/xC2Njk5
-         k9sWkAUXvxPrr6xgDrNoILTGVlXm1aQakZKrBU2WfU1KM6iXlW6Zx+tuMZT7DQdhlWOf
-         ZKc3Z3jLncEMu2l3m0/BslJ3AK2O4wKWT3vnB4ZqrDpuwWTCa6X4h+HFIO5QfwLccbxz
-         SPEB01vOHcLoRxAx0ya+ZwvUrwvUrxMtd7FZ0TP1OrrIbhuTGcqf0k+M/N6FVJ6xUgT3
-         q2jg==
+        h=date:from:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=M+gsrIYxCuJ6PR2ixxOQu/G74Bnmn11J/uv7JZ/wiZY=;
+        b=oRoXF1Vi0n+yx07vljB3qTyGtlyfaBvFaTh8Z64rz+b9QF0BiWozVp1int86p8HISP
+         ITnOSjhs3g4xPM1YyWXgYw2iTPTxkY/anShBBE/EtnkHNmgbuWH+XsGN6gc34M8weV7P
+         rzj//tUTtHClssR3FD20tSXrc22dPZ17yqqKwv8BmgHnNeviEJwi58gB88qrOtHdsmNz
+         6WgpvSkjl0LISNWE5efgVKEPA9KYeH3OXknCyWzGJhFOv/khz4sq3Ko9sOpeqhY/AWtG
+         TXC9P0RgRoir9b+8hdALIFR03/0A3gyMEjZ9EdT79AX8WpvH91gzPgLnpGjROt0N558m
+         OxcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:cc:message-id:mime-version
+        h=x-gm-message-state:date:from:cc:subject:message-id:mime-version
          :content-disposition:user-agent;
-        bh=eEaxqTTfK2bFUDK9nZAPVdIjNfwI3q73Rob/B6vAAC0=;
-        b=maYYBbglzdr7HX9k95/flGVxXfDbQbjrAP1tlCGHgH7i4xm23oaNhyJJh73gqHM2jL
-         5GcgV2xe08fvQBvMS4FnIKHYXRg12Z1EQDY/zNKJgGKMlx8aNvJGLfys6phm1eDoELdg
-         YrXZuq0tLKxP9zpHrgAsHMxuwNIAeypj4Tz94iZ9LfgTX7YKNIFnDdlwlWUFfaD6Ay0J
-         Q+nRUUrtotYLO58KYYg/qrjhkdFAPyW1ID1a/4Hv7ZZLnUKODMV715io4ULTcWzY0mOF
-         P1H25x58gNqAu+occlMt/h/KZbo5Z/uqfz5Yu7ehvVs11LVFmIb4yHpWSpe07fLoTJZ8
-         Vu8A==
-X-Gm-Message-State: APjAAAXUsoY7Q0a6JnfU1aSm03TN+gXcXfH7n/2ZYEaUg6s2W5l3swl6
-        hrQzW9nusqbCn2k2ZR9RpQQ=
-X-Google-Smtp-Source: APXvYqxzZok2Lm0E0IUU6AO7WOkNbEZNI+nIRfEYH8h2/EPr7/Q2Zo3+C7vL4SKAZETciXmHTQBKSw==
-X-Received: by 2002:a17:90a:a589:: with SMTP id b9mr15112892pjq.51.1569152461152;
-        Sun, 22 Sep 2019 04:41:01 -0700 (PDT)
+        bh=M+gsrIYxCuJ6PR2ixxOQu/G74Bnmn11J/uv7JZ/wiZY=;
+        b=p5CsLUpzI9tDIvHPzBkzur7Bvg2M8ghdaGFfeqyx1pBRbu8kyazSjjBGjvhMWUSDIw
+         qapOhERcikbemsa087S+Qz6Pnh25H9C7h04k2ZpnDPH8LWPUimfapDsrfTHr1LqzRk7m
+         6RaWzXbxFg4s3VOFlTDExNrF1YWhql08p5+vp2/PAxKWda7aWpCmo0BLv621vpg6f47v
+         keMGAGumZ6WSXFbk/0t+jrnVBfYc/1z7mwRU1H8PSPNXyf5vQdQWzNjzl6uh3jNiMq0g
+         zkOha4e0r9pnXdk576Pz7Hxzer1a+5bq//2UwjX676qO1Gqb8MZ4ZrgIFb/vRQ69QuKH
+         GfEA==
+X-Gm-Message-State: APjAAAWoVV6Np2d0LZAWIBTFkO6Zg6yWnwh+pgHzG56TUpW5t4D+flay
+        4nlBMbvgUvK5iet6sPBnwHzqkuHG4JM0QQ==
+X-Google-Smtp-Source: APXvYqwNyXIJvEreiDYG928TkECd+BXfSIhfQe2zrp63O8CtcmKa6K1sC/QjZrSFK4yH7Fte0zBVjw==
+X-Received: by 2002:a17:90a:b302:: with SMTP id d2mr8165976pjr.3.1569152702431;
+        Sun, 22 Sep 2019 04:45:02 -0700 (PDT)
 Received: from gmail.com (ip-103-85-37-119.syd.xi.com.au. [103.85.37.119])
-        by smtp.gmail.com with ESMTPSA id z20sm7777691pjn.12.2019.09.22.04.40.58
+        by smtp.gmail.com with ESMTPSA id s1sm13578717pjs.31.2019.09.22.04.44.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Sep 2019 04:41:00 -0700 (PDT)
-Date:   Sun, 22 Sep 2019 21:40:53 +1000
+        Sun, 22 Sep 2019 04:45:01 -0700 (PDT)
+Date:   Sun, 22 Sep 2019 21:44:55 +1000
 From:   Adam Zerella <adam.zerella@gmail.com>
-Cc:     erazor_de@users.sourceforge.net, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        adam.zerella@gmail.com
-Message-ID: <20190922114053.GA16684@gmail.com>
+Cc:     Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, adam.zerella@gmail.com
+Subject: [PATCH] hid: roccat: Convert type uint16_t to __le16
+Message-ID: <20190922114455.GA17050@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -59,12 +62,6 @@ Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
-
-<erazor_de@users.sourceforge.net>, Jiri Kosina <jikos@kernel.org>,
-Benjamin Tissoires <benjamin.tissoires@redhat.com>, linux-input@vger.kernel.org
-Bcc: 
-Subject: [PATCH] hid: roccat: Convert type uint16_t to __le16
-Reply-To: 
 
 As pointed out by Sparse we have some warnings about
 incorrect type assignments.
