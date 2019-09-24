@@ -2,87 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48143BD290
-	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2019 21:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EF82BD4A6
+	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2019 23:52:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502059AbfIXTYP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Sep 2019 15:24:15 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:39410 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502027AbfIXTYP (ORCPT
+        id S2439148AbfIXVwq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Sep 2019 17:52:46 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:42791 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728183AbfIXVwp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Sep 2019 15:24:15 -0400
-Received: by mail-qt1-f194.google.com with SMTP id n7so3564461qtb.6
-        for <linux-input@vger.kernel.org>; Tue, 24 Sep 2019 12:24:14 -0700 (PDT)
+        Tue, 24 Sep 2019 17:52:45 -0400
+Received: by mail-pf1-f194.google.com with SMTP id q12so2106229pff.9
+        for <linux-input@vger.kernel.org>; Tue, 24 Sep 2019 14:52:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=iIde3UC8y6I1n7ba8lhYD0Bs9hPkUPsPKd2NYdjUKLo=;
-        b=dihDYR6FLibsQ1tj94hWwl6EV7s3GE6q86uypXvO248Jol64wBDNuPA7jKCAy080b2
-         ugpi4LMDsVrBJwbn93ZnbD0/t/3asI87Rf3e0Jx99XvhxEiy0uDHMkg+Ni0hyepK41I8
-         9dJ1vC7bxAKxWnXxWNFsEb9Vsm3tKNoagkQaXnDRRLIJGd7MtZIGPBpclOr14gP1t2eI
-         /xEQPLCeCDdWegdxWmJa3+1fveHNMjnlbKJaeV0EfilDqLWEDhm5kNE3/keaCMxQv7wO
-         h5WRj131ZSc2D1tdKNzSCDWq4n5af3etXKMrd1Osl24DqHD4uI5khhNZG8ZbAIhlqOeH
-         ts+Q==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+fhJ9T/vZjSSX05VHp18SVR0XFnj5tZksc8z2VAuz54=;
+        b=OFC1szf5PoQuT5vyg4Il+WGjsj/nKDC3/5I83EXRYroN4p+0LcCQNVXZ1Dczng+l/9
+         mX0OgMcBO2ic+gGiP5KR3IqB8DXh9UeF13m6c15qdDEuA7foGI5jv2h6XOlk7iSwSAww
+         9xyXErYkzTDlxbmY4plb2PXQnB5uWqu/47bX0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=iIde3UC8y6I1n7ba8lhYD0Bs9hPkUPsPKd2NYdjUKLo=;
-        b=LjAXl3icwU04qWqBPVJS57gUqcU9/O+jJIEYsXbiGeVX9s91gjfU0RPiN1WH+Zsii6
-         NslI4ZD1DUWBf0p4W0v95l4Dk8eBwBuSiQr+X7TAWP5+mWuks46qIQh5uc37KIZ2ymb1
-         qt4uHPcjkf8z/twSJbliVnE35Hfk+9hLK2HsEMVZ0f/M8o4I3s6GM0/xowi8SG7nCfbX
-         1P7T1MdyOib2lOH45i3mWBubPX36pr/bK5iKdYrsq7wVwAg8KQqs7bPzRJS1qbP6gYu3
-         SyckOkSgf5m7PUAa1ww9SivcfPIGpO8zEoHkae4yPlhbANoGPNbouSPIBoHH34Be2cay
-         hehw==
-X-Gm-Message-State: APjAAAUGXzgDRx2s0CZijw2I+Knk4fkYEVCYUq3koL6NLXUd+BWCL7cy
-        Ac3QTJ8Wsk3BvJ4mjlQNOGoWGYVA/5Eh+K1sjQP1B3icjUs=
-X-Google-Smtp-Source: APXvYqyx07bM3vwL5wtdkpv0GzIr8oSbCqzP7TBbyvYEGlavKRoRWsTGVN4cQ9c4DpVSPcXgklBEXhH9HURzjErZfwE=
-X-Received: by 2002:ac8:1cf:: with SMTP id b15mr4509379qtg.56.1569353054057;
- Tue, 24 Sep 2019 12:24:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+fhJ9T/vZjSSX05VHp18SVR0XFnj5tZksc8z2VAuz54=;
+        b=LHV2EE+lTvol26evboEIQ9u2+HKJqSbIJUpCYCm+bjodiHw4Y0m4qiGNHmfWBQB4Yg
+         8AEDkO1By7ZijzbXlDT3A19lj17dqDMEL6BteX3xes8Jw74VZNqe2G2Olyzu8Sg3bQWK
+         Yt4LreHLyUiwBnnqijkiGfp5+US2JcgmILQBoagTr7y+P8pHSdgMg0VXW9ErSiwHqrMh
+         cLzjrhvxx5+1bW7ojDWIxaep8N0wRcfEEqGeyV+nI/y33hdDIKhideyeKqvnqxopUnSO
+         ywkvA4YbaeK8GVwUu+ysyYnPgSsiRK8quwjwb3SwNUKOytBWHyRNPcxNp7Y65c4OA59+
+         stxg==
+X-Gm-Message-State: APjAAAUce4c2b++Md+OKK2ObjKICEFOyJUK3H4kr3JLpK5tdQjgXFosU
+        t41FrK2JWlFixWf2dXB94DltZg==
+X-Google-Smtp-Source: APXvYqwWBdF0lQs3EbGKhbUaeNBDEuDBk7pm4dNkAF2JHWwebTmEQlp77C87FjqJ6npYTny70kzyBA==
+X-Received: by 2002:a63:a548:: with SMTP id r8mr4828285pgu.401.1569361963764;
+        Tue, 24 Sep 2019 14:52:43 -0700 (PDT)
+Received: from evgreen2.mtv.corp.google.com ([2620:15c:202:201:ffda:7716:9afc:1301])
+        by smtp.gmail.com with ESMTPSA id q204sm2494493pfc.11.2019.09.24.14.52.42
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 24 Sep 2019 14:52:43 -0700 (PDT)
+From:   Evan Green <evgreen@chromium.org>
+To:     Nick Dyer <nick@shmanahar.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Jongpil Jung <jongpil19.jung@samsung.com>,
+        Furquan Shaikh <furquan@chromium.org>,
+        Rajat Jain <rajatja@chromium.org>,
+        Evan Green <evgreen@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH v2] Input: atmel_mxt_ts - Disable IRQ across suspend
+Date:   Tue, 24 Sep 2019 14:52:38 -0700
+Message-Id: <20190924215238.184750-1-evgreen@chromium.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-From:   Andrey Melentyev <andrey.melentyev@gmail.com>
-Date:   Tue, 24 Sep 2019 21:24:03 +0200
-Message-ID: <CAJawrXupRCjOYvm0xCoS-jFpmwMG+tLJ1_pfZzrQ2B1N71PVhw@mail.gmail.com>
-Subject: Touchpad LEN0099 PNP0f13 says it can support a different bus
-To:     linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+Across suspend and resume, we are seeing error messages like the following:
 
-I have the following message in dmesg output:
+atmel_mxt_ts i2c-PRP0001:00: __mxt_read_reg: i2c transfer failed (-121)
+atmel_mxt_ts i2c-PRP0001:00: Failed to read T44 and T5 (-121)
 
-psmouse serio1: synaptics: queried max coordinates: x [..5676], y [..4694]
-psmouse serio1: synaptics: queried min coordinates: x [1266..], y [1162..]
-psmouse serio1: synaptics: Your touchpad (PNP: LEN0099 PNP0f13) says
-it can support a different bus. If i2c-hid and hid-rmi are not used,
-you might want to try setting psmouse.synaptics_intertouch to 1 and
-report this to linux-input@vger.kernel.org.
-psmouse serio1: synaptics: Touchpad model: 1, fw: 8.16, id: 0x1e2b1,
-caps: 0xf002a3/0x940300/0x12e800/0x400000, board id: 3418, fw id:
-2788056
-psmouse serio1: synaptics: serio: Synaptics pass-through port at
-isa0060/serio1/input0
-input: SynPS/2 Synaptics TouchPad as /devices/platform/i8042/serio1/input/input8
-mousedev: PS/2 mouse device common for all mice
+This occurs because the driver leaves its IRQ enabled. Upon resume, there
+is an IRQ pending, but the interrupt is serviced before both the driver and
+the underlying I2C bus have been resumed. This causes EREMOTEIO errors.
 
-After rebooting with psmouse.synaptics_intertouch=1 the touchpad still
-works fine and dmesg output is different:
+Disable the IRQ in suspend, and re-enable it on resume. If there are cases
+where the driver enters suspend with interrupts disabled, that's a bug we
+should fix separately.
 
-psmouse serio1: synaptics: queried max coordinates: x [..5676], y [..4694]
-psmouse serio1: synaptics: queried min coordinates: x [1266..], y [1162..]
-psmouse serio1: synaptics: Trying to set up SMBus access
-rmi4_smbus 5-002c: registering SMbus-connected sensor
-rmi4_f01 rmi4-00.fn01: found RMI device, manufacturer: Synaptics,
-product: TM3418-002, fw id: 2788056
-input: Synaptics TM3418-002 as /devices/rmi4-00/input/input21
-serio: RMI4 PS/2 pass-through port at rmi4-00.fn03
-mousedev: PS/2 mouse device common for all mice
+Signed-off-by: Evan Green <evgreen@chromium.org>
+---
 
-Let me know if any additional information could be helpful.
+Changes in v2:
+ - Enable and disable unconditionally (Dmitry)
 
-Best regards
-Andrey
+ drivers/input/touchscreen/atmel_mxt_ts.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index 24c4b691b1c9..a58092488679 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -3155,6 +3155,7 @@ static int __maybe_unused mxt_suspend(struct device *dev)
+ 		mxt_stop(data);
+ 
+ 	mutex_unlock(&input_dev->mutex);
++	disable_irq(data->irq);
+ 
+ 	return 0;
+ }
+@@ -3174,6 +3175,7 @@ static int __maybe_unused mxt_resume(struct device *dev)
+ 		mxt_start(data);
+ 
+ 	mutex_unlock(&input_dev->mutex);
++	enable_irq(data->irq);
+ 
+ 	return 0;
+ }
+-- 
+2.21.0
+
