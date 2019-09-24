@@ -2,75 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58344BBCE3
-	for <lists+linux-input@lfdr.de>; Mon, 23 Sep 2019 22:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 042E4BC266
+	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2019 09:16:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729082AbfIWUe3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Sep 2019 16:34:29 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:33647 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729065AbfIWUe3 (ORCPT
+        id S2392089AbfIXHQP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Sep 2019 03:16:15 -0400
+Received: from esa1.mentor.iphmx.com ([68.232.129.153]:29845 "EHLO
+        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388571AbfIXHQO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Sep 2019 16:34:29 -0400
-Received: by mail-pf1-f193.google.com with SMTP id q10so9863516pfl.0;
-        Mon, 23 Sep 2019 13:34:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EGYPKi+Bj97Txmrg48DsS4RTp4MiyYLZEEl8Gx4dbp8=;
-        b=jKz83jxo6UQCdidNmrf33fmZCqbVFL/nOB6fiSnp2gNv9JmJj7hWP6gvttTTJSt6j0
-         AzRwAdPr3Q1Ev4WZPYct6kzWNZBwOwslDiqquT8VL/ZKKjpiXTZQpneTI/yz2eiuXMVr
-         lxvqmNrR6NQuBrnCeWyzMxyHswtKQBbRPGkqinArLe5zePNdPts+8by7W+6h1pA4tLjf
-         4I6UH6CdbIWL+O8cXm5deqtBJurbgLj3XGS4E45Qi3tluVvtuchQxkOLhAVazH0aTe0N
-         8Kr6y08en2OnR/mIASOeT5gehpa532iH7LzKfLmX/cpjxJamws3moxsebP7JIrdRujZ5
-         xs2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EGYPKi+Bj97Txmrg48DsS4RTp4MiyYLZEEl8Gx4dbp8=;
-        b=qhzMAWVJl0INbfpwTKTDl1C+pFFRIgmGh7AumfFHODSIxAT27+BtuKIsvXL/cnwuxa
-         zKh2OS4b/fRoHPNEzrIW617KQQVXT4RuSmsJr3gTt2S1Y1WYig8vilJbzb3RXx1VxE9q
-         kgt9qszgaTOu0cU7mA2XV6rNDu2cMzEOAGqJvIXwrDICgVfW/FYaZyJ/DgZFsdFMwpUF
-         KZr64oFVNApUjlBGgqOKLt8lg+GcnlCwS+Fh16RkEEGQ4a2v94CaL343RwvOUbswMyzl
-         lE55n1k5y88IkoXNClkg5rZXPKBf4bBn9EfipQb5Jk5TwuCBjwhxC5LuS9LwPk5PZPDv
-         3Vhg==
-X-Gm-Message-State: APjAAAVZVHUzKUyYNTBWRfbX/7tRt/ipiDNHRZtXUYmKDyl23vVhEZkP
-        0C7uR0DgDroFnwNK9bl914E=
-X-Google-Smtp-Source: APXvYqyNkmREM5d5I86SZMtJX+edL0QFUQzFvJrS6pzQ6ezjgBUHSDocLloyBDJm50K62Mx3Czjxkw==
-X-Received: by 2002:a65:4286:: with SMTP id j6mr1787684pgp.218.1569270868145;
-        Mon, 23 Sep 2019 13:34:28 -0700 (PDT)
-Received: from localhost.lan (c-67-185-54-80.hsd1.wa.comcast.net. [67.185.54.80])
-        by smtp.gmail.com with ESMTPSA id z25sm12391618pfn.7.2019.09.23.13.34.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Sep 2019 13:34:26 -0700 (PDT)
-From:   Andrey Smirnov <andrew.smirnov@gmail.com>
-To:     Marcel Holtmann <marcel@holtmann.org>
-Cc:     Andrey Smirnov <andrew.smirnov@gmail.com>,
-        "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH] Bluetooth: hidp: Fix assumptions on the return value of hidp_send_message
-Date:   Mon, 23 Sep 2019 13:33:57 -0700
-Message-Id: <20190923203357.8355-1-andrew.smirnov@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <3D70AB75-FEFB-4EB3-9AC8-3BCE90F5458D@holtmann.org>
-References: 
+        Tue, 24 Sep 2019 03:16:14 -0400
+IronPort-SDR: okmg58/v18nnT3AIsSmrx1kznSBLduLXwP+SNbPK1qu4QzD1MC6DMOJ7xM9LSmvfEoZL8FO5+b
+ W+b003oj6B6kB7yPKayC+00OzPSevrxRRb8s2WI3FdD9UKq5iXhCZDqLDlRITk/MmNxmQEeZir
+ HK8x0niM2ttzcDXhIZyJJl0xjb7CIp7edUhpygdKQXjF2+B6xIl+FZZ4UFpcsgmeNj5GQPgoH0
+ TLvtEbSJp8Dw+F52iszECP9/IlQ1zqjyHHtFFm2AJL+mOB5PMgFSmxayo8p426KKnhUT8T8lwt
+ ZN4=
+X-IronPort-AV: E=Sophos;i="5.64,543,1559548800"; 
+   d="scan'208";a="43431625"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa1.mentor.iphmx.com with ESMTP; 23 Sep 2019 23:16:14 -0800
+IronPort-SDR: IQ76IXmnv4LstIrBtQLhKeN32w2DEU0TW6vhRRky0TpUKSQDre+hKvQ3oNmL3A+1nA2LG3PMgl
+ 0vMt/WoYi7UR9XXtcfPCbrtHOAvM0jICrrgyJQu06Kw7w3Yo5IULm/uXcFnGYBwHucD78EXil0
+ +cU9GS9Riw1XFQE912wQQ8MLlcDtfaRskAGICCTmB+pWUzRnMBIrOXN6om54rnp1IcrosML+j0
+ AlhN0X7lYFkofTKffT3J/jmQ60ANoOQtfi7HnNvzIYVNOPylzfvTNpmKu+HSdOE4xAMdGoFkZ0
+ J2o=
+Subject: Re: [PATCH v3 02/49] Input: introduce input_mt_report_slot_inactive
+To:     Henrik Rydberg <rydberg@bitmath.org>, <nick@shmanahar.org>,
+        <dmitry.torokhov@gmail.com>, <jikos@kernel.org>,
+        <benjamin.tissoires@redhat.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20190917093320.18134-1-jiada_wang@mentor.com>
+ <20190917093320.18134-3-jiada_wang@mentor.com>
+ <546c8205-ecb7-1c34-3727-b10c7ff86232@bitmath.org>
+From:   Jiada Wang <jiada_wang@mentor.com>
+Message-ID: <a66d29fc-50fc-da82-5178-cf349d70a14b@mentor.com>
+Date:   Tue, 24 Sep 2019 16:16:03 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <546c8205-ecb7-1c34-3727-b10c7ff86232@bitmath.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SVR-ORW-MBX-05.mgc.mentorg.com (147.34.90.205) To
+ svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> I am taking this through my tree. And yes, I applied the updated patch, but answered the other ;)
->
-> Regards
->
-> Marcel
+Hi Henrik
 
-Are you also going to mark this patch for inclusion to stable tree? I haven't seen it in any of the stable queues (netdev, Greg's), so just wanted to check.
+
+On 2019/09/18 3:25, Henrik Rydberg wrote:
+> Hi Jiada,
+> 
+>> input_mt_report_slot_state() ignores the tool when the slot is closed.
+>> which has caused a bit of confusion.
+>> This patch introduces input_mt_report_slot_inactive() to report slot
+>> inactive state.
+>> replaces all input_mt_report_slot_state() with
+>> input_mt_report_slot_inactive() in case of close of slot.
+> 
+> This patch looks very odd, I am afraid.
+> 
+> When a driver needs to use input_mt functions, it first calls 
+> input_mt_init_slots() during setup. The MT state then remains in effect 
+> until the driver is destroyed. Thus, there is no valid case when 
+> input_mt_report_slot_state() would fail to execute the line
+> 
+>     input_event(dev, EV_ABS, ABS_MT_TRACKING_ID, -1)
+> 
+> when active == false.
+> 
+> What input_mt_report_slot_state() does do, however, is to ignore the 
+> event when no MT state has been set, which does happen for some drivers 
+> handling both normal and MT devices. Changing such a driver in the way 
+> you suggest would introduce new events in existing, working cases, and 
+> possibly break userspace. We should try very hard to avoid it.
+> 
+
+thanks for your comment,
+
+Just to make sure, I think your comment is for
+patch "[PATCH v3 01/49] Input: switch to use return value of 
+input_mt_report_slot_state"
+not for "[PATCH v3 02/49] Input: introduce 
+input_mt_report_slot_inactive", right?
+
+yes, I agree
+by having change:
+
+-    input_mt_report_slot_state(dev, tool_type, active);
+-    if (active) {
++        if (input_mt_report_slot_state(dev, tool_type, active)){
+              ... ...
+      }
+
+the logic of the driver is changed, when (mt == NULL && active == true).
+I will drop patch "Input: switch to use return value of" in next version
 
 Thanks,
-Andrey Smirnov
+Jiada
+
+> Thanks,
+> 
+> Henrik
+> 
+> 
