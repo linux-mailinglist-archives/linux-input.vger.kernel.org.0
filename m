@@ -2,158 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 358C4BC473
-	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2019 11:06:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48143BD290
+	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2019 21:24:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729685AbfIXJF7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Sep 2019 05:05:59 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:38736 "EHLO inva020.nxp.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729641AbfIXJF7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Sep 2019 05:05:59 -0400
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id F37031A0274;
-        Tue, 24 Sep 2019 11:05:56 +0200 (CEST)
-Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id BDC021A0169;
-        Tue, 24 Sep 2019 11:05:51 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id C4E4C402B4;
-        Tue, 24 Sep 2019 17:05:45 +0800 (SGT)
-From:   Anson Huang <Anson.Huang@nxp.com>
-To:     dmitry.torokhov@gmail.com, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        swboyd@chromium.org, mojha@codeaurora.org,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Linux-imx@nxp.com
-Subject: [PATCH] input: keyboard: imx_keypad: Use 'dev' instead of dereferencing it repeatedly
-Date:   Tue, 24 Sep 2019 17:04:19 +0800
-Message-Id: <1569315859-7046-1-git-send-email-Anson.Huang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S2502059AbfIXTYP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Sep 2019 15:24:15 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:39410 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2502027AbfIXTYP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 24 Sep 2019 15:24:15 -0400
+Received: by mail-qt1-f194.google.com with SMTP id n7so3564461qtb.6
+        for <linux-input@vger.kernel.org>; Tue, 24 Sep 2019 12:24:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=iIde3UC8y6I1n7ba8lhYD0Bs9hPkUPsPKd2NYdjUKLo=;
+        b=dihDYR6FLibsQ1tj94hWwl6EV7s3GE6q86uypXvO248Jol64wBDNuPA7jKCAy080b2
+         ugpi4LMDsVrBJwbn93ZnbD0/t/3asI87Rf3e0Jx99XvhxEiy0uDHMkg+Ni0hyepK41I8
+         9dJ1vC7bxAKxWnXxWNFsEb9Vsm3tKNoagkQaXnDRRLIJGd7MtZIGPBpclOr14gP1t2eI
+         /xEQPLCeCDdWegdxWmJa3+1fveHNMjnlbKJaeV0EfilDqLWEDhm5kNE3/keaCMxQv7wO
+         h5WRj131ZSc2D1tdKNzSCDWq4n5af3etXKMrd1Osl24DqHD4uI5khhNZG8ZbAIhlqOeH
+         ts+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=iIde3UC8y6I1n7ba8lhYD0Bs9hPkUPsPKd2NYdjUKLo=;
+        b=LjAXl3icwU04qWqBPVJS57gUqcU9/O+jJIEYsXbiGeVX9s91gjfU0RPiN1WH+Zsii6
+         NslI4ZD1DUWBf0p4W0v95l4Dk8eBwBuSiQr+X7TAWP5+mWuks46qIQh5uc37KIZ2ymb1
+         qt4uHPcjkf8z/twSJbliVnE35Hfk+9hLK2HsEMVZ0f/M8o4I3s6GM0/xowi8SG7nCfbX
+         1P7T1MdyOib2lOH45i3mWBubPX36pr/bK5iKdYrsq7wVwAg8KQqs7bPzRJS1qbP6gYu3
+         SyckOkSgf5m7PUAa1ww9SivcfPIGpO8zEoHkae4yPlhbANoGPNbouSPIBoHH34Be2cay
+         hehw==
+X-Gm-Message-State: APjAAAUGXzgDRx2s0CZijw2I+Knk4fkYEVCYUq3koL6NLXUd+BWCL7cy
+        Ac3QTJ8Wsk3BvJ4mjlQNOGoWGYVA/5Eh+K1sjQP1B3icjUs=
+X-Google-Smtp-Source: APXvYqyx07bM3vwL5wtdkpv0GzIr8oSbCqzP7TBbyvYEGlavKRoRWsTGVN4cQ9c4DpVSPcXgklBEXhH9HURzjErZfwE=
+X-Received: by 2002:ac8:1cf:: with SMTP id b15mr4509379qtg.56.1569353054057;
+ Tue, 24 Sep 2019 12:24:14 -0700 (PDT)
+MIME-Version: 1.0
+From:   Andrey Melentyev <andrey.melentyev@gmail.com>
+Date:   Tue, 24 Sep 2019 21:24:03 +0200
+Message-ID: <CAJawrXupRCjOYvm0xCoS-jFpmwMG+tLJ1_pfZzrQ2B1N71PVhw@mail.gmail.com>
+Subject: Touchpad LEN0099 PNP0f13 says it can support a different bus
+To:     linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add helper variable dev = &pdev->dev to simply the code.
+Hello,
 
-Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
----
- drivers/input/keyboard/imx_keypad.c | 35 ++++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+I have the following message in dmesg output:
 
-diff --git a/drivers/input/keyboard/imx_keypad.c b/drivers/input/keyboard/imx_keypad.c
-index 5a46d11..3024d2a 100644
---- a/drivers/input/keyboard/imx_keypad.c
-+++ b/drivers/input/keyboard/imx_keypad.c
-@@ -418,14 +418,15 @@ MODULE_DEVICE_TABLE(of, imx_keypad_of_match);
- 
- static int imx_keypad_probe(struct platform_device *pdev)
- {
-+	struct device *dev = &pdev->dev;
- 	const struct matrix_keymap_data *keymap_data =
--			dev_get_platdata(&pdev->dev);
-+			dev_get_platdata(dev);
- 	struct imx_keypad *keypad;
- 	struct input_dev *input_dev;
- 	int irq, error, i, row, col;
- 
--	if (!keymap_data && !pdev->dev.of_node) {
--		dev_err(&pdev->dev, "no keymap defined\n");
-+	if (!keymap_data && !dev->of_node) {
-+		dev_err(dev, "no keymap defined\n");
- 		return -EINVAL;
- 	}
- 
-@@ -433,15 +434,15 @@ static int imx_keypad_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
- 
--	input_dev = devm_input_allocate_device(&pdev->dev);
-+	input_dev = devm_input_allocate_device(dev);
- 	if (!input_dev) {
--		dev_err(&pdev->dev, "failed to allocate the input device\n");
-+		dev_err(dev, "failed to allocate the input device\n");
- 		return -ENOMEM;
- 	}
- 
--	keypad = devm_kzalloc(&pdev->dev, sizeof(*keypad), GFP_KERNEL);
-+	keypad = devm_kzalloc(dev, sizeof(*keypad), GFP_KERNEL);
- 	if (!keypad) {
--		dev_err(&pdev->dev, "not enough memory for driver data\n");
-+		dev_err(dev, "not enough memory for driver data\n");
- 		return -ENOMEM;
- 	}
- 
-@@ -456,16 +457,16 @@ static int imx_keypad_probe(struct platform_device *pdev)
- 	if (IS_ERR(keypad->mmio_base))
- 		return PTR_ERR(keypad->mmio_base);
- 
--	keypad->clk = devm_clk_get(&pdev->dev, NULL);
-+	keypad->clk = devm_clk_get(dev, NULL);
- 	if (IS_ERR(keypad->clk)) {
--		dev_err(&pdev->dev, "failed to get keypad clock\n");
-+		dev_err(dev, "failed to get keypad clock\n");
- 		return PTR_ERR(keypad->clk);
- 	}
- 
- 	/* Init the Input device */
- 	input_dev->name = pdev->name;
- 	input_dev->id.bustype = BUS_HOST;
--	input_dev->dev.parent = &pdev->dev;
-+	input_dev->dev.parent = dev;
- 	input_dev->open = imx_keypad_open;
- 	input_dev->close = imx_keypad_close;
- 
-@@ -474,7 +475,7 @@ static int imx_keypad_probe(struct platform_device *pdev)
- 					   MAX_MATRIX_KEY_COLS,
- 					   keypad->keycodes, input_dev);
- 	if (error) {
--		dev_err(&pdev->dev, "failed to build keymap\n");
-+		dev_err(dev, "failed to build keymap\n");
- 		return error;
- 	}
- 
-@@ -488,8 +489,8 @@ static int imx_keypad_probe(struct platform_device *pdev)
- 			}
- 		}
- 	}
--	dev_dbg(&pdev->dev, "enabled rows mask: %x\n", keypad->rows_en_mask);
--	dev_dbg(&pdev->dev, "enabled cols mask: %x\n", keypad->cols_en_mask);
-+	dev_dbg(dev, "enabled rows mask: %x\n", keypad->rows_en_mask);
-+	dev_dbg(dev, "enabled cols mask: %x\n", keypad->cols_en_mask);
- 
- 	__set_bit(EV_REP, input_dev->evbit);
- 	input_set_capability(input_dev, EV_MSC, MSC_SCAN);
-@@ -502,22 +503,22 @@ static int imx_keypad_probe(struct platform_device *pdev)
- 	imx_keypad_inhibit(keypad);
- 	clk_disable_unprepare(keypad->clk);
- 
--	error = devm_request_irq(&pdev->dev, irq, imx_keypad_irq_handler, 0,
-+	error = devm_request_irq(dev, irq, imx_keypad_irq_handler, 0,
- 			    pdev->name, keypad);
- 	if (error) {
--		dev_err(&pdev->dev, "failed to request IRQ\n");
-+		dev_err(dev, "failed to request IRQ\n");
- 		return error;
- 	}
- 
- 	/* Register the input device */
- 	error = input_register_device(input_dev);
- 	if (error) {
--		dev_err(&pdev->dev, "failed to register input device\n");
-+		dev_err(dev, "failed to register input device\n");
- 		return error;
- 	}
- 
- 	platform_set_drvdata(pdev, keypad);
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(dev, 1);
- 
- 	return 0;
- }
--- 
-2.7.4
+psmouse serio1: synaptics: queried max coordinates: x [..5676], y [..4694]
+psmouse serio1: synaptics: queried min coordinates: x [1266..], y [1162..]
+psmouse serio1: synaptics: Your touchpad (PNP: LEN0099 PNP0f13) says
+it can support a different bus. If i2c-hid and hid-rmi are not used,
+you might want to try setting psmouse.synaptics_intertouch to 1 and
+report this to linux-input@vger.kernel.org.
+psmouse serio1: synaptics: Touchpad model: 1, fw: 8.16, id: 0x1e2b1,
+caps: 0xf002a3/0x940300/0x12e800/0x400000, board id: 3418, fw id:
+2788056
+psmouse serio1: synaptics: serio: Synaptics pass-through port at
+isa0060/serio1/input0
+input: SynPS/2 Synaptics TouchPad as /devices/platform/i8042/serio1/input/input8
+mousedev: PS/2 mouse device common for all mice
 
+After rebooting with psmouse.synaptics_intertouch=1 the touchpad still
+works fine and dmesg output is different:
+
+psmouse serio1: synaptics: queried max coordinates: x [..5676], y [..4694]
+psmouse serio1: synaptics: queried min coordinates: x [1266..], y [1162..]
+psmouse serio1: synaptics: Trying to set up SMBus access
+rmi4_smbus 5-002c: registering SMbus-connected sensor
+rmi4_f01 rmi4-00.fn01: found RMI device, manufacturer: Synaptics,
+product: TM3418-002, fw id: 2788056
+input: Synaptics TM3418-002 as /devices/rmi4-00/input/input21
+serio: RMI4 PS/2 pass-through port at rmi4-00.fn03
+mousedev: PS/2 mouse device common for all mice
+
+Let me know if any additional information could be helpful.
+
+Best regards
+Andrey
