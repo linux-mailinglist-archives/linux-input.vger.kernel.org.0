@@ -2,34 +2,31 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 71F37BC46B
-	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2019 11:03:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32D41BC46F
+	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2019 11:04:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729729AbfIXJDv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Sep 2019 05:03:51 -0400
-Received: from inva021.nxp.com ([92.121.34.21]:51852 "EHLO inva021.nxp.com"
+        id S1729728AbfIXJEn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Sep 2019 05:04:43 -0400
+Received: from inva020.nxp.com ([92.121.34.13]:37278 "EHLO inva020.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729713AbfIXJDv (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Sep 2019 05:03:51 -0400
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id DB80420021C;
-        Tue, 24 Sep 2019 11:03:48 +0200 (CEST)
+        id S1729704AbfIXJEn (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 24 Sep 2019 05:04:43 -0400
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 43CB21A0169;
+        Tue, 24 Sep 2019 11:04:40 +0200 (CEST)
 Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id A25D020095F;
-        Tue, 24 Sep 2019 11:03:43 +0200 (CEST)
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id A0B511A00D4;
+        Tue, 24 Sep 2019 11:04:37 +0200 (CEST)
 Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 48AEE4029F;
-        Tue, 24 Sep 2019 17:03:37 +0800 (SGT)
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 15DE7402ED;
+        Tue, 24 Sep 2019 17:04:34 +0800 (SGT)
 From:   Anson Huang <Anson.Huang@nxp.com>
-To:     dmitry.torokhov@gmail.com, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        swboyd@chromium.org, mojha@codeaurora.org,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
+To:     dmitry.torokhov@gmail.com, swboyd@chromium.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Linux-imx@nxp.com
-Subject: [PATCH] input: touchscreen: imx6ul_tsc: Use 'dev' instead of dereferencing it repeatedly
-Date:   Tue, 24 Sep 2019 17:02:11 +0800
-Message-Id: <1569315731-2387-1-git-send-email-Anson.Huang@nxp.com>
+Subject: [PATCH] input: keyboard: snvs_pwrkey: Use 'dev' instead of dereferencing it repeatedly
+Date:   Tue, 24 Sep 2019 17:03:08 +0800
+Message-Id: <1569315788-4295-1-git-send-email-Anson.Huang@nxp.com>
 X-Mailer: git-send-email 2.7.4
 X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-input-owner@vger.kernel.org
@@ -41,131 +38,103 @@ Add helper variable dev = &pdev->dev to simply the code.
 
 Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
 ---
- drivers/input/touchscreen/imx6ul_tsc.c | 37 +++++++++++++++++-----------------
- 1 file changed, 19 insertions(+), 18 deletions(-)
+ drivers/input/keyboard/snvs_pwrkey.c | 29 +++++++++++++++--------------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/input/touchscreen/imx6ul_tsc.c b/drivers/input/touchscreen/imx6ul_tsc.c
-index 9ed2588..4555aa9 100644
---- a/drivers/input/touchscreen/imx6ul_tsc.c
-+++ b/drivers/input/touchscreen/imx6ul_tsc.c
-@@ -361,7 +361,8 @@ static void imx6ul_tsc_close(struct input_dev *input_dev)
+diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/keyboard/snvs_pwrkey.c
+index e76b7a4..23b203f 100644
+--- a/drivers/input/keyboard/snvs_pwrkey.c
++++ b/drivers/input/keyboard/snvs_pwrkey.c
+@@ -90,29 +90,30 @@ static void imx_snvs_pwrkey_act(void *pdata)
  
- static int imx6ul_tsc_probe(struct platform_device *pdev)
+ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
  {
--	struct device_node *np = pdev->dev.of_node;
 +	struct device *dev = &pdev->dev;
-+	struct device_node *np = dev->of_node;
- 	struct imx6ul_tsc *tsc;
- 	struct input_dev *input_dev;
- 	int err;
-@@ -369,11 +370,11 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
- 	int adc_irq;
- 	u32 average_samples;
+ 	struct pwrkey_drv_data *pdata = NULL;
+ 	struct input_dev *input = NULL;
+ 	struct device_node *np;
+ 	int error;
  
--	tsc = devm_kzalloc(&pdev->dev, sizeof(*tsc), GFP_KERNEL);
-+	tsc = devm_kzalloc(dev, sizeof(*tsc), GFP_KERNEL);
- 	if (!tsc)
+ 	/* Get SNVS register Page */
+-	np = pdev->dev.of_node;
++	np = dev->of_node;
+ 	if (!np)
+ 		return -ENODEV;
+ 
+-	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
++	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+ 	if (!pdata)
  		return -ENOMEM;
  
--	input_dev = devm_input_allocate_device(&pdev->dev);
-+	input_dev = devm_input_allocate_device(dev);
- 	if (!input_dev)
+ 	pdata->snvs = syscon_regmap_lookup_by_phandle(np, "regmap");
+ 	if (IS_ERR(pdata->snvs)) {
+-		dev_err(&pdev->dev, "Can't get snvs syscon\n");
++		dev_err(dev, "Can't get snvs syscon\n");
+ 		return PTR_ERR(pdata->snvs);
+ 	}
+ 
+ 	if (of_property_read_u32(np, "linux,keycode", &pdata->keycode)) {
+ 		pdata->keycode = KEY_POWER;
+-		dev_warn(&pdev->dev, "KEY_POWER without setting in dts\n");
++		dev_warn(dev, "KEY_POWER without setting in dts\n");
+ 	}
+ 
+ 	pdata->wakeup = of_property_read_bool(np, "wakeup-source");
+@@ -128,9 +129,9 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
+ 
+ 	timer_setup(&pdata->check_timer, imx_imx_snvs_check_for_events, 0);
+ 
+-	input = devm_input_allocate_device(&pdev->dev);
++	input = devm_input_allocate_device(dev);
+ 	if (!input) {
+-		dev_err(&pdev->dev, "failed to allocate the input device\n");
++		dev_err(dev, "failed to allocate the input device\n");
  		return -ENOMEM;
- 
-@@ -389,14 +390,14 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
- 
- 	input_set_drvdata(input_dev, tsc);
- 
--	tsc->dev = &pdev->dev;
-+	tsc->dev = dev;
- 	tsc->input = input_dev;
- 	init_completion(&tsc->completion);
- 
--	tsc->xnur_gpio = devm_gpiod_get(&pdev->dev, "xnur", GPIOD_IN);
-+	tsc->xnur_gpio = devm_gpiod_get(dev, "xnur", GPIOD_IN);
- 	if (IS_ERR(tsc->xnur_gpio)) {
- 		err = PTR_ERR(tsc->xnur_gpio);
--		dev_err(&pdev->dev,
-+		dev_err(dev,
- 			"failed to request GPIO tsc_X- (xnur): %d\n", err);
- 		return err;
- 	}
-@@ -404,28 +405,28 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
- 	tsc->tsc_regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(tsc->tsc_regs)) {
- 		err = PTR_ERR(tsc->tsc_regs);
--		dev_err(&pdev->dev, "failed to remap tsc memory: %d\n", err);
-+		dev_err(dev, "failed to remap tsc memory: %d\n", err);
- 		return err;
  	}
  
- 	tsc->adc_regs = devm_platform_ioremap_resource(pdev, 1);
- 	if (IS_ERR(tsc->adc_regs)) {
- 		err = PTR_ERR(tsc->adc_regs);
--		dev_err(&pdev->dev, "failed to remap adc memory: %d\n", err);
-+		dev_err(dev, "failed to remap adc memory: %d\n", err);
- 		return err;
+@@ -141,34 +142,34 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
+ 	input_set_capability(input, EV_KEY, pdata->keycode);
+ 
+ 	/* input customer action to cancel release timer */
+-	error = devm_add_action(&pdev->dev, imx_snvs_pwrkey_act, pdata);
++	error = devm_add_action(dev, imx_snvs_pwrkey_act, pdata);
+ 	if (error) {
+-		dev_err(&pdev->dev, "failed to register remove action\n");
++		dev_err(dev, "failed to register remove action\n");
+ 		return error;
  	}
  
--	tsc->tsc_clk = devm_clk_get(&pdev->dev, "tsc");
-+	tsc->tsc_clk = devm_clk_get(dev, "tsc");
- 	if (IS_ERR(tsc->tsc_clk)) {
- 		err = PTR_ERR(tsc->tsc_clk);
--		dev_err(&pdev->dev, "failed getting tsc clock: %d\n", err);
-+		dev_err(dev, "failed getting tsc clock: %d\n", err);
- 		return err;
+ 	pdata->input = input;
+ 	platform_set_drvdata(pdev, pdata);
+ 
+-	error = devm_request_irq(&pdev->dev, pdata->irq,
++	error = devm_request_irq(dev, pdata->irq,
+ 			       imx_snvs_pwrkey_interrupt,
+ 			       0, pdev->name, pdev);
+ 
+ 	if (error) {
+-		dev_err(&pdev->dev, "interrupt not available.\n");
++		dev_err(dev, "interrupt not available.\n");
+ 		return error;
  	}
  
--	tsc->adc_clk = devm_clk_get(&pdev->dev, "adc");
-+	tsc->adc_clk = devm_clk_get(dev, "adc");
- 	if (IS_ERR(tsc->adc_clk)) {
- 		err = PTR_ERR(tsc->adc_clk);
--		dev_err(&pdev->dev, "failed getting adc clock: %d\n", err);
-+		dev_err(dev, "failed getting adc clock: %d\n", err);
- 		return err;
+ 	error = input_register_device(input);
+ 	if (error < 0) {
+-		dev_err(&pdev->dev, "failed to register input device\n");
++		dev_err(dev, "failed to register input device\n");
+ 		return error;
  	}
  
-@@ -439,18 +440,18 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
+-	device_init_wakeup(&pdev->dev, pdata->wakeup);
+-	error = dev_pm_set_wake_irq(&pdev->dev, pdata->irq);
++	device_init_wakeup(dev, pdata->wakeup);
++	error = dev_pm_set_wake_irq(dev, pdata->irq);
+ 	if (error)
+-		dev_err(&pdev->dev, "irq wake enable failed.\n");
++		dev_err(dev, "irq wake enable failed.\n");
  
- 	err = devm_request_threaded_irq(tsc->dev, tsc_irq,
- 					NULL, tsc_irq_fn, IRQF_ONESHOT,
--					dev_name(&pdev->dev), tsc);
-+					dev_name(dev), tsc);
- 	if (err) {
--		dev_err(&pdev->dev,
-+		dev_err(dev,
- 			"failed requesting tsc irq %d: %d\n",
- 			tsc_irq, err);
- 		return err;
- 	}
- 
- 	err = devm_request_irq(tsc->dev, adc_irq, adc_irq_fn, 0,
--				dev_name(&pdev->dev), tsc);
-+				dev_name(dev), tsc);
- 	if (err) {
--		dev_err(&pdev->dev,
-+		dev_err(dev,
- 			"failed requesting adc irq %d: %d\n",
- 			adc_irq, err);
- 		return err;
-@@ -484,7 +485,7 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
- 		tsc->average_select = ilog2(average_samples) - 2;
- 		break;
- 	default:
--		dev_err(&pdev->dev,
-+		dev_err(dev,
- 			"touchscreen-average-samples (%u) must be 1, 4, 8, 16 or 32\n",
- 			average_samples);
- 		return -EINVAL;
-@@ -492,7 +493,7 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
- 
- 	err = input_register_device(tsc->input);
- 	if (err) {
--		dev_err(&pdev->dev,
-+		dev_err(dev,
- 			"failed to register input device: %d\n", err);
- 		return err;
- 	}
+ 	return 0;
+ }
 -- 
 2.7.4
 
