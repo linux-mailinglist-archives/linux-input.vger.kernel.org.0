@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EB51BDB57
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2019 11:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D6EBBDB53
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2019 11:43:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728237AbfIYJng (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Sep 2019 05:43:36 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:36735 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727540AbfIYJnf (ORCPT
+        id S1728447AbfIYJnj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Sep 2019 05:43:39 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33813 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727540AbfIYJni (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Sep 2019 05:43:35 -0400
-Received: by mail-pg1-f194.google.com with SMTP id t14so2475625pgs.3;
-        Wed, 25 Sep 2019 02:43:35 -0700 (PDT)
+        Wed, 25 Sep 2019 05:43:38 -0400
+Received: by mail-pf1-f196.google.com with SMTP id b128so3084157pfa.1;
+        Wed, 25 Sep 2019 02:43:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QSmbvMLWIOG6icxv8SCtVhg1sAmBSC0GfA0YqbLhr78=;
-        b=JyZMYH9hIhMFUOG7+06XiJMUtTDcN6F1MvZKLJey1aBAz2GbwUttP4b9s7dhk572V3
-         c9GXGz61DpjYojF9g+N16jvjKWAbFGLEqJJe65LYfztncO8uA4rrKfffMKN2mIB8Tic7
-         xtHVK/ayWjtV1j6wWlv+mZXyFWuNDZ3aqFJVVcMzeTK+mWLBQ8qdbdGQcL8Fy2hwwEny
-         KqtS07Vt35cCKKwVaiIwuEifD89eGQKbTu1f9yZBGhCRD9MV1DVBwvfyXv4TevLpQ0j8
-         SofPDTfc/61LipjmnPTJIlzQ9DB8dZKBavj0/fm0t4ppR2/sE14iwHnEEyNfjdTmdIwx
-         cPIw==
-X-Gm-Message-State: APjAAAVEJfzFwbK3sNOXu0+Xk20dM+Tr2FauGwr2bRQiXmaU2WSZ0Hha
-        jCaSQYlW6mH9V3y6ov9D9+o=
-X-Google-Smtp-Source: APXvYqyHlpkSuJAk2YqcHnOLvwmYt56n4LFUi3Qp1fO1Ldy80+ZkfBrUs9ghqglz2AXxKcTQ/GyeNQ==
-X-Received: by 2002:a17:90a:f010:: with SMTP id bt16mr5450327pjb.33.1569404614738;
-        Wed, 25 Sep 2019 02:43:34 -0700 (PDT)
+        bh=VXvDSaY3Y2wgbv4+QK7v6TUhR5B+Dfsy/va1gYkqKSw=;
+        b=dFQgRclSfEdXmlN8qbBFjULjiZOGBgrEIZWiVW+xeVioJw56iJ217LsqrVCF92C6Hb
+         NAk+gawhA2X5xpHbKzq+QLC2ufS6YPXVDj3EruFb6WEsoB4PPhf6W2QdIPZAy5gZQ6qR
+         bdKuHR5WZCIwTVxM75dsGY4VA67biAjgoEBUGMHNFpL+DU+UnfIdfH89dTIyaiDqOOKq
+         tD568uk5zlgssVNQek8NxlWCS8anrJKT0+Xeupf8HsSfs1p/urmie8J0bM5sR5+cXo6M
+         fV6w33CVcLG9mqKIl1Z3Cdqt+jvkFntheXgVgDk0O5nqhcrAM4HgNVnKgF58VYhFTU8l
+         KEzA==
+X-Gm-Message-State: APjAAAU2t3efFNiPJDLjta31VhcWYrwJtudUEJqI5Kq55LmQ6qJE1lIV
+        p6nkrvoP+SBS6gHJb5QHp6I=
+X-Google-Smtp-Source: APXvYqweqhPXFv3kkh3H68bwtqju0Z6SSrDGbQbicbbJ0yUogK7Vu7Z6sHzVwgRIEdzOyW2WAClSRQ==
+X-Received: by 2002:a65:504c:: with SMTP id k12mr8009638pgo.252.1569404617324;
+        Wed, 25 Sep 2019 02:43:37 -0700 (PDT)
 Received: from localhost.localdomain (61-220-137-37.HINET-IP.hinet.net. [61.220.137.37])
-        by smtp.gmail.com with ESMTPSA id s24sm3819715pgm.3.2019.09.25.02.43.32
+        by smtp.gmail.com with ESMTPSA id s24sm3819715pgm.3.2019.09.25.02.43.34
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Wed, 25 Sep 2019 02:43:34 -0700 (PDT)
+        Wed, 25 Sep 2019 02:43:36 -0700 (PDT)
 From:   You-Sheng Yang <vicamo.yang@canonical.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -45,9 +45,9 @@ To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         HungNien Chen <hn.chen@weidahitech.com>
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] HID: i2c-hid: allow delay after SET_POWER
-Date:   Wed, 25 Sep 2019 17:43:25 +0800
-Message-Id: <20190925094326.41693-2-vicamo.yang@canonical.com>
+Subject: [PATCH 2/2] HID: i2c-hid: add 60ms SET_POWER delay for Goodix touchpad
+Date:   Wed, 25 Sep 2019 17:43:26 +0800
+Message-Id: <20190925094326.41693-3-vicamo.yang@canonical.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190925094326.41693-1-vicamo.yang@canonical.com>
 References: <20190925094326.41693-1-vicamo.yang@canonical.com>
@@ -58,157 +58,52 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-According to HID over I2C specification v1.0 section 7.2.8, a device is
-allowed to take at most 1 second to make the transition to the specified
-power state. On some touchpad devices implements Microsoft Precision
-Touchpad, it may fail to execute following set PTP mode command without
-the delay and leaves the device in an unsupported Mouse mode.
+Goodix touchpad 27C6:01F0 fails to switch to PTP mode when resumed from
+suspend. The traffic after resumed looks like:
 
-This change adds a post-setpower-delay-ms device property that allows
-specifying the delay after a SET_POWER command is issued.
+  [ 275.312190] i2c_hid i2c-DELL096E:00: i2c_hid_set_power
+  [ 275.312191] i2c_hid i2c-DELL096E:00: __i2c_hid_command: cmd=05 00 01 08
+  [ 283.926905] i2c_hid i2c-DELL096E:00: i2c_hid_set_power
+  [ 283.926910] i2c_hid i2c-DELL096E:00: __i2c_hid_command: cmd=05 00 00 08
+  [ 283.927146] i2c_hid i2c-DELL096E:00: i2c_hid_set_or_send_report
+  [ 283.927149] i2c_hid i2c-DELL096E:00: __i2c_hid_command: cmd=05 00 37 03 06 00 05 00 07 00 00
+  [ 283.927872] i2c_hid i2c-DELL096E:00: i2c_hid_set_or_send_report
+  [ 283.927874] i2c_hid i2c-DELL096E:00: __i2c_hid_command: cmd=05 00 33 03 06 00 05 00 03 03 00
+  [ 283.929148] i2c_hid i2c-DELL096E:00: i2c_hid_set_or_send_report
+  [ 283.929151] i2c_hid i2c-DELL096E:00: __i2c_hid_command: cmd=05 00 35 03 06 00 05 00 05 03 00
+  [ 289.262675] i2c_hid i2c-DELL096E:00: input: 0b 00 01 00 00 00 00 00 00 00 00
+  [ 289.270314] i2c_hid i2c-DELL096E:00: input: 0b 00 01 00 fe 00 00 00 00 00 00
+  [ 289.276806] i2c_hid i2c-DELL096E:00: input: 0b 00 01 00 fd 00 00 00 00 00 00
+  ...
+
+The time delay between i2c_hid_set_power and i2c_hid_set_or_send_report
+is less than vendor recommended 60ms, so it failed to complete its power
+state transition, ignored i2c_hid_set_or_send_report and is still
+operating in legacy mouse mode, and therefore it gives unsupported input
+reports.
+
+This change updates the quirk for the device to specifies a 60ms
+post-setpower-delay-ms.
 
 References: https://bugzilla.kernel.org/show_bug.cgi?id=204991
 Signed-off-by: You-Sheng Yang <vicamo.yang@canonical.com>
 ---
- .../bindings/input/hid-over-i2c.txt           |  2 +
- drivers/hid/i2c-hid/i2c-hid-core.c            | 46 +++++++++++--------
- include/linux/platform_data/i2c-hid.h         |  3 ++
- 3 files changed, 32 insertions(+), 19 deletions(-)
+ drivers/hid/i2c-hid/i2c-hid-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/input/hid-over-i2c.txt b/Documentation/devicetree/bindings/input/hid-over-i2c.txt
-index c76bafaf98d2f..d82faae335da0 100644
---- a/Documentation/devicetree/bindings/input/hid-over-i2c.txt
-+++ b/Documentation/devicetree/bindings/input/hid-over-i2c.txt
-@@ -32,6 +32,8 @@ device-specific compatible properties, which should be used in addition to the
- - vdd-supply: phandle of the regulator that provides the supply voltage.
- - post-power-on-delay-ms: time required by the device after enabling its regulators
-   or powering it on, before it is ready for communication.
-+- post-setpower-delay-ms: time required by the device after a SET_POWER command
-+  before it finished the state transition.
- 
- Example:
- 
 diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 2a7c6e33bb1c4..a5bc2786dc440 100644
+index a5bc2786dc440..8c01ce33f1c61 100644
 --- a/drivers/hid/i2c-hid/i2c-hid-core.c
 +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -168,6 +168,7 @@ static const struct i2c_hid_quirks {
- 	__u16 idVendor;
- 	__u16 idProduct;
- 	__u32 quirks;
-+	__u32 post_setpower_delay_ms;
- } i2c_hid_quirks[] = {
- 	{ USB_VENDOR_ID_WEIDA, HID_ANY_ID,
- 		I2C_HID_QUIRK_SET_PWR_WAKEUP_DEV },
-@@ -189,21 +190,20 @@ static const struct i2c_hid_quirks {
-  * i2c_hid_lookup_quirk: return any quirks associated with a I2C HID device
-  * @idVendor: the 16-bit vendor ID
-  * @idProduct: the 16-bit product ID
-- *
-- * Returns: a u32 quirks value.
-  */
--static u32 i2c_hid_lookup_quirk(const u16 idVendor, const u16 idProduct)
-+static void i2c_hid_set_quirk(struct i2c_hid *ihid,
-+		const u16 idVendor, const u16 idProduct)
- {
--	u32 quirks = 0;
- 	int n;
- 
- 	for (n = 0; i2c_hid_quirks[n].idVendor; n++)
- 		if (i2c_hid_quirks[n].idVendor == idVendor &&
- 		    (i2c_hid_quirks[n].idProduct == (__u16)HID_ANY_ID ||
--		     i2c_hid_quirks[n].idProduct == idProduct))
--			quirks = i2c_hid_quirks[n].quirks;
--
--	return quirks;
-+		     i2c_hid_quirks[n].idProduct == idProduct)) {
-+			ihid->quirks = i2c_hid_quirks[n].quirks;
-+			ihid->pdata.post_setpower_delay_ms =
-+				i2c_hid_quirks[n].post_setpower_delay_ms;
-+		}
- }
- 
- static int __i2c_hid_command(struct i2c_client *client,
-@@ -431,8 +431,22 @@ static int i2c_hid_set_power(struct i2c_client *client, int power_state)
- 	    power_state == I2C_HID_PWR_SLEEP)
- 		ihid->sleep_delay = jiffies + msecs_to_jiffies(20);
- 
--	if (ret)
-+	if (ret) {
- 		dev_err(&client->dev, "failed to change power setting.\n");
-+		goto set_pwr_exit;
-+	}
-+
-+	/*
-+	 * The HID over I2C specification states that if a DEVICE needs time
-+	 * after the PWR_ON request, it should utilise CLOCK stretching.
-+	 * However, it has been observered that the Windows driver provides a
-+	 * 1ms sleep between the PWR_ON and RESET requests and that some devices
-+	 * rely on this.
-+	 */
-+	if (ihid->pdata.post_setpower_delay_ms)
-+		msleep(ihid->pdata.post_setpower_delay_ms);
-+	else
-+		usleep_range(1000, 5000);
- 
- set_pwr_exit:
- 	return ret;
-@@ -456,15 +470,6 @@ static int i2c_hid_hwreset(struct i2c_client *client)
- 	if (ret)
- 		goto out_unlock;
- 
--	/*
--	 * The HID over I2C specification states that if a DEVICE needs time
--	 * after the PWR_ON request, it should utilise CLOCK stretching.
--	 * However, it has been observered that the Windows driver provides a
--	 * 1ms sleep between the PWR_ON and RESET requests and that some devices
--	 * rely on this.
--	 */
--	usleep_range(1000, 5000);
--
- 	i2c_hid_dbg(ihid, "resetting...\n");
- 
- 	ret = i2c_hid_command(client, &hid_reset_cmd, NULL, 0);
-@@ -1023,6 +1028,9 @@ static void i2c_hid_fwnode_probe(struct i2c_client *client,
- 	if (!device_property_read_u32(&client->dev, "post-power-on-delay-ms",
- 				      &val))
- 		pdata->post_power_delay_ms = val;
-+	if (!device_property_read_u32(&client->dev, "post-setpower-delay-ms",
-+				      &val))
-+		pdata->post_setpower_delay_ms = val;
- }
- 
- static int i2c_hid_probe(struct i2c_client *client,
-@@ -1145,7 +1153,7 @@ static int i2c_hid_probe(struct i2c_client *client,
- 		 client->name, hid->vendor, hid->product);
- 	strlcpy(hid->phys, dev_name(&client->dev), sizeof(hid->phys));
- 
--	ihid->quirks = i2c_hid_lookup_quirk(hid->vendor, hid->product);
-+	i2c_hid_set_quirk(ihid, hid->vendor, hid->product);
- 
- 	ret = hid_add_device(hid);
- 	if (ret) {
-diff --git a/include/linux/platform_data/i2c-hid.h b/include/linux/platform_data/i2c-hid.h
-index c628bb5e10610..71682f2ad8a53 100644
---- a/include/linux/platform_data/i2c-hid.h
-+++ b/include/linux/platform_data/i2c-hid.h
-@@ -20,6 +20,8 @@
-  * @hid_descriptor_address: i2c register where the HID descriptor is stored.
-  * @supplies: regulators for powering on the device.
-  * @post_power_delay_ms: delay after powering on before device is usable.
-+ * @post_setpower_delay_ms: delay after SET_POWER command before device
-+ *                          completes state transition.
-  *
-  * Note that it is the responsibility of the platform driver (or the acpi 5.0
-  * driver, or the flattened device tree) to setup the irq related to the gpio in
-@@ -36,6 +38,7 @@ struct i2c_hid_platform_data {
- 	u16 hid_descriptor_address;
- 	struct regulator_bulk_data supplies[2];
- 	int post_power_delay_ms;
-+	int post_setpower_delay_ms;
- };
- 
- #endif /* __LINUX_I2C_HID_H */
+@@ -180,7 +180,7 @@ static const struct i2c_hid_quirks {
+ 	{ USB_VENDOR_ID_LG, I2C_DEVICE_ID_LG_8001,
+ 		I2C_HID_QUIRK_NO_RUNTIME_PM },
+ 	{ I2C_VENDOR_ID_GOODIX, I2C_DEVICE_ID_GOODIX_01F0,
+-		I2C_HID_QUIRK_NO_RUNTIME_PM },
++		I2C_HID_QUIRK_NO_RUNTIME_PM, 60 },
+ 	{ USB_VENDOR_ID_ELAN, HID_ANY_ID,
+ 		 I2C_HID_QUIRK_BOGUS_IRQ },
+ 	{ 0, 0 }
 -- 
 2.23.0
 
