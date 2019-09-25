@@ -2,107 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EF82BD4A6
-	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2019 23:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF78EBD8DD
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2019 09:16:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439148AbfIXVwq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Sep 2019 17:52:46 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:42791 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728183AbfIXVwp (ORCPT
+        id S2405152AbfIYHQM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Sep 2019 03:16:12 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:46790 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405047AbfIYHQM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Sep 2019 17:52:45 -0400
-Received: by mail-pf1-f194.google.com with SMTP id q12so2106229pff.9
-        for <linux-input@vger.kernel.org>; Tue, 24 Sep 2019 14:52:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+fhJ9T/vZjSSX05VHp18SVR0XFnj5tZksc8z2VAuz54=;
-        b=OFC1szf5PoQuT5vyg4Il+WGjsj/nKDC3/5I83EXRYroN4p+0LcCQNVXZ1Dczng+l/9
-         mX0OgMcBO2ic+gGiP5KR3IqB8DXh9UeF13m6c15qdDEuA7foGI5jv2h6XOlk7iSwSAww
-         9xyXErYkzTDlxbmY4plb2PXQnB5uWqu/47bX0=
+        Wed, 25 Sep 2019 03:16:12 -0400
+Received: by mail-lf1-f66.google.com with SMTP id t8so3346113lfc.13;
+        Wed, 25 Sep 2019 00:16:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+fhJ9T/vZjSSX05VHp18SVR0XFnj5tZksc8z2VAuz54=;
-        b=LHV2EE+lTvol26evboEIQ9u2+HKJqSbIJUpCYCm+bjodiHw4Y0m4qiGNHmfWBQB4Yg
-         8AEDkO1By7ZijzbXlDT3A19lj17dqDMEL6BteX3xes8Jw74VZNqe2G2Olyzu8Sg3bQWK
-         Yt4LreHLyUiwBnnqijkiGfp5+US2JcgmILQBoagTr7y+P8pHSdgMg0VXW9ErSiwHqrMh
-         cLzjrhvxx5+1bW7ojDWIxaep8N0wRcfEEqGeyV+nI/y33hdDIKhideyeKqvnqxopUnSO
-         ywkvA4YbaeK8GVwUu+ysyYnPgSsiRK8quwjwb3SwNUKOytBWHyRNPcxNp7Y65c4OA59+
-         stxg==
-X-Gm-Message-State: APjAAAUce4c2b++Md+OKK2ObjKICEFOyJUK3H4kr3JLpK5tdQjgXFosU
-        t41FrK2JWlFixWf2dXB94DltZg==
-X-Google-Smtp-Source: APXvYqwWBdF0lQs3EbGKhbUaeNBDEuDBk7pm4dNkAF2JHWwebTmEQlp77C87FjqJ6npYTny70kzyBA==
-X-Received: by 2002:a63:a548:: with SMTP id r8mr4828285pgu.401.1569361963764;
-        Tue, 24 Sep 2019 14:52:43 -0700 (PDT)
-Received: from evgreen2.mtv.corp.google.com ([2620:15c:202:201:ffda:7716:9afc:1301])
-        by smtp.gmail.com with ESMTPSA id q204sm2494493pfc.11.2019.09.24.14.52.42
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 24 Sep 2019 14:52:43 -0700 (PDT)
-From:   Evan Green <evgreen@chromium.org>
-To:     Nick Dyer <nick@shmanahar.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jongpil Jung <jongpil19.jung@samsung.com>,
-        Furquan Shaikh <furquan@chromium.org>,
-        Rajat Jain <rajatja@chromium.org>,
-        Evan Green <evgreen@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH v2] Input: atmel_mxt_ts - Disable IRQ across suspend
-Date:   Tue, 24 Sep 2019 14:52:38 -0700
-Message-Id: <20190924215238.184750-1-evgreen@chromium.org>
-X-Mailer: git-send-email 2.21.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=v3IxuuxS4/IRcbugvvfMOWxS50zKTmcgONQh2kY5N1s=;
+        b=QllyeOiuDQFUSf2fEbOerzoGI1UD4cKo3zCoQXphCjwGoL2cDreCUnX94D1upbk62Y
+         YsizzI46hTMF6G/beYJYaHSVvmvwvjkS3jro2aGTrHYHOgCwVLwgYN1AZGWsnhNZfMCo
+         LW4IHOymvf8oMkW7XRlC1KAQGBlcb9BFe4ymiXOfifXmJLBIJ2w1t1J5Xvn4OYyezcST
+         h6Kvcko3Lq7o4rEOZ5GozS9x6rKlhJ0kIWpk8BSd9dI3Ur7ugiZPQf/S3lEBd4mSUVd7
+         noFZqi50dIaW048zIQl7g6xWm2rRF67nCVSMTo7ebnFa1Cm57edhoz5YVGxyQKa7Kf5t
+         TqYA==
+X-Gm-Message-State: APjAAAWNNPuHRGekhPA8wtCrl8ZqcfrD1yfvCnrrDS1XDmkynBz3mYmh
+        NuXfsoz07bttDLtanV/SQUM=
+X-Google-Smtp-Source: APXvYqxK9KlRnUB5BCuCdHzDSyVWaKW57vgtVOZwe0WEPa0Hk1fxHthoUKNNsO1eBuospP4ZWxVEsw==
+X-Received: by 2002:a05:6512:304:: with SMTP id t4mr4739714lfp.15.1569395769975;
+        Wed, 25 Sep 2019 00:16:09 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id b67sm1046757ljf.5.2019.09.25.00.16.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 25 Sep 2019 00:16:09 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.2)
+        (envelope-from <johan@kernel.org>)
+        id 1iD1X4-0003kO-7z; Wed, 25 Sep 2019 09:16:14 +0200
+Date:   Wed, 25 Sep 2019 09:16:14 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Peter Chen <hzpeterchen@gmail.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        syzbot <syzbot+58e201002fe1e775e1ae@syzkaller.appspotmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        Ramses =?iso-8859-1?Q?Ram=EDrez?= <ramzeto@gmail.com>,
+        Richard Fontana <rfontana@redhat.com>,
+        Cameron Gutman <aicommander@gmail.com>,
+        Tom Panfil <tom@steelseries.com>, linux-input@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Subject: Re: KASAN: use-after-free Read in usb_anchor_resume_wakeups
+Message-ID: <20190925071614.GA14159@localhost>
+References: <000000000000e9312b058d3eadb8@google.com>
+ <CAAeHK+yPewmT9J0mAYL0P2Wz55asVFD0DbQnwkBS7zdRTkyN2A@mail.gmail.com>
+ <CAL411-o09wBhiPtRixFo4=6pB1rAmUsTKc2sBQmn4MjQcPBy2A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAL411-o09wBhiPtRixFo4=6pB1rAmUsTKc2sBQmn4MjQcPBy2A@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Across suspend and resume, we are seeing error messages like the following:
+On Mon, Sep 23, 2019 at 05:41:54PM +0800, Peter Chen wrote:
+> > On Tue, Jul 9, 2019 at 2:27 PM syzbot
+> > <syzbot+58e201002fe1e775e1ae@syzkaller.appspotmail.com> wrote:
+> > >
+> > > Hello,
+> > >
+> > > syzbot found the following crash on:
+> > >
+> > > HEAD commit:    7829a896 usb-fuzzer: main usb gadget fuzzer driver
+> > > git tree:       https://github.com/google/kasan.git usb-fuzzer
+> > > console output: https://syzkaller.appspot.com/x/log.txt?x=118d136da00000
+> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=f6d4561982f71f63
+> > > dashboard link: https://syzkaller.appspot.com/bug?extid=58e201002fe1e775e1ae
+> > > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > >
+> > > Unfortunately, I don't have any reproducer for this crash yet.
+> > >
+> > > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > > Reported-by: syzbot+58e201002fe1e775e1ae@syzkaller.appspotmail.com
+> > >
+> > > dummy_hcd dummy_hcd.5: no ep configured for urb 00000000c6093b7b
+> > > xpad 6-1:0.169: xpad_irq_out - usb_submit_urb failed with result -19
+> > > ==================================================================
+> > > BUG: KASAN: use-after-free in debug_spin_lock_before
+> > > kernel/locking/spinlock_debug.c:83 [inline]
+> > > BUG: KASAN: use-after-free in do_raw_spin_lock+0x24d/0x280
+> > > kernel/locking/spinlock_debug.c:112
+> > > Read of size 4 at addr ffff8881d0e584dc by task kworker/1:4/2786
+> > >
+> 
+> It should due to URB is freed at xpad_disconnect, but xpad_irq_out
+> still tries to access
+> freed URB.
+> 
+> Peter
+> 
+> #syz test: https://github.com/google/kasan.git 7829a896
+> 
+> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+> index 6b40a1c68f9f..32b7a199b580 100644
+> --- a/drivers/input/joystick/xpad.c
+> +++ b/drivers/input/joystick/xpad.c
+> @@ -1850,6 +1850,7 @@ static void xpad_disconnect(struct usb_interface *intf)
+> 
+>         xpad_deinit_input(xpad);
+> 
+> +       usb_kill_urb(xpad->irq_out);
 
-atmel_mxt_ts i2c-PRP0001:00: __mxt_read_reg: i2c transfer failed (-121)
-atmel_mxt_ts i2c-PRP0001:00: Failed to read T44 and T5 (-121)
+I'm not sure this is the right fix. The interrupt-urb should have been
+stopped by xpad_stop_output() just above. Perhaps the type test in that
+function is broken, or we may have a race where another thread is
+submitting the URB after we tried to stop it which we fail to handle.
 
-This occurs because the driver leaves its IRQ enabled. Upon resume, there
-is an IRQ pending, but the interrupt is serviced before both the driver and
-the underlying I2C bus have been resumed. This causes EREMOTEIO errors.
+Didn't check that closely, though.
 
-Disable the IRQ in suspend, and re-enable it on resume. If there are cases
-where the driver enters suspend with interrupts disabled, that's a bug we
-should fix separately.
-
-Signed-off-by: Evan Green <evgreen@chromium.org>
----
-
-Changes in v2:
- - Enable and disable unconditionally (Dmitry)
-
- drivers/input/touchscreen/atmel_mxt_ts.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 24c4b691b1c9..a58092488679 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -3155,6 +3155,7 @@ static int __maybe_unused mxt_suspend(struct device *dev)
- 		mxt_stop(data);
- 
- 	mutex_unlock(&input_dev->mutex);
-+	disable_irq(data->irq);
- 
- 	return 0;
- }
-@@ -3174,6 +3175,7 @@ static int __maybe_unused mxt_resume(struct device *dev)
- 		mxt_start(data);
- 
- 	mutex_unlock(&input_dev->mutex);
-+	enable_irq(data->irq);
- 
- 	return 0;
- }
--- 
-2.21.0
-
+Johan
