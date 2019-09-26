@@ -2,63 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22996BFAE1
-	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2019 23:16:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFF6CBFAF0
+	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2019 23:31:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727888AbfIZVQJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Sep 2019 17:16:09 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24610 "EHLO
+        id S1725848AbfIZVb0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Sep 2019 17:31:26 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28523 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725905AbfIZVQI (ORCPT
+        by vger.kernel.org with ESMTP id S1725810AbfIZVb0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Sep 2019 17:16:08 -0400
+        Thu, 26 Sep 2019 17:31:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1569532567;
+        s=mimecast20190719; t=1569533484;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=tLs6zVnMzEX/RphrWLcG/UGH0mHt/DISCwJ7FoXlCZs=;
-        b=Z+FwHuT0h7+53l4s3IQA6YRfamwOUgdiOqs9KCIOUkfxGHLCGgaFJsJhBsKg4D3y654MzT
-        Hkq4iKTT2ABwSb3wjcel73FFsqYsQfNuFJFYJJO4NGGSq2wn57u11oCIPP7EyT1XPQTk3w
-        P7Jd7e9MBRdMhmE4rKi+E27q2cfM0WY=
+        bh=go5myio+bZTqiLMTXJTfCDVNMeXnATH/bwF6BLUF+pU=;
+        b=Mj8s59ael2TEOmKv4OzcdsoGiPOULhM0gScAAfaJUfl665p8auv2aGyxZfzzSCciQrBT/Z
+        mbJXj0PsPG4y7mbaOGPFHPIiNQLzkftQFNBX+3oF/NMYnktC0WzEuI7Plh0sEQsljQIa6U
+        460Pq4yO3k969u3OuBGvNuk6t6+7SwE=
 Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
  [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-fi4HuXw3M3Oe8JXKYW5KXA-1; Thu, 26 Sep 2019 17:16:05 -0400
-Received: by mail-qk1-f198.google.com with SMTP id v143so490671qka.21
-        for <linux-input@vger.kernel.org>; Thu, 26 Sep 2019 14:16:05 -0700 (PDT)
+ us-mta-247-7SN1eddcMKewfgd9UmluIA-1; Thu, 26 Sep 2019 17:31:17 -0400
+Received: by mail-qk1-f198.google.com with SMTP id s14so551151qkg.12
+        for <linux-input@vger.kernel.org>; Thu, 26 Sep 2019 14:31:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=tLs6zVnMzEX/RphrWLcG/UGH0mHt/DISCwJ7FoXlCZs=;
-        b=JV2faVJZPJYD7ShWwDmyp6cq7DornOQHAPwXwl2+Hst2e4TlQ9pjkSEiB4CtV4kDii
-         2V5BPpZPligXOlJj3bWMFToNjAJE9qLVWyGiUvDygftV/YD+KYKVG2ogpYpanVeWLOj+
-         Lzb0l+uf2hwtdEBhvntjHHPHv1wuB+0SX7jSW1tze8kMgVAl4L2lWqeiyWNOyk2O9xOF
-         WyCy5RHE0HxjgFoUrniou0zWL5XZKCwJpuuxgvBIc3q4Kn1on97p/8HoWzb4+43yb3Mo
-         xdUTGFDl0zBjxyJYx/5C8rd/90LRXMRY+jvB/JvpU0tNOBU+t5oN5jfR0C8qDIhTUoL9
-         bDDA==
-X-Gm-Message-State: APjAAAV+YTfxrcUJCW3NmEKXvTftaOem3uH/B68wCq0Hbw14O3UJge6G
-        pYAS4KCncZ0bHzEHMpm8dftbF7IE3O4hUC6xpmqkgaeHkMSfFxySGbmv3TvhZUC3ljaRmZmexEk
-        XLs6KW7oBQ45wsuZwvfATPR/7rwEZLfuSYQ1JqKs=
-X-Received: by 2002:ac8:1194:: with SMTP id d20mr6445905qtj.294.1569532565149;
-        Thu, 26 Sep 2019 14:16:05 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwa+byu3dHMVkzl2UsgXLCFrknzHlSgCu2PICTxIf8hV0XqARBglXGtOrtBQB9vzcEl8JsRwyPBFcVY1F/cRtc=
-X-Received: by 2002:ac8:1194:: with SMTP id d20mr6445866qtj.294.1569532564714;
- Thu, 26 Sep 2019 14:16:04 -0700 (PDT)
+        bh=go5myio+bZTqiLMTXJTfCDVNMeXnATH/bwF6BLUF+pU=;
+        b=KNVnCMk+HUvGWaHacHIJKx+TxYr8O9JME9B2WfNmV3hcsWtENsJn+51mrsG5kbaato
+         OiOvA2BExJN93/QmmbEWrB8EWxyrrJeXi+08dqrZUr6LXCt1vL8ujKbQ+zQmkMPyxz6q
+         EMHov2qU1RhMdKbiSOPr0Coq9mXOo2+fwH3YgOZmjJTm8TOlRxU98aAEMpz0ih0rc9N/
+         DDS1F7bC2538ErLwwAIgXXbyIwISHfeQmmpxogv7p5ZR4zb7Gd6SOXGFAkQeSu7vxiaz
+         XasOtsAw42q/VAoWSe0Ftx+c6VwF+9b8taEs1CLds4NvmxxotQWrfCD2oJ/1tYso0VtG
+         023Q==
+X-Gm-Message-State: APjAAAWE6rYGE+2LQEeC3gvJga3k3lQXm3xQF++NicwuTUhI3oj9B4JR
+        GhKCcQHCOvrambcmNarXC/GijFdlTuzWEK+qpPks5eyW8MYuj7554io6JdNLwLivN6AH0IzqidW
+        6pa/5FQtKGdZUQYXGEJcoUnPgViwFwzZgOr9gVSQ=
+X-Received: by 2002:a05:620a:13d9:: with SMTP id g25mr1161121qkl.230.1569533477306;
+        Thu, 26 Sep 2019 14:31:17 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqww/Be/QIQogo2vqVfou2YVrZgisI+ZjThXd9N/qyxFFovYT7zAlkuUu75bXVxSP/SXm4D0Z2fwn4MtKkTsP8Y=
+X-Received: by 2002:a05:620a:13d9:: with SMTP id g25mr1161088qkl.230.1569533477022;
+ Thu, 26 Sep 2019 14:31:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <fe524920-8476-540c-1b58-52c3b8b6a92d@gmail.com>
  <56C50F68-7DD6-443D-9034-5FEA19C373B7@canonical.com> <CAO-hwJJVrxuNHZE5zi-2CnTRCie6gCQOgG3jCtB=gBPkYNoptw@mail.gmail.com>
- <c8b04a3e-22e2-bc1f-bec2-24e7f2d10083@gmail.com>
-In-Reply-To: <c8b04a3e-22e2-bc1f-bec2-24e7f2d10083@gmail.com>
+ <25BA7250-B232-4D26-ABDA-5CB99FF73768@canonical.com>
+In-Reply-To: <25BA7250-B232-4D26-ABDA-5CB99FF73768@canonical.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 26 Sep 2019 23:15:53 +0200
-Message-ID: <CAO-hwJKhexNrNTejpv7H57SUzBmmADNF0VYOVVO-Teh8yVtacQ@mail.gmail.com>
+Date:   Thu, 26 Sep 2019 23:31:04 +0200
+Message-ID: <CAO-hwJLjLxTsje-uur8GY0cwJj-mC2rVL9hbdnNq9OrN=dYf6A@mail.gmail.com>
 Subject: Re: Elantech touchpad breaks with older HP model
-To:     rility <rility3@gmail.com>
-Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     rility <rility3@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-X-MC-Unique: fi4HuXw3M3Oe8JXKYW5KXA-1
+X-MC-Unique: 7SN1eddcMKewfgd9UmluIA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -67,14 +68,29 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Sep 26, 2019 at 5:42 PM rility <rility3@gmail.com> wrote:
+Hi,
+
+On Thu, Sep 26, 2019 at 3:16 PM Kai-Heng Feng
+<kai.heng.feng@canonical.com> wrote:
 >
+> [+cc KT Liao]
+
+Well, KT left emc a few weeks (months?) ago. We do have another
+contact who took over KT's work but I am a little bit hesitant pulling
+his email there as I don't know if this person wants to stay in the
+shadow or not.
+
 >
-> On 9/26/19 6:01 PM, Benjamin Tissoires wrote:
+> Hi Benjamin,
+>
+> > On Sep 26, 2019, at 18:01, Benjamin Tissoires <benjamin.tissoires@redha=
+t.com> wrote:
+> >
 > > Hi Kai-Heng,
 > >
 > > On Wed, Sep 25, 2019 at 8:08 PM Kai-Heng Feng
 > > <kai.heng.feng@canonical.com> wrote:
+> >>
 > >> [+cc Benjamin, linux-input]
 > >>
 > >> Hi Benjamin,
@@ -90,9 +106,13 @@ drivers/input/mouse?id=3D883a2a80f79ca5c0c105605fafabd1f3df99b34c).
 > >>>
 > >>> This ELAN touchpad fails to be detected. It's on a 2016 HP laptop mod=
 el 340 G3, though I did update the BIOS this year.
+> >>
 > >> So using dmi_get_bios_year() as manufacturing date is inaccurate.
+> >
 > > indeed. Not something I expected. But it kind of makes sense now :/
 > >
+> >>
+> >>>
 > >>> I don't really have the first knowledge of kernel development, and am=
  wondering if you can help out.
 > >>>
@@ -118,9 +138,11 @@ mmy regulator
 > >>> [    4.243786] elan_i2c 0-0015: failed to get product ID: -71
 > >>> [    4.287117] elan_i2c 0-0015: failed to get product ID: -71
 > >>> [    4.322734] elan_i2c: probe of 0-0015 failed with error -71
+> >>
 > >> Do you think it=E2=80=99s a bug we should work on, or we should simply=
  blacklist affected touchpad?
 > >>
+> >
 > > It *really* looks like the touchpad is not supposed to be used under
 > > SMBus. There is however a (non successful) patch I wrote for an other
 > > HP laptop at https://bugzilla.kernel.org/show_bug.cgi?id=3D204771
@@ -129,110 +151,114 @@ mmy regulator
 > > v2-0001-Input-elan-also-provide-the-product-ID-from-PS-2-.patch in the
 > > bug report above and report if this helps?
 >
-> I tested the patch applied on 5.4 and the touchpad still fails to start.
->
-> The logs are similar.
->
-> ~ sudo dmesg | grep elan -i
-> [    4.191687] psmouse serio1: elantech: assuming hardware version 4
-> (with firmware version 0x5e0f01)
-> [    4.206565] psmouse serio1: elantech: Synaptics capabilities query
-> result 0x70, 0x16, 0x0a.
-> [    4.221495] psmouse serio1: elantech: Elan sample query result 0b, 01,=
- a7
-> [    4.251876] psmouse serio1: elantech: Trying to set up SMBus access
-> [    4.310231] elan_i2c 0-0015: 0-0015 supply vcc not found, using dummy
-> regulator
-> [    4.320552] elan_i2c 0-0015: failed to get product ID: -71
-> [    4.365460] elan_i2c 0-0015: failed to get product ID: -71
-> [    4.411115] elan_i2c 0-0015: failed to get product ID: -71
-> [    4.449716] elan_i2c: probe of 0-0015 failed with error -71
+> Hopefully your patch can help.
 
-Thanks a lot for the *very* fast test :)
-
-So you are definitively in the same situation than the kernel BZ I
-mentioned. And AFAICT in the kernel BZ the laptop was manufactured in
-2017, which would match the fact that the dmi_get_bios_date() call is
-inaccurate for what we want to do.
-
-If you have a few cycle to spare, it would be interesting to see that
-you also can't enable the touchpad with my second patch applied on top
-of the first (the one called
-0001-WIP-Input-elan_i2c-disable-all-SMBus-calls-in-probe.patch in the
-kernel BZ). But I honestly thing this would just confirm what we
-discovered already: your touchpad is not compatible with the current
-elan_i2c driver.
-
-Cheers,
-Benjamin
-
+As answered by Rility, it doesn't :(
 
 >
-> Rility
->
+> >
 > > Blacklist IMO is never going to scale, because even if BIOS updates
 > > after a couple of years are not that common, but that also means we
 > > accidentally break touchpads randomly,
+>
+> I don=E2=80=99t think whitelist can scale in this case. There are several=
+ HP laptops need to use SMBus instead of psmouse.
+
+Either we find a generic way, either we will need a list. Having a
+blacklist means that we need to break existing working devices, wait
+for the users to report it, fix it, and wait for the distros to
+backport the fix (or get it in stable), while having a whitelist means
+we would only fix the devices that are not working, and keep those
+that are somehow working in PS/2 in a usable state.
+So yes, I would rather have a whitelist here.
+
+And given the tests results here and the fact that the laptop in
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204771 is from 2017, I am
+really leaning towards a revert of the patch ( and a backport to 5.3
+stable).
+
+>
 > >
 > > If the patch mentioned above doesn't really helps, I would rather
 > > revert the commit introducing the dmi_get_bios_year() in elantech.c,
 > > and add manually the devices that can be tested one by one.
+>
+> KT, can you share how Windows driver handles this situation? Is a blackli=
+st or a whitelist in use?
+
+I am honestly not sure this is a question Elan can answer. Given that
+all the touchpad manufacturers ship a .inf in the Windows driver, they
+*always* rely on a whitelist (because they know in advance which chip
+needs what). I might be wrong and I would happily be proven to be
+wrong.
+
+Cheers,
+Benjamin
+
+>
+> Kai-Heng
+>
 > >
 > > Cheers,
 > > Benjamin
 > >
 > >> Kai-Heng
 > >>
-> >>
-> >>
-> >> While with the previous version of kernel.
-> >>
-> >>
-> >> ~ sudo dmesg | grep elan -i
-> >> [    4.193067] psmouse serio1: elantech: assuming hardware version 4 (=
-with firmware version 0x5e0f01)
-> >> [    4.208056] psmouse serio1: elantech: Synaptics capabilities query =
-result 0x70, 0x16, 0x0a.
-> >> [    4.223009] psmouse serio1: elantech: Elan sample query result 0b, =
-01, a7
-> >> [    4.302361] input: ETPS/2 Elantech Touchpad as /devices/platform/i8=
-042/serio1/input/input27
-> >>
-> >>
-> >>
-> >> ~ lspci
-> >> 00:00.0 Host bridge: Intel Corporation Xeon E3-1200 v5/E3-1500 v5/6th =
-Gen Core Processor Host Bridge/DRAM Registers (rev 08)
-> >> 00:02.0 VGA compatible controller: Intel Corporation Skylake GT2 [HD G=
-raphics 520] (rev 07)
-> >> 00:04.0 Signal processing controller: Intel Corporation Xeon E3-1200 v=
-5/E3-1500 v5/6th Gen Core Processor Thermal Subsystem (rev 08)
-> >> 00:14.0 USB controller: Intel Corporation Sunrise Point-LP USB 3.0 xHC=
-I Controller (rev 21)
-> >> 00:14.2 Signal processing controller: Intel Corporation Sunrise Point-=
-LP Thermal subsystem (rev 21)
-> >> 00:16.0 Communication controller: Intel Corporation Sunrise Point-LP C=
-SME HECI #1 (rev 21)
-> >> 00:17.0 SATA controller: Intel Corporation Sunrise Point-LP SATA Contr=
-oller [AHCI mode] (rev 21)
-> >> 00:1c.0 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Roo=
-t Port #1 (rev f1)
-> >> 00:1c.4 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Roo=
-t Port #5 (rev f1)
-> >> 00:1c.5 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Roo=
-t Port #6 (rev f1)
-> >> 00:1f.0 ISA bridge: Intel Corporation Sunrise Point-LP LPC Controller =
-(rev 21)
-> >> 00:1f.2 Memory controller: Intel Corporation Sunrise Point-LP PMC (rev=
- 21)
-> >> 00:1f.3 Audio device: Intel Corporation Sunrise Point-LP HD Audio (rev=
- 21)
-> >> 00:1f.4 SMBus: Intel Corporation Sunrise Point-LP SMBus (rev 21)
-> >>
-> >> ```
-> >>
-> >> Grateful,
-> >>
-> >> Rility
-> >>
+> >>>
+> >>>
+> >>>
+> >>>
+> >>> While with the previous version of kernel.
+> >>>
+> >>>
+> >>> ~ sudo dmesg | grep elan -i
+> >>> [    4.193067] psmouse serio1: elantech: assuming hardware version 4 =
+(with firmware version 0x5e0f01)
+> >>> [    4.208056] psmouse serio1: elantech: Synaptics capabilities query=
+ result 0x70, 0x16, 0x0a.
+> >>> [    4.223009] psmouse serio1: elantech: Elan sample query result 0b,=
+ 01, a7
+> >>> [    4.302361] input: ETPS/2 Elantech Touchpad as /devices/platform/i=
+8042/serio1/input/input27
+> >>>
+> >>>
+> >>>
+> >>> ~ lspci
+> >>> 00:00.0 Host bridge: Intel Corporation Xeon E3-1200 v5/E3-1500 v5/6th=
+ Gen Core Processor Host Bridge/DRAM Registers (rev 08)
+> >>> 00:02.0 VGA compatible controller: Intel Corporation Skylake GT2 [HD =
+Graphics 520] (rev 07)
+> >>> 00:04.0 Signal processing controller: Intel Corporation Xeon E3-1200 =
+v5/E3-1500 v5/6th Gen Core Processor Thermal Subsystem (rev 08)
+> >>> 00:14.0 USB controller: Intel Corporation Sunrise Point-LP USB 3.0 xH=
+CI Controller (rev 21)
+> >>> 00:14.2 Signal processing controller: Intel Corporation Sunrise Point=
+-LP Thermal subsystem (rev 21)
+> >>> 00:16.0 Communication controller: Intel Corporation Sunrise Point-LP =
+CSME HECI #1 (rev 21)
+> >>> 00:17.0 SATA controller: Intel Corporation Sunrise Point-LP SATA Cont=
+roller [AHCI mode] (rev 21)
+> >>> 00:1c.0 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Ro=
+ot Port #1 (rev f1)
+> >>> 00:1c.4 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Ro=
+ot Port #5 (rev f1)
+> >>> 00:1c.5 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Ro=
+ot Port #6 (rev f1)
+> >>> 00:1f.0 ISA bridge: Intel Corporation Sunrise Point-LP LPC Controller=
+ (rev 21)
+> >>> 00:1f.2 Memory controller: Intel Corporation Sunrise Point-LP PMC (re=
+v 21)
+> >>> 00:1f.3 Audio device: Intel Corporation Sunrise Point-LP HD Audio (re=
+v 21)
+> >>> 00:1f.4 SMBus: Intel Corporation Sunrise Point-LP SMBus (rev 21)
+> >>>
+> >>>
+> >>> ```
+> >>>
+> >>>
+> >>>
+> >>> Grateful,
+> >>>
+> >>> Rility
+>
 
