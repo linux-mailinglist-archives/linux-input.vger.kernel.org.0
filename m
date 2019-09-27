@@ -2,183 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A72ABBFF59
-	for <lists+linux-input@lfdr.de>; Fri, 27 Sep 2019 08:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78DD6C02DB
+	for <lists+linux-input@lfdr.de>; Fri, 27 Sep 2019 12:05:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726135AbfI0GrX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Sep 2019 02:47:23 -0400
-Received: from uho.ysoft.cz ([81.19.3.130]:47734 "EHLO uho.ysoft.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725820AbfI0GrX (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Sep 2019 02:47:23 -0400
-Received: from [10.1.8.111] (unknown [10.1.8.111])
-        by uho.ysoft.cz (Postfix) with ESMTP id C83D3A012C;
-        Fri, 27 Sep 2019 08:47:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
-        s=20160406-ysoft-com; t=1569566841;
-        bh=s7OVZEVtpY2IDy9peszo58or/PEj6fBtJLgTX90H7bI=;
-        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
-        b=BB77Vm7BGIPsMdR6REjZLojErWEAwJkNSbKXnp44DwXQ4f+MRxyJr5+1icDNKpqY0
-         BkHI2EY95Stoatq6/9FReLUrQYUzMpvANyZdQ+aduaeJBuJg9aPXUcbrduZjqFtXdI
-         JYSyQ61cT1j17NXhqsgOVo6ntMxQRCUrEeXhoNHs=
-Subject: Re: [PATCH input-next 2/4] dt-bindings: input: mpr121: Add
- poll-interval property
-From:   =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-References: <1567424417-3914-1-git-send-email-michal.vokac@ysoft.com>
- <1567424417-3914-3-git-send-email-michal.vokac@ysoft.com>
- <20190903070123.GA15981@bogus>
- <c8c909e5-1e1f-23a7-dc22-f112fcaeab4c@ysoft.com>
-Message-ID: <d5141782-3722-c241-4026-e20cc64bb936@ysoft.com>
-Date:   Fri, 27 Sep 2019 08:47:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1727133AbfI0KEU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Sep 2019 06:04:20 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50019 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726988AbfI0KEU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 27 Sep 2019 06:04:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1569578659;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=yr1qbbjmCmVWV/qKG3BFNpAVMN2lXkfBYcR3fqycFRA=;
+        b=JHfPdpDpvscxXxtDD//uHZf2wLebusqf5tjx23UNJ7mmActTiL8uZ87feTIHWqHDOc59wN
+        u1ISRCFlLfZb+t/TOWmKYW/58AiU2DiKVyK4dF8duIvRRGdwAXEIE1vbGsYTJPMJMwyjri
+        DHKS9bm3rvaZyTxeECZDtiHaN/CZBJI=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-YOOth2n2M36QKnly5lzLBA-1; Fri, 27 Sep 2019 06:04:16 -0400
+Received: by mail-qt1-f199.google.com with SMTP id n4so5194808qtp.19
+        for <linux-input@vger.kernel.org>; Fri, 27 Sep 2019 03:04:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=X0RxdG+xzTY6hppirsAZIE83xPEk0t3BjDbFciB2Sa4=;
+        b=iuR5eTSsyDAHfSteYrE/Cs4dioUi1njIaT1+UYuElXXB5Nr4wXZBVPJqW2+16LLLYG
+         s8+0Om6UGbI465aWDRhxGEGzkZfT2LT8mpLpQ7mRQitqZplLXFnPs7Ym9Xrj3cUAU3AO
+         Q/cVKZBZ+lnYwvJdP8lfNxxRwy7f+eXVQvpOpxcaJ83KxZQTf33mRMUf9qrI9efHqOE/
+         nD9bvglhU/uCpqX8DCcUC/DrKSw4Fek3l0tHckt+HqfPTdM5pF95vIH8b7QflfeQs0Ga
+         +RYGHYkElR+yp5XwWHXq/v7ZlHaLDr50T0iJ8A7lVViwx8ZH9+MxI5wlrdfh6cX5KaYU
+         DdKQ==
+X-Gm-Message-State: APjAAAX6eiH6Sn3VEEktXh4O9Ylsy97xj38kCEaesofJ/+dWRCEYiL78
+        sqwPBhU6RH4nyjS14a3hJyI09N5pXG8PFMAXJXJsVKWauMQUX/vDuZ/REWmky91a+TWBlNvH13z
+        nkBtGMQJoIAzTCgOsEcekkW7GMSdV1r/QAUCh/zQ=
+X-Received: by 2002:a37:a147:: with SMTP id k68mr3643564qke.169.1569578655687;
+        Fri, 27 Sep 2019 03:04:15 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqygBRP9Pf1w27R4vGLTLB2f3Li9BSkOnzV6Y2bFEcYng23lnngm0cVH6hH+IR1910Txe1zUoKpLhO3vOfuBmjE=
+X-Received: by 2002:a37:a147:: with SMTP id k68mr3643545qke.169.1569578655419;
+ Fri, 27 Sep 2019 03:04:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c8c909e5-1e1f-23a7-dc22-f112fcaeab4c@ysoft.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20190922115054.10880-1-colin.king@canonical.com>
+ <nycvar.YFH.7.76.1909231303180.1459@cbobk.fhfr.pm> <20190925114741.GD27389@kadam>
+In-Reply-To: <20190925114741.GD27389@kadam>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 27 Sep 2019 12:04:04 +0200
+Message-ID: <CAO-hwJKpqGBi+9CRn08sNcn+ggQtnefuMgG98bXtW1UiGqneQA@mail.gmail.com>
+Subject: Re: [PATCH] HID: core: clean up indentation issue
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Colin King <colin.king@canonical.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        lkml <linux-kernel@vger.kernel.org>
+X-MC-Unique: YOOth2n2M36QKnly5lzLBA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 17. 09. 19 16:17, Michal Vokáč wrote:
-> On 03. 09. 19 9:01, Rob Herring wrote:
->> On Mon, Sep 02, 2019 at 01:40:15PM +0200, Michal Vokáč wrote:
->>> Add an option to periodicaly poll the device to get the buttons states
->>> as the interrupt line may not be used on some platforms.
->>>
->>> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
->>> ---
->>> I am not sure how to propperly handle this.
->>> Either interrupt or linux,poll-interval is required, but not both.
->>
->> Add this at the top level:
->>
->> oneOf:
->>    - required: [ interrupts ]
->>    - required: [ linux,poll-interval ]
->>
-> 
-> Nice, works as expected.
-> 
->>>
->>>   .../bindings/input/fsl,mpr121-touchkey.yaml          | 20 +++++++++++++++++++-
->>>   1 file changed, 19 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
->>> index c463c1c81755..2b3073a3c9f4 100644
->>> --- a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
->>> +++ b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
->>> @@ -34,6 +34,10 @@ properties:
->>>       minItems: 1
->>>       maxItems: 12
->>> +  linux,poll-interval:
->>> +    description: Poll interval time in milliseconds.
->>> +    maxItems: 1
->>
->> We already have 'poll-interval' in several bindings. Use that.
-> 
-> OK, will do.
-> linux,poll-intervall was initially suggested by Dmitry but AFAICT he is OK
-> with this.
-> 
->> This should have a type definition and you don't need maxItems:
->>
->> $ref: /schemas/types.yaml#/definitions/uint32
-> 
-> OK.
-> 
->> Really this should go in a common input schema doc.
-> 
-> I am not sure how to deal with this. Do you suggest to create
-> 
->   Documentation/devicetree/bindings/input/input.yaml
-> 
-> and put all the common input properties there? Something like:
-> 
-> diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
-> new file mode 100644
-> index 000000000000..5dc10ebdfdf0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/input.yaml
-> @@ -0,0 +1,24 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/input.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Common input schema binding
-> +
-> +maintainers:
-> +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> +
-> +properties:
-> +  linux,keycodes:
-> +    description:
-> +      Specifies an array of numeric keycode values to be used for reporting
-> +      button presses. The array can contain up to 12 entries.
-> +    minItems: 1
-> +    maxItems: 12
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +
-> +  poll-interval:
-> +    description: Poll interval time in milliseconds.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> ---
-> 
-> Or something else?
-> And what is the impact on the fsl,mpr121-touchkey.yaml content/format?
-> I could not find any example in any subsystem of such approach.
+On Wed, Sep 25, 2019 at 1:48 PM Dan Carpenter <dan.carpenter@oracle.com> wr=
+ote:
+>
+> On Mon, Sep 23, 2019 at 01:04:13PM +0200, Jiri Kosina wrote:
+> > On Sun, 22 Sep 2019, Colin King wrote:
+> >
+> > > From: Colin Ian King <colin.king@canonical.com>
+> > >
+> > > There is an if statement that is indented by one extra space,
+> > > fix this by removing the extraneous space.
+> > >
+> > > Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> > > ---
+> > >  drivers/hid/hid-core.c | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > > index 3eaee2c37931..9469c382a182 100644
+> > > --- a/drivers/hid/hid-core.c
+> > > +++ b/drivers/hid/hid-core.c
+> > > @@ -2329,10 +2329,10 @@ int hid_add_device(struct hid_device *hdev)
+> > >     /*
+> > >      * Check for the mandatory transport channel.
+> > >      */
+> > > -    if (!hdev->ll_driver->raw_request) {
+> > > +   if (!hdev->ll_driver->raw_request) {
+> > >             hid_err(hdev, "transport driver missing .raw_request()\n"=
+);
+> > >             return -EINVAL;
+> > > -    }
+> > > +   }
+> >
+> > Let's not pollute git blame and wait for an ocasion when we need to tou=
+ch
+> > the code for some more valid reason.
+>
+> Just use `git blame -w`.
+>
+> This probably came from a Smatch warning.  Smatch warns very seldom
+> warns about style issues, but in this case the indenting is legitimately
+> bad.
 
-Hi Rob, maybe this went through the cracks unnoticed?
+Well, I tend to agree with Jiri here. Yes, you can use a particular
+flag in a tool to 'solve' the git blame/history issue, but this is
+putting the workload on the user, while tthe code is fine, in this
+case. Why do we need to pollute the history of a file for no good
+reasons?
 
-> Thank you,
-> Michal
-> 
->>> +
->>>     wakeup-source: Use any event on keypad as wakeup event.
->>>       type: boolean
->>> @@ -44,12 +48,12 @@ properties:
->>>   required:
->>>     - compatible
->>>     - reg
->>> -  - interrupts
->>>     - vdd-supply
->>>     - linux,keycodes
->>>   examples:
->>>     - |
->>> +    // Example with interrupts
->>>       #include "dt-bindings/input/input.h"
->>>       touchkey: mpr121@5a {
->>>           compatible = "fsl,mpr121-touchkey";
->>> @@ -62,3 +66,17 @@ examples:
->>>                            <KEY_4> <KEY_5>, <KEY_6>, <KEY_7>,
->>>                            <KEY_8>, <KEY_9>, <KEY_A>, <KEY_B>;
->>>       };
->>> +
->>> +  - |
->>> +    // Example with polling
->>> +    #include "dt-bindings/input/input.h"
->>> +    touchkey: mpr121@5a {
->>> +        compatible = "fsl,mpr121-touchkey";
->>> +        reg = <0x5a>;
->>> +        linux,poll-interval = <20>;
->>> +        autorepeat;
->>> +        vdd-supply = <&ldo4_reg>;
->>> +        linux,keycodes = <KEY_0>, <KEY_1>, <KEY_2>, <KEY_3>,
->>> +                         <KEY_4> <KEY_5>, <KEY_6>, <KEY_7>,
->>> +                         <KEY_8>, <KEY_9>, <KEY_A>, <KEY_B>;
->>> +    );
->>> -- 
->>> 2.1.4
->>>
-> 
+Cheers,
+Benjamin
 
