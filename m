@@ -2,263 +2,146 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CFF6CBFAF0
-	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2019 23:31:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55AD1BFEA2
+	for <lists+linux-input@lfdr.de>; Fri, 27 Sep 2019 07:42:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725848AbfIZVb0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Sep 2019 17:31:26 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28523 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725810AbfIZVb0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Sep 2019 17:31:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1569533484;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=go5myio+bZTqiLMTXJTfCDVNMeXnATH/bwF6BLUF+pU=;
-        b=Mj8s59ael2TEOmKv4OzcdsoGiPOULhM0gScAAfaJUfl665p8auv2aGyxZfzzSCciQrBT/Z
-        mbJXj0PsPG4y7mbaOGPFHPIiNQLzkftQFNBX+3oF/NMYnktC0WzEuI7Plh0sEQsljQIa6U
-        460Pq4yO3k969u3OuBGvNuk6t6+7SwE=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-7SN1eddcMKewfgd9UmluIA-1; Thu, 26 Sep 2019 17:31:17 -0400
-Received: by mail-qk1-f198.google.com with SMTP id s14so551151qkg.12
-        for <linux-input@vger.kernel.org>; Thu, 26 Sep 2019 14:31:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=go5myio+bZTqiLMTXJTfCDVNMeXnATH/bwF6BLUF+pU=;
-        b=KNVnCMk+HUvGWaHacHIJKx+TxYr8O9JME9B2WfNmV3hcsWtENsJn+51mrsG5kbaato
-         OiOvA2BExJN93/QmmbEWrB8EWxyrrJeXi+08dqrZUr6LXCt1vL8ujKbQ+zQmkMPyxz6q
-         EMHov2qU1RhMdKbiSOPr0Coq9mXOo2+fwH3YgOZmjJTm8TOlRxU98aAEMpz0ih0rc9N/
-         DDS1F7bC2538ErLwwAIgXXbyIwISHfeQmmpxogv7p5ZR4zb7Gd6SOXGFAkQeSu7vxiaz
-         XasOtsAw42q/VAoWSe0Ftx+c6VwF+9b8taEs1CLds4NvmxxotQWrfCD2oJ/1tYso0VtG
-         023Q==
-X-Gm-Message-State: APjAAAWE6rYGE+2LQEeC3gvJga3k3lQXm3xQF++NicwuTUhI3oj9B4JR
-        GhKCcQHCOvrambcmNarXC/GijFdlTuzWEK+qpPks5eyW8MYuj7554io6JdNLwLivN6AH0IzqidW
-        6pa/5FQtKGdZUQYXGEJcoUnPgViwFwzZgOr9gVSQ=
-X-Received: by 2002:a05:620a:13d9:: with SMTP id g25mr1161121qkl.230.1569533477306;
-        Thu, 26 Sep 2019 14:31:17 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqww/Be/QIQogo2vqVfou2YVrZgisI+ZjThXd9N/qyxFFovYT7zAlkuUu75bXVxSP/SXm4D0Z2fwn4MtKkTsP8Y=
-X-Received: by 2002:a05:620a:13d9:: with SMTP id g25mr1161088qkl.230.1569533477022;
- Thu, 26 Sep 2019 14:31:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <fe524920-8476-540c-1b58-52c3b8b6a92d@gmail.com>
- <56C50F68-7DD6-443D-9034-5FEA19C373B7@canonical.com> <CAO-hwJJVrxuNHZE5zi-2CnTRCie6gCQOgG3jCtB=gBPkYNoptw@mail.gmail.com>
- <25BA7250-B232-4D26-ABDA-5CB99FF73768@canonical.com>
-In-Reply-To: <25BA7250-B232-4D26-ABDA-5CB99FF73768@canonical.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 26 Sep 2019 23:31:04 +0200
-Message-ID: <CAO-hwJLjLxTsje-uur8GY0cwJj-mC2rVL9hbdnNq9OrN=dYf6A@mail.gmail.com>
-Subject: Re: Elantech touchpad breaks with older HP model
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc:     rility <rility3@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-X-MC-Unique: 7SN1eddcMKewfgd9UmluIA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+        id S1726016AbfI0Fmk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Sep 2019 01:42:40 -0400
+Received: from mail-eopbgr1300132.outbound.protection.outlook.com ([40.107.130.132]:41136
+        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725268AbfI0Fmj (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 27 Sep 2019 01:42:39 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JS/UuhQr7RQOoSbFsY2n1B2JWQXhUNk+NqbZXYmPfM9n1CkZZCTB17IlvRYPAYG79ao3eVGIYkl2OIWszZsSqfnWWLdgf0Q7MkSK0OMbD/SO5ONPfsiOVtqR980cgRFm2jVSIAm2d+1v5Ib9bCrqxJJvNQTnNyHJc3YiuAG7gsnIiBLvsMz6IWy9zDB9IrHnFZgUBvLhs13Y3zNs1+RhsBPnd//47qjmhe1aQz05TWIXS+ZpwOgWVVC/YfHO+JCIpe6A8I7oqF/hzsq8ATVRWSuoF79bk/oK9NFDqZqV6e6IqMfYMt4AcSO22utRvvXzQlhkkgkouLSEwAsx0vgD/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZxuZUOIheFFR/nS+X9LGjJrkMJFICsVgijlvajtJV8I=;
+ b=Ze/6bHo4fNl1GwGbHOPh9bevDDIUX1U2+76Q9kWQwRCD2vhKYd7zMFvsz7uQB7SusjYhXy/DGElQ2aam5U6QjlazD/NIM1bnBMA6Wf6IW1SaddVXe3Oyn76NUIGFgOonEbGWLRMxKL9TsZ1HD3QEeiw1/59SYRQvTflxyFTm1BXb1ew8F0JF6FXw6NVWA5lVS3oSXp5vxJGZaLOT7FnIDyOjsEir20WyTgeDq8hLH04bgS4wg6rbmq8tsJtoZuOVIPeL9PsOm4h+83SNKSSAtxsbmqJZUVMkaVdlgDwgO7zL3nJVwfdHzDSguWcSmwB+4Hssra+Cci8WOwkw2em6YQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZxuZUOIheFFR/nS+X9LGjJrkMJFICsVgijlvajtJV8I=;
+ b=GaRouGlxA8PFeWjD3ajbkAsDFGYy4m2eH13+mCc2eCiBro3he5qwv2t9zBG/LfIKFslEAEmjsZHvnIxGB/foMPKuJnQUXnjxjNELtS/7VGAhK2XFIfxD99yIJ1yB5A8VAqyCeqz/sVKJ2x6AaXNRIbiC/U5cbmSrzaIfOfRS/R8=
+Received: from PU1P153MB0169.APCP153.PROD.OUTLOOK.COM (10.170.189.13) by
+ PU1P153MB0154.APCP153.PROD.OUTLOOK.COM (10.170.189.10) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2327.1; Fri, 27 Sep 2019 05:42:32 +0000
+Received: from PU1P153MB0169.APCP153.PROD.OUTLOOK.COM
+ ([fe80::fc44:a784:73e6:c1c2]) by PU1P153MB0169.APCP153.PROD.OUTLOOK.COM
+ ([fe80::fc44:a784:73e6:c1c2%7]) with mapi id 15.20.2327.009; Fri, 27 Sep 2019
+ 05:42:32 +0000
+From:   Dexuan Cui <decui@microsoft.com>
+To:     Jiri Kosina <jikos@kernel.org>
+CC:     KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "sashal@kernel.org" <sashal@kernel.org>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>
+Subject: RE: [PATCH] HID: hyperv: Add the support of hibernation
+Thread-Topic: [PATCH] HID: hyperv: Add the support of hibernation
+Thread-Index: AQHVaPmqZINIgyUXxE2R4/KRfEe4oqc84yhwgAEls4CAAABQAIABEIwQ
+Date:   Fri, 27 Sep 2019 05:42:31 +0000
+Message-ID: <PU1P153MB016973F30CC1A52E46D15230BF810@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+References: <1568244952-66716-1-git-send-email-decui@microsoft.com>
+ <PU1P153MB01695CEE01D65E8CD5CFA4E9BF870@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+ <nycvar.YFH.7.76.1909261521410.24354@cbobk.fhfr.pm>
+ <nycvar.YFH.7.76.1909261522380.24354@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.1909261522380.24354@cbobk.fhfr.pm>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=decui@microsoft.com;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-09-27T05:42:30.1914101Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=a749fe1e-3f08-470f-83d7-591c37978eec;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=decui@microsoft.com; 
+x-originating-ip: [2601:600:a280:7f70:557a:f14b:ea25:465f]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3d83a0fd-9126-49ca-7d5f-08d7430d7de1
+x-ms-office365-filtering-ht: Tenant
+x-ms-traffictypediagnostic: PU1P153MB0154:|PU1P153MB0154:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <PU1P153MB01548743E8181256B00CB5FEBF810@PU1P153MB0154.APCP153.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:3173;
+x-forefront-prvs: 0173C6D4D5
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(979002)(4636009)(346002)(376002)(396003)(366004)(39860400002)(136003)(51914003)(189003)(199004)(6506007)(107886003)(229853002)(7696005)(76176011)(2906002)(53546011)(9686003)(8936002)(10090500001)(102836004)(81166006)(81156014)(4326008)(8676002)(8990500004)(6436002)(6246003)(99286004)(55016002)(186003)(5660300002)(6116002)(54906003)(6916009)(66946007)(305945005)(76116006)(256004)(22452003)(316002)(14444005)(446003)(476003)(46003)(486006)(25786009)(33656002)(52536014)(71200400001)(71190400001)(74316002)(10290500003)(14454004)(86362001)(66476007)(478600001)(66556008)(64756008)(7736002)(11346002)(66446008)(969003)(989001)(999001)(1009001)(1019001);DIR:OUT;SFP:1102;SCL:1;SRVR:PU1P153MB0154;H:PU1P153MB0169.APCP153.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: zqzSiJmMZXn/LhivKUVzay5yduAZXKjyC/VH8P7yawKpIGrcvfadT8QL3heq7M0SgAnc0phopN5Wb3KtN2kRhx4a+dWRbejLhPQK7uMhCjCyjqpwn+6h5FXadkgurwjeXSMtTTNwxovmbI/E5seNUOIGzNiHMVPxRCFA+vBjlmBnFTf/LkqL09YMZZWUtvDmBlOFu4h2ZrUOFNusH4jYagdtdinMi61HjZ9qfqoRDfiMMP0cVQJSTs4F4cLZDCatHEKiRcDNh+rvJSkhSlBd8NgyI5+bj0F1Qo4goY+8ITMTxDCFIDGsVAZ3qH7hfGQyM5aKw7HoxhZ4I8vq7vQbXJrlMzioboIyu824KhgsSDeumf71CPVr7uK941rKiCeGUAUmrVHud61qpMXfFuHQhIhSNenU/54NogjPsesn4qM=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d83a0fd-9126-49ca-7d5f-08d7430d7de1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2019 05:42:31.7622
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lDvP4ieqIrwwqbBZC6oHTfRS9HGtkSbSXj4prCL6+IJfFrGMzLMUW702NiJBE2iKKb+Y31Jay9oZtxpJjzDUKQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1P153MB0154
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On Thu, Sep 26, 2019 at 3:16 PM Kai-Heng Feng
-<kai.heng.feng@canonical.com> wrote:
->
-> [+cc KT Liao]
-
-Well, KT left emc a few weeks (months?) ago. We do have another
-contact who took over KT's work but I am a little bit hesitant pulling
-his email there as I don't know if this person wants to stay in the
-shadow or not.
-
->
-> Hi Benjamin,
->
-> > On Sep 26, 2019, at 18:01, Benjamin Tissoires <benjamin.tissoires@redha=
-t.com> wrote:
+> From: Jiri Kosina <jikos@kernel.org>
+> Sent: Thursday, September 26, 2019 6:23 AM
+> To: Dexuan Cui <decui@microsoft.com>
+>=20
+> On Thu, 26 Sep 2019, Jiri Kosina wrote:
+>=20
+> > > > This patch is basically a pure Hyper-V specific change and it has a
+> > > > build dependency on the commit 271b2224d42f ("Drivers: hv: vmbus:
+> > > > Implement
+> > > > suspend/resume for VSC drivers for hibernation"), which is on Sasha
+> Levin's
+> > > > Hyper-V tree's hyperv-next branch [ ... snipped ...]
+> > > >
+> > > > I request this patch should go through Sasha's tree rather than the
+> > > > input subsystem's tree.
+> > > >
+> > > > Hi Jiri, Benjamin, can you please Ack?
+> > >
+> > > Hi Jiri, Benjamin,
+> > > Can you please take a look at the patch?
 > >
-> > Hi Kai-Heng,
+> > Hi Dexuan,
 > >
-> > On Wed, Sep 25, 2019 at 8:08 PM Kai-Heng Feng
-> > <kai.heng.feng@canonical.com> wrote:
-> >>
-> >> [+cc Benjamin, linux-input]
-> >>
-> >> Hi Benjamin,
-> >>
-> >>> On Sep 26, 2019, at 00:00, rility <rility3@gmail.com> wrote:
-> >>>
-> >>> Hi Dmitry and Feng,
-> >>>
-> >>> I'm seeming to have some problem using my ELAN touchpad with later ke=
-rnel with this commit [Input: elantech - enable SMBus on new (2018+) system=
-s](https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/=
-drivers/input/mouse?id=3D883a2a80f79ca5c0c105605fafabd1f3df99b34c).
-> >>>
-> >>> This ELAN touchpad fails to be detected. It's on a 2016 HP laptop mod=
-el 340 G3, though I did update the BIOS this year.
-> >>
-> >> So using dmi_get_bios_year() as manufacturing date is inaccurate.
-> >
-> > indeed. Not something I expected. But it kind of makes sense now :/
-> >
-> >>
-> >>>
-> >>> I don't really have the first knowledge of kernel development, and am=
- wondering if you can help out.
-> >>>
-> >>> ```
-> >>>
-> >>> With the latest 5.4.rc0
-> >>>
-> >>>
-> >>>
-> >>> ~ sudo dmesg | grep elan -i
-> >>>
-> >>> [    4.127896] psmouse serio1: elantech: assuming hardware version 4 =
-(with firmware version 0x5e0f01)
-> >>> [    4.142887] psmouse serio1: elantech: Synaptics capabilities query=
- result 0x70, 0x16, 0x0a.
-> >>> [    4.158366] psmouse serio1: elantech: Elan sample query result 0b,=
- 01, a7
-> >>> [    4.191200] psmouse serio1: elantech: Trying to set up SMBus acces=
-s
-> >>> [    4.198630] elan_i2c 0-0015: 0-0015 supply vcc not found, using du=
-mmy regulator
-> >>> [    4.202104] elan_i2c 0-0015: failed to get product ID: -6
-> >>> [    4.243786] elan_i2c 0-0015: failed to get product ID: -71
-> >>> [    4.287117] elan_i2c 0-0015: failed to get product ID: -71
-> >>> [    4.322734] elan_i2c: probe of 0-0015 failed with error -71
-> >>
-> >> Do you think it=E2=80=99s a bug we should work on, or we should simply=
- blacklist affected touchpad?
-> >>
-> >
-> > It *really* looks like the touchpad is not supposed to be used under
-> > SMBus. There is however a (non successful) patch I wrote for an other
-> > HP laptop at https://bugzilla.kernel.org/show_bug.cgi?id=3D204771
-> >
-> > Rility, can you apply
-> > v2-0001-Input-elan-also-provide-the-product-ID-from-PS-2-.patch in the
-> > bug report above and report if this helps?
->
-> Hopefully your patch can help.
+> > I am planning to process it once 5.4 merge window is over and thus hid.=
+git
+> > is open again for 5.5 material.
+>=20
+> Ah, now I see you asked for this go through hyperv tree. For that, feel
+> free to add
+> 	Acked-by: Jiri Kosina <jkosina@suse.cz>
+> Jiri Kosina
 
-As answered by Rility, it doesn't :(
+Thanks for the Ack, Jiri!
 
->
-> >
-> > Blacklist IMO is never going to scale, because even if BIOS updates
-> > after a couple of years are not that common, but that also means we
-> > accidentally break touchpads randomly,
->
-> I don=E2=80=99t think whitelist can scale in this case. There are several=
- HP laptops need to use SMBus instead of psmouse.
+I have a bunch of patches, including this one, to support Linux VM's hibern=
+ation
+when the VM runs on Hyper-V. I just feel it would be better for all of them=
+ to
+go through the Hyper-V tree. :-)
 
-Either we find a generic way, either we will need a list. Having a
-blacklist means that we need to break existing working devices, wait
-for the users to report it, fix it, and wait for the distros to
-backport the fix (or get it in stable), while having a whitelist means
-we would only fix the devices that are not working, and keep those
-that are somehow working in PS/2 in a usable state.
-So yes, I would rather have a whitelist here.
-
-And given the tests results here and the fact that the laptop in
-https://bugzilla.kernel.org/show_bug.cgi?id=3D204771 is from 2017, I am
-really leaning towards a revert of the patch ( and a backport to 5.3
-stable).
-
->
-> >
-> > If the patch mentioned above doesn't really helps, I would rather
-> > revert the commit introducing the dmi_get_bios_year() in elantech.c,
-> > and add manually the devices that can be tested one by one.
->
-> KT, can you share how Windows driver handles this situation? Is a blackli=
-st or a whitelist in use?
-
-I am honestly not sure this is a question Elan can answer. Given that
-all the touchpad manufacturers ship a .inf in the Windows driver, they
-*always* rely on a whitelist (because they know in advance which chip
-needs what). I might be wrong and I would happily be proven to be
-wrong.
-
-Cheers,
-Benjamin
-
->
-> Kai-Heng
->
-> >
-> > Cheers,
-> > Benjamin
-> >
-> >> Kai-Heng
-> >>
-> >>>
-> >>>
-> >>>
-> >>>
-> >>> While with the previous version of kernel.
-> >>>
-> >>>
-> >>> ~ sudo dmesg | grep elan -i
-> >>> [    4.193067] psmouse serio1: elantech: assuming hardware version 4 =
-(with firmware version 0x5e0f01)
-> >>> [    4.208056] psmouse serio1: elantech: Synaptics capabilities query=
- result 0x70, 0x16, 0x0a.
-> >>> [    4.223009] psmouse serio1: elantech: Elan sample query result 0b,=
- 01, a7
-> >>> [    4.302361] input: ETPS/2 Elantech Touchpad as /devices/platform/i=
-8042/serio1/input/input27
-> >>>
-> >>>
-> >>>
-> >>> ~ lspci
-> >>> 00:00.0 Host bridge: Intel Corporation Xeon E3-1200 v5/E3-1500 v5/6th=
- Gen Core Processor Host Bridge/DRAM Registers (rev 08)
-> >>> 00:02.0 VGA compatible controller: Intel Corporation Skylake GT2 [HD =
-Graphics 520] (rev 07)
-> >>> 00:04.0 Signal processing controller: Intel Corporation Xeon E3-1200 =
-v5/E3-1500 v5/6th Gen Core Processor Thermal Subsystem (rev 08)
-> >>> 00:14.0 USB controller: Intel Corporation Sunrise Point-LP USB 3.0 xH=
-CI Controller (rev 21)
-> >>> 00:14.2 Signal processing controller: Intel Corporation Sunrise Point=
--LP Thermal subsystem (rev 21)
-> >>> 00:16.0 Communication controller: Intel Corporation Sunrise Point-LP =
-CSME HECI #1 (rev 21)
-> >>> 00:17.0 SATA controller: Intel Corporation Sunrise Point-LP SATA Cont=
-roller [AHCI mode] (rev 21)
-> >>> 00:1c.0 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Ro=
-ot Port #1 (rev f1)
-> >>> 00:1c.4 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Ro=
-ot Port #5 (rev f1)
-> >>> 00:1c.5 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Ro=
-ot Port #6 (rev f1)
-> >>> 00:1f.0 ISA bridge: Intel Corporation Sunrise Point-LP LPC Controller=
- (rev 21)
-> >>> 00:1f.2 Memory controller: Intel Corporation Sunrise Point-LP PMC (re=
-v 21)
-> >>> 00:1f.3 Audio device: Intel Corporation Sunrise Point-LP HD Audio (re=
-v 21)
-> >>> 00:1f.4 SMBus: Intel Corporation Sunrise Point-LP SMBus (rev 21)
-> >>>
-> >>>
-> >>> ```
-> >>>
-> >>>
-> >>>
-> >>> Grateful,
-> >>>
-> >>> Rility
->
-
+Thanks,
+-- Dexuan
