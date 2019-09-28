@@ -2,117 +2,161 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7A52C0EF4
-	for <lists+linux-input@lfdr.de>; Sat, 28 Sep 2019 02:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78144C0EFE
+	for <lists+linux-input@lfdr.de>; Sat, 28 Sep 2019 02:32:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727273AbfI1AQc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Sep 2019 20:16:32 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:38265 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726673AbfI1AQc (ORCPT
+        id S1726033AbfI1AcB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Sep 2019 20:32:01 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:45973 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725306AbfI1AcB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Sep 2019 20:16:32 -0400
-Received: by mail-pl1-f196.google.com with SMTP id w8so1217312plq.5;
-        Fri, 27 Sep 2019 17:16:30 -0700 (PDT)
+        Fri, 27 Sep 2019 20:32:01 -0400
+Received: by mail-pg1-f194.google.com with SMTP id q7so4267014pgi.12;
+        Fri, 27 Sep 2019 17:32:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=x5OtQT6idH9LaA0kReytId/54o5wnDaqSP4igHTa5XY=;
-        b=e7BPZjEFn4/KUlv5Ovicz7B8+NjJVVxKI1DAuSojbyeqBZ21yHH03kDleRv3QH0SpJ
-         XyBRkOLoflo3fYMxMLbyy8FZiPclujibOSGgwfLB2blGbhvz4Dyv0iHGbphWKHjxCJTg
-         EUCf9CUg+bcwy+nW+PXgsDr7d4Tcopz2SbD6Ttmz/3RVbvvB4qFvLpigqN+tOi2SVT6p
-         wDZ+3bjprPDQBMYhOzBiXV/jVl/GEo3MiTbWeAmacmMe9Andi0ORV/14eFAkgRAiyrgW
-         2dTXYk6KO4IwWGCwg3Liu+GLbqwiO7mSHsjPzGka4tZghhBgIGOdHXocxDQ00Cv4UtGz
-         nW9Q==
+        bh=e7WHTlF5j/P4gg+BSNhTXJlGnXVX3nV/g0Irc6cqhsM=;
+        b=F23XAdYROX4Ag1mZzXNOd7dBSssvJcCvUj0vQJjuGrx6qPVM+BBsg5jRgY4/fXkaMF
+         54N94+rcdqr2C7Kob4ioQiIYWH7lAnWC2EILZHyLDDMfIXXNEsHB+YbaRO2QJqQtJz1Y
+         amkurX9QleO3Vdy8zXuah5xlszKXimnIMJo8oaOFk4bQANIa10+KBD1EiEB07BMKeeuN
+         eiteO6zuIom3JnP2pEV7RI2EbjuN5ocRp7tghAwu0sIlYvkmvNdgw9LP9DVKx2f+trqJ
+         PzPp3iIAH8hfyosTvvsgCPi370QGZoLtfm+6lBcZiRNwV+fDTK0KpzNTW7SwuBQjNZkc
+         NRwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=x5OtQT6idH9LaA0kReytId/54o5wnDaqSP4igHTa5XY=;
-        b=cxBUXTMN1E/LEBBJF7JjxUvbSAlhAPzuUGXKJUuuA7La9afWTT5O0lWqbVW5du/4vZ
-         IZCvwzsMZ+opyub+jIBm3FdYNBQymKabeXyhcAMCjyczJE57Myl9s8IJEaA1EigyVt9r
-         YScjAKFom0/YmurE9rm0S0rSxb28PbYIT8hD0daUE3CzzlyJWdKpqmzTh9t/c8uo166p
-         1//HYt3200gjfIp6Td+JT7hqH03qd+1aBHh9q+6RqH7fIvPZh0SPjruUyKTlU5tn5wHU
-         g7C0pcO0xdS2eOinC1Lg1W6flMu1S+IznKY3+9be76uh2Uqq+73LmTQGy1l2LWMfzLXN
-         Yhmw==
-X-Gm-Message-State: APjAAAUvcgCQM83uRgfTF1aqsSZ8oQlJ5zSYXHL5vxv17bVh+H50oWp5
-        E+nTLqgP7zNDuB10PxKi85M=
-X-Google-Smtp-Source: APXvYqxyc66WqiOrnzpM4pZlBN6HZjbsmJOX1+wJ7Uz+aku8RT8PgT4DhH5Fnm/Da1L+nlxkWo7ohg==
-X-Received: by 2002:a17:902:b08b:: with SMTP id p11mr7886498plr.320.1569629789779;
-        Fri, 27 Sep 2019 17:16:29 -0700 (PDT)
+        bh=e7WHTlF5j/P4gg+BSNhTXJlGnXVX3nV/g0Irc6cqhsM=;
+        b=YbeqwB1EySa3rDTEW1SfRAySDHxt3YV0nJsA54CCtnGelYx7F5d28kYrGsRrhBLtR6
+         GQbyO4ltJonl0Tk3KTicvFhyOEODBSv1XvyZw6ggs3ZYBaHVOFp+wSZD5BNxe4r8fmGD
+         NKlSEQsbL5hBIjxYCPNnF/9QycDYn8wHTLeIJhLRKO9n4KYZmQRnSgpkwAoRj5Mj/x8E
+         Dd3KU8E94IYiMcOm4ZkhJylxpb3ewRJ07Pzo3s0drZvKvTNmpsqcHR6F1M+6PGNS3Rn7
+         lcGKFGV0zbOB0X3vxatpG1W5AG3CPNHbXrrjiT0qYmWhajRoEn+BJ8of6OJSLVfIB2oW
+         mRrQ==
+X-Gm-Message-State: APjAAAWr87RuJebuQ0X/6PslaooyIyjFrjUCFz0rIsUX0ERjf7wv62qS
+        o7no8SAiU9qIDk1/nrg5ZPQ=
+X-Google-Smtp-Source: APXvYqxCRxj/rIS2Lutpwu67qqFnf6WJi/rSxR/9L2bP1KWiXpCBCkVQCajZTFz0L+gT1lGV+6qDuw==
+X-Received: by 2002:a62:7597:: with SMTP id q145mr7424576pfc.181.1569630719518;
+        Fri, 27 Sep 2019 17:31:59 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id k31sm6940665pjb.14.2019.09.27.17.16.28
+        by smtp.gmail.com with ESMTPSA id e192sm5470219pfh.83.2019.09.27.17.31.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2019 17:16:29 -0700 (PDT)
-Date:   Fri, 27 Sep 2019 17:16:26 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Evan Green <evgreen@chromium.org>
-Cc:     Nick Dyer <nick@shmanahar.org>,
-        Jongpil Jung <jongpil19.jung@samsung.com>,
-        Furquan Shaikh <furquan@chromium.org>,
-        Rajat Jain <rajatja@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] Input: atmel_mxt_ts - Disable IRQ across suspend
-Message-ID: <20190928001626.GT237523@dtor-ws>
-References: <20190924215238.184750-1-evgreen@chromium.org>
+        Fri, 27 Sep 2019 17:31:58 -0700 (PDT)
+Date:   Fri, 27 Sep 2019 17:31:56 -0700
+From:   "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+To:     Dexuan Cui <decui@microsoft.com>
+Cc:     KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "sashal@kernel.org" <sashal@kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>
+Subject: Re: [PATCH] Input: hyperv-keyboard: Add the support of hibernation
+Message-ID: <20190928003156.GU237523@dtor-ws>
+References: <1568244975-66795-1-git-send-email-decui@microsoft.com>
+ <20190919161752.GS237523@dtor-ws>
+ <PU1P153MB016914A7C827CA35D7FEB66ABF8B0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190924215238.184750-1-evgreen@chromium.org>
+In-Reply-To: <PU1P153MB016914A7C827CA35D7FEB66ABF8B0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Evan,
+On Sat, Sep 21, 2019 at 06:56:04AM +0000, Dexuan Cui wrote:
+> > From: dmitry.torokhov@gmail.com <dmitry.torokhov@gmail.com>
+> > Sent: Thursday, September 19, 2019 9:18 AM
+> > 
+> > Hi Dexuan,
+> > 
+> > On Wed, Sep 11, 2019 at 11:36:20PM +0000, Dexuan Cui wrote:
+> > > We need hv_kbd_pm_notify() to make sure the pm_wakeup_hard_event()
+> > call
+> > > does not prevent the system from entering hibernation: the hibernation
+> > > is a relatively long process, which can be aborted by the call
+> > > pm_wakeup_hard_event(), which is invoked upon keyboard events.
+> > >
+> > > diff --git a/drivers/input/serio/hyperv-keyboard.c
+> > b/drivers/input/serio/hyperv-keyboard.c
+> > > index 88ae7c2..277dc4c 100644
+> > > --- a/drivers/input/serio/hyperv-keyboard.c
+> > > +++ b/drivers/input/serio/hyperv-keyboard.c
+> > > @@ -10,6 +10,7 @@
+> > >  #include <linux/hyperv.h>
+> > >  #include <linux/serio.h>
+> > >  #include <linux/slab.h>
+> > > +#include <linux/suspend.h>
+> > >
+> > >  /*
+> > >   * Current version 1.0
+> > > @@ -95,6 +96,9 @@ struct hv_kbd_dev {
+> > >  	struct completion wait_event;
+> > >  	spinlock_t lock; /* protects 'started' field */
+> > >  	bool started;
+> > > +
+> > > +	struct notifier_block pm_nb;
+> > > +	bool hibernation_in_progress;
+> > 
+> > Why do you use notifier block instead of exposing proper PM methods if
+> > you want to support hibernation?
+> > 
+> > Dmitry
+> 
+> Hi,
+> In the patch I do implement hv_kbd_suspend() and hv_kbd_resume(), and
+> add them into the hv_kbd_drv struct:
+> 
+> @@ -416,6 +472,8 @@ static struct  hv_driver hv_kbd_drv = {
+>         .id_table = id_table,
+>         .probe = hv_kbd_probe,
+>         .remove = hv_kbd_remove,
+> +       .suspend = hv_kbd_suspend,
+> +       .resume = hv_kbd_resume,
+> 
+> The .suspend and .resume callbacks are inroduced by another patch (which
+> uses the dev_pm_ops struct):
+> 271b2224d42f ("Drivers: hv: vmbus: Implement suspend/resume for VSC drivers for hibernation")
+> (which is on the Hyper-V tree's hyperv-next branch:
+> https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git/commit/?h=hyperv-next&id=271b2224d42f88870e6b060924ee374871c131fc )
+> 
+> The only purpose of the notifier is to set the variable 
+> kbd_dev->hibernation_in_progress to true during the hibernation process.
+> 
+> As I explained in the changelog, the hibernation is a long process (which
+> can take 10+ seconds), during which the user may unintentionally touch
+> the keyboard, causing key up/down events, which are still handled by
+> hv_kbd_on_receive(), which calls pm_wakeup_hard_event(), which
+> calls some other functions which increase the global counter
+> "pm_abort_suspend", and hence pm_wakeup_pending() becomes true.
+> 
+> pm_wakeup_pending() is tested in a lot of places in the suspend
+> process and eventually an unintentional keystroke (or mouse movement,
+> when it comes to the Hyper-V mouse driver drivers/hid/hid-hyperv.c)
+> causes the whole hibernation process to be aborted. Usually this
+> behavior is not expected by the user, I think.
 
-On Tue, Sep 24, 2019 at 02:52:38PM -0700, Evan Green wrote:
-> Across suspend and resume, we are seeing error messages like the following:
-> 
-> atmel_mxt_ts i2c-PRP0001:00: __mxt_read_reg: i2c transfer failed (-121)
-> atmel_mxt_ts i2c-PRP0001:00: Failed to read T44 and T5 (-121)
-> 
-> This occurs because the driver leaves its IRQ enabled. Upon resume, there
-> is an IRQ pending, but the interrupt is serviced before both the driver and
-> the underlying I2C bus have been resumed. This causes EREMOTEIO errors.
-> 
-> Disable the IRQ in suspend, and re-enable it on resume. If there are cases
-> where the driver enters suspend with interrupts disabled, that's a bug we
-> should fix separately.
-> 
-> Signed-off-by: Evan Green <evgreen@chromium.org>
-> ---
-> 
-> Changes in v2:
->  - Enable and disable unconditionally (Dmitry)
-> 
->  drivers/input/touchscreen/atmel_mxt_ts.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-> index 24c4b691b1c9..a58092488679 100644
-> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
-> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-> @@ -3155,6 +3155,7 @@ static int __maybe_unused mxt_suspend(struct device *dev)
->  		mxt_stop(data);
->  
->  	mutex_unlock(&input_dev->mutex);
-> +	disable_irq(data->irq);
->  
->  	return 0;
->  }
-> @@ -3174,6 +3175,7 @@ static int __maybe_unused mxt_resume(struct device *dev)
->  		mxt_start(data);
->  
->  	mutex_unlock(&input_dev->mutex);
-> +	enable_irq(data->irq);
+Why not? If a device is configured as wakeup source, then it activity
+should wake up the system, unless you disable it.
 
-At least for older devices that do soft reset on resume we need
-interrupts to already work when we call mxt_start().
+> 
+> So, I use the notifier to set the flag variable and with it the driver can
+> know when it should not call pm_wakeup_hard_event().
 
-In general, order of resume steps should mirror suspend.
+No, please implement hibernation support properly, as notifier + flag is
+a hack. In this particular case you do not want to have your
+hv_kbd_resume() to be called in place of pm_ops->thaw() as that is what
+reenables the keyboard vmbus channel and causes the undesired wakeup
+events. Your vmbus implementation should allow individual drivers to
+control the set of PM operations that they wish to use, instead of
+forcing everything through suspend/resume.
 
 Thanks.
 
