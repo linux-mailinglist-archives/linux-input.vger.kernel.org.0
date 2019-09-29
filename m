@@ -2,150 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2B93C17AE
-	for <lists+linux-input@lfdr.de>; Sun, 29 Sep 2019 19:40:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1400BC189B
+	for <lists+linux-input@lfdr.de>; Sun, 29 Sep 2019 19:45:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729280AbfI2Re4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 Sep 2019 13:34:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47026 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730481AbfI2Re4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 Sep 2019 13:34:56 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 33D0621A4C;
-        Sun, 29 Sep 2019 17:34:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569778494;
-        bh=loZr7MLJpU4XU6TOPh2BVQXDVFm5QAyJaqArvekhQzo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bUFRnF4P4fuaR1jUgNIXB0AdfwlU8WC5R4zK6ZLuP7cTreFGBtWQJWIFWj49hJZ/5
-         WOCsDmhsM6RJTyKQYGrKkQEvHIZSY6a8kkxwM58cwjyrfFCRWTWkGRo0kyOlr1Qv+u
-         qQumsquvdnSqGxvBAckZprPb1adBdRwbR5s/CT9c=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Joao Moreno <mail@joaomoreno.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 16/33] HID: apple: Fix stuck function keys when using FN
-Date:   Sun, 29 Sep 2019 13:34:04 -0400
-Message-Id: <20190929173424.9361-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190929173424.9361-1-sashal@kernel.org>
-References: <20190929173424.9361-1-sashal@kernel.org>
+        id S1728755AbfI2RoY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 Sep 2019 13:44:24 -0400
+Received: from mail-eopbgr1300125.outbound.protection.outlook.com ([40.107.130.125]:28944
+        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728576AbfI2RoY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 29 Sep 2019 13:44:24 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D/DUIgBSEj6iCbrj7+gR6jhpbW0TFl1MFBhuz7QfRKbf1PCwN3jr4xmHzVsVL2fkULQopCxzo4DP7lLyoVMcuWqPudxZc3+jGBpVfceH8bX8dAIo6zwTb/Jtcmf/GF1aucC7jd6XmfHTpV4yVW+Wq7sh+L1ZQAV6rby7M3EFzXMBESI1j2frPSvEmNRj5TM2irKZbGaJsoQMc47zZ/EFI5XX/PrrbBTq1kRJyGJF1+KPQ7pC3YZbSOky7dC/MOdruwHgkvXF6oX/9TQEstu35a1zznKohrjlS4NvWjkbbwcDfEu6ZIFnncYkqTuVpRGzltLlG+5WDlq4BxNM06zuDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qG6F8Qmj3dxTMOQLAg0mctvFKmTjXFY9LGxT/ttbwxE=;
+ b=g3zVRlAWqvb+XMIWMemrzUiFPz+K04WF1NJtRf1BCx7RMCB3JGE5IVvp6FYNgR48Rco3BD7lR3FhfZK5pwJtFvXGKF0Ph6+DmC8WAR4O7TRtDcgka0J+mxqiSiwBde8c6K+xBUlP93pT82MK8ROPt7IW0VCkGTwyJ/JwttB2DvIHL9LrB2qxF64+K5PXQnwxUHeDadAx4XODBaRaVoiv1x0c2ca6NJzEyXALK02QZF3GHhuF16cfldQXwwZeLpNAISGF+iEpj67GHWJ2WvV2jTtHUpYtiwOspBHwxCRiXNiptfHan0cN5u7pjw65jx+g24/6bISH5t0mTKyQu8sq9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qG6F8Qmj3dxTMOQLAg0mctvFKmTjXFY9LGxT/ttbwxE=;
+ b=b2MqTkifBOMXSA0Zy54ExZ1fUbSQ2xC1YoKH17u961D1h0uF3hhIEsZDmIHulR6tJ0FVVy21ywQ0ETuvnuCxmwkR3vMt96Q0xk0ygqgbqbTQtEPQd05QrT31tpa4ym4706POxL8jI+c/AGcQuuJDRJApiPxjzcjSQhSzwxo7syg=
+Received: from PU1P153MB0169.APCP153.PROD.OUTLOOK.COM (10.170.189.13) by
+ PU1P153MB0105.APCP153.PROD.OUTLOOK.COM (10.170.188.10) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2327.5; Sun, 29 Sep 2019 17:44:10 +0000
+Received: from PU1P153MB0169.APCP153.PROD.OUTLOOK.COM
+ ([fe80::fc44:a784:73e6:c1c2]) by PU1P153MB0169.APCP153.PROD.OUTLOOK.COM
+ ([fe80::fc44:a784:73e6:c1c2%7]) with mapi id 15.20.2327.009; Sun, 29 Sep 2019
+ 17:44:10 +0000
+From:   Dexuan Cui <decui@microsoft.com>
+To:     Sasha Levin <sashal@kernel.org>
+CC:     Jiri Kosina <jikos@kernel.org>, KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>
+Subject: RE: [PATCH] HID: hyperv: Add the support of hibernation
+Thread-Topic: [PATCH] HID: hyperv: Add the support of hibernation
+Thread-Index: AQHVaPmqZINIgyUXxE2R4/KRfEe4oqc84yhwgAEls4CAAABQAIABEIwQgABr94CAA4KkgA==
+Date:   Sun, 29 Sep 2019 17:44:09 +0000
+Message-ID: <PU1P153MB01698048162343130F34DAE0BF830@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+References: <1568244952-66716-1-git-send-email-decui@microsoft.com>
+ <PU1P153MB01695CEE01D65E8CD5CFA4E9BF870@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+ <nycvar.YFH.7.76.1909261521410.24354@cbobk.fhfr.pm>
+ <nycvar.YFH.7.76.1909261522380.24354@cbobk.fhfr.pm>
+ <PU1P153MB016973F30CC1A52E46D15230BF810@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+ <20190927120513.GM8171@sasha-vm>
+In-Reply-To: <20190927120513.GM8171@sasha-vm>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=decui@microsoft.com;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-09-29T17:44:05.5467302Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=9133849a-7cab-4f19-b59a-aed0a3aed70d;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=decui@microsoft.com; 
+x-originating-ip: [2601:600:a280:7f70:f552:8d99:acf1:1120]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b9ee66b3-2a03-40ac-28c6-08d74504a23e
+x-ms-office365-filtering-ht: Tenant
+x-ms-traffictypediagnostic: PU1P153MB0105:|PU1P153MB0105:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <PU1P153MB010595965F781D7EFCE0605ABF830@PU1P153MB0105.APCP153.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 017589626D
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(346002)(376002)(366004)(396003)(136003)(51914003)(189003)(199004)(6436002)(305945005)(74316002)(446003)(11346002)(46003)(102836004)(81156014)(81166006)(10090500001)(8676002)(6916009)(8936002)(186003)(7736002)(486006)(476003)(2906002)(7696005)(33656002)(6116002)(71190400001)(71200400001)(6506007)(53546011)(99286004)(14454004)(76176011)(25786009)(86362001)(54906003)(10290500003)(55016002)(66946007)(316002)(22452003)(229853002)(5660300002)(4326008)(256004)(107886003)(6246003)(76116006)(14444005)(9686003)(52536014)(478600001)(8990500004)(66446008)(64756008)(66476007)(66556008);DIR:OUT;SFP:1102;SCL:1;SRVR:PU1P153MB0105;H:PU1P153MB0169.APCP153.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: uqJIvfTMxaWkYzV6uSQwupb72StnhBwJRt1uzLPyYSw5og21CRUCJ9AAOuFggeBON+MHB2Fg+baQa+ciRJUZgVgFUfikm0Ilfdxf2SqXdGr5c1Svfw7cK3dz4vWkJSiLMq1EeVk3jUUS4frDP0FCwlXY//ITks2ZfwBGYbJWw65sZMxLlcXYeidx8nHCZn78jr1e1seZ6ObydbI2P0PXXjDwl7BYebGHB4SnSP1N4tztmuJ/5+jZ1TBLcgLah9GjqWCUGmD6/0fku5Sy2SJqIlSU4TlDJs0lJrQNVMNY/LoaprK48Y4EUpK/BVxiahA5o7UGjxlVHNmsg0XTW6ST1j1wWB+fyGQIFJa4qIZzhj0s17hnDzYqGLkWzK73rj390I3kzGfrMnkiVpuklRKk3R+iXBA7dLF5HzNF5C8chAE=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9ee66b3-2a03-40ac-28c6-08d74504a23e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Sep 2019 17:44:09.4376
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: sAxPgTLN00QntE8cGjiQHK/T7h570iTDQyuehJ+h3lWh43zI9KvxpJYH5SHJzPzbvcgqmLwoxEDi4zGnQdfPYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1P153MB0105
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Joao Moreno <mail@joaomoreno.com>
+> From: Sasha Levin <sashal@kernel.org>
+> Sent: Friday, September 27, 2019 5:05 AM
+> To: Dexuan Cui <decui@microsoft.com>
+> Cc: Jiri Kosina <jikos@kernel.org>; KY Srinivasan <kys@microsoft.com>;
+> Haiyang Zhang <haiyangz@microsoft.com>; Stephen Hemminger
+> <sthemmin@microsoft.com>; benjamin.tissoires@redhat.com;
+> linux-hyperv@vger.kernel.org; linux-input@vger.kernel.org;
+> linux-kernel@vger.kernel.org; Michael Kelley <mikelley@microsoft.com>
+> Subject: Re: [PATCH] HID: hyperv: Add the support of hibernation
+>=20
+> On Fri, Sep 27, 2019 at 05:42:31AM +0000, Dexuan Cui wrote:
+> >> From: Jiri Kosina <jikos@kernel.org>
+> >> Sent: Thursday, September 26, 2019 6:23 AM
+> >> To: Dexuan Cui <decui@microsoft.com>
+> >>
+> >> On Thu, 26 Sep 2019, Jiri Kosina wrote:
+> >>
+> >> > > > This patch is basically a pure Hyper-V specific change and it ha=
+s a
+> >> > > > build dependency on the commit 271b2224d42f ("Drivers: hv: vmbus=
+:
+> >> > > > Implement
+> >> > > > suspend/resume for VSC drivers for hibernation"), which is on Sa=
+sha
+> >> Levin's
+> >> > > > Hyper-V tree's hyperv-next branch [ ... snipped ...]
+> >> > > >
+> >> > > > I request this patch should go through Sasha's tree rather than =
+the
+> >> > > > input subsystem's tree.
+> >> > > >
+> >> > > > Hi Jiri, Benjamin, can you please Ack?
+> >> > >
+> >> > > Hi Jiri, Benjamin,
+> >> > > Can you please take a look at the patch?
+> >> >
+> >> > Hi Dexuan,
+> >> >
+> >> > I am planning to process it once 5.4 merge window is over and thus h=
+id.git
+> >> > is open again for 5.5 material.
+> >>
+> >> Ah, now I see you asked for this go through hyperv tree. For that, fee=
+l
+> >> free to add
+> >> 	Acked-by: Jiri Kosina <jkosina@suse.cz>
+> >> Jiri Kosina
+> >
+> >Thanks for the Ack, Jiri!
+> >
+> >I have a bunch of patches, including this one, to support Linux VM's
+> hibernation
+> >when the VM runs on Hyper-V. I just feel it would be better for all of t=
+hem to
+> >go through the Hyper-V tree. :-)
+>=20
+> Thank Dexuan, Jiri,
+>=20
+> Dexuan, I've been silently ignoring your patches for the past few weeks
+> for the same reason as Jiri has mentioned. I'll pick them all up once
+> the 5.4 merge window closes in a few days.
+>=20
+> Thanks,
+> Sasha
 
-[ Upstream commit aec256d0ecd561036f188dbc8fa7924c47a9edfd ]
+Thanks, Sasha!
 
-This fixes an issue in which key down events for function keys would be
-repeatedly emitted even after the user has raised the physical key. For
-example, the driver fails to emit the F5 key up event when going through
-the following steps:
-- fnmode=1: hold FN, hold F5, release FN, release F5
-- fnmode=2: hold F5, hold FN, release F5, release FN
+BTW, I'll post a v2 for this patch, as IMO I may be able to get rid of the
+mousevsc_pm_notify in this patch by disabling the channel callback
+in the suspend function.
 
-The repeated F5 key down events can be easily verified using xev.
-
-Signed-off-by: Joao Moreno <mail@joaomoreno.com>
-Co-developed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/hid-apple.c | 49 +++++++++++++++++++++++------------------
- 1 file changed, 28 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 1cb41992aaa1f..d0a81a03ddbdd 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -57,7 +57,6 @@ MODULE_PARM_DESC(swap_opt_cmd, "Swap the Option (\"Alt\") and Command (\"Flag\")
- struct apple_sc {
- 	unsigned long quirks;
- 	unsigned int fn_on;
--	DECLARE_BITMAP(pressed_fn, KEY_CNT);
- 	DECLARE_BITMAP(pressed_numlock, KEY_CNT);
- };
- 
-@@ -184,6 +183,8 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- {
- 	struct apple_sc *asc = hid_get_drvdata(hid);
- 	const struct apple_key_translation *trans, *table;
-+	bool do_translate;
-+	u16 code = 0;
- 
- 	if (usage->code == KEY_FN) {
- 		asc->fn_on = !!value;
-@@ -192,8 +193,6 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 	}
- 
- 	if (fnmode) {
--		int do_translate;
--
- 		if (hid->product >= USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
- 				hid->product <= USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
- 			table = macbookair_fn_keys;
-@@ -205,25 +204,33 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 		trans = apple_find_translation (table, usage->code);
- 
- 		if (trans) {
--			if (test_bit(usage->code, asc->pressed_fn))
--				do_translate = 1;
--			else if (trans->flags & APPLE_FLAG_FKEY)
--				do_translate = (fnmode == 2 && asc->fn_on) ||
--					(fnmode == 1 && !asc->fn_on);
--			else
--				do_translate = asc->fn_on;
--
--			if (do_translate) {
--				if (value)
--					set_bit(usage->code, asc->pressed_fn);
--				else
--					clear_bit(usage->code, asc->pressed_fn);
--
--				input_event(input, usage->type, trans->to,
--						value);
--
--				return 1;
-+			if (test_bit(trans->from, input->key))
-+				code = trans->from;
-+			else if (test_bit(trans->to, input->key))
-+				code = trans->to;
-+
-+			if (!code) {
-+				if (trans->flags & APPLE_FLAG_FKEY) {
-+					switch (fnmode) {
-+					case 1:
-+						do_translate = !asc->fn_on;
-+						break;
-+					case 2:
-+						do_translate = asc->fn_on;
-+						break;
-+					default:
-+						/* should never happen */
-+						do_translate = false;
-+					}
-+				} else {
-+					do_translate = asc->fn_on;
-+				}
-+
-+				code = do_translate ? trans->to : trans->from;
- 			}
-+
-+			input_event(input, usage->type, code, value);
-+			return 1;
- 		}
- 
- 		if (asc->quirks & APPLE_NUMLOCK_EMULATION &&
--- 
-2.20.1
-
+Thanks,
+-- Dexuan
