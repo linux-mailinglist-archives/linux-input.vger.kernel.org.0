@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06F12C1789
-	for <lists+linux-input@lfdr.de>; Sun, 29 Sep 2019 19:39:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD8DAC1736
+	for <lists+linux-input@lfdr.de>; Sun, 29 Sep 2019 19:36:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729887AbfI2Rih (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 Sep 2019 13:38:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48292 "EHLO mail.kernel.org"
+        id S1730902AbfI2Rgn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 Sep 2019 13:36:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49366 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729786AbfI2RgA (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 Sep 2019 13:36:00 -0400
+        id S1729874AbfI2Rgm (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 29 Sep 2019 13:36:42 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D3E2621D6C;
-        Sun, 29 Sep 2019 17:35:58 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 97C1C21925;
+        Sun, 29 Sep 2019 17:36:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569778559;
-        bh=loZr7MLJpU4XU6TOPh2BVQXDVFm5QAyJaqArvekhQzo=;
+        s=default; t=1569778601;
+        bh=4eaNuQxLr1w5o0NhWUUmaheT/80b1N1LXIoIfwwicSY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jx8InXds9YDSisXpCh5ducyiVGQR6LV8v9n/4YJatME7aRpIpmrhnZlECpRoswSRL
-         1R7NnnVyOpdahZDKH+9f6hY9EEXr9VVWAP2CfxoIbl1UkZ4xpc6UgywZU0UGv3hYMN
-         4j9/tk3QDVBXiC++J4wto/XV9RPXLOqvjLg8p0jI=
+        b=fV5LFkzisGsHxMu+9GXewrK3qpsYGkdWxA1OJUtYXN9Ko5pvWRJP/DkAhgMgDM/qa
+         fGhVWHEVumpWC+leWHVgKZAEcydFP4dQ/WpT5wwR2aM/vyWy1+R8tNPnuVKnehmAMu
+         N+fDhpgdUD9wNfKdzNjT4MzDNLTSbaaC4CucU2Co=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Joao Moreno <mail@joaomoreno.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 12/23] HID: apple: Fix stuck function keys when using FN
-Date:   Sun, 29 Sep 2019 13:35:22 -0400
-Message-Id: <20190929173535.9744-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 07/13] HID: apple: Fix stuck function keys when using FN
+Date:   Sun, 29 Sep 2019 13:36:17 -0400
+Message-Id: <20190929173625.10003-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190929173535.9744-1-sashal@kernel.org>
-References: <20190929173535.9744-1-sashal@kernel.org>
+In-Reply-To: <20190929173625.10003-1-sashal@kernel.org>
+References: <20190929173625.10003-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -65,10 +65,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 28 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 1cb41992aaa1f..d0a81a03ddbdd 100644
+index 65a0c79f212e1..31c087e1746d6 100644
 --- a/drivers/hid/hid-apple.c
 +++ b/drivers/hid/hid-apple.c
-@@ -57,7 +57,6 @@ MODULE_PARM_DESC(swap_opt_cmd, "Swap the Option (\"Alt\") and Command (\"Flag\")
+@@ -55,7 +55,6 @@ MODULE_PARM_DESC(swap_opt_cmd, "Swap the Option (\"Alt\") and Command (\"Flag\")
  struct apple_sc {
  	unsigned long quirks;
  	unsigned int fn_on;
@@ -76,7 +76,7 @@ index 1cb41992aaa1f..d0a81a03ddbdd 100644
  	DECLARE_BITMAP(pressed_numlock, KEY_CNT);
  };
  
-@@ -184,6 +183,8 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+@@ -182,6 +181,8 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
  {
  	struct apple_sc *asc = hid_get_drvdata(hid);
  	const struct apple_key_translation *trans, *table;
@@ -85,7 +85,7 @@ index 1cb41992aaa1f..d0a81a03ddbdd 100644
  
  	if (usage->code == KEY_FN) {
  		asc->fn_on = !!value;
-@@ -192,8 +193,6 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+@@ -190,8 +191,6 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
  	}
  
  	if (fnmode) {
@@ -94,7 +94,7 @@ index 1cb41992aaa1f..d0a81a03ddbdd 100644
  		if (hid->product >= USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
  				hid->product <= USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
  			table = macbookair_fn_keys;
-@@ -205,25 +204,33 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+@@ -203,25 +202,33 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
  		trans = apple_find_translation (table, usage->code);
  
  		if (trans) {
