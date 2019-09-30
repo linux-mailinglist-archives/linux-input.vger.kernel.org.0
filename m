@@ -2,165 +2,206 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A17C2A3E
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2019 01:09:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A3FCC2A42
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2019 01:09:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729857AbfI3XG4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Sep 2019 19:06:56 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:42079 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726425AbfI3XG4 (ORCPT
+        id S1731806AbfI3XIK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Sep 2019 19:08:10 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:41814 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727118AbfI3XIK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Sep 2019 19:06:56 -0400
-Received: by mail-pg1-f195.google.com with SMTP id z12so8213405pgp.9;
-        Mon, 30 Sep 2019 16:06:55 -0700 (PDT)
+        Mon, 30 Sep 2019 19:08:10 -0400
+Received: by mail-pl1-f194.google.com with SMTP id t10so4489656plr.8;
+        Mon, 30 Sep 2019 16:08:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=OLxymM47T0Z1xEhjhIp3XuVNW/xM7/kJdYnYvwoTXKg=;
-        b=BFkxIMgMo8eIDnqEV/lGUUdNzbWlckVIZvjpa2wckogM1CB++2BZTv5rhENJbw9KXB
-         xrwAPH/Ci638zbgs2tOo4XFoRWOIJATfSDEqHNTWnl13Km5BxERRMrrKC7D2G0V5+9bR
-         sVRkHWvm8lw0EFn7koXox1/fSg/03r9RDUDmt7JnaINE8kzc6gOh5eFzmrMT5DJnp7Au
-         BcuB0mKpXAfKjkCGDDACyFSNEOZ40GkKTsVqzKt7oVSKXKyQTuHrFRX1rB9OxB1Tct9I
-         7dKRY2A5csxaGZhIV3nQ9+UfOiWYCjlRCKfTMcdXuPshFspxdMM5EVYE3QNIW3ytwp0K
-         Yqtg==
+         :content-disposition:in-reply-to:user-agent;
+        bh=E983INdsI8HZd9F5u40UdgLm7nSL3Xu0oq9O20W1ovM=;
+        b=kUxflo+b7fwRhsVnvWrqhLriEDr+8P3bt3ZJ7+7TvQ977IbX9ezpTONvrjMfgoPvXl
+         ST5g15fZVfiSJ6iLENHd9jfIuDCdXmJCwXdhq/viVlmHDYqMSPMbkW6YEjDONXNd6HHn
+         UxXDM8YcsNfrT51FZKj7KeEclbCoQfbxKFdafiP4R2/l1k6p5dCJMpNxuhqNd30A6wWS
+         Reultuy1M8+f3cJXC676OgDEvVD3IXHxlo+0H88J+9hvHi1u+AJcbvgTHTFQS5DMDany
+         VwzaScZqVP+mD7SnBLgoln4JOstO7ayxm2/T9j7fTRutj5+nxQ3f93v40pNzpNq4UjTp
+         Vw/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=OLxymM47T0Z1xEhjhIp3XuVNW/xM7/kJdYnYvwoTXKg=;
-        b=jaQ7LongkihvjjPb8MZ1nVTMuWKChMw7CFBD38fEWx8hw0w+i/5f/hnssbP3LKU1qw
-         U2GAnf0KL5xTYHyxgaGifBBVOtGzq7VBGPCSuMpnKQfsb/p8mewgx8sMw5vTJ7QLfrVB
-         tfAe3Rc/ccPZ/QN2RNj6c1O+oKx1TZntw4DKkr7K1sLpbxrqsyj3LxQKRcYUr8W5YXJ/
-         LYqFwNEBxnVFnsjIlI+/GBs7F9gDCbZi8G1THVzOBYvKjPI3jQSnCSt+XhGO2P/ul5HV
-         TVLONeEy7QCvo4waVP7Jp7Ou7BD7JpJsfzpK0XGYCrgzUO7BoohIyl8cftKnNJprbTS5
-         gKBg==
-X-Gm-Message-State: APjAAAUbtfiFEuLqfuY+kV1RcJmJqJJ+KbM5mXGw2td5ZXGGkiMcfK2a
-        pjBJ8vjPrqr3jznW8SZBG3E=
-X-Google-Smtp-Source: APXvYqzzLO5KuAdNsnaabmSaBPVzVBrpuRISI4r/AYhZW+pFUJ8mN6Kb4MdLgXpTGPJxPVdCVXiBeA==
-X-Received: by 2002:a62:7d81:: with SMTP id y123mr24346543pfc.133.1569884815033;
-        Mon, 30 Sep 2019 16:06:55 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=E983INdsI8HZd9F5u40UdgLm7nSL3Xu0oq9O20W1ovM=;
+        b=L3bYXUteZX+Q+grWvmP8tckix8B1V8SK1FwXpiuc3VWy6ga8/57rGKmMpbeC5O1Z9B
+         utRavDv8e36GSj7wdcdcKm3ToApq7TgOg+VpbhDQOHns8hkVenSvherb5RWuccFtPFJy
+         whhbvm26eXNGctj1xghj7zTR4pYvopyCqF7S2Br7cAzqSjoS9esqPyh5hlID2iuPM1I1
+         HUMQKg+o0ZyV6Zp7A4OVGCkE3O9GNO2uG8lbU+YiPRs2sG873G2zW7JnJRtpar08QKya
+         0r5decfovHkGMoNoom+WAdFjJAgvQ8IeBH8MLEN6ws9VXojNnVXSYapDBuhPFHzeGgYm
+         Tb8Q==
+X-Gm-Message-State: APjAAAXPFf55+iLiRMjl9kpWTCw0cy7CNCQ4uELJcTZy0Q2HyFYguhd8
+        HhARDfKSCXt3AAi7fXzBTfw=
+X-Google-Smtp-Source: APXvYqyNdIVMLjKtt7WybLk7W8rhaXw9OFx2WNxakfR9vLhuazCchaVvRrr1LHSnFn/Z4XT9tuC/FA==
+X-Received: by 2002:a17:902:8d81:: with SMTP id v1mr3737145plo.124.1569884888852;
+        Mon, 30 Sep 2019 16:08:08 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id f15sm12652398pfd.141.2019.09.30.16.06.53
+        by smtp.gmail.com with ESMTPSA id 64sm15434442pfx.31.2019.09.30.16.08.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2019 16:06:54 -0700 (PDT)
-Date:   Mon, 30 Sep 2019 16:06:52 -0700
-From:   "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
-To:     Dexuan Cui <decui@microsoft.com>
-Cc:     KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        "sashal@kernel.org" <sashal@kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>
-Subject: Re: [PATCH] Input: hyperv-keyboard: Add the support of hibernation
-Message-ID: <20190930230652.GW237523@dtor-ws>
-References: <1568244975-66795-1-git-send-email-decui@microsoft.com>
- <20190919161752.GS237523@dtor-ws>
- <PU1P153MB016914A7C827CA35D7FEB66ABF8B0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
- <20190928003156.GU237523@dtor-ws>
- <PU1P153MB0169C315F7F9EBEBED4C7A7DBF820@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+        Mon, 30 Sep 2019 16:08:08 -0700 (PDT)
+Date:   Mon, 30 Sep 2019 16:08:06 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Anson Huang <Anson.Huang@nxp.com>
+Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, swboyd@chromium.org, mojha@codeaurora.org,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Linux-imx@nxp.com
+Subject: Re: [PATCH] input: touchscreen: imx6ul_tsc: Use 'dev' instead of
+ dereferencing it repeatedly
+Message-ID: <20190930230806.GX237523@dtor-ws>
+References: <1569315731-2387-1-git-send-email-Anson.Huang@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PU1P153MB0169C315F7F9EBEBED4C7A7DBF820@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+In-Reply-To: <1569315731-2387-1-git-send-email-Anson.Huang@nxp.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Sep 30, 2019 at 10:09:27PM +0000, Dexuan Cui wrote:
-> > From: dmitry.torokhov@gmail.com <dmitry.torokhov@gmail.com>
-> > Sent: Friday, September 27, 2019 5:32 PM
-> > > ...
-> > > pm_wakeup_pending() is tested in a lot of places in the suspend
-> > > process and eventually an unintentional keystroke (or mouse movement,
-> > > when it comes to the Hyper-V mouse driver drivers/hid/hid-hyperv.c)
-> > > causes the whole hibernation process to be aborted. Usually this
-> > > behavior is not expected by the user, I think.
-> > 
-> > Why not? If a device is configured as wakeup source, then it activity
-> > should wake up the system, unless you disable it.
-> 
-> Generally speaking, I agree, but compared to a physical machine, IMO 
-> the scenario is a little differnet when it comes to a VM running on Hyper-V:
-> on the host there is a window that represents the VM, and the user can
-> unintentionally switch the keyboard input focus to the window (or move
-> the mouse/cursor over the window) and then the host automatically 
-> sends some special keystrokes (and mouse events) , and this aborts the
-> hibernation process.  
-> 
-> And, when it comes to the Hyper-V mouse device, IMO it's easy for the
-> user to unintentionally move the mouse after the "hibernation" button
-> is clicked. I suppose a physical machine would have the same issue, though.
+On Tue, Sep 24, 2019 at 05:02:11PM +0800, Anson Huang wrote:
+> Add helper variable dev = &pdev->dev to simply the code.
 
-If waking the machine up by mouse/keyboard activity is not desired in
-Hyper-V environment, then simply disable them as wakeup sources.
+Do we get any code savings from this?
 
 > 
-> > > So, I use the notifier to set the flag variable and with it the driver can
-> > > know when it should not call pm_wakeup_hard_event().
-> > 
-> > No, please implement hibernation support properly, as notifier + flag is
-> > a hack. 
+> Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
+> ---
+>  drivers/input/touchscreen/imx6ul_tsc.c | 37 +++++++++++++++++-----------------
+>  1 file changed, 19 insertions(+), 18 deletions(-)
 > 
-> The keyboard/mouse driver can avoid the flag by disabling the 
-> keyboard/mouse event handling, but the problem is that they don't know
-> when exactly they should disable the event handling. I think the PM
-> notifier is the only way to tell the drivers a hibernation process is ongoing.
-
-Whatever initiates hibernation (in userspace) can adjust wakeup sources
-as needed if you want them disabled completely.
-
+> diff --git a/drivers/input/touchscreen/imx6ul_tsc.c b/drivers/input/touchscreen/imx6ul_tsc.c
+> index 9ed2588..4555aa9 100644
+> --- a/drivers/input/touchscreen/imx6ul_tsc.c
+> +++ b/drivers/input/touchscreen/imx6ul_tsc.c
+> @@ -361,7 +361,8 @@ static void imx6ul_tsc_close(struct input_dev *input_dev)
+>  
+>  static int imx6ul_tsc_probe(struct platform_device *pdev)
+>  {
+> -	struct device_node *np = pdev->dev.of_node;
+> +	struct device *dev = &pdev->dev;
+> +	struct device_node *np = dev->of_node;
+>  	struct imx6ul_tsc *tsc;
+>  	struct input_dev *input_dev;
+>  	int err;
+> @@ -369,11 +370,11 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
+>  	int adc_irq;
+>  	u32 average_samples;
+>  
+> -	tsc = devm_kzalloc(&pdev->dev, sizeof(*tsc), GFP_KERNEL);
+> +	tsc = devm_kzalloc(dev, sizeof(*tsc), GFP_KERNEL);
+>  	if (!tsc)
+>  		return -ENOMEM;
+>  
+> -	input_dev = devm_input_allocate_device(&pdev->dev);
+> +	input_dev = devm_input_allocate_device(dev);
+>  	if (!input_dev)
+>  		return -ENOMEM;
+>  
+> @@ -389,14 +390,14 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
+>  
+>  	input_set_drvdata(input_dev, tsc);
+>  
+> -	tsc->dev = &pdev->dev;
+> +	tsc->dev = dev;
+>  	tsc->input = input_dev;
+>  	init_completion(&tsc->completion);
+>  
+> -	tsc->xnur_gpio = devm_gpiod_get(&pdev->dev, "xnur", GPIOD_IN);
+> +	tsc->xnur_gpio = devm_gpiod_get(dev, "xnur", GPIOD_IN);
+>  	if (IS_ERR(tsc->xnur_gpio)) {
+>  		err = PTR_ERR(tsc->xnur_gpio);
+> -		dev_err(&pdev->dev,
+> +		dev_err(dev,
+>  			"failed to request GPIO tsc_X- (xnur): %d\n", err);
+>  		return err;
+>  	}
+> @@ -404,28 +405,28 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
+>  	tsc->tsc_regs = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(tsc->tsc_regs)) {
+>  		err = PTR_ERR(tsc->tsc_regs);
+> -		dev_err(&pdev->dev, "failed to remap tsc memory: %d\n", err);
+> +		dev_err(dev, "failed to remap tsc memory: %d\n", err);
+>  		return err;
+>  	}
+>  
+>  	tsc->adc_regs = devm_platform_ioremap_resource(pdev, 1);
+>  	if (IS_ERR(tsc->adc_regs)) {
+>  		err = PTR_ERR(tsc->adc_regs);
+> -		dev_err(&pdev->dev, "failed to remap adc memory: %d\n", err);
+> +		dev_err(dev, "failed to remap adc memory: %d\n", err);
+>  		return err;
+>  	}
+>  
+> -	tsc->tsc_clk = devm_clk_get(&pdev->dev, "tsc");
+> +	tsc->tsc_clk = devm_clk_get(dev, "tsc");
+>  	if (IS_ERR(tsc->tsc_clk)) {
+>  		err = PTR_ERR(tsc->tsc_clk);
+> -		dev_err(&pdev->dev, "failed getting tsc clock: %d\n", err);
+> +		dev_err(dev, "failed getting tsc clock: %d\n", err);
+>  		return err;
+>  	}
+>  
+> -	tsc->adc_clk = devm_clk_get(&pdev->dev, "adc");
+> +	tsc->adc_clk = devm_clk_get(dev, "adc");
+>  	if (IS_ERR(tsc->adc_clk)) {
+>  		err = PTR_ERR(tsc->adc_clk);
+> -		dev_err(&pdev->dev, "failed getting adc clock: %d\n", err);
+> +		dev_err(dev, "failed getting adc clock: %d\n", err);
+>  		return err;
+>  	}
+>  
+> @@ -439,18 +440,18 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
+>  
+>  	err = devm_request_threaded_irq(tsc->dev, tsc_irq,
+>  					NULL, tsc_irq_fn, IRQF_ONESHOT,
+> -					dev_name(&pdev->dev), tsc);
+> +					dev_name(dev), tsc);
+>  	if (err) {
+> -		dev_err(&pdev->dev,
+> +		dev_err(dev,
+>  			"failed requesting tsc irq %d: %d\n",
+>  			tsc_irq, err);
+>  		return err;
+>  	}
+>  
+>  	err = devm_request_irq(tsc->dev, adc_irq, adc_irq_fn, 0,
+> -				dev_name(&pdev->dev), tsc);
+> +				dev_name(dev), tsc);
+>  	if (err) {
+> -		dev_err(&pdev->dev,
+> +		dev_err(dev,
+>  			"failed requesting adc irq %d: %d\n",
+>  			adc_irq, err);
+>  		return err;
+> @@ -484,7 +485,7 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
+>  		tsc->average_select = ilog2(average_samples) - 2;
+>  		break;
+>  	default:
+> -		dev_err(&pdev->dev,
+> +		dev_err(dev,
+>  			"touchscreen-average-samples (%u) must be 1, 4, 8, 16 or 32\n",
+>  			average_samples);
+>  		return -EINVAL;
+> @@ -492,7 +493,7 @@ static int imx6ul_tsc_probe(struct platform_device *pdev)
+>  
+>  	err = input_register_device(tsc->input);
+>  	if (err) {
+> -		dev_err(&pdev->dev,
+> +		dev_err(dev,
+>  			"failed to register input device: %d\n", err);
+>  		return err;
+>  	}
+> -- 
+> 2.7.4
 > 
-> Do you think this idea (notifer + disabling event handling) is acceptable?
-
-No, I believe this a hack, that is why I am pushing back on this.
-
-> 
-> If not, then I'll have to remove the notifer completely, and document this as
-> a known issue to the user: when a hibernation process is started, be careful
-> to not switch input focus and not touch the keyboard/mouse until the
-> hibernation process is finished. :-)
-> 
-> > In this particular case you do not want to have your
-> > hv_kbd_resume() to be called in place of pm_ops->thaw() as that is what
-> > reenables the keyboard vmbus channel and causes the undesired wakeup
-> > events. 
-> 
-> This is only part of the issues. Another example: before the
-> pm_ops()->freeze()'s of all the devices are called, pm_wakeup_pending()
-> is already tested in a lot of places (e.g. in try_to_freeze_tasks ()) in the 
-> suspend process, and can abort the whole suspend process upon the user's
-> unintentional input focus switch, keystroke and mouse movement.
-
-How long is the prepare() phase on your systems? User may wiggle mouse
-at any time really, even before the notifier fires up.
-
-> 
-> > Your vmbus implementation should allow individual drivers to
-> > control the set of PM operations that they wish to use, instead of
-> > forcing everything through suspend/resume.
-> > 
-> > Dmitry
-> 
-> Since the devices are pure software-emulated devices, no PM operation was
-> supported in the past, and now suspend/resume are the only two PM operations
-> we're going to support. If the idea (notifer + disabling event handling) is not
-> good enough, we'll have to document the issue to the user, as I described above.
-
-¯\_(ツ)_/¯ If you do not want to implement hibernation properly in vmbus
-code that is totally up to you (have you read in pm.h how freeze() is
-different from suspend()?).
-
-Thanks.
 
 -- 
 Dmitry
