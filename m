@@ -2,178 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB856C294D
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2019 00:10:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5502C29B7
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2019 00:40:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732183AbfI3WJh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Sep 2019 18:09:37 -0400
-Received: from mail-eopbgr1320135.outbound.protection.outlook.com ([40.107.132.135]:3552
-        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729482AbfI3WJh (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Sep 2019 18:09:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mLzZV97UWdC4UUl014JzGRZbYpLvF1RlQruIFuw/L9/vwKEcP8XktTyCwHPy/GYyq82TFeG068/mtRYapFmJJ/g65YD3GyxuJWrgdXscMJogm2zi8cIg2QT03X8BbM34QZksd1MOhmuWfst2XFoPBiNWpYY4m/PhDig0sglUnMqpzVzZaQCAKOgy2qjmE7AI1dnitfIu2wb6CaTAmMd8MdWMSVbEPoOq0H0/Zkfblwz8jPo3j9AQtPmLUccoYOf2jOGd5BHohZVZBUXD9v9EGCaROTlANklkpdJ6JhXLWqGWKLmFA09vFWuVCVCO1t03qbZSmVIWbEWOxleRvvch3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U0LDPIHGPzCVHxMX8kDMPPdCpOcpsoSoxn4IZGcWZvk=;
- b=cdO1hyCEkwrDU7Nvkba+M2iYEuuWI/kRJBNGSwPQisIjRLptbmubMvSKJ/AGH7WcpWEJELU4hzZassGu6aRdkDMrMlakCFbWhjPL3973QrEBaDdkEHVow4EKv9RhNqt6sFZ3jShvbialHQDNfvcBW2FEKSCv7p2i9/JKQL21UVxoxycHN52pex8a2k9dw0cPWX/a2G3ZVS5NihqK8XY3p/XOlP5pgmuRxSL80UyFfPeuEMNNVTL446xZrMtYY5S1ylmS1xmJ/LSEmGG66rEXAyA8qiZv7C4lzII7LAF5+r+AePqcxGp3r4/QBYi6XyUW/lgOo1IJsC/418d6ps/dYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U0LDPIHGPzCVHxMX8kDMPPdCpOcpsoSoxn4IZGcWZvk=;
- b=fE6JtvpBLqzhoUPdRlxD2w8UhT9ppd2V9h5xWXClhZm51kS4edH3c+x3HghoL5tKLRCpunXmzaP2ZabGZn0wkF9+eM1jh6HF22lNVHfrjftARZzcRMetI2Q/JgK7sjAPNQET2zvRQ+hSMgDFedTljf5T4BKvK5faEy46K2Kmkr4=
-Received: from PU1P153MB0169.APCP153.PROD.OUTLOOK.COM (10.170.189.13) by
- PU1P153MB0156.APCP153.PROD.OUTLOOK.COM (10.170.189.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2327.2; Mon, 30 Sep 2019 22:09:27 +0000
-Received: from PU1P153MB0169.APCP153.PROD.OUTLOOK.COM
- ([fe80::fc44:a784:73e6:c1c2]) by PU1P153MB0169.APCP153.PROD.OUTLOOK.COM
- ([fe80::fc44:a784:73e6:c1c2%7]) with mapi id 15.20.2327.009; Mon, 30 Sep 2019
- 22:09:27 +0000
-From:   Dexuan Cui <decui@microsoft.com>
-To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
-CC:     KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        "sashal@kernel.org" <sashal@kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>
-Subject: RE: [PATCH] Input: hyperv-keyboard: Add the support of hibernation
-Thread-Topic: [PATCH] Input: hyperv-keyboard: Add the support of hibernation
-Thread-Index: AQHVbwXQRPtGDntMcU+sv4R8q5dPMac1q4VggAqesgCABFerkA==
-Date:   Mon, 30 Sep 2019 22:09:27 +0000
-Message-ID: <PU1P153MB0169C315F7F9EBEBED4C7A7DBF820@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
-References: <1568244975-66795-1-git-send-email-decui@microsoft.com>
- <20190919161752.GS237523@dtor-ws>
- <PU1P153MB016914A7C827CA35D7FEB66ABF8B0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
- <20190928003156.GU237523@dtor-ws>
-In-Reply-To: <20190928003156.GU237523@dtor-ws>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=decui@microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-09-30T22:09:25.4119108Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=df2f87e7-a24c-48a1-a18a-a3dad1ec61f7;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=decui@microsoft.com; 
-x-originating-ip: [2001:4898:80e8:2:d492:e91a:5e0:dd92]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 123d5ca1-902d-4948-d2f3-08d745f2dc49
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: PU1P153MB0156:|PU1P153MB0156:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <PU1P153MB015692F008727CD7A712FCFBBF820@PU1P153MB0156.APCP153.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 01762B0D64
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(376002)(39860400002)(366004)(346002)(136003)(199004)(189003)(107886003)(71200400001)(229853002)(10290500003)(305945005)(2501003)(55016002)(6436002)(2906002)(10090500001)(6116002)(7696005)(8990500004)(6506007)(76176011)(6246003)(46003)(52536014)(99286004)(186003)(2351001)(7736002)(446003)(14444005)(486006)(5660300002)(5640700003)(54906003)(478600001)(256004)(66476007)(64756008)(66556008)(66946007)(66446008)(1361003)(76116006)(102836004)(25786009)(22452003)(74316002)(316002)(86362001)(476003)(33656002)(71190400001)(4326008)(11346002)(14454004)(8936002)(9686003)(8676002)(81166006)(6916009)(81156014);DIR:OUT;SFP:1102;SCL:1;SRVR:PU1P153MB0156;H:PU1P153MB0169.APCP153.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: z7yjgHPbq7WccIlEzwLzKjLcDGRKyKOJKf2V6va/D7dLKkMqr/xqXhAe6/gQOFzHMwDKEdpzo/rQuBQT3JtjgqjfBPi68uS9JsN1c2gx80xAIscH9OjpwfGJ4blMFMkSo0a8fbvISXkBF8VnZ7McHtBcoeDXWtTYX+A7iRewooTnorin707+FAxyxI33NLI3Zm9emcSbSgkqGl9GJMdwtr8rW19y3GCoi6YaGFTcXRqt1wLjSbeZOEYJLQS9O+p6E3KwycgxPLH+M0J4LbUmgL5+RqIFIobwM0H8oyxEfE8eYkBPhoRJX/v0o/S6oPo4Ls8jsdJVkVAuusCO2JRc5kxUeAiEECUFDsHNj7eb7/hbVVxAVn0TUHlgXMD11r4gxUkX3R0lYTRiGaOTcMva1CfRg+0OyFtNU76/ywBy6ps=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1730096AbfI3WjS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Sep 2019 18:39:18 -0400
+Received: from mail-io1-f71.google.com ([209.85.166.71]:50826 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729356AbfI3WjQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 30 Sep 2019 18:39:16 -0400
+Received: by mail-io1-f71.google.com with SMTP id f5so33299447iob.17
+        for <linux-input@vger.kernel.org>; Mon, 30 Sep 2019 15:39:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=L9tM9S8tLO/aPET/ricl0OlLf/wXv3oRaqGwqXFjXX8=;
+        b=B5zWfoZB+3eGpKfH5JJaJ5vogOUG9VrS8qHL/OD1VCy7dCPEJV039jcQa5fRxtDedN
+         Yx5RwfP7qWSl9UKJEbILpQdI5J6catU2E3OoDAppgWfRa/lD68J4kJ0EAZ0KgJJMkm4d
+         hRcJGHybCyN91CuxLjO1W/7PbE0ZQRNxLsOJZ5nJYkGtz6QbZFSjzC1vgkv4aid4V9xI
+         uODJHYOnH8W0r9oxER5GIhd0uutPleHhcNH1TNu0MBZ8wSmjYE4KwYVJBo8P3PKeODEb
+         811h9dKfaPcWeNRYgIuM682QssI8UF8z89W+rvJQHbOkRxj/0Qawm9P3w2NLrmg75VMw
+         R5jg==
+X-Gm-Message-State: APjAAAUkhGzmjNApneQh8C+osIGcr9ia7K151v36KkVdtck4NEIh7CIH
+        ihkTLBzYuP9w7SxF560Ap8Lm/89YpT3mBUIUrrl03QExg8Up
+X-Google-Smtp-Source: APXvYqy8jEwSgPKZ/BRyeNDuJqnsOcPJXJpDIutX8qkjtsBvCDFO3ulOKUpK2ufqSzu9eis2I7lb6gkzjrxYXmo0qjeKStz76uR3
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 123d5ca1-902d-4948-d2f3-08d745f2dc49
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2019 22:09:27.2094
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HbpS9Qdn+I/mrm0mfL90jhb5SasA0psQ3Q68j9BH2PEZq0U3Wu6p0RO7AnLcCR5Xh1VNFnP7vU7X6MTiTr+RUA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1P153MB0156
+X-Received: by 2002:a92:9fdb:: with SMTP id z88mr24219433ilk.38.1569883155347;
+ Mon, 30 Sep 2019 15:39:15 -0700 (PDT)
+Date:   Mon, 30 Sep 2019 15:39:15 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000d043690593cce730@google.com>
+Subject: KASAN: slab-out-of-bounds Read in hiddev_ioctl_usage
+From:   syzbot <syzbot+a3f4c2f4f8cde2ff797b@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> From: dmitry.torokhov@gmail.com <dmitry.torokhov@gmail.com>
-> Sent: Friday, September 27, 2019 5:32 PM
-> > ...
-> > pm_wakeup_pending() is tested in a lot of places in the suspend
-> > process and eventually an unintentional keystroke (or mouse movement,
-> > when it comes to the Hyper-V mouse driver drivers/hid/hid-hyperv.c)
-> > causes the whole hibernation process to be aborted. Usually this
-> > behavior is not expected by the user, I think.
->=20
-> Why not? If a device is configured as wakeup source, then it activity
-> should wake up the system, unless you disable it.
+Hello,
 
-Generally speaking, I agree, but compared to a physical machine, IMO=20
-the scenario is a little differnet when it comes to a VM running on Hyper-V=
-:
-on the host there is a window that represents the VM, and the user can
-unintentionally switch the keyboard input focus to the window (or move
-the mouse/cursor over the window) and then the host automatically=20
-sends some special keystrokes (and mouse events) , and this aborts the
-hibernation process. =20
+syzbot found the following crash on:
 
-And, when it comes to the Hyper-V mouse device, IMO it's easy for the
-user to unintentionally move the mouse after the "hibernation" button
-is clicked. I suppose a physical machine would have the same issue, though.
+HEAD commit:    2994c077 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=15170f6d600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=69ddefac6929256a
+dashboard link: https://syzkaller.appspot.com/bug?extid=a3f4c2f4f8cde2ff797b
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14a1a55b600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=107c47bd600000
 
-> > So, I use the notifier to set the flag variable and with it the driver =
-can
-> > know when it should not call pm_wakeup_hard_event().
->=20
-> No, please implement hibernation support properly, as notifier + flag is
-> a hack.=20
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+a3f4c2f4f8cde2ff797b@syzkaller.appspotmail.com
 
-The keyboard/mouse driver can avoid the flag by disabling the=20
-keyboard/mouse event handling, but the problem is that they don't know
-when exactly they should disable the event handling. I think the PM
-notifier is the only way to tell the drivers a hibernation process is ongoi=
-ng.
+==================================================================
+BUG: KASAN: slab-out-of-bounds in hiddev_ioctl_usage.isra.0+0x12d0/0x13b0  
+drivers/hid/usbhid/hiddev.c:535
+Read of size 4 at addr ffff8881d3fc81dc by task syz-executor894/1724
 
-Do you think this idea (notifer + disabling event handling) is acceptable?
+CPU: 0 PID: 1724 Comm: syz-executor894 Not tainted 5.3.0+ #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  print_address_description.constprop.0+0x36/0x50 mm/kasan/report.c:374
+  __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:506
+  kasan_report+0xe/0x12 mm/kasan/common.c:634
+  hiddev_ioctl_usage.isra.0+0x12d0/0x13b0 drivers/hid/usbhid/hiddev.c:535
+  hiddev_ioctl+0x7a1/0x1550 drivers/hid/usbhid/hiddev.c:807
+  vfs_ioctl fs/ioctl.c:46 [inline]
+  file_ioctl fs/ioctl.c:509 [inline]
+  do_vfs_ioctl+0xd2d/0x1330 fs/ioctl.c:696
+  ksys_ioctl+0x9b/0xc0 fs/ioctl.c:713
+  __do_sys_ioctl fs/ioctl.c:720 [inline]
+  __se_sys_ioctl fs/ioctl.c:718 [inline]
+  __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:718
+  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:290
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x444969
+Code: e8 bc af 02 00 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7  
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 1b d8 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007ffff4d72ed8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00000000004002e0 RCX: 0000000000444969
+RDX: 0000000020000100 RSI: 00000000c018480b RDI: 0000000000000004
+RBP: 00000000006cf018 R08: 8fce4d9635172f21 R09: 00000000004002e0
+R10: 000000000000000f R11: 0000000000000246 R12: 0000000000402610
+R13: 00000000004026a0 R14: 0000000000000000 R15: 0000000000000000
 
-If not, then I'll have to remove the notifer completely, and document this =
-as
-a known issue to the user: when a hibernation process is started, be carefu=
-l
-to not switch input focus and not touch the keyboard/mouse until the
-hibernation process is finished. :-)
+The buggy address belongs to the page:
+page:ffffea00074fe000 refcount:1 mapcount:0 mapping:0000000000000000  
+index:0x0 compound_mapcount: 0
+flags: 0x200000000010000(head)
+raw: 0200000000010000 dead000000000100 dead000000000122 0000000000000000
+raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
 
-> In this particular case you do not want to have your
-> hv_kbd_resume() to be called in place of pm_ops->thaw() as that is what
-> reenables the keyboard vmbus channel and causes the undesired wakeup
-> events.=20
+Memory state around the buggy address:
+  ffff8881d3fc8080: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+  ffff8881d3fc8100: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+> ffff8881d3fc8180: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+                                                     ^
+  ffff8881d3fc8200: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+  ffff8881d3fc8280: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+==================================================================
 
-This is only part of the issues. Another example: before the
-pm_ops()->freeze()'s of all the devices are called, pm_wakeup_pending()
-is already tested in a lot of places (e.g. in try_to_freeze_tasks ()) in th=
-e=20
-suspend process, and can abort the whole suspend process upon the user's
-unintentional input focus switch, keystroke and mouse movement.
 
-> Your vmbus implementation should allow individual drivers to
-> control the set of PM operations that they wish to use, instead of
-> forcing everything through suspend/resume.
->=20
-> Dmitry
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Since the devices are pure software-emulated devices, no PM operation was
-supported in the past, and now suspend/resume are the only two PM operation=
-s
-we're going to support. If the idea (notifer + disabling event handling) is=
- not
-good enough, we'll have to document the issue to the user, as I described a=
-bove.
-
-Thanks,
--- Dexuan
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
