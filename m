@@ -2,68 +2,119 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9646AC2AA4
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2019 01:12:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2621C2D93
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2019 08:41:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727884AbfI3XMQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Sep 2019 19:12:16 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:33074 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730474AbfI3XMQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Sep 2019 19:12:16 -0400
-Received: by mail-ot1-f67.google.com with SMTP id g103so2586288otg.0;
-        Mon, 30 Sep 2019 16:12:16 -0700 (PDT)
+        id S1729228AbfJAGlg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Oct 2019 02:41:36 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:52521 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727720AbfJAGlg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Oct 2019 02:41:36 -0400
+Received: by mail-wm1-f67.google.com with SMTP id r19so1902070wmh.2
+        for <linux-input@vger.kernel.org>; Mon, 30 Sep 2019 23:41:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=k6qAJrWkJugJ+YyUVWwhzQnnSRT/IhjCBIC0PqWjhZc=;
+        b=cbFiVcXSWYBflxC9W25SeEQySmTY13LMor81UTl+hDJNCN/MClkjr0C3HXHRqxtjnp
+         ka9jopuu0cfxVmNUoWGpq4hU5TimpokAoV+maf7vGS9m66qAQk7RFQBq5KInXUGC8z4L
+         goCM9g7369v856CrQdJVbytKbPxj+QBVClqw+SMs3AHyfKQWkxf0qw/okOmVrN1VRbBF
+         4P+6NuoqeTw5abV+mRFJnUtp9tixR4UdxeqQdtOOCuFHwJMGBv0IiYjqVGlvtQdluXTR
+         UtPAq2//ItvspYFR0LR9a634GT6tTrKHQz3a+idRXa0/lhbRV0Ik8INiUfGr23Sa/4Hs
+         VZCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=29C9vy1+vRFmsiLAM5YbXIvS9J+pKIiK5hofpG5dRu4=;
-        b=WLbfshd7uHszDGWlcMtaOZMyhRm71w/lbS52hT5Y8bszac3wYv6j+URmHC9N34kq8U
-         vHmsAAxnBr8twEc6mxm8lHyXRrawn/2PVdVFIHa8q3R5rsFptcIqanir+DtAs8P0VLFo
-         UrceVAJU62Y6N8TKZe/P+Azn77piZ+oLr+33sngC8OFT4f2BV0BHNaAd+FZmJp3+vHgz
-         UtrfW5yZx8px/do6yH0PrzQcLuhUmF4raAMos8iAgjCw5kxyy8H4FB9psj2ubpEmzOnT
-         tbTizq4lqdqu37oVmf1QhnJ7/vmDgjNAr/9XX3eQNrHapkhFu1Arz/f/3n7FvfSYdVbd
-         gLgQ==
-X-Gm-Message-State: APjAAAWrgkRPVu02txCQvpI87BW34I1rTpfBLSX51AbX7DCjjBtQpYW/
-        l/UrZVIoMabvn2Qddde0bw==
-X-Google-Smtp-Source: APXvYqzRLGQ2rrHTbYhxu1DTsUYfWDyIMzhjaBhm+avNIL/JcLPbhVGSpD0a7OXYgNdu3nuGiINX/w==
-X-Received: by 2002:a9d:378a:: with SMTP id x10mr16253997otb.222.1569885135819;
-        Mon, 30 Sep 2019 16:12:15 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id q124sm4626835oia.5.2019.09.30.16.12.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2019 16:12:15 -0700 (PDT)
-Date:   Mon, 30 Sep 2019 18:12:14 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
-        dmitry.torokhov@gmail.com, bparrot@ti.com,
-        andy.shevchenko@gmail.com, simon.budig@kernelconcepts.de,
-        hdegoede@redhat.com, fcooper@ti.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 5/6] dt-bindings: Input: edt-ft5x06 - add vdd supply
- documentation
-Message-ID: <20190930231214.GA6748@bogus>
-References: <20190917155808.27818-1-m.felsch@pengutronix.de>
- <20190917155808.27818-6-m.felsch@pengutronix.de>
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=k6qAJrWkJugJ+YyUVWwhzQnnSRT/IhjCBIC0PqWjhZc=;
+        b=EWBlCKlUKhatsLd4qt85yuDekLGEn/78UTpcKqzoDCcOKGahsS84gKZMTDrfjhm8lA
+         faB6p5DYr8LirqxWPrMzH09UsCklUptUKVyxsaGnHTSUmsP//46i/f6ZQ24FgYz+6e50
+         V5Sdm/IpFgywQD0ePBjCvzFf0V7W/NN0PhUXycfgoZXpwHFm3GGZJ7qk9jvS/iHvNCkj
+         kqUwKkwpyPrG52Vbc9dEeqCOtOjL7+5nlG1pDAmBeJuUYfSBW0Qn/nllPewiTKTLHt4O
+         lPk8Rqn+Ow1OPPpG4cnnIWdVaeTZZsALMtqvsDmMV84y8gFMZmblHB6rbC9KuBeCqdr6
+         IP6g==
+X-Gm-Message-State: APjAAAWSvFwlN4+CBHsXjtyzlWWqSuWgtyKCCF7USokxT3qiQ5/jfKbJ
+        nbhPqBVaWKDic/CVkNeNNJpAQA==
+X-Google-Smtp-Source: APXvYqyd5/xCoi4aJNPbWGQpM9k1bRxwu4LYRcxqpmwT/41TmMSserFaqUkyTLP0bdvSXYjCbSoXaw==
+X-Received: by 2002:a05:600c:224e:: with SMTP id a14mr2181172wmm.174.1569912092996;
+        Mon, 30 Sep 2019 23:41:32 -0700 (PDT)
+Received: from dell ([2.27.167.122])
+        by smtp.gmail.com with ESMTPSA id o22sm39910169wra.96.2019.09.30.23.41.32
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 30 Sep 2019 23:41:32 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 07:41:30 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Lukasz Majewski <lukma@denx.de>
+Cc:     linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Enrico Weigelt <info@metux.net>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-input@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v5 0/3] mfd: mc13xxx: Fixes and enhancements for NXP's
+ mc34708
+Message-ID: <20191001064130.GA11769@dell>
+References: <20190909214440.30674-1-lukma@denx.de>
+ <20190930095159.64e1001a@jawa>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190917155808.27818-6-m.felsch@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190930095159.64e1001a@jawa>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 17 Sep 2019 17:58:07 +0200, Marco Felsch wrote:
-> Add DT documentation for the optional regulator.
-> 
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> ---
->  .../devicetree/bindings/input/touchscreen/edt-ft5x06.txt         | 1 +
->  1 file changed, 1 insertion(+)
-> 
+On Mon, 30 Sep 2019, Lukasz Majewski wrote:
 
-Acked-by: Rob Herring <robh@kernel.org>
+> Dear Lee,
+> 
+> > This patch set provides several enhancements to mc13xxx MFD family
+> > of devices by introducing mc34708 as a separate device.
+> > 
+> > This IC has dedicated pen detection feature, which allows better
+> > touchscreen experience.
+> > 
+> > This is the fifth version of this code (v5).
+> > Discussion regarding previous versions can be found here:
+> > https://lkml.org/lkml/2018/4/12/351
+> > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1661934.html
+> > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1664296.html
+> > https://lkml.org/lkml/2019/7/17/705
+> 
+> Gentle ping on this patch series. It is now 3 weeks without any reply...
+
+Please take note and follow the kernel release cycle.
+
+These patches were sent after the release of -rc7 i.e. very late
+in the release cycle and a point where most kernel maintainers stop
+reviewing/applying patches and start to prepare for the impending
+merge-window.
+
+Also, there is no such thing as a gentle ping.  If you genuinely think
+your patches have unlikely("slipped though the gaps"), then post a
+[RESEND] complete with a note alluding your reasons doing such.
+
+> > Sascha Hauer (3):
+> >   mfd: mc13xxx: Add mc34708 adc support
+> >   input: touchscreen mc13xxx: Make platform data optional
+> >   input: touchscreen mc13xxx: Add mc34708 support
+> > 
+> >  drivers/input/touchscreen/mc13783_ts.c | 63 ++++++++++++++---
+> >  drivers/mfd/mc13xxx-core.c             | 98
+> > +++++++++++++++++++++++++- include/linux/mfd/mc34708.h            |
+> > 37 ++++++++++ 3 files changed, 185 insertions(+), 13 deletions(-)
+> >  create mode 100644 include/linux/mfd/mc34708.h
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
