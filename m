@@ -2,120 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C161C3874
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2019 17:03:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58900C3F96
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2019 20:17:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389361AbfJAPDa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Oct 2019 11:03:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45932 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732232AbfJAPDa (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 1 Oct 2019 11:03:30 -0400
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BF39E20679;
-        Tue,  1 Oct 2019 15:03:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569942208;
-        bh=4kV82kjMjJZ3wcjI4ESWLuxVaA+TlzuvX1ml8xlyHAA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tYSv6ceB/nYUaAX/If8UgLhBTz1FGDDIqHLgNnnojKZASJzUgLWCmAh2GAb8tzHcP
-         RfgiG/gd1ukopKDsdhh8nNW1ulbfZDiMfdn4pMeWxKrjUDvDOxyAuxjdgE79Rqpog1
-         QWcsvuQxYHPt7ba3l+bL8FF1vSPesXPzomCQfjio=
-Received: by mail-qk1-f171.google.com with SMTP id x134so11569007qkb.0;
-        Tue, 01 Oct 2019 08:03:28 -0700 (PDT)
-X-Gm-Message-State: APjAAAV38aSqBZxiL8KopgGUHaWSqq9df3ueYBhphGBPXYkLHY0r67bL
-        uDUybMIk9W79UH+BRZVOFZo2EC18yi9NohBXvw==
-X-Google-Smtp-Source: APXvYqx0fyHnwN4L3YZkpqItcFav8rUVQJC9X+gMStopgCudPHBp5OildzjhaMeNXHsc02CUjGUKEy0fZBfNZnVtbs0=
-X-Received: by 2002:a37:be87:: with SMTP id o129mr6681750qkf.254.1569942207991;
- Tue, 01 Oct 2019 08:03:27 -0700 (PDT)
+        id S1732114AbfJASPP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Oct 2019 14:15:15 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:37748 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727012AbfJASPP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Oct 2019 14:15:15 -0400
+Received: by mail-pg1-f193.google.com with SMTP id c17so10238509pgg.4
+        for <linux-input@vger.kernel.org>; Tue, 01 Oct 2019 11:15:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H4Th4IEXCL9ir74s2zgWbQ/AH3VtZ8QsHbxgUcgvt2Q=;
+        b=Dwdw0/GjhFwZckV674siggVRHgb7S6C50hRRYg+2+KNYSa2oH49DY2/6NftHuFlM+2
+         cE27+C2Im1lagPA534PGPBBWfXKFHt34qH4scjbp9ORk7thOX6EHbtLLq0Cai8NVLHVv
+         YymSErGty/wqCDittZB/zXXZxReMeF091wPnk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H4Th4IEXCL9ir74s2zgWbQ/AH3VtZ8QsHbxgUcgvt2Q=;
+        b=IYEc+grXJxepZ/6R0aed8WQUnhEzRMKn41pzVd4/f/PJIdtTjq64jCnMJQgMrVxfrj
+         JPBwgzL25C6uCTstwouesx6LC/kuspmfj0dQzEBQjDv2la++nnyNNTMw4SDYMiLA+1rL
+         Lr2q6eDegAr5scQi8lI7fjjzybutYfImixRbQQuGsxGub9GqPlOVMPOb+PfvaGaM6gAi
+         Z7V16Gr+lAJenbxukak4bw3CsUmO2ZSqrdmCy9hdr8NppCt2vgU/MrZcf47qdJ3yHW6h
+         dXAExMqYFxec05YeQCvm02EibyiBQ7NCDdcO7AN5xe9zR+VII4IZ2tgER7SAge/c00lX
+         sgjQ==
+X-Gm-Message-State: APjAAAVW7p5CDT8t+cDJLsG1tLrZ1yt/1+z55X/JDeHsylR7b0tP1CwC
+        oPSIrefI6lVq4hs9WHDTfDc5Cg==
+X-Google-Smtp-Source: APXvYqz5z5To1zbizqM5edNatDVKvyA2DH51v5JrkYve/OfJgWwCleZOYkNHTj+udOuMRE/i2qDuwA==
+X-Received: by 2002:a63:9a11:: with SMTP id o17mr31176218pge.434.1569953713481;
+        Tue, 01 Oct 2019 11:15:13 -0700 (PDT)
+Received: from evgreen2.mtv.corp.google.com ([2620:15c:202:201:ffda:7716:9afc:1301])
+        by smtp.gmail.com with ESMTPSA id dw19sm3449074pjb.27.2019.10.01.11.15.12
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 01 Oct 2019 11:15:12 -0700 (PDT)
+From:   Evan Green <evgreen@chromium.org>
+To:     Nick Dyer <nick@shmanahar.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Jongpil Jung <jongpil19.jung@samsung.com>,
+        Furquan Shaikh <furquan@chromium.org>,
+        Rajat Jain <rajatja@chromium.org>,
+        Evan Green <evgreen@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH v3] Input: atmel_mxt_ts - Disable IRQ across suspend
+Date:   Tue,  1 Oct 2019 11:15:03 -0700
+Message-Id: <20191001181504.207486-1-evgreen@chromium.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <1569940180-11417-1-git-send-email-michal.vokac@ysoft.com> <1569940180-11417-2-git-send-email-michal.vokac@ysoft.com>
-In-Reply-To: <1569940180-11417-2-git-send-email-michal.vokac@ysoft.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 1 Oct 2019 10:03:16 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJHexWRNPPP-+Vv43CYOJmD0X9aqEtn2djMgfqzyBVy5w@mail.gmail.com>
-Message-ID: <CAL_JsqJHexWRNPPP-+Vv43CYOJmD0X9aqEtn2djMgfqzyBVy5w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] dt-bindings: input: Add common input binding in json-schema
-To:     =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Oct 1, 2019 at 9:29 AM Michal Vok=C3=A1=C4=8D <michal.vokac@ysoft.c=
-om> wrote:
->
-> Create schema for the common input properties.
->
-> Signed-off-by: Michal Vok=C3=A1=C4=8D <michal.vokac@ysoft.com>
-> ---
-> Changes since v1:
->  - New patch in the series.
->
-> Rob, you suggested to extract the common properties from
-> fsl,mpr121-touchkey.yaml into this file. In the meantime I realized that
-> the linux,keycodes property is already documented in keys.txt.
->
-> What do you suggest to do? Some possible options:
->  - Just remove the linux,keycodes propery from keys.txt.
->  - Merge this input.yaml with all content of keys.txt. How to name the re=
-sult?
+Across suspend and resume, we are seeing error messages like the following:
 
-Yes. input.yaml is fine. Looks like there's only 3 references to
-keys.txt to update.
+atmel_mxt_ts i2c-PRP0001:00: __mxt_read_reg: i2c transfer failed (-121)
+atmel_mxt_ts i2c-PRP0001:00: Failed to read T44 and T5 (-121)
 
->  - Something else?
->
->  Documentation/devicetree/bindings/input/input.yaml | 25 ++++++++++++++++=
-++++++
->  1 file changed, 25 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/input.yaml
->
-> diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documen=
-tation/devicetree/bindings/input/input.yaml
-> new file mode 100644
-> index 000000000000..494e7d031ea3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/input.yaml
-> @@ -0,0 +1,25 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/input.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Common input schema binding
-> +
-> +maintainers:
-> +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> +
-> +properties:
-> +  linux,keycodes:
-> +    description:
-> +      Specifies an array of numeric keycode values to be used for report=
-ing
-> +      button presses. The array can contain up to 12 entries.
+This occurs because the driver leaves its IRQ enabled. Upon resume, there
+is an IRQ pending, but the interrupt is serviced before both the driver and
+the underlying I2C bus have been resumed. This causes EREMOTEIO errors.
 
-12 is specific to your device.
+Disable the IRQ in suspend, and re-enable it on resume. If there are cases
+where the driver enters suspend with interrupts disabled, that's a bug we
+should fix separately.
 
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32-array
-> +      - items:
-> +          minimum: 0
-> +          maximum: 0xff
-> +
-> +  autorepeat:
-> +    description: Enable autorepeat when key is pressed and held down.
-> +    type: boolean
-> --
-> 2.1.4
->
+Signed-off-by: Evan Green <evgreen@chromium.org>
+---
+
+Changes in v3:
+ - Move enable_irq to the beginning of resume (Dmitry)
+
+Changes in v2:
+ - Enable and disable unconditionally (Dmitry)
+
+ drivers/input/touchscreen/atmel_mxt_ts.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index 24c4b691b1c9..1627fcb27f35 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -3155,6 +3155,7 @@ static int __maybe_unused mxt_suspend(struct device *dev)
+ 		mxt_stop(data);
+ 
+ 	mutex_unlock(&input_dev->mutex);
++	disable_irq(data->irq);
+ 
+ 	return 0;
+ }
+@@ -3168,6 +3169,7 @@ static int __maybe_unused mxt_resume(struct device *dev)
+ 	if (!input_dev)
+ 		return 0;
+ 
++	enable_irq(data->irq);
+ 	mutex_lock(&input_dev->mutex);
+ 
+ 	if (input_dev->users)
+-- 
+2.21.0
+
