@@ -2,109 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58900C3F96
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2019 20:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4B0AC4008
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2019 20:40:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732114AbfJASPP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Oct 2019 14:15:15 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:37748 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727012AbfJASPP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Oct 2019 14:15:15 -0400
-Received: by mail-pg1-f193.google.com with SMTP id c17so10238509pgg.4
-        for <linux-input@vger.kernel.org>; Tue, 01 Oct 2019 11:15:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=H4Th4IEXCL9ir74s2zgWbQ/AH3VtZ8QsHbxgUcgvt2Q=;
-        b=Dwdw0/GjhFwZckV674siggVRHgb7S6C50hRRYg+2+KNYSa2oH49DY2/6NftHuFlM+2
-         cE27+C2Im1lagPA534PGPBBWfXKFHt34qH4scjbp9ORk7thOX6EHbtLLq0Cai8NVLHVv
-         YymSErGty/wqCDittZB/zXXZxReMeF091wPnk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=H4Th4IEXCL9ir74s2zgWbQ/AH3VtZ8QsHbxgUcgvt2Q=;
-        b=IYEc+grXJxepZ/6R0aed8WQUnhEzRMKn41pzVd4/f/PJIdtTjq64jCnMJQgMrVxfrj
-         JPBwgzL25C6uCTstwouesx6LC/kuspmfj0dQzEBQjDv2la++nnyNNTMw4SDYMiLA+1rL
-         Lr2q6eDegAr5scQi8lI7fjjzybutYfImixRbQQuGsxGub9GqPlOVMPOb+PfvaGaM6gAi
-         Z7V16Gr+lAJenbxukak4bw3CsUmO2ZSqrdmCy9hdr8NppCt2vgU/MrZcf47qdJ3yHW6h
-         dXAExMqYFxec05YeQCvm02EibyiBQ7NCDdcO7AN5xe9zR+VII4IZ2tgER7SAge/c00lX
-         sgjQ==
-X-Gm-Message-State: APjAAAVW7p5CDT8t+cDJLsG1tLrZ1yt/1+z55X/JDeHsylR7b0tP1CwC
-        oPSIrefI6lVq4hs9WHDTfDc5Cg==
-X-Google-Smtp-Source: APXvYqz5z5To1zbizqM5edNatDVKvyA2DH51v5JrkYve/OfJgWwCleZOYkNHTj+udOuMRE/i2qDuwA==
-X-Received: by 2002:a63:9a11:: with SMTP id o17mr31176218pge.434.1569953713481;
-        Tue, 01 Oct 2019 11:15:13 -0700 (PDT)
-Received: from evgreen2.mtv.corp.google.com ([2620:15c:202:201:ffda:7716:9afc:1301])
-        by smtp.gmail.com with ESMTPSA id dw19sm3449074pjb.27.2019.10.01.11.15.12
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 01 Oct 2019 11:15:12 -0700 (PDT)
-From:   Evan Green <evgreen@chromium.org>
-To:     Nick Dyer <nick@shmanahar.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jongpil Jung <jongpil19.jung@samsung.com>,
-        Furquan Shaikh <furquan@chromium.org>,
-        Rajat Jain <rajatja@chromium.org>,
-        Evan Green <evgreen@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH v3] Input: atmel_mxt_ts - Disable IRQ across suspend
-Date:   Tue,  1 Oct 2019 11:15:03 -0700
-Message-Id: <20191001181504.207486-1-evgreen@chromium.org>
-X-Mailer: git-send-email 2.21.0
+        id S1725917AbfJASkZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Oct 2019 14:40:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60376 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725794AbfJASkZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 1 Oct 2019 14:40:25 -0400
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AEB472133F;
+        Tue,  1 Oct 2019 18:40:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569955225;
+        bh=Z4IfwR1ZU5AEcqWAHKoTrywxvUITptIy5CVJe05Wp6k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FAoLSjdOImd8QCvzlGTOvffzRpYS7KLZdQY5YQDAFLBIl2nzJDIwHVx7d1+VYzZb2
+         1lh8GPwWzlD7DoXpKTA0FOwZehDfUMy1G2NUNyla+UvV770Mtqm1e3PfM/XT4KlezQ
+         RBsvFR/gbUz4swY60V8by29UByJx5d1OCyGCDt2E=
+Date:   Tue, 1 Oct 2019 14:40:23 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Dexuan Cui <decui@microsoft.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>
+Subject: Re: [PATCH] HID: hyperv: Add the support of hibernation
+Message-ID: <20191001184023.GC8171@sasha-vm>
+References: <1568244952-66716-1-git-send-email-decui@microsoft.com>
+ <PU1P153MB01695CEE01D65E8CD5CFA4E9BF870@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+ <nycvar.YFH.7.76.1909261521410.24354@cbobk.fhfr.pm>
+ <nycvar.YFH.7.76.1909261522380.24354@cbobk.fhfr.pm>
+ <PU1P153MB016973F30CC1A52E46D15230BF810@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+ <20190927120513.GM8171@sasha-vm>
+ <PU1P153MB01698048162343130F34DAE0BF830@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <PU1P153MB01698048162343130F34DAE0BF830@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Across suspend and resume, we are seeing error messages like the following:
+On Sun, Sep 29, 2019 at 05:44:09PM +0000, Dexuan Cui wrote:
+>> From: Sasha Levin <sashal@kernel.org>
+>> Dexuan, I've been silently ignoring your patches for the past few weeks
+>> for the same reason as Jiri has mentioned. I'll pick them all up once
+>> the 5.4 merge window closes in a few days.
+>
+>Thanks, Sasha!
+>
+>BTW, I'll post a v2 for this patch, as IMO I may be able to get rid of the
+>mousevsc_pm_notify in this patch by disabling the channel callback
+>in the suspend function.
 
-atmel_mxt_ts i2c-PRP0001:00: __mxt_read_reg: i2c transfer failed (-121)
-atmel_mxt_ts i2c-PRP0001:00: Failed to read T44 and T5 (-121)
+Okay, I'm ignoring this patch for now then.
 
-This occurs because the driver leaves its IRQ enabled. Upon resume, there
-is an IRQ pending, but the interrupt is serviced before both the driver and
-the underlying I2C bus have been resumed. This causes EREMOTEIO errors.
-
-Disable the IRQ in suspend, and re-enable it on resume. If there are cases
-where the driver enters suspend with interrupts disabled, that's a bug we
-should fix separately.
-
-Signed-off-by: Evan Green <evgreen@chromium.org>
----
-
-Changes in v3:
- - Move enable_irq to the beginning of resume (Dmitry)
-
-Changes in v2:
- - Enable and disable unconditionally (Dmitry)
-
- drivers/input/touchscreen/atmel_mxt_ts.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 24c4b691b1c9..1627fcb27f35 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -3155,6 +3155,7 @@ static int __maybe_unused mxt_suspend(struct device *dev)
- 		mxt_stop(data);
- 
- 	mutex_unlock(&input_dev->mutex);
-+	disable_irq(data->irq);
- 
- 	return 0;
- }
-@@ -3168,6 +3169,7 @@ static int __maybe_unused mxt_resume(struct device *dev)
- 	if (!input_dev)
- 		return 0;
- 
-+	enable_irq(data->irq);
- 	mutex_lock(&input_dev->mutex);
- 
- 	if (input_dev->users)
--- 
-2.21.0
-
+--
+Thanks,
+Sasha
