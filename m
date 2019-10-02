@@ -2,76 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F016C4AE7
-	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2019 11:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25306C87AB
+	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2019 14:00:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726215AbfJBJ5k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Oct 2019 05:57:40 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:36659 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725765AbfJBJ5j (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Oct 2019 05:57:39 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MGQ85-1iLKYf3qhR-00GoKh; Wed, 02 Oct 2019 11:57:37 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Enrico Weigelt <info@metux.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] input: ixp4xx-beeper: include linux/io.h
-Date:   Wed,  2 Oct 2019 11:57:21 +0200
-Message-Id: <20191002095736.1297224-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
+        id S1726420AbfJBMA1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Oct 2019 08:00:27 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:42865 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725875AbfJBMA1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Oct 2019 08:00:27 -0400
+Received: by mail-lf1-f67.google.com with SMTP id c195so12516904lfg.9
+        for <linux-input@vger.kernel.org>; Wed, 02 Oct 2019 05:00:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+sr94GOz0pdmFe8NPbOwLVU6p5EmhKwRfQwRJfRbnBs=;
+        b=XYZZEpu74MT695K5Dhx/fEcUDe2G2eFTqT0vM+pZl4strKcLUGQ3PO4W5WWSVxueYL
+         xelWz1hdlNawP22kgoRzj9+gri56rn4GqB2BzyyFyBo5wmMyFhTEsnWIpHJVg71Doawi
+         X0UmzJ2Mg0sZHfbZGLjudQI7fiLTABciu0ckx66x6R7xiSKCO5fuWaMSTUW6PrAiHtWA
+         qXsW2TsXsD+iH8Fe4lJWM9gQlkWrJ1YM3T7Hk3eA/l1lBEhX0turashSToMDo+qTRV0j
+         EArNvVqF48LbX/WbJ3DoCu+mQYUp8glmcRPEUmIZi/vxLDpk2ipehTRQqN0ofY+uL0bj
+         Kp0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+sr94GOz0pdmFe8NPbOwLVU6p5EmhKwRfQwRJfRbnBs=;
+        b=KbYPeEM35GO4k/YpcxDAdVtonOKZEGDyhlhfyDsqOV/9MWtlXSBwN6qCFim9IbBubr
+         6qZJmsJjnZVJzy1ReQ26PVCk0T6YJf0JvRgRLCv5gd2+2+gXJieBHUiaMX7+Ov3IStJP
+         tE4F4vh8H++gGjXY9QtlsoHWoE23ib2+nNnJsDstB/5snwf9xM4Sfr7pNn2AXXjMP8J2
+         0FEGWVEf8TUmNZCsqxhNVQl6Wb2q+4a5gs3bv+d5SLo+oiz5vktKUm3d2KYgU6BjBah4
+         ukNkFT0syFjBWMAMux3IVfYiUy60gx44xNgghoJZKeR6dhvzYBmdxPXOyET90M9A8WxC
+         jWlg==
+X-Gm-Message-State: APjAAAUpbt/4SEzmmUVoi14HHUROKBsGpcz0+lYH3pP4eBSJ/qr0uOlv
+        T4PyTTDhToXBLB8ZOW5mglRNtFnJMdzj5Y1ZJLm0/84Th1c=
+X-Google-Smtp-Source: APXvYqws7AaUk10K3J+WGNGa9aG6oOMKe/16UpknoRlkcmS+/JnmqWIQR5M1h0Xl7NN+bsfT58Bw3Xn6VFU0J6Gbf1k=
+X-Received: by 2002:a19:14f:: with SMTP id 76mr2052115lfb.92.1570017625360;
+ Wed, 02 Oct 2019 05:00:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:24fZ4EDvS5qx6pIzugbo6RzU55jRwuVGHQsFc+PVcaIgImsatsY
- CL+nFs5G8PoVyOOWQjk2//NELf7ZyC873zG3wdpSVRIT/Mz90xfu6cGTBfpIpE5xhMb1PN7
- W2A+nt671+6ZvRxYFglfF+4E2r9S+O/FijgdWcY5rGr+KUtJqcX8ojoOjaxqT021DG26a80
- ijUJiYbMrsPuTSvZ3bgZQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JWhXE4mWqiE=:gxmht7zMm8E6LXBuogV2Ei
- HRtLKbrK3gqh4F+JmtWj3t4YCIfQjDegHX2+zWqjjvzfbaj8crze4B7lOuqkviXU6Ok2m9JNw
- H/KFvFnOLWAccQSBDU+YnYSb8G3CR8dXyFTW7JgAOUHcrBaFTqTWdxaGY2e0h60rk3BBXP4aK
- xUx4jRbIUQHAJqIkGL7z4DmW0uBQtt4ueB1Z3ffJYHKQHytZBVWAP5a644SVIHvXhqfvKAI8i
- 0BqOOWBdCAWVqXXwrlBf9iRSlp9l37jl/T+qfxKR3Yuz2XXhC9Y5bsWQaEarN459lIOUuqi4Y
- B0O3ENCsuyetgw3FNxQioxqh64J+Nqacx/7DmR37/bgiDQZ0Zli9NxqGI8BOgNInJ70cLfJUM
- TNYkYZfzO8y6McxBhTjR76P/tvO46HvDR2o31h+OWj4mC426B1TwKx+YXrs0a/F7RV2EljlSg
- S8POplYjyFz0I15e3cJwKkc5RpbvjY8HLi6OenuAWqccFiHDOBNPr7bz9mblB6MpE1jrU12cE
- Agab8V+PEw/mZBOuqrQaA7fNEpkDjnl5DoefCUuEnYq59vnOR7A5PCrHHINvn05rhOdlq0yrk
- pqE+pKWe9L0Uz71WMG0Ie1JFFFvbgM3IbO+ywRsWK/ttcD/JjMJZHprTgY0RMyQAezp7m+zao
- BR9u5gubdSZUQ4ApCcbkBdS7z6Gn3/LsvJlcGmf3OeviR/5sPoxMSGBc1+pRo8PEd5nkQHYOB
- jplhjYxvK1s297X8fbAerQSuExLHFfKut2AWmsSCSmN/60QSQTM+UvXaXTUeJyloh/AGE+eix
- +fCjIYlYAYec+u66VYt5quqdqjOAsvguQQ/NOLyFK3BaMZYT/i4yZiHc0lb25H8bY6seA2e2q
- SShwUVY8pKbmDdlxh1Vw==
+References: <20191002095736.1297224-1-arnd@arndb.de>
+In-Reply-To: <20191002095736.1297224-1-arnd@arndb.de>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 2 Oct 2019 14:00:14 +0200
+Message-ID: <CACRpkdaVhhGF-g_95zPg2wvXGcGfYG1YUVVuz5nOsRw8GwGQkw@mail.gmail.com>
+Subject: Re: [PATCH] input: ixp4xx-beeper: include linux/io.h
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Enrico Weigelt <info@metux.net>,
+        Linux Input <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-asm/io.h may not be included implicitly, causing a rare
-randconfig build error:
+On Wed, Oct 2, 2019 at 11:57 AM Arnd Bergmann <arnd@arndb.de> wrote:
 
-drivers/input/misc/ixp4xx-beeper.c:48:3: error: implicit declaration of function '__raw_writel' [-Werror,-Wimplicit-function-declaration]
-                __raw_writel((count & ~IXP4XX_OST_RELOAD_MASK) | IXP4XX_OST_ENABLE,
+> asm/io.h may not be included implicitly, causing a rare
+> randconfig build error:
+>
+> drivers/input/misc/ixp4xx-beeper.c:48:3: error: implicit declaration of function '__raw_writel' [-Werror,-Wimplicit-function-declaration]
+>                 __raw_writel((count & ~IXP4XX_OST_RELOAD_MASK) | IXP4XX_OST_ENABLE,
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/input/misc/ixp4xx-beeper.c | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/drivers/input/misc/ixp4xx-beeper.c b/drivers/input/misc/ixp4xx-beeper.c
-index 764cf21c0aaf..456325f0ea59 100644
---- a/drivers/input/misc/ixp4xx-beeper.c
-+++ b/drivers/input/misc/ixp4xx-beeper.c
-@@ -17,6 +17,7 @@
- #include <linux/platform_device.h>
- #include <linux/interrupt.h>
- #include <linux/gpio.h>
-+#include <linux/io.h>
- 
- MODULE_AUTHOR("Alessandro Zummo <a.zummo@towertech.it>");
- MODULE_DESCRIPTION("ixp4xx beeper driver");
--- 
-2.20.0
+I am thinking a bit about the future of this driver. Isn't it more
+reasonable to just make a hrtimer-driven PWM and use the existing
+PWM userspace ABI and timer framework in Linux for this?
+Not that there is a generic timer-driven PWM but ... that is
+essentially what this driver is.
 
+Yours,
+Linus Walleij
