@@ -2,97 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC353CA122
-	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2019 17:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A357CAD8C
+	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2019 19:48:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729379AbfJCPZa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Oct 2019 11:25:30 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:44508 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1728608AbfJCPZa (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Oct 2019 11:25:30 -0400
-Received: (qmail 8371 invoked by uid 2102); 3 Oct 2019 11:25:29 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 3 Oct 2019 11:25:29 -0400
-Date:   Thu, 3 Oct 2019 11:25:29 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Andrej Shadura <andrew.shadura@collabora.co.uk>
-cc:     linux-usb@vger.kernel.org,
-        =?UTF-8?B?SmnFmcOtIEtvc2luYQ==?= <jikos@kernel.org>,
-        <linux-input@vger.kernel.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        <kernel@collabora.com>, Ezequiel Garcia <ezequiel@collabora.com>,
-        Vasily Khoruzhick <anarsoul@gmail.com>
-Subject: Re: [PATCH v3] HID: add driver for U2F Zero built-in LED and RNG
-In-Reply-To: <43025708-080e-b577-031a-840b4cd42f3f@collabora.co.uk>
-Message-ID: <Pine.LNX.4.44L0.1910031124460.1797-100000@iolanthe.rowland.org>
+        id S1730850AbfJCRpg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Oct 2019 13:45:36 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:37449 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730530AbfJCRpg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Oct 2019 13:45:36 -0400
+Received: by mail-pf1-f196.google.com with SMTP id y5so2226517pfo.4;
+        Thu, 03 Oct 2019 10:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=cTaX338E0Xi7tlWl150QisR1sVTVGkEbaKzGC+/ciNs=;
+        b=QQcAnwxF76LQ1iEdNrNWVvOLiJ3Pv9O/72dUcsxjGOQigOb5iuS9UbQ7rLfUwzX/gJ
+         jqBErtxrGhgaZLQE6p4fAEypMdxCOl9NmDvsjra8+YCjZ9Cr1uIn2Z2i/upxhdCIoGuI
+         VT+tSQPPqcmRTKABq3cWVni37mU57j9Dc2jULLNkIMxitydg5/pSiHALAeYx3eDfESvl
+         bCEttP6mG3DRJ+bY2mF/pIUSSZW3c/nWGer7SkCNfqOGkB5381hD1j1MbHzeKB3FKTi8
+         pR6Z3UvBLJWEMvU/VJCiiK3Rkr1RZqOWbRCVJH7E+OOwQFQ8JcjVv9jOINXvEsAMJw4i
+         pkhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=cTaX338E0Xi7tlWl150QisR1sVTVGkEbaKzGC+/ciNs=;
+        b=cC55GZ7dHncJe5qdRJdsHC/v1HWw7YtFe6fv+mzdS50Is0/Vs5HkKDtVRgo0CJPHja
+         tCLZJiCjyYmd7DVeOI5JdvGEOLkyFPG84s+gj2jZIpRAJqESoHdCELeR6kvS/wAMkHEU
+         9g29EPpwcmFHf0WYJa837f9DaGQLHbIo1arG9uR1cDFI7DZEyeCi+jqgbmqHBpiR4vks
+         d57idsNkHOA5LQ24x7nFS3O5VjfUDXHIbmO/x1mqQP9mYN+LiUW2yMlKTa4pzLg6benX
+         bUWp32Ee7d3U9X03mbcgsueDznv7oKcZFfyT5KcBAyDdEH5K1MxKM8UPkmC3yeplAKmF
+         x49w==
+X-Gm-Message-State: APjAAAVxh9sPCGgGZa9Uxgft2C7geoUZmKVhaBJ235PUh7KI/AQeQWIo
+        9aiP3KKCjr83xxkZMiailG0=
+X-Google-Smtp-Source: APXvYqyhfSmDaD5ho1JbN3LelcUweH4EA3Q2Q7tRjR4/lz4xS/Ll4Y4s4rLKfFgDVHeBDFpoz1hf7Q==
+X-Received: by 2002:a17:90a:be08:: with SMTP id a8mr11998250pjs.92.1570124733826;
+        Thu, 03 Oct 2019 10:45:33 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id 7sm2799565pgj.35.2019.10.03.10.45.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2019 10:45:32 -0700 (PDT)
+Date:   Thu, 3 Oct 2019 10:45:30 -0700
+From:   "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+To:     Dexuan Cui <decui@microsoft.com>
+Cc:     KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "sashal@kernel.org" <sashal@kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>
+Subject: Re: [PATCH] Input: hyperv-keyboard: Add the support of hibernation
+Message-ID: <20191003174530.GB22365@dtor-ws>
+References: <1568244975-66795-1-git-send-email-decui@microsoft.com>
+ <20190919161752.GS237523@dtor-ws>
+ <PU1P153MB016914A7C827CA35D7FEB66ABF8B0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+ <20190928003156.GU237523@dtor-ws>
+ <PU1P153MB0169C315F7F9EBEBED4C7A7DBF820@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+ <20190930230652.GW237523@dtor-ws>
+ <PU1P153MB01696258D9983DF59D68E748BF9F0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+ <PU1P153MB0169CC57749BF297F2581B02BF9F0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PU1P153MB0169CC57749BF297F2581B02BF9F0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 3 Oct 2019, Andrej Shadura wrote:
-
-> On 01/04/2019 14:42, Andrej Shadura wrote:
-> > U2F Zero supports custom commands for blinking the LED and getting data
-> > from the internal hardware RNG. Expose the blinking function as a LED
-> > device, and the internal hardware RNG as an HWRNG so that it can be used
-> > to feed the enthropy pool.
+On Thu, Oct 03, 2019 at 06:44:04AM +0000, Dexuan Cui wrote:
+> > From: Dexuan Cui
+> > Sent: Wednesday, October 2, 2019 10:35 PM
+> > > ... 
+> > >
+> > > ¯\_(ツ)_/¯ If you do not want to implement hibernation properly in vmbus
+> > > code that is totally up to you (have you read in pm.h how freeze() is
+> > > different from suspend()?).
+> > > Dmitry
 > > 
-> > Signed-off-by: Andrej Shadura <andrew.shadura@collabora.co.uk>
+> > I understand freeze() is different from suspend(). Here I treat suspend() as a
+> > heavyweight freeze() for simplicity and IMHO the extra cost of time is
+> > neglectable considering the long hibernation process, which can take
+> > 5~10+ seconds.
+> > 
+> > Even if I implement all the pm ops, IMO the issue we're talking about
+> > (i.e. the hibernation process can be aborted by user's keyboard/mouse
+> > activities) still exists. Actually I think a physical Linux machine should have
+> > the same issue.
+> > 
+> > In practice, IMO the issue is not a big concern, as the VM usually runs in
+> > a remote data center, and the user has no access to the VM's
+> > keyboard/mouse. :-)
+> > 
+> > I hope I understood your comments. I'll post a v2 without the notifier.
+> > Please Ack the v2 if it looks good to you.
+> > 
+> > -- Dexuan
 > 
-> I’ve been testing this with a different modification of U2F Zero,
-> Nitrokey FIDO U2F, and on that device only I’m getting a kernel warning
-> (see below).
-> 
-> > +static int u2fzero_recv(struct u2fzero_device *dev,
-> > +			struct u2f_hid_report *req,
-> > +			struct u2f_hid_msg *resp)
-> > +{
-> > +	int ret;
-> > +	struct hid_device *hdev = dev->hdev;
-> > +	struct u2fzero_transfer_context ctx;
-> > +
-> > +	mutex_lock(&dev->lock);
-> > +
-> > +	memcpy(dev->buf_out, req, sizeof(struct u2f_hid_report));
-> > +
-> > +	dev->urb->context = &ctx;
-> > +	init_completion(&ctx.done);
-> > +
-> > +	ret = usb_submit_urb(dev->urb, GFP_NOIO);
-> 
-> Here, usb_submit_urb() returns EBUSY in the first attempt to read random
-> numbers from the device:
-> 
-> URB ffff917256d5d540 submitted while active
-> WARNING: CPU: 3 PID: 31 at drivers/usb/core/urb.c:363
-> usb_submit_urb+0x4c2/0x5b0
-> <...>
-> Call Trace:
->  u2fzero_rng_read+0x16e/0x340 [hid_u2fzero]
->  ? ttwu_do_activate+0x67/0x90
->  add_early_randomness+0x53/0xc0
->  hwrng_register+0x175/0x180
->  devm_hwrng_register+0x41/0x7e
->  u2fzero_probe+0x2dd/0x350 [hid_u2fzero]
->  hid_device_probe+0x119/0x180 [hid]
->  really_probe+0xfe/0x3b0
->  driver_probe_device+0xba/0x100
->  __device_attach_driver+0x97/0x100
-> 
-> I don’t understand why since 1) it’s likely to be the first transmission
-> of this URB, 2) there’s a mutex locked just before it. I received a
-> comment from a colleague mentioning I’m probably not using the mutex
-> correctly, but I don’t understand why.
-> 
-> I’m trying to figure this out, so I’d welcome any help with it.
+> I think I understood now: it looks the vmbus driver should implement
+> a prepare() or freeze(), which calls the hyperv_keyboard driver's
+> prepare() or freeze(), which can set the flag or disable the keyboard
+> event handling. This way we don't need the notifier.
 
-You can try using usbmon to see exactly what URBs are actually running.
+Right. I think in practice the current suspend implementation can work
+as freeze() for the HV keyboard, because in suspend you shut off vmbus
+channel, so there should not be wakeup signals anymore. What you do not
+want is to have the current resume to be used in place of thaw(), as
+there you re-enable the vmbus channel and resume sending wakeup requests
+as you are writing out the hibernation image to storage.
 
-Alan Stern
+I think if vmbus allowed HV keyboard driver to supply empty thaw() and
+poweroff() implementations, while using suspend() as freeze() and
+resume() as restore(), it would solve the issue for you.
 
+Thanks.
+
+-- 
+Dmitry
