@@ -2,89 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9526CCAEAA
-	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2019 20:57:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E524CAEB3
+	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2019 20:59:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729988AbfJCS5l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Oct 2019 14:57:41 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:41534 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729334AbfJCS5l (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Oct 2019 14:57:41 -0400
-Received: by mail-pf1-f193.google.com with SMTP id q7so2314787pfh.8;
-        Thu, 03 Oct 2019 11:57:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=77ylIXsEbYhUXexead1rm79X/JZoqHaSnH4twYhYCoQ=;
-        b=BpE9oIq1CkyRCJfS8Nn2AnbjENHyzwH5NgPOeVNQUQBPh7UjnSVpGKz0ge3saGm/iF
-         u9Fcz0pmEzvbRqy3zYSji48bwSSbZ06d/3D6t1WFFaKVZPnunteU5BMuhPqymZOfX0QW
-         6v0XzWb0j2/xVW4cbs51ECFH6q7gKyAVdAusUUoJ1yAv32vdJBCaKymC5+gQHjDbJd3k
-         uWJ9HYp5euk8lArRNufDVBNvGX7sOaUbA0HHWuSEfo2Vav2Si8JQKwhffYLV+I8Mbnij
-         zCleNJAe1IcxrIZfgnHk4/NRq0KShU4326UeI0hIJcFy1rCQzaZ86yMDgYwbnVTo2BXF
-         ALFA==
+        id S1729403AbfJCS7G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Oct 2019 14:59:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33672 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729355AbfJCS7G (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 3 Oct 2019 14:59:06 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com [209.85.221.72])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id E9B363C916
+        for <linux-input@vger.kernel.org>; Thu,  3 Oct 2019 18:59:05 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id n3so1527018wrt.9
+        for <linux-input@vger.kernel.org>; Thu, 03 Oct 2019 11:59:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=77ylIXsEbYhUXexead1rm79X/JZoqHaSnH4twYhYCoQ=;
-        b=uW8+aTW4kUm2Y7BoaSxyeG13VYEZ5RhLAcZsLrXj7ZYjLS8ug04Jvh37/irrX4b2bQ
-         hgkPjsS0EqSclUnfrrNlShdZaFrtbI2jmAGkKfa7saBYaBPLgXsXYxXPAKALeJA4sTrs
-         pUWsIJ0q5eOkABK1E9wWK6hgpRYE+DyDQKPJmGf53a8QXGJi0CIbzrYZXcQ2aiqBMmBu
-         2lc84sFEUh8HIq2tIRNVO3MZlfkYOo3TTPFjU4OeY22Uc1u7tV1xnzM9E6MJVKI/w3MA
-         +OxwXNun7pDVgojCPMpVzGcpF9lX0I2NM2EGknmSv4+2oT1UVWeEWFo/63tAS4y7Bahx
-         bs4w==
-X-Gm-Message-State: APjAAAV02hg8wGvN9vwE45jjJbPiFVpw5JiESrVSKYSOrNy+ld7N9ORi
-        bmrDgO7K7EHxmB0Kevwnvl0=
-X-Google-Smtp-Source: APXvYqwoNe2DbK34Yvqq3TzuS+OFDaVRV5Awc4BhXJrMiJoZqeLJNE7zu/wy+ZIvsGb0ufzTgTz3zA==
-X-Received: by 2002:a63:6b49:: with SMTP id g70mr10705775pgc.92.1570129060362;
-        Thu, 03 Oct 2019 11:57:40 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id j22sm5381780pgg.16.2019.10.03.11.57.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2019 11:57:39 -0700 (PDT)
-Date:   Thu, 3 Oct 2019 11:57:37 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Input: add input_get_poll_interval()
-Message-ID: <20191003185737.GC22365@dtor-ws>
-References: <20191002215812.GA135681@dtor-ws>
- <CAO-hwJ+v1jJJ=APP__84SPrFdR+Te8nAxR6DirD8a9US_Bm4wQ@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=uWnq444wnNCmD6KwthWmL83QqiER8aA9oBPNZG1Z1bw=;
+        b=aJkTpmbzepoghvPrv2AMjEzcDymDjd4n+fyt3H3A4y0EfPZ1M8O/7tB26/gDAhKpDh
+         RD1aYPw69SJT5cRLl7EzVd+ll8PZsM+v3R7MKRhl/ar8lsXoF3utpe4exSdULsma32jH
+         edgsD02stum5hrmNDFcRoYnB5lYTZ0+k5NoIk9qp9gFgwQP+LNUE4NH80ynh8vLHikHO
+         0Im8yRKnWUj+PZyExv3iNFi4NBsisTOnbp5yadjrNg1PQeFWIYWvl1Dwf7IwtCfdzssX
+         NP9escT4wTy2/Vn70AXevsb/q0NE33hYuj3+qB36TkRUBoDb3Ndo7jgaQDwYUG5lu5uL
+         w7/w==
+X-Gm-Message-State: APjAAAWJblwWLgYEBnJ2XvY9calqFKXiyXO9DkFymWLoHYcYREaKB+O3
+        CbLYI/iS/wK6V/cm/IrOlM2/lg63ZFKybFke6th/xz3BkfcdM1+E3N2BKFppg0fiVUc97RqQmuq
+        +gVl/FjP+Kke8lsjvZ1Cr7CE=
+X-Received: by 2002:a7b:cd99:: with SMTP id y25mr7977606wmj.152.1570129144266;
+        Thu, 03 Oct 2019 11:59:04 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyUcZ8Y3AZrLYdgF7Xq96Tq6wRwSk2Zs9tpXMtyUUYOfGnpknwEnejk1jJZUjzNI9IgSi2rMA==
+X-Received: by 2002:a7b:cd99:: with SMTP id y25mr7977594wmj.152.1570129144093;
+        Thu, 03 Oct 2019 11:59:04 -0700 (PDT)
+Received: from shalem.localdomain (2001-1c00-0c14-2800-ec23-a060-24d5-2453.cable.dynamic.v6.ziggo.nl. [2001:1c00:c14:2800:ec23:a060:24d5:2453])
+        by smtp.gmail.com with ESMTPSA id 79sm5692709wmb.7.2019.10.03.11.59.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Oct 2019 11:59:03 -0700 (PDT)
+Subject: Re: [PATCH v3 2/7] HID: Add driver for Logitech gaming keyboards
+ (G15, G15 v2)
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+References: <20190828124130.26752-1-hdegoede@redhat.com>
+ <20190828124130.26752-2-hdegoede@redhat.com>
+ <nycvar.YFH.7.76.1910031540530.13160@cbobk.fhfr.pm>
+ <378599dd-cd9b-98b3-0c8e-b6e7d6a01a06@redhat.com>
+ <nycvar.YFH.7.76.1910032044520.13160@cbobk.fhfr.pm>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <54509245-1c89-3e1b-df30-d8166fb63250@redhat.com>
+Date:   Thu, 3 Oct 2019 20:59:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO-hwJ+v1jJJ=APP__84SPrFdR+Te8nAxR6DirD8a9US_Bm4wQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <nycvar.YFH.7.76.1910032044520.13160@cbobk.fhfr.pm>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+Hi,
 
-On Thu, Oct 03, 2019 at 02:34:59PM -0400, Benjamin Tissoires wrote:
-> Hi Dmitry,
+On 03-10-2019 20:49, Jiri Kosina wrote:
+> On Thu, 3 Oct 2019, Hans de Goede wrote:
 > 
-> On Wed, Oct 2, 2019 at 5:58 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > Some drivers need to be able to know the current polling interval for
-> > devices working in polling mode, let's allow them fetching it.
-> >
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>>> have one remaining question -- what is the reason you decided to factor
+>>> this out as a separate driver, instead of putting it under the
+>>> hid-logitech umbrella?
+>>
+>> I put this in a separate driver, because it is a substantial chunk of code
+>> and the gaming keyboard stuff shares nothing what so ever with the other
+>> Logitech bits.
 > 
-> Not sure if you really need my input on this one, but, sure, looks good to me:
-> Acked-By: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Well, we generally keep the support really divided on the vendor
+> granularity, even if code sharing for individual models is minimal.
+> 
+> I mostly personally prefer that due to absolute clarity for people making
+> CONFIG_ decisions, but as you put that under the generic Logitech config,
+> it's not a big issue.
+> 
+> Queued in for-5.5/logitech now.
 
-Thanks!
+Great, thank you.
 
-I like for someone to have taken look at the stuff I write before I
-commit it to the tree, and you are one of the most active developers in
-linux-input, so I tend to copy you on random bits and pieces and I
-really appreciate that you take time to check them out.
+Regards,
 
--- 
-Dmitry
+Hans
