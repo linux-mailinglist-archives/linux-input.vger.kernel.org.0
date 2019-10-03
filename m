@@ -2,25 +2,25 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B7676C9829
-	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2019 08:13:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B75EDC9825
+	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2019 08:13:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728061AbfJCGND (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Oct 2019 02:13:03 -0400
-Received: from uho.ysoft.cz ([81.19.3.130]:44186 "EHLO uho.ysoft.cz"
+        id S1728117AbfJCGNF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Oct 2019 02:13:05 -0400
+Received: from uho.ysoft.cz ([81.19.3.130]:44198 "EHLO uho.ysoft.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727259AbfJCGND (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 3 Oct 2019 02:13:03 -0400
+        id S1728049AbfJCGNE (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 3 Oct 2019 02:13:04 -0400
 Received: from iota-build.ysoft.local (unknown [10.1.5.151])
-        by uho.ysoft.cz (Postfix) with ESMTP id 716A8A0977;
+        by uho.ysoft.cz (Postfix) with ESMTP id 984FBA097E;
         Thu,  3 Oct 2019 08:13:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
         s=20160406-ysoft-com; t=1570083181;
-        bh=sDhAcmy0v+OgVf0jXfuCTQcjSqcE9lp3+uJN92xToZI=;
+        bh=xdnbhlP5VZbX9psldGdVTegnvgtlaS1Fp9fUYQIGahc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gXhGxtVaL9IVFMS+evKfshej9cFhsVjhzODMxrTa4Pqalbw5kQvnTRN3Cp2hwG+qY
-         7fu+tdNQLibLv3ps3v1m06LwP8IrnW0Tr/YaWEbueEJNEWVk70GwSHDLM+VtzP0BQT
-         jn7L8B8hiPveETnvj1su6rvhHjhTxI0YjzIpsmsU=
+        b=jzXNuTstAvIRcwxw0uaMz8WP5eiNlVYqcxVHcXy6k2MuFix+Owq2QWpSAN4aZHoTZ
+         OsDVix5LvcztbDzQS720x6g7Xtc1wTTvUTgeeM8wFpvxwlF1IWwAwiUMsh15uUv4+m
+         RetB633fnFBW7m/qIfY4BBwCT/FiW/fP1kqwHtrQ=
 From:   =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>
@@ -28,9 +28,9 @@ Cc:     Shawn Guo <shawnguo@kernel.org>,
         Fabio Estevam <festevam@gmail.com>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
-Subject: [PATCH v3 4/5] Input: mpr121: Add polling mode
-Date:   Thu,  3 Oct 2019 08:12:55 +0200
-Message-Id: <1570083176-8231-5-git-send-email-michal.vokac@ysoft.com>
+Subject: [PATCH v3 5/5] ARM: dts: imx6dl-yapp4: Enable the MPR121 touchkey controller on Hydra
+Date:   Thu,  3 Oct 2019 08:12:56 +0200
+Message-Id: <1570083176-8231-6-git-send-email-michal.vokac@ysoft.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1570083176-8231-1-git-send-email-michal.vokac@ysoft.com>
 References: <1570083176-8231-1-git-send-email-michal.vokac@ysoft.com>
@@ -42,9 +42,9 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In case the interrupt line is not available, polling can be used
-to read out the state of the keys. Period of the polling needs to
-be configured by the poll-interval DT property.
+Add the touch keyboard present on Hydra board. The controller
+is connected only using I2C lines. The interrupt line is not
+available hence we use the polling mode.
 
 Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
 ---
@@ -54,143 +54,56 @@ Changes since v2:
 Changes since v1:
  - Use poll-interval property name instead of linux,poll-interval.
 
- drivers/input/keyboard/mpr121_touchkey.c | 69 +++++++++++++++++++++++---------
- 1 file changed, 51 insertions(+), 18 deletions(-)
+ arch/arm/boot/dts/imx6dl-yapp4-common.dtsi | 13 +++++++++++++
+ arch/arm/boot/dts/imx6dl-yapp4-hydra.dts   |  4 ++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/drivers/input/keyboard/mpr121_touchkey.c b/drivers/input/keyboard/mpr121_touchkey.c
-index ee80de44ce3f..40d6e5087cde 100644
---- a/drivers/input/keyboard/mpr121_touchkey.c
-+++ b/drivers/input/keyboard/mpr121_touchkey.c
-@@ -54,6 +54,9 @@
- /* MPR121 has 12 keys */
- #define MPR121_MAX_KEY_COUNT		12
+diff --git a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
+index e8d800fec637..6507bfc0141a 100644
+--- a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
++++ b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
+@@ -4,6 +4,7 @@
  
-+#define MPR121_MIN_POLL_INTERVAL	10
-+#define MPR121_MAX_POLL_INTERVAL	200
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/input/input.h>
+ #include <dt-bindings/pwm/pwm.h>
+ 
+ / {
+@@ -330,6 +331,18 @@
+ 		vcc-supply = <&sw2_reg>;
+ 		status = "disabled";
+ 	};
 +
- struct mpr121_touchkey {
- 	struct i2c_client	*client;
- 	struct input_dev	*input_dev;
-@@ -115,11 +118,11 @@ static struct regulator *mpr121_vdd_supply_init(struct device *dev)
- 	return vdd_supply;
- }
++	touchkeys: keys@5a {
++		compatible = "fsl,mpr121-touchkey";
++		reg = <0x5a>;
++		vdd-supply = <&sw2_reg>;
++		autorepeat;
++		linux,keycodes = <KEY_1>, <KEY_2>, <KEY_3>, <KEY_4>, <KEY_5>,
++				<KEY_6>, <KEY_7>, <KEY_8>, <KEY_9>,
++				<KEY_BACKSPACE>, <KEY_0>, <KEY_ENTER>;
++		poll-interval = <50>;
++		status = "disabled";
++	};
+ };
  
--static irqreturn_t mpr_touchkey_interrupt(int irq, void *dev_id)
-+static void mpr_touchkey_report(struct input_dev *dev)
- {
--	struct mpr121_touchkey *mpr121 = dev_id;
--	struct i2c_client *client = mpr121->client;
-+	struct mpr121_touchkey *mpr121 = input_get_drvdata(dev);
- 	struct input_dev *input = mpr121->input_dev;
-+	struct i2c_client *client = mpr121->client;
- 	unsigned long bit_changed;
- 	unsigned int key_num;
- 	int reg;
-@@ -127,14 +130,14 @@ static irqreturn_t mpr_touchkey_interrupt(int irq, void *dev_id)
- 	reg = i2c_smbus_read_byte_data(client, ELE_TOUCH_STATUS_1_ADDR);
- 	if (reg < 0) {
- 		dev_err(&client->dev, "i2c read error [%d]\n", reg);
--		goto out;
-+		return;
- 	}
+ &iomuxc {
+diff --git a/arch/arm/boot/dts/imx6dl-yapp4-hydra.dts b/arch/arm/boot/dts/imx6dl-yapp4-hydra.dts
+index f97927064750..84c275bfdd38 100644
+--- a/arch/arm/boot/dts/imx6dl-yapp4-hydra.dts
++++ b/arch/arm/boot/dts/imx6dl-yapp4-hydra.dts
+@@ -45,6 +45,10 @@
+ 	status = "okay";
+ };
  
- 	reg <<= 8;
- 	reg |= i2c_smbus_read_byte_data(client, ELE_TOUCH_STATUS_0_ADDR);
- 	if (reg < 0) {
- 		dev_err(&client->dev, "i2c read error [%d]\n", reg);
--		goto out;
-+		return;
- 	}
- 
- 	reg &= TOUCH_STATUS_MASK;
-@@ -155,8 +158,14 @@ static irqreturn_t mpr_touchkey_interrupt(int irq, void *dev_id)
- 
- 	}
- 	input_sync(input);
-+}
++&touchkeys {
++	status = "okay";
++};
 +
-+static irqreturn_t mpr_touchkey_interrupt(int irq, void *dev_id)
-+{
-+	struct mpr121_touchkey *mpr121 = dev_id;
-+
-+	mpr_touchkey_report(mpr121->input_dev);
- 
--out:
- 	return IRQ_HANDLED;
- }
- 
-@@ -229,14 +238,10 @@ static int mpr_touchkey_probe(struct i2c_client *client,
- 	int vdd_uv;
- 	struct mpr121_touchkey *mpr121;
- 	struct input_dev *input_dev;
-+	u32 poll_interval = 0;
- 	int error;
- 	int i;
- 
--	if (!client->irq) {
--		dev_err(dev, "irq number should not be zero\n");
--		return -EINVAL;
--	}
--
- 	vdd_supply = mpr121_vdd_supply_init(dev);
- 	if (IS_ERR(vdd_supply))
- 		return PTR_ERR(vdd_supply);
-@@ -274,6 +279,7 @@ static int mpr_touchkey_probe(struct i2c_client *client,
- 	if (device_property_read_bool(dev, "autorepeat"))
- 		__set_bit(EV_REP, input_dev->evbit);
- 	input_set_capability(input_dev, EV_MSC, MSC_SCAN);
-+	input_set_drvdata(input_dev, mpr121);
- 
- 	input_dev->keycode = mpr121->keycodes;
- 	input_dev->keycodesize = sizeof(mpr121->keycodes[0]);
-@@ -288,13 +294,40 @@ static int mpr_touchkey_probe(struct i2c_client *client,
- 		return error;
- 	}
- 
--	error = devm_request_threaded_irq(dev, client->irq, NULL,
--					  mpr_touchkey_interrupt,
--					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
--					  dev->driver->name, mpr121);
--	if (error) {
--		dev_err(dev, "Failed to register interrupt\n");
--		return error;
-+	device_property_read_u32(dev, "poll-interval", &poll_interval);
-+
-+	if (client->irq) {
-+		error = devm_request_threaded_irq(dev, client->irq, NULL,
-+						  mpr_touchkey_interrupt,
-+						  IRQF_TRIGGER_FALLING |
-+						  IRQF_ONESHOT,
-+						  dev->driver->name, mpr121);
-+		if (error) {
-+			dev_err(dev, "Failed to register interrupt\n");
-+			return error;
-+		}
-+	} else if (poll_interval) {
-+		if (poll_interval < MPR121_MIN_POLL_INTERVAL)
-+			return -EINVAL;
-+
-+		if (poll_interval > MPR121_MAX_POLL_INTERVAL)
-+			return -EINVAL;
-+
-+		error = input_setup_polling(input_dev, mpr_touchkey_report);
-+		if (error) {
-+			dev_err(dev, "Failed to setup polling\n");
-+			return error;
-+		}
-+
-+		input_set_poll_interval(input_dev, poll_interval);
-+		input_set_min_poll_interval(input_dev,
-+					    MPR121_MIN_POLL_INTERVAL);
-+		input_set_max_poll_interval(input_dev,
-+					    MPR121_MAX_POLL_INTERVAL);
-+	} else {
-+		dev_err(dev,
-+			"invalid IRQ number and polling not configured\n");
-+		return -EINVAL;
- 	}
- 
- 	error = input_register_device(input_dev);
+ &usdhc3 {
+ 	status = "okay";
+ };
 -- 
 2.1.4
 
