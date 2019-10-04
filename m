@@ -2,123 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED13ECBE13
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2019 16:52:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C20ECBE6C
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2019 17:01:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389604AbfJDOwP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Oct 2019 10:52:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43374 "EHLO mx1.redhat.com"
+        id S2389210AbfJDPBr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Oct 2019 11:01:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40610 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388870AbfJDOwO (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 4 Oct 2019 10:52:14 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S2389131AbfJDPBq (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 4 Oct 2019 11:01:46 -0400
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2373489F39E;
-        Fri,  4 Oct 2019 14:52:14 +0000 (UTC)
-Received: from dhcp-44-196.space.revspace.nl (ovpn-112-43.ams2.redhat.com [10.36.112.43])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D994B5C1D8;
-        Fri,  4 Oct 2019 14:52:06 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v7 8/8] platform/x86: touchscreen_dmi: Add info for the Chuwi Vi8 Plus tablet
-Date:   Fri,  4 Oct 2019 16:50:56 +0200
-Message-Id: <20191004145056.43267-9-hdegoede@redhat.com>
-In-Reply-To: <20191004145056.43267-1-hdegoede@redhat.com>
-References: <20191004145056.43267-1-hdegoede@redhat.com>
+        by mx1.redhat.com (Postfix) with ESMTPS id 92F4291761
+        for <linux-input@vger.kernel.org>; Fri,  4 Oct 2019 15:01:46 +0000 (UTC)
+Received: by mail-qt1-f198.google.com with SMTP id f15so6726342qth.6
+        for <linux-input@vger.kernel.org>; Fri, 04 Oct 2019 08:01:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PihxWe7ZSqU2vmEmqDljruyeyzMfdPKypZbLtLMcJg4=;
+        b=JVGZJ0VNXx4DeteA9hZltGCEgRXVKl4xLw+T/6QBEt+9rC99TJ+tKkclAAkTKGuaN0
+         BCPWVvNEZawz/i0X9873am2mxEGDX8XWKUCrZRXeaNmIK0VCw5lirNDD6B7QqXlxbeD7
+         SfjlT06J5bdVsuRoi9IkwXFOgyxcE8op26NS8WKi/eAfchtfIIAZ/fYKZCNVe4nam5Xu
+         QkxKn0ujQ1lv/p4bF+vbGXslEqCRiH9QbXNpy9qhLCbUMHs9oxfB7swEu+JGDNaUR7Vk
+         y0imA7IN0N43+Ek4izMcbeeec/3cJf7qvp9sblx5g4V5Al963BGhGSC0udPi2ORhZSaT
+         DuEQ==
+X-Gm-Message-State: APjAAAXwhC5Y1QEZQPBE7DcL+0AJh0+G8Z+jd7lWRU8ApDREaO4NgyR/
+        4qk0vABcBKwfzVRqV/uqG1WzZltaQfEFPFnOntfEM3a5fy/B9JnLU8AO+fOC8R6lSK/SbTBn79d
+        2T6glU5XNs9d3nSKDEKfEPOfcvTulsbk+/dmtFYE=
+X-Received: by 2002:ac8:1a45:: with SMTP id q5mr16236856qtk.345.1570201305867;
+        Fri, 04 Oct 2019 08:01:45 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwiJF+4H8+qfJSDxsB0UVE/ONR5SDa8aI5t/r4XP14tNw4u37sRhUsIA6EZc5atyXAt5SrmCx4/DWm3ljy7XII=
+X-Received: by 2002:ac8:1a45:: with SMTP id q5mr16236825qtk.345.1570201305572;
+ Fri, 04 Oct 2019 08:01:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.68]); Fri, 04 Oct 2019 14:52:14 +0000 (UTC)
+References: <20191004073715.6075-1-hdegoede@redhat.com> <CAO-hwJ+kGmQSJZTO=PHKO6kTpwV6GwkbCkCMTtYV4=LabkUTNQ@mail.gmail.com>
+ <a4342ade-f5c6-f981-3957-8820937f89f2@redhat.com>
+In-Reply-To: <a4342ade-f5c6-f981-3957-8820937f89f2@redhat.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 4 Oct 2019 11:01:33 -0400
+Message-ID: <CAO-hwJ+_nQJgPqtWAhp==rR-k40ARf_-2GOOpFbzGziFSp_o6Q@mail.gmail.com>
+Subject: Re: [PATCH] HID: logitech: Add depends on LEDS_CLASS to Logitech
+ Kconfig entry
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        kbuild test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add touchscreen info for the Chuwi Vi8 Plus tablet. This tablet uses a
-Chipone ICN8505 touchscreen controller, with the firmware used by the
-touchscreen embedded in the EFI firmware.
+On Fri, Oct 4, 2019 at 8:05 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 10/4/19 1:30 PM, Benjamin Tissoires wrote:
+> > Hi Hans,
+> >
+> > On Fri, Oct 4, 2019 at 3:37 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> >>
+> >> Commit 97b741aba918 ("HID: lg-g15: Add keyboard and LCD backlight control")
+> >> makes the hid-lg15 kernel module, which gets configured through config
+> >> HID_LOGITECH depends on symbols from the led class. Add a depends on
+> >> LEDS_CLASS to HID_LOGITECH to avoid undefined reference errors on the
+> >> led class symbols.
+> >>
+> >> Fixes: 97b741aba918 ("HID: lg-g15: Add keyboard and LCD backlight control")
+> >> Reported-by: kbuild test robot <lkp@intel.com>
+> >> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >> ---
+> >>   drivers/hid/Kconfig | 1 +
+> >>   1 file changed, 1 insertion(+)
+> >>
+> >> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> >> index 1ecb5124421c..494a39e74939 100644
+> >> --- a/drivers/hid/Kconfig
+> >> +++ b/drivers/hid/Kconfig
+> >> @@ -525,6 +525,7 @@ config HID_LENOVO
+> >>   config HID_LOGITECH
+> >>          tristate "Logitech devices"
+> >>          depends on HID
+> >> +       depends on LEDS_CLASS
+> >
+> > My CI failed with this patch. It seems this creates a loop in the
+> > dependencies and I can not create the config file. Also, it seems
+> > weird to have a depends on LEDS_CLASS when you surely wants to enable
+> > it. How about using SELECT instead?
+>
+> That is weird, there is a whole bunch of other HID_FOO config
+> symbols in drivers/hid/Kconfig which also have a depends on LEDS_CLASS,
+> so if this is a problem then it should be a problem for those other ones
+> too.
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v7:
-- Remove PROPERTY_ENTRY_BOOL("efi-embedded-firmware") properties entry,
-  as this is no longer necessary
+Yeah, it seems it's my script that generates the config that is bugged...
 
-Changes in v6:
-- Switch from crc sums to SHA256 hashes for the firmware hash
----
- drivers/platform/x86/touchscreen_dmi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+>
+> I do see that there are others which use select instead of depends
+> (yeah consistency) so I guess that changing to select is fine here...
+>
+> Please let me know how you want to proceed with this.
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 8a7d5c8df114..8bfef880e216 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -132,6 +132,18 @@ static const struct ts_dmi_data chuwi_vi8_data = {
- 	.properties     = chuwi_vi8_props,
- };
- 
-+static const struct ts_dmi_data chuwi_vi8_plus_data = {
-+	.embedded_fw = {
-+		.name	= "chipone/icn8505-HAMP0002.fw",
-+		.prefix = { 0xb0, 0x07, 0x00, 0x00, 0xe4, 0x07, 0x00, 0x00 },
-+		.length	= 35012,
-+		.sha256	= { 0x93, 0xe5, 0x49, 0xe0, 0xb6, 0xa2, 0xb4, 0xb3,
-+			    0x88, 0x96, 0x34, 0x97, 0x5e, 0xa8, 0x13, 0x78,
-+			    0x72, 0x98, 0xb8, 0x29, 0xeb, 0x5c, 0xa7, 0xf1,
-+			    0x25, 0x13, 0x43, 0xf4, 0x30, 0x7c, 0xfc, 0x7c },
-+	},
-+};
-+
- static const struct property_entry chuwi_vi10_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-min-x", 0),
- 	PROPERTY_ENTRY_U32("touchscreen-min-y", 4),
-@@ -709,6 +721,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_BIOS_VERSION, "CHUWI.D86JLBNR"),
- 		},
- 	},
-+	{
-+		/* Chuwi Vi8 Plus (CWI519) */
-+		.driver_data = (void *)&chuwi_vi8_plus_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Hampoo"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "D2D3_Vi8A1"),
-+			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
-+		},
-+	},
- 	{
- 		/* Chuwi Vi10 (CWI505) */
- 		.driver_data = (void *)&chuwi_vi10_data,
-@@ -1085,6 +1106,9 @@ static int __init ts_dmi_init(void)
- 		return 0; /* Not an error */
- 
- 	ts_data = dmi_id->driver_data;
-+	/* Some dmi table entries only provide an efi_embedded_fw_desc */
-+	if (!ts_data->properties)
-+		return 0;
- 
- 	error = bus_register_notifier(&i2c_bus_type, &ts_dmi_notifier);
- 	if (error)
--- 
-2.23.0
+I'll try to fix this and will push the depnds preferably or the
+selects if no other options is possible.
 
+Cheers,
+Benjamin
+
+>
+> Regards,
+>
+> Hans
+>
