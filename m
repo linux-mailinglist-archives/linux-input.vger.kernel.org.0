@@ -2,100 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 42DA3CBC46
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2019 15:52:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95190CBC68
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2019 15:58:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388864AbfJDNwe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Oct 2019 09:52:34 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:34111 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388773AbfJDNwd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Oct 2019 09:52:33 -0400
-Received: by mail-wr1-f65.google.com with SMTP id j11so1536774wrp.1
-        for <linux-input@vger.kernel.org>; Fri, 04 Oct 2019 06:52:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=/NvVmuNoOB0cI3exs6clZvUlSAX7Buc7zqODPiW83oc=;
-        b=BAWysBsPte1eDOFAueq6l7aDz/lo8WQ4I00OCGcelbXMKdAaHfz7FnmV8vaWJUtuJl
-         XYSYy9P8BXBhxyBRaFO/SZb6sUBrhWoxzVUhi1BnayfEt6xfB1E5Syt3KiiCXlNIGXav
-         5+xHo8reipGBqmVqZxoa2DV2l3RZ1j6EblIJkMIDZ1ZB4htJ3izRSLbDYNSGJZOzj17V
-         Zcohv/yAKl9kPLc0stlmTD/HEXtMccfj5kHhf2ckYTm4pZ3pE2WiR7NYgy6LLP3LtgWU
-         U4Lh1s3ay5tdxqXImbzaKSLyVkITdDOpt7NFl+N7jVXt3t+/EMW4I3u5+veWBLx/x9wj
-         SNTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=/NvVmuNoOB0cI3exs6clZvUlSAX7Buc7zqODPiW83oc=;
-        b=kwGx1L1Ti+kNDT7Yu8cShtoCLp39zh5HqJAMp/G+t1l/3pF6wvhR9XAfH24A18TmT/
-         3jRCYR+y4vIMDISBvc1vFX41tYtSdrRbpOjdc8eZwPX/Mkr7q81Gk7J7EmQ0URqH2Uyb
-         YFbkb1Qh7CbTKbvHWL4ZRVEI6cIUPSHqHporg4joxiNLbcZAvphHlI4ROGV+IiES7xCa
-         XTvdpj1rszr6/PgnqvTCnGThEO2ka4B3q3mmEUj/IZa0Tf/xl7yic9e7de2+Z3MMg0x2
-         HAUPu+tMnpd83CE0o4QRL3UyPO5DvNCh3WO394CPwCp38UfIa4/3l3AFlxC5dcRvCz1W
-         3G3Q==
-X-Gm-Message-State: APjAAAUsQVvj7zwjzaKNMoig6wZsHcW4L9RbGgadjM/erdO2Us9OytZQ
-        flIRjt8D4P6kxHTlCKk49tWQiMXezWE=
-X-Google-Smtp-Source: APXvYqy2g3UP4Xetnx/eP45GILdnzIptbOKDy3NsV2tZHWR0IcpxUDP5HKAjTn9LSSeZcbJQp0Ux3g==
-X-Received: by 2002:a5d:4a09:: with SMTP id m9mr11842704wrq.93.1570197151233;
-        Fri, 04 Oct 2019 06:52:31 -0700 (PDT)
-Received: from dell ([2.27.167.122])
-        by smtp.gmail.com with ESMTPSA id x5sm5230136wrt.75.2019.10.04.06.52.30
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 04 Oct 2019 06:52:30 -0700 (PDT)
-Date:   Fri, 4 Oct 2019 14:52:29 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH 1/6] dt-bindings: mfd: max77650: convert the binding
- document to yaml
-Message-ID: <20191004135229.GF18429@dell>
-References: <20190930130246.4860-1-brgl@bgdev.pl>
- <20190930130246.4860-2-brgl@bgdev.pl>
+        id S2388727AbfJDN6b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Oct 2019 09:58:31 -0400
+Received: from uho.ysoft.cz ([81.19.3.130]:59932 "EHLO uho.ysoft.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387917AbfJDN6b (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 4 Oct 2019 09:58:31 -0400
+Received: from [10.1.8.111] (unknown [10.1.8.111])
+        by uho.ysoft.cz (Postfix) with ESMTP id 63D45A0686;
+        Fri,  4 Oct 2019 15:58:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+        s=20160406-ysoft-com; t=1570197509;
+        bh=NSu3S7p7MTW9O2H76RCxpJdcvr7LUAIJMkQnS5/xml4=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=fti2dKfYTbuOBXHfAzKAgnKunm/Wuw3HU4I2SukF9H0pYYUxCAl/EjO5hi9eNu566
+         XNyiYoO5ZO4eL4MG2wXnilnD0TVRSk2S1YIvhXDsQXUJC9rZZorof+rDEc2oT5K8jz
+         FU0M9ayJMIlMzwG52g5PdTnGok8BCQ4jfyRbNVnk=
+Subject: Re: [PATCH v3 2/5] dt-bindings: input: Convert mpr121 binding to
+ json-schema
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Shawn Guo <shawnguo@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org
+References: <1570083176-8231-1-git-send-email-michal.vokac@ysoft.com>
+ <1570083176-8231-3-git-send-email-michal.vokac@ysoft.com>
+From:   =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+Message-ID: <290d4ca9-5e56-5a2b-56d2-15b8ee7f4831@ysoft.com>
+Date:   Fri, 4 Oct 2019 15:58:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <1570083176-8231-3-git-send-email-michal.vokac@ysoft.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190930130246.4860-2-brgl@bgdev.pl>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 30 Sep 2019, Bartosz Golaszewski wrote:
-
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On 03. 10. 19 8:12, Michal Vokáč wrote:
+> Convert the mpr121 binding to DT schema format using json-schema.
 > 
-> Convert the binding document for max77650 core mfd module to yaml.
-
-MAX77650, MFD, YAML.
-
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
 > ---
->  .../devicetree/bindings/mfd/max77650.txt      | 47 +----------
->  .../devicetree/bindings/mfd/max77650.yaml     | 83 +++++++++++++++++++
->  2 files changed, 84 insertions(+), 46 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/mfd/max77650.yaml
+> Changes since v2:
+>   - None
+> 
+> Changes since v1:
+>   - Extract the common input properties into the input.yaml schema.
+>   - Fix the wakeup-source description.
+>   - Fix the example to pass validation. Put the mpr121 device sub-node
+>     into a i2c {} node.
+> 
+> The linux,keycodes property is not valid as it is. If I put the minItems
+> and maxItems into the common schema, it is valid and the min/max length
+> check works fine. Rob, could you advice how to fix this please?
 
-Looks okay in principle, but needs a DT Ack.  Preferably from someone
-who speaks YAML.
+This error is no longer present - it is fixed in the latest version of
+meta-schema. Thank you, Rob!
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+> The error is not very specific..
+> 
+> $ make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
+>    SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
+> /home/vokac/development/sources/linux-fslc/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml: ignoring, error in schema 'linux,ke
+> warning: no schema found in file: /home/vokac/development/sources/linux-fslc/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
+> /home/vokac/development/sources/linux-fslc/Documentation/devicetree/bindings/Makefile:33: recipe for target 'Documentation/devicetree/bindings/p
+> make[3]: *** [Documentation/devicetree/bindings/processed-schema.yaml] Error 255
+> /home/vokac/development/sources/linux-fslc/Makefile:1264: recipe for target 'dt_binding_check' failed
+
