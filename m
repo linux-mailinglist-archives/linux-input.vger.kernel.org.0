@@ -2,77 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95190CBC68
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2019 15:58:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCBDECBC69
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2019 15:58:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388727AbfJDN6b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Oct 2019 09:58:31 -0400
-Received: from uho.ysoft.cz ([81.19.3.130]:59932 "EHLO uho.ysoft.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387917AbfJDN6b (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 4 Oct 2019 09:58:31 -0400
-Received: from [10.1.8.111] (unknown [10.1.8.111])
-        by uho.ysoft.cz (Postfix) with ESMTP id 63D45A0686;
-        Fri,  4 Oct 2019 15:58:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
-        s=20160406-ysoft-com; t=1570197509;
-        bh=NSu3S7p7MTW9O2H76RCxpJdcvr7LUAIJMkQnS5/xml4=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=fti2dKfYTbuOBXHfAzKAgnKunm/Wuw3HU4I2SukF9H0pYYUxCAl/EjO5hi9eNu566
-         XNyiYoO5ZO4eL4MG2wXnilnD0TVRSk2S1YIvhXDsQXUJC9rZZorof+rDEc2oT5K8jz
-         FU0M9ayJMIlMzwG52g5PdTnGok8BCQ4jfyRbNVnk=
-Subject: Re: [PATCH v3 2/5] dt-bindings: input: Convert mpr121 binding to
- json-schema
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-References: <1570083176-8231-1-git-send-email-michal.vokac@ysoft.com>
- <1570083176-8231-3-git-send-email-michal.vokac@ysoft.com>
-From:   =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
-Message-ID: <290d4ca9-5e56-5a2b-56d2-15b8ee7f4831@ysoft.com>
-Date:   Fri, 4 Oct 2019 15:58:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S2388733AbfJDN6o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Oct 2019 09:58:44 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:32845 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388149AbfJDN6o (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Oct 2019 09:58:44 -0400
+Received: by mail-wm1-f65.google.com with SMTP id r17so9688283wme.0
+        for <linux-input@vger.kernel.org>; Fri, 04 Oct 2019 06:58:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=Dw8CR7XEfOJ9npS37MQu+Odwfp7WIPeVgi6WO13Fiz8=;
+        b=NZ63z1xbbA8zyZllIg94iS2Gl8dmSZBFbzDDievubTzQdWyhcPRpEpeqP+TRNnITBz
+         ESTirw/C1bsYg1SuDnnPBJoMOcwl5y/M+eR0bUavEA/ImrQFbYKnadf5eH05cZTKhFmw
+         r4YgwYc2d9D1+Rb0vStCa7no5QfdjzMq63m4qJ/dicCu11SXBtao9lggWXcmhn+YhxOv
+         k0hZLFhUuDXnuMe9WJZjeS0EyYkhPiVgW77yoCELJM1OW1uW2e1NnL/ZBiloAx04WdjN
+         uebT2jmwJsNhAxnoexJkFkU0n1UiwwgZ0qoOJjfZUlIwen+NptFgGovzzTXuX0saHPQ1
+         P3UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=Dw8CR7XEfOJ9npS37MQu+Odwfp7WIPeVgi6WO13Fiz8=;
+        b=YIBdVZSswLqJaYlwcsIRbXLggdGVI0MTxoLdyLjwUbk97mQRkZQXjxIH4BGeznjr/K
+         cdOxNuEIoTNzumrpv6V3C7K4aoKIh2q8roRaOlzTpuX9Kn220VHPDOYoB+vTexElaYpP
+         7kuJu4SSql2Ob2DGdcS33swQR4kbRW39KKqEN8NkVcXzhawkEEsorxnQ78K6vKDbcxru
+         2/EMd0sQhkfKUW3DCe4od4R1qQVbuHTUFLuIfDMxi7RgTpegiDvcManB4nPvtD4XxPKT
+         rxmd9QnM/hmtxo+p1uoykslp3z/DtZv3h70HwOIC0p2BLfXsUIoMP4jL8LC2jfZ0darQ
+         aaNA==
+X-Gm-Message-State: APjAAAWEzntOlXDcjWhzB1cbF01uomziB2e8AFsrc/CVEm6jgMMK4E9k
+        0yuk5kWagPprlDudwIOxphSjmQ==
+X-Google-Smtp-Source: APXvYqxsSuehmxsrNPOlj9JuBPTRmUAulOr74tH9QtvFC3b0fMLFsR6SbdAFKt15AEdgwZaAq8dRAA==
+X-Received: by 2002:a7b:c776:: with SMTP id x22mr10088165wmk.123.1570197521770;
+        Fri, 04 Oct 2019 06:58:41 -0700 (PDT)
+Received: from dell ([2.27.167.122])
+        by smtp.gmail.com with ESMTPSA id m18sm12287804wrg.97.2019.10.04.06.58.40
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 04 Oct 2019 06:58:40 -0700 (PDT)
+Date:   Fri, 4 Oct 2019 14:58:39 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Lukasz Majewski <lukma@denx.de>
+Cc:     linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Enrico Weigelt <info@metux.net>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-input@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v5 1/3] mfd: mc13xxx: Add mc34708 adc support
+Message-ID: <20191004135839.GG18429@dell>
+References: <20190909214440.30674-1-lukma@denx.de>
+ <20190909214440.30674-2-lukma@denx.de>
 MIME-Version: 1.0
-In-Reply-To: <1570083176-8231-3-git-send-email-michal.vokac@ysoft.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190909214440.30674-2-lukma@denx.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 03. 10. 19 8:12, Michal Vokáč wrote:
-> Convert the mpr121 binding to DT schema format using json-schema.
+On Mon, 09 Sep 2019, Lukasz Majewski wrote:
+
+> From: Sascha Hauer <s.hauer@pengutronix.de>
 > 
-> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+> The mc34708 has an improved adc. The older variants will always convert
+> a fixed order of channels. The mc34708 can do up to eight conversions
+> in arbitrary channel order. Currently this extended feature is not
+> supported. We only support touchscreen conversions now, which will
+> be sampled in a data format compatible to the older chips in order
+> to keep the API between the mfd and the touchscreen driver.
+
+Please take this opportunity to split all the ADC stuff out into an
+ADC specific driver.
+
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> 
 > ---
-> Changes since v2:
->   - None
+> Changes for v5:
+> - Remove adc_do_conversion() callbacks from struct mc13xxx_variant
+> - Remove duplicated MC13XXX_ADC_WORKING #define
 > 
-> Changes since v1:
->   - Extract the common input properties into the input.yaml schema.
->   - Fix the wakeup-source description.
->   - Fix the example to pass validation. Put the mpr121 device sub-node
->     into a i2c {} node.
+> Changes for v4:
+> - None
 > 
-> The linux,keycodes property is not valid as it is. If I put the minItems
-> and maxItems into the common schema, it is valid and the min/max length
-> check works fine. Rob, could you advice how to fix this please?
-
-This error is no longer present - it is fixed in the latest version of
-meta-schema. Thank you, Rob!
-
-> The error is not very specific..
+> Changes for v3:
+> - None
 > 
-> $ make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
->    SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
-> /home/vokac/development/sources/linux-fslc/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml: ignoring, error in schema 'linux,ke
-> warning: no schema found in file: /home/vokac/development/sources/linux-fslc/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> /home/vokac/development/sources/linux-fslc/Documentation/devicetree/bindings/Makefile:33: recipe for target 'Documentation/devicetree/bindings/p
-> make[3]: *** [Documentation/devicetree/bindings/processed-schema.yaml] Error 255
-> /home/vokac/development/sources/linux-fslc/Makefile:1264: recipe for target 'dt_binding_check' failed
+> Changes for v2:
+> - Change the return code patch when the mc13xxx ADC is performing conversion
+> - Introduce new include/linux/mfd/mc34708.h header file for mc34708 specific
+>   defines
+> 
+> Changes from the original patches:
+> - ADC conversion functions prototypes added to fix build error
+> - Adjustments to make checkpatch clean (-ENOSYS, line over 80 char)
+> 
+> This patch applies on top of Linux 5.3-rc8
+> SHA1: f74c2bb98776e2de508f4d607cd519873065118e
+> ---
+>  drivers/mfd/mc13xxx-core.c  | 98 ++++++++++++++++++++++++++++++++++++-
+>  include/linux/mfd/mc34708.h | 37 ++++++++++++++
+>  2 files changed, 133 insertions(+), 2 deletions(-)
+>  create mode 100644 include/linux/mfd/mc34708.h
 
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
