@@ -2,137 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E39DCC59B
-	for <lists+linux-input@lfdr.de>; Sat,  5 Oct 2019 00:07:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 639B6CC662
+	for <lists+linux-input@lfdr.de>; Sat,  5 Oct 2019 01:17:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726780AbfJDWHU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Oct 2019 18:07:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42078 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726002AbfJDWHU (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 4 Oct 2019 18:07:20 -0400
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A26A92A09BA
-        for <linux-input@vger.kernel.org>; Fri,  4 Oct 2019 22:07:19 +0000 (UTC)
-Received: by mail-ed1-f71.google.com with SMTP id p55so4949128edc.5
-        for <linux-input@vger.kernel.org>; Fri, 04 Oct 2019 15:07:19 -0700 (PDT)
+        id S1731387AbfJDXRi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Oct 2019 19:17:38 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:37040 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729976AbfJDXRh (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Oct 2019 19:17:37 -0400
+Received: by mail-pg1-f194.google.com with SMTP id p1so2812149pgi.4;
+        Fri, 04 Oct 2019 16:17:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=N6lld3QVqJ8v+1IBZTT7yl5zFiTihenHGMLoJcSj8pc=;
+        b=M2KIa1h3cLctN2IUIjhYHR3D5/YPSUOLWsOO+ubugv/OGi5dURuk/tPs38woAwqL+a
+         R8WFcDve8wRIPrygkMRObUTaD5m/YF2oMtpoRH3Brtl8S2kCuGOQQpwCQBCCi2S8qyXO
+         TKfcDOsQr522/TIKefYh8Jx0EG9dlYQqaLr9KJ59nBFuH7Gj1i3zRVCfToVQOUrlfLN8
+         m2UJiITUfRxFfGP4hxMPeEVQL9QicvoeRtkW+WIFGZYD54Vr2WmwZaY94dDa+WfNj81M
+         oIdtUeIvJuj/5WkpeUG4Ec56EyLle2fHaOeVdNqDXTSxMdF6GaXGoP8jeXr/ZQMw294Y
+         IeeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Uam/3duvWTvFhnuDUue8U73fo4Zp2lBsCMnIA+fsGXk=;
-        b=a8XyejlmRKsJbYoSEAje+YwOhMXu7FX0zKQJODmslfTSjwt/v/IB1+w7FStV/7YeSL
-         sdJvjXuyHTz6TScwYHB4OPvlCwYyga1GWt+tbHlZ5ijQvnhwCxE9UZ23BnItM9AmtMZT
-         vjxh7L/l1jibCe8OnlYroyoYoFrOaN8p5Os/RkjFlGDdjsgd4y4RftdHMuhh1/nMANQR
-         +F19Gwb+Cu8Bp8GnOqPXL4qGbS5vS9SnG2tz8EoEHPp8XQXfYSQP3glSIYeATEO8NZsn
-         +dH/HDq8GuJ+Res5uZS22th5FmZEiWj6JmoADvkRcT5H4qqeR9MjDQ7mUsf5hvG5N1wa
-         rPaw==
-X-Gm-Message-State: APjAAAV04P6HBzp5BQIcJ/gQHmmwSSE6J5l2BCxCZIINsvbb4ygkYJBD
-        9P/qkzv3sOT83Hs4Rn+9x9fRz6zH3Xtb5peG/bblYyqvd3XXLtZ7Epuuxkh2fRqFnR3hsDCLDxa
-        CQ1mkSdfmaAvhWrXRezOq0lw=
-X-Received: by 2002:aa7:dc4b:: with SMTP id g11mr17894446edu.70.1570226838373;
-        Fri, 04 Oct 2019 15:07:18 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxmYoGQJk9xqnPF+XfADfg/AQzQ65Xjlxm/ewT4dbzIZpwdmoipLUy0i2qZCbY5TIALrd6ueA==
-X-Received: by 2002:aa7:dc4b:: with SMTP id g11mr17894435edu.70.1570226838200;
-        Fri, 04 Oct 2019 15:07:18 -0700 (PDT)
-Received: from shalem.localdomain (2001-1c00-0c14-2800-ec23-a060-24d5-2453.cable.dynamic.v6.ziggo.nl. [2001:1c00:c14:2800:ec23:a060:24d5:2453])
-        by smtp.gmail.com with ESMTPSA id gl4sm770631ejb.6.2019.10.04.15.07.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Oct 2019 15:07:17 -0700 (PDT)
-Subject: Re: [PATCH] HID: logitech: Add depends on LEDS_CLASS to Logitech
- Kconfig entry
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        kbuild test robot <lkp@intel.com>
-References: <20191004073715.6075-1-hdegoede@redhat.com>
- <CAO-hwJ+kGmQSJZTO=PHKO6kTpwV6GwkbCkCMTtYV4=LabkUTNQ@mail.gmail.com>
- <a4342ade-f5c6-f981-3957-8820937f89f2@redhat.com>
- <CAO-hwJ+_nQJgPqtWAhp==rR-k40ARf_-2GOOpFbzGziFSp_o6Q@mail.gmail.com>
- <CAO-hwJKJY+_Wi73FGm51wd50qgLZAMTsfdn9K+nDvkcTrL9aTA@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <a30ef480-0335-33eb-4a41-f7c62ef585f7@redhat.com>
-Date:   Sat, 5 Oct 2019 00:07:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=N6lld3QVqJ8v+1IBZTT7yl5zFiTihenHGMLoJcSj8pc=;
+        b=IJipXFazBFQ8bCkWNJreoiglBbDqVl6yjrTg1y8ZLJZv/xaVjaHdUAY8uMj9/2T/hF
+         8HQPP5bVujbqZSsSJp06EKEs4aHpfIhpiTFTjGqLmRJ8DRhs5vZ8rzogySUFUxUepxUk
+         nxdYfGzMG92lXtpFyUacWHBgeawtk2d0Qtn6SyArv51UeKeQ/+3/L2qMDf9dGuDB32NW
+         6cCV9hjthiH8Bdqsptn2j5R6duA897nmaEOteXCHPkoNWeWpNO+43XQXzJeLbWKcjTVb
+         yYQk+NGty1mApNbfT+hnBrov94SxU6013/NBd97XGUtTqeET+hIsXjtFK2e/8pSNVkiQ
+         1cKQ==
+X-Gm-Message-State: APjAAAXrNe1ty8wBdtW49/85GC3Eu0Ftku7gKOR41/bmNBNAXGDTh6P5
+        3EgSnRjzaT/WAKN+1lramJY=
+X-Google-Smtp-Source: APXvYqzfju1b5POi3rNfttLsKtoz2qe/HVmRXl91wV/sbwVNPo/D9T4qmwes+Mp3fb1tIwUmmqiR4Q==
+X-Received: by 2002:a17:90a:9a1:: with SMTP id 30mr20259144pjo.71.1570231056558;
+        Fri, 04 Oct 2019 16:17:36 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id p88sm8055120pjp.22.2019.10.04.16.17.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Oct 2019 16:17:35 -0700 (PDT)
+Date:   Fri, 4 Oct 2019 16:17:33 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 4/8] firmware: Add new platform fallback mechanism and
+ firmware_request_platform()
+Message-ID: <20191004231733.GF22365@dtor-ws>
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191004145056.43267-5-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAO-hwJKJY+_Wi73FGm51wd50qgLZAMTsfdn9K+nDvkcTrL9aTA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191004145056.43267-5-hdegoede@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Hans,
 
-On 04-10-2019 18:22, Benjamin Tissoires wrote:
-> On Fri, Oct 4, 2019 at 11:01 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
->>
->> On Fri, Oct 4, 2019 at 8:05 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>>
->>> Hi,
->>>
->>> On 10/4/19 1:30 PM, Benjamin Tissoires wrote:
->>>> Hi Hans,
->>>>
->>>> On Fri, Oct 4, 2019 at 3:37 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>>>>
->>>>> Commit 97b741aba918 ("HID: lg-g15: Add keyboard and LCD backlight control")
->>>>> makes the hid-lg15 kernel module, which gets configured through config
->>>>> HID_LOGITECH depends on symbols from the led class. Add a depends on
->>>>> LEDS_CLASS to HID_LOGITECH to avoid undefined reference errors on the
->>>>> led class symbols.
->>>>>
->>>>> Fixes: 97b741aba918 ("HID: lg-g15: Add keyboard and LCD backlight control")
->>>>> Reported-by: kbuild test robot <lkp@intel.com>
->>>>> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
->>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>>>> ---
->>>>>    drivers/hid/Kconfig | 1 +
->>>>>    1 file changed, 1 insertion(+)
->>>>>
->>>>> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
->>>>> index 1ecb5124421c..494a39e74939 100644
->>>>> --- a/drivers/hid/Kconfig
->>>>> +++ b/drivers/hid/Kconfig
->>>>> @@ -525,6 +525,7 @@ config HID_LENOVO
->>>>>    config HID_LOGITECH
->>>>>           tristate "Logitech devices"
->>>>>           depends on HID
->>>>> +       depends on LEDS_CLASS
->>>>
->>>> My CI failed with this patch. It seems this creates a loop in the
->>>> dependencies and I can not create the config file. Also, it seems
->>>> weird to have a depends on LEDS_CLASS when you surely wants to enable
->>>> it. How about using SELECT instead?
->>>
->>> That is weird, there is a whole bunch of other HID_FOO config
->>> symbols in drivers/hid/Kconfig which also have a depends on LEDS_CLASS,
->>> so if this is a problem then it should be a problem for those other ones
->>> too.
->>
->> Yeah, it seems it's my script that generates the config that is bugged...
->>
->>>
->>> I do see that there are others which use select instead of depends
->>> (yeah consistency) so I guess that changing to select is fine here...
->>>
->>> Please let me know how you want to proceed with this.
->>
->> I'll try to fix this and will push the depnds preferably or the
->> selects if no other options is possible.
+On Fri, Oct 04, 2019 at 04:50:52PM +0200, Hans de Goede wrote:
+> In some cases the platform's main firmware (e.g. the UEFI fw) may contain
+> an embedded copy of device firmware which needs to be (re)loaded into the
+> peripheral. Normally such firmware would be part of linux-firmware, but in
+> some cases this is not feasible, for 2 reasons:
 > 
-> I just fixed my config script and pushed your patch on top of for-5.5/logitech.
+> 1) The firmware is customized for a specific use-case of the chipset / use
+> with a specific hardware model, so we cannot have a single firmware file
+> for the chipset. E.g. touchscreen controller firmwares are compiled
+> specifically for the hardware model they are used with, as they are
+> calibrated for a specific model digitizer.
+> 
+> 2) Despite repeated attempts we have failed to get permission to
+> redistribute the firmware. This is especially a problem with customized
+> firmwares, these get created by the chip vendor for a specific ODM and the
+> copyright may partially belong with the ODM, so the chip vendor cannot
+> give a blanket permission to distribute these.
+> 
+> This commit adds a new platform fallback mechanism to the firmware loader
+> which will try to lookup a device fw copy embedded in the platform's main
+> firmware if direct filesystem lookup fails.
+> 
+> Drivers which need such embedded fw copies can enable this fallback
+> mechanism by using the new firmware_request_platform() function.
 
-Great, thank you.
+Why would drivers not want to fetch firmware from system firmware if it
+is not present on disk? I would say let driver to opt-out of this
+fallback, but default request_firmware() should do it by default.
 
-Regards,
+Thanks.
 
-Hans
+-- 
+Dmitry
