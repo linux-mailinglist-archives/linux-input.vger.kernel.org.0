@@ -2,117 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CFB33CB9CC
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2019 14:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFD01CBBBD
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2019 15:33:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729714AbfJDMFB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Oct 2019 08:05:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46268 "EHLO mx1.redhat.com"
+        id S2388669AbfJDNdH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Oct 2019 09:33:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43412 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729259AbfJDMFA (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 4 Oct 2019 08:05:00 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
+        id S2388654AbfJDNdH (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 4 Oct 2019 09:33:07 -0400
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 5F521C00A167
-        for <linux-input@vger.kernel.org>; Fri,  4 Oct 2019 12:05:00 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id y18so491152wrw.8
-        for <linux-input@vger.kernel.org>; Fri, 04 Oct 2019 05:05:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6bggkKxqmMoit9chu7ZQXRtPJSbRjO0Jtild1gVtSGQ=;
-        b=Ksj/qZl5UIjTy2pqWMuQbDI4YkrcseTEgqFXdgRKBAErLsgDR9JgfhWReM9ozl8Qpg
-         3FodeajgqsrQxar88rYL/Y2XR6xY5xtdeThrZWKkwTYOJwkl4KJ9RWOuWyaR3Rg3ue+7
-         SQJ7OB1JKyyNXF2BZfAi1sHLMJjix8XKbRGUcoLL4vyNgedED6gTdovQ28hO/5rfDWGQ
-         hyFbaSpXaJZGPjKUyn6RhUttpqyXL19lX3bubcIGFwfiuq3WDDimzTn2/N01OzrWHkmU
-         MVY8zQWIJwVy/52phZnbx03gSmkTxLU1Mc+Ny1Xiuvqp0qJVGEOyCcBZe0HbMBE1ddT2
-         3kSg==
-X-Gm-Message-State: APjAAAUWJC0Iu7cxDOYLagLINjcy6AUWkifeW/5pQL0gPhJmLKySL7Vh
-        FCxoxHWxjgY6Pc6LWRBDLOsQpLzFy0Pj4tCvLsWD5OxsGVyNOMoo2oAE1Fy8ijpqLn7pESZd2Zv
-        pla4RkWGkmas6u8sCdHFLQKM=
-X-Received: by 2002:a1c:f602:: with SMTP id w2mr10296315wmc.145.1570190699115;
-        Fri, 04 Oct 2019 05:04:59 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzjvS6UvM3Q+SHEg3+BABK4ijskuno+7NeL38pG/bUHHIoTfQQ3qvotlnSp3XFmPlVgRem8Ww==
-X-Received: by 2002:a1c:f602:: with SMTP id w2mr10296301wmc.145.1570190698928;
-        Fri, 04 Oct 2019 05:04:58 -0700 (PDT)
-Received: from dhcp-44-196.space.revspace.nl ([2a0e:5700:4:11:6eb:1143:b8be:2b8])
-        by smtp.gmail.com with ESMTPSA id g1sm6018969wrv.68.2019.10.04.05.04.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Oct 2019 05:04:58 -0700 (PDT)
-Subject: Re: [PATCH] HID: logitech: Add depends on LEDS_CLASS to Logitech
- Kconfig entry
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        kbuild test robot <lkp@intel.com>
-References: <20191004073715.6075-1-hdegoede@redhat.com>
- <CAO-hwJ+kGmQSJZTO=PHKO6kTpwV6GwkbCkCMTtYV4=LabkUTNQ@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <a4342ade-f5c6-f981-3957-8820937f89f2@redhat.com>
-Date:   Fri, 4 Oct 2019 14:04:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        by mail.kernel.org (Postfix) with ESMTPSA id EE04C222C2;
+        Fri,  4 Oct 2019 13:33:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570195986;
+        bh=bmDRvBtZ//Z1OJ+9OeeRi1LyxMkGRLlVXYnDKD4c1bM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QBlwBZlMJrI9nOPsxFqz4+IRxKTvOqWeYZpTf5XgrGQTBJ+radjsrBLwfwodgZFHI
+         El+kdp7wR6XCIBc/A0i3FRVZqzEnr5kCw3Ab0bX+rdnmjAPpaf0DiRNP8XkXMqukUl
+         HVpy0a4Hb15g+RTFfeTYcu5bNolxEUoejKJPdeY8=
+Received: by mail-qt1-f182.google.com with SMTP id o12so8563785qtf.3;
+        Fri, 04 Oct 2019 06:33:05 -0700 (PDT)
+X-Gm-Message-State: APjAAAXzDxwYS2JxcaQBQ4+bebQfQuS8v08DKCIATOVyQPA+/Gsw0Rzg
+        9r3TQXCAdxVTQI7LgNe2bgNO7UBSux+h6xWWDQ==
+X-Google-Smtp-Source: APXvYqyZqg0ojFsRNWqARY0z+z0W0gJ+AtVgT8GsWMZt48VBOYLQCkl6etWJrCiqcKpRPjTKtqujLVfrAehyLnZKid0=
+X-Received: by 2002:ac8:75c7:: with SMTP id z7mr1290160qtq.136.1570195985110;
+ Fri, 04 Oct 2019 06:33:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAO-hwJ+kGmQSJZTO=PHKO6kTpwV6GwkbCkCMTtYV4=LabkUTNQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1569940180-11417-1-git-send-email-michal.vokac@ysoft.com>
+ <1569940180-11417-3-git-send-email-michal.vokac@ysoft.com>
+ <CAL_Jsq+DTyVKn4je=_kARoo43wr_fhyxXUEZWEDhHDZ2pDiqPQ@mail.gmail.com> <44000610-75bb-7243-8ca3-411832745817@ysoft.com>
+In-Reply-To: <44000610-75bb-7243-8ca3-411832745817@ysoft.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 4 Oct 2019 08:32:52 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLAYpRvXLYaMonr=jVkX2-Lq9fWzJQrzFfn6q4MO8M8dA@mail.gmail.com>
+Message-ID: <CAL_JsqLAYpRvXLYaMonr=jVkX2-Lq9fWzJQrzFfn6q4MO8M8dA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] dt-bindings: input: Convert mpr121 binding to json-schema
+To:     =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Linux Input <linux-input@vger.kernel.org>,
+        devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Fri, Oct 4, 2019 at 2:40 AM Michal Vok=C3=A1=C4=8D <michal.vokac@ysoft.c=
+om> wrote:
+>
+> On 03. 10. 19 21:09, Rob Herring wrote:
+> > On Tue, Oct 1, 2019 at 9:29 AM Michal Vok=C3=A1=C4=8D <michal.vokac@yso=
+ft.com> wrote:
+> >>
+> >> Convert the mpr121 binding to DT schema format using json-schema.
+> >>
+> >> Signed-off-by: Michal Vok=C3=A1=C4=8D <michal.vokac@ysoft.com>
+> >> ---
+> >> Changes since v1:
+> >>   - Extract the common input properties into the input.yaml schema.
+> >>   - Fix the wakeup-source description.
+> >>   - Fix the example to pass validation. Put the mpr121 device sub-node
+> >>     into a i2c {} node.
+> >>
+> >> Rob, the linux,keycodes property is not valid as it is.
+> >> If I put the minItems and maxItems into the common schema, it is valid
+> >> and the min/max length check works fine. What could be wrong?
+> >>
+> >> The error is not very specific..
+> >
+> > That's a side effect of an 'allOf' somewhere in the meta-schema.
+> >
+> >> $ make dt_binding_check DT_SCHEMA_FILES=3DDocumentation/devicetree/bin=
+dings/input/fsl,mpr121-touchkey.yaml
+> >>    SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
+> >> /home/vokac/development/sources/linux-fslc/Documentation/devicetree/bi=
+ndings/input/fsl,mpr121-touchkey.yaml: ignoring, error in schema 'linux,key=
+codes'
+> >> warning: no schema found in file: /home/vokac/development/sources/linu=
+x-fslc/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
+> >> /home/vokac/development/sources/linux-fslc/Documentation/devicetree/bi=
+ndings/Makefile:33: recipe for target 'Documentation/devicetree/bindings/pr=
+ocessed-schema.yaml' failed
+> >> make[3]: *** [Documentation/devicetree/bindings/processed-schema.yaml]=
+ Error 255
+> >> /home/vokac/development/sources/linux-fslc/Makefile:1264: recipe for t=
+arget 'dt_binding_check' failed
+> >
+> > I'm working on a fix for this. It's a problem in the meta-schema.
+>
+> OK, thanks a lot!
 
-On 10/4/19 1:30 PM, Benjamin Tissoires wrote:
-> Hi Hans,
-> 
-> On Fri, Oct 4, 2019 at 3:37 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Commit 97b741aba918 ("HID: lg-g15: Add keyboard and LCD backlight control")
->> makes the hid-lg15 kernel module, which gets configured through config
->> HID_LOGITECH depends on symbols from the led class. Add a depends on
->> LEDS_CLASS to HID_LOGITECH to avoid undefined reference errors on the
->> led class symbols.
->>
->> Fixes: 97b741aba918 ("HID: lg-g15: Add keyboard and LCD backlight control")
->> Reported-by: kbuild test robot <lkp@intel.com>
->> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>   drivers/hid/Kconfig | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
->> index 1ecb5124421c..494a39e74939 100644
->> --- a/drivers/hid/Kconfig
->> +++ b/drivers/hid/Kconfig
->> @@ -525,6 +525,7 @@ config HID_LENOVO
->>   config HID_LOGITECH
->>          tristate "Logitech devices"
->>          depends on HID
->> +       depends on LEDS_CLASS
-> 
-> My CI failed with this patch. It seems this creates a loop in the
-> dependencies and I can not create the config file. Also, it seems
-> weird to have a depends on LEDS_CLASS when you surely wants to enable
-> it. How about using SELECT instead?
+I've committed an update to the meta-schema. Please update dtschema
+and it should work for you.
 
-That is weird, there is a whole bunch of other HID_FOO config
-symbols in drivers/hid/Kconfig which also have a depends on LEDS_CLASS,
-so if this is a problem then it should be a problem for those other ones
-too.
-
-I do see that there are others which use select instead of depends
-(yeah consistency) so I guess that changing to select is fine here...
-
-Please let me know how you want to proceed with this.
-
-Regards,
-
-Hans
-
+Rob
