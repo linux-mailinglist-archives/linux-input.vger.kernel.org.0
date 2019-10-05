@@ -2,100 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 266D9CC978
-	for <lists+linux-input@lfdr.de>; Sat,  5 Oct 2019 12:56:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E43E3CC9DD
+	for <lists+linux-input@lfdr.de>; Sat,  5 Oct 2019 14:17:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727612AbfJEKzz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Oct 2019 06:55:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43592 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727597AbfJEKzz (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 5 Oct 2019 06:55:55 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 7B93F89810C;
-        Sat,  5 Oct 2019 10:55:54 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-45.ams2.redhat.com [10.36.116.45])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1C7A55D9DC;
-        Sat,  5 Oct 2019 10:55:52 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        id S1728196AbfJEMRg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Oct 2019 08:17:36 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:35161 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726125AbfJEMRg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Oct 2019 08:17:36 -0400
+Received: by mail-wr1-f66.google.com with SMTP id v8so10144081wrt.2;
+        Sat, 05 Oct 2019 05:17:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3zd+V+RmC0XBjJLG/tJ4b5ULCb6ekikQ2mIQfiu1wGU=;
+        b=Im652tskmjY3fkD4uIinJtQQBkZholkNs7KR6f5n1L+HxMUWoz+cIKHufv9TL5rHb6
+         /RIXSDlJzlKalhA01KzGVjjshe6ANNHDwuZE5n+4BIkBt6kUwBJrQUkhxmC+McstIp3t
+         Pr/aIG+XzI4JrEa2lL6amKZ9QyG3fepoquMvu9exkbce8idORab57uzYby09ITkwODJJ
+         XhU5y5v3u5KM0/x6b70RufOPKIZdLNgn28aB34ejyRMruJ5X8mulljziWMVmGlHsPwU4
+         hOpk6/O2T8aza+zsbdLzCiF2/pxOnTxS98qZVGLush+grl0y7kgI+aYTE+LBgk0b6V+Q
+         yYkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3zd+V+RmC0XBjJLG/tJ4b5ULCb6ekikQ2mIQfiu1wGU=;
+        b=CU1G5+cDKB2R3c4jZSz0Oj9iOzdeFNKuySDNl/C/1F/b6NDMR0IcuW03KSYPfAiPMo
+         7LFQNQbQkNlGc0DVpW73D9udIo8JTykHYhukO9NCFZ+jJWcIQenH7dQ64oY8t4iXr5c3
+         yImbR5dF0PKFa67sqECCsCOzvbqXdsCZvgwQzZwns1Krb84mxCNHI8LlceMpZhKnwwto
+         QNYilxwjQ1Fn5Xfoe0mcBgrYCpXjT+nVgkdsfBcKWNNDLvnelkm1D7WG1LnmFbVenGZ0
+         hz2jEQ1bEbkjxkwWSuDI1U2bF+/6AvSRT1UMG5R4AckQE1fM1N8mv9AAJ28Q62jVdtJE
+         4fdQ==
+X-Gm-Message-State: APjAAAWoFpsI4gnIrn9Zb6HwC6taKBZkGj1JqeDS0Tdv+dZEGSEwukdd
+        3F7Jwm3ebgp+lpyRvqXTeufzM0/L
+X-Google-Smtp-Source: APXvYqygauiEkGYMGkFZZsLBAhyxB8/ldgqCyXhmzwQVsOs1V6lPRi7mqDPEzKw6iFMmNsfEy5+KQg==
+X-Received: by 2002:adf:ce91:: with SMTP id r17mr14538218wrn.97.1570277851559;
+        Sat, 05 Oct 2019 05:17:31 -0700 (PDT)
+Received: from [192.168.2.202] (p5487B13B.dip0.t-ipconnect.de. [84.135.177.59])
+        by smtp.gmail.com with ESMTPSA id c21sm6253055wmb.46.2019.10.05.05.17.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Oct 2019 05:17:30 -0700 (PDT)
+Subject: Re: [PATCH 5.4 regression fix] Input: soc_button_array - partial
+ revert of support for newer surface devices
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Maximilian Luz <luzmaximilian@gmail.com>
-Subject: [PATCH 5.4 regression fix] Input: soc_button_array - partial revert of support for newer surface devices
-Date:   Sat,  5 Oct 2019 12:55:51 +0200
-Message-Id: <20191005105551.353273-1-hdegoede@redhat.com>
+Cc:     linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20191005105551.353273-1-hdegoede@redhat.com>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <222c364a-bc2b-5960-3fe4-7d1ce222e3e2@gmail.com>
+Date:   Sat, 5 Oct 2019 14:17:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.67]); Sat, 05 Oct 2019 10:55:54 +0000 (UTC)
+In-Reply-To: <20191005105551.353273-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Commit c394159310d0 ("Input: soc_button_array - add support for newer
-surface devices") not only added support for the MSHW0040 ACPI HID,
-but for some reason it also makes changes to the error handling of the
-soc_button_lookup_gpio() call in soc_button_device_create(). Note ideally
-this seamingly unrelated change would have been made in a separate commit,
-with a message explaining the what and why of this change.
+Hi,
 
-I guess this change may have been added to deal with -EPROBE_DEFER errors,
-but in case of the existing support for PNP0C40 devices, treating
--EPROBE_DEFER as any other error is deliberate, see the comment this
-commit adds for why.
+sorry for the inconvenience this change has caused.
 
-The actual returning of -EPROBE_DEFER to the caller of soc_button_probe()
-introduced by the new error checking causes a serious regression:
+On 10/5/19 12:55 PM, Hans de Goede wrote:
+> Note ideally this seamingly unrelated change would have been made in a
+> separate commit, with a message explaining the what and why of this
+> change.
 
-On devices with so called virtual GPIOs soc_button_lookup_gpio() will
-always return -EPROBE_DEFER for these fake GPIOs, when this happens
-during the second call of soc_button_device_create() we already have
-successfully registered our first child. This causes the kernel to think
-we are making progress with probing things even though we unregister the
-child before again before we return the -EPROBE_DEFER. Since we are making
-progress the kernel will retry deferred-probes again immediately ending
-up stuck in a loop with the following showing in dmesg:
+Would I have known the impact, then yes. This change was added due to
+some reported instances where it seems that soc_button_array would
+occasionally load on MSHW0040 before the GPIO controller was ready,
+causing power and volume buttons to not work.
 
-[  124.022697] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6537
-[  124.040764] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6538
-[  124.056967] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6539
-[  124.072143] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6540
-[  124.092373] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6541
-[  124.108065] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6542
-[  124.128483] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6543
-[  124.147141] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6544
-[  124.165070] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6545
-[  124.179775] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6546
-[  124.202726] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6547
-<continues on and on and on>
+> I guess this change may have been added to deal with -EPROBE_DEFER errors,
 
-And 1 CPU core being stuck at 100% and udev hanging since it is waiting
-for the modprobe of soc_button_array to return.
+Correct. After a comment mentioned that gpiod_get() returning
+-EPROBE_DEFER would be the proper way to detect this, I decided on this
+change.
 
-This patch reverts the soc_button_lookup_gpio() error handling changes,
-fixing this regression.
+Might I suggest the following addition:
 
-Fixes: c394159310d0 ("Input: soc_button_array - add support for newer surface devices")
-BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=205031
-Cc: Maximilian Luz <luzmaximilian@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
 ---
- drivers/input/misc/soc_button_array.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+  drivers/input/misc/soc_button_array.c | 25 ++++++++++++++++++++-----
+  1 file changed, 20 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-index 97e3639e99d0..97761421d6dd 100644
+index 97e3639e99d0..a0f0c977b790 100644
 --- a/drivers/input/misc/soc_button_array.c
 +++ b/drivers/input/misc/soc_button_array.c
 @@ -92,11 +92,18 @@ soc_button_device_create(struct platform_device *pdev,
- 			continue;
- 
- 		gpio = soc_button_lookup_gpio(&pdev->dev, info->acpi_index);
+  			continue;
+  
+  		gpio = soc_button_lookup_gpio(&pdev->dev, info->acpi_index);
 -		if (gpio < 0 && gpio != -ENOENT) {
 -			error = gpio;
 -			goto err_free_mem;
@@ -113,9 +120,24 @@ index 97e3639e99d0..97761421d6dd 100644
 +			 * we do not have a driver for these so they will never
 +			 * show up, therefor we ignore -EPROBE_DEFER.
 +			 */
- 			continue;
- 		}
- 
+  			continue;
+  		}
+  
+@@ -429,6 +436,14 @@ static int soc_device_check_MSHW0040(struct device *dev)
+  
+  	dev_dbg(dev, "OEM Platform Revision %llu\n", oem_platform_rev);
+  
++	/*
++	 * Explicitly check if GPIO controller is ready. This check is done here
++	 * to avoid issues with virtual GPIOs on other chips, as elaborated above.
++	 * We are at least expecting one GPIO pin for the power button (index 0).
++	 */
++	if (soc_button_lookup_gpio(dev, 0) == -EPROBE_DEFER)
++		return -EPROBE_DEFER;
++
+  	return 0;
+  }
+  
 -- 
 2.23.0
 
