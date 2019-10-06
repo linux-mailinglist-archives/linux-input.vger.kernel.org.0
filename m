@@ -2,23 +2,23 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10BCACCD9E
-	for <lists+linux-input@lfdr.de>; Sun,  6 Oct 2019 03:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1602CCCDA0
+	for <lists+linux-input@lfdr.de>; Sun,  6 Oct 2019 03:04:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726988AbfJFBEY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Oct 2019 21:04:24 -0400
-Received: from mail-40133.protonmail.ch ([185.70.40.133]:40812 "EHLO
+        id S1726987AbfJFBEt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Oct 2019 21:04:49 -0400
+Received: from mail-40133.protonmail.ch ([185.70.40.133]:31767 "EHLO
         mail-40133.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726984AbfJFBEY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Oct 2019 21:04:24 -0400
-Date:   Sun, 06 Oct 2019 01:04:12 +0000
+        with ESMTP id S1726984AbfJFBEt (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Oct 2019 21:04:49 -0400
+Date:   Sun, 06 Oct 2019 01:04:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=default; t=1570323859;
-        bh=EenmT9+ylx8vIRw7BMAiWOi3ZvFwek38x/+DNgZOMEc=;
+        s=default; t=1570323885;
+        bh=lucdwIXyrI3acF9pa/XY2PlrAhFkzNyslqQIMc4ZvqA=;
         h=Date:To:From:Cc:Reply-To:Subject:Feedback-ID:From;
-        b=O4hOGLNfVG9gqVm9o4EGx1rNJh2PtJE2ogwUApPkqkfIBZBMTx+WDMNT17ITK5A5m
-         VnRXpPSMRUNkdWHZfzXl03IlbAAExaDhuU/OAu8Zs6gAstLoMbZSLLrLuFz3mL1JLa
-         NOHf/PQRoxjZcm7WgsJj1iZtLPybTFcCIVIO7noI=
+        b=ZmB+A7gPusQeDsS5vcpM4Rqaij4o+ROfPmEBCS02oNWn2cDnbHjjUgCXCpghxvhRs
+         lXr88dv0H5ex3u9Tn6JLgB3ljd+BRIucAw95SzD5F4WHfMRHEkSPjiL0JhIxR1nzhV
+         SxFlbTRfFb+3CZl75dBYx39bEdtmG1QwQfNFc9uY=
 To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
 From:   Mazin Rezk <mnrzk@protonmail.com>
 Cc:     "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
@@ -27,8 +27,8 @@ Cc:     "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
         "lains@archlinux.org" <lains@archlinux.org>,
         "mnrzk@protonmail.com" <mnrzk@protonmail.com>
 Reply-To: Mazin Rezk <mnrzk@protonmail.com>
-Subject: [PATCH v3 2/4] HID: logitech: Support HID++ devices without short reports
-Message-ID: <HX248-hoZ2daaQH9Muo7s5C6sRUELL-EPBZIDcBOta2l66BTJq6-OcAjY-yYSKkZs_8bqgM3Uuc5ZdAPjkLEvsbdFMLbbkZlRIyT8iLH7yE=@protonmail.com>
+Subject: [PATCH v3 3/4] HID: logitech: Add feature 0x0001: FeatureSet
+Message-ID: <nZMYgsXB3gdFVoIR3TeMjdbHiP4STlPINtmdH7TkH-nLrHS5APVXn00Z-L89Bjnam4_EBf1GLqI5KAZDZhFnH9hyWGyCOGJQKZzpyN2tqlE=@protonmail.com>
 Feedback-ID: 18B_FC5q-t32TXzMsVp9BgkgrdNH3iwklfW8WOrHrcxZA0WRj7JodCh5VXKxs6A3OaiHK0QNd8wi3SImKex8yQ==:Ext:ProtonMail
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -42,107 +42,145 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch allows the hid-logitech-hidpp module to support devices that do
-not have support for Short HID++ reports. So far, it seems that Bluetooth
-HID++ 2.0 devices are missing short reports.
+This patch adds support for the 0x0001 (FeatureSet) feature. This feature
+is used to look up the feature ID of a feature index on a device and list
+the total count of features on the device.
 
-This has been tested and confirmed with the MX Master and MX Master 2S and
-is therefore likely the case with the other Bluetooth devices.
+I also added the hidpp20_get_features function which iterates through all
+feature indexes on the device and stores a map of them in features an
+hidpp_device struct. This function runs when an HID++ 2.0 device is probed.
 
 Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
 ---
- drivers/hid/hid-logitech-hidpp.c | 37 ++++++++++++++++++++++++++------
- 1 file changed, 30 insertions(+), 7 deletions(-)
+ drivers/hid/hid-logitech-hidpp.c | 92 ++++++++++++++++++++++++++++++++
+ 1 file changed, 92 insertions(+)
 
 diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
 dpp.c
-index 85fd0c17cc2f..a0efa8a43213 100644
+index a0efa8a43213..64ac94c581aa 100644
 --- a/drivers/hid/hid-logitech-hidpp.c
 +++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -71,6 +71,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
- #define HIDPP_QUIRK_HIDPP_WHEELS=09=09BIT(29)
- #define HIDPP_QUIRK_HIDPP_EXTRA_MOUSE_BTNS=09BIT(30)
- #define HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS=09BIT(31)
-+#define HIDPP_QUIRK_CLASS_BLUETOOTH=09=09BIT(5)
+@@ -190,6 +190,9 @@ struct hidpp_device {
 
- /* These are just aliases for now */
- #define HIDPP_QUIRK_KBD_SCROLL_WHEEL HIDPP_QUIRK_HIDPP_WHEELS
-@@ -81,6 +82,9 @@ MODULE_PARM_DESC(disable_tap_to_click,
- =09=09=09=09=09 HIDPP_QUIRK_HI_RES_SCROLL_X2120 | \
- =09=09=09=09=09 HIDPP_QUIRK_HI_RES_SCROLL_X2121)
-
-+/* Just an alias for now, may possibly be a catch-all in the future */
-+#define HIDPP_QUIRK_MISSING_SHORT_REPORTS=09HIDPP_QUIRK_CLASS_BLUETOOTH
+ =09struct hidpp_battery battery;
+ =09struct hidpp_scroll_counter vertical_wheel_counter;
 +
- #define HIDPP_QUIRK_DELAYED_INIT=09=09HIDPP_QUIRK_NO_HIDINPUT
-
- #define HIDPP_CAPABILITY_HIDPP10_BATTERY=09BIT(0)
-@@ -340,6 +344,12 @@ static int hidpp_send_rap_command_sync(struct hidpp_de=
-vice *hidpp_dev,
- =09struct hidpp_report *message;
- =09int ret, max_count;
-
-+=09/* Force long reports on devices that do not support short reports */
-+=09if (hidpp_dev->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS &&
-+=09    report_id =3D=3D REPORT_ID_HIDPP_SHORT)
-+=09=09report_id =3D REPORT_ID_HIDPP_LONG;
-+
-+
- =09switch (report_id) {
- =09case REPORT_ID_HIDPP_SHORT:
- =09=09max_count =3D HIDPP_REPORT_SHORT_LENGTH - 4;
-@@ -3482,6 +3492,12 @@ static bool hidpp_validate_report(struct hid_device =
-*hdev, int id,
-
- static bool hidpp_validate_device(struct hid_device *hdev)
- {
-+=09struct hidpp_device *hidpp =3D hid_get_drvdata(hdev);
-+=09/* Skip the short report check if the device does not support it */
-+=09if (hidpp->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS)
-+=09=09return hidpp_validate_report(hdev, REPORT_ID_HIDPP_LONG,
-+=09=09=09=09=09     HIDPP_REPORT_LONG_LENGTH, false);
-+
- =09return hidpp_validate_report(hdev, REPORT_ID_HIDPP_SHORT,
- =09=09=09=09     HIDPP_REPORT_SHORT_LENGTH, false) &&
- =09       hidpp_validate_report(hdev, REPORT_ID_HIDPP_LONG,
-@@ -3775,22 +3791,29 @@ static const struct hid_device_id hidpp_devices[] =
-=3D {
- =09  .driver_data =3D HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
- =09{ /* MX Anywhere 2 mouse over Bluetooth */
- =09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb013),
--=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
- =09{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb018),
--=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
- =09{ /* MX Anywhere 2S mouse over Bluetooth */
- =09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01a),
--=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
- =09{ /* MX Master mouse over Bluetooth */
- =09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb012),
--=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
- =09{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb017),
--=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
- =09{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e),
--=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
- =09{ /* MX Master 2S mouse over Bluetooth */
- =09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb019),
--=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-+=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-+=09=09=09 HIDPP_QUIRK_CLASS_BLUETOOTH },
- =09{}
++=09u16 *features;
++=09u8 feature_count;
  };
 
+ /* HID++ 1.0 error codes */
+@@ -911,6 +914,84 @@ static int hidpp_root_get_protocol_version(struct hidp=
+p_device *hidpp)
+ =09return 0;
+ }
+
++/* -----------------------------------------------------------------------=
+--- */
++/* 0x0001: FeatureSet                                                     =
+    */
++/* -----------------------------------------------------------------------=
+--- */
++
++#define HIDPP_PAGE_FEATURESET=09=09=09=090x0001
++
++#define CMD_FEATURESET_GET_COUNT=09=09=090x00
++#define CMD_FEATURESET_GET_FEATURE=09=09=090x11
++
++static int hidpp20_featureset_get_feature(struct hidpp_device *hidpp,
++=09u8 featureset_index, u8 feature_index, u16 *feature_id)
++{
++=09struct hidpp_report response;
++=09int ret;
++
++=09ret =3D hidpp_send_fap_command_sync(hidpp, featureset_index,
++=09=09CMD_FEATURESET_GET_FEATURE, &feature_index, 1, &response);
++
++=09if (ret)
++=09=09return ret;
++
++=09*feature_id =3D (response.fap.params[0] << 8) | response.fap.params[1];
++
++=09return ret;
++}
++
++static int hidpp20_featureset_get_count(struct hidpp_device *hidpp,
++=09u8 feature_index, u8 *count)
++{
++=09struct hidpp_report response;
++=09int ret;
++
++=09ret =3D hidpp_send_fap_command_sync(hidpp, feature_index,
++=09=09CMD_FEATURESET_GET_COUNT, NULL, 0, &response);
++
++=09if (ret)
++=09=09return ret;
++
++=09*count =3D response.fap.params[0];
++
++=09return ret;
++}
++
++static int hidpp20_get_features(struct hidpp_device *hidpp)
++{
++=09int ret;
++=09u8 featureset_index, featureset_type;
++=09u8 i;
++
++=09hidpp->feature_count =3D 0;
++
++=09ret =3D hidpp_root_get_feature(hidpp, HIDPP_PAGE_FEATURESET,
++=09=09=09=09     &featureset_index, &featureset_type);
++
++=09if (ret =3D=3D -ENOENT) {
++=09=09hid_warn(hidpp->hid_dev, "Unable to retrieve feature set.");
++=09=09return 0;
++=09}
++
++=09if (ret)
++=09=09return ret;
++
++=09ret =3D hidpp20_featureset_get_count(hidpp, featureset_index,
++=09=09&hidpp->feature_count);
++
++=09if (ret)
++=09=09return ret;
++
++=09hidpp->features =3D devm_kzalloc(&hidpp->hid_dev->dev,
++=09=09=09hidpp->feature_count * sizeof(u16), GFP_KERNEL);
++
++=09for (i =3D 0; i < hidpp->feature_count && !ret; i++)
++=09=09ret =3D hidpp20_featureset_get_feature(hidpp, featureset_index,
++=09=09=09=09i, &(hidpp->features[i]));
++
++=09return ret;
++}
++
+ /* -----------------------------------------------------------------------=
+--- */
+ /* 0x0005: GetDeviceNameType                                              =
+    */
+ /* -----------------------------------------------------------------------=
+--- */
+@@ -3625,6 +3706,17 @@ static int hidpp_probe(struct hid_device *hdev, cons=
+t struct hid_device_id *id)
+ =09=09hidpp_overwrite_name(hdev);
+ =09}
+
++=09/* Cache feature indexes and IDs to check reports faster */
++=09if (hidpp->protocol_major >=3D 2) {
++=09=09if (hidpp20_get_features(hidpp)) {
++=09=09=09hid_err(hdev, "%s:hidpp20_get_features returned error\n",
++=09=09=09=09__func__);
++=09=09=09goto hid_hw_init_fail;
++=09=09}
++=09} else {
++=09=09hidpp->feature_count =3D 0;
++=09}
++
+ =09if (connected && (hidpp->quirks & HIDPP_QUIRK_CLASS_WTP)) {
+ =09=09ret =3D wtp_get_config(hidpp);
+ =09=09if (ret)
 --
 2.23.0
 
