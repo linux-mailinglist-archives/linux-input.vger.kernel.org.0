@@ -2,74 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DE13CDA34
-	for <lists+linux-input@lfdr.de>; Mon,  7 Oct 2019 03:44:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17664CDB3C
+	for <lists+linux-input@lfdr.de>; Mon,  7 Oct 2019 07:13:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727059AbfJGBoj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 6 Oct 2019 21:44:39 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:40684 "EHLO inva020.nxp.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726779AbfJGBoi (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 6 Oct 2019 21:44:38 -0400
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 4E2941A05EF;
-        Mon,  7 Oct 2019 03:44:37 +0200 (CEST)
-Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 6CC671A0939;
-        Mon,  7 Oct 2019 03:44:18 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id A5C504032B;
-        Mon,  7 Oct 2019 09:44:04 +0800 (SGT)
-From:   Anson Huang <Anson.Huang@nxp.com>
-To:     robh+dt@kernel.org, mark.rutland@arm.com, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        catalin.marinas@arm.com, will@kernel.org,
-        dmitry.torokhov@gmail.com, aisheng.dong@nxp.com,
-        ulf.hansson@linaro.org, peng.fan@nxp.com, fugang.duan@nxp.com,
-        leonard.crestez@nxp.com, daniel.baluta@nxp.com, olof@lixom.net,
-        mripard@kernel.org, bjorn.andersson@linaro.org,
-        jagan@amarulasolutions.com, dinguyen@kernel.org,
-        marcin.juszkiewicz@linaro.org, arnd@arndb.de,
-        andriy.shevchenko@linux.intel.com, stefan@agner.ch,
-        enric.balletbo@collabora.com, yuehaibing@huawei.com,
-        ping.bai@nxp.com, m.felsch@pengutronix.de, ronald@innovation.ch,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org
-Cc:     Linux-imx@nxp.com
-Subject: [PATCH V6 5/5] arm64: defconfig: Enable CONFIG_KEYBOARD_IMX_SC_KEY as module
-Date:   Mon,  7 Oct 2019 09:41:49 +0800
-Message-Id: <1570412509-7893-5-git-send-email-Anson.Huang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1570412509-7893-1-git-send-email-Anson.Huang@nxp.com>
-References: <1570412509-7893-1-git-send-email-Anson.Huang@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S1727032AbfJGFNA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Oct 2019 01:13:00 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:33433 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727028AbfJGFNA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Oct 2019 01:13:00 -0400
+Received: by mail-pg1-f196.google.com with SMTP id i76so301545pgc.0;
+        Sun, 06 Oct 2019 22:12:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w7cPe8XgAdd5CzjoP48tMEWPoIPNhWDUDvf6JLAfY+k=;
+        b=VGFHYGWs8FhghIhEFHjp4j1vKgvV8rNHxDRii9T6ZOCQ8P1V9RPyqSPn+GrthlqBH1
+         xoZT9ECGw+lDu5syDqsQHjpcichT3bMB8TKBey6kJQnezq/3CFSPbPY/ii/9/z/+dTlz
+         ZOUJhbIJl6hJ6Z+VntseHAe5ZnmOMaUyBretPp6vyQDx6kZ2iAPR4n1KW8Hvo7owAwjn
+         zrLkPpkIIz0dBzygJWizzC61hBr1I14RECWxBZwt0l0CTGb7z533J2Z9DrB7kjvREh55
+         g8ClJN7f8veberDN1TEtosSFSyJk2UTrXlJdJq7pRz+f27LV/Q0U2gs188PiCJP/67FA
+         i4lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w7cPe8XgAdd5CzjoP48tMEWPoIPNhWDUDvf6JLAfY+k=;
+        b=eoVWbmfZQBFkY9GxK++sZQnkNSf6vRK6skOfsnnwhks/i3EHAqGclhaAuBacdtKbhW
+         4Zx7FIbAfhfEFAaKeXpM8byTG+K3GTfmjo1grrJnMxsZl9KlXrT0DA4hAEEh/hZ/mUvb
+         CD+Yq/bdC9QlXcAXcNpQfAzKopNx0qzRJAEBbzC6xKE5bbk/CKsg/61gUSdiUQ7dDsLf
+         35sPQfcF9oZirhRlmFP5jPqb7L0ThGEO4ZUp5fXnSNPHnINqNUG/xJxfyVnuZdHvTVFj
+         VS87CQKmEoqAmOWCh101qUBocz05P7NISkDAQu8upbeBuyShxqDPGn6+xeBVmYN0vOVq
+         4M6g==
+X-Gm-Message-State: APjAAAVLcMYLkh5Lupl8YPSfiU/u6h5XLnlKufnGpzRgEDeLWgXHFgrj
+        UWtkd52BqhQrvTFP/U2/2LgdbiWgcxo=
+X-Google-Smtp-Source: APXvYqyfD9UwbWSvMtHp98TcyDenNkyWyvaxFJRQxIOQMDLb3BtDv7l7UvpN0qY3rYEK6ceAxU3xzQ==
+X-Received: by 2002:aa7:9e01:: with SMTP id y1mr31113646pfq.175.1570425177637;
+        Sun, 06 Oct 2019 22:12:57 -0700 (PDT)
+Received: from localhost.lan (c-67-185-54-80.hsd1.wa.comcast.net. [67.185.54.80])
+        by smtp.gmail.com with ESMTPSA id v133sm2209680pgb.74.2019.10.06.22.12.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Oct 2019 22:12:56 -0700 (PDT)
+From:   Andrey Smirnov <andrew.smirnov@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Andrey Smirnov <andrew.smirnov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Sam Bazely <sambazley@fastmail.com>,
+        "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+        Austin Palmer <austinp@valvesoftware.com>,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH 0/3] Logitech G920 fixes
+Date:   Sun,  6 Oct 2019 22:12:37 -0700
+Message-Id: <20191007051240.4410-1-andrew.smirnov@gmail.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Select CONFIG_KEYBOARD_IMX_SC_KEY as module by default to
-support i.MX8QXP scu key driver.
+Everyone:
 
-Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
----
-No changes.
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+This series contains patches to fix a couple of regressions in G920
+wheel support by hid-logitech-hidpp driver. Without the patches the
+wheel remains stuck in autocentering mode ("resisting" any attempt to
+trun) as well as missing support for any FF action.
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index c9adae4..9062d57 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -314,6 +314,7 @@ CONFIG_INPUT_EVDEV=y
- CONFIG_KEYBOARD_ADC=m
- CONFIG_KEYBOARD_GPIO=y
- CONFIG_KEYBOARD_SNVS_PWRKEY=m
-+CONFIG_KEYBOARD_IMX_SC_KEY=m
- CONFIG_KEYBOARD_CROS_EC=y
- CONFIG_INPUT_TOUCHSCREEN=y
- CONFIG_TOUCHSCREEN_ATMEL_MXT=m
+Thanks,
+Andrey Smirnov
+
+Andrey Smirnov (3):
+  HID: logitech-hidpp: use devres to manage FF private data
+  HID: logitech-hidpp: split g920_get_config()
+  HID: logitech-hidpp: add G920 device validation quirk
+
+ drivers/hid/hid-logitech-hidpp.c | 193 +++++++++++++++++++------------
+ 1 file changed, 120 insertions(+), 73 deletions(-)
+
 -- 
-2.7.4
+2.21.0
 
