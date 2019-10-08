@@ -2,290 +2,283 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36A03CFDC2
-	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2019 17:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C813D00C7
+	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2019 20:44:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727536AbfJHPij (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Oct 2019 11:38:39 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:60913 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725908AbfJHPij (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Oct 2019 11:38:39 -0400
-Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1iHrZK-00059h-UJ; Tue, 08 Oct 2019 15:38:35 +0000
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     hdegoede@redhat.com, vicamo.yang@canonical.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: [PATCH] HID: i2c-hid: Remove runtime power management
-Date:   Tue,  8 Oct 2019 23:38:29 +0800
-Message-Id: <20191008153829.24766-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727220AbfJHSoM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Oct 2019 14:44:12 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:40952 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726138AbfJHSoM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Oct 2019 14:44:12 -0400
+Received: by mail-pg1-f196.google.com with SMTP id d26so10750881pgl.7
+        for <linux-input@vger.kernel.org>; Tue, 08 Oct 2019 11:44:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=50PgqGehYViQvpXVP1tBCFAPBP0FMhsxPNRitnsJyaQ=;
+        b=mKml1wYyqQzdpxHvCXyACZ+aYLcDATzTY8keF8bC9BkduD5+8x5VJqZIxLJAKUeClB
+         qyklUjC8Uf3xaHBHDc66SAp7sHeHG6bpWGb1zyP52opZI3/2QKcqEm+lG+MHk8AHyo1J
+         0+qOQk9IuR/y9KPA25aoWBs/AmZZryEHZgI9vTZpHMcrt8ihWv1RhU5JMEqB2MTEmqvp
+         IbOOXfPizO1VF9wCtExXwpexlhKh51r8BxJxfaKGsp8EeiihuPMtMMSJ+f+jP4YQAR+5
+         t3OkDyqzD0i4WXBDAdj7TnkNthe+3r92Sswlp83N9iQmqUazTMkgT/4HEO8ngOh1yPwi
+         DJeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=50PgqGehYViQvpXVP1tBCFAPBP0FMhsxPNRitnsJyaQ=;
+        b=kWilcNtJImeTiAX6xNpNeMEh3vaWoGzsHhYbzf19LTuc8lwEXWNaQFgtrCTsWRc7AO
+         a9Qu8UbKp9sq9Zm5W6RQEyaulygdgUeooAuX3DjdIrevgWvTIQFTQUGd/EbpkKHkSLol
+         p3C1BswMQDOmHf8D/tuqlgcPVumXGVEo8XJvvl1bZu2rR/vVo/IRJmn21vczj/0Nqr32
+         O8YRqEMwpPgejwOD6ciafB3qRHUUVktcsn0gRhi9jY9t7L6P5DPZHPY8TR6u3oqteMNu
+         yrpY9RUCmh3vVYo3jdYS8AnDZz633KmP0EjKwdlLuiKbfdqmvRM+r6dIHcG9bykNJkcD
+         LrrA==
+X-Gm-Message-State: APjAAAWQjruZLkDyCU06sCMBNY0iKisXdMlTJXkSUTBnuj/CmKaUwwxZ
+        T3KK+yo22hxNO1jOqxXYKAA=
+X-Google-Smtp-Source: APXvYqy6eR/fno0b1pc5x8BuLc7sOQVFld4O2Nok6GgrV/TVbEglQKysN99opAoWUp74ai2jU1cz/A==
+X-Received: by 2002:aa7:9104:: with SMTP id 4mr40933214pfh.176.1570560251105;
+        Tue, 08 Oct 2019 11:44:11 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id bx18sm2134621pjb.26.2019.10.08.11.44.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2019 11:44:10 -0700 (PDT)
+Date:   Tue, 8 Oct 2019 11:44:08 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Roger Quadros <rogerq@ti.com>
+Cc:     Fabio Estevam <festevam@gmail.com>, linux-input@vger.kernel.org,
+        jcbian@pixcir.com.cn
+Subject: Re: [PATCH 1/5] Input: pixcir_i2c_ts - Remove unneeded gpio.h header
+ file
+Message-ID: <20191008184408.GG22365@dtor-ws>
+References: <20191007121607.12545-1-festevam@gmail.com>
+ <ce6d29b1-1a7c-9fa4-da07-1b1d8c2a0efa@ti.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ce6d29b1-1a7c-9fa4-da07-1b1d8c2a0efa@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Runtime power management in i2c-hid brings lots of issues, such as:
-- When transitioning from display manager to desktop session, i2c-hid
-was closed and opened, so the device was set to SLEEP and ON in a short
-period. Vendors confirmed that their devices can't handle fast ON/SLEEP
-command because Windows doesn't have this behavior.
+On Tue, Oct 08, 2019 at 01:11:15PM +0300, Roger Quadros wrote:
+> Hi,
+> 
+> On 07/10/2019 15:16, Fabio Estevam wrote:
+> > The touchscreen device is a GPIO consumer, not a GPIO controller,
+> > so there is no need to include <linux/gpio.h>.
+> > 
+> > Remove the unneeded header file.
+> > 
+> > Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> 
+> For all 5 patches,
+> 
+> Reviewed-by: Roger Quadros <rogerq@ti.com>
 
-- When rebooting, i2c-hid was closed, and the driver core put the device
-back to full power before shutdown. This behavior also triggers a quick
-SLEEP and ON commands that some devices can't handle, renders an
-unusable touchpad after reboot.
+I guess we can also do this:
 
-- Runtime power management is only useful when i2c-hid isn't opened,
-i.e. a laptop without desktop session, which isn't that common.
+Input: pixcir_i2c_ts - remove platform data
 
-- Most importantly, my power meter reports little to none energy saving
-when i2c-hid is runtime suspended.
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-So let's remove runtime power management since there is no actual
-benefit.
+Previous change moved platform data definition into the driver, making it
+unusable for users. Given that we want to move away from custom platform
+data structures, and always use device properties (DT, ACPI or static) to
+configure devices, let's complete the removal.
 
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/hid/i2c-hid/i2c-hid-core.c | 111 ++---------------------------
- 1 file changed, 4 insertions(+), 107 deletions(-)
+ drivers/input/touchscreen/pixcir_i2c_ts.c |  100 +++++++----------------------
+ 1 file changed, 25 insertions(+), 75 deletions(-)
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 2a7c6e33bb1c..5ab4982b3a7b 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -26,7 +26,6 @@
- #include <linux/delay.h>
- #include <linux/slab.h>
- #include <linux/pm.h>
--#include <linux/pm_runtime.h>
- #include <linux/device.h>
- #include <linux/wait.h>
- #include <linux/err.h>
-@@ -48,8 +47,6 @@
- /* quirks to control the device */
- #define I2C_HID_QUIRK_SET_PWR_WAKEUP_DEV	BIT(0)
- #define I2C_HID_QUIRK_NO_IRQ_AFTER_RESET	BIT(1)
--#define I2C_HID_QUIRK_NO_RUNTIME_PM		BIT(2)
--#define I2C_HID_QUIRK_DELAY_AFTER_SLEEP		BIT(3)
- #define I2C_HID_QUIRK_BOGUS_IRQ			BIT(4)
+diff --git a/drivers/input/touchscreen/pixcir_i2c_ts.c b/drivers/input/touchscreen/pixcir_i2c_ts.c
+index ec768ab6148e..9aa098577350 100644
+--- a/drivers/input/touchscreen/pixcir_i2c_ts.c
++++ b/drivers/input/touchscreen/pixcir_i2c_ts.c
+@@ -62,7 +62,7 @@ enum pixcir_int_mode {
+ #define PIXCIR_INT_POL_HIGH	(1UL << 2)
  
- /* flags */
-@@ -172,14 +169,7 @@ static const struct i2c_hid_quirks {
- 	{ USB_VENDOR_ID_WEIDA, HID_ANY_ID,
- 		I2C_HID_QUIRK_SET_PWR_WAKEUP_DEV },
- 	{ I2C_VENDOR_ID_HANTICK, I2C_PRODUCT_ID_HANTICK_5288,
--		I2C_HID_QUIRK_NO_IRQ_AFTER_RESET |
--		I2C_HID_QUIRK_NO_RUNTIME_PM },
--	{ I2C_VENDOR_ID_RAYDIUM, I2C_PRODUCT_ID_RAYDIUM_4B33,
--		I2C_HID_QUIRK_DELAY_AFTER_SLEEP },
--	{ USB_VENDOR_ID_LG, I2C_DEVICE_ID_LG_8001,
--		I2C_HID_QUIRK_NO_RUNTIME_PM },
--	{ I2C_VENDOR_ID_GOODIX, I2C_DEVICE_ID_GOODIX_01F0,
--		I2C_HID_QUIRK_NO_RUNTIME_PM },
-+		I2C_HID_QUIRK_NO_IRQ_AFTER_RESET },
- 	{ USB_VENDOR_ID_ELAN, HID_ANY_ID,
- 		 I2C_HID_QUIRK_BOGUS_IRQ },
- 	{ 0, 0 }
-@@ -397,7 +387,6 @@ static int i2c_hid_set_power(struct i2c_client *client, int power_state)
- {
- 	struct i2c_hid *ihid = i2c_get_clientdata(client);
- 	int ret;
--	unsigned long now, delay;
- 
- 	i2c_hid_dbg(ihid, "%s\n", __func__);
- 
-@@ -415,22 +404,9 @@ static int i2c_hid_set_power(struct i2c_client *client, int power_state)
- 			goto set_pwr_exit;
- 	}
- 
--	if (ihid->quirks & I2C_HID_QUIRK_DELAY_AFTER_SLEEP &&
--	    power_state == I2C_HID_PWR_ON) {
--		now = jiffies;
--		if (time_after(ihid->sleep_delay, now)) {
--			delay = jiffies_to_usecs(ihid->sleep_delay - now);
--			usleep_range(delay, delay + 1);
--		}
--	}
--
- 	ret = __i2c_hid_command(client, &hid_set_power_cmd, power_state,
- 		0, NULL, 0, NULL, 0);
- 
--	if (ihid->quirks & I2C_HID_QUIRK_DELAY_AFTER_SLEEP &&
--	    power_state == I2C_HID_PWR_SLEEP)
--		ihid->sleep_delay = jiffies + msecs_to_jiffies(20);
--
- 	if (ret)
- 		dev_err(&client->dev, "failed to change power setting.\n");
- 
-@@ -791,11 +767,6 @@ static int i2c_hid_open(struct hid_device *hid)
- {
- 	struct i2c_client *client = hid->driver_data;
- 	struct i2c_hid *ihid = i2c_get_clientdata(client);
--	int ret = 0;
--
--	ret = pm_runtime_get_sync(&client->dev);
--	if (ret < 0)
--		return ret;
- 
- 	set_bit(I2C_HID_STARTED, &ihid->flags);
- 	return 0;
-@@ -807,27 +778,6 @@ static void i2c_hid_close(struct hid_device *hid)
- 	struct i2c_hid *ihid = i2c_get_clientdata(client);
- 
- 	clear_bit(I2C_HID_STARTED, &ihid->flags);
--
--	/* Save some power */
--	pm_runtime_put(&client->dev);
--}
--
--static int i2c_hid_power(struct hid_device *hid, int lvl)
--{
--	struct i2c_client *client = hid->driver_data;
--	struct i2c_hid *ihid = i2c_get_clientdata(client);
--
--	i2c_hid_dbg(ihid, "%s lvl:%d\n", __func__, lvl);
--
--	switch (lvl) {
--	case PM_HINT_FULLON:
--		pm_runtime_get_sync(&client->dev);
--		break;
--	case PM_HINT_NORMAL:
--		pm_runtime_put(&client->dev);
--		break;
--	}
--	return 0;
- }
- 
- struct hid_ll_driver i2c_hid_ll_driver = {
-@@ -836,7 +786,6 @@ struct hid_ll_driver i2c_hid_ll_driver = {
- 	.stop = i2c_hid_stop,
- 	.open = i2c_hid_open,
- 	.close = i2c_hid_close,
--	.power = i2c_hid_power,
- 	.output_report = i2c_hid_output_report,
- 	.raw_request = i2c_hid_raw_request,
+ /**
+- * struct pixcir_irc_chip_data - chip related data
++ * struct pixcir_i2c_chip_data - chip related data
+  * @max_fingers:	Max number of fingers reported simultaneously by h/w
+  * @has_hw_ids:		Hardware supports finger tracking IDs
+  *
+@@ -72,12 +72,6 @@ struct pixcir_i2c_chip_data {
+ 	bool has_hw_ids;
  };
-@@ -1104,9 +1053,6 @@ static int i2c_hid_probe(struct i2c_client *client,
  
- 	i2c_hid_acpi_fix_up_power(&client->dev);
+-struct pixcir_ts_platform_data {
+-	int x_max;
+-	int y_max;
+-	struct pixcir_i2c_chip_data chip;
+-};
+-
+ struct pixcir_i2c_ts_data {
+ 	struct i2c_client *client;
+ 	struct input_dev *input;
+@@ -87,7 +81,6 @@ struct pixcir_i2c_ts_data {
+ 	struct gpio_desc *gpio_wake;
+ 	const struct pixcir_i2c_chip_data *chip;
+ 	struct touchscreen_properties prop;
+-	int max_fingers;	/* Max fingers supported in this instance */
+ 	bool running;
+ };
  
--	pm_runtime_get_noresume(&client->dev);
--	pm_runtime_set_active(&client->dev);
--	pm_runtime_enable(&client->dev);
- 	device_enable_async_suspend(&client->dev);
+@@ -111,7 +104,7 @@ static void pixcir_ts_parse(struct pixcir_i2c_ts_data *tsdata,
+ 	memset(report, 0, sizeof(struct pixcir_report_data));
  
- 	/* Make sure there is something at this address */
-@@ -1154,9 +1100,6 @@ static int i2c_hid_probe(struct i2c_client *client,
- 		goto err_mem_free;
+ 	i = chip->has_hw_ids ? 1 : 0;
+-	readsize = 2 + tsdata->max_fingers * (4 + i);
++	readsize = 2 + tsdata->chip->max_fingers * (4 + i);
+ 	if (readsize > sizeof(rdbuf))
+ 		readsize = sizeof(rdbuf);
+ 
+@@ -132,8 +125,8 @@ static void pixcir_ts_parse(struct pixcir_i2c_ts_data *tsdata,
  	}
  
--	if (!(ihid->quirks & I2C_HID_QUIRK_NO_RUNTIME_PM))
--		pm_runtime_put(&client->dev);
+ 	touch = rdbuf[0] & 0x7;
+-	if (touch > tsdata->max_fingers)
+-		touch = tsdata->max_fingers;
++	if (touch > tsdata->chip->max_fingers)
++		touch = tsdata->chip->max_fingers;
+ 
+ 	report->num_touches = touch;
+ 	bufptr = &rdbuf[2];
+@@ -469,31 +462,9 @@ static int __maybe_unused pixcir_i2c_ts_resume(struct device *dev)
+ static SIMPLE_DEV_PM_OPS(pixcir_dev_pm_ops,
+ 			 pixcir_i2c_ts_suspend, pixcir_i2c_ts_resume);
+ 
+-#ifdef CONFIG_OF
+-static const struct of_device_id pixcir_of_match[];
 -
- 	return 0;
- 
- err_mem_free:
-@@ -1166,9 +1109,6 @@ static int i2c_hid_probe(struct i2c_client *client,
- 	free_irq(client->irq, ihid);
- 
- err_pm:
--	pm_runtime_put_noidle(&client->dev);
--	pm_runtime_disable(&client->dev);
--
- err_regulator:
- 	regulator_bulk_disable(ARRAY_SIZE(ihid->pdata.supplies),
- 			       ihid->pdata.supplies);
-@@ -1181,12 +1121,6 @@ static int i2c_hid_remove(struct i2c_client *client)
- 	struct i2c_hid *ihid = i2c_get_clientdata(client);
- 	struct hid_device *hid;
- 
--	if (!(ihid->quirks & I2C_HID_QUIRK_NO_RUNTIME_PM))
--		pm_runtime_get_sync(&client->dev);
--	pm_runtime_disable(&client->dev);
--	pm_runtime_set_suspended(&client->dev);
--	pm_runtime_put_noidle(&client->dev);
--
- 	hid = ihid->hid;
- 	hid_destroy_device(hid);
- 
-@@ -1219,25 +1153,15 @@ static int i2c_hid_suspend(struct device *dev)
- 	int wake_status;
- 
- 	if (hid->driver && hid->driver->suspend) {
--		/*
--		 * Wake up the device so that IO issues in
--		 * HID driver's suspend code can succeed.
--		 */
--		ret = pm_runtime_resume(dev);
--		if (ret < 0)
--			return ret;
--
- 		ret = hid->driver->suspend(hid, PMSG_SUSPEND);
- 		if (ret < 0)
- 			return ret;
- 	}
- 
--	if (!pm_runtime_suspended(dev)) {
--		/* Save some power */
--		i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
-+	/* Save some power */
-+	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
- 
--		disable_irq(client->irq);
--	}
-+	disable_irq(client->irq);
- 
- 	if (device_may_wakeup(&client->dev)) {
- 		wake_status = enable_irq_wake(client->irq);
-@@ -1279,11 +1203,6 @@ static int i2c_hid_resume(struct device *dev)
- 				wake_status);
- 	}
- 
--	/* We'll resume to full power */
--	pm_runtime_disable(dev);
--	pm_runtime_set_active(dev);
--	pm_runtime_enable(dev);
--
- 	enable_irq(client->irq);
- 
- 	/* Instead of resetting device, simply powers the device on. This
-@@ -1304,30 +1223,8 @@ static int i2c_hid_resume(struct device *dev)
- }
- #endif
- 
--#ifdef CONFIG_PM
--static int i2c_hid_runtime_suspend(struct device *dev)
+-static int pixcir_parse_dt(struct device *dev,
+-			   struct pixcir_i2c_ts_data *tsdata)
 -{
--	struct i2c_client *client = to_i2c_client(dev);
+-	tsdata->chip = of_device_get_match_data(dev);
+-	if (!tsdata->chip)
+-		return -EINVAL;
 -
--	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
--	disable_irq(client->irq);
 -	return 0;
 -}
--
--static int i2c_hid_runtime_resume(struct device *dev)
+-#else
+-static int pixcir_parse_dt(struct device *dev,
+-			   struct pixcir_i2c_ts_data *tsdata)
 -{
--	struct i2c_client *client = to_i2c_client(dev);
--
--	enable_irq(client->irq);
--	i2c_hid_set_power(client, I2C_HID_PWR_ON);
--	return 0;
+-	return -EINVAL;
 -}
 -#endif
 -
- static const struct dev_pm_ops i2c_hid_pm = {
- 	SET_SYSTEM_SLEEP_PM_OPS(i2c_hid_suspend, i2c_hid_resume)
--	SET_RUNTIME_PM_OPS(i2c_hid_runtime_suspend, i2c_hid_runtime_resume,
--			   NULL)
+ static int pixcir_i2c_ts_probe(struct i2c_client *client,
+ 			       const struct i2c_device_id *id)
+ {
+-	const struct pixcir_ts_platform_data *pdata =
+-			dev_get_platdata(&client->dev);
+ 	struct device *dev = &client->dev;
+ 	struct pixcir_i2c_ts_data *tsdata;
+ 	struct input_dev *input;
+@@ -503,19 +474,11 @@ static int pixcir_i2c_ts_probe(struct i2c_client *client,
+ 	if (!tsdata)
+ 		return -ENOMEM;
+ 
+-	if (pdata) {
+-		tsdata->chip = &pdata->chip;
+-	} else if (dev->of_node) {
+-		error = pixcir_parse_dt(dev, tsdata);
+-		if (error)
+-			return error;
+-	} else {
+-		dev_err(dev, "platform data not defined\n");
+-		return -EINVAL;
+-	}
+-
+-	if (!tsdata->chip->max_fingers) {
+-		dev_err(dev, "Invalid max_fingers in chip data\n");
++	tsdata->chip = device_get_match_data(dev);
++	if (!tsdata->chip && id)
++		tsdata->chip = (const void *)id->driver_data;
++	if (!tsdata->chip) {
++		dev_err(dev, "can't locate chip data\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -532,30 +495,17 @@ static int pixcir_i2c_ts_probe(struct i2c_client *client,
+ 	input->id.bustype = BUS_I2C;
+ 	input->open = pixcir_input_open;
+ 	input->close = pixcir_input_close;
+-	input->dev.parent = dev;
+-
+-	if (pdata) {
+-		input_set_abs_params(input, ABS_MT_POSITION_X, 0, pdata->x_max, 0, 0);
+-		input_set_abs_params(input, ABS_MT_POSITION_Y, 0, pdata->y_max, 0, 0);
+-	} else {
+-		input_set_capability(input, EV_ABS, ABS_MT_POSITION_X);
+-		input_set_capability(input, EV_ABS, ABS_MT_POSITION_Y);
+-		touchscreen_parse_properties(input, true, &tsdata->prop);
+-		if (!input_abs_get_max(input, ABS_MT_POSITION_X) ||
+-		    !input_abs_get_max(input, ABS_MT_POSITION_Y)) {
+-			dev_err(dev, "Touchscreen size is not specified\n");
+-			return -EINVAL;
+-		}
+-	}
+ 
+-	tsdata->max_fingers = tsdata->chip->max_fingers;
+-	if (tsdata->max_fingers > PIXCIR_MAX_SLOTS) {
+-		tsdata->max_fingers = PIXCIR_MAX_SLOTS;
+-		dev_info(dev, "Limiting maximum fingers to %d\n",
+-			 tsdata->max_fingers);
++	input_set_capability(input, EV_ABS, ABS_MT_POSITION_X);
++	input_set_capability(input, EV_ABS, ABS_MT_POSITION_Y);
++	touchscreen_parse_properties(input, true, &tsdata->prop);
++	if (!input_abs_get_max(input, ABS_MT_POSITION_X) ||
++	    !input_abs_get_max(input, ABS_MT_POSITION_Y)) {
++		dev_err(dev, "Touchscreen size is not specified\n");
++		return -EINVAL;
+ 	}
+ 
+-	error = input_mt_init_slots(input, tsdata->max_fingers,
++	error = input_mt_init_slots(input, tsdata->chip->max_fingers,
+ 				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
+ 	if (error) {
+ 		dev_err(dev, "Error initializing Multi-Touch slots\n");
+@@ -635,14 +585,6 @@ static int pixcir_i2c_ts_probe(struct i2c_client *client,
+ 	return 0;
+ }
+ 
+-static const struct i2c_device_id pixcir_i2c_ts_id[] = {
+-	{ "pixcir_ts", 0 },
+-	{ "pixcir_tangoc", 0 },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(i2c, pixcir_i2c_ts_id);
+-
+-#ifdef CONFIG_OF
+ static const struct pixcir_i2c_chip_data pixcir_ts_data = {
+ 	.max_fingers = 2,
+ 	/* no hw id support */
+@@ -653,6 +595,14 @@ static const struct pixcir_i2c_chip_data pixcir_tangoc_data = {
+ 	.has_hw_ids = true,
  };
  
- static const struct i2c_device_id i2c_hid_id_table[] = {
--- 
-2.17.1
++static const struct i2c_device_id pixcir_i2c_ts_id[] = {
++	{ "pixcir_ts", (unsigned long) &pixcir_ts_data },
++	{ "pixcir_tangoc", (unsigned long) &pixcir_tangoc_data },
++	{ }
++};
++MODULE_DEVICE_TABLE(i2c, pixcir_i2c_ts_id);
++
++#ifdef CONFIG_OF
+ static const struct of_device_id pixcir_of_match[] = {
+ 	{ .compatible = "pixcir,pixcir_ts", .data = &pixcir_ts_data },
+ 	{ .compatible = "pixcir,pixcir_tangoc", .data = &pixcir_tangoc_data },
 
+
+
+Thanks.
+
+-- 
+Dmitry
