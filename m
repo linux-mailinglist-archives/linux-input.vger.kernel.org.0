@@ -2,129 +2,232 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2654ED0D16
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2019 12:48:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A605AD0F34
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2019 14:54:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729747AbfJIKr7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Oct 2019 06:47:59 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.51]:18184 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726765AbfJIKr6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Oct 2019 06:47:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1570618075;
-        s=strato-dkim-0002; d=gerhold.net;
-        h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=3dKq3sIIM6raJ7lBf23mWetvB95AhRcJIG4eXafZHQs=;
-        b=NJnHVtg9Oxumekq1Z0TWrTRV8LqJ009XThYONNvOdgnPyccsFrNygx3Nv/HXtM5bcp
-        Nbr1HZ5fq5QdLthDnK5cYJsewnk/SmiMI9RvNcwsTGYVQfuCXnf7hJR2/iH9SZKqM3SP
-        zH+HxDAmeVjvChydTn0mS7iXUzXxn2mzd2whUpmJOiDqUSLWBUq/ck7Q0+YnRvLzu153
-        98ZgUkTuT24GWDz0iaJxOBAXFHbqHAtAkLeMhF3facpZ+l6/pD5pWqgpZOv8LCzv3FHh
-        hmz4T7uzC6WQMuituORl+JAY8RBDK6xs/kENPvSG1ZUJNWHD3oiO9/+2LezYOnpMqZez
-        XNug==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u266EZF6ORJL0PVgt6Qm"
-X-RZG-CLASS-ID: mo00
-Received: from gerhold.net
-        by smtp.strato.de (RZmta 44.28.0 AUTH)
-        with ESMTPSA id L0811cv99AloE8W
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
-        (Client did not present a certificate);
-        Wed, 9 Oct 2019 12:47:50 +0200 (CEST)
-Date:   Wed, 9 Oct 2019 12:47:40 +0200
-From:   Stephan Gerhold <stephan@gerhold.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Andi Shyti <andi@etezian.org>, Simon Shields <simon@lineageos.org>,
-        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] Input: mms114 - add support for mms345l
-Message-ID: <20191009104740.GA107000@gerhold.net>
-References: <20191007203343.101466-1-stephan@gerhold.net>
- <20191007205021.104402-1-stephan@gerhold.net>
- <20191008220014.GI22365@dtor-ws>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191008220014.GI22365@dtor-ws>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+        id S1731174AbfJIMyC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Oct 2019 08:54:02 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:43114 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731170AbfJIMyC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Oct 2019 08:54:02 -0400
+Received: by mail-pg1-f196.google.com with SMTP id i32so1349136pgl.10;
+        Wed, 09 Oct 2019 05:54:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=DJP3EtJwnU1At2E0cpdnlKVvFa1qfwS0i3jVgskCmNY=;
+        b=QBrUbxSHIfGezkaPMFV1E8tgALbo4ugWl1DvFB4cyC+XrjUqj9mqXlXy7SnyTl2ro3
+         TTk7wOHp6x1v8DZUWfxTkVWO/D1tHQvh8EIWWlpbm4UodFjc1qbCwwoEtEmbaz+1VXyE
+         5gE3XYR14MNF4T3nJIwztu+7bF8Iihie8QxxXkZo0oz0DOeKjWOjF7qYghLNHZvaVD8L
+         fW5qA1+4i3QadWiNiXB37rVUHZZxPGlVCjdLk31r0H+pniN0XSKlyj759SSWNA7rJCWS
+         XCvdExIjjlZWxYrdh+8bVJL0YQiSmbAMEFBUTel3DUfQSgBNT7foWV5RUO+BA/yksrSx
+         m7gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=DJP3EtJwnU1At2E0cpdnlKVvFa1qfwS0i3jVgskCmNY=;
+        b=XM/X28AFLGbmoapO74JLq7O1bvX5F7/QLtJi2/65XTFE6T57CCMLubmUHouy4wcf3D
+         n1wgZdi7DcH7Az4369KSdms0FJIawpbA/IpMtwYCpdKzI3oPiOmcbbToOnltV1SCiBne
+         BGbn5gqpfeKqXh2mFtP44lkNHYSzIWPCX9aEZro5JcHWRnzi6juBMM5iJ/W0inC/8/to
+         JRjN/IbbEWViIO+87XAZvb3pSpx2Fj+rksO2y3PvPX2zLBNxWWSiyNwV+RUB/Pz/2QfZ
+         Brfbiu8ICMWtbRGhjuLw8hLXUl/vXa4GOtL4V3Ds66J+7+0zUAycOEM5Ubskyq28AArR
+         KgjQ==
+X-Gm-Message-State: APjAAAVMITVI5D+Hp66yowfI6aUztCVxg3OkDE8yqTj5LR7d6GrHs6y9
+        +nxFJhVP08QnfG6NPU3CedM=
+X-Google-Smtp-Source: APXvYqy1e304xWPAXWtyGl/TDt20eR7yBAFWpO7xyYXpSuTWfg5few7aalangruSL/GdPCLJzwItMw==
+X-Received: by 2002:a17:90a:bc49:: with SMTP id t9mr3841915pjv.111.1570625641460;
+        Wed, 09 Oct 2019 05:54:01 -0700 (PDT)
+Received: from bj04616pcu.spreadtrum.com ([117.18.48.82])
+        by smtp.gmail.com with ESMTPSA id f5sm674306pgs.72.2019.10.09.05.53.58
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Wed, 09 Oct 2019 05:54:00 -0700 (PDT)
+From:   Candle Sun <candlesea@gmail.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        nsaenzjulienne@suse.de
+Cc:     orson.zhai@unisoc.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Candle Sun <candle.sun@unisoc.com>,
+        Nianfu Bai <nianfu.bai@unisoc.com>
+Subject: [PATCH v2] HID: core: check whether usage page item is after usage id item
+Date:   Wed,  9 Oct 2019 20:53:29 +0800
+Message-Id: <1570625609-11083-1-git-send-email-candlesea@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Oct 08, 2019 at 03:00:14PM -0700, Dmitry Torokhov wrote:
-> On Mon, Oct 07, 2019 at 10:50:21PM +0200, Stephan Gerhold wrote:
-> > MMS345L is another first generation touch screen from Melfas,
-> > which uses the same registers as MMS152.
-> > 
-> > However, using I2C_M_NOSTART for it causes errors when reading:
-> > 
-> > 	i2c i2c-0: sendbytes: NAK bailout.
-> > 	mms114 0-0048: __mms114_read_reg: i2c transfer failed (-5)
-> > 
-> > The driver works fine as soon as I2C_M_NOSTART is removed.
-> > 
-> > Add a separate melfas,mms345l binding, and make use of I2C_M_NOSTART
-> > only for MMS114 and MMS152.
-> > 
-> > Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
-> > ---
-> > Note: I was not able to find a datasheet for any of the models,
-> > so this change is merely based on testing and comparison with
-> > the downstream driver [1].
-> > 
-> > There was a related patch [2] that removes I2C_M_NOSTART for all models,
-> > but it seems abandoned and I do not have any other model for testing.
-> > Therefore, this patch implements the least instrusive solution
-> > and only removes I2C_M_NOSTART for MMS345L.
-> 
-> Hmm,  at this point I am inclined to pick up Andi's patch since it seems
-> to work for you and him and it looks like Android drivers are not using
-> I2C_M_NOSTART. I wonder if this was some quirk/big on the platform where
-> it was originally developed.
-> 
-> Any objections?
+From: Candle Sun <candle.sun@unisoc.com>
 
-I cannot really speak for any of the other models, but no objections for
-removing I2C_M_NOSTART from my side. I'm actually rather confused by it
-since it is used on the first partial message.
+Upstream commit 58e75155009c ("HID: core: move Usage Page concatenation
+to Main item") adds support for Usage Page item after Usage ID items
+(such as keyboards manufactured by Primax).
 
-The documentation [1] says:
-  If you set the I2C_M_NOSTART variable for the first partial message,
-  we do not generate Addr, but we do generate the startbit S.
-  ** This will probably confuse all other clients on your bus,
-  so don't try this. **
+Usage Page concatenation in Main item works well for following report
+descriptor patterns:
 
-Yet, someone felt like trying this here. ;)
+    USAGE_PAGE (Keyboard)                   05 07
+    USAGE_MINIMUM (Keyboard LeftControl)    19 E0
+    USAGE_MAXIMUM (Keyboard Right GUI)      29 E7
+    LOGICAL_MINIMUM (0)                     15 00
+    LOGICAL_MAXIMUM (1)                     25 01
+    REPORT_SIZE (1)                         75 01
+    REPORT_COUNT (8)                        95 08
+    INPUT (Data,Var,Abs)                    81 02
 
-I have tested the following two patches from Andy on MMS345L:
-  - Input: mms114 - use smbus functions whenever possible [2]
-  - Input: mms114 - get read of custm i2c read/write functions [3]
+-------------
 
-Indeed, with I2C_M_NOSTART removed I can actually use "melfas,mms152"
-and the touchscreen appears to work without further changes.
-(The only weird thing is that it displays an empty "Compat group" in
-  "TSP FW Rev: bootloader 0x6 / core 0x26 / config 0x26, Compat group: ",
- I suspect that register does not exist on MMS345L...)
+    USAGE_MINIMUM (Keyboard LeftControl)    19 E0
+    USAGE_MAXIMUM (Keyboard Right GUI)      29 E7
+    LOGICAL_MINIMUM (0)                     15 00
+    LOGICAL_MAXIMUM (1)                     25 01
+    REPORT_SIZE (1)                         75 01
+    REPORT_COUNT (8)                        95 08
+    USAGE_PAGE (Keyboard)                   05 07
+    INPUT (Data,Var,Abs)                    81 02
 
-But there is a limitation that won't let us take these two patches as-is:
-i2c_smbus_read_i2c_block_data() is limited to I2C_SMBUS_BLOCK_MAX,
-which is: 32 /* As specified in SMBus standard */
+But it makes the parser act wrong for the following report
+descriptor pattern(such as some Gamepads):
 
-According to "Input: mms114 - use smbus functions whenever possible":
-> The exchange of data to and from the mms114 touchscreen never
-> exceeds 256 bytes. In the worst case it goes up to 80 bytes in
-> the interrupt handler while reading the events.
+    USAGE_PAGE (Button)                     05 09
+    USAGE (Button 1)                        09 01
+    USAGE (Button 2)                        09 02
+    USAGE (Button 4)                        09 04
+    USAGE (Button 5)                        09 05
+    USAGE (Button 7)                        09 07
+    USAGE (Button 8)                        09 08
+    USAGE (Button 14)                       09 0E
+    USAGE (Button 15)                       09 0F
+    USAGE (Button 13)                       09 0D
+    USAGE_PAGE (Consumer Devices)           05 0C
+    USAGE (Back)                            0a 24 02
+    USAGE (HomePage)                        0a 23 02
+    LOGICAL_MINIMUM (0)                     15 00
+    LOGICAL_MAXIMUM (1)                     25 01
+    REPORT_SIZE (1)                         75 01
+    REPORT_COUNT (11)                       95 0B
+    INPUT (Data,Var,Abs)                    81 02
 
-Since i2c_smbus_read_i2c_block_data() is limited to 32, larger packets
-won't be read correctly. For example, if you use more than 4 fingers you
-can easily trigger a situation where one of the fingers gets "stuck",
-together with: mms114 4-0048: Wrong touch type (0)
-(It attempts to read uninitialized data in this case...)
+With Usage Page concatenation in Main item, parser recognizes all the
+11 Usages as consumer keys, it is not the HID device's real intention.
 
-So we still need the custom functions for reading the touch packet,
-or maybe change the driver to use regmap instead.
+This patch adds usage_page_last to flag whether Usage Page is after
+Usage ID items. usage_page_last is false default, it is set as true
+once Usage Page item is encountered and is reverted by next Usage ID
+item.
 
-[1]: https://www.kernel.org/doc/html/latest/i2c/i2c-protocol.html
-[2]: https://patchwork.kernel.org/patch/10189551/
-[3]: https://patchwork.kernel.org/patch/10189541/
+Usage Page concatenation on the currently defined Usage Page will do
+firstly in Local parsing when Usage ID items encountered.
+
+When Main item is parsing, concatenation will do again with last
+defined Usage Page if usage_page_last flag is true.
+
+Signed-off-by: Candle Sun <candle.sun@unisoc.com>
+Signed-off-by: Nianfu Bai <nianfu.bai@unisoc.com>
+---
+Changes in v2:
+- Update patch title
+- Add GET_COMPLETE_USAGE macro
+- Change the logic of checking whether to concatenate usage page again
+  in main parsing
+---
+ drivers/hid/hid-core.c | 31 +++++++++++++++++++++++++------
+ include/linux/hid.h    |  1 +
+ 2 files changed, 26 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 3eaee2c..3394222 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -35,6 +35,8 @@
+ 
+ #include "hid-ids.h"
+ 
++#define GET_COMPLETE_USAGE(page, id) (((page) << 16) + ((id) & 0xffff))
++
+ /*
+  * Version Information
+  */
+@@ -221,7 +223,15 @@ static int hid_add_usage(struct hid_parser *parser, unsigned usage, u8 size)
+ 		hid_err(parser->device, "usage index exceeded\n");
+ 		return -1;
+ 	}
+-	parser->local.usage[parser->local.usage_index] = usage;
++
++	if (size <= 2) {
++		parser->local.usage_page_last = false;
++		parser->local.usage[parser->local.usage_index] =
++			GET_COMPLETE_USAGE(parser->global.usage_page, usage);
++	} else {
++		parser->local.usage[parser->local.usage_index] = usage;
++	}
++
+ 	parser->local.usage_size[parser->local.usage_index] = size;
+ 	parser->local.collection_index[parser->local.usage_index] =
+ 		parser->collection_stack_ptr ?
+@@ -366,6 +376,7 @@ static int hid_parser_global(struct hid_parser *parser, struct hid_item *item)
+ 
+ 	case HID_GLOBAL_ITEM_TAG_USAGE_PAGE:
+ 		parser->global.usage_page = item_udata(item);
++		parser->local.usage_page_last = true;
+ 		return 0;
+ 
+ 	case HID_GLOBAL_ITEM_TAG_LOGICAL_MINIMUM:
+@@ -543,13 +554,21 @@ static int hid_parser_local(struct hid_parser *parser, struct hid_item *item)
+  * usage value."
+  */
+ 
+-static void hid_concatenate_usage_page(struct hid_parser *parser)
++static void hid_concatenate_last_usage_page(struct hid_parser *parser)
+ {
+ 	int i;
++	unsigned int usage;
++	unsigned int usage_page = parser->global.usage_page;
++
++	if (!parser->local.usage_page_last)
++		return;
+ 
+ 	for (i = 0; i < parser->local.usage_index; i++)
+-		if (parser->local.usage_size[i] <= 2)
+-			parser->local.usage[i] += parser->global.usage_page << 16;
++		if (parser->local.usage_size[i] <= 2) {
++			usage = parser->local.usage[i];
++			parser->local.usage[i] =
++				GET_COMPLETE_USAGE(usage_page, usage);
++		}
+ }
+ 
+ /*
+@@ -561,7 +580,7 @@ static int hid_parser_main(struct hid_parser *parser, struct hid_item *item)
+ 	__u32 data;
+ 	int ret;
+ 
+-	hid_concatenate_usage_page(parser);
++	hid_concatenate_last_usage_page(parser);
+ 
+ 	data = item_udata(item);
+ 
+@@ -772,7 +791,7 @@ static int hid_scan_main(struct hid_parser *parser, struct hid_item *item)
+ 	__u32 data;
+ 	int i;
+ 
+-	hid_concatenate_usage_page(parser);
++	hid_concatenate_last_usage_page(parser);
+ 
+ 	data = item_udata(item);
+ 
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index cd41f20..2e0ea2f7 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -412,6 +412,7 @@ struct hid_local {
+ 	unsigned usage_minimum;
+ 	unsigned delimiter_depth;
+ 	unsigned delimiter_branch;
++	bool usage_page_last;      /* whether usage page is after usage id */
+ };
+ 
+ /*
+-- 
+2.7.4
+
