@@ -2,72 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC76FD08A9
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2019 09:43:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F6C3D0CD3
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2019 12:29:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729279AbfJIHn5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Oct 2019 03:43:57 -0400
-Received: from 9.mo177.mail-out.ovh.net ([46.105.72.238]:46412 "EHLO
-        9.mo177.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729595AbfJIHn5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Oct 2019 03:43:57 -0400
-X-Greylist: delayed 1050 seconds by postgrey-1.27 at vger.kernel.org; Wed, 09 Oct 2019 03:43:56 EDT
-Received: from player755.ha.ovh.net (unknown [10.109.159.152])
-        by mo177.mail-out.ovh.net (Postfix) with ESMTP id 1AFE810C8D2
-        for <linux-input@vger.kernel.org>; Wed,  9 Oct 2019 09:26:25 +0200 (CEST)
-Received: from etezian.org (81-175-223-118.bb.dnainternet.fi [81.175.223.118])
-        (Authenticated sender: andi@etezian.org)
-        by player755.ha.ovh.net (Postfix) with ESMTPSA id 845A2AD418DA;
-        Wed,  9 Oct 2019 07:26:14 +0000 (UTC)
-Date:   Wed, 9 Oct 2019 10:26:12 +0300
-From:   Andi Shyti <andi@etezian.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Stephan Gerhold <stephan@gerhold.net>,
-        Andi Shyti <andi@etezian.org>,
-        Simon Shields <simon@lineageos.org>,
-        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] Input: mms114 - add support for mms345l
-Message-ID: <20191009072612.GA2814@jack.zhora.eu>
-References: <20191007203343.101466-1-stephan@gerhold.net>
- <20191007205021.104402-1-stephan@gerhold.net>
- <20191008220014.GI22365@dtor-ws>
+        id S1727228AbfJIK3M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Oct 2019 06:29:12 -0400
+Received: from uho.ysoft.cz ([81.19.3.130]:60686 "EHLO uho.ysoft.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726579AbfJIK3M (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 9 Oct 2019 06:29:12 -0400
+Received: from [10.1.8.111] (unknown [10.1.8.111])
+        by uho.ysoft.cz (Postfix) with ESMTP id B189EA02CF;
+        Wed,  9 Oct 2019 12:29:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+        s=20160406-ysoft-com; t=1570616949;
+        bh=50Z9iz03hJ2oBnA63oAtg3v/o92mprCNV7tVOEIO5oo=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=nApnUtTr1HYXDYzMEr94DH/MbYwGxpZz5EMiLivYS8o0zqmj1e9An4XJa02kkhpuh
+         IMFuz4PwbdnqvPd7vZU+hpAxoeYRKIAixA5uCgf9qXCLhzocxA4mfp4tWc+K9hM12T
+         f4bjEhD5T9fIKrPIuanbxODamXMVTNuR43cy6b/A=
+Subject: Re: [PATCH 1/5] Input: pixcir_i2c_ts - Remove unneeded gpio.h header
+ file
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Roger Quadros <rogerq@ti.com>
+Cc:     Fabio Estevam <festevam@gmail.com>, linux-input@vger.kernel.org,
+        jcbian@pixcir.com.cn
+References: <20191007121607.12545-1-festevam@gmail.com>
+ <ce6d29b1-1a7c-9fa4-da07-1b1d8c2a0efa@ti.com>
+ <20191008184408.GG22365@dtor-ws>
+From:   =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+Message-ID: <c89401dd-14cc-c90a-9ca0-b44bb7d426f8@ysoft.com>
+Date:   Wed, 9 Oct 2019 12:29:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191008220014.GI22365@dtor-ws>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Ovh-Tracer-Id: 10061041571171844762
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedriedtgdduvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+In-Reply-To: <20191008184408.GG22365@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
-
-> > There was a related patch [2] that removes I2C_M_NOSTART for all models,
-> > but it seems abandoned and I do not have any other model for testing.
-> > Therefore, this patch implements the least instrusive solution
-> > and only removes I2C_M_NOSTART for MMS345L.
+On 08. 10. 19 20:44, Dmitry Torokhov wrote:
+> On Tue, Oct 08, 2019 at 01:11:15PM +0300, Roger Quadros wrote:
+>> Hi,
+>>
+>> On 07/10/2019 15:16, Fabio Estevam wrote:
+>>> The touchscreen device is a GPIO consumer, not a GPIO controller,
+>>> so there is no need to include <linux/gpio.h>.
+>>>
+>>> Remove the unneeded header file.
+>>>
+>>> Signed-off-by: Fabio Estevam <festevam@gmail.com>
+>>
+>> For all 5 patches,
+>>
+>> Reviewed-by: Roger Quadros <rogerq@ti.com>
 > 
-> Hmm,  at this point I am inclined to pick up Andi's patch since it seems
-> to work for you and him and it looks like Android drivers are not using
-> I2C_M_NOSTART. I wonder if this was some quirk/big on the platform where
-> it was originally developed.
+> I guess we can also do this:
+> 
+> Input: pixcir_i2c_ts - remove platform data
+> 
+> From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> 
+> Previous change moved platform data definition into the driver, making it
+> unusable for users. Given that we want to move away from custom platform
+> data structures, and always use device properties (DT, ACPI or static) to
+> configure devices, let's complete the removal.
+> 
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>   drivers/input/touchscreen/pixcir_i2c_ts.c |  100 +++++++----------------------
+>   1 file changed, 25 insertions(+), 75 deletions(-)
 
-I completely forgot about that patch :)
+Compiled and boot tested the whole series including this patch from Dmitry
+on our imx6dl-yapp4-draco with Pixcir Tango C48.
 
-I should refresh some old work on that device which was left
-undone.
+Everything still works for me, thanks!
 
-> Any objections?
-
-It's OK for me. If you can just update my e-mail, please, when
-applying the patch to "andi@etezian.org". Thanks!
-
-Thank you,
-Andi
+Tested-by: michal.vokac@ysoft.com
