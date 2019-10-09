@@ -2,105 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA48FD052B
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2019 03:22:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8425BD0729
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2019 08:29:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730000AbfJIBWI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Oct 2019 21:22:08 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:40108 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727051AbfJIBWI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Oct 2019 21:22:08 -0400
-Received: by mail-vs1-f66.google.com with SMTP id v10so419425vsc.7
-        for <linux-input@vger.kernel.org>; Tue, 08 Oct 2019 18:22:08 -0700 (PDT)
+        id S1728606AbfJIG3A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Oct 2019 02:29:00 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:45330 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726698AbfJIG3A (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Oct 2019 02:29:00 -0400
+Received: by mail-io1-f66.google.com with SMTP id c25so2404947iot.12
+        for <linux-input@vger.kernel.org>; Tue, 08 Oct 2019 23:29:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TqcW2nJa6/sYXNvfpb9MEbnZ1VJq5krUA/XRLhNaEOg=;
-        b=VpO5HthVvX6kZhEatkMSNZqwBEahgwHieiF+p1ewly25dce0MtDiYaPbLY4W7CaDfH
-         VKZCJaiRq+I3wKNWAgm0Is/tHX5KGs6cgU+fEbfwxwTyYc2wgvCYX2tx8/LDg1bGfVZ+
-         i25Q1UisumEO9sfEJimJ0k0h+Y0fP95h5DfwR0+l0Jd7NTFoj+OVfwOlDC9hGUzDJWkf
-         CXbU9mUijKDlog4NzbFtRXJuhR7+8os1oUgmhp+9in+b/7swPia3pup9uYkVjt7hBTX4
-         fS6ZtGlvXl2UVkdjLAOWehblcryJeoOeZh0PpKIs8wJOnLwFgA5djOPuUJxHZ9u3wsa1
-         DtCw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aSvvfT2UXbirE2MPj8ZUc6i78OGIx4tlIoxmf5fj2U4=;
+        b=A+TD2mzYCQs2rvgM1o14rhBNU5C0oJ9GdlNBurOTI1VAOJxNZLS3FcR9RMxbkuUjGb
+         i0QShHoOhRx/m3nlgsNUwPHAW21pO12pbQseZu05NQQZvKUAwkC0hp34980vT7qVHqjP
+         a3LKLZZddTJT6FzgMf01XVkG9CwXnfj8XoP7kIcD9MZLbUNcB1KDcmbawkizu53nWRpW
+         iOSAj7kG+4V4ro8RlibvnvHWVoWz1uoAv4pv+d6qzMAccshhH9pmSe3Xf2xKGRTN2KJH
+         WY1HGyIMiaF6pR8tw2vccVE55QKe4p8JHmLnFYHZr30QfBim0tUCWSjg9ehpykVqv27x
+         ae3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TqcW2nJa6/sYXNvfpb9MEbnZ1VJq5krUA/XRLhNaEOg=;
-        b=aIIoaYJzDd1L2fbkMwotl044Zrldd2foFvRVfPTPAStDyU9t2hl3Hl9ajtqzA5Etv1
-         fjP8flr2Ro64v3ryNwIsIMsp2XUXWk28aBtC9kzSt9JRlMtfNBFpTnhEUPd9cU3/BSj5
-         T8/HDAxg4K6EOtt4Y5kwV3z8lkkEN6lyvIwXHlT3FJWa7OwCa9yoRpJd+h+xPSbowImA
-         upV+RPeKfxY7uVBmatXwqQpE6TR18XKRYckJhfqK/xZ36Zp52AdxE9tXm/Gi74GDpu3D
-         lbRUW5Z+IkRM1/c3ek0h4cdX29DoPO2dh2PN3g/TRKvOb35VQ3QIaBqIpniQNuHzLOuR
-         n2NA==
-X-Gm-Message-State: APjAAAX8K8SGvTOoHkrNBYp8M7Wbsgx3MMTWLlQLjy7RLQiLEVYsj086
-        lJSFgJqv4wepaRcpV+qiOokMOaGo8l9Rd+2dK00=
-X-Google-Smtp-Source: APXvYqzMks1HFdqpFYdVje7a0VFPDikmgt0R9RNw9NXLAWr+jN1KJPwXGMp0/91vRS+B6VFbWI0V61tHw9nhfxKSC/s=
-X-Received: by 2002:a05:6102:827:: with SMTP id k7mr432679vsb.220.1570584127514;
- Tue, 08 Oct 2019 18:22:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aSvvfT2UXbirE2MPj8ZUc6i78OGIx4tlIoxmf5fj2U4=;
+        b=dIbHztZbKS6hBN+13+fZlRNfalGPuOYgL/1DeR8pRKiaf+CBGIZbLxbYdZoJ0ZphD9
+         aYMzyPojGWUtaM0GeNeIz/C5So3yC1cZJhvObzVdYD10MiHJMoov/iSsEvVz3AI4V3zy
+         uuaaLIWhLhjD3E9TV6WBGnHWA6aQBthhWJAGDohKaXmu6ftw/1c42X3VLk7wiQkjCPtQ
+         XkJXVEIF31Day/L6rx277aXYzOzxgALQW3fwR6SnXYgcwxKrWewGE/T7zUrGhqgWXCF9
+         RFsrfuAsZ6z7s4jG3mDgKAoQOxkBDs5n3nPJu/Z6cfGWYudNYuJgKWvtZj9U/ItZEW4I
+         kAdQ==
+X-Gm-Message-State: APjAAAWpkoKSORwlcdsN9D8wmQGh4WDimfODyZet464U/YGmpfZTh4CR
+        twIbPlIxeZ+7CGUTzV/CTxv8VFPbPnE=
+X-Google-Smtp-Source: APXvYqwIempWg3IttaafGLj5G/sfgKhJUJBOvhSIcAOODXuidaBhhmTQgrgJvr7zIWfroxGQiG1gaQ==
+X-Received: by 2002:a5d:9d52:: with SMTP id k18mr1127569iok.99.1570602539304;
+        Tue, 08 Oct 2019 23:28:59 -0700 (PDT)
+Received: from Arrakis.djogorchock.com ([136.61.189.171])
+        by smtp.gmail.com with ESMTPSA id r22sm880844ilb.85.2019.10.08.23.28.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2019 23:28:58 -0700 (PDT)
+From:   "Daniel J. Ogorchock" <djogorchock@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     thunderbird2k@gmail.com, blaws05@gmail.com,
+        benjamin.tissoires@redhat.com, jikos@kernel.org,
+        Roderick.Colenbrander@sony.com, svv@google.com, s.jegen@gmail.com,
+        "Daniel J. Ogorchock" <djogorchock@gmail.com>
+Subject: [PATCH v7 0/8] HID: nintendo
+Date:   Wed,  9 Oct 2019 01:28:25 -0500
+Message-Id: <20191009062833.3599398-1-djogorchock@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20190915233140.244347-1-djogorchock@gmail.com>
- <20190915233140.244347-2-djogorchock@gmail.com> <nycvar.YFH.7.76.1910071711440.13160@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.1910071711440.13160@cbobk.fhfr.pm>
-From:   Daniel Ogorchock <djogorchock@gmail.com>
-Date:   Tue, 8 Oct 2019 20:21:56 -0500
-Message-ID: <CAEVj2tnBW-rYO5mSWa83yx4ZQ4LJ+apNkssiJTLR6g8r6yc-MA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/6] HID: joycon: add nintendo switch controller driver
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Roderick Colenbrander <thunderbird2k@gmail.com>,
-        Billy Laws <blaws05@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Colenbrander, Roelof" <Roderick.Colenbrander@sony.com>,
-        jbrandst@2ds.eu0, Siarhei Vishniakou <svv@google.com>,
-        s.jegen@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Oct 7, 2019 at 10:14 AM Jiri Kosina <jikos@kernel.org> wrote:
->
-> On Sun, 15 Sep 2019, Daniel J. Ogorchock wrote:
->
-> > The joycon driver supports the Nintendo Switch Pro Controllers and the
-> > Joy-Cons. The Pro Controllers can be used over USB or Bluetooth.
-> >
-> > The Joy-Cons each create their own, independent input devices, so it is
-> > up to userspace to combine them if desired.
-> >
-> > Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
-> > ---
-> >  MAINTAINERS              |   6 +
-> >  drivers/hid/Kconfig      |  11 +
-> >  drivers/hid/Makefile     |   1 +
-> >  drivers/hid/hid-ids.h    |   3 +
-> >  drivers/hid/hid-joycon.c | 820 +++++++++++++++++++++++++++++++++++++++
->
-> Hi Daniel,
->
-> I've finally (sorry for the delay) through reviewing these patches. All
-> looks good and ready to be merged, the only last request I'd have -- could
-> we please have this called hid-nintendo instead? We've been going on with
-> the per-vendor driver naming for quite some time already.
->
-> If you agree with that, let's get this queued for 5.5.
->
-> Thanks,
->
-> --
-> Jiri Kosina
-> SUSE Labs
->
+Version 7 changes:
+  - Changed name to hid-nintendo to fit modern naming conventions
+  - Removed joycon_ctlr_destroy(), since it wasn't needed an could
+    potentially invalidate a mutex while it could be in use on other
+    threads
+  - Implemented minor code improvements suggested by Silvan
+  - The driver now waits to send subcommands until after receiving an
+    input report. This significantly reduces dropped subcommands.
+  - Reduced the number of error messages when disconnecting a
+    controller.
 
-Hi Jiri,
+Version 6 changes:
+  - Improved subcommand sending reliabilty
+  - Decreased rumble period to 50ms
+  - Added rumble queue to avoid missing ff_effects if sent too quickly
+  - Code cleanup and minor refactoring
+  - Added default analog stick calibration
 
-Yes, I can change the name to hid-nintendo. I'll try to get a new
-patchset submitted in the next week with the name change and the code
-improvements Silvan mentioned in his review of this patchset.
+Version 5 changes:
+  - Removed sysfs interface to control motor frequencies.
+  - Improved rumble reliability by using subcommands to set it.
+  - Changed mapping of the SL/SR triggers on the joy-cons to map to
+    whichever triggers they lack (e.g. a left joycon's sl/sr map to
+    TR and TR2). This allows userspace to distinguish between the
+    normal and S triggers.
+  - Minor refactors
 
-Thanks,
-Daniel Ogorchock
+Version 4 changes:
+  - Added support for the Home button LED for the pro controller and
+    right joy-con
+  - Changed name from hid-switchcon to hid-joycon
+  - Added rumble support
+  - Removed ctlr->type and use hdev->product instead
+  - Use POWER_SUPPLY_CAPACITY_LEVEL enum instead of manually translating
+    to capacity percentages
+  - Misc. minor refactors based on v3 feedback
+
+Version 3 changes:
+  - Added led_classdev support for the 4 player LEDs
+  - Added power_supply support for the controller's battery
+  - Made the controller number mutex static
+  - Minor refactoring/style fixes based on Roderick's feedback from v2
+
+Version 2 changes:
+  - Switched to using a synchronous method for configuring the
+        controller.
+  - Removed any pairing/orientation logic in the driver. Every
+    controller now corresponds to its own input device.
+  - Store controller button data as a single u32.
+  - Style corrections
+
+Daniel J. Ogorchock (8):
+  HID: nintendo: add nintendo switch controller driver
+  HID: nintendo: add player led support
+  HID: nintendo: add power supply support
+  HID: nintendo: add home led support
+  HID: nintendo: add rumble support
+  HID: nintendo: improve subcommand reliability
+  HID: nintendo: send subcommands after receiving input report
+  HID: nintendo: reduce device removal subcommand errors
+
+ MAINTAINERS                |    6 +
+ drivers/hid/Kconfig        |   24 +
+ drivers/hid/Makefile       |    1 +
+ drivers/hid/hid-ids.h      |    3 +
+ drivers/hid/hid-nintendo.c | 1496 ++++++++++++++++++++++++++++++++++++
+ 5 files changed, 1530 insertions(+)
+ create mode 100644 drivers/hid/hid-nintendo.c
+
+-- 
+2.23.0
+
