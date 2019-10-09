@@ -2,232 +2,226 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A605AD0F34
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2019 14:54:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 180BCD0FA4
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2019 15:08:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731174AbfJIMyC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Oct 2019 08:54:02 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:43114 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731170AbfJIMyC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Oct 2019 08:54:02 -0400
-Received: by mail-pg1-f196.google.com with SMTP id i32so1349136pgl.10;
-        Wed, 09 Oct 2019 05:54:02 -0700 (PDT)
+        id S1730858AbfJINII (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Oct 2019 09:08:08 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:36211 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731355AbfJINII (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Oct 2019 09:08:08 -0400
+Received: by mail-wr1-f68.google.com with SMTP id y19so2919948wrd.3
+        for <linux-input@vger.kernel.org>; Wed, 09 Oct 2019 06:08:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=DJP3EtJwnU1At2E0cpdnlKVvFa1qfwS0i3jVgskCmNY=;
-        b=QBrUbxSHIfGezkaPMFV1E8tgALbo4ugWl1DvFB4cyC+XrjUqj9mqXlXy7SnyTl2ro3
-         TTk7wOHp6x1v8DZUWfxTkVWO/D1tHQvh8EIWWlpbm4UodFjc1qbCwwoEtEmbaz+1VXyE
-         5gE3XYR14MNF4T3nJIwztu+7bF8Iihie8QxxXkZo0oz0DOeKjWOjF7qYghLNHZvaVD8L
-         fW5qA1+4i3QadWiNiXB37rVUHZZxPGlVCjdLk31r0H+pniN0XSKlyj759SSWNA7rJCWS
-         XCvdExIjjlZWxYrdh+8bVJL0YQiSmbAMEFBUTel3DUfQSgBNT7foWV5RUO+BA/yksrSx
-         m7gA==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SJluTP7Iu318juEgmVZU0u8unpaoIGl5t74+Cp5PAms=;
+        b=PWOuk/u9tL4/wz/b4im/a8ZiEpZR7EmAStrfBM7wBr3/zK5gmcTd8VE7OGe3SdPWs/
+         Jn3/dWp14MCRSW4zVXOuWfcagR8lbmEmD1HAAmPSHPimtoiQ/awPhVmq4F7xpLwDS1DC
+         tZxYu96zJekPT5Z6I+qRQKLxhuV8Tc4VWQrCkdFegHHi66IjKOQXhNhAxiboWo1hGpQ+
+         GeGkg1F6ZCGAS/Q/0xjtKI6KwAH0ogkYE8u13+UVClgQde09UMHStW+W02BeFjEoo8dF
+         lwy9qTdUxceflZnU9zAx4QYdodwuNKWTe2F/aTEM0zgwVDtv3sTq5ndjeNo0xl19uMTZ
+         kCPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=DJP3EtJwnU1At2E0cpdnlKVvFa1qfwS0i3jVgskCmNY=;
-        b=XM/X28AFLGbmoapO74JLq7O1bvX5F7/QLtJi2/65XTFE6T57CCMLubmUHouy4wcf3D
-         n1wgZdi7DcH7Az4369KSdms0FJIawpbA/IpMtwYCpdKzI3oPiOmcbbToOnltV1SCiBne
-         BGbn5gqpfeKqXh2mFtP44lkNHYSzIWPCX9aEZro5JcHWRnzi6juBMM5iJ/W0inC/8/to
-         JRjN/IbbEWViIO+87XAZvb3pSpx2Fj+rksO2y3PvPX2zLBNxWWSiyNwV+RUB/Pz/2QfZ
-         Brfbiu8ICMWtbRGhjuLw8hLXUl/vXa4GOtL4V3Ds66J+7+0zUAycOEM5Ubskyq28AArR
-         KgjQ==
-X-Gm-Message-State: APjAAAVMITVI5D+Hp66yowfI6aUztCVxg3OkDE8yqTj5LR7d6GrHs6y9
-        +nxFJhVP08QnfG6NPU3CedM=
-X-Google-Smtp-Source: APXvYqy1e304xWPAXWtyGl/TDt20eR7yBAFWpO7xyYXpSuTWfg5few7aalangruSL/GdPCLJzwItMw==
-X-Received: by 2002:a17:90a:bc49:: with SMTP id t9mr3841915pjv.111.1570625641460;
-        Wed, 09 Oct 2019 05:54:01 -0700 (PDT)
-Received: from bj04616pcu.spreadtrum.com ([117.18.48.82])
-        by smtp.gmail.com with ESMTPSA id f5sm674306pgs.72.2019.10.09.05.53.58
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Wed, 09 Oct 2019 05:54:00 -0700 (PDT)
-From:   Candle Sun <candlesea@gmail.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        nsaenzjulienne@suse.de
-Cc:     orson.zhai@unisoc.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Candle Sun <candle.sun@unisoc.com>,
-        Nianfu Bai <nianfu.bai@unisoc.com>
-Subject: [PATCH v2] HID: core: check whether usage page item is after usage id item
-Date:   Wed,  9 Oct 2019 20:53:29 +0800
-Message-Id: <1570625609-11083-1-git-send-email-candlesea@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SJluTP7Iu318juEgmVZU0u8unpaoIGl5t74+Cp5PAms=;
+        b=kjDOzZ/hzJfd0VObulbG7htB/HkN231wEJUgYmsixM9d3U7hqr1VY4C30yw3Lv7Zmk
+         qifC68h4UGDXVZ4NCzGHGyNnCmps70b+j3NKzOIZAVK7KWLXxPELTL3JRdM15mbDQ6yd
+         f16WG7dK/90457Zk9YCaydlEganZTkhLIySugfg3HA3e+nKRDKWCkF74+6DYkof6iRnp
+         5j3wPmFftiS2EUMJwwi77/5YMxuRWSjo/k/i43YbyTLpSRcLG/RuhXXUf0HusY5BhCkI
+         qAdiwZ2EZaoEx6YWluQEUHAsUvJ9rEt8LrSMso4z5M5zXC3uuFp/lGELt4Nlpjq3iMBh
+         mwPA==
+X-Gm-Message-State: APjAAAVONaDGnCrhEE5ohU4E9ZnDjO8kmrY/3XN2IKv/Z1sjVuJHdeZ2
+        e9BvLhBwVK7MgbOmwiBhTKQHbJDRWloj0WACUJ3KPg==
+X-Google-Smtp-Source: APXvYqzfeWVaOVDYT+4IReJSxU7fFbkWaSySdf/aALt3QzhNYwcH96IJX4rFio408cCNtT1Zp8EGzLXmQOFZrOjLTjI=
+X-Received: by 2002:adf:9f08:: with SMTP id l8mr2733709wrf.325.1570626485423;
+ Wed, 09 Oct 2019 06:08:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191004145056.43267-1-hdegoede@redhat.com> <20191004145056.43267-2-hdegoede@redhat.com>
+In-Reply-To: <20191004145056.43267-2-hdegoede@redhat.com>
+From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Date:   Wed, 9 Oct 2019 15:07:54 +0200
+Message-ID: <CAKv+Gu9OU3rS-j+L+pxpK7HZi41XtQZTq9BDs6VpUC8RCq5X6g@mail.gmail.com>
+Subject: Re: [PATCH v7 1/8] efi: Export boot-services code and data as debugfs-blobs
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        platform-driver-x86@vger.kernel.org,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Candle Sun <candle.sun@unisoc.com>
+On Fri, 4 Oct 2019 at 16:51, Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Sometimes it is useful to be able to dump the efi boot-services code and
+> data. This commit adds these as debugfs-blobs to /sys/kernel/debug/efi,
+> but only if efi=debug is passed on the kernel-commandline as this requires
+> not freeing those memory-regions, which costs 20+ MB of RAM.
+>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v5:
+> -Rename the EFI_BOOT_SERVICES flag to EFI_PRESERVE_BS_REGIONS
+>
+> Changes in v4:
+> -Add new EFI_BOOT_SERVICES flag and use it to determine if the boot-services
+>  memory segments are available (and thus if it makes sense to register the
+>  debugfs bits for them)
+>
+> Changes in v2:
+> -Do not call pr_err on debugfs call failures
+> ---
+>  arch/x86/platform/efi/efi.c    |  1 +
+>  arch/x86/platform/efi/quirks.c |  4 +++
+>  drivers/firmware/efi/efi.c     | 53 ++++++++++++++++++++++++++++++++++
+>  include/linux/efi.h            |  1 +
+>  4 files changed, 59 insertions(+)
+>
+> diff --git a/arch/x86/platform/efi/efi.c b/arch/x86/platform/efi/efi.c
+> index c202e1b07e29..847730f7e74b 100644
+> --- a/arch/x86/platform/efi/efi.c
+> +++ b/arch/x86/platform/efi/efi.c
+> @@ -232,6 +232,7 @@ int __init efi_memblock_x86_reserve_range(void)
+>              efi.memmap.desc_version);
+>
+>         memblock_reserve(pmap, efi.memmap.nr_map * efi.memmap.desc_size);
+> +       set_bit(EFI_PRESERVE_BS_REGIONS, &efi.flags);
 
-Upstream commit 58e75155009c ("HID: core: move Usage Page concatenation
-to Main item") adds support for Usage Page item after Usage ID items
-(such as keyboards manufactured by Primax).
+Should we add a Kconfig symbol to opt into this behavior [set by the
+driver in question], instead of always preserving all boot services
+regions on all x86 systems?
 
-Usage Page concatenation in Main item works well for following report
-descriptor patterns:
-
-    USAGE_PAGE (Keyboard)                   05 07
-    USAGE_MINIMUM (Keyboard LeftControl)    19 E0
-    USAGE_MAXIMUM (Keyboard Right GUI)      29 E7
-    LOGICAL_MINIMUM (0)                     15 00
-    LOGICAL_MAXIMUM (1)                     25 01
-    REPORT_SIZE (1)                         75 01
-    REPORT_COUNT (8)                        95 08
-    INPUT (Data,Var,Abs)                    81 02
-
--------------
-
-    USAGE_MINIMUM (Keyboard LeftControl)    19 E0
-    USAGE_MAXIMUM (Keyboard Right GUI)      29 E7
-    LOGICAL_MINIMUM (0)                     15 00
-    LOGICAL_MAXIMUM (1)                     25 01
-    REPORT_SIZE (1)                         75 01
-    REPORT_COUNT (8)                        95 08
-    USAGE_PAGE (Keyboard)                   05 07
-    INPUT (Data,Var,Abs)                    81 02
-
-But it makes the parser act wrong for the following report
-descriptor pattern(such as some Gamepads):
-
-    USAGE_PAGE (Button)                     05 09
-    USAGE (Button 1)                        09 01
-    USAGE (Button 2)                        09 02
-    USAGE (Button 4)                        09 04
-    USAGE (Button 5)                        09 05
-    USAGE (Button 7)                        09 07
-    USAGE (Button 8)                        09 08
-    USAGE (Button 14)                       09 0E
-    USAGE (Button 15)                       09 0F
-    USAGE (Button 13)                       09 0D
-    USAGE_PAGE (Consumer Devices)           05 0C
-    USAGE (Back)                            0a 24 02
-    USAGE (HomePage)                        0a 23 02
-    LOGICAL_MINIMUM (0)                     15 00
-    LOGICAL_MAXIMUM (1)                     25 01
-    REPORT_SIZE (1)                         75 01
-    REPORT_COUNT (11)                       95 0B
-    INPUT (Data,Var,Abs)                    81 02
-
-With Usage Page concatenation in Main item, parser recognizes all the
-11 Usages as consumer keys, it is not the HID device's real intention.
-
-This patch adds usage_page_last to flag whether Usage Page is after
-Usage ID items. usage_page_last is false default, it is set as true
-once Usage Page item is encountered and is reverted by next Usage ID
-item.
-
-Usage Page concatenation on the currently defined Usage Page will do
-firstly in Local parsing when Usage ID items encountered.
-
-When Main item is parsing, concatenation will do again with last
-defined Usage Page if usage_page_last flag is true.
-
-Signed-off-by: Candle Sun <candle.sun@unisoc.com>
-Signed-off-by: Nianfu Bai <nianfu.bai@unisoc.com>
----
-Changes in v2:
-- Update patch title
-- Add GET_COMPLETE_USAGE macro
-- Change the logic of checking whether to concatenate usage page again
-  in main parsing
----
- drivers/hid/hid-core.c | 31 +++++++++++++++++++++++++------
- include/linux/hid.h    |  1 +
- 2 files changed, 26 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 3eaee2c..3394222 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -35,6 +35,8 @@
- 
- #include "hid-ids.h"
- 
-+#define GET_COMPLETE_USAGE(page, id) (((page) << 16) + ((id) & 0xffff))
-+
- /*
-  * Version Information
-  */
-@@ -221,7 +223,15 @@ static int hid_add_usage(struct hid_parser *parser, unsigned usage, u8 size)
- 		hid_err(parser->device, "usage index exceeded\n");
- 		return -1;
- 	}
--	parser->local.usage[parser->local.usage_index] = usage;
-+
-+	if (size <= 2) {
-+		parser->local.usage_page_last = false;
-+		parser->local.usage[parser->local.usage_index] =
-+			GET_COMPLETE_USAGE(parser->global.usage_page, usage);
-+	} else {
-+		parser->local.usage[parser->local.usage_index] = usage;
-+	}
-+
- 	parser->local.usage_size[parser->local.usage_index] = size;
- 	parser->local.collection_index[parser->local.usage_index] =
- 		parser->collection_stack_ptr ?
-@@ -366,6 +376,7 @@ static int hid_parser_global(struct hid_parser *parser, struct hid_item *item)
- 
- 	case HID_GLOBAL_ITEM_TAG_USAGE_PAGE:
- 		parser->global.usage_page = item_udata(item);
-+		parser->local.usage_page_last = true;
- 		return 0;
- 
- 	case HID_GLOBAL_ITEM_TAG_LOGICAL_MINIMUM:
-@@ -543,13 +554,21 @@ static int hid_parser_local(struct hid_parser *parser, struct hid_item *item)
-  * usage value."
-  */
- 
--static void hid_concatenate_usage_page(struct hid_parser *parser)
-+static void hid_concatenate_last_usage_page(struct hid_parser *parser)
- {
- 	int i;
-+	unsigned int usage;
-+	unsigned int usage_page = parser->global.usage_page;
-+
-+	if (!parser->local.usage_page_last)
-+		return;
- 
- 	for (i = 0; i < parser->local.usage_index; i++)
--		if (parser->local.usage_size[i] <= 2)
--			parser->local.usage[i] += parser->global.usage_page << 16;
-+		if (parser->local.usage_size[i] <= 2) {
-+			usage = parser->local.usage[i];
-+			parser->local.usage[i] =
-+				GET_COMPLETE_USAGE(usage_page, usage);
-+		}
- }
- 
- /*
-@@ -561,7 +580,7 @@ static int hid_parser_main(struct hid_parser *parser, struct hid_item *item)
- 	__u32 data;
- 	int ret;
- 
--	hid_concatenate_usage_page(parser);
-+	hid_concatenate_last_usage_page(parser);
- 
- 	data = item_udata(item);
- 
-@@ -772,7 +791,7 @@ static int hid_scan_main(struct hid_parser *parser, struct hid_item *item)
- 	__u32 data;
- 	int i;
- 
--	hid_concatenate_usage_page(parser);
-+	hid_concatenate_last_usage_page(parser);
- 
- 	data = item_udata(item);
- 
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index cd41f20..2e0ea2f7 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -412,6 +412,7 @@ struct hid_local {
- 	unsigned usage_minimum;
- 	unsigned delimiter_depth;
- 	unsigned delimiter_branch;
-+	bool usage_page_last;      /* whether usage page is after usage id */
- };
- 
- /*
--- 
-2.7.4
-
+>
+>         return 0;
+>  }
+> diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
+> index 3b9fd679cea9..fab12ebf0ada 100644
+> --- a/arch/x86/platform/efi/quirks.c
+> +++ b/arch/x86/platform/efi/quirks.c
+> @@ -411,6 +411,10 @@ void __init efi_free_boot_services(void)
+>         int num_entries = 0;
+>         void *new, *new_md;
+>
+> +       /* Keep all regions for /sys/kernel/debug/efi */
+> +       if (efi_enabled(EFI_DBG))
+> +               return;
+> +
+>         for_each_efi_memory_desc(md) {
+>                 unsigned long long start = md->phys_addr;
+>                 unsigned long long size = md->num_pages << EFI_PAGE_SHIFT;
+> diff --git a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
+> index 8d3e778e988b..abba49c4c46d 100644
+> --- a/drivers/firmware/efi/efi.c
+> +++ b/drivers/firmware/efi/efi.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/kobject.h>
+>  #include <linux/module.h>
+>  #include <linux/init.h>
+> +#include <linux/debugfs.h>
+>  #include <linux/device.h>
+>  #include <linux/efi.h>
+>  #include <linux/of.h>
+> @@ -314,6 +315,55 @@ static __init int efivar_ssdt_load(void)
+>  static inline int efivar_ssdt_load(void) { return 0; }
+>  #endif
+>
+> +#ifdef CONFIG_DEBUG_FS
+> +
+> +#define EFI_DEBUGFS_MAX_BLOBS 32
+> +
+> +static struct debugfs_blob_wrapper debugfs_blob[EFI_DEBUGFS_MAX_BLOBS];
+> +
+> +static void __init efi_debugfs_init(void)
+> +{
+> +       struct dentry *efi_debugfs;
+> +       efi_memory_desc_t *md;
+> +       char name[32];
+> +       int type_count[EFI_BOOT_SERVICES_DATA + 1] = {};
+> +       int i = 0;
+> +
+> +       efi_debugfs = debugfs_create_dir("efi", NULL);
+> +       if (IS_ERR_OR_NULL(efi_debugfs))
+> +               return;
+> +
+> +       for_each_efi_memory_desc(md) {
+> +               switch (md->type) {
+> +               case EFI_BOOT_SERVICES_CODE:
+> +                       snprintf(name, sizeof(name), "boot_services_code%d",
+> +                                type_count[md->type]++);
+> +                       break;
+> +               case EFI_BOOT_SERVICES_DATA:
+> +                       snprintf(name, sizeof(name), "boot_services_data%d",
+> +                                type_count[md->type]++);
+> +                       break;
+> +               default:
+> +                       continue;
+> +               }
+> +
+> +               debugfs_blob[i].size = md->num_pages << EFI_PAGE_SHIFT;
+> +               debugfs_blob[i].data = memremap(md->phys_addr,
+> +                                               debugfs_blob[i].size,
+> +                                               MEMREMAP_WB);
+> +               if (!debugfs_blob[i].data)
+> +                       continue;
+> +
+> +               debugfs_create_blob(name, 0400, efi_debugfs, &debugfs_blob[i]);
+> +               i++;
+> +               if (i == EFI_DEBUGFS_MAX_BLOBS)
+> +                       break;
+> +       }
+> +}
+> +#else
+> +static inline void efi_debugfs_init(void) {}
+> +#endif
+> +
+>  /*
+>   * We register the efi subsystem with the firmware subsystem and the
+>   * efivars subsystem with the efi subsystem, if the system was booted with
+> @@ -370,6 +420,9 @@ static int __init efisubsys_init(void)
+>                 goto err_remove_group;
+>         }
+>
+> +       if (efi_enabled(EFI_DBG) && efi_enabled(EFI_PRESERVE_BS_REGIONS))
+> +               efi_debugfs_init();
+> +
+>         return 0;
+>
+>  err_remove_group:
+> diff --git a/include/linux/efi.h b/include/linux/efi.h
+> index bd3837022307..2a30a1bd8bdf 100644
+> --- a/include/linux/efi.h
+> +++ b/include/linux/efi.h
+> @@ -1202,6 +1202,7 @@ extern int __init efi_setup_pcdp_console(char *);
+>  #define EFI_DBG                        8       /* Print additional debug info at runtime */
+>  #define EFI_NX_PE_DATA         9       /* Can runtime data regions be mapped non-executable? */
+>  #define EFI_MEM_ATTR           10      /* Did firmware publish an EFI_MEMORY_ATTRIBUTES table? */
+> +#define EFI_PRESERVE_BS_REGIONS        11      /* Are EFI boot-services memory segments available? */
+>
+>  #ifdef CONFIG_EFI
+>  /*
+> --
+> 2.23.0
+>
