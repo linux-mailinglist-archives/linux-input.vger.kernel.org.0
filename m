@@ -2,245 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD2CED3296
-	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2019 22:43:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7A73D3349
+	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2019 23:23:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726755AbfJJUmI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Oct 2019 16:42:08 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:58907 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726423AbfJJUmI (ORCPT
+        id S1726804AbfJJVUd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Oct 2019 17:20:33 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:40349 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725867AbfJJVUc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Oct 2019 16:42:08 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1M1JJC-1iFv9w3tso-002m0W; Thu, 10 Oct 2019 22:41:35 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>
-Cc:     linux-samsung-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linus.walleij@linaro.org,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: [PATCH 15/36] ARM: s3c: adc: move header to linux/soc/samsung
-Date:   Thu, 10 Oct 2019 22:29:59 +0200
-Message-Id: <20191010203043.1241612-15-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20191010203043.1241612-1-arnd@arndb.de>
-References: <20191010202802.1132272-1-arnd@arndb.de>
- <20191010203043.1241612-1-arnd@arndb.de>
+        Thu, 10 Oct 2019 17:20:32 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id E54F77A4
+        for <linux-input@vger.kernel.org>; Thu, 10 Oct 2019 17:20:31 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Thu, 10 Oct 2019 17:20:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+        date:from:to:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=w6wG+s5GQv3v8C8pBktPGkvKoFJ
+        4ozqBtO3ILdsDBQ8=; b=rZ1DMalXlkCHGDB3/ub7r89dd55ghJ/Q9l1tHXplAsQ
+        KUibvZRIBSo+2b8ijRd0eWHzt6sD0QtA5UOwigbbiuXkURB5/CcJenRg8Hyh5ZmX
+        hcaGcSHw2V/FLSQ6nrYDK0iHt/Ws9ft0nyhbVmKbvDxP18qN+lZFqMWq6Hnh9jJj
+        vj+px+o6rxeUko+2HN6b/ZJPvbQJRuiAegVjHhwzFkARvumxy93Vx5bhyktMOByW
+        PO17k/zH26sVDW3oPn0HSOPaew3Z6CV3Nu06z68f3XwNzR+BW/wtiXVUkvmd+fu6
+        VKeiC2ZSk6Ao6/at2A04gYfZsTK258Ve/E5yD1k2egg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=w6wG+s
+        5GQv3v8C8pBktPGkvKoFJ4ozqBtO3ILdsDBQ8=; b=uAjvKY1E1/w10WBp8Jv4J3
+        Ux1iaFFLCe1HIfXgtB5Y0WnpINbtr2VhyW07Qd0FqxFiZEv0Y2ZYUdI3GCMOPhqj
+        pYqhMi14P1tpy/ldRyYVXLX93EbcxgbTMhDmAesVrVcoekHo9SAJtIQwG75H6LJr
+        Rd3ncCYfrXFn+qz2VP67UZ6VVWdyETfA0Ra6KPOZLrQUdW9CCI8QepqjVg2YydZu
+        NC9Fr3uAqK78OaP60tfNKkhoyr/RHgb9luECmIkcPKaoz1buZ+ndYA9cS2f6DkXu
+        pkTWoSE49hPwROO1E5dLiur06AK/mvZ/UhKJNRMBbd8ViT86JaZZmjPVBaG7Zsvw
+        ==
+X-ME-Sender: <xms:n6CfXVsy1KINklSGxruzOjGyYk8EOyJE5UHyzjOBlZ0rDVi2rh_E6g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrieefgdduieehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujggfsehttd
+    ertddtredvnecuhfhrohhmpefurghmuceurgiilhgvhicuoehsrghmsggriihlvgihsehf
+    rghsthhmrghilhdrtghomheqnecukfhppeekiedrvdeirddvvdegrdduheefnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehsrghmsggriihlvgihsehfrghsthhmrghilhdrtghomhen
+    ucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:n6CfXVp4VhLW4RcNi9c9n5Y7nUfEUaTQ0KmRhUmRSrwOXwgKsdGuRA>
+    <xmx:n6CfXdIQSSY6E4wPs7Edao2WntzRrRNkBEI7jqT-0FD7ELiGo9_hMA>
+    <xmx:n6CfXU4_U6rm9o_E61z1xodZot9veIJuiRPHD2G4eGHtgLWEDVJi4Q>
+    <xmx:n6CfXQCLLN9d1J7bHMCEbip-bUGdbD4l9Ddzpzdo3GwQb1ZBGopVZg>
+Received: from localhost (cpc88620-newt36-2-0-cust152.19-3.cable.virginm.net [86.26.224.153])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 1C07A8005A
+        for <linux-input@vger.kernel.org>; Thu, 10 Oct 2019 17:20:31 -0400 (EDT)
+Date:   Thu, 10 Oct 2019 22:20:29 +0100
+From:   Sam Bazley <sambazley@fastmail.com>
+To:     linux-input@vger.kernel.org
+Subject: Re: [PATCH 0/3] Logitech G920 fixes
+Message-ID: <20191010212029.kg5tvx4r5cmgshyo@SamLinux>
+References: <20191007051240.4410-1-andrew.smirnov@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:FpoNJIc3itWORZoaPFv25Myx/M15oG1YjGqTAt4YFRfspCrSprG
- guybCXrWrn5DkwrIim8Muc6xFZJqDY8H2WUkjdhc2hKBJD/HhrV3FJR1cK/+F3/MY3xZDRs
- sLAxAWd2nFXpNgUgLIyTuHVUUPRKsEDCtc0q2yZyjUrS/S5ERXfJlNHDAk1BCZNchhX2tMr
- VdmRUNgNJjoIWO3yrlYVA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:igCCi1hi5O0=:wNKDceOyAM1WB1Zn34ZQdp
- UV1jKwBqIyc07z3xcE54DHVZTJrjbNxuq9Wh6mXT7OPklWo5AsZZpwWUr1PBXXV2UNnsWjzKO
- iocaE4sRUw7Wj96sYq42ZUDaTwg7yz9EvTP69XjPWlq/nKQ0or/Qdl4kBSOMsnP01th8K0nYK
- o08NO8CoQYu+R3Dai6Qp5OYMZwtXTTFqOrzt1EJaqgiklhpo8qjtFX1Q7HYGUGJM/G/8o/3Hg
- LUqnqldNtFfJoCnvzAqDO8UVCMhn30shQkkeayOhuNFoUKUP43WQc1xIp7ihGh9siOksCUWii
- Z5OBhbPZgD31M/uWKFc1R0PSt/PVft+8ZOtg5g2hVKdGOiKYLr7+gANz/Ebu5xnbKpDxv497U
- lgsAh4Nrt/qM9ftwTomvyy9Hgw1HG1WAV69mbeEhEYhsK+4Ni1ebdK/oLuqCnohzB/A9OAC8b
- aMDuTwhTxhAvWWCokFOdJWU7L2I78HqpSu8UyHPe8oNL2fQp+K0D3yqyX938WW5rFliEtFpns
- l1naLMQ2E//wqeXx5yqwDL4odxqHMmpTb0mChd1QgreLoDjz+Mxott7V1d/WQT41oO8Z3qJzR
- hLb8qJBXwNKflHRNnM0fgJOiObczYpZ89ILnWmBXUPNhp3/337ATFa/Xv0Te3Y7Blrxu5Jd1e
- js0U6/loxVpWvJpsO2/JtJkKzZkBDyteKlvqOBGt99tHFxoh3jcHTLYdgFw6eb7vSun3aj3zH
- BtkwI/fjKp5crny1NjvJrvtcWAotPweYvE7lyZZ7zbG4Tpgc5PoauHz2zFqhYp8ibatk6ab2P
- muAkM5IsSkjN8KRxIUHt+pSzTp+5ze6DjRTINrzW4wP6OiL/wuffsPo/3I3XDyaLYPsDYJKSp
- SfP5kAzgidVrbZI3DnNw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191007051240.4410-1-andrew.smirnov@gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-There are multiple drivers using the private adc interface.
-It seems unlikely that they would ever get converted to iio,
-so make the current state official by making the header file
-global.
+On Sun, Oct 06, 2019 at 10:12:37PM -0700, Andrey Smirnov wrote:
+> Everyone:
+> 
+> This series contains patches to fix a couple of regressions in G920
+> wheel support by hid-logitech-hidpp driver. Without the patches the
+> wheel remains stuck in autocentering mode ("resisting" any attempt to
+> trun) as well as missing support for any FF action.
+> 
+> Thanks,
+> Andrey Smirnov
+> 
+> Andrey Smirnov (3):
+>   HID: logitech-hidpp: use devres to manage FF private data
+>   HID: logitech-hidpp: split g920_get_config()
+>   HID: logitech-hidpp: add G920 device validation quirk
+> 
+>  drivers/hid/hid-logitech-hidpp.c | 193 +++++++++++++++++++------------
+>  1 file changed, 120 insertions(+), 73 deletions(-)
+> 
+> -- 
+> 2.21.0
+> 
 
-The s3c2410_ts driver needs a couple of register definitions
-as well.
+Tested-by: Sam Bazley <sambazley@fastmail.com>
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- arch/arm/mach-s3c64xx/mach-crag6410.c         |  2 +-
- arch/arm/mach-s3c64xx/mach-mini6410.c         |  2 +-
- arch/arm/mach-s3c64xx/mach-real6410.c         |  2 +-
- arch/arm/mach-s3c64xx/mach-smdk6410.c         |  2 +-
- arch/arm/plat-samsung/adc.c                   |  2 +-
- arch/arm/plat-samsung/devs.c                  |  2 +-
- drivers/hwmon/s3c-hwmon.c                     |  2 +-
- drivers/input/touchscreen/s3c2410_ts.c        | 37 ++++++++++++++++++-
- drivers/power/supply/s3c_adc_battery.c        |  2 +-
- .../linux/soc/samsung/s3c-adc.h               |  0
- 10 files changed, 43 insertions(+), 10 deletions(-)
- rename arch/arm/plat-samsung/include/plat/adc.h => include/linux/soc/samsung/s3c-adc.h (100%)
-
-diff --git a/arch/arm/mach-s3c64xx/mach-crag6410.c b/arch/arm/mach-s3c64xx/mach-crag6410.c
-index da5b50981a14..133453562d23 100644
---- a/arch/arm/mach-s3c64xx/mach-crag6410.c
-+++ b/arch/arm/mach-s3c64xx/mach-crag6410.c
-@@ -57,7 +57,7 @@
- #include <plat/keypad.h>
- #include <plat/devs.h>
- #include <plat/cpu.h>
--#include <plat/adc.h>
-+#include <linux/soc/samsung/s3c-adc.h>
- #include <linux/platform_data/i2c-s3c2410.h>
- #include <plat/pm.h>
- #include <plat/samsung-time.h>
-diff --git a/arch/arm/mach-s3c64xx/mach-mini6410.c b/arch/arm/mach-s3c64xx/mach-mini6410.c
-index 0dd36ae49e6a..c7140300bd3f 100644
---- a/arch/arm/mach-s3c64xx/mach-mini6410.c
-+++ b/arch/arm/mach-s3c64xx/mach-mini6410.c
-@@ -27,7 +27,7 @@
- #include <mach/regs-gpio.h>
- #include <mach/gpio-samsung.h>
- 
--#include <plat/adc.h>
-+#include <linux/soc/samsung/s3c-adc.h>
- #include <plat/cpu.h>
- #include <plat/devs.h>
- #include <plat/fb.h>
-diff --git a/arch/arm/mach-s3c64xx/mach-real6410.c b/arch/arm/mach-s3c64xx/mach-real6410.c
-index 0ff88b6859c4..f55097fde94c 100644
---- a/arch/arm/mach-s3c64xx/mach-real6410.c
-+++ b/arch/arm/mach-s3c64xx/mach-real6410.c
-@@ -29,7 +29,7 @@
- #include <mach/gpio-samsung.h>
- #include <mach/irqs.h>
- 
--#include <plat/adc.h>
-+#include <linux/soc/samsung/s3c-adc.h>
- #include <plat/cpu.h>
- #include <plat/devs.h>
- #include <plat/fb.h>
-diff --git a/arch/arm/mach-s3c64xx/mach-smdk6410.c b/arch/arm/mach-s3c64xx/mach-smdk6410.c
-index 95bdcfe95a53..3042f6cbffd9 100644
---- a/arch/arm/mach-s3c64xx/mach-smdk6410.c
-+++ b/arch/arm/mach-s3c64xx/mach-smdk6410.c
-@@ -60,7 +60,7 @@
- 
- #include <plat/devs.h>
- #include <plat/cpu.h>
--#include <plat/adc.h>
-+#include <linux/soc/samsung/s3c-adc.h>
- #include <linux/platform_data/touchscreen-s3c2410.h>
- #include <plat/keypad.h>
- #include <plat/samsung-time.h>
-diff --git a/arch/arm/plat-samsung/adc.c b/arch/arm/plat-samsung/adc.c
-index ee3d5c989a76..623a9774cc52 100644
---- a/arch/arm/plat-samsung/adc.c
-+++ b/arch/arm/plat-samsung/adc.c
-@@ -20,7 +20,7 @@
- #include <linux/regulator/consumer.h>
- 
- #include <plat/regs-adc.h>
--#include <plat/adc.h>
-+#include <linux/soc/samsung/s3c-adc.h>
- 
- /* This driver is designed to control the usage of the ADC block between
-  * the touchscreen and any other drivers that may need to use it, such as
-diff --git a/arch/arm/plat-samsung/devs.c b/arch/arm/plat-samsung/devs.c
-index fd94a35e22f8..ddd90f0bb380 100644
---- a/arch/arm/plat-samsung/devs.c
-+++ b/arch/arm/plat-samsung/devs.c
-@@ -44,7 +44,7 @@
- 
- #include <plat/cpu.h>
- #include <plat/devs.h>
--#include <plat/adc.h>
-+#include <linux/soc/samsung/s3c-adc.h>
- #include <linux/platform_data/ata-samsung_cf.h>
- #include <plat/fb.h>
- #include <plat/fb-s3c2410.h>
-diff --git a/drivers/hwmon/s3c-hwmon.c b/drivers/hwmon/s3c-hwmon.c
-index b490fe3d2ee8..f2703c5460d0 100644
---- a/drivers/hwmon/s3c-hwmon.c
-+++ b/drivers/hwmon/s3c-hwmon.c
-@@ -20,7 +20,7 @@
- #include <linux/hwmon.h>
- #include <linux/hwmon-sysfs.h>
- 
--#include <plat/adc.h>
-+#include <linux/soc/samsung/s3c-adc.h>
- #include <linux/platform_data/hwmon-s3c.h>
- 
- struct s3c_hwmon_attr {
-diff --git a/drivers/input/touchscreen/s3c2410_ts.c b/drivers/input/touchscreen/s3c2410_ts.c
-index b346e7cafd62..1a5a178ea286 100644
---- a/drivers/input/touchscreen/s3c2410_ts.c
-+++ b/drivers/input/touchscreen/s3c2410_ts.c
-@@ -21,10 +21,43 @@
- #include <linux/clk.h>
- #include <linux/io.h>
- 
--#include <plat/adc.h>
--#include <plat/regs-adc.h>
-+#include <linux/soc/samsung/s3c-adc.h>
- #include <linux/platform_data/touchscreen-s3c2410.h>
- 
-+#define	S3C2410_ADCCON			(0x00)
-+#define	S3C2410_ADCTSC			(0x04)
-+#define	S3C2410_ADCDLY			(0x08)
-+#define	S3C2410_ADCDAT0			(0x0C)
-+#define	S3C2410_ADCDAT1			(0x10)
-+#define	S3C64XX_ADCUPDN			(0x14)
-+#define	S3C2443_ADCMUX			(0x18)
-+#define	S3C64XX_ADCCLRINT		(0x18)
-+#define	S5P_ADCMUX			(0x1C)
-+#define	S3C64XX_ADCCLRINTPNDNUP		(0x20)
-+
-+/* ADCTSC Register Bits */
-+#define S3C2443_ADCTSC_UD_SEN		(1 << 8)
-+#define S3C2410_ADCTSC_YM_SEN		(1<<7)
-+#define S3C2410_ADCTSC_YP_SEN		(1<<6)
-+#define S3C2410_ADCTSC_XM_SEN		(1<<5)
-+#define S3C2410_ADCTSC_XP_SEN		(1<<4)
-+#define S3C2410_ADCTSC_PULL_UP_DISABLE	(1<<3)
-+#define S3C2410_ADCTSC_AUTO_PST		(1<<2)
-+#define S3C2410_ADCTSC_XY_PST(x)	(((x)&0x3)<<0)
-+
-+/* ADCDAT0 Bits */
-+#define S3C2410_ADCDAT0_UPDOWN		(1<<15)
-+#define S3C2410_ADCDAT0_AUTO_PST	(1<<14)
-+#define S3C2410_ADCDAT0_XY_PST		(0x3<<12)
-+#define S3C2410_ADCDAT0_XPDATA_MASK	(0x03FF)
-+
-+/* ADCDAT1 Bits */
-+#define S3C2410_ADCDAT1_UPDOWN		(1<<15)
-+#define S3C2410_ADCDAT1_AUTO_PST	(1<<14)
-+#define S3C2410_ADCDAT1_XY_PST		(0x3<<12)
-+#define S3C2410_ADCDAT1_YPDATA_MASK	(0x03FF)
-+
-+
- #define TSC_SLEEP  (S3C2410_ADCTSC_PULL_UP_DISABLE | S3C2410_ADCTSC_XY_PST(0))
- 
- #define INT_DOWN	(0)
-diff --git a/drivers/power/supply/s3c_adc_battery.c b/drivers/power/supply/s3c_adc_battery.c
-index 3d00b35cafc9..60b7f41ab063 100644
---- a/drivers/power/supply/s3c_adc_battery.c
-+++ b/drivers/power/supply/s3c_adc_battery.c
-@@ -22,7 +22,7 @@
- #include <linux/init.h>
- #include <linux/module.h>
- 
--#include <plat/adc.h>
-+#include <linux/soc/samsung/s3c-adc.h>
- 
- #define BAT_POLL_INTERVAL		10000 /* ms */
- #define JITTER_DELAY			500 /* ms */
-diff --git a/arch/arm/plat-samsung/include/plat/adc.h b/include/linux/soc/samsung/s3c-adc.h
-similarity index 100%
-rename from arch/arm/plat-samsung/include/plat/adc.h
-rename to include/linux/soc/samsung/s3c-adc.h
--- 
-2.20.0
-
+Thanks again Andrey!
