@@ -2,266 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D3EFD296E
-	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2019 14:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F805D2AFD
+	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2019 15:18:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733072AbfJJMYw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Oct 2019 08:24:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46533 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727800AbfJJMYw (ORCPT
+        id S2388143AbfJJNRn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Oct 2019 09:17:43 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:34481 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388124AbfJJNRn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Oct 2019 08:24:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1570710290;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Z1PiOTpfKA6S0H6nQpCOs61aSj3VGg1/5P4RB8zuLvo=;
-        b=Buhty/DMhVQKEN9I6bGn59Icvyj7Gje1rLRQtKryrsfDYjheIKlT+5EFD7CPKdIXv56CqL
-        2QXC6g/44lv6g8gnGEpIkYWR3CApNcEns33bmXh/6RQHjws9TIdvjQ929a0MyelMq4Fm1H
-        xzY7XrmUOaCUuRFAnrxasYEfGcYSvIE=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-Uu3de_F4Nb6CQgll-NdWhQ-1; Thu, 10 Oct 2019 08:24:47 -0400
-Received: by mail-qk1-f199.google.com with SMTP id k67so5308540qkc.3
-        for <linux-input@vger.kernel.org>; Thu, 10 Oct 2019 05:24:47 -0700 (PDT)
+        Thu, 10 Oct 2019 09:17:43 -0400
+Received: by mail-ot1-f65.google.com with SMTP id m19so4842694otp.1
+        for <linux-input@vger.kernel.org>; Thu, 10 Oct 2019 06:17:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ub-ac-id.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=QTZIdVmjWEaVgfwGRupI4vAqJVGET3VIX90hz2R16m0=;
+        b=kbDD0ETnfb+9T5ky4afnuU19WL5B3TgSTtrvr8/78l52RfSJ/bD7cjcm8C45XsJ4wr
+         kY8zUv/ms1sLDr56E/0rqAcpldgbTirzVsO1TqrlTRt5AL5IhxusLfWbWkCQZqSDApog
+         xVZixZPZF5pv+wD9wYHHFszyBuRJ0Z0/71+2E/SGgHwnMzv66/86w9uplcX1z0grTv9p
+         1TYZ7MtIagYr+hnMPgyspL8CH18dkY1RexU6NSgr6L6/lGHi7jHNMmmGOoiBuh2azqNd
+         aWHFVXbx5cxjkbX5kJe7PAp4IU2wf06fogqa+YoO9ylF7jna+POCU+xNsHXT6R2wFQg9
+         YqYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1+C6ea0hNuFJ0RH805lPfk6alhjeCeIJ9+VYkTTd2Ww=;
-        b=qlP6mT/TY6iqIqO6fweqmf7/gqGHwLNM4ymXUBjhqyomgeW+rEyxIXscQEjflckiIR
-         vjktgUMKCht+te+cARb2N+lVVI0RF4j41jY9NZp9rmdCZHK9Sp+2lMNSYLi5AjJXMBTV
-         iYw8du9RPP/fhzo02xlwSzKEQGlwndng5IpzaxBNqLbFZPSgUqTVsUTNLX2Waoz4L524
-         /AOvAyNMor9MY6+rP/+40JdOCUAtP9R09auB12OmDTVMDJ16hhxVuFN48AsIXpzMfAql
-         D0gzK0ekZQ4M/lxSw7mu9kw3yMCFYZNDtawO+AxSAtGJwCtSvc7X1l9xjqtXZg/GJeGW
-         jT7w==
-X-Gm-Message-State: APjAAAXDYPfBt/6QHaqf4k4TwcmEsc/qrjOGc9HLeid5GXHh70qA7m9y
-        0E0Vuy1FXVTu/hAWEUhVL8a6OjSsilVBkElHMfDsa9efnKolJ0D3fkS7LOXQtpQQSStKdzEm3Q/
-        EgQgeZKCEp94n834e5MxVB6ifG5DGuaRa5FsErUY=
-X-Received: by 2002:a37:648d:: with SMTP id y135mr8958860qkb.459.1570710286698;
-        Thu, 10 Oct 2019 05:24:46 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzkMt3NS82xgyIf0scvKcdLuCY5ChVMQq28kCW69B6P3qMz7wQusBovzbRCTAhZgcV4StFli0LR8QN+ughoOuM=
-X-Received: by 2002:a37:648d:: with SMTP id y135mr8958821qkb.459.1570710286350;
- Thu, 10 Oct 2019 05:24:46 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=QTZIdVmjWEaVgfwGRupI4vAqJVGET3VIX90hz2R16m0=;
+        b=FF41pCzYkl5Ww+SVtOipCklHcfpQE/nROtNMWfdo7VwyqTvRJYmCJDpVD79afCb7IR
+         Ewr5d0gsBPBD6DSPS6TN4jn3yPVdcvZ4gD3ZeuZ7gEYnGdhDPry2EqwydEDQw/fG0TPO
+         7LAOSHTBZtiQ8jyX5/HRfyKQOe4B4X9uu6rR93968SNrQCUsv1N+BNV/BP9fk01tnee9
+         55UFMvLPO7QX0bBppxMN4z3mRbzHXFxQ6CdVVWw45JFiCQQkm17dtJvKCoQBXTnf1UcH
+         1uTrqNOvRZMY0Op0ZLoTmo7dtHqo5w/NFJJ5NJbCwtdtv5GIa4qDJtEvV+/vlrQKOwb4
+         ZdOA==
+X-Gm-Message-State: APjAAAVi6l8at4emJofnjcW8urZwkIp3/ZLH31/fAjJ2lfQpTAKDW/IA
+        YA3AnaomFF0twds64+P12SQO8Dpy4E30X4POJB4Z
+X-Google-Smtp-Source: APXvYqwe5B6z/3dUuNDQtQ0n2oQYOsdY3HQR3dkIin1gqVhu0NNteov05tKzv4DhJBBR4bjK2RG7Phnj6WUHoBrkRYc=
+X-Received: by 2002:a05:6830:1103:: with SMTP id w3mr7909437otq.312.1570713462861;
+ Thu, 10 Oct 2019 06:17:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <1570625609-11083-1-git-send-email-candlesea@gmail.com>
-In-Reply-To: <1570625609-11083-1-git-send-email-candlesea@gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 10 Oct 2019 14:24:34 +0200
-Message-ID: <CAO-hwJKjZedG6yySDHKQoAmG5DdQ7QPhuaoMN9g0_KmbktD9fA@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: core: check whether usage page item is after
- usage id item
-To:     Candle Sun <candlesea@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        orson.zhai@unisoc.com,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Candle Sun <candle.sun@unisoc.com>,
-        Nianfu Bai <nianfu.bai@unisoc.com>
-X-MC-Unique: Uu3de_F4Nb6CQgll-NdWhQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Received: by 2002:a4a:3346:0:0:0:0:0 with HTTP; Thu, 10 Oct 2019 06:17:41
+ -0700 (PDT)
+Reply-To: sunrisefundingltd50@gmail.com
+From:   Valentina Yurina <v_yurina@ub.ac.id>
+Date:   Thu, 10 Oct 2019 14:17:41 +0100
+Message-ID: <CAKoEkvu4vc5Yn9-hzxQ5dYmUL=oO69=GSP0FC7O+CGz9Jni8+Q@mail.gmail.com>
+Subject: Apply For Financial investment at a lower rate 2%
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 9, 2019 at 2:54 PM Candle Sun <candlesea@gmail.com> wrote:
->
-> From: Candle Sun <candle.sun@unisoc.com>
->
-> Upstream commit 58e75155009c ("HID: core: move Usage Page concatenation
-> to Main item") adds support for Usage Page item after Usage ID items
-> (such as keyboards manufactured by Primax).
->
-> Usage Page concatenation in Main item works well for following report
-> descriptor patterns:
->
->     USAGE_PAGE (Keyboard)                   05 07
->     USAGE_MINIMUM (Keyboard LeftControl)    19 E0
->     USAGE_MAXIMUM (Keyboard Right GUI)      29 E7
->     LOGICAL_MINIMUM (0)                     15 00
->     LOGICAL_MAXIMUM (1)                     25 01
->     REPORT_SIZE (1)                         75 01
->     REPORT_COUNT (8)                        95 08
->     INPUT (Data,Var,Abs)                    81 02
->
-> -------------
->
->     USAGE_MINIMUM (Keyboard LeftControl)    19 E0
->     USAGE_MAXIMUM (Keyboard Right GUI)      29 E7
->     LOGICAL_MINIMUM (0)                     15 00
->     LOGICAL_MAXIMUM (1)                     25 01
->     REPORT_SIZE (1)                         75 01
->     REPORT_COUNT (8)                        95 08
->     USAGE_PAGE (Keyboard)                   05 07
->     INPUT (Data,Var,Abs)                    81 02
->
-> But it makes the parser act wrong for the following report
-> descriptor pattern(such as some Gamepads):
->
->     USAGE_PAGE (Button)                     05 09
->     USAGE (Button 1)                        09 01
->     USAGE (Button 2)                        09 02
->     USAGE (Button 4)                        09 04
->     USAGE (Button 5)                        09 05
->     USAGE (Button 7)                        09 07
->     USAGE (Button 8)                        09 08
->     USAGE (Button 14)                       09 0E
->     USAGE (Button 15)                       09 0F
->     USAGE (Button 13)                       09 0D
->     USAGE_PAGE (Consumer Devices)           05 0C
->     USAGE (Back)                            0a 24 02
->     USAGE (HomePage)                        0a 23 02
->     LOGICAL_MINIMUM (0)                     15 00
->     LOGICAL_MAXIMUM (1)                     25 01
->     REPORT_SIZE (1)                         75 01
->     REPORT_COUNT (11)                       95 0B
->     INPUT (Data,Var,Abs)                    81 02
->
-> With Usage Page concatenation in Main item, parser recognizes all the
-> 11 Usages as consumer keys, it is not the HID device's real intention.
->
-> This patch adds usage_page_last to flag whether Usage Page is after
-> Usage ID items. usage_page_last is false default, it is set as true
-> once Usage Page item is encountered and is reverted by next Usage ID
-> item.
->
-> Usage Page concatenation on the currently defined Usage Page will do
-> firstly in Local parsing when Usage ID items encountered.
->
-> When Main item is parsing, concatenation will do again with last
-> defined Usage Page if usage_page_last flag is true.
->
-> Signed-off-by: Candle Sun <candle.sun@unisoc.com>
-> Signed-off-by: Nianfu Bai <nianfu.bai@unisoc.com>
-> ---
-> Changes in v2:
-> - Update patch title
-> - Add GET_COMPLETE_USAGE macro
-> - Change the logic of checking whether to concatenate usage page again
->   in main parsing
-> ---
->  drivers/hid/hid-core.c | 31 +++++++++++++++++++++++++------
->  include/linux/hid.h    |  1 +
->  2 files changed, 26 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> index 3eaee2c..3394222 100644
-> --- a/drivers/hid/hid-core.c
-> +++ b/drivers/hid/hid-core.c
-> @@ -35,6 +35,8 @@
->
->  #include "hid-ids.h"
->
-> +#define GET_COMPLETE_USAGE(page, id) (((page) << 16) + ((id) & 0xffff))
-> +
->  /*
->   * Version Information
->   */
-> @@ -221,7 +223,15 @@ static int hid_add_usage(struct hid_parser *parser, =
-unsigned usage, u8 size)
->                 hid_err(parser->device, "usage index exceeded\n");
->                 return -1;
->         }
-> -       parser->local.usage[parser->local.usage_index] =3D usage;
-> +
-> +       if (size <=3D 2) {
-> +               parser->local.usage_page_last =3D false;
-> +               parser->local.usage[parser->local.usage_index] =3D
-> +                       GET_COMPLETE_USAGE(parser->global.usage_page, usa=
-ge);
-> +       } else {
-> +               parser->local.usage[parser->local.usage_index] =3D usage;
-> +       }
-> +
->         parser->local.usage_size[parser->local.usage_index] =3D size;
->         parser->local.collection_index[parser->local.usage_index] =3D
->                 parser->collection_stack_ptr ?
-> @@ -366,6 +376,7 @@ static int hid_parser_global(struct hid_parser *parse=
-r, struct hid_item *item)
->
->         case HID_GLOBAL_ITEM_TAG_USAGE_PAGE:
->                 parser->global.usage_page =3D item_udata(item);
-> +               parser->local.usage_page_last =3D true;
->                 return 0;
->
->         case HID_GLOBAL_ITEM_TAG_LOGICAL_MINIMUM:
-> @@ -543,13 +554,21 @@ static int hid_parser_local(struct hid_parser *pars=
-er, struct hid_item *item)
->   * usage value."
->   */
->
-> -static void hid_concatenate_usage_page(struct hid_parser *parser)
-> +static void hid_concatenate_last_usage_page(struct hid_parser *parser)
->  {
->         int i;
-> +       unsigned int usage;
-> +       unsigned int usage_page =3D parser->global.usage_page;
-> +
-> +       if (!parser->local.usage_page_last)
-> +               return;
->
->         for (i =3D 0; i < parser->local.usage_index; i++)
-> -               if (parser->local.usage_size[i] <=3D 2)
-> -                       parser->local.usage[i] +=3D parser->global.usage_=
-page << 16;
-> +               if (parser->local.usage_size[i] <=3D 2) {
-> +                       usage =3D parser->local.usage[i];
-> +                       parser->local.usage[i] =3D
-> +                               GET_COMPLETE_USAGE(usage_page, usage);
-> +               }
->  }
->
->  /*
-> @@ -561,7 +580,7 @@ static int hid_parser_main(struct hid_parser *parser,=
- struct hid_item *item)
->         __u32 data;
->         int ret;
->
-> -       hid_concatenate_usage_page(parser);
-> +       hid_concatenate_last_usage_page(parser);
->
->         data =3D item_udata(item);
->
-> @@ -772,7 +791,7 @@ static int hid_scan_main(struct hid_parser *parser, s=
-truct hid_item *item)
->         __u32 data;
->         int i;
->
-> -       hid_concatenate_usage_page(parser);
-> +       hid_concatenate_last_usage_page(parser);
->
->         data =3D item_udata(item);
->
-> diff --git a/include/linux/hid.h b/include/linux/hid.h
-> index cd41f20..2e0ea2f7 100644
-> --- a/include/linux/hid.h
-> +++ b/include/linux/hid.h
-> @@ -412,6 +412,7 @@ struct hid_local {
->         unsigned usage_minimum;
->         unsigned delimiter_depth;
->         unsigned delimiter_branch;
-> +       bool usage_page_last;      /* whether usage page is after usage i=
-d */
+-- 
+Hello,
 
-We don't need that extra flag:
-if you just check on the last element, you can guess that information:
+We are private lenders based in UK.
 
-        if ((parser->local.usage[parser->local.usage_index - 1] &
-HID_USAGE_PAGE) >> 16 =3D=3D usage_page)
-              return 0;
+Do you need a loan (credit) as soon as possible. Are you in search of
+money to solve your personal needs or finance your business venture,
+then get Your desired loan today! Consult us at Sunrise Funding Ltd.
 
-Let's see the next version before requesting too many changes.
+* We offer personal loan & huge capital loan at 2% interest rate to
+the general public both locally and internationally.
+* Credit amount range from $5,000.00 -- $500,000.00 and above.
+* Special $10,000,000.00 Loan offer for huge project also available.
+* Loan period of 6 months -- 10 years.
+* Loan is granted 24 hours after approval and accredited, directly in
+hand or bank account.
 
-And yes, I agree I need the hid-tools patches or I will not merge this
-patch (and I will advise Jiri to not take it either).
+Please note that you are advised to contact us for more details via
+the following e-mail address below;
 
-Cheers,
-Benjamin
-
+EMAIL : sunrisefundingltd50@gmail.com
+FIRM : Sunrise Funding Ltd UK.
