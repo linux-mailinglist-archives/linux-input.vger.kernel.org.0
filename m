@@ -2,289 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D3C2D340A
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 00:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6BB9D367D
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 02:47:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725959AbfJJWol (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Oct 2019 18:44:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47022 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726067AbfJJWol (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Oct 2019 18:44:41 -0400
-Received: from earth.universe (unknown [185.62.205.105])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8ECE82067B;
-        Thu, 10 Oct 2019 22:44:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570747479;
-        bh=aUY+2G6kw97wxWvRNj1wmuIasli7uRNKLfj987xjrJs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=t2wzh37US8FDUoIZ+weJd1nfSJpeQ6euxNPQpUSQ8xARX4Z6GRdippaRKdLUgC/r6
-         inne3V2YM0oNlAQ3zkqvVccRTdpgVSPkEgQMDSRAK2FFuWJ/f+OKMC8m+qed6Wmv3w
-         rUBHZji9sEdCAyQZkPg+66BMXFjpxS1aLIBfQEeY=
-Received: by earth.universe (Postfix, from userid 1000)
-        id 586633C0CA1; Fri, 11 Oct 2019 00:44:36 +0200 (CEST)
-Date:   Fri, 11 Oct 2019 00:44:36 +0200
-From:   Sebastian Reichel <sre@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>, Arnd Bergmann <arnd@arndb.de>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        linux-samsung-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linus.walleij@linaro.org,
-        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 15/36] ARM: s3c: adc: move header to linux/soc/samsung
-Message-ID: <20191010224436.t6gwb5fassr2dymp@earth.universe>
-References: <20191010202802.1132272-1-arnd@arndb.de>
- <20191010203043.1241612-1-arnd@arndb.de>
- <20191010203043.1241612-15-arnd@arndb.de>
- <da32e8a3-cbb3-ea08-1c55-55980b3dc53e@roeck-us.net>
- <20191010222955.GB229325@dtor-ws>
+        id S1727523AbfJKArb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Oct 2019 20:47:31 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:45808 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727100AbfJKAra (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 10 Oct 2019 20:47:30 -0400
+Received: by mail-pg1-f193.google.com with SMTP id r1so3548886pgj.12;
+        Thu, 10 Oct 2019 17:47:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=JczpVAzRBwwAOYFIGonlJX1sjgIClw2IMnks9yUvCfI=;
+        b=XYUsDF5LK7A0bep4RfUjjO6eu7m00xiDrfzh+6ctTRAPT9U9rGrm1f18yhoiC0yNuv
+         Nh6Q/vQBZAQi46sXFInFLsQG0rJ1TvPS5C1Tzn9S2554Cx/vjGYs8EZZxhQbjpFJJD6E
+         mq8y5nzxGtZqZ1HZVJIwUBzjLVcdQnK48XQKSiZxCb5muTP28sGxfiW6xttjRfoJz1zx
+         NeVb7DJA0yv4PR4ePzAAkYf/zV1zufAalbNWeepOGoaGE35/H2qLJoSmoA/Zwa9D29j3
+         KdTdgOaUArg8q/IgOcapzDuoHM5mLyE0yT9A/fXjWCpAe9PjwgLrM34bKVinTnpaDnwf
+         ODjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JczpVAzRBwwAOYFIGonlJX1sjgIClw2IMnks9yUvCfI=;
+        b=HpU5WoO+kB1v8CJVMiWALXKWGQ4HAjWji8I9PqE4xNRImHSWREkqflqJYgLFtGMv/q
+         hEGnt4K2wFRtt5tIv8VzcCT6TPjK9vrU3CfVX92DxGwjETIRKQZp4uIAan8F+xEvLHa1
+         TKTcnbNRFDb6+/WFC1SSfgc+JOjJsqe/ppyfxJ9vHQVGtIAiNRSuTe1Xs5Nxl97E2rx+
+         S2YmYgIFd2mV2OnhPC68i9AeOOnskX7PogCqS7l+wvsKYk2fEDzPGC3s/GFtJFn1NmH+
+         wPp24bc2rS/d6I5Wqai8TN8Uuy5f6loavNmz6XdTJdK2h8Svkcw5/lvn58/83woF7E2E
+         9oAQ==
+X-Gm-Message-State: APjAAAX+Vn15IDVtXusV+n3pC0M8VclZxB8OTvsdzoYMyBynVcfLnPSk
+        3Lb3shHs+x12rYkCO2Lmi32qV+Dx
+X-Google-Smtp-Source: APXvYqzLzsgjSK5rwCHu1G+VT4kiDmY0wF5F/U3chf6VGS4WhHCVPn+dKofGWhykmg9t9+gtci7OYg==
+X-Received: by 2002:a65:66d1:: with SMTP id c17mr13897375pgw.169.1570754848017;
+        Thu, 10 Oct 2019 17:47:28 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id d76sm7692503pfd.185.2019.10.10.17.47.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2019 17:47:27 -0700 (PDT)
+Date:   Thu, 10 Oct 2019 17:47:24 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 5/8] Input: silead - Switch to
+ firmware_request_platform for retreiving the fw
+Message-ID: <20191011004724.GC229325@dtor-ws>
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191004145056.43267-6-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mopqc6x4c2h7s3hb"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191010222955.GB229325@dtor-ws>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20191004145056.43267-6-hdegoede@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Fri, Oct 04, 2019 at 04:50:53PM +0200, Hans de Goede wrote:
+> Unfortunately sofar we have been unable to get permission to redistribute
+> Silead touchscreen firmwares in linux-firmware. This means that people
+> need to find and install the firmware themselves before the touchscreen
+> will work
+> 
+> Some UEFI/x86 tablets with a Silead touchscreen have a copy of the fw
+> embedded in their UEFI boot-services code.
+> 
+> This commit makes the silead driver use the new firmware_request_platform
+> function, which will fallback to looking for such an embedded copy when
+> direct filesystem lookup fails. This will make the touchscreen work OOTB
+> on devices where there is a fw copy embedded in the UEFI code.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
---mopqc6x4c2h7s3hb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Hi,
+> ---
+>  drivers/input/touchscreen/silead.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
+> index ad8b6a2bfd36..8fa2f3b7cfd8 100644
+> --- a/drivers/input/touchscreen/silead.c
+> +++ b/drivers/input/touchscreen/silead.c
+> @@ -288,7 +288,7 @@ static int silead_ts_load_fw(struct i2c_client *client)
+>  
+>  	dev_dbg(dev, "Firmware file name: %s", data->fw_name);
+>  
+> -	error = request_firmware(&fw, data->fw_name, dev);
+> +	error = firmware_request_platform(&fw, data->fw_name, dev);
+>  	if (error) {
+>  		dev_err(dev, "Firmware request error %d\n", error);
+>  		return error;
+> -- 
+> 2.23.0
+> 
 
-On Thu, Oct 10, 2019 at 03:29:55PM -0700, Dmitry Torokhov wrote:
-> On Thu, Oct 10, 2019 at 03:20:32PM -0700, Guenter Roeck wrote:
-> > On 10/10/19 1:29 PM, Arnd Bergmann wrote:
-> > > There are multiple drivers using the private adc interface.
-> > > It seems unlikely that they would ever get converted to iio,
-> > > so make the current state official by making the header file
-> > > global.
-> > >=20
-> > > The s3c2410_ts driver needs a couple of register definitions
-> > > as well.
-> > >=20
-> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> >=20
-> > For hwmon:
-> >=20
-> > Acked-by: Guenter Roeck <linux@roeck-us.net>
->=20
-> For input:
->=20
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-For power-supply:
-
-Acked-by: Sebastian Reichel <sre@kernel.org>
-
--- Sebastian
-
-> > > ---
-> > >   arch/arm/mach-s3c64xx/mach-crag6410.c         |  2 +-
-> > >   arch/arm/mach-s3c64xx/mach-mini6410.c         |  2 +-
-> > >   arch/arm/mach-s3c64xx/mach-real6410.c         |  2 +-
-> > >   arch/arm/mach-s3c64xx/mach-smdk6410.c         |  2 +-
-> > >   arch/arm/plat-samsung/adc.c                   |  2 +-
-> > >   arch/arm/plat-samsung/devs.c                  |  2 +-
-> > >   drivers/hwmon/s3c-hwmon.c                     |  2 +-
-> > >   drivers/input/touchscreen/s3c2410_ts.c        | 37 ++++++++++++++++=
-++-
-> > >   drivers/power/supply/s3c_adc_battery.c        |  2 +-
-> > >   .../linux/soc/samsung/s3c-adc.h               |  0
-> > >   10 files changed, 43 insertions(+), 10 deletions(-)
-> > >   rename arch/arm/plat-samsung/include/plat/adc.h =3D> include/linux/=
-soc/samsung/s3c-adc.h (100%)
-> > >=20
-> > > diff --git a/arch/arm/mach-s3c64xx/mach-crag6410.c b/arch/arm/mach-s3=
-c64xx/mach-crag6410.c
-> > > index da5b50981a14..133453562d23 100644
-> > > --- a/arch/arm/mach-s3c64xx/mach-crag6410.c
-> > > +++ b/arch/arm/mach-s3c64xx/mach-crag6410.c
-> > > @@ -57,7 +57,7 @@
-> > >   #include <plat/keypad.h>
-> > >   #include <plat/devs.h>
-> > >   #include <plat/cpu.h>
-> > > -#include <plat/adc.h>
-> > > +#include <linux/soc/samsung/s3c-adc.h>
-> > >   #include <linux/platform_data/i2c-s3c2410.h>
-> > >   #include <plat/pm.h>
-> > >   #include <plat/samsung-time.h>
-> > > diff --git a/arch/arm/mach-s3c64xx/mach-mini6410.c b/arch/arm/mach-s3=
-c64xx/mach-mini6410.c
-> > > index 0dd36ae49e6a..c7140300bd3f 100644
-> > > --- a/arch/arm/mach-s3c64xx/mach-mini6410.c
-> > > +++ b/arch/arm/mach-s3c64xx/mach-mini6410.c
-> > > @@ -27,7 +27,7 @@
-> > >   #include <mach/regs-gpio.h>
-> > >   #include <mach/gpio-samsung.h>
-> > > -#include <plat/adc.h>
-> > > +#include <linux/soc/samsung/s3c-adc.h>
-> > >   #include <plat/cpu.h>
-> > >   #include <plat/devs.h>
-> > >   #include <plat/fb.h>
-> > > diff --git a/arch/arm/mach-s3c64xx/mach-real6410.c b/arch/arm/mach-s3=
-c64xx/mach-real6410.c
-> > > index 0ff88b6859c4..f55097fde94c 100644
-> > > --- a/arch/arm/mach-s3c64xx/mach-real6410.c
-> > > +++ b/arch/arm/mach-s3c64xx/mach-real6410.c
-> > > @@ -29,7 +29,7 @@
-> > >   #include <mach/gpio-samsung.h>
-> > >   #include <mach/irqs.h>
-> > > -#include <plat/adc.h>
-> > > +#include <linux/soc/samsung/s3c-adc.h>
-> > >   #include <plat/cpu.h>
-> > >   #include <plat/devs.h>
-> > >   #include <plat/fb.h>
-> > > diff --git a/arch/arm/mach-s3c64xx/mach-smdk6410.c b/arch/arm/mach-s3=
-c64xx/mach-smdk6410.c
-> > > index 95bdcfe95a53..3042f6cbffd9 100644
-> > > --- a/arch/arm/mach-s3c64xx/mach-smdk6410.c
-> > > +++ b/arch/arm/mach-s3c64xx/mach-smdk6410.c
-> > > @@ -60,7 +60,7 @@
-> > >   #include <plat/devs.h>
-> > >   #include <plat/cpu.h>
-> > > -#include <plat/adc.h>
-> > > +#include <linux/soc/samsung/s3c-adc.h>
-> > >   #include <linux/platform_data/touchscreen-s3c2410.h>
-> > >   #include <plat/keypad.h>
-> > >   #include <plat/samsung-time.h>
-> > > diff --git a/arch/arm/plat-samsung/adc.c b/arch/arm/plat-samsung/adc.c
-> > > index ee3d5c989a76..623a9774cc52 100644
-> > > --- a/arch/arm/plat-samsung/adc.c
-> > > +++ b/arch/arm/plat-samsung/adc.c
-> > > @@ -20,7 +20,7 @@
-> > >   #include <linux/regulator/consumer.h>
-> > >   #include <plat/regs-adc.h>
-> > > -#include <plat/adc.h>
-> > > +#include <linux/soc/samsung/s3c-adc.h>
-> > >   /* This driver is designed to control the usage of the ADC block be=
-tween
-> > >    * the touchscreen and any other drivers that may need to use it, s=
-uch as
-> > > diff --git a/arch/arm/plat-samsung/devs.c b/arch/arm/plat-samsung/dev=
-s.c
-> > > index fd94a35e22f8..ddd90f0bb380 100644
-> > > --- a/arch/arm/plat-samsung/devs.c
-> > > +++ b/arch/arm/plat-samsung/devs.c
-> > > @@ -44,7 +44,7 @@
-> > >   #include <plat/cpu.h>
-> > >   #include <plat/devs.h>
-> > > -#include <plat/adc.h>
-> > > +#include <linux/soc/samsung/s3c-adc.h>
-> > >   #include <linux/platform_data/ata-samsung_cf.h>
-> > >   #include <plat/fb.h>
-> > >   #include <plat/fb-s3c2410.h>
-> > > diff --git a/drivers/hwmon/s3c-hwmon.c b/drivers/hwmon/s3c-hwmon.c
-> > > index b490fe3d2ee8..f2703c5460d0 100644
-> > > --- a/drivers/hwmon/s3c-hwmon.c
-> > > +++ b/drivers/hwmon/s3c-hwmon.c
-> > > @@ -20,7 +20,7 @@
-> > >   #include <linux/hwmon.h>
-> > >   #include <linux/hwmon-sysfs.h>
-> > > -#include <plat/adc.h>
-> > > +#include <linux/soc/samsung/s3c-adc.h>
-> > >   #include <linux/platform_data/hwmon-s3c.h>
-> > >   struct s3c_hwmon_attr {
-> > > diff --git a/drivers/input/touchscreen/s3c2410_ts.c b/drivers/input/t=
-ouchscreen/s3c2410_ts.c
-> > > index b346e7cafd62..1a5a178ea286 100644
-> > > --- a/drivers/input/touchscreen/s3c2410_ts.c
-> > > +++ b/drivers/input/touchscreen/s3c2410_ts.c
-> > > @@ -21,10 +21,43 @@
-> > >   #include <linux/clk.h>
-> > >   #include <linux/io.h>
-> > > -#include <plat/adc.h>
-> > > -#include <plat/regs-adc.h>
-> > > +#include <linux/soc/samsung/s3c-adc.h>
-> > >   #include <linux/platform_data/touchscreen-s3c2410.h>
-> > > +#define	S3C2410_ADCCON			(0x00)
-> > > +#define	S3C2410_ADCTSC			(0x04)
-> > > +#define	S3C2410_ADCDLY			(0x08)
-> > > +#define	S3C2410_ADCDAT0			(0x0C)
-> > > +#define	S3C2410_ADCDAT1			(0x10)
-> > > +#define	S3C64XX_ADCUPDN			(0x14)
-> > > +#define	S3C2443_ADCMUX			(0x18)
-> > > +#define	S3C64XX_ADCCLRINT		(0x18)
-> > > +#define	S5P_ADCMUX			(0x1C)
-> > > +#define	S3C64XX_ADCCLRINTPNDNUP		(0x20)
-> > > +
-> > > +/* ADCTSC Register Bits */
-> > > +#define S3C2443_ADCTSC_UD_SEN		(1 << 8)
-> > > +#define S3C2410_ADCTSC_YM_SEN		(1<<7)
-> > > +#define S3C2410_ADCTSC_YP_SEN		(1<<6)
-> > > +#define S3C2410_ADCTSC_XM_SEN		(1<<5)
-> > > +#define S3C2410_ADCTSC_XP_SEN		(1<<4)
-> > > +#define S3C2410_ADCTSC_PULL_UP_DISABLE	(1<<3)
-> > > +#define S3C2410_ADCTSC_AUTO_PST		(1<<2)
-> > > +#define S3C2410_ADCTSC_XY_PST(x)	(((x)&0x3)<<0)
-> > > +
-> > > +/* ADCDAT0 Bits */
-> > > +#define S3C2410_ADCDAT0_UPDOWN		(1<<15)
-> > > +#define S3C2410_ADCDAT0_AUTO_PST	(1<<14)
-> > > +#define S3C2410_ADCDAT0_XY_PST		(0x3<<12)
-> > > +#define S3C2410_ADCDAT0_XPDATA_MASK	(0x03FF)
-> > > +
-> > > +/* ADCDAT1 Bits */
-> > > +#define S3C2410_ADCDAT1_UPDOWN		(1<<15)
-> > > +#define S3C2410_ADCDAT1_AUTO_PST	(1<<14)
-> > > +#define S3C2410_ADCDAT1_XY_PST		(0x3<<12)
-> > > +#define S3C2410_ADCDAT1_YPDATA_MASK	(0x03FF)
-> > > +
-> > > +
-> > >   #define TSC_SLEEP  (S3C2410_ADCTSC_PULL_UP_DISABLE | S3C2410_ADCTSC=
-_XY_PST(0))
-> > >   #define INT_DOWN	(0)
-> > > diff --git a/drivers/power/supply/s3c_adc_battery.c b/drivers/power/s=
-upply/s3c_adc_battery.c
-> > > index 3d00b35cafc9..60b7f41ab063 100644
-> > > --- a/drivers/power/supply/s3c_adc_battery.c
-> > > +++ b/drivers/power/supply/s3c_adc_battery.c
-> > > @@ -22,7 +22,7 @@
-> > >   #include <linux/init.h>
-> > >   #include <linux/module.h>
-> > > -#include <plat/adc.h>
-> > > +#include <linux/soc/samsung/s3c-adc.h>
-> > >   #define BAT_POLL_INTERVAL		10000 /* ms */
-> > >   #define JITTER_DELAY			500 /* ms */
-> > > diff --git a/arch/arm/plat-samsung/include/plat/adc.h b/include/linux=
-/soc/samsung/s3c-adc.h
-> > > similarity index 100%
-> > > rename from arch/arm/plat-samsung/include/plat/adc.h
-> > > rename to include/linux/soc/samsung/s3c-adc.h
-> > >=20
-> >=20
->=20
-> --=20
-> Dmitry
-
---mopqc6x4c2h7s3hb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl2ftFAACgkQ2O7X88g7
-+ppCxxAAn15YlBwsqaGwUaYchBuBq14qU4EobExBzZbw8oYHQL4I5oAbH2t+3oOa
-UrhNrvHnWWftmlq/2ycEzWRk4NOQ8ZES1AD/4r7q56i4QxyV/zk/cRiAjRjcCm5w
-IRJEAVVSxyADbMTxK0omr0GW2cIqUlJcRmW5JyqQvXKC5wOXVz3+0C613tQCm0o2
-JBSC+HqZkoDAlcBF/6IDcDfy1K+3FEhCEYkvFTPNeh+7I48u7qdLFS6Xf66+kLPW
-ccKaSTBw6WV9KLrwf4+sEukRP5QfA0ehVuaV447SiH2n1uzSQlju4w5pRleAwlps
-umOd1n1rFcrxBf+TEQS0XsRJ7Oa/h11DXkkLWPtCtA84FXO1IvHGLmkSx3yxRxSz
-JIszIsYHyTWwJJNKorhB2PjpSGZoaciwgOE/lt8mgPc5I64MZXvHosV2nlAMsFhJ
-LMKyxh69aShi8ylCFBy+ukiC8yXM4CzRNh1chazvB2cjNNB1p6BS/4zAxlTmIvGo
-9lUxde12J325Z9peeP6OInu1h1/v+fRfrg2wxsblwCQmdC6eQoWTPTynH9t+WADr
-ka6XkZvcoAEoaPji8fyGfY6DUkhiRwSkDpn3bk1zg7nmm5jAlH1MCoMBVrUOKylv
-Xp2bULDZLS6KD5LBn+s3bsZ1hatAJpU2746uE4Afal2lgcAnqb4=
-=0aUK
------END PGP SIGNATURE-----
-
---mopqc6x4c2h7s3hb--
+-- 
+Dmitry
