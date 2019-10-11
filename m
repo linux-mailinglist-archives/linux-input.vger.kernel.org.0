@@ -2,178 +2,153 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F6BCD3A81
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 10:03:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7A35D3ACD
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 10:21:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726755AbfJKID3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Oct 2019 04:03:29 -0400
-Received: from uho.ysoft.cz ([81.19.3.130]:42846 "EHLO uho.ysoft.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726461AbfJKID2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Oct 2019 04:03:28 -0400
-Received: from [10.1.8.111] (unknown [10.1.8.111])
-        by uho.ysoft.cz (Postfix) with ESMTP id EC452A3018;
-        Fri, 11 Oct 2019 10:03:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
-        s=20160406-ysoft-com; t=1570781006;
-        bh=QwO2HYC6Vj1PCO/BQ6duScvgaUs/Wm9m6ufvGOY3feE=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=CPt4xlCXTnQS3wlg071emOH6M+h32x1pIEi9p4TLCdRJ2psr7EDJ6GGav8jBgeIVX
-         9szZ4meflhmTl/MspnO4o6wUAJPiVuDsNcwVxGvbSoogiobIVn/Q/7c77rH8dDqXGo
-         ZrrBfqLaghkS/fUc1THn7qjldKh8V4V84YwNXCLo=
-Subject: Re: [PATCH v3 3/5] dt-bindings: input: Add poll-interval property
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh@kernel.org>
-Cc:     Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-References: <1570083176-8231-1-git-send-email-michal.vokac@ysoft.com>
- <1570083176-8231-4-git-send-email-michal.vokac@ysoft.com>
- <20191010194036.GA16869@bogus> <20191010200136.GA229325@dtor-ws>
-From:   =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
-Message-ID: <1616be35-c06a-db84-bc6e-045195f163d7@ysoft.com>
-Date:   Fri, 11 Oct 2019 10:03:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726174AbfJKIUC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Oct 2019 04:20:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31771 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726533AbfJKIUC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 11 Oct 2019 04:20:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1570782000;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=eEtdWRL47++4bBMWcjannbQWaXKh2s1hZrEOt0fm3i4=;
+        b=TlSAwtepbxbzQRG8Yqs4NeMNGjLG1sJrkvhTbR7FJlFMUCUrr4sXExPHZ1aKFSx4v+NfnR
+        jWYZvESuyjz4ZgC6/tpvd2mnJ4FKO7fkSgH2IQNQC60ytJBXQRMYMgyPJihsfx3ifkD6Tl
+        oKzhfy3CjuEUydxZ2ODhYMg7DX0bLQ8=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-127-aB1Bf8z_MtKlu4owB2lsSQ-1; Fri, 11 Oct 2019 04:19:59 -0400
+Received: by mail-qk1-f199.google.com with SMTP id o133so8222530qke.4
+        for <linux-input@vger.kernel.org>; Fri, 11 Oct 2019 01:19:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vKh+g1OVwvKv2lQA+PWVSzl6Rx23w97PxJNZAisVZ5I=;
+        b=DjzMXu5ZMAKeJXulA09PEnupk79gdAwCWweUi8NyRGn4uWCt+X6jTQnWPADxPXmN6E
+         gCVE/J7KvupJur1gZsC0eoLR0aUBwmdkkCD3YbZ+joNRuGbmYmzl5dbakn8TeSNVpLCC
+         z8Ho7h8Z8D2KtQTCI2KEUCCNu6gHYwrTMqzcviNydxgDRZ8d11fXCAi4Il+XTqxYxG8Y
+         UluRJH+yis6R2IxPZMv64+KaQ4sLbhTT3bRKfb/8BncHEkd/WECdjXgLSHkfQH3pQrFe
+         xP2vwAx75TkCNq9yqRrpLwto/abioec8/PFy/eTcS0HR8Htbdtd6CDPG3p74b17jADXo
+         psug==
+X-Gm-Message-State: APjAAAUWbO9SeOZ+bL3YQRDZBlVwoIFtKu7qsmoMDyt56IfXwTQ8+2wt
+        kQ7mWao+hWSmjh2djfknO4U4Bg5uhQ/A5s3v5mIob6XViG7GPyebiuvZBnASov8BvX9vDUB6bF8
+        Lrd7xWlEGg38slHJC5OTV0QxKNN1hIk9PIbWIEsk=
+X-Received: by 2002:a37:50a:: with SMTP id 10mr13770334qkf.27.1570781998822;
+        Fri, 11 Oct 2019 01:19:58 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzn++uKvCktz9JlgTA1QiajDuKgosJ+oDfPWoZz+7UavKQQrrBSDGIwaVMdMCBKoZt015a95Bq6EmIDsD5cUhc=
+X-Received: by 2002:a37:50a:: with SMTP id 10mr13770315qkf.27.1570781998549;
+ Fri, 11 Oct 2019 01:19:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191010200136.GA229325@dtor-ws>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <uBbIS3nFJ1jdYNLHcqjW5wxQAwmZv0kmYEoeoPrxNhfzi6cHwmCOY-ewdqe7S1hNEj-p4Hd9D0_Y3PymUTdh_6WFXuMmIYUkV2xaKCPMYz0=@protonmail.com>
+In-Reply-To: <uBbIS3nFJ1jdYNLHcqjW5wxQAwmZv0kmYEoeoPrxNhfzi6cHwmCOY-ewdqe7S1hNEj-p4Hd9D0_Y3PymUTdh_6WFXuMmIYUkV2xaKCPMYz0=@protonmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 11 Oct 2019 10:19:47 +0200
+Message-ID: <CAO-hwJK7gaL7pcTji3buN-wdp4HJw497Zi0S47Xr21FRHffLXQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] HID: logitech: Add MX Mice over Bluetooth
+To:     Mazin Rezk <mnrzk@protonmail.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "jikos@kernel.org" <jikos@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>
+X-MC-Unique: aB1Bf8z_MtKlu4owB2lsSQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 10. 10. 19 22:01, Dmitry Torokhov wrote:
-> On Thu, Oct 10, 2019 at 02:40:36PM -0500, Rob Herring wrote:
->> On Thu, Oct 03, 2019 at 08:12:54AM +0200, Michal Vokáč wrote:
->>> Add an option to periodicaly poll the device to get state of the inputs
->>> as the interrupt line may not be used on some platforms.
->>>
->>> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
->>> ---
->>> Changes since v2:
->>>   - None
->>>
->>> Changes since v1:
->>>   - Use poll-interval instead of linux,poll-interval.
->>>   - Place the poll-interval binding into the common schema.
->>>   - Properly describe that either interrupts or poll-interval property is
->>>     required.
->>>   - Fix the example to pass validation.
->>>
->>>   .../bindings/input/fsl,mpr121-touchkey.yaml        | 25 +++++++++++++++++++++-
->>>   Documentation/devicetree/bindings/input/input.yaml |  4 ++++
->>>   2 files changed, 28 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
->>> index c6fbcdf78556..035b2fee4491 100644
->>> --- a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
->>> +++ b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
->>> @@ -17,6 +17,10 @@ description: |
->>>   allOf:
->>>     - $ref: input.yaml#
->>>   
->>> +oneOf:
->>
->> It should be valid to have both properties present, right?
-> 
-> The poll does not really sense and does not have any effect when
-> interrupt is supplied.
+Hi Mazin,
 
- From technical point of view, yes it is possible to have both
-properties. But I agree that it does not really make sense to
-use both at the same time.
+On Fri, Oct 11, 2019 at 2:57 AM Mazin Rezk <mnrzk@protonmail.com> wrote:
+>
+> On Saturday, October 5, 2019 9:04 PM, Mazin Rezk <mnrzk@protonmail.com> w=
+rote:
+>
+> > This patch adds support for several MX mice over Bluetooth. The device =
+IDs
+> > have been copied from the libratbag device database and their features
+> > have been based on their DJ device counterparts.
+>
+> No changes have been made to this patch in v4. However, it should be note=
+d
+> that the only device that has been thoroughly tested in this patch is the
+> MX Master (b01e). Further testing for the other devices may be required.
 
->> The h/w description can't know what the OS supports.
-> 
-> It also has no idea what OS does at all and whether it even pays
-> attention to any of these properties. We are just trying to say here "I
-> do not have an interrupt wired, so for this device's primary use case
-> (that is coupled with a certain $PRIMARY OS) we need to poll the
-> controller ever so often to handle our use case".
+Thanks a lot for the series, but please amend your format-patch process:
+- The commit message should not contain the leading `>` characters,
+and checkpath.pl then complains about Possible unwrapped commit
+description (prefer a maximum 75 chars per line)
+- this description of the changes is very useful, but it should go
+after the first `---` so that we do not pull it while applying the
+patch.
 
-If I understand correctly the relationship between Linux and DT
-binding, in Linux we are free to implement just part of all the
-possible configuration options described by the binding.
+Also, this patch introduces a breakage in the bisectability of the
+devices it adds. If we were to bisect a breakage in one of those
+devices, the device will fail to work, and we could not detect where
+the error comes from.
 
-In this case if somebody would enable both interrupt and polling,
-we will happily use the interrupt mode only. Maybe it would be nice
-to at least print a message that the poll-intervall is ignored?
+So please squash this patch with the next one.
 
->> In that case, we should use 'anyOf' here instead.
+Last, if we need "Further testing for the other devices may be
+required", then I'd rather enable those device one by one when ewe get
+the confirmation they are working. Adding a new device costs, but not
+as much than breaking an existing one, especially when it gets
+detected later, when the kernel gets shipped in distributions.
+Note that I have the MX Master 0xB012, so you can safely keep that one
+on the list, I'll test it myself.
 
-What I am afraid of is that some DT writers may really use both
-properties and expect that Linux will actually do something useful
-in this case. Anyway, I am OK with that.
+Cheers,
+Benjamin
 
-Michal
 
->> With that,
->>
->> Reviewed-by: Rob Herring <robh@kernel.org>
->>
->>> +  - required: [ interrupts ]
->>> +  - required: [ poll-interval ]
->>> +
->>>   properties:
->>>     compatible:
->>>       const: fsl,mpr121-touchkey
->>> @@ -41,12 +45,12 @@ properties:
->>>   required:
->>>     - compatible
->>>     - reg
->>> -  - interrupts
->>>     - vdd-supply
->>>     - linux,keycodes
->>>   
->>>   examples:
->>>     - |
->>> +    // Example with interrupts
->>>       #include "dt-bindings/input/input.h"
->>>       i2c {
->>>           #address-cells = <1>;
->>> @@ -64,3 +68,22 @@ examples:
->>>                                <KEY_8>, <KEY_9>, <KEY_A>, <KEY_B>;
->>>           };
->>>       };
->>> +
->>> +  - |
->>> +    // Example with polling
->>> +    #include "dt-bindings/input/input.h"
->>> +    i2c {
->>> +        #address-cells = <1>;
->>> +        #size-cells = <0>;
->>> +
->>> +        mpr121@5a {
->>> +            compatible = "fsl,mpr121-touchkey";
->>> +            reg = <0x5a>;
->>> +            poll-interval = <20>;
->>> +            autorepeat;
->>> +            vdd-supply = <&ldo4_reg>;
->>> +            linux,keycodes = <KEY_0>, <KEY_1>, <KEY_2>, <KEY_3>,
->>> +                             <KEY_4>, <KEY_5>, <KEY_6>, <KEY_7>,
->>> +                             <KEY_8>, <KEY_9>, <KEY_A>, <KEY_B>;
->>> +        };
->>> +    };
->>> diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
->>> index ca8fe84a2e62..6d519046b3af 100644
->>> --- a/Documentation/devicetree/bindings/input/input.yaml
->>> +++ b/Documentation/devicetree/bindings/input/input.yaml
->>> @@ -24,6 +24,10 @@ properties:
->>>             minimum: 0
->>>             maximum: 0xff
->>>   
->>> +  poll-interval:
->>> +    description: Poll interval time in milliseconds.
->>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>> +
->>>     power-off-time-sec:
->>>       description:
->>>         Duration in seconds which the key should be kept pressed for device to
->>> -- 
->>> 2.1.4
->>>
-> 
+>
+> Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
+> ---
+>  drivers/hid/hid-logitech-hidpp.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+>
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-=
+hidpp.c
+> index 0179f7ed77e5..85fd0c17cc2f 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -3773,6 +3773,24 @@ static const struct hid_device_id hidpp_devices[] =
+=3D {
+>         { /* MX5500 keyboard over Bluetooth */
+>           HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
+>           .driver_data =3D HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
+> +       { /* MX Anywhere 2 mouse over Bluetooth */
+> +         HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb013),
+> +         .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb018),
+> +         .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +       { /* MX Anywhere 2S mouse over Bluetooth */
+> +         HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01a),
+> +         .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +       { /* MX Master mouse over Bluetooth */
+> +         HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb012),
+> +         .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb017),
+> +         .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e),
+> +         .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +       { /* MX Master 2S mouse over Bluetooth */
+> +         HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb019),
+> +         .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+>         {}
+>  };
+>
+> --
+> 2.23.0
+>
 
