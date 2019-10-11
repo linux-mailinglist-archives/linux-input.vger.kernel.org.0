@@ -2,88 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C718D3D37
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 12:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3024D426B
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 16:11:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727003AbfJKKVd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Oct 2019 06:21:33 -0400
-Received: from mga02.intel.com ([134.134.136.20]:3286 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726585AbfJKKVd (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Oct 2019 06:21:33 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2019 03:21:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,283,1566889200"; 
-   d="scan'208";a="207400881"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.157])
-  by fmsmga001.fm.intel.com with SMTP; 11 Oct 2019 03:21:19 -0700
-Received: by lahna (sSMTP sendmail emulation); Fri, 11 Oct 2019 13:21:18 +0300
-Date:   Fri, 11 Oct 2019 13:21:18 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        You-Sheng Yang <vicamo.yang@canonical.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] HID: i2c-hid: Remove runtime power management
-Message-ID: <20191011102118.GD2819@lahna.fi.intel.com>
-References: <20191008153829.24766-1-kai.heng.feng@canonical.com>
- <d096582b-c96b-69a2-bcc5-cba2984705e7@redhat.com>
- <CAO-hwJJoy3=a_m9V6ZseisGgWp=jJpYr3ub85SaLiQFiioZ7ew@mail.gmail.com>
+        id S1728215AbfJKOKj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Oct 2019 10:10:39 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:46249 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728123AbfJKOKj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 11 Oct 2019 10:10:39 -0400
+Received: by mail-pf1-f195.google.com with SMTP id q5so6149202pfg.13;
+        Fri, 11 Oct 2019 07:10:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=5mnGbwefIqKastaz5advYFrncKnKjfcU7jtCva8kk2g=;
+        b=nqPJcD8xo+8r8hakIm9r1b4zrovgP79c9J4rDTuUEWdYZOc6qhxediZSVCm6FSUxca
+         EXjXQsIIpUDh8Sb8nZpKGcCNAwLhOTXgF7DYo4w4nzs+6jUIhMm1pPh8zQCZSm424t4R
+         1zEYG5sY/HYzc3LKNolgx1FS5VCPg96KFFL2H2OYZYfS3+JE9iE4cnsOj2uMV5cm6Pos
+         A+VwyNsDA3/OUcdHX8+AuJDX5dx3/1Lq2z35jQC0nzyWaMXnxgN4HHqYQX5+ikBf28VQ
+         TnkLzuZD6kuGGUrZr6NWcuu5jrrkGn0tMesR5PuwUIqzEbZ4Mt6JxN+Pmc3PZ1HQ04jH
+         vexQ==
+X-Gm-Message-State: APjAAAX2QuPhxIN9IVmOwVz7SNtkuuDl+dH5o57tcNq5OvDFlQM6M6gv
+        2m+PVLQrFGP8GIyO5YH05Jw21YQr+Zk=
+X-Google-Smtp-Source: APXvYqwulWIrQ2LtNREeNBuPTIuNGsJh5aG7oVSCrF2HLnZ4G+Es9m/PbNEpUdA1QGMF+yma+Hgm8w==
+X-Received: by 2002:a65:6910:: with SMTP id s16mr17061184pgq.284.1570803038188;
+        Fri, 11 Oct 2019 07:10:38 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id h68sm12740598pfb.149.2019.10.11.07.10.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Oct 2019 07:10:37 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 47128403EA; Fri, 11 Oct 2019 14:10:36 +0000 (UTC)
+Date:   Fri, 11 Oct 2019 14:10:36 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 0/8] efi/firmware/platform-x86: Add EFI embedded fw
+ support
+Message-ID: <20191011141036.GK16384@42.do-not-panic.com>
+References: <20191004145056.43267-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAO-hwJJoy3=a_m9V6ZseisGgWp=jJpYr3ub85SaLiQFiioZ7ew@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191004145056.43267-1-hdegoede@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 11:27:10AM +0200, Benjamin Tissoires wrote:
-> Hi,
-> 
-> [Adding Mika, who introduced runpm in i2c-hid]
-> 
-> few questions, remarks:
-> 
-> On Tue, Oct 8, 2019 at 10:26 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> >
-> > Hi,
-> >
-> > On 08-10-2019 17:38, Kai-Heng Feng wrote:
-> > > Runtime power management in i2c-hid brings lots of issues, such as:
-> > > - When transitioning from display manager to desktop session, i2c-hid
-> > > was closed and opened, so the device was set to SLEEP and ON in a short
-> > > period. Vendors confirmed that their devices can't handle fast ON/SLEEP
-> > > command because Windows doesn't have this behavior.
-> > >
-> > > - When rebooting, i2c-hid was closed, and the driver core put the device
-> > > back to full power before shutdown. This behavior also triggers a quick
-> > > SLEEP and ON commands that some devices can't handle, renders an
-> > > unusable touchpad after reboot.
-> > >
-> > > - Runtime power management is only useful when i2c-hid isn't opened,
-> > > i.e. a laptop without desktop session, which isn't that common.
-> 
-> There is also one GPM-like driver that uses libinput (can't remember
-> from the top of my head), but you can have the i2c-hid device opened
-> on a vt too (with 2 finger gestures for scrolling and what not) :)
-> 
-> And there is also the use case of a 2-in-1 when the laptop is in
-> tablet mode. In some cases, the compositor will close the inputs to
-> ignore the touchpad events.
-> 
-> Anyway, Mika, is there any drawbacks of not having runpm on i2c-hid
-> devices? Maybe at the IRQ level?
+Hey Hans, thanks for staying on top of this and follow up! For some
+reason the universe conspired against your first and last patch ([1/8],
+[8/8]), and I never got them. Could you bounce these or resend in case
+others confirm they also didn't get it?
 
-Nothing comes to mind except that power consumption might increase if
-the device is not used but if that's not an issue then no objections
-from my side :)
+While at it, can you Cc scott.branden@broadcom.com in further
+communications about this patchset, he's interest in some other changes
+we'll need to coordinate if we get to have some other development in
+line for the next merge window.
+
+  Luis
