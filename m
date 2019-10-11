@@ -2,137 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C07FDD4382
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 16:56:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D4C4D439C
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 17:02:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726533AbfJKO4H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Oct 2019 10:56:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30513 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726332AbfJKO4H (ORCPT
+        id S1726828AbfJKPCa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Oct 2019 11:02:30 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:33958 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726331AbfJKPCa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Oct 2019 10:56:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1570805766;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FiDA3QBts5KfCGtUBop3Hw/Oo24dQFtETwEmLErKTH4=;
-        b=Pl8q2o3qveJcTsJ0RvZMIbGokZY279JMhv1feelP4WsDpwvFjksxVArNfP/j2i4YOLlSID
-        myRJ85sOpF8uBhY5WTdls46+BBfgWVf8yooOR0kaAE+Gx91JaE+edxjfXYPO21eK+MwkwS
-        QWfZcMgciNqjOQEhxJe78t36IHuBE9A=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-PTAmE11wMHyiFFAP4elKRA-1; Fri, 11 Oct 2019 10:56:03 -0400
-Received: by mail-qk1-f197.google.com with SMTP id k67so9211652qkc.3
-        for <linux-input@vger.kernel.org>; Fri, 11 Oct 2019 07:56:03 -0700 (PDT)
+        Fri, 11 Oct 2019 11:02:30 -0400
+Received: by mail-pl1-f193.google.com with SMTP id k7so4606668pll.1;
+        Fri, 11 Oct 2019 08:02:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JATZHH1NgtP8u5fFJewNDLUv2TCv4ss7bPRKEHICbr0=;
-        b=MIZ3YRTb1LTe+nmqlvf0W5b6XYieJVsNekB8omT1qJUq68yiaIM9Ns5bXHDuXn1aDU
-         l6Lc62vepTSXEBsXfzxTlHGD4HbKC5phG4FObRFjcNfo2NhjvTLH4MkqWLYlRUL3YDVr
-         kEBytkPCk0+Mqn7ktrJMz06qxLDFcEqlzG5pfJLZ7wz9y76SNZvvaNipkgbhJWqluHrv
-         izk9MpNZN4jH9hUX2I7+gbK8PNGGRua+dfXIKKqP3fseHH15kdPoMFSiN6ZbVQ2zWrzw
-         worG/cEbcszFxaY7PtwyqfAfEJNwHFwWLyem2rcfBjuowZZHjTZpotQqMDT6j6nMO678
-         /hzg==
-X-Gm-Message-State: APjAAAWFf7IZEZkIKrEG43ommPh3JzxcuGmnERStGWVm0sWT86JLmF/D
-        4ZWwZjNjwUeNTp4VI8TFMrYM4ZA6wRGaPdRk4gGCzGw+WAUNbTrTGMxQojNFg0NyHgolq0u/Zhs
-        tg9OFvwBVLyIUf6MHRZ4gnJsqh4/JRuOXMvkZzlQ=
-X-Received: by 2002:ae9:f306:: with SMTP id p6mr16089653qkg.169.1570805763038;
-        Fri, 11 Oct 2019 07:56:03 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyhRxyO1bcuIfWi9+9ILjcQeYiWIMiW4HueiZFd7MJiAIFazyIv6uqj4C9dxgo9WNAj6xf5SxYEm9R5x2IqA4c=
-X-Received: by 2002:ae9:f306:: with SMTP id p6mr16089632qkg.169.1570805762825;
- Fri, 11 Oct 2019 07:56:02 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=BMw6A0ySkqQiHBiai+B0CQpXt1FaZKXX8wNTsnQc/K0=;
+        b=Kr4TcxoIMagG1aOtgJcN6J3+geo1bECM8/MhHlwlaxS97GuwZtjyR1gZF4cr4qk1By
+         HWm6ooEfzS1P+ngkp6l6KfFo52LcCUpjTYy/3uZX0Cev0I8Q2k09+2d7Epd8jD9IQqdE
+         SY/zsTE5HIR/Z57TJQDHtuCP70Elgj06RIhL8ad7AnzQtbxVgbituIhr7KArl3SCNJue
+         +JdK5QVb8/KqxFMinjdJoiFY/oX0YmmiTjpbSWeGR99VPwYEJWl9Ks021YqafAzchnmT
+         Ra3uwV22zBFnccUgEG6yGvCIVDnzDdytGmXIuDOcpe1UwOBqekb3bUX+JHNrIz/WpQi4
+         Q2Ag==
+X-Gm-Message-State: APjAAAUQUbsveecKypjETih7UsEvQcVJw68mqoP4uRPvCvIqZJcE9YRP
+        /TjT77zG4tNcVXq8i5L1kYc=
+X-Google-Smtp-Source: APXvYqwiHpLlmejt3NOWkh5ZzK0HvNb2LO/lm/1gCZziXECNv4ZVkshN0LjJ36LM8n4uhzFARU3Xug==
+X-Received: by 2002:a17:902:d909:: with SMTP id c9mr15684424plz.216.1570806149053;
+        Fri, 11 Oct 2019 08:02:29 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id l1sm15633824pja.30.2019.10.11.08.02.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Oct 2019 08:02:28 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 4BE50403EA; Fri, 11 Oct 2019 15:02:27 +0000 (UTC)
+Date:   Fri, 11 Oct 2019 15:02:27 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Scott Branden <scott.branden@broadcom.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 3/8] firmware: Rename FW_OPT_NOFALLBACK to
+ FW_OPT_NOFALLBACK_SYSFS
+Message-ID: <20191011150227.GO16384@42.do-not-panic.com>
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191004145056.43267-4-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20191007051240.4410-1-andrew.smirnov@gmail.com> <20191007051240.4410-4-andrew.smirnov@gmail.com>
-In-Reply-To: <20191007051240.4410-4-andrew.smirnov@gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 11 Oct 2019 16:55:51 +0200
-Message-ID: <CAO-hwJJ8tp4Rqte-umv9e=S5evR5oJTErsNR0Wk-z8wcbtR0wg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] HID: logitech-hidpp: add G920 device validation quirk
-To:     Andrey Smirnov <andrew.smirnov@gmail.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Sam Bazely <sambazley@fastmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-        Austin Palmer <austinp@valvesoftware.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "3.8+" <stable@vger.kernel.org>
-X-MC-Unique: PTAmE11wMHyiFFAP4elKRA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191004145056.43267-4-hdegoede@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Oct 7, 2019 at 7:13 AM Andrey Smirnov <andrew.smirnov@gmail.com> wr=
-ote:
->
-> G920 device only advertises REPORT_ID_HIDPP_LONG and
-> REPORT_ID_HIDPP_VERY_LONG in its HID report descriptor, so querying
-> for REPORT_ID_HIDPP_SHORT with optional=3Dfalse will always fail and
-> prevent G920 to be recognized as a valid HID++ device.
->
-> Modify hidpp_validate_device() to check only REPORT_ID_HIDPP_LONG with
-> optional=3Dfalse on G920 to fix this.
->
-> Fixes: fe3ee1ec007b ("HID: logitech-hidpp: allow non HID++ devices to be =
-handled by this module")
-> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=3D204191
-> Reported-by: Sam Bazely <sambazley@fastmail.com>
-> Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Cc: Henrik Rydberg <rydberg@bitmath.org>
-> Cc: Sam Bazely <sambazley@fastmail.com>
-> Cc: Pierre-Loup A. Griffais <pgriffais@valvesoftware.com>
-> Cc: Austin Palmer <austinp@valvesoftware.com>
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: stable@vger.kernel.org
-> ---
->  drivers/hid/hid-logitech-hidpp.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-=
-hidpp.c
-> index cadf36d6c6f3..f415bf398e17 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -3511,6 +3511,12 @@ static bool hidpp_validate_report(struct hid_devic=
-e *hdev, int id,
->
->  static bool hidpp_validate_device(struct hid_device *hdev)
->  {
-> +       struct hidpp_device *hidpp =3D hid_get_drvdata(hdev);
-> +
-> +       if (hidpp->quirks & HIDPP_QUIRK_CLASS_G920)
-> +               return hidpp_validate_report(hdev, REPORT_ID_HIDPP_LONG,
-> +                                            HIDPP_REPORT_SHORT_LENGTH, f=
-alse);
-> +
+On Fri, Oct 04, 2019 at 04:50:51PM +0200, Hans de Goede wrote:
+> diff --git a/drivers/base/firmware_loader/fallback.c b/drivers/base/firmware_loader/fallback.c
+> index 62ee90b4db56..665b350419cb 100644
+> --- a/drivers/base/firmware_loader/fallback.c
+> +++ b/drivers/base/firmware_loader/fallback.c
+> @@ -606,7 +606,7 @@ static bool fw_run_sysfs_fallback(enum fw_opt opt_flags)
+>  		return false;
+>  	}
+>  
+> -	if ((opt_flags & FW_OPT_NOFALLBACK))
+> +	if ((opt_flags & FW_OPT_NOFALLBACK_SYSFS))
+>  		return false;
+>  
+>  	/* Also permit LSMs and IMA to fail firmware sysfs fallback */
+> @@ -630,10 +630,11 @@ static bool fw_run_sysfs_fallback(enum fw_opt opt_flags)
+>   * interface. Userspace is in charge of loading the firmware through the sysfs
+>   * loading interface. This sysfs fallback mechanism may be disabled completely
+>   * on a system by setting the proc sysctl value ignore_sysfs_fallback to true.
+> - * If this false we check if the internal API caller set the @FW_OPT_NOFALLBACK
+> - * flag, if so it would also disable the fallback mechanism. A system may want
+> - * to enfoce the sysfs fallback mechanism at all times, it can do this by
+> - * setting ignore_sysfs_fallback to false and force_sysfs_fallback to true.
+> + * If this false we check if the internal API caller set the
+         ignore_sysfs_fallback set to true or force_sysfs_fallback is
+	 set to false
 
-with https://patchwork.kernel.org/patch/11184749/ we also have a need
-for such a trick for BLE mice.
+Otherwise looks good. You can add:
 
-I wonder if we should not have a more common way of validating the devices
+Acked-by: Luis Chamberlain <mcgrof@kernel.org>
 
-This can probably be handled later, as your patch fixes the current devices=
-.
-
-Cheers,
-Benjamin
-
->         return hidpp_validate_report(hdev, REPORT_ID_HIDPP_SHORT,
->                                      HIDPP_REPORT_SHORT_LENGTH, false) &&
->                hidpp_validate_report(hdev, REPORT_ID_HIDPP_LONG,
-> --
-> 2.21.0
->
-
+  Luis
