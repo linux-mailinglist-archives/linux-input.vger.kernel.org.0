@@ -2,53 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AE536D4786
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 20:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E7B3D484F
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 21:16:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728710AbfJKS0W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Oct 2019 14:26:22 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:36642 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728472AbfJKS0W (ORCPT
+        id S1728903AbfJKTQh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Oct 2019 15:16:37 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28682 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728857AbfJKTQh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Oct 2019 14:26:22 -0400
-Received: by mail-pg1-f194.google.com with SMTP id 23so6264409pgk.3;
-        Fri, 11 Oct 2019 11:26:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=jxnkHI88PrlznD0X1thKhOQvv+RypW1KwIdA3XIbgY8=;
-        b=jEwyzxuao3KGDNQYlf2/0Ho27W8nshP38GuFJ0t0eDDgLntVfJAJnYY6QQLMRDsS3C
-         jEq9pSKuZmjAov7CEAa9qHuejXm0jDmUyMSwMIr27Kz8SvLeYJByirGepXKvS/jeG18w
-         e2CnyP3PJ+Swpje3KQJWIQq0XPc6rMc4uDV/H7k8j/4FVaAwHnjM7R3Vh/UYZNHSjIFt
-         l/ZVtjD09dUGKzf82Zh3fTrbtZuUFuTk9yu46Na+ccD9btT+1fhxndJYctrpznU18cGs
-         lmRsrH1jQ/7hTvm+uCDyKDldf+mGxzUlYRFgVPoU6/ZwRo4MUchmWpcmIKwBIxUutdDZ
-         t9ng==
+        Fri, 11 Oct 2019 15:16:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1570821396;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PmD2iXZzRm5TWXHP4u2nvAta0M6In2JXUUfSGIBG8L8=;
+        b=T+VCQifxZXipUDp/ymQcuAoXlwp5yh7UC+5nYFW0gQSoW/dE4ASr/6AeOtBk3lCtx7ZLo7
+        HuDhbet+cV2TN3+Bab7VIJVFBIk++LJgHKtxajQEmE4VOeyKlWELbiDY2Rw4myhEAhSqTm
+        O3V+Ku2zB+wH0UmZAkdX3hXdWPeTNT0=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-255-HiOO0Ym_PNmQ3TxvHRTWwA-1; Fri, 11 Oct 2019 15:16:32 -0400
+Received: by mail-qk1-f199.google.com with SMTP id w198so9979874qka.0
+        for <linux-input@vger.kernel.org>; Fri, 11 Oct 2019 12:16:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jxnkHI88PrlznD0X1thKhOQvv+RypW1KwIdA3XIbgY8=;
-        b=HWApv/g8ZdvwcWH4mjHHI1lC+wq4jsx4/BBXBhN8+lDz6HDP83gOihGvzvPT0gQ9Ig
-         kQlMhMtg4FmSsQjcgpDBJrhTV5MGJsZsVtnZKptHA4UR22xYD/0PCS7w50TJel09qFtT
-         VWN5QMWfDMmMLVg0U4fbzNtmQpw9DsTHrHBCOspIJDz5eyFBW+OpExEcsIGJq4ob36GK
-         2bjcEOQzB/VRTPn+EDGwY7yFYzcnprAVEZW3M/1VRML0s8/BfpsC5454W3ZLOpgBocrt
-         9yI6VxZPaPxuPUzMhuz/YfswUSxLozGIekx324ZubydFbr9JTx6LicxO+19QkP9NSl/e
-         ixhg==
-X-Gm-Message-State: APjAAAUNNYssT9TrDE7T7Jdgur/ybQczUz4QI6GmSVdoK9ANTPMDyw15
-        8GJrx5c2l9szTChO4arMqyI=
-X-Google-Smtp-Source: APXvYqxrpSc+TDPcyRF4KlmdtpyzMSwahLxwMENVk8AP/KE9KtxkTtl8oS6zl44QqX0eaWzKFk5mYg==
-X-Received: by 2002:a17:90a:c382:: with SMTP id h2mr18376741pjt.110.1570818380971;
-        Fri, 11 Oct 2019 11:26:20 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id q33sm9518894pgm.50.2019.10.11.11.26.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2019 11:26:20 -0700 (PDT)
-Date:   Fri, 11 Oct 2019 11:26:17 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Andrey Smirnov <andrew.smirnov@gmail.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DuLUVOIQimNSFcqes+0fEHnQr+0Rr+pI9L1erbmu+/Y=;
+        b=ewww9dLefP+E+BAyWwpZqBcQYg+Siau+HjQiOFLlVsv1XQEdLvoT9MNL82vMfoxHhD
+         OdajtKmW5UgKQHuOPckTJCOLvCrxjrWvf59Z54mIqDuaf5JJ2odF5qk7EGS52uj47p2L
+         lAvEBrq6l1+uqHk2Bd4iGSKZAtwJZP6F6CjVbclAmgo/FJA4wBcwDLtMUr5tRc4pH5r+
+         zap6l20nkZV7B0jDZ1kof/7csSjkrtukXjbd/pOwIyqjwVSvXxMUQDRxFxZ1lTA5ltr8
+         vLYSpNJwKeuGKxQB9pUmDmvU/VSFcGusarrOrOeRbb6hMa3PAqTQKfI0pgrMCpBL4SMH
+         nObw==
+X-Gm-Message-State: APjAAAX/IMU0CA/HnuYzbOms6YWF1m1GITv/pmKsgbzUXux2jgNeOc/O
+        Ww7hDSKBKW2x/3x5yqPJtOJO8SkRZ0hUb00HykD6+8kMXRoJKHIGdhV8h3zwsw8pEqPNFkS2VMj
+        v/gYXRUXT81iTB4yYot1+1HeSsQk7ik3w85uT98M=
+X-Received: by 2002:ae9:f306:: with SMTP id p6mr17452678qkg.169.1570821391797;
+        Fri, 11 Oct 2019 12:16:31 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyCUFq1iJEUGQxH880Dht23cTHsuGZ/C0d5reOJDTvtn3H+V6DJiHEHxyT7/yb4ene1k2/R4IBRnezVo09UkEM=
+X-Received: by 2002:ae9:f306:: with SMTP id p6mr17452643qkg.169.1570821391424;
+ Fri, 11 Oct 2019 12:16:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191007051240.4410-1-andrew.smirnov@gmail.com>
+ <20191007051240.4410-2-andrew.smirnov@gmail.com> <CAO-hwJ+jPGa5Z7=Lopsc23m8UOqGWB0=tN+DcotykseAPM7_7w@mail.gmail.com>
+ <CAHQ1cqHS6CHti_gQ806SPZzmDjMaZLOZKQDzGCu9TFspT9M0wg@mail.gmail.com>
+In-Reply-To: <CAHQ1cqHS6CHti_gQ806SPZzmDjMaZLOZKQDzGCu9TFspT9M0wg@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 11 Oct 2019 21:16:19 +0200
+Message-ID: <CAO-hwJ+6iW=P6gC5n8Bu0hfbrerY_o25i_=dhMvs0FpPRuu3yA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] HID: logitech-hidpp: use devres to manage FF private data
+To:     Andrey Smirnov <andrew.smirnov@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
         Jiri Kosina <jikos@kernel.org>,
         Henrik Rydberg <rydberg@bitmath.org>,
@@ -57,81 +65,259 @@ Cc:     Andrey Smirnov <andrew.smirnov@gmail.com>,
         Austin Palmer <austinp@valvesoftware.com>,
         lkml <linux-kernel@vger.kernel.org>,
         "3.8+" <stable@vger.kernel.org>
-Subject: Re: [PATCH 1/3] HID: logitech-hidpp: use devres to manage FF private
- data
-Message-ID: <20191011182617.GE229325@dtor-ws>
-References: <20191007051240.4410-1-andrew.smirnov@gmail.com>
- <20191007051240.4410-2-andrew.smirnov@gmail.com>
- <CAO-hwJ+jPGa5Z7=Lopsc23m8UOqGWB0=tN+DcotykseAPM7_7w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO-hwJ+jPGa5Z7=Lopsc23m8UOqGWB0=tN+DcotykseAPM7_7w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-MC-Unique: HiOO0Ym_PNmQ3TxvHRTWwA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 04:52:04PM +0200, Benjamin Tissoires wrote:
-> Hi Andrey,
-> 
-> On Mon, Oct 7, 2019 at 7:13 AM Andrey Smirnov <andrew.smirnov@gmail.com> wrote:
+Hi Andrey,
+
+On Fri, Oct 11, 2019 at 8:19 PM Andrey Smirnov <andrew.smirnov@gmail.com> w=
+rote:
+>
+> On Fri, Oct 11, 2019 at 7:52 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
 > >
-> > To simplify resource management in commit that follows as well as to
-> > save a couple of extra kfree()s and simplify hidpp_ff_deinit() switch
-> > driver code to use devres to manage the life-cycle of FF private data.
+> > Hi Andrey,
 > >
-> > Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
-> > Cc: Jiri Kosina <jikos@kernel.org>
-> > Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > Cc: Henrik Rydberg <rydberg@bitmath.org>
-> > Cc: Sam Bazely <sambazley@fastmail.com>
-> > Cc: Pierre-Loup A. Griffais <pgriffais@valvesoftware.com>
-> > Cc: Austin Palmer <austinp@valvesoftware.com>
-> > Cc: linux-input@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: stable@vger.kernel.org
-> 
-> This patch doesn't seem to fix any error, is there a reason to send it
-> to stable? (besides as a dependency of the rest of the series).
-> 
-> > ---
-> >  drivers/hid/hid-logitech-hidpp.c | 53 +++++++++++++++++---------------
-> >  1 file changed, 29 insertions(+), 24 deletions(-)
+> > On Mon, Oct 7, 2019 at 7:13 AM Andrey Smirnov <andrew.smirnov@gmail.com=
+> wrote:
+> > >
+> > > To simplify resource management in commit that follows as well as to
+> > > save a couple of extra kfree()s and simplify hidpp_ff_deinit() switch
+> > > driver code to use devres to manage the life-cycle of FF private data=
+.
+> > >
+> > > Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
+> > > Cc: Jiri Kosina <jikos@kernel.org>
+> > > Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > > Cc: Henrik Rydberg <rydberg@bitmath.org>
+> > > Cc: Sam Bazely <sambazley@fastmail.com>
+> > > Cc: Pierre-Loup A. Griffais <pgriffais@valvesoftware.com>
+> > > Cc: Austin Palmer <austinp@valvesoftware.com>
+> > > Cc: linux-input@vger.kernel.org
+> > > Cc: linux-kernel@vger.kernel.org
+> > > Cc: stable@vger.kernel.org
 > >
-> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> > index 0179f7ed77e5..58eb928224e5 100644
-> > --- a/drivers/hid/hid-logitech-hidpp.c
-> > +++ b/drivers/hid/hid-logitech-hidpp.c
-> > @@ -2079,6 +2079,11 @@ static void hidpp_ff_destroy(struct ff_device *ff)
-> >         struct hidpp_ff_private_data *data = ff->private;
+> > This patch doesn't seem to fix any error, is there a reason to send it
+> > to stable? (besides as a dependency of the rest of the series).
 > >
-> >         kfree(data->effect_ids);
-> 
-> Is there any reasons we can not also devm alloc data->effect_ids?
-> 
-> > +       /*
-> > +        * Set private to NULL to prevent input_ff_destroy() from
-> > +        * freeing our devres allocated memory
-> 
-> Ouch. There is something wrong here: input_ff_destroy() calls
-> kfree(ff->private), when the data has not been allocated by
-> input_ff_create(). This seems to lack a little bit of symmetry.
+>
+> Dependency is the only reason for this patch, but it is a pretty big
+> reason. Prior to patches 1/3 and 2/3 FF private data was both
+> allocated and passed off to FF layer via ff->private =3D data in a span
+> of a few lines of code within hidpp_ff_init()/g920_get_config().
+> After, said pair is effectively split into two different functions,
+> both needing access to FF private data, but called quite far apart in
+> hidpp_probe(). Alternatives to patch 1/3 would be to either make sure
+> that every error path in hidpp_prob() after the call to
+> g920_allocate() is aware of allocated FF data, which seems like a
+> nightmare, or, to create a temporary FF data, fill it in
+> g920_get_config() and memdup() it in hidpp_ff_init(). Is that (the
+> latter) the path that you prefer to take?
 
-Yeah, ff and ff-memless essentially take over the private data assigned
-to them. They were done before devm and the lifetime of the "private"
-data pieces was tied to the lifetime of the input device to simplify
-error handling and teardown.
+Hmm, I don't have a strong opinion on that. The point I don't like
+with the devres version is that it seems like a half-backed solution,
+as part of the driver would use devres while parts for the same
+purpose will not. I do not consider your code untrusted, but this is
+usually a reasonable source of leakages, so as a rule a thumb, devres
+should be used in a all or nothing fashion.
 
-Maybe we should clean it up a bit... I'm open to suggestions.
+Basically, both alternative solutions would be OK with me, as long as
+the scope of each patch is reduced to the minimum (and having more
+than one is OK too).
 
-In this case maybe best way is to get rid of hidpp_ff_destroy() and not
-set ff->private and rely on devm to free the buffers. One can get to
-device private data from ff methods via input_get_drvdata() since they
-all (except destroy) are passed input device pointer.
+>
+> > > ---
+> > >  drivers/hid/hid-logitech-hidpp.c | 53 +++++++++++++++++-------------=
+--
+> > >  1 file changed, 29 insertions(+), 24 deletions(-)
+> > >
+> > > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logit=
+ech-hidpp.c
+> > > index 0179f7ed77e5..58eb928224e5 100644
+> > > --- a/drivers/hid/hid-logitech-hidpp.c
+> > > +++ b/drivers/hid/hid-logitech-hidpp.c
+> > > @@ -2079,6 +2079,11 @@ static void hidpp_ff_destroy(struct ff_device =
+*ff)
+> > >         struct hidpp_ff_private_data *data =3D ff->private;
+> > >
+> > >         kfree(data->effect_ids);
+> >
+> > Is there any reasons we can not also devm alloc data->effect_ids?
+>
+> No, but I was trying to limit the scope of this patch.
+>
+> >
+> > > +       /*
+> > > +        * Set private to NULL to prevent input_ff_destroy() from
+> > > +        * freeing our devres allocated memory
+> >
+> > Ouch. There is something wrong here: input_ff_destroy() calls
+> > kfree(ff->private), when the data has not been allocated by
+> > input_ff_create(). This seems to lack a little bit of symmetry.
+> >
+>
+> I agree, I think it's a wart in FF API design.
 
-Thanks.
+Yep, see Dmitry's answer for ideas :)
 
--- 
-Dmitry
+>
+> > > +        */
+> > > +       ff->private =3D NULL;
+> > >  }
+> > >
+> > >  static int hidpp_ff_init(struct hidpp_device *hidpp, u8 feature_inde=
+x)
+> > > @@ -2090,7 +2095,7 @@ static int hidpp_ff_init(struct hidpp_device *h=
+idpp, u8 feature_index)
+> > >         const u16 bcdDevice =3D le16_to_cpu(udesc->bcdDevice);
+> > >         struct ff_device *ff;
+> > >         struct hidpp_report response;
+> > > -       struct hidpp_ff_private_data *data;
+> > > +       struct hidpp_ff_private_data *data =3D hidpp->private_data;
+> > >         int error, j, num_slots;
+> > >         u8 version;
+> > >
+> > > @@ -2129,18 +2134,13 @@ static int hidpp_ff_init(struct hidpp_device =
+*hidpp, u8 feature_index)
+> > >                 return error;
+> > >         }
+> > >
+> > > -       data =3D kzalloc(sizeof(*data), GFP_KERNEL);
+> > > -       if (!data)
+> > > -               return -ENOMEM;
+> > >         data->effect_ids =3D kcalloc(num_slots, sizeof(int), GFP_KERN=
+EL);
+> > > -       if (!data->effect_ids) {
+> > > -               kfree(data);
+> > > +       if (!data->effect_ids)
+> > >                 return -ENOMEM;
+> > > -       }
+> > > +
+> > >         data->wq =3D create_singlethread_workqueue("hidpp-ff-sendqueu=
+e");
+> > >         if (!data->wq) {
+> > >                 kfree(data->effect_ids);
+> > > -               kfree(data);
+> > >                 return -ENOMEM;
+> > >         }
+> > >
+> > > @@ -2199,28 +2199,15 @@ static int hidpp_ff_init(struct hidpp_device =
+*hidpp, u8 feature_index)
+> > >         return 0;
+> > >  }
+> > >
+> > > -static int hidpp_ff_deinit(struct hid_device *hid)
+> > > +static void hidpp_ff_deinit(struct hid_device *hid)
+> > >  {
+> > > -       struct hid_input *hidinput =3D list_entry(hid->inputs.next, s=
+truct hid_input, list);
+> > > -       struct input_dev *dev =3D hidinput->input;
+> > > -       struct hidpp_ff_private_data *data;
+> > > -
+> > > -       if (!dev) {
+> > > -               hid_err(hid, "Struct input_dev not found!\n");
+> > > -               return -EINVAL;
+> > > -       }
+> > > +       struct hidpp_device *hidpp =3D hid_get_drvdata(hid);
+> > > +       struct hidpp_ff_private_data *data =3D hidpp->private_data;
+> > >
+> > >         hid_info(hid, "Unloading HID++ force feedback.\n");
+> > > -       data =3D dev->ff->private;
+> > > -       if (!data) {
+> >
+> > I am pretty sure we might need to keep a test on data not being null.
+> >
+>
+> OK, sure. Could you be more explicit in your reasoning next time
+> though? I am assuming this is because hid_hw_stop() might be called
+> before?
+
+Honestly, I don't have a good reason for it. I have seen enough of
+automatic static/dynamic checks with the same patterns to let my guts
+express that we need to check on the value of a pointer stored in
+private_data before dereferencing it.
+
+If you are absolutely sure this is not need, a simple comment in the
+code is enough :)
+
+>
+> > > -               hid_err(hid, "Private data not found!\n");
+> > > -               return -EINVAL;
+> > > -       }
+> > >
+> > >         destroy_workqueue(data->wq);
+> > >         device_remove_file(&hid->dev, &dev_attr_range);
+> > > -
+> > > -       return 0;
+> > >  }
+> >
+> > This whole hunk seems unrelated to the devm change.
+> > Can you extract a patch that just stores hidpp_ff_private_data in
+> > hidpp->private_data and then cleans up hidpp_ff_deinit() before
+> > switching it to devm? (or maybe not, see below)
+>
+> Well it appears you are against the idea of leveraging devres in this
+> series, so discussing the fate of said hunk seems moot.
+
+Well, I really value your work and I am very happy of it. It's just
+that for a patch/series aimed at stable, I rather have the patch
+series following the stable rules, which are that we should fix one
+thing only, and have the most simplest patch possible. I truly believe
+adding devres to cleanup the error path is the thing to do, but maybe
+not in this series.
+
+>
+> >
+> > After a few more thoughts, I don't think this mixing of devm and non
+> > devm is a good idea:
+> > we could say that the hidpp_ff_private_data and its effect_ids are
+> > both children of the input_dev, not the hid_device. And we would
+> > expect the whole thing to simplify with devm, but it's not, because ff
+> > is not supposed to be used with devm.
+> >
+> > I have a feeling the whole ff logic is wrong in term of where things
+> > should be cleaned up, but I can not come up with a good hint on where
+> > to start. For example, destroy_workqueue() is called in
+> > hidpp_ff_deinit() where it might be racy, and maybe we should call it
+> > in hidpp_ff_destroy()...
+> >
+>
+> Yeah, it probably should be moved to hidpp_ff_destroy(). Out of scope
+> for this series though, I'll deal with it in a separate submission.
+
+As per Dmitry's suggestion of removing hidpp_ff_destroy() maybe we
+should keep it that way, I am not entirely sure about how the races
+can happen (I don't think I even have one FF device I could test
+against).
+
+>
+> > Last, you should base this patch on top of the for-next branch, we
+> > recently merged a fix for the FF drivers in the HID subsystem:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=
+=3Dfor-next&id=3Dd9d4b1e46d9543a82c23f6df03f4ad697dab361b
+> >
+>
+> Sure will do.
+
+thanks \o/
+
+>
+> > Would it be too complex to drop this patch from the series and do a
+> > proper follow up cleanup series that might not need to go to stable?
+> >
+>
+> No it's alright. I'll submit a v2 of this series with only two patches
+> and send a follow up after.
+>
+
+And thanks a lot again.
+
+Cheers,
+Benjamin
+
