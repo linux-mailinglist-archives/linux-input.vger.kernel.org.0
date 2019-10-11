@@ -2,170 +2,250 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 352D6D46E3
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 19:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B5CCD4765
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 20:19:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728660AbfJKRr7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Oct 2019 13:47:59 -0400
-Received: from mail-40133.protonmail.ch ([185.70.40.133]:58204 "EHLO
-        mail-40133.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728374AbfJKRr7 (ORCPT
+        id S1728736AbfJKSTQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Oct 2019 14:19:16 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:35686 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728721AbfJKSTQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Oct 2019 13:47:59 -0400
-Date:   Fri, 11 Oct 2019 17:47:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=default; t=1570816076;
-        bh=mvyYHFIJXQlg65e3hoLOmXCGjj1vtnmvU+8bO7YTk+Q=;
-        h=Date:To:From:Cc:Reply-To:Subject:Feedback-ID:From;
-        b=ulyS6KHBE0Q+4tMVt5vPKWSwn0HSBvlVcN5jnd3ApYzAymbzjLAuf/8sDR0weXLUJ
-         gBmV5gsbMYzy/orHFRkQT+xsHXL7TjI0wrkHaiVmgNjfgRclm3bzEnUDPlejYit7At
-         DT6BehsYvyzmk33l9d8tPFXqXPlCHjg36BW+YnJ8=
-To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-From:   Mazin Rezk <mnrzk@protonmail.com>
-Cc:     "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>,
-        "mnrzk@protonmail.com" <mnrzk@protonmail.com>
-Reply-To: Mazin Rezk <mnrzk@protonmail.com>
-Subject: [PATCH v5 2/2] HID: logitech: Support WirelessDeviceStatus connect events
-Message-ID: <23olKBO7VYh8VS2ZXNY_4uBAy5jnxyXdBqzXiBZdvPxVp845bPLo6Xe_vwYMuSlozOUg2LYs5ANpE4wy6UBtF9p5YnoLz1Udq6HxW89R3tE=@protonmail.com>
-Feedback-ID: 18B_FC5q-t32TXzMsVp9BgkgrdNH3iwklfW8WOrHrcxZA0WRj7JodCh5VXKxs6A3OaiHK0QNd8wi3SImKex8yQ==:Ext:ProtonMail
+        Fri, 11 Oct 2019 14:19:16 -0400
+Received: by mail-lj1-f195.google.com with SMTP id m7so10754941lji.2;
+        Fri, 11 Oct 2019 11:19:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lbSA0+U8G/oL8JgGMmwp2gpu7thMyfDqSxSYRn93VE8=;
+        b=iYKRivIHaYZB06m/Y86bmZXGfmM00SXvHGC602i0nCsr8z4zKxW/hyoNJ7EjarJet9
+         0QzCZ+deLV/Ihup/+0O4mMhIq5ckbGm5Nodrtsk3wMqcKGl0HYPK9dgROg0KZREyqFrP
+         MlZBBDScHGePvougSkoZNKe/b/k/bR9+4ZvyVfF0OtbkZTdo153hxHjreS3Sx9ek0BEF
+         UAKP75LvryhKknrobjpth4g7GB6MeO0ZexYwMRHssPyrWTewL4Ue/BhrbYj1N7ziNMRh
+         K3Av7B77T+quLldVMVd8vZUXk1dRJPzV78vLKXayb8Ft4qxonIi/kiKhD03iqtF8dwWB
+         uIyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lbSA0+U8G/oL8JgGMmwp2gpu7thMyfDqSxSYRn93VE8=;
+        b=GkznQoWPmH5jKX3PWQwikwctm7LnKWr9khysB7OqCOj4dQFLFKIMt89X+eoLXVEApn
+         /4+klcMn4X2pjcr7SMEIzFfBwtlOIIP+F6OBlOdPuPrkkikPdaZbNGIuqVq0HXp2Fhx6
+         euHdcF3n4Z5MuD3wJEOEKYP8HJMqCTrFGOR8AVlNkbUgSgORYj1qDDWhWcl7BLi+oTuX
+         wpvY9I93Czb2m4rKulbWB3PmD3nZUT1hq8mZHYUpddDvUwwnqg/tNxcxbn0atPJBgKpw
+         MLTIgUwyDmIaIgX9Wrw2Hymb3ZiOWZIqZ3Qdm1C74Cs2b+Ba3RUdyCFlYZfBJ30Q6nss
+         cHmA==
+X-Gm-Message-State: APjAAAWW34QZ+kPxDgOr5YPwTZVA6lxpssAMYNjlx32zibdbT4578oIU
+        2hSHU9fLI7sZmOVF6Pyzf0fWPLWO+cjDd97SEfw=
+X-Google-Smtp-Source: APXvYqw3KYfKyL5he8zBjZLGjb4EzqDCVAOGTBaR5DsqoQ4jy9MsZOBhrseITyN7EmZmKVJSOGsUzQxOeGCKEQR6zaU=
+X-Received: by 2002:a2e:9816:: with SMTP id a22mr6723954ljj.102.1570817953123;
+ Fri, 11 Oct 2019 11:19:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_REPLYTO
-        autolearn=no autolearn_force=no version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
+References: <20191007051240.4410-1-andrew.smirnov@gmail.com>
+ <20191007051240.4410-2-andrew.smirnov@gmail.com> <CAO-hwJ+jPGa5Z7=Lopsc23m8UOqGWB0=tN+DcotykseAPM7_7w@mail.gmail.com>
+In-Reply-To: <CAO-hwJ+jPGa5Z7=Lopsc23m8UOqGWB0=tN+DcotykseAPM7_7w@mail.gmail.com>
+From:   Andrey Smirnov <andrew.smirnov@gmail.com>
+Date:   Fri, 11 Oct 2019 11:18:37 -0700
+Message-ID: <CAHQ1cqHS6CHti_gQ806SPZzmDjMaZLOZKQDzGCu9TFspT9M0wg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] HID: logitech-hidpp: use devres to manage FF private data
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Sam Bazely <sambazley@fastmail.com>,
+        "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+        Austin Palmer <austinp@valvesoftware.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "3.8+" <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch allows WirelessDeviceStatus (0x1d4b) events to be detected as
-connection events in the hid-logitech-hidpp module.
+On Fri, Oct 11, 2019 at 7:52 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> Hi Andrey,
+>
+> On Mon, Oct 7, 2019 at 7:13 AM Andrey Smirnov <andrew.smirnov@gmail.com> wrote:
+> >
+> > To simplify resource management in commit that follows as well as to
+> > save a couple of extra kfree()s and simplify hidpp_ff_deinit() switch
+> > driver code to use devres to manage the life-cycle of FF private data.
+> >
+> > Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
+> > Cc: Jiri Kosina <jikos@kernel.org>
+> > Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > Cc: Henrik Rydberg <rydberg@bitmath.org>
+> > Cc: Sam Bazely <sambazley@fastmail.com>
+> > Cc: Pierre-Loup A. Griffais <pgriffais@valvesoftware.com>
+> > Cc: Austin Palmer <austinp@valvesoftware.com>
+> > Cc: linux-input@vger.kernel.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: stable@vger.kernel.org
+>
+> This patch doesn't seem to fix any error, is there a reason to send it
+> to stable? (besides as a dependency of the rest of the series).
+>
 
-Devices with HIDPP_QUIRK_WIRELESS_DEVICE_STATUS use WirelessDeviceStatus
-instead of traditional connect events. Since all Bluetooth LE devices seem
-to act this way, HIDPP_QUIRK_CLASS_BLUETOOTH_LE aliases this quirk.
+Dependency is the only reason for this patch, but it is a pretty big
+reason. Prior to patches 1/3 and 2/3 FF private data was both
+allocated and passed off to FF layer via ff->private = data in a span
+of a few lines of code within hidpp_ff_init()/g920_get_config().
+After, said pair is effectively split into two different functions,
+both needing access to FF private data, but called quite far apart in
+hidpp_probe(). Alternatives to patch 1/3 would be to either make sure
+that every error path in hidpp_prob() after the call to
+g920_allocate() is aware of allocated FF data, which seems like a
+nightmare, or, to create a temporary FF data, fill it in
+g920_get_config() and memdup() it in hidpp_ff_init(). Is that (the
+latter) the path that you prefer to take?
 
-Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
----
- drivers/hid/hid-logitech-hidpp.c | 42 ++++++++++++++++++++++++++++----
- 1 file changed, 37 insertions(+), 5 deletions(-)
+> > ---
+> >  drivers/hid/hid-logitech-hidpp.c | 53 +++++++++++++++++---------------
+> >  1 file changed, 29 insertions(+), 24 deletions(-)
+> >
+> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+> > index 0179f7ed77e5..58eb928224e5 100644
+> > --- a/drivers/hid/hid-logitech-hidpp.c
+> > +++ b/drivers/hid/hid-logitech-hidpp.c
+> > @@ -2079,6 +2079,11 @@ static void hidpp_ff_destroy(struct ff_device *ff)
+> >         struct hidpp_ff_private_data *data = ff->private;
+> >
+> >         kfree(data->effect_ids);
+>
+> Is there any reasons we can not also devm alloc data->effect_ids?
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
-dpp.c
-index 3692fb883602..0dfa9b22b536 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -72,6 +72,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
- #define HIDPP_QUIRK_HIDPP_EXTRA_MOUSE_BTNS=09BIT(30)
- #define HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS=09BIT(31)
- #define HIDPP_QUIRK_MISSING_SHORT_REPORTS=09BIT(32)
-+#define HIDPP_QUIRK_WIRELESS_DEVICE_STATUS=09BIT(33)
+No, but I was trying to limit the scope of this patch.
 
- /* These are just aliases for now */
- #define HIDPP_QUIRK_KBD_SCROLL_WHEEL HIDPP_QUIRK_HIDPP_WHEELS
-@@ -82,7 +83,8 @@ MODULE_PARM_DESC(disable_tap_to_click,
- =09=09=09=09=09 HIDPP_QUIRK_HI_RES_SCROLL_X2120 | \
- =09=09=09=09=09 HIDPP_QUIRK_HI_RES_SCROLL_X2121)
+>
+> > +       /*
+> > +        * Set private to NULL to prevent input_ff_destroy() from
+> > +        * freeing our devres allocated memory
+>
+> Ouch. There is something wrong here: input_ff_destroy() calls
+> kfree(ff->private), when the data has not been allocated by
+> input_ff_create(). This seems to lack a little bit of symmetry.
+>
 
--#define HIDPP_QUIRK_CLASS_BLUETOOTH_LE=09HIDPP_QUIRK_MISSING_SHORT_REPORTS
-+#define HIDPP_QUIRK_CLASS_BLUETOOTH_LE=09(HIDPP_QUIRK_MISSING_SHORT_REPORT=
-S | \
-+=09=09=09=09=09 HIDPP_QUIRK_WIRELESS_DEVICE_STATUS)
+I agree, I think it's a wart in FF API design.
 
- #define HIDPP_QUIRK_DELAYED_INIT=09=09HIDPP_QUIRK_NO_HIDINPUT
+> > +        */
+> > +       ff->private = NULL;
+> >  }
+> >
+> >  static int hidpp_ff_init(struct hidpp_device *hidpp, u8 feature_index)
+> > @@ -2090,7 +2095,7 @@ static int hidpp_ff_init(struct hidpp_device *hidpp, u8 feature_index)
+> >         const u16 bcdDevice = le16_to_cpu(udesc->bcdDevice);
+> >         struct ff_device *ff;
+> >         struct hidpp_report response;
+> > -       struct hidpp_ff_private_data *data;
+> > +       struct hidpp_ff_private_data *data = hidpp->private_data;
+> >         int error, j, num_slots;
+> >         u8 version;
+> >
+> > @@ -2129,18 +2134,13 @@ static int hidpp_ff_init(struct hidpp_device *hidpp, u8 feature_index)
+> >                 return error;
+> >         }
+> >
+> > -       data = kzalloc(sizeof(*data), GFP_KERNEL);
+> > -       if (!data)
+> > -               return -ENOMEM;
+> >         data->effect_ids = kcalloc(num_slots, sizeof(int), GFP_KERNEL);
+> > -       if (!data->effect_ids) {
+> > -               kfree(data);
+> > +       if (!data->effect_ids)
+> >                 return -ENOMEM;
+> > -       }
+> > +
+> >         data->wq = create_singlethread_workqueue("hidpp-ff-sendqueue");
+> >         if (!data->wq) {
+> >                 kfree(data->effect_ids);
+> > -               kfree(data);
+> >                 return -ENOMEM;
+> >         }
+> >
+> > @@ -2199,28 +2199,15 @@ static int hidpp_ff_init(struct hidpp_device *hidpp, u8 feature_index)
+> >         return 0;
+> >  }
+> >
+> > -static int hidpp_ff_deinit(struct hid_device *hid)
+> > +static void hidpp_ff_deinit(struct hid_device *hid)
+> >  {
+> > -       struct hid_input *hidinput = list_entry(hid->inputs.next, struct hid_input, list);
+> > -       struct input_dev *dev = hidinput->input;
+> > -       struct hidpp_ff_private_data *data;
+> > -
+> > -       if (!dev) {
+> > -               hid_err(hid, "Struct input_dev not found!\n");
+> > -               return -EINVAL;
+> > -       }
+> > +       struct hidpp_device *hidpp = hid_get_drvdata(hid);
+> > +       struct hidpp_ff_private_data *data = hidpp->private_data;
+> >
+> >         hid_info(hid, "Unloading HID++ force feedback.\n");
+> > -       data = dev->ff->private;
+> > -       if (!data) {
+>
+> I am pretty sure we might need to keep a test on data not being null.
+>
 
-@@ -189,6 +191,8 @@ struct hidpp_device {
+OK, sure. Could you be more explicit in your reasoning next time
+though? I am assuming this is because hid_hw_stop() might be called
+before?
 
- =09struct hidpp_battery battery;
- =09struct hidpp_scroll_counter vertical_wheel_counter;
-+
-+=09u8 wireless_feature_index;
- };
+> > -               hid_err(hid, "Private data not found!\n");
+> > -               return -EINVAL;
+> > -       }
+> >
+> >         destroy_workqueue(data->wq);
+> >         device_remove_file(&hid->dev, &dev_attr_range);
+> > -
+> > -       return 0;
+> >  }
+>
+> This whole hunk seems unrelated to the devm change.
+> Can you extract a patch that just stores hidpp_ff_private_data in
+> hidpp->private_data and then cleans up hidpp_ff_deinit() before
+> switching it to devm? (or maybe not, see below)
 
- /* HID++ 1.0 error codes */
-@@ -402,10 +406,14 @@ static inline bool hidpp_match_error(struct hidpp_rep=
-ort *question,
- =09    (answer->fap.params[0] =3D=3D question->fap.funcindex_clientid);
- }
+Well it appears you are against the idea of leveraging devres in this
+series, so discussing the fate of said hunk seems moot.
 
--static inline bool hidpp_report_is_connect_event(struct hidpp_report *repo=
-rt)
-+static inline bool hidpp_report_is_connect_event(struct hidpp_device *hidp=
-p,
-+=09=09=09=09=09=09 struct hidpp_report *report)
- {
--=09return (report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) &&
--=09=09(report->rap.sub_id =3D=3D 0x41);
-+=09return ((hidpp->quirks & HIDPP_QUIRK_WIRELESS_DEVICE_STATUS) &&
-+=09=09(report->fap.feature_index =3D=3D hidpp->wireless_feature_index)) ||
-+=09      (((report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) ||
-+=09=09(hidpp->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS)) &&
-+=09=09(report->rap.sub_id =3D=3D 0x41));
- }
+>
+> After a few more thoughts, I don't think this mixing of devm and non
+> devm is a good idea:
+> we could say that the hidpp_ff_private_data and its effect_ids are
+> both children of the input_dev, not the hid_device. And we would
+> expect the whole thing to simplify with devm, but it's not, because ff
+> is not supposed to be used with devm.
+>
+> I have a feeling the whole ff logic is wrong in term of where things
+> should be cleaned up, but I can not come up with a good hint on where
+> to start. For example, destroy_workqueue() is called in
+> hidpp_ff_deinit() where it might be racy, and maybe we should call it
+> in hidpp_ff_destroy()...
+>
 
- /**
-@@ -1282,6 +1290,24 @@ static int hidpp_battery_get_property(struct power_s=
-upply *psy,
- =09return ret;
- }
+Yeah, it probably should be moved to hidpp_ff_destroy(). Out of scope
+for this series though, I'll deal with it in a separate submission.
 
-+/* -----------------------------------------------------------------------=
---- */
-+/* 0x1d4b: Wireless device status                                         =
-    */
-+/* -----------------------------------------------------------------------=
---- */
-+#define HIDPP_PAGE_WIRELESS_DEVICE_STATUS=09=09=090x1d4b
-+
-+static int hidpp_set_wireless_feature_index(struct hidpp_device *hidpp)
-+{
-+=09u8 feature_type;
-+=09int ret;
-+
-+=09ret =3D hidpp_root_get_feature(hidpp,
-+=09=09=09=09     HIDPP_PAGE_WIRELESS_DEVICE_STATUS,
-+=09=09=09=09     &hidpp->wireless_feature_index,
-+=09=09=09=09     &feature_type);
-+
-+=09return ret;
-+}
-+
- /* -----------------------------------------------------------------------=
---- */
- /* 0x2120: Hi-resolution scrolling                                        =
-    */
- /* -----------------------------------------------------------------------=
---- */
-@@ -3077,7 +3103,7 @@ static int hidpp_raw_hidpp_event(struct hidpp_device =
-*hidpp, u8 *data,
- =09=09}
- =09}
+> Last, you should base this patch on top of the for-next branch, we
+> recently merged a fix for the FF drivers in the HID subsystem:
+> https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=for-next&id=d9d4b1e46d9543a82c23f6df03f4ad697dab361b
+>
 
--=09if (unlikely(hidpp_report_is_connect_event(report))) {
-+=09if (unlikely(hidpp_report_is_connect_event(hidpp, report))) {
- =09=09atomic_set(&hidpp->connected,
- =09=09=09=09!(report->rap.params[0] & (1 << 6)));
- =09=09if (schedule_work(&hidpp->work) =3D=3D 0)
-@@ -3624,6 +3650,12 @@ static int hidpp_probe(struct hid_device *hdev, cons=
-t struct hid_device_id *id)
- =09=09hidpp_overwrite_name(hdev);
- =09}
+Sure will do.
 
-+=09if (connected && (hidpp->quirks & HIDPP_QUIRK_WIRELESS_DEVICE_STATUS)) =
-{
-+=09=09ret =3D hidpp_set_wireless_feature_index(hidpp);
-+=09=09if (ret)
-+=09=09=09goto hid_hw_init_fail;
-+=09}
-+
- =09if (connected && (hidpp->quirks & HIDPP_QUIRK_CLASS_WTP)) {
- =09=09ret =3D wtp_get_config(hidpp);
- =09=09if (ret)
---
-2.23.0
+> Would it be too complex to drop this patch from the series and do a
+> proper follow up cleanup series that might not need to go to stable?
+>
 
+No it's alright. I'll submit a v2 of this series with only two patches
+and send a follow up after.
+
+Thanks,
+Andrey Smirnov
