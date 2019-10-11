@@ -2,64 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A682D3B9E
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 10:51:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32E16D3BB0
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 10:54:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726703AbfJKIvh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Oct 2019 04:51:37 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42030 "EHLO
+        id S1727462AbfJKIyb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Oct 2019 04:54:31 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21261 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726397AbfJKIvg (ORCPT
+        by vger.kernel.org with ESMTP id S1726397AbfJKIya (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Oct 2019 04:51:36 -0400
+        Fri, 11 Oct 2019 04:54:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1570783894;
+        s=mimecast20190719; t=1570784069;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=wu/Rf3zNUutfn3m2zM9kQv92cgKYcwMDqv7vUduVPBc=;
-        b=RqxlguSJrlVisROZzqXq8Te76V6MvvFm/zOQRWWv0zwrMU8R7hNdLr2xRGNmx1mdvI8cjZ
-        eaGWc+k0Zg7DVXlieVjxj7zKFZur3ivBvtVoBF7tlTDcI+O4dmgrp8yFkaU6+8QkwYBEzi
-        SZ3KNn7H2vKkxIujGyzO3NrCq4d+JPw=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-OIBPu9h2O7-Btho1jVCy0w-1; Fri, 11 Oct 2019 04:51:33 -0400
-Received: by mail-qt1-f200.google.com with SMTP id n59so8665110qtd.8
-        for <linux-input@vger.kernel.org>; Fri, 11 Oct 2019 01:51:33 -0700 (PDT)
+        bh=eqByrLt5Vdti/Qv9DsLf8UE4W1FmXeVxkyclk9rGeTo=;
+        b=FqfFZvkz0SysptVUBPaDErXK9ZDsvnqYvpv062RJ3uh1JTfMIujIrjnf151PTPSEnE2mWq
+        BgxnatwtGi6xSchuyCzqFtUKYJXQcIYtdOtTfTDi286Pholqfld+s+DOBJsvuApDbMo/8d
+        pzdvd55I97IRgvucBl/b/F4fzZAECNE=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-fbC-mXryMLWskmgO-ORL2Q-1; Fri, 11 Oct 2019 04:54:28 -0400
+Received: by mail-qt1-f197.google.com with SMTP id z21so8647629qtq.21
+        for <linux-input@vger.kernel.org>; Fri, 11 Oct 2019 01:54:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=N10/dTN197PTl0+siuLFDZWqlAaRDfdqpN7eV7M6lL0=;
-        b=iyP7sihD3VsfjQyIsrkzM7sEj5zISon1XXW8J7ZEuoH03xuWzKhOEnlV3aovIy8tax
-         0cjiLMIvTqm3TAZAnhFAQMPAlEvXdEa7Y6A4RkbJLmv6m8UsX+vSUHcTPiAohcJf27vB
-         FBDpg57R/lt4YQ9hojYSf7IUZ+z1oXY2WtU2XMgHpD3hESIa83VWC8lVCCUUyV2cY8BU
-         M17yoesz7O1dOWQIEPYjGhJ6XlA1BTbrsooHdRwjaErdCT8nNgJ6ONcFFxldEpUPAkza
-         z8+9imbbtnw7AP/KHP2tw+n/Cadlzu40jhpwkiU+Bw9p3k2JHtGoc3Lk2AzZOI7ySqfg
-         obbA==
-X-Gm-Message-State: APjAAAXt4CRCSExfZod/44pDIiLiH5uhaGwy9n+q17+voiF40aZI+Yxh
-        8g8kIBEiwQjmoMRJRcyQYLGJb3ltwr0UMoOGGIELUVZzY0rdzCKP+8bCeB/2NsGU5EGyIrPf70b
-        dJd9ZiVNyFkC8xvKYOxADyy9QCdcvyT7Iq+UJThc=
-X-Received: by 2002:a37:648d:: with SMTP id y135mr13907179qkb.459.1570783893299;
-        Fri, 11 Oct 2019 01:51:33 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqySLoMI6pvZ557naSRkGTpWHJHszarZ6iWrS7WWNjAZXtz1Nf2y0fUJ33374bS3uf3RZwpModlRILODHjD/gQI=
-X-Received: by 2002:a37:648d:: with SMTP id y135mr13907169qkb.459.1570783893028;
- Fri, 11 Oct 2019 01:51:33 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=eqByrLt5Vdti/Qv9DsLf8UE4W1FmXeVxkyclk9rGeTo=;
+        b=P56B/uLrj5TFjIwUF5uzKjoSnlF9pmkYbcqlTqZz3iXloYpcXJuTIXlZXmeCBqa7QD
+         jpYGuIrSAGwbZJxdPZnWqbgBgK9jWLxrCWd85soBNhwWaMTFHfQdSek+zrGO7E+LlLCy
+         lJJ96L8I3R9qCnHF089hS/uDr80pmaERjkqZOfgq5b7HZPhNdAFw7TZdAmlVwO/1lyFx
+         R7f7ivuo9KxAGcNpe4UdQUCUkUUuyud9krSCuJ7DuIu4Ve1dp7xd/PDT7oCtn6GlWQkW
+         Jjp3uRbFDOU8ZtS+z70m1QFX/ERL/dOwQTeR8CIKaBgpe+SB9z7+P2hemdAZTbuKAj38
+         IK8w==
+X-Gm-Message-State: APjAAAV6hUrQb2DhgRc0vJHnv3zu9l01q5z4ho6BHJmKKhc710e8Q2YS
+        w2KS6li07GWUoGoEfYoMCFyBsuSL9lLicwOidDofud8rZb8ao1XJvyQuRNYsSyF8TKO1LTvdhpr
+        g4nG/vnEVXFbpNOW2AIvum5zFmp+/W9WMx6sB/U0=
+X-Received: by 2002:ac8:1e83:: with SMTP id c3mr15568223qtm.294.1570784067989;
+        Fri, 11 Oct 2019 01:54:27 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqz/V9+A0WSqZaDO7OFXISc9+GZq/Vzaj7Pjxou3mKbEZVfAG4wXOTvSoN+Hl6CCsx6TQjBqFMcXfero/+VIBpA=
+X-Received: by 2002:ac8:1e83:: with SMTP id c3mr15568215qtm.294.1570784067809;
+ Fri, 11 Oct 2019 01:54:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <GOPSiaLYzQc3Hi9-MvdMQOmiF6O9whCeVYWavirKdm-9VHGb37VtawOPII8FEdYAOWZYFvk3oSQcHkPGazJKZNx8DEwBO7JfrRjLjWA84UI=@protonmail.com>
-In-Reply-To: <GOPSiaLYzQc3Hi9-MvdMQOmiF6O9whCeVYWavirKdm-9VHGb37VtawOPII8FEdYAOWZYFvk3oSQcHkPGazJKZNx8DEwBO7JfrRjLjWA84UI=@protonmail.com>
+References: <uBbIS3nFJ1jdYNLHcqjW5wxQAwmZv0kmYEoeoPrxNhfzi6cHwmCOY-ewdqe7S1hNEj-p4Hd9D0_Y3PymUTdh_6WFXuMmIYUkV2xaKCPMYz0=@protonmail.com>
+ <403b3e7f6d276e47c447e6ea56a3370b03c3298c.camel@archlinux.org>
+In-Reply-To: <403b3e7f6d276e47c447e6ea56a3370b03c3298c.camel@archlinux.org>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 11 Oct 2019 10:51:22 +0200
-Message-ID: <CAO-hwJL=j_toocbX2qqjt7JJdZS9CswPBo2fXich-7yYgKyd0A@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] HID: logitech: Support WirelessDeviceStatus
- connect events
-To:     Mazin Rezk <mnrzk@protonmail.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+Date:   Fri, 11 Oct 2019 10:54:16 +0200
+Message-ID: <CAO-hwJK+V=CE8_NjqRszPA6dbGq1yNJAtOAm2qmqVjgK_XzEHw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] HID: logitech: Add MX Mice over Bluetooth
+To:     =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>
+Cc:     Mazin Rezk <mnrzk@protonmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         "jikos@kernel.org" <jikos@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>
-X-MC-Unique: OIBPu9h2O7-Btho1jVCy0w-1
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+X-MC-Unique: fbC-mXryMLWskmgO-ORL2Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -68,109 +68,89 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 2:58 AM Mazin Rezk <mnrzk@protonmail.com> wrote:
+On Fri, Oct 11, 2019 at 10:49 AM Filipe La=C3=ADns <lains@archlinux.org> wr=
+ote:
 >
-> On Saturday, October 5, 2019 9:05 PM, Mazin Rezk <mnrzk@protonmail.com> w=
-rote:
->
-> > This patch makes WirelessDeviceStatus (0x1d4b) events get detected as
-> > connection events on devices with HIDPP_QUIRK_WIRELESS_DEVICE_STATUS.
+> On Fri, 2019-10-11 at 00:57 +0000, Mazin Rezk wrote:
+> > On Saturday, October 5, 2019 9:04 PM, Mazin Rezk <
+> > mnrzk@protonmail.com> wrote:
 > >
-> > This quirk is currently an alias for HIDPP_QUIRK_CLASS_BLUETOOTH since
-> > the added Bluetooth devices do not support regular connect events.
+> > > This patch adds support for several MX mice over Bluetooth. The
+> > > device IDs
+> > > have been copied from the libratbag device database and their
+> > > features
+> > > have been based on their DJ device counterparts.
+> >
+> > No changes have been made to this patch in v4. However, it should be
+> > noted
+> > that the only device that has been thoroughly tested in this patch is
+> > the
+> > MX Master (b01e). Further testing for the other devices may be
+> > required.
+> >
+> > Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
+> > ---
+> >  drivers/hid/hid-logitech-hidpp.c | 18 ++++++++++++++++++
+> >  1 file changed, 18 insertions(+)
+> >
+> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-
+> > logitech-hidpp.c
+> > index 0179f7ed77e5..85fd0c17cc2f 100644
+> > --- a/drivers/hid/hid-logitech-hidpp.c
+> > +++ b/drivers/hid/hid-logitech-hidpp.c
+> > @@ -3773,6 +3773,24 @@ static const struct hid_device_id
+> > hidpp_devices[] =3D {
+> >       { /* MX5500 keyboard over Bluetooth */
+> >         HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
+> >         .driver_data =3D HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
+> > +     { /* MX Anywhere 2 mouse over Bluetooth */
+> > +       HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb013),
+> > +       .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> > +     { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb018),
+> > +       .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> > +     { /* MX Anywhere 2S mouse over Bluetooth */
+> > +       HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01a),
+> > +       .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> > +     { /* MX Master mouse over Bluetooth */
+> > +       HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb012),
+> > +       .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> > +     { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb017),
+> > +       .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> > +     { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e),
+> > +       .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> > +     { /* MX Master 2S mouse over Bluetooth */
+> > +       HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb019),
+> > +       .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> >       {}
+> >  };
+> >
+> > --
+> > 2.23.0
+> >
 >
-> No changes have been made to this patch in v4.
+> The series now looks great, thanks!
 >
-> Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
-> ---
->  drivers/hid/hid-logitech-hidpp.c | 20 +++++++++++++++++---
->  1 file changed, 17 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-=
-hidpp.c
-> index 2062be922c08..b2b5fe2c74db 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -84,6 +84,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
->
->  /* Just an alias for now, may possibly be a catch-all in the future */
->  #define HIDPP_QUIRK_MISSING_SHORT_REPORTS      HIDPP_QUIRK_CLASS_BLUETOO=
-TH
-> +#define HIDPP_QUIRK_WIRELESS_DEVICE_STATUS     HIDPP_QUIRK_CLASS_BLUETOO=
-TH
+> Benjamin, I can confirm that up to now all BLE devices don't have short
+> reports. I am not sure if you still want to only enable tested devices
+> but from an architectural standpoint everything here should be fine.
 
-Hmm, I don't like the idea of aliasing quirks on a class. Either it's
-a class of devices, and you use it as such in the code, either you
-want to use individual quirks, and so each one of those needs its own
-bit definition.
-
-If you take my advice in 2/4, please assign a new bit for
-HIDPP_QUIRK_WIRELESS_DEVICE_STATUS (0x1f IIRC), and logically and it
-on the HIDPP_QUIRK_CLASS_BLUETOOTH here.
-
-
-
->
->  #define HIDPP_QUIRK_DELAYED_INIT               HIDPP_QUIRK_NO_HIDINPUT
->
-> @@ -406,9 +407,22 @@ static inline bool hidpp_match_error(struct hidpp_re=
-port *question,
->             (answer->fap.params[0] =3D=3D question->fap.funcindex_clienti=
-d);
->  }
->
-> -static inline bool hidpp_report_is_connect_event(struct hidpp_report *re=
-port)
-> +#define HIDPP_PAGE_WIRELESS_DEVICE_STATUS              0x1d4b
-> +
-> +static inline bool hidpp_report_is_connect_event(struct hidpp_device *hi=
-dpp,
-> +                                                struct hidpp_report *rep=
-ort)
->  {
-> -       return (report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) &&
-> +       if (hidpp->quirks & HIDPP_QUIRK_WIRELESS_DEVICE_STATUS) {
-> +               /* If feature is invalid, skip array check */
-> +               if (report->fap.feature_index > hidpp->feature_count)
-> +                       return false;
-
-This should probably be merged with the next return (if bool0, return
-false else return bool1 can easily be transformed into return !bool0
-&& bool1)
-
-> +
-> +               return (hidpp->features[report->fap.feature_index] =3D=3D
-> +                        HIDPP_PAGE_WIRELESS_DEVICE_STATUS);
-
-Oh, so that's why you need the feature enumeration.
-
-Though, it's a costly operation when you could simply:
-- add a wireless_feature_index in struct hidpp_device,
-- gets this feature index at probe with a single call to
-hidpp_root_get_feature()
-- and check here if this feature index of the report is not null and
-equal to wireless_feature_index.
+Unfortunately yes, we need actual device tests:
+- this series enable 0x2121 on all of those devices (is it correct?)
+- we are not shielded from a FW error and something that goes wrong
+when enabling one of those mice with hid-logitech-hidpp.c. All of
+those mice works fine with hid-generic, and if we oversee one tiny
+bit, we'll regress for no good reasons.
 
 Cheers,
 Benjamin
 
-> +       }
-> +
-> +       return ((report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) ||
-> +               (hidpp->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS)) &&
->                 (report->rap.sub_id =3D=3D 0x41);
->  }
 >
-> @@ -3157,7 +3171,7 @@ static int hidpp_raw_hidpp_event(struct hidpp_devic=
-e *hidpp, u8 *data,
->                 }
->         }
+> Mazin, you can have my
 >
-> -       if (unlikely(hidpp_report_is_connect_event(report))) {
-> +       if (unlikely(hidpp_report_is_connect_event(hidpp, report))) {
->                 atomic_set(&hidpp->connected,
->                                 !(report->rap.params[0] & (1 << 6)));
->                 if (schedule_work(&hidpp->work) =3D=3D 0)
-> --
-> 2.23.0
+> Reviewed-by: Filipe La=C3=ADns <lains@archlinux.org>
+>
+> for the series.
+>
+> Thank you,
+> Filipe La=C3=ADns
 
