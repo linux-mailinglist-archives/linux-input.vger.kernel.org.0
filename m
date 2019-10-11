@@ -2,102 +2,192 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D4C4D439C
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 17:02:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1832BD441A
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 17:26:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726828AbfJKPCa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Oct 2019 11:02:30 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:33958 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726331AbfJKPCa (ORCPT
+        id S1726707AbfJKP0U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Oct 2019 11:26:20 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39909 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726705AbfJKP0U (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Oct 2019 11:02:30 -0400
-Received: by mail-pl1-f193.google.com with SMTP id k7so4606668pll.1;
-        Fri, 11 Oct 2019 08:02:29 -0700 (PDT)
+        Fri, 11 Oct 2019 11:26:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1570807579;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=r91xPcIl5SV0V09jWIUEt2F7Evym3w9uEOcXPXEGEUc=;
+        b=SR+NrgnuVTfyUKsNnG3AQm+tGT4e0eZOyyY1sJo4SA7rHvuRk+0aUPFoeaDkmFKt37J/U3
+        n8wxW0wXWLcU7LwoTjb1II8bGiyiTIad4HlIGaMNFE5BeKdosQbhOuXI1jaVS3RyPCLhft
+        Wf+EI4dlqrRjaWadvXHWG+zTbFyXVGM=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-236-eGmSgCYINPazHNQQQlb5Ag-1; Fri, 11 Oct 2019 11:26:17 -0400
+Received: by mail-qk1-f200.google.com with SMTP id z128so9249385qke.8
+        for <linux-input@vger.kernel.org>; Fri, 11 Oct 2019 08:26:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BMw6A0ySkqQiHBiai+B0CQpXt1FaZKXX8wNTsnQc/K0=;
-        b=Kr4TcxoIMagG1aOtgJcN6J3+geo1bECM8/MhHlwlaxS97GuwZtjyR1gZF4cr4qk1By
-         HWm6ooEfzS1P+ngkp6l6KfFo52LcCUpjTYy/3uZX0Cev0I8Q2k09+2d7Epd8jD9IQqdE
-         SY/zsTE5HIR/Z57TJQDHtuCP70Elgj06RIhL8ad7AnzQtbxVgbituIhr7KArl3SCNJue
-         +JdK5QVb8/KqxFMinjdJoiFY/oX0YmmiTjpbSWeGR99VPwYEJWl9Ks021YqafAzchnmT
-         Ra3uwV22zBFnccUgEG6yGvCIVDnzDdytGmXIuDOcpe1UwOBqekb3bUX+JHNrIz/WpQi4
-         Q2Ag==
-X-Gm-Message-State: APjAAAUQUbsveecKypjETih7UsEvQcVJw68mqoP4uRPvCvIqZJcE9YRP
-        /TjT77zG4tNcVXq8i5L1kYc=
-X-Google-Smtp-Source: APXvYqwiHpLlmejt3NOWkh5ZzK0HvNb2LO/lm/1gCZziXECNv4ZVkshN0LjJ36LM8n4uhzFARU3Xug==
-X-Received: by 2002:a17:902:d909:: with SMTP id c9mr15684424plz.216.1570806149053;
-        Fri, 11 Oct 2019 08:02:29 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id l1sm15633824pja.30.2019.10.11.08.02.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2019 08:02:28 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 4BE50403EA; Fri, 11 Oct 2019 15:02:27 +0000 (UTC)
-Date:   Fri, 11 Oct 2019 15:02:27 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Scott Branden <scott.branden@broadcom.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v7 3/8] firmware: Rename FW_OPT_NOFALLBACK to
- FW_OPT_NOFALLBACK_SYSFS
-Message-ID: <20191011150227.GO16384@42.do-not-panic.com>
-References: <20191004145056.43267-1-hdegoede@redhat.com>
- <20191004145056.43267-4-hdegoede@redhat.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eafnjM529pN7ytDsYuN9GhEVboOCnNDOd+7f++5XrSw=;
+        b=e+447PB4rGcK8RDLWyBlAiH7+yK7AR4AqSw6Dz04TAjCALny64jWf+Xy1kJUMiqdeg
+         HTG5XG3PeF0l3aw3SEcuhuhvpfoOqjayZdQAqcpgMHbgsmPe/Y4lLGQ0vqbiTqhqtJ60
+         cfwKnD7gJGtb3T9gURE7crpx0jB8f6D7srpcQZ1UuTJnUpMmL0BtUwTT/+eC+/PM/5Yy
+         BL//23JSdoh6y3XJ5zoe3+Vv4zvdvqrGh0SL5QDT4sZyb2T8A3m7GCSHUr6Lj0I7kQi3
+         cOy0tti7J/q34xn3C0tJPwoDkAz8QzqRvyHTu9S2Ql8Jiaiuq77QjIp2LLADkySVlbMJ
+         gpTw==
+X-Gm-Message-State: APjAAAUIPDo9gYYJaQJ5F2K/oPB0r2CCbt7yF3tQLsFalby6HQVSN+6L
+        A5xITFNtaZ/16jEQtIRn/HKSI9zivRtKD+LStar15VuOh4d5ikdGpC1swopCJI8yjT/KzmZtBlp
+        qJjQxciBic4NLWsW3OMOEb2HIn0+wMfpJi2z8/Pw=
+X-Received: by 2002:ac8:550d:: with SMTP id j13mr17291387qtq.260.1570807577212;
+        Fri, 11 Oct 2019 08:26:17 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwihUT7ZaSBXE6LG6Mw9e0mezUZBFwyFWl/NYeOO+TbjFoJkmo9MEWVn+fn/yd1iuBIM3qcM1cLiK80d2mFMlc=
+X-Received: by 2002:ac8:550d:: with SMTP id j13mr17291356qtq.260.1570807576936;
+ Fri, 11 Oct 2019 08:26:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191004145056.43267-4-hdegoede@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191001070845.9720-1-kai.heng.feng@canonical.com>
+In-Reply-To: <20191001070845.9720-1-kai.heng.feng@canonical.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 11 Oct 2019 17:26:05 +0200
+Message-ID: <CAO-hwJJ_hjL8=D+BDTW6LQRhd86NawORuY-jnDF71mD88woiDw@mail.gmail.com>
+Subject: Re: [PATCH] Revert "Input: elantech - enable SMBus on new (2018+) systems"
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+X-MC-Unique: eGmSgCYINPazHNQQQlb5Ag-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 04, 2019 at 04:50:51PM +0200, Hans de Goede wrote:
-> diff --git a/drivers/base/firmware_loader/fallback.c b/drivers/base/firmware_loader/fallback.c
-> index 62ee90b4db56..665b350419cb 100644
-> --- a/drivers/base/firmware_loader/fallback.c
-> +++ b/drivers/base/firmware_loader/fallback.c
-> @@ -606,7 +606,7 @@ static bool fw_run_sysfs_fallback(enum fw_opt opt_flags)
->  		return false;
->  	}
->  
-> -	if ((opt_flags & FW_OPT_NOFALLBACK))
-> +	if ((opt_flags & FW_OPT_NOFALLBACK_SYSFS))
->  		return false;
->  
->  	/* Also permit LSMs and IMA to fail firmware sysfs fallback */
-> @@ -630,10 +630,11 @@ static bool fw_run_sysfs_fallback(enum fw_opt opt_flags)
->   * interface. Userspace is in charge of loading the firmware through the sysfs
->   * loading interface. This sysfs fallback mechanism may be disabled completely
->   * on a system by setting the proc sysctl value ignore_sysfs_fallback to true.
-> - * If this false we check if the internal API caller set the @FW_OPT_NOFALLBACK
-> - * flag, if so it would also disable the fallback mechanism. A system may want
-> - * to enfoce the sysfs fallback mechanism at all times, it can do this by
-> - * setting ignore_sysfs_fallback to false and force_sysfs_fallback to true.
-> + * If this false we check if the internal API caller set the
-         ignore_sysfs_fallback set to true or force_sysfs_fallback is
-	 set to false
+Hi Kai-Heng,
 
-Otherwise looks good. You can add:
+On Tue, Oct 1, 2019 at 9:09 AM Kai-Heng Feng
+<kai.heng.feng@canonical.com> wrote:
+>
+> This reverts commit 883a2a80f79ca5c0c105605fafabd1f3df99b34c.
+>
+> Apparently use dmi_get_bios_year() as manufacturing date isn't accurate
+> and this breaks older laptops with new BIOS update.
+>
+> So let's revert this patch.
+>
+> There are still new HP laptops still need to use SMBus to support all
+> features, but it'll be enabled via a whitelist.
+>
 
-Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+You might want to add here:
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D204771
 
-  Luis
+> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+
+Oops, seems like you are missing my acked by:
+Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+
+Also, don't we want to send this one to stable as well? I can't
+remember if we reverted it in all the released kernels.
+
+Cheers,
+Benjamin
+
+> ---
+>  drivers/input/mouse/elantech.c | 55 ++++++++++++++++++----------------
+>  1 file changed, 29 insertions(+), 26 deletions(-)
+>
+> diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantec=
+h.c
+> index 04fe43440a3c..2d8434b7b623 100644
+> --- a/drivers/input/mouse/elantech.c
+> +++ b/drivers/input/mouse/elantech.c
+> @@ -1827,31 +1827,6 @@ static int elantech_create_smbus(struct psmouse *p=
+smouse,
+>                                   leave_breadcrumbs);
+>  }
+>
+> -static bool elantech_use_host_notify(struct psmouse *psmouse,
+> -                                    struct elantech_device_info *info)
+> -{
+> -       if (ETP_NEW_IC_SMBUS_HOST_NOTIFY(info->fw_version))
+> -               return true;
+> -
+> -       switch (info->bus) {
+> -       case ETP_BUS_PS2_ONLY:
+> -               /* expected case */
+> -               break;
+> -       case ETP_BUS_SMB_HST_NTFY_ONLY:
+> -       case ETP_BUS_PS2_SMB_HST_NTFY:
+> -               /* SMbus implementation is stable since 2018 */
+> -               if (dmi_get_bios_year() >=3D 2018)
+> -                       return true;
+> -               /* fall through */
+> -       default:
+> -               psmouse_dbg(psmouse,
+> -                           "Ignoring SMBus bus provider %d\n", info->bus=
+);
+> -               break;
+> -       }
+> -
+> -       return false;
+> -}
+> -
+>  /**
+>   * elantech_setup_smbus - called once the PS/2 devices are enumerated
+>   * and decides to instantiate a SMBus InterTouch device.
+> @@ -1871,7 +1846,7 @@ static int elantech_setup_smbus(struct psmouse *psm=
+ouse,
+>                  * i2c_blacklist_pnp_ids.
+>                  * Old ICs are up to the user to decide.
+>                  */
+> -               if (!elantech_use_host_notify(psmouse, info) ||
+> +               if (!ETP_NEW_IC_SMBUS_HOST_NOTIFY(info->fw_version) ||
+>                     psmouse_matches_pnp_id(psmouse, i2c_blacklist_pnp_ids=
+))
+>                         return -ENXIO;
+>         }
+> @@ -1891,6 +1866,34 @@ static int elantech_setup_smbus(struct psmouse *ps=
+mouse,
+>         return 0;
+>  }
+>
+> +static bool elantech_use_host_notify(struct psmouse *psmouse,
+> +                                    struct elantech_device_info *info)
+> +{
+> +       if (ETP_NEW_IC_SMBUS_HOST_NOTIFY(info->fw_version))
+> +               return true;
+> +
+> +       switch (info->bus) {
+> +       case ETP_BUS_PS2_ONLY:
+> +               /* expected case */
+> +               break;
+> +       case ETP_BUS_SMB_ALERT_ONLY:
+> +               /* fall-through  */
+> +       case ETP_BUS_PS2_SMB_ALERT:
+> +               psmouse_dbg(psmouse, "Ignoring SMBus provider through ale=
+rt protocol.\n");
+> +               break;
+> +       case ETP_BUS_SMB_HST_NTFY_ONLY:
+> +               /* fall-through  */
+> +       case ETP_BUS_PS2_SMB_HST_NTFY:
+> +               return true;
+> +       default:
+> +               psmouse_dbg(psmouse,
+> +                           "Ignoring SMBus bus provider %d.\n",
+> +                           info->bus);
+> +       }
+> +
+> +       return false;
+> +}
+> +
+>  int elantech_init_smbus(struct psmouse *psmouse)
+>  {
+>         struct elantech_device_info info;
+> --
+> 2.17.1
+>
+
