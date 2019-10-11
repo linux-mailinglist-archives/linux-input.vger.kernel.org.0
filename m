@@ -2,123 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80DDBD3B7F
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 10:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E06AD3B98
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2019 10:50:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727462AbfJKIqL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Oct 2019 04:46:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39928 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726397AbfJKIqK (ORCPT
+        id S1727131AbfJKIto (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Oct 2019 04:49:44 -0400
+Received: from orion.archlinux.org ([88.198.91.70]:41392 "EHLO
+        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727382AbfJKIto (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Oct 2019 04:46:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1570783569;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eYPIO03shV+P+sxqA/4qvsSAkBuzvgJfmGU8SjoHytI=;
-        b=DBNkO9w9QpqMl/7livEscTr3SgPUoXCgusnTentfbH0dWA3CKcdxpRjOz/48sDRDtx4zim
-        qtKopq9qudh5gV8JsU/mP9VP2faJHVcbJJzRba7+/B7wQ4yhmVdXv5lmxKQHDweL92MJLS
-        0n49oml5gK7XimImWdjvd0GWtGpoB3g=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-CpIzYSxXOZmCtElvPp46Jg-1; Fri, 11 Oct 2019 04:46:06 -0400
-Received: by mail-qk1-f199.google.com with SMTP id z128so8244456qke.8
-        for <linux-input@vger.kernel.org>; Fri, 11 Oct 2019 01:46:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+VRAZ7diPNl4wX1L2Hk0ypm69MfBO+1cdDDHrGu25L0=;
-        b=bxPgex2piuC+AooRZT6DcyN5OndUDufd29CUPdkYIFza2S1lBUC/h6Wdnl1Kmvvk96
-         tbZ7LaXNd2HjPqCnng68A6s6OlQB4K4VNnYBHz7h39mbGOJSMnnmC6OWffbsYDJjWOTS
-         oZzf8SXjbhgFjE4FpGHkkZE/KDnAqp2J8k/Gy0RJk4Kv7+Zljn7wHuRquFv5SLPBcQHh
-         cSi9KiXKzzu9kdPPB0PZSUuW0vfXbLkpwXIu47iZAFnwz3qL62dMZEYdjAnv6jUPk0go
-         EJemalE1k8fGWeZ8UHLG9/1O1taXsp8Cwu9CRx5V/7MIDT0AllG7p6V8x44TV6pyon78
-         acLw==
-X-Gm-Message-State: APjAAAW1pdMoGZb70A0wXY5RmYrDcIZgK1csaDAhGOZDM+1kR485XQj/
-        CyproGant+m9BsmNwMDYjordnhlm5w8gHIwxpvMr+pClGKQyfjinEIVKO5k7NJ6NU8be/G0HuOG
-        AaMneRzgrwKwHnSSOohrO0+fDvawTjOoegQkMhys=
-X-Received: by 2002:ac8:550d:: with SMTP id j13mr15381831qtq.260.1570783565911;
-        Fri, 11 Oct 2019 01:46:05 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxjtfvRG7GFheWo+CweicVfgOPfA0SeN5cp01ikB+VpMf9Zv2sGIFkWi4UJb2ggtweD1FESl/PfyDKU859NFQ4=
-X-Received: by 2002:ac8:550d:: with SMTP id j13mr15381812qtq.260.1570783565674;
- Fri, 11 Oct 2019 01:46:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <jCmT1QOunDmSu59iO1T1xj2-WfFeGhMn_i5knEWTCoph9VH1oxjpYf3Q6CWH7BRrq1NTVYBsAVJcIgu8azAEmFZJA8PzLfH3bHBcWNbFqeY=@protonmail.com>
- <CAO-hwJ+AMmNUOhas+vq6K4sRcCspyJuAefKO8oomAH4=CDHoJw@mail.gmail.com>
-In-Reply-To: <CAO-hwJ+AMmNUOhas+vq6K4sRcCspyJuAefKO8oomAH4=CDHoJw@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 11 Oct 2019 10:45:54 +0200
-Message-ID: <CAO-hwJLAwodSXpz-_T0nGqnjHY3cVAu9GYjvp8SW8grTXX+VYg@mail.gmail.com>
-Subject: Re: [PATCH v4 3/4] HID: logitech: Add feature 0x0001: FeatureSet
-To:     Mazin Rezk <mnrzk@protonmail.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Fri, 11 Oct 2019 04:49:44 -0400
+Received: from orion.archlinux.org (localhost [127.0.0.1])
+        by orion.archlinux.org (Postfix) with ESMTP id EC5C115C20A53D;
+        Fri, 11 Oct 2019 08:49:35 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on orion.archlinux.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
+        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
+        autolearn=no autolearn_force=no version=3.4.2
+X-Spam-BL-Results: 
+Received: from saetre (unknown [154.53.1.40])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ffy00)
+        by orion.archlinux.org (Postfix) with ESMTPSA;
+        Fri, 11 Oct 2019 08:49:35 +0000 (UTC)
+Message-ID: <403b3e7f6d276e47c447e6ea56a3370b03c3298c.camel@archlinux.org>
+Subject: Re: [PATCH v4 1/4] HID: logitech: Add MX Mice over Bluetooth
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
+To:     Mazin Rezk <mnrzk@protonmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Cc:     "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
         "jikos@kernel.org" <jikos@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>
-X-MC-Unique: CpIzYSxXOZmCtElvPp46Jg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+In-Reply-To: <uBbIS3nFJ1jdYNLHcqjW5wxQAwmZv0kmYEoeoPrxNhfzi6cHwmCOY-ewdqe7S1hNEj-p4Hd9D0_Y3PymUTdh_6WFXuMmIYUkV2xaKCPMYz0=@protonmail.com>
+References: <uBbIS3nFJ1jdYNLHcqjW5wxQAwmZv0kmYEoeoPrxNhfzi6cHwmCOY-ewdqe7S1hNEj-p4Hd9D0_Y3PymUTdh_6WFXuMmIYUkV2xaKCPMYz0=@protonmail.com>
+Organization: Archlinux
+Content-Type: text/plain; charset="UTF-8"
+Date:   Fri, 11 Oct 2019 09:49:34 +0100
+MIME-Version: 1.0
+User-Agent: Evolution 3.34.1 
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 10:33 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> On Fri, Oct 11, 2019 at 2:57 AM Mazin Rezk <mnrzk@protonmail.com> wrote:
-> >
-> > On Saturday, October 5, 2019 9:04 PM, Mazin Rezk <mnrzk@protonmail.com>=
- wrote:
-> >
-> > > This patch adds support for the 0x0001 (FeatureSet) feature. This fea=
-ture
-> > > is used to look up the feature ID of a feature index on a device and =
-list
-> > > the total count of features on the device.
-> > >
-> > > I also added the hidpp20_get_features function which iterates through=
- all
-> > > feature indexes on the device and stores a map of them in features an
-> > > hidpp_device struct. This function runs when an HID++ 2.0 device is p=
-robed.
-> >
-> > Changes in the version:
-> >  - Renamed hidpp20_featureset_get_feature to
-> >    hidpp20_featureset_get_feature_id.
-> >
-> >  - Re-ordered hidpp20_featureset_get_count and
-> >    hidpp20_featureset_get_feature_id based on their command IDs.
-> >
-> >  - Made feature_count initialize to 0 before running hidpp20_get_featur=
-es.
->
-> I still need to decide whether or not we need to take this one. We
-> historically did not do this to mimic the Windows driver at the time.
-> However, the driver is full of quirks that could be detected instead
-> of hardcoded thanks to this functions. So we might want to switch to
-> auto-detection of those quirks so we can keep 'quirks' for actual
-> defects that can't be auto-detected.
->
-> But, if we want to go this route, we need to actually make use of it.
-> So this patch should be part of a series where we use it, not added by
-> its own.
->
-> Can you drop it from the series?
-> And maybe possibly work on a cleanup of some of the auto detection,
-> like the HIDPP_QUIRK_HI_RES_SCROLL_X2121 which you can easily test?
-> But this would need to happen in a second series, once this one gets
-> merged in.
+On Fri, 2019-10-11 at 00:57 +0000, Mazin Rezk wrote:
+> On Saturday, October 5, 2019 9:04 PM, Mazin Rezk <
+> mnrzk@protonmail.com> wrote:
+> 
+> > This patch adds support for several MX mice over Bluetooth. The
+> > device IDs
+> > have been copied from the libratbag device database and their
+> > features
+> > have been based on their DJ device counterparts.
+> 
+> No changes have been made to this patch in v4. However, it should be
+> noted
+> that the only device that has been thoroughly tested in this patch is
+> the
+> MX Master (b01e). Further testing for the other devices may be
+> required.
+> 
+> Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
+> ---
+>  drivers/hid/hid-logitech-hidpp.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-
+> logitech-hidpp.c
+> index 0179f7ed77e5..85fd0c17cc2f 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -3773,6 +3773,24 @@ static const struct hid_device_id
+> hidpp_devices[] = {
+>  	{ /* MX5500 keyboard over Bluetooth */
+>  	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
+>  	  .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
+> +	{ /* MX Anywhere 2 mouse over Bluetooth */
+> +	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb013),
+> +	  .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb018),
+> +	  .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +	{ /* MX Anywhere 2S mouse over Bluetooth */
+> +	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01a),
+> +	  .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +	{ /* MX Master mouse over Bluetooth */
+> +	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb012),
+> +	  .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb017),
+> +	  .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e),
+> +	  .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +	{ /* MX Master 2S mouse over Bluetooth */
+> +	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb019),
+> +	  .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+>  	{}
+>  };
+> 
+> --
+> 2.23.0
+> 
 
-While reviewing 4/4, I realized why you need this one.
-See my comments in 4/4, I still believe the case is not strong enough
-to spend some time to enable the feature for barely no gain.
+The series now looks great, thanks!
 
-Cheers,
-Benjamin
+Benjamin, I can confirm that up to now all BLE devices don't have short
+reports. I am not sure if you still want to only enable tested devices
+but from an architectural standpoint everything here should be fine.
 
+Mazin, you can have my
+
+Reviewed-by: Filipe Laíns <lains@archlinux.org>
+
+for the series.
+
+Thank you,
+Filipe Laíns
