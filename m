@@ -2,99 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A16ED58FD
-	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2019 02:22:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A169D5918
+	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2019 02:43:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729444AbfJNAW6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 13 Oct 2019 20:22:58 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:45744 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729296AbfJNAW6 (ORCPT
+        id S1729359AbfJNAnh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 13 Oct 2019 20:43:37 -0400
+Received: from 15.mo5.mail-out.ovh.net ([178.33.107.29]:34941 "EHLO
+        15.mo5.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729180AbfJNAnh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 13 Oct 2019 20:22:58 -0400
-Received: by mail-io1-f68.google.com with SMTP id c25so34192049iot.12
-        for <linux-input@vger.kernel.org>; Sun, 13 Oct 2019 17:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DBVWVEdkboPAA3iihI+JJu9nacCyjjXiF867XSdRscM=;
-        b=ab5DdCD/lp72FHZXfX2AtAheuVtJi63SQxOzOWqZ7zphibN9/5IB8KYLzfkpu5F4AK
-         7wfulWIvB6ARabxkSQd4UhpMjrfk/kHsiCZqrjlGrY0qG1mk58LNY3w/ZhScDjvjcOWF
-         qtNMDUdNSt6mWzLg1OO/LDZU2dWHMEkCktv3wQ4j41598muGLcyL0w2Kw6tCdGQ2gV/H
-         tFFsaibA3GD43F6ro1n1uxi5QgmLmZEYzmpuKF6xU3sk7R5nrfbpFC7uf2S6dw6Ma6gE
-         cnFYSlwvbV3vPIW20aRZmVBecZ28l1NTBwJXd2WtgI4HaSXyQtJd6f25Jlo6DaJP2USj
-         E7Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DBVWVEdkboPAA3iihI+JJu9nacCyjjXiF867XSdRscM=;
-        b=cN3FK7psddPBtsVu9utp2cmqZFBBZfhoTQhY9xeeoNP5yqs05e+ynLOTtvm+BGCJop
-         IsjlDOM5nAvDH2xEdOOALtD3OhEgI20bnQpUOGaRGQnCSWzTveoJl1uGKk7JzZp0lNRb
-         nDaVpdm4tTsbWIOzoLsqebXejW7YsdWSyeqwAV4r67bIOFI82UO9QkeUUY9y4IV/B6XO
-         6qX4hps5GXfibyF1xOKqGtayF18fVSu2gTq/mJnZxNfPfm2EfidFnJ9VEITK+8WpIjqA
-         WLhJFPVHch5Tln1cgxaW0TiloFqEw/sb8oJYBrooJfUIGhKt4/uCNmY5nqNbxM6wcQWL
-         aNMg==
-X-Gm-Message-State: APjAAAUvkHUE/pmTG6QcUXViUx4ruDai1mJ9uNdyEp5bZsgimgUmCP6d
-        US3cdLXNnukRCaD2qHDJDJNjc0hztqU=
-X-Google-Smtp-Source: APXvYqwGvVOcXRerGQVwXSN0BvMucxW5Y9C75RPh4LCpBk+SNPJp9dTFMTDmKlLXlf76eeUCWQHG6g==
-X-Received: by 2002:a02:40c6:: with SMTP id n189mr34933660jaa.121.1571012575715;
-        Sun, 13 Oct 2019 17:22:55 -0700 (PDT)
-Received: from Arrakis.djogorchock.com ([136.61.189.171])
-        by smtp.gmail.com with ESMTPSA id s201sm22103963ios.83.2019.10.13.17.22.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Oct 2019 17:22:55 -0700 (PDT)
-From:   "Daniel J. Ogorchock" <djogorchock@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     thunderbird2k@gmail.com, blaws05@gmail.com,
-        benjamin.tissoires@redhat.com, jikos@kernel.org,
-        Roderick.Colenbrander@sony.com, svv@google.com, s.jegen@gmail.com,
-        "Daniel J. Ogorchock" <djogorchock@gmail.com>
-Subject: [PATCH v8 9/9] HID: nintendo: patch hw version for userspace HID mappings
-Date:   Sun, 13 Oct 2019 19:22:41 -0500
-Message-Id: <20191014002241.2560195-10-djogorchock@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191014002241.2560195-1-djogorchock@gmail.com>
-References: <20191014002241.2560195-1-djogorchock@gmail.com>
+        Sun, 13 Oct 2019 20:43:37 -0400
+X-Greylist: delayed 8699 seconds by postgrey-1.27 at vger.kernel.org; Sun, 13 Oct 2019 20:43:36 EDT
+Received: from player692.ha.ovh.net (unknown [10.108.54.9])
+        by mo5.mail-out.ovh.net (Postfix) with ESMTP id 3A13C25214B
+        for <linux-input@vger.kernel.org>; Sun, 13 Oct 2019 23:05:07 +0200 (CEST)
+Received: from etezian.org (81-175-223-118.bb.dnainternet.fi [81.175.223.118])
+        (Authenticated sender: andi@etezian.org)
+        by player692.ha.ovh.net (Postfix) with ESMTPSA id D37F7AC93ED3;
+        Sun, 13 Oct 2019 21:04:56 +0000 (UTC)
+Date:   Mon, 14 Oct 2019 00:04:55 +0300
+From:   Andi Shyti <andi@etezian.org>
+To:     Stephan Gerhold <stephan@gerhold.net>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andi Shyti <andi@etezian.org>,
+        Simon Shields <simon@lineageos.org>,
+        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] Input: mms114 - add support for mms345l
+Message-ID: <20191013210455.GA16344@jack.zhora.eu>
+References: <20191007203343.101466-1-stephan@gerhold.net>
+ <20191007205021.104402-1-stephan@gerhold.net>
+ <20191008220014.GI22365@dtor-ws>
+ <20191009104740.GA107000@gerhold.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191009104740.GA107000@gerhold.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Ovh-Tracer-Id: 10484942885523210989
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrieelgdduheeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch sets the most significant bit of the hid hw version to allow
-userspace to distinguish between this driver's input mappings vs. the
-default hid mappings. This prevents breaking userspace applications that
-use SDL2 for gamepad input, allowing them to distinguish the mappings
-based on the version.
+Hi Stephan,
 
-Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
----
- drivers/hid/hid-nintendo.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> > > There was a related patch [2] that removes I2C_M_NOSTART for all models,
+> > > but it seems abandoned and I do not have any other model for testing.
+> > > Therefore, this patch implements the least instrusive solution
+> > > and only removes I2C_M_NOSTART for MMS345L.
+> > 
+> > Hmm,  at this point I am inclined to pick up Andi's patch since it seems
+> > to work for you and him and it looks like Android drivers are not using
+> > I2C_M_NOSTART. I wonder if this was some quirk/big on the platform where
+> > it was originally developed.
+> > 
+> > Any objections?
+> 
+> I cannot really speak for any of the other models, but no objections for
+> removing I2C_M_NOSTART from my side. I'm actually rather confused by it
+> since it is used on the first partial message.
+> 
+> The documentation [1] says:
+>   If you set the I2C_M_NOSTART variable for the first partial message,
+>   we do not generate Addr, but we do generate the startbit S.
+>   ** This will probably confuse all other clients on your bus,
+>   so don't try this. **
+> 
+> Yet, someone felt like trying this here. ;)
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 333d1e0d07d6..2992a0d6831c 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -1361,6 +1361,15 @@ static int nintendo_hid_probe(struct hid_device *hdev,
- 		goto err_wq;
- 	}
- 
-+	/*
-+	 * Patch the hw version of pro controller/joycons, so applications can
-+	 * distinguish between the default HID mappings and the mappings defined
-+	 * by the Linux game controller spec. This is important for the SDL2
-+	 * library, which has a game controller database, which uses device ids
-+	 * in combination with version as a key.
-+	 */
-+	hdev->version |= 0x8000;
-+
- 	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
- 	if (ret) {
- 		hid_err(hdev, "HW start failed\n");
--- 
-2.23.0
+still it should be specified in the i2c protocol of the device,
+if it's not, then most probably it's not needed, I guess.
 
+Andi
