@@ -2,146 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9400D5E66
-	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2019 11:14:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E88A5D5EAD
+	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2019 11:22:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730694AbfJNJOp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Oct 2019 05:14:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37600 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730585AbfJNJOp (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Oct 2019 05:14:45 -0400
-Received: from dragon (li937-157.members.linode.com [45.56.119.157])
-        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 64351207FF;
-        Mon, 14 Oct 2019 09:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571044484;
-        bh=6s5ALtRsWyyMnGgX+VGvHOkNhg2mUhjWBZWLL7G0/QE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hYJCUvrjaIXYtDRIKZSOJr5SuakAhIlbQdwiZoY+YpJXgL7lC1haL9u25fRBK9SEQ
-         qs/GqWhZ2l1xp3N6wIERDnqJHLehZrwvxlPP5akkTq4gs0fgn9YX4aMV+dPQF6+o8Z
-         sWcT+PvzHKZ1HwvQT9C3+O/h4V9rU5l3983t39gI=
-Date:   Mon, 14 Oct 2019 17:14:24 +0800
-From:   Shawn Guo <shawnguo@kernel.org>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     Rob Herring <robh@kernel.org>,
+        id S1730880AbfJNJWU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Oct 2019 05:22:20 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:45200 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730778AbfJNJWU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 14 Oct 2019 05:22:20 -0400
+Received: by mail-pf1-f196.google.com with SMTP id y72so10032791pfb.12;
+        Mon, 14 Oct 2019 02:22:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TC2+yBE1e1TW1803J0hwiR3w1U8Tt2d/K4s4HsSBGNI=;
+        b=WCbXRL4Iu+JEu2SQ4JFzy71ExxWDu8U4DNA57Mkp+PKu4Cz9VBSyoV/5X6pXNXaiPD
+         DDthlPC7f66ZJbQnMn2Dd+MVXft3zwA2pCeQGyDI/HM9H4SjLzbOehkyiU1S9zA3E6SO
+         I1jRgOvKHRGopRAclaTEMRIg4IVHaNNDHgy4sTs30AKp7Ij8hIolZIDTMWy7g7QZUWax
+         QTuC5bFBjZkIKunkgeOJ7oMEnNc+0NyQ5D+vKp+qnDE72oQ4Kp5G9VkVqzvngAh+47Hd
+         ep+TohyImGC8SBie7sVziTWXwP9ljAwgVRMAMd4IlZwJ9HT5MVqbZp4jzbLUfirf1lMr
+         ZlMQ==
+X-Gm-Message-State: APjAAAWh1UCo1wINM11SnGMZOo17D4Fr1D06C9l+jIC/Tkc06tTH64pc
+        SxvscsAQl65BSiCf1L2PQos=
+X-Google-Smtp-Source: APXvYqyjC/Y1Gw4qt/B40j2VP+yRTueZa4UHCuOIUcLRPr9er+3d5llcSv3ZgbzhnB9y74rDy7Xyrg==
+X-Received: by 2002:a65:53c4:: with SMTP id z4mr1556834pgr.155.1571044938307;
+        Mon, 14 Oct 2019 02:22:18 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id q2sm19933776pfg.144.2019.10.14.02.22.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2019 02:22:17 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 70BBC4021A; Mon, 14 Oct 2019 09:22:16 +0000 (UTC)
+Date:   Mon, 14 Oct 2019 09:22:16 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        andriy.shevchenko@linux.intel.com, bparrot@ti.com,
-        andy.shevchenko@gmail.com, simon.budig@kernelconcepts.de,
-        hdegoede@redhat.com, fcooper@ti.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, kernel@pengutronix.de,
-        bcousson@baylibre.com, tony@atomide.com,
-        nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-        ludovic.desroches@microchip.com, s.hauer@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, mripard@kernel.org,
-        wens@csie.org
-Subject: Re: [PATCH 2/6] dt-bindings: Input: edt-ft5x06 - add disable
- wakeup-source documentation
-Message-ID: <20191014091422.GK12262@dragon>
-References: <20190917155808.27818-1-m.felsch@pengutronix.de>
- <20190917155808.27818-3-m.felsch@pengutronix.de>
- <20190917170743.GO237523@dtor-ws>
- <20190917171814.owcttekv56xgmsts@pengutronix.de>
- <20190917172658.GQ237523@dtor-ws>
- <20190930231146.GA30010@bogus>
- <20191002130018.pvgipl6bkcv3dexj@pengutronix.de>
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 0/8] efi/firmware/platform-x86: Add EFI embedded fw
+ support
+Message-ID: <20191014092216.GA16384@42.do-not-panic.com>
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191011141036.GK16384@42.do-not-panic.com>
+ <7fed4882-efa7-18d0-1ef6-9138fbdddfc4@redhat.com>
+ <20191011153823.GS16384@42.do-not-panic.com>
+ <20191011163819.GA1295750@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191002130018.pvgipl6bkcv3dexj@pengutronix.de>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20191011163819.GA1295750@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 02, 2019 at 03:00:18PM +0200, Marco Felsch wrote:
-> Hi,
-> 
-> all of you using a edt,* touchscreen and currently the driver marks
-> the touchscreen as wakeup source. To keep backward compatibility I added
-> a workaround binding (see below) but Dmitry prefer to use the normal
-> "wakeup-source" binding and change the affected device-tree's
-> (discussion below). Can you give me your ack/nack for Dmitry's solution?
-
-Acked-by: Shawn Guo <shawnguo@kernel.org>
-
-> 
-> Regards,
->   Marco
-> 
-> On 19-09-30 18:11, Rob Herring wrote:
-> > On Tue, Sep 17, 2019 at 10:26:58AM -0700, Dmitry Torokhov wrote:
-> > > On Tue, Sep 17, 2019 at 07:18:14PM +0200, Marco Felsch wrote:
-> > > > Hi Dmitry,
-> > > > 
-> > > > On 19-09-17 10:07, Dmitry Torokhov wrote:
-> > > > > On Tue, Sep 17, 2019 at 05:58:04PM +0200, Marco Felsch wrote:
-> > > > > > The default driver behaviour is to enable the wakeup-source everytime.
-> > > > > > There are hardware designs which have a dedicated gpio to act as wakeup
-> > > > > > device. So it must be allowed to disable the wakeup-source capability.
-> > > > > > 
-> > > > > > This patch adds the binding documentation to disable the wakeup-source
-> > > > > > capability.
-> > > > > > 
-> > > > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > > > > ---
-> > > > > >  .../devicetree/bindings/input/touchscreen/edt-ft5x06.txt      | 4 ++++
-> > > > > >  1 file changed, 4 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
-> > > > > > index 870b8c5cce9b..4d6524fe3cf4 100644
-> > > > > > --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
-> > > > > > +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
-> > > > > > @@ -35,6 +35,10 @@ Optional properties:
-> > > > > >   - pinctrl-0:   a phandle pointing to the pin settings for the
-> > > > > >                  control gpios
-> > > > > >  
-> > > > > > + - edt,disable-wakeup-source: If left the device will act as wakeup-source
-> > > > > > +			      (for legacy compatibility). Add the property
-> > > > > > +			      so the device won't act as wakeup-source.
-> > > > > 
-> > > > > I think this is too ugly and I consider it being a bug in the driver
-> > > > > that it enables wakeup unconditionally.
-> > > > 
-> > > > That's right.
-> > > > 
-> > > > > Let's just update DTS in tree for devices that actually want it (I am
-> > > > > curious how many that do not declare "wakeup-source" have it working and
-> > > > > actually want it) and key the dirver behavior off the standard property.
-> > > > 
-> > > > There are a few DTS using this driver and the current driver behaviour.
-> > > > We need to keep the backward compatibility since the DTB is part of the
-> > > > firmware and firmware isn't always included during a system-update. I
-> > > > know its ugly but IMHO that's the right way to go to keep the backward
-> > > > compatibility. Let us see what the DT-folk says.
-> > > > 
-> > > > > Until we start seeing this controller in devices that actually have DTS
-> > > > > in hardware device tree I think it is better to use standard property.
-> > > > 
-> > > > Sorry, I didn't get you here..
+On Fri, Oct 11, 2019 at 06:38:19PM +0200, Greg Kroah-Hartman wrote:
+> On Fri, Oct 11, 2019 at 03:38:23PM +0000, Luis Chamberlain wrote:
+> > On Fri, Oct 11, 2019 at 04:31:26PM +0200, Hans de Goede wrote:
+> > > Hi,
 > > > 
-> > > What I was trying to say is that I have not actually seen DTB that is
-> > > part of hardware or separately upgradable frimware (not talking about
-> > > ppc or sparc boxes, but ones that might be using this driver). It is
-> > > always built into the kernel in my experience, so backward compatibility
-> > > is simply a tool that is being used to prevent us from being too wild
-> > > with hacking on bindings, but rarely a practical concern.
+> > > On 10/11/19 4:10 PM, Luis Chamberlain wrote:
+> > > > Hey Hans, thanks for staying on top of this and follow up! For some
+> > > > reason the universe conspired against your first and last patch ([1/8],
+> > > > [8/8]), and I never got them. Could you bounce these or resend in case
+> > > > others confirm they also didn't get it?
+> > > 
+> > > I have received feedback from others on the first patch, so at least
+> > > that one has reached others. I've bounced patches 1 and 8 to you.
 > > 
-> > Well, that's self fulfilling...
-> > 
-> > > In cases like this I think it is worthwhile to simply update in-tree
-> > > DTS and arrive at a sane binding.
-> > 
-> > Get the maintainers of the affected platforms to agree to the changes.
-> > 
-> > Rob
-> > 
+> > Thanks, can you also bounce the feedback received?
 > 
-> -- 
-> Pengutronix e.K.                           |                             |
-> Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-> Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> That is what lore.kernel.org is for...
+
+If I have feedback on an email which I did not get I cannot easily reply to it.
+In the future I'd like lore to let me bounce emails from a thread to me,
+but that is not possible today AFAICT?
+
+  Luis
