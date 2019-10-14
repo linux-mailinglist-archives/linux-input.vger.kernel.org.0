@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD8E7D594A
-	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2019 03:29:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0C14D5A08
+	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2019 05:47:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729474AbfJNB3b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 13 Oct 2019 21:29:31 -0400
-Received: from mga09.intel.com ([134.134.136.24]:32052 "EHLO mga09.intel.com"
+        id S1729652AbfJNDrX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 13 Oct 2019 23:47:23 -0400
+Received: from mga05.intel.com ([192.55.52.43]:63407 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729359AbfJNB3b (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 13 Oct 2019 21:29:31 -0400
+        id S1729621AbfJNDrX (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 13 Oct 2019 23:47:23 -0400
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Oct 2019 18:29:29 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Oct 2019 20:47:20 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.67,294,1566889200"; 
-   d="gz'50?scan'50,208,50";a="188884446"
+   d="gz'50?scan'50,208,50";a="207883567"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 13 Oct 2019 18:29:26 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 13 Oct 2019 20:47:18 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
         (envelope-from <lkp@intel.com>)
-        id 1iJpAr-0005vd-Kb; Mon, 14 Oct 2019 09:29:25 +0800
-Date:   Mon, 14 Oct 2019 09:28:49 +0800
+        id 1iJrKH-0005XR-O7; Mon, 14 Oct 2019 11:47:17 +0800
+Date:   Mon, 14 Oct 2019 11:46:57 +0800
 From:   kbuild test robot <lkp@intel.com>
 To:     Mazin Rezk <mnrzk@protonmail.com>
 Cc:     kbuild-all@lists.01.org,
@@ -34,13 +34,14 @@ Cc:     kbuild-all@lists.01.org,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Filipe =?iso-8859-1?Q?La=EDns?= <lains@archlinux.org>,
         "mnrzk@protonmail.com" <mnrzk@protonmail.com>
-Subject: Re: [PATCH v5 1/2] HID: logitech: Add MX Master over Bluetooth
-Message-ID: <201910140950.uA9aSUlt%lkp@intel.com>
-References: <Mbf4goGxXZTfWwWtQQUke_rNf8kezpNOS9DVEVHf6RnnmjS1oRtMOJf4r14WfCC6GRYVs7gi0uZcIJ18Va2OJowzSbyMUGwLrl6I5fjW48o=@protonmail.com>
+Subject: Re: [PATCH v5 2/2] HID: logitech: Support WirelessDeviceStatus
+ connect events
+Message-ID: <201910141117.twKn4wE1%lkp@intel.com>
+References: <23olKBO7VYh8VS2ZXNY_4uBAy5jnxyXdBqzXiBZdvPxVp845bPLo6Xe_vwYMuSlozOUg2LYs5ANpE4wy6UBtF9p5YnoLz1Udq6HxW89R3tE=@protonmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="jik2vc2cfneulh67"
+Content-Type: multipart/mixed; boundary="xb4auz7cxslpqtk3"
 Content-Disposition: inline
-In-Reply-To: <Mbf4goGxXZTfWwWtQQUke_rNf8kezpNOS9DVEVHf6RnnmjS1oRtMOJf4r14WfCC6GRYVs7gi0uZcIJ18Va2OJowzSbyMUGwLrl6I5fjW48o=@protonmail.com>
+In-Reply-To: <23olKBO7VYh8VS2ZXNY_4uBAy5jnxyXdBqzXiBZdvPxVp845bPLo6Xe_vwYMuSlozOUg2LYs5ANpE4wy6UBtF9p5YnoLz1Udq6HxW89R3tE=@protonmail.com>
 X-Patchwork-Hint: ignore
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-input-owner@vger.kernel.org
@@ -49,7 +50,7 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
---jik2vc2cfneulh67
+--xb4auz7cxslpqtk3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -81,177 +82,128 @@ All warnings (new ones prefixed by >>):
                     from include/linux/device.h:15,
                     from drivers/hid/hid-logitech-hidpp.c:13:
    drivers/hid/hid-logitech-hidpp.c: In function 'hidpp_send_rap_command_sync':
->> include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
+   include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
     #define BIT(nr)   (UL(1) << (nr))
                              ^
->> drivers/hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
+   drivers/hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
     #define HIDPP_QUIRK_MISSING_SHORT_REPORTS BIT(32)
                                               ^~~
->> drivers/hid/hid-logitech-hidpp.c:347:26: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
+   drivers/hid/hid-logitech-hidpp.c:351:26: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
      if (hidpp_dev->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS &&
                              ^
+   drivers/hid/hid-logitech-hidpp.c: In function 'hidpp_report_is_connect_event':
+   include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
+    #define BIT(nr)   (UL(1) << (nr))
+                             ^
+   drivers/hid/hid-logitech-hidpp.c:75:44: note: in expansion of macro 'BIT'
+    #define HIDPP_QUIRK_WIRELESS_DEVICE_STATUS BIT(33)
+                                               ^~~
+>> drivers/hid/hid-logitech-hidpp.c:412:27: note: in expansion of macro 'HIDPP_QUIRK_WIRELESS_DEVICE_STATUS'
+     return ((hidpp->quirks & HIDPP_QUIRK_WIRELESS_DEVICE_STATUS) &&
+                              ^
+   include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
+    #define BIT(nr)   (UL(1) << (nr))
+                             ^
+   drivers/hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
+    #define HIDPP_QUIRK_MISSING_SHORT_REPORTS BIT(32)
+                                              ^~~
+   drivers/hid/hid-logitech-hidpp.c:415:20: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
+      (hidpp->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS)) &&
+                       ^
    drivers/hid/hid-logitech-hidpp.c: In function 'hidpp_validate_device':
->> include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
+   include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
     #define BIT(nr)   (UL(1) << (nr))
                              ^
->> drivers/hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
+   drivers/hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
     #define HIDPP_QUIRK_MISSING_SHORT_REPORTS BIT(32)
                                               ^~~
-   drivers/hid/hid-logitech-hidpp.c:3496:22: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
+   drivers/hid/hid-logitech-hidpp.c:3522:22: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
      if (hidpp->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS)
                          ^
+   drivers/hid/hid-logitech-hidpp.c: In function 'hidpp_probe':
+   include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
+    #define BIT(nr)   (UL(1) << (nr))
+                             ^
+   drivers/hid/hid-logitech-hidpp.c:75:44: note: in expansion of macro 'BIT'
+    #define HIDPP_QUIRK_WIRELESS_DEVICE_STATUS BIT(33)
+                                               ^~~
+   drivers/hid/hid-logitech-hidpp.c:3653:36: note: in expansion of macro 'HIDPP_QUIRK_WIRELESS_DEVICE_STATUS'
+     if (connected && (hidpp->quirks & HIDPP_QUIRK_WIRELESS_DEVICE_STATUS)) {
+                                       ^
    drivers/hid/hid-logitech-hidpp.c: At top level:
->> include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
+   include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
     #define BIT(nr)   (UL(1) << (nr))
                              ^
->> drivers/hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
+   drivers/hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
     #define HIDPP_QUIRK_MISSING_SHORT_REPORTS BIT(32)
                                               ^~~
-   drivers/hid/hid-logitech-hidpp.c:85:40: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
-    #define HIDPP_QUIRK_CLASS_BLUETOOTH_LE HIDPP_QUIRK_MISSING_SHORT_REPORTS
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hid/hid-logitech-hidpp.c:3794:5: note: in expansion of macro 'HIDPP_QUIRK_CLASS_BLUETOOTH_LE'
+   drivers/hid/hid-logitech-hidpp.c:86:41: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
+    #define HIDPP_QUIRK_CLASS_BLUETOOTH_LE (HIDPP_QUIRK_MISSING_SHORT_REPORTS | \
+                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-logitech-hidpp.c:3826:5: note: in expansion of macro 'HIDPP_QUIRK_CLASS_BLUETOOTH_LE'
         HIDPP_QUIRK_CLASS_BLUETOOTH_LE },
         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
+   include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
     #define BIT(nr)   (UL(1) << (nr))
                              ^
->> drivers/hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
-    #define HIDPP_QUIRK_MISSING_SHORT_REPORTS BIT(32)
-                                              ^~~
-   drivers/hid/hid-logitech-hidpp.c:85:40: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
-    #define HIDPP_QUIRK_CLASS_BLUETOOTH_LE HIDPP_QUIRK_MISSING_SHORT_REPORTS
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-logitech-hidpp.c:3797:5: note: in expansion of macro 'HIDPP_QUIRK_CLASS_BLUETOOTH_LE'
+   drivers/hid/hid-logitech-hidpp.c:75:44: note: in expansion of macro 'BIT'
+    #define HIDPP_QUIRK_WIRELESS_DEVICE_STATUS BIT(33)
+                                               ^~~
+   drivers/hid/hid-logitech-hidpp.c:87:7: note: in expansion of macro 'HIDPP_QUIRK_WIRELESS_DEVICE_STATUS'
+          HIDPP_QUIRK_WIRELESS_DEVICE_STATUS)
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-logitech-hidpp.c:3826:5: note: in expansion of macro 'HIDPP_QUIRK_CLASS_BLUETOOTH_LE'
         HIDPP_QUIRK_CLASS_BLUETOOTH_LE },
         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/ioport.h:15:0,
-                    from include/linux/device.h:15,
-                    from drivers//hid/hid-logitech-hidpp.c:13:
-   drivers//hid/hid-logitech-hidpp.c: In function 'hidpp_send_rap_command_sync':
->> include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
+   include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
     #define BIT(nr)   (UL(1) << (nr))
                              ^
-   drivers//hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
+   drivers/hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
     #define HIDPP_QUIRK_MISSING_SHORT_REPORTS BIT(32)
                                               ^~~
-   drivers//hid/hid-logitech-hidpp.c:347:26: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
-     if (hidpp_dev->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS &&
-                             ^
-   drivers//hid/hid-logitech-hidpp.c: In function 'hidpp_validate_device':
->> include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
-    #define BIT(nr)   (UL(1) << (nr))
-                             ^
-   drivers//hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
-    #define HIDPP_QUIRK_MISSING_SHORT_REPORTS BIT(32)
-                                              ^~~
-   drivers//hid/hid-logitech-hidpp.c:3496:22: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
-     if (hidpp->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS)
-                         ^
-   drivers//hid/hid-logitech-hidpp.c: At top level:
->> include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
-    #define BIT(nr)   (UL(1) << (nr))
-                             ^
-   drivers//hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
-    #define HIDPP_QUIRK_MISSING_SHORT_REPORTS BIT(32)
-                                              ^~~
-   drivers//hid/hid-logitech-hidpp.c:85:40: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
-    #define HIDPP_QUIRK_CLASS_BLUETOOTH_LE HIDPP_QUIRK_MISSING_SHORT_REPORTS
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers//hid/hid-logitech-hidpp.c:3794:5: note: in expansion of macro 'HIDPP_QUIRK_CLASS_BLUETOOTH_LE'
+   drivers/hid/hid-logitech-hidpp.c:86:41: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
+    #define HIDPP_QUIRK_CLASS_BLUETOOTH_LE (HIDPP_QUIRK_MISSING_SHORT_REPORTS | \
+                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-logitech-hidpp.c:3829:5: note: in expansion of macro 'HIDPP_QUIRK_CLASS_BLUETOOTH_LE'
         HIDPP_QUIRK_CLASS_BLUETOOTH_LE },
         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
+   include/linux/bits.h:8:26: warning: left shift count >= width of type [-Wshift-count-overflow]
     #define BIT(nr)   (UL(1) << (nr))
                              ^
-   drivers//hid/hid-logitech-hidpp.c:74:43: note: in expansion of macro 'BIT'
-    #define HIDPP_QUIRK_MISSING_SHORT_REPORTS BIT(32)
-                                              ^~~
-   drivers//hid/hid-logitech-hidpp.c:85:40: note: in expansion of macro 'HIDPP_QUIRK_MISSING_SHORT_REPORTS'
-    #define HIDPP_QUIRK_CLASS_BLUETOOTH_LE HIDPP_QUIRK_MISSING_SHORT_REPORTS
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers//hid/hid-logitech-hidpp.c:3797:5: note: in expansion of macro 'HIDPP_QUIRK_CLASS_BLUETOOTH_LE'
+   drivers/hid/hid-logitech-hidpp.c:75:44: note: in expansion of macro 'BIT'
+    #define HIDPP_QUIRK_WIRELESS_DEVICE_STATUS BIT(33)
+                                               ^~~
+   drivers/hid/hid-logitech-hidpp.c:87:7: note: in expansion of macro 'HIDPP_QUIRK_WIRELESS_DEVICE_STATUS'
+          HIDPP_QUIRK_WIRELESS_DEVICE_STATUS)
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-logitech-hidpp.c:3829:5: note: in expansion of macro 'HIDPP_QUIRK_CLASS_BLUETOOTH_LE'
         HIDPP_QUIRK_CLASS_BLUETOOTH_LE },
         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +/BIT +74 drivers/hid/hid-logitech-hidpp.c
+vim +/HIDPP_QUIRK_WIRELESS_DEVICE_STATUS +412 drivers/hid/hid-logitech-hidpp.c
 
-    12	
-  > 13	#include <linux/device.h>
-    14	#include <linux/input.h>
-    15	#include <linux/usb.h>
-    16	#include <linux/hid.h>
-    17	#include <linux/module.h>
-    18	#include <linux/slab.h>
-    19	#include <linux/sched.h>
-    20	#include <linux/sched/clock.h>
-    21	#include <linux/kfifo.h>
-    22	#include <linux/input/mt.h>
-    23	#include <linux/workqueue.h>
-    24	#include <linux/atomic.h>
-    25	#include <linux/fixp-arith.h>
-    26	#include <asm/unaligned.h>
-    27	#include "usbhid/usbhid.h"
-    28	#include "hid-ids.h"
-    29	
-    30	MODULE_LICENSE("GPL");
-    31	MODULE_AUTHOR("Benjamin Tissoires <benjamin.tissoires@gmail.com>");
-    32	MODULE_AUTHOR("Nestor Lopez Casado <nlopezcasad@logitech.com>");
-    33	
-    34	static bool disable_raw_mode;
-    35	module_param(disable_raw_mode, bool, 0644);
-    36	MODULE_PARM_DESC(disable_raw_mode,
-    37		"Disable Raw mode reporting for touchpads and keep firmware gestures.");
-    38	
-    39	static bool disable_tap_to_click;
-    40	module_param(disable_tap_to_click, bool, 0644);
-    41	MODULE_PARM_DESC(disable_tap_to_click,
-    42		"Disable Tap-To-Click mode reporting for touchpads (only on the K400 currently).");
-    43	
-    44	#define REPORT_ID_HIDPP_SHORT			0x10
-    45	#define REPORT_ID_HIDPP_LONG			0x11
-    46	#define REPORT_ID_HIDPP_VERY_LONG		0x12
-    47	
-    48	#define HIDPP_REPORT_SHORT_LENGTH		7
-    49	#define HIDPP_REPORT_LONG_LENGTH		20
-    50	#define HIDPP_REPORT_VERY_LONG_MAX_LENGTH	64
-    51	
-    52	#define HIDPP_SUB_ID_CONSUMER_VENDOR_KEYS	0x03
-    53	#define HIDPP_SUB_ID_ROLLER			0x05
-    54	#define HIDPP_SUB_ID_MOUSE_EXTRA_BTNS		0x06
-    55	
-    56	#define HIDPP_QUIRK_CLASS_WTP			BIT(0)
-    57	#define HIDPP_QUIRK_CLASS_M560			BIT(1)
-    58	#define HIDPP_QUIRK_CLASS_K400			BIT(2)
-    59	#define HIDPP_QUIRK_CLASS_G920			BIT(3)
-    60	#define HIDPP_QUIRK_CLASS_K750			BIT(4)
-    61	
-    62	/* bits 2..20 are reserved for classes */
-    63	/* #define HIDPP_QUIRK_CONNECT_EVENTS		BIT(21) disabled */
-    64	#define HIDPP_QUIRK_WTP_PHYSICAL_BUTTONS	BIT(22)
-    65	#define HIDPP_QUIRK_NO_HIDINPUT			BIT(23)
-    66	#define HIDPP_QUIRK_FORCE_OUTPUT_REPORTS	BIT(24)
-    67	#define HIDPP_QUIRK_UNIFYING			BIT(25)
-    68	#define HIDPP_QUIRK_HI_RES_SCROLL_1P0		BIT(26)
-    69	#define HIDPP_QUIRK_HI_RES_SCROLL_X2120		BIT(27)
-    70	#define HIDPP_QUIRK_HI_RES_SCROLL_X2121		BIT(28)
-    71	#define HIDPP_QUIRK_HIDPP_WHEELS		BIT(29)
-    72	#define HIDPP_QUIRK_HIDPP_EXTRA_MOUSE_BTNS	BIT(30)
-    73	#define HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS	BIT(31)
-  > 74	#define HIDPP_QUIRK_MISSING_SHORT_REPORTS	BIT(32)
-    75	
+   408	
+   409	static inline bool hidpp_report_is_connect_event(struct hidpp_device *hidpp,
+   410							 struct hidpp_report *report)
+   411	{
+ > 412		return ((hidpp->quirks & HIDPP_QUIRK_WIRELESS_DEVICE_STATUS) &&
+   413			(report->fap.feature_index == hidpp->wireless_feature_index)) ||
+   414		      (((report->report_id == REPORT_ID_HIDPP_SHORT) ||
+   415			(hidpp->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS)) &&
+   416			(report->rap.sub_id == 0x41));
+   417	}
+   418	
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Center
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---jik2vc2cfneulh67
+--xb4auz7cxslpqtk3
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICGu/o10AAy5jb25maWcAjDzZcty2su/5iin74SZ14kSbZefe0gMIghxkSIICwFn0glLk
+H4sICEPTo10AAy5jb25maWcAjDzZcty2su/5iin74SZ14kSbZefe0gMIghxkSIICwFn0glLk
 saOKJblG8kn897cb3AAQHCd16sjsbjS2Rm9ozOsfXi/I15enh9uX+7vbz5+/LT7tH/eH25f9
 h8XH+8/7/1ukYlEJvWAp178AcXH/+PWfXx/uvzwv3v5y8cvJm8Pd2WK1PzzuPy/o0+PH+09f
 ofX90+MPr3+A/70G4MMXYHT43wU2evMZ27/5dHe3+DGn9KfFO2QChFRUGc8NpYYrA5irbz0I
@@ -1402,4 +1354,4 @@ tGteZ/Gkzxmv4Lsl6eFwscb7BXEZQTTnJ6q6p3von3IeEL+zfdlTvC88xkVCMWGW4n5vQJk5
 oeXDhaPJuK8eq4FxtlUedYCfa4bI87ov9eL46GjP+bJPRoXA3ixZr7MUVWT+M1RpKkgaCoqS
 gW8Rq7grBoHp/wDBs0qKzOQDAA==
 
---jik2vc2cfneulh67--
+--xb4auz7cxslpqtk3--
