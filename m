@@ -2,170 +2,199 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BC20D698D
-	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2019 20:38:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35728D6B48
+	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2019 23:27:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730717AbfJNSg2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Oct 2019 14:36:28 -0400
-Received: from mail-40135.protonmail.ch ([185.70.40.135]:39819 "EHLO
-        mail-40135.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726169AbfJNSg2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Oct 2019 14:36:28 -0400
-Date:   Mon, 14 Oct 2019 18:36:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=default; t=1571078184;
-        bh=HlmGu1q+Sq6eE8y8EwjOQgPvCZXyiZ/Ph43h6boW/JM=;
-        h=Date:To:From:Cc:Reply-To:Subject:Feedback-ID:From;
-        b=oMUdeIsAbHtWC1ET7YqCx0SXUA6gq46ZEc+O+9NzI0GW5qdtixs7GEgrjiPkRtXLu
-         ql89U4XZQ8Pa+ce6jph7E05LgIx8o13M36J5JmEICFPcztcSs0ORTHLG6CNMCwJZ6L
-         ZDle2DdzfxhmoFLzAsiSUNPBkzI9ialeSagI7YIM=
-To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-From:   Mazin Rezk <mnrzk@protonmail.com>
-Cc:     "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>,
-        "mnrzk@protonmail.com" <mnrzk@protonmail.com>
-Reply-To: Mazin Rezk <mnrzk@protonmail.com>
-Subject: [PATCH v6 2/2] HID: logitech: Support WirelessDeviceStatus connect events
-Message-ID: <_1Ewv9AvBhbWTNcFOkmvCyjVph73eQIz23Plyv5ffgaWWHnmPBTbSIJhs47AnYatJsmDWu4JlMjcsKE8Cf31lvmwQipYEu47YglNfroyJtM=@protonmail.com>
-Feedback-ID: 18B_FC5q-t32TXzMsVp9BgkgrdNH3iwklfW8WOrHrcxZA0WRj7JodCh5VXKxs6A3OaiHK0QNd8wi3SImKex8yQ==:Ext:ProtonMail
+        id S2387823AbfJNV1E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Oct 2019 17:27:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33668 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731967AbfJNV0s (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 14 Oct 2019 17:26:48 -0400
+Received: from earth.universe (eth-west-pareq2-46-193-2-41.wb.wifirst.net [46.193.2.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B3DD220650;
+        Mon, 14 Oct 2019 21:26:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571088406;
+        bh=+lFIzC8nwcFgT0bS6CLGv5ajlQHk5Qi8YrW2qfw1KQU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aGW8350aqDpJ9vKAVgGscRQHllSKdI8koknozbpeArVMJJ8jASoXjaKidiRcPhlzt
+         FuXg0gpDqYU/RKfMta7y7JZq+j9OtrD+Oe+qZGeI+x3zCDmmUdHOu3cUhyr64QC1Eb
+         hQa9Ss1VV7XwCwTXdGLoFUXad893Ei+Ciu7iYJi4=
+Received: by earth.universe (Postfix, from userid 1000)
+        id 7579A3C0CA5; Mon, 14 Oct 2019 06:32:25 +0200 (CEST)
+Date:   Mon, 14 Oct 2019 06:32:25 +0200
+From:   Sebastian Reichel <sre@kernel.org>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH 4/6] dt-bindings: power: max77650: convert the binding
+ document to yaml
+Message-ID: <20191014043225.ejpyccvo3jpkvz2r@earth.universe>
+References: <20190930130246.4860-1-brgl@bgdev.pl>
+ <20190930130246.4860-5-brgl@bgdev.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_REPLYTO
-        autolearn=no autolearn_force=no version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="lvytl443p4a5vq52"
+Content-Disposition: inline
+In-Reply-To: <20190930130246.4860-5-brgl@bgdev.pl>
+User-Agent: NeoMutt/20180716
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch allows WirelessDeviceStatus (0x1d4b) events to be detected as
-connection events in the hid-logitech-hidpp module.
 
-Devices with HIDPP_QUIRK_WIRELESS_DEVICE_STATUS use WirelessDeviceStatus
-instead of traditional connect events. Since all Bluetooth LE devices seem
-to act this way, HIDPP_QUIRK_CLASS_BLUETOOTH_LE aliases this quirk.
+--lvytl443p4a5vq52
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
----
- drivers/hid/hid-logitech-hidpp.c | 42 ++++++++++++++++++++++++++++----
- 1 file changed, 37 insertions(+), 5 deletions(-)
+Hi,
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
-dpp.c
-index 997b1056850a..9b3df57ca857 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -60,6 +60,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
- #define HIDPP_QUIRK_CLASS_K750=09=09=09BIT(4)
+On Mon, Sep 30, 2019 at 03:02:44PM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>=20
+> Convert the binding document for max77650 charger module to yaml.
+>=20
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> ---
 
- /* bits 2..15 are reserved for classes */
-+#define HIDPP_QUIRK_WIRELESS_DEVICE_STATUS=09BIT(19)
- #define HIDPP_QUIRK_MISSING_SHORT_REPORTS=09BIT(20)
- /* #define HIDPP_QUIRK_CONNECT_EVENTS=09=09BIT(21) disabled */
- #define HIDPP_QUIRK_WTP_PHYSICAL_BUTTONS=09BIT(22)
-@@ -82,7 +83,8 @@ MODULE_PARM_DESC(disable_tap_to_click,
- =09=09=09=09=09 HIDPP_QUIRK_HI_RES_SCROLL_X2120 | \
- =09=09=09=09=09 HIDPP_QUIRK_HI_RES_SCROLL_X2121)
+Assuming, that Rob will merge the series:
 
--#define HIDPP_QUIRK_CLASS_BLUETOOTH_LE=09HIDPP_QUIRK_MISSING_SHORT_REPORTS
-+#define HIDPP_QUIRK_CLASS_BLUETOOTH_LE=09(HIDPP_QUIRK_MISSING_SHORT_REPORT=
-S | \
-+=09=09=09=09=09 HIDPP_QUIRK_WIRELESS_DEVICE_STATUS)
+Acked-by: Sebastian Reichel <sre@kernel.org>
 
- #define HIDPP_QUIRK_DELAYED_INIT=09=09HIDPP_QUIRK_NO_HIDINPUT
+-- Sebastian
 
-@@ -189,6 +191,8 @@ struct hidpp_device {
+>  .../power/supply/max77650-charger.txt         | 29 +------------
+>  .../power/supply/max77650-charger.yaml        | 42 +++++++++++++++++++
+>  2 files changed, 43 insertions(+), 28 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/power/supply/max776=
+50-charger.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/power/supply/max77650-char=
+ger.txt b/Documentation/devicetree/bindings/power/supply/max77650-charger.t=
+xt
+> index e6d0fb6ff94e..fbab7d3ac8e3 100644
+> --- a/Documentation/devicetree/bindings/power/supply/max77650-charger.txt
+> +++ b/Documentation/devicetree/bindings/power/supply/max77650-charger.txt
+> @@ -1,28 +1 @@
+> -Battery charger driver for MAX77650 PMIC from Maxim Integrated.
+> -
+> -This module is part of the MAX77650 MFD device. For more details
+> -see Documentation/devicetree/bindings/mfd/max77650.txt.
+> -
+> -The charger is represented as a sub-node of the PMIC node on the device =
+tree.
+> -
+> -Required properties:
+> ---------------------
+> -- compatible:		Must be "maxim,max77650-charger"
+> -
+> -Optional properties:
+> ---------------------
+> -- input-voltage-min-microvolt:	Minimum CHGIN regulation voltage. Must be=
+ one
+> -				of: 4000000, 4100000, 4200000, 4300000,
+> -				4400000, 4500000, 4600000, 4700000.
+> -- input-current-limit-microamp:	CHGIN input current limit (in microamps)=
+=2E Must
+> -				be one of: 95000, 190000, 285000, 380000,
+> -				475000.
+> -
+> -Example:
+> ---------
+> -
+> -	charger {
+> -		compatible =3D "maxim,max77650-charger";
+> -		input-voltage-min-microvolt =3D <4200000>;
+> -		input-current-limit-microamp =3D <285000>;
+> -	};
+> +This file was moved to max77650-charger.yaml.
+> diff --git a/Documentation/devicetree/bindings/power/supply/max77650-char=
+ger.yaml b/Documentation/devicetree/bindings/power/supply/max77650-charger.=
+yaml
+> new file mode 100644
+> index 000000000000..9dd0dad0f948
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/power/supply/max77650-charger.yaml
+> @@ -0,0 +1,42 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/power/supply/max77650-charger.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Battery charger driver for MAX77650 PMIC from Maxim Integrated.
+> +
+> +maintainers:
+> +  - Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> +
+> +description: |
+> +  This module is part of the MAX77650 MFD device. For more details
+> +  see Documentation/devicetree/bindings/mfd/max77650.txt.
+> +
+> +  The charger is represented as a sub-node of the PMIC node on the devic=
+e tree.
+> +
+> +properties:
+> +  compatible:
+> +    const: maxim,max77650-charger
+> +
+> +  input-voltage-min-microvolt:
+> +    description:
+> +      Minimum CHGIN regulation voltage.
+> +    enum: [ 4000000, 4100000, 4200000, 4300000,
+> +            4400000, 4500000, 4600000, 4700000 ]
+> +
+> +  input-current-limit-microamp:
+> +    description:
+> +      CHGIN input current limit (in microamps).
+> +    enum: [ 95000, 190000, 285000, 380000, 475000 ]
+> +
+> +required:
+> +  - compatible
+> +
+> +examples:
+> +  - |
+> +    charger {
+> +        compatible =3D "maxim,max77650-charger";
+> +        input-voltage-min-microvolt =3D <4200000>;
+> +        input-current-limit-microamp =3D <285000>;
+> +    };
+> --=20
+> 2.23.0
+>=20
 
- =09struct hidpp_battery battery;
- =09struct hidpp_scroll_counter vertical_wheel_counter;
-+
-+=09u8 wireless_feature_index;
- };
+--lvytl443p4a5vq52
+Content-Type: application/pgp-signature; name="signature.asc"
 
- /* HID++ 1.0 error codes */
-@@ -402,10 +406,14 @@ static inline bool hidpp_match_error(struct hidpp_rep=
-ort *question,
- =09    (answer->fap.params[0] =3D=3D question->fap.funcindex_clientid);
- }
+-----BEGIN PGP SIGNATURE-----
 
--static inline bool hidpp_report_is_connect_event(struct hidpp_report *repo=
-rt)
-+static inline bool hidpp_report_is_connect_event(struct hidpp_device *hidp=
-p,
-+=09=09=09=09=09=09 struct hidpp_report *report)
- {
--=09return (report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) &&
--=09=09(report->rap.sub_id =3D=3D 0x41);
-+=09return ((hidpp->quirks & HIDPP_QUIRK_WIRELESS_DEVICE_STATUS) &&
-+=09=09(report->fap.feature_index =3D=3D hidpp->wireless_feature_index)) ||
-+=09      (((report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) ||
-+=09=09(hidpp->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS)) &&
-+=09=09(report->rap.sub_id =3D=3D 0x41));
- }
+iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl2j+lkACgkQ2O7X88g7
++pomCA/7BKT68Dw2GbwGBoG4yadDJGw3mu+fWzAQF5R76k+9J5ic2r+Q/Gr1M3rZ
+zbwH0Isgl1RCAa/usmx1lDMG/CWPivdz4ofnr2sX1SLYNNz/fmtcrt3TtlyXwhxs
+3DR5eQQz9lOjcF5EVMptxaYNaoQtRV6Ptu7KFf5+graYuJ9U8Zvcb7P/gfzEKMTW
+tImGYv3ZqvQye1u5OaqgZrYgnULyB1Pibjz9FFTM6EjPomJP++9+T8MSLHV3wZEA
+bhy+e6cqIrEVfCy9f9t6a9y5PyvhuAVb59AKo3e6atYa4WwKObr47iCdI2GTcg+G
+5hLD80c3tS28T0LbKgtrHrOsA3V/0qY14tlWZvnrFpoDwKy5+hGTDVsXSXAE5whj
+hpyqYEQNWy8zYsZ+F73xGGqzGPWv/MoA4mBpvTLe9fuf+TN0M35p2nbycKReW4+a
+k0pnlPDfzwmfNiEmdl3UYJkMfLZk488ljkJe1tww0d4+LKQqtVb9w9bKVxxARVtg
+F3KXegzxNjnNNl584ucPZLZwGhJzNSJ9zwMbE6GDRJFCmH4MEkrWLnaTqesk9xLn
+3+M1A3PL9Cehdt0aAqU5bzFKYbPBLgk2b4UCxl1UL6nTLgM9KS8bd05zMMDYJJfs
++GS5YKf1vPTceX6j0kDzV/kmJTQhESPw00rZ3b4jwNpETP7GMkw=
+=MbIN
+-----END PGP SIGNATURE-----
 
- /**
-@@ -1282,6 +1290,24 @@ static int hidpp_battery_get_property(struct power_s=
-upply *psy,
- =09return ret;
- }
-
-+/* -----------------------------------------------------------------------=
---- */
-+/* 0x1d4b: Wireless device status                                         =
-    */
-+/* -----------------------------------------------------------------------=
---- */
-+#define HIDPP_PAGE_WIRELESS_DEVICE_STATUS=09=09=090x1d4b
-+
-+static int hidpp_set_wireless_feature_index(struct hidpp_device *hidpp)
-+{
-+=09u8 feature_type;
-+=09int ret;
-+
-+=09ret =3D hidpp_root_get_feature(hidpp,
-+=09=09=09=09     HIDPP_PAGE_WIRELESS_DEVICE_STATUS,
-+=09=09=09=09     &hidpp->wireless_feature_index,
-+=09=09=09=09     &feature_type);
-+
-+=09return ret;
-+}
-+
- /* -----------------------------------------------------------------------=
---- */
- /* 0x2120: Hi-resolution scrolling                                        =
-    */
- /* -----------------------------------------------------------------------=
---- */
-@@ -3077,7 +3103,7 @@ static int hidpp_raw_hidpp_event(struct hidpp_device =
-*hidpp, u8 *data,
- =09=09}
- =09}
-
--=09if (unlikely(hidpp_report_is_connect_event(report))) {
-+=09if (unlikely(hidpp_report_is_connect_event(hidpp, report))) {
- =09=09atomic_set(&hidpp->connected,
- =09=09=09=09!(report->rap.params[0] & (1 << 6)));
- =09=09if (schedule_work(&hidpp->work) =3D=3D 0)
-@@ -3624,6 +3650,12 @@ static int hidpp_probe(struct hid_device *hdev, cons=
-t struct hid_device_id *id)
- =09=09hidpp_overwrite_name(hdev);
- =09}
-
-+=09if (connected && (hidpp->quirks & HIDPP_QUIRK_WIRELESS_DEVICE_STATUS)) =
-{
-+=09=09ret =3D hidpp_set_wireless_feature_index(hidpp);
-+=09=09if (ret)
-+=09=09=09goto hid_hw_init_fail;
-+=09}
-+
- =09if (connected && (hidpp->quirks & HIDPP_QUIRK_CLASS_WTP)) {
- =09=09ret =3D wtp_get_config(hidpp);
- =09=09if (ret)
---
-2.23.0
-
+--lvytl443p4a5vq52--
