@@ -2,41 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0201D8184
-	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2019 23:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C484D81B2
+	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2019 23:17:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726558AbfJOVNR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Oct 2019 17:13:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52022 "EHLO mail.kernel.org"
+        id S2389771AbfJOVRj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Oct 2019 17:17:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54022 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726293AbfJOVNR (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Oct 2019 17:13:17 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+        id S2389595AbfJOVRi (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 15 Oct 2019 17:17:38 -0400
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BD8062168B;
-        Tue, 15 Oct 2019 21:13:15 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C9085222C3;
+        Tue, 15 Oct 2019 21:17:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571173995;
-        bh=HJVfx0qraMvuuMLZzhNC9btRgIHEXiyCNSL/C+C6Qxo=;
+        s=default; t=1571174257;
+        bh=jIfi3VFA+OegxDDpnwRnKq+fhutLut+9ZOueqNEQbPI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=C66u0c1yyINa0hcqT4JcZbugTLbq3fLsxufOVpuH2SlBVIX214TfjcnrbeXYjS4OA
-         0gshGH607BJ8LIOqLSbe8g6ofovIBf6g3+gj5Th3f6U0bbq1deH3s0oAekQKnK8mxT
-         C6F8xVsX+WsJ+KZgknVkZ22gNOBJiCz8AvysD8RI=
-Received: by mail-qt1-f177.google.com with SMTP id n17so13439771qtr.4;
-        Tue, 15 Oct 2019 14:13:15 -0700 (PDT)
-X-Gm-Message-State: APjAAAX96G2gfZUD+sXo6i9e+eYLcZHNQri4PtqjShH1KHVXwcVhxmwA
-        CncHaD+f+rA+6mSb1ZcX17k/iR2nB1pr4jsQUw==
-X-Google-Smtp-Source: APXvYqwScYelT0zfAWBhgX1CBaYGJb7woplnj45bvSqWKWHTsqdVt/NwsjjaJIojq28e119Knusj0IJuPtlKAbokxwA=
-X-Received: by 2002:a05:6214:407:: with SMTP id z7mr38220174qvx.79.1571173994745;
- Tue, 15 Oct 2019 14:13:14 -0700 (PDT)
+        b=TGsjNywc3rHcmuEtXlu9Pn7r5K2nwIzu8e222f8Nbjk9TuHnDzqrtam2x0ERVY/JB
+         36n8dtFtHu7k5LZ8Dvkpbc8Zv+3ycMqyZTVU+cm3LBE5DYQ0+21nstI40fLdjtgfv1
+         MWkZtjuRXuUvKlYi61+M9UEwxQlssQ5Ihe5IXCbM=
+Received: by mail-qt1-f173.google.com with SMTP id m61so32811378qte.7;
+        Tue, 15 Oct 2019 14:17:37 -0700 (PDT)
+X-Gm-Message-State: APjAAAWePWAwAGPprBaGSMsnFtTo+hJgi6H1oUm+0dB8LPEIC0Qv47tg
+        2YOE5LklDkIoRzmPIBGzs5zWKH+N7P5oTmWtrw==
+X-Google-Smtp-Source: APXvYqyevsC2cDcw4pd7YhFFGDFDowGK32qaUpls4A42LVTy8FkDCk4zGehTF79O/gchBXQMIX0BAqfbIm7HCGsf7Tk=
+X-Received: by 2002:ac8:44d9:: with SMTP id b25mr42253694qto.300.1571174256837;
+ Tue, 15 Oct 2019 14:17:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191015162300.22024-1-brgl@bgdev.pl> <20191015162300.22024-2-brgl@bgdev.pl>
 In-Reply-To: <20191015162300.22024-2-brgl@bgdev.pl>
 From:   Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 15 Oct 2019 16:13:03 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKHVL=hoxH+nxiU6397PX3rzDNDv3C3evrd8bON-=YJUg@mail.gmail.com>
-Message-ID: <CAL_JsqKHVL=hoxH+nxiU6397PX3rzDNDv3C3evrd8bON-=YJUg@mail.gmail.com>
+Date:   Tue, 15 Oct 2019 16:17:25 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKhGr6QDWZFR6cq6MH-0vghb9oSgkCCdi7bhiKmvrkY_w@mail.gmail.com>
+Message-ID: <CAL_JsqKhGr6QDWZFR6cq6MH-0vghb9oSgkCCdi7bhiKmvrkY_w@mail.gmail.com>
 Subject: Re: [PATCH v2 1/6] dt-bindings: mfd: max77650: convert the binding
  document to yaml
 To:     Bartosz Golaszewski <brgl@bgdev.pl>
@@ -125,10 +125,6 @@ On Tue, Oct 15, 2019 at 11:23 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 > -               gpio-line-names = "max77650-charger";
 > -       };
 > +This file has been moved to max77650.yaml.
-
-We do this for common files with lots of references. I don't think
-that applies here.
-
 > diff --git a/Documentation/devicetree/bindings/mfd/max77650.yaml b/Documentation/devicetree/bindings/mfd/max77650.yaml
 > new file mode 100644
 > index 000000000000..5186ad287ec7
@@ -171,10 +167,6 @@ that applies here.
 > +  interrupts:
 > +    description:
 > +      The interrupt on the parent the controller is connected to.
-
-No need for 'description' if there's only one entry and you have
-nothing specific about this device.
-
 > +    maxItems: 1
 > +
 > +  interrupt-controller: true
@@ -194,18 +186,9 @@ nothing specific about this device.
 > +
 > +  gpio-line-names:
 > +    $ref: '/schemas/types.yaml#/definitions/string-array'
-
-*-names already has a type, so you can drop this.
-
 > +    maxItems: 1
 > +    description:
 > +      Single string containing the name of the GPIO line.
-
-You need to link all the child node schemas into here. Something like this:
-
-onkey:
-  $ref: ../input/max77650-onkey.yaml
-
 > +
 > +required:
 > +  - compatible
@@ -226,17 +209,19 @@ onkey:
 > +        interrupt-parent = <&gpio2>;
 > +        #interrupt-cells = <2>;
 > +        interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +        gpio-controller;
-> +        #gpio-cells = <2>;
-> +        gpio-line-names = "max77650-charger";
 
-I'd prefer to see a complete example here rather than piecemeal
-examples scattered.
+Examples are built now. Run 'make dt_binding_check' on bindings before
+sending them:
+
+Error: Documentation/devicetree/bindings/mfd/max77650.example.dts:24.29-30
+syntax error
+FATAL ERROR: Unable to parse input tree
+scripts/Makefile.lib:321: recipe for target
+'Documentation/devicetree/bindings/mfd/max77650.example.dt.yaml'
+failed
+make[1]: *** [Documentation/devicetree/bindings/mfd/max77650.example.dt.yaml]
+Error 1
+
+You need to include any includes that you use.
 
 Rob
-
-> +    };
-> --
-> 2.23.0
->
