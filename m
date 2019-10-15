@@ -2,199 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35728D6B48
-	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2019 23:27:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4FAAD6E4F
+	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2019 06:45:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387823AbfJNV1E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Oct 2019 17:27:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33668 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731967AbfJNV0s (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Oct 2019 17:26:48 -0400
-Received: from earth.universe (eth-west-pareq2-46-193-2-41.wb.wifirst.net [46.193.2.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B3DD220650;
-        Mon, 14 Oct 2019 21:26:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571088406;
-        bh=+lFIzC8nwcFgT0bS6CLGv5ajlQHk5Qi8YrW2qfw1KQU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aGW8350aqDpJ9vKAVgGscRQHllSKdI8koknozbpeArVMJJ8jASoXjaKidiRcPhlzt
-         FuXg0gpDqYU/RKfMta7y7JZq+j9OtrD+Oe+qZGeI+x3zCDmmUdHOu3cUhyr64QC1Eb
-         hQa9Ss1VV7XwCwTXdGLoFUXad893Ei+Ciu7iYJi4=
-Received: by earth.universe (Postfix, from userid 1000)
-        id 7579A3C0CA5; Mon, 14 Oct 2019 06:32:25 +0200 (CEST)
-Date:   Mon, 14 Oct 2019 06:32:25 +0200
-From:   Sebastian Reichel <sre@kernel.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH 4/6] dt-bindings: power: max77650: convert the binding
- document to yaml
-Message-ID: <20191014043225.ejpyccvo3jpkvz2r@earth.universe>
-References: <20190930130246.4860-1-brgl@bgdev.pl>
- <20190930130246.4860-5-brgl@bgdev.pl>
+        id S1727054AbfJOEpn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Oct 2019 00:45:43 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:38518 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726825AbfJOEpn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 15 Oct 2019 00:45:43 -0400
+Received: by mail-io1-f66.google.com with SMTP id u8so42908238iom.5;
+        Mon, 14 Oct 2019 21:45:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+3CQrwrfm79mz3scaz1RQAhUfgTSVbfh5V7FnLf7Qgo=;
+        b=pCSXWkDt5TDBaYlLWNYQWJ+FLbWrOHFlEkXBk3U93Dw5KjnGg+/V4LfID2r4636quy
+         ZjoISTbUOEqXW/sx4JUrWztnzAs2LefwgBGWDqAdiH5pyAMjGyke9AVb6uJsjQJ+tkAA
+         EUlncP0O8aXSVuJvLnBhP7ViY4ormZPfwZEuygWm2hdYmhSMzrPsBdpJqJkHZmdo8pFI
+         WEn7upa+Cf2Rh1zO7poS0Ybq2Yza1JwRQBBMYJy20brOoDFSbmp83Dt8vCVpxXI397Vf
+         XLH9Lq51mrZnSteZBSceBDCQf2fkl2qnVztuDrB4NVVACIMq+3BxbYawww5/EJgiCg6l
+         bOOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+3CQrwrfm79mz3scaz1RQAhUfgTSVbfh5V7FnLf7Qgo=;
+        b=YlPrjdMgLdVgTUimHsBSJ/qe5qY1D0B2TiAMclVJmEXsYzUDvm0KkPWtG3YHw2NsBA
+         oM5Z+u7Z3d8g/T+shlsXcKlTYvkNTYPLegLL5GH95Bk2OWZyRytj+bnpqmf65Q92LDM7
+         4xtXucuNk4ZxzMkRwa9qq0HJuvIRErD+g1ahGzzRlbVuX2GJ9JpSOFsDBl+yn9fyzNbZ
+         O6fQszE5LJ9X0wJD/99A34jnekZlXj0dNVwPRdd/MJQ7tLVXpXC+0RMvLChm4nOD9Ssv
+         vAti6/C5ZNwTLqwNMD0dp4akIi65xPnljWu4uxkVhCC6kdfrpnAl5UZXxUroJcSxYbJ5
+         NZ1w==
+X-Gm-Message-State: APjAAAXiB6i2Me+3z8/KDnvwB5SrbYyotyE/NSPgztr4FidwoObVfi2B
+        OWSY0pi0exed2d+YrftdXFfV5vacS6Hm4+iz+1w=
+X-Google-Smtp-Source: APXvYqyE7C/5dOxHpyK84GY/KZPQMl1u2A0crzcq69F5pdg+CxPo+mADj7k/8N4fuSYDiiTfZVB+Zf3ZiccM573HJio=
+X-Received: by 2002:a92:1d5c:: with SMTP id d89mr3965578ild.94.1571114742491;
+ Mon, 14 Oct 2019 21:45:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="lvytl443p4a5vq52"
-Content-Disposition: inline
-In-Reply-To: <20190930130246.4860-5-brgl@bgdev.pl>
-User-Agent: NeoMutt/20180716
+References: <20191007051240.4410-2-andrew.smirnov@gmail.com> <20191014035417.4CE8F2083B@mail.kernel.org>
+In-Reply-To: <20191014035417.4CE8F2083B@mail.kernel.org>
+From:   Andrey Smirnov <andrew.smirnov@gmail.com>
+Date:   Mon, 14 Oct 2019 21:45:30 -0700
+Message-ID: <CAHQ1cqHKy6TDiu8-=rG55FchccZirL1FZYMP2KuUxAud5k=0hA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] HID: logitech-hidpp: use devres to manage FF private data
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Sam Bazely <sambazley@fastmail.com>,
+        "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
+        Austin Palmer <austinp@valvesoftware.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        stable <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Sun, Oct 13, 2019 at 8:54 PM Sasha Levin <sashal@kernel.org> wrote:
+>
+> Hi,
+>
+> [This is an automated email]
+>
+> This commit has been processed because it contains a -stable tag.
+> The stable tag indicates that it's relevant for the following trees: all
+>
+> The bot has tested the following trees: v5.3.5, v5.2.20, v4.19.78, v4.14.148, v4.9.196, v4.4.196.
+>
+> v5.3.5: Build OK!
+> v5.2.20: Build OK!
+> v4.19.78: Failed to apply! Possible dependencies:
+>     43cd97af70c65 ("HID: logitech: Stop setting drvdata to NULL on probe failure and remove")
+>
+> v4.14.148: Failed to apply! Possible dependencies:
+>     43cd97af70c65 ("HID: logitech: Stop setting drvdata to NULL on probe failure and remove")
+>
+> v4.9.196: Failed to apply! Possible dependencies:
+>     43cd97af70c65 ("HID: logitech: Stop setting drvdata to NULL on probe failure and remove")
+>
+> v4.4.196: Failed to apply! Possible dependencies:
+>     43cd97af70c65 ("HID: logitech: Stop setting drvdata to NULL on probe failure and remove")
+>     6c44b15e1c907 ("HID: logitech: check the return value of create_singlethread_workqueue")
+>     7bfd2927adcac ("HID: hid-logitech-hidpp: Add basic support for Logitech G920")
+>     7f4b49fef6ffb ("HID: hid-logitech-hidpp: Add range sysfs for Logitech G920")
+>     af2e628d6be7a ("HID: logitech-hidpp: limit visibility of init/deinit functions")
+>     ff21a635dd1a9 ("HID: logitech-hidpp: Force feedback support for the Logitech G920")
+>
+>
+> NOTE: The patch will not be queued to stable trees until it is upstream.
+>
+> How should we proceed with this patch?
 
---lvytl443p4a5vq52
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please ignore this series, since it will be superseded by upcoming v2
 
-Hi,
-
-On Mon, Sep 30, 2019 at 03:02:44PM +0200, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
->=20
-> Convert the binding document for max77650 charger module to yaml.
->=20
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
-
-Assuming, that Rob will merge the series:
-
-Acked-by: Sebastian Reichel <sre@kernel.org>
-
--- Sebastian
-
->  .../power/supply/max77650-charger.txt         | 29 +------------
->  .../power/supply/max77650-charger.yaml        | 42 +++++++++++++++++++
->  2 files changed, 43 insertions(+), 28 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/power/supply/max776=
-50-charger.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/power/supply/max77650-char=
-ger.txt b/Documentation/devicetree/bindings/power/supply/max77650-charger.t=
-xt
-> index e6d0fb6ff94e..fbab7d3ac8e3 100644
-> --- a/Documentation/devicetree/bindings/power/supply/max77650-charger.txt
-> +++ b/Documentation/devicetree/bindings/power/supply/max77650-charger.txt
-> @@ -1,28 +1 @@
-> -Battery charger driver for MAX77650 PMIC from Maxim Integrated.
-> -
-> -This module is part of the MAX77650 MFD device. For more details
-> -see Documentation/devicetree/bindings/mfd/max77650.txt.
-> -
-> -The charger is represented as a sub-node of the PMIC node on the device =
-tree.
-> -
-> -Required properties:
-> ---------------------
-> -- compatible:		Must be "maxim,max77650-charger"
-> -
-> -Optional properties:
-> ---------------------
-> -- input-voltage-min-microvolt:	Minimum CHGIN regulation voltage. Must be=
- one
-> -				of: 4000000, 4100000, 4200000, 4300000,
-> -				4400000, 4500000, 4600000, 4700000.
-> -- input-current-limit-microamp:	CHGIN input current limit (in microamps)=
-=2E Must
-> -				be one of: 95000, 190000, 285000, 380000,
-> -				475000.
-> -
-> -Example:
-> ---------
-> -
-> -	charger {
-> -		compatible =3D "maxim,max77650-charger";
-> -		input-voltage-min-microvolt =3D <4200000>;
-> -		input-current-limit-microamp =3D <285000>;
-> -	};
-> +This file was moved to max77650-charger.yaml.
-> diff --git a/Documentation/devicetree/bindings/power/supply/max77650-char=
-ger.yaml b/Documentation/devicetree/bindings/power/supply/max77650-charger.=
-yaml
-> new file mode 100644
-> index 000000000000..9dd0dad0f948
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/power/supply/max77650-charger.yaml
-> @@ -0,0 +1,42 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/power/supply/max77650-charger.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Battery charger driver for MAX77650 PMIC from Maxim Integrated.
-> +
-> +maintainers:
-> +  - Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> +
-> +description: |
-> +  This module is part of the MAX77650 MFD device. For more details
-> +  see Documentation/devicetree/bindings/mfd/max77650.txt.
-> +
-> +  The charger is represented as a sub-node of the PMIC node on the devic=
-e tree.
-> +
-> +properties:
-> +  compatible:
-> +    const: maxim,max77650-charger
-> +
-> +  input-voltage-min-microvolt:
-> +    description:
-> +      Minimum CHGIN regulation voltage.
-> +    enum: [ 4000000, 4100000, 4200000, 4300000,
-> +            4400000, 4500000, 4600000, 4700000 ]
-> +
-> +  input-current-limit-microamp:
-> +    description:
-> +      CHGIN input current limit (in microamps).
-> +    enum: [ 95000, 190000, 285000, 380000, 475000 ]
-> +
-> +required:
-> +  - compatible
-> +
-> +examples:
-> +  - |
-> +    charger {
-> +        compatible =3D "maxim,max77650-charger";
-> +        input-voltage-min-microvolt =3D <4200000>;
-> +        input-current-limit-microamp =3D <285000>;
-> +    };
-> --=20
-> 2.23.0
->=20
-
---lvytl443p4a5vq52
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl2j+lkACgkQ2O7X88g7
-+pomCA/7BKT68Dw2GbwGBoG4yadDJGw3mu+fWzAQF5R76k+9J5ic2r+Q/Gr1M3rZ
-zbwH0Isgl1RCAa/usmx1lDMG/CWPivdz4ofnr2sX1SLYNNz/fmtcrt3TtlyXwhxs
-3DR5eQQz9lOjcF5EVMptxaYNaoQtRV6Ptu7KFf5+graYuJ9U8Zvcb7P/gfzEKMTW
-tImGYv3ZqvQye1u5OaqgZrYgnULyB1Pibjz9FFTM6EjPomJP++9+T8MSLHV3wZEA
-bhy+e6cqIrEVfCy9f9t6a9y5PyvhuAVb59AKo3e6atYa4WwKObr47iCdI2GTcg+G
-5hLD80c3tS28T0LbKgtrHrOsA3V/0qY14tlWZvnrFpoDwKy5+hGTDVsXSXAE5whj
-hpyqYEQNWy8zYsZ+F73xGGqzGPWv/MoA4mBpvTLe9fuf+TN0M35p2nbycKReW4+a
-k0pnlPDfzwmfNiEmdl3UYJkMfLZk488ljkJe1tww0d4+LKQqtVb9w9bKVxxARVtg
-F3KXegzxNjnNNl584ucPZLZwGhJzNSJ9zwMbE6GDRJFCmH4MEkrWLnaTqesk9xLn
-3+M1A3PL9Cehdt0aAqU5bzFKYbPBLgk2b4UCxl1UL6nTLgM9KS8bd05zMMDYJJfs
-+GS5YKf1vPTceX6j0kDzV/kmJTQhESPw00rZ3b4jwNpETP7GMkw=
-=MbIN
------END PGP SIGNATURE-----
-
---lvytl443p4a5vq52--
+Thanks,
+Andrey Smirnov
