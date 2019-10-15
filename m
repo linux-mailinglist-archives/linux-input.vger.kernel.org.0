@@ -2,76 +2,199 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 244DCD7CF9
-	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2019 19:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5D18D8001
+	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2019 21:20:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727990AbfJORJo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Oct 2019 13:09:44 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37913 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726470AbfJORJo (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Oct 2019 13:09:44 -0400
-Received: by mail-ot1-f65.google.com with SMTP id e11so17584838otl.5;
-        Tue, 15 Oct 2019 10:09:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=r4m4ztFRVJREZvvAzKgEyEDcwgtV2Rxd/pgAgtcgzCk=;
-        b=RNPAPdO+Z+bT6TVIQ18Y977X2u8DX4HGWwC5Pm/ZGuxwQ2gxYigr2ua96oJiPF38fX
-         Qvul3xhujQj5WuIOfX6j8wq0LQsPGfkhB8Oav0k738dJxmCiqXEVT6aaw0ZPnUWB3VhJ
-         12NLqTfAcADH4/IZveaLXc0wlj0f2m5e0abPkNOcmGAzZavuEGtlf1gmEBjHcG2DUog5
-         1uz1pNDkBEf+UUZCKF2rB+brwXQv/iqkmhE4eWcBOpIyV6yAjLBAtMuhhhjh0lS29KN9
-         /MpigWryQxVI1qLRbwbLiLu9vYiAY2ptnhOEHowTuxRTdHzPtayMoDpgo1wFML0vszgd
-         AbfQ==
-X-Gm-Message-State: APjAAAUFApZKrTNkj509jIGNF76jIwGJumtXU3AT0e6l12MCd7tegZZt
-        7Z8Tloj3wq02gDQzlV5F7NxPQ2k=
-X-Google-Smtp-Source: APXvYqwhdx77gfk1a6QK5izjA81UZqxl6F9iGcwDONqsSdoALxs7FicmBNSHjrzOmaBQ30bjBdCMhg==
-X-Received: by 2002:a9d:69c7:: with SMTP id v7mr4207160oto.357.1571159383555;
-        Tue, 15 Oct 2019 10:09:43 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 67sm6935799otj.21.2019.10.15.10.09.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 10:09:42 -0700 (PDT)
-Date:   Tue, 15 Oct 2019 12:09:41 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     dmitry.torokhov@gmail.com, Mark Rutland <mark.rutland@arm.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH] dt-bindings: serio: Convert Allwinner PS2 controller to
- a schema
-Message-ID: <20191015170941.GA8898@bogus>
-References: <20191002120645.102805-1-mripard@kernel.org>
+        id S1729758AbfJOTUf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Oct 2019 15:20:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55230 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389382AbfJOTSl (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 15 Oct 2019 15:18:41 -0400
+Received: from earth.universe (eth-west-pareq2-46-193-2-41.wb.wifirst.net [46.193.2.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2499920854;
+        Tue, 15 Oct 2019 19:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571167120;
+        bh=3VW3nI+C8AV/pn0tLd1hom0tfVBcQeY8vKH6rm2SlyI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cnX5nhBNBOkPiickEeDv73BH7AJSwxU5DzeCYKhyqo7HLp58cTBbHcyuedxGTRfFF
+         zjCBGym+BMmC5jH49x3l6nmZBIFC/CrGynmKu2dwMe3Y9i7a5z74TeTWFqjlCEtje9
+         f/NIODiCutdaXX7nobHbAj9HeMAsy3cllhSk7WYY=
+Received: by earth.universe (Postfix, from userid 1000)
+        id 9C91E3C0CA1; Tue, 15 Oct 2019 21:18:37 +0200 (CEST)
+Date:   Tue, 15 Oct 2019 21:18:37 +0200
+From:   Sebastian Reichel <sre@kernel.org>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v2 4/6] dt-bindings: power: max77650: convert the binding
+ document to yaml
+Message-ID: <20191015191837.jd6lbk3qbsmzuwfu@earth.universe>
+References: <20191015162300.22024-1-brgl@bgdev.pl>
+ <20191015162300.22024-5-brgl@bgdev.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="qh5r3wj6smdvdc4t"
 Content-Disposition: inline
-In-Reply-To: <20191002120645.102805-1-mripard@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191015162300.22024-5-brgl@bgdev.pl>
+User-Agent: NeoMutt/20180716
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed,  2 Oct 2019 14:06:45 +0200, Maxime Ripard wrote:
-> The older Allwinner SoCs have a PS2 controller that is supported in Linux,
-> with a matching Device Tree binding.
-> 
-> Now that we have the DT validation in place, let's convert the device tree
-> bindings for that controller over to a YAML schemas.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+--qh5r3wj6smdvdc4t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Tue, Oct 15, 2019 at 06:22:58PM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>=20
+> Convert the binding document for MAX77650 charger module to YAML.
+>=20
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > ---
->  .../serio/allwinner,sun4i-a10-ps2.yaml        | 51 +++++++++++++++++++
->  .../bindings/serio/allwinner,sun4i-ps2.txt    | 22 --------
->  2 files changed, 51 insertions(+), 22 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/serio/allwinner,sun4i-a10-ps2.yaml
->  delete mode 100644 Documentation/devicetree/bindings/serio/allwinner,sun4i-ps2.txt
-> 
 
-Applied, thanks.
+Looks sensible to me. Assuming this goes through Rob:
 
-Rob
+Acked-by: Sebastian Reichel <sre@kernel.org>
+
+-- Sebastian
+
+>  .../power/supply/max77650-charger.txt         | 29 +------------
+>  .../power/supply/max77650-charger.yaml        | 42 +++++++++++++++++++
+>  2 files changed, 43 insertions(+), 28 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/power/supply/max776=
+50-charger.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/power/supply/max77650-char=
+ger.txt b/Documentation/devicetree/bindings/power/supply/max77650-charger.t=
+xt
+> index e6d0fb6ff94e..fbab7d3ac8e3 100644
+> --- a/Documentation/devicetree/bindings/power/supply/max77650-charger.txt
+> +++ b/Documentation/devicetree/bindings/power/supply/max77650-charger.txt
+> @@ -1,28 +1 @@
+> -Battery charger driver for MAX77650 PMIC from Maxim Integrated.
+> -
+> -This module is part of the MAX77650 MFD device. For more details
+> -see Documentation/devicetree/bindings/mfd/max77650.txt.
+> -
+> -The charger is represented as a sub-node of the PMIC node on the device =
+tree.
+> -
+> -Required properties:
+> ---------------------
+> -- compatible:		Must be "maxim,max77650-charger"
+> -
+> -Optional properties:
+> ---------------------
+> -- input-voltage-min-microvolt:	Minimum CHGIN regulation voltage. Must be=
+ one
+> -				of: 4000000, 4100000, 4200000, 4300000,
+> -				4400000, 4500000, 4600000, 4700000.
+> -- input-current-limit-microamp:	CHGIN input current limit (in microamps)=
+=2E Must
+> -				be one of: 95000, 190000, 285000, 380000,
+> -				475000.
+> -
+> -Example:
+> ---------
+> -
+> -	charger {
+> -		compatible =3D "maxim,max77650-charger";
+> -		input-voltage-min-microvolt =3D <4200000>;
+> -		input-current-limit-microamp =3D <285000>;
+> -	};
+> +This file was moved to max77650-charger.yaml.
+> diff --git a/Documentation/devicetree/bindings/power/supply/max77650-char=
+ger.yaml b/Documentation/devicetree/bindings/power/supply/max77650-charger.=
+yaml
+> new file mode 100644
+> index 000000000000..9dd0dad0f948
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/power/supply/max77650-charger.yaml
+> @@ -0,0 +1,42 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/power/supply/max77650-charger.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Battery charger driver for MAX77650 PMIC from Maxim Integrated.
+> +
+> +maintainers:
+> +  - Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> +
+> +description: |
+> +  This module is part of the MAX77650 MFD device. For more details
+> +  see Documentation/devicetree/bindings/mfd/max77650.txt.
+> +
+> +  The charger is represented as a sub-node of the PMIC node on the devic=
+e tree.
+> +
+> +properties:
+> +  compatible:
+> +    const: maxim,max77650-charger
+> +
+> +  input-voltage-min-microvolt:
+> +    description:
+> +      Minimum CHGIN regulation voltage.
+> +    enum: [ 4000000, 4100000, 4200000, 4300000,
+> +            4400000, 4500000, 4600000, 4700000 ]
+> +
+> +  input-current-limit-microamp:
+> +    description:
+> +      CHGIN input current limit (in microamps).
+> +    enum: [ 95000, 190000, 285000, 380000, 475000 ]
+> +
+> +required:
+> +  - compatible
+> +
+> +examples:
+> +  - |
+> +    charger {
+> +        compatible =3D "maxim,max77650-charger";
+> +        input-voltage-min-microvolt =3D <4200000>;
+> +        input-current-limit-microamp =3D <285000>;
+> +    };
+> --=20
+> 2.23.0
+>=20
+
+--qh5r3wj6smdvdc4t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl2mG4QACgkQ2O7X88g7
++pr7Tg/+IMEVM9QSOBaEnCwYZYyzGFLriJJdzib9Cy6UMd80ujaTVa/BRf95ctlx
+SWLlkmQd8I6BsF9CxMulgyhatN0GA+/C0Q2Dr8eSvvWtDtQu5DY6W0LjKQzXr/W5
+UVM1OzqO9FDQsF7x0jaLfgTt+0AOdtiDBz+kKO2SnAytJkqjtlxj4vLAI9Gl9u6z
+dlaTeMxs7eO0qir3L47jLBbtsnoXuKq5QmWn2SI+j/D//tmlVPqodLbNPKqKpcV0
+hNgmRdBCMSYTXFGEV9d6jgkZ17QaXU8dGumr2w8DIeLDKj3blCU7gEIw1wiIdnkG
+c1SX+Kzw+Q8ejaD4tn0vxYrHl0G+H6x/vR948BZvlgH6eO/5iMaf8dRyp7BsqItV
+xE8Ii9ZepDr5Ny0a7UjKXXelujrAHdnaEWnV4AXGiPcatePsdYElz0PI4e99JLLa
+TWrtDsvmlFRDlMmcmGd+JJ5waj/RSaHg8fA+A4BDUBGkzQQFIrg6pFouvj81N/4v
+8mcFQ+S1X0kqQSXQnsvWlIl5XGO+0oThjlBOKoy2Sla+q5G37DvIqUE3FOJAOiUk
+Vk1RRM6PkM1dObjiYHaAzVK+qZBkWsIYLSa5FcS93efcTKHumN0HueGYTb/8zG0J
+2PiUCu20PdEbRYgrsRMaa/b2YusDP+ZPssYgqKJR7aN5fH0lpnU=
+=m1Mo
+-----END PGP SIGNATURE-----
+
+--qh5r3wj6smdvdc4t--
