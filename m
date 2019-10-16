@@ -2,301 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00792D95F0
-	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2019 17:49:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F152D9928
+	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2019 20:29:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405814AbfJPPtK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Oct 2019 11:49:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52322 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726985AbfJPPtK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Oct 2019 11:49:10 -0400
-Received: from mail-yw1-f44.google.com (mail-yw1-f44.google.com [209.85.161.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A87A121D7E;
-        Wed, 16 Oct 2019 15:49:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571240948;
-        bh=KRoUtKuSWHC21MlmiyXnJSejnSs4Eg2tbs0/xtaSdPA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=HhPwUNZG7oQO35AWU9YlC7lrMoihlvhNo7elAcggSdKAdnQPN729+HqRaMVLI3A1N
-         k1Ix2KifVAiHw3H+3JsQuC+lJZ5NdMz08X9dKsdYNi/3+00ECngfdAaxQkFnNNEXzM
-         AfAgd/EGtQO9GkpvPkUCfZH5BFZO4mBK9g5JUOjA=
-Received: by mail-yw1-f44.google.com with SMTP id x65so8791135ywf.12;
-        Wed, 16 Oct 2019 08:49:08 -0700 (PDT)
-X-Gm-Message-State: APjAAAVfTMhyii2/xtqTfSYTowsIluhihwOpkfY4EROaowQ2QV7KIDyO
-        bfakHLquMX63BQm4OZk9UXC6dy+FOJ3ADVdbmw==
-X-Google-Smtp-Source: APXvYqyI5XpnB7gsiyRC6ve6uohOEeb4WWODpnu85a3dD0wW1R0nAUvBrOLLqAxi1Q5y5ND9P0KsqOIHtDFEyQ0xH0E=
-X-Received: by 2002:a81:57d4:: with SMTP id l203mr19272099ywb.281.1571240947703;
- Wed, 16 Oct 2019 08:49:07 -0700 (PDT)
+        id S2394201AbfJPS3y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Oct 2019 14:29:54 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:43446 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390895AbfJPS3y (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 16 Oct 2019 14:29:54 -0400
+Received: by mail-pg1-f195.google.com with SMTP id i32so14771166pgl.10;
+        Wed, 16 Oct 2019 11:29:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HvifzWDCQhUAdf6h8IzSX/VKb7zxn2Dze8xNDgtcfPM=;
+        b=gKzCYocPVCKnm+FvmCUAADMmF0VsWh8n5b1UtNBfvgU/WbTsu1dHUqbnrXWQnaNXAF
+         toPg+REa5MGrXOKsEwDDCgWqlR0Jr2UU0HtDdc2x6e3p/juwTIohDED2B6AtgUktvaz+
+         oafStIuP+YkSc7APfXPLVoFc9uUl0qO4QbfeOiKLKUGa0OHG056e8ff4lEr3+t8q1258
+         PeuI8+gdmi4tIZ3qNoAaSquW1tgmveJMCrnYpC0g1r4TInggfQWEqokKcZbOZ65tqkBv
+         qrcTHOZ9XRzY1lBmxuGRWLtDHrFOB5JgROXpLRXnW+MXsPmGbwsm8DIsSKbXSCjOXk1l
+         Ia+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HvifzWDCQhUAdf6h8IzSX/VKb7zxn2Dze8xNDgtcfPM=;
+        b=B5oL8v4ihF4JT4WVGKh5K6D/QkWPqbz0ANCe/tPEObBk92/+p/PqISB27Ubh/QCuxF
+         VsrVNxdgbI+Y9dxg3RdkFPe977EjtTuNjq7Rulrxb/A9Vyn4Y75lxw4QFMrbcCI/4PoO
+         zR5ODzR8S5WuZTQhnFAJaRq9pYPnEJFbgavGFJrczhdoMYWTgYETq+Xkqs75ooOYDlfI
+         DxBE69aspxElnegAmxW9nkhHQtR6FyOOpodnTnDhmBe5EdCRsRsNyG3KiIvqbTgdo4Fb
+         se/a/05/ipsAGeTQSd/Jwa4YkY/HiDI96RIoGGAybXRYEvDPkFYWwOHCk8wpjB2GKHOJ
+         Bipw==
+X-Gm-Message-State: APjAAAUBhGCETodjuIxbWIMLxNdRfqIBQU26jgbpWtw3YxZ8FNaWz2Gy
+        JmI2nof7qxVRBybQIjq6cely9QPqg0Q=
+X-Google-Smtp-Source: APXvYqxNTSFB7y4syFh0kOZ7D08togPiliMAIevR/iWBx9cCsqkifPDRYHEq+NUmxCMyxLywjQqe/w==
+X-Received: by 2002:a63:c748:: with SMTP id v8mr46661697pgg.348.1571250593106;
+        Wed, 16 Oct 2019 11:29:53 -0700 (PDT)
+Received: from localhost.localdomain ([2607:fb90:8061:1b46:c3ff:7f12:48ed:6323])
+        by smtp.gmail.com with ESMTPSA id z4sm2980127pjt.17.2019.10.16.11.29.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2019 11:29:51 -0700 (PDT)
+From:   Andrey Smirnov <andrew.smirnov@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Andrey Smirnov <andrew.smirnov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Sam Bazely <sambazley@fastmail.com>,
+        "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+        Austin Palmer <austinp@valvesoftware.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] Logitech G920 fixes
+Date:   Wed, 16 Oct 2019 11:29:32 -0700
+Message-Id: <20191016182935.5616-1-andrew.smirnov@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20191015162300.22024-1-brgl@bgdev.pl> <20191015162300.22024-2-brgl@bgdev.pl>
- <CAL_JsqKhGr6QDWZFR6cq6MH-0vghb9oSgkCCdi7bhiKmvrkY_w@mail.gmail.com>
- <CAMRc=Mdb7T6p7xXWJBS2UXq0E-FD4WRtaP7H-AvRH0s6-MyJ8A@mail.gmail.com>
- <CAL_JsqJZ9myO3Uwb6j_R3W8EpVtOaCZV6_tDfNAXwoaUZO+kNQ@mail.gmail.com> <CAMpxmJUrwTn9cafnGD5KPJObhgYq0GN2EedwGiey2tAXwFmbvA@mail.gmail.com>
-In-Reply-To: <CAMpxmJUrwTn9cafnGD5KPJObhgYq0GN2EedwGiey2tAXwFmbvA@mail.gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 16 Oct 2019 10:48:56 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJ3YDW9fSF7kCb+Wqv1mmAnAL4uYHdWiVHXB9fZVUGk+g@mail.gmail.com>
-Message-ID: <CAL_JsqJ3YDW9fSF7kCb+Wqv1mmAnAL4uYHdWiVHXB9fZVUGk+g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] dt-bindings: mfd: max77650: convert the binding
- document to yaml
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 16, 2019 at 10:29 AM Bartosz Golaszewski
-<bgolaszewski@baylibre.com> wrote:
->
-> =C5=9Br., 16 pa=C5=BA 2019 o 15:51 Rob Herring <robh+dt@kernel.org> napis=
-a=C5=82(a):
-> >
-> > On Wed, Oct 16, 2019 at 7:55 AM Bartosz Golaszewski <brgl@bgdev.pl> wro=
-te:
-> > >
-> > > wt., 15 pa=C5=BA 2019 o 23:17 Rob Herring <robh+dt@kernel.org> napisa=
-=C5=82(a):
-> > > >
-> > > > On Tue, Oct 15, 2019 at 11:23 AM Bartosz Golaszewski <brgl@bgdev.pl=
-> wrote:
-> > > > >
-> > > > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > > >
-> > > > > Convert the binding document for MAX77650 core MFD module to YAML=
-.
-> > > > >
-> > > > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > > > ---
-> > > > >  .../devicetree/bindings/mfd/max77650.txt      | 47 +----------
-> > > > >  .../devicetree/bindings/mfd/max77650.yaml     | 83 +++++++++++++=
-++++++
-> > > > >  2 files changed, 84 insertions(+), 46 deletions(-)
-> > > > >  create mode 100644 Documentation/devicetree/bindings/mfd/max7765=
-0.yaml
-> > > > >
-> > > > > diff --git a/Documentation/devicetree/bindings/mfd/max77650.txt b=
-/Documentation/devicetree/bindings/mfd/max77650.txt
-> > > > > index b529d8d19335..080871686b3b 100644
-> > > > > --- a/Documentation/devicetree/bindings/mfd/max77650.txt
-> > > > > +++ b/Documentation/devicetree/bindings/mfd/max77650.txt
-> > > > > @@ -1,46 +1 @@
-> > > > > -MAX77650 ultra low-power PMIC from Maxim Integrated.
-> > > > > -
-> > > > > -Required properties:
-> > > > > --------------------
-> > > > > -- compatible:          Must be "maxim,max77650"
-> > > > > -- reg:                 I2C device address.
-> > > > > -- interrupts:          The interrupt on the parent the controlle=
-r is
-> > > > > -                       connected to.
-> > > > > -- interrupt-controller: Marks the device node as an interrupt co=
-ntroller.
-> > > > > -- #interrupt-cells:    Must be <2>.
-> > > > > -
-> > > > > -- gpio-controller:     Marks the device node as a gpio controlle=
-r.
-> > > > > -- #gpio-cells:         Must be <2>. The first cell is the pin nu=
-mber and
-> > > > > -                       the second cell is used to specify the gp=
-io active
-> > > > > -                       state.
-> > > > > -
-> > > > > -Optional properties:
-> > > > > ---------------------
-> > > > > -gpio-line-names:       Single string containing the name of the =
-GPIO line.
-> > > > > -
-> > > > > -The GPIO-controller module is represented as part of the top-lev=
-el PMIC
-> > > > > -node. The device exposes a single GPIO line.
-> > > > > -
-> > > > > -For device-tree bindings of other sub-modules (regulator, power =
-supply,
-> > > > > -LEDs and onkey) refer to the binding documents under the respect=
-ive
-> > > > > -sub-system directories.
-> > > > > -
-> > > > > -For more details on GPIO bindings, please refer to the generic G=
-PIO DT
-> > > > > -binding document <devicetree/bindings/gpio/gpio.txt>.
-> > > > > -
-> > > > > -Example:
-> > > > > ---------
-> > > > > -
-> > > > > -       pmic@48 {
-> > > > > -               compatible =3D "maxim,max77650";
-> > > > > -               reg =3D <0x48>;
-> > > > > -
-> > > > > -               interrupt-controller;
-> > > > > -               interrupt-parent =3D <&gpio2>;
-> > > > > -               #interrupt-cells =3D <2>;
-> > > > > -               interrupts =3D <3 IRQ_TYPE_LEVEL_LOW>;
-> > > > > -
-> > > > > -               gpio-controller;
-> > > > > -               #gpio-cells =3D <2>;
-> > > > > -               gpio-line-names =3D "max77650-charger";
-> > > > > -       };
-> > > > > +This file has been moved to max77650.yaml.
-> > > > > diff --git a/Documentation/devicetree/bindings/mfd/max77650.yaml =
-b/Documentation/devicetree/bindings/mfd/max77650.yaml
-> > > > > new file mode 100644
-> > > > > index 000000000000..5186ad287ec7
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/mfd/max77650.yaml
-> > > > > @@ -0,0 +1,83 @@
-> > > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id: http://devicetree.org/schemas/mfd/max77650.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: MAX77650 ultra low-power PMIC from Maxim Integrated.
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > > > +
-> > > > > +description: |
-> > > > > +  This document describes the DT properties of the core MFD cont=
-roller.
-> > > > > +
-> > > > > +  The GPIO-controller module is represented as part of the top-l=
-evel PMIC
-> > > > > +  node. The device exposes a single GPIO line.
-> > > > > +
-> > > > > +  For device-tree bindings of other sub-modules (regulator, powe=
-r supply,
-> > > > > +  LEDs and onkey) refer to the binding documents under the respe=
-ctive
-> > > > > +  sub-system directories.
-> > > > > +
-> > > > > +  For more details on GPIO bindings, please refer to the generic=
- GPIO DT
-> > > > > +  binding document <devicetree/bindings/gpio/gpio.txt>.
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    const: maxim,max77650
-> > > > > +
-> > > > > +  reg:
-> > > > > +    description:
-> > > > > +      I2C device address.
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  interrupts:
-> > > > > +    description:
-> > > > > +      The interrupt on the parent the controller is connected to=
-.
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  interrupt-controller: true
-> > > > > +
-> > > > > +  "#interrupt-cells":
-> > > > > +    const: 2
-> > > > > +    description:
-> > > > > +      The first cell is the IRQ number, the second cell is the t=
-rigger type.
-> > > > > +
-> > > > > +  gpio-controller: true
-> > > > > +
-> > > > > +  "#gpio-cells":
-> > > > > +    const: 2
-> > > > > +    description:
-> > > > > +      The first cell is the pin number and the second cell is us=
-ed to specify
-> > > > > +      the gpio active state.
-> > > > > +
-> > > > > +  gpio-line-names:
-> > > > > +    $ref: '/schemas/types.yaml#/definitions/string-array'
-> > > > > +    maxItems: 1
-> > > > > +    description:
-> > > > > +      Single string containing the name of the GPIO line.
-> > > > > +
-> > > > > +required:
-> > > > > +  - compatible
-> > > > > +  - reg
-> > > > > +  - interrupts
-> > > > > +  - interrupt-controller
-> > > > > +  - "#interrupt-cells"
-> > > > > +  - gpio-controller
-> > > > > +  - "#gpio-cells"
-> > > > > +
-> > > > > +examples:
-> > > > > +  - |
-> > > > > +    pmic@48 {
-> > > > > +        compatible =3D "maxim,max77650";
-> > > > > +        reg =3D <0x48>;
-> > > > > +
-> > > > > +        interrupt-controller;
-> > > > > +        interrupt-parent =3D <&gpio2>;
-> > > > > +        #interrupt-cells =3D <2>;
-> > > > > +        interrupts =3D <3 IRQ_TYPE_LEVEL_LOW>;
-> > > >
-> > > > Examples are built now. Run 'make dt_binding_check' on bindings bef=
-ore
-> > > > sending them:
-> > > >
-> > > > Error: Documentation/devicetree/bindings/mfd/max77650.example.dts:2=
-4.29-30
-> > > > syntax error
-> > > > FATAL ERROR: Unable to parse input tree
-> > > > scripts/Makefile.lib:321: recipe for target
-> > > > 'Documentation/devicetree/bindings/mfd/max77650.example.dt.yaml'
-> > > > failed
-> > > > make[1]: *** [Documentation/devicetree/bindings/mfd/max77650.exampl=
-e.dt.yaml]
-> > > > Error 1
-> > > >
-> > > > You need to include any includes that you use.
-> > > >
-> > > > Rob
-> > >
-> > > Hi Rob,
-> > >
-> > > thanks for the review.
-> > >
-> > > I'm on v5.4-rc3 and when running dt_binding_check, the error I'm
-> > > getting is this:
-> > >
-> > > # make dt_binding_check
-> > > DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/mfd/max77650.yaml
-> > >   SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
-> > >   CHKDT   Documentation/devicetree/bindings/mfd/max77650.yaml
-> > > make[1]: *** No rule to make target
-> > > 'Documentation/devicetree/bindings/mfd/max77650.example.dt.yaml',
-> > > needed by '__build'.  Stop.
-> > > make: *** [Makefile:1263: dt_binding_check] Error 2
-> > >
-> > > Is this caused by the same issue or am I missing something?
-> >
-> > I believe that's because dtc needs to be built with libyaml support.
-> >
->
-> Indeed, I didn't have the development package installed, but
-> surprisingly I didn't get the warning from scripts/dtc/Makefile about
-> that either.
+Everyone:
 
-That's because CHECK_DTBS only gets set for 'dtbs_check' and not
-'dt_binding_check'. I'm testing whether I can add it. The issue is I
-also want to enable 'dt_binding_check', but not 'dtbs_check' for
-all{yes,mod}config. I guess I need 2 variables or some other approach.
+This series contains patches to fix a couple of regressions in G920
+wheel support by hid-logitech-hidpp driver. Without the patches the
+wheel remains stuck in autocentering mode ("resisting" any attempt to
+trun) as well as missing support for any FF action.
 
-Rob
+Thanks,
+Andrey Smirnov
+
+Changes since [v1]:
+
+     - "HID: logitech-hidpp: split g920_get_config()" is changed to
+       not rely on devres and be a self contained patch
+
+     - Quirk driven behaviour of "HID: logitech-hidpp: add G920 device
+       validation quirk" is replaced with generic validation algorithm
+       of "HID: logitech-hidpp: rework device validation"
+
+     - Fix for a poteintial race condition is added in
+       "HID: logitech-hidpp: do all FF cleanup in hidpp_ff_destroy()"
+       as per suggestion by Benjamin Tissoires
+
+     - Collected Tested-by from Sam Bazely for "HID: logitech-hidpp:
+       split g920_get_config()" since that patch didn't change
+       significantly since [v1]
+
+     - Specified stable kernel versions I think the patches should
+       apply to (hopefully I got that right)
+
+[v1] lore.kernel.org/lkml/20191007051240.4410-1-andrew.smirnov@gmail.com
+
+Andrey Smirnov (3):
+  HID: logitech-hidpp: split g920_get_config()
+  HID: logitech-hidpp: rework device validation
+  HID: logitech-hidpp: do all FF cleanup in hidpp_ff_destroy()
+
+ drivers/hid/hid-logitech-hidpp.c | 237 +++++++++++++++++--------------
+ 1 file changed, 131 insertions(+), 106 deletions(-)
+
+-- 
+2.21.0
+
