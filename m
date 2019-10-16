@@ -2,114 +2,228 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE733D84C9
-	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2019 02:24:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE5E6D84CB
+	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2019 02:24:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728690AbfJPAYF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Oct 2019 20:24:05 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:40101 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726762AbfJPAYF (ORCPT
+        id S2387824AbfJPAYR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Oct 2019 20:24:17 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:39643 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726762AbfJPAYR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Oct 2019 20:24:05 -0400
-Received: by mail-pg1-f193.google.com with SMTP id e13so4942902pga.7;
-        Tue, 15 Oct 2019 17:24:05 -0700 (PDT)
+        Tue, 15 Oct 2019 20:24:17 -0400
+Received: by mail-pl1-f194.google.com with SMTP id s17so10372892plp.6;
+        Tue, 15 Oct 2019 17:24:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=H/S+TQBLJfEe+I6hNdxsUzkhOSFyaxSNQVsoSN7dl04=;
-        b=im6X8KR9Hm0r5LZP9CgtJbj5VTDSqYDJpXYbAkFigQGzm+siDpWfE9gujWkkJDAnrk
-         ehFSr7NS4k/q1pdWrKaO+m8G7QPkyIYY+7GZ1iot6swBKMwvjq9sgaRvxarN3pJ6B2H6
-         qpdYjhkG4jEoBKHuJYU8C+O9sBnfbjC0xWPf3oCSXeaYpbTI4KAmwN4o7IWcXPI2GCm4
-         RXGMRxPSCD9siI0lcsFuESh1K7glufhOlxODfpzGKawpP2lApAHSANUw/QqqMSuRr97h
-         tGbS4RuMurflKuP6A56nvl+dKOFfvwiTkXLgAmw0vv+5nACgmLKEkpAoF+yx3yXn4OyE
-         LPGA==
+        bh=iz/2QmgX5qn3uw1ZPZbSw14i0nhsp3XhRLoNHgWrIzI=;
+        b=odBco6QfeM5DozpV7q6a1OoesIUrgnTLnKczFHo8cax6NZv7paq9MZpwIGoNqFVnbd
+         CR51o+odye3KOZ5bkOQlfpXASUNyI1CJP1tJrgRxZUn9/OLeOoj8ke5JezNAra2rjeyu
+         T+QCP/2AtnluQuu7ZN2RfxqnWhKfnkUAUzJQrDuMqdUquKaTPfUNqFEQeRyg33kZR9EE
+         7VqfLnWhe69YATA2/FFOn69JC3opRZK0oXStzi0UkhJjEa2A1zT4koZQyUmwt11A8BN4
+         vYctQhrywxwC5sWVMCq3D6XAezim8BfrtSNSvHh45EDOcfySeqDLLkrfsUlHxDACExCo
+         /kpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=H/S+TQBLJfEe+I6hNdxsUzkhOSFyaxSNQVsoSN7dl04=;
-        b=ArJHH7Egfu8K1DisUIUnoUa1Ta+3IALhsOT6U2jpwycKLAgrLyHVH3+hZr3ich5A48
-         +remSp5HIAQvqjp8UY9MtqDJRrlNeAC8m35DxF8MC7LQjFcYIRCYIJbNwiLe6hyK/O70
-         xh3URWdLIBjbNJ08RvoXWFYZInfHTetkhJAOouFLc7jb8iz00V3GsPecn+EROwoKaHmP
-         EN2KY7heCMM8mvSOQsuFWFldH5HwLk1LSj/FCZ6hS8PT3MyqB2oieb1Sgo51lMV52dno
-         hJCzhuCJGGxeeHBHVTTy74w3qdivuLpW3dN+k2lmIjomzKZBb+OD/wEbeVif9CGkk9o8
-         +/YQ==
-X-Gm-Message-State: APjAAAX/pJIpy6Fd9u5JBgrvzr8RqbOfDP1Y0st2DqK/bs+rHZebcF6W
-        blsrN9d/Jp6IVcYBckXiWtE=
-X-Google-Smtp-Source: APXvYqxxGQ0eA2tJukHw3TxmBYQG3RMRYTYII+5AtwtwQb9NGgFr9EjqrGbOeI+3xcaPTezvt8WXaw==
-X-Received: by 2002:a62:28b:: with SMTP id 133mr40539402pfc.242.1571185444359;
-        Tue, 15 Oct 2019 17:24:04 -0700 (PDT)
+        bh=iz/2QmgX5qn3uw1ZPZbSw14i0nhsp3XhRLoNHgWrIzI=;
+        b=Kvk17VW+YXiR8TVffIQwvx9mUzJ1oXGJUhZi8VbMnsGXRXCod3io3NJec7EqoIn5ag
+         BKmYIVyxB3oIxr7otNRVuPygEgWsS+NPkGTM1VWRLlrZAUC6a+PKoCOtEINF0fyQ3yrW
+         KFW7GVEZl1iLtbX8L3PwpdRKiYHjAHrck3CxyE/yN4OymVFp/Imnq7lJLGeVcmAoEzrk
+         GjsOeb57niGG6aPIBIKmQFLeupaCSjzZwjdLkHsF8wqWmDhagJK3ttjlJVMINBVZQuuE
+         HWW1Mpl8Ntpskn95ztnBMuAgujIyG4aTm/5Oz7udtopYsM3UslNAE9HURr+KWuUVGTgZ
+         QM8A==
+X-Gm-Message-State: APjAAAU7n5EjDO7F/ZYd3XviaM+qU8UIrqnG+uVg8lZdxcyH8rpUj+us
+        kTz+RmbAYn5M0ZP9+fRidvM=
+X-Google-Smtp-Source: APXvYqyP6eGaLruYLwn6jIJXgRPw69p4n96K8wrDiqlij5xNlqk9dU/pwtuDS8gLjuBRKpBX6eqKTg==
+X-Received: by 2002:a17:902:8e8b:: with SMTP id bg11mr38465001plb.332.1571185455837;
+        Tue, 15 Oct 2019 17:24:15 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id z20sm24297675pfj.156.2019.10.15.17.24.03
+        by smtp.gmail.com with ESMTPSA id k6sm20913441pfg.162.2019.10.15.17.24.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 17:24:03 -0700 (PDT)
-Date:   Tue, 15 Oct 2019 17:24:01 -0700
+        Tue, 15 Oct 2019 17:24:15 -0700 (PDT)
+Date:   Tue, 15 Oct 2019 17:24:13 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Michal =?utf-8?B?Vm9rw6HEjQ==?= <michal.vokac@ysoft.com>,
-        Shawn Guo <shawnguo@kernel.org>,
+To:     Michal =?utf-8?B?Vm9rw6HEjQ==?= <michal.vokac@ysoft.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
         Fabio Estevam <festevam@gmail.com>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] dt-bindings: input: Convert mpr121 binding to
- json-schema
-Message-ID: <20191016002401.GL105649@dtor-ws>
+Subject: Re: [PATCH v3 4/5] Input: mpr121: Add polling mode
+Message-ID: <20191016002413.GM105649@dtor-ws>
 References: <1570083176-8231-1-git-send-email-michal.vokac@ysoft.com>
- <1570083176-8231-3-git-send-email-michal.vokac@ysoft.com>
- <20191010193651.GA16598@bogus>
+ <1570083176-8231-5-git-send-email-michal.vokac@ysoft.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191010193651.GA16598@bogus>
+In-Reply-To: <1570083176-8231-5-git-send-email-michal.vokac@ysoft.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Oct 10, 2019 at 02:36:51PM -0500, Rob Herring wrote:
-> On Thu,  3 Oct 2019 08:12:53 +0200, =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= wrote:
-> > Convert the mpr121 binding to DT schema format using json-schema.
-> > 
-> > Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
-> > ---
-> > Changes since v2:
-> >  - None
-> > 
-> > Changes since v1:
-> >  - Extract the common input properties into the input.yaml schema.
-> >  - Fix the wakeup-source description.
-> >  - Fix the example to pass validation. Put the mpr121 device sub-node
-> >    into a i2c {} node.
-> > 
-> > The linux,keycodes property is not valid as it is. If I put the minItems
-> > and maxItems into the common schema, it is valid and the min/max length
-> > check works fine. Rob, could you advice how to fix this please?
-> > 
-> > The error is not very specific..
-> > 
-> > $ make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> >   SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
-> > /home/vokac/development/sources/linux-fslc/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml: ignoring, error in schema 'linux,ke
-> > warning: no schema found in file: /home/vokac/development/sources/linux-fslc/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> > /home/vokac/development/sources/linux-fslc/Documentation/devicetree/bindings/Makefile:33: recipe for target 'Documentation/devicetree/bindings/p
-> > make[3]: *** [Documentation/devicetree/bindings/processed-schema.yaml] Error 255
-> > /home/vokac/development/sources/linux-fslc/Makefile:1264: recipe for target 'dt_binding_check' failed
-> > 
-> >  .../bindings/input/fsl,mpr121-touchkey.yaml        | 66 ++++++++++++++++++++++
-> >  .../devicetree/bindings/input/mpr121-touchkey.txt  | 30 ----------
-> >  2 files changed, 66 insertions(+), 30 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/input/mpr121-touchkey.txt
-> > 
+On Thu, Oct 03, 2019 at 08:12:55AM +0200, Michal Vokáč wrote:
+> In case the interrupt line is not available, polling can be used
+> to read out the state of the keys. Period of the polling needs to
+> be configured by the poll-interval DT property.
 > 
-> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
 
 Applied, thank you.
+
+> ---
+> Changes since v2:
+>  - None
+> 
+> Changes since v1:
+>  - Use poll-interval property name instead of linux,poll-interval.
+> 
+>  drivers/input/keyboard/mpr121_touchkey.c | 69 +++++++++++++++++++++++---------
+>  1 file changed, 51 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/input/keyboard/mpr121_touchkey.c b/drivers/input/keyboard/mpr121_touchkey.c
+> index ee80de44ce3f..40d6e5087cde 100644
+> --- a/drivers/input/keyboard/mpr121_touchkey.c
+> +++ b/drivers/input/keyboard/mpr121_touchkey.c
+> @@ -54,6 +54,9 @@
+>  /* MPR121 has 12 keys */
+>  #define MPR121_MAX_KEY_COUNT		12
+>  
+> +#define MPR121_MIN_POLL_INTERVAL	10
+> +#define MPR121_MAX_POLL_INTERVAL	200
+> +
+>  struct mpr121_touchkey {
+>  	struct i2c_client	*client;
+>  	struct input_dev	*input_dev;
+> @@ -115,11 +118,11 @@ static struct regulator *mpr121_vdd_supply_init(struct device *dev)
+>  	return vdd_supply;
+>  }
+>  
+> -static irqreturn_t mpr_touchkey_interrupt(int irq, void *dev_id)
+> +static void mpr_touchkey_report(struct input_dev *dev)
+>  {
+> -	struct mpr121_touchkey *mpr121 = dev_id;
+> -	struct i2c_client *client = mpr121->client;
+> +	struct mpr121_touchkey *mpr121 = input_get_drvdata(dev);
+>  	struct input_dev *input = mpr121->input_dev;
+> +	struct i2c_client *client = mpr121->client;
+>  	unsigned long bit_changed;
+>  	unsigned int key_num;
+>  	int reg;
+> @@ -127,14 +130,14 @@ static irqreturn_t mpr_touchkey_interrupt(int irq, void *dev_id)
+>  	reg = i2c_smbus_read_byte_data(client, ELE_TOUCH_STATUS_1_ADDR);
+>  	if (reg < 0) {
+>  		dev_err(&client->dev, "i2c read error [%d]\n", reg);
+> -		goto out;
+> +		return;
+>  	}
+>  
+>  	reg <<= 8;
+>  	reg |= i2c_smbus_read_byte_data(client, ELE_TOUCH_STATUS_0_ADDR);
+>  	if (reg < 0) {
+>  		dev_err(&client->dev, "i2c read error [%d]\n", reg);
+> -		goto out;
+> +		return;
+>  	}
+>  
+>  	reg &= TOUCH_STATUS_MASK;
+> @@ -155,8 +158,14 @@ static irqreturn_t mpr_touchkey_interrupt(int irq, void *dev_id)
+>  
+>  	}
+>  	input_sync(input);
+> +}
+> +
+> +static irqreturn_t mpr_touchkey_interrupt(int irq, void *dev_id)
+> +{
+> +	struct mpr121_touchkey *mpr121 = dev_id;
+> +
+> +	mpr_touchkey_report(mpr121->input_dev);
+>  
+> -out:
+>  	return IRQ_HANDLED;
+>  }
+>  
+> @@ -229,14 +238,10 @@ static int mpr_touchkey_probe(struct i2c_client *client,
+>  	int vdd_uv;
+>  	struct mpr121_touchkey *mpr121;
+>  	struct input_dev *input_dev;
+> +	u32 poll_interval = 0;
+>  	int error;
+>  	int i;
+>  
+> -	if (!client->irq) {
+> -		dev_err(dev, "irq number should not be zero\n");
+> -		return -EINVAL;
+> -	}
+> -
+>  	vdd_supply = mpr121_vdd_supply_init(dev);
+>  	if (IS_ERR(vdd_supply))
+>  		return PTR_ERR(vdd_supply);
+> @@ -274,6 +279,7 @@ static int mpr_touchkey_probe(struct i2c_client *client,
+>  	if (device_property_read_bool(dev, "autorepeat"))
+>  		__set_bit(EV_REP, input_dev->evbit);
+>  	input_set_capability(input_dev, EV_MSC, MSC_SCAN);
+> +	input_set_drvdata(input_dev, mpr121);
+>  
+>  	input_dev->keycode = mpr121->keycodes;
+>  	input_dev->keycodesize = sizeof(mpr121->keycodes[0]);
+> @@ -288,13 +294,40 @@ static int mpr_touchkey_probe(struct i2c_client *client,
+>  		return error;
+>  	}
+>  
+> -	error = devm_request_threaded_irq(dev, client->irq, NULL,
+> -					  mpr_touchkey_interrupt,
+> -					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+> -					  dev->driver->name, mpr121);
+> -	if (error) {
+> -		dev_err(dev, "Failed to register interrupt\n");
+> -		return error;
+> +	device_property_read_u32(dev, "poll-interval", &poll_interval);
+> +
+> +	if (client->irq) {
+> +		error = devm_request_threaded_irq(dev, client->irq, NULL,
+> +						  mpr_touchkey_interrupt,
+> +						  IRQF_TRIGGER_FALLING |
+> +						  IRQF_ONESHOT,
+> +						  dev->driver->name, mpr121);
+> +		if (error) {
+> +			dev_err(dev, "Failed to register interrupt\n");
+> +			return error;
+> +		}
+> +	} else if (poll_interval) {
+> +		if (poll_interval < MPR121_MIN_POLL_INTERVAL)
+> +			return -EINVAL;
+> +
+> +		if (poll_interval > MPR121_MAX_POLL_INTERVAL)
+> +			return -EINVAL;
+> +
+> +		error = input_setup_polling(input_dev, mpr_touchkey_report);
+> +		if (error) {
+> +			dev_err(dev, "Failed to setup polling\n");
+> +			return error;
+> +		}
+> +
+> +		input_set_poll_interval(input_dev, poll_interval);
+> +		input_set_min_poll_interval(input_dev,
+> +					    MPR121_MIN_POLL_INTERVAL);
+> +		input_set_max_poll_interval(input_dev,
+> +					    MPR121_MAX_POLL_INTERVAL);
+> +	} else {
+> +		dev_err(dev,
+> +			"invalid IRQ number and polling not configured\n");
+> +		return -EINVAL;
+>  	}
+>  
+>  	error = input_register_device(input_dev);
+> -- 
+> 2.1.4
+> 
 
 -- 
 Dmitry
