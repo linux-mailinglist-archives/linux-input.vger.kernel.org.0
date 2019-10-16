@@ -2,201 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32FE5D8AFF
-	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2019 10:31:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CC4CD8EBF
+	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2019 12:58:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732272AbfJPIba (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Oct 2019 04:31:30 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:44530 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730669AbfJPIba (ORCPT
+        id S1730906AbfJPK6Z convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 16 Oct 2019 06:58:25 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:39751 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726083AbfJPK6Z (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Oct 2019 04:31:30 -0400
-Received: by mail-ot1-f67.google.com with SMTP id 21so19402351otj.11
-        for <linux-input@vger.kernel.org>; Wed, 16 Oct 2019 01:31:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=TaAko0rHRb4gyBH2lBWVYnJuZHP/kcOSHoWKD/0YW+0=;
-        b=uqwzsV6OK3KphoWbeGbFhcWhYjV9Jubd8rt5VmBD5qSpRmrGE/3/lstncLn/ole9qk
-         j0iwCAs3bdFZeO79+dh2d+v1jLnSkh4ZqDXFOWimb6GQP4pQ4fMiIvbDciukoNihRaIz
-         44kzIDO1nkMbOK9JHJ7CQkkvLHFqk3sXb7/swrQqkv6ZPZvrz6dMvy2Q6FaIRTDOUo7H
-         cNpQD2NKK3jyfPuZUa0bxTCVNQYQlw2zhBKt0kuIOExdefo7hkSiof5+XpOu/aY/Tdck
-         D2gERzMdFQrJsrqYbmF+uudNRJkZHa8oNdDBCU0SQUs9Oi5t6fQTSoA9oWl57XDqapqE
-         Ivjw==
+        Wed, 16 Oct 2019 06:58:25 -0400
+Received: from mail-pf1-f200.google.com ([209.85.210.200])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1iKh0Y-0002aE-Td
+        for linux-input@vger.kernel.org; Wed, 16 Oct 2019 10:58:23 +0000
+Received: by mail-pf1-f200.google.com with SMTP id x10so18352428pfr.20
+        for <linux-input@vger.kernel.org>; Wed, 16 Oct 2019 03:58:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=TaAko0rHRb4gyBH2lBWVYnJuZHP/kcOSHoWKD/0YW+0=;
-        b=itErml3NEVSl4cVhZNJOxZRKrx+ZXGpMD4mNkFAMCb9hAJLL6R2QdClbl4uzgAglS6
-         o/aA0cY0Fz3wObML+cvpMhZmD8KEpbJEcv15T1EcpSBMAP57bgo1YiNoPbnoQaLWj7eK
-         v9ZEm8mtqKCn7bjHejAvf97EvNNru+15AjTMZY5VwBAY2SZ1ZQmfJh/QFhxnS/eIGY4Q
-         OuD60hhINglizVVdbIjVqpBl/8smpezR5rVEfQMMd8+W27ozin3slKU1eKUI3uAHffbv
-         075YEo9zJR3BvL9eekjSy+jA/Wk5ws+WYLbxbycIHB8vW+agBhPxRhvaAXhaplXiiEd3
-         yc5Q==
-X-Gm-Message-State: APjAAAWXNQT7bq6I6Zh4sXtkVshxvgcmfnRrbAThjZDgovpxMbEA753x
-        kDc0hTQgZR6TIcfFEotgbnSUU6hNcnQ7TwuQGzSGgQ==
-X-Google-Smtp-Source: APXvYqzjLLdNQ3WjVdvOT/4N0uavAJR6Mv4Jgxn5lrygES8vBTMlSZ0M5fHGe1wdjBwZwcW06xlKs32f4hJ3sJgiAfQ=
-X-Received: by 2002:a9d:344a:: with SMTP id v68mr33650170otb.85.1571214688147;
- Wed, 16 Oct 2019 01:31:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191015162300.22024-1-brgl@bgdev.pl> <20191015162300.22024-5-brgl@bgdev.pl>
- <20191015191837.jd6lbk3qbsmzuwfu@earth.universe>
-In-Reply-To: <20191015191837.jd6lbk3qbsmzuwfu@earth.universe>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Wed, 16 Oct 2019 10:31:17 +0200
-Message-ID: <CAMpxmJXH6k7PqEE_VfRZ-k1eL+7NSPRuZY8yP8XbYzgVdOAvJQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] dt-bindings: power: max77650: convert the binding
- document to yaml
-To:     Sebastian Reichel <sre@kernel.org>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        linux-pm <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=X9e+rYfCKq9rMOwR5cFzJTrPdtsUNS9gZTSPtA+TTns=;
+        b=Tslqi2dnIm6NkWCX12CS01gwGiUgYQ3lqvFTeBp/mE20D8tM4XAnhI6X0WnbyyvIS/
+         0rRYYRBbhOFBUUkb//R5CWradSwMKHxKnihvqxRKy/J+Ea2z+t/gwfYwhIxjzXB7uWyu
+         YJ9MpsTy0SdxBSCkeQK+k3Hp3Nb4jGEBAOb3MpUY8ADiovrrPQVCwVXqFlCGMbZiuAD2
+         W6oCnL7BDaUsnxLmhi0/cKbX/3xp4jz/HStT2SPukcnsRNvmypkhb1+gBv9hnZBWjVc1
+         qgBqHmwvKb5VsLO6c9/CRMah+jUivnWrDpRlrxSCNmMcDj0Uiu+bn64g85u3pNvmMx0d
+         XJvQ==
+X-Gm-Message-State: APjAAAVBtK/4YQcWNW2gYVml8msQYpgduKrAJL9Gobi547KqAOSlX72k
+        oh7ONK1XHRsj+EBBN1tiHgZjslrbm/a5C4EK6u9NMy508zyq+br5AUhl7TY0dthJpNPn8uTnQX8
+        manMjrvhiHtwLhHhZuj9yM/PWcsLe/YiPpZbi3fXp
+X-Received: by 2002:a17:90a:77c3:: with SMTP id e3mr4153524pjs.138.1571223501512;
+        Wed, 16 Oct 2019 03:58:21 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqz1+VQmn2ikwDy8ZcHNHDbkoBiVW67IacIrzpIPqPJ6C1axwgV5IgfH/8sMnIBkyQa1+FqOeQ==
+X-Received: by 2002:a17:90a:77c3:: with SMTP id e3mr4153490pjs.138.1571223501064;
+        Wed, 16 Oct 2019 03:58:21 -0700 (PDT)
+Received: from 2001-b011-380f-3c42-4027-e4ae-869e-766c.dynamic-ip6.hinet.net (2001-b011-380f-3c42-4027-e4ae-869e-766c.dynamic-ip6.hinet.net. [2001:b011:380f:3c42:4027:e4ae:869e:766c])
+        by smtp.gmail.com with ESMTPSA id r24sm25581001pfh.69.2019.10.16.03.58.19
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 16 Oct 2019 03:58:20 -0700 (PDT)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3601\))
+Subject: Re: How to make sure touchpad doesn't use psmouse.ko?
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <CAO-hwJKrZVUPL_=KrFNhzx8S1TP2M6zUEM_Ak8m7ze-1b9cTMA@mail.gmail.com>
+Date:   Wed, 16 Oct 2019 18:58:18 +0800
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        ray.chen@canonical.com, You-Sheng Yang <vicamo.yang@canonical.com>
+Content-Transfer-Encoding: 8BIT
+Message-Id: <043A897E-9EF7-43C2-B214-CD57B85DB5E6@canonical.com>
+References: <7DD64ADB-478C-408C-873D-C07186FEB65F@canonical.com>
+ <CAO-hwJKrZVUPL_=KrFNhzx8S1TP2M6zUEM_Ak8m7ze-1b9cTMA@mail.gmail.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+X-Mailer: Apple Mail (2.3601)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-wt., 15 pa=C5=BA 2019 o 21:18 Sebastian Reichel <sre@kernel.org> napisa=C5=
-=82(a):
->
-> Hi,
->
-> On Tue, Oct 15, 2019 at 06:22:58PM +0200, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >
-> > Convert the binding document for MAX77650 charger module to YAML.
-> >
-> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > ---
->
-> Looks sensible to me. Assuming this goes through Rob:
->
-> Acked-by: Sebastian Reichel <sre@kernel.org>
+Hi Benjamin,
 
-Oops, I added your ack for v1 to the leds patch in v2 by mistake.
-There'll be a v3 though so no worries.
+> On Oct 11, 2019, at 17:35, Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
+> 
+> Hi Kai-Heng,
+> 
+> On Mon, Oct 7, 2019 at 9:45 AM Kai-Heng Feng
+> <kai.heng.feng@canonical.com> wrote:
+>> 
+>> Hi,
+>> 
+>> When we are enabling a new hardware, sometimes touchpad may still use psmouse.ko due to bugs or missing IDs.
+>> Is there a way to quickly to determine the touchpad doesn't use psmouse but something like SMBus or HID over I2C?
+> 
+> Quick answer: no :)
+> 
+> For HID over I2C devices, they have to be included in the DSDT, so we
+> can detect those at the ACPI level, and they should automatically bind
+> to i2c-hid, if the dependencies are in place (available I2C adapter
+> and correct IRQ driver/binding).
+> The problem we have here is that we can not unbind the psmouse.ko
+> binding because we can not make the connection between the 2 bindings
+> from a HID or PS/2 point of view. They appear as 2 distinct mice.
+> 
+> For SMBus devices, currently only Synaptics and Elan have a SMBus
+> binding. And this is vendor specific to know if the SMBus binding will
+> be available and working.
+> In the Windows world, they do not have this question: every laptop
+> ships its own touchpad driver that has this information hardcoded or
+> put in the ini file.
+> 
+> Hope that this helps.
 
-Thanks!
-Bart
+Thanks for the answer. 
+It means this scenario cannot be automatically tested.
+It's unfortunate but I think doing a manual `modprobe -r psmouse` can still achieve what we want here.
 
->
-> -- Sebastian
->
-> >  .../power/supply/max77650-charger.txt         | 29 +------------
-> >  .../power/supply/max77650-charger.yaml        | 42 +++++++++++++++++++
-> >  2 files changed, 43 insertions(+), 28 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/power/supply/max7=
-7650-charger.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/power/supply/max77650-ch=
-arger.txt b/Documentation/devicetree/bindings/power/supply/max77650-charger=
-.txt
-> > index e6d0fb6ff94e..fbab7d3ac8e3 100644
-> > --- a/Documentation/devicetree/bindings/power/supply/max77650-charger.t=
-xt
-> > +++ b/Documentation/devicetree/bindings/power/supply/max77650-charger.t=
-xt
-> > @@ -1,28 +1 @@
-> > -Battery charger driver for MAX77650 PMIC from Maxim Integrated.
-> > -
-> > -This module is part of the MAX77650 MFD device. For more details
-> > -see Documentation/devicetree/bindings/mfd/max77650.txt.
-> > -
-> > -The charger is represented as a sub-node of the PMIC node on the devic=
-e tree.
-> > -
-> > -Required properties:
-> > ---------------------
-> > -- compatible:                Must be "maxim,max77650-charger"
-> > -
-> > -Optional properties:
-> > ---------------------
-> > -- input-voltage-min-microvolt:       Minimum CHGIN regulation voltage.=
- Must be one
-> > -                             of: 4000000, 4100000, 4200000, 4300000,
-> > -                             4400000, 4500000, 4600000, 4700000.
-> > -- input-current-limit-microamp:      CHGIN input current limit (in mic=
-roamps). Must
-> > -                             be one of: 95000, 190000, 285000, 380000,
-> > -                             475000.
-> > -
-> > -Example:
-> > ---------
-> > -
-> > -     charger {
-> > -             compatible =3D "maxim,max77650-charger";
-> > -             input-voltage-min-microvolt =3D <4200000>;
-> > -             input-current-limit-microamp =3D <285000>;
-> > -     };
-> > +This file was moved to max77650-charger.yaml.
-> > diff --git a/Documentation/devicetree/bindings/power/supply/max77650-ch=
-arger.yaml b/Documentation/devicetree/bindings/power/supply/max77650-charge=
-r.yaml
-> > new file mode 100644
-> > index 000000000000..9dd0dad0f948
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/power/supply/max77650-charger.y=
-aml
-> > @@ -0,0 +1,42 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/power/supply/max77650-charger.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Battery charger driver for MAX77650 PMIC from Maxim Integrated.
-> > +
-> > +maintainers:
-> > +  - Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > +
-> > +description: |
-> > +  This module is part of the MAX77650 MFD device. For more details
-> > +  see Documentation/devicetree/bindings/mfd/max77650.txt.
-> > +
-> > +  The charger is represented as a sub-node of the PMIC node on the dev=
-ice tree.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: maxim,max77650-charger
-> > +
-> > +  input-voltage-min-microvolt:
-> > +    description:
-> > +      Minimum CHGIN regulation voltage.
-> > +    enum: [ 4000000, 4100000, 4200000, 4300000,
-> > +            4400000, 4500000, 4600000, 4700000 ]
-> > +
-> > +  input-current-limit-microamp:
-> > +    description:
-> > +      CHGIN input current limit (in microamps).
-> > +    enum: [ 95000, 190000, 285000, 380000, 475000 ]
-> > +
-> > +required:
-> > +  - compatible
-> > +
-> > +examples:
-> > +  - |
-> > +    charger {
-> > +        compatible =3D "maxim,max77650-charger";
-> > +        input-voltage-min-microvolt =3D <4200000>;
-> > +        input-current-limit-microamp =3D <285000>;
-> > +    };
-> > --
-> > 2.23.0
-> >
+Kai-Heng
+
+> 
+> Cheers,
+> Benjamin
+> 
+
