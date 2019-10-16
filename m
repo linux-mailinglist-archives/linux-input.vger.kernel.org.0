@@ -2,113 +2,278 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54DEED914F
-	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2019 14:45:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF874D91A7
+	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2019 14:55:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393215AbfJPMps (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Oct 2019 08:45:48 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:41957 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390973AbfJPMps (ORCPT
+        id S1728791AbfJPMz4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Oct 2019 08:55:56 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:40788 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391574AbfJPMz4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Oct 2019 08:45:48 -0400
-Received: by mail-pl1-f196.google.com with SMTP id t10so11224042plr.8;
-        Wed, 16 Oct 2019 05:45:46 -0700 (PDT)
+        Wed, 16 Oct 2019 08:55:56 -0400
+Received: by mail-il1-f194.google.com with SMTP id o16so2471282ilq.7
+        for <linux-input@vger.kernel.org>; Wed, 16 Oct 2019 05:55:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qda5ffDTblUU8JGu4nuH5ZD05Te45+ZgViZmocYeACs=;
+        b=rMb84r8iQLAC38MibQ/V2rXDvCRSxVxzno6NbsIzxdlfKVTv7g9nB9NYrdUDcgAApl
+         lSIlnR2DTcieW1lRkZLQVqW5pmXG2SQjFI2DC43m5t/5ouLpQx/Xa/6vJZBjujhgckcY
+         NbBYt2E3njmocjuZnaY08M1VHVxPQJEUnlOYN3zx+n3OAiJp6pTfNR6fYd8hn78RcIUr
+         8oqLdjQD3hRFmP5gqwCpu/N1k7Qcft/LDxjNIoBHOg/OLgKyvq2P0AT5CrchnU2+fcqp
+         34CZuqFitVM4rvaRHIHyJe7nPvRpw7Nsb8b/SstNs3DGscazROWSN77PogwtiK659w40
+         /n/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=MW2OPawZ1/S7yUUbg0Iwr6wr8CBZilFP35Sgfd8NrvI=;
-        b=llxF/QUkrOKyUU+KdhmQpMmMY9Gfd9z6w6tCedM4LOBAEk9O2YvP0V/NAHXsK4va1G
-         3Nwq9K+MBR+hkNVSiEOjfcj5JuCrTBk/BVAo8oCyEkLB/OXxMLy1UD78kDB4JPS9pbVR
-         rN61qwQL/SesmJPyMleE46qq4H+ZjZhNYJC4OBohquCLqVjIG5yz3sIIlKOpd5mZO2ZU
-         1H9H+aTjvNj8CwM1QBi+eUzpkpMgq+enRUamJvlsXMNkEaAfBFAwXwBZrKBEszwMAIfX
-         hlsP8IT6YHuRDbiDt4HiaFU4dmRlDX8EUncTUGvQFYKgDwqxsK2IqKIFMCSGMuslhguX
-         OCdw==
-X-Gm-Message-State: APjAAAVO9aPh0mKppK5HK6pDai7eZbfEuhx6j0rN8RAnZOjY5Bhd2LGF
-        gADR1yRtLRMQxhsklCqiX0g=
-X-Google-Smtp-Source: APXvYqyKGPR4ZK3MbBMfiZ9W9A5wG/MAiwUafwAuA5NTnFoMudfkEXwGcJ82nnpb3T+NzAZR6dFXmw==
-X-Received: by 2002:a17:902:8e81:: with SMTP id bg1mr7131785plb.137.1571229945751;
-        Wed, 16 Oct 2019 05:45:45 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id c34sm3935476pgb.35.2019.10.16.05.45.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2019 05:45:44 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 9DF5140251; Wed, 16 Oct 2019 12:45:43 +0000 (UTC)
-Date:   Wed, 16 Oct 2019 12:45:43 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v7 0/8] efi/firmware/platform-x86: Add EFI embedded fw
- support
-Message-ID: <20191016124543.GF16384@42.do-not-panic.com>
-References: <20191004145056.43267-1-hdegoede@redhat.com>
- <20191011141036.GK16384@42.do-not-panic.com>
- <7fed4882-efa7-18d0-1ef6-9138fbdddfc4@redhat.com>
- <20191011153823.GS16384@42.do-not-panic.com>
- <20191011163819.GA1295750@kroah.com>
- <20191014092216.GA16384@42.do-not-panic.com>
- <20191014092929.GA3050866@kroah.com>
- <20191014103150.GB16384@42.do-not-panic.com>
- <20191014105754.GA34057@kroah.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qda5ffDTblUU8JGu4nuH5ZD05Te45+ZgViZmocYeACs=;
+        b=tAR4Zz0N+XfZ3PxZtYE3YCvQeNg5MmkmFtlkOWNrwAAUXyvnYr124VNmPU0uhFL8QX
+         CGQLxRAHPglUY/Mn4iGJ4Bc0QlkaEvjKrSUyNhLdW1y/33YpWEays8YYfacNn0mgjXYG
+         y/KvVQdbEU0dSuOZ++JsrW+nT2ByIkIVcLPM4eLDLTd9T/6jwIvy8OmKaMoXuaqQ7mdr
+         Cpj/Kofta6kLZwBY54hPYylosUgoXr9Pseecc4o/e+NSa1aCzKE1CXCVz2BPfxi9cyL2
+         JRdL+PZ4hAqu5g2uN8JghgiwBzjnoXJT4I5yrRyVoKOXPNMWYzPgshKI2wIsXpdxHqGX
+         rQOQ==
+X-Gm-Message-State: APjAAAXRbH+cwO9t8/jOYGD6IanN1qidFObJcq/RmxDZRTGVIfIcOd72
+        hekCEL11U/z0jFCiC8Pb94VYRA03wRWQId/rdDKbUg==
+X-Google-Smtp-Source: APXvYqz9HunDNQdJFmbx8opch7P0KRYwL8eqX945ccJM9byllYNV8ONZFcYgXsZYUiZxX1DMDKZ3FWfRFjX+qCP3bFo=
+X-Received: by 2002:a92:c80b:: with SMTP id v11mr12242511iln.6.1571230554866;
+ Wed, 16 Oct 2019 05:55:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191014105754.GA34057@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191015162300.22024-1-brgl@bgdev.pl> <20191015162300.22024-2-brgl@bgdev.pl>
+ <CAL_JsqKhGr6QDWZFR6cq6MH-0vghb9oSgkCCdi7bhiKmvrkY_w@mail.gmail.com>
+In-Reply-To: <CAL_JsqKhGr6QDWZFR6cq6MH-0vghb9oSgkCCdi7bhiKmvrkY_w@mail.gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Wed, 16 Oct 2019 14:55:43 +0200
+Message-ID: <CAMRc=Mdb7T6p7xXWJBS2UXq0E-FD4WRtaP7H-AvRH0s6-MyJ8A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] dt-bindings: mfd: max77650: convert the binding
+ document to yaml
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "open list:THERMAL" <linux-pm@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 12:57:54PM +0200, Greg Kroah-Hartman wrote:
-> On Mon, Oct 14, 2019 at 10:31:50AM +0000, Luis Chamberlain wrote:
-> > On Mon, Oct 14, 2019 at 11:29:29AM +0200, Greg Kroah-Hartman wrote:
-> > > On Mon, Oct 14, 2019 at 09:22:16AM +0000, Luis Chamberlain wrote:
-> > > > On Fri, Oct 11, 2019 at 06:38:19PM +0200, Greg Kroah-Hartman wrote:
-> > > > > On Fri, Oct 11, 2019 at 03:38:23PM +0000, Luis Chamberlain wrote:
-> > > > > > On Fri, Oct 11, 2019 at 04:31:26PM +0200, Hans de Goede wrote:
-> > > > > > > Hi,
-> > > > > > > 
-> > > > > > > On 10/11/19 4:10 PM, Luis Chamberlain wrote:
-> > > > > > > > Hey Hans, thanks for staying on top of this and follow up! For some
-> > > > > > > > reason the universe conspired against your first and last patch ([1/8],
-> > > > > > > > [8/8]), and I never got them. Could you bounce these or resend in case
-> > > > > > > > others confirm they also didn't get it?
-> > > > > > > 
-> > > > > > > I have received feedback from others on the first patch, so at least
-> > > > > > > that one has reached others. I've bounced patches 1 and 8 to you.
-> > > > > > 
-> > > > > > Thanks, can you also bounce the feedback received?
-> > > > > 
-> > > > > That is what lore.kernel.org is for...
-> > > > 
-> > > > If I have feedback on an email which I did not get I cannot easily reply to it.
-> > > 
-> > > I meant, use lore.kernel.org to download the mbox of the thread and then
-> > > use your email client to respond to whatever you need there.  This all
-> > > is public, no need to ask anyone else to bounce emails to you.
-> > 
-> > Last I looked it didn't allow you to downlaod an mbox of a thread...
-> 
-> It can, from the front page of "all" threads, or on the thread itself,
-> at the bottom of the page.  Search for "download" on the page.
+wt., 15 pa=C5=BA 2019 o 23:17 Rob Herring <robh+dt@kernel.org> napisa=C5=82=
+(a):
+>
+> On Tue, Oct 15, 2019 at 11:23 AM Bartosz Golaszewski <brgl@bgdev.pl> wrot=
+e:
+> >
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >
+> > Convert the binding document for MAX77650 core MFD module to YAML.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > ---
+> >  .../devicetree/bindings/mfd/max77650.txt      | 47 +----------
+> >  .../devicetree/bindings/mfd/max77650.yaml     | 83 +++++++++++++++++++
+> >  2 files changed, 84 insertions(+), 46 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/mfd/max77650.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/mfd/max77650.txt b/Docum=
+entation/devicetree/bindings/mfd/max77650.txt
+> > index b529d8d19335..080871686b3b 100644
+> > --- a/Documentation/devicetree/bindings/mfd/max77650.txt
+> > +++ b/Documentation/devicetree/bindings/mfd/max77650.txt
+> > @@ -1,46 +1 @@
+> > -MAX77650 ultra low-power PMIC from Maxim Integrated.
+> > -
+> > -Required properties:
+> > --------------------
+> > -- compatible:          Must be "maxim,max77650"
+> > -- reg:                 I2C device address.
+> > -- interrupts:          The interrupt on the parent the controller is
+> > -                       connected to.
+> > -- interrupt-controller: Marks the device node as an interrupt controll=
+er.
+> > -- #interrupt-cells:    Must be <2>.
+> > -
+> > -- gpio-controller:     Marks the device node as a gpio controller.
+> > -- #gpio-cells:         Must be <2>. The first cell is the pin number a=
+nd
+> > -                       the second cell is used to specify the gpio act=
+ive
+> > -                       state.
+> > -
+> > -Optional properties:
+> > ---------------------
+> > -gpio-line-names:       Single string containing the name of the GPIO l=
+ine.
+> > -
+> > -The GPIO-controller module is represented as part of the top-level PMI=
+C
+> > -node. The device exposes a single GPIO line.
+> > -
+> > -For device-tree bindings of other sub-modules (regulator, power supply=
+,
+> > -LEDs and onkey) refer to the binding documents under the respective
+> > -sub-system directories.
+> > -
+> > -For more details on GPIO bindings, please refer to the generic GPIO DT
+> > -binding document <devicetree/bindings/gpio/gpio.txt>.
+> > -
+> > -Example:
+> > ---------
+> > -
+> > -       pmic@48 {
+> > -               compatible =3D "maxim,max77650";
+> > -               reg =3D <0x48>;
+> > -
+> > -               interrupt-controller;
+> > -               interrupt-parent =3D <&gpio2>;
+> > -               #interrupt-cells =3D <2>;
+> > -               interrupts =3D <3 IRQ_TYPE_LEVEL_LOW>;
+> > -
+> > -               gpio-controller;
+> > -               #gpio-cells =3D <2>;
+> > -               gpio-line-names =3D "max77650-charger";
+> > -       };
+> > +This file has been moved to max77650.yaml.
+> > diff --git a/Documentation/devicetree/bindings/mfd/max77650.yaml b/Docu=
+mentation/devicetree/bindings/mfd/max77650.yaml
+> > new file mode 100644
+> > index 000000000000..5186ad287ec7
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/mfd/max77650.yaml
+> > @@ -0,0 +1,83 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/mfd/max77650.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: MAX77650 ultra low-power PMIC from Maxim Integrated.
+> > +
+> > +maintainers:
+> > +  - Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > +
+> > +description: |
+> > +  This document describes the DT properties of the core MFD controller=
+.
+> > +
+> > +  The GPIO-controller module is represented as part of the top-level P=
+MIC
+> > +  node. The device exposes a single GPIO line.
+> > +
+> > +  For device-tree bindings of other sub-modules (regulator, power supp=
+ly,
+> > +  LEDs and onkey) refer to the binding documents under the respective
+> > +  sub-system directories.
+> > +
+> > +  For more details on GPIO bindings, please refer to the generic GPIO =
+DT
+> > +  binding document <devicetree/bindings/gpio/gpio.txt>.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: maxim,max77650
+> > +
+> > +  reg:
+> > +    description:
+> > +      I2C device address.
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    description:
+> > +      The interrupt on the parent the controller is connected to.
+> > +    maxItems: 1
+> > +
+> > +  interrupt-controller: true
+> > +
+> > +  "#interrupt-cells":
+> > +    const: 2
+> > +    description:
+> > +      The first cell is the IRQ number, the second cell is the trigger=
+ type.
+> > +
+> > +  gpio-controller: true
+> > +
+> > +  "#gpio-cells":
+> > +    const: 2
+> > +    description:
+> > +      The first cell is the pin number and the second cell is used to =
+specify
+> > +      the gpio active state.
+> > +
+> > +  gpio-line-names:
+> > +    $ref: '/schemas/types.yaml#/definitions/string-array'
+> > +    maxItems: 1
+> > +    description:
+> > +      Single string containing the name of the GPIO line.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - interrupt-controller
+> > +  - "#interrupt-cells"
+> > +  - gpio-controller
+> > +  - "#gpio-cells"
+> > +
+> > +examples:
+> > +  - |
+> > +    pmic@48 {
+> > +        compatible =3D "maxim,max77650";
+> > +        reg =3D <0x48>;
+> > +
+> > +        interrupt-controller;
+> > +        interrupt-parent =3D <&gpio2>;
+> > +        #interrupt-cells =3D <2>;
+> > +        interrupts =3D <3 IRQ_TYPE_LEVEL_LOW>;
+>
+> Examples are built now. Run 'make dt_binding_check' on bindings before
+> sending them:
+>
+> Error: Documentation/devicetree/bindings/mfd/max77650.example.dts:24.29-3=
+0
+> syntax error
+> FATAL ERROR: Unable to parse input tree
+> scripts/Makefile.lib:321: recipe for target
+> 'Documentation/devicetree/bindings/mfd/max77650.example.dt.yaml'
+> failed
+> make[1]: *** [Documentation/devicetree/bindings/mfd/max77650.example.dt.y=
+aml]
+> Error 1
+>
+> You need to include any includes that you use.
+>
+> Rob
 
-Sweet! <insert sound of discovering an item in Legend of Zelda>
+Hi Rob,
 
-  Luis
+thanks for the review.
+
+I'm on v5.4-rc3 and when running dt_binding_check, the error I'm
+getting is this:
+
+# make dt_binding_check
+DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/mfd/max77650.yaml
+  SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
+  CHKDT   Documentation/devicetree/bindings/mfd/max77650.yaml
+make[1]: *** No rule to make target
+'Documentation/devicetree/bindings/mfd/max77650.example.dt.yaml',
+needed by '__build'.  Stop.
+make: *** [Makefile:1263: dt_binding_check] Error 2
+
+Is this caused by the same issue or am I missing something?
+
+Bartosz
