@@ -2,313 +2,301 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47FB2D952C
-	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2019 17:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F9A8D958C
+	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2019 17:29:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727388AbfJPPMf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Oct 2019 11:12:35 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:46817 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388825AbfJPPMe (ORCPT
+        id S2394131AbfJPP3E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Oct 2019 11:29:04 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:40215 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392942AbfJPP3E (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Oct 2019 11:12:34 -0400
-Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1iKkyT-0003Tp-6w; Wed, 16 Oct 2019 15:12:29 +0000
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     hdegoede@redhat.com, vicamo.yang@canonical.com,
-        mika.westerberg@linux.intel.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: [PATCH v2] HID: i2c-hid: Remove runtime power management
-Date:   Wed, 16 Oct 2019 23:12:24 +0800
-Message-Id: <20191016151224.1316-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 16 Oct 2019 11:29:04 -0400
+Received: by mail-ot1-f68.google.com with SMTP id y39so20491162ota.7
+        for <linux-input@vger.kernel.org>; Wed, 16 Oct 2019 08:29:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=V9VEJ6qCsL2ywbrpNNXgyPcRNbaXwu3Y4oOlJhBpLzQ=;
+        b=cDMLHUXZK9cMI2/GCB64rQqpH3gxjuGZNiLW7PVaJUUcrSTGnUd89F+fe1nuIvO0Fa
+         dUVOOVGMVkibaDN2U3QOAKuVrnTDKzqEFFR4aRPZ+x4DUecvR60CxRXNHTaYUIryLWlY
+         GP0IdCOYERcI8Sv+trmIiCysCspwk3tTYzMpuyqF8ghLI/dVaDkab1XBRbwsBWkiF7ri
+         tlOtabO/vY2XtZYqGhMjmjj9D9JbBqqFeLrO5JRvnUjYRWlm+2w3z57IanSq6eVS05QI
+         N9/5GCdaCrwm7FkqeDEFdHd+D4o4aPwI4+EQ5AGN/AEpcAyOr6hbMepo9So70Ps3W8/Q
+         dWqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=V9VEJ6qCsL2ywbrpNNXgyPcRNbaXwu3Y4oOlJhBpLzQ=;
+        b=YD+NyMUwmrtOWnG5KyIKGXj4incDFL59AFztH/joWs2TYAuQHH1RIaEnDN/KxbAjlH
+         u+UxtO7xK71svdh3IXpzJVFukTXOtz4IFFjgLKV5EnUtPS4+Y0sgAhvZIhkLhYi5W1Xr
+         l95X46qSbLJHBTy9dABWwxMnfmVNuYpljXsqokZf23lX6fXhFF09a4MGy5PlIEsQijPn
+         k3gIdhIkSjshlrfJYwYAfHcQMhyMKWf4gqJG4d8mHUHw1bX9blITZCrrbFtQ3Ir8bEAi
+         YWkQf+izBkcDAD2SraD2YVKuvzeQ0v8ZyUP/pb2uZ0kiLL3LJ7c8sHo47spqRu/OaJwe
+         C7Mg==
+X-Gm-Message-State: APjAAAXfuMptkreCzO+kSOWC7OWOww53lIQ5KQbN6Bj/+7HkhuhE7T0e
+        3HDrwTdVBy6URhSJBhUZxXqOw27egW2HWpulkSCqbA==
+X-Google-Smtp-Source: APXvYqxwgp+zi0BPWcA5EYFlnLtpnZA5f6BadLLiWGM2ewOW44p8W5YP5jVes3s2F+Rtq1EiRqUqeBH/KPbq4q7mKqs=
+X-Received: by 2002:a9d:6c96:: with SMTP id c22mr3645106otr.194.1571239742813;
+ Wed, 16 Oct 2019 08:29:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191015162300.22024-1-brgl@bgdev.pl> <20191015162300.22024-2-brgl@bgdev.pl>
+ <CAL_JsqKhGr6QDWZFR6cq6MH-0vghb9oSgkCCdi7bhiKmvrkY_w@mail.gmail.com>
+ <CAMRc=Mdb7T6p7xXWJBS2UXq0E-FD4WRtaP7H-AvRH0s6-MyJ8A@mail.gmail.com> <CAL_JsqJZ9myO3Uwb6j_R3W8EpVtOaCZV6_tDfNAXwoaUZO+kNQ@mail.gmail.com>
+In-Reply-To: <CAL_JsqJZ9myO3Uwb6j_R3W8EpVtOaCZV6_tDfNAXwoaUZO+kNQ@mail.gmail.com>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Wed, 16 Oct 2019 17:28:51 +0200
+Message-ID: <CAMpxmJUrwTn9cafnGD5KPJObhgYq0GN2EedwGiey2tAXwFmbvA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] dt-bindings: mfd: max77650: convert the binding
+ document to yaml
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "open list:THERMAL" <linux-pm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Runtime power management in i2c-hid brings lots of issues, such as:
-- When transitioning from display manager to desktop session, i2c-hid
-was closed and opened, so the device was set to SLEEP and ON in a short
-period. Vendors confirmed that their devices can't handle fast ON/SLEEP
-command because Windows doesn't have this behavior.
+=C5=9Br., 16 pa=C5=BA 2019 o 15:51 Rob Herring <robh+dt@kernel.org> napisa=
+=C5=82(a):
+>
+> On Wed, Oct 16, 2019 at 7:55 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote=
+:
+> >
+> > wt., 15 pa=C5=BA 2019 o 23:17 Rob Herring <robh+dt@kernel.org> napisa=
+=C5=82(a):
+> > >
+> > > On Tue, Oct 15, 2019 at 11:23 AM Bartosz Golaszewski <brgl@bgdev.pl> =
+wrote:
+> > > >
+> > > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > > >
+> > > > Convert the binding document for MAX77650 core MFD module to YAML.
+> > > >
+> > > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > > > ---
+> > > >  .../devicetree/bindings/mfd/max77650.txt      | 47 +----------
+> > > >  .../devicetree/bindings/mfd/max77650.yaml     | 83 +++++++++++++++=
+++++
+> > > >  2 files changed, 84 insertions(+), 46 deletions(-)
+> > > >  create mode 100644 Documentation/devicetree/bindings/mfd/max77650.=
+yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/mfd/max77650.txt b/D=
+ocumentation/devicetree/bindings/mfd/max77650.txt
+> > > > index b529d8d19335..080871686b3b 100644
+> > > > --- a/Documentation/devicetree/bindings/mfd/max77650.txt
+> > > > +++ b/Documentation/devicetree/bindings/mfd/max77650.txt
+> > > > @@ -1,46 +1 @@
+> > > > -MAX77650 ultra low-power PMIC from Maxim Integrated.
+> > > > -
+> > > > -Required properties:
+> > > > --------------------
+> > > > -- compatible:          Must be "maxim,max77650"
+> > > > -- reg:                 I2C device address.
+> > > > -- interrupts:          The interrupt on the parent the controller =
+is
+> > > > -                       connected to.
+> > > > -- interrupt-controller: Marks the device node as an interrupt cont=
+roller.
+> > > > -- #interrupt-cells:    Must be <2>.
+> > > > -
+> > > > -- gpio-controller:     Marks the device node as a gpio controller.
+> > > > -- #gpio-cells:         Must be <2>. The first cell is the pin numb=
+er and
+> > > > -                       the second cell is used to specify the gpio=
+ active
+> > > > -                       state.
+> > > > -
+> > > > -Optional properties:
+> > > > ---------------------
+> > > > -gpio-line-names:       Single string containing the name of the GP=
+IO line.
+> > > > -
+> > > > -The GPIO-controller module is represented as part of the top-level=
+ PMIC
+> > > > -node. The device exposes a single GPIO line.
+> > > > -
+> > > > -For device-tree bindings of other sub-modules (regulator, power su=
+pply,
+> > > > -LEDs and onkey) refer to the binding documents under the respectiv=
+e
+> > > > -sub-system directories.
+> > > > -
+> > > > -For more details on GPIO bindings, please refer to the generic GPI=
+O DT
+> > > > -binding document <devicetree/bindings/gpio/gpio.txt>.
+> > > > -
+> > > > -Example:
+> > > > ---------
+> > > > -
+> > > > -       pmic@48 {
+> > > > -               compatible =3D "maxim,max77650";
+> > > > -               reg =3D <0x48>;
+> > > > -
+> > > > -               interrupt-controller;
+> > > > -               interrupt-parent =3D <&gpio2>;
+> > > > -               #interrupt-cells =3D <2>;
+> > > > -               interrupts =3D <3 IRQ_TYPE_LEVEL_LOW>;
+> > > > -
+> > > > -               gpio-controller;
+> > > > -               #gpio-cells =3D <2>;
+> > > > -               gpio-line-names =3D "max77650-charger";
+> > > > -       };
+> > > > +This file has been moved to max77650.yaml.
+> > > > diff --git a/Documentation/devicetree/bindings/mfd/max77650.yaml b/=
+Documentation/devicetree/bindings/mfd/max77650.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..5186ad287ec7
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/mfd/max77650.yaml
+> > > > @@ -0,0 +1,83 @@
+> > > > +# SPDX-License-Identifier: GPL-2.0
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/mfd/max77650.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: MAX77650 ultra low-power PMIC from Maxim Integrated.
+> > > > +
+> > > > +maintainers:
+> > > > +  - Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > > > +
+> > > > +description: |
+> > > > +  This document describes the DT properties of the core MFD contro=
+ller.
+> > > > +
+> > > > +  The GPIO-controller module is represented as part of the top-lev=
+el PMIC
+> > > > +  node. The device exposes a single GPIO line.
+> > > > +
+> > > > +  For device-tree bindings of other sub-modules (regulator, power =
+supply,
+> > > > +  LEDs and onkey) refer to the binding documents under the respect=
+ive
+> > > > +  sub-system directories.
+> > > > +
+> > > > +  For more details on GPIO bindings, please refer to the generic G=
+PIO DT
+> > > > +  binding document <devicetree/bindings/gpio/gpio.txt>.
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    const: maxim,max77650
+> > > > +
+> > > > +  reg:
+> > > > +    description:
+> > > > +      I2C device address.
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  interrupts:
+> > > > +    description:
+> > > > +      The interrupt on the parent the controller is connected to.
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  interrupt-controller: true
+> > > > +
+> > > > +  "#interrupt-cells":
+> > > > +    const: 2
+> > > > +    description:
+> > > > +      The first cell is the IRQ number, the second cell is the tri=
+gger type.
+> > > > +
+> > > > +  gpio-controller: true
+> > > > +
+> > > > +  "#gpio-cells":
+> > > > +    const: 2
+> > > > +    description:
+> > > > +      The first cell is the pin number and the second cell is used=
+ to specify
+> > > > +      the gpio active state.
+> > > > +
+> > > > +  gpio-line-names:
+> > > > +    $ref: '/schemas/types.yaml#/definitions/string-array'
+> > > > +    maxItems: 1
+> > > > +    description:
+> > > > +      Single string containing the name of the GPIO line.
+> > > > +
+> > > > +required:
+> > > > +  - compatible
+> > > > +  - reg
+> > > > +  - interrupts
+> > > > +  - interrupt-controller
+> > > > +  - "#interrupt-cells"
+> > > > +  - gpio-controller
+> > > > +  - "#gpio-cells"
+> > > > +
+> > > > +examples:
+> > > > +  - |
+> > > > +    pmic@48 {
+> > > > +        compatible =3D "maxim,max77650";
+> > > > +        reg =3D <0x48>;
+> > > > +
+> > > > +        interrupt-controller;
+> > > > +        interrupt-parent =3D <&gpio2>;
+> > > > +        #interrupt-cells =3D <2>;
+> > > > +        interrupts =3D <3 IRQ_TYPE_LEVEL_LOW>;
+> > >
+> > > Examples are built now. Run 'make dt_binding_check' on bindings befor=
+e
+> > > sending them:
+> > >
+> > > Error: Documentation/devicetree/bindings/mfd/max77650.example.dts:24.=
+29-30
+> > > syntax error
+> > > FATAL ERROR: Unable to parse input tree
+> > > scripts/Makefile.lib:321: recipe for target
+> > > 'Documentation/devicetree/bindings/mfd/max77650.example.dt.yaml'
+> > > failed
+> > > make[1]: *** [Documentation/devicetree/bindings/mfd/max77650.example.=
+dt.yaml]
+> > > Error 1
+> > >
+> > > You need to include any includes that you use.
+> > >
+> > > Rob
+> >
+> > Hi Rob,
+> >
+> > thanks for the review.
+> >
+> > I'm on v5.4-rc3 and when running dt_binding_check, the error I'm
+> > getting is this:
+> >
+> > # make dt_binding_check
+> > DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/mfd/max77650.yaml
+> >   SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
+> >   CHKDT   Documentation/devicetree/bindings/mfd/max77650.yaml
+> > make[1]: *** No rule to make target
+> > 'Documentation/devicetree/bindings/mfd/max77650.example.dt.yaml',
+> > needed by '__build'.  Stop.
+> > make: *** [Makefile:1263: dt_binding_check] Error 2
+> >
+> > Is this caused by the same issue or am I missing something?
+>
+> I believe that's because dtc needs to be built with libyaml support.
+>
 
-- When rebooting, i2c-hid was closed, and the driver core put the device
-back to full power before shutdown. This behavior also triggers a quick
-SLEEP and ON commands that some devices can't handle, renders an
-unusable touchpad after reboot.
+Indeed, I didn't have the development package installed, but
+surprisingly I didn't get the warning from scripts/dtc/Makefile about
+that either.
 
-- Most importantly, my power meter reports little to none energy saving
-when i2c-hid is runtime suspended.
+Bart
 
-So let's remove runtime power management since there is no actual
-benefit.
-
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
-v2:
-- Remove unused label and wording change.
-
- drivers/hid/i2c-hid/i2c-hid-core.c | 118 ++---------------------------
- 1 file changed, 7 insertions(+), 111 deletions(-)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 2a7c6e33bb1c..d9c55e30f986 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -26,7 +26,6 @@
- #include <linux/delay.h>
- #include <linux/slab.h>
- #include <linux/pm.h>
--#include <linux/pm_runtime.h>
- #include <linux/device.h>
- #include <linux/wait.h>
- #include <linux/err.h>
-@@ -48,8 +47,6 @@
- /* quirks to control the device */
- #define I2C_HID_QUIRK_SET_PWR_WAKEUP_DEV	BIT(0)
- #define I2C_HID_QUIRK_NO_IRQ_AFTER_RESET	BIT(1)
--#define I2C_HID_QUIRK_NO_RUNTIME_PM		BIT(2)
--#define I2C_HID_QUIRK_DELAY_AFTER_SLEEP		BIT(3)
- #define I2C_HID_QUIRK_BOGUS_IRQ			BIT(4)
- 
- /* flags */
-@@ -172,14 +169,7 @@ static const struct i2c_hid_quirks {
- 	{ USB_VENDOR_ID_WEIDA, HID_ANY_ID,
- 		I2C_HID_QUIRK_SET_PWR_WAKEUP_DEV },
- 	{ I2C_VENDOR_ID_HANTICK, I2C_PRODUCT_ID_HANTICK_5288,
--		I2C_HID_QUIRK_NO_IRQ_AFTER_RESET |
--		I2C_HID_QUIRK_NO_RUNTIME_PM },
--	{ I2C_VENDOR_ID_RAYDIUM, I2C_PRODUCT_ID_RAYDIUM_4B33,
--		I2C_HID_QUIRK_DELAY_AFTER_SLEEP },
--	{ USB_VENDOR_ID_LG, I2C_DEVICE_ID_LG_8001,
--		I2C_HID_QUIRK_NO_RUNTIME_PM },
--	{ I2C_VENDOR_ID_GOODIX, I2C_DEVICE_ID_GOODIX_01F0,
--		I2C_HID_QUIRK_NO_RUNTIME_PM },
-+		I2C_HID_QUIRK_NO_IRQ_AFTER_RESET },
- 	{ USB_VENDOR_ID_ELAN, HID_ANY_ID,
- 		 I2C_HID_QUIRK_BOGUS_IRQ },
- 	{ 0, 0 }
-@@ -397,7 +387,6 @@ static int i2c_hid_set_power(struct i2c_client *client, int power_state)
- {
- 	struct i2c_hid *ihid = i2c_get_clientdata(client);
- 	int ret;
--	unsigned long now, delay;
- 
- 	i2c_hid_dbg(ihid, "%s\n", __func__);
- 
-@@ -415,22 +404,9 @@ static int i2c_hid_set_power(struct i2c_client *client, int power_state)
- 			goto set_pwr_exit;
- 	}
- 
--	if (ihid->quirks & I2C_HID_QUIRK_DELAY_AFTER_SLEEP &&
--	    power_state == I2C_HID_PWR_ON) {
--		now = jiffies;
--		if (time_after(ihid->sleep_delay, now)) {
--			delay = jiffies_to_usecs(ihid->sleep_delay - now);
--			usleep_range(delay, delay + 1);
--		}
--	}
--
- 	ret = __i2c_hid_command(client, &hid_set_power_cmd, power_state,
- 		0, NULL, 0, NULL, 0);
- 
--	if (ihid->quirks & I2C_HID_QUIRK_DELAY_AFTER_SLEEP &&
--	    power_state == I2C_HID_PWR_SLEEP)
--		ihid->sleep_delay = jiffies + msecs_to_jiffies(20);
--
- 	if (ret)
- 		dev_err(&client->dev, "failed to change power setting.\n");
- 
-@@ -791,11 +767,6 @@ static int i2c_hid_open(struct hid_device *hid)
- {
- 	struct i2c_client *client = hid->driver_data;
- 	struct i2c_hid *ihid = i2c_get_clientdata(client);
--	int ret = 0;
--
--	ret = pm_runtime_get_sync(&client->dev);
--	if (ret < 0)
--		return ret;
- 
- 	set_bit(I2C_HID_STARTED, &ihid->flags);
- 	return 0;
-@@ -807,27 +778,6 @@ static void i2c_hid_close(struct hid_device *hid)
- 	struct i2c_hid *ihid = i2c_get_clientdata(client);
- 
- 	clear_bit(I2C_HID_STARTED, &ihid->flags);
--
--	/* Save some power */
--	pm_runtime_put(&client->dev);
--}
--
--static int i2c_hid_power(struct hid_device *hid, int lvl)
--{
--	struct i2c_client *client = hid->driver_data;
--	struct i2c_hid *ihid = i2c_get_clientdata(client);
--
--	i2c_hid_dbg(ihid, "%s lvl:%d\n", __func__, lvl);
--
--	switch (lvl) {
--	case PM_HINT_FULLON:
--		pm_runtime_get_sync(&client->dev);
--		break;
--	case PM_HINT_NORMAL:
--		pm_runtime_put(&client->dev);
--		break;
--	}
--	return 0;
- }
- 
- struct hid_ll_driver i2c_hid_ll_driver = {
-@@ -836,7 +786,6 @@ struct hid_ll_driver i2c_hid_ll_driver = {
- 	.stop = i2c_hid_stop,
- 	.open = i2c_hid_open,
- 	.close = i2c_hid_close,
--	.power = i2c_hid_power,
- 	.output_report = i2c_hid_output_report,
- 	.raw_request = i2c_hid_raw_request,
- };
-@@ -1104,9 +1053,6 @@ static int i2c_hid_probe(struct i2c_client *client,
- 
- 	i2c_hid_acpi_fix_up_power(&client->dev);
- 
--	pm_runtime_get_noresume(&client->dev);
--	pm_runtime_set_active(&client->dev);
--	pm_runtime_enable(&client->dev);
- 	device_enable_async_suspend(&client->dev);
- 
- 	/* Make sure there is something at this address */
-@@ -1114,16 +1060,16 @@ static int i2c_hid_probe(struct i2c_client *client,
- 	if (ret < 0) {
- 		dev_dbg(&client->dev, "nothing at this address: %d\n", ret);
- 		ret = -ENXIO;
--		goto err_pm;
-+		goto err_regulator;
- 	}
- 
- 	ret = i2c_hid_fetch_hid_descriptor(ihid);
- 	if (ret < 0)
--		goto err_pm;
-+		goto err_regulator;
- 
- 	ret = i2c_hid_init_irq(client);
- 	if (ret < 0)
--		goto err_pm;
-+		goto err_regulator;
- 
- 	hid = hid_allocate_device();
- 	if (IS_ERR(hid)) {
-@@ -1154,9 +1100,6 @@ static int i2c_hid_probe(struct i2c_client *client,
- 		goto err_mem_free;
- 	}
- 
--	if (!(ihid->quirks & I2C_HID_QUIRK_NO_RUNTIME_PM))
--		pm_runtime_put(&client->dev);
--
- 	return 0;
- 
- err_mem_free:
-@@ -1165,10 +1108,6 @@ static int i2c_hid_probe(struct i2c_client *client,
- err_irq:
- 	free_irq(client->irq, ihid);
- 
--err_pm:
--	pm_runtime_put_noidle(&client->dev);
--	pm_runtime_disable(&client->dev);
--
- err_regulator:
- 	regulator_bulk_disable(ARRAY_SIZE(ihid->pdata.supplies),
- 			       ihid->pdata.supplies);
-@@ -1181,12 +1120,6 @@ static int i2c_hid_remove(struct i2c_client *client)
- 	struct i2c_hid *ihid = i2c_get_clientdata(client);
- 	struct hid_device *hid;
- 
--	if (!(ihid->quirks & I2C_HID_QUIRK_NO_RUNTIME_PM))
--		pm_runtime_get_sync(&client->dev);
--	pm_runtime_disable(&client->dev);
--	pm_runtime_set_suspended(&client->dev);
--	pm_runtime_put_noidle(&client->dev);
--
- 	hid = ihid->hid;
- 	hid_destroy_device(hid);
- 
-@@ -1219,25 +1152,15 @@ static int i2c_hid_suspend(struct device *dev)
- 	int wake_status;
- 
- 	if (hid->driver && hid->driver->suspend) {
--		/*
--		 * Wake up the device so that IO issues in
--		 * HID driver's suspend code can succeed.
--		 */
--		ret = pm_runtime_resume(dev);
--		if (ret < 0)
--			return ret;
--
- 		ret = hid->driver->suspend(hid, PMSG_SUSPEND);
- 		if (ret < 0)
- 			return ret;
- 	}
- 
--	if (!pm_runtime_suspended(dev)) {
--		/* Save some power */
--		i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
-+	/* Save some power */
-+	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
- 
--		disable_irq(client->irq);
--	}
-+	disable_irq(client->irq);
- 
- 	if (device_may_wakeup(&client->dev)) {
- 		wake_status = enable_irq_wake(client->irq);
-@@ -1279,11 +1202,6 @@ static int i2c_hid_resume(struct device *dev)
- 				wake_status);
- 	}
- 
--	/* We'll resume to full power */
--	pm_runtime_disable(dev);
--	pm_runtime_set_active(dev);
--	pm_runtime_enable(dev);
--
- 	enable_irq(client->irq);
- 
- 	/* Instead of resetting device, simply powers the device on. This
-@@ -1304,30 +1222,8 @@ static int i2c_hid_resume(struct device *dev)
- }
- #endif
- 
--#ifdef CONFIG_PM
--static int i2c_hid_runtime_suspend(struct device *dev)
--{
--	struct i2c_client *client = to_i2c_client(dev);
--
--	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
--	disable_irq(client->irq);
--	return 0;
--}
--
--static int i2c_hid_runtime_resume(struct device *dev)
--{
--	struct i2c_client *client = to_i2c_client(dev);
--
--	enable_irq(client->irq);
--	i2c_hid_set_power(client, I2C_HID_PWR_ON);
--	return 0;
--}
--#endif
--
- static const struct dev_pm_ops i2c_hid_pm = {
- 	SET_SYSTEM_SLEEP_PM_OPS(i2c_hid_suspend, i2c_hid_resume)
--	SET_RUNTIME_PM_OPS(i2c_hid_runtime_suspend, i2c_hid_runtime_resume,
--			   NULL)
- };
- 
- static const struct i2c_device_id i2c_hid_id_table[] = {
--- 
-2.17.1
-
+> Rob
