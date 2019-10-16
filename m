@@ -2,301 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F9A8D958C
-	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2019 17:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 680C1D9590
+	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2019 17:29:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394131AbfJPP3E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Oct 2019 11:29:04 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:40215 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392942AbfJPP3E (ORCPT
+        id S2392996AbfJPP3U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Oct 2019 11:29:20 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:34603 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391940AbfJPP3T (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Oct 2019 11:29:04 -0400
-Received: by mail-ot1-f68.google.com with SMTP id y39so20491162ota.7
-        for <linux-input@vger.kernel.org>; Wed, 16 Oct 2019 08:29:03 -0700 (PDT)
+        Wed, 16 Oct 2019 11:29:19 -0400
+Received: by mail-wm1-f68.google.com with SMTP id y135so4936695wmc.1;
+        Wed, 16 Oct 2019 08:29:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=V9VEJ6qCsL2ywbrpNNXgyPcRNbaXwu3Y4oOlJhBpLzQ=;
-        b=cDMLHUXZK9cMI2/GCB64rQqpH3gxjuGZNiLW7PVaJUUcrSTGnUd89F+fe1nuIvO0Fa
-         dUVOOVGMVkibaDN2U3QOAKuVrnTDKzqEFFR4aRPZ+x4DUecvR60CxRXNHTaYUIryLWlY
-         GP0IdCOYERcI8Sv+trmIiCysCspwk3tTYzMpuyqF8ghLI/dVaDkab1XBRbwsBWkiF7ri
-         tlOtabO/vY2XtZYqGhMjmjj9D9JbBqqFeLrO5JRvnUjYRWlm+2w3z57IanSq6eVS05QI
-         N9/5GCdaCrwm7FkqeDEFdHd+D4o4aPwI4+EQ5AGN/AEpcAyOr6hbMepo9So70Ps3W8/Q
-         dWqQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=S/1dqToA8XGpZkcCxFWkcVVyKMmf6kZjWcs4ANWYCn4=;
+        b=am4nu+nn4TwbCTLJcWb+upIfcpLvxM3QDO8JXWvqQJ+rW+TW2wBvxPphmPfkl/4Y3f
+         gELAl25n0/pCO2Aw5wNzaAeSqBJEZp22CTLHX4N6TshM8R2HjrTFzbAzRUAcCXWPUw4v
+         Er6zKKpBxCOdL1cP/jLPfQ08wBYAMZfgZk6MLNQsKM1X2G44OyjAqUo9pK0GxqvEX2Mq
+         YPu6hJ4BGbLJIooWvAvFBW1ClbNU44bI7DezWq4UjuDGYm8dvJmaFkrLy6X19NdlVn9o
+         99x4qgJc5ZDTdwWdOZVfuYnDOm/cBqaMtLbMCCwaVXhnCrasXQGafYRZh8m/M30ff3m7
+         E/NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=V9VEJ6qCsL2ywbrpNNXgyPcRNbaXwu3Y4oOlJhBpLzQ=;
-        b=YD+NyMUwmrtOWnG5KyIKGXj4incDFL59AFztH/joWs2TYAuQHH1RIaEnDN/KxbAjlH
-         u+UxtO7xK71svdh3IXpzJVFukTXOtz4IFFjgLKV5EnUtPS4+Y0sgAhvZIhkLhYi5W1Xr
-         l95X46qSbLJHBTy9dABWwxMnfmVNuYpljXsqokZf23lX6fXhFF09a4MGy5PlIEsQijPn
-         k3gIdhIkSjshlrfJYwYAfHcQMhyMKWf4gqJG4d8mHUHw1bX9blITZCrrbFtQ3Ir8bEAi
-         YWkQf+izBkcDAD2SraD2YVKuvzeQ0v8ZyUP/pb2uZ0kiLL3LJ7c8sHo47spqRu/OaJwe
-         C7Mg==
-X-Gm-Message-State: APjAAAXfuMptkreCzO+kSOWC7OWOww53lIQ5KQbN6Bj/+7HkhuhE7T0e
-        3HDrwTdVBy6URhSJBhUZxXqOw27egW2HWpulkSCqbA==
-X-Google-Smtp-Source: APXvYqxwgp+zi0BPWcA5EYFlnLtpnZA5f6BadLLiWGM2ewOW44p8W5YP5jVes3s2F+Rtq1EiRqUqeBH/KPbq4q7mKqs=
-X-Received: by 2002:a9d:6c96:: with SMTP id c22mr3645106otr.194.1571239742813;
- Wed, 16 Oct 2019 08:29:02 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=S/1dqToA8XGpZkcCxFWkcVVyKMmf6kZjWcs4ANWYCn4=;
+        b=lWPi4zyij/a3u3WxHmGD2u7bHbDv9w2fC4ASZwX6V1D77fWmma9KVs3cMtOV2J5dJ7
+         ga5nKs6yBxYiZkdK8LApO0MWAR3+a7krwAQzi52EUM/RMmCI3tRPmc32YJqyz+m/1WsT
+         /uZgDf89IJFfr9PqzdWYWaBuBfhKL5uQ7IgttWKWXTQnG9MQrG8ZJOxRNURNWaCSI25Q
+         aDylsuHmiaTPxEA0sUzqGyzZMUNQv4EAqCCRqjj6YcmEFw7bI9qC3pIWpxjLm8rAUzrN
+         DPkW0uafR3iqBC4wPJtZ/lyPndwLi/h1KomsJvOoQwXkGLXZrz8aXbX95JaSE0OWWt+C
+         3e4Q==
+X-Gm-Message-State: APjAAAWlgK5biwqJZnw2eRngG8sTgeNCfJAxZdYkdEnQeS2D+uvtgfPH
+        mxdGtASa9ekOFIpKYwCAZS4=
+X-Google-Smtp-Source: APXvYqw6EqT4M2clgLs8xjijQWocikRiSu7tOxNCKc20QmyqCO5u/WZHZnWR3u8dDHrm5IvLWAaeIA==
+X-Received: by 2002:a1c:9ecf:: with SMTP id h198mr3879322wme.45.1571239757635;
+        Wed, 16 Oct 2019 08:29:17 -0700 (PDT)
+Received: from debian ([167.98.27.226])
+        by smtp.gmail.com with ESMTPSA id f18sm2959763wmh.43.2019.10.16.08.29.16
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 16 Oct 2019 08:29:16 -0700 (PDT)
+Date:   Wed, 16 Oct 2019 16:29:14 +0100
+From:   Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+To:     Yue Haibing <yuehaibing@huawei.com>
+Cc:     dmitry.torokhov@gmail.com, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: walkera0701 - Fix possible NULL pointer
+ dereference in walkera0701_detach
+Message-ID: <20191016152914.ubzaluipboeku5zz@debian>
+References: <20190423145637.35004-1-yuehaibing@huawei.com>
 MIME-Version: 1.0
-References: <20191015162300.22024-1-brgl@bgdev.pl> <20191015162300.22024-2-brgl@bgdev.pl>
- <CAL_JsqKhGr6QDWZFR6cq6MH-0vghb9oSgkCCdi7bhiKmvrkY_w@mail.gmail.com>
- <CAMRc=Mdb7T6p7xXWJBS2UXq0E-FD4WRtaP7H-AvRH0s6-MyJ8A@mail.gmail.com> <CAL_JsqJZ9myO3Uwb6j_R3W8EpVtOaCZV6_tDfNAXwoaUZO+kNQ@mail.gmail.com>
-In-Reply-To: <CAL_JsqJZ9myO3Uwb6j_R3W8EpVtOaCZV6_tDfNAXwoaUZO+kNQ@mail.gmail.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Wed, 16 Oct 2019 17:28:51 +0200
-Message-ID: <CAMpxmJUrwTn9cafnGD5KPJObhgYq0GN2EedwGiey2tAXwFmbvA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] dt-bindings: mfd: max77650: convert the binding
- document to yaml
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="bvhtikaycjjwg76b"
+Content-Disposition: inline
+In-Reply-To: <20190423145637.35004-1-yuehaibing@huawei.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-=C5=9Br., 16 pa=C5=BA 2019 o 15:51 Rob Herring <robh+dt@kernel.org> napisa=
-=C5=82(a):
->
-> On Wed, Oct 16, 2019 at 7:55 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote=
-:
-> >
-> > wt., 15 pa=C5=BA 2019 o 23:17 Rob Herring <robh+dt@kernel.org> napisa=
-=C5=82(a):
-> > >
-> > > On Tue, Oct 15, 2019 at 11:23 AM Bartosz Golaszewski <brgl@bgdev.pl> =
-wrote:
-> > > >
-> > > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > >
-> > > > Convert the binding document for MAX77650 core MFD module to YAML.
-> > > >
-> > > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > > ---
-> > > >  .../devicetree/bindings/mfd/max77650.txt      | 47 +----------
-> > > >  .../devicetree/bindings/mfd/max77650.yaml     | 83 +++++++++++++++=
-++++
-> > > >  2 files changed, 84 insertions(+), 46 deletions(-)
-> > > >  create mode 100644 Documentation/devicetree/bindings/mfd/max77650.=
-yaml
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/mfd/max77650.txt b/D=
-ocumentation/devicetree/bindings/mfd/max77650.txt
-> > > > index b529d8d19335..080871686b3b 100644
-> > > > --- a/Documentation/devicetree/bindings/mfd/max77650.txt
-> > > > +++ b/Documentation/devicetree/bindings/mfd/max77650.txt
-> > > > @@ -1,46 +1 @@
-> > > > -MAX77650 ultra low-power PMIC from Maxim Integrated.
-> > > > -
-> > > > -Required properties:
-> > > > --------------------
-> > > > -- compatible:          Must be "maxim,max77650"
-> > > > -- reg:                 I2C device address.
-> > > > -- interrupts:          The interrupt on the parent the controller =
-is
-> > > > -                       connected to.
-> > > > -- interrupt-controller: Marks the device node as an interrupt cont=
-roller.
-> > > > -- #interrupt-cells:    Must be <2>.
-> > > > -
-> > > > -- gpio-controller:     Marks the device node as a gpio controller.
-> > > > -- #gpio-cells:         Must be <2>. The first cell is the pin numb=
-er and
-> > > > -                       the second cell is used to specify the gpio=
- active
-> > > > -                       state.
-> > > > -
-> > > > -Optional properties:
-> > > > ---------------------
-> > > > -gpio-line-names:       Single string containing the name of the GP=
-IO line.
-> > > > -
-> > > > -The GPIO-controller module is represented as part of the top-level=
- PMIC
-> > > > -node. The device exposes a single GPIO line.
-> > > > -
-> > > > -For device-tree bindings of other sub-modules (regulator, power su=
-pply,
-> > > > -LEDs and onkey) refer to the binding documents under the respectiv=
-e
-> > > > -sub-system directories.
-> > > > -
-> > > > -For more details on GPIO bindings, please refer to the generic GPI=
-O DT
-> > > > -binding document <devicetree/bindings/gpio/gpio.txt>.
-> > > > -
-> > > > -Example:
-> > > > ---------
-> > > > -
-> > > > -       pmic@48 {
-> > > > -               compatible =3D "maxim,max77650";
-> > > > -               reg =3D <0x48>;
-> > > > -
-> > > > -               interrupt-controller;
-> > > > -               interrupt-parent =3D <&gpio2>;
-> > > > -               #interrupt-cells =3D <2>;
-> > > > -               interrupts =3D <3 IRQ_TYPE_LEVEL_LOW>;
-> > > > -
-> > > > -               gpio-controller;
-> > > > -               #gpio-cells =3D <2>;
-> > > > -               gpio-line-names =3D "max77650-charger";
-> > > > -       };
-> > > > +This file has been moved to max77650.yaml.
-> > > > diff --git a/Documentation/devicetree/bindings/mfd/max77650.yaml b/=
-Documentation/devicetree/bindings/mfd/max77650.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..5186ad287ec7
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/mfd/max77650.yaml
-> > > > @@ -0,0 +1,83 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/mfd/max77650.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: MAX77650 ultra low-power PMIC from Maxim Integrated.
-> > > > +
-> > > > +maintainers:
-> > > > +  - Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > > +
-> > > > +description: |
-> > > > +  This document describes the DT properties of the core MFD contro=
-ller.
-> > > > +
-> > > > +  The GPIO-controller module is represented as part of the top-lev=
-el PMIC
-> > > > +  node. The device exposes a single GPIO line.
-> > > > +
-> > > > +  For device-tree bindings of other sub-modules (regulator, power =
-supply,
-> > > > +  LEDs and onkey) refer to the binding documents under the respect=
-ive
-> > > > +  sub-system directories.
-> > > > +
-> > > > +  For more details on GPIO bindings, please refer to the generic G=
-PIO DT
-> > > > +  binding document <devicetree/bindings/gpio/gpio.txt>.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    const: maxim,max77650
-> > > > +
-> > > > +  reg:
-> > > > +    description:
-> > > > +      I2C device address.
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  interrupts:
-> > > > +    description:
-> > > > +      The interrupt on the parent the controller is connected to.
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  interrupt-controller: true
-> > > > +
-> > > > +  "#interrupt-cells":
-> > > > +    const: 2
-> > > > +    description:
-> > > > +      The first cell is the IRQ number, the second cell is the tri=
-gger type.
-> > > > +
-> > > > +  gpio-controller: true
-> > > > +
-> > > > +  "#gpio-cells":
-> > > > +    const: 2
-> > > > +    description:
-> > > > +      The first cell is the pin number and the second cell is used=
- to specify
-> > > > +      the gpio active state.
-> > > > +
-> > > > +  gpio-line-names:
-> > > > +    $ref: '/schemas/types.yaml#/definitions/string-array'
-> > > > +    maxItems: 1
-> > > > +    description:
-> > > > +      Single string containing the name of the GPIO line.
-> > > > +
-> > > > +required:
-> > > > +  - compatible
-> > > > +  - reg
-> > > > +  - interrupts
-> > > > +  - interrupt-controller
-> > > > +  - "#interrupt-cells"
-> > > > +  - gpio-controller
-> > > > +  - "#gpio-cells"
-> > > > +
-> > > > +examples:
-> > > > +  - |
-> > > > +    pmic@48 {
-> > > > +        compatible =3D "maxim,max77650";
-> > > > +        reg =3D <0x48>;
-> > > > +
-> > > > +        interrupt-controller;
-> > > > +        interrupt-parent =3D <&gpio2>;
-> > > > +        #interrupt-cells =3D <2>;
-> > > > +        interrupts =3D <3 IRQ_TYPE_LEVEL_LOW>;
-> > >
-> > > Examples are built now. Run 'make dt_binding_check' on bindings befor=
-e
-> > > sending them:
-> > >
-> > > Error: Documentation/devicetree/bindings/mfd/max77650.example.dts:24.=
-29-30
-> > > syntax error
-> > > FATAL ERROR: Unable to parse input tree
-> > > scripts/Makefile.lib:321: recipe for target
-> > > 'Documentation/devicetree/bindings/mfd/max77650.example.dt.yaml'
-> > > failed
-> > > make[1]: *** [Documentation/devicetree/bindings/mfd/max77650.example.=
-dt.yaml]
-> > > Error 1
-> > >
-> > > You need to include any includes that you use.
-> > >
-> > > Rob
-> >
-> > Hi Rob,
-> >
-> > thanks for the review.
-> >
-> > I'm on v5.4-rc3 and when running dt_binding_check, the error I'm
-> > getting is this:
-> >
-> > # make dt_binding_check
-> > DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/mfd/max77650.yaml
-> >   SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
-> >   CHKDT   Documentation/devicetree/bindings/mfd/max77650.yaml
-> > make[1]: *** No rule to make target
-> > 'Documentation/devicetree/bindings/mfd/max77650.example.dt.yaml',
-> > needed by '__build'.  Stop.
-> > make: *** [Makefile:1263: dt_binding_check] Error 2
-> >
-> > Is this caused by the same issue or am I missing something?
->
-> I believe that's because dtc needs to be built with libyaml support.
->
 
-Indeed, I didn't have the development package installed, but
-surprisingly I didn't get the warning from scripts/dtc/Makefile about
-that either.
+--bvhtikaycjjwg76b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Bart
+On Tue, Apr 23, 2019 at 10:56:37PM +0800, Yue Haibing wrote:
+> From: YueHaibing <yuehaibing@huawei.com>
+> 
+> KASAN report this:
 
-> Rob
+<snip>
+
+>  
+>  static void walkera0701_detach(struct parport *port)
+>  {
+>  	struct walkera_dev *w = &w_dev;
+>  
+> -	if (!w->pardevice || w->parport->number != port->number)
+> +	if (!w->parport)
+
+It doesn't look correct. This way the detach function will never know the
+port number to which it is attached, and as a result it will try to do
+detach() with all the ports in the system.
+Please check the attached patch and maybe (if possible) ask Hulk Robot
+to verify if it fixes the problem.
+
+--
+Regards
+Sudip
+
+--bvhtikaycjjwg76b
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: attachment; filename="0001-Input-walkera0701-Fix-possible-NULL-pointer-derefere.patch"
+
+From 0338a89a873e7df57707852402f90bb0d6626f12 Mon Sep 17 00:00:00 2001
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Date: Wed, 16 Oct 2019 16:08:43 +0100
+Subject: [PATCH] Input: walkera0701 - Fix possible NULL pointer dereference
+
+If walkera0701_attach() fails and input_dev is made NULL then we are
+unregistering the pardevice but it still has the pointer to the dev
+which has now been released. And as a result in the walkera0701_detach()
+it will now try to do input_unregister_device() with a NULL pointer.
+We should mark the pardevice as NULL when it is unregistered.
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Reported-by: Yue Haibing <yuehaibing@huawei.com>
+Fixes: 221bcb24c653 ("Input: walkera0701 - use parallel port device model")
+Cc: stable@vger.kernel.org # v4.4+
+Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+---
+ drivers/input/joystick/walkera0701.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/input/joystick/walkera0701.c b/drivers/input/joystick/walkera0701.c
+index 56abc8c6c763..d8ae1329bf00 100644
+--- a/drivers/input/joystick/walkera0701.c
++++ b/drivers/input/joystick/walkera0701.c
+@@ -275,6 +275,7 @@ static void walkera0701_attach(struct parport *pp)
+ 	input_free_device(w->input_dev);
+ err_unregister_device:
+ 	parport_unregister_device(w->pardevice);
++	w->pardevice = NULL;
+ }
+ 
+ static void walkera0701_detach(struct parport *port)
+-- 
+2.11.0
+
+
+--bvhtikaycjjwg76b--
