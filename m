@@ -2,63 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8997FDB86E
-	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 22:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03C69DB86F
+	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 22:42:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502376AbfJQUmf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Oct 2019 16:42:35 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:34056 "EHLO
+        id S2502425AbfJQUmh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Oct 2019 16:42:37 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:36237 "EHLO
         mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502279AbfJQUme (ORCPT
+        with ESMTP id S2502343AbfJQUmf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Oct 2019 16:42:34 -0400
-Received: by mail-pf1-f193.google.com with SMTP id b128so2392399pfa.1;
-        Thu, 17 Oct 2019 13:42:33 -0700 (PDT)
+        Thu, 17 Oct 2019 16:42:35 -0400
+Received: by mail-pf1-f193.google.com with SMTP id y22so2382919pfr.3;
+        Thu, 17 Oct 2019 13:42:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=B0s3tKuBk+lp7xcyPBRGt1DsIYJknXV6umHFo5h/I8Y=;
-        b=hhV1i9KhFm+6Jd1qKeNUgzZv5U/kStM3dgMATNPV7INUHysvn1Vn/jhlU/Ybb7Ab6V
-         ae92VWqfu816kHM1nQtZjiuyV5IMgVbnLmItxXo5Sa6A2n4c/bQbTNgOjzJbvyxRwkKB
-         XKEiAPyRNecUBHUSqG4fuAraNDe4LIjr/chypOBI0qqQFdMaQGee/MLIGyDP6LIxIeN1
-         eCSGYPAWqQ4MJ1u8nNEC84edr09I8m7FJmgw2LbZ0nQdj9CezswR0eWw8eyeCk/nqsMC
-         tIRXN5JRjpRfRvkSe2IrtsE4KQhN7IP5HU8ndD4FH6+6B+wUh4yn+HTGIdEQT1O5WoG8
-         71mw==
+        bh=PVrYmBoDUzQiiHoNw2A+nCbZJE8bePDfQgT4dijBPRw=;
+        b=DNDNpCdFAd9VeiF8CHjBIo/j1+/PJ276Ve7b+Rck3q2D9WkgKlum2WioD8TIZJlWO1
+         hrzurCLh+Q4pMxpBRfgqxSHsoxr66e593gDDXUYZO6gxl9LpsA8IMt/rdaCA7Oqo2V2L
+         rOEU0OeEHMquodtQeSdBU8xmVrdLnJOVgHFFvB5cOQ6D06KsHNNT1fpXjIzNqIO7+JMz
+         S8e0cQGLm9yJD4bPhhcUJHvheXxUEyvAjyMdM2UMfnng6dFve0cXux1NxDnbba8t0zV3
+         HzLH1an4pkCtnyBX/ILC9iJlaqcOJ0QczrP4cC2g5pa9wIiiJLbizms+3IADNsxqFpya
+         H/cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=B0s3tKuBk+lp7xcyPBRGt1DsIYJknXV6umHFo5h/I8Y=;
-        b=n5SAjxZ5DtrpLRZ+8A2XuAms+Y8AU1Tcm6bV+Np10/o36WIWgtmzXqyDg/dtedlvat
-         Ow+K4OyDAnBcBlivfN/64FU28LxjoOiE1l0sKuA3h3wENUnH9Rmddv/CaZpXeCx5SVl+
-         ZJ79wfcSkVnobagl+hP5pTJ4at4niYkMYr0sK6uFZ+k5aA4Z6QOYr8T5kKRdDIH3o19E
-         4FTrp7xa/k/D8/EdQIicr17rM5XLo48ae2sabOD/FIFIOcbZq5Ru+Gc5eMgBPoIlPeWN
-         gUj7n87iX65izTsdV/Q0Paxza5TQ7/Ge7odQChoZTx//JfO8+gPKi9yIBzFna7B9GL4J
-         Bdzg==
-X-Gm-Message-State: APjAAAUfuKRqdNkbMQZ40WDQnSijFbwGSzrSAM78ra9wRliOhnp9I0eH
-        CuyaN+1XlRDGyGk7iaSY+CM0DTZl
-X-Google-Smtp-Source: APXvYqz8Qo2V1zykS+Ng5NTW0WOgCtwowevyvaZ7Y0HPzvzwb0JdfI5aakXai4hO12XtpT3FJgbxLw==
-X-Received: by 2002:a62:4ed6:: with SMTP id c205mr2272074pfb.208.1571344952567;
-        Thu, 17 Oct 2019 13:42:32 -0700 (PDT)
+        bh=PVrYmBoDUzQiiHoNw2A+nCbZJE8bePDfQgT4dijBPRw=;
+        b=qBwnRlz9k9ma/egp0mqbkj8esnW0Vyzja69GuduL6mxHH4VZULiTgt2iJRMXGHr5JT
+         0oc/Y6vuGcdwZh4n3Y96VTJKwh7HUTKA8UaFyY1CA4bWQMDF5BR+1N2cVJA5Pnz0LQoH
+         8crXijYbF7UCB214SVmm6ixObHe8SXzFZAtCZ6W5O7CLIsZf8LEgisvdzWI8zSGXCmvy
+         UEIyiON5ccOZLm9edBDmRIUDPY44v+DyhQPcaTxVg7RySc0NtxxIlv5x65rIgOjNwZuN
+         IeN2Ek7HeGK7Pg2bQmIdS61otKiFfckh6Mh7VZ4RqPKWDVff4FQ2usDGo6lqYBarkoIW
+         pioA==
+X-Gm-Message-State: APjAAAWoEncA/n5Dx76w8lNhxBWlnZ6yWn0kxc7NILD+Ew87c3pMAFF7
+        TGGZZn+gPCl71366F+xjaszE5Egb
+X-Google-Smtp-Source: APXvYqwWilu0YT8+PBehmdRToprPAd+XGSdWPKVKJygxm7UFO/unONTgu6oIM937o/0QKQdQ2SFSrQ==
+X-Received: by 2002:a63:3853:: with SMTP id h19mr2781778pgn.55.1571344953854;
+        Thu, 17 Oct 2019 13:42:33 -0700 (PDT)
 Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id b3sm4626365pfd.125.2019.10.17.13.42.31
+        by smtp.gmail.com with ESMTPSA id b3sm4626365pfd.125.2019.10.17.13.42.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 13:42:31 -0700 (PDT)
+        Thu, 17 Oct 2019 13:42:33 -0700 (PDT)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     linux-input@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Jacky Bai <ping.bai@nxp.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        =?UTF-8?q?Ronald=20Tschal=C3=A4r?= <ronald@innovation.ch>,
-        Stefan Agner <stefan@agner.ch>,
-        YueHaibing <yuehaibing@huawei.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 08/22] Input: gpio_keys_polled - switch to using polled mode of input devices
-Date:   Thu, 17 Oct 2019 13:42:02 -0700
-Message-Id: <20191017204217.106453-9-dmitry.torokhov@gmail.com>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Enrico Weigelt <info@metux.net>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Sven Van Asbroeck <TheSven73@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 09/22] Input: apanel - switch to using polled mode of input devices
+Date:   Thu, 17 Oct 2019 13:42:03 -0700
+Message-Id: <20191017204217.106453-10-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
 In-Reply-To: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
 References: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
@@ -70,216 +67,264 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 We have added polled mode to the normal input devices with the intent of
-retiring input_polled_dev. This converts gpio_keys_polled driver to use
-the polling mode of standard input devices and removes dependency on
-INPUT_POLLDEV.
+retiring input_polled_dev. This converts apanel driver to use the polling
+mode of standard input devices and removes dependency on INPUT_POLLDEV.
 
-Note that we still keep polled and non-polled gpio-keys drivers separate,
-as they are different enough and mixing them up would make the code pretty
-confusing.
+While at it, let's convert the driver to use devm.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
 
- drivers/input/keyboard/Kconfig            |  1 -
- drivers/input/keyboard/gpio_keys_polled.c | 65 ++++++++++++-----------
- 2 files changed, 34 insertions(+), 32 deletions(-)
+ drivers/input/misc/Kconfig  |   1 -
+ drivers/input/misc/apanel.c | 153 +++++++++++++++---------------------
+ 2 files changed, 64 insertions(+), 90 deletions(-)
 
-diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-index 54b1905ebbfe..2856b4f72b12 100644
---- a/drivers/input/keyboard/Kconfig
-+++ b/drivers/input/keyboard/Kconfig
-@@ -248,7 +248,6 @@ config KEYBOARD_GPIO
- config KEYBOARD_GPIO_POLLED
- 	tristate "Polled GPIO buttons"
- 	depends on GPIOLIB
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index 7d9ae394e597..a6b8af69915d 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -257,7 +257,6 @@ config INPUT_MMA8450
+ config INPUT_APANEL
+ 	tristate "Fujitsu Lifebook Application Panel buttons"
+ 	depends on X86 && I2C && LEDS_CLASS
 -	select INPUT_POLLDEV
+ 	select CHECK_SIGNATURE
  	help
- 	  This driver implements support for buttons connected
- 	  to GPIO pins that are not capable of generating interrupts.
-diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
-index 465eecfa6b3f..4c93b85773ad 100644
---- a/drivers/input/keyboard/gpio_keys_polled.c
-+++ b/drivers/input/keyboard/gpio_keys_polled.c
-@@ -16,7 +16,6 @@
+ 	 Say Y here for support of the Application Panel buttons, used on
+diff --git a/drivers/input/misc/apanel.c b/drivers/input/misc/apanel.c
+index 53ec40d1b90d..de0deb432fe3 100644
+--- a/drivers/input/misc/apanel.c
++++ b/drivers/input/misc/apanel.c
+@@ -17,7 +17,7 @@
  #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/input.h>
--#include <linux/input-polldev.h>
  #include <linux/ioport.h>
- #include <linux/platform_device.h>
- #include <linux/gpio.h>
-@@ -34,7 +33,7 @@ struct gpio_keys_button_data {
+ #include <linux/io.h>
+-#include <linux/input-polldev.h>
++#include <linux/input.h>
+ #include <linux/i2c.h>
+ #include <linux/leds.h>
+ 
+@@ -51,19 +51,28 @@ static enum apanel_chip device_chip[APANEL_DEV_MAX];
+ #define MAX_PANEL_KEYS	12
+ 
+ struct apanel {
+-	struct input_polled_dev *ipdev;
++	struct input_dev *idev;
+ 	struct i2c_client *client;
+ 	unsigned short keymap[MAX_PANEL_KEYS];
+-	u16    nkeys;
++	u16 nkeys;
+ 	struct led_classdev mail_led;
  };
  
- struct gpio_keys_polled_dev {
--	struct input_polled_dev *poll_dev;
-+	struct input_dev *input;
- 	struct device *dev;
- 	const struct gpio_keys_platform_data *pdata;
- 	unsigned long rel_axis_seen[BITS_TO_LONGS(REL_CNT)];
-@@ -42,12 +41,11 @@ struct gpio_keys_polled_dev {
- 	struct gpio_keys_button_data data[0];
- };
++static unsigned short apanel_keymap[MAX_PANEL_KEYS] = {
++	[0] = KEY_MAIL,
++	[1] = KEY_WWW,
++	[2] = KEY_PROG2,
++	[3] = KEY_PROG1,
  
--static void gpio_keys_button_event(struct input_polled_dev *dev,
-+static void gpio_keys_button_event(struct input_dev *input,
- 				   const struct gpio_keys_button *button,
- 				   int state)
+-static int apanel_probe(struct i2c_client *, const struct i2c_device_id *);
++	[8] = KEY_FORWARD,
++	[9] = KEY_REWIND,
++	[10] = KEY_STOPCD,
++	[11] = KEY_PLAYPAUSE,
++};
+ 
+ static void report_key(struct input_dev *input, unsigned keycode)
  {
--	struct gpio_keys_polled_dev *bdev = dev->private;
--	struct input_dev *input = dev->input;
-+	struct gpio_keys_polled_dev *bdev = input_get_drvdata(input);
- 	unsigned int type = button->type ?: EV_KEY;
- 
- 	if (type == EV_REL) {
-@@ -66,7 +64,7 @@ static void gpio_keys_button_event(struct input_polled_dev *dev,
- 	}
- }
- 
--static void gpio_keys_polled_check_state(struct input_polled_dev *dev,
-+static void gpio_keys_polled_check_state(struct input_dev *input,
- 					 const struct gpio_keys_button *button,
- 					 struct gpio_keys_button_data *bdata)
- {
-@@ -74,10 +72,10 @@ static void gpio_keys_polled_check_state(struct input_polled_dev *dev,
- 
- 	state = gpiod_get_value_cansleep(bdata->gpiod);
- 	if (state < 0) {
--		dev_err(dev->input->dev.parent,
-+		dev_err(input->dev.parent,
- 			"failed to get gpio state: %d\n", state);
- 	} else {
--		gpio_keys_button_event(dev, button, state);
-+		gpio_keys_button_event(input, button, state);
- 
- 		if (state != bdata->last_state) {
- 			bdata->count = 0;
-@@ -86,11 +84,10 @@ static void gpio_keys_polled_check_state(struct input_polled_dev *dev,
- 	}
- }
- 
--static void gpio_keys_polled_poll(struct input_polled_dev *dev)
-+static void gpio_keys_polled_poll(struct input_dev *input)
- {
--	struct gpio_keys_polled_dev *bdev = dev->private;
-+	struct gpio_keys_polled_dev *bdev = input_get_drvdata(input);
- 	const struct gpio_keys_platform_data *pdata = bdev->pdata;
--	struct input_dev *input = dev->input;
- 	int i;
- 
- 	memset(bdev->rel_axis_seen, 0, sizeof(bdev->rel_axis_seen));
-@@ -101,10 +98,10 @@ static void gpio_keys_polled_poll(struct input_polled_dev *dev)
- 
- 		if (bdata->count < bdata->threshold) {
- 			bdata->count++;
--			gpio_keys_button_event(dev, &pdata->buttons[i],
-+			gpio_keys_button_event(input, &pdata->buttons[i],
- 					       bdata->last_state);
- 		} else {
--			gpio_keys_polled_check_state(dev, &pdata->buttons[i],
-+			gpio_keys_polled_check_state(input, &pdata->buttons[i],
- 						     bdata);
- 		}
- 	}
-@@ -122,18 +119,20 @@ static void gpio_keys_polled_poll(struct input_polled_dev *dev)
+-	pr_debug(APANEL ": report key %#x\n", keycode);
++	dev_dbg(input->dev.parent, "report key %#x\n", keycode);
+ 	input_report_key(input, keycode, 1);
  	input_sync(input);
- }
  
--static void gpio_keys_polled_open(struct input_polled_dev *dev)
-+static int gpio_keys_polled_open(struct input_dev *input)
+@@ -79,10 +88,9 @@ static void report_key(struct input_dev *input, unsigned keycode)
+  * CD keys:
+  * Forward (0x100), Rewind (0x200), Stop (0x400), Pause (0x800)
+  */
+-static void apanel_poll(struct input_polled_dev *ipdev)
++static void apanel_poll(struct input_dev *idev)
  {
--	struct gpio_keys_polled_dev *bdev = dev->private;
-+	struct gpio_keys_polled_dev *bdev = input_get_drvdata(input);
- 	const struct gpio_keys_platform_data *pdata = bdev->pdata;
- 
- 	if (pdata->enable)
- 		pdata->enable(bdev->dev);
-+
-+	return 0;
- }
- 
--static void gpio_keys_polled_close(struct input_polled_dev *dev)
-+static void gpio_keys_polled_close(struct input_dev *input)
- {
--	struct gpio_keys_polled_dev *bdev = dev->private;
-+	struct gpio_keys_polled_dev *bdev = input_get_drvdata(input);
- 	const struct gpio_keys_platform_data *pdata = bdev->pdata;
- 
- 	if (pdata->disable)
-@@ -232,7 +231,6 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
- 	struct fwnode_handle *child = NULL;
- 	const struct gpio_keys_platform_data *pdata = dev_get_platdata(dev);
- 	struct gpio_keys_polled_dev *bdev;
--	struct input_polled_dev *poll_dev;
- 	struct input_dev *input;
- 	int error;
+-	struct apanel *ap = ipdev->private;
+-	struct input_dev *idev = ipdev->input;
++	struct apanel *ap = input_get_drvdata(idev);
+ 	u8 cmd = device_chip[APANEL_DEV_APPBTN] == CHIP_OZ992C ? 0 : 8;
+ 	s32 data;
  	int i;
-@@ -255,19 +253,13 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	}
+@@ -112,126 +120,93 @@ static int mail_led_set(struct led_classdev *led,
+ 	return i2c_smbus_write_word_data(ap->client, 0x10, led_bits);
+ }
  
--	poll_dev = devm_input_allocate_polled_device(dev);
--	if (!poll_dev) {
--		dev_err(dev, "no memory for polled device\n");
-+	input = devm_input_allocate_device(dev);
-+	if (!input) {
-+		dev_err(dev, "no memory for input device\n");
- 		return -ENOMEM;
- 	}
- 
--	poll_dev->private = bdev;
--	poll_dev->poll = gpio_keys_polled_poll;
--	poll_dev->poll_interval = pdata->poll_interval;
--	poll_dev->open = gpio_keys_polled_open;
--	poll_dev->close = gpio_keys_polled_close;
+-static int apanel_remove(struct i2c_client *client)
+-{
+-	struct apanel *ap = i2c_get_clientdata(client);
 -
--	input = poll_dev->input;
-+	input_set_drvdata(input, bdev);
+-	if (device_chip[APANEL_DEV_LED] != CHIP_NONE)
+-		led_classdev_unregister(&ap->mail_led);
+-
+-	input_unregister_polled_device(ap->ipdev);
+-	input_free_polled_device(ap->ipdev);
+-
+-	return 0;
+-}
+-
+-static void apanel_shutdown(struct i2c_client *client)
+-{
+-	apanel_remove(client);
+-}
+-
+-static const struct i2c_device_id apanel_id[] = {
+-	{ "fujitsu_apanel", 0 },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(i2c, apanel_id);
+-
+-static struct i2c_driver apanel_driver = {
+-	.driver = {
+-		.name = APANEL,
+-	},
+-	.probe		= &apanel_probe,
+-	.remove		= &apanel_remove,
+-	.shutdown	= &apanel_shutdown,
+-	.id_table	= apanel_id,
+-};
+-
+-static struct apanel apanel = {
+-	.keymap = {
+-		[0] = KEY_MAIL,
+-		[1] = KEY_WWW,
+-		[2] = KEY_PROG2,
+-		[3] = KEY_PROG1,
+-
+-		[8] = KEY_FORWARD,
+-		[9] = KEY_REWIND,
+-		[10] = KEY_STOPCD,
+-		[11] = KEY_PLAYPAUSE,
+-
+-	},
+-	.mail_led = {
+-		.name = "mail:blue",
+-		.brightness_set_blocking = mail_led_set,
+-	},
+-};
+-
+-/* NB: Only one panel on the i2c. */
+ static int apanel_probe(struct i2c_client *client,
+ 			const struct i2c_device_id *id)
+ {
+ 	struct apanel *ap;
+-	struct input_polled_dev *ipdev;
+ 	struct input_dev *idev;
+ 	u8 cmd = device_chip[APANEL_DEV_APPBTN] == CHIP_OZ992C ? 0 : 8;
+-	int i, err = -ENOMEM;
++	int i, err;
  
- 	input->name = pdata->name ?: pdev->name;
- 	input->phys = DRV_NAME"/input0";
-@@ -277,6 +269,9 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
- 	input->id.product = 0x0001;
- 	input->id.version = 0x0100;
+-	ap = &apanel;
++	ap = devm_kzalloc(&client->dev, sizeof(*ap), GFP_KERNEL);
++	if (!ap)
++		return -ENOMEM;
  
-+	input->open = gpio_keys_polled_open;
-+	input->close = gpio_keys_polled_close;
+-	ipdev = input_allocate_polled_device();
+-	if (!ipdev)
+-		goto out1;
++	idev = devm_input_allocate_device(&client->dev);
++	if (!idev)
++		return -ENOMEM;
+ 
+-	ap->ipdev = ipdev;
++	ap->idev = idev;
+ 	ap->client = client;
+ 
+ 	i2c_set_clientdata(client, ap);
+ 
+ 	err = i2c_smbus_write_word_data(client, cmd, 0);
+ 	if (err) {
+-		dev_warn(&client->dev, APANEL ": smbus write error %d\n",
+-			 err);
+-		goto out3;
++		dev_warn(&client->dev, "smbus write error %d\n", err);
++		return err;
+ 	}
+ 
+-	ipdev->poll = apanel_poll;
+-	ipdev->poll_interval = POLL_INTERVAL_DEFAULT;
+-	ipdev->private = ap;
++	input_set_drvdata(idev, ap);
+ 
+-	idev = ipdev->input;
+ 	idev->name = APANEL_NAME " buttons";
+ 	idev->phys = "apanel/input0";
+ 	idev->id.bustype = BUS_HOST;
+-	idev->dev.parent = &client->dev;
+-
+-	set_bit(EV_KEY, idev->evbit);
+ 
++	memcpy(ap->keymap, apanel_keymap, sizeof(apanel_keymap));
+ 	idev->keycode = ap->keymap;
+ 	idev->keycodesize = sizeof(ap->keymap[0]);
+ 	idev->keycodemax = (device_chip[APANEL_DEV_CDBTN] != CHIP_NONE) ? 12 : 4;
+ 
++	set_bit(EV_KEY, idev->evbit);
+ 	for (i = 0; i < idev->keycodemax; i++)
+ 		if (ap->keymap[i])
+ 			set_bit(ap->keymap[i], idev->keybit);
+ 
+-	err = input_register_polled_device(ipdev);
++	err = input_setup_polling(idev, apanel_poll);
++	if (err)
++		return err;
 +
- 	__set_bit(EV_KEY, input->evbit);
- 	if (pdata->rep)
- 		__set_bit(EV_REP, input->evbit);
-@@ -353,11 +348,19 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
- 
- 	fwnode_handle_put(child);
- 
--	bdev->poll_dev = poll_dev;
-+	bdev->input = input;
- 	bdev->dev = dev;
- 	bdev->pdata = pdata;
- 
--	error = input_register_polled_device(poll_dev);
-+	error = input_setup_polling(input, gpio_keys_polled_poll);
-+	if (error) {
-+		dev_err(dev, "unable to set up polling, err=%d\n", error);
-+		return error;
-+	}
++	input_set_poll_interval(idev, POLL_INTERVAL_DEFAULT);
 +
-+	input_set_poll_interval(input, pdata->poll_interval);
++	err = input_register_device(idev);
+ 	if (err)
+-		goto out3;
++		return err;
+ 
+ 	if (device_chip[APANEL_DEV_LED] != CHIP_NONE) {
+-		err = led_classdev_register(&client->dev, &ap->mail_led);
++		ap->mail_led.name = "mail:blue";
++		ap->mail_led.brightness_set_blocking = mail_led_set;
++		err = devm_led_classdev_register(&client->dev, &ap->mail_led);
+ 		if (err)
+-			goto out4;
++			return err;
+ 	}
+ 
+ 	return 0;
+-out4:
+-	input_unregister_polled_device(ipdev);
+-out3:
+-	input_free_polled_device(ipdev);
+-out1:
+-	return err;
+ }
+ 
++static void apanel_shutdown(struct i2c_client *client)
++{
++	struct apanel *ap = i2c_get_clientdata(client);
 +
-+	error = input_register_device(input);
- 	if (error) {
- 		dev_err(dev, "unable to register polled device, err=%d\n",
- 			error);
-@@ -366,7 +369,7 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
- 
- 	/* report initial state of the buttons */
- 	for (i = 0; i < pdata->nbuttons; i++)
--		gpio_keys_polled_check_state(poll_dev, &pdata->buttons[i],
-+		gpio_keys_polled_check_state(input, &pdata->buttons[i],
- 					     &bdev->data[i]);
- 
- 	input_sync(input);
++	if (device_chip[APANEL_DEV_LED] != CHIP_NONE)
++		led_set_brightness(&ap->mail_led, LED_OFF);
++}
++
++static const struct i2c_device_id apanel_id[] = {
++	{ "fujitsu_apanel", 0 },
++	{ }
++};
++MODULE_DEVICE_TABLE(i2c, apanel_id);
++
++static struct i2c_driver apanel_driver = {
++	.driver = {
++		.name = APANEL,
++	},
++	.probe		= &apanel_probe,
++	.shutdown	= &apanel_shutdown,
++	.id_table	= apanel_id,
++};
++
+ /* Scan the system ROM for the signature "FJKEYINF" */
+ static __init const void __iomem *bios_signature(const void __iomem *bios)
+ {
 -- 
 2.23.0.866.gb869b98d4c-goog
 
