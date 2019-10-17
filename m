@@ -2,222 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F025DB68D
-	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 20:51:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31F6BDB866
+	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 22:42:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406821AbfJQSvV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Oct 2019 14:51:21 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:33312 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388823AbfJQSvV (ORCPT
+        id S1728951AbfJQUmZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Oct 2019 16:42:25 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:37901 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727269AbfJQUmY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Oct 2019 14:51:21 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 60so2836784otu.0;
-        Thu, 17 Oct 2019 11:51:19 -0700 (PDT)
+        Thu, 17 Oct 2019 16:42:24 -0400
+Received: by mail-pl1-f195.google.com with SMTP id w8so1701678plq.5;
+        Thu, 17 Oct 2019 13:42:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nPDOMJGsHH0zWzPAXm/wI3oxwPr0hf8L0/bKy7cCfl0=;
+        b=JY5V0+zsgcHQRg+zIlfgYCnfvpm4+2xS++Wrh5CZKpfPmBH97fjeKguHx2KGQ7JcU4
+         B1RXuRi2+tSbaAqaGOzzASRHJj++kOC+LCAmQDJSPeyZb8DnL2mMRwlPiCwzdPiCWlUs
+         Xh6p7h9kKxZsBiq/NA6sEtIH65uq9Hafzf+lUVMfb8ijpYSuTXaNoiTNqv9sFEtuUwOt
+         TbRUWF7kiHt5lcy828hYBACk5tIrtJaTrhPuN5uMVq25g5F/5h3tPmTd5qmwS88pYnAg
+         2zZJVCktgXrf3VCPK9oywT03Y57xan/2a7SgrdB9dfI6+pIu3+CRznM3ZR/GkKdN2cf/
+         aCKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=uQYP/0Fr9W3z7AH2U3KxlY2QC+oTwq0Ok9HJ6oW23Oo=;
-        b=kqifvuy1xpTCrGsb6usx5RT1exc91YnpZaw9jsX5hPADI2pTFo15hc9jmfzKAdgB6f
-         xy172VOkSmUqp2jnWmsaY+PTxTM/tiM8m98bbCUBkhDJI+QKOPORAszA0XZOVY2dPz9V
-         bBK6u0HkXZyLJQ/Blx76hsBYGRTmob/Siy/sckcY5JeAVZy+dB8H3b0G2zy1p7XYr6Lr
-         iV3yeSFkGm74BOIORldvyYYeiZl2LbhV6QltFkBU56pBelg/+CuMVtBoAFozweOcM/bV
-         gIu3X8mjZIO0TW3KBxU5gfd5RWwh+00AlA+Zm+MzpmUzgxP/eW2UcuWham6hH3B+6xDc
-         yVOw==
-X-Gm-Message-State: APjAAAW+2I7B8BhrLmMppGp9/LI0FKdxqzIfHETF7rfdTYSxrQ9DsLFt
-        oCAMXTH9bkdIKoORP+d62UhosM0=
-X-Google-Smtp-Source: APXvYqxHWeIp566bMef8Qjtvxkh468x/vVId7yRzAFfnsxxaEdu+fAz577HEprAedk4SvNVjed19yA==
-X-Received: by 2002:a9d:6e92:: with SMTP id a18mr4130227otr.313.1571338279403;
-        Thu, 17 Oct 2019 11:51:19 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id w25sm816876oth.39.2019.10.17.11.51.18
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nPDOMJGsHH0zWzPAXm/wI3oxwPr0hf8L0/bKy7cCfl0=;
+        b=d99OnXNMe+/LGtum3nRgFdkixdmA+faJFHvCTZnusgQlrDtMU67myLjDiCa/HDadQ+
+         W8UCtEP68NVmwb4FAJ8OwETTMeCm5UE71B/eWmK2n0+shGYGGlO3Ra4oOCFVTHCoKaDF
+         UlVXPac0JgcV/B485ZJ3O7EGGytVKnrGVP+D1jdAu/vyoXDQ9+UjjbBQfhDcRQ9zczYM
+         xCeAu1XTRkZ6JpctbYNI6aUervrw2VqQibEsEBtF+1UJEZvkEeMEt80d8Y1EKToSIHmq
+         h66gFjUdEb8/0gdiUjimy6XfbafS+Auq4h0luCUGEFUKkIsb5NRfmzBr9x8v3GX+3/+F
+         XAZw==
+X-Gm-Message-State: APjAAAXq8HHBsXk071uCqMaPqPmyblmniWwFaWVVT+jWYpPTcycj2YDJ
+        KyN/9HFDDO21/0NLJP9PNS8bFo2t
+X-Google-Smtp-Source: APXvYqzB6sY5K36yP5ikWTXLkI1rfufnmBl38JrsxdSekitFu0TG7m6r9+16waKtOEprzS9jLoRCDw==
+X-Received: by 2002:a17:902:2e:: with SMTP id 43mr6159836pla.55.1571344941448;
+        Thu, 17 Oct 2019 13:42:21 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id b3sm4626365pfd.125.2019.10.17.13.42.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 11:51:18 -0700 (PDT)
-Date:   Thu, 17 Oct 2019 13:51:17 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v3 5/6] dt-bindings: leds: max77650: convert the binding
- document to yaml
-Message-ID: <20191017185117.GA30431@bogus>
-References: <20191017071234.8719-1-brgl@bgdev.pl>
- <20191017071234.8719-6-brgl@bgdev.pl>
+        Thu, 17 Oct 2019 13:42:20 -0700 (PDT)
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Alexander Shiyan <shc_work@mail.ru>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Enrico Weigelt <info@metux.net>, Eric Anholt <eric@anholt.net>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacky Bai <ping.bai@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
+        Jilayne Lovejoy <opensource@jilayne.com>,
+        Jonathan Bakker <xc-racer2@live.ca>,
+        Luca Weiss <luca@z3ntu.xyz>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Martin Kepplinger <martink@posteo.de>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Miloslav Trmac <mitr@volny.cz>,
+        Mukesh Ojha <mojha@codeaurora.org>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Pavel Machek <pavel@ucw.cz>,
+        =?UTF-8?q?Pawe=C5=82=20Chmiel?= <pawel.mikolaj.chmiel@gmail.com>,
+        Richard Fontana <rfontana@redhat.com>,
+        =?UTF-8?q?Ronald=20Tschal=C3=A4r?= <ronald@innovation.ch>,
+        Stefan Agner <stefan@agner.ch>,
+        Steve Winslow <swinslow@gmail.com>,
+        Sven Van Asbroeck <TheSven73@gmail.com>,
+        YueHaibing <yuehaibing@huawei.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/22] Stop using input_polled_dev in polling drivers
+Date:   Thu, 17 Oct 2019 13:41:54 -0700
+Message-Id: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191017071234.8719-6-brgl@bgdev.pl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Oct 17, 2019 at 09:12:33AM +0200, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> Convert the binding document for MAX77650 LED module to YAML.
-> 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->  .../bindings/leds/leds-max77650.txt           | 57 ------------------
->  .../bindings/leds/leds-max77650.yaml          | 58 +++++++++++++++++++
->  2 files changed, 58 insertions(+), 57 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-max77650.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-max77650.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-max77650.txt b/Documentation/devicetree/bindings/leds/leds-max77650.txt
-> deleted file mode 100644
-> index 3a67115cc1da..000000000000
-> --- a/Documentation/devicetree/bindings/leds/leds-max77650.txt
-> +++ /dev/null
-> @@ -1,57 +0,0 @@
-> -LED driver for MAX77650 PMIC from Maxim Integrated.
-> -
-> -This module is part of the MAX77650 MFD device. For more details
-> -see Documentation/devicetree/bindings/mfd/max77650.txt.
-> -
-> -The LED controller is represented as a sub-node of the PMIC node on
-> -the device tree.
-> -
-> -This device has three current sinks.
-> -
-> -Required properties:
-> ---------------------
-> -- compatible:		Must be "maxim,max77650-led"
-> -- #address-cells:	Must be <1>.
-> -- #size-cells:		Must be <0>.
-> -
-> -Each LED is represented as a sub-node of the LED-controller node. Up to
-> -three sub-nodes can be defined.
-> -
-> -Required properties of the sub-node:
-> -------------------------------------
-> -
-> -- reg:			Must be <0>, <1> or <2>.
-> -
-> -Optional properties of the sub-node:
-> -------------------------------------
-> -
-> -- label:		See Documentation/devicetree/bindings/leds/common.txt
-> -- linux,default-trigger: See Documentation/devicetree/bindings/leds/common.txt
-> -
-> -For more details, please refer to the generic GPIO DT binding document
-> -<devicetree/bindings/gpio/gpio.txt>.
-> -
-> -Example:
-> ---------
-> -
-> -	leds {
-> -		compatible = "maxim,max77650-led";
-> -		#address-cells = <1>;
-> -		#size-cells = <0>;
-> -
-> -		led@0 {
-> -			reg = <0>;
-> -			label = "blue:usr0";
-> -		};
-> -
-> -		led@1 {
-> -			reg = <1>;
-> -			label = "red:usr1";
-> -			linux,default-trigger = "heartbeat";
-> -		};
-> -
-> -		led@2 {
-> -			reg = <2>;
-> -			label = "green:usr2";
-> -		};
-> -	};
-> diff --git a/Documentation/devicetree/bindings/leds/leds-max77650.yaml b/Documentation/devicetree/bindings/leds/leds-max77650.yaml
-> new file mode 100644
-> index 000000000000..5a1e256185bd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-max77650.yaml
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-max77650.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: LED driver for MAX77650 PMIC from Maxim Integrated.
-> +
-> +maintainers:
-> +  - Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> +
-> +description: |
-> +  This module is part of the MAX77650 MFD device. For more details
-> +  see Documentation/devicetree/bindings/mfd/max77650.txt.
-> +
-> +  The LED controller is represented as a sub-node of the PMIC node on
-> +  the device tree.
-> +
-> +  This device has three current sinks.
-> +
-> +properties:
-> +  compatible:
-> +    const: maxim,max77650-led
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^led@[0-2]$":
-> +    type: object
-> +    description: |
-> +      Properties for a single LED.
-> +
-> +    properties:
-> +      reg:
-> +        description:
-> +          Index of the LED.
-> +        maxItems: 1
-> +        minimum: 0
-> +        maximum: 2
+Input devices now support polling mode natively (via input_setup_polling
+API), and input_polled_dev implementation is going away. This series
+switches drivers found in drivers/input to the new scheme.
 
-Mixing array and scalar constraints. Just need (dropping maxItems):
 
-items:
-  - minimum: 0
-    maximum: 2
+Dmitry Torokhov (21):
+  Input: raspberrypi-ts - switch to using polled mode of input devices
+  Input: sur40 - switch to using polled mode of input devices
+  Input: ts4800-ts - switch to using polled mode of input devices
+  Input: tsc6507x-ts - switch to using polled mode of input devices
+  Input: adc-keys - switch to using polled mode of input devices
+  Input: clps711x-keypad - switch to using polled mode of input devices
+  Input: jornada680_kbd - switch to using polled mode of input devices
+  Input: gpio_keys_polled - switch to using polled mode of input devices
+  Input: apanel - switch to using polled mode of input devices
+  Input: wistron_btns - switch to using polled mode of input devices
+  Input: cobalt_btns - convert to use managed resources
+  Input: cobalt_btns - switch to using polled mode of input devices
+  Input: sgi_btns - switch to using managed resources
+  Input: sgi_btns - switch to using polled mode of input devices
+  Input: rb532_button - switch to using managed resources
+  Input: rb532_button - switch to using polled mode of input devices
+  Input: gpio_decoder - switch to using polled mode of input devices
+  Input: mma8450 - switch to using polled mode of input devices
+  Input: bma150 - switch to using polled mode of input devices
+  Input: kxtj9 - switch to using managed resources
+  Input: kxtj9 - switch to using polled mode of input devices
 
-> +
-> +      label:
-> +        $ref: "/schemas/types.yaml#/definitions/string"
+Jonathan Bakker (1):
+  Input: bma150 - use managed resources helpers
 
-Globally defined as a string already.
+ drivers/input/keyboard/Kconfig             |   4 -
+ drivers/input/keyboard/adc-keys.c          |  36 ++--
+ drivers/input/keyboard/clps711x-keypad.c   |  70 +++----
+ drivers/input/keyboard/gpio_keys_polled.c  |  65 +++---
+ drivers/input/keyboard/jornada680_kbd.c    |  37 ++--
+ drivers/input/misc/Kconfig                 |  15 --
+ drivers/input/misc/apanel.c                | 153 ++++++--------
+ drivers/input/misc/bma150.c                | 190 +++++------------
+ drivers/input/misc/cobalt_btns.c           |  73 +++----
+ drivers/input/misc/gpio_decoder.c          |  42 ++--
+ drivers/input/misc/kxtj9.c                 | 224 ++++++---------------
+ drivers/input/misc/mma8450.c               | 101 +++++-----
+ drivers/input/misc/rb532_button.c          |  48 ++---
+ drivers/input/misc/sgi_btns.c              |  54 ++---
+ drivers/input/misc/wistron_btns.c          |  51 ++---
+ drivers/input/touchscreen/Kconfig          |   4 -
+ drivers/input/touchscreen/raspberrypi-ts.c |  38 ++--
+ drivers/input/touchscreen/sur40.c          |  92 +++++----
+ drivers/input/touchscreen/tps6507x-ts.c    |  36 ++--
+ drivers/input/touchscreen/ts4800-ts.c      |  68 ++++---
+ 20 files changed, 557 insertions(+), 844 deletions(-)
 
-> +        description:
-> +          The label of this LED.
-> +
-> +      linux,default-trigger:
-> +        $ref: "/schemas/types.yaml#/definitions/string"
+-- 
+2.23.0.866.gb869b98d4c-goog
 
-Assume this gets a common binding.
-
-So just 'true' is sufficient for both of these.
-
-> +        description:
-> +          String defining the default trigger assigned to this LED.
-> +
-> +required:
-> +  - compatible
-> +  - "#address-cells"
-> +  - "#size-cells"
-> -- 
-> 2.23.0
-> 
