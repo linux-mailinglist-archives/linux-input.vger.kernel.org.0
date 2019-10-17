@@ -2,102 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A897DB288
-	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 18:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3948BDB555
+	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 20:00:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408431AbfJQQiF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Oct 2019 12:38:05 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:34715 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729529AbfJQQiE (ORCPT
+        id S1729325AbfJQSAE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Oct 2019 14:00:04 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42669 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727241AbfJQSAE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Oct 2019 12:38:04 -0400
-Received: by mail-pg1-f193.google.com with SMTP id k20so1679155pgi.1;
-        Thu, 17 Oct 2019 09:38:03 -0700 (PDT)
+        Thu, 17 Oct 2019 14:00:04 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q12so2124357pff.9;
+        Thu, 17 Oct 2019 11:00:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=88QrclS2PFOwVeOOMbkwV6zSODwwtRGUvBm1chNxLs8=;
-        b=TwaisgwZAaA4qkGE53nYwB1lSxKA+G5+veH52439X8jBXHvU42UWL5rNHWFiqAHhcW
-         5BnGuQpqNzbzSTXog9ToPGmAltHejjl9p2RoOG0Is4nQ/7Ijo7Ekcu5TPpPfATf7dIf9
-         DlYDqBktz3hadccNsJV63v0y2sz7fYa7vVqzwr0DeWTriK0gj51qx6QZ7dFkbyYpfpNN
-         CeHe46ypx+1EIJLtSFCWsFXFW4H467EQir5Cq2WCAlhjP1ljavEl7raRci4m0lMwrk7d
-         hQ4OsDZH7x+9qJP2LVxuTinRLYQMqT7psF4ZtU0UMqBwCUX/T2Yh6lCXC6B9VhfEk0jA
-         lllg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=5llPGiQesTZRbdQZS+LGFIWEO3rSCU/NACr08ZgLNjA=;
+        b=CzfaisiVCNaVNalq0C+r17YG01hqWDcgSnWXfTb0t1WnHGaP3YbRAPBjXZpOVZBI1w
+         Pn138x3tkDf7RDTz4b8CE51hfOlNaqyExppRHrMUMLL/4D/Yw12dAzi2Q0iuNIbDyzWq
+         fW9hJTsP6NkBUXdab9UzuvOgY3uWonWuHEyxjFWrk5VJAEuxN2vz+yjBRfn8Xd9poNbQ
+         KoDo6a8+ugw48GLG7y+LaVJGf2mlJCEsupYTni2apeby+c0n/d4542H+lrTlkoHkgOxH
+         gS8sN0P0hHtd3JrJb5LozZZrjeN8oRzGA33HXl5uSq7zMwmN+49l8LaU/4rwFwaAVgY/
+         nmtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=88QrclS2PFOwVeOOMbkwV6zSODwwtRGUvBm1chNxLs8=;
-        b=tBxfqhiBHQ+jzYYBe78QYw+bBT1C68/esAXD+m7wiebhaFHdq5j9p/ijR7i3+pOldS
-         PYzi5Rl82x6cC5XqKdKOyi+KzjMNE4SAEOC24e7IB1o/9BY6YBzGLYPgZ755nPJyo0L6
-         zja0GEZev6YWHykETY0bKZoQEypdWUG7w+ALDUx4o37rgB75W3+B4dFtzjWTs1lZ7/01
-         CMuW5BwN12kpmZRo0yCwUMnhkC3HPZipN267uacGQF1FVHI98/8ogxgxNadi3UvMvHkZ
-         JwHSqo9Ohbg+hukvbBVYiUG2Ku1DswhSP0NvMaI3vff0Sl1hHtWaRY9aDOOMyuBuqGMv
-         LEGA==
-X-Gm-Message-State: APjAAAUCrM/yh0yJnz0+DrE1psPQ4FdUOBgQpX5MJ4t4uQyn8eEYT1sN
-        gf24h1odBw1ixrMOa8AYapo=
-X-Google-Smtp-Source: APXvYqwrSECf3n+OBbr/yGcHjAeSPsYpzfrGqnuKQdER8z/UtqkIihfEt0cGDtSbbSQ5BoRtG8M/rw==
-X-Received: by 2002:a63:383:: with SMTP id 125mr5181681pgd.41.1571330282234;
-        Thu, 17 Oct 2019 09:38:02 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=5llPGiQesTZRbdQZS+LGFIWEO3rSCU/NACr08ZgLNjA=;
+        b=tzvfugzqvdaXrQpwxV9U5izayX1zsz//agNlcKudkyIKq839A24IlzU5TjB2T8lWNk
+         YKu+Q5QEPzCDpgGFiQXgzCiziZ7vP00yFMgSYYIur/hNo37ixmpoEJjFpVymCewpPxGp
+         J4Wf5i2OPOHzbyluA1700BkPbn0XZRdQ3TBH0lfjWwGxEGM0URwdmt3sCHDW6XlqN/Eg
+         mnN1p7u5uZn7by9TuGU4Ubdf+CGQDltRfVWpi+TLKQjWv0b6YOdPgSll2aJOxQ5gx9a/
+         ncQyYCJxMiSb4HpgVLnTgfgehbcDn4csw27wxkl1JkFiTi9/rxBQPxII2Mi3uyP+G1nO
+         Fcmw==
+X-Gm-Message-State: APjAAAU23BRGSh+rycmUR25KH2mits9Kcm8Cam+dK/IDzrLtI95l3Pmf
+        rgEDpykOLrPfA7iuODnOdosdpQE6
+X-Google-Smtp-Source: APXvYqxHGLaWJ8OER5XtH+HG+t/nA2kXO/TwtrQD6rTV+iO4uPlrxaUp7qRPGBp0iRNVB7UHGaEuoQ==
+X-Received: by 2002:a17:90a:304:: with SMTP id 4mr6016053pje.128.1571335202990;
+        Thu, 17 Oct 2019 11:00:02 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id y144sm3713581pfb.188.2019.10.17.09.38.01
+        by smtp.gmail.com with ESMTPSA id 202sm3526050pfu.161.2019.10.17.11.00.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 09:38:01 -0700 (PDT)
-Date:   Thu, 17 Oct 2019 09:37:59 -0700
+        Thu, 17 Oct 2019 11:00:02 -0700 (PDT)
+Date:   Thu, 17 Oct 2019 11:00:00 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Mathew King <mathewk@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, Rajat Jain <rajatja@google.com>,
-        Sean Paul <seanpaul@chromium.org>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Duncan Laurie <dlaurie@google.com>, linux-input@vger.kernel.org
-Subject: Re: [PATCH] input: Add privacy screen toggle keycode
-Message-ID: <20191017163759.GI35946@dtor-ws>
-References: <20191017163208.235518-1-mathewk@chromium.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.4-rc3
+Message-ID: <20191017180000.GA201965@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191017163208.235518-1-mathewk@chromium.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Mathew,
+Hi Linus,
 
-On Thu, Oct 17, 2019 at 10:32:08AM -0600, Mathew King wrote:
-> Add keycode for toggling electronic privacy screen to the keycodes
-> definition. Some new laptops have a privacy screen which can be toggled
-> with a key on the keyboard.
+Please pull from:
 
-Has it made into HID spec yet?
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
-> 
-> Signed-off-by: Mathew King <mathewk@chromium.org>
-> ---
->  include/uapi/linux/input-event-codes.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-> index 85387c76c24f..05d8b4f4f82f 100644
-> --- a/include/uapi/linux/input-event-codes.h
-> +++ b/include/uapi/linux/input-event-codes.h
-> @@ -649,6 +649,8 @@
->   */
->  #define KEY_DATA			0x277
->  #define KEY_ONSCREEN_KEYBOARD		0x278
-> +/* Electronic privacy screen control */
-> +#define KEY_PRIVACY_SCREEN_TOGGLE	0x279
->  
->  #define BTN_TRIGGER_HAPPY		0x2c0
->  #define BTN_TRIGGER_HAPPY1		0x2c0
-> -- 
-> 2.23.0.700.g56cf767bdb-goog
-> 
+to receive updates for the input subsystem. The main change is that we
+are reverting blanket enablement of SMBus mode for devices with Elan
+touchpads that report BIOS release date as 2018+ because there are older
+boxes with updated BIOSes that still do not work well in SMbus mode.
+We will have to establish whitelist for SMBus mode it looks like.
+
+Changelog:
+---------
+
+Evan Green (1):
+      Input: synaptics-rmi4 - avoid processing unknown IRQs
+
+Hans de Goede (1):
+      Input: soc_button_array - partial revert of support for newer surface devices
+
+Kai-Heng Feng (1):
+      Revert "Input: elantech - enable SMBus on new (2018+) systems"
+
+Marco Felsch (1):
+      Input: da9063 - fix capability and drop KEY_SLEEP
+
+Yauhen Kharuzhy (1):
+      Input: goodix - add support for 9-bytes reports
+
+Diffstat:
+--------
+
+ drivers/input/misc/da9063_onkey.c     |  5 +--
+ drivers/input/misc/soc_button_array.c | 17 +++++++---
+ drivers/input/mouse/elantech.c        | 55 +++++++++++++++++----------------
+ drivers/input/rmi4/rmi_driver.c       |  6 +++-
+ drivers/input/touchscreen/goodix.c    | 58 ++++++++++++++++++++++++++++++-----
+ 5 files changed, 97 insertions(+), 44 deletions(-)
 
 Thanks.
+
 
 -- 
 Dmitry
