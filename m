@@ -2,60 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C56A1DB88A
+	by mail.lfdr.de (Postfix) with ESMTP id 56C9FDB889
 	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 22:43:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503577AbfJQUnp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S2503574AbfJQUnp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Thu, 17 Oct 2019 16:43:45 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:36784 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502537AbfJQUmm (ORCPT
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:42160 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2502552AbfJQUmo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Oct 2019 16:42:42 -0400
-Received: by mail-pl1-f193.google.com with SMTP id j11so1706588plk.3;
-        Thu, 17 Oct 2019 13:42:41 -0700 (PDT)
+        Thu, 17 Oct 2019 16:42:44 -0400
+Received: by mail-pg1-f195.google.com with SMTP id f14so2007056pgi.9;
+        Thu, 17 Oct 2019 13:42:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4OSh22+yVoEobbB0Q9LQlMfjUGPQ3hQpM1kovi0TTTE=;
-        b=iu0ojF5yyj3dozHSsziE6kH+Gi584zheA4VlOiCemk4AZQxzKgXLvsn48gtIUW07GV
-         NYtO3c3McBZb+y16uZZkbEdrJll5zVPqOfbr5J1eR56JUNnlneb5jM5y8C6jdeGIq1cs
-         KT1paaVMZXfKM6U0JiYRTdC/Dz8ttXYo8QrNgB8/JbxYHcTspL89Pkg2YIjCzOOW98u6
-         oojuO2+f6cbLTr0MSPVP59KD190L0rNkxCBbN1MLCN+X7HuFaxjBUkkZe7kLmQY3a8Gx
-         4Q3fZpcz451JoqXgCcOiW3WE+ARX/EbIveS2ZhP9drB2VMozR94DyNlsk+ZlX1Myqqnr
-         7OfA==
+        bh=Rw40Y7pRi4fTQvKbY/v46MITEUGL/XAU6ul7eCZwlVo=;
+        b=sosHBIU0RsMqX17uO+wNzNK+kTy+a2nIFoJViL+RO0PmnZeS5wLogNIhsI6ZFet+U0
+         C8T94GZQOS4cgMpAQ/aUOb3LZ60rTrnwBD5ubj9FE0ZndFOgELM3lw+FnioxXNUR4AQ+
+         488KaZljXNL/XiQS5gYiEm0PU0eHrYUhAKlOqzRwv3okyPruZVB2DZ+Lir3uMZzQZsVS
+         wHKseAUYgWvgZMZGpkz1L8lJaO7EacPEQpJalDbuLKRQ1PChklT8VmBA/0FBQJBHuiXV
+         /WOB/wtEw95TcmXnjM8ZZxYeYLPJpp7cN+1amGmo8MihmpH8MaHIkQ64lfha4BkRt9Ma
+         6Bfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4OSh22+yVoEobbB0Q9LQlMfjUGPQ3hQpM1kovi0TTTE=;
-        b=b1hvzDWtkbn79YWU2OKspKEsO4Dx/2k5XUZvRt3gelV3O/DYMLp4UuXoXLncVv3Ugq
-         0kDLDqdG1NAHeceDnU0d8lw735j0UjO7Pr4KsKd/yoCPmevl0RJpYfzhN41OF9Evv0Ry
-         Ec60+lTxWbcbgVABa/yDl3Cs5vp+bjGqHYHhW39LUlFWQaQfV0kG45k8vs4Ov6rtLKVB
-         0LL5FVfkDcnIOqriOifVL4tiQrJyYzuE6j6oiV7YHoBmLTfDqWvygRsueIoh+JwORwat
-         EKD/ypCn0qPlS3Uyx/1BdstFlxNimpy0G1Vsgfu9Ra8JgBEQMtVn2b6gICSiHMiWhYHs
-         bN5Q==
-X-Gm-Message-State: APjAAAULPZHEziLsOI+DIC5/eW5cJNGnzzmNbOlaCtzLqy85tKQTXl4F
-        Pg8Px97G8QsxtbZdBBDViFSYGnZ+
-X-Google-Smtp-Source: APXvYqxl19fCY67lB2b4zP9cmS80YAs6fS6GazjMSJQY393kf6FKfGDNK0YS2dKRdIaSqx5sOXj3kw==
-X-Received: by 2002:a17:902:848e:: with SMTP id c14mr5548629plo.77.1571344960154;
-        Thu, 17 Oct 2019 13:42:40 -0700 (PDT)
+        bh=Rw40Y7pRi4fTQvKbY/v46MITEUGL/XAU6ul7eCZwlVo=;
+        b=gKtPbzLnFBXMPzfTBPSen+5VeDpXWrB9ycfAvVb7GTGKYXfpUvcXrtvcD/NgF3pSSs
+         czKg8q92SglH3bspWfmuk+qnEWXPF/BGRlO1CIAYda1kVjloG09ddOZLDJH4r7U06No7
+         4KAqgdRDvvfOX8spefkQ4F9i4vrdd3VvWdteqRNaa6UDtSSOuBxjlBASwpl1Tk+pYf1H
+         jKLO8oOl2IZAfmgLRhnFsv9BbzOwKvT5AvBFIKsWs0NKS4/RywB9ugQcT3vQ4KdQbxco
+         2dRxmuzUR1CTK4jmteqDMndb16iU+nEU07oRrbLFCSQHxH+uNYqBbiqhVpXxslKTpJi5
+         DUog==
+X-Gm-Message-State: APjAAAX0QA9cq7+MTPJPiVLC0Hr1eYxY6RjPzQA0Mej/bkGk50rwueTh
+        o7dB18gO8EFcRKfiBcHWtJZLMeWm
+X-Google-Smtp-Source: APXvYqwtsuKuPXZsa6pO5sz5LSSNVN+NQpd7xgf5wX3/YM8FzUSQ7oSB8pkq6qaUhvZnucZLxfiB+A==
+X-Received: by 2002:a17:90a:a407:: with SMTP id y7mr6561565pjp.124.1571344961518;
+        Thu, 17 Oct 2019 13:42:41 -0700 (PDT)
 Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id b3sm4626365pfd.125.2019.10.17.13.42.39
+        by smtp.gmail.com with ESMTPSA id b3sm4626365pfd.125.2019.10.17.13.42.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 13:42:39 -0700 (PDT)
+        Thu, 17 Oct 2019 13:42:40 -0700 (PDT)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     linux-input@vger.kernel.org
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Steve Winslow <swinslow@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 14/22] Input: sgi_btns - switch to using polled mode of input devices
-Date:   Thu, 17 Oct 2019 13:42:08 -0700
-Message-Id: <20191017204217.106453-15-dmitry.torokhov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org
+Subject: [PATCH 15/22] Input: rb532_button - switch to using managed resources
+Date:   Thu, 17 Oct 2019 13:42:09 -0700
+Message-Id: <20191017204217.106453-16-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
 In-Reply-To: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
 References: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
@@ -66,100 +61,64 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-We have added polled mode to the normal input devices with the intent of
-retiring input_polled_dev. This converts sgi_btns driver to use
-the polling mode of standard input devices and removes dependency on
-INPUT_POLLDEV.
+Using devm API allows us to clean up error handling paths and drop the
+remove() method.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
 
- drivers/input/misc/Kconfig    |  1 -
- drivers/input/misc/sgi_btns.c | 25 +++++++++++++------------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/input/misc/rb532_button.c | 20 ++------------------
+ 1 file changed, 2 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 05520bf4e31d..c27a9ee4ef9a 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -543,7 +543,6 @@ config INPUT_UINPUT
- config INPUT_SGI_BTNS
- 	tristate "SGI Indy/O2 volume button interface"
- 	depends on SGI_IP22 || SGI_IP32
--	select INPUT_POLLDEV
- 	help
- 	  Say Y here if you want to support SGI Indy/O2 volume button interface.
+diff --git a/drivers/input/misc/rb532_button.c b/drivers/input/misc/rb532_button.c
+index 4412055f8761..3c43024f4527 100644
+--- a/drivers/input/misc/rb532_button.c
++++ b/drivers/input/misc/rb532_button.c
+@@ -58,7 +58,7 @@ static int rb532_button_probe(struct platform_device *pdev)
+ 	struct input_polled_dev *poll_dev;
+ 	int error;
  
-diff --git a/drivers/input/misc/sgi_btns.c b/drivers/input/misc/sgi_btns.c
-index 829277b4271f..0657d785b3cc 100644
---- a/drivers/input/misc/sgi_btns.c
-+++ b/drivers/input/misc/sgi_btns.c
-@@ -4,7 +4,7 @@
-  *
-  *  Copyright (C) 2008  Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-  */
--#include <linux/input-polldev.h>
-+#include <linux/input.h>
- #include <linux/ioport.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-@@ -49,10 +49,9 @@ struct buttons_dev {
- 	int count[ARRAY_SIZE(sgi_map)];
- };
- 
--static void handle_buttons(struct input_polled_dev *dev)
-+static void handle_buttons(struct input_dev *input)
- {
--	struct buttons_dev *bdev = dev->private;
--	struct input_dev *input = dev->input;
-+	struct buttons_dev *bdev = input_get_drvdata(input);
- 	u8 status;
- 	int i;
- 
-@@ -79,7 +78,6 @@ static void handle_buttons(struct input_polled_dev *dev)
- static int sgi_buttons_probe(struct platform_device *pdev)
- {
- 	struct buttons_dev *bdev;
--	struct input_polled_dev *poll_dev;
- 	struct input_dev *input;
- 	int error, i;
- 
-@@ -87,17 +85,14 @@ static int sgi_buttons_probe(struct platform_device *pdev)
- 	if (!bdev)
+-	poll_dev = input_allocate_polled_device();
++	poll_dev = devm_input_allocate_polled_device(&pdev->dev);
+ 	if (!poll_dev)
  		return -ENOMEM;
  
--	poll_dev = devm_input_allocate_polled_device(&pdev->dev);
--	if (!poll_dev)
-+	input = devm_input_allocate_device(&pdev->dev);
-+	if (!input)
- 		return -ENOMEM;
+@@ -68,34 +68,18 @@ static int rb532_button_probe(struct platform_device *pdev)
+ 	poll_dev->input->name = "rb532 button";
+ 	poll_dev->input->phys = "rb532/button0";
+ 	poll_dev->input->id.bustype = BUS_HOST;
+-	poll_dev->input->dev.parent = &pdev->dev;
+-
+-	dev_set_drvdata(&pdev->dev, poll_dev);
  
- 	memcpy(bdev->keymap, sgi_map, sizeof(bdev->keymap));
+ 	input_set_capability(poll_dev->input, EV_KEY, RB532_BTN_KSYM);
  
--	poll_dev->private = bdev;
--	poll_dev->poll = handle_buttons;
--	poll_dev->poll_interval = BUTTONS_POLL_INTERVAL;
-+	input_set_drvdata(input, bdev);
- 
--	input = poll_dev->input;
- 	input->name = "SGI buttons";
- 	input->phys = "sgi/input0";
- 	input->id.bustype = BUS_HOST;
-@@ -112,7 +107,13 @@ static int sgi_buttons_probe(struct platform_device *pdev)
- 		__set_bit(bdev->keymap[i], input->keybit);
- 	__clear_bit(KEY_RESERVED, input->keybit);
- 
--	error = input_register_polled_device(poll_dev);
-+	error = input_setup_polling(input, handle_buttons);
+ 	error = input_register_polled_device(poll_dev);
+-	if (error) {
+-		input_free_polled_device(poll_dev);
 +	if (error)
-+		return error;
-+
-+	input_set_poll_interval(input, BUTTONS_POLL_INTERVAL);
-+
-+	error = input_register_device(input);
- 	if (error)
  		return error;
+-	}
+-
+-	return 0;
+-}
+-
+-static int rb532_button_remove(struct platform_device *pdev)
+-{
+-	struct input_polled_dev *poll_dev = dev_get_drvdata(&pdev->dev);
+-
+-	input_unregister_polled_device(poll_dev);
+-	input_free_polled_device(poll_dev);
  
+ 	return 0;
+ }
+ 
+ static struct platform_driver rb532_button_driver = {
+ 	.probe = rb532_button_probe,
+-	.remove = rb532_button_remove,
+ 	.driver = {
+ 		.name = DRV_NAME,
+ 	},
 -- 
 2.23.0.866.gb869b98d4c-goog
 
