@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 03C69DB86F
-	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 22:42:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07B9ADB892
+	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 22:44:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502425AbfJQUmh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Oct 2019 16:42:37 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:36237 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502343AbfJQUmf (ORCPT
+        id S2502462AbfJQUmj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Oct 2019 16:42:39 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:39518 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2502399AbfJQUmg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Oct 2019 16:42:35 -0400
-Received: by mail-pf1-f193.google.com with SMTP id y22so2382919pfr.3;
-        Thu, 17 Oct 2019 13:42:34 -0700 (PDT)
+        Thu, 17 Oct 2019 16:42:36 -0400
+Received: by mail-pg1-f196.google.com with SMTP id p12so2020963pgn.6;
+        Thu, 17 Oct 2019 13:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PVrYmBoDUzQiiHoNw2A+nCbZJE8bePDfQgT4dijBPRw=;
-        b=DNDNpCdFAd9VeiF8CHjBIo/j1+/PJ276Ve7b+Rck3q2D9WkgKlum2WioD8TIZJlWO1
-         hrzurCLh+Q4pMxpBRfgqxSHsoxr66e593gDDXUYZO6gxl9LpsA8IMt/rdaCA7Oqo2V2L
-         rOEU0OeEHMquodtQeSdBU8xmVrdLnJOVgHFFvB5cOQ6D06KsHNNT1fpXjIzNqIO7+JMz
-         S8e0cQGLm9yJD4bPhhcUJHvheXxUEyvAjyMdM2UMfnng6dFve0cXux1NxDnbba8t0zV3
-         HzLH1an4pkCtnyBX/ILC9iJlaqcOJ0QczrP4cC2g5pa9wIiiJLbizms+3IADNsxqFpya
-         H/cg==
+        bh=/u7CQMSqx4AqgCFaDTl7FrvAytzef1LxG8s2tTMpAZA=;
+        b=ZFe484p1up1ZOS/7Ry47ymlyO4ldflOXJZvhXJjjjBkIofzyAXSDpqeLuaPAsLhPES
+         ieRvhebdFRDC9aMNsPB0fD1yevighBZAwBIA7usJY/med0a/JfXNRt1N9mCWzP+RkEXF
+         s8sUhbEFQB7ewA/HgBAzb50Tb4U8zcHLfwSCw0M3kBDRKpT37IpDJDcIQSzxaX6rT+lU
+         jVtdIgI/IgQ1Fu3w06dfyLd5Val90VMqiUqTAbxbMtXaleiu8tcdoxD6cnrgrigPSONC
+         7HrW6rX5yRQrUVhafTX0kKN70YGbUNi19vg8lHF1deHA+UpXyoFUlPVM8hVoXr+O+Urv
+         q7cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PVrYmBoDUzQiiHoNw2A+nCbZJE8bePDfQgT4dijBPRw=;
-        b=qBwnRlz9k9ma/egp0mqbkj8esnW0Vyzja69GuduL6mxHH4VZULiTgt2iJRMXGHr5JT
-         0oc/Y6vuGcdwZh4n3Y96VTJKwh7HUTKA8UaFyY1CA4bWQMDF5BR+1N2cVJA5Pnz0LQoH
-         8crXijYbF7UCB214SVmm6ixObHe8SXzFZAtCZ6W5O7CLIsZf8LEgisvdzWI8zSGXCmvy
-         UEIyiON5ccOZLm9edBDmRIUDPY44v+DyhQPcaTxVg7RySc0NtxxIlv5x65rIgOjNwZuN
-         IeN2Ek7HeGK7Pg2bQmIdS61otKiFfckh6Mh7VZ4RqPKWDVff4FQ2usDGo6lqYBarkoIW
-         pioA==
-X-Gm-Message-State: APjAAAWoEncA/n5Dx76w8lNhxBWlnZ6yWn0kxc7NILD+Ew87c3pMAFF7
-        TGGZZn+gPCl71366F+xjaszE5Egb
-X-Google-Smtp-Source: APXvYqwWilu0YT8+PBehmdRToprPAd+XGSdWPKVKJygxm7UFO/unONTgu6oIM937o/0QKQdQ2SFSrQ==
-X-Received: by 2002:a63:3853:: with SMTP id h19mr2781778pgn.55.1571344953854;
-        Thu, 17 Oct 2019 13:42:33 -0700 (PDT)
+        bh=/u7CQMSqx4AqgCFaDTl7FrvAytzef1LxG8s2tTMpAZA=;
+        b=ojg31Y65WaeN+n10GjmZB0fUs8sZWnQJlTNWIEAWKl+jbehajHEO2Nzpz7Q3U7yJoo
+         4zZE50f1qb8kPb25JJeXhoIEqsKw1GdKklZYXQyJMiv5TmGTIO4BkVpblveMMuggmhdD
+         W87JYfapnzsMuYUSbQPvgx84syYgH08y0/7VagIfK+9yP1EltFIrdinhSQlSD3uXSkvf
+         MqBMyN/MiexxWprpLM8jUco4FqvKxE++Xdgg+dO4eGpiQX9e7kdG8aRIlmTa8KDJSO7l
+         rSr2ubOinWE0jmMzaW2bfFfO1+UmEWEAswkeKnG8PZyU02FnaZoFHSl3qb1OHrvp+NAt
+         +hFA==
+X-Gm-Message-State: APjAAAVmq+iHC/Dq3ALNu2nD6nhBkJnlW4kRAmF+fxAHJx8Kv0fcAnbt
+        1PBb4blOjoSO0K3JORk4n9IyRQoU
+X-Google-Smtp-Source: APXvYqzxQ2/iNypxVHBBbitc/8Q8q1+ZEi6pyXFf2HzrEixssFtagr4mb7W2D+rPQCGMOLxHkqWnKg==
+X-Received: by 2002:a17:90a:cf98:: with SMTP id i24mr6391907pju.99.1571344955329;
+        Thu, 17 Oct 2019 13:42:35 -0700 (PDT)
 Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id b3sm4626365pfd.125.2019.10.17.13.42.32
+        by smtp.gmail.com with ESMTPSA id b3sm4626365pfd.125.2019.10.17.13.42.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 13:42:33 -0700 (PDT)
+        Thu, 17 Oct 2019 13:42:34 -0700 (PDT)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     linux-input@vger.kernel.org
 Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Brian Masney <masneyb@onstation.org>,
-        Enrico Weigelt <info@metux.net>, Luca Weiss <luca@z3ntu.xyz>,
+        Luca Weiss <luca@z3ntu.xyz>,
         Maximilian Luz <luzmaximilian@gmail.com>,
-        Sven Van Asbroeck <TheSven73@gmail.com>,
+        Miloslav Trmac <mitr@volny.cz>, Pavel Machek <pavel@ucw.cz>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 09/22] Input: apanel - switch to using polled mode of input devices
-Date:   Thu, 17 Oct 2019 13:42:03 -0700
-Message-Id: <20191017204217.106453-10-dmitry.torokhov@gmail.com>
+Subject: [PATCH 10/22] Input: wistron_btns - switch to using polled mode of input devices
+Date:   Thu, 17 Oct 2019 13:42:04 -0700
+Message-Id: <20191017204217.106453-11-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
 In-Reply-To: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
 References: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
@@ -67,264 +67,166 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 We have added polled mode to the normal input devices with the intent of
-retiring input_polled_dev. This converts apanel driver to use the polling
-mode of standard input devices and removes dependency on INPUT_POLLDEV.
-
-While at it, let's convert the driver to use devm.
+retiring input_polled_dev. This converts wistron_btns driver to use
+the polling mode of standard input devices and removes dependency on
+INPUT_POLLDEV.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
 
- drivers/input/misc/Kconfig  |   1 -
- drivers/input/misc/apanel.c | 153 +++++++++++++++---------------------
- 2 files changed, 64 insertions(+), 90 deletions(-)
+ drivers/input/misc/Kconfig        |  1 -
+ drivers/input/misc/wistron_btns.c | 51 ++++++++++++++++---------------
+ 2 files changed, 27 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 7d9ae394e597..a6b8af69915d 100644
+index a6b8af69915d..248e3b40bd24 100644
 --- a/drivers/input/misc/Kconfig
 +++ b/drivers/input/misc/Kconfig
-@@ -257,7 +257,6 @@ config INPUT_MMA8450
- config INPUT_APANEL
- 	tristate "Fujitsu Lifebook Application Panel buttons"
- 	depends on X86 && I2C && LEDS_CLASS
+@@ -346,7 +346,6 @@ config INPUT_CPCAP_PWRBUTTON
+ config INPUT_WISTRON_BTNS
+ 	tristate "x86 Wistron laptop button interface"
+ 	depends on X86_32
 -	select INPUT_POLLDEV
- 	select CHECK_SIGNATURE
- 	help
- 	 Say Y here for support of the Application Panel buttons, used on
-diff --git a/drivers/input/misc/apanel.c b/drivers/input/misc/apanel.c
-index 53ec40d1b90d..de0deb432fe3 100644
---- a/drivers/input/misc/apanel.c
-+++ b/drivers/input/misc/apanel.c
-@@ -17,7 +17,7 @@
- #include <linux/module.h>
- #include <linux/ioport.h>
+ 	select INPUT_SPARSEKMAP
+ 	select NEW_LEDS
+ 	select LEDS_CLASS
+diff --git a/drivers/input/misc/wistron_btns.c b/drivers/input/misc/wistron_btns.c
+index 7ce6cc60d4d2..80dfd72a02d3 100644
+--- a/drivers/input/misc/wistron_btns.c
++++ b/drivers/input/misc/wistron_btns.c
+@@ -8,7 +8,7 @@
  #include <linux/io.h>
+ #include <linux/dmi.h>
+ #include <linux/init.h>
 -#include <linux/input-polldev.h>
 +#include <linux/input.h>
- #include <linux/i2c.h>
- #include <linux/leds.h>
+ #include <linux/input/sparse-keymap.h>
+ #include <linux/interrupt.h>
+ #include <linux/jiffies.h>
+@@ -1030,7 +1030,7 @@ static int __init select_keymap(void)
  
-@@ -51,19 +51,28 @@ static enum apanel_chip device_chip[APANEL_DEV_MAX];
- #define MAX_PANEL_KEYS	12
+  /* Input layer interface */
  
- struct apanel {
--	struct input_polled_dev *ipdev;
-+	struct input_dev *idev;
- 	struct i2c_client *client;
- 	unsigned short keymap[MAX_PANEL_KEYS];
--	u16    nkeys;
-+	u16 nkeys;
- 	struct led_classdev mail_led;
- };
- 
-+static unsigned short apanel_keymap[MAX_PANEL_KEYS] = {
-+	[0] = KEY_MAIL,
-+	[1] = KEY_WWW,
-+	[2] = KEY_PROG2,
-+	[3] = KEY_PROG1,
- 
--static int apanel_probe(struct i2c_client *, const struct i2c_device_id *);
-+	[8] = KEY_FORWARD,
-+	[9] = KEY_REWIND,
-+	[10] = KEY_STOPCD,
-+	[11] = KEY_PLAYPAUSE,
-+};
- 
- static void report_key(struct input_dev *input, unsigned keycode)
+-static struct input_polled_dev *wistron_idev;
++static struct input_dev *wistron_idev;
+ static unsigned long jiffies_last_press;
+ static bool wifi_enabled;
+ static bool bluetooth_enabled;
+@@ -1114,7 +1114,7 @@ static inline void wistron_led_resume(void)
+ static void handle_key(u8 code)
  {
--	pr_debug(APANEL ": report key %#x\n", keycode);
-+	dev_dbg(input->dev.parent, "report key %#x\n", keycode);
- 	input_report_key(input, keycode, 1);
- 	input_sync(input);
+ 	const struct key_entry *key =
+-		sparse_keymap_entry_from_scancode(wistron_idev->input, code);
++		sparse_keymap_entry_from_scancode(wistron_idev, code);
  
-@@ -79,10 +88,9 @@ static void report_key(struct input_dev *input, unsigned keycode)
-  * CD keys:
-  * Forward (0x100), Rewind (0x200), Stop (0x400), Pause (0x800)
-  */
--static void apanel_poll(struct input_polled_dev *ipdev)
-+static void apanel_poll(struct input_dev *idev)
- {
--	struct apanel *ap = ipdev->private;
--	struct input_dev *idev = ipdev->input;
-+	struct apanel *ap = input_get_drvdata(idev);
- 	u8 cmd = device_chip[APANEL_DEV_APPBTN] == CHIP_OZ992C ? 0 : 8;
- 	s32 data;
- 	int i;
-@@ -112,126 +120,93 @@ static int mail_led_set(struct led_classdev *led,
- 	return i2c_smbus_write_word_data(ap->client, 0x10, led_bits);
+ 	if (key) {
+ 		switch (key->type) {
+@@ -1133,14 +1133,14 @@ static void handle_key(u8 code)
+ 			break;
+ 
+ 		default:
+-			sparse_keymap_report_entry(wistron_idev->input,
+-						   key, 1, true);
++			sparse_keymap_report_entry(wistron_idev, key, 1, true);
+ 			break;
+ 		}
+ 		jiffies_last_press = jiffies;
+-	} else
++	} else {
+ 		printk(KERN_NOTICE
+ 			"wistron_btns: Unknown key code %02X\n", code);
++	}
  }
  
--static int apanel_remove(struct i2c_client *client)
--{
--	struct apanel *ap = i2c_get_clientdata(client);
--
--	if (device_chip[APANEL_DEV_LED] != CHIP_NONE)
--		led_classdev_unregister(&ap->mail_led);
--
--	input_unregister_polled_device(ap->ipdev);
--	input_free_polled_device(ap->ipdev);
--
--	return 0;
--}
--
--static void apanel_shutdown(struct i2c_client *client)
--{
--	apanel_remove(client);
--}
--
--static const struct i2c_device_id apanel_id[] = {
--	{ "fujitsu_apanel", 0 },
--	{ }
--};
--MODULE_DEVICE_TABLE(i2c, apanel_id);
--
--static struct i2c_driver apanel_driver = {
--	.driver = {
--		.name = APANEL,
--	},
--	.probe		= &apanel_probe,
--	.remove		= &apanel_remove,
--	.shutdown	= &apanel_shutdown,
--	.id_table	= apanel_id,
--};
--
--static struct apanel apanel = {
--	.keymap = {
--		[0] = KEY_MAIL,
--		[1] = KEY_WWW,
--		[2] = KEY_PROG2,
--		[3] = KEY_PROG1,
--
--		[8] = KEY_FORWARD,
--		[9] = KEY_REWIND,
--		[10] = KEY_STOPCD,
--		[11] = KEY_PLAYPAUSE,
--
--	},
--	.mail_led = {
--		.name = "mail:blue",
--		.brightness_set_blocking = mail_led_set,
--	},
--};
--
--/* NB: Only one panel on the i2c. */
- static int apanel_probe(struct i2c_client *client,
- 			const struct i2c_device_id *id)
+ static void poll_bios(bool discard)
+@@ -1158,21 +1158,23 @@ static void poll_bios(bool discard)
+ 	}
+ }
+ 
+-static void wistron_flush(struct input_polled_dev *dev)
++static int wistron_flush(struct input_dev *dev)
  {
- 	struct apanel *ap;
--	struct input_polled_dev *ipdev;
- 	struct input_dev *idev;
- 	u8 cmd = device_chip[APANEL_DEV_APPBTN] == CHIP_OZ992C ? 0 : 8;
--	int i, err = -ENOMEM;
-+	int i, err;
- 
--	ap = &apanel;
-+	ap = devm_kzalloc(&client->dev, sizeof(*ap), GFP_KERNEL);
-+	if (!ap)
-+		return -ENOMEM;
- 
--	ipdev = input_allocate_polled_device();
--	if (!ipdev)
--		goto out1;
-+	idev = devm_input_allocate_device(&client->dev);
-+	if (!idev)
-+		return -ENOMEM;
- 
--	ap->ipdev = ipdev;
-+	ap->idev = idev;
- 	ap->client = client;
- 
- 	i2c_set_clientdata(client, ap);
- 
- 	err = i2c_smbus_write_word_data(client, cmd, 0);
- 	if (err) {
--		dev_warn(&client->dev, APANEL ": smbus write error %d\n",
--			 err);
--		goto out3;
-+		dev_warn(&client->dev, "smbus write error %d\n", err);
-+		return err;
- 	}
- 
--	ipdev->poll = apanel_poll;
--	ipdev->poll_interval = POLL_INTERVAL_DEFAULT;
--	ipdev->private = ap;
-+	input_set_drvdata(idev, ap);
- 
--	idev = ipdev->input;
- 	idev->name = APANEL_NAME " buttons";
- 	idev->phys = "apanel/input0";
- 	idev->id.bustype = BUS_HOST;
--	idev->dev.parent = &client->dev;
--
--	set_bit(EV_KEY, idev->evbit);
- 
-+	memcpy(ap->keymap, apanel_keymap, sizeof(apanel_keymap));
- 	idev->keycode = ap->keymap;
- 	idev->keycodesize = sizeof(ap->keymap[0]);
- 	idev->keycodemax = (device_chip[APANEL_DEV_CDBTN] != CHIP_NONE) ? 12 : 4;
- 
-+	set_bit(EV_KEY, idev->evbit);
- 	for (i = 0; i < idev->keycodemax; i++)
- 		if (ap->keymap[i])
- 			set_bit(ap->keymap[i], idev->keybit);
- 
--	err = input_register_polled_device(ipdev);
-+	err = input_setup_polling(idev, apanel_poll);
-+	if (err)
-+		return err;
+ 	/* Flush stale event queue */
+ 	poll_bios(true);
 +
-+	input_set_poll_interval(idev, POLL_INTERVAL_DEFAULT);
-+
-+	err = input_register_device(idev);
- 	if (err)
--		goto out3;
-+		return err;
++	return 0;
+ }
  
- 	if (device_chip[APANEL_DEV_LED] != CHIP_NONE) {
--		err = led_classdev_register(&client->dev, &ap->mail_led);
-+		ap->mail_led.name = "mail:blue";
-+		ap->mail_led.brightness_set_blocking = mail_led_set;
-+		err = devm_led_classdev_register(&client->dev, &ap->mail_led);
- 		if (err)
--			goto out4;
-+			return err;
- 	}
+-static void wistron_poll(struct input_polled_dev *dev)
++static void wistron_poll(struct input_dev *dev)
+ {
+ 	poll_bios(false);
+ 
+ 	/* Increase poll frequency if user is currently pressing keys (< 2s ago) */
+ 	if (time_before(jiffies, jiffies_last_press + 2 * HZ))
+-		dev->poll_interval = POLL_INTERVAL_BURST;
++		input_set_poll_interval(dev, POLL_INTERVAL_BURST);
+ 	else
+-		dev->poll_interval = POLL_INTERVAL_DEFAULT;
++		input_set_poll_interval(dev, POLL_INTERVAL_DEFAULT);
+ }
+ 
+ static int wistron_setup_keymap(struct input_dev *dev,
+@@ -1208,35 +1210,37 @@ static int wistron_setup_keymap(struct input_dev *dev,
+ 
+ static int setup_input_dev(void)
+ {
+-	struct input_dev *input_dev;
+ 	int error;
+ 
+-	wistron_idev = input_allocate_polled_device();
++	wistron_idev = input_allocate_device();
+ 	if (!wistron_idev)
+ 		return -ENOMEM;
+ 
++	wistron_idev->name = "Wistron laptop buttons";
++	wistron_idev->phys = "wistron/input0";
++	wistron_idev->id.bustype = BUS_HOST;
++	wistron_idev->dev.parent = &wistron_device->dev;
++
+ 	wistron_idev->open = wistron_flush;
+-	wistron_idev->poll = wistron_poll;
+-	wistron_idev->poll_interval = POLL_INTERVAL_DEFAULT;
+ 
+-	input_dev = wistron_idev->input;
+-	input_dev->name = "Wistron laptop buttons";
+-	input_dev->phys = "wistron/input0";
+-	input_dev->id.bustype = BUS_HOST;
+-	input_dev->dev.parent = &wistron_device->dev;
++	error = sparse_keymap_setup(wistron_idev, keymap, wistron_setup_keymap);
++	if (error)
++		goto err_free_dev;
+ 
+-	error = sparse_keymap_setup(input_dev, keymap, wistron_setup_keymap);
++	error = input_setup_polling(wistron_idev, wistron_poll);
+ 	if (error)
+ 		goto err_free_dev;
+ 
+-	error = input_register_polled_device(wistron_idev);
++	input_set_poll_interval(wistron_idev, POLL_INTERVAL_DEFAULT);
++
++	error = input_register_device(wistron_idev);
+ 	if (error)
+ 		goto err_free_dev;
  
  	return 0;
--out4:
--	input_unregister_polled_device(ipdev);
--out3:
--	input_free_polled_device(ipdev);
--out1:
--	return err;
+ 
+  err_free_dev:
+-	input_free_polled_device(wistron_idev);
++	input_free_device(wistron_idev);
+ 	return error;
  }
  
-+static void apanel_shutdown(struct i2c_client *client)
-+{
-+	struct apanel *ap = i2c_get_clientdata(client);
-+
-+	if (device_chip[APANEL_DEV_LED] != CHIP_NONE)
-+		led_set_brightness(&ap->mail_led, LED_OFF);
-+}
-+
-+static const struct i2c_device_id apanel_id[] = {
-+	{ "fujitsu_apanel", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, apanel_id);
-+
-+static struct i2c_driver apanel_driver = {
-+	.driver = {
-+		.name = APANEL,
-+	},
-+	.probe		= &apanel_probe,
-+	.shutdown	= &apanel_shutdown,
-+	.id_table	= apanel_id,
-+};
-+
- /* Scan the system ROM for the signature "FJKEYINF" */
- static __init const void __iomem *bios_signature(const void __iomem *bios)
+@@ -1285,8 +1289,7 @@ static int wistron_probe(struct platform_device *dev)
+ static int wistron_remove(struct platform_device *dev)
  {
+ 	wistron_led_remove();
+-	input_unregister_polled_device(wistron_idev);
+-	input_free_polled_device(wistron_idev);
++	input_unregister_device(wistron_idev);
+ 	bios_detach();
+ 
+ 	return 0;
 -- 
 2.23.0.866.gb869b98d4c-goog
 
