@@ -2,61 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EEF09DB894
-	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 22:44:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 159C3DB890
+	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 22:44:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394819AbfJQUoF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Oct 2019 16:44:05 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:42736 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2440795AbfJQUm3 (ORCPT
+        id S2502159AbfJQUmc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Oct 2019 16:42:32 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:45057 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2502089AbfJQUmb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Oct 2019 16:42:29 -0400
-Received: by mail-pf1-f193.google.com with SMTP id q12so2366456pff.9;
-        Thu, 17 Oct 2019 13:42:29 -0700 (PDT)
+        Thu, 17 Oct 2019 16:42:31 -0400
+Received: by mail-pl1-f194.google.com with SMTP id u12so1685953pls.12;
+        Thu, 17 Oct 2019 13:42:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sSHq9wsAzsKM4AZ9LGW0ongN+PTn6qrVrduasflfRcM=;
-        b=goASVb+k6liB5swYO63ZxWWekRVhGn3GuMsbPw2TeHuX0v/VFzTJCpHLCRpFv0Ngnb
-         LDGiCtYWcJ5zxIOqmhrr8IRDjleOtxitzOhSew4NHmeu8aeP9liDUrHqYjVvAnqwV4zH
-         N5L7jKq6ZDhb3VLiEOTOI33zZuv1Lkfz+qSzqCaS9uscoIxmpqq+I5004S23Amu2lZtA
-         0LNv4aB5iMDEzF5XBMiWsmGiolIBLswcBn0H8sP70z0tcnbaiNP1bEtvVB5Ax6yN/NoC
-         Vcrf+XdBoZiwnuh+rw/j2N5m6MBuI1x0wXLofqExCv8gVjBRLj+wdnnJqcuOK43KkonH
-         Sg2g==
+        bh=Fxi+sR07mhlS6Muc3/xe4kp58yCZ85m02vfZzkl7bls=;
+        b=mwk9rJS3O/sLFucmG/7gve5kqkBWWhON+TpQ2aqmeO52ZWjOMiubuBN/q2JBV1it0P
+         gipHxm0TDWfYb3aim/NrtxsEfOYD0Dy52CoytANllNV1cklwfFGSPGhInjZUY7QSxHRz
+         IoA78nPgkq0AotgY/PvJ6Atmm57eJcqOQO+0hADz+acB3cQisyeWWIK1dxfY0NVhhHWE
+         vB3XDqBwLH9ml7qnOtYoZKHJNqcqKF5wQmWns+zuWXbtW21SbOjYew7az4K/ZZT3hZ56
+         ExKJJ63uofsHHR0yldF3qC5ROCNnhzLHVi6x3Ttx5/L68SDA4QadCeClguF7bxbp7BQd
+         T1xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sSHq9wsAzsKM4AZ9LGW0ongN+PTn6qrVrduasflfRcM=;
-        b=rOoO7vJdwabAco+NHVuuiWz1sAWZ9hEmaRz9qHVkZhg1cBSA2gUq582FtL7brLvy3q
-         e6S0x3DrI2KZZjGlscccTn1W10dUrmEwIA0HmFhPYF5q1e0V1+USZLtwlRBF3aVJW7ph
-         KbXfYyrGy7+N1tdZ3OpwbZ1Q1tWLuaAlBTJb2guTMQ9eLi3O735dKupSvxSP7b3lSosh
-         iBL2T0b4l91VKtFiN94nWMt25hmI8deRbcFngjWEmfwM5XvZiMot4zPlYj1/w5X3eCj7
-         R/gn8aXjBsZgQqysX8LKYsB39OrK24AHHA7syk8Rs1F2YYbuEhPF83JVrb7uXJ14TphF
-         JKlg==
-X-Gm-Message-State: APjAAAU+qOoEdo3CzK+9QebMtIyGCzofVR7Rs69Tj1RA2MaImJCdhvYg
-        xkba92K1NQzCc9cFPNbMn0jpO6o7
-X-Google-Smtp-Source: APXvYqyktynoW+tHdAI7M/o/NlB+6UWZag6mmwJUE/SBDpFkO+Z8MwjOuwMRnXuQj9tturz5DYTVgw==
-X-Received: by 2002:a63:fe44:: with SMTP id x4mr6257421pgj.118.1571344948576;
-        Thu, 17 Oct 2019 13:42:28 -0700 (PDT)
+        bh=Fxi+sR07mhlS6Muc3/xe4kp58yCZ85m02vfZzkl7bls=;
+        b=Hm39Kr7T+ohsfBhi1tMAmedvlCbPZ55y3qX3NgRPERTTs3ofUFpSD/paLGZiMxjJj2
+         8cAlf5exlwJv9K9X8p40JbN8TM5dYYSrWPM7GaRJphJNotCgickapXcT9rkrvQgToPvj
+         /Ptotwbhqs036EZaXZsMJraCHprOSXSp+4rDKgTMwi2zQdbFc/gjeYphKPpFrDWKk/yg
+         aq1kYTFQSvjx/RTkoKjfK8zq3rBoY9bwwtWqzoPbthEK94sJLTPYEu8khSHpvaibBK0E
+         C+Rxid1xkM8JRUuLHCnnwX8PVQIKrCKUN0KoVINa+D4gH8WOh6i0mBz7ZMvEVw5eAFxD
+         Gmkw==
+X-Gm-Message-State: APjAAAVyfDZCh3oIdsO96AI0aPk6YCDxbesxLDk4SUEdYZoW+0yY6jQu
+        KXK5gAUP+mQ+JaJKcCOZIdKhzjOD
+X-Google-Smtp-Source: APXvYqzf4XSgnOksu9P2edG1NQ0lwGyYaajoSSkzKKmR70FFg228zppNN9TgOLau/ptB7g06KJEIXA==
+X-Received: by 2002:a17:902:b196:: with SMTP id s22mr6234860plr.10.1571344950048;
+        Thu, 17 Oct 2019 13:42:30 -0700 (PDT)
 Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id b3sm4626365pfd.125.2019.10.17.13.42.27
+        by smtp.gmail.com with ESMTPSA id b3sm4626365pfd.125.2019.10.17.13.42.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 13:42:28 -0700 (PDT)
+        Thu, 17 Oct 2019 13:42:29 -0700 (PDT)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     linux-input@vger.kernel.org
-Cc:     Allison Randal <allison@lohutok.net>,
+Cc:     Alexander Shiyan <shc_work@mail.ru>,
+        Allison Randal <allison@lohutok.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Anson Huang <Anson.Huang@nxp.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
         Jacky Bai <ping.bai@nxp.com>,
         Marco Felsch <m.felsch@pengutronix.de>,
         =?UTF-8?q?Ronald=20Tschal=C3=A4r?= <ronald@innovation.ch>,
-        Stefan Agner <stefan@agner.ch>, linux-kernel@vger.kernel.org
-Subject: [PATCH 05/22] Input: adc-keys - switch to using polled mode of input devices
-Date:   Thu, 17 Oct 2019 13:41:59 -0700
-Message-Id: <20191017204217.106453-6-dmitry.torokhov@gmail.com>
+        Stefan Agner <stefan@agner.ch>,
+        YueHaibing <yuehaibing@huawei.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 06/22] Input: clps711x-keypad - switch to using polled mode of input devices
+Date:   Thu, 17 Oct 2019 13:42:00 -0700
+Message-Id: <20191017204217.106453-7-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
 In-Reply-To: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
 References: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
@@ -68,119 +71,177 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 We have added polled mode to the normal input devices with the intent of
-retiring input_polled_dev. This converts adc-keys driver to use the
+retiring input_polled_dev. This converts clps711x-keypad driver to use the
 polling mode of standard input devices and removes dependency on
 INPUT_POLLDEV.
+
+Also use managed API when allocating input device, this allows us to remove
+clps711x_keypad_remove() method.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
 
- drivers/input/keyboard/Kconfig    |  1 -
- drivers/input/keyboard/adc-keys.c | 36 ++++++++++++++++---------------
- 2 files changed, 19 insertions(+), 18 deletions(-)
+ drivers/input/keyboard/Kconfig           |  1 -
+ drivers/input/keyboard/clps711x-keypad.c | 70 ++++++++++--------------
+ 2 files changed, 29 insertions(+), 42 deletions(-)
 
 diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-index a716a90de683..c6bf99d23b1a 100644
+index c6bf99d23b1a..0e7368288dae 100644
 --- a/drivers/input/keyboard/Kconfig
 +++ b/drivers/input/keyboard/Kconfig
-@@ -16,7 +16,6 @@ if INPUT_KEYBOARD
- config KEYBOARD_ADC
- 	tristate "ADC Ladder Buttons"
- 	depends on IIO
+@@ -190,7 +190,6 @@ config KEYBOARD_CLPS711X
+ 	tristate "CLPS711X Keypad support"
+ 	depends on OF_GPIO && (ARCH_CLPS711X || COMPILE_TEST)
+ 	select INPUT_MATRIXKMAP
 -	select INPUT_POLLDEV
  	help
- 	  This driver implements support for buttons connected
- 	  to an ADC using a resistor ladder.
-diff --git a/drivers/input/keyboard/adc-keys.c b/drivers/input/keyboard/adc-keys.c
-index 9885fd56f5f9..6d5be48d1b3d 100644
---- a/drivers/input/keyboard/adc-keys.c
-+++ b/drivers/input/keyboard/adc-keys.c
-@@ -9,7 +9,6 @@
- #include <linux/iio/consumer.h>
- #include <linux/iio/types.h>
+ 	  Say Y here to enable the matrix keypad on the Cirrus Logic
+ 	  CLPS711X CPUs.
+diff --git a/drivers/input/keyboard/clps711x-keypad.c b/drivers/input/keyboard/clps711x-keypad.c
+index c4a5c07a4b98..019dd6ed2c29 100644
+--- a/drivers/input/keyboard/clps711x-keypad.c
++++ b/drivers/input/keyboard/clps711x-keypad.c
+@@ -6,7 +6,6 @@
+  */
+ 
  #include <linux/input.h>
 -#include <linux/input-polldev.h>
- #include <linux/kernel.h>
  #include <linux/module.h>
- #include <linux/of.h>
-@@ -30,9 +29,9 @@ struct adc_keys_state {
- 	const struct adc_keys_button *map;
+ #include <linux/of_gpio.h>
+ #include <linux/platform_device.h>
+@@ -30,10 +29,10 @@ struct clps711x_keypad_data {
+ 	struct clps711x_gpio_data	*gpio_data;
  };
  
--static void adc_keys_poll(struct input_polled_dev *dev)
-+static void adc_keys_poll(struct input_dev *input)
+-static void clps711x_keypad_poll(struct input_polled_dev *dev)
++static void clps711x_keypad_poll(struct input_dev *input)
  {
--	struct adc_keys_state *st = dev->private;
-+	struct adc_keys_state *st = input_get_drvdata(input);
- 	int i, value, ret;
- 	u32 diff, closest = 0xffffffff;
- 	int keycode = 0;
-@@ -55,12 +54,12 @@ static void adc_keys_poll(struct input_polled_dev *dev)
- 		keycode = 0;
+-	const unsigned short *keycodes = dev->input->keycode;
+-	struct clps711x_keypad_data *priv = dev->private;
++	const unsigned short *keycodes = input->keycode;
++	struct clps711x_keypad_data *priv = input_get_drvdata(input);
+ 	bool sync = false;
+ 	int col, row;
  
- 	if (st->last_key && st->last_key != keycode)
--		input_report_key(dev->input, st->last_key, 0);
-+		input_report_key(input, st->last_key, 0);
+@@ -61,14 +60,14 @@ static void clps711x_keypad_poll(struct input_polled_dev *dev)
  
- 	if (keycode)
--		input_report_key(dev->input, keycode, 1);
-+		input_report_key(input, keycode, 1);
+ 				if (state) {
+ 					set_bit(col, data->last_state);
+-					input_event(dev->input, EV_MSC,
+-						    MSC_SCAN, code);
++					input_event(input,
++						    EV_MSC, MSC_SCAN, code);
+ 				} else {
+ 					clear_bit(col, data->last_state);
+ 				}
  
--	input_sync(dev->input);
-+	input_sync(input);
- 	st->last_key = keycode;
- }
- 
-@@ -108,7 +107,6 @@ static int adc_keys_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct adc_keys_state *st;
--	struct input_polled_dev *poll_dev;
- 	struct input_dev *input;
- 	enum iio_chan_type type;
- 	int i, value;
-@@ -145,19 +143,13 @@ static int adc_keys_probe(struct platform_device *pdev)
- 	if (error)
- 		return error;
- 
--	poll_dev = devm_input_allocate_polled_device(dev);
--	if (!poll_dev) {
-+	input = devm_input_allocate_device(dev);
-+	if (!input) {
- 		dev_err(dev, "failed to allocate input device\n");
- 		return -ENOMEM;
+ 				if (keycodes[code])
+-					input_report_key(dev->input,
++					input_report_key(input,
+ 							 keycodes[code], state);
+ 				sync = true;
+ 			}
+@@ -80,7 +79,7 @@ static void clps711x_keypad_poll(struct input_polled_dev *dev)
  	}
  
--	if (!device_property_read_u32(dev, "poll-interval", &value))
--		poll_dev->poll_interval = value;
--
--	poll_dev->poll = adc_keys_poll;
--	poll_dev->private = st;
--
--	input = poll_dev->input;
-+	input_set_drvdata(input, st);
+ 	if (sync)
+-		input_sync(dev->input);
++		input_sync(input);
+ }
  
- 	input->name = pdev->name;
- 	input->phys = "adc-keys/input0";
-@@ -174,7 +166,17 @@ static int adc_keys_probe(struct platform_device *pdev)
- 	if (device_property_read_bool(dev, "autorepeat"))
- 		__set_bit(EV_REP, input->evbit);
+ static int clps711x_keypad_probe(struct platform_device *pdev)
+@@ -88,7 +87,7 @@ static int clps711x_keypad_probe(struct platform_device *pdev)
+ 	struct clps711x_keypad_data *priv;
+ 	struct device *dev = &pdev->dev;
+ 	struct device_node *np = dev->of_node;
+-	struct input_polled_dev *poll_dev;
++	struct input_dev *input;
+ 	u32 poll_interval;
+ 	int i, err;
  
--	error = input_register_polled_device(poll_dev);
+@@ -125,53 +124,43 @@ static int clps711x_keypad_probe(struct platform_device *pdev)
+ 	if (err)
+ 		return err;
+ 
+-	poll_dev = input_allocate_polled_device();
+-	if (!poll_dev)
++	input = devm_input_allocate_device(dev);
++	if (!input)
+ 		return -ENOMEM;
+ 
+-	poll_dev->private		= priv;
+-	poll_dev->poll			= clps711x_keypad_poll;
+-	poll_dev->poll_interval		= poll_interval;
+-	poll_dev->input->name		= pdev->name;
+-	poll_dev->input->dev.parent	= dev;
+-	poll_dev->input->id.bustype	= BUS_HOST;
+-	poll_dev->input->id.vendor	= 0x0001;
+-	poll_dev->input->id.product	= 0x0001;
+-	poll_dev->input->id.version	= 0x0100;
++	input_set_drvdata(input, priv);
 +
-+	error = input_setup_polling(input, adc_keys_poll);
-+	if (error) {
-+		dev_err(dev, "Unable to set up polling: %d\n", error);
-+		return error;
-+	}
-+
-+	if (!device_property_read_u32(dev, "poll-interval", &value))
-+		input_set_poll_interval(input, value);
-+
-+	error = input_register_device(input);
- 	if (error) {
- 		dev_err(dev, "Unable to register input device: %d\n", error);
- 		return error;
++	input->name		= pdev->name;
++	input->dev.parent	= dev;
++	input->id.bustype	= BUS_HOST;
++	input->id.vendor	= 0x0001;
++	input->id.product	= 0x0001;
++	input->id.version	= 0x0100;
+ 
+ 	err = matrix_keypad_build_keymap(NULL, NULL, priv->row_count,
+ 					 CLPS711X_KEYPAD_COL_COUNT,
+-					 NULL, poll_dev->input);
++					 NULL, input);
+ 	if (err)
+-		goto out_err;
++		return err;
+ 
+-	input_set_capability(poll_dev->input, EV_MSC, MSC_SCAN);
++	input_set_capability(input, EV_MSC, MSC_SCAN);
+ 	if (of_property_read_bool(np, "autorepeat"))
+-		__set_bit(EV_REP, poll_dev->input->evbit);
+-
+-	platform_set_drvdata(pdev, poll_dev);
++		__set_bit(EV_REP, input->evbit);
+ 
+ 	/* Set all columns to low */
+ 	regmap_update_bits(priv->syscon, SYSCON_OFFSET, SYSCON1_KBDSCAN_MASK,
+ 			   SYSCON1_KBDSCAN(1));
+ 
+-	err = input_register_polled_device(poll_dev);
+-	if (err)
+-		goto out_err;
+-
+-	return 0;
+ 
+-out_err:
+-	input_free_polled_device(poll_dev);
+-	return err;
+-}
++	err = input_setup_polling(input, clps711x_keypad_poll);
++	if (err)
++		return err;
+ 
+-static int clps711x_keypad_remove(struct platform_device *pdev)
+-{
+-	struct input_polled_dev *poll_dev = platform_get_drvdata(pdev);
++	input_set_poll_interval(input, poll_interval);
+ 
+-	input_unregister_polled_device(poll_dev);
+-	input_free_polled_device(poll_dev);
++	err = input_register_device(input);
++	if (err)
++		return err;
+ 
+ 	return 0;
+ }
+@@ -188,7 +177,6 @@ static struct platform_driver clps711x_keypad_driver = {
+ 		.of_match_table	= clps711x_keypad_of_match,
+ 	},
+ 	.probe	= clps711x_keypad_probe,
+-	.remove	= clps711x_keypad_remove,
+ };
+ module_platform_driver(clps711x_keypad_driver);
+ 
 -- 
 2.23.0.866.gb869b98d4c-goog
 
