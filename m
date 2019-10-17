@@ -2,59 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E208DB887
-	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 22:43:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C393EDB881
+	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2019 22:43:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389347AbfJQUnk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Oct 2019 16:43:40 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:36790 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502683AbfJQUmq (ORCPT
+        id S2502911AbfJQUms (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Oct 2019 16:42:48 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:44135 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2502847AbfJQUmr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Oct 2019 16:42:46 -0400
-Received: by mail-pl1-f194.google.com with SMTP id j11so1706668plk.3;
-        Thu, 17 Oct 2019 13:42:45 -0700 (PDT)
+        Thu, 17 Oct 2019 16:42:47 -0400
+Received: by mail-pf1-f195.google.com with SMTP id q21so2360330pfn.11;
+        Thu, 17 Oct 2019 13:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=p4qYPdv7CFoLETcuSBMJehUgVm9YqKP05FJFL0znofs=;
-        b=pqLcROSwueULk1UQmRmI4xu4kebA1YY8lp01P56aYflnoLGFbt/RUOlJg0NtCglNHz
-         B75T3HnKlxcyQ5zE7r+Lz033eUuBLMQtbZIDphmg1DnoABAtN9e79YvmlQZnpnMaFYsu
-         bKnVvwKt+Q8iOMsYyTp7jLhgXyNF2lN2MDEm3dD8Mguy1poH/MtiUfdrmGJae1RJP19j
-         sTVwAgOUh5qqj3Ez9uus6ySN/fWX/QTx0IWCbINHoh4qmbwgAQYWJKKYrNMNhAKq5dvI
-         Qp4tGUEfg09sRRcSlTBR4P5aKBAX+CwyBslS8A+uzXlOxTqhlzolAcs6f1gkXplO3OfN
-         ChUA==
+        bh=GEKRNk3+QkHLGS5SoKpdCHIgbctxhbvYiOrQ84TzMNs=;
+        b=hY7q6TdyrEkXN/Xfmg7eHuNh6G2X8Ih8dc8Auh5ky5Ji0SRfN5zs/D50sXgocYLecb
+         7x3pDa/f2OFRqW1IflBmLaR1XG0f+C6Be3bvN6pPTxRd0aABI0an7pah2Afpf2N4T1AC
+         WJUqw+dtx9bjP/IJDEMCXyguBN96emVQ7scdzhbW/tFGUdWapD+m7D23SEdguPSTOAKs
+         THjmEiYuhO6xGYXLqyRFXaGYGmtYLK4bQOMamXnwGj8de3pq7xk3wJh7x4mjerXkxdl3
+         mlcX7tCeQuGipMayOTJMnl9crGbCg996IknwnutfG/JKnx5YLHoa7I0keeZB9AgGM2Eo
+         BJ/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=p4qYPdv7CFoLETcuSBMJehUgVm9YqKP05FJFL0znofs=;
-        b=ZD25+nceFGP9z3e5/Sp527/dYzE4uG3Vkh+aJCQD947Jk6bwMz+hZZbgtKXgZJ4hWM
-         j73Abhe2iu+mztm+R3K49tpzFcmIGRFSpvO14CLmgatez80tTjjpXhn90kfRsJ2jkDvw
-         w/cyVCRXbQqLqc8n/Nl6g6UigyJECX3R5FNGFmz6Rrz7PwISaJaxVSw8rL0YzuIZmMr2
-         WKwueKlKfWFUcy5fogXSypNLASq1CA94Ru8fKKS/nfv/UO2ZN8TKIVF044BILw2UCVlt
-         4HvRXV9oasoQN4AVh2H/Pm2bHE/6ldDjUb5HcEcdE9RqpZA15agmNYKJ1+iNfrvaNbCm
-         r6wg==
-X-Gm-Message-State: APjAAAUR/lRalu26yj+SOXgsWSJkVb974dXS+vGcIxmkM7MCVlDEzCdP
-        yf2lpPMfAT9xV1RVs7ganFgBQ092
-X-Google-Smtp-Source: APXvYqwDjpGzYiq0sp+iFvgp16XRF6y797HH5834RO2CuHI/TouX8uBOInGBHnJgNbUuMg8eFuOx+w==
-X-Received: by 2002:a17:902:44d:: with SMTP id 71mr970453ple.320.1571344964914;
-        Thu, 17 Oct 2019 13:42:44 -0700 (PDT)
+        bh=GEKRNk3+QkHLGS5SoKpdCHIgbctxhbvYiOrQ84TzMNs=;
+        b=S1y2ZjGuXAZb3GeH+3kZ1QCR7b1ir42HwunI3lU5SvtNPQlpoxSfboke6ZC0uUlyDC
+         Qs2iHBaRCyxMgdf7VlUjUKYaucwkeqQeq7Vk2gt+ISL+Guwpq5u95KgudjSd752h/o/w
+         R8DO3vrEc1hq+cZ+ERGWHhyL8Nl2dlND3fbSrBM78Ll9pZ2fVYBmxpMuQlEdC88Sl5K8
+         mDMhYXascgkttypC1FW6E2FDNwYsOr6RzO/axWyrMp3LTuAx0ie7+W7bx5LGRHhXs3bc
+         1ARGbmWC2wYqvWw9Tge4T3APn4DQXbY1dSASFEPC3UH0wL+wo1YMugXMsVCl0sruGIJV
+         yMjA==
+X-Gm-Message-State: APjAAAX50o5ad0ZFTYHqcq4fWa2ZmxsAK2tNl+LtegXeRX3fSUFXVa0X
+        4zFvCiq5tSqeMBqd2x9hHoEpBz60
+X-Google-Smtp-Source: APXvYqzg9ZKoArye3kOHPW48Es/ba5aPjwjIw9jZ6abbc53culSCzhD4LvQi5DqApogShAzfCU7kEw==
+X-Received: by 2002:a17:90a:2522:: with SMTP id j31mr6575663pje.123.1571344966474;
+        Thu, 17 Oct 2019 13:42:46 -0700 (PDT)
 Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id b3sm4626365pfd.125.2019.10.17.13.42.43
+        by smtp.gmail.com with ESMTPSA id b3sm4626365pfd.125.2019.10.17.13.42.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 13:42:43 -0700 (PDT)
+        Thu, 17 Oct 2019 13:42:45 -0700 (PDT)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     linux-input@vger.kernel.org
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+Cc:     Allison Randal <allison@lohutok.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Brian Masney <masneyb@onstation.org>,
         Luca Weiss <luca@z3ntu.xyz>,
         Maximilian Luz <luzmaximilian@gmail.com>,
+        Richard Fontana <rfontana@redhat.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 17/22] Input: gpio_decoder - switch to using polled mode of input devices
-Date:   Thu, 17 Oct 2019 13:42:11 -0700
-Message-Id: <20191017204217.106453-18-dmitry.torokhov@gmail.com>
+Subject: [PATCH 18/22] Input: mma8450 - switch to using polled mode of input devices
+Date:   Thu, 17 Oct 2019 13:42:12 -0700
+Message-Id: <20191017204217.106453-19-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
 In-Reply-To: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
 References: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
@@ -66,128 +68,223 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 We have added polled mode to the normal input devices with the intent of
-retiring input_polled_dev. This converts gpio_decoder driver to use
-the polling mode of standard input devices and removes dependency on
-INPUT_POLLDEV.
+retiring input_polled_dev. This converts mma8450 driver to use the polling
+mode of standard input devices and removes dependency on INPUT_POLLDEV.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
 
- drivers/input/misc/Kconfig        |  1 -
- drivers/input/misc/gpio_decoder.c | 42 +++++++++++++++++--------------
- 2 files changed, 23 insertions(+), 20 deletions(-)
+ drivers/input/misc/Kconfig   |   1 -
+ drivers/input/misc/mma8450.c | 101 ++++++++++++++++-------------------
+ 2 files changed, 46 insertions(+), 56 deletions(-)
 
 diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 102e993bbd6b..b108c992bb7a 100644
+index b108c992bb7a..e1309cb190e1 100644
 --- a/drivers/input/misc/Kconfig
 +++ b/drivers/input/misc/Kconfig
-@@ -290,7 +290,6 @@ config INPUT_GPIO_BEEPER
- config INPUT_GPIO_DECODER
- 	tristate "Polled GPIO Decoder Input driver"
- 	depends on GPIOLIB || COMPILE_TEST
+@@ -246,7 +246,6 @@ config INPUT_MC13783_PWRBUTTON
+ config INPUT_MMA8450
+ 	tristate "MMA8450 - Freescale's 3-Axis, 8/12-bit Digital Accelerometer"
+ 	depends on I2C
 -	select INPUT_POLLDEV
  	help
- 	 Say Y here if you want driver to read status of multiple GPIO
- 	 lines and report the encoded value as an absolute integer to
-diff --git a/drivers/input/misc/gpio_decoder.c b/drivers/input/misc/gpio_decoder.c
-index 1dca526e6f1a..145826a1a9a1 100644
---- a/drivers/input/misc/gpio_decoder.c
-+++ b/drivers/input/misc/gpio_decoder.c
-@@ -17,14 +17,12 @@
- #include <linux/device.h>
- #include <linux/gpio/consumer.h>
- #include <linux/input.h>
+ 	  Say Y here if you want to support Freescale's MMA8450 Accelerometer
+ 	  through I2C interface.
+diff --git a/drivers/input/misc/mma8450.c b/drivers/input/misc/mma8450.c
+index 49f5242bc54c..1b5a5e19230a 100644
+--- a/drivers/input/misc/mma8450.c
++++ b/drivers/input/misc/mma8450.c
+@@ -10,7 +10,7 @@
+ #include <linux/slab.h>
+ #include <linux/delay.h>
+ #include <linux/i2c.h>
 -#include <linux/input-polldev.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
++#include <linux/input.h>
+ #include <linux/of_device.h>
  
- struct gpio_decoder {
--	struct input_polled_dev *poll_dev;
- 	struct gpio_descs *input_gpios;
- 	struct device *dev;
- 	u32 axis;
-@@ -53,15 +51,15 @@ static int gpio_decoder_get_gpios_state(struct gpio_decoder *decoder)
+ #define MMA8450_DRV_NAME	"mma8450"
+@@ -39,15 +39,8 @@
+ #define MMA8450_CTRL_REG1	0x38
+ #define MMA8450_CTRL_REG2	0x39
+ 
+-/* mma8450 status */
+-struct mma8450 {
+-	struct i2c_client	*client;
+-	struct input_polled_dev	*idev;
+-};
+-
+-static int mma8450_read(struct mma8450 *m, unsigned off)
++static int mma8450_read(struct i2c_client *c, unsigned int off)
+ {
+-	struct i2c_client *c = m->client;
+ 	int ret;
+ 
+ 	ret = i2c_smbus_read_byte_data(c, off);
+@@ -59,9 +52,8 @@ static int mma8450_read(struct mma8450 *m, unsigned off)
  	return ret;
  }
  
--static void gpio_decoder_poll_gpios(struct input_polled_dev *poll_dev)
-+static void gpio_decoder_poll_gpios(struct input_dev *input)
+-static int mma8450_write(struct mma8450 *m, unsigned off, u8 v)
++static int mma8450_write(struct i2c_client *c, unsigned int off, u8 v)
  {
--	struct gpio_decoder *decoder = poll_dev->private;
-+	struct gpio_decoder *decoder = input_get_drvdata(input);
- 	int state;
+-	struct i2c_client *c = m->client;
+ 	int error;
  
- 	state = gpio_decoder_get_gpios_state(decoder);
- 	if (state >= 0 && state != decoder->last_stable) {
--		input_report_abs(poll_dev->input, decoder->axis, state);
--		input_sync(poll_dev->input);
-+		input_report_abs(input, decoder->axis, state);
-+		input_sync(input);
- 		decoder->last_stable = state;
- 	}
+ 	error = i2c_smbus_write_byte_data(c, off, v);
+@@ -75,10 +67,9 @@ static int mma8450_write(struct mma8450 *m, unsigned off, u8 v)
+ 	return 0;
  }
-@@ -70,20 +68,23 @@ static int gpio_decoder_probe(struct platform_device *pdev)
+ 
+-static int mma8450_read_block(struct mma8450 *m, unsigned off,
++static int mma8450_read_block(struct i2c_client *c, unsigned int off,
+ 			      u8 *buf, size_t size)
  {
- 	struct device *dev = &pdev->dev;
- 	struct gpio_decoder *decoder;
--	struct input_polled_dev *poll_dev;
-+	struct input_dev *input;
- 	u32  max;
+-	struct i2c_client *c = m->client;
  	int err;
  
--	decoder = devm_kzalloc(dev, sizeof(struct gpio_decoder), GFP_KERNEL);
-+	decoder = devm_kzalloc(dev, sizeof(*decoder), GFP_KERNEL);
- 	if (!decoder)
- 		return -ENOMEM;
+ 	err = i2c_smbus_read_i2c_block_data(c, off, size, buf);
+@@ -92,21 +83,21 @@ static int mma8450_read_block(struct mma8450 *m, unsigned off,
+ 	return 0;
+ }
  
-+	decoder->dev = dev;
- 	device_property_read_u32(dev, "linux,axis", &decoder->axis);
-+
- 	decoder->input_gpios = devm_gpiod_get_array(dev, NULL, GPIOD_IN);
- 	if (IS_ERR(decoder->input_gpios)) {
- 		dev_err(dev, "unable to acquire input gpios\n");
- 		return PTR_ERR(decoder->input_gpios);
- 	}
-+
- 	if (decoder->input_gpios->ndescs < 2) {
- 		dev_err(dev, "not enough gpios found\n");
- 		return -EINVAL;
-@@ -92,22 +93,25 @@ static int gpio_decoder_probe(struct platform_device *pdev)
- 	if (device_property_read_u32(dev, "decoder-max-value", &max))
- 		max = (1U << decoder->input_gpios->ndescs) - 1;
+-static void mma8450_poll(struct input_polled_dev *dev)
++static void mma8450_poll(struct input_dev *input)
+ {
+-	struct mma8450 *m = dev->private;
++	struct i2c_client *c = input_get_drvdata(input);
+ 	int x, y, z;
+ 	int ret;
+ 	u8 buf[6];
  
--	decoder->dev = dev;
--	poll_dev = devm_input_allocate_polled_device(decoder->dev);
--	if (!poll_dev)
-+	input = devm_input_allocate_device(dev);
+-	ret = mma8450_read(m, MMA8450_STATUS);
++	ret = mma8450_read(c, MMA8450_STATUS);
+ 	if (ret < 0)
+ 		return;
+ 
+ 	if (!(ret & MMA8450_STATUS_ZXYDR))
+ 		return;
+ 
+-	ret = mma8450_read_block(m, MMA8450_OUT_X_LSB, buf, sizeof(buf));
++	ret = mma8450_read_block(c, MMA8450_OUT_X_LSB, buf, sizeof(buf));
+ 	if (ret < 0)
+ 		return;
+ 
+@@ -114,41 +105,42 @@ static void mma8450_poll(struct input_polled_dev *dev)
+ 	y = ((int)(s8)buf[3] << 4) | (buf[2] & 0xf);
+ 	z = ((int)(s8)buf[5] << 4) | (buf[4] & 0xf);
+ 
+-	input_report_abs(dev->input, ABS_X, x);
+-	input_report_abs(dev->input, ABS_Y, y);
+-	input_report_abs(dev->input, ABS_Z, z);
+-	input_sync(dev->input);
++	input_report_abs(input, ABS_X, x);
++	input_report_abs(input, ABS_Y, y);
++	input_report_abs(input, ABS_Z, z);
++	input_sync(input);
+ }
+ 
+ /* Initialize the MMA8450 chip */
+-static void mma8450_open(struct input_polled_dev *dev)
++static int mma8450_open(struct input_dev *input)
+ {
+-	struct mma8450 *m = dev->private;
++	struct i2c_client *c = input_get_drvdata(input);
+ 	int err;
+ 
+ 	/* enable all events from X/Y/Z, no FIFO */
+-	err = mma8450_write(m, MMA8450_XYZ_DATA_CFG, 0x07);
++	err = mma8450_write(c, MMA8450_XYZ_DATA_CFG, 0x07);
+ 	if (err)
+-		return;
++		return err;
+ 
+ 	/*
+ 	 * Sleep mode poll rate - 50Hz
+ 	 * System output data rate - 400Hz
+ 	 * Full scale selection - Active, +/- 2G
+ 	 */
+-	err = mma8450_write(m, MMA8450_CTRL_REG1, 0x01);
+-	if (err < 0)
+-		return;
++	err = mma8450_write(c, MMA8450_CTRL_REG1, 0x01);
++	if (err)
++		return err;
+ 
+ 	msleep(MODE_CHANGE_DELAY_MS);
++	return 0;
+ }
+ 
+-static void mma8450_close(struct input_polled_dev *dev)
++static void mma8450_close(struct input_dev *input)
+ {
+-	struct mma8450 *m = dev->private;
++	struct i2c_client *c = input_get_drvdata(input);
+ 
+-	mma8450_write(m, MMA8450_CTRL_REG1, 0x00);
+-	mma8450_write(m, MMA8450_CTRL_REG2, 0x01);
++	mma8450_write(c, MMA8450_CTRL_REG1, 0x00);
++	mma8450_write(c, MMA8450_CTRL_REG2, 0x01);
+ }
+ 
+ /*
+@@ -157,38 +149,37 @@ static void mma8450_close(struct input_polled_dev *dev)
+ static int mma8450_probe(struct i2c_client *c,
+ 			 const struct i2c_device_id *id)
+ {
+-	struct input_polled_dev *idev;
+-	struct mma8450 *m;
++	struct input_dev *input;
+ 	int err;
+ 
+-	m = devm_kzalloc(&c->dev, sizeof(*m), GFP_KERNEL);
+-	if (!m)
++	input = devm_input_allocate_device(&c->dev);
 +	if (!input)
  		return -ENOMEM;
  
--	poll_dev->private = decoder;
--	poll_dev->poll = gpio_decoder_poll_gpios;
--	decoder->poll_dev = poll_dev;
-+	input_set_drvdata(input, decoder);
- 
--	poll_dev->input->name = pdev->name;
--	poll_dev->input->id.bustype = BUS_HOST;
--	input_set_abs_params(poll_dev->input, decoder->axis, 0, max, 0, 0);
-+	input->name = pdev->name;
-+	input->id.bustype = BUS_HOST;
-+	input_set_abs_params(input, decoder->axis, 0, max, 0, 0);
+-	idev = devm_input_allocate_polled_device(&c->dev);
+-	if (!idev)
+-		return -ENOMEM;
++	input_set_drvdata(input, c);
 +
-+	err = input_setup_polling(input, gpio_decoder_poll_gpios);
++	input->name = MMA8450_DRV_NAME;
++	input->id.bustype = BUS_I2C;
++
++	input->open = mma8450_open;
++	input->close = mma8450_close;
+ 
+-	m->client = c;
+-	m->idev = idev;
++	input_set_abs_params(input, ABS_X, -2048, 2047, 32, 32);
++	input_set_abs_params(input, ABS_Y, -2048, 2047, 32, 32);
++	input_set_abs_params(input, ABS_Z, -2048, 2047, 32, 32);
+ 
+-	idev->private		= m;
+-	idev->input->name	= MMA8450_DRV_NAME;
+-	idev->input->id.bustype	= BUS_I2C;
+-	idev->poll		= mma8450_poll;
+-	idev->poll_interval	= POLL_INTERVAL;
+-	idev->poll_interval_max	= POLL_INTERVAL_MAX;
+-	idev->open		= mma8450_open;
+-	idev->close		= mma8450_close;
++	err = input_setup_polling(input, mma8450_poll);
 +	if (err) {
-+		dev_err(dev, "failed to set up polling\n");
++		dev_err(&c->dev, "failed to set up polling\n");
 +		return err;
 +	}
  
--	err = input_register_polled_device(poll_dev);
+-	__set_bit(EV_ABS, idev->input->evbit);
+-	input_set_abs_params(idev->input, ABS_X, -2048, 2047, 32, 32);
+-	input_set_abs_params(idev->input, ABS_Y, -2048, 2047, 32, 32);
+-	input_set_abs_params(idev->input, ABS_Z, -2048, 2047, 32, 32);
++	input_set_poll_interval(input, POLL_INTERVAL);
++	input_set_max_poll_interval(input, POLL_INTERVAL_MAX);
+ 
+-	err = input_register_polled_device(idev);
 +	err = input_register_device(input);
  	if (err) {
--		dev_err(dev, "failed to register polled  device\n");
-+		dev_err(dev, "failed to register input device\n");
+-		dev_err(&c->dev, "failed to register polled input device\n");
++		dev_err(&c->dev, "failed to register input device\n");
  		return err;
  	}
  
