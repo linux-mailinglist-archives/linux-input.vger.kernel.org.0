@@ -2,36 +2,34 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0266BDD346
-	for <lists+linux-input@lfdr.de>; Sat, 19 Oct 2019 00:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2D8BDD2D7
+	for <lists+linux-input@lfdr.de>; Sat, 19 Oct 2019 00:16:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393073AbfJRWQs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Oct 2019 18:16:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40614 "EHLO mail.kernel.org"
+        id S2387684AbfJRWIV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Oct 2019 18:08:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40696 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387573AbfJRWIN (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Oct 2019 18:08:13 -0400
+        id S2387638AbfJRWIQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 18 Oct 2019 18:08:16 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F0B9C205F4;
-        Fri, 18 Oct 2019 22:08:11 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CAF44205F4;
+        Fri, 18 Oct 2019 22:08:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571436492;
-        bh=A+nXIhWOh/hn+hSxK3tP54icEmodpvMjam53PuBkrA4=;
+        s=default; t=1571436496;
+        bh=pmfg6LHYW/5retXYbGcvyYYHCQHShynOoxt3PYSYyg8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=a+GY4ve+cxg/FfK6+A3JkjrkYZBuFcnNmG64XnL+67H6m4HAQ+9Rc0aBZ6MpC867m
-         7T+XSkxuKM4c5eCXGKsPdQSMAzmJmZuidFzeh24tL1vH4Skj464xrLH1kY94jTBZ4L
-         i/vuxczcb7NqXtZiKiT0i24ZeEyhW7j3qgYTm0mc=
+        b=hYLsAUbm9akWUaM6kTRcRQnakWZUE9x4Tg08B4M76rmMkk9u/Y0lGz3dqXp87eUVK
+         nrvsdANMKNZhZDiv0i7eYbjxHBuLHMq0MoTIXBP9BKM3IyYz7lT4oIBPN7vP7vzic2
+         WJoU7B4CGyznwTp74vqsv0i9sDGq/eDC9FsZ7uu4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Rene Wagner <redhatbugzilla@callerid.de>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 07/56] HID: i2c-hid: Add Odys Winbook 13 to descriptor override
-Date:   Fri, 18 Oct 2019 18:07:04 -0400
-Message-Id: <20191018220753.10002-7-sashal@kernel.org>
+Cc:     NOGUCHI Hiroshi <drvlabo@gmail.com>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 10/56] HID: Add ASUS T100CHI keyboard dock battery quirks
+Date:   Fri, 18 Oct 2019 18:07:07 -0400
+Message-Id: <20191018220753.10002-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191018220753.10002-1-sashal@kernel.org>
 References: <20191018220753.10002-1-sashal@kernel.org>
@@ -44,40 +42,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: NOGUCHI Hiroshi <drvlabo@gmail.com>
 
-[ Upstream commit f8f807441eefddc3c6d8a378421f0ede6361d565 ]
+[ Upstream commit a767ffea05d2737f6542cd78458a84a157fa216d ]
 
-The Odys Winbook 13 uses a SIPODEV SP1064 touchpad, which does not
-supply descriptors, add this to the DMI descriptor override list, fixing
-the touchpad not working.
+Add ASUS Transbook T100CHI/T90CHI keyboard dock into battery quirk list, in
+order to add specific implementation in hid-asus.
 
-BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1526312
-Reported-by: Rene Wagner <redhatbugzilla@callerid.de>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: NOGUCHI Hiroshi <drvlabo@gmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/hid/hid-input.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-index 89f2976f9c534..fd1b6eea6d2fd 100644
---- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-@@ -346,6 +346,14 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
- 		},
- 		.driver_data = (void *)&sipodev_desc
- 	},
-+	{
-+		.ident = "Odys Winbook 13",
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AXDIA International GmbH"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "WINBOOK 13"),
-+		},
-+		.driver_data = (void *)&sipodev_desc
-+	},
- 	{ }	/* Terminate list */
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index d723185de3ba2..9d24fb0715ba3 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -328,6 +328,9 @@ static const struct hid_device_id hid_battery_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYMBOL,
+ 		USB_DEVICE_ID_SYMBOL_SCANNER_3),
+ 	  HID_BATTERY_QUIRK_IGNORE },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_ASUSTEK,
++		USB_DEVICE_ID_ASUSTEK_T100CHI_KEYBOARD),
++	  HID_BATTERY_QUIRK_IGNORE },
+ 	{}
  };
  
 -- 
