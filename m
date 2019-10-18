@@ -2,103 +2,174 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 94249DD085
-	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2019 22:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DC9ADD092
+	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2019 22:48:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389216AbfJRUjj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Oct 2019 16:39:39 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:38245 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727793AbfJRUjj (ORCPT
+        id S1729318AbfJRUsj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Oct 2019 16:48:39 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:42113 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726383AbfJRUsj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Oct 2019 16:39:39 -0400
-Received: by mail-pl1-f195.google.com with SMTP id w8so3397500plq.5;
-        Fri, 18 Oct 2019 13:39:38 -0700 (PDT)
+        Fri, 18 Oct 2019 16:48:39 -0400
+Received: by mail-pl1-f193.google.com with SMTP id g9so2092432plj.9;
+        Fri, 18 Oct 2019 13:48:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=yF7MutHrwkvSGB6U3XIdCr2BIBwvqm916Bsky0mGSyw=;
-        b=jpxaFdev7vpkQkBEd6ufvN8+8Syuaax8emVkCAdb5pwQ08+Kx9HfaUAmG/dNO0LruH
-         Ru0kVaNEtVe9TtUPNBK2HDfoNRda5QO7P3o/5lHaePEV6vpjkyLRnGWMWfpfNkOLwic4
-         dD99vIdupsM6P3loEyJhDAG6j4eJzxkjjn3GzbzghzvuQGp9pzx4ygzylPs+RjDUDHiZ
-         7S1C/WpfwV1W36dmHXS0Rl0SrBDOkRGXe+A3yaivtT3PLAWohYyWenjZBURub3C84fD4
-         Y2JMkDGtadl07MZ+5Ewc/wwtOmdgYKepH691VkKehLXyc8PrvAZ5aF3mDaPp3Rh6DsJs
-         qvZg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RcolS2WK2QNO/eFSnt70gILOjF3pCbIwHp6NSAOaUTU=;
+        b=ecNXxobj3K9jukXSeLOIi5dx987mjSdPiVgcy4pa6p8pChw9/USlayZI1O5fEoPaJY
+         McbzjwCQCaRhQsqCAbewvMOOWkK8ExnWgpLcAVyHoFEmb3LnBui1V8G0PvHBYSS6hoKf
+         9wJLpPSwbHTUKjY6bgNb9UJLQSuWhGSZJnOEZb4h2/oQHwRg+idXZy3wX4T3Gw8G7e6v
+         c2tgyBAwWwsH9jw6J7uzaXmVC0cUuwBnudoh8hx23vSxZHuyakFAbLqov1aRyoZl9gbg
+         0bFlKAaKas44Z/RylHw2jZLEIfhOJL4DG/WmlO93gWgM00MAn4s0Y+E/VQZACnULmqJO
+         hylA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=yF7MutHrwkvSGB6U3XIdCr2BIBwvqm916Bsky0mGSyw=;
-        b=rH8WuIBiRV+8HU8nBg0sVYW2dbilrIlYKksccN8XgH0QQAHXsIJC7xMbDiXgfvRCBO
-         Z4xB6CLcLiCDU/xx7u1dy/YMY7HvSxaiYDyE54hqeAH6Yv2+lBVpy4SgOAvk09/363S6
-         UXqB/NgVzV+WwkjXtHh4XQCBhQIX7K17fCP/+GwwX56VM2YA1//n2rYNqx1rc3mwKn2Q
-         QK4S8aJoBtK+WmoNVMEkj+4NDfiP9MkQwlqvZC25Zcwz9v/xMjTcCxIeg6I42nE+sUY+
-         X8nJseGabKjETsEUAOBpwPy9nQcQEeHgDOnhogGC2rMKdasakhTx4xX53RnwcIeBtlXw
-         E2jw==
-X-Gm-Message-State: APjAAAXqC52uFzSgVl1m0wX3JfH0S6sLy4hXtxjskOcFgfsdXI8KaXuF
-        Jim1ZB41O3hJiRfABnnAGpI=
-X-Google-Smtp-Source: APXvYqwMMoMg/Sj3XuNx6NavhISCBWY4vd22WowubXqMjUc6xYCpcf344nB/pSVMbxAZVJeeJlF6GA==
-X-Received: by 2002:a17:902:6acb:: with SMTP id i11mr12268939plt.16.1571431178249;
-        Fri, 18 Oct 2019 13:39:38 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id v3sm7071068pfn.18.2019.10.18.13.39.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RcolS2WK2QNO/eFSnt70gILOjF3pCbIwHp6NSAOaUTU=;
+        b=PWhoCIvxF3Zn/8/Uj59MQdmjbRNcyPvchPqTEM1lnPgzyOf/QfMM83GuXA8HbCOHs8
+         mLK6tbPcKDsVjPRenwALz+gPG1uIRqiwBZREkYqX3HC4TJQKKlSDgkrTMZby18cDtyEZ
+         A0Nqacv5dnZLgRsTnJheSGPD8iFveRzBSSqHV3d7cU9yXYYIcVEdxm3yNzvLDvLVwadq
+         U5FhvJ61XP3+mDvVaidY15H1TbB7berE2YPGd2InTBPcbIkgCKhAKT5VvkwKymkexbRY
+         J9O1mk8yjzi39Jsg+pRTBm649VlX0s+OJ7s3Pwva1Uk1D7ZEbenTS3XgUeSN1KO7WmpR
+         sWcA==
+X-Gm-Message-State: APjAAAUrXHA50XoaZCxI//lPtRcyy1ghjdkOuX6Ddth/WfG6ZMPbUQwP
+        BYukesFHW4nK/Zlf8+jFKP0=
+X-Google-Smtp-Source: APXvYqyw9KkYo3e8BtV+g3MQIyw3iLsU4NoWFHeULWIQTewK8FksKO2hXy5R3V8vAD+MGsrEgRT5QQ==
+X-Received: by 2002:a17:902:9696:: with SMTP id n22mr11037394plp.252.1571431717821;
+        Fri, 18 Oct 2019 13:48:37 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id i190sm7936452pgc.93.2019.10.18.13.48.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2019 13:39:37 -0700 (PDT)
-Date:   Fri, 18 Oct 2019 13:39:35 -0700
+        Fri, 18 Oct 2019 13:48:37 -0700 (PDT)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
+Cc:     Haojian Zhuang <haojian.zhuang@gmail.com>,
         Marek Vasut <marek.vasut@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Subject: Re: [PATCH 25/46] ARM: pxa: mainstone-wm97xx: use gpio lookup table
-Message-ID: <20191018203935.GR35946@dtor-ws>
-References: <20191018154052.1276506-1-arnd@arndb.de>
- <20191018154201.1276638-25-arnd@arndb.de>
- <20191018183940.GM35946@dtor-ws>
- <CAK8P3a1Fc=ogknDRGJ3Sn8bZ8tsR_ebE8_bDtF_kZ4AZ5YG_+g@mail.gmail.com>
- <CAK8P3a00s4=6YHS_2K1r6=i+artkjgxjHJGVHBLuCj1ft5sqFQ@mail.gmail.com>
+        Daniel Mack <daniel@zonque.org>,
+        Mark Brown <broonie@kernel.org>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] Input: wm97xx - switch to using threaded IRQ
+Date:   Fri, 18 Oct 2019 13:48:33 -0700
+Message-Id: <20191018204834.213424-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a00s4=6YHS_2K1r6=i+artkjgxjHJGVHBLuCj1ft5sqFQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 18, 2019 at 09:37:28PM +0200, Arnd Bergmann wrote:
-> On Fri, Oct 18, 2019 at 8:39 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > On Fri, Oct 18, 2019 at 05:41:40PM +0200, Arnd Bergmann wrote:
-> > > This driver hardcodes gpio numbers without a header file.
-> > > Use lookup tables instead.
-> > >
-> > > Cc: Marek Vasut <marek.vasut@gmail.com>
-> > > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > Cc: linux-input@vger.kernel.org
-> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> >
-> >
-> > Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> >
-> > Arnd, do you have these devices by chance? I had stached patches
-> > converting wm97xx core to use threaded ISR and it would be great if
-> > someone could test them...
-> 
-> Unfortunately I don't, but I'm hoping that someone can test my series
-> on any hardware they might have.
-> 
-> If you like, send me your patches and I'll add them to this series.
+Instead of manually disabling and enabling interrupts and scheduling work
+to access the device, let's use threaded oneshot interrupt handler. It
+simplifies things.
 
-OK, I'll do that, thanks.
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
 
+ drivers/input/touchscreen/wm97xx-core.c | 42 +++++--------------------
+ include/linux/wm97xx.h                  |  1 -
+ 2 files changed, 7 insertions(+), 36 deletions(-)
+
+diff --git a/drivers/input/touchscreen/wm97xx-core.c b/drivers/input/touchscreen/wm97xx-core.c
+index 0a174bd82915..a9c6267a2998 100644
+--- a/drivers/input/touchscreen/wm97xx-core.c
++++ b/drivers/input/touchscreen/wm97xx-core.c
+@@ -285,11 +285,12 @@ void wm97xx_set_suspend_mode(struct wm97xx *wm, u16 mode)
+ EXPORT_SYMBOL_GPL(wm97xx_set_suspend_mode);
+ 
+ /*
+- * Handle a pen down interrupt.
++ * Codec PENDOWN irq handler
++ *
+  */
+-static void wm97xx_pen_irq_worker(struct work_struct *work)
++static irqreturn_t wm97xx_pen_interrupt(int irq, void *dev_id)
+ {
+-	struct wm97xx *wm = container_of(work, struct wm97xx, pen_event_work);
++	struct wm97xx *wm = dev_id;
+ 	int pen_was_down = wm->pen_is_down;
+ 
+ 	/* do we need to enable the touch panel reader */
+@@ -343,27 +344,6 @@ static void wm97xx_pen_irq_worker(struct work_struct *work)
+ 	if (!wm->pen_is_down && wm->mach_ops->acc_enabled)
+ 		wm->mach_ops->acc_pen_up(wm);
+ 
+-	wm->mach_ops->irq_enable(wm, 1);
+-}
+-
+-/*
+- * Codec PENDOWN irq handler
+- *
+- * We have to disable the codec interrupt in the handler because it
+- * can take up to 1ms to clear the interrupt source. We schedule a task
+- * in a work queue to do the actual interaction with the chip.  The
+- * interrupt is then enabled again in the slow handler when the source
+- * has been cleared.
+- */
+-static irqreturn_t wm97xx_pen_interrupt(int irq, void *dev_id)
+-{
+-	struct wm97xx *wm = dev_id;
+-
+-	if (!work_pending(&wm->pen_event_work)) {
+-		wm->mach_ops->irq_enable(wm, 0);
+-		queue_work(wm->ts_workq, &wm->pen_event_work);
+-	}
+-
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -374,12 +354,9 @@ static int wm97xx_init_pen_irq(struct wm97xx *wm)
+ {
+ 	u16 reg;
+ 
+-	/* If an interrupt is supplied an IRQ enable operation must also be
+-	 * provided. */
+-	BUG_ON(!wm->mach_ops->irq_enable);
+-
+-	if (request_irq(wm->pen_irq, wm97xx_pen_interrupt, IRQF_SHARED,
+-			"wm97xx-pen", wm)) {
++	if (request_threaded_irq(wm->pen_irq, NULL, wm97xx_pen_interrupt,
++				 IRQF_SHARED | IRQF_ONESHOT,
++				 "wm97xx-pen", wm)) {
+ 		dev_err(wm->dev,
+ 			"Failed to register pen down interrupt, polling");
+ 		wm->pen_irq = 0;
+@@ -509,7 +486,6 @@ static int wm97xx_ts_input_open(struct input_dev *idev)
+ 	wm->codec->dig_enable(wm, 1);
+ 
+ 	INIT_DELAYED_WORK(&wm->ts_reader, wm97xx_ts_reader);
+-	INIT_WORK(&wm->pen_event_work, wm97xx_pen_irq_worker);
+ 
+ 	wm->ts_reader_min_interval = HZ >= 100 ? HZ / 100 : 1;
+ 	if (wm->ts_reader_min_interval < 1)
+@@ -560,10 +536,6 @@ static void wm97xx_ts_input_close(struct input_dev *idev)
+ 
+ 	wm->pen_is_down = 0;
+ 
+-	/* Balance out interrupt disables/enables */
+-	if (cancel_work_sync(&wm->pen_event_work))
+-		wm->mach_ops->irq_enable(wm, 1);
+-
+ 	/* ts_reader rearms itself so we need to explicitly stop it
+ 	 * before we destroy the workqueue.
+ 	 */
+diff --git a/include/linux/wm97xx.h b/include/linux/wm97xx.h
+index 58e082dadc68..7d5496fa6ac7 100644
+--- a/include/linux/wm97xx.h
++++ b/include/linux/wm97xx.h
+@@ -281,7 +281,6 @@ struct wm97xx {
+ 	unsigned long ts_reader_min_interval; /* Minimum interval */
+ 	unsigned int pen_irq;		/* Pen IRQ number in use */
+ 	struct workqueue_struct *ts_workq;
+-	struct work_struct pen_event_work;
+ 	u16 acc_slot;			/* AC97 slot used for acc touch data */
+ 	u16 acc_rate;			/* acc touch data rate */
+ 	unsigned pen_is_down:1;		/* Pen is down */
 -- 
-Dmitry
+2.23.0.866.gb869b98d4c-goog
+
