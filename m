@@ -2,63 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EBF79DBCC6
-	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2019 07:15:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFD6CDBCB4
+	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2019 07:11:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394633AbfJRFPx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Oct 2019 01:15:53 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:42407 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393761AbfJRFPx (ORCPT
+        id S2391244AbfJRFKX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Oct 2019 01:10:23 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45356 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727606AbfJRFKX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Oct 2019 01:15:53 -0400
-Received: by mail-qt1-f194.google.com with SMTP id w14so7342012qto.9;
-        Thu, 17 Oct 2019 22:15:52 -0700 (PDT)
+        Fri, 18 Oct 2019 01:10:23 -0400
+Received: by mail-pg1-f196.google.com with SMTP id r1so2654888pgj.12;
+        Thu, 17 Oct 2019 22:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sV/yp4uqHU1crLu9pC0wLbsbQ7Aq/erC7q2I15YJ9GM=;
-        b=t5Dq1zRK0HLlkQxAprLociv5KSGzvgFz+5sPaKre1VcMY33wWTuuneFzSnYSUoCu2G
-         sXPNrKasrO90Ig5aBHRbAj5LQcWe6qrI+EVW2k+04kkKYwxWEbi+vD4n0XLmucqYRfut
-         Rlv5UsbxiKkf6hDD2sgShaR1AJJzUM7YVS6vxLlKVXmjzXDLOCZRDGhoeO7fwLoSnSHo
-         i58k0ACK1WM5uVXTQYuKBkaL2doDCWknHAbRJfdL+wNSlOQl3TDy6hSWOCNfoGi0NlV9
-         PM8XaP6N2aWa20iczB0fWWD15XT5YFgxBHLdPN2LiXm6uBTJ/pf0YWWQ60ssjMI38erb
-         Tdxg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=+EWYqOMJEOrwAelQrVSj5HwzBo+TWf7YqxT+vg7zDWE=;
+        b=b3Iq1OPqK5HQfae2P8Xv3XVKssSkqfpfeT3/1YGT3uEIQvhNcGr2l98icZIPr0/lSJ
+         a+t+QiS36I1nWnOkOrwj8SdfSd6sVCN3fz+metWDc3MBvB8OLaNjo7SUzodZUus4MUzM
+         4In5+nYEEtfd8pKNrVpwpdvgUfoRxnJd5ALQobye+0vNGu2TJz5S5sT/rpzmo3knCr9u
+         Fy9lTaJT+1X5QQ11h/Wcu6m6PYgRzfjr6iDwysJpWEgyAtYmdoRaUIeZKGpHxn3ilsUd
+         P71awp+HaIeZQq1/hgktqNapCjB3B5Lp20sY0jnfmwJNffh7x95lfSAoW6Nc+vkeZMM6
+         zjjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sV/yp4uqHU1crLu9pC0wLbsbQ7Aq/erC7q2I15YJ9GM=;
-        b=YjqRsgvlkfIDn70uYvRzKRyLzmMd8EsgKeQIh9yBVfQBoQpwdEYXog5kOlFkIDMSGI
-         qExO6P/JST2JeIhlBfbh+il9a1VyQUusbo/PPjXOplArZlfMWpvmKaI7jAeaoC1yh+rv
-         B93YIuWqirUD/WHPXBTk8zqpLF8DQL4rdZePxLgpSq61Q0AwRm3okfaDceXycxEWEtaP
-         SiodGEXtnTIRCp+73WsR53g71zeCEutKPKkHkd4c4YGx2qqd7dK/emCOucOXZtBOidwi
-         iPCtadsQSsj8Vv4T2VC3fN4JA5cKYzkycU6J19JJwYg2p5aOVcb0IQbwIy6fwrbMnGYi
-         Zu6g==
-X-Gm-Message-State: APjAAAXTwj/N2X14pbhHtNyiAup3Kk+p13MHxNbMveaAteZUtN9eL8jy
-        /KxGxvUWb2KT0yKs88eyh+OBmFLboDE=
-X-Google-Smtp-Source: APXvYqxwS4OmMdWzpIhS4OUmUBQs2MuOcVZMwEf0txmixcAcQSmOHd0XKjQ7cnDjYeLGBLad/wtInA==
-X-Received: by 2002:a65:5603:: with SMTP id l3mr8009046pgs.56.1571373940009;
-        Thu, 17 Oct 2019 21:45:40 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=+EWYqOMJEOrwAelQrVSj5HwzBo+TWf7YqxT+vg7zDWE=;
+        b=Dp7oD3bFX73sF0Gv2TErfkYDPi+3BP/GWDfKbSsVzPlH4a23dcvLAQrFCHAjXx01Gc
+         f0FL/yCq4LgyIrEJp6y2Kg27pfyCifwh0VV4mApN3ur6kHB8nHh4b5tN+2Rd11AIczIk
+         FvSJP8feseoousmc0m3OZ4FlUxjWhmUtY0jj1hium4RfWBrjar7UNk6zwfl97ViMO/Po
+         T+goCeh9joVsFeecXn6SlUf90SQs1RUF22xIIplmC86cbUKsqofaRUoPHMrtBpjq+pSi
+         WSVnQq/HM6EAs40wDfX04QHus7xdVPr3PyKh5Glqu5gjrgiR5CxSmlIQ+P4miGOj/sk/
+         IuTQ==
+X-Gm-Message-State: APjAAAUwpheooC56ptfaK4puwTfl29Ul8XNMcg4nDseH5Oi+xrmEyfm4
+        4cbz8SaWkrTxLhhSMm1ZK3Z+Pz/2dk4=
+X-Google-Smtp-Source: APXvYqxa8qrbWzhgY1avVUHnvL095QM2q4yqCnOM+3ueOITrdVvKeq2Qp+8FVXqPqBMYi2/1Fornyg==
+X-Received: by 2002:a17:90a:fd83:: with SMTP id cx3mr8614025pjb.64.1571373943189;
+        Thu, 17 Oct 2019 21:45:43 -0700 (PDT)
 Received: from localhost.lan (c-67-185-54-80.hsd1.wa.comcast.net. [67.185.54.80])
-        by smtp.gmail.com with ESMTPSA id b3sm3696445pjp.13.2019.10.17.21.45.37
+        by smtp.gmail.com with ESMTPSA id b3sm3696445pjp.13.2019.10.17.21.45.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 21:45:38 -0700 (PDT)
+        Thu, 17 Oct 2019 21:45:42 -0700 (PDT)
 From:   Andrey Smirnov <andrew.smirnov@gmail.com>
 To:     linux-input@vger.kernel.org
 Cc:     Andrey Smirnov <andrew.smirnov@gmail.com>,
+        Sam Bazely <sambazley@fastmail.com>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Henrik Rydberg <rydberg@bitmath.org>,
-        Sam Bazely <sambazley@fastmail.com>,
         "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
         Austin Palmer <austinp@valvesoftware.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/3] Logitech G920 fixes
-Date:   Thu, 17 Oct 2019 21:45:14 -0700
-Message-Id: <20191018044517.6430-1-andrew.smirnov@gmail.com>
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH v3 2/3] HID: logitech-hidpp: rework device validation
+Date:   Thu, 17 Oct 2019 21:45:16 -0700
+Message-Id: <20191018044517.6430-3-andrew.smirnov@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191018044517.6430-1-andrew.smirnov@gmail.com>
+References: <20191018044517.6430-1-andrew.smirnov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
@@ -66,55 +68,130 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Everyone:
+G920 device only advertises REPORT_ID_HIDPP_LONG and
+REPORT_ID_HIDPP_VERY_LONG in its HID report descriptor, so querying
+for REPORT_ID_HIDPP_SHORT with optional=false will always fail and
+prevent G920 to be recognized as a valid HID++ device.
 
-This series contains patches to fix a couple of regressions in G920
-wheel support by hid-logitech-hidpp driver. Without the patches the
-wheel remains stuck in autocentering mode ("resisting" any attempt to
-trun) as well as missing support for any FF action.
+To fix this and improve some other aspects, modify
+hidpp_validate_device() as follows:
 
-Thanks,
-Andrey Smirnov
+  - Inline the code of hidpp_validate_report() to simplify
+    distingushing between non-present and invalid report descriptors
 
-Changes since [v2]:
+  - Drop the check for id >= HID_MAX_IDS || id < 0 since all of our
+    IDs are static and known to satisfy that at compile time
 
-     - Fixes a buggy validity check "HID: logitech-hidpp: rework
-       device validation" as pointed out by Benjamin Tissoires
+  - Change the algorithms to check all possible report
+    types (including very long report) and deem the device as a valid
+    HID++ device if it supports at least one
 
-     - Marked "HID: logitech-hidpp: do all FF cleanup in
-       hidpp_ff_destroy()" as 5.2+ for stable
+  - Treat invalid report length as a hard stop for the validation
+    algorithm, meaning that if any of the supported reports has
+    invalid length we assume the worst and treat the device as a
+    generic HID device.
 
-Changes since [v1]:
+  - Fold initialization of hidpp->very_long_report_length into
+    hidpp_validate_device() since it already fetches very long report
+    length and validates its value
 
-     - "HID: logitech-hidpp: split g920_get_config()" is changed to
-       not rely on devres and be a self contained patch
+Fixes: fe3ee1ec007b ("HID: logitech-hidpp: allow non HID++ devices to be handled by this module")
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=204191
+Reported-by: Sam Bazely <sambazley@fastmail.com>
+Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Henrik Rydberg <rydberg@bitmath.org>
+Cc: Pierre-Loup A. Griffais <pgriffais@valvesoftware.com>
+Cc: Austin Palmer <austinp@valvesoftware.com>
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org # 5.2+
+---
+ drivers/hid/hid-logitech-hidpp.c | 54 ++++++++++++++++++--------------
+ 1 file changed, 30 insertions(+), 24 deletions(-)
 
-     - Quirk driven behaviour of "HID: logitech-hidpp: add G920 device
-       validation quirk" is replaced with generic validation algorithm
-       of "HID: logitech-hidpp: rework device validation"
-
-     - Fix for a poteintial race condition is added in
-       "HID: logitech-hidpp: do all FF cleanup in hidpp_ff_destroy()"
-       as per suggestion by Benjamin Tissoires
-
-     - Collected Tested-by from Sam Bazely for "HID: logitech-hidpp:
-       split g920_get_config()" since that patch didn't change
-       significantly since [v1]
-
-     - Specified stable kernel versions I think the patches should
-       apply to (hopefully I got that right)
-
-[v2] lore.kernel.org/lkml/20191016182935.5616-1-andrew.smirnov@gmail.com
-[v1] lore.kernel.org/lkml/20191007051240.4410-1-andrew.smirnov@gmail.com
-
-Andrey Smirnov (3):
-  HID: logitech-hidpp: split g920_get_config()
-  HID: logitech-hidpp: rework device validation
-  HID: logitech-hidpp: do all FF cleanup in hidpp_ff_destroy()
-
- drivers/hid/hid-logitech-hidpp.c | 237 +++++++++++++++++--------------
- 1 file changed, 131 insertions(+), 106 deletions(-)
-
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 85911586b3b6..6e669eb7dc69 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -3498,34 +3498,45 @@ static int hidpp_get_report_length(struct hid_device *hdev, int id)
+ 	return report->field[0]->report_count + 1;
+ }
+ 
+-static bool hidpp_validate_report(struct hid_device *hdev, int id,
+-				  int expected_length, bool optional)
++static bool hidpp_validate_device(struct hid_device *hdev)
+ {
+-	int report_length;
++	struct hidpp_device *hidpp = hid_get_drvdata(hdev);
++	int id, report_length, supported_reports = 0;
++
++	id = REPORT_ID_HIDPP_SHORT;
++	report_length = hidpp_get_report_length(hdev, id);
++	if (report_length) {
++		if (report_length < HIDPP_REPORT_SHORT_LENGTH)
++			goto bad_device;
+ 
+-	if (id >= HID_MAX_IDS || id < 0) {
+-		hid_err(hdev, "invalid HID report id %u\n", id);
+-		return false;
++		supported_reports++;
+ 	}
+ 
++	id = REPORT_ID_HIDPP_LONG;
+ 	report_length = hidpp_get_report_length(hdev, id);
+-	if (!report_length)
+-		return optional;
++	if (report_length) {
++		if (report_length < HIDPP_REPORT_LONG_LENGTH)
++			goto bad_device;
+ 
+-	if (report_length < expected_length) {
+-		hid_warn(hdev, "not enough values in hidpp report %d\n", id);
+-		return false;
++		supported_reports++;
+ 	}
+ 
+-	return true;
+-}
++	id = REPORT_ID_HIDPP_VERY_LONG;
++	report_length = hidpp_get_report_length(hdev, id);
++	if (report_length) {
++		if (report_length < HIDPP_REPORT_LONG_LENGTH ||
++		    report_length > HIDPP_REPORT_VERY_LONG_MAX_LENGTH)
++			goto bad_device;
+ 
+-static bool hidpp_validate_device(struct hid_device *hdev)
+-{
+-	return hidpp_validate_report(hdev, REPORT_ID_HIDPP_SHORT,
+-				     HIDPP_REPORT_SHORT_LENGTH, false) &&
+-	       hidpp_validate_report(hdev, REPORT_ID_HIDPP_LONG,
+-				     HIDPP_REPORT_LONG_LENGTH, true);
++		supported_reports++;
++		hidpp->very_long_report_length = report_length;
++	}
++
++	return supported_reports;
++
++bad_device:
++	hid_warn(hdev, "not enough values in hidpp report %d\n", id);
++	return false;
+ }
+ 
+ static bool hidpp_application_equals(struct hid_device *hdev,
+@@ -3572,11 +3583,6 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		return hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+ 	}
+ 
+-	hidpp->very_long_report_length =
+-		hidpp_get_report_length(hdev, REPORT_ID_HIDPP_VERY_LONG);
+-	if (hidpp->very_long_report_length > HIDPP_REPORT_VERY_LONG_MAX_LENGTH)
+-		hidpp->very_long_report_length = HIDPP_REPORT_VERY_LONG_MAX_LENGTH;
+-
+ 	if (id->group == HID_GROUP_LOGITECH_DJ_DEVICE)
+ 		hidpp->quirks |= HIDPP_QUIRK_UNIFYING;
+ 
 -- 
 2.21.0
 
