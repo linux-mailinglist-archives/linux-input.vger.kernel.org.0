@@ -2,38 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BD00DD39C
-	for <lists+linux-input@lfdr.de>; Sat, 19 Oct 2019 00:19:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0266BDD346
+	for <lists+linux-input@lfdr.de>; Sat, 19 Oct 2019 00:17:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404386AbfJRWTK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Oct 2019 18:19:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39192 "EHLO mail.kernel.org"
+        id S2393073AbfJRWQs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Oct 2019 18:16:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40614 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732372AbfJRWHF (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Oct 2019 18:07:05 -0400
+        id S2387573AbfJRWIN (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 18 Oct 2019 18:08:13 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A0BBC222D1;
-        Fri, 18 Oct 2019 22:07:03 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F0B9C205F4;
+        Fri, 18 Oct 2019 22:08:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571436424;
-        bh=RKoO/50WWCrVLJkafaQkr4EOtCU9gOnnE+awNfgmwaM=;
+        s=default; t=1571436492;
+        bh=A+nXIhWOh/hn+hSxK3tP54icEmodpvMjam53PuBkrA4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=J3+7DCEgDu76lCxX0/yXQ2HimHN6oeP1QcoDi1P2XowE6syFIeuFZlghUvx8Gp8+r
-         UxsM+W8DlGRVZm6VZiP9wiSpC3g95nS0FK/5GHgzUoV3ujKfeVtV7YLn5DKNIa1Ks2
-         E9RAmRlXTq3BjTquugO7AjTGLx7Zpmsq9sCVE8Bc=
+        b=a+GY4ve+cxg/FfK6+A3JkjrkYZBuFcnNmG64XnL+67H6m4HAQ+9Rc0aBZ6MpC867m
+         7T+XSkxuKM4c5eCXGKsPdQSMAzmJmZuidFzeh24tL1vH4Skj464xrLH1kY94jTBZ4L
+         i/vuxczcb7NqXtZiKiT0i24ZeEyhW7j3qgYTm0mc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dexuan Cui <decui@microsoft.com>, Jiri Kosina <jkosina@suse.cz>,
-        Sasha Levin <sashal@kernel.org>, devel@linuxdriverproject.org,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Rene Wagner <redhatbugzilla@callerid.de>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 066/100] HID: hyperv: Use in-place iterator API in the channel callback
-Date:   Fri, 18 Oct 2019 18:04:51 -0400
-Message-Id: <20191018220525.9042-66-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 07/56] HID: i2c-hid: Add Odys Winbook 13 to descriptor override
+Date:   Fri, 18 Oct 2019 18:07:04 -0400
+Message-Id: <20191018220753.10002-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191018220525.9042-1-sashal@kernel.org>
-References: <20191018220525.9042-1-sashal@kernel.org>
+In-Reply-To: <20191018220753.10002-1-sashal@kernel.org>
+References: <20191018220753.10002-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,97 +44,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Dexuan Cui <decui@microsoft.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 6a297c90efa68b2864483193b8bfb0d19478600c ]
+[ Upstream commit f8f807441eefddc3c6d8a378421f0ede6361d565 ]
 
-Simplify the ring buffer handling with the in-place API.
+The Odys Winbook 13 uses a SIPODEV SP1064 touchpad, which does not
+supply descriptors, add this to the DMI descriptor override list, fixing
+the touchpad not working.
 
-Also avoid the dynamic allocation and the memory leak in the channel
-callback function.
-
-Signed-off-by: Dexuan Cui <decui@microsoft.com>
-Acked-by: Jiri Kosina <jkosina@suse.cz>
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1526312
+Reported-by: Rene Wagner <redhatbugzilla@callerid.de>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-hyperv.c | 56 +++++++---------------------------------
- 1 file changed, 10 insertions(+), 46 deletions(-)
+ drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-index 704049e62d58a..4d1496f60071f 100644
---- a/drivers/hid/hid-hyperv.c
-+++ b/drivers/hid/hid-hyperv.c
-@@ -322,60 +322,24 @@ static void mousevsc_on_receive(struct hv_device *device,
+diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+index 89f2976f9c534..fd1b6eea6d2fd 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
++++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+@@ -346,6 +346,14 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
+ 		},
+ 		.driver_data = (void *)&sipodev_desc
+ 	},
++	{
++		.ident = "Odys Winbook 13",
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AXDIA International GmbH"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "WINBOOK 13"),
++		},
++		.driver_data = (void *)&sipodev_desc
++	},
+ 	{ }	/* Terminate list */
+ };
  
- static void mousevsc_on_channel_callback(void *context)
- {
--	const int packet_size = 0x100;
--	int ret;
- 	struct hv_device *device = context;
--	u32 bytes_recvd;
--	u64 req_id;
- 	struct vmpacket_descriptor *desc;
--	unsigned char	*buffer;
--	int	bufferlen = packet_size;
--
--	buffer = kmalloc(bufferlen, GFP_ATOMIC);
--	if (!buffer)
--		return;
--
--	do {
--		ret = vmbus_recvpacket_raw(device->channel, buffer,
--					bufferlen, &bytes_recvd, &req_id);
--
--		switch (ret) {
--		case 0:
--			if (bytes_recvd <= 0) {
--				kfree(buffer);
--				return;
--			}
--			desc = (struct vmpacket_descriptor *)buffer;
--
--			switch (desc->type) {
--			case VM_PKT_COMP:
--				break;
--
--			case VM_PKT_DATA_INBAND:
--				mousevsc_on_receive(device, desc);
--				break;
--
--			default:
--				pr_err("unhandled packet type %d, tid %llx len %d\n",
--					desc->type, req_id, bytes_recvd);
--				break;
--			}
- 
-+	foreach_vmbus_pkt(desc, device->channel) {
-+		switch (desc->type) {
-+		case VM_PKT_COMP:
- 			break;
- 
--		case -ENOBUFS:
--			kfree(buffer);
--			/* Handle large packet */
--			bufferlen = bytes_recvd;
--			buffer = kmalloc(bytes_recvd, GFP_ATOMIC);
--
--			if (!buffer)
--				return;
-+		case VM_PKT_DATA_INBAND:
-+			mousevsc_on_receive(device, desc);
-+			break;
- 
-+		default:
-+			pr_err("Unhandled packet type %d, tid %llx len %d\n",
-+			       desc->type, desc->trans_id, desc->len8 * 8);
- 			break;
- 		}
--	} while (1);
--
-+	}
- }
- 
- static int mousevsc_connect_to_vsp(struct hv_device *device)
 -- 
 2.20.1
 
