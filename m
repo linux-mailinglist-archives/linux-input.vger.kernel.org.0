@@ -2,50 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EDC2DCE16
-	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2019 20:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A7E4DCE50
+	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2019 20:39:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389303AbfJRSiD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Oct 2019 14:38:03 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:33980 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730794AbfJRSiC (ORCPT
+        id S2505810AbfJRSjo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Oct 2019 14:39:44 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:34465 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2502793AbfJRSjo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Oct 2019 14:38:02 -0400
-Received: by mail-pf1-f195.google.com with SMTP id b128so4416110pfa.1;
-        Fri, 18 Oct 2019 11:38:02 -0700 (PDT)
+        Fri, 18 Oct 2019 14:39:44 -0400
+Received: by mail-pg1-f196.google.com with SMTP id k20so3843235pgi.1;
+        Fri, 18 Oct 2019 11:39:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=IFDsqOMwc2ojaPSLkT8+wMYUXewN1acLP2lqR1XP15Q=;
-        b=HDe9kDeKBahe9NjGm/ugr3PrO4D0Lw085ywSNSA095A6Y7b0bdnZjmqC82XIISIIdt
-         HL1478hYPAIvWzZLWe743K+0Z4UKFrxK0/hQ9QagRbJbspKW/xQebobzv2mUFy3hRLKH
-         //wSlMwz56Seed2I+e/Y5zi3HKTITkVYbYNZcR/r9Ty9L4OUJxGZQa8n7sooJF+d06MV
-         U8c1Xqzj80SWkW1+fMzKDsGOIVt27mRFx9PdNgqZxq/nnXPUUxC1LvIFwI/iWySD+Mw9
-         Y/fW+KH35SuT8tMvpzVKHsaJfOpxO5whSf8Fu101J4r54ddKqPMDRDSv0HSvbuy5Taxu
-         2ebg==
+        bh=NNlXxl/DrRRMXAZJXRt6LTbwngxwuuZui4B951pX1Wk=;
+        b=X8BR9oW7d21Zevs2Srs2fuq3NnjuvCjuAzNFngBvN7cSgDtmTxCmiVyWvfN3uitpFu
+         a6FUoeu29Ejrkdo/DsBjcYoKQ+invmgsOHeC16jTiurWhiAv0blf7bQetRYnIPnEAeyU
+         Cb7eOLBPNuololZcbxiLqNaZwx+uOO6bhalw+aJNg2YEY8NGlZv390EPjHuLWYRlbEeW
+         XRsXycQCseUyR4glJQdl9yrVX/htKTkVESi0wAKa8+OThZnaou/Y6l7qhPeRgqTRQb50
+         fC92HjwOaiGiapgyCWfqulAJqCeMfEEJ2Q+OiUwu5DbKv2Q07ViF5XXzqsdphp4EMSgs
+         LZNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=IFDsqOMwc2ojaPSLkT8+wMYUXewN1acLP2lqR1XP15Q=;
-        b=oQmEyaKbSDM+BjqtH9XH/ITkCs9nIAbpkizbSvzomnnq/0WoQtlqH+ZgB2NMm0sqyM
-         46jfYSYcmdghh+BLiwdnMur5fcuVVl6PZBR4Duj0vEJaxdUwajkJ1+I0kRfNwUEu7Nqu
-         LFIWf0HGvmwjhmAj3CGLg4COcqI1XNfQ+teg4tGyrVQ5OSd2bpo9lnC+9YemWrsnvNPx
-         V4n2+Rm8RJFkviWUpgc2SzFFKIydJdRW5pFB16+igXpEOgwFaeJBXkb1vLNJyq9PFu7f
-         8ZLX42oiOsFyC3ZhG7qLsIBE8Oxz6cqbcTajgQ7yjg8ZdDyJfe/tG97bNlPyNqi+R8le
-         8lig==
-X-Gm-Message-State: APjAAAVkC6MI9rbmGK5AsM/4nnVmhBP6ZwpDmT2NKV7C0BLUGKOr0CSe
-        STr4JWggU2B73+Bp2Iktk80=
-X-Google-Smtp-Source: APXvYqxI3fG8J2/DXNrMqbp5He+LcRaizowKU8zXJc/NBeHP6e+1CmGad85VCcLrdR+rSgjhba5HPg==
-X-Received: by 2002:a63:5762:: with SMTP id h34mr2723268pgm.235.1571423881363;
-        Fri, 18 Oct 2019 11:38:01 -0700 (PDT)
+        bh=NNlXxl/DrRRMXAZJXRt6LTbwngxwuuZui4B951pX1Wk=;
+        b=S0eXUCj+Esjc7cwf5ZJ52tgq36Vcg5ifx+3nrWMNoC7T+HL6P6i3s1twOmodZUZL6V
+         DE0ddjUiBUKx9068a99ov0mItWD7cMrDqleYMsn84uJ+nG43Y1v3tKcKF+8Lujak9wSa
+         PCzabA5NdXZ5oYKTqBvegBzJKZG8Aw7ONaiwwRc+Qt+ViJ0dtbt/qPmTkKNSzolOkf+s
+         gDUSDg8VeDBYLIJygLSDKhLIyWyCLyJLoLZScEfBy6gRUXhEfI0wBkQPNR0aBinvKehn
+         t91s2pFrBr8Nyz7IR+RzZMwCKs9VrmaEcWXgyITipOh8cmv+QqBr8h/6fyOd5cOWzxgj
+         XA/Q==
+X-Gm-Message-State: APjAAAVlr/JNwu//T6krtJAjQWSJKX7tOxrL+S3y90F2Hg1G3X+W+WnE
+        MWo4QTJ2O/MWp7jThl3nbwCA3mB+
+X-Google-Smtp-Source: APXvYqyEbZiaLs72fryFE2CLF+ABwj3lfjmQQm9VaNEuZFxiOVaqlo65cSjcLF+36HYyGG2zSnPrXg==
+X-Received: by 2002:a62:e90d:: with SMTP id j13mr8390525pfh.86.1571423983449;
+        Fri, 18 Oct 2019 11:39:43 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id 69sm6908001pgh.47.2019.10.18.11.37.59
+        by smtp.gmail.com with ESMTPSA id v9sm6874172pfe.109.2019.10.18.11.39.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2019 11:38:00 -0700 (PDT)
-Date:   Fri, 18 Oct 2019 11:37:57 -0700
+        Fri, 18 Oct 2019 11:39:42 -0700 (PDT)
+Date:   Fri, 18 Oct 2019 11:39:40 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     Daniel Mack <daniel@zonque.org>,
@@ -53,85 +53,37 @@ Cc:     Daniel Mack <daniel@zonque.org>,
         Robert Jarzmik <robert.jarzmik@free.fr>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Linus Walleij <linus.walleij@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Brown <broonie@kernel.org>, linux-clk@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-rtc@vger.kernel.org,
-        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Subject: Re: [PATCH 05/46] ARM: pxa: split up mach/hardware.h
-Message-ID: <20191018183757.GL35946@dtor-ws>
+        Marek Vasut <marek.vasut@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH 25/46] ARM: pxa: mainstone-wm97xx: use gpio lookup table
+Message-ID: <20191018183940.GM35946@dtor-ws>
 References: <20191018154052.1276506-1-arnd@arndb.de>
- <20191018154201.1276638-5-arnd@arndb.de>
+ <20191018154201.1276638-25-arnd@arndb.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191018154201.1276638-5-arnd@arndb.de>
+In-Reply-To: <20191018154201.1276638-25-arnd@arndb.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 18, 2019 at 05:41:20PM +0200, Arnd Bergmann wrote:
-> The mach/hardware.h is included in lots of places, and it provides
-> three different things on pxa:
+On Fri, Oct 18, 2019 at 05:41:40PM +0200, Arnd Bergmann wrote:
+> This driver hardcodes gpio numbers without a header file.
+> Use lookup tables instead.
 > 
-> - the cpu_is_pxa* macros
-> - an indirect inclusion of mach/addr-map.h
-> - the __REG() and io_pv2() helper macros
-> 
-> Split it up into separate <linux/soc/pxa/cpu.h> and mach/pxa-regs.h
-> headers, then change all the files that use mach/hardware.h to
-> include the exact set of those three headers that they actually
-> need, allowing for further more targeted cleanup.
-> 
-> linux/soc/pxa/cpu.h can remain permanently exported and is now in
-> a global location along with similar headers. pxa-regs.h and
-> addr-map.h are only used in a very small number of drivers now
-> and can be moved to arch/arm/mach-pxa/ directly when those drivers
-> are to pass the necessary data as resources.
-> 
-> Cc: Michael Turquette <mturquette@baylibre.com>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Viresh Kumar <viresh.kumar@linaro.org>
+> Cc: Marek Vasut <marek.vasut@gmail.com>
 > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: linux-clk@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
 > Cc: linux-input@vger.kernel.org
-> Cc: linux-leds@vger.kernel.org
-> Cc: linux-mmc@vger.kernel.org
-> Cc: linux-mtd@lists.infradead.org
-> Cc: linux-rtc@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: linux-watchdog@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-For input bits:
 
 Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Arnd, do you have these devices by chance? I had stached patches
+converting wm97xx core to use threaded ISR and it would be great if
+someone could test them...
 
 -- 
 Dmitry
