@@ -2,105 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F2B7DCF4B
-	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2019 21:33:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73972DCF57
+	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2019 21:37:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437523AbfJRTc6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Oct 2019 15:32:58 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:37369 "EHLO
+        id S2394866AbfJRThr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Oct 2019 15:37:47 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:33181 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394807AbfJRTc6 (ORCPT
+        with ESMTP id S2394836AbfJRThr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Oct 2019 15:32:58 -0400
-Received: from mail-qk1-f179.google.com ([209.85.222.179]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1N5UoU-1hx1rB0p0k-016tR7; Fri, 18 Oct 2019 21:32:55 +0200
-Received: by mail-qk1-f179.google.com with SMTP id u184so6377750qkd.4;
-        Fri, 18 Oct 2019 12:32:54 -0700 (PDT)
-X-Gm-Message-State: APjAAAWOMUseeQAnmf5ePLjWA4QTqPmO0TGTh8vzYVIg+mSZ45wpLuT4
-        58u8s2senhYMMa3qH1GwOLEUY2VGgyDQeT6vYe0=
-X-Google-Smtp-Source: APXvYqzndIi4+lrEFsQAJTvDSAykrBEjXYWBlihPsFokm/QiIqztK3NntxmM4iVAVoSe7PNdrIRvDpgwbQhfLS5cKrs=
-X-Received: by 2002:a37:db0a:: with SMTP id e10mr10369877qki.3.1571427173049;
- Fri, 18 Oct 2019 12:32:53 -0700 (PDT)
+        Fri, 18 Oct 2019 15:37:47 -0400
+Received: from mail-qt1-f178.google.com ([209.85.160.178]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MUXd0-1iUS3F2K8m-00QWUX; Fri, 18 Oct 2019 21:37:45 +0200
+Received: by mail-qt1-f178.google.com with SMTP id o49so2901639qta.7;
+        Fri, 18 Oct 2019 12:37:45 -0700 (PDT)
+X-Gm-Message-State: APjAAAWuMVDrVgwOvIoSfzdCfr8ofJVpF61DyHBdJs7M0NQ1HkW7ZGpJ
+        GAEumHK2YyUPeo9wnxFIyNGwGsFgPnz4WwGNC3A=
+X-Google-Smtp-Source: APXvYqwxUyyJwvyfVCPG8c8mF3Sx5XzUNdoCs8nQdFo+YOcYojSMBeTm3NOwBpuU3udL/lLv2xPirOIARmIFDaBY3Zw=
+X-Received: by 2002:a05:6214:1150:: with SMTP id b16mr11418954qvt.197.1571427464379;
+ Fri, 18 Oct 2019 12:37:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191018154052.1276506-1-arnd@arndb.de> <87v9slg9k5.fsf@belgarion.home>
- <CAK8P3a1JDtHsOW=iaxEycbJ4TBkR9MHUyDMeJnwxCtb=tefnBQ@mail.gmail.com>
-In-Reply-To: <CAK8P3a1JDtHsOW=iaxEycbJ4TBkR9MHUyDMeJnwxCtb=tefnBQ@mail.gmail.com>
+References: <20191018154052.1276506-1-arnd@arndb.de> <20191018154201.1276638-25-arnd@arndb.de>
+ <20191018183940.GM35946@dtor-ws> <CAK8P3a1Fc=ogknDRGJ3Sn8bZ8tsR_ebE8_bDtF_kZ4AZ5YG_+g@mail.gmail.com>
+In-Reply-To: <CAK8P3a1Fc=ogknDRGJ3Sn8bZ8tsR_ebE8_bDtF_kZ4AZ5YG_+g@mail.gmail.com>
 From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 18 Oct 2019 21:32:36 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0376Anmoc8VWXcEBg+z2B+1vcxJoywYYROBQNxpVmZuA@mail.gmail.com>
-Message-ID: <CAK8P3a0376Anmoc8VWXcEBg+z2B+1vcxJoywYYROBQNxpVmZuA@mail.gmail.com>
-Subject: Re: [PATCH 00/46] ARM: pxa: towards multiplatform support
-To:     Robert Jarzmik <robert.jarzmik@free.fr>
+Date:   Fri, 18 Oct 2019 21:37:28 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a00s4=6YHS_2K1r6=i+artkjgxjHJGVHBLuCj1ft5sqFQ@mail.gmail.com>
+Message-ID: <CAK8P3a00s4=6YHS_2K1r6=i+artkjgxjHJGVHBLuCj1ft5sqFQ@mail.gmail.com>
+Subject: Re: [PATCH 25/46] ARM: pxa: mainstone-wm97xx: use gpio lookup table
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Daniel Mack <daniel@zonque.org>,
         Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        IDE-ML <linux-ide@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-mtd <linux-mtd@lists.infradead.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>
+        Marek Vasut <marek.vasut@gmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:x6rjh/SYhkhVXFY7sn38XpS2jNl7mZ+ZSAgBlTmeuBIEAqo8moQ
- ZloY0yHOr0VObCTuKLP4a+2rBvJkW653ZyzZa/eWVN3/Ovj/BNRg9Ewp1Qf7rCBMO8Hhk1D
- iwosZq0hvegBArF9MtuUzikr1dATmDPGh2GE3ojjjAh3L/xbOPWehNtgUykguhtLo25ub3e
- Gh9uYlRVvIqPMYEpjyOxg==
+X-Provags-ID: V03:K1:UmtvT6H0vUmUAjXS4lh9ben7hRjuen/47LUjB4gy+iM2Myq/mKv
+ DcBnxfFuUjZpSkNHH1s38VbiWGYc9EIPIFGJ6cyMVQdP9MQBxxvBuqf3TDkOWyYcGrxgqlz
+ QhVkj20xHQkkmcKesuDmCVsDM4pQ1qkeMwPdyX04sGRWG8KbBjuOVzu5wKrEXzCwrvqYj1m
+ AuHGnadQbj6Hqd7VedZBg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xqW7pTXOCNI=:B+AiqXxm34TeJktaofJfOW
- XqUjplt4t0CUZ2O55g6B1bgZZacd+rT+JuPTFvuaVx1dQM1GrEbNii30aJz0qTY/9r2GHRVUi
- OvSlVnq3juFgtcY+5TmDRWP+EjFL1/t5QgjdUXDpsAc1iUjtxFwuDKrEFw+SMqJFj+Evb4M8L
- 7wbYHomgQQY+uoWcF9O5DLciqMHlDIzbauOi8Lb8bts8RuWV8MWXNKV6pySMZBfkvYKfVY6Id
- dRjDuhZDsgP5jWCbtzO12OqzKnxMnZUkvtuNqE907owCD6DW0lhUjJdXJhyg1DtnUR53aLxXm
- uyT/qud2H90oWDD31hBeJ6MHXUOHppefVXVH9rJMm26ZRkgxdiioxTD1OTJ3EFcBSYEbMiSdD
- m5KrdOruT25lSFB4y/FukEE5zBpl7S+BgJvHFF6Lpzaci4tD8YF/Hro/LlSi2jylbMPpLzp0o
- KFXy7N7zXVPStE+nf8LQ+jE3PgkeG0V+cB2bFyTkuUjr3n3f0q/2MDNhY0CG1kmgrpZlzzT3C
- nFqWmIbnG7sOILmVeWRjrQKFkoHeOzeRBURJlkJHZ3Gutmq6dZJlxibBGXhwRR/y/DLzj1lOO
- nJSr90gM3rzdbOXgkUqkX6zqSQRolgGoHmR78xCiWTiTij+CXnBDpAbXF7ph7vNR8G4br9z3F
- 7GSqCWBHVQSTXQR8mPCBUBGRHGWz00P0gLcFNQnu04PqT8bERSnbgL6kj6jQEO2gPIvxVswEo
- KaV2YTmOgsEA8o5SRMsZ1yI0YtaDQ+9tFZs7P8kssy4pBkyQoodTbi6OXh3O/ve4sCf1oXpS0
- hLIQTF7A215Fx0yevnxC4Wa+lLYgROb6ZPDKBCkqsk9/rn4KMZ6nxOo4JptuWrj4WMJY71M9w
- TgvMufS3940rCabHvzVQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1AQf1wOz63s=:lBLg8VbQNtxEKra5TnmriB
+ RSWv1YUnTXPenQXYIoyS+I7taBiRxrLwZYdTpGb58yOuOnx1Eg8c4Z5WWSy4mI0J8eTJP9k8b
+ pPKSwh00g6YkmQI2EHoK2uNSXK0TJFjrbRDyzX4a3TGBZ2FykHqxE8/JXqEiS2A0UshL2W7oS
+ wuMrUWNb4mwQdQv2/xNI1Ksgr8MJCW81QCGifQAB5GxQjqvTDGYQuV4s3GhTLJ0vRHBot7JPr
+ uSV4m+ul0SXUuJyUnqQ80cJE+eCHVylIwqkuIQD870fxAVBUkSMOH0s8UEmHmHOPpoYNJjsaa
+ SLnV9ud7yomc+zHJybAPHQYl9fyZ3B3+vnJKYF2V/3UGKEGZPCiKduLeFpZi/8dHHrfcrUpfp
+ Xgq6qygwA6gi3BwLThvkw61wMY+ySc6Nj+TEL7o/FTrORPP2NJxrPR2j7LiW058lvxPkpUMWZ
+ Jd8nQ621NW2gEM9Tkiq3ktFaJLFMA0qtyxDRxVRTcqvPIFoeqDgf/AM5GV+42LsgqBcxyAlov
+ Tx9lzlSO08OXT2X5bWminYFcSRawLh7zNuPkwKiaFGCaSVIbLDU3MkOoPTfmY+rNRA3QZhFqq
+ Udj+XfU+MaUSh5QOtKUfUSkAoE4Jj+2FDSxcc6B1B/gXgNTC/PCe+FC86YSUSvVPbjYHxsQnW
+ kEFsgHhS3OyvorbBaGhEYWvLUyb1fEF0855/pEOSRidS5o6Kg42M6bYssycGFWvCmm0NEJPTv
+ +2Jyz5DcLbjeDKn60JpK7eYi8Eq4OJEDgzjOevm3axHSxZvT9SNjHk+B9tBDemHooBufrzjrS
+ ACGmpcybOC8DGaDYLUeNwWz0G2jw8x2fQn/rbyVfijwQvMZnH+WPxiXA8g487og+7mbjPGZh/
+ IEAZiwBKmEDw0OtlJ0BQ==
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 18, 2019 at 9:17 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> On Fri, Oct 18, 2019 at 9:04 PM Robert Jarzmik <robert.jarzmik@free.fr> wrote:
-> > Arnd Bergmann <arnd@arndb.de> writes:
-> >
-> > > Hi PXA maintainers,
-> > >
-> > > I'm in the process of getting the old ARM platforms to all build
-> > > in a single kernel. The largest part of that work is changing all
-> > > the device drivers to no longer require mach/*.h header files.
-> > >
-> > > This series does it for arch/pxa/.
-> > >
-> > > As with the omap1 and s3c24xx series I sent before, I don't
-> > > expect this all to be correct in the first version, though
-> > > a lot of the patches are fairly simple and I did exhaustive
-> > > compile-time testing on them.
-> > >
-> > > Please test if you have the hardware, or review!
-> >
-> > Hi Arnd,
-> >
-> > Would you have a git tree I can pull from ?
-> > That would make my life easier than applying manually 46 patches...
+On Fri, Oct 18, 2019 at 8:39 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 >
-> I've now pushed it to
+> On Fri, Oct 18, 2019 at 05:41:40PM +0200, Arnd Bergmann wrote:
+> > This driver hardcodes gpio numbers without a header file.
+> > Use lookup tables instead.
+> >
+> > Cc: Marek Vasut <marek.vasut@gmail.com>
+> > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > Cc: linux-input@vger.kernel.org
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 >
-> git://git.kernel.org:/pub/scm/linux/kernel/git/arnd/playground.git
-> pxa-multiplatform
+>
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>
+> Arnd, do you have these devices by chance? I had stached patches
+> converting wm97xx core to use threaded ISR and it would be great if
+> someone could test them...
 
-Sorry for the duplication, I had some problems with email configuration
-so my reply got rejected, let's see if it goes through this time.
+Unfortunately I don't, but I'm hoping that someone can test my series
+on any hardware they might have.
+
+If you like, send me your patches and I'll add them to this series.
 
        Arnd
