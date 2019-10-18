@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B9CCBDD4D4
-	for <lists+linux-input@lfdr.de>; Sat, 19 Oct 2019 00:28:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7184EDD411
+	for <lists+linux-input@lfdr.de>; Sat, 19 Oct 2019 00:23:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727521AbfJRW1n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Oct 2019 18:27:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35526 "EHLO mail.kernel.org"
+        id S1729999AbfJRWFm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Oct 2019 18:05:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37600 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727398AbfJRWD4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Oct 2019 18:03:56 -0400
+        id S1729866AbfJRWFl (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 18 Oct 2019 18:05:41 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 57B6322459;
-        Fri, 18 Oct 2019 22:03:55 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F329120679;
+        Fri, 18 Oct 2019 22:05:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571436236;
-        bh=Gi+8uHxb/nH/ASrO4/N8M/j/xYpLyDr7wlMxycKl+WI=;
+        s=default; t=1571436340;
+        bh=NwcaHzqZ1lU4FzfoWU8IZZNT9FuebeODGEm+5dugqd8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=i7AuZM5g3O44Dee9QsFtBqZCW4l9v7y0Uvqjqy/pNhZ8cMTJTNbPEyXV9u0OeZa+e
-         SBbRRrLBVedE3yCHAr0JD7QAsJeslSFoD9SYrIsjUCdtYAVtVGe3DGYbVb1akE8Gdh
-         1UVZJ2k/+BuLT3YUFY6aTh/mmlqyR5DTNdoHuKts=
+        b=YjeSLN4/RS+CMMuiIPDfZ04XKToxDXCgaBxWapyiwA/mYTutYHJGH0cG/nakZ65Er
+         /NeWSoW0oeGjpoBT8kt9iqqLdZRzZn2D9s+LXx0oIV3sahWNumwFReaVElwMT9Wd8e
+         vJ/+I9E2ygLRiH2oZS5AGlL6jwLc5dqDi0IP5BNI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dexuan Cui <decui@microsoft.com>, Jiri Kosina <jkosina@suse.cz>,
-        Sasha Levin <sashal@kernel.org>, devel@linuxdriverproject.org,
+Cc:     Julian Sax <jsbc@gmx.de>, Tim Aldridge <taldridge@mac.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 21/89] HID: hyperv: Use in-place iterator API in the channel callback
-Date:   Fri, 18 Oct 2019 18:02:16 -0400
-Message-Id: <20191018220324.8165-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 008/100] HID: i2c-hid: add Direkt-Tek DTLAPY133-1 to descriptor override
+Date:   Fri, 18 Oct 2019 18:03:53 -0400
+Message-Id: <20191018220525.9042-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191018220324.8165-1-sashal@kernel.org>
-References: <20191018220324.8165-1-sashal@kernel.org>
+In-Reply-To: <20191018220525.9042-1-sashal@kernel.org>
+References: <20191018220525.9042-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,97 +43,40 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Dexuan Cui <decui@microsoft.com>
+From: Julian Sax <jsbc@gmx.de>
 
-[ Upstream commit 6a297c90efa68b2864483193b8bfb0d19478600c ]
+[ Upstream commit 399474e4c1100bca264ed14fa3ad0d68fab484d8 ]
 
-Simplify the ring buffer handling with the in-place API.
+This device uses the SIPODEV SP1064 touchpad, which does not
+supply descriptors, so it has to be added to the override list.
 
-Also avoid the dynamic allocation and the memory leak in the channel
-callback function.
-
-Signed-off-by: Dexuan Cui <decui@microsoft.com>
-Acked-by: Jiri Kosina <jkosina@suse.cz>
+Reported-by: Tim Aldridge <taldridge@mac.com>
+Signed-off-by: Julian Sax <jsbc@gmx.de>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-hyperv.c | 56 +++++++---------------------------------
- 1 file changed, 10 insertions(+), 46 deletions(-)
+ drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-index 7795831d37c21..f363163200759 100644
---- a/drivers/hid/hid-hyperv.c
-+++ b/drivers/hid/hid-hyperv.c
-@@ -314,60 +314,24 @@ static void mousevsc_on_receive(struct hv_device *device,
- 
- static void mousevsc_on_channel_callback(void *context)
- {
--	const int packet_size = 0x100;
--	int ret;
- 	struct hv_device *device = context;
--	u32 bytes_recvd;
--	u64 req_id;
- 	struct vmpacket_descriptor *desc;
--	unsigned char	*buffer;
--	int	bufferlen = packet_size;
--
--	buffer = kmalloc(bufferlen, GFP_ATOMIC);
--	if (!buffer)
--		return;
--
--	do {
--		ret = vmbus_recvpacket_raw(device->channel, buffer,
--					bufferlen, &bytes_recvd, &req_id);
--
--		switch (ret) {
--		case 0:
--			if (bytes_recvd <= 0) {
--				kfree(buffer);
--				return;
--			}
--			desc = (struct vmpacket_descriptor *)buffer;
--
--			switch (desc->type) {
--			case VM_PKT_COMP:
--				break;
--
--			case VM_PKT_DATA_INBAND:
--				mousevsc_on_receive(device, desc);
--				break;
--
--			default:
--				pr_err("unhandled packet type %d, tid %llx len %d\n",
--					desc->type, req_id, bytes_recvd);
--				break;
--			}
- 
-+	foreach_vmbus_pkt(desc, device->channel) {
-+		switch (desc->type) {
-+		case VM_PKT_COMP:
- 			break;
- 
--		case -ENOBUFS:
--			kfree(buffer);
--			/* Handle large packet */
--			bufferlen = bytes_recvd;
--			buffer = kmalloc(bytes_recvd, GFP_ATOMIC);
--
--			if (!buffer)
--				return;
-+		case VM_PKT_DATA_INBAND:
-+			mousevsc_on_receive(device, desc);
-+			break;
- 
-+		default:
-+			pr_err("Unhandled packet type %d, tid %llx len %d\n",
-+			       desc->type, desc->trans_id, desc->len8 * 8);
- 			break;
- 		}
--	} while (1);
--
-+	}
- }
- 
- static int mousevsc_connect_to_vsp(struct hv_device *device)
+diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+index cac262a912c12..89f2976f9c534 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
++++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+@@ -330,6 +330,14 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
+ 		},
+ 		.driver_data = (void *)&sipodev_desc
+ 	},
++	{
++		.ident = "Direkt-Tek DTLAPY133-1",
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Direkt-Tek"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "DTLAPY133-1"),
++		},
++		.driver_data = (void *)&sipodev_desc
++	},
+ 	{
+ 		.ident = "Mediacom Flexbook Edge 11",
+ 		.matches = {
 -- 
 2.20.1
 
