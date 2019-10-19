@@ -2,25 +2,25 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D254DD614
-	for <lists+linux-input@lfdr.de>; Sat, 19 Oct 2019 03:59:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C779DD61D
+	for <lists+linux-input@lfdr.de>; Sat, 19 Oct 2019 04:03:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726652AbfJSB7g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Oct 2019 21:59:36 -0400
-Received: from mail-40130.protonmail.ch ([185.70.40.130]:53161 "EHLO
-        mail-40130.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726033AbfJSB7g (ORCPT
+        id S1726784AbfJSCDU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Oct 2019 22:03:20 -0400
+Received: from mail-40136.protonmail.ch ([185.70.40.136]:25534 "EHLO
+        mail-40136.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726773AbfJSCDU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Oct 2019 21:59:36 -0400
-Date:   Sat, 19 Oct 2019 01:59:30 +0000
+        Fri, 18 Oct 2019 22:03:20 -0400
+Date:   Sat, 19 Oct 2019 02:03:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=default; t=1571450372;
-        bh=zQWVAXWLYp9EvFOfLtaotaB5R/JfQb5AnLhmiAorc78=;
+        s=default; t=1571450596;
+        bh=fGAFKa0dt3dcLpVCJE+L98SsSJUmX8cOpMelXd7ommA=;
         h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
          Feedback-ID:From;
-        b=bc4c74LhxwrRUAFlqIHALaF763By4U5gTv8Y1WPbE+5Ucek/WT2yw2Nisj834LOCH
-         UujMWtU/087YczsrfQB9S/NkVK+sqFr98rkP8Tnq7cLIYUdJeINinl90GG8itrKKbA
-         ybUnPllkXp1XIlxYWDofhdc79eVMZ43shdoJ7oQk=
+        b=LKhQM7IT+rWYuQYXt5TlWIaiNvQ+cHVFsTt0GVCOImKx473RTHlBwYEFX4N+5CIDO
+         W6SLr0FoM4qxKb3L1wq+hUjEcRMlkRh6/9JCIL6K7s5jPtTGDUNFWa9zhP+7KCuv6r
+         I5dtrTrisHdSGo4rhCXgkEyLLXz6VuVHyemzG408=
 To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
 From:   Mazin Rezk <mnrzk@protonmail.com>
 Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
@@ -29,11 +29,11 @@ Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>,
         "mnrzk@protonmail.com" <mnrzk@protonmail.com>
 Reply-To: Mazin Rezk <mnrzk@protonmail.com>
-Subject: Re: [PATCH v6 1/2] HID: logitech: Add MX Master over Bluetooth
-Message-ID: <_ctOOBM46unM-iL5c36pEP4zeFE8_8KbMqOYERMCDjbAqRkn8S5i8ZVOGegxOgWcyvc9YzCqQT6yITRG8h6YXaELI-KMIrgMFWfFONmusXg=@protonmail.com>
-In-Reply-To: <CAO-hwJJ18L3nDMQ_OqCZPyA+FFk3QsnbY=dYSNkELWzTSAnQLA@mail.gmail.com>
-References: <ggKipcQplIlTFmoP3hPnrQ-7_5-C0PKGd5feFymts3uenIBA8zOwz47YmKheD34H1rpkguDAGdx5YbS9UqpwfjT5Ir0Lji941liLVp--QtQ=@protonmail.com>
- <CAO-hwJJ18L3nDMQ_OqCZPyA+FFk3QsnbY=dYSNkELWzTSAnQLA@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] HID: logitech: Support WirelessDeviceStatus connect events
+Message-ID: <_XAAROgmVQtz0wM-41RjBE2iGA8WwIQA_CBMMzPBdAuwXU6KbN8K5owaFm6FbU9kSjazcpp2N5GvlNXKrsobND18-I3dRzK4ZBCzMyJasYs=@protonmail.com>
+In-Reply-To: <CAO-hwJK3Q1Bu+6JVbXmbZ2-JqaPzX=dEVPfue=v2LRJsU7FmGA@mail.gmail.com>
+References: <_1Ewv9AvBhbWTNcFOkmvCyjVph73eQIz23Plyv5ffgaWWHnmPBTbSIJhs47AnYatJsmDWu4JlMjcsKE8Cf31lvmwQipYEu47YglNfroyJtM=@protonmail.com>
+ <CAO-hwJK3Q1Bu+6JVbXmbZ2-JqaPzX=dEVPfue=v2LRJsU7FmGA@mail.gmail.com>
 Feedback-ID: 18B_FC5q-t32TXzMsVp9BgkgrdNH3iwklfW8WOrHrcxZA0WRj7JodCh5VXKxs6A3OaiHK0QNd8wi3SImKex8yQ==:Ext:ProtonMail
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -47,162 +47,214 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Friday, October 18, 2019 11:36 AM, Benjamin Tissoires <benjamin.tissoire=
+On Friday, October 18, 2019 11:38 AM, Benjamin Tissoires <benjamin.tissoire=
 s@redhat.com> wrote:
 
-> Hi Mazin,
->
 > On Mon, Oct 14, 2019 at 8:36 PM Mazin Rezk mnrzk@protonmail.com wrote:
 >
-> > This patch adds support for the MX Master (b01e and b012) and also adds
-> > foundational code for other Bluetooth LE HID++ devices to be added.
-> > Some devices do not support short reports and thus have a quirk
-> > (HIDPP_QUIRK_MISSING_SHORT_REPORTS) that forces short reports to be sen=
-t as
-> > long reports. Since all Bluetooth LE HID++ devices seem to act this way=
-,
-> > HIDPP_QUIRK_CLASS_BLUETOOTH_LE aliases this quirk.
-> > To allow for some space for future quirks, I changed the comment that
-> > defines the bits reserved for classes from 2...20 to 2..15.
+> > This patch allows WirelessDeviceStatus (0x1d4b) events to be detected a=
+s
+> > connection events in the hid-logitech-hidpp module.
+> > Devices with HIDPP_QUIRK_WIRELESS_DEVICE_STATUS use WirelessDeviceStatu=
+s
+> > instead of traditional connect events. Since all Bluetooth LE devices s=
+eem
+> > to act this way, HIDPP_QUIRK_CLASS_BLUETOOTH_LE aliases this quirk.
 > >
 > > Signed-off-by: Mazin Rezk mnrzk@protonmail.com
 > >
 > > -----------------------------------------------
 > >
-> > drivers/hid/hid-logitech-hidpp.c | 24 +++++++++++++++++++++++-
-> > 1 file changed, 23 insertions(+), 1 deletion(-)
+> > drivers/hid/hid-logitech-hidpp.c | 42 ++++++++++++++++++++++++++++----
+> > 1 file changed, 37 insertions(+), 5 deletions(-)
 > > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitec=
 h-hidpp.c
-> > index 0179f7ed77e5..997b1056850a 100644
+> > index 997b1056850a..9b3df57ca857 100644
 > > --- a/drivers/hid/hid-logitech-hidpp.c
 > > +++ b/drivers/hid/hid-logitech-hidpp.c
-> > @@ -59,7 +59,8 @@ MODULE_PARM_DESC(disable_tap_to_click,
-> > #define HIDPP_QUIRK_CLASS_G920 BIT(3)
+> > @@ -60,6 +60,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
 > > #define HIDPP_QUIRK_CLASS_K750 BIT(4)
-> > -/* bits 2..20 are reserved for classes /
-> > +/ bits 2..15 are reserved for classes /
-> > +#define HIDPP_QUIRK_MISSING_SHORT_REPORTS BIT(20)
+> > /* bits 2..15 are reserved for classes /
+> > +#define HIDPP_QUIRK_WIRELESS_DEVICE_STATUS BIT(19)
+> > #define HIDPP_QUIRK_MISSING_SHORT_REPORTS BIT(20)
 > > / #define HIDPP_QUIRK_CONNECT_EVENTS BIT(21) disabled */#define HIDPP_Q=
 UIRK_WTP_PHYSICAL_BUTTONS BIT(22)
-> > #define HIDPP_QUIRK_NO_HIDINPUT BIT(23)
-> > @@ -81,6 +82,8 @@ MODULE_PARM_DESC(disable_tap_to_click,
+> > @@ -82,7 +83,8 @@ MODULE_PARM_DESC(disable_tap_to_click,
 > > HIDPP_QUIRK_HI_RES_SCROLL_X2120 | \
 > > HIDPP_QUIRK_HI_RES_SCROLL_X2121)
-> > +#define HIDPP_QUIRK_CLASS_BLUETOOTH_LE HIDPP_QUIRK_MISSING_SHORT_REPOR=
+> > -#define HIDPP_QUIRK_CLASS_BLUETOOTH_LE HIDPP_QUIRK_MISSING_SHORT_REPOR=
 TS
-> > +
+> > +#define HIDPP_QUIRK_CLASS_BLUETOOTH_LE (HIDPP_QUIRK_MISSING_SHORT_REPO=
+RTS | \
+> >
+> > -                                          HIDPP_QUIRK_WIRELESS_DEVICE_=
+STATUS)
+> >
+> >
+> >
 > > #define HIDPP_QUIRK_DELAYED_INIT HIDPP_QUIRK_NO_HIDINPUT
-> > #define HIDPP_CAPABILITY_HIDPP10_BATTERY BIT(0)
-> > @@ -340,6 +343,12 @@ static int hidpp_send_rap_command_sync(struct hidp=
-p_device *hidpp_dev,
-> > struct hidpp_report *message;
-> > int ret, max_count;
+> > @@ -189,6 +191,8 @@ struct hidpp_device {
 > >
-> > -         /* Force long reports on devices that do not support short re=
-ports */
+> >         struct hidpp_battery battery;
+> >         struct hidpp_scroll_counter vertical_wheel_counter;
 > >
 > >
-> > -         if (hidpp_dev->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS &&
-> >
-> >
-> > -             report_id =3D=3D REPORT_ID_HIDPP_SHORT)
-> >
-> >
-> > -                 report_id =3D REPORT_ID_HIDPP_LONG;
-> >
-> >
->
-> Wouldn't it be faster to just store which report needs to be put here
-> in struct hidpp_device?
->
 > > -
-> > -         switch (report_id) {
-> >           case REPORT_ID_HIDPP_SHORT:
-> >                   max_count =3D HIDPP_REPORT_SHORT_LENGTH - 4;
+> > -         u8 wireless_feature_index;
 > >
 > >
 > >
-> > @@ -3482,6 +3491,12 @@ static bool hidpp_validate_report(struct hid_dev=
-ice *hdev, int id,
-> > static bool hidpp_validate_device(struct hid_device *hdev)
+> > };
+> > /* HID++ 1.0 error codes */
+> > @@ -402,10 +406,14 @@ static inline bool hidpp_match_error(struct hidpp=
+_report *question,
+> > (answer->fap.params[0] =3D=3D question->fap.funcindex_clientid);
+> > }
+> > -static inline bool hidpp_report_is_connect_event(struct hidpp_report *=
+report)
+> > +static inline bool hidpp_report_is_connect_event(struct hidpp_device *=
+hidpp,
+> >
+> > -                                                  struct hidpp_report =
+*report)
+> >
+> >
+> >
 > > {
 > >
-> > -         struct hidpp_device *hidpp =3D hid_get_drvdata(hdev);
+> > -         return (report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) &&
 > >
 > >
-> > -         /* Skip the short report check if the device does not support=
- it */
+> > -                 (report->rap.sub_id =3D=3D 0x41);
 > >
 > >
-> > -         if (hidpp->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS)
+> >
+> > -         return ((hidpp->quirks & HIDPP_QUIRK_WIRELESS_DEVICE_STATUS) =
+&&
 > >
 > >
-> > -                 return hidpp_validate_report(hdev, REPORT_ID_HIDPP_LO=
-NG,
+> > -                 (report->fap.feature_index =3D=3D hidpp->wireless_fea=
+ture_index)) ||
 > >
 > >
-> > -                                              HIDPP_REPORT_LONG_LENGTH=
-, false);
+> > -               (((report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) ||
 > >
 > >
-> > -
+> > -                 (hidpp->quirks & HIDPP_QUIRK_MISSING_SHORT_REPORTS)) =
+&&
+> >
+> >
+> > -                 (report->rap.sub_id =3D=3D 0x41));
+> >
+> >
 >
-> I just merged Andrey's report detection, which means you will need to
-> update this hunk:
-> https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=3Df=
-or-5.4/upstream-fixes&id=3D905d754c53a522aacf806ea1d3e7c929148c1910
->
-> The good thing, is that now you can simply auto-detect if the short
-> report is missing. If the returned report_length is null, you know
-> that the report is missing (and thus you can remember to set the
-> quirk/which report id is needed).
+> I wonder if we need a quirk after all: if
+> hidpp->wireless_feature_index is non null, that means that we have the
+> quirk.
+> Unless the feature is present for non BLE devices, in which case, we
+> might want to enable them one by one, for now.
 >
 > Cheers,
 > Benjamin
 
-Thank you, I'll try to rework this patch based on the changes introduced in
-that commit.
+Come to think of it, it does seem redundant. I'll likely extend the
+WirelessDeviceStatus check to all HID++ 2.0 devices and just forgo the
+added quirks entirely.
 
 Thanks,
 Mazin
 
 >
-> >         return hidpp_validate_report(hdev, REPORT_ID_HIDPP_SHORT,
-> >                                      HIDPP_REPORT_SHORT_LENGTH, false) =
-&&
-> >                hidpp_validate_report(hdev, REPORT_ID_HIDPP_LONG,
+> > }
+> > /**
+> > @@ -1282,6 +1290,24 @@ static int hidpp_battery_get_property(struct pow=
+er_supply *psy,
+> > return ret;
+> > }
+> > +/* -------------------------------------------------------------------=
+------- /
+> > +/ 0x1d4b: Wireless device status /
+> > +/ --------------------------------------------------------------------=
+------ */+#define HIDPP_PAGE_WIRELESS_DEVICE_STATUS 0x1d4b
+> > +
+> > +static int hidpp_set_wireless_feature_index(struct hidpp_device *hidpp=
+)
+> > +{
+> >
+> > -         u8 feature_type;
 > >
 > >
-> > @@ -3773,6 +3788,13 @@ static const struct hid_device_id hidpp_devices[=
-] =3D {
-> > { /* MX5500 keyboard over Bluetooth */
-> > HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
-> > .driver_data =3D HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
-> >
-> > -         { /* MX Master mouse over Bluetooth */
+> > -         int ret;
 > >
 > >
-> > -           HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb012),
+> > -
+> > -         ret =3D hidpp_root_get_feature(hidpp,
 > >
 > >
-> > -           .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
+> > -                                      HIDPP_PAGE_WIRELESS_DEVICE_STATU=
+S,
 > >
 > >
-> > -                          HIDPP_QUIRK_CLASS_BLUETOOTH_LE },
+> > -                                      &hidpp->wireless_feature_index,
 > >
 > >
-> > -         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e),
+> > -                                      &feature_type);
 > >
 > >
-> > -           .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 |
-> >
-> >
-> > -                          HIDPP_QUIRK_CLASS_BLUETOOTH_LE },
-> >           {}
+> > -
+> > -         return ret;
 > >
 > >
 > >
-> > };
+> > +}
+> > +
+> > /* --------------------------------------------------------------------=
+------ /
+> > / 0x2120: Hi-resolution scrolling /
+> > / ---------------------------------------------------------------------=
+----- */@@ -3077,7 +3103,7 @@ static int hidpp_raw_hidpp_event(struct hidpp=
+_device *hidpp, u8 *data,
+> > }
+> > }
+> >
+> > -         if (unlikely(hidpp_report_is_connect_event(report))) {
+> >
+> >
+> >
+> > -         if (unlikely(hidpp_report_is_connect_event(hidpp, report))) {
+> >                   atomic_set(&hidpp->connected,
+> >                                   !(report->rap.params[0] & (1 << 6)));
+> >                   if (schedule_work(&hidpp->work) =3D=3D 0)
+> >
+> >
+> >
+> > @@ -3624,6 +3650,12 @@ static int hidpp_probe(struct hid_device *hdev, =
+const struct hid_device_id *id)
+> > hidpp_overwrite_name(hdev);
+> > }
+> >
+> > -         if (connected && (hidpp->quirks & HIDPP_QUIRK_WIRELESS_DEVICE=
+_STATUS)) {
+> >
+> >
+> > -                 ret =3D hidpp_set_wireless_feature_index(hidpp);
+> >
+> >
+> > -                 if (ret)
+> >
+> >
+> > -                         goto hid_hw_init_fail;
+> >
+> >
+> > -         }
+> >
+> >
+> > -         if (connected && (hidpp->quirks & HIDPP_QUIRK_CLASS_WTP)) {
+> >                   ret =3D wtp_get_config(hidpp);
+> >                   if (ret)
+> >
+> >
+> >
 > > --
 > > 2.23.0
 
