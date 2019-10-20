@@ -2,154 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13479DDC96
-	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2019 06:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71B31DDD4F
+	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2019 10:29:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725851AbfJTEns (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 20 Oct 2019 00:43:48 -0400
-Received: from mail-40135.protonmail.ch ([185.70.40.135]:21481 "EHLO
-        mail-40135.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725747AbfJTEns (ORCPT
+        id S1726179AbfJTI3b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 20 Oct 2019 04:29:31 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:46591 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725893AbfJTI3b (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 20 Oct 2019 00:43:48 -0400
-Date:   Sun, 20 Oct 2019 04:43:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=default; t=1571546624;
-        bh=me06rsc5KXNlQ4iY9NIZI/enKgYjtNZr73xM+bjnrSM=;
-        h=Date:To:From:Cc:Reply-To:Subject:Feedback-ID:From;
-        b=Ae+uASa1gzFHwBDO6MMsmBdfe4Ogsb6RvWy+1pPFf12Wg2bAuRP9NYx0/4CGfmD43
-         n5yJ9legDRb+X6r/Qors5cRuF3CUctOIQuZOuZZZZPPUbvL70w1COzXabKKU40VnDW
-         cAPjLhguJNmHb1pu8IOSBPEtTwYwVk5fDYoUepzM=
-To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-From:   Mazin Rezk <mnrzk@protonmail.com>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>,
-        "mnrzk@protonmail.com" <mnrzk@protonmail.com>
-Reply-To: Mazin Rezk <mnrzk@protonmail.com>
-Subject: [PATCH v7 3/3] HID: logitech-hidpp: Support WirelessDeviceStatus connect events
-Message-ID: <yqo4xUWK3dmAH59Oyn2JK3cV_xDNVaULp7MRQ0afuT1IDqOPRauLpjRiOaUnTgCNeHvOL_lIL_IHzg4zs6-cHfB3Cz0awCWe2mjvuchYWFk=@protonmail.com>
-Feedback-ID: 18B_FC5q-t32TXzMsVp9BgkgrdNH3iwklfW8WOrHrcxZA0WRj7JodCh5VXKxs6A3OaiHK0QNd8wi3SImKex8yQ==:Ext:ProtonMail
+        Sun, 20 Oct 2019 04:29:31 -0400
+Received: by mail-pl1-f194.google.com with SMTP id q24so4984390plr.13;
+        Sun, 20 Oct 2019 01:29:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=CkX1DXk675dVGEW9k+dzI2Gf6TIjrOnAAUtgCFcsc5U=;
+        b=LQZp17mtTPYjnuq09DCxanBK1vJNNV4g7aY96d2+9vfp20jkEOeQDQK8sVE/DoeA4b
+         WFfUxYGRPyeBMGdTFd33gb7dCJXB9WkvoXStuwdru8Qt+64bJNzxKr236ikxlm3tNJfX
+         dnnefTN32cEyPs7oKE4hCkloRHlDo+Ukfl2tdnD6LfwSPQHKO8IevdzE8PuZEddAptdt
+         O6h59gnkeJs39EyJrOdS6Vpb7NgICnyXdmmSfOi8yswPjCis8UOfOt5IfNN3e3hP/cqr
+         mgJQTO6hp+Hm33LQCpblGhMlJtGX7M7Ffh73veLNkfa+AM7bl9q85wSYKf781bNOyKq2
+         LDyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=CkX1DXk675dVGEW9k+dzI2Gf6TIjrOnAAUtgCFcsc5U=;
+        b=NTfIsP5JVCL0mUIgI9q5Ys7psAD0ygdU1afOsVD2dVdjUZjlPW9YDnJRl6hDsgdDyG
+         2wgOtsSRaU2ct1hAEwGihWDIXj6nLYNYSSimqUdiBhUsITkaJsCcYd1G8B06ljBVPPXq
+         7ady2xBmpy3BSLkcR45L+u9QAkjwL83lhNf+MbWgThg7bjnCgAUfrIDGr2DYro00pYKn
+         uJBz4TDJXHUZMcG/vGIicEM6eg7BjPB6aQt/buzLLyq7kKE6RaSpvFiBnUeIGmsCETEb
+         Pgo4AFNEz7EQW99VMK5fdJ2zsItRWzgJ8ple9xRXqhGqYuhAbPz0rzbtGWjgmVX0ZZi9
+         ixEA==
+X-Gm-Message-State: APjAAAWwMQNnlY0ktm+g7u49fF85QOLOik63OTDLkY3MwzwcDE+wCDEO
+        T8Gjv8MZwl1JdGYVsRX3VWM=
+X-Google-Smtp-Source: APXvYqyuIM2AD3UCaurSvmdkbtulDuc6Rwic08wglohWRL9avHpor8TF31+sllni4co3lDHFhwKkLw==
+X-Received: by 2002:a17:902:8d84:: with SMTP id v4mr18997043plo.220.1571560170764;
+        Sun, 20 Oct 2019 01:29:30 -0700 (PDT)
+Received: from Dixit ([2409:4041:2e94:9da:ad82:e9e7:4d8d:d2dd])
+        by smtp.gmail.com with ESMTPSA id v9sm11173431pfe.109.2019.10.20.01.29.24
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 20 Oct 2019 01:29:30 -0700 (PDT)
+Date:   Sun, 20 Oct 2019 13:59:19 +0530
+From:   Dixit Parmar <dixitparmar19@gmail.com>
+To:     Martin Kepplinger <martink@posteo.de>
+Cc:     dmitry.torokhov@gmail.com, rydberg@bitmath.org,
+        kuninori.morimoto.gx@renesas.com, robh@kernel.org,
+        matthias.fend@wolfvision.net, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] driver:st1633: fixed multitouch incorrect coordinates
+Message-ID: <20191020082919.GB3917@Dixit>
+References: <1566209314-21767-1-git-send-email-dixitparmar19@gmail.com>
+ <8cfedf751fc87f5f1c660cfda69d36ce@posteo.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_REPLYTO
-        autolearn=no autolearn_force=no version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8cfedf751fc87f5f1c660cfda69d36ce@posteo.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch allows hidpp_report_is_connect_event to support
-WirelessDeviceStatus connect events.
+Any review comments for this?
+Or it should be merged?
 
-The WirelessDeviceStatus feature index is stored in hidpp_device when
-probed. The connect event's fap feature_index is compared against it if the
-device supports it.
+Thanks.
 
-Thanks,
-Mazin
 
-Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
----
- drivers/hid/hid-logitech-hidpp.c | 39 ++++++++++++++++++++++++++++----
- 1 file changed, 35 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
-dpp.c
-index 19b315e4e91b..c8b23568d0b1 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -191,6 +191,8 @@ struct hidpp_device {
-
- =09struct hidpp_battery battery;
- =09struct hidpp_scroll_counter vertical_wheel_counter;
-+
-+=09u8 wireless_feature_index;
- };
-
- /* HID++ 1.0 error codes */
-@@ -403,10 +405,13 @@ static inline bool hidpp_match_error(struct hidpp_rep=
-ort *question,
- =09    (answer->fap.params[0] =3D=3D question->fap.funcindex_clientid);
- }
-
--static inline bool hidpp_report_is_connect_event(struct hidpp_report *repo=
-rt)
-+static inline bool hidpp_report_is_connect_event(struct hidpp_device *hidp=
-p,
-+=09=09struct hidpp_report *report)
- {
--=09return (report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) &&
--=09=09(report->rap.sub_id =3D=3D 0x41);
-+=09return (hidpp->wireless_feature_index &&
-+=09=09(report->fap.feature_index =3D=3D hidpp->wireless_feature_index)) ||
-+=09=09((report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) &&
-+=09=09(report->rap.sub_id =3D=3D 0x41));
- }
-
- /**
-@@ -1283,6 +1288,24 @@ static int hidpp_battery_get_property(struct power_s=
-upply *psy,
- =09return ret;
- }
-
-+/* -----------------------------------------------------------------------=
---- */
-+/* 0x1d4b: Wireless device status                                         =
-    */
-+/* -----------------------------------------------------------------------=
---- */
-+#define HIDPP_PAGE_WIRELESS_DEVICE_STATUS=09=09=090x1d4b
-+
-+static int hidpp_set_wireless_feature_index(struct hidpp_device *hidpp)
-+{
-+=09u8 feature_type;
-+=09int ret;
-+
-+=09ret =3D hidpp_root_get_feature(hidpp,
-+=09=09=09=09     HIDPP_PAGE_WIRELESS_DEVICE_STATUS,
-+=09=09=09=09     &hidpp->wireless_feature_index,
-+=09=09=09=09     &feature_type);
-+
-+=09return ret;
-+}
-+
- /* -----------------------------------------------------------------------=
---- */
- /* 0x2120: Hi-resolution scrolling                                        =
-    */
- /* -----------------------------------------------------------------------=
---- */
-@@ -3078,7 +3101,7 @@ static int hidpp_raw_hidpp_event(struct hidpp_device =
-*hidpp, u8 *data,
- =09=09}
- =09}
-
--=09if (unlikely(hidpp_report_is_connect_event(report))) {
-+=09if (unlikely(hidpp_report_is_connect_event(hidpp, report))) {
- =09=09atomic_set(&hidpp->connected,
- =09=09=09=09!(report->rap.params[0] & (1 << 6)));
- =09=09if (schedule_work(&hidpp->work) =3D=3D 0)
-@@ -3628,6 +3651,14 @@ static int hidpp_probe(struct hid_device *hdev, cons=
-t struct hid_device_id *id)
- =09=09hidpp_overwrite_name(hdev);
- =09}
-
-+=09if (connected && hidpp->protocol_major >=3D 2) {
-+=09=09ret =3D hidpp_set_wireless_feature_index(hidpp);
-+=09=09if (ret =3D=3D -ENOENT)
-+=09=09=09hidpp->wireless_feature_index =3D 0;
-+=09=09else if (ret)
-+=09=09=09goto hid_hw_init_fail;
-+=09}
-+
- =09if (connected && (hidpp->quirks & HIDPP_QUIRK_CLASS_WTP)) {
- =09=09ret =3D wtp_get_config(hidpp);
- =09=09if (ret)
---
-2.23.0
-
+On Thu, Aug 22, 2019 at 02:08:14PM +0200, Martin Kepplinger wrote:
+> Am 19.08.2019 12:08 schrieb Dixit Parmar:
+> > From: Dixit Parmar <dixitparmar19@gmail.com>
+> > 
+> > For Sitronix st1633 multi-touch controller driver the co-ordinates
+> > reported
+> > for multiple fingers were wrong.
+> > 
+> > So the below mentioned bug was filed,
+> > Bugzilla Bug ID: 204561
+> > 
+> > While reading co-ordinates from specified I2C registers, the X & Y
+> > co-ordinates should be read from proper I2C address for particular
+> > finger as
+> > specified in chip specific datasheet.
+> > 
+> > for single touch this logic is working fine. However, for multi-touch
+> > scenario the logic of reading data from data buffer has issues.
+> > 
+> > This patch fixes the reading logic from data buffer.
+> > 
+> > Previous logic:
+> > * Offset of X & Y Lower byte coordinate is increased by i no. only(by 1
+> > Byte)
+> >   for each finger.
+> > 
+> > New logic:
+> > * The logic of reading X & Y Lower Byte coordinate needs to be increased
+> >   by i+y for each time/finger.
+> > 
+> > Signed-off-by: Dixit Parmar <dixitparmar19@gmail.com>
+> > ---
+> >  drivers/input/touchscreen/st1232.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/input/touchscreen/st1232.c
+> > b/drivers/input/touchscreen/st1232.c
+> > index 3492339..1139714 100644
+> > --- a/drivers/input/touchscreen/st1232.c
+> > +++ b/drivers/input/touchscreen/st1232.c
+> > @@ -81,8 +81,10 @@ static int st1232_ts_read_data(struct st1232_ts_data
+> > *ts)
+> >  	for (i = 0, y = 0; i < ts->chip_info->max_fingers; i++, y += 3) {
+> >  		finger[i].is_valid = buf[i + y] >> 7;
+> >  		if (finger[i].is_valid) {
+> > -			finger[i].x = ((buf[i + y] & 0x0070) << 4) | buf[i + 1];
+> > -			finger[i].y = ((buf[i + y] & 0x0007) << 8) | buf[i + 2];
+> > +			finger[i].x = ((buf[i + y] & 0x0070) << 4) |
+> > +					buf[i + y + 1];
+> > +			finger[i].y = ((buf[i + y] & 0x0007) << 8) |
+> > +					buf[i + y + 2];
+> 
+> Seems like you're right. It's simply +1 (for x) and +2 (for y) from the
+> high-byte locations.
+> Not sure how that went wrong.
+> 
+> Thank you,
+> 
+> Reviewed-by: Martin Kepplinger <martink@posteo.de>
+> 
+> 
+> > 
+> >  			/* st1232 includes a z-axis / touch strength */
+> >  			if (ts->chip_info->have_z)
+> 
