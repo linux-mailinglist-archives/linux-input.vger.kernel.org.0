@@ -2,187 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 861E1DE084
-	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2019 22:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D6D9DE0B6
+	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2019 23:32:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726005AbfJTUol (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 20 Oct 2019 16:44:41 -0400
-Received: from 4.mo2.mail-out.ovh.net ([87.98.172.75]:34344 "EHLO
-        4.mo2.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725945AbfJTUok (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 20 Oct 2019 16:44:40 -0400
-X-Greylist: delayed 924 seconds by postgrey-1.27 at vger.kernel.org; Sun, 20 Oct 2019 16:44:39 EDT
-Received: from player798.ha.ovh.net (unknown [10.109.160.217])
-        by mo2.mail-out.ovh.net (Postfix) with ESMTP id C57C71A6724
-        for <linux-input@vger.kernel.org>; Sun, 20 Oct 2019 22:29:29 +0200 (CEST)
-Received: from etezian.org (81-175-223-118.bb.dnainternet.fi [81.175.223.118])
-        (Authenticated sender: andi@etezian.org)
-        by player798.ha.ovh.net (Postfix) with ESMTPSA id 085CAB3A8F01;
-        Sun, 20 Oct 2019 20:29:23 +0000 (UTC)
-From:   Andi Shyti <andi@etezian.org>
-To:     Linux Input <linux-input@vger.kernel.org>
-Cc:     Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Andi Shyti <andi@etezian.org>
-Subject: [PATCH v2 2/2] Input: mms114 - get read of custm i2c read/write functions
-Date:   Sun, 20 Oct 2019 23:28:56 +0300
-Message-Id: <20191020202856.20287-3-andi@etezian.org>
-X-Mailer: git-send-email 2.24.0.rc0
-In-Reply-To: <20191020202856.20287-1-andi@etezian.org>
-References: <20191020202856.20287-1-andi@etezian.org>
+        id S1726428AbfJTVcY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 20 Oct 2019 17:32:24 -0400
+Received: from freundtech.com ([78.47.86.165]:60750 "EHLO freundtech.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726301AbfJTVcY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 20 Oct 2019 17:32:24 -0400
+Received: from [IPv6:2a02:8071:2b91:e400:8dde:ba23:ec46:35e3] (unknown [IPv6:2a02:8071:2b91:e400:8dde:ba23:ec46:35e3])
+        by freundtech.com (Postfix) with ESMTPSA id 46D5C1E6008;
+        Sun, 20 Oct 2019 23:32:21 +0200 (CEST)
+Subject: Re: [PATCH] HID: logitech: Add MX Master 3 Mouse
+To:     linux-input@vger.kernel.org
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+References: <20191020163916.911033-1-adrian@freund.io>
+From:   Adrian Freund <adrian@freund.io>
+Autocrypt: addr=adrian@freund.io; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <50209a68-8a36-b6ae-e371-24afa2d7fdf1@freund.io>
+Date:   Sun, 20 Oct 2019 23:32:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 14098800108948275782
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeefgdduhedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+In-Reply-To: <20191020163916.911033-1-adrian@freund.io>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: de-DE
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The 'mms114_read_reg' and 'mms114_write_reg' are used when
-reading or writing to the 'MMS114_MODE_CONTROL' register for
-updating the 'cache_mode_control' variable.
+I just noticed, that I forgot so sign off the commit. I'll resubmitt it as v2.
 
-Update the 'cache_mode_control' variable in the calling
-mms114_set_active() function and get rid of all the custom i2c
-read/write functions.
-
-With this remove also the redundant sleep of MMS114_I2C_DELAY
-(50us) between i2c operations. The waiting should to be handled
-by the i2c driver.
-
-Signed-off-by: Andi Shyti <andi@etezian.org>
-Tested-by: Seung-Woo Kim <sw0312.kim@samsung.com>
----
- drivers/input/touchscreen/mms114.c | 87 ++++--------------------------
- 1 file changed, 10 insertions(+), 77 deletions(-)
-
-diff --git a/drivers/input/touchscreen/mms114.c b/drivers/input/touchscreen/mms114.c
-index 170dcb5312b9..4131fe94e661 100644
---- a/drivers/input/touchscreen/mms114.c
-+++ b/drivers/input/touchscreen/mms114.c
-@@ -34,9 +34,6 @@
- #define MMS152_FW_REV			0xE1
- #define MMS152_COMPAT_GROUP		0xF2
- 
--/* Minimum delay time is 50us between stop and start signal of i2c */
--#define MMS114_I2C_DELAY		50
--
- /* 200ms needs after power on */
- #define MMS114_POWERON_DELAY		200
- 
-@@ -80,76 +77,6 @@ struct mms114_touch {
- 	u8 reserved[2];
- } __packed;
- 
--static int __mms114_read_reg(struct mms114_data *data, unsigned int reg,
--			     unsigned int len, u8 *val)
--{
--	struct i2c_client *client = data->client;
--	struct i2c_msg xfer[2];
--	u8 buf = reg & 0xff;
--	int error;
--
--	if (reg <= MMS114_MODE_CONTROL && reg + len > MMS114_MODE_CONTROL)
--		BUG();
--
--	/* Write register: use repeated start */
--	xfer[0].addr = client->addr;
--	xfer[0].flags = I2C_M_TEN | I2C_M_NOSTART;
--	xfer[0].len = 1;
--	xfer[0].buf = &buf;
--
--	/* Read data */
--	xfer[1].addr = client->addr;
--	xfer[1].flags = I2C_M_RD;
--	xfer[1].len = len;
--	xfer[1].buf = val;
--
--	error = i2c_transfer(client->adapter, xfer, 2);
--	if (error != 2) {
--		dev_err(&client->dev,
--			"%s: i2c transfer failed (%d)\n", __func__, error);
--		return error < 0 ? error : -EIO;
--	}
--	udelay(MMS114_I2C_DELAY);
--
--	return 0;
--}
--
--static int mms114_read_reg(struct mms114_data *data, unsigned int reg)
--{
--	u8 val;
--	int error;
--
--	if (reg == MMS114_MODE_CONTROL)
--		return data->cache_mode_control;
--
--	error = __mms114_read_reg(data, reg, 1, &val);
--	return error < 0 ? error : val;
--}
--
--static int mms114_write_reg(struct mms114_data *data, unsigned int reg,
--			    unsigned int val)
--{
--	struct i2c_client *client = data->client;
--	u8 buf[2];
--	int error;
--
--	buf[0] = reg & 0xff;
--	buf[1] = val & 0xff;
--
--	error = i2c_master_send(client, buf, 2);
--	if (error != 2) {
--		dev_err(&client->dev,
--			"%s: i2c send failed (%d)\n", __func__, error);
--		return error < 0 ? error : -EIO;
--	}
--	udelay(MMS114_I2C_DELAY);
--
--	if (reg == MMS114_MODE_CONTROL)
--		data->cache_mode_control = val;
--
--	return 0;
--}
--
- static void mms114_process_mt(struct mms114_data *data, struct mms114_touch *touch)
- {
- 	struct i2c_client *client = data->client;
-@@ -228,19 +155,25 @@ static irqreturn_t mms114_interrupt(int irq, void *dev_id)
- 
- static int mms114_set_active(struct mms114_data *data, bool active)
- {
--	int val;
-+	int val, err;
- 
--	val = mms114_read_reg(data, MMS114_MODE_CONTROL);
-+	val = i2c_smbus_read_byte_data(data->client, MMS114_MODE_CONTROL);
- 	if (val < 0)
- 		return val;
- 
--	val &= ~MMS114_OPERATION_MODE_MASK;
-+	val = data->cache_mode_control &= ~MMS114_OPERATION_MODE_MASK;
- 
- 	/* If active is false, sleep mode */
- 	if (active)
- 		val |= MMS114_ACTIVE;
- 
--	return mms114_write_reg(data, MMS114_MODE_CONTROL, val);
-+	err = i2c_smbus_write_byte_data(data->client, MMS114_MODE_CONTROL, val);
-+	if (err < 0)
-+		return err;
-+
-+	data->cache_mode_control = val;
-+
-+	return 0;
- }
- 
- static int mms114_get_version(struct mms114_data *data)
--- 
-2.24.0.rc0
-
+On 10/20/19 6:39 PM, Adrian Freund wrote:
+> Adds support for the Logitech MX Master 3 Mouse to the HID++ driver when
+> connected by the Logitech Unifying Receiver.
+> This doesn't yet add support for using the mouse over bluetooth.
+> ---
+>  drivers/hid/hid-logitech-hidpp.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+> index 0179f7ed77e5..e263085a0b82 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -3717,6 +3717,8 @@ static const struct hid_device_id hidpp_devices[] = {
+>  	{ LDJ_DEVICE(0x4071), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+>  	{ /* Mouse Logitech MX Master 2S */
+>  	  LDJ_DEVICE(0x4069), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> +	{ /* Mouse Logitech MX Master 3 */
+> +	  LDJ_DEVICE(0x4082), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+>  	{ /* Mouse Logitech Performance MX */
+>  	  LDJ_DEVICE(0x101a), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
+>  	{ /* Keyboard logitech K400 */
