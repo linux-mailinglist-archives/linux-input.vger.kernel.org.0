@@ -2,164 +2,348 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E92CDDF3F0
-	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2019 19:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99ECEDF67C
+	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2019 22:07:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727110AbfJURNz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Oct 2019 13:13:55 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:33262 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726819AbfJURNy (ORCPT
+        id S1729388AbfJUUFz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Oct 2019 16:05:55 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41121 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730176AbfJUUFy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Oct 2019 13:13:54 -0400
-Received: by mail-pg1-f193.google.com with SMTP id i76so8203744pgc.0;
-        Mon, 21 Oct 2019 10:13:54 -0700 (PDT)
+        Mon, 21 Oct 2019 16:05:54 -0400
+Received: by mail-ot1-f67.google.com with SMTP id g13so12120968otp.8;
+        Mon, 21 Oct 2019 13:05:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Fr8kACGN6fySPtvxuLKztrODPU5WAmzHqgszhCcrPhw=;
-        b=lZRa18BdRZXw1hCTon3pl5U7dib/zzVQkq4D7itZkJskLytwjSVR76mvV/4GM4py8j
-         7rM6ZvwrFgES98p7ZGipRuqlj1lRx6fZHuEBEDLq/mSUUrZp+h36t9zFN0ICOrYM3mzQ
-         AKos16550AVPa4aoBiA9YMAGLIPOLwjk5iX/hTvmYxlcf1HZ0TrNPSdZuzhdLO3H7Qkj
-         5gTAQIapgzO3oeDl6fxK7ZO0M0mqXaRtiARaEvO49Cu29JGxmARlDaiH/J7c119LzmyP
-         zY3M4otrfl0SNs8cDnv9Py1Yihl8o0QOweVLdC82UCtZsHzn5QLS3TcHbh8sV0YQeEGT
-         fKjQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Dqqp7bbA2MQ6v89VSpq+VcDZdSvK0PDO/oPI5vZ7MdE=;
+        b=BdOSuzoyMWyofnalHXt7ZN2nibr50akBow62HkFXXdwjTGVolTMeIhIebNYP/Ayzvf
+         K8KSsGbxln8PRq3b3tT+ItH8sG784zhJjz7B11f7R+NNMaC18q58CE8XSR9LwHxLYypV
+         FkTMkXTcMQ0HYMCejsnb6slcpwzLT+iYyCMQY7w4LFPDS1m+guaXfmpaqEl2t+E5ex9g
+         LppkEMjm79hHn1rSFiqiCB7358XR7pgYWcju81AxfB5FfhwNhHOlnzrqFt/vUNeHEUNw
+         VEfYkybEHb/zaj9YQp1HbTX0mVCPe7xMRFhWbg1rdiaMehpXxlTFibozOnSWRmT73ch9
+         N4zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Fr8kACGN6fySPtvxuLKztrODPU5WAmzHqgszhCcrPhw=;
-        b=Xg8dhiX27uIq7+ySTQkiGHRU/i78s1O8uzz3jUeQFz40PCZpp56Bm8Nel4hJd8WTl5
-         Q4ORVTOhzVLHV8e/ifuzTRsxpQ9SAGbyFQ79bQLmd2RaKgzhuHG38hlH50mB0/knXywz
-         744IgTurCH4WPwaRcipdmDrwDOTiiJC0HmnpypV03OBVy137dVvOB36beFyVWuK55Y8U
-         se8TnXw1flfh2q6XW/5h1vJq5GzwHGwTurVozei8wMcjh2JX/6gnXmbc0nXyKbcCQ0UQ
-         5msZEskLyGH0yyfqAxH9HKh54KZ94I/hGeXrTdmkoQI2yaQVc21HzDRAMKot5Fjf5CCf
-         w0gg==
-X-Gm-Message-State: APjAAAUqD9CW3AFFSNCQo8i41RQ+7GiyPS/TXwbZ771HUiXKTCmuh4WI
-        SUCBrYl8Pqcy9WX3AorroR8=
-X-Google-Smtp-Source: APXvYqxNnqDS42rf39Iu1oC/V8IK1fpr+At4FvxRSZnGGXewvLvKGT6RnqF6dgBe316zxgEc9ZO1fg==
-X-Received: by 2002:a65:434c:: with SMTP id k12mr27378496pgq.141.1571678033805;
-        Mon, 21 Oct 2019 10:13:53 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id w2sm7631378pgm.18.2019.10.21.10.13.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2019 10:13:52 -0700 (PDT)
-Date:   Mon, 21 Oct 2019 10:13:50 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Martin Kepplinger <martink@posteo.de>
-Cc:     Dixit Parmar <dixitparmar19@gmail.com>, rydberg@bitmath.org,
-        kuninori.morimoto.gx@renesas.com, robh@kernel.org,
-        matthias.fend@wolfvision.net, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] driver:st1633: fixed multitouch incorrect coordinates
-Message-ID: <20191021171350.GT35946@dtor-ws>
-References: <1566209314-21767-1-git-send-email-dixitparmar19@gmail.com>
- <8cfedf751fc87f5f1c660cfda69d36ce@posteo.de>
- <20191020082919.GB3917@Dixit>
- <9de64de8-7581-808d-e930-315aca05687c@posteo.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Dqqp7bbA2MQ6v89VSpq+VcDZdSvK0PDO/oPI5vZ7MdE=;
+        b=HBmzVyq4iH121whe8qmEZ1x3nwusns7SbliQHOs2okJkRUvFs79hQRICPXFV7EQFsM
+         nNL2CxmFGfc7PlMgkb62mA87TM6m3yORFyYdJFZuXJDqyvXWmzhQrf56UFTy59S+19Vh
+         uFEezzDr0O94/7uHdsLkPQdM57/V9UE7wp9tlpRqi84vx4/4OwgCrZ2cB7XdR3WfSSQj
+         KhB0u3EZpG7PcEEuD8Pd4Ms+WBeIjIe4sCJXbB8XsuILe80On65zZqClP91jIyYyN9zx
+         D9h7DMIzq0wWx9YDy7pyewE+faMVdfnK+Bzi4L7LN2iX0PIaec5uMTKfFdEwWcdjv8/U
+         A4CQ==
+X-Gm-Message-State: APjAAAUDaypoSy4VIqoN/eMdUlAJBqBVbquEprxq63nqUoVPsj2gE/XV
+        nJjc+SQp7vm1kNsoXhCXw8q/0pQSV+7qOf0NxsY=
+X-Google-Smtp-Source: APXvYqx6MAgAQTCeR5NcJy1NLWG5pp31hE700Nr3X5Cj1QplWIyKIc7+5OppnMkaxoEM4Nvi8PIT+dIRpGiWcWMk6oc=
+X-Received: by 2002:a9d:630c:: with SMTP id q12mr19789648otk.332.1571688352726;
+ Mon, 21 Oct 2019 13:05:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9de64de8-7581-808d-e930-315aca05687c@posteo.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191017204217.106453-1-dmitry.torokhov@gmail.com> <20191017204217.106453-10-dmitry.torokhov@gmail.com>
+In-Reply-To: <20191017204217.106453-10-dmitry.torokhov@gmail.com>
+From:   Sven Van Asbroeck <thesven73@gmail.com>
+Date:   Mon, 21 Oct 2019 16:05:40 -0400
+Message-ID: <CAGngYiWq9Xw1MMh6eoFjX0rB8utusK8jNrho59BgHpwUV31e+g@mail.gmail.com>
+Subject: Re: [PATCH 09/22] Input: apanel - switch to using polled mode of
+ input devices
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Enrico Weigelt <info@metux.net>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Oct 21, 2019 at 09:10:23AM +0200, Martin Kepplinger wrote:
-> On 20.10.19 10:29, Dixit Parmar wrote:
-> > Any review comments for this?
-> > Or it should be merged?
-> > 
-> > Thanks.
-> 
-> My comment and tag is there. This fixes multitouch and should be merged.
+Hi Dmitry, a few minor nags below, inline.
 
-Missed it earlier, sorry. I am applying it, but I wonder if we shoudl
-not do the patch below as I find the version with 2 loop variables quite
-confusing.
+On Thu, Oct 17, 2019 at 4:42 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> We have added polled mode to the normal input devices with the intent of
+> retiring input_polled_dev. This converts apanel driver to use the polling
+> mode of standard input devices and removes dependency on INPUT_POLLDEV.
+>
+> While at it, let's convert the driver to use devm.
+>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>
+>  drivers/input/misc/Kconfig  |   1 -
+>  drivers/input/misc/apanel.c | 153 +++++++++++++++---------------------
+>  2 files changed, 64 insertions(+), 90 deletions(-)
+>
+> diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+> index 7d9ae394e597..a6b8af69915d 100644
+> --- a/drivers/input/misc/Kconfig
+> +++ b/drivers/input/misc/Kconfig
+> @@ -257,7 +257,6 @@ config INPUT_MMA8450
+>  config INPUT_APANEL
+>         tristate "Fujitsu Lifebook Application Panel buttons"
+>         depends on X86 && I2C && LEDS_CLASS
+> -       select INPUT_POLLDEV
+>         select CHECK_SIGNATURE
+>         help
+>          Say Y here for support of the Application Panel buttons, used on
+> diff --git a/drivers/input/misc/apanel.c b/drivers/input/misc/apanel.c
+> index 53ec40d1b90d..de0deb432fe3 100644
+> --- a/drivers/input/misc/apanel.c
+> +++ b/drivers/input/misc/apanel.c
+> @@ -17,7 +17,7 @@
+>  #include <linux/module.h>
+>  #include <linux/ioport.h>
+>  #include <linux/io.h>
+> -#include <linux/input-polldev.h>
+> +#include <linux/input.h>
+>  #include <linux/i2c.h>
+>  #include <linux/leds.h>
+>
+> @@ -51,19 +51,28 @@ static enum apanel_chip device_chip[APANEL_DEV_MAX];
+>  #define MAX_PANEL_KEYS 12
+>
+>  struct apanel {
+> -       struct input_polled_dev *ipdev;
+> +       struct input_dev *idev;
+>         struct i2c_client *client;
+>         unsigned short keymap[MAX_PANEL_KEYS];
+> -       u16    nkeys;
+> +       u16 nkeys;
+>         struct led_classdev mail_led;
+>  };
+>
+> +static unsigned short apanel_keymap[MAX_PANEL_KEYS] = {
 
-Thanks.
+Could this be const?
 
--- 
-Dmitry
+> +       [0] = KEY_MAIL,
+> +       [1] = KEY_WWW,
+> +       [2] = KEY_PROG2,
+> +       [3] = KEY_PROG1,
+>
+> -static int apanel_probe(struct i2c_client *, const struct i2c_device_id *);
+> +       [8] = KEY_FORWARD,
+> +       [9] = KEY_REWIND,
+> +       [10] = KEY_STOPCD,
+> +       [11] = KEY_PLAYPAUSE,
+> +};
+>
+>  static void report_key(struct input_dev *input, unsigned keycode)
+>  {
+> -       pr_debug(APANEL ": report key %#x\n", keycode);
+> +       dev_dbg(input->dev.parent, "report key %#x\n", keycode);
+>         input_report_key(input, keycode, 1);
+>         input_sync(input);
+>
+> @@ -79,10 +88,9 @@ static void report_key(struct input_dev *input, unsigned keycode)
+>   * CD keys:
+>   * Forward (0x100), Rewind (0x200), Stop (0x400), Pause (0x800)
+>   */
+> -static void apanel_poll(struct input_polled_dev *ipdev)
+> +static void apanel_poll(struct input_dev *idev)
+>  {
+> -       struct apanel *ap = ipdev->private;
+> -       struct input_dev *idev = ipdev->input;
+> +       struct apanel *ap = input_get_drvdata(idev);
+>         u8 cmd = device_chip[APANEL_DEV_APPBTN] == CHIP_OZ992C ? 0 : 8;
+>         s32 data;
+>         int i;
+> @@ -112,126 +120,93 @@ static int mail_led_set(struct led_classdev *led,
+>         return i2c_smbus_write_word_data(ap->client, 0x10, led_bits);
+>  }
+>
+> -static int apanel_remove(struct i2c_client *client)
+> -{
+> -       struct apanel *ap = i2c_get_clientdata(client);
+> -
+> -       if (device_chip[APANEL_DEV_LED] != CHIP_NONE)
+> -               led_classdev_unregister(&ap->mail_led);
+> -
+> -       input_unregister_polled_device(ap->ipdev);
+> -       input_free_polled_device(ap->ipdev);
+> -
+> -       return 0;
+> -}
+> -
+> -static void apanel_shutdown(struct i2c_client *client)
+> -{
+> -       apanel_remove(client);
+> -}
+> -
+> -static const struct i2c_device_id apanel_id[] = {
+> -       { "fujitsu_apanel", 0 },
+> -       { }
+> -};
+> -MODULE_DEVICE_TABLE(i2c, apanel_id);
+> -
+> -static struct i2c_driver apanel_driver = {
+> -       .driver = {
+> -               .name = APANEL,
+> -       },
+> -       .probe          = &apanel_probe,
+> -       .remove         = &apanel_remove,
+> -       .shutdown       = &apanel_shutdown,
+> -       .id_table       = apanel_id,
+> -};
+> -
+> -static struct apanel apanel = {
+> -       .keymap = {
+> -               [0] = KEY_MAIL,
+> -               [1] = KEY_WWW,
+> -               [2] = KEY_PROG2,
+> -               [3] = KEY_PROG1,
+> -
+> -               [8] = KEY_FORWARD,
+> -               [9] = KEY_REWIND,
+> -               [10] = KEY_STOPCD,
+> -               [11] = KEY_PLAYPAUSE,
+> -
+> -       },
+> -       .mail_led = {
+> -               .name = "mail:blue",
+> -               .brightness_set_blocking = mail_led_set,
+> -       },
+> -};
+> -
+> -/* NB: Only one panel on the i2c. */
+>  static int apanel_probe(struct i2c_client *client,
+>                         const struct i2c_device_id *id)
+>  {
+>         struct apanel *ap;
+> -       struct input_polled_dev *ipdev;
+>         struct input_dev *idev;
+>         u8 cmd = device_chip[APANEL_DEV_APPBTN] == CHIP_OZ992C ? 0 : 8;
+> -       int i, err = -ENOMEM;
+> +       int i, err;
+>
+> -       ap = &apanel;
+> +       ap = devm_kzalloc(&client->dev, sizeof(*ap), GFP_KERNEL);
+> +       if (!ap)
+> +               return -ENOMEM;
+>
+> -       ipdev = input_allocate_polled_device();
+> -       if (!ipdev)
+> -               goto out1;
+> +       idev = devm_input_allocate_device(&client->dev);
+> +       if (!idev)
+> +               return -ENOMEM;
+>
+> -       ap->ipdev = ipdev;
+> +       ap->idev = idev;
+>         ap->client = client;
+>
+>         i2c_set_clientdata(client, ap);
+>
+>         err = i2c_smbus_write_word_data(client, cmd, 0);
+>         if (err) {
+> -               dev_warn(&client->dev, APANEL ": smbus write error %d\n",
+> -                        err);
+> -               goto out3;
+> +               dev_warn(&client->dev, "smbus write error %d\n", err);
+> +               return err;
+>         }
+>
+> -       ipdev->poll = apanel_poll;
+> -       ipdev->poll_interval = POLL_INTERVAL_DEFAULT;
+> -       ipdev->private = ap;
+> +       input_set_drvdata(idev, ap);
+>
+> -       idev = ipdev->input;
+>         idev->name = APANEL_NAME " buttons";
+>         idev->phys = "apanel/input0";
+>         idev->id.bustype = BUS_HOST;
+> -       idev->dev.parent = &client->dev;
+> -
+> -       set_bit(EV_KEY, idev->evbit);
+>
+> +       memcpy(ap->keymap, apanel_keymap, sizeof(apanel_keymap));
+>         idev->keycode = ap->keymap;
+>         idev->keycodesize = sizeof(ap->keymap[0]);
+>         idev->keycodemax = (device_chip[APANEL_DEV_CDBTN] != CHIP_NONE) ? 12 : 4;
+>
+> +       set_bit(EV_KEY, idev->evbit);
+>         for (i = 0; i < idev->keycodemax; i++)
+>                 if (ap->keymap[i])
+>                         set_bit(ap->keymap[i], idev->keybit);
+>
+> -       err = input_register_polled_device(ipdev);
+> +       err = input_setup_polling(idev, apanel_poll);
+> +       if (err)
+> +               return err;
+> +
+> +       input_set_poll_interval(idev, POLL_INTERVAL_DEFAULT);
+> +
+> +       err = input_register_device(idev);
+>         if (err)
+> -               goto out3;
+> +               return err;
+>
+>         if (device_chip[APANEL_DEV_LED] != CHIP_NONE) {
+> -               err = led_classdev_register(&client->dev, &ap->mail_led);
+> +               ap->mail_led.name = "mail:blue";
+> +               ap->mail_led.brightness_set_blocking = mail_led_set;
+> +               err = devm_led_classdev_register(&client->dev, &ap->mail_led);
+>                 if (err)
+> -                       goto out4;
+> +                       return err;
+>         }
+>
+>         return 0;
+> -out4:
+> -       input_unregister_polled_device(ipdev);
+> -out3:
+> -       input_free_polled_device(ipdev);
+> -out1:
+> -       return err;
+>  }
+>
+> +static void apanel_shutdown(struct i2c_client *client)
+> +{
+> +       struct apanel *ap = i2c_get_clientdata(client);
+> +
+> +       if (device_chip[APANEL_DEV_LED] != CHIP_NONE)
+> +               led_set_brightness(&ap->mail_led, LED_OFF);
 
-Input: st1232 - simplify parsing of read buffer
+Is this code required? Doesn't led_class_dev_unregister()
+(automatically called by devm_) switch the led off?
 
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+If it's not required, then the whole shutdown function can
+be removed.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/touchscreen/st1232.c |   50 ++++++++++++++++++------------------
- 1 file changed, 25 insertions(+), 25 deletions(-)
+> +}
+> +
+> +static const struct i2c_device_id apanel_id[] = {
+> +       { "fujitsu_apanel", 0 },
 
-diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
-index 1139714e72e2..47033ef3749a 100644
---- a/drivers/input/touchscreen/st1232.c
-+++ b/drivers/input/touchscreen/st1232.c
-@@ -57,38 +57,38 @@ static int st1232_ts_read_data(struct st1232_ts_data *ts)
- {
- 	struct st1232_ts_finger *finger = ts->finger;
- 	struct i2c_client *client = ts->client;
--	struct i2c_msg msg[2];
--	int error;
--	int i, y;
- 	u8 start_reg = ts->chip_info->start_reg;
--	u8 *buf = ts->read_buf;
--
--	/* read touchscreen data */
--	msg[0].addr = client->addr;
--	msg[0].flags = 0;
--	msg[0].len = 1;
--	msg[0].buf = &start_reg;
--
--	msg[1].addr = ts->client->addr;
--	msg[1].flags = I2C_M_RD;
--	msg[1].len = ts->read_buf_len;
--	msg[1].buf = buf;
-+	struct i2c_msg msg[] = {
-+		{
-+			.addr	= client->addr,
-+			.len	= sizeof(start_reg),
-+			.buf	= &start_reg,
-+		},
-+		{
-+			.addr	= client->addr,
-+			.flags	= I2C_M_RD,
-+			.len	= ts->read_buf_len,
-+			.buf	= ts->read_buf,
-+		}
-+	};
-+	int ret;
-+	int i;
-+	u8 *buf;
- 
--	error = i2c_transfer(client->adapter, msg, 2);
--	if (error < 0)
--		return error;
-+	ret = i2c_transfer(client->adapter, msg, ARRAY_SIZE(msg));
-+	if (ret != ARRAY_SIZE(msg))
-+		return ret < 0 ? ret : -EIO;
- 
--	for (i = 0, y = 0; i < ts->chip_info->max_fingers; i++, y += 3) {
--		finger[i].is_valid = buf[i + y] >> 7;
-+	for (i = 0; i < ts->chip_info->max_fingers; i++) {
-+		buf = &ts->read_buf[i * 4];
-+		finger[i].is_valid = buf[0] >> 7;
- 		if (finger[i].is_valid) {
--			finger[i].x = ((buf[i + y] & 0x0070) << 4) |
--					buf[i + y + 1];
--			finger[i].y = ((buf[i + y] & 0x0007) << 8) |
--					buf[i + y + 2];
-+			finger[i].x = ((buf[0] & 0x70) << 4) | buf[1];
-+			finger[i].y = ((buf[0] & 0x07) << 8) | buf[2];
- 
- 			/* st1232 includes a z-axis / touch strength */
- 			if (ts->chip_info->have_z)
--				finger[i].t = buf[i + 6];
-+				finger[i].t = ts->read_buf[i + 6];
- 		}
- 	}
- 
+If the driver_data field of i2c_device_id is unused, would it
+be better to match via apanel_driver.driver.of_match_table ?
+
+> +       { }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, apanel_id);
+> +
+> +static struct i2c_driver apanel_driver = {
+> +       .driver = {
+> +               .name = APANEL,
+> +       },
+> +       .probe          = &apanel_probe,
+> +       .shutdown       = &apanel_shutdown,
+
+The ampersand (&) can be removed.
+I realize that this is just old code that has changed position.
+
+> +       .id_table       = apanel_id,
+> +};
+> +
+>  /* Scan the system ROM for the signature "FJKEYINF" */
+>  static __init const void __iomem *bios_signature(const void __iomem *bios)
+>  {
+> --
+> 2.23.0.866.gb869b98d4c-goog
+>
