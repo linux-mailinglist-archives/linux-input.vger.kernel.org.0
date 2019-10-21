@@ -2,159 +2,199 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E85FADE5E5
-	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2019 10:05:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D82BDE850
+	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2019 11:40:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725972AbfJUIFb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Oct 2019 04:05:31 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:55599 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727297AbfJUIFa (ORCPT
+        id S1726725AbfJUJkc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Oct 2019 05:40:32 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.20]:12309 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726987AbfJUJkc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Oct 2019 04:05:30 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iMSfM-000875-Se; Mon, 21 Oct 2019 10:03:48 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iMSfC-00081S-2X; Mon, 21 Oct 2019 10:03:38 +0200
-Date:   Mon, 21 Oct 2019 10:03:38 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Alexander Shiyan <shc_work@mail.ru>,
-        Alexios Zavras <alexios.zavras@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Enrico Weigelt <info@metux.net>, Eric Anholt <eric@anholt.net>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacky Bai <ping.bai@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
-        Jilayne Lovejoy <opensource@jilayne.com>,
-        Jonathan Bakker <xc-racer2@live.ca>,
-        Luca Weiss <luca@z3ntu.xyz>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Martin Kepplinger <martink@posteo.de>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Miloslav Trmac <mitr@volny.cz>,
-        Mukesh Ojha <mojha@codeaurora.org>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Pavel Machek <pavel@ucw.cz>,
-        =?utf-8?B?UGF3ZcWC?= Chmiel <pawel.mikolaj.chmiel@gmail.com>,
-        Richard Fontana <rfontana@redhat.com>,
-        Ronald =?iso-8859-1?Q?Tschal=E4r?= <ronald@innovation.ch>,
-        Stefan Agner <stefan@agner.ch>,
-        Steve Winslow <swinslow@gmail.com>,
-        Sven Van Asbroeck <TheSven73@gmail.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/22] Stop using input_polled_dev in polling drivers
-Message-ID: <20191021080338.prrraz5h7sykxz6e@pengutronix.de>
-References: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
- <20191018084403.GR32742@smile.fi.intel.com>
+        Mon, 21 Oct 2019 05:40:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1571650829;
+        s=strato-dkim-0002; d=gerhold.net;
+        h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=kfIfi2H9s6NC4aQNCXhr9dBZlNXh2glaq5K8IuEoeys=;
+        b=eHEJ4JLjIj5R7ftBhG6rgPQJruEvoifx/raTJlzepCrDaraoaO3lnMLpkWLN7PhjZL
+        ksXMSFPk0T5pFfzeVvIFLplEn9h/uUdeXJ3rCCcvr7hjTlbNzoJqwbQSlLDTCBmxFMy0
+        YAUAOF3+FzU7oFWVSX/96fOp/NmV7rLNhz8ETAaRGNe8aZUqEPx83petADN1A6sXCMKd
+        o8nn7LL4IEzxktrKe1IOlS8k2J3VLyX3mG50g45fKHGAWC1DYU+YKhULMntBrtRDFNcw
+        vohoMJz8jY1IDbtXULmvA6s8vIV8F5e7McSLWAiZKZ09xQzRhnK+an7ijDeKlHa6CHRk
+        5fUQ==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u266EZF6ORJDdfTYstM="
+X-RZG-CLASS-ID: mo00
+Received: from gerhold.net
+        by smtp.strato.de (RZmta 44.28.1 AUTH)
+        with ESMTPSA id 409989v9L9YSN8Q
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
+        (Client did not present a certificate);
+        Mon, 21 Oct 2019 11:34:28 +0200 (CEST)
+Date:   Mon, 21 Oct 2019 11:34:23 +0200
+From:   Stephan Gerhold <stephan@gerhold.net>
+To:     Andi Shyti <andi@etezian.org>
+Cc:     Linux Input <linux-input@vger.kernel.org>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>
+Subject: Re: [PATCH v2 1/2] Input: mms114 - use smbus functions whenever
+ possible
+Message-ID: <20191021093423.GA1116@gerhold.net>
+References: <20191020202856.20287-1-andi@etezian.org>
+ <20191020202856.20287-2-andi@etezian.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191018084403.GR32742@smile.fi.intel.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 10:02:38 up 156 days, 14:20, 97 users,  load average: 0.14, 0.13,
- 0.10
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+In-Reply-To: <20191020202856.20287-2-andi@etezian.org>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 19-10-18 11:44, Andy Shevchenko wrote:
-> On Thu, Oct 17, 2019 at 01:41:54PM -0700, Dmitry Torokhov wrote:
-> > Input devices now support polling mode natively (via input_setup_polling
-> > API), and input_polled_dev implementation is going away. This series
-> > switches drivers found in drivers/input to the new scheme.
-> > 
-> 
-> For all I have been Cc'ed
-> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Hi Andi,
 
-Same for me
-Acked-by: Marco Felsch <m.felsch@pengutronix.de> 
+Thanks for working on these patches!
 
-> > 
-> > Dmitry Torokhov (21):
-> >   Input: raspberrypi-ts - switch to using polled mode of input devices
-> >   Input: sur40 - switch to using polled mode of input devices
-> >   Input: ts4800-ts - switch to using polled mode of input devices
-> >   Input: tsc6507x-ts - switch to using polled mode of input devices
-> >   Input: adc-keys - switch to using polled mode of input devices
-> >   Input: clps711x-keypad - switch to using polled mode of input devices
-> >   Input: jornada680_kbd - switch to using polled mode of input devices
-> >   Input: gpio_keys_polled - switch to using polled mode of input devices
-> >   Input: apanel - switch to using polled mode of input devices
-> >   Input: wistron_btns - switch to using polled mode of input devices
-> >   Input: cobalt_btns - convert to use managed resources
-> >   Input: cobalt_btns - switch to using polled mode of input devices
-> >   Input: sgi_btns - switch to using managed resources
-> >   Input: sgi_btns - switch to using polled mode of input devices
-> >   Input: rb532_button - switch to using managed resources
-> >   Input: rb532_button - switch to using polled mode of input devices
-> >   Input: gpio_decoder - switch to using polled mode of input devices
-> >   Input: mma8450 - switch to using polled mode of input devices
-> >   Input: bma150 - switch to using polled mode of input devices
-> >   Input: kxtj9 - switch to using managed resources
-> >   Input: kxtj9 - switch to using polled mode of input devices
-> > 
-> > Jonathan Bakker (1):
-> >   Input: bma150 - use managed resources helpers
-> > 
-> >  drivers/input/keyboard/Kconfig             |   4 -
-> >  drivers/input/keyboard/adc-keys.c          |  36 ++--
-> >  drivers/input/keyboard/clps711x-keypad.c   |  70 +++----
-> >  drivers/input/keyboard/gpio_keys_polled.c  |  65 +++---
-> >  drivers/input/keyboard/jornada680_kbd.c    |  37 ++--
-> >  drivers/input/misc/Kconfig                 |  15 --
-> >  drivers/input/misc/apanel.c                | 153 ++++++--------
-> >  drivers/input/misc/bma150.c                | 190 +++++------------
-> >  drivers/input/misc/cobalt_btns.c           |  73 +++----
-> >  drivers/input/misc/gpio_decoder.c          |  42 ++--
-> >  drivers/input/misc/kxtj9.c                 | 224 ++++++---------------
-> >  drivers/input/misc/mma8450.c               | 101 +++++-----
-> >  drivers/input/misc/rb532_button.c          |  48 ++---
-> >  drivers/input/misc/sgi_btns.c              |  54 ++---
-> >  drivers/input/misc/wistron_btns.c          |  51 ++---
-> >  drivers/input/touchscreen/Kconfig          |   4 -
-> >  drivers/input/touchscreen/raspberrypi-ts.c |  38 ++--
-> >  drivers/input/touchscreen/sur40.c          |  92 +++++----
-> >  drivers/input/touchscreen/tps6507x-ts.c    |  36 ++--
-> >  drivers/input/touchscreen/ts4800-ts.c      |  68 ++++---
-> >  20 files changed, 557 insertions(+), 844 deletions(-)
-> > 
-> > -- 
-> > 2.23.0.866.gb869b98d4c-goog
-> > 
+Not sure if you saw my comment regarding your patch [1],
+so I'll just repeat it properly inline here:
+
+[1]: https://patchwork.kernel.org/patch/11178515/#22927311
+
+On Sun, Oct 20, 2019 at 11:28:55PM +0300, Andi Shyti wrote:
+> The exchange of data to and from the mms114 touchscreen never
+> exceeds 256 bytes. In the worst case it goes up to 80 bytes in
+> the interrupt handler while reading the events.
 > 
+
+i2c_smbus_read_i2c_block_data() is actually limited to
+I2C_SMBUS_BLOCK_MAX = 32.
+
+> Thus it's not needed to make use of custom read/write functions
+> for accessing the i2c. Replace, whenever possible, the use of
+> custom functions with the more standard smbus ones.
+> 
+> It's not possible only in one case, in the mms114_set_active()
+> function where the 'cache_mode_control' variable is updated
+> according to the value in the register 'MMS114_MODE_CONTROL'
+> register.
+> 
+> Signed-off-by: Andi Shyti <andi@etezian.org>
+> Tested-by: Seung-Woo Kim <sw0312.kim@samsung.com>
+> ---
+>  drivers/input/touchscreen/mms114.c | 32 +++++++++++++++++++-----------
+>  1 file changed, 20 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/mms114.c b/drivers/input/touchscreen/mms114.c
+> index a5ab774da4cc..170dcb5312b9 100644
+> --- a/drivers/input/touchscreen/mms114.c
+> +++ b/drivers/input/touchscreen/mms114.c
+> @@ -204,14 +204,15 @@ static irqreturn_t mms114_interrupt(int irq, void *dev_id)
+>  	}
+>  	mutex_unlock(&input_dev->mutex);
+>  
+> -	packet_size = mms114_read_reg(data, MMS114_PACKET_SIZE);
+> +	packet_size = i2c_smbus_read_byte_data(data->client,
+> +					       MMS114_PACKET_SIZE);
+>  	if (packet_size <= 0)
+>  		goto out;
+>  
+>  	touch_size = packet_size / MMS114_PACKET_NUM;
+>  
+> -	error = __mms114_read_reg(data, MMS114_INFORMATION, packet_size,
+> -			(u8 *)touch);
+> +	error = i2c_smbus_read_i2c_block_data(data->client, MMS114_INFORMATION,
+> +					      packet_size, (u8 *)touch);
+
+... and here we try to read up to 80 bytes, as you mentioned.
+
+i2c_smbus_read_i2c_block_data() will silently fall back to reading only
+32 bytes. Therefore, if we try to read more than 32 bytes here we will
+later read uninitialized data.
+
+With this change, if you use more than 4 fingers you can easily trigger
+a situation where one of the fingers gets "stuck", together with:
+  mms114 4-0048: Wrong touch type (0)
+
+So we still need the custom functions here, or maybe avoid the problem
+by using regmap instead.
+
+>  	if (error < 0)
+>  		goto out;
+>  
+> @@ -251,7 +252,8 @@ static int mms114_get_version(struct mms114_data *data)
+>  
+>  	switch (data->type) {
+>  	case TYPE_MMS152:
+> -		error = __mms114_read_reg(data, MMS152_FW_REV, 3, buf);
+> +		error = i2c_smbus_read_i2c_block_data(data->client,
+> +						      MMS152_FW_REV, 3, buf);
+>  		if (error)
+
+i2c_smbus_read_i2c_block_data() returns the number of read bytes,
+therefore this check will always fail.
+
+It should be: if (error < 0)
+
+>  			return error;
+>  
+> @@ -265,7 +267,8 @@ static int mms114_get_version(struct mms114_data *data)
+>  		break;
+>  
+>  	case TYPE_MMS114:
+> -		error = __mms114_read_reg(data, MMS114_TSP_REV, 6, buf);
+> +		error = i2c_smbus_read_i2c_block_data(data->client,
+> +						      MMS114_TSP_REV, 6, buf);
+>  		if (error)
+
+As above.
+
+>  			return error;
+>  
+> @@ -297,30 +300,35 @@ static int mms114_setup_regs(struct mms114_data *data)
+>  
+>  	val = (props->max_x >> 8) & 0xf;
+>  	val |= ((props->max_y >> 8) & 0xf) << 4;
+> -	error = mms114_write_reg(data, MMS114_XY_RESOLUTION_H, val);
+> +	error = i2c_smbus_write_byte_data(data->client,
+> +					  MMS114_XY_RESOLUTION_H, val);
+>  	if (error < 0)
+>  		return error;
+>  
+>  	val = props->max_x & 0xff;
+> -	error = mms114_write_reg(data, MMS114_X_RESOLUTION, val);
+> +	error = i2c_smbus_write_byte_data(data->client,
+> +					  MMS114_X_RESOLUTION, val);
+>  	if (error < 0)
+>  		return error;
+>  
+>  	val = props->max_x & 0xff;
+> -	error = mms114_write_reg(data, MMS114_Y_RESOLUTION, val);
+> +	error = i2c_smbus_write_byte_data(data->client,
+> +					  MMS114_Y_RESOLUTION, val);
+>  	if (error < 0)
+>  		return error;
+>  
+>  	if (data->contact_threshold) {
+> -		error = mms114_write_reg(data, MMS114_CONTACT_THRESHOLD,
+> -				data->contact_threshold);
+> +		error = i2c_smbus_write_byte_data(data->client,
+> +						  MMS114_CONTACT_THRESHOLD,
+> +						  data->contact_threshold);
+>  		if (error < 0)
+>  			return error;
+>  	}
+>  
+>  	if (data->moving_threshold) {
+> -		error = mms114_write_reg(data, MMS114_MOVING_THRESHOLD,
+> -				data->moving_threshold);
+> +		error = i2c_smbus_write_byte_data(data->client,
+> +						  MMS114_MOVING_THRESHOLD,
+> +						  data->moving_threshold);
+>  		if (error < 0)
+>  			return error;
+>  	}
 > -- 
-> With Best Regards,
-> Andy Shevchenko
+> 2.24.0.rc0
 > 
-> 
-> 
-
--- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
