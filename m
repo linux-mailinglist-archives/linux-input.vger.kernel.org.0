@@ -2,91 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DBE5DDE0C7
-	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2019 23:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E9AFDE21D
+	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2019 04:27:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726607AbfJTVr3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 20 Oct 2019 17:47:29 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45422 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726374AbfJTVr2 (ORCPT
+        id S1727001AbfJUC1k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 20 Oct 2019 22:27:40 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:41136 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726995AbfJUC1k (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 20 Oct 2019 17:47:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1571608047;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=QvHg9G5IUBK1ZxXZrofOmkygG7aGnz8dBx2C+LM1U6U=;
-        b=echaUuOrsp/Vod4CrCT4OkcFZWuBc8NE6I6dsUU53SAB0+U+iZm47H1UOHIH4Gd2UNFeAA
-        1/Ig6T/7P56GqnisnyunAh7XlKCOcwHhW9oJeJlVj47eyCQoP+8EmxsIbTc5sG5kQXpx08
-        gwYIDUvx30BTkXsCzWk8qjA6jMZUV4I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-4TOFgtxhNICmg_WkBZAOVQ-1; Sun, 20 Oct 2019 17:47:24 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FE381800DC7;
-        Sun, 20 Oct 2019 21:47:23 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-98.ams2.redhat.com [10.36.116.98])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E75C2608A5;
-        Sun, 20 Oct 2019 21:47:19 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: [PATCH] HID: i2c-hid: Send power-on command after reset
-Date:   Sun, 20 Oct 2019 23:47:18 +0200
-Message-Id: <20191020214718.150906-1-hdegoede@redhat.com>
+        Sun, 20 Oct 2019 22:27:40 -0400
+Received: by mail-pg1-f195.google.com with SMTP id t3so6783703pga.8
+        for <linux-input@vger.kernel.org>; Sun, 20 Oct 2019 19:27:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=+XgAS3p3ETrEIu1jjk49WnshOluu9ziyQFPp12n3bCU=;
+        b=HBXUvt040GMIEwLCNj0cv5hSZlRkL/uSj5D7wLWdq/dK4otL0nVEbSqZR/yA3O2Og9
+         AGWR8nz33JcyPwt0cVzYqNq50Faf18+z3imXfVGexdoVV7YqaTAx1/VUr9tWFd1T5Cbb
+         Tf3GaNcBURk5SkpU/x/jomYDDMhIfJxW71YTg5rvruJX3ueO8ezhfGPDpZ8h4aBGcFO7
+         kumSOPEltTLr+L4+0n9vUg4CWg75RR45G4UAxyVxqOpn3JU7cI+2DI4kkwOVZWPX+nFt
+         EIZgqQsA7otGwkMKpKWeRDE8Vka9aexA24uKnw1PmWmT0weSSgJHTEGbfcCA0RE8KN8b
+         2ajw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=+XgAS3p3ETrEIu1jjk49WnshOluu9ziyQFPp12n3bCU=;
+        b=FzP+/4DXnWpU+tCuK1iEnI6vL42jV33+7ZqBdAPujPjoGgpEC6sn+QPEhMD1FUwRrj
+         a5o52JMY//FIHdsBtdYWrPOn9TnsASolHio2ZXWS8Btt68NwJMjRkJb8TCAktE3rEwla
+         dgx1lo2e4QHkvkJyLOm3Uob+n5E277vdyVxCCio/3ZG02GUuo6EiCGJ4zmjNrpf9aiB6
+         1IY6yPmhchvuYfQF21pZO/qpFprkTkYTsto4RRDOL3NIknmDdVe5mtzGcB6MAZE/md8T
+         vNUMGsYcJAaO2XodVIquRcKIsYG9bbVrL4MIPjsaYRlA69R3vq4C0FjLTIYRjVbd9H6D
+         jt7w==
+X-Gm-Message-State: APjAAAWv/6yROsesf5ym1M0KJe1be4idRNZZ4RL25lNzk3tSh75GJeX2
+        gXgEnmvRAmY/2gtjZ+JtWh71+Q==
+X-Google-Smtp-Source: APXvYqwgXGc8U+6JV2azREgJVpwvucEYJlBr8fKvxMlwaeCP9tIcS23wt/WioWPY0VSEsf3wqmlSTg==
+X-Received: by 2002:a63:4e52:: with SMTP id o18mr11185515pgl.153.1571624859157;
+        Sun, 20 Oct 2019 19:27:39 -0700 (PDT)
+Received: from localhost ([122.172.151.112])
+        by smtp.gmail.com with ESMTPSA id f17sm20835265pgd.8.2019.10.20.19.27.38
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 20 Oct 2019 19:27:38 -0700 (PDT)
+Date:   Mon, 21 Oct 2019 07:57:36 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mark Brown <broonie@kernel.org>, linux-clk@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-rtc@vger.kernel.org,
+        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH 05/46] ARM: pxa: split up mach/hardware.h
+Message-ID: <20191021022736.yu6unspozqf5634p@vireshk-i7>
+References: <20191018154052.1276506-1-arnd@arndb.de>
+ <20191018154201.1276638-5-arnd@arndb.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 4TOFgtxhNICmg_WkBZAOVQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191018154201.1276638-5-arnd@arndb.de>
+User-Agent: NeoMutt/20180716-391-311a52
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Before commit 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power
-management"), any i2c-hid touchscreens would typically be runtime-suspended
-between the driver loading and Xorg or a Wayland compositor opening it,
-causing it to be resumed again. This means that before this change,
-we would call i2c_hid_set_power(OFF), i2c_hid_set_power(ON) before the
-graphical session would start listening to the touchscreen.
+On 18-10-19, 17:41, Arnd Bergmann wrote:
+> The mach/hardware.h is included in lots of places, and it provides
+> three different things on pxa:
+> 
+> - the cpu_is_pxa* macros
+> - an indirect inclusion of mach/addr-map.h
+> - the __REG() and io_pv2() helper macros
+> 
+> Split it up into separate <linux/soc/pxa/cpu.h> and mach/pxa-regs.h
+> headers, then change all the files that use mach/hardware.h to
+> include the exact set of those three headers that they actually
+> need, allowing for further more targeted cleanup.
+> 
+> linux/soc/pxa/cpu.h can remain permanently exported and is now in
+> a global location along with similar headers. pxa-regs.h and
+> addr-map.h are only used in a very small number of drivers now
+> and can be moved to arch/arm/mach-pxa/ directly when those drivers
+> are to pass the necessary data as resources.
+> 
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Viresh Kumar <viresh.kumar@linaro.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: linux-clk@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-leds@vger.kernel.org
+> Cc: linux-mmc@vger.kernel.org
+> Cc: linux-mtd@lists.infradead.org
+> Cc: linux-rtc@vger.kernel.org
+> Cc: linux-usb@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: linux-watchdog@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/cpufreq/pxa2xx-cpufreq.c              |  1 +
+>  drivers/cpufreq/pxa3xx-cpufreq.c              |  1 +
 
-It turns out that at least some SIS touchscreens, such as the one found
-on the Asus T100HA, need a power-on command after reset, otherwise they
-will not send any events.
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-Fixes: 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power management")
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-h=
-id-core.c
-index d9c55e30f986..04c088131e04 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -447,8 +447,12 @@ static int i2c_hid_hwreset(struct i2c_client *client)
- =09if (ret) {
- =09=09dev_err(&client->dev, "failed to reset device.\n");
- =09=09i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
-+=09=09goto out_unlock;
- =09}
-=20
-+=09/* At least some SIS devices need this after reset */
-+=09ret =3D i2c_hid_set_power(client, I2C_HID_PWR_ON);
-+
- out_unlock:
- =09mutex_unlock(&ihid->reset_lock);
- =09return ret;
---=20
-2.23.0
-
+-- 
+viresh
