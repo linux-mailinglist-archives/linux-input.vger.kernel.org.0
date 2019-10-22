@@ -2,112 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE314E01F0
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 12:20:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68BCCE020C
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 12:27:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727101AbfJVKUd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Oct 2019 06:20:33 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45844 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1731834AbfJVKUd (ORCPT
+        id S1731808AbfJVK1p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Oct 2019 06:27:45 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:59614 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727101AbfJVK1p (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Oct 2019 06:20:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1571739632;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=82pDg4TYDcRM9OsvqQXlQIO9hPNcI7qG+xYGFBtQJWg=;
-        b=Zs3wIApJax0RDhJrUY4YzPnB5ijddgM5mrZn6wlrg4ocsUbY1Nixu7e8yfL8B/7rELiZ7r
-        PvZAVj60THCAI7h/qNBn7ex1coN+OSruYthFunDlkTLYBi/g17VwxNQzRxvTAdVB6yo/1a
-        ozbh9Tqk4id22Lhk0MQW0MqkUIVTaMY=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-APNfODBBMUevyWtecwz6ZA-1; Tue, 22 Oct 2019 06:20:31 -0400
-Received: by mail-qt1-f200.google.com with SMTP id f2so176289qtv.21
-        for <linux-input@vger.kernel.org>; Tue, 22 Oct 2019 03:20:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AVxKx3T/EDAaG269H73B/aoeOhwkt3dQ3dmDZquXpuo=;
-        b=pNJBUEb4JLzq0JU58gD7EoFJVU36ZAQM2jdIZY31X/+tetzQ15ppCta3t1sf4j5zLJ
-         pJ//IGTBlgWvQlQ+P4FAMCYEU6AnOUTML1A2p6uCdsquz6bbxrsXu4sjedbiuroTx1le
-         TEThvz4ZjKE+G5mZ0/EWmY7Jk83tEQ0EBVDMvwkmExMQ+2cyQi73H6zF7ezDwjcBzVwv
-         JtwoLtRlBljSxwXUvUX73qKfWEtw0EY5B3E02pghuE3FebZFjZR/xqwVKZMEXCODNOP1
-         v3UzN8ehAgCEYA173bhvm5+tc4FOvuZ0zuCcNdZS59M/03xVpchX4/IAcbjlnjt7qQia
-         t9Eg==
-X-Gm-Message-State: APjAAAVouZAL8WiT0QtFt/jVY1sB6I4mnnfMz6whPEUAhxO8ByClccLm
-        8LkKp1K0MSGcNUFUlw6jJqsC2YA9bHrOLGhyMTFXoTVFtAPdD5Guo91gd+Rohb8S9/6FaCyt9yq
-        cxDn950ohDCGyBxKkc5gvHCkJRnQI3ilblsUKys0=
-X-Received: by 2002:ad4:50c2:: with SMTP id e2mr2323991qvq.67.1571739630721;
-        Tue, 22 Oct 2019 03:20:30 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzn5zsEA3UPVsMqusCIi9G5MwfKgdMcukwLuMTs0wd3w8wwlPh9EQZnDWiCQaLBYuEnG0V+TK3eLwW/86lnZAM=
-X-Received: by 2002:ad4:50c2:: with SMTP id e2mr2323970qvq.67.1571739630466;
- Tue, 22 Oct 2019 03:20:30 -0700 (PDT)
+        Tue, 22 Oct 2019 06:27:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=GRD7MZeVdKR1vgtr0TQS+zdY9FPxRAIwfXXcdGpmZOg=; b=Cvn5TPX6Q/YA59sDtrK567pcC
+        x2Jug15Avnz0PUuMDv1tHQ9lT9p/RnP3yAdK4YvZjwosOkgjdrav3JTKUeju+DmUqD1R20db9ZlmU
+        zEp0eeuDtYD8JNPmufP8I9MglkAsS5bThdcGjpGermwb83ah82Qm1B3Zs5o3tesMJxHX0=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.co.uk>)
+        id 1iMrO7-0006NA-On; Tue, 22 Oct 2019 10:27:39 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+        id 18CE02743259; Tue, 22 Oct 2019 11:27:39 +0100 (BST)
+Date:   Tue, 22 Oct 2019 11:27:38 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v4 2/6] dt-bindings: regulator: max77650: convert the
+ binding document to yaml
+Message-ID: <20191022102738.GB5554@sirena.co.uk>
+References: <20191021124428.2541-1-brgl@bgdev.pl>
+ <20191021124428.2541-3-brgl@bgdev.pl>
 MIME-Version: 1.0
-References: <20191020213307.217228-1-adrian@freund.io>
-In-Reply-To: <20191020213307.217228-1-adrian@freund.io>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 22 Oct 2019 12:20:19 +0200
-Message-ID: <CAO-hwJLg1DQe0gAq-JHEcLBnq0hAmVeTN_T0SdrBHXLW0ArM7A@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: logitech: Add MX Master 3 Mouse
-To:     Adrian Freund <adrian@freund.io>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-X-MC-Unique: APNfODBBMUevyWtecwz6ZA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Pd0ReVV5GZGQvF3a"
+Content-Disposition: inline
+In-Reply-To: <20191021124428.2541-3-brgl@bgdev.pl>
+X-Cookie: Whip it, whip it good!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Adrian,
 
-On Sun, Oct 20, 2019 at 11:33 PM Adrian Freund <adrian@freund.io> wrote:
->
-> Adds support for the Logitech MX Master 3 Mouse to the HID++ driver when
-> connected by the Logitech Unifying Receiver.
-> This doesn't yet add support for using the mouse over bluetooth.
+--Pd0ReVV5GZGQvF3a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-well, patch looks good, but can you also add the BLE ID by rebasing on
-top of https://patchwork.kernel.org/project/linux-input/list/?series=3D1904=
-45
-?
-I just requested a few changes on this series, but there should not be
-major ones.
+On Mon, Oct 21, 2019 at 02:44:24PM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>=20
+> Convert the binding document for MAX77650 regulator module to YAML.
 
-Cheers,
-Benjamin
+Acked-by: Mark Brown <broonie@kernel.org>
 
->
-> Signed-off-by: Adrian Freund <adrian@freund.io>
-> ---
->  drivers/hid/hid-logitech-hidpp.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-=
-hidpp.c
-> index 0179f7ed77e5..e263085a0b82 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -3717,6 +3717,8 @@ static const struct hid_device_id hidpp_devices[] =
-=3D {
->         { LDJ_DEVICE(0x4071), .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_=
-X2121 },
->         { /* Mouse Logitech MX Master 2S */
->           LDJ_DEVICE(0x4069), .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_=
-X2121 },
-> +       { /* Mouse Logitech MX Master 3 */
-> +         LDJ_DEVICE(0x4082), .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_=
-X2121 },
->         { /* Mouse Logitech Performance MX */
->           LDJ_DEVICE(0x101a), .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_=
-1P0 },
->         { /* Keyboard logitech K400 */
-> --
-> 2.23.0
->
+--Pd0ReVV5GZGQvF3a
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2u2ZoACgkQJNaLcl1U
+h9C1gQf5Ad6I48RubPUMRfKZLJmmrTX3xcIgwSG/sD+od1xoySZz+IrL2rHEHLqJ
+HSvhxiGnDgRWfdgQaZ6zigH0oMQOdHCLF1UYEiUDJfcQZQEFf0M5eC3018FHUI1E
+SsT2svNjuHED+P52Ti/UPRwPJSz7g++DSc/uYoW+2qrlGYYvM28q0e6LKKqKV4oW
+L7PJ3QwiZzo4zxNhmKTrBGH/nvH8lxY71DZHGEl89V87kbSx01b+MSw8iIubifM6
+R2a/EowiqjZc4gvO1Uu0VlY7Lnk2h3m63hFZsYnhckRvaF/0OkvAlHOfafyZwSxE
+5yM4xQKLWjHAUIuIBGEiej78Ds3+Sg==
+=NvkN
+-----END PGP SIGNATURE-----
+
+--Pd0ReVV5GZGQvF3a--
