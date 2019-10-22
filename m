@@ -2,132 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BEB9E0316
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 13:38:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A280E04D8
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 15:22:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387918AbfJVLiq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Oct 2019 07:38:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33248 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387871AbfJVLip (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Oct 2019 07:38:45 -0400
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CB038207FC;
-        Tue, 22 Oct 2019 11:38:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571744324;
-        bh=aVhV8SXUfakeMnO83FUK3yRAfke9knQB8SLYn7IKA1s=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=L4xojqsZuVDh1hRZGbe1mITUqgcXeXKcLI2WCBSLS8RRcaE8dOkg2hBJNsETLBAo+
-         Y/QJ70gfq8LuS6UDNffzwAsdH4Z8hZz5niDqM/oV60Y9qgBT906m9hug/lUKXNlYdg
-         tLjRWD0oONt9ZR/DLr5Dx+EsHdkO2bi8Rn2i8bZg=
-Date:   Tue, 22 Oct 2019 12:38:38 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jeff LaBundy <jeff@labundy.com>, lee.jones@linaro.org,
-        dmitry.torokhov@gmail.com, jdelvare@suse.com,
-        thierry.reding@gmail.com, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        u.kleine-koenig@pengutronix.de, linux-pwm@vger.kernel.org,
-        knaack.h@gmx.de, lars@metafoo.de, pmeerw@pmeerw.net,
-        linux-iio@vger.kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
-Subject: Re: [PATCH 4/8] hwmon: Add support for Azoteq IQS620AT temperature
- sensor
-Message-ID: <20191022123838.5a9e2b26@archlinux>
-In-Reply-To: <f9610e3d-d923-1ffe-233f-e94cace41f64@roeck-us.net>
-References: <1571631083-4962-1-git-send-email-jeff@labundy.com>
-        <1571631083-4962-5-git-send-email-jeff@labundy.com>
-        <20191021153825.GA15359@roeck-us.net>
-        <20191022022611.GA2091@labundy.com>
-        <f9610e3d-d923-1ffe-233f-e94cace41f64@roeck-us.net>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1729146AbfJVNWK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Oct 2019 09:22:10 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:43953 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387598AbfJVNWK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 22 Oct 2019 09:22:10 -0400
+Received: by mail-pf1-f196.google.com with SMTP id a2so10650550pfo.10;
+        Tue, 22 Oct 2019 06:22:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nYx2NKitaTBhkEd7A3BVsynzutbsRDInsCzGOV0d+wk=;
+        b=TlyziFZT5RLehXqmdvxj1TDbM1hyj+gyvT6iZeEWyw3pVyPZfwIX0eGMY5hjnizA05
+         FmtNRE/ycgUMmExPlgVmGxgk+0JhgldYV8hLWi288tPwss7VSdaWCeyJwbhK8Kp3Dqyx
+         RzldWSSXx5/RPJes/EiLHAXhmtsFWC9Rygfdqw04w1J5FJhF4owDtVR6I75XLmgHbLU7
+         YkEHMTfW3udCHlzo6nabzsjckrzV3A1XiKKmaFg5YkLEOjAwUrufxoaHinaSiSIqP5R6
+         Zp4Tab95ppzxiDOhwBi6EZ6uSYMcoBdt/k5xCA2VGjqEZcUQ+vMlO6IBgwVthpy5iCeJ
+         k4FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nYx2NKitaTBhkEd7A3BVsynzutbsRDInsCzGOV0d+wk=;
+        b=FcwiRm47gAhQq63JIwFaLR7kCf6it/7N0uDqfrWBz9OJNh+m78Vr37X9PwxsyLE3pU
+         Rax394q8OTy4XVCcuuUFmwVb966a7y0/o1/NgMBJ04WZuosNYB/4Kqn1+2+pEaMphMbz
+         dUs5x2CZYqDynxb/o0oEKmbKPQr9pWVYVeUcYliml/8Q1DsDLNXxpkbGJVn8AKUCJIO4
+         NOgBMyYVOieXmt5XJnMmlRlMCXUmTXKoIx20w7vW6L71cbueUr7ZCBVLn3BbAz+kLsGS
+         crSlOkDRplXqRc08wbD7N/Bhk9KSec7WgZGLHNH7LbCAf7X+U13yrzGNWW5j+68gvx79
+         cBkg==
+X-Gm-Message-State: APjAAAXurO3x5AsGPH4XwIWP9zWmisXxfLudrXJEbUf4HiEFDUlFCE33
+        0YWgjZuOeF/X2EXuuhZVL8ewfj8anwsUucrbnzU=
+X-Google-Smtp-Source: APXvYqzy3DVWpwMk3Bk3QDR4FyPhDqB1w0DKLmum9LIZMNaQK1qchKfZ4Ipxkn3Vz1nnPS77aRvLK+yeeK51Y/vk+EY=
+X-Received: by 2002:a62:2643:: with SMTP id m64mr4139659pfm.232.1571750529070;
+ Tue, 22 Oct 2019 06:22:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
+ <20191017204217.106453-10-dmitry.torokhov@gmail.com> <CAGngYiWq9Xw1MMh6eoFjX0rB8utusK8jNrho59BgHpwUV31e+g@mail.gmail.com>
+ <20191021212710.GU35946@dtor-ws>
+In-Reply-To: <20191021212710.GU35946@dtor-ws>
+From:   Sven Van Asbroeck <thesven73@gmail.com>
+Date:   Tue, 22 Oct 2019 09:21:58 -0400
+Message-ID: <CAGngYiXTB8xec=zZeUKdNqLEUyGnDsDk2YKsV8+q_XN_sHOeuA@mail.gmail.com>
+Subject: Re: [PATCH 09/22] Input: apanel - switch to using polled mode of
+ input devices
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Enrico Weigelt <info@metux.net>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 21 Oct 2019 20:22:44 -0700
-Guenter Roeck <linux@roeck-us.net> wrote:
+On Mon, Oct 21, 2019 at 5:27 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> > > +static const struct i2c_device_id apanel_id[] = {
+> > > +       { "fujitsu_apanel", 0 },
+> >
+> > If the driver_data field of i2c_device_id is unused, would it
+> > be better to match via apanel_driver.driver.of_match_table ?
+>
+> This is X86 driver, and the device is instantiated from
+> drivers/i2c/busses/i2c-i801.c based on DMI match, so using OF is not
+> really helpful here.
+>
 
-> On 10/21/19 7:26 PM, Jeff LaBundy wrote:
-> > Hi Guenter,
-> > 
-> > Thank you for your prompt review.
-> > 
-> > On Mon, Oct 21, 2019 at 08:38:25AM -0700, Guenter Roeck wrote:  
-> >> On Sun, Oct 20, 2019 at 11:11:19PM -0500, Jeff LaBundy wrote:  
-> >>> This patch adds support for the Azoteq IQS620AT temperature sensor,
-> >>> capable of reporting its absolute die temperature.
-> >>>
-> >>> Signed-off-by: Jeff LaBundy <jeff@labundy.com>  
-> >>
-> >> Seems to me this might be more feasible as iio driver.
-> >> Jonathan, what do you think ?
-> >>  
-> > 
-> > Interestingly enough, this actually started as an iio driver; however the
-> > "When to Use" slide of [0] made me suspect that conventional devices with
-> > the temperature sensing element integrated on the die belong in hwmon.
-> > 
-> > I then found the highly similar ad7314, which Jonathan himself appears to
-> > have converted from iio to hwmon. Therefore, I placed this where existing
-> > drivers seemed to match the most, especially since the temperature sensors
-> > in iio generally use IR or a thermocouple.
-> > 
-> > That being said, I would be happy to move this into iio so long as Jonathan
-> > does not mind, as it would limit the blast radius of this patch series.
-> >   
-> 
-> I don't recall why the ad7314 driver was moved. With a conversion time of 40uS
-> it is most definitely not a typical use case for a hwmon sensor.
-
-I'll be honest, I can't remember either ;)
-> 
-> Anyway, not worth arguing about. Just don't complain later. There is an
-> iio->hwmon bridge, but no hwmon->iio bridge, so the decision does have some
-> impact. Specifically, userspace will have to implement both hwmon and iio
-> access to handle the chip.
-
-So I had a very quick look at one of the data sheets.  The temperature sensor
-here is described as: 
-
-"The IQS620(A) provides temperature monitoring capabilities which can be used for temperature
-change detection in order to ensure the integrity of other sensing technology".
-
-Superficially this sounds like it's probably inappropriate for any sort
-of system temperature monitoring.  It's really just there to allow
-for clever compensation algorithms for the other bits on this chip
-(much like the temperature sensors we almost always get on a decent
-IMU).
-
-Normally we'd just tack an extra channel for the temperature sensor on
-to the the the sensor it is integrated with.  This is a bit more
-complex though as we have 3 different IIO sensors that are present
-in particular part numbers and for some cases we have no IIO device
-at all, but do have a temperature sensor.
-
-So if people are going to actually use this to compensate outputs
-(not sure which ones are actually temperature sensitive btw ;)
-then if those are IIO supported devices, then probably makes sense
-for this to be an IIO device.  It may make sense anyway if there
-is any chance of adding temperature compensation to the drivers
-in kernel.  I suspect the only use that would actually be made
-is as a trip point if something has gone horribly wrong, but
-I might be wrong!
-
-Conclusion. I also don't feel strongly on this one as it kind of
-sits between IIO and hwmon, but probably ever so slightly on the
-IIO side as monitoring a sensor chip, not some other device.
-
-Thanks,
-
-Jonathan
-
-> 
-> Guenter
-
+You're right of course! This driver doesn't even select/need CONFIG_OF :)
