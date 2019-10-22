@@ -2,259 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 70F37DFBA0
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 04:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C245ADFC2A
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 05:21:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729573AbfJVC0P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Oct 2019 22:26:15 -0400
-Received: from p3plsmtpa06-05.prod.phx3.secureserver.net ([173.201.192.106]:34440
-        "EHLO p3plsmtpa06-05.prod.phx3.secureserver.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730469AbfJVC0P (ORCPT
+        id S1730370AbfJVDVo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Oct 2019 23:21:44 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:37154 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730156AbfJVDVo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Oct 2019 22:26:15 -0400
-Received: from labundy.com ([136.49.227.119])
-        by :SMTPAUTH: with ESMTPSA
-        id MjsBiH1esLAS6MjsDiXjWF; Mon, 21 Oct 2019 19:26:14 -0700
-Date:   Mon, 21 Oct 2019 21:26:11 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     lee.jones@linaro.org, dmitry.torokhov@gmail.com, jdelvare@suse.com,
-        thierry.reding@gmail.com, jic23@kernel.org,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, u.kleine-koenig@pengutronix.de,
-        linux-pwm@vger.kernel.org, knaack.h@gmx.de, lars@metafoo.de,
-        pmeerw@pmeerw.net, linux-iio@vger.kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com
-Subject: Re: [PATCH 4/8] hwmon: Add support for Azoteq IQS620AT temperature
- sensor
-Message-ID: <20191022022611.GA2091@labundy.com>
-References: <1571631083-4962-1-git-send-email-jeff@labundy.com>
- <1571631083-4962-5-git-send-email-jeff@labundy.com>
- <20191021153825.GA15359@roeck-us.net>
+        Mon, 21 Oct 2019 23:21:44 -0400
+Received: by mail-pl1-f193.google.com with SMTP id u20so7642945plq.4
+        for <linux-input@vger.kernel.org>; Mon, 21 Oct 2019 20:21:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Dg/wnIql6RYTJN5pt+F6iTfT+G6njW3vlJptMe/vUZ8=;
+        b=IzBztQKbWdEWY4SKSXG4nBnFscBYLiMwuUVLwPMJ3D8rw9xqJKbzepBF7/aqrvjf7d
+         sRsfLaKUBwz8dHwyWvfPLxYwEK9+q5FwDrvQ7ewVUKWVVGZuZnLwnY8AHh7fSTJ9c7Kw
+         EcGrUJvtiqb/Dg86ejXqDt3Eoq5KJyrO8ohkT5QASRwXmh/7THWZf2R4uHm9MIRrp5Fb
+         6xV4jLUTBfc17pK7XuUUPCb/9Qjv4mY6vK5Rkwj8w2kgfJW00deCLagyNGlnq6p3Yt6x
+         cHrpLiZd05znph5FQywt67dbeFy3wyKkz+/djRAhrw+xgbUgt3aiYE8bEF0CyGtCIvJv
+         LDaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Dg/wnIql6RYTJN5pt+F6iTfT+G6njW3vlJptMe/vUZ8=;
+        b=LPKU7FUC8W9fVkc3ePBw5h7sgT9beuMtG6pHiTn+6SG7WgAnjDrYDU1Ynv5ItvSFkE
+         3t1E2UTjhu7omfe5MlcY2tUahh8KA9LjueHQoIV3vfd+WDlFK4lqKBtpUS2RrsjzoMww
+         qpL7ec1vyppVzuwosDBCIySyjYoCJWISehrkXOTvD0BviL82v9R7uuFMHXmQ7Ya4ciJl
+         fShc+GCKBg6L2IdZicH5gL8BzWe3FgJaT42Ucvr9pOUTlzNI0zS7XN63RRiGpdEdr1ax
+         rVQqxlwkalhF3wXgdYwWElYh1QnS833SMombWGhkY8R//hAmZCNh9t2nwJNz8suqLfVh
+         3m+g==
+X-Gm-Message-State: APjAAAXgwQKeplbwbus64kb0yxyWnXjOxtjKdKq5VYPO/pvVsNnmA+Da
+        4VPb5BfLdAY4lKhupNIV9UQ=
+X-Google-Smtp-Source: APXvYqzQjudvPUxj9Jdyl4KUC7kd404Z3gADXieKJQKHVkDBT956z+LAB5Wym7B0aezZoKuilupREw==
+X-Received: by 2002:a17:902:8487:: with SMTP id c7mr1361597plo.20.1571714502924;
+        Mon, 21 Oct 2019 20:21:42 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id m123sm18459174pfb.133.2019.10.21.20.21.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2019 20:21:42 -0700 (PDT)
+Date:   Mon, 21 Oct 2019 20:21:40 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andi Shyti <andi@etezian.org>
+Cc:     Stephan Gerhold <stephan@gerhold.net>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>
+Subject: Re: [PATCH v2 1/2] Input: mms114 - use smbus functions whenever
+ possible
+Message-ID: <20191022032140.GV35946@dtor-ws>
+References: <20191020202856.20287-1-andi@etezian.org>
+ <20191020202856.20287-2-andi@etezian.org>
+ <20191021093423.GA1116@gerhold.net>
+ <20191021154105.GC2278@jack.zhora.eu>
+ <20191021162632.GA83253@gerhold.net>
+ <20191021163956.GB1353@jack.zhora.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191021153825.GA15359@roeck-us.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-CMAE-Envelope: MS4wfGJXJ7DKDqeffUp2x5+zWn/LaqyoEP3xy95w1Y78+RlMEddsI4mewX72fPuQnAgxR4Z7lgs/aCmFg1BckHEMss2fZ9C1uc8v9dmTBXoDJzclpMYQYbBq
- 1jAtutivnffzYKh2uukMvwhcThkY8w5tQnThDTApdEoYkf+lh7pX8tAW4jj7c7UZYv7moIo66HstekJFcR23tTJqgev/YFgCDWTyU5ZC5klfppSWtd/2742j
- 0BXveaq3EGWep0RQ+ZUsohAm79Ux2e9rDT2pS5dYngPWCMNXxx+jCg8oabYSSsylay7ioyaa/WHsx4ikTG4mQSu3sqhfP/iDS5lWsHsJxqdGFm8BmYTAJCmR
- EoL58591QT7m2AXMbZz8swPyM/jBZeCjrIvy2rWpbg00FqL1U1a6Nrj/A7/dMbf396gGaNepb99PPz94xifqjSRSKjz0Vo+CUZi8tB4UBJqPgkPYnrZTp13u
- Zm3WM2MGSCc3y53eSupeP4aDGEphBO2z0UPKjLwTXR7WLFJcNy9NpKC+XLfpvoUZTxDmOHXrTwB7x208/23o+AvJQQ9XmBU6sbJKXfkNLiJ1F/MhEl/j+/ib
- C0SZEEf5/7UkbNsUouwLrSt1OiL7aox0rs9qb7FeIfYPKZFL7Oebmy48KAbLgf7zaByVKurK69/v/Nk9RlyAHMe+DeHCN6ohlBNm5fsznilSSctiV777zgFB
- raGopmm02rQ=
+In-Reply-To: <20191021163956.GB1353@jack.zhora.eu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Guenter,
-
-Thank you for your prompt review.
-
-On Mon, Oct 21, 2019 at 08:38:25AM -0700, Guenter Roeck wrote:
-> On Sun, Oct 20, 2019 at 11:11:19PM -0500, Jeff LaBundy wrote:
-> > This patch adds support for the Azoteq IQS620AT temperature sensor,
-> > capable of reporting its absolute die temperature.
+On Mon, Oct 21, 2019 at 07:39:56PM +0300, Andi Shyti wrote:
+> > > > On Sun, Oct 20, 2019 at 11:28:55PM +0300, Andi Shyti wrote:
+> > > > > The exchange of data to and from the mms114 touchscreen never
+> > > > > exceeds 256 bytes. In the worst case it goes up to 80 bytes in
+> > > > > the interrupt handler while reading the events.
+> > > > > 
+> > > > 
+> > > > i2c_smbus_read_i2c_block_data() is actually limited to
+> > > > I2C_SMBUS_BLOCK_MAX = 32.
+> > > 
+> > > oh sorry, I don't know how I slipped on this.
+> > > 
+> > > But this means that the i2c in the kernel is wrong (or outdated),
+> > > smbus specifies 256 bytes of data[*]. I might have relied on the
+> > > specification more than the code.
+> > > 
+> > > I guess SMBUS needs some update.
 > > 
-> > Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-> 
-> Seems to me this might be more feasible as iio driver.
-> Jonathan, what do you think ?
-> 
-
-Interestingly enough, this actually started as an iio driver; however the
-"When to Use" slide of [0] made me suspect that conventional devices with
-the temperature sensing element integrated on the die belong in hwmon.
-
-I then found the highly similar ad7314, which Jonathan himself appears to
-have converted from iio to hwmon. Therefore, I placed this where existing
-drivers seemed to match the most, especially since the temperature sensors
-in iio generally use IR or a thermocouple.
-
-That being said, I would be happy to move this into iio so long as Jonathan
-does not mind, as it would limit the blast radius of this patch series.
-
-> > ---
-> >  drivers/hwmon/Kconfig         | 12 +++++-
-> >  drivers/hwmon/Makefile        |  1 +
-> >  drivers/hwmon/iqs620at-temp.c | 96 +++++++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 108 insertions(+), 1 deletion(-)
-> >  create mode 100644 drivers/hwmon/iqs620at-temp.c
+> > You are right. It seems like that part of the specification was changed
+> > with SMBus version 3.0 [1]:
 > > 
-> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> > index 13a6b4a..3e56be6 100644
-> > --- a/drivers/hwmon/Kconfig
-> > +++ b/drivers/hwmon/Kconfig
-> > @@ -385,6 +385,16 @@ config SENSORS_ATXP1
-> >  	  This driver can also be built as a module. If so, the module
-> >  	  will be called atxp1.
-> >  
-> > +config SENSORS_IQS620AT
-> > +	tristate "Azoteq IQS620AT temperature sensor"
-> > +	depends on MFD_IQS62X
-> > +	help
-> > +	  Say Y here if you want to build support for the Azoteq IQS620AT
-> > +	  temperature sensor.
-> > +
-> > +	  To compile this driver as a module, choose M here: the module
-> > +	  will be called iqs620at-temp.
-> > +
-> >  config SENSORS_DS620
-> >  	tristate "Dallas Semiconductor DS620"
-> >  	depends on I2C
-> > @@ -1593,7 +1603,7 @@ config SENSORS_ADS7871
-> >  
-> >  config SENSORS_AMC6821
-> >  	tristate "Texas Instruments AMC6821"
-> > -	depends on I2C 
-> > +	depends on I2C
-> 
-> No unrelated changes, please, and most definitely no
-> unrelated whitespace changes.
-> 
-
-Sorry about that; it seems the original file had some trailing whitespace
-here and my editor cropped it automatically. Unfortunately I didn't catch
-it until after I sent out the series.
-
-> >  	help
-> >  	  If you say yes here you get support for the Texas Instruments
-> >  	  AMC6821 hardware monitoring chips.
-> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> > index 40c036e..2360add 100644
-> > --- a/drivers/hwmon/Makefile
-> > +++ b/drivers/hwmon/Makefile
-> > @@ -83,6 +83,7 @@ obj-$(CONFIG_SENSORS_IIO_HWMON) += iio_hwmon.o
-> >  obj-$(CONFIG_SENSORS_INA209)	+= ina209.o
-> >  obj-$(CONFIG_SENSORS_INA2XX)	+= ina2xx.o
-> >  obj-$(CONFIG_SENSORS_INA3221)	+= ina3221.o
-> > +obj-$(CONFIG_SENSORS_IQS620AT)	+= iqs620at-temp.o
-> >  obj-$(CONFIG_SENSORS_IT87)	+= it87.o
-> >  obj-$(CONFIG_SENSORS_JC42)	+= jc42.o
-> >  obj-$(CONFIG_SENSORS_K8TEMP)	+= k8temp.o
-> > diff --git a/drivers/hwmon/iqs620at-temp.c b/drivers/hwmon/iqs620at-temp.c
-> > new file mode 100644
-> > index 0000000..0af49b6
-> > --- /dev/null
-> > +++ b/drivers/hwmon/iqs620at-temp.c
-> > @@ -0,0 +1,96 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Azoteq IQS620AT Temperature Sensor
-> > + *
-> > + * Copyright (C) 2019
-> > + * Author: Jeff LaBundy <jeff@labundy.com>
-> > + */
-> > +
-> > +#include <linux/device.h>
-> > +#include <linux/err.h>
-> > +#include <linux/hwmon.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/mfd/iqs62x.h>
-> > +#include <linux/module.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/regmap.h>
-> > +
-> > +#define IQS620_TEMP_UI_OUT			0x1A
-> > +
-> > +static umode_t iqs620_temp_is_visible(const void *drvdata,
-> > +				      enum hwmon_sensor_types type,
-> > +				      u32 attr, int channel)
-> > +{
-> > +	if (type != hwmon_temp || attr != hwmon_temp_input)
-> > +		return 0;
-> > +
-> > +	return 0444;
-> > +}
-> > +
-> > +static int iqs620_temp_read(struct device *dev, enum hwmon_sensor_types type,
-> > +			    u32 attr, int channel, long *val)
-> > +{
-> > +	struct iqs62x_core *iqs62x = dev_get_drvdata(dev);
-> > +	int error;
-> > +	__le16 val_buf;
-> > +
-> > +	if (type != hwmon_temp || attr != hwmon_temp_input)
-> > +		return -EINVAL;
-> 
-> 			-EOPNOTSUPP
-
-Sure thing; will do.
-
-> > +
-> > +	error = regmap_raw_read(iqs62x->map, IQS620_TEMP_UI_OUT, &val_buf,
-> > +				sizeof(val_buf));
-> > +	if (error)
-> > +		return error;
-> > +
-> > +	*val = (le16_to_cpu(val_buf) - 100) * 1000;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct hwmon_ops iqs620_temp_ops = {
-> > +	.is_visible = iqs620_temp_is_visible,
-> > +	.read = iqs620_temp_read,
-> > +};
-> > +
-> > +static const struct hwmon_channel_info *iqs620_temp_channel_info[] = {
-> > +	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
-> > +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
-> > +	NULL
-> > +};
-> > +
-> > +static const struct hwmon_chip_info iqs620_temp_chip_info = {
-> > +	.ops = &iqs620_temp_ops,
-> > +	.info = iqs620_temp_channel_info,
-> > +};
-> > +
-> > +static int iqs620_temp_probe(struct platform_device *pdev)
-> > +{
-> > +	struct iqs62x_core *iqs62x = dev_get_drvdata(pdev->dev.parent);
-> > +	struct device *hdev;
-> > +	int error = 0;
-> > +
-> > +	hdev = devm_hwmon_device_register_with_info(&pdev->dev,
-> > +						    iqs62x->dev_desc->dev_name,
-> > +						    iqs62x,
-> > +						    &iqs620_temp_chip_info,
-> > +						    NULL);
-> > +	if (IS_ERR(hdev)) {
-> > +		error = PTR_ERR(hdev);
-> > +		dev_err(&pdev->dev, "Failed to register device: %d\n", error);
-> 
-> Such an error would either be static, caused by bad attributes,
-> or a bad name, which is already logged, or a memory allocation
-> failure, which is also already logged. The error message does
-> therefore not add any value.
-> 
-
-Sure thing; I'll remove the error message.
-
-> > +	}
-> > +
-> > +	return error;
-> > +}
-> > +
-> > +static struct platform_driver iqs620_temp_platform_driver = {
-> > +	.driver = {
-> > +		.name	= IQS620_DRV_NAME_TEMP,
-> > +	},
-> > +	.probe		= iqs620_temp_probe,
-> > +};
-> > +module_platform_driver(iqs620_temp_platform_driver);
-> > +
-> > +MODULE_AUTHOR("Jeff LaBundy <jeff@labundy.com>");
-> > +MODULE_DESCRIPTION("Azoteq IQS620AT Temperature Sensor");
-> > +MODULE_LICENSE("GPL");
-> > +MODULE_ALIAS("platform:" IQS620_DRV_NAME_TEMP);
-> > -- 
-> > 2.7.4
+> >   D.6 255 Bytes in Process Call:
+> >     The maximum number of bytes allowed in the Block Write-Block Read
+> >     Process Call (Section 6.5.8) was increased from 32 to 255.
 > > 
+> > [1]: http://www.smbus.org/specs/SMBus_3_0_20141220.pdf
 > 
+> yes :)
+> 
+> OK, then I would ask Dmitry to hold on this patch I will try to
+> update the smbus properly.
 
-Kind regards,
-Jeff LaBundy
+3.0 is from 2014, so we can't simply update the limits. And we need to
+handle the case where device connected to a controller that does not
+implement 3.0 standard.
 
-[0]: https://elinux.org/images/b/ba/ELC_2017_-_Industrial_IO_and_You-_Nonsense_Hacks%21.pdf
+If regmap is too much work then as a stop gap we could maybe only
+convert write functions and mention why read needs to be custom.
+
+Thanks.
+
+-- 
+Dmitry
