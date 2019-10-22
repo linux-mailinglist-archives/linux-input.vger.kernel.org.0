@@ -2,151 +2,391 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3870ADFF3E
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 10:18:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 442C0E0119
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 11:48:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388248AbfJVISF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Oct 2019 04:18:05 -0400
-Received: from mout02.posteo.de ([185.67.36.66]:45513 "EHLO mout02.posteo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388191AbfJVISF (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Oct 2019 04:18:05 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout02.posteo.de (Postfix) with ESMTPS id 72256240103
-        for <linux-input@vger.kernel.org>; Tue, 22 Oct 2019 10:18:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1571732281; bh=9fXRnJUFHF20QgQJ4tbJIo1CYC+blJYEejA3ZN6+WK0=;
-        h=Subject:To:Cc:From:Openpgp:Autocrypt:Date:From;
-        b=ibGx5Pnq1aZRJJKSHbKzq06PkMOGV69BO0wJ50n/LW6bku2ID+1gI6BlhKBBS8z1e
-         RKT1efcKjfA6DBAoU6WHHCZDvT+2fusuxtOyzfPnnFXOzUNXuJp4N32c8VySU8PBJd
-         qea343zZ3JsxVz01BoCgcSzhYfocaz4cHP7iTDvKhaW0Kdj0VXhOk549FPsxsTnmNH
-         4HiQqAHZLxQyCRW7NnE4IknBuem0tzKjB7u951KB756DvoyoPYdCujDXLIFV+ZP8o8
-         zv8Z09drQ8Yr3z6WKbjEIswYfRkIA1m+21ENtDPC/6cxJAAR3W4bvGG6VuM9lCFoQ3
-         gwnrDwTjm+IAw==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 46y5wl6BT2z9rxH;
-        Tue, 22 Oct 2019 10:17:59 +0200 (CEST)
-Subject: Re: [PATCH] driver:st1633: fixed multitouch incorrect coordinates
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Dixit Parmar <dixitparmar19@gmail.com>, rydberg@bitmath.org,
-        kuninori.morimoto.gx@renesas.com, robh@kernel.org,
-        matthias.fend@wolfvision.net, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1566209314-21767-1-git-send-email-dixitparmar19@gmail.com>
- <8cfedf751fc87f5f1c660cfda69d36ce@posteo.de> <20191020082919.GB3917@Dixit>
- <9de64de8-7581-808d-e930-315aca05687c@posteo.de>
- <20191021171350.GT35946@dtor-ws>
-From:   Martin Kepplinger <martink@posteo.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=martink@posteo.de; keydata=
- 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
-Message-ID: <2672574b-2582-22b6-f032-6e1a6a6dc346@posteo.de>
-Date:   Tue, 22 Oct 2019 10:17:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1730312AbfJVJsp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Oct 2019 05:48:45 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30194 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731333AbfJVJsp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 22 Oct 2019 05:48:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1571737722;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PRAOR12JaNY9es9Bx8VnFx8au7NL5fQbM+PyXwndRGQ=;
+        b=MIw3OCAW78vuZhHQ7TvF+bQrvNxohPM5ATAbajhBKs+BCo+aIbubJF95qVjUnmLOHHTnGs
+        nJfpLXSIBJTqqgm3gnixCwcfJRZALCjiv/21s9lmy7mDC44+YMYKDotL+/Tw740cuDAUHQ
+        J2Lfuok3Q68YdXMR1GVTQWoOj7V7+Rs=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-147-LwZ0SCleNaOy8uKXUnTJXA-1; Tue, 22 Oct 2019 05:48:41 -0400
+Received: by mail-qt1-f200.google.com with SMTP id k53so17075357qtk.0
+        for <linux-input@vger.kernel.org>; Tue, 22 Oct 2019 02:48:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9pP78e8PS7VCP+PGqOJvtb2re0XLv7PavFO0GY0t0YU=;
+        b=Lmb1mGFJTVVCAYMTdTqFwrF8Ru7e8oXmFp6GppSw4GqigxP5M2jDdnRCbuEmw2nJqe
+         9Jdeyb/tqprEotq8C+o7Ss3xYfcFeHBQrI4LnN9w5Xt0bVSiQRc6T0UhND4ksv4PK+A9
+         BD3Tw+1sNkjWMJvrgR7H6Hfb7JzHQI/cR7NlqPKVYih0nBUHaM2mGC535HzXHuyWGdMs
+         lb6ZauHlHoaXbJbOTZvseJzeduaNRqQD/oj0eel4H/cBVgNuxscWMCC1zY0u28OfN1hd
+         hWpNHUr0p+898icU4dWZMEevukfROizOqrrELBPzt8GZiEv8ydQL1zeFT3MPuzHiL0jp
+         e/oQ==
+X-Gm-Message-State: APjAAAWQ4IzVY/tTrexbX80plzx7aya/UxS75PoTQ15wFzSRd4k/RvP+
+        M5jkyoPL33uZmKokn73YfCKOexddeneQ10afEZ+L8QH/bEXvA1298N3kHGu/r3sL74NRGM5V03+
+        rMbLBQwHYNwRsH92b6uFriUNLoeFTgnjOKhjeluI=
+X-Received: by 2002:ac8:75ca:: with SMTP id z10mr806336qtq.260.1571737720793;
+        Tue, 22 Oct 2019 02:48:40 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwgKioRJF0ivUW1HRKd99+gzOt+WW91+HkZO766Vx5SNrosMazF7uNAc8t3J0HkIJgikuVs7aKdhL5dqYHdOH0=
+X-Received: by 2002:ac8:75ca:: with SMTP id z10mr806310qtq.260.1571737720392;
+ Tue, 22 Oct 2019 02:48:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191021171350.GT35946@dtor-ws>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20191021073819.18181-1-candlesea@gmail.com> <CAPnx3XP2MrEZT+BAzW3-Ve9ekzvPzcj6wvzeC8VRHhCyo59XpQ@mail.gmail.com>
+In-Reply-To: <CAPnx3XP2MrEZT+BAzW3-Ve9ekzvPzcj6wvzeC8VRHhCyo59XpQ@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 22 Oct 2019 11:48:28 +0200
+Message-ID: <CAO-hwJ+ObCH_NPJd=Uy5uuVCpGzO7+iCSWnwPkoVt9H+8NHahA@mail.gmail.com>
+Subject: Re: [PATCH v3] HID: core: check whether usage page item is after
+ usage id item
+To:     Candle Sun <candlesea@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        =?UTF-8?B?57+f5LqsIChPcnNvbiBaaGFpKQ==?= <orson.zhai@unisoc.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Candle Sun <candle.sun@unisoc.com>,
+        Nianfu Bai <nianfu.bai@unisoc.com>
+X-MC-Unique: LwZ0SCleNaOy8uKXUnTJXA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 21.10.19 19:13, Dmitry Torokhov wrote:
-> On Mon, Oct 21, 2019 at 09:10:23AM +0200, Martin Kepplinger wrote:
->> On 20.10.19 10:29, Dixit Parmar wrote:
->>> Any review comments for this?
->>> Or it should be merged?
->>>
->>> Thanks.
->>
->> My comment and tag is there. This fixes multitouch and should be merged.
-> 
-> Missed it earlier, sorry. I am applying it, but I wonder if we shoudl
-> not do the patch below as I find the version with 2 loop variables quite
-> confusing.
-> 
-> Thanks.
-> 
+Hi Candle,
 
-Makes sense to me.
+On Mon, Oct 21, 2019 at 9:54 AM Candle Sun <candlesea@gmail.com> wrote:
+>
+> Hi,
+>
+>
+> On Mon, Oct 21, 2019 at 3:38 PM Candle Sun <candlesea@gmail.com> wrote:
+> >
+> > From: Candle Sun <candle.sun@unisoc.com>
+> >
+> > Upstream commit 58e75155009c ("HID: core: move Usage Page concatenation
+> > to Main item") adds support for Usage Page item after Usage ID items
+> > (such as keyboards manufactured by Primax).
+> >
+> > Usage Page concatenation in Main item works well for following report
+> > descriptor patterns:
+> >
+> >     USAGE_PAGE (Keyboard)                   05 07
+> >     USAGE_MINIMUM (Keyboard LeftControl)    19 E0
+> >     USAGE_MAXIMUM (Keyboard Right GUI)      29 E7
+> >     LOGICAL_MINIMUM (0)                     15 00
+> >     LOGICAL_MAXIMUM (1)                     25 01
+> >     REPORT_SIZE (1)                         75 01
+> >     REPORT_COUNT (8)                        95 08
+> >     INPUT (Data,Var,Abs)                    81 02
+> >
+> > -------------
+> >
+> >     USAGE_MINIMUM (Keyboard LeftControl)    19 E0
+> >     USAGE_MAXIMUM (Keyboard Right GUI)      29 E7
+> >     LOGICAL_MINIMUM (0)                     15 00
+> >     LOGICAL_MAXIMUM (1)                     25 01
+> >     REPORT_SIZE (1)                         75 01
+> >     REPORT_COUNT (8)                        95 08
+> >     USAGE_PAGE (Keyboard)                   05 07
+> >     INPUT (Data,Var,Abs)                    81 02
+> >
+> > But it makes the parser act wrong for the following report
+> > descriptor pattern(such as some Gamepads):
+> >
+> >     USAGE_PAGE (Button)                     05 09
+> >     USAGE (Button 1)                        09 01
+> >     USAGE (Button 2)                        09 02
+> >     USAGE (Button 4)                        09 04
+> >     USAGE (Button 5)                        09 05
+> >     USAGE (Button 7)                        09 07
+> >     USAGE (Button 8)                        09 08
+> >     USAGE (Button 14)                       09 0E
+> >     USAGE (Button 15)                       09 0F
+> >     USAGE (Button 13)                       09 0D
+> >     USAGE_PAGE (Consumer Devices)           05 0C
+> >     USAGE (Back)                            0a 24 02
+> >     USAGE (HomePage)                        0a 23 02
+> >     LOGICAL_MINIMUM (0)                     15 00
+> >     LOGICAL_MAXIMUM (1)                     25 01
+> >     REPORT_SIZE (1)                         75 01
+> >     REPORT_COUNT (11)                       95 0B
+> >     INPUT (Data,Var,Abs)                    81 02
+> >
+> > With Usage Page concatenation in Main item, parser recognizes all the
+> > 11 Usages as consumer keys, it is not the HID device's real intention.
+> >
+> > This patch adds usage_page_last to flag whether Usage Page is after
+> > Usage ID items. usage_page_last is false default, it is set as true
+> > once Usage Page item is encountered and is reverted by next Usage ID
+> > item.
+> >
+> > Usage Page concatenation on the currently defined Usage Page will do
+> > firstly in Local parsing when Usage ID items encountered.
+> >
+> > When Main item is parsing, concatenation will do again with last
+> > defined Usage Page if usage_page_last flag is true.
+> >
+> > Signed-off-by: Candle Sun <candle.sun@unisoc.com>
+> > Signed-off-by: Nianfu Bai <nianfu.bai@unisoc.com>
+> > ---
+> > Changes in v3:
+> > - Rework the GET_COMPLETE_USAGE macro as static complete_usage()
+> >   function
+> > - Add some code comments for usage_page_last
+> >
+> > Changes in v2:
+> > - Update patch title
+> > - Add GET_COMPLETE_USAGE macro
+> > - Change the logic of checking whether to concatenate usage page again
+> >   in main parsing
+> > ---
+> >  drivers/hid/hid-core.c | 42 +++++++++++++++++++++++++++++++++++++-----
+> >  include/linux/hid.h    |  1 +
+> >  2 files changed, 38 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > index 3eaee2c37931..779b7798dae8 100644
+> > --- a/drivers/hid/hid-core.c
+> > +++ b/drivers/hid/hid-core.c
+> > @@ -211,6 +211,18 @@ static unsigned hid_lookup_collection(struct hid_p=
+arser *parser, unsigned type)
+> >         return 0; /* we know nothing about this usage type */
+> >  }
+> >
+> > +/*
+> > + * Concatenate usage which defines 16 bits or less with the
+> > + * currently defined usage page to form a 32 bit usage
+> > + */
+> > +
+> > +static void complete_usage(struct hid_parser *parser, unsigned int ind=
+ex)
+> > +{
+> > +       parser->local.usage[index] &=3D 0xFFFF;
+> > +       parser->local.usage[index] |=3D
+> > +               (parser->global.usage_page & 0xFFFF) << 16;
+> > +}
+> > +
+> >  /*
+> >   * Add a usage to the temporary parser table.
+> >   */
+> > @@ -221,7 +233,18 @@ static int hid_add_usage(struct hid_parser *parser=
+, unsigned usage, u8 size)
+> >                 hid_err(parser->device, "usage index exceeded\n");
+> >                 return -1;
+> >         }
+> > -       parser->local.usage[parser->local.usage_index] =3D usage;
 
-Acked-by: Martin Kepplinger <martink@posteo.de>
+This broke my CI, and it turns out that installing the patch on an
+actual laptop, the touchpad, touchscreen were not present, nor any HID
+devices plugged in.
 
-thanks
+Basically, complete_usage() doesn't append the usage, and now we are
+never assigning a usage to any field.
 
-                              martin
+> > +
+> > +       /*
+> > +        * If Usage item only includes usage id, concatenate it with
+> > +        * currently defined usage page and clear usage_page_last flag
+> > +        */
+> > +       if (size <=3D 2) {
+> > +               parser->local.usage_page_last =3D false;
+> > +               complete_usage(parser, parser->local.usage_index);
+> > +       } else {
+> > +               parser->local.usage[parser->local.usage_index] =3D usag=
+e;
+> > +       }
+> > +
+> >         parser->local.usage_size[parser->local.usage_index] =3D size;
+> >         parser->local.collection_index[parser->local.usage_index] =3D
+> >                 parser->collection_stack_ptr ?
+> > @@ -366,6 +389,8 @@ static int hid_parser_global(struct hid_parser *par=
+ser, struct hid_item *item)
+> >
+> >         case HID_GLOBAL_ITEM_TAG_USAGE_PAGE:
+> >                 parser->global.usage_page =3D item_udata(item);
+> > +               /* Regard Usage Page is after Usage ID items */
+> > +               parser->local.usage_page_last =3D true;
+> >                 return 0;
+> >
+> >         case HID_GLOBAL_ITEM_TAG_LOGICAL_MINIMUM:
+> > @@ -543,13 +568,20 @@ static int hid_parser_local(struct hid_parser *pa=
+rser, struct hid_item *item)
+> >   * usage value."
+> >   */
+> >
+> > -static void hid_concatenate_usage_page(struct hid_parser *parser)
+> > +static void hid_concatenate_last_usage_page(struct hid_parser *parser)
+> >  {
+> >         int i;
+> >
+> > +       /*
+> > +        * Concatenate usage page again only on detecting some Usage Pa=
+ge
+> > +        * is really after Usage ID items
+> > +        */
+> > +       if (!parser->local.usage_page_last)
+> > +               return;
+> > +
+> >         for (i =3D 0; i < parser->local.usage_index; i++)
+> >                 if (parser->local.usage_size[i] <=3D 2)
+> > -                       parser->local.usage[i] +=3D parser->global.usag=
+e_page << 16;
+> > +                       complete_usage(parser, i);
+> >  }
+> >
+> >  /*
+> > @@ -561,7 +593,7 @@ static int hid_parser_main(struct hid_parser *parse=
+r, struct hid_item *item)
+> >         __u32 data;
+> >         int ret;
+> >
+> > -       hid_concatenate_usage_page(parser);
+> > +       hid_concatenate_last_usage_page(parser);
+> >
+> >         data =3D item_udata(item);
+> >
+> > @@ -772,7 +804,7 @@ static int hid_scan_main(struct hid_parser *parser,=
+ struct hid_item *item)
+> >         __u32 data;
+> >         int i;
+> >
+> > -       hid_concatenate_usage_page(parser);
+> > +       hid_concatenate_last_usage_page(parser);
+> >
+> >         data =3D item_udata(item);
+> >
+> > diff --git a/include/linux/hid.h b/include/linux/hid.h
+> > index cd41f209043f..2e0ea2f7ec5c 100644
+> > --- a/include/linux/hid.h
+> > +++ b/include/linux/hid.h
+> > @@ -412,6 +412,7 @@ struct hid_local {
+> >         unsigned usage_minimum;
+> >         unsigned delimiter_depth;
+> >         unsigned delimiter_branch;
+> > +       bool usage_page_last;      /* whether usage page is after usage=
+ id */
+> >  };
+> >
+>
+> Hi Benjamin,
+> Here I still use the usage_page_last flag, not using following method
+> you provided in v2:
+>
+> if ((parser->local.usage[parser->local.usage_index - 1] &
+> HID_USAGE_PAGE) >> 16 =3D=3D usage_page)
+>               return 0;
+>
+> Because last usage maybe one Extended Usage, some logic for checking
+> it should be added.
+> It will make the code obscure. Using one more member in struct
+> hid_local is straightforward
+> and maybe better.
+
+
+Still not convinced by this. Please see below for a less intrusive
+patch, which is also shorter.
+
+---
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 63fdbf09b044..00ea04fb1be3 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -211,6 +211,18 @@ static unsigned hid_lookup_collection(struct
+hid_parser *parser, unsigned type)
+     return 0; /* we know nothing about this usage type */
+ }
+
++/*
++ * Concatenate usage which defines 16 bits or less with the
++ * currently defined usage page to form a 32 bit usage
++ */
++
++static void complete_usage(struct hid_parser *parser, unsigned int index)
++{
++    parser->local.usage[index] &=3D 0xFFFF;
++    parser->local.usage[index] |=3D
++        (parser->global.usage_page & 0xFFFF) << 16;
++}
++
+ /*
+  * Add a usage to the temporary parser table.
+  */
+@@ -222,6 +234,14 @@ static int hid_add_usage(struct hid_parser
+*parser, unsigned usage, u8 size)
+         return -1;
+     }
+     parser->local.usage[parser->local.usage_index] =3D usage;
++
++    /*
++     * If Usage item only includes usage id, concatenate it with
++     * currently defined usage page
++     */
++    if (size <=3D 2)
++        complete_usage(parser, parser->local.usage_index);
++
+     parser->local.usage_size[parser->local.usage_index] =3D size;
+     parser->local.collection_index[parser->local.usage_index] =3D
+         parser->collection_stack_ptr ?
+@@ -546,10 +566,28 @@ static int hid_parser_local(struct hid_parser
+*parser, struct hid_item *item)
+ static void hid_concatenate_usage_page(struct hid_parser *parser)
+ {
+     int i;
++    uint16_t usage_page, current_page;
+
+-    for (i =3D 0; i < parser->local.usage_index; i++)
+-        if (parser->local.usage_size[i] <=3D 2)
+-            parser->local.usage[i] +=3D parser->global.usage_page << 16;
++    if (!parser->local.usage_index)
++        return;
++
++    usage_page =3D parser->global.usage_page;
++
++    /*
++     * Concatenate usage page again only if the last declared Usage Page
++     * has not been already used in the previous Usages
++     */
++    for (i =3D parser->local.usage_index - 1; i >=3D 0; i--) {
++        if (parser->local.usage_size[i] > 2)
++            /* ignore extended usages */
++            continue;
++
++        current_page =3D parser->local.usage[i] >> 16;
++        if (current_page =3D=3D usage_page)
++            break;
++
++        complete_usage(parser, i);
++    }
+ }
+
+ /*
+---
+
+Isn't that better?
+
+I tested this against
+https://gitlab.freedesktop.org/libevdev/hid-tools/merge_requests/58,
+which you kindly submitted and it seems to do the job.
+
+Cheers,
+Benjamin
 
