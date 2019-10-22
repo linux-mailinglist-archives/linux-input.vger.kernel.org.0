@@ -2,383 +2,259 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A90DDF76D
-	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2019 23:27:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70F37DFBA0
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 04:26:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727264AbfJUV1P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Oct 2019 17:27:15 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:35230 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726672AbfJUV1P (ORCPT
+        id S1729573AbfJVC0P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Oct 2019 22:26:15 -0400
+Received: from p3plsmtpa06-05.prod.phx3.secureserver.net ([173.201.192.106]:34440
+        "EHLO p3plsmtpa06-05.prod.phx3.secureserver.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730469AbfJVC0P (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Oct 2019 17:27:15 -0400
-Received: by mail-pl1-f196.google.com with SMTP id c3so7273543plo.2;
-        Mon, 21 Oct 2019 14:27:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=CsG0qtU75qANh+JmSz+X7f1M3a6+v5CwAhxfgSNLNOs=;
-        b=eWMZ45+DbJdfmr6eYQmOV5wQUWxdgznoh9Lh2qWA359EwSdwSjR7ltRQ+nvxDM9An3
-         H3YLFYF17YcbugVcNRO7ZC6aPMGsN3Gr9uoWsjxW/lzVxKiZW70a+8O0ZwkyJJNRWZNU
-         crykr3kDWAbLpFLWWIS96VtYIPD/jEn3KPe8s07lQJJSpw+zRUCvO6p0BNPitkw1EOmn
-         myDMsVH4IsYAf8HsXzIuWuAPPVHmUQVjYRkZE48W/xKBIYrpxvjGzI93BuWRo9L/UJc0
-         qau4dSu5OX63eGPP3LCeiGYz17QtUkaJE6oPmAU6zW7tzI9F1C7h3qZuJLR44Ie/yPLR
-         jJIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CsG0qtU75qANh+JmSz+X7f1M3a6+v5CwAhxfgSNLNOs=;
-        b=SzNpAApCgrS6aJT+tk4bf3ZtAbrzltxGdWc7dzPX69MxAoFylqPsOkI2D8P03xflob
-         mo91B+VCo9HvAya6t93kFQuh7n4Duyxcz2L2HM8FmrHF5/xtVQknSxUeVT8uPtmu79s0
-         25A6ALDG7q1sbXn04STAJ5lrbAYSu08fe4/P+IP1sxUkoAGlO+CGS47zDGF6QHP8lNvj
-         DZSgFUhIXX0v2ZCQHWF5wGZE2DebsW3oMcpwNThLBSFnI47HbHaOT2G71cOZ4RMgA3ke
-         5lNtH+az6TACpN/8j/xsNIfQOaYFagl9WsZ/Rfmpa3YLYLzs6Bg4KfgQKUxTVXHi+SIa
-         9bsw==
-X-Gm-Message-State: APjAAAWxehDvwXNt7P2QX+tHKqf8m+B4ek0mv0Wb3SVhgxKiVuXEWw1l
-        dci1UYbjjDWWCjKFxa0AqIc=
-X-Google-Smtp-Source: APXvYqxIEc1BPrRpmgTM5/ABkOC+Yi/ljI4/mgA3i0YxRg5hrNCiCGgbnFDcy3a0VBUPcWCR5TFZ4g==
-X-Received: by 2002:a17:902:8f92:: with SMTP id z18mr93753plo.230.1571693233662;
-        Mon, 21 Oct 2019 14:27:13 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id e7sm62815pgr.25.2019.10.21.14.27.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2019 14:27:12 -0700 (PDT)
-Date:   Mon, 21 Oct 2019 14:27:10 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Sven Van Asbroeck <thesven73@gmail.com>
-Cc:     linux-input@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Enrico Weigelt <info@metux.net>, Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 09/22] Input: apanel - switch to using polled mode of
- input devices
-Message-ID: <20191021212710.GU35946@dtor-ws>
-References: <20191017204217.106453-1-dmitry.torokhov@gmail.com>
- <20191017204217.106453-10-dmitry.torokhov@gmail.com>
- <CAGngYiWq9Xw1MMh6eoFjX0rB8utusK8jNrho59BgHpwUV31e+g@mail.gmail.com>
+        Mon, 21 Oct 2019 22:26:15 -0400
+Received: from labundy.com ([136.49.227.119])
+        by :SMTPAUTH: with ESMTPSA
+        id MjsBiH1esLAS6MjsDiXjWF; Mon, 21 Oct 2019 19:26:14 -0700
+Date:   Mon, 21 Oct 2019 21:26:11 -0500
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     lee.jones@linaro.org, dmitry.torokhov@gmail.com, jdelvare@suse.com,
+        thierry.reding@gmail.com, jic23@kernel.org,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, u.kleine-koenig@pengutronix.de,
+        linux-pwm@vger.kernel.org, knaack.h@gmx.de, lars@metafoo.de,
+        pmeerw@pmeerw.net, linux-iio@vger.kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com
+Subject: Re: [PATCH 4/8] hwmon: Add support for Azoteq IQS620AT temperature
+ sensor
+Message-ID: <20191022022611.GA2091@labundy.com>
+References: <1571631083-4962-1-git-send-email-jeff@labundy.com>
+ <1571631083-4962-5-git-send-email-jeff@labundy.com>
+ <20191021153825.GA15359@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGngYiWq9Xw1MMh6eoFjX0rB8utusK8jNrho59BgHpwUV31e+g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191021153825.GA15359@roeck-us.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-CMAE-Envelope: MS4wfGJXJ7DKDqeffUp2x5+zWn/LaqyoEP3xy95w1Y78+RlMEddsI4mewX72fPuQnAgxR4Z7lgs/aCmFg1BckHEMss2fZ9C1uc8v9dmTBXoDJzclpMYQYbBq
+ 1jAtutivnffzYKh2uukMvwhcThkY8w5tQnThDTApdEoYkf+lh7pX8tAW4jj7c7UZYv7moIo66HstekJFcR23tTJqgev/YFgCDWTyU5ZC5klfppSWtd/2742j
+ 0BXveaq3EGWep0RQ+ZUsohAm79Ux2e9rDT2pS5dYngPWCMNXxx+jCg8oabYSSsylay7ioyaa/WHsx4ikTG4mQSu3sqhfP/iDS5lWsHsJxqdGFm8BmYTAJCmR
+ EoL58591QT7m2AXMbZz8swPyM/jBZeCjrIvy2rWpbg00FqL1U1a6Nrj/A7/dMbf396gGaNepb99PPz94xifqjSRSKjz0Vo+CUZi8tB4UBJqPgkPYnrZTp13u
+ Zm3WM2MGSCc3y53eSupeP4aDGEphBO2z0UPKjLwTXR7WLFJcNy9NpKC+XLfpvoUZTxDmOHXrTwB7x208/23o+AvJQQ9XmBU6sbJKXfkNLiJ1F/MhEl/j+/ib
+ C0SZEEf5/7UkbNsUouwLrSt1OiL7aox0rs9qb7FeIfYPKZFL7Oebmy48KAbLgf7zaByVKurK69/v/Nk9RlyAHMe+DeHCN6ohlBNm5fsznilSSctiV777zgFB
+ raGopmm02rQ=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Sven,
+Hi Guenter,
 
-On Mon, Oct 21, 2019 at 04:05:40PM -0400, Sven Van Asbroeck wrote:
-> Hi Dmitry, a few minor nags below, inline.
+Thank you for your prompt review.
 
-Thanks for taking a look.
-
+On Mon, Oct 21, 2019 at 08:38:25AM -0700, Guenter Roeck wrote:
+> On Sun, Oct 20, 2019 at 11:11:19PM -0500, Jeff LaBundy wrote:
+> > This patch adds support for the Azoteq IQS620AT temperature sensor,
+> > capable of reporting its absolute die temperature.
+> > 
+> > Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 > 
-> On Thu, Oct 17, 2019 at 4:42 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > We have added polled mode to the normal input devices with the intent of
-> > retiring input_polled_dev. This converts apanel driver to use the polling
-> > mode of standard input devices and removes dependency on INPUT_POLLDEV.
-> >
-> > While at it, let's convert the driver to use devm.
-> >
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Seems to me this might be more feasible as iio driver.
+> Jonathan, what do you think ?
+> 
+
+Interestingly enough, this actually started as an iio driver; however the
+"When to Use" slide of [0] made me suspect that conventional devices with
+the temperature sensing element integrated on the die belong in hwmon.
+
+I then found the highly similar ad7314, which Jonathan himself appears to
+have converted from iio to hwmon. Therefore, I placed this where existing
+drivers seemed to match the most, especially since the temperature sensors
+in iio generally use IR or a thermocouple.
+
+That being said, I would be happy to move this into iio so long as Jonathan
+does not mind, as it would limit the blast radius of this patch series.
+
 > > ---
-> >
-> >  drivers/input/misc/Kconfig  |   1 -
-> >  drivers/input/misc/apanel.c | 153 +++++++++++++++---------------------
-> >  2 files changed, 64 insertions(+), 90 deletions(-)
-> >
-> > diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-> > index 7d9ae394e597..a6b8af69915d 100644
-> > --- a/drivers/input/misc/Kconfig
-> > +++ b/drivers/input/misc/Kconfig
-> > @@ -257,7 +257,6 @@ config INPUT_MMA8450
-> >  config INPUT_APANEL
-> >         tristate "Fujitsu Lifebook Application Panel buttons"
-> >         depends on X86 && I2C && LEDS_CLASS
-> > -       select INPUT_POLLDEV
-> >         select CHECK_SIGNATURE
-> >         help
-> >          Say Y here for support of the Application Panel buttons, used on
-> > diff --git a/drivers/input/misc/apanel.c b/drivers/input/misc/apanel.c
-> > index 53ec40d1b90d..de0deb432fe3 100644
-> > --- a/drivers/input/misc/apanel.c
-> > +++ b/drivers/input/misc/apanel.c
-> > @@ -17,7 +17,7 @@
-> >  #include <linux/module.h>
-> >  #include <linux/ioport.h>
-> >  #include <linux/io.h>
-> > -#include <linux/input-polldev.h>
-> > +#include <linux/input.h>
-> >  #include <linux/i2c.h>
-> >  #include <linux/leds.h>
-> >
-> > @@ -51,19 +51,28 @@ static enum apanel_chip device_chip[APANEL_DEV_MAX];
-> >  #define MAX_PANEL_KEYS 12
-> >
-> >  struct apanel {
-> > -       struct input_polled_dev *ipdev;
-> > +       struct input_dev *idev;
-> >         struct i2c_client *client;
-> >         unsigned short keymap[MAX_PANEL_KEYS];
-> > -       u16    nkeys;
-> > +       u16 nkeys;
-> >         struct led_classdev mail_led;
-> >  };
-> >
-> > +static unsigned short apanel_keymap[MAX_PANEL_KEYS] = {
-> 
-> Could this be const?
-
-Yes, I believe so.
-
-> 
-> > +       [0] = KEY_MAIL,
-> > +       [1] = KEY_WWW,
-> > +       [2] = KEY_PROG2,
-> > +       [3] = KEY_PROG1,
-> >
-> > -static int apanel_probe(struct i2c_client *, const struct i2c_device_id *);
-> > +       [8] = KEY_FORWARD,
-> > +       [9] = KEY_REWIND,
-> > +       [10] = KEY_STOPCD,
-> > +       [11] = KEY_PLAYPAUSE,
-> > +};
-> >
-> >  static void report_key(struct input_dev *input, unsigned keycode)
-> >  {
-> > -       pr_debug(APANEL ": report key %#x\n", keycode);
-> > +       dev_dbg(input->dev.parent, "report key %#x\n", keycode);
-> >         input_report_key(input, keycode, 1);
-> >         input_sync(input);
-> >
-> > @@ -79,10 +88,9 @@ static void report_key(struct input_dev *input, unsigned keycode)
-> >   * CD keys:
-> >   * Forward (0x100), Rewind (0x200), Stop (0x400), Pause (0x800)
-> >   */
-> > -static void apanel_poll(struct input_polled_dev *ipdev)
-> > +static void apanel_poll(struct input_dev *idev)
-> >  {
-> > -       struct apanel *ap = ipdev->private;
-> > -       struct input_dev *idev = ipdev->input;
-> > +       struct apanel *ap = input_get_drvdata(idev);
-> >         u8 cmd = device_chip[APANEL_DEV_APPBTN] == CHIP_OZ992C ? 0 : 8;
-> >         s32 data;
-> >         int i;
-> > @@ -112,126 +120,93 @@ static int mail_led_set(struct led_classdev *led,
-> >         return i2c_smbus_write_word_data(ap->client, 0x10, led_bits);
-> >  }
-> >
-> > -static int apanel_remove(struct i2c_client *client)
-> > -{
-> > -       struct apanel *ap = i2c_get_clientdata(client);
-> > -
-> > -       if (device_chip[APANEL_DEV_LED] != CHIP_NONE)
-> > -               led_classdev_unregister(&ap->mail_led);
-> > -
-> > -       input_unregister_polled_device(ap->ipdev);
-> > -       input_free_polled_device(ap->ipdev);
-> > -
-> > -       return 0;
-> > -}
-> > -
-> > -static void apanel_shutdown(struct i2c_client *client)
-> > -{
-> > -       apanel_remove(client);
-> > -}
-> > -
-> > -static const struct i2c_device_id apanel_id[] = {
-> > -       { "fujitsu_apanel", 0 },
-> > -       { }
-> > -};
-> > -MODULE_DEVICE_TABLE(i2c, apanel_id);
-> > -
-> > -static struct i2c_driver apanel_driver = {
-> > -       .driver = {
-> > -               .name = APANEL,
-> > -       },
-> > -       .probe          = &apanel_probe,
-> > -       .remove         = &apanel_remove,
-> > -       .shutdown       = &apanel_shutdown,
-> > -       .id_table       = apanel_id,
-> > -};
-> > -
-> > -static struct apanel apanel = {
-> > -       .keymap = {
-> > -               [0] = KEY_MAIL,
-> > -               [1] = KEY_WWW,
-> > -               [2] = KEY_PROG2,
-> > -               [3] = KEY_PROG1,
-> > -
-> > -               [8] = KEY_FORWARD,
-> > -               [9] = KEY_REWIND,
-> > -               [10] = KEY_STOPCD,
-> > -               [11] = KEY_PLAYPAUSE,
-> > -
-> > -       },
-> > -       .mail_led = {
-> > -               .name = "mail:blue",
-> > -               .brightness_set_blocking = mail_led_set,
-> > -       },
-> > -};
-> > -
-> > -/* NB: Only one panel on the i2c. */
-> >  static int apanel_probe(struct i2c_client *client,
-> >                         const struct i2c_device_id *id)
-> >  {
-> >         struct apanel *ap;
-> > -       struct input_polled_dev *ipdev;
-> >         struct input_dev *idev;
-> >         u8 cmd = device_chip[APANEL_DEV_APPBTN] == CHIP_OZ992C ? 0 : 8;
-> > -       int i, err = -ENOMEM;
-> > +       int i, err;
-> >
-> > -       ap = &apanel;
-> > +       ap = devm_kzalloc(&client->dev, sizeof(*ap), GFP_KERNEL);
-> > +       if (!ap)
-> > +               return -ENOMEM;
-> >
-> > -       ipdev = input_allocate_polled_device();
-> > -       if (!ipdev)
-> > -               goto out1;
-> > +       idev = devm_input_allocate_device(&client->dev);
-> > +       if (!idev)
-> > +               return -ENOMEM;
-> >
-> > -       ap->ipdev = ipdev;
-> > +       ap->idev = idev;
-> >         ap->client = client;
-> >
-> >         i2c_set_clientdata(client, ap);
-> >
-> >         err = i2c_smbus_write_word_data(client, cmd, 0);
-> >         if (err) {
-> > -               dev_warn(&client->dev, APANEL ": smbus write error %d\n",
-> > -                        err);
-> > -               goto out3;
-> > +               dev_warn(&client->dev, "smbus write error %d\n", err);
-> > +               return err;
-> >         }
-> >
-> > -       ipdev->poll = apanel_poll;
-> > -       ipdev->poll_interval = POLL_INTERVAL_DEFAULT;
-> > -       ipdev->private = ap;
-> > +       input_set_drvdata(idev, ap);
-> >
-> > -       idev = ipdev->input;
-> >         idev->name = APANEL_NAME " buttons";
-> >         idev->phys = "apanel/input0";
-> >         idev->id.bustype = BUS_HOST;
-> > -       idev->dev.parent = &client->dev;
-> > -
-> > -       set_bit(EV_KEY, idev->evbit);
-> >
-> > +       memcpy(ap->keymap, apanel_keymap, sizeof(apanel_keymap));
-> >         idev->keycode = ap->keymap;
-> >         idev->keycodesize = sizeof(ap->keymap[0]);
-> >         idev->keycodemax = (device_chip[APANEL_DEV_CDBTN] != CHIP_NONE) ? 12 : 4;
-> >
-> > +       set_bit(EV_KEY, idev->evbit);
-> >         for (i = 0; i < idev->keycodemax; i++)
-> >                 if (ap->keymap[i])
-> >                         set_bit(ap->keymap[i], idev->keybit);
-> >
-> > -       err = input_register_polled_device(ipdev);
-> > +       err = input_setup_polling(idev, apanel_poll);
-> > +       if (err)
-> > +               return err;
+> >  drivers/hwmon/Kconfig         | 12 +++++-
+> >  drivers/hwmon/Makefile        |  1 +
+> >  drivers/hwmon/iqs620at-temp.c | 96 +++++++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 108 insertions(+), 1 deletion(-)
+> >  create mode 100644 drivers/hwmon/iqs620at-temp.c
+> > 
+> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> > index 13a6b4a..3e56be6 100644
+> > --- a/drivers/hwmon/Kconfig
+> > +++ b/drivers/hwmon/Kconfig
+> > @@ -385,6 +385,16 @@ config SENSORS_ATXP1
+> >  	  This driver can also be built as a module. If so, the module
+> >  	  will be called atxp1.
+> >  
+> > +config SENSORS_IQS620AT
+> > +	tristate "Azoteq IQS620AT temperature sensor"
+> > +	depends on MFD_IQS62X
+> > +	help
+> > +	  Say Y here if you want to build support for the Azoteq IQS620AT
+> > +	  temperature sensor.
 > > +
-> > +       input_set_poll_interval(idev, POLL_INTERVAL_DEFAULT);
+> > +	  To compile this driver as a module, choose M here: the module
+> > +	  will be called iqs620at-temp.
 > > +
-> > +       err = input_register_device(idev);
-> >         if (err)
-> > -               goto out3;
-> > +               return err;
-> >
-> >         if (device_chip[APANEL_DEV_LED] != CHIP_NONE) {
-> > -               err = led_classdev_register(&client->dev, &ap->mail_led);
-> > +               ap->mail_led.name = "mail:blue";
-> > +               ap->mail_led.brightness_set_blocking = mail_led_set;
-> > +               err = devm_led_classdev_register(&client->dev, &ap->mail_led);
-> >                 if (err)
-> > -                       goto out4;
-> > +                       return err;
-> >         }
-> >
-> >         return 0;
-> > -out4:
-> > -       input_unregister_polled_device(ipdev);
-> > -out3:
-> > -       input_free_polled_device(ipdev);
-> > -out1:
-> > -       return err;
-> >  }
-> >
-> > +static void apanel_shutdown(struct i2c_client *client)
+> >  config SENSORS_DS620
+> >  	tristate "Dallas Semiconductor DS620"
+> >  	depends on I2C
+> > @@ -1593,7 +1603,7 @@ config SENSORS_ADS7871
+> >  
+> >  config SENSORS_AMC6821
+> >  	tristate "Texas Instruments AMC6821"
+> > -	depends on I2C 
+> > +	depends on I2C
+> 
+> No unrelated changes, please, and most definitely no
+> unrelated whitespace changes.
+> 
+
+Sorry about that; it seems the original file had some trailing whitespace
+here and my editor cropped it automatically. Unfortunately I didn't catch
+it until after I sent out the series.
+
+> >  	help
+> >  	  If you say yes here you get support for the Texas Instruments
+> >  	  AMC6821 hardware monitoring chips.
+> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> > index 40c036e..2360add 100644
+> > --- a/drivers/hwmon/Makefile
+> > +++ b/drivers/hwmon/Makefile
+> > @@ -83,6 +83,7 @@ obj-$(CONFIG_SENSORS_IIO_HWMON) += iio_hwmon.o
+> >  obj-$(CONFIG_SENSORS_INA209)	+= ina209.o
+> >  obj-$(CONFIG_SENSORS_INA2XX)	+= ina2xx.o
+> >  obj-$(CONFIG_SENSORS_INA3221)	+= ina3221.o
+> > +obj-$(CONFIG_SENSORS_IQS620AT)	+= iqs620at-temp.o
+> >  obj-$(CONFIG_SENSORS_IT87)	+= it87.o
+> >  obj-$(CONFIG_SENSORS_JC42)	+= jc42.o
+> >  obj-$(CONFIG_SENSORS_K8TEMP)	+= k8temp.o
+> > diff --git a/drivers/hwmon/iqs620at-temp.c b/drivers/hwmon/iqs620at-temp.c
+> > new file mode 100644
+> > index 0000000..0af49b6
+> > --- /dev/null
+> > +++ b/drivers/hwmon/iqs620at-temp.c
+> > @@ -0,0 +1,96 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * Azoteq IQS620AT Temperature Sensor
+> > + *
+> > + * Copyright (C) 2019
+> > + * Author: Jeff LaBundy <jeff@labundy.com>
+> > + */
+> > +
+> > +#include <linux/device.h>
+> > +#include <linux/err.h>
+> > +#include <linux/hwmon.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/mfd/iqs62x.h>
+> > +#include <linux/module.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/regmap.h>
+> > +
+> > +#define IQS620_TEMP_UI_OUT			0x1A
+> > +
+> > +static umode_t iqs620_temp_is_visible(const void *drvdata,
+> > +				      enum hwmon_sensor_types type,
+> > +				      u32 attr, int channel)
 > > +{
-> > +       struct apanel *ap = i2c_get_clientdata(client);
+> > +	if (type != hwmon_temp || attr != hwmon_temp_input)
+> > +		return 0;
 > > +
-> > +       if (device_chip[APANEL_DEV_LED] != CHIP_NONE)
-> > +               led_set_brightness(&ap->mail_led, LED_OFF);
-> 
-> Is this code required? Doesn't led_class_dev_unregister()
-> (automatically called by devm_) switch the led off?
-> 
-> If it's not required, then the whole shutdown function can
-> be removed.
-
-No, it can't as it is not remove() but shutdown() method, the driver is
-not being unbound from the device, and devm teardown is not executed
-here.
-
-> 
+> > +	return 0444;
 > > +}
 > > +
-> > +static const struct i2c_device_id apanel_id[] = {
-> > +       { "fujitsu_apanel", 0 },
-> 
-> If the driver_data field of i2c_device_id is unused, would it
-> be better to match via apanel_driver.driver.of_match_table ?
-
-This is X86 driver, and the device is instantiated from
-drivers/i2c/busses/i2c-i801.c based on DMI match, so using OF is not
-really helpful here.
-
-> 
-> > +       { }
-> > +};
-> > +MODULE_DEVICE_TABLE(i2c, apanel_id);
+> > +static int iqs620_temp_read(struct device *dev, enum hwmon_sensor_types type,
+> > +			    u32 attr, int channel, long *val)
+> > +{
+> > +	struct iqs62x_core *iqs62x = dev_get_drvdata(dev);
+> > +	int error;
+> > +	__le16 val_buf;
 > > +
-> > +static struct i2c_driver apanel_driver = {
-> > +       .driver = {
-> > +               .name = APANEL,
-> > +       },
-> > +       .probe          = &apanel_probe,
-> > +       .shutdown       = &apanel_shutdown,
+> > +	if (type != hwmon_temp || attr != hwmon_temp_input)
+> > +		return -EINVAL;
 > 
-> The ampersand (&) can be removed.
-> I realize that this is just old code that has changed position.
+> 			-EOPNOTSUPP
 
-Yeah, I'll drop them.
+Sure thing; will do.
 
-> 
-> > +       .id_table       = apanel_id,
+> > +
+> > +	error = regmap_raw_read(iqs62x->map, IQS620_TEMP_UI_OUT, &val_buf,
+> > +				sizeof(val_buf));
+> > +	if (error)
+> > +		return error;
+> > +
+> > +	*val = (le16_to_cpu(val_buf) - 100) * 1000;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct hwmon_ops iqs620_temp_ops = {
+> > +	.is_visible = iqs620_temp_is_visible,
+> > +	.read = iqs620_temp_read,
 > > +};
 > > +
-> >  /* Scan the system ROM for the signature "FJKEYINF" */
-> >  static __init const void __iomem *bios_signature(const void __iomem *bios)
-> >  {
-> > --
-> > 2.23.0.866.gb869b98d4c-goog
-> >
+> > +static const struct hwmon_channel_info *iqs620_temp_channel_info[] = {
+> > +	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
+> > +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
+> > +	NULL
+> > +};
+> > +
+> > +static const struct hwmon_chip_info iqs620_temp_chip_info = {
+> > +	.ops = &iqs620_temp_ops,
+> > +	.info = iqs620_temp_channel_info,
+> > +};
+> > +
+> > +static int iqs620_temp_probe(struct platform_device *pdev)
+> > +{
+> > +	struct iqs62x_core *iqs62x = dev_get_drvdata(pdev->dev.parent);
+> > +	struct device *hdev;
+> > +	int error = 0;
+> > +
+> > +	hdev = devm_hwmon_device_register_with_info(&pdev->dev,
+> > +						    iqs62x->dev_desc->dev_name,
+> > +						    iqs62x,
+> > +						    &iqs620_temp_chip_info,
+> > +						    NULL);
+> > +	if (IS_ERR(hdev)) {
+> > +		error = PTR_ERR(hdev);
+> > +		dev_err(&pdev->dev, "Failed to register device: %d\n", error);
+> 
+> Such an error would either be static, caused by bad attributes,
+> or a bad name, which is already logged, or a memory allocation
+> failure, which is also already logged. The error message does
+> therefore not add any value.
+> 
 
-Thanks.
+Sure thing; I'll remove the error message.
 
--- 
-Dmitry
+> > +	}
+> > +
+> > +	return error;
+> > +}
+> > +
+> > +static struct platform_driver iqs620_temp_platform_driver = {
+> > +	.driver = {
+> > +		.name	= IQS620_DRV_NAME_TEMP,
+> > +	},
+> > +	.probe		= iqs620_temp_probe,
+> > +};
+> > +module_platform_driver(iqs620_temp_platform_driver);
+> > +
+> > +MODULE_AUTHOR("Jeff LaBundy <jeff@labundy.com>");
+> > +MODULE_DESCRIPTION("Azoteq IQS620AT Temperature Sensor");
+> > +MODULE_LICENSE("GPL");
+> > +MODULE_ALIAS("platform:" IQS620_DRV_NAME_TEMP);
+> > -- 
+> > 2.7.4
+> > 
+> 
+
+Kind regards,
+Jeff LaBundy
+
+[0]: https://elinux.org/images/b/ba/ELC_2017_-_Industrial_IO_and_You-_Nonsense_Hacks%21.pdf
