@@ -2,408 +2,328 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA15EE0224
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 12:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FD4CE026B
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 13:01:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731894AbfJVKdk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Oct 2019 06:33:40 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:44062 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731871AbfJVKdj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Oct 2019 06:33:39 -0400
-Received: by mail-yb1-f194.google.com with SMTP id v1so4968996ybo.11;
-        Tue, 22 Oct 2019 03:33:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Uzw8wFWkH5Kyype/kl73JFu2MEfzd8ISu9rdpai/058=;
-        b=ixwFe1ny2f7hC+Zoa6Sv7b54jAxJJW0oL8TZnKu93dp/f5keCrQhz/y9Ai6AxUXtO+
-         TPZw/QSXb37udzmmSQj3fMwomNoCZESD8f0Qu5jtJJtJwZxjmwf4MtA6uO1dTAoyESPu
-         lnZ+IjxmFyN77IRjXERHH8xUhxcGmj5vML6TE8+z5HUnqnuszAx7CvnEIeBSyqz7EJL2
-         O0wTByusVCbGJYCGM2feb4UUDidlLrhLxpcEogbDpxSgYwOHg/oA459nfrf2MjHf57xK
-         jLqffc06Yp+ntPaL2xS/AdMdBxT7hmz2k4iqOq4GhDd6yAvparpL3UgRZNov8mhs7dBz
-         hMog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Uzw8wFWkH5Kyype/kl73JFu2MEfzd8ISu9rdpai/058=;
-        b=rj7HxEPcehwnVDA3UGUwfCpTx68K0TrJ8t17W23IsqNWPljFpE7rnvTgWT4WKpwYJs
-         iHyT8mMnjyl+hUHE+6tWqR7PazR337T1tZsAkhVt3I414IojeDAK++X44gQEV4jpWRoJ
-         tlohRB1nbMNzRK54G6InUL00XnGrtp58lQFSPMNM7XmbU3GncGxEr9Br5VFYOzhGEITc
-         0HZ9m/Xe0cPs9h30tGkY+bcRHGUBAS5dqW/FKGKDNtBtFe1g5eTiyou9nCFymuTJIiN0
-         XN/+nwO1LHJZHcSSydsx2m8Ji99xn4kpn7W3OE6ZHp9jhNj+B363M5EwGyX+dYrofSEI
-         zi4A==
-X-Gm-Message-State: APjAAAWAU7DgfCFWfrmGZllh0etNMQ1U2z03wpHek7f0m5QpCx/3FNph
-        /Pf0BeOX+QyJh2RUEOHWBtU2WbTiRlK6QhsuPr8=
-X-Google-Smtp-Source: APXvYqxDfo8QEghympNWoAftftw/F8ZqsF8RL9fTFbfnBWwCqFg+cu20VQTkmASjXR1fNeCX0m9T9GykriLxLptPxm0=
-X-Received: by 2002:a25:c60a:: with SMTP id k10mr1878910ybf.91.1571740416802;
- Tue, 22 Oct 2019 03:33:36 -0700 (PDT)
+        id S1730320AbfJVLBA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Oct 2019 07:01:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52646 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728375AbfJVLA7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 22 Oct 2019 07:00:59 -0400
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BDEEE21783;
+        Tue, 22 Oct 2019 11:00:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571742058;
+        bh=3wr2brRuPL3nrxk9/+udPN9G8ogjlg23jMUoDvyxk+k=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=OW/zqk0hi6SfASYvNIGLiANYFDtusXa3A6NDHzMdckQrZ6Rt9DE+cRw3etOvdjo+P
+         3S/ja/s9cnWBUY8g6s8EpDcUAB/wayph/AlomQ0h5Y3ifGmB5SzIGJAsKGq1k5iwub
+         yMFpAfhZnR02eyIBHVyBiqu7HIp3nhV9yo4jcduU=
+Date:   Tue, 22 Oct 2019 12:00:51 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     lee.jones@linaro.org, dmitry.torokhov@gmail.com, jdelvare@suse.com,
+        linux@roeck-us.net, thierry.reding@gmail.com,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, u.kleine-koenig@pengutronix.de,
+        linux-pwm@vger.kernel.org, knaack.h@gmx.de, lars@metafoo.de,
+        pmeerw@pmeerw.net, linux-iio@vger.kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com
+Subject: Re: [PATCH 1/8] dt-bindings: mfd: iqs62x: Add bindings
+Message-ID: <20191022120051.686ed9f9@archlinux>
+In-Reply-To: <1571631083-4962-2-git-send-email-jeff@labundy.com>
+References: <1571631083-4962-1-git-send-email-jeff@labundy.com>
+        <1571631083-4962-2-git-send-email-jeff@labundy.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20191021073819.18181-1-candlesea@gmail.com> <CAPnx3XP2MrEZT+BAzW3-Ve9ekzvPzcj6wvzeC8VRHhCyo59XpQ@mail.gmail.com>
- <CAO-hwJ+ObCH_NPJd=Uy5uuVCpGzO7+iCSWnwPkoVt9H+8NHahA@mail.gmail.com>
-In-Reply-To: <CAO-hwJ+ObCH_NPJd=Uy5uuVCpGzO7+iCSWnwPkoVt9H+8NHahA@mail.gmail.com>
-From:   Candle Sun <candlesea@gmail.com>
-Date:   Tue, 22 Oct 2019 18:33:25 +0800
-Message-ID: <CAPnx3XNWrLt8M79amV1Krm7wSj0_N7YawjsO+9krr-sDrcg8bA@mail.gmail.com>
-Subject: Re: [PATCH v3] HID: core: check whether usage page item is after
- usage id item
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        =?UTF-8?B?57+f5LqsIChPcnNvbiBaaGFpKQ==?= <orson.zhai@unisoc.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Candle Sun <candle.sun@unisoc.com>,
-        Nianfu Bai <nianfu.bai@unisoc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+On Sun, 20 Oct 2019 23:11:16 -0500
+Jeff LaBundy <jeff@labundy.com> wrote:
 
-On Tue, Oct 22, 2019 at 5:48 PM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> Hi Candle,
->
-> On Mon, Oct 21, 2019 at 9:54 AM Candle Sun <candlesea@gmail.com> wrote:
-> >
-> > Hi,
-> >
-> >
-> > On Mon, Oct 21, 2019 at 3:38 PM Candle Sun <candlesea@gmail.com> wrote:
-> > >
-> > > From: Candle Sun <candle.sun@unisoc.com>
-> > >
-> > > Upstream commit 58e75155009c ("HID: core: move Usage Page concatenati=
-on
-> > > to Main item") adds support for Usage Page item after Usage ID items
-> > > (such as keyboards manufactured by Primax).
-> > >
-> > > Usage Page concatenation in Main item works well for following report
-> > > descriptor patterns:
-> > >
-> > >     USAGE_PAGE (Keyboard)                   05 07
-> > >     USAGE_MINIMUM (Keyboard LeftControl)    19 E0
-> > >     USAGE_MAXIMUM (Keyboard Right GUI)      29 E7
-> > >     LOGICAL_MINIMUM (0)                     15 00
-> > >     LOGICAL_MAXIMUM (1)                     25 01
-> > >     REPORT_SIZE (1)                         75 01
-> > >     REPORT_COUNT (8)                        95 08
-> > >     INPUT (Data,Var,Abs)                    81 02
-> > >
-> > > -------------
-> > >
-> > >     USAGE_MINIMUM (Keyboard LeftControl)    19 E0
-> > >     USAGE_MAXIMUM (Keyboard Right GUI)      29 E7
-> > >     LOGICAL_MINIMUM (0)                     15 00
-> > >     LOGICAL_MAXIMUM (1)                     25 01
-> > >     REPORT_SIZE (1)                         75 01
-> > >     REPORT_COUNT (8)                        95 08
-> > >     USAGE_PAGE (Keyboard)                   05 07
-> > >     INPUT (Data,Var,Abs)                    81 02
-> > >
-> > > But it makes the parser act wrong for the following report
-> > > descriptor pattern(such as some Gamepads):
-> > >
-> > >     USAGE_PAGE (Button)                     05 09
-> > >     USAGE (Button 1)                        09 01
-> > >     USAGE (Button 2)                        09 02
-> > >     USAGE (Button 4)                        09 04
-> > >     USAGE (Button 5)                        09 05
-> > >     USAGE (Button 7)                        09 07
-> > >     USAGE (Button 8)                        09 08
-> > >     USAGE (Button 14)                       09 0E
-> > >     USAGE (Button 15)                       09 0F
-> > >     USAGE (Button 13)                       09 0D
-> > >     USAGE_PAGE (Consumer Devices)           05 0C
-> > >     USAGE (Back)                            0a 24 02
-> > >     USAGE (HomePage)                        0a 23 02
-> > >     LOGICAL_MINIMUM (0)                     15 00
-> > >     LOGICAL_MAXIMUM (1)                     25 01
-> > >     REPORT_SIZE (1)                         75 01
-> > >     REPORT_COUNT (11)                       95 0B
-> > >     INPUT (Data,Var,Abs)                    81 02
-> > >
-> > > With Usage Page concatenation in Main item, parser recognizes all the
-> > > 11 Usages as consumer keys, it is not the HID device's real intention=
-.
-> > >
-> > > This patch adds usage_page_last to flag whether Usage Page is after
-> > > Usage ID items. usage_page_last is false default, it is set as true
-> > > once Usage Page item is encountered and is reverted by next Usage ID
-> > > item.
-> > >
-> > > Usage Page concatenation on the currently defined Usage Page will do
-> > > firstly in Local parsing when Usage ID items encountered.
-> > >
-> > > When Main item is parsing, concatenation will do again with last
-> > > defined Usage Page if usage_page_last flag is true.
-> > >
-> > > Signed-off-by: Candle Sun <candle.sun@unisoc.com>
-> > > Signed-off-by: Nianfu Bai <nianfu.bai@unisoc.com>
-> > > ---
-> > > Changes in v3:
-> > > - Rework the GET_COMPLETE_USAGE macro as static complete_usage()
-> > >   function
-> > > - Add some code comments for usage_page_last
-> > >
-> > > Changes in v2:
-> > > - Update patch title
-> > > - Add GET_COMPLETE_USAGE macro
-> > > - Change the logic of checking whether to concatenate usage page agai=
-n
-> > >   in main parsing
-> > > ---
-> > >  drivers/hid/hid-core.c | 42 +++++++++++++++++++++++++++++++++++++---=
---
-> > >  include/linux/hid.h    |  1 +
-> > >  2 files changed, 38 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> > > index 3eaee2c37931..779b7798dae8 100644
-> > > --- a/drivers/hid/hid-core.c
-> > > +++ b/drivers/hid/hid-core.c
-> > > @@ -211,6 +211,18 @@ static unsigned hid_lookup_collection(struct hid=
-_parser *parser, unsigned type)
-> > >         return 0; /* we know nothing about this usage type */
-> > >  }
-> > >
-> > > +/*
-> > > + * Concatenate usage which defines 16 bits or less with the
-> > > + * currently defined usage page to form a 32 bit usage
-> > > + */
-> > > +
-> > > +static void complete_usage(struct hid_parser *parser, unsigned int i=
-ndex)
-> > > +{
-> > > +       parser->local.usage[index] &=3D 0xFFFF;
-> > > +       parser->local.usage[index] |=3D
-> > > +               (parser->global.usage_page & 0xFFFF) << 16;
-> > > +}
-> > > +
-> > >  /*
-> > >   * Add a usage to the temporary parser table.
-> > >   */
-> > > @@ -221,7 +233,18 @@ static int hid_add_usage(struct hid_parser *pars=
-er, unsigned usage, u8 size)
-> > >                 hid_err(parser->device, "usage index exceeded\n");
-> > >                 return -1;
-> > >         }
-> > > -       parser->local.usage[parser->local.usage_index] =3D usage;
->
-> This broke my CI, and it turns out that installing the patch on an
-> actual laptop, the touchpad, touchscreen were not present, nor any HID
-> devices plugged in.
->
-> Basically, complete_usage() doesn't append the usage, and now we are
-> never assigning a usage to any field.
->
+> This patch adds binding documentation for six-channel members of the
+> Azoteq ProxFusion family of sensor devices.
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 
-So sorry, it is really really a BIG bug, I should be more careful. (=E2=95=
-=AF=EF=B9=8F=E2=95=B0)
+I'm not sure if Lee has made the switch for mfd entirely yet, but
+mostly new dt bindings need to be in yaml format as it allows
+automated parsing of the examples + bindings using them for
+correctness.
 
-Candle
+One comment inline.  I'm far from an expert on most of the stuff here
+so will leave it for others!
 
-> > > +
-> > > +       /*
-> > > +        * If Usage item only includes usage id, concatenate it with
-> > > +        * currently defined usage page and clear usage_page_last fla=
-g
-> > > +        */
-> > > +       if (size <=3D 2) {
-> > > +               parser->local.usage_page_last =3D false;
-> > > +               complete_usage(parser, parser->local.usage_index);
-> > > +       } else {
-> > > +               parser->local.usage[parser->local.usage_index] =3D us=
-age;
-> > > +       }
-> > > +
-> > >         parser->local.usage_size[parser->local.usage_index] =3D size;
-> > >         parser->local.collection_index[parser->local.usage_index] =3D
-> > >                 parser->collection_stack_ptr ?
-> > > @@ -366,6 +389,8 @@ static int hid_parser_global(struct hid_parser *p=
-arser, struct hid_item *item)
-> > >
-> > >         case HID_GLOBAL_ITEM_TAG_USAGE_PAGE:
-> > >                 parser->global.usage_page =3D item_udata(item);
-> > > +               /* Regard Usage Page is after Usage ID items */
-> > > +               parser->local.usage_page_last =3D true;
-> > >                 return 0;
-> > >
-> > >         case HID_GLOBAL_ITEM_TAG_LOGICAL_MINIMUM:
-> > > @@ -543,13 +568,20 @@ static int hid_parser_local(struct hid_parser *=
-parser, struct hid_item *item)
-> > >   * usage value."
-> > >   */
-> > >
-> > > -static void hid_concatenate_usage_page(struct hid_parser *parser)
-> > > +static void hid_concatenate_last_usage_page(struct hid_parser *parse=
-r)
-> > >  {
-> > >         int i;
-> > >
-> > > +       /*
-> > > +        * Concatenate usage page again only on detecting some Usage =
-Page
-> > > +        * is really after Usage ID items
-> > > +        */
-> > > +       if (!parser->local.usage_page_last)
-> > > +               return;
-> > > +
-> > >         for (i =3D 0; i < parser->local.usage_index; i++)
-> > >                 if (parser->local.usage_size[i] <=3D 2)
-> > > -                       parser->local.usage[i] +=3D parser->global.us=
-age_page << 16;
-> > > +                       complete_usage(parser, i);
-> > >  }
-> > >
-> > >  /*
-> > > @@ -561,7 +593,7 @@ static int hid_parser_main(struct hid_parser *par=
-ser, struct hid_item *item)
-> > >         __u32 data;
-> > >         int ret;
-> > >
-> > > -       hid_concatenate_usage_page(parser);
-> > > +       hid_concatenate_last_usage_page(parser);
-> > >
-> > >         data =3D item_udata(item);
-> > >
-> > > @@ -772,7 +804,7 @@ static int hid_scan_main(struct hid_parser *parse=
-r, struct hid_item *item)
-> > >         __u32 data;
-> > >         int i;
-> > >
-> > > -       hid_concatenate_usage_page(parser);
-> > > +       hid_concatenate_last_usage_page(parser);
-> > >
-> > >         data =3D item_udata(item);
-> > >
-> > > diff --git a/include/linux/hid.h b/include/linux/hid.h
-> > > index cd41f209043f..2e0ea2f7ec5c 100644
-> > > --- a/include/linux/hid.h
-> > > +++ b/include/linux/hid.h
-> > > @@ -412,6 +412,7 @@ struct hid_local {
-> > >         unsigned usage_minimum;
-> > >         unsigned delimiter_depth;
-> > >         unsigned delimiter_branch;
-> > > +       bool usage_page_last;      /* whether usage page is after usa=
-ge id */
-> > >  };
-> > >
-> >
-> > Hi Benjamin,
-> > Here I still use the usage_page_last flag, not using following method
-> > you provided in v2:
-> >
-> > if ((parser->local.usage[parser->local.usage_index - 1] &
-> > HID_USAGE_PAGE) >> 16 =3D=3D usage_page)
-> >               return 0;
-> >
-> > Because last usage maybe one Extended Usage, some logic for checking
-> > it should be added.
-> > It will make the code obscure. Using one more member in struct
-> > hid_local is straightforward
-> > and maybe better.
->
->
-> Still not convinced by this. Please see below for a less intrusive
-> patch, which is also shorter.
->
+Jonathan
+
+
 > ---
-> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> index 63fdbf09b044..00ea04fb1be3 100644
-> --- a/drivers/hid/hid-core.c
-> +++ b/drivers/hid/hid-core.c
-> @@ -211,6 +211,18 @@ static unsigned hid_lookup_collection(struct
-> hid_parser *parser, unsigned type)
->      return 0; /* we know nothing about this usage type */
->  }
->
-> +/*
-> + * Concatenate usage which defines 16 bits or less with the
-> + * currently defined usage page to form a 32 bit usage
-> + */
+>  Documentation/devicetree/bindings/mfd/iqs62x.txt | 242 +++++++++++++++++++++++
+>  1 file changed, 242 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/iqs62x.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/iqs62x.txt b/Documentation/devicetree/bindings/mfd/iqs62x.txt
+> new file mode 100644
+> index 0000000..089f567
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/iqs62x.txt
+> @@ -0,0 +1,242 @@
+> +Azoteq IQS620A/621/622/624/625 ProxFusion Sensor Family
 > +
-> +static void complete_usage(struct hid_parser *parser, unsigned int index=
-)
-> +{
-> +    parser->local.usage[index] &=3D 0xFFFF;
-> +    parser->local.usage[index] |=3D
-> +        (parser->global.usage_page & 0xFFFF) << 16;
-> +}
+> +Required properties:
 > +
->  /*
->   * Add a usage to the temporary parser table.
->   */
-> @@ -222,6 +234,14 @@ static int hid_add_usage(struct hid_parser
-> *parser, unsigned usage, u8 size)
->          return -1;
->      }
->      parser->local.usage[parser->local.usage_index] =3D usage;
+> +- compatible			: Must be equal to one of the following:
+> +				  "azoteq,iqs620a"
+> +				  "azoteq,iqs621"
+> +				  "azoteq,iqs622"
+> +				  "azoteq,iqs624"
+> +				  "azoteq,iqs625"
 > +
-> +    /*
-> +     * If Usage item only includes usage id, concatenate it with
-> +     * currently defined usage page
-> +     */
-> +    if (size <=3D 2)
-> +        complete_usage(parser, parser->local.usage_index);
+> +- reg				: I2C slave address for the device.
 > +
->      parser->local.usage_size[parser->local.usage_index] =3D size;
->      parser->local.collection_index[parser->local.usage_index] =3D
->          parser->collection_stack_ptr ?
-> @@ -546,10 +566,28 @@ static int hid_parser_local(struct hid_parser
-> *parser, struct hid_item *item)
->  static void hid_concatenate_usage_page(struct hid_parser *parser)
->  {
->      int i;
-> +    uint16_t usage_page, current_page;
->
-> -    for (i =3D 0; i < parser->local.usage_index; i++)
-> -        if (parser->local.usage_size[i] <=3D 2)
-> -            parser->local.usage[i] +=3D parser->global.usage_page << 16;
-> +    if (!parser->local.usage_index)
-> +        return;
+> +- interrupts			: GPIO to which the device's active-low RDY
+> +				  output is connected (see [0]).
 > +
-> +    usage_page =3D parser->global.usage_page;
+> +Optional properties:
 > +
-> +    /*
-> +     * Concatenate usage page again only if the last declared Usage Page
-> +     * has not been already used in the previous Usages
-> +     */
-> +    for (i =3D parser->local.usage_index - 1; i >=3D 0; i--) {
-> +        if (parser->local.usage_size[i] > 2)
-> +            /* ignore extended usages */
-> +            continue;
+> +- linux,fw-file			: Specifies the name of the calibration and
+> +				  configuration file selected by the driver.
+> +				  If this property is omitted, the filename
+> +				  is selected based on the device name with
+> +				  ".bin" as the extension (e.g. iqs620a.bin
+> +				  for IQS620A).
 > +
-> +        current_page =3D parser->local.usage[i] >> 16;
-> +        if (current_page =3D=3D usage_page)
-> +            break;
+> +All devices accommodate a child node (e.g. "keys") that represents touch key
+> +support. Required properties for the "keys" child node include:
 > +
-> +        complete_usage(parser, i);
-> +    }
->  }
->
->  /*
-> ---
->
-> Isn't that better?
->
-> I tested this against
-> https://gitlab.freedesktop.org/libevdev/hid-tools/merge_requests/58,
-> which you kindly submitted and it seems to do the job.
->
-> Cheers,
-> Benjamin
->
+> +- compatible			: Must be equal to one of the following:
+> +				  "azoteq,iqs620a-keys"
+> +				  "azoteq,iqs621-keys"
+> +				  "azoteq,iqs622-keys"
+> +				  "azoteq,iqs624-keys"
+> +				  "azoteq,iqs625-keys"
+> +
+> +- linux,keycodes		: Specifies an array of up to 16 numeric key-
+> +				  codes corresponding to each available touch
+> +				  or proximity event. An 'x' in the following
+> +				  table indicates an event is supported for a
+> +				  given device; specify 0 for unused events.
+> +
+> +  ----------------------------------------------------------------------------
+> +  | #  | Event                 | IQS620A | IQS621 | IQS622 | IQS624 | IQS625 |
+> +  ----------------------------------------------------------------------------
+> +  | 0  | CH0 Touch             |    x    |    x   |    x   |    x   |    x   |
+> +  |    | Antenna 1 Touch*      |    x    |        |        |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 1  | CH0 Proximity         |    x    |    x   |    x   |    x   |    x   |
+> +  |    | Antenna 1 Proximity*  |    x    |        |        |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 2  | CH1 Touch             |    x    |    x   |    x   |    x   |    x   |
+> +  |    | Antenna 1 Deep Touch* |    x    |        |        |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 3  | CH1 Proximity         |    x    |    x   |    x   |    x   |    x   |
+> +  ----------------------------------------------------------------------------
+> +  | 4  | CH2 Touch             |    x    |        |        |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 5  | CH2 Proximity         |    x    |        |        |        |        |
+> +  |    | Antenna 2 Proximity*  |    x    |        |        |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 6  | Metal (+) Touch**     |    x    |    x   |        |        |        |
+> +  |    | Antenna 2 Deep Touch* |    x    |        |        |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 7  | Metal (+) Proximity** |    x    |    x   |        |        |        |
+> +  |    | Antenna 2 Touch*      |    x    |        |        |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 8  | Metal (-) Touch**     |    x    |    x   |        |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 9  | Metal (-) Proximity** |    x    |    x   |        |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 10 | SAR Active***         |    x    |        |    x   |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 11 | SAR Quick Release***  |    x    |        |    x   |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 12 | SAR Movement***       |    x    |        |    x   |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 13 | SAR Filter Halt***    |    x    |        |    x   |        |        |
+> +  ----------------------------------------------------------------------------
+> +  | 14 | Wheel Up              |         |        |        |    x   |        |
+> +  ----------------------------------------------------------------------------
+> +  | 15 | Wheel Down            |         |        |        |    x   |        |
+> +  ----------------------------------------------------------------------------
+> +  *   Dual-channel SAR. Replaces CH0-2 and metal touch and proximity events if
+> +      enabled via firmware.
+> +  **  "+" and "-" refer to the polarity of the channel's delta (LTA - counts),
+> +      where "LTA" is defined as the channel's long-term average.
+> +  *** Single-channel SAR. Replaces CH0-2 touch and proximity events if enabled
+> +      via firmware.
+> +
+> +The "keys" child node supports "hall_switch_north" and "hall_switch_south"
+> +child nodes that represent north-field and south-field Hall-effect sensor
+> +events, respectively (IQS620A/621/622 only). Required properties include:
+> +
+> +- linux,code			: Numeric switch code.
+> +
+> +Optional properties for the "hall_switch_north" and "hall_switch_south" nodes:
+> +
+> +- azoteq,use-prox		: Boolean to specify that Hall-effect sensor
+> +				  reporting must use the device's wide-range
+> +				  proximity threshold instead of its narrow-
+> +				  range touch threshold.
+> +
+> +Note: North/south-field orientation is reversed on the IQS620AXzCSR device due
+> +      to its flip-chip package.
+> +
+> +The IQS620A supports a PWM controller node; required properties include:
+> +
+> +- compatible			: Must be equal to "azoteq,iqs620a-pwm".
+> +
+> +- #pwm-cells			: Must be equal to 2 (see [1]).
+> +
+> +The IQS622 supports an additional child node (e.g. "prox") that represents
+> +active IR detection; required properties include:
+> +
+> +- compatible			: Must be equal to "azoteq,iqs622-prox".
+> +
+> +Optional properties for the "prox" child node:
+> +
+> +- azoteq,use-prox		: Boolean to specify that IR threshold event
+> +				  reporting must use the device's wide-range
+> +				  proximity threshold instead of its narrow-
+> +				  range touch threshold.
+This one is certainly interesting.  Does it always make sense to
+set this only at boot?  Of could we control this from userspace?
 
-OK. I will amend the patch.
+It sits somewhere between a hardware requirement that we should
+put in DT and a policy decision.  I can conceive of devices where both
+options make sense, but also ones where only one does.
 
-Best regards,
-Candle
+> +
+> +[0]: Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
+> +[1]: Documentation/devicetree/bindings/pwm/pwm.txt
+> +
+> +Example 1: Dual capacitive buttons with additional "air button," unipolar lid
+> +	   switch and panel-mounted LED.
+> +
+> +	&i2c1 {
+> +		/* ... */
+> +
+> +		iqs620a: iqs620a@44 {
+> +			compatible = "azoteq,iqs620a";
+> +			reg = <0x44>;
+> +			interrupt-parent = <&gpio>;
+> +			interrupts = <17 IRQ_TYPE_LEVEL_LOW>;
+> +
+> +			iqs620a_keys: keys {
+> +				compatible = "azoteq,iqs620a-keys";
+> +
+> +				linux,keycodes = <KEY_SELECT>,
+> +						 <KEY_MENU>,
+> +						 <KEY_OK>,
+> +						 <KEY_MENU>;
+> +
+> +				hall_switch_south {
+> +					linux,code = <SW_LID>;
+> +					azoteq,use-prox;
+> +				};
+> +			};
+> +
+> +			iqs620a_pwm: pwm {
+> +				compatible = "azoteq,iqs620a-pwm";
+> +				#pwm-cells = <2>;
+> +			};
+> +		};
+> +
+> +		/* ... */
+> +	};
+> +
+> +	pwmleds {
+> +		compatible = "pwm-leds";
+> +
+> +		panel {
+> +			pwms = <&iqs620a_pwm 0 1000000>;
+> +			max-brightness = <255>;
+> +		};
+> +	};
+> +
+> +Example 2: Single inductive button with bipolar dock/tablet-mode switch.
+> +
+> +	&i2c1 {
+> +		/* ... */
+> +
+> +		iqs620a: iqs620a@44 {
+> +			compatible = "azoteq,iqs620a";
+> +			reg = <0x44>;
+> +			interrupt-parent = <&gpio>;
+> +			interrupts = <17 IRQ_TYPE_LEVEL_LOW>;
+> +
+> +			linux,fw-file = "iqs620a_coil.bin";
+> +
+> +			iqs620a_keys: keys {
+> +				compatible = "azoteq,iqs620a-keys";
+> +
+> +				linux,keycodes = <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <KEY_MUTE>;
+> +
+> +				hall_switch_north {
+> +					linux,code = <SW_DOCK>;
+> +				};
+> +
+> +				hall_switch_south {
+> +					linux,code = <SW_TABLET_MODE>;
+> +				};
+> +			};
+> +		};
+> +
+> +		/* ... */
+> +	};
+> +
+> +Example 3: Dual capacitive buttons with volume knob.
+> +
+> +	&i2c1 {
+> +		/* ... */
+> +
+> +		iqs624: iqs624@44 {
+> +			compatible = "azoteq,iqs624";
+> +			reg = <0x44>;
+> +			interrupt-parent = <&gpio>;
+> +			interrupts = <17 IRQ_TYPE_LEVEL_LOW>;
+> +
+> +			iqs624_keys: keys {
+> +				compatible = "azoteq,iqs624-keys";
+> +
+> +				linux,keycodes = <BTN_0>,
+> +						 <0>,
+> +						 <BTN_1>,
+> +						 <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <0>,
+> +						 <KEY_VOLUMEUP>,
+> +						 <KEY_VOLUMEDOWN>;
+> +			};
+> +		};
+> +
+> +		/* ... */
+> +	};
+
