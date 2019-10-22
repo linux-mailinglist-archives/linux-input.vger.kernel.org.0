@@ -2,328 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FD4CE026B
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 13:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7294FE02AD
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 13:19:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730320AbfJVLBA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Oct 2019 07:01:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52646 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728375AbfJVLA7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Oct 2019 07:00:59 -0400
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BDEEE21783;
-        Tue, 22 Oct 2019 11:00:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571742058;
-        bh=3wr2brRuPL3nrxk9/+udPN9G8ogjlg23jMUoDvyxk+k=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=OW/zqk0hi6SfASYvNIGLiANYFDtusXa3A6NDHzMdckQrZ6Rt9DE+cRw3etOvdjo+P
-         3S/ja/s9cnWBUY8g6s8EpDcUAB/wayph/AlomQ0h5Y3ifGmB5SzIGJAsKGq1k5iwub
-         yMFpAfhZnR02eyIBHVyBiqu7HIp3nhV9yo4jcduU=
-Date:   Tue, 22 Oct 2019 12:00:51 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     lee.jones@linaro.org, dmitry.torokhov@gmail.com, jdelvare@suse.com,
-        linux@roeck-us.net, thierry.reding@gmail.com,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, u.kleine-koenig@pengutronix.de,
-        linux-pwm@vger.kernel.org, knaack.h@gmx.de, lars@metafoo.de,
-        pmeerw@pmeerw.net, linux-iio@vger.kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com
-Subject: Re: [PATCH 1/8] dt-bindings: mfd: iqs62x: Add bindings
-Message-ID: <20191022120051.686ed9f9@archlinux>
-In-Reply-To: <1571631083-4962-2-git-send-email-jeff@labundy.com>
-References: <1571631083-4962-1-git-send-email-jeff@labundy.com>
-        <1571631083-4962-2-git-send-email-jeff@labundy.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S2387790AbfJVLSw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Oct 2019 07:18:52 -0400
+Received: from 7.mo177.mail-out.ovh.net ([46.105.61.149]:46149 "EHLO
+        7.mo177.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387640AbfJVLSv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 22 Oct 2019 07:18:51 -0400
+Received: from player770.ha.ovh.net (unknown [10.109.143.189])
+        by mo177.mail-out.ovh.net (Postfix) with ESMTP id AE5DF10EB09
+        for <linux-input@vger.kernel.org>; Tue, 22 Oct 2019 13:18:49 +0200 (CEST)
+Received: from etezian.org (85-76-6-59-nat.elisa-mobile.fi [85.76.6.59])
+        (Authenticated sender: andi@etezian.org)
+        by player770.ha.ovh.net (Postfix) with ESMTPSA id AC9D2B43EB3C;
+        Tue, 22 Oct 2019 11:18:40 +0000 (UTC)
+Date:   Tue, 22 Oct 2019 14:18:39 +0300
+From:   Andi Shyti <andi@etezian.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Andi Shyti <andi@etezian.org>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>
+Subject: Re: [PATCH v2 1/2] Input: mms114 - use smbus functions whenever
+ possible
+Message-ID: <20191022111729.GA2913@jack.zhora.eu>
+References: <20191020202856.20287-1-andi@etezian.org>
+ <20191020202856.20287-2-andi@etezian.org>
+ <20191021093423.GA1116@gerhold.net>
+ <20191021154105.GC2278@jack.zhora.eu>
+ <20191021162632.GA83253@gerhold.net>
+ <20191021163956.GB1353@jack.zhora.eu>
+ <20191022032140.GV35946@dtor-ws>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191022032140.GV35946@dtor-ws>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Ovh-Tracer-Id: 16544254709670396570
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgdefkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 20 Oct 2019 23:11:16 -0500
-Jeff LaBundy <jeff@labundy.com> wrote:
+Hi Dmitry,
 
-> This patch adds binding documentation for six-channel members of the
-> Azoteq ProxFusion family of sensor devices.
+> > > > > On Sun, Oct 20, 2019 at 11:28:55PM +0300, Andi Shyti wrote:
+> > > > > > The exchange of data to and from the mms114 touchscreen never
+> > > > > > exceeds 256 bytes. In the worst case it goes up to 80 bytes in
+> > > > > > the interrupt handler while reading the events.
+> > > > > > 
+> > > > > 
+> > > > > i2c_smbus_read_i2c_block_data() is actually limited to
+> > > > > I2C_SMBUS_BLOCK_MAX = 32.
+> > > > 
+> > > > oh sorry, I don't know how I slipped on this.
+> > > > 
+> > > > But this means that the i2c in the kernel is wrong (or outdated),
+> > > > smbus specifies 256 bytes of data[*]. I might have relied on the
+> > > > specification more than the code.
+> > > > 
+> > > > I guess SMBUS needs some update.
+> > > 
+> > > You are right. It seems like that part of the specification was changed
+> > > with SMBus version 3.0 [1]:
+> > > 
+> > >   D.6 255 Bytes in Process Call:
+> > >     The maximum number of bytes allowed in the Block Write-Block Read
+> > >     Process Call (Section 6.5.8) was increased from 32 to 255.
+> > > 
+> > > [1]: http://www.smbus.org/specs/SMBus_3_0_20141220.pdf
+> > 
+> > yes :)
+> > 
+> > OK, then I would ask Dmitry to hold on this patch I will try to
+> > update the smbus properly.
 > 
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> 3.0 is from 2014, so we can't simply update the limits. And we need to
+> handle the case where device connected to a controller that does not
+> implement 3.0 standard.
 
-I'm not sure if Lee has made the switch for mfd entirely yet, but
-mostly new dt bindings need to be in yaml format as it allows
-automated parsing of the examples + bindings using them for
-correctness.
+actually I don't see why, given that devices that were sending
+32bytes will keep sending 32bytes and in any case I still haven't
+seen a controller that is strictly compliant to SMBUS 2. The
+mms114 device is a good example (and I think most of the
+touchscreens don't really care of the 32byte limit).
 
-One comment inline.  I'm far from an expert on most of the stuff here
-so will leave it for others!
+In any case, I agree that I can't simply update the
+I2C_SMBUS_BLOCK_MAX because for sure I might have forgotten some
+cases and I'm currently looking how to do it. I have a few ideas
+but no one is good. I planned to send an RFC sometimes soon in
+order to kickstart some discussion.
 
-Jonathan
+> If regmap is too much work then as a stop gap we could maybe only
+> convert write functions and mention why read needs to be custom.
 
+regmap is not too much work but I don't have the device with me,
+I might get one at some point, but can't do anything right now.
 
-> ---
->  Documentation/devicetree/bindings/mfd/iqs62x.txt | 242 +++++++++++++++++++++++
->  1 file changed, 242 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/iqs62x.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/iqs62x.txt b/Documentation/devicetree/bindings/mfd/iqs62x.txt
-> new file mode 100644
-> index 0000000..089f567
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/iqs62x.txt
-> @@ -0,0 +1,242 @@
-> +Azoteq IQS620A/621/622/624/625 ProxFusion Sensor Family
-> +
-> +Required properties:
-> +
-> +- compatible			: Must be equal to one of the following:
-> +				  "azoteq,iqs620a"
-> +				  "azoteq,iqs621"
-> +				  "azoteq,iqs622"
-> +				  "azoteq,iqs624"
-> +				  "azoteq,iqs625"
-> +
-> +- reg				: I2C slave address for the device.
-> +
-> +- interrupts			: GPIO to which the device's active-low RDY
-> +				  output is connected (see [0]).
-> +
-> +Optional properties:
-> +
-> +- linux,fw-file			: Specifies the name of the calibration and
-> +				  configuration file selected by the driver.
-> +				  If this property is omitted, the filename
-> +				  is selected based on the device name with
-> +				  ".bin" as the extension (e.g. iqs620a.bin
-> +				  for IQS620A).
-> +
-> +All devices accommodate a child node (e.g. "keys") that represents touch key
-> +support. Required properties for the "keys" child node include:
-> +
-> +- compatible			: Must be equal to one of the following:
-> +				  "azoteq,iqs620a-keys"
-> +				  "azoteq,iqs621-keys"
-> +				  "azoteq,iqs622-keys"
-> +				  "azoteq,iqs624-keys"
-> +				  "azoteq,iqs625-keys"
-> +
-> +- linux,keycodes		: Specifies an array of up to 16 numeric key-
-> +				  codes corresponding to each available touch
-> +				  or proximity event. An 'x' in the following
-> +				  table indicates an event is supported for a
-> +				  given device; specify 0 for unused events.
-> +
-> +  ----------------------------------------------------------------------------
-> +  | #  | Event                 | IQS620A | IQS621 | IQS622 | IQS624 | IQS625 |
-> +  ----------------------------------------------------------------------------
-> +  | 0  | CH0 Touch             |    x    |    x   |    x   |    x   |    x   |
-> +  |    | Antenna 1 Touch*      |    x    |        |        |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 1  | CH0 Proximity         |    x    |    x   |    x   |    x   |    x   |
-> +  |    | Antenna 1 Proximity*  |    x    |        |        |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 2  | CH1 Touch             |    x    |    x   |    x   |    x   |    x   |
-> +  |    | Antenna 1 Deep Touch* |    x    |        |        |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 3  | CH1 Proximity         |    x    |    x   |    x   |    x   |    x   |
-> +  ----------------------------------------------------------------------------
-> +  | 4  | CH2 Touch             |    x    |        |        |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 5  | CH2 Proximity         |    x    |        |        |        |        |
-> +  |    | Antenna 2 Proximity*  |    x    |        |        |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 6  | Metal (+) Touch**     |    x    |    x   |        |        |        |
-> +  |    | Antenna 2 Deep Touch* |    x    |        |        |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 7  | Metal (+) Proximity** |    x    |    x   |        |        |        |
-> +  |    | Antenna 2 Touch*      |    x    |        |        |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 8  | Metal (-) Touch**     |    x    |    x   |        |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 9  | Metal (-) Proximity** |    x    |    x   |        |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 10 | SAR Active***         |    x    |        |    x   |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 11 | SAR Quick Release***  |    x    |        |    x   |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 12 | SAR Movement***       |    x    |        |    x   |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 13 | SAR Filter Halt***    |    x    |        |    x   |        |        |
-> +  ----------------------------------------------------------------------------
-> +  | 14 | Wheel Up              |         |        |        |    x   |        |
-> +  ----------------------------------------------------------------------------
-> +  | 15 | Wheel Down            |         |        |        |    x   |        |
-> +  ----------------------------------------------------------------------------
-> +  *   Dual-channel SAR. Replaces CH0-2 and metal touch and proximity events if
-> +      enabled via firmware.
-> +  **  "+" and "-" refer to the polarity of the channel's delta (LTA - counts),
-> +      where "LTA" is defined as the channel's long-term average.
-> +  *** Single-channel SAR. Replaces CH0-2 touch and proximity events if enabled
-> +      via firmware.
-> +
-> +The "keys" child node supports "hall_switch_north" and "hall_switch_south"
-> +child nodes that represent north-field and south-field Hall-effect sensor
-> +events, respectively (IQS620A/621/622 only). Required properties include:
-> +
-> +- linux,code			: Numeric switch code.
-> +
-> +Optional properties for the "hall_switch_north" and "hall_switch_south" nodes:
-> +
-> +- azoteq,use-prox		: Boolean to specify that Hall-effect sensor
-> +				  reporting must use the device's wide-range
-> +				  proximity threshold instead of its narrow-
-> +				  range touch threshold.
-> +
-> +Note: North/south-field orientation is reversed on the IQS620AXzCSR device due
-> +      to its flip-chip package.
-> +
-> +The IQS620A supports a PWM controller node; required properties include:
-> +
-> +- compatible			: Must be equal to "azoteq,iqs620a-pwm".
-> +
-> +- #pwm-cells			: Must be equal to 2 (see [1]).
-> +
-> +The IQS622 supports an additional child node (e.g. "prox") that represents
-> +active IR detection; required properties include:
-> +
-> +- compatible			: Must be equal to "azoteq,iqs622-prox".
-> +
-> +Optional properties for the "prox" child node:
-> +
-> +- azoteq,use-prox		: Boolean to specify that IR threshold event
-> +				  reporting must use the device's wide-range
-> +				  proximity threshold instead of its narrow-
-> +				  range touch threshold.
-This one is certainly interesting.  Does it always make sense to
-set this only at boot?  Of could we control this from userspace?
+Perhaps, for now you can take Stephan's patches and I would
+update everything once I get the device. They are not mutually
+exclusive, anyway.
 
-It sits somewhere between a hardware requirement that we should
-put in DT and a policy decision.  I can conceive of devices where both
-options make sense, but also ones where only one does.
-
-> +
-> +[0]: Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
-> +[1]: Documentation/devicetree/bindings/pwm/pwm.txt
-> +
-> +Example 1: Dual capacitive buttons with additional "air button," unipolar lid
-> +	   switch and panel-mounted LED.
-> +
-> +	&i2c1 {
-> +		/* ... */
-> +
-> +		iqs620a: iqs620a@44 {
-> +			compatible = "azoteq,iqs620a";
-> +			reg = <0x44>;
-> +			interrupt-parent = <&gpio>;
-> +			interrupts = <17 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +			iqs620a_keys: keys {
-> +				compatible = "azoteq,iqs620a-keys";
-> +
-> +				linux,keycodes = <KEY_SELECT>,
-> +						 <KEY_MENU>,
-> +						 <KEY_OK>,
-> +						 <KEY_MENU>;
-> +
-> +				hall_switch_south {
-> +					linux,code = <SW_LID>;
-> +					azoteq,use-prox;
-> +				};
-> +			};
-> +
-> +			iqs620a_pwm: pwm {
-> +				compatible = "azoteq,iqs620a-pwm";
-> +				#pwm-cells = <2>;
-> +			};
-> +		};
-> +
-> +		/* ... */
-> +	};
-> +
-> +	pwmleds {
-> +		compatible = "pwm-leds";
-> +
-> +		panel {
-> +			pwms = <&iqs620a_pwm 0 1000000>;
-> +			max-brightness = <255>;
-> +		};
-> +	};
-> +
-> +Example 2: Single inductive button with bipolar dock/tablet-mode switch.
-> +
-> +	&i2c1 {
-> +		/* ... */
-> +
-> +		iqs620a: iqs620a@44 {
-> +			compatible = "azoteq,iqs620a";
-> +			reg = <0x44>;
-> +			interrupt-parent = <&gpio>;
-> +			interrupts = <17 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +			linux,fw-file = "iqs620a_coil.bin";
-> +
-> +			iqs620a_keys: keys {
-> +				compatible = "azoteq,iqs620a-keys";
-> +
-> +				linux,keycodes = <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <KEY_MUTE>;
-> +
-> +				hall_switch_north {
-> +					linux,code = <SW_DOCK>;
-> +				};
-> +
-> +				hall_switch_south {
-> +					linux,code = <SW_TABLET_MODE>;
-> +				};
-> +			};
-> +		};
-> +
-> +		/* ... */
-> +	};
-> +
-> +Example 3: Dual capacitive buttons with volume knob.
-> +
-> +	&i2c1 {
-> +		/* ... */
-> +
-> +		iqs624: iqs624@44 {
-> +			compatible = "azoteq,iqs624";
-> +			reg = <0x44>;
-> +			interrupt-parent = <&gpio>;
-> +			interrupts = <17 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +			iqs624_keys: keys {
-> +				compatible = "azoteq,iqs624-keys";
-> +
-> +				linux,keycodes = <BTN_0>,
-> +						 <0>,
-> +						 <BTN_1>,
-> +						 <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <0>,
-> +						 <KEY_VOLUMEUP>,
-> +						 <KEY_VOLUMEDOWN>;
-> +			};
-> +		};
-> +
-> +		/* ... */
-> +	};
-
+Thanks,
+Andi
