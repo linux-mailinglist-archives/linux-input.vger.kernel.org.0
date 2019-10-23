@@ -2,83 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45602E1C6E
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2019 15:23:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15565E1CC2
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2019 15:36:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405835AbfJWNXo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Oct 2019 09:23:44 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:58323 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405812AbfJWNXo (ORCPT
+        id S2405908AbfJWNgK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Oct 2019 09:36:10 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:37786 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392061AbfJWNgK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Oct 2019 09:23:44 -0400
-Received: from mail-qt1-f178.google.com ([209.85.160.178]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MpDVx-1hf9pS47iR-00qfp4; Wed, 23 Oct 2019 15:23:42 +0200
-Received: by mail-qt1-f178.google.com with SMTP id w14so32197503qto.9;
-        Wed, 23 Oct 2019 06:23:41 -0700 (PDT)
-X-Gm-Message-State: APjAAAUOEer4RSyYJoTiziHt8cYel+67LG9wADwnk7kk+F0IuyC1ktQY
-        QG1Ro0Qn/r+hOJoQLOSWGVIi/mOzQpv60MzBVto=
-X-Google-Smtp-Source: APXvYqwU3y5YqkOIsK2y7eYvy0ctJhOflxSMk/EdUo4ryq/EKaRqLWAAN8gOEJgyL2Cd6mKUElnaT6RSKuR35fFlkXE=
-X-Received: by 2002:a0c:c70a:: with SMTP id w10mr8851889qvi.222.1571837020471;
- Wed, 23 Oct 2019 06:23:40 -0700 (PDT)
+        Wed, 23 Oct 2019 09:36:10 -0400
+Received: by mail-wm1-f67.google.com with SMTP id f22so19711054wmc.2
+        for <linux-input@vger.kernel.org>; Wed, 23 Oct 2019 06:36:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=dVgB2gHwyu9BrwAHrTVrhxxTLMnU+GjkCtVmW3QXNgU=;
+        b=Zp1rNYOb7wPsdMPdMbYe//+9NYjGitazC3K4MBrZR7qVyf3SurlVK/iVTX8rXrD1MV
+         duJiT6vf8/dVRyCoGAADOWO6mdvdO7LXMGSTBsL1aPHRptzHVSr6EVhNUNTbTuXzEcJM
+         CBCb+Jmcnci8Xj7Z+C2D9+RBLni3QkUE+aLyNfm640DulCjNSyCQlNWPphsu43/xiaCJ
+         jGtO0Rf565kxFLQCtlztfZCV3214dAbiLSZKIvSf0BlByQ/4iOlt67agx4AGUfiCjZMI
+         RoTZ6xCVKLtvHbzydaTmcuGrVnWq27zH7gygGQ2YGfnHqhgxkVmC2lGKxGSiWzVcr6KU
+         QN9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=dVgB2gHwyu9BrwAHrTVrhxxTLMnU+GjkCtVmW3QXNgU=;
+        b=jd9BM810fY4c2iicaST0YCrUh//c21k+2awb+ZokN/j4OQqmlGlfKsExl7ERqhvPER
+         QWZqhA6RnohZA255aA0meYAoPvWaKiDq+1VTCrdyLUcBiWOZ0708prmjUkKE3nfjUJy7
+         Pn+hm9vYV8XZUojCvNr/K2mZdE6JPflg+shO5GBm30xViSp+HYVNICd9+jLcb51FIv1M
+         G4I4pLMmTXDgx/NDg38eng+WxSaDC2vUE4oMqa85HrrEau/usRa7W86480Jp2ccNc6DL
+         08iNUERQQAnEESgmDQC4jVjG/rL80ecN5y0T8TmrZlJrzhNHTOSc9OQZnHpwScaH8LMY
+         RbFA==
+X-Gm-Message-State: APjAAAVIKFe2q//NVY6+JshiGQFI5joFhxaIXlkA/02xHkaQAMQItR72
+        0tblTxPETjpSR09QYI67ZUhyVU7noWotr6jHOSA=
+X-Google-Smtp-Source: APXvYqzu60dP5ZzLHoNcR4C1Z90wK3ujHk4eIk60CblS8nkYpWGmu8JElmh7udCx+t1YVbQaCRFZhRaASS5NgAdsuk0=
+X-Received: by 2002:a7b:ce84:: with SMTP id q4mr4860246wmj.36.1571837768313;
+ Wed, 23 Oct 2019 06:36:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191010202802.1132272-1-arnd@arndb.de> <20191010203043.1241612-1-arnd@arndb.de>
- <20191010203043.1241612-15-arnd@arndb.de> <20191023123722.GD11048@pi3>
-In-Reply-To: <20191023123722.GD11048@pi3>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 23 Oct 2019 15:23:24 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a13UWnsnTeDQPTDdAXjnwT+-UZchKqezqG+npEuFNK2vg@mail.gmail.com>
-Message-ID: <CAK8P3a13UWnsnTeDQPTDdAXjnwT+-UZchKqezqG+npEuFNK2vg@mail.gmail.com>
-Subject: Re: [PATCH 15/36] ARM: s3c: adc: move header to linux/soc/samsung
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-hwmon@vger.kernel.org,
-        "moderated list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES" 
-        <linux-samsung-soc@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>
+Received: by 2002:a5d:400a:0:0:0:0:0 with HTTP; Wed, 23 Oct 2019 06:36:07
+ -0700 (PDT)
+Reply-To: mrs.lisarobinson746@gmail.com
+From:   "Mrs. Lisa" <helpdesk.eit.ac.nz@gmail.com>
+Date:   Wed, 23 Oct 2019 06:36:07 -0700
+Message-ID: <CAK7Er8aKyL3H-yzE3WwHqgdy-pvjcQoKmcraD43WMg3fDh48xQ@mail.gmail.com>
+Subject: Mrs. Lisa Charity Donation
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:giqxSs+A+LAWYj0Sxj5nusxA8wHxPgN5F7tmxIao8ABk3bArcf2
- zUzbNsCh/ELi1K0kYEtEHgESjQs8HH8mRSfd6UfgD6VoJILtQhIurqpPVu/Y7ppYgCxdeBO
- +KPW8WQc+3tYNDu+wtPaWzmF1d5joeNw55Bk/kXIYjEbT2M7JIc++gbj3x+D9b2+YVUHKmD
- CGd/U+YvZsxVeqmRKKhmQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:c23PmR9jg7U=:6laGSqdsRzet9T20EG8mhj
- lZQ2S+7Lre/1Kzv6tJnOjdHHK8EXjc/R15mmPPfPm5h+MuuAwjf1KuercXzl/j5MPe7UzUoo1
- C63FU6HnEhpnPHPYXb0KDFIlRTu9uAGEZC+XPCSGfbQEmEPYhQqHi/vgYSYfmYXIfzSDPpLN3
- f3cvZ13VuNbUM4x1o1VxHQ327ejTmy8a+Uf/oFKDLRsLl3qjxb+TxwMu0L2G63Sfr+ahQiHe1
- aJ852JJkqrYYBGDGft9v4qKqE2gmq6zGKoMVmFhc3hL2jC4I3GKFyufrGApIxZDOoJhCNjYmx
- OAFKxQB5OJDc4y6PMADDKi5eIUA2dJ5nI6F+Fvq9Y33vABOubg2B+kZgDjs6DrgNgLC1/LQNp
- 5OhBo0KjulvjcuGLeXq9FHG6rzYEFhsQp8nX7/Z9SMlXOhDszKiI6ksfZrl4r4nnXErAPCJQP
- OM0F6N7qjKmaeeE++LrBmfw3YHyvGs3i+ITKviJOiAdL9cIGDI6Itw3jrbwftAbf64tA033LD
- gaFdIIOYwk40PqVyx4ETW/tTJ8EuPAseG17aDzKz8zDxIO5vA8+ubHKCfiONgh6P1oyHOLL6x
- uAmOBPPyB+e4uGE5Zz6LpAj7LOTsfo1gdm/iJMnqPEyfJjOXqwwdOaD3zvv6f1f3mzrt5Zx3b
- KaXpf7+ujMKJBRmpkAprsHhO42e0jXZQJnxNSei2NARCRKJ0Hi2hTtZNzLxPBOwaI3iSqX1Jc
- srxZWs+TDPV0QWZYr3puP+6ixTN95m/CXe0vJ34uuR42GfSxSvdmDFuaz0abdbvy8HQiPB2wA
- y72Fdtkd/7Dz81LMb3+g/uP4lwPBAX6bRtWRxXe0iklXLSqImDosSqnK/QmOlhVi5TG1Wkq13
- XXob4cq0+k4U7jH5cCPA==
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 23, 2019 at 2:41 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-
-> > diff --git a/arch/arm/plat-samsung/include/plat/adc.h b/include/linux/soc/samsung/s3c-adc.h
-> > similarity index 100%
-> > rename from arch/arm/plat-samsung/include/plat/adc.h
-> > rename to include/linux/soc/samsung/s3c-adc.h
->
-> Can you update the name of header guard? __LINUX_SOC_SAMSUNG_S3C_ADC_H?
-
-Ok, done.
-
-       Arnd
+-- 
+I am Lisa Robinson, you have a donation of $1,200,000.00 USD. Contact
+me now for more information.
