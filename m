@@ -2,452 +2,153 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 588ECE1F21
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2019 17:22:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8DD1E2029
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2019 18:08:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390636AbfJWPW1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Oct 2019 11:22:27 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:52263 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390590AbfJWPW1 (ORCPT
+        id S2390502AbfJWQIb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Oct 2019 12:08:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55551 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2392512AbfJWQIa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Oct 2019 11:22:27 -0400
-X-Originating-IP: 92.137.17.54
-Received: from localhost (alyon-657-1-975-54.w92-137.abo.wanadoo.fr [92.137.17.54])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 272F740017;
-        Wed, 23 Oct 2019 15:22:23 +0000 (UTC)
-Date:   Wed, 23 Oct 2019 17:22:22 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        linux-parisc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: hp_sdc_rtc - remove dead chardev code
-Message-ID: <20191023152222.GP3125@piout.net>
-References: <20191023142521.3643152-1-arnd@arndb.de>
+        Wed, 23 Oct 2019 12:08:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1571846908;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=j5F+WwyDO2ZtmwG6p6q1K0/ZlxsBaPFm9NQHC5+lRFs=;
+        b=NLZKtJF0WdCz8RZueo4c5cxVu0KpFIAcVpU1R8o+unddriMsPgmB2kU8yQA8VDQh7YWKGz
+        gQ/uPo5rUvo5vaC862oyNmYcgncGm2ccLIAQAITQXS5XiRqq4K89qeoOfpxwshENZ7/PUP
+        WTpXBvMuDBg9WbuXjxn68EhOLonZ4Go=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-oeAgHd6qM2iBZ_AYs5c5HA-1; Wed, 23 Oct 2019 12:08:24 -0400
+Received: by mail-wr1-f70.google.com with SMTP id s17so5581467wrp.17
+        for <linux-input@vger.kernel.org>; Wed, 23 Oct 2019 09:08:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xr8vxRZiOlLM4EoAX9LWK4R5e1B8TFG0+exomtADaEs=;
+        b=dAZ8uPvhjyKsbCDWj1rurq8zaEDez216F2Wx/FZ5peQEYc17kvZ/+X6bfj1H4kjbwV
+         2tH9/y3Cj4g/WHCi1NcAnWK7dRXKLc9yewcwh7MHQ25lb4TpyvSF/JioxMcNoKl5pV1T
+         bHIHPUk2ozWCASw8hKcLssZ/1IHcIZaYsXo6jTbu8Up9Ojec/0o5S+G22Xxjdj8LbXYp
+         xK1Gjo2o6Bg+pj9/HAPw9JhjmFAVNQCcH9XYGygtRVjwtch21GFER8vo/dZv0wnjfZGc
+         nnFLoH2cXREqc9+Xkxktq4Zt8W3Xdi6GFnAfE9aok7qUGdB40NwbDkoSZVmKFYuf7K64
+         76LA==
+X-Gm-Message-State: APjAAAWNuuPo8nWUk2TZkAVErvPGLmYyt2QnwQ+4WIyoMj7F4qYM9gCi
+        VOLrN3gauHiqZdmGQTHkcURfkihCxsRU2YBSNbjvWSpiZe04GZ/rWK6r9/cskXDYAsmb0X/u80h
+        01hQ9ZmhfRezg8ohhYbU8YNc=
+X-Received: by 2002:adf:ff81:: with SMTP id j1mr9117889wrr.98.1571846903424;
+        Wed, 23 Oct 2019 09:08:23 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzyZNLo1G0I7rZ9aMH3XIzpFN6PoUIDdAVVRNGs3wm8HtHhAEjWh2Wad0+prs1sUts2jhXGbA==
+X-Received: by 2002:adf:ff81:: with SMTP id j1mr9117859wrr.98.1571846903140;
+        Wed, 23 Oct 2019 09:08:23 -0700 (PDT)
+Received: from shalem.localdomain (2001-1c00-0c14-2800-ec23-a060-24d5-2453.cable.dynamic.v6.ziggo.nl. [2001:1c00:c14:2800:ec23:a060:24d5:2453])
+        by smtp.gmail.com with ESMTPSA id o70sm29138427wme.29.2019.10.23.09.08.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Oct 2019 09:08:22 -0700 (PDT)
+Subject: Re: [PATCH] Add touchscreen platform data for the Schneider SCT101CTM
+ tablet
+To:     Daniel Gorbea Ainz <danielgorbea@hotmail.com>
+Cc:     "dvhart@infradead.org" <dvhart@infradead.org>,
+        "andy@infradead.org" <andy@infradead.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <VI1PR10MB2574F4636A90613136ACF4BED86B0@VI1PR10MB2574.EURPRD10.PROD.OUTLOOK.COM>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <05eec4e5-927c-fdd6-037b-71520e149d5b@redhat.com>
+Date:   Wed, 23 Oct 2019 18:08:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191023142521.3643152-1-arnd@arndb.de>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <VI1PR10MB2574F4636A90613136ACF4BED86B0@VI1PR10MB2574.EURPRD10.PROD.OUTLOOK.COM>
+Content-Language: en-US
+X-MC-Unique: oeAgHd6qM2iBZ_AYs5c5HA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 23/10/2019 16:25:02+0200, Arnd Bergmann wrote:
-> The driver contains half of the implementation of /dev/rtc, but this
-> was never completed, and it is now incompatible with the drivers/rtc
-> framework.
-> 
-> Remove the chardev completely. If anyone wants to add the functionality
-> later, that shoudl be done through rtc_register_device().
-> 
-> The remaining portions of the driver basically implement a single
-> procfs file that may or may not be used anywhere. Not sure why this
-> is in drivers/input/ though.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Hi,
+
+On 23-10-2019 17:23, Daniel Gorbea Ainz wrote:
+> Add touchscreen platform data for the Schneider SCT101CTM tablet
+>=20
+> Signed-off-by: Daniel Gorbea <danielgorbea@hotmail.com>
+
+Patch looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Daniel, I received your patch just fine, shall I resend
+it to the list for you ?
+
+Regards,
+
+Hans
+
+
+
 
 > ---
->  drivers/input/misc/hp_sdc_rtc.c | 342 --------------------------------
->  1 file changed, 342 deletions(-)
-> 
-> diff --git a/drivers/input/misc/hp_sdc_rtc.c b/drivers/input/misc/hp_sdc_rtc.c
-> index abca895a6156..199bc17ddb1d 100644
-> --- a/drivers/input/misc/hp_sdc_rtc.c
-> +++ b/drivers/input/misc/hp_sdc_rtc.c
-> @@ -53,28 +53,10 @@ MODULE_LICENSE("Dual BSD/GPL");
->  
->  #define RTC_VERSION "1.10d"
->  
-> -static DEFINE_MUTEX(hp_sdc_rtc_mutex);
->  static unsigned long epoch = 2000;
->  
->  static struct semaphore i8042tregs;
->  
-> -static hp_sdc_irqhook hp_sdc_rtc_isr;
-> -
-> -static struct fasync_struct *hp_sdc_rtc_async_queue;
-> -
-> -static DECLARE_WAIT_QUEUE_HEAD(hp_sdc_rtc_wait);
-> -
-> -static ssize_t hp_sdc_rtc_read(struct file *file, char __user *buf,
-> -			       size_t count, loff_t *ppos);
-> -
-> -static long hp_sdc_rtc_unlocked_ioctl(struct file *file,
-> -				      unsigned int cmd, unsigned long arg);
-> -
-> -static unsigned int hp_sdc_rtc_poll(struct file *file, poll_table *wait);
-> -
-> -static int hp_sdc_rtc_open(struct inode *inode, struct file *file);
-> -static int hp_sdc_rtc_fasync (int fd, struct file *filp, int on);
-> -
->  static void hp_sdc_rtc_isr (int irq, void *dev_id, 
->  			    uint8_t status, uint8_t data) 
->  {
-> @@ -283,151 +265,6 @@ static inline int hp_sdc_rtc_read_ct(struct timespec64 *res) {
->  	return 0;
->  }
->  
-> -
-> -#if 0 /* not used yet */
-> -/* Set the i8042 real-time clock */
-> -static int hp_sdc_rtc_set_rt (struct timeval *setto)
-> -{
-> -	uint32_t tenms;
-> -	unsigned int days;
-> -	hp_sdc_transaction t;
-> -	uint8_t tseq[11] = {
-> -		HP_SDC_ACT_PRECMD | HP_SDC_ACT_DATAOUT,
-> -		HP_SDC_CMD_SET_RTMS, 3, 0, 0, 0,
-> -		HP_SDC_ACT_PRECMD | HP_SDC_ACT_DATAOUT,
-> -		HP_SDC_CMD_SET_RTD, 2, 0, 0 
-> -	};
-> -
-> -	t.endidx = 10;
-> -
-> -	if (0xffff < setto->tv_sec / 86400) return -1;
-> -	days = setto->tv_sec / 86400;
-> -	if (0xffff < setto->tv_usec / 1000000 / 86400) return -1;
-> -	days += ((setto->tv_sec % 86400) + setto->tv_usec / 1000000) / 86400;
-> -	if (days > 0xffff) return -1;
-> -
-> -	if (0xffffff < setto->tv_sec) return -1;
-> -	tenms  = setto->tv_sec * 100;
-> -	if (0xffffff < setto->tv_usec / 10000) return -1;
-> -	tenms += setto->tv_usec / 10000;
-> -	if (tenms > 0xffffff) return -1;
-> -
-> -	tseq[3] = (uint8_t)(tenms & 0xff);
-> -	tseq[4] = (uint8_t)((tenms >> 8)  & 0xff);
-> -	tseq[5] = (uint8_t)((tenms >> 16) & 0xff);
-> -
-> -	tseq[9] = (uint8_t)(days & 0xff);
-> -	tseq[10] = (uint8_t)((days >> 8) & 0xff);
-> -
-> -	t.seq =	tseq;
-> -
-> -	if (hp_sdc_enqueue_transaction(&t)) return -1;
-> -	return 0;
-> -}
-> -
-> -/* Set the i8042 fast handshake timer */
-> -static int hp_sdc_rtc_set_fhs (struct timeval *setto)
-> -{
-> -	uint32_t tenms;
-> -	hp_sdc_transaction t;
-> -	uint8_t tseq[5] = {
-> -		HP_SDC_ACT_PRECMD | HP_SDC_ACT_DATAOUT,
-> -		HP_SDC_CMD_SET_FHS, 2, 0, 0
-> -	};
-> -
-> -	t.endidx = 4;
-> -
-> -	if (0xffff < setto->tv_sec) return -1;
-> -	tenms  = setto->tv_sec * 100;
-> -	if (0xffff < setto->tv_usec / 10000) return -1;
-> -	tenms += setto->tv_usec / 10000;
-> -	if (tenms > 0xffff) return -1;
-> -
-> -	tseq[3] = (uint8_t)(tenms & 0xff);
-> -	tseq[4] = (uint8_t)((tenms >> 8)  & 0xff);
-> -
-> -	t.seq =	tseq;
-> -
-> -	if (hp_sdc_enqueue_transaction(&t)) return -1;
-> -	return 0;
-> -}
-> -
-> -
-> -/* Set the i8042 match timer (a.k.a. alarm) */
-> -#define hp_sdc_rtc_set_mt (setto) \
-> -	hp_sdc_rtc_set_i8042timer(setto, HP_SDC_CMD_SET_MT)
-> -
-> -/* Set the i8042 delay timer */
-> -#define hp_sdc_rtc_set_dt (setto) \
-> -	hp_sdc_rtc_set_i8042timer(setto, HP_SDC_CMD_SET_DT)
-> -
-> -/* Set the i8042 cycle timer (a.k.a. periodic) */
-> -#define hp_sdc_rtc_set_ct (setto) \
-> -	hp_sdc_rtc_set_i8042timer(setto, HP_SDC_CMD_SET_CT)
-> -
-> -/* Set one of the i8042 3-byte wide timers */
-> -static int hp_sdc_rtc_set_i8042timer (struct timeval *setto, uint8_t setcmd)
-> -{
-> -	uint32_t tenms;
-> -	hp_sdc_transaction t;
-> -	uint8_t tseq[6] = {
-> -		HP_SDC_ACT_PRECMD | HP_SDC_ACT_DATAOUT,
-> -		0, 3, 0, 0, 0
-> -	};
-> -
-> -	t.endidx = 6;
-> -
-> -	if (0xffffff < setto->tv_sec) return -1;
-> -	tenms  = setto->tv_sec * 100;
-> -	if (0xffffff < setto->tv_usec / 10000) return -1;
-> -	tenms += setto->tv_usec / 10000;
-> -	if (tenms > 0xffffff) return -1;
-> -
-> -	tseq[1] = setcmd;
-> -	tseq[3] = (uint8_t)(tenms & 0xff);
-> -	tseq[4] = (uint8_t)((tenms >> 8)  & 0xff);
-> -	tseq[5] = (uint8_t)((tenms >> 16)  & 0xff);
-> -
-> -	t.seq =			tseq;
-> -
-> -	if (hp_sdc_enqueue_transaction(&t)) { 
-> -		return -1;
-> -	}
-> -	return 0;
-> -}
-> -#endif
-> -
-> -static ssize_t hp_sdc_rtc_read(struct file *file, char __user *buf,
-> -			       size_t count, loff_t *ppos) {
-> -	ssize_t retval;
-> -
-> -        if (count < sizeof(unsigned long))
-> -                return -EINVAL;
-> -
-> -	retval = put_user(68, (unsigned long __user *)buf);
-> -	return retval;
-> -}
-> -
-> -static __poll_t hp_sdc_rtc_poll(struct file *file, poll_table *wait)
-> -{
-> -        unsigned long l;
-> -
-> -	l = 0;
-> -        if (l != 0)
-> -                return EPOLLIN | EPOLLRDNORM;
-> -        return 0;
-> -}
-> -
-> -static int hp_sdc_rtc_open(struct inode *inode, struct file *file)
-> -{
-> -        return 0;
-> -}
-> -
-> -static int hp_sdc_rtc_fasync (int fd, struct file *filp, int on)
-> -{
-> -        return fasync_helper (fd, filp, on, &hp_sdc_rtc_async_queue);
-> -}
-> -
->  static int hp_sdc_rtc_proc_show(struct seq_file *m, void *v)
->  {
->  #define YN(bit) ("no")
-> @@ -507,182 +344,6 @@ static int hp_sdc_rtc_proc_show(struct seq_file *m, void *v)
->  #undef NY
->  }
->  
-> -static int hp_sdc_rtc_ioctl(struct file *file, 
-> -			    unsigned int cmd, unsigned long arg)
-> -{
-> -#if 1
-> -	return -EINVAL;
-> -#else
-> -	
-> -        struct rtc_time wtime; 
-> -	struct timeval ttime;
-> -	int use_wtime = 0;
-> -
-> -	/* This needs major work. */
-> -
-> -        switch (cmd) {
-> -
-> -        case RTC_AIE_OFF:       /* Mask alarm int. enab. bit    */
-> -        case RTC_AIE_ON:        /* Allow alarm interrupts.      */
-> -	case RTC_PIE_OFF:       /* Mask periodic int. enab. bit */
-> -        case RTC_PIE_ON:        /* Allow periodic ints          */
-> -        case RTC_UIE_ON:        /* Allow ints for RTC updates.  */
-> -        case RTC_UIE_OFF:       /* Allow ints for RTC updates.  */
-> -        {
-> -		/* We cannot mask individual user timers and we
-> -		   cannot tell them apart when they occur, so it 
-> -		   would be disingenuous to succeed these IOCTLs */
-> -		return -EINVAL;
-> -        }
-> -        case RTC_ALM_READ:      /* Read the present alarm time */
-> -        {
-> -		if (hp_sdc_rtc_read_mt(&ttime)) return -EFAULT;
-> -		if (hp_sdc_rtc_read_bbrtc(&wtime)) return -EFAULT;
-> -
-> -		wtime.tm_hour = ttime.tv_sec / 3600;  ttime.tv_sec %= 3600;
-> -		wtime.tm_min  = ttime.tv_sec / 60;    ttime.tv_sec %= 60;
-> -		wtime.tm_sec  = ttime.tv_sec;
-> -                
-> -		break;
-> -        }
-> -        case RTC_IRQP_READ:     /* Read the periodic IRQ rate.  */
-> -        {
-> -                return put_user(hp_sdc_rtc_freq, (unsigned long *)arg);
-> -        }
-> -        case RTC_IRQP_SET:      /* Set periodic IRQ rate.       */
-> -        {
-> -                /* 
-> -                 * The max we can do is 100Hz.
-> -		 */
-> -
-> -                if ((arg < 1) || (arg > 100)) return -EINVAL;
-> -		ttime.tv_sec = 0;
-> -		ttime.tv_usec = 1000000 / arg;
-> -		if (hp_sdc_rtc_set_ct(&ttime)) return -EFAULT;
-> -		hp_sdc_rtc_freq = arg;
-> -                return 0;
-> -        }
-> -        case RTC_ALM_SET:       /* Store a time into the alarm */
-> -        {
-> -                /*
-> -                 * This expects a struct hp_sdc_rtc_time. Writing 0xff means
-> -                 * "don't care" or "match all" for PC timers.  The HP SDC
-> -		 * does not support that perk, but it could be emulated fairly
-> -		 * easily.  Only the tm_hour, tm_min and tm_sec are used.
-> -		 * We could do it with 10ms accuracy with the HP SDC, if the 
-> -		 * rtc interface left us a way to do that.
-> -                 */
-> -                struct hp_sdc_rtc_time alm_tm;
-> -
-> -                if (copy_from_user(&alm_tm, (struct hp_sdc_rtc_time*)arg,
-> -                                   sizeof(struct hp_sdc_rtc_time)))
-> -                       return -EFAULT;
-> -
-> -                if (alm_tm.tm_hour > 23) return -EINVAL;
-> -		if (alm_tm.tm_min  > 59) return -EINVAL;
-> -		if (alm_tm.tm_sec  > 59) return -EINVAL;  
-> -
-> -		ttime.sec = alm_tm.tm_hour * 3600 + 
-> -		  alm_tm.tm_min * 60 + alm_tm.tm_sec;
-> -		ttime.usec = 0;
-> -		if (hp_sdc_rtc_set_mt(&ttime)) return -EFAULT;
-> -                return 0;
-> -        }
-> -        case RTC_RD_TIME:       /* Read the time/date from RTC  */
-> -        {
-> -		if (hp_sdc_rtc_read_bbrtc(&wtime)) return -EFAULT;
-> -                break;
-> -        }
-> -        case RTC_SET_TIME:      /* Set the RTC */
-> -        {
-> -                struct rtc_time hp_sdc_rtc_tm;
-> -                unsigned char mon, day, hrs, min, sec, leap_yr;
-> -                unsigned int yrs;
-> -
-> -                if (!capable(CAP_SYS_TIME))
-> -                        return -EACCES;
-> -		if (copy_from_user(&hp_sdc_rtc_tm, (struct rtc_time *)arg,
-> -                                   sizeof(struct rtc_time)))
-> -                        return -EFAULT;
-> -
-> -                yrs = hp_sdc_rtc_tm.tm_year + 1900;
-> -                mon = hp_sdc_rtc_tm.tm_mon + 1;   /* tm_mon starts at zero */
-> -                day = hp_sdc_rtc_tm.tm_mday;
-> -                hrs = hp_sdc_rtc_tm.tm_hour;
-> -                min = hp_sdc_rtc_tm.tm_min;
-> -                sec = hp_sdc_rtc_tm.tm_sec;
-> -
-> -                if (yrs < 1970)
-> -                        return -EINVAL;
-> -
-> -                leap_yr = ((!(yrs % 4) && (yrs % 100)) || !(yrs % 400));
-> -
-> -                if ((mon > 12) || (day == 0))
-> -                        return -EINVAL;
-> -                if (day > (days_in_mo[mon] + ((mon == 2) && leap_yr)))
-> -                        return -EINVAL;
-> -		if ((hrs >= 24) || (min >= 60) || (sec >= 60))
-> -                        return -EINVAL;
-> -
-> -                if ((yrs -= eH) > 255)    /* They are unsigned */
-> -                        return -EINVAL;
-> -
-> -
-> -                return 0;
-> -        }
-> -        case RTC_EPOCH_READ:    /* Read the epoch.      */
-> -        {
-> -                return put_user (epoch, (unsigned long *)arg);
-> -        }
-> -        case RTC_EPOCH_SET:     /* Set the epoch.       */
-> -        {
-> -                /* 
-> -                 * There were no RTC clocks before 1900.
-> -                 */
-> -                if (arg < 1900)
-> -		  return -EINVAL;
-> -		if (!capable(CAP_SYS_TIME))
-> -		  return -EACCES;
-> -		
-> -                epoch = arg;
-> -                return 0;
-> -        }
-> -        default:
-> -                return -EINVAL;
-> -        }
-> -        return copy_to_user((void *)arg, &wtime, sizeof wtime) ? -EFAULT : 0;
-> -#endif
-> -}
-> -
-> -static long hp_sdc_rtc_unlocked_ioctl(struct file *file,
-> -				      unsigned int cmd, unsigned long arg)
-> -{
-> -	int ret;
-> -
-> -	mutex_lock(&hp_sdc_rtc_mutex);
-> -	ret = hp_sdc_rtc_ioctl(file, cmd, arg);
-> -	mutex_unlock(&hp_sdc_rtc_mutex);
-> -
-> -	return ret;
-> -}
-> -
-> -
-> -static const struct file_operations hp_sdc_rtc_fops = {
-> -        .owner =		THIS_MODULE,
-> -        .llseek =		no_llseek,
-> -        .read =			hp_sdc_rtc_read,
-> -        .poll =			hp_sdc_rtc_poll,
-> -        .unlocked_ioctl =	hp_sdc_rtc_unlocked_ioctl,
-> -        .open =			hp_sdc_rtc_open,
-> -        .fasync =		hp_sdc_rtc_fasync,
-> -};
-> -
-> -static struct miscdevice hp_sdc_rtc_dev = {
-> -        .minor =	RTC_MINOR,
-> -        .name =		"rtc_HIL",
-> -        .fops =		&hp_sdc_rtc_fops
-> -};
-> -
->  static int __init hp_sdc_rtc_init(void)
->  {
->  	int ret;
-> @@ -696,8 +357,6 @@ static int __init hp_sdc_rtc_init(void)
->  
->  	if ((ret = hp_sdc_request_timer_irq(&hp_sdc_rtc_isr)))
->  		return ret;
-> -	if (misc_register(&hp_sdc_rtc_dev) != 0)
-> -		printk(KERN_INFO "Could not register misc. dev for i8042 rtc\n");
->  
->          proc_create_single("driver/rtc", 0, NULL, hp_sdc_rtc_proc_show);
->  
-> @@ -710,7 +369,6 @@ static int __init hp_sdc_rtc_init(void)
->  static void __exit hp_sdc_rtc_exit(void)
->  {
->  	remove_proc_entry ("driver/rtc", NULL);
-> -        misc_deregister(&hp_sdc_rtc_dev);
->  	hp_sdc_release_timer_irq(hp_sdc_rtc_isr);
->          printk(KERN_INFO "HP i8042 SDC + MSM-58321 RTC support unloaded\n");
->  }
-> -- 
-> 2.20.0
-> 
+>   drivers/platform/x86/touchscreen_dmi.c | 26 ++++++++++++++++++++++++++
+>   1 file changed, 26 insertions(+)
+>=20
+> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x8=
+6/touchscreen_dmi.c
+> index 1c7d8324f..8baaf0dfa 100644
+> --- a/drivers/platform/x86/touchscreen_dmi.c
+> +++ b/drivers/platform/x86/touchscreen_dmi.c
+> @@ -498,6 +498,24 @@ static const struct ts_dmi_data pov_mobii_wintab_p10=
+06w_v10_data =3D {
+>   =09.properties=09=3D pov_mobii_wintab_p1006w_v10_props,
+>   };
+>  =20
+> +static const struct property_entry schneider_sct101ctm_props[] =3D {
+> +=09PROPERTY_ENTRY_U32("touchscreen-size-x", 1715),
+> +=09PROPERTY_ENTRY_U32("touchscreen-size-y", 1140),
+> +=09PROPERTY_ENTRY_BOOL("touchscreen-inverted-x"),
+> +=09PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
+> +=09PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
+> +=09PROPERTY_ENTRY_STRING("firmware-name",
+> +=09=09=09      "gsl1680-schneider-sct101ctm.fw"),
+> +=09PROPERTY_ENTRY_U32("silead,max-fingers", 10),
+> +=09PROPERTY_ENTRY_BOOL("silead,home-button"),
+> +=09{ }
+> +};
+> +
+> +static const struct ts_dmi_data schneider_sct101ctm_data =3D {
+> +=09.acpi_name=09=3D "MSSL1680:00",
+> +=09.properties=09=3D schneider_sct101ctm_props,
+> +};
+> +
+>   static const struct property_entry teclast_x3_plus_props[] =3D {
+>   =09PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
+>   =09PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
+> @@ -908,6 +926,14 @@ static const struct dmi_system_id touchscreen_dmi_ta=
+ble[] =3D {
+>   =09=09=09DMI_EXACT_MATCH(DMI_BOARD_NAME, "0E57"),
+>   =09=09},
+>   =09},
+> +=09{
+> +=09=09/* Schneider SCT101CTM */
+> +=09=09.driver_data =3D (void *)&schneider_sct101ctm_data,
+> +=09=09.matches =3D {
+> +=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "Default string"),
+> +=09=09=09DMI_MATCH(DMI_PRODUCT_NAME, "SCT101CTM"),
+> +=09=09},
+> +=09},
+>   =09{
+>   =09=09/* Teclast X3 Plus */
+>   =09=09.driver_data =3D (void *)&teclast_x3_plus_data,
+>=20
 
--- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
