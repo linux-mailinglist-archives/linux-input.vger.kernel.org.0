@@ -2,276 +2,479 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 387C1E0CE7
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2019 21:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9241E0F27
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2019 02:23:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388921AbfJVT4h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Oct 2019 15:56:37 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:32952 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388843AbfJVT4g (ORCPT
+        id S1732969AbfJWAW7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Oct 2019 20:22:59 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:37628 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729635AbfJWAW7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Oct 2019 15:56:36 -0400
-Received: by mail-pl1-f194.google.com with SMTP id y8so330929plk.0;
-        Tue, 22 Oct 2019 12:56:36 -0700 (PDT)
+        Tue, 22 Oct 2019 20:22:59 -0400
+Received: by mail-pg1-f193.google.com with SMTP id p1so11002614pgi.4;
+        Tue, 22 Oct 2019 17:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=cDkndy0FNxa9CBg8H+skhv6JC+slFkOzGwJOrt8DmjE=;
-        b=PddPwk0iVzgAN4OagHPAMekQDXdSR6+WSsD+PPeOKkyMjCMEatHhgo4kVO5it/fNhb
-         IpfZK2SyIpA61/a5uxRuXAZbB57ViwDq9kPwz/7x6FJ9815suPsmVS1adPTxrxpownED
-         bc4qB4M1EA04f8Tn2UBiYFiMl479yjnFjFvNKOL7RZnCBSboinL+Uha/yjzZmjoAsRpA
-         8l9DCCdLKXTrnMmXLXLYyO7wTxOCRUa0YnXz1PNdAtoRQZYB4cYK/SV15wPQK3Qysgna
-         xAmZQWNlVV92VIxUZNKMxb0l45GmIv96nnCnfq4RpvGEK+x5P1ftViNUEzsFG+PwuDuZ
-         isAQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=AJ99jQGb+gyxGLeVmGq3R/518oIhDBRezT3bHcS5bwc=;
+        b=fpUMTiEaWeM95fnjPEalkDMXoldKdjnmmXGIoFsUkD2b+f6bpEo/B1VQI16oXvJDJL
+         wZ6TP0cHcRJ6w2wFS8H0ddYUd1gpXFFJFnfthhc7BQCFcRE53H8wLxnSmhmH7d3P2Q6Z
+         99ly6qLRfPKa10UWshwEHh7vOFZksGXVIBKKio56ZvVGlWzOC3YXQ/deqNeE/1TXdtiO
+         q/n3CDEqZ+EI4fB5eKSE+O1xSNl4vKd82ail9R/RzxkGrUwHPS7T/aBuA7ue42GOgcKo
+         SGqhkAFyyevR8ZMQ9/2TaGysDRGwG2S9DlKMJB022mMRE0sw2ss+m0vdApPbNogU5Yem
+         E0Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cDkndy0FNxa9CBg8H+skhv6JC+slFkOzGwJOrt8DmjE=;
-        b=fhk90CP2F0y5Df3JvG03K2j8NeDXRocGErkac4wmPieijxH+iMMCRuSa/Y6Zmc2VTh
-         obrZuWMvl8uXww0/mAcWssTCghW1/le0heG+BnOdA2ooBjR7lKm7G/bKDNI4UxROXSoX
-         MMvsYZd7tqgVyGfdvHu7AxJD+7sHYzqXitOXIEpMLDlCtiAMHjtIuKXBQYZwsFdbSLYB
-         q7/EIG6oy3zK8yhbL/HIP36kb6P5OGR/nHIvHk4T+Za0KpDBBp80+M99GspkrT2n1JBF
-         stf8ZJrqFcAl+HsJqniHi+suTRAS1bKH2i6Sw0c6WmG9hUPOXOw8NcjHnvEH/eGpO/3+
-         C3RQ==
-X-Gm-Message-State: APjAAAUVGFcS5Htl/p+yHS4/3TFUU+8Ps+c9+UF3baAAAf5swYTxIyOD
-        D0BRrq4um2kL4z0nRFja2kQ=
-X-Google-Smtp-Source: APXvYqzAnKSLNYeB8RmInNKMmGD4U31BE1EOTx4zm4dUb0wjTRQ3sRz+hlaBbAXjQ9PTYuEf2ihRhQ==
-X-Received: by 2002:a17:902:244:: with SMTP id 62mr5720735plc.14.1571774195135;
-        Tue, 22 Oct 2019 12:56:35 -0700 (PDT)
-Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id c34sm20212715pgb.35.2019.10.22.12.56.33
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=AJ99jQGb+gyxGLeVmGq3R/518oIhDBRezT3bHcS5bwc=;
+        b=GM+QzG0XPRGUeShrIG3eQWcMI4qeYdbstg1DN90BUhx/W9T12raTSLEp9kA/7ax5KJ
+         ee1RDGCqrgMIr0s4PNXd2vad/ZkQor50A5xWllRGaV2dkN9Fx93LSAORBgr9CsUs/ZSu
+         J67CnEp02yfZcDMOJn1zvL4D9ZpI3d09e0G/2o37yQPPXlEqLhYFU5QU0Mbi6RbBcOum
+         ++ZVG0SUdS43yQRRbx70UvN0kVFd62/fzixrSP6bd/rCC+QkEcyq3H26Nx1w7pLrlKOy
+         srnpGXsM4d2Sp7hulYDKU6ve40hNoGlaQga2ULledLE7YqOf2E973869j8+N5n3wMJ8S
+         E+hA==
+X-Gm-Message-State: APjAAAVIjkzaIk9UQfPLMdllOkEKIqlBWrj+qi1yY4bMAKCrztXBp+J1
+        ltb4ayN8hWAfCPCA2t8VoS4=
+X-Google-Smtp-Source: APXvYqxN7grf4GC+/5Pmox4LrLszid2IfEG29K381JJ+640VYQ2OwNFy66LgfjlwdyxZv+LTH4E89w==
+X-Received: by 2002:a63:6f02:: with SMTP id k2mr6908984pgc.163.1571790177722;
+        Tue, 22 Oct 2019 17:22:57 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id r185sm21645894pfr.68.2019.10.22.17.22.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2019 12:56:34 -0700 (PDT)
+        Tue, 22 Oct 2019 17:22:56 -0700 (PDT)
+Date:   Tue, 22 Oct 2019 17:22:54 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Martin Kepplinger <martink@posteo.de>
-Cc:     Dixit Parmar <dixitparmar19@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Matthias Fend <matthias.fend@wolfvision.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 8/8] Input: st1232 - switch to using MT-B protocol
-Date:   Tue, 22 Oct 2019 12:56:22 -0700
-Message-Id: <20191022195622.66976-9-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
-In-Reply-To: <20191022195622.66976-1-dmitry.torokhov@gmail.com>
-References: <20191022195622.66976-1-dmitry.torokhov@gmail.com>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     lee.jones@linaro.org, jdelvare@suse.com, linux@roeck-us.net,
+        thierry.reding@gmail.com, jic23@kernel.org,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, u.kleine-koenig@pengutronix.de,
+        linux-pwm@vger.kernel.org, knaack.h@gmx.de, lars@metafoo.de,
+        pmeerw@pmeerw.net, linux-iio@vger.kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com
+Subject: Re: [PATCH 3/8] input: keyboard: Add support for Azoteq
+ IQS620A/621/622/624/625
+Message-ID: <20191023002254.GW35946@dtor-ws>
+References: <1571631083-4962-1-git-send-email-jeff@labundy.com>
+ <1571631083-4962-4-git-send-email-jeff@labundy.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1571631083-4962-4-git-send-email-jeff@labundy.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Switch the driver to the slotted variant of multitouch protocol (MT-B)
-with in-kernel tracking of the contacts.
+Hi Jeff,
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+On Sun, Oct 20, 2019 at 11:11:18PM -0500, Jeff LaBundy wrote:
+> This patch adds touch key support for six-channel members of the
+> Azoteq ProxFusion family of sensor devices.
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+>  drivers/input/keyboard/Kconfig       |  10 ++
+>  drivers/input/keyboard/Makefile      |   1 +
+>  drivers/input/keyboard/iqs62x-keys.c | 340 +++++++++++++++++++++++++++++++++++
+>  3 files changed, 351 insertions(+)
+>  create mode 100644 drivers/input/keyboard/iqs62x-keys.c
+> 
+> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+> index 8911bc2..ab10aff 100644
+> --- a/drivers/input/keyboard/Kconfig
+> +++ b/drivers/input/keyboard/Kconfig
+> @@ -657,6 +657,16 @@ config KEYBOARD_IPAQ_MICRO
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called ipaq-micro-keys.
+>  
+> +config KEYBOARD_IQS62X
+> +	tristate "Azoteq IQS620A/621/622/624/625 touch keys"
+> +	depends on MFD_IQS62X
+> +	help
+> +	  Say Y here to enable touch-key support for six-channel members of
+> +	  the Azoteq ProxFusion family of sensor devices.
+> +
+> +	  To compile this driver as a module, choose M here: the module will
+> +	  be called iqs62x-keys.
+> +
+>  config KEYBOARD_OMAP
+>  	tristate "TI OMAP keypad support"
+>  	depends on ARCH_OMAP1
+> diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
+> index 9510325..ee85b7f 100644
+> --- a/drivers/input/keyboard/Makefile
+> +++ b/drivers/input/keyboard/Makefile
+> @@ -28,6 +28,7 @@ obj-$(CONFIG_KEYBOARD_TCA8418)		+= tca8418_keypad.o
+>  obj-$(CONFIG_KEYBOARD_HIL)		+= hil_kbd.o
+>  obj-$(CONFIG_KEYBOARD_HIL_OLD)		+= hilkbd.o
+>  obj-$(CONFIG_KEYBOARD_IPAQ_MICRO)	+= ipaq-micro-keys.o
+> +obj-$(CONFIG_KEYBOARD_IQS62X)		+= iqs62x-keys.o
+>  obj-$(CONFIG_KEYBOARD_IMX)		+= imx_keypad.o
+>  obj-$(CONFIG_KEYBOARD_HP6XX)		+= jornada680_kbd.o
+>  obj-$(CONFIG_KEYBOARD_HP7XX)		+= jornada720_kbd.o
+> diff --git a/drivers/input/keyboard/iqs62x-keys.c b/drivers/input/keyboard/iqs62x-keys.c
+> new file mode 100644
+> index 0000000..9d929f1
+> --- /dev/null
+> +++ b/drivers/input/keyboard/iqs62x-keys.c
+> @@ -0,0 +1,340 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Azoteq IQS620A/621/622/624/625 Touch Keys
+> + *
+> + * Copyright (C) 2019
+> + * Author: Jeff LaBundy <jeff@labundy.com>
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/input.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/iqs62x.h>
+> +#include <linux/module.h>
+> +#include <linux/notifier.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +#include <linux/slab.h>
+> +
+> +enum {
+> +	IQS62X_SW_HALL_N,
+> +	IQS62X_SW_HALL_S,
+> +};
+> +
+> +static const char * const iqs62x_switch_names[] = {
+> +	[IQS62X_SW_HALL_N] = "hall_switch_north",
+> +	[IQS62X_SW_HALL_S] = "hall_switch_south",
+> +};
+> +
+> +struct iqs62x_switch_desc {
+> +	enum iqs62x_event_flag flag;
+> +	unsigned int code;
+> +	bool enabled;
+> +};
+> +
+> +struct iqs62x_keys_private {
+> +	struct iqs62x_core *iqs62x;
+> +	struct input_dev *input;
+> +	struct notifier_block notifier;
+> +	struct iqs62x_switch_desc switches[ARRAY_SIZE(iqs62x_switch_names)];
+> +	unsigned int keycode[IQS62X_NUM_KEYS];
+> +	unsigned int keycodemax;
+> +	u8 interval;
+> +};
+> +
+> +static int iqs62x_keys_parse_prop(struct platform_device *pdev,
+> +				  struct iqs62x_keys_private *iqs62x_keys)
+> +{
+> +	struct device_node *keys_node = pdev->dev.of_node;
+> +	struct device_node *hall_node;
+> +	unsigned int val;
+> +	int ret, i;
+> +
+> +	if (!keys_node)
+> +		return 0;
+> +
+> +	ret = of_property_read_variable_u32_array(keys_node, "linux,keycodes",
+> +						  iqs62x_keys->keycode, 0,
+> +						  IQS62X_NUM_KEYS);
 
----
+I do not think this has to be OF-specific, so please use
+device_property_*() API.
 
- drivers/input/touchscreen/st1232.c | 110 +++++++++++++++--------------
- 1 file changed, 56 insertions(+), 54 deletions(-)
+> +	if (ret < 0) {
+> +		dev_err(&pdev->dev, "Failed to read keycodes: %d\n", ret);
+> +		return ret;
+> +	}
+> +	iqs62x_keys->keycodemax = ret;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(iqs62x_keys->switches); i++) {
+> +		hall_node = of_get_child_by_name(keys_node,
+> +						 iqs62x_switch_names[i]);
+> +		if (!hall_node)
+> +			continue;
+> +
+> +		ret = of_property_read_u32(hall_node, "linux,code", &val);
+> +		if (ret < 0) {
+> +			dev_err(&pdev->dev, "Failed to read switch code: %d\n",
+> +				ret);
+> +			of_node_put(hall_node);
+> +			return ret;
+> +		}
+> +
+> +		if (of_property_read_bool(hall_node, "azoteq,use-prox"))
+> +			iqs62x_keys->switches[i].flag = (i == IQS62X_SW_HALL_N ?
+> +							 IQS62X_EVENT_HALL_N_P :
+> +							 IQS62X_EVENT_HALL_S_P);
+> +		else
+> +			iqs62x_keys->switches[i].flag = (i == IQS62X_SW_HALL_N ?
+> +							 IQS62X_EVENT_HALL_N_T :
+> +							 IQS62X_EVENT_HALL_S_T);
+> +
+> +		iqs62x_keys->switches[i].code = val;
+> +		iqs62x_keys->switches[i].enabled = true;
+> +
+> +		of_node_put(hall_node);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int iqs62x_keys_init(struct iqs62x_keys_private *iqs62x_keys)
+> +{
+> +	struct iqs62x_core *iqs62x = iqs62x_keys->iqs62x;
+> +	enum iqs62x_event_flag flag;
+> +	unsigned int event_mask_reg;
+> +	unsigned int event_mask = 0;
+> +	unsigned int val;
+> +	int error, i;
+> +
+> +	switch (iqs62x->dev_desc->prod_num) {
+> +	case IQS620_PROD_NUM:
+> +	case IQS621_PROD_NUM:
+> +	case IQS622_PROD_NUM:
+> +		event_mask_reg = IQS620_GLBL_EVENT_MASK;
+> +
+> +		/*
+> +		 * Discreet button, hysteresis and SAR UI flags represent keys
+> +		 * and are unmasked if mapped to a valid keycode.
+> +		 */
+> +		for (i = 0; i < iqs62x_keys->keycodemax; i++) {
+> +			if (iqs62x_keys->keycode[i] == KEY_RESERVED)
+> +				continue;
+> +
+> +			if (iqs62x_events[i].reg == IQS62X_EVENT_PROX)
+> +				event_mask |= iqs62x->dev_desc->prox_mask;
+> +			else if (iqs62x_events[i].reg == IQS62X_EVENT_HYST)
+> +				event_mask |= (iqs62x->dev_desc->hyst_mask |
+> +					       iqs62x->dev_desc->sar_mask);
+> +		}
+> +
+> +		error = regmap_read(iqs62x->map, iqs62x->dev_desc->hall_flags,
+> +				    &val);
+> +		if (error)
+> +			return error;
+> +
+> +		/*
+> +		 * Hall UI flags represent switches and are unmasked if their
+> +		 * corresponding child nodes are present.
+> +		 */
+> +		for (i = 0; i < ARRAY_SIZE(iqs62x_keys->switches); i++) {
+> +			if (!(iqs62x_keys->switches[i].enabled))
+> +				continue;
+> +
+> +			flag = iqs62x_keys->switches[i].flag;
+> +
+> +			if (iqs62x_events[flag].reg != IQS62X_EVENT_HALL)
+> +				continue;
+> +
+> +			event_mask |= iqs62x->dev_desc->hall_mask;
+> +
+> +			input_report_switch(iqs62x_keys->input,
+> +					    iqs62x_keys->switches[i].code,
+> +					    (val & iqs62x_events[flag].mask) ==
+> +					    iqs62x_events[flag].val);
+> +		}
+> +
+> +		input_sync(iqs62x_keys->input);
+> +		break;
+> +
+> +	case IQS624_PROD_NUM:
+> +		event_mask_reg = IQS624_HALL_UI;
+> +
+> +		/*
+> +		 * Interval change events represent keys and are unmasked if
+> +		 * either wheel movement flag is mapped to a valid keycode.
+> +		 */
+> +		if (iqs62x_keys->keycode[IQS62X_EVENT_WHEEL_UP] != KEY_RESERVED)
+> +			event_mask |= IQS624_HALL_UI_INT_EVENT;
+> +
+> +		if (iqs62x_keys->keycode[IQS62X_EVENT_WHEEL_DN] != KEY_RESERVED)
+> +			event_mask |= IQS624_HALL_UI_INT_EVENT;
+> +
+> +		error = regmap_read(iqs62x->map, iqs62x->dev_desc->interval,
+> +				    &val);
+> +		if (error)
+> +			return error;
+> +
+> +		iqs62x_keys->interval = val;
+> +		break;
+> +
+> +	default:
+> +		return 0;
+> +	}
+> +
+> +	return regmap_update_bits(iqs62x->map, event_mask_reg, event_mask, 0);
+> +}
+> +
+> +static int iqs62x_keys_notifier(struct notifier_block *notifier,
+> +				unsigned long event_flags, void *context)
+> +{
+> +	struct iqs62x_event_data *event_data = context;
+> +	struct iqs62x_keys_private *iqs62x_keys;
+> +	int error, i;
+> +
+> +	iqs62x_keys = container_of(notifier, struct iqs62x_keys_private,
+> +				   notifier);
+> +
+> +	if (event_flags & BIT(IQS62X_EVENT_SYS_RESET)) {
+> +		error = iqs62x_keys_init(iqs62x_keys);
+> +		if (error) {
+> +			dev_err(iqs62x_keys->input->dev.parent,
+> +				"Failed to re-initialize device: %d\n", error);
+> +			return NOTIFY_BAD;
+> +		}
+> +
+> +		return NOTIFY_OK;
+> +	}
+> +
+> +	for (i = 0; i < iqs62x_keys->keycodemax; i++) {
+> +		if (iqs62x_events[i].reg == IQS62X_EVENT_WHEEL &&
+> +		    event_data->interval == iqs62x_keys->interval)
+> +			continue;
+> +
+> +		input_report_key(iqs62x_keys->input, iqs62x_keys->keycode[i],
+> +				 event_flags & BIT(i));
+> +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(iqs62x_keys->switches); i++)
+> +		if (iqs62x_keys->switches[i].enabled)
+> +			input_report_switch(iqs62x_keys->input,
+> +					    iqs62x_keys->switches[i].code,
+> +					    event_flags &
+> +					    BIT(iqs62x_keys->switches[i].flag));
+> +
+> +	input_sync(iqs62x_keys->input);
+> +
+> +	if (event_data->interval == iqs62x_keys->interval)
+> +		return NOTIFY_OK;
+> +
+> +	/*
+> +	 * Each frame contains at most one wheel event (up or down), in which
+> +	 * case a full keystroke is emulated.
+> +	 */
+> +	if (event_flags & BIT(IQS62X_EVENT_WHEEL_UP)) {
+> +		input_report_key(iqs62x_keys->input,
+> +				 iqs62x_keys->keycode[IQS62X_EVENT_WHEEL_UP],
+> +				 0);
+> +		input_sync(iqs62x_keys->input);
+> +	} else if (event_flags & BIT(IQS62X_EVENT_WHEEL_DN)) {
+> +		input_report_key(iqs62x_keys->input,
+> +				 iqs62x_keys->keycode[IQS62X_EVENT_WHEEL_DN],
+> +				 0);
 
-diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
-index a4a3b82ee69d..63b29c7279e2 100644
---- a/drivers/input/touchscreen/st1232.c
-+++ b/drivers/input/touchscreen/st1232.c
-@@ -14,23 +14,19 @@
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/input.h>
-+#include <linux/input/mt.h>
-+#include <linux/input/touchscreen.h>
- #include <linux/interrupt.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/pm_qos.h>
- #include <linux/slab.h>
- #include <linux/types.h>
--#include <linux/input/touchscreen.h>
- 
- #define ST1232_TS_NAME	"st1232-ts"
- #define ST1633_TS_NAME	"st1633-ts"
- 
--struct st1232_ts_finger {
--	u16 x;
--	u16 y;
--	u8 t;
--	bool is_valid;
--};
-+#define ST_TS_MAX_FINGERS	10
- 
- struct st_chip_info {
- 	bool	have_z;
-@@ -50,12 +46,10 @@ struct st1232_ts_data {
- 	const struct st_chip_info *chip_info;
- 	int read_buf_len;
- 	u8 *read_buf;
--	struct st1232_ts_finger fingers[];
- };
- 
- static int st1232_ts_read_data(struct st1232_ts_data *ts)
- {
--	struct st1232_ts_finger *finger = ts->fingers;
- 	struct i2c_client *client = ts->client;
- 	u8 start_reg = ts->chip_info->start_reg;
- 	struct i2c_msg msg[] = {
-@@ -72,59 +66,69 @@ static int st1232_ts_read_data(struct st1232_ts_data *ts)
- 		}
- 	};
- 	int ret;
--	int i;
--	u8 *buf;
- 
- 	ret = i2c_transfer(client->adapter, msg, ARRAY_SIZE(msg));
- 	if (ret != ARRAY_SIZE(msg))
- 		return ret < 0 ? ret : -EIO;
- 
-+	return 0;
-+}
-+
-+static int st1232_ts_parse_and_report(struct st1232_ts_data *ts)
-+{
-+	struct input_dev *input = ts->input_dev;
-+	struct input_mt_pos pos[ST_TS_MAX_FINGERS];
-+	u8 z[ST_TS_MAX_FINGERS];
-+	int slots[ST_TS_MAX_FINGERS];
-+	int n_contacts = 0;
-+	int i;
-+
- 	for (i = 0; i < ts->chip_info->max_fingers; i++) {
--		buf = &ts->read_buf[i * 4];
--		finger[i].is_valid = buf[0] >> 7;
--		if (finger[i].is_valid) {
--			finger[i].x = ((buf[0] & 0x70) << 4) | buf[1];
--			finger[i].y = ((buf[0] & 0x07) << 8) | buf[2];
-+		u8 *buf = &ts->read_buf[i * 4];
-+
-+		if (buf[0] & BIT(7)) {
-+			unsigned int x = ((buf[0] & 0x70) << 4) | buf[1];
-+			unsigned int y = ((buf[0] & 0x07) << 8) | buf[2];
-+
-+			touchscreen_set_mt_pos(&pos[n_contacts],
-+					       &ts->prop, x, y);
- 
- 			/* st1232 includes a z-axis / touch strength */
- 			if (ts->chip_info->have_z)
--				finger[i].t = ts->read_buf[i + 6];
-+				z[n_contacts] = ts->read_buf[i + 6];
-+
-+			n_contacts++;
- 		}
- 	}
- 
--	return 0;
-+	input_mt_assign_slots(input, slots, pos, n_contacts, 0);
-+	for (i = 0; i < n_contacts; i++) {
-+		input_mt_slot(input, slots[i]);
-+		input_mt_report_slot_state(input, MT_TOOL_FINGER, true);
-+		input_report_abs(input, ABS_MT_POSITION_X, pos[i].x);
-+		input_report_abs(input, ABS_MT_POSITION_Y, pos[i].y);
-+		if (ts->chip_info->have_z)
-+			input_report_abs(input, ABS_MT_TOUCH_MAJOR, z[i]);
-+	}
-+
-+	input_mt_sync_frame(input);
-+	input_sync(input);
-+
-+	return n_contacts;
- }
- 
- static irqreturn_t st1232_ts_irq_handler(int irq, void *dev_id)
- {
- 	struct st1232_ts_data *ts = dev_id;
--	struct st1232_ts_finger *finger = ts->fingers;
--	struct input_dev *input_dev = ts->input_dev;
--	int count = 0;
--	int i, ret;
--
--	ret = st1232_ts_read_data(ts);
--	if (ret < 0)
--		goto end;
--
--	/* multi touch protocol */
--	for (i = 0; i < ts->chip_info->max_fingers; i++) {
--		if (!finger[i].is_valid)
--			continue;
-+	int count;
-+	int error;
- 
--		if (ts->chip_info->have_z)
--			input_report_abs(input_dev, ABS_MT_TOUCH_MAJOR,
--					 finger[i].t);
-+	error = st1232_ts_read_data(ts);
-+	if (error)
-+		goto out;
- 
--		touchscreen_report_pos(input_dev, &ts->prop,
--					finger[i].x, finger[i].y, true);
--		input_mt_sync(input_dev);
--		count++;
--	}
--
--	/* SYN_MT_REPORT only if no contact */
-+	count = st1232_ts_parse_and_report(ts);
- 	if (!count) {
--		input_mt_sync(input_dev);
- 		if (ts->low_latency_req.dev) {
- 			dev_pm_qos_remove_request(&ts->low_latency_req);
- 			ts->low_latency_req.dev = NULL;
-@@ -136,10 +140,7 @@ static irqreturn_t st1232_ts_irq_handler(int irq, void *dev_id)
- 						DEV_PM_QOS_RESUME_LATENCY, 100);
- 	}
- 
--	/* SYN_REPORT */
--	input_sync(input_dev);
--
--end:
-+out:
- 	return IRQ_HANDLED;
- }
- 
-@@ -198,9 +199,7 @@ static int st1232_ts_probe(struct i2c_client *client,
- 		return -EINVAL;
- 	}
- 
--	ts = devm_kzalloc(&client->dev,
--			  struct_size(ts, fingers, match->max_fingers),
--			  GFP_KERNEL);
-+	ts = devm_kzalloc(&client->dev, sizeof(*ts), GFP_KERNEL);
- 	if (!ts)
- 		return -ENOMEM;
- 
-@@ -240,11 +239,6 @@ static int st1232_ts_probe(struct i2c_client *client,
- 	input_dev->name = "st1232-touchscreen";
- 	input_dev->id.bustype = BUS_I2C;
- 
--	__set_bit(INPUT_PROP_DIRECT, input_dev->propbit);
--	__set_bit(EV_SYN, input_dev->evbit);
--	__set_bit(EV_KEY, input_dev->evbit);
--	__set_bit(EV_ABS, input_dev->evbit);
--
- 	if (ts->chip_info->have_z)
- 		input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0,
- 				     ts->chip_info->max_area, 0, 0);
-@@ -256,6 +250,14 @@ static int st1232_ts_probe(struct i2c_client *client,
- 
- 	touchscreen_parse_properties(input_dev, true, &ts->prop);
- 
-+	error = input_mt_init_slots(input_dev, ts->chip_info->max_fingers,
-+				    INPUT_MT_DIRECT | INPUT_MT_TRACK |
-+					INPUT_MT_DROP_UNUSED);
-+	if (error) {
-+		dev_err(&client->dev, "failed to initialize MT slots\n");
-+		return error;
-+	}
-+
- 	error = devm_request_threaded_irq(&client->dev, client->irq,
- 					  NULL, st1232_ts_irq_handler,
- 					  IRQF_ONESHOT,
+Not '1'?
+
+> +		input_sync(iqs62x_keys->input);
+> +	}
+> +
+> +	iqs62x_keys->interval = event_data->interval;
+> +
+> +	return NOTIFY_OK;
+> +}
+> +
+> +static int iqs62x_keys_probe(struct platform_device *pdev)
+> +{
+> +	struct iqs62x_core *iqs62x = dev_get_drvdata(pdev->dev.parent);
+> +	struct iqs62x_keys_private *iqs62x_keys;
+> +	struct input_dev *input;
+> +	int error, i;
+> +
+> +	iqs62x_keys = devm_kzalloc(&pdev->dev, sizeof(*iqs62x_keys),
+> +				   GFP_KERNEL);
+> +	if (!iqs62x_keys)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, iqs62x_keys);
+> +
+> +	error = iqs62x_keys_parse_prop(pdev, iqs62x_keys);
+> +	if (error)
+> +		return error;
+> +
+> +	input = devm_input_allocate_device(&pdev->dev);
+> +	if (!input)
+> +		return -ENOMEM;
+> +
+> +	input->keycodemax = iqs62x_keys->keycodemax;
+> +	input->keycode = iqs62x_keys->keycode;
+> +	input->keycodesize = sizeof(*iqs62x_keys->keycode);
+> +
+> +	input->name = iqs62x->dev_desc->dev_name;
+> +	input->id.bustype = BUS_I2C;
+> +
+> +	__set_bit(EV_KEY, input->evbit);
+> +
+> +	for (i = 0; i < iqs62x_keys->keycodemax; i++)
+> +		__set_bit(iqs62x_keys->keycode[i], input->keybit);
+> +
+> +	__clear_bit(KEY_RESERVED, input->keybit);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(iqs62x_keys->switches); i++)
+> +		if (iqs62x_keys->switches[i].enabled) {
+> +			__set_bit(EV_SW, input->evbit);
+> +			__set_bit(iqs62x_keys->switches[i].code, input->swbit);
+> +		}
+> +
+> +	iqs62x_keys->iqs62x = iqs62x;
+> +	iqs62x_keys->input = input;
+> +
+> +	error = iqs62x_keys_init(iqs62x_keys);
+> +	if (error) {
+> +		dev_err(&pdev->dev, "Failed to initialize device: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	error = input_register_device(iqs62x_keys->input);
+> +	if (error) {
+> +		dev_err(&pdev->dev, "Failed to register device: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	iqs62x_keys->notifier.notifier_call = iqs62x_keys_notifier;
+> +	error = blocking_notifier_chain_register(&iqs62x_keys->iqs62x->nh,
+> +						 &iqs62x_keys->notifier);
+> +	if (error)
+> +		dev_err(&pdev->dev, "Failed to register notifier: %d\n", error);
+> +
+> +	return error;
+> +}
+> +
+> +static int iqs62x_keys_remove(struct platform_device *pdev)
+> +{
+> +	struct iqs62x_keys_private *iqs62x_keys = platform_get_drvdata(pdev);
+> +	int error;
+> +
+> +	error = blocking_notifier_chain_unregister(&iqs62x_keys->iqs62x->nh,
+> +						   &iqs62x_keys->notifier);
+> +	if (error)
+> +		dev_err(&pdev->dev,
+> +			"Failed to unregister notifier: %d\n", error);
+> +
+> +	return error;
+> +}
+> +
+> +static struct platform_driver iqs62x_keys_platform_driver = {
+> +	.driver = {
+> +		.name	= IQS62X_DRV_NAME_KEYS,
+> +	},
+> +	.probe		= iqs62x_keys_probe,
+> +	.remove		= iqs62x_keys_remove,
+> +};
+> +module_platform_driver(iqs62x_keys_platform_driver);
+> +
+> +MODULE_AUTHOR("Jeff LaBundy <jeff@labundy.com>");
+> +MODULE_DESCRIPTION("Azoteq IQS620A/621/622/624/625 Touch Keys");
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:" IQS62X_DRV_NAME_KEYS);
+> -- 
+> 2.7.4
+> 
+
+Thanks.
+
 -- 
-2.23.0.866.gb869b98d4c-goog
-
+Dmitry
