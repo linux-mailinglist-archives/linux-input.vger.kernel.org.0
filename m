@@ -2,218 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32590E2894
-	for <lists+linux-input@lfdr.de>; Thu, 24 Oct 2019 05:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3417DE2D2C
+	for <lists+linux-input@lfdr.de>; Thu, 24 Oct 2019 11:24:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406495AbfJXDCT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Oct 2019 23:02:19 -0400
-Received: from p3plsmtpa06-01.prod.phx3.secureserver.net ([173.201.192.102]:42499
-        "EHLO p3plsmtpa06-01.prod.phx3.secureserver.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2406448AbfJXDCT (ORCPT
+        id S2389891AbfJXJY1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Oct 2019 05:24:27 -0400
+Received: from mx0b-00128a01.pphosted.com ([148.163.139.77]:22758 "EHLO
+        mx0b-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389413AbfJXJY1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Oct 2019 23:02:19 -0400
-Received: from labundy.com ([136.49.227.119])
-        by :SMTPAUTH: with ESMTPSA
-        id NTOCiaZ7YRf2KNTODiSoAA; Wed, 23 Oct 2019 20:02:18 -0700
-Date:   Wed, 23 Oct 2019 22:02:16 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     lee.jones@linaro.org, dmitry.torokhov@gmail.com, jdelvare@suse.com,
-        linux@roeck-us.net, thierry.reding@gmail.com, jic23@kernel.org,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-pwm@vger.kernel.org,
-        knaack.h@gmx.de, lars@metafoo.de, pmeerw@pmeerw.net,
-        linux-iio@vger.kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
-Subject: Re: [PATCH 5/8] pwm: Add support for Azoteq IQS620A PWM generator
-Message-ID: <20191024030216.GB3321@labundy.com>
-References: <1571631083-4962-1-git-send-email-jeff@labundy.com>
- <1571631083-4962-6-git-send-email-jeff@labundy.com>
- <20191021073419.27r4xjqpz2wswerj@pengutronix.de>
- <20191022043649.GB2091@labundy.com>
- <20191022065415.2zxmpbsmogvgul7x@pengutronix.de>
- <20191023024525.GC3233@labundy.com>
- <20191023072304.7qmw4skssfm7iykm@pengutronix.de>
+        Thu, 24 Oct 2019 05:24:27 -0400
+Received: from pps.filterd (m0167090.ppops.net [127.0.0.1])
+        by mx0b-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9O9Mngm021691;
+        Thu, 24 Oct 2019 05:24:14 -0400
+Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2052.outbound.protection.outlook.com [104.47.36.52])
+        by mx0b-00128a01.pphosted.com with ESMTP id 2vt9t25vss-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 24 Oct 2019 05:24:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EWJPAduIL+yQ0Qv+JWqT6QPkVIm05Bx4JdxAbNrv3VcY6OmOlLpTZHdKBI9SAhTlrLg7j6G4f3VgTRiXOOyMP0QumADnOd/drzYcmgCTR+r1uvcn+vcyzlDaE0iH6UrRE0msFhLpkXtra9G2lcIDtBjua8FQ+ZZ7RQhlO13ZyXFWbaLOz0PlQ57SRhF5Qu4v3rSxXoO6ZUHzIHLNwUNx52MYVo1RiJxpwhter2s3pyDOLnmAP+heBthzJdG9odRf/5miAuU4azlwg6CsTl5SkqlwKuy6RVQTmRtsOzr06qR8BEH23WibjZmyhgaGpMPcPRnTATypwunhiDKoHZwA4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H79tMLkA9q8wQla9C65sDt7MDu2/MlTC/HIybxCS2a4=;
+ b=dy058UBETGR5Ne9oZEI0oH313NQoWRbddImYiTinm9uGP5R5aH38m+7vM2A6a1v798JRhO84Tqk+S0LV12E6cP3VRiH6v2yCD5ulX5Tu5EHWNhEDbj7cjw4wnOotvEM351pYsgam6tAlUJT1+mHkulh0pI6+gX968JO1mwZzpNjkU4usmGSX5YpqMDR+eIKE6+0/o0T9KP0k5sQIqpY9t17wivpSUpBfxe+gxhbpj9KYe2FJRqrN1bJDqwjDn/HtMJWQ2fYbdcphveFYlKlX/cLmbId3WnZcDV2d83NmNDbF9wVqOgt3yNT74z8QGrgU0RAVupwzhGifFfGaYr44Lg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H79tMLkA9q8wQla9C65sDt7MDu2/MlTC/HIybxCS2a4=;
+ b=T8csUtbZQ+id1B3z8Vx9eAihnvDWbe/sciNtI09PIC2ckn/vGZHbpQ5PHKCbBvXJGxyRTqH3EfElnKmbz8wn51KT39TZjXAtsMLa26BCW62FGELRRjqAxsj8mmb/w+pzF8eUDWoe2vl+QtNPhyrNjJZtWMRtUEP8VlK0OGTp25k=
+Received: from CH2PR03MB5192.namprd03.prod.outlook.com (20.180.12.152) by
+ CH2PR03MB5367.namprd03.prod.outlook.com (20.180.15.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2387.22; Thu, 24 Oct 2019 09:24:12 +0000
+Received: from CH2PR03MB5192.namprd03.prod.outlook.com
+ ([fe80::99:71f2:a588:977c]) by CH2PR03MB5192.namprd03.prod.outlook.com
+ ([fe80::99:71f2:a588:977c%3]) with mapi id 15.20.2387.023; Thu, 24 Oct 2019
+ 09:24:12 +0000
+From:   "Ardelean, Alexandru" <alexandru.Ardelean@analog.com>
+To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+CC:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "lars@metafoo.de" <lars@metafoo.de>
+Subject: Re: [PATCH][RESEND] input: adp5589: Make keypad support optional
+Thread-Topic: [PATCH][RESEND] input: adp5589: Make keypad support optional
+Thread-Index: AQHVdTB/9bT079D2QUiejuyXt5dvjadn9i6AgAEKiYCAAK6hAA==
+Date:   Thu, 24 Oct 2019 09:24:11 +0000
+Message-ID: <7d18d2b4f7bbb151072032013352104c426cce04.camel@analog.com>
+References: <20190927123836.28047-1-alexandru.ardelean@analog.com>
+         <20191023070541.13940-1-alexandru.ardelean@analog.com>
+         <20191023225939.GA35946@dtor-ws>
+In-Reply-To: <20191023225939.GA35946@dtor-ws>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.71.226.54]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 9987d719-b748-4709-369b-08d75863ee6a
+x-ms-traffictypediagnostic: CH2PR03MB5367:
+x-microsoft-antispam-prvs: <CH2PR03MB5367E0D8BF65E02243EEF39BF96A0@CH2PR03MB5367.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-forefront-prvs: 0200DDA8BE
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(136003)(346002)(396003)(366004)(39860400002)(199004)(189003)(14454004)(6486002)(6116002)(6246003)(3846002)(102836004)(76176011)(256004)(2351001)(71200400001)(71190400001)(6506007)(26005)(118296001)(7736002)(305945005)(486006)(186003)(446003)(11346002)(86362001)(2906002)(99286004)(2616005)(476003)(229853002)(91956017)(66946007)(5660300002)(66446008)(64756008)(66556008)(66476007)(36756003)(6436002)(6916009)(76116006)(5640700003)(66066001)(4326008)(1361003)(81166006)(81156014)(8676002)(478600001)(25786009)(8936002)(316002)(54906003)(6512007)(2501003)(4001150100001)(334744003);DIR:OUT;SFP:1101;SCL:1;SRVR:CH2PR03MB5367;H:CH2PR03MB5192.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: analog.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: yEf1Ojv83VFKhp3SWmixfOAyHvMWBvFpt5GXOYsP2av7TOhKPCT4TXNYGCcViWwEWFy4jCZRwZ//YBGP4e3j470cyyxfRpxWjjzjdFVxuO/Yot1ekirzrX5H4vnzePzFpTymDr1fD0e0jj9w9XGSeUeTW19ssR+1zpi7XpD5PTUg21Rm6J0/rf3QjTJb/EK8Qmyp4uxRbDpISTFgpUXrv3fv/yS/D19NtR8JdRJTdfKAXNkzKgZ/IMTBm2+ACeSlOpIn+Fd7kPa7OO+epMPkZ14qTKnGerjYQ9fsml7ChUcWARrdvr/GfRqq9Wz8IX3fsHn8zZ5HSndMC5YLVrBqI4uyhLI9nHU4cclXgpsUqM3NmY98vheOwjpp7xrLWnfw6YjrDib56cjsCgCHGewxmK9TuIhn5fmxkWf9+pt8/T2mwqMA5BVtQ0fe7/a8ijVv
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <23420C449811BD4AAB0ED75610205465@namprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191023072304.7qmw4skssfm7iykm@pengutronix.de>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-CMAE-Envelope: MS4wfGWc8X+7QHXU5SxOWU8d4f/+TNuieZ+wKank/M+x0ColwS240YLlczfX+tfcskm4a3V55e3SJQm8KT5bugFvkEYuS+qMGCMpJs7mRcrl/hOgBzcFxXuE
- JinE767U0ljhCmV8iQ4/hfMfEJK2WfrUyIJLqzZnR/8/65tOXC9G1S1bxQ6eRDsnJAVTg/vyhuYGzzhgl+m9XpwGOoYNUB07hAjVGebDa/1ulodolvbrN6B7
- avh6kVXnlM9QwIl+WDLOx2qsiOnlvp6bGSkEnEhUGXrEevjhCVXTjJjhNQ0bL/4vhKPV/DFnmqgEhbSxfueuvH7LL3Xzm67oUGQG9ks7OONnWFX/jP7z3uKi
- yZ7r4k5P9IL716jrjCcZmr9ccn5vYyQlGYTYrnnJN6KUsGaAAVnkoQUE1D3s+nBroxs+Eczx0j1E1DlS1APg6t6IGC940SPj/Id+svmBzD5C+8P6K79JwBx5
- PV8PuWwNEiJzqOdZZMplBTbwswWzxZDh4bq/wu2ySK7dt6cCzD/bfWxXkGqJR1UZ5DbA9ihi5OYiKgJuXNgRyDCR1KlpgUyVuc3Iod4LNziWMp+S3m4gvYRq
- 9q3/vy5EtV6KvMy6FgPUnOMMgXerrPIRwoGfUNBd40HaI9Pdc+OKWmWCevTpruK31+1kpYzAQObQzNharIfx8ZMFym6Fng6ERdWvDDcswTT4B8a65Knsc1Dl
- 6piUQegi8IY=
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9987d719-b748-4709-369b-08d75863ee6a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2019 09:24:11.8162
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VTOAzNaHmwpcPiDp35+qPPoh9MREzjfK7gqBhRV4Uuz//44R+HA43fqjhHhuA5Ml28iVmksCDCmT6ZzVQuIkXUDnFijeAwCGvLmKXyMiSYk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR03MB5367
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-10-24_06:2019-10-23,2019-10-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ priorityscore=1501 suspectscore=0 mlxlogscore=958 phishscore=0
+ impostorscore=0 clxscore=1015 malwarescore=0 spamscore=0 bulkscore=0
+ mlxscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1908290000 definitions=main-1910240092
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Uwe,
-
-On Wed, Oct 23, 2019 at 09:23:04AM +0200, Uwe Kleine-König wrote:
-> Hello Jeff,
-> 
-> On Tue, Oct 22, 2019 at 09:45:25PM -0500, Jeff LaBundy wrote:
-> > On Tue, Oct 22, 2019 at 08:54:15AM +0200, Uwe Kleine-König wrote:
-> > > On Mon, Oct 21, 2019 at 11:36:49PM -0500, Jeff LaBundy wrote:
-> > > > On Mon, Oct 21, 2019 at 09:34:19AM +0200, Uwe Kleine-König wrote:
-> > > > > > +{
-> > > > > > +	struct iqs620_pwm_private *iqs620_pwm;
-> > > > > > +	struct iqs62x_core *iqs62x;
-> > > > > > +	int error;
-> > > > > > +	int duty_calc = state->duty_cycle * 256 / IQS620_PWM_PERIOD_NS - 1;
-> > > > > > +	u8 duty_clamp = clamp(duty_calc, 0, 0xFF);
-> > > 
-> > > Another problem that we have here is that the period is fixed to 1 ms
-> > > and if a consumer requests for example:
-> > > 
-> > > 	.period = 5000000,
-> > > 	.duty_cycle = 1000000,
-> > > 
-> > > the hardware is actually configured for
-> > > 
-> > > 	.period = 1000000,
-> > > 	.duty_cycle = 1000000,
-> > > 
-> > > . I don't have a good suggestion how to fix this. We'd need to
-> > > draw a line somewhere and decline a request that is too far from the
-> > > result. But where this line should be is not obvious, it should
-> > > definitively not be implemented in the driver itself IMHO.
-> > > 
-> > > (The only halfway sane approach would be to let lowlevel drivers
-> > > implement a .round_state callback and then let the framework judge. But
-> > > we're a long way from having that, so that's not a solution for today.)
-> > > 
-> > 
-> > Agreed on all counts. For now, I will mention in the 'Limitations' heading that
-> > the period cannot be adjusted.
-> 
-> Ack. My longterm plan is to require .apply_state() to round down both
-> .period and .duty_cycle. This isn't wrong already today, so I suggest
-> you decline a request to set the period to something smaller than 1 ms
-> with an error code. (I think most drivers use -EINVAL here, conceptually
-> -EDOM might be sensible. I'd stick to EINVAL for now.)
-> 
-
-Sure thing; will do.
-
-> > > > > > +	iqs620_pwm = container_of(chip, struct iqs620_pwm_private, chip);
-> > > > > > +	iqs62x = iqs620_pwm->iqs62x;
-> > > > > > +
-> > > > > > +	error = regmap_write(iqs62x->map, IQS620_PWM_DUTY_CYCLE, duty_clamp);
-> > > > > > +	if (error)
-> > > > > > +		return error;
-> > > > > > +
-> > > > > > +	state->period = IQS620_PWM_PERIOD_NS;
-> > > > > > +	state->duty_cycle = (duty_clamp + 1) * IQS620_PWM_PERIOD_NS / 256;
-> > > > > 
-> > > > > This suggests that if the value in the IQS620_PWM_DUTY_CYCLE is 0 the
-> > > > > duty cycle is 1/256 ms with a period of 1 ms and the output cannot be
-> > > > > constant inactive. If this is right please add a paragraph in the
-> > > > > driver's comment at the top:
-> > > > > 
-> > > > > 	* Limitations:
-> > > > > 	* - The hardware cannot generate a 0% duty cycle
-> > > > > 
-> > > > > (Please stick to this format, other drivers use it, too.)
-> > > > 
-> > > > That's correct; the lowest duty cycle that can be achieved using only the
-> > > > IQS620_PWM_DUTY_CYCLE register is 0.4%. We can, however, generate 0% duty
-> > > > cycle by disabling the output altogether using a separate register. Would
-> > > > that be better than flat-out saying it's impossible?
-> > > 
-> > > There is (maybe) a small difference between disabled and 0% duty cycle,
-> > > at least from the framework's POV: If you do:
-> > > 
-> > > 	pwm_apply_state(pwm, { .enabled = true, .period = 1000000, .duty_cycle = 1000000, });
-> > > 	pwm_apply_state(pwm, { .enabled = false, .period = $DC, .duty_cycle = $DC, });
-> > > 	pwm_apply_state(pwm, { .enabled = true, .period = 1000000, .duty_cycle = 1000000, });
-> > > 
-> > > and compare it to the expected result of
-> > > 
-> > > 	pwm_apply_state(pwm, { .enabled = true, .period = 1000000, .duty_cycle = 1000000, });
-> > > 	pwm_apply_state(pwm, { .enabled = true, .period = 1000000, .duty_cycle = 0, });
-> > > 	pwm_apply_state(pwm, { .enabled = true, .period = 1000000, .duty_cycle = 1000000, });
-> > > 
-> > > the difference is that the duration of the inactive phase in the latter
-> > > case is a multiple of 1 ms.
-> > > 
-> > > There is no policy for lowlevel drivers what to do, but disabling when
-> > > 0% is requested is at least not unseen and probably more what consumers
-> > > expect.
-> > > 
-> > 
-> > With the change I am proposing, the output will be driven to zero if enabled = false
-> > OR duty_cycle < 4000 ns. Stated another way:
-> > 
-> > enable duty_cycle IQS620_PWR_SETTINGS[7] IQS620_PWM_DUTY_CYCLE
-> > ------ ---------- ---------------------- ---------------------
-> >   0    don't care           0                  don't care
-> >   1    0 ... 3999           0                  don't care
-> >   1    4000 ... x           1                      0
-> >   1    x+1  ... y           1                      1
-> > 
-> > ...and so on. For context, if IQS620_PWR_SETTINGS[7] = 0 then the output is held to
-> > zero. If IQS620_PWR_SETTINGS[7] = 1 then the output toggles at a duty cycle between
-> > 0.4% and 100% as a function of IQS620_PWM_DUTY_CYCLE.
-> 
-> Your table isn't accurate. IQS620_PWM_DUTY_CYCLE=0 results in a
-> duty_cycle of 3906.25 ns so the table should look as follows:
-> 
-> enable  duty_cycle  IQS620_PWR_SETTINGS[7] IQS620_PWM_DUTY_CYCLE
-> ------ ------------ ---------------------- ---------------------
->   0     don't care           0                  don't care
->   1       [0, 3906]          0                  don't care
->   1    [3907, 7812]          1                      0
->   1    [7813,11718]          1                      1
-> 
-> In general:
-> 
-> 	dc = state->duty_cycle * 256 / 1000000
-> 	if state->enabled == false or dc == 0:
-> 	    IQS620_PWR_SETTINGS[7] = 0
-> 
-> 	else:
-> 	    IQS620_PWM_DUTY_CYCLE = min(dc - 1, 0xff)
-> 	    IQS620_PWR_SETTINGS[7] = 1
-> 
-
-Sure thing; will do. Thank you for catching that!
-
-> > Based on how the device behaves in response to its two available
-> > registers, I think your two examples will appear equal, but please let
-> > me know if I have understood.
-> 
-> Yeah, that's the expectation.
-> 
-> With the rounding as I suggested above this yields strange effects like
-> if
-> 
-> 	.period = 1 s, .duty_cycle = 0.5 s
-> 
-> is requested you end up in
-> 
-> 	.period = 1 ms, .duty_cycle = 1 ms
-> 
-> but I think there is nothing we can reasonably do about this.
-> 
-
-Acknowledged on all counts. FWIW, I expect the most common consumer of this PWM
-to be leds-pwm. That is to say, I think the limitations in this case are pretty
-harmless. Users will typically pin the period to 1000000 ns like the example in
-patch [1/8].
-
-> Best regards
-> Uwe
-> 
-> -- 
-> Pengutronix e.K.                           | Uwe Kleine-König            |
-> Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-> 
-
-Kind regards,
-Jeff LaBundy
+T24gV2VkLCAyMDE5LTEwLTIzIGF0IDE1OjU5IC0wNzAwLCBEbWl0cnkgVG9yb2tob3Ygd3JvdGU6
+DQo+IFtFeHRlcm5hbF0NCj4gDQo+IEhpIEFsZXhhbmRydSwNCj4gDQo+IE9uIFdlZCwgT2N0IDIz
+LCAyMDE5IGF0IDEwOjA1OjQxQU0gKzAzMDAsIEFsZXhhbmRydSBBcmRlbGVhbiB3cm90ZToNCj4g
+PiBGcm9tOiBMYXJzLVBldGVyIENsYXVzZW4gPGxhcnNAbWV0YWZvby5kZT4NCj4gPiANCj4gPiBP
+biBzb21lIHBsYXRmb3JtcyB0aGUgYWRwNTU4OSBpcyB1c2VkIGluIEdQSU8gb25seSBtb2RlLiBP
+biB0aGVzZQ0KPiA+IHBsYXRmb3Jtcw0KPiA+IHdlIGRvIG5vdCB3YW50IHRvIHJlZ2lzdGVyIGEg
+aW5wdXQgZGV2aWNlLCBzbyBtYWtlIHRoYXQgb3B0aW9uYWwgYW5kDQo+ID4gb25seQ0KPiA+IGNy
+ZWF0ZSB0aGUgaW5wdXQgZGV2aWNlIGlmIGEga2V5bWFwIGlzIHN1cHBsaWVkLg0KPiA+IA0KPiA+
+IFNpZ25lZC1vZmYtYnk6IExhcnMtUGV0ZXIgQ2xhdXNlbiA8bGFyc0BtZXRhZm9vLmRlPg0KPiA+
+IFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRydSBBcmRlbGVhbiA8YWxleGFuZHJ1LmFyZGVsZWFuQGFu
+YWxvZy5jb20+DQo+ID4gLS0tDQo+ID4gIGRyaXZlcnMvaW5wdXQva2V5Ym9hcmQvYWRwNTU4OS1r
+ZXlzLmMgfCAxOTcgKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0NCj4gPiAgMSBmaWxlIGNoYW5n
+ZWQsIDExMSBpbnNlcnRpb25zKCspLCA4NiBkZWxldGlvbnMoLSkNCj4gPiANCj4gPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9hZHA1NTg5LWtleXMuYw0KPiA+IGIvZHJpdmVy
+cy9pbnB1dC9rZXlib2FyZC9hZHA1NTg5LWtleXMuYw0KPiA+IGluZGV4IDRmOTZhNGE5OWU1Yi4u
+MDhiZmE4YjIxM2U4IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvaW5wdXQva2V5Ym9hcmQvYWRw
+NTU4OS1rZXlzLmMNCj4gPiArKysgYi9kcml2ZXJzL2lucHV0L2tleWJvYXJkL2FkcDU1ODkta2V5
+cy5jDQo+ID4gQEAgLTQ5NSwxMCArNDk1LDEwIEBAIHN0YXRpYyBpbnQgYWRwNTU4OV9idWlsZF9n
+cGlvbWFwKHN0cnVjdA0KPiA+IGFkcDU1ODlfa3BhZCAqa3BhZCwNCj4gPiAgCXJldHVybiBuX3Vu
+dXNlZDsNCj4gPiAgfQ0KPiA+ICANCj4gPiAtc3RhdGljIGludCBhZHA1NTg5X2dwaW9fYWRkKHN0
+cnVjdCBhZHA1NTg5X2twYWQgKmtwYWQpDQo+ID4gK3N0YXRpYyBpbnQgYWRwNTU4OV9ncGlvX2Fk
+ZChzdHJ1Y3QgYWRwNTU4OV9rcGFkICprcGFkLA0KPiA+ICsJY29uc3Qgc3RydWN0IGFkcDU1ODlf
+a3BhZF9wbGF0Zm9ybV9kYXRhICpwZGF0YSkNCj4gPiAgew0KPiA+ICAJc3RydWN0IGRldmljZSAq
+ZGV2ID0gJmtwYWQtPmNsaWVudC0+ZGV2Ow0KPiA+IC0JY29uc3Qgc3RydWN0IGFkcDU1ODlfa3Bh
+ZF9wbGF0Zm9ybV9kYXRhICpwZGF0YSA9DQo+ID4gZGV2X2dldF9wbGF0ZGF0YShkZXYpOw0KPiA+
+ICAJY29uc3Qgc3RydWN0IGFkcDU1ODlfZ3Bpb19wbGF0Zm9ybV9kYXRhICpncGlvX2RhdGEgPSBw
+ZGF0YS0NCj4gPiA+Z3Bpb19kYXRhOw0KPiA+ICAJaW50IGksIGVycm9yOw0KPiA+ICANCj4gDQo+
+IEFsbCB0aGVzZSBjaGFuZ2VzIHBhc3NpbmcgcGRhdGEgdG8gdmFyaW91cyBmdW5jdGlvbnMgYXJl
+IG5vdCByZWFsbHkNCj4gbmVlZGVkIGZvciB0aGlzIHBhdGNoLiBJIGRyb3BwZWQgdGhlbSBhbmQg
+YXBwbGllZC4NCg0KQWNrLg0KVGhhbmsgeW91Lg0KDQo+IA0KPiBTb3JyeSBmb3IgdGhlIGRlbGF5
+Lg0KDQpObyB3b3JyaWVzICYgdGhhbmsgeW91IGFnYWluIDopDQo+IA0K
