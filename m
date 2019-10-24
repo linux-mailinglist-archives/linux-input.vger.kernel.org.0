@@ -2,69 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 75E7CE37AD
-	for <lists+linux-input@lfdr.de>; Thu, 24 Oct 2019 18:17:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D4D5E3AA5
+	for <lists+linux-input@lfdr.de>; Thu, 24 Oct 2019 20:08:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439757AbfJXQRr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Oct 2019 12:17:47 -0400
-Received: from mga11.intel.com ([192.55.52.93]:56592 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2436642AbfJXQRr (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Oct 2019 12:17:47 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Oct 2019 09:17:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,225,1569308400"; 
-   d="scan'208";a="223613972"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
-  by fmsmga004.fm.intel.com with ESMTP; 24 Oct 2019 09:17:46 -0700
-Message-ID: <bce400a8a2ab1a2ddfc1d270fdff2172884696eb.camel@linux.intel.com>
-Subject: Re: [PATCH trivial] HID: intel-ish-hid: Spelling
- s/diconnect/disconnect/
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Thu, 24 Oct 2019 09:17:46 -0700
-In-Reply-To: <20191024151837.29421-1-geert+renesas@glider.be>
-References: <20191024151837.29421-1-geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S2406106AbfJXSIg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Oct 2019 14:08:36 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:44327 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403845AbfJXSIg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 24 Oct 2019 14:08:36 -0400
+Received: by mail-pl1-f196.google.com with SMTP id q15so12235469pll.11
+        for <linux-input@vger.kernel.org>; Thu, 24 Oct 2019 11:08:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=v+rtTkflK5mXrmgKu1040tFl9idtMCfV1Ih4oGXZyHw=;
+        b=Zzoa6PFGLcKlYEozmAVy32ltv3oIX2j1Jr/oRRJVslaV+JF7S0hYZxVMJPjfbdK3GW
+         b7xphZo7ooHAnl/JGwT3+y/ZbKcn+ckk7+Czejm8bqQWAYjM+FEAys59Fb+2UCekd+El
+         i8b4Q25l7XBZexdIGNRXfzMY/y4q0rueoqvJk8lBGm1ZvI2nJDR7ao+0B6XzJ2+iYYha
+         erKtWJiXON4A33o27UF1ZGJRzG91j1yha//XLqaTgtKE+A4/roBcKU7WvheDlKe3PuRD
+         HNHHkgNEH4+9lZ59iq60vVnH0q5RcFHXxIGHEJr/FIbwda8/8Y/iGkcVLvdM6qf7ha1S
+         JHiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=v+rtTkflK5mXrmgKu1040tFl9idtMCfV1Ih4oGXZyHw=;
+        b=pF3ufS6FK0uU/fkg1L2pm8/GpP54locpUIg7rVtVbYoJiQ+OP4nb6l4yPvcfyVRMY4
+         Xa28xLIQosSiAB+IUXbxMZZlj4eVrwx2RhWcj0STYYkkYhLDFNDnH0dxiNNi3MMAqO93
+         aG5Nz6BGkZKPF/ud/Uc1ZCQTbUpvfuu61KBxRiHBZBPe+YZ5/f2EHEBSznaI6WVoSnuI
+         TYGQb0/gPd/dC4PUWL0Uy40TmGgT/nYzsrpZw/PlEnVr0ypMuvdPbbwMMaSfy3g+UKqF
+         N5tZ5VMH8EnC6yF0yVSJEwkvj6VdE/eo5MZZtUr3zAHvkzF1qk/8q5oeqVd84Lo02HlH
+         2ssg==
+X-Gm-Message-State: APjAAAWjts7qS6X91fJmOIGOzWFrsQPIAbDkgLWtw6vqq5RLkmPXEX+G
+        1HiznIUK/fg88cQkeSanke4JM+H2
+X-Google-Smtp-Source: APXvYqzibxqPBM4QC4f5CGc/3Nz3wDHbmuktYcZ4fXs9BrUakwYZAB5PzH2A2/8S27rkdvQ0ma4H1w==
+X-Received: by 2002:a17:902:8ecc:: with SMTP id x12mr17726736plo.189.1571940515250;
+        Thu, 24 Oct 2019 11:08:35 -0700 (PDT)
+Received: from SD ([106.222.8.16])
+        by smtp.gmail.com with ESMTPSA id b13sm11611617pgd.58.2019.10.24.11.08.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2019 11:08:34 -0700 (PDT)
+Date:   Thu, 24 Oct 2019 23:38:22 +0530
+From:   Saiyam Doshi <saiyamdoshi.in@gmail.com>
+To:     robh@kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH] input: touchscreen: Add NULL pointer check before
+ dereference
+Message-ID: <20191024180822.GA6408@SD>
+References: <20190901182309.GA5574@ahmlpt0706>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190901182309.GA5574@ahmlpt0706>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2019-10-24 at 17:18 +0200, Geert Uytterhoeven wrote:
-> Fix misspelling of "disconnect".
+On Sun, Sep 01, 2019 at 11:53:09PM +0530, Saiyam Doshi wrote:
+> In sx8654_probe function, if call to device_get_match_data()
+> return NULL, it dereferences driver_data from 'id'.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> To avoid NULL pointer dereference, add check to make sure
+> 'id' is not NULL.
 
-> ---
->  drivers/hid/intel-ish-hid/ishtp/hbm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/intel-ish-hid/ishtp/hbm.c
-> b/drivers/hid/intel-ish-hid/ishtp/hbm.c
-> index c6c9ac09dac3a377..30a91d068306a000 100644
-> --- a/drivers/hid/intel-ish-hid/ishtp/hbm.c
-> +++ b/drivers/hid/intel-ish-hid/ishtp/hbm.c
-> @@ -402,7 +402,7 @@ static void ishtp_hbm_cl_connect_res(struct
-> ishtp_device *dev,
->   * @dev: ISHTP device instance
->   * @disconnect_req: disconnect request structure
->   *
-> - * Disconnect request bus message from the fw. Send diconnect
-> response.
-> + * Disconnect request bus message from the fw. Send disconnect
-> response.
->   */
->  static void ishtp_hbm_fw_disconnect_req(struct ishtp_device *dev,
->  	struct hbm_client_connect_request *disconnect_req)
+Any review / update on this?
 
+-Saiyam
