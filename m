@@ -2,39 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48EEBE4D06
-	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2019 15:57:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC87CE4E2E
+	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2019 16:05:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2505302AbfJYN5U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Oct 2019 09:57:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52064 "EHLO mail.kernel.org"
+        id S2395285AbfJYOF0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Oct 2019 10:05:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50328 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2505293AbfJYN5U (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Oct 2019 09:57:20 -0400
+        id S2632777AbfJYN4I (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 25 Oct 2019 09:56:08 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B38EE21E6F;
-        Fri, 25 Oct 2019 13:57:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id ECCF821D7F;
+        Fri, 25 Oct 2019 13:56:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572011839;
+        s=default; t=1572011767;
         bh=JhgiOy7W35cOH2G64kH7kdFPGPQuCkXJeZQQJAg3rA8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RsAl1KP5EgW+e0tf+JFy7N67cdcwtzL1Obp6f7nLwTLUy6KS0eoMx8ITDJHsNpriX
-         jgB+9wRbvBExKPdGcmRlkSCC0wRtUZSQAeNFv3kKrtEUKdwbKk8eOSWjZsa16SE0dZ
-         J7fNHDdIeQR3hoqZpw5Vqhibcf7v8VkbWB+GGu5s=
+        b=YoOY0iq31iN5GM9L57wpvtNFYjxd6j9OcWq6yr3nmcwn6ky274PCMwAKJ7AVX89Z/
+         3BwFTT4xV1irW2dlou7kXatXWRCxI3dCpJELhAO2m6tLq99AG7jcFnDR1Q8gbJxr+5
+         wA/BrkxI3dR3VxdpBLaYStcj6Yl2jMy1/WjIWf04=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Rene Wagner <redhatbugzilla@callerid.de>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 02/25] HID: i2c-hid: Add Odys Winbook 13 to descriptor override
-Date:   Fri, 25 Oct 2019 09:56:50 -0400
-Message-Id: <20191025135715.25468-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 02/37] HID: i2c-hid: Add Odys Winbook 13 to descriptor override
+Date:   Fri, 25 Oct 2019 09:55:26 -0400
+Message-Id: <20191025135603.25093-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191025135715.25468-1-sashal@kernel.org>
-References: <20191025135715.25468-1-sashal@kernel.org>
+In-Reply-To: <20191025135603.25093-1-sashal@kernel.org>
+References: <20191025135603.25093-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
