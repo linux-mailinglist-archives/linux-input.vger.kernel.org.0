@@ -2,39 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98BA4E4093
-	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2019 02:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC28EE4096
+	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2019 02:26:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729067AbfJYA0C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Oct 2019 20:26:02 -0400
+        id S1727208AbfJYA0H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Oct 2019 20:26:07 -0400
 Received: from mail-eopbgr720082.outbound.protection.outlook.com ([40.107.72.82]:9893
         "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727208AbfJYA0C (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Oct 2019 20:26:02 -0400
+        id S1728974AbfJYA0H (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 24 Oct 2019 20:26:07 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k5duDluDRnXn8b8mioS6+r4JJ5Q3QCGtv+o22N/5PhoVxPyPDK75L4DLVpIZBfjLJQ88yndXxJKKzj8RCp23aHE9B887GqX16v+1c8VCel22TmafmTpzl/YZ3ILrw0+u+n6p9zrY19aFh0QBqJw5q/4Rw0rf3bzOz3JNxzv2/DOZ8Qh7RaQ94jcJtgdQ8WH5Qg7zTvJssR2RmlPWf8UOqExZwwTUQK51FtA34AVu/OZ7mNrvShJ16ZlVYWsXcKMT1qrpVU2FKMpnCi18FTBYE0IobzjTx/9/Q/DAUUIFTXKTR+HLxAwQV2gkVQIvfT9bauO8SmCc56RffyZ4VRcP5g==
+ b=XmaVFjwc50K41Am+sWMst+WRFGpGVz9Luoh/jic4FY1VAIgMo96n9sMOKTy34maphMdv19WHXauCxoJSwEk8xM/nCfTEq3hn1Qm1rk5BHclfjyRT8GS6HeGhOPdKOcx5bda3reSc9frSuP9jcvl1O3JzdiMzjR/NadocGxtDr+ugLDqG4Sx7pdmrC991haqNTqKKBmKtSQUHDiidQw7siDfGAJRgaintxOlGC5BDqxH6kf7DiN5Co+GnBFYtQ12RIeTeJcXvsPzV4FrqF6PZkeOj0auSFloKKw6HlKjD/KxOeDVR5p5QOLQKhSs870iq7tYAHth7Rq8IH57If0c+kw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RL9uikq6IQrdG0QWvzWXG8YBdygq+//QeWGqO4YA39g=;
- b=UokJFOahDpB84XsoQvW6E39NQeCxDtao5CF+E6syN4JCM8IzCulfPIHITgsHy/6sqHpr7Z7AJG3+4RaqPn/gfM6G0DaY/7E0Mrzso/nCzQH6u6PlZs/Xzk/K1z2uzCIYjP6lnj60F5VFiSvT/q8elJ86kWclerNggityoxHx7yPqt1bY5CjF34qTR2Xpg2iIPcb+kNEp5cvFW1O/Oz6SxcIWZ1Hmiu5QcBXouDEVVed6xsLgnNqpA5oTn7dhtYbLRfYijn1sBJ/Xar/fhDpMwTK+eTr7M1SH0xIJazkm/OCp6xI+9hPERN1Aie4D4b4m7znwgVmdhRvnPjc5NWlTTw==
+ bh=dfff4yOH061+CW62Q5/udySjEm4p9yEfJG5pf6tkhnA=;
+ b=ixwK5AYlcaRW3OBu7Tj0y3cwCO95cH5Q4DhKxLy2K/oNs5peMmyCwFzxYM+WAWaGK60+C3K9uQEPF7AqESMzEZL2qRWhB4qhZK0N2lpeUezLmwYjhEMCtN2INv75ai3AD3w/IeZiI0lB4IcawR00DfBBpTRLM6K7+PxQLpQtlttU+8S6j5YiEJ17rHpJpPmM6aVsZo3i4wOsWU4PCa/+dcESVKyujJmq7eoFkUFj+FT20bhmN+EiH7SM1d8fbqghyZDE9GvRR0Qxz14tw+qNXJnpmm6iXG5zBp4mgpMz7deMRXrYUkcP8aB2jbXbjfYo8ElOxHU/rYDdU2Rd0Ny3YA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=synaptics.com; dmarc=pass action=none
  header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RL9uikq6IQrdG0QWvzWXG8YBdygq+//QeWGqO4YA39g=;
- b=gZy+binRZHcya5qwDrreUnwOuKVDRkVl+7cyd5ou+FAR+K0oHCw/se/vqhCtg80rfRl1nqShlWAs2fOX7/tIzKglheO3XE0LMSGDpd42wOPWNdoLehLeh5g2KQKj2JubKYOkurQmD9XIG63bSAVlIbT5P8KS9fisXEZlQLhq05Y=
+ bh=dfff4yOH061+CW62Q5/udySjEm4p9yEfJG5pf6tkhnA=;
+ b=Du+lHpQx/VkZysgfGX3rIccIRMEt42Xi7tGucDUzamTrPiMc2/BC9ShFT3unhM/q3VthMTAypGzvj8R7ZTEsfggsaLZyqCxhnFJ3scaBrrhsNYwAKgMqz/D8Tx9Rq4K+14WJijjDekPBL0qF9XjkXr5wnt/apxprIFT6be/zDzI=
 Received: from BYAPR03MB4135.namprd03.prod.outlook.com (20.177.127.85) by
  BYAPR03MB4885.namprd03.prod.outlook.com (20.179.92.23) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.23; Fri, 25 Oct 2019 00:25:59 +0000
+ 15.20.2387.23; Fri, 25 Oct 2019 00:26:00 +0000
 Received: from BYAPR03MB4135.namprd03.prod.outlook.com
  ([fe80::d168:6b9a:e289:e124]) by BYAPR03MB4135.namprd03.prod.outlook.com
  ([fe80::d168:6b9a:e289:e124%4]) with mapi id 15.20.2347.029; Fri, 25 Oct 2019
- 00:25:59 +0000
+ 00:26:00 +0000
 From:   Andrew Duggan <aduggan@synaptics.com>
 To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
@@ -44,13 +44,12 @@ CC:     Andrew Duggan <aduggan@synaptics.com>,
         Christopher Heiny <Cheiny@synaptics.com>,
         Simon Wood <simon@mungewell.org>,
         Nick Dyer <nick@shmanahar.org>
-Subject: [PATCH 2/3] Input: synaptics-rmi4 - use the number of valid bytes
- read when updating the attn_data fields in F11 and F12
-Thread-Topic: [PATCH 2/3] Input: synaptics-rmi4 - use the number of valid
- bytes read when updating the attn_data fields in F11 and F12
-Thread-Index: AQHVisrGYuZ2map7AUGC9fcxnMF35w==
-Date:   Fri, 25 Oct 2019 00:25:58 +0000
-Message-ID: <20191025002527.3189-3-aduggan@synaptics.com>
+Subject: [PATCH 3/3] Input: synaptics-rmi4 - remove unused result_bits mask
+Thread-Topic: [PATCH 3/3] Input: synaptics-rmi4 - remove unused result_bits
+ mask
+Thread-Index: AQHVisrHXpJCG1jOgkKDGh+ebpapnw==
+Date:   Fri, 25 Oct 2019 00:26:00 +0000
+Message-ID: <20191025002527.3189-4-aduggan@synaptics.com>
 References: <20191025002527.3189-1-aduggan@synaptics.com>
 In-Reply-To: <20191025002527.3189-1-aduggan@synaptics.com>
 Accept-Language: en-US
@@ -66,80 +65,75 @@ authentication-results: spf=none (sender IP is )
 x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.20.1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4fe28b19-01a0-4786-7435-08d758e1e869
+x-ms-office365-filtering-correlation-id: c51ebfb3-cac3-423e-9d1b-08d758e1e95d
 x-ms-traffictypediagnostic: BYAPR03MB4885:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR03MB488559B55EFE379F531BF69DB2650@BYAPR03MB4885.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-microsoft-antispam-prvs: <BYAPR03MB4885D953063025AE0535B4E6B2650@BYAPR03MB4885.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
 x-forefront-prvs: 02015246A9
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(346002)(366004)(39860400002)(376002)(396003)(199004)(189003)(6436002)(52116002)(81156014)(2501003)(81166006)(26005)(110136005)(66556008)(8936002)(386003)(36756003)(66476007)(66946007)(2906002)(6506007)(99286004)(102836004)(6512007)(8676002)(186003)(66446008)(86362001)(50226002)(64756008)(54906003)(76176011)(25786009)(316002)(478600001)(6486002)(3846002)(6116002)(14444005)(1076003)(256004)(5660300002)(11346002)(446003)(71190400001)(7736002)(2616005)(305945005)(486006)(476003)(66066001)(14454004)(71200400001)(4326008);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR03MB4885;H:BYAPR03MB4135.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(346002)(366004)(39860400002)(376002)(396003)(199004)(189003)(6436002)(52116002)(81156014)(2501003)(81166006)(26005)(110136005)(66556008)(8936002)(386003)(36756003)(66476007)(66946007)(2906002)(6506007)(99286004)(102836004)(6512007)(8676002)(186003)(66446008)(86362001)(50226002)(64756008)(54906003)(76176011)(25786009)(316002)(478600001)(6486002)(3846002)(6116002)(1076003)(256004)(5660300002)(11346002)(446003)(71190400001)(7736002)(2616005)(305945005)(486006)(476003)(66066001)(14454004)(71200400001)(4326008);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR03MB4885;H:BYAPR03MB4135.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
 received-spf: None (protection.outlook.com: synaptics.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: uuqr36t/dr2Vz9mIbjSi0HFhWDzY3U9ZWeoJYZyJFh6Js/jyuuYUp+LjVhf2G1o5PwBBUjF3ihg/e4+fJGUTlOaOpvYCo2ugtzREDiNjl/yOwBYw2ueTtiC3HQUemE2xHw5jRkGtXO2SidUZZw9o+S7UiBfFki98wYQV9vQ0J1BTdKp4ful4QEcysuxeT0J78A5MDZCzq/coc5iv2wYag7Owzk6/bicJZVGnxOBLnwKCg5RRtIYMGeWQoZ6p+8p4STcZjlozfS0QOH4mF60ZEDiM5HiAzTQiW+Fnqnt/B9qNo26Pt2ts5sFTzVJP1CUbVzI3g/WUpGr4jTNoK5RTn8tuIODD3I5P5vRsT0bZTJ/4gFt9cXfNcMeX0Wr9UIN9ys7dWQjOYHzOoTmEg8sRuJGHo5dPJFmJH6gqBIjTniMbE2HKkmUk1CSxT6RZwQFV
+x-microsoft-antispam-message-info: i+UdQdgb7hSwkfSEl2VK1flk0ZQf4ZtP4UZqQzh97ClBPw8T3CnX1Oi+/qO2hbE4RAnCuUxkE4hfP4sYECgjVfMp3x0582Y6iirSCdOUHnhdrprc65m35eNiSA5Pb5CWnb8QMlCgFavr08JwHJ7hHJENJQlwoGSJNXMhMXE/jQT3ov4T2+RDUpS0ilg6amCU+4ZxHB6LnPrBg3x88fmaWhKoJxB+be5sIXL2/+alCSULqCGqLiA4yJRLqgJdelNB8kz7SAeKPP9be1FfiwPyvVCVFTyao+skMvfyXAFw/UbT42KHNlsztvb0/NNvIvLslPIHlgkmyEb/BmBYEkfE9VOTXuN3Hplzg1cz2WDe2j5jsurF/zlkO5+YKi7DQfBvslhoiVeR0H18M1xgHbnO9t8vkMHp9l3OxrN2XXoFP1bxc/z1igd6zKRCUIeyrwkV
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fe28b19-01a0-4786-7435-08d758e1e869
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2019 00:25:58.9423
+X-MS-Exchange-CrossTenant-Network-Message-Id: c51ebfb3-cac3-423e-9d1b-08d758e1e95d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2019 00:26:00.5595
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 335d1fbc-2124-4173-9863-17e7051a2a0e
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xGc+4CTL7O6ik2BuUUXAohxEiVeGX0ZirqRsul/2EXJV+5VC9Ye8FcTwZtgmmAGZ2uCrnz8I4WAxemM8ZRoR8w==
+X-MS-Exchange-CrossTenant-userprincipalname: lC0jCkNHJ8+b/OAPTqyXUerBJy3LKTzSDVymF5elQRSvFhVHgkN0qGB8jlcq7kcAYvt7RlRT2CRq/Jg/R5RqeA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR03MB4885
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Currently, rmi_f11_attention() and rmi_f12_attention() functions update
-the attn_data data pointer and size based on the size of the expected
-size of the attention data. However, if the actual valid data in the
-attn buffer is less then the expected value then the updated data
-pointer will point to memory beyond the end of the attn buffer. Using
-the calculated valid_bytes instead will prevent this from happening.
+The result_bits mask is no longer used by the driver and should be
+removed.
 
 Signed-off-by: Andrew Duggan <aduggan@synaptics.com>
 ---
- drivers/input/rmi4/rmi_f11.c | 4 ++--
- drivers/input/rmi4/rmi_f12.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/input/rmi4/rmi_f11.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/drivers/input/rmi4/rmi_f11.c b/drivers/input/rmi4/rmi_f11.c
-index f28a7158b2ef..26c239325f95 100644
+index 26c239325f95..bbf9ae9f3f0c 100644
 --- a/drivers/input/rmi4/rmi_f11.c
 +++ b/drivers/input/rmi4/rmi_f11.c
-@@ -1284,8 +1284,8 @@ static irqreturn_t rmi_f11_attention(int irq, void *c=
-tx)
- 			valid_bytes =3D f11->sensor.attn_size;
- 		memcpy(f11->sensor.data_pkt, drvdata->attn_data.data,
- 			valid_bytes);
--		drvdata->attn_data.data +=3D f11->sensor.attn_size;
--		drvdata->attn_data.size -=3D f11->sensor.attn_size;
-+		drvdata->attn_data.data +=3D valid_bytes;
-+		drvdata->attn_data.size -=3D valid_bytes;
- 	} else {
- 		error =3D rmi_read_block(rmi_dev,
- 				data_base_addr, f11->sensor.data_pkt,
-diff --git a/drivers/input/rmi4/rmi_f12.c b/drivers/input/rmi4/rmi_f12.c
-index 734077f2c40b..7e97944f7616 100644
---- a/drivers/input/rmi4/rmi_f12.c
-+++ b/drivers/input/rmi4/rmi_f12.c
-@@ -212,8 +212,8 @@ static irqreturn_t rmi_f12_attention(int irq, void *ctx=
+@@ -510,7 +510,6 @@ struct f11_data {
+ 	struct rmi_2d_sensor_platform_data sensor_pdata;
+ 	unsigned long *abs_mask;
+ 	unsigned long *rel_mask;
+-	unsigned long *result_bits;
+ };
+=20
+ enum f11_finger_state {
+@@ -1057,7 +1056,7 @@ static int rmi_f11_initialize(struct rmi_function *fn=
 )
- 			valid_bytes =3D sensor->attn_size;
- 		memcpy(sensor->data_pkt, drvdata->attn_data.data,
- 			valid_bytes);
--		drvdata->attn_data.data +=3D sensor->attn_size;
--		drvdata->attn_data.size -=3D sensor->attn_size;
-+		drvdata->attn_data.data +=3D valid_bytes;
-+		drvdata->attn_data.size -=3D valid_bytes;
- 	} else {
- 		retval =3D rmi_read_block(rmi_dev, f12->data_addr,
- 					sensor->data_pkt, sensor->pkt_size);
+ 	/*
+ 	** init instance data, fill in values and create any sysfs files
+ 	*/
+-	f11 =3D devm_kzalloc(&fn->dev, sizeof(struct f11_data) + mask_size * 3,
++	f11 =3D devm_kzalloc(&fn->dev, sizeof(struct f11_data) + mask_size * 2,
+ 			GFP_KERNEL);
+ 	if (!f11)
+ 		return -ENOMEM;
+@@ -1076,8 +1075,6 @@ static int rmi_f11_initialize(struct rmi_function *fn=
+)
+ 			+ sizeof(struct f11_data));
+ 	f11->rel_mask =3D (unsigned long *)((char *)f11
+ 			+ sizeof(struct f11_data) + mask_size);
+-	f11->result_bits =3D (unsigned long *)((char *)f11
+-			+ sizeof(struct f11_data) + mask_size * 2);
+=20
+ 	set_bit(fn->irq_pos, f11->abs_mask);
+ 	set_bit(fn->irq_pos + 1, f11->rel_mask);
 --=20
 2.20.1
 
