@@ -2,67 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 519F0E4AFA
-	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2019 14:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48EEBE4D06
+	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2019 15:57:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392305AbfJYMZU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Oct 2019 08:25:20 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:42962 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391200AbfJYMZU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Oct 2019 08:25:20 -0400
-Received: by mail-io1-f67.google.com with SMTP id i26so2155070iog.9
-        for <linux-input@vger.kernel.org>; Fri, 25 Oct 2019 05:25:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=56CrbKjpo1LNY8+IqgfXYngvQ533oWMTRgx9BxzPQtg=;
-        b=ATgvwVOyv8a3OqTftc6rOHr2T01cPTPGr3psYRcZqI7beZCaGYjyqusW+xB5+6PHwa
-         VPd6NCdji4zyXwV+Xqhjc4W0rPQcDvzb2Y8sFY+6skZdpRU4IUWwleeN826ZJ87IDKWK
-         DiS/kYIa5XQsOn+9UlaapwulD1qaAHnqGiW/zbU8FVNX0qJ27L2zJu6sudNSvJ7RqJjQ
-         X0rZStwoql7yav2WnRQkXlzeLZf3nviE1HZ3S6aWKF7Hq+wFqPioblADS9cvZSlOYozM
-         WWnYssWpuJtFvytMYZNZ9Dkz3Px57NeL0D5CmyfMHoccWzxCFJQU1h9tD7sogoMs0GCY
-         6gtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=56CrbKjpo1LNY8+IqgfXYngvQ533oWMTRgx9BxzPQtg=;
-        b=aXs7T6LXaxBFaOu0bg/BnFxpc82PgWYzh/tJHNoOYyuEzM1iVJ5UHdIeaFFtNcjEtK
-         OSTR5DkM0xq/Mt52fgb2oZ4dkIZbTAeJASNleeBEJ8R+c0NcoYzGRo/aqgjA+gq/CObE
-         9sj5UwVFNRmO+dzEf63qKMMwJCtNZ+zH0Jkr66mcK32uoEesbGTGvjM11TDBOki36res
-         9WlyICNR6f3cmZPBFMP6hUbta2bimBF5M5OUu+AAtKCGGWDrVPva+t+AkvH1V6wcJd9H
-         4XAF4w6qCiSW7Ec7NRH4fg2s2jN7K8bfZSm4X/rRbqywRZcP0PWkJMS8vTo3EPVT/Bag
-         NDFw==
-X-Gm-Message-State: APjAAAXNwtCclI2ze8GzuoXTKTl1CfnvryG9DpFPW2pKwS1Csc0iNgdO
-        nU6HynecwcmHLVaJYy6yBn1Pvhifgd0Pq6pt3WM=
-X-Google-Smtp-Source: APXvYqyt5eVoSVArctvcKe0irxW8JrhSNRGAhATkcNLUwVd8A4uXLkozRjVpIm3pGVtOqRuX/hSWjasR2hRbs3IL6HE=
-X-Received: by 2002:a02:9f8b:: with SMTP id a11mr3722216jam.10.1572006319322;
- Fri, 25 Oct 2019 05:25:19 -0700 (PDT)
+        id S2505302AbfJYN5U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Oct 2019 09:57:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52064 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2505293AbfJYN5U (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 25 Oct 2019 09:57:20 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B38EE21E6F;
+        Fri, 25 Oct 2019 13:57:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572011839;
+        bh=JhgiOy7W35cOH2G64kH7kdFPGPQuCkXJeZQQJAg3rA8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=RsAl1KP5EgW+e0tf+JFy7N67cdcwtzL1Obp6f7nLwTLUy6KS0eoMx8ITDJHsNpriX
+         jgB+9wRbvBExKPdGcmRlkSCC0wRtUZSQAeNFv3kKrtEUKdwbKk8eOSWjZsa16SE0dZ
+         J7fNHDdIeQR3hoqZpw5Vqhibcf7v8VkbWB+GGu5s=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Rene Wagner <redhatbugzilla@callerid.de>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 02/25] HID: i2c-hid: Add Odys Winbook 13 to descriptor override
+Date:   Fri, 25 Oct 2019 09:56:50 -0400
+Message-Id: <20191025135715.25468-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191025135715.25468-1-sashal@kernel.org>
+References: <20191025135715.25468-1-sashal@kernel.org>
 MIME-Version: 1.0
-Received: by 2002:a6b:8e11:0:0:0:0:0 with HTTP; Fri, 25 Oct 2019 05:25:18
- -0700 (PDT)
-Reply-To: mthida828@gmail.com
-From:   George Melvin <samuelnwangoro@gmail.com>
-Date:   Fri, 25 Oct 2019 13:25:18 +0100
-Message-ID: <CAHi8z6EftSAxiMOPuP-e3jcyHuKKe-t2vYzKC=U=bJ6EHvOeHQ@mail.gmail.com>
-Subject: Dear Friend
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+From: Hans de Goede <hdegoede@redhat.com>
+
+[ Upstream commit f8f807441eefddc3c6d8a378421f0ede6361d565 ]
+
+The Odys Winbook 13 uses a SIPODEV SP1064 touchpad, which does not
+supply descriptors, add this to the DMI descriptor override list, fixing
+the touchpad not working.
+
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1526312
+Reported-by: Rene Wagner <redhatbugzilla@callerid.de>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+index cac262a912c12..c5ac23b75143a 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
++++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+@@ -338,6 +338,14 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
+ 		},
+ 		.driver_data = (void *)&sipodev_desc
+ 	},
++	{
++		.ident = "Odys Winbook 13",
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AXDIA International GmbH"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "WINBOOK 13"),
++		},
++		.driver_data = (void *)&sipodev_desc
++	},
+ 	{ }	/* Terminate list */
+ };
+ 
 -- 
-Dear Friend
+2.20.1
 
-How are you today hope fine?I sent you an urgent letter four {4} days
-ago without any response form you, I have a business proposal that
-might Interest you, Please contact me through my private email for
-more details. (mthida828@gmail.com)
-
-Thank
-Regards
-George Melvin
