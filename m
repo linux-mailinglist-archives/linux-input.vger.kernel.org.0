@@ -2,84 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AF12E41E7
-	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2019 04:58:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46AC3E48E0
+	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2019 12:51:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389888AbfJYC6L (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Oct 2019 22:58:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40962 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389230AbfJYC6L (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Oct 2019 22:58:11 -0400
-Received: from dragon (li937-157.members.linode.com [45.56.119.157])
-        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 637B221929;
-        Fri, 25 Oct 2019 02:57:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571972290;
-        bh=Pv99gGUhMu9Zgja2DFKQIDN8Qw7xgxA0yc7ICmoKRDA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CuU+++ByNPb4vYd9Mqpwhljltb614f8boUhgLiuDMDyMfQTP2aqBSaTKXOPgvF2II
-         z/cFiR1dGsb1lADHuYNsXGhBM5OkTtzm5mQmoJdOiBesvf6vX1fWqQ3cxG6ikR6Bub
-         5HX8T+4BtmczDfXie574pRiWPJRKv4bVG/opQvLY=
-Date:   Fri, 25 Oct 2019 10:57:47 +0800
-From:   Shawn Guo <shawnguo@kernel.org>
-To:     Anson Huang <anson.huang@nxp.com>
-Cc:     "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        Peng Fan <peng.fan@nxp.com>, Andy Duan <fugang.duan@nxp.com>,
-        Leonard Crestez <leonard.crestez@nxp.com>,
-        Daniel Baluta <daniel.baluta@nxp.com>,
-        "olof@lixom.net" <olof@lixom.net>,
-        "mripard@kernel.org" <mripard@kernel.org>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        "jagan@amarulasolutions.com" <jagan@amarulasolutions.com>,
-        "dinguyen@kernel.org" <dinguyen@kernel.org>,
-        "marcin.juszkiewicz@linaro.org" <marcin.juszkiewicz@linaro.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "stefan@agner.ch" <stefan@agner.ch>,
-        "enric.balletbo@collabora.com" <enric.balletbo@collabora.com>,
-        "yuehaibing@huawei.com" <yuehaibing@huawei.com>,
-        Jacky Bai <ping.bai@nxp.com>,
-        "m.felsch@pengutronix.de" <m.felsch@pengutronix.de>,
-        "ronald@innovation.ch" <ronald@innovation.ch>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        dl-linux-imx <linux-imx@nxp.com>
-Subject: Re: [PATCH V6 3/5] arm64: dts: imx8qxp: Add scu key node
-Message-ID: <20191025025745.GA3208@dragon>
-References: <1570412509-7893-1-git-send-email-Anson.Huang@nxp.com>
- <1570412509-7893-3-git-send-email-Anson.Huang@nxp.com>
- <DB3PR0402MB3916BA030CDAD9057017F52FF56C0@DB3PR0402MB3916.eurprd04.prod.outlook.com>
+        id S2394500AbfJYKvJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Oct 2019 06:51:09 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:45981 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392198AbfJYKvJ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 25 Oct 2019 06:51:09 -0400
+Received: from mail-qk1-f181.google.com ([209.85.222.181]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1Mj831-1hlZxU1VH3-00fEqI; Fri, 25 Oct 2019 12:51:05 +0200
+Received: by mail-qk1-f181.google.com with SMTP id q70so1261022qke.12;
+        Fri, 25 Oct 2019 03:51:04 -0700 (PDT)
+X-Gm-Message-State: APjAAAWA6fFViRcJqREnWWJ4XnLSnh9uc5TR3f3XkJRs4iop43nFUxmc
+        NGQ8ccT6lVNGOrvmjR3QEB2RQ+274bWdUrVtGAM=
+X-Google-Smtp-Source: APXvYqx2Oor6PcLHOX4Sy8TtHwX6a9dti7RuLVSJPm8RZ72aJo7WkeFnANJ7SePVIoWyJuP+ht+PknNC97FPJwMamtQ=
+X-Received: by 2002:a37:58d:: with SMTP id 135mr2252602qkf.394.1572000663226;
+ Fri, 25 Oct 2019 03:51:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DB3PR0402MB3916BA030CDAD9057017F52FF56C0@DB3PR0402MB3916.eurprd04.prod.outlook.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+References: <20191018154052.1276506-1-arnd@arndb.de> <87v9slg9k5.fsf@belgarion.home>
+ <CAK8P3a1JDtHsOW=iaxEycbJ4TBkR9MHUyDMeJnwxCtb=tefnBQ@mail.gmail.com>
+ <CAK8P3a0376Anmoc8VWXcEBg+z2B+1vcxJoywYYROBQNxpVmZuA@mail.gmail.com>
+ <87r239f2g8.fsf@belgarion.home> <87eez1rhqo.fsf@belgarion.home>
+In-Reply-To: <87eez1rhqo.fsf@belgarion.home>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 25 Oct 2019 12:50:46 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0L3_Hs48X5bh0UD2L_AaxLcUOQ_YS7ZpSd5W-8xcgAog@mail.gmail.com>
+Message-ID: <CAK8P3a0L3_Hs48X5bh0UD2L_AaxLcUOQ_YS7ZpSd5W-8xcgAog@mail.gmail.com>
+Subject: Re: [PATCH 00/46] ARM: pxa: towards multiplatform support
+To:     Robert Jarzmik <robert.jarzmik@free.fr>
+Cc:     Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        IDE-ML <linux-ide@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
+        linux-mtd <linux-mtd@lists.infradead.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
+        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:bBFl5bX9BqXoDP8OrdvcfGlrYLRY5B1GUhWZJswEMUsHfqL7ZPS
+ wNKiBQqI9J4lWaKwMKWpeuRP8Q7gNW1Huux28MpdQbLQHsG8keYqULuxokAyz8cXvUuDQNr
+ Y4OmkYoxdwxMOhV/OoYmkmbTVaeZ1jGsBbuhOyjPDaixMEDPYwwWYKYrS8WnrToePTYktVe
+ isgPlih4bJp7b5na0cbDg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+amIHTsvEsM=:wxrSdcXp8fCl0WvOtbji8T
+ eiMYbEG4cst6pRKOmo34ky4eqFrbI9L+1xHjnaiY+H7o5c4AvretiveY6HsD/8Q4GCTo+d4EF
+ 6KHQlLX/3bCOUITQRQRqZXMcO8+d/5yBWQ4PLvO/++od9zW+FSeEXlBspQqZItGbvkewyaSgM
+ V2RuqHgZsRHubh1xP1lsxIE2YLtSonVpvh2iNYDMLLKocefeURCWHULZHpLKqb637/1ILOFmh
+ oY55eIQP5dCvyMde+02h4Sc41A/coK0VSMYnmjZbIdabokN8wJmd5BpuqN52whvBKMyQB7Drx
+ +rJNk043np+L19CHym/KU1GD0+Jh/hYMmdbAesunIc/XFNfshrJppNPggA2jYuD+WHt0GoW0h
+ vIRvBMeg6dWxtHSt5iN2OWe8YRwmJozAghx6eaxs/+mtKjhlwdb8pg8wgjMJTT4UVZPNck6ai
+ ETIxAKLIg48ERY2PKPCwjHZWIF59mr9ihwrIm7/PoRVzhB2DgY1bXT+r0Xf1ifNLX95PYOB5M
+ zAGClTyzoyjzTzKwNgwcV4nTh4Je81xIc8FEG8D5S5n2odlouWYtMUHvQkobX+2UgP+dk+Rdq
+ Yf9piYlNy1SKL1OHQdycWsLTFQ3jMWeWKCJRb5PSzWdnYIqeBZU1jM0z+jjUqPYhNrA/3/oIY
+ 6RHI26+ovszi6E37l9e4YOUqQLgkyayuNJDsaLxUKkKdzoog8Z1n6LZPKD/u4+MRIXZCKCrGx
+ pWVDvdMh6MitMHpzAZXm52z3k1A8T63a1CoAVUlqw1z/kLR1+hrsr4BnhFtpR4HNXe8FSWIge
+ SE0Vg8VrS1FRrUX3m8HXrRagLwmAmfEk5PCq5WPOx/NjbgPEUnw5nqQ9HVCS9jOGnKIZvBw5Z
+ /NMhJY+Zi7eyYSpPjOOA==
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 18, 2019 at 01:40:10AM +0000, Anson Huang wrote:
-> Hi, Shawn
-> 	Dmitry has picked up the #1 and #2 patch, would you please pick up #3 ~ #5, thanks.
-> 
+On Thu, Oct 24, 2019 at 10:50 PM Robert Jarzmik <robert.jarzmik@free.fr> wrote:
+> Robert Jarzmik <robert.jarzmik@free.fr> writes:
+> >>> I've now pushed it to
+> >>>
+> >>> git://git.kernel.org:/pub/scm/linux/kernel/git/arnd/playground.git
+> >>> pxa-multiplatform
+> >>
+> >> Sorry for the duplication, I had some problems with email configuration
+> >> so my reply got rejected, let's see if it goes through this time.
+> > I have it now, thanks, I'll test and review as soon as I can.
+> >
+> > Cheers.
+>
+> Ok Arnd, I have a preliminary test report.
+>
+> I tested only the pxa27x (mioa701), which happens to have a lot of drivers, and
+> only the platform_data flavor (ie. no device-tree test yet). Apart a panic in
+> the regulator framework (which is a known issue [1]), your version seems
+> equivalent so far in terms of runtime to Linux 5.4-rc3).
+>
+> The sound and RTC seem broken, but not by you ...
+>
+> I'll continue the test onwards for pxa3xx and pxa2xx when I'll gather a bit of
+> time, and try to review as well the mach-pxa part.
 
-Applied #3 ~ #5, thanks.
+Awesome, thanks for testing so far and for the report!
 
-Shawn
+        Arnd
