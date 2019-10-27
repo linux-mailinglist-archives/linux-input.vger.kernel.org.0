@@ -2,24 +2,24 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FCD9E6494
-	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2019 18:44:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7061E6497
+	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2019 18:44:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727608AbfJ0RoN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 27 Oct 2019 13:44:13 -0400
-Received: from mail-40130.protonmail.ch ([185.70.40.130]:28335 "EHLO
-        mail-40130.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726884AbfJ0RoN (ORCPT
+        id S1727896AbfJ0RoO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 27 Oct 2019 13:44:14 -0400
+Received: from mail-40133.protonmail.ch ([185.70.40.133]:52885 "EHLO
+        mail-40133.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727607AbfJ0RoN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Sun, 27 Oct 2019 13:44:13 -0400
-Date:   Sun, 27 Oct 2019 17:44:03 +0000
+Date:   Sun, 27 Oct 2019 17:44:06 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=default; t=1572198248;
-        bh=PVkYljpfoTsIC5030dJrqEtvXYijftN09Ri8FcfG3gw=;
+        s=default; t=1572198249;
+        bh=5E0VM+hKQZ3Ya5sIX3S41D1XbNmkqZv2gdoK9lSx6oU=;
         h=Date:To:From:Cc:Reply-To:Subject:Feedback-ID:From;
-        b=YhtqWIJ2AQ/2cxzyBojj8LlwpCunaBkm/bijrriLAuDwd26ipvD8N+I7gJ6fqU2Wk
-         gXmDNKRkXPiq20Odt4c55h2pDlFiv3bg/NTSNPhXwdGsxj5ehGJZGsZcKIzUmLpsay
-         Zph0nmM+Elqit6+EnraAvNDcDhhW5CDUAAvK0He8=
+        b=b+IBYsi/3Y69DgnZk2pnAtemIEnduvT7P7Ra7ii0Cy/RhyXxN7eEyGm0UhRNsD9pS
+         PsHBRml2L+X3AXwBb+RbeWmKCUcICNt8oP6uTPecu4oNIV9rV6ORwTmQrvAsbeMAw9
+         JSB5UM5FPXppSiV6Pd/fWHtAjd2EVdxhz0lCps+w=
 To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
 From:   Mazin Rezk <mnrzk@protonmail.com>
 Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -29,8 +29,8 @@ Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         "adrian@freund.io" <adrian@freund.io>,
         "mnrzk@protonmail.com" <mnrzk@protonmail.com>
 Reply-To: Mazin Rezk <mnrzk@protonmail.com>
-Subject: [PATCH v8 0/2] Logitech HID++ Bluetooth LE support
-Message-ID: <_0snBXtGhwWiRLYmuVIeDLYkvksMVMxiBv1lW_bTTaFpcVN45l6yCU5gWZ_5oJr8SQOZA6qCZSkVskkEX0ZePpboYtDYRsTdVg3xfcwmw6M=@protonmail.com>
+Subject: [PATCH v8 1/2] HID: logitech-hidpp: Support translations from short to long reports
+Message-ID: <4_PuSu9QvgHPBub7Gk2yfxB_ZBPVYFUA877INdfVgqmiB5GeE0c7JfH57of1g2oFJF7eE775WFks-z0qtDGANo6DibtePkQApMuFOWYHFJ4=@protonmail.com>
 Feedback-ID: 18B_FC5q-t32TXzMsVp9BgkgrdNH3iwklfW8WOrHrcxZA0WRj7JodCh5VXKxs6A3OaiHK0QNd8wi3SImKex8yQ==:Ext:ProtonMail
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -44,80 +44,130 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This series allows hid-logitech-hidpp to support Bluetooth LE HID++
-devices. Only the MX Master (b012 and b01e) is added right now but more
-HID++ Bluetooth LE devices can be added once they are tested.
+This patch allows short reports to be translated into long reports.
 
-Changes since [v7]:
-        - Squashed "HID: logitech-hidpp: Support MX Master (b012, b01e)
-        over Bluetooth" into "HID: logitech-hidpp: Support translations
-        from short to long reports"
+hidpp_validate_device now returns a u8 instead of a bool which represents
+the supported reports. The corresponding bits (i.e.
+HIDPP_REPORT_*_SUPPORTED) are set if an HID++ report is supported.
 
-Changes since [v6]:
+If a short report is being sent and the device does not support it, it is
+instead sent as a long report.
 
-        - Based patch on "HID: logitech-hidpp: rework device validation"
+This patch also introduces support for the MX Master (b01e and b012).
 
-        - Removed the need for additional quirks
+Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
+---
+ drivers/hid/hid-logitech-hidpp.c | 30 ++++++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
 
-Changes since [v5]:
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
+dpp.c
+index e9bba282f9c1..19b315e4e91b 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -49,6 +49,10 @@ MODULE_PARM_DESC(disable_tap_to_click,
+ #define HIDPP_REPORT_LONG_LENGTH=09=0920
+ #define HIDPP_REPORT_VERY_LONG_MAX_LENGTH=0964
 
-        - Fixed bug where added quirks would overflow an unsigned long
++#define HIDPP_REPORT_SHORT_SUPPORTED=09=09BIT(0)
++#define HIDPP_REPORT_LONG_SUPPORTED=09=09BIT(1)
++#define HIDPP_REPORT_VERY_LONG_SUPPORTED=09BIT(2)
++
+ #define HIDPP_SUB_ID_CONSUMER_VENDOR_KEYS=090x03
+ #define HIDPP_SUB_ID_ROLLER=09=09=090x05
+ #define HIDPP_SUB_ID_MOUSE_EXTRA_BTNS=09=090x06
+@@ -183,6 +187,7 @@ struct hidpp_device {
 
-        - Changed the reserved quirk class bits from 0..20 to 0..15
+ =09unsigned long quirks;
+ =09unsigned long capabilities;
++=09u8 supported_reports;
 
-Changes since [v4]:
+ =09struct hidpp_battery battery;
+ =09struct hidpp_scroll_counter vertical_wheel_counter;
+@@ -340,6 +345,11 @@ static int hidpp_send_rap_command_sync(struct hidpp_de=
+vice *hidpp_dev,
+ =09struct hidpp_report *message;
+ =09int ret, max_count;
 
-        - Omitted "HID: logitech: Add feature 0x0001: FeatureSet"
++=09/* Send as long report if short reports are not supported. */
++=09if (report_id =3D=3D REPORT_ID_HIDPP_SHORT &&
++=09    !(hidpp_dev->supported_reports & HIDPP_REPORT_SHORT_SUPPORTED))
++=09=09report_id =3D REPORT_ID_HIDPP_LONG;
++
+ =09switch (report_id) {
+ =09case REPORT_ID_HIDPP_SHORT:
+ =09=09max_count =3D HIDPP_REPORT_SHORT_LENGTH - 4;
+@@ -3458,10 +3468,11 @@ static int hidpp_get_report_length(struct hid_devic=
+e *hdev, int id)
+ =09return report->field[0]->report_count + 1;
+ }
 
-        - Stored WirelessDeviceStatus feature index in hidpp_device
+-static bool hidpp_validate_device(struct hid_device *hdev)
++static u8 hidpp_validate_device(struct hid_device *hdev)
+ {
+ =09struct hidpp_device *hidpp =3D hid_get_drvdata(hdev);
+-=09int id, report_length, supported_reports =3D 0;
++=09int id, report_length;
++=09u8 supported_reports =3D 0;
 
-        - Made Bluetooth quirk class alias quirks instead of vice versa
+ =09id =3D REPORT_ID_HIDPP_SHORT;
+ =09report_length =3D hidpp_get_report_length(hdev, id);
+@@ -3469,7 +3480,7 @@ static bool hidpp_validate_device(struct hid_device *=
+hdev)
+ =09=09if (report_length < HIDPP_REPORT_SHORT_LENGTH)
+ =09=09=09goto bad_device;
 
-        - Omitted non-tested devices
+-=09=09supported_reports++;
++=09=09supported_reports |=3D HIDPP_REPORT_SHORT_SUPPORTED;
+ =09}
 
-Changes since [v3]:
+ =09id =3D REPORT_ID_HIDPP_LONG;
+@@ -3478,7 +3489,7 @@ static bool hidpp_validate_device(struct hid_device *=
+hdev)
+ =09=09if (report_length < HIDPP_REPORT_LONG_LENGTH)
+ =09=09=09goto bad_device;
 
-        - Renamed hidpp20_featureset_get_feature to
-          hidpp20_featureset_get_feature_id.
+-=09=09supported_reports++;
++=09=09supported_reports |=3D HIDPP_REPORT_LONG_SUPPORTED;
+ =09}
 
-        - Re-ordered hidpp20_featureset_get_count and
-          hidpp20_featureset_get_feature_id based on their command IDs.
+ =09id =3D REPORT_ID_HIDPP_VERY_LONG;
+@@ -3488,7 +3499,7 @@ static bool hidpp_validate_device(struct hid_device *=
+hdev)
+ =09=09    report_length > HIDPP_REPORT_VERY_LONG_MAX_LENGTH)
+ =09=09=09goto bad_device;
 
-        - Made feature_count initialize to 0 before running
-          hidpp20_get_features.
+-=09=09supported_reports++;
++=09=09supported_reports |=3D HIDPP_REPORT_VERY_LONG_SUPPORTED;
+ =09=09hidpp->very_long_report_length =3D report_length;
+ =09}
 
-Changes since [v2]:
-
-        - Split up the single patch into a series
-
-Changes since [v1]:
-
-        - Added WirelessDeviceStatus support
-
-[v7] https://lore.kernel.org/lkml/t5LOL-A4W7aknqQdC-3TavitC94BY_Ra1qyxCZMh_=
-nprrDNSl4UF-jYpWtaDSU-0oQ5xzRyAo9o_mvSnA78bib_p6I3ePSJnTrp3Eb0X_yg=3D@proto=
-nmail.com
-[v6] https://lore.kernel.org/lkml/ggKipcQplIlTFmoP3hPnrQ-7_5-C0PKGd5feFymts=
-3uenIBA8zOwz47YmKheD34H1rpkguDAGdx5YbS9UqpwfjT5Ir0Lji941liLVp--QtQ=3D@proto=
-nmail.com
-[v5] https://lore.kernel.org/lkml/Mbf4goGxXZTfWwWtQQUke_rNf8kezpNOS9DVEVHf6=
-RnnmjS1oRtMOJf4r14WfCC6GRYVs7gi0uZcIJ18Va2OJowzSbyMUGwLrl6I5fjW48o=3D@proto=
-nmail.com
-[v4] https://lore.kernel.org/lkml/uBbIS3nFJ1jdYNLHcqjW5wxQAwmZv0kmYEoeoPrxN=
-hfzi6cHwmCOY-ewdqe7S1hNEj-p4Hd9D0_Y3PymUTdh_6WFXuMmIYUkV2xaKCPMYz0=3D@proto=
-nmail.com
-[v3] https://lore.kernel.org/lkml/l7xYjnA9EGfZe03FsrFhnH2aMq8qS8plWhHVvOtY_=
-l4ShZ1NV6HA6hn9aI-jAzbLYUGFCIQCIKkx9z42Uoj4-AZDwBfRcAecYIn-0ZA5upE=3D@proto=
-nmail.com
-[v2] https://www.spinics.net/lists/linux-input/msg63467.html
-[v1] https://www.spinics.net/lists/linux-input/msg63317.html
-
-Mazin Rezk (2):
-  HID: logitech-hidpp: Support translations from short to long reports
-  HID: logitech-hidpp: Support WirelessDeviceStatus connect events
-
- drivers/hid/hid-logitech-hidpp.c | 69 +++++++++++++++++++++++++++-----
- 1 file changed, 59 insertions(+), 10 deletions(-)
+@@ -3536,7 +3547,9 @@ static int hidpp_probe(struct hid_device *hdev, const=
+ struct hid_device_id *id)
+ =09/*
+ =09 * Make sure the device is HID++ capable, otherwise treat as generic HI=
+D
+ =09 */
+-=09if (!hidpp_validate_device(hdev)) {
++=09hidpp->supported_reports =3D hidpp_validate_device(hdev);
++
++=09if (!hidpp->supported_reports) {
+ =09=09hid_set_drvdata(hdev, NULL);
+ =09=09devm_kfree(&hdev->dev, hidpp);
+ =09=09return hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+@@ -3779,6 +3792,11 @@ static const struct hid_device_id hidpp_devices[] =
+=3D {
+ =09{ /* MX5500 keyboard over Bluetooth */
+ =09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
+ =09  .driver_data =3D HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
++=09{ /* MX Master mouse over Bluetooth */
++=09  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb012),
++=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
++=09{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e),
++=09  .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+ =09{}
+ };
 
 --
 2.23.0
+
