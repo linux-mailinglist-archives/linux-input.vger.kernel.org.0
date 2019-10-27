@@ -2,115 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D497AE64B7
-	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2019 18:51:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04E09E64C9
+	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2019 19:15:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727366AbfJ0Rvw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 27 Oct 2019 13:51:52 -0400
-Received: from mail-40130.protonmail.ch ([185.70.40.130]:55867 "EHLO
-        mail-40130.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727359AbfJ0Rvv (ORCPT
+        id S1727654AbfJ0SPp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 27 Oct 2019 14:15:45 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:36194 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727069AbfJ0SPo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 27 Oct 2019 13:51:51 -0400
-Date:   Sun, 27 Oct 2019 17:51:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=default; t=1572198709;
-        bh=G/3oKNxyqbLXtqaP/AroMNutpIgmqogHjijhEZ0UCts=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
-         Feedback-ID:From;
-        b=woSdUwsAJHS7YHZBkEDQo76+QTYISyvExhm9h+FiWwAgowPRwXhQuDdeSz8axwXW0
-         arAlgor22BzH7y9KLyQYj6TPjTIT5fsxuMWDMiJZxKKwV94WLbHMi8HDLKBlio0loC
-         PkZLnm7OIc33wffw/xd80VUKff+sZKmNwZZ7ENAY=
-To:     Adrian Freund <adrian@freund.io>
-From:   Mazin Rezk <mnrzk@protonmail.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "mnrzk@protonmail.com" <mnrzk@protonmail.com>
-Reply-To: Mazin Rezk <mnrzk@protonmail.com>
-Subject: Re: [PATCH v3] HID: logitech: Add MX Master 3 Mouse
-Message-ID: <De3ZOlDrC8MZTFGbvc8QlYmWDm7P6Lm69IYASbTfvHaX6FbLYT6ZTznFRNZVvKiBD1lGbp5Om90U_EPPRP6IafvJ19ebBm-RWx69MRZYy4E=@protonmail.com>
-In-Reply-To: <20191025205928.87295-1-adrian@freund.io>
-References: <20191025205928.87295-1-adrian@freund.io>
-Feedback-ID: 18B_FC5q-t32TXzMsVp9BgkgrdNH3iwklfW8WOrHrcxZA0WRj7JodCh5VXKxs6A3OaiHK0QNd8wi3SImKex8yQ==:Ext:ProtonMail
+        Sun, 27 Oct 2019 14:15:44 -0400
+Received: by mail-pg1-f196.google.com with SMTP id 23so4944003pgk.3
+        for <linux-input@vger.kernel.org>; Sun, 27 Oct 2019 11:15:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=WWdOnyu0XWMvrgObzprV2jQRW+mK3wb38+x6OX9tOUU=;
+        b=mcAAIdIS0FijAt6egYqXtEoMEuYQQzE1blwhcpWdc4ptcudDx4orU7JQs6yssROEbC
+         TAIwRzkycBBVrRJPIb5qPkhgvJ8j+nvGq6xMELFyMs5V7BwGjiZCwFDcP5C2HpD7DfWW
+         zBV4R/EHHyKDWO7LuSUj8hbO69AIntQ8mCS4IexKInPzRQCT1U96GM0/mxMeGNn3qi4V
+         5URaAnqnEgZzjPhinIAI5AaH2NbZGMSyX0IlUVymFyOtiS206ZzZMYWub4L9xScSWber
+         CAoVonathJmjYwdDuw7vKXT86ncffAK9LXodT/r7TWm4yWPZ/dtD5+dTc0fn/QvvgwWU
+         XOVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=WWdOnyu0XWMvrgObzprV2jQRW+mK3wb38+x6OX9tOUU=;
+        b=ACVOkqPtj0viFLypyEFOMvNRlxzQh3B33ZEQWBMEa5g0MOBhNxabxayr1E3C46Cj/2
+         ruSVBBnLyt3t63fZb8f7/xow/uVYQVQ9iSx+omXS6gkwcEMHl0VY015QtRF2Lb+FTGwF
+         dyP0sQFzMXF+h+YdGRJJCO1lIhznN9Bx53r6Ch1sfEeTZkjmXqjKDc8exAsEkn+zVjUv
+         m9Jxjk39MBxHxgf2bgdi9jgP/2Feub+xhqcE0YEy+I6s2XMbVB3tfyLKU6bB20R8Nt7S
+         VGFiMRvym1wVBAZizwcYn+/x8ELVe8cbUmtvOtI4BKgJuljDx3cW33vzl0zIRPRSeNWq
+         kspg==
+X-Gm-Message-State: APjAAAVtNLPzMUbkYwqV5vdHHrY4ILQLz3jLBkSMte4xXnSX5dUIElWr
+        KJIr+mz5DFYL9+mnXGjLzCQ=
+X-Google-Smtp-Source: APXvYqwpGAHcX8eeGIu62DhJjYRBQDDzaxjosFyGH5lmKkBDBZc847+fhwgbniWO3/4ma27Canr0AA==
+X-Received: by 2002:a62:8705:: with SMTP id i5mr166356pfe.238.1572200143813;
+        Sun, 27 Oct 2019 11:15:43 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id x139sm8888131pgx.92.2019.10.27.11.15.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Oct 2019 11:15:42 -0700 (PDT)
+Date:   Sun, 27 Oct 2019 11:15:40 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/3] Input: colibri-vf50-ts - remove unneeded gpio.h
+ header file
+Message-ID: <20191027181540.GD163068@dtor-ws>
+References: <20191026185958.24158-1-festevam@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_REPLYTO
-        autolearn=no autolearn_force=no version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191026185958.24158-1-festevam@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Friday, October 25, 2019 4:59 PM, Adrian Freund <adrian@freund.io> wrote=
-:
+On Sat, Oct 26, 2019 at 03:59:56PM -0300, Fabio Estevam wrote:
+> The touchscreen device is a GPIO consumer, not a GPIO controller,
+> so there is no need to include <linux/gpio.h>.
+> 
+> Remove the unneeded header file.
+> 
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
 
-> This patch adds support for the Logitech MX Master 3 Mouse using the
-> Logitech Unifying Receiver and Bluetooth LE.
->
-> Signed-off-by: Adrian Freund adrian@freund.io
->
-> v3:
->
-> -   rebased on top of https://patchwork.kernel.org/project/linux-input/li=
-st/?series=3D190445
+Applied, thank you.
 
-I have updated this series over here:
-https://patchwork.kernel.org/project/linux-input/list/?series=3D194201
+> ---
+>  drivers/input/touchscreen/colibri-vf50-ts.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/input/touchscreen/colibri-vf50-ts.c b/drivers/input/touchscreen/colibri-vf50-ts.c
+> index 0e40897949bb..aa829725ded7 100644
+> --- a/drivers/input/touchscreen/colibri-vf50-ts.c
+> +++ b/drivers/input/touchscreen/colibri-vf50-ts.c
+> @@ -9,7 +9,6 @@
+>  
+>  #include <linux/delay.h>
+>  #include <linux/err.h>
+> -#include <linux/gpio.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/iio/consumer.h>
+>  #include <linux/iio/types.h>
+> -- 
+> 2.17.1
+> 
 
-However, the update only squashed two commits within the series so nothing
-needs to be done here.
-
-Thanks,
-Mazin
-
-> -   Added bluetooth id
->
->     v2:
->
-> -   added Signed-off-by line
->
-> drivers/hid/hid-logitech-hidpp.c | 5 +++++
-> 1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-=
-hidpp.c
-> index 23baf9b09c48..74f2517d88d5 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -3793,6 +3793,8 @@ static const struct hid_device_id hidpp_devices[] =
-=3D {
-> { LDJ_DEVICE(0x4071), .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> { /* Mouse Logitech MX Master 2S */
-> LDJ_DEVICE(0x4069), .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
->
-> -   { /* Mouse Logitech MX Master 3 */
-> -       LDJ_DEVICE(0x4082), .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2=
-121 },
->
->
->     { /* Mouse Logitech Performance MX/
->     LDJ_DEVICE(0x101a), .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
->     { / Keyboard logitech K400 */@@ -3854,6 +3856,9 @@ static const struc=
-t hid_device_id hidpp_devices[] =3D {
->     .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
->     { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e),
->     .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
->
-> -   { /* MX Master 3 mouse over Bluetooth */
-> -       HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb023),
->
->
-> -       .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
->
->
->     {}
->     };
->
->     --
->     2.23.0
->
-
-
+-- 
+Dmitry
