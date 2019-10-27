@@ -2,35 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 210C7E6498
-	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2019 18:44:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D497AE64B7
+	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2019 18:51:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727904AbfJ0Ro2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 27 Oct 2019 13:44:28 -0400
-Received: from mail-40135.protonmail.ch ([185.70.40.135]:27742 "EHLO
-        mail-40135.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727607AbfJ0Ro2 (ORCPT
+        id S1727366AbfJ0Rvw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 27 Oct 2019 13:51:52 -0400
+Received: from mail-40130.protonmail.ch ([185.70.40.130]:55867 "EHLO
+        mail-40130.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727359AbfJ0Rvv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 27 Oct 2019 13:44:28 -0400
-Date:   Sun, 27 Oct 2019 17:44:13 +0000
+        Sun, 27 Oct 2019 13:51:51 -0400
+Date:   Sun, 27 Oct 2019 17:51:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=default; t=1572198264;
-        bh=6yiWG/CL7XyQLz0voQvVHgInV2wrBSXgCFAj8egaYM4=;
-        h=Date:To:From:Cc:Reply-To:Subject:Feedback-ID:From;
-        b=t89UEWkzcW7FHkAjnYgDbtcUE65v1C9Q1KfdK6LSEEXdCUWGIn0PywQWW+rr156CV
-         dZLy4cQMpPld0CUBdkHhce5/XzuJSqzi0vFFRdqpIVNAodCbwnnDqE6piAI8VKFkd7
-         ikMM+ewLrMCFerWwO/IOi8p0aXaVVEbk7fmEI8k8=
-To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+        s=default; t=1572198709;
+        bh=G/3oKNxyqbLXtqaP/AroMNutpIgmqogHjijhEZ0UCts=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
+         Feedback-ID:From;
+        b=woSdUwsAJHS7YHZBkEDQo76+QTYISyvExhm9h+FiWwAgowPRwXhQuDdeSz8axwXW0
+         arAlgor22BzH7y9KLyQYj6TPjTIT5fsxuMWDMiJZxKKwV94WLbHMi8HDLKBlio0loC
+         PkZLnm7OIc33wffw/xd80VUKff+sZKmNwZZ7ENAY=
+To:     Adrian Freund <adrian@freund.io>
 From:   Mazin Rezk <mnrzk@protonmail.com>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>,
-        "adrian@freund.io" <adrian@freund.io>,
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         "mnrzk@protonmail.com" <mnrzk@protonmail.com>
 Reply-To: Mazin Rezk <mnrzk@protonmail.com>
-Subject: [PATCH v8 2/2] HID: logitech-hidpp: Support WirelessDeviceStatus connect events
-Message-ID: <8digbnSpZ_FnleD2ei0nz-dB_rb8IuSFeYLUimi3LnWfQeYriniOHIZM9GKGz2-NEMDgMSXG1XFhuqTKzUt818yNTkfCF5oVVpe6LsgYkWs=@protonmail.com>
+Subject: Re: [PATCH v3] HID: logitech: Add MX Master 3 Mouse
+Message-ID: <De3ZOlDrC8MZTFGbvc8QlYmWDm7P6Lm69IYASbTfvHaX6FbLYT6ZTznFRNZVvKiBD1lGbp5Om90U_EPPRP6IafvJ19ebBm-RWx69MRZYy4E=@protonmail.com>
+In-Reply-To: <20191025205928.87295-1-adrian@freund.io>
+References: <20191025205928.87295-1-adrian@freund.io>
 Feedback-ID: 18B_FC5q-t32TXzMsVp9BgkgrdNH3iwklfW8WOrHrcxZA0WRj7JodCh5VXKxs6A3OaiHK0QNd8wi3SImKex8yQ==:Ext:ProtonMail
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -44,110 +44,73 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch allows hidpp_report_is_connect_event to support
-WirelessDeviceStatus connect events.
+On Friday, October 25, 2019 4:59 PM, Adrian Freund <adrian@freund.io> wrote=
+:
 
-The WirelessDeviceStatus feature index is stored in hidpp_device when
-probed. The connect event's fap feature_index is compared against it if the
-device supports it.
+> This patch adds support for the Logitech MX Master 3 Mouse using the
+> Logitech Unifying Receiver and Bluetooth LE.
+>
+> Signed-off-by: Adrian Freund adrian@freund.io
+>
+> v3:
+>
+> -   rebased on top of https://patchwork.kernel.org/project/linux-input/li=
+st/?series=3D190445
 
-Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
----
- drivers/hid/hid-logitech-hidpp.c | 39 ++++++++++++++++++++++++++++----
- 1 file changed, 35 insertions(+), 4 deletions(-)
+I have updated this series over here:
+https://patchwork.kernel.org/project/linux-input/list/?series=3D194201
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
-dpp.c
-index 19b315e4e91b..c8b23568d0b1 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -191,6 +191,8 @@ struct hidpp_device {
+However, the update only squashed two commits within the series so nothing
+needs to be done here.
 
- =09struct hidpp_battery battery;
- =09struct hidpp_scroll_counter vertical_wheel_counter;
-+
-+=09u8 wireless_feature_index;
- };
+Thanks,
+Mazin
 
- /* HID++ 1.0 error codes */
-@@ -403,10 +405,13 @@ static inline bool hidpp_match_error(struct hidpp_rep=
-ort *question,
- =09    (answer->fap.params[0] =3D=3D question->fap.funcindex_clientid);
- }
+> -   Added bluetooth id
+>
+>     v2:
+>
+> -   added Signed-off-by line
+>
+> drivers/hid/hid-logitech-hidpp.c | 5 +++++
+> 1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-=
+hidpp.c
+> index 23baf9b09c48..74f2517d88d5 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -3793,6 +3793,8 @@ static const struct hid_device_id hidpp_devices[] =
+=3D {
+> { LDJ_DEVICE(0x4071), .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+> { /* Mouse Logitech MX Master 2S */
+> LDJ_DEVICE(0x4069), .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+>
+> -   { /* Mouse Logitech MX Master 3 */
+> -       LDJ_DEVICE(0x4082), .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2=
+121 },
+>
+>
+>     { /* Mouse Logitech Performance MX/
+>     LDJ_DEVICE(0x101a), .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
+>     { / Keyboard logitech K400 */@@ -3854,6 +3856,9 @@ static const struc=
+t hid_device_id hidpp_devices[] =3D {
+>     .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+>     { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e),
+>     .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+>
+> -   { /* MX Master 3 mouse over Bluetooth */
+> -       HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb023),
+>
+>
+> -       .driver_data =3D HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+>
+>
+>     {}
+>     };
+>
+>     --
+>     2.23.0
+>
 
--static inline bool hidpp_report_is_connect_event(struct hidpp_report *repo=
-rt)
-+static inline bool hidpp_report_is_connect_event(struct hidpp_device *hidp=
-p,
-+=09=09struct hidpp_report *report)
- {
--=09return (report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) &&
--=09=09(report->rap.sub_id =3D=3D 0x41);
-+=09return (hidpp->wireless_feature_index &&
-+=09=09(report->fap.feature_index =3D=3D hidpp->wireless_feature_index)) ||
-+=09=09((report->report_id =3D=3D REPORT_ID_HIDPP_SHORT) &&
-+=09=09(report->rap.sub_id =3D=3D 0x41));
- }
-
- /**
-@@ -1283,6 +1288,24 @@ static int hidpp_battery_get_property(struct power_s=
-upply *psy,
- =09return ret;
- }
-
-+/* -----------------------------------------------------------------------=
---- */
-+/* 0x1d4b: Wireless device status                                         =
-    */
-+/* -----------------------------------------------------------------------=
---- */
-+#define HIDPP_PAGE_WIRELESS_DEVICE_STATUS=09=09=090x1d4b
-+
-+static int hidpp_set_wireless_feature_index(struct hidpp_device *hidpp)
-+{
-+=09u8 feature_type;
-+=09int ret;
-+
-+=09ret =3D hidpp_root_get_feature(hidpp,
-+=09=09=09=09     HIDPP_PAGE_WIRELESS_DEVICE_STATUS,
-+=09=09=09=09     &hidpp->wireless_feature_index,
-+=09=09=09=09     &feature_type);
-+
-+=09return ret;
-+}
-+
- /* -----------------------------------------------------------------------=
---- */
- /* 0x2120: Hi-resolution scrolling                                        =
-    */
- /* -----------------------------------------------------------------------=
---- */
-@@ -3078,7 +3101,7 @@ static int hidpp_raw_hidpp_event(struct hidpp_device =
-*hidpp, u8 *data,
- =09=09}
- =09}
-
--=09if (unlikely(hidpp_report_is_connect_event(report))) {
-+=09if (unlikely(hidpp_report_is_connect_event(hidpp, report))) {
- =09=09atomic_set(&hidpp->connected,
- =09=09=09=09!(report->rap.params[0] & (1 << 6)));
- =09=09if (schedule_work(&hidpp->work) =3D=3D 0)
-@@ -3628,6 +3651,14 @@ static int hidpp_probe(struct hid_device *hdev, cons=
-t struct hid_device_id *id)
- =09=09hidpp_overwrite_name(hdev);
- =09}
-
-+=09if (connected && hidpp->protocol_major >=3D 2) {
-+=09=09ret =3D hidpp_set_wireless_feature_index(hidpp);
-+=09=09if (ret =3D=3D -ENOENT)
-+=09=09=09hidpp->wireless_feature_index =3D 0;
-+=09=09else if (ret)
-+=09=09=09goto hid_hw_init_fail;
-+=09}
-+
- =09if (connected && (hidpp->quirks & HIDPP_QUIRK_CLASS_WTP)) {
- =09=09ret =3D wtp_get_config(hidpp);
- =09=09if (ret)
---
-2.23.0
 
