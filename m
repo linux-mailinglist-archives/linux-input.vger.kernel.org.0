@@ -2,108 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 18BD9E6C06
-	for <lists+linux-input@lfdr.de>; Mon, 28 Oct 2019 06:39:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51E11E6D39
+	for <lists+linux-input@lfdr.de>; Mon, 28 Oct 2019 08:28:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730195AbfJ1FjI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Oct 2019 01:39:08 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33543 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726550AbfJ1FjI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Oct 2019 01:39:08 -0400
-Received: by mail-pf1-f196.google.com with SMTP id c184so6139255pfb.0;
-        Sun, 27 Oct 2019 22:39:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=4TLpVWf2CVPtyv8muRNOfqy/oxK+saaX3jSceO7ujLs=;
-        b=oZVEgl5I+XusKxKa+xY4nYK7sD66jVdrJs27Ogmpwsdcz6uQwAa81c716UmcsjQoHT
-         LJvXK6RZ8LpQGeiNsl2UvFkbYbLV6lvRDZ2CvnjAcHL6ZTjp4gIi/nRR/wUKCI6n3gKj
-         nrszOz5PD4X8t0T1vui0e/jvUA16Pd+vEbP1sTpCQ+mdmKO6VXbGBNHxhx5QT4UZ/F9s
-         HyuZ7/AF9LWwr3HoPkTT31q84Z2uovUt/VnE9RlCbweFrMcwf/pU5LxwKmQz9s58N1BQ
-         Syv413sOBtU3J8bOH7+JC2nPpC0wvNE/d7HexwdWVVzqlqMtn4LwVExzpufy/YwEZwFR
-         /scw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=4TLpVWf2CVPtyv8muRNOfqy/oxK+saaX3jSceO7ujLs=;
-        b=OMbyRQIu76TF8qzFvH5mmGg0jGP0px2Ex7jx91wuynuN7yhdzq25Lgz1NAafQhv/2a
-         JNwxEHk2FZu/lQXmPCdSwI/F42HqSxk8XizoE1yWHtdObCyx+HKXg0YG1PYUTGFdNI1o
-         ACKfpYY9u7fdK/LHDxiTPaXHeNonkLLLeluSqxARh71seRmQtKRuZ2yxsIFovBmXP746
-         jS6y9jwutjYdXI9DoGje3dctS3qLDNSQTUXVyYrgEpHHFZVRzC2txn1t/VsM3O6sG/vE
-         oy5H4J6kvIfzRQE2OsJS+tfH+xCDfnPA25QMZiM6oluSr9oEF2+oi220pkO3bhQ6GbH3
-         6TPQ==
-X-Gm-Message-State: APjAAAW6rAgVJPmxS4hVBtZ8rAAX3sbYFMPeybDZrSEc/7jwP98RaDbT
-        /4YjsDYYbZs18avrxZfLJa8=
-X-Google-Smtp-Source: APXvYqznWT2B8o3TXTpO5S61wCXRH+CISbuywggih+NT11L9qppGsMrPmOHGdacuRlsUQSe4ZI1Bsw==
-X-Received: by 2002:a17:90a:24ca:: with SMTP id i68mr20825227pje.11.1572241147645;
-        Sun, 27 Oct 2019 22:39:07 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id 22sm9354320pfo.131.2019.10.27.22.39.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Oct 2019 22:39:06 -0700 (PDT)
-Date:   Sun, 27 Oct 2019 22:39:04 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andrew Duggan <aduggan@synaptics.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Christopher Heiny <Cheiny@synaptics.com>,
-        Simon Wood <simon@mungewell.org>,
-        Nick Dyer <nick@shmanahar.org>
-Subject: Re: [PATCH 1/3] Input: synaptics-rmi4 - disable the relative
- position IRQ in the F12 driver
-Message-ID: <20191028053904.GG163068@dtor-ws>
-References: <20191025002527.3189-1-aduggan@synaptics.com>
- <20191025002527.3189-2-aduggan@synaptics.com>
+        id S1730960AbfJ1H24 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Oct 2019 03:28:56 -0400
+Received: from mail-eopbgr70083.outbound.protection.outlook.com ([40.107.7.83]:37700
+        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730235AbfJ1H24 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 28 Oct 2019 03:28:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HwfrQwQGPSuXY7AHG2HnSR0LfoaawSo/3G94HKkXn32GLks2I4Ebh4kNz9R/S4h0EdOOD7IagpQgVFztnspIpPNkAsdvibpsDkB+k3/ad7qojRtfM2fe6Kft90t6wnbt16aZMyK+nipBnPNZrkOoCxEW8LyOlhbqCU5GtaZpxkB4a53dEH+yp03bzEa1XFZkNyq43FS+kDGoqN0P4uswDaN2GcEJYV4ke8Dx7AvJHb0aYaG3ncLoSkFhaZ0MgQlNQBNfHIj0xpXzrcoN6gsZ5iGDuspMIZoc9ustqHElxjifgkUSQkJhifwGNk6n1KxnkEKqmtv+4jKjxSxCx1fkbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wOs45WhULAeWLTJ0RE9oJy8v7/jLt2nsqc/UExl8qg0=;
+ b=DCQbDxrQu5bthovTUQpwJcE3l4QbRbJzO3jiv1zqvhl6ADY2zGFyTtUR2Zil99QFfUYBsOW6JXMRxVGqZPWFfFWyhkI/g7APPBsVax2yX6W0nSejjmi7kgmd7IET02BSAsFcG+BsnbYzY5JTdOEF00cPbx2uZPhEesRKJOx4ThKylpuG6nFwVsQbqE/cfvtS6q+/NwWD6JUhRc09FFDcDE1T3KTFpYTQe/SbqXVL1k7mVF9FvPmuaeX6UPoDa21sKpUfxg45Kdf3IyLYpoASnBMaF6vcdqJLCttZf1+ghrcDvVMf5fkVnNE7+K3gxQPpeyf8oKvIx6eA9egpUfuEtg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wOs45WhULAeWLTJ0RE9oJy8v7/jLt2nsqc/UExl8qg0=;
+ b=PS+5/eA18hAoSIGL9m/z7Z6zrLSGh0cgXALsIidJEgWq4i179cE9i72totVPRgDWoTki6Fcno+1WxdQTrBp/+CpVvZDsk4n1Hgkd6jIRThuXgR4Lc9H6Cmfy9S22ktCv9rbgEYyLIF+TRS4VldC85YDzIJURqU+osz77yVv+jA8=
+Received: from VI1PR08MB3758.eurprd08.prod.outlook.com (20.178.14.18) by
+ VI1PR08MB3309.eurprd08.prod.outlook.com (52.133.12.144) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2387.22; Mon, 28 Oct 2019 07:28:51 +0000
+Received: from VI1PR08MB3758.eurprd08.prod.outlook.com
+ ([fe80::6d33:11a7:b1d0:d69e]) by VI1PR08MB3758.eurprd08.prod.outlook.com
+ ([fe80::6d33:11a7:b1d0:d69e%7]) with mapi id 15.20.2387.025; Mon, 28 Oct 2019
+ 07:28:51 +0000
+From:   Matthias Fend <Matthias.Fend@wolfvision.net>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Martin Kepplinger <martink@posteo.de>
+CC:     Dixit Parmar <dixitparmar19@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: AW: [PATCH 0/8] Face lift for st1232 touchscreen driver
+Thread-Topic: [PATCH 0/8] Face lift for st1232 touchscreen driver
+Thread-Index: AQHViRLL7LEI+NslIkOYR8LQL7dsq6dvrR4g
+Date:   Mon, 28 Oct 2019 07:28:51 +0000
+Message-ID: <VI1PR08MB37588375F08EA4F692AE475D85660@VI1PR08MB3758.eurprd08.prod.outlook.com>
+References: <20191022195622.66976-1-dmitry.torokhov@gmail.com>
+In-Reply-To: <20191022195622.66976-1-dmitry.torokhov@gmail.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Matthias.Fend@wolfvision.net; 
+x-originating-ip: [91.118.163.37]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1bcb8e75-bcaa-40f8-3357-08d75b787b2a
+x-ms-traffictypediagnostic: VI1PR08MB3309:
+x-microsoft-antispam-prvs: <VI1PR08MB3309578AAF20236F648701D185660@VI1PR08MB3309.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0204F0BDE2
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(39830400003)(136003)(366004)(346002)(376002)(199004)(189003)(66946007)(76116006)(14454004)(64756008)(71200400001)(71190400001)(66446008)(508600001)(66066001)(66556008)(55016002)(66476007)(9686003)(54906003)(74316002)(7736002)(6436002)(33656002)(316002)(110136005)(446003)(5660300002)(476003)(7696005)(76176011)(99286004)(52536014)(86362001)(256004)(8936002)(4326008)(8676002)(11346002)(26005)(81156014)(81166006)(6506007)(102836004)(2906002)(6116002)(486006)(25786009)(3846002)(305945005)(186003);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR08MB3309;H:VI1PR08MB3758.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: wolfvision.net does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: YcZON8I2p8ZWTXHNPU4yaGy/HdW96pBm32uK/7u0J7pXw5QMydLI2DYGcInLejwQvpdC8HULgOXdouS/wgk8EeiykDKQGNetJiFiF5kFMJU2OERTWR+bOL7rsp6eFZGWSgAsE9S7jBZwmxmO5SE6Nl95GGTmHaXyolgkYUGGZjskS/kAt3hspM9YfT/mbnUK/S5brZf/JdJ/1Cu5ZbHNRP/7BjwxUfaP2VlZXobiC+vky1jAVG40Uqbvg4Tgql+xJHL3nuTEiJGNhZqFx7C+k1tAuQqLsRkj5nx0M1fNnfQ35sv/ucrBSMUES5mzBQ/qi0USiE+FZ5qcmXUsOQv8Vp5WqFGc1utW+if+K+31376+/E36OcH2WXKmsCo53t8YWaCroUyJz14wjxN0pMWvQoSTqHpJVjBtKuPxAUptTeMPN9mpNMKEZuobZlYFhPS3
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191025002527.3189-2-aduggan@synaptics.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bcb8e75-bcaa-40f8-3357-08d75b787b2a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2019 07:28:51.4891
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 8N5RP3lD0AiN98a7wtE0I+8FAyaZ9x3h7gptrqliqYcf8Rc2yNfsfFBIXRABnVa3awKrsPvaJ5boLltwvV8+AOe+XI1wiNrLTmxUoOIqfrM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3309
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Andrew,
+Hi Dmitry,
 
-On Fri, Oct 25, 2019 at 12:25:56AM +0000, Andrew Duggan wrote:
-> This patch fixes an issue seen on HID touchpads which report finger
-> positions using RMI4 Function 12. The issue manifests itself as
-> spurious button presses as described in:
-> https://www.spinics.net/lists/linux-input/msg58618.html
-> 
-> Commit 24d28e4f1271 ("Input: synaptics-rmi4 - convert irq distribution
-> to irq_domain") switched the RMI4 driver to using an irq_domain to handle
-> RMI4 function interrupts. Functions with more then one interrupt now have
-> each interrupt mapped to their own IRQ and IRQ handler. The result of
-> this change is that the F12 IRQ handler was now getting called twice. Once
-> for the absolute data interrupt and once for the relative data interrupt.
-> For HID devices, calling rmi_f12_attention() a second time causes the
-> attn_data data pointer and size to be set incorrectly. When the touchpad
-> button is pressed, F30 will generate an interrupt and attempt to read the
-> F30 data from the invalid attn_data data pointer and report incorrect
-> button events.
+> -----Urspr=FCngliche Nachricht-----
+> Von: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Gesendet: Dienstag, 22. Oktober 2019 21:56
+> An: Martin Kepplinger <martink@posteo.de>
+> Cc: Dixit Parmar <dixitparmar19@gmail.com>; Henrik Rydberg
+> <rydberg@bitmath.org>; Kuninori Morimoto
+> <kuninori.morimoto.gx@renesas.com>; Matthias Fend
+> <Matthias.Fend@wolfvision.net>; linux-input@vger.kernel.org; linux-
+> kernel@vger.kernel.org
+> Betreff: [PATCH 0/8] Face lift for st1232 touchscreen driver
+>=20
+> This series cleans up the driver and switches it over to the slotted
+> multi-touch protocol (MT-B) that should reduce the traffic between kernel
+> and userspace.
+>=20
+> Note that I do not have hardware, so I would appreciate if you could try
+> running it and tell me if it is broken or not.
 
-Maybe we should create only 1 interrupt per function instead of
-multiple? It looks like the functions read their entire block of data on
-any interrupt received.
+Looks good. I tested the series from your st1232 branch [1] and could not s=
+ee any regressions.
+Note that I my 'real' application only supports ONE finger. So, the other f=
+ingers are just tested with debug output.
 
-> 
-> This patch disables the F12 relative interrupt which prevents
-> rmi_f12_attention() from being called twice.
+Thanks,
+ ~Matthias
 
-Don't we have similar issue with F11, and maybe others?
+[1] git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git st1232
 
-Also, as far as F12 goes, I see that it may mark sensor as reporting
-relative coordinates, but I do not see where it would actually emit
-relative events. I must be missing something here...
+>=20
+> Thanks!
+>=20
+>=20
+> Dmitry Torokhov (8):
+>   Input: st1232 - simplify parsing of read buffer
+>   Input: st1232 - do not unconditionally configure as wakeup source
+>   Input: st1232 - rely on I2C core to configure wakeup interrupt
+>   Input: st1232 - do not reset the chip too early
+>   Input: st1232 - do not allocate fingers data separately
+>   Input: st1232 - do not set parent device explicitly
+>   Input: st1232 - note that the receive buffer is DMA-safe
+>   Input: st1232 - switch to using MT-B protocol
+>=20
+>  drivers/input/touchscreen/st1232.c | 184 ++++++++++++++---------------
+>  1 file changed, 89 insertions(+), 95 deletions(-)
+>=20
+> --
+> 2.23.0.866.gb869b98d4c-goog
 
-Thanks.
-
--- 
-Dmitry
