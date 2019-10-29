@@ -2,100 +2,160 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9C72E7EFD
-	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 05:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1AF2E7F03
+	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 05:12:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726243AbfJ2EJk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Oct 2019 00:09:40 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:33283 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725830AbfJ2EJk (ORCPT
+        id S1728394AbfJ2EMh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Oct 2019 00:12:37 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:35349 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726705AbfJ2EMh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Oct 2019 00:09:40 -0400
-Received: by mail-pf1-f193.google.com with SMTP id c184so8573904pfb.0;
-        Mon, 28 Oct 2019 21:09:38 -0700 (PDT)
+        Tue, 29 Oct 2019 00:12:37 -0400
+Received: by mail-pg1-f196.google.com with SMTP id c8so8583093pgb.2;
+        Mon, 28 Oct 2019 21:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=IvoM2eWpiqYm1TPcjOfOHitp5xuEj0gkRugCi8K3Djg=;
-        b=arB2RctSY1mxcFWm+0FTKr97oFW87d+WaW+fHurjvRY0TL7FCFMtGwpI/SmgkW2QsR
-         K8F0dJ8x2lLjl/zRJhQuNLfoHklh5vPZfsWOgo8752DUc5gok5aUFSIGEqHdDWGn6Uqr
-         8GaeGfbAAn1QII0JFtS+EzfbPajDfgFO/syQdIr4ZUWWzMhDVAMjcUXVNWdkGBPOLK5N
-         Gt6MFaZdD1foSe3hFdytQm5JiCIlTGyZEArsKi1oePRwGNv98dDcJSALdC/3P8b0fPG8
-         6nQhB75o3Dc3NflvcIAk6YqZuLABlFaKED7f5VfmLfZ8Gu8/5VOS3dusg0QLHfxexLag
-         3eaw==
+        bh=fotQTCwFbUkGmWq3Vfv6xZ57FAEae+iQDNEiUNGXyFA=;
+        b=rnSsf3KEcCyiauJP+dBU6It92AJHO4FKeAHf4yULj5px2zirNuwEj6WeFeUVS/BfN4
+         yG2fgpEZKrbwiCY9/HlGRBKEg4Odvucywf3sn2BcSZhUTkWujkhrFw5A6aHHeXmL9lQK
+         xf0wIqjNH1sYqBeKxN5OHbrR52ZgyZBAklVxVXsG5xzc/Exxft+TivBLBvQqIIBB7mtt
+         sYJXojKde/nKs2PFakGZiwCdHeOJM6E0XKOyxiWq3rAXeeqGBGWGmHRH9LbXIuR+WcDu
+         GHCb6AjItnZphJuyW+CPvn9qgQIISr0RX6Vm83xfRBMn34d5BKEt+CbRvYz+UEQNHNmj
+         6hqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=IvoM2eWpiqYm1TPcjOfOHitp5xuEj0gkRugCi8K3Djg=;
-        b=Ydv/CrgujMjE9vhy6ul7LUN14Jonozkm3FBTu+dHahpEHmZLLK2Uw29JMXc3c+4414
-         fGwVK7kyh7+ekIcCZhpI9OkVsJk3v5d0/XyEPSE0fvSC/t5hl92jYB2zLzi4P2mxMVu4
-         3BsKZZCYKkqfW22xRnP83Gvp83J1m2dE5BypVTi9Xr4AdQI9V92whT92VOGocihRpKCO
-         K4aWKWuxjeCRMpw/HTA5Am3MJjY9kYf7XDXLuJ3pg9PtC5Rne84F6LAatV0TD1XNhmUi
-         G7cqPUNcsId2p7qx8eRAFueBnx87tm7/HBQg4X/ZVM2eBjW2QzXn8M1lsv6Wp3mHkvZX
-         awJg==
-X-Gm-Message-State: APjAAAWwzsBv8EGh8d9BybAjCdGSfv1uZNwg8Oo3fVtXwwN16c0gwNAD
-        2PNd7xrSKBnaLIbeni0o0pl/K2Qx
-X-Google-Smtp-Source: APXvYqw1bAKAzjKX7DWOZEPp2c0sjnuqtnYHBAHUUyRYVp/dgdTGHZMLZdlfwNujm4e4y5uvz3UDXA==
-X-Received: by 2002:a62:4d04:: with SMTP id a4mr24610260pfb.71.1572322177975;
-        Mon, 28 Oct 2019 21:09:37 -0700 (PDT)
+        bh=fotQTCwFbUkGmWq3Vfv6xZ57FAEae+iQDNEiUNGXyFA=;
+        b=g140WkzCzUh1PLS0HJRRuWAjCXmLvdv3HhfPTM/LvKuJESMRoWNLyFvdPGsVSWuI2w
+         Ka3FiG9cdZ5CCJ3DnxQzfKqv0KVLZEvCzhNMCmlXk+NTpZtMxhIHkWYLGr/a6OUupvkt
+         BCgNJLlBUYMUvti2BZdTdoK+vXZ2hzst/EqpbmTuP7+Jeu6aEhDwo0P5PLsmJtOS2cUe
+         1R1a2IEJrVZVwP0ZwQ9MdQJPf5HlcSNNnzXMhEuU8UZSd0MCnctCJoAWdLTbFz9B3bzC
+         Ki1+jIRLpye8ivyPqr/WLaAnlSv48iwHYs8XBD0j+NMHDOLWn2nfusN7xtV2fg8HZ0hA
+         5Huw==
+X-Gm-Message-State: APjAAAWYEdwz3TnHIPgEIlcNROnNwl7dIbqEseoP7E3RlGYsfDwLAWkz
+        FoU1pLfrhmU9Sr366LccPEM=
+X-Google-Smtp-Source: APXvYqzhn7DFilMbyw5b9cTxX4wjvnl0wGuIeOA2ub7dz46QVLXJbdGYxKU0J0WYmxtsidT/2aaW9Q==
+X-Received: by 2002:a63:1e59:: with SMTP id p25mr24365509pgm.361.1572322356001;
+        Mon, 28 Oct 2019 21:12:36 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id i123sm14373079pfe.145.2019.10.28.21.09.35
+        by smtp.gmail.com with ESMTPSA id t13sm11663745pfh.12.2019.10.28.21.12.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2019 21:09:36 -0700 (PDT)
-Date:   Mon, 28 Oct 2019 21:09:33 -0700
+        Mon, 28 Oct 2019 21:12:35 -0700 (PDT)
+Date:   Mon, 28 Oct 2019 21:12:33 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Matthias Fend <Matthias.Fend@wolfvision.net>
-Cc:     Martin Kepplinger <martink@posteo.de>,
-        Dixit Parmar <dixitparmar19@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/8] Face lift for st1232 touchscreen driver
-Message-ID: <20191029040933.GC57214@dtor-ws>
-References: <20191022195622.66976-1-dmitry.torokhov@gmail.com>
- <VI1PR08MB37588375F08EA4F692AE475D85660@VI1PR08MB3758.eurprd08.prod.outlook.com>
+To:     Ondrej Jirman <megous@megous.com>
+Cc:     linux-sunxi@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?iso-8859-1?Q?Myl=E8ne?= Josserand 
+        <mylene.josserand@bootlin.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/3] input: edt-ft5x06: Add support for regulator
+Message-ID: <20191029041233.GD57214@dtor-ws>
+References: <20191029005806.3577376-1-megous@megous.com>
+ <20191029005806.3577376-2-megous@megous.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <VI1PR08MB37588375F08EA4F692AE475D85660@VI1PR08MB3758.eurprd08.prod.outlook.com>
+In-Reply-To: <20191029005806.3577376-2-megous@megous.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Oct 28, 2019 at 07:28:51AM +0000, Matthias Fend wrote:
-> Hi Dmitry,
+On Tue, Oct 29, 2019 at 01:58:04AM +0100, Ondrej Jirman wrote:
+> From: Mylène Josserand <mylene.josserand@bootlin.com>
 > 
-> > -----Ursprüngliche Nachricht-----
-> > Von: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > Gesendet: Dienstag, 22. Oktober 2019 21:56
-> > An: Martin Kepplinger <martink@posteo.de>
-> > Cc: Dixit Parmar <dixitparmar19@gmail.com>; Henrik Rydberg
-> > <rydberg@bitmath.org>; Kuninori Morimoto
-> > <kuninori.morimoto.gx@renesas.com>; Matthias Fend
-> > <Matthias.Fend@wolfvision.net>; linux-input@vger.kernel.org; linux-
-> > kernel@vger.kernel.org
-> > Betreff: [PATCH 0/8] Face lift for st1232 touchscreen driver
-> > 
-> > This series cleans up the driver and switches it over to the slotted
-> > multi-touch protocol (MT-B) that should reduce the traffic between kernel
-> > and userspace.
-> > 
-> > Note that I do not have hardware, so I would appreciate if you could try
-> > running it and tell me if it is broken or not.
+> Add the support for enabling optional regulator that may be used as VCC
+> source.
 > 
-> Looks good. I tested the series from your st1232 branch [1] and could not see any regressions.
-> Note that I my 'real' application only supports ONE finger. So, the other fingers are just tested with debug output.
+> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> Signed-off-by: Mylène Josserand <mylene.josserand@bootlin.com>
 
-Thank you for testing. I committed the patches.
+Applied, thank you.
+
+> ---
+>  drivers/input/touchscreen/edt-ft5x06.c | 30 ++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+> 
+> diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+> index 5525f1fb1526..d61731c0037d 100644
+> --- a/drivers/input/touchscreen/edt-ft5x06.c
+> +++ b/drivers/input/touchscreen/edt-ft5x06.c
+> @@ -28,6 +28,7 @@
+>  #include <linux/input/mt.h>
+>  #include <linux/input/touchscreen.h>
+>  #include <asm/unaligned.h>
+> +#include <linux/regulator/consumer.h>
+>  
+>  #define WORK_REGISTER_THRESHOLD		0x00
+>  #define WORK_REGISTER_REPORT_RATE	0x08
+> @@ -88,6 +89,7 @@ struct edt_ft5x06_ts_data {
+>  	struct touchscreen_properties prop;
+>  	u16 num_x;
+>  	u16 num_y;
+> +	struct regulator *vcc;
+>  
+>  	struct gpio_desc *reset_gpio;
+>  	struct gpio_desc *wake_gpio;
+> @@ -1036,6 +1038,13 @@ edt_ft5x06_ts_set_regs(struct edt_ft5x06_ts_data *tsdata)
+>  	}
+>  }
+>  
+> +static void edt_ft5x06_disable_regulator(void *arg)
+> +{
+> +	struct edt_ft5x06_ts_data *data = arg;
+> +
+> +	regulator_disable(data->vcc);
+> +}
+> +
+>  static int edt_ft5x06_ts_probe(struct i2c_client *client,
+>  					 const struct i2c_device_id *id)
+>  {
+> @@ -1064,6 +1073,27 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+>  
+>  	tsdata->max_support_points = chip_data->max_support_points;
+>  
+> +	tsdata->vcc = devm_regulator_get(&client->dev, "vcc");
+> +	if (IS_ERR(tsdata->vcc)) {
+> +		error = PTR_ERR(tsdata->vcc);
+> +		if (error != -EPROBE_DEFER)
+> +			dev_err(&client->dev,
+> +				"failed to request regulator: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	error = regulator_enable(tsdata->vcc);
+> +	if (error < 0) {
+> +		dev_err(&client->dev, "failed to enable vcc: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	error = devm_add_action_or_reset(&client->dev,
+> +					 edt_ft5x06_disable_regulator,
+> +					 tsdata);
+> +	if (error)
+> +		return error;
+> +
+>  	tsdata->reset_gpio = devm_gpiod_get_optional(&client->dev,
+>  						     "reset", GPIOD_OUT_HIGH);
+>  	if (IS_ERR(tsdata->reset_gpio)) {
+> -- 
+> 2.23.0
+> 
 
 -- 
 Dmitry
