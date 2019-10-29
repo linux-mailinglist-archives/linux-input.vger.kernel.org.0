@@ -2,191 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B5E6E8723
-	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 12:31:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55BF3E8883
+	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 13:43:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728101AbfJ2LaL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Oct 2019 07:30:11 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:45195 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727082AbfJ2LaK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Oct 2019 07:30:10 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iPPhI-0001hB-9f; Tue, 29 Oct 2019 12:30:00 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iPPhH-0003aC-0J; Tue, 29 Oct 2019 12:29:59 +0100
-Date:   Tue, 29 Oct 2019 12:29:58 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-sunxi@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        id S2387828AbfJ2Mne (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Oct 2019 08:43:34 -0400
+Received: from vps.xff.cz ([195.181.215.36]:32896 "EHLO vps.xff.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727675AbfJ2Mne (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 29 Oct 2019 08:43:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+        t=1572353011; bh=k3Nz5ZjLe0bnhm7wv+maW9ij16pFEqan6p8GTLgONJE=;
+        h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
+        b=lB3OlaK+8qw1a9OhXelLYEtS7kgLE3SNVXasH07XVZyr5LOr2fUFsp3FKKr1EpZi5
+         eBsbPmfSk7r1Ml/o0ED8JU5AZLsfeW1+/haYNRQYuErqWcPvKJzqY4KfLZECEJMmMb
+         Cunx4bJni6LzSFIVbwFU+qrSEhiVGx7L+5HYYd4Q=
+Date:   Tue, 29 Oct 2019 13:43:31 +0100
+From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-sunxi@googlegroups.com, Hans de Goede <hdegoede@redhat.com>,
         Maxime Ripard <mripard@kernel.org>,
         Chen-Yu Tsai <wens@csie.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?iso-8859-1?Q?Myl=E8ne?= Josserand 
-        <mylene.josserand@bootlin.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/3] input: edt-ft5x06: Add support for regulator
-Message-ID: <20191029112958.gd3vbbcjxuw6n3m5@pengutronix.de>
-References: <20191029005806.3577376-1-megous@megous.com>
- <20191029005806.3577376-2-megous@megous.com>
- <20191029041233.GD57214@dtor-ws>
- <20191029085545.cw5c24gi76gbfdhy@pengutronix.de>
- <20191029112129.t4mxqyybltjbuyhj@core.my.home>
+        "open list:SUN4I LOW RES ADC ATTACHED TABLET KEYS DRIVER" 
+        <linux-input@vger.kernel.org>,
+        "moderated list:ARM/Allwinner sunXi SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [linux-sunxi] Re: [PATCH] input: sun4i-lradc-keys: Add wakup
+ support
+Message-ID: <20191029124331.7yh5kccsq2syxm47@core.my.home>
+Mail-Followup-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-sunxi@googlegroups.com, Hans de Goede <hdegoede@redhat.com>,
+        Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        "open list:SUN4I LOW RES ADC ATTACHED TABLET KEYS DRIVER" <linux-input@vger.kernel.org>,
+        "moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20191028221502.3503543-1-megous@megous.com>
+ <20191028233828.GA57214@dtor-ws>
+ <20191028235626.5afvszxtppsieywi@core.my.home>
+ <20191029001250.GB57214@dtor-ws>
+ <20191029014559.gif3ay7anq24un2i@core.my.home>
+ <20191029041804.GF57214@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191029112129.t4mxqyybltjbuyhj@core.my.home>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 12:26:01 up 164 days, 17:44, 99 users,  load average: 0.11, 0.04,
- 0.01
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+In-Reply-To: <20191029041804.GF57214@dtor-ws>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Ondřej,
-
-On 19-10-29 12:21, Ondřej Jirman wrote:
-> Hi Marco,
-> 
-> On Tue, Oct 29, 2019 at 09:55:45AM +0100, Marco Felsch wrote:
-> > Hi Dmitry,
-> > 
-> > On 19-10-28 21:12, Dmitry Torokhov wrote:
-> > > On Tue, Oct 29, 2019 at 01:58:04AM +0100, Ondrej Jirman wrote:
-> > > > From: Mylène Josserand <mylene.josserand@bootlin.com>
+On Mon, Oct 28, 2019 at 09:18:04PM -0700, Dmitry Torokhov wrote:
+> On Tue, Oct 29, 2019 at 02:45:59AM +0100, Ondřej Jirman wrote:
+> > On Mon, Oct 28, 2019 at 05:12:50PM -0700, Dmitry Torokhov wrote:
+> > > On Tue, Oct 29, 2019 at 12:56:26AM +0100, Ondřej Jirman wrote:
+> > > > On Mon, Oct 28, 2019 at 04:38:28PM -0700, Dmitry Torokhov wrote:
+> > > > > > +
+> > > > > > +	error = dev_pm_set_wake_irq(dev, irq);
+> > > > > > +	if (error) {
+> > > > > > +		dev_err(dev, "Could not set wake IRQ\n");
+> > > > > > +		return error;
+> > > > > > +	}
+> > > > > > +
+> > > > > 
+> > > > > I wonder if we could teach platform driver core to handle this for us.
 > > > > 
-> > > > Add the support for enabling optional regulator that may be used as VCC
-> > > > source.
+> > > > Not sure, some drivers do enable/disable wake_irq by hand in suspend/resume
+> > > > callbacks, so it would probably need to be opt-in somehow. I guess calling the
+> > > > function like this is one way to make it opt-in.
 > > > > 
-> > > > Signed-off-by: Ondrej Jirman <megous@megous.com>
-> > > > Signed-off-by: Mylène Josserand <mylene.josserand@bootlin.com>
+> > > > The other way may be by passing a flag somewhere, like to
+> > > > request_threaded_irq. Did you have something more concrete in mind?
 > > > 
-> > > Applied, thank you.
+> > > I think it is perfectly fine to continue using enable_irq_wake and
+> > > disable_irq_wake from the driver while marking irq as being wake irq
+> > > form the core.
 > > 
-> > What happens with my vdd patches?
-> 
-> Sorry for not noticing your patches, I was only aware of Mylène's older series.
-> It looks like you can just skip regulator enable support from your series, and
-> re-send the deep-sleep mechanism and wakeup source patches only.
-
-No problems just wondered myself. Now I need to adapt the patches ^^
-
-> I'll test it with my board, and give you a tested-by.
-
-Thanks.
-
-Regards,
-  Marco
-
-> thank you and regards,
-> 	o.
-> 
-> > Regards,
-> >   Marco
+> > I see, it looks like irq_set_irq_wake will track the calls via wake_depth
 > > 
-> > > 
-> > > > ---
-> > > >  drivers/input/touchscreen/edt-ft5x06.c | 30 ++++++++++++++++++++++++++
-> > > >  1 file changed, 30 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-> > > > index 5525f1fb1526..d61731c0037d 100644
-> > > > --- a/drivers/input/touchscreen/edt-ft5x06.c
-> > > > +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> > > > @@ -28,6 +28,7 @@
-> > > >  #include <linux/input/mt.h>
-> > > >  #include <linux/input/touchscreen.h>
-> > > >  #include <asm/unaligned.h>
-> > > > +#include <linux/regulator/consumer.h>
-> > > >  
-> > > >  #define WORK_REGISTER_THRESHOLD		0x00
-> > > >  #define WORK_REGISTER_REPORT_RATE	0x08
-> > > > @@ -88,6 +89,7 @@ struct edt_ft5x06_ts_data {
-> > > >  	struct touchscreen_properties prop;
-> > > >  	u16 num_x;
-> > > >  	u16 num_y;
-> > > > +	struct regulator *vcc;
-> > > >  
-> > > >  	struct gpio_desc *reset_gpio;
-> > > >  	struct gpio_desc *wake_gpio;
-> > > > @@ -1036,6 +1038,13 @@ edt_ft5x06_ts_set_regs(struct edt_ft5x06_ts_data *tsdata)
-> > > >  	}
-> > > >  }
-> > > >  
-> > > > +static void edt_ft5x06_disable_regulator(void *arg)
-> > > > +{
-> > > > +	struct edt_ft5x06_ts_data *data = arg;
-> > > > +
-> > > > +	regulator_disable(data->vcc);
-> > > > +}
-> > > > +
-> > > >  static int edt_ft5x06_ts_probe(struct i2c_client *client,
-> > > >  					 const struct i2c_device_id *id)
-> > > >  {
-> > > > @@ -1064,6 +1073,27 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
-> > > >  
-> > > >  	tsdata->max_support_points = chip_data->max_support_points;
-> > > >  
-> > > > +	tsdata->vcc = devm_regulator_get(&client->dev, "vcc");
-> > > > +	if (IS_ERR(tsdata->vcc)) {
-> > > > +		error = PTR_ERR(tsdata->vcc);
-> > > > +		if (error != -EPROBE_DEFER)
-> > > > +			dev_err(&client->dev,
-> > > > +				"failed to request regulator: %d\n", error);
-> > > > +		return error;
-> > > > +	}
-> > > > +
-> > > > +	error = regulator_enable(tsdata->vcc);
-> > > > +	if (error < 0) {
-> > > > +		dev_err(&client->dev, "failed to enable vcc: %d\n", error);
-> > > > +		return error;
-> > > > +	}
-> > > > +
-> > > > +	error = devm_add_action_or_reset(&client->dev,
-> > > > +					 edt_ft5x06_disable_regulator,
-> > > > +					 tsdata);
-> > > > +	if (error)
-> > > > +		return error;
-> > > > +
-> > > >  	tsdata->reset_gpio = devm_gpiod_get_optional(&client->dev,
-> > > >  						     "reset", GPIOD_OUT_HIGH);
-> > > >  	if (IS_ERR(tsdata->reset_gpio)) {
-> > > > -- 
-> > > > 2.23.0
-> > > > 
-> > > 
-> > > -- 
-> > > Dmitry
-> > > 
+> > https://elixir.bootlin.com/linux/latest/source/kernel/irq/manage.c#L714
 > > 
-> > -- 
-> > Pengutronix e.K.                           |                             |
-> > Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-> > Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-> > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> > But all irqs are not necessarily wake irqs, no? So it still may need to be
+> > opt-in somehow.
 > 
+> I thought we'd do that for IRQ named "wakeirq" or the very first IRQ if
+> there is no named IRQ, and when we have the "wakeup-source" property,
+> similarly to what we do in I2C bus.
 
--- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+I see. I've looked at drivers using dev_pm_set_wake_irq and
+dev_pm_set_dedicated_wake_irq and not many platform drivers would potentially
+benefit (~25 out of 2300), of those only some use OF and are platform
+drivers, maybe 15-20:
+
+https://elixir.bootlin.com/linux/latest/ident/dev_pm_set_wake_irq
+https://elixir.bootlin.com/linux/latest/ident/dev_pm_set_dedicated_wake_irq
+
+I don't think it's worth it.
+
+regards,
+	o.
+
+> Thanks.
+> 
+> -- 
+> Dmitry
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
