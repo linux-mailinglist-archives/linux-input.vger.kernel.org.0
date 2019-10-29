@@ -2,115 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55BF3E8883
-	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 13:43:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAAF1E8A28
+	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 14:57:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387828AbfJ2Mne (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Oct 2019 08:43:34 -0400
-Received: from vps.xff.cz ([195.181.215.36]:32896 "EHLO vps.xff.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727675AbfJ2Mne (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Oct 2019 08:43:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-        t=1572353011; bh=k3Nz5ZjLe0bnhm7wv+maW9ij16pFEqan6p8GTLgONJE=;
-        h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
-        b=lB3OlaK+8qw1a9OhXelLYEtS7kgLE3SNVXasH07XVZyr5LOr2fUFsp3FKKr1EpZi5
-         eBsbPmfSk7r1Ml/o0ED8JU5AZLsfeW1+/haYNRQYuErqWcPvKJzqY4KfLZECEJMmMb
-         Cunx4bJni6LzSFIVbwFU+qrSEhiVGx7L+5HYYd4Q=
-Date:   Tue, 29 Oct 2019 13:43:31 +0100
-From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-sunxi@googlegroups.com, Hans de Goede <hdegoede@redhat.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        "open list:SUN4I LOW RES ADC ATTACHED TABLET KEYS DRIVER" 
-        <linux-input@vger.kernel.org>,
-        "moderated list:ARM/Allwinner sunXi SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [linux-sunxi] Re: [PATCH] input: sun4i-lradc-keys: Add wakup
- support
-Message-ID: <20191029124331.7yh5kccsq2syxm47@core.my.home>
-Mail-Followup-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-sunxi@googlegroups.com, Hans de Goede <hdegoede@redhat.com>,
-        Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        "open list:SUN4I LOW RES ADC ATTACHED TABLET KEYS DRIVER" <linux-input@vger.kernel.org>,
-        "moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20191028221502.3503543-1-megous@megous.com>
- <20191028233828.GA57214@dtor-ws>
- <20191028235626.5afvszxtppsieywi@core.my.home>
- <20191029001250.GB57214@dtor-ws>
- <20191029014559.gif3ay7anq24un2i@core.my.home>
- <20191029041804.GF57214@dtor-ws>
+        id S2388453AbfJ2N5S (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Oct 2019 09:57:18 -0400
+Received: from mx0b-00128a01.pphosted.com ([148.163.139.77]:63042 "EHLO
+        mx0b-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388294AbfJ2N5S (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 29 Oct 2019 09:57:18 -0400
+Received: from pps.filterd (m0167090.ppops.net [127.0.0.1])
+        by mx0b-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9TDlq21032045;
+        Tue, 29 Oct 2019 09:57:05 -0400
+Received: from nam03-co1-obe.outbound.protection.outlook.com (mail-co1nam03lp2050.outbound.protection.outlook.com [104.47.40.50])
+        by mx0b-00128a01.pphosted.com with ESMTP id 2vvjs67ran-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Tue, 29 Oct 2019 09:57:05 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HckpPdxGoJSW0zD1QNISBYGkOT5prQkucobA2JMLJmIQofmuyUlJqC3SOQ2CtD+W6E/aHmgv8yuCwOFbcR055y9E+xAt9jpxnjNHdx6wuAREiX1+dYWoLE88vsiURnC1ElTItfBrtPiSNUH1HicfDj2CIlrMftCyZ2BJ5NXMtBi+ksP52qGAIDduTjOgDrs4/0gSd/H9rgHg7kHqm4ciPXavmqre5JsoYxQK9PZLL+wSoLOylh5vwXkDtXNDYPpHClKN3VGazT2jp09bz/IcXhCDI8yDPatyvRkzO9W+49xd5uRn/uq9KbFZMrbOPgfwb47rxnvQw3HxBR4msaOlTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XNB7ztnaq5+XhmGPvdtkzOE01FYiN2TVnlteExXiORQ=;
+ b=K5bDVtzB+RMgy29cbHbHaPRcmd3QTJD4gdWsfEIUVt0OGwi4nOS0E38PGuDdh5zW4/6A0bY6XiULicbL0HEIGSY4Mj1ZVGh3Dax6OQYy8e6CmK27+tafhVGQfBpbWQhhZ6DD3cnHpakjF16mRYKAWrP+gRWoHchUZuA3gLe9N19OIF9p43dRUlxsbIMeB6nGuO/sEiLMubMbETGVH4G5BpJlpDDFVh4+OpVQMTwfATIhoQp/QluJg8nxeF4I7m8/Jfx2otZOx71iJOoEdXUgdg56MkB8qp02Xi12hdbmbns5DkdRFE0gCJi1z0CIJ99XvJD+qzBo7iS8R2C/fZnXLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XNB7ztnaq5+XhmGPvdtkzOE01FYiN2TVnlteExXiORQ=;
+ b=kLuFyTz4VohFA7Vbm+m/LX3w2TD4z/cwy9SUNMcDwEJ3uY5fcUxsxU9Ga3zxQDu0ak3xX29M+y4PiJFXHi/7zyBAa1zIxSDVh7gRvOt/87MvMReinGJn1zWG0rSM0rD10Q9Hkbvhr7UQ7PJ6CCQQkpZKfuOh1uXzp18Suxr+UPI=
+Received: from CH2PR03MB5192.namprd03.prod.outlook.com (20.180.12.152) by
+ CH2PR03MB5192.namprd03.prod.outlook.com (20.180.12.152) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2387.23; Tue, 29 Oct 2019 13:57:03 +0000
+Received: from CH2PR03MB5192.namprd03.prod.outlook.com
+ ([fe80::99:71f2:a588:977c]) by CH2PR03MB5192.namprd03.prod.outlook.com
+ ([fe80::99:71f2:a588:977c%3]) with mapi id 15.20.2387.027; Tue, 29 Oct 2019
+ 13:57:03 +0000
+From:   "Ardelean, Alexandru" <alexandru.Ardelean@analog.com>
+To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "lars@metafoo.de" <lars@metafoo.de>
+Subject: Re: [PATCH 1/2] input: adp5589: Add default platform data
+Thread-Topic: [PATCH 1/2] input: adp5589: Add default platform data
+Thread-Index: AQHVjkwF/ninCoxxEkuyjM4FpApMQadxpOOA
+Date:   Tue, 29 Oct 2019 13:57:03 +0000
+Message-ID: <056ce7661ecf24049982d9f61bed836b4580d888.camel@analog.com>
+References: <20191029112836.9188-1-alexandru.ardelean@analog.com>
+In-Reply-To: <20191029112836.9188-1-alexandru.ardelean@analog.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.71.226.54]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 53b86690-55af-4438-959c-08d75c77e0c2
+x-ms-traffictypediagnostic: CH2PR03MB5192:
+x-microsoft-antispam-prvs: <CH2PR03MB5192C94292E23C39166324E9F9610@CH2PR03MB5192.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-forefront-prvs: 0205EDCD76
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(39860400002)(346002)(366004)(396003)(376002)(189003)(199004)(14444005)(3846002)(478600001)(256004)(11346002)(66476007)(66556008)(64756008)(66446008)(66946007)(6116002)(486006)(446003)(2616005)(476003)(2501003)(118296001)(5660300002)(76116006)(2906002)(110136005)(54906003)(8676002)(4001150100001)(81156014)(81166006)(6506007)(102836004)(26005)(186003)(99286004)(76176011)(36756003)(14454004)(86362001)(229853002)(66066001)(7736002)(6486002)(6512007)(25786009)(305945005)(6246003)(71190400001)(71200400001)(316002)(8936002)(4326008)(6436002);DIR:OUT;SFP:1101;SCL:1;SRVR:CH2PR03MB5192;H:CH2PR03MB5192.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: analog.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: jbmNsVp2x/hwjA4oGaWrn/t8nyJp7vHxmItVW/0hDnWawEUXY8BBEM0uDQGi1tRBe2lfYu7FRlZRtflN/Dicqv7/DglD/zBIBo3yHB2f21q9Te64LxK5vr0aCc8ijsVo8a1rCxV5zZst3I9/eCIInbopj69awRjdCXaKrMtyAzule0boUCnFeBwcOYKsjRaeBNAn6spk7lD1o4ugsooBehB/NjYeXx3jwOXx+F7YGHeLzjLpEuu4p8tjDX4o8qEwaTQUeg4jBnyYPT6oSknLyYQNSoPlZWM3FzutOb62rO69OgpLs13UBAcMMKvLKq8F7CxZDzXeWYMyb9P6u7JYccLhBcH16NLZSIo9q/Xz61IYJkwaXqkkT0BRtQBwLbVmWlmYkUn6bA4qXejbZbNq89MPWyN2HNcPJ+IIqWP/LpfbD3C1GL2ZstD8+XsXQbHh
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <78D2CD8512CC73419AE9AA81D1F5AB23@namprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191029041804.GF57214@dtor-ws>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53b86690-55af-4438-959c-08d75c77e0c2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Oct 2019 13:57:03.6622
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QOJXNvVMVDsECpzTb+XW3IRHM26bQVvjRUe9/KAVSJ+6oId2Lh3DEgrlMPoTS405R7hVV2ljAPX8RpEJG2+cQhSx0Uw6EK9+vKsH1Ra2gD8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR03MB5192
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-10-29_04:2019-10-28,2019-10-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ malwarescore=0 mlxlogscore=999 impostorscore=0 clxscore=1015 adultscore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1908290000 definitions=main-1910290136
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Oct 28, 2019 at 09:18:04PM -0700, Dmitry Torokhov wrote:
-> On Tue, Oct 29, 2019 at 02:45:59AM +0100, Ondřej Jirman wrote:
-> > On Mon, Oct 28, 2019 at 05:12:50PM -0700, Dmitry Torokhov wrote:
-> > > On Tue, Oct 29, 2019 at 12:56:26AM +0100, Ondřej Jirman wrote:
-> > > > On Mon, Oct 28, 2019 at 04:38:28PM -0700, Dmitry Torokhov wrote:
-> > > > > > +
-> > > > > > +	error = dev_pm_set_wake_irq(dev, irq);
-> > > > > > +	if (error) {
-> > > > > > +		dev_err(dev, "Could not set wake IRQ\n");
-> > > > > > +		return error;
-> > > > > > +	}
-> > > > > > +
-> > > > > 
-> > > > > I wonder if we could teach platform driver core to handle this for us.
-> > > > 
-> > > > Not sure, some drivers do enable/disable wake_irq by hand in suspend/resume
-> > > > callbacks, so it would probably need to be opt-in somehow. I guess calling the
-> > > > function like this is one way to make it opt-in.
-> > > > 
-> > > > The other way may be by passing a flag somewhere, like to
-> > > > request_threaded_irq. Did you have something more concrete in mind?
-> > > 
-> > > I think it is perfectly fine to continue using enable_irq_wake and
-> > > disable_irq_wake from the driver while marking irq as being wake irq
-> > > form the core.
-> > 
-> > I see, it looks like irq_set_irq_wake will track the calls via wake_depth
-> > 
-> > https://elixir.bootlin.com/linux/latest/source/kernel/irq/manage.c#L714
-> > 
-> > But all irqs are not necessarily wake irqs, no? So it still may need to be
-> > opt-in somehow.
-> 
-> I thought we'd do that for IRQ named "wakeirq" or the very first IRQ if
-> there is no named IRQ, and when we have the "wakeup-source" property,
-> similarly to what we do in I2C bus.
-
-I see. I've looked at drivers using dev_pm_set_wake_irq and
-dev_pm_set_dedicated_wake_irq and not many platform drivers would potentially
-benefit (~25 out of 2300), of those only some use OF and are platform
-drivers, maybe 15-20:
-
-https://elixir.bootlin.com/linux/latest/ident/dev_pm_set_wake_irq
-https://elixir.bootlin.com/linux/latest/ident/dev_pm_set_dedicated_wake_irq
-
-I don't think it's worth it.
-
-regards,
-	o.
-
-> Thanks.
-> 
-> -- 
-> Dmitry
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+T24gVHVlLCAyMDE5LTEwLTI5IGF0IDEzOjI4ICswMjAwLCBBbGV4YW5kcnUgQXJkZWxlYW4gd3Jv
+dGU6DQo+IEZyb206IExhcnMtUGV0ZXIgQ2xhdXNlbiA8bGFyc0BtZXRhZm9vLmRlPg0KPiANCg0K
+RGlzcmVnYXJkIHRoaXMgc2VyaWVzLg0KSSBqdXN0IG5vdGljZWQgdGhhdCBpdCBuZWVkcyB0byBi
+ZSByZS12aXNpdGVkLg0KU29tZSB0aGluZ3MgaGF2ZSBjaGFuZ2VkLCBhbmQgSSBkaWRuJ3Qgbm90
+aWNlLg0KDQpBcG9sb2dpZXMgZm9yIHRoZSBub2lzZS4NCkFsZXgNCg0KDQo+IElmIG5vIHBsYXRm
+b3JtIGRhdGEgaXMgc3VwcGxpZWQgdXNlIGEgZHVtbXkgcGxhdGZvcm0gZGF0YSB0aGF0IGNvbmZp
+Z3VyZXMNCj4gdGhlIGRldmljZSBpbiBHUElPIG9ubHkgbW9kZS4NCj4gDQo+IFNpZ25lZC1vZmYt
+Ynk6IExhcnMtUGV0ZXIgQ2xhdXNlbiA8bGFyc0BtZXRhZm9vLmRlPg0KPiBTaWduZWQtb2ZmLWJ5
+OiBBbGV4YW5kcnUgQXJkZWxlYW4gPGFsZXhhbmRydS5hcmRlbGVhbkBhbmFsb2cuY29tPg0KPiAt
+LS0NCj4gIGRyaXZlcnMvaW5wdXQva2V5Ym9hcmQvYWRwNTU4OS1rZXlzLmMgfCAxNCArKysrKysr
+KysrLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25z
+KC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9hZHA1NTg5LWtl
+eXMuYw0KPiBiL2RyaXZlcnMvaW5wdXQva2V5Ym9hcmQvYWRwNTU4OS1rZXlzLmMNCj4gaW5kZXgg
+ZTdkNThlN2YwMjU3Li5lZDJjMTNiZWYxYjcgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvaW5wdXQv
+a2V5Ym9hcmQvYWRwNTU4OS1rZXlzLmMNCj4gKysrIGIvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9h
+ZHA1NTg5LWtleXMuYw0KPiBAQCAtOTg3LDYgKzk4NywxNCBAQCBzdGF0aWMgdm9pZCBhZHA1NTg5
+X2tleXBhZF9yZW1vdmUoc3RydWN0DQo+IGFkcDU1ODlfa3BhZCAqa3BhZCkNCj4gIAl9DQo+ICB9
+DQo+ICANCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgYWRwNTU4OV9ncGlvX3BsYXRmb3JtX2RhdGEN
+Cj4gYWRwNTU4OV9kZWZhdWx0X2dwaW9fcGRhdGEgPSB7DQo+ICsJLmdwaW9fc3RhcnQgPSAtMSwN
+Cj4gK307DQo+ICsNCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgYWRwNTU4OV9rcGFkX3BsYXRmb3Jt
+X2RhdGEgYWRwNTU4OV9kZWZhdWx0X3BkYXRhID0gew0KPiArCS5ncGlvX2RhdGEgPSAmYWRwNTU4
+OV9kZWZhdWx0X2dwaW9fcGRhdGEsDQo+ICt9Ow0KPiArDQo+ICBzdGF0aWMgaW50IGFkcDU1ODlf
+cHJvYmUoc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCwNCj4gIAkJCSBjb25zdCBzdHJ1Y3QgaTJj
+X2RldmljZV9pZCAqaWQpDQo+ICB7DQo+IEBAIC0xMDAyLDEwICsxMDEwLDggQEAgc3RhdGljIGlu
+dCBhZHA1NTg5X3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50DQo+ICpjbGllbnQsDQo+ICAJCXJldHVy
+biAtRUlPOw0KPiAgCX0NCj4gIA0KPiAtCWlmICghcGRhdGEpIHsNCj4gLQkJZGV2X2VycigmY2xp
+ZW50LT5kZXYsICJubyBwbGF0Zm9ybSBkYXRhP1xuIik7DQo+IC0JCXJldHVybiAtRUlOVkFMOw0K
+PiAtCX0NCj4gKwlpZiAoIXBkYXRhKQ0KPiArCQlwZGF0YSA9ICZhZHA1NTg5X2RlZmF1bHRfcGRh
+dGE7DQo+ICANCj4gIAlrcGFkID0ga3phbGxvYyhzaXplb2YoKmtwYWQpLCBHRlBfS0VSTkVMKTsN
+Cj4gIAlpZiAoIWtwYWQpDQo=
