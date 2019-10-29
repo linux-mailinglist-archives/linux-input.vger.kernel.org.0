@@ -2,39 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA97CE8258
-	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 08:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40AC0E821F
+	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 08:22:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730712AbfJ2HVU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Oct 2019 03:21:20 -0400
+        id S1730933AbfJ2HVY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Oct 2019 03:21:24 -0400
 Received: from esa3.mentor.iphmx.com ([68.232.137.180]:41262 "EHLO
         esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730690AbfJ2HVT (ORCPT
+        with ESMTP id S1730885AbfJ2HVY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Oct 2019 03:21:19 -0400
-IronPort-SDR: fF03ikvs7G7vH8yOVK/nMeK6zExKKTGwSSuZJusyHsF6XaW5rWuupxrAdhy0vsjUNIlpCrut3J
- RKS9U5xbcmjBxByXC4mr5PU6MnQ0jxtXHtUHs0A/D8AVWCJ/nk/fwzirvNM+A0ajmInIQ+7Ncn
- sOUhAvHAU7erJBKNMWm3eCVKRMlqibh3g2ckE7GfjkXu+Mh8S9A02gILrfe3fPNVSSEqlN/BrU
- JEea2R8ss9eC3d5h8CiHf+L5Q7jx6DxEUO4bFRDIOYfeTkdkX+Lkzh7IYJ76AM2w8Ju9hOt/Te
- hKg=
+        Tue, 29 Oct 2019 03:21:24 -0400
+IronPort-SDR: H0OJMKnMxuP0Rd0IRhQpbsDRHP9dyMUiyK/XEAbKuYTkoSPJor0Cle1dnwB/4UW69cZR3tkleT
+ IeyBbc8zaksY5L7UCE1OGnfwLdWjxENyshQhnk4VHF4g7lpOo9DwTQvMgwVdNcWGAlsZerPG+S
+ RDS5st1lJTOrL7mnt8ALg80Owi5bLgnw4EYt8a1PbBgPkSNhJTXVjLiOCJ8Vbhs8TtPEhsF+/Q
+ U/Uso2qFcA8yLK4o+DXWXhDCVhOGNVf0LdyfzjkJogTCWk+uu5JZA8oT+D/sgrc/yrI/OZLS4V
+ bOg=
 X-IronPort-AV: E=Sophos;i="5.68,243,1569312000"; 
-   d="scan'208";a="42663242"
+   d="scan'208";a="42663248"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 28 Oct 2019 23:21:19 -0800
-IronPort-SDR: Ou3TL1AxzQn6Rl82/L/hFlUy4lK5ZaoX77m1bzHjKNi4rOjH5OyLL+mxrbZIdyc/sYuiVqoR2V
- 35XcjJxLod2BUSVS1CjDBoDeZAKffnoDMA2sKIUabY1HANnPXb6yDm502lGOajwU3xraTrVEdX
- rsgLpWFT8SmENgg2ZetR+1G3wwKNwz79sgDf8cpa0h7exI0y3SZ4bUvMg9YJpudGH5X4MZvMdH
- sMA+3mUEbquoFM+Z56s0c9inWjsiSr1fZDP0SREy/mbmJuV7ngEABuf05Ss5PrmIeU/hM9wXqy
- H/E=
+  by esa3.mentor.iphmx.com with ESMTP; 28 Oct 2019 23:21:23 -0800
+IronPort-SDR: Pfb13oft8jr0D3b/IvoNTAzTOQHSj5UJZ+zui/TlugWb+1rN7rj9sLwWoBv0JVhNlsXgQXl2bD
+ fvlmmlgEaQB6tAHWgNFxvSCXlPNRXAUUwb1l3vA90pzKAm4WXCJXyEs7ptD3LKEUYojiul3D5e
+ ddFx1E9JP3tlvFPwNHWK22gAyDGMnG/t3Ebwi9kZUP+55ujObOdGdBwmVxiF5GuSM9KzORoZ8o
+ T5yrWAcAqAvB9KVyZxEz7AO0UUyf6xmscSpLlCuF7tE0PUK7aI+sHbjnosFa0pDxGQOBVzzMbU
+ 0CI=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <erosca@de.adit-jv.com>,
         <Andrew_Gabbasov@mentor.com>
-Subject: [PATCH v4 18/48] Input: atmel_mxt_ts - add config checksum attribute to sysfs
-Date:   Tue, 29 Oct 2019 16:19:40 +0900
-Message-ID: <20191029072010.8492-19-jiada_wang@mentor.com>
+Subject: [PATCH v4 19/48] Input: atmel_mxt_ts - refactor firmware flash to extract context into struct
+Date:   Tue, 29 Oct 2019 16:19:41 +0900
+Message-ID: <20191029072010.8492-20-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191029072010.8492-1-jiada_wang@mentor.com>
 References: <20191029072010.8492-1-jiada_wang@mentor.com>
@@ -45,51 +45,142 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: karl tsou <karl.funlab@gmail.com>
+From: Nick Dyer <nick.dyer@itdev.co.uk>
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-(cherry picked from ndyer/linux/for-upstream commit 03477477ddbe5dcad42853ab3f84166a8f807acf)
-[gdavis: Forward port and fix conflicts.]
+(cherry picked from ndyer/linux/for-upstream commit 1bbe20ff3dcd6612e7942c495929eae5c138ece2)
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 59 +++++++++++++++---------
+ 1 file changed, 36 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 43f71a4a44dd..f55d1f719f18 100644
+index f55d1f719f18..855c36e7903d 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -3128,6 +3128,15 @@ static int mxt_configure_objects(struct mxt_data *data,
- 	return error;
- }
- 
-+/* Configuration crc check sum is returned as hex xxxxxx */
-+static ssize_t mxt_config_crc_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%06x\n", data->config_crc);
-+}
-+
- /* Firmware Version is returned as Major.Minor.Build */
- static ssize_t mxt_fw_version_show(struct device *dev,
- 				   struct device_attribute *attr, char *buf)
-@@ -3481,12 +3490,14 @@ static DEVICE_ATTR(fw_version, S_IRUGO, mxt_fw_version_show, NULL);
- static DEVICE_ATTR(hw_version, S_IRUGO, mxt_hw_version_show, NULL);
- static DEVICE_ATTR(object, S_IRUGO, mxt_object_show, NULL);
- static DEVICE_ATTR(update_cfg, S_IWUSR, NULL, mxt_update_cfg_store);
-+static DEVICE_ATTR(config_crc, S_IRUGO, mxt_config_crc_show, NULL);
- 
- static struct attribute *mxt_attrs[] = {
- 	&dev_attr_fw_version.attr,
- 	&dev_attr_hw_version.attr,
- 	&dev_attr_object.attr,
- 	&dev_attr_update_cfg.attr,
-+	&dev_attr_config_crc.attr,
- 	NULL
+@@ -291,6 +291,22 @@ struct mxt_cfg {
+ 	struct mxt_info info;
  };
+ 
++/* Firmware frame structure */
++struct mxt_fw_frame {
++	__be16 size;
++	u8 data[];
++};
++
++/* Firmware update context */
++struct mxt_flash {
++	const struct firmware *fw;
++	struct mxt_fw_frame *frame;
++	loff_t pos;
++	size_t frame_size;
++	unsigned int count;
++	unsigned int retry;
++};
++
+ /* Each client has this additional data */
+ struct mxt_data {
+ 	struct i2c_client *client;
+@@ -3244,21 +3260,17 @@ static int mxt_check_firmware_format(struct device *dev,
+ static int mxt_load_fw(struct device *dev)
+ {
+ 	struct mxt_data *data = dev_get_drvdata(dev);
+-	const struct firmware *fw = NULL;
+-	unsigned int frame_size;
+-	unsigned int pos = 0;
+-	unsigned int retry = 0;
+-	unsigned int frame = 0;
++	struct mxt_flash f = { 0, };
+ 	int ret;
+ 
+-	ret = request_firmware(&fw, data->fw_name, dev);
++	ret = request_firmware(&f.fw, data->fw_name, dev);
+ 	if (ret) {
+ 		dev_err(dev, "Unable to open firmware %s\n", data->fw_name);
+ 		return ret;
+ 	}
+ 
+ 	/* Check for incorrect enc file */
+-	ret = mxt_check_firmware_format(dev, fw);
++	ret = mxt_check_firmware_format(dev, f.fw);
+ 	if (ret)
+ 		goto release_firmware;
+ 
+@@ -3312,41 +3324,42 @@ static int mxt_load_fw(struct device *dev)
+ 			goto disable_irq;
+ 	}
+ 
+-	while (pos < fw->size) {
++	while (f.pos < f.fw->size) {
++		f.frame = (struct mxt_fw_frame *)(f.fw->data + f.pos);
++
+ 		ret = mxt_check_bootloader(data, MXT_WAITING_FRAME_DATA, true);
+ 		if (ret)
+ 			goto disable_irq;
+ 
+-		frame_size = ((*(fw->data + pos) << 8) | *(fw->data + pos + 1));
+-
+ 		/* Take account of CRC bytes */
+-		frame_size += 2;
++		f.frame_size = __be16_to_cpu(f.frame->size) + 2U;
+ 
+ 		/* Write one frame to device */
+-		ret = mxt_bootloader_write(data, fw->data + pos, frame_size);
++		ret = mxt_bootloader_write(data, f.fw->data + f.pos,
++					   f.frame_size);
+ 		if (ret)
+ 			goto disable_irq;
+ 
+ 		ret = mxt_check_bootloader(data, MXT_FRAME_CRC_PASS, true);
+ 		if (ret) {
+-			retry++;
++			f.retry++;
+ 
+ 			/* Back off by 20ms per retry */
+-			msleep(retry * 20);
++			msleep(f.retry * 20);
+ 
+-			if (retry > 20) {
++			if (f.retry > 20) {
+ 				dev_err(dev, "Retry count exceeded\n");
+ 				goto disable_irq;
+ 			}
+ 		} else {
+-			retry = 0;
+-			pos += frame_size;
+-			frame++;
++			f.retry = 0;
++			f.pos += f.frame_size;
++			f.count++;
+ 		}
+ 
+-		if (frame % 50 == 0)
+-			dev_dbg(dev, "Sent %d frames, %d/%zd bytes\n",
+-				frame, pos, fw->size);
++		if (f.count % 50 == 0)
++			dev_dbg(dev, "Sent %u frames, %lld/%zu bytes\n",
++				f.count, f.pos, f.fw->size);
+ 	}
+ 
+ 	/* Wait for flash. */
+@@ -3355,7 +3368,7 @@ static int mxt_load_fw(struct device *dev)
+ 	if (ret)
+ 		goto disable_irq;
+ 
+-	dev_dbg(dev, "Sent %d frames, %d bytes\n", frame, pos);
++	dev_dbg(dev, "Sent %u frames, %lld bytes\n", f.count, f.pos);
+ 
+ 	/*
+ 	 * Wait for device to reset. Some bootloader versions do not assert
+@@ -3369,7 +3382,7 @@ static int mxt_load_fw(struct device *dev)
+ disable_irq:
+ 	disable_irq(data->irq);
+ release_firmware:
+-	release_firmware(fw);
++	release_firmware(f.fw);
+ 	return ret;
+ }
  
 -- 
 2.17.1
