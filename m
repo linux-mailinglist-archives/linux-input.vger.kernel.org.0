@@ -2,39 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50E41E823A
+	by mail.lfdr.de (Postfix) with ESMTP id C38A2E823C
 	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 08:22:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726527AbfJ2HWE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Oct 2019 03:22:04 -0400
+        id S1732749AbfJ2HWH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Oct 2019 03:22:07 -0400
 Received: from esa1.mentor.iphmx.com ([68.232.129.153]:7825 "EHLO
         esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726362AbfJ2HWD (ORCPT
+        with ESMTP id S1726362AbfJ2HWG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Oct 2019 03:22:03 -0400
-IronPort-SDR: ntVK3UF8nwIjZJNlz9SGjIluOlO+PbFf0vUSuohJoLsIsr6bTdD1sz27Q+arVxTtmo49NESNJX
- ZBOe9zLG+AESgfm7pxzASQTX5JUiqDizTOZqGa7keBQ+6seGkapn6plDlbCeUMjx64uy+VJALW
- 00wrK6/2twDLncCBiC3NguvBz1AUBNmlkWt2LTae5vXQ1ng64IatbA1jMMFxuiAYqZkPkaLaub
- SoBPA1sa3+7FC2T86okJJKAqE3SSksyF854+yJxAie7rJuzS3Z+vH2VMXtISJF1zWGLZPmrGgQ
- 2Ok=
+        Tue, 29 Oct 2019 03:22:06 -0400
+IronPort-SDR: B4bIbWG/Mb0/KD9H4pslbSM3jR3j0iLJviivwuie91oGYZ35Ua5jab3Eahandr9A+gJ1stFd04
+ D5qtP3OnrJlRDvmIJcMV5GZC4cKzMssMVz0Q1MR4pOoSa81PN32KiIX7dgvqFlFgJ3jg9S00UM
+ pEtfXCGOrP7W0yWCpIOdvj7UYzXvW0Jl11+kQrAzYiaBWaRB7V2BvOQrmnnOw+qZT9I5cmjJwW
+ o7PthDyf1rrxtdKHL0LE4WV56VODyuegmVK1OCBfV3JbkR/NG8xt316yay0c9ARgn3gCGjhhct
+ VA4=
 X-IronPort-AV: E=Sophos;i="5.68,243,1569312000"; 
-   d="scan'208";a="44509417"
+   d="scan'208";a="44509419"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa1.mentor.iphmx.com with ESMTP; 28 Oct 2019 23:22:03 -0800
-IronPort-SDR: yQF09jRNpDN2Wq1WRpAobXC1jKl4Ia/mWCo+gWx1AnIBchvscEY++QliQR1R07XoHjg4gYvVBz
- Spvna0+LOyV9BN2aRPBD+GpiMLQ+qbKYBbcX40L//l4Ed07dEw5o4AtiOXKLw9jtpYGgLNgL1b
- cU0HoYVekZmQysenFY++F2zlLCmKk5pUkzI6zfxKVod7bINEaP8Ds50Gpq97YY4iq0Jzkf6ooN
- 8WXzLzBcQ5G5X6W+xnWO20s6kcq04eM86AEsJfCk2mH9WAX+729btYtyyjkugzQ31appuNNjd+
- 55A=
+  by esa1.mentor.iphmx.com with ESMTP; 28 Oct 2019 23:22:06 -0800
+IronPort-SDR: 3e4mN8v3bkS0AX7aTqqY/tH65YYf9STZfgeRkkjDJRfLt2lApN7cJtHZ2lqX1MYC1NubGmtKXi
+ C+kROhqNwNuCiiNJBhtloeKPkRlpv4l0K5zzyJ+lNNER1JGDze5XkeIrxXZrxqRbjyuErmchEb
+ 7/ovmNFdcnlDJunESD+69awMVeDjjH4B98hIix/Pw144vKXXRomRZLu/qT/vY+fUOrNk72POFq
+ X8GMDG+mGRhk0gkV1c+0RHUvSYPq46NcmSerFJANHEb0E6RdbaUKyRZgk+XFlMJt6woZYqddI4
+ H14=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>, <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <erosca@de.adit-jv.com>,
         <Andrew_Gabbasov@mentor.com>
-Subject: [PATCH v4 30/48] Input: atmel_mxt_ts - eliminate data->raw_info_block
-Date:   Tue, 29 Oct 2019 16:19:52 +0900
-Message-ID: <20191029072010.8492-31-jiada_wang@mentor.com>
+Subject: [PATCH v4 31/48] Input: atmel_mxt_ts - Change call-points of mxt_free_* functions
+Date:   Tue, 29 Oct 2019 16:19:53 +0900
+Message-ID: <20191029072010.8492-32-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191029072010.8492-1-jiada_wang@mentor.com>
 References: <20191029072010.8492-1-jiada_wang@mentor.com>
@@ -45,59 +45,96 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dynamically allocated in mxt_read_info_block() buffer buf is assigned
-both to data->info and data->raw_info_block, having both data->info
-and data->raw_info_block is redundant and confusing.
+From: Kautuk Consul <kautuk_consul@mentor.com>
 
-This patch eliminates data->raw_info_block.
+Revamping the code to call mxt_free_object_table and mxt_free_input_device
+functions only in the following scenarios and code paths:
+1) The error path of the mxt_probe() entry point
+2) The mxt_remove de-init path entry point
+3) All paths which definitely expect to populate the object table
+   like:
+   - the mxt_update_fw_store path which first calls
+     mxt_load_fw and then resorts to calling mxt_initialize itself.
+   - the mxt_read_info_block function which attempts to fill in the
+     object table itself as the main non-error part of the logic.
+4) All paths in the code expected to definitely allocate and register
+   the input device such as:
+   - the mxt_update_fw_store path which first calls
+     mxt_load_fw and then resorts to calling mxt_initialize itself.
+   - the mxt_update_cfg_store function which will call
+     mxt_configure_objects.
 
-Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+Signed-off-by: Kautuk Consul <kautuk_consul@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
-Signed-off-by: Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
+Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 286d5ad6077a..2eb29e9b67d8 100644
+index 2eb29e9b67d8..29652b11fa47 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -323,7 +323,6 @@ struct mxt_data {
- 	char phys[64];		/* device physical location */
- 	struct mxt_object *object_table;
- 	struct mxt_info *info;
--	void *raw_info_block;
- 	unsigned int irq;
- 	unsigned int max_x;
- 	unsigned int max_y;
-@@ -2070,9 +2069,8 @@ static void mxt_free_object_table(struct mxt_data *data)
- 	v4l2_device_unregister(&data->dbg.v4l2);
- #endif
- 	data->object_table = NULL;
-+	kfree(data->info);
- 	data->info = NULL;
--	kfree(data->raw_info_block);
--	data->raw_info_block = NULL;
- 	kfree(data->msg_buf);
- 	data->msg_buf = NULL;
- 	data->T5_address = 0;
-@@ -2241,7 +2239,7 @@ static int mxt_read_info_block(struct mxt_data *data)
- 	u8 *crc_ptr;
- 
- 	/* If info block already allocated, free it */
--	if (data->raw_info_block)
-+	if (data->info)
- 		mxt_free_object_table(data);
- 
- 	/* Read 7-byte ID information block starting at address 0 */
-@@ -2292,7 +2290,6 @@ static int mxt_read_info_block(struct mxt_data *data)
- 		goto err_free_mem;
+@@ -3339,21 +3339,21 @@ static int mxt_configure_objects(struct mxt_data *data,
+ 	error = mxt_init_t7_power_cfg(data);
+ 	if (error) {
+ 		dev_err(dev, "Failed to initialize power cfg\n");
+-		goto err_free_object_table;
++		return error;
  	}
  
--	data->raw_info_block = id_buf;
- 	data->info = (struct mxt_info *)id_buf;
+ 	if (cfg) {
+ 		error = mxt_update_cfg(data, cfg);
+ 		if (error) {
+ 			dev_warn(dev, "Error %d updating config\n", error);
+-			goto err_free_object_table;
++			return error;
+ 		}
+ 	}
  
- 	dev_info(&client->dev,
+ 	if (data->multitouch) {
+ 		error = mxt_initialize_input_device(data);
+ 		if (error)
+-			goto err_free_object_table;
++			return error;
+ 	} else {
+ 		dev_warn(dev, "No touch object detected\n");
+ 	}
+@@ -3361,10 +3361,6 @@ static int mxt_configure_objects(struct mxt_data *data,
+ 	mxt_debug_init(data);
+ 
+ 	return 0;
+-
+-err_free_object_table:
+-	mxt_free_object_table(data);
+-	return error;
+ }
+ 
+ /* Configuration crc check sum is returned as hex xxxxxx */
+@@ -4100,16 +4096,21 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 
+ 	error = mxt_initialize(data);
+ 	if (error)
+-		return error;
++		goto err_free_object;
+ 
+ 	error = sysfs_create_group(&client->dev.kobj, &mxt_fw_attr_group);
+ 	if (error) {
+ 		dev_err(&client->dev, "Failure %d creating fw sysfs group\n",
+ 			error);
+-		return error;
++		goto err_free_object;
+ 	}
+ 
+ 	return 0;
++
++err_free_object:
++	mxt_free_input_device(data);
++	mxt_free_object_table(data);
++	return error;
+ }
+ 
+ static int mxt_remove(struct i2c_client *client)
 -- 
 2.17.1
 
