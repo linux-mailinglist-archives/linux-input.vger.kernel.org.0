@@ -2,149 +2,191 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9176E870B
-	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 12:31:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B5E6E8723
+	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 12:31:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732293AbfJ2L3C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Oct 2019 07:29:02 -0400
-Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:1620 "EHLO
-        mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730038AbfJ2L3B (ORCPT
+        id S1728101AbfJ2LaL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Oct 2019 07:30:11 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:45195 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727082AbfJ2LaK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Oct 2019 07:29:01 -0400
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9TBSPp9015911;
-        Tue, 29 Oct 2019 07:28:48 -0400
-Received: from nam05-dm3-obe.outbound.protection.outlook.com (mail-dm3nam05lp2059.outbound.protection.outlook.com [104.47.49.59])
-        by mx0a-00128a01.pphosted.com with ESMTP id 2vvk26etb0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Oct 2019 07:28:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V2V/71t9LtjzDOiOia0N0S1sa0Qy2RqNuwYgPBobV3xZKcUDiFL4zWGHFfdqim+1XUY+fvRvLC1sJTKYYIJDo5BbAXBP9amJQMurJJKXWQBhIIM2oachcBJGWBbyw1tdde7UM0G60wTA53cNKwTO3qpy9+7SAB2mwKWTKgxCjNTdiLPQgdbV4mGhcq1xxEKn9/qhuynt+bgHstBL5j8JdovxW43VsHH0/Yl9kgBrxKW911ERnGued3Snq6lAPhdJLhYBIGs5bfAhHiZI3j94j00esGGhysZVN/D6g+Lvo3sVY5HIi+CBk6qrAsqDl8LsRkZBoLrbRQ/GzHJ7yilLxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D74e019tZkowCsOWwX+UErlirFEYvMqCMBm2VCbbvhM=;
- b=WqMO0x+k5Ld8SzDVAx3JgRic2Si232lNBSko+rQfyiNz9ysfRGKqZwY+MKBM2bWwsJgDanX6l7PxFlQNXg6QIL68I6OnD7Js72ylU7AodFsmRQgvMX+jF1I6eDTn4sYb4VwD0qqtCjuJN2ATSkImTF63XYHLWbobWgpUVhVc/pUJGGPqkkxZuEr3HszOI987wIldP4jd5eyMRc74kOCVubW4mZdwQwn9QsYBA2e7rs+LXBI04/tQ6a3a0Om6n8mTfKd0asdDEjVGdWuv8GpQKPZPqlNlJMWYUbd8Ft67CdlIscUa2kQUojYjnWCEjbAdwGXC48fi1m4tm/uL/dCE4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
- is 137.71.25.55) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=analog.com;
- dmarc=none action=none header.from=analog.com; dkim=none (message not
- signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D74e019tZkowCsOWwX+UErlirFEYvMqCMBm2VCbbvhM=;
- b=PV2Z9LC7JYmhte/LQ/8bd53EeWKHPSGcgzdiN4WAfWiNtib5pWVlu9aPlG9nql+AqPfEtViS52ijvpNv1nGB/u7LwCFDdbAEEOKrYvMEBs83AGrYhQObG31ihYKmFvRymaUVjch2bLelleXijYPudj3meN1yOgi70G5+RAKayAo=
-Received: from BN6PR03CA0104.namprd03.prod.outlook.com (2603:10b6:404:10::18)
- by DM6PR03MB3419.namprd03.prod.outlook.com (2603:10b6:5:af::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2387.22; Tue, 29 Oct
- 2019 11:28:44 +0000
-Received: from CY1NAM02FT018.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e45::201) by BN6PR03CA0104.outlook.office365.com
- (2603:10b6:404:10::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2408.17 via Frontend
- Transport; Tue, 29 Oct 2019 11:28:44 +0000
-Received-SPF: TempError (protection.outlook.com: error in processing during
- lookup of analog.com: DNS Timeout)
-Received: from nwd2mta1.analog.com (137.71.25.55) by
- CY1NAM02FT018.mail.protection.outlook.com (10.152.75.183) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2387.20
- via Frontend Transport; Tue, 29 Oct 2019 11:28:42 +0000
-Received: from NWD2HUBCAS7.ad.analog.com (nwd2hubcas7.ad.analog.com [10.64.69.107])
-        by nwd2mta1.analog.com (8.13.8/8.13.8) with ESMTP id x9TBSe3I016173
-        (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
-        Tue, 29 Oct 2019 04:28:40 -0700
-Received: from saturn.ad.analog.com (10.48.65.116) by
- NWD2HUBCAS7.ad.analog.com (10.64.69.107) with Microsoft SMTP Server id
- 14.3.408.0; Tue, 29 Oct 2019 07:28:39 -0400
-From:   Alexandru Ardelean <alexandru.ardelean@analog.com>
-To:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <dmitry.torokhov@gmail.com>, Lars-Peter Clausen <lars@metafoo.de>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>
-Subject: [PATCH 1/2] input: adp5589: Add default platform data
-Date:   Tue, 29 Oct 2019 13:28:35 +0200
-Message-ID: <20191029112836.9188-1-alexandru.ardelean@analog.com>
-X-Mailer: git-send-email 2.20.1
+        Tue, 29 Oct 2019 07:30:10 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iPPhI-0001hB-9f; Tue, 29 Oct 2019 12:30:00 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iPPhH-0003aC-0J; Tue, 29 Oct 2019 12:29:59 +0100
+Date:   Tue, 29 Oct 2019 12:29:58 +0100
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-sunxi@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?iso-8859-1?Q?Myl=E8ne?= Josserand 
+        <mylene.josserand@bootlin.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/3] input: edt-ft5x06: Add support for regulator
+Message-ID: <20191029112958.gd3vbbcjxuw6n3m5@pengutronix.de>
+References: <20191029005806.3577376-1-megous@megous.com>
+ <20191029005806.3577376-2-megous@megous.com>
+ <20191029041233.GD57214@dtor-ws>
+ <20191029085545.cw5c24gi76gbfdhy@pengutronix.de>
+ <20191029112129.t4mxqyybltjbuyhj@core.my.home>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ADIRoutedOnPrem: True
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:137.71.25.55;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(396003)(136003)(346002)(376002)(39860400002)(199004)(189003)(486006)(54906003)(106002)(8676002)(336012)(107886003)(2906002)(2870700001)(50466002)(7636002)(8936002)(316002)(47776003)(186003)(26005)(110136005)(51416003)(7696005)(1076003)(36756003)(70206006)(356004)(86362001)(476003)(48376002)(2616005)(478600001)(50226002)(4326008)(426003)(5660300002)(63350400001)(70586007)(126002)(6666004)(44832011)(305945005)(246002);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR03MB3419;H:nwd2mta1.analog.com;FPR:;SPF:TempError;LANG:en;PTR:nwd2mail10.analog.com;A:1;MX:1;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b18935be-97bd-4257-83ef-08d75c632758
-X-MS-TrafficTypeDiagnostic: DM6PR03MB3419:
-X-Microsoft-Antispam-PRVS: <DM6PR03MB3419521BF7AC57212D72BABCF9610@DM6PR03MB3419.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
-X-Forefront-PRVS: 0205EDCD76
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pE4kjgM3n0MiDJAxTRcPPpydwAdVnBNZH3nQssGooil9cbkYowumfFUim0ic+DKu+sz5MCKYdeqZK2vNGBOaWASiv9ZmHnxTujeucLB4WdAUz8X6fwvWh0hCCEXQ1xxc8BpDntNZ1tiWgSb2A6d2r2hrfwRWpjQhCP+g6h/olTqqK5PNkLqSWgLlv8ylLkgiwjomlLqgEBQQYuh/CpG9KU+aRHyDYP03IfX718GLY2oyqBggU6Tp35bYA2aNyqTbSTJWR8y32wAmKFD5SytNAD5BnHVIzsRNJJGZRpghBjrw1mzTPlyzdeD4g71zJqW++pcwdSzBiDOh+3tA6yNbc0TRKs6jJglDn03n2T8RLM2cGAMU+0hGoDsb0FyINdlOWJ5ca7p4Zo7NAg5qiPNoCiewTG7hV12KSDsAZa4Ie8IzxU1MsTR9GFmTwIBHINXA
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2019 11:28:42.6653
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b18935be-97bd-4257-83ef-08d75c632758
-X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=eaa689b4-8f87-40e0-9c6f-7228de4d754a;Ip=[137.71.25.55];Helo=[nwd2mta1.analog.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR03MB3419
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-29_03:2019-10-28,2019-10-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 phishscore=0
- suspectscore=0 clxscore=1015 mlxlogscore=999 impostorscore=0 bulkscore=0
- spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1908290000 definitions=main-1910290118
+In-Reply-To: <20191029112129.t4mxqyybltjbuyhj@core.my.home>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 12:26:01 up 164 days, 17:44, 99 users,  load average: 0.11, 0.04,
+ 0.01
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Lars-Peter Clausen <lars@metafoo.de>
+Hi Ondřej,
 
-If no platform data is supplied use a dummy platform data that configures
-the device in GPIO only mode.
+On 19-10-29 12:21, Ondřej Jirman wrote:
+> Hi Marco,
+> 
+> On Tue, Oct 29, 2019 at 09:55:45AM +0100, Marco Felsch wrote:
+> > Hi Dmitry,
+> > 
+> > On 19-10-28 21:12, Dmitry Torokhov wrote:
+> > > On Tue, Oct 29, 2019 at 01:58:04AM +0100, Ondrej Jirman wrote:
+> > > > From: Mylène Josserand <mylene.josserand@bootlin.com>
+> > > > 
+> > > > Add the support for enabling optional regulator that may be used as VCC
+> > > > source.
+> > > > 
+> > > > Signed-off-by: Ondrej Jirman <megous@megous.com>
+> > > > Signed-off-by: Mylène Josserand <mylene.josserand@bootlin.com>
+> > > 
+> > > Applied, thank you.
+> > 
+> > What happens with my vdd patches?
+> 
+> Sorry for not noticing your patches, I was only aware of Mylène's older series.
+> It looks like you can just skip regulator enable support from your series, and
+> re-send the deep-sleep mechanism and wakeup source patches only.
 
-Signed-off-by: Lars-Peter Clausen <lars@metafoo.de>
-Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
----
- drivers/input/keyboard/adp5589-keys.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+No problems just wondered myself. Now I need to adapt the patches ^^
 
-diff --git a/drivers/input/keyboard/adp5589-keys.c b/drivers/input/keyboard/adp5589-keys.c
-index e7d58e7f0257..ed2c13bef1b7 100644
---- a/drivers/input/keyboard/adp5589-keys.c
-+++ b/drivers/input/keyboard/adp5589-keys.c
-@@ -987,6 +987,14 @@ static void adp5589_keypad_remove(struct adp5589_kpad *kpad)
- 	}
- }
- 
-+static const struct adp5589_gpio_platform_data adp5589_default_gpio_pdata = {
-+	.gpio_start = -1,
-+};
-+
-+static const struct adp5589_kpad_platform_data adp5589_default_pdata = {
-+	.gpio_data = &adp5589_default_gpio_pdata,
-+};
-+
- static int adp5589_probe(struct i2c_client *client,
- 			 const struct i2c_device_id *id)
- {
-@@ -1002,10 +1010,8 @@ static int adp5589_probe(struct i2c_client *client,
- 		return -EIO;
- 	}
- 
--	if (!pdata) {
--		dev_err(&client->dev, "no platform data?\n");
--		return -EINVAL;
--	}
-+	if (!pdata)
-+		pdata = &adp5589_default_pdata;
- 
- 	kpad = kzalloc(sizeof(*kpad), GFP_KERNEL);
- 	if (!kpad)
+> I'll test it with my board, and give you a tested-by.
+
+Thanks.
+
+Regards,
+  Marco
+
+> thank you and regards,
+> 	o.
+> 
+> > Regards,
+> >   Marco
+> > 
+> > > 
+> > > > ---
+> > > >  drivers/input/touchscreen/edt-ft5x06.c | 30 ++++++++++++++++++++++++++
+> > > >  1 file changed, 30 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+> > > > index 5525f1fb1526..d61731c0037d 100644
+> > > > --- a/drivers/input/touchscreen/edt-ft5x06.c
+> > > > +++ b/drivers/input/touchscreen/edt-ft5x06.c
+> > > > @@ -28,6 +28,7 @@
+> > > >  #include <linux/input/mt.h>
+> > > >  #include <linux/input/touchscreen.h>
+> > > >  #include <asm/unaligned.h>
+> > > > +#include <linux/regulator/consumer.h>
+> > > >  
+> > > >  #define WORK_REGISTER_THRESHOLD		0x00
+> > > >  #define WORK_REGISTER_REPORT_RATE	0x08
+> > > > @@ -88,6 +89,7 @@ struct edt_ft5x06_ts_data {
+> > > >  	struct touchscreen_properties prop;
+> > > >  	u16 num_x;
+> > > >  	u16 num_y;
+> > > > +	struct regulator *vcc;
+> > > >  
+> > > >  	struct gpio_desc *reset_gpio;
+> > > >  	struct gpio_desc *wake_gpio;
+> > > > @@ -1036,6 +1038,13 @@ edt_ft5x06_ts_set_regs(struct edt_ft5x06_ts_data *tsdata)
+> > > >  	}
+> > > >  }
+> > > >  
+> > > > +static void edt_ft5x06_disable_regulator(void *arg)
+> > > > +{
+> > > > +	struct edt_ft5x06_ts_data *data = arg;
+> > > > +
+> > > > +	regulator_disable(data->vcc);
+> > > > +}
+> > > > +
+> > > >  static int edt_ft5x06_ts_probe(struct i2c_client *client,
+> > > >  					 const struct i2c_device_id *id)
+> > > >  {
+> > > > @@ -1064,6 +1073,27 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+> > > >  
+> > > >  	tsdata->max_support_points = chip_data->max_support_points;
+> > > >  
+> > > > +	tsdata->vcc = devm_regulator_get(&client->dev, "vcc");
+> > > > +	if (IS_ERR(tsdata->vcc)) {
+> > > > +		error = PTR_ERR(tsdata->vcc);
+> > > > +		if (error != -EPROBE_DEFER)
+> > > > +			dev_err(&client->dev,
+> > > > +				"failed to request regulator: %d\n", error);
+> > > > +		return error;
+> > > > +	}
+> > > > +
+> > > > +	error = regulator_enable(tsdata->vcc);
+> > > > +	if (error < 0) {
+> > > > +		dev_err(&client->dev, "failed to enable vcc: %d\n", error);
+> > > > +		return error;
+> > > > +	}
+> > > > +
+> > > > +	error = devm_add_action_or_reset(&client->dev,
+> > > > +					 edt_ft5x06_disable_regulator,
+> > > > +					 tsdata);
+> > > > +	if (error)
+> > > > +		return error;
+> > > > +
+> > > >  	tsdata->reset_gpio = devm_gpiod_get_optional(&client->dev,
+> > > >  						     "reset", GPIOD_OUT_HIGH);
+> > > >  	if (IS_ERR(tsdata->reset_gpio)) {
+> > > > -- 
+> > > > 2.23.0
+> > > > 
+> > > 
+> > > -- 
+> > > Dmitry
+> > > 
+> > 
+> > -- 
+> > Pengutronix e.K.                           |                             |
+> > Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+> > Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+> > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> 
+
 -- 
-2.20.1
-
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
