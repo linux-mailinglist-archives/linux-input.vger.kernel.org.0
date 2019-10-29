@@ -2,140 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80C0DE826D
-	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 08:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC293E8358
+	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 09:40:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387671AbfJ2HXI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Oct 2019 03:23:08 -0400
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:34421 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387673AbfJ2HXF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Oct 2019 03:23:05 -0400
-Received: by mail-ua1-f66.google.com with SMTP id q16so3510212uao.1
-        for <linux-input@vger.kernel.org>; Tue, 29 Oct 2019 00:23:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0SUH6/NtBC3ilVCpdONozL4mS3Prp0pIL3y1hHCcxAk=;
-        b=eMchEOvQ/jKSqC7IlUVOrUOu2sRq3JlNHSwrSwCVZV7hyYX+NwsA3oadySVIS2GMhv
-         Fvs0xOAQNNajFRHYthK70jYXsoHFLR0MqpOCX4UruR1XUSVhwPotDPQQJvLDpR6Qs35N
-         fO+lH1wwkAdlVyFMk0fkQlRl+r7cTgEooYDbw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0SUH6/NtBC3ilVCpdONozL4mS3Prp0pIL3y1hHCcxAk=;
-        b=V27em/ZP5BO1vRdOKjNsNwPtUmlI2QAH90k9/xq/NcZ+CMFNMh8Glh9JaD5bErTs4i
-         xFzlFzPjuWNJ+rdubVRlSzMsXVPxmTuJs7uC1sCvNOKUYi9pf2XNtgwV83W7jG1c+XWM
-         3BFqDk9SVYlU1n6ssyGVf2/vhNBIkAbp3j/cwUYjJMuaKpp96uM5g4YJo19OV56rZkiC
-         OL3qEiSQdQqHKQixCUCn/I3saINQkH/2DPhSOjuzAZ3Qq4r1+n4VgGZHsHuHNrLxy+8c
-         gk3pCvybGXbZoj8kvfH6NKGgAZpYnXA4skympvpoAEAGEEnC5vzg7QJI1aaBrps3K4ks
-         Ob+w==
-X-Gm-Message-State: APjAAAX3s5+56U+F3ipXHXoOQ/IYJO+CATU1lO8f5CVFfnXoCKbp9Rai
-        Nvboh+YlZP8XB64ltulOG/lN2UirJ6tPoVPJFzaTmA==
-X-Google-Smtp-Source: APXvYqwu6KYbConXB0iKr6Mov1RGaa3I/esweFtuANMt32BxSyqi5DbWOfQ88/Vd4VamORlLwO9ez57AWW6x/2gTwcw=
-X-Received: by 2002:ab0:6503:: with SMTP id w3mr7651016uam.17.1572333783797;
- Tue, 29 Oct 2019 00:23:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191023024348.225969-1-ikjn@chromium.org> <20191025194101.GA4734@bogus>
-In-Reply-To: <20191025194101.GA4734@bogus>
-From:   Ikjoon Jang <ikjn@chromium.org>
-Date:   Tue, 29 Oct 2019 15:22:52 +0800
-Message-ID: <CAATdQgDxC_1EH4cBqf7deEqRjtRU1s4o=L8vOztvVZ7NS_q9Mw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: input: Add DT bindings for Whiskers switch
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        id S1729302AbfJ2IkY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Oct 2019 04:40:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40568 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727036AbfJ2IkY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 29 Oct 2019 04:40:24 -0400
+Received: from localhost (unknown [91.217.168.176])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 292D52067D;
+        Tue, 29 Oct 2019 08:40:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572338423;
+        bh=mgWIhjckqxqZSyRbf9Ero4ZNiEz9TMOyb3Twc/C42Qw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VX+bTrWJaxeA2GZo6IMS5PC8kXNJvpeD5Q4wP4xSZ7Dr2B5qn68G1qj1p3C1WtNj9
+         tgZPaKROjJoIbCD9PNoQMMTZg1tQrDhBnNx/3TihzsuYA5c+v07maBq+iDHzyr44sg
+         RebUP5pDHloE7kPCl3rCVrWGqXWjBrgT+dUVSSzY=
+Date:   Tue, 29 Oct 2019 09:30:12 +0100
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Ondrej Jirman <megous@megous.com>
+Cc:     linux-sunxi@googlegroups.com,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org,
-        Nicolas Boitchat <drinkcat@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+        Chen-Yu Tsai <wens@csie.org>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?utf-8?Q?Myl=C3=A8ne?= Josserand <mylene.josserand@bootlin.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 3/3] arm: dts: sun8i: a83t: a711: Add touchscreen node
+Message-ID: <20191029083012.62wgvonpxkgmznpn@hendrix>
+References: <20191029005806.3577376-1-megous@megous.com>
+ <20191029005806.3577376-4-megous@megous.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="vjc7bik6lfh4bmzh"
+Content-Disposition: inline
+In-Reply-To: <20191029005806.3577376-4-megous@megous.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Oct 26, 2019 at 3:41 AM Rob Herring <robh@kernel.org> wrote:
->
-> On Wed, Oct 23, 2019 at 10:43:48AM +0800, Ikjoon Jang wrote:
-> > Add the DT binding document for Hammer's TABLET_MODE switch.
->
-> This doesn't have any properties. Why does it need to be in DT? Just
-> have the EC driver instantiate it.
->
-> >
-> > Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-> > ---
-> >  .../devicetree/bindings/input/cros-cbas.yaml  | 22 +++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/input/cros-cbas.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/input/cros-cbas.yaml b/Documentation/devicetree/bindings/input/cros-cbas.yaml
-> > new file mode 100644
-> > index 000000000000..3bc989c6a295
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/input/cros-cbas.yaml
-> > @@ -0,0 +1,22 @@
-> > +# SPDX-License-Identifier: GPL-2.0
->
-> (GPL-2.0-only OR BSD-2-Clause) for new bindings please.
 
-This will be GPL-2.0-only in next patch.
+--vjc7bik6lfh4bmzh
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Oct 29, 2019 at 01:58:06AM +0100, Ondrej Jirman wrote:
+> From: Myl=E8ne Josserand <mylene.josserand@bootlin.com>
 >
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/input/cros-cbas.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: ChromeOS Hammer's Base Attached Switch
-> > +
-> > +maintainers:
-> > +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > +
-> > +description:
-> > +  This device is used to signal when a detachable base is attached to a
-> > +  Chrome OS tablet. The node for this device must be under a cros-ec node
-> > +  like google,cros-ec-spi or google,cros-ec-i2c.
+> Enable a FocalTech EDT-FT5x06 Polytouch touchscreen.
 >
-> This should probably just be part of an EC schema where it can be
-> enforced that this is a child node. It could be either embedded into it
-> or referenced. I'd lean toward the former given this is only a
-> compatible string...
+> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> Signed-off-by: Myl=E8ne Josserand <mylene.josserand@bootlin.com>
 
-Sorry for basic questions here but I'm a bit confused,
-"embedding" means that cros-ec.txt should be converted
-into json schema first and embed this child bindings into there?
+Applied, thanks
 
-Many Chrome OS tablets have a switch exposed by 'cros-ec-keyb' device
-which is directly controlled by EC. But this 'cros_cbas' switch device is for
-other types of tablets which need additional logics on EC and HID.
+--vjc7bik6lfh4bmzh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Currently it doesn't need to have other properties, but maybe it could require
-additional properties or device links in the future, plus this device
-is not just
-a EC subdevice, so I'd prefer this to be a separate binding.
+-----BEGIN PGP SIGNATURE-----
 
->
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: google,cros-cbas
-> > +
-> > +required:
-> > +  - compatible
->
-> Add here:
->
-> additionalProperties: false.
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXbf4lAAKCRDj7w1vZxhR
+xVbSAQDT1XY746DPYfIud8pyJ8oPJujpzqL4+l8r1CyT6njIYQD/UIVWkNxtxcoq
+K3j4wdKkaXwfIZ5fyFVqDB6uE9PToAc=
+=wvMX
+-----END PGP SIGNATURE-----
 
-Okay, I will add this in a new patch set , thank you!
-
->
-> > --
-> > 2.23.0.866.gb869b98d4c-goog
-> >
+--vjc7bik6lfh4bmzh--
