@@ -2,27 +2,26 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52FCFE8660
-	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 12:13:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74491E86A7
+	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 12:21:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731765AbfJ2LNn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Oct 2019 07:13:43 -0400
-Received: from vps.xff.cz ([195.181.215.36]:59982 "EHLO vps.xff.cz"
+        id S1725880AbfJ2LVb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Oct 2019 07:21:31 -0400
+Received: from vps.xff.cz ([195.181.215.36]:60158 "EHLO vps.xff.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731826AbfJ2LNn (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Oct 2019 07:13:43 -0400
+        id S1725776AbfJ2LVb (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 29 Oct 2019 07:21:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-        t=1572347620; bh=Obh7tvfkovm1tGf8wM3sGTB+Ja4afeHSPQtadzplAcc=;
+        t=1572348089; bh=JdWur1bMeHO2JpWgp6+b0/Rbt6VKQR73yvBxM9IXugU=;
         h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
-        b=RYCBY6vNV4YeeENeH3RNTeWeZG3kO3f0QWxALt4GLNgqTCg0brQtQhmuBq9x/Y49n
-         fpvK97qY0FSViYwMAY/jfp39tdfeEsIEd14Mo5FallMrTTMm9iLTviBLEwaIE+1V4r
-         n582CF6f19v/OQIz5a+UGsXA3vIgefQhMA2yzP9s=
-Date:   Tue, 29 Oct 2019 12:13:39 +0100
+        b=YIEuUbSu/F8VLiKeFAf+61/x2w+CZ5vxxDg2CttU/zfL7pXo+3O12XZ3X9Tz3i2kg
+         /hXkZX1Uv0KQdTpXOupmwGgb0NY7eOffbcVQpIGC66CKbP9HkkCuLKz1tO1szrxT05
+         K7yH53Jtn2cLiVfZPp52mklDpWOlo+NwNQp4DiUk=
+Date:   Tue, 29 Oct 2019 12:21:29 +0100
 From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
 To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     linux-sunxi@googlegroups.com,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-sunxi@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Maxime Ripard <mripard@kernel.org>,
         Chen-Yu Tsai <wens@csie.org>,
@@ -31,12 +30,11 @@ Cc:     linux-sunxi@googlegroups.com,
         =?utf-8?Q?Myl=C3=A8ne?= Josserand <mylene.josserand@bootlin.com>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/3] arm: dts: sun8i: a83t: a711: Add touchscreen node
-Message-ID: <20191029111339.7okiyig3tbehn5kj@core.my.home>
+Subject: Re: [PATCH 1/3] input: edt-ft5x06: Add support for regulator
+Message-ID: <20191029112129.t4mxqyybltjbuyhj@core.my.home>
 Mail-Followup-To: Marco Felsch <m.felsch@pengutronix.de>,
-        linux-sunxi@googlegroups.com,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        linux-sunxi@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -45,13 +43,14 @@ Mail-Followup-To: Marco Felsch <m.felsch@pengutronix.de>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 References: <20191029005806.3577376-1-megous@megous.com>
- <20191029005806.3577376-4-megous@megous.com>
- <20191029090801.zls2qns7rxcvmxor@pengutronix.de>
+ <20191029005806.3577376-2-megous@megous.com>
+ <20191029041233.GD57214@dtor-ws>
+ <20191029085545.cw5c24gi76gbfdhy@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191029090801.zls2qns7rxcvmxor@pengutronix.de>
+In-Reply-To: <20191029085545.cw5c24gi76gbfdhy@pengutronix.de>
 X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
  <https://xff.cz/key.txt>
 Sender: linux-input-owner@vger.kernel.org
@@ -59,66 +58,110 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Marco,
+Hi Marco,
 
-On Tue, Oct 29, 2019 at 10:08:01AM +0100, Marco Felsch wrote:
-> Hi,
+On Tue, Oct 29, 2019 at 09:55:45AM +0100, Marco Felsch wrote:
+> Hi Dmitry,
 > 
-> On 19-10-29 01:58, Ondrej Jirman wrote:
-> > From: Mylène Josserand <mylene.josserand@bootlin.com>
+> On 19-10-28 21:12, Dmitry Torokhov wrote:
+> > On Tue, Oct 29, 2019 at 01:58:04AM +0100, Ondrej Jirman wrote:
+> > > From: Mylène Josserand <mylene.josserand@bootlin.com>
+> > > 
+> > > Add the support for enabling optional regulator that may be used as VCC
+> > > source.
+> > > 
+> > > Signed-off-by: Ondrej Jirman <megous@megous.com>
+> > > Signed-off-by: Mylène Josserand <mylene.josserand@bootlin.com>
 > > 
-> > Enable a FocalTech EDT-FT5x06 Polytouch touchscreen.
-> > 
-> > Signed-off-by: Ondrej Jirman <megous@megous.com>
-> > Signed-off-by: Mylène Josserand <mylene.josserand@bootlin.com>
-> > ---
-> >  arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
-> > 
-> > diff --git a/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts b/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
-> > index 568b90ece342..19f520252dc5 100644
-> > --- a/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
-> > +++ b/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
-> > @@ -164,6 +164,22 @@
-> >  	status = "okay";
-> >  };
-> >  
-> > +&i2c0 {
-> > +	clock-frequency = <400000>;
-> > +	status = "okay";
-> > +
-> > +	touchscreen@38 {
-> > +		compatible = "edt,edt-ft5x06";
-> > +		reg = <0x38>;
-> > +		interrupt-parent = <&r_pio>;
-> > +		interrupts = <0 7 IRQ_TYPE_EDGE_FALLING>; /* PL7 */
-> > +		reset-gpios = <&pio 3 5 GPIO_ACTIVE_LOW>; /* PD5 */
-> > +		vcc-supply = <&reg_ldo_io0>;
-> > +		touchscreen-size-x = <1024>;
-> > +		touchscreen-size-y = <600>;
+> > Applied, thank you.
 > 
-> Do you want this touchscreen as wakeup-src? If so please add the
-> property here. I've send patches converting the driver from the default
-> behaviour: https://patchwork.kernel.org/cover/11149039/ and all agreed
-> to break backward compatibility.
+> What happens with my vdd patches?
 
-Not at this moment, thank you.
+Sorry for not noticing your patches, I was only aware of Mylène's older series.
+It looks like you can just skip regulator enable support from your series, and
+re-send the deep-sleep mechanism and wakeup source patches only.
 
-regards,
+I'll test it with my board, and give you a tested-by.
+
+thank you and regards,
 	o.
 
 > Regards,
 >   Marco
 > 
-> > +	};
-> > +};
-> > +
-> >  &i2c1 {
-> >  	clock-frequency = <400000>;
-> >  	status = "okay";
-> > -- 
-> > 2.23.0
 > > 
+> > > ---
+> > >  drivers/input/touchscreen/edt-ft5x06.c | 30 ++++++++++++++++++++++++++
+> > >  1 file changed, 30 insertions(+)
+> > > 
+> > > diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+> > > index 5525f1fb1526..d61731c0037d 100644
+> > > --- a/drivers/input/touchscreen/edt-ft5x06.c
+> > > +++ b/drivers/input/touchscreen/edt-ft5x06.c
+> > > @@ -28,6 +28,7 @@
+> > >  #include <linux/input/mt.h>
+> > >  #include <linux/input/touchscreen.h>
+> > >  #include <asm/unaligned.h>
+> > > +#include <linux/regulator/consumer.h>
+> > >  
+> > >  #define WORK_REGISTER_THRESHOLD		0x00
+> > >  #define WORK_REGISTER_REPORT_RATE	0x08
+> > > @@ -88,6 +89,7 @@ struct edt_ft5x06_ts_data {
+> > >  	struct touchscreen_properties prop;
+> > >  	u16 num_x;
+> > >  	u16 num_y;
+> > > +	struct regulator *vcc;
+> > >  
+> > >  	struct gpio_desc *reset_gpio;
+> > >  	struct gpio_desc *wake_gpio;
+> > > @@ -1036,6 +1038,13 @@ edt_ft5x06_ts_set_regs(struct edt_ft5x06_ts_data *tsdata)
+> > >  	}
+> > >  }
+> > >  
+> > > +static void edt_ft5x06_disable_regulator(void *arg)
+> > > +{
+> > > +	struct edt_ft5x06_ts_data *data = arg;
+> > > +
+> > > +	regulator_disable(data->vcc);
+> > > +}
+> > > +
+> > >  static int edt_ft5x06_ts_probe(struct i2c_client *client,
+> > >  					 const struct i2c_device_id *id)
+> > >  {
+> > > @@ -1064,6 +1073,27 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+> > >  
+> > >  	tsdata->max_support_points = chip_data->max_support_points;
+> > >  
+> > > +	tsdata->vcc = devm_regulator_get(&client->dev, "vcc");
+> > > +	if (IS_ERR(tsdata->vcc)) {
+> > > +		error = PTR_ERR(tsdata->vcc);
+> > > +		if (error != -EPROBE_DEFER)
+> > > +			dev_err(&client->dev,
+> > > +				"failed to request regulator: %d\n", error);
+> > > +		return error;
+> > > +	}
+> > > +
+> > > +	error = regulator_enable(tsdata->vcc);
+> > > +	if (error < 0) {
+> > > +		dev_err(&client->dev, "failed to enable vcc: %d\n", error);
+> > > +		return error;
+> > > +	}
+> > > +
+> > > +	error = devm_add_action_or_reset(&client->dev,
+> > > +					 edt_ft5x06_disable_regulator,
+> > > +					 tsdata);
+> > > +	if (error)
+> > > +		return error;
+> > > +
+> > >  	tsdata->reset_gpio = devm_gpiod_get_optional(&client->dev,
+> > >  						     "reset", GPIOD_OUT_HIGH);
+> > >  	if (IS_ERR(tsdata->reset_gpio)) {
+> > > -- 
+> > > 2.23.0
+> > > 
+> > 
+> > -- 
+> > Dmitry
 > > 
 > 
 > -- 
