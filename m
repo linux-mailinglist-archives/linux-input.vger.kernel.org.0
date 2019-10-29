@@ -2,25 +2,25 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8955EE8396
-	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 09:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB6FBE83CA
+	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2019 10:04:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729399AbfJ2Iz5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Oct 2019 04:55:57 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:34011 "EHLO
+        id S1730829AbfJ2JEr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Oct 2019 05:04:47 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:59683 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726566AbfJ2Iz5 (ORCPT
+        with ESMTP id S1727525AbfJ2JEr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Oct 2019 04:55:57 -0400
+        Tue, 29 Oct 2019 05:04:47 -0400
 Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
         by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1iPNI4-0000wX-1e; Tue, 29 Oct 2019 09:55:48 +0100
+        id 1iPNQe-00023m-5q; Tue, 29 Oct 2019 10:04:40 +0100
 Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
         (envelope-from <mfe@pengutronix.de>)
-        id 1iPNI1-0006qC-Cj; Tue, 29 Oct 2019 09:55:45 +0100
-Date:   Tue, 29 Oct 2019 09:55:45 +0100
+        id 1iPNQd-0007Qk-2y; Tue, 29 Oct 2019 10:04:39 +0100
+Date:   Tue, 29 Oct 2019 10:04:39 +0100
 From:   Marco Felsch <m.felsch@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Ondrej Jirman <megous@megous.com>, linux-sunxi@googlegroups.com,
@@ -34,23 +34,22 @@ Cc:     Ondrej Jirman <megous@megous.com>, linux-sunxi@googlegroups.com,
         <mylene.josserand@bootlin.com>, linux-input@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/3] input: edt-ft5x06: Add support for regulator
-Message-ID: <20191029085545.cw5c24gi76gbfdhy@pengutronix.de>
+Subject: Re: [PATCH 0/3] Add touchscreen support for TBS A711 Tablet
+Message-ID: <20191029090439.ikgzrixv7wv2o6xb@pengutronix.de>
 References: <20191029005806.3577376-1-megous@megous.com>
- <20191029005806.3577376-2-megous@megous.com>
- <20191029041233.GD57214@dtor-ws>
+ <20191029041516.GE57214@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191029041233.GD57214@dtor-ws>
+In-Reply-To: <20191029041516.GE57214@dtor-ws>
 X-Sent-From: Pengutronix Hildesheim
 X-URL:  http://www.pengutronix.de/
 X-IRC:  #ptxdist @freenode
 X-Accept-Language: de,en
 X-Accept-Content-Type: text/plain
-X-Uptime: 09:53:29 up 164 days, 15:11, 100 users,  load average: 0.00, 0.01,
- 0.00
+X-Uptime: 10:03:51 up 164 days, 15:22, 99 users,  load average: 0.12, 0.15,
+ 0.07
 User-Agent: NeoMutt/20170113 (1.7.2)
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
 X-SA-Exim-Mail-From: mfe@pengutronix.de
@@ -61,95 +60,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Hi,
 
-On 19-10-28 21:12, Dmitry Torokhov wrote:
-> On Tue, Oct 29, 2019 at 01:58:04AM +0100, Ondrej Jirman wrote:
-> > From: Mylène Josserand <mylene.josserand@bootlin.com>
+On 19-10-28 21:15, Dmitry Torokhov wrote:
+> On Tue, Oct 29, 2019 at 01:58:03AM +0100, Ondrej Jirman wrote:
+> > This is a resurrection of https://lkml.org/lkml/2018/7/25/143
 > > 
-> > Add the support for enabling optional regulator that may be used as VCC
-> > source.
+> > Compared to v4 of Mylène's series I've dropped all attempts to
+> > power off the chip during suspend. This patch just enables the
+> > regulator during probe and disables it on driver rmmod.
 > > 
-> > Signed-off-by: Ondrej Jirman <megous@megous.com>
-> > Signed-off-by: Mylène Josserand <mylene.josserand@bootlin.com>
+> > I've tested the driver with suspend/resume and touching the
+> > panel resumes my soc.
 > 
-> Applied, thank you.
+> OK, I guess we can revisit when someone really needs power savings in
+> suspend...
 
-What happens with my vdd patches?
+Please have a look on https://patchwork.kernel.org/cover/11149039/. I've
+already send patches for it.
 
 Regards,
   Marco
 
+> I folded bindings into the driver change and applied, dts changes should
+> go through respective tree.
 > 
-> > ---
-> >  drivers/input/touchscreen/edt-ft5x06.c | 30 ++++++++++++++++++++++++++
-> >  1 file changed, 30 insertions(+)
-> > 
-> > diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-> > index 5525f1fb1526..d61731c0037d 100644
-> > --- a/drivers/input/touchscreen/edt-ft5x06.c
-> > +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> > @@ -28,6 +28,7 @@
-> >  #include <linux/input/mt.h>
-> >  #include <linux/input/touchscreen.h>
-> >  #include <asm/unaligned.h>
-> > +#include <linux/regulator/consumer.h>
-> >  
-> >  #define WORK_REGISTER_THRESHOLD		0x00
-> >  #define WORK_REGISTER_REPORT_RATE	0x08
-> > @@ -88,6 +89,7 @@ struct edt_ft5x06_ts_data {
-> >  	struct touchscreen_properties prop;
-> >  	u16 num_x;
-> >  	u16 num_y;
-> > +	struct regulator *vcc;
-> >  
-> >  	struct gpio_desc *reset_gpio;
-> >  	struct gpio_desc *wake_gpio;
-> > @@ -1036,6 +1038,13 @@ edt_ft5x06_ts_set_regs(struct edt_ft5x06_ts_data *tsdata)
-> >  	}
-> >  }
-> >  
-> > +static void edt_ft5x06_disable_regulator(void *arg)
-> > +{
-> > +	struct edt_ft5x06_ts_data *data = arg;
-> > +
-> > +	regulator_disable(data->vcc);
-> > +}
-> > +
-> >  static int edt_ft5x06_ts_probe(struct i2c_client *client,
-> >  					 const struct i2c_device_id *id)
-> >  {
-> > @@ -1064,6 +1073,27 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
-> >  
-> >  	tsdata->max_support_points = chip_data->max_support_points;
-> >  
-> > +	tsdata->vcc = devm_regulator_get(&client->dev, "vcc");
-> > +	if (IS_ERR(tsdata->vcc)) {
-> > +		error = PTR_ERR(tsdata->vcc);
-> > +		if (error != -EPROBE_DEFER)
-> > +			dev_err(&client->dev,
-> > +				"failed to request regulator: %d\n", error);
-> > +		return error;
-> > +	}
-> > +
-> > +	error = regulator_enable(tsdata->vcc);
-> > +	if (error < 0) {
-> > +		dev_err(&client->dev, "failed to enable vcc: %d\n", error);
-> > +		return error;
-> > +	}
-> > +
-> > +	error = devm_add_action_or_reset(&client->dev,
-> > +					 edt_ft5x06_disable_regulator,
-> > +					 tsdata);
-> > +	if (error)
-> > +		return error;
-> > +
-> >  	tsdata->reset_gpio = devm_gpiod_get_optional(&client->dev,
-> >  						     "reset", GPIOD_OUT_HIGH);
-> >  	if (IS_ERR(tsdata->reset_gpio)) {
-> > -- 
-> > 2.23.0
-> > 
+> Thanks.
 > 
 > -- 
 > Dmitry
