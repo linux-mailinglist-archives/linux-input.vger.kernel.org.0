@@ -2,173 +2,217 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50FD0E994D
-	for <lists+linux-input@lfdr.de>; Wed, 30 Oct 2019 10:39:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53853E9C95
+	for <lists+linux-input@lfdr.de>; Wed, 30 Oct 2019 14:46:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726071AbfJ3JjS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Oct 2019 05:39:18 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:37613 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726063AbfJ3JjS (ORCPT
+        id S1726259AbfJ3Nqg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Oct 2019 09:46:36 -0400
+Received: from mx0b-00128a01.pphosted.com ([148.163.139.77]:46372 "EHLO
+        mx0b-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726137AbfJ3Nqg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Oct 2019 05:39:18 -0400
-Received: by mail-pl1-f196.google.com with SMTP id p13so742500pll.4;
-        Wed, 30 Oct 2019 02:39:17 -0700 (PDT)
+        Wed, 30 Oct 2019 09:46:36 -0400
+Received: from pps.filterd (m0167090.ppops.net [127.0.0.1])
+        by mx0b-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9UDhJ2p015506;
+        Wed, 30 Oct 2019 09:46:21 -0400
+Received: from nam03-co1-obe.outbound.protection.outlook.com (mail-co1nam03lp2050.outbound.protection.outlook.com [104.47.40.50])
+        by mx0b-00128a01.pphosted.com with ESMTP id 2vxwgw9scj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Wed, 30 Oct 2019 09:46:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q14DDldip/TgDFytx7gohnS5DolopIziLkyA/AbpMS7toQTPnzaEx1L1KEVE2NP1y1xJKI2JM1hMmG2NRORgBsfw62DkRNmUjt1RHqhbA1K7VVjE8qen0928pYBbJp+23zxZ4b88XMc+yNPo9kznuZmNalI+HIesSFuKg3/pvLcBXLEUFh4Dn21JcE5oCzFoDih3ptPszZbhqnGSqjsda9aySEIG/tWAIEMo06bju/cJYKfPBUpHTwA+cn+F8RRPOA09u+o/DbwLcTCv6A42uOly1VJNjgaXSIfwMrrZHQBim5ikLuUuMgkrUQ7vh1fLjpCbjTY7b5GwQRTvKUDUzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hK4ForIJ1dV2pKgg8AjaiYW2ekNkVeIx+41/TD4JaBA=;
+ b=KfNyXT/0NvpONg64OasyQlum8PX5FFKz1zRtz2sVtBIht0IjnEPXPOh7YEg/bzt6/hLfBzGnnfZ+Qz+L4QorbPKG6E3fU3i3VQr9yfB+3k6opeQvH8GATtE34oNAZnfo5HpSq61Z0XxDIvfrdUPsjDdNCIXVb8+idp2qYO7ScN7rhBay8xGiZsPu150ju6rI3MbOfF1tGhdGlMK2D7jpjeXM5tGS0S6j9vteV5FoAFVhRXtbMNIkMX4qsHe0L/Dlae8G+8sId5kErcYAUSCxW5X5Joo73F/f9L/NSz8TnTrQlZnNWMsbIzzkZ/VAkzYdeI5j9lHAlC6i+CpXy/dGRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 137.71.25.57) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=analog.com;
+ dmarc=bestguesspass action=none header.from=analog.com; dkim=none (message
+ not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1YGXo/SF75Yt2VzSc2ZhTmUHp1jTQNYYmgSwhHo/iHE=;
-        b=T01tsbGOKACg8rjHZVgIdjsyfJausHFmH+b2g77sqkgKM7KmQxZx70eFw3IbyIobfb
-         MH5Z+VSbM1Asv23w19JsyWwD2RzIr2tBjJiaPmNRI2j2gnU6iEXAHdzDClI0KIpJBnwi
-         9Y6QKPx9aH9HCago4K9+pCkbx+5gtTGuFtcROqyPHrHbG9LSKRBmD92dXiPzrHpKOHZE
-         gr2DkSaYyFWTw18zLL1jdwglNRx0ZcgAm1vV+dptbCmCz9eQt42+jd9Ec4nFIW4uOUbr
-         yZ8t8g8lwRon4e3zydIetmoQQ62dwAjzQuZ/2chUofLPFp+ZC/p2HXrsHk0WRkjoRG4t
-         SM5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1YGXo/SF75Yt2VzSc2ZhTmUHp1jTQNYYmgSwhHo/iHE=;
-        b=KAcsjuwDCTSoXRBiJDM1L4mQ0j03mM9j9hKQ/Ak9ZpShu1KZee9Cz7VilBJCM0zM65
-         eW33qBVsXZXc8LRIHvQcevQC58lABiWgz6cny+icWW7lKJPKIK3lu2r9BP1WwvK7gGmL
-         QSQVhPhc2eT28CsaaOYXxEiof17EK89y6DabbWaVrdW3/uIshacqIauztuXXkq5+F+fT
-         Ht0e5yPvkU3TtaWwpmhzCWYByra8dDe4P7qUkMGUPUwA9qJRyUw7WMLhmDdsnlzpYBR7
-         VkAT3SPqcxHAlgdwB/8VTmYXXuAb6Ebb26k4LQ0N4mFOBDkvSUA9+ReWcX5hVhuy+VEU
-         oOAA==
-X-Gm-Message-State: APjAAAV/6S99R+Z9T4SHHpHoy6IA75n874/wFT/8EkrHaDBIcvEJIca5
-        RUUZ0gaWP08hg0BlypMqjyw=
-X-Google-Smtp-Source: APXvYqx2bsz0q1YEMomF7tg/QE6FaJHQoLR84yjHPoMEDBHwD4lQZ294O5HfQO+LsqTI8UdPhs9pyA==
-X-Received: by 2002:a17:902:a609:: with SMTP id u9mr3503407plq.180.1572428356669;
-        Wed, 30 Oct 2019 02:39:16 -0700 (PDT)
-Received: from archlinux.GovzHome.Local ([2407:7000:aa08:9602:1f09:3b2d:1861:4613])
-        by smtp.gmail.com with ESMTPSA id i17sm1876190pfo.106.2019.10.30.02.39.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2019 02:39:16 -0700 (PDT)
-From:   sanjay.govind9@gmail.com
-Cc:     sanjay.govind9@gmail.com, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: sony: Add support for Guitar Hero Guitars
-Date:   Wed, 30 Oct 2019 22:29:56 +1300
-Message-Id: <20191030092956.17934-1-sanjay.govind9@gmail.com>
-X-Mailer: git-send-email 2.23.0
+ d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hK4ForIJ1dV2pKgg8AjaiYW2ekNkVeIx+41/TD4JaBA=;
+ b=0s41Nr9ls4/lIvuXH0gYj3v96y8dZ1sB3gWszk3/HMYkuP+8KkBVIJE3Dq11WSzxXfX4pDdmwkGsdexrhGqB/Deak8kd3zOJCzYq5jKObL4dwRniF6SBmTBEccq6XritSCFP0K4Mp0BWBkV6Lyxv0ITcwD5C3gO+z2fizsai/EA=
+Received: from BN6PR03CA0057.namprd03.prod.outlook.com (2603:10b6:404:4c::19)
+ by MWHPR03MB2623.namprd03.prod.outlook.com (2603:10b6:300:43::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2387.22; Wed, 30 Oct
+ 2019 13:46:19 +0000
+Received: from BL2NAM02FT007.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e46::208) by BN6PR03CA0057.outlook.office365.com
+ (2603:10b6:404:4c::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2408.17 via Frontend
+ Transport; Wed, 30 Oct 2019 13:46:19 +0000
+Received-SPF: Pass (protection.outlook.com: domain of analog.com designates
+ 137.71.25.57 as permitted sender) receiver=protection.outlook.com;
+ client-ip=137.71.25.57; helo=nwd2mta2.analog.com;
+Received: from nwd2mta2.analog.com (137.71.25.57) by
+ BL2NAM02FT007.mail.protection.outlook.com (10.152.77.46) with Microsoft SMTP
+ Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2387.20
+ via Frontend Transport; Wed, 30 Oct 2019 13:46:19 +0000
+Received: from NWD2HUBCAS7.ad.analog.com (nwd2hubcas7.ad.analog.com [10.64.69.107])
+        by nwd2mta2.analog.com (8.13.8/8.13.8) with ESMTP id x9UDkBcK020832
+        (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
+        Wed, 30 Oct 2019 06:46:11 -0700
+Received: from saturn.ad.analog.com (10.48.65.116) by
+ NWD2HUBCAS7.ad.analog.com (10.64.69.107) with Microsoft SMTP Server id
+ 14.3.408.0; Wed, 30 Oct 2019 09:46:18 -0400
+From:   Alexandru Ardelean <alexandru.ardelean@analog.com>
+To:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <dmitry.torokhov@gmail.com>, <lars@metafoo.de>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>
+Subject: [PATCH v2 1/2] input: adp5589: Add default platform data
+Date:   Wed, 30 Oct 2019 15:46:13 +0200
+Message-ID: <20191030134614.20520-1-alexandru.ardelean@analog.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain
+X-ADIRoutedOnPrem: True
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:137.71.25.57;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(396003)(136003)(376002)(346002)(39860400002)(199004)(189003)(54534003)(5660300002)(246002)(336012)(54906003)(486006)(44832011)(110136005)(426003)(356004)(2906002)(6666004)(476003)(126002)(2616005)(106002)(36756003)(1076003)(186003)(305945005)(70586007)(70206006)(7636002)(4326008)(26005)(47776003)(2870700001)(8936002)(51416003)(50226002)(7696005)(8676002)(478600001)(48376002)(86362001)(107886003)(50466002)(316002);DIR:OUT;SFP:1101;SCL:1;SRVR:MWHPR03MB2623;H:nwd2mta2.analog.com;FPR:;SPF:Pass;LANG:en;PTR:nwd2mail11.analog.com;A:1;MX:1;
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0f8bfe33-cf40-4423-4af0-08d75d3f8b02
+X-MS-TrafficTypeDiagnostic: MWHPR03MB2623:
+X-Microsoft-Antispam-PRVS: <MWHPR03MB26234AFD43132883914F8347F9600@MWHPR03MB2623.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Forefront-PRVS: 02065A9E77
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QYkJDzm6aKHEiK3Qw0mDAe6o1Eel3+2P4017ID00UvqkEOK2lziRDt5pq/3A452e+AypGT8Gt3bP+I5xXSJb/kAs7de0Rj3ebZ+GcMt9wo4AK8MLpmTMMGJjwVwwaeUpJjLtfGXGxWOkb0LS1it/Ex6NHgP4yGRk0LM6JnGFho+ApFtPBGlX6GOyQiaUWmu1Rfsfc+/8+CWlgMG9QV6E1B/ViU1meEZZnS/WMFx/toU9qKWieExWkH0CNdqmwrnfL8V/XEnc8xSISkKmz3lMNV56Qrclz/mJpXacsZzal6yccgfTcsjLVkAFh/2JY7Gvq7v+KjO93hGmKzKVfhwQBI+ekui3VFpEeOrrZtgAINUorvHuJ4ntbjrqREQ0Gkw8ZDzaxIvXHE42QyCtk4k0QEC4NM0IldfMyXF4xtmK73YZ/khzQra/qJTYb0zybh66
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2019 13:46:19.2220
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f8bfe33-cf40-4423-4af0-08d75d3f8b02
+X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=eaa689b4-8f87-40e0-9c6f-7228de4d754a;Ip=[137.71.25.57];Helo=[nwd2mta2.analog.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR03MB2623
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-10-30_06:2019-10-30,2019-10-30 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ lowpriorityscore=0 bulkscore=0 mlxscore=0 clxscore=1015 suspectscore=0
+ priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1908290000 definitions=main-1910300133
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Sanjay Govind <sanjay.govind9@gmail.com>
+From: Lars-Peter Clausen <lars@metafoo.de>
 
-Guitar Hero Guitars use the accelerometer x axis for tilt. Currently,
-they are treated as a regular HID device, and this does not allow the
-usage of the accelerometer. Add in support for both the PS3 and the 
-PC guitars (they are the same guitars, with different vids and pids).
+If no platform data is supplied use a dummy platform data that configures
+the device in GPIO only mode. This change adds a adp5589_kpad_pdata_get()
+helper that returns the default platform-data. This can be later extended
+to load configuration from device-trees or ACPI.
 
-Signed-off-by: Sanjay Govind <sanjay.govind9@gmail.com>
+Signed-off-by: Lars-Peter Clausen <lars@metafoo.de>
+Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
 ---
- drivers/hid/hid-ids.h  |  5 +++++
- drivers/hid/hid-sony.c | 26 ++++++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 447e8db21174..1d640f94c5bc 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -40,6 +40,9 @@
- #define USB_VENDOR_ID_ACTIONSTAR	0x2101
- #define USB_DEVICE_ID_ACTIONSTAR_1011	0x1011
+Changelog v1 -> v2:
+* adjusted patch `input: adp5589: Add default platform data` by
+  introducting a `adp5589_kpad_pdata_get()` helper, which returns the
+  platform-data; the previos patch was based on an older version of the
+  kernel from the ADI kernel-tree; the driver was sync-ed with the upstream
+  version
+
+ drivers/input/keyboard/adp5589-keys.c | 36 +++++++++++++++++++--------
+ 1 file changed, 26 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/input/keyboard/adp5589-keys.c b/drivers/input/keyboard/adp5589-keys.c
+index e7d58e7f0257..c6a801bcdf90 100644
+--- a/drivers/input/keyboard/adp5589-keys.c
++++ b/drivers/input/keyboard/adp5589-keys.c
+@@ -369,6 +369,25 @@ static const struct adp_constants const_adp5585 = {
+ 	.reg			= adp5585_reg,
+ };
  
-+#define USB_VENDOR_ID_ACTIVISION 0x1430
-+#define USB_DEVICE_ID_ACTIVISION_GUITAR 0x474c
++static const struct adp5589_gpio_platform_data adp5589_default_gpio_pdata = {
++	.gpio_start = -1,
++};
 +
- #define USB_VENDOR_ID_ADS_TECH		0x06e1
- #define USB_DEVICE_ID_ADS_TECH_RADIO_SI470X	0xa155
- 
-@@ -1031,6 +1034,7 @@
- 
- 
- #define USB_VENDOR_ID_SONY			0x054c
-+#define USB_VENDOR_ID_SONY2			0x12BA
- #define USB_DEVICE_ID_SONY_VAIO_VGX_MOUSE	0x024b
- #define USB_DEVICE_ID_SONY_VAIO_VGP_MOUSE	0x0374
- #define USB_DEVICE_ID_SONY_PS3_BDREMOTE		0x0306
-@@ -1042,6 +1046,7 @@
- #define USB_DEVICE_ID_SONY_NAVIGATION_CONTROLLER	0x042f
- #define USB_DEVICE_ID_SONY_BUZZ_CONTROLLER		0x0002
- #define USB_DEVICE_ID_SONY_WIRELESS_BUZZ_CONTROLLER	0x1000
-+#define USB_DEVICE_ID_SONY_GUITAR_CONTROLLER 0x0100
- 
- #define USB_VENDOR_ID_SINO_LITE			0x1345
- #define USB_DEVICE_ID_SINO_LITE_CONTROLLER	0x3008
-diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-index 4c6ed6ef31f1..410c855fb830 100644
---- a/drivers/hid/hid-sony.c
-+++ b/drivers/hid/hid-sony.c
-@@ -56,6 +56,7 @@
- #define NSG_MR5U_REMOTE_BT        BIT(14)
- #define NSG_MR7U_REMOTE_BT        BIT(15)
- #define SHANWAN_GAMEPAD           BIT(16)
-+#define GH_GUITAR_CONTROLLER      BIT(17)
- 
- #define SIXAXIS_CONTROLLER (SIXAXIS_CONTROLLER_USB | SIXAXIS_CONTROLLER_BT)
- #define MOTION_CONTROLLER (MOTION_CONTROLLER_USB | MOTION_CONTROLLER_BT)
-@@ -507,6 +508,8 @@ struct motion_output_report_02 {
- #define SIXAXIS_INPUT_REPORT_ACC_X_OFFSET 41
- #define SIXAXIS_ACC_RES_PER_G 113
- 
-+#define GUITAR_TILT_USAGE 44
++static const struct adp5589_kpad_platform_data adp5589_default_pdata = {
++	.gpio_data = &adp5589_default_gpio_pdata,
++};
 +
- static DEFINE_SPINLOCK(sony_dev_list_lock);
- static LIST_HEAD(sony_device_list);
- static DEFINE_IDA(sony_device_id_allocator);
-@@ -757,6 +760,20 @@ static int navigation_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	return -1;
- }
- 
-+static int guitar_mapping(struct hid_device *hdev, struct hid_input *hi,
-+			  struct hid_field *field, struct hid_usage *usage,
-+			  unsigned long **bit, int *max)
++static const struct adp5589_kpad_platform_data *adp5589_kpad_pdata_get(
++	struct device *dev)
 +{
-+	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_MSVENDOR) {
-+		unsigned int abs = usage->hid & HID_USAGE;
++	const struct adp5589_kpad_platform_data *pdata = dev_get_platdata(dev);
 +
-+		if (abs == GUITAR_TILT_USAGE) {
-+			hid_map_usage_clear(hi, usage, bit, max, EV_ABS, ABS_RY);
-+			return 1;
-+		}
-+	}
-+	return 0;
++	if (!pdata)
++		pdata = &adp5589_default_pdata;
++
++	return pdata;
 +}
- 
- static int sixaxis_mapping(struct hid_device *hdev, struct hid_input *hi,
- 			  struct hid_field *field, struct hid_usage *usage,
-@@ -1340,6 +1357,9 @@ static int sony_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	if (sc->quirks & SIXAXIS_CONTROLLER)
- 		return sixaxis_mapping(hdev, hi, field, usage, bit, max);
- 
-+	if (sc->quirks & GH_GUITAR_CONTROLLER)
-+		return guitar_mapping(hdev, hi, field, usage, bit, max);
 +
- 	if (sc->quirks & DUALSHOCK4_CONTROLLER)
- 		return ds4_mapping(hdev, hi, field, usage, bit, max);
+ static int adp5589_read(struct i2c_client *client, u8 reg)
+ {
+ 	int ret = i2c_smbus_read_byte_data(client, reg);
+@@ -498,7 +517,8 @@ static int adp5589_build_gpiomap(struct adp5589_kpad *kpad,
+ static int adp5589_gpio_add(struct adp5589_kpad *kpad)
+ {
+ 	struct device *dev = &kpad->client->dev;
+-	const struct adp5589_kpad_platform_data *pdata = dev_get_platdata(dev);
++	const struct adp5589_kpad_platform_data *pdata =
++		adp5589_kpad_pdata_get(dev);
+ 	const struct adp5589_gpio_platform_data *gpio_data = pdata->gpio_data;
+ 	int i, error;
  
-@@ -2950,6 +2970,12 @@ static int sony_resume(struct hid_device *hdev)
- #endif
+@@ -553,7 +573,8 @@ static int adp5589_gpio_add(struct adp5589_kpad *kpad)
+ static void adp5589_gpio_remove(struct adp5589_kpad *kpad)
+ {
+ 	struct device *dev = &kpad->client->dev;
+-	const struct adp5589_kpad_platform_data *pdata = dev_get_platdata(dev);
++	const struct adp5589_kpad_platform_data *pdata =
++		adp5589_kpad_pdata_get(dev);
+ 	const struct adp5589_gpio_platform_data *gpio_data = pdata->gpio_data;
+ 	int error;
  
- static const struct hid_device_id sony_devices[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ACTIVISION, USB_DEVICE_ID_ACTIVISION_GUITAR),
-+		.driver_data = GH_GUITAR_CONTROLLER },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY2, USB_DEVICE_ID_SONY_GUITAR_CONTROLLER),
-+		.driver_data = GH_GUITAR_CONTROLLER },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS3_CONTROLLER),
-+		.driver_data = SIXAXIS_CONTROLLER_USB },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS3_CONTROLLER),
- 		.driver_data = SIXAXIS_CONTROLLER_USB },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_NAVIGATION_CONTROLLER),
+@@ -656,7 +677,7 @@ static int adp5589_setup(struct adp5589_kpad *kpad)
+ {
+ 	struct i2c_client *client = kpad->client;
+ 	const struct adp5589_kpad_platform_data *pdata =
+-		dev_get_platdata(&client->dev);
++		adp5589_kpad_pdata_get(&client->dev);
+ 	u8 (*reg) (u8) = kpad->var->reg;
+ 	unsigned char evt_mode1 = 0, evt_mode2 = 0, evt_mode3 = 0;
+ 	unsigned char pull_mask = 0;
+@@ -861,7 +882,7 @@ static int adp5589_keypad_add(struct adp5589_kpad *kpad, unsigned int revid)
+ {
+ 	struct i2c_client *client = kpad->client;
+ 	const struct adp5589_kpad_platform_data *pdata =
+-		dev_get_platdata(&client->dev);
++		adp5589_kpad_pdata_get(&client->dev);
+ 	struct input_dev *input;
+ 	unsigned int i;
+ 	int error;
+@@ -992,7 +1013,7 @@ static int adp5589_probe(struct i2c_client *client,
+ {
+ 	struct adp5589_kpad *kpad;
+ 	const struct adp5589_kpad_platform_data *pdata =
+-		dev_get_platdata(&client->dev);
++		adp5589_kpad_pdata_get(&client->dev);
+ 	unsigned int revid;
+ 	int error, ret;
+ 
+@@ -1002,11 +1023,6 @@ static int adp5589_probe(struct i2c_client *client,
+ 		return -EIO;
+ 	}
+ 
+-	if (!pdata) {
+-		dev_err(&client->dev, "no platform data?\n");
+-		return -EINVAL;
+-	}
+-
+ 	kpad = kzalloc(sizeof(*kpad), GFP_KERNEL);
+ 	if (!kpad)
+ 		return -ENOMEM;
 -- 
-2.23.0
+2.20.1
 
