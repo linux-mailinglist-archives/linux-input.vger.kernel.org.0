@@ -2,60 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F893E9E88
-	for <lists+linux-input@lfdr.de>; Wed, 30 Oct 2019 16:12:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B214FE9EC4
+	for <lists+linux-input@lfdr.de>; Wed, 30 Oct 2019 16:21:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726908AbfJ3PLq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Oct 2019 11:11:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40140 "EHLO mx1.redhat.com"
+        id S1726304AbfJ3PVS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Oct 2019 11:21:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41832 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726347AbfJ3PLp (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Oct 2019 11:11:45 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
+        id S1726261AbfJ3PVS (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 30 Oct 2019 11:21:18 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id BA1EC8535D
-        for <linux-input@vger.kernel.org>; Wed, 30 Oct 2019 15:11:44 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id e14so1485229wrm.21
-        for <linux-input@vger.kernel.org>; Wed, 30 Oct 2019 08:11:44 -0700 (PDT)
+        by mx1.redhat.com (Postfix) with ESMTPS id 4C5FD86658
+        for <linux-input@vger.kernel.org>; Wed, 30 Oct 2019 15:21:18 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id b10so1032035wmh.6
+        for <linux-input@vger.kernel.org>; Wed, 30 Oct 2019 08:21:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=NZLRPmD7MljcC9H8HIiblrqtefNAEa7Re4gixDYWf0s=;
-        b=Ja61sB2jcNc8oA5YMwHyddvQCTg7aWQRwd+qSlNHFZ5lnl3jr3Xaw3E+MduzoWz91G
-         zkd1s1+5DXy7PRkrHkpKImk+Pz7VmerWb1gUsESpSznMVDI77P0NdoMC39F+nwFrFopP
-         yFQcyOqeAfrWEHzYutMTcB4qSLYfn4jyt9DzEqOuM+7aTrwqniL6gPNY167JDmm1nU+B
-         WjiPM42WHlGTu1gWOyGhIG9SD/xcbFbxX2M5TDOdi3PzGyO3PW6qXfdJDR6EeMrgIDFk
-         LMurIyC6ESrT+JHifM3MerzBljri5QXeB7SzIBCPXZ3fCEFWk8Pi84k84QYp3xxpvkpA
-         do7g==
-X-Gm-Message-State: APjAAAXavX24PXUzM72HAWEnKEXwc+2V7heYnrx9RfKj/EIP3AZPyVZ+
-        HAtfY0P0wMzgmZlafgsQ4Vyq3/3WIXN66JDn7UtqnkAgzLEhDVT28bTnKyU/YAWiuWcnC+XcMxs
-        xwEU6ui4GORdiyyIn+769Cuk=
-X-Received: by 2002:a1c:ed0d:: with SMTP id l13mr9528254wmh.76.1572448303196;
-        Wed, 30 Oct 2019 08:11:43 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwETwxejN74LYIxLl4YGhoHZsBuVIwyPnxlnuBYhafMyufA+/IoeVirYJt8z1cnplgd714m9Q==
-X-Received: by 2002:a1c:ed0d:: with SMTP id l13mr9528236wmh.76.1572448302985;
-        Wed, 30 Oct 2019 08:11:42 -0700 (PDT)
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=XnTh+lDrEhWAmNyjcTyFRpG8eVBQ+kooBO6IR8Hvflc=;
+        b=b/eNMkpY8gPebJhx9WHrk2rrH78xMOIsorObMgP15CI4FviHFG3bx4ffJ2uVXp6bsT
+         IumEiqOOmEftLqqIoRYVvINeAISJgK0SJ/fhcigvOATw33cMou+Wkt+c7TojsQcCbOUa
+         mdVvQ27fcnqqM3ndAteJKW/mC6XRKdtT4YN2QDqYjmQvnwkdGoCHxlD2S1ermh8bZHgu
+         KM0a6SrS6rtMtFkCQQ6gZBMBOV/byGgvcdvyTR50FcaDVPaMlzmz5Pk8+lL7Go1Y8aEE
+         aq/aB6dO2DFVH8dfnuo5milLfZgAP3gr2MK24Gu0dij0D9XjEgLwYYdgkXCHgOrGxkN7
+         pWdg==
+X-Gm-Message-State: APjAAAXD9VNew0GZqgF8uOzwEbnMU4GPk6DNksJxgP5oR4NhbU27WGYD
+        pZNH2dmj6OPlTC7rjs9vtLzledSy6fDmOO3Zd26caCmS+PzDT2i6MK+zn/Vb9ujajUaZaNkiZsO
+        f15O90/pLg02mDwy8//hlggM=
+X-Received: by 2002:a7b:c76d:: with SMTP id x13mr9568380wmk.155.1572448876776;
+        Wed, 30 Oct 2019 08:21:16 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxDkHO0H2jD8gQhafP8voizs6xxduhcukz9D9yiKMuCCFvohxZguYZfGGJkCwI1SAkd++9SXQ==
+X-Received: by 2002:a7b:c76d:: with SMTP id x13mr9568361wmk.155.1572448876611;
+        Wed, 30 Oct 2019 08:21:16 -0700 (PDT)
 Received: from shalem.localdomain (2001-1c00-0c14-2800-ec23-a060-24d5-2453.cable.dynamic.v6.ziggo.nl. [2001:1c00:c14:2800:ec23:a060:24d5:2453])
-        by smtp.gmail.com with ESMTPSA id d202sm239429wmd.47.2019.10.30.08.11.42
+        by smtp.gmail.com with ESMTPSA id 36sm740364wrj.42.2019.10.30.08.21.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Oct 2019 08:11:42 -0700 (PDT)
-Subject: Re: [PATCH] HID: i2c-hid: Send power-on command after reset
-To:     Kai Heng Feng <kai.heng.feng@canonical.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-References: <20191020214718.150906-1-hdegoede@redhat.com>
- <097221D1-9115-41C6-8208-6A69FA0EA0CA@canonical.com>
+        Wed, 30 Oct 2019 08:21:15 -0700 (PDT)
+To:     Jiri Kosina <jikos@jikos.cz>,
+        Benjamin Tissoires <btissoir@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-input@vger.kernel.org
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <8918d314-5539-fefb-8e4a-84ba554eec4a@redhat.com>
-Date:   Wed, 30 Oct 2019 16:11:41 +0100
+Subject: i2c-hid regression in 5.4 (Linus' master)
+Message-ID: <f52784fe-f1f5-5147-2c10-e93ca7e51805@redhat.com>
+Date:   Wed, 30 Oct 2019 16:21:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <097221D1-9115-41C6-8208-6A69FA0EA0CA@canonical.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -64,83 +60,30 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Jiri, Benjamin,
 
-On 21-10-2019 09:17, Kai Heng Feng wrote:
-> Hi Hans,
-> 
->> On Oct 21, 2019, at 5:47 AM, Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Before commit 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power
->> management"), any i2c-hid touchscreens would typically be runtime-suspended
->> between the driver loading and Xorg or a Wayland compositor opening it,
->> causing it to be resumed again. This means that before this change,
->> we would call i2c_hid_set_power(OFF), i2c_hid_set_power(ON) before the
->> graphical session would start listening to the touchscreen.
->>
->> It turns out that at least some SIS touchscreens, such as the one found
->> on the Asus T100HA, need a power-on command after reset, otherwise they
->> will not send any events.
-> 
-> As You-Sheng pointed out before, device may need a 60ms delay between ON and RESET command.
-> Does adding the delay help?
+I just noticed that commit 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power management")
+was merged as a fix for 5.4 2 days ago.
 
-I just tried increasing the existing usleep between ON and RESET to:
-
-         usleep_range(60000, 70000);
-
-And this does not help. Note that before we had quirks for devices with a SIS
-screen needed, where we avoided the reset on resume and instead did just an
-i2c_hid_set_power(client, I2C_HID_PWR_ON) for these.
-
-Which likely was to work around the same problem, these devices simply need a
-i2c_hid_set_power(client, I2C_HID_PWR_ON) after rest to function.
-
-Assuming other devices do come up in the "ON" state after reset then this
-will be a no-op for them and this should thus not impact their operation.
-
-Also I just noticed that 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power management")
-has been added to 5.4-rc# as a fix, so we really need to get this in place
-to to not avoid regressing devices with a SIS touchscreen actually quite a
-few devices including some quite popular ones uses a SIS touchscreen, here
-is the list of devices I know about:
+I believe that this is a good idea in general as it should fix issues with
+touchscreens / touchpads on various devices. But about a week ago I noticed a
+regression caused by this. Specifically it causes SIS i2c-hid touchscreens to
+stop working. These are used in various devices. I know of at least 4 models,
+some of which are quite popular, which use SIS touchscreens:
 
 Asus T100HA
 Asus T200TA
 Peaq 10.1" C1010 2-in-1
 Toshiba Click Mini L9W-B
 
+I submitted a patch fixing the regression as soon as I found it,
+there were some questions about this patch, which I did not answer
+immediately (-EBUSY), as back then this was 5.5 material. Now that
+this has been added to 5.4, I've prioritized this and I've answered
+the questions. Assuming you are ok with the approach, we really
+should get my patch added to 5.4, to avoid this change causing
+regressions.
+
 Regards,
 
 Hans
-
-
-
->> Fixes: 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power management")
->> Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->> drivers/hid/i2c-hid/i2c-hid-core.c | 4 ++++
->> 1 file changed, 4 insertions(+)
->>
->> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
->> index d9c55e30f986..04c088131e04 100644
->> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
->> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
->> @@ -447,8 +447,12 @@ static int i2c_hid_hwreset(struct i2c_client *client)
->> 	if (ret) {
->> 		dev_err(&client->dev, "failed to reset device.\n");
->> 		i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
->> +		goto out_unlock;
->> 	}
->>
->> +	/* At least some SIS devices need this after reset */
->> +	ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
->> +
->> out_unlock:
->> 	mutex_unlock(&ihid->reset_lock);
->> 	return ret;
->> -- 
->> 2.23.0
->>
-> 
