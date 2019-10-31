@@ -2,161 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A8A3EAA9D
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2019 07:23:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FF35EAB36
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2019 08:59:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726722AbfJaGXV convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Thu, 31 Oct 2019 02:23:21 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:44411 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726461AbfJaGXV (ORCPT
+        id S1726769AbfJaH73 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 31 Oct 2019 03:59:29 -0400
+Received: from mailrelay2-2.pub.mailoutpod1-cph3.one.com ([46.30.212.1]:22536
+        "EHLO mailrelay2-2.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726698AbfJaH73 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 31 Oct 2019 02:23:21 -0400
-Received: from mail-pg1-f200.google.com ([209.85.215.200])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1iQ3rb-0000ZX-P0
-        for linux-input@vger.kernel.org; Thu, 31 Oct 2019 06:23:19 +0000
-Received: by mail-pg1-f200.google.com with SMTP id b24so3587107pgi.5
-        for <linux-input@vger.kernel.org>; Wed, 30 Oct 2019 23:23:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=gQfSTpwg+KeUfDrp3Whwsrzik7e3bN9rFFIO4RFsOUo=;
-        b=IPKfGulbQlvyATxBRwdCg+B62e/QRpPatDVKnvM0cRDqYIOCaKf6v0j7H0SXdmQwtv
-         ZjqwoEKFEV6IVCKwr9aFof+5LwBEToTwZVuiy21UT2akMyheg/rZ5+L1ZIWMZ8c+UnZo
-         JJaJozNT62JsQmlSoBo8bMqnpzb9bOPH3UPPV2F82TAWMnyzOTyceT98uUh46/M8x2Ry
-         SM5TkDG6thcJm+OGdN2zykTN8BdN03LSOA1vALzRZgHPdmoL/oMbN5bKlt1ymZwZD8CM
-         4OluZwQvk3LORDG/Oauut7RDdZ5PdcnIs7aITeIQSdiQnTSjiCdE06G6HDxpGoDhoLyC
-         V5zA==
-X-Gm-Message-State: APjAAAVEurgjLc4LD4mHKkDMedyOwvnaysINw0/wnRt6fh37PckXREqe
-        EpeNdyj2LI+i7SSqkbayW6ojVoOQmwG9mU593hnRJmfOIuIPzTYOX0U7xpLBfbKMWldc1oHauhM
-        Qg5nQ+IMK1KfU8HeReKEmTQ4g1yjo5FV7/O9j91lc
-X-Received: by 2002:a17:90a:8a8a:: with SMTP id x10mr4907112pjn.113.1572502998134;
-        Wed, 30 Oct 2019 23:23:18 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqygcYSWFHj4YJaTQ/y7AmZdgmLQ0Hn1aI3gQgiLLMPvGP+0Qsn4+zs91B+Yt+f+VwnXtKe8YQ==
-X-Received: by 2002:a17:90a:8a8a:: with SMTP id x10mr4907058pjn.113.1572502997717;
-        Wed, 30 Oct 2019 23:23:17 -0700 (PDT)
-Received: from 2001-b011-380f-3c42-9cc2-25d4-b659-d92e.dynamic-ip6.hinet.net (2001-b011-380f-3c42-9cc2-25d4-b659-d92e.dynamic-ip6.hinet.net. [2001:b011:380f:3c42:9cc2:25d4:b659:d92e])
-        by smtp.gmail.com with ESMTPSA id d5sm2119376pfa.180.2019.10.30.23.23.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 30 Oct 2019 23:23:17 -0700 (PDT)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3601\))
-Subject: Re: [PATCH] HID: i2c-hid: Send power-on command after reset
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <67ABE7E6-C9CF-4A37-96E9-C9D76ECC9DE1@canonical.com>
-Date:   Thu, 31 Oct 2019 14:23:14 +0800
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Content-Transfer-Encoding: 8BIT
-Message-Id: <FE23608B-596F-4494-B62D-2516B150DEF9@canonical.com>
-References: <20191020214718.150906-1-hdegoede@redhat.com>
- <097221D1-9115-41C6-8208-6A69FA0EA0CA@canonical.com>
- <8918d314-5539-fefb-8e4a-84ba554eec4a@redhat.com>
- <67ABE7E6-C9CF-4A37-96E9-C9D76ECC9DE1@canonical.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-X-Mailer: Apple Mail (2.3601)
+        Thu, 31 Oct 2019 03:59:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bitmath.org; s=20140924;
+        h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
+         message-id:from:references:cc:to:subject:from;
+        bh=rQso8MToqtRUHqnuedvZh5RwGvz7M/QcMmNwNECH16o=;
+        b=OspqUJoQm272B+Sie2PXjMepoG81G/Y42QJLebL9rjUPa17nUeCWtCfLYXr+YilaEuVWnh4cAcpCj
+         lQOvNWOWSDbjlVz8WwGrbRkLuZbNBI7pdCtQQt3GJ4QIF6mqfPdC2Iod3by4IN9oKJFkpeH+GNb22Y
+         mnTFBuvBf4SNeLlU=
+X-HalOne-Cookie: 43cc89dee2fd2bbb9ef64f88398e205b53a9986e
+X-HalOne-ID: 5b34d043-fbb4-11e9-ba02-d0431ea8a290
+Received: from [192.168.19.13] (unknown [98.128.166.173])
+        by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+        id 5b34d043-fbb4-11e9-ba02-d0431ea8a290;
+        Thu, 31 Oct 2019 07:59:25 +0000 (UTC)
+Subject: Re: [PATCH v4 01/48] Input: introduce input_mt_report_slot_inactive
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Jiada Wang <jiada_wang@mentor.com>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, erosca@de.adit-jv.com,
+        Andrew_Gabbasov@mentor.com
+References: <20191029072010.8492-1-jiada_wang@mentor.com>
+ <20191029072010.8492-2-jiada_wang@mentor.com>
+ <b3de4c05-d2d1-58f8-a447-d5e127574ac0@bitmath.org>
+ <20191030232311.GK57214@dtor-ws>
+From:   Henrik Rydberg <rydberg@bitmath.org>
+Message-ID: <8bcc16bc-3726-0766-6ec7-213b165faf7e@bitmath.org>
+Date:   Thu, 31 Oct 2019 09:01:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <20191030232311.GK57214@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
+Hi Dmitry,
 
-> On Oct 31, 2019, at 01:39, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
-> 
-> Hi Hans,
-> 
->> On Oct 30, 2019, at 23:11, Hans de Goede <hdegoede@redhat.com> wrote:
->> 
->> Hi,
->> 
->> On 21-10-2019 09:17, Kai Heng Feng wrote:
->>> Hi Hans,
->>>> On Oct 21, 2019, at 5:47 AM, Hans de Goede <hdegoede@redhat.com> wrote:
->>>> 
->>>> Before commit 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power
->>>> management"), any i2c-hid touchscreens would typically be runtime-suspended
->>>> between the driver loading and Xorg or a Wayland compositor opening it,
->>>> causing it to be resumed again. This means that before this change,
->>>> we would call i2c_hid_set_power(OFF), i2c_hid_set_power(ON) before the
->>>> graphical session would start listening to the touchscreen.
->>>> 
->>>> It turns out that at least some SIS touchscreens, such as the one found
->>>> on the Asus T100HA, need a power-on command after reset, otherwise they
->>>> will not send any events.
->>> As You-Sheng pointed out before, device may need a 60ms delay between ON and RESET command.
->>> Does adding the delay help?
->> 
->> I just tried increasing the existing usleep between ON and RESET to:
->> 
->>       usleep_range(60000, 70000);
->> 
->> And this does not help. Note that before we had quirks for devices with a SIS
->> screen needed, where we avoided the reset on resume and instead did just an
->> i2c_hid_set_power(client, I2C_HID_PWR_ON) for these.
->> 
->> Which likely was to work around the same problem, these devices simply need a
->> i2c_hid_set_power(client, I2C_HID_PWR_ON) after rest to function.
->> 
->> Assuming other devices do come up in the "ON" state after reset then this
->> will be a no-op for them and this should thus not impact their operation.
->> 
->> Also I just noticed that 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power management")
->> has been added to 5.4-rc# as a fix, so we really need to get this in place
->> to to not avoid regressing devices with a SIS touchscreen actually quite a
->> few devices including some quite popular ones uses a SIS touchscreen, here
->> is the list of devices I know about:
-> 
-> I agree we should use this workaround since increasing delay doesn't work.
+On 2019-10-31 00:23, Dmitry Torokhov wrote:
+> On Tue, Oct 29, 2019 at 06:13:09PM +0100, Henrik Rydberg wrote:
+>> Hi Jiada,
+>>
+>>> input_mt_report_slot_state() ignores the tool when the slot is closed.
+>>> which has caused a bit of confusion.
+>>> This patch introduces input_mt_report_slot_inactive() to report slot
+>>> inactive state.
+>>> replaces all input_mt_report_slot_state() with
+>>> input_mt_report_slot_inactive() in case of close of slot.
+>>>
+>>> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+>> NACK on this one.
+>>
+>> We already discussed this patch and the potentially changed behavior to
+>> existing setups stemming from ignoring the MT state.
+>>
+>> On the upside, what I can see this patch does exactly no difference to the
+>> cases where the MT state is set, so it can be safely dropped without
+>> affecting the rest of the patch series.
+> I guess Jiada's concern that we are forcing to pass tool type even
+> though we end up ignoring it intervally, which confuses users of the API
+> as they might not know what tool to specify.
+>
+> How about we do:
+>
+> static inline void input_mt_report_slot_inactive(struct input_dev *dev)
+> {
+> 	input_mt_report_slot_state(dev, 0, false);
+> }
+>
+> This should not change any behavior.
 
-I just checked the spec again, seems like ON before RESET in probe is unnecessary.
-Does removing the ON command in probe help?
+Agreed, that will work.
 
-> 
-> Kai-Heng
-> 
->> 
->> Asus T100HA
->> Asus T200TA
->> Peaq 10.1" C1010 2-in-1
->> Toshiba Click Mini L9W-B
->> 
->> Regards,
->> 
->> Hans
->> 
->> 
->> 
->>>> Fixes: 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power management")
->>>> Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
->>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>>> ---
->>>> drivers/hid/i2c-hid/i2c-hid-core.c | 4 ++++
->>>> 1 file changed, 4 insertions(+)
->>>> 
->>>> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
->>>> index d9c55e30f986..04c088131e04 100644
->>>> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
->>>> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
->>>> @@ -447,8 +447,12 @@ static int i2c_hid_hwreset(struct i2c_client *client)
->>>> 	if (ret) {
->>>> 		dev_err(&client->dev, "failed to reset device.\n");
->>>> 		i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
->>>> +		goto out_unlock;
->>>> 	}
->>>> 
->>>> +	/* At least some SIS devices need this after reset */
->>>> +	ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
->>>> +
->>>> out_unlock:
->>>> 	mutex_unlock(&ihid->reset_lock);
->>>> 	return ret;
->>>> -- 
->>>> 2.23.0
+Thanks,
+
+Henrik
+
 
