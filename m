@@ -2,156 +2,161 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E02F0EAA6D
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2019 06:42:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A8A3EAA9D
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2019 07:23:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726404AbfJaFmP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 31 Oct 2019 01:42:15 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37294 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726321AbfJaFmO (ORCPT
+        id S1726722AbfJaGXV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 31 Oct 2019 02:23:21 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:44411 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726461AbfJaGXV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 31 Oct 2019 01:42:14 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 53so4346881otv.4;
-        Wed, 30 Oct 2019 22:42:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=NFOmH+X1zL15bEQ+0SP3D+wVm5m7cWoIjddeXOmNWis=;
-        b=eXNFG2SXsL9b1x6q7lAgPhnuMoQAzJF21zbs5UhqxjhJeHA+91N5noHZGTRXt5++Cm
-         vwy0zL1vmeyQcZTw9htTRB9XuFml2B5ff7NJs5YnQ41HZifNqhvEfZqYygawtRB/LU7c
-         sXrW/uKMUCtNg/P74t2GooIxHeq0Gv2jXweyvLTzXtGk4EEge8tcb/+7rCLjnOPIJNds
-         dHIEsT/ub90pbOjfvyBYAp2fWAP73/SPcMOrAfLRvAJVgz82Pf5oHR4lI16evfHkjYWz
-         qVwqjkWsNh8fKeWkSEwMO+Dp73HRJhtJSg1Uqd8VAFj4ppi7mhgj4zJ+U7OHwU/iANq5
-         WICg==
+        Thu, 31 Oct 2019 02:23:21 -0400
+Received: from mail-pg1-f200.google.com ([209.85.215.200])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1iQ3rb-0000ZX-P0
+        for linux-input@vger.kernel.org; Thu, 31 Oct 2019 06:23:19 +0000
+Received: by mail-pg1-f200.google.com with SMTP id b24so3587107pgi.5
+        for <linux-input@vger.kernel.org>; Wed, 30 Oct 2019 23:23:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=NFOmH+X1zL15bEQ+0SP3D+wVm5m7cWoIjddeXOmNWis=;
-        b=gLDXUS4WD2EuXS0thS087d9buGdrW70BAHVz6JdCQtjyPNUN5oRutk63hS+oSjpkBP
-         xK0EvlMl0b5x/kYVAr77VuGe/6s9XSW/umfAcZUr/EFAegRL7qifLgBxQnjSwBExhpkX
-         dmMrPFeJEGg+9dDbhPU/lqpzLvI+oQmp6cWpKXO6uZ3r59wjzGbftKAezy+D/mob6rG8
-         AEHCKdNXoNQNsBjH4CY5eWnZ8tsQJGJFx0nl+qSlI8ZJ7+kdE+QaNtUIX63OXyodtYyr
-         kJvpGoLrJwJkV1Ff2Nd/K7P6Iz5wQ+GnoNyVaMRdI5+NoYO54nmWNHhoTRWlbGls2qET
-         J+kg==
-X-Gm-Message-State: APjAAAUhncS0lyJgWutteca+vDa2XZ7Nz3H4VZ3z6KQIskSNTlPI0hX9
-        4XdSKqdFiV5FnVo/eR09+LU=
-X-Google-Smtp-Source: APXvYqx5hNnAJsc9WyHXr2j5TdrQCtHYOXjDDNgSHQBS5iBRNflmYTlpJXbQJ4F2Hw2R0/45k1y5jA==
-X-Received: by 2002:a9d:611c:: with SMTP id i28mr1000462otj.348.1572500531565;
-        Wed, 30 Oct 2019 22:42:11 -0700 (PDT)
-Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id f9sm835784otq.52.2019.10.30.22.42.10
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 30 Oct 2019 22:42:10 -0700 (PDT)
-Date:   Wed, 30 Oct 2019 22:42:09 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Jiada Wang <jiada_wang@mentor.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        rydberg@bitmath.org, dmitry.torokhov@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com,
-        clang-built-linux@googlegroups.com
-Subject: Re: [PATCH v4 24/48] Input: atmel_mxt_ts - make bootloader interrupt
- driven
-Message-ID: <20191031054209.GA44197@ubuntu-m2-xlarge-x86>
-References: <20191029072010.8492-1-jiada_wang@mentor.com>
- <20191029072010.8492-25-jiada_wang@mentor.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191029072010.8492-25-jiada_wang@mentor.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=gQfSTpwg+KeUfDrp3Whwsrzik7e3bN9rFFIO4RFsOUo=;
+        b=IPKfGulbQlvyATxBRwdCg+B62e/QRpPatDVKnvM0cRDqYIOCaKf6v0j7H0SXdmQwtv
+         ZjqwoEKFEV6IVCKwr9aFof+5LwBEToTwZVuiy21UT2akMyheg/rZ5+L1ZIWMZ8c+UnZo
+         JJaJozNT62JsQmlSoBo8bMqnpzb9bOPH3UPPV2F82TAWMnyzOTyceT98uUh46/M8x2Ry
+         SM5TkDG6thcJm+OGdN2zykTN8BdN03LSOA1vALzRZgHPdmoL/oMbN5bKlt1ymZwZD8CM
+         4OluZwQvk3LORDG/Oauut7RDdZ5PdcnIs7aITeIQSdiQnTSjiCdE06G6HDxpGoDhoLyC
+         V5zA==
+X-Gm-Message-State: APjAAAVEurgjLc4LD4mHKkDMedyOwvnaysINw0/wnRt6fh37PckXREqe
+        EpeNdyj2LI+i7SSqkbayW6ojVoOQmwG9mU593hnRJmfOIuIPzTYOX0U7xpLBfbKMWldc1oHauhM
+        Qg5nQ+IMK1KfU8HeReKEmTQ4g1yjo5FV7/O9j91lc
+X-Received: by 2002:a17:90a:8a8a:: with SMTP id x10mr4907112pjn.113.1572502998134;
+        Wed, 30 Oct 2019 23:23:18 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqygcYSWFHj4YJaTQ/y7AmZdgmLQ0Hn1aI3gQgiLLMPvGP+0Qsn4+zs91B+Yt+f+VwnXtKe8YQ==
+X-Received: by 2002:a17:90a:8a8a:: with SMTP id x10mr4907058pjn.113.1572502997717;
+        Wed, 30 Oct 2019 23:23:17 -0700 (PDT)
+Received: from 2001-b011-380f-3c42-9cc2-25d4-b659-d92e.dynamic-ip6.hinet.net (2001-b011-380f-3c42-9cc2-25d4-b659-d92e.dynamic-ip6.hinet.net. [2001:b011:380f:3c42:9cc2:25d4:b659:d92e])
+        by smtp.gmail.com with ESMTPSA id d5sm2119376pfa.180.2019.10.30.23.23.16
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 30 Oct 2019 23:23:17 -0700 (PDT)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3601\))
+Subject: Re: [PATCH] HID: i2c-hid: Send power-on command after reset
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <67ABE7E6-C9CF-4A37-96E9-C9D76ECC9DE1@canonical.com>
+Date:   Thu, 31 Oct 2019 14:23:14 +0800
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Content-Transfer-Encoding: 8BIT
+Message-Id: <FE23608B-596F-4494-B62D-2516B150DEF9@canonical.com>
+References: <20191020214718.150906-1-hdegoede@redhat.com>
+ <097221D1-9115-41C6-8208-6A69FA0EA0CA@canonical.com>
+ <8918d314-5539-fefb-8e4a-84ba554eec4a@redhat.com>
+ <67ABE7E6-C9CF-4A37-96E9-C9D76ECC9DE1@canonical.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+X-Mailer: Apple Mail (2.3601)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jiada,
+Hi Hans,
 
-On Thu, Oct 31, 2019 at 01:26:23PM +0800, kbuild test robot wrote:
-> CC: kbuild-all@lists.01.org
-> In-Reply-To: <20191029072010.8492-25-jiada_wang@mentor.com>
-> References: <20191029072010.8492-25-jiada_wang@mentor.com>
-> TO: Jiada Wang <jiada_wang@mentor.com>
-> CC: jikos@kernel.org, benjamin.tissoires@redhat.com, rydberg@bitmath.org, dmitry.torokhov@gmail.com
-> CC: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, jiada_wang@mentor.com, erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
+> On Oct 31, 2019, at 01:39, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
 > 
-> Hi Jiada,
+> Hi Hans,
 > 
-> I love your patch! Perhaps something to improve:
+>> On Oct 30, 2019, at 23:11, Hans de Goede <hdegoede@redhat.com> wrote:
+>> 
+>> Hi,
+>> 
+>> On 21-10-2019 09:17, Kai Heng Feng wrote:
+>>> Hi Hans,
+>>>> On Oct 21, 2019, at 5:47 AM, Hans de Goede <hdegoede@redhat.com> wrote:
+>>>> 
+>>>> Before commit 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power
+>>>> management"), any i2c-hid touchscreens would typically be runtime-suspended
+>>>> between the driver loading and Xorg or a Wayland compositor opening it,
+>>>> causing it to be resumed again. This means that before this change,
+>>>> we would call i2c_hid_set_power(OFF), i2c_hid_set_power(ON) before the
+>>>> graphical session would start listening to the touchscreen.
+>>>> 
+>>>> It turns out that at least some SIS touchscreens, such as the one found
+>>>> on the Asus T100HA, need a power-on command after reset, otherwise they
+>>>> will not send any events.
+>>> As You-Sheng pointed out before, device may need a 60ms delay between ON and RESET command.
+>>> Does adding the delay help?
+>> 
+>> I just tried increasing the existing usleep between ON and RESET to:
+>> 
+>>       usleep_range(60000, 70000);
+>> 
+>> And this does not help. Note that before we had quirks for devices with a SIS
+>> screen needed, where we avoided the reset on resume and instead did just an
+>> i2c_hid_set_power(client, I2C_HID_PWR_ON) for these.
+>> 
+>> Which likely was to work around the same problem, these devices simply need a
+>> i2c_hid_set_power(client, I2C_HID_PWR_ON) after rest to function.
+>> 
+>> Assuming other devices do come up in the "ON" state after reset then this
+>> will be a no-op for them and this should thus not impact their operation.
+>> 
+>> Also I just noticed that 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power management")
+>> has been added to 5.4-rc# as a fix, so we really need to get this in place
+>> to to not avoid regressing devices with a SIS touchscreen actually quite a
+>> few devices including some quite popular ones uses a SIS touchscreen, here
+>> is the list of devices I know about:
 > 
-> [auto build test WARNING on input/next]
-> [also build test WARNING on v5.4-rc5 next-20191030]
-> [if your patch is applied to the wrong git tree, please drop us a note to help
-> improve the system. BTW, we also suggest to use '--base' option to specify the
-> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Jiada-Wang/atmel_mxt_ts-misc/20191031-032509
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-> config: arm64-defconfig (attached as .config)
-> compiler: clang version 10.0.0 (git://gitmirror/llvm_project 6cb181f086a5bc69a97c1a01e9a36f8293dea7ed)
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # save the attached .config to linux build tree
->         make.cross ARCH=arm64 
-> 
-> If you fix the issue, kindly add following tag
-> Reported-by: kbuild test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/input/touchscreen/atmel_mxt_ts.c:1190:2: error: implicit declaration of function 'dev_debug' [-Werror,-Wimplicit-function-declaration]
->            dev_debug(dev, "T92 long stroke LSTR=%d %d\n",
->            ^
->    drivers/input/touchscreen/atmel_mxt_ts.c:1200:2: error: implicit declaration of function 'dev_debug' [-Werror,-Wimplicit-function-declaration]
->            dev_debug(dev, "T93 report double tap %d\n", status);
->            ^
-> >> drivers/input/touchscreen/atmel_mxt_ts.c:1402:36: warning: address of 'data->flash->work' will always evaluate to 'true' [-Wpointer-bool-conversion]
->                    if (data->flash && &data->flash->work)
->                                    ~~  ~~~~~~~~~~~~~^~~~
+> I agree we should use this workaround since increasing delay doesn't work.
 
-The 0day team has been running clang builds for us and this warning
-popped up because of this commit. Presumably, you will need to spin
-up a v5 because of the other error, mind addressing this warning
-while you are at it? As it points out, the check should be unnecessary,
-unless you meant to check for something else?
+I just checked the spec again, seems like ON before RESET in probe is unnecessary.
+Does removing the ON command in probe help?
 
->    1 warning and 2 errors generated.
 > 
-> vim +1402 drivers/input/touchscreen/atmel_mxt_ts.c
+> Kai-Heng
 > 
->   1394	
->   1395	static irqreturn_t mxt_interrupt(int irq, void *dev_id)
->   1396	{
->   1397		struct mxt_data *data = dev_id;
->   1398	
->   1399		if (data->in_bootloader) {
->   1400			complete(&data->chg_completion);
->   1401	
-> > 1402			if (data->flash && &data->flash->work)
->   1403				cancel_delayed_work_sync(&data->flash->work);
->   1404	
->   1405			return IRQ_RETVAL(mxt_check_bootloader(data));
->   1406		}
->   1407	
->   1408		if (!data->object_table)
->   1409			return IRQ_HANDLED;
->   1410	
->   1411		if (data->T44_address) {
->   1412			return mxt_process_messages_t44(data);
->   1413		} else {
->   1414			return mxt_process_messages(data);
->   1415		}
->   1416	}
->   1417	
-> 
-> ---
-> 0-DAY kernel test infrastructure                Open Source Technology Center
-> https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
-> 
+>> 
+>> Asus T100HA
+>> Asus T200TA
+>> Peaq 10.1" C1010 2-in-1
+>> Toshiba Click Mini L9W-B
+>> 
+>> Regards,
+>> 
+>> Hans
+>> 
+>> 
+>> 
+>>>> Fixes: 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power management")
+>>>> Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>>> ---
+>>>> drivers/hid/i2c-hid/i2c-hid-core.c | 4 ++++
+>>>> 1 file changed, 4 insertions(+)
+>>>> 
+>>>> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+>>>> index d9c55e30f986..04c088131e04 100644
+>>>> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+>>>> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+>>>> @@ -447,8 +447,12 @@ static int i2c_hid_hwreset(struct i2c_client *client)
+>>>> 	if (ret) {
+>>>> 		dev_err(&client->dev, "failed to reset device.\n");
+>>>> 		i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
+>>>> +		goto out_unlock;
+>>>> 	}
+>>>> 
+>>>> +	/* At least some SIS devices need this after reset */
+>>>> +	ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
+>>>> +
+>>>> out_unlock:
+>>>> 	mutex_unlock(&ihid->reset_lock);
+>>>> 	return ret;
+>>>> -- 
+>>>> 2.23.0
 
-Cheers,
-Nathan
