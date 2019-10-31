@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84A48EAC15
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2019 10:03:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C11FEAC17
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2019 10:03:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727102AbfJaJC7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 31 Oct 2019 05:02:59 -0400
-Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:23938 "EHLO
+        id S1727141AbfJaJDD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 31 Oct 2019 05:03:03 -0400
+Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:27624 "EHLO
         mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726864AbfJaJC7 (ORCPT
+        by vger.kernel.org with ESMTP id S1726864AbfJaJDD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 31 Oct 2019 05:02:59 -0400
+        Thu, 31 Oct 2019 05:03:03 -0400
 Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9V92asu007885;
-        Thu, 31 Oct 2019 05:02:44 -0400
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2058.outbound.protection.outlook.com [104.47.36.58])
-        by mx0a-00128a01.pphosted.com with ESMTP id 2vxwhjmkdf-1
+        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9V92Yvp007880;
+        Thu, 31 Oct 2019 05:02:50 -0400
+Received: from nam05-co1-obe.outbound.protection.outlook.com (mail-co1nam05lp2056.outbound.protection.outlook.com [104.47.48.56])
+        by mx0a-00128a01.pphosted.com with ESMTP id 2vxwhjmkdu-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Thu, 31 Oct 2019 05:02:43 -0400
+        Thu, 31 Oct 2019 05:02:50 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b07kFWF5NzASuTEGUXNQu9grO5Hz9US/bNxgFmsH0Plf0NWaAA3tGRF8ukrBPnmZwq32zeLOfKzjURJQyoXOSPwO/NBxlDMG4sbiQvAuSf/0g9VeKIfN468c5VoHhzT2ayKIVoQQ0SwgPa/m1aX0Dubq3XzLuvURsiV1s3O+8T11DRMiFEZc259eLNLC7Z2DphzxOnXs/tB3/WBbjpS4UpfkRdyH/aTBEMbEmS3PO0ClCGiVC50roGbdbNL4AObytUuFJrLsIKUMAYhZ2fg0pJrzy6vKqcS2I9j2ty9YyXMU2OQfFAQDdDlYrA9nVvKc1G2ftr1+LNOBs1AwRr4kSA==
+ b=U5RPme6Lw45GEGGdMTM51PzWHKq6BHfrNLuFRlQ68uyIgersugfl6W60XgssQJLMzmNcjqV0h7T7r9NJrQyRpHKML4EOh/qSdTentDP9IFBFEimRLqQFyF9/Na59TRbn8Bc2YnLj6yKHQuk977jpL0ZXE+7njFmfCHyNT9/BkbH/SvID3OgMbgPUd8BRujuEIOQJTAyJ07iGHcAEv42c9YIYqhQvEcotbsY5YBHGeaNEdpvvEhyNPqaOhe8bokoZGsv3Z0T4HMIxcdklKH+1ZJmQK8kY0E0Vsad0o/rbFK28MVKN2tPst9gODV0Nfoi3E2d4L7j7t5hSNIC3omdXog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XMBkZHQLR/8l7CfYOs2l+dEHKYpzPMNlU47f9IVuKYU=;
- b=hcs7Rkd3inJ5MBiB87I6Sp9exztq52XOv0IjASELds/uSDih06uGRHu1whnG090amHywhUAZGabdIwD6wJlrJQoXO6W2Hqin1V6GOAs81plJsQTvTTZWu3XM7meeAgOX6H62LVTz78rj3Rt5lNM/0UjgOHDiLKr+0n3i7LIm01C7PLKd7175aPGJmoykJWIZsTTwm7l/TsSkaah00yMgLQUDwSsnIaQuQHD9cEmkw9E5/MFPdZDTpYw6b5YWQqYxxcwexiqIudQjJCXJ7JyDjbk0+zBFzVzeSKFqjuyAu5QicXtYJ2zIKjGFuFPrLh2Gf0OlBeVGduXe3IcodTvZaw==
+ bh=y+b9MC3wjmqiK2LtU5cdYMvRlwLtMCifyjGmv/1NSyY=;
+ b=OF0TrfDOREIp1oIxMTlg2vdVu1RYAh/u2LXlVamEcqmHPYsyqYpSSZ427obMa+IeJVcwsGE8KYrBzulqwY6Dw+gEhcREpuC6Mq8bGzHmNmYJ+cGjuYjEmTcV/z4UCC4difQcMFkWEfYJ0TqblQi6HGvHSzm140tJpjvPCZstrKC/l/qIkQccJPUoqaRfSUj2J99Ir7uXJbXqIib9vWyAJvcQUwKPEEB2e00tOeFUscUR5c7Twx0MmmIArdwl/CLDUAelVD+nnSzyBqMkIBUIMSwJ2ettMI74o712MK79D9YKR+Ts1e7jApgQpEkSwPG6rcohCGy9bZ4Sjl0WMXkpZQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  137.71.25.57) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=analog.com;
  dmarc=bestguesspass action=none header.from=analog.com; dkim=none (message
@@ -33,64 +33,66 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XMBkZHQLR/8l7CfYOs2l+dEHKYpzPMNlU47f9IVuKYU=;
- b=NjeoFner0dLY2ROg13NNYFuujCoMUh3cQNk3W1AaVsZj4Yc5zs10Mefawu6c9WjGRyXPnoYZrOVHmLiXlz8jJEh2GC4x2E8NIp+i31OJ7v6c4DzeWONPBe4yB/Fr+rXYEX2eerauAutWx3FT7jxFOu4UT8sAB0TxsQTiTey8Fik=
-Received: from BY5PR03CA0001.namprd03.prod.outlook.com (2603:10b6:a03:1e0::11)
- by CY4PR03MB3399.namprd03.prod.outlook.com (2603:10b6:910:57::13) with
+ bh=y+b9MC3wjmqiK2LtU5cdYMvRlwLtMCifyjGmv/1NSyY=;
+ b=8zKhE0QMsVWebifFp7syaqfP7p4lBCieY8GJkEnGMxSKftKvfQUe4H/MkpFDnAfEWEeRxk+PvsI7CRQdjl0KWbHFX2fs8b0kIS38BQbw55TTd0khpFY6HCAZEn2qu+VVRTntPcduZ73YO/uOSvJrpp9Wjzq56MFeHPLekJMm8So=
+Received: from BN6PR03CA0102.namprd03.prod.outlook.com (2603:10b6:404:10::16)
+ by BN8PR03MB4756.namprd03.prod.outlook.com (2603:10b6:408:9a::27) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2387.24; Thu, 31 Oct
- 2019 09:02:41 +0000
-Received: from SN1NAM02FT017.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e44::200) by BY5PR03CA0001.outlook.office365.com
- (2603:10b6:a03:1e0::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2408.17 via Frontend
- Transport; Thu, 31 Oct 2019 09:02:41 +0000
+ 2019 09:02:42 +0000
+Received: from SN1NAM02FT043.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e44::203) by BN6PR03CA0102.outlook.office365.com
+ (2603:10b6:404:10::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2408.20 via Frontend
+ Transport; Thu, 31 Oct 2019 09:02:42 +0000
 Received-SPF: Pass (protection.outlook.com: domain of analog.com designates
  137.71.25.57 as permitted sender) receiver=protection.outlook.com;
  client-ip=137.71.25.57; helo=nwd2mta2.analog.com;
 Received: from nwd2mta2.analog.com (137.71.25.57) by
- SN1NAM02FT017.mail.protection.outlook.com (10.152.72.115) with Microsoft SMTP
+ SN1NAM02FT043.mail.protection.outlook.com (10.152.72.184) with Microsoft SMTP
  Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2387.20
- via Frontend Transport; Thu, 31 Oct 2019 09:02:40 +0000
+ via Frontend Transport; Thu, 31 Oct 2019 09:02:42 +0000
 Received: from NWD2HUBCAS7.ad.analog.com (nwd2hubcas7.ad.analog.com [10.64.69.107])
-        by nwd2mta2.analog.com (8.13.8/8.13.8) with ESMTP id x9V92WZb003403
+        by nwd2mta2.analog.com (8.13.8/8.13.8) with ESMTP id x9V92Y0P003410
         (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
-        Thu, 31 Oct 2019 02:02:32 -0700
+        Thu, 31 Oct 2019 02:02:34 -0700
 Received: from saturn.ad.analog.com (10.48.65.117) by
  NWD2HUBCAS7.ad.analog.com (10.64.69.107) with Microsoft SMTP Server id
- 14.3.408.0; Thu, 31 Oct 2019 05:02:38 -0400
+ 14.3.408.0; Thu, 31 Oct 2019 05:02:41 -0400
 From:   Alexandru Ardelean <alexandru.ardelean@analog.com>
 To:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 CC:     <dmitry.torokhov@gmail.com>, <lars@metafoo.de>,
         Alexandru Ardelean <alexandru.ardelean@analog.com>
-Subject: [PATCH v3 1/2] input: adp5589: Add default platform data
-Date:   Thu, 31 Oct 2019 11:03:11 +0200
-Message-ID: <20191031090312.17205-1-alexandru.ardelean@analog.com>
+Subject: [PATCH v3 2/2] input: adp5589: Add basic devicetree support
+Date:   Thu, 31 Oct 2019 11:03:12 +0200
+Message-ID: <20191031090312.17205-2-alexandru.ardelean@analog.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191031090312.17205-1-alexandru.ardelean@analog.com>
+References: <20191031090312.17205-1-alexandru.ardelean@analog.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ADIRoutedOnPrem: True
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:137.71.25.57;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(376002)(396003)(39860400002)(136003)(346002)(189003)(199004)(54534003)(106002)(50466002)(48376002)(50226002)(478600001)(316002)(54906003)(2870700001)(2906002)(6666004)(110136005)(70586007)(44832011)(356004)(70206006)(2616005)(26005)(47776003)(8676002)(107886003)(186003)(36756003)(246002)(336012)(426003)(305945005)(126002)(7636002)(8936002)(476003)(5660300002)(51416003)(86362001)(7696005)(486006)(4326008)(1076003);DIR:OUT;SFP:1101;SCL:1;SRVR:CY4PR03MB3399;H:nwd2mta2.analog.com;FPR:;SPF:Pass;LANG:en;PTR:nwd2mail11.analog.com;MX:1;A:1;
+X-Forefront-Antispam-Report: CIP:137.71.25.57;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(39860400002)(376002)(346002)(136003)(396003)(189003)(199004)(54534003)(70206006)(426003)(486006)(305945005)(11346002)(70586007)(44832011)(126002)(446003)(7636002)(2616005)(476003)(336012)(5660300002)(316002)(110136005)(54906003)(106002)(478600001)(356004)(8676002)(50466002)(86362001)(6666004)(8936002)(50226002)(107886003)(48376002)(1076003)(7696005)(36756003)(246002)(51416003)(76176011)(14444005)(47776003)(26005)(186003)(4326008)(2906002)(2870700001);DIR:OUT;SFP:1101;SCL:1;SRVR:BN8PR03MB4756;H:nwd2mta2.analog.com;FPR:;SPF:Pass;LANG:en;PTR:nwd2mail11.analog.com;MX:1;A:1;
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a76111b4-cba9-4b8a-faad-08d75de115a9
-X-MS-TrafficTypeDiagnostic: CY4PR03MB3399:
-X-Microsoft-Antispam-PRVS: <CY4PR03MB3399CC3C961C96E42241AE08F9630@CY4PR03MB3399.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Office365-Filtering-Correlation-Id: e0ff67cb-000c-48d2-7c6d-08d75de11699
+X-MS-TrafficTypeDiagnostic: BN8PR03MB4756:
+X-Microsoft-Antispam-PRVS: <BN8PR03MB4756970F40CE788911B45E9AF9630@BN8PR03MB4756.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
 X-Forefront-PRVS: 02070414A1
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 010X3FcjOWdmYvGBf09TKm5plEjLbldBJUi085BRXUebtI7gad3SUNhq4d53yznI6ZasZSeyE2D1lHbQx4wH99T4cmXbkxasV6vVIx1ay/jxGhOnwZezW60N8BtRvVSRvcRgnrkGlczfVcK2ExkW2K2N0SDZYwHUAXi5/HcMZ4NPF0sJO3uGM38ib3krMwFTspk/OAOnQryD4/cSjvyKXz1QlX5SczNMf+ZeeD/DZjgurP/ED5kH9onLPMg15PTTnprJG3bOPGuOLEW0+5hzOVjXe/7w83Cn8YcDYmFb9DWZBbAEY1dXT8jGvygxhQqpE+WiLiA+9shQguTLKv7c9mJPpXyUwWbrbULI9g5BkyHOB8m70ZjMM0PTLy4OZ+Tq29gBxHFU6yA80gY3ZcERu/Cd2KxLu4eDimW2qGL78io1PQaZ3SEXZg7uQPUEvaec
+X-Microsoft-Antispam-Message-Info: XFl0cy0PnMarQiVNGxGs0ofgUqb56go+1fM7xUXjhVkZuoNAkqFnB2F5yR1kPPBlq7n73kn97wmFdnZ27Vx1f4i3jwPlJ8YW891qLfqqH62ESZNfKG+YGRX3fmxg4oeFt9PKcgAxLNh1tcwAMfroWG+O+9ZtxvcZKeM9UwasMWmWp/mhg60O/i4HTMUC+oLW8qSFV6pw9Sk1StEzSY1ze3LkzRQ2+53hyLHDuI3nGz07ob8ih+vb+FP88VFpbJDdW12siUKcZ5ILHh2285iSE9GxcBWxsSCga2o6ssk84VxfuoMHz4ZcIs+uzu2JqwN0nZyEe0YF3vPBZJB5jx5drAF1/w22eBZ+NzdLDzELtp21oNjOY7WYsySHPN5QNIsNqDBMTTIgl/4ibe36zZ3RhmArbZp0wMOVMiEERkpSKqGF7EC1lVslqXDzzC2zA3f8
 X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2019 09:02:40.7549
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2019 09:02:42.3306
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a76111b4-cba9-4b8a-faad-08d75de115a9
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0ff67cb-000c-48d2-7c6d-08d75de11699
 X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=eaa689b4-8f87-40e0-9c6f-7228de4d754a;Ip=[137.71.25.57];Helo=[nwd2mta2.analog.com]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB3399
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR03MB4756
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
  definitions=2019-10-31_03:2019-10-30,2019-10-31 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
@@ -105,10 +107,8 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Lars-Peter Clausen <lars@metafoo.de>
 
-If no platform data is supplied use a dummy platform data that configures
-the device in GPIO only mode. This change adds a adp5589_kpad_pdata_get()
-helper that returns the default platform-data. This can be later extended
-to load configuration from device-trees or ACPI.
+Add very basic devicetree suppport to the adp5589 allowing the device to be
+registered from devicetree.
 
 Signed-off-by: Lars-Peter Clausen <lars@metafoo.de>
 Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
@@ -125,98 +125,74 @@ Changelog v1 -> v2:
   kernel from the ADI kernel-tree; the driver was sync-ed with the upstream
   version
 
- drivers/input/keyboard/adp5589-keys.c | 36 +++++++++++++++++++--------
- 1 file changed, 26 insertions(+), 10 deletions(-)
+ drivers/input/keyboard/adp5589-keys.c | 33 ++++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/input/keyboard/adp5589-keys.c b/drivers/input/keyboard/adp5589-keys.c
-index e7d58e7f0257..c6a801bcdf90 100644
+index c6a801bcdf90..56f4ff7fa9c3 100644
 --- a/drivers/input/keyboard/adp5589-keys.c
 +++ b/drivers/input/keyboard/adp5589-keys.c
-@@ -369,6 +369,25 @@ static const struct adp_constants const_adp5585 = {
- 	.reg			= adp5585_reg,
- };
+@@ -1008,6 +1008,25 @@ static void adp5589_keypad_remove(struct adp5589_kpad *kpad)
+ 	}
+ }
  
-+static const struct adp5589_gpio_platform_data adp5589_default_gpio_pdata = {
-+	.gpio_start = -1,
-+};
-+
-+static const struct adp5589_kpad_platform_data adp5589_default_pdata = {
-+	.gpio_data = &adp5589_default_gpio_pdata,
-+};
-+
-+static const struct adp5589_kpad_platform_data *adp5589_kpad_pdata_get(
-+	struct device *dev)
++static int adp5589_i2c_get_driver_data(struct i2c_client *i2c,
++				       const struct i2c_device_id *id)
 +{
-+	const struct adp5589_kpad_platform_data *pdata = dev_get_platdata(dev);
++	const struct of_device_id *match;
 +
-+	if (!pdata)
-+		pdata = &adp5589_default_pdata;
++	if (id)
++		return id->driver_data;
 +
-+	return pdata;
++	if (!IS_ENABLED(CONFIG_OF) || !i2c->dev.of_node)
++		return -ENODEV;
++
++	match = of_match_node(i2c->dev.driver->of_match_table,
++			      i2c->dev.of_node);
++	if (match)
++		return (uintptr_t)match->data;
++
++	return -ENODEV;
 +}
 +
- static int adp5589_read(struct i2c_client *client, u8 reg)
+ static int adp5589_probe(struct i2c_client *client,
+ 			 const struct i2c_device_id *id)
  {
- 	int ret = i2c_smbus_read_byte_data(client, reg);
-@@ -498,7 +517,8 @@ static int adp5589_build_gpiomap(struct adp5589_kpad *kpad,
- static int adp5589_gpio_add(struct adp5589_kpad *kpad)
- {
- 	struct device *dev = &kpad->client->dev;
--	const struct adp5589_kpad_platform_data *pdata = dev_get_platdata(dev);
-+	const struct adp5589_kpad_platform_data *pdata =
-+		adp5589_kpad_pdata_get(dev);
- 	const struct adp5589_gpio_platform_data *gpio_data = pdata->gpio_data;
- 	int i, error;
+@@ -1029,7 +1048,11 @@ static int adp5589_probe(struct i2c_client *client,
  
-@@ -553,7 +573,8 @@ static int adp5589_gpio_add(struct adp5589_kpad *kpad)
- static void adp5589_gpio_remove(struct adp5589_kpad *kpad)
- {
- 	struct device *dev = &kpad->client->dev;
--	const struct adp5589_kpad_platform_data *pdata = dev_get_platdata(dev);
-+	const struct adp5589_kpad_platform_data *pdata =
-+		adp5589_kpad_pdata_get(dev);
- 	const struct adp5589_gpio_platform_data *gpio_data = pdata->gpio_data;
- 	int error;
+ 	kpad->client = client;
  
-@@ -656,7 +677,7 @@ static int adp5589_setup(struct adp5589_kpad *kpad)
- {
- 	struct i2c_client *client = kpad->client;
- 	const struct adp5589_kpad_platform_data *pdata =
--		dev_get_platdata(&client->dev);
-+		adp5589_kpad_pdata_get(&client->dev);
- 	u8 (*reg) (u8) = kpad->var->reg;
- 	unsigned char evt_mode1 = 0, evt_mode2 = 0, evt_mode3 = 0;
- 	unsigned char pull_mask = 0;
-@@ -861,7 +882,7 @@ static int adp5589_keypad_add(struct adp5589_kpad *kpad, unsigned int revid)
- {
- 	struct i2c_client *client = kpad->client;
- 	const struct adp5589_kpad_platform_data *pdata =
--		dev_get_platdata(&client->dev);
-+		adp5589_kpad_pdata_get(&client->dev);
- 	struct input_dev *input;
- 	unsigned int i;
- 	int error;
-@@ -992,7 +1013,7 @@ static int adp5589_probe(struct i2c_client *client,
- {
- 	struct adp5589_kpad *kpad;
- 	const struct adp5589_kpad_platform_data *pdata =
--		dev_get_platdata(&client->dev);
-+		adp5589_kpad_pdata_get(&client->dev);
- 	unsigned int revid;
- 	int error, ret;
+-	switch (id->driver_data) {
++	ret = adp5589_i2c_get_driver_data(client, id);
++	if (ret < 0)
++		return ret;
++
++	switch (ret) {
+ 	case ADP5585_02:
+ 		kpad->support_row5 = true;
+ 		/* fall through */
+@@ -1129,6 +1152,13 @@ static int adp5589_resume(struct device *dev)
  
-@@ -1002,11 +1023,6 @@ static int adp5589_probe(struct i2c_client *client,
- 		return -EIO;
- 	}
+ static SIMPLE_DEV_PM_OPS(adp5589_dev_pm_ops, adp5589_suspend, adp5589_resume);
  
--	if (!pdata) {
--		dev_err(&client->dev, "no platform data?\n");
--		return -EINVAL;
--	}
--
- 	kpad = kzalloc(sizeof(*kpad), GFP_KERNEL);
- 	if (!kpad)
- 		return -ENOMEM;
++static const struct of_device_id adp5589_of_match[] = {
++	{ .compatible = "adi,adp5585", .data = (void *)ADP5585_01 },
++	{ .compatible = "adi,adp5585-02", .data = (void *)ADP5585_02 },
++	{ .compatible = "adi,adp5589", .data = (void *)ADP5589 },
++	{}
++};
++
+ static const struct i2c_device_id adp5589_id[] = {
+ 	{"adp5589-keys", ADP5589},
+ 	{"adp5585-keys", ADP5585_01},
+@@ -1142,6 +1172,7 @@ static struct i2c_driver adp5589_driver = {
+ 	.driver = {
+ 		.name = KBUILD_MODNAME,
+ 		.pm = &adp5589_dev_pm_ops,
++		.of_match_table = adp5589_of_match,
+ 	},
+ 	.probe = adp5589_probe,
+ 	.remove = adp5589_remove,
 -- 
 2.20.1
 
