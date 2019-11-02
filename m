@@ -2,37 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BDFFEED068
-	for <lists+linux-input@lfdr.de>; Sat,  2 Nov 2019 20:35:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 458DCED082
+	for <lists+linux-input@lfdr.de>; Sat,  2 Nov 2019 21:09:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727200AbfKBTfO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 2 Nov 2019 15:35:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39778 "EHLO mail.kernel.org"
+        id S1727090AbfKBUJI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 2 Nov 2019 16:09:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52920 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726634AbfKBTfO (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 2 Nov 2019 15:35:14 -0400
+        id S1726523AbfKBUJI (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 2 Nov 2019 16:09:08 -0400
 Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 723F820862;
-        Sat,  2 Nov 2019 19:35:12 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DF0E4214AF;
+        Sat,  2 Nov 2019 20:09:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572723313;
-        bh=MuKISYn7aL/t1Jz68PuFO9zEm0915XMIQ0YVXRpWqD8=;
+        s=default; t=1572725348;
+        bh=CYWBKZOnEHWEd+xJwCtecn0L4Btd0s/3sl7+23P9UeU=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=urMQDf1XeWV1klVhoAijv93T6sKCPRw2p5ysKO/3rPaje3q6sN+oxMC9Ii9atk34t
-         cB4InKYJj8yhma1cQIlgDdzFdAG513hVCUpebVr9zsnwTWKaH9HXZ9/s/EOcIMPnI1
-         nJS4WinquCK3j4eEzJlPYKcpr0mrQCvS6dnS/kA0=
-Date:   Sat, 2 Nov 2019 20:35:03 +0100 (CET)
+        b=cfojpSt+aekI0ZmWsjXucheRFF2DJuejQabO29NSq0a25GcE0Hj4skC9DW37ruAZr
+         xjllH9chHaD1J/ktGzklyjrbgJDjIvhke2y1Qjx7RaSSj/vJkOx2ZiCaLNO/mAb5Ib
+         /5yiFk9bECPI/p5jTG1pRSn3x0y7y6QcrWcrWoHg=
+Date:   Sat, 2 Nov 2019 21:09:04 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: Re: [PATCH] HID: i2c-hid: Send power-on command after reset
-In-Reply-To: <20191020214718.150906-1-hdegoede@redhat.com>
-Message-ID: <nycvar.YFH.7.76.1911022034330.1799@cbobk.fhfr.pm>
-References: <20191020214718.150906-1-hdegoede@redhat.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH trivial] HID: intel-ish-hid: Spelling
+ s/diconnect/disconnect/
+In-Reply-To: <20191024151837.29421-1-geert+renesas@glider.be>
+Message-ID: <nycvar.YFH.7.76.1911022108500.1799@cbobk.fhfr.pm>
+References: <20191024151837.29421-1-geert+renesas@glider.be>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -41,27 +42,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 20 Oct 2019, Hans de Goede wrote:
+On Thu, 24 Oct 2019, Geert Uytterhoeven wrote:
 
-> Before commit 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power
-> management"), any i2c-hid touchscreens would typically be runtime-suspended
-> between the driver loading and Xorg or a Wayland compositor opening it,
-> causing it to be resumed again. This means that before this change,
-> we would call i2c_hid_set_power(OFF), i2c_hid_set_power(ON) before the
-> graphical session would start listening to the touchscreen.
+> Fix misspelling of "disconnect".
 > 
-> It turns out that at least some SIS touchscreens, such as the one found
-> on the Asus T100HA, need a power-on command after reset, otherwise they
-> will not send any events.
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/hid/intel-ish-hid/ishtp/hbm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Fixes: 67b18dfb8cfc ("HID: i2c-hid: Remove runtime power management")
-> Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> diff --git a/drivers/hid/intel-ish-hid/ishtp/hbm.c b/drivers/hid/intel-ish-hid/ishtp/hbm.c
+> index c6c9ac09dac3a377..30a91d068306a000 100644
+> --- a/drivers/hid/intel-ish-hid/ishtp/hbm.c
+> +++ b/drivers/hid/intel-ish-hid/ishtp/hbm.c
+> @@ -402,7 +402,7 @@ static void ishtp_hbm_cl_connect_res(struct ishtp_device *dev,
+>   * @dev: ISHTP device instance
+>   * @disconnect_req: disconnect request structure
+>   *
+> - * Disconnect request bus message from the fw. Send diconnect response.
+> + * Disconnect request bus message from the fw. Send disconnect response.
+>   */
 
-Thanks a lot for debugging this.
-
-I've queued this in for-5.4/upstream-fixes and will make sure it hits 
-Linus' tree before 5.4 final.
+Applied to hid.git#for-5.5/ish. Thanks,
 
 -- 
 Jiri Kosina
