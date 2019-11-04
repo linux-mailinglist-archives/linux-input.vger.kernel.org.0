@@ -2,145 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65E97EDDD8
-	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2019 12:44:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01B4AEE182
+	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2019 14:49:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726441AbfKDLoz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 4 Nov 2019 06:44:55 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:41617 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728502AbfKDLoz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Nov 2019 06:44:55 -0500
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1iRan0-0006tb-78; Mon, 04 Nov 2019 12:44:54 +0100
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, patchwork-lst@pengutronix.de,
-        kernel@pengutronix.de
-Subject: [PATCH resend 3/3] Input: synaptics-rmi4 - simplify data read in rmi_f54_work
-Date:   Mon,  4 Nov 2019 12:44:54 +0100
-Message-Id: <20191104114454.10500-3-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191104114454.10500-1-l.stach@pengutronix.de>
-References: <20191104114454.10500-1-l.stach@pengutronix.de>
+        id S1727998AbfKDNtS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 4 Nov 2019 08:49:18 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:39534 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727838AbfKDNtR (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Nov 2019 08:49:17 -0500
+Received: by mail-oi1-f194.google.com with SMTP id v138so14105681oif.6;
+        Mon, 04 Nov 2019 05:49:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=L9pLbrcH5xPS7t/mTdpMAUamEXFTVD8IYcBPmnVLKYE=;
+        b=mR0JTOqQ+EX6cinqMdndnGS5xir9X70YCKIUsPPCWHV0W0xj8j9EkHRJnzDYhyLne/
+         CUk3eKKu618aI4Z3ChZ2xRVbzhShjGUQkrknIz2JNcQidld2FozMSPM38A3J46Xr6nfu
+         nH8fiW3+lSXiUgJjx1rzY7tAWlrMt7P3OZY9TlCSpN7kzCO/oCCXEn/uszkgKYe6vViD
+         Q/52a9Y0A5pTjl3dZ6yPVKp0RxR7RkynGz5Mu3trxlnJjuY6uUgHybI2pfEk86TtKAVx
+         Ke1iUW4TpGtdsT/IEjRelqasG0zX+ze+WVkglQw2dPoV3yydWepONCSzEHDyJAKuzNPB
+         pJHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=L9pLbrcH5xPS7t/mTdpMAUamEXFTVD8IYcBPmnVLKYE=;
+        b=cQw4Mrmi0xnbqxHEkMQIRy/Fw1M0fau5+gauxMHbUK4pn/Kcgd/+Mvo5DJB99pOREd
+         YGJ6QOONTjorp9zhpDYG3tV8DaWZzgxLWNHYE9u5cZ17ZOe3ri03Fit7AUxPVkn2s7RJ
+         0dyrzNgcQfuaGVi3b0OHwDN1xE7BWyK90DRftANnGJvgbJRQUd3LYboRjGUU9A+Ryb6k
+         ErmnYD4Jm4K2JcHcCoICpXfGLmVKcJMZMN9jSYsaLZ7p7DzGGSPSEK34+3b0L3fWPj7G
+         3sFSFNfmh3bkJm+7+RU3bmo9sQJ+QYIzVJ82r60eINcsy1FYdy4ArTu39zw3zDMT1JzQ
+         1QvQ==
+X-Gm-Message-State: APjAAAVPHkoFn0Mgs0VYYTDMnkl2R/6gq4Pa1hHU3VU6/uhRDiTf2rzf
+        +efCfhXrwXZ85s6tC2u29NQrDYt7ake8q7OF2o8YZrUp
+X-Google-Smtp-Source: APXvYqyT2ywHY2Cz5zjsm19s/5bAREbcH+gKOQNOGQigpSMCFD66QPld2caEfOIb+cykSNl95jyMPHsY+SpjuBj1dIQ=
+X-Received: by 2002:a05:6808:7d0:: with SMTP id f16mr9859823oij.86.1572875355125;
+ Mon, 04 Nov 2019 05:49:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+References: <20190302141704.32547-1-marex@denx.de> <20191101204801.16328-1-TheSven73@gmail.com>
+ <20191104070116.GM57214@dtor-ws>
+In-Reply-To: <20191104070116.GM57214@dtor-ws>
+From:   Sven Van Asbroeck <thesven73@gmail.com>
+Date:   Mon, 4 Nov 2019 08:49:04 -0500
+Message-ID: <CAGngYiV_eP0M48Ei8K+uNWb_yW1Yi7C_E5M6O9HpJmrnxkmvyw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Input: ili210x - add ILI2117 support
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>,
+        linux-input@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The body of the for loop is only ever run once as the second standard_report
-element is never changed from its initial zero init, so the loop condition is
-never satisfies after the first run. Equally the start member of the first
-element is never changed from 0, so the index offset is always a constant 0.
+On Mon, Nov 4, 2019 at 2:01 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> Can you please tell me what device you have? Do the patches work for
+> you?
 
-Remove this needless obfuscation of the code and write it in a straight
-forward manner.
+I have an ILI2117A/ILI2118A.
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
- drivers/input/rmi4/rmi_f54.c | 48 ++++++++++++------------------------
- 1 file changed, 16 insertions(+), 32 deletions(-)
+I'll try out the patches today. I'm stuck with a 4.1 vendor kernel, so
+I'll need to backport the (patched) mainline driver to 4.1 before
+I'm able to test.
 
-diff --git a/drivers/input/rmi4/rmi_f54.c b/drivers/input/rmi4/rmi_f54.c
-index 22390e89c680..5b1799bdfb62 100644
---- a/drivers/input/rmi4/rmi_f54.c
-+++ b/drivers/input/rmi4/rmi_f54.c
-@@ -81,11 +81,6 @@ static const char * const rmi_f54_report_type_names[] = {
- 					= "Full Raw Capacitance RX Offset Removed",
- };
- 
--struct rmi_f54_reports {
--	int start;
--	int size;
--};
--
- struct f54_data {
- 	struct rmi_function *fn;
- 
-@@ -98,7 +93,6 @@ struct f54_data {
- 	enum rmi_f54_report_type report_type;
- 	u8 *report_data;
- 	int report_size;
--	struct rmi_f54_reports standard_report[2];
- 
- 	bool is_busy;
- 	struct mutex status_mutex;
-@@ -516,13 +510,10 @@ static void rmi_f54_work(struct work_struct *work)
- 	struct f54_data *f54 = container_of(work, struct f54_data, work.work);
- 	struct rmi_function *fn = f54->fn;
- 	u8 fifo[2];
--	struct rmi_f54_reports *report;
- 	int report_size;
- 	u8 command;
--	u8 *data;
- 	int error;
- 
--	data = f54->report_data;
- 	report_size = rmi_f54_get_report_size(f54);
- 	if (report_size == 0) {
- 		dev_err(&fn->dev, "Bad report size, report type=%d\n",
-@@ -530,8 +521,6 @@ static void rmi_f54_work(struct work_struct *work)
- 		error = -EINVAL;
- 		goto error;     /* retry won't help */
- 	}
--	f54->standard_report[0].size = report_size;
--	report = f54->standard_report;
- 
- 	mutex_lock(&f54->data_mutex);
- 
-@@ -556,28 +545,23 @@ static void rmi_f54_work(struct work_struct *work)
- 
- 	rmi_dbg(RMI_DEBUG_FN, &fn->dev, "Get report command completed, reading data\n");
- 
--	report_size = 0;
--	for (; report->size; report++) {
--		fifo[0] = report->start & 0xff;
--		fifo[1] = (report->start >> 8) & 0xff;
--		error = rmi_write_block(fn->rmi_dev,
--					fn->fd.data_base_addr + F54_FIFO_OFFSET,
--					fifo, sizeof(fifo));
--		if (error) {
--			dev_err(&fn->dev, "Failed to set fifo start offset\n");
--			goto abort;
--		}
-+	fifo[0] = 0;
-+	fifo[1] = 0;
-+	error = rmi_write_block(fn->rmi_dev,
-+				fn->fd.data_base_addr + F54_FIFO_OFFSET,
-+				fifo, sizeof(fifo));
-+	if (error) {
-+		dev_err(&fn->dev, "Failed to set fifo start offset\n");
-+		goto abort;
-+	}
- 
--		error = rmi_read_block(fn->rmi_dev, fn->fd.data_base_addr +
--				       F54_REPORT_DATA_OFFSET, data,
--				       report->size);
--		if (error) {
--			dev_err(&fn->dev, "%s: read [%d bytes] returned %d\n",
--				__func__, report->size, error);
--			goto abort;
--		}
--		data += report->size;
--		report_size += report->size;
-+	error = rmi_read_block(fn->rmi_dev, fn->fd.data_base_addr +
-+			       F54_REPORT_DATA_OFFSET, f54->report_data,
-+			       report_size);
-+	if (error) {
-+		dev_err(&fn->dev, "%s: read [%d bytes] returned %d\n",
-+			__func__, report_size, error);
-+		goto abort;
- 	}
- 
- abort:
--- 
-2.20.1
+I wil try Marek's patch, and Dmitry's rebased patch from
+https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/log/?h=ili2xxx-touchscreen
+and let you know the results.
 
+If the problem with Dmitry's patch is located in ili251x_read_touch_data,
+then using a ILI2117A should work fine.
