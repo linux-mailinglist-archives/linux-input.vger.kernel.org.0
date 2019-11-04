@@ -2,126 +2,254 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 524CEED9BB
-	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2019 08:02:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEA9EED9F3
+	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2019 08:36:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726441AbfKDHCO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 4 Nov 2019 02:02:14 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:36279 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728269AbfKDHCN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Nov 2019 02:02:13 -0500
-Received: by mail-pf1-f195.google.com with SMTP id v19so11534732pfm.3;
-        Sun, 03 Nov 2019 23:02:13 -0800 (PST)
+        id S1726633AbfKDHgy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 4 Nov 2019 02:36:54 -0500
+Received: from mail-yw1-f66.google.com ([209.85.161.66]:39678 "EHLO
+        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726391AbfKDHgy (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Nov 2019 02:36:54 -0500
+Received: by mail-yw1-f66.google.com with SMTP id k127so6620606ywc.6;
+        Sun, 03 Nov 2019 23:36:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=v+Wl1Sx2mI67wtuMY0EGp0iJXT9WiLXyzWaJORWXPX4=;
-        b=RBjNI+CUISpozJIFKnX3ESzdkxuXvmxyHk7MnHfon5YSkuHTUUxQyfbtuEDf8SImwY
-         6L6GPAQP6TvI8ld0BjDJPI22VTKaEj6ksMlr6mKX4d9Z1hHYCqhmB6q0Wcgwx8BRHNoZ
-         bBojmbpRCkttNFO1fC3eW/T7/cEI3WcokemYa7zu2PbnNq2Id5f/PoHnMyizJVxobQoy
-         q4SyH8pyWgrTh3cEJagRg/36FaH873MX+9wdBbAbQwImRDMnHu4PIJiZWVNHmfjZ0eoD
-         /ihydKUtrPV8lSPB9mWvNKbkr0f6X1yGsGv3qSuDLhYAGYiEHXm7/clAf0O6/i4dv5i3
-         3dBg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DfV1jo+LHhzV2sC51YMfKLStsqNhaAi/Vjjj7jKfxIs=;
+        b=E03g0Hxm3gCrZXwIs3mMjFzYb9zlVjqa59ImnTktx9CYh6arM0Tse//dKfZejUPDAC
+         lgA4GaKYU4lI/r8kh/NYnoYLX3WIpdkSFvMHhIEIBspeiisGD0CkWWFPJapR7c4g/xE5
+         vqYzLbapNPNSL+QVKgKpmWd9suMwFr9mxhipg2UUlnmqtqabZjJ40uBEGAiR0Lncu9iJ
+         PFUUy3uTHy+GlmzLwbL3Qk8l86LpuHI4tlL2OVhyrgR+NcKTrm3PBLczl0GW63cq1Nby
+         ax+VuYkhRa6lrrCtfrvpfBgqXCp60wBsYWMaxaASTq/6GV7V/5Ctc8tWIjVgLLaYC5MW
+         hjrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=v+Wl1Sx2mI67wtuMY0EGp0iJXT9WiLXyzWaJORWXPX4=;
-        b=nzOiNbuADN2QXgDakV8hjGejhTUSlWpzCu+u569cqqYDGHZokNexjARgjYY8rve5Db
-         GwLEgPSv3dvDK4mgA9e6KCVLMGczb/HniRuawVkCZ0JiZsSb5GREp7FAccTHHz4mAzE7
-         XKnDiZlunZpiQjqAer309bLe6WPNzym+TOxSdKAHRj/UcDUzNkMP3aoyC+l0fmdSH9hQ
-         mN9BEKQvqz8P/LWMpglK/s3GgIhCpNS7RPeehpr4p4alWgvjLSiGFeJR20tgjgug7CuF
-         K2a9kuBvWkfk4lVXsEpz+Wt5rAUP/IlGh2234Q/68s3hZb0FC/2xNinAu1aRP2RmTm4Q
-         ylQw==
-X-Gm-Message-State: APjAAAU2qCu8TLorm7bGvsoXXKQBVjoXU43XLgMelhxkJ+KYIFR6IsV3
-        uXwHBcA9zBseU+v1ToBzB1S0I6k9
-X-Google-Smtp-Source: APXvYqzeqvkV7mcRUEFGbGuvApEdG99J5f5TUvGxPvMbuJn9ryn1qnvQyPKa7mHl8rkAalmSrvf06w==
-X-Received: by 2002:a17:90a:a45:: with SMTP id o63mr33024831pjo.45.1572850932357;
-        Sun, 03 Nov 2019 23:02:12 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id j10sm13867431pfn.128.2019.11.03.23.02.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Nov 2019 23:02:11 -0800 (PST)
-Date:   Sun, 3 Nov 2019 23:02:09 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Marek Vasut <marex@denx.de>
-Cc:     Adam Ford <aford173@gmail.com>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        linux-input@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] Input: ili210x - add ILI2117 support
-Message-ID: <20191104070209.GN57214@dtor-ws>
-References: <20190302141704.32547-1-marex@denx.de>
- <20191101204801.16328-1-TheSven73@gmail.com>
- <CAHCN7xL4aNDf+4TiStSp4PMiA_FKj9VOmCpe-o42WBhMdoj_Ew@mail.gmail.com>
- <af0b175c-ced0-1a01-9a19-7e49fdb3386d@denx.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DfV1jo+LHhzV2sC51YMfKLStsqNhaAi/Vjjj7jKfxIs=;
+        b=dM1Y/3JQV+kGPDf/VUdKE0GvkPlQ7uuNT1Bk0cClRMB1ncN0WhOHZtHNGrZf+1e9T4
+         m5bQWwG5myTNtmhkoXFAv8gvJ479GY3Wh5vkxJ7ZqLX4cXTeqkv7SkwBB0Eo3tz9heps
+         CNyCK31QigbxgTyyatAvJZKGfdO4Z9Xc5WtlsTBWkqPegRoMZqxX+dHtsD5cKoH9jrDH
+         JdUo61bRrzjvClHj98sp14vGSj27m9m3bd7TmEfvD2JAEZIANROPnKx/DnZ/4Y0gqxsF
+         6DtAokIkn3OCC8bjPZCjk7P6Kamm61xiEEjWYZIXJ0fM/jVeqe/pMiUT1dYfe/3YzTHp
+         /6gg==
+X-Gm-Message-State: APjAAAVJi5GZkkmHecmUVGedwiiI8jEX07F9IxVkOoYEC9whhNLZehdo
+        Er3cf/aH5pu/fj8vhY1m6E2zLDtAlNyXh9af1Tk=
+X-Google-Smtp-Source: APXvYqz+qLLcm5hJL0MOvvtGvKKbU88AT6QRLwwCrv3QRAD0PkJIiVlRrcOuhk6AxrFJKESPG2IwQIlkopNQyE02sas=
+X-Received: by 2002:a81:6045:: with SMTP id u66mr18839281ywb.237.1572853013127;
+ Sun, 03 Nov 2019 23:36:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <af0b175c-ced0-1a01-9a19-7e49fdb3386d@denx.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191022142139.16789-1-candlesea@gmail.com>
+In-Reply-To: <20191022142139.16789-1-candlesea@gmail.com>
+From:   Candle Sun <candlesea@gmail.com>
+Date:   Mon, 4 Nov 2019 15:36:41 +0800
+Message-ID: <CAPnx3XPpB8imJ5dm40AV4XbSgnRsH=WG=LPUBqyuAzsF=+B58w@mail.gmail.com>
+Subject: Re: [PATCH v4] HID: core: check whether Usage Page item is after
+ Usage ID items
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     =?UTF-8?B?57+f5LqsIChPcnNvbiBaaGFpKQ==?= <orson.zhai@unisoc.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Candle Sun <candle.sun@unisoc.com>,
+        Nianfu Bai <nianfu.bai@unisoc.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Nov 04, 2019 at 01:16:21AM +0100, Marek Vasut wrote:
-> On 11/4/19 12:55 AM, Adam Ford wrote:
-> > On Fri, Nov 1, 2019 at 3:48 PM Sven Van Asbroeck wrote:
-> >>
-> >> Dmitry / Marek,
-> >>
-> >> There have been two attempts to add ILI2117 touch controller support.
-> >> I was about to add a third, but luckily I checked the mailing list
-> >> before writing any code :)
-> >>
-> >> Adding this support would clearly be beneficial for the common good.
-> >> What can we do to get this in motion again?
-> >>
-> >> Last time I checked, Marek posted a patch which added the 2117, but Dmitry
-> >> objected, because the code became too unwieldy. Dmitry then posted a cleanup
-> >> patch, which did not work for Marek. So everything came to a halt.
-> >> See:
-> >> https://patchwork.kernel.org/patch/10836651/
-> >> https://www.spinics.net/lists/linux-input/msg62670.html
-> >>
-> >> Dmitry, would you perhaps be willing to accept Marek's patch, and perform the
-> >> cleanup later?
-> >>
-> >> Marek, would you perhaps be willing to invest some time to debug Dmitry's
-> >> cleanup patch?
-> >>
-> >> On my end, I've reviewed Dmitry's patch and it looks mostly ok. I saw one
-> >> difference with ILI210X which could explain Marek's results, but I can't be
-> >> sure - because I could not locate the 210X's register layout on the web.
-> >>
-> >> In Dmitry's patch, we see:
-> >>
-> >>         touch = ili210x_report_events(priv, touchdata);
-> >>         if (touch || chip->continue_polling(touchdata))
-> >>                 schedule_delayed_work(&priv->dwork,
-> >>                                       msecs_to_jiffies(priv->poll_period));
-> >>
-> >> but this is not exactly equivalent to the original. Because in the original,
-> >> the 210X's decision to kick off delayed work is completely independent of
-> >> the value of touch.
-> >>
-> > 
-> > If anyone is interested, I posted a patch to add ili2117A.
-> > https://patchwork.kernel.org/patch/10849877/
-> > 
-> > I am not sure if it's compatible with the non-A version.
-> 
-> This patch could've gone in as-is, the rework was not necessary (and
-> indeed, didn't work). I don't know why this patch wasn't applied in the
-> end, maybe it was just missed.
+Jiri & Benjamin,
+Do you have some futher advice on this patch?
+Can the patch be merged?
 
-Do we really need a brand new driver here? It looks pretty similar to
-the other flavors...
+Regards,
+Candle
 
-Thanks.
-
--- 
-Dmitry
+On Tue, Oct 22, 2019 at 10:22 PM Candle Sun <candlesea@gmail.com> wrote:
+>
+> From: Candle Sun <candle.sun@unisoc.com>
+>
+> Upstream commit 58e75155009c ("HID: core: move Usage Page concatenation
+> to Main item") adds support for Usage Page item after Usage ID items
+> (such as keyboards manufactured by Primax).
+>
+> Usage Page concatenation in Main item works well for following report
+> descriptor patterns:
+>
+>     USAGE_PAGE (Keyboard)                   05 07
+>     USAGE_MINIMUM (Keyboard LeftControl)    19 E0
+>     USAGE_MAXIMUM (Keyboard Right GUI)      29 E7
+>     LOGICAL_MINIMUM (0)                     15 00
+>     LOGICAL_MAXIMUM (1)                     25 01
+>     REPORT_SIZE (1)                         75 01
+>     REPORT_COUNT (8)                        95 08
+>     INPUT (Data,Var,Abs)                    81 02
+>
+> -------------
+>
+>     USAGE_MINIMUM (Keyboard LeftControl)    19 E0
+>     USAGE_MAXIMUM (Keyboard Right GUI)      29 E7
+>     LOGICAL_MINIMUM (0)                     15 00
+>     LOGICAL_MAXIMUM (1)                     25 01
+>     REPORT_SIZE (1)                         75 01
+>     REPORT_COUNT (8)                        95 08
+>     USAGE_PAGE (Keyboard)                   05 07
+>     INPUT (Data,Var,Abs)                    81 02
+>
+> But it makes the parser act wrong for the following report
+> descriptor pattern(such as some Gamepads):
+>
+>     USAGE_PAGE (Button)                     05 09
+>     USAGE (Button 1)                        09 01
+>     USAGE (Button 2)                        09 02
+>     USAGE (Button 4)                        09 04
+>     USAGE (Button 5)                        09 05
+>     USAGE (Button 7)                        09 07
+>     USAGE (Button 8)                        09 08
+>     USAGE (Button 14)                       09 0E
+>     USAGE (Button 15)                       09 0F
+>     USAGE (Button 13)                       09 0D
+>     USAGE_PAGE (Consumer Devices)           05 0C
+>     USAGE (Back)                            0a 24 02
+>     USAGE (HomePage)                        0a 23 02
+>     LOGICAL_MINIMUM (0)                     15 00
+>     LOGICAL_MAXIMUM (1)                     25 01
+>     REPORT_SIZE (1)                         75 01
+>     REPORT_COUNT (11)                       95 0B
+>     INPUT (Data,Var,Abs)                    81 02
+>
+> With Usage Page concatenation in Main item, parser recognizes all the
+> 11 Usages as consumer keys, it is not the HID device's real intention.
+>
+> This patch checks whether Usage Page is really defined after Usage ID
+> items by comparing usage page using status.
+>
+> Usage Page concatenation on currently defined Usage Page will always
+> do in local parsing when Usage ID items encountered.
+>
+> When Main item is parsing, concatenation will do again with last
+> defined Usage Page if this page has not been used in the previous
+> usages concatenation.
+>
+> Signed-off-by: Candle Sun <candle.sun@unisoc.com>
+> Signed-off-by: Nianfu Bai <nianfu.bai@unisoc.com>
+> ---
+> Changes in v4:
+> - Fix v3 introduced BUG in hid_add_usage()
+> - Add checking logic to replace usage_page_last member
+> - Update patch description
+>
+> Changes in v3:
+> - Rework the GET_COMPLETE_USAGE macro as static complete_usage()
+>   function
+> - Add some code comments for usage_page_last
+>
+> Changes in v2:
+> - Update patch title
+> - Add GET_COMPLETE_USAGE macro
+> - Change the logic of checking whether to concatenate usage page again
+>   in main parsing
+> ---
+>  drivers/hid/hid-core.c | 51 +++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 45 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> index 3eaee2c37931..c18ed7180b07 100644
+> --- a/drivers/hid/hid-core.c
+> +++ b/drivers/hid/hid-core.c
+> @@ -211,6 +211,18 @@ static unsigned hid_lookup_collection(struct hid_parser *parser, unsigned type)
+>         return 0; /* we know nothing about this usage type */
+>  }
+>
+> +/*
+> + * Concatenate usage which defines 16 bits or less with the
+> + * currently defined usage page to form a 32 bit usage
+> + */
+> +
+> +static void complete_usage(struct hid_parser *parser, unsigned int index)
+> +{
+> +       parser->local.usage[index] &= 0xFFFF;
+> +       parser->local.usage[index] |=
+> +               (parser->global.usage_page & 0xFFFF) << 16;
+> +}
+> +
+>  /*
+>   * Add a usage to the temporary parser table.
+>   */
+> @@ -222,6 +234,14 @@ static int hid_add_usage(struct hid_parser *parser, unsigned usage, u8 size)
+>                 return -1;
+>         }
+>         parser->local.usage[parser->local.usage_index] = usage;
+> +
+> +       /*
+> +        * If Usage item only includes usage id, concatenate it with
+> +        * currently defined usage page
+> +        */
+> +       if (size <= 2)
+> +               complete_usage(parser, parser->local.usage_index);
+> +
+>         parser->local.usage_size[parser->local.usage_index] = size;
+>         parser->local.collection_index[parser->local.usage_index] =
+>                 parser->collection_stack_ptr ?
+> @@ -543,13 +563,32 @@ static int hid_parser_local(struct hid_parser *parser, struct hid_item *item)
+>   * usage value."
+>   */
+>
+> -static void hid_concatenate_usage_page(struct hid_parser *parser)
+> +static void hid_concatenate_last_usage_page(struct hid_parser *parser)
+>  {
+>         int i;
+> +       unsigned int usage_page;
+> +       unsigned int current_page;
+>
+> -       for (i = 0; i < parser->local.usage_index; i++)
+> -               if (parser->local.usage_size[i] <= 2)
+> -                       parser->local.usage[i] += parser->global.usage_page << 16;
+> +       if (!parser->local.usage_index)
+> +               return;
+> +
+> +       usage_page = parser->global.usage_page;
+> +
+> +       /*
+> +        * Concatenate usage page again only if last declared Usage Page
+> +        * has not been already used in previous usages concatenation
+> +        */
+> +       for (i = parser->local.usage_index - 1; i >= 0; i--) {
+> +               if (parser->local.usage_size[i] > 2)
+> +                       /* Ignore extended usages */
+> +                       continue;
+> +
+> +               current_page = parser->local.usage[i] >> 16;
+> +               if (current_page == usage_page)
+> +                       break;
+> +
+> +               complete_usage(parser, i);
+> +       }
+>  }
+>
+>  /*
+> @@ -561,7 +600,7 @@ static int hid_parser_main(struct hid_parser *parser, struct hid_item *item)
+>         __u32 data;
+>         int ret;
+>
+> -       hid_concatenate_usage_page(parser);
+> +       hid_concatenate_last_usage_page(parser);
+>
+>         data = item_udata(item);
+>
+> @@ -772,7 +811,7 @@ static int hid_scan_main(struct hid_parser *parser, struct hid_item *item)
+>         __u32 data;
+>         int i;
+>
+> -       hid_concatenate_usage_page(parser);
+> +       hid_concatenate_last_usage_page(parser);
+>
+>         data = item_udata(item);
+>
+> --
+> 2.17.1
+>
