@@ -2,103 +2,171 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61BE7EE76F
-	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2019 19:37:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DA4AEE773
+	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2019 19:37:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728321AbfKDShA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 4 Nov 2019 13:37:00 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:41917 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727998AbfKDShA (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Nov 2019 13:37:00 -0500
-Received: by mail-pf1-f194.google.com with SMTP id p26so12908897pfq.8;
-        Mon, 04 Nov 2019 10:37:00 -0800 (PST)
+        id S1729434AbfKDShI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 4 Nov 2019 13:37:08 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:39567 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727998AbfKDShI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Nov 2019 13:37:08 -0500
+Received: by mail-qt1-f194.google.com with SMTP id t8so25437598qtc.6;
+        Mon, 04 Nov 2019 10:37:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=4DGXiFc0mTxxd06ApgMoYC7hB9T1+6YQjN6fhz/5oOU=;
-        b=FvwURMrXMWX7zY8r8RV+tUsOCBqlhkD9OEcxIykbO9k9TKKV2ORueionJzRJBqlP1r
-         S/aCDe9juYmfDkdZvh/X6Ay6kDUXAs8W6T08sk35w3sDWRvnhY3k38wRWr+8pkFxsBPz
-         M+oXjzFRsqqjnbbsKAL8sjTGvz1MMaDTtW4myoE6OAuenC+MKA+/LhfNVAnRmemd8lvd
-         dD1IbjQK4TBl16DQ+tQTjcpjbAL/rcmxLerKS/DSGA2cRzufL72tuMYq4CU8tolWcKFt
-         aWuPpq9DHercuITE8WG8CIiKHR0JA3H+oaOoKtpTJB71EYXPDZByPBJzCVDer8TrXZdW
-         0SIw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=DI1hcEhCcLbkSeRAhVyjZB1oiq8hAYHfbGrfkOIF6Gg=;
+        b=Rmgm5nkNSp3KX9H0KX6g4O/Du0UcndbRBQ+zZSZfNnzuuF15HlhaVqX/0hEUDcZ1tX
+         rljE4YsG64bHUMtQseMWnI+SUWNg+7J8qEgmINXAztE04hJ9cXuRJ/vSJR0ck/in0Vql
+         IQSzpqaC34AujM5mjm81NGWe0jbIBXUsoAdVCeMNnIhWlbF8IBEHhElCDtprOt5VaZ3m
+         M6pwoRseFH05RL6aIcsikVuu6bpUu86ZXi/JscP+mKPWRcenhTL4Ti55/TaCvhjpfEYH
+         AyqgcB5/3NMKk9DawWmlPa5ECWV5SaiAS0eKdRUmc4CCg+8vL62Sg41vQnfl2jkK99Pz
+         Es/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=4DGXiFc0mTxxd06ApgMoYC7hB9T1+6YQjN6fhz/5oOU=;
-        b=JqEA64IYOTD6O/+yZJlzKtYpvOF8sHxq6GTSu31tA2HffYY+/p1QPWhi9kqLJ5ZLZQ
-         ZkFb5fgX8Kla2utAOp2lPyrPCqRrmruC+MBZmbNHHOzssxX7kJ7sP377dDDoR0mbchSS
-         pP1DvLACBkS0Npb6Y7azmM9hxksVv2eD9ZdasyhjMJmW2sQZSv34hIpBm7kJbzUzbml6
-         eQEA/Vw9ZDjX5SpeMvobNupPKY7a31HnPBEQA1jqpCLcmhPUEbfFxMWBwW8bMYai9IT1
-         BLuhOL86eGi9U1GZa1qPSG4cWsomoKrgK5DbozuOilNTBsmIEIGtc6Tft9w34iwUrtLK
-         4JNw==
-X-Gm-Message-State: APjAAAWxX1KOwDkhKlZ6rXQXGVOk1soR+/QNLg2td1oYy8QC0duaaL+7
-        Ku/sNaWISzPJ5JDHEIx0sN4=
-X-Google-Smtp-Source: APXvYqzIwLlIwg0n80PTXmAmW6EwZ1r5h+4jA1h1R/W2oT06CsWKGK58rcCbplqxzutGiFg5n0MPYA==
-X-Received: by 2002:a17:90a:fd88:: with SMTP id cx8mr732897pjb.88.1572892619435;
-        Mon, 04 Nov 2019 10:36:59 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id e17sm14362675pgg.5.2019.11.04.10.36.58
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=DI1hcEhCcLbkSeRAhVyjZB1oiq8hAYHfbGrfkOIF6Gg=;
+        b=Lylj7mkDVMMMYq7IwC+8YZvzoX6LTUxWwbrdCUdlTh6rr+uqIyw9lzAA62YbrFNfTx
+         o2Vu/q0H++EYFOm7ZWgj5bx3VZBhDWZSPsTJX/+/O/iXjjSGLcLi3HKLJlDkUYxhJSM3
+         4BDRSZb7OoQ3qEVsIYDM9N1NqSiEZSM9uLPq1u/AgIH+jNYQ3/nixKJ+4pHytKAD+Oid
+         yqofMcwHSvfUmazNOQa8mCiM7uh8+ze7QlzKv0LTBBrXlTEBo+H97EI0H7xxsmOOKCnR
+         485oo/gdmhAIjlEUNcmVQRtpKnYU6LtjXaUUVFm5t5Ntt1BofnvylqSRZJKIm3aqpfOw
+         WQCw==
+X-Gm-Message-State: APjAAAUPTNp4R1chsgWMhb0caMusEPJfULOZ9MYxgoQ5Sr3iYbb6Uy9M
+        HJOCAkJzcCEaaNbqWWB8onBAgABG
+X-Google-Smtp-Source: APXvYqycdaeFv/udxKgt5/zd+OqWhsQ8SpROXxWa++l40AdJRnXLs7TWEqhrRO5eRMeVMBg9XqgMRg==
+X-Received: by 2002:ac8:2894:: with SMTP id i20mr13432421qti.270.1572892626568;
+        Mon, 04 Nov 2019 10:37:06 -0800 (PST)
+Received: from svens-asus.arcx.com ([184.94.50.30])
+        by smtp.gmail.com with ESMTPSA id z193sm9589821qkb.12.2019.11.04.10.37.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2019 10:36:58 -0800 (PST)
-Date:   Mon, 4 Nov 2019 10:36:56 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Sven Van Asbroeck <thesven73@gmail.com>,
-        Marek Vasut <marex@denx.de>, linux-input@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Mon, 04 Nov 2019 10:37:06 -0800 (PST)
+From:   Sven Van Asbroeck <thesven73@gmail.com>
+X-Google-Original-From: Sven Van Asbroeck <TheSven73@gmail.com>
+To:     Marek Vasut <marex@denx.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Adam Ford <aford173@gmail.com>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 2/2] Input: ili210x - add ILI2117 support
-Message-ID: <20191104183656.GO57214@dtor-ws>
-References: <20190302141704.32547-1-marex@denx.de>
- <20191101204801.16328-1-TheSven73@gmail.com>
- <20191104070116.GM57214@dtor-ws>
- <CAGngYiV_eP0M48Ei8K+uNWb_yW1Yi7C_E5M6O9HpJmrnxkmvyw@mail.gmail.com>
- <CAHCN7xJmJH1gqnE1TBi7hEYnhg0aV8TOW8==QxXV3CEOOk560g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHCN7xJmJH1gqnE1TBi7hEYnhg0aV8TOW8==QxXV3CEOOk560g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Date:   Mon,  4 Nov 2019 13:37:02 -0500
+Message-Id: <20191104183702.8894-1-TheSven73@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191104070116.GM57214@dtor-ws>
+References: <20191104070116.GM57214@dtor-ws>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Nov 04, 2019 at 08:19:28AM -0600, Adam Ford wrote:
-> On Mon, Nov 4, 2019 at 7:49 AM Sven Van Asbroeck <thesven73@gmail.com> wrote:
-> >
-> > On Mon, Nov 4, 2019 at 2:01 AM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > >
-> > > Can you please tell me what device you have? Do the patches work for
-> > > you?
-> >
-> > I have an ILI2117A/ILI2118A.
-> >
-> > I'll try out the patches today. I'm stuck with a 4.1 vendor kernel, so
-> > I'll need to backport the (patched) mainline driver to 4.1 before
-> > I'm able to test.
-> >
-> > I wil try Marek's patch, and Dmitry's rebased patch from
-> > https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/log/?h=ili2xxx-touchscreen
-> > and let you know the results.
-> 
-> For what it's worth, I tried the 3-patch series from that branch on
-> 5.4-RC5, but the ts_calibrate and ts_test_mt do not appear to receive
-> touch info.  They execute when I 'export
-> TSLIB_TSDEVICE=/dev/input/event0' but I don't get touch data.
-> 
-> If I do a hex-dump of /dev/event0 and it dumps data if and only if I
-> hold my finger on the touch screen for a while.
-> 
-> I'll try just doing the 1st patch to see if it it's any better.
+Ok, so here are my test results on an ili211x :
 
-OK, I see where I messed up ili211x_read_touch_data(), it should use
-i2c_master_recv() and not ili210x_read_reg(). I'll make a fix up patch
-later today.
+Using Marek's patch:
+https://patchwork.kernel.org/patch/10836651/#22811657
+It works fine.
 
+Using Dmitry's patch:
+https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/log/?h=ili2xxx-touchscreen
+Does not work at all - the driver even enters an infinite loop.
+
+I tracked this down to two separate issues:
+1. the ili211x does not have a touchdata register; but the driver tries to 
+	read from one.
+2. the ili211x should never poll - otherwise it will read all zeros, which
+	passes the crc check (!), then results in ten finger touches all
+	at (x=0, y=0).
+
+The patch at the end of this e-mail addresses these two issues. When it is
+applied, the ili211x works fine.
+
+Of course, this does not address the issue Marek saw with Dmitry's patch
+	on the ili251x.
+
+Sven
+
+diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+index 7a9c46b8a079..f51a3a19075f 100644
+--- a/drivers/input/touchscreen/ili210x.c
++++ b/drivers/input/touchscreen/ili210x.c
+@@ -36,7 +36,7 @@ struct ili2xxx_chip {
+ 	int (*get_touch_data)(struct i2c_client *client, u8 *data);
+ 	bool (*parse_touch_data)(const u8 *data, unsigned int finger,
+ 				 unsigned int *x, unsigned int *y);
+-	bool (*continue_polling)(const u8 *data);
++	bool (*continue_polling)(const u8 *data, bool has_touch);
+ 	unsigned int max_touches;
+ };
+ 
+@@ -96,7 +96,7 @@ static bool ili210x_touchdata_to_coords(const u8 *touchdata,
+ 	return true;
+ }
+ 
+-static bool ili210x_check_continue_polling(const u8 *data)
++static bool ili210x_check_continue_polling(const u8 *data, bool has_touch)
+ {
+ 	return data[0] & 0xf3;
+ }
+@@ -111,14 +111,19 @@ static const struct ili2xxx_chip ili210x_chip = {
+ 
+ static int ili211x_read_touch_data(struct i2c_client *client, u8 *data)
+ {
++	struct i2c_msg msg = {
++		.addr	= client->addr,
++		.flags	= I2C_M_RD,
++		.len	= ILI211X_DATA_SIZE,
++		.buf	= data,
++	};
+ 	s16 sum = 0;
+ 	int i;
+-	int error;
+ 
+-	error = ili210x_read_reg(client, REG_TOUCHDATA,
+-				 data, ILI211X_DATA_SIZE);
+-	if (error)
+-		return error;
++	if (i2c_transfer(client->adapter, &msg, 1) != 1) {
++		dev_err(&client->dev, "i2c transfer failed\n");
++		return -EIO;
++	}
+ 
+ 	/* This chip uses custom checksum at the end of data */
+ 	for (i = 0; i <= ILI211X_DATA_SIZE - 2; i++)
+@@ -152,7 +157,7 @@ static bool ili211x_touchdata_to_coords(const u8 *touchdata,
+ 	return true;
+ }
+ 
+-static bool ili2xxx_decline_polling(const u8 *data)
++static bool ili2xxx_decline_polling(const u8 *data, bool has_touch)
+ {
+ 	return false;
+ }
+@@ -216,11 +221,16 @@ static bool ili251x_touchdata_to_coords(const u8 *touchdata,
+ 	return true;
+ }
+ 
++static bool ili251x_check_continue_polling(const u8 *data, bool has_touch)
++{
++	return has_touch;
++}
++
+ static const struct ili2xxx_chip ili251x_chip = {
+ 	.read_reg		= ili251x_read_reg,
+ 	.get_touch_data		= ili251x_read_touch_data,
+ 	.parse_touch_data	= ili251x_touchdata_to_coords,
+-	.continue_polling	= ili2xxx_decline_polling,
++	.continue_polling	= ili251x_check_continue_polling,
+ 	.max_touches		= 10,
+ };
+ 
+@@ -268,7 +278,7 @@ static irqreturn_t ili210x_irq(int irq, void *irq_data)
+ 		}
+ 
+ 		touch = ili210x_report_events(priv, touchdata);
+-		keep_polling = touch || chip->continue_polling(touchdata);
++		keep_polling = chip->continue_polling(touchdata, touch);
+ 		if (keep_polling)
+ 			msleep(ILI2XXX_POLL_PERIOD);
+ 	} while (!priv->stop && keep_polling);
 -- 
-Dmitry
+2.17.1
