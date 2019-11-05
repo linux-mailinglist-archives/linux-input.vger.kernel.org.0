@@ -2,80 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 85577EFE53
-	for <lists+linux-input@lfdr.de>; Tue,  5 Nov 2019 14:27:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 680ADEFEB3
+	for <lists+linux-input@lfdr.de>; Tue,  5 Nov 2019 14:36:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389028AbfKEN12 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Nov 2019 08:27:28 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:42478 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387784AbfKEN12 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Nov 2019 08:27:28 -0500
-Received: by mail-io1-f68.google.com with SMTP id g15so1171894iob.9;
-        Tue, 05 Nov 2019 05:27:27 -0800 (PST)
+        id S2389060AbfKENgS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 5 Nov 2019 08:36:18 -0500
+Received: from mail-yb1-f196.google.com ([209.85.219.196]:36606 "EHLO
+        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389059AbfKENgS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Nov 2019 08:36:18 -0500
+Received: by mail-yb1-f196.google.com with SMTP id v17so2404290ybs.3
+        for <linux-input@vger.kernel.org>; Tue, 05 Nov 2019 05:36:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jX4jX2W6i3k9/KOC23QBwkTtx9VcQVu8C6L8SnDZRqw=;
-        b=jTMMLgfkVnBPSeUJQ71tgTsoCo4o4YN1CptDSMFclU8DBIlW12Ty45UjiagKL5c+qL
-         XVomoETpYMsmrJODUaxcJaEptSFbg6XxIn4+4jRAkqfUbJ45uVHWxoXtU8Ct+E666Yxn
-         WnXDOEy/b6s8GKdBcCyoN4GjqB7QDFuQs7jiaLF+0awAty55TLy91HXi+0AX8FMovLgI
-         CwuD4Q9k3rdNpYs/YWS7KmcPDDOekoSnnOeuxa8hViG8oes3GUYkbpSKM5zdRgBD51cS
-         i7gDBRTPnDzMEK94Bi280/OEAKGGI51swoP/xkjuUvfp7YDQt5iEXHttGent5KEsdzYk
-         QWJg==
+        h=from:to:cc:subject:date:message-id;
+        bh=R0BVtLy8tZk3M5PggFKMIRuxlAbFKWFRccRMKUm6LL4=;
+        b=iCBzZE46bGzZ8RB7nJunnWlyf8bXM7OUFlMozPQTGqOVmAe0OC7eZUOyUAPUeQCRRR
+         STTpcH0au3fqEii+cDJcwDPUD5ztln0JxlZ6MGDa3FIt7qRqiKMs75rG5a3cQ/omJoYV
+         Ug+m6s5zeFQeSW97bqAOFiOx5ff5OWantd2G+VdEgSAV/8+nZPX3QFQg2JYAqS1gRZwg
+         i0uNYlCAtTpjoXrhv5/6UB1wRB4C4JIm+tQK7r9DVBxFwmQSHU2L3AxwvlOJjL9sNOln
+         5yguvMj2sPYSMpiJ2hx2nwTAoTnp7Nf9G8+xzswL8xsNMl2XW2zQMeonPSepVfATWEmB
+         xuhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jX4jX2W6i3k9/KOC23QBwkTtx9VcQVu8C6L8SnDZRqw=;
-        b=gNjQNZOzn+iMCII8+NQVDQE0UuGSHMzYZ9kAD3P9XuG0skNcPt3tJ9NEaJTWMFBYL5
-         12y/WpOMHV27LOBR0ExtKZfxgLErfaragrbrkb2Adz+SdextglEF3mRkOmUQnUFTRhdg
-         aemY/DEDdujsagNYbDDBdS/N7Z2AuL22gcSHd0I1b5DrBcbZCqZpTHfNErwHmN3ckCDB
-         CSRtOFIMhTNAtMd05Gqwoaf16ZXFt0rtYvPDRJu8Aekdn6wrzkNsDYVQqQ7B0o8W1zYj
-         JfN01kkUPsqYnyOsI+xNQkDpalLcKB3jRofh7U+OvN1ZHFT8SaCVC1u7HlnA1Af0zE4C
-         yd5w==
-X-Gm-Message-State: APjAAAXqLJbfST7trQiQ6kWEsX0xfGbZAuxqDd4IB2iI5+mFbXm2vMgd
-        JX7C/hrVw+3jdEu2lA8N1z9ILk5fm57nwN41zEk=
-X-Google-Smtp-Source: APXvYqwd+rrCQZ+m8JTRHbAGCc6LLI8WMSbho0o8PAroiVlxjxb3uKt++eYqFQbO6mC6Ekx5mw+iKj9H4ovx4jW2jrI=
-X-Received: by 2002:a6b:2c89:: with SMTP id s131mr27329413ios.276.1572960447143;
- Tue, 05 Nov 2019 05:27:27 -0800 (PST)
-MIME-Version: 1.0
-References: <20191104070116.GM57214@dtor-ws> <20191104183702.8894-1-TheSven73@gmail.com>
- <CAHCN7xJc6DeyQV27OVjD14a8hZT+_Fo9qo-iHgLO414t3y6hVQ@mail.gmail.com>
- <CAGngYiXp52g7X=KLVqxTAhK0AJ9mpgGyaptbkYvhwWfRkQCaXQ@mail.gmail.com>
- <CAHCN7xLhqHzcHro7HYUdNAi8K3ToeruOtLw=0SZNAgNqUpxvHQ@mail.gmail.com>
- <20191104233621.GP57214@dtor-ws> <CAHCN7x+=_FM32JTEKAb=5pPJNvim88cUFuEXgdGhMG9gdr0Emg@mail.gmail.com>
- <CAGngYiX1JP8NZBU+wRzdsLBMN7hhsbmfaD5o4PGPX27Q-6J4xw@mail.gmail.com>
-In-Reply-To: <CAGngYiX1JP8NZBU+wRzdsLBMN7hhsbmfaD5o4PGPX27Q-6J4xw@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=R0BVtLy8tZk3M5PggFKMIRuxlAbFKWFRccRMKUm6LL4=;
+        b=M8GNSzEPIFpOP3jxGffDr0N/eyPBaFMvaRzUvlAs+oyOgufGDyryDiivqOJ0jh2/7L
+         D1MxT3dk3L9b2Ed1eOIBUKd2tqiGPmJTKDkLGtGX5sfRV84ghU8sN53P45fDoLNfMPjK
+         XfqMFpmeYj6cB8Qo+whERDuxHWjjljOy12nIGD1MCxlA+9FZhdDAFSiyjqAN2xSgRnmW
+         lGFqyKDRFhDEHO/mp9D0fTjHqn9Qx0EOIPWECK7YWo8bE50mrXpe1FmRa5jGw7rXP1MR
+         zfEx6+nlZB/al54fLLKX4cqIGc5KP9kdOJp+borwYCY4btrAIP2QPBNixXxvUBUG5HBn
+         0NIQ==
+X-Gm-Message-State: APjAAAVOUZZq88EUqS1tJjVDy1V0grYT5+a/4fQ1lKpFGMQPu4gFSe6U
+        kRRH0Ag0aTIFIFQCYnTo1tk=
+X-Google-Smtp-Source: APXvYqzp5r3vCTdS72C331MvKwdeEYlhBRxMED8/skRM8kTsTyfwNJyIYgKNW2ovCUCpjqGtgxJ1fg==
+X-Received: by 2002:a25:808b:: with SMTP id n11mr28509321ybk.191.1572960976584;
+        Tue, 05 Nov 2019 05:36:16 -0800 (PST)
+Received: from aford-OptiPlex-7050.logicpd.com ([174.46.170.158])
+        by smtp.gmail.com with ESMTPSA id j136sm9426654ywj.17.2019.11.05.05.36.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2019 05:36:15 -0800 (PST)
 From:   Adam Ford <aford173@gmail.com>
-Date:   Tue, 5 Nov 2019 07:27:15 -0600
-Message-ID: <CAHCN7xJ501UHTRRi-fdi7cFH_Bhz07hpa9wRaP1D0MGWrDmbkQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Input: ili210x - add ILI2117 support
-To:     Sven Van Asbroeck <thesven73@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Marek Vasut <marex@denx.de>, linux-input@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     linux-imx@nxp.com, festevam@gmail.com, shawnguo@kernel.org,
+        adam.ford@logicpd.com, dmitry.torokhov@gmail.com,
+        linux-input@vger.kernel.org, marex@denx.de,
+        Adam Ford <aford173@gmail.com>
+Subject: [PATCH] ARM: dts: imx6q-logicpd: Enable ili2117a Touchscreen
+Date:   Tue,  5 Nov 2019 07:35:55 -0600
+Message-Id: <20191105133555.21893-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Nov 4, 2019 at 8:04 PM Sven Van Asbroeck <thesven73@gmail.com> wrote:
->
-> On Mon, Nov 4, 2019 at 6:40 PM Adam Ford <aford173@gmail.com> wrote:
-> >
-> > I will test it tomorrow on a 2117a and reply with results.  I am very
-> > excited to see this integrated.
+The LCD used with the imx6q-logicpd board has an integrated
+ili2117a touch controller connected to i2c1.
 
-For the series:  Tested-by: Adam Ford <aford173@gmail.com> #imx6q-logicpd
+ili2117 support is scheduled to be introduced for Kernel v5.5.
 
-adam
-> >
->
-> I will do the same. That should give us confidence that 211x works
-> ok.
->
-> Dmitry, should someone retest 251x and 210x after such a significant
-> change? Unfortunately I don't have access to these chips.
+This patch adds the node to enable this feature.
+
+Signed-off-by: Adam Ford <aford173@gmail.com>
+
+diff --git a/arch/arm/boot/dts/imx6q-logicpd.dts b/arch/arm/boot/dts/imx6q-logicpd.dts
+index d96ae54be338..a5025f3009a9 100644
+--- a/arch/arm/boot/dts/imx6q-logicpd.dts
++++ b/arch/arm/boot/dts/imx6q-logicpd.dts
+@@ -73,6 +73,16 @@
+ 	status = "okay";
+ };
+ 
++&i2c1 {
++	ili_touch: ilitouch@26 {
++		compatible = "ilitek,ili2117";
++		reg = <0x26>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_touchscreen>;
++		interrupts-extended = <&gpio1 6 IRQ_TYPE_EDGE_RISING>;
++	};
++};
++
+ &ldb {
+ 	status = "okay";
+ 
+-- 
+2.17.1
+
