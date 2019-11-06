@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB85CF0FB0
-	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2019 08:05:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C59D3F0FB2
+	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2019 08:05:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731093AbfKFHEh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Nov 2019 02:04:37 -0500
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:9103 "EHLO
-        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728291AbfKFHEg (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Nov 2019 02:04:36 -0500
-IronPort-SDR: 5JQdlDRspAT4Hw2o3yhlCo0HGGO8sV5OIhojXu7fcszPKcICExkmk7KaDfMJFMjUOx4TNb0NTF
- UsEQAnrRe7g1QZRZ1CidBerwc6hG8S2pEk1krzZ+GBLY8GQzToflcvoVX0qvMonpiy7pWZnZR2
- FYUVnkYBw/XHBjWDUdEse0VM+UCLYr2CpYI4jI5oThmjDR2zHlWJs5PxWkLQNZtxxfsEOfXMvf
- FEY5Wbc7VAjGPOd2bjkx81ZytJaxXtNDZwS01e8GvjMaRYPJwK2thxghVaKmutz5L2Sq1NeJ80
- YwU=
+        id S1731792AbfKFHEk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Nov 2019 02:04:40 -0500
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:8813 "EHLO
+        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728291AbfKFHEj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Nov 2019 02:04:39 -0500
+IronPort-SDR: H5CkumVVwTxnMNTOSTGsjo4zaRRIOCrQk0mm2jvPL9US3EfAHevywHcM4lFCb0xYfJBzVF4R2U
+ 5m2TUED5cNpCYHyFo8LiZP6y1eVM/MTbNtY3cy26k82xsEtXAbjc+Jqx7mZ6Gb/Rhq1jWkLOoU
+ F5wHoeSqU0UX+ZYbu5vYpzqpZs1pxAyIQN236niTIzk/k8xtUSGnbylPTnH1I4J7pn5cQ73hCt
+ FkDVozeP4pOUCCzXEr8JSeEj/ip5jSDz+g03Qc0bgdKOSle7QXfHuXBlbJhON5AlRDrCBk4mSm
+ A84=
 X-IronPort-AV: E=Sophos;i="5.68,272,1569312000"; 
-   d="scan'208";a="42848327"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 05 Nov 2019 23:04:35 -0800
-IronPort-SDR: WbPp9USQMP4EnAMov29CzlCK0HWyYv1BxNLYN7c3FM04g5l/d4vtPSiT53YxqcreuTUFsdynjZ
- Ttr6o1kn6gYUsxwp7a7R4t6+knz0FKq4NJ878m2U6ZoSgtibnvDjqKVvp7uOTOGqE7A6/CWMpG
- kach38wxpNjzZHh5ZI8z0w3kCPUnhblFHcfXO2GsB90nlcifAnizCgaNuXG4A1TcpvEtzs3U2A
- uzCPunilco/IqJ6Z7EzHxbbMokOwpHN5eMBb17ktirmUE0rAx9O2XoZpk+U7ogX2sQQbL7g6LE
- EuE=
+   d="scan'208";a="42908683"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa3.mentor.iphmx.com with ESMTP; 05 Nov 2019 23:04:39 -0800
+IronPort-SDR: o9WqDUBekUtrfogQ/c3SA2aM3ppEp7hx/brnKXyTQd68z7Vb3rWMQXqfSTxcAbmVi/5sAsbale
+ 30b7e1LKiz07q7FxoKeNohZyHFQ2wZ3fJTlWQvdui33pgZ4AnT6zVvXLsD/6z0G09DK0wppu5U
+ ajv8l7OKdIYcJc7pE8bVrSZgU3rruRIJ674oyAnZy386YeUqTpWoYJDGgVeth1uc5XJN0wx9Ki
+ tZVYJ0Kq1cRMXYAeqqfSapbgy8J3ubXVUkI8V1USMOT/z2ZAgaZaWvmxBDxNw3sN8Ss8XKMsiZ
+ DKM=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>, <dmitry.torokhov@gmail.com>,
@@ -32,9 +32,9 @@ To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <erosca@de.adit-jv.com>,
         <Andrew_Gabbasov@mentor.com>
-Subject: [PATCH v5 43/48] Input: Atmel: use T44 object to process T5 messages
-Date:   Wed, 6 Nov 2019 16:01:41 +0900
-Message-ID: <20191106070146.18759-44-jiada_wang@mentor.com>
+Subject: [PATCH v5 44/48] Input: atmel_mxt_ts: use gpiod_set_value_cansleep for reset pin
+Date:   Wed, 6 Nov 2019 16:01:42 +0900
+Message-ID: <20191106070146.18759-45-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191106070146.18759-1-jiada_wang@mentor.com>
 References: <20191106070146.18759-1-jiada_wang@mentor.com>
@@ -45,189 +45,67 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Deepak Das <deepak_das@mentor.com>
+From: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
 
-T44 object returns the count of valid T5 messages in the buffer. According
-to atmel, this count should be the main criteria to read the number of T5
-messages.
+In case of remote display, touch controller will be also remote.
+In such cases, the reset pin of the touch controller will be
+controlled through bridging ICs like Deserilizer and Serializer.
+Therefore accessing the gpio pins require transactions with the
+external IC. Using the function gpiod_set_value will print a
+warning like below
 
-Following is the statement from atmel confirming the same :-
-"For the readout of messages we recommend to stop after the last message
-is read out from the buffer. One way to identify the amount of new messages
-is to read T44. The other way is to monitor the /CHG line which indicates
-independent of mode 0 or mode 1 if there are still data in the buffer.
-0xFF indicates that there is no message pending anymore, but it is not
-recommended to use this as the main criteria to control the
-data transfer."
+WARNING: CPU: 0 PID: 576 at drivers/gpio/gpiolib.c:1441 gpiod_set_value+0x34/0x60()
+CPU: 0 PID: 576 Comm: modprobe Not tainted 3.14.79-08377-g84ea22f-dirty #4
+Backtrace:
+[<80011c58>] (dump_backtrace) from [<80011e60>] (show_stack+0x18/0x1c)
+[<80011e48>] (show_stack) from [<8052d7ac>] (dump_stack+0x7c/0x9c)
+[<8052d730>] (dump_stack) from [<800241bc>] (warn_slowpath_common+0x74/0x9c)
+[<80024148>] (warn_slowpath_common) from [<80024288>] (warn_slowpath_null+0x24/0x2c)
+[<80024264>] (warn_slowpath_null) from [<8029e070>] (gpiod_set_value+0x34/0x60)
+[<8029e03c>] (gpiod_set_value) from [<7f492e98>] (mxt_probe+0x1e0/0x718 [atmel_mxt_ts])
+[<7f492cb8>] (mxt_probe [atmel_mxt_ts]) from [<803c4d34>] (i2c_device_probe+0xcc/0xec)
+[<803c4c68>] (i2c_device_probe) from [<803252a0>] (driver_probe_device+0xc0/0x200)
 
-This commit modifies the logic to readout the T5 messages on the basis
-of T44 object.
-
-Signed-off-by: Deepak Das <deepak_das@mentor.com>
+Signed-off-by: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
+Signed-off-by: Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
 Signed-off-by: Sanjeev Chugh <sanjeev_chugh@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 55 +++++++++++++++---------
- 1 file changed, 35 insertions(+), 20 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 8d6478834fd8..0e4a870fafa5 100644
+index 0e4a870fafa5..78903806c0b4 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -1489,7 +1489,7 @@ static u8 mxt_max_msg_read_count(struct mxt_data *data, u8 max_T5_msg_count)
- 	return min(T5_msg_count_limit, max_T5_msg_count);
- }
+@@ -2490,7 +2490,7 @@ static void mxt_regulator_enable(struct mxt_data *data)
+ 	if (!data->reg_vdd || !data->reg_avdd)
+ 		return;
  
--static irqreturn_t mxt_process_messages_t44(struct mxt_data *data)
-+static int mxt_process_messages_t44(struct mxt_data *data)
- {
- 	struct device *dev = &data->client->dev;
- 	int ret;
-@@ -1502,7 +1502,7 @@ static irqreturn_t mxt_process_messages_t44(struct mxt_data *data)
- 		data->T5_msg_size + 1, data->msg_buf);
- 	if (ret) {
- 		dev_err(dev, "Failed to read T44 and T5 (%d)\n", ret);
--		return IRQ_NONE;
-+		return ret;
- 	}
+-	gpiod_set_value(data->reset_gpio, 0);
++	gpiod_set_value_cansleep(data->reset_gpio, 0);
  
- 	T5_msg_count = data->msg_buf[0];
-@@ -1512,7 +1512,7 @@ static irqreturn_t mxt_process_messages_t44(struct mxt_data *data)
- 	 * Mode 0. It results in unnecessary I2C operations but it is benign.
+ 	error = regulator_enable(data->reg_vdd);
+ 	if (error)
+@@ -2508,7 +2508,7 @@ static void mxt_regulator_enable(struct mxt_data *data)
+ 	 * voltage
  	 */
- 	if (!T5_msg_count)
--		return IRQ_NONE;
-+		return processed_valid;
+ 	msleep(MXT_REGULATOR_DELAY);
+-	gpiod_set_value(data->reset_gpio, 1);
++	gpiod_set_value_cansleep(data->reset_gpio, 1);
+ 	msleep(MXT_CHG_DELAY);
  
- 	if (T5_msg_count > data->max_reportid) {
- 		dev_warn(dev, "T44 count %d exceeded max report id\n",
-@@ -1524,12 +1524,14 @@ static irqreturn_t mxt_process_messages_t44(struct mxt_data *data)
- 	ret = mxt_proc_message(data, data->msg_buf + 1);
- 	if (ret < 0) {
- 		dev_warn(dev, "Unexpected invalid message\n");
--		return IRQ_NONE;
-+		return ret;
- 	}
- 
- 	total_pending = T5_msg_count - 1;
--	if (!total_pending)
-+	if (!total_pending) {
-+		processed_valid = 1;
- 		goto end;
-+	}
- 
- 	/* Process remaining messages if necessary */
- 	T5_msg_count = mxt_max_msg_read_count(data, total_pending);
-@@ -1553,7 +1555,7 @@ static irqreturn_t mxt_process_messages_t44(struct mxt_data *data)
- 		data->update_input = false;
- 	}
- 
--	return IRQ_HANDLED;
-+	return processed_valid;
- }
- 
- static int mxt_process_messages_until_invalid(struct mxt_data *data)
-@@ -1583,7 +1585,7 @@ static int mxt_process_messages_until_invalid(struct mxt_data *data)
- 	return -EBUSY;
- }
- 
--static irqreturn_t mxt_process_messages(struct mxt_data *data)
-+static int mxt_process_messages(struct mxt_data *data)
- {
- 	int total_handled, num_handled;
- 	u8 count = data->last_message_count;
-@@ -1594,7 +1596,7 @@ static irqreturn_t mxt_process_messages(struct mxt_data *data)
- 	/* include final invalid message */
- 	total_handled = mxt_read_and_process_messages(data, count + 1);
- 	if (total_handled < 0)
--		return IRQ_NONE;
-+		return total_handled;
- 	/* if there were invalid messages, then we are done */
- 	else if (total_handled <= count)
- 		goto update_count;
-@@ -1603,7 +1605,7 @@ static irqreturn_t mxt_process_messages(struct mxt_data *data)
- 	do {
- 		num_handled = mxt_read_and_process_messages(data, 2);
- 		if (num_handled < 0)
--			return IRQ_NONE;
-+			return num_handled;
- 
- 		total_handled += num_handled;
- 
-@@ -1619,12 +1621,13 @@ static irqreturn_t mxt_process_messages(struct mxt_data *data)
- 		data->update_input = false;
- 	}
- 
--	return IRQ_HANDLED;
-+	return total_handled;
- }
- 
- static irqreturn_t mxt_interrupt(int irq, void *dev_id)
- {
- 	struct mxt_data *data = dev_id;
-+	int ret;
- 
- 	if (data->in_bootloader) {
- 		complete(&data->chg_completion);
-@@ -1632,17 +1635,22 @@ static irqreturn_t mxt_interrupt(int irq, void *dev_id)
- 		if (data->flash)
- 			cancel_delayed_work_sync(&data->flash->work);
- 
--		return IRQ_RETVAL(mxt_check_bootloader(data));
-+		ret = mxt_check_bootloader(data);
-+		return IRQ_RETVAL(ret);
- 	}
- 
- 	if (!data->object_table)
- 		return IRQ_HANDLED;
- 
--	if (data->T44_address) {
--		return mxt_process_messages_t44(data);
--	} else {
--		return mxt_process_messages(data);
--	}
-+	if (data->T44_address)
-+		ret = mxt_process_messages_t44(data);
-+	else
-+		ret = mxt_process_messages(data);
-+
-+	if (ret <= 0)
-+		return IRQ_NONE;
-+	else
-+		return IRQ_HANDLED;
- }
- 
- static int mxt_t6_command(struct mxt_data *data, u16 cmd_offset,
-@@ -1777,8 +1785,11 @@ static int mxt_acquire_irq(struct mxt_data *data)
- 	}
- 
- 	if (data->object_table && data->use_retrigen_workaround) {
--		error = mxt_process_messages_until_invalid(data);
--		if (error)
-+		if (data->T44_address)
-+			error = mxt_process_messages_t44(data);
-+		else
-+			error = mxt_process_messages_until_invalid(data);
-+		if (error < 0)
- 			return error;
- 	}
- 
-@@ -4032,8 +4043,12 @@ static int mxt_start(struct mxt_data *data)
- 		 * Discard any touch messages still in message buffer
- 		 * from before chip went to sleep
- 		 */
--		ret = mxt_process_messages_until_invalid(data);
--		if (ret)
-+
-+		if (data->T44_address)
-+			ret = mxt_process_messages_t44(data);
-+		else
-+			ret = mxt_process_messages_until_invalid(data);
-+		if (ret < 0)
- 			break;
- 
- 		ret = mxt_set_t7_power_cfg(data, MXT_POWER_CFG_RUN);
+ retry_wait:
+@@ -4313,7 +4313,7 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 		disable_irq(data->irq);
+ 	} else if (data->reset_gpio) {
+ 		msleep(MXT_RESET_GPIO_TIME);
+-		gpiod_set_value(data->reset_gpio, 1);
++		gpiod_set_value_cansleep(data->reset_gpio, 1);
+ 		msleep(MXT_RESET_INVALID_CHG);
+ 	} else {
+ 		dev_dbg(&client->dev,
 -- 
 2.17.1
 
