@@ -2,126 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE3FFF1485
-	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2019 12:03:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00B62F1B3E
+	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2019 17:31:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726402AbfKFLDZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Nov 2019 06:03:25 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:35703 "EHLO
-        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725890AbfKFLDY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 6 Nov 2019 06:03:24 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 03D344D7;
-        Wed,  6 Nov 2019 06:03:22 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 06 Nov 2019 06:03:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mxxn.io; h=from
-        :to:cc:subject:date:message-id:mime-version:content-type
-        :content-transfer-encoding; s=fm3; bh=Ii2oxrWwPIXyOz9KTyWZWso10b
-        yGznburLcw9Zjh5ao=; b=BgZvCYSEOWLQrLl7SRYAy5u+NZbovI1AEIFybvfyzt
-        MQwfOWtqj1YDSsB1yOOdFxb/9M2Hen4rosBd2qEI1HzAnBqEL0sWG6APSv84W7gA
-        Vf74wohU89kSvuOOFjIAofRDZrRpheoUnj8n8UiHbS4ZJK6q+KdgJkpc+OgOcVc7
-        DPfKL5G5YAk/wLATdYsL9cc0/g//EyUJc6U+7mcprQufGLyMiBYScQxdzPIDiVu+
-        M1/Zjrk1JWj9iaVW/8rObsmrUuxKDsw4n2EN4x2tEETgohv+gIUtzqFNQRpZFIix
-        n40KUBcM7Nww4+yPFHuev/MEj6IFTwm+1IWlIGFNyzOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:message-id:mime-version:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Ii2oxr
-        WwPIXyOz9KTyWZWso10byGznburLcw9Zjh5ao=; b=o87Av97mKTjX57VjcioQ3N
-        la1PH9XaL3wB/G1Q/SaAmH9aNV6ximiqj1dgqJHrq/W8p0v01n7l+HE/16kVw4sp
-        Br4/eJ8PcTng0/FZgKz+wAH+KWvDf36W1TG+AUiLTLXCJ97T30yZAWLEbLdl56ly
-        DFX/Vq1K95YPHGkQQqZBkv83CRNlkcIBYu7kepkWNF+c9rSBbUsRy6c3KWvkVl5I
-        iDVURqXaH+Zj4PeVda85VylY/1WKnu24dP858Ex6FXThbbMMUmDVdjX1JEh0RrG5
-        8DPD3L2M4wqynxtEMjNG+Yaw3niGIYtzMfB/Vv2E+p/eGc6Rr3oDi0ADvn1Dp7hw
-        ==
-X-ME-Sender: <xms:eqjCXSlPQceVNtPabUw40ukxAK3L7W1DC0hbhISZ1bcVZM0zNUWZlA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedruddujedgvdefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    hmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnegoteeftdduqddtudculdduhedm
-    necujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomhepuehlrgkkuc
-    fjrhgrshhtnhhikhcuoegslhgriiesmhiggihnrdhioheqnecukfhppeduuddurddutdej
-    rddvtdelrddvvdehnecurfgrrhgrmhepmhgrihhlfhhrohhmpegslhgriiesmhiggihnrd
-    hiohenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:eqjCXVhaXBg-6fXjBSMW-_nm_kXGEvOoMsAcekaLsf0qyg8gkxZCtg>
-    <xmx:eqjCXbXg5Y0kTfvtAS9mf6Yvl8aT5kYIkqryH062pklkpoCRIKc8Jg>
-    <xmx:eqjCXXiSyd0fnmkoVm8KkBN2jnyvfjzFkh-yraj964I4mGlIqLNyvQ>
-    <xmx:eqjCXUJSqQcRIgPGKUN_hlMB4jBhuWZzlj1Gkadch9kITwQkT8Uw-Q>
-Received: from localhost.localdomain (225.ec0279u.cyberhome.ne.jp [111.107.209.225])
-        by mail.messagingengine.com (Postfix) with ESMTPA id C271680062;
-        Wed,  6 Nov 2019 06:03:20 -0500 (EST)
-From:   =?UTF-8?q?Bla=C5=BE=20Hrastnik?= <blaz@mxxn.io>
-Cc:     =?UTF-8?q?Bla=C5=BE=20Hrastnik?= <blaz@mxxn.io>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: Improve Windows Precision Touchpad detection.
-Date:   Wed,  6 Nov 2019 20:02:46 +0900
-Message-Id: <20191106110246.70937-1-blaz@mxxn.io>
-X-Mailer: git-send-email 2.23.0
+        id S1732180AbfKFQbX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Nov 2019 11:31:23 -0500
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:45680 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728530AbfKFQbX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Nov 2019 11:31:23 -0500
+Received: by mail-vs1-f65.google.com with SMTP id l5so16328955vsh.12
+        for <linux-input@vger.kernel.org>; Wed, 06 Nov 2019 08:31:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=m9fdt35KxuaBCBBa7GlkE7C/PbnP5UVxRJpWWod8R9o=;
+        b=mUmRTBvok/wJWBlvfTs3CMW9goZoyiIdseNTs2xziB/HG9N8A1T4AWQUaewr8YOA+R
+         xmuIFzbR4Z+HOh1Kkzc1nma863zUCvzLHI94zkiTyvjWbQ1mdw4earmd/S2JvYFRQyBI
+         gtybFatK85rM+olcoQar6x7z4WkPywf63oCr+CKjhyzPsjtqxO6PwcL1EyROODgiminr
+         jghKkC4cUxOrD7keu3+rEf4/QFPmdC5cdSSZrDL0NLOaeh3hTxyk8ri8NMQ9jcPGHs4B
+         Hr2qQB5ty4Ux9+b1WopREBxC8yIGx+ga2y0SRj71ONZSGGsk3/uaOnXjZnN9bLxhldob
+         q1TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=m9fdt35KxuaBCBBa7GlkE7C/PbnP5UVxRJpWWod8R9o=;
+        b=ZoAEuT9tFo4kBDAb7f8TCP69JHURckVTBO1xSFNq/8eDtchbVImWBMh5L+pYonxsPe
+         cc/ccSJ/QkZ/x6BpgHysDnYptfgCLg74JbMzbLMjOTgHlqWtl0sYRYy2BMctWrjRYsSh
+         0cCtfN02DNV7feId+24eJ8YrPFZM9YXSuilQ14uYGIv+g13Ditm/NbY6+Nd4CRfdJZmt
+         KiTcPLOc8DdpFiUpgE7S2OeIJZOR96GT77rKLUVWG3Fm+EWNuvztj1LMneIqqLf93hJc
+         hgjZkDJpCswN4JIb2mGIcviH3OI0lgXdy24xxE/KPldZKBue/gIcfGngqz0VRivAWKRI
+         Ki/g==
+X-Gm-Message-State: APjAAAUNc4Y2pjw7rTLLE8UfagHLEMmQAurQkDKVsU2QQLztgImQdDp6
+        QjP9uLVxSExouT6ml9qCwsPsZUT65jZEoatPdHc=
+X-Google-Smtp-Source: APXvYqwyqE+CBLNGIUglb0qi9koComFm6wDqxvPRLHDcXggT+YWjCZCijdDuV5OxhQZnl2OTgsjIW8ih2LJEKMY/UnQ=
+X-Received: by 2002:a67:7981:: with SMTP id u123mr1756791vsc.195.1573057880610;
+ Wed, 06 Nov 2019 08:31:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Received: by 2002:a9f:220e:0:0:0:0:0 with HTTP; Wed, 6 Nov 2019 08:31:19 -0800 (PST)
+From:   weir family <wairfamily71@gmail.com>
+Date:   Wed, 6 Nov 2019 17:31:19 +0100
+Message-ID: <CAP2Khdwf4RqUst0pOaojszgNNvtstFkuKovugHK=q_WfdW8Y4w@mail.gmail.com>
+Subject: OUR GOLDEN OPPORTUNITY
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Per Microsoft spec, usage 0xC5 (page 0xFF) returns a blob containing
-data used to verify the touchpad as a Windows Precision Touchpad.
+--=20
+OUR GOLDEN OPPORTUNITY
 
-   0x85, REPORTID_PTPHQA,    //    REPORT_ID (PTPHQA)
-    0x09, 0xC5,              //    USAGE (Vendor Usage 0xC5)
-    0x15, 0x00,              //    LOGICAL_MINIMUM (0)
-    0x26, 0xff, 0x00,        //    LOGICAL_MAXIMUM (0xff)
-    0x75, 0x08,              //    REPORT_SIZE (8)
-    0x96, 0x00, 0x01,        //    REPORT_COUNT (0x100 (256))
-    0xb1, 0x02,              //    FEATURE (Data,Var,Abs)
+Dear Friend,
 
-However, some devices, namely Microsoft's Surface line of products
-instead implement a "segmented device certification report" (usage 0xC6)
-which returns the same report, but in smaller chunks.
+Let me start by introducing myself,I am Mr Abdul Uzun  Manager of Bank
+Of Africa Burkina faso.
 
-    0x06, 0x00, 0xff,        //     USAGE_PAGE (Vendor Defined)
-    0x85, REPORTID_PTPHQA,   //     REPORT_ID (PTPHQA)
-    0x09, 0xC6,              //     USAGE (Vendor usage for segment #)
-    0x25, 0x08,              //     LOGICAL_MAXIMUM (8)
-    0x75, 0x08,              //     REPORT_SIZE (8)
-    0x95, 0x01,              //     REPORT_COUNT (1)
-    0xb1, 0x02,              //     FEATURE (Data,Var,Abs)
-    0x09, 0xC7,              //     USAGE (Vendor Usage)
-    0x26, 0xff, 0x00,        //     LOGICAL_MAXIMUM (0xff)
-    0x95, 0x20,              //     REPORT_COUNT (32)
-    0xb1, 0x02,              //     FEATURE (Data,Var,Abs)
+I am writting you this letter based on the latest development at my
+Department which I will like to bring to your personal
+edification.(18.5 million U.S Dollars transfer claims).
 
-By expanding Win8 touchpad detection to also look for the segmented
-report, all Surface touchpads are now properly recognized by
-hid-multitouch.
+This is a legitimate transaction and I agreed to offer you 40% of this
+money as my foreign partner after confirmation of the fund in your
+bank account, If you are interested, get back to me with the following
+details below.
 
-Signed-off-by: Blaž Hrastnik <blaz@mxxn.io>
----
- drivers/hid/hid-core.c | 4 ++++
- 1 file changed, 4 insertions(+)
+(1)Your age=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=
+=E2=80=A6=E2=80=A6
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 63fdbf09b044..2af597cd5d65 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -742,6 +742,10 @@ static void hid_scan_feature_usage(struct hid_parser *parser, u32 usage)
- 	if (usage == 0xff0000c5 && parser->global.report_count == 256 &&
- 	    parser->global.report_size == 8)
- 		parser->scan_flags |= HID_SCAN_FLAG_MT_WIN_8;
-+
-+	if (usage == 0xff0000c6 && parser->global.report_count == 1 &&
-+	    parser->global.report_size == 8)
-+		parser->scan_flags |= HID_SCAN_FLAG_MT_WIN_8;
- }
- 
- static void hid_scan_collection(struct hid_parser *parser, unsigned type)
--- 
-2.23.0
+(2)Your occupation: =E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=
+=E2=80=A6=E2=80=A6=E2=80=A6
 
+(3)Your marital status: =E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=
+=A6=E2=80=A6=E2=80=A6=E2=80=A6
+
+(4)Your full residential address: =E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=
+=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
+
+
+(5)Your private phone and fax number and your complete name=E2=80=A6=E2=80=
+=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
+
+As soon as I receive these data's, I will forward to you the
+application form which you will send to the bank, get back to me
+through this my private email address (abduluzun4040@gmail.com)
+
+If you are interested then it is compulsory you reach me through my
+private email address below
+(abduluzun4040@gmail.com)
+
+Best Regard
+Mr Abdul Uzun
