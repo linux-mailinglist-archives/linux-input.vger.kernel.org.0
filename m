@@ -2,57 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04FDCF0EB6
-	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2019 07:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFE9AF0EB7
+	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2019 07:07:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729824AbfKFGHA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Nov 2019 01:07:00 -0500
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:33545 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725812AbfKFGHA (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Nov 2019 01:07:00 -0500
-Received: by mail-yb1-f193.google.com with SMTP id i15so1533308ybq.0
-        for <linux-input@vger.kernel.org>; Tue, 05 Nov 2019 22:06:59 -0800 (PST)
+        id S1729940AbfKFGHC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Nov 2019 01:07:02 -0500
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:46576 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725812AbfKFGHC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Nov 2019 01:07:02 -0500
+Received: by mail-yb1-f195.google.com with SMTP id g17so1015646ybd.13
+        for <linux-input@vger.kernel.org>; Tue, 05 Nov 2019 22:07:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qhDZA4XMDpBgvlpLgnnKNyx03azHcmktwpA0EyvKur0=;
-        b=bMi4oNfSGbBRKrwqFiuMGYkUsXQjdjoen/1zrLuEMY3ttkFztk/hyLXezcsj9SaXyE
-         kUecCdOCZoHdtJ2Y+2A6DS9k/m70fue2/gUeTxHpWeT+hncXD9kJwkc2ZkM8toirAaWT
-         +iKPOF3GAm1BZU6E/XYjyyn1QK84wB+ysMytHLt0KL6SnIem1pEyqDuj7i3HOZ+56Ycp
-         HKfRkTaKEums8a7R//u7mZxbj+H0mfuoGiMW0ZreHIakxjPoAdRvnbUFrfg6LnbvFSUc
-         LAdZqu15BWz/ncBdYzPoJx5L1i3nYNCdNLaWm1z9PDM1gYCvX7ET7yeYuK+9hs5neK7g
-         ryAA==
+        bh=mAerNiX3pHNJmZUc5Xvu2jJ4CMv6K63g69YkCxZeZvI=;
+        b=qriRfM278IirOVsqkohaPdTEfDH2enPNg+Ia7JDwJI7fMF3R9Vxo0edZI5l5QR1OGx
+         wlCbevgqhhJaipuudG18q6Bwd/mjqHFU1ih1zqEQD/CtNLm4OX9Dt/fyFjAUcyJml5LL
+         zuEr615yr46kDdwONVYsOkf3G/bmfFav57OdQQFglCSVSXW6MRF6c5WyIkGmy26AEcgd
+         9/87V8F4aUyaQa61No59sIHVLx8CoBBC/Kbq7v0GLj0ZUoiufFwU9g3RqRlKRFXwgcbB
+         B4o3x888ipTcBnbcD873YiVxT4lSsEXCBRSBgxLEjB7oU8AiBXmNweIgCXrh2X8GT7/m
+         4v3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qhDZA4XMDpBgvlpLgnnKNyx03azHcmktwpA0EyvKur0=;
-        b=Z9eCJq6omg7pVSyRZsP4aHhyOjTAgpKGhWyFw8/dAAfzhYRg2GcCfnypfcMF2lLhmK
-         bw8U32UyPJ9A7tojTIDGFFmUhY56blbuOr9dcQPEaw6z4t3TSWfsAD+h+TZ1JPGb/FJc
-         e8Y3L21Kj7sVC4lDdXB31iGsfOQtjPfk5Rvz34X/BW6MTlouRB4/wY0cGU1q688uvXTU
-         t4gMnK1lDzxJjgDIHorIdtY92Xa9XJGwlvl8iyXCUtBGYrTw89K+pb/vooXA49sJ5CX8
-         VBNNHukaYmTZ2p+bM+2/iLNagO0YJmFOArhDLdSdRl68JFsT2EII+IV90ZNY3lr59dFq
-         k2nA==
-X-Gm-Message-State: APjAAAXV6LD/FyZyEBnvZDImr3zBpP238HmRp0mmKwQpQWm0I3uPCisj
-        I3O00yzIh4LV819aBs5upNxH5VaQM/BLog==
-X-Google-Smtp-Source: APXvYqyvc3K9A50GE/yHOhbZxqENT/c0rMm/wWZ6zAXjyWc1m5wiITOncBoJwaB8V/SRZlSO9bOlZw==
-X-Received: by 2002:a25:790d:: with SMTP id u13mr754918ybc.504.1573020419053;
-        Tue, 05 Nov 2019 22:06:59 -0800 (PST)
+        bh=mAerNiX3pHNJmZUc5Xvu2jJ4CMv6K63g69YkCxZeZvI=;
+        b=jxGBfjoFvmazA5k1ErwY0DAjVL6R2rxodMSROQ+1Y6oMIpsC6DEfops+foMLCdKkIE
+         ocN1ZMT02lpBXTGVaO03+1ChyZkIu87zCocKlnQZnzBlpgEskBgv+lPFR/kCQQySBNwD
+         9lVZiJfJXdVvl8XgKdIzlsC950m9n1Uu/iEXFrxy+MBBcY703ZBGt9HM1nswN4LGm7d7
+         fMkrsOjXmhxplR0w+TU5jANLsqOilnyhY3gxNGy5cczu+JTUbKCQzMIc3ld26cH3TJl+
+         5FLden5/xUXVv4JXYJurPntPVGkeZWkX2k4JHrDEdWBqFavgP5L2osat/5Ae9OoM1Pj8
+         0buQ==
+X-Gm-Message-State: APjAAAVeLCzO1vly6ObdBjcad/8eF6lq1Kf8LUHu26x/2QxUpww7Juf5
+        TjzspxLs1pq45D4SNv5u6q4+pn9RadtgcA==
+X-Google-Smtp-Source: APXvYqy4ET0AGM3Twc6wsLDEgVhkuob4Pow2k2Tw1I7vOY0ipvrDp0EE8DeQ+5oamoPMNoiqxDn9lg==
+X-Received: by 2002:a25:b21f:: with SMTP id i31mr810470ybj.9.1573020420934;
+        Tue, 05 Nov 2019 22:07:00 -0800 (PST)
 Received: from Arrakis.djogorchock.com ([136.33.205.58])
-        by smtp.gmail.com with ESMTPSA id e82sm11039596ywb.87.2019.11.05.22.06.57
+        by smtp.gmail.com with ESMTPSA id e82sm11039596ywb.87.2019.11.05.22.06.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2019 22:06:58 -0800 (PST)
+        Tue, 05 Nov 2019 22:06:59 -0800 (PST)
 From:   "Daniel J. Ogorchock" <djogorchock@gmail.com>
 To:     linux-input@vger.kernel.org
 Cc:     thunderbird2k@gmail.com, blaws05@gmail.com,
         benjamin.tissoires@redhat.com, jikos@kernel.org,
         Roderick.Colenbrander@sony.com, svv@google.com, s.jegen@gmail.com,
         "Daniel J. Ogorchock" <djogorchock@gmail.com>
-Subject: [PATCH v9 03/10] HID: nintendo: add power supply support
-Date:   Wed,  6 Nov 2019 00:06:41 -0600
-Message-Id: <20191106060648.3018478-4-djogorchock@gmail.com>
+Subject: [PATCH v9 04/10] HID: nintendo: add home led support
+Date:   Wed,  6 Nov 2019 00:06:42 -0600
+Message-Id: <20191106060648.3018478-5-djogorchock@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191106060648.3018478-1-djogorchock@gmail.com>
 References: <20191106060648.3018478-1-djogorchock@gmail.com>
@@ -63,223 +63,129 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds power_supply functionality to the switch controller
-driver for its battery.
+This patch adds the ability to set the intensity level of the home
+button's LED.
 
 Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
 ---
- drivers/hid/Kconfig        |   1 +
- drivers/hid/hid-nintendo.c | 133 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 134 insertions(+)
+ drivers/hid/hid-nintendo.c | 69 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 65 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 41f7da50896f..a6e0f399bcab 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -697,6 +697,7 @@ config HID_NINTENDO
- 	depends on HID
- 	depends on NEW_LEDS
- 	depends on LEDS_CLASS
-+	select POWER_SUPPLY
- 	help
- 	Adds support for the Nintendo Switch Joy-Cons and Pro Controller.
- 	All controllers support bluetooth, and the Pro Controller also supports
 diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 21d19bc96792..0caa9e1860ad 100644
+index 0caa9e1860ad..18be44214041 100644
 --- a/drivers/hid/hid-nintendo.c
 +++ b/drivers/hid/hid-nintendo.c
-@@ -11,6 +11,7 @@
-  *   https://github.com/MTCKC/ProconXInput
-  *   hid-wiimote kernel hid driver
-  *   hid-logitech-hidpp driver
-+ *   hid-sony driver
-  *
-  * This driver supports the Nintendo Switch Joy-Cons and Pro Controllers. The
-  * Pro Controllers can either be used over USB or Bluetooth.
-@@ -27,6 +28,7 @@
- #include <linux/input.h>
- #include <linux/leds.h>
- #include <linux/module.h>
-+#include <linux/power_supply.h>
- #include <linux/spinlock.h>
- 
- /*
-@@ -187,6 +189,7 @@ struct joycon_ctlr {
+@@ -187,7 +187,8 @@ struct joycon_input_report {
+ struct joycon_ctlr {
+ 	struct hid_device *hdev;
  	struct input_dev *input;
- 	struct led_classdev leds[JC_NUM_LEDS];
+-	struct led_classdev leds[JC_NUM_LEDS];
++	struct led_classdev leds[JC_NUM_LEDS]; /* player leds */
++	struct led_classdev home_led;
  	enum joycon_ctlr_state ctlr_state;
-+	spinlock_t lock;
+ 	spinlock_t lock;
  
- 	/* The following members are used for synchronous sends/receives */
- 	enum joycon_msg_type msg_type;
-@@ -204,6 +207,12 @@ struct joycon_ctlr {
- 	struct joycon_stick_cal right_stick_cal_x;
- 	struct joycon_stick_cal right_stick_cal_y;
- 
-+	/* power supply data */
-+	struct power_supply *battery;
-+	struct power_supply_desc battery_desc;
-+	u8 battery_capacity;
-+	bool battery_charging;
-+	bool host_powered;
- };
- 
- static int __joycon_hid_send(struct hid_device *hdev, u8 *data, size_t len)
-@@ -434,9 +443,41 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
- 				struct joycon_input_report *rep)
- {
- 	struct input_dev *dev = ctlr->input;
-+	unsigned long flags;
-+	u8 tmp;
- 	u32 btns;
- 	u32 id = ctlr->hdev->product;
- 
-+	/* Parse the battery status */
-+	tmp = rep->bat_con;
-+	spin_lock_irqsave(&ctlr->lock, flags);
-+	ctlr->host_powered = tmp & BIT(0);
-+	ctlr->battery_charging = tmp & BIT(4);
-+	tmp = tmp >> 5;
-+	switch (tmp) {
-+	case 0: /* empty */
-+		ctlr->battery_capacity = POWER_SUPPLY_CAPACITY_LEVEL_CRITICAL;
-+		break;
-+	case 1: /* low */
-+		ctlr->battery_capacity = POWER_SUPPLY_CAPACITY_LEVEL_LOW;
-+		break;
-+	case 2: /* medium */
-+		ctlr->battery_capacity = POWER_SUPPLY_CAPACITY_LEVEL_NORMAL;
-+		break;
-+	case 3: /* high */
-+		ctlr->battery_capacity = POWER_SUPPLY_CAPACITY_LEVEL_HIGH;
-+		break;
-+	case 4: /* full */
-+		ctlr->battery_capacity = POWER_SUPPLY_CAPACITY_LEVEL_FULL;
-+		break;
-+	default:
-+		ctlr->battery_capacity = POWER_SUPPLY_CAPACITY_LEVEL_UNKNOWN;
-+		hid_warn(ctlr->hdev, "Invalid battery status\n");
-+		break;
-+	}
-+	spin_unlock_irqrestore(&ctlr->lock, flags);
-+
-+	/* Parse the buttons and sticks */
- 	btns = hid_field_extract(ctlr->hdev, rep->button_status, 0, 24);
- 
- 	if (id != USB_DEVICE_ID_NINTENDO_JOYCONR) {
-@@ -674,6 +715,90 @@ static int joycon_player_leds_create(struct joycon_ctlr *ctlr)
- 	return 0;
+@@ -659,6 +660,40 @@ static int joycon_player_led_brightness_set(struct led_classdev *led,
+ 	return ret;
  }
  
-+static int joycon_battery_get_property(struct power_supply *supply,
-+				       enum power_supply_property prop,
-+				       union power_supply_propval *val)
++static int joycon_home_led_brightness_set(struct led_classdev *led,
++					  enum led_brightness brightness)
 +{
-+	struct joycon_ctlr *ctlr = power_supply_get_drvdata(supply);
-+	unsigned long flags;
-+	int ret = 0;
-+	u8 capacity;
-+	bool charging;
-+	bool powered;
++	struct device *dev = led->dev->parent;
++	struct hid_device *hdev = to_hid_device(dev);
++	struct joycon_ctlr *ctlr;
++	struct joycon_subcmd_request *req;
++	u8 buffer[sizeof(*req) + 5] = { 0 };
++	u8 *data;
++	int ret;
 +
-+	spin_lock_irqsave(&ctlr->lock, flags);
-+	capacity = ctlr->battery_capacity;
-+	charging = ctlr->battery_charging;
-+	powered = ctlr->host_powered;
-+	spin_unlock_irqrestore(&ctlr->lock, flags);
-+
-+	switch (prop) {
-+	case POWER_SUPPLY_PROP_PRESENT:
-+		val->intval = 1;
-+		break;
-+	case POWER_SUPPLY_PROP_SCOPE:
-+		val->intval = POWER_SUPPLY_SCOPE_DEVICE;
-+		break;
-+	case POWER_SUPPLY_PROP_CAPACITY_LEVEL:
-+		val->intval = capacity;
-+		break;
-+	case POWER_SUPPLY_PROP_STATUS:
-+		if (charging)
-+			val->intval = POWER_SUPPLY_STATUS_CHARGING;
-+		else if (capacity == POWER_SUPPLY_CAPACITY_LEVEL_FULL &&
-+			 powered)
-+			val->intval = POWER_SUPPLY_STATUS_FULL;
-+		else
-+			val->intval = POWER_SUPPLY_STATUS_DISCHARGING;
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
++	ctlr = hid_get_drvdata(hdev);
++	if (!ctlr) {
++		hid_err(hdev, "No controller data\n");
++		return -ENODEV;
 +	}
++
++	req = (struct joycon_subcmd_request *)buffer;
++	req->subcmd_id = JC_SUBCMD_SET_HOME_LIGHT;
++	data = req->data;
++	data[0] = 0x01;
++	data[1] = brightness << 4;
++	data[2] = brightness | (brightness << 4);
++	data[3] = 0x11;
++	data[4] = 0x11;
++
++	hid_dbg(hdev, "setting home led brightness\n");
++	mutex_lock(&ctlr->output_mutex);
++	ret = joycon_send_subcmd(ctlr, req, 5);
++	mutex_unlock(&ctlr->output_mutex);
++
 +	return ret;
 +}
 +
-+static enum power_supply_property joycon_battery_props[] = {
-+	POWER_SUPPLY_PROP_PRESENT,
-+	POWER_SUPPLY_PROP_CAPACITY_LEVEL,
-+	POWER_SUPPLY_PROP_SCOPE,
-+	POWER_SUPPLY_PROP_STATUS,
-+};
-+
-+static int joycon_power_supply_create(struct joycon_ctlr *ctlr)
-+{
-+	struct hid_device *hdev = ctlr->hdev;
-+	struct power_supply_config supply_config = { .drv_data = ctlr, };
-+	const char * const name_fmt = "nintendo_switch_controller_battery_%s";
-+	int ret = 0;
-+
-+	/* Set initially to unknown before receiving first input report */
-+	ctlr->battery_capacity = POWER_SUPPLY_CAPACITY_LEVEL_UNKNOWN;
-+
-+	/* Configure the battery's description */
-+	ctlr->battery_desc.properties = joycon_battery_props;
-+	ctlr->battery_desc.num_properties =
-+					ARRAY_SIZE(joycon_battery_props);
-+	ctlr->battery_desc.get_property = joycon_battery_get_property;
-+	ctlr->battery_desc.use_for_apm = 0;
-+	ctlr->battery_desc.name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
-+						 name_fmt,
-+						 dev_name(&hdev->dev));
-+	if (!ctlr->battery_desc.name)
-+		return -ENOMEM;
-+
-+	ctlr->battery = devm_power_supply_register(&hdev->dev,
-+						   &ctlr->battery_desc,
-+						   &supply_config);
-+	if (IS_ERR(ctlr->battery)) {
-+		ret = PTR_ERR(ctlr->battery);
-+		hid_err(hdev, "Failed to register battery; ret=%d\n", ret);
-+		return ret;
-+	}
-+	power_supply_powers(ctlr->battery, &hdev->dev);
-+	return 0;
-+}
-+
- /* Common handler for parsing inputs */
- static int joycon_ctlr_read_handler(struct joycon_ctlr *ctlr, u8 *data,
- 							      int size)
-@@ -767,6 +892,7 @@ static int nintendo_hid_probe(struct hid_device *hdev,
- 	hid_set_drvdata(hdev, ctlr);
- 	mutex_init(&ctlr->output_mutex);
- 	init_waitqueue_head(&ctlr->wait);
-+	spin_lock_init(&ctlr->lock);
+ static const char * const joycon_player_led_names[] = {
+ 	"player1",
+ 	"player2",
+@@ -667,7 +702,7 @@ static const char * const joycon_player_led_names[] = {
+ };
  
- 	ret = hid_parse(hdev);
- 	if (ret) {
-@@ -845,6 +971,13 @@ static int nintendo_hid_probe(struct hid_device *hdev,
- 		goto err_close;
+ static DEFINE_MUTEX(joycon_input_num_mutex);
+-static int joycon_player_leds_create(struct joycon_ctlr *ctlr)
++static int joycon_leds_create(struct joycon_ctlr *ctlr)
+ {
+ 	struct hid_device *hdev = ctlr->hdev;
+ 	struct device *dev = &hdev->dev;
+@@ -704,7 +739,7 @@ static int joycon_player_leds_create(struct joycon_ctlr *ctlr)
+ 		ret = devm_led_classdev_register(&hdev->dev, led);
+ 		if (ret) {
+ 			hid_err(hdev, "Failed registering %s LED\n", led->name);
+-			break;
++			return ret;
+ 		}
  	}
  
-+	/* Initialize the battery power supply */
-+	ret = joycon_power_supply_create(ctlr);
-+	if (ret) {
-+		hid_err(hdev, "Failed to create power_supply; ret=%d\n", ret);
-+		goto err_close;
+@@ -712,6 +747,32 @@ static int joycon_player_leds_create(struct joycon_ctlr *ctlr)
+ 		input_num = 1;
+ 	mutex_unlock(&joycon_input_num_mutex);
+ 
++	/* configure the home LED */
++	if (ctlr->hdev->product != USB_DEVICE_ID_NINTENDO_JOYCONL) {
++		name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", d_name, "home");
++		if (!name)
++			return ret;
++
++		led = &ctlr->home_led;
++		led->name = name;
++		led->brightness = 0;
++		led->max_brightness = 0xF;
++		led->brightness_set_blocking = joycon_home_led_brightness_set;
++		led->flags = LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABLE;
++		ret = devm_led_classdev_register(&hdev->dev, led);
++		if (ret) {
++			hid_err(hdev, "Failed registering home led\n");
++			return ret;
++		}
++		/* Set the home LED to 0 as default state */
++		ret = joycon_home_led_brightness_set(led, 0);
++		if (ret) {
++			hid_err(hdev, "Failed to set home LED dflt; ret=%d\n",
++									ret);
++			return ret;
++		}
 +	}
 +
- 	ctlr->ctlr_state = JOYCON_CTLR_STATE_READ;
+ 	return 0;
+ }
  
- 	hid_dbg(hdev, "probe - success\n");
+@@ -965,7 +1026,7 @@ static int nintendo_hid_probe(struct hid_device *hdev,
+ 	}
+ 
+ 	/* Initialize the leds */
+-	ret = joycon_player_leds_create(ctlr);
++	ret = joycon_leds_create(ctlr);
+ 	if (ret) {
+ 		hid_err(hdev, "Failed to create leds; ret=%d\n", ret);
+ 		goto err_close;
 -- 
 2.23.0
 
