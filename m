@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 01949F0FC8
-	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2019 08:05:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86887F0FC7
+	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2019 08:05:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731490AbfKFHDB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Nov 2019 02:03:01 -0500
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:36314 "EHLO
-        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731485AbfKFHDA (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Nov 2019 02:03:00 -0500
-IronPort-SDR: 2xtyVBOC3oYitvUTyaC5gNqov9cOd/0BwDWqqFth/wGJ5kWRFM5jyawDMBXVB1B2qWYzduzomP
- dyaRO0nndrBAlvTuzRMxX1lFKNRA7USdqtDPnjGLvZB6bmLfD9PglwEI5BB6z65B1nvs5jp9/A
- 6bkzXQX+bnWN5FMXt+C6XFEbG1opwgK4+xZwYiuNqoEG6HFZHA9qfTB7xEY59KM4b479F8P//o
- whHEgQnD5tX77gLO5aWmtLgMwqjkY20HS4baTrLOl6HjK68ZoJAmAytc94VfnpDLvx845qgLmg
- OnI=
+        id S1731485AbfKFHDF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Nov 2019 02:03:05 -0500
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:8700 "EHLO
+        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731206AbfKFHDE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Nov 2019 02:03:04 -0500
+IronPort-SDR: DDhwJtM3xSkmT6tmAb/i40q5s63juIUOCpcMwldNjYBb9+zLNDXfbPUcF+AH+G0J8X2552REXF
+ DvV0m4paRogZcPtpgNj+r/K+Q9G6ufKUKWQiRlN00kOAd8M8MJZglCB29N4rmVcy5hhsfwjsUw
+ CbHmPKpK7k+NS77notzTkS25X2P5CSu2Yfbp52fVt9rigo/ZZwCo+rUE7zvVJlSvV7e4B3/PLp
+ Bk2bODCIJ2jMzo+ju0QpN6/YD9qJ8cqaymKDpbpiZJEK2WfbGh+x7eX1692s/yzRgy0qDlwDwX
+ geU=
 X-IronPort-AV: E=Sophos;i="5.68,272,1569312000"; 
-   d="scan'208";a="42943623"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 05 Nov 2019 23:02:59 -0800
-IronPort-SDR: DwoxQuB9xilbDF2L4L9t1oHu9CxEkbirKgNK1xQSxXxh653EmfVOf4FxtnfMI8rrM/63nXq6MF
- OQY9XY2J03ZB2Ao8Mw14rS0PuqlC1IV/XC+dBZPYH+yrYQB5Daxnvt+MymdKGr4WHB203wl5xt
- Uau+w5yGINBDmiq4qEGlVmWKP7Gsrbpn80q7Yzf/7dbJHjkxOMufu10Q9lw0bFjMIjTXo3Qnqu
- DnJYjR3K/1IGkGv+SyrGZlr6s2JQ5kf5ORJT7kr+Ug08ubQyVcMo0h5Ej8bgoZfukAIUbH8dNz
- +0s=
+   d="scan'208";a="42908599"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa3.mentor.iphmx.com with ESMTP; 05 Nov 2019 23:03:03 -0800
+IronPort-SDR: tfjYrSIDa38NDYQYihStK/Oc62hg9wCP705xm+kA7QyjwUGSYbjxJinueRwLerRdTrah8wqenn
+ a3+wNUMIGnLw+meBtSL4MNWzSnNl8CJJBzqMgIWWeQq84obPa/UU2qbcuJs1LnmZLQPJ+KXfyU
+ 0jXZoZfM3u8WC+nra+p2wuaxlbjswB2HUt/aThF1ignya09Iy3p9Kpl5jTp5Ew8IomBGEi5XF6
+ rRlrWNJjrwjD1ODuBBB0+SpizmlE6oOUfMhrX0GXHAlQc7mAhYn+P30o7ekpIrxG9cXgYPB3JD
+ 6MQ=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>, <dmitry.torokhov@gmail.com>,
@@ -32,9 +32,9 @@ To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <erosca@de.adit-jv.com>,
         <Andrew_Gabbasov@mentor.com>
-Subject: [PATCH v5 17/48] Input: atmel_mxt_ts - allow input name to be specified in platform data
-Date:   Wed, 6 Nov 2019 16:01:15 +0900
-Message-ID: <20191106070146.18759-18-jiada_wang@mentor.com>
+Subject: [PATCH v5 18/48] Input: atmel_mxt_ts - add config checksum attribute to sysfs
+Date:   Wed, 6 Nov 2019 16:01:16 +0900
+Message-ID: <20191106070146.18759-19-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191106070146.18759-1-jiada_wang@mentor.com>
 References: <20191106070146.18759-1-jiada_wang@mentor.com>
@@ -45,71 +45,52 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nick Dyer <nick.dyer@itdev.co.uk>
-
-Android systems identify the input device and map to IDC file by using the
-input device name. To avoid unnecessary deltas to the driver file, allow
-this to be set from the platform data.
+From: karl tsou <karl.funlab@gmail.com>
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-(cherry picked from ndyer/linux/for-upstream commit cbf94a7bda754d2e1899d9f50313a0bccc91422d)
-[gdavis: Resolve forward port conflicts due to applying upstream
-	 commit 96a938aa214e ("Input: atmel_mxt_ts - remove platform
-	 data support").]
+(cherry picked from ndyer/linux/for-upstream commit 03477477ddbe5dcad42853ab3f84166a8f807acf)
+[gdavis: Forward port and fix conflicts.]
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- .../devicetree/bindings/input/atmel,maxtouch.txt         | 2 ++
- drivers/input/touchscreen/atmel_mxt_ts.c                 | 9 ++++++++-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-index 713ce870805c..d7db16920083 100644
---- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-+++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-@@ -40,6 +40,8 @@ Optional properties for main touchpad device:
- - atmel,cfg_name: Provide name of configuration file in OBP_RAW format. This
-     will be downloaded from the firmware loader on probe to the device.
- 
-+- atmel,input_name: Override name of input device from the default.
-+
- Example:
- 
- 	touch@4b {
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 362b7630ec6e..9ee3b6d40c8c 100644
+index 9ee3b6d40c8c..81e3a71849c0 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -336,6 +336,7 @@ struct mxt_data {
- 	char *fw_name;
- 	char *cfg_name;
- 	const char *pcfg_name;
-+	const char *input_name;
+@@ -3128,6 +3128,15 @@ static int mxt_configure_objects(struct mxt_data *data,
+ 	return error;
+ }
  
- 	/* Cached parameters from object table */
- 	u16 T5_address;
-@@ -2412,7 +2413,11 @@ static int mxt_initialize_input_device(struct mxt_data *data)
- 	if (!input_dev)
- 		return -ENOMEM;
- 
--	input_dev->name = "Atmel maXTouch Touchscreen";
-+	if (data->input_name)
-+		input_dev->name = data->input_name;
-+	else
-+		input_dev->name = "Atmel maXTouch Touchscreen";
++/* Configuration crc check sum is returned as hex xxxxxx */
++static ssize_t mxt_config_crc_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct mxt_data *data = dev_get_drvdata(dev);
 +
- 	input_dev->phys = data->phys;
- 	input_dev->id.bustype = BUS_I2C;
- 	input_dev->dev.parent = dev;
-@@ -3653,6 +3658,8 @@ static int mxt_parse_device_properties(struct mxt_data *data)
- 
- 	device_property_read_string(dev, "atmel,cfg_name", &data->pcfg_name);
- 
-+	device_property_read_string(dev, "atmel,input_name", &data->input_name);
++	return scnprintf(buf, PAGE_SIZE, "%06x\n", data->config_crc);
++}
 +
- 	if (device_property_present(dev, keymap_property)) {
- 		n_keys = device_property_count_u32(dev, keymap_property);
- 		if (n_keys <= 0) {
+ /* Firmware Version is returned as Major.Minor.Build */
+ static ssize_t mxt_fw_version_show(struct device *dev,
+ 				   struct device_attribute *attr, char *buf)
+@@ -3481,12 +3490,14 @@ static DEVICE_ATTR(fw_version, S_IRUGO, mxt_fw_version_show, NULL);
+ static DEVICE_ATTR(hw_version, S_IRUGO, mxt_hw_version_show, NULL);
+ static DEVICE_ATTR(object, S_IRUGO, mxt_object_show, NULL);
+ static DEVICE_ATTR(update_cfg, S_IWUSR, NULL, mxt_update_cfg_store);
++static DEVICE_ATTR(config_crc, S_IRUGO, mxt_config_crc_show, NULL);
+ 
+ static struct attribute *mxt_attrs[] = {
+ 	&dev_attr_fw_version.attr,
+ 	&dev_attr_hw_version.attr,
+ 	&dev_attr_object.attr,
+ 	&dev_attr_update_cfg.attr,
++	&dev_attr_config_crc.attr,
+ 	NULL
+ };
+ 
 -- 
 2.17.1
 
