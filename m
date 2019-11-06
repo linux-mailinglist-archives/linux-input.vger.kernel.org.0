@@ -2,98 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00B62F1B3E
-	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2019 17:31:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14165F1F67
+	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2019 21:00:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732180AbfKFQbX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Nov 2019 11:31:23 -0500
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:45680 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728530AbfKFQbX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Nov 2019 11:31:23 -0500
-Received: by mail-vs1-f65.google.com with SMTP id l5so16328955vsh.12
-        for <linux-input@vger.kernel.org>; Wed, 06 Nov 2019 08:31:22 -0800 (PST)
+        id S1727143AbfKFUAM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Nov 2019 15:00:12 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:40664 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726934AbfKFUAM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Nov 2019 15:00:12 -0500
+Received: by mail-pf1-f193.google.com with SMTP id r4so19727066pfl.7;
+        Wed, 06 Nov 2019 12:00:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=m9fdt35KxuaBCBBa7GlkE7C/PbnP5UVxRJpWWod8R9o=;
-        b=mUmRTBvok/wJWBlvfTs3CMW9goZoyiIdseNTs2xziB/HG9N8A1T4AWQUaewr8YOA+R
-         xmuIFzbR4Z+HOh1Kkzc1nma863zUCvzLHI94zkiTyvjWbQ1mdw4earmd/S2JvYFRQyBI
-         gtybFatK85rM+olcoQar6x7z4WkPywf63oCr+CKjhyzPsjtqxO6PwcL1EyROODgiminr
-         jghKkC4cUxOrD7keu3+rEf4/QFPmdC5cdSSZrDL0NLOaeh3hTxyk8ri8NMQ9jcPGHs4B
-         Hr2qQB5ty4Ux9+b1WopREBxC8yIGx+ga2y0SRj71ONZSGGsk3/uaOnXjZnN9bLxhldob
-         q1TQ==
+        bh=Z2NBa2LgrpE4L6RGacxchP+uklVKgX1wRCtxgifUbs8=;
+        b=c/PhPI5TiUtDMh9DKGZg0Pcn9PeuFpl5OWCpqkNLlMnUBryNNkcWZTiKuxmx0x2hm9
+         Q78nCv3CexnDHzj0nWOxntT4bmOVjSI22SjrUUMj2NLzuP87WdEu69tbfSo8y8vLFNrU
+         W7E+CFz9FtNM7I2T7PBBy3k9FjSbqwTm4S+fGr3t1XiaV7P3lk0fmrbqvlhVwD81MszV
+         BkXU3Vl4K7lw7Hh6JwBstqszFGNYGCa5gKjKsJfNUAMxUWf/MtmTJC/BtwtjnCmALcSn
+         buAUbE3TI+frjnWQpAgGeTaD74d8645q44drX7mtZxO8KxePcTv9wlbsUILqlhf3nPuX
+         5qvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=m9fdt35KxuaBCBBa7GlkE7C/PbnP5UVxRJpWWod8R9o=;
-        b=ZoAEuT9tFo4kBDAb7f8TCP69JHURckVTBO1xSFNq/8eDtchbVImWBMh5L+pYonxsPe
-         cc/ccSJ/QkZ/x6BpgHysDnYptfgCLg74JbMzbLMjOTgHlqWtl0sYRYy2BMctWrjRYsSh
-         0cCtfN02DNV7feId+24eJ8YrPFZM9YXSuilQ14uYGIv+g13Ditm/NbY6+Nd4CRfdJZmt
-         KiTcPLOc8DdpFiUpgE7S2OeIJZOR96GT77rKLUVWG3Fm+EWNuvztj1LMneIqqLf93hJc
-         hgjZkDJpCswN4JIb2mGIcviH3OI0lgXdy24xxE/KPldZKBue/gIcfGngqz0VRivAWKRI
-         Ki/g==
-X-Gm-Message-State: APjAAAUNc4Y2pjw7rTLLE8UfagHLEMmQAurQkDKVsU2QQLztgImQdDp6
-        QjP9uLVxSExouT6ml9qCwsPsZUT65jZEoatPdHc=
-X-Google-Smtp-Source: APXvYqwyqE+CBLNGIUglb0qi9koComFm6wDqxvPRLHDcXggT+YWjCZCijdDuV5OxhQZnl2OTgsjIW8ih2LJEKMY/UnQ=
-X-Received: by 2002:a67:7981:: with SMTP id u123mr1756791vsc.195.1573057880610;
- Wed, 06 Nov 2019 08:31:20 -0800 (PST)
+        bh=Z2NBa2LgrpE4L6RGacxchP+uklVKgX1wRCtxgifUbs8=;
+        b=oYuOImBPg1/Q3qJQnTzmPCBe5uKGtWCrFBCdQ2u/dD5NKdelE+8JhW5+7yh3HzUE/l
+         tIWKnwANTQ+W86WeQRB7MMEnJYbCXl6nPyr8kNKcCIgpy8z9t36NkjTz7tUyF8H4MlB5
+         rjL4gshhWjIjDB04iZ1jGKKKnlkc4RjZjVmqLUPFQG0d40HD4xqu1g1C4IlJ6D7V8VBI
+         wEKto0IAZ5bkkUgEeyFZC11RCbR1FT+B+UMN/4SeftMfVNHfTrgUDFiuIYeUd1loPAV3
+         uAERed0C5D8BxDSCYUtN/erNbDJMvL5cxW4+P3xOIoiEYNc2N3d/DldtuqGnG39+BIb8
+         R42w==
+X-Gm-Message-State: APjAAAXFe/FyM6VDt1D40gLzDOoUDqlinbhPaVOrJMbmDE+q+hlpK84s
+        Z0s86QEHjGp+/EjfUkJn8Os+LK8fjr4=
+X-Google-Smtp-Source: APXvYqwyXfgOgss/tHAjqU7N38N0FVzf0AMwncW+sMuCyh4vPY4CqJWtx7EvNoJ9le3YfXiKQep81g==
+X-Received: by 2002:a65:6290:: with SMTP id f16mr5144528pgv.40.1573070410807;
+        Wed, 06 Nov 2019 12:00:10 -0800 (PST)
+Received: from US-191-ENG0002.corp.onewacom.com (75-148-82-17-Oregon.hfc.comcastbusiness.net. [75.148.82.17])
+        by smtp.gmail.com with ESMTPSA id 76sm11795674pfw.75.2019.11.06.12.00.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Nov 2019 12:00:10 -0800 (PST)
+From:   "Gerecke, Jason" <killertofu@gmail.com>
+X-Google-Original-From: "Gerecke, Jason" <jason.gerecke@wacom.com>
+To:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>, stable@vger.kernel.org,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Aaron Armstrong Skomra <aaron.skomra@wacom.com>
+Subject: [PATCH] HID: wacom: generic: Treat serial number and related fields as unsigned
+Date:   Wed,  6 Nov 2019 11:59:46 -0800
+Message-Id: <20191106195946.552879-1-jason.gerecke@wacom.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Received: by 2002:a9f:220e:0:0:0:0:0 with HTTP; Wed, 6 Nov 2019 08:31:19 -0800 (PST)
-From:   weir family <wairfamily71@gmail.com>
-Date:   Wed, 6 Nov 2019 17:31:19 +0100
-Message-ID: <CAP2Khdwf4RqUst0pOaojszgNNvtstFkuKovugHK=q_WfdW8Y4w@mail.gmail.com>
-Subject: OUR GOLDEN OPPORTUNITY
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---=20
-OUR GOLDEN OPPORTUNITY
+From: Jason Gerecke <killertofu@gmail.com>
 
-Dear Friend,
+The HID descriptors for most Wacom devices oddly declare the serial
+number and other related fields as signed integers. When these numbers
+are ingested by the HID subsystem, they are automatically sign-extended
+into 32-bit integers. We treat the fields as unsigned elsewhere in the
+kernel and userspace, however, so this sign-extension causes problems.
+In particular, the sign-extended tool ID sent to userspace as ABS_MISC
+does not properly match unsigned IDs used by xf86-input-wacom and libwacom.
 
-Let me start by introducing myself,I am Mr Abdul Uzun  Manager of Bank
-Of Africa Burkina faso.
+We introduce a function 'wacom_s32tou' that can undo the automatic sign
+extension performed by 'hid_snto32'. We call this function when processing
+the serial number and related fields to ensure that we are dealing with
+and reporting the unsigned form. We opt to use this method rather than
+adding a descriptor fixup in 'wacom_hid_usage_quirk' since it should be
+more robust in the face of future devices.
 
-I am writting you this letter based on the latest development at my
-Department which I will like to bring to your personal
-edification.(18.5 million U.S Dollars transfer claims).
+Ref: https://github.com/linuxwacom/input-wacom/issues/134
+Fixes: f85c9dc678 ("HID: wacom: generic: Support tool ID and additional tool types")
+CC: <stable@vger.kernel.org> # v4.10+
+Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+Reviewed-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
+---
+ drivers/hid/wacom.h     | 15 +++++++++++++++
+ drivers/hid/wacom_wac.c | 10 ++++++----
+ 2 files changed, 21 insertions(+), 4 deletions(-)
 
-This is a legitimate transaction and I agreed to offer you 40% of this
-money as my foreign partner after confirmation of the fund in your
-bank account, If you are interested, get back to me with the following
-details below.
+diff --git a/drivers/hid/wacom.h b/drivers/hid/wacom.h
+index 4a7f8d363220..203d27d198b8 100644
+--- a/drivers/hid/wacom.h
++++ b/drivers/hid/wacom.h
+@@ -202,6 +202,21 @@ static inline void wacom_schedule_work(struct wacom_wac *wacom_wac,
+ 	}
+ }
+ 
++/*
++ * Convert a signed 32-bit integer to an unsigned n-bit integer. Undoes
++ * the normally-helpful work of 'hid_snto32' for fields that use signed
++ * ranges for questionable reasons.
++ */
++static inline __u32 wacom_s32tou(s32 value, __u8 n)
++{
++	switch (n) {
++	case 8:  return ((__u8)value);
++	case 16: return ((__u16)value);
++	case 32: return ((__u32)value);
++	}
++	return value & (1 << (n - 1)) ? value & (~(~0U << n)) : value;
++}
++
+ extern const struct hid_device_id wacom_ids[];
+ 
+ void wacom_wac_irq(struct wacom_wac *wacom_wac, size_t len);
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index 2b0a5b8ca6e6..ccb74529bc78 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -2303,7 +2303,7 @@ static void wacom_wac_pen_event(struct hid_device *hdev, struct hid_field *field
+ 	case HID_DG_TOOLSERIALNUMBER:
+ 		if (value) {
+ 			wacom_wac->serial[0] = (wacom_wac->serial[0] & ~0xFFFFFFFFULL);
+-			wacom_wac->serial[0] |= (__u32)value;
++			wacom_wac->serial[0] |= wacom_s32tou(value, field->report_size);
+ 		}
+ 		return;
+ 	case HID_DG_TWIST:
+@@ -2319,15 +2319,17 @@ static void wacom_wac_pen_event(struct hid_device *hdev, struct hid_field *field
+ 		return;
+ 	case WACOM_HID_WD_SERIALHI:
+ 		if (value) {
++			__u32 raw_value = wacom_s32tou(value, field->report_size);
++
+ 			wacom_wac->serial[0] = (wacom_wac->serial[0] & 0xFFFFFFFF);
+-			wacom_wac->serial[0] |= ((__u64)value) << 32;
++			wacom_wac->serial[0] |= ((__u64)raw_value) << 32;
+ 			/*
+ 			 * Non-USI EMR devices may contain additional tool type
+ 			 * information here. See WACOM_HID_WD_TOOLTYPE case for
+ 			 * more details.
+ 			 */
+ 			if (value >> 20 == 1) {
+-				wacom_wac->id[0] |= value & 0xFFFFF;
++				wacom_wac->id[0] |= raw_value & 0xFFFFF;
+ 			}
+ 		}
+ 		return;
+@@ -2339,7 +2341,7 @@ static void wacom_wac_pen_event(struct hid_device *hdev, struct hid_field *field
+ 		 * bitwise OR so the complete value can be built
+ 		 * up over time :(
+ 		 */
+-		wacom_wac->id[0] |= value;
++		wacom_wac->id[0] |= wacom_s32tou(value, field->report_size);
+ 		return;
+ 	case WACOM_HID_WD_OFFSETLEFT:
+ 		if (features->offset_left && value != features->offset_left)
+-- 
+2.23.0
 
-(1)Your age=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=
-=E2=80=A6=E2=80=A6
-
-(2)Your occupation: =E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=
-=E2=80=A6=E2=80=A6=E2=80=A6
-
-(3)Your marital status: =E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=
-=A6=E2=80=A6=E2=80=A6=E2=80=A6
-
-(4)Your full residential address: =E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=
-=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
-
-
-(5)Your private phone and fax number and your complete name=E2=80=A6=E2=80=
-=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
-
-As soon as I receive these data's, I will forward to you the
-application form which you will send to the bank, get back to me
-through this my private email address (abduluzun4040@gmail.com)
-
-If you are interested then it is compulsory you reach me through my
-private email address below
-(abduluzun4040@gmail.com)
-
-Best Regard
-Mr Abdul Uzun
