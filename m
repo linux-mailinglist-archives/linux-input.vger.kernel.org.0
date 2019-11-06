@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0185F0FB4
-	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2019 08:05:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15D4CF0FB7
+	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2019 08:05:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731802AbfKFHEo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Nov 2019 02:04:44 -0500
+        id S1731825AbfKFHEs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Nov 2019 02:04:48 -0500
 Received: from esa3.mentor.iphmx.com ([68.232.137.180]:8813 "EHLO
         esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728291AbfKFHEo (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Nov 2019 02:04:44 -0500
-IronPort-SDR: a/ms7XiC1AZGICP1ookKYMhE7eb4qSNZnGWqzbf18/s8rbfTx915T5+xovPQ3Q4JFXZtxa05ub
- XhLC0wNtxjFEEuEKI9dDub9c0NeiajiAlpLt6ZZbuRU0FM1mqcg/p+CVPxBGAYlCBtXzVpYh5A
- ZhQUTOZ05MqmxV949zXsOgTL2XQDKk+QnPonU32MQat9ZJR/As8Er+w4yFp+gTpMqNaHz+1nLb
- z121dwhGnRoLJwzUT+J2oANzsfcBxVDnbvJouFRKUu7okUhFAWJhV4sHopvozZm09k9WM52W+x
- JFw=
+        with ESMTP id S1731824AbfKFHEr (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Nov 2019 02:04:47 -0500
+IronPort-SDR: QH8xLaVDQWFs+rPItm5HFeLF/9stWG5E1haacbvgXGYW9anuy3NdYZb8SNplJHuCW1JjXmIY2+
+ lhmkbGco8UzFlt55i9RD94x8bU144gODRF4vQkNW2gn6gQinogICLXqy5h0h446wOuYBIa8WJB
+ dnHYUlds3lOUrBlG7RIRN1+KgOV7FA9SWoRyr4yXRYT+CSD02C6qQvqoi0hF+2b1yVOMiPbJMH
+ c8rbtYc0bHY3Oh8+yeWdcc5BufZiu9i9uNRXQBrFuCuic9o4BFfLWpYSd+sm2vNO2eV+8NIPJ1
+ L9Y=
 X-IronPort-AV: E=Sophos;i="5.68,272,1569312000"; 
-   d="scan'208";a="42908690"
+   d="scan'208";a="42908694"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 05 Nov 2019 23:04:43 -0800
-IronPort-SDR: cjcsx6py/30ZPIOsfrO1+zlRD+YWpOgppVrpny60AeXf5lyez6DCWatRAaWbHLYwZWdbJ7dCun
- p7CDhFV+SQzTUuCPC0lTxn6Flpvomnr80YBqbdNGvp6mkmAMYtglaZhDnBJdO8X6bQ4uXs8HiS
- RrqXrv5FstuF5cvbed72n4kTde2ohPXacW/v+t22v93QK4RNH67wJEOMN7YtCIRV/Uvs/Qs0Gy
- IMr75SU/fKSKm8yNCnQv7tfvbtFfJ5KibxhmggTRPUc/jduVCPa/iPK3OmrufdiLHsqPdHf97g
- EHc=
+  by esa3.mentor.iphmx.com with ESMTP; 05 Nov 2019 23:04:47 -0800
+IronPort-SDR: n9fNjY9IxRlR/U4UHmshYGa3+w8TPtaail+mXL4AnBFVJXanpu4EQMzSufdMyfN4EOLRmJvhzy
+ 1o9fX0cJQu3ResWlTTYWo9L22fQDCB1q1ix4ORnlWv/cLfeNSZ7LSIc87BdvN8gwAFOX7FiMQj
+ VspGekYMAVv3iuKelmcl4hFKRvJ7Mm7lJn2RYBfSCErrzIkY+W/TwB5+T5JK53tUojCx94XsrC
+ brQBmZX2PIP6gn1BRvUQCG6MP28G3RFaOVVAT9AvngO7QPn2P1Wu1I+y2MPdXZiP5I0JijRylL
+ LvE=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>, <dmitry.torokhov@gmail.com>,
@@ -32,9 +32,9 @@ To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <jiada_wang@mentor.com>, <erosca@de.adit-jv.com>,
         <Andrew_Gabbasov@mentor.com>
-Subject: [PATCH v5 45/48] input: touchscreen: atmel_mxt_ts: Added sysfs entry for touchscreen status
-Date:   Wed, 6 Nov 2019 16:01:43 +0900
-Message-ID: <20191106070146.18759-46-jiada_wang@mentor.com>
+Subject: [PATCH v5 46/48] input: atmel_mxt_ts: added sysfs interface to update atmel T38 data
+Date:   Wed, 6 Nov 2019 16:01:44 +0900
+Message-ID: <20191106070146.18759-47-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191106070146.18759-1-jiada_wang@mentor.com>
 References: <20191106070146.18759-1-jiada_wang@mentor.com>
@@ -47,244 +47,163 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Naveen Chakka <Naveen.Chakka@in.bosch.com>
 
-To know the current communication status of the touch controller during
-runtime, sysfs interface is added
+Atmel touch controller contains T38 object where a user can store its own
+data of length 64 bytes. T38 data will not be part of checksum
+calculation on executing T6 BACKUP command.
 
-sysfs interface: /sys/class/i2c-dev/i2c-*/device/*/touch_dev_stat
-Executing the above sysfs interface provides two output values
+format used to update the T38 data is given below:
 
-1)Status of the touch device
-	value 0 represents device is inactive
-	value 1 represents device is active
-2)Error counter
-	value represents the number of times device in inactive since last read
+<offset> <length> <actual_data>
+
+offset: offset address of the data to be written in the t38 object
+	(in decimal)
+
+length: length of the data to be written into the t38 object(in decimal)
+
+data: actual data bytes to be written into the t38 object
+      (values should be in hex)
+
+Ex:
+1. 0 2 10 20
+updates first two bytes of the t38 data with values 10 and 20
+
+2. 19 6 10 2f 30 4a 50 60
+updates 6 bytes of t38 data from the index 19-24 with hex values
 
 Signed-off-by: Naveen Chakka <Naveen.Chakka@in.bosch.com>
 Signed-off-by: Sanjeev Chugh <sanjeev_chugh@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 109 +++++++++++++++++++++--
- 1 file changed, 102 insertions(+), 7 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 102 +++++++++++++++++++++++
+ 1 file changed, 102 insertions(+)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 78903806c0b4..d22a00ec69c1 100644
+index d22a00ec69c1..a867960dc59b 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -25,6 +25,7 @@
- #include <linux/property.h>
- #include <linux/slab.h>
- #include <linux/gpio/consumer.h>
-+#include <linux/timer.h>
- #include <asm/unaligned.h>
- #include <linux/regulator/consumer.h>
- #include <linux/workqueue.h>
-@@ -222,6 +223,7 @@ enum t100_type {
- #define MXT_CHG_DELAY	        100	/* msec */
- #define MXT_POWERON_DELAY	150	/* msec */
- #define MXT_BOOTLOADER_WAIT	36E5	/* 1 minute */
-+#define MXT_WATCHDOG_TIMEOUT	1000	/* msec */
- 
- /* Command to unlock bootloader */
- #define MXT_UNLOCK_CMD_MSB	0xaa
-@@ -317,6 +319,12 @@ struct mxt_flash {
- 	struct delayed_work work;
- };
- 
-+struct mxt_statusinfo {
-+	bool dev_status;
-+	bool intp_triggered;
-+	u32 error_count;
-+};
-+
- /* Each client has this additional data */
- struct mxt_data {
- 	struct i2c_client *client;
-@@ -372,6 +380,9 @@ struct mxt_data {
- 	const char *pcfg_name;
- 	const char *input_name;
- 	struct mxt_flash *flash;
-+	struct work_struct watchdog_work;
-+	struct timer_list watchdog_timer;
-+	struct mxt_statusinfo mxt_status;
- 
- 	/* Cached parameters from object table */
- 	u16 T5_address;
-@@ -1624,11 +1635,30 @@ static int mxt_process_messages(struct mxt_data *data)
- 	return total_handled;
+@@ -4027,6 +4027,106 @@ static ssize_t mxt_touch_device_status(struct device *dev, struct
+ 	return ret;
  }
  
-+static void mxt_start_wd_timer(struct mxt_data *data)
-+{
-+	mod_timer(&data->watchdog_timer, jiffies +
-+			msecs_to_jiffies(MXT_WATCHDOG_TIMEOUT));
-+}
-+
-+static void mxt_stop_wd_timer(struct mxt_data *data)
-+{
-+	/*
-+	 * Ensure we wait until the watchdog timer
-+	 * running on a different CPU finishes
-+	 */
-+	del_timer_sync(&data->watchdog_timer);
-+	cancel_work_sync(&data->watchdog_work);
-+	del_timer_sync(&data->watchdog_timer);
-+}
-+
- static irqreturn_t mxt_interrupt(int irq, void *dev_id)
- {
- 	struct mxt_data *data = dev_id;
- 	int ret;
- 
-+	data->mxt_status.intp_triggered = true;
-+
- 	if (data->in_bootloader) {
- 		complete(&data->chg_completion);
- 
-@@ -1636,21 +1666,25 @@ static irqreturn_t mxt_interrupt(int irq, void *dev_id)
- 			cancel_delayed_work_sync(&data->flash->work);
- 
- 		ret = mxt_check_bootloader(data);
--		return IRQ_RETVAL(ret);
-+		ret = IRQ_RETVAL(ret);
-+		goto exit;
- 	}
- 
--	if (!data->object_table)
--		return IRQ_HANDLED;
-+	if (!data->object_table) {
-+		ret = IRQ_HANDLED;
-+		goto exit;
-+	}
- 
- 	if (data->T44_address)
- 		ret = mxt_process_messages_t44(data);
- 	else
- 		ret = mxt_process_messages(data);
- 
--	if (ret <= 0)
--		return IRQ_NONE;
--	else
--		return IRQ_HANDLED;
-+	ret = (ret <= 0) ? IRQ_NONE : IRQ_HANDLED;
-+
-+exit:
-+	data->mxt_status.intp_triggered = false;
-+	return ret;
- }
- 
- static int mxt_t6_command(struct mxt_data *data, u16 cmd_offset,
-@@ -2970,6 +3004,36 @@ static int mxt_bootloader_status(struct mxt_data *data)
- 	return 0;
- }
- 
-+static void mxt_watchdog_timer(struct timer_list *t)
-+{
-+	struct mxt_data *data = from_timer(data, t, watchdog_timer);
-+
-+	if (!work_pending(&data->watchdog_work)) {
-+		if (!data->mxt_status.intp_triggered)
-+			schedule_work(&data->watchdog_work);
-+	}
-+
-+	mxt_start_wd_timer(data);
-+}
-+
-+static void mxt_watchdog_work(struct work_struct *work)
-+{
-+	struct mxt_data *data =
-+		container_of(work, struct mxt_data, watchdog_work);
-+	u16 info_buf;
-+	int ret = 0;
-+	u8 size = 2;
-+
-+	ret = __mxt_read_reg(data->client, 0, size, &info_buf);
-+
-+	if (ret) {
-+		data->mxt_status.error_count++;
-+		data->mxt_status.dev_status = false;
-+	} else {
-+		data->mxt_status.dev_status = true;
-+	}
-+}
-+
- static int mxt_initialize(struct mxt_data *data)
- {
- 	struct i2c_client *client = data->client;
-@@ -3947,6 +4011,22 @@ static const struct attribute_group mxt_fw_attr_group = {
- 	.attrs = mxt_fw_attrs,
- };
- 
-+static ssize_t mxt_touch_device_status(struct device *dev, struct
-+				       device_attribute *attr, char *buf)
++static ssize_t mxt_t38_data_show(struct device *dev,
++				 struct device_attribute *attr, char *buf)
 +{
 +	struct mxt_data *data = dev_get_drvdata(dev);
-+	int ret = 0;
++	struct mxt_object *object;
++	size_t count = 0, size;
++	u8 i, *t38_buf;
 +
-+	if (data->mxt_status.dev_status)
-+		data->mxt_status.error_count = 0;
++	if (!data->object_table)
++		return -ENXIO;
 +
-+	ret =  snprintf(buf, PAGE_SIZE, "%d %d\n", data->mxt_status.dev_status,
-+			data->mxt_status.error_count);
-+	/* clear the error counter once it is read */
-+	data->mxt_status.error_count = 0;
++	object = mxt_get_object(data, MXT_SPT_USERDATA_T38);
++	size = mxt_obj_size(object);
++
++	/* Pre-allocate buffer large enough to hold max size of t38 object.*/
++	t38_buf = kmalloc(size, GFP_KERNEL);
++	if (!t38_buf)
++		return -ENOMEM;
++
++	count = __mxt_read_reg(data->client, object->start_address,
++			       size, t38_buf);
++	if (count)
++		goto end;
++
++	for (i = 0; i < size; i++)
++		count += scnprintf(buf + count, PAGE_SIZE - count,
++				   "[%2u]: %02x\n", i, t38_buf[i]);
++	count += scnprintf(buf + count, PAGE_SIZE - count, "\n");
++end:
++	kfree(t38_buf);
++	return count;
++}
++
++static ssize_t mxt_t38_data_store(struct device *dev,
++				  struct device_attribute *attr,
++				  const char *buf, size_t count)
++{
++	struct mxt_data *data = dev_get_drvdata(dev);
++	struct mxt_object *object;
++	ssize_t ret = 0, pos, offset;
++	unsigned int i, len, index;
++	u8 *t38_buf;
++
++	if (!data->object_table)
++		return -ENXIO;
++
++	object = mxt_get_object(data, MXT_SPT_USERDATA_T38);
++
++	/* Pre-allocate buffer large enough to hold max size of t38 object.*/
++	t38_buf = kmalloc(mxt_obj_size(object), GFP_KERNEL);
++	if (!t38_buf)
++		return -ENOMEM;
++
++	ret = sscanf(buf, "%zd %d%zd", &offset, &len, &pos);
++	if (ret != 2) {
++		dev_err(dev, "Bad format: Invalid parameter to update t38\n");
++		ret = -EINVAL;
++		goto end;
++	}
++
++	if (len == 0) {
++		dev_err(dev,
++			"Bad format: Data length should not be equal to 0\n");
++		ret = -EINVAL;
++		goto end;
++	}
++
++	if (offset < 0 || ((offset + len) > 64)) {
++		dev_err(dev, "Invalid offset value to update t38\n");
++		ret = -EINVAL;
++		goto end;
++	}
++
++	index = pos;
++	for (i = 0; i < len; i++) {
++		ret = sscanf(buf + index, "%hhx%zd", t38_buf + i, &pos);
++		if (ret != 1) {
++			dev_err(dev, "Bad format: Invalid Data\n");
++			ret = -EINVAL;
++			goto end;
++		}
++		index += pos;
++	}
++
++	ret = __mxt_write_reg(data->client, object->start_address + offset,
++			      len, t38_buf);
++	if (ret)
++		goto end;
++
++	ret = mxt_t6_command(data, MXT_COMMAND_BACKUPNV, MXT_BACKUP_VALUE,
++			     true);
++	if (ret)
++		dev_err(dev, "backup command failed\n");
++	else
++		ret = count;
++end:
++	kfree(t38_buf);
 +	return ret;
 +}
 +
  static DEVICE_ATTR(fw_version, S_IRUGO, mxt_fw_version_show, NULL);
  static DEVICE_ATTR(hw_version, S_IRUGO, mxt_hw_version_show, NULL);
  static DEVICE_ATTR(object, S_IRUGO, mxt_object_show, NULL);
-@@ -3958,6 +4038,7 @@ static DEVICE_ATTR(debug_v2_enable, S_IWUSR | S_IRUSR, NULL,
- 		   mxt_debug_v2_enable_store);
+@@ -4039,6 +4139,7 @@ static DEVICE_ATTR(debug_v2_enable, S_IWUSR | S_IRUSR, NULL,
  static DEVICE_ATTR(debug_notify, S_IRUGO, mxt_debug_notify_show, NULL);
  static DEVICE_ATTR(t25, 0600, mxt_t25_selftest_show, mxt_t25_selftest_store);
-+static DEVICE_ATTR(touch_dev_stat, 0444, mxt_touch_device_status, NULL);
+ static DEVICE_ATTR(touch_dev_stat, 0444, mxt_touch_device_status, NULL);
++static DEVICE_ATTR(t38_data, 0600, mxt_t38_data_show, mxt_t38_data_store);
  
  static struct attribute *mxt_attrs[] = {
  	&dev_attr_fw_version.attr,
-@@ -3969,6 +4050,7 @@ static struct attribute *mxt_attrs[] = {
- 	&dev_attr_debug_v2_enable.attr,
+@@ -4051,6 +4152,7 @@ static struct attribute *mxt_attrs[] = {
  	&dev_attr_debug_notify.attr,
  	&dev_attr_t25.attr,
-+	&dev_attr_touch_dev_stat.attr,
+ 	&dev_attr_touch_dev_stat.attr,
++	&dev_attr_t38_data.attr,
  	NULL
  };
- 
-@@ -4321,6 +4403,13 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		msleep(MXT_RESET_TIME);
- 	}
- 
-+	INIT_WORK(&data->watchdog_work, mxt_watchdog_work);
-+
-+	/* setup watchdog timer */
-+	timer_setup(&data->watchdog_timer, mxt_watchdog_timer, 0);
-+
-+	mxt_start_wd_timer(data);
-+
- 	error = mxt_initialize(data);
- 	if (error)
- 		goto err_free_object;
-@@ -4335,8 +4424,11 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 	return 0;
- 
- err_free_object:
-+	cancel_work_sync(&data->watchdog_work);
-+	mxt_stop_wd_timer(data);
- 	mxt_free_input_device(data);
- 	mxt_free_object_table(data);
-+	del_timer(&data->watchdog_timer);
- 	if (data->reset_gpio) {
- 		sysfs_remove_link(&client->dev.kobj, "reset");
- 		gpiod_unexport(data->reset_gpio);
-@@ -4359,6 +4451,9 @@ static int mxt_remove(struct i2c_client *client)
- 	mxt_free_input_device(data);
- 	mxt_free_object_table(data);
- 
-+	cancel_work_sync(&data->watchdog_work);
-+	mxt_stop_wd_timer(data);
-+
- 	return 0;
- }
  
 -- 
 2.17.1
