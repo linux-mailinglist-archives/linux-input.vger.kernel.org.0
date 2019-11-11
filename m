@@ -2,84 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FE8FF7FAA
-	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2019 20:18:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7B59F7FC2
+	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2019 20:23:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727249AbfKKTSc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Nov 2019 14:18:32 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:55351 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727178AbfKKTSc (ORCPT
+        id S1727040AbfKKTXo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Nov 2019 14:23:44 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:42360 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726949AbfKKTXo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Nov 2019 14:18:32 -0500
-Received: from mail-qt1-f171.google.com ([209.85.160.171]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1M1pk0-1iS3Li26zw-002Fgs; Mon, 11 Nov 2019 20:18:30 +0100
-Received: by mail-qt1-f171.google.com with SMTP id o3so16843234qtj.8;
-        Mon, 11 Nov 2019 11:18:30 -0800 (PST)
-X-Gm-Message-State: APjAAAVTJORSwpc1e4OKZwFVLchsIdcNuDMfZTuGgefWoOz1AQONTcdM
-        vFBrOy04wM36dn+hNS7eofp3pE9aM3Bbwtv6zUk=
-X-Google-Smtp-Source: APXvYqwMVw3H+iof+ix+/L2TJ9lLRKjD4R0tC3c40dtcOhrtVO3sEPmg679ulBD5HjGCDawg+phWJyVcA3g8siZqOAA=
-X-Received: by 2002:ac8:18eb:: with SMTP id o40mr27497636qtk.304.1573499909109;
- Mon, 11 Nov 2019 11:18:29 -0800 (PST)
+        Mon, 11 Nov 2019 14:23:44 -0500
+Received: by mail-pl1-f193.google.com with SMTP id j12so8166891plt.9;
+        Mon, 11 Nov 2019 11:23:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=mqBoU8uO1HBJIobqBNdePdaIztSNDwAAWaWkC4C27oE=;
+        b=TWNMb+EE3dvIlfUfYNhhjAOhHOER24yqR/rGWwoow4d3xdJD49CFmMqOFnh4STeooR
+         ODczjcJktD9PCe/gNFxeMgPvKldLxCt+kTp5P+3fixURo4vj77uhybLCI3WrwtNkLVCS
+         cJ9H/8Nj80Hhj3J1xmTNgU78WRrfspF+MQfSRrh01dTM3hegHN3S+P1n4xZU0wHimpzs
+         r+YFNa46x4H76x2EosjNSiPA7gsK4t4NbxB+NYLOQ8Aq8HtiMCjw3MqeDAsFx2uKDYHq
+         yiGHidR/aAkWdhOkiIIjBJWhEOFZ0JPiWWU2oIBYL10/91BPw9KWeAreNARNyGODHvzv
+         Eb9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=mqBoU8uO1HBJIobqBNdePdaIztSNDwAAWaWkC4C27oE=;
+        b=WHSg2zPF9TMz6XCFpkFWOBWg+xSeUhWNLET3hbkMxgIKmVYf84ynj0MWGHWVypwM19
+         AxXUK42yU4m0wMC8AVgiQG+mTcYlKo7xGHhXyk1bIpxGm9s4NwrDxk7TMlxqdGyqwoxh
+         x+M/s6XmgA/Tn9DIxF5xXHYinl8bLsnptiVO0jZRP27ug3l+Fd7fIpE4Lngb68LeRoC+
+         BOhZ2qVOakB9frfDQGUwRhNI/R90pDaFNS+e2S4xXTJqBa6FN80if1lotsz/IiOgiu3A
+         xUYe43ilwGtjF0yzJdtHQKgEhcOhyMRflUQ8610rGhbvcID5J0Kf4z3DYT2BzaIALPqU
+         NHvQ==
+X-Gm-Message-State: APjAAAVT1yfuCF1lfL0YjfAf4AxbK1psLP8MS0T2ifPPg7QUtkOAHM0k
+        QZ8enDmGlU3aNhRpGqGDAVI=
+X-Google-Smtp-Source: APXvYqyIHsdlmJbhKdJzxA7u2YLwOc+ayB0K2KT6S/EU0y4GfOFpj48/Zd53w2PBFPhvl4R9xOHF8g==
+X-Received: by 2002:a17:902:6b0c:: with SMTP id o12mr227370plk.173.1573500222872;
+        Mon, 11 Nov 2019 11:23:42 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id a12sm15416253pfk.188.2019.11.11.11.23.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Nov 2019 11:23:42 -0800 (PST)
+Date:   Mon, 11 Nov 2019 11:23:39 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc:     Gwendal Grignou <gwendal@chromium.org>, briannorris@chromium.org,
+        jic23@kernel.org, knaack.h@gmx.de, lars@metafoo.de,
+        pmeerw@pmeerw.net, lee.jones@linaro.org, bleung@chromium.org,
+        dianders@chromium.org, groeck@chromium.org,
+        fabien.lahoudere@collabora.com, linux-kernel@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        Dmitry Torokhov <dtor@google.com>
+Subject: Re: [PATCH v4 07/17] Revert "Input: cros_ec_keyb - add back missing
+ mask for event_type"
+Message-ID: <20191111192339.GD57214@dtor-ws>
+References: <20191105222652.70226-1-gwendal@chromium.org>
+ <20191105222652.70226-8-gwendal@chromium.org>
+ <30edd741-310a-9c94-78ed-74dec084f382@collabora.com>
 MIME-Version: 1.0
-References: <20191108203435.112759-1-arnd@arndb.de> <20191108203435.112759-9-arnd@arndb.de>
- <20191111182828.GC57214@dtor-ws>
-In-Reply-To: <20191111182828.GC57214@dtor-ws>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 11 Nov 2019 20:18:12 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1coj4GpwcCgL0rEvZKb4OvktopjRETCNWEwfaLxgbcHQ@mail.gmail.com>
-Message-ID: <CAK8P3a1coj4GpwcCgL0rEvZKb4OvktopjRETCNWEwfaLxgbcHQ@mail.gmail.com>
-Subject: Re: [PATCH 8/8] Input: input_event: fix struct padding on sparc64
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     y2038 Mailman List <y2038@lists.linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "# 3.4.x" <stable@vger.kernel.org>,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:TxRoHKMo2qW71QlQNSP/PK/SfamwG+mthBc1VrRvIyixftshMpd
- 5TArJhIk165GPHIEthUQe/I6ZVXC2pyru/7/ZCaj4T6C8Tso3ylqWcuBxUt5DBM3HVRp7Q1
- wWXAIq1X6PPMliWWQuQP3sipuLlUx6HgowiHw95uAJMAnGkjHfEGQ+aRBhmcIBwgsWX1EUq
- l/SJ5szI7aA/nsoCH3+pg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:P3jbIN4wk2o=:yu62QjFqdHZLVZCYL1aChf
- ApgvGBT3NMq6uEL30XfY8BMPTfiHB4RibqozDfMc6OldJ3HHvi6o3y52nKaeq05xNVMWZtBzH
- P4uhlbYHUn2VlPAsz4Hd2rnjY5/5L+V6gCrwAVFkGz7RSnZbUa7wxOQD1TXFindLQIliJSKVF
- EkFaZL16HUmpNmkCmgs6PbYPCSMQUO1UGyLz8ziKXdVnGiEPJASMVBa4VgEjMbEbrB8J3el+N
- yEmQBgcfnw9dG9p961GoCnZOw+oWlg9tZIqYN8ECEsRmvyu8jNXnomPKIZQiLaPMPqFQw4jGG
- ZC72w4cqrGUuSNB9FnBCW1NYzrvluthYrCiaMK9HyYOphY1AubKDc04t6TBq1tQdsm8Stt3s1
- aF6KuW+9QwEEYkOLYEUXohjz5J3JboL/4G3NORQJ0wzlf+tTCAWZtBgPmhEhxRBSw4Nbx/xAj
- cKHdqOXycVZUsK6uWhiYSZo1xh6uE+UbmBWfrF+4jFOK/inrdRdb1+h4O0xeO9j4F+whhywIe
- CphyX8fq0L2zGV0wmQqbcNBmioMV2pqA4DrNTKryVam1atxJtlSG9aPMz9+DaORDytsjz20yJ
- eb3HK3Qgd/Ey8HCyxYsL7+1KPyRZM7xkp7CCfELVtu/v7ka6sX7FDwyInq+/xv/+i51ZZvGpa
- MCnNy80w6nTjDzC85Mqcbl6SaE6ND9Qv09JBT8wjN7JfA1E5NFMd3/00321wc0UaMo58KSjgh
- mN+wvqUjq5aeJtXO7uowLKlSFrrEq+PCl5BjAUzmLHczeFx+jvAB94wSjoYqa7OA3UZDLZdNk
- 1546pWVrmvrG0ilFQkKxrdty9y6lUa3+/UzD96ftz0XY8L0aIUmOCbQsuQwhHJmUunzjTJpzY
- 8vM9nsijd8B+Fa4LaudA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <30edd741-310a-9c94-78ed-74dec084f382@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Nov 11, 2019 at 7:28 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+On Mon, Nov 11, 2019 at 10:20:05AM +0100, Enric Balletbo i Serra wrote:
+> Hi,
+> 
+> cc'in Dmitry and linux-input list which is missing
 
-> I do not like ifdefs here, do you think we could write:
->
->                 client->buffer[client->tail] = (struct input_event) {
->                         .input_event_sec = event->input_event_sec,
->                         .input_event_usec = event->input_event_usec,
->                         .type = EV_SYN,
->                         .code = SYN_DROPPED,
->                 };
->
-> to ensure all padded fields are initialized? This is not hot path as we
-> do not expect queue to overfill too often.
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Good idea, changed both instances now. Thanks for taking a look!
+Enric, please use my @gmail address for upstream stuff. Thanks!
 
-      Arnd
+-- 
+Dmitry
