@@ -2,110 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3925F7AA0
-	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2019 19:19:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06DDEF7AC7
+	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2019 19:28:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726845AbfKKSTp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Nov 2019 13:19:45 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:32937 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726834AbfKKSTo (ORCPT
+        id S1726903AbfKKS2d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Nov 2019 13:28:33 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:33424 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726896AbfKKS2c (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Nov 2019 13:19:44 -0500
-Received: by mail-pf1-f195.google.com with SMTP id c184so11243314pfb.0;
-        Mon, 11 Nov 2019 10:19:44 -0800 (PST)
+        Mon, 11 Nov 2019 13:28:32 -0500
+Received: by mail-pg1-f195.google.com with SMTP id h27so9976571pgn.0;
+        Mon, 11 Nov 2019 10:28:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=jX2O/vKYNIETofpupKgShpkIa+uMhR52xikufcmTAOU=;
-        b=PmTcSwuNFN0ANsYg99msOFYBbWX3/gPLfhXcq1/ayFI+yyRNnd2UIGbL33S9OsGQcP
-         ky30fQin/j7I2U48kSRELal9ipYKEsvoQj2Bu2BoPT8i2pZ1tUg1is6E5DNi4mUCGVo9
-         lSErVD2dC7ApT55RqnZQPkB8Hrsgp/6BZXy1l7JSb1Bf8di2Bk57okFHQbmoZ5rWJg+v
-         +j2ddlmPsJT1YajFZLz5eXIbTGa4vdI+6x+C4hB2Qw0DWYFS4hHTjTxDkek0tSxBh6q7
-         7Z6j5zXz7S1Gdh3eafDJUoXJmNk7TBnk8d0t6zSLJYrxZBeljCjZZkCedbApDSVnIbhV
-         l9lg==
+        bh=RbCZSYiVTU101K0AA6gbWFKQ+nZynWbnU7jW8rMxKYg=;
+        b=SRNx4uCNBMhfemthmSO/MfE8FdhBpN2WtxKpWHR9+pqp+iX2ymL7ktoZu6I63kKGtM
+         b9YxNLLyJlJvhzmqbSOHokptSjB1VBLhEL0KFXsXy++WUMRAgYCqQvU87TA6IegVgLiF
+         BARAnkjtYz0DVbvnyZmnUpCg4P7C9b6+YM3TFM90qgUo8J7tMjAUTKyKBWTUQG97KBep
+         62UbBPEKCS+PeF12cC8XgESL+cFtEAjDGfdCogeNEfYgKDme2P6gfkHnJJ6nBHeMDFBq
+         qg0ax6E9lbMLh2RVEYaaS1vC1XkKmBCJm2jheviAQZqlyFAY/NoaqL+DdPWykBh9k+pi
+         XLMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jX2O/vKYNIETofpupKgShpkIa+uMhR52xikufcmTAOU=;
-        b=PDqyPhn4DfM/UsSrRc9GEI/oLJc/ibjUaZtmWSADrXkz9SITFYTdJsMEzJUIHtT8ez
-         zlyijg6TpvmEIe49P3K2RYgb03//ugIXpbd888dTLamsjFMtoEYOa5GdujiT2XfSKB1m
-         pmJtzN9gqbyartSQ0gTNqOaSOC0x+R328cpA4yEYn9OSf3NW0YyP9luA1nKFD7LrGAFb
-         JdetGDxPyyjw33w/T4hLmTH49t8qaKy0pCBZEfd585a1SL9JXXG+T81LLbquvC2YlJ0k
-         CTnG1VtUKVfACbOP6k7JaFJ/LN6SiyRc+Kq/t0YjJzSYTjHe0w4KyLh7iV9nMunan7ee
-         BF8w==
-X-Gm-Message-State: APjAAAUMsLddQT1S/zIpe8j/Yv5UTnXwOQZTOchTQcQWCo2ZHruFWrFs
-        zcA9eWBHU5QM6sjhwjAbUMV5cEdG
-X-Google-Smtp-Source: APXvYqzIusQcc/jtLfLo2OLT/206L/1VnLLVKd8NIyvl+WAoDVRJvzdef/IwjugoVXQXN/fnfBkHNA==
-X-Received: by 2002:a17:90a:741:: with SMTP id s1mr409417pje.107.1573496383715;
-        Mon, 11 Nov 2019 10:19:43 -0800 (PST)
+        bh=RbCZSYiVTU101K0AA6gbWFKQ+nZynWbnU7jW8rMxKYg=;
+        b=GqU8kuRCEpESXDnBXQvzJPd7mNrjIPhFTm9/k/dhG/vp/AI6bCrHq/mvERvw0uO+KZ
+         zk857lgWA0EElNi8EuRHM3ltoACEyc/mTn92MJZlRnT3ZSJmlmMblUjdzaqWt9kIynWn
+         OYid7SofSa5ylgRsWfolpU+FXo6h3nSFRKNNwPZJAS99Z1sSI/YG6/emoLpeNreGzJPc
+         uA80l4dhE93WSD1T0y2kSMGngnJRDrrP3RGbq+VzRvlc20i6ACQLr1+8EeUS7vA8HMKg
+         /oMDioWJSJdugcw9xlCDiz7p511sVh8zb00eFoE+iywro/0qiNBn0ukLtT1SBpVjuJhP
+         f20w==
+X-Gm-Message-State: APjAAAV3fplQo4hFWDVK7qWeRVt8Zm54BZqGTYAYj0F7O43rEpFave2y
+        NaylUnuY/zrqfS4aRUStEY0=
+X-Google-Smtp-Source: APXvYqyw47XTWwwm7rzrpkFmKJBvHWRie8OeGw9ToQTp9sFTkPYKJ5qr6Rgqa39mRw2qfrFCSfDloA==
+X-Received: by 2002:a63:134a:: with SMTP id 10mr30128602pgt.441.1573496910944;
+        Mon, 11 Nov 2019 10:28:30 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id f19sm10846264pfk.109.2019.11.11.10.19.42
+        by smtp.gmail.com with ESMTPSA id 12sm144320pjm.11.2019.11.11.10.28.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 10:19:43 -0800 (PST)
-Date:   Mon, 11 Nov 2019 10:19:41 -0800
+        Mon, 11 Nov 2019 10:28:30 -0800 (PST)
+Date:   Mon, 11 Nov 2019 10:28:28 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 06/12] input: mouse: convert to i2c_new_scanned_device
-Message-ID: <20191111181941.GB57214@dtor-ws>
-References: <20191106095033.25182-1-wsa+renesas@sang-engineering.com>
- <20191106095033.25182-7-wsa+renesas@sang-engineering.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     y2038@lists.linaro.org, linux-kernel@vger.kernel.org,
+        sparclinux@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>, stable@vger.kernel.org,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH 8/8] Input: input_event: fix struct padding on sparc64
+Message-ID: <20191111182828.GC57214@dtor-ws>
+References: <20191108203435.112759-1-arnd@arndb.de>
+ <20191108203435.112759-9-arnd@arndb.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191106095033.25182-7-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20191108203435.112759-9-arnd@arndb.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 06, 2019 at 10:50:24AM +0100, Wolfram Sang wrote:
-> Move from the deprecated i2c_new_probed_device() to the new
-> i2c_new_scanned_device(). Make use of the new ERRPTR if suitable.
+Hi Arnd,
+
+On Fri, Nov 08, 2019 at 09:34:31PM +0100, Arnd Bergmann wrote:
+> Going through all uses of timeval, I noticed that we screwed up
+> input_event in the previous attempts to fix it:
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> The time fields now match between kernel and user space, but
+> all following fields are in the wrong place.
+> 
+> Add the required padding that is implied by the glibc timeval
+> definition to fix the layout, and add explicit initialization
+> to avoid leaking kernel stack data.
+> 
+> Cc: sparclinux@vger.kernel.org
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: stable@vger.kernel.org
+> Fixes: 141e5dcaa735 ("Input: input_event - fix the CONFIG_SPARC64 mixup")
+> Fixes: 2e746942ebac ("Input: input_event - provide override for sparc64")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
+>  drivers/input/evdev.c       | 3 +++
+>  drivers/input/misc/uinput.c | 3 +++
+>  include/uapi/linux/input.h  | 1 +
+>  3 files changed, 7 insertions(+)
 > 
-> Build tested only. RFC, please comment and/or ack, but don't apply yet.
-> 
->  drivers/input/mouse/psmouse-smbus.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/input/mouse/psmouse-smbus.c b/drivers/input/mouse/psmouse-smbus.c
-> index 027efdd2b2ad..35bf50a871d2 100644
-> --- a/drivers/input/mouse/psmouse-smbus.c
-> +++ b/drivers/input/mouse/psmouse-smbus.c
-> @@ -198,10 +198,12 @@ static int psmouse_smbus_create_companion(struct device *dev, void *data)
->  	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_HOST_NOTIFY))
->  		return 0;
->  
-> -	smbdev->client = i2c_new_probed_device(adapter, &smbdev->board,
-> -					       addr_list, NULL);
-> -	if (!smbdev->client)
-> +	smbdev->client = i2c_new_scanned_device(adapter, &smbdev->board,
-> +					        addr_list, NULL);
-> +	if (IS_ERR(smbdev->client)) {
-> +		smbdev->client = NULL;
->  		return 0;
-> +	}
->  
->  	/* We have our(?) device, stop iterating i2c bus. */
->  	return 1;
+> diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
+> index d7dd6fcf2db0..24a90793caf0 100644
+> --- a/drivers/input/evdev.c
+> +++ b/drivers/input/evdev.c
+> @@ -228,6 +228,9 @@ static void __pass_event(struct evdev_client *client,
+>  						event->input_event_sec;
+>  		client->buffer[client->tail].input_event_usec =
+>  						event->input_event_usec;
+> +#ifdef CONFIG_SPARC64
+> +		client->buffer[client->tail].__pad = 0;
+> +#endif
+>  		client->buffer[client->tail].type = EV_SYN;
+>  		client->buffer[client->tail].code = SYN_DROPPED;
+>  		client->buffer[client->tail].value = 0;
 
-I'd prefer postponing assignment until after we get valid value. I.e.
+I do not like ifdefs here, do you think we could write:
 
-	client = i2c_new_probed_device(...);
-	if (IS_ERR(client))
-		return 0;
+		client->buffer[client->tail] = (struct input_event) {
+			.input_event_sec = event->input_event_sec,
+			.input_event_usec = event->input_event_usec,
+			.type = EV_SYN,
+			.code = SYN_DROPPED,
+		};
 
-	/* We have our(?) device, stop iterating i2c bus. */
-	smbdev->client = client;
-	return 1;
+to ensure all padded fields are initialized? This is not hot path as we
+do not expect queue to overfill too often.
 
 Thanks.
 
