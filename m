@@ -2,99 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EC79F6F6F
-	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2019 09:08:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A208AF705B
+	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2019 10:20:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726915AbfKKIIr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Nov 2019 03:08:47 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:51692 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726770AbfKKIIr (ORCPT
+        id S1726768AbfKKJUL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Nov 2019 04:20:11 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60374 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726808AbfKKJUK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Nov 2019 03:08:47 -0500
-Received: by mail-wm1-f67.google.com with SMTP id q70so12233710wme.1
-        for <linux-input@vger.kernel.org>; Mon, 11 Nov 2019 00:08:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=L3adQNG+/hxoajCHfb6EoDmmTT7W+dDlfD3Fz0vzm7c=;
-        b=N3NT49MXSpaS4htlbCzGibfT5QOaRtUcTgMKFzsLb2Tib2Z6P9pcJqi397Dvn6YP4f
-         J+o7N6J+oOSicQ+PBFkRuQlvWxbhKxNPdKyV08Wrh8gPB/yrMy8pLZ6Zxad2mgfKt63n
-         ogkHsJYocck6VVBrNoLp7nV7TGB3VwImhpkJ4yDk3pjf4leGqqq+mmXBLhm2ywUtUnFW
-         22SVUJo16tKawT9xiVAwgdyCyXpa4298o0Yl5d8s6Y5u/DyxseRGd+9l4usDR906Zwe1
-         XK3PaxW8sBaHnnRfKtnUFKIhjqn5WKUYcvtX1R3BsAIIg1PYlogSzsBtp4F5W+0j6bGR
-         1CHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=L3adQNG+/hxoajCHfb6EoDmmTT7W+dDlfD3Fz0vzm7c=;
-        b=AAxHLhguLQ0qbmjCD+G/al1vw6/2NYLmXoqQX3AjKJJs3bBZF9WNkB+oKtNa5emE8u
-         usfpc/oZA7K912i66Wp9fxYsMV6rBbo9sGvZE1i0xUQ5rLANqsYxUhXGb0BmbqTAPm2k
-         Ukzna6KCDTXS/IFvHPmVoEZWp/51b0eUSR+hGOzHmQbfTp403epWKBZlFQSrRIJD1D6P
-         OM+JmdtqiSyix2tLylo6lS58zl2u4Hy28QzL9wGNJlqMAvcdzxoyR2d5xxz+o7VKRJG3
-         mD8RmatAB4TebuMQAtB68Y2rB9h4dQqPixPl+N5UJlxz5Fp13SuRXZKp6hiEAF5JXteG
-         0QEA==
-X-Gm-Message-State: APjAAAXcxims7XyD1dHRI3lkkhc3EKlSXnoBS7egwmbqK+DjKJri18tK
-        V3Tjbx+oD8evmfFbVOIvZYBHaA==
-X-Google-Smtp-Source: APXvYqyYb8rJgu+xJm4zJb5VdIdq1kwZM5m0E2HUWvADn6q+tzrpOCxz+FxIkPKzGQcKis8F4cU9BA==
-X-Received: by 2002:a1c:814b:: with SMTP id c72mr20247255wmd.167.1573459725396;
-        Mon, 11 Nov 2019 00:08:45 -0800 (PST)
-Received: from dell ([95.147.198.88])
-        by smtp.gmail.com with ESMTPSA id k125sm19217715wmf.2.2019.11.11.00.08.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 00:08:44 -0800 (PST)
-Date:   Mon, 11 Nov 2019 08:08:37 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v4 5/6] dt-bindings: mfd: max77650: convert the binding
- document to yaml
-Message-ID: <20191111080837.GF18902@dell>
-References: <20191021124428.2541-1-brgl@bgdev.pl>
- <20191021124428.2541-6-brgl@bgdev.pl>
+        Mon, 11 Nov 2019 04:20:10 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 0656328EB4A
+Subject: Re: [PATCH v4 07/17] Revert "Input: cros_ec_keyb - add back missing
+ mask for event_type"
+To:     Gwendal Grignou <gwendal@chromium.org>, briannorris@chromium.org,
+        jic23@kernel.org, knaack.h@gmx.de, lars@metafoo.de,
+        pmeerw@pmeerw.net, lee.jones@linaro.org, bleung@chromium.org,
+        dianders@chromium.org, groeck@chromium.org,
+        fabien.lahoudere@collabora.com
+Cc:     linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, Dmitry Torokhov <dtor@google.com>
+References: <20191105222652.70226-1-gwendal@chromium.org>
+ <20191105222652.70226-8-gwendal@chromium.org>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <30edd741-310a-9c94-78ed-74dec084f382@collabora.com>
+Date:   Mon, 11 Nov 2019 10:20:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20191105222652.70226-8-gwendal@chromium.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191021124428.2541-6-brgl@bgdev.pl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 21 Oct 2019, Bartosz Golaszewski wrote:
+Hi,
 
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+cc'in Dmitry and linux-input list which is missing
+
+On 5/11/19 23:26, Gwendal Grignou wrote:
+> This reverts commit 62c3801619e16b68a37ea899b76572145dfe41c9.
 > 
-> Convert the binding document for MAX77650 core MFD module to YAML.
+> This patch is not needed anymore since we clear EC_MKBP_HAS_MORE_EVENTS
+> flag before calling the notifiers in patch
+> "9d9518f5b52a (platform: chrome: cros_ec: handle MKBP more events flag)"
 > 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
 > ---
->  .../devicetree/bindings/mfd/max77650.txt      |  46 ------
->  .../devicetree/bindings/mfd/max77650.yaml     | 149 ++++++++++++++++++
->  2 files changed, 149 insertions(+), 46 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/mfd/max77650.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/max77650.yaml
-
-Applied, thanks.
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+> No changes in v4, v3.
+> New to v2.
+> 
+>  drivers/input/keyboard/cros_ec_keyb.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+> index 8d4d9786cc74..a29e81fdf186 100644
+> --- a/drivers/input/keyboard/cros_ec_keyb.c
+> +++ b/drivers/input/keyboard/cros_ec_keyb.c
+> @@ -226,8 +226,6 @@ static int cros_ec_keyb_work(struct notifier_block *nb,
+>  {
+>  	struct cros_ec_keyb *ckdev = container_of(nb, struct cros_ec_keyb,
+>  						  notifier);
+> -	uint8_t mkbp_event_type = ckdev->ec->event_data.event_type &
+> -				  EC_MKBP_EVENT_TYPE_MASK;
+>  	u32 val;
+>  	unsigned int ev_type;
+>  
+> @@ -239,7 +237,7 @@ static int cros_ec_keyb_work(struct notifier_block *nb,
+>  	if (queued_during_suspend && !device_may_wakeup(ckdev->dev))
+>  		return NOTIFY_OK;
+>  
+> -	switch (mkbp_event_type) {
+> +	switch (ckdev->ec->event_data.event_type & EC_MKBP_EVENT_TYPE_MASK) {
+>  	case EC_MKBP_EVENT_KEY_MATRIX:
+>  		pm_wakeup_event(ckdev->dev, 0);
+>  
+> @@ -266,7 +264,7 @@ static int cros_ec_keyb_work(struct notifier_block *nb,
+>  	case EC_MKBP_EVENT_SWITCH:
+>  		pm_wakeup_event(ckdev->dev, 0);
+>  
+> -		if (mkbp_event_type == EC_MKBP_EVENT_BUTTON) {
+> +		if (ckdev->ec->event_data.event_type == EC_MKBP_EVENT_BUTTON) {
+>  			val = get_unaligned_le32(
+>  					&ckdev->ec->event_data.data.buttons);
+>  			ev_type = EV_KEY;
+> 
