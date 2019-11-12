@@ -2,123 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 704BDF850A
-	for <lists+linux-input@lfdr.de>; Tue, 12 Nov 2019 01:19:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43186F8D45
+	for <lists+linux-input@lfdr.de>; Tue, 12 Nov 2019 11:50:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726976AbfKLATr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Nov 2019 19:19:47 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:34259 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726928AbfKLATr (ORCPT
+        id S1726910AbfKLKur (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Nov 2019 05:50:47 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:38083 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726912AbfKLKur (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Nov 2019 19:19:47 -0500
-Received: by mail-pf1-f195.google.com with SMTP id n13so12001157pff.1;
-        Mon, 11 Nov 2019 16:19:45 -0800 (PST)
+        Tue, 12 Nov 2019 05:50:47 -0500
+Received: by mail-wm1-f65.google.com with SMTP id z19so2412095wmk.3
+        for <linux-input@vger.kernel.org>; Tue, 12 Nov 2019 02:50:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=9XUS0RArtltCarqslDlhRX2lt1+e26kyIEsWNVrGZy8=;
-        b=M0B4mb0kMlFfnvvmsVd+oPm6uKLgur8tUXC8nu1wNl+KP5Ku70wCKdUDc5kjpZALON
-         u5KX7XyFpXmRMeml55qUlITww0qK7CDKnaBNsvdWm4xiOGfGxDcMI1BtTKNsIj+TRKRo
-         3qTPyuNJLUH0Y1lnnZoFaAlyE1DuXOViV7+4MSFCZwT+OeZzcCTf81BKwW3DsC3sW0M5
-         PX2mohHXHubCAMFEbo/uidwVpVssYIzkFbSrVxD5oYEeutYtw+SnuOR7S5mrP6IRm34H
-         UHUZYyAjXuJO13Qqr/T4yn0JG/vHQgabEupSuKv5y9Ed/tTXCRLNBJ11qTjT8my2edE2
-         ZOaA==
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=oVTOrGv6UqAshczVJh0uIxd2QUj4yR+TP/qwy/D72SM=;
+        b=f8V7u5XaxhR9Me0u6H7YtB0JnVoZVlTyw6B8RiXS/gTTtZ4CWkSpQ2IiZLvZVy4WpP
+         zFZ3n/4eGnepya+KaNmjmsnXiTwqyYYPaUmJa7zRNAIVQy/I5rZMv7M6ifl1jn9oan+D
+         dXDKo5OTFO1RQNayUm84HUzJ7lI2NF47P8YEdtsO4h6C6VnH4dmDbe7neD35ryHozTv/
+         pHlcAp4kNoV9hhwdCszMrCcUGbSZ9L48phiqc8ns33jbww8qBJTC9RIVVTwxyomKBvER
+         3vMnrSbzoscX1WuxRx+vllfYiSQ2WK360cB1P/WGDYtAmcHFDYJk+Ve7yHWoQgJIi+Hm
+         0A6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9XUS0RArtltCarqslDlhRX2lt1+e26kyIEsWNVrGZy8=;
-        b=pMODbDm/FvU4PIqCd/Lw7BX5wIBo30yGO+CgoEa09/4CsmgIoC9jRggRH+LiqJ23zp
-         TEUHkC+EIPPLHDQbELzMUWVDVPi6KDVm2DHLO4zx6WsqLxeqelwInVADMItMwF9GQWqa
-         DhI6t74KgrnfGsavYGdebg3f3UVJ6Me6Y0SeQRe1JG31fAKiBUKxLVzLtt2FEcwP316M
-         BbKBjiziEtOfpVtZoQXUVmOSBJK8h2dJgwbFDmZyUvUrjtIJxV3QvLIJsLN9TCOBORzI
-         qXDYDdgWZfCXlhiQ4ADIDy4YFP548q6JzlDy9HtQGk1Cl7STMQGp0wQNx0rGhI4CQayN
-         FCgw==
-X-Gm-Message-State: APjAAAVj3XpmL+UpnYaLnzoH6nB7+gn28WJyD3roAc+joB3HM+WbIcdO
-        Ddo4YqpwgvoPNydRMwdRNg6s1RKQ
-X-Google-Smtp-Source: APXvYqyKkDSeNR/EhsxGKmm3gKFw7Fm5cRWJCJfs//cubgMimH/wNJayEdernB1SuFl0iCr2+Vh14w==
-X-Received: by 2002:a63:4553:: with SMTP id u19mr31475923pgk.436.1573517984517;
-        Mon, 11 Nov 2019 16:19:44 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id i3sm15884156pfd.154.2019.11.11.16.19.43
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=oVTOrGv6UqAshczVJh0uIxd2QUj4yR+TP/qwy/D72SM=;
+        b=h652NOk1gDha2yoT2lTsFmxXKkgS3rWJ9Mt5aik5pZNw2H7hhWIlAfoiB9gj7MDAo5
+         nUFMdyogZHcEyLV0DFGNhHLaiv+L+/46vRY4Uv8mkftAcUAvY19Ti5LOXIM7cWa+vR9u
+         oZSybVehhKaRIjzMoIpaHI5q/dIJ9hdSKdWcRRQAG0ZRh+gIlMY+IEBwdF07c4G6cLFf
+         SupV+3KcDY3MTuYqsrYQzp9fzJDs3Dle7v9bLT2UffpJMPEiiIlcZjzlJcrIKY55yGpo
+         pb4RJVF8Nf+csMciTUAI0W3B3hNuTK9DzjKSylbap7m4qNiz8MqppxrCxJSXcYa4mCox
+         nESw==
+X-Gm-Message-State: APjAAAV043rslzlCy2PFhfoejBPmmRuxWiSZmDP2MES8SOHIB0s+dd8s
+        A4Dx3268J7ECv/lE8oZ39P3M8A==
+X-Google-Smtp-Source: APXvYqzi4Qu1un8C1gnUD1abl4YeesyzYmNoALTno3QELDH6+WaB67VPZdDZciPvbJDd/FbnG7cWXQ==
+X-Received: by 2002:a7b:ca51:: with SMTP id m17mr3133879wml.110.1573555845148;
+        Tue, 12 Nov 2019 02:50:45 -0800 (PST)
+Received: from dell ([2.27.35.135])
+        by smtp.gmail.com with ESMTPSA id b66sm3967527wmh.39.2019.11.12.02.50.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 16:19:43 -0800 (PST)
-Date:   Mon, 11 Nov 2019 16:19:41 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Sven Van Asbroeck <thesven73@gmail.com>,
-        Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>,
+        Tue, 12 Nov 2019 02:50:44 -0800 (PST)
+Date:   Tue, 12 Nov 2019 10:50:35 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
         Linux Input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] Input: ili210x - add ILI2117 support
-Message-ID: <20191112001941.GB192119@dtor-ws>
-References: <20191104070116.GM57214@dtor-ws>
- <20191104183702.8894-1-TheSven73@gmail.com>
- <CAHCN7xJc6DeyQV27OVjD14a8hZT+_Fo9qo-iHgLO414t3y6hVQ@mail.gmail.com>
- <CAGngYiXp52g7X=KLVqxTAhK0AJ9mpgGyaptbkYvhwWfRkQCaXQ@mail.gmail.com>
- <CAHCN7xLhqHzcHro7HYUdNAi8K3ToeruOtLw=0SZNAgNqUpxvHQ@mail.gmail.com>
- <20191104233621.GP57214@dtor-ws>
- <CAGngYiW0+QkLNmjp4yre2upqsvgEL4Or8rm09k5o7=9WHryyhg@mail.gmail.com>
- <20191111181657.GA57214@dtor-ws>
- <CAL_Jsq+MgveQX+9sZ4Q2zqtYZWxEpMBXaDJRxjQ4B7em00VnRA@mail.gmail.com>
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v4 5/6] dt-bindings: mfd: max77650: convert the binding
+ document to yaml
+Message-ID: <20191112105035.GR3218@dell>
+References: <20191021124428.2541-1-brgl@bgdev.pl>
+ <20191021124428.2541-6-brgl@bgdev.pl>
+ <20191111080837.GF18902@dell>
+ <CAMRc=Me_b5c_e+qZ1s=TgTh7k_bQqrqthC8VTb7ak8+3AOEugg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+MgveQX+9sZ4Q2zqtYZWxEpMBXaDJRxjQ4B7em00VnRA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=Me_b5c_e+qZ1s=TgTh7k_bQqrqthC8VTb7ak8+3AOEugg@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Nov 11, 2019 at 12:43:19PM -0600, Rob Herring wrote:
-> On Mon, Nov 11, 2019 at 12:17 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
+On Mon, 11 Nov 2019, Bartosz Golaszewski wrote:
+
+> pon., 11 lis 2019 o 09:08 Lee Jones <lee.jones@linaro.org> napisał(a):
 > >
-> > On Tue, Nov 05, 2019 at 10:29:53AM -0500, Sven Van Asbroeck wrote:
-> > > On Mon, Nov 4, 2019 at 6:36 PM Dmitry Torokhov
-> > > <dmitry.torokhov@gmail.com> wrote:
-> > > >
-> > > > OK, I refreshed the branch with fixes and a couple of new patches. It is
-> > > > on top of 5.3 now. If this works for you guys I will be merging it for
-> > > > 5.5.
-> > > >
-> > >
-> > > According to the ili2117a/2118a datasheet I have, there are still a
-> > > few loose ends.
-> > > Some of these might be too inconsequential to worry about.
-> > > Dmitry, tell me which ones you think are important, if any,
-> > > and I will spin a patch if you like. Or you can do it, just let me know.
-> > >
-> > > >       { "ili210x", (long)&ili210x_chip },
-> > > >       { "ili2117", (long)&ili211x_chip },
-> > > >       { "ili251x", (long)&ili251x_chip },
-> > > >
-> > > >       { .compatible = "ilitek,ili210x", .data = &ili210x_chip },
-> > > >       { .compatible = "ilitek,ili2117", .data = &ili211x_chip },
-> > > >       { .compatible = "ilitek,ili251x", .data = &ili251x_chip },
-> > >
-> > > My datasheet says ILI2117A/ILI2118A, so maybe the compatible string should
-> > > really be "ilitek,ili211x", just like the other variants ?
+> > On Mon, 21 Oct 2019, Bartosz Golaszewski wrote:
 > >
-> > We have not landed the DT for 2117, so we can either rename it as
-> > "ilitek,ili211x" or have 2 separate compatibles.
+> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > >
+> > > Convert the binding document for MAX77650 core MFD module to YAML.
+> > >
+> > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > > ---
+> > >  .../devicetree/bindings/mfd/max77650.txt      |  46 ------
+> > >  .../devicetree/bindings/mfd/max77650.yaml     | 149 ++++++++++++++++++
+> > >  2 files changed, 149 insertions(+), 46 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/mfd/max77650.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/mfd/max77650.yaml
 > >
-> > Rob, do you have preference?
+> > Applied, thanks.
+> >
 > 
-> The rule is we don't do wildcards for compatible strings. However, if
-> there's not a visible difference to s/w or you can determine which is
-> which by ID registers, then it is fine to have a single compatible. I
-> couldn't find a datasheet, so can't give better answer.
+> Hi Lee,
+> 
+> FYI this series is already in next through Rob's DT tree.
 
-OK, so I merged the branch keeping ilitek,ili2117 compatible.
-
-Sven, please feel free to send the patches addressing issues you
-discovered and I will be glad to apply them.
-
-Thanks.
+Why don't I see an 'applied' email?
 
 -- 
-Dmitry
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
