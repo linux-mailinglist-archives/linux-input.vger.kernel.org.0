@@ -2,128 +2,173 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AE1DAF9B6C
-	for <lists+linux-input@lfdr.de>; Tue, 12 Nov 2019 22:02:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CA24F9E3A
+	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2019 00:34:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727211AbfKLVB4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Nov 2019 16:01:56 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:37299 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726376AbfKLVB4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Nov 2019 16:01:56 -0500
-Received: by mail-qt1-f195.google.com with SMTP id g50so28934qtb.4;
-        Tue, 12 Nov 2019 13:01:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=qyX4Z7dk195T8SFGUPO4T2jowou4yUxsFAfRoSseSpM=;
-        b=ofAr6ZvPPVnsqQBVUUfwdtvm3h/mGX9d+rC/I+dLjlRy2p+t3weW4DbGu6iSCmJH/I
-         3k8J+ya07BH0c2+xPa1RqV1yalf3VQk7/rp3SLTxdqaEz7kwpIxO8xROFRqVO1dgFktc
-         +pjNhL9KixAPbDGN17w2AAg598YQsBMJmKUoYMxtCGmcYYAY4xIChYarprmLxtO4udIX
-         cCrNkk3oN7PC1U5Qim/eEdKI8VojwTldDCjpFLcQ5VICXHFHttqv6+34oSVpb2aPm5tJ
-         8wCCeMBnKffuOjzsrVivkl6ZnR3cyTdoJt496RgdA9pOXjaCyNwO3UkwUs5nabPwk+Lr
-         PqlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=qyX4Z7dk195T8SFGUPO4T2jowou4yUxsFAfRoSseSpM=;
-        b=GadTDLoViZYqLZZkut2KWNUD/9S8GNcEE8uWoZjzd/R8rgwUBgJbWe+U8J7t+Lql2D
-         dNOl2XQkEKhjCh2TU7niJ3DOfLVJk1iQIHnxQmo6cUIFTlGe1AN+3l5RlSy5ZOIU+MM6
-         nFeo0ZbDW3vp/8fU6H2BVa5ZEvPHCDFMYOugrNw06/vWhDp4IP5D5V2TPDpHuKpD54jF
-         7cA9PLSSd5W8DitF3lMrzSxdMiMBK+a/tWNpW5UpkDEX7OFPskkzL7XblS5twY+LDL0/
-         Ll5wb7V38S2UW5o4yGhvjm7tROfQ5Gt1Qn30d88Vh9MW+DiQRwR2f50Upcz+dm+YfRMj
-         qJ6Q==
-X-Gm-Message-State: APjAAAU+Zy0kFIFdJJ0ymnTPblhQ+rT4UVsuYbmNaE3r5tXnBOsY2KhW
-        7YbK6YwhttHEXUOrZmONZw8=
-X-Google-Smtp-Source: APXvYqykZ/+J6YxcQZSfxkhdNfem524fdjlMh32brVJcCy1cVMACtbR9vrzBSxJlKVBWGR2pvs12eQ==
-X-Received: by 2002:ac8:1c03:: with SMTP id a3mr33306752qtk.31.1573592514196;
-        Tue, 12 Nov 2019 13:01:54 -0800 (PST)
-Received: from localhost.localdomain ([72.53.229.209])
-        by smtp.gmail.com with ESMTPSA id 40sm1395635qtc.95.2019.11.12.13.01.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2019 13:01:53 -0800 (PST)
-From:   Sven Van Asbroeck <thesven73@gmail.com>
-X-Google-Original-From: Sven Van Asbroeck <TheSven73@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>,
+        id S1726953AbfKLXe0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Nov 2019 18:34:26 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41982 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726910AbfKLXe0 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 12 Nov 2019 18:34:26 -0500
+Received: from earth.universe (unknown [185.216.33.116])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0D7A421783;
+        Tue, 12 Nov 2019 23:34:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573601665;
+        bh=avE5ryt0LyUf1wbwCO+LKq0mIuRLC8Qq65aG1tM/7ek=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sRlyFDfSfw1CnA1sHjNB/4oYlWPh/vWv41/IAzMqWTJt7LrYicdpJQXvee0Tykm9I
+         oyR7c3Uqg3VzyC2JBJnkek0dalC12wvkmdHgAckbuc6bpDtliEevIWzT8s7VGeY1k5
+         p1vr72EJZgT9TBVYQU0dqpQCuWodTc+dask0Qit8=
+Received: by earth.universe (Postfix, from userid 1000)
+        id 3276E3C0C78; Wed, 13 Nov 2019 00:34:21 +0100 (CET)
+Date:   Wed, 13 Nov 2019 00:34:21 +0100
+From:   Sebastian Reichel <sre@kernel.org>
+To:     Sven Van Asbroeck <thesven73@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH v2 2/2] Input: ili210x - optionally show calibrate sysfs attribute
-Date:   Tue, 12 Nov 2019 16:01:48 -0500
-Message-Id: <20191112210148.3535-2-TheSven73@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191112210148.3535-1-TheSven73@gmail.com>
-References: <20191112210148.3535-1-TheSven73@gmail.com>
+Subject: Re: [PATCH v1 1/3] Input: ili210x - do not retrieve/print chip
+ firmware version
+Message-ID: <20191112233421.eh44mv6ji2tk6ki2@earth.universe>
+References: <20191112164429.11225-1-TheSven73@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="tynyp4nbd7ljgtf3"
+Content-Disposition: inline
+In-Reply-To: <20191112164429.11225-1-TheSven73@gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Only show the 'calibrate' sysfs attribute on chip flavours
-which support calibration by writing to a calibration register.
 
-Do this by adding a flag to the chip operations structure.
+--tynyp4nbd7ljgtf3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Link: https://lore.kernel.org/lkml/20191111181657.GA57214@dtor-ws/
-Cc: Marek Vasut <marex@denx.de>
-Cc: Adam Ford <aford173@gmail.com>
-Cc: <linux-kernel@vger.kernel.org>
-Cc: linux-input@vger.kernel.org
-Tree: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/log/?h=next
-Signed-off-by: Sven Van Asbroeck <TheSven73@gmail.com>
----
- drivers/input/touchscreen/ili210x.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Hi,
 
-diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
-index 3b8e24815a1f..b0454cdacf38 100644
---- a/drivers/input/touchscreen/ili210x.c
-+++ b/drivers/input/touchscreen/ili210x.c
-@@ -32,6 +32,7 @@ struct ili2xxx_chip {
- 	bool (*continue_polling)(const u8 *data, bool touch);
- 	unsigned int max_touches;
- 	unsigned int resolution;
-+	bool has_calibrate_reg;
- };
- 
- struct ili210x {
-@@ -102,6 +103,7 @@ static const struct ili2xxx_chip ili210x_chip = {
- 	.parse_touch_data	= ili210x_touchdata_to_coords,
- 	.continue_polling	= ili210x_check_continue_polling,
- 	.max_touches		= 2,
-+	.has_calibrate_reg	= true,
- };
- 
- static int ili211x_read_touch_data(struct i2c_client *client, u8 *data)
-@@ -227,6 +229,7 @@ static const struct ili2xxx_chip ili251x_chip = {
- 	.parse_touch_data	= ili251x_touchdata_to_coords,
- 	.continue_polling	= ili251x_check_continue_polling,
- 	.max_touches		= 10,
-+	.has_calibrate_reg	= true,
- };
- 
- static bool ili210x_report_events(struct ili210x *priv, u8 *touchdata)
-@@ -310,8 +313,19 @@ static struct attribute *ili210x_attributes[] = {
- 	NULL,
- };
- 
-+static umode_t ili210x_calibrate_visible(struct kobject *kobj,
-+					  struct attribute *attr, int index)
-+{
-+	struct device *dev = kobj_to_dev(kobj);
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct ili210x *priv = i2c_get_clientdata(client);
-+
-+	return priv->chip->has_calibrate_reg;
-+}
-+
- static const struct attribute_group ili210x_attr_group = {
- 	.attrs = ili210x_attributes,
-+	.is_visible = ili210x_calibrate_visible,
- };
- 
- static void ili210x_power_down(void *data)
--- 
-2.17.1
+On Tue, Nov 12, 2019 at 11:44:27AM -0500, Sven Van Asbroeck wrote:
+> The driver's method to retrieve the firmware version on ili2117/
+> ili2118 chip flavours is incorrect. The firmware version register
+> address and layout are wrong.
+>=20
+> The firmware version is not actually used anywhere inside or
+> outside this driver. There is a dev_dbg() print, but that is
+> only visible when the developer explicitly compiles in debug
+> support.
+>=20
+> Don't make the code more complicated to preserve a feature that
+> no-one is using. Remove all code associated with chip firmware
+> version.
+>=20
+> Link: https://lore.kernel.org/lkml/20191111181657.GA57214@dtor-ws/
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Adam Ford <aford173@gmail.com>
+> Cc: <linux-kernel@vger.kernel.org>
+> Cc: linux-input@vger.kernel.org
+> Tree: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/log/=
+?h=3Dnext
+> Signed-off-by: Sven Van Asbroeck <TheSven73@gmail.com>
+> ---
 
+The firmware version check does one relevant thing: It tests
+the I2C communication, which tends to be useful for board
+bringup and development boards (which often allow to disconnect
+(touch-)screens).
+
+-- Sebastian
+
+>  drivers/input/touchscreen/ili210x.c | 21 ---------------------
+>  1 file changed, 21 deletions(-)
+>=20
+> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscr=
+een/ili210x.c
+> index 0ed6014af6d7..a6feae5ce887 100644
+> --- a/drivers/input/touchscreen/ili210x.c
+> +++ b/drivers/input/touchscreen/ili210x.c
+> @@ -21,15 +21,8 @@
+>  /* Touchscreen commands */
+>  #define REG_TOUCHDATA		0x10
+>  #define REG_PANEL_INFO		0x20
+> -#define REG_FIRMWARE_VERSION	0x40
+>  #define REG_CALIBRATE		0xcc
+> =20
+> -struct firmware_version {
+> -	u8 id;
+> -	u8 major;
+> -	u8 minor;
+> -} __packed;
+> -
+>  struct ili2xxx_chip {
+>  	int (*read_reg)(struct i2c_client *client, u8 reg,
+>  			void *buf, size_t len);
+> @@ -342,7 +335,6 @@ static int ili210x_i2c_probe(struct i2c_client *clien=
+t,
+>  	struct ili210x *priv;
+>  	struct gpio_desc *reset_gpio;
+>  	struct input_dev *input;
+> -	struct firmware_version firmware;
+>  	int error;
+> =20
+>  	dev_dbg(dev, "Probing for ILI210X I2C Touschreen driver");
+> @@ -389,15 +381,6 @@ static int ili210x_i2c_probe(struct i2c_client *clie=
+nt,
+>  	priv->chip =3D chip;
+>  	i2c_set_clientdata(client, priv);
+> =20
+> -	/* Get firmware version */
+> -	error =3D chip->read_reg(client, REG_FIRMWARE_VERSION,
+> -			       &firmware, sizeof(firmware));
+> -	if (error) {
+> -		dev_err(dev, "Failed to get firmware version, err: %d\n",
+> -			error);
+> -		return error;
+> -	}
+> -
+>  	/* Setup input device */
+>  	input->name =3D "ILI210x Touchscreen";
+>  	input->id.bustype =3D BUS_I2C;
+> @@ -439,10 +422,6 @@ static int ili210x_i2c_probe(struct i2c_client *clie=
+nt,
+>  		return error;
+>  	}
+> =20
+> -	dev_dbg(dev,
+> -		"ILI210x initialized (IRQ: %d), firmware version %d.%d.%d",
+> -		client->irq, firmware.id, firmware.major, firmware.minor);
+> -
+>  	return 0;
+>  }
+> =20
+> --=20
+> 2.17.1
+>=20
+
+--tynyp4nbd7ljgtf3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl3LQXkACgkQ2O7X88g7
++poBmQ//VE9RLaWgxqVEsAsPFyMI3C7gIlrbz8SWYVC+TegFkXdGvuNaoOema632
+O+hp247bYjdIHbUWFiJCaDZ0t7mcjPwfMyu1CYKxDQCaQldBTG6IED/TSufqoPwB
+KdGq1GGRPLpuzkDq4n4uP3wtWYhiphlCXOO0hymPP8iZ3Ul/LLOZ9dys8W3gUw1v
+XyTBMm02g17yqI2S6EwFNmf4DkfuL66/Rs42fscXjTkly0rkk4JFb6JsXHtUDOrA
+j2OQBg1gEzrIWkkor1DK4HXZBpb+o7U56WoQA2VTi61CkqoGJ8snN/+AzONClCTL
+Lfswv+a4RQBsQUu5oS6ePXcemdfsPYqBSp8/8mDnzOcF7/plNxawqIdWBdzq3awx
+JdbQo5AWxe8iW+DeEs9rz7aHKetnXomU+uH18vPpmrZtPibcQaVaa7eNB6XUdXzG
+ET/OUNVsZIVIMAoDnwOz74pvjmrCTeWVIusOk2kE5240TWuAom19tNPtvNfwhGJ5
+uZoVs11lBU0bAvD4+bVZPFX7zde8dXpoh66k0VTdIiy8fM07L2EIodvmo1QTo2yJ
+g+VF9GBiKl7ayydNQ7tz77R/aFKOBzQAyL8+XlBBM+3BxhPj71kJg9eOzSDLM2ty
+N04jGiDauA5eeciRQTaiplnTwm7aLfTO12Tinzg1OBuqSTFNJn0=
+=k1bX
+-----END PGP SIGNATURE-----
+
+--tynyp4nbd7ljgtf3--
