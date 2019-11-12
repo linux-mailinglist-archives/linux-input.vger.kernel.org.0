@@ -2,74 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CCF98F99E1
-	for <lists+linux-input@lfdr.de>; Tue, 12 Nov 2019 20:38:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F0AEF99F0
+	for <lists+linux-input@lfdr.de>; Tue, 12 Nov 2019 20:42:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726978AbfKLTiP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Nov 2019 14:38:15 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:45501 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726958AbfKLTiP (ORCPT
+        id S1726958AbfKLTmY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Nov 2019 14:42:24 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:39480 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726936AbfKLTmY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Nov 2019 14:38:15 -0500
-Received: by mail-pg1-f193.google.com with SMTP id w11so12488068pga.12;
-        Tue, 12 Nov 2019 11:38:14 -0800 (PST)
+        Tue, 12 Nov 2019 14:42:24 -0500
+Received: by mail-pf1-f194.google.com with SMTP id x28so14069326pfo.6;
+        Tue, 12 Nov 2019 11:42:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=0La2CwEbsU0iGpHRN+E6CgdPEQt/LTHDnbCunj4lTb8=;
-        b=VL+s3q4JE6h3dgJv7/N9uNIKe2mR2SJGxXYbo+a1AB3kkBkuDmf9fbBhr3tDyAVwnT
-         OYORuGVOakJjTDiwQxel/n3/wsKYXljpRVC+j3B12ryXEwiu5/JrFQ+jqcxiVEo0olBG
-         MI25O+WLxcwdoLjicMSqAFH4wtKmDsxUiU+hD7lSOLcb7IZzbryzbaMOyRm5hP8lk1gd
-         zyk+zQNSHx/J4GOZZ5ZGeiYsX4WpFxg+Cc50JZu/LUT8sbXnwX72++euhDkVcTc8+hKK
-         AiW2Lv0hXclDEtlSUVI9NW8d8svDe2rAvVkYCWtTGKhR3Kr6zL2PdqTR8pNeya4T2ITg
-         zP3Q==
+        bh=yqktiPl2EC0yR95xmbyrqYNKwgzhcW9RKfI9BIqCrE0=;
+        b=RLfvVJiStfVTn96qzXe6kxlRNrY/i7GV2TmteyCTXT6GlBu2LahG8I/HU4gxdeRxyQ
+         PkDZ3tlU/QNWWTfXSeuUtihzsng+FZTeSOPL+zCdCi1J455XJqzK/iU09iKwkAGkr74B
+         F4hOloOJYnvSuJQexAnRNMnN+aG8G+ewc9wKY3cT+BQHafSeQLIdJxSt/p9hORWYWHiT
+         S0y5fgDXm+7T+f6huLXNUeA0BZQi79XHOcZ4/Tp4JgIH0WmMisZQQnmhae5g67HIU6Xz
+         IcBxs9hf8tmQklNj5lZ9jPEtjsRo9imP2O3aXmyfgZvdgNH6yQfpnPlzsnF41RHJLshk
+         2EQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0La2CwEbsU0iGpHRN+E6CgdPEQt/LTHDnbCunj4lTb8=;
-        b=np0P+iVsivdgJc5gtgMtsb9lyI6YkJxtztz/rakdRl8MeKa+p6RxZFTvQheoUWh7Mu
-         WZ8lQFtK1/jwxlNO/A6HMuFUCRlmkVGEWWt5TslbPYht8YkrWqckCCfLthUoWUwE7jTt
-         vyX4TOzEJIc0iTI9vCaRClTaHfdLUdTuL6j+rI4Daa3IeLXszSJHn0x+5ds5Ec8pY0Ek
-         NTj9CHNPXjvl61ntz8qxj+MaryFteOdhQ1krHaw2u87lYqdN9uPlJeOgVU0T9OJX1MG8
-         CBOpaE2bODOvvgaloIlzSjPt4FiHQNy8m9R3r6sYKxQhmFpw/DCVfU7QTgZgZXRZviP8
-         AQDA==
-X-Gm-Message-State: APjAAAV2mJZWfeqnaghrRT9nWcra2W8tPyEm1XmRaE0S8XTdcRrsiLvK
-        Ww8UvUkdayN1LGgojcX6RE8=
-X-Google-Smtp-Source: APXvYqxxR8hyTH24EqC9K4ZhJ2LqaamzTWY4SFMUk/Bz4VfqPPdNGTeLpZuYAcnL2e2qm2YDnWO7AQ==
-X-Received: by 2002:a17:90a:280e:: with SMTP id e14mr8720772pjd.135.1573587494177;
-        Tue, 12 Nov 2019 11:38:14 -0800 (PST)
+        bh=yqktiPl2EC0yR95xmbyrqYNKwgzhcW9RKfI9BIqCrE0=;
+        b=lPfo1m5DYOOG18GP490p7dRtMbZQz/8SFYSr2nZyQAWkbzx8dCtdsaU1/5ejBbJl2m
+         8UYA3drMGxteSZBcImR1H6I0r+hzzfj8zCO75kpPctc7hQyN0TFdgSse0ytf1CfQMPoV
+         cB9j4yH3gwypU6glsh4KdJCL7ajWKLWwoC5YNs6O0RM8tuNzCNlIObQQtHDmCsykBAdR
+         mBQ9ujzoEKICR1YIfY51aa4Hnmt8ujzqA8otqgACUKyFkD3yB2cWL/Bxot/ZcA5kDrfc
+         fwX5gioEFArZABd13bAhm133IWH4hdArD569jWt+fNxI19O3vIhv95/V4SP7SGtXIyZ4
+         tYUQ==
+X-Gm-Message-State: APjAAAVohyToV5uGtCmjhXeSmdpW8ziRhNbBAZWF8tdddErtNmiACMm1
+        54aZAkekG23qaDBIKWGZWQJNA8lb
+X-Google-Smtp-Source: APXvYqy5VceYuMP3Jc0wwKxQ1YJZG6EGMhwq1tnyC/ce/nnn8oy5zvpT9U2BveiAo1skbwXgUqaoHA==
+X-Received: by 2002:a17:90a:be05:: with SMTP id a5mr684792pjs.73.1573587743630;
+        Tue, 12 Nov 2019 11:42:23 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id 81sm23692014pfx.142.2019.11.12.11.38.13
+        by smtp.gmail.com with ESMTPSA id 23sm6092392pgw.8.2019.11.12.11.42.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2019 11:38:13 -0800 (PST)
-Date:   Tue, 12 Nov 2019 11:38:11 -0800
+        Tue, 12 Nov 2019 11:42:22 -0800 (PST)
+Date:   Tue, 12 Nov 2019 11:42:20 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Sven Van Asbroeck <thesven73@gmail.com>
 Cc:     Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] Input: ili210x - optionally hide calibrate sysfs
- attribute
-Message-ID: <20191112193811.GC13374@dtor-ws>
+Subject: Re: [PATCH v1 2/3] Input: ili210x - add resolution to chip
+ operations structure
+Message-ID: <20191112194220.GD13374@dtor-ws>
 References: <20191112164429.11225-1-TheSven73@gmail.com>
- <20191112164429.11225-3-TheSven73@gmail.com>
+ <20191112164429.11225-2-TheSven73@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191112164429.11225-3-TheSven73@gmail.com>
+In-Reply-To: <20191112164429.11225-2-TheSven73@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Nov 12, 2019 at 11:44:29AM -0500, Sven Van Asbroeck wrote:
-> Only show the 'calibrate' sysfs attribute on chip flavours
-> which support calibration by writing to a calibration register.
+On Tue, Nov 12, 2019 at 11:44:28AM -0500, Sven Van Asbroeck wrote:
+> Optionally allow the touch screen resolution to be set by adding
+> it to the chip operations structure. If it is omitted (left zero),
+> the resolution defaults to 64K. Which is the previously hard-coded
+> value.
 > 
-> Do this by adding a flag to the chip operations structure.
+> Set the ili2117 resolution to 2048, as indicated in its datasheet.
 > 
 > Link: https://lore.kernel.org/lkml/20191111181657.GA57214@dtor-ws/
 > Cc: Marek Vasut <marex@denx.de>
@@ -79,52 +81,55 @@ On Tue, Nov 12, 2019 at 11:44:29AM -0500, Sven Van Asbroeck wrote:
 > Tree: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/log/?h=next
 > Signed-off-by: Sven Van Asbroeck <TheSven73@gmail.com>
 > ---
->  drivers/input/touchscreen/ili210x.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  drivers/input/touchscreen/ili210x.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
-> index 4321f0d676cc..810770ad02e2 100644
+> index a6feae5ce887..4321f0d676cc 100644
 > --- a/drivers/input/touchscreen/ili210x.c
 > +++ b/drivers/input/touchscreen/ili210x.c
-> @@ -32,6 +32,7 @@ struct ili2xxx_chip {
+> @@ -31,6 +31,7 @@ struct ili2xxx_chip {
+>  				 unsigned int *x, unsigned int *y);
 >  	bool (*continue_polling)(const u8 *data, bool touch);
 >  	unsigned int max_touches;
->  	unsigned int resolution;
-> +	bool no_calibrate_reg;
-
-Please use positive logic and have chips opt-in into the calibration.
-
+> +	unsigned int resolution;
 >  };
 >  
 >  struct ili210x {
-> @@ -162,6 +163,7 @@ static const struct ili2xxx_chip ili211x_chip = {
+> @@ -160,6 +161,7 @@ static const struct ili2xxx_chip ili211x_chip = {
+>  	.parse_touch_data	= ili211x_touchdata_to_coords,
 >  	.continue_polling	= ili211x_decline_polling,
 >  	.max_touches		= 10,
->  	.resolution		= 2048,
-> +	.no_calibrate_reg	= true,
+> +	.resolution		= 2048,
 >  };
 >  
 >  static int ili251x_read_reg(struct i2c_client *client,
-> @@ -310,8 +312,19 @@ static struct attribute *ili210x_attributes[] = {
->  	NULL,
->  };
+> @@ -336,6 +338,7 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+>  	struct gpio_desc *reset_gpio;
+>  	struct input_dev *input;
+>  	int error;
+> +	unsigned int max_xy;
 >  
-> +static umode_t ili210x_calibrate_visible(struct kobject *kobj,
-> +					  struct attribute *attr, int index)
-> +{
-> +	struct device *dev = kobj_to_dev(kobj);
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct ili210x *priv = i2c_get_clientdata(client);
-> +
-> +	return !priv->chip->no_calibrate_reg;
-> +}
-> +
->  static const struct attribute_group ili210x_attr_group = {
->  	.attrs = ili210x_attributes,
-> +	.is_visible = ili210x_calibrate_visible,
->  };
+>  	dev_dbg(dev, "Probing for ILI210X I2C Touschreen driver");
 >  
->  static void ili210x_power_down(void *data)
+> @@ -386,8 +389,12 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+>  	input->id.bustype = BUS_I2C;
+>  
+>  	/* Multi touch */
+> -	input_set_abs_params(input, ABS_MT_POSITION_X, 0, 0xffff, 0, 0);
+> -	input_set_abs_params(input, ABS_MT_POSITION_Y, 0, 0xffff, 0, 0);
+> +	if (chip->resolution)
+> +		max_xy = chip->resolution - 1;
+> +	else
+> +		max_xy = 0xffff;
+
+	max_xy = (chip->resolution ?: 65536) - 1;
+
+> +	input_set_abs_params(input, ABS_MT_POSITION_X, 0, max_xy, 0, 0);
+> +	input_set_abs_params(input, ABS_MT_POSITION_Y, 0, max_xy, 0, 0);
+>  	touchscreen_parse_properties(input, true, &priv->prop);
+>  
+>  	error = input_mt_init_slots(input, priv->chip->max_touches,
 > -- 
 > 2.17.1
 > 
