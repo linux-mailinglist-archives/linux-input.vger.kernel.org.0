@@ -2,183 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7357BFACFD
-	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2019 10:30:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D3EAFAD28
+	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2019 10:40:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726598AbfKMJa5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Nov 2019 04:30:57 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54694 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727133AbfKMJaz (ORCPT
+        id S1726155AbfKMJkw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Nov 2019 04:40:52 -0500
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:33269 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726165AbfKMJkv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Nov 2019 04:30:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573637453;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=KfiIJYnhwIPb8ies+GY26eVHRvipn+z/HevJMP92/8A=;
-        b=XKiI/JubTH57aGQE9bXdRegVHcbKTV3OgcfykwYnPHoF6zIWlqntw/16GUEEtjzCLh+2wj
-        5vFed1NHzrileFTAiqXsy/V/foxN/gCETx7qBbJ1LVC23pF2iVCXA7LWJ4BcaGW+5JutYD
-        g84/lnJI/EbkbFSo7bj+1HWMSgvuTJA=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-zpvWSOcHNra_bkn1c26FaQ-1; Wed, 13 Nov 2019 04:30:52 -0500
-Received: by mail-qk1-f197.google.com with SMTP id r2so1105902qkb.2
-        for <linux-input@vger.kernel.org>; Wed, 13 Nov 2019 01:30:52 -0800 (PST)
+        Wed, 13 Nov 2019 04:40:51 -0500
+Received: by mail-yb1-f195.google.com with SMTP id i15so712218ybq.0;
+        Wed, 13 Nov 2019 01:40:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=M5EwNKVDW3H/UnosA9Wocs2SlYmcAoC45TwJkTVdRCI=;
+        b=GDHZvz0iGzoFDe8bm3NLwx84Y+5vg+Kai9lFar9Sm0GJjaEnnvKVffBl+To2hKn4n0
+         d08qUbibTSBNajgzzntQL2ywXmlkH41DPh7qHI5loyJ94r/A6VoWjZ0hD7jH+/oLD0Ce
+         lIMcgNDWTXZGZmf+C/XHQc1uA9otXMQpQtNoU5qrL9nxWEDsKHNyYT8IGYv2ip8BCmuc
+         pS/fX2i7asSBSE5ElM6pQNgvZDu1xskKnLinBaTsc115CyKE1sO7Neuqs/M8thW70+bZ
+         6eeVZK+Q7tZUopksntTWBC1Skjpj6ec2axCRuKxenPK9Xhhhl0vo2JyzSnyiK+8JY4s1
+         6dFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Hz47sGg839T2K5KCo2tSAJMtBP36J6bni/N4ATh4qyY=;
-        b=aq7/DmsT4XLYmaaX35TAqUtyAndJMOw+vUCYGwpDzYaakNSL1warSxZruggGh2s482
-         YkvcrRkgxb74OAghc+EKeMsldFbitKlO829XOpNteTuHHKNRGBsVzXYjygvJ7NCAI7ap
-         iDaGzdbHF+lt2SjFUn73U1gkm6dEEIQCo3Ev7r+CkcxV2PjM4L/EiAkyeyEcQ3Wtgjzg
-         56CyB8kL1huvbKxyp6YlDZzmOYndZkM3Y3sQBj7/GYJDjhDK9X22Sa6yt0HSrr24JoJj
-         PJ+mVle7//hRTAHcw0iHjRv/puER/wszuZAw3ucN6qlEbPUHRY7Ex5PrFfV2MAU5GKfb
-         T4bw==
-X-Gm-Message-State: APjAAAUBF0PwYUnSqQHb+4GyRd7N9OZBRaxnDwXWrDKqakHAI3KR6c0G
-        4LUCRzPd/q8HH3FcJeAfgZaj2K5N7wM4hpJNNTuRVh8Y5CE85HZeKu9P8mA6YnULByi6Lld2CvA
-        f7I2pk6DDDrXZs8nGLrjaqFguFRQkgD7rYK1yVGQ=
-X-Received: by 2002:ac8:1c03:: with SMTP id a3mr1631533qtk.31.1573637451861;
-        Wed, 13 Nov 2019 01:30:51 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyQpDT1ZafGlHqigVXzWNpvKLF+xEID7Y+nNygKPNFImm3esWvrN1WNXzuqvEPRocHYM7fdnYrsZIt18L3KZ6U=
-X-Received: by 2002:ac8:1c03:: with SMTP id a3mr1631512qtk.31.1573637451614;
- Wed, 13 Nov 2019 01:30:51 -0800 (PST)
+        bh=M5EwNKVDW3H/UnosA9Wocs2SlYmcAoC45TwJkTVdRCI=;
+        b=JRHu+Gn8tu49VLUs5+gNSuakdFOple0nYJxzEt4yeLjDDV8QxsOGlRUvBGkKJ81AtE
+         RhRIxxO3h2LDWsz3+rL0Em8q8wKtH2Lh0ZrYhXfy6Ou410SIit5/Gb/wyDjyHGYRdYQJ
+         ZhW3XuEQgrL6QYX4BVlA1jLQXtr4eGJ7wOrnLldPex5aY+dx49jNp5Z0CfQzKbRTXEuB
+         sjSQXywr0nTMVcTusaZCEXKsnf/+yhj4J3ZoukJDXPKP+brisBQk7KCj9PEyP2PwqDh0
+         zje4Q+tYuet7gy/KMqiZNQlT4lhhwZR0wYWoOS1Lhu01Bw9U/CEEd1JiqwjhkoPR5XLv
+         5Q0w==
+X-Gm-Message-State: APjAAAX+sRtzuiqCXaKYVcHTXDTx9tnfa2fusSvLWDMu0dB00CRflR3X
+        tyAYwBq1C6OEI/jLlDNmlZ5ngQGTq03mR3ao1Ko=
+X-Google-Smtp-Source: APXvYqxr3mF1WbT34gUXRE1ns4ftUNsdOFARw3gsiN5wVjAjgFHnNG9XARu+9b5ZsrXeI/r0jqkEQ+LhP/rzp2ZIPKU=
+X-Received: by 2002:a25:a087:: with SMTP id y7mr1807141ybh.91.1573638050715;
+ Wed, 13 Nov 2019 01:40:50 -0800 (PST)
 MIME-Version: 1.0
-References: <e1e05bd3-19f5-0dfe-66ad-70717c1c29c6@codeaurora.org>
-In-Reply-To: <e1e05bd3-19f5-0dfe-66ad-70717c1c29c6@codeaurora.org>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 13 Nov 2019 10:30:39 +0100
-Message-ID: <CAO-hwJLdz1sA4tNsLLgZKGA7Ko6dqt9VF5T2nh5uczHxU532HA@mail.gmail.com>
-Subject: Re: Query regarding hid-multitouch.c driver in 4.14/4.19
-To:     Neeraj Upadhyay <neeraju@codeaurora.org>
+References: <20191022142139.16789-1-candlesea@gmail.com> <nycvar.YFH.7.76.1911121457050.1799@cbobk.fhfr.pm>
+ <CAO-hwJKO5u6xUrBe_ne0OqFAHM9dpwtTOWtYW+3z-LxSFT6VWQ@mail.gmail.com> <CAPnx3XPLkrsxDwWujd5Yi3qwwVzhBAp7Kh9sGNPxfFpXmmovhw@mail.gmail.com>
+In-Reply-To: <CAPnx3XPLkrsxDwWujd5Yi3qwwVzhBAp7Kh9sGNPxfFpXmmovhw@mail.gmail.com>
+From:   Candle Sun <candlesea@gmail.com>
+Date:   Wed, 13 Nov 2019 17:40:39 +0800
+Message-ID: <CAPnx3XOzPRtoQjG9L8zSc_-qP-V8Pd155-GPnTBSuyqNg+F53Q@mail.gmail.com>
+Subject: Re: [PATCH v4] HID: core: check whether Usage Page item is after
+ Usage ID items
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        =?UTF-8?B?57+f5LqsIChPcnNvbiBaaGFpKQ==?= <orson.zhai@unisoc.com>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>,
-        linux-arm-msm-owner@vger.kernel.org, prsood@codeaurora.org,
-        gkohli@codeaurora.org
-X-MC-Unique: zpvWSOcHNra_bkn1c26FaQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+        Candle Sun <candle.sun@unisoc.com>,
+        Nianfu Bai <nianfu.bai@unisoc.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Neeraj,
-
-On Wed, Nov 13, 2019 at 4:11 AM Neeraj Upadhyay <neeraju@codeaurora.org> wr=
-ote:
+On Wed, Nov 13, 2019 at 9:08 AM Candle Sun <candlesea@gmail.com> wrote:
 >
-> Hi,
+> On Tue, Nov 12, 2019 at 11:18 PM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > Hi all,
+> >
+> > On Tue, Nov 12, 2019 at 2:57 PM Jiri Kosina <jikos@kernel.org> wrote:
+> > >
+> > > On Tue, 22 Oct 2019, Candle Sun wrote:
+> > >
+> > > > From: Candle Sun <candle.sun@unisoc.com>
+> > > >
+> > > > Upstream commit 58e75155009c ("HID: core: move Usage Page concatenation
+> > > > to Main item") adds support for Usage Page item after Usage ID items
+> > > > (such as keyboards manufactured by Primax).
+> > > [ ... snip ... ]
+> > >
+> > > Benjamin,
+> > >
+> > > are you planning to run this through your testsuite against regressions?
+> > >
+> > > I believe that's the last missing step, otherwise I'd be fine merging
+> > > this.
+> >
+> > Sorry I had to deal with family issues 2 weeks ago, and now RHEL is
+> > coming back at me and eating all my time.
+> >
+> > The kernel patch is now OK, so we can grab it now (either you take it
+> > Jiri, and add my acked-by or I'll push it later...)
+> >
+> > Candle, can you rework
+> > https://gitlab.freedesktop.org/libevdev/hid-tools/merge_requests/58 so
+> > that it mirrors the kernel code (and get rid of the
+> > self.local.usage_page_last logic)?
+> >
+> > Cheers,
+> > Benjamin
+> >
 >
-> I have one query regarding hid-multitouch.c driver and need your guidance=
- on
-> how hid-multitouchc can restore/support the original behaviour, where, fo=
-r
-> devices, for which application is not
-> HID_DG_TOUCHSCREEN/HID_DG_TOUCHPAD, and has
-> HID_DG_CONTACTID usage in its report, can still use generic input mapping=
-s.
+> Thanks Jiri and Benjamin.
+> I will rework the hid-tools patch ASAP.
 >
-> We are using kernel versions 4.14 , 4.19 respectively in 2 different
-> projects:
->
-> 4.14:
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/dri=
-vers/hid/hid-multitouch.c?h=3Dv4.14.153
-> 4.19:
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/dri=
-vers/hid/hid-multitouch.c?h=3Dv4.19.83
->
-> I checked the application for our hid device, it's HID_DG_PEN, device
-> also has a HID_DG_CONTACTID usage defined in
->
-> its report.
->
-> In 4.19, is_mt_collection is set to 'true'. All multitouch code paths or
-> input mapping is configured
->
-> mt_allocate_report_data()
->          ...
->          for (n =3D 0; n < field->report_count; n++) {
->                          if (field->usage[n].hid =3D=3D HID_DG_CONTACTID)
->                                  rdata->is_mt_collection =3D true;   //
-> is_mt_collection is set to 'true'
->                  }
->          }
->
-> mt_input_mapping()
->          ...
->          if (rdata->is_mt_collection)
->              return mt_touch_input_mapping(...)  //
-> mt_touch_input_mapping() is called
->
-> mt_event()
->          if (rdata && rdata->is_mt_collection)
->              return mt_touch_event();  // mt_touch_event() is called
->
-> However, in 4.14, the behaviour was different, mt input mapping was done
-> only
-> for HID_DG_TOUCHSCREEN/HID_DG_TOUCHPAD , and because our hid device is
-> HID_DG_PEN, generic mappings were applied for it; with these settings,
-> device
-> responds to events.
->
-> static int mt_input_mapping()
->          if (field->application =3D=3D HID_DG_TOUCHSCREEN ||
->              field->application =3D=3D HID_DG_TOUCHPAD)
->              return mt_touch_input_mapping();  // This is not called.
->
->
-> mt_touch_input_mapping()
->          case HID_DG_CONTACTID:
->                          mt_store_field(usage, td, hi);
->                          td->touches_by_report++;
->                          td->mt_report_id =3D field->report->id; //
-> mt_report_id is not set.
->                          return 1;
->
->
-> Looks like this behaviour changed, with below commits:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/d=
-rivers/hid/hid-multitouch.c?h=3Dv4.19.83&id=3D8dfe14b3b47ff832cb638731f9fc6=
-96a3a84f804
-> 8dfe14b3b47f    HID: multitouch: ditch mt_report_id
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/d=
-rivers/hid/hid-multitouch.c?h=3Dv4.19.83&id=3Dba6b055e0f3b4ff4942e4ab273260=
-affcfad9bff
-> ba6b055e0f3b     HID: input: enable Totem on the Dell Canvas 27
->
-> Can you please suggest on how we can support/preserve the original
-> behaviour?
-
-Hmm, I would initially say that a firmware that exports Contact ID for
-a Pen is definitely wrong. The Contact ID usage has been introduced in
-https://www.usb.org/sites/default/files/hutrr34.pdf and is
-specifically for multi-touch, not multi pen.
-
-Anyway, couple of questions:
-- does the device supports multi-pen?
-- can you share the report descriptor and a few events when triggering
-this particular report (ideally with hid-recorder from
-https://gitlab.freedesktop.org/libevdev/hid-tools/
-
-Cheers,
-Benjamin
-
->
->
-> Thanks
-> Neeraj
->
-> --
-> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member=
- of the Code Aurora Forum, hosted by The Linux Foundation
+> Regards,
+> Candle
 >
 
+Hi Benjamin,
+The MR for hid-tools is updated:
+https://gitlab.freedesktop.org/libevdev/hid-tools/merge_requests/62
+
+Thanks,
+Candle
+
+> > >
+> > > Thanks,
+> > >
+> > > --
+> > > Jiri Kosina
+> > > SUSE Labs
+> > >
+> >
