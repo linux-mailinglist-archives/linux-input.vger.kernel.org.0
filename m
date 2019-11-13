@@ -2,76 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C44C8FB890
-	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2019 20:13:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B591EFB929
+	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2019 20:50:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726189AbfKMTM7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Nov 2019 14:12:59 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:42452 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726162AbfKMTM7 (ORCPT
+        id S1726155AbfKMTu3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Nov 2019 14:50:29 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:35268 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726120AbfKMTu2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Nov 2019 14:12:59 -0500
-Received: from [111.196.57.226] (helo=localhost.localdomain)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <aaron.ma@canonical.com>)
-        id 1iUy4V-0001er-Ib; Wed, 13 Nov 2019 19:12:56 +0000
-From:   Aaron Ma <aaron.ma@canonical.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        aaron.ma@canonical.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: i2c-hid: fix no irq after reset on raydium 3118
-Date:   Thu, 14 Nov 2019 03:12:47 +0800
-Message-Id: <20191113191247.1984-1-aaron.ma@canonical.com>
-X-Mailer: git-send-email 2.20.1
+        Wed, 13 Nov 2019 14:50:28 -0500
+Received: by mail-pg1-f195.google.com with SMTP id q22so2024482pgk.2;
+        Wed, 13 Nov 2019 11:50:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=BFoRUmVGuqfT8D907Uc8h7RLulbYqimY28gR6tuKhsw=;
+        b=STfRnUb5HQzoMpwJTkSiSPorz5xOTt8hyuLlhaoKkTg+O44qxcE1vmvZMhAYZEvBKG
+         jR6l5klwJAb2UEDyzhCDIhEm1ZO/T+wqXxDeaac86LCWt40PMi5VQ8aC1j8X067ln14a
+         orgIvc9Ym+gAg9W3ZkzLLS/WdZeD/XTQEDg4YBlqM9b3JUQiJEzVsD9LbnHQg9+2i4bs
+         8z+7Yi6HYJAf2xZtx2KU/SpEI7NnJq79k2UZwju7YiVJBzwA3/vLULB24xa7GbRpnDeM
+         ewMyZt/FMdv4DaR/DItD892Ey2qCtHfgtX/49fejw8Vv107Cj4TYa76li9PKd6htlAEI
+         GFSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=BFoRUmVGuqfT8D907Uc8h7RLulbYqimY28gR6tuKhsw=;
+        b=obO1sSGwnHDQfFMcAzD3wdWkp4taJY/yrN9r+ze/5kT1r6fCyLUyDCUGPR/gOnrOty
+         PqyTE2G2GDWH4MqFOu7ssiK5AHqq+3+YlX9UwKvkTEIOL61teIsTLGfBUcPSJUQhupEF
+         73HtIk02i0Tycr+9Z+KXSoVTUHbzwmaA6x9GznFNwcEVFpoiIktGw8TyBKttpPTOaVtR
+         dIBnU2B4ELVDdVsc5q0O1Njla2KQuOurR5zLWoOjPNyrWLgwyQjOy4V92LXKuBuHIIh+
+         +nSgznn9j3wvw4hwQNPFn7D48Qiv5M1M1Oz/gWLWF3tMbZbvDzXyEKO0aXRB62naFgPy
+         j11w==
+X-Gm-Message-State: APjAAAWSWXuQTyAJmsspRyUcf320rJ/SU0kHT0S78ADUpDB6PQ/A0iN8
+        fEdwS2oNFjS8BhNgf1nsvTyXIiFX
+X-Google-Smtp-Source: APXvYqyDcTlfFfZhm7DnVu+YXm2FzNnTSWG9/naSvT8E52WFWjnPC9VUxoRRXnsHn+jyY6ZRJv5UTw==
+X-Received: by 2002:a63:7c10:: with SMTP id x16mr5640672pgc.176.1573674627887;
+        Wed, 13 Nov 2019 11:50:27 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id j5sm3875541pfe.100.2019.11.13.11.50.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2019 11:50:27 -0800 (PST)
+Date:   Wed, 13 Nov 2019 11:50:25 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Chuhong Yuan <hslester96@gmail.com>
+Cc:     linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Input: synaptics-rmi4 - add missed operations in remove
+Message-ID: <20191113195025.GR13374@dtor-ws>
+References: <20191113063656.8713-1-hslester96@gmail.com>
+ <20191113082315.GP13374@dtor-ws>
+ <CANhBUQ3CaRm1SjO4DJOSHpodUpJrHstzD5MYk13vo=EEigDEYA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANhBUQ3CaRm1SjO4DJOSHpodUpJrHstzD5MYk13vo=EEigDEYA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On some ThinkPad L390 some raydium 3118 touchscreen devices
-doesn't response any data after reset, but some does.
+On Wed, Nov 13, 2019 at 04:52:59PM +0800, Chuhong Yuan wrote:
+> On Wed, Nov 13, 2019 at 4:23 PM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> >
+> > On Wed, Nov 13, 2019 at 02:36:56PM +0800, Chuhong Yuan wrote:
+> > > The driver forgets to deal with work and workqueue in remove like what
+> > > is done when probe fails.
+> > > Add the missed operations to fix it.
+> >
+> > Is it really possible for the work to still be pending when fully
+> > registered device is properly unregistered? I thought we'd wait for
+> > successful data acquisition in rmi_f54_buffer_queue() before unregister
+> > can complete.
+> >
+> 
+> In fact, I am not familiar with the mechanism here...
+> I have checked other drivers with video_unregister_device and found none of
+> them deals with work in remove.
+> Therefore, I think your opinion should be right and we only need to deal with
+> the workqueue.
 
-Add this ID to no irq quirk,
-then don't wait for any response alike on these touchscreens.
-All kinds of raydium 3118 devices work fine.
+OK, please send the updated patch then.
 
-BugLink: https://bugs.launchpad.net/bugs/1849721
+Thanks!
 
-Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
----
- drivers/hid/hid-ids.h              | 1 +
- drivers/hid/i2c-hid/i2c-hid-core.c | 2 ++
- 2 files changed, 3 insertions(+)
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 447e8db21174..8354dd5d0fa3 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -959,6 +959,7 @@
- 
- #define I2C_VENDOR_ID_RAYDIUM		0x2386
- #define I2C_PRODUCT_ID_RAYDIUM_4B33	0x4b33
-+#define I2C_PRODUCT_ID_RAYDIUM_3118	0x3118
- 
- #define USB_VENDOR_ID_RAZER            0x1532
- #define USB_DEVICE_ID_RAZER_BLADE_14   0x011D
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 04c088131e04..7608ee053114 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -170,6 +170,8 @@ static const struct i2c_hid_quirks {
- 		I2C_HID_QUIRK_SET_PWR_WAKEUP_DEV },
- 	{ I2C_VENDOR_ID_HANTICK, I2C_PRODUCT_ID_HANTICK_5288,
- 		I2C_HID_QUIRK_NO_IRQ_AFTER_RESET },
-+	{ I2C_VENDOR_ID_RAYDIUM, I2C_PRODUCT_ID_RAYDIUM_3118,
-+		I2C_HID_QUIRK_NO_IRQ_AFTER_RESET },
- 	{ USB_VENDOR_ID_ELAN, HID_ANY_ID,
- 		 I2C_HID_QUIRK_BOGUS_IRQ },
- 	{ 0, 0 }
 -- 
-2.20.1
-
+Dmitry
