@@ -2,96 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC74DFA763
-	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2019 04:39:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C340FAA42
+	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2019 07:37:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727498AbfKMDjq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Nov 2019 22:39:46 -0500
-Received: from spam01.hygon.cn ([110.188.70.11]:5362 "EHLO spam2.hygon.cn"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727440AbfKMDjq (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Nov 2019 22:39:46 -0500
-Received: from MK-FE.hygon.cn ([172.23.18.61])
-        by spam2.hygon.cn with ESMTP id xAD3dNcf021115;
-        Wed, 13 Nov 2019 11:39:23 +0800 (GMT-8)
-        (envelope-from fanjinke@hygon.cn)
-Received: from cncheex01.Hygon.cn ([172.23.18.10])
-        by MK-FE.hygon.cn with ESMTP id xAD3dH7t097843;
-        Wed, 13 Nov 2019 11:39:17 +0800 (GMT-8)
-        (envelope-from fanjinke@hygon.cn)
-Received: from bogon.higon.com (172.23.18.44) by cncheex01.Hygon.cn
- (172.23.18.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1466.3; Wed, 13 Nov
- 2019 11:39:20 +0800
-From:   Jinke Fan <fanjinke@hygon.cn>
-To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Jinke Fan <fanjinke@hygon.cn>
-Subject: [RFC PATCH] HID: quirks: Add quirk for HP MSU1465 PIXART OEM mouse
-Date:   Wed, 13 Nov 2019 11:38:41 +0800
-Message-ID: <20191113033841.25174-1-fanjinke@hygon.cn>
-X-Mailer: git-send-email 2.17.1
+        id S1725939AbfKMGhP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Nov 2019 01:37:15 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:44636 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725858AbfKMGhO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 13 Nov 2019 01:37:14 -0500
+Received: by mail-pf1-f193.google.com with SMTP id q26so926793pfn.11;
+        Tue, 12 Nov 2019 22:37:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=voR8XQk2CC3vnccynDlGH9xxP2Lq83CWSGXGxEUwD7A=;
+        b=cGFxbyyj/3qQrrutSScWLNTMv2UWUdyZFsXeqM/6A6Mg946RO5J2bi1MlMZoMrT3Bf
+         6qtgs86jdQJhBWbD6xRRC5wP6EhhdAHEuxFpVGYoDGUAsYyVRzHfhmQoovkWvoixBGFw
+         +ZzMJaNiaYElvD2w+B5TzR72Qg/Ai8G6757j6/12nONbLqlcK8wz1pINfnblKqDA7Gi8
+         WfN0fUk94Vz7aEZCfgZ389kWf+lGw0az+4IRjRr2Tfi1cumDkA2EHCDaZMgtVyBxIrmf
+         Iu+Fys2/7i0UWjIxiq9NAQEZ52sTn8JGBKhaz93/fHPgEGblUfUc9a9J/rVVWv9KJ/Lu
+         xOqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=voR8XQk2CC3vnccynDlGH9xxP2Lq83CWSGXGxEUwD7A=;
+        b=dTp8CPJpMHPSJ96Puj7+DRO27V6Ffg4X54f7C1DT6UmKXSABxorf8i5nh31hJti1nm
+         CaTpjeSLt2CPkzl3P1VDnEmS51h14KcRuft31dWkoQ4vi9os6TGNzeuGg3AZjE2881ra
+         cSkI5Csj4Mrav4HZTz5Up8SpT+bsmp0hulWwWAgR9hNMMGQPZiMX5dgRBNa+rIOQ4jCo
+         KhgfVnh/lmnoIS2RxkwwtkD2Gs4ZXGsyg09w2Mw6OLeMCEVdPXbIRgqml4qhokQ2Zi3K
+         4fBEuNGuk4kdEhKMQjCt6x/r4/fwrzAWR+OsydwfrUJ18kEJMyQHhh3BPEsqPReQp7o+
+         bUbg==
+X-Gm-Message-State: APjAAAUWzCgfjj1wb6kAkYSTtVsiIW/Jy1Um3rDB1rMM3o0LXzA/JeN8
+        xcAMc9Uzt6FVVTRp/UoW1JU=
+X-Google-Smtp-Source: APXvYqzyZdy2Y11hisqEHnoMiavn/ffHFdr/fBWi7fBCfeAcMFAqb9Cfh+4fMY/o1m5PE6veSJM5OA==
+X-Received: by 2002:a63:c60f:: with SMTP id w15mr1842093pgg.33.1573627034238;
+        Tue, 12 Nov 2019 22:37:14 -0800 (PST)
+Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
+        by smtp.gmail.com with ESMTPSA id o7sm1531920pjo.7.2019.11.12.22.37.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Nov 2019 22:37:13 -0800 (PST)
+From:   Chuhong Yuan <hslester96@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chuhong Yuan <hslester96@gmail.com>
+Subject: [PATCH] Input: synaptics-rmi4 - add missed operations in remove
+Date:   Wed, 13 Nov 2019 14:36:56 +0800
+Message-Id: <20191113063656.8713-1-hslester96@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.23.18.44]
-X-ClientProxiedBy: cncheex01.Hygon.cn (172.23.18.10) To cncheex01.Hygon.cn
- (172.23.18.10)
-X-MAIL: spam2.hygon.cn xAD3dNcf021115
-X-DNSRBL: 
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The PixArt OEM mouse disconnets/reconnects every minute on
-Linux. All contents of dmesg are repetitive:
+The driver forgets to deal with work and workqueue in remove like what
+is done when probe fails.
+Add the missed operations to fix it.
 
-[ 1465.810014] usb 1-2.2: USB disconnect, device number 20
-[ 1467.431509] usb 1-2.2: new low-speed USB device number 21 using xhci_hcd
-[ 1467.654982] usb 1-2.2: New USB device found, idVendor=03f0,idProduct=1f4a, bcdDevice= 1.00
-[ 1467.654985] usb 1-2.2: New USB device strings: Mfr=1, Product=2,SerialNumber=0
-[ 1467.654987] usb 1-2.2: Product: HP USB Optical Mouse
-[ 1467.654988] usb 1-2.2: Manufacturer: PixArt
-[ 1467.699722] input: PixArt HP USB Optical Mouse as /devices/pci0000:00/0000:00:07.1/0000:05:00.3/usb1/1-2/1-2.2/1-2.2:1.0/0003:03F0:1F4A.0012/input/input19
-[ 1467.700124] hid-generic 0003:03F0:1F4A.0012: input,hidraw0: USB HID v1.11 Mouse [PixArt HP USB Optical Mouse] on usb-0000:05:00.3-2.2/input0
-
-So add HID_QUIRK_ALWAYS_POLL for this one as well.
-Test the patch, the mouse is no longer disconnected and there are no
-duplicate logs in dmesg.
-
-Reference:
-https://github.com/sriemer/fix-linux-mouse
-
-Signed-off-by: Jinke Fan <fanjinke@hygon.cn>
+Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 ---
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/input/rmi4/rmi_f54.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 447e8db21174..00904537e17c 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -573,6 +573,7 @@
- #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_094A	0x094a
- #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0941	0x0941
- #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0641	0x0641
-+#define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a	0x1f4a
+diff --git a/drivers/input/rmi4/rmi_f54.c b/drivers/input/rmi4/rmi_f54.c
+index 710b02595486..2c0cde5c775c 100644
+--- a/drivers/input/rmi4/rmi_f54.c
++++ b/drivers/input/rmi4/rmi_f54.c
+@@ -730,6 +730,9 @@ static void rmi_f54_remove(struct rmi_function *fn)
  
- #define USB_VENDOR_ID_HUION		0x256c
- #define USB_DEVICE_ID_HUION_TABLET	0x006e
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index c50bcd967d99..9a35af1e2662 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -94,6 +94,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_094A), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0941), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0641), HID_QUIRK_ALWAYS_POLL },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_IDEACOM, USB_DEVICE_ID_IDEACOM_IDC6680), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_INNOMEDIA, USB_DEVICE_ID_INNEX_GENESIS_ATARI), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M610X), HID_QUIRK_MULTI_INPUT },
+ 	video_unregister_device(&f54->vdev);
+ 	v4l2_device_unregister(&f54->v4l2);
++	cancel_delayed_work_sync(&f54->work);
++	flush_workqueue(f54->workqueue);
++	destroy_workqueue(f54->workqueue);
+ }
+ 
+ struct rmi_function_handler rmi_f54_handler = {
 -- 
-2.17.1
+2.23.0
 
