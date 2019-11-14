@@ -2,92 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12860FC8E3
-	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2019 15:30:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABDE1FC922
+	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2019 15:47:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726263AbfKNOaz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Nov 2019 09:30:55 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43125 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726214AbfKNOaz (ORCPT
+        id S1726482AbfKNOrh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Nov 2019 09:47:37 -0500
+Received: from li825-139.members.linode.com ([104.237.157.139]:33830 "EHLO
+        smtp.factglobal.ca" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726473AbfKNOrh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Nov 2019 09:30:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573741854;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=p5IMdAy0QoogpMasEv3USwrlTXtAy1OWo07tBkC2X4I=;
-        b=ch95ClTxJv2wxQBySfa+1aby/wHYyG4rpn6ctWXWW7LGx/08P1vA09z8b+bJTinH7W8oyu
-        oBKI3KFh8XRnWqNEak42c99GDsaxLf2IG8FYV7+m9WPsa3/O/U+ySEFn2co7wbvwFQ1UyW
-        WNZv8BK85edWthzLpEBJ2AvtQc4NYOA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-BvidWgRzMGeKSeFVQV_FYg-1; Thu, 14 Nov 2019 09:30:53 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D2978026C4;
-        Thu, 14 Nov 2019 14:30:52 +0000 (UTC)
-Received: from shalem.localdomain.com (unknown [10.36.118.128])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7EB646A020;
-        Thu, 14 Nov 2019 14:30:48 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Subject: [PATCH] HID: logitech-hidpp: Silence intermittent get_battery_capacity errors
-Date:   Thu, 14 Nov 2019 15:30:46 +0100
-Message-Id: <20191114143046.238711-1-hdegoede@redhat.com>
+        Thu, 14 Nov 2019 09:47:37 -0500
+X-Greylist: delayed 343 seconds by postgrey-1.27 at vger.kernel.org; Thu, 14 Nov 2019 09:47:36 EST
+Received: from [192.168.0.187] (modemcable184.72-21-96.mc.videotron.ca [96.21.72.184])
+        by smtp.factglobal.ca (Postfix) with ESMTPSA id EA39F7B94F
+        for <linux-input@vger.kernel.org>; Thu, 14 Nov 2019 14:41:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kryma.net; s=mail;
+        t=1573742513; bh=18fw5kOFkXsASEiKRKdXz0tp36AKlx7QWXIjlGkkSPo=;
+        h=To:From:Subject:Date:From;
+        b=ARc48BYQ6jkI7+svL3zKiCWBfZYRX4YbzAb9PjQwLiK21FFHfan9M/wqKG2dLxiEK
+         KjA7wNKInvnCG+jcB0AyutV8DN+HPyxJ87dQmvGgcBcnPMriP1dk+otxyBmGCMdEZ3
+         CFpaRsrKQH/xVX5+av+rabINzdFjR46GOF9FHbZU=
+To:     linux-input@vger.kernel.org
+From:   Pavel Balan <admin@kryma.net>
+Subject: I2C HID incomplete report + misc debugging questions
+Message-ID: <35e5a64f-41b0-188d-90aa-70b03f111ebc@kryma.net>
+Date:   Thu, 14 Nov 2019 09:41:52 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: BvidWgRzMGeKSeFVQV_FYg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-My Logitech M185 (PID:4038) 2.4 GHz wireless HID++ mouse is causing
-intermittent errors like these in the log:
+Good day all,
 
-[11091.034857] logitech-hidpp-device 0003:046D:4038.0006: hidpp20_batteryle=
-vel_get_battery_capacity: received protocol error 0x09
-[12388.031260] logitech-hidpp-device 0003:046D:4038.0006: hidpp20_batteryle=
-vel_get_battery_capacity: received protocol error 0x09
-[16613.718543] logitech-hidpp-device 0003:046D:4038.0006: hidpp20_batteryle=
-vel_get_battery_capacity: received protocol error 0x09
-[23529.938728] logitech-hidpp-device 0003:046D:4038.0006: hidpp20_batteryle=
-vel_get_battery_capacity: received protocol error 0x09
+I'm trying to create drivers for a device connected over I2C HID (a 
+laptop backlight). Here are two things I would like to know:
 
-We are already silencing error-code 0x09 (HIDPP_ERROR_RESOURCE_ERROR)
-errors in other places, lets do the same in
-hidpp20_batterylevel_get_battery_capacity to remove these harmless,
-but scary looking errors from the dmesg output.
+1. The device, as it seems, hangs up for a few seconds on every 
+un-suspend or boot. The following line is repeated:
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/hid/hid-logitech-hidpp.c | 3 +++
- 1 file changed, 3 insertions(+)
+[    5.667145] i2c_hid i2c-ITE33D1:00: i2c_hid_get_input: incomplete 
+report (2/4)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
-dpp.c
-index 8e91e2f06cb4..cd9193078525 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -1102,6 +1102,9 @@ static int hidpp20_batterylevel_get_battery_capacity(=
-struct hidpp_device *hidpp,
- =09ret =3D hidpp_send_fap_command_sync(hidpp, feature_index,
- =09=09=09=09=09  CMD_BATTERY_LEVEL_STATUS_GET_BATTERY_LEVEL_STATUS,
- =09=09=09=09=09  NULL, 0, &response);
-+=09/* Ignore these intermittent errors */
-+=09if (ret =3D=3D HIDPP_ERROR_RESOURCE_ERROR)
-+=09=09return -EIO;
- =09if (ret > 0) {
- =09=09hid_err(hidpp->hid_dev, "%s: received protocol error 0x%02x\n",
- =09=09=09__func__, ret);
---=20
-2.23.0
+Is there a pre-made I2C quirk I can toggle that solves that sort of 
+problem, or would I have to dig deeper?
+
+
+2. My workflow for working with USB devices was to modprobe the new 
+driver in, then disconnect and reconnect the device again. A different 
+approach is probably needed in this case, though I'm not yet sure which. 
+Any recommendations? Possibly a way to get hidraw, if such exists?
+
+Thanks for the help.
 
