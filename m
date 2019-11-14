@@ -2,93 +2,256 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A4817FBDF3
-	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2019 03:34:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50F59FBE8D
+	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2019 05:31:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726428AbfKNCeS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Nov 2019 21:34:18 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:45318 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726393AbfKNCeS (ORCPT
+        id S1726519AbfKNEbz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Nov 2019 23:31:55 -0500
+Received: from smtp.codeaurora.org ([198.145.29.96]:47704 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726489AbfKNEbz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Nov 2019 21:34:18 -0500
-Received: by mail-pg1-f195.google.com with SMTP id k1so1349662pgg.12;
-        Wed, 13 Nov 2019 18:34:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MNuGigDplefke9uD7V7a46qDlXxl9M1mwAXio0kpbpE=;
-        b=Rm8IGYNOINdzalkfXlhDLBut0xFA3QR+4oOZqnksjtGqQf6EAQLG+bQjsZkMBvYAr9
-         Ob3iqfrHmVsyoZqY3XVAqKhWABCUy9/HyFGuYQrJ6gmV3AvsomnVxtGtbHIqvq+af9hm
-         bRh6S/ZKb0a8iqLvVpIy8DHgaIp74QEZMOILAnF3z5+1T1gTwjri69BrOdDc1EOwcA+S
-         VQXjFivHIgOpSWchXNM+sOR1E9Ud53/9DZ2B/4XjJ127Cm1+lUq7j/NzYfdVjO+Ri1UT
-         u0Es0XzDmYa0FQOkXrwoWzR6Xf9amY0cA6OU6SrizjhjolKhIpCc1v4ulvCsDy73vt/9
-         WsHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MNuGigDplefke9uD7V7a46qDlXxl9M1mwAXio0kpbpE=;
-        b=NGMZ67phk5YMpX/ibcbs2AyPori5q0BdyGu4qtxmq8BGjPg2tpN67PEosuRjQlf0n7
-         eO/WVrDCP76ACWYQqUCEVZ1oGpNgEZlT9QRVkLCJY8MSCqJPxyoHK9brAB0k2q3GLDVC
-         fMvG+uvvRqvf2BJrzihEdHYw+aLy5ow4WF/hssCxvFDs7UgJ3D28Mh4+u+LhrezuktWx
-         i7KXqd8AD1q1M0TdKoY9+RY2kSSdLBfbgJmfpifK4e2RgMB/fjLXkBamMxxmCbyNtqck
-         WM+yAnvUY0NM8mIZ3k/WtXDrS9W3F+GiL2oztlA6cKN/9EgTNW3MJMP8vhqEOzrmSON/
-         Q/Tg==
-X-Gm-Message-State: APjAAAXbshvZCKFXgV0id1e2p6jBU++2DITA7aZBl2Htd4hRdyDl7/0B
-        cYl2bRaIWWsASPwBIa6+eK78Oi5xcGs=
-X-Google-Smtp-Source: APXvYqw6Ec+VA08qnwA+GCINf+BnGboNfsiOi/cCX7ICrikf1WLFZIb2fRKPbf1wH20spNB4bNd0Yw==
-X-Received: by 2002:a62:1ad6:: with SMTP id a205mr8174498pfa.64.1573698857402;
-        Wed, 13 Nov 2019 18:34:17 -0800 (PST)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
-        by smtp.gmail.com with ESMTPSA id u36sm4848774pgn.29.2019.11.13.18.34.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2019 18:34:16 -0800 (PST)
-From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH v2] Input: synaptics-rmi4 - add missed operations in remove
-Date:   Thu, 14 Nov 2019 10:34:05 +0800
-Message-Id: <20191114023405.31477-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.23.0
+        Wed, 13 Nov 2019 23:31:55 -0500
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 2953160D96; Thu, 14 Nov 2019 04:31:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1573705914;
+        bh=1mnno7V8hbNstT1qSUss+lOiVaXQRdb+5ZIeKo2cB8E=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=OcrhaMw/UTV0aQ8VHy5QLkahlC1F7LTcpZNPtnH1KgKPqUL7YM61FyD0qVZ0VG6OG
+         +KT0q7bMiqzPEJkazSMUx04cKzKf9Us1+eZAkEYRJBbqH9P3e/GkoBPAOjCAnwbZMS
+         O1sCGo1PRlNr2ltODlJuUeyheOnbLURhg6GUOiQU=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.0
+Received: from [10.204.79.8] (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: neeraju@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id CA4EA60D78;
+        Thu, 14 Nov 2019 04:31:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1573705911;
+        bh=1mnno7V8hbNstT1qSUss+lOiVaXQRdb+5ZIeKo2cB8E=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=CW0v7YQeMt35xuMtycNnMd5lmklNU52+j6sYbPOSZBHjOIx3iwzzLoIwgy32hZXYX
+         j82VbkmO598j1u4M2xyRBf4EJ5eR/xC8lN8hL97RVJGQUWI2AQ5wVI45FXHzmMmP80
+         XtmzSRwvuOybPpzA2a08Ux99ZbfdgvkgQPBDfL3g=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org CA4EA60D78
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=neeraju@codeaurora.org
+Subject: Re: Query regarding hid-multitouch.c driver in 4.14/4.19
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org, prsood@codeaurora.org,
+        gkohli@codeaurora.org
+References: <e1e05bd3-19f5-0dfe-66ad-70717c1c29c6@codeaurora.org>
+ <CAO-hwJLdz1sA4tNsLLgZKGA7Ko6dqt9VF5T2nh5uczHxU532HA@mail.gmail.com>
+From:   Neeraj Upadhyay <neeraju@codeaurora.org>
+Message-ID: <4eecbd2a-9d19-c6a2-a95b-656e3fce05a4@codeaurora.org>
+Date:   Thu, 14 Nov 2019 10:01:46 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
+In-Reply-To: <CAO-hwJLdz1sA4tNsLLgZKGA7Ko6dqt9VF5T2nh5uczHxU532HA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Language: en-GB
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The driver forgets to destroy workqueue in remove like what
-is done when probe fails.
-Add a call to destroy_workqueue to fix it.
+Hi Benjamin,
 
-Since unregistration will wait for the work to finish, we do
-not need to deal with work in remove.
+Sorry for the delay, was waiting for the required information from our team.
 
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
----
-Changes in v2:
-  - Remove the calls of canceling delay and flushing workqueue.
-  - Modify the commit message.
+On 11/13/2019 3:00 PM, Benjamin Tissoires wrote:
+> Hi Neeraj,
+>
+> On Wed, Nov 13, 2019 at 4:11 AM Neeraj Upadhyay <neeraju@codeaurora.org> wrote:
+>> Hi,
+>>
+>> I have one query regarding hid-multitouch.c driver and need your guidance on
+>> how hid-multitouchc can restore/support the original behaviour, where, for
+>> devices, for which application is not
+>> HID_DG_TOUCHSCREEN/HID_DG_TOUCHPAD, and has
+>> HID_DG_CONTACTID usage in its report, can still use generic input mappings.
+>>
+>> We are using kernel versions 4.14 , 4.19 respectively in 2 different
+>> projects:
+>>
+>> 4.14:
+>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/hid/hid-multitouch.c?h=v4.14.153
+>> 4.19:
+>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/hid/hid-multitouch.c?h=v4.19.83
+>>
+>> I checked the application for our hid device, it's HID_DG_PEN, device
+>> also has a HID_DG_CONTACTID usage defined in
+>>
+>> its report.
+>>
+>> In 4.19, is_mt_collection is set to 'true'. All multitouch code paths or
+>> input mapping is configured
+>>
+>> mt_allocate_report_data()
+>>           ...
+>>           for (n = 0; n < field->report_count; n++) {
+>>                           if (field->usage[n].hid == HID_DG_CONTACTID)
+>>                                   rdata->is_mt_collection = true;   //
+>> is_mt_collection is set to 'true'
+>>                   }
+>>           }
+>>
+>> mt_input_mapping()
+>>           ...
+>>           if (rdata->is_mt_collection)
+>>               return mt_touch_input_mapping(...)  //
+>> mt_touch_input_mapping() is called
+>>
+>> mt_event()
+>>           if (rdata && rdata->is_mt_collection)
+>>               return mt_touch_event();  // mt_touch_event() is called
+>>
+>> However, in 4.14, the behaviour was different, mt input mapping was done
+>> only
+>> for HID_DG_TOUCHSCREEN/HID_DG_TOUCHPAD , and because our hid device is
+>> HID_DG_PEN, generic mappings were applied for it; with these settings,
+>> device
+>> responds to events.
+>>
+>> static int mt_input_mapping()
+>>           if (field->application == HID_DG_TOUCHSCREEN ||
+>>               field->application == HID_DG_TOUCHPAD)
+>>               return mt_touch_input_mapping();  // This is not called.
+>>
+>>
+>> mt_touch_input_mapping()
+>>           case HID_DG_CONTACTID:
+>>                           mt_store_field(usage, td, hi);
+>>                           td->touches_by_report++;
+>>                           td->mt_report_id = field->report->id; //
+>> mt_report_id is not set.
+>>                           return 1;
+>>
+>>
+>> Looks like this behaviour changed, with below commits:
+>>
+>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/drivers/hid/hid-multitouch.c?h=v4.19.83&id=8dfe14b3b47ff832cb638731f9fc696a3a84f804
+>> 8dfe14b3b47f    HID: multitouch: ditch mt_report_id
+>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/drivers/hid/hid-multitouch.c?h=v4.19.83&id=ba6b055e0f3b4ff4942e4ab273260affcfad9bff
+>> ba6b055e0f3b     HID: input: enable Totem on the Dell Canvas 27
+>>
+>> Can you please suggest on how we can support/preserve the original
+>> behaviour?
+> Hmm, I would initially say that a firmware that exports Contact ID for
+> a Pen is definitely wrong. The Contact ID usage has been introduced in
+> https://www.usb.org/sites/default/files/hutrr34.pdf and is
+> specifically for multi-touch, not multi pen.
+>
+> Anyway, couple of questions:
+> - does the device supports multi-pen?
 
- drivers/input/rmi4/rmi_f54.c | 1 +
- 1 file changed, 1 insertion(+)
+Actually the device is a selfie stick device: 
+https://item.jd.com/33082497741.html
 
-diff --git a/drivers/input/rmi4/rmi_f54.c b/drivers/input/rmi4/rmi_f54.c
-index 484ae1f97330..897105b9a98b 100644
---- a/drivers/input/rmi4/rmi_f54.c
-+++ b/drivers/input/rmi4/rmi_f54.c
-@@ -730,6 +730,7 @@ static void rmi_f54_remove(struct rmi_function *fn)
- 
- 	video_unregister_device(&f54->vdev);
- 	v4l2_device_unregister(&f54->v4l2);
-+	destroy_workqueue(f54->workqueue);
- }
- 
- struct rmi_function_handler rmi_f54_handler = {
+It does not support multi-pen.
+
+> - can you share the report descriptor and a few events when triggering
+> this particular report (ideally with hid-recorder from
+> https://gitlab.freedesktop.org/libevdev/hid-tools/
+
+Report descriptor is below:
+
+05 0d 09 02 a1 01 85 01 09 22 a1 02 09 42 15 00 25 01 75 01 95 01 81 02 
+09 32 81 02 95 06 81 03 75 08 09 51 95 01 81 02 05 01 26 ff 0f 75 10 55 
+0e 65 33 09 30 35 00 46 b5 04 81 02 46 8a 03 09 31 81 02 c0 05 0d 09 54 
+95 01 75 08 81 02 85 08 09 55 25 05 b1 02 c0 05 0c 09 01 a1 01 85 02 09 
+e9 09 ea 0a ae 01 09 e2 09 30 15 01 25 0c 75 10 95 01 81 00 c0
+
+Events were collected using getevent call in adb shell in android:
+
+On 4.19
+
+# getevent -l
+
+add device 7: /dev/input/event6
+   name:     "BLE-M1 UNKNOWN"
+
+/dev/input/event6: EV_ABS       ABS_MT_TRACKING_ID   00000000
+/dev/input/event6: EV_ABS       ABS_MT_POSITION_X    00000800
+/dev/input/event6: EV_ABS       ABS_MT_POSITION_Y    00000d60
+/dev/input/event6: EV_KEY       BTN_TOUCH            DOWN
+/dev/input/event6: EV_SYN       SYN_REPORT           00000000
+/dev/input/event6: EV_ABS       ABS_MT_TRACKING_ID   ffffffff
+/dev/input/event6: EV_KEY       BTN_TOUCH            UP
+/dev/input/event6: EV_SYN       SYN_REPORT           00000000
+/dev/input/event6: EV_ABS       ABS_MT_TRACKING_ID   00000001
+/dev/input/event6: EV_KEY       BTN_TOUCH            DOWN
+/dev/input/event6: EV_SYN       SYN_REPORT           00000000
+/dev/input/event6: EV_ABS       ABS_MT_TRACKING_ID   ffffffff
+/dev/input/event6: EV_KEY       BTN_TOUCH            UP
+/dev/input/event6: EV_SYN       SYN_REPORT           00000000
+
+On 4.14
+
+add device 2: /dev/input/event5
+   name:     "BLE-M1 UNKNOWN"
+
+/dev/input/event5: EV_MSC       MSC_SCAN             000d0042
+/dev/input/event5: EV_KEY       BTN_TOUCH            DOWN
+/dev/input/event5: EV_KEY       BTN_DIGI             DOWN
+/dev/input/event5: EV_ABS       ABS_MISC             00000001
+/dev/input/event5: EV_ABS       ABS_X                00000800
+/dev/input/event5: EV_ABS       ABS_Y                00000d60
+/dev/input/event5: EV_ABS       0029                 00000001
+/dev/input/event5: EV_SYN       SYN_REPORT           00000000
+
+/dev/input/event5: EV_MSC       MSC_SCAN             000d0042
+/dev/input/event5: EV_KEY       BTN_TOUCH            UP
+/dev/input/event5: EV_KEY       BTN_DIGI             UP
+/dev/input/event5: EV_ABS       0029                 00000000
+/dev/input/event5: EV_SYN       SYN_REPORT           00000000
+
+/dev/input/event5: EV_MSC       MSC_SCAN             000d0042
+/dev/input/event5: EV_KEY       BTN_TOUCH            DOWN
+/dev/input/event5: EV_KEY       BTN_DIGI             DOWN
+/dev/input/event5: EV_ABS       0029                 00000001
+/dev/input/event5: EV_SYN       SYN_REPORT           00000000
+
+/dev/input/event5: EV_MSC       MSC_SCAN             000d0042
+/dev/input/event5: EV_KEY       BTN_TOUCH            UP
+/dev/input/event5: EV_KEY       BTN_DIGI             UP
+/dev/input/event5: EV_ABS       0029                 00000000
+/dev/input/event5: EV_SYN       SYN_REPORT           00000000
+
+
+As I have little understanding of the framework, use cases and of the 
+flow, I am sorry, if the information provided above is
+
+incomplete (w.r.t. what you were expecting).
+
+
+Thanks
+
+Neeraj
+
+> Cheers,
+> Benjamin
+>
+>>
+>> Thanks
+>> Neeraj
+>>
+>> --
+>> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum, hosted by The Linux Foundation
+>>
 -- 
-2.23.0
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum, hosted by The Linux Foundation
 
