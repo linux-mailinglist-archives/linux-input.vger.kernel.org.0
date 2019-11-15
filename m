@@ -2,94 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76F27FE59A
-	for <lists+linux-input@lfdr.de>; Fri, 15 Nov 2019 20:29:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC0AAFE5AC
+	for <lists+linux-input@lfdr.de>; Fri, 15 Nov 2019 20:34:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726466AbfKOT3o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Nov 2019 14:29:44 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:35008 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726365AbfKOT3o (ORCPT
+        id S1727022AbfKOTe3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Nov 2019 14:34:29 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:42874 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726930AbfKOTe2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Nov 2019 14:29:44 -0500
-Received: by mail-pg1-f196.google.com with SMTP id k32so740627pgl.2;
-        Fri, 15 Nov 2019 11:29:44 -0800 (PST)
+        Fri, 15 Nov 2019 14:34:28 -0500
+Received: by mail-pl1-f195.google.com with SMTP id j12so5329096plt.9;
+        Fri, 15 Nov 2019 11:34:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=WaaUqkfXG6+isoCbG7XYOEWjloSaTM6xtmYz8DIEXkU=;
-        b=rno4ShLranjXQFBAlU93J9agjWmAohLT/NdRrnQdjDUvjW356IzQ/i9DS3WBVnPDqV
-         z8gigtrhOVqd3thKFp3iS3rfHFx8pOMX8kxLllIUow02vLgDJLbXR0WAE+7+kMmcAryh
-         i2Jirm/5qv/g2NBLzZ7QkEKSWgRx24NjeC4ozzllWCYiFM2kRX9WJ89UdCUA4wAOptAQ
-         2N0duLD2Y0qQG3e0MPq6W8AsQdG5pzT0RUgucaxmHbeJ0HniRbYC+nvbjA8RGBHtKwBV
-         rktbUdQ7RE+vtevZ4LiJ91G6zsFbsDPEIN6rK8rOx7NsH8g/Wo6IgI2M8AcFXfPqNZB4
-         33hg==
+        bh=+GnL2CTwPY1SJF+ZHQ2vaGRIXzp75okBEaSUwWtgtfE=;
+        b=ug1WKlijVFaUOgtsqx/lnHj6X9grp7mHSvEDhP9iw6gqOXYKOLJFwlQ0xV9MpLk+s6
+         cZoFm4V7iMvpAkaXpnpl6Uxag9rYaBnjjLyLtWsPnjgff4IwoIo375mB5VY7MR0gBJwV
+         HQGEKTWT1ZgfttmN2hH2ArPTLRqcMcg0WrNYM2ANxH4CWKclaHA+GUXDPR/mzRIFHN/8
+         g0JXwZs9FXhFnGdRdmYJQqJJNISSWuPVr5eFA8MvbQ5sFPxGh1lcCv1V1eq8wcgjWTFI
+         ymu3qoTC53V6e3z9Iy3AzTLNwgw+6K3FFrVYYCox1W6uNMWxXIlM3YRsU9JUFC8oJAnk
+         Li9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=WaaUqkfXG6+isoCbG7XYOEWjloSaTM6xtmYz8DIEXkU=;
-        b=e4nv5CbvG9qX6Bw0Q92WO7sW3N7noTXL2Sz5S1A9Sff14PXraHbVOnySn2wuL+Qs2j
-         ILuiosSlW+BUsvlNiWIvZfuuXtob+iZAoreY8HbqW8Goife8VqbeVbYxletMq1/Zeoho
-         cPpghNy8tLkItxtgaMnY8ttWdPt5nTwhEVjqgptgpEsQIkMd+Lzp84zqugipHx3ztyiy
-         ddpOvLECWN0ZHnG4yfKKK4tgjLtgZ/z3RHTmRKsUYoQ34THoqDV4LLz5bOezPfiRBytg
-         2XnaDF5o4qujCLo+Vhx9R1lXtzAJhfo48Xi6CH07RZ9NNyC2xc0rgy6aamfOlufgGd41
-         VfHQ==
-X-Gm-Message-State: APjAAAWNLPdpNL0MBoayH+F7qdFXHHT56J5/wL76BuNO76WkcLVMIJn2
-        HKTOrBUfPAiC35Pzz6+Lr/Y=
-X-Google-Smtp-Source: APXvYqx+ExOdXdGMW9KMuDs01Hxq3xtbd7o1vtnDS+THGhL5gHHqzvTh80CDe3Z7gJU6ge3RkVCvWg==
-X-Received: by 2002:a62:1ad6:: with SMTP id a205mr19315307pfa.64.1573846183595;
-        Fri, 15 Nov 2019 11:29:43 -0800 (PST)
+        bh=+GnL2CTwPY1SJF+ZHQ2vaGRIXzp75okBEaSUwWtgtfE=;
+        b=hGt+aCSpgJr+S+kd38Fhxmjz1OIqZxfTXy/1XAaD0KqTyn9zvJyXBMf6WMJVIjv+FC
+         tfj9s8Ge/9XCeJavIMPFdT+acLWdAIr/a1LLQn1roTW+oxtfU28X2FP0u8jwFfXglde6
+         nZfvzOtaAUQaMtRI3+zE0vpDD5b9klKIu6BGzF9OmC5/3O8liQDik0x3kcMyi7tUXc+H
+         64xHArLBZCTKSF11yX69oGxcqiF63y/k+LiXVUY6Krfd7Rn/H2ZiJmAWkO+dYND3q4YC
+         HmLmvpR/zQopIgegyWA+P+Ek/EAAMADuA9QOvMtItfmxFe0YFSTwSqfXXmaSwWX930t5
+         1fVQ==
+X-Gm-Message-State: APjAAAWLhPOaRWwzBVVanSiZaz7lXacs5llTf7mQBrGEAhijILODqQ1b
+        xdFw388kxIxCTUEYDqm8JXg=
+X-Google-Smtp-Source: APXvYqwt3RO1rSqN9dtWZYgkYZYXb+DvxPEfcHL+guj6TM8twcenkWLLyA91lrKzW+eBWiQTee6S0A==
+X-Received: by 2002:a17:902:ac98:: with SMTP id h24mr16380035plr.227.1573846467693;
+        Fri, 15 Nov 2019 11:34:27 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id c9sm10908010pfn.65.2019.11.15.11.29.42
+        by smtp.gmail.com with ESMTPSA id e17sm11688042pfh.121.2019.11.15.11.34.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Nov 2019 11:29:42 -0800 (PST)
-Date:   Fri, 15 Nov 2019 11:29:40 -0800
+        Fri, 15 Nov 2019 11:34:26 -0800 (PST)
+Date:   Fri, 15 Nov 2019 11:34:24 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     kernel test robot <rong.a.chen@intel.com>
-Cc:     Jiada Wang <jiada_wang@mentor.com>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, rydberg@bitmath.org,
-        nick@shmanahar.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, erosca@de.adit-jv.com,
-        Andrew_Gabbasov@mentor.com, lkp@lists.01.org
-Subject: Re: [Input] 9290ec3cea: suspend_stress.fail
-Message-ID: <20191115192940.GT13374@dtor-ws>
-References: <20191106070146.18759-2-jiada_wang@mentor.com>
- <20191114094424.GF6910@shao2-debian>
+To:     Chuhong Yuan <hslester96@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Input: synaptics-rmi4 - add missed operations in
+ remove
+Message-ID: <20191115193424.GU13374@dtor-ws>
+References: <20191114023405.31477-1-hslester96@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191114094424.GF6910@shao2-debian>
+In-Reply-To: <20191114023405.31477-1-hslester96@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 14, 2019 at 05:44:25PM +0800, kernel test robot wrote:
-> FYI, we noticed the following commit (built with gcc-7):
+On Thu, Nov 14, 2019 at 10:34:05AM +0800, Chuhong Yuan wrote:
+> The driver forgets to destroy workqueue in remove like what
+> is done when probe fails.
+> Add a call to destroy_workqueue to fix it.
 > 
-> commit: 9290ec3cea1dd9d312d1230825a75c798b670ea1 ("[PATCH v5 01/48] Input: introduce input_mt_report_slot_inactive")
-> url: https://github.com/0day-ci/linux/commits/Jiada-Wang/atmel_mxt_ts-misc/20191108-190609
-> base: https://git.kernel.org/cgit/linux/kernel/git/xen/tip.git linux-next
+> Since unregistration will wait for the work to finish, we do
+> not need to deal with work in remove.
 > 
-> in testcase: suspend_stress
-> with following parameters:
-> 
-> 	mode: mem
-> 	iterations: 10
-> 
-> 
-> 
-> on test machine: 8 threads KabyLake-r with 8G memory
-> 
-> caused below changes (please refer to attached dmesg/kmsg for entire log/backtrace):
+> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 
-Is this reproducing reliably? I do not see dmesg attached so it is
-unclear what input device(s) are connected to the system...
+Applied, thank you.
 
-Thanks.
+> ---
+> Changes in v2:
+>   - Remove the calls of canceling delay and flushing workqueue.
+>   - Modify the commit message.
+> 
+>  drivers/input/rmi4/rmi_f54.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/input/rmi4/rmi_f54.c b/drivers/input/rmi4/rmi_f54.c
+> index 484ae1f97330..897105b9a98b 100644
+> --- a/drivers/input/rmi4/rmi_f54.c
+> +++ b/drivers/input/rmi4/rmi_f54.c
+> @@ -730,6 +730,7 @@ static void rmi_f54_remove(struct rmi_function *fn)
+>  
+>  	video_unregister_device(&f54->vdev);
+>  	v4l2_device_unregister(&f54->v4l2);
+> +	destroy_workqueue(f54->workqueue);
+>  }
+>  
+>  struct rmi_function_handler rmi_f54_handler = {
+> -- 
+> 2.23.0
+> 
 
 -- 
 Dmitry
