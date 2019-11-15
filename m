@@ -2,80 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF5B5FD477
-	for <lists+linux-input@lfdr.de>; Fri, 15 Nov 2019 06:36:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BEB49FD6CD
+	for <lists+linux-input@lfdr.de>; Fri, 15 Nov 2019 08:16:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726661AbfKOFgt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Nov 2019 00:36:49 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:38609 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725848AbfKOFgt (ORCPT
+        id S1726920AbfKOHQB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Nov 2019 02:16:01 -0500
+Received: from mail-io1-f72.google.com ([209.85.166.72]:38102 "EHLO
+        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725774AbfKOHQB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Nov 2019 00:36:49 -0500
-Received: by mail-pg1-f193.google.com with SMTP id 15so5277840pgh.5;
-        Thu, 14 Nov 2019 21:36:49 -0800 (PST)
+        Fri, 15 Nov 2019 02:16:01 -0500
+Received: by mail-io1-f72.google.com with SMTP id q4so6384039ion.5
+        for <linux-input@vger.kernel.org>; Thu, 14 Nov 2019 23:16:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Jq+NcdnyD4uXSFNngY13nScnZ6L+zxq0uI02vlWPylI=;
-        b=VqkyIVqvJrPZDtdXGg0Hmpxp/EO/bgquARkROY8lDUY0G+aww7QAf6j3YtSMq4NfS/
-         UlXJNwtdVyXJzEHEAx6QcCJd4CtQai/8PZ27DyWR5ZZ76Y85u+aFXeq9o9rZsMtSFyhm
-         eZxAM3PuKkJ3/jlVO6QKkvbRyLgVVuJqg5jFhT3lKEDpEJt6lDD4jjuA2Lx+hKjrMQJK
-         k6dXZSThiaQJoM11ayiNc/v0Nyud6bTinMTxX2ptBmQrejjvIA8ZWY8qUSt+E3Z6j32O
-         xIqlNCNpQzI0aCHEOtpOT6PZOiRDGBfsYwixp70FrahCJX3aTIonrsEuq5J4866i5BaK
-         +f8Q==
-X-Gm-Message-State: APjAAAUmlBJKxXgKXPhWtl7MvPqX9ZosvetMU98ybYtBihLquNawU634
-        G93fAbzKu6phIpZSiHIT640=
-X-Google-Smtp-Source: APXvYqz+sH25cah2cIgJnfrsEaJ696abhQoJpa8A12rE4BupCaP9ujWJrC1dpt0jpHCVHTkMk4KTvg==
-X-Received: by 2002:a63:f48:: with SMTP id 8mr14575436pgp.329.1573796208771;
-        Thu, 14 Nov 2019 21:36:48 -0800 (PST)
-Received: from localhost (61-220-137-37.HINET-IP.hinet.net. [61.220.137.37])
-        by smtp.gmail.com with ESMTPSA id d6sm8513192pfn.32.2019.11.14.21.36.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2019 21:36:47 -0800 (PST)
-From:   You-Sheng Yang <vicamo.yang@canonical.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Hui Wang <hui.wang@canonical.com>
-Cc:     You-Sheng Yang <vicamo.yang@canonical.com>,
-        HungNien Chen <hn.chen@weidahitech.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: i2c-hid: remove orphaned member sleep_delay
-Date:   Fri, 15 Nov 2019 13:36:46 +0800
-Message-Id: <20191115053646.3107290-1-vicamo.yang@canonical.com>
-X-Mailer: git-send-email 2.24.0
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=H6KZH6ReRCeo81QQ/gV0mVJ1PcfVuetQ7C4r7dOiHMc=;
+        b=QoHXEfqf/XAEqOsauYWR/kU/TPQuvTf8jO8tnUhOcQcYhrMrUZCE2816wh5/kGFTTM
+         3/GHYEzLnmukhh/bif3KRUgx0H+fNb15CHYms3YjXpiVgwlk7O4ZLOvqFuWek0LtndT0
+         PRSEb8cCDXE7AYGXN82lmGeV/34DwNKb6Yvcxf8zYvL4qQMru7NGNMW/pkkLOn9+XSt3
+         duvmF2cIhdG/afE9qzse7UkLlVjZlLqg7N+92cTYCkvf/WBTShxq6q9Lzbsb1CKji+cF
+         BowFT6wa2dTYMDv55wW11vmDR1magCZc6ZNYQKZp/GUd0NIj1FLoWOWNC7q3EMSptteE
+         8y1g==
+X-Gm-Message-State: APjAAAXW/UpMkI2IOnIFNwnojBApFkZ1KeA/rSQaDBDThE3E+dy7cpN2
+        1uc9KEobVu0hjZu4O725pX8UwrA1b+50+OzusOS8ddf+5Z91
+X-Google-Smtp-Source: APXvYqxEFgRrGmZN5G1itaTNv92D1H3tBWtZLApFkC5r1LaLaePjg0oe/UMjPdYY3bktn2CSL/7Ek0Or6H4gQTrEenIjpPECTrWI
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a92:dd8f:: with SMTP id g15mr14045121iln.145.1573802160251;
+ Thu, 14 Nov 2019 23:16:00 -0800 (PST)
+Date:   Thu, 14 Nov 2019 23:16:00 -0800
+In-Reply-To: <1573726121.17351.3.camel@suse.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000b56e8b05975d5e11@google.com>
+Subject: Re: WARNING: ODEBUG bug in input_ff_destroy
+From:   syzbot <syzbot+b6c55daa701fc389e286@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, dmitry.torokhov@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, oneukum@suse.com,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This was introduced in commit 00b790ea545b ("HID: i2c-hid: Add a small
-delay after sleep command for Raydium touchpanel") which has been
-effectively reverted by commit 67b18dfb8cfc ("HID: i2c-hid: Remove
-runtime power management").
+Hello,
 
-Signed-off-by: You-Sheng Yang <vicamo.yang@canonical.com>
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 2 --
- 1 file changed, 2 deletions(-)
+syzbot has tested the proposed patch and the reproducer did not trigger  
+crash:
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 04c088131e04..adfe344bc786 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -157,8 +157,6 @@ struct i2c_hid {
- 
- 	bool			irq_wake_enabled;
- 	struct mutex		reset_lock;
--
--	unsigned long		sleep_delay;
- };
- 
- static const struct i2c_hid_quirks {
--- 
-2.24.0
+Reported-and-tested-by:  
+syzbot+b6c55daa701fc389e286@syzkaller.appspotmail.com
 
+Tested on:
+
+commit:         3183c037 usb: gadget: add raw-gadget interface
+git tree:       https://github.com/google/kasan.git
+kernel config:  https://syzkaller.appspot.com/x/.config?x=79de80330003b5f7
+dashboard link: https://syzkaller.appspot.com/bug?extid=b6c55daa701fc389e286
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=12c2e254e00000
+
+Note: testing is done by a robot and is best-effort only.
