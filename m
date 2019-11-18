@@ -2,59 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AFD25100F71
-	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2019 00:34:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 785E4100F86
+	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2019 00:51:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726813AbfKRXe4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Nov 2019 18:34:56 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:46113 "EHLO
+        id S1726830AbfKRXvL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Nov 2019 18:51:11 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:50103 "EHLO
         out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726809AbfKRXe4 (ORCPT
+        by vger.kernel.org with ESMTP id S1726809AbfKRXvL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Nov 2019 18:34:56 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 0644E21B10
-        for <linux-input@vger.kernel.org>; Mon, 18 Nov 2019 18:34:55 -0500 (EST)
+        Mon, 18 Nov 2019 18:51:11 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 33C3C21368
+        for <linux-input@vger.kernel.org>; Mon, 18 Nov 2019 18:51:10 -0500 (EST)
 Received: from imap2 ([10.202.2.52])
-  by compute6.internal (MEProxy); Mon, 18 Nov 2019 18:34:55 -0500
+  by compute5.internal (MEProxy); Mon, 18 Nov 2019 18:51:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airpost.net; h=
         mime-version:message-id:date:from:to:subject:content-type; s=
-        fm1; bh=VCmNtQjjZ7ffsrA9HgUhc1z1D4PnbybLBu5xH0klM90=; b=ibBEB80h
-        Ij5imcNR/LyPY9Zoc6CSDHGN0vtvuKhqU/51+hmGkZeaTgLhZDm65j9t7z03NUWp
-        SWsRPSHyRij8LssWQmpe+J3O3pxFvqJ0dnZhcpZNTMB+/a5NaD4fna58w+02TwVB
-        Yq+LcF5GxEj16+q3DX5ivwEVDwpZXO419kn3k5ozxIT+JHBte+KiNPPYYLs4I/6Q
-        7IpS8hki8rzKmOtBDE0IpQ0YvoD5UeaXFPyccnN6x/Yy7aTBIFo5HDwpAUEs3NhO
-        YpUP/40WRucvq/9JLoCm6RcKAe/Y1nc2fwUErDlp4ix2lCCLDfkPuJFu1uLDFbl9
-        qNMUjqquTNU13Q==
+        fm1; bh=VCmNtQjjZ7ffsrA9HgUhc1z1D4PnbybLBu5xH0klM90=; b=WTxs9Utg
+        rHUxatt/3mPwbqg+kvy3HjLcvUu9MOTpIhRCVULYpr/ENwmt3BKDA8E9XhR5qiVz
+        d6hT+pMm7srRIgxdZMnEVd4S3yS64aUBSbStaBiHqW2Is5scadARl4ejy57UyMSN
+        CAdQP19/rrnFSWSWXXbq5exMHu1t/2F3pypbc2dNSlP4cRXQ0+URpRzveDhk4v3x
+        io1tLGwbogwCbbAvQOf+ZE9UbHJfpQnfwSks96a6mKh1l0WlvVe1YKPD0HKI12/h
+        k98Ig57+iwqT/aT5e08tCEtPk1tf740ftIOCnjupl/WlwcB7ABMKyvE1gakm8jQX
+        yUmhmzUG+zphSA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=content-type:date:from:message-id
         :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
         :x-me-sender:x-sasl-enc; s=fm1; bh=VCmNtQjjZ7ffsrA9HgUhc1z1D4Pnb
-        ybLBu5xH0klM90=; b=F3LRAlZ2lCU2a35BNPJLFZUAIkNuHIg8qxN0EVEAq/w1b
-        f0HnbPCTBkUzSK49hfYrZKqfAdYMFSsvyiOvNr4sOY7MFAyceSr1pJgKRuIEJVzm
-        /fovCeHJVK650wmchGD/GKAWQua/dlUo28KnCAbT/xr/TGcGwExunPwcqUYpiDCo
-        dO/2RZH+m80dwDrS/uMaiIig2FedgCredmbkRj6sxbAVZPu8D0logb0n+MlVwW5Y
-        utXYn61WqmO6XqucEY9pbe38tc3AgqL/svW89dyuunb/TqZ2/hxLu+fo96wYSYMB
-        +QIORKCZtdwo9DzJTQ3jriutqFz2eXZibtI/pgofQ==
-X-ME-Sender: <xms:nirTXQGgZE12JFnA0yKArVj4t0KmOMxkfMgwqVCAATjSjCS5FeDMJg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudegjedgtdelucetufdoteggodetrfdotf
+        ybLBu5xH0klM90=; b=uGbVV792hc/xiXXJsJjHh4bStTRQlFakQYUV/+2SgfBN6
+        GyeBCUZvH+utu7mswWnmwYB2D6pLJBWM69DgKilT0C7MJRxSEBCNMXhS+Kn73mR4
+        Ft6OhMGbhdNTO9AyFi4DxFw41VpRbivJLMxXEJN5xbab1wnyIgTzoCZurxLQknRr
+        jtZ6Kn2VkeMQZTkL8457jy5it0Es2JtsN8DslfEJHa2sk0AmkI4e3Dw7QYyhj8f3
+        /4X4fly5yuJ8EUy7Ci30vfeoUQq3Un+A4VZZ+F/QOlHNUEgPiA0wtorfe86Zr4jJ
+        764jUNAG8j7WYBjVzJ9oe3Be/+W0GS4uSxwmeNK/w==
+X-ME-Sender: <xms:bi7TXQX9NY3I3VwQPXmM0XubLjvoAON0pK6zBMQ3eiqrjpHIJ888bA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudegjedguddvucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfffhffvufgtsehttdertd
-    erredtnecuhfhrohhmpedfuehruhhnohcuffgrnhhtrghsfdcuoegurghnthgrshesrghi
-    rhhpohhsthdrnhgvtheqnecurfgrrhgrmhepmhgrihhlfhhrohhmpegurghnthgrshesrg
-    hirhhpohhsthdrnhgvthenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:nirTXcziCUsINd-z1cd1VidbaBynTMY7ppvaG-KNJdNU_PzOtzK1rg>
-    <xmx:nirTXW7yoxzDSnZM16PmzW7o9tdznx3inna_hLCkxG0z8Wrk05aEaA>
-    <xmx:nirTXVf6QtPszqluVNBZEHJxDw6dnH3dy2Iws8RSc-WguWwSpbBjzg>
-    <xmx:nyrTXa6MPD72-Znk651yQpbFS6v5T6_X6agVMqJmAOWsrM3E2W4mug>
+    erredtnecuhfhrohhmpedfuehruhhnohcuffgrnhhtrghsfdcuoehkvghrnhgvlhesuggr
+    nhhtrghsrdgrihhrphhoshhtrdhnvghtqeenucfrrghrrghmpehmrghilhhfrhhomhepkh
+    gvrhhnvghlsegurghnthgrshdrrghirhhpohhsthdrnhgvthenucevlhhushhtvghrufhi
+    iigvpedt
+X-ME-Proxy: <xmx:bi7TXbGudyn4cjXt5ma_OYagiD92TzjP79jGQ5Kker78KP7wk7XABg>
+    <xmx:bi7TXXkIERfdiFXqtFKVxuKgXYUPts0R1jP4khhMcH_mYaW95VW9sg>
+    <xmx:bi7TXZXmyRszb4zgIQcmDwI36aEO8FpyrUozGcVduPfULRuLtRcA8A>
+    <xmx:bi7TXRw18cbaX2GO8i2bCE01Bj3e4MDEODJ6SuOuQAbaIN9hxejDdg>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id C2B79E00AA; Mon, 18 Nov 2019 18:34:54 -0500 (EST)
+        id E7CE4E00AB; Mon, 18 Nov 2019 18:51:09 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.7-562-gfd0633a-fmstable-20191114v1
 Mime-Version: 1.0
-Message-Id: <110a1d5c-5556-4343-9662-2284426a19f4@www.fastmail.com>
-Date:   Mon, 18 Nov 2019 18:34:34 -0500
-From:   "Bruno Dantas" <dantas@airpost.net>
+x-forwarded-message-id: <110a1d5c-5556-4343-9662-2284426a19f4@www.fastmail.com>
+Message-Id: <9e11b3c5-dbd4-43c1-922a-bbf8474a6002@www.fastmail.com>
+Date:   Mon, 18 Nov 2019 18:50:49 -0500
+From:   "Bruno Dantas" <kernel@dantas.airpost.net>
 To:     linux-input@vger.kernel.org
 Subject: how do unbind ThinkPad touchpad without unbinding trackpoint?
 Content-Type: text/plain
