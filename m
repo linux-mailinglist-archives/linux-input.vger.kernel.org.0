@@ -2,57 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B7741102FB9
-	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2019 00:11:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0954D103068
+	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2019 00:45:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726874AbfKSXLI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Nov 2019 18:11:08 -0500
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:33932 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726539AbfKSXLI (ORCPT
+        id S1727362AbfKSXpx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Nov 2019 18:45:53 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28137 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726874AbfKSXpw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Nov 2019 18:11:08 -0500
-Received: by mail-qt1-f193.google.com with SMTP id i17so26739936qtq.1
-        for <linux-input@vger.kernel.org>; Tue, 19 Nov 2019 15:11:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=oHu/aj9ANDhwa3Ro96aZ2sJIeGFK3eKnQEJpp7hmfhA=;
-        b=DQyPv+JZfxgGzG05Tg8VY3UnYwNTRpy93ns91y+uSF9Hm8dhRA3CXbalenR7P59+9y
-         xUnhZ+A6gVNFqCEKhh9i6ij0Tk7pGHOgXFogd+Hl6BV6DyV5SZTd5je2BSvbDGUNmiS8
-         nCHN/hlCFgOWY7vr0cVOIGPjUrz5keTg+wRzCgWnKxaFZcwyTX1P2HWGNS8vi3jjKl7e
-         QP88XsRhGd3gNQBzRoZt5cyJjxxW8IWespqN4TpwEyMb5+Jd0PQwi7rCkoQBriQTmluK
-         2rSDsafyxrWwU4D/uF1IWO1lHYESnpKuGTr70pavMj2SR0yp449OVBDSjaLquqSDP8ZS
-         7NMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=oHu/aj9ANDhwa3Ro96aZ2sJIeGFK3eKnQEJpp7hmfhA=;
-        b=Q65uOU0/sYXDzo2MvUosdr5s31zQf4ljFuOTwOO+9ZeTCOq7LCGzIF+lB3kKXRN73p
-         KtX06/utXBAazyUBvLoFr+vc8rLYgtM6SujQElTlH5AvrwNod3F2hHi7BwkGbliNoR+6
-         2mDouRvGEQujMipF8hOO2hWex3HoRCYI9hZd/KgE0bfPRnU6dPiP95sNsnl6754Lt/xP
-         ob0ufHT706Knyk7DoufXc8tk7U43MbmD0LN2WD4bVyHGPkVnl1FDIK8VHoyzgNK5+Q/q
-         OttkRr4nT6Vbof7ou9ruyv5GNAlHXrGr4UGn/zgfSwUKiQz/6Xf3L2/myOsjlOHI4WKG
-         2LJg==
-X-Gm-Message-State: APjAAAXAxeS8ZzUm/Y2s3neq5Gbna62DQ92GFVLbvcQKnZ7W7CBLiz7S
-        cAUwsGyftKb7Xb6V5qLuAIpcDYBeUFRAs0ZENDE=
-X-Google-Smtp-Source: APXvYqwHN6GGRloeu2efHqpvOzeYSGy68eiQFyJ0mQ0cJu+0UyE9j/sd4D51CsI6FJcDlL5A+HJ0GB21FvX85eupM9o=
-X-Received: by 2002:ac8:161b:: with SMTP id p27mr355198qtj.256.1574205067146;
- Tue, 19 Nov 2019 15:11:07 -0800 (PST)
+        Tue, 19 Nov 2019 18:45:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1574207152;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=3bFj7LSbHt/7ruFNmSC+gYmj5OfI/vxqc7ZinRrkQ1A=;
+        b=TzbuEuvIg9aI5VJuEbmsOy42VGUjp++eWjzYc8bwRP7qHDF2J4ovuUaiwumMimucAE6xH6
+        0wHdRq6oFQCirg5Oqrwh09RcBYYC9b0YyLyx2LsBpvQYQ4NbO5Bg1mN4C0Qbvn+6i6kciw
+        6azNt5Hx3//vlgGLC/t/bi7Vim41wWM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-OLmRwB14PtS3nQai2skpxQ-1; Tue, 19 Nov 2019 18:45:50 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 735D0100551A;
+        Tue, 19 Nov 2019 23:45:48 +0000 (UTC)
+Received: from malachite.bss.redhat.com (dhcp-10-20-1-46.bss.redhat.com [10.20.1.46])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8415810375FC;
+        Tue, 19 Nov 2019 23:45:41 +0000 (UTC)
+From:   Lyude Paul <lyude@redhat.com>
+To:     linux-input@vger.kernel.org
+Cc:     stable@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>,
+        Nick Black <dankamongmen@gmail.com>,
+        Yussuf Khalil <dev@pp3345.net>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Alexander Mikhaylenko <exalm7659@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH] Revert "Input: synaptics - enable RMI mode for X1 Extreme 2nd Generation"
+Date:   Tue, 19 Nov 2019 18:45:33 -0500
+Message-Id: <20191119234534.10725-1-lyude@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:ae9:eb0b:0:0:0:0:0 with HTTP; Tue, 19 Nov 2019 15:11:06
- -0800 (PST)
-From:   Vera Flo <verazama10@gmail.com>
-Date:   Wed, 20 Nov 2019 00:11:06 +0100
-Message-ID: <CAF0o63KGXZbGGUMP=d7gwisXRfO9z-vP4H8qPtOY27zOGBR_HQ@mail.gmail.com>
-Subject: HELLO
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: OLmRwB14PtS3nQai2skpxQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
--- 
-Hi,
-How are you doing?
+This reverts commit 68b9c5066e39af41d3448abfc887c77ce22dd64d.
+
+Ugh, I really dropped the ball on this one :\. So as it turns out RMI4
+works perfectly fine on the X1 Extreme Gen 2 except for one thing I
+didn't notice because I usually use the trackpoint: clicking with the
+touchpad. Somehow this is broken, in fact we don't even seem to indicate
+BTN_LEFT as a valid event type for the RMI4 touchpad. And, I don't even
+see any RMI4 events coming from the touchpad when I press down on it.
+This only seems to work for PS/2 mode.
+
+Since that means we have a regression, and PS/2 mode seems to work fine
+for the time being - revert this for now. We'll have to do a more
+thorough investigation on this.
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/input/mouse/synaptics.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptic=
+s.c
+index 704558d449a2..56fae3472114 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -177,7 +177,6 @@ static const char * const smbus_pnp_ids[] =3D {
+ =09"LEN0096", /* X280 */
+ =09"LEN0097", /* X280 -> ALPS trackpoint */
+ =09"LEN009b", /* T580 */
+-=09"LEN0402", /* X1 Extreme 2nd Generation */
+ =09"LEN200f", /* T450s */
+ =09"LEN2054", /* E480 */
+ =09"LEN2055", /* E580 */
+--=20
+2.21.0
+
