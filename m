@@ -2,124 +2,143 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE76A102423
-	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2019 13:19:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE58310256B
+	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2019 14:30:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727665AbfKSMTc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Nov 2019 07:19:32 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:49387 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727646AbfKSMTb (ORCPT
+        id S1726378AbfKSNaA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Nov 2019 08:30:00 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:37504 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725904AbfKSNaA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Nov 2019 07:19:31 -0500
-Received: from [IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7]
- ([IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id X2TgiDPlWcs92X2ThizITc; Tue, 19 Nov 2019 13:19:29 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574165969; bh=buYvgl3P8tgdmEwDO0VaNme6c5DKjtTMqY+pxCvCUG0=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=T7Qipm9CimWEqp/3WGsqVravr4zuWOZK9RVfeNLOu6BTRMTDi64Zr7Ah7Z8VSPKRC
-         /PT8qbnuNnaFowEhzLgxz8F6KaFjTEG9kmUxhiq56ZjVeTlro54wqp1kyGh30jorT9
-         u8AkbPSclDhdAC8hu4kJQGPElVetvLm6xTyxvYja/sJmRK/7sa28O5sFrhNoH/pCXQ
-         bSp9cgVCHh2UkG7ju2adxp4tsEQxdDV4AQN3zr8xmCuq3dtRKJSQ49ylUwoanFap2h
-         V5bOc08+S622Ld7P4WtQ4WPOxUu9OX4ASEC64lGiSoYvyTrEvye3zMClgui1wxjR2q
-         +xkqZHitEi0Rg==
-Subject: Re: [PATCH 5/5] input/rmi4/rmi_smbus.c: don't increment rmiaddr in
- rmi_smb_read_block()
-To:     Lucas Stach <l.stach@pengutronix.de>, linux-media@vger.kernel.org
-Cc:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nick Dyer <nick@shmanahar.org>,
-        Christopher Heiny <cheiny@synaptics.com>,
-        Vandana BN <bnvandana@gmail.com>
-References: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
- <20191119105118.54285-6-hverkuil-cisco@xs4all.nl>
- <409e5b53516fbf5daa752211d90f1fbba2f1c3b2.camel@pengutronix.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <3f21e94c-5ef5-f6f4-934d-2921fa93833f@xs4all.nl>
-Date:   Tue, 19 Nov 2019 13:19:28 +0100
+        Tue, 19 Nov 2019 08:30:00 -0500
+Received: by mail-pl1-f196.google.com with SMTP id bb5so11771012plb.4;
+        Tue, 19 Nov 2019 05:29:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=sRIw6rp9Mc/Zdv75hs9vE0HKh/1jxjYXzfWj5KShO4o=;
+        b=MrhrrF8VKUR53os//rbTAXNlYR381za1H7vFBS2zlR43gNP9tiyijNaDdSFPm1ylZG
+         7BpsZiu0xUbFqrsK+ucimbYqFbLMaa12nDUf4kHzSThkSH6y+PteD6qYuW+oYdiiwSpg
+         bN07C1TVSW7/jx1bNm+Bi0XpYBY64QsJbMqykRhmaczEolhgAG7qci5fr/cFvTUThXVt
+         3iWjfxVJwDOZLxmacN1ZywbivHp1acfzctqa/aocOPR/NgBsqCLxWmSFXIh1OHnx91z4
+         DGpouLhOKrqJtFvGo56iGd5qkMokxcqRHj0TAZqHP58nPcJZJ7Xd0F71eOTtQ3HRZbpi
+         56kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=sRIw6rp9Mc/Zdv75hs9vE0HKh/1jxjYXzfWj5KShO4o=;
+        b=Oi3cD9QeyHYAukP8wY/oPriNlVBfZc5NU1mH2+w8uwcSWVk6kMWMvJ1gvjx8ysmny2
+         Y5byh3UdogZwG1+71pKdkLNtkY4OPmNp+NUHF4jp1bqzgadHueTD44KBXZJgctROhCZ9
+         uFdCJYqKmC1bQQJQKwBX4Q8v8Ollj565+Ef7HAhqD1C8GcUUSp+5HAqKL2LF/6OLSxvg
+         9yhPp35EYQwgApMh12NMkx4k/4VErAI0JZVKplFavM2AoBSzA+2gMsKszGSAwnK5pYH3
+         TxF88jx+VIAGc70vxJYW4DrxapZFU/xDinVN3LR5K73L1tVa0dbIQ2LoAYE1rhVVoBxe
+         +8PA==
+X-Gm-Message-State: APjAAAVmvA4ShEWnrGuCcXbV1AxIPlxPgKOmuXfvTHcXq6+cpzsrnMzI
+        KF8aPQcvH+FEHuw2T4FMVz0=
+X-Google-Smtp-Source: APXvYqwZOxMxDDzJWeLUQjB+1ez46gEs7a1oggH6mczLVLdIFC0C+jm5a6Ir578tmMYcqi/cLuuIXw==
+X-Received: by 2002:a17:902:bd82:: with SMTP id q2mr35320894pls.106.1574170197473;
+        Tue, 19 Nov 2019 05:29:57 -0800 (PST)
+Received: from ?IPv6:2405:4800:58c7:fb0:3103:9cb5:5896:cd6e? ([2405:4800:58c7:fb0:3103:9cb5:5896:cd6e])
+        by smtp.gmail.com with ESMTPSA id r15sm26254360pfh.81.2019.11.19.05.29.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Nov 2019 05:29:56 -0800 (PST)
+Cc:     tranmanphong@gmail.com,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        syzbot+1234691fec1b8ceba8b1@syzkaller.appspotmail.com
+Subject: Re: [PATCH] HID: hid-lg4ff: Fix uninit-value set_autocenter_default
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+References: <20191105141807.27054-1-tranmanphong@gmail.com>
+ <CAO-hwJ+cydMPQE_otc8-67=SDKmjac5RXsLs-9x6dH4YqA+DVQ@mail.gmail.com>
+From:   Phong Tran <tranmanphong@gmail.com>
+Message-ID: <0407e8bb-bbf5-ec64-cdac-ef266f1ab391@gmail.com>
+Date:   Tue, 19 Nov 2019 20:29:49 +0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <409e5b53516fbf5daa752211d90f1fbba2f1c3b2.camel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAO-hwJ+cydMPQE_otc8-67=SDKmjac5RXsLs-9x6dH4YqA+DVQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFomjj1p7LvuUNfj35h7pFwfUaIHI7RC9bEmTDtWGsfUgwNWI3TxeP8+Gnj7qiDSEzLG8ruWtHiPiqUU+EyGKLT4TTPWdfNh//t8HMhmzdziwXCJl4Pt
- kqqwaV1kH3RHa5pCMO6wQsZPpFN+iUv2Rk+VSLp9N+I5cmeOkpMh8wuY8AypjxOJKk/wa37vAM9g5i4qrweVzvUJj+lzKIbnFBfEVwVobakZkWLZ9fmZjQNA
- uZv3h1on+TczJXd983QMKnDM06AxXE+6XwtYqzXSjmai/7wH8DHu20oW/t2L6qXO0M9ow0sNEU+gd/H5hnc7MlPmRkGZZ8d7jzHwYWlhzHpJjMLS3ruQnPtA
- aTA45BqwlSk7rcshdIwpSoF0f/XRFBX0lb5DKUJspL6lAhBMKom9m8wvRoLAmFCoi/UxYxqB0Vg1svIA5TxBBuX/CtsjtpJUHUT/7CwpjJFGTT/NoEBWWR0X
- gI+5UV7krmwFag3dlm4uiQ0eooJz39fUo1HkCXfPysmb1twBMR1lR77puhE=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Lucas,
-
-On 11/19/19 12:48 PM, Lucas Stach wrote:
-> Hi Hans,
-> 
-> On Di, 2019-11-19 at 11:51 +0100, Hans Verkuil wrote:
->> This increment of rmi_smbus causes garbage to be returned.
->> The first read of SMB_MAX_COUNT bytes is fine, but after that
->> it is nonsense. Trial-and-error showed that by dropping the
->> increment of rmiaddr everything is fine and the F54 function
->> properly works.
+On 11/18/19 4:43 PM, Benjamin Tissoires wrote:
+> On Tue, Nov 5, 2019 at 3:18 PM Phong Tran <tranmanphong@gmail.com> wrote:
 >>
->> Even going back to the original code when F54 was added, I
->> could not make it work without this patch. So I do not understand
->> how this ever worked.
-> 
-> My guess is that F54 has mostly been tested with touchscreens that are
-> connected to a regular i2c bus, not smbus. i2c has a separate transport
-> implementation in rmi4. Most of the other functions are probably
-> reading much smaller block data than F54.
-
-That's my suspicion as well. I tried to configure my kernel so that it
-would be using i2c instead of smbus, but I couldn't make it work. I'll
-have to try again next week.
-
-I only have Rev E of the RMI4 spec, which does not appear to document
-the mapping table entry that rmi_smb_get_command_code() uses.
-
-Do you (or someone else) have access to a newer version? If so, can you check
-how this is supposed to work for reading large blocks over smbus?
-
-With the current code it will create a new mapping entry for every 32
-byte read. I suspect that that is not how it is supposed to work, but
-without a spec this is just trial-and-error.
-
-Regards,
-
-	Hans
-
-> 
-> Regards,
-> Lucas
-> 
->> My guess is that the same change is needed in rmi_smb_write_block,
->> but I wouldn't know how to test this.
+>> syzbot found a problem using of uinit pointer in
+>> lg4ff_set_autocenter_default().
 >>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Reported-by: syzbot+1234691fec1b8ceba8b1@syzkaller.appspotmail.com
+>>
+>> Tested by syzbot:
+>>
+>> https://groups.google.com/d/msg/syzkaller-bugs/ApnMLW6sfKE/Qq0bIHGEAQAJ
+> 
+> This seems weird to me:
+> 
+> the syzbot link above is about `hid_get_drvdata(hid)`, and, as I read
+> it, the possibility that hid might not have an initialized value.
+> 
+
+In the dashboard [1] shows
+BUG: KMSAN: uninit-value in dev_get_drvdata include/linux/device.h:1388 
+[inline]
+BUG: KMSAN: uninit-value in hid_get_drvdata include/linux/hid.h:628 [inline]
+BUG: KMSAN: uninit-value in lg4ff_set_autocenter_default+0x23a/0xa20 
+drivers/hid/hid-lg4ff.c:477
+base on that I did the initialization the pointer in the patch.
+
+> Here you are changing the initialized values of value, entry and
+> drv_data, all 3 are never used before their first assignment.
+> 
+> I have a feeling this particular syzbot check has already been fixed
+> upstream by d9d4b1e46d95 "HID: Fix assumption that devices have
+> inputs".
+> 
+
+I think the commit d9d4b1 fixed this report [2] by syzbot.
+
+[1] https://syzkaller.appspot.com/bug?extid=1234691fec1b8ceba8b1
+[2] https://syzkaller.appspot.com/bug?extid=403741a091bf41d4ae79
+
+regards,
+Phong.
+> Cheers,
+> Benjamin
+> 
+>>
+>> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
 >> ---
->>  drivers/input/rmi4/rmi_smbus.c | 1 -
->>  1 file changed, 1 deletion(-)
+>>   drivers/hid/hid-lg4ff.c | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
 >>
->> diff --git a/drivers/input/rmi4/rmi_smbus.c b/drivers/input/rmi4/rmi_smbus.c
->> index 2407ea43de59..79ecea5edacc 100644
->> --- a/drivers/input/rmi4/rmi_smbus.c
->> +++ b/drivers/input/rmi4/rmi_smbus.c
->> @@ -215,7 +215,6 @@ static int rmi_smb_read_block(struct rmi_transport_dev *xport, u16 rmiaddr,
->>  		/* prepare to read next block of bytes */
->>  		cur_len -= SMB_MAX_COUNT;
->>  		databuff += SMB_MAX_COUNT;
->> -		rmiaddr += SMB_MAX_COUNT;
->>  	}
->>  
->>  	retval = 0;
+>> diff --git a/drivers/hid/hid-lg4ff.c b/drivers/hid/hid-lg4ff.c
+>> index 5e6a0cef2a06..44dfd08b0c32 100644
+>> --- a/drivers/hid/hid-lg4ff.c
+>> +++ b/drivers/hid/hid-lg4ff.c
+>> @@ -468,10 +468,10 @@ static int lg4ff_play(struct input_dev *dev, void *data, struct ff_effect *effec
+>>   static void lg4ff_set_autocenter_default(struct input_dev *dev, u16 magnitude)
+>>   {
+>>          struct hid_device *hid = input_get_drvdata(dev);
+>> -       s32 *value;
+>> +       s32 *value = NULL;
+>>          u32 expand_a, expand_b;
+>> -       struct lg4ff_device_entry *entry;
+>> -       struct lg_drv_data *drv_data;
+>> +       struct lg4ff_device_entry *entry = NULL;
+>> +       struct lg_drv_data *drv_data = NULL;
+>>          unsigned long flags;
+>>
+>>          drv_data = hid_get_drvdata(hid);
+>> --
+>> 2.20.1
+>>
 > 
-
