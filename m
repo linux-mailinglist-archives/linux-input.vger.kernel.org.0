@@ -2,129 +2,270 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 797C6101835
-	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2019 07:06:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05E781018F4
+	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2019 07:11:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729654AbfKSFeY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Nov 2019 00:34:24 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:52532 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728371AbfKSFeY (ORCPT
+        id S1727904AbfKSGLm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Nov 2019 01:11:42 -0500
+Received: from emcscan.emc.com.tw ([192.72.220.5]:11011 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727324AbfKSGLl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Nov 2019 00:34:24 -0500
-Received: from mail-pg1-f200.google.com ([209.85.215.200])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1iWw9e-00070M-Be
-        for linux-input@vger.kernel.org; Tue, 19 Nov 2019 05:34:22 +0000
-Received: by mail-pg1-f200.google.com with SMTP id p188so14910448pgp.15
-        for <linux-input@vger.kernel.org>; Mon, 18 Nov 2019 21:34:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=jusLe6eRW9S01oAaldUJb/F5NSqPDxkFugLOtbNZF6k=;
-        b=ioa31MYmfyN9NoLo6SkjqCyohvcMhex/Kvdtgpo5PbqqfFoHV3waNjY626MkN3ABDl
-         l/OWH9dMPt//9yQVDJq5fHYHBZJMsrnpWL1rtiy4MVcSfZtARRQXWSAWTeSFEesQrUky
-         u5ghUY1jHG5Uyln4GW9xTCNSdXjkrOkHccGlDYLPdnwFL/HRHIPw5xAO6qV9+eThD5si
-         Sb30JsaO2UWB2NqALy2sEMwomDmy/1gdhfr9+i8wy1h0RlKJzssBczM4X50lhFSzmQ3d
-         Y1+F6YzUFkmkWXw8/ju6JWtERIJjOZ0bxD+U6kGPRV4cx340n2xkJvKrh/zOCCyRuLMC
-         YYWg==
-X-Gm-Message-State: APjAAAX0+/k81EdluVJcK0vSXhrCTpdC47PwIyGlVFBKXgP1Xjb6/rG1
-        TLiysoUApGk4x9peMVMrabr1uMcEECQ/G47p6N2GAtDqYFTI+fpp5gGxzVFNqg7hX8mGf8otmhm
-        gBVquoQytohAHxCuxokzRoyawzPhoG3tdSWSxpikT
-X-Received: by 2002:a17:90a:6505:: with SMTP id i5mr3838067pjj.36.1574141660900;
-        Mon, 18 Nov 2019 21:34:20 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx3WmZjeKQxzxHHa/AxPTyXq45+6LekFE+w8NKygfXAW2Bw76jJ/WXvbY4tY2IwvbPVF3uyww==
-X-Received: by 2002:a17:90a:6505:: with SMTP id i5mr3838043pjj.36.1574141660626;
-        Mon, 18 Nov 2019 21:34:20 -0800 (PST)
-Received: from 2001-b011-380f-3c42-d02c-da56-2d00-ce2a.dynamic-ip6.hinet.net (2001-b011-380f-3c42-d02c-da56-2d00-ce2a.dynamic-ip6.hinet.net. [2001:b011:380f:3c42:d02c:da56:2d00:ce2a])
-        by smtp.gmail.com with ESMTPSA id e8sm22516084pga.17.2019.11.18.21.34.18
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Nov 2019 21:34:20 -0800 (PST)
+        Tue, 19 Nov 2019 01:11:41 -0500
+X-Greylist: delayed 695 seconds by postgrey-1.27 at vger.kernel.org; Tue, 19 Nov 2019 01:11:40 EST
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="32944514"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 19 Nov 2019 13:59:50 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(71493:0:AUTH_RELAY)
+        (envelope-from <johnny.chuang@emc.com.tw>); Tue, 19 Nov 2019 13:59:48 +0800 (CST)
+Received: from 192.168.55.71
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(101170:0:AUTH_LOGIN)
+        (envelope-from <johnny.chuang@emc.com.tw>); Tue, 19 Nov 2019 13:59:45 +0800 (CST)
+From:   "Johnny.Chuang" <johnny.chuang@emc.com.tw>
+To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>
+Cc:     =?big5?B?U1RSRDItsviozsBN?= <johnny.chuang@emc.com.tw>,
+        =?big5?B?U1RSRDItvbK0Zrxg?= <jennifer.tsai@emc.com.tw>,
+        <james.chen@emc.com.tw>,
+        =?big5?B?J7Hns9W1vic=?= <paul.liang@emc.com.tw>,
+        "'jeff'" <jeff.chuang@emc.com.tw>
+References: <1574142739-24556-1-git-send-email-johnny.chuang@emc.com.tw>
+In-Reply-To: <1574142739-24556-1-git-send-email-johnny.chuang@emc.com.tw>
+Subject: [PATCH] Input: elants_i2c - Add Remark ID check flow in firmware update function
+Date:   Tue, 19 Nov 2019 13:59:45 +0800
+Message-ID: <003d01d59e9e$8b0a3120$a11e9360$@emc.com.tw>
+MIME-Version: 1.0
 Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3601.0.10\))
-Subject: Re: [PATCH 1/2] Input: synaptics-rmi4 - clear irqs before set irqs
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <189fc7c3-d0f7-a25e-9d4d-446b095e853f@canonical.com>
-Date:   Tue, 19 Nov 2019 13:34:14 +0800
-Cc:     Aaron Ma <aaron.ma@canonical.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        Cheiny@synaptics.com, aduggan@synaptics.com,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+        charset="big5"
 Content-Transfer-Encoding: 7bit
-Message-Id: <E08F41E2-8708-49AE-813D-6079561F876F@canonical.com>
-References: <20190220164200.31044-1-aaron.ma@canonical.com>
- <20190609165551.GB90002@dtor-ws>
- <7da443d0-f433-c5a5-5194-707362eb2ee5@canonical.com>
- <20190611173545.GE143729@dtor-ws>
- <189fc7c3-d0f7-a25e-9d4d-446b095e853f@canonical.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-X-Mailer: Apple Mail (2.3601.0.10)
+X-Mailer: Microsoft Outlook 14.0
+thread-index: AQJWcJ1GfW6vkoLmumyMvYKuQq0ScKaQWfTg
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDUwMTBcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1jODZhZjRiMy0wYTkxLTExZWEtYmNjMC03YzVjZjg3NDk0NzhcYW1lLXRlc3RcYzg2YWY0YjUtMGE5MS0xMWVhLWJjYzAtN2M1Y2Y4NzQ5NDc4Ym9keS50eHQiIHN6PSI2MDg0IiB0PSIxMzIxODYxNjc4NDkxNzk3NzkiIGg9IkE5cEYzOGY0K0MwQk1FaENIdmZlcFcxWVhBQT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+This patch add Remark ID check flow to firmware update function of elan
+touchscreen driver.
 
-> On Jun 14, 2019, at 12:26, Aaron Ma <aaron.ma@canonical.com> wrote:
-> 
-> On 6/12/19 1:35 AM, Dmitry Torokhov wrote:
->> On Tue, Jun 11, 2019 at 12:55:58AM +0800, Aaron Ma wrote:
->>> On 6/10/19 12:55 AM, Dmitry Torokhov wrote:
->>>> Hi Aaron,
->>>> 
->>>> On Wed, Feb 20, 2019 at 05:41:59PM +0100, Aaron Ma wrote:
->>>>> rmi4 got spam data after S3 resume on some ThinkPads.
->>>>> Then TrackPoint lost when be detected by psmouse.
->>>>> Clear irqs status before set irqs will make TrackPoint back.
->>>> Could you please give me an idea as to what this spam data is?
->>>> 
->>> It should be some data 0 during suspend/resume.
->>> Actually I don't know how these data 0 is produced.
->>> Not all synaptics touchpads have this issue.
->>> 
->>>> In F03 probe we clear all pending data before enabling the function,
->>> Yes we did, but not after resume.
->> Yes, I understand that. The question I was asking: if we add code
->> consuming all pending data to f03->suspend(), similarly to what we are
->> doing at probe time, will it fix the issue with trackstick losing
->> synchronization and attempting disconnect?
->> 
-> 
-> I just do some test via adding code in suspend or resume.
-> But they didn't work out.
-> 
->>>> maybe the same needs to be done on resume, instead of changing the way
->>>> we handle IRQ bits?
->>> This patch is supposed to clear irq status like it in fn probe. Not
->>> changing IRQ bits.
->> What I meant is changing how we enable IRQ bits. I would really prefer
->> we did not lose IRQ state for other functions when we enable interrupts
->> for given function.
->> 
-> 
-> Not only F03 with problem, F12 too which is touchpad .
-> User verified this patch fixes problem of F12 too.
-> Clear IRQ status before enable IRQ should be safe.
-> 
-> Or we can add code before enable IRQ in F03/F12.
+It avoids firmware update with mismatched Remark ID.
 
-Users reported that  patch [1/2] alone can solve the issue.
+This function is supported by our latest version of boot code, but it
+cooperates well with earlier versions.
 
-Do we need more information before making this fix merged?
+Our driver will decide if enable Remark ID check with boot code version.
 
-Kai-Heng
+Signed-off-by: Johnny Chuang <johnny.chuang@emc.com.tw>
+---
+ drivers/input/touchscreen/elants_i2c.c | 108
+++++++++++++++++++++++++++++++---
+ 1 file changed, 100 insertions(+), 8 deletions(-)
 
-> 
-> Thanks,
-> Aaron
-> 
->> Thanks.
->> 
->> -- Dmitry
+diff --git a/drivers/input/touchscreen/elants_i2c.c
+b/drivers/input/touchscreen/elants_i2c.c
+index d4ad24e..9a17af6 100644
+--- a/drivers/input/touchscreen/elants_i2c.c
++++ b/drivers/input/touchscreen/elants_i2c.c
+@@ -59,8 +59,10 @@
+ #define CMD_HEADER_WRITE	0x54
+ #define CMD_HEADER_READ		0x53
+ #define CMD_HEADER_6B_READ	0x5B
++#define CMD_HEADER_ROM_READ	0x96
+ #define CMD_HEADER_RESP		0x52
+ #define CMD_HEADER_6B_RESP	0x9B
++#define CMD_HEADER_ROM_RESP	0x95
+ #define CMD_HEADER_HELLO	0x55
+ #define CMD_HEADER_REK		0x66
+ 
+@@ -128,6 +130,7 @@ struct elants_data {
+ 	u8 bc_version;
+ 	u8 iap_version;
+ 	u16 hw_version;
++	u16 remark_id;
+ 	unsigned int x_res;	/* resolution in units/mm */
+ 	unsigned int y_res;
+ 	unsigned int x_max;
+@@ -200,6 +203,10 @@ static int elants_i2c_execute_command(struct i2c_client
+*client,
+ 		expected_response = CMD_HEADER_6B_RESP;
+ 		break;
+ 
++	case CMD_HEADER_ROM_READ:
++		expected_response = CMD_HEADER_ROM_RESP;
++		break;
++
+ 	default:
+ 		dev_err(&client->dev, "%s: invalid command %*ph\n",
+ 			__func__, (int)cmd_size, cmd);
+@@ -556,6 +563,8 @@ static int elants_i2c_initialize(struct elants_data *ts)
+ 
+ 	/* hw version is available even if device in recovery state */
+ 	error2 = elants_i2c_query_hw_version(ts);
++	if (!error2)
++		error2 = elants_i2c_query_bc_version(ts);
+ 	if (!error)
+ 		error = error2;
+ 
+@@ -564,8 +573,6 @@ static int elants_i2c_initialize(struct elants_data *ts)
+ 	if (!error)
+ 		error = elants_i2c_query_test_version(ts);
+ 	if (!error)
+-		error = elants_i2c_query_bc_version(ts);
+-	if (!error)
+ 		error = elants_i2c_query_ts_info(ts);
+ 
+ 	if (error)
+@@ -613,39 +620,124 @@ static int elants_i2c_fw_write_page(struct i2c_client
+*client,
+ 	return error;
+ }
+ 
++static int elants_i2c_query_remark_id(struct elants_data *ts) {
++	struct i2c_client *client = ts->client;
++	int error;
++	const u8 cmd[] = { CMD_HEADER_ROM_READ, 0x80, 0x1F, 0x00, 0x00, 0x21
+};
++	u8 resp[6] = { 0 };
++
++	error = elants_i2c_execute_command(client, cmd, sizeof(cmd),
++					resp, sizeof(resp));
++	if (error) {
++		dev_err(&client->dev, "get Remark ID failed: %d.\n", error);
++		return error;
++	}
++
++	ts->remark_id = get_unaligned_be16(&resp[3]);
++	dev_info(&client->dev, "remark_id=0x%04x.\n", ts->remark_id);
++
++	return 0;
++}
++
++static int elants_i2c_validate_remark_id(struct elants_data *ts,
++					 const struct firmware *fw)
++{
++	struct i2c_client *client = ts->client;
++	int error;
++	u16 fw_remark_id = 0;
++
++	/* Compare TS Remark ID and FW Remark ID */
++	error = elants_i2c_query_remark_id(ts);
++	if (error) {
++		dev_err(&client->dev, "failed to query Remark ID: %d\n",
+error);
++		return error;
++	}
++
++	fw_remark_id = get_unaligned_le16(&fw->data[fw->size - 4]);
++	dev_info(&client->dev, "fw_remark_id=0x%04x.\n", fw_remark_id);
++	if (fw_remark_id != ts->remark_id) {
++		dev_err(&client->dev,
++			"Remark ID Mismatched: ts_remark_id=0x%04x,
+fw_remark_id=0x%x.\n",
++			ts->remark_id, fw_remark_id);
++		return -ENODATA;
++	}
++
++	return 0;
++}
++
+ static int elants_i2c_do_update_firmware(struct i2c_client *client,
+ 					 const struct firmware *fw,
+ 					 bool force)
+ {
++	struct elants_data *ts = i2c_get_clientdata(client);
++	static const u8 w_flashkey[] = { 0x54, 0xC0, 0xE1, 0x5A };
+ 	const u8 enter_iap[] = { 0x45, 0x49, 0x41, 0x50 };
+ 	const u8 enter_iap2[] = { 0x54, 0x00, 0x12, 0x34 };
+ 	const u8 iap_ack[] = { 0x55, 0xaa, 0x33, 0xcc };
+-	const u8 close_idle[] = {0x54, 0x2c, 0x01, 0x01};
++	const u8 close_idle[] = { 0x54, 0x2c, 0x01, 0x01 };
+ 	u8 buf[HEADER_SIZE];
+ 	u16 send_id;
+ 	int page, n_fw_pages;
+ 	int error;
++	bool check_remark_id = ts->iap_version >= 0x60;
+ 
+ 	/* Recovery mode detection! */
+ 	if (force) {
+ 		dev_dbg(&client->dev, "Recovery mode procedure\n");
++
++		if (check_remark_id == true) {
++			/* Validate Remark ID */
++			error = elants_i2c_validate_remark_id(ts, fw);
++			if (error) {
++				dev_err(&client->dev,
++					"failed to validate Remark ID:
+%d\n",
++					error);
++				return error;
++			}
++		}
++
++		error = elants_i2c_send(client, w_flashkey,
+sizeof(w_flashkey));
++		if (error)
++			dev_err(&client->dev, "failed to write flash key:
+%d\n",
++				error);
++
+ 		error = elants_i2c_send(client, enter_iap2,
+sizeof(enter_iap2));
++		if (error) {
++			dev_err(&client->dev, "failed to enter IAP mode:
+%d\n",
++				error);
++			return error;
++		}
++		msleep(20);
+ 	} else {
+ 		/* Start IAP Procedure */
+ 		dev_dbg(&client->dev, "Normal IAP procedure\n");
++
+ 		/* Close idle mode */
+ 		error = elants_i2c_send(client, close_idle,
+sizeof(close_idle));
+ 		if (error)
+ 			dev_err(&client->dev, "Failed close idle: %d\n",
+error);
+ 		msleep(60);
++
+ 		elants_i2c_sw_reset(client);
+ 		msleep(20);
+-		error = elants_i2c_send(client, enter_iap,
+sizeof(enter_iap));
+-	}
+ 
+-	if (error) {
+-		dev_err(&client->dev, "failed to enter IAP mode: %d\n",
+error);
+-		return error;
++		if (check_remark_id == true) {
++			/* Validate Remark ID */
++			error = elants_i2c_validate_remark_id(ts, fw);
++			if (error) {
++				dev_err(&client->dev, "failed to validate
+Remark ID: %d\n",
++					error);
++				return error;
++			}
++		}
++
++		error = elants_i2c_send(client, enter_iap,
+sizeof(enter_iap));
++		if (error) {
++			dev_err(&client->dev, "failed to enter IAP mode:
+%d\n",
++				error);
++			return error;
++		}
+ 	}
+ 
+ 	msleep(20);
+--
+2.7.4
 
