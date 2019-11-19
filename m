@@ -2,23 +2,23 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A0A3102358
-	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2019 12:38:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C0F6102376
+	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2019 12:42:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727557AbfKSLi2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Nov 2019 06:38:28 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:38383 "EHLO
+        id S1727702AbfKSLmt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Nov 2019 06:42:49 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:58703 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727665AbfKSLi2 (ORCPT
+        with ESMTP id S1727432AbfKSLmt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Nov 2019 06:38:28 -0500
+        Tue, 19 Nov 2019 06:42:49 -0500
 Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <l.stach@pengutronix.de>)
-        id 1iX1px-0000Yw-8u; Tue, 19 Nov 2019 12:38:25 +0100
-Message-ID: <3f4c87125e5021622fe80cc85411c5b1d25bc427.camel@pengutronix.de>
-Subject: Re: [PATCH 4/5] input/rmi4/rmi_driver: check if irq_find_mapping
- returns 0
+        id 1iX1uA-00012G-Nd; Tue, 19 Nov 2019 12:42:46 +0100
+Message-ID: <54e84fe8a6d1fdd6faf11e3a5c4a7314b0151474.camel@pengutronix.de>
+Subject: Re: [PATCH 2/5] input/rmi4/rmi_f54: fix various V4L2 compliance
+ problems
 From:   Lucas Stach <l.stach@pengutronix.de>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org
@@ -28,10 +28,10 @@ Cc:     linux-input@vger.kernel.org,
         Nick Dyer <nick@shmanahar.org>,
         Christopher Heiny <cheiny@synaptics.com>,
         Vandana BN <bnvandana@gmail.com>
-Date:   Tue, 19 Nov 2019 12:38:24 +0100
-In-Reply-To: <20191119105118.54285-5-hverkuil-cisco@xs4all.nl>
+Date:   Tue, 19 Nov 2019 12:42:46 +0100
+In-Reply-To: <20191119105118.54285-3-hverkuil-cisco@xs4all.nl>
 References: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
-         <20191119105118.54285-5-hverkuil-cisco@xs4all.nl>
+         <20191119105118.54285-3-hverkuil-cisco@xs4all.nl>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
@@ -45,47 +45,91 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
-
 On Di, 2019-11-19 at 11:51 +0100, Hans Verkuil wrote:
-> The irq_find_mapping() function can return 0 when called in the
-> rmi_process_interrupt_requests() function.
+> The v4l2-compliance utility reported several V4L2 API compliance
+> issues:
 > 
-> This causes a kernel crash. Check for a 0 value and skip calling
-> handle_nested_irq() in that case.
+> - the sequence counter wasn't filled in
+> - the sequence counter wasn't reset to 0 at the start of streaming
+> - the returned field value wasn't set to V4L2_FIELD_NONE
+> - the timestamp wasn't set
+> - the payload size was undefined if an error was returned
+> - min_buffers_needed doesn't need to be initialized
 > 
-> This was tested with the F54 function enabled on a Lenovo X1 Carbon.
+> Fix these issues.
 > 
 > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Fixes: 24d28e4f1271 ("Input: synaptics-rmi4 - convert irq distribution to irq_domain")
 
-This is already fixed upstream by 549766ac2ac1
-"Input: synaptics-rmi4 - clear IRQ enables for F54"
-
-Regards,
-Lucas
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de
 
 > ---
->  drivers/input/rmi4/rmi_driver.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  drivers/input/rmi4/rmi_f54.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
-> index 772493b1f665..6085ec424a84 100644
-> --- a/drivers/input/rmi4/rmi_driver.c
-> +++ b/drivers/input/rmi4/rmi_driver.c
-> @@ -154,8 +154,12 @@ static int rmi_process_interrupt_requests(struct rmi_device *rmi_dev)
->  	 */
->  	mutex_unlock(&data->irq_mutex);
+> diff --git a/drivers/input/rmi4/rmi_f54.c
+> b/drivers/input/rmi4/rmi_f54.c
+> index 710b02595486..ebccab7a4834 100644
+> --- a/drivers/input/rmi4/rmi_f54.c
+> +++ b/drivers/input/rmi4/rmi_f54.c
+> @@ -116,6 +116,7 @@ struct f54_data {
+>  	struct video_device vdev;
+>  	struct vb2_queue queue;
+>  	struct mutex lock;
+> +	u32 sequence;
+>  	int input;
+>  	enum rmi_f54_report_type inputs[F54_MAX_REPORT_TYPE];
+>  };
+> @@ -290,6 +291,7 @@ static int rmi_f54_queue_setup(struct vb2_queue
+> *q, unsigned int *nbuffers,
 >  
-> -	for_each_set_bit(i, data->irq_status, data->irq_count)
-> -		handle_nested_irq(irq_find_mapping(data->irqdomain, i));
-> +	for_each_set_bit(i, data->irq_status, data->irq_count) {
-> +		unsigned int irq = irq_find_mapping(data->irqdomain, i);
+>  static void rmi_f54_buffer_queue(struct vb2_buffer *vb)
+>  {
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>  	struct f54_data *f54 = vb2_get_drv_priv(vb->vb2_queue);
+>  	u16 *ptr;
+>  	enum vb2_buffer_state state;
+> @@ -298,6 +300,7 @@ static void rmi_f54_buffer_queue(struct
+> vb2_buffer *vb)
+>  
+>  	mutex_lock(&f54->status_mutex);
+>  
+> +	vb2_set_plane_payload(vb, 0, 0);
+>  	reptype = rmi_f54_get_reptype(f54, f54->input);
+>  	if (reptype == F54_REPORT_NONE) {
+>  		state = VB2_BUF_STATE_ERROR;
+> @@ -344,14 +347,25 @@ static void rmi_f54_buffer_queue(struct
+> vb2_buffer *vb)
+>  data_done:
+>  	mutex_unlock(&f54->data_mutex);
+>  done:
+> +	vb->timestamp = ktime_get_ns();
+> +	vbuf->field = V4L2_FIELD_NONE;
+> +	vbuf->sequence = f54->sequence++;
+>  	vb2_buffer_done(vb, state);
+>  	mutex_unlock(&f54->status_mutex);
+>  }
+>  
+> +static void rmi_f54_stop_streaming(struct vb2_queue *q)
+> +{
+> +	struct f54_data *f54 = vb2_get_drv_priv(q);
 > +
-> +		if (irq)
-> +			handle_nested_irq(irq);
-> +	}
+> +	f54->sequence = 0;
+> +}
+> +
+>  /* V4L2 structures */
+>  static const struct vb2_ops rmi_f54_queue_ops = {
+>  	.queue_setup            = rmi_f54_queue_setup,
+>  	.buf_queue              = rmi_f54_buffer_queue,
+> +	.stop_streaming		= rmi_f54_stop_streaming,
+>  	.wait_prepare           = vb2_ops_wait_prepare,
+>  	.wait_finish            = vb2_ops_wait_finish,
+>  };
+> @@ -363,7 +377,6 @@ static const struct vb2_queue rmi_f54_queue = {
+>  	.ops = &rmi_f54_queue_ops,
+>  	.mem_ops = &vb2_vmalloc_memops,
+>  	.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC,
+> -	.min_buffers_needed = 1,
+>  };
 >  
->  	if (data->input)
->  		input_sync(data->input);
+>  static int rmi_f54_vidioc_querycap(struct file *file, void *priv,
 
