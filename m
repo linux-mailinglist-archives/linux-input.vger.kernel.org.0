@@ -2,184 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D76A1034E9
-	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2019 08:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BEAED103692
+	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2019 10:27:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727175AbfKTHPI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Nov 2019 02:15:08 -0500
-Received: from mail-eopbgr720138.outbound.protection.outlook.com ([40.107.72.138]:25376
-        "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725854AbfKTHPI (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Nov 2019 02:15:08 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NVEKr9ruT8bpCRNOkcwQW2Tg9x2Qx/mTEWs7bMTytFa9/BQKspTwy2sa3pyps4eZJphLf/eFsa1X0vKtzDIzc9giyKViFsU0XzoQlRr69R7IwcC06mlqqmLqyV56RKaQ/+4eW0ZkMCXWraqHe6gCVTQT+W8eGkwrjidWueAq4MniB4vsvtYWi1Fqz7fcfgUOD4B5vP45ojnBwtCJPocIWemaHetfHkvnpmEpd+1CASxU3kp0icZx5XqCU5HILpiIe9DDcPIs4eO5wiQwCMYY0gZ1gUMwSVHeNvFIdGB4mL6VpTtmEOegwEAAoEFkmcqe7A+FNvvsms9Ybvjyv/Iuxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P15rWuOlm/J4PXd5DAQOnbMS1fEWyCY3EHRZuWYPfQA=;
- b=Q7wtway0Y3mgpHZTs000fG7upQ4v6rPPwArTUTsKh2YSv2z82jY+zkMvLZOr0KvK9HORyT3t1cMF3oEs0XcT3NtzPqPfG1YFxuV8FmSUooNd26tmFJhx3B9c5l/ZCFBfLAIFQsx7jz7WZvh7c9zwdVhMHxR+fGWOfxVF+RNizxwiOsDiyJr5TBESZSlcq3iusGy7AHChKcFSC7pa/JcJko+opR6MAAzG2bQ+ETLEUzOshNqKAThBYk992vPp1fQzZ3LFDtT74MBHkxpCqjgGSpQUk/n8M4O0xSp+xs3WYSxbbrrIw4C39fmD3935EQhBJRlTSxs2k8+cRHA6nrZ2FQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P15rWuOlm/J4PXd5DAQOnbMS1fEWyCY3EHRZuWYPfQA=;
- b=Ig9P+nZU9JxIZC7+RdTnj8TnmcCsYCVbY/hxAXAxz1JkNL/y513EfcxUE4m2znTiSNgosa4SqMv1Ln8IyJlZVmb7lGjxv2YtcIL/xdsy9s6d3CRQGZ7dBH+ctalUo4lGSy0r+5GjJYtlnnFhTiV+coz9tzU0XBhOB8TIaluc0/s=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=decui@microsoft.com; 
-Received: from BN8PR21MB1137.namprd21.prod.outlook.com (20.179.72.96) by
- BN8PR21MB1251.namprd21.prod.outlook.com (20.179.74.28) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.3; Wed, 20 Nov 2019 07:15:04 +0000
-Received: from BN8PR21MB1137.namprd21.prod.outlook.com
- ([fe80::c596:ecf5:7a6:734d]) by BN8PR21MB1137.namprd21.prod.outlook.com
- ([fe80::c596:ecf5:7a6:734d%2]) with mapi id 15.20.2495.006; Wed, 20 Nov 2019
- 07:15:04 +0000
-From:   Dexuan Cui <decui@microsoft.com>
-To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        sashal@kernel.org, jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mikelley@microsoft.com,
-        Alexander.Levin@microsoft.com
-Cc:     Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH v2] HID: hyperv: Add the support of hibernation
-Date:   Tue, 19 Nov 2019 23:14:56 -0800
-Message-Id: <1574234096-48767-1-git-send-email-decui@microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-Reply-To: decui@microsoft.com
-Content-Type: text/plain
-X-ClientProxiedBy: MWHPR2001CA0013.namprd20.prod.outlook.com
- (2603:10b6:301:15::23) To BN8PR21MB1137.namprd21.prod.outlook.com
- (2603:10b6:408:71::32)
+        id S1727671AbfKTJ1x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Nov 2019 04:27:53 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:37077 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727450AbfKTJ1x (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 20 Nov 2019 04:27:53 -0500
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iXMH8-0002YO-Bd; Wed, 20 Nov 2019 10:27:50 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iXMH7-0006fJ-8R; Wed, 20 Nov 2019 10:27:49 +0100
+Date:   Wed, 20 Nov 2019 10:27:49 +0100
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Robin Gong <yibin.gong@nxp.com>, robin <robin@protonic.nl>,
+        "linux-input @ vger . kernel . org" <linux-input@vger.kernel.org>,
+        "linux-kernel @ vger . kernel . org" <linux-kernel@vger.kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Adam Ford <aford173@gmail.com>,
+        "linux-arm-kernel @ lists . infradead . org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v3] input: keyboard: snvs_pwrkey: Send key events for
+ i.MX6 S, DL and Q
+Message-ID: <20191120092749.7rru5fj7eybs4tl6@pengutronix.de>
+References: <20190904062329.97520-1-robin@protonic.nl>
+ <20190912201300.GA636@penguin>
+ <803592d161b9ca75d6ac1c2c54e891a1@protonic.nl>
+ <VE1PR04MB663896B94C68B5EF9AE0BE36898C0@VE1PR04MB6638.eurprd04.prod.outlook.com>
+ <20190916233701.GH237523@dtor-ws>
 MIME-Version: 1.0
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by MWHPR2001CA0013.namprd20.prod.outlook.com (2603:10b6:301:15::23) with Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport; Wed, 20 Nov 2019 07:15:03 +0000
-X-Mailer: git-send-email 1.8.3.1
-X-Originating-IP: [13.77.154.182]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 6a3e3771-45a0-4e3f-74b3-08d76d895d81
-X-MS-TrafficTypeDiagnostic: BN8PR21MB1251:|BN8PR21MB1251:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN8PR21MB1251ED5AD29398CC81DDB1A2BF4F0@BN8PR21MB1251.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 02272225C5
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(376002)(346002)(396003)(136003)(39860400002)(366004)(199004)(189003)(10090500001)(36756003)(8936002)(50226002)(81166006)(81156014)(8676002)(14444005)(6436002)(6486002)(1511001)(86362001)(7736002)(2906002)(5660300002)(478600001)(10290500003)(966005)(4720700003)(6636002)(3846002)(6116002)(25786009)(3450700001)(66946007)(66556008)(66476007)(305945005)(316002)(386003)(6666004)(4326008)(6506007)(22452003)(26005)(16586007)(186003)(16526019)(107886003)(51416003)(52116002)(66066001)(48376002)(47776003)(50466002)(43066004)(956004)(2616005)(476003)(486006)(6512007)(6306002)(921003)(21314003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR21MB1251;H:BN8PR21MB1137.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-Received-SPF: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oBElm30y8BLgjWj9IU/nrudVj+GGjjr9zbJfgLGUQMKXGL2bsLMlX/mq14mcSgBi5i4BtNJiC7ByK5Es2WGcQ9QDHFnfRQEaiXC3bgKku7QqsABeN7nKidwVuSD9JII54+5Dlr63dhNiU1jwBV2svT2L/TYEZOQaIVoKPwiUJGr2UJz59KpjoiCTNl7p5UljR65IKHrsIQINFnKnaBF6qjV+yLhU6ebmaoz12KhtPsDt/ojzY9ET81v/AfOwgPjPQ9fvLTKCtEnWmBsoiUcJbKwtMRQ4QmDnkyF0Ow7WIktnoH85aamWzXZrRt+9NKkuJy3VHayf9UNqNqWzaDiiqZ/9SHy4nWnQ+6Oh7T0VkrkK68tBjLtb/cEtrmjt7dpF/MuNY5uH+SaSHGE5AB3MFjXc/2qJQmuicluqlmNXNCMk8lW4MCg+iraZjAgM7jka
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a3e3771-45a0-4e3f-74b3-08d76d895d81
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2019 07:15:04.5888
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kh7zn7Lqc3qiAgzKOyTBYYTI0stUVzfN8QrGfgzh+4UdtpnwfazqgM5JMDE4UgtmZ2YgfEu1I7WsiKJ2KdrsKQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR21MB1251
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190916233701.GH237523@dtor-ws>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 10:21:16 up 5 days, 39 min, 19 users,  load average: 0.09, 0.04,
+ 0.01
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-During the suspend process and resume process, if there is any mouse
-event, there is a small chance the suspend and the resume process can be
-aborted because of mousevsc_on_receive() -> pm_wakeup_hard_event().
+Hi Robin,
 
-This behavior can be avoided by disabling the Hyper-V mouse device as
-a wakeup source:
+On 19-09-16 16:37, Dmitry Torokhov wrote:
+> On Mon, Sep 16, 2019 at 07:45:37AM +0000, Robin Gong wrote:
+> > On 2019/9/13 15:31 robin <robin@protonic.nl> wrote:> 
+> > > Hi Dmitry,
+> > > 
+> > > On 2019-09-12 22:13, Dmitry Torokhov wrote:
+> > > > Hi Robin,
+> > > >
+> > > > On Wed, Sep 04, 2019 at 06:23:29AM +0000, Robin van der Gracht wrote:
+> > > >> The first generation i.MX6 processors does not send an interrupt when
+> > > >> the power key is pressed. It sends a power down request interrupt if
+> > > >> the key is released before a hard shutdown (5 second press). This
+> > > >> should allow software to bring down the SoC safely.
+> > > >>
+> > > >> For this driver to work as a regular power key with the older SoCs,
+> > > >> we need to send a keypress AND release when we get the power down
+> > > >> request irq.
+> > > >>
+> > > >> Signed-off-by: Robin van der Gracht <robin@protonic.nl>
+> > > >> ---
+> > > >> @@ -67,13 +83,17 @@ static irqreturn_t imx_snvs_pwrkey_interrupt(int
+> > > >> irq, void *dev_id)  {
+> > > >>  	struct platform_device *pdev = dev_id;
+> > > >>  	struct pwrkey_drv_data *pdata = platform_get_drvdata(pdev);
+> > > >> +	unsigned long expire = jiffies;
+> > > >>  	u32 lp_status;
+> > > >>
+> > > >>  	pm_wakeup_event(pdata->input->dev.parent, 0);
+> > > >>
+> > > >>  	regmap_read(pdata->snvs, SNVS_LPSR_REG, &lp_status);
+> > > >> -	if (lp_status & SNVS_LPSR_SPO)
+> > > >> -		mod_timer(&pdata->check_timer, jiffies +
+> > > >> msecs_to_jiffies(DEBOUNCE_TIME));
+> > > >> +	if (lp_status & SNVS_LPSR_SPO) {
+> > > >> +		if (pdata->minor_rev > 0)
+> > > >> +			expire = jiffies + msecs_to_jiffies(DEBOUNCE_TIME);
+> > > >> +		mod_timer(&pdata->check_timer, expire);
+> > > >
+> > > > Why do we even need to fire the timer in case of the first generation
+> > > > hardware? Just send press and release events directly from the ISR.
+> > That timer looks like a software debounce to prevent unexpected and
+> > meaningless interrupt/event caused by quick press/release.   
+> 
+> Right, but in case of the first generation hardware we schedule the
+> timer immediately (expire == 0) and do not check state of the hardware
+> in the timer handler, but rather simply emit down/up events, so we do
+> not really get any benefit from the timer (again, I am talking about
+> first generation hardware only).
 
-echo disabled > /sys/bus/vmbus/drivers/hid_hyperv/XXX/power/wakeup
-(XXX is the device's GUID).
+Did you prepared a v4? Just ask to avoid a duplicated work :)
 
-Signed-off-by: Dexuan Cui <decui@microsoft.com>
-Acked-by: Jiri Kosina <jkosina@suse.cz>
----
+Regards,
+  Marco
 
-Changes in v2:
-  Removed the "struct notifier_block pm_nb;" after the discussion
-with Dmitry Torokhov:
-  https://lore.kernel.org/lkml/PU1P153MB016914A7C827CA35D7FEB66ABF8B0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM/T/#m8948c711301220a36a1a413eead74cd2fb6dcac1
-
- drivers/hid/hid-hyperv.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
-
-diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-index 79a28fc91521..dddfca555df9 100644
---- a/drivers/hid/hid-hyperv.c
-+++ b/drivers/hid/hid-hyperv.c
-@@ -192,6 +192,9 @@ static void mousevsc_on_receive_device_info(struct mousevsc_dev *input_device,
- 	if (desc->bLength == 0)
- 		goto cleanup;
- 
-+	/* The pointer is not NULL when we resume from hibernation */
-+	if (input_device->hid_desc != NULL)
-+		kfree(input_device->hid_desc);
- 	input_device->hid_desc = kmemdup(desc, desc->bLength, GFP_ATOMIC);
- 
- 	if (!input_device->hid_desc)
-@@ -203,6 +206,9 @@ static void mousevsc_on_receive_device_info(struct mousevsc_dev *input_device,
- 		goto cleanup;
- 	}
- 
-+	/* The pointer is not NULL when we resume from hibernation */
-+	if (input_device->report_desc != NULL)
-+		kfree(input_device->report_desc);
- 	input_device->report_desc = kzalloc(input_device->report_desc_size,
- 					  GFP_ATOMIC);
- 
-@@ -342,6 +348,8 @@ static int mousevsc_connect_to_vsp(struct hv_device *device)
- 	struct mousevsc_prt_msg *request;
- 	struct mousevsc_prt_msg *response;
- 
-+	reinit_completion(&input_dev->wait_event);
-+
- 	request = &input_dev->protocol_req;
- 	memset(request, 0, sizeof(struct mousevsc_prt_msg));
- 
-@@ -541,6 +549,30 @@ static int mousevsc_remove(struct hv_device *dev)
- 	return 0;
- }
- 
-+static int mousevsc_suspend(struct hv_device *dev)
-+{
-+	vmbus_close(dev->channel);
-+
-+	return 0;
-+}
-+
-+static int mousevsc_resume(struct hv_device *dev)
-+{
-+	int ret;
-+
-+	ret = vmbus_open(dev->channel,
-+			 INPUTVSC_SEND_RING_BUFFER_SIZE,
-+			 INPUTVSC_RECV_RING_BUFFER_SIZE,
-+			 NULL, 0,
-+			 mousevsc_on_channel_callback,
-+			 dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = mousevsc_connect_to_vsp(dev);
-+	return ret;
-+}
-+
- static const struct hv_vmbus_device_id id_table[] = {
- 	/* Mouse guid */
- 	{ HV_MOUSE_GUID, },
-@@ -554,6 +586,8 @@ static struct  hv_driver mousevsc_drv = {
- 	.id_table = id_table,
- 	.probe = mousevsc_probe,
- 	.remove = mousevsc_remove,
-+	.suspend = mousevsc_suspend,
-+	.resume = mousevsc_resume,
- 	.driver = {
- 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
- 	},
--- 
-2.19.1
-
+> Thanks.
+> 
+> -- 
+> Dmitry
+> 
