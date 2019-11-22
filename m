@@ -2,95 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B947D10791E
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 20:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7AF710796F
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 21:26:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbfKVT6O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 14:58:14 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:33295 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726620AbfKVT6O (ORCPT
+        id S1726704AbfKVU0D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 15:26:03 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:44332 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726526AbfKVU0D (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 14:58:14 -0500
-Received: by mail-pf1-f193.google.com with SMTP id c184so3990886pfb.0;
-        Fri, 22 Nov 2019 11:58:13 -0800 (PST)
+        Fri, 22 Nov 2019 15:26:03 -0500
+Received: by mail-pg1-f194.google.com with SMTP id e6so3831911pgi.11;
+        Fri, 22 Nov 2019 12:26:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=r11BfygBs6IhmuRawK17w4f/VmqvaEoWsWrxyCWo3ik=;
-        b=B6yeMOeSTBPhaAxOX4WXLa1771gxHXC6/XcSqlpPAdmhIVqqx+7205zS1frV3P1lNa
-         O09fOUw7P5mHnhtGUgC6UX1WSP76XaXHl0Ag2ynvIjdVyEG+6f+waxe2W9xg8iJQueIl
-         o1C39+a1wUIcudIqh9djy7Gz/r0q1gZAYhISqM7em82aXUny1fAyYCpoAYkymbJMiU20
-         D5kH4EiroZaWxZfXu6KAEhFukrJHd/VZvUfeZ7EBWaHwvi5unlfk3GQSY7nQwVhqEKxt
-         TpOyhHlrCglYaMrseBzPRL1cpCOZBTgM7GCUsi24zJQH+fSl6MpPxjP+JvQUG6JgzcrL
-         26sA==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=JDYXarROpC1eNzKna2zZoOdAaSL8sfvjdyuyZruxS+E=;
+        b=vUGgAy80y2xWW/M+12ob23BwpxER1hYdVUIRe98rzR6go6PGmxcTYQgl+XkxFj5gS+
+         v7cXpPLwMZANDABm7dcVcsGhZmMVjuWtSxla+KMTWGi9zmvyVlx4NeyjeKhodPgkz3Ab
+         k3tbQfoI1ferSJq38LO40+0HHiQ6xLNdI7Xxu095SE+Qo9bbMBaE9i1cfNRys7SIkNER
+         ZInz8ZoxaPua3ZTIrcELtAyeGQc4UFKEySdPTIPoQOH6nKdjxdRxAjE+Yfp4T8YAjDvl
+         wYUWUjzbJaK28/XLfJq5NOSwm8+cqWYQPxKQzSv/mxuxIF2JJE1gPC0C9A3f8puO9djZ
+         FeOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=r11BfygBs6IhmuRawK17w4f/VmqvaEoWsWrxyCWo3ik=;
-        b=LaKTFHslDPkuFhUifGxY5AAXLiIzuGDl4BM96Ume/slRdjxPkfFZS6TfoH5u8k4C+O
-         K1MrOoGtUanydp3tVERoPzWx3yMHgJTCcKPunAihd2rGfLKod8cAzWyEC1uyYGI6CMMP
-         t2ML8PwTVf3X4ZcrVC9UBAex0VIoyz1UhFwVlyRwrhyxairRRgYAvpTNYVaqnUVNPiaU
-         0lU6dvMB5iRX3rS48eRmD5MvwfN2RPZ0ZC7CUIZOosqTRoz2tf/2N+KpsxWA+0BOpRic
-         5W0f0mafn5eCX4wDJEN3PheT7BRp+zuK5GrKyr54CUxE1zjK+euV0AKa6lywYsIQJQ02
-         sJ2g==
-X-Gm-Message-State: APjAAAXEh1IVHiHF4C95OwDD3v+XNQhlRJIu6Yv9JvRA5bD6iXGsVq8x
-        7/pG2H8+vpZCdlGp8y28TnM=
-X-Google-Smtp-Source: APXvYqzzIfgY6uVJLzj6FV1n4TPV09s7skwC/jfsXarfkBYi4XTYwa8QQK+UwqWRN/I06qyOJ0tEaA==
-X-Received: by 2002:a63:6a47:: with SMTP id f68mr17905505pgc.35.1574452693046;
-        Fri, 22 Nov 2019 11:58:13 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=JDYXarROpC1eNzKna2zZoOdAaSL8sfvjdyuyZruxS+E=;
+        b=la2GWZHaDL093Xqi/rGaq50lD+ZocdI+udbE9oCm0xk8mYNz2ImOzM9RamhkgiLV2S
+         5jk2iDLe79ee6hyQbgRA964v2IQo8MwuFs3nQ5lem2IvZDAB4GY96A/IN+syvvr9aVAm
+         b3frKf43fThso5W7VaPuwFUNQiaPFSSCh79gcDEAKWkJGkT3ZEY3wVpRyxDEmYRTl1Mm
+         G7/3LM+HYbvdoXyhZlncE/3cDXuoCk5pQ+Y/YytkQT5gJ6mmXpwgDSzHI69wwakHLbLC
+         yqF+xQ+apUi0jl1I/zanOu3U20geaVlzqDI+qqObNsFDdE7CfDBETahaw3quGdT8UNXP
+         ARAw==
+X-Gm-Message-State: APjAAAVAs2fFQSpJ8bsOjukGiYa0RS082Ydg8gaiH0r5T5GgoLPn9WEG
+        LfncAlgzbnxYm1iCu4TNM+Y=
+X-Google-Smtp-Source: APXvYqyIZv1Tw3m3Gm4B0c++BYkqj7DCwbAQuYD5xuFf8mX9fCzF00qF0RjN/qNg5S3VSzfpUPVHwA==
+X-Received: by 2002:a65:5a4d:: with SMTP id z13mr10661479pgs.21.1574454362505;
+        Fri, 22 Nov 2019 12:26:02 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id r15sm8656326pfh.81.2019.11.22.11.58.12
+        by smtp.gmail.com with ESMTPSA id fz12sm3656086pjb.15.2019.11.22.12.26.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2019 11:58:12 -0800 (PST)
-Date:   Fri, 22 Nov 2019 11:58:10 -0800
+        Fri, 22 Nov 2019 12:26:01 -0800 (PST)
+Date:   Fri, 22 Nov 2019 12:25:59 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH] input: misc: Kconfig: use select instead of depends on
- KEYBOARD_GPIO
-Message-ID: <20191122195810.GD248138@dtor-ws>
-References: <20191121132046.11977-1-info@metux.net>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: hid-input: clear unmapped usages
+Message-ID: <20191122202559.GA71021@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191121132046.11977-1-info@metux.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 21, 2019 at 02:20:46PM +0100, Enrico Weigelt, metux IT consult wrote:
-> From: Enrico Weigelt <info@metux.net>
-> 
-> Make selection of the driver a bit easier by replacing depends on
-> KEYBOARD_GPIO by select, so we don't need to enable KEYBOARD_GPIO
-> before being able to enable INPUT_SOC_BUTTON_ARRAY.
-> 
-> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
-> ---
->  drivers/input/misc/Kconfig | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-> index 7d9ae394e597..99d263177d8d 100644
-> --- a/drivers/input/misc/Kconfig
-> +++ b/drivers/input/misc/Kconfig
-> @@ -813,7 +813,8 @@ config INPUT_IDEAPAD_SLIDEBAR
->  
->  config INPUT_SOC_BUTTON_ARRAY
->  	tristate "Windows-compatible SoC Button Array"
-> -	depends on KEYBOARD_GPIO && ACPI
-> +	depends on ACPI
-> +	select KEYBOARD_GPIO
+We should not be leaving half-mapped usages with potentially invalid
+keycodes, as that may confuse hidinput_find_key() when the key is
+located by index, which may end up feeding way too large keycode into
+the VT keyboard handler and cause OOB write there:
 
-KEYBOARD_GPIO depends on GPIOLIB and "select" does not propagate
-dependencies, so you may still end up with invalid configs...
+BUG: KASAN: global-out-of-bounds in clear_bit include/asm-generic/bitops-instrumented.h:56 [inline]
+BUG: KASAN: global-out-of-bounds in kbd_keycode drivers/tty/vt/keyboard.c:1411 [inline]
+BUG: KASAN: global-out-of-bounds in kbd_event+0xe6b/0x3790 drivers/tty/vt/keyboard.c:1495
+Write of size 8 at addr ffffffff89a1b2d8 by task syz-executor108/1722
+...
+ kbd_keycode drivers/tty/vt/keyboard.c:1411 [inline]
+ kbd_event+0xe6b/0x3790 drivers/tty/vt/keyboard.c:1495
+ input_to_handler+0x3b6/0x4c0 drivers/input/input.c:118
+ input_pass_values.part.0+0x2e3/0x720 drivers/input/input.c:145
+ input_pass_values drivers/input/input.c:949 [inline]
+ input_set_keycode+0x290/0x320 drivers/input/input.c:954
+ evdev_handle_set_keycode_v2+0xc4/0x120 drivers/input/evdev.c:882
+ evdev_do_ioctl drivers/input/evdev.c:1150 [inline]
 
-Thanks.
+In this case we were dealing with a fuzzed HID device that declared over
+12K buttons:
+
+https://syzkaller.appspot.com/bug?extid=19340dff067c2d3835c0
+
+Reported-by: syzbot+19340dff067c2d3835c0@syzkaller.appspotmail.com
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+
+I'll be putting a guard into drivers/tty/vt/keyboard.c as well.
+Please consider for stable.
+
+ drivers/hid/hid-input.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 63855f275a38..3957d1c4d967 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -1215,9 +1215,11 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 		set_bit(MSC_SCAN, input->mscbit);
+ 	}
+ 
+-ignore:
+ 	return;
+ 
++ignore:
++	usage->type = 0;
++	usage->code = 0;
+ }
+ 
+ static void hidinput_handle_scroll(struct hid_usage *usage,
+-- 
+2.24.0.432.g9d3f5f5b63-goog
+
 
 -- 
 Dmitry
