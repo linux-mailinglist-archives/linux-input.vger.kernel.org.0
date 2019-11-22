@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2511106803
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 09:27:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7712B106804
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 09:27:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbfKVI0l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 03:26:41 -0500
+        id S1727726AbfKVI0o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 03:26:44 -0500
 Received: from esa3.mentor.iphmx.com ([68.232.137.180]:4485 "EHLO
         esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726887AbfKVI0k (ORCPT
+        with ESMTP id S1727020AbfKVI0m (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 03:26:40 -0500
-IronPort-SDR: gIY1LfrtPAyFlfYcwRBDhCrPcPs7FPZM3xqxteZNKolO6/ZvWCC7e/H6suP0n6UA/T2fOtL3Q6
- gLNBMLamuwYE4ISOegZjC9oKzWipn3myjgiCdmYGdQYwXP29G7sG2h4ItgNUoVinLRNDv7PW3F
- T78B9xOxRx7gE1ukt1bRWLL1kq77+Vn0kcqQpVjL4YDiMQ8NyaqK4OPysfYYqnP/B/Nz2/Murb
- In3RfkOg+4GV78nIKhCuunApp8pw0TYotr/m4dlqy4TjLpwO0rN1yJdB6MNoIprzWt9RABUiCt
- WL8=
+        Fri, 22 Nov 2019 03:26:42 -0500
+IronPort-SDR: nUKXrlh/pIQZ7db4cRbqISlRDADkhgjt0NBfcWs94CBz1s+Do6639qW5uwORufKLmXvOP58Jt1
+ SHV9gBrUtAdnkKDPvGXFlKxtPv0356hLzUKTVQ5I/6tIs/PtAqT+PXVVhsN9iaf7+lBSBNyOfL
+ el96ThDw2fTC56NsYeGk2ANegplZrQT2l0GXoKMLdL3It/gBqApWqvBg7cfUcYPxn4+/3unYo+
+ kc/DAPkJe14z1KiC5lNYxOGRQolLcLPymmJhtZIrlnidHQ1Dlzz/y1KTVhn/DmI443MpUhmmjD
+ wn8=
 X-IronPort-AV: E=Sophos;i="5.69,229,1571731200"; 
-   d="scan'208";a="43419510"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa3.mentor.iphmx.com with ESMTP; 22 Nov 2019 00:26:39 -0800
-IronPort-SDR: rN29y0X6XJFOufnfagWqX8oKH7k7O10myPX5C8lj14fz8QmPJI/joSequSDSfXCgIznJMGFLBL
- Rhdtl/IWVA+QdvbMbjEU6WMLSIPf6lx7lOx6s5mTWK8I0Yl8xU1iH+TZDm331Fa3MZ6O+UmXTX
- bUz23HjjUwzaYfHeMvOIUpD8Si2drcXtWSMK35IBj8/miJhrhSBVR3dsl0o2YnwrqykRmugoaN
- bAr87bX/DroVEFzSWMSyn4Gl6hocgpL7wFFbB1+LM+wlmyBQJFwTFKf/DsV/QuOUSk3Eb6lXKK
- tOQ=
+   d="scan'208";a="43419513"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa3.mentor.iphmx.com with ESMTP; 22 Nov 2019 00:26:42 -0800
+IronPort-SDR: EhT1w9diO6exW+ZYwZErq89l9cksFudE+O94WET14gCjsC2dNsgjgqr2NKiW1bnjoZwOYA2O8R
+ dubRfX9BtVD9gfIhlXPJLUuyMQSX0uAPbRkbwgVzpIVOWb9nDo1jliFfvHFOb3O94mINyQ1FHW
+ MCCDW14ZNUZF1rTFpmT9psFiX6U1Xylfatt7RPTs9rDBlRXblG5kOE6NcHs1pJfb+Nm2H+AlAR
+ K2FtjQYqvwP0RYM2dYh2WZgTGj18N5dAcj0lAcpIsyrMEBBERhECgPzbk2wHW3mj//nH5J1kZV
+ xgY=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>, <dmitry.torokhov@gmail.com>,
@@ -33,9 +33,9 @@ To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v6 41/48] Input: Atmel: Improve error handling in mxt_initialize_input_device()
-Date:   Fri, 22 Nov 2019 17:23:55 +0900
-Message-ID: <20191122082402.18173-42-jiada_wang@mentor.com>
+Subject: [PATCH v6 42/48] Input: Atmel: handle ReportID "0x00" while processing T5 messages
+Date:   Fri, 22 Nov 2019 17:23:56 +0900
+Message-ID: <20191122082402.18173-43-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191122082402.18173-1-jiada_wang@mentor.com>
 References: <20191122082402.18173-1-jiada_wang@mentor.com>
@@ -48,50 +48,56 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Deepak Das <deepak_das@mentor.com>
 
-Currently Driver probe continues with a warning message when it fails to
-get the proper multitouch object configurations like TouchScreen resolution.
-But Driver probe should fail in case of above scneario because it will not behave
-as expected without the proper touchscreen configurations.
+ReportID "0x00" is reserved by Atmel and should not be used by any
+Atmel touch controller.
 
-This commit modifies mxt_initialize_input_device() to return error when it fails
-to get the proper touch screen configurations.
+reportID is the first byte retrieved from T5 message payload.
+Currently Atmel driver continues to process the T5 messages even if
+the reportID "0x00" is returned by Touch Controller.
+
+This commit modifies Atmel touch driver to return -EINVAL if ReportID
+"0x00" is received while processing T5 messages.
 
 Signed-off-by: Deepak Das <deepak_das@mentor.com>
-Signed-off-by: Dean Jenkins <Dean_Jenkins@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 92af95bd4eed..e3ed74e7c270 100644
+index e3ed74e7c270..8d6478834fd8 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -2762,15 +2762,19 @@ static int mxt_initialize_input_device(struct mxt_data *data)
- 	case MXT_TOUCH_MULTI_T9:
- 		num_mt_slots = data->T9_reportid_max - data->T9_reportid_min + 1;
- 		error = mxt_read_t9_resolution(data);
--		if (error)
--			dev_warn(dev, "Failed to initialize T9 resolution\n");
-+		if (error) {
-+			dev_err(dev, "Failed to initialize T9 resolution\n");
-+			return error;
-+		}
- 		break;
+@@ -76,6 +76,7 @@
+ #define MXT_PROCI_TOUCHSEQUENCELOGGER	93
+ #define MXT_TOUCH_MULTITOUCHSCREEN_T100 100
+ #define MXT_PROCI_ACTIVESTYLUS_T107	107
++#define MXT_RPTID_RESERVED		0
  
- 	case MXT_TOUCH_MULTITOUCHSCREEN_T100:
- 		num_mt_slots = data->num_touchids;
- 		error = mxt_read_t100_config(data);
--		if (error)
--			dev_warn(dev, "Failed to read T100 config\n");
-+		if (error) {
-+			dev_err(dev, "Failed to read T100 config\n");
-+			return error;
-+		}
- 		break;
+ /* MXT_GEN_MESSAGE_T5 object */
+ #define MXT_RPTID_NOMSG		0xff
+@@ -1384,6 +1385,11 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
+ 	u8 report_id = message[0];
+ 	bool dump = data->debug_enabled;
  
- 	default:
++	if (report_id == MXT_RPTID_RESERVED) {
++		dev_err(&data->client->dev,
++			"Received Reserved ReportID 0x00\n");
++		return -EINVAL;
++	}
+ 	if (report_id == MXT_RPTID_NOMSG)
+ 		return 0;
+ 
+@@ -1454,6 +1460,8 @@ static int mxt_read_and_process_messages(struct mxt_data *data, u8 count)
+ 		ret = mxt_proc_message(data,
+ 			data->msg_buf + data->T5_msg_size * i);
+ 
++		if (ret < 0)
++			return ret;
+ 		if (ret == 1)
+ 			num_valid++;
+ 	}
 -- 
 2.17.1
 
