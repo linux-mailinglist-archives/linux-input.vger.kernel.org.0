@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EDD081067B6
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 09:24:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9B061067B8
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 09:24:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726937AbfKVIYS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 03:24:18 -0500
+        id S1727007AbfKVIYV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 03:24:21 -0500
 Received: from esa2.mentor.iphmx.com ([68.232.141.98]:52461 "EHLO
         esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725999AbfKVIYS (ORCPT
+        with ESMTP id S1725999AbfKVIYV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 03:24:18 -0500
-IronPort-SDR: ffk80AX5qNTu76qq1DwjKBDA8G1NJs7tE581Y2F2oX9JXpgEIyZUca8M/VQdkqZtpH0OL5JQup
- mKsl70Cniv7WY5lFYFGcIUw51MeB/WYjQMrEkDToekkjWyH+TDaIPgf4XRtCa7yZNVrwVywoNu
- rc8aiwRqjmo56WSOFlDlDWLl4v2Qjz4bNQEPE+XCdk7MH/MKn/IKFVumWAIVNNZesMsXeVQS+8
- /T1bQDrU/mM+hln3TPcfiq9eOBR8bJ94ddTSwFtw26d4GPiIgR/6lpIlXhLYdVedmL0z+BWcZX
- QpE=
+        Fri, 22 Nov 2019 03:24:21 -0500
+IronPort-SDR: SQIhX7JwH4BYZjXXm7jWcs47L8Lw6AKPwOcA3bL6bkSKxZOuRFSCGQZg5QbnsFYXWi/JLe5NtY
+ UPoSvHvKIRKEa9Wu8Fof98yMAlG+7NiGIaAUHsxjT+DEoZSdyIDFbNI4wz5SfY/2T01e3VlPRZ
+ MiyHHNh6R/3S56zdCFZWMIaAKInjFOYYDMdAiC7gVq3uywK5C1EDmo9aCmLq6rKnbLb5dyENFs
+ YhdAszRSqCtBWnxn+0IpPfmvnvB1WABlp21Z5x6Ux/OUOooq2xrCZgocF/0y+bez/S48boWCxk
+ ZNw=
 X-IronPort-AV: E=Sophos;i="5.69,229,1571731200"; 
-   d="scan'208";a="43358886"
+   d="scan'208";a="43358888"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 22 Nov 2019 00:24:17 -0800
-IronPort-SDR: mBWLPye+yE7F4JJ5/wifG0vsFEaxac2qQ06vNw+XCA2pXOIQWhi8jb3R3rLsqLjfNKV5pa+vxM
- yupjmC8tr9L64wQ54fhKSYwKUcRERQZt6mVarsodNri2zhr5ke7LmJX9txU24dvXh//zmuaK9k
- a0xQJuL3aN+CJo4ZrCLip5TV4mN4lO+PTJ62PfiOAzNbNidmquiipifE/WGRHa8kB06PucdNhZ
- 3lv5JDVUNuggAJ/HEqVRERsHT+xHbQiXS5A8vf47YnFoB5BI0awdYS48bvGazrEHwrDsEsMeZG
- 27w=
+  by esa2.mentor.iphmx.com with ESMTP; 22 Nov 2019 00:24:20 -0800
+IronPort-SDR: XvyKyFn8UpO2pWmvMLeYvVcQbQH0VhQMgrbDOsMCblPh9PtRjvRO/mFSlBFZO0hdWa0qVZ7zwD
+ vaA9Pwxu2c0M0IzVyPLkeIYvTrb5fWXTYSSNuIsT/qSi7TrCjT6f9OB+uUOO1wIaUL6kbzDZyw
+ yoEDrxpQqZBZ0nPnxOH09H2WNFnzbCCyNYMg4aYt7llQ4Ab3qCFIFrltGwkeN/ajNOUjqVE17d
+ exlc5RPufavfYq60N9nbBhasPIspyvE8t5oWSzIcSfKIvh7QaStgdazT+foqGJmHkGhW9MG4gl
+ 0zI=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>, <dmitry.torokhov@gmail.com>,
@@ -33,9 +33,9 @@ To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v6 03/48] Input: atmel_mxt_ts - only read messages in mxt_acquire_irq() when necessary
-Date:   Fri, 22 Nov 2019 17:23:17 +0900
-Message-ID: <20191122082402.18173-4-jiada_wang@mentor.com>
+Subject: [PATCH v6 04/48] Input: atmel_mxt_ts - split large i2c transfers into blocks
+Date:   Fri, 22 Nov 2019 17:23:18 +0900
+Message-ID: <20191122082402.18173-5-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191122082402.18173-1-jiada_wang@mentor.com>
 References: <20191122082402.18173-1-jiada_wang@mentor.com>
@@ -48,157 +48,75 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-The workaround of reading all messages until an invalid is received is a
-way of forcing the CHG line high, which means that when using
-edge-triggered interrupts the interrupt can be acquired.
-
-With level-triggered interrupts the workaround is unnecessary.
-
-Also, most recent maXTouch chips have a feature called RETRIGEN which, when
-enabled, reasserts the interrupt line every cycle if there are messages
-waiting. This also makes the workaround unnecessary.
-
-Note: the RETRIGEN feature is only in some firmware versions/chips, it's
-not valid simply to enable the bit.
+On some firmware variants, the size of the info block exceeds what can
+be read in a single transfer.
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-Acked-by: Benson Leung <bleung@chromium.org>
-Acked-by: Yufeng Shen <miletus@chromium.org>
-(cherry picked from ndyer/linux/for-upstream commit 1ae4e8281e491b22442cd5acdfca1862555f8ecb)
-[gdavis: Fix conflicts due to v4.6-rc7 commit eb43335c4095 ("Input:
-	 atmel_mxt_ts - use mxt_acquire_irq in mxt_soft_reset").]
+(cherry picked from ndyer/linux/for-upstream commit 74c4f5277cfa403d43fafc404119dc57a08677db)
+[gdavis: Forward port and fix conflicts due to v4.14.51 commit
+	 960fe000b1d3 ("Input: atmel_mxt_ts - fix the firmware
+	 update").]
 Signed-off-by: George G. Davis <george_davis@mentor.com>
-[jiada: reset use_retrigen_workaround at beginning of mxt_check_retrigen()]
+[jiada: Change mxt_read_blks() to __mxt_read_reg(), original __mxt_read_reg() to
+	__mxt_read_chunk()]
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 51 ++++++++++++++++++++++--
- 1 file changed, 48 insertions(+), 3 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 28 +++++++++++++++++++++---
+ 1 file changed, 25 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index ffe8a80f4d0a..ce5a069b62d4 100644
+index ce5a069b62d4..9088b2d3266b 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -20,6 +20,7 @@
- #include <linux/i2c.h>
- #include <linux/input/mt.h>
- #include <linux/interrupt.h>
-+#include <linux/irq.h>
- #include <linux/of.h>
- #include <linux/property.h>
- #include <linux/slab.h>
-@@ -129,6 +130,7 @@ struct t9_range {
- /* MXT_SPT_COMMSCONFIG_T18 */
- #define MXT_COMMS_CTRL		0
- #define MXT_COMMS_CMD		1
-+#define MXT_COMMS_RETRIGEN      BIT(6)
+@@ -40,7 +40,7 @@
+ #define MXT_OBJECT_START	0x07
+ #define MXT_OBJECT_SIZE		6
+ #define MXT_INFO_CHECKSUM_SIZE	3
+-#define MXT_MAX_BLOCK_WRITE	256
++#define MXT_MAX_BLOCK_WRITE	255
  
- /* MXT_DEBUG_DIAGNOSTIC_T37 */
- #define MXT_DIAGNOSTIC_PAGEUP	0x01
-@@ -308,6 +310,7 @@ struct mxt_data {
- 	struct t7_config t7_cfg;
- 	struct mxt_dbg dbg;
- 	struct gpio_desc *reset_gpio;
-+	bool use_retrigen_workaround;
- 
- 	/* Cached parameters from object table */
- 	u16 T5_address;
-@@ -318,6 +321,7 @@ struct mxt_data {
- 	u16 T71_address;
- 	u8 T9_reportid_min;
- 	u8 T9_reportid_max;
-+	u16 T18_address;
- 	u8 T19_reportid;
- 	u16 T44_address;
- 	u8 T100_reportid_min;
-@@ -1190,9 +1194,11 @@ static int mxt_acquire_irq(struct mxt_data *data)
- 
- 	enable_irq(data->irq);
- 
--	error = mxt_process_messages_until_invalid(data);
--	if (error)
--		return error;
-+	if (data->use_retrigen_workaround) {
-+		error = mxt_process_messages_until_invalid(data);
-+		if (error)
-+			return error;
-+	}
- 
+ /* Object types */
+ #define MXT_DEBUG_DIAGNOSTIC_T37	37
+@@ -624,8 +624,8 @@ static int mxt_send_bootloader_cmd(struct mxt_data *data, bool unlock)
  	return 0;
  }
-@@ -1282,6 +1288,33 @@ static u32 mxt_calculate_crc(u8 *base, off_t start_off, off_t end_off)
- 	return crc;
+ 
+-static int __mxt_read_reg(struct i2c_client *client,
+-			       u16 reg, u16 len, void *val)
++static int __mxt_read_chunk(struct i2c_client *client,
++			    u16 reg, u16 len, void *val)
+ {
+ 	struct i2c_msg xfer[2];
+ 	u8 buf[2];
+@@ -659,6 +659,28 @@ static int __mxt_read_reg(struct i2c_client *client,
+ 	return ret;
  }
  
-+static int mxt_check_retrigen(struct mxt_data *data)
++static int __mxt_read_reg(struct i2c_client *client,
++			  u16 reg, u16 len, void *buf)
 +{
-+	struct i2c_client *client = data->client;
++	u16 offset = 0;
 +	int error;
-+	int val;
++	u16 size;
 +
-+	data->use_retrigen_workaround = false;
++	while (offset < len) {
++		size = min(MXT_MAX_BLOCK_WRITE, len - offset);
 +
-+	if (irq_get_trigger_type(data->irq) & IRQF_TRIGGER_LOW)
-+		return 0;
-+
-+	if (data->T18_address) {
-+		error = __mxt_read_reg(client,
-+				       data->T18_address + MXT_COMMS_CTRL,
-+				       1, &val);
++		error = __mxt_read_chunk(client,
++					 reg + offset,
++					 size, buf + offset);
 +		if (error)
 +			return error;
 +
-+		if (val & MXT_COMMS_RETRIGEN)
-+			return 0;
++		offset += size;
 +	}
 +
-+	dev_warn(&client->dev, "Enabling RETRIGEN workaround\n");
-+	data->use_retrigen_workaround = true;
 +	return 0;
 +}
 +
- static int mxt_prepare_cfg_mem(struct mxt_data *data, struct mxt_cfg *cfg)
+ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
+ 			   const void *val)
  {
- 	struct device *dev = &data->client->dev;
-@@ -1561,6 +1594,10 @@ static int mxt_update_cfg(struct mxt_data *data, const struct firmware *fw)
- 
- 	mxt_update_crc(data, MXT_COMMAND_BACKUPNV, MXT_BACKUP_VALUE);
- 
-+	ret = mxt_check_retrigen(data);
-+	if (ret)
-+		goto release_mem;
-+
- 	ret = mxt_soft_reset(data);
- 	if (ret)
- 		goto release_mem;
-@@ -1604,6 +1641,7 @@ static void mxt_free_object_table(struct mxt_data *data)
- 	data->T71_address = 0;
- 	data->T9_reportid_min = 0;
- 	data->T9_reportid_max = 0;
-+	data->T18_address = 0;
- 	data->T19_reportid = 0;
- 	data->T44_address = 0;
- 	data->T100_reportid_min = 0;
-@@ -1678,6 +1716,9 @@ static int mxt_parse_object_table(struct mxt_data *data,
- 						object->num_report_ids - 1;
- 			data->num_touchids = object->num_report_ids;
- 			break;
-+		case MXT_SPT_COMMSCONFIG_T18:
-+			data->T18_address = object->start_address;
-+			break;
- 		case MXT_SPT_MESSAGECOUNT_T44:
- 			data->T44_address = object->start_address;
- 			break;
-@@ -2141,6 +2182,10 @@ static int mxt_initialize(struct mxt_data *data)
- 		msleep(MXT_FW_RESET_TIME);
- 	}
- 
-+	error = mxt_check_retrigen(data);
-+	if (error)
-+		return error;
-+
- 	error = mxt_acquire_irq(data);
- 	if (error)
- 		return error;
 -- 
 2.17.1
 
