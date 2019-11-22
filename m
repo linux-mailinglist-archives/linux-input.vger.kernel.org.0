@@ -2,154 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 93E651079FD
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 22:31:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F3C0107AD4
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 23:48:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726774AbfKVVbm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 16:31:42 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:35179 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726736AbfKVVbm (ORCPT
+        id S1726762AbfKVWso (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 17:48:44 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:35881 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726526AbfKVWso (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 16:31:42 -0500
-Received: by mail-pl1-f196.google.com with SMTP id s10so3640453plp.2
-        for <linux-input@vger.kernel.org>; Fri, 22 Nov 2019 13:31:41 -0800 (PST)
+        Fri, 22 Nov 2019 17:48:44 -0500
+Received: by mail-pl1-f193.google.com with SMTP id d7so3723186pls.3;
+        Fri, 22 Nov 2019 14:48:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HbJjs9npQivb+peN/P+/x5LBE//DdoQclSZUko6OYFA=;
-        b=RFawcsOwCqAQEn5boyIcXR16Ki/HBDzNNs0+cfhfK/kOpeyl3s8AHaiARmdz+ZidjB
-         tJ2SwyEjjvDTYo3b8eRbD4+idgXO6jzJhsyQsU1N9jFOBUKU/ICLSLcrNrwVSAG26FRt
-         mgbyxJR2ijBrYIlmXhPJo5cnY7XAXQ2RV9AGiTEH0Ie5M7qcw0YKVIywOI+Y1qNXGqUD
-         vjmWo0N4xOcDGJEox/RXx1+0KyCIDwXccWf5MjxA9sNtL6+MUWVe9cZxWK76dKG76+wX
-         rEezAue56G/PQbfE7FrX69tJh7oZX4SgtzibTF05UKvBRhgEORQef9S4SFRKg6WHZIa9
-         2JHg==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=0huokCXbHocAZIGMX/c3HM5bh9PEhnRGgnHytZrJQDA=;
+        b=DDEHS3WE529zL/qw3QVeilPLFKDV2WyWuo0yxpBJtoCi9HW+jhbMijVTilgXKZVaTG
+         nFGfBpPqCB4+jZy1nxI/MmErrqzZ+FiYK0ughrTVz3V7Utafj3qNu9pMyAWt10bl438B
+         woAUEHUDDDNWAcWvOp/fiF6Z7GitEIz37P2qo4FaNbfysgtxr7lTJ1ONxCepjAIzPTN1
+         FJcbUGAAdZVw6If864xwh3yyS0glRasOMqM0xSsbqjFRvtLkn1ycVioByNiEJUvynOrG
+         Ni+lCWhiL0i+U5oWGrfYdEoAFV4H32LabXWi51aQUUb4PSQGVeNhAG7/P9Y8kwOFZ2Et
+         2AOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HbJjs9npQivb+peN/P+/x5LBE//DdoQclSZUko6OYFA=;
-        b=XQ/tgB0J5TRUsMLKGK1um46JIms3AUWMhbE+oVIbyN1Piz5tkGIvByd7C84aMovBhZ
-         fjtYmPrCQ51P3hH30JpmxKX8VkPrCJGiGS8SK5Saq++ljMzNAfeaolnQwExkyQkfj6gQ
-         sool3roqaUnPw+EefCmcqfYmr6VXe/cBAesGukJiJ3sjpCk1jaRfJsprCgg6CYHpjVPT
-         GHuvRVITNbyI3IRlzXGnZcCRiVE7HwF6bNSPRZDAfgezCWuix3nv2uRgnpWsAsjAx2fL
-         fGX/hb5mVZG/3l0LuXgR9zg1QoKBhT+kU9+qT1uovddLPak1eFrVDZFJ+i6dD4nJWapN
-         dGGw==
-X-Gm-Message-State: APjAAAXAo1+KbgoBAPHmj6K1HPnqzMECUwzaAdKxuQjuMLMxDDJl5bQI
-        qmzc7qszUgeej5fgfni0ZMPyNor7dlh/1loe8VUtyg==
-X-Google-Smtp-Source: APXvYqwp9oirAfneUwU+SoycQWx2Iqme1ayHmlDX0a5gLCpzGo05spCaML0qO0qityULcE1WRKI5UM8d92l2Uk+Stzw=
-X-Received: by 2002:a17:902:9682:: with SMTP id n2mr16075888plp.336.1574458300970;
- Fri, 22 Nov 2019 13:31:40 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=0huokCXbHocAZIGMX/c3HM5bh9PEhnRGgnHytZrJQDA=;
+        b=JUOsBy0Qy2VGBP0GooOss0EehvKHlbaUjsYfGq6IKVK7DU3HrpY+aCRN60XgKEMtSn
+         iB1svoNKinYwEpPGXcEryVGnmvUpPqt62c39KXJgrhKMxnkKQU4QCRlvSEWoEAgvmeBS
+         0BJB9zkowBB/UoA3gTzo5SdaC+py5IboKf0HCqRrHgyid2KJj8zqt4hPTpW4YqZozum4
+         BxGDJ/Keuce3bGyxTb1d8Q2MRzNsVBu8bhVYamttL8klGpTcVlZPb0S2L4AXzXl0+J/Y
+         gR0UpnM7E79fAZPKZBfVIIBfN8m2fYa6Gh6Msak48Qq4Ho+AonybZJ1ebHz6aI/zr+I9
+         0F5w==
+X-Gm-Message-State: APjAAAWfu6T+L/FWbN70YdT0IDSgMmR6X/aeBDhBCUC090Rxsrh6oya1
+        Ui92ShLOBZuL5TvRSkmODZg=
+X-Google-Smtp-Source: APXvYqxj7VYmSOwpqPEcZ5ENTsGe+GG3HUaLo9ukNI6OqLpNjv/o+YEIei3ZdLi9Xgpf1haq4VcYeQ==
+X-Received: by 2002:a17:902:a709:: with SMTP id w9mr16819525plq.235.1574462923136;
+        Fri, 22 Nov 2019 14:48:43 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id y26sm8834040pfo.76.2019.11.22.14.48.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2019 14:48:42 -0800 (PST)
+Date:   Fri, 22 Nov 2019 14:48:40 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Robin Gong <yibin.gong@nxp.com>
+Cc:     robin <robin@protonic.nl>, Marco Felsch <m.felsch@pengutronix.de>,
+        "linux-input @ vger . kernel . org" <linux-input@vger.kernel.org>,
+        "linux-kernel @ vger . kernel . org" <linux-kernel@vger.kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Adam Ford <aford173@gmail.com>,
+        "linux-arm-kernel @ lists . infradead . org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v3] input: keyboard: snvs_pwrkey: Send key events for
+ i.MX6 S, DL and Q
+Message-ID: <20191122224840.GE248138@dtor-ws>
+References: <20190904062329.97520-1-robin@protonic.nl>
+ <20190912201300.GA636@penguin>
+ <803592d161b9ca75d6ac1c2c54e891a1@protonic.nl>
+ <VE1PR04MB663896B94C68B5EF9AE0BE36898C0@VE1PR04MB6638.eurprd04.prod.outlook.com>
+ <20190916233701.GH237523@dtor-ws>
+ <20191120092749.7rru5fj7eybs4tl6@pengutronix.de>
+ <fb98fa1fde9a367d7ab33d04a5804684@protonic.nl>
+ <VE1PR04MB6638D79F8C929100F6D96479894E0@VE1PR04MB6638.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-References: <000000000000109c040597dc5843@google.com> <Pine.LNX.4.44L0.1911221150350.1511-100000@iolanthe.rowland.org>
-In-Reply-To: <Pine.LNX.4.44L0.1911221150350.1511-100000@iolanthe.rowland.org>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Sat, 23 Nov 2019 06:31:30 +0900
-Message-ID: <CAAeHK+xQo8S8mmMgrOHOwC3iOnZJOZvYNaAei-tMrJA36R6OMQ@mail.gmail.com>
-Subject: Re: INFO: rcu detected stall in hub_event
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     syzbot <syzbot+ec5f884c4a135aa0dbb9@syzkaller.appspotmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <VE1PR04MB6638D79F8C929100F6D96479894E0@VE1PR04MB6638.eurprd04.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Nov 23, 2019 at 1:51 AM Alan Stern <stern@rowland.harvard.edu> wrote:
->
-> On Thu, 21 Nov 2019, syzbot wrote:
->
-> > Hello,
-> >
-> > syzbot found the following crash on:
-> >
-> > HEAD commit:    46178223 usb: gadget: add raw-gadget interface
-> > git tree:       https://github.com/google/kasan.git usb-fuzzer
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=15a05836e00000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=99c88c44660624e7
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=ec5f884c4a135aa0dbb9
-> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1061395ae00000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13653d1ce00000
-> >
-> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > Reported-by: syzbot+ec5f884c4a135aa0dbb9@syzkaller.appspotmail.com
-> >
-> > rcu: INFO: rcu_sched self-detected stall on CPU
->
-> > RIP: 0010:hid_apply_multiplier drivers/hid/hid-core.c:1058 [inline]
-> > RIP: 0010:hid_setup_resolution_multiplier+0x33b/0x990
-> > drivers/hid/hid-core.c:1114
+On Thu, Nov 21, 2019 at 01:17:56PM +0000, Robin Gong wrote:
+> 
+> On 2019-11-21 0:33, robin <robin@protonic.nl> wrote:
+> > On 2019-11-20 10:27, Marco Felsch wrote:
+> > > Hi Robin,
+> > >
+> > > On 19-09-16 16:37, Dmitry Torokhov wrote:
+> > >> On Mon, Sep 16, 2019 at 07:45:37AM +0000, Robin Gong wrote:
+> > >> > On 2019/9/13 15:31 robin <robin@protonic.nl> wrote:>
+> > >> > > Hi Dmitry,
+> > >> > >
+> > >> > > On 2019-09-12 22:13, Dmitry Torokhov wrote:
+> > >> > > > Hi Robin,
+> > >> > > >
+> > >> > > > On Wed, Sep 04, 2019 at 06:23:29AM +0000, Robin van der Gracht
+> > wrote:
+> > >> > > >> The first generation i.MX6 processors does not send an
+> > >> > > >> interrupt when the power key is pressed. It sends a power down
+> > >> > > >> request interrupt if the key is released before a hard
+> > >> > > >> shutdown (5 second press). This should allow software to bring down
+> > the SoC safely.
+> > >> > > >>
+> > >> > > >> For this driver to work as a regular power key with the older
+> > >> > > >> SoCs, we need to send a keypress AND release when we get the
+> > >> > > >> power down request irq.
+> > >> > > >>
+> > >> > > >> Signed-off-by: Robin van der Gracht <robin@protonic.nl>
+> > >> > > >> ---
+> > >> > > >> @@ -67,13 +83,17 @@ static irqreturn_t
+> > >> > > >> imx_snvs_pwrkey_interrupt(int irq, void *dev_id)  {
+> > >> > > >>  	struct platform_device *pdev = dev_id;
+> > >> > > >>  	struct pwrkey_drv_data *pdata = platform_get_drvdata(pdev);
+> > >> > > >> +	unsigned long expire = jiffies;
+> > >> > > >>  	u32 lp_status;
+> > >> > > >>
+> > >> > > >>  	pm_wakeup_event(pdata->input->dev.parent, 0);
+> > >> > > >>
+> > >> > > >>  	regmap_read(pdata->snvs, SNVS_LPSR_REG, &lp_status);
+> > >> > > >> -	if (lp_status & SNVS_LPSR_SPO)
+> > >> > > >> -		mod_timer(&pdata->check_timer, jiffies +
+> > >> > > >> msecs_to_jiffies(DEBOUNCE_TIME));
+> > >> > > >> +	if (lp_status & SNVS_LPSR_SPO) {
+> > >> > > >> +		if (pdata->minor_rev > 0)
+> > >> > > >> +			expire = jiffies + msecs_to_jiffies(DEBOUNCE_TIME);
+> > >> > > >> +		mod_timer(&pdata->check_timer, expire);
+> > >> > > >
+> > >> > > > Why do we even need to fire the timer in case of the first
+> > >> > > > generation hardware? Just send press and release events directly from
+> > the ISR.
+> > >> > That timer looks like a software debounce to prevent unexpected and
+> > >> > meaningless interrupt/event caused by quick press/release.
+> > >>
+> > >> Right, but in case of the first generation hardware we schedule the
+> > >> timer immediately (expire == 0) and do not check state of the
+> > >> hardware in the timer handler, but rather simply emit down/up events,
+> > >> so we do not really get any benefit from the timer (again, I am
+> > >> talking about first generation hardware only).
+> > >
+> > > Did you prepared a v4? Just ask to avoid a duplicated work :)
+> > 
+> > No I haven't. Not sure what the public wants. Use timer, don't use timer..
+> > 
+> > v3 has had long term testing though ;)
+> Sorry for that I miss the mail.
+> Understood a little bit confusion about immediate timer for
+> the first press, just stand on the view of clean code shape.
+> But I'm okay if you prefer to remove timer in the first interrupt
+> generation.
 
-I'm not sure, but the stack trace reminds me of this issue, so this
-report might be related:
+Yes, please prepare v4 without the timer for the first generation of the
+hardware.
 
-https://groups.google.com/d/msg/syzkaller-bugs/X0zVbh8aFEM/NsPcshjxBgAJ
+Thanks.
 
->
-> Diagnostic patch.
->
-> #syz test: https://github.com/google/kasan.git 46178223
->
->  drivers/hid/hid-core.c |   17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
->
-> Index: usb-devel/drivers/hid/hid-core.c
-> ===================================================================
-> --- usb-devel.orig/drivers/hid/hid-core.c
-> +++ usb-devel/drivers/hid/hid-core.c
-> @@ -1055,8 +1055,13 @@ static void hid_apply_multiplier(struct
->          */
->         multiplier_collection = &hid->collection[multiplier->usage->collection_index];
->         while (multiplier_collection->parent_idx != -1 &&
-> -              multiplier_collection->type != HID_COLLECTION_LOGICAL)
-> +              multiplier_collection->type != HID_COLLECTION_LOGICAL) {
-> +               hid_info(hid, "collection %d %px parent %d\n",
-> +       multiplier_collection - hid->collection, multiplier_collection,
-> +       multiplier_collection->parent_idx);
->                 multiplier_collection = &hid->collection[multiplier_collection->parent_idx];
-> +       }
-> +       hid_info(hid, "Got collection\n");
->
->         effective_multiplier = hid_calculate_multiplier(hid, multiplier);
->
-> @@ -1069,6 +1074,7 @@ static void hid_apply_multiplier(struct
->                                                       effective_multiplier);
->                 }
->         }
-> +       hid_info(hid, "Applied multiplier\n");
->  }
->
->  /*
-> @@ -1103,16 +1109,23 @@ void hid_setup_resolution_multiplier(str
->
->         rep_enum = &hid->report_enum[HID_FEATURE_REPORT];
->         list_for_each_entry(rep, &rep_enum->report_list, list) {
-> +               hid_info(hid, "Start report %px maxfield %d\n",
-> +       rep, rep->maxfield);
->                 for (i = 0; i < rep->maxfield; i++) {
->                         /* Ignore if report count is out of bounds. */
->                         if (rep->field[i]->report_count < 1)
->                                 continue;
->
-> +                       hid_info(hid, "Field %d %px maxusage %d\n",
-> +       i, rep->field[i], rep->field[i]->maxusage);
->                         for (j = 0; j < rep->field[i]->maxusage; j++) {
->                                 usage = &rep->field[i]->usage[j];
-> -                               if (usage->hid == HID_GD_RESOLUTION_MULTIPLIER)
-> +                               if (usage->hid == HID_GD_RESOLUTION_MULTIPLIER) {
-> +                                       hid_info(hid, "Usage %d %px\n",
-> +       j, usage);
->                                         hid_apply_multiplier(hid,
->                                                              rep->field[i]);
-> +                               }
->                         }
->                 }
->         }
->
+-- 
+Dmitry
