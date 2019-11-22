@@ -2,34 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D845106317
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 07:09:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0368106229
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 07:02:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726712AbfKVGBf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 01:01:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39814 "EHLO mail.kernel.org"
+        id S1728693AbfKVGB4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 01:01:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40266 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728926AbfKVGBe (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 01:01:34 -0500
+        id S1728118AbfKVGBz (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 22 Nov 2019 01:01:55 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BD51B2068F;
-        Fri, 22 Nov 2019 06:01:33 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 828B52070B;
+        Fri, 22 Nov 2019 06:01:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574402494;
-        bh=7Ry9jrHQuYnZY7uOPI526vZCkCbcI2sx4X8O3i8qnwc=;
+        s=default; t=1574402515;
+        bh=72si8NNBzDHWEy6P8LB/sxnbv3JGkev8Astuf7ElLT0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SJw+dbLq3zC1Bhc+ukxiH219Ofj8vSE4zWbkFsZXOcUW8YUOTsTnvajOClPo8mQ5c
-         Iimo6oeRkOTj1SHVAuoOLpKpPjTzRqwNNJ9IQGT+pWSum1fa22rcuTA7Rmfz3LjZeD
-         B8+zqTHB5W0VQ9BBQHQFJ/LL6jGIfU93up/CjSw0=
+        b=BHnaP7Cjety9pc+KiQQVJVGvgHG52wGh6UQ2Ns11C3GsLzKIVCgX26x4uDOwEAPr1
+         Olo7Xe8T+3f25vu6l70LfsLeuR8GdXXU5L7zilPdVu/sve/LCP0kO4lvF6sivDO0uL
+         vfI0cC8vM9TfXm2Hdw051Wvaf0jGNgdizU0FVbWw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Helge Deller <deller@gmx.de>, Sasha Levin <sashal@kernel.org>,
-        linux-parisc@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 05/91] parisc: Fix HP SDC hpa address output
-Date:   Fri, 22 Nov 2019 01:00:03 -0500
-Message-Id: <20191122060129.4239-4-sashal@kernel.org>
+Cc:     Pan Bian <bianpan2016@163.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.9 24/91] HID: intel-ish-hid: fixes incorrect error handling
+Date:   Fri, 22 Nov 2019 01:00:22 -0500
+Message-Id: <20191122060129.4239-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191122060129.4239-1-sashal@kernel.org>
 References: <20191122060129.4239-1-sashal@kernel.org>
@@ -42,34 +44,35 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Helge Deller <deller@gmx.de>
+From: Pan Bian <bianpan2016@163.com>
 
-[ Upstream commit c4bff35ca1bfba886da6223c9fed76a2b1382b8e ]
+[ Upstream commit 6e0856d317440a950b17c00a9283114f025e5699 ]
 
-Show the hpa address of the HP SDC instead of a hashed value, e.g.:
-HP SDC: HP SDC at 0xf0201000, IRQ 23 (NMI IRQ 24)
+The memory chunk allocated by hid_allocate_device() should be released
+by hid_destroy_device(), not kfree().
 
-Signed-off-by: Helge Deller <deller@gmx.de>
+Fixes: 0b28cb4bcb1("HID: intel-ish-hid: ISH HID client driver")
+Signed-off-by: Pan Bian <bianpan2016@163.com>
+Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/serio/hp_sdc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/hid/intel-ish-hid/ishtp-hid.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/serio/hp_sdc.c b/drivers/input/serio/hp_sdc.c
-index 852858e5d8d08..92f541db98a09 100644
---- a/drivers/input/serio/hp_sdc.c
-+++ b/drivers/input/serio/hp_sdc.c
-@@ -887,8 +887,8 @@ static int __init hp_sdc_init(void)
- 			"HP SDC NMI", &hp_sdc))
- 		goto err2;
+diff --git a/drivers/hid/intel-ish-hid/ishtp-hid.c b/drivers/hid/intel-ish-hid/ishtp-hid.c
+index 277983aa1d90a..d0b902285fc3a 100644
+--- a/drivers/hid/intel-ish-hid/ishtp-hid.c
++++ b/drivers/hid/intel-ish-hid/ishtp-hid.c
+@@ -222,7 +222,7 @@ int ishtp_hid_probe(unsigned int cur_hid_dev,
+ err_hid_device:
+ 	kfree(hid_data);
+ err_hid_data:
+-	kfree(hid);
++	hid_destroy_device(hid);
+ 	return rv;
+ }
  
--	printk(KERN_INFO PREFIX "HP SDC at 0x%p, IRQ %d (NMI IRQ %d)\n",
--	       (void *)hp_sdc.base_io, hp_sdc.irq, hp_sdc.nmi);
-+	pr_info(PREFIX "HP SDC at 0x%08lx, IRQ %d (NMI IRQ %d)\n",
-+	       hp_sdc.base_io, hp_sdc.irq, hp_sdc.nmi);
- 
- 	hp_sdc_status_in8();
- 	hp_sdc_data_in8();
 -- 
 2.20.1
 
