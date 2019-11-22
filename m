@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EF0E1067F1
+	by mail.lfdr.de (Postfix) with ESMTP id F2F261067F3
 	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 09:26:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727624AbfKVI0H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 03:26:07 -0500
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:62576 "EHLO
-        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727007AbfKVI0G (ORCPT
+        id S1727007AbfKVI0P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 03:26:15 -0500
+Received: from esa1.mentor.iphmx.com ([68.232.129.153]:23065 "EHLO
+        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726554AbfKVI0N (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 03:26:06 -0500
-IronPort-SDR: mWpYpRVWBUQqtFNXBGa5e9AixcM/NZo4ZIEax3bHzvtL8IXKGlBKvWiyfvEfHZ9/NYGLnJdRqy
- XLNIWigDaHV8yKpthb6sAJTyM0FfU5/q2APLYrGkZTuVIw1Y7cEA2m8Jna18cRV7UcVieDZCqw
- avwSDBKJKFQkjHymQl+IFlqzjyi6lIF2jpU/7b+Yd7aygKiqnQGLPLO5DUlmXiAUKQJekRn1Rr
- eSqf/pDS/J/N6NY3QsMO8OgdZxHsYN1WrrFRSgjJ25F5FclnEXffLKBx66Dzl8oQyzaTqhi8wf
- 3cs=
+        Fri, 22 Nov 2019 03:26:13 -0500
+IronPort-SDR: O7W54g9Zc1mfeqZ7QL3yZZBXBaMiEr6piTzJiNHzHEsy+1De8bjC60CLhkp96WTeuMGH9wXCMb
+ zqmQcCdmab/9gkY0D3ZfzY1q3bTWL+knnFUSjyWWuynTq7jhlhQUC4wJg2xhHqW2gFtwvmzlTa
+ rg5othlFxXTMibkqKbXOn1ElH+AXsFXT8ZfC2MlRuh1gNLIaY35eixcKFOE2AR4Y/kwe/aRidU
+ njK+6MXeyC0Ihx9eqAY4sjCYnUl8heC2vUsr8r98vZqYCLXIvhR7EMdcUboOPj7o1FpE/c1wQZ
+ CRM=
 X-IronPort-AV: E=Sophos;i="5.69,229,1571731200"; 
-   d="scan'208";a="43457621"
+   d="scan'208";a="45291168"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 22 Nov 2019 00:26:06 -0800
-IronPort-SDR: d9uHHP1QH23UTNue8XH0UmkzlCYjD/XiC3HyU8PpzRICQqy7CAi6iN7NxNl3BA0nCObtLd3M5I
- zbGxzYnYyLIraEyPwchcdJApmm/m854B7GENPOF2aymknBbHcN917l4p1grTuEffNNmXBy6hbZ
- B/5Ca6WxgpJVdWpvodnInEmrZF9aQ/6qS267UWL18QtUY5VDIEFFcNN3AkA34tSZqsvRFUrCtN
- pVp/8y8duXjyOlrCiBom4iO2unUY45UlSAHEgIXwPRoSgLu+/0wmTI+zmsD0pVbsZirnErN5SP
- Mxg=
+  by esa1.mentor.iphmx.com with ESMTP; 22 Nov 2019 00:26:12 -0800
+IronPort-SDR: 95vGJvZy7P4A4RfrXVys4fungW696IkjKtZ4DNEoq8GnRe9DywS5XuVq2x3BNd5n0w0SuER+mI
+ CCKnMtzqECMf+yNb8700wyq9twk/ldtKomgPZxre0NX0641+DodnG76Vk2Rv4e17LHw0rDW1oO
+ ggBP37QNrolrvJyy5cDtLKCVE+9t2nQ4muur5WSveS9rZDIer0viqkfmrBAf7IeluerSUSe3EU
+ kcW4lJEiP/HhMavlHIMDJYQJu5FbuNIz57kIFi721+RuRsNJrhEaCgiDG38azdETwptpWhHU/l
+ Tjo=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>, <dmitry.torokhov@gmail.com>,
@@ -33,9 +33,9 @@ To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v6 33/48] input: atmel_mxt_ts: export GPIO reset line via sysfs
-Date:   Fri, 22 Nov 2019 17:23:47 +0900
-Message-ID: <20191122082402.18173-34-jiada_wang@mentor.com>
+Subject: [PATCH v6 34/48] input: atmel_mxt_ts: Add Missing Delay for reset handling of Atmel touch panel controller in detachable displays.
+Date:   Fri, 22 Nov 2019 17:23:48 +0900
+Message-ID: <20191122082402.18173-35-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191122082402.18173-1-jiada_wang@mentor.com>
 References: <20191122082402.18173-1-jiada_wang@mentor.com>
@@ -46,67 +46,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: "George G. Davis" <george_davis@mentor.com>
+From: keerthikumarp <Keerthikumar.Padmanabha@in.bosch.com>
 
-N.B. Modifying the atmel_mxt_ts GPIO reset line during operation will
-cause problems with normal driver operation.  This feature is provided
-as a diagnostic debug aid.  It does not take into consideration any
-pending operations which may be in progress.  Modifying the atmel_mxt_ts
-GPIO reset line at any time will inevitably cause the driver to fail.
+In case of attached display, the touchpanel reset is controlled
+via imx gpio's from  atmel driver and the delay between
+touchpanel reset and the time at which the chip becomes capable to
+communicate with the host processor, has be taken care.
 
+However in case of detachable displays, the touchpanel reset is
+controlled via a deserializer gpio which is triggered just before
+the atmel driver is probed.The delay between touchpanel reset and
+the time at which the chip becomes capable to communicate (as
+specified in datasheet) was not being accounted for. This patch
+introduces that delay.
+
+Signed-off-by: keerthikumarp <Keerthikumar.Padmanabha@in.bosch.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
-Signed-off-by: Rajeev Kumar <rajeev_kumar@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 3513413158c3..f357d353447f 100644
+index f357d353447f..835cc7a29c2f 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -4085,6 +4085,19 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		return error;
+@@ -4112,6 +4112,10 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 		msleep(MXT_RESET_GPIO_TIME);
+ 		gpiod_set_value(data->reset_gpio, 1);
+ 		msleep(MXT_RESET_INVALID_CHG);
++	} else {
++		dev_dbg(&client->dev,
++			"atmel reset pin not found in device tree");
++		msleep(MXT_RESET_TIME);
  	}
  
-+	if (data->reset_gpio) {
-+		error = gpiod_export(data->reset_gpio, 0);
-+		if (error)
-+			return error;
-+
-+		error = gpiod_export_link(&client->dev, "reset",
-+					  data->reset_gpio);
-+		if (error) {
-+			gpiod_unexport(data->reset_gpio);
-+			return error;
-+		}
-+	}
-+
- 	if (data->suspend_mode == MXT_SUSPEND_REGULATOR) {
- 		error = mxt_acquire_irq(data);
- 		if (error)
-@@ -4117,6 +4130,10 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- err_free_object:
- 	mxt_free_input_device(data);
- 	mxt_free_object_table(data);
-+	if (data->reset_gpio) {
-+		sysfs_remove_link(&client->dev.kobj, "reset");
-+		gpiod_unexport(data->reset_gpio);
-+	}
- 	return error;
- }
- 
-@@ -4126,6 +4143,10 @@ static int mxt_remove(struct i2c_client *client)
- 
- 	disable_irq(data->irq);
- 	sysfs_remove_group(&client->dev.kobj, &mxt_fw_attr_group);
-+	if (data->reset_gpio) {
-+		sysfs_remove_link(&client->dev.kobj, "reset");
-+		gpiod_unexport(data->reset_gpio);
-+	}
- 	mxt_debug_msg_remove(data);
- 	mxt_sysfs_remove(data);
- 	mxt_free_input_device(data);
+ 	error = mxt_initialize(data);
 -- 
 2.17.1
 
