@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56B9A1067ED
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 09:26:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 355B91067EF
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 09:26:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727600AbfKVI0C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 03:26:02 -0500
+        id S1727616AbfKVI0G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 03:26:06 -0500
 Received: from esa4.mentor.iphmx.com ([68.232.137.252]:62576 "EHLO
         esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727007AbfKVIZ6 (ORCPT
+        with ESMTP id S1727602AbfKVI0D (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 03:25:58 -0500
-IronPort-SDR: GSERgvB5Cmb10KfzY9WfM7Dkb+El5A5WPYUSB5Pq8vZbQUY31GMF6tpIu2+5rSJkwv3Wf9sM+T
- Bw6AGM2RfqlABpxxBfefSQyIpRshtKHNi9kgMOl/CoEXLTM+m6jtHAO1G9EpJa2m3ntm7194MU
- ZDM+VaPoGPMRPtX5Q3X/8jLFqxL9zzN/EpSdEtM+RLjIclZkLGSC2J0pcgdheKz6e/tBukqDJE
- /cFOgHQgasty3/SgWrrBiJ1SK44ZnF8yX0B98z1aHrGVrv0YN4Cf8v8WAZT/RaN0nBCE9jsJIz
- QTc=
+        Fri, 22 Nov 2019 03:26:03 -0500
+IronPort-SDR: bNSpA08vu544cPXokNX3bfqXVKaKYKrzf5g5+bCs12n0ezR+Rl0W71mEvsOHQdQatYjCwg8qI1
+ SFtHN3/W6/a8o6SZyxEHqjpN1cw/mcsVUSz6iZKV0uEX9craM81ykwjm/TaEsq2tJN76goBwiX
+ rBtb8CsYjXO63Jsf5Ouc2lnRWHWDBtFDlZBDhSqxU2lbPq5DjbqcFKJHS5mh0s1zMzbLvkPv80
+ CRTPbhhEPL4k0pS+vSYqTuQ1mt+vhkg8BzcefzsLTJxd5eKvzTpRS7ojsPySvXatwSQAxqTrZ+
+ 7eI=
 X-IronPort-AV: E=Sophos;i="5.69,229,1571731200"; 
-   d="scan'208";a="43457614"
+   d="scan'208";a="43457617"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa4.mentor.iphmx.com with ESMTP; 22 Nov 2019 00:25:58 -0800
-IronPort-SDR: afcT+dPclJ7XnbNAcQBEKVouhsrmrrcNR1SizvifURcMGIglyvQNWSHNwqkL579z6TVAGsNoDV
- 7zgrTrUhFZUapZRvZFjEz0Hso0IaahWKN8nsAvWTUh8rAZv6XfvxANYzi8ajbedI2l4m+cZrf4
- zS/YWGDctssG0WYR2FaGsho1TnRAv/t8l6odBhsH+fEH4FOkl0a0j02VNxvlM9qFTbhsLo5H5b
- gqnP68HPnm78YRZQmWoFLda97bUaCLTOtbKGQpuokGmXIS3pi92Plq0bnQec+8JMfvUdlXzWlJ
- AmU=
+  by esa4.mentor.iphmx.com with ESMTP; 22 Nov 2019 00:26:02 -0800
+IronPort-SDR: UioE6kYJSFYFyNAu85mw+hETNmUzPAiLLhz0U2/BSqXUaaa9b/JRS2EcwYGjSNY2DA5eBNXbFC
+ EK/kK5F8nFh95L24sj8h+1+xZktvXR51O9nrZkqwxDDwwOLK9PBQ7fCDwsMtVfY+3As7p5B9bu
+ OoMMdjIEWJdWgkqNdM0XqvVju3lNcJtagK/FwMYufptmlVmbKM7Il6YXy8PGbDd9QSgxpDHLZD
+ CkV2+7EycZSxZ+OmmM7ESGN+TdABf6i5xzwe0DDwZo2rgyg1KpN2lomw9oH8EfIDSnyKWvSkVO
+ 9ws=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>, <dmitry.torokhov@gmail.com>,
@@ -33,9 +33,9 @@ To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v6 31/48] Input: atmel_mxt_ts - Change call-points of mxt_free_* functions
-Date:   Fri, 22 Nov 2019 17:23:45 +0900
-Message-ID: <20191122082402.18173-32-jiada_wang@mentor.com>
+Subject: [PATCH v6 32/48] Input: atmel_mxt_ts - rely on calculated_crc rather than file config_crc
+Date:   Fri, 22 Nov 2019 17:23:46 +0900
+Message-ID: <20191122082402.18173-33-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191122082402.18173-1-jiada_wang@mentor.com>
 References: <20191122082402.18173-1-jiada_wang@mentor.com>
@@ -48,94 +48,118 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Kautuk Consul <kautuk_consul@mentor.com>
 
-Revamping the code to call mxt_free_object_table and mxt_free_input_device
-functions only in the following scenarios and code paths:
-1) The error path of the mxt_probe() entry point
-2) The mxt_remove de-init path entry point
-3) All paths which definitely expect to populate the object table
-   like:
-   - the mxt_update_fw_store path which first calls
-     mxt_load_fw and then resorts to calling mxt_initialize itself.
-   - the mxt_read_info_block function which attempts to fill in the
-     object table itself as the main non-error part of the logic.
-4) All paths in the code expected to definitely allocate and register
-   the input device such as:
-   - the mxt_update_fw_store path which first calls
-     mxt_load_fw and then resorts to calling mxt_initialize itself.
-   - the mxt_update_cfg_store function which will call
-     mxt_configure_objects.
+We now prefer to rely on the calculated CRC and not on the CRC stored in
+the file.
+
+The new logic is as follows:
+1) stored CRC of file != calculated CRC of file, then refuse the possible
+   corrupted file
+2) calculated CRC of file != CRC of configuration in controller, then
+   update configuration in controller
+3) calculated CRC of file == CRC of configuration in controller, then
+   ignore configuration file
 
 Signed-off-by: Kautuk Consul <kautuk_consul@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 65 +++++++++++++-----------
+ 1 file changed, 36 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 54e2d5f81af9..acbba44d604c 100644
+index acbba44d604c..3513413158c3 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -3339,21 +3339,21 @@ static int mxt_configure_objects(struct mxt_data *data,
- 	error = mxt_init_t7_power_cfg(data);
- 	if (error) {
- 		dev_err(dev, "Failed to initialize power cfg\n");
--		goto err_free_object_table;
-+		return error;
- 	}
+@@ -1908,7 +1908,7 @@ static int mxt_update_cfg(struct mxt_data *data, const struct firmware *fw)
+ 	int ret;
+ 	int offset;
+ 	int i;
+-	u32 info_crc, config_crc, calculated_crc;
++	u32 info_crc, config_crc, calculated_crc = 0;
+ 	u16 crc_start = 0;
  
- 	if (cfg) {
- 		error = mxt_update_cfg(data, cfg);
- 		if (error) {
- 			dev_warn(dev, "Error %d updating config\n", error);
--			goto err_free_object_table;
-+			return error;
- 		}
+ 	/* Make zero terminated copy of the OBP_RAW file */
+@@ -1971,30 +1971,6 @@ static int mxt_update_cfg(struct mxt_data *data, const struct firmware *fw)
  	}
+ 	cfg.raw_pos += offset;
  
- 	if (data->multitouch) {
- 		error = mxt_initialize_input_device(data);
- 		if (error)
--			goto err_free_object_table;
-+			return error;
- 	} else {
- 		dev_warn(dev, "No touch object detected\n");
- 	}
-@@ -3361,10 +3361,6 @@ static int mxt_configure_objects(struct mxt_data *data,
- 	mxt_debug_init(data);
- 
- 	return 0;
+-	/*
+-	 * The Info Block CRC is calculated over mxt_info and the object
+-	 * table. If it does not match then we are trying to load the
+-	 * configuration from a different chip or firmware version, so
+-	 * the configuration CRC is invalid anyway.
+-	 */
+-	if (info_crc == data->info_crc) {
+-		if (config_crc == 0 || data->config_crc == 0) {
+-			dev_info(dev, "CRC zero, attempting to apply config\n");
+-		} else if (config_crc == data->config_crc) {
+-			dev_dbg(dev, "Config CRC 0x%06X: OK\n",
+-				 data->config_crc);
+-			ret = 0;
+-			goto release_raw;
+-		} else {
+-			dev_info(dev, "Config CRC 0x%06X: does not match file 0x%06X\n",
+-				 data->config_crc, config_crc);
+-		}
+-	} else {
+-		dev_warn(dev,
+-			 "Warning: Info CRC error - device=0x%06X file=0x%06X\n",
+-			 data->info_crc, info_crc);
+-	}
 -
--err_free_object_table:
--	mxt_free_object_table(data);
--	return error;
- }
+ 	/* Malloc memory to store configuration */
+ 	cfg.start_ofs = MXT_OBJECT_START +
+ 			data->info->object_num * sizeof(struct mxt_object) +
+@@ -2018,14 +1994,45 @@ static int mxt_update_cfg(struct mxt_data *data, const struct firmware *fw)
+ 	else
+ 		dev_warn(dev, "Could not find CRC start\n");
  
- /* Configuration crc check sum is returned as hex xxxxxx */
-@@ -4100,16 +4096,21 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+-	if (crc_start > cfg.start_ofs) {
++	if (crc_start > cfg.start_ofs)
+ 		calculated_crc = mxt_calculate_crc(cfg.mem,
+ 						   crc_start - cfg.start_ofs,
+ 						   cfg.mem_size);
  
- 	error = mxt_initialize(data);
- 	if (error)
--		return error;
-+		goto err_free_object;
- 
- 	error = sysfs_create_group(&client->dev.kobj, &mxt_fw_attr_group);
- 	if (error) {
- 		dev_err(&client->dev, "Failure %d creating fw sysfs group\n",
- 			error);
--		return error;
-+		goto err_free_object;
+-		if (config_crc > 0 && config_crc != calculated_crc)
+-			dev_warn(dev, "Config CRC in file inconsistent, calculated=%06X, file=%06X\n",
+-				 calculated_crc, config_crc);
++	/* If the CRC stored in the file is not the same as what
++	 * was calculated by mxt_calculate_crc, this means we
++	 * have to refuse the config file and abort download.
++	 */
++	if (config_crc != calculated_crc) {
++		dev_warn(dev,
++			 "Config CRC in file inconsistent, calculated=%06X, file=%06X\n",
++			 calculated_crc, config_crc);
++		ret = 0;
++		goto release_mem;
++	}
++
++	/*
++	 * The Info Block CRC is calculated over mxt_info and the object
++	 * table. If it does not match then we are trying to load the
++	 * configuration from a different chip or firmware version, so
++	 * the configuration CRC is invalid anyway.
++	 */
++	if (info_crc == data->info_crc) {
++		if (config_crc == 0 || data->config_crc == 0) {
++			dev_info(dev, "CRC zero, attempting to apply config\n");
++		} else if (config_crc == data->config_crc) {
++			dev_dbg(dev, "Config CRC 0x%06X: OK\n",
++				data->config_crc);
++			ret = 0;
++			goto release_mem;
++		} else {
++			dev_info(dev, "Config CRC 0x%06X: does not match file 0x%06X\n",
++				 data->config_crc, config_crc);
++		}
++	} else {
++		dev_warn(dev,
++			 "Warning: Info CRC error - device=0x%06X file=0x%06X\n",
++			 data->info_crc, info_crc);
  	}
  
- 	return 0;
-+
-+err_free_object:
-+	mxt_free_input_device(data);
-+	mxt_free_object_table(data);
-+	return error;
- }
- 
- static int mxt_remove(struct i2c_client *client)
+ 	ret = mxt_upload_cfg_mem(data, &cfg);
 -- 
 2.17.1
 
