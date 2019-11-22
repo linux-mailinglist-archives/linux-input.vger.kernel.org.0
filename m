@@ -2,154 +2,188 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F3C0107AD4
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 23:48:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57106107AE8
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 23:52:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726762AbfKVWso (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 17:48:44 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:35881 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726526AbfKVWso (ORCPT
+        id S1726962AbfKVWwl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 17:52:41 -0500
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:35929 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726568AbfKVWwl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 17:48:44 -0500
-Received: by mail-pl1-f193.google.com with SMTP id d7so3723186pls.3;
-        Fri, 22 Nov 2019 14:48:44 -0800 (PST)
+        Fri, 22 Nov 2019 17:52:41 -0500
+Received: by mail-pj1-f66.google.com with SMTP id cq11so3676436pjb.3;
+        Fri, 22 Nov 2019 14:52:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=0huokCXbHocAZIGMX/c3HM5bh9PEhnRGgnHytZrJQDA=;
-        b=DDEHS3WE529zL/qw3QVeilPLFKDV2WyWuo0yxpBJtoCi9HW+jhbMijVTilgXKZVaTG
-         nFGfBpPqCB4+jZy1nxI/MmErrqzZ+FiYK0ughrTVz3V7Utafj3qNu9pMyAWt10bl438B
-         woAUEHUDDDNWAcWvOp/fiF6Z7GitEIz37P2qo4FaNbfysgtxr7lTJ1ONxCepjAIzPTN1
-         FJcbUGAAdZVw6If864xwh3yyS0glRasOMqM0xSsbqjFRvtLkn1ycVioByNiEJUvynOrG
-         Ni+lCWhiL0i+U5oWGrfYdEoAFV4H32LabXWi51aQUUb4PSQGVeNhAG7/P9Y8kwOFZ2Et
-         2AOQ==
+        bh=KqM5iPDN4K5n0vOL0Et0dfmAMXqLC1jgBto0uNn5I+I=;
+        b=nT4RzoWffNirIVHD+k3AoR3jPcigWNI8cs69VTmyyfPAqllko0D0LB1T4WsU2gp7u7
+         yjibnWfSS38p0mXjGy6+3/+Wz2rnl6mSzQJ5l/bNDVYfcSTl1L0c35KUjqUHcSQKK/s4
+         oKyrP7i804n34UCDWcLUY6P0Mr4La2OQ8/Rrh/oBGHJYCkCnQ9pR6KElTuc4R0sTotYN
+         KjSO/TI0S0XXE6P1ePFkbF+f1SHgU03+SZMlIzBTiYCBZCbDb2gDlECBEWne+rikQ+Fw
+         vka0iASMAwwEY2QtqEHgvLiKdN2vtlZsUK3+2hMv737dzQctR6DnAxbl+qWShvI6766p
+         kjCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0huokCXbHocAZIGMX/c3HM5bh9PEhnRGgnHytZrJQDA=;
-        b=JUOsBy0Qy2VGBP0GooOss0EehvKHlbaUjsYfGq6IKVK7DU3HrpY+aCRN60XgKEMtSn
-         iB1svoNKinYwEpPGXcEryVGnmvUpPqt62c39KXJgrhKMxnkKQU4QCRlvSEWoEAgvmeBS
-         0BJB9zkowBB/UoA3gTzo5SdaC+py5IboKf0HCqRrHgyid2KJj8zqt4hPTpW4YqZozum4
-         BxGDJ/Keuce3bGyxTb1d8Q2MRzNsVBu8bhVYamttL8klGpTcVlZPb0S2L4AXzXl0+J/Y
-         gR0UpnM7E79fAZPKZBfVIIBfN8m2fYa6Gh6Msak48Qq4Ho+AonybZJ1ebHz6aI/zr+I9
-         0F5w==
-X-Gm-Message-State: APjAAAWfu6T+L/FWbN70YdT0IDSgMmR6X/aeBDhBCUC090Rxsrh6oya1
-        Ui92ShLOBZuL5TvRSkmODZg=
-X-Google-Smtp-Source: APXvYqxj7VYmSOwpqPEcZ5ENTsGe+GG3HUaLo9ukNI6OqLpNjv/o+YEIei3ZdLi9Xgpf1haq4VcYeQ==
-X-Received: by 2002:a17:902:a709:: with SMTP id w9mr16819525plq.235.1574462923136;
-        Fri, 22 Nov 2019 14:48:43 -0800 (PST)
+        bh=KqM5iPDN4K5n0vOL0Et0dfmAMXqLC1jgBto0uNn5I+I=;
+        b=mCgDDCzG0MVM1sMmY4qlmGg7g3vzthQlsN6OTych7vvRJNG/1U0oc6WZaES8QVA6dg
+         Mitaw/QzuktfXusWE68wCm1my/UHfbs1cO6nhvb45ur8/MEVlRx9nBBK0oJadFSpGI6p
+         1uA1wdFPBRVWypHAxqM4vrVlQjSLDzHBNiFALKcOmUb4OpZZpK5yibkPNs67mYBfPHSa
+         nJNYpZjI4NnN3bE4H1OzxxHa5uE7h21cNzU7g5wQOO3bUvrl694Qx+I13RjYrN6Bay5U
+         YoJmasNIVbeGRKESjKhtZJQ604OFGQUaTrSKdwBDtzH8FNs+RG9REtkKO7njmnRPNwpN
+         Akzw==
+X-Gm-Message-State: APjAAAWvX4vHCt9UgdvVTumhupTmx7kCTAhnPpHozu7gbP2JdjFw0+7E
+        7H8Xq3HDo2mA7w8GNGekAAk=
+X-Google-Smtp-Source: APXvYqzHGYsvlvIlKOWXxmXQ/n+f31h6kTXpNYONm7vKFFte1cBdWGHOA7EXIpRz9LHIbJelFVRaWg==
+X-Received: by 2002:a17:902:8bc9:: with SMTP id r9mr15683900plo.319.1574463158932;
+        Fri, 22 Nov 2019 14:52:38 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id y26sm8834040pfo.76.2019.11.22.14.48.41
+        by smtp.gmail.com with ESMTPSA id u18sm8228877pfn.183.2019.11.22.14.52.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2019 14:48:42 -0800 (PST)
-Date:   Fri, 22 Nov 2019 14:48:40 -0800
+        Fri, 22 Nov 2019 14:52:38 -0800 (PST)
+Date:   Fri, 22 Nov 2019 14:52:36 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Robin Gong <yibin.gong@nxp.com>
-Cc:     robin <robin@protonic.nl>, Marco Felsch <m.felsch@pengutronix.de>,
-        "linux-input @ vger . kernel . org" <linux-input@vger.kernel.org>,
-        "linux-kernel @ vger . kernel . org" <linux-kernel@vger.kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Adam Ford <aford173@gmail.com>,
-        "linux-arm-kernel @ lists . infradead . org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v3] input: keyboard: snvs_pwrkey: Send key events for
- i.MX6 S, DL and Q
-Message-ID: <20191122224840.GE248138@dtor-ws>
-References: <20190904062329.97520-1-robin@protonic.nl>
- <20190912201300.GA636@penguin>
- <803592d161b9ca75d6ac1c2c54e891a1@protonic.nl>
- <VE1PR04MB663896B94C68B5EF9AE0BE36898C0@VE1PR04MB6638.eurprd04.prod.outlook.com>
- <20190916233701.GH237523@dtor-ws>
- <20191120092749.7rru5fj7eybs4tl6@pengutronix.de>
- <fb98fa1fde9a367d7ab33d04a5804684@protonic.nl>
- <VE1PR04MB6638D79F8C929100F6D96479894E0@VE1PR04MB6638.eurprd04.prod.outlook.com>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2] input: Fix Kconfig indentation
+Message-ID: <20191122225236.GF248138@dtor-ws>
+References: <1574306373-29581-1-git-send-email-krzk@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <VE1PR04MB6638D79F8C929100F6D96479894E0@VE1PR04MB6638.eurprd04.prod.outlook.com>
+In-Reply-To: <1574306373-29581-1-git-send-email-krzk@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 21, 2019 at 01:17:56PM +0000, Robin Gong wrote:
+On Thu, Nov 21, 2019 at 04:19:33AM +0100, Krzysztof Kozlowski wrote:
+> Adjust indentation from spaces to tab (+optional two spaces) as in
+> coding style with command like:
+> 	$ sed -e 's/^        /\t/' -i */Kconfig
 > 
-> On 2019-11-21 0:33, robin <robin@protonic.nl> wrote:
-> > On 2019-11-20 10:27, Marco Felsch wrote:
-> > > Hi Robin,
-> > >
-> > > On 19-09-16 16:37, Dmitry Torokhov wrote:
-> > >> On Mon, Sep 16, 2019 at 07:45:37AM +0000, Robin Gong wrote:
-> > >> > On 2019/9/13 15:31 robin <robin@protonic.nl> wrote:>
-> > >> > > Hi Dmitry,
-> > >> > >
-> > >> > > On 2019-09-12 22:13, Dmitry Torokhov wrote:
-> > >> > > > Hi Robin,
-> > >> > > >
-> > >> > > > On Wed, Sep 04, 2019 at 06:23:29AM +0000, Robin van der Gracht
-> > wrote:
-> > >> > > >> The first generation i.MX6 processors does not send an
-> > >> > > >> interrupt when the power key is pressed. It sends a power down
-> > >> > > >> request interrupt if the key is released before a hard
-> > >> > > >> shutdown (5 second press). This should allow software to bring down
-> > the SoC safely.
-> > >> > > >>
-> > >> > > >> For this driver to work as a regular power key with the older
-> > >> > > >> SoCs, we need to send a keypress AND release when we get the
-> > >> > > >> power down request irq.
-> > >> > > >>
-> > >> > > >> Signed-off-by: Robin van der Gracht <robin@protonic.nl>
-> > >> > > >> ---
-> > >> > > >> @@ -67,13 +83,17 @@ static irqreturn_t
-> > >> > > >> imx_snvs_pwrkey_interrupt(int irq, void *dev_id)  {
-> > >> > > >>  	struct platform_device *pdev = dev_id;
-> > >> > > >>  	struct pwrkey_drv_data *pdata = platform_get_drvdata(pdev);
-> > >> > > >> +	unsigned long expire = jiffies;
-> > >> > > >>  	u32 lp_status;
-> > >> > > >>
-> > >> > > >>  	pm_wakeup_event(pdata->input->dev.parent, 0);
-> > >> > > >>
-> > >> > > >>  	regmap_read(pdata->snvs, SNVS_LPSR_REG, &lp_status);
-> > >> > > >> -	if (lp_status & SNVS_LPSR_SPO)
-> > >> > > >> -		mod_timer(&pdata->check_timer, jiffies +
-> > >> > > >> msecs_to_jiffies(DEBOUNCE_TIME));
-> > >> > > >> +	if (lp_status & SNVS_LPSR_SPO) {
-> > >> > > >> +		if (pdata->minor_rev > 0)
-> > >> > > >> +			expire = jiffies + msecs_to_jiffies(DEBOUNCE_TIME);
-> > >> > > >> +		mod_timer(&pdata->check_timer, expire);
-> > >> > > >
-> > >> > > > Why do we even need to fire the timer in case of the first
-> > >> > > > generation hardware? Just send press and release events directly from
-> > the ISR.
-> > >> > That timer looks like a software debounce to prevent unexpected and
-> > >> > meaningless interrupt/event caused by quick press/release.
-> > >>
-> > >> Right, but in case of the first generation hardware we schedule the
-> > >> timer immediately (expire == 0) and do not check state of the
-> > >> hardware in the timer handler, but rather simply emit down/up events,
-> > >> so we do not really get any benefit from the timer (again, I am
-> > >> talking about first generation hardware only).
-> > >
-> > > Did you prepared a v4? Just ask to avoid a duplicated work :)
-> > 
-> > No I haven't. Not sure what the public wants. Use timer, don't use timer..
-> > 
-> > v3 has had long term testing though ;)
-> Sorry for that I miss the mail.
-> Understood a little bit confusion about immediate timer for
-> the first press, just stand on the view of clean code shape.
-> But I'm okay if you prefer to remove timer in the first interrupt
-> generation.
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> 
 
-Yes, please prepare v4 without the timer for the first generation of the
-hardware.
+Applied, thank you.
 
-Thanks.
+> ---
+> 
+> Changes since v1:
+> 1. Fix also 7-space and tab+1 space indentation issues.
+> ---
+>  drivers/input/keyboard/Kconfig    | 16 ++++++++--------
+>  drivers/input/mouse/Kconfig       | 16 ++++++++--------
+>  drivers/input/tablet/Kconfig      | 20 ++++++++++----------
+>  drivers/input/touchscreen/Kconfig |  2 +-
+>  4 files changed, 27 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+> index 1ddfc2413035..36067ed1160d 100644
+> --- a/drivers/input/keyboard/Kconfig
+> +++ b/drivers/input/keyboard/Kconfig
+> @@ -167,14 +167,14 @@ config KEYBOARD_QT1050
+>  	  the module will be called qt1050
+>  
+>  config KEYBOARD_QT1070
+> -       tristate "Atmel AT42QT1070 Touch Sensor Chip"
+> -       depends on I2C
+> -       help
+> -         Say Y here if you want to use Atmel AT42QT1070 QTouch
+> -         Sensor chip as input device.
+> -
+> -         To compile this driver as a module, choose M here:
+> -         the module will be called qt1070
+> +	tristate "Atmel AT42QT1070 Touch Sensor Chip"
+> +	depends on I2C
+> +	help
+> +	 Say Y here if you want to use Atmel AT42QT1070 QTouch
+> +	 Sensor chip as input device.
+> +
+> +	 To compile this driver as a module, choose M here:
+> +	 the module will be called qt1070
+>  
+>  config KEYBOARD_QT2160
+>  	tristate "Atmel AT42QT2160 Touch Sensor Chip"
+> diff --git a/drivers/input/mouse/Kconfig b/drivers/input/mouse/Kconfig
+> index bf738d3b7fe4..6e1ff481c977 100644
+> --- a/drivers/input/mouse/Kconfig
+> +++ b/drivers/input/mouse/Kconfig
+> @@ -92,14 +92,14 @@ config MOUSE_PS2_SYNAPTICS_SMBUS
+>  	  If unsure, say Y.
+>  
+>  config MOUSE_PS2_CYPRESS
+> -       bool "Cypress PS/2 mouse protocol extension" if EXPERT
+> -       default y
+> -       depends on MOUSE_PS2
+> -       help
+> -         Say Y here if you have a Cypress PS/2 Trackpad connected to
+> -         your system.
+> -
+> -         If unsure, say Y.
+> +	bool "Cypress PS/2 mouse protocol extension" if EXPERT
+> +	default y
+> +	depends on MOUSE_PS2
+> +	help
+> +	 Say Y here if you have a Cypress PS/2 Trackpad connected to
+> +	 your system.
+> +
+> +	 If unsure, say Y.
+>  
+>  config MOUSE_PS2_LIFEBOOK
+>  	bool "Fujitsu Lifebook PS/2 mouse protocol extension" if EXPERT
+> diff --git a/drivers/input/tablet/Kconfig b/drivers/input/tablet/Kconfig
+> index e4c0d9a055b9..51c339182017 100644
+> --- a/drivers/input/tablet/Kconfig
+> +++ b/drivers/input/tablet/Kconfig
+> @@ -39,16 +39,16 @@ config TABLET_USB_AIPTEK
+>  	  module will be called aiptek.
+>  
+>  config TABLET_USB_GTCO
+> -        tristate "GTCO CalComp/InterWrite USB Support"
+> -        depends on USB && INPUT
+> -        help
+> -          Say Y here if you want to use the USB version of the GTCO
+> -          CalComp/InterWrite Tablet.  Make sure to say Y to "Mouse support"
+> -          (CONFIG_INPUT_MOUSEDEV) and/or "Event interface support"
+> -          (CONFIG_INPUT_EVDEV) as well.
+> -
+> -          To compile this driver as a module, choose M here: the
+> -          module will be called gtco.
+> +	tristate "GTCO CalComp/InterWrite USB Support"
+> +	depends on USB && INPUT
+> +	help
+> +	  Say Y here if you want to use the USB version of the GTCO
+> +	  CalComp/InterWrite Tablet.  Make sure to say Y to "Mouse support"
+> +	  (CONFIG_INPUT_MOUSEDEV) and/or "Event interface support"
+> +	  (CONFIG_INPUT_EVDEV) as well.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called gtco.
+>  
+>  config TABLET_USB_HANWANG
+>  	tristate "Hanwang Art Master III tablet support (USB)"
+> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
+> index 40bfc551ce30..c071f7c407b6 100644
+> --- a/drivers/input/touchscreen/Kconfig
+> +++ b/drivers/input/touchscreen/Kconfig
+> @@ -633,7 +633,7 @@ config TOUCHSCREEN_HP600
+>  	depends on SH_HP6XX && SH_ADC
+>  	help
+>  	  Say Y here if you have a HP Jornada 620/660/680/690 and want to
+> -          support the built-in touchscreen.
+> +	  support the built-in touchscreen.
+>  
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called hp680_ts_input.
+> -- 
+> 2.7.4
+> 
 
 -- 
 Dmitry
