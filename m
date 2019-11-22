@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 09C611067C4
+	by mail.lfdr.de (Postfix) with ESMTP id 739251067C5
 	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 09:25:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727097AbfKVIY1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 03:24:27 -0500
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:52461 "EHLO
-        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727059AbfKVIYY (ORCPT
+        id S1727106AbfKVIY2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 03:24:28 -0500
+Received: from esa1.mentor.iphmx.com ([68.232.129.153]:60514 "EHLO
+        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725999AbfKVIY2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 03:24:24 -0500
-IronPort-SDR: ewDxBn7sC45V0HzpCQoh7CeQW+cmbnBrOPikYepscSHphyelcghCvauDv5JHXOwhmXlrA6rS2a
- FsZ5jD5PF3VvJu4FFUa4Cbp6QYqoXUsaPVvkyWh17VNHPaLt4KXZu5Itb1k7H5sqa814dt1E00
- N41rCPJQWXBHimB97uo70OftC/sBQaB+JRAxmpcfoVeyIUZk/IydgIsug5CgJslvGX/y44vvQQ
- 5npqm1XB0HW0dIHa28pw3zTeoW3l7E++WKj5iv9c052h38GxJ8fdZ/LasF5E4vU5vicuiCV2j5
- +oQ=
+        Fri, 22 Nov 2019 03:24:28 -0500
+IronPort-SDR: f/zvAiMNPdrbEIrNnuV+n16RGHl1KskTGwMS5LwqoCot4Qk/d1UUzkJbEBfrp+JEql5K/htiLz
+ apXxH3YNCnf67ykuUcHJ3fItchftoFZUSPBMab6gyNyDBggiGBH9YUk7LyMZMkbVrs96r2inn0
+ iSxU36Y/oLnW58SI8g6M51NnD1clT5H0IgfEKh7SK73BOwO+nXsKw2dxGUkKU6LtAF3/Ltpn7n
+ nEdOM/Tcxn6O0droG5RStFz58x0IzYN7O4MO5h5ljl66h4iAvH9Q7zJxO0Ae2+39UaXRr/+1p/
+ edw=
 X-IronPort-AV: E=Sophos;i="5.69,229,1571731200"; 
-   d="scan'208";a="43358897"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 22 Nov 2019 00:24:24 -0800
-IronPort-SDR: MrR4zNjtpf45UUZ275EPPwhlhjrWVr6lRivcHlinQUmyym7E5Tr2GvnhPLcQSDCkatvTKoCq0m
- tXK38pE/4Eyam/bU/fJB6zk3k69aEQjw9ldpWlKVPtRH1kxuVXEm+LDY14F3kkBFsqBrssEr8d
- 7bO/8OragAiTVuD8iGT3jMw4xox+G5+a0VLALiWJIYVh5tj/sxhzWTfK4+AkXuLyaa78YF/Zuu
- esngP0v+lJYe70alknXdDv5jPDt2mHX/HDypunZ9QM7JHRdT1AX/b3dtEsjnkOuICDeiE70G3z
- XuA=
+   d="scan'208";a="45291099"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa1.mentor.iphmx.com with ESMTP; 22 Nov 2019 00:24:27 -0800
+IronPort-SDR: UMcX7DOwHQvj9kqsStS02FNKagkUBdw7iq9bIOgIqUIQqEZlAryXXNeLz5AbFMy16gulDDApxD
+ FUthyIhfQAdsgVUUmQs2lQC8kUSPuVR3IUa8URoaNAJ/C/vi4wUkcYY/y9PS92KTJxQut/qazK
+ ZLFNDDFHabAIGBALnIxcbAxYCwXvypl//zc17qRIIN8cSriVTpXDliYy7DMfd7Fej4Skd3stG3
+ 8S+XuA0/SZu37gEYX+W/LEstas7F1z874KX2rfmlrxfJSwLofjVzsr0ywvfp39LVqzHbzc5sGE
+ sfc=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>, <dmitry.torokhov@gmail.com>,
@@ -33,9 +33,9 @@ To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v6 05/48] Input: atmel_mxt_ts - output status from T48 Noise Supression
-Date:   Fri, 22 Nov 2019 17:23:19 +0900
-Message-ID: <20191122082402.18173-6-jiada_wang@mentor.com>
+Subject: [PATCH v6 06/48] Input: atmel_mxt_ts - output status from T42 Touch Suppression
+Date:   Fri, 22 Nov 2019 17:23:20 +0900
+Message-ID: <20191122082402.18173-7-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191122082402.18173-1-jiada_wang@mentor.com>
 References: <20191122082402.18173-1-jiada_wang@mentor.com>
@@ -51,77 +51,85 @@ From: Nick Dyer <nick.dyer@itdev.co.uk>
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
 Acked-by: Benson Leung <bleung@chromium.org>
 Acked-by: Yufeng Shen <miletus@chromium.org>
-(cherry picked from ndyer/linux/for-upstream commit 2895a6ff150a49f27a02938f8d262be238b296d8)
+(cherry picked from ndyer/linux/for-upstream commit ab95b5a309999d2c098daaa9f88d9fcfae7eb516)
 Signed-off-by: George G. Davis <george_davis@mentor.com>
+[jiada: Replace dev_info() with dev_dbg()]
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
  drivers/input/touchscreen/atmel_mxt_ts.c | 25 ++++++++++++++++++++++++
  1 file changed, 25 insertions(+)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 9088b2d3266b..41a69ec5395a 100644
+index 41a69ec5395a..4e0dae004927 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -324,6 +324,7 @@ struct mxt_data {
+@@ -155,6 +155,9 @@ struct t37_debug {
+ #define MXT_RESET_VALUE		0x01
+ #define MXT_BACKUP_VALUE	0x55
+ 
++/* Define for MXT_PROCI_TOUCHSUPPRESSION_T42 */
++#define MXT_T42_MSG_TCHSUP	BIT(0)
++
+ /* T100 Multiple Touch Touchscreen */
+ #define MXT_T100_CTRL		0
+ #define MXT_T100_CFG1		1
+@@ -323,6 +326,8 @@ struct mxt_data {
+ 	u8 T9_reportid_max;
  	u16 T18_address;
  	u8 T19_reportid;
++	u8 T42_reportid_min;
++	u8 T42_reportid_max;
  	u16 T44_address;
-+	u8 T48_reportid;
+ 	u8 T48_reportid;
  	u8 T100_reportid_min;
- 	u8 T100_reportid_max;
- 
-@@ -978,6 +979,24 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+@@ -979,6 +984,17 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
  	data->update_input = true;
  }
  
-+static int mxt_proc_t48_messages(struct mxt_data *data, u8 *msg)
++static void mxt_proc_t42_messages(struct mxt_data *data, u8 *msg)
 +{
 +	struct device *dev = &data->client->dev;
-+	u8 status, state;
++	u8 status = msg[1];
 +
-+	status = msg[1];
-+	state  = msg[4];
-+
-+	dev_dbg(dev, "T48 state %d status %02X %s%s%s%s%s\n", state, status,
-+		status & 0x01 ? "FREQCHG " : "",
-+		status & 0x02 ? "APXCHG " : "",
-+		status & 0x04 ? "ALGOERR " : "",
-+		status & 0x10 ? "STATCHG " : "",
-+		status & 0x20 ? "NLVLCHG " : "");
-+
-+	return 0;
++	if (status & MXT_T42_MSG_TCHSUP)
++		dev_dbg(dev, "T42 suppress\n");
++	else
++		dev_dbg(dev, "T42 normal\n");
 +}
 +
- static int mxt_proc_message(struct mxt_data *data, u8 *message)
+ static int mxt_proc_t48_messages(struct mxt_data *data, u8 *msg)
  {
- 	u8 report_id = message[0];
-@@ -987,6 +1006,8 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
+ 	struct device *dev = &data->client->dev;
+@@ -1006,6 +1022,9 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
  
  	if (report_id == data->T6_reportid) {
  		mxt_proc_t6_messages(data, message);
-+	} else if (report_id == data->T48_reportid) {
-+		mxt_proc_t48_messages(data, message);
++	} else if (report_id >= data->T42_reportid_min
++		   && report_id <= data->T42_reportid_max) {
++		mxt_proc_t42_messages(data, message);
+ 	} else if (report_id == data->T48_reportid) {
+ 		mxt_proc_t48_messages(data, message);
  	} else if (!data->input_dev) {
- 		/*
- 		 * Do not report events if input device
-@@ -1666,6 +1687,7 @@ static void mxt_free_object_table(struct mxt_data *data)
+@@ -1686,6 +1705,8 @@ static void mxt_free_object_table(struct mxt_data *data)
+ 	data->T9_reportid_max = 0;
  	data->T18_address = 0;
  	data->T19_reportid = 0;
++	data->T42_reportid_min = 0;
++	data->T42_reportid_max = 0;
  	data->T44_address = 0;
-+	data->T48_reportid = 0;
+ 	data->T48_reportid = 0;
  	data->T100_reportid_min = 0;
- 	data->T100_reportid_max = 0;
- 	data->max_reportid = 0;
-@@ -1747,6 +1769,9 @@ static int mxt_parse_object_table(struct mxt_data *data,
- 		case MXT_SPT_GPIOPWM_T19:
- 			data->T19_reportid = min_id;
+@@ -1763,6 +1784,10 @@ static int mxt_parse_object_table(struct mxt_data *data,
+ 		case MXT_SPT_COMMSCONFIG_T18:
+ 			data->T18_address = object->start_address;
  			break;
-+		case MXT_PROCG_NOISESUPPRESSION_T48:
-+			data->T48_reportid = min_id;
++		case MXT_PROCI_TOUCHSUPPRESSION_T42:
++			data->T42_reportid_min = min_id;
++			data->T42_reportid_max = max_id;
 +			break;
- 		case MXT_TOUCH_MULTITOUCHSCREEN_T100:
- 			data->multitouch = MXT_TOUCH_MULTITOUCHSCREEN_T100;
- 			data->T100_reportid_min = min_id;
+ 		case MXT_SPT_MESSAGECOUNT_T44:
+ 			data->T44_address = object->start_address;
+ 			break;
 -- 
 2.17.1
 
