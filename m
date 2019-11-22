@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06D421067D3
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 09:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08D641067D5
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 09:25:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727332AbfKVIZG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 03:25:06 -0500
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:60534 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726500AbfKVIZE (ORCPT
+        id S1727368AbfKVIZK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 03:25:10 -0500
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:4430 "EHLO
+        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727362AbfKVIZJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 03:25:04 -0500
-IronPort-SDR: ro1KjdsGD6BmsXrsVa2yNgYwiOXsLLNvMFREjrG7Hbjxwg6p9Od2mWsvHiTuKHEmdEvGCoyUli
- zsILPIEO50sy9AWn6qiJ/qeRqsK3QBXtCd/OPY5sVsjwv+8r6pla9vJpKnRALEa1E1qTDL+dVN
- xUJnKZwh2nhgvilN0e21qGG5uznBd2m/LW2zghP1g7eH84xopo+WbSWm9WnGCEK5/jEHz/lKol
- FSEkYo9o3p+i0jty7YMxD1Z180YLQ7pXPPN6uWMhfm4TXvF7cMItqJyFVQuAnMhjKkdgZeYoG6
- +iU=
+        Fri, 22 Nov 2019 03:25:09 -0500
+IronPort-SDR: ZH5ZcX6CL+S4IM6cerZMlA0iWeFlf+7Dy2/Bp2HF+odIDqRIdn4ykC7tDyH/IdXJgHIZUSW2wZ
+ T0n9gb6XORKMANiqiGFU2QkncEtJ9AwUHO0lXI2OMAlj9jp52KqeR75rkVh+PvohhkqeMsdo/7
+ SUgDdhScFz+hLDFUWTnXNkzLXLYUKmWOxw2f1YosSnIeIXf1s9Q4ZdUavUapOTB7ADmOBqQgpq
+ N3K5QuQNqAYB6PpyARYjcNAqCW74xMQn4JnpSJdOF1yZs15urNwNJTVPOeG0sfeiNHdRwEoT+a
+ NV4=
 X-IronPort-AV: E=Sophos;i="5.69,229,1571731200"; 
-   d="scan'208";a="45291116"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa1.mentor.iphmx.com with ESMTP; 22 Nov 2019 00:25:04 -0800
-IronPort-SDR: h94jbL+B3yChuasOhPeZGKiI6b7eCf4tFyTWlRkKELLLQQ0bvV4LKiubARqUkV+EGzy68iR74k
- Dai2zookAoWK1oqLvvLRtxaxkirpTxBPkNUWFRmTuVDgGUs4n+d/+3VTgEVo26YlxoHkf2iMeZ
- rESxgzOMJVUKBg+KpLa//e4g7N+6+dk1U0DBLN/sLaJFUw3hgpCjvdiWUIwphlIkx5RiM2IgIG
- Gj7g2R49X2RH56r2JsDxLPYinaVKeK8PT5IB86RBSbkQcuoTdDoEiZFG+VbF8Qr7P3dODsl/b7
- pcs=
+   d="scan'208";a="43419447"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa3.mentor.iphmx.com with ESMTP; 22 Nov 2019 00:25:08 -0800
+IronPort-SDR: YhhMFZe3ywNjSzhTdd2x3arn9CtNAJVVPriao7GXIZq5YaOAxU1hZQTlZKE4j5EFGoPYDR8WKn
+ HZ98PlOroRaiJSi8TVPS4aOuEx7FZNSzmTxTVGCVcOpSj4nG1onkzZugkwvwrC/ymmYAZfM7NM
+ Chqj9fIaCi3+4/fM+oxsRUO2/FMD5bp2DDBXkZzrAwJTmTDrIDs7Tqy1Ci7bm02/HvVsjudkHQ
+ wAN+pPxqU1/f4WGoqvrS/R2DK3F7ulFuAoOuPSfvz5KF3WPYEoMWJuYTuCeE+lM9eWa/Fltky+
+ 0nM=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>, <dmitry.torokhov@gmail.com>,
@@ -33,9 +33,9 @@ To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v6 16/48] Input: atmel_mxt_ts - handle cfg filename via pdata/sysfs
-Date:   Fri, 22 Nov 2019 17:23:30 +0900
-Message-ID: <20191122082402.18173-17-jiada_wang@mentor.com>
+Subject: [PATCH v6 17/48] Input: atmel_mxt_ts - allow input name to be specified in platform data
+Date:   Fri, 22 Nov 2019 17:23:31 +0900
+Message-ID: <20191122082402.18173-18-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191122082402.18173-1-jiada_wang@mentor.com>
 References: <20191122082402.18173-1-jiada_wang@mentor.com>
@@ -48,268 +48,69 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-There may be multiple maXTouch chips on a single device which will require
-different configuration files. Add a platform data value for the
-configuration filename.
-
-Add sysfs entry to write configuration file if the platform data is not
-set.
-
-Split out the object initialisation code from mxt_initialize() into
-mxt_configure_objects() to allow this.
+Android systems identify the input device and map to IDC file by using the
+input device name. To avoid unnecessary deltas to the driver file, allow
+this to be set from the platform data.
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-Acked-by: Yufeng Shen <miletus@chromium.org>
-(cherry picked from ndyer/linux/for-upstream commit 71a2a4d1954460b949a16b607f72bafab294ca79)
+(cherry picked from ndyer/linux/for-upstream commit cbf94a7bda754d2e1899d9f50313a0bccc91422d)
 [gdavis: Resolve forward port conflicts due to applying upstream
 	 commit 96a938aa214e ("Input: atmel_mxt_ts - remove platform
 	 data support").]
 Signed-off-by: George G. Davis <george_davis@mentor.com>
-[gdavis: Squash fix from Vladimir Zapolskiy:
-	 - Input: atmel_mxt_ts - fix error paths in mxt_configure_objects()]
-Signed-off-by: Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
----
-Notes:
-- Squash fix from Vladimir Zapolskiy:
-  + Input: atmel_mxt_ts - fix error paths in mxt_configure_objects()
-
-    Fail in mxt_update_cfg() is critical, because the driver state machine
-    is broken and it can not be safely used afterwards.
-
-[jiada: Squash fix from ndyer/linux/for-upstream commit c909ada856861f305653b127db3ea0fa60264331
-	- Input: atmel_mxt_ts - check data->input_dev is not null in mxt_input_sync()]
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- .../bindings/input/atmel,maxtouch.txt         |   3 +
- drivers/input/touchscreen/atmel_mxt_ts.c      | 109 +++++++++++++++---
- 2 files changed, 97 insertions(+), 15 deletions(-)
+ .../devicetree/bindings/input/atmel,maxtouch.txt         | 2 ++
+ drivers/input/touchscreen/atmel_mxt_ts.c                 | 9 ++++++++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-index e28139ce3cae..713ce870805c 100644
+index 713ce870805c..d7db16920083 100644
 --- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
 +++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-@@ -37,6 +37,9 @@ Optional properties for main touchpad device:
-     MXT_SUSPEND_REGULATOR - use regulators to power down device during suspend
-     Definitions are in <dt-bindings/input/atmel_mxt_ts.h>.
+@@ -40,6 +40,8 @@ Optional properties for main touchpad device:
+ - atmel,cfg_name: Provide name of configuration file in OBP_RAW format. This
+     will be downloaded from the firmware loader on probe to the device.
  
-+- atmel,cfg_name: Provide name of configuration file in OBP_RAW format. This
-+    will be downloaded from the firmware loader on probe to the device.
++- atmel,input_name: Override name of input device from the default.
 +
  Example:
  
  	touch@4b {
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index a0e367bc6e83..362b7630ec6e 100644
+index 362b7630ec6e..9ee3b6d40c8c 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -34,7 +34,6 @@
- #include <dt-bindings/input/atmel_mxt_ts.h>
- 
- /* Configuration file */
--#define MXT_CFG_NAME		"maxtouch.cfg"
- #define MXT_CFG_MAGIC		"OBP_RAW V1"
- 
- /* Registers */
-@@ -335,6 +334,8 @@ struct mxt_data {
- 	struct regulator *reg_vdd;
- 	struct regulator *reg_avdd;
+@@ -336,6 +336,7 @@ struct mxt_data {
  	char *fw_name;
-+	char *cfg_name;
-+	const char *pcfg_name;
+ 	char *cfg_name;
+ 	const char *pcfg_name;
++	const char *input_name;
  
  	/* Cached parameters from object table */
  	u16 T5_address;
-@@ -377,6 +378,9 @@ struct mxt_data {
+@@ -2412,7 +2413,11 @@ static int mxt_initialize_input_device(struct mxt_data *data)
+ 	if (!input_dev)
+ 		return -ENOMEM;
  
- 	/* Indicates whether device is in suspend */
- 	bool suspended;
+-	input_dev->name = "Atmel maXTouch Touchscreen";
++	if (data->input_name)
++		input_dev->name = data->input_name;
++	else
++		input_dev->name = "Atmel maXTouch Touchscreen";
 +
-+	/* Indicates whether device is updating configuration */
-+	bool updating_config;
- };
+ 	input_dev->phys = data->phys;
+ 	input_dev->id.bustype = BUS_I2C;
+ 	input_dev->dev.parent = dev;
+@@ -3653,6 +3658,8 @@ static int mxt_parse_device_properties(struct mxt_data *data)
  
- struct mxt_vb2_buffer {
-@@ -833,9 +837,11 @@ static void mxt_input_button(struct mxt_data *data, u8 *message)
+ 	device_property_read_string(dev, "atmel,cfg_name", &data->pcfg_name);
  
- static void mxt_input_sync(struct mxt_data *data)
- {
--	input_mt_report_pointer_emulation(data->input_dev,
--					  data->t19_num_keys);
--	input_sync(data->input_dev);
-+	if (data->input_dev) {
-+		input_mt_report_pointer_emulation(data->input_dev,
-+						  data->t19_num_keys);
-+		input_sync(data->input_dev);
-+	}
- }
- 
- static void mxt_proc_t9_message(struct mxt_data *data, u8 *message)
-@@ -2578,13 +2584,21 @@ static int mxt_initialize(struct mxt_data *data)
- 	if (error)
- 		return error;
- 
--	error = request_firmware_nowait(THIS_MODULE, true, MXT_CFG_NAME,
--					&client->dev, GFP_KERNEL, data,
--					mxt_config_cb);
--	if (error) {
--		dev_err(&client->dev, "Failed to invoke firmware loader: %d\n",
--			error);
--		goto err_free_sysfs;
-+	if (data->cfg_name) {
-+		error = request_firmware_nowait(THIS_MODULE, true,
-+						data->cfg_name,
-+						&client->dev,
-+						GFP_KERNEL, data,
-+						mxt_config_cb);
-+		if (error) {
-+			dev_err(&client->dev, "Failed to invoke firmware loader: %d\n",
-+				error);
-+			goto err_free_sysfs;
-+		}
-+	} else {
-+		error = mxt_configure_objects(data, NULL);
-+		if (error)
-+			goto err_free_sysfs;
- 	}
- 
- 	return 0;
-@@ -3081,19 +3095,21 @@ static int mxt_configure_objects(struct mxt_data *data,
- 	error = mxt_init_t7_power_cfg(data);
- 	if (error) {
- 		dev_err(dev, "Failed to initialize power cfg\n");
--		return error;
-+		goto err_free_object_table;
- 	}
- 
- 	if (cfg) {
- 		error = mxt_update_cfg(data, cfg);
--		if (error)
-+		if (error) {
- 			dev_warn(dev, "Error %d updating config\n", error);
-+			goto err_free_object_table;
-+		}
- 	}
- 
- 	if (data->multitouch) {
- 		error = mxt_initialize_input_device(data);
- 		if (error)
--			return error;
-+			goto err_free_object_table;
- 	} else {
- 		dev_warn(dev, "No touch object detected\n");
- 	}
-@@ -3101,6 +3117,10 @@ static int mxt_configure_objects(struct mxt_data *data,
- 	mxt_debug_init(data);
- 
- 	return 0;
-+
-+err_free_object_table:
-+	mxt_free_object_table(data);
-+	return error;
- }
- 
- /* Firmware Version is returned as Major.Minor.Build */
-@@ -3392,6 +3412,55 @@ static ssize_t mxt_update_fw_store(struct device *dev,
- 	return count;
- }
- 
-+static ssize_t mxt_update_cfg_store(struct device *dev,
-+		struct device_attribute *attr,
-+		const char *buf, size_t count)
-+{
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+	const struct firmware *cfg;
-+	int ret;
-+
-+	ret = mxt_update_file_name(dev, &data->cfg_name, buf, count);
-+	if (ret)
-+		return ret;
-+
-+	ret = request_firmware(&cfg, data->cfg_name, dev);
-+	if (ret < 0) {
-+		dev_err(dev, "Failure to request config file %s\n",
-+			data->cfg_name);
-+		ret = -ENOENT;
-+		goto out;
-+	}
-+
-+	data->updating_config = true;
-+
-+	mxt_free_input_device(data);
-+
-+	if (data->suspended) {
-+		if (data->suspend_mode == MXT_SUSPEND_REGULATOR) {
-+			enable_irq(data->irq);
-+			mxt_regulator_enable(data);
-+		} else if (data->suspend_mode == MXT_SUSPEND_DEEP_SLEEP) {
-+			mxt_set_t7_power_cfg(data, MXT_POWER_CFG_RUN);
-+			mxt_acquire_irq(data);
-+		}
-+
-+		data->suspended = false;
-+	}
-+
-+	ret = mxt_configure_objects(data, cfg);
-+	if (ret)
-+		goto release;
-+
-+	ret = count;
-+
-+release:
-+	release_firmware(cfg);
-+out:
-+	data->updating_config = false;
-+	return ret;
-+}
-+
- static DEVICE_ATTR(update_fw, S_IWUSR, NULL, mxt_update_fw_store);
- 
- static struct attribute *mxt_fw_attrs[] = {
-@@ -3406,11 +3475,13 @@ static const struct attribute_group mxt_fw_attr_group = {
- static DEVICE_ATTR(fw_version, S_IRUGO, mxt_fw_version_show, NULL);
- static DEVICE_ATTR(hw_version, S_IRUGO, mxt_hw_version_show, NULL);
- static DEVICE_ATTR(object, S_IRUGO, mxt_object_show, NULL);
-+static DEVICE_ATTR(update_cfg, S_IWUSR, NULL, mxt_update_cfg_store);
- 
- static struct attribute *mxt_attrs[] = {
- 	&dev_attr_fw_version.attr,
- 	&dev_attr_hw_version.attr,
- 	&dev_attr_object.attr,
-+	&dev_attr_update_cfg.attr,
- 	NULL
- };
- 
-@@ -3511,7 +3582,7 @@ static int mxt_stop(struct mxt_data *data)
- {
- 	int ret;
- 
--	if (data->suspended || data->in_bootloader)
-+	if (data->suspended || data->in_bootloader || data->updating_config)
- 		return 0;
- 
- 	switch (data->suspend_mode) {
-@@ -3580,6 +3651,8 @@ static int mxt_parse_device_properties(struct mxt_data *data)
- 	int n_keys;
- 	int error;
- 
-+	device_property_read_string(dev, "atmel,cfg_name", &data->pcfg_name);
++	device_property_read_string(dev, "atmel,input_name", &data->input_name);
 +
  	if (device_property_present(dev, keymap_property)) {
  		n_keys = device_property_count_u32(dev, keymap_property);
  		if (n_keys <= 0) {
-@@ -3704,6 +3777,12 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 	if (error)
- 		return error;
- 
-+	if (data->pcfg_name)
-+		mxt_update_file_name(&data->client->dev,
-+				     &data->cfg_name,
-+				     data->pcfg_name,
-+				     strlen(data->pcfg_name));
-+
- 	data->reset_gpio = devm_gpiod_get_optional(&client->dev,
- 						   "reset", GPIOD_OUT_LOW);
- 	if (IS_ERR(data->reset_gpio)) {
 -- 
 2.17.1
 
