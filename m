@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A486107866
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 20:53:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA90D10786B
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 20:53:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727682AbfKVTt7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 14:49:59 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50284 "EHLO mail.kernel.org"
+        id S1727721AbfKVTuG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 14:50:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50586 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727673AbfKVTt5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 14:49:57 -0500
+        id S1727718AbfKVTuF (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 22 Nov 2019 14:50:05 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7BCB220658;
-        Fri, 22 Nov 2019 19:49:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A4C0C2084B;
+        Fri, 22 Nov 2019 19:50:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574452197;
-        bh=XhNv7iixGGYfrnwFrZP69LTjw0pSmMl69WAWUf+8ME4=;
+        s=default; t=1574452205;
+        bh=fzyZL7VEQ5qaDDzeEpiTbbh7tVbsMNlgyyDqcnqWLYs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bIupUgpwRbiFPBIbFknnWeJn5bNabWw9+ufe1n4UCACMom+Y72cZecQsX6PYSkdhU
-         6a1wOk1n0UcvqEJRQW/o285ReJjyZa2i8u6DOEhBl/IuMNiCaMtSk7li8QtIt0xQFL
-         snzwxfiwek99BORRQWlEq3RN9OGhNr7MgocE5dDk=
+        b=jzZK8EqICI+P8Zn7mO0ycLzEZZb/8BisrpgD0eFjKFFfPc5UvgPoMaka2f7UawUrM
+         Lj7TxrFBYWFze76Y4CRVHdGYaHwH4S+ZtfsLakcqQ8a02Y/5RbJbt/My0Q3Fq5xFsx
+         jVp87eX1rps5C3322QsoGIMWEp4ccoEZ/zEoOr8s=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Lyude Paul <lyude@redhat.com>,
+Cc:     Pan Bian <bianpan2016@163.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 21/21] Input: synaptics - enable RMI mode for X1 Extreme 2nd Generation
-Date:   Fri, 22 Nov 2019 14:49:31 -0500
-Message-Id: <20191122194931.24732-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 06/13] Input: cyttsp4_core - fix use after free bug
+Date:   Fri, 22 Nov 2019 14:49:51 -0500
+Message-Id: <20191122194958.24926-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191122194931.24732-1-sashal@kernel.org>
-References: <20191122194931.24732-1-sashal@kernel.org>
+In-Reply-To: <20191122194958.24926-1-sashal@kernel.org>
+References: <20191122194958.24926-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,35 +43,49 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Lyude Paul <lyude@redhat.com>
+From: Pan Bian <bianpan2016@163.com>
 
-[ Upstream commit 768ea88bcb235ac3a92754bf82afcd3f12200bcc ]
+[ Upstream commit 79aae6acbef16f720a7949f8fc6ac69816c79d62 ]
 
-Just got one of these for debugging some unrelated issues, and noticed
-that Lenovo seems to have gone back to using RMI4 over smbus with
-Synaptics touchpads on some of their new systems, particularly this one.
-So, let's enable RMI mode for the X1 Extreme 2nd Generation.
+The device md->input is used after it is released. Setting the device
+data to NULL is unnecessary as the device is never used again. Instead,
+md->input should be assigned NULL to avoid accessing the freed memory
+accidently. Besides, checking md->si against NULL is superfluous as it
+points to a variable address, which cannot be NULL.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Link: https://lore.kernel.org/r/20191115221814.31903-1-lyude@redhat.com
+Signed-off-by: Pan Bian <bianpan2016@163.com>
+Link: https://lore.kernel.org/r/1572936379-6423-1-git-send-email-bianpan2016@163.com
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/mouse/synaptics.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/input/touchscreen/cyttsp4_core.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index 7db53eab70121..1962db0431dea 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -180,6 +180,7 @@ static const char * const smbus_pnp_ids[] = {
- 	"LEN0096", /* X280 */
- 	"LEN0097", /* X280 -> ALPS trackpoint */
- 	"LEN009b", /* T580 */
-+	"LEN0402", /* X1 Extreme 2nd Generation */
- 	"LEN200f", /* T450s */
- 	"LEN2054", /* E480 */
- 	"LEN2055", /* E580 */
+diff --git a/drivers/input/touchscreen/cyttsp4_core.c b/drivers/input/touchscreen/cyttsp4_core.c
+index 44deca88c5797..c1c29d7487bf3 100644
+--- a/drivers/input/touchscreen/cyttsp4_core.c
++++ b/drivers/input/touchscreen/cyttsp4_core.c
+@@ -1972,11 +1972,6 @@ static int cyttsp4_mt_probe(struct cyttsp4 *cd)
+ 
+ 	/* get sysinfo */
+ 	md->si = &cd->sysinfo;
+-	if (!md->si) {
+-		dev_err(dev, "%s: Fail get sysinfo pointer from core p=%p\n",
+-			__func__, md->si);
+-		goto error_get_sysinfo;
+-	}
+ 
+ 	rc = cyttsp4_setup_input_device(cd);
+ 	if (rc)
+@@ -1986,8 +1981,6 @@ static int cyttsp4_mt_probe(struct cyttsp4 *cd)
+ 
+ error_init_input:
+ 	input_free_device(md->input);
+-error_get_sysinfo:
+-	input_set_drvdata(md->input, NULL);
+ error_alloc_failed:
+ 	dev_err(dev, "%s failed.\n", __func__);
+ 	return rc;
 -- 
 2.20.1
 
