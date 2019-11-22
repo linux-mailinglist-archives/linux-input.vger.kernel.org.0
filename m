@@ -2,90 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EDD0C107874
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 20:53:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3C1110790E
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2019 20:55:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727816AbfKVTuU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 14:50:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51072 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727813AbfKVTuT (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 14:50:19 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B73F72075B;
-        Fri, 22 Nov 2019 19:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574452218;
-        bh=gFCL55yY9BQIM8t0HoiwSrpJw767D1kWJryM0A1GYfw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tq5UqK5zufoxHwsWshMfdnPuqQgd4U5B2qoZX+1hPWIWdDwYkEsgQlohI7/rm4ZhQ
-         TNQgnOHO+xZEFuqT9wkpFVCg7ASgWKBeMaWYBT1uVEcijJFk/gJAye3RgPWbd2eX2D
-         WED1jFQOUQx3lTeeG5FTtesCAMaorYwAD3Ycsj68=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Pan Bian <bianpan2016@163.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 3/9] Input: cyttsp4_core - fix use after free bug
-Date:   Fri, 22 Nov 2019 14:50:08 -0500
-Message-Id: <20191122195014.25065-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191122195014.25065-1-sashal@kernel.org>
-References: <20191122195014.25065-1-sashal@kernel.org>
+        id S1726735AbfKVTzg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 14:55:36 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:36552 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726187AbfKVTzg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 22 Nov 2019 14:55:36 -0500
+Received: by mail-pf1-f196.google.com with SMTP id b19so3978898pfd.3;
+        Fri, 22 Nov 2019 11:55:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=+KAr/Xowf3i8pr8EPJk1gltx6EMW0QxKeOvIBPu6+rc=;
+        b=o6OrX4195DPB62OgCWIxrp/crv6S+mPssF+6KFRAKIK3FzUZ92RaCmwElycCewNvMs
+         SjwQbcGj73Rmxtjrqa/NohiSE+NUTaG+FYg6Xx8TsHjE7PbqBBEnRK+Cv3upbm8lDCo9
+         nI8CM+ALPaFZX5Lj1sr09IbAvl6tPC5faCoakL4MKsNSHFmv1x7j932famFFWMJUdIz5
+         h3Zfoe1sano4+DFroa6CAjG46rZnrNXlOPssmP8zoznYTqIqCP77HhFA+ayTKkRjrrLD
+         RbZZ5JCRxjRWl+WEXXwokcigMyv1UEhyn6DFPBzraHjVST1NXcOo+YFjKy50EWVb71PZ
+         vluA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=+KAr/Xowf3i8pr8EPJk1gltx6EMW0QxKeOvIBPu6+rc=;
+        b=Zena3V1EB9OCiYga5zSOFgD41c2TyXAasJMPyscEKxl3H+yN2mDB/7EQ5zrj/9jfji
+         uWhoUBidSWaYIDLWQzPrpuIIvAr8PtOgNnmkchzKzAjO8d+Wf6/tA2stshiEbaO/WZMU
+         CEMXLfe6+mXMfDDKEgw04gkP5BY+fYi/CpzU7m9CKzwIcoNi/kZkT0Ap+HnaiZM9Ht77
+         eqvT1zmogfS0AjmBJsr+83hzfqn5azcd7QNhicxokpAraspVo1I9Uzs4/d1Q+3rtAyDF
+         WR2iY0CUiUtomXJ/KH/q0tJHSGnPPn3pOlJPtq6xFZYYW3zPnVThUQulMvR1DyAfTC7o
+         wW7g==
+X-Gm-Message-State: APjAAAUAuKt6fL6PkANM7h2s84WF/q3JWcH1XIffdb6TPNxA4WxHN9rw
+        6dAXFpHVI5+UJTlu4F8S2jY=
+X-Google-Smtp-Source: APXvYqxxriw7hLwKt6j9owi/q/reR4XwlxChZc3XU54nlr0I96qcCgWK60BwuCtm+tYfUUZtsmnTeA==
+X-Received: by 2002:a63:4f64:: with SMTP id p36mr18426689pgl.271.1574452535020;
+        Fri, 22 Nov 2019 11:55:35 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id t1sm8552138pfq.156.2019.11.22.11.55.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2019 11:55:34 -0800 (PST)
+Date:   Fri, 22 Nov 2019 11:55:32 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Lyude Paul <lyude@redhat.com>, linux-input@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 4.19 24/25] Input: synaptics - enable RMI mode
+ for X1 Extreme 2nd Generation
+Message-ID: <20191122195532.GB248138@dtor-ws>
+References: <20191122194859.24508-1-sashal@kernel.org>
+ <20191122194859.24508-24-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191122194859.24508-24-sashal@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Pan Bian <bianpan2016@163.com>
+Hi Sasha,
 
-[ Upstream commit 79aae6acbef16f720a7949f8fc6ac69816c79d62 ]
+On Fri, Nov 22, 2019 at 02:48:57PM -0500, Sasha Levin wrote:
+> From: Lyude Paul <lyude@redhat.com>
+> 
+> [ Upstream commit 768ea88bcb235ac3a92754bf82afcd3f12200bcc ]
+> 
+> Just got one of these for debugging some unrelated issues, and noticed
+> that Lenovo seems to have gone back to using RMI4 over smbus with
+> Synaptics touchpads on some of their new systems, particularly this one.
+> So, let's enable RMI mode for the X1 Extreme 2nd Generation.
+> 
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Link: https://lore.kernel.org/r/20191115221814.31903-1-lyude@redhat.com
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-The device md->input is used after it is released. Setting the device
-data to NULL is unnecessary as the device is never used again. Instead,
-md->input should be assigned NULL to avoid accessing the freed memory
-accidently. Besides, checking md->si against NULL is superfluous as it
-points to a variable address, which cannot be NULL.
+This will be reverted, do not pick up for stable.
 
-Signed-off-by: Pan Bian <bianpan2016@163.com>
-Link: https://lore.kernel.org/r/1572936379-6423-1-git-send-email-bianpan2016@163.com
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/input/touchscreen/cyttsp4_core.c | 7 -------
- 1 file changed, 7 deletions(-)
+> ---
+>  drivers/input/mouse/synaptics.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+> index 06cebde2422ea..afdb9947d8af9 100644
+> --- a/drivers/input/mouse/synaptics.c
+> +++ b/drivers/input/mouse/synaptics.c
+> @@ -180,6 +180,7 @@ static const char * const smbus_pnp_ids[] = {
+>  	"LEN0096", /* X280 */
+>  	"LEN0097", /* X280 -> ALPS trackpoint */
+>  	"LEN009b", /* T580 */
+> +	"LEN0402", /* X1 Extreme 2nd Generation */
+>  	"LEN200f", /* T450s */
+>  	"LEN2054", /* E480 */
+>  	"LEN2055", /* E580 */
+> -- 
+> 2.20.1
+> 
 
-diff --git a/drivers/input/touchscreen/cyttsp4_core.c b/drivers/input/touchscreen/cyttsp4_core.c
-index 5ed31057430c6..6e904048d1cb7 100644
---- a/drivers/input/touchscreen/cyttsp4_core.c
-+++ b/drivers/input/touchscreen/cyttsp4_core.c
-@@ -1972,11 +1972,6 @@ static int cyttsp4_mt_probe(struct cyttsp4 *cd)
- 
- 	/* get sysinfo */
- 	md->si = &cd->sysinfo;
--	if (!md->si) {
--		dev_err(dev, "%s: Fail get sysinfo pointer from core p=%p\n",
--			__func__, md->si);
--		goto error_get_sysinfo;
--	}
- 
- 	rc = cyttsp4_setup_input_device(cd);
- 	if (rc)
-@@ -1986,8 +1981,6 @@ static int cyttsp4_mt_probe(struct cyttsp4 *cd)
- 
- error_init_input:
- 	input_free_device(md->input);
--error_get_sysinfo:
--	input_set_drvdata(md->input, NULL);
- error_alloc_failed:
- 	dev_err(dev, "%s failed.\n", __func__);
- 	return rc;
+Thanks.
+
 -- 
-2.20.1
-
+Dmitry
