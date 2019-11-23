@@ -2,87 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47C26107B44
-	for <lists+linux-input@lfdr.de>; Sat, 23 Nov 2019 00:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 598DD107BF0
+	for <lists+linux-input@lfdr.de>; Sat, 23 Nov 2019 01:17:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726638AbfKVXXY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Nov 2019 18:23:24 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:44592 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726089AbfKVXXY (ORCPT
+        id S1726690AbfKWARn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Nov 2019 19:17:43 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:39040 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726638AbfKWARn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Nov 2019 18:23:24 -0500
-Received: by mail-pf1-f196.google.com with SMTP id q26so4224468pfn.11;
-        Fri, 22 Nov 2019 15:23:24 -0800 (PST)
+        Fri, 22 Nov 2019 19:17:43 -0500
+Received: by mail-pf1-f194.google.com with SMTP id x28so4307834pfo.6;
+        Fri, 22 Nov 2019 16:17:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=pvYOCrt3MXfUyMaIjQihoVEJAi/1Rn5eAPOAfOzVHBQ=;
-        b=t1V3l79WURdNYgb8NqAkAUQzHa8x1sGBg43xRYIPjvGLa91D37p6dvncu5FibqbREK
-         CyoPIxiVUBmBuFNzQYpZCZcc59vdUSp3MoNXsoD5Pjt4ZGNa0gAaZrLUOLRxBdK34EYu
-         zIqm3ZlSKLZCdPYuhOrxbkdgZyn+mA0Uc5QEc+S15SVA+PlkBvfrW65tBDFJ5tw6v697
-         l8asnl53kyLJXCcQhJSfs9YhkqYwMMElyDZkCc2/iolUZSZrjbFIZHzQHER8if1+zlVz
-         HQbkF5Uk8YH/fDMWIOUZddT1CkAreh5i5hiofKyHGk/l4+R1OLCSJKzQFwpFEPpkff8z
-         XEJA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=iiY6R0zRBcS0LohPlMpk2ff2+jdv+GHem5CUGt0sLyU=;
+        b=ruzFU+9LYg6SJBtYNXx4bMTfDwjthU1KKHGCc7bc41xc74FnQ1WKyOIEyXcw3Zm4wZ
+         iQ5seG7iFjvNjjen5g/AwbORnA7Vd5PisCqsqcnqNrGZ3rWB7+JxlJz7NB6ZWhgSHMJ2
+         94QJxluzxlemheDVANp396zLKtoWL2vkAA+Ys0mAfhp0/hwAAOoRVopXE4/B+iLR+Rdz
+         T/1kkwRhIwbjLm0FPBsmtVIev0LioKjEv6gcjkAxDJlYMtn+B0CfgNsMg6OhN2FOaq0R
+         3pULuNkI5jjW0MBCgL52j8RiQJLqH0jPsUaTwhKKR8yZNwvP49Yg9ClDKgRV/DfaSoB9
+         gr8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=pvYOCrt3MXfUyMaIjQihoVEJAi/1Rn5eAPOAfOzVHBQ=;
-        b=mzxBbYAbogDKbwn5RnphILP7y8CLlBwF97uOJEY9z7XGirNBgN4Kf0w60tNN8Wm9pF
-         /3XnWYZ1yfUNJE4DmVxsn+tq7CaKO9qIG1cEoMB6Dh+oPnlyWLQbEYv9uGjmH81i1WeU
-         eAA+4Vdd7YgGwQSYKvqOq1g8mNbdwURuIdeItDXrNW79cO2eMznzBBn9U58HUpbURncK
-         UKRwGI56IxTdHxfpqg1QYwLih/XL7HZ02M7K6807nv6xJyfpvYy0MlQFXOMB1j9v/9In
-         LJpytOerZy+cbrxx+liVTMxrEDwISzkuVKYdOoHp2/Q3yAFqofRu4o9CSPpheLBKIZM2
-         AXMA==
-X-Gm-Message-State: APjAAAWbHTC6xxR19CLlalm2HVazkTUazRvDAwEjBbR/R9VqGhW9KW9+
-        5O5idGj4OYcAFZ6Kp6fAMYg=
-X-Google-Smtp-Source: APXvYqziHF2tz/o/6imDkZRMuFN0g2Pccb1rSLA8CdwHVQoo/9WBl6pwB9fR4+9cYxWELSvMYKTS+w==
-X-Received: by 2002:a63:ce12:: with SMTP id y18mr17854691pgf.186.1574465003221;
-        Fri, 22 Nov 2019 15:23:23 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=iiY6R0zRBcS0LohPlMpk2ff2+jdv+GHem5CUGt0sLyU=;
+        b=irkOID9lCii6FKSPto5j+xU33BxnqqTsOqZ22sPu3P8xrSZLua+KyrkVKaDAh+it3R
+         3UegYtgAKezknHJ2DZ+e7oAL9A1AQMc4W5F1WuTgzyv8alxfRfY0VnFgRC6cZPtT0zKp
+         nOnR1UxnageWIQSshwVOPp5OjokU1kYLqe7amC5GaSje7iqN+xcWHf33m3aZTRebyB+3
+         1Si4B3+92fr9+NBwsqta+dALGazIhm/P8WaPKD+sFIRmexW7dvDfKo6EfwMwYo8cSJ1Y
+         Y5lNxm7AjLNaS0cQAMoEXLvoAuCWuavGPca8avCgxu9L32prZfRt6/6UQh76hSD4xQ27
+         uTjA==
+X-Gm-Message-State: APjAAAUh8la7LtRRb9jD7MHR8jNzJcwgGfJi4TncJ3LclptJIH2z/HaW
+        JoTHKPFeGcpWTL1de2vSTT8=
+X-Google-Smtp-Source: APXvYqxWzhfv9eQFc3QRM0i66yd0/2QMecTo1639KT0UxVZ3s530XCH7iUA0uDwR2n2NrFKK0VfhEA==
+X-Received: by 2002:a62:108:: with SMTP id 8mr20875928pfb.53.1574468260599;
+        Fri, 22 Nov 2019 16:17:40 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id u7sm4054362pjx.19.2019.11.22.15.23.22
+        by smtp.gmail.com with ESMTPSA id p16sm8619385pfn.171.2019.11.22.16.17.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2019 15:23:22 -0800 (PST)
-Date:   Fri, 22 Nov 2019 15:23:20 -0800
+        Fri, 22 Nov 2019 16:17:39 -0800 (PST)
+Date:   Fri, 22 Nov 2019 16:17:37 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v5.4-rc8
-Message-ID: <20191122232320.GA37127@dtor-ws>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-input@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Nick Dyer <nick@shmanahar.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christopher Heiny <cheiny@synaptics.com>,
+        Vandana BN <bnvandana@gmail.com>
+Subject: Re: [PATCH 1/5] input/mouse/synaptics: add LEN0091 support
+Message-ID: <20191123001737.GG248138@dtor-ws>
+References: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
+ <20191119105118.54285-2-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20191119105118.54285-2-hverkuil-cisco@xs4all.nl>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+On Tue, Nov 19, 2019 at 11:51:14AM +0100, Hans Verkuil wrote:
+> Some Lenovo X1 Carbon Gen 6 laptops report LEN0091. Add this
+> to the smbus_pnp_ids list.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Please pull from:
+Applied, thank you.
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-
-to receive updates for the input subsystem. Just a single revert as RMI
-mode should not have been enabled for this model [yet?]
-
-Changelog:
----------
-
-Lyude Paul (1):
-      Revert "Input: synaptics - enable RMI mode for X1 Extreme 2nd Generation"
-
-Diffstat:
---------
-
- drivers/input/mouse/synaptics.c | 1 -
- 1 file changed, 1 deletion(-)
-
-Thanks.
-
+> ---
+>  drivers/input/mouse/synaptics.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+> index 56fae3472114..1ae6f8bba9ae 100644
+> --- a/drivers/input/mouse/synaptics.c
+> +++ b/drivers/input/mouse/synaptics.c
+> @@ -172,6 +172,7 @@ static const char * const smbus_pnp_ids[] = {
+>  	"LEN0071", /* T480 */
+>  	"LEN0072", /* X1 Carbon Gen 5 (2017) - Elan/ALPS trackpoint */
+>  	"LEN0073", /* X1 Carbon G5 (Elantech) */
+> +	"LEN0091", /* X1 Carbon 6 */
+>  	"LEN0092", /* X1 Carbon 6 */
+>  	"LEN0093", /* T480 */
+>  	"LEN0096", /* X280 */
+> -- 
+> 2.23.0
+> 
 
 -- 
 Dmitry
