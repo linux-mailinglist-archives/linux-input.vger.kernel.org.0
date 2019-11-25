@@ -2,135 +2,172 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37BBA108500
-	for <lists+linux-input@lfdr.de>; Sun, 24 Nov 2019 22:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE35F108854
+	for <lists+linux-input@lfdr.de>; Mon, 25 Nov 2019 06:33:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726840AbfKXVF3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 24 Nov 2019 16:05:29 -0500
-Received: from mail-40130.protonmail.ch ([185.70.40.130]:58476 "EHLO
-        mail-40130.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726855AbfKXVF3 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 24 Nov 2019 16:05:29 -0500
-Date:   Sun, 24 Nov 2019 21:05:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=default; t=1574629524;
-        bh=ZAxv2jVK0Z3Qt1z6lNZQ74w2PqsNzQE8blamFUnouYI=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
-         Feedback-ID:From;
-        b=s45Tglkxan9Qh0Dd8J2Z0vYX5Y+oUm3btR7RNAf+2mPcFvutr3mns2TMVKVVCvQLl
-         gdyKhiWgPzXD3Zpdkd/k0rOJffwHE0cC7LMuMv423YGpmF8H//4eCpqITnlTjH7+Zb
-         NiFymq5i3uXERvBBkDOxcUkGkhPZ8eGYuPLIYSa8=
-To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-From:   Mazin Rezk <mnrzk@protonmail.com>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>,
-        "mnrzk@protonmail.com" <mnrzk@protonmail.com>
-Reply-To: Mazin Rezk <mnrzk@protonmail.com>
-Subject: Re: [PATCH v8 0/2] Logitech HID++ Bluetooth LE support
-Message-ID: <haSzI6CpbhKWB-YGuSryCNj3sW6YXUkBlN1LZyy6pyoYPUD-Z7DwCkoRnVY-1iHX3FlxpsydH2YF_effQsePpDZnTp7937mNgvLVPjneUYY=@protonmail.com>
-In-Reply-To: <_0snBXtGhwWiRLYmuVIeDLYkvksMVMxiBv1lW_bTTaFpcVN45l6yCU5gWZ_5oJr8SQOZA6qCZSkVskkEX0ZePpboYtDYRsTdVg3xfcwmw6M=@protonmail.com>
-References: <_0snBXtGhwWiRLYmuVIeDLYkvksMVMxiBv1lW_bTTaFpcVN45l6yCU5gWZ_5oJr8SQOZA6qCZSkVskkEX0ZePpboYtDYRsTdVg3xfcwmw6M=@protonmail.com>
-Feedback-ID: 18B_FC5q-t32TXzMsVp9BgkgrdNH3iwklfW8WOrHrcxZA0WRj7JodCh5VXKxs6A3OaiHK0QNd8wi3SImKex8yQ==:Ext:ProtonMail
+        id S1725792AbfKYFdo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Nov 2019 00:33:44 -0500
+Received: from mail-eopbgr680102.outbound.protection.outlook.com ([40.107.68.102]:34126
+        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725468AbfKYFdo (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 25 Nov 2019 00:33:44 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iyoDFRoIcf0FV1iaZKA2ojLBOUzDQb/H+3bl6lS+sBrOLdKcbmz7h+v9TVQUyXn02Y5UMWkR/W3jnLJKTqmGoe7HoikMJu/8zeM2xdCOXPeALZxNjQRcb5D9VCC+2wLeKKepgmQESP++9cQ8tXoWTqLpakdHK8iGFI0No5I0+TI96AWMkv2EdmJxESUWcuB8DdzL0yz9C9ZLqpMgj0fahv8UksZNjJVGNGkfhMDhctQoLP24yWxFqxu6CcBAoAPZg6fCQVabxJHTdnm1vG385ylqKNB2+ovBKprVf1m5kGLB1tDuRgeRlVcNi/hbYHxENHE7HCfqKgRZaas+z/4gSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=emoDvgV3p33yQCPO9kcsuRIANc2/IX5OrvL2c65U+pM=;
+ b=ariZxVhHARO57qdDsB2nkZbQkJObpMCh7HzehRZLQpCFNxW1HLeDPlHiOpMm4tu1Q2qtoBSO/YHC6fWZbkcxvp0pUJoku4Lty3AAzfv083lYNF45QsKny7SI/22U/qm+laDrlBMJA1sX/8CmmIk4rBN9pB+P5hSWIp8hQr2fZuSWanpEzFJ3a6/efdKydgDubI3oRQVjrl5mVPQ10XlC6QaR2DMcH2Ko+oABk/nv6m8aBAHQH7hJDXFIqMOZtNruuqrqrtjVpDu4pnN5Fer/jxCp49bS0YmlVAGuxxF4sbEjwtqQGXF0zglf4L8KBi2vGTmWzOFsPk3QrmFcX8vV8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=emoDvgV3p33yQCPO9kcsuRIANc2/IX5OrvL2c65U+pM=;
+ b=Lnl5iPdNq+uP5Mhybso3ImQvp4oEm8HLc/O4W0mJSRZ46WBYSUGidmMEpN381uMflyDf4GGUo+50smYJVV8IEQXND8gD6YDpe17fF5vsOsYCM19IvjpdqKY5hXks7HIimdtBvI8TKNyw1xmg8e4QZ9/oQqZ2n7Olk1l8PezB54U=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=decui@microsoft.com; 
+Received: from BYAPR21MB1141.namprd21.prod.outlook.com (20.179.57.138) by
+ BYAPR21MB1189.namprd21.prod.outlook.com (20.179.57.218) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2516.1; Mon, 25 Nov 2019 05:33:27 +0000
+Received: from BYAPR21MB1141.namprd21.prod.outlook.com
+ ([fe80::5d0f:2e49:3464:7c89]) by BYAPR21MB1141.namprd21.prod.outlook.com
+ ([fe80::5d0f:2e49:3464:7c89%3]) with mapi id 15.20.2495.014; Mon, 25 Nov 2019
+ 05:33:27 +0000
+From:   Dexuan Cui <decui@microsoft.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        sashal@kernel.org, dmitry.torokhov@gmail.com,
+        linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mikelley@microsoft.com,
+        Alexander.Levin@microsoft.com
+Cc:     Dexuan Cui <decui@microsoft.com>
+Subject: [PATCH v3] Input: hyperv-keyboard: Add the support of hibernation
+Date:   Sun, 24 Nov 2019 21:33:03 -0800
+Message-Id: <1574659983-98668-1-git-send-email-decui@microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+Reply-To: decui@microsoft.com
+Content-Type: text/plain
+X-ClientProxiedBy: MWHPR21CA0041.namprd21.prod.outlook.com
+ (2603:10b6:300:129::27) To BYAPR21MB1141.namprd21.prod.outlook.com
+ (2603:10b6:a03:108::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_REPLYTO
-        autolearn=no autolearn_force=no version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by MWHPR21CA0041.namprd21.prod.outlook.com (2603:10b6:300:129::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2516.0 via Frontend Transport; Mon, 25 Nov 2019 05:33:26 +0000
+X-Mailer: git-send-email 1.8.3.1
+X-Originating-IP: [13.77.154.182]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: c82ddeaf-4f8e-4221-3a33-08d77168ff56
+X-MS-TrafficTypeDiagnostic: BYAPR21MB1189:|BYAPR21MB1189:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR21MB11898E55DCB1DAD8F44AC88FBF4A0@BYAPR21MB1189.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1824;
+X-Forefront-PRVS: 0232B30BBC
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(396003)(39860400002)(376002)(366004)(136003)(346002)(189003)(199004)(6116002)(3846002)(4326008)(107886003)(6486002)(6306002)(6436002)(10090500001)(3450700001)(2906002)(14444005)(50466002)(48376002)(25786009)(6512007)(26005)(6506007)(386003)(51416003)(52116002)(66946007)(66556008)(66476007)(6636002)(4720700003)(86362001)(7736002)(186003)(2616005)(956004)(16526019)(36756003)(66066001)(8936002)(8676002)(5660300002)(81156014)(47776003)(81166006)(1511001)(50226002)(10290500003)(966005)(478600001)(316002)(305945005)(6666004)(16586007)(43066004)(22452003)(21314003)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:BYAPR21MB1189;H:BYAPR21MB1141.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+Received-SPF: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: H1E1OGb14WzMUZxyFHp6k/IHvOgoqSX/Gj8eDvhroZk09W+EUH3V9lLrucNj5iqKLv46QFP/uRYppGhIN8NV32ipkCK9vmyqZP9mlIAtVUbj1v6nE084dAVplDP38O6uHVp7tprdQsqBJV0y3OaaGfI3/s7HDVWeUI6/H3SaTlSr3KmyaBanbuK3CBs0NuGJJpXYG+EOY+6kHhH0TBwQ/CyDCKmCWP/fClos5EI7pK2LsuIgadvU4JitsoR7psDjC2ggdiGzma1SP92y7bS35u05QoTwtLAtXZm4JNTe7B9qpieB76QJ1cAV7YCcea0NE6j79t751pU2rQYUMpAjzk3+9wqg1nlFrjcoxJzK8mgbnTbx/QffREz2lDRZwCeEct9HN/itBVbur/4EN8Ds30CTnZDRsFHs6JnOugK3i/2EReffkxcnscQU4zMd1v2bc4QgcBvet0ziJtoBWBRO4eTkjLqPp+ti0dV06XvwmV4=
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c82ddeaf-4f8e-4221-3a33-08d77168ff56
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2019 05:33:27.3883
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Z6FrtTbKCzlEFLcx1HahhILYSEwyPCSaiJpWUKbqHY6+Bh9loyG/Qth/xt8n+7Okw6ZUsSWacSn68MPfAIdCPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR21MB1189
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sunday, October 27, 2019 1:44 PM, Mazin Rezk <mnrzk@protonmail.com> wrot=
-e:
+Add suspend() and resume() functions so the Hyper-V virtual keyboard
+can participate in VM hibernation.
 
-> This series allows hid-logitech-hidpp to support Bluetooth LE HID++
-> devices. Only the MX Master (b012 and b01e) is added right now but more
-> HID++ Bluetooth LE devices can be added once they are tested.
->
-> Changes since [v7]:
-> - Squashed "HID: logitech-hidpp: Support MX Master (b012, b01e)
-> over Bluetooth" into "HID: logitech-hidpp: Support translations
-> from short to long reports"
->
-> Changes since [v6]:
->
-> - Based patch on "HID: logitech-hidpp: rework device validation"
->
-> - Removed the need for additional quirks
->
-> Changes since [v5]:
->
-> - Fixed bug where added quirks would overflow an unsigned long
->
-> - Changed the reserved quirk class bits from 0..20 to 0..15
->
-> Changes since [v4]:
->
-> - Omitted "HID: logitech: Add feature 0x0001: FeatureSet"
->
-> - Stored WirelessDeviceStatus feature index in hidpp_device
->
-> - Made Bluetooth quirk class alias quirks instead of vice versa
->
-> - Omitted non-tested devices
->
-> Changes since [v3]:
->
-> - Renamed hidpp20_featureset_get_feature to
-> hidpp20_featureset_get_feature_id.
->
-> - Re-ordered hidpp20_featureset_get_count and
-> hidpp20_featureset_get_feature_id based on their command IDs.
->
-> - Made feature_count initialize to 0 before running
-> hidpp20_get_features.
->
-> Changes since [v2]:
->
-> - Split up the single patch into a series
->
-> Changes since [v1]:
->
-> - Added WirelessDeviceStatus support
->
-> [v7] https://lore.kernel.org/lkml/t5LOL-A4W7aknqQdC-3TavitC94BY_Ra1qyxCZM=
-h_nprrDNSl4UF-jYpWtaDSU-0oQ5xzRyAo9o_mvSnA78bib_p6I3ePSJnTrp3Eb0X_yg=3D@pro=
-tonmail.com
-> [v6] https://lore.kernel.org/lkml/ggKipcQplIlTFmoP3hPnrQ-7_5-C0PKGd5feFym=
-ts3uenIBA8zOwz47YmKheD34H1rpkguDAGdx5YbS9UqpwfjT5Ir0Lji941liLVp--QtQ=3D@pro=
-tonmail.com
-> [v5] https://lore.kernel.org/lkml/Mbf4goGxXZTfWwWtQQUke_rNf8kezpNOS9DVEVH=
-f6RnnmjS1oRtMOJf4r14WfCC6GRYVs7gi0uZcIJ18Va2OJowzSbyMUGwLrl6I5fjW48o=3D@pro=
-tonmail.com
-> [v4] https://lore.kernel.org/lkml/uBbIS3nFJ1jdYNLHcqjW5wxQAwmZv0kmYEoeoPr=
-xNhfzi6cHwmCOY-ewdqe7S1hNEj-p4Hd9D0_Y3PymUTdh_6WFXuMmIYUkV2xaKCPMYz0=3D@pro=
-tonmail.com
-> [v3] https://lore.kernel.org/lkml/l7xYjnA9EGfZe03FsrFhnH2aMq8qS8plWhHVvOt=
-Y_l4ShZ1NV6HA6hn9aI-jAzbLYUGFCIQCIKkx9z42Uoj4-AZDwBfRcAecYIn-0ZA5upE=3D@pro=
-tonmail.com
-> [v2] https://www.spinics.net/lists/linux-input/msg63467.html
-> [v1] https://www.spinics.net/lists/linux-input/msg63317.html
->
-> Mazin Rezk (2):
-> HID: logitech-hidpp: Support translations from short to long reports
-> HID: logitech-hidpp: Support WirelessDeviceStatus connect events
->
-> drivers/hid/hid-logitech-hidpp.c | 69 +++++++++++++++++++++++++++-----
-> 1 file changed, 59 insertions(+), 10 deletions(-)
->
-> ---
-> 2.23.0
+Note that the keyboard is a "wakeup" device that could abort an in-progress
+hibernation if there is keyboard event.  No attempt is made to suppress this
+behavior.  If desired, a sysadmin can disable the keyboard as a wakeup device
+using standard mechanisms such as:
 
-I recently saw "HID: logitech-hidpp: Silence intermittent
-get_battery_capacity errors" get applied into the kernel, would I need to
-rebase this patch on top of https://patchwork.kernel.org/patch/11243871/
+echo disabled > /sys/bus/vmbus/drivers/hyperv_keyboard/XXX/power/wakeup
+(where XXX is the device's GUID)
 
-Thanks,
-Mazin
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Signed-off-by: Dexuan Cui <decui@microsoft.com>
+---
+
+This patch is basically a pure Hyper-V specific change. I suggest it should
+go through the Hyper-V tree:
+https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git/log/?h=hyperv-next
+
+Changes in v2:
+  I removed the "struct notifier_block pm_nb;" after the discussion
+with Dmitry Torokhov:
+  https://lore.kernel.org/lkml/PU1P153MB016914A7C827CA35D7FEB66ABF8B0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM/T/#m8948c711301220a36a1a413eead74cd2fb6dcac1
+
+Changes in v3:
+  Made the commit message more descriptive by using the version from Michael.
+  Added Michael's Reviewed-by.
+
+ drivers/input/serio/hyperv-keyboard.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
+index e486a8a74c40..df4e9f6f4529 100644
+--- a/drivers/input/serio/hyperv-keyboard.c
++++ b/drivers/input/serio/hyperv-keyboard.c
+@@ -259,6 +259,8 @@ static int hv_kbd_connect_to_vsp(struct hv_device *hv_dev)
+ 	u32 proto_status;
+ 	int error;
+ 
++	reinit_completion(&kbd_dev->wait_event);
++
+ 	request = &kbd_dev->protocol_req;
+ 	memset(request, 0, sizeof(struct synth_kbd_protocol_request));
+ 	request->header.type = __cpu_to_le32(SYNTH_KBD_PROTOCOL_REQUEST);
+@@ -380,6 +382,29 @@ static int hv_kbd_remove(struct hv_device *hv_dev)
+ 	return 0;
+ }
+ 
++static int hv_kbd_suspend(struct hv_device *hv_dev)
++{
++	vmbus_close(hv_dev->channel);
++
++	return 0;
++}
++
++static int hv_kbd_resume(struct hv_device *hv_dev)
++{
++	int ret;
++
++	ret = vmbus_open(hv_dev->channel,
++			 KBD_VSC_SEND_RING_BUFFER_SIZE,
++			 KBD_VSC_RECV_RING_BUFFER_SIZE,
++			 NULL, 0,
++			 hv_kbd_on_channel_callback,
++			 hv_dev);
++	if (ret == 0)
++		ret = hv_kbd_connect_to_vsp(hv_dev);
++
++	return ret;
++}
++
+ static const struct hv_vmbus_device_id id_table[] = {
+ 	/* Keyboard guid */
+ 	{ HV_KBD_GUID, },
+@@ -393,6 +418,8 @@ static struct  hv_driver hv_kbd_drv = {
+ 	.id_table = id_table,
+ 	.probe = hv_kbd_probe,
+ 	.remove = hv_kbd_remove,
++	.suspend = hv_kbd_suspend,
++	.resume = hv_kbd_resume,
+ 	.driver = {
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 	},
+-- 
+2.19.1
 
