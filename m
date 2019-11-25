@@ -2,85 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A45471093B9
-	for <lists+linux-input@lfdr.de>; Mon, 25 Nov 2019 19:51:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DC5A1093C2
+	for <lists+linux-input@lfdr.de>; Mon, 25 Nov 2019 19:52:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727261AbfKYSvW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Nov 2019 13:51:22 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:38895 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725870AbfKYSvV (ORCPT
+        id S1727184AbfKYSwQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Nov 2019 13:52:16 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:44342 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725946AbfKYSwQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Nov 2019 13:51:21 -0500
-Received: by mail-pg1-f196.google.com with SMTP id t3so7182152pgl.5;
-        Mon, 25 Nov 2019 10:51:21 -0800 (PST)
+        Mon, 25 Nov 2019 13:52:16 -0500
+Received: by mail-pj1-f65.google.com with SMTP id w8so6990849pjh.11;
+        Mon, 25 Nov 2019 10:52:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=aiHz+U1DS3plGSVGA4dIIZPJHtpeKsop13dxvM844KA=;
-        b=hCiw9xd4cwhMo0WHdTJ5D91kTIesTR33OmEeGm1ZECd0F6p3Rim1k1lX8PUOWUxecq
-         SsF8M6lr+KNzCdHRZ1/X3mQJnLNi3hUIXw9rSo2hw8//I3HdQwLjgPTvv0X4ZhMNwpP1
-         4ieF60L1VsLBZ552L9RvDdjjOmSYggJYTNLDVXX1BtzoPD5lKnAbJ2F5+KRZjaSNkxRB
-         479KeXVYhtg5NqHdKsOMYMIDCMZP32ESgCNpqytP4qQWZD+uf+2bmm5JXNH1+LUXD/w/
-         HrPGRIqdIsWhzgcrN2LwaZQBQyeDvioTGJdD2wj2H1UvLvir+2QovwBOhDPUvfQbmphL
-         82KA==
+        bh=JEuDBuIbsPCbqhT1+qaFvO9JHqg2+xT1GFhiQC+2+xc=;
+        b=JEe/TGJJlEHUn9idyG7t66OXmw9QvEUOS1J/rnBzoDIcvcaeqwYgAMl0ivexsBYKSY
+         wGFpgZVhe5eRv4sEzbkHHL1IbvkHsYnQGvf8FcAV8crC7GhTPPMQ3ZbBLpyqkz7Bz1K6
+         svHZgcN9X3kosAS7DwoO2Z6oUd2u4+0ImpAhD3mo0Yu+taouax3+Rimcu8wM0RWS4V1M
+         J2F2gjQOP0Fmd460A1E03i/KADeRkWZWbTxFHmgMFDhjxQijyRyS2AIgc714RpMq4PCR
+         he5TgwUgUZs95l9pqtd9RWVBOaOlcNoO/v6fNz+IwdmBNUdd8FzyyfTO0OXv4NJ960Uo
+         YE3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=aiHz+U1DS3plGSVGA4dIIZPJHtpeKsop13dxvM844KA=;
-        b=DBSpzY1S4e98I9kyheea0m15Pu4y0aiS1TokwylNHS37l5aI2sDJM3Qb5/JNCmfhbg
-         eJNJuLsqtZd1mgkYk5XcfcMcxv9JygAZXxKdnZTWy52DOPUVuIky2IHIfyQlE7PDKw2I
-         eaURHSeWh4rKUB51XM3D2m6QmZNAZNQxeBh4rmT0gCG+e4m7FX17Cbo0qpFMonJNOq/w
-         jZGSNYXML0/1V94YWkq1Pt0LuLohOKvOp5ZM2gZmcBkLCJjhjvVTfFSxnKZLxR/84mAA
-         xeuhvlcOhe2DorWVU5UOgguM21b3s4HZlfjcnDRdNt1fejhn3Q3mjNPmHxbdPgmhaIO0
-         /UZQ==
-X-Gm-Message-State: APjAAAWkuWEvPb440mzr1S+FazNwmBNqvz4c6ovHhXdguxD5QhPnvhqa
-        eTPh+DZB1GGjn5W3x+hu3UO1kynv
-X-Google-Smtp-Source: APXvYqych5ocZIVeEl4Q7I5NG2/0c1GC4FPBCRB3ie1NfIioi5lvdaq94j3YTHJE8kESQ9cF5G0KTQ==
-X-Received: by 2002:a62:1944:: with SMTP id 65mr484468pfz.151.1574707880861;
-        Mon, 25 Nov 2019 10:51:20 -0800 (PST)
+        bh=JEuDBuIbsPCbqhT1+qaFvO9JHqg2+xT1GFhiQC+2+xc=;
+        b=p+3FB7tacsr2NncDRw54aUSL2MAApODwPif/KALgv6jCykVQJNLIkQXrIT2sgrK1/X
+         LejamCZxbwbLxqO14nKfb2shULdm8hhfEMR5hQiU2KI/KwEoBiEMTICtgOpPaxgjv4qz
+         /Y5rTKqhOg3JZDYBbtNqz5+x1SBGCzoXNhQxqTtA3ZTvW2892I96CHByFJbvQQ/R+TxN
+         f9JWRLfYkR8mMdWHd2DIqqW13/hI8w4NEApMJPskJZwlMCVsRKwFWaPhdBgpbCbPQl07
+         Wy2Y+0xC/dFENtDsPX8gRFFd3LRJLzsE/FzrAot7S5h8u3FjdKMeDhsyabbF9tKpuc6x
+         Yy7Q==
+X-Gm-Message-State: APjAAAXMmUJMMf8CnQzwwCfjiuRp56IWNXuzYhQauGJAWdoi59dXcqCM
+        K7UERd5UYxrDGASIsRJSJIc=
+X-Google-Smtp-Source: APXvYqxQXj5RSszdRYxGJ7EgTM9XnsG+4Kf7wc8guAWagKfgL63JUiHs9jX9jHcRAgkAEC/QL163fg==
+X-Received: by 2002:a17:902:9a87:: with SMTP id w7mr13859312plp.120.1574707934861;
+        Mon, 25 Nov 2019 10:52:14 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id k4sm9486580pfa.25.2019.11.25.10.51.19
+        by smtp.gmail.com with ESMTPSA id v14sm96558pja.22.2019.11.25.10.52.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2019 10:51:19 -0800 (PST)
-Date:   Mon, 25 Nov 2019 10:51:17 -0800
+        Mon, 25 Nov 2019 10:52:14 -0800 (PST)
+Date:   Mon, 25 Nov 2019 10:52:11 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-input@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nick Dyer <nick@shmanahar.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Christopher Heiny <cheiny@synaptics.com>,
-        Vandana BN <bnvandana@gmail.com>
-Subject: Re: [PATCH 3/5] pixfmt-tch-td16/tu16.rst: document that this is
- little endian
-Message-ID: <20191125185117.GI248138@dtor-ws>
-References: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
- <20191119105118.54285-4-hverkuil-cisco@xs4all.nl>
- <c1e0aa48-f22d-afcf-d9a1-1ab4302d0ee6@xs4all.nl>
+To:     Lyude Paul <lyude@redhat.com>
+Cc:     linux-input@vger.kernel.org, stable@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Mantas =?utf-8?Q?Mikul=C4=97nas?= <grawity@gmail.com>,
+        Nick Black <dankamongmen@gmail.com>,
+        Yussuf Khalil <dev@pp3345.net>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Alexander Mikhaylenko <exalm7659@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Revert "Input: synaptics - enable RMI mode for X1
+ Extreme 2nd Generation"
+Message-ID: <20191125185211.GJ248138@dtor-ws>
+References: <20191119234534.10725-1-lyude@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c1e0aa48-f22d-afcf-d9a1-1ab4302d0ee6@xs4all.nl>
+In-Reply-To: <20191119234534.10725-1-lyude@redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
-
-On Sat, Nov 23, 2019 at 05:12:43PM +0100, Hans Verkuil wrote:
-> Hi Dmitry,
+On Tue, Nov 19, 2019 at 06:45:33PM -0500, Lyude Paul wrote:
+> This reverts commit 68b9c5066e39af41d3448abfc887c77ce22dd64d.
 > 
-> Is it OK with you I merge this patch via the media subsystem?
+> Ugh, I really dropped the ball on this one :\. So as it turns out RMI4
+> works perfectly fine on the X1 Extreme Gen 2 except for one thing I
+> didn't notice because I usually use the trackpoint: clicking with the
+> touchpad. Somehow this is broken, in fact we don't even seem to indicate
+> BTN_LEFT as a valid event type for the RMI4 touchpad. And, I don't even
+> see any RMI4 events coming from the touchpad when I press down on it.
+> This only seems to work for PS/2 mode.
+> 
+> Since that means we have a regression, and PS/2 mode seems to work fine
+> for the time being - revert this for now. We'll have to do a more
+> thorough investigation on this.
+> 
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Cc: stable@vger.kernel.org
 
-Yes, absolutely. It does not touch any of the input bits so I actually
-expected it to go through media tree.
-
-Thanks!
+This has been applied, thank you.
 
 -- 
 Dmitry
