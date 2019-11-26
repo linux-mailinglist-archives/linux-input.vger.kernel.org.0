@@ -2,70 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E23A109B49
-	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2019 10:34:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39D7310A113
+	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2019 16:18:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727408AbfKZJej (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Nov 2019 04:34:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49504 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727400AbfKZJej (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Nov 2019 04:34:39 -0500
-Received: from localhost (unknown [84.241.194.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A9E8A206BF;
-        Tue, 26 Nov 2019 09:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574760878;
-        bh=Ohbjea8qptAUUQ/O12H8GrlNo7892ZclhwRkAsG3+9Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=C4RTBtf+Em9QDnGqGAVZjFoEs/jSF0Olq/p4PV+O+slBrxWDegQNKkWlK99CcHQWi
-         N+2TPWflx7CTfiTvFkRr4kWtxwQQVs6ol1Wgz9qrnj8L3MbEYruFxzC/IqhVFqe4hF
-         2S6CdXOHyy808Cj4LIRPMNvyUrU/EC0TqwELMQhk=
-Date:   Tue, 26 Nov 2019 10:34:34 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Navid Emamdoost <navid.emamdoost@gmail.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        emamd001@umn.edu
-Subject: Re: [PATCH] Input: Fix memory leak in psxpad_spi_probe
-Message-ID: <20191126093434.GA1383178@kroah.com>
-References: <20191121200115.24846-1-navid.emamdoost@gmail.com>
- <20191122190208.GA248138@dtor-ws>
+        id S1728394AbfKZPSI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Nov 2019 10:18:08 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:40340 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1728386AbfKZPSI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 26 Nov 2019 10:18:08 -0500
+Received: (qmail 1786 invoked by uid 2102); 26 Nov 2019 10:18:07 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 26 Nov 2019 10:18:07 -0500
+Date:   Tue, 26 Nov 2019 10:18:07 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Jiri Kosina <jikos@kernel.org>
+cc:     syzbot <syzbot+ec5f884c4a135aa0dbb9@syzkaller.appspotmail.com>,
+        <andreyknvl@google.com>, <benjamin.tissoires@redhat.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>
+Subject: Re: INFO: rcu detected stall in hub_event
+In-Reply-To: <nycvar.YFH.7.76.1911260848090.1799@cbobk.fhfr.pm>
+Message-ID: <Pine.LNX.4.44L0.1911261008430.1508-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191122190208.GA248138@dtor-ws>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Nov 22, 2019 at 11:02:08AM -0800, Dmitry Torokhov wrote:
-> Hi Navid,
+On Tue, 26 Nov 2019, Jiri Kosina wrote:
+
+> On Mon, 25 Nov 2019, Alan Stern wrote:
 > 
-> On Thu, Nov 21, 2019 at 02:01:11PM -0600, Navid Emamdoost wrote:
-> > In the implementation of psxpad_spi_probe() the allocated memory for
-> > pdev is leaked if psxpad_spi_init_ff() or input_register_polled_device()
-> > fail. The solution is using device managed allocation, like the one used
-> > for pad. Perform the allocation using
-> > devm_input_allocate_polled_device().
-> > 
-> > Fixes: 8be193c7b1f4 ("Input: add support for PlayStation 1/2 joypads connected via SPI")
-> > Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+> > #syz test: https://github.com/google/kasan.git 46178223
 > 
-> This is fixed in the current version of the driver, but you can send it
-> to stable@gerkernel.orf with my
+> Alan, did you get a test result from syzbot on this patch? My mailbox 
+> doesn't seem to have it.
 
-Was it fixed by any specific patch, or just a side-affect of some other
-larger change?
+No response, not yet.  syzbot seems to be very slow testing the patches
+for this bug report.  The earlier ones I submitted also took over a day
+to finish.
 
-thanks,
+BTW, even if this patch fixes the problem, I don't think setting 
+collection[0].parent_idx to -1 is a very good solution.  It's brittle 
+and doesn't address the underlying ambiguity.
 
-greg k-h
+Alan Stern
+
