@@ -2,106 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A42910B16C
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2019 15:32:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93C5D10B36C
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2019 17:33:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727010AbfK0OcX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Nov 2019 09:32:23 -0500
-Received: from mga02.intel.com ([134.134.136.20]:32796 "EHLO mga02.intel.com"
+        id S1727096AbfK0Qdi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Nov 2019 11:33:38 -0500
+Received: from mga06.intel.com ([134.134.136.31]:6440 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727235AbfK0OcW (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Nov 2019 09:32:22 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+        id S1726514AbfK0Qdi (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 27 Nov 2019 11:33:38 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Nov 2019 06:32:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,249,1571727600"; 
-   d="scan'208";a="211707747"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga003.jf.intel.com with ESMTP; 27 Nov 2019 06:32:18 -0800
-Received: from andy by smile with local (Exim 4.93-RC1)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1iZyMb-0001vK-Tm; Wed, 27 Nov 2019 16:32:17 +0200
-Date:   Wed, 27 Nov 2019 16:32:17 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     robh+dt@kernel.org, dmitry.torokhov@gmail.com, bparrot@ti.com,
-        simon.budig@kernelconcepts.de, hdegoede@redhat.com, fcooper@ti.com,
-        mripard@kernel.org, alexandre.belloni@bootlin.com,
-        shawnguo@kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] Input: edt-ft5x06 - improve power management
- operations
-Message-ID: <20191127143217.GL32742@smile.fi.intel.com>
-References: <20191127120948.22251-1-m.felsch@pengutronix.de>
- <20191127120948.22251-6-m.felsch@pengutronix.de>
- <20191127125932.GK32742@smile.fi.intel.com>
- <20191127130602.5zp537xdybbafnci@pengutronix.de>
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Nov 2019 08:33:38 -0800
+X-IronPort-AV: E=Sophos;i="5.69,250,1571727600"; 
+   d="scan'208";a="409063466"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Nov 2019 08:33:35 -0800
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc:     ville.syrjala@linux.intel.com, intel-gfx@lists.freedesktop.org,
+        jani.nikula@intel.com,
+        =?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH 11/13] HID: picoLCD: constify fb ops
+Date:   Wed, 27 Nov 2019 18:32:07 +0200
+Message-Id: <a578b8c791e1223112b43d0e209766ba4e4ddcbc.1574871797.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1574871797.git.jani.nikula@intel.com>
+References: <cover.1574871797.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191127130602.5zp537xdybbafnci@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 27, 2019 at 02:06:02PM +0100, Marco Felsch wrote:
-> On 19-11-27 14:59, Andy Shevchenko wrote:
-> > On Wed, Nov 27, 2019 at 01:09:48PM +0100, Marco Felsch wrote:
+Now that the fbops member of struct fb_info is const, we can star making
+the ops const as well.
 
-> > Perhaps
-> > 
-> > static void edt_ft5x06_ts_toggle_gpio(struct gpio_desc *gpiod)
-> > {
-> > 	...
-> > }
-> > 
-> > ...resume(...)
-> > {
-> > 	...
-> > 	if (wake_gpio)
-> > 		...toggle_gpio(wake_gpio);
-> > 	else if (reset_gpio)
-> > 		...toggle_gpio(reset_gpio);
-> > 	...
-> > }
-> > 
-> > ?
-> 
-> Thanks fpr your suggestion but we need to differentiate between reset
-> and wake logic level. The wake-gpio keeps asserted while the reset is
-> released. So the edt_ft5x06_ts_toggle_gpio() needs at least a 'is_reset'
-> parameter but then the simplification is gone.
+Cc: Bruno Prémont <bonbons@linux-vserver.org>
+Cc: linux-input@vger.kernel.org
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/hid/hid-picolcd_fb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-
-How about this:
-static void edt_ft5x06_ts_toggle_gpio(struct gpio_desc *gpiod, int value)
-{
-	gpiod_...(..., !value);
-	...
-	gpiod_...(..., value);
-	...
-}
-
-...resume(...)
-{
-	...
-	if (wake_gpio)
-		...toggle_gpio(wake_gpio, 1);
-	else if (reset_gpio)
-		...toggle_gpio(reset_gpio, 0);
-	...
-}
-
-?
-
+diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
+index e162a668fb7e..a549c42e8c90 100644
+--- a/drivers/hid/hid-picolcd_fb.c
++++ b/drivers/hid/hid-picolcd_fb.c
+@@ -417,8 +417,7 @@ static int picolcd_set_par(struct fb_info *info)
+ 	return 0;
+ }
+ 
+-/* Note this can't be const because of struct fb_info definition */
+-static struct fb_ops picolcdfb_ops = {
++static const struct fb_ops picolcdfb_ops = {
+ 	.owner        = THIS_MODULE,
+ 	.fb_destroy   = picolcd_fb_destroy,
+ 	.fb_read      = fb_sys_read,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.20.1
 
