@@ -2,138 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D51610B057
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2019 14:36:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A42910B16C
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2019 15:32:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726858AbfK0NgE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Nov 2019 08:36:04 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:59505 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726320AbfK0NgE (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Nov 2019 08:36:04 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iZxU7-00034M-ND; Wed, 27 Nov 2019 14:35:59 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iZxU7-0000zW-2W; Wed, 27 Nov 2019 14:35:59 +0100
-Date:   Wed, 27 Nov 2019 14:35:59 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Lucas Stach <l.stach@pengutronix.de>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Nick Dyer <nick@shmanahar.org>, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>, patchwork-lst@pengutronix.de,
+        id S1727010AbfK0OcX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Nov 2019 09:32:23 -0500
+Received: from mga02.intel.com ([134.134.136.20]:32796 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727235AbfK0OcW (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 27 Nov 2019 09:32:22 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Nov 2019 06:32:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,249,1571727600"; 
+   d="scan'208";a="211707747"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga003.jf.intel.com with ESMTP; 27 Nov 2019 06:32:18 -0800
+Received: from andy by smile with local (Exim 4.93-RC1)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1iZyMb-0001vK-Tm; Wed, 27 Nov 2019 16:32:17 +0200
+Date:   Wed, 27 Nov 2019 16:32:17 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     robh+dt@kernel.org, dmitry.torokhov@gmail.com, bparrot@ti.com,
+        simon.budig@kernelconcepts.de, hdegoede@redhat.com, fcooper@ti.com,
+        mripard@kernel.org, alexandre.belloni@bootlin.com,
+        shawnguo@kernel.org, devicetree@vger.kernel.org,
         kernel@pengutronix.de, linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] Input: atmel_mxt_ts - allow specification of config
- name
-Message-ID: <20191127133559.bgho6fcr76o5vfst@pengutronix.de>
-References: <20191127125456.9672-1-l.stach@pengutronix.de>
+Subject: Re: [PATCH v2 5/5] Input: edt-ft5x06 - improve power management
+ operations
+Message-ID: <20191127143217.GL32742@smile.fi.intel.com>
+References: <20191127120948.22251-1-m.felsch@pengutronix.de>
+ <20191127120948.22251-6-m.felsch@pengutronix.de>
+ <20191127125932.GK32742@smile.fi.intel.com>
+ <20191127130602.5zp537xdybbafnci@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191127125456.9672-1-l.stach@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 14:29:21 up 12 days,  4:47, 24 users,  load average: 0.08, 0.03,
- 0.01
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+In-Reply-To: <20191127130602.5zp537xdybbafnci@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Lucas,
+On Wed, Nov 27, 2019 at 02:06:02PM +0100, Marco Felsch wrote:
+> On 19-11-27 14:59, Andy Shevchenko wrote:
+> > On Wed, Nov 27, 2019 at 01:09:48PM +0100, Marco Felsch wrote:
 
-just two nitpicks.
-
-On 19-11-27 13:54, Lucas Stach wrote:
-> From: Nick Dyer <nick@shmanahar.org>
+> > Perhaps
+> > 
+> > static void edt_ft5x06_ts_toggle_gpio(struct gpio_desc *gpiod)
+> > {
+> > 	...
+> > }
+> > 
+> > ...resume(...)
+> > {
+> > 	...
+> > 	if (wake_gpio)
+> > 		...toggle_gpio(wake_gpio);
+> > 	else if (reset_gpio)
+> > 		...toggle_gpio(reset_gpio);
+> > 	...
+> > }
+> > 
+> > ?
 > 
-> Signed-off-by: Nick Dyer <nick@shmanahar.org>
-> ---
-> v2: Switch to linux instead of atmel as vendor prefix.
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
+> Thanks fpr your suggestion but we need to differentiate between reset
+> and wake logic level. The wake-gpio keeps asserted while the reset is
+> released. So the edt_ft5x06_ts_toggle_gpio() needs at least a 'is_reset'
+> parameter but then the simplification is gone.
 
-Don't know the git behaviour but where happens the cut if we have two
-'---'?
 
->  Documentation/devicetree/bindings/input/atmel,maxtouch.txt | 3 +++
->  drivers/input/touchscreen/atmel_mxt_ts.c                   | 6 +++++-
->  2 files changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-> index c88919480d37..0764c7af045c 100644
-> --- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-> +++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-> @@ -31,6 +31,9 @@ Optional properties for main touchpad device:
->  
->  - reset-gpios: GPIO specifier for the touchscreen's reset pin (active low)
->  
-> +- linux,cfg-name: Provide name of configuration file in OBP_RAW format. This
-> +    will be downloaded from the firmware loader on probe to the device.
-> +
->  Example:
->  
->  	touch@4b {
-> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-> index 24c4b691b1c9..60997086763b 100644
-> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
-> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-> @@ -308,6 +308,7 @@ struct mxt_data {
->  	struct t7_config t7_cfg;
->  	struct mxt_dbg dbg;
->  	struct gpio_desc *reset_gpio;
-> +	const char *cfg_name;
->  
->  	/* Cached parameters from object table */
->  	u16 T5_address;
-> @@ -2142,7 +2143,8 @@ static int mxt_initialize(struct mxt_data *data)
->  	if (error)
->  		return error;
->  
-> -	error = request_firmware_nowait(THIS_MODULE, true, MXT_CFG_NAME,
-> +	error = request_firmware_nowait(THIS_MODULE, true,
-> +					data->cfg_name ? : MXT_CFG_NAME,
+How about this:
+static void edt_ft5x06_ts_toggle_gpio(struct gpio_desc *gpiod, int value)
+{
+	gpiod_...(..., !value);
+	...
+	gpiod_...(..., value);
+	...
+}
 
-This will produce a warning if clang is used [1]. I don't know if we
-should introduce gcc-extensions.
+...resume(...)
+{
+	...
+	if (wake_gpio)
+		...toggle_gpio(wake_gpio, 1);
+	else if (reset_gpio)
+		...toggle_gpio(reset_gpio, 0);
+	...
+}
 
-[1] https://releases.llvm.org/8.0.0/tools/clang/docs/DiagnosticsReference.html#wgnu-conditional-omitted-operand
-
-Regards,
-  Marco
-
->  					&client->dev, GFP_KERNEL, data,
->  					mxt_config_cb);
->  	if (error) {
-> @@ -3015,6 +3017,8 @@ static int mxt_parse_device_properties(struct mxt_data *data)
->  		data->t19_num_keys = n_keys;
->  	}
->  
-> +	device_property_read_string(dev, "linux,cfg-name", &data->cfg_name);
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.20.1
-> 
-> 
-> 
+?
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+With Best Regards,
+Andy Shevchenko
+
+
