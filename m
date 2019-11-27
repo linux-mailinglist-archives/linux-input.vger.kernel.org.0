@@ -2,122 +2,172 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9345710A910
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2019 04:31:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAD1710AD4A
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2019 11:10:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726525AbfK0Dan (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Nov 2019 22:30:43 -0500
-Received: from li825-139.members.linode.com ([104.237.157.139]:43434 "EHLO
-        smtp.factglobal.ca" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726304AbfK0Dan (ORCPT
-        <rfc822;Linux-input@vger.kernel.org>);
-        Tue, 26 Nov 2019 22:30:43 -0500
-X-Greylist: delayed 381 seconds by postgrey-1.27 at vger.kernel.org; Tue, 26 Nov 2019 22:30:43 EST
-Received: by smtp.factglobal.ca (Postfix, from userid 1000)
-        id E0B4E7B942; Wed, 27 Nov 2019 03:24:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kryma.net; s=mail;
-        t=1574825061; bh=4P0mAta5oymiKaM313FJPuY56x9qqu2Pv0j6rzLmp04=;
-        h=From:To:Cc:Subject:Date:From;
-        b=O0xHuoUnvPjM96kd1NIYDEE5x0HM01yzGDTgyZY0sF+tFl2jVCF8fw9w0/ihZykSK
-         Yxg6zIdOcy2ljLVfrX11UiHc9P1Sm6TcRA8QrCCb1OqF2VzZ4ONC1IcwLtLftV18+z
-         4h+qTDXBJIXsFW5wn7ow9Isc2QOOhJ3X2hB24X4c=
-From:   admin@kryma.net
-To:     Linux-input@vger.kernel.org, Dmitry.torokhov@gmail.com
-Cc:     Pavel Balan <admin@kryma.net>
-Subject: [PATCH] Add an I2C HID quirk for incorrect input length.
-Date:   Wed, 27 Nov 2019 03:23:29 +0000
-Message-Id: <20191127032329.8406-1-admin@kryma.net>
-X-Mailer: git-send-email 2.11.0
+        id S1726194AbfK0KKc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Nov 2019 05:10:32 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38835 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726149AbfK0KKb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 27 Nov 2019 05:10:31 -0500
+Received: by mail-wr1-f66.google.com with SMTP id i12so26011913wro.5;
+        Wed, 27 Nov 2019 02:10:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=8ofviy5giY5OoW8gBt1uQXk0LW0chCEHzpf9VGeaN9g=;
+        b=q8YGteoIBNFZfCr7xW4t+YxlvU8hDK4ytuTXpLg1ScVtYS9ISBPQBf1EYmMaWhPLcx
+         80ZkdUG2RlohIUcjLNul9av6V6UOJtkAxobpSwzqEugmTy6aaa8c6BwMBQYNGA/CH0fd
+         QYNPSi47lSZMHe0M2nLo1kowtVlN3jSirAf8xBhTIZIkxt5JkhrDkcUdPOz/N3MX+vNa
+         3NyUfv3TSWrpDs7oaiNyiBNwnc099KlYWug2sGG5uRiIMA+NGqucpjQjOAdhFZpSdAtu
+         srHxg9QJjikvm60egCNMTPjM/gO4KT9n44tyRPhqxDp1i2FS7gYak3ugkXKCI7eL0pCc
+         KYfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=8ofviy5giY5OoW8gBt1uQXk0LW0chCEHzpf9VGeaN9g=;
+        b=RRa4aiux2+5shm791hoZg+UXRJZYhpgBOlTJzXhfGlEy5CrxaHPLMRVWjl4wmA1TR/
+         amGsaKS8RXYTLtNiUUTBqrfrC4ZVCFSbSnxLK/MZbEdB3L9iBqXuub4kldq/rLRxp7UC
+         ulVLqc3/IzzLTd8OiIKzMQzTq7e+Ch6Nws/zsVddTA3IaHx8jX4v6bydlykhJMZF2ILH
+         OURsmMgab0e+oGFVD1wtHHL9SpWrEpT+guq6EVvanjZSbbkAJRfMc6ruhLEsXw3pAZGr
+         iO/T6/d79AVua0jO3os8+SPsA4xx8J4PM3r3u3+jXWhI6w4CPoy3UY8Yr8/EKmHWZaFp
+         0+QA==
+X-Gm-Message-State: APjAAAXZ1zVT0P/cGp9kDxbphPAphUs6nRzYRkOOqexyK5JKHiiUGs78
+        JcXESVWHVks+AiHXiFjccCETouya
+X-Google-Smtp-Source: APXvYqyAE0xKCS9ZItbNU8qJ/HwGRs6NkBvGKHdkruQabkBDMQ0zWY+uLCBT+y3JZk7DaxOwfcimYg==
+X-Received: by 2002:adf:b746:: with SMTP id n6mr41447108wre.65.1574849429412;
+        Wed, 27 Nov 2019 02:10:29 -0800 (PST)
+Received: from nuka.localdomain (nsg93-11-83-152-80-219.fbx.proxad.net. [83.152.80.219])
+        by smtp.gmail.com with ESMTPSA id l4sm5992859wml.33.2019.11.27.02.10.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Nov 2019 02:10:28 -0800 (PST)
+Date:   Wed, 27 Nov 2019 11:10:08 +0100
+From:   Mathieu Maret <mathieu.maret@gmail.com>
+To:     dmitry.torokhov@gmail.com, rydberg@bitmath.org,
+        linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, mmaret@pixium-vision.com
+Subject: BUG: ff_effects lost after a fork
+Message-ID: <20191127101008.GA327265@nuka.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Pavel Balan <admin@kryma.net>
+Hi,
 
-Apply it to the Lenovo Y720 gaming laptop I2C peripheral then.
+I'm using evdev for vibrator interface.
+I can register ff_effect and play them.
+But, if I do any kind of fork, all the effects are flush and cannot be
+used.
 
-This fixes dmesg being flooded with errors visible on un-suspend
-in Linux Mint 19 Cinnamon.
+You can find, below, an example of such a program.
+From some trace have put in the kernel, it's seems that at the end of
+the system() call, evdev_flush get called.
 
-Example of error log:
+evdev_flush() will call flush_effects() that will remove all the
+registered effects.
 
-<...>
-[    4.326588] i2c_hid i2c-ITE33D1:00: i2c_hid_get_input: incomplete report (2/4)
-[    4.326845] i2c_hid i2c-ITE33D1:00: i2c_hid_get_input: incomplete report (2/4)
-[    4.327095] i2c_hid i2c-ITE33D1:00: i2c_hid_get_input: incomplete report (2/4)
-[    4.327341] i2c_hid i2c-ITE33D1:00: i2c_hid_get_input: incomplete report (2/4)
-[    4.327609] i2c_hid i2c-ITE33D1:00: i2c_hid_get_input: incomplete report (2/4)
-<...>
+I've only one device with vibrator and it's a imx6 4.1.15 kernel. But
+code looks the same that in linus master that why I'm posting it here. I
+hope that it will not waste people time
 
-Example of fixed log (debug on)
+For the moment, I'm using this nasty workaround:
 
-<...>
-[ 3731.333183] i2c_hid i2c-ITE33D1:00: input: 02 00
-[ 3731.333581] i2c_hid i2c-ITE33D1:00: input: 02 00
-[ 3731.333842] i2c_hid i2c-ITE33D1:00: input: 02 00
-[ 3731.334107] i2c_hid i2c-ITE33D1:00: input: 02 00
-[ 3731.334367] i2c_hid i2c-ITE33D1:00: input: 02 00
-<...>
+diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
+index e578a75..6e6002d 100644
+--- a/drivers/input/evdev.c
++++ b/drivers/input/evdev.c
+@@ -415,6 +415,8 @@ static int evdev_release(struct inode *inode, struct file *file)
+ 	struct evdev_client *client = file->private_data;
+ 	struct evdev *evdev = client->evdev;
 
-Signed-off-by: Pavel Balan <admin@kryma.net>
----
- drivers/hid/hid-ids.h              |  1 +
- drivers/hid/i2c-hid/i2c-hid-core.c | 15 ++++++++++++---
- 2 files changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 76969a22b0f2..ea518daf7435 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -628,6 +628,7 @@
- #define USB_VENDOR_ID_ITE               0x048d
- #define USB_DEVICE_ID_ITE_LENOVO_YOGA   0x8386
- #define USB_DEVICE_ID_ITE_LENOVO_YOGA2  0x8350
-+#define I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720	0x837a
- #define USB_DEVICE_ID_ITE_LENOVO_YOGA900	0x8396
- #define USB_DEVICE_ID_ITE8595		0x8595
- 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 2a7c6e33bb1c..14d964700a7c 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -51,6 +51,7 @@
- #define I2C_HID_QUIRK_NO_RUNTIME_PM		BIT(2)
- #define I2C_HID_QUIRK_DELAY_AFTER_SLEEP		BIT(3)
- #define I2C_HID_QUIRK_BOGUS_IRQ			BIT(4)
-+#define I2C_HID_QUIRK_BAD_INPUT_SIZE		BIT(5)
- 
- /* flags */
- #define I2C_HID_STARTED		0
-@@ -182,6 +183,8 @@ static const struct i2c_hid_quirks {
- 		I2C_HID_QUIRK_NO_RUNTIME_PM },
- 	{ USB_VENDOR_ID_ELAN, HID_ANY_ID,
- 		 I2C_HID_QUIRK_BOGUS_IRQ },
-+	{ USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720,
-+		I2C_HID_QUIRK_BAD_INPUT_SIZE },
- 	{ 0, 0 }
++	evdev_flush(file, NULL);
++
+ 	mutex_lock(&evdev->mutex);
+ 	evdev_ungrab(evdev, client);
+ 	mutex_unlock(&evdev->mutex);
+@@ -1107,7 +1109,7 @@ static const struct file_operations evdev_fops = {
+ 	.compat_ioctl	= evdev_ioctl_compat,
+ #endif
+ 	.fasync		= evdev_fasync,
+-	.flush		= evdev_flush,
++//	.flush		= evdev_flush,
+ 	.llseek		= no_llseek,
  };
- 
-@@ -513,9 +516,15 @@ static void i2c_hid_get_input(struct i2c_hid *ihid)
- 	}
- 
- 	if ((ret_size > size) || (ret_size < 2)) {
--		dev_err(&ihid->client->dev, "%s: incomplete report (%d/%d)\n",
--			__func__, size, ret_size);
--		return;
-+		if (ihid->quirks & I2C_HID_QUIRK_BAD_INPUT_SIZE) {
-+			ihid->inbuf[0] = size & 0xff;
-+			ihid->inbuf[1] = size >> 8;
-+			ret_size = size;
-+		} else {
-+			dev_err(&ihid->client->dev, "%s: incomplete report (%d/%d)\n",
-+				__func__, size, ret_size);
-+			return;
-+		}
- 	}
- 
- 	i2c_hid_dbg(ihid, "input: %*ph\n", ret_size, ihid->inbuf);
--- 
-2.17.1
+
+
+* C program example
+
+
+#include <errno.h>
+#include <fcntl.h>
+#include <linux/input.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+#define DEV_PATH "/dev/input/event1"
+
+int main(int argc, char *argv[])
+{
+    int fd = open(DEV_PATH, O_RDWR);
+    if (fd < 0) {
+        printf("Cannot open " DEV_PATH);
+    }
+
+    // Register an effect
+    struct ff_effect effects;
+    memset(&effects, 0, sizeof(effects));
+    effects.type                      = FF_RUMBLE;
+    effects.id                        = -1;
+    effects.u.rumble.strong_magnitude = 0x8000;
+    effects.u.rumble.weak_magnitude   = 0;
+    effects.replay.length             = 1000;
+    effects.replay.delay              = 0;
+
+    if (ioctl(fd, EVIOCSFF, &effects) < 0) {
+        printf("Cannot upload effect %s\n", strerror(errno));
+        return -1;
+    }
+
+    // Play this effect
+    struct input_event input;
+    memset(&input, 0, sizeof(input));
+    input.type  = EV_FF;
+    input.code  = effects.id;
+    input.value = 1;
+    if (write(fd, &input, sizeof(input)) != sizeof(input)) {
+        printf("Cannot write %s\n", strerror(errno));
+        return -1;
+    }
+
+    printf("Forking\n");
+    system("sleep 1"); // Comment this line to have the second effect
+    played
+
+    // Play effect again : Nothing is played
+    memset(&input, 0, sizeof(input));
+    input.type  = EV_FF;
+    input.code  = effects.id;
+    input.value = 1;
+    if (write(fd, &input, sizeof(input)) != sizeof(input)) {
+        printf("Cannot write %s\n", strerror(errno));
+        return -1;
+    }
+
+
+    close(fd);
+    return 0;
+}
 
