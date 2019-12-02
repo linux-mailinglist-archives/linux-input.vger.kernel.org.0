@@ -2,195 +2,244 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65CBF10E9B3
-	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2019 12:44:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A6B510E9E4
+	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2019 13:01:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727362AbfLBLoI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Dec 2019 06:44:08 -0500
-Received: from mail-io1-f72.google.com ([209.85.166.72]:35924 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726149AbfLBLoH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Dec 2019 06:44:07 -0500
-Received: by mail-io1-f72.google.com with SMTP id 202so13409003iou.3
-        for <linux-input@vger.kernel.org>; Mon, 02 Dec 2019 03:44:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=N4kkmVojLzuzJ1vnplvM18tQkD7dJflaELwvFOc7XzE=;
-        b=TSM73DRurKb0gQxHzZO+0G2wySMuF/J7sZOnfAolD2RFzv5f6AdXhDAk8oWqY/eaLX
-         FcHm5kgSvzR1keXASRm9XhYPxzIMZXI40aF6FEk+0gKWIdX1rCUDkOOtUOlB1j1TmAet
-         vCl0IkXg9lHySLhuwUHk1Rqt6unMLiuMZBP94E8fZDvwZFzPLjzVACZiuKhclv9VPX3x
-         5R3I45ROquoK2I1p3DIAgXHvGsGyelUcACtibqztSPxt8D0QEA/mh3LMNzrTBxLZbITe
-         n74fGwW2lr4feHT2JWo4zZWtZTG2gz/9WvJjSOS6cTY5MRAfL9pIHleBdL95RAEeobL9
-         ebmA==
-X-Gm-Message-State: APjAAAWpxwmkSbJmJpIPq1glQtyYPOgfPFk4HkfNXKmMiSCz0VCQudV+
-        uTjNtaskVcvXJy8R0Z/YLUfUNk8bmPHXNOYQ6oupp6gXpGRf
-X-Google-Smtp-Source: APXvYqzG9s9+C9Z5/Rs0aVasS+wiPsGoQHtbyyd0JP142rzPvc86aBKTjdWef6c5QtnwMdBqUlruLd8e6R1u8HNCGS0NxW5DccX/
+        id S1727354AbfLBMBg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Dec 2019 07:01:36 -0500
+Received: from mail1.bemta26.messagelabs.com ([85.158.142.4]:52110 "EHLO
+        mail1.bemta26.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726149AbfLBMBg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 2 Dec 2019 07:01:36 -0500
+Received: from [85.158.142.104] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-4.bemta.az-a.eu-central-1.aws.symcld.net id 99/8B-19913-B1DF4ED5; Mon, 02 Dec 2019 12:01:31 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA1WSfUxTVxjGe+5HeyW9ei0lPRYLsTMmc7S2YuJ
+  1CcGZfTA3JtFlLkvcdgtXWtZesB8RNNsckzElzRRkzioWEZyrMSk4p0XabdAZYBE3dJkKHcwW
+  mLIugAwltLBeLrrtv9/7PM95zvvHS6CyTrGSYEvtrJVjzGpxEmZcg2dqlPHIDt1wh452B3twu
+  qPhD0B7an0YfXtiCqfHWn9B6Qp/ULJRnONzhSQ5LZ4D4pzP4rqcBy1pedhbuIkzFJe+ixtHvj
+  yLlMTTS7tPRLF9YE55ECQRgGpCYaXbJxaGqxj8qyOKC8MFAGec0/MORnWi8Od+H+AHGVWLwHD
+  ookQYBgG8eW4o8WYRIaZoWNM5OP9ETp1F4LX9xxB+QKnzALrmelA+lUy9Br3NIcCznMqD1TXT
+  iMBrYf+f32M8Y9RK+PeV+kQTQZAUAz3eF3lZRnHwk8kbYp4XUVnw29Ox+RpAqeDkR+fm61FKA
+  e9E3POVkKJgY9t1VOAUeC88iwt5FnaV3wKCngGv/RpZYDU8WRdcYBXsdVctcC4cmfkU5dfh8x
+  2fFwkyDRurKjBBXgln28sEuQRO+w9KBF4F26aCC5Hl0DedKchhHFaOrD0E1rj+s7PAGbD+yoR
+  Y4GfgmVOjKM8ktRR2HYtg9QDzANpgNRUa7RbGZNbodTqNXp+p0WlonZbZo2G0rEOTz3J2K5Mw
+  tcxum9ZWZsk3F2g51t4CEkdVsEuUdxk8HI9q28EyAlGnkPEHkR2yxYbigjIjYzO+Y3WYWVs7W
+  E4QakhOPUp4S61sIVu602ROnOZjGxJStZxMjyVs0lbCWGymQsHqBhri0L26BlSGccUcq1SQl/
+  kQxYeMDu5JxeMD7wUqZTIJRCKRTFrCWi0m+//9+0BBAHUyaeBbpCbO/uSn+4klkMQS6/ff5Ze
+  wM/9ayn2IK/Jc7fU3fsRjx+fey05LvSGVyDL7BjZWo84fUraTL0kq4geaBrBdIU980vvs3SOv
+  +49cXBFvOB9rfaWx7vfDSZsvhVybpKkbnI8ykPHZ3jRPLHDVWDnR746OvuCsyhoaOrxuS+rWb
+  xY/NZbfUD6ybvjk26nh77oU1mDzbW/T3r4NwVDy8+WIKmXr6AcfM+OOpwNVw93avfol0ZnmL/
+  welep4gAqfenWPud2CZ9/JzVUMipqQS87aM5auyKpeEpv5+mg91SPfUlMt5XY2OgaWZXtvYn1
+  F6K3ZTe//9PKYIYv8avzh0bbw9gvyQPqHJ1Yv2bzit8qibW+2Fu9u8dPrA1hcjdmMjH41arUx
+  /wAzHyUDWwQAAA==
+X-Env-Sender: Adam.Thomson.Opensource@diasemi.com
+X-Msg-Ref: server-10.tower-229.messagelabs.com!1575288090!901066!1
+X-Originating-IP: [104.47.5.51]
+X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.44.22; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 26262 invoked from network); 2 Dec 2019 12:01:30 -0000
+Received: from mail-he1eur02lp2051.outbound.protection.outlook.com (HELO EUR02-HE1-obe.outbound.protection.outlook.com) (104.47.5.51)
+  by server-10.tower-229.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 2 Dec 2019 12:01:30 -0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=asmYlyKAJCQDpHf+cVwmGaNd/sUrXCIxXN2kqEr6l1o4V+dIIxDIl39Mk6ZbY/JozECYGjtrZUkIRci2xTRHB7RqEmUQUI6Hr30HJV11J1Ul8W/IqScCniIBPeUFMl3i/C+MjVxGG3Mcc2WMVhWEJvmBh+sP3MtXqjwckfem4oe8eTZdlxH1rAPgUpJNaAQDQ9/1yvV/RrGNeV7o2ZOVNnaNOr6N1RcJ+uj+PSmHU+h4NMu+jHN68zjbnVJd7o5wJeWZXmivb88mStSlBQO9E2if5uVYfqDxf3OSmT/30dFiPeudCuLO3AxReVxz2qVDs1x/hEeXb6MYTHXpHzSQDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l4QHMsi/j0i4QdGMHexJgNj78A/u2VswKKdm11730Lg=;
+ b=aLnAf78bWlDu7VWa8zfI2X016TC6lCTDT3LkMNykyuFa8a9ilatAcAt6G4sHfU/xIXtOMThBrYj/8YduIEsLVTUsD0E9m10PeAEiiHCMgqx433as/wDL4o54+nJjcKRz1WYPk9J7iYJittzb4SN7tSNguJVvhHxvGsWrU/yVey+wl+C5EPtmoSfz9W4IJbRR7qlB6V/pvBPC1qZeTLKGW2Kv1O/zjKdBeFrLWC6l2Oj5iC23jktViTCHDvkykcKPPPQwE1abnYi2SR4pGDKjIOw78vblNHlUZGKS6ZBDZuuGyWRbWgv5UFDTY1HDXzm0yXVweMf3nm0FH/a5i3oyTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
+ dkim=pass header.d=diasemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dialogsemiconductor.onmicrosoft.com;
+ s=selector1-dialogsemiconductor-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l4QHMsi/j0i4QdGMHexJgNj78A/u2VswKKdm11730Lg=;
+ b=D8at6Fv/nDFMlh05mCpUEwwCZGy2l1YViLCKzOxz8hXMVzwXVKl/ww3SqmrUTMA1qrxBoZA07Elm/Wryu5YCMhANG/wbjhwfoBYn3I8UdcL5VJ7eFWDQGe43k2MKMl/37wGhtB6ckuss/kniQSBZhTx0jAVcpO0jJjQs71AnOZA=
+Received: from AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM (10.169.154.136) by
+ AM5PR1001MB1012.EURPRD10.PROD.OUTLOOK.COM (10.169.154.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.20; Mon, 2 Dec 2019 12:01:16 +0000
+Received: from AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::5525:87da:ca4:e8df]) by AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::5525:87da:ca4:e8df%7]) with mapi id 15.20.2495.014; Mon, 2 Dec 2019
+ 12:01:16 +0000
+From:   Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>,
+        Support Opensource <Support.Opensource@diasemi.com>,
+        Steve Twiss <stwiss.opensource@diasemi.com>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
+CC:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: RE: [PATCH v2 2/3] input: misc: da9063_onkey: add mode change support
+Thread-Topic: [PATCH v2 2/3] input: misc: da9063_onkey: add mode change
+ support
+Thread-Index: AQHVpSXSkcjeADvIkEKgFVB1nojTlaemucfg
+Date:   Mon, 2 Dec 2019 12:01:16 +0000
+Message-ID: <AM5PR1001MB09940B9ABB7B1A0DD41B15B680430@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
+References: <20191127132304.22924-1-m.felsch@pengutronix.de>
+ <20191127132304.22924-3-m.felsch@pengutronix.de>
+In-Reply-To: <20191127132304.22924-3-m.felsch@pengutronix.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [165.225.80.228]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 91d85c5e-e7f3-4009-b534-08d7771f5604
+x-ms-traffictypediagnostic: AM5PR1001MB1012:
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM5PR1001MB1012592CD1AAF04C16FE1E9FA7430@AM5PR1001MB1012.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 0239D46DB6
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(366004)(376002)(136003)(346002)(39850400004)(189003)(199004)(186003)(71190400001)(71200400001)(33656002)(52536014)(478600001)(14454004)(4326008)(7696005)(5660300002)(6246003)(229853002)(81166006)(81156014)(76176011)(66556008)(66476007)(9686003)(55016002)(64756008)(66446008)(76116006)(6436002)(3846002)(66946007)(6116002)(25786009)(54906003)(2501003)(8676002)(446003)(11346002)(8936002)(2906002)(256004)(14444005)(6506007)(53546011)(86362001)(7736002)(66066001)(102836004)(110136005)(74316002)(316002)(99286004)(26005)(305945005)(55236004);DIR:OUT;SFP:1101;SCL:1;SRVR:AM5PR1001MB1012;H:AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: diasemi.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 1QCmp97BdpqT7usB2ZfzQQdHqq8Y1FQV6bM974ORXXDoqu1JKwdYnqV7yzkimEVJsb0punP5RrchzFPmZUeEjrPb+fFZ2TMeVsLU2QjS+BRsXqNrauVqZ5dkOB0P0SgkUqMBVTK28znVPcN0UO7y80iUquV6R8oISjsiz70AaOJ4130DByAYOfzJ+1A8E6AlG+/x4iMGMJQjQp1eIW3PMQWvkyxTt6yg0wftfe1sfkEcWPvITnv+UzxRLaqzLnNMQs0EpE69mDW+i23URnIS7SkKN8abTjdLuTFhTkqyjj1wIpAXo4OAnQcuBOCVn8uIVsOG8Mf6JiVW/nXOaogD+OGJhRdwKzWxWQnSny/WjQ6e+Fcr9YjXw9yGzAN2+ESDT1lG3faMc54feApp8eTZ9MBrxQulc6+zfLKfnRl2scSeZ01J2w4F8k5qiCZmYTTB
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Received: by 2002:a02:742:: with SMTP id f63mr13470407jaf.138.1575287046605;
- Mon, 02 Dec 2019 03:44:06 -0800 (PST)
-Date:   Mon, 02 Dec 2019 03:44:06 -0800
-In-Reply-To: <0000000000005365ff0593394532@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000d517330598b71866@google.com>
-Subject: Re: KASAN: use-after-free Read in xpad_play_effect
-From:   syzbot <syzbot+bea56e0be9fb9106bcf3@syzkaller.appspotmail.com>
-To:     aicommander@gmail.com, allison@lohutok.net, andreyknvl@google.com,
-        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, ramzeto@gmail.com, rfontana@redhat.com,
-        syzkaller-bugs@googlegroups.com, tglx@linutronix.de,
-        tom@steelseries.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+X-OriginatorOrg: diasemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91d85c5e-e7f3-4009-b534-08d7771f5604
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2019 12:01:16.6625
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zL3Q3LtO/nk9SSdsGiDPE6NgIfjWUZrFVGBYMQdNEj/GQpd2hu2r3XucWGIZv37RwNIs9PTEl26yiwsBnFvyRapAkPpIb/PpLTk+BzN1EeU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR1001MB1012
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-syzbot has found a reproducer for the following crash on:
+On 27 November 2019 13:23, Marco Felsch wrote:
 
-HEAD commit:    32b5e2b2 usb: gadget: add raw-gadget interface
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=1670902ee00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d88612251f7691bd
-dashboard link: https://syzkaller.appspot.com/bug?extid=bea56e0be9fb9106bcf3
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=140fae9ce00000
+> The pmic state machine behaviour upon a 'onkey press' event can be
+> configured using the ONKEY_PIN bit field. Most the time this is
+> configured correct by the OTP but sometimes we need to adjust the
+> behaviour so we need to add the support here.
+>=20
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+bea56e0be9fb9106bcf3@syzkaller.appspotmail.com
+Reviewed-by: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
 
-==================================================================
-BUG: KASAN: use-after-free in __lock_acquire+0x31af/0x3b60  
-kernel/locking/lockdep.c:3828
-Read of size 8 at addr ffff8881c1609910 by task swapper/1/0
-
-CPU: 1 PID: 0 Comm: swapper/1 Not tainted 5.4.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  <IRQ>
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xef/0x16e lib/dump_stack.c:118
-  print_address_description.constprop.0+0x36/0x50 mm/kasan/report.c:374
-  __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:506
-  kasan_report+0xe/0x20 mm/kasan/common.c:634
-  __lock_acquire+0x31af/0x3b60 kernel/locking/lockdep.c:3828
-  lock_acquire+0x127/0x320 kernel/locking/lockdep.c:4485
-  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
-  _raw_spin_lock_irqsave+0x32/0x50 kernel/locking/spinlock.c:159
-  xpad_play_effect+0xfe/0xc50 drivers/input/joystick/xpad.c:1225
-  ml_play_effects+0x817/0x1270 drivers/input/ff-memless.c:398
-  ml_effect_timer+0x4e/0x70 drivers/input/ff-memless.c:412
-  call_timer_fn+0x179/0x650 kernel/time/timer.c:1404
-  expire_timers kernel/time/timer.c:1449 [inline]
-  __run_timers kernel/time/timer.c:1773 [inline]
-  __run_timers kernel/time/timer.c:1740 [inline]
-  run_timer_softirq+0x5e3/0x1490 kernel/time/timer.c:1786
-  __do_softirq+0x221/0x912 kernel/softirq.c:292
-  invoke_softirq kernel/softirq.c:373 [inline]
-  irq_exit+0x178/0x1a0 kernel/softirq.c:413
-  exiting_irq arch/x86/include/asm/apic.h:536 [inline]
-  smp_apic_timer_interrupt+0x12f/0x500 arch/x86/kernel/apic/apic.c:1137
-  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:829
-  </IRQ>
-RIP: 0010:default_idle+0x28/0x2e0 arch/x86/kernel/process.c:700
-Code: cc cc 41 56 41 55 65 44 8b 2d 6c ab 8b 7a 41 54 55 53 0f 1f 44 00 00  
-e8 46 a8 cd fb e9 07 00 00 00 0f 00 2d ba 30 4c 00 fb f4 <65> 44 8b 2d 48  
-ab 8b 7a 0f 1f 44 00 00 5b 5d 41 5c 41 5d 41 5e c3
-RSP: 0018:ffff8881da22fdc8 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
-RAX: 0000000000000007 RBX: ffff8881da213100 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: 0000000000000006 RDI: ffff8881da21394c
-RBP: ffffed103b442620 R08: ffff8881da213100 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
-R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000000
-  cpuidle_idle_call kernel/sched/idle.c:154 [inline]
-  do_idle+0x3c3/0x4e0 kernel/sched/idle.c:269
-  cpu_startup_entry+0x14/0x20 kernel/sched/idle.c:361
-  start_secondary+0x27d/0x330 arch/x86/kernel/smpboot.c:264
-  secondary_startup_64+0xa4/0xb0 arch/x86/kernel/head_64.S:242
-
-Allocated by task 101:
-  save_stack+0x1b/0x80 mm/kasan/common.c:69
-  set_track mm/kasan/common.c:77 [inline]
-  __kasan_kmalloc mm/kasan/common.c:510 [inline]
-  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:483
-  kmalloc include/linux/slab.h:556 [inline]
-  kzalloc include/linux/slab.h:690 [inline]
-  xpad_probe+0x24b/0x1b20 drivers/input/joystick/xpad.c:1717
-  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-  really_probe+0x281/0x6d0 drivers/base/dd.c:548
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
-  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
-  __device_attach+0x217/0x360 drivers/base/dd.c:894
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
-  device_add+0x1480/0x1c20 drivers/base/core.c:2487
-  usb_set_configuration+0xe67/0x1740 drivers/usb/core/message.c:2023
-  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-  really_probe+0x281/0x6d0 drivers/base/dd.c:548
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
-  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
-  __device_attach+0x217/0x360 drivers/base/dd.c:894
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
-  device_add+0x1480/0x1c20 drivers/base/core.c:2487
-  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2537
-  hub_port_connect drivers/usb/core/hub.c:5184 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
-  port_event drivers/usb/core/hub.c:5470 [inline]
-  hub_event+0x1e59/0x3860 drivers/usb/core/hub.c:5552
-  process_one_work+0x92b/0x1530 kernel/workqueue.c:2264
-  worker_thread+0x96/0xe20 kernel/workqueue.c:2410
-  kthread+0x318/0x420 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-Freed by task 101:
-  save_stack+0x1b/0x80 mm/kasan/common.c:69
-  set_track mm/kasan/common.c:77 [inline]
-  kasan_set_free_info mm/kasan/common.c:332 [inline]
-  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:471
-  slab_free_hook mm/slub.c:1424 [inline]
-  slab_free_freelist_hook mm/slub.c:1457 [inline]
-  slab_free mm/slub.c:3004 [inline]
-  kfree+0xdc/0x310 mm/slub.c:3956
-  xpad_disconnect+0x1cb/0x4a3 drivers/input/joystick/xpad.c:1865
-  usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
-  __device_release_driver drivers/base/dd.c:1134 [inline]
-  device_release_driver_internal+0x42f/0x500 drivers/base/dd.c:1165
-  bus_remove_device+0x2dc/0x4a0 drivers/base/bus.c:532
-  device_del+0x481/0xd30 drivers/base/core.c:2664
-  usb_disable_device+0x211/0x690 drivers/usb/core/message.c:1237
-  usb_disconnect+0x284/0x8d0 drivers/usb/core/hub.c:2200
-  hub_port_connect drivers/usb/core/hub.c:5035 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
-  port_event drivers/usb/core/hub.c:5470 [inline]
-  hub_event+0x1753/0x3860 drivers/usb/core/hub.c:5552
-  process_one_work+0x92b/0x1530 kernel/workqueue.c:2264
-  worker_thread+0x96/0xe20 kernel/workqueue.c:2410
-  kthread+0x318/0x420 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-The buggy address belongs to the object at ffff8881c1609800
-  which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 272 bytes inside of
-  1024-byte region [ffff8881c1609800, ffff8881c1609c00)
-The buggy address belongs to the page:
-page:ffffea0007058200 refcount:1 mapcount:0 mapping:ffff8881da002280  
-index:0x0 compound_mapcount: 0
-raw: 0200000000010200 dead000000000100 dead000000000122 ffff8881da002280
-raw: 0000000000000000 0000000000100010 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff8881c1609800: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881c1609880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ffff8881c1609900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                          ^
-  ffff8881c1609980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881c1609a00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+> ---
+> v2:
+> - make use of da906x_chip_config
+> - rm unnecessary key_opmode
+>=20
+>  drivers/input/misc/da9063_onkey.c | 16 ++++++++++++++++
+>  drivers/mfd/da9062-core.c         |  1 +
+>  2 files changed, 17 insertions(+)
+>=20
+> diff --git a/drivers/input/misc/da9063_onkey.c
+> b/drivers/input/misc/da9063_onkey.c
+> index 79851923ee57..3a3f06a33eda 100644
+> --- a/drivers/input/misc/da9063_onkey.c
+> +++ b/drivers/input/misc/da9063_onkey.c
+> @@ -19,6 +19,7 @@
+>=20
+>  struct da906x_chip_config {
+>  	/* REGS */
+> +	int onkey_config;
+>  	int onkey_status;
+>  	int onkey_pwr_signalling;
+>  	int onkey_fault_log;
+> @@ -26,6 +27,7 @@ struct da906x_chip_config {
+>  	/* MASKS */
+>  	int onkey_nonkey_mask;
+>  	int onkey_nonkey_lock_mask;
+> +	int onkey_nonkey_pin_mask;
+>  	int onkey_key_reset_mask;
+>  	int onkey_shutdown_mask;
+>  	/* NAMES */
+> @@ -44,6 +46,7 @@ struct da9063_onkey {
+>=20
+>  static const struct da906x_chip_config da9063_regs =3D {
+>  	/* REGS */
+> +	.onkey_config =3D DA9063_REG_CONFIG_I,
+>  	.onkey_status =3D DA9063_REG_STATUS_A,
+>  	.onkey_pwr_signalling =3D DA9063_REG_CONTROL_B,
+>  	.onkey_fault_log =3D DA9063_REG_FAULT_LOG,
+> @@ -51,6 +54,7 @@ static const struct da906x_chip_config da9063_regs =3D =
+{
+>  	/* MASKS */
+>  	.onkey_nonkey_mask =3D DA9063_NONKEY,
+>  	.onkey_nonkey_lock_mask =3D DA9063_NONKEY_LOCK,
+> +	.onkey_nonkey_pin_mask =3D DA9063_NONKEY_PIN_MASK,
+>  	.onkey_key_reset_mask =3D DA9063_KEY_RESET,
+>  	.onkey_shutdown_mask =3D DA9063_SHUTDOWN,
+>  	/* NAMES */
+> @@ -59,6 +63,7 @@ static const struct da906x_chip_config da9063_regs =3D =
+{
+>=20
+>  static const struct da906x_chip_config da9062_regs =3D {
+>  	/* REGS */
+> +	.onkey_config =3D DA9062AA_CONFIG_I,
+>  	.onkey_status =3D DA9062AA_STATUS_A,
+>  	.onkey_pwr_signalling =3D DA9062AA_CONTROL_B,
+>  	.onkey_fault_log =3D DA9062AA_FAULT_LOG,
+> @@ -66,6 +71,7 @@ static const struct da906x_chip_config da9062_regs =3D =
+{
+>  	/* MASKS */
+>  	.onkey_nonkey_mask =3D DA9062AA_NONKEY_MASK,
+>  	.onkey_nonkey_lock_mask =3D DA9062AA_NONKEY_LOCK_MASK,
+> +	.onkey_nonkey_pin_mask =3D DA9062AA_NONKEY_PIN_MASK,
+>  	.onkey_key_reset_mask =3D DA9062AA_KEY_RESET_MASK,
+>  	.onkey_shutdown_mask =3D DA9062AA_SHUTDOWN_MASK,
+>  	/* NAMES */
+> @@ -193,6 +199,7 @@ static int da9063_onkey_probe(struct platform_device
+> *pdev)
+>  {
+>  	struct da9063_onkey *onkey;
+>  	const struct of_device_id *match;
+> +	unsigned int val;
+>  	int irq;
+>  	int error;
+>=20
+> @@ -220,6 +227,15 @@ static int da9063_onkey_probe(struct platform_device
+> *pdev)
+>  	onkey->key_power =3D !of_property_read_bool(pdev->dev.of_node,
+>  						  "dlg,disable-key-power");
+>=20
+> +	if (!of_property_read_u32(pdev->dev.of_node, "dlg,key-opmode",
+> &val)) {
+> +		error =3D regmap_update_bits(onkey->regmap,
+> +					   onkey->config->onkey_config,
+> +					   onkey->config-
+> >onkey_nonkey_pin_mask,
+> +					   val);
+> +		if (error)
+> +			return error;
+> +	}
+> +
+>  	onkey->input =3D devm_input_allocate_device(&pdev->dev);
+>  	if (!onkey->input) {
+>  		dev_err(&pdev->dev, "Failed to allocated input device.\n");
+> diff --git a/drivers/mfd/da9062-core.c b/drivers/mfd/da9062-core.c
+> index e69626867c26..aaa1f1841bc3 100644
+> --- a/drivers/mfd/da9062-core.c
+> +++ b/drivers/mfd/da9062-core.c
+> @@ -510,6 +510,7 @@ static const struct regmap_range
+> da9062_aa_writeable_ranges[] =3D {
+>  	regmap_reg_range(DA9062AA_VLDO1_B, DA9062AA_VLDO4_B),
+>  	regmap_reg_range(DA9062AA_BBAT_CONT, DA9062AA_BBAT_CONT),
+>  	regmap_reg_range(DA9062AA_GP_ID_0, DA9062AA_GP_ID_19),
+> +	regmap_reg_range(DA9062AA_CONFIG_I, DA9062AA_CONFIG_I),
+>  };
+>=20
+>  static const struct regmap_range da9062_aa_volatile_ranges[] =3D {
+> --
+> 2.20.1
 
