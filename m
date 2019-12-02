@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80C0010EED3
-	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2019 18:58:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1371110EEDB
+	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2019 19:01:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727708AbfLBR66 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Dec 2019 12:58:58 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:45938 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726673AbfLBR66 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Dec 2019 12:58:58 -0500
-Received: by mail-pf1-f194.google.com with SMTP id 2so5226pfg.12;
-        Mon, 02 Dec 2019 09:58:57 -0800 (PST)
+        id S1727778AbfLBSBD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Dec 2019 13:01:03 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:45060 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727708AbfLBSBD (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Dec 2019 13:01:03 -0500
+Received: by mail-pl1-f193.google.com with SMTP id w7so237787plz.12;
+        Mon, 02 Dec 2019 10:01:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=I2r9GGwhu0ecjN/iGQeTtiEKpNfDAuaVRlA5BO+emlQ=;
-        b=JiBmkwct6vqGo1tZ6PvRfHIUM9iZAYv0wmmR873Ab/HW1ySx9nA7frGg30O38OMpr/
-         hRcJ3gIhMtqBpgpTRNpB61+qIgSwqpvgpvTC+7MSg1hU5MJYzWHqWNDa82butmz+68JW
-         XwRdKYiWK9sx2rSakst1Nich26O20N9K0kndQYIoGhigVxnTmtUmYJcPumnyOmyQVT8s
-         CC25pfA69DsppCXynw68JWhk3GW1n+DbwuY+eYTzhnlZf6ZHNQ4GXGk86gCIc5zzCLq5
-         3sunc/W33gBm1N2kLRVOFYdQQWu16stSZxOFTsCun3w0fkBBQ9rSlgyFWYnhPp66LgbO
-         7Wfw==
+        bh=1w9HwwKcyt/aaVgyqgk1aq69J6V3a1nHZf9c3WPixEs=;
+        b=vOKtnxqTHWMAlkEVTF2m7iEod/7EhIbcOIAQeyHZPeP1GY1O1PeT3hmUYRWcQyXflF
+         Hpar2GSvKs8RZdaXsFuAJ73k1VDimR2F2sa5I/R/0ougSxF/LLotqXHTb0mAQCQszRNg
+         O8DAiYX3C1JYUQGFjldCQz2o9iAY0BHh8ZGvw2JgAgJG7Oqx5S8iDkFbbnqoxlF71Wmm
+         nubHqS3bEFgISSPWrbagF4cr7AdxBSDlOJLhf4i/qjM2xVtmFkgB9TpZkFlMQREatWvw
+         AMeRXif6C1JKhsyR+TrR1kTc9eWVj9S5TrJFKHWTqpg5tidRe164iLh2V3yQLRek/Pmz
+         /Utw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=I2r9GGwhu0ecjN/iGQeTtiEKpNfDAuaVRlA5BO+emlQ=;
-        b=kZZseGqEqpkBPVcnMf2MSqtjje2mrSwOKK4eiuBypmC5yPJVkr5WfEVbgKmHvzP4eB
-         PcqjMAaGRHfmvhEKXxh/CZfeC0Op6LJuAHqf3tCx599qJq6BzVs4oXYidbKN3pAmioFy
-         zrSdhdfmUmlvkp7W2UbjcC4mcSIF2jvOphTbPtP1dTEDCkA4gdLpoT67hexncul6Fz7N
-         F6U/7T4VMEi38GHy9NyQ9tte7HIoXNc9f4qLAtQO0DNGTp1IwS8KkxNwI5HSMXjB3IpR
-         yQeCKoDpYiswN4SUTg5y52s+UlEi2ae3qHmT9hp1jgtwZKyyR5xly7fNSiMiI+HYoxbG
-         Bu5Q==
-X-Gm-Message-State: APjAAAUtP/ISIQz7C23z5wt+ierTF465KpaGFYjd13OjBVyzply3AN0K
-        da4RmDtc/RmzF3t1NvqYdeGZWG1R
-X-Google-Smtp-Source: APXvYqzsH5uNs6kRhFzOzbUBHxUbqMNtiZuSauoSmTcPy6yoH3+fYzbRfmZa5+CmTCAHVIZZIDLInA==
-X-Received: by 2002:a62:ac15:: with SMTP id v21mr16352302pfe.48.1575309537233;
-        Mon, 02 Dec 2019 09:58:57 -0800 (PST)
+        bh=1w9HwwKcyt/aaVgyqgk1aq69J6V3a1nHZf9c3WPixEs=;
+        b=F8MiXMyCgn93w3e374JuCM7VJ8IW89DheCFM7ge0tf7pDoDdiQHFb0b8Suir/3Drak
+         ERUCNJEwUVsp3GNlgBFIxLkGhnBiJc/0P95Bw1FDYocjoVB2OSyTUw2QJf0Q+06vlz0G
+         53HsCDreeiWGI5QaexBBuI90gv7MlRO7/8Bj/GGi2sriQY58pit5PSjt0ttSa4PUcxHW
+         LrFf7YxH5W89hOqY2gq8/Ts5iiSWntuQd2p1/jEn/Q9++862u0ah7ftX35TtCwZNaHA9
+         MenL/N0bjg1WKeZUgqPgqr8+XUx8+5Ova1cghx9yHG8uXQYCDDoLy5YT63nNFoAZzz4w
+         NM4A==
+X-Gm-Message-State: APjAAAUOUnaQE8ow/5O5DpIUw4cOKU/vSASd5yplxyJDKxMARzE2T6P/
+        rizhtEvcT7a8UzhOJFoPFmM=
+X-Google-Smtp-Source: APXvYqwyj7Uhvra2x8yp386KtJKlOZUsotjhUnz3I4deUdPNzb/A1Ae+NpGG45t/WKkB+pndHq1q3Q==
+X-Received: by 2002:a17:90a:1b45:: with SMTP id q63mr300841pjq.91.1575309660735;
+        Mon, 02 Dec 2019 10:01:00 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id f81sm113886pfa.118.2019.12.02.09.58.52
+        by smtp.gmail.com with ESMTPSA id h128sm108832pfe.172.2019.12.02.10.00.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2019 09:58:53 -0800 (PST)
-Date:   Mon, 2 Dec 2019 09:58:51 -0800
+        Mon, 02 Dec 2019 10:00:59 -0800 (PST)
+Date:   Mon, 2 Dec 2019 10:00:57 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Marco Felsch <m.felsch@pengutronix.de>
 Cc:     robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
@@ -52,70 +52,89 @@ Cc:     robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
         simon.budig@kernelconcepts.de, hdegoede@redhat.com, fcooper@ti.com,
         mripard@kernel.org, alexandre.belloni@bootlin.com,
         shawnguo@kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, linux-input@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v2 1/5] Input: edt-ft5x06: work around first register
- access error
-Message-ID: <20191202175851.GB50317@dtor-ws>
+        kernel@pengutronix.de, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 4/5] Input: edt-ft5x06 - make wakeup-source switchable
+Message-ID: <20191202180057.GC50317@dtor-ws>
 References: <20191127120948.22251-1-m.felsch@pengutronix.de>
- <20191127120948.22251-2-m.felsch@pengutronix.de>
+ <20191127120948.22251-5-m.felsch@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191127120948.22251-2-m.felsch@pengutronix.de>
+In-Reply-To: <20191127120948.22251-5-m.felsch@pengutronix.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 27, 2019 at 01:09:44PM +0100, Marco Felsch wrote:
-> From: Philipp Zabel <p.zabel@pengutronix.de>
+On Wed, Nov 27, 2019 at 01:09:47PM +0100, Marco Felsch wrote:
+> Since day one the touch controller acts as wakeup-source. This seems to
+> be wrong since the device supports deep-sleep mechanism [1] which
+> requires a reset to leave it. Also some designs won't use the
+> touchscreen as wakeup-source.
 > 
-> The EP0700MLP1 returns bogus data on the first register read access
-> (reading the threshold parameter from register 0x00):
+> According discussion [2] we decided to break backward compatibility and
+> go the common way by using the 'wakeup-source' device-property.
 > 
->     edt_ft5x06 2-0038: crc error: 0xfc expected, got 0x40
+> [1] https://www.newhavendisplay.com/appnotes/datasheets/touchpanel/FT5x26.pdf
+> [2] https://patchwork.kernel.org/patch/11149037/
 > 
-> It ignores writes until then. This patch adds a dummy read after which
-> the number of sensors and parameter read/writes work correctly.
-> 
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-Need your signed-off-by as well.
-
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 > ---
->  drivers/input/touchscreen/edt-ft5x06.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+> v2:
+> - make use of common wakeup-source property
+> - adapt commit message
+> 
+>  drivers/input/touchscreen/edt-ft5x06.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-> index d61731c0037d..b87b1e074f62 100644
+> index e1b31fd525e2..8d2ec7947f0e 100644
 > --- a/drivers/input/touchscreen/edt-ft5x06.c
 > +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> @@ -1050,6 +1050,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
->  {
->  	const struct edt_i2c_chip_data *chip_data;
->  	struct edt_ft5x06_ts_data *tsdata;
-> +	u8 buf[2] = { 0xfc, 0x00 };
->  	struct input_dev *input;
+> @@ -24,6 +24,7 @@
+>  #include <linux/irq.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> +#include <linux/property.h>
+>  #include <linux/ratelimit.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/slab.h>
+> @@ -1056,6 +1057,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
 >  	unsigned long irq_flags;
 >  	int error;
-> @@ -1140,6 +1141,12 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+>  	char fw_version[EDT_NAME_LEN];
+> +	bool en_wakeup;
+>  
+>  	dev_dbg(&client->dev, "probing for EDT FT5x06 I2C\n");
+>  
+> @@ -1114,6 +1116,8 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
 >  		return error;
 >  	}
 >  
-> +	/*
-> +	 * Dummy read access. EP0700MLP1 returns bogus data on the first
-> +	 * register read access and ignores writes.
-> +	 */
-> +	edt_ft5x06_ts_readwrite(tsdata->client, 2, buf, 2, buf);
+> +	en_wakeup = device_property_present(&client->dev, "wakeup-source");
 > +
->  	edt_ft5x06_ts_set_regs(tsdata);
->  	edt_ft5x06_ts_get_defaults(&client->dev, tsdata);
->  	edt_ft5x06_ts_get_parameters(tsdata);
-> -- 
-> 2.20.1
-> 
+>  	if (tsdata->wake_gpio) {
+>  		usleep_range(5000, 6000);
+>  		gpiod_set_value_cansleep(tsdata->wake_gpio, 1);
+> @@ -1208,7 +1212,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+>  		return error;
+>  
+>  	edt_ft5x06_ts_prepare_debugfs(tsdata, dev_driver_string(&client->dev));
+> -	device_init_wakeup(&client->dev, 1);
+> +	device_init_wakeup(&client->dev, en_wakeup);
+
+I2C core already marks device as wakeup source if I2C_CLIEMT_WAKE is set
+(and the flag is specified when, among other things, device has
+"wakeup-source" property).
+
+So the only thing that is needed is to remove
+
+	device_init_wakeup(&client->dev, 1);
+
+line.
+
+Thanks.
 
 -- 
 Dmitry
