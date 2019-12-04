@@ -2,32 +2,27 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 62E3F1121DD
-	for <lists+linux-input@lfdr.de>; Wed,  4 Dec 2019 04:35:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 329501121E2
+	for <lists+linux-input@lfdr.de>; Wed,  4 Dec 2019 04:41:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727016AbfLDDfb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Dec 2019 22:35:31 -0500
-Received: from smtp04.smtpout.orange.fr ([80.12.242.126]:54826 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726975AbfLDDfb (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Dec 2019 22:35:31 -0500
-Received: from localhost.localdomain ([90.126.97.183])
-        by mwinf5d59 with ME
-        id ZfbS2100A3xPcdm03fbSuu; Wed, 04 Dec 2019 04:35:29 +0100
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Wed, 04 Dec 2019 04:35:29 +0100
-X-ME-IP: 90.126.97.183
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     jkosina@suse.cz, benjamin.tissoires@redhat.com,
-        masaki.ota@jp.alps.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] HID: alps: Fix an error handling path in 'alps_input_configured()'
-Date:   Wed,  4 Dec 2019 04:35:25 +0100
-Message-Id: <20191204033525.10871-1-christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.20.1
+        id S1726834AbfLDDlR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Dec 2019 22:41:17 -0500
+Received: from coyote.holtmann.net ([212.227.132.17]:57383 "EHLO
+        mail.holtmann.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726804AbfLDDlR (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Dec 2019 22:41:17 -0500
+Received: from localhost.localdomain (p4FF9F0D1.dip0.t-ipconnect.de [79.249.240.209])
+        by mail.holtmann.org (Postfix) with ESMTPSA id 564CBCEC92;
+        Wed,  4 Dec 2019 04:50:24 +0100 (CET)
+From:   Marcel Holtmann <marcel@holtmann.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     abhishekpandit@chromium.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: hidraw: add support uniq ioctl
+Date:   Wed,  4 Dec 2019 04:41:09 +0100
+Message-Id: <20191204034109.21944-1-marcel@holtmann.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
@@ -35,32 +30,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-They are issues:
-   - if 'input_allocate_device()' fails and return NULL, there is no need
-     to free anything and 'input_free_device()' call is a no-op. It can
-     be axed.
-   - 'ret' is known to be 0 at this point, so we must set it to a
-     meaningful value before returning
+Add support for reading out the uniq information from the underlying HID
+device. This might be the iSerialNumber in case of USB or the BD_ADDR in
+case of Bluetooth.
 
-Fixes: 2562756dde55 ("HID: add Alps I2C HID Touchpad-Stick support")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
 ---
- drivers/hid/hid-alps.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hidraw.c        | 9 +++++++++
+ include/uapi/linux/hidraw.h | 1 +
+ 2 files changed, 10 insertions(+)
 
-diff --git a/drivers/hid/hid-alps.c b/drivers/hid/hid-alps.c
-index ae79a7c66737..fa704153cb00 100644
---- a/drivers/hid/hid-alps.c
-+++ b/drivers/hid/hid-alps.c
-@@ -730,7 +730,7 @@ static int alps_input_configured(struct hid_device *hdev, struct hid_input *hi)
- 	if (data->has_sp) {
- 		input2 = input_allocate_device();
- 		if (!input2) {
--			input_free_device(input2);
-+			ret = -ENOMEM;
- 			goto exit;
- 		}
+diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
+index bbc6ec1aa5cb..039304069fd0 100644
+--- a/drivers/hid/hidraw.c
++++ b/drivers/hid/hidraw.c
+@@ -450,6 +450,15 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
+ 						-EFAULT : len;
+ 					break;
+ 				}
++
++				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGRAWUNIQ(0))) {
++					int len = strlen(hid->uniq) + 1;
++					if (len > _IOC_SIZE(cmd))
++						len = _IOC_SIZE(cmd);
++					ret = copy_to_user(user_arg, hid->uniq, len) ?
++						-EFAULT : len;
++					break;
++				}
+ 			}
  
+ 		ret = -ENOTTY;
+diff --git a/include/uapi/linux/hidraw.h b/include/uapi/linux/hidraw.h
+index 98e2c493de85..4913539e5bcc 100644
+--- a/include/uapi/linux/hidraw.h
++++ b/include/uapi/linux/hidraw.h
+@@ -39,6 +39,7 @@ struct hidraw_devinfo {
+ /* The first byte of SFEATURE and GFEATURE is the report number */
+ #define HIDIOCSFEATURE(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x06, len)
+ #define HIDIOCGFEATURE(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x07, len)
++#define HIDIOCGRAWUNIQ(len)     _IOC(_IOC_READ, 'H', 0x08, len)
+ 
+ #define HIDRAW_FIRST_MINOR 0
+ #define HIDRAW_MAX_DEVICES 64
 -- 
-2.20.1
+2.23.0
 
