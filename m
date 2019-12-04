@@ -2,208 +2,508 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C55A11122C1
-	for <lists+linux-input@lfdr.de>; Wed,  4 Dec 2019 07:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E464F11234B
+	for <lists+linux-input@lfdr.de>; Wed,  4 Dec 2019 08:10:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726599AbfLDGCD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Dec 2019 01:02:03 -0500
-Received: from mail1.bemta26.messagelabs.com ([85.158.142.114]:61555 "EHLO
-        mail1.bemta26.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725932AbfLDGCD (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 4 Dec 2019 01:02:03 -0500
-Received: from [85.158.142.201] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-3.bemta.az-b.eu-central-1.aws.symcld.net id 2C/CD-12313-7DB47ED5; Wed, 04 Dec 2019 06:01:59 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPIsWRWlGSWpSXmKPExsVy8IPnUd3r3s9
-  jDdaek7eYf+Qcq8XhRS8YLW5++sZqcXnXHDaLpdcvMlm07j3C7sDmsWbeGkaPnbPusntsWtXJ
-  5vF5k1wASxRrZl5SfkUCa8akHx+YC9o0K74s02hg7FLqYuTiEBJYxyjxdO9G9i5GTiCnQuJp6
-  3dmEJtXIELi5qQ5bCA2p4CZRF/vAUaIGlOJhnmdLCA2m4COxKOZ65lAbBYBFYmPrSfBaoQFfC
-  Se7HjJCmKLCARJPH50lgVkGbPAbkaJDxcOQC0QlDg58wnYIGYBCYmDL14wQyzQkji3ZhXYIAk
-  Be4np768CxTmAbH2JxmOxEGFDie+zvrFA2OYSu9ZdZ5rAKDgLydRZSKYuYGRaxWiRVJSZnlGS
-  m5iZo2toYKBraGisa6Jrbq6XWKWbpJdaqpucmldSlAiU1EssL9YrrsxNzknRy0st2cQIjIWUQ
-  hbfHYwt397qHWKU5GBSEuXd/PhZrBBfUn5KZUZicUZ8UWlOavEhRhkODiUJXivP57FCgkWp6a
-  kVaZk5wLiESUtw8CiJ8DJ4AaV5iwsSc4sz0yFSpxiNOc7+m7eImeP3hiWLmIVY8vLzUqXEeTl
-  ASgVASjNK8+AGwdLFJUZZKWFeRgYGBiGegtSi3MwSVPlXjOIcjErCvEogU3gy80rg9r0COoUJ
-  6JQDlc9ATilJREhJNTDt6rh6PvDB0x1xW+S+X09dXDd1mufSa8vUNZqSY3y6zN0nPRDZIB548
-  JL2pPT0Zqu4qTYTjBOnqrcoWJXZdFfZ6toEr7iZV+uZbC7afbpVIYl5B6PU4uhpfL48/Tt2Pt
-  b9eCxoYq3fFcYZUYtu/d4uWV9wUtzB9Gfen6eRM3xWraw3e3ou8hgLqzh/FKvZlcZ1xWnLvgS
-  nCHjkSi15Kn9bxEbhxb2gbS9Vkx8zpuk/OPhGkTXk4dPeH3a2Om9bWBgUQu6e9rf/+Ph/PLc2
-  n9vi9d53j116t/87u0S/YvSE7PxNmr3BPSonFKdHerxKnqI2rSY+SN5s9e7bdreXauk/nVbt+
-  jL8fApHIA/beiWW4oxEQy3mouJEAJWBRqeSAwAA
-X-Env-Sender: roy.im.opensource@diasemi.com
-X-Msg-Ref: server-10.tower-246.messagelabs.com!1575439318!946274!2
-X-Originating-IP: [193.240.73.197]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.44.22; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 30507 invoked from network); 4 Dec 2019 06:01:59 -0000
-Received: from unknown (HELO sw-ex-cashub01.diasemi.com) (193.240.73.197)
-  by server-10.tower-246.messagelabs.com with ECDHE-RSA-AES256-SHA384 encrypted SMTP; 4 Dec 2019 06:01:59 -0000
-Received: from swsrvapps-01.diasemi.com (10.20.28.141) by
- SW-EX-CASHUB01.diasemi.com (10.20.16.140) with Microsoft SMTP Server id
- 14.3.468.0; Wed, 4 Dec 2019 06:01:56 +0000
-Received: by swsrvapps-01.diasemi.com (Postfix, from userid 22266)      id
- 1AC703FBE7; Tue,  3 Dec 2019 07:11:54 +0000 (GMT)
-Message-ID: <e158579e099adb91c3ed966c1f5b03ff68e85ab8.1575344416.git.Roy.Im@diasemi.com>
-In-Reply-To: <cover.1575344415.git.Roy.Im@diasemi.com>
-References: <cover.1575344415.git.Roy.Im@diasemi.com>
-From:   Roy Im <roy.im.opensource@diasemi.com>
-Date:   Tue, 3 Dec 2019 12:40:15 +0900
-Subject: [PATCH V8 2/3] dt-bindings: input: Add document bindings for DA7280
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-CC:     Mark Rutland <mark.rutland@arm.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        <devicetree@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
+        id S1726048AbfLDHKb convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 4 Dec 2019 02:10:31 -0500
+Received: from emcscan.emc.com.tw ([192.72.220.5]:64891 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725958AbfLDHKb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Dec 2019 02:10:31 -0500
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="33142739"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 04 Dec 2019 15:10:28 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(71502:0:AUTH_RELAY)
+        (envelope-from <johnny.chuang@emc.com.tw>); Wed, 04 Dec 2019 15:10:25 +0800 (CST)
+Received: from 192.168.55.71
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(101173:0:AUTH_LOGIN)
+        (envelope-from <johnny.chuang@emc.com.tw>); Wed, 04 Dec 2019 15:10:23 +0800 (CST)
+From:   "Johnny.Chuang" <johnny.chuang@emc.com.tw>
+To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>
+Cc:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        =?big5?B?J1NUUkQyLb2ytGa8YCc=?= <jennifer.tsai@emc.com.tw>,
+        <james.chen@emc.com.tw>,
+        =?big5?B?J7Hns9W1vic=?= <paul.liang@emc.com.tw>,
+        "'jeff'" <jeff.chuang@emc.com.tw>
+References: <1574142739-24556-1-git-send-email-johnny.chuang@emc.com.tw> <003d01d59e9e$8b0a3120$a11e9360$@emc.com.tw> <20191203194806.GL50317@dtor-ws>
+In-Reply-To: <20191203194806.GL50317@dtor-ws>
+Subject: RE: [PATCH] Input: elants_i2c - Add Remark ID check flow in firmware update function
+Date:   Wed, 4 Dec 2019 15:10:23 +0800
+Message-ID: <01b001d5aa71$e559c670$b00d5350$@emc.com.tw>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-ServerInfo: sw-ex-cashub01.diasemi.com, 9
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 04/12/2019 05:22:00
+Content-Type: text/plain;
+        charset="big5"
+Content-Transfer-Encoding: 8BIT
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQJWcJ1GfW6vkoLmumyMvYKuQq0ScAIT1IjnAR9//EimjmCYoA==
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDUwMTBcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy0yMmEzOWU4ZC0xNjY1LTExZWEtOGFiMy03YzVjZjg3NDk0NzhcYW1lLXRlc3RcMjJhMzllOGYtMTY2NS0xMWVhLThhYjMtN2M1Y2Y4NzQ5NDc4Ym9keS50eHQiIHN6PSIxNDIyNSIgdD0iMTMyMTk5MTcwMjI3ODEzNzE1IiBoPSJxRjBTaTJNZkpickdzK3lRckF1d0FIMHIyNG89IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
+x-dg-rorf: true
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add device tree binding information for DA7280 haptic driver.
-Example bindings for DA7280 are added.
+Hi Dmitry,
 
-Reviewed-by: Rob Herring <robh@kernel.org>.
+I had modified driver and responded you inline.
 
-Signed-off-by: Roy Im <roy.im.opensource@diasemi.com>
+Many thanks,
+Johnny
 
----
-v8: Updated descriptions for new properties.
-v7: No changes.
-v6: No changes.
-v5: Updated descriptions and fixed errors.
-v4: Fixed commit message, properties.
-v3: Fixed subject format.
-v2: No changes
+diff --git a/drivers/input/touchscreen/elants_i2c.c
+b/drivers/input/touchscreen/elants_i2c.c
+index 9a17af6..4911799 100644
+--- a/drivers/input/touchscreen/elants_i2c.c
++++ b/drivers/input/touchscreen/elants_i2c.c
+@@ -130,7 +130,6 @@ struct elants_data {
+        u8 bc_version;
+        u8 iap_version;
+        u16 hw_version;
+-       u16 remark_id;
+        unsigned int x_res;     /* resolution in units/mm */
+        unsigned int y_res;
+        unsigned int x_max;
+@@ -620,47 +619,33 @@ static int elants_i2c_fw_write_page(struct i2c_client
+*client,
+        return error;
+ }
+
+-static int elants_i2c_query_remark_id(struct elants_data *ts)
+-{
+-       struct i2c_client *client = ts->client;
+-       int error;
+-       const u8 cmd[] = { CMD_HEADER_ROM_READ, 0x80, 0x1F, 0x00, 0x00, 0x21
+};
+-       u8 resp[6] = { 0 };
+-
+-       error = elants_i2c_execute_command(client, cmd, sizeof(cmd),
+-                                       resp, sizeof(resp));
+-       if (error) {
+-               dev_err(&client->dev, "get Remark ID failed: %d.\n", error);
+-               return error;
+-       }
+-
+-       ts->remark_id = get_unaligned_be16(&resp[3]);
+-       dev_info(&client->dev, "remark_id=0x%04x.\n", ts->remark_id);
+-
+-       return 0;
+-}
+-
+ static int elants_i2c_validate_remark_id(struct elants_data *ts,
+                                         const struct firmware *fw)
+ {
+        struct i2c_client *client = ts->client;
+        int error;
++       const u8 cmd[] = { CMD_HEADER_ROM_READ, 0x80, 0x1F, 0x00, 0x00, 0x21
+};
++       u8 resp[6] = { 0 };
++       u16 ts_remark_id = 0;
+        u16 fw_remark_id = 0;
+
+        /* Compare TS Remark ID and FW Remark ID */
+-       error = elants_i2c_query_remark_id(ts);
++       error = elants_i2c_execute_command(client, cmd, sizeof(cmd),
++                                       resp, sizeof(resp));
+        if (error) {
+                dev_err(&client->dev, "failed to query Remark ID: %d\n",
+error);
+                return error;
+        }
+
++       ts_remark_id = get_unaligned_be16(&resp[3]);
++
+        fw_remark_id = get_unaligned_le16(&fw->data[fw->size - 4]);
+-       dev_info(&client->dev, "fw_remark_id=0x%04x.\n", fw_remark_id);
+-       if (fw_remark_id != ts->remark_id) {
++
++       if (fw_remark_id != ts_remark_id) {
+                dev_err(&client->dev,
+-                       "Remark ID Mismatched: ts_remark_id=0x%04x,
+fw_remark_id=0x%x.\n",
+-                       ts->remark_id, fw_remark_id);
+-               return -ENODATA;
++                       "Remark ID Mismatched: ts_remark_id=0x%04x,
+fw_remark_id=0x%04x.\n",
++                       ts_remark_id, fw_remark_id);
++               return -EINVAL;
+        }
+
+        return 0;
+@@ -671,7 +656,6 @@ static int elants_i2c_do_update_firmware(struct
+i2c_client *client,
+                                         bool force)
+ {
+        struct elants_data *ts = i2c_get_clientdata(client);
+-       static const u8 w_flashkey[] = { 0x54, 0xC0, 0xE1, 0x5A };
+        const u8 enter_iap[] = { 0x45, 0x49, 0x41, 0x50 };
+        const u8 enter_iap2[] = { 0x54, 0x00, 0x12, 0x34 };
+        const u8 iap_ack[] = { 0x55, 0xaa, 0x33, 0xcc };
+@@ -686,29 +670,18 @@ static int elants_i2c_do_update_firmware(struct
+i2c_client *client,
+        if (force) {
+                dev_dbg(&client->dev, "Recovery mode procedure\n");
+
+-               if (check_remark_id == true) {
+-                       /* Validate Remark ID */
++               if (check_remark_id) {
+                        error = elants_i2c_validate_remark_id(ts, fw);
+-                       if (error) {
+-                               dev_err(&client->dev,
+-                                       "failed to validate Remark ID:
+%d\n",
+-                                       error);
++                       if (error)
+                                return error;
+-                       }
+                }
+
+-               error = elants_i2c_send(client, w_flashkey,
+sizeof(w_flashkey));
+-               if (error)
+-                       dev_err(&client->dev, "failed to write flash key:
+%d\n",
+-                               error);
+-
+                error = elants_i2c_send(client, enter_iap2,
+sizeof(enter_iap2));
+                if (error) {
+                        dev_err(&client->dev, "failed to enter IAP mode:
+%d\n",
+                                error);
+                        return error;
+                }
+-               msleep(20);
+        } else {
+                /* Start IAP Procedure */
+                dev_dbg(&client->dev, "Normal IAP procedure\n");
+@@ -722,14 +695,10 @@ static int elants_i2c_do_update_firmware(struct
+i2c_client *client,
+                elants_i2c_sw_reset(client);
+                msleep(20);
+
+-               if (check_remark_id == true) {
+-                       /* Validate Remark ID */
++               if (check_remark_id) {
+                        error = elants_i2c_validate_remark_id(ts, fw);
+-                       if (error) {
+-                               dev_err(&client->dev, "failed to validate
+Remark ID: %d\n",
+-                                       error);
++                       if (error)
+                                return error;
+-                       }
+                }
+
+                error = elants_i2c_send(client, enter_iap,
+sizeof(enter_iap));
+
+-----Original Message-----
+From: 'Dmitry Torokhov' [mailto:dmitry.torokhov@gmail.com] 
+Sent: Wednesday, December 04, 2019 3:48 AM
+To: Johnny.Chuang
+Cc: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org; STRD2-½²´f¼`;
+james.chen@emc.com.tw; '±ç³Õµ¾'; 'jeff'
+Subject: Re: [PATCH] Input: elants_i2c - Add Remark ID check flow in
+firmware update function
+
+Hi Johnny,
+
+On Tue, Nov 19, 2019 at 01:59:45PM +0800, Johnny.Chuang wrote:
+> This patch add Remark ID check flow to firmware update function of 
+> elan touchscreen driver.
+> 
+> It avoids firmware update with mismatched Remark ID.
+> 
+> This function is supported by our latest version of boot code, but it 
+> cooperates well with earlier versions.
+> 
+> Our driver will decide if enable Remark ID check with boot code version.
+> 
+> Signed-off-by: Johnny Chuang <johnny.chuang@emc.com.tw>
+> ---
+>  drivers/input/touchscreen/elants_i2c.c | 108
+> ++++++++++++++++++++++++++++++---
+>  1 file changed, 100 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/elants_i2c.c
+> b/drivers/input/touchscreen/elants_i2c.c
+> index d4ad24e..9a17af6 100644
+> --- a/drivers/input/touchscreen/elants_i2c.c
+> +++ b/drivers/input/touchscreen/elants_i2c.c
+> @@ -59,8 +59,10 @@
+>  #define CMD_HEADER_WRITE	0x54
+>  #define CMD_HEADER_READ		0x53
+>  #define CMD_HEADER_6B_READ	0x5B
+> +#define CMD_HEADER_ROM_READ	0x96
+>  #define CMD_HEADER_RESP		0x52
+>  #define CMD_HEADER_6B_RESP	0x9B
+> +#define CMD_HEADER_ROM_RESP	0x95
+>  #define CMD_HEADER_HELLO	0x55
+>  #define CMD_HEADER_REK		0x66
+>  
+> @@ -128,6 +130,7 @@ struct elants_data {
+>  	u8 bc_version;
+>  	u8 iap_version;
+>  	u16 hw_version;
+> +	u16 remark_id;
+
+We only use this during firmware version check phase, no need to store it in
+the device data structure.
+[J]: I remove remark_id and move work of elants_i2c_query_remark_id() into
+elants_i2c_validate_remark_id().
+
+>  	unsigned int x_res;	/* resolution in units/mm */
+>  	unsigned int y_res;
+>  	unsigned int x_max;
+> @@ -200,6 +203,10 @@ static int elants_i2c_execute_command(struct 
+> i2c_client *client,
+>  		expected_response = CMD_HEADER_6B_RESP;
+>  		break;
+>  
+> +	case CMD_HEADER_ROM_READ:
+> +		expected_response = CMD_HEADER_ROM_RESP;
+> +		break;
+> +
+>  	default:
+>  		dev_err(&client->dev, "%s: invalid command %*ph\n",
+>  			__func__, (int)cmd_size, cmd);
+> @@ -556,6 +563,8 @@ static int elants_i2c_initialize(struct 
+> elants_data *ts)
+>  
+>  	/* hw version is available even if device in recovery state */
+>  	error2 = elants_i2c_query_hw_version(ts);
+> +	if (!error2)
+> +		error2 = elants_i2c_query_bc_version(ts);
+
+Can you please explain why this change is done? This does not seem to relate
+to the "remark id" functionality. Should it be a separate change?
+[J]: We use ts->iap_version as check_remark_id to run validate remark id
+flow or not. Hence we need to get iap_version by elants_i2c_query_bc_version
+not only on normal mode but also on recovery mode.
+
+>  	if (!error)
+>  		error = error2;
+>  
+> @@ -564,8 +573,6 @@ static int elants_i2c_initialize(struct elants_data
+*ts)
+>  	if (!error)
+>  		error = elants_i2c_query_test_version(ts);
+>  	if (!error)
+> -		error = elants_i2c_query_bc_version(ts);
+> -	if (!error)
+>  		error = elants_i2c_query_ts_info(ts);
+>  
+>  	if (error)
+> @@ -613,39 +620,124 @@ static int elants_i2c_fw_write_page(struct 
+> i2c_client *client,
+>  	return error;
+>  }
+>  
+> +static int elants_i2c_query_remark_id(struct elants_data *ts) {
+> +	struct i2c_client *client = ts->client;
+> +	int error;
+> +	const u8 cmd[] = { CMD_HEADER_ROM_READ, 0x80, 0x1F, 0x00, 0x00, 0x21
+> };
+> +	u8 resp[6] = { 0 };
+> +
+> +	error = elants_i2c_execute_command(client, cmd, sizeof(cmd),
+> +					resp, sizeof(resp));
+> +	if (error) {
+> +		dev_err(&client->dev, "get Remark ID failed: %d.\n", error);
+> +		return error;
+> +	}
+> +
+> +	ts->remark_id = get_unaligned_be16(&resp[3]);
+> +	dev_info(&client->dev, "remark_id=0x%04x.\n", ts->remark_id);
+
+I do not think we need be this noisy. Either dev_dbg, or drop it completely.
+[J]: drop done.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int elants_i2c_validate_remark_id(struct elants_data *ts,
+> +					 const struct firmware *fw)
+> +{
+> +	struct i2c_client *client = ts->client;
+> +	int error;
+> +	u16 fw_remark_id = 0;
+> +
+> +	/* Compare TS Remark ID and FW Remark ID */
+> +	error = elants_i2c_query_remark_id(ts);
+> +	if (error) {
+> +		dev_err(&client->dev, "failed to query Remark ID: %d\n",
+> error);
+> +		return error;
+> +	}
+> +
+> +	fw_remark_id = get_unaligned_le16(&fw->data[fw->size - 4]);
+> +	dev_info(&client->dev, "fw_remark_id=0x%04x.\n", fw_remark_id);
+
+Please drop this dev_info().
+[J]: drop done.
+
+> +	if (fw_remark_id != ts->remark_id) {
+> +		dev_err(&client->dev,
+> +			"Remark ID Mismatched: ts_remark_id=0x%04x,
+> fw_remark_id=0x%x.\n",
+
+You can use "%#04x" to format with prefix.
+[J]: Thanks for your recommendation. I still keep 0x%04x as other in this
+driver. I will submit another patch for all prefix change later.
+
+> +			ts->remark_id, fw_remark_id);
+> +		return -ENODATA;
+
+I'd say -EINVAL here.
+[J]: change done.
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int elants_i2c_do_update_firmware(struct i2c_client *client,
+>  					 const struct firmware *fw,
+>  					 bool force)
+>  {
+> +	struct elants_data *ts = i2c_get_clientdata(client);
+> +	static const u8 w_flashkey[] = { 0x54, 0xC0, 0xE1, 0x5A };
+>  	const u8 enter_iap[] = { 0x45, 0x49, 0x41, 0x50 };
+>  	const u8 enter_iap2[] = { 0x54, 0x00, 0x12, 0x34 };
+>  	const u8 iap_ack[] = { 0x55, 0xaa, 0x33, 0xcc };
+> -	const u8 close_idle[] = {0x54, 0x2c, 0x01, 0x01};
+> +	const u8 close_idle[] = { 0x54, 0x2c, 0x01, 0x01 };
+>  	u8 buf[HEADER_SIZE];
+>  	u16 send_id;
+>  	int page, n_fw_pages;
+>  	int error;
+> +	bool check_remark_id = ts->iap_version >= 0x60;
+>  
+>  	/* Recovery mode detection! */
+>  	if (force) {
+>  		dev_dbg(&client->dev, "Recovery mode procedure\n");
+> +
+> +		if (check_remark_id == true) {
+
+Simply
+		if (check_remark_id) {
+[J]: change done.
 
 
- .../devicetree/bindings/input/dlg,da7280.txt       | 109 +++++++++++++++++++++
- 1 file changed, 109 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/dlg,da7280.txt
+> +			/* Validate Remark ID */
 
-diff --git a/Documentation/devicetree/bindings/input/dlg,da7280.txt b/Documentation/devicetree/bindings/input/dlg,da7280.txt
-new file mode 100644
-index 0000000..e6b719d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/dlg,da7280.txt
-@@ -0,0 +1,109 @@
-+Dialog Semiconductor DA7280 Haptics bindings
-+
-+Required properties:
-+- compatible: Should be "dlg,da7280".
-+- reg: Specifies the I2C slave address.
-+
-+- interrupt-parent : Specifies the phandle of the interrupt controller to
-+  which the IRQs from DA7280 are delivered to.
-+
-+- dlg,actuator-type: Set Actuator type. it should be one of:
-+  "LRA" - Linear Resonance Actuator type.
-+  "ERM-bar" - Bar type Eccentric Rotating Mass.
-+  "ERM-coin" - Coin type Eccentric Rotating Mass.
-+
-+- dlg,const-op-mode: Haptic operation mode for FF_CONSTANT.
-+  Possible values:
-+	1 - Direct register override(DRO) mode triggered by i2c(default),
-+	2 - PWM data source mode controlled by PWM duty,
-+- dlg,periodic-op-mode: Haptic operation mode for FF_PERIODIC.
-+  Possible values:
-+	1 - Register triggered waveform memory(RTWM) mode, the pattern
-+	    assigned to the PS_SEQ_ID played as much times as PS_SEQ_LOOP,
-+	2 - Edge triggered waveform memory(ETWM) mode, external GPI(N)
-+	    control are required to enable/disable and it needs to keep
-+	    device enabled by sending magnitude (X > 0),
-+	    the pattern is assigned to the GPI(N)_SEQUENCE_ID below.
-+	The default value is 1 for both of the operation modes.
-+	For more details, please see the datasheet.
-+
-+- dlg,nom-microvolt: Nominal actuator voltage rating.
-+  Valid values: 0 - 6000000.
-+- dlg,abs-max-microvolt: Absolute actuator maximum voltage rating.
-+  Valid values: 0 - 6000000.
-+- dlg,imax-microamp: Actuator max current rating.
-+  Valid values: 0 - 252000.
-+  Default: 130000.
-+- dlg,impd-micro-ohms: the impedance of the actuator in micro ohms.
-+  Valid values: 0 - 1500000000.
-+
-+Optional properties:
-+- pwms : phandle to the physical PWM(Pulse Width Modulation) device.
-+  PWM properties should be named "pwms". And number of cell is different
-+  for each pwm device.
-+  (See Documentation/devicetree/bindings/pwm/pwm.txt
-+   for further information relating to pwm properties)
-+
-+- dlg,ps-seq-id: the PS_SEQ_ID(pattern ID in waveform memory inside chip)
-+  to play back when RTWM-MODE is enabled.
-+  Valid range: 0 - 15.
-+- dlg,ps-seq-loop: the PS_SEQ_LOOP, Number of times the pre-stored sequence
-+  pointed to by PS_SEQ_ID or GPI(N)_SEQUENCE_ID is repeated.
-+  Valid range: 0 - 15.
-+- dlg,gpiN-seq-id: the GPI(N)_SEQUENCE_ID, pattern to play
-+  when gpi0 is triggered, 'N' must be 0 - 2.
-+  Valid range: 0 - 15.
-+- dlg,gpiN-mode: the pattern mode which can select either
-+  "Single-pattern" or "Multi-pattern", 'N' must be 0 - 2.
-+- dlg,gpiN-polarity: gpiN polarity which can be chosen among
-+  "Rising-edge", "Falling-edge" and "Both-edge",
-+  'N' must be 0 - 2
-+  Haptic will work by this edge option in case of ETWM mode.
-+
-+- dlg,resonant-freq-hz: use in case of LRA.
-+  the frequency range: 50 - 300.
-+  Default: 205.
-+
-+- dlg,bemf-sens-enable: Enable for internal loop computations.
-+- dlg,freq-track-enable: Enable for resonant frequency tracking.
-+- dlg,acc-enable: Enable for active acceleration.
-+- dlg,rapid-stop-enable: Enable for rapid stop.
-+- dlg,amp-pid-enable: Enable for the amplitude PID.
-+- dlg,mem-array: Customized waveform memory(patterns) data downloaded to
-+  the device during initialization. This is an array of 100 values(u8).
-+
-+For further information, see device datasheet.
-+
-+======
-+
-+Example:
-+
-+	haptics: da7280-haptics@4a {
-+		compatible = "dlg,da7280";
-+		reg = <0x4a>;
-+		interrupt-parent = <&gpio6>;
-+		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
-+		dlg,actuator-type = "LRA";
-+		dlg,dlg,const-op-mode = <1>;
-+		dlg,dlg,periodic-op-mode = <1>;
-+		dlg,nom-microvolt = <2000000>;
-+		dlg,abs-max-microvolt = <2000000>;
-+		dlg,imax-microamp = <170000>;
-+		dlg,resonant-freq-hz = <180>;
-+		dlg,impd-micro-ohms = <10500000>;
-+		dlg,freq-track-enable;
-+		dlg,rapid-stop-enable;
-+		dlg,mem-array = <
-+ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-+ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-+ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-+ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-+ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-+ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-+ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-+ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-+ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-+ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-+		>;
-+
-+	};
--- 
-end-of-patch for PATCH V8
+This comment is not needed, you named the function that you are calling
+below well and its name describes what we are trying to do perfectly.
+[J]: drop done.
+
+> +			error = elants_i2c_validate_remark_id(ts, fw);
+> +			if (error) {
+> +				dev_err(&client->dev,
+> +					"failed to validate Remark ID:
+> %d\n",
+> +					error);
+
+elants_i2c_validate_remark_id() already gives necessary diagnostic, this
+message is not needed.
+[J]: drop done.
+
+> +				return error;
+> +			}
+> +		}
+> +
+> +		error = elants_i2c_send(client, w_flashkey,
+> sizeof(w_flashkey));
+> +		if (error)
+> +			dev_err(&client->dev, "failed to write flash key:
+> %d\n",
+> +				error);
+
+Sending flashkey in this chunk seems to be another change not directly
+related to the remark id. Why do we need this? Should it be split out?
+[J]: drop done. It's for another change.
+
+> +
+>  		error = elants_i2c_send(client, enter_iap2,
+sizeof(enter_iap2));
+> +		if (error) {
+> +			dev_err(&client->dev, "failed to enter IAP mode:
+> %d\n",
+> +				error);
+> +			return error;
+> +		}
+> +		msleep(20);
+
+We already have msleep(20) in the common path below, do we really need 2nd
+one here?
+[J]: drop done. It's typo.
+
+>  	} else {
+>  		/* Start IAP Procedure */
+>  		dev_dbg(&client->dev, "Normal IAP procedure\n");
+> +
+>  		/* Close idle mode */
+>  		error = elants_i2c_send(client, close_idle,
+sizeof(close_idle));
+>  		if (error)
+>  			dev_err(&client->dev, "Failed close idle: %d\n",
+error);
+>  		msleep(60);
+> +
+>  		elants_i2c_sw_reset(client);
+>  		msleep(20);
+> -		error = elants_i2c_send(client, enter_iap,
+> sizeof(enter_iap));
+> -	}
+>  
+> -	if (error) {
+> -		dev_err(&client->dev, "failed to enter IAP mode: %d\n",
+> error);
+> -		return error;
+> +		if (check_remark_id == true) {
+
+		if (check_remark_id) {
+
+> +			/* Validate Remark ID */
+
+Drop comment.
+[J]: drop done.
+
+> +			error = elants_i2c_validate_remark_id(ts, fw);
+> +			if (error) {
+> +				dev_err(&client->dev, "failed to validate
+> Remark ID: %d\n",
+> +					error);
+
+Drop message.
+[J]: drop done.
+
+> +				return error;
+> +			}
+> +		}
+> +
+> +		error = elants_i2c_send(client, enter_iap,
+> sizeof(enter_iap));
+> +		if (error) {
+> +			dev_err(&client->dev, "failed to enter IAP mode:
+> %d\n",
+> +				error);
+> +			return error;
+> +		}
+>  	}
+>  
+>  	msleep(20);
+> --
+> 2.7.4
+> 
+
+Thanks.
+
+--
+Dmitry
 
