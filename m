@@ -2,244 +2,388 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 70EAD113749
-	for <lists+linux-input@lfdr.de>; Wed,  4 Dec 2019 22:55:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FC12113756
+	for <lists+linux-input@lfdr.de>; Wed,  4 Dec 2019 22:59:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728121AbfLDVzk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Dec 2019 16:55:40 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33686 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728042AbfLDVzk (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Dec 2019 16:55:40 -0500
-Received: by mail-pf1-f196.google.com with SMTP id y206so515789pfb.0
-        for <linux-input@vger.kernel.org>; Wed, 04 Dec 2019 13:55:39 -0800 (PST)
+        id S1728071AbfLDV7x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Dec 2019 16:59:53 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:40357 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728053AbfLDV7x (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Dec 2019 16:59:53 -0500
+Received: by mail-qk1-f196.google.com with SMTP id a137so1473744qkc.7
+        for <linux-input@vger.kernel.org>; Wed, 04 Dec 2019 13:59:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zKNvXEQhOZi0GX3YZdyX6P+ZfFgLht+HkhCGc6bw/WE=;
-        b=hXfVW/hoPJ1iZvaY2FYoMyLCEFgUcaJuATWMbcEq7PxJjZHKjRmjldcXlX9DR4u5Tg
-         e9U3+xWI0c6CRgHePT8bLRPAK56IlK6AL6jep6NU3ltnQYfHsykTHCdhJ3gSPxLkOJlH
-         dnRKVC7gIGCtn4QEdRxtKSJIINRMn5KcZtazk=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Xhsb/454JtQYlTd/19xK0PIFn/uzrhAWOQqSoQzRQM8=;
+        b=DPe+k9NMt1Bx9v57Bz90nNDhp4QUVISBllZgLdoSwyBI+XohoTL31bs/mbBkxbTZpQ
+         CqssGsUQkqrzslTzAXnKBWgrCJHo65jhcwyY8yY707Wsa+vHk7qWrml1AEmHpQBTDW3b
+         DzoCEQLtA9y0+XRvdYy1bFBoPQK4WjdLZw0ok=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zKNvXEQhOZi0GX3YZdyX6P+ZfFgLht+HkhCGc6bw/WE=;
-        b=Dwa2ajqa2ETgKz6IjbWUxQZfWOOqhpdj78C3YTd4VXU3y+neWvglS+qlPK2WzPUl4d
-         H/5AbDt2qz1uYjOxIVbkawCur/T7p1k+GZb5MyuRX5NGKQav8JkrsWSjP9PDcfpBwqF2
-         OcB4cpZjyIsijjP/y2cRvIGXbRmhVK9wrCoenqOFXUg6SJKcd+tOHiVqS1GM9aQaoKae
-         LjJFSXBsLnSCCnpof4N+cRZJrTIuew9fbt/Y1HxJz7H1u0LCeb3Lj0YIVNZd19MiEzg+
-         YK/1bYU0g3LW2AuleTyAVOiB+2jhZyQc1mbOeyPxiSwnIs7tDzdOBvFL3SR7La3nzXmq
-         7zcg==
-X-Gm-Message-State: APjAAAVUBdtHpx2HvwVJ4x11OxuXNUanhWe4Quz1QcXwLa48J9yPbXKF
-        zZp+tT0FdsoLp0tgv1u0qVEczg==
-X-Google-Smtp-Source: APXvYqxPKH0RgGKCKJSE0Sf4JTSGfYHd6GxBGvZXM3eNV6tb/V1rBYxB3/LDezYGyLM/1/7DDnNXog==
-X-Received: by 2002:a63:cb48:: with SMTP id m8mr1519952pgi.128.1575496539271;
-        Wed, 04 Dec 2019 13:55:39 -0800 (PST)
-Received: from apsdesk.mtv.corp.google.com ([2620:15c:202:1:e09a:8d06:a338:aafb])
-        by smtp.gmail.com with ESMTPSA id d23sm8648202pfo.176.2019.12.04.13.55.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2019 13:55:38 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Xhsb/454JtQYlTd/19xK0PIFn/uzrhAWOQqSoQzRQM8=;
+        b=dyvbis1K2+GXTdnwjl6HF78jOScc5hVAplQe82NUWbYgX4l9fBt+nsUmy3KE17nNb2
+         8IJwmI36ThQ6nK4FIvjxSlFLCd3GRYdFiKneJzWgqoDUqhcbNZUpCLwAW3MGYmHQvMl3
+         LcGtJt2r3s2URU0dN1y+AAO4/uAWpORHI4Xvp3p5x19L2PGuKZuzIZS2+3HV+m7K4zyk
+         9FNy3PtCeC4hg0mIlcSSaABg0I9mo/QJ6DEJ1M/956KP0+/lnU7kcC5QykrgXewBOufX
+         8tCjoMDgbYvUK/dGAyl2vkZXlOxoOxVV0II/6/WG8/acsdSgY1XGNAgQGvayxLPOSWoi
+         CmMw==
+X-Gm-Message-State: APjAAAVTfh+zAwxcP1e4FUFwVk/fUsxCrZZckB6vQJC+y2tURcoO/KI/
+        PRfdUo5aC87OhQdH0Ui0V1iYq1/JiUELVKrc9H1Gaw==
+X-Google-Smtp-Source: APXvYqxLeYDvv4dM77hPSxrEpEMbhVRs9zTyT+09pku8yoPYS29T9A90DXN5YEL/ScBYqrfg1onOAhy/2AsNOQDg2fQ=
+X-Received: by 2002:a05:620a:796:: with SMTP id 22mr5199952qka.419.1575496791912;
+ Wed, 04 Dec 2019 13:59:51 -0800 (PST)
+MIME-Version: 1.0
+References: <20191127185139.65048-1-abhishekpandit@chromium.org>
+ <20191201145357.ybq5gfty4ulnfasq@pali> <20191202012305.GQ248138@dtor-ws>
+ <20191202084750.k7lafzzrf3yq2tqs@pali> <20191202175440.GA50317@dtor-ws>
+ <20191202185340.nae4lljten5jqp3y@pali> <20191202193628.GI50317@dtor-ws>
+ <20191202230947.ld5ibnczdpkekfcm@pali> <20191203173821.4u6uzxeaqnt3gyz3@pali> <20191203191112.GJ50317@dtor-ws>
+In-Reply-To: <20191203191112.GJ50317@dtor-ws>
 From:   Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     linux-bluetooth@vger.kernel.org,
+Date:   Wed, 4 Dec 2019 13:59:41 -0800
+Message-ID: <CANFp7mVLJCwaVJGqe899G=3CgWntoG0+A8YgSdSTocVOBwRchg@mail.gmail.com>
+Subject: Re: [PATCH] Input: uinput - Add UI_SET_UNIQ ioctl handler
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali.rohar@gmail.com>,
+        linux-input@vger.kernel.org,
+        Bluez mailing list <linux-bluetooth@vger.kernel.org>,
         Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-        Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Logan Gunthorpe <logang@deltatee.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrey Smirnov <andrew.smirnov@gmail.com>,
         Kirill Smelkov <kirr@nexedi.com>
-Subject: [PATCH v3] Input: uinput - Add UI_SET_PHYS_STR and UI_SET_UNIQ_STR
-Date:   Wed,  4 Dec 2019 13:55:35 -0800
-Message-Id: <20191204135434.v3.1.Ib53f70556ffe94d9a1903632ee9b0dc929f94557@changeid>
-X-Mailer: git-send-email 2.24.0.393.g34dc348eaf-goog
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The ioctl definition for UI_SET_PHYS is ambiguous because it is defined
-with size = sizeof(char*) but is expected to be given a variable length
-string. Add a deprecation notice for UI_SET_PHYS and provide
-UI_SET_PHYS_STR(len) which expects a size from the user.
+Hi Dmitry and Pali,
 
-Also support setting the uniq attribute of the input device. The uniq
-attribute is used as a unique identifier for the connected device.
+I refactored the ioctl handlers as described above and tested it. It
+seems to be working without any compat changes.
 
-For example, uinput devices created by BlueZ will store the address of
-the connected device as the uniq property.
+I compiled the following code in both 32-bit (gcc -m32 test.c) and
+64-bit to test.
 
-Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Please take a look at the new patch.
+
+Thanks
+Abhishek
+
+test.c
 ---
-Hi input maintainers,
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
-Here is an updated patch that refactors the ioctl handlers (properly
-allowing the size to be set from userspace). When calling the new
-ioctls, the call signature will look like this:
+#include "uinput.h"
 
-```
-ioctl(fd, UI_SET_PHYS_STR(18), "00:11:22:33:44:55");
-```
+int foo(int fd) {
+        struct uinput_dev dev;
+        int ret;
 
-I've tested this on a Chromebook running kernel v4.19 with a sample
-program compiled for both 32-bit (i.e. gcc -m32 test.c) and 64-bit.
+        memset(&dev, 0, sizeof(dev));
 
-The final uinput device looks like this:
+        dev.id.bustype =3D BUS_BLUETOOTH;
+        dev.id.vendor =3D 0x3;
+        dev.id.product =3D 0x4;
+        dev.id.version =3D 0x5;
 
-```
-udevadm info -a -p /devices/virtual/input/input18
+        memcpy(dev.name, "Test", 4);
 
-Udevadm info starts with the device specified by the devpath and then
-walks up the chain of parent devices. It prints for every device
-found, all possible attributes in the udev rules key format.
-A rule to match, can be composed by the attributes of the device
-and the attributes from one single parent device.
+        printf("Setting bus/vendor/product/version\n");
+        if (write(fd, &dev, sizeof(dev)) < 0) {
+                perror("write");
+                return errno;
+        }
 
-  looking at device '/devices/virtual/input/input18':
-    KERNEL=="input18"
-    SUBSYSTEM=="input"
-    DRIVER==""
-    ATTR{inhibited}=="0"
-    ATTR{name}=="Test"
-    ATTR{phys}=="00:00:00:33:44:55"
-    ATTR{properties}=="0"
-    ATTR{uniq}=="00:11:22:00:00:00"
+        printf("Making ioctl calls\n");
+        ioctl(fd, UI_SET_EVBIT, EV_KEY);
+        ioctl(fd, UI_SET_EVBIT, EV_REL);
+        ioctl(fd, UI_SET_EVBIT, EV_REP);
+        ioctl(fd, UI_SET_EVBIT, EV_SYN);
 
-```
+        /* I also replaced this with UI_SET_PHYS to check for the
+deprecation notice. */
+        if (ioctl(fd, UI_SET_PHYS_STR(18), "00:00:00:33:44:55") < 0) {
+                perror("ioctl UI_SET_PHYS");
+                return errno;
+        }
 
+        if (ioctl(fd, UI_SET_UNIQ_STR(18), "00:11:22:00:00:00") < 0) {
+                perror("ioctl UI_SET_UNIQ");
+                return errno;
+        }
 
-Changes in v3:
-- Added UI_SET_PHYS_STR(len) and UI_SET_UNIQ_STR(len) and added
-  deprecation notice for UI_SET_PHYS
+        if (ioctl(fd, UI_DEV_CREATE, NULL) < 0) {
+                perror("ioctl UI_DEV_CREATE");
+                return errno;
+        }
 
-Changes in v2:
-- Added compat handling for UI_SET_UNIQ
+        return 0;
+}
 
- drivers/input/misc/uinput.c | 41 ++++++++++++++++++++++++++++++++++++-
- include/uapi/linux/uinput.h |  5 +++++
- 2 files changed, 45 insertions(+), 1 deletion(-)
+int main() {
+        int fd, ret;
 
-diff --git a/drivers/input/misc/uinput.c b/drivers/input/misc/uinput.c
-index 84051f20b18a..27a750896c71 100644
---- a/drivers/input/misc/uinput.c
-+++ b/drivers/input/misc/uinput.c
-@@ -20,6 +20,7 @@
-  */
- #include <uapi/linux/uinput.h>
- #include <linux/poll.h>
-+#include <linux/printk.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
- #include <linux/module.h>
-@@ -280,7 +281,7 @@ static int uinput_dev_flush(struct input_dev *dev, struct file *file)
- 
- static void uinput_destroy_device(struct uinput_device *udev)
- {
--	const char *name, *phys;
-+	const char *name, *phys, *uniq;
- 	struct input_dev *dev = udev->dev;
- 	enum uinput_state old_state = udev->state;
- 
-@@ -289,6 +290,7 @@ static void uinput_destroy_device(struct uinput_device *udev)
- 	if (dev) {
- 		name = dev->name;
- 		phys = dev->phys;
-+		uniq = dev->uniq;
- 		if (old_state == UIST_CREATED) {
- 			uinput_flush_requests(udev);
- 			input_unregister_device(dev);
-@@ -297,6 +299,7 @@ static void uinput_destroy_device(struct uinput_device *udev)
- 		}
- 		kfree(name);
- 		kfree(phys);
-+		kfree(uniq);
- 		udev->dev = NULL;
- 	}
- }
-@@ -840,6 +843,7 @@ static long uinput_ioctl_handler(struct file *file, unsigned int cmd,
- 	struct uinput_ff_erase  ff_erase;
- 	struct uinput_request   *req;
- 	char			*phys;
-+	char			*uniq;
- 	const char		*name;
- 	unsigned int		size;
- 
-@@ -916,6 +920,8 @@ static long uinput_ioctl_handler(struct file *file, unsigned int cmd,
- 		goto out;
- 
- 	case UI_SET_PHYS:
-+		pr_warn_once("uinput: UI_SET_PHYS is deprecated. Use UI_SET_PHYS_STR");
-+
- 		if (udev->state == UIST_CREATED) {
- 			retval = -EINVAL;
- 			goto out;
-@@ -1023,6 +1029,39 @@ static long uinput_ioctl_handler(struct file *file, unsigned int cmd,
- 	case UI_ABS_SETUP & ~IOCSIZE_MASK:
- 		retval = uinput_abs_setup(udev, p, size);
- 		goto out;
-+
-+	case UI_SET_PHYS_STR(0):
-+		if (udev->state == UIST_CREATED) {
-+			retval = -EINVAL;
-+			goto out;
-+		}
-+
-+		phys = strndup_user(p, size);
-+		if (IS_ERR(phys)) {
-+			retval = PTR_ERR(phys);
-+			goto out;
-+		}
-+
-+		kfree(udev->dev->phys);
-+		udev->dev->phys = phys;
-+		goto out;
-+
-+	case UI_SET_UNIQ_STR(0):
-+		if (udev->state == UIST_CREATED) {
-+			retval = -EINVAL;
-+			goto out;
-+		}
-+
-+		uniq = strndup_user(p, size);
-+		if (IS_ERR(uniq)) {
-+			retval = PTR_ERR(uniq);
-+			goto out;
-+		}
-+
-+		kfree(udev->dev->uniq);
-+		udev->dev->uniq = uniq;
-+		goto out;
-+
- 	}
- 
- 	retval = -EINVAL;
-diff --git a/include/uapi/linux/uinput.h b/include/uapi/linux/uinput.h
-index c9e677e3af1d..84d4fa142830 100644
---- a/include/uapi/linux/uinput.h
-+++ b/include/uapi/linux/uinput.h
-@@ -142,9 +142,14 @@ struct uinput_abs_setup {
- #define UI_SET_LEDBIT		_IOW(UINPUT_IOCTL_BASE, 105, int)
- #define UI_SET_SNDBIT		_IOW(UINPUT_IOCTL_BASE, 106, int)
- #define UI_SET_FFBIT		_IOW(UINPUT_IOCTL_BASE, 107, int)
-+
-+/* DEPRECATED: Data size is ambiguous. Use UI_SET_PHYS_STR instead. */
- #define UI_SET_PHYS		_IOW(UINPUT_IOCTL_BASE, 108, char*)
-+
- #define UI_SET_SWBIT		_IOW(UINPUT_IOCTL_BASE, 109, int)
- #define UI_SET_PROPBIT		_IOW(UINPUT_IOCTL_BASE, 110, int)
-+#define UI_SET_PHYS_STR(len)	_IOC(_IOC_WRITE, UINPUT_IOCTL_BASE, 111, len)
-+#define UI_SET_UNIQ_STR(len)	_IOC(_IOC_WRITE, UINPUT_IOCTL_BASE, 112, len)
- 
- #define UI_BEGIN_FF_UPLOAD	_IOWR(UINPUT_IOCTL_BASE, 200, struct uinput_ff_upload)
- #define UI_END_FF_UPLOAD	_IOW(UINPUT_IOCTL_BASE, 201, struct uinput_ff_upload)
--- 
-2.24.0.393.g34dc348eaf-goog
+        fd =3D open("/dev/uinput", O_RDWR);
 
+        if (fd < 0) {
+                perror("open");
+                return fd;
+        }
+
+        printf("Opened fd %d for write\n", fd);
+        ret =3D foo(fd);
+
+        if (!ret) {
+                printf("Uinput has been prepared. Check the uniq value.\n")=
+;
+                printf("Sleeping for 15s...\n");
+                sleep(20);
+        }
+
+        close(fd);
+        return ret;
+}
+
+On Tue, Dec 3, 2019 at 11:11 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Tue, Dec 03, 2019 at 06:38:21PM +0100, Pali Roh=C3=A1r wrote:
+> > On Tuesday 03 December 2019 00:09:47 Pali Roh=C3=A1r wrote:
+> > > On Monday 02 December 2019 11:36:28 Dmitry Torokhov wrote:
+> > > > On Mon, Dec 02, 2019 at 07:53:40PM +0100, Pali Roh=C3=A1r wrote:
+> > > > > On Monday 02 December 2019 09:54:40 Dmitry Torokhov wrote:
+> > > > > > On Mon, Dec 02, 2019 at 09:47:50AM +0100, Pali Roh=C3=A1r wrote=
+:
+> > > > > > > On Sunday 01 December 2019 17:23:05 Dmitry Torokhov wrote:
+> > > > > > > > Hi Pali,
+> > > > > > > >
+> > > > > > > > On Sun, Dec 01, 2019 at 03:53:57PM +0100, Pali Roh=C3=A1r w=
+rote:
+> > > > > > > > > Hello!
+> > > > > > > > >
+> > > > > > > > > On Wednesday 27 November 2019 10:51:39 Abhishek Pandit-Su=
+bedi wrote:
+> > > > > > > > > > Support setting the uniq attribute of the input device.=
+ The uniq
+> > > > > > > > > > attribute is used as a unique identifier for the connec=
+ted device.
+> > > > > > > > > >
+> > > > > > > > > > For example, uinput devices created by BlueZ will store=
+ the address of
+> > > > > > > > > > the connected device as the uniq property.
+> > > > > > > > > >
+> > > > > > > > > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@c=
+hromium.org>
+> > > > > > > > >
+> > > > > > > > > ...
+> > > > > > > > >
+> > > > > > > > > > diff --git a/include/uapi/linux/uinput.h b/include/uapi=
+/linux/uinput.h
+> > > > > > > > > > index c9e677e3af1d..d5b7767c1b02 100644
+> > > > > > > > > > --- a/include/uapi/linux/uinput.h
+> > > > > > > > > > +++ b/include/uapi/linux/uinput.h
+> > > > > > > > > > @@ -145,6 +145,7 @@ struct uinput_abs_setup {
+> > > > > > > > > >  #define UI_SET_PHYS          _IOW(UINPUT_IOCTL_BASE, 1=
+08, char*)
+> > > > > > > > > >  #define UI_SET_SWBIT         _IOW(UINPUT_IOCTL_BASE, 1=
+09, int)
+> > > > > > > > > >  #define UI_SET_PROPBIT               _IOW(UINPUT_IOCTL=
+_BASE, 110, int)
+> > > > > > > > > > +#define UI_SET_UNIQ          _IOW(UINPUT_IOCTL_BASE, 1=
+11, char*)
+> > > > > > > > >
+> > > > > > > > > I think that usage of char* as type in _IOW would cause c=
+ompatibility
+> > > > > > > > > problems like it is for UI_SET_PHYS (there is UI_SET_PHYS=
+_COMPAT). Size
+> > > > > > > > > of char* pointer depends on userspace (32 vs 64bit), so 3=
+2bit process on
+> > > > > > > > > 64bit kernel would not be able to call this new UI_SET_UN=
+IQ ioctl.
+> > > > > > > > >
+> > > > > > > > > I would suggest to define this ioctl as e.g.:
+> > > > > > > > >
+> > > > > > > > >   #define UI_SET_UNIQ           _IOW(_IOC_WRITE, UINPUT_I=
+OCTL_BASE, 111, 0)
+> > > > > > > > >
+> > > > > > > > > And then in uinput.c code handle it as:
+> > > > > > > > >
+> > > > > > > > >   case UI_SET_UNIQ & ~IOCSIZE_MASK:
+> > > > > > > > >
+> > > > > > > > > as part of section /* Now check variable-length commands =
+*/
+> > > > > > > >
+> > > > > > > > If we did not have UI_SET_PHYS in its current form, I'd agr=
+ee with you,
+> > > > > > > > but I think there is benefit in having UI_SET_UNIQ be simil=
+ar to
+> > > > > > > > UI_SET_PHYS.
+> > > > > > >
+> > > > > > > I thought that ioctl is just number, so we can define it as w=
+e want. And
+> > > > > > > because uinput.c has already switch for variable-length comma=
+nds it
+> > > > > > > would be easy to use it. Final handling can be in separate fu=
+nction like
+> > > > > > > for UI_SET_PHYS which can look like same.
+> > > > > >
+> > > > > > Yes, we can define ioctl number as whatever we want. What I was=
+ trying
+> > > > > > to say, right now users do this:
+> > > > > >
+> > > > > >       rc =3D ioctl(fd, UI_SET_PHYS, "whatever");
+> > > > > >       ...
+> > > > > >
+> > > > > > and with UI_SET_UNIQ they expect the following to work:
+> > > > > >
+> > > > > >       rc =3D ioctl(fd, UI_SET_UNIQ, "whatever");
+> > > > > >       ...
+> > > > >
+> > > > > And would not following definition
+> > > > >
+> > > > >   #define UI_SET_UNIQ _IOW(_IOC_WRITE, UINPUT_IOCTL_BASE, 111, 0)
+> > > > >
+> > > > > allow userspace to call
+> > > > >
+> > > > >   rc =3D ioctl(fd, UI_SET_UNIQ, "whatever");
+> > > > >
+> > > > > as you want?
+> > > >
+> > > > OK, so what you are saying is that we can have whatever in the size
+> > > > portion of ioctl number and simply ignore it in the driver
+> > >
+> > > Yes.
+> > >
+> > > > (and I do not
+> > > > think we need to do any of "UI_SET_UNIQ & ~IOCSIZE_MASK" really).
+> > >
+> > > You are right, we do not need to clear any IOCSIZE_MASK. As ioctl num=
+ber
+> > > would be always sam constant number. So it would be really simple. So
+> > > original patch would work if UI_SET_UNIQ define would be changed to
+> > > above with _IOW() macro.
+> > >
+> > > > While this would work, I am not sure it is the best option as I thi=
+nk
+> > > > we'd have to comment extensively why we have arbitrary number in pl=
+ace
+> > > > of the size.
+> > >
+> > > Comment can be added. But this is as ioctl is going to accept variabl=
+e
+> > > length array (not fixed array), zero value make sense for me (zero as=
+ we
+> > > do not know exact size).
+> > >
+> > > > And we still do not really save anything, as we still have to go th=
+rough
+> > > > compat ioctl handler (since we have it already) and it is very simp=
+le to
+> > > > add a case for UI_SET_UNIQ there...
+> > >
+> > > Yes, compat ioctl is still used. But my proposed solution does not
+> > > involve to define a new compact ioctl number just for sizeof(char *).
+> > >
+> > > I'm looking at this particular problem from side, that there is no
+> > > reason to define two new ioctl numbers for UI_SET_UNIQ (one normal
+> > > number and one compat number), when one number is enough. It is one n=
+ew
+> > > ioctl call, so one ioctl number should be enough.
+> > >
+> > > And also with my proposed solution with ioctl size=3D0 it simplify
+> > > implementation of UI_SET_UNIQ as it is not needed to implement also
+> > > UI_SET_UNIQ_COMPAT ioctl nor touch compat ioct code path. Basically
+> > > original patch (with changed UI_SET_UNIQ macro) is enough.
+> > >
+> > > But of of course, this is my view of this problem and I would not be
+> > > against your decision from maintainer position. Both solutions would
+> > > work correctly and bring same behavior for userspace applications.
+> >
+> >
+> > Hi Dmitry!
+> >
+> > I was looking again at those _IOW defines for ioctl calls and I have
+> > another argument why not specify 'char *' in _IOW:
+> >
+> > All ioctls in _IOW() specify as a third macro argument type which is
+> > passed as pointer to the third argument for ioctl() syscall.
+> >
+> > So e.g.:
+> >
+> >   #define EVIOCSCLOCKID _IOW('E', 0xa0, int)
+> >
+> > is called from userspace as:
+> >
+> >   int val;
+> >   ioctl(fd, EVIOCSCLOCKID, &val);
+> >
+> > Or
+> >
+> >   #define EVIOCSMASK _IOW('E', 0x93, struct input_mask)
+> >
+> > is called as:
+> >
+> >   struct input_mask val;
+> >   ioctl(fd, EVIOCSMASK, &val);
+> >
+> > So basically third argument for _IOW specify size of byte buffer passed
+> > as third argument for ioctl(). In _IOW is not specified pointer to
+> > struct input_mask, but struct input_mask itself.
+> >
+> > And in case you define
+> >
+> >   #define MY_NEW_IOCTL _IOW(UINPUT_IOCTL_BASE, 200, char*)
+> >
+> > then you by above usage you should pass data as:
+> >
+> >   char *val =3D "DATA";
+> >   ioctl(fd, MY_NEW_IOCTL, &val);
+> >
+> > Which is not same as just:
+> >
+> >   ioctl(fd, MY_NEW_IOCTL, "DATA");
+> >
+> > As in former case you passed pointer to pointer to data and in later
+> > case you passed only pointer to data.
+> >
+> > It just mean that UI_SET_PHYS is already defined inconsistently which i=
+s
+> > also reason why compat ioctl for it was introduced.
+>
+> Yes, you are right. UI_SET_PHYS is messed up. I guess the question is
+> what to do with all of this...
+>
+> Maybe we should define
+>
+> #define UI_SET_PHYS_STR(len)    _IOC(_IOC_WRITE, UINPUT_IOCTL_BASE, 111, =
+len)
+> #define UI_SET_UNIQ_STR(len)    _IOC(_IOC_WRITE, UINPUT_IOCTL_BASE, 112, =
+len)
+>
+> and mark UI_SET_PHYS as deprecated/wrong? This will allow us to specify
+> exactly how much data kernel is supposed to fetch from userspace instead
+> of trying to rely on a null-terminated string.
+>
+> It would also be very helpful if BlueZ did not accept changes that use
+> this brand new ioctl until after we agreed on how it should look like.
+> Luiz, can it be reverted for now please?
+>
+> Thanks.
+>
+> --
+> Dmitry
