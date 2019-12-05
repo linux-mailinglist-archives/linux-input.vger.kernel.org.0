@@ -2,94 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3543111394F
-	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2019 02:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A178113952
+	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2019 02:28:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728540AbfLEB1i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Dec 2019 20:27:38 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:42244 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727146AbfLEB1i (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Dec 2019 20:27:38 -0500
-Received: by mail-pg1-f195.google.com with SMTP id i5so749091pgj.9;
-        Wed, 04 Dec 2019 17:27:37 -0800 (PST)
+        id S1728011AbfLEB20 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Dec 2019 20:28:26 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:35134 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727146AbfLEB20 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Dec 2019 20:28:26 -0500
+Received: by mail-pj1-f68.google.com with SMTP id w23so577610pjd.2;
+        Wed, 04 Dec 2019 17:28:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=ls4HkFhX2h80eqGSuPuzUOPsWugj2HuR4XVBnDP5plY=;
-        b=cwgv4vwIfplk8LOQDvsgoB+PPW0iDjPUxgFwuAoyjTE4vHxpySFtw3doZta1QmRO75
-         N+hDhrNEUfBcL4nqul9jOHwzw3B0QsDCbY1WgK21WynMq37a7KMiiLjk80rkTkFY2dC9
-         OQlkfLFgtl4ckVP5Ltn961/Yb/SdnMKpXmID11/y1WQdQQt51xb7GftzOx6xnn+SVIDb
-         pl1+73/ptxbeI8jLxl2aTpWtc/mWIjTJUbUJozAGuNwv95FN8RRvorg4jKJxygZFprgq
-         NWRaMTsLeooL0vuDDzq930v4i8kETNUSXZoec2mm8w8YNCjwOo8cOqVr041RQfo2Evyc
-         2ByQ==
+        bh=q1bx1orIcMH/cHYQUsw5QQoehlqaXp520VMpvYUXChE=;
+        b=uTRquQMvORcZjQSCt88VM9GEErEjpDINIyoT+qRbHkzReH7cH1KvquAsKjl3vAORbi
+         Kyp85JPnQoekF5/g6andVFUqb5d0eOZJ6aZa/Va4R5iAmiwGNcCg3T2U7gu6JWbfRwXT
+         rdK13nqpwIr/cUaqRB3TAKDzNeXXnyXVvzsPpJHIkfPBwTTralWf2fAA9t7nkcOvL41w
+         VD855mn5X9ohH90mTC05Q5/sGnGSo7Hoy77oWnBczLVwp02IHewH203d4HYnNpbq/dBs
+         5k3lL3As0RrW1dT34wEip3X3Sa2BmbkpuXzWnUZ5BV7kzLIaEK2Mrj8N6Ug1AafMF1dw
+         kz3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ls4HkFhX2h80eqGSuPuzUOPsWugj2HuR4XVBnDP5plY=;
-        b=JfUbFL6u/rKfZReI0H8AoAwkHxO88iMnKvmoymjkvvt18i1lVmrvh38N/e/kt3OyF+
-         8OD3ZJlAM9NwDS+WGGSHsTAQ3vNSqKaAgaUUV8T/bYGLubyFvonE+faxFylVti1FXEHk
-         vgr4HW7R2Ep6UCZ0lASOg3zST5sbBNOK29I3lFA7OCeCaRdkmy4MqYhxdyvNp5LzDKvA
-         bklpX/TgyfN4V3uADm0ZqpNOwTjwt7xA/eK3jTHunvUwsTnUBAzEi7jXil4C5o/7h6Xt
-         RGJWNMG9xqlZWR1r53FCbToy2TVCch3UDd4OSpfROOUPtPG3P97rDkQ7gXHCqxZlVE+z
-         IKDA==
-X-Gm-Message-State: APjAAAV1HY8IRMZPOP6e2UX8Sl/Agvrv/aW8nv0R7gLU0/bSBqprde+G
-        X2GeBCOLyuLQC1g3/9PMkeY=
-X-Google-Smtp-Source: APXvYqxiBsibY2wRusyXh/RIIOZxHbaToMbpWjoK9AzGNd7YlOXoTUw26aXeik11k5FIOpcmY9ZH2A==
-X-Received: by 2002:a62:1687:: with SMTP id 129mr6619796pfw.44.1575509257106;
-        Wed, 04 Dec 2019 17:27:37 -0800 (PST)
+        bh=q1bx1orIcMH/cHYQUsw5QQoehlqaXp520VMpvYUXChE=;
+        b=PKdMyby0+dEnU4aifyYJuoUSOUhUNrlwQaaatf1HAT2e8yLGMYCnZIzQvoNd3DgHwB
+         nRjUOOWSDTpDPAtcvgucrA/ZRwAwk24VVxJRVOPTlDcrxlfy5/z1fx/R3YXkAWzOKL2Z
+         +L9221vpNYvllz4mf+IekbaiHmV++zcuO4sOiHvT+vkydOZXs96Zajfht9OVARGITmfl
+         uwVajWJvNIwNfOdYzqy/+XLgSYl3PEIClaBe3sOwlFdIxM9flTQzT9gU7gSDZCr/drzh
+         LxxuANhMemSV0Jug0+Eh/tyYc5NnFTZbI6C5JJm+pYukPmSdmoP/XDRGj9Gi7iZ3FvfZ
+         ibaA==
+X-Gm-Message-State: APjAAAWxVAP5b66wcClf9SfBpCeObT8X++w/bo7a+kbeM9omna1uiwmi
+        XG3/HxQptBvsBLcloqUzF2JHaQKF
+X-Google-Smtp-Source: APXvYqxKqo3KZgSxbnGQPW4okKZA7wQjHqs2p5tLeh7eC0HKTGgCWKx5K88qQX6XBobag8DUfAR29w==
+X-Received: by 2002:a17:90a:2408:: with SMTP id h8mr6491619pje.123.1575509305369;
+        Wed, 04 Dec 2019 17:28:25 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id 81sm10379014pfx.73.2019.12.04.17.27.36
+        by smtp.gmail.com with ESMTPSA id l9sm8725774pgh.34.2019.12.04.17.28.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2019 17:27:36 -0800 (PST)
-Date:   Wed, 4 Dec 2019 17:27:34 -0800
+        Wed, 04 Dec 2019 17:28:23 -0800 (PST)
+Date:   Wed, 4 Dec 2019 17:28:21 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Marcel Holtmann <marcel@holtmann.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: uinput - Fix returning EPOLLOUT from uinput_poll
-Message-ID: <20191205012734.GN50317@dtor-ws>
-References: <20191204025014.5189-1-marcel@holtmann.org>
+To:     Mathew King <mathewk@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, Rajat Jain <rajatja@google.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Duncan Laurie <dlaurie@google.com>, linux-input@vger.kernel.org
+Subject: Re: [PATCH] input: Add privacy screen toggle keycode
+Message-ID: <20191205012821.GO50317@dtor-ws>
+References: <20191017163208.235518-1-mathewk@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191204025014.5189-1-marcel@holtmann.org>
+In-Reply-To: <20191017163208.235518-1-mathewk@chromium.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Dec 04, 2019 at 03:50:14AM +0100, Marcel Holtmann wrote:
-> Always return EPOLLOUT from uinput_poll to allow polling /dev/uinput
-> for writable state.
+On Thu, Oct 17, 2019 at 10:32:08AM -0600, Mathew King wrote:
+> Add keycode for toggling electronic privacy screen to the keycodes
+> definition. Some new laptops have a privacy screen which can be toggled
+> with a key on the keyboard.
 > 
-> Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
-> Cc: stable@vger.kernel.org
+> Signed-off-by: Mathew King <mathewk@chromium.org>
 
 Applied, thank you.
 
 > ---
->  drivers/input/misc/uinput.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  include/uapi/linux/input-event-codes.h | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/input/misc/uinput.c b/drivers/input/misc/uinput.c
-> index 84051f20b18a..fd253781be71 100644
-> --- a/drivers/input/misc/uinput.c
-> +++ b/drivers/input/misc/uinput.c
-> @@ -695,7 +695,7 @@ static __poll_t uinput_poll(struct file *file, poll_table *wait)
->  	if (udev->head != udev->tail)
->  		return EPOLLIN | EPOLLRDNORM;
+> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+> index 85387c76c24f..05d8b4f4f82f 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -649,6 +649,8 @@
+>   */
+>  #define KEY_DATA			0x277
+>  #define KEY_ONSCREEN_KEYBOARD		0x278
+> +/* Electronic privacy screen control */
+> +#define KEY_PRIVACY_SCREEN_TOGGLE	0x279
 >  
-> -	return 0;
-> +	return EPOLLOUT | EPOLLWRNORM;
->  }
->  
->  static int uinput_release(struct inode *inode, struct file *file)
+>  #define BTN_TRIGGER_HAPPY		0x2c0
+>  #define BTN_TRIGGER_HAPPY1		0x2c0
 > -- 
-> 2.23.0
+> 2.23.0.700.g56cf767bdb-goog
 > 
 
 -- 
