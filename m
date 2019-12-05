@@ -2,92 +2,260 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CCEBB1139D3
-	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2019 03:22:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCD3F1139F1
+	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2019 03:31:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728419AbfLECWf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Dec 2019 21:22:35 -0500
-Received: from mailgw01.mediatek.com ([210.61.82.183]:55963 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728132AbfLECWf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Dec 2019 21:22:35 -0500
-X-UUID: 09c5f15592064dd9af1468752702c9fe-20191205
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=zF3v0xaTj7cC35c/2mHDLexBzEP7R6Xi6kyDMdBthps=;
-        b=DSFkucxpH4GhK60eDepcWvqfgCK0vI5JjVBniqi/6vvsa1/u5jxMN9fSwG8Gbhb9E7zTYLWnfA0yHbV4EoaLKmTz7M8y9mLlqWlE+bMAgSXMYvejKFOT5rMNxi5ZnbDRdLtC34682ohYPloArbVjy+aQyxxRD5vy2njHWmycLHs=;
-X-UUID: 09c5f15592064dd9af1468752702c9fe-20191205
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
-        (envelope-from <miles.chen@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 684224926; Thu, 05 Dec 2019 10:22:30 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 5 Dec 2019 10:22:16 +0800
-Received: from [172.21.77.33] (172.21.77.33) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 5 Dec 2019 10:23:13 +0800
-Message-ID: <1575512548.12233.5.camel@mtkswgap22>
-Subject: Re: [PATCH] Input: evdev - convert kzalloc()/vzalloc() to kvzalloc()
-From:   Miles Chen <miles.chen@mediatek.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <wsd_upstream@mediatek.com>
-Date:   Thu, 5 Dec 2019 10:22:28 +0800
-In-Reply-To: <20191118054727.31045-1-miles.chen@mediatek.com>
-References: <20191118054727.31045-1-miles.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+        id S1728707AbfLECbB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Dec 2019 21:31:01 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:40889 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728132AbfLECbB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Dec 2019 21:31:01 -0500
+Received: by mail-pg1-f193.google.com with SMTP id k25so826457pgt.7
+        for <linux-input@vger.kernel.org>; Wed, 04 Dec 2019 18:31:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Y7Ee+dNHq54/7afYHD+UmtJjTH9smfXBulTry9R0FkI=;
+        b=Thn+k6tk3XAXYITVNqhSJ+4N0+izNtsGUvABmDpnSR1IwTELS0KwBKxwk7UQ7rn6Ty
+         umt/AFtjgw5HG9B1Vw5DmFkBfGUkjk8NsxXQToq4x2kCW+9zWH0YSahqVuvqketU9cGI
+         mOwVSN3cP20uwpDuB0kELiE7Rc/YkC5xwws+s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Y7Ee+dNHq54/7afYHD+UmtJjTH9smfXBulTry9R0FkI=;
+        b=Up0neNrI41iCXETZMIs+A1B4dCV9mB2i8KEh4YMwvHfyO/bXcj+d44/rh5do/Gh/mk
+         oitqySGpiKSPsjLUm01P1SJJPg9FckhMb71j9bPbHvbx/gMtRebng5G5UqxmL/JROoAt
+         LmQRtmxs0hyG0u1Yp1q11CmrymiqbaENmJ/jmqpd8P9Vt9+v516iu6J5aqNkneIheo5i
+         CuEshjLaEXLmxJHuzlGxqCCiiPgSp89UCrldpFBwKsWbHY9HyYqQeK+PHLD4/6cRy7jf
+         O2mZ9mHrmTvzaNwP1QzunvnOsMWbU+1sBAzQLNFIw9XmtdhLLq8QVxJrjeo/QQJEEDKB
+         fsMw==
+X-Gm-Message-State: APjAAAV8bY4HcsNvhNmreoNRGJQgqHLdKhYCIkXH82D3S3XR41ct/WSo
+        s0IOTifTCCNRFaLGL5cE+59nVw==
+X-Google-Smtp-Source: APXvYqyOdLLYrYiBx7emxUHQXoL+NtXJVUM7x47UAozTKa86tXu0VL7qz2ZM/f7flmKp37j0OOC9Gw==
+X-Received: by 2002:a62:7b46:: with SMTP id w67mr6732042pfc.113.1575513060108;
+        Wed, 04 Dec 2019 18:31:00 -0800 (PST)
+Received: from apsdesk.mtv.corp.google.com ([2620:15c:202:1:e09a:8d06:a338:aafb])
+        by smtp.gmail.com with ESMTPSA id x12sm9174425pfm.130.2019.12.04.18.30.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2019 18:30:59 -0800 (PST)
+From:   Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     linux-bluetooth@vger.kernel.org,
+        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrey Smirnov <andrew.smirnov@gmail.com>,
+        Kirill Smelkov <kirr@nexedi.com>
+Subject: [PATCH v4] Input: uinput - Add UI_SET_PHYS_STR and UI_SET_UNIQ_STR
+Date:   Wed,  4 Dec 2019 18:30:54 -0800
+Message-Id: <20191204182942.v4.1.Ib53f70556ffe94d9a1903632ee9b0dc929f94557@changeid>
+X-Mailer: git-send-email 2.24.0.393.g34dc348eaf-goog
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-SGksDQoNCkdlbnRsZSBwaW5nLg0KDQpub3RlOg0KV2UgY2FuIGFsc28gb2JzZXJ2ZSB0aGlzIGlz
-c3VlIGluIGtlcm5lbC00LjQsIGtlcm5lbC00LjksIGFuZA0Ka2VybmVsLTQuMTQuDQoNCg0KICAg
-TWlsZXMNCg0KDQpPbiBNb24sIDIwMTktMTEtMTggYXQgMTM6NDcgKzA4MDAsIE1pbGVzIENoZW4g
-d3JvdGU6DQo+IFdlIG9ic2VydmVkIGEgbGFyZ2Uob3JkZXItMykgYWxsb2NhdGlvbiBpbiBldmRl
-dl9vcGVuKCkgYW5kIGl0IG1heQ0KPiBjYXVzZSBhbiBPT00ga2VucmVsIHBhbmljIGluIGt6YWxs
-b2MoKSwgYmVmb3JlIHdlIGdldHRpbmcgdG8gdGhlDQo+IHZ6YWxsb2MoKSBmYWxsYmFjay4NCj4g
-DQo+IEZpeCBpdCBieSBjb252ZXJ0aW5nIGt6YWxsb2MoKS92emFsbG9jKCkgdG8ga3Z6YWxsb2Mo
-KSB0byBhdm9pZCB0aGUNCj4gT09NIGtpbGxlciBsb2dpYyBhcyB3ZSBoYXZlIGEgdm1hbGxvYyBm
-YWxsYmFjay4NCj4gDQo+IElucHV0UmVhZGVyIGludm9rZWQgb29tLWtpbGxlcjogZ2ZwX21hc2s9
-MHgyNDBjMmMwDQo+IChHRlBfS0VSTkVMfF9fR0ZQX05PV0FSTnxfX0dGUF9DT01QfF9fR0ZQX1pF
-Uk8pLCBub2RlbWFzaz0wLCBvcmRlcj0zLA0KPiBvb21fc2NvcmVfYWRqPS05MDANCj4gLi4uDQo+
-IChkdW1wX2JhY2t0cmFjZSkgZnJvbSAoc2hvd19zdGFjaysweDE4LzB4MWMpDQo+IChzaG93X3N0
-YWNrKSBmcm9tIChkdW1wX3N0YWNrKzB4OTQvMHhhOCkNCj4gKGR1bXBfc3RhY2spIGZyb20gKGR1
-bXBfaGVhZGVyKzB4N2MvMHhlNCkNCj4gKGR1bXBfaGVhZGVyKSBmcm9tIChvdXRfb2ZfbWVtb3J5
-KzB4MzM0LzB4MzQ4KQ0KPiAob3V0X29mX21lbW9yeSkgZnJvbSAoX19hbGxvY19wYWdlc19ub2Rl
-bWFzaysweGU5Yy8weGViOCkNCj4gKF9fYWxsb2NfcGFnZXNfbm9kZW1hc2spIGZyb20gKGttYWxs
-b2Nfb3JkZXJfdHJhY2UrMHgzNC8weDEyOCkNCj4gKGttYWxsb2Nfb3JkZXJfdHJhY2UpIGZyb20g
-KF9fa21hbGxvYysweDI1OC8weDM2YykNCj4gKF9fa21hbGxvYykgZnJvbSAoZXZkZXZfb3Blbisw
-eDVjLzB4MTdjKQ0KPiAoZXZkZXZfb3BlbikgZnJvbSAoY2hyZGV2X29wZW4rMHgxMDAvMHgyMDQp
-DQo+IChjaHJkZXZfb3BlbikgZnJvbSAoZG9fZGVudHJ5X29wZW4rMHgyMWMvMHgzNTQpDQo+IChk
-b19kZW50cnlfb3BlbikgZnJvbSAodmZzX29wZW4rMHg1OC8weDg0KQ0KPiAodmZzX29wZW4pIGZy
-b20gKHBhdGhfb3BlbmF0KzB4NjQwLzB4Yzk4KQ0KPiAocGF0aF9vcGVuYXQpIGZyb20gKGRvX2Zp
-bHBfb3BlbisweDc4LzB4MTFjKQ0KPiAoZG9fZmlscF9vcGVuKSBmcm9tIChkb19zeXNfb3Blbisw
-eDEzMC8weDI0NCkNCj4gKGRvX3N5c19vcGVuKSBmcm9tIChTeVNfb3BlbmF0KzB4MTQvMHgxOCkN
-Cj4gKFN5U19vcGVuYXQpIGZyb20gKF9fc3lzX3RyYWNlX3JldHVybisweDAvMHgxMCkNCj4gLi4u
-DQo+IE5vcm1hbDogMTI0ODgqNGtCIChVTUVIKSA2OTg0KjhrQiAoVU1FSCkgMjEwMSoxNmtCIChV
-TUVIKSAwKjMya0INCj4gMCo2NGtCIDAqMTI4a0IgMCoyNTZrQiAwKjUxMmtCIDAqMTAyNGtCIDAq
-MjA0OGtCIDAqNDA5NmtCID0gMTM5NDQwa0INCj4gSGlnaE1lbTogMjA2KjRrQiAoSCkgMTMxKjhr
-QiAoSCkgNDIqMTZrQiAoSCkgMiozMmtCIChIKSAwKjY0a0INCj4gMCoxMjhrQiAwKjI1NmtCIDAq
-NTEya0IgMCoxMDI0a0IgMCoyMDQ4a0IgMCo0MDk2a0IgPSAyNjA4a0INCj4gLi4uDQo+IEtlcm5l
-bCBwYW5pYyAtIG5vdCBzeW5jaW5nOiBPdXQgb2YgbWVtb3J5IGFuZCBubyBraWxsYWJsZSBwcm9j
-ZXNzZXMuLi4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1pbGVzIENoZW4gPG1pbGVzLmNoZW5AbWVk
-aWF0ZWsuY29tPg0KPiAtLS0NCj4gIGRyaXZlcnMvaW5wdXQvZXZkZXYuYyB8IDUgKy0tLS0NCj4g
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgNCBkZWxldGlvbnMoLSkNCj4gDQo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2lucHV0L2V2ZGV2LmMgYi9kcml2ZXJzL2lucHV0L2V2ZGV2LmMN
-Cj4gaW5kZXggZDdkZDZmY2YyZGIwLi5jZjVkN2Q2M2ZkNDggMTAwNjQ0DQo+IC0tLSBhL2RyaXZl
-cnMvaW5wdXQvZXZkZXYuYw0KPiArKysgYi9kcml2ZXJzL2lucHV0L2V2ZGV2LmMNCj4gQEAgLTQ4
-NCwxMCArNDg0LDcgQEAgc3RhdGljIGludCBldmRldl9vcGVuKHN0cnVjdCBpbm9kZSAqaW5vZGUs
-IHN0cnVjdCBmaWxlICpmaWxlKQ0KPiAgCXN0cnVjdCBldmRldl9jbGllbnQgKmNsaWVudDsNCj4g
-IAlpbnQgZXJyb3I7DQo+ICANCj4gLQljbGllbnQgPSBremFsbG9jKHN0cnVjdF9zaXplKGNsaWVu
-dCwgYnVmZmVyLCBidWZzaXplKSwNCj4gLQkJCSBHRlBfS0VSTkVMIHwgX19HRlBfTk9XQVJOKTsN
-Cj4gLQlpZiAoIWNsaWVudCkNCj4gLQkJY2xpZW50ID0gdnphbGxvYyhzdHJ1Y3Rfc2l6ZShjbGll
-bnQsIGJ1ZmZlciwgYnVmc2l6ZSkpOw0KPiArCWNsaWVudCA9IGt2emFsbG9jKHN0cnVjdF9zaXpl
-KGNsaWVudCwgYnVmZmVyLCBidWZzaXplKSwgR0ZQX0tFUk5FTCk7DQo+ICAJaWYgKCFjbGllbnQp
-DQo+ICAJCXJldHVybiAtRU5PTUVNOw0KPiAgDQoNCg==
+The ioctl definition for UI_SET_PHYS is ambiguous because it is defined
+with size = sizeof(char*) but is expected to be given a variable length
+string. Add a deprecation notice for UI_SET_PHYS and provide
+UI_SET_PHYS_STR(len) which expects a size from the user.
+
+Also support setting the uniq attribute of the input device. The uniq
+attribute is used as a unique identifier for the connected device.
+
+For example, uinput devices created by BlueZ will store the address of
+the connected device as the uniq property.
+
+Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+---
+Hi input maintainers,
+
+Here is an updated patch that refactors the ioctl handlers (properly
+allowing the size to be set from userspace). When calling the new
+ioctls, the call signature will look like this:
+
+```
+ioctl(fd, UI_SET_PHYS_STR(18), "00:11:22:33:44:55");
+```
+
+I've tested this on a Chromebook running kernel v4.19 with a sample
+program compiled for both 32-bit (i.e. gcc -m32 test.c) and 64-bit.
+
+The final uinput device looks like this:
+
+```
+udevadm info -a -p /devices/virtual/input/input18
+
+Udevadm info starts with the device specified by the devpath and then
+walks up the chain of parent devices. It prints for every device
+found, all possible attributes in the udev rules key format.
+A rule to match, can be composed by the attributes of the device
+and the attributes from one single parent device.
+
+  looking at device '/devices/virtual/input/input18':
+    KERNEL=="input18"
+    SUBSYSTEM=="input"
+    DRIVER==""
+    ATTR{inhibited}=="0"
+    ATTR{name}=="Test"
+    ATTR{phys}=="00:00:00:33:44:55"
+    ATTR{properties}=="0"
+    ATTR{uniq}=="00:11:22:00:00:00"
+
+```
+
+
+Changes in v4:
+- Added uinput_get_user_str
+
+Changes in v3:
+- Added UI_SET_PHYS_STR(len) and UI_SET_UNIQ_STR(len) and added
+  deprecation notice for UI_SET_PHYS
+
+Changes in v2:
+- Added compat handling for UI_SET_UNIQ
+
+ drivers/input/misc/uinput.c | 48 +++++++++++++++++++++++++------------
+ include/uapi/linux/uinput.h |  5 ++++
+ 2 files changed, 38 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/input/misc/uinput.c b/drivers/input/misc/uinput.c
+index 84051f20b18a..2c3180370a02 100644
+--- a/drivers/input/misc/uinput.c
++++ b/drivers/input/misc/uinput.c
+@@ -20,6 +20,7 @@
+  */
+ #include <uapi/linux/uinput.h>
+ #include <linux/poll.h>
++#include <linux/printk.h>
+ #include <linux/sched.h>
+ #include <linux/slab.h>
+ #include <linux/module.h>
+@@ -280,7 +281,7 @@ static int uinput_dev_flush(struct input_dev *dev, struct file *file)
+ 
+ static void uinput_destroy_device(struct uinput_device *udev)
+ {
+-	const char *name, *phys;
++	const char *name, *phys, *uniq;
+ 	struct input_dev *dev = udev->dev;
+ 	enum uinput_state old_state = udev->state;
+ 
+@@ -289,6 +290,7 @@ static void uinput_destroy_device(struct uinput_device *udev)
+ 	if (dev) {
+ 		name = dev->name;
+ 		phys = dev->phys;
++		uniq = dev->uniq;
+ 		if (old_state == UIST_CREATED) {
+ 			uinput_flush_requests(udev);
+ 			input_unregister_device(dev);
+@@ -297,6 +299,7 @@ static void uinput_destroy_device(struct uinput_device *udev)
+ 		}
+ 		kfree(name);
+ 		kfree(phys);
++		kfree(uniq);
+ 		udev->dev = NULL;
+ 	}
+ }
+@@ -831,6 +834,24 @@ static int uinput_str_to_user(void __user *dest, const char *str,
+ 	return ret ? -EFAULT : len;
+ }
+ 
++static int uinput_get_user_str(struct uinput_device *udev, const char **kptr,
++			       const char *uptr, unsigned int size)
++{
++	char *tmp;
++
++	if (udev->state == UIST_CREATED)
++		return -EINVAL;
++
++	tmp = strndup_user(uptr, size);
++	if (IS_ERR(tmp))
++		return PTR_ERR(tmp);
++
++	kfree(*kptr);
++	*kptr = tmp;
++
++	return 0;
++}
++
+ static long uinput_ioctl_handler(struct file *file, unsigned int cmd,
+ 				 unsigned long arg, void __user *p)
+ {
+@@ -839,7 +860,6 @@ static long uinput_ioctl_handler(struct file *file, unsigned int cmd,
+ 	struct uinput_ff_upload ff_up;
+ 	struct uinput_ff_erase  ff_erase;
+ 	struct uinput_request   *req;
+-	char			*phys;
+ 	const char		*name;
+ 	unsigned int		size;
+ 
+@@ -916,19 +936,8 @@ static long uinput_ioctl_handler(struct file *file, unsigned int cmd,
+ 		goto out;
+ 
+ 	case UI_SET_PHYS:
+-		if (udev->state == UIST_CREATED) {
+-			retval = -EINVAL;
+-			goto out;
+-		}
+-
+-		phys = strndup_user(p, 1024);
+-		if (IS_ERR(phys)) {
+-			retval = PTR_ERR(phys);
+-			goto out;
+-		}
+-
+-		kfree(udev->dev->phys);
+-		udev->dev->phys = phys;
++		pr_warn_once("uinput: UI_SET_PHYS is deprecated. Use UI_SET_PHYS_STR");
++		retval = uinput_get_user_str(udev, &udev->dev->phys, p, 1024);
+ 		goto out;
+ 
+ 	case UI_BEGIN_FF_UPLOAD:
+@@ -1023,6 +1032,15 @@ static long uinput_ioctl_handler(struct file *file, unsigned int cmd,
+ 	case UI_ABS_SETUP & ~IOCSIZE_MASK:
+ 		retval = uinput_abs_setup(udev, p, size);
+ 		goto out;
++
++	case UI_SET_PHYS_STR(0):
++		retval = uinput_get_user_str(udev, &udev->dev->phys, p, size);
++		goto out;
++
++	case UI_SET_UNIQ_STR(0):
++		retval = uinput_get_user_str(udev, &udev->dev->uniq, p, size);
++		goto out;
++
+ 	}
+ 
+ 	retval = -EINVAL;
+diff --git a/include/uapi/linux/uinput.h b/include/uapi/linux/uinput.h
+index c9e677e3af1d..84d4fa142830 100644
+--- a/include/uapi/linux/uinput.h
++++ b/include/uapi/linux/uinput.h
+@@ -142,9 +142,14 @@ struct uinput_abs_setup {
+ #define UI_SET_LEDBIT		_IOW(UINPUT_IOCTL_BASE, 105, int)
+ #define UI_SET_SNDBIT		_IOW(UINPUT_IOCTL_BASE, 106, int)
+ #define UI_SET_FFBIT		_IOW(UINPUT_IOCTL_BASE, 107, int)
++
++/* DEPRECATED: Data size is ambiguous. Use UI_SET_PHYS_STR instead. */
+ #define UI_SET_PHYS		_IOW(UINPUT_IOCTL_BASE, 108, char*)
++
+ #define UI_SET_SWBIT		_IOW(UINPUT_IOCTL_BASE, 109, int)
+ #define UI_SET_PROPBIT		_IOW(UINPUT_IOCTL_BASE, 110, int)
++#define UI_SET_PHYS_STR(len)	_IOC(_IOC_WRITE, UINPUT_IOCTL_BASE, 111, len)
++#define UI_SET_UNIQ_STR(len)	_IOC(_IOC_WRITE, UINPUT_IOCTL_BASE, 112, len)
+ 
+ #define UI_BEGIN_FF_UPLOAD	_IOWR(UINPUT_IOCTL_BASE, 200, struct uinput_ff_upload)
+ #define UI_END_FF_UPLOAD	_IOW(UINPUT_IOCTL_BASE, 201, struct uinput_ff_upload)
+-- 
+2.24.0.393.g34dc348eaf-goog
 
