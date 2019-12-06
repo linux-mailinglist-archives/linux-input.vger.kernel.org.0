@@ -2,152 +2,217 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 665C8114AE9
-	for <lists+linux-input@lfdr.de>; Fri,  6 Dec 2019 03:31:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96E7B114AF8
+	for <lists+linux-input@lfdr.de>; Fri,  6 Dec 2019 03:37:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726065AbfLFCbr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Dec 2019 21:31:47 -0500
-Received: from emcscan.emc.com.tw ([192.72.220.5]:64185 "EHLO
+        id S1726151AbfLFChh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Dec 2019 21:37:37 -0500
+Received: from emcscan.emc.com.tw ([192.72.220.5]:54977 "EHLO
         emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726160AbfLFCbq (ORCPT
-        <rfc822;Linux-input@vger.kernel.org>); Thu, 5 Dec 2019 21:31:46 -0500
+        with ESMTP id S1726109AbfLFChh (ORCPT
+        <rfc822;Linux-input@vger.kernel.org>); Thu, 5 Dec 2019 21:37:37 -0500
 X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
-   d="scan'208";a="33171811"
+   d="scan'208";a="33171896"
 Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 06 Dec 2019 10:31:33 +0800
+  by emcscan.emc.com.tw with ESMTP; 06 Dec 2019 10:37:35 +0800
 Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(71507:0:AUTH_RELAY)
-        (envelope-from <dave.wang@emc.com.tw>); Fri, 06 Dec 2019 10:31:33 +0800 (CST)
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(71503:0:AUTH_RELAY)
+        (envelope-from <dave.wang@emc.com.tw>); Fri, 06 Dec 2019 10:37:33 +0800 (CST)
 Received: from 192.168.33.57
-        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(101176:2:AUTH_RELAY)
-        (envelope-from <dave.wang@emc.com.tw>); Fri, 06 Dec 2019 10:31:33 +0800 (CST)
+        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(101173:0:AUTH_RELAY)
+        (envelope-from <dave.wang@emc.com.tw>); Fri, 06 Dec 2019 10:37:30 +0800 (CST)
 From:   "Dave.Wang" <dave.wang@emc.com.tw>
 To:     <Linux-kernel@vger.kernel.org>, <Linux-input@vger.kernel.org>,
         "'Benjamin Tissoires'" <benjamin.tissoires@redhat.com>,
         <Dmitry.torokhov@gmail.com>
 Cc:     "'Josh.Chen'" <josh.chen@emc.com.tw>, <jingle.wu@emc.com.tw>,
         "'phoenix'" <phoenix@emc.com.tw>
-Subject: [PATCH 3/6] Input: elantech - Increace and correct device information for pattern 0,1,2
-Date:   Fri, 6 Dec 2019 10:31:32 +0800
-Message-ID: <000b01d5abdd$45ffece0$d1ffc6a0$@emc.com.tw>
+Subject: [PATCH 4/6] Input: elantech - High resolution report for new pattern 2
+Date:   Fri, 6 Dec 2019 10:37:30 +0800
+Message-ID: <000c01d5abde$1b1ea420$515bec60$@emc.com.tw>
 MIME-Version: 1.0
 Content-Type: text/plain;
         charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AdWr3MrL7q4sCqxkTvGjETZLUp5TEw==
+Thread-Index: AdWr3W/Gb0j8XLZdS+iEfKDoX6h4nw==
 Content-Language: zh-tw
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYxMjlcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy04Mzc4YTZhMC0xN2QwLTExZWEtYWExOS04OGQ3ZjY1NjczMzBcYW1lLXRlc3RcODM3OGE2YTItMTdkMC0xMWVhLWFhMTktODhkN2Y2NTY3MzMwYm9keS50eHQiIHN6PSIzNjAxIiB0PSIxMzIyMDA3MzA5MjQ1ODAxMjgiIGg9IlNWZWxGTTNyZ3pXYk8wZU42ZFhyRlByWkI3Yz0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYxMjlcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy01ODhiODlkMy0xN2QxLTExZWEtYWExOS04OGQ3ZjY1NjczMzBcYW1lLXRlc3RcNTg4Yjg5ZDQtMTdkMS0xMWVhLWFhMTktODhkN2Y2NTY3MzMwYm9keS50eHQiIHN6PSI1ODcyIiB0PSIxMzIyMDA3MzQ0OTk4MzM3MjAiIGg9IkpLM1NST0NLT2dLOU11YUtHZFpLMDM5ZXU0TT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Get and correct the device informations including fw_checksum, iap_checksum,
-ic_body, iap_version from differnet pattern.
+Due to the higher resolution touchpad is produced, the former
+resolution bits were not enough. Extend the resolution bits
+from 12 to 14 bits and also remove the mk value for new pattern 2.
 
 Signed-off-by: Dave Wang <dave.wang@emc.com.tw>
 ---
- drivers/input/mouse/elantech.c | 47 +++++++++++++++++++++++++++++++++-
- drivers/input/mouse/elantech.h |  8 ++++++
- 2 files changed, 54 insertions(+), 1 deletion(-)
+ drivers/input/mouse/elantech.c | 66 +++++++++++++++++++++++++---------
+ 1 file changed, 49 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-index afb87122b766..322b181d00e9 100644
+index 322b181d00e9..53d7ff719d76 100644
 --- a/drivers/input/mouse/elantech.c
 +++ b/drivers/input/mouse/elantech.c
-@@ -857,7 +857,8 @@ static int elantech_packet_check_v4(struct psmouse
+@@ -639,15 +639,21 @@ static void process_packet_head_v4(struct psmouse
 *psmouse)
- 	 */
- 	if (etd->info.crc_enabled)
- 		sanity_check = ((packet[3] & 0x08) == 0x00);
--	else if (ic_version == 7 && etd->info.samples[1] == 0x2A)
-+	else if (ic_version == 7 && etd->info.samples[1] == 0x2A &&
-+			etd->info.pattern == 0x00)
- 		sanity_check = ((packet[3] & 0x1c) == 0x10);
- 	else
- 		sanity_check = ((packet[0] & 0x08) == 0x00 &&
-@@ -1669,6 +1670,50 @@ static int elantech_query_info(struct psmouse
-*psmouse,
- 			     info->samples[2]);
- 	}
+ 	struct elantech_data *etd = psmouse->private;
+ 	unsigned char *packet = psmouse->packet;
+ 	int id = ((packet[3] & 0xe0) >> 5) - 1;
+-	int pres, traces;
++	int pres, traces = 0;
  
-+	if (elantech_read_reg_params(psmouse, ETP_FW_CHECKSUM_QUERY,
-+				info->fw_checksum)) {
-+		psmouse_err(psmouse, "failed to get fw checksum\n");
-+		return -EINVAL;
+ 	if (id < 0)
+ 		return;
+ 
+-	etd->mt[id].x = ((packet[1] & 0x0f) << 8) | packet[2];
+-	etd->mt[id].y = etd->y_max - (((packet[4] & 0x0f) << 8) |
+packet[5]);
+-	pres = (packet[1] & 0xf0) | ((packet[4] & 0xf0) >> 4);
+-	traces = (packet[0] & 0xf0) >> 4;
++	if (etd->info.pattern <= 0x01) {
++		etd->mt[id].x = ((packet[1] & 0x0f) << 8) | packet[2];
++		etd->mt[id].y = etd->y_max - (((packet[4] & 0x0f) << 8) |
+packet[5]);
++		pres = (packet[1] & 0xf0) | ((packet[4] & 0xf0) >> 4);
++		traces = (packet[0] & 0xf0) >> 4;
++	} else {
++		etd->mt[id].x = ((packet[1] & 0x3f) << 8) | packet[2];
++		etd->mt[id].y = etd->y_max - (((packet[4] & 0x3f) << 8) |
+packet[5]);
++		pres = (packet[4] & 0xc0) | ((packet[1] & 0xc0) >> 2) |
+((packet[0] & 0xf0) >> 4);
 +	}
-+	psmouse_info(psmouse,
-+			 "Elan fw checksum result %02x, %02x, %02x\n",
-+			 info->fw_checksum[0],
-+			 info->fw_checksum[1],
-+			 info->fw_checksum[2]);
-+
-+	if (elantech_read_reg_params(psmouse, ETP_IAP_CHECKSUM_QUERY,
-+				info->iap_checksum)) {
-+		psmouse_err(psmouse, "failed to get iap checksum\n");
-+		return -EINVAL;
+ 
+ 	input_mt_slot(dev, id);
+ 	input_mt_report_slot_state(dev, MT_TOOL_FINGER, true);
+@@ -655,9 +661,11 @@ static void process_packet_head_v4(struct psmouse
+*psmouse)
+ 	input_report_abs(dev, ABS_MT_POSITION_X, etd->mt[id].x);
+ 	input_report_abs(dev, ABS_MT_POSITION_Y, etd->mt[id].y);
+ 	input_report_abs(dev, ABS_MT_PRESSURE, pres);
+-	input_report_abs(dev, ABS_MT_TOUCH_MAJOR, traces * etd->width);
+-	/* report this for backwards compatibility */
+-	input_report_abs(dev, ABS_TOOL_WIDTH, traces);
++	if (etd->info.pattern <= 0x01) {
++		input_report_abs(dev, ABS_MT_TOUCH_MAJOR, traces *
+etd->width);
++		/* report this for backwards compatibility */
++		input_report_abs(dev, ABS_TOOL_WIDTH, traces);
 +	}
-+	psmouse_info(psmouse,
-+			 "Elan iap checksum result %02x, %02x, %02x\n",
-+			 info->iap_checksum[0],
-+			 info->iap_checksum[1],
-+			 info->iap_checksum[2]);
-+
-+	if (info->pattern > 0x00) {
-+		if (info->send_cmd(psmouse, ETP_ICBODY_QUERY,
-info->ic_body)) {
-+			psmouse_err(psmouse, "failed to query ic body\n");
-+			return -EINVAL;
-+		}
-+		psmouse_info(psmouse,
-+			     "Elan ic body : %02x%02x, fw version : %02x\n",
-+			     info->ic_body[0],
-+			     info->ic_body[1],
-+			     info->ic_body[2]);
-+
-+		if (info->send_cmd(psmouse, ETP_IAP_VERSION_QUERY,
-+					info->iap_version)) {
-+			psmouse_err(psmouse, "failed to query iap
-version\n");
-+			return -EINVAL;
-+		}
-+		psmouse_info(psmouse,
-+			     "Elan iap interface type : %02x, iap version :
-%02x\n",
-+			     info->iap_version[1],
-+			     info->iap_version[2]);
-+	}
-+
- 	if (info->samples[1] == 0x74 && info->hw_version == 0x03) {
- 		/*
- 		 * This module has a bug which makes absolute mode
-diff --git a/drivers/input/mouse/elantech.h b/drivers/input/mouse/elantech.h
-index 0aae6a9de8f0..a633ffa0eb07 100644
---- a/drivers/input/mouse/elantech.h
-+++ b/drivers/input/mouse/elantech.h
-@@ -18,6 +18,10 @@
- #define ETP_CAPABILITIES_QUERY		0x02
- #define ETP_SAMPLE_QUERY		0x03
- #define ETP_RESOLUTION_QUERY		0x04
-+#define ETP_ICBODY_QUERY		0x05
-+#define ETP_IAP_VERSION_QUERY		0x06
-+#define ETP_IAP_CHECKSUM_QUERY		0x0A
-+#define ETP_FW_CHECKSUM_QUERY		0xFE
+ 
+ 	elantech_input_sync_v4(psmouse);
+ }
+@@ -1057,15 +1065,24 @@ static int elantech_set_absolute_mode(struct psmouse
+*psmouse)
+ }
  
  /*
-  * Command values for register reading or writing
-@@ -138,6 +142,10 @@ struct finger_pos {
- struct elantech_device_info {
- 	unsigned char capabilities[3];
- 	unsigned char samples[3];
-+	unsigned char fw_checksum[3];
-+	unsigned char iap_checksum[3];
-+	unsigned char ic_body[3];
-+	unsigned char iap_version[3];
- 	unsigned char debug;
- 	unsigned char hw_version;
- 	unsigned char pattern;
+- * (value from firmware) * 10 + 790 = dpi
++ * pattern <= 0x01:
++ *	(value from firmware) * 10 + 790 = dpi
++ * else
++ *	((value from firmware) + 3) * 100 = dpi
++ *
+  * we also have to convert dpi to dots/mm (*10/254 to avoid floating point)
+  */
+-static unsigned int elantech_convert_res(unsigned int val)
++static unsigned int elantech_convert_res(unsigned int val,
++					unsigned char pattern)
+ {
+-	return (val * 10 + 790) * 10 / 254;
++	if (pattern <= 0x01)
++		return (val * 10 + 790) * 10 / 254;
++	else
++		return ((val + 3) * 100) * 10 / 254;
+ }
+ 
+ static int elantech_get_resolution_v4(struct psmouse *psmouse,
++					  unsigned char pattern,
+ 				      unsigned int *x_res,
+ 				      unsigned int *y_res,
+ 				      unsigned int *bus)
+@@ -1075,8 +1092,8 @@ static int elantech_get_resolution_v4(struct psmouse
+*psmouse,
+ 	if (elantech_send_cmd(psmouse, ETP_RESOLUTION_QUERY, param))
+ 		return -1;
+ 
+-	*x_res = elantech_convert_res(param[1] & 0x0f);
+-	*y_res = elantech_convert_res((param[1] & 0xf0) >> 4);
++	*x_res = elantech_convert_res(param[1] & 0x0f, pattern);
++	*y_res = elantech_convert_res((param[1] & 0xf0) >> 4, pattern);
+ 	*bus = param[2];
+ 
+ 	return 0;
+@@ -1194,7 +1211,8 @@ static int elantech_set_input_params(struct psmouse
+*psmouse)
+ 		 */
+ 		input_set_abs_params(dev, ABS_PRESSURE, ETP_PMIN_V2,
+ 				     ETP_PMAX_V2, 0, 0);
+-		input_set_abs_params(dev, ABS_TOOL_WIDTH, ETP_WMIN_V2,
++		if (etd->info.pattern <= 0x01)
++			input_set_abs_params(dev, ABS_TOOL_WIDTH,
+ETP_WMIN_V2,
+ 				     ETP_WMAX_V2, 0, 0);
+ 		/* Multitouch capable pad, up to 5 fingers. */
+ 		input_mt_init_slots(dev, ETP_MAX_FINGERS, 0);
+@@ -1206,7 +1224,8 @@ static int elantech_set_input_params(struct psmouse
+*psmouse)
+ 		 * The firmware reports how many trace lines the finger
+spans,
+ 		 * convert to surface unit as Protocol-B requires.
+ 		 */
+-		input_set_abs_params(dev, ABS_MT_TOUCH_MAJOR, 0,
++		if (etd->info.pattern <= 0x01)
++			input_set_abs_params(dev, ABS_MT_TOUCH_MAJOR, 0,
+ 				     ETP_WMAX_V2 * width, 0, 0);
+ 		break;
+ 	}
+@@ -1628,6 +1647,7 @@ static int elantech_query_info(struct psmouse
+*psmouse,
+ {
+ 	unsigned char param[3];
+ 	unsigned char traces;
++	unsigned char y_max_l;
+ 
+ 	memset(info, 0, sizeof(*info));
+ 
+@@ -1732,6 +1752,7 @@ static int elantech_query_info(struct psmouse
+*psmouse,
+ 	info->y_res = 31;
+ 	if (info->hw_version == 4) {
+ 		if (elantech_get_resolution_v4(psmouse,
++							info->pattern,
+ 					       &info->x_res,
+ 					       &info->y_res,
+ 					       &info->bus)) {
+@@ -1800,8 +1821,19 @@ static int elantech_query_info(struct psmouse
+*psmouse,
+ 		if (info->send_cmd(psmouse, ETP_FW_ID_QUERY, param))
+ 			return -EINVAL;
+ 
+-		info->x_max = (0x0f & param[0]) << 8 | param[1];
+-		info->y_max = (0xf0 & param[0]) << 4 | param[2];
++		if (info->pattern <= 0x01) {
++			info->x_max = (0x0f & param[0]) << 8 | param[1];
++			info->y_max = (0xf0 & param[0]) << 4 | param[2];
++		} else {
++			info->x_max = (param[0] << 8) | param[1];
++			y_max_l = param[2];
++
++			if (info->send_cmd(psmouse, ETP_SAMPLE_QUERY,
+param))
++				return -1;
++
++			info->y_max = param[2] << 8 | y_max_l;
++		}
++
+ 		traces = info->capabilities[1];
+ 		if ((traces < 2) || (traces > info->x_max))
+ 			return -EINVAL;
 -- 
 2.17.1
+
 
