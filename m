@@ -2,71 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FDD51148C4
-	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2019 22:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D521E114AD9
+	for <lists+linux-input@lfdr.de>; Fri,  6 Dec 2019 03:18:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729941AbfLEVkZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Dec 2019 16:40:25 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:38602 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729914AbfLEVkZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Dec 2019 16:40:25 -0500
-Received: by mail-oi1-f196.google.com with SMTP id b8so4212529oiy.5;
-        Thu, 05 Dec 2019 13:40:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5B07evfQjYRmezpr618YMj75/8A+9fi/BoaS8w0bgCw=;
-        b=M6XVYNYjZtPHc+Guj34IwmgNCmc8y72L5Hle7hmqODjye9KXsoBMTGKnris3SmOBuM
-         v1NFQFKAMC7wvdIgvKVe6/Jdd3rQ9W/9yBbJHzPb9iwr9zTY/JnXAEa/y/cUs4qYvShL
-         qd6AXftKdn8yzE7IaTw2WujQGHTV+iA+3r7oo1vBCdNkchU1suMJQNms/+PTrN6ScwQG
-         qqSaqdZs3O0lRtf5jac943MgsH2BCZOBFiI6Qk3V/7/JUEfnXSf7J8w/ewhP+xzezyCs
-         yAoejrbNz5+4Qv7lmXoriHymph80ZzMAxml3cir+ZoHlktxzj2ftglAD+89mNIY7Oaeu
-         aNTg==
-X-Gm-Message-State: APjAAAX2QtmeuWLolWl7oYDdS1IZ6foVuHRGU45s9Q79meyWaCXeDLWN
-        pzQzg2ClbATjtjvIlv9Jog==
-X-Google-Smtp-Source: APXvYqxEtg3YSKnAqJeM+USaEc+2azfpgWhVrK3I05OmYCtSEJzGliakgatYJcxuupfvARlqBjslqw==
-X-Received: by 2002:aca:aad8:: with SMTP id t207mr8998770oie.138.1575582024374;
-        Thu, 05 Dec 2019 13:40:24 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id g5sm3798447otp.10.2019.12.05.13.40.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2019 13:40:23 -0800 (PST)
-Date:   Thu, 5 Dec 2019 15:40:22 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     support.opensource@diasemi.com, stwiss.opensource@diasemi.com,
-        dmitry.torokhov@gmail.com, Adam.Thomson.Opensource@diasemi.com,
-        devicetree@vger.kernel.org, kernel@pengutronix.de,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: Input: da9062 - add key-opmode
- documentation
-Message-ID: <20191205214022.GA5072@bogus>
-References: <20191127132304.22924-1-m.felsch@pengutronix.de>
- <20191127132304.22924-2-m.felsch@pengutronix.de>
+        id S1726184AbfLFCSD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Dec 2019 21:18:03 -0500
+Received: from emcscan.emc.com.tw ([192.72.220.5]:61200 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726065AbfLFCSD (ORCPT
+        <rfc822;Linux-input@vger.kernel.org>); Thu, 5 Dec 2019 21:18:03 -0500
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="33171514"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 06 Dec 2019 10:18:00 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(71497:0:AUTH_RELAY)
+        (envelope-from <dave.wang@emc.com.tw>); Fri, 06 Dec 2019 10:18:00 +0800 (CST)
+Received: from 192.168.33.57
+        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(101173:1:AUTH_RELAY)
+        (envelope-from <dave.wang@emc.com.tw>); Fri, 06 Dec 2019 10:18:00 +0800 (CST)
+From:   "Dave.Wang" <dave.wang@emc.com.tw>
+To:     <Linux-kernel@vger.kernel.org>, <Linux-input@vger.kernel.org>,
+        "'Benjamin Tissoires'" <benjamin.tissoires@redhat.com>
+Cc:     "'Josh.Chen'" <josh.chen@emc.com.tw>, <jingle.wu@emc.com.tw>,
+        "'phoenix'" <phoenix@emc.com.tw>
+Subject: [PATCH 1/6] Input: elantech - Add the pattern for firmware into elantech_device_info structure
+Date:   Fri, 6 Dec 2019 10:17:59 +0800
+Message-ID: <000001d5abdb$618632f0$249298d0$@emc.com.tw>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191127132304.22924-2-m.felsch@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 15.0
+Thread-Index: AdWr2kHnngzdx7ZaS6mppBq5eSWG5A==
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYxMjlcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy05ZWJlMjg0NC0xN2NlLTExZWEtYWExOS04OGQ3ZjY1NjczMzBcYW1lLXRlc3RcOWViZTI4NDUtMTdjZS0xMWVhLWFhMTktODhkN2Y2NTY3MzMwYm9keS50eHQiIHN6PSIxNjQ4IiB0PSIxMzIyMDA3MjI3OTI0OTgwODQiIGg9IlJFUEYzbmVmalhuVEZUekNWVjNWb2RDSkhWST0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 27, 2019 at 02:23:02PM +0100, Marco Felsch wrote:
-> The onkey behaviour can be changed by programming the NONKEY_PIN
-> bitfield. Since the driver supports the reconfiguration we need to add
-> the documentation here.
-> 
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> ---
-> v2:
-> - add da9061/3 references
-> - adapt binding description to be more general
-> 
->  .../devicetree/bindings/input/da9062-onkey.txt         | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+Add the conditional expression to distinguish different patterns
+regarding 0, 1, 2. Different pattern has its own location
+for device information.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Dave Wang <dave.wang@emc.com.tw>
+---
+ drivers/input/mouse/elantech.c | 11 +++++++++++
+ drivers/input/mouse/elantech.h |  1 +
+ 2 files changed, 12 insertions(+)
+
+diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
+index 2d8434b7b623..1f0d914acd78 100644
+--- a/drivers/input/mouse/elantech.c
++++ b/drivers/input/mouse/elantech.c
+@@ -1557,6 +1557,17 @@ static int elantech_set_properties(struct
+elantech_device_info *info)
+ 		}
+ 	}
+ 
++	/* Get information pattern for hw_version 4 */
++	if (ver == 15) {
++		if ((info->fw_version & 0x0000ff) == 0x01)
++			info->pattern = 0x01;
++		else if ((info->fw_version & 0x0000ff) == 0x02)
++			info->pattern = 0x02;
++		else
++			info->pattern = 0x00;
++	} else
++		info->pattern = 0x00;
++
+ 	/* decide which send_cmd we're gonna use early */
+ 	info->send_cmd = info->hw_version >= 3 ? elantech_send_cmd :
+ 						 synaptics_send_cmd;
+diff --git a/drivers/input/mouse/elantech.h b/drivers/input/mouse/elantech.h
+index e0a3e59d4f1b..0aae6a9de8f0 100644
+--- a/drivers/input/mouse/elantech.h
++++ b/drivers/input/mouse/elantech.h
+@@ -140,6 +140,7 @@ struct elantech_device_info {
+ 	unsigned char samples[3];
+ 	unsigned char debug;
+ 	unsigned char hw_version;
++	unsigned char pattern;
+ 	unsigned int fw_version;
+ 	unsigned int x_min;
+ 	unsigned int y_min;
+-- 
+2.17.1
+
+
