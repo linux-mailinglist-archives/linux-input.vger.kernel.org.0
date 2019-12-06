@@ -2,340 +2,217 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17F9D114E06
-	for <lists+linux-input@lfdr.de>; Fri,  6 Dec 2019 10:11:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BAB4114FEF
+	for <lists+linux-input@lfdr.de>; Fri,  6 Dec 2019 12:45:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726160AbfLFJLU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Dec 2019 04:11:20 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:43662 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726088AbfLFJLU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Dec 2019 04:11:20 -0500
-Received: by mail-wr1-f67.google.com with SMTP id d16so6869316wre.10;
-        Fri, 06 Dec 2019 01:11:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=ICnCLQJEcZVaNESgjm6cIy6sqQ3eNkpx+iDd/M6Htno=;
-        b=FtvwX1Soh2c9BFGQO3+CR96nyxGbj8MJDSH4p0f/bAcaodcSJLYeVihjBsqzDEUSog
-         vnsB88eRjK8Gic14sAw8VngTHXSvdpOdlvV2yrozXs/yJZcG+hmI4umza7pLuljWAbyj
-         NkfgVtDNMOvfjxWCHndi61CyPoUoI2dw8xgNDrG43nG0mjHtRxDx4Nhvgumhw+1aWAdC
-         q0hdnbWoVcgoLCoOyplvODMuPXbqxRUq1zh42jSbjW8aWvkXuohkqraTCUdRKFZyQndJ
-         m1z07RvmZuAjqNv/zyRHaGNnOU9EpAOMDN5JaKej+IBB1vJqE4rdS5EE7eV6M2BfwUke
-         V7BQ==
+        id S1726157AbfLFLpJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Dec 2019 06:45:09 -0500
+Received: from mail-il1-f198.google.com ([209.85.166.198]:35795 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726116AbfLFLpJ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Dec 2019 06:45:09 -0500
+Received: by mail-il1-f198.google.com with SMTP id t15so5050514ilh.2
+        for <linux-input@vger.kernel.org>; Fri, 06 Dec 2019 03:45:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=ICnCLQJEcZVaNESgjm6cIy6sqQ3eNkpx+iDd/M6Htno=;
-        b=o5Xv2LxB4cP7c0dQ2pFZzVh63XXBrRTJ3k6wyBhnZcO+0Osxl53b5sjkzOjxxWu3M5
-         pCEh+DVIFkWB11kV4sjQzjy3u7UFsdaOJ/cl/PEFAG6nabyqWED8t3TJMQcU2jg5mF7d
-         EOZAmOm0FOZboLOFh4IT9632ougK3p6he0Mul2x3ZtuuDNP80y76SszZbQ3+SGPPACAl
-         rthstOuRmJVGIakHcYkB64r1/T5SmB0Q7QgIuK+k0OKxvWx/8XPL21pJnrkHg9pLs4Nh
-         9r381O/xnoV34pQCYkmz7rCXxNcygCYvZIJVqIQnVV4HWeOxTAeb/1gSrcf24vsdhk2L
-         wqMg==
-X-Gm-Message-State: APjAAAVKqxWymy/FczQmNs5Pj7JFj7mIB5aOIC+bGqzzt/1jg4S0qA9n
-        JFa31VdmeMFaS+GzVlZNpdc=
-X-Google-Smtp-Source: APXvYqyqYQWbYi4Wx/WRJv764bGFVZc1LaWoP5u6aGVIPLNCZgK5Oycpq83AoHwG8mESWZG4r9nVaA==
-X-Received: by 2002:adf:fa12:: with SMTP id m18mr13910568wrr.309.1575623476456;
-        Fri, 06 Dec 2019 01:11:16 -0800 (PST)
-Received: from pali ([2a02:2b88:2:1::5cc6:2f])
-        by smtp.gmail.com with ESMTPSA id o15sm16442925wra.83.2019.12.06.01.11.15
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 06 Dec 2019 01:11:15 -0800 (PST)
-Date:   Fri, 6 Dec 2019 10:11:14 +0100
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
-To:     Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org,
-        Bluez mailing list <linux-bluetooth@vger.kernel.org>,
-        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Andrey Smirnov <andrew.smirnov@gmail.com>,
-        Kirill Smelkov <kirr@nexedi.com>
-Subject: Re: [PATCH] Input: uinput - Add UI_SET_UNIQ ioctl handler
-Message-ID: <20191206091114.kh255jrmerruumnq@pali>
-References: <20191202012305.GQ248138@dtor-ws>
- <20191202084750.k7lafzzrf3yq2tqs@pali>
- <20191202175440.GA50317@dtor-ws>
- <20191202185340.nae4lljten5jqp3y@pali>
- <20191202193628.GI50317@dtor-ws>
- <20191202230947.ld5ibnczdpkekfcm@pali>
- <20191203173821.4u6uzxeaqnt3gyz3@pali>
- <20191203191112.GJ50317@dtor-ws>
- <20191205105206.slibwytrcteicx6y@pali>
- <CANFp7mXyaqoMDBs4m_Dfm9+4U88g9WoJVcV1g_4KM4xzFhiGXQ@mail.gmail.com>
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=WwcMHlZvXL6UgIvTRk3+yp2b9NSnw3Ab998ZqH2qKIY=;
+        b=T39Bo9LP8zz3LyyiPcBKSvEvFG3EwSgSKLF+wkl1p/+MpONCTr+jtgH0wVrpuKQH0o
+         VYcanLW1WtRSEWbxzdDaIMAaQWFC7ZcrF+UpwUyNmqJZLYgb2uAbKXyEPgEYBL40C+7P
+         cVu32nMEk0GLtzGLBK2qcgIka4wFBGv5foVQrN+vZQDaevr2/P2T9GCJaGU36NcuRxcZ
+         Ys+OOgxxY3WtVcd3Hreg4eM19LmmLBR5DUzT8+HenKLZLTniVlM8YowI+gh602QwSg/G
+         U9Lj2bJI86KcTtbiKN6simSQGe+tLMybx0yRWrvI5FRTLLV4YEHc5FvKthy/Su7Vcl6u
+         8Y8w==
+X-Gm-Message-State: APjAAAX9DQHpbDgVwOjlvbBZYElWEMpP8J9kpzTeUaz3vOgEQJsPkZon
+        KFbYJa9EcYPelwwKPbdIv9pVZciCqV2uhkbghyzr6SylgxV2
+X-Google-Smtp-Source: APXvYqzgll03aE8X9bFCGOT20brtJScO4ej/ot6L53zHSm0cdOyTfQoEBT/Rm1Yhmg0NbYtPqkdGCdtvJ8qw0mogLxB9luxXcxQL
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANFp7mXyaqoMDBs4m_Dfm9+4U88g9WoJVcV1g_4KM4xzFhiGXQ@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+X-Received: by 2002:a02:13c2:: with SMTP id 185mr6769712jaz.0.1575632708138;
+ Fri, 06 Dec 2019 03:45:08 -0800 (PST)
+Date:   Fri, 06 Dec 2019 03:45:08 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000dd7e7e05990793c1@google.com>
+Subject: KASAN: slab-out-of-bounds Read in hid_field_extract
+From:   syzbot <syzbot+09ef48aa58261464b621@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thursday 05 December 2019 12:03:05 Abhishek Pandit-Subedi wrote:
-> On Thu, Dec 5, 2019 at 2:52 AM Pali Rohár <pali.rohar@gmail.com> wrote:
-> >
-> > On Tuesday 03 December 2019 11:11:12 Dmitry Torokhov wrote:
-> > > On Tue, Dec 03, 2019 at 06:38:21PM +0100, Pali Rohár wrote:
-> > > > On Tuesday 03 December 2019 00:09:47 Pali Rohár wrote:
-> > > > > On Monday 02 December 2019 11:36:28 Dmitry Torokhov wrote:
-> > > > > > On Mon, Dec 02, 2019 at 07:53:40PM +0100, Pali Rohár wrote:
-> > > > > > > On Monday 02 December 2019 09:54:40 Dmitry Torokhov wrote:
-> > > > > > > > On Mon, Dec 02, 2019 at 09:47:50AM +0100, Pali Rohár wrote:
-> > > > > > > > > On Sunday 01 December 2019 17:23:05 Dmitry Torokhov wrote:
-> > > > > > > > > > Hi Pali,
-> > > > > > > > > >
-> > > > > > > > > > On Sun, Dec 01, 2019 at 03:53:57PM +0100, Pali Rohár wrote:
-> > > > > > > > > > > Hello!
-> > > > > > > > > > >
-> > > > > > > > > > > On Wednesday 27 November 2019 10:51:39 Abhishek Pandit-Subedi wrote:
-> > > > > > > > > > > > Support setting the uniq attribute of the input device. The uniq
-> > > > > > > > > > > > attribute is used as a unique identifier for the connected device.
-> > > > > > > > > > > >
-> > > > > > > > > > > > For example, uinput devices created by BlueZ will store the address of
-> > > > > > > > > > > > the connected device as the uniq property.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> > > > > > > > > > >
-> > > > > > > > > > > ...
-> > > > > > > > > > >
-> > > > > > > > > > > > diff --git a/include/uapi/linux/uinput.h b/include/uapi/linux/uinput.h
-> > > > > > > > > > > > index c9e677e3af1d..d5b7767c1b02 100644
-> > > > > > > > > > > > --- a/include/uapi/linux/uinput.h
-> > > > > > > > > > > > +++ b/include/uapi/linux/uinput.h
-> > > > > > > > > > > > @@ -145,6 +145,7 @@ struct uinput_abs_setup {
-> > > > > > > > > > > >  #define UI_SET_PHYS                _IOW(UINPUT_IOCTL_BASE, 108, char*)
-> > > > > > > > > > > >  #define UI_SET_SWBIT               _IOW(UINPUT_IOCTL_BASE, 109, int)
-> > > > > > > > > > > >  #define UI_SET_PROPBIT             _IOW(UINPUT_IOCTL_BASE, 110, int)
-> > > > > > > > > > > > +#define UI_SET_UNIQ                _IOW(UINPUT_IOCTL_BASE, 111, char*)
-> > > > > > > > > > >
-> > > > > > > > > > > I think that usage of char* as type in _IOW would cause compatibility
-> > > > > > > > > > > problems like it is for UI_SET_PHYS (there is UI_SET_PHYS_COMPAT). Size
-> > > > > > > > > > > of char* pointer depends on userspace (32 vs 64bit), so 32bit process on
-> > > > > > > > > > > 64bit kernel would not be able to call this new UI_SET_UNIQ ioctl.
-> > > > > > > > > > >
-> > > > > > > > > > > I would suggest to define this ioctl as e.g.:
-> > > > > > > > > > >
-> > > > > > > > > > >   #define UI_SET_UNIQ         _IOW(_IOC_WRITE, UINPUT_IOCTL_BASE, 111, 0)
-> > > > > > > > > > >
-> > > > > > > > > > > And then in uinput.c code handle it as:
-> > > > > > > > > > >
-> > > > > > > > > > >   case UI_SET_UNIQ & ~IOCSIZE_MASK:
-> > > > > > > > > > >
-> > > > > > > > > > > as part of section /* Now check variable-length commands */
-> > > > > > > > > >
-> > > > > > > > > > If we did not have UI_SET_PHYS in its current form, I'd agree with you,
-> > > > > > > > > > but I think there is benefit in having UI_SET_UNIQ be similar to
-> > > > > > > > > > UI_SET_PHYS.
-> > > > > > > > >
-> > > > > > > > > I thought that ioctl is just number, so we can define it as we want. And
-> > > > > > > > > because uinput.c has already switch for variable-length commands it
-> > > > > > > > > would be easy to use it. Final handling can be in separate function like
-> > > > > > > > > for UI_SET_PHYS which can look like same.
-> > > > > > > >
-> > > > > > > > Yes, we can define ioctl number as whatever we want. What I was trying
-> > > > > > > > to say, right now users do this:
-> > > > > > > >
-> > > > > > > >     rc = ioctl(fd, UI_SET_PHYS, "whatever");
-> > > > > > > >     ...
-> > > > > > > >
-> > > > > > > > and with UI_SET_UNIQ they expect the following to work:
-> > > > > > > >
-> > > > > > > >     rc = ioctl(fd, UI_SET_UNIQ, "whatever");
-> > > > > > > >     ...
-> > > > > > >
-> > > > > > > And would not following definition
-> > > > > > >
-> > > > > > >   #define UI_SET_UNIQ _IOW(_IOC_WRITE, UINPUT_IOCTL_BASE, 111, 0)
-> > > > > > >
-> > > > > > > allow userspace to call
-> > > > > > >
-> > > > > > >   rc = ioctl(fd, UI_SET_UNIQ, "whatever");
-> > > > > > >
-> > > > > > > as you want?
-> > > > > >
-> > > > > > OK, so what you are saying is that we can have whatever in the size
-> > > > > > portion of ioctl number and simply ignore it in the driver
-> > > > >
-> > > > > Yes.
-> > > > >
-> > > > > > (and I do not
-> > > > > > think we need to do any of "UI_SET_UNIQ & ~IOCSIZE_MASK" really).
-> > > > >
-> > > > > You are right, we do not need to clear any IOCSIZE_MASK. As ioctl number
-> > > > > would be always sam constant number. So it would be really simple. So
-> > > > > original patch would work if UI_SET_UNIQ define would be changed to
-> > > > > above with _IOW() macro.
-> > > > >
-> > > > > > While this would work, I am not sure it is the best option as I think
-> > > > > > we'd have to comment extensively why we have arbitrary number in place
-> > > > > > of the size.
-> > > > >
-> > > > > Comment can be added. But this is as ioctl is going to accept variable
-> > > > > length array (not fixed array), zero value make sense for me (zero as we
-> > > > > do not know exact size).
-> > > > >
-> > > > > > And we still do not really save anything, as we still have to go through
-> > > > > > compat ioctl handler (since we have it already) and it is very simple to
-> > > > > > add a case for UI_SET_UNIQ there...
-> > > > >
-> > > > > Yes, compat ioctl is still used. But my proposed solution does not
-> > > > > involve to define a new compact ioctl number just for sizeof(char *).
-> > > > >
-> > > > > I'm looking at this particular problem from side, that there is no
-> > > > > reason to define two new ioctl numbers for UI_SET_UNIQ (one normal
-> > > > > number and one compat number), when one number is enough. It is one new
-> > > > > ioctl call, so one ioctl number should be enough.
-> > > > >
-> > > > > And also with my proposed solution with ioctl size=0 it simplify
-> > > > > implementation of UI_SET_UNIQ as it is not needed to implement also
-> > > > > UI_SET_UNIQ_COMPAT ioctl nor touch compat ioct code path. Basically
-> > > > > original patch (with changed UI_SET_UNIQ macro) is enough.
-> > > > >
-> > > > > But of of course, this is my view of this problem and I would not be
-> > > > > against your decision from maintainer position. Both solutions would
-> > > > > work correctly and bring same behavior for userspace applications.
-> > > >
-> > > >
-> > > > Hi Dmitry!
-> > > >
-> > > > I was looking again at those _IOW defines for ioctl calls and I have
-> > > > another argument why not specify 'char *' in _IOW:
-> > > >
-> > > > All ioctls in _IOW() specify as a third macro argument type which is
-> > > > passed as pointer to the third argument for ioctl() syscall.
-> > > >
-> > > > So e.g.:
-> > > >
-> > > >   #define EVIOCSCLOCKID _IOW('E', 0xa0, int)
-> > > >
-> > > > is called from userspace as:
-> > > >
-> > > >   int val;
-> > > >   ioctl(fd, EVIOCSCLOCKID, &val);
-> > > >
-> > > > Or
-> > > >
-> > > >   #define EVIOCSMASK _IOW('E', 0x93, struct input_mask)
-> > > >
-> > > > is called as:
-> > > >
-> > > >   struct input_mask val;
-> > > >   ioctl(fd, EVIOCSMASK, &val);
-> > > >
-> > > > So basically third argument for _IOW specify size of byte buffer passed
-> > > > as third argument for ioctl(). In _IOW is not specified pointer to
-> > > > struct input_mask, but struct input_mask itself.
-> > > >
-> > > > And in case you define
-> > > >
-> > > >   #define MY_NEW_IOCTL _IOW(UINPUT_IOCTL_BASE, 200, char*)
-> > > >
-> > > > then you by above usage you should pass data as:
-> > > >
-> > > >   char *val = "DATA";
-> > > >   ioctl(fd, MY_NEW_IOCTL, &val);
-> > > >
-> > > > Which is not same as just:
-> > > >
-> > > >   ioctl(fd, MY_NEW_IOCTL, "DATA");
-> > > >
-> > > > As in former case you passed pointer to pointer to data and in later
-> > > > case you passed only pointer to data.
-> > > >
-> > > > It just mean that UI_SET_PHYS is already defined inconsistently which is
-> > > > also reason why compat ioctl for it was introduced.
-> > >
-> > > Yes, you are right. UI_SET_PHYS is messed up. I guess the question is
-> > > what to do with all of this...
-> > >
-> > > Maybe we should define
-> > >
-> > > #define UI_SET_PHYS_STR(len)  _IOC(_IOC_WRITE, UINPUT_IOCTL_BASE, 111, len)
-> > > #define UI_SET_UNIQ_STR(len)  _IOC(_IOC_WRITE, UINPUT_IOCTL_BASE, 112, len)
-> >
-> > I'm not sure if this is ideal. Normally in C strings are nul-termined,
-> > so functions/macros do not take buffer length.
-> Except strncpy, strndup, snprintf, etc. all expect a buffer length. At
+Hello,
 
-This is something different as for these functions you pass buffer and
-length of buffer which is used in write mode -- not for read mode.
+syzbot found the following crash on:
 
-> the user to kernel boundary of ioctl, I think we should require size
-> of the user buffer regardless of the data type.
-> 
-> > _STR therefore in names looks inconsistent.
-> The _STR suffix is odd (what to name UI_SET_PHYS_STR then??) but
-> requiring the length seems to be common across various ioctls.
-> * input.h requires a length when requesting the phys and uniq
-> (https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/uapi/linux/input.h#n138)
-> * Same with HIDRAW when setting and getting features:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/uapi/linux/hidraw.h#n40,
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/samples/hidraw/hid-example.c#n88
+HEAD commit:    1f22d15c usb: gadget: add raw-gadget interface
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=11d12861e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8ccee2968018adcb
+dashboard link: https://syzkaller.appspot.com/bug?extid=09ef48aa58261464b621
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=101a781ee00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15d71c2ae00000
 
-All these ioctls where is passed length are in opposite direction
-(_IOC_READ) as our PHYS and UNIQ (_IOC_WRITE).
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+09ef48aa58261464b621@syzkaller.appspotmail.com
 
-I fully agree that when you need to read something from kernel
-(_IOC_READ) and then writing it to userspace, you need to specify length
-of userspace buffer. Exactly same as with userspace functions like
-memcpy, snprintf, etc... as you pointed. Otherwise you get buffer
-overflow as callee does not know length of buffer.
+==================================================================
+BUG: KASAN: slab-out-of-bounds in __extract drivers/hid/hid-core.c:1345  
+[inline]
+BUG: KASAN: slab-out-of-bounds in hid_field_extract+0x150/0x170  
+drivers/hid/hid-core.c:1365
+Read of size 1 at addr ffff8881cf50f000 by task swapper/0/0
 
-But here we we have there quite different problem, we need to write
-something to kernel from userspace (_IOC_WRITE) and we are passing
-nul-term string. So in this case specifying size is not required as it
-is implicitly specified as part of passed string.
+CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.4.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  <IRQ>
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xef/0x16e lib/dump_stack.c:118
+  print_address_description.constprop.0+0x36/0x50 mm/kasan/report.c:374
+  __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:506
+  kasan_report+0xe/0x20 mm/kasan/common.c:638
+  __extract drivers/hid/hid-core.c:1345 [inline]
+  hid_field_extract+0x150/0x170 drivers/hid/hid-core.c:1365
+  hid_input_field drivers/hid/hid-core.c:1537 [inline]
+  hid_report_raw_event+0x448/0xed0 drivers/hid/hid-core.c:1757
+  hid_input_report+0x315/0x3f0 drivers/hid/hid-core.c:1824
+  hid_irq_in+0x50e/0x690 drivers/hid/usbhid/hid-core.c:284
+  __usb_hcd_giveback_urb+0x1f2/0x470 drivers/usb/core/hcd.c:1648
+  usb_hcd_giveback_urb+0x368/0x420 drivers/usb/core/hcd.c:1713
+  dummy_timer+0x123d/0x2fdb drivers/usb/gadget/udc/dummy_hcd.c:1966
+  call_timer_fn+0x179/0x650 kernel/time/timer.c:1404
+  expire_timers kernel/time/timer.c:1449 [inline]
+  __run_timers kernel/time/timer.c:1773 [inline]
+  __run_timers kernel/time/timer.c:1740 [inline]
+  run_timer_softirq+0x5e3/0x1490 kernel/time/timer.c:1786
+  __do_softirq+0x221/0x912 kernel/softirq.c:292
+  invoke_softirq kernel/softirq.c:373 [inline]
+  irq_exit+0x178/0x1a0 kernel/softirq.c:413
+  exiting_irq arch/x86/include/asm/apic.h:536 [inline]
+  smp_apic_timer_interrupt+0x12f/0x500 arch/x86/kernel/apic/apic.c:1137
+  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:829
+  </IRQ>
+RIP: 0010:default_idle+0x28/0x2e0 arch/x86/kernel/process.c:700
+Code: cc cc 41 56 41 55 65 44 8b 2d 1c e6 89 7a 41 54 55 53 0f 1f 44 00 00  
+e8 76 ed cb fb e9 07 00 00 00 0f 00 2d 2a 6c 4a 00 fb f4 <65> 44 8b 2d f8  
+e5 89 7a 0f 1f 44 00 00 5b 5d 41 5c 41 5d 41 5e c3
+RSP: 0018:ffffffff86c07da8 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
+RAX: 0000000000000007 RBX: ffffffff86c2b240 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000006 RDI: ffffffff86c2ba8c
+RBP: fffffbfff0d85648 R08: ffffffff86c2b240 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+  cpuidle_idle_call kernel/sched/idle.c:154 [inline]
+  do_idle+0x3c3/0x4e0 kernel/sched/idle.c:269
+  cpu_startup_entry+0x14/0x20 kernel/sched/idle.c:361
+  start_kernel+0x82a/0x864 init/main.c:784
+  secondary_startup_64+0xa4/0xb0 arch/x86/kernel/head_64.S:242
 
-> >
-> > Maybe this is something which should be handled and unified at global
-> > scope of linux include files. Or al least make consensus how should be
-> > new ioctls for linux written.
-> >
-> > Otherwise each API would use different ioctl schema and mess would be
-> > still there. Which means that defining a new ioctl UI_SET_PHYS_STR for
-> > existing one UI_SET_PHYS does not fix anything -- but rather make mess a
-> > big larger.
-> >
-> > Or is there already some discussion on LKML about this ioctl problem?
-> I found this fairly old email (couldn't find something more recent):
-> http://lkml.iu.edu/hypermail/linux/kernel/9903.3/0325.html
-> I think the intent is for userspace to provide the size of the string
-> they're passing in (or at least the size of the allocated buffer that
-> has the string).
+Allocated by task 12:
+  save_stack+0x1b/0x80 mm/kasan/common.c:71
+  set_track mm/kasan/common.c:79 [inline]
+  __kasan_kmalloc mm/kasan/common.c:512 [inline]
+  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:485
+  kmalloc include/linux/slab.h:561 [inline]
+  hcd_buffer_alloc+0x1ed/0x290 drivers/usb/core/buffer.c:132
+  usb_alloc_coherent+0x5d/0x80 drivers/usb/core/usb.c:910
+  hid_alloc_buffers drivers/hid/usbhid/hid-core.c:846 [inline]
+  usbhid_start+0x60b/0x22f0 drivers/hid/usbhid/hid-core.c:1075
+  hid_hw_start+0x5d/0x130 drivers/hid/hid-core.c:2022
+  ms_probe+0x159/0x4d0 drivers/hid/hid-microsoft.c:394
+  hid_device_probe+0x2be/0x3f0 drivers/hid/hid-core.c:2255
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0x1480/0x1c20 drivers/base/core.c:2487
+  hid_add_device drivers/hid/hid-core.c:2411 [inline]
+  hid_add_device+0x33c/0x9a0 drivers/hid/hid-core.c:2360
+  usbhid_probe+0xa81/0xfa0 drivers/hid/usbhid/hid-core.c:1386
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0x1480/0x1c20 drivers/base/core.c:2487
+  usb_set_configuration+0xe67/0x1740 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0x1480/0x1c20 drivers/base/core.c:2487
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2537
+  hub_port_connect drivers/usb/core/hub.c:5184 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
+  port_event drivers/usb/core/hub.c:5470 [inline]
+  hub_event+0x1e59/0x3860 drivers/usb/core/hub.c:5552
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2264
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 
-Yes, but this is again opposite direction _IOC_READ. As wrote above I
-agree that specifying size of buffer for filling data is required.
+Freed by task 238:
+  save_stack+0x1b/0x80 mm/kasan/common.c:71
+  set_track mm/kasan/common.c:79 [inline]
+  kasan_set_free_info mm/kasan/common.c:334 [inline]
+  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:473
+  slab_free_hook mm/slub.c:1425 [inline]
+  slab_free_freelist_hook mm/slub.c:1458 [inline]
+  slab_free mm/slub.c:3005 [inline]
+  kfree+0xdc/0x310 mm/slub.c:3957
+  uevent_show+0x2b9/0x360 drivers/base/core.c:1529
+  dev_attr_show+0x4b/0x90 drivers/base/core.c:1225
+  sysfs_kf_seq_show+0x1f8/0x410 fs/sysfs/file.c:60
+  seq_read+0x4b9/0x10f0 fs/seq_file.c:229
+  kernfs_fop_read+0xe9/0x560 fs/kernfs/file.c:251
+  __vfs_read+0x76/0x100 fs/read_write.c:425
+  vfs_read+0x1ea/0x430 fs/read_write.c:461
+  ksys_read+0x127/0x250 fs/read_write.c:587
+  do_syscall_64+0xb7/0x5b0 arch/x86/entry/common.c:294
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
 
-> >
-> > > and mark UI_SET_PHYS as deprecated/wrong? This will allow us to specify
-> > > exactly how much data kernel is supposed to fetch from userspace instead
-> > > of trying to rely on a null-terminated string.
-> > >
-> > > It would also be very helpful if BlueZ did not accept changes that use
-> > > this brand new ioctl until after we agreed on how it should look like.
-> > > Luiz, can it be reverted for now please?
-> > >
-> > > Thanks.
-> > >
-> >
-> > --
-> > Pali Rohár
-> > pali.rohar@gmail.com
-> 
-> 
-> Abhishek
+The buggy address belongs to the object at ffff8881cf50e000
+  which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 0 bytes to the right of
+  4096-byte region [ffff8881cf50e000, ffff8881cf50f000)
+The buggy address belongs to the page:
+page:ffffea00073d4200 refcount:1 mapcount:0 mapping:ffff8881da40c280  
+index:0x0 compound_mapcount: 0
+raw: 0200000000010200 dead000000000100 dead000000000122 ffff8881da40c280
+raw: 0000000000000000 0000000000040004 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
 
--- 
-Pali Rohár
-pali.rohar@gmail.com
+Memory state around the buggy address:
+  ffff8881cf50ef00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  ffff8881cf50ef80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> ffff8881cf50f000: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                    ^
+  ffff8881cf50f080: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+  ffff8881cf50f100: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
