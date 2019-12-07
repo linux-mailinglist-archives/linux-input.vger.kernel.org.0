@@ -2,131 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78E53115E84
-	for <lists+linux-input@lfdr.de>; Sat,  7 Dec 2019 21:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B596115EAC
+	for <lists+linux-input@lfdr.de>; Sat,  7 Dec 2019 21:44:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726595AbfLGUdV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 7 Dec 2019 15:33:21 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:42574 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726555AbfLGUdV (ORCPT
-        <rfc822;Linux-input@vger.kernel.org>); Sat, 7 Dec 2019 15:33:21 -0500
-Received: by mail-pg1-f195.google.com with SMTP id i5so5065190pgj.9;
-        Sat, 07 Dec 2019 12:33:21 -0800 (PST)
+        id S1726595AbfLGUos (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 7 Dec 2019 15:44:48 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:37823 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726516AbfLGUos (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Dec 2019 15:44:48 -0500
+Received: by mail-pf1-f193.google.com with SMTP id s18so5157048pfm.4;
+        Sat, 07 Dec 2019 12:44:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=SSICCxMKpl+JKm7rALii5MzV3zKZnjOifrusG4t7hjE=;
-        b=WTVbDqKWHLJYH8D4DY5H7+gbxExUgvDgcu01y+aBFNoWL1GQEEgo6H1MBD6rw5g/qC
-         +9g0/j5l6sFjrOiTSSrUubdVVXxuDgdU7rq5xfKjNUjyfKyUOxzhOwafcVyMcCNVY7vB
-         WPVTym3IEapcsPMn98Ldd6j+vM0cAvwn3XdEqFFc/gyocjaxqpJbULcXjypqRFhNcAFh
-         ZRXm85IZ73SIpomAfzPHj5yYNpw3sV2lx48Usnv5r0S69Qj20gftkXA6iEqa3kVLcGdz
-         VqiEg8vsrUgU0RJ3U7G3itFHiuJKyXOL5zJyh8bD2/twpiIbhB/R1oOdKdi3uCs8Xdg0
-         vt7Q==
+        bh=Xyf0SZecPpkfLjmlG+eMPlHT7I5Xhz/GSXg3wKF5298=;
+        b=LakI9cilJttAR/DfAQxOuA91gI4/zJVihz/ge7MdhSp+JjysZd1Y8vBysj+LSibOpD
+         3WZ4oruFthXPOpH0oFYnqk7iwJdSQF81TTAPiMZsIV4LU+NXyKzjE68pncawYSV/pIkI
+         eoQmWdXF+DKHmO06RT22Ypskk6TDYaOQmISpS9l9NAsKyECoghlwbgwa/2YnMNCn0ctw
+         lVghy0pbFXEZS6FL58SjN0705SO4C3IfseDo/etie2DmwoDzLGnuWKbXjRZtS46LonB/
+         UmrDocvFDDhmAPIX77ijeP6l2q9HOTO2HkfoxphQz5NOWQ5L5pENduz6rE0s5D4IU6Vd
+         PTHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=SSICCxMKpl+JKm7rALii5MzV3zKZnjOifrusG4t7hjE=;
-        b=SAU3qfzv6zHmYi9RQ6jPvOAmQ2klNrXGiF+Z7wu0MSmDdDeBVdQcrwOF89PyqjGy7d
-         UW1gOGNZr1XICeuv9khe0sF4UyulfW8s8dLkKn4sxXBpX7TwFEA8UO9HqDyQM4/Gq3UL
-         Z07xF5qngMj2Y0lqKfnSOPKnF7FxNeoMAvB+vAoI49b7UE642L/aOnqxRNsW5EX4ajZq
-         X0S3SJw9nPTrd+DPCBc/0mKH8M2e09bsNuFkBdkYDKzEn46W7UqL2G19pT+S6WbqjghA
-         nfE7OrPOLGcjejaW86uuPSAuAYSwTYa6J+ik8+IGusETvT2JA9WZcbbVFAnUQFc+d7EN
-         Ua0g==
-X-Gm-Message-State: APjAAAWHwkx6QnMRXJQMTCz/nor3hnVvEUFloaZBS2TciCktOI7G5HJq
-        FDMK7cd3A7LuQKu/axnzJIPMekli
-X-Google-Smtp-Source: APXvYqyXYIe8pIikK+9XAVjHrHQJ/Cyw2cslJNmKp77dR5WvXV2+kLsEVr0paXf5GhiRuipy0sHCBQ==
-X-Received: by 2002:a62:7b86:: with SMTP id w128mr21910246pfc.189.1575750800779;
-        Sat, 07 Dec 2019 12:33:20 -0800 (PST)
+        bh=Xyf0SZecPpkfLjmlG+eMPlHT7I5Xhz/GSXg3wKF5298=;
+        b=etzUAA4fjgBi13NOHMlW5dSK85oOeDeCnLBGMRkyBPZ32B1VTvYiFMv9YfT2YEsKyu
+         guboIoORrKd1BV228M7TPKUSi9Y5KQqIdVwDKsf5LS+BTD/bobx41al6HCTMjvqT3zCE
+         YwcZyBXAXMWbGgOtSLzpPJujO3Wh8HgNTnGpkyqcf8S197moqtcuBIWAi2ZGiJtHrvsD
+         2Q1LOwdKRpY9+vMcrU439o6dpOKNm8SGmgHF7aldzMloHHMvaUrG2SFAuR5dinM1EXII
+         IfU3hPwKdbo/XtMwx78Yj5DYSaIgt9ufKkhxhi5GpIx2Q6PS4HG/1G2+9q5fJ8u901X3
+         5z/A==
+X-Gm-Message-State: APjAAAUNlv577pEFRD3ZvfgceOuiYlsbkO9kLo5ES4NhDXw7okYmsYrc
+        pN4ClDKARoRiPL+BhWF1Ano=
+X-Google-Smtp-Source: APXvYqx9jOthFQ3zKT9urFlJnFWqAP3oBNS+PKy6fXC71X8YS+7fEvHpDEQD9lpcr787AZVtYGYEUQ==
+X-Received: by 2002:a65:5a4d:: with SMTP id z13mr10757516pgs.21.1575751487293;
+        Sat, 07 Dec 2019 12:44:47 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id s18sm21701400pfs.20.2019.12.07.12.33.19
+        by smtp.gmail.com with ESMTPSA id fh2sm7654327pjb.30.2019.12.07.12.44.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Dec 2019 12:33:19 -0800 (PST)
+        Sat, 07 Dec 2019 12:44:46 -0800 (PST)
+Date:   Sat, 7 Dec 2019 12:44:44 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-X-Google-Original-From: Dmitry Torokhov <Dmitry.torokhov@gmail.com>
-Date:   Sat, 7 Dec 2019 12:33:17 -0800
-To:     "Dave.Wang" <dave.wang@emc.com.tw>
-Cc:     Linux-kernel@vger.kernel.org, Linux-input@vger.kernel.org,
-        'Benjamin Tissoires' <benjamin.tissoires@redhat.com>,
-        "'Josh.Chen'" <josh.chen@emc.com.tw>, jingle.wu@emc.com.tw,
-        'phoenix' <phoenix@emc.com.tw>
-Subject: Re: [PATCH 1/6] Input: elantech - Add the pattern for firmware into
- elantech_device_info structure
-Message-ID: <20191207203317.GS50317@dtor-ws>
-References: <000101d5abdc$61acff60$2506fe20$@emc.com.tw>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Navid Emamdoost <navid.emamdoost@gmail.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Richard Fontana <rfontana@redhat.com>,
+        Allison Randal <allison@lohutok.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        emamd001@umn.edu
+Subject: Re: [PATCH] Input: Fix memory leak in psxpad_spi_probe
+Message-ID: <20191207204444.GT50317@dtor-ws>
+References: <20191121200115.24846-1-navid.emamdoost@gmail.com>
+ <20191122190208.GA248138@dtor-ws>
+ <20191126093434.GA1383178@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <000101d5abdc$61acff60$2506fe20$@emc.com.tw>
+In-Reply-To: <20191126093434.GA1383178@kroah.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dave,
-
-On Fri, Dec 06, 2019 at 10:25:09AM +0800, Dave.Wang wrote:
-> Add the conditional expression to distinguish different patterns regarding
-> 0, 1, 2. Different pattern has its own location for device information.
-
-Your patches came in as line-wrapped by your mailer. Could you try
-resending with "git send-email" please?
-
-And could you please also add Kai-Heng Feng
-<kai.heng.feng@canonical.com> to the CC as they were looking at the
-bunch of laptops with Elan parts.
-
-Thanks!
-
+On Tue, Nov 26, 2019 at 10:34:34AM +0100, Greg Kroah-Hartman wrote:
+> On Fri, Nov 22, 2019 at 11:02:08AM -0800, Dmitry Torokhov wrote:
+> > Hi Navid,
+> > 
+> > On Thu, Nov 21, 2019 at 02:01:11PM -0600, Navid Emamdoost wrote:
+> > > In the implementation of psxpad_spi_probe() the allocated memory for
+> > > pdev is leaked if psxpad_spi_init_ff() or input_register_polled_device()
+> > > fail. The solution is using device managed allocation, like the one used
+> > > for pad. Perform the allocation using
+> > > devm_input_allocate_polled_device().
+> > > 
+> > > Fixes: 8be193c7b1f4 ("Input: add support for PlayStation 1/2 joypads connected via SPI")
+> > > Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+> > 
+> > This is fixed in the current version of the driver, but you can send it
+> > to stable@gerkernel.orf with my
 > 
-> Signed-off-by: Dave Wang <dave.wang@emc.com.tw>
-> ---
->  drivers/input/mouse/elantech.c | 11 +++++++++++
-> drivers/input/mouse/elantech.h |  1 +
->  2 files changed, 12 insertions(+)
-> 
-> diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-> index 2d8434b7b623..1f0d914acd78 100644
-> --- a/drivers/input/mouse/elantech.c
-> +++ b/drivers/input/mouse/elantech.c
-> @@ -1557,6 +1557,17 @@ static int elantech_set_properties(struct
-> elantech_device_info *info)
->  		}
->  	}
->  
-> +	/* Get information pattern for hw_version 4 */
-> +	if (ver == 15) {
-> +		if ((info->fw_version & 0x0000ff) == 0x01)
-> +			info->pattern = 0x01;
-> +		else if ((info->fw_version & 0x0000ff) == 0x02)
-> +			info->pattern = 0x02;
-> +		else
-> +			info->pattern = 0x00;
-> +	} else
-> +		info->pattern = 0x00;
-> +
->  	/* decide which send_cmd we're gonna use early */
->  	info->send_cmd = info->hw_version >= 3 ? elantech_send_cmd :
->  						 synaptics_send_cmd;
-> diff --git a/drivers/input/mouse/elantech.h b/drivers/input/mouse/elantech.h
-> index e0a3e59d4f1b..0aae6a9de8f0 100644
-> --- a/drivers/input/mouse/elantech.h
-> +++ b/drivers/input/mouse/elantech.h
-> @@ -140,6 +140,7 @@ struct elantech_device_info {
->  	unsigned char samples[3];
->  	unsigned char debug;
->  	unsigned char hw_version;
-> +	unsigned char pattern;
->  	unsigned int fw_version;
->  	unsigned int x_min;
->  	unsigned int y_min;
-> --
-> 2.17.1
-> 
-> 
+> Was it fixed by any specific patch, or just a side-affect of some other
+> larger change?
+
+It was fixed "by accident" when I converted the driver from using
+input_polled_dev to  standard input device in polled mode.
+
+Thanks.
 
 -- 
 Dmitry
