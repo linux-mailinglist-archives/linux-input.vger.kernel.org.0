@@ -2,56 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6852115EB5
-	for <lists+linux-input@lfdr.de>; Sat,  7 Dec 2019 22:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 481B6115EC3
+	for <lists+linux-input@lfdr.de>; Sat,  7 Dec 2019 22:28:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726595AbfLGVFW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 7 Dec 2019 16:05:22 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:36573 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726555AbfLGVFW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Dec 2019 16:05:22 -0500
-Received: by mail-pl1-f193.google.com with SMTP id k20so4163929pls.3;
-        Sat, 07 Dec 2019 13:05:21 -0800 (PST)
+        id S1726484AbfLGV2C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 7 Dec 2019 16:28:02 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:44710 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726403AbfLGV2C (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Dec 2019 16:28:02 -0500
+Received: by mail-pf1-f194.google.com with SMTP id d199so5179597pfd.11;
+        Sat, 07 Dec 2019 13:28:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :user-agent;
-        bh=QG5kX6AYM8tSMzecYPD64LS8jMJM8DZLST+q6ta/2R8=;
-        b=NDomRTLZknql092NSwD/Y9OitpXT2rn4y9sSxZyiEfunpy5JKwaFi39JwRUEKL/W80
-         NxbbN9mMZhIomhuPjn9GjKLSIikz6eDKZOyL1n4ACzcX8kwxPuUJXIiNfFg2TII2CP3q
-         QB3epT60v4rTAht6X2hIQqhI88Zlp3uH7gOgGGpGHTiZjIatNyglUL6dsStfwjgeWmBY
-         UWFvBTR12shDt4BiSIoO3Fmf/9zc3OwkS537mM+EvoAsoUZRYcpbdOdvYDW6NmnZeK+s
-         2slKrPzhmxtyafjDmHwVlir2PoKFhSOZuUMbEe3mbZHWmTzKDVXRIYv57u4x5Dv5NXTw
-         w/yA==
+        bh=7QgLAr54tGOQW12CjdWK9YktM6aEfGz9qXMtuVDlq9g=;
+        b=NyJhulfYmPdj7HKprRXsHVskPh7P27hTxhtbI6DFcXvCUb/51NK0e+SSWw1x9utR8D
+         ScQqTaHmssTJy4vldU+YjmWOdHQscb9eFJD/KiSlDXghNnajY3gIBn4s/QL/U4mZ+AZQ
+         AYNLzw1Qudb+WV4ZjK7USdB5euE4QX/7syBuRbTzsdBB6btC+NRBcyS2JYXsutMP2AiC
+         t6M+3rokj140i3YCZpFx9b7+1ySUYISlziShW7/9clQq5V3srlEE3XyscKGT5zVQmaHH
+         t1GmZVJCzgYsI0RGwY7uiKvVVTYsc9WYWGx6Y5oRuDCu2G5e/OmqE3Jn+mqKH5Vp8gWI
+         /JMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition:user-agent;
-        bh=QG5kX6AYM8tSMzecYPD64LS8jMJM8DZLST+q6ta/2R8=;
-        b=AEVYjdo2E/mFJKCWL9yilD3CBHSVxgco7hrEwZmcpizyfYfI7e34VwHgKeOc7vQg8D
-         LKnTKpflC3OD8taL9mfNrVHFHUmkr9uCw5bnG44Ue5rRd8WAIJp5cSvmmtz0edlYZDXi
-         oiYlWNk5ih1t2U97Af+FrFEGQnb6Q5FPmZ1OXCdSuveTMYAlR+oBdEl6K4qensEYzLw6
-         +68/lTuIkA+mwrklKJbVX43UoN4G4AzHIZBiYT1G2dbq6GFG1ZhF65bfJ4tG5zoh/jeT
-         xK414xgkE3kcmeA3JAqHZoG5238eHz6fQ8KbiKqHGE3v2RSDn5qqMGFnXPZA83flmSzh
-         mL2g==
-X-Gm-Message-State: APjAAAVAXw3ZKey6294KHj6M+zlNm4Im+qX+YzGziR4rLWxZxBKFJJYL
-        32VMXG7RGFyVexQdUHu4kuc=
-X-Google-Smtp-Source: APXvYqwQN+C5vYeDE1APuPCTco4rVzaYRrWtxyK5ZSNAUvQvqzPmEbbdbVPxcw1y7aX+NhpNeDj1ow==
-X-Received: by 2002:a17:90a:e291:: with SMTP id d17mr24114314pjz.116.1575752721245;
-        Sat, 07 Dec 2019 13:05:21 -0800 (PST)
+        bh=7QgLAr54tGOQW12CjdWK9YktM6aEfGz9qXMtuVDlq9g=;
+        b=GUc0yRyR7Dp8SVaXfUAvaoFqw8IEiNbtP2sehpsLRAzozApRjjQt3z3tgBAodnjfgN
+         ec3dIm3F5UkkaJmqJZwR/0+FbAbM4RhysPlVSyZVWtFRganIlF4D5bI7IuBAvGuFAPO4
+         vkK1yqLJzFpBFJmE3FdH5ns5CQ6l1ZT49E2yG+L81iwsGRnq6qXApDOaFL/qPbDPdYNR
+         gQFFAG4zTdZyWY/Sn4lMt75t/oaNSugvFPu+fmyTlBOruMQ5N1YYzrzewoVD+ilmSlvx
+         tOKtKayBDvt+ZtVOdUoxAGdXRSSP705PfrJBNNiF1BgNQf4vyD/xdsqlYdsLjExjFe6F
+         g1wg==
+X-Gm-Message-State: APjAAAX6BI5ZVOtek+EbSN/OGD2W3H6ISjAmbZbqzZFJOsVAUir80jqC
+        /8RgF4oQ7l38Cqnq5FIH4AsqHkRf
+X-Google-Smtp-Source: APXvYqwhe4ujjXC5uq5o8NemBUi5Ng+G9I71V00uZ7/HhhYIa9EGemCkj5wR8QAYlF1fJBf5+i+UNQ==
+X-Received: by 2002:a65:6088:: with SMTP id t8mr3677244pgu.329.1575754080959;
+        Sat, 07 Dec 2019 13:28:00 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id m13sm19203025pga.70.2019.12.07.13.05.20
+        by smtp.gmail.com with ESMTPSA id a22sm22659292pfk.108.2019.12.07.13.27.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Dec 2019 13:05:20 -0800 (PST)
-Date:   Sat, 7 Dec 2019 13:05:18 -0800
+        Sat, 07 Dec 2019 13:28:00 -0800 (PST)
+Date:   Sat, 7 Dec 2019 13:27:57 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     linux-input@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] HID: hid-input: clear unmapped usages
-Message-ID: <20191207210518.GA181006@dtor-ws>
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: add safety guards to input_set_keycode()
+Message-ID: <20191207212757.GA245964@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -61,73 +61,66 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-We should not be leaving half-mapped usages with potentially invalid
-keycodes, as that may confuse hidinput_find_key() when the key is located
-by index, which may end up feeding way too large keycode into the VT
-keyboard handler and cause OOB write there:
+If we happen to have a garbage in input device's keycode table with values
+too big we'll end up doing clear_bit() with offset way outside of our
+bitmaps, damaging other objects within an input device or even outside of
+it. Let's add sanity checks to the returned old keycodes.
 
-BUG: KASAN: global-out-of-bounds in clear_bit include/asm-generic/bitops-instrumented.h:56 [inline]
-BUG: KASAN: global-out-of-bounds in kbd_keycode drivers/tty/vt/keyboard.c:1411 [inline]
-BUG: KASAN: global-out-of-bounds in kbd_event+0xe6b/0x3790 drivers/tty/vt/keyboard.c:1495
-Write of size 8 at addr ffffffff89a1b2d8 by task syz-executor108/1722
-...
- kbd_keycode drivers/tty/vt/keyboard.c:1411 [inline]
- kbd_event+0xe6b/0x3790 drivers/tty/vt/keyboard.c:1495
- input_to_handler+0x3b6/0x4c0 drivers/input/input.c:118
- input_pass_values.part.0+0x2e3/0x720 drivers/input/input.c:145
- input_pass_values drivers/input/input.c:949 [inline]
- input_set_keycode+0x290/0x320 drivers/input/input.c:954
- evdev_handle_set_keycode_v2+0xc4/0x120 drivers/input/evdev.c:882
- evdev_do_ioctl drivers/input/evdev.c:1150 [inline]
-
-Reported-by: syzbot+19340dff067c2d3835c0@syzkaller.appspotmail.com
+Reported-by: syzbot+c769968809f9359b07aa@syzkaller.appspotmail.com
+Reported-by: syzbot+76f3a30e88d256644c78@syzkaller.appspotmail.com
+Cc: stable@vger.kernel.org
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
+ drivers/input/input.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
-v2: fixed up interaction with hid-multitouch according to Benjamin's
-feedback
-
-Please consider tagging for stable.
-
- drivers/hid/hid-input.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 63855f275a38..9428f49fd218 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -1132,9 +1132,15 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index 55086279d044..ee6c3234df36 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -878,16 +878,18 @@ static int input_default_setkeycode(struct input_dev *dev,
+ 		}
  	}
  
- mapped:
--	if (device->driver->input_mapped && device->driver->input_mapped(device,
--				hidinput, field, usage, &bit, &max) < 0)
--		goto ignore;
-+	if (device->driver->input_mapped &&
-+	    device->driver->input_mapped(device, hidinput, field, usage,
-+					 &bit, &max) < 0) {
-+		/*
-+		 * The driver indicated that no further generic handling
-+		 * of the usage is desired.
-+		 */
-+		return;
-+	}
- 
- 	set_bit(usage->type, input->evbit);
- 
-@@ -1215,9 +1221,11 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 		set_bit(MSC_SCAN, input->mscbit);
+-	__clear_bit(*old_keycode, dev->keybit);
+-	__set_bit(ke->keycode, dev->keybit);
+-
+-	for (i = 0; i < dev->keycodemax; i++) {
+-		if (input_fetch_keycode(dev, i) == *old_keycode) {
+-			__set_bit(*old_keycode, dev->keybit);
+-			break; /* Setting the bit twice is useless, so break */
++	if (*old_keycode <= KEY_MAX) {
++		__clear_bit(*old_keycode, dev->keybit);
++		for (i = 0; i < dev->keycodemax; i++) {
++			if (input_fetch_keycode(dev, i) == *old_keycode) {
++				__set_bit(*old_keycode, dev->keybit);
++				/* Setting the bit twice is useless, so break */
++				break;
++			}
+ 		}
  	}
  
--ignore:
- 	return;
- 
-+ignore:
-+	usage->type = 0;
-+	usage->code = 0;
++	__set_bit(ke->keycode, dev->keybit);
+ 	return 0;
  }
  
- static void hidinput_handle_scroll(struct hid_usage *usage,
+@@ -943,9 +945,13 @@ int input_set_keycode(struct input_dev *dev,
+ 	 * Simulate keyup event if keycode is not present
+ 	 * in the keymap anymore
+ 	 */
+-	if (test_bit(EV_KEY, dev->evbit) &&
+-	    !is_event_supported(old_keycode, dev->keybit, KEY_MAX) &&
+-	    __test_and_clear_bit(old_keycode, dev->key)) {
++	if (old_keycode > KEY_MAX) {
++		dev_warn(dev->dev.parent ?: &dev->dev,
++			 "%s: got too big old keycode %#x\n",
++			 __func__, old_keycode);
++	} else if (test_bit(EV_KEY, dev->evbit) &&
++		   !is_event_supported(old_keycode, dev->keybit, KEY_MAX) &&
++		   __test_and_clear_bit(old_keycode, dev->key)) {
+ 		struct input_value vals[] =  {
+ 			{ EV_KEY, old_keycode, 0 },
+ 			input_value_sync
 -- 
 2.24.0.393.g34dc348eaf-goog
 
