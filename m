@@ -2,70 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C18D115FF4
-	for <lists+linux-input@lfdr.de>; Sun,  8 Dec 2019 01:07:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF48B116028
+	for <lists+linux-input@lfdr.de>; Sun,  8 Dec 2019 03:36:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726421AbfLHAHT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 7 Dec 2019 19:07:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35500 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726378AbfLHAHT (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 7 Dec 2019 19:07:19 -0500
-Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 333682176D;
-        Sun,  8 Dec 2019 00:07:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575763638;
-        bh=M7YFDrfsP98aHjcTFmDSkdeQQZQR99Y+Wunr3u7VZBk=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=1TY4b7uPfggkxhFT+TY3ACqYiMTBwLT2da6upkhSP9ffdWP65lHcYCNWxCaVLoSdI
-         nNqzfhmSQZ+33DwsBzNTLbncAzpH2IXNJw6CaWZR0LORJF34o81IxGrRrLHI2Au6KE
-         eU8U9cK9EaBIOthIBFlz5Iupe4m6Q3Q60w8XZmh0=
-Date:   Sun, 8 Dec 2019 01:07:02 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Jani Nikula <jani.nikula@intel.com>
-cc:     =?ISO-8859-15?Q?Bruno_Pr=E9mont?= <bonbons@linux-vserver.org>,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, ville.syrjala@linux.intel.com,
-        linux-input@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v2 11/14] HID: picoLCD: constify fb ops
-In-Reply-To: <871rtji02a.fsf@intel.com>
-Message-ID: <nycvar.YFH.7.76.1912080106260.4603@cbobk.fhfr.pm>
-References: <cover.1575022735.git.jani.nikula@intel.com> <8678a9a3566279c881bb4db944850eef35d0a4bb.1575022735.git.jani.nikula@intel.com> <20191202094047.34525a7d@aether.lan.sysophe.eu> <871rtji02a.fsf@intel.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1726442AbfLHCgM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 7 Dec 2019 21:36:12 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:40885 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726418AbfLHCgL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Dec 2019 21:36:11 -0500
+Received: by mail-lj1-f194.google.com with SMTP id s22so11748535ljs.7
+        for <linux-input@vger.kernel.org>; Sat, 07 Dec 2019 18:36:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=a4jfnZBW3KpYqP1Bv2BekVx6xqeSOyyCAahQiCKEzmI=;
+        b=gpm7ue+/WAaHJLspUVE0QHZjp9pYnUFrx5hP6CyG9vZV3BGNG87eo+wyaHng0ZzJyV
+         jwWpyon4dyyOqUTtTihxUTSW+iJMhK07xO1DeUKTKVkKWMa83YkTFgGKGBaOvMPc64jq
+         rHKtDEzG8fl2ltu7L9C5jlkLv2jd0uaLNnonY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=a4jfnZBW3KpYqP1Bv2BekVx6xqeSOyyCAahQiCKEzmI=;
+        b=UU91zuExvfqIXDqr4woum5eYB30dKsWy0jY73dwES1y2rOwF76Wq5c3s4F/g1dVVF3
+         8NgnhMT+blYgWrUJlm4QeOhV6hYXzaHf5ISUN8IVFac3hZpau16FFH/RWmiT2iWXO+kb
+         wLeMWTe9In3HYPLDvgCfNDtiaucq8lhjnVJ4ObaYDvtPCPgHum7KjrpWDEy3CL3nC4+2
+         YYW9mkRwugZ3mdsvKSinn9pdlnTq7BjFGigZD85GQyKtWYKxe5Gns3rriv4ciNrGIEk9
+         4d6rWLf13PzYQrZDqzGGYoksirZf4snn+HUQXzTopNeIluW5N59lOOZ+WifNxD2xYNmw
+         nzbA==
+X-Gm-Message-State: APjAAAVkPAFNeNYtVsfZcd36tCujLa+eI0Y8/Tsa2M6EAqyVoNNJg9G/
+        Gj6znjAHKDokcexqz6lPATyh/7eCWfA=
+X-Google-Smtp-Source: APXvYqxzp1kWwgteRIDi5iPeUendQNzfG7NAwG4wIjbLN69MRCbS+1IS27fZGIGQgYxP6S+Ii72bnA==
+X-Received: by 2002:a2e:93d5:: with SMTP id p21mr13353109ljh.50.1575772569462;
+        Sat, 07 Dec 2019 18:36:09 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id m15sm9102455ljg.4.2019.12.07.18.36.08
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 Dec 2019 18:36:08 -0800 (PST)
+Received: by mail-lf1-f44.google.com with SMTP id c9so7586847lfi.6
+        for <linux-input@vger.kernel.org>; Sat, 07 Dec 2019 18:36:08 -0800 (PST)
+X-Received: by 2002:ac2:555c:: with SMTP id l28mr11709241lfk.52.1575772567987;
+ Sat, 07 Dec 2019 18:36:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+References: <20191207202733.GA153817@dtor-ws>
+In-Reply-To: <20191207202733.GA153817@dtor-ws>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 7 Dec 2019 18:35:52 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wiNz9CtHCobs+WNKeCcgd23adbRtPzoBk7WwEw_Z=i5wA@mail.gmail.com>
+Message-ID: <CAHk-=wiNz9CtHCobs+WNKeCcgd23adbRtPzoBk7WwEw_Z=i5wA@mail.gmail.com>
+Subject: Re: [git pull] Input updates for v5.5-rc0
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 5 Dec 2019, Jani Nikula wrote:
+On Sat, Dec 7, 2019 at 12:27 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> - one can now poll uinput device for writing (which is always allowed)
 
-> >> Now that the fbops member of struct fb_info is const, we can start
-> >> making the ops const as well.
-> >>
-> >> v2: fix	typo (Christophe de Dinechin)
-> >
-> > Fine with me.
-> > I don't think going through drm-misc would trigger any conflict, but
-> > adding Jiri to CC for the case there was any preference.
-> >
-> > Acked-by: Bruno Prémont <bonbons@linux-vserver.org>
-> 
-> No response, may I proceed with merging this through drm-misc please?
+Well, except the code says "if there is data to be read, then it's
+_only_ readable, and you can't write to it".
 
-I have been off the grid the past week, sorry for belated response. Feel 
-free to add
+Is that what you wanted/meant?
 
-	Acked-by: Jiri Kosina <jkosina@suse.cz>
-
-and take it through your tree.
-
--- 
-Jiri Kosina
-SUSE Labs
-
+                Linus
