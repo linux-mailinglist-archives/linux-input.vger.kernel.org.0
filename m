@@ -2,181 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC239116C31
-	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 12:18:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4ED6116D54
+	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 13:53:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727208AbfLILSu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Dec 2019 06:18:50 -0500
-Received: from emcscan.emc.com.tw ([192.72.220.5]:29953 "EHLO
-        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727074AbfLILSt (ORCPT
-        <rfc822;Linux-input@vger.kernel.org>); Mon, 9 Dec 2019 06:18:49 -0500
-X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
-   d="scan'208";a="33204417"
-Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 09 Dec 2019 19:18:48 +0800
-Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(71490:0:AUTH_RELAY)
-        (envelope-from <dave.wang@emc.com.tw>); Mon, 09 Dec 2019 19:18:50 +0800 (CST)
-Received: from 42.73.254.157
-        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(101170:0:AUTH_LOGIN)
-        (envelope-from <dave.wang@emc.com.tw>); Mon, 09 Dec 2019 19:18:47 +0800 (CST)
-From:   Dave Wang <dave.wang@emc.com.tw>
-To:     Linux-input@vger.kernel.org, Linux-kernel@vger.kernel.org,
-        Dmitry.torokhov@gmail.com
-Cc:     phoenix@emc.com.tw, josh.chen@emc.com.tw, jingle.wu@emc.com.tw,
-        kai.heng.feng@canonical.com, Dave Wang <dave.wang@emc.com.tw>
-Subject: [PATCH 3/3] Input: elan_i2c - Get the device information from PS/2 interface
-Date:   Mon,  9 Dec 2019 06:18:42 -0500
-Message-Id: <20191209111842.32390-1-dave.wang@emc.com.tw>
-X-Mailer: git-send-email 2.17.1
+        id S1727617AbfLIMxT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Dec 2019 07:53:19 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59196 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726687AbfLIMxT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 9 Dec 2019 07:53:19 -0500
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C01192077B;
+        Mon,  9 Dec 2019 12:53:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1575895998;
+        bh=U4O5S5rduTkoz2GV1+PR+HzHG8x2XgOHHdNguUE9hoE=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=PuGahGg+Kxhi1BtiiL+cBFKGmrXbgDJx3hB3Idx5s1FkWMN3O147lxKPBnRf97WvQ
+         pcMVDohclVKLlvNb8bzLWaOAXVARR5aXaA4w9tkYL1Q8kjjtLIHPEKaXhnHSxRHW3E
+         lBSdMSXQPHDL/D72y1e6CwltG3ds8XMxk33M0j04=
+Date:   Mon, 9 Dec 2019 13:53:15 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Marcel Holtmann <marcel@holtmann.org>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Fabian Henneke <fabian.henneke@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hidraw: Fix returning EPOLLOUT from hidraw_poll
+In-Reply-To: <20191204023713.3983-1-marcel@holtmann.org>
+Message-ID: <nycvar.YFH.7.76.1912091353020.4603@cbobk.fhfr.pm>
+References: <20191204023713.3983-1-marcel@holtmann.org>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Get the device information from PS/2 interface for PS/2+SMBus
-protocol such as product_id, fw_version, ic_type...etc.
+On Wed, 4 Dec 2019, Marcel Holtmann wrote:
 
-Signed-off-by: Dave Wang <dave.wang@emc.com.tw>
----
- drivers/input/mouse/elan_i2c_smbus.c | 87 +++++++++++++++++-----------
- 1 file changed, 54 insertions(+), 33 deletions(-)
+> When polling a connected /dev/hidrawX device, it is useful to get the
+> EPOLLOUT when writing is possible. Since writing is possible as soon as
+> the device is connected, always return it.
+> 
+> Right now EPOLLOUT is only returned when there are also input reports
+> are available. This works if devices start sending reports when
+> connected, but some HID devices might need an output report first before
+> sending any input reports. This change will allow using EPOLLOUT here as
+> well.
+> 
+> Fixes: 378b80370aa1 ("hidraw: Return EPOLLOUT from hidraw_poll")
+> Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
+> Cc: stable@vger.kernel.org
 
-diff --git a/drivers/input/mouse/elan_i2c_smbus.c b/drivers/input/mouse/elan_i2c_smbus.c
-index 9ffb1f834507..35919035ec89 100644
---- a/drivers/input/mouse/elan_i2c_smbus.c
-+++ b/drivers/input/mouse/elan_i2c_smbus.c
-@@ -146,17 +146,22 @@ static int elan_smbus_get_version(struct i2c_client *client,
- 	int error;
- 	u8 val[I2C_SMBUS_BLOCK_MAX] = {0};
- 
--	error = i2c_smbus_read_block_data(client,
--					  iap ? ETP_SMBUS_IAP_VERSION_CMD :
--						ETP_SMBUS_FW_VERSION_CMD,
--					  val);
--	if (error < 0) {
--		dev_err(&client->dev, "failed to get %s version: %d\n",
--			iap ? "IAP" : "FW", error);
--		return error;
-+	if (device_property_read_u8(&client->dev,
-+				iap ? "elan,iap_version" : "elan,fw_version",
-+				version)) {
-+		error = i2c_smbus_read_block_data(client,
-+				iap ? ETP_SMBUS_IAP_VERSION_CMD :
-+				ETP_SMBUS_FW_VERSION_CMD,
-+				val);
-+		if (error < 0) {
-+			dev_err(&client->dev, "failed to get %s version: %d\n",
-+				iap ? "IAP" : "FW", error);
-+			return error;
-+		}
-+
-+		*version = val[2];
- 	}
- 
--	*version = val[2];
- 	return 0;
- }
- 
-@@ -167,16 +172,21 @@ static int elan_smbus_get_sm_version(struct i2c_client *client,
- 	int error;
- 	u8 val[I2C_SMBUS_BLOCK_MAX] = {0};
- 
--	error = i2c_smbus_read_block_data(client,
--					  ETP_SMBUS_SM_VERSION_CMD, val);
--	if (error < 0) {
--		dev_err(&client->dev, "failed to get SM version: %d\n", error);
--		return error;
-+	if (device_property_read_u8(&client->dev, "elan,sm_version", version) ||
-+	    device_property_read_u16(&client->dev, "elan,ic_type", ic_type)) {
-+		error = i2c_smbus_read_block_data(client,
-+						ETP_SMBUS_SM_VERSION_CMD, val);
-+		if (error < 0) {
-+			dev_err(&client->dev,
-+				"failed to get SM version: %d\n", error);
-+			return error;
-+		}
-+
-+		*version = val[0];
-+		*ic_type = val[1];
-+		*clickpad = val[0] & 0x10;
- 	}
- 
--	*version = val[0];
--	*ic_type = val[1];
--	*clickpad = val[0] & 0x10;
- 	return 0;
- }
- 
-@@ -185,14 +195,18 @@ static int elan_smbus_get_product_id(struct i2c_client *client, u16 *id)
- 	int error;
- 	u8 val[I2C_SMBUS_BLOCK_MAX] = {0};
- 
--	error = i2c_smbus_read_block_data(client,
--					  ETP_SMBUS_UNIQUEID_CMD, val);
--	if (error < 0) {
--		dev_err(&client->dev, "failed to get product ID: %d\n", error);
--		return error;
-+	if (device_property_read_u16(&client->dev, "elan,product_id", id)) {
-+		error = i2c_smbus_read_block_data(client,
-+						ETP_SMBUS_UNIQUEID_CMD, val);
-+		if (error < 0) {
-+			dev_err(&client->dev,
-+				"failed to get product ID: %d\n", error);
-+			return error;
-+		}
-+
-+		*id = be16_to_cpup((__be16 *)val);
- 	}
- 
--	*id = be16_to_cpup((__be16 *)val);
- 	return 0;
- }
- 
-@@ -202,17 +216,22 @@ static int elan_smbus_get_checksum(struct i2c_client *client,
- 	int error;
- 	u8 val[I2C_SMBUS_BLOCK_MAX] = {0};
- 
--	error = i2c_smbus_read_block_data(client,
--					  iap ? ETP_SMBUS_FW_CHECKSUM_CMD :
--						ETP_SMBUS_IAP_CHECKSUM_CMD,
--					  val);
--	if (error < 0) {
--		dev_err(&client->dev, "failed to get %s checksum: %d\n",
--			iap ? "IAP" : "FW", error);
--		return error;
-+	if (device_property_read_u16(&client->dev,
-+				iap ? "elan,iap_checksum" : "elan,fw_checksum",
-+				csum)) {
-+		error = i2c_smbus_read_block_data(client,
-+					iap ? ETP_SMBUS_IAP_CHECKSUM_CMD :
-+						ETP_SMBUS_FW_CHECKSUM_CMD,
-+						val);
-+		if (error < 0) {
-+			dev_err(&client->dev, "failed to get %s checksum: %d\n",
-+				iap ? "IAP" : "FW", error);
-+			return error;
-+		}
-+
-+		*csum = be16_to_cpup((__be16 *)val);
- 	}
- 
--	*csum = be16_to_cpup((__be16 *)val);
- 	return 0;
- }
- 
-@@ -496,7 +515,9 @@ static int elan_smbus_finish_fw_update(struct i2c_client *client,
- 
- static int elan_smbus_get_pattern(struct i2c_client *client, u8 *pattern)
- {
--	*pattern = 0;
-+	if (device_property_read_u8(&client->dev, "elan,pattern", pattern))
-+		*pattern = 0;
-+
- 	return 0;
- }
- 
+Applied, thanks Marcel.
+
 -- 
-2.17.1
+Jiri Kosina
+SUSE Labs
 
