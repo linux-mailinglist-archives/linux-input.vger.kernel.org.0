@@ -2,101 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0B7E117756
-	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 21:23:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DACAA117785
+	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 21:39:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726522AbfLIUW6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Dec 2019 15:22:58 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:45460 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726366AbfLIUW6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Dec 2019 15:22:58 -0500
-Received: by mail-pj1-f65.google.com with SMTP id r11so6350459pjp.12;
-        Mon, 09 Dec 2019 12:22:58 -0800 (PST)
+        id S1726354AbfLIUjE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Dec 2019 15:39:04 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:37349 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726342AbfLIUjE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Dec 2019 15:39:04 -0500
+Received: by mail-ot1-f67.google.com with SMTP id k14so13472278otn.4;
+        Mon, 09 Dec 2019 12:39:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=AhU4In8PuotkeDP8I8PPfaY0k5IvXY23cMJR6CcYwQM=;
-        b=CPEOa+5E8a6FVpvVq1/JmZbb6VFSoZaSXO+RQfKShpU0GPe52p7gyhCymEzGUEuSql
-         uAtr+ryGKEdtn535Zagjq1GHBk+AYjLmqxhwwLkMFOZvRxyE9cZPKoDjjRs+OrB5R2io
-         iZWBqVgryg3fsVGirPINrXiG/Y0hK/BD4Csj1jboMpEUaRushJt5S7j5bbPf1HNyOdI8
-         gdbL5dvZsPICZSsYeNYsLCZsV7a6/lcMSmvVHZLC1J8EMhqRwv6PlTEuDM0w5vccnh6w
-         Hg/WJTAGm9M2vjcbGs8sIlQ80p3jDiUrnsVb5GH/rk5cf4zaWj08gyz4Bf+AhONd5Uqo
-         BM0g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=37oZTgoK/rHPkvQpIwtmm074AngHLngksVgGvWUxYhk=;
+        b=Bb8zFyZwzkBiDZXB2SzwOHTu6dyQ6SEpaXqYj1PFLKVeOxwdGICoGBdvMVYb+YUzDJ
+         NvOkRlVEh9hxOFp8soQMxzHEyMrwbcBqZ+6Xbrg9rjKhY5vXL7pPlcZaI5x3v8AyCERn
+         67VsUVY8rMWPndiM4RNTyJNhu2SlMKK/gl8x1V8fkI+Kwn8rTAlr+irVE+64ceKJW7vt
+         n68oJC75jQToZh4s10cP+f0nu9u2TWH+W3v9mJ+2oGNAlgc0v17MmurhcNn2F5Ap5MVK
+         qcsnwWCZ2PAXLXNW5YvlNDmuscLkMAS1Lc46/VotzwnoPQN25BUFipGyjBtrnlwt9VVw
+         aFUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=AhU4In8PuotkeDP8I8PPfaY0k5IvXY23cMJR6CcYwQM=;
-        b=dktYa19GkTHZtsaw6kfAyIB8igww5E7Af7YZBa62IFpQDALxlFS6lFhT7aUpQGLV9B
-         8eDfah/WDFyYlJb+TvJYpl4Z0cEj1i1oSJVnqbEoQNFW+eclG9hJ3J9THZwPPuKG3XUI
-         JWLR1dTW/Lwj4odn6VHCZNdnITYjsiqBgfQ/NiTCD+bCJcY0f2bCG01t2QIKFBGTC9ho
-         sgs+wyLzwCsZKQkmTeB6KbJ/uiobd7Bjpx7RGsi9oRDzF6l0/VbPnQwOa/gUaW8C8XKX
-         yfQVk3j8MX3Pki9rxSYzVr7fEpprhll0GVstvtbwl3Ld371JfgIWvAAMkIa9QI3SIyRj
-         NUQA==
-X-Gm-Message-State: APjAAAW1jitwfobkHS66jP/jlbsesF3iqC11PJb8R1cpU1CvpqI7jATv
-        EWGDEL3K2CTtlWpKPPh9UxpGOFAP
-X-Google-Smtp-Source: APXvYqzLAsJa9qz9gsQbh6zx0DgPAVUUC1XbOfkQJSfdhrYsknBepYWuw19yhS9AE5p+Q+aYP6qcJQ==
-X-Received: by 2002:a17:90a:2201:: with SMTP id c1mr982341pje.31.1575922977242;
-        Mon, 09 Dec 2019 12:22:57 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id e11sm208108pjj.26.2019.12.09.12.22.56
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=37oZTgoK/rHPkvQpIwtmm074AngHLngksVgGvWUxYhk=;
+        b=JM8Kn+B3JQuM72YDfAuAa9ndgrFZ1B5r/HjS/gWY0pJAutJztvtEgo6rvVz8gMEHNb
+         ifvdUYtNi2Qc4i3H1B98vP2lRgsXlx0MKeNLnbPyI8x4hCsFGp1GAq3P+VuDE9BqMkCU
+         BCgjh9aJfcayGBJh2Xg5TYhfM6tTfXvz5mqQhd5Z4A7HyWY/1mPJcg5uR1J5Yxt1i3Sn
+         rAl5HS3wCQQmWXGAQSKiRvkUp2dprYKU7V89rapok/XbYJCCZdHlGyADGdgoKLFg4ZP7
+         hDyzeIvoqspMVRUbmPDcECGjBU+dSKpuuBDX/coLe5q4/k5vvXAtc34aOiwWFKCaaTED
+         tl5g==
+X-Gm-Message-State: APjAAAWEYCNhO+LiIG+rXvk2hw3+A4EweRXcYHQDfQu3CEaJcMBH5buF
+        uObzk9bG3Ne5qXjGEW3D0Oo=
+X-Google-Smtp-Source: APXvYqwhdyGRE34rE7dhSvcAXjrWJ1uSVNz4Oa5xebg4Ew9aSa8w04PyPFSSg2R/MWayf19b4GZhaA==
+X-Received: by 2002:a05:6830:1e5c:: with SMTP id e28mr14328632otj.293.1575923943676;
+        Mon, 09 Dec 2019 12:39:03 -0800 (PST)
+Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id 17sm376776oty.48.2019.12.09.12.39.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2019 12:22:56 -0800 (PST)
-Date:   Mon, 9 Dec 2019 12:22:54 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: uinput - always report EPOLLOUT
-Message-ID: <20191209202254.GA107567@dtor-ws>
+        Mon, 09 Dec 2019 12:39:02 -0800 (PST)
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Jiri Kosina <jkosina@suse.cz>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Nathan Chancellor <natechancellor@gmail.com>
+Subject: [PATCH] HID: core: Adjust indentation in hid_add_device
+Date:   Mon,  9 Dec 2019 13:38:55 -0700
+Message-Id: <20191209203855.25500-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-uinput device is always available for writing so we should always report
-EPOLLOUT and EPOLLWRNORM bits, not only when there is nothing to read from
-the device.
+Clang warns:
 
-Fixes: d4b675e1b527 ("Input: uinput - fix returning EPOLLOUT from uinput_poll")
-Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: stable@vger.kernel.org
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+../drivers/hid/hid-core.c:2378:3: warning: misleading indentation;
+statement is not part of the previous 'if' [-Wmisleading-indentation]
+         if (!hdev->ll_driver->raw_request) {
+         ^
+../drivers/hid/hid-core.c:2372:2: note: previous statement is here
+        if (hid_ignore(hdev))
+        ^
+1 warning generated.
+
+This warning occurs because there is a space after the tab on this line.
+Remove it so that the indentation is consistent with the Linux kernel
+coding style and clang no longer warns.
+
+Fixes: 3c86726cfe38 ("HID: make .raw_request mandatory")
+Link: https://github.com/ClangBuiltLinux/linux/issues/793
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 ---
- drivers/input/misc/uinput.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/hid/hid-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/input/misc/uinput.c b/drivers/input/misc/uinput.c
-index fd253781be71..0bb456015d8f 100644
---- a/drivers/input/misc/uinput.c
-+++ b/drivers/input/misc/uinput.c
-@@ -689,13 +689,14 @@ static ssize_t uinput_read(struct file *file, char __user *buffer,
- static __poll_t uinput_poll(struct file *file, poll_table *wait)
- {
- 	struct uinput_device *udev = file->private_data;
-+	__poll_t mask = EPOLLOUT | EPOLLWRNORM; /* uinput is always writable */
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index e0b241bd3070..9c7f03f23eca 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -2375,10 +2375,10 @@ int hid_add_device(struct hid_device *hdev)
+ 	/*
+ 	 * Check for the mandatory transport channel.
+ 	 */
+-	 if (!hdev->ll_driver->raw_request) {
++	if (!hdev->ll_driver->raw_request) {
+ 		hid_err(hdev, "transport driver missing .raw_request()\n");
+ 		return -EINVAL;
+-	 }
++	}
  
- 	poll_wait(file, &udev->waitq, wait);
- 
- 	if (udev->head != udev->tail)
--		return EPOLLIN | EPOLLRDNORM;
-+		mask |= EPOLLIN | EPOLLRDNORM;
- 
--	return EPOLLOUT | EPOLLWRNORM;
-+	return mask;
- }
- 
- static int uinput_release(struct inode *inode, struct file *file)
+ 	/*
+ 	 * Read the device report descriptor once and use as template
 -- 
-2.24.0.393.g34dc348eaf-goog
+2.24.0
 
-
--- 
-Dmitry
