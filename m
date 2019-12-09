@@ -2,121 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F14021175E0
-	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 20:30:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DECE111764D
+	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 20:51:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726495AbfLITax (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Dec 2019 14:30:53 -0500
-Received: from frisell.zx2c4.com ([192.95.5.64]:52293 "EHLO frisell.zx2c4.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726342AbfLITaw (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 9 Dec 2019 14:30:52 -0500
-X-Greylist: delayed 400 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Dec 2019 14:30:52 EST
-Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 3f7c4703
-        for <linux-input@vger.kernel.org>;
-        Mon, 9 Dec 2019 18:28:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=mime-version
-        :from:date:message-id:subject:to:cc:content-type; s=mail; bh=211
-        g6BPOlMn2VL7a75A4ur0B78o=; b=onl4eZ6deTC6TBpEea536jU3o1S4yvFvfoM
-        s1c/a07loIETZxrCpaSj4JN9DaRnaijMykRJ8HQ0cjgL2uRLbHFbB4pwdJ5rkH4/
-        RBJWEJE+y78fx76Rx+IkmRbrtk6SMgEkMIi6rI9wevo4FGy/4K0qQp1NOQeTZx3I
-        F/OplpdH9J3ogfAg9YcoUBAM/c9dkPm2hmmKL9lWaa49qEWW/bWHe5ovkaeE29da
-        IKvkSyVXMOWZJd5wlzF7HhLavUozOW4yusw+ANoaVWR3ojXGgeFR17A03T+zJR4k
-        2UtHtmdD4yZkfI0DBouA3I9JvK4dpqn0hhSmArEPTpT/eZg1qtg==
-Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id bde08968 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO)
-        for <linux-input@vger.kernel.org>;
-        Mon, 9 Dec 2019 18:28:44 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id i15so13247588oto.7
-        for <linux-input@vger.kernel.org>; Mon, 09 Dec 2019 11:24:11 -0800 (PST)
-X-Gm-Message-State: APjAAAX0em50XEgYF3DoJnd/soEMVMxodEbe8VvliYH3W3c9GxXCnGM3
-        zd9T7teWzd3PwfDcU7Kpr68hECiBdXuQkd7EhvQ=
-X-Google-Smtp-Source: APXvYqwt7AkpO8mmAcY6wjfpATDjsH4XqJkItRjPsaQEfGVpEhKP0PPUQx1bwEXqTq4R5EO/LKy4hFpIKkvtQOy6IfE=
-X-Received: by 2002:a05:6830:1141:: with SMTP id x1mr23222250otq.120.1575919450582;
- Mon, 09 Dec 2019 11:24:10 -0800 (PST)
+        id S1726608AbfLITvm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Dec 2019 14:51:42 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:38414 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726509AbfLITvm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Dec 2019 14:51:42 -0500
+Received: (qmail 6629 invoked by uid 2102); 9 Dec 2019 14:51:41 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 9 Dec 2019 14:51:41 -0500
+Date:   Mon, 9 Dec 2019 14:51:41 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     syzbot <syzbot+09ef48aa58261464b621@syzkaller.appspotmail.com>
+cc:     andreyknvl@google.com, <benjamin.tissoires@redhat.com>,
+        <jikos@kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: Re: KASAN: slab-out-of-bounds Read in hid_field_extract
+In-Reply-To: <0000000000008eb2c605994a2b38@google.com>
+Message-ID: <Pine.LNX.4.44L0.1912091448420.1462-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Mon, 9 Dec 2019 20:23:59 +0100
-X-Gmail-Original-Message-ID: <CAHmME9ox9x67LsYV8-6NmSPWgGgPPAvDu1EPF5rE-ub+N5aPeg@mail.gmail.com>
-Message-ID: <CAHmME9ox9x67LsYV8-6NmSPWgGgPPAvDu1EPF5rE-ub+N5aPeg@mail.gmail.com>
-Subject: RMI4 for Thinkpad X1 Extreme Gen 2 / P1 Gen 2
-To:     lyude@redhat.com
-Cc:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hey Lyude,
+On Mon, 9 Dec 2019, syzbot wrote:
 
-I see that you almost enabled RMI4 on the X1E Gen 2 recently, but
-reverted after seeing the touchpad mouse buttons didn't work. I was
-wondering if you had any more insight as to what's going on. I briefly
-looked, and saw that the version the bootloader is returning is an 8
-instead of a 7. I tried the below hack, to see if things would work
-with the existing v7 driver, but no luck. Do you usually implement
-these by reverse engineering the Windows driver, or does Synaptics
-release specs, or something else? Currently, not having access to the
-Trackpoint speed parameters in serio3 is quite a pain for me, so I'm
-interested in fixing this.
+> Hello,
+> 
+> syzbot has tested the proposed patch but the reproducer still triggered  
+> crash:
+> KASAN: slab-out-of-bounds Read in hid_field_extract
+> 
+> microsoft 0003:045E:07DA.0001: Report rsize 4096 csize 1
+> microsoft 0003:045E:07DA.0001: Field offset 0 size 12 count 4899
+> ==================================================================
+> BUG: KASAN: slab-out-of-bounds in __extract drivers/hid/hid-core.c:1345  
+> [inline]
+> BUG: KASAN: slab-out-of-bounds in hid_field_extract+0x150/0x170  
+> drivers/hid/hid-core.c:1365
+> Read of size 1 at addr ffff8881cc759000 by task swapper/1/0
 
-Thanks,
-Jason
+Nobody bothers to check for ridiculously long reports?  This field had 
+report_size = 12 and report_count = 4899!
 
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index 1ae6f8bba9ae..b611cd8384a1 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -178,6 +178,7 @@ static const char * const smbus_pnp_ids[] = {
-  "LEN0096", /* X280 */
-  "LEN0097", /* X280 -> ALPS trackpoint */
-  "LEN009b", /* T580 */
-+ "LEN0402", /* X1 Extreme 2nd Generation */
-  "LEN200f", /* T450s */
-  "LEN2054", /* E480 */
-  "LEN2055", /* E580 */
-diff --git a/drivers/input/rmi4/rmi_f34.c b/drivers/input/rmi4/rmi_f34.c
-index e5dca9868f87..4f258909cc1d 100644
---- a/drivers/input/rmi4/rmi_f34.c
-+++ b/drivers/input/rmi4/rmi_f34.c
-@@ -370,7 +370,7 @@ static int rmi_firmware_update(struct rmi_driver_data *data,
+Alan Stern
 
-  f34 = dev_get_drvdata(&data->f34_container->dev);
+#syz test: https://github.com/google/kasan.git 1f22d15c
 
-- if (f34->bl_version == 7) {
-+ if (f34->bl_version == 7 || f34->bl_version == 8) {
-  if (data->pdt_props & HAS_BSR) {
-  dev_err(dev, "%s: LTS not supported\n", __func__);
-  return -ENODEV;
-@@ -382,7 +382,7 @@ static int rmi_firmware_update(struct rmi_driver_data *data,
-  }
+Index: usb-devel/drivers/hid/hid-core.c
+===================================================================
+--- usb-devel.orig/drivers/hid/hid-core.c
++++ usb-devel/drivers/hid/hid-core.c
+@@ -267,6 +267,10 @@ static int hid_add_field(struct hid_pars
+ 
+ 	offset = report->size;
+ 	report->size += parser->global.report_size * parser->global.report_count;
++	if (report->size > HID_MAX_BUFFER_SIZE << 3) {
++		hid_err(parser->device, "report is too long\n");
++		return -1;
++	}
+ 
+ 	if (!parser->local.usage_index) /* Ignore padding fields */
+ 		return 0;
+@@ -1488,6 +1492,7 @@ static void hid_input_field(struct hid_d
+ 	if (!value)
+ 		return;
+ 
++	hid_info(hid, "Field offset %u size %u count %u\n", offset, size, count);
+ 	for (n = 0; n < count; n++) {
+ 
+ 		value[n] = min < 0 ?
+@@ -1712,6 +1717,7 @@ int hid_report_raw_event(struct hid_devi
+ 	}
+ 
+ 	if (hid->claimed != HID_CLAIMED_HIDRAW && report->maxfield) {
++		hid_info(hid, "Report rsize %u csize %u\n", rsize, csize);
+ 		for (a = 0; a < report->maxfield; a++)
+ 			hid_input_field(hid, report->field[a], cdata, interrupt);
+ 		hdrv = hid->driver;
 
-  /* Enter flash mode */
-- if (f34->bl_version == 7)
-+ if (f34->bl_version == 7 || f34->bl_version == 8)
-  ret = rmi_f34v7_start_reflash(f34, fw);
-  else
-  ret = rmi_f34_enable_flash(f34);
-@@ -413,7 +413,7 @@ static int rmi_firmware_update(struct rmi_driver_data *data,
-  f34 = dev_get_drvdata(&data->f34_container->dev);
 
-  /* Perform firmware update */
-- if (f34->bl_version == 7)
-+ if (f34->bl_version == 7 || f34->bl_version == 8)
-  ret = rmi_f34v7_do_reflash(f34, fw);
-  else
-  ret = rmi_f34_update_firmware(f34, fw);
-diff --git a/drivers/input/rmi4/rmi_f34v7.c b/drivers/input/rmi4/rmi_f34v7.c
-index 74f7c6f214ff..13b59fb9200e 100644
---- a/drivers/input/rmi4/rmi_f34v7.c
-+++ b/drivers/input/rmi4/rmi_f34v7.c
-@@ -1364,6 +1364,8 @@ int rmi_f34v7_probe(struct f34_data *f34)
-  f34->bl_version = 6;
-  } else if (f34->bootloader_id[1] == 7) {
-  f34->bl_version = 7;
-+ } else if (f34->bootloader_id[1] == 8) {
-+ f34->bl_version = 8;
-  } else {
-  dev_err(&f34->fn->dev, "%s: Unrecognized bootloader version\n",
-  __func__);
+
