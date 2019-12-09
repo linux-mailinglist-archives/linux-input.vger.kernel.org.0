@@ -2,81 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BB2A11727F
-	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 18:09:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67996117423
+	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 19:26:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726532AbfLIRJr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Dec 2019 12:09:47 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:43665 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726290AbfLIRJr (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Dec 2019 12:09:47 -0500
-Received: by mail-pg1-f196.google.com with SMTP id b1so7412200pgq.10;
-        Mon, 09 Dec 2019 09:09:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=pxR9OL2koDKg/3kIifbaT16MBvgcVlZuSEvOdTpT87I=;
-        b=q/Ecd0Dy0oR0p6xTe78pvoQNUKDaA3Mzt6kfOEo6X2D/aVl1R77JSOGWl7e6aueqBk
-         lOeW2z2YLEiN+MrxuqgTD/RUzv04Q9Jd/asfEIzAgRw9gannmW8QfrFi2LjqZuI1hsIO
-         E/4KsNPeMA7glNb3QI8OKbpcL4uKLqArWWBIQMoWbCLwS6btrFI14uFmynlvkDUpujYP
-         t9awIuI/rAIeJioLgqSn0otRIB5Q1hLLglbDsN7A98tbWRMGg4LCnrcT/dzfEaDy1uPa
-         lXbcx6p8YRcFIMMAW8PrYKUMvell3W/wNspuPeESHjTu5SD32RNC38jkPuHW3MUH9RfI
-         pxzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=pxR9OL2koDKg/3kIifbaT16MBvgcVlZuSEvOdTpT87I=;
-        b=mgSt3aakcw/zuYLf870YhTnaFVOYqEin3uEdS53eeACoHX67/fdkcE+gn1GmIKDZ+Q
-         p87m7/NkMS/xpa9p9xfMoXON2aFD7sFMyjekNaMFHioVU+2Gcbne+ZFI4Bat3O3H0nUR
-         F3q0b05U5s+mfwIWpmc1my+DysqRJkQskR1xQwU84jHgv8Uf+GS3Ve9SBQMqlVn6fCpA
-         enRtXwPP4U1tavYIN0V2PoS8LPoCT/oJRaf5caWwzhkEZ9k2RRF/Og6Htc3hKz7H66NJ
-         y9ZpDbaZ0I/6D2iwRpNyFF90g8k28UH8TW3/Q1xX7mY1pVsVeOHUkrY7JnZ4rSfz9mdn
-         9yFA==
-X-Gm-Message-State: APjAAAVhbMA4HQtgkyFgYnAFeSYjNPON+dLWsjDedz67jRwK6wnmYToP
-        WejVFMCGbvmdsUwfPGkvinA=
-X-Google-Smtp-Source: APXvYqzCyyaNIE3KzSGX/QfEEikgSI1Hzm9H5izdtf3i+Rkun0MBxR53//cONkKOJp+2gANn3FaXaw==
-X-Received: by 2002:a62:b411:: with SMTP id h17mr29363565pfn.221.1575911386124;
-        Mon, 09 Dec 2019 09:09:46 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id d14sm28651pfq.117.2019.12.09.09.09.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2019 09:09:45 -0800 (PST)
-Date:   Mon, 9 Dec 2019 09:09:43 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [git pull] Input updates for v5.5-rc0
-Message-ID: <20191209170943.GU50317@dtor-ws>
-References: <20191207202733.GA153817@dtor-ws>
- <CAHk-=wiNz9CtHCobs+WNKeCcgd23adbRtPzoBk7WwEw_Z=i5wA@mail.gmail.com>
+        id S1726483AbfLIS0b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Dec 2019 13:26:31 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:37368 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726365AbfLIS0b (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Dec 2019 13:26:31 -0500
+Received: (qmail 4869 invoked by uid 2102); 9 Dec 2019 13:26:30 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 9 Dec 2019 13:26:30 -0500
+Date:   Mon, 9 Dec 2019 13:26:30 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Jiri Kosina <jikos@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>
+cc:     syzbot <syzbot+ec5f884c4a135aa0dbb9@syzkaller.appspotmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        <linux-input@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Subject: Re: INFO: rcu detected stall in hub_event
+In-Reply-To: <Pine.LNX.4.44L0.1911251216350.1565-100000@iolanthe.rowland.org>
+Message-ID: <Pine.LNX.4.44L0.1912091318210.1462-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wiNz9CtHCobs+WNKeCcgd23adbRtPzoBk7WwEw_Z=i5wA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Dec 07, 2019 at 06:35:52PM -0800, Linus Torvalds wrote:
-> On Sat, Dec 7, 2019 at 12:27 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > - one can now poll uinput device for writing (which is always allowed)
+On Mon, 25 Nov 2019, Alan Stern wrote:
+
+> Jiri:
 > 
-> Well, except the code says "if there is data to be read, then it's
-> _only_ readable, and you can't write to it".
+> On Sat, 23 Nov 2019, Andrey Konovalov wrote:
 > 
-> Is that what you wanted/meant?
+> > I'm not sure, but the stack trace reminds me of this issue, so this
+> > report might be related:
+> > 
+> > https://groups.google.com/d/msg/syzkaller-bugs/X0zVbh8aFEM/NsPcshjxBgAJ
+> 
+> No, the issue is quite different, although it is also a bug in the HID
+> parser.  The big problem is that the parser assumes all usages will
+> belong to a collection.
+> 
+> There's also a second, smaller bug: hid_apply_multipler() assumes every
+> Resolution Multiplier control is associated with a Logical Collection
+> (i.e., there's no way the routine can ever set multiplier_collection to
+> NULL) even though there's a big quotation from the HID Usage Table
+> manual at the start of the function saying that they don't have to be.  
+> This bug can be fixed easily, though.
+> 
+> The first bug is more troublesome.  hid_add_usage() explicitly sets the 
+> parser->local.collection_index[] entry to 0 if the current collection 
+> stack is empty.  But there's no way to distinguish this 0 from a 
+> genuine index value that happens to point to the first collection!
+> 
+> So what should happen when a usage appears outside of all collections?  
+> Is it a bug in the report descriptor (the current code suggests that it 
+> is not)?
+> 
+> Or should we use a different sentinel value for the collection_index[]
+> entry, one that cannot be confused with a genuine value, such as
+> UINT_MAX?
 
-Hm, not exactly. I will fix it up in a followup change.
+On Tue, 26 Nov 2019, Jiri Kosina wrote:
 
-Thanks.
+> Alan, did you get a test result from syzbot on this patch? My mailbox 
+> doesn't seem to have it.
 
--- 
-Dmitry
+On Tue, 26 Nov 2019, syzbot wrote:
+
+> Hello,
+>
+> syzbot has tested the proposed patch and the reproducer did not trigger
+> crash:
+>
+> Reported-and-tested-by:
+> syzbot+ec5f884c4a135aa0dbb9@syzkaller.appspotmail.com
+
+Jiri:
+
+Now we've got the answer.  The current question is: What should I do
+with the patch?  It seems rather ad-hoc, not a proper solution to the
+problem.
+
+To refresh your memory, here is the patch that syzbot tested:
+
+ drivers/hid/hid-core.c |    5 +++++
+ 1 file changed, 5 insertions(+)
+
+Index: usb-devel/drivers/hid/hid-core.c
+===================================================================
+--- usb-devel.orig/drivers/hid/hid-core.c
++++ usb-devel/drivers/hid/hid-core.c
+@@ -1057,6 +1057,8 @@ static void hid_apply_multiplier(struct
+ 	while (multiplier_collection->parent_idx != -1 &&
+ 	       multiplier_collection->type != HID_COLLECTION_LOGICAL)
+ 		multiplier_collection = &hid->collection[multiplier_collection->parent_idx];
++	if (multiplier_collection->type != HID_COLLECTION_LOGICAL)
++		multiplier_collection = NULL;
+ 
+ 	effective_multiplier = hid_calculate_multiplier(hid, multiplier);
+ 
+@@ -1191,6 +1193,9 @@ int hid_open_report(struct hid_device *d
+ 	}
+ 	device->collection_size = HID_DEFAULT_NUM_COLLECTIONS;
+ 
++	/* Needed for usages before the first collection */
++	device->collection[0].parent_idx = -1;
++
+ 	ret = -EINVAL;
+ 	while ((start = fetch_item(start, end, &item)) != NULL) {
+ 
+Alan Stern
+
