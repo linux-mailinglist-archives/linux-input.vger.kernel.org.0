@@ -2,125 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C06211723D
-	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 17:56:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BB2A11727F
+	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 18:09:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726477AbfLIQ4A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Dec 2019 11:56:00 -0500
-Received: from onstation.org ([52.200.56.107]:39240 "EHLO onstation.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725904AbfLIQz7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 9 Dec 2019 11:55:59 -0500
-Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net [98.239.145.235])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: masneyb)
-        by onstation.org (Postfix) with ESMTPSA id C5F0A3E8F7;
-        Mon,  9 Dec 2019 16:55:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
-        s=default; t=1575910558;
-        bh=IOou9TpV+L1zTliwsDvEweGpQGlqyMJMFaeFEvowmJk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pv/qQ4oRIKZXzsuVDiX+sBNfpA+09Ne97DInXCT6Wpym9V3Dt113bUDVb+iNGWMcJ
-         CGoTHeGIVsZudI8+KLLM3KRF6QLbX/a+6PX6nB4wzjlMD3QIs4wDD5pFGjCYtu8Zjd
-         tKkd8akm416FTOfVJRHg5lSyXOC4lRlSfm8c5MsA=
-Date:   Mon, 9 Dec 2019 11:55:58 -0500
-From:   Brian Masney <masneyb@onstation.org>
-To:     Rob Herring <robh+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        thierry.reding@gmail.com
-Subject: Re: [PATCH 4/7] dt-bindings: Input: introduce new clock vibrator
- bindings
-Message-ID: <20191209165558.GA3212@onstation.org>
-References: <20191205002503.13088-1-masneyb@onstation.org>
- <20191205002503.13088-5-masneyb@onstation.org>
- <CAL_Jsq+jpz6_N18sChREC_xGYt9sSFZFtWr3omb_6o7+MFxuHg@mail.gmail.com>
- <20191209005436.GA13647@onstation.org>
- <CAL_JsqJ2v1fL7gkAg7C3GjokV7WD87S3P5HCwi-ZJ7EOjds8Pw@mail.gmail.com>
+        id S1726532AbfLIRJr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Dec 2019 12:09:47 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:43665 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726290AbfLIRJr (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Dec 2019 12:09:47 -0500
+Received: by mail-pg1-f196.google.com with SMTP id b1so7412200pgq.10;
+        Mon, 09 Dec 2019 09:09:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=pxR9OL2koDKg/3kIifbaT16MBvgcVlZuSEvOdTpT87I=;
+        b=q/Ecd0Dy0oR0p6xTe78pvoQNUKDaA3Mzt6kfOEo6X2D/aVl1R77JSOGWl7e6aueqBk
+         lOeW2z2YLEiN+MrxuqgTD/RUzv04Q9Jd/asfEIzAgRw9gannmW8QfrFi2LjqZuI1hsIO
+         E/4KsNPeMA7glNb3QI8OKbpcL4uKLqArWWBIQMoWbCLwS6btrFI14uFmynlvkDUpujYP
+         t9awIuI/rAIeJioLgqSn0otRIB5Q1hLLglbDsN7A98tbWRMGg4LCnrcT/dzfEaDy1uPa
+         lXbcx6p8YRcFIMMAW8PrYKUMvell3W/wNspuPeESHjTu5SD32RNC38jkPuHW3MUH9RfI
+         pxzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=pxR9OL2koDKg/3kIifbaT16MBvgcVlZuSEvOdTpT87I=;
+        b=mgSt3aakcw/zuYLf870YhTnaFVOYqEin3uEdS53eeACoHX67/fdkcE+gn1GmIKDZ+Q
+         p87m7/NkMS/xpa9p9xfMoXON2aFD7sFMyjekNaMFHioVU+2Gcbne+ZFI4Bat3O3H0nUR
+         F3q0b05U5s+mfwIWpmc1my+DysqRJkQskR1xQwU84jHgv8Uf+GS3Ve9SBQMqlVn6fCpA
+         enRtXwPP4U1tavYIN0V2PoS8LPoCT/oJRaf5caWwzhkEZ9k2RRF/Og6Htc3hKz7H66NJ
+         y9ZpDbaZ0I/6D2iwRpNyFF90g8k28UH8TW3/Q1xX7mY1pVsVeOHUkrY7JnZ4rSfz9mdn
+         9yFA==
+X-Gm-Message-State: APjAAAVhbMA4HQtgkyFgYnAFeSYjNPON+dLWsjDedz67jRwK6wnmYToP
+        WejVFMCGbvmdsUwfPGkvinA=
+X-Google-Smtp-Source: APXvYqzCyyaNIE3KzSGX/QfEEikgSI1Hzm9H5izdtf3i+Rkun0MBxR53//cONkKOJp+2gANn3FaXaw==
+X-Received: by 2002:a62:b411:: with SMTP id h17mr29363565pfn.221.1575911386124;
+        Mon, 09 Dec 2019 09:09:46 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id d14sm28651pfq.117.2019.12.09.09.09.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Dec 2019 09:09:45 -0800 (PST)
+Date:   Mon, 9 Dec 2019 09:09:43 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Subject: Re: [git pull] Input updates for v5.5-rc0
+Message-ID: <20191209170943.GU50317@dtor-ws>
+References: <20191207202733.GA153817@dtor-ws>
+ <CAHk-=wiNz9CtHCobs+WNKeCcgd23adbRtPzoBk7WwEw_Z=i5wA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAL_JsqJ2v1fL7gkAg7C3GjokV7WD87S3P5HCwi-ZJ7EOjds8Pw@mail.gmail.com>
+In-Reply-To: <CAHk-=wiNz9CtHCobs+WNKeCcgd23adbRtPzoBk7WwEw_Z=i5wA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Dec 09, 2019 at 10:16:26AM -0600, Rob Herring wrote:
-> On Sun, Dec 8, 2019 at 6:54 PM Brian Masney <masneyb@onstation.org> wrote:
+On Sat, Dec 07, 2019 at 06:35:52PM -0800, Linus Torvalds wrote:
+> On Sat, Dec 7, 2019 at 12:27 PM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
 > >
-> > On Thu, Dec 05, 2019 at 07:56:10AM -0600, Rob Herring wrote:
-> > > On Wed, Dec 4, 2019 at 6:25 PM Brian Masney <masneyb@onstation.org> wrote:
-> > > >
-> > > > Add support for clock-based vibrator devices where the speed can be
-> > > > controlled by changing the duty cycle.
-> > > >
-> > > > Signed-off-by: Brian Masney <masneyb@onstation.org>
-> > > > ---
-> > > >  .../bindings/input/clk-vibrator.yaml          | 60 +++++++++++++++++++
-> > > >  1 file changed, 60 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/input/clk-vibrator.yaml
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/input/clk-vibrator.yaml b/Documentation/devicetree/bindings/input/clk-vibrator.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..2103a5694fad
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/input/clk-vibrator.yaml
-> > > > @@ -0,0 +1,60 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/bindings/input/clk-vibrator.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Clock vibrator
-> > > > +
-> > > > +maintainers:
-> > > > +  - Brian Masney <masneyb@onstation.org>
-> > > > +
-> > > > +description: |
-> > > > +  Support for clock-based vibrator devices where the speed can be controlled
-> > > > +  by changing the duty cycle.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    const: clk-vibrator
-> > > > +
-> > > > +  clocks:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  clock-names:
-> > > > +    description: output clock that controls the speed
-> > > > +    items:
-> > > > +      - const: core
-> > >
-> > > No point in making up a name when there's only one clock, so drop.
-> >
-> > OK, will do.
-> >
-> > >
-> > > > +
-> > > > +  clock-frequency: true
-> > >
-> > > Given the frequency is variable, what does this mean in this case?
-> >
-> > The clock frequency is fixed. The duty cycle is what's variable.
+> > - one can now poll uinput device for writing (which is always allowed)
 > 
-> That sounds like a PWM then...
+> Well, except the code says "if there is data to be read, then it's
+> _only_ readable, and you can't write to it".
+> 
+> Is that what you wanted/meant?
 
-Yes... See this message from Stephen with some more background
-information about why this is in the clk subsystem:
+Hm, not exactly. I will fix it up in a followup change.
 
-https://lore.kernel.org/lkml/20190627234929.B78E520815@mail.kernel.org/
+Thanks.
 
-Brian
+-- 
+Dmitry
