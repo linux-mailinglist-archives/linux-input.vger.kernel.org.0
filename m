@@ -2,391 +2,345 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C56791165A1
-	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 04:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E24311678D
+	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 08:32:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727091AbfLIDvK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 8 Dec 2019 22:51:10 -0500
-Received: from a27-55.smtp-out.us-west-2.amazonses.com ([54.240.27.55]:35342
-        "EHLO a27-55.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726748AbfLIDvK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 8 Dec 2019 22:51:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1575863468;
-        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-        bh=e3UtgQls/Zp6xIW7RC0Gq8c3Z4lUm5Oz/P0QSe1xE3E=;
-        b=KyvudO7Yt4EPyiA/T0SsrJs2DUyJ9Ou9c6oNClyrD7i32aBIzMq8ujLMIjk1P9c9
-        +4/i3iRMWBWaurFsSUiTPngUFAePPJhzQOt/smoXhhtk0LaDnhRgQjfrdQMC3qPzD9r
-        1y9+YwzYaTHuQ3WVb1Mdp9+5fVpuBldunOLxw28k=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1575863468;
-        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID;
-        bh=e3UtgQls/Zp6xIW7RC0Gq8c3Z4lUm5Oz/P0QSe1xE3E=;
-        b=LU7hK+bzVKSLSaNtHOLg0GyVXHMI0a0SKfEqgokjz1lCKpVkuQ9TY5SvGCzYB9UO
-        1pNpoP1gpoMBcaN9Z4+YJRWvqh7oku3xtkRJJ7OeqTxnPzEGSr3BRPsqzMSupbDsSoF
-        xP+RdHw0HjcEpOqWQKmwqwQ9OxNz9e4Mr3YePa/c=
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.0
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DBA56C43383
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=neeraju@codeaurora.org
-Subject: Re: Query regarding hid-multitouch.c driver in 4.14/4.19
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        MSM <linux-arm-msm@vger.kernel.org>, prsood@codeaurora.org,
-        gkohli@codeaurora.org
-References: <e1e05bd3-19f5-0dfe-66ad-70717c1c29c6@codeaurora.org>
- <CAO-hwJLdz1sA4tNsLLgZKGA7Ko6dqt9VF5T2nh5uczHxU532HA@mail.gmail.com>
- <4eecbd2a-9d19-c6a2-a95b-656e3fce05a4@codeaurora.org>
- <0101016e916ab42c-fbc61178-9bdd-42ba-b111-722c46db5dc1-000000@us-west-2.amazonses.com>
- <CAO-hwJLDtz7mjWDdqoMKtFjAoweUFq3bAJ2ovbtg0_Gji1nW1w@mail.gmail.com>
-From:   Neeraj Upadhyay <neeraju@codeaurora.org>
-Message-ID: <0101016ee8c83f70-8eee4b60-7531-4bb3-994b-3973399dcfe4-000000@us-west-2.amazonses.com>
-Date:   Mon, 9 Dec 2019 03:51:07 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1727120AbfLIHcU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Dec 2019 02:32:20 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:49823 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726270AbfLIHcT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Dec 2019 02:32:19 -0500
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ieDWc-0002Gv-9b; Mon, 09 Dec 2019 08:32:10 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ieDWY-00055g-9m; Mon, 09 Dec 2019 08:32:06 +0100
+Date:   Mon, 9 Dec 2019 08:32:06 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "jic23@kernel.org" <jic23@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "knaack.h@gmx.de" <knaack.h@gmx.de>,
+        "lars@metafoo.de" <lars@metafoo.de>,
+        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        kernel@pengutronix.de
+Subject: Re: [PATCH v2 4/7] pwm: Add support for Azoteq IQS620A PWM generator
+Message-ID: <20191209073206.6pftsak5v25jdepz@pengutronix.de>
+References: <1575851866-18919-1-git-send-email-jeff@labundy.com>
+ <1575851866-18919-5-git-send-email-jeff@labundy.com>
 MIME-Version: 1.0
-In-Reply-To: <CAO-hwJLDtz7mjWDdqoMKtFjAoweUFq3bAJ2ovbtg0_Gji1nW1w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-SES-Outgoing: 2019.12.09-54.240.27.55
-Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1575851866-18919-5-git-send-email-jeff@labundy.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+On Mon, Dec 09, 2019 at 12:38:36AM +0000, Jeff LaBundy wrote:
+> This patch adds support for the Azoteq IQS620A, capable of generating
+> a 1-kHz PWM output with duty cycle between 0.4% and 100% (inclusive).
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+> Changes in v2:
+>   - Merged 'Copyright' and 'Author' lines into one in introductory comments
+>   - Added 'Limitations' section to introductory comments
+>   - Replaced 'error' with 'ret' throughout
+>   - Added const qualifier to state argument of iqs620_pwm_apply and removed all
+>     modifications to the variable's contents
+>   - Updated iqs620_pwm_apply to return -ENOTSUPP or -EINVAL if the requested
+>     polarity is inverted or the requested period is below 1 ms, respectively
+>   - Updated iqs620_pwm_apply to disable the PWM output if duty cycle is zero
+>   - Added iqs620_pwm_get_state
+>   - Eliminated tabbed alignment of pwm_ops and platform_driver struct members
+>   - Moved notifier unregistration to already present iqs620_pwm_remove, which
+>     eliminated the need for a device-managed action and ready flag
+>   - Added a comment in iqs620_pwm_probe to explain the order of operations
+>   - Changed Kconfig "depends on" logic to MFD_IQS62X || COMPILE_TEST
+> 
+>  drivers/pwm/Kconfig       |  10 +++
+>  drivers/pwm/Makefile      |   1 +
+>  drivers/pwm/pwm-iqs620a.c | 206 ++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 217 insertions(+)
+>  create mode 100644 drivers/pwm/pwm-iqs620a.c
+> 
+> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+> index bd21655..60bcf6c 100644
+> --- a/drivers/pwm/Kconfig
+> +++ b/drivers/pwm/Kconfig
+> @@ -222,6 +222,16 @@ config PWM_IMX_TPM
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called pwm-imx-tpm.
+> 
+> +config PWM_IQS620A
+> +	tristate "Azoteq IQS620A PWM support"
+> +	depends on MFD_IQS62X || COMPILE_TEST
+> +	help
+> +	  Generic PWM framework driver for the Azoteq IQS620A multi-function
+> +	  sensor.
+> +
+> +	  To compile this driver as a module, choose M here: the module will
+> +	  be called pwm-iqs620a.
+> +
+>  config PWM_JZ4740
+>  	tristate "Ingenic JZ47xx PWM support"
+>  	depends on MACH_INGENIC
+> diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
+> index 9a47507..a59c710 100644
+> --- a/drivers/pwm/Makefile
+> +++ b/drivers/pwm/Makefile
+> @@ -20,6 +20,7 @@ obj-$(CONFIG_PWM_IMG)		+= pwm-img.o
+>  obj-$(CONFIG_PWM_IMX1)		+= pwm-imx1.o
+>  obj-$(CONFIG_PWM_IMX27)		+= pwm-imx27.o
+>  obj-$(CONFIG_PWM_IMX_TPM)	+= pwm-imx-tpm.o
+> +obj-$(CONFIG_PWM_IQS620A)	+= pwm-iqs620a.o
+>  obj-$(CONFIG_PWM_JZ4740)	+= pwm-jz4740.o
+>  obj-$(CONFIG_PWM_LP3943)	+= pwm-lp3943.o
+>  obj-$(CONFIG_PWM_LPC18XX_SCT)	+= pwm-lpc18xx-sct.o
+> diff --git a/drivers/pwm/pwm-iqs620a.c b/drivers/pwm/pwm-iqs620a.c
+> new file mode 100644
+> index 0000000..1ea11b9
+> --- /dev/null
+> +++ b/drivers/pwm/pwm-iqs620a.c
+> @@ -0,0 +1,206 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Azoteq IQS620A PWM Generator
+> + *
+> + * Copyright (C) 2019 Jeff LaBundy <jeff@labundy.com>
+> + *
+> + * Limitations:
+> + * - The period is not guaranteed to run to completion when the duty cycle is
+> + *   changed or the output is disabled.
 
-Thanks for taking a look at it and providing your inputs. We will check
-in the direction suggested by you. I was off from work for some time, so
-couldn't reply earlier.
+Do you know more details here? "not guaranteed" means that the new
+period starts immediately when duty_cycle or the enabled bit is written?
 
+> + * - The period is fixed to 1 ms.
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/iqs62x.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pwm.h>
+> +#include <linux/regmap.h>
+> +#include <linux/slab.h>
+> +
+> +#define IQS620_PWR_SETTINGS			0xD2
+> +#define IQS620_PWR_SETTINGS_PWM_OUT		BIT(7)
+> +
+> +#define IQS620_PWM_DUTY_CYCLE			0xD8
+> +
+> +#define IQS620_PWM_PERIOD_NS			1000000
+> +
+> +struct iqs620_pwm_private {
+> +	struct iqs62x_core *iqs62x;
+> +	struct pwm_chip chip;
+> +	struct notifier_block notifier;
+> +};
+> +
+> +static int iqs620_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			    const struct pwm_state *state)
+> +{
+> +	struct iqs620_pwm_private *iqs620_pwm;
+> +	struct iqs62x_core *iqs62x;
+> +	unsigned int pwm_out = 0;
+> +	int duty_scale, ret;
+> +
+> +	if (state->polarity != PWM_POLARITY_NORMAL)
+> +		return -ENOTSUPP;
+> +
+> +	if (state->period < IQS620_PWM_PERIOD_NS)
+> +		return -EINVAL;
+> +
+> +	iqs620_pwm = container_of(chip, struct iqs620_pwm_private, chip);
+> +	iqs62x = iqs620_pwm->iqs62x;
+> +
+> +	duty_scale = DIV_ROUND_CLOSEST(state->duty_cycle * 256,
+> +				       IQS620_PWM_PERIOD_NS);
+> +
+> +	if (duty_scale) {
+> +		ret = regmap_write(iqs62x->map, IQS620_PWM_DUTY_CYCLE,
+> +				   min(duty_scale - 1, 0xFF));
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (state->enabled)
+> +			pwm_out = IQS620_PWR_SETTINGS_PWM_OUT;
+> +	}
+> +
+> +	return regmap_update_bits(iqs62x->map, IQS620_PWR_SETTINGS,
+> +				  IQS620_PWR_SETTINGS_PWM_OUT, pwm_out);
 
-Thanks
-Neeraj
+A comment explaining the semantic here would be good. I assume
+IQS620_PWM_DUTY_CYCLE takes a value between 0 and 255 and the resulting
+duty cycle is:
 
-On 11/22/2019 2:55 PM, Benjamin Tissoires wrote:
-> Hi Neeraj,
-> 
-> On Fri, Nov 22, 2019 at 5:42 AM Neeraj Upadhyay <neeraju@codeaurora.org> wrote:
->>
->> Hi Benjamin,
->>
->> Can you please provide guidance on how to workaround this problem? Is it
->> possible to support the 4.14 kernel behaviour again, so that existing
->> clients are not impacted?
-> 
-> Hmm, hard to say. Both evdev outputs from 4.14 and 4.19 are
-> technically valid. So I guess the issue is more that the android
-> version you are using is not interpreting correctly the 4.19 event
-> stream and probably requires some more events (like pressure or
-> width/height).
-> 
-> Also, the report descriptor is crap:
-> 
-> 0x05, 0x0d,                    // Usage Page (Digitizers)             0
-> 0x09, 0x02,                    // Usage (Pen)                         2
-> 0xa1, 0x01,                    // Collection (Application)            4
-> 0x85, 0x01,                    //  Report ID (1)                      6
-> 0x09, 0x22,                    //  Usage (Finger)                     8
-> 0xa1, 0x02,                    //  Collection (Logical)               10
-> 0x09, 0x42,                    //   Usage (Tip Switch)                12
-> 0x15, 0x00,                    //   Logical Minimum (0)               14
-> 0x25, 0x01,                    //   Logical Maximum (1)               16
-> 0x75, 0x01,                    //   Report Size (1)                   18
-> 0x95, 0x01,                    //   Report Count (1)                  20
-> 0x81, 0x02,                    //   Input (Data,Var,Abs)              22
-> 0x09, 0x32,                    //   Usage (In Range)                  24
-> 0x81, 0x02,                    //   Input (Data,Var,Abs)              26
-> 0x95, 0x06,                    //   Report Count (6)                  28
-> 0x81, 0x03,                    //   Input (Cnst,Var,Abs)              30
-> 0x75, 0x08,                    //   Report Size (8)                   32
-> 0x09, 0x51,                    //   Usage (Contact Id)                34
-> 0x95, 0x01,                    //   Report Count (1)                  36
-> 0x81, 0x02,                    //   Input (Data,Var,Abs)              38
-> 0x05, 0x01,                    //   Usage Page (Generic Desktop)      40
-> 0x26, 0xff, 0x0f,              //   Logical Maximum (4095)            42
-> 0x75, 0x10,                    //   Report Size (16)                  45
-> 0x55, 0x0e,                    //   Unit Exponent (-2)                47
-> 0x65, 0x33,                    //   Unit (Inch^3,EngLinear)           49
-> 0x09, 0x30,                    //   Usage (X)                         51
-> 0x35, 0x00,                    //   Physical Minimum (0)              53
-> 0x46, 0xb5, 0x04,              //   Physical Maximum (1205)           55
-> 0x81, 0x02,                    //   Input (Data,Var,Abs)              58
-> 0x46, 0x8a, 0x03,              //   Physical Maximum (906)            60
-> 0x09, 0x31,                    //   Usage (Y)                         63
-> 0x81, 0x02,                    //   Input (Data,Var,Abs)              65
-> 0xc0,                          //  End Collection                     67
-> 0x05, 0x0d,                    //  Usage Page (Digitizers)            68
-> 0x09, 0x54,                    //  Usage (Contact Count)              70
-> 0x95, 0x01,                    //  Report Count (1)                   72
-> 0x75, 0x08,                    //  Report Size (8)                    74
-> 0x81, 0x02,                    //  Input (Data,Var,Abs)               76
-> 0x85, 0x08,                    //  Report ID (8)                      78
-> 0x09, 0x55,                    //  Usage (Contact Max)                80
-> 0x25, 0x05,                    //  Logical Maximum (5)                82
-> 0xb1, 0x02,                    //  Feature (Data,Var,Abs)             84
-> 0xc0,                          // End Collection                      86
-> 0x05, 0x0c,                    // Usage Page (Consumer Devices)       87
-> 0x09, 0x01,                    // Usage (Consumer Control)            89
-> 0xa1, 0x01,                    // Collection (Application)            91
-> 0x85, 0x02,                    //  Report ID (2)                      93
-> 0x09, 0xe9,                    //  Usage (Volume Up)                  95
-> 0x09, 0xea,                    //  Usage (Volume Down)                97
-> 0x0a, 0xae, 0x01,              //  Usage (AL Keyboard Layout)         99
-> 0x09, 0xe2,                    //  Usage (Mute)                       102
-> 0x09, 0x30,                    //  Usage (Power)                      104
-> 0x15, 0x01,                    //  Logical Minimum (1)                106
-> 0x25, 0x0c,                    //  Logical Maximum (12)               108
-> 0x75, 0x10,                    //  Report Size (16)                   110
-> 0x95, 0x01,                    //  Report Count (1)                   112
-> 0x81, 0x00,                    //  Input (Data,Arr,Abs)               114
-> 0xc0,                          // End Collection                      116
-> 
-> It declares right at the beginning a Pen application collection then a
-> Finger logical application. This should never happen as you can not
-> use a pen with a bare finger.
-> 
-> Anyway, there are a few things you could do to solve the issue,
-> depending on what you are allowed to do:
-> - if you can tweak the kernel, then maybe adding an extra kernel
-> module that just binds to the device without changing anything in
-> probe or in events might do the trick. For extra safety you should
-> probably fix the report descriptor in this new kernel module
-> - if you can tweak bluez or the device itself, at least change the
-> ContactID usage to 00 (byte offset 35 above: change 0x51 to 0x00). It
-> would be best to actually change the whole report descriptor with the
-> correct applications, but, meh, this seems to be working.
-> - if you can tweak android, then ensure it can understand this
-> particular event stream
-> 
-> Anyway, I don't think this is an upstream problem, as the device
-> behaves somehow correctly by 5.3, at least it sends me the events I
-> expect. So I can't really spend a lot of time providing a workaround
-> for that.
-> 
-> My best bet would be to contact the device maker, and ask them to fix
-> their device to be working with 4.19 kernel.
-> 
-> Cheers,
-> Benjamin
-> 
->>
->>
->> Thanks
->> Neeraj
->>
->> On 11/14/2019 10:01 AM, Neeraj Upadhyay wrote:
->>> Hi Benjamin,
->>>
->>> Sorry for the delay, was waiting for the required information from our
->>> team.
->>>
->>> On 11/13/2019 3:00 PM, Benjamin Tissoires wrote:
->>>> Hi Neeraj,
->>>>
->>>> On Wed, Nov 13, 2019 at 4:11 AM Neeraj Upadhyay
->>>> <neeraju@codeaurora.org> wrote:
->>>>> Hi,
->>>>>
->>>>> I have one query regarding hid-multitouch.c driver and need your
->>>>> guidance on
->>>>> how hid-multitouchc can restore/support the original behaviour,
->>>>> where, for
->>>>> devices, for which application is not
->>>>> HID_DG_TOUCHSCREEN/HID_DG_TOUCHPAD, and has
->>>>> HID_DG_CONTACTID usage in its report, can still use generic input
->>>>> mappings.
->>>>>
->>>>> We are using kernel versions 4.14 , 4.19 respectively in 2 different
->>>>> projects:
->>>>>
->>>>> 4.14:
->>>>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/hid/hid-multitouch.c?h=v4.14.153
->>>>>
->>>>> 4.19:
->>>>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/hid/hid-multitouch.c?h=v4.19.83
->>>>>
->>>>>
->>>>> I checked the application for our hid device, it's HID_DG_PEN, device
->>>>> also has a HID_DG_CONTACTID usage defined in
->>>>>
->>>>> its report.
->>>>>
->>>>> In 4.19, is_mt_collection is set to 'true'. All multitouch code paths or
->>>>> input mapping is configured
->>>>>
->>>>> mt_allocate_report_data()
->>>>>            ...
->>>>>            for (n = 0; n < field->report_count; n++) {
->>>>>                            if (field->usage[n].hid == HID_DG_CONTACTID)
->>>>>                                    rdata->is_mt_collection = true;   //
->>>>> is_mt_collection is set to 'true'
->>>>>                    }
->>>>>            }
->>>>>
->>>>> mt_input_mapping()
->>>>>            ...
->>>>>            if (rdata->is_mt_collection)
->>>>>                return mt_touch_input_mapping(...)  //
->>>>> mt_touch_input_mapping() is called
->>>>>
->>>>> mt_event()
->>>>>            if (rdata && rdata->is_mt_collection)
->>>>>                return mt_touch_event();  // mt_touch_event() is called
->>>>>
->>>>> However, in 4.14, the behaviour was different, mt input mapping was done
->>>>> only
->>>>> for HID_DG_TOUCHSCREEN/HID_DG_TOUCHPAD , and because our hid device is
->>>>> HID_DG_PEN, generic mappings were applied for it; with these settings,
->>>>> device
->>>>> responds to events.
->>>>>
->>>>> static int mt_input_mapping()
->>>>>            if (field->application == HID_DG_TOUCHSCREEN ||
->>>>>                field->application == HID_DG_TOUCHPAD)
->>>>>                return mt_touch_input_mapping();  // This is not called.
->>>>>
->>>>>
->>>>> mt_touch_input_mapping()
->>>>>            case HID_DG_CONTACTID:
->>>>>                            mt_store_field(usage, td, hi);
->>>>>                            td->touches_by_report++;
->>>>>                            td->mt_report_id = field->report->id; //
->>>>> mt_report_id is not set.
->>>>>                            return 1;
->>>>>
->>>>>
->>>>> Looks like this behaviour changed, with below commits:
->>>>>
->>>>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/drivers/hid/hid-multitouch.c?h=v4.19.83&id=8dfe14b3b47ff832cb638731f9fc696a3a84f804
->>>>>
->>>>> 8dfe14b3b47f    HID: multitouch: ditch mt_report_id
->>>>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/drivers/hid/hid-multitouch.c?h=v4.19.83&id=ba6b055e0f3b4ff4942e4ab273260affcfad9bff
->>>>>
->>>>> ba6b055e0f3b     HID: input: enable Totem on the Dell Canvas 27
->>>>>
->>>>> Can you please suggest on how we can support/preserve the original
->>>>> behaviour?
->>>> Hmm, I would initially say that a firmware that exports Contact ID for
->>>> a Pen is definitely wrong. The Contact ID usage has been introduced in
->>>> https://www.usb.org/sites/default/files/hutrr34.pdf and is
->>>> specifically for multi-touch, not multi pen.
->>>>
->>>> Anyway, couple of questions:
->>>> - does the device supports multi-pen?
->>>
->>> Actually the device is a selfie stick device:
->>> https://item.jd.com/33082497741.html
->>>
->>> It does not support multi-pen.
->>>
->>>> - can you share the report descriptor and a few events when triggering
->>>> this particular report (ideally with hid-recorder from
->>>> https://gitlab.freedesktop.org/libevdev/hid-tools/
->>>
->>> Report descriptor is below:
->>>
->>> 05 0d 09 02 a1 01 85 01 09 22 a1 02 09 42 15 00 25 01 75 01 95 01 81 02
->>> 09 32 81 02 95 06 81 03 75 08 09 51 95 01 81 02 05 01 26 ff 0f 75 10 55
->>> 0e 65 33 09 30 35 00 46 b5 04 81 02 46 8a 03 09 31 81 02 c0 05 0d 09 54
->>> 95 01 75 08 81 02 85 08 09 55 25 05 b1 02 c0 05 0c 09 01 a1 01 85 02 09
->>> e9 09 ea 0a ae 01 09 e2 09 30 15 01 25 0c 75 10 95 01 81 00 c0
->>>
->>> Events were collected using getevent call in adb shell in android:
->>>
->>> On 4.19
->>>
->>> # getevent -l
->>>
->>> add device 7: /dev/input/event6
->>>     name:     "BLE-M1 UNKNOWN"
->>>
->>> /dev/input/event6: EV_ABS       ABS_MT_TRACKING_ID   00000000
->>> /dev/input/event6: EV_ABS       ABS_MT_POSITION_X    00000800
->>> /dev/input/event6: EV_ABS       ABS_MT_POSITION_Y    00000d60
->>> /dev/input/event6: EV_KEY       BTN_TOUCH            DOWN
->>> /dev/input/event6: EV_SYN       SYN_REPORT           00000000
->>> /dev/input/event6: EV_ABS       ABS_MT_TRACKING_ID   ffffffff
->>> /dev/input/event6: EV_KEY       BTN_TOUCH            UP
->>> /dev/input/event6: EV_SYN       SYN_REPORT           00000000
->>> /dev/input/event6: EV_ABS       ABS_MT_TRACKING_ID   00000001
->>> /dev/input/event6: EV_KEY       BTN_TOUCH            DOWN
->>> /dev/input/event6: EV_SYN       SYN_REPORT           00000000
->>> /dev/input/event6: EV_ABS       ABS_MT_TRACKING_ID   ffffffff
->>> /dev/input/event6: EV_KEY       BTN_TOUCH            UP
->>> /dev/input/event6: EV_SYN       SYN_REPORT           00000000
->>>
->>> On 4.14
->>>
->>> add device 2: /dev/input/event5
->>>     name:     "BLE-M1 UNKNOWN"
->>>
->>> /dev/input/event5: EV_MSC       MSC_SCAN             000d0042
->>> /dev/input/event5: EV_KEY       BTN_TOUCH            DOWN
->>> /dev/input/event5: EV_KEY       BTN_DIGI             DOWN
->>> /dev/input/event5: EV_ABS       ABS_MISC             00000001
->>> /dev/input/event5: EV_ABS       ABS_X                00000800
->>> /dev/input/event5: EV_ABS       ABS_Y                00000d60
->>> /dev/input/event5: EV_ABS       0029                 00000001
->>> /dev/input/event5: EV_SYN       SYN_REPORT           00000000
->>>
->>> /dev/input/event5: EV_MSC       MSC_SCAN             000d0042
->>> /dev/input/event5: EV_KEY       BTN_TOUCH            UP
->>> /dev/input/event5: EV_KEY       BTN_DIGI             UP
->>> /dev/input/event5: EV_ABS       0029                 00000000
->>> /dev/input/event5: EV_SYN       SYN_REPORT           00000000
->>>
->>> /dev/input/event5: EV_MSC       MSC_SCAN             000d0042
->>> /dev/input/event5: EV_KEY       BTN_TOUCH            DOWN
->>> /dev/input/event5: EV_KEY       BTN_DIGI             DOWN
->>> /dev/input/event5: EV_ABS       0029                 00000001
->>> /dev/input/event5: EV_SYN       SYN_REPORT           00000000
->>>
->>> /dev/input/event5: EV_MSC       MSC_SCAN             000d0042
->>> /dev/input/event5: EV_KEY       BTN_TOUCH            UP
->>> /dev/input/event5: EV_KEY       BTN_DIGI             UP
->>> /dev/input/event5: EV_ABS       0029                 00000000
->>> /dev/input/event5: EV_SYN       SYN_REPORT           00000000
->>>
->>>
->>> As I have little understanding of the framework, use cases and of the
->>> flow, I am sorry, if the information provided above is
->>>
->>> incomplete (w.r.t. what you were expecting).
->>>
->>>
->>> Thanks
->>>
->>> Neeraj
->>>
->>>> Cheers,
->>>> Benjamin
->>>>
->>>>>
->>>>> Thanks
->>>>> Neeraj
->>>>>
->>>>> --
->>>>> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
->>>>> member of the Code Aurora Forum, hosted by The Linux Foundation
->>>>>
->>
->> --
->> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
->> member of the Code Aurora Forum, hosted by The Linux Foundation
->>
-> 
+	(IQS620_PWM_DUTY_CYCLE + 1) / 256 * 1 ms
+
+.
+
+If this is right, please use:
+
+	duty_scale = (state->duty_cycle * 256) / IQS620_PWM_PERIOD_NS
+
+Also, when the hardware is running at
+
+	.enabled = 1, .duty_cycle = 1/256 ms, .period = 1ms
+
+and you reconfigure to
+
+	.enabled = 0, .duty_cycle = 1ms, .period = 1ms
+
+the output might be active for > 1/256 ms if the process is preempted
+between writing IQS620_PWM_DUTY_CYCLE and IQS620_PWR_SETTINGS_PWM_OUT.
+
+> +}
+> +
+> +static void iqs620_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+> +				 struct pwm_state *state)
+> +{
+> +	struct iqs620_pwm_private *iqs620_pwm;
+> +	struct iqs62x_core *iqs62x;
+> +	unsigned int val;
+> +	int ret;
+> +
+> +	iqs620_pwm = container_of(chip, struct iqs620_pwm_private, chip);
+> +	iqs62x = iqs620_pwm->iqs62x;
+> +
+> +	ret = regmap_read(iqs62x->map, IQS620_PWR_SETTINGS, &val);
+> +	if (ret)
+> +		goto err_out;
+> +	state->enabled = val & IQS620_PWR_SETTINGS_PWM_OUT;
+> +
+> +	ret = regmap_read(iqs62x->map, IQS620_PWM_DUTY_CYCLE, &val);
+> +	if (ret)
+> +		goto err_out;
+> +	state->duty_cycle = DIV_ROUND_CLOSEST((val + 1) * IQS620_PWM_PERIOD_NS,
+> +					      256);
+
+Please round up.
+
+> +	state->period = IQS620_PWM_PERIOD_NS;
+> +
+> +err_out:
+> +	if (ret)
+> +		dev_err(iqs620_pwm->chip.dev, "Failed to get state: %d\n", ret);
+> +}
+> +
+> +static int iqs620_pwm_notifier(struct notifier_block *notifier,
+> +			       unsigned long event_flags, void *context)
+> +{
+> +	struct iqs620_pwm_private *iqs620_pwm;
+> +	struct pwm_state state;
+> +	int ret;
+> +
+> +	if (!(event_flags & BIT(IQS62X_EVENT_SYS_RESET)))
+> +		return NOTIFY_DONE;
+> +
+> +	iqs620_pwm = container_of(notifier, struct iqs620_pwm_private,
+> +				  notifier);
+> +	pwm_get_state(&iqs620_pwm->chip.pwms[0], &state);
+
+Please don't call pwm API functions in callbacks. I assume you rely on
+pwm_get_state returning the previously set state and that
+iqs620_pwm_get_state isn't called. Please use pwm->state for that.
+
+> +	ret = iqs620_pwm_apply(&iqs620_pwm->chip,
+> +			       &iqs620_pwm->chip.pwms[0], &state);
+> +	if (ret) {
+> +		dev_err(iqs620_pwm->chip.dev,
+> +			"Failed to re-initialize device: %d\n", ret);
+> +		return NOTIFY_BAD;
+> +	}
+> +
+> +	return NOTIFY_OK;
+> +}
+> +
+> +static const struct pwm_ops iqs620_pwm_ops = {
+> +	.apply = iqs620_pwm_apply,
+> +	.get_state = iqs620_pwm_get_state,
+> +	.owner = THIS_MODULE,
+> +};
+> +
+> +static int iqs620_pwm_probe(struct platform_device *pdev)
+> +{
+> +	struct iqs620_pwm_private *iqs620_pwm;
+> +	int ret1, ret2;
+> +
+> +	iqs620_pwm = devm_kzalloc(&pdev->dev, sizeof(*iqs620_pwm), GFP_KERNEL);
+> +	if (!iqs620_pwm)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, iqs620_pwm);
+> +	iqs620_pwm->iqs62x = dev_get_drvdata(pdev->dev.parent);
+> +
+> +	iqs620_pwm->chip.dev = &pdev->dev;
+> +	iqs620_pwm->chip.ops = &iqs620_pwm_ops;
+> +	iqs620_pwm->chip.base = -1;
+> +	iqs620_pwm->chip.npwm = 1;
+> +
+> +	ret1 = pwmchip_add(&iqs620_pwm->chip);
+> +	if (ret1) {
+> +		dev_err(&pdev->dev, "Failed to add device: %d\n", ret1);
+> +		return ret1;
+> +	}
+> +
+> +	/*
+> +	 * Since iqs620_pwm_notifier uses iqs620_pwm->chip.pwms[], the notifier
+> +	 * is not registered until pwmchip_add (which allocates that array) has
+> +	 * been called. If registration fails, the newly added device has to be
+> +	 * removed because the driver fails to probe and iqs620_pwm_remove will
+> +	 * never be called.
+> +	 */
+> +	iqs620_pwm->notifier.notifier_call = iqs620_pwm_notifier;
+> +	ret1 = blocking_notifier_chain_register(&iqs620_pwm->iqs62x->nh,
+> +						&iqs620_pwm->notifier);
+> +	if (ret1) {
+> +		dev_err(&pdev->dev, "Failed to register notifier: %d\n", ret1);
+> +
+> +		ret2 = pwmchip_remove(&iqs620_pwm->chip);
+> +		if (ret2) {
+> +			dev_err(&pdev->dev, "Failed to remove device: %d\n",
+> +				ret2);
+> +			return ret2;
+
+This exitpoint is bad. The PWM driver is active but the module gets
+unloaded. I liked the approach from v1 better.
+
+ret2 could be local to this block.
+
+> +		}
+> +	}
+> +
+> +	return ret1;
+> +}
+
+Best regards
+Uwe
 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member of the Code Aurora Forum, hosted by The Linux Foundation
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
