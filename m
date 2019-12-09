@@ -2,345 +2,193 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E24311678D
-	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 08:32:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE9BB116BB2
+	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2019 12:05:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727120AbfLIHcU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Dec 2019 02:32:20 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:49823 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726270AbfLIHcT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Dec 2019 02:32:19 -0500
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ieDWc-0002Gv-9b; Mon, 09 Dec 2019 08:32:10 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ieDWY-00055g-9m; Mon, 09 Dec 2019 08:32:06 +0100
-Date:   Mon, 9 Dec 2019 08:32:06 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "jic23@kernel.org" <jic23@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "knaack.h@gmx.de" <knaack.h@gmx.de>,
-        "lars@metafoo.de" <lars@metafoo.de>,
-        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v2 4/7] pwm: Add support for Azoteq IQS620A PWM generator
-Message-ID: <20191209073206.6pftsak5v25jdepz@pengutronix.de>
-References: <1575851866-18919-1-git-send-email-jeff@labundy.com>
- <1575851866-18919-5-git-send-email-jeff@labundy.com>
+        id S1727391AbfLILFK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Dec 2019 06:05:10 -0500
+Received: from mail-il1-f199.google.com ([209.85.166.199]:40079 "EHLO
+        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727299AbfLILFK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Dec 2019 06:05:10 -0500
+Received: by mail-il1-f199.google.com with SMTP id s10so11308774ilh.7
+        for <linux-input@vger.kernel.org>; Mon, 09 Dec 2019 03:05:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=xM5VP4PpCu1ndTXZ/Sfzh9qHLEM9aOg4KzWtzZmLLg0=;
+        b=SYm1ZfQ6Crsw+252+Ki9vZH7UpHjy9idDtOIhEfRby3BhHu51Agdb0cuO7OTAxFfa2
+         68w64gIRYjVeZDpFIgxjiZKU/sDXQANkWAPa8XZlvXfUYfxjUKzPVnWo4EeoG4q5qjy1
+         vJvUdbg/rQCzmOro0pvaKvEqjzVK0IllYU53CPDguyyNQUQwAEYXC2X4THg55HxabqZz
+         81WejmEOGKZEsfTMDXR5LFR9obvF6bzpy8qkpxIsRKnD6RzdoBMOFx1hWOKkhy3bYq56
+         JzBch5QGZiVu4p5k4YqEyYNGnPUcotdWdZAh6SLdvG5hV5zCvTUcGhOZJzN8OPm6SW/S
+         QQaQ==
+X-Gm-Message-State: APjAAAVhkZXKr46rbOgdd8nuzT2xwx+3CN/TbFxiaIZtutZQa3PlAr8R
+        0U0wOTwvFtP9a9wnfHXHbyEt23Ezjpr8r5hqPuN6d2N4KQh5
+X-Google-Smtp-Source: APXvYqwJKyhBY6fvxrYABN0tOrXmGfhukYlUZ1WxNbV3wtseGBlncv05zIfjOEgrMPkqHG/w93JOwb4Iz7tpqJrWgv/RV4/o6Ygd
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1575851866-18919-5-git-send-email-jeff@labundy.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Received: by 2002:a5d:96c6:: with SMTP id r6mr6639913iol.236.1575889509728;
+ Mon, 09 Dec 2019 03:05:09 -0800 (PST)
+Date:   Mon, 09 Dec 2019 03:05:09 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000006eca960599435e76@google.com>
+Subject: KASAN: slab-out-of-bounds Write in hidinput_setkeycode
+From:   syzbot <syzbot+aed9115d05783f14777a@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        rydberg@bitmath.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Dec 09, 2019 at 12:38:36AM +0000, Jeff LaBundy wrote:
-> This patch adds support for the Azoteq IQS620A, capable of generating
-> a 1-kHz PWM output with duty cycle between 0.4% and 100% (inclusive).
-> 
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-> ---
-> Changes in v2:
->   - Merged 'Copyright' and 'Author' lines into one in introductory comments
->   - Added 'Limitations' section to introductory comments
->   - Replaced 'error' with 'ret' throughout
->   - Added const qualifier to state argument of iqs620_pwm_apply and removed all
->     modifications to the variable's contents
->   - Updated iqs620_pwm_apply to return -ENOTSUPP or -EINVAL if the requested
->     polarity is inverted or the requested period is below 1 ms, respectively
->   - Updated iqs620_pwm_apply to disable the PWM output if duty cycle is zero
->   - Added iqs620_pwm_get_state
->   - Eliminated tabbed alignment of pwm_ops and platform_driver struct members
->   - Moved notifier unregistration to already present iqs620_pwm_remove, which
->     eliminated the need for a device-managed action and ready flag
->   - Added a comment in iqs620_pwm_probe to explain the order of operations
->   - Changed Kconfig "depends on" logic to MFD_IQS62X || COMPILE_TEST
-> 
->  drivers/pwm/Kconfig       |  10 +++
->  drivers/pwm/Makefile      |   1 +
->  drivers/pwm/pwm-iqs620a.c | 206 ++++++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 217 insertions(+)
->  create mode 100644 drivers/pwm/pwm-iqs620a.c
-> 
-> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-> index bd21655..60bcf6c 100644
-> --- a/drivers/pwm/Kconfig
-> +++ b/drivers/pwm/Kconfig
-> @@ -222,6 +222,16 @@ config PWM_IMX_TPM
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called pwm-imx-tpm.
-> 
-> +config PWM_IQS620A
-> +	tristate "Azoteq IQS620A PWM support"
-> +	depends on MFD_IQS62X || COMPILE_TEST
-> +	help
-> +	  Generic PWM framework driver for the Azoteq IQS620A multi-function
-> +	  sensor.
-> +
-> +	  To compile this driver as a module, choose M here: the module will
-> +	  be called pwm-iqs620a.
-> +
->  config PWM_JZ4740
->  	tristate "Ingenic JZ47xx PWM support"
->  	depends on MACH_INGENIC
-> diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-> index 9a47507..a59c710 100644
-> --- a/drivers/pwm/Makefile
-> +++ b/drivers/pwm/Makefile
-> @@ -20,6 +20,7 @@ obj-$(CONFIG_PWM_IMG)		+= pwm-img.o
->  obj-$(CONFIG_PWM_IMX1)		+= pwm-imx1.o
->  obj-$(CONFIG_PWM_IMX27)		+= pwm-imx27.o
->  obj-$(CONFIG_PWM_IMX_TPM)	+= pwm-imx-tpm.o
-> +obj-$(CONFIG_PWM_IQS620A)	+= pwm-iqs620a.o
->  obj-$(CONFIG_PWM_JZ4740)	+= pwm-jz4740.o
->  obj-$(CONFIG_PWM_LP3943)	+= pwm-lp3943.o
->  obj-$(CONFIG_PWM_LPC18XX_SCT)	+= pwm-lpc18xx-sct.o
-> diff --git a/drivers/pwm/pwm-iqs620a.c b/drivers/pwm/pwm-iqs620a.c
-> new file mode 100644
-> index 0000000..1ea11b9
-> --- /dev/null
-> +++ b/drivers/pwm/pwm-iqs620a.c
-> @@ -0,0 +1,206 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Azoteq IQS620A PWM Generator
-> + *
-> + * Copyright (C) 2019 Jeff LaBundy <jeff@labundy.com>
-> + *
-> + * Limitations:
-> + * - The period is not guaranteed to run to completion when the duty cycle is
-> + *   changed or the output is disabled.
+Hello,
 
-Do you know more details here? "not guaranteed" means that the new
-period starts immediately when duty_cycle or the enabled bit is written?
+syzbot found the following crash on:
 
-> + * - The period is fixed to 1 ms.
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mfd/iqs62x.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pwm.h>
-> +#include <linux/regmap.h>
-> +#include <linux/slab.h>
-> +
-> +#define IQS620_PWR_SETTINGS			0xD2
-> +#define IQS620_PWR_SETTINGS_PWM_OUT		BIT(7)
-> +
-> +#define IQS620_PWM_DUTY_CYCLE			0xD8
-> +
-> +#define IQS620_PWM_PERIOD_NS			1000000
-> +
-> +struct iqs620_pwm_private {
-> +	struct iqs62x_core *iqs62x;
-> +	struct pwm_chip chip;
-> +	struct notifier_block notifier;
-> +};
-> +
-> +static int iqs620_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> +			    const struct pwm_state *state)
-> +{
-> +	struct iqs620_pwm_private *iqs620_pwm;
-> +	struct iqs62x_core *iqs62x;
-> +	unsigned int pwm_out = 0;
-> +	int duty_scale, ret;
-> +
-> +	if (state->polarity != PWM_POLARITY_NORMAL)
-> +		return -ENOTSUPP;
-> +
-> +	if (state->period < IQS620_PWM_PERIOD_NS)
-> +		return -EINVAL;
-> +
-> +	iqs620_pwm = container_of(chip, struct iqs620_pwm_private, chip);
-> +	iqs62x = iqs620_pwm->iqs62x;
-> +
-> +	duty_scale = DIV_ROUND_CLOSEST(state->duty_cycle * 256,
-> +				       IQS620_PWM_PERIOD_NS);
-> +
-> +	if (duty_scale) {
-> +		ret = regmap_write(iqs62x->map, IQS620_PWM_DUTY_CYCLE,
-> +				   min(duty_scale - 1, 0xFF));
-> +		if (ret)
-> +			return ret;
-> +
-> +		if (state->enabled)
-> +			pwm_out = IQS620_PWR_SETTINGS_PWM_OUT;
-> +	}
-> +
-> +	return regmap_update_bits(iqs62x->map, IQS620_PWR_SETTINGS,
-> +				  IQS620_PWR_SETTINGS_PWM_OUT, pwm_out);
+HEAD commit:    1f22d15c usb: gadget: add raw-gadget interface
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=13c9bb7ae00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8ccee2968018adcb
+dashboard link: https://syzkaller.appspot.com/bug?extid=aed9115d05783f14777a
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13145c2ee00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17dca1eae00000
 
-A comment explaining the semantic here would be good. I assume
-IQS620_PWM_DUTY_CYCLE takes a value between 0 and 255 and the resulting
-duty cycle is:
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+aed9115d05783f14777a@syzkaller.appspotmail.com
 
-	(IQS620_PWM_DUTY_CYCLE + 1) / 256 * 1 ms
+==================================================================
+BUG: KASAN: slab-out-of-bounds in clear_bit  
+include/asm-generic/bitops-instrumented.h:56 [inline]
+BUG: KASAN: slab-out-of-bounds in hidinput_setkeycode+0x16e/0x390  
+drivers/hid/hid-input.c:165
+Write of size 8 at addr ffff8881cf9649e8 by task syz-executor105/1717
 
-.
+CPU: 1 PID: 1717 Comm: syz-executor105 Not tainted 5.4.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xef/0x16e lib/dump_stack.c:118
+  print_address_description.constprop.0+0x36/0x50 mm/kasan/report.c:374
+  __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:506
+  kasan_report+0xe/0x20 mm/kasan/common.c:638
+  check_memory_region_inline mm/kasan/generic.c:185 [inline]
+  check_memory_region+0x128/0x190 mm/kasan/generic.c:192
+  clear_bit include/asm-generic/bitops-instrumented.h:56 [inline]
+  hidinput_setkeycode+0x16e/0x390 drivers/hid/hid-input.c:165
+  input_set_keycode+0x104/0x320 drivers/input/input.c:935
+  evdev_handle_set_keycode_v2+0xc4/0x120 drivers/input/evdev.c:882
+  evdev_do_ioctl drivers/input/evdev.c:1150 [inline]
+  evdev_ioctl_handler+0xd49/0x19f0 drivers/input/evdev.c:1284
+  vfs_ioctl fs/ioctl.c:47 [inline]
+  file_ioctl fs/ioctl.c:539 [inline]
+  do_vfs_ioctl+0xd2d/0x1330 fs/ioctl.c:726
+  ksys_ioctl+0x9b/0xc0 fs/ioctl.c:743
+  __do_sys_ioctl fs/ioctl.c:750 [inline]
+  __se_sys_ioctl fs/ioctl.c:748 [inline]
+  __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:748
+  do_syscall_64+0xb7/0x5b0 arch/x86/entry/common.c:294
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x446d59
+Code: e8 2c ae 02 00 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7  
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 1b d8 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007ffd75eec118 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007ffd75eec120 RCX: 0000000000446d59
+RDX: 0000000020000080 RSI: 0000000040284504 RDI: 0000000000000005
+RBP: 0000000000000000 R08: 0000000000000000 R09: 00000000004029f0
+R10: 00007ffd75eebc70 R11: 0000000000000246 R12: 0000000000404a00
+R13: 0000000000404a90 R14: 0000000000000000 R15: 0000000000000000
 
-If this is right, please use:
+Allocated by task 12:
+  save_stack+0x1b/0x80 mm/kasan/common.c:71
+  set_track mm/kasan/common.c:79 [inline]
+  __kasan_kmalloc mm/kasan/common.c:512 [inline]
+  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:485
+  kmalloc include/linux/slab.h:556 [inline]
+  kzalloc include/linux/slab.h:670 [inline]
+  input_allocate_device+0x3e/0x260 drivers/input/input.c:1810
+  hidinput_allocate drivers/hid/hid-input.c:1654 [inline]
+  hidinput_connect+0x3cab/0xdb90 drivers/hid/hid-input.c:1899
+  hid_connect+0x965/0xbb0 drivers/hid/hid-core.c:1923
+  hid_hw_start drivers/hid/hid-core.c:2027 [inline]
+  hid_hw_start+0xa2/0x130 drivers/hid/hid-core.c:2018
+  ms_probe+0x159/0x4d0 drivers/hid/hid-microsoft.c:394
+  hid_device_probe+0x2be/0x3f0 drivers/hid/hid-core.c:2255
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0x1480/0x1c20 drivers/base/core.c:2487
+  hid_add_device drivers/hid/hid-core.c:2411 [inline]
+  hid_add_device+0x33c/0x9a0 drivers/hid/hid-core.c:2360
+  usbhid_probe+0xa81/0xfa0 drivers/hid/usbhid/hid-core.c:1386
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0x1480/0x1c20 drivers/base/core.c:2487
+  usb_set_configuration+0xe67/0x1740 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0x1480/0x1c20 drivers/base/core.c:2487
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2537
+  hub_port_connect drivers/usb/core/hub.c:5184 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
+  port_event drivers/usb/core/hub.c:5470 [inline]
+  hub_event+0x1e59/0x3860 drivers/usb/core/hub.c:5552
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2264
+  process_scheduled_works kernel/workqueue.c:2326 [inline]
+  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2412
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 
-	duty_scale = (state->duty_cycle * 256) / IQS620_PWM_PERIOD_NS
+Freed by task 0:
+(stack is not available)
 
-Also, when the hardware is running at
+The buggy address belongs to the object at ffff8881cf964000
+  which belongs to the cache kmalloc-2k of size 2048
+The buggy address is located 488 bytes to the right of
+  2048-byte region [ffff8881cf964000, ffff8881cf964800)
+The buggy address belongs to the page:
+page:ffffea00073e5800 refcount:1 mapcount:0 mapping:ffff8881da40c000  
+index:0x0 compound_mapcount: 0
+raw: 0200000000010200 dead000000000100 dead000000000122 ffff8881da40c000
+raw: 0000000000000000 0000000000080008 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
 
-	.enabled = 1, .duty_cycle = 1/256 ms, .period = 1ms
+Memory state around the buggy address:
+  ffff8881cf964880: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+  ffff8881cf964900: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> ffff8881cf964980: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                                                           ^
+  ffff8881cf964a00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+  ffff8881cf964a80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
 
-and you reconfigure to
 
-	.enabled = 0, .duty_cycle = 1ms, .period = 1ms
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-the output might be active for > 1/256 ms if the process is preempted
-between writing IQS620_PWM_DUTY_CYCLE and IQS620_PWR_SETTINGS_PWM_OUT.
-
-> +}
-> +
-> +static void iqs620_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-> +				 struct pwm_state *state)
-> +{
-> +	struct iqs620_pwm_private *iqs620_pwm;
-> +	struct iqs62x_core *iqs62x;
-> +	unsigned int val;
-> +	int ret;
-> +
-> +	iqs620_pwm = container_of(chip, struct iqs620_pwm_private, chip);
-> +	iqs62x = iqs620_pwm->iqs62x;
-> +
-> +	ret = regmap_read(iqs62x->map, IQS620_PWR_SETTINGS, &val);
-> +	if (ret)
-> +		goto err_out;
-> +	state->enabled = val & IQS620_PWR_SETTINGS_PWM_OUT;
-> +
-> +	ret = regmap_read(iqs62x->map, IQS620_PWM_DUTY_CYCLE, &val);
-> +	if (ret)
-> +		goto err_out;
-> +	state->duty_cycle = DIV_ROUND_CLOSEST((val + 1) * IQS620_PWM_PERIOD_NS,
-> +					      256);
-
-Please round up.
-
-> +	state->period = IQS620_PWM_PERIOD_NS;
-> +
-> +err_out:
-> +	if (ret)
-> +		dev_err(iqs620_pwm->chip.dev, "Failed to get state: %d\n", ret);
-> +}
-> +
-> +static int iqs620_pwm_notifier(struct notifier_block *notifier,
-> +			       unsigned long event_flags, void *context)
-> +{
-> +	struct iqs620_pwm_private *iqs620_pwm;
-> +	struct pwm_state state;
-> +	int ret;
-> +
-> +	if (!(event_flags & BIT(IQS62X_EVENT_SYS_RESET)))
-> +		return NOTIFY_DONE;
-> +
-> +	iqs620_pwm = container_of(notifier, struct iqs620_pwm_private,
-> +				  notifier);
-> +	pwm_get_state(&iqs620_pwm->chip.pwms[0], &state);
-
-Please don't call pwm API functions in callbacks. I assume you rely on
-pwm_get_state returning the previously set state and that
-iqs620_pwm_get_state isn't called. Please use pwm->state for that.
-
-> +	ret = iqs620_pwm_apply(&iqs620_pwm->chip,
-> +			       &iqs620_pwm->chip.pwms[0], &state);
-> +	if (ret) {
-> +		dev_err(iqs620_pwm->chip.dev,
-> +			"Failed to re-initialize device: %d\n", ret);
-> +		return NOTIFY_BAD;
-> +	}
-> +
-> +	return NOTIFY_OK;
-> +}
-> +
-> +static const struct pwm_ops iqs620_pwm_ops = {
-> +	.apply = iqs620_pwm_apply,
-> +	.get_state = iqs620_pwm_get_state,
-> +	.owner = THIS_MODULE,
-> +};
-> +
-> +static int iqs620_pwm_probe(struct platform_device *pdev)
-> +{
-> +	struct iqs620_pwm_private *iqs620_pwm;
-> +	int ret1, ret2;
-> +
-> +	iqs620_pwm = devm_kzalloc(&pdev->dev, sizeof(*iqs620_pwm), GFP_KERNEL);
-> +	if (!iqs620_pwm)
-> +		return -ENOMEM;
-> +
-> +	platform_set_drvdata(pdev, iqs620_pwm);
-> +	iqs620_pwm->iqs62x = dev_get_drvdata(pdev->dev.parent);
-> +
-> +	iqs620_pwm->chip.dev = &pdev->dev;
-> +	iqs620_pwm->chip.ops = &iqs620_pwm_ops;
-> +	iqs620_pwm->chip.base = -1;
-> +	iqs620_pwm->chip.npwm = 1;
-> +
-> +	ret1 = pwmchip_add(&iqs620_pwm->chip);
-> +	if (ret1) {
-> +		dev_err(&pdev->dev, "Failed to add device: %d\n", ret1);
-> +		return ret1;
-> +	}
-> +
-> +	/*
-> +	 * Since iqs620_pwm_notifier uses iqs620_pwm->chip.pwms[], the notifier
-> +	 * is not registered until pwmchip_add (which allocates that array) has
-> +	 * been called. If registration fails, the newly added device has to be
-> +	 * removed because the driver fails to probe and iqs620_pwm_remove will
-> +	 * never be called.
-> +	 */
-> +	iqs620_pwm->notifier.notifier_call = iqs620_pwm_notifier;
-> +	ret1 = blocking_notifier_chain_register(&iqs620_pwm->iqs62x->nh,
-> +						&iqs620_pwm->notifier);
-> +	if (ret1) {
-> +		dev_err(&pdev->dev, "Failed to register notifier: %d\n", ret1);
-> +
-> +		ret2 = pwmchip_remove(&iqs620_pwm->chip);
-> +		if (ret2) {
-> +			dev_err(&pdev->dev, "Failed to remove device: %d\n",
-> +				ret2);
-> +			return ret2;
-
-This exitpoint is bad. The PWM driver is active but the module gets
-unloaded. I liked the approach from v1 better.
-
-ret2 could be local to this block.
-
-> +		}
-> +	}
-> +
-> +	return ret1;
-> +}
-
-Best regards
-Uwe
-
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
