@@ -2,141 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24231118755
-	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2019 12:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3453118763
+	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2019 12:53:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727502AbfLJLwO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Dec 2019 06:52:14 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54627 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727906AbfLJLwL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Dec 2019 06:52:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575978731;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=o+ceyNOAgwOHGOedPh8jjnXDmvLZ/5D9KblQB5Ic6zg=;
-        b=NOcmYAsv96UCuJdgeZ9i/PHUJ/KaPxTyCHQyytRgauEQJBDT0zi2mHVW3bTDkcRDnWAHwB
-        iIDfn1qIwIUGZJt7WVXwoIH2OZMQMN+af2l/w8Tu4840RqS00V8eHG+PUhGFlG1SQB104a
-        7mj2Bsgra8lokeNO9+5jq0J7RR7HGAk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-h4-2ZKNJO5u6Rm6_XEW3bQ-1; Tue, 10 Dec 2019 06:52:07 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6551618044BC;
-        Tue, 10 Dec 2019 11:52:04 +0000 (UTC)
-Received: from shalem.localdomain.com (unknown [10.36.118.144])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AEC4D5DA60;
-        Tue, 10 Dec 2019 11:52:00 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1727682AbfLJLwc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Dec 2019 06:52:32 -0500
+Received: from mout02.posteo.de ([185.67.36.66]:41853 "EHLO mout02.posteo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727615AbfLJLvt (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 10 Dec 2019 06:51:49 -0500
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout02.posteo.de (Postfix) with ESMTPS id 8346924010A
+        for <linux-input@vger.kernel.org>; Tue, 10 Dec 2019 12:51:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1575978705; bh=m4Q2fb645yaCXwwqlvCoypR/3L+HA9GRmr0c83G63Vk=;
+        h=Subject:To:Cc:From:Autocrypt:Date:From;
+        b=FWgvCa1/OaKxs5bCb1HJNu83R9Kx6N1N0igvWQBSaX/HSCU0cW/kUQs1E4LIB58/z
+         otOKfOjWZs8TJaO8Z57v9bZkuECORxZf3zIcAq/8jWcSwomCpgDYfO4F/mK0TZdDId
+         mcyIfoxrIUjnHoDE9Pp+c4uMvOnGLgbxP+2yb5fv1DO0b+2onDTsbbVlzgJFew6cv4
+         OzSpJ+A/guW9/hSnEFXp+EwRLOqSdcgUfZgydAECwTJgj6yPu1Yw33ORwMttl2xUcL
+         046Y7LazGeSDFPjepLaNrOwoBP4DmfNDwbOqiwOySRchLVhhEObGSXig2yE4LVNx9E
+         Y67kBLmiTmBXg==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 47XJLj0vHSz9rxk;
+        Tue, 10 Dec 2019 12:51:40 +0100 (CET)
+Subject: Re: [PATCH 1/7] Input: pegasus_notetaker: fix endpoint sanity check
+To:     Johan Hovold <johan@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v10 10/10] platform/x86: touchscreen_dmi: Add info for the Chuwi Vi8 Plus tablet
-Date:   Tue, 10 Dec 2019 12:51:17 +0100
-Message-Id: <20191210115117.303935-11-hdegoede@redhat.com>
-In-Reply-To: <20191210115117.303935-1-hdegoede@redhat.com>
-References: <20191210115117.303935-1-hdegoede@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable <stable@vger.kernel.org>
+References: <20191210113737.4016-1-johan@kernel.org>
+ <20191210113737.4016-2-johan@kernel.org>
+From:   Martin Kepplinger <martink@posteo.de>
+Autocrypt: addr=martink@posteo.de; keydata=
+ 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
+Message-ID: <71f10cb5-304a-c053-af86-469c6abc7373@posteo.de>
+Date:   Tue, 10 Dec 2019 12:51:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: h4-2ZKNJO5u6Rm6_XEW3bQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191210113737.4016-2-johan@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add touchscreen info for the Chuwi Vi8 Plus tablet. This tablet uses a
-Chipone ICN8505 touchscreen controller, with the firmware used by the
-touchscreen embedded in the EFI firmware.
+On 10.12.19 12:37, Johan Hovold wrote:
+> The driver was checking the number of endpoints of the first alternate
+> setting instead of the current one, something which could be used by a
+> malicious device (or USB descriptor fuzzer) to trigger a NULL-pointer
+> dereference.
+> 
+> Fixes: 1afca2b66aac ("Input: add Pegasus Notetaker tablet driver")
+> Cc: stable <stable@vger.kernel.org>     # 4.8
+> Cc: Martin Kepplinger <martink@posteo.de>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
+>  drivers/input/tablet/pegasus_notetaker.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/tablet/pegasus_notetaker.c b/drivers/input/tablet/pegasus_notetaker.c
+> index a1f3a0cb197e..38f087404f7a 100644
+> --- a/drivers/input/tablet/pegasus_notetaker.c
+> +++ b/drivers/input/tablet/pegasus_notetaker.c
+> @@ -275,7 +275,7 @@ static int pegasus_probe(struct usb_interface *intf,
+>  		return -ENODEV;
+>  
+>  	/* Sanity check that the device has an endpoint */
+> -	if (intf->altsetting[0].desc.bNumEndpoints < 1) {
+> +	if (intf->cur_altsetting->desc.bNumEndpoints < 1) {
+>  		dev_err(&intf->dev, "Invalid number of endpoints\n");
+>  		return -EINVAL;
+>  	}
+> 
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v7:
-- Remove PROPERTY_ENTRY_BOOL("efi-embedded-firmware") properties entry,
-  as this is no longer necessary
-
-Changes in v6:
-- Switch from crc sums to SHA256 hashes for the firmware hash
----
- drivers/platform/x86/touchscreen_dmi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/=
-touchscreen_dmi.c
-index 4449e4c0b26b..4a09b479cda5 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -132,6 +132,18 @@ static const struct ts_dmi_data chuwi_vi8_data =3D {
- =09.properties     =3D chuwi_vi8_props,
- };
-=20
-+static const struct ts_dmi_data chuwi_vi8_plus_data =3D {
-+=09.embedded_fw =3D {
-+=09=09.name=09=3D "chipone/icn8505-HAMP0002.fw",
-+=09=09.prefix =3D { 0xb0, 0x07, 0x00, 0x00, 0xe4, 0x07, 0x00, 0x00 },
-+=09=09.length=09=3D 35012,
-+=09=09.sha256=09=3D { 0x93, 0xe5, 0x49, 0xe0, 0xb6, 0xa2, 0xb4, 0xb3,
-+=09=09=09    0x88, 0x96, 0x34, 0x97, 0x5e, 0xa8, 0x13, 0x78,
-+=09=09=09    0x72, 0x98, 0xb8, 0x29, 0xeb, 0x5c, 0xa7, 0xf1,
-+=09=09=09    0x25, 0x13, 0x43, 0xf4, 0x30, 0x7c, 0xfc, 0x7c },
-+=09},
-+};
-+
- static const struct property_entry chuwi_vi10_props[] =3D {
- =09PROPERTY_ENTRY_U32("touchscreen-min-x", 0),
- =09PROPERTY_ENTRY_U32("touchscreen-min-y", 4),
-@@ -743,6 +755,15 @@ const struct dmi_system_id touchscreen_dmi_table[] =3D=
- {
- =09=09=09DMI_MATCH(DMI_BIOS_VERSION, "CHUWI.D86JLBNR"),
- =09=09},
- =09},
-+=09{
-+=09=09/* Chuwi Vi8 Plus (CWI519) */
-+=09=09.driver_data =3D (void *)&chuwi_vi8_plus_data,
-+=09=09.matches =3D {
-+=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "Hampoo"),
-+=09=09=09DMI_MATCH(DMI_PRODUCT_NAME, "D2D3_Vi8A1"),
-+=09=09=09DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
-+=09=09},
-+=09},
- =09{
- =09=09/* Chuwi Vi10 (CWI505) */
- =09=09.driver_data =3D (void *)&chuwi_vi10_data,
-@@ -1137,6 +1158,9 @@ static int __init ts_dmi_init(void)
- =09=09return 0; /* Not an error */
-=20
- =09ts_data =3D dmi_id->driver_data;
-+=09/* Some dmi table entries only provide an efi_embedded_fw_desc */
-+=09if (!ts_data->properties)
-+=09=09return 0;
-=20
- =09error =3D bus_register_notifier(&i2c_bus_type, &ts_dmi_notifier);
- =09if (error)
---=20
-2.23.0
-
+Acked-by: Martin Kepplinger <martink@posteo.de>
