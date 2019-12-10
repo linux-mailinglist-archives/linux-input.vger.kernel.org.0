@@ -2,25 +2,25 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A90411824F
-	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2019 09:36:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6316E11829E
+	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2019 09:43:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726750AbfLJIgg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Dec 2019 03:36:36 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:39389 "EHLO
+        id S1726847AbfLJInZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Dec 2019 03:43:25 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:46269 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726881AbfLJIgg (ORCPT
+        with ESMTP id S1726843AbfLJInZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Dec 2019 03:36:36 -0500
+        Tue, 10 Dec 2019 03:43:25 -0500
 Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
         by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1ieb0B-0001W4-H1; Tue, 10 Dec 2019 09:36:15 +0100
+        id 1ieb6v-0002IR-Vc; Tue, 10 Dec 2019 09:43:13 +0100
 Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
         (envelope-from <mfe@pengutronix.de>)
-        id 1ieb09-0003LN-QI; Tue, 10 Dec 2019 09:36:13 +0100
-Date:   Tue, 10 Dec 2019 09:36:13 +0100
+        id 1ieb6v-0003Mi-4d; Tue, 10 Dec 2019 09:43:13 +0100
+Date:   Tue, 10 Dec 2019 09:43:13 +0100
 From:   Marco Felsch <m.felsch@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
@@ -29,21 +29,22 @@ Cc:     robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
         mripard@kernel.org, alexandre.belloni@bootlin.com,
         shawnguo@kernel.org, devicetree@vger.kernel.org,
         kernel@pengutronix.de, linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] Input: edt-ft5x06 - make wakeup-source switchable
-Message-ID: <20191210083613.rozufzqup2r2vuz6@pengutronix.de>
+Subject: Re: [PATCH v2 5/5] Input: edt-ft5x06 - improve power management
+ operations
+Message-ID: <20191210084313.ed2ij6pp4h5n6xfw@pengutronix.de>
 References: <20191127120948.22251-1-m.felsch@pengutronix.de>
- <20191127120948.22251-5-m.felsch@pengutronix.de>
- <20191202180057.GC50317@dtor-ws>
+ <20191127120948.22251-6-m.felsch@pengutronix.de>
+ <20191202180423.GD50317@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191202180057.GC50317@dtor-ws>
+In-Reply-To: <20191202180423.GD50317@dtor-ws>
 X-Sent-From: Pengutronix Hildesheim
 X-URL:  http://www.pengutronix.de/
 X-IRC:  #ptxdist @freenode
 X-Accept-Language: de,en
 X-Accept-Content-Type: text/plain
-X-Uptime: 09:35:37 up 24 days, 23:54, 31 users,  load average: 0.00, 0.00,
+X-Uptime: 09:39:02 up 24 days, 23:57, 31 users,  load average: 0.00, 0.00,
  0.00
 User-Agent: NeoMutt/20170113 (1.7.2)
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
@@ -55,81 +56,86 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 19-12-02 10:00, Dmitry Torokhov wrote:
-> On Wed, Nov 27, 2019 at 01:09:47PM +0100, Marco Felsch wrote:
-> > Since day one the touch controller acts as wakeup-source. This seems to
-> > be wrong since the device supports deep-sleep mechanism [1] which
-> > requires a reset to leave it. Also some designs won't use the
-> > touchscreen as wakeup-source.
+On 19-12-02 10:04, Dmitry Torokhov wrote:
+> On Wed, Nov 27, 2019 at 01:09:48PM +0100, Marco Felsch wrote:
+> > It is possible to bring the device into a deep sleep state. To exit this
+> > state the reset or wakeup pin must be toggeled as documented in [1].
+> > Because of the poor documentation I used the several downstream kernels
+> > [2] and other applications notes [3] to indentify the related registers.
 > > 
-> > According discussion [2] we decided to break backward compatibility and
-> > go the common way by using the 'wakeup-source' device-property.
+> > Furthermore I added the support to disable the device completely. This is
+> > the most effective power-saving mechanism. Disabling the device don't
+> > change the suspend logic because the hibernate mode needs a hardware
+> > reset anyway.
 > > 
 > > [1] https://www.newhavendisplay.com/appnotes/datasheets/touchpanel/FT5x26.pdf
-> > [2] https://patchwork.kernel.org/patch/11149037/
+> > [2] https://github.com/linux-sunxi/linux-sunxi/blob/sunxi-3.4/drivers/input/touchscreen/ft5x_ts.c
+> >     https://github.com/Pablito2020/focaltech-touch-driver/blob/master/ft5336_driver.c
+> > [3] https://www.newhavendisplay.com/appnotes/datasheets/touchpanel/FT5x16_registers.pdf
 > > 
 > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 > > ---
 > > v2:
-> > - make use of common wakeup-source property
 > > - adapt commit message
+> > - don't return errors during suspend/resume
+> > - replace dev_err() by dev_warn()
+> > - add support to disable the regulator too
 > > 
-> >  drivers/input/touchscreen/edt-ft5x06.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> >  drivers/input/touchscreen/edt-ft5x06.c | 49 ++++++++++++++++++++++++--
+> >  1 file changed, 47 insertions(+), 2 deletions(-)
 > > 
 > > diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-> > index e1b31fd525e2..8d2ec7947f0e 100644
+> > index 8d2ec7947f0e..0bdd3440f684 100644
 > > --- a/drivers/input/touchscreen/edt-ft5x06.c
 > > +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> > @@ -24,6 +24,7 @@
-> >  #include <linux/irq.h>
-> >  #include <linux/kernel.h>
-> >  #include <linux/module.h>
-> > +#include <linux/property.h>
-> >  #include <linux/ratelimit.h>
-> >  #include <linux/regulator/consumer.h>
-> >  #include <linux/slab.h>
-> > @@ -1056,6 +1057,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
-> >  	unsigned long irq_flags;
-> >  	int error;
-> >  	char fw_version[EDT_NAME_LEN];
-> > +	bool en_wakeup;
+> > @@ -39,6 +39,9 @@
+> >  #define WORK_REGISTER_NUM_X		0x33
+> >  #define WORK_REGISTER_NUM_Y		0x34
 > >  
-> >  	dev_dbg(&client->dev, "probing for EDT FT5x06 I2C\n");
-> >  
-> > @@ -1114,6 +1116,8 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
-> >  		return error;
-> >  	}
-> >  
-> > +	en_wakeup = device_property_present(&client->dev, "wakeup-source");
+> > +#define PMOD_REGISTER_ACTIVE		0x00
+> > +#define PMOD_REGISTER_HIBERNATE		0x03
 > > +
-> >  	if (tsdata->wake_gpio) {
-> >  		usleep_range(5000, 6000);
-> >  		gpiod_set_value_cansleep(tsdata->wake_gpio, 1);
-> > @@ -1208,7 +1212,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
-> >  		return error;
+> >  #define M09_REGISTER_THRESHOLD		0x80
+> >  #define M09_REGISTER_GAIN		0x92
+> >  #define M09_REGISTER_OFFSET		0x93
+> > @@ -54,6 +57,7 @@
 > >  
-> >  	edt_ft5x06_ts_prepare_debugfs(tsdata, dev_driver_string(&client->dev));
-> > -	device_init_wakeup(&client->dev, 1);
-> > +	device_init_wakeup(&client->dev, en_wakeup);
+> >  #define WORK_REGISTER_OPMODE		0x3c
+> >  #define FACTORY_REGISTER_OPMODE		0x01
+> > +#define PMOD_REGISTER_OPMODE		0xa5
+> >  
+> >  #define TOUCH_EVENT_DOWN		0x00
+> >  #define TOUCH_EVENT_UP			0x01
+> > @@ -1235,9 +1239,29 @@ static int edt_ft5x06_ts_remove(struct i2c_client *client)
+> >  static int __maybe_unused edt_ft5x06_ts_suspend(struct device *dev)
+> >  {
+> >  	struct i2c_client *client = to_i2c_client(dev);
+> > +	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
+> > +	int ret;
+> >  
+> > -	if (device_may_wakeup(dev))
+> > +	if (device_may_wakeup(dev)) {
+> >  		enable_irq_wake(client->irq);
 > 
-> I2C core already marks device as wakeup source if I2C_CLIEMT_WAKE is set
-> (and the flag is specified when, among other things, device has
-> "wakeup-source" property).
+> Can we start with preliminary patch dropping calls to enable_irq_wake()
+> and disable_irq_wake() as device/PM core will tale care of configuring
+> wake irqs properly for us, since we are now allowing I2C core to mark
+> the interrupt as wake IRQ.
 > 
-> So the only thing that is needed is to remove
+> So we need to do:
 > 
-> 	device_init_wakeup(&client->dev, 1);
+> 	if (device_may_wakeup(dev))
+> 		return 0;
 > 
-> line.
+> 	<execute power down sequence>
+> 
+> Thanks.
 
-You are right, thanks for covering that.
+Of course, thanks for covering that.A
 
 Regards,
   Marco 
 
-> 
-> Thanks.
 > 
 > -- 
 > Dmitry
