@@ -2,57 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08740118464
-	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2019 11:08:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBA0F11866D
+	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2019 12:37:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727110AbfLJKIG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Dec 2019 05:08:06 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:45157 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727076AbfLJKIG (ORCPT
+        id S1727211AbfLJLhu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Dec 2019 06:37:50 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:36585 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727018AbfLJLhu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Dec 2019 05:08:06 -0500
-Received: by mail-wr1-f66.google.com with SMTP id j42so19263924wrj.12
-        for <linux-input@vger.kernel.org>; Tue, 10 Dec 2019 02:08:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=f0Q3rlyg/cD4ZOuBBjfL4TrA9kTX5CvG82OdXXHMeyo=;
-        b=bPAQRmcUhvcJNrCY8U7uC5UcrXODzhonZEpp5pvH3eBhWeItFe9oJZ+7mU+grlWMUB
-         LyGr7XOybE5aYoGNDEzvfr16Lb5+PNyqbaexFf5v3U0AKjVqFh79aRh6Cdoi+mZDT4QY
-         7Pxc7HuvIxH2JF581adlgDJA/Zq9+vfWPSJxxWOUaYSPAbNLqn6ATy+31BnEWDXSt11a
-         ARILRU7f90mkzQNytOD5nOmmmT9DqDGLuYwifxNxo7TfKkr6LdKkayAQpSzPXqM0gFaN
-         Iy4OuxVSYpkx0CqrwwmL/n/hMvtzPK45NiaGAzVJwlTovdlyLEy8Qukf3T5s9sf4GDC5
-         TEzg==
+        Tue, 10 Dec 2019 06:37:50 -0500
+Received: by mail-lf1-f67.google.com with SMTP id n12so13449726lfe.3;
+        Tue, 10 Dec 2019 03:37:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=f0Q3rlyg/cD4ZOuBBjfL4TrA9kTX5CvG82OdXXHMeyo=;
-        b=bupS6SR0ue4J8x3g4HRa9XhsWY06K/METo8h1DQ4JzqrnCwNq/Pte+CkZREKu1iWNk
-         6tomUHGbAKA+E5l1Guht8WTvuCoM+yxVZXtZrn9DBCwKhdEBXPSJrfjOnmVI1DPqLGro
-         w+a4Vsjb1pnp17Q8ks4ngX34foevJhqoOadVU6MQTbSwtrk+8pl1hub8P7ppDePAxaPD
-         acEKfhm0NK4jSTvzrBarICDv5mhhYmnSUNiS5wdO4Ptwr+vXr4W8pbttmSfPJnBmqV/H
-         ijaeCjamUsglGvruYTu3mHqaHTAOVuyKDMI7dYSNOn0C0Mm9HVjK/zvqjpgI3eLBSJ/7
-         QBFA==
-X-Gm-Message-State: APjAAAU0Z6iELGsBRAFcgWNK5D7t+FBoKt5GHphUurRosbFxQielEVCm
-        V7KRVc8XKjMoJrzQkgikrp1+Sg==
-X-Google-Smtp-Source: APXvYqxuVThypfwC7Fvv6ys4Y0xFGCC49P5yn1lExjo9Q6sxcbnAKDrS3fV7I0Yhnd4ByPDj/bTPJw==
-X-Received: by 2002:a5d:4d8d:: with SMTP id b13mr2371552wru.6.1575972484233;
-        Tue, 10 Dec 2019 02:08:04 -0800 (PST)
-Received: from debian-brgl.home ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
-        by smtp.gmail.com with ESMTPSA id t8sm2658949wrp.69.2019.12.10.02.08.03
+        bh=eZNh4wJZKItTijN7b21HY0LHSvrpQd4qo9HGr6Bov0E=;
+        b=opQkfcEyqSy+csA1rofEkp47kBDF+RS+7SAIVI79+qe5WO8ojUs0ORHYwePDZDsOzQ
+         ZDedP4lG/VtxU6JXvO1HZkQVErAI3YmzE33X4v7E2H/vFW058hQ+9LxPgkQjywiTBV5C
+         9UcgjnI8FPWrNiGEfN0z/4K8ndKzt/4hhpDWclwPAZH+0CXpxL4yQv9Q77lrz9DFboUF
+         +26NiMEFgCiGfXs90/R1KbedPKFJJb+1TrHSHhc5/MwVVSZsufH1xeU2VtRLZVVmcbFl
+         DSuXEKwVHZ6AO6yo1MAOBs/X0G8KXAEvIWN5vTlr1U7176qEjL98wH5uvn5i6w9Wht73
+         sKbQ==
+X-Gm-Message-State: APjAAAUpKN5ZGiVKyFLM9pbbDqg+u8FV+YQ99RN3yL03KV8P67g1P4nj
+        EcOeqg3HD30tdPruYmQwNZM=
+X-Google-Smtp-Source: APXvYqyH2sZx4j1DatpQAz63dwGw0x8MR1eQzWOeAfY68uPQNR5xqAk6lAkC2IotvJr0VQ7gi2dqfQ==
+X-Received: by 2002:a19:f514:: with SMTP id j20mr17098761lfb.31.1575977868238;
+        Tue, 10 Dec 2019 03:37:48 -0800 (PST)
+Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
+        by smtp.gmail.com with ESMTPSA id q27sm1628548ljc.65.2019.12.10.03.37.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2019 02:08:03 -0800 (PST)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
+        Tue, 10 Dec 2019 03:37:47 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@xi.terra>)
+        id 1iedpt-00013f-Mb; Tue, 10 Dec 2019 12:37:49 +0100
+From:   Johan Hovold <johan@kernel.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH] input: max77650-onkey: add of_match table
-Date:   Tue, 10 Dec 2019 11:07:53 +0100
-Message-Id: <20191210100753.11090-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.23.0
+Cc:     linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: [PATCH 0/7] Input: fix USB alsetting bugs
+Date:   Tue, 10 Dec 2019 12:37:30 +0100
+Message-Id: <20191210113737.4016-1-johan@kernel.org>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
@@ -60,37 +52,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+We had quite a few driver using the first alternate setting instead of
+the current one when doing descriptor sanity checks. This is mostly an
+issue on kernels with panic_on_warn set due to a WARN() in
+usb_submit_urn(). Since we've started backporting such fixes (e.g. as
+reported by syzbot), I've marked these for stable as well.
 
-We need the of_match table if we want to use the compatible string in
-the pmic's child node and get the onkey driver loaded automatically.
+Included are also a couple of related clean ups to prevent future
+issues.
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
----
- drivers/input/misc/max77650-onkey.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Johan
 
-diff --git a/drivers/input/misc/max77650-onkey.c b/drivers/input/misc/max77650-onkey.c
-index 4d875f2ac13d..ee55f22dbca5 100644
---- a/drivers/input/misc/max77650-onkey.c
-+++ b/drivers/input/misc/max77650-onkey.c
-@@ -108,9 +108,16 @@ static int max77650_onkey_probe(struct platform_device *pdev)
- 	return input_register_device(onkey->input);
- }
- 
-+static const struct of_device_id max77650_onkey_of_match[] = {
-+	{ .compatible = "maxim,max77650-onkey" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, max77650_onkey_of_match);
-+
- static struct platform_driver max77650_onkey_driver = {
- 	.driver = {
- 		.name = "max77650-onkey",
-+		.of_match_table = max77650_onkey_of_match,
- 	},
- 	.probe = max77650_onkey_probe,
- };
+
+Johan Hovold (7):
+  Input: pegasus_notetaker: fix endpoint sanity check
+  Input: aiptek: fix endpoint sanity check
+  Input: aiptek: use descriptors of current altsetting
+  Input: gtco: fix endpoint sanity check
+  Input: gtco: fix extra-descriptor debug message
+  Input: gtco: drop redundant variable reinit
+  Input: sur40: fix interface sanity checks
+
+ drivers/input/tablet/aiptek.c            |  8 ++++----
+ drivers/input/tablet/gtco.c              | 13 ++++---------
+ drivers/input/tablet/pegasus_notetaker.c |  2 +-
+ drivers/input/touchscreen/sur40.c        |  2 +-
+ 4 files changed, 10 insertions(+), 15 deletions(-)
+
 -- 
-2.23.0
+2.24.0
 
