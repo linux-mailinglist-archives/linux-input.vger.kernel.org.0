@@ -2,83 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EADAB119655
-	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2019 22:26:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFB8911A304
+	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 04:28:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727805AbfLJV0N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Dec 2019 16:26:13 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:51932 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1728956AbfLJV0M (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Dec 2019 16:26:12 -0500
-Received: (qmail 7209 invoked by uid 2102); 10 Dec 2019 16:26:11 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 10 Dec 2019 16:26:11 -0500
-Date:   Tue, 10 Dec 2019 16:26:11 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Jiri Kosina <jikos@kernel.org>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        <linux-input@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: [PATCH] HID: Fix slab-out-of-bounds read in hid_field_extract
-In-Reply-To: <Pine.LNX.4.44L0.1912091318210.1462-100000@iolanthe.rowland.org>
-Message-ID: <Pine.LNX.4.44L0.1912101622030.1647-100000@iolanthe.rowland.org>
+        id S1727308AbfLKD2U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Dec 2019 22:28:20 -0500
+Received: from rere.qmqm.pl ([91.227.64.183]:42690 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726687AbfLKD2U (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 10 Dec 2019 22:28:20 -0500
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 47Xj7P5Znzz5F;
+        Wed, 11 Dec 2019 04:28:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1576034898; bh=xI0Y3WrLAljdX3uXRnsJYHw0mplOHki0zWGafXQjuUQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kdOLkCGfKtu7PK3JynMC7F1MrhHiZorsIEUonBvN7xTNjcC2V7LiD0gt0IUgmiJ1m
+         aDkLQFMZgC7OgUw6Wh4ImKHFUNFlxt9dEk+NdyAv1pbXMPocllIqaAbD3gfRdMeP5b
+         v87GizYHLTs3AjuuIkIouPqI9VYWhW9y9ahbEEKMk3usIAJV3prKoy9BptMFXhTt+Y
+         PhQsCqnPQh/mk3LZxehTtYSxKnlQQBpJJtjuo9XMD6Pf0cbmWIdSDkZ+VfAvJNErtQ
+         HAazYbzQD8uyaL9zO0h4AXGK8stZNvZGUDH29A/efR63MjeCrSA6w4s7Q7jpdGHAXd
+         kksrljeUkuIVQ==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.101.4 at mail
+Date:   Wed, 11 Dec 2019 04:28:13 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/6] input: elants: support common touchscreen DT
+ properties
+Message-ID: <20191211032813.GA17731@qmqm.qmqm.pl>
+References: <cover.1575936961.git.mirq-linux@rere.qmqm.pl>
+ <7e650a6ef98e3178d6829c3c2c83f21437070d84.1575936961.git.mirq-linux@rere.qmqm.pl>
+ <17bb20b8-a62c-828f-d329-cd3aa89c1c06@gmail.com>
+ <20191210023818.GB15246@qmqm.qmqm.pl>
+ <2c9cd83c-518f-2f22-c3e7-ac629a181b8d@gmail.com>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2c9cd83c-518f-2f22-c3e7-ac629a181b8d@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The syzbot fuzzer found a slab-out-of-bounds bug in the HID report
-handler.  The bug was caused by a report descriptor which included a
-field with size 12 bits and count 4899, for a total size of 7349
-bytes.
+On Tue, Dec 10, 2019 at 06:21:02PM +0300, Dmitry Osipenko wrote:
+> 10.12.2019 05:38, Michał Mirosław пишет:
+> > On Tue, Dec 10, 2019 at 04:03:18AM +0300, Dmitry Osipenko wrote:
+> >> 10.12.2019 03:19, Michał Mirosław пишет:
+> >>> Support common DT properties like axis inversions to complement
+> >>> information obtained from device's firmware.a
+> > [...]
+> >>> @@ -1251,13 +1250,15 @@ static int elants_i2c_probe(struct i2c_client *client,
+> >>>  	ts->input->name = "Elan Touchscreen";
+> >>>  	ts->input->id.bustype = BUS_I2C;
+> >>>  
+> >>> +	touchscreen_parse_properties(ts->input, true, &ts->prop);
+> >>
+> >> Shouldn't this function be invoked after setting the max x/y sizes with
+> >> the hardware values? That's what all other drivers do and then you won't
+> >> need to set the ts->prop.max_x/y above in the code.
+> > 
+> > This is done later in the series - this patch only adds axis inversion
+> > support and ignores DT-provided sizes.
+> 
+> What is the reason of splitting it into two patches?
+> 
+> Perhaps I'm still missing something, but why something a bit more simple
+> like this wouldn't yield exactly the same result:
+[...]
 
-The usbhid driver uses at most a single-page 4-KB buffer for reports.
-In the test there wasn't any problem about overflowing the buffer,
-since only one byte was received from the device.  Rather, the bug
-occurred when the HID core tried to extract the data from the report
-fields, which caused it to try reading data beyond the end of the
-allocated buffer.
+Originally I thought to skip probing the hardware when all info is
+already provided in devicetree. This didn't happen, though. I'll take
+your patch then, with a slight adjustment in "prop"'s position... And
+the rest of them, so as to not duplicate the work. :-)
 
-This patch fixes the problem by rejecting any report whose total
-length exceeds the HID_MAX_BUFFER_SIZE limit (minus one byte to allow
-for a possible report index).  In theory a device could have a report
-longer than that, but if there was such a thing we wouldn't handle it 
-correctly anyway.
-
-Reported-and-tested-by: syzbot+09ef48aa58261464b621@syzkaller.appspotmail.com
-Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-CC: <stable@vger.kernel.org>
-
----
-
-
-[as1926]
-
-
- drivers/hid/hid-core.c |    6 ++++++
- 1 file changed, 6 insertions(+)
-
-Index: usb-devel/drivers/hid/hid-core.c
-===================================================================
---- usb-devel.orig/drivers/hid/hid-core.c
-+++ usb-devel/drivers/hid/hid-core.c
-@@ -268,6 +268,12 @@ static int hid_add_field(struct hid_pars
- 	offset = report->size;
- 	report->size += parser->global.report_size * parser->global.report_count;
- 
-+	/* Total size check: Allow for possible report index byte */
-+	if (report->size > (HID_MAX_BUFFER_SIZE - 1) << 3) {
-+		hid_err(parser->device, "report is too long\n");
-+		return -1;
-+	}
-+
- 	if (!parser->local.usage_index) /* Ignore padding fields */
- 		return 0;
- 
-
+Best Regards,
+Michał Mirosław
