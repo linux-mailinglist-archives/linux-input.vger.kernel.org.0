@@ -2,47 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0A2411B288
-	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 16:36:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1582A11B45A
+	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 16:47:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731395AbfLKPgn convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Wed, 11 Dec 2019 10:36:43 -0500
-Received: from mailout03.3bbmail.com ([110.164.252.196]:49044 "EHLO
-        mailout02.3bb.co.th" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2388224AbfLKPgn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Dec 2019 10:36:43 -0500
-X-Greylist: delayed 1109 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Dec 2019 10:36:39 EST
-Authentication-Results: 3bb.co.th;
-        spf=fail smtp.mailfrom=infoccfoundation@amazon.com
-Received: from appserv (mx-ll-110.164.149-9.static.3bb.co.th [110.164.149.9] (may be forged))
-        by mailout02.3bb.co.th (8.16.0.27/8.16.0.27) with ESMTP id xBBFF6w6018949;
-        Wed, 11 Dec 2019 22:15:06 +0700
-Message-ID: <41449-2201912311151515777@appserv>
-To:     "a" <skyteamsbiz@gmail.com>
-Reply-To: "CCULVERT FOUNDATION" <skyteamsbiz@gmail.com>
-From:   "CCULVERT FOUNDATION" <infoccfoundation@amazon.com>
-Subject: Mein letzter Wunsch.
-Date:   Wed, 11 Dec 2019 22:15:15 +0700
+        id S1730318AbfLKP0w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Dec 2019 10:26:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60236 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1733168AbfLKP0t (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 11 Dec 2019 10:26:49 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 18D792465A;
+        Wed, 11 Dec 2019 15:26:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576078008;
+        bh=T9ks6T+rhopzS3sRezOIMYMOUnsrEE3XWDB5kr4AmDQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=zyDCT0QgZN04P61IuLr8XwlKFI5sVr6jhv7xrhF64tzjeLOongkouvKGLKoSk8rXz
+         dtkIRwauXm6D5NP9soagBIY25M9rEox4mmoPPy4TowhLP0gv0ZPa/mKczrigme8Qx6
+         Dr01nuwTSsItyep+DmAVz0QVUznPdPOXodu+a2Jk=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Evan Green <evgreen@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 04/79] Input: atmel_mxt_ts - disable IRQ across suspend
+Date:   Wed, 11 Dec 2019 10:25:28 -0500
+Message-Id: <20191211152643.23056-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191211152643.23056-1-sashal@kernel.org>
+References: <20191211152643.23056-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-type: text/plain; charset=windows-874
-Content-Transfer-Encoding: 8BIT
-X-Proofpoint-SPF-Result: fail
-X-Proofpoint-SPF-Record: v=spf1 include:spf1.amazon.com include:spf2.amazon.com
- include:amazonses.com -all
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-11-25_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=42 suspectscore=1 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=2 mlxscore=2 mlxlogscore=166
- adultscore=0 classifier=spam adjust=40 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1911260048
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Wenn Sie sich für die Finanzierung der STIFTUNG interessieren, schreiben Sie bitte heute über meinen Anwalt zurück
-Grüße,
-Mrs. Cindy Culvert.
-skyteamsbiz@gmail.com
+From: Evan Green <evgreen@chromium.org>
+
+[ Upstream commit 463fa44eec2fef50d111ed0199cf593235065c04 ]
+
+Across suspend and resume, we are seeing error messages like the following:
+
+atmel_mxt_ts i2c-PRP0001:00: __mxt_read_reg: i2c transfer failed (-121)
+atmel_mxt_ts i2c-PRP0001:00: Failed to read T44 and T5 (-121)
+
+This occurs because the driver leaves its IRQ enabled. Upon resume, there
+is an IRQ pending, but the interrupt is serviced before both the driver and
+the underlying I2C bus have been resumed. This causes EREMOTEIO errors.
+
+Disable the IRQ in suspend, and re-enable it on resume. If there are cases
+where the driver enters suspend with interrupts disabled, that's a bug we
+should fix separately.
+
+Signed-off-by: Evan Green <evgreen@chromium.org>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/input/touchscreen/atmel_mxt_ts.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index a7ace07e179e2..e8f98de60df3a 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -3162,6 +3162,8 @@ static int __maybe_unused mxt_suspend(struct device *dev)
+ 
+ 	mutex_unlock(&input_dev->mutex);
+ 
++	disable_irq(data->irq);
++
+ 	return 0;
+ }
+ 
+@@ -3174,6 +3176,8 @@ static int __maybe_unused mxt_resume(struct device *dev)
+ 	if (!input_dev)
+ 		return 0;
+ 
++	enable_irq(data->irq);
++
+ 	mutex_lock(&input_dev->mutex);
+ 
+ 	if (input_dev->users)
+-- 
+2.20.1
 
