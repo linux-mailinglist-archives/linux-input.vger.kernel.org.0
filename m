@@ -2,84 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BFB8911A304
-	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 04:28:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A069411AA4E
+	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 12:55:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727308AbfLKD2U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Dec 2019 22:28:20 -0500
-Received: from rere.qmqm.pl ([91.227.64.183]:42690 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726687AbfLKD2U (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Dec 2019 22:28:20 -0500
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 47Xj7P5Znzz5F;
-        Wed, 11 Dec 2019 04:28:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1576034898; bh=xI0Y3WrLAljdX3uXRnsJYHw0mplOHki0zWGafXQjuUQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kdOLkCGfKtu7PK3JynMC7F1MrhHiZorsIEUonBvN7xTNjcC2V7LiD0gt0IUgmiJ1m
-         aDkLQFMZgC7OgUw6Wh4ImKHFUNFlxt9dEk+NdyAv1pbXMPocllIqaAbD3gfRdMeP5b
-         v87GizYHLTs3AjuuIkIouPqI9VYWhW9y9ahbEEKMk3usIAJV3prKoy9BptMFXhTt+Y
-         PhQsCqnPQh/mk3LZxehTtYSxKnlQQBpJJtjuo9XMD6Pf0cbmWIdSDkZ+VfAvJNErtQ
-         HAazYbzQD8uyaL9zO0h4AXGK8stZNvZGUDH29A/efR63MjeCrSA6w4s7Q7jpdGHAXd
-         kksrljeUkuIVQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.101.4 at mail
-Date:   Wed, 11 Dec 2019 04:28:13 +0100
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/6] input: elants: support common touchscreen DT
- properties
-Message-ID: <20191211032813.GA17731@qmqm.qmqm.pl>
-References: <cover.1575936961.git.mirq-linux@rere.qmqm.pl>
- <7e650a6ef98e3178d6829c3c2c83f21437070d84.1575936961.git.mirq-linux@rere.qmqm.pl>
- <17bb20b8-a62c-828f-d329-cd3aa89c1c06@gmail.com>
- <20191210023818.GB15246@qmqm.qmqm.pl>
- <2c9cd83c-518f-2f22-c3e7-ac629a181b8d@gmail.com>
+        id S1729092AbfLKLzv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Dec 2019 06:55:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54013 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729142AbfLKLzu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 11 Dec 2019 06:55:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1576065349;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XwexMGmPekdr4+AxISaEIBvhb/7gR+zi4pC7R+9p3hQ=;
+        b=iCeAOWkjbXZE3Nyxmtu8F47PPrJx0Wk3icxUFLuuduSL5EyUNvemtD5vD5XNW8k8pd6YXx
+        M0P9xmiPKaD+QP80iucFfjPX+0hgJjNM1fZMnuFDPGJj30y3ScxZy9rh9Td2xAjO0JMxk1
+        0FbMxYIc4n2bKph7XXWC9u2EEWl2fx0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-276-6hO2WSIAMWeD3kkaBT-oyg-1; Wed, 11 Dec 2019 06:55:46 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB47818543D1;
+        Wed, 11 Dec 2019 11:55:44 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D1D5A5C1B5;
+        Wed, 11 Dec 2019 11:55:44 +0000 (UTC)
+Received: from zmail21.collab.prod.int.phx2.redhat.com (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
+        by colo-mx.corp.redhat.com (Postfix) with ESMTP id C366B18034E9;
+        Wed, 11 Dec 2019 11:55:44 +0000 (UTC)
+Date:   Wed, 11 Dec 2019 06:55:44 -0500 (EST)
+From:   Vladis Dronov <vdronov@redhat.com>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable <stable@vger.kernel.org>
+Message-ID: <17522697.476689.1576065344710.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20191210113737.4016-3-johan@kernel.org>
+References: <20191210113737.4016-1-johan@kernel.org> <20191210113737.4016-3-johan@kernel.org>
+Subject: Re: [PATCH 2/7] Input: aiptek: fix endpoint sanity check
 MIME-Version: 1.0
+X-Originating-IP: [10.40.205.203, 10.4.195.30]
+Thread-Topic: Input: aiptek: fix endpoint sanity check
+Thread-Index: yxnpiHiLIHXEq4+MmBp4wSYn+N3S+A==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: 6hO2WSIAMWeD3kkaBT-oyg-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2c9cd83c-518f-2f22-c3e7-ac629a181b8d@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 10, 2019 at 06:21:02PM +0300, Dmitry Osipenko wrote:
-> 10.12.2019 05:38, Michał Mirosław пишет:
-> > On Tue, Dec 10, 2019 at 04:03:18AM +0300, Dmitry Osipenko wrote:
-> >> 10.12.2019 03:19, Michał Mirosław пишет:
-> >>> Support common DT properties like axis inversions to complement
-> >>> information obtained from device's firmware.a
-> > [...]
-> >>> @@ -1251,13 +1250,15 @@ static int elants_i2c_probe(struct i2c_client *client,
-> >>>  	ts->input->name = "Elan Touchscreen";
-> >>>  	ts->input->id.bustype = BUS_I2C;
-> >>>  
-> >>> +	touchscreen_parse_properties(ts->input, true, &ts->prop);
-> >>
-> >> Shouldn't this function be invoked after setting the max x/y sizes with
-> >> the hardware values? That's what all other drivers do and then you won't
-> >> need to set the ts->prop.max_x/y above in the code.
-> > 
-> > This is done later in the series - this patch only adds axis inversion
-> > support and ignores DT-provided sizes.
-> 
-> What is the reason of splitting it into two patches?
-> 
-> Perhaps I'm still missing something, but why something a bit more simple
-> like this wouldn't yield exactly the same result:
-[...]
+A fix for a bug indeed, thank you Johan.
 
-Originally I thought to skip probing the hardware when all info is
-already provided in devicetree. This didn't happen, though. I'll take
-your patch then, with a slight adjustment in "prop"'s position... And
-the rest of them, so as to not duplicate the work. :-)
+Best regards,
+Vladis Dronov | Red Hat, Inc. | The Core Kernel | Senior Software Engineer
 
-Best Regards,
-Michał Mirosław
+----- Original Message -----
+> From: "Johan Hovold" <johan@kernel.org>
+> To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
+> Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, "Johan Hovold"
+> <johan@kernel.org>, "stable" <stable@vger.kernel.org>, "Vladis Dronov" <vdronov@redhat.com>
+> Sent: Tuesday, December 10, 2019 12:37:32 PM
+> Subject: [PATCH 2/7] Input: aiptek: fix endpoint sanity check
+> 
+> The driver was checking the number of endpoints of the first alternate
+> setting instead of the current one, something which could lead to the
+> driver binding to an invalid interface.
+> 
+> This in turn could cause the driver to misbehave or trigger a WARN() in
+> usb_submit_urb() that kernels with panic_on_warn set would choke on.
+> 
+> Fixes: 8e20cf2bce12 ("Input: aiptek - fix crash on detecting device without
+> endpoints")
+> Cc: stable <stable@vger.kernel.org>     # 4.4
+> Cc: Vladis Dronov <vdronov@redhat.com>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+
