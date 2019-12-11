@@ -2,75 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B8C5F11B6D9
-	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 17:04:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A1D811BC7E
+	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 20:07:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731457AbfLKQDj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Dec 2019 11:03:39 -0500
-Received: from rere.qmqm.pl ([91.227.64.183]:51024 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388818AbfLKQD3 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Dec 2019 11:03:29 -0500
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 47Y1tl0DK4zwQ;
-        Wed, 11 Dec 2019 17:03:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1576080207; bh=AO4ukHwV9QpNi0US401dnW4qucmusMjSQ/kpCSF8EjY=;
-        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=NAi+IgEn5gdlt/3Jqm8U2WEv6nA4APhea1eDhUw3egVvfTjQfZ0Wy8tCJ7UQz+WRF
-         hLahOWk8eRVWehZlHD7usJkXV9neZPvHm87zAlt4ddBT26F3C1tOHJZ/7a9MEk8swN
-         RrupacI0Kz9zHcHL3EFUSoFONtJ2uwO8VvZwWTha3yuF8YREaRfn/keleLLf/9/Brj
-         2/NR8hFnWL9Vm2E6khvevcpSwFzeHRzkVPWRJIPzPZXWQDe+Byi8ZELdk5x/GHGgWE
-         lXN/vjqsJ39abOPl8ciKN/+7x5a9N2H80Yn3sNAWm/ewnVCdWRy/V8/7IFtgfgB/gO
-         OWSnu3TcW41lw==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.101.4 at mail
-Date:   Wed, 11 Dec 2019 17:03:26 +0100
-Message-Id: <882916345a8aa2dc545a1bd2ca150cf913371d1a.1576079249.git.mirq-linux@rere.qmqm.pl>
-In-Reply-To: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
-References: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
-From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH v2 9/9] dt-bindings: input: elants-i2c: Document eKTF3624
+        id S1726595AbfLKTHD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Dec 2019 14:07:03 -0500
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.217]:14617 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727224AbfLKTHC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 11 Dec 2019 14:07:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1576091220;
+        s=strato-dkim-0002; d=gerhold.net;
+        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+        Subject:Sender;
+        bh=vnCZ1JwFpfUlpBrhMmMi5eGuLHhdCSYvuvmmfW1o1H4=;
+        b=Ll74oJ+e5mqpt8tlsAkwK9Nc39SITa8GkF6eZuhnp7xpCg4CLoG/yKdEhXrnhrl26x
+        7VI8J886StdfId11kaHOJBSon2yunvajuFlMxikhfe3PE+qc/SwzNhjBqoe1ogyTT6rz
+        KmX5EnVxeffkPWHqsyomqG0+oz51WhikNIuCtZvHHktq/ApxjUbT/Ar0z7KDNsDzgtxY
+        +/PPCWdwFRoQb9nTLKW7A5iHSZOVntwTz2stQL7DB5NA6aGieOtDFQGLuXXanlk6zo4T
+        0OpWdGokG/usDVGdNfqb9q1uThnTJxF7C807phmG7WZ6UtLR7gAw5/GjiLpPRQH73C1o
+        ezSQ==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVORvLd4SsytBXQrEOHTIXtc/vtBNY3Q=="
+X-RZG-CLASS-ID: mo00
+Received: from localhost.localdomain
+        by smtp.strato.de (RZmta 46.0.2 AUTH)
+        with ESMTPSA id R01a59vBBJ0roiQ
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Wed, 11 Dec 2019 20:00:53 +0100 (CET)
+From:   Stephan Gerhold <stephan@gerhold.net>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>,
+        Damien Riegel <damien.riegel@savoirfairelinux.com>
+Subject: [PATCH] Input: pm8xxx-vib - fix handling of separate enable register
+Date:   Wed, 11 Dec 2019 20:00:26 +0100
+Message-Id: <20191211190026.52662-1-stephan@gerhold.net>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-To:     linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh-dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-kernel@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        James Chen <james.chen@emc.com.tw>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>,
-        Scott Liu <scott.liu@emc.com.tw>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Dmitry Osipenko <digetx@gmail.com>
+Setting the vibrator enable_mask is not implemented correctly:
 
-The eKTF3624 hardware is similar to eKTH3500.
+For regmap_update_bits(map, reg, mask, val) we give in either
+regs->enable_mask or 0 (= no-op) as mask and "val" as value.
+But "val" actually refers to the vibrator voltage control register,
+which has nothing to do with the enable_mask.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+So we usually end up doing nothing when we really wanted
+to enable the vibrator.
+
+We want to set or clear the enable_mask (to enable/disable the vibrator).
+Therefore, change the call to always modify the enable_mask
+and set the bits only if we want to enable the vibrator.
+
+Cc: Damien Riegel <damien.riegel@savoirfairelinux.com>
+Fixes: d4c7c5c96c92 ("Input: pm8xxx-vib - handle separate enable register")
+Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
 ---
- Documentation/devicetree/bindings/input/elants_i2c.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/misc/pm8xxx-vibrator.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/input/elants_i2c.txt b/Documentation/devicetree/bindings/input/elants_i2c.txt
-index 45fab32bbc19..1bc60303f0ea 100644
---- a/Documentation/devicetree/bindings/input/elants_i2c.txt
-+++ b/Documentation/devicetree/bindings/input/elants_i2c.txt
-@@ -1,7 +1,7 @@
- Elantech I2C Touchscreen
+diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
+index ecd762f93732..8dc345604a4d 100644
+--- a/drivers/input/misc/pm8xxx-vibrator.c
++++ b/drivers/input/misc/pm8xxx-vibrator.c
+@@ -90,7 +90,8 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
  
- Required properties:
--- compatible: must be "elan,ekth3500".
-+- compatible: must be "elan,ekth3500" or "elan,ektf3624".
- - reg: I2C address of the chip.
- - interrupts: interrupt to which the chip is connected (see interrupt
-   binding[0]).
+ 	if (regs->enable_mask)
+ 		rc = regmap_update_bits(vib->regmap, regs->enable_addr,
+-					on ? regs->enable_mask : 0, val);
++					regs->enable_mask,
++					on ? regs->enable_mask : 0);
+ 
+ 	return rc;
+ }
 -- 
-2.20.1
+2.24.0
 
