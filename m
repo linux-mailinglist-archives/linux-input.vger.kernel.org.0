@@ -2,80 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F25211B6F3
-	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 17:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 618E911B7F8
+	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 17:11:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731271AbfLKPM5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Dec 2019 10:12:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35480 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731264AbfLKPM4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Dec 2019 10:12:56 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E194024654;
-        Wed, 11 Dec 2019 15:12:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576077175;
-        bh=cbppnptq3t0tXRFcWniMsJU+1fvxOW+4v1a/QucKyME=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UWgtNBsPa7qHbFsmFnwvLfjTwHhsy8kDNdwEcYQd772fU4Wg+Gg964bdBytoFVegy
-         teavN/nOy8TSQrSVTxKCddKu8WVggymFBFc0yoX/iHzuGVW6WMr8q3IqN7PAyheXmD
-         ywo6F7FCMb8qrcCQryrRElpCRozKf+FZnPJ3QmC8=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Adam Ford <aford173@gmail.com>,
-        Sven Van Asbroeck <TheSven73@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 060/134] Input: ili210x - handle errors from input_mt_init_slots()
-Date:   Wed, 11 Dec 2019 10:10:36 -0500
-Message-Id: <20191211151150.19073-60-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191211151150.19073-1-sashal@kernel.org>
-References: <20191211151150.19073-1-sashal@kernel.org>
+        id S1730486AbfLKQLh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Dec 2019 11:11:37 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:55076 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1730798AbfLKPKo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 11 Dec 2019 10:10:44 -0500
+Received: (qmail 1752 invoked by uid 2102); 11 Dec 2019 10:10:43 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 11 Dec 2019 10:10:43 -0500
+Date:   Wed, 11 Dec 2019 10:10:43 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Jiri Kosina <jikos@kernel.org>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        <linux-input@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Subject: Re: [PATCH] HID: Fix slab-out-of-bounds read in hid_field_extract
+In-Reply-To: <nycvar.YFH.7.76.1912111517570.4603@cbobk.fhfr.pm>
+Message-ID: <Pine.LNX.4.44L0.1912111009080.1549-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+On Wed, 11 Dec 2019, Jiri Kosina wrote:
 
-[ Upstream commit 43f06a4c639de8ee89fc348a9a3ecd70320a04dd ]
+> On Tue, 10 Dec 2019, Alan Stern wrote:
+> 
+> > The syzbot fuzzer found a slab-out-of-bounds bug in the HID report
+> > handler.  The bug was caused by a report descriptor which included a
+> > field with size 12 bits and count 4899, for a total size of 7349
+> > bytes.
+> > 
+> > The usbhid driver uses at most a single-page 4-KB buffer for reports.
+> > In the test there wasn't any problem about overflowing the buffer,
+> > since only one byte was received from the device.  Rather, the bug
+> > occurred when the HID core tried to extract the data from the report
+> > fields, which caused it to try reading data beyond the end of the
+> > allocated buffer.
+> > 
+> > This patch fixes the problem by rejecting any report whose total
+> > length exceeds the HID_MAX_BUFFER_SIZE limit (minus one byte to allow
+> > for a possible report index).  In theory a device could have a report
+> > longer than that, but if there was such a thing we wouldn't handle it 
+> > correctly anyway.
+> > 
+> > Reported-and-tested-by: syzbot+09ef48aa58261464b621@syzkaller.appspotmail.com
+> > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> > CC: <stable@vger.kernel.org>
+> 
+> Thanks for hunting this down Alan. Applied.
 
-input_mt_init_slots() may fail and we need to handle such failures.
+I just noticed this code:
 
-Tested-by: Adam Ford <aford173@gmail.com> #imx6q-logicpd
-Tested-by: Sven Van Asbroeck <TheSven73@gmail.com> # ILI2118A variant
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/input/touchscreen/ili210x.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+u8 *hid_alloc_report_buf(struct hid_report *report, gfp_t flags)
+{
+	/*
+	 * 7 extra bytes are necessary to achieve proper functionality
+	 * of implement() working on 8 byte chunks
+	 */
 
-diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
-index e9006407c9bc0..f4ebdab062806 100644
---- a/drivers/input/touchscreen/ili210x.c
-+++ b/drivers/input/touchscreen/ili210x.c
-@@ -334,7 +334,12 @@ static int ili210x_i2c_probe(struct i2c_client *client,
- 	input_set_abs_params(input, ABS_MT_POSITION_X, 0, 0xffff, 0, 0);
- 	input_set_abs_params(input, ABS_MT_POSITION_Y, 0, 0xffff, 0, 0);
- 	touchscreen_parse_properties(input, true, &priv->prop);
--	input_mt_init_slots(input, priv->max_touches, INPUT_MT_DIRECT);
-+
-+	error = input_mt_init_slots(input, priv->max_touches, INPUT_MT_DIRECT);
-+	if (error) {
-+		dev_err(dev, "Unable to set up slots, err: %d\n", error);
-+		return error;
-+	}
- 
- 	error = devm_add_action(dev, ili210x_cancel_work, priv);
- 	if (error)
--- 
-2.20.1
+	u32 len = hid_report_len(report) + 7;
+
+	return kmalloc(len, flags);
+}
+
+Does this indicate that the upper limit on a report length should 
+really be HID_MAX_BUFFER_SIZE - 8 instead of HID_MAX_BUFFER_SIZE - 1?
+
+Alan Stern
 
