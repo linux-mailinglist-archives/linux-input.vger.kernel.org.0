@@ -2,38 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4DDB11B6A4
-	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 17:02:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B48311B697
+	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 17:02:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731125AbfLKQCK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Dec 2019 11:02:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36458 "EHLO mail.kernel.org"
+        id S1731396AbfLKPNV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Dec 2019 10:13:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36636 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730718AbfLKPNP (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Dec 2019 10:13:15 -0500
+        id S1731391AbfLKPNU (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 11 Dec 2019 10:13:20 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B98DD208C3;
-        Wed, 11 Dec 2019 15:13:14 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CB9F52468A;
+        Wed, 11 Dec 2019 15:13:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576077195;
-        bh=ViHz5u/uWxAOrJktt1S26vphXYtLoGqBe2iwBCprXmk=;
+        s=default; t=1576077199;
+        bh=JBmAVkhcp71r07TrM4idsZy9hXaAMVHGdeXcNZUvKro=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WMmUr6uuHX81ebmL47D4A0pqfLMTDzLNF164li1pay9osVOK+CO4DIIucfrji0ah0
-         jBsWH/JTPxScloN/WJZTCIrCmuc+6A4oz251/FzuZLxrSkzIAnXmKjTvGTdgPzacUd
-         9T1eB6SXBx9C9hQYBZ9rHRsuWU8Qs7vOyEKhCSnY=
+        b=MjDMPozJ6pUXzMDRy0Mv2fDQij8vW+gJVci64/nwbywQbWT+3FTgXPrtT5ZMhvTc0
+         3I3Pa4eAYXI06WBAYTQam6KksipFiFE5rg3Cs0fLJzHfEaWsiVXZlvAuHyGLlXQGWY
+         LI3wDrp1RdWTxAKe5sgq5dZfN/B4zcn7UAtq5jDM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>, Jiri Kosina <jkosina@suse.cz>,
+Cc:     =?UTF-8?q?Bla=C5=BE=20Hrastnik?= <blaz@mxxn.io>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 078/134] HID: logitech-hidpp: Silence intermittent get_battery_capacity errors
-Date:   Wed, 11 Dec 2019 10:10:54 -0500
-Message-Id: <20191211151150.19073-78-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 082/134] HID: Improve Windows Precision Touchpad detection.
+Date:   Wed, 11 Dec 2019 10:10:58 -0500
+Message-Id: <20191211151150.19073-82-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191211151150.19073-1-sashal@kernel.org>
 References: <20191211151150.19073-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -42,44 +44,63 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Blaž Hrastnik <blaz@mxxn.io>
 
-[ Upstream commit 61005d65b6c7dcf61c19516e6ebe5acc02d2cdda ]
+[ Upstream commit 2dbc6f113acd74c66b04bf49fb027efd830b1c5a ]
 
-My Logitech M185 (PID:4038) 2.4 GHz wireless HID++ mouse is causing
-intermittent errors like these in the log:
+Per Microsoft spec, usage 0xC5 (page 0xFF) returns a blob containing
+data used to verify the touchpad as a Windows Precision Touchpad.
 
-[11091.034857] logitech-hidpp-device 0003:046D:4038.0006: hidpp20_batterylevel_get_battery_capacity: received protocol error 0x09
-[12388.031260] logitech-hidpp-device 0003:046D:4038.0006: hidpp20_batterylevel_get_battery_capacity: received protocol error 0x09
-[16613.718543] logitech-hidpp-device 0003:046D:4038.0006: hidpp20_batterylevel_get_battery_capacity: received protocol error 0x09
-[23529.938728] logitech-hidpp-device 0003:046D:4038.0006: hidpp20_batterylevel_get_battery_capacity: received protocol error 0x09
+   0x85, REPORTID_PTPHQA,    //    REPORT_ID (PTPHQA)
+    0x09, 0xC5,              //    USAGE (Vendor Usage 0xC5)
+    0x15, 0x00,              //    LOGICAL_MINIMUM (0)
+    0x26, 0xff, 0x00,        //    LOGICAL_MAXIMUM (0xff)
+    0x75, 0x08,              //    REPORT_SIZE (8)
+    0x96, 0x00, 0x01,        //    REPORT_COUNT (0x100 (256))
+    0xb1, 0x02,              //    FEATURE (Data,Var,Abs)
 
-We are already silencing error-code 0x09 (HIDPP_ERROR_RESOURCE_ERROR)
-errors in other places, lets do the same in
-hidpp20_batterylevel_get_battery_capacity to remove these harmless,
-but scary looking errors from the dmesg output.
+However, some devices, namely Microsoft's Surface line of products
+instead implement a "segmented device certification report" (usage 0xC6)
+which returns the same report, but in smaller chunks.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+    0x06, 0x00, 0xff,        //     USAGE_PAGE (Vendor Defined)
+    0x85, REPORTID_PTPHQA,   //     REPORT_ID (PTPHQA)
+    0x09, 0xC6,              //     USAGE (Vendor usage for segment #)
+    0x25, 0x08,              //     LOGICAL_MAXIMUM (8)
+    0x75, 0x08,              //     REPORT_SIZE (8)
+    0x95, 0x01,              //     REPORT_COUNT (1)
+    0xb1, 0x02,              //     FEATURE (Data,Var,Abs)
+    0x09, 0xC7,              //     USAGE (Vendor Usage)
+    0x26, 0xff, 0x00,        //     LOGICAL_MAXIMUM (0xff)
+    0x95, 0x20,              //     REPORT_COUNT (32)
+    0xb1, 0x02,              //     FEATURE (Data,Var,Abs)
+
+By expanding Win8 touchpad detection to also look for the segmented
+report, all Surface touchpads are now properly recognized by
+hid-multitouch.
+
+Signed-off-by: Blaž Hrastnik <blaz@mxxn.io>
+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-logitech-hidpp.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/hid/hid-core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 8e91e2f06cb4f..cd9193078525b 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -1102,6 +1102,9 @@ static int hidpp20_batterylevel_get_battery_capacity(struct hidpp_device *hidpp,
- 	ret = hidpp_send_fap_command_sync(hidpp, feature_index,
- 					  CMD_BATTERY_LEVEL_STATUS_GET_BATTERY_LEVEL_STATUS,
- 					  NULL, 0, &response);
-+	/* Ignore these intermittent errors */
-+	if (ret == HIDPP_ERROR_RESOURCE_ERROR)
-+		return -EIO;
- 	if (ret > 0) {
- 		hid_err(hidpp->hid_dev, "%s: received protocol error 0x%02x\n",
- 			__func__, ret);
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 2fa3587d974f4..e0b241bd3070c 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -781,6 +781,10 @@ static void hid_scan_feature_usage(struct hid_parser *parser, u32 usage)
+ 	if (usage == 0xff0000c5 && parser->global.report_count == 256 &&
+ 	    parser->global.report_size == 8)
+ 		parser->scan_flags |= HID_SCAN_FLAG_MT_WIN_8;
++
++	if (usage == 0xff0000c6 && parser->global.report_count == 1 &&
++	    parser->global.report_size == 8)
++		parser->scan_flags |= HID_SCAN_FLAG_MT_WIN_8;
+ }
+ 
+ static void hid_scan_collection(struct hid_parser *parser, unsigned type)
 -- 
 2.20.1
 
