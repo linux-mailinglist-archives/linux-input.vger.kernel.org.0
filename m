@@ -2,35 +2,34 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1582A11B45A
-	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 16:47:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62E7511B398
+	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 16:43:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730318AbfLKP0w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Dec 2019 10:26:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60236 "EHLO mail.kernel.org"
+        id S2387441AbfLKP1i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Dec 2019 10:27:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33304 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733168AbfLKP0t (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Dec 2019 10:26:49 -0500
+        id S1733014AbfLKP1h (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 11 Dec 2019 10:27:37 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 18D792465A;
-        Wed, 11 Dec 2019 15:26:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 02A5B2465A;
+        Wed, 11 Dec 2019 15:27:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576078008;
-        bh=T9ks6T+rhopzS3sRezOIMYMOUnsrEE3XWDB5kr4AmDQ=;
+        s=default; t=1576078056;
+        bh=5EHeF8nKpfLFxkSGUDx6Y6uvznGVE0AbgWXgCNXt4Bg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=zyDCT0QgZN04P61IuLr8XwlKFI5sVr6jhv7xrhF64tzjeLOongkouvKGLKoSk8rXz
-         dtkIRwauXm6D5NP9soagBIY25M9rEox4mmoPPy4TowhLP0gv0ZPa/mKczrigme8Qx6
-         Dr01nuwTSsItyep+DmAVz0QVUznPdPOXodu+a2Jk=
+        b=VV557MW15tkQHXgn2UCGV0dabXSWreTzktGvB0uiNqz++gP/bAv+K9iXx/iLBo2ZS
+         6eDNbjlrfbgEy3iLzJyrGIwqWNSMfh42nj98qVAuW15O2wXcpkJHXfoFqLO3Vp/kky
+         QiQeupPDCOXHZCDNsQMYWloxuUtivB2uSQtsnJp0=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Evan Green <evgreen@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+Cc:     Hans de Goede <hdegoede@redhat.com>, Jiri Kosina <jkosina@suse.cz>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 04/79] Input: atmel_mxt_ts - disable IRQ across suspend
-Date:   Wed, 11 Dec 2019 10:25:28 -0500
-Message-Id: <20191211152643.23056-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 49/79] HID: logitech-hidpp: Silence intermittent get_battery_capacity errors
+Date:   Wed, 11 Dec 2019 10:26:13 -0500
+Message-Id: <20191211152643.23056-49-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191211152643.23056-1-sashal@kernel.org>
 References: <20191211152643.23056-1-sashal@kernel.org>
@@ -43,52 +42,44 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Evan Green <evgreen@chromium.org>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 463fa44eec2fef50d111ed0199cf593235065c04 ]
+[ Upstream commit 61005d65b6c7dcf61c19516e6ebe5acc02d2cdda ]
 
-Across suspend and resume, we are seeing error messages like the following:
+My Logitech M185 (PID:4038) 2.4 GHz wireless HID++ mouse is causing
+intermittent errors like these in the log:
 
-atmel_mxt_ts i2c-PRP0001:00: __mxt_read_reg: i2c transfer failed (-121)
-atmel_mxt_ts i2c-PRP0001:00: Failed to read T44 and T5 (-121)
+[11091.034857] logitech-hidpp-device 0003:046D:4038.0006: hidpp20_batterylevel_get_battery_capacity: received protocol error 0x09
+[12388.031260] logitech-hidpp-device 0003:046D:4038.0006: hidpp20_batterylevel_get_battery_capacity: received protocol error 0x09
+[16613.718543] logitech-hidpp-device 0003:046D:4038.0006: hidpp20_batterylevel_get_battery_capacity: received protocol error 0x09
+[23529.938728] logitech-hidpp-device 0003:046D:4038.0006: hidpp20_batterylevel_get_battery_capacity: received protocol error 0x09
 
-This occurs because the driver leaves its IRQ enabled. Upon resume, there
-is an IRQ pending, but the interrupt is serviced before both the driver and
-the underlying I2C bus have been resumed. This causes EREMOTEIO errors.
+We are already silencing error-code 0x09 (HIDPP_ERROR_RESOURCE_ERROR)
+errors in other places, lets do the same in
+hidpp20_batterylevel_get_battery_capacity to remove these harmless,
+but scary looking errors from the dmesg output.
 
-Disable the IRQ in suspend, and re-enable it on resume. If there are cases
-where the driver enters suspend with interrupts disabled, that's a bug we
-should fix separately.
-
-Signed-off-by: Evan Green <evgreen@chromium.org>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/hid/hid-logitech-hidpp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index a7ace07e179e2..e8f98de60df3a 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -3162,6 +3162,8 @@ static int __maybe_unused mxt_suspend(struct device *dev)
- 
- 	mutex_unlock(&input_dev->mutex);
- 
-+	disable_irq(data->irq);
-+
- 	return 0;
- }
- 
-@@ -3174,6 +3176,8 @@ static int __maybe_unused mxt_resume(struct device *dev)
- 	if (!input_dev)
- 		return 0;
- 
-+	enable_irq(data->irq);
-+
- 	mutex_lock(&input_dev->mutex);
- 
- 	if (input_dev->users)
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 034c883e57fa2..504e8917b06f3 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -978,6 +978,9 @@ static int hidpp20_batterylevel_get_battery_capacity(struct hidpp_device *hidpp,
+ 	ret = hidpp_send_fap_command_sync(hidpp, feature_index,
+ 					  CMD_BATTERY_LEVEL_STATUS_GET_BATTERY_LEVEL_STATUS,
+ 					  NULL, 0, &response);
++	/* Ignore these intermittent errors */
++	if (ret == HIDPP_ERROR_RESOURCE_ERROR)
++		return -EIO;
+ 	if (ret > 0) {
+ 		hid_err(hidpp->hid_dev, "%s: received protocol error 0x%02x\n",
+ 			__func__, ret);
 -- 
 2.20.1
 
