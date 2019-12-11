@@ -2,81 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 618E911B7F8
-	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 17:11:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A08D511B6B0
+	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 17:02:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730486AbfLKQLh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Dec 2019 11:11:37 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:55076 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1730798AbfLKPKo (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Dec 2019 10:10:44 -0500
-Received: (qmail 1752 invoked by uid 2102); 11 Dec 2019 10:10:43 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 11 Dec 2019 10:10:43 -0500
-Date:   Wed, 11 Dec 2019 10:10:43 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Jiri Kosina <jikos@kernel.org>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        <linux-input@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: Re: [PATCH] HID: Fix slab-out-of-bounds read in hid_field_extract
-In-Reply-To: <nycvar.YFH.7.76.1912111517570.4603@cbobk.fhfr.pm>
-Message-ID: <Pine.LNX.4.44L0.1912111009080.1549-100000@iolanthe.rowland.org>
+        id S1730672AbfLKPNN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Dec 2019 10:13:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36288 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731372AbfLKPNN (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 11 Dec 2019 10:13:13 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6607C22B48;
+        Wed, 11 Dec 2019 15:13:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576077192;
+        bh=Rh5ce0QnwACFW34gLI8wpJiDmwUoZjCSxe/Za8lhpTw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=O6goPbJ03qAMtOswMfzoB44J4zdJXMR9Hb0aS1tGjJVtOUCw54fvBpV2IbVks1fpN
+         U8BqKbZb2meTe6+BrWgZdmMpoLaURYr3TeDqksefyqV56EG7Wwny4Z56VLnLsliDOF
+         4JEG6xFcAeZGq8CE1SSQZpV82I5VrfzjdjCsm+bs=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Jinke Fan <fanjinke@hygon.cn>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 075/134] HID: quirks: Add quirk for HP MSU1465 PIXART OEM mouse
+Date:   Wed, 11 Dec 2019 10:10:51 -0500
+Message-Id: <20191211151150.19073-75-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191211151150.19073-1-sashal@kernel.org>
+References: <20191211151150.19073-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 11 Dec 2019, Jiri Kosina wrote:
+From: Jinke Fan <fanjinke@hygon.cn>
 
-> On Tue, 10 Dec 2019, Alan Stern wrote:
-> 
-> > The syzbot fuzzer found a slab-out-of-bounds bug in the HID report
-> > handler.  The bug was caused by a report descriptor which included a
-> > field with size 12 bits and count 4899, for a total size of 7349
-> > bytes.
-> > 
-> > The usbhid driver uses at most a single-page 4-KB buffer for reports.
-> > In the test there wasn't any problem about overflowing the buffer,
-> > since only one byte was received from the device.  Rather, the bug
-> > occurred when the HID core tried to extract the data from the report
-> > fields, which caused it to try reading data beyond the end of the
-> > allocated buffer.
-> > 
-> > This patch fixes the problem by rejecting any report whose total
-> > length exceeds the HID_MAX_BUFFER_SIZE limit (minus one byte to allow
-> > for a possible report index).  In theory a device could have a report
-> > longer than that, but if there was such a thing we wouldn't handle it 
-> > correctly anyway.
-> > 
-> > Reported-and-tested-by: syzbot+09ef48aa58261464b621@syzkaller.appspotmail.com
-> > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-> > CC: <stable@vger.kernel.org>
-> 
-> Thanks for hunting this down Alan. Applied.
+[ Upstream commit f1a0094cbbe97a5f8aca7bdc64bfe43ac9dc6879 ]
 
-I just noticed this code:
+The PixArt OEM mouse disconnets/reconnects every minute on
+Linux. All contents of dmesg are repetitive:
 
-u8 *hid_alloc_report_buf(struct hid_report *report, gfp_t flags)
-{
-	/*
-	 * 7 extra bytes are necessary to achieve proper functionality
-	 * of implement() working on 8 byte chunks
-	 */
+[ 1465.810014] usb 1-2.2: USB disconnect, device number 20
+[ 1467.431509] usb 1-2.2: new low-speed USB device number 21 using xhci_hcd
+[ 1467.654982] usb 1-2.2: New USB device found, idVendor=03f0,idProduct=1f4a, bcdDevice= 1.00
+[ 1467.654985] usb 1-2.2: New USB device strings: Mfr=1, Product=2,SerialNumber=0
+[ 1467.654987] usb 1-2.2: Product: HP USB Optical Mouse
+[ 1467.654988] usb 1-2.2: Manufacturer: PixArt
+[ 1467.699722] input: PixArt HP USB Optical Mouse as /devices/pci0000:00/0000:00:07.1/0000:05:00.3/usb1/1-2/1-2.2/1-2.2:1.0/0003:03F0:1F4A.0012/input/input19
+[ 1467.700124] hid-generic 0003:03F0:1F4A.0012: input,hidraw0: USB HID v1.11 Mouse [PixArt HP USB Optical Mouse] on usb-0000:05:00.3-2.2/input0
 
-	u32 len = hid_report_len(report) + 7;
+So add HID_QUIRK_ALWAYS_POLL for this one as well.
+Test the patch, the mouse is no longer disconnected and there are no
+duplicate logs in dmesg.
 
-	return kmalloc(len, flags);
-}
+Reference:
+https://github.com/sriemer/fix-linux-mouse
 
-Does this indicate that the upper limit on a report length should 
-really be HID_MAX_BUFFER_SIZE - 8 instead of HID_MAX_BUFFER_SIZE - 1?
+Signed-off-by: Jinke Fan <fanjinke@hygon.cn>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-Alan Stern
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 447e8db21174a..00904537e17c4 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -573,6 +573,7 @@
+ #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_094A	0x094a
+ #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0941	0x0941
+ #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0641	0x0641
++#define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a	0x1f4a
+ 
+ #define USB_VENDOR_ID_HUION		0x256c
+ #define USB_DEVICE_ID_HUION_TABLET	0x006e
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index c50bcd967d994..9a35af1e26623 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -94,6 +94,7 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_094A), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0941), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0641), HID_QUIRK_ALWAYS_POLL },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_IDEACOM, USB_DEVICE_ID_IDEACOM_IDC6680), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_INNOMEDIA, USB_DEVICE_ID_INNEX_GENESIS_ATARI), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M610X), HID_QUIRK_MULTI_INPUT },
+-- 
+2.20.1
 
