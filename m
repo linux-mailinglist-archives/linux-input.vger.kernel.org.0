@@ -2,107 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5612111B0C7
-	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 16:26:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABAB611B0F9
+	for <lists+linux-input@lfdr.de>; Wed, 11 Dec 2019 16:27:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733068AbfLKP0H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Dec 2019 10:26:07 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:34136 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732924AbfLKP0H (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Dec 2019 10:26:07 -0500
-Received: by mail-lf1-f67.google.com with SMTP id l18so17042572lfc.1;
-        Wed, 11 Dec 2019 07:26:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UXbv7AZalf0SJthB9VxmQOQHQNQr5NxpvNmi8Mus0cU=;
-        b=DAGXRwf7NY3dt7nxqCSZ6a856Lz3XGnVqcq9yPxYkzkNSNs/YT4VHK/A8h1hpbcQcC
-         SlxjNIxenKolltunkOAS3xBBU4tnB5vOgy/h1HJuz5j2lGa9HdYtNyleNXBWs8d/BUVP
-         uJ11i+JTvE3Imwu6qulmRFQdk4dZDVDbEowWc3riwi/4gSGmuuASd9zKQ1+RqNwqKC8l
-         pKDsVvxajmupA7JXYB0wKAtCpCki/lnHxkVT7X4qKqlkwzOp1Z5WyDPF4SIz3NQVRniz
-         4YKV5fnuHx9KIpMPvX8JB8Pgu9iY5MYaLSlVIYbsYC9VPjbxqMobUw5CfaNsu0zb1jPd
-         G0qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=UXbv7AZalf0SJthB9VxmQOQHQNQr5NxpvNmi8Mus0cU=;
-        b=oeJF9gSncR98Aepw7K51rIh3kqLtxHHlfgVorIuwuTID5sbejOtBZgRAS3Vvj92IPG
-         I3ckupn9ys57wbBPtH4OgOo0DFSGGdPoE7uiiIlB+uS03aTuLnfi93FdRch633Pdi6BF
-         SYigTRo4VNtQOx4p4wOYSKmjKE1ka+V1O0XVojVrL1Hg/76FiYZm/G5BiHCq2Uu5sFoJ
-         vhPQL1gC/Sztktbz2TFmVS8HBbb9fZVvEaY29EHaf5dTpis+igOfZBpMVPRPs5PHSdTq
-         ZgyanSxcOYgteBuBFWhv4/2ke4bUUcQyvFMrdcGWd5fdbD1HqEM1vK/A7xXB9M2H5OZp
-         v/Sg==
-X-Gm-Message-State: APjAAAVaACuXQKraxYwC7OfZ64hhvR3rduAhkVTgBA0aRPLDILiYIdlR
-        f04jDltlNqxc1JH0nwETBzZeVfRg
-X-Google-Smtp-Source: APXvYqyYm/SNIE22ortuNQPRjduIvM/kAFQbigUzlR+6z5UFuwd16Xk59CtfmpwCARAUWDExiJMeyQ==
-X-Received: by 2002:ac2:4199:: with SMTP id z25mr2597142lfh.102.1576077964140;
-        Wed, 11 Dec 2019 07:26:04 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id t81sm1335053lff.25.2019.12.11.07.26.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2019 07:26:03 -0800 (PST)
-Subject: Re: [PATCH 3/6] input: elants: support common touchscreen DT
- properties
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org
-References: <cover.1575936961.git.mirq-linux@rere.qmqm.pl>
- <7e650a6ef98e3178d6829c3c2c83f21437070d84.1575936961.git.mirq-linux@rere.qmqm.pl>
- <17bb20b8-a62c-828f-d329-cd3aa89c1c06@gmail.com>
- <20191210023818.GB15246@qmqm.qmqm.pl>
- <2c9cd83c-518f-2f22-c3e7-ac629a181b8d@gmail.com>
- <20191211032813.GA17731@qmqm.qmqm.pl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <21532a63-6706-c082-5ab1-cf083bd3af47@gmail.com>
-Date:   Wed, 11 Dec 2019 18:26:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S2387438AbfLKP1g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Dec 2019 10:27:36 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33304 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1733128AbfLKP1g (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 11 Dec 2019 10:27:36 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D085524679;
+        Wed, 11 Dec 2019 15:27:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576078054;
+        bh=G7JepEM2QDEiA0pj+v43Jd666qPxnvyF6+bV6zdHBBk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=IOKTrKkE6KReGZ6sIxPTbxHzXmv8ordE4aMAkKbI2Vs/61VJnc6gUbNO1T2ww3oNQ
+         YRxA4VG5WIytD27RXAAqKrzEi0wGglu6/HV0ihL5Ad2oe0djxvksb34IhTUHh/Uzz2
+         ZE9fDrnEEglJ87GKYLNshmnTqJCnT2LpDo/gsnWI=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Jinke Fan <fanjinke@hygon.cn>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 47/79] HID: quirks: Add quirk for HP MSU1465 PIXART OEM mouse
+Date:   Wed, 11 Dec 2019 10:26:11 -0500
+Message-Id: <20191211152643.23056-47-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191211152643.23056-1-sashal@kernel.org>
+References: <20191211152643.23056-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20191211032813.GA17731@qmqm.qmqm.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-11.12.2019 06:28, Michał Mirosław пишет:
-> On Tue, Dec 10, 2019 at 06:21:02PM +0300, Dmitry Osipenko wrote:
->> 10.12.2019 05:38, Michał Mirosław пишет:
->>> On Tue, Dec 10, 2019 at 04:03:18AM +0300, Dmitry Osipenko wrote:
->>>> 10.12.2019 03:19, Michał Mirosław пишет:
->>>>> Support common DT properties like axis inversions to complement
->>>>> information obtained from device's firmware.a
->>> [...]
->>>>> @@ -1251,13 +1250,15 @@ static int elants_i2c_probe(struct i2c_client *client,
->>>>>  	ts->input->name = "Elan Touchscreen";
->>>>>  	ts->input->id.bustype = BUS_I2C;
->>>>>  
->>>>> +	touchscreen_parse_properties(ts->input, true, &ts->prop);
->>>>
->>>> Shouldn't this function be invoked after setting the max x/y sizes with
->>>> the hardware values? That's what all other drivers do and then you won't
->>>> need to set the ts->prop.max_x/y above in the code.
->>>
->>> This is done later in the series - this patch only adds axis inversion
->>> support and ignores DT-provided sizes.
->>
->> What is the reason of splitting it into two patches?
->>
->> Perhaps I'm still missing something, but why something a bit more simple
->> like this wouldn't yield exactly the same result:
-> [...]
-> 
-> Originally I thought to skip probing the hardware when all info is
-> already provided in devicetree. This didn't happen, though. I'll take
-> your patch then, with a slight adjustment in "prop"'s position... And
-> the rest of them, so as to not duplicate the work. :-)
+From: Jinke Fan <fanjinke@hygon.cn>
 
-Okay
+[ Upstream commit f1a0094cbbe97a5f8aca7bdc64bfe43ac9dc6879 ]
+
+The PixArt OEM mouse disconnets/reconnects every minute on
+Linux. All contents of dmesg are repetitive:
+
+[ 1465.810014] usb 1-2.2: USB disconnect, device number 20
+[ 1467.431509] usb 1-2.2: new low-speed USB device number 21 using xhci_hcd
+[ 1467.654982] usb 1-2.2: New USB device found, idVendor=03f0,idProduct=1f4a, bcdDevice= 1.00
+[ 1467.654985] usb 1-2.2: New USB device strings: Mfr=1, Product=2,SerialNumber=0
+[ 1467.654987] usb 1-2.2: Product: HP USB Optical Mouse
+[ 1467.654988] usb 1-2.2: Manufacturer: PixArt
+[ 1467.699722] input: PixArt HP USB Optical Mouse as /devices/pci0000:00/0000:00:07.1/0000:05:00.3/usb1/1-2/1-2.2/1-2.2:1.0/0003:03F0:1F4A.0012/input/input19
+[ 1467.700124] hid-generic 0003:03F0:1F4A.0012: input,hidraw0: USB HID v1.11 Mouse [PixArt HP USB Optical Mouse] on usb-0000:05:00.3-2.2/input0
+
+So add HID_QUIRK_ALWAYS_POLL for this one as well.
+Test the patch, the mouse is no longer disconnected and there are no
+duplicate logs in dmesg.
+
+Reference:
+https://github.com/sriemer/fix-linux-mouse
+
+Signed-off-by: Jinke Fan <fanjinke@hygon.cn>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 02c263a4c0836..1949d6fca53e5 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -563,6 +563,7 @@
+ #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_094A	0x094a
+ #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0941	0x0941
+ #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0641	0x0641
++#define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a	0x1f4a
+ 
+ #define USB_VENDOR_ID_HUION		0x256c
+ #define USB_DEVICE_ID_HUION_TABLET	0x006e
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index a407fd2399ff4..57d6fe9ed4163 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -96,6 +96,7 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_094A), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0941), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0641), HID_QUIRK_ALWAYS_POLL },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_IDEACOM, USB_DEVICE_ID_IDEACOM_IDC6680), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_INNOMEDIA, USB_DEVICE_ID_INNEX_GENESIS_ATARI), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M610X), HID_QUIRK_MULTI_INPUT },
+-- 
+2.20.1
+
