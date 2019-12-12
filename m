@@ -2,108 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 285F311D703
-	for <lists+linux-input@lfdr.de>; Thu, 12 Dec 2019 20:24:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A6E911D767
+	for <lists+linux-input@lfdr.de>; Thu, 12 Dec 2019 20:46:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730666AbfLLTYY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Dec 2019 14:24:24 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:36310 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730565AbfLLTYY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Dec 2019 14:24:24 -0500
-Received: by mail-pl1-f194.google.com with SMTP id d15so1066311pll.3;
-        Thu, 12 Dec 2019 11:24:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=Sy3kpI5FGxODnxp+NhgOIrQABn0e6kkUyw8Gg1M4Dik=;
-        b=OPExE5jzxdtGGQZz+7B/cs5g4wOwsMkG847ZPlrYmrJJHD1E9uR+HE2c3GSbxdaIY9
-         wnlUF0t+l/3RIQpAxFQA3yRwIffKOZ54y3bps3Vw7/90mA3k05/FIRGKa2BdkP6FFD/q
-         O2hnLj2xxpSUTZ3TMuZDxgKU24rJzUYWk3cxruX3YSYVIwGqzIgPq4DTMeNTOGS9IMU1
-         zsaRkclgzvrY1ftKj4tfQyWDIZIsgxecZskhwgm1cHo58o1S7xksKd6UQ1vdfJDu5+hn
-         aFHN6Na8mbeQOtDQgosWtnWct/F2sp5Vq9hUQLC8/y3MeNsUEw7OpZ81p7sQa00wntla
-         iEJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=Sy3kpI5FGxODnxp+NhgOIrQABn0e6kkUyw8Gg1M4Dik=;
-        b=aEQZV30pglzldZMrIRO2q4zv28GgAn5TO7Ogm4d3N6hWnWwuOjCYRTVuSN/YVve67x
-         TshnUNy+db/YhJzGi7CBA7hB4/Io31xdT+okcr6cg5TV/cKTwEAeUOiYxYKkBgHKwv3H
-         i9i3GZ6boC1IVfct/2tf0t1wyE5Q7j7/ZxH/9JGztxZLH1qTg7wryRhcEUBcpnXwg+6o
-         UA6dkpDBgTfMsdI7vV29q2HUR5087UNPYpfjiQJ2xbxY7AxB+rDlIh+FCGJvAu8OlfQC
-         uh+BLJZl2kLDHMwcmHe7jEtFBn6gi6JwrEUf74msPwsO4Oj1oMEp3g+Kcadv1nr4p/cj
-         0fiA==
-X-Gm-Message-State: APjAAAUixsUfyfrT6hMagpvCIV0bfUkxZdgEqFUrqPxnu4153EtKEzGZ
-        CH96LW6qdrDgMqH8RQD16xQ=
-X-Google-Smtp-Source: APXvYqyrk6UNlRkrpi/iiAiNNgfx0iFcIOLLT5vCbcx0FrLX9dpJQPGjK4bP+tdHZ0M9dExuBes/hw==
-X-Received: by 2002:a17:90a:3586:: with SMTP id r6mr11625141pjb.36.1576178663486;
-        Thu, 12 Dec 2019 11:24:23 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id j21sm8088024pfe.175.2019.12.12.11.24.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Dec 2019 11:24:23 -0800 (PST)
-Date:   Thu, 12 Dec 2019 11:24:20 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>
+        id S1730430AbfLLTp6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Dec 2019 14:45:58 -0500
+Received: from rere.qmqm.pl ([91.227.64.183]:30833 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730284AbfLLTp6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 12 Dec 2019 14:45:58 -0500
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 47Ykmy0dwcz60;
+        Thu, 12 Dec 2019 20:45:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1576179956; bh=jQ54pf6Th0HMTAdiqavUkKS8KHekP4LdV0jt9P6GhmA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cJ10Yye52Jy3s5WTedkN4QYJjfdfYtDvYAKQX++zujaW2I/dQukY/cerW+mtAIJez
+         Ze5SSQTe9EmVadx2m4iIJYNfxgwxUm1AglT8uK2sTyXJ8nIeRMhG0R9+8jBT8WBdda
+         XTIRu3Ri/jdMVjpuC96eEvtdRS1pScGgd93BpAwa7LOroKqjFCrXhRClPHNrYYnoNw
+         JfV1OrI5ihkD6xqtxksZJiMwnqHHtd3RxMAEWk7Ep/Ezi8QLLNMiHwsF8q9ckVipWE
+         N/QcAAhLbaaXjmpK3iyMJG/8W5zjlka3rU5H+zRYeXhHjTZuOAUkm72uli5HNqy3T+
+         QUUEe9em67cvw==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.101.4 at mail
+Date:   Thu, 12 Dec 2019 20:45:52 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        Scott Liu <scott.liu@emc.com.tw>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
         James Chen <james.chen@emc.com.tw>,
-        linux-kernel@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>,
         Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh-dt@kernel.org>
-Subject: Re: [PATCH v2 0/9] input: elants: Support Asus TF300T touchscreen
-Message-ID: <20191212192420.GD101194@dtor-ws>
+        Rob Herring <robh-dt@kernel.org>,
+        Scott Liu <scott.liu@emc.com.tw>
+Subject: Re: [PATCH v2 2/9] input: elants: support old touch report format
+Message-ID: <20191212194552.GA22553@qmqm.qmqm.pl>
 References: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
+ <2b5e15ea600c33dfab4aa50e360ec553f1af7db0.1576079249.git.mirq-linux@rere.qmqm.pl>
+ <f53b507c-76dd-8733-9698-952aa7a7301f@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
+In-Reply-To: <f53b507c-76dd-8733-9698-952aa7a7301f@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 05:03:18PM +0100, Michał Mirosław wrote:
-> This series cleans up the driver a bit and implements changes needed to
-> support EKTF3624-based touchscreen used in eg. Asus TF300T tablet. 
+On Thu, Dec 12, 2019 at 03:54:13AM +0300, Dmitry Osipenko wrote:
+> 11.12.2019 19:03, Michał Mirosław пишет:
+> > Support ELAN touchpad sensor with older firmware as found on eg. Asus
+> > Transformer Pads.
+[...]
+> > @@ -814,8 +817,16 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
+> >  			pos = &buf[FW_POS_XY + i * 3];
+> >  			x = (((u16)pos[0] & 0xf0) << 4) | pos[1];
+> >  			y = (((u16)pos[0] & 0x0f) << 8) | pos[2];
+> > -			p = buf[FW_POS_PRESSURE + i];
+> > -			w = buf[FW_POS_WIDTH + i];
+> > +			if (report_len == PACKET_SIZE_OLD) {
+> > +				w = buf[FW_POS_WIDTH + i / 2];
+> > +				w >>= 4 * (~i & 1);	// little-endian-nibbles
+> > +				w |= w << 4;
+> > +				w |= !w;
+> > +				p = w;
+> 
+> Did you copy this from the downstream driver as-is? I'm looking at the
+> Nexus 7 driver and it does the following for older format:
+> 
+> u8 size_idx[] = { 35, 35, 36, 36, 37, 37, 38, 38, 39, 39 };
+> unsigned int s;
+> 
+> if (i & 1)
+> 	s = buf[size_idx[i]];
+> else
+> 	s = buf[size_idx[i]] / 16;
+> 
+> w = s & 0xf;
+> p = s * 16;
 
-Johnny, could you please take a look at this patch series?
+This is the same thing modulo (w), which is scaled here to declared axis
+range (1-255 from 0-15, assuming 0 means "no touch" so it should not occur).
 
-Thanks!
+OTOH, I admit, that I don't have any software that can verify those
+settings. It might be that eg. one of MT_PRESSURE or MT_TOUCH_MAJOR axes
+should be dropped in this case, but with no docs I can't be sure what
+the reported values really are.
 
-> 
-> ---
-> v2: extended with Dmitry's patches (replaced v1 patches 3 and 4)
-> 
-> Dmitry Osipenko (3):
->   input: elants: support 0x66 reply opcode for reporting touches
->   dt-bindings: input: elants-i2c: Document common touchscreen properties
->   dt-bindings: input: elants-i2c: Document eKTF3624
-> 
-> Michał Mirosław (6):
->   input: elants: document some registers and values
->   input: elants: support old touch report format
->   input: elants: remove unused axes
->   input: elants: override touchscreen info with DT properties
->   input: elants: refactor elants_i2c_execute_command()
->   input: elants: read touchscreen size for EKTF3624
-> 
->  .../devicetree/bindings/input/elants_i2c.txt  |   6 +-
->  drivers/input/touchscreen/elants_i2c.c        | 358 ++++++++++++------
->  2 files changed, 239 insertions(+), 125 deletions(-)
-> 
-> -- 
-> 2.20.1
-> 
+This is from the original (GPL) code dump labeled 'Asus 10_6_1_27_5':
 
--- 
-Dmitry
+|  touch_size = ((i & 0x01) ? buf[size_index[i]] : (buf[size_index[i]] >> 4)) & 0x0F;
+|  if(touch_size == 0) touch_size = 1;
+|  if (touch_size <= 7)
+|      touch_size = touch_size << 5;
+|  else
+|      touch_size = 255;
+|    
+|    input_report_abs(idev, ABS_MT_TOUCH_MAJOR, touch_size);
+|    input_report_abs(idev, ABS_MT_PRESSURE, touch_size);
+
+
+Best Regards,
+Michał Mirosław
