@@ -2,108 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A6E911D767
-	for <lists+linux-input@lfdr.de>; Thu, 12 Dec 2019 20:46:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B751011D76F
+	for <lists+linux-input@lfdr.de>; Thu, 12 Dec 2019 20:50:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730430AbfLLTp6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Dec 2019 14:45:58 -0500
-Received: from rere.qmqm.pl ([91.227.64.183]:30833 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730284AbfLLTp6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Dec 2019 14:45:58 -0500
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 47Ykmy0dwcz60;
-        Thu, 12 Dec 2019 20:45:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1576179956; bh=jQ54pf6Th0HMTAdiqavUkKS8KHekP4LdV0jt9P6GhmA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cJ10Yye52Jy3s5WTedkN4QYJjfdfYtDvYAKQX++zujaW2I/dQukY/cerW+mtAIJez
-         Ze5SSQTe9EmVadx2m4iIJYNfxgwxUm1AglT8uK2sTyXJ8nIeRMhG0R9+8jBT8WBdda
-         XTIRu3Ri/jdMVjpuC96eEvtdRS1pScGgd93BpAwa7LOroKqjFCrXhRClPHNrYYnoNw
-         JfV1OrI5ihkD6xqtxksZJiMwnqHHtd3RxMAEWk7Ep/Ezi8QLLNMiHwsF8q9ckVipWE
-         N/QcAAhLbaaXjmpK3iyMJG/8W5zjlka3rU5H+zRYeXhHjTZuOAUkm72uli5HNqy3T+
-         QUUEe9em67cvw==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.101.4 at mail
-Date:   Thu, 12 Dec 2019 20:45:52 +0100
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
-        James Chen <james.chen@emc.com.tw>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh-dt@kernel.org>,
-        Scott Liu <scott.liu@emc.com.tw>
-Subject: Re: [PATCH v2 2/9] input: elants: support old touch report format
-Message-ID: <20191212194552.GA22553@qmqm.qmqm.pl>
-References: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
- <2b5e15ea600c33dfab4aa50e360ec553f1af7db0.1576079249.git.mirq-linux@rere.qmqm.pl>
- <f53b507c-76dd-8733-9698-952aa7a7301f@gmail.com>
+        id S1730593AbfLLTue (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Dec 2019 14:50:34 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:36033 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730284AbfLLTue (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 12 Dec 2019 14:50:34 -0500
+Received: by mail-pj1-f65.google.com with SMTP id n96so1524597pjc.3
+        for <linux-input@vger.kernel.org>; Thu, 12 Dec 2019 11:50:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=5/6Yrwz+vabqsWSc3MHCLFVFJfqv2+mfjnvxSNl5fhg=;
+        b=LjtE2SbSCSzFaZzVicvFW3s5amudz6YpSGVrkmVHDz9uPtAe8ku+tMR3Q0zvjbKn4t
+         qT0QDQAOyHlsmh3qK8qhk+tVeQCZdqoNKyrdE9c+hAYruI9JZwIRDOWRRYKEKEiVs5X8
+         4o1QFGwbzTTu9rxqouKsvSyTDLNiEJ/sXIQVdJC85vjUTQTxdIWjlql1s/Kb04/tVEo9
+         ZdWlMWXCskPjHmYchi9Ws4T0IqfRsh6ms11p57JJcAMKchl9kI/pfzmpzG0GZZ7fnLLd
+         +DlXeq3gjEaCnpcKUPngJCHcdMYjWvl20Jnk+sxXfw9fPCSdxH3Zn/mhQ1FP7+SNKFVo
+         6qVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=5/6Yrwz+vabqsWSc3MHCLFVFJfqv2+mfjnvxSNl5fhg=;
+        b=gtcikfSFv75QbcUdYRZMnqdQb2vZYsuLWPkQojgbZVZYvyF9k1dWKiwpb+ymCWYx3F
+         RMKh3bjg7HknJj1VwO5f4IQy5Dqq79+vSPbANaVEn9qwWtcxNblfXXFkXj9mwn7/Zu8B
+         CSV/1xJhMvxGA3RJnLIbkiksSWt5F2jNopMhLYQezAeb3sjPq+BXkY3j77hNw04WcWdx
+         8fJBdErggmCfQENv/qPLoB6mokZ6uB+SmsYEFMwcSlJj9GWHpW99coQNhY2nz+R+WcfF
+         sQsPvGfnAWawjilTpjXZkp7NeAVmAjaCHLnK7sNqZICKR9uOoyntJjhUFcQhNvI4Yg7g
+         K4tA==
+X-Gm-Message-State: APjAAAUYeL1fW7FlI3reZextAwtOC4nMmyHYov24H2zlz3tq2D2PQbox
+        ltmU0WEi0Mj/+xCkz335zM8=
+X-Google-Smtp-Source: APXvYqwiiAoO70WtLKDfcbohD4pehvbCVbxywxqeh69aDxw3/VrhqKyDaL2zVchEfSOroHxnf7eSaQ==
+X-Received: by 2002:a17:90b:4396:: with SMTP id in22mr11358942pjb.111.1576180233741;
+        Thu, 12 Dec 2019 11:50:33 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id c184sm8389969pfa.39.2019.12.12.11.50.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Dec 2019 11:50:33 -0800 (PST)
+Date:   Thu, 12 Dec 2019 11:50:31 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Stephan Gerhold <stephan@gerhold.net>
+Cc:     linux-input@vger.kernel.org,
+        Damien Riegel <damien.riegel@savoirfairelinux.com>
+Subject: Re: [PATCH] Input: pm8xxx-vib - fix handling of separate enable
+ register
+Message-ID: <20191212195031.GE101194@dtor-ws>
+References: <20191211190026.52662-1-stephan@gerhold.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f53b507c-76dd-8733-9698-952aa7a7301f@gmail.com>
+In-Reply-To: <20191211190026.52662-1-stephan@gerhold.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 03:54:13AM +0300, Dmitry Osipenko wrote:
-> 11.12.2019 19:03, Michał Mirosław пишет:
-> > Support ELAN touchpad sensor with older firmware as found on eg. Asus
-> > Transformer Pads.
-[...]
-> > @@ -814,8 +817,16 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
-> >  			pos = &buf[FW_POS_XY + i * 3];
-> >  			x = (((u16)pos[0] & 0xf0) << 4) | pos[1];
-> >  			y = (((u16)pos[0] & 0x0f) << 8) | pos[2];
-> > -			p = buf[FW_POS_PRESSURE + i];
-> > -			w = buf[FW_POS_WIDTH + i];
-> > +			if (report_len == PACKET_SIZE_OLD) {
-> > +				w = buf[FW_POS_WIDTH + i / 2];
-> > +				w >>= 4 * (~i & 1);	// little-endian-nibbles
-> > +				w |= w << 4;
-> > +				w |= !w;
-> > +				p = w;
+On Wed, Dec 11, 2019 at 08:00:26PM +0100, Stephan Gerhold wrote:
+> Setting the vibrator enable_mask is not implemented correctly:
 > 
-> Did you copy this from the downstream driver as-is? I'm looking at the
-> Nexus 7 driver and it does the following for older format:
+> For regmap_update_bits(map, reg, mask, val) we give in either
+> regs->enable_mask or 0 (= no-op) as mask and "val" as value.
+> But "val" actually refers to the vibrator voltage control register,
+> which has nothing to do with the enable_mask.
 > 
-> u8 size_idx[] = { 35, 35, 36, 36, 37, 37, 38, 38, 39, 39 };
-> unsigned int s;
+> So we usually end up doing nothing when we really wanted
+> to enable the vibrator.
 > 
-> if (i & 1)
-> 	s = buf[size_idx[i]];
-> else
-> 	s = buf[size_idx[i]] / 16;
+> We want to set or clear the enable_mask (to enable/disable the vibrator).
+> Therefore, change the call to always modify the enable_mask
+> and set the bits only if we want to enable the vibrator.
 > 
-> w = s & 0xf;
-> p = s * 16;
+> Cc: Damien Riegel <damien.riegel@savoirfairelinux.com>
+> Fixes: d4c7c5c96c92 ("Input: pm8xxx-vib - handle separate enable register")
+> Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+> ---
+>  drivers/input/misc/pm8xxx-vibrator.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
+> index ecd762f93732..8dc345604a4d 100644
+> --- a/drivers/input/misc/pm8xxx-vibrator.c
+> +++ b/drivers/input/misc/pm8xxx-vibrator.c
+> @@ -90,7 +90,8 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
+>  
+>  	if (regs->enable_mask)
+>  		rc = regmap_update_bits(vib->regmap, regs->enable_addr,
+> -					on ? regs->enable_mask : 0, val);
+> +					regs->enable_mask,
+> +					on ? regs->enable_mask : 0);
 
-This is the same thing modulo (w), which is scaled here to declared axis
-range (1-255 from 0-15, assuming 0 means "no touch" so it should not occur).
+Would it be even clearer to say
 
-OTOH, I admit, that I don't have any software that can verify those
-settings. It might be that eg. one of MT_PRESSURE or MT_TOUCH_MAJOR axes
-should be dropped in this case, but with no docs I can't be sure what
-the reported values really are.
+		rc = regmap_update_bits(vib->regmap, regs->enable_addr,
+					regs->enable_mask, on ? ~0 : 0);
 
-This is from the original (GPL) code dump labeled 'Asus 10_6_1_27_5':
+?
 
-|  touch_size = ((i & 0x01) ? buf[size_index[i]] : (buf[size_index[i]] >> 4)) & 0x0F;
-|  if(touch_size == 0) touch_size = 1;
-|  if (touch_size <= 7)
-|      touch_size = touch_size << 5;
-|  else
-|      touch_size = 255;
-|    
-|    input_report_abs(idev, ABS_MT_TOUCH_MAJOR, touch_size);
-|    input_report_abs(idev, ABS_MT_PRESSURE, touch_size);
+Thanks.
 
-
-Best Regards,
-Michał Mirosław
+-- 
+Dmitry
