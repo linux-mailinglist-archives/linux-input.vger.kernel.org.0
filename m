@@ -2,105 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 91DE711C12F
-	for <lists+linux-input@lfdr.de>; Thu, 12 Dec 2019 01:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F4E211C157
+	for <lists+linux-input@lfdr.de>; Thu, 12 Dec 2019 01:29:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727188AbfLLANo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Dec 2019 19:13:44 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:56225 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727067AbfLLANo (ORCPT
+        id S1727229AbfLLA3g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Dec 2019 19:29:36 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:36330 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727189AbfLLA3g (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Dec 2019 19:13:44 -0500
-Received: from orion.localdomain ([95.118.81.154]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MRk8w-1iHehw16t8-00TE0F; Thu, 12 Dec 2019 01:13:42 +0100
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
-Subject: [PATCH v4] input: keyboard: gpio_keys_polled: use gpio lookup table
-Date:   Thu, 12 Dec 2019 01:13:11 +0100
-Message-Id: <20191212001311.4268-1-info@metux.net>
-X-Mailer: git-send-email 2.11.0
-X-Provags-ID: V03:K1:hzkcK0KVH3HkZ1kB/dsKgamqh1CtK0vjkGCIf569CcCy32nvihO
- qwLG7k+DkCi9x72Y4mCC8ze4vjZwGknTijFYJYYXahXWpT5kZ4O0zVY5kdVfrsQzIEVTwYg
- i1PkUPFnRiKvIUu8QRkXrD7nRQxg7iK5Q6ma7e8OynDI4dpgpYPgwynH1vgye5h5OUZ2mQU
- UJX7cnd5XVkTnkAEJeojg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:cHgGsh2LhJ0=:OBOH/rCptuMNuuEaKYUmw4
- A+dWhhYpUDvxAbG6AEpLIEVPvmuHwyRDCkPreK+/Xs624yh3mPYDoZfhpPTZ95Zg4RSvH4ARm
- gum4R/gvhMFu48wYm9MKPGuSkjZvdIxbV75uh7jpKnNaTFOg2lQfqzqaylZ1Xwqvd7IjcuuDX
- G0EmkWjO4/XU+Mo8e5UYmzqq3b6k+iha4vLPbh9EdCRuB+sv6cu8El3UQmtszW4kG58Dl7Lfa
- SytValFR7aCHWRa55eZGqtCUQXjurI2ENLgTiKNexUNQdg1oFW2P2eGw3vjTvlDXUe5saQokA
- f8A5YYv/vanNg5mIVAkNIkRqRKBiGQ08GNw8ZeMkjaOVxKoJI7L5jEEmk7WTnJbXhVgymdDUm
- /sUsbyZNd2FSvc5Nli3uFpUoCtF4h66irjqb0qb+uqVDiMCoh1iiaA6oOWmO9QS+0UP76v6Ga
- QUYslecDpoj7nLBjSnWmzISvEUJyWCMygbReWgpaa3UdNZloeRQ46W/wXPOpXixFBBLwazVG5
- K/Skig4UHtOVvXbKH+gD0nHvG5JaHJg6IDo6Dv/EP927xM17uuDJda/+phiGkZ+AsyAhEeLkH
- npEW81vVrUxaZiQRNTCzzCTBbZJgZYYCKln2anyy3xmCcMuovlp02JgWRITc1Jj9BPP6M7yuj
- SlT1QlVLH3zcrFpdZ8RdTrr7cULjmo97r0oWhWsRdN7UBD0QUXmpfm1xV1nItGxS1ocMBK035
- hLuRBVEHXiW+ZkTE1JGH9YHEiPs3Toj3n4K2qHcDi7/brOw97x/yag+aGjzJE1LZFHBmSNYYr
- OKLHSBReDM9dIsouuRgOSWUOflwXR7tdZ9Ma4VyGGUr3TCY1PnupBldeLcMm0foGQY7S8TCRf
- xYPIbweJ/VB9LQFa8bqA==
+        Wed, 11 Dec 2019 19:29:36 -0500
+Received: by mail-lf1-f68.google.com with SMTP id n12so281879lfe.3;
+        Wed, 11 Dec 2019 16:29:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=pC6XF/C4qA6Z3fF58X0CjVZydy0fb8CelD9qd37i5gc=;
+        b=HshZQGQHDaBtH2auNRZfezkqBM+IIN3iaK35ve5/12tX8zrV3UwAwhNtW2CaOC4GGH
+         VulBEsCEkSHMh7Ln0pKDk9e8aB3S++LApRbmWewG2o0/isabLtPD9i09Pcr+uy6mJ1zh
+         yinfxOFIvvABQXxS3N32b9Hu/AlWcnXm7UipweDlDLPPkxZwaNQYKlS5DRi7NZgtqEvQ
+         5HiVMcTOP1bpSnkaN4n/2pVbUD/+EISG3O6fpniJ9EpXw3bgh0UEfNoVMAZi2BSoC1WR
+         BQ/rX5E358IAzM7hQ94LlfNSTL2fuo10CBtRH5favAiDybjbGb1diIYoP1VvKQCA7r6X
+         oWUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pC6XF/C4qA6Z3fF58X0CjVZydy0fb8CelD9qd37i5gc=;
+        b=CH04j7calde3YBRK69AHXtWFZN4MTur9MU579yU31ZJZbl7fIpG2+0HjyxCyw17/bl
+         C+grvvQJ2PhOnd8pFz/kH067StEzzJG5gV4tHU+Q97zfWLiiHz3cD6BVKyZPDCdzraDw
+         Yf+zey0ba9zVkaYPqKRBgWscPAkBF5YP7wS2TMJVWkGH9iwVHziVieH9I8IpWydLm0VS
+         VvwcIuXndX05xKsRi8Qk9fRmAouJNfqOU0fC8kTwpPeW+2nrhSVjT51CFG880T+yPbno
+         VK14z27puUWGOMZrzAySoAicMNpsnlpK6w5tS1+S2Z5gpmR51VhwfhcF3BMVUeliY+VM
+         RlzQ==
+X-Gm-Message-State: APjAAAU5lF1FD/9/EovHQ3F+oqTt45jUJ5q3freS29CGMfAKB/my6fM6
+        goOnr62iNxAKcIaguRlcujm/diwh
+X-Google-Smtp-Source: APXvYqyD9UYdejrNSyfdLH+9mfQMcI9Ym/rhgknNTIiB4I1iG4nafZurmwrznkO4CEVPBg3bmCBAvw==
+X-Received: by 2002:ac2:599c:: with SMTP id w28mr4173459lfn.78.1576110573638;
+        Wed, 11 Dec 2019 16:29:33 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id d16sm1964036lfa.16.2019.12.11.16.29.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Dec 2019 16:29:32 -0800 (PST)
+Subject: Re: [PATCH v2 0/9] input: elants: Support Asus TF300T touchscreen
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Scott Liu <scott.liu@emc.com.tw>,
+        James Chen <james.chen@emc.com.tw>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh-dt@kernel.org>
+References: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <3da0327c-d7c4-b0f2-9ab4-b7088891ef7c@gmail.com>
+Date:   Thu, 12 Dec 2019 03:29:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
+MIME-Version: 1.0
+In-Reply-To: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Enrico Weigelt <info@metux.net>
+11.12.2019 19:03, Michał Mirosław пишет:
+> This series cleans up the driver a bit and implements changes needed to
+> support EKTF3624-based touchscreen used in eg. Asus TF300T tablet. 
+> 
+> ---
+> v2: extended with Dmitry's patches (replaced v1 patches 3 and 4)
+> 
+> Dmitry Osipenko (3):
+>   input: elants: support 0x66 reply opcode for reporting touches
+>   dt-bindings: input: elants-i2c: Document common touchscreen properties
+>   dt-bindings: input: elants-i2c: Document eKTF3624
+> 
+> Michał Mirosław (6):
+>   input: elants: document some registers and values
+>   input: elants: support old touch report format
+>   input: elants: remove unused axes
+>   input: elants: override touchscreen info with DT properties
+>   input: elants: refactor elants_i2c_execute_command()
+>   input: elants: read touchscreen size for EKTF3624
+> 
+>  .../devicetree/bindings/input/elants_i2c.txt  |   6 +-
+>  drivers/input/touchscreen/elants_i2c.c        | 358 ++++++++++++------
+>  2 files changed, 239 insertions(+), 125 deletions(-)
+> 
 
-Support the recently introduced gpio lookup tables for
-attaching to gpio lines. So, harcoded gpio numbers aren't
-needed anymore.
+Hello Michał,
 
-changes v4:
-    * completely rewritten in a much simpler way, now just adding
-      a third case (in the button probe loop), where neither oftree
-      nor raw gpio number exists.
-
-changes v3:
-    * fix printf string in gpio_keys_polled_get_gpiod()
-    * fix unused variable 'error' in gpio_keys_polled_get_gpiod()
-    * fix uninitialized variable in gpio_keys_polled_get_gpiod_fwnode()
-
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Signed-off-by: Enrico Weigelt <info@metux.net>
----
- drivers/input/keyboard/gpio_keys_polled.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
-index 6eb0a2f3f9de..9ef8c7dade27 100644
---- a/drivers/input/keyboard/gpio_keys_polled.c
-+++ b/drivers/input/keyboard/gpio_keys_polled.c
-@@ -307,7 +307,7 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
- 				fwnode_handle_put(child);
- 				return error;
- 			}
--		} else if (gpio_is_valid(button->gpio)) {
-+		} else if ((button->gpio > 0) && gpio_is_valid(button->gpio)) {
- 			/*
- 			 * Legacy GPIO number so request the GPIO here and
- 			 * convert it to descriptor.
-@@ -333,6 +333,18 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
- 					button->gpio);
- 				return -EINVAL;
- 			}
-+		} else {
-+			/* try via gpio lookup table */
-+			bdata->gpiod = devm_gpiod_get_index(dev, NULL, i, GPIOF_IN);
-+			if (IS_ERR(bdata->gpiod)) {
-+				dev_err(dev,
-+					"unable to get gpio for button %d: %ld\n",
-+					i, PTR_ERR(bdata->gpiod));
-+				return PTR_ERR(bdata->gpiod);
-+			}
-+
-+			gpiod_set_consumer_name(bdata->gpiod,
-+						button->desc ? : DRV_NAME);
- 		}
- 
- 		bdata->last_state = -1;
--- 
-2.11.0
-
+The series works and looks good to me, eKTF3624 touchscreen is working
+fine on Nexus 7. Thank you very much!
