@@ -2,51 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC93511C191
-	for <lists+linux-input@lfdr.de>; Thu, 12 Dec 2019 01:40:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72C7E11C1B3
+	for <lists+linux-input@lfdr.de>; Thu, 12 Dec 2019 01:54:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727323AbfLLAkF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Dec 2019 19:40:05 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:39471 "EHLO
+        id S1727345AbfLLAyS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Dec 2019 19:54:18 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:40268 "EHLO
         mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727267AbfLLAkE (ORCPT
+        with ESMTP id S1727235AbfLLAyS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Dec 2019 19:40:04 -0500
-Received: by mail-lf1-f65.google.com with SMTP id y1so286460lfb.6;
-        Wed, 11 Dec 2019 16:40:02 -0800 (PST)
+        Wed, 11 Dec 2019 19:54:18 -0500
+Received: by mail-lf1-f65.google.com with SMTP id i23so301601lfo.7;
+        Wed, 11 Dec 2019 16:54:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=TpJH9BlElad3H0V4gG9h4C/bHptIUDCHOUjpJVyqbUA=;
-        b=JdBcIRfMMJOBFOLxBeF3DmUoI367S2ToCKWECl5WFJrWqWDivIvTc4Zfy/IXeqMzUc
-         1DNPdNALRi0bJJZ0tHyoWwa+rJKKly7PD0puQg9hukRknq3B5qlv9RwZjwCv8+cmdrEy
-         s/oKy7MWHXHD2XpaFhhBopkeGxpgUYtfeTuOKjqMEuMPktm0cPUT047gD7V+RDg50VOk
-         kCLO1tsGpBxHW4G8avFlDmyLdsC/wpMfcWJyK0K/BKqxPpMv42kaI8BkLSO7ODUXnsTd
-         Yx5Y7J77JXntPgOmSs/93485xM+RzTOUQUI5PRD+SIMs7cWK6XVtYtnyMlzJOOJAYuEF
-         5wsQ==
+        bh=G9Qg/GyPOd9K6cMtoRafpLeoPZbmboxVDp4qkKep044=;
+        b=cyG2KgzTYpa2RLZLCT1xK9/x5Wm13gaf3Z/K95ojZPT7sh5dmhhqpPvH41iT5gYXOy
+         UlSOu6SWxf1bE/lQrqpspUAwGrYs/FqOTVi7spe60wfVKMfSqQi4i5FnuDYu8MxOYN6Y
+         CHVThnBBlXCAFh0Fl02uoqIM6C5K5qS/EsUMsDEIDRy6vzmD3Q+yUY8A340VfO3GKOoB
+         23horKorV2al/UgFbzV6a1lfyQ6J61d7cWtI1oGS0iiBIg797TBYHtmqU0kOS2HaTrvT
+         z+lZhI1CpozHeRRdEwLAn4rZGj3xvpV2XFN0KZRbFfPoFi82ZGzd2odm4C71H+bV5Tpe
+         yrCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=TpJH9BlElad3H0V4gG9h4C/bHptIUDCHOUjpJVyqbUA=;
-        b=HH9i/+Sz/DN3XtX1PcdNNyhFeNor/soc5lNowsaTIbWTsxnJnGB60gyLdWK6ZDgwmo
-         W8UF8igxu+twJccGVDL+PdW9MHZYCS5h29E6z3cgpIFO+V2kPnxqJzb8Lc7luUO33c+R
-         2ZCoOxMDcjPS2cpBGT1DUbPN6MHn4usHElL4WsgmZsjAeQ+N8jR2Z/761dpDNMAmuxZW
-         PxDEWQeqcW2lvRXd7P+QdGWfl6AVFrWr1v4d1Gxu2c7NJx7/UqBJlB49mnne1PDY2WLm
-         dGX4/o7jZR2mSp3iTQ0Kl7NMz23DzO4om0dGSoaFqX3AWRp/9yxy8GXJEF+0acYAz3hm
-         GFSQ==
-X-Gm-Message-State: APjAAAXhAtOs5b8ZD1YhoTX2Q8J03O9SmEft0VQp7f1YgfHrIiK8vY56
-        ID4Tn9JQgADHFRsRfBlTLq4=
-X-Google-Smtp-Source: APXvYqxCaF9G5jq2+1tBeC+ziEjigehiraVTobWk5dm7OyCXgDEvvo4QoZg699z+c2uIHLp3IfxZhA==
-X-Received: by 2002:ac2:5dc7:: with SMTP id x7mr4055295lfq.24.1576111201548;
-        Wed, 11 Dec 2019 16:40:01 -0800 (PST)
+        bh=G9Qg/GyPOd9K6cMtoRafpLeoPZbmboxVDp4qkKep044=;
+        b=IUeGwPIP2Hwof4qLONtua9Hb9cowHQ89nBN0qgH3OssbRSm9ngM9mxoVjfTlPKGI+c
+         wVVglz27AbggYIuyFUZwBrdUYgnk7+RVtfreq4Pg+M2XUfJJPJ4vye80W1eOY5LapKl/
+         EflABHct6rsf9tt5lq8tGFRE5fTgYZDggXf8SzIZ0lJmveG+jq41rfE5HQqRvaEwI5+A
+         VLaz3nhyj0x0L3A26Wrsq1iEV/wEH9FcU93AGKsb2cEQTYg8BwEXelBqiKKrjcsf8Q5V
+         zpeTOg3+emiySpTa7tiOWp2aNJigJ1+NDoCtHyuD0BL9sffGbmRsKGHF5UYdhbMs5P1W
+         Pxtw==
+X-Gm-Message-State: APjAAAUqS9mBPNuBaay/0qSWafk6TkmHUR07ah7+55LC/fEYewsNeG0U
+        6QWS97acmvetcw/VFwWP4+E=
+X-Google-Smtp-Source: APXvYqzEMmSTnj9o5/mEH8I77pXpxWljgb2sZufJlSi5xWVeo5B4nrSzy0u0LnC2dkGHFCp8w2tEGg==
+X-Received: by 2002:ac2:420e:: with SMTP id y14mr4083282lfh.145.1576112055177;
+        Wed, 11 Dec 2019 16:54:15 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id n3sm1929009lfk.61.2019.12.11.16.40.00
+        by smtp.googlemail.com with ESMTPSA id l8sm1974300ljj.96.2019.12.11.16.54.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2019 16:40:00 -0800 (PST)
-Subject: Re: [PATCH v2 6/9] input: elants: read touchscreen size for EKTF3624
+        Wed, 11 Dec 2019 16:54:14 -0800 (PST)
+Subject: Re: [PATCH v2 2/9] input: elants: support old touch report format
 To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -57,14 +57,14 @@ Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh-dt@kernel.org>,
         Scott Liu <scott.liu@emc.com.tw>
 References: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
- <a9681f2f1b64d9677886dd81c228b0194298277d.1576079249.git.mirq-linux@rere.qmqm.pl>
+ <2b5e15ea600c33dfab4aa50e360ec553f1af7db0.1576079249.git.mirq-linux@rere.qmqm.pl>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0fb2f4fa-0556-4025-e029-f8eab8aacf7d@gmail.com>
-Date:   Thu, 12 Dec 2019 03:39:59 +0300
+Message-ID: <f53b507c-76dd-8733-9698-952aa7a7301f@gmail.com>
+Date:   Thu, 12 Dec 2019 03:54:13 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <a9681f2f1b64d9677886dd81c228b0194298277d.1576079249.git.mirq-linux@rere.qmqm.pl>
+In-Reply-To: <2b5e15ea600c33dfab4aa50e360ec553f1af7db0.1576079249.git.mirq-linux@rere.qmqm.pl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -74,153 +74,130 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 11.12.2019 19:03, Michał Mirosław пишет:
-> EKTF3624 as present in Asus TF300T tablet has touchscreen size encoded
-> in different registers.
+> Support ELAN touchpad sensor with older firmware as found on eg. Asus
+> Transformer Pads.
 > 
 > Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
 > ---
->  drivers/input/touchscreen/elants_i2c.c | 82 ++++++++++++++++++++++++--
->  1 file changed, 77 insertions(+), 5 deletions(-)
+>  drivers/input/touchscreen/elants_i2c.c | 36 ++++++++++++++++++--------
+>  1 file changed, 25 insertions(+), 11 deletions(-)
 > 
 > diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-> index 369004678a46..1c3eb49a22e4 100644
+> index 887888c53996..eadd26d5a06f 100644
 > --- a/drivers/input/touchscreen/elants_i2c.c
 > +++ b/drivers/input/touchscreen/elants_i2c.c
-> @@ -34,7 +34,7 @@
->  #include <linux/input/mt.h>
->  #include <linux/input/touchscreen.h>
->  #include <linux/acpi.h>
-> -#include <linux/of.h>
-> +#include <linux/of_device.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/regulator/consumer.h>
->  #include <asm/unaligned.h>
-> @@ -42,6 +42,10 @@
->  /* Device, Driver information */
->  #define DEVICE_NAME	"elants_i2c"
+> @@ -65,6 +65,7 @@
+>  #define CMD_HEADER_REK		0x66
 >  
-> +/* Device IDs */
-> +#define EKTH3500	0
-> +#define EKTF3624	1
-> +
->  /* Convert from rows or columns into resolution */
->  #define ELAN_TS_RESOLUTION(n, m)   (((n) - 1) * (m))
+>  /* FW position data */
+> +#define PACKET_SIZE_OLD		40
+>  #define PACKET_SIZE		55
+>  #define MAX_CONTACT_NUM		10
+>  #define FW_POS_HEADER		0
+> @@ -792,7 +793,8 @@ static int elants_i2c_fw_update(struct elants_data *ts)
+>   * Event reporting.
+>   */
 >  
-> @@ -162,6 +166,7 @@ struct elants_data {
+> -static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
+> +static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf,
+> +				size_t report_len)
+>  {
+>  	struct input_dev *input = ts->input;
+>  	unsigned int n_fingers;
+> @@ -804,7 +806,8 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
+>  			buf[FW_POS_STATE];
 >  
->  	bool wake_irq_enabled;
->  	bool keep_power_in_suspend;
-> +	u8 chip_id;
+>  	dev_dbg(&ts->client->dev,
+> -		"n_fingers: %u, state: %04x\n",  n_fingers, finger_state);
+> +		"n_fingers: %u, state: %04x, report_len: %zu\n",
+> +		n_fingers, finger_state, report_len);
 >  
->  	/* Must be last to be used for DMA operations */
->  	u8 buf[MAX_PACKET_SIZE] ____cacheline_aligned;
-> @@ -436,7 +441,58 @@ static int elants_i2c_query_bc_version(struct elants_data *ts)
->  	return 0;
+>  	for (i = 0; i < MAX_CONTACT_NUM && n_fingers; i++) {
+>  		if (finger_state & 1) {
+> @@ -814,8 +817,16 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
+>  			pos = &buf[FW_POS_XY + i * 3];
+>  			x = (((u16)pos[0] & 0xf0) << 4) | pos[1];
+>  			y = (((u16)pos[0] & 0x0f) << 8) | pos[2];
+> -			p = buf[FW_POS_PRESSURE + i];
+> -			w = buf[FW_POS_WIDTH + i];
+> +			if (report_len == PACKET_SIZE_OLD) {
+> +				w = buf[FW_POS_WIDTH + i / 2];
+> +				w >>= 4 * (~i & 1);	// little-endian-nibbles
+> +				w |= w << 4;
+> +				w |= !w;
+> +				p = w;
+
+Did you copy this from the downstream driver as-is? I'm looking at the
+Nexus 7 driver and it does the following for older format:
+
+u8 size_idx[] = { 35, 35, 36, 36, 37, 37, 38, 38, 39, 39 };
+unsigned int s;
+
+if (i & 1)
+	s = buf[size_idx[i]];
+else
+	s = buf[size_idx[i]] / 16;
+
+w = s & 0xf;
+p = s * 16;
+
+> +			} else {
+> +				p = buf[FW_POS_PRESSURE + i];
+> +				w = buf[FW_POS_WIDTH + i];
+> +			}
+>  
+>  			dev_dbg(&ts->client->dev, "i=%d x=%d y=%d p=%d w=%d\n",
+>  				i, x, y, p, w);
+> @@ -848,7 +859,8 @@ static u8 elants_i2c_calculate_checksum(u8 *buf)
+>  	return checksum;
 >  }
 >  
-> -static int elants_i2c_query_ts_info(struct elants_data *ts)
-> +static int elants_i2c_query_ts_info_ektf(struct elants_data *ts)
-> +{
-> +	struct i2c_client *client = ts->client;
-> +	int error;
-> +	u8 resp[4];
-> +	u16 phy_x, phy_y;
-> +	const u8 get_xres_cmd[] = {
-> +		CMD_HEADER_READ, E_INFO_X_RES, 0x00, 0x00
-> +	};
-> +	const u8 get_yres_cmd[] = {
-> +		CMD_HEADER_READ, E_INFO_Y_RES, 0x00, 0x00
-> +	};
-> +
-> +	/* Get X/Y size in mm */
-> +	error = elants_i2c_execute_command(client, get_xres_cmd,
-> +					   sizeof(get_xres_cmd),
-> +					   resp, sizeof(resp), 1,
-> +					   "get X size");
-> +	if (error)
-> +		return error;
-> +
-> +	phy_x = resp[2] | ((resp[3] & 0xF0) << 4);
-> +
-> +	error = elants_i2c_execute_command(client, get_yres_cmd,
-> +					   sizeof(get_yres_cmd),
-> +					   resp, sizeof(resp), 1,
-> +					   "get Y size");
-> +	if (error)
-> +		return error;
-> +
-> +	phy_y = resp[2] | ((resp[3] & 0xF0) << 4);
-> +
-> +	if (!phy_x || !phy_y) {
-> +		dev_warn(&client->dev,
-> +			 "invalid size data: %d x %d mm\n",
-> +			 phy_x, phy_y);
-> +		return 0;
-> +	}
-> +
-> +	dev_dbg(&client->dev, "phy_x=%d, phy_y=%d\n", phy_x, phy_y);
-> +
-> +	/* calculate resolution from size */
-> +	ts->x_max = 2240-1;
-> +	ts->x_res = DIV_ROUND_CLOSEST(ts->prop.max_x, phy_x);
-> +
-> +	ts->y_max = 1408-1;
-> +	ts->y_res = DIV_ROUND_CLOSEST(ts->prop.max_y, phy_y);
-> +
-> +	return 0;
-> +}
-> +
-> +static int elants_i2c_query_ts_info_ekth(struct elants_data *ts)
+> -static void elants_i2c_event(struct elants_data *ts, u8 *buf)
+> +static void elants_i2c_event(struct elants_data *ts, u8 *buf,
+> +			     size_t report_len)
 >  {
->  	struct i2c_client *client = ts->client;
->  	int error;
-> @@ -587,8 +643,20 @@ static int elants_i2c_initialize(struct elants_data *ts)
->  		error = elants_i2c_query_test_version(ts);
->  	if (!error)
->  		error = elants_i2c_query_bc_version(ts);
-> -	if (!error)
-> -		error = elants_i2c_query_ts_info(ts);
-> +
-> +	switch (ts->chip_id) {
-> +	case EKTH3500:
-> +		if (!error)
-> +			error = elants_i2c_query_ts_info_ekth(ts);
-> +		break;
-> +	case EKTF3624:
-> +		if (!error)
-> +			error = elants_i2c_query_ts_info_ektf(ts);
-> +		break;
-> +	default:
-> +		unreachable();
-> +		break;
-> +	}
+>  	u8 checksum = elants_i2c_calculate_checksum(buf);
 >  
->  	if (error)
->  		ts->iap_mode = ELAN_IAP_RECOVERY;
-> @@ -1185,6 +1253,9 @@ static int elants_i2c_probe(struct i2c_client *client,
->  	ts->client = client;
->  	i2c_set_clientdata(client, ts);
+> @@ -862,7 +874,7 @@ static void elants_i2c_event(struct elants_data *ts, u8 *buf)
+>  			 "%s: unknown packet type: %02x\n",
+>  			 __func__, buf[FW_POS_HEADER]);
+>  	else
+> -		elants_i2c_mt_event(ts, buf);
+> +		elants_i2c_mt_event(ts, buf, report_len);
+>  }
 >  
-> +	if (client->dev.of_node)
-> +		ts->chip_id = (uintptr_t)of_device_get_match_data(&client->dev);
-> +
->  	ts->vcc33 = devm_regulator_get(&client->dev, "vcc33");
->  	if (IS_ERR(ts->vcc33)) {
->  		error = PTR_ERR(ts->vcc33);
-> @@ -1409,7 +1480,8 @@ MODULE_DEVICE_TABLE(acpi, elants_acpi_id);
+>  static irqreturn_t elants_i2c_irq(int irq, void *_dev)
+> @@ -920,7 +932,8 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
+>  			break;
 >  
->  #ifdef CONFIG_OF
->  static const struct of_device_id elants_of_match[] = {
-> -	{ .compatible = "elan,ekth3500" },
-> +	{ .compatible = "elan,ekth3500", .data = (void *)EKTH3500 },
-> +	{ .compatible = "elan,ektf3624", .data = (void *)EKTF3624 },
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, elants_of_match);
+>  		case QUEUE_HEADER_SINGLE:
+> -			elants_i2c_event(ts, &ts->buf[HEADER_SIZE]);
+> +			elants_i2c_event(ts, &ts->buf[HEADER_SIZE],
+> +					 ts->buf[FW_HDR_LENGTH]);
+>  			break;
+>  
+>  		case QUEUE_HEADER_NORMAL:
+> @@ -933,17 +946,18 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
+>  			}
+>  
+>  			report_len = ts->buf[FW_HDR_LENGTH] / report_count;
+> -			if (report_len != PACKET_SIZE) {
+> +			if (report_len != PACKET_SIZE &&
+> +			    report_len != PACKET_SIZE_OLD) {
+>  				dev_err(&client->dev,
+> -					"mismatching report length: %*ph\n",
+> +					"unsupported report length: %*ph\n",
+>  					HEADER_SIZE, ts->buf);
+>  				break;
+>  			}
+>  
+>  			for (i = 0; i < report_count; i++) {
+>  				u8 *buf = ts->buf + HEADER_SIZE +
+> -							i * PACKET_SIZE;
+> -				elants_i2c_event(ts, buf);
+> +					  i * report_len;
+> +				elants_i2c_event(ts, buf, report_len);
+>  			}
+>  			break;
+>  
 > 
-
-In a comment to v1 I suggested to remove the OF table and use I2C table
-for the OF matching, but this variant is okay as well.
-
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-Tested-by: Dmitry Osipenko <digetx@gmail.com>
