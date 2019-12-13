@@ -2,44 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A326E11DF7A
-	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2019 09:31:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C410711DFA0
+	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2019 09:44:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726345AbfLMIb0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Dec 2019 03:31:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45898 "EHLO mail.kernel.org"
+        id S1725928AbfLMIoZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Dec 2019 03:44:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48360 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725882AbfLMIb0 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Dec 2019 03:31:26 -0500
+        id S1725793AbfLMIoY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 13 Dec 2019 03:44:24 -0500
 Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ED03D2465B;
-        Fri, 13 Dec 2019 08:31:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1D69F2253D;
+        Fri, 13 Dec 2019 08:44:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576225885;
-        bh=myyxeypyHriSKbglxnLcS2I3B1e+64R7xW7PX38Q1o0=;
+        s=default; t=1576226664;
+        bh=94LZnf/3s/roV8fMiTLrlu2OFhSW6ztFQ3srFRkny8Y=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=L8veSFtJD+zdDXJsLGDVe4LMCieF8IqYxpfAm+xeOhN/J+8LpWroYBbSh1ypSDU3Y
-         /Uldl2uWaGNKlvqoUpqCApNOuHGYj89amLsGm1cUDrw1osCnxbGTVjgKG9fYCC/RUl
-         leAT3QH0aZmqDRHiasQcI39kM9IuF+lxZo9lTa4A=
-Date:   Fri, 13 Dec 2019 09:31:21 +0100 (CET)
+        b=c8dneF8P6KxiTCDkuDcKPSF4/QLN7It98fosYDgzhXcFZDTjPPtxJUHa9azKjA1QA
+         3/8QzuJXFp9B82cFcoo/ZCWX21+L23CrajbtOXuVoSeSxybyZ5+Z4CNrZ8LySiRz/z
+         K+RTGymyKEQTlyNqeIyXkEy/xH5jLSaYyn4sfMYM=
+Date:   Fri, 13 Dec 2019 09:44:21 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Andrey Konovalov <andreyknvl@google.com>
-cc:     Dmitry Vyukov <dvyukov@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Alexander Potapenko <glider@google.com>,
-        Marco Elver <elver@google.com>
-Subject: Re: [PATCH RFC 2/2] HID: usbhid: kcov: add annotations for coverage
- collection
-In-Reply-To: <6b4b598d012d981c0c45fcc9f121ba210bd222f9.1576170740.git.andreyknvl@google.com>
-Message-ID: <nycvar.YFH.7.76.1912130930220.4603@cbobk.fhfr.pm>
-References: <cover.1576170740.git.andreyknvl@google.com> <6b4b598d012d981c0c45fcc9f121ba210bd222f9.1576170740.git.andreyknvl@google.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Subject: Re: [PATCH] HID: Fix slab-out-of-bounds read in hid_field_extract
+In-Reply-To: <Pine.LNX.4.44L0.1912111009080.1549-100000@iolanthe.rowland.org>
+Message-ID: <nycvar.YFH.7.76.1912130941580.4603@cbobk.fhfr.pm>
+References: <Pine.LNX.4.44L0.1912111009080.1549-100000@iolanthe.rowland.org>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -48,16 +41,54 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 12 Dec 2019, Andrey Konovalov wrote:
+On Wed, 11 Dec 2019, Alan Stern wrote:
 
-> This patch adds kcov_remote_start/stop() callbacks into usbhid code that
-> is executed in interrupt context. As the result, kcov can be used to
-> collect coverage from those parts of the code, which is used to facilitate
-> coverage-guided fuzzing with syzkaller.
+> > > The syzbot fuzzer found a slab-out-of-bounds bug in the HID report
+> > > handler.  The bug was caused by a report descriptor which included a
+> > > field with size 12 bits and count 4899, for a total size of 7349
+> > > bytes.
+> > > 
+> > > The usbhid driver uses at most a single-page 4-KB buffer for reports.
+> > > In the test there wasn't any problem about overflowing the buffer,
+> > > since only one byte was received from the device.  Rather, the bug
+> > > occurred when the HID core tried to extract the data from the report
+> > > fields, which caused it to try reading data beyond the end of the
+> > > allocated buffer.
+> > > 
+> > > This patch fixes the problem by rejecting any report whose total
+> > > length exceeds the HID_MAX_BUFFER_SIZE limit (minus one byte to allow
+> > > for a possible report index).  In theory a device could have a report
+> > > longer than that, but if there was such a thing we wouldn't handle it 
+> > > correctly anyway.
+> > > 
+> > > Reported-and-tested-by: syzbot+09ef48aa58261464b621@syzkaller.appspotmail.com
+> > > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> > > CC: <stable@vger.kernel.org>
+> > 
+> > Thanks for hunting this down Alan. Applied.
 > 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> I just noticed this code:
+> 
+> u8 *hid_alloc_report_buf(struct hid_report *report, gfp_t flags)
+> {
+> 	/*
+> 	 * 7 extra bytes are necessary to achieve proper functionality
+> 	 * of implement() working on 8 byte chunks
+> 	 */
+> 
+> 	u32 len = hid_report_len(report) + 7;
+> 
+> 	return kmalloc(len, flags);
+> }
+> 
+> Does this indicate that the upper limit on a report length should 
+> really be HID_MAX_BUFFER_SIZE - 8 instead of HID_MAX_BUFFER_SIZE - 1?
 
-Acked-by: Jiri Kosina <jkosina@suse.cz>
+As far as I remember, this is just very lousy way of properly rounding the 
+size up (see 27ce405039bfe). So I believe HID_MAX_BUFFER_SIZE -1 is still 
+functionally correct.
+
+Thanks,
 
 -- 
 Jiri Kosina
