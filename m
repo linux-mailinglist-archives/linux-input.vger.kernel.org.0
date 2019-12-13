@@ -2,145 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95E5D11EC11
-	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2019 21:51:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D297C11ED5D
+	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2019 23:03:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726599AbfLMUvI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Dec 2019 15:51:08 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:41421 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725747AbfLMUvI (ORCPT
+        id S1725747AbfLMWD0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Dec 2019 17:03:26 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:45424 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725554AbfLMWDZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Dec 2019 15:51:08 -0500
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1N2m7O-1hjKJl2E7I-0132dq; Fri, 13 Dec 2019 21:50:53 +0100
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     y2038@lists.linaro.org, linux-kernel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Deepa Dinamani <deepa.kernel@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, sparclinux@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>, stable@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-input@vger.kernel.org
-Subject: [PATCH v2 01/24] Input: input_event: fix struct padding on sparc64
-Date:   Fri, 13 Dec 2019 21:49:10 +0100
-Message-Id: <20191213204936.3643476-2-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20191213204936.3643476-1-arnd@arndb.de>
-References: <20191213204936.3643476-1-arnd@arndb.de>
+        Fri, 13 Dec 2019 17:03:25 -0500
+Received: by mail-pf1-f196.google.com with SMTP id 2so2164986pfg.12;
+        Fri, 13 Dec 2019 14:03:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=tC9e56OkB9iMx5UogC2mae0NvXUXXZ3j9VUfeJ/X5wk=;
+        b=tRoNRQRh+sJGD73mI4PDIDyRvkzBaNEx53l8oRH/Sn6LiwA5jhvcsHTHKt0UYjOfKD
+         hI8+MAPu3GAvso6itHVboQN17c5NMohOaIdXDa6aP8XILG0jThspeOMRlB1IUC3yIWCZ
+         swEyhbgSOV49JTywMJrODnCc7u4bYKMNWk/ZTtAn4jlE/qSBoeS6gnQhmOISmdYhsicT
+         hv+UQszp8avxtmsIrnninBVWrvPdjhm37eQU53sSaxYhTcKtZ0QgecyWFxjbi9uOTD96
+         HCfXiVXAKR3OXOiwCQKS/hI0lN37hSjKxmU3aTbHAd2fk7aMPw55CqanJVLyHSFl5OxB
+         QQyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=tC9e56OkB9iMx5UogC2mae0NvXUXXZ3j9VUfeJ/X5wk=;
+        b=axSnpFdcwMnUGm0hdnk7jdQaxBbNdQiz1kV+aS64ztk/JAHpAGKHpPU4DN1CVNvznv
+         vLijLiPbhhpVZYfUwkBcSReq2Tu+jrOsRvPG0vklBusQ7wyLUhOb8+LD/EyH130xasV/
+         Nzy8Uhuw1i2sRe+zsqe2vqxuBnS6GutdNetS+cMSZrPM3RnP099UHwivXPEBKV2/ejuk
+         A4A7pC21HNhSzaGKx4Xwf3CCfW9yzwjO4Kugb2vX4Z6TnyNQk9n29UEBiwd1Cc8m6Aju
+         bE7xbPqaRvpHNcseB8/ADNQKPHXukadwE68UIlKbpTwGFYS0OdzXn9pDHi/IWXberkRm
+         Cirg==
+X-Gm-Message-State: APjAAAV4kQ8T2OYNeGOM9kmtB5RQ0UCI0zlCWf6lyF2B1yDF1OQroqQt
+        rv8U6eNoOJ8u5S9+MSf6d9A=
+X-Google-Smtp-Source: APXvYqzBpAfl1hUow2NLUi+eXe/GatKLhViFfkqNuiWd45s78/xW4KFQIoMtOkjNEpVCqNgoFHYxSw==
+X-Received: by 2002:a63:d358:: with SMTP id u24mr1975871pgi.218.1576274604884;
+        Fri, 13 Dec 2019 14:03:24 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id h7sm13693878pfq.36.2019.12.13.14.03.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Dec 2019 14:03:24 -0800 (PST)
+Date:   Fri, 13 Dec 2019 14:03:21 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Anson Huang <Anson.Huang@nxp.com>
+Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, robh@kernel.org, linux-input@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Linux-imx@nxp.com
+Subject: Re: [PATCH] input: keyboard: imx_sc_key: Only take the valid data
+ from SCU firmware as key state
+Message-ID: <20191213220321.GJ101194@dtor-ws>
+References: <1576202909-1661-1-git-send-email-Anson.Huang@nxp.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:b8gCujveRfENF93qhn+QoZv/ckKyXm1BIFaTvxXniIUqRp+b6PR
- 3VSHWZW1SQzZk8GlNQpYeUFnSdkbDpGEpUozYthsO7HpZiAKH3XYDHJcXFjjxf1Xn91Ch+s
- d37azDmn1CwgETn8euOshiFS2oUw9MuYpYmhu4tm/a1iwNWERIkO3OEYl1dsNDQfqxG7TYm
- fURnjI/jbKO29eu5hdNRw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iIbuBbbotM0=:qlSem9fmmr21xU4JKbUkwr
- 2jwTBbOAuCE4GVBIZFL0TrE/kDGXnz2zZkeJWYbvGhf+HZcfLqu65WFtRkkx228BcNZwOKIuh
- m0vU7lTquEbBCKwj68bhb6jg52BeQS62G3gR7WtmaOG52gnMGQ7W9iI1b+2CPLzB/kJqfjRUk
- iDa20EOw/qK/icA36YWIJQ+d5sEL1cQgFIfmGlwltdAj1t67KpOG9oVbzTAPVjb8EQZMqjnRb
- 6n5Qt1hKLWA3v+lZcc5SWtgzNzDDO283oCyYzbjuCtd5h8mLYN6I5J3x2PZAP0qKyogu7VcFd
- HB1zgOJJhV8/WHRkK/EWdtBnJc/ESEqPoEtK7MfK71LPTdw0v3voVoAHsAVJX1pm0Fk+s0rR3
- cYSUuppiTTS5dtk/Ax653eDoLYwd5IksUWHIi6xidTr1GLuNGXco5sYWCDzMXHhp4o6ep1BTP
- 9zQOWWG132l95PNjSlfAR+4Og26QjT5jl5vnixgkx3Xy4jmEcCqFBQZZ3OtT+ghGZjzbdiSC0
- Q96LFa3Ok8s1OF2cYR4NceiklpMC1gL3SMx9J6VL3WwaWZaRL2HrteTd1g0+P+6z1ZSoih2X0
- 8FDcLDf7AZiGd9EZshJ2pgTMVdvla3OEsdKZtBBszML+XDxoHjZ/Z/siWJZRVVn7Bi6zSudWi
- FhePVLTxrdj9pmsSHjNYgfz3mjhMOGn0wSWLlRojj3pa6ro9WcB5IPOKUzO9nDkG+lDEL7t4s
- 6NeUbkktu6PAykWYIEkirix4f1fhKC98FsS63bdTHP5mkguDUvDk82s6Z8cEkdOlToy00NEZz
- SvEOR0X0odwBLMSr130fEcLaibcRh0+p5Yyt7FIfuEYhWpzlaT9WI+Eg+Mqp/hfvRZqc/VKLj
- 3QYw1ddrTu8UT6Yy+YIg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1576202909-1661-1-git-send-email-Anson.Huang@nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Going through all uses of timeval, I noticed that we screwed up
-input_event in the previous attempts to fix it:
+On Fri, Dec 13, 2019 at 10:08:29AM +0800, Anson Huang wrote:
+> When reading key state from SCU, the response data from SCU firmware
+> is 4 bytes due to MU message protocol, but ONLY the first byte is the
+> key state, other 3 bytes could be some dirty data, so we should ONLY
+> take the first byte as key state to avoid reporting incorrect state.
+> 
+> Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
 
-The time fields now match between kernel and user space, but
-all following fields are in the wrong place.
+Applied, thank you.
 
-Add the required padding that is implied by the glibc timeval
-definition to fix the layout, and use a struct initializer
-to avoid leaking kernel stack data.
+> ---
+>  drivers/input/keyboard/imx_sc_key.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/keyboard/imx_sc_key.c b/drivers/input/keyboard/imx_sc_key.c
+> index 5379952..9f809ae 100644
+> --- a/drivers/input/keyboard/imx_sc_key.c
+> +++ b/drivers/input/keyboard/imx_sc_key.c
+> @@ -78,7 +78,13 @@ static void imx_sc_check_for_events(struct work_struct *work)
+>  		return;
+>  	}
+>  
+> -	state = (bool)msg.state;
+> +	/*
+> +	 * The response data from SCU firmware is 4 bytes,
+> +	 * but ONLY the first byte is the key state, other
+> +	 * 3 bytes could be some dirty data, so we should
+> +	 * ONLY take the first byte as key state.
+> +	 */
+> +	state = (bool)(msg.state & 0xff);
+>  
+>  	if (state ^ priv->keystate) {
+>  		priv->keystate = state;
+> -- 
+> 2.7.4
+> 
 
-Cc: sparclinux@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>
-Fixes: 141e5dcaa735 ("Input: input_event - fix the CONFIG_SPARC64 mixup")
-Fixes: 2e746942ebac ("Input: input_event - provide override for sparc64")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/input/evdev.c       | 14 +++++++-------
- drivers/input/misc/uinput.c | 14 +++++++++-----
- include/uapi/linux/input.h  |  1 +
- 3 files changed, 17 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
-index d7dd6fcf2db0..f918fca9ada3 100644
---- a/drivers/input/evdev.c
-+++ b/drivers/input/evdev.c
-@@ -224,13 +224,13 @@ static void __pass_event(struct evdev_client *client,
- 		 */
- 		client->tail = (client->head - 2) & (client->bufsize - 1);
- 
--		client->buffer[client->tail].input_event_sec =
--						event->input_event_sec;
--		client->buffer[client->tail].input_event_usec =
--						event->input_event_usec;
--		client->buffer[client->tail].type = EV_SYN;
--		client->buffer[client->tail].code = SYN_DROPPED;
--		client->buffer[client->tail].value = 0;
-+		client->buffer[client->tail] = (struct input_event) {
-+			.input_event_sec = event->input_event_sec,
-+			.input_event_usec = event->input_event_usec,
-+			.type = EV_SYN,
-+			.code = SYN_DROPPED,
-+			.value = 0,
-+		};
- 
- 		client->packet_head = client->tail;
- 	}
-diff --git a/drivers/input/misc/uinput.c b/drivers/input/misc/uinput.c
-index fd253781be71..2dabbe47d43e 100644
---- a/drivers/input/misc/uinput.c
-+++ b/drivers/input/misc/uinput.c
-@@ -74,12 +74,16 @@ static int uinput_dev_event(struct input_dev *dev,
- 	struct uinput_device	*udev = input_get_drvdata(dev);
- 	struct timespec64	ts;
- 
--	udev->buff[udev->head].type = type;
--	udev->buff[udev->head].code = code;
--	udev->buff[udev->head].value = value;
- 	ktime_get_ts64(&ts);
--	udev->buff[udev->head].input_event_sec = ts.tv_sec;
--	udev->buff[udev->head].input_event_usec = ts.tv_nsec / NSEC_PER_USEC;
-+
-+	udev->buff[udev->head] = (struct input_event) {
-+		.input_event_sec = ts.tv_sec,
-+		.input_event_usec = ts.tv_nsec / NSEC_PER_USEC,
-+		.type = type,
-+		.code = code,
-+		.value = value,
-+	};
-+
- 	udev->head = (udev->head + 1) % UINPUT_BUFFER_SIZE;
- 
- 	wake_up_interruptible(&udev->waitq);
-diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
-index f056b2a00d5c..9a61c28ed3ae 100644
---- a/include/uapi/linux/input.h
-+++ b/include/uapi/linux/input.h
-@@ -34,6 +34,7 @@ struct input_event {
- 	__kernel_ulong_t __sec;
- #if defined(__sparc__) && defined(__arch64__)
- 	unsigned int __usec;
-+	unsigned int __pad;
- #else
- 	__kernel_ulong_t __usec;
- #endif
 -- 
-2.20.0
-
+Dmitry
