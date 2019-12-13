@@ -2,117 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16A3B11E362
-	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2019 13:11:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1A0D11E50C
+	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2019 14:57:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726949AbfLMMLi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Dec 2019 07:11:38 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:35265 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726895AbfLMMLi (ORCPT
+        id S1727677AbfLMN4o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Dec 2019 08:56:44 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:34719 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727577AbfLMN4n (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Dec 2019 07:11:38 -0500
-Received: by mail-pj1-f65.google.com with SMTP id w23so1134660pjd.2
-        for <linux-input@vger.kernel.org>; Fri, 13 Dec 2019 04:11:38 -0800 (PST)
+        Fri, 13 Dec 2019 08:56:43 -0500
+Received: by mail-lj1-f196.google.com with SMTP id m6so2671260ljc.1
+        for <linux-input@vger.kernel.org>; Fri, 13 Dec 2019 05:56:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=9r3y5b2vXMIRb8oNblHHWyiR/x9JBMIKMp7Nl/AMSRg=;
-        b=ftJJ7cj5skjnr4OfwFizJQnyDilL8KDJLUSdnajj31APdfbww2kYdJaC5q7N2wedfa
-         HkoO/nl7SIDvINoANdm2hSw3WnaoPBko5o3vkkgaNBaA9koBKRUPSUQ0ueMwMuAnRSNc
-         g/GE0hCDxB+nXjFmP/aZSP0oYJ22nLzaChBYHTio+9S8oof8F4cYfcYLDNxYFwk+Dyj3
-         NSLGahEYWM7sQbGlFL59techMRpz00kQeHMO4rGpIuWTMVa7dzjE7fzVhBMsUWa7B23o
-         T9D+Wh8sI54DIfEDt7YgD9M5hrEMA/0x4gzlacknbtyZEDeJYyB66MZyeSq2UYTGXfHf
-         QJ3g==
+        bh=Ng0J7VT6q7et93hoQowYvQqzLfb9VIPnBEUDJ7gqlTQ=;
+        b=a7VtdNfHIVILhuTWgjDaH90Fod1yB199ZL5r5mn6i4THtWtQEmPH/80tBhAvFb2KbB
+         yIdi/QHqtBtrv8HC1b3iZZ1tPyZjOfk/FQIjWMiX2h688sfN4AXvyKc5nzSFeTYvBSKE
+         7JlvVL8AGXd7X4Lpz8QGLCSGmZKW9577YuwJvHYfKT9afQZu4Wx/L55yqoShjOmsAjTk
+         4j/BN4Whchk2P92Zep2kex1nqoloN3cLNLkBhpQgfZFknQ3NmneYmojRpBhR+20laW4F
+         P70/2ApsdcbiKLhVM13ta3Z0O1KKYVhkyhZ0fYXtmEgAu0629c6/T/AT4aHX82ooblbb
+         VmjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9r3y5b2vXMIRb8oNblHHWyiR/x9JBMIKMp7Nl/AMSRg=;
-        b=XWgkWs7lCefwYT0HWgnu4PqobhT6vsJopz8zopUfm4OtQIA0ySja2jpji6ROPXjniN
-         6dnAjjcaH8D9Qgw0byElJo5vYBXxzVv7zm1aN9Po/BVOoZ8jS7v3M+aC5GD2GLqly1Tt
-         +sz6y58cXs0D5ztWoGBBnfAVgFUJEclk6r6mEJuKK4BnXPESgtKe4IZs8eYAbmJZKtIu
-         2U2u+57FrsfezLE1wEAhspHx47J9SIOY3NtRxxVR70MxBTsNV8hLzPNlyeqQeHMx2CjH
-         fUskNi3+fg+TJ+OIq3svs4W59CMjcP/bnSVLIwZ2GBXZn8G+tGCuXChFTMMNR+XtUmlc
-         CTXw==
-X-Gm-Message-State: APjAAAUuKlWBmKhM1GO0eFPJjqEnfeN96MI62nzspgqOB+9bDDxU73Gl
-        0UzooFGyPEFfC3JJfcMnWIvO5fBnfPB7S7zFTZ0JIQ==
-X-Google-Smtp-Source: APXvYqzkX7D2D12zjMDASh4roJ/9SPGGMP8O/ZGu02LjcJLBvXA42frjpmL1JwEN3xx2P2+PjH8NqE+WnQngBKa56Yc=
-X-Received: by 2002:a17:90b:150:: with SMTP id em16mr15813824pjb.123.1576239097699;
- Fri, 13 Dec 2019 04:11:37 -0800 (PST)
+        bh=Ng0J7VT6q7et93hoQowYvQqzLfb9VIPnBEUDJ7gqlTQ=;
+        b=clYn+fiQ+O+Foc00iDg1al2LepPSVs+Rcj8iaePGfk2QBKxW8KPiHFXHKuHuEA62GE
+         negwjZnT4ywBhOB4cWuqz+84pwgTOm73oLFJiGajxHehGvjadwHc4FCkqYm5GcSeG1Fo
+         VNp+N0vn9qM70J9O1DzYnEkGRtRCmblrUPqx+VkB5vTDVHJNfxm7sNzZkTj8D35grp+R
+         pFAAiL72MCgGEf276BapQjX7lXJv8usgLFBfl33P/2Qx7E5ROqmI94TqcFjl/2iq/KdV
+         uh+lP2/mSjTWGCHXLWgxcRHPqW/6ihSxuZlIMwBqZK/IdkNjoXp5MtV3swvWWZDy1RGh
+         Qofw==
+X-Gm-Message-State: APjAAAVkQQobwXvbxYfKwBmmH6Ba80CxMpJ3pLSvr8qGerfJYVhom7Lm
+        lR8H3ih7iYmoAnxfa/ime1Y3p0WF0brjCbxSI7moug==
+X-Google-Smtp-Source: APXvYqy0vWEsCjDFZyfSN/Lrm144Do0DBoodpv0T4Wt1uLstCAlXzPsbmrt/BMig0xLpHmCvNRunXlxDBV860t28M7A=
+X-Received: by 2002:a05:651c:1049:: with SMTP id x9mr9521183ljm.233.1576245401607;
+ Fri, 13 Dec 2019 05:56:41 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1576170740.git.andreyknvl@google.com>
-In-Reply-To: <cover.1576170740.git.andreyknvl@google.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Fri, 13 Dec 2019 13:11:26 +0100
-Message-ID: <CAAeHK+xkvQ3Jxot15pw1_EHZgZ2i539pLSxgXujDLWO0x0DrRw@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/2] kcov: collect coverage from usbhid interrupts
-To:     Dmitry Vyukov <dvyukov@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Marco Elver <elver@google.com>
+References: <20191205002503.13088-1-masneyb@onstation.org> <20191205002503.13088-2-masneyb@onstation.org>
+ <0101016eee224b50-8a5545e2-837f-41c2-9574-b385e111a6b3-000000@us-west-2.amazonses.com>
+ <20191210115153.GA10298@onstation.org>
+In-Reply-To: <20191210115153.GA10298@onstation.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 13 Dec 2019 14:56:30 +0100
+Message-ID: <CACRpkdY+yP6-MyFw1tFvVN_FjNfPBGYZxiK5rZiS5Yyp7eainw@mail.gmail.com>
+Subject: Re: [PATCH 1/7] clk: qcom: add support for setting the duty cycle
+To:     Brian Masney <masneyb@onstation.org>
+Cc:     Taniya Das <tdas@codeaurora.org>, Stephen Boyd <sboyd@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Linux Input <linux-input@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        MSM <linux-arm-msm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 6:15 PM Andrey Konovalov <andreyknvl@google.com> wrote:
->
-> This patchset extends kcov to allow collecting coverage from interrupts
-> and then uses the new functionality to collect coverage from usbhid code.
->
-> What I'm not sure yet about this change is if we actually want to
-> selectively annotate some parts of the USB stack that are executed in
-> interrupt context, or maybe we can do this with some common approach.
->
-> For example patch #2 in this patchset annotates all functions that are
-> passed as completion callbacks to usb_fill_*() in drivers/hid/usbhid.
-> Maybe instead we could redefine usb_fill_*() in a way that would handle
-> all such cases without manual annotations.
+On Tue, Dec 10, 2019 at 12:52 PM Brian Masney <masneyb@onstation.org> wrote:
+> On Tue, Dec 10, 2019 at 04:47:35AM +0000, Taniya Das wrote:
+> > On 12/5/2019 5:54 AM, Brian Masney wrote:
 
-Although looking at this again today, it seems much more logical to
-add kcov annotations around the complete() callback in
-__usb_hcd_giveback_urb(). Don't know why I didn't think of that. Will
-do in the next version.
+> > > I'm not sure about the relationship of the m, n, and d values,
+> > > especially how the 50% duty cycle is calculated by inverting the n
+> > > value, so that's why I'm saving the duty cycle ratio for
+> > > get_duty_cycle().
+(...)
+> > > +static int clk_rcg2_set_duty_cycle(struct clk_hw *hw, struct clk_duty *duty)
+> > > +{
+> > > +   struct clk_rcg2 *rcg = to_clk_rcg2(hw);
+> > > +   int ret, d_reg_val, mask;
+> > > +
+> > > +   mask = BIT(rcg->mnd_width - 1) - 1;
+> > > +   d_reg_val = mask - (((mask - 17) * duty->num) / duty->den);
+> > > +   ret = __clk_rcg2_configure_with_duty_cycle(rcg, rcg->freq_tbl,
+> > > +                                              d_reg_val, duty->num,
+> > > +                                              duty->den);
+> >
+> > The duty-cycle calculation is not accurate.
+> > There is already a plan to submit the duty-cycle changes from my side.
+>
+> OK... I assume that the m and n values need to be changed as well. I
+> couldn't find any docs online about the meaning of the m, n, and d
+> values and how they relate to each other.
 
+I have also at times struggled to understand this.
 
->
-> Any suggestions are welcome.
->
-> This has allowed to find at least one new HID bug [1], which was recently
-> fixed by Alan [2].
->
-> [1] https://syzkaller.appspot.com/bug?extid=09ef48aa58261464b621
-> [2] https://patchwork.kernel.org/patch/11283319/
->
-> This patchset has been pushed to the public Linux kernel Gerrit instance:
->
-> https://linux-review.googlesource.com/c/linux/kernel/git/torvalds/linux/+/2225
->
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->
-> Andrey Konovalov (2):
->   kcov: collect coverage from interrupts
->   HID: usbhid: kcov: add annotations for coverage collection
->
->  Documentation/dev-tools/kcov.rst   |  16 +--
->  drivers/hid/usbhid/hid-core.c      |  25 +++-
->  drivers/hid/usbhid/usbkbd.c        |  15 ++-
->  drivers/hid/usbhid/usbmouse.c      |   7 +-
->  drivers/usb/gadget/udc/dummy_hcd.c |   1 +
->  include/linux/sched.h              |   3 +
->  kernel/kcov.c                      | 196 +++++++++++++++++++----------
->  lib/Kconfig.debug                  |   9 ++
->  8 files changed, 192 insertions(+), 80 deletions(-)
->
-> --
-> 2.24.1.735.g03f4e72817-goog
->
+If someone could just in a very concise form describe how these
+rcg[2] clock dividers work and how m,n,d work that'd be GREAT.
+ASCII art etc would be a bonus :)
+
+Like with a patch with a big comment in
+drivers/clk/qcom/clk-rcg.h
+
+As these tend to be quite regularly reused and incarnated in
+ever new silicon a complete picture for developers would be
+much appreciated.
+
+Yours,
+Linus Walleij
