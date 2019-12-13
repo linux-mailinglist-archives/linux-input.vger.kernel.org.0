@@ -2,37 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C410711DFA0
-	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2019 09:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21DFE11E073
+	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2019 10:17:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725928AbfLMIoZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Dec 2019 03:44:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48360 "EHLO mail.kernel.org"
+        id S1725937AbfLMJRx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Dec 2019 04:17:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60888 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725793AbfLMIoY (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Dec 2019 03:44:24 -0500
+        id S1725747AbfLMJRw (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 13 Dec 2019 04:17:52 -0500
 Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1D69F2253D;
-        Fri, 13 Dec 2019 08:44:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7A1F82077B;
+        Fri, 13 Dec 2019 09:17:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576226664;
-        bh=94LZnf/3s/roV8fMiTLrlu2OFhSW6ztFQ3srFRkny8Y=;
+        s=default; t=1576228672;
+        bh=g6Mh9w3BdmP7NfyaTqT+aoKR0enNKfr+KYD2GmPCfSU=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=c8dneF8P6KxiTCDkuDcKPSF4/QLN7It98fosYDgzhXcFZDTjPPtxJUHa9azKjA1QA
-         3/8QzuJXFp9B82cFcoo/ZCWX21+L23CrajbtOXuVoSeSxybyZ5+Z4CNrZ8LySiRz/z
-         K+RTGymyKEQTlyNqeIyXkEy/xH5jLSaYyn4sfMYM=
-Date:   Fri, 13 Dec 2019 09:44:21 +0100 (CET)
+        b=vIO9uweaeEDBCqBzb4bdaG5pfPlz0ur9jDZLPZslftAW+5fGLtNMnIYy7s5sK70tf
+         Z9InRZxaEm86FakL09BcpZwBXi1RYMnmQH6UGbNc6+CRqDSVuNA/EZz4+Cny08rkRM
+         Wwb8wGfqrHq/z6YI2cUNSQG5Dj1eGDJr40VV7ans=
+Date:   Fri, 13 Dec 2019 10:17:49 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
+To:     Priit Laes <plaes@plaes.org>
 cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: Re: [PATCH] HID: Fix slab-out-of-bounds read in hid_field_extract
-In-Reply-To: <Pine.LNX.4.44L0.1912111009080.1549-100000@iolanthe.rowland.org>
-Message-ID: <nycvar.YFH.7.76.1912130941580.4603@cbobk.fhfr.pm>
-References: <Pine.LNX.4.44L0.1912111009080.1549-100000@iolanthe.rowland.org>
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: Add quirk for Xin-Mo Dual Controller
+In-Reply-To: <20191130222209.5084-1-plaes@plaes.org>
+Message-ID: <nycvar.YFH.7.76.1912131017100.4603@cbobk.fhfr.pm>
+References: <20191130222209.5084-1-plaes@plaes.org>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -41,54 +40,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 11 Dec 2019, Alan Stern wrote:
+On Sun, 1 Dec 2019, Priit Laes wrote:
 
-> > > The syzbot fuzzer found a slab-out-of-bounds bug in the HID report
-> > > handler.  The bug was caused by a report descriptor which included a
-> > > field with size 12 bits and count 4899, for a total size of 7349
-> > > bytes.
-> > > 
-> > > The usbhid driver uses at most a single-page 4-KB buffer for reports.
-> > > In the test there wasn't any problem about overflowing the buffer,
-> > > since only one byte was received from the device.  Rather, the bug
-> > > occurred when the HID core tried to extract the data from the report
-> > > fields, which caused it to try reading data beyond the end of the
-> > > allocated buffer.
-> > > 
-> > > This patch fixes the problem by rejecting any report whose total
-> > > length exceeds the HID_MAX_BUFFER_SIZE limit (minus one byte to allow
-> > > for a possible report index).  In theory a device could have a report
-> > > longer than that, but if there was such a thing we wouldn't handle it 
-> > > correctly anyway.
-> > > 
-> > > Reported-and-tested-by: syzbot+09ef48aa58261464b621@syzkaller.appspotmail.com
-> > > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-> > > CC: <stable@vger.kernel.org>
-> > 
-> > Thanks for hunting this down Alan. Applied.
+> Without the quirk, joystick shows up as single controller
+> for both first and second player pads/pins.
 > 
-> I just noticed this code:
+> Signed-off-by: Priit Laes <plaes@plaes.org>
+> ---
+>  drivers/hid/hid-quirks.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> u8 *hid_alloc_report_buf(struct hid_report *report, gfp_t flags)
-> {
-> 	/*
-> 	 * 7 extra bytes are necessary to achieve proper functionality
-> 	 * of implement() working on 8 byte chunks
-> 	 */
-> 
-> 	u32 len = hid_report_len(report) + 7;
-> 
-> 	return kmalloc(len, flags);
-> }
-> 
-> Does this indicate that the upper limit on a report length should 
-> really be HID_MAX_BUFFER_SIZE - 8 instead of HID_MAX_BUFFER_SIZE - 1?
+> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> index c50bcd967d99..2007e31837ad 100644
+> --- a/drivers/hid/hid-quirks.c
+> +++ b/drivers/hid/hid-quirks.c
+> @@ -173,6 +173,7 @@ static const struct hid_device_id hid_quirks[] = {
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_WALTOP, USB_DEVICE_ID_WALTOP_SIRIUS_BATTERY_FREE_TABLET), HID_QUIRK_MULTI_INPUT },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_WISEGROUP_LTD2, USB_DEVICE_ID_SMARTJOY_DUAL_PLUS), HID_QUIRK_NOGET | HID_QUIRK_MULTI_INPUT },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_WISEGROUP, USB_DEVICE_ID_QUAD_USB_JOYPAD), HID_QUIRK_NOGET | HID_QUIRK_MULTI_INPUT },
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_XIN_MO, USB_DEVICE_ID_XIN_MO_DUAL_ARCADE), HID_QUIRK_MULTI_INPUT },
 
-As far as I remember, this is just very lousy way of properly rounding the 
-size up (see 27ce405039bfe). So I believe HID_MAX_BUFFER_SIZE -1 is still 
-functionally correct.
-
-Thanks,
+Applied, thank you.
 
 -- 
 Jiri Kosina
