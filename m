@@ -2,134 +2,260 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B816611DA5F
-	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2019 01:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C589611DBC4
+	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2019 02:41:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731192AbfLMAGO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Dec 2019 19:06:14 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:34746 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731095AbfLMAGO (ORCPT
+        id S1731591AbfLMBlO convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 12 Dec 2019 20:41:14 -0500
+Received: from emcscan.emc.com.tw ([192.72.220.5]:8673 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731736AbfLMBlN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Dec 2019 19:06:14 -0500
-Received: by mail-lj1-f195.google.com with SMTP id m6so570297ljc.1;
-        Thu, 12 Dec 2019 16:06:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hpUvAuqmvVxYFVTREXWG7TifUGUkF/THEEP70oCQSnI=;
-        b=q1OZLlVg43/x4ST4OMccqIKIlHXS0zzuZpD9pNqMTUy/VFa3JNunlTxc0WGfGLUMbk
-         3oKfUEieKvZlxGLWMNkl07HbW+6XaH9jDvo8LkcG8mS/Ervbzk9RqQcrLo/gziNDiizl
-         GNxe38UDIyZ8NVuP8KbVJm+gchb6wgqxPTTw52lojOAV/X+txgO4Kl2tdg4PQLzZPxLu
-         JMw7PNLw9E0WMsXmeBSD2jHScduZTkKfNUHXhHAAhD+awdX9rP4MZ3XssTa8ndtjUIve
-         xQ6LgAqe7MpKFoFU0MvHkT2Jlf1mQWBNpQxZkaUV6e5TclfCSTH72k6q8nEC4cSWyORO
-         BPkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=hpUvAuqmvVxYFVTREXWG7TifUGUkF/THEEP70oCQSnI=;
-        b=bgR/5eVYhRJvVREsDfkliD68XBrhjl28aLCGXamddpitNM5zvEJypEDSirQCPnR0/y
-         6wdLUKLNzMT583U0rtrRjdvbINn+3CFoMYRVlq/t042tA/31BQQPvnf/8N137Ym0vcCt
-         QWQZTeytYisTcWwoTXoosbXKXqrEvkz4tzOnS7jX26tb+Yg9fgqm/GoeS3k4gBl3F6cV
-         cASa8LaA95uQtEi95Xd8mYPRqdvCAsyKAV23ac/aRB3/hwrEOFp3F4qIfLe3jwkLxsC+
-         i20Rsj3rBHsbjFdYyt1sbO2pDbE4OLVzmcSlX30hpW1CHhe/RMYxFd91ot26/wOEGqo8
-         mLLg==
-X-Gm-Message-State: APjAAAVpuJWKq0My3fx/GtNgrKl92t6y677TfzDNq7fTLE8YSFOgr/cB
-        xSlx3Hw9bg5m5JwmtnUPnd4=
-X-Google-Smtp-Source: APXvYqxNaTaKrdQ62I9SAGG7A4AsrInfBMFyWB8qeY69HvZynpU7GJMZ7k66oNPJpCM+ZfKHtTInyA==
-X-Received: by 2002:a2e:6e03:: with SMTP id j3mr7968775ljc.27.1576195572112;
-        Thu, 12 Dec 2019 16:06:12 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id c27sm3608171lfh.62.2019.12.12.16.06.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Dec 2019 16:06:11 -0800 (PST)
-Subject: Re: [PATCH v2 2/9] input: elants: support old touch report format
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
-        James Chen <james.chen@emc.com.tw>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh-dt@kernel.org>,
-        Scott Liu <scott.liu@emc.com.tw>
-References: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
- <2b5e15ea600c33dfab4aa50e360ec553f1af7db0.1576079249.git.mirq-linux@rere.qmqm.pl>
- <f53b507c-76dd-8733-9698-952aa7a7301f@gmail.com>
- <20191212194552.GA22553@qmqm.qmqm.pl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <d30d60e6-f9cc-d92e-f875-3d862c8e8c44@gmail.com>
-Date:   Fri, 13 Dec 2019 03:06:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Thu, 12 Dec 2019 20:41:13 -0500
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="33262031"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 13 Dec 2019 09:41:07 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(71486:0:AUTH_RELAY)
+        (envelope-from <johnny.chuang@emc.com.tw>); Fri, 13 Dec 2019 09:41:07 +0800 (CST)
+Received: from 192.168.55.71
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(101175:0:AUTH_LOGIN)
+        (envelope-from <johnny.chuang@emc.com.tw>); Fri, 13 Dec 2019 09:41:04 +0800 (CST)
+From:   "Johnny.Chuang" <johnny.chuang@emc.com.tw>
+To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>
+Cc:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        =?big5?B?J1NUUkQyLb2ytGa8YCc=?= <jennifer.tsai@emc.com.tw>,
+        <james.chen@emc.com.tw>,
+        =?big5?B?J7Hns9W1vic=?= <paul.liang@emc.com.tw>,
+        "'jeff'" <jeff.chuang@emc.com.tw>
+References: <1575969632-18703-1-git-send-email-johnny.chuang@elan.corp-partner.google.com> <00a901d5af3c$193e9cd0$4bbbd670$@emc.com.tw> <20191212192220.GC101194@dtor-ws>
+In-Reply-To: <20191212192220.GC101194@dtor-ws>
+Subject: RE: [PATCH] Input: elants_i2c - Add Remark ID check flow in firmware update function
+Date:   Fri, 13 Dec 2019 09:41:03 +0800
+Message-ID: <003301d5b156$61da06c0$258e1440$@emc.com.tw>
 MIME-Version: 1.0
-In-Reply-To: <20191212194552.GA22553@qmqm.qmqm.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+        charset="big5"
+Content-Transfer-Encoding: 8BIT
+X-Mailer: Microsoft Outlook 14.0
+Content-Language: zh-tw
+Thread-Index: AQKU6CCR3y2ZDKNDJHcdSmqZJZrY9wKTdKsnAt2xsxumDVHmIA==
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDUwMTBcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy05ZjExY2MzZS0xZDQ5LTExZWEtOTg4My03YzVjZjg3NDk0NzhcYW1lLXRlc3RcOWYxMWNjNDAtMWQ0OS0xMWVhLTk4ODMtN2M1Y2Y4NzQ5NDc4Ym9keS50eHQiIHN6PSI2MTc4IiB0PSIxMzIyMDY3NDg2MzcwOTUyOTYiIGg9ImJlVGZPZ3V1TTUwRnMwcnFSTmhkYlJnNks4OD0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-12.12.2019 22:45, Michał Mirosław пишет:
-> On Thu, Dec 12, 2019 at 03:54:13AM +0300, Dmitry Osipenko wrote:
->> 11.12.2019 19:03, Michał Mirosław пишет:
->>> Support ELAN touchpad sensor with older firmware as found on eg. Asus
->>> Transformer Pads.
-> [...]
->>> @@ -814,8 +817,16 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
->>>  			pos = &buf[FW_POS_XY + i * 3];
->>>  			x = (((u16)pos[0] & 0xf0) << 4) | pos[1];
->>>  			y = (((u16)pos[0] & 0x0f) << 8) | pos[2];
->>> -			p = buf[FW_POS_PRESSURE + i];
->>> -			w = buf[FW_POS_WIDTH + i];
->>> +			if (report_len == PACKET_SIZE_OLD) {
->>> +				w = buf[FW_POS_WIDTH + i / 2];
->>> +				w >>= 4 * (~i & 1);	// little-endian-nibbles
->>> +				w |= w << 4;
->>> +				w |= !w;
->>> +				p = w;
->>
->> Did you copy this from the downstream driver as-is? I'm looking at the
->> Nexus 7 driver and it does the following for older format:
->>
->> u8 size_idx[] = { 35, 35, 36, 36, 37, 37, 38, 38, 39, 39 };
->> unsigned int s;
->>
->> if (i & 1)
->> 	s = buf[size_idx[i]];
->> else
->> 	s = buf[size_idx[i]] / 16;
->>
->> w = s & 0xf;
->> p = s * 16;
-> 
-> This is the same thing modulo (w), which is scaled here to declared axis
-> range (1-255 from 0-15, assuming 0 means "no touch" so it should not occur).
-> 
-> OTOH, I admit, that I don't have any software that can verify those
-> settings. It might be that eg. one of MT_PRESSURE or MT_TOUCH_MAJOR axes
-> should be dropped in this case, but with no docs I can't be sure what
-> the reported values really are.
-> 
-> This is from the original (GPL) code dump labeled 'Asus 10_6_1_27_5':
-> 
-> |  touch_size = ((i & 0x01) ? buf[size_index[i]] : (buf[size_index[i]] >> 4)) & 0x0F;
-> |  if(touch_size == 0) touch_size = 1;
-> |  if (touch_size <= 7)
-> |      touch_size = touch_size << 5;
-> |  else
-> |      touch_size = 255;
-> |    
-> |    input_report_abs(idev, ABS_MT_TOUCH_MAJOR, touch_size);
-> |    input_report_abs(idev, ABS_MT_PRESSURE, touch_size);
+Hi Dmitry,
 
-Okay, I also don't know how to test it properly.
+Sorry for the inconvenience. Next time I will send patches via
+git-send-email or mutt.
 
-If anyone knows, please let us know :)
+Many thanks,
+Johnny
+-----Original Message-----
+From: 'Dmitry Torokhov' [mailto:dmitry.torokhov@gmail.com] 
+Sent: Friday, December 13, 2019 3:22 AM
+To: Johnny.Chuang
+Cc: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org; STRD2-���f�`;
+james.chen@emc.com.tw; '��յ�'; 'jeff'
+Subject: Re: [PATCH] Input: elants_i2c - Add Remark ID check flow in
+firmware update function
 
+Hi Johnny,
+
+On Tue, Dec 10, 2019 at 05:27:53PM +0800, Johnny.Chuang wrote:
+> This patch add Remark ID check flow to firmware update function of 
+> elan touchscreen driver.
+> 
+> It avoids firmware update with mismatched Remark ID.
+> 
+> This function is supported by our latest version of boot code, but it 
+> cooperates well with earlier versions.
+> 
+> Our driver will decide if enable Remark ID check with boot code version.
+> 
+> Signed-off-by: Johnny Chuang <johnny.chuang@emc.com.tw>
+
+Applied, but please next time do not use outlook (or gmail for that
+matter) to send patches as I have to edit them manually to undo the
+line-wrapping damage done by the mailers. Please consider setting up "git
+send-email" or mutt for this.
+
+Thanks!
+
+> ---
+>  drivers/input/touchscreen/elants_i2c.c | 77
+> ++++++++++++++++++++++++++++++----
+>  1 file changed, 69 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/elants_i2c.c
+> b/drivers/input/touchscreen/elants_i2c.c
+> index d4ad24e..4911799 100644
+> --- a/drivers/input/touchscreen/elants_i2c.c
+> +++ b/drivers/input/touchscreen/elants_i2c.c
+> @@ -59,8 +59,10 @@
+>  #define CMD_HEADER_WRITE	0x54
+>  #define CMD_HEADER_READ		0x53
+>  #define CMD_HEADER_6B_READ	0x5B
+> +#define CMD_HEADER_ROM_READ	0x96
+>  #define CMD_HEADER_RESP		0x52
+>  #define CMD_HEADER_6B_RESP	0x9B
+> +#define CMD_HEADER_ROM_RESP	0x95
+>  #define CMD_HEADER_HELLO	0x55
+>  #define CMD_HEADER_REK		0x66
+>  
+> @@ -200,6 +202,10 @@ static int elants_i2c_execute_command(struct 
+> i2c_client *client,
+>  		expected_response = CMD_HEADER_6B_RESP;
+>  		break;
+>  
+> +	case CMD_HEADER_ROM_READ:
+> +		expected_response = CMD_HEADER_ROM_RESP;
+> +		break;
+> +
+>  	default:
+>  		dev_err(&client->dev, "%s: invalid command %*ph\n",
+>  			__func__, (int)cmd_size, cmd);
+> @@ -556,6 +562,8 @@ static int elants_i2c_initialize(struct 
+> elants_data *ts)
+>  
+>  	/* hw version is available even if device in recovery state */
+>  	error2 = elants_i2c_query_hw_version(ts);
+> +	if (!error2)
+> +		error2 = elants_i2c_query_bc_version(ts);
+>  	if (!error)
+>  		error = error2;
+>  
+> @@ -564,8 +572,6 @@ static int elants_i2c_initialize(struct elants_data
+*ts)
+>  	if (!error)
+>  		error = elants_i2c_query_test_version(ts);
+>  	if (!error)
+> -		error = elants_i2c_query_bc_version(ts);
+> -	if (!error)
+>  		error = elants_i2c_query_ts_info(ts);
+>  
+>  	if (error)
+> @@ -613,39 +619,94 @@ static int elants_i2c_fw_write_page(struct 
+> i2c_client *client,
+>  	return error;
+>  }
+>  
+> +static int elants_i2c_validate_remark_id(struct elants_data *ts,
+> +					 const struct firmware *fw)
+> +{
+> +	struct i2c_client *client = ts->client;
+> +	int error;
+> +	const u8 cmd[] = { CMD_HEADER_ROM_READ, 0x80, 0x1F, 0x00, 0x00, 0x21
+> };
+> +	u8 resp[6] = { 0 };
+> +	u16 ts_remark_id = 0;
+> +	u16 fw_remark_id = 0;
+> +
+> +	/* Compare TS Remark ID and FW Remark ID */
+> +	error = elants_i2c_execute_command(client, cmd, sizeof(cmd),
+> +					resp, sizeof(resp));
+> +	if (error) {
+> +		dev_err(&client->dev, "failed to query Remark ID: %d\n",
+> error);
+> +		return error;
+> +	}
+> +
+> +	ts_remark_id = get_unaligned_be16(&resp[3]);
+> +
+> +	fw_remark_id = get_unaligned_le16(&fw->data[fw->size - 4]);
+> +
+> +	if (fw_remark_id != ts_remark_id) {
+> +		dev_err(&client->dev,
+> +			"Remark ID Mismatched: ts_remark_id=0x%04x,
+> fw_remark_id=0x%04x.\n",
+> +			ts_remark_id, fw_remark_id);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int elants_i2c_do_update_firmware(struct i2c_client *client,
+>  					 const struct firmware *fw,
+>  					 bool force)
+>  {
+> +	struct elants_data *ts = i2c_get_clientdata(client);
+>  	const u8 enter_iap[] = { 0x45, 0x49, 0x41, 0x50 };
+>  	const u8 enter_iap2[] = { 0x54, 0x00, 0x12, 0x34 };
+>  	const u8 iap_ack[] = { 0x55, 0xaa, 0x33, 0xcc };
+> -	const u8 close_idle[] = {0x54, 0x2c, 0x01, 0x01};
+> +	const u8 close_idle[] = { 0x54, 0x2c, 0x01, 0x01 };
+>  	u8 buf[HEADER_SIZE];
+>  	u16 send_id;
+>  	int page, n_fw_pages;
+>  	int error;
+> +	bool check_remark_id = ts->iap_version >= 0x60;
+>  
+>  	/* Recovery mode detection! */
+>  	if (force) {
+>  		dev_dbg(&client->dev, "Recovery mode procedure\n");
+> +
+> +		if (check_remark_id) {
+> +			error = elants_i2c_validate_remark_id(ts, fw);
+> +			if (error)
+> +				return error;
+> +		}
+> +
+>  		error = elants_i2c_send(client, enter_iap2,
+sizeof(enter_iap2));
+> +		if (error) {
+> +			dev_err(&client->dev, "failed to enter IAP mode:
+> %d\n",
+> +				error);
+> +			return error;
+> +		}
+>  	} else {
+>  		/* Start IAP Procedure */
+>  		dev_dbg(&client->dev, "Normal IAP procedure\n");
+> +
+>  		/* Close idle mode */
+>  		error = elants_i2c_send(client, close_idle,
+sizeof(close_idle));
+>  		if (error)
+>  			dev_err(&client->dev, "Failed close idle: %d\n",
+error);
+>  		msleep(60);
+> +
+>  		elants_i2c_sw_reset(client);
+>  		msleep(20);
+> -		error = elants_i2c_send(client, enter_iap,
+> sizeof(enter_iap));
+> -	}
+>  
+> -	if (error) {
+> -		dev_err(&client->dev, "failed to enter IAP mode: %d\n",
+> error);
+> -		return error;
+> +		if (check_remark_id) {
+> +			error = elants_i2c_validate_remark_id(ts, fw);
+> +			if (error)
+> +				return error;
+> +		}
+> +
+> +		error = elants_i2c_send(client, enter_iap,
+> sizeof(enter_iap));
+> +		if (error) {
+> +			dev_err(&client->dev, "failed to enter IAP mode:
+> %d\n",
+> +				error);
+> +			return error;
+> +		}
+>  	}
+>  
+>  	msleep(20);
+> --
+> 2.7.4
+> 
+
+-- 
+Dmitry
 
