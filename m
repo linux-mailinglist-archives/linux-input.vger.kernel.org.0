@@ -2,166 +2,224 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DC9A11ED8B
-	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2019 23:09:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9CF011F90C
+	for <lists+linux-input@lfdr.de>; Sun, 15 Dec 2019 17:37:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726404AbfLMWIe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Dec 2019 17:08:34 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:43102 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725554AbfLMWIe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Dec 2019 17:08:34 -0500
-Received: by mail-pj1-f67.google.com with SMTP id g4so292309pjs.10;
-        Fri, 13 Dec 2019 14:08:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=7dzeTGvEWaXwCU0pEGUFfZrs2Lez7D5h842KFDNW1lY=;
-        b=AfTTzL4+Pfly5/oyA+zs0bpgNWCC+IfQnj7pVlLHTGYHfsphcN/66SjHPiqJighlRE
-         +R7fcOJsOI5p/d7EnMl8DuINrzOavP6ivjoxZcuSD0jnGa+LvOQBSOqdDkrq5QcNIC8F
-         2iAjkDrXtl4pU7MrBdltfMxBiKVV5sUSm1icEPhWjzJcP7UEWFSa7d0x/D4Z0PJawLGy
-         zHNSJZpWCZsrRxS2JyLh4WRm6VuuHYQ5iFnlS+eMfpUPldUrkekGjCB5UvHiFyxHcieb
-         1rLTL9saeJ6ee+cTsFq8nxJJtE2k8bN0qexVO9uPb1OD5bdG/Ae9vQVVdOFsGecxKRrD
-         lOkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7dzeTGvEWaXwCU0pEGUFfZrs2Lez7D5h842KFDNW1lY=;
-        b=UIKTbpKYyBX3xWjQOb+9QXK2jiOYIZmSZW06eWVRqkiMo58myvwodB+MullO99/OHJ
-         CLl8KbFwuzHWolFyrRShrlmfjNcFMz5WKInFXBYzRclxjeG9YAmkwvk3LFPTN3CibhQv
-         nBGhpio3mxlaSEYQ8tHUvE3nDoI6hpT4FrFFs4s4nDyw4TL5nAEYsHeSirXsq73Yyh8d
-         WC7fA+3MkZC86ThQzJcZFHPMQX/dXHFMbU6VxJ9NbI10cu9XRQk3h5GosHyeZJ9in/5p
-         vP13gEzsQqbCMJsmJYOOPmD9iEmOyqQUxjD6cdcEvRTvnjuhk19EOXSP9UZPLNdCTXkV
-         bzcQ==
-X-Gm-Message-State: APjAAAVMeJYRTMfrZl3xhcApug81qlwDjoas2x2ylAOEEu9O8RTCjdfQ
-        erXpnfl0znwmMIGNe+rmcY8=
-X-Google-Smtp-Source: APXvYqyufZ9wIZF7dBSTY7R7BxUMfmNLG0jNaqfyjVA7RjnVzIW1aX6yFfHII9/k4TPLH5FZrUb1yQ==
-X-Received: by 2002:a17:90a:3702:: with SMTP id u2mr1869026pjb.112.1576274913259;
-        Fri, 13 Dec 2019 14:08:33 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id e1sm12984954pfl.98.2019.12.13.14.08.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Dec 2019 14:08:32 -0800 (PST)
-Date:   Fri, 13 Dec 2019 14:08:30 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     y2038@lists.linaro.org, linux-kernel@vger.kernel.org,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
-        sparclinux@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>, stable@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 01/24] Input: input_event: fix struct padding on
- sparc64
-Message-ID: <20191213220830.GK101194@dtor-ws>
-References: <20191213204936.3643476-1-arnd@arndb.de>
- <20191213204936.3643476-2-arnd@arndb.de>
+        id S1726292AbfLOQfC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 15 Dec 2019 11:35:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47246 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726135AbfLOQfC (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 15 Dec 2019 11:35:02 -0500
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 716D1206C3;
+        Sun, 15 Dec 2019 16:34:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576427700;
+        bh=Qj/LMjimQUlWIIpHUTnD39DZUW7SiK2YRr6BXqJi6do=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=bGVuxnYiCa1P1cvk6XuW+mSLDWYnV1wclXRRj6lv7wS6yUxtg4uwu8ec/LuP01nCa
+         PF70kSEat7MYJiIh62g5WCI8jMqx92F7noPAWq8ivgwsh8dBw/ar8gA5CQ2Sm9UHQ+
+         efRShABgs+OrBsNFTiO8KLKPDoB0vzG/xV6J8IUQ=
+Date:   Sun, 15 Dec 2019 16:34:55 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "knaack.h@gmx.de" <knaack.h@gmx.de>,
+        "lars@metafoo.de" <lars@metafoo.de>,
+        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>
+Subject: Re: [PATCH v2 5/7] iio: temperature: Add support for Azoteq
+ IQS620AT temperature sensor
+Message-ID: <20191215163455.25ff929f@archlinux>
+In-Reply-To: <1575851866-18919-6-git-send-email-jeff@labundy.com>
+References: <1575851866-18919-1-git-send-email-jeff@labundy.com>
+        <1575851866-18919-6-git-send-email-jeff@labundy.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191213204936.3643476-2-arnd@arndb.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Dec 13, 2019 at 09:49:10PM +0100, Arnd Bergmann wrote:
-> Going through all uses of timeval, I noticed that we screwed up
-> input_event in the previous attempts to fix it:
-> 
-> The time fields now match between kernel and user space, but
-> all following fields are in the wrong place.
-> 
-> Add the required padding that is implied by the glibc timeval
-> definition to fix the layout, and use a struct initializer
-> to avoid leaking kernel stack data.
-> 
-> Cc: sparclinux@vger.kernel.org
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Fixes: 141e5dcaa735 ("Input: input_event - fix the CONFIG_SPARC64 mixup")
-> Fixes: 2e746942ebac ("Input: input_event - provide override for sparc64")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Mon, 9 Dec 2019 00:38:38 +0000
+Jeff LaBundy <jeff@labundy.com> wrote:
 
-Applied, thank you.
+> This patch adds support for the Azoteq IQS620AT temperature sensor,
+> capable of reporting its absolute die temperature.
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+Looks good to me.
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+Thanks,
+
+Jonathan
 
 > ---
->  drivers/input/evdev.c       | 14 +++++++-------
->  drivers/input/misc/uinput.c | 14 +++++++++-----
->  include/uapi/linux/input.h  |  1 +
->  3 files changed, 17 insertions(+), 12 deletions(-)
+> Changes in v2:
+>   - Moved the driver from hwmon to iio
+>   - Merged 'Copyright' and 'Author' lines into one in introductory comments
+>   - Replaced 'error' with 'ret' throughout
+>   - Eliminated tabbed alignment of platform_driver struct members
+>   - Changed Kconfig "depends on" logic to MFD_IQS62X || COMPILE_TEST
 > 
-> diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
-> index d7dd6fcf2db0..f918fca9ada3 100644
-> --- a/drivers/input/evdev.c
-> +++ b/drivers/input/evdev.c
-> @@ -224,13 +224,13 @@ static void __pass_event(struct evdev_client *client,
->  		 */
->  		client->tail = (client->head - 2) & (client->bufsize - 1);
->  
-> -		client->buffer[client->tail].input_event_sec =
-> -						event->input_event_sec;
-> -		client->buffer[client->tail].input_event_usec =
-> -						event->input_event_usec;
-> -		client->buffer[client->tail].type = EV_SYN;
-> -		client->buffer[client->tail].code = SYN_DROPPED;
-> -		client->buffer[client->tail].value = 0;
-> +		client->buffer[client->tail] = (struct input_event) {
-> +			.input_event_sec = event->input_event_sec,
-> +			.input_event_usec = event->input_event_usec,
-> +			.type = EV_SYN,
-> +			.code = SYN_DROPPED,
-> +			.value = 0,
-> +		};
->  
->  		client->packet_head = client->tail;
->  	}
-> diff --git a/drivers/input/misc/uinput.c b/drivers/input/misc/uinput.c
-> index fd253781be71..2dabbe47d43e 100644
-> --- a/drivers/input/misc/uinput.c
-> +++ b/drivers/input/misc/uinput.c
-> @@ -74,12 +74,16 @@ static int uinput_dev_event(struct input_dev *dev,
->  	struct uinput_device	*udev = input_get_drvdata(dev);
->  	struct timespec64	ts;
->  
-> -	udev->buff[udev->head].type = type;
-> -	udev->buff[udev->head].code = code;
-> -	udev->buff[udev->head].value = value;
->  	ktime_get_ts64(&ts);
-> -	udev->buff[udev->head].input_event_sec = ts.tv_sec;
-> -	udev->buff[udev->head].input_event_usec = ts.tv_nsec / NSEC_PER_USEC;
+>  drivers/iio/temperature/Kconfig         | 10 ++++
+>  drivers/iio/temperature/Makefile        |  1 +
+>  drivers/iio/temperature/iqs620at-temp.c | 97 +++++++++++++++++++++++++++++++++
+>  3 files changed, 108 insertions(+)
+>  create mode 100644 drivers/iio/temperature/iqs620at-temp.c
+> 
+> diff --git a/drivers/iio/temperature/Kconfig b/drivers/iio/temperature/Kconfig
+> index e1ccb40..f1f2a14 100644
+> --- a/drivers/iio/temperature/Kconfig
+> +++ b/drivers/iio/temperature/Kconfig
+> @@ -4,6 +4,16 @@
+>  #
+>  menu "Temperature sensors"
+> 
+> +config IQS620AT_TEMP
+> +	tristate "Azoteq IQS620AT temperature sensor"
+> +	depends on MFD_IQS62X || COMPILE_TEST
+> +	help
+> +	  Say Y here if you want to build support for the Azoteq IQS620AT
+> +	  temperature sensor.
 > +
-> +	udev->buff[udev->head] = (struct input_event) {
-> +		.input_event_sec = ts.tv_sec,
-> +		.input_event_usec = ts.tv_nsec / NSEC_PER_USEC,
-> +		.type = type,
-> +		.code = code,
-> +		.value = value,
-> +	};
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called iqs620at-temp.
 > +
->  	udev->head = (udev->head + 1) % UINPUT_BUFFER_SIZE;
->  
->  	wake_up_interruptible(&udev->waitq);
-> diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
-> index f056b2a00d5c..9a61c28ed3ae 100644
-> --- a/include/uapi/linux/input.h
-> +++ b/include/uapi/linux/input.h
-> @@ -34,6 +34,7 @@ struct input_event {
->  	__kernel_ulong_t __sec;
->  #if defined(__sparc__) && defined(__arch64__)
->  	unsigned int __usec;
-> +	unsigned int __pad;
->  #else
->  	__kernel_ulong_t __usec;
->  #endif
-> -- 
-> 2.20.0
+>  config LTC2983
+>  	tristate "Analog Devices Multi-Sensor Digital Temperature Measurement System"
+>  	depends on SPI
+> diff --git a/drivers/iio/temperature/Makefile b/drivers/iio/temperature/Makefile
+> index d6b850b..90c1131 100644
+> --- a/drivers/iio/temperature/Makefile
+> +++ b/drivers/iio/temperature/Makefile
+> @@ -3,6 +3,7 @@
+>  # Makefile for industrial I/O temperature drivers
+>  #
+> 
+> +obj-$(CONFIG_IQS620AT_TEMP) += iqs620at-temp.o
+>  obj-$(CONFIG_LTC2983) += ltc2983.o
+>  obj-$(CONFIG_HID_SENSOR_TEMP) += hid-sensor-temperature.o
+>  obj-$(CONFIG_MAXIM_THERMOCOUPLE) += maxim_thermocouple.o
+> diff --git a/drivers/iio/temperature/iqs620at-temp.c b/drivers/iio/temperature/iqs620at-temp.c
+> new file mode 100644
+> index 0000000..d20cb6ad
+> --- /dev/null
+> +++ b/drivers/iio/temperature/iqs620at-temp.c
+> @@ -0,0 +1,97 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Azoteq IQS620AT Temperature Sensor
+> + *
+> + * Copyright (C) 2019 Jeff LaBundy <jeff@labundy.com>
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/iio/iio.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/iqs62x.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +
+> +#define IQS620_TEMP_UI_OUT			0x1A
+> +
+> +#define IQS620_TEMP_SCALE			1000
+> +#define IQS620_TEMP_OFFSET			(-100)
+> +
+> +static int iqs620_temp_read_raw(struct iio_dev *indio_dev,
+> +				struct iio_chan_spec const *chan,
+> +				int *val, int *val2, long mask)
+> +{
+> +	struct iqs62x_core *iqs62x = iio_device_get_drvdata(indio_dev);
+> +	int ret;
+> +	__le16 val_buf;
+> +
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_RAW:
+> +		ret = regmap_raw_read(iqs62x->map, IQS620_TEMP_UI_OUT, &val_buf,
+> +				      sizeof(val_buf));
+> +		if (ret)
+> +			return ret;
+> +
+> +		*val = le16_to_cpu(val_buf);
+> +		return IIO_VAL_INT;
+> +
+> +	case IIO_CHAN_INFO_SCALE:
+> +		*val = IQS620_TEMP_SCALE;
+> +		return IIO_VAL_INT;
+> +
+> +	case IIO_CHAN_INFO_OFFSET:
+> +		*val = IQS620_TEMP_OFFSET;
+> +		return IIO_VAL_INT;
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static const struct iio_info iqs620_temp_info = {
+> +	.read_raw = &iqs620_temp_read_raw,
+> +};
+> +
+> +static const struct iio_chan_spec iqs620_temp_channels[] = {
+> +	{
+> +		.type = IIO_TEMP,
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
+> +				      BIT(IIO_CHAN_INFO_SCALE) |
+> +				      BIT(IIO_CHAN_INFO_OFFSET),
+> +	},
+> +};
+> +
+> +static int iqs620_temp_probe(struct platform_device *pdev)
+> +{
+> +	struct iqs62x_core *iqs62x = dev_get_drvdata(pdev->dev.parent);
+> +	struct iio_dev *indio_dev;
+> +
+> +	indio_dev = devm_iio_device_alloc(&pdev->dev, 0);
+> +	if (!indio_dev)
+> +		return -ENOMEM;
+> +
+> +	iio_device_set_drvdata(indio_dev, iqs62x);
+> +
+> +	indio_dev->modes = INDIO_DIRECT_MODE;
+> +	indio_dev->dev.parent = &pdev->dev;
+> +	indio_dev->channels = iqs620_temp_channels;
+> +	indio_dev->num_channels = ARRAY_SIZE(iqs620_temp_channels);
+> +	indio_dev->name = iqs62x->dev_desc->dev_name;
+> +	indio_dev->info = &iqs620_temp_info;
+> +
+> +	return devm_iio_device_register(&pdev->dev, indio_dev);
+> +}
+> +
+> +static struct platform_driver iqs620_temp_platform_driver = {
+> +	.driver = {
+> +		.name = IQS620_DRV_NAME_TEMP,
+> +	},
+> +	.probe = iqs620_temp_probe,
+> +};
+> +module_platform_driver(iqs620_temp_platform_driver);
+> +
+> +MODULE_AUTHOR("Jeff LaBundy <jeff@labundy.com>");
+> +MODULE_DESCRIPTION("Azoteq IQS620AT Temperature Sensor");
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:" IQS620_DRV_NAME_TEMP);
+> --
+> 2.7.4
 > 
 
--- 
-Dmitry
