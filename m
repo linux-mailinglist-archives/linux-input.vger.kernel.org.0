@@ -2,134 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD13311FC7A
-	for <lists+linux-input@lfdr.de>; Mon, 16 Dec 2019 02:14:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0227111FCA7
+	for <lists+linux-input@lfdr.de>; Mon, 16 Dec 2019 02:48:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726559AbfLPBMh convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Sun, 15 Dec 2019 20:12:37 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:56151 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726373AbfLPBMh (ORCPT
+        id S1726426AbfLPBsN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 15 Dec 2019 20:48:13 -0500
+Received: from orion.archlinux.org ([88.198.91.70]:40560 "EHLO
+        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726299AbfLPBsM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 15 Dec 2019 20:12:37 -0500
-Received: from [192.168.0.48] ([78.215.252.161]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.184]) with ESMTPSA (Nemesis) id
- 1MHnZQ-1iRpVU0fR8-00EvLA; Mon, 16 Dec 2019 02:12:34 +0100
-Date:   Mon, 16 Dec 2019 01:12:32 +0000
-From:   Hamza Attak <hamza@attak.fr>
+        Sun, 15 Dec 2019 20:48:12 -0500
+Received: from orion.archlinux.org (localhost [127.0.0.1])
+        by orion.archlinux.org (Postfix) with ESMTP id 89C2017444CE4F;
+        Mon, 16 Dec 2019 01:48:10 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.3 (2019-12-06) on orion.archlinux.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
+        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
+        autolearn=no autolearn_force=no version=3.4.3
+X-Spam-BL-Results: 
+Received: from genesis (unknown [IPv6:2001:8a0:f254:2300:dad6:8c60:8394:88da])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ffy00)
+        by orion.archlinux.org (Postfix) with ESMTPSA;
+        Mon, 16 Dec 2019 01:48:10 +0000 (UTC)
+Message-ID: <92d802d928be1ce6c4c64394ee5775f56806d064.camel@archlinux.org>
 Subject: Re: hid-logitech-hidpp / hid-logitech-dj driver hiding inputs and
  breaking Logitech G700s buttons
-To:     Filipe =?iso-8859-1?b?TGHtbnM=?= <lains@archlinux.org>
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
+To:     Hamza Attak <hamza@attak.fr>
 Cc:     nlopezcasad@logitech.com, benjamin.tissoires@gmail.com,
         linux-input@vger.kernel.org
-Message-Id: <1576458752.26677.0@auth.smtp.1and1.fr>
-In-Reply-To: <895e66cf60a022a01701d03d8b873321aebcc30a.camel@archlinux.org>
+In-Reply-To: <1576458752.26677.0@auth.smtp.1and1.fr>
 References: <1576438494.7054.3@auth.smtp.1and1.fr>
-        <895e66cf60a022a01701d03d8b873321aebcc30a.camel@archlinux.org>
-X-Mailer: geary/0.12.4
+         <895e66cf60a022a01701d03d8b873321aebcc30a.camel@archlinux.org>
+         <1576458752.26677.0@auth.smtp.1and1.fr>
+Organization: Archlinux
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-8T2OofBd7TkRDJXR/RO0"
+Date:   Mon, 16 Dec 2019 01:48:08 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:TGqAwWhQzAXTVrYRkinhWcxIGspzeVZ/rb4ijcxsYlXvNj3/M83
- Q0auSJPCIHPH+EKsSI8Su1PSkUGy2wGURjhkeOLUARBGGPVHZQ3SLiX7BgaG70VUNE05I+1
- oMdMGgYTHezNSa+r3kDOPcrYEG5Nek6YBOeG0cdDem6TSWior818zg9EInp6xCHwoBjVNHv
- BKkJfsmYl4MI3GPTjP2Hg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:a/PqywyIsVQ=:VxPoBp+kQOFUFQcZVkeaJC
- UpuVW9Tk4pZPd25u6phvACteRxZTf+r2O53MSNXdP2FkNJhmUnrfIFp1xgPQfP3Z45j1oe8QR
- /lPb7Hwnvd2BnJ59yP/qWvfVKlUNadn9OsgldJpQBerILQQ4mZ3AOkxLGH0dcTglXxc+XgVX4
- m0AL2uINdD+skxtrrVHWpG6OHhAC9IPr+eE42irS3sFsNtdeHrpFbYXIeGqOo/WEAKslpwjm8
- 28UB9V063jNbDJ2Rjb1D01ddiDD093e/qDfPak+7UUNgG+5RZJqjGDJyxZq9Lzl+9YTJy83Vp
- GzLUaHa0hZlzpnhiJaroCTgo8hDYnWFqFXLPVZyBCYTJ63yNbUxTFkrySwLJLxnusHg2PlJ2D
- ez9SWkTokskubc3K8oO5i/2g+DCd19mamrDNaDp1obi1SzY8pHHb7u1GuzieN+ES5JNPGN9XO
- iWJsFLRW2xYXSYDYHz6IVq7VnKkxHyzlVthe0jg9Uq0Y672yPb/geUM7oonvVoshExpGjWhlu
- OC764aRXdDUbeZ5neh/V2R4z/8P7i3ZJbxjQDGTV9X/8/4YxhY1v5JkFzLUsP61gaDXq0aqn+
- wcZKnKpNz2/6AKeoW5JGuqbDrgDjXyeub6hjAV4lOa3mA7NoiYP1a0B6oqW2PNPnoSFZ897XO
- X9J2F8HXf5d0NsWi41eTOkvA1VFcR66GyV0mgE2sOz7Yxmj96jlPkgSvfZAzvqNTSI8DJVKtv
- ZJon8Mq6Q0PhtN9z0Yo5gjeL1DW3meCWdUi5NU3kQfP2VrLvLfC8J0WhCp7lYmb6qQsGudc0p
- Mo7WX6aMyIBeg/f8VCOUmmOG+bMK6vA187Dax4UraRM7NTTHEyrvw0TKCF3jvXr4SS+qiKLuo
- ssmzrjntCOKi1IvGlJFA==
+User-Agent: Evolution 3.34.2 
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Filipe,
 
-I'm on the latest 5.4.3 from kernel from kernel.org git repository. Only
-a few security options are tweaked in the kconfig.
-For your information, I am also facing the same issue on untouched 
-Ubuntu
-built kernels,
+--=-8T2OofBd7TkRDJXR/RO0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I never followed linux-input before and don't know how active was the 
-code
-taking care of the G700s, but do you think there might have been a 
-regression
-since you say that it was a fixed issue?
+On Mon, 2019-12-16 at 01:12 +0000, Hamza Attak wrote:
+> Hi Filipe,
+>=20
+> I'm on the latest 5.4.3 from kernel from kernel.org git repository. Only
+> a few security options are tweaked in the kconfig.
+> For your information, I am also facing the same issue on untouched=20
+> Ubuntu
+> built kernels,
+>=20
+> I never followed linux-input before and don't know how active was the=20
+> code
+> taking care of the G700s, but do you think there might have been a=20
+> regression
+> since you say that it was a fixed issue?
+>=20
+> Unfortunately, I didn't keep track on when it happened, ie after a=20
+> kernel
+> upgrade or if it was always there and I only noticed after trying the=20
+> mouse
+> wirelessly.
+>=20
+> Thanks,
+> Hamza ATTAK.
+>=20
 
-Unfortunately, I didn't keep track on when it happened, ie after a 
-kernel
-upgrade or if it was always there and I only noticed after trying the 
-mouse
-wirelessly.
+Okay. Do the logs show anything interesting?
 
-Thanks,
-Hamza ATTAK.
+I don't have the mouse but I think Benjamin does. Let's see if he knows
+what's going on.
 
+Filipe La=C3=ADns
 
-On Mon, 16 Dec, 2019 at 12:49 AM, Filipe Laíns <lains@archlinux.org> 
-wrote:
-> On Sun, 2019-12-15 at 19:34 +0000, Hamza Attak wrote:
->>  Hi,
->> 
->>  I have been facing an issue with my Logitech G700s mouse on wireless
->>  (id of
->>  the receiver is 046d:c531).
->>  Most of the buttons are not working, namely:
->>   G6, G7, G8, G9, G10
->> 
->>  My testing has shown that when pressing these buttons, no input at
->>  all
->>  is
->>  showing on both interfaces:
->>   /dev/input/by-id/usb-Logitech_USB_Receiver-if01-event-mouse
->>   /dev/input/by-id/usb-Logitech_USB_Receiver-if01-mouse
->> 
->>  Further testing shown that having 'hid_logitech_dj' or
->>  'hid_logitech_hidpp'
->>  module loaded is causing the issue, just one of them loaded is
->>  enough
->>  to create
->>  the issue. This led me to contact you by looking at
->>  'drivers/hid/hid-logitech-dj.c' and 'drivers/hid/hid-logitech-
->>  hidpp.c').
->>  rmmod'ing the modules and using 'usbhid' module alone is solving the
->>  issue, as
->>  Linux is now receiving correct input from the buttons.
->> 
->>  Blacklisting the modules would do the trick for wireless on my local
->>  system, but
->>  it doesn't seem right no to report this bug for others.
->> 
->>  For info, it works perfectly wired, so I guess the issue might be
->>  with
->>  the dj
->>  receiver code.
->> 
->>  Before thinking of modifying the code myself, I am sending you this
->>  message and
->>  see what would be a clean fix for the issue.
->> 
->>  Thanks,
->>  Hamza ATTAK.
->> 
-> 
-> Hello Hamza,
-> 
-> Which kernel version are you using? I am pretty sure this is an issue
-> that was fixed in newer versions.
-> 
-> Thank you,
-> Filipe Laíns
+--=-8T2OofBd7TkRDJXR/RO0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAl324lEACgkQ+JPGdIFq
+qV1yphAArXJjv0qkn4Z8FG917aie1ehGZGfne1+GghpQLP8c5QGIHdoViq2lM/1B
+UvYI7+IFgiLCTEG+T7jlkSciv4N/4Ai4b93z3xCsYXXrWYLUyPQzWOClonGW4LaL
+TJSIA1UuFH6u80mzBeh9+ZnHJvJEpa+26qv+0vXOgCP/MdeIGQjiEOfNlE2Z6u2z
+XSBcCLft5OAVrYJnUQxFXLBIvMAy0PosoScDMQbzWHY7BSHe1jF5yEuZnKGE9e9s
++EfvO64mzLB7kwk07PIOsBzqPkY8Eoqm4kWvs0bemRxWESDn6RliL70epITPoAn0
+EUdOZQlTY1ToEoSvjm65xagdR+Y0rIxEMZUTgz9jm+Jw0QtUrUPsQkbNijgKMYxf
+nUlBAy7Efory8SnKjrkgrJLb/r4MohXr4iaMsmPKnnaJyULlLOf00JxB9dI313CO
+Ufd8jpzKl1NTro70pJQ6xRa/k0yUuVFadi99yuGOlN8KLnj+Eow9f6xIrZVJp+R+
+rygJfBMkvDO7W5mohLdU81nzL9DODACN0ASMLDX+t4uzkpgvnIIjOicfGlGln/u7
+yr/lM7TiA/7Hg/3ILOuZtI481AyjCEgEW5Hna5iPsl8xFOAQsePLnFPw1BTe8Dax
+uGJfCBWODonbBLWBgZLoG6MwlqOsPNXrNAE9UMQL3oNapLUV7aE=
+=4tmZ
+-----END PGP SIGNATURE-----
+
+--=-8T2OofBd7TkRDJXR/RO0--
