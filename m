@@ -2,70 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64AA61221A9
-	for <lists+linux-input@lfdr.de>; Tue, 17 Dec 2019 02:48:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10B9812224A
+	for <lists+linux-input@lfdr.de>; Tue, 17 Dec 2019 04:02:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726133AbfLQBr7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 Dec 2019 20:47:59 -0500
-Received: from mga14.intel.com ([192.55.52.115]:35417 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726016AbfLQBr7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 Dec 2019 20:47:59 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Dec 2019 17:11:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,323,1571727600"; 
-   d="scan'208";a="209511705"
-Received: from shsensorbuild2.sh.intel.com ([10.239.133.151])
-  by orsmga008.jf.intel.com with ESMTP; 16 Dec 2019 17:11:20 -0800
-From:   Even Xu <even.xu@intel.com>
-To:     srinivas.pandruvada@linux.intel.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Cc:     Even Xu <even.xu@intel.com>
-Subject: [PATCH] HID: intel-ish-hid: ipc: add CMP device id
-Date:   Tue, 17 Dec 2019 09:11:18 +0800
-Message-Id: <1576545078-17316-1-git-send-email-even.xu@intel.com>
+        id S1726526AbfLQDC2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 Dec 2019 22:02:28 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:34812 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726446AbfLQDC2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 16 Dec 2019 22:02:28 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id C96DBE269370C8643418;
+        Tue, 17 Dec 2019 11:02:25 +0800 (CST)
+Received: from huawei.com (10.175.127.16) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Tue, 17 Dec 2019
+ 11:02:19 +0800
+From:   z00417012 <zhangpan26@huawei.com>
+To:     <zhangpan26@huawei.com>, <hushiyuan@huawei.com>,
+        <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+        <rydberg@bitmath.org>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drivers/hid/hid-multitouch.c: fix a possible null pointer access.
+Date:   Tue, 17 Dec 2019 11:02:02 +0800
+Message-ID: <1576551722-16966-1-git-send-email-zhangpan26@huawei.com>
 X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.175.127.16]
+X-CFilter-Loop: Reflected
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add Comet Lake H into ishtp support list.
+1002     if ((quirks & MT_QUIRK_IGNORE_DUPLICATES) && mt) {
+1003         struct input_mt_slot *i_slot = &mt->slots[slotnum];
+1004 
+1005         if (input_mt_is_active(i_slot) &&
+1006             input_mt_is_used(mt, i_slot))
+1007             return -EAGAIN;
+1008     }
 
-Signed-off-by: Even Xu <even.xu@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+We previously assumed 'mt' could be null (see line 1002).
+
+The following situation is similar, so add a judgement.
+
+Signed-off-by: Pan Zhang <zhangpan26@huawei.com>
 ---
- drivers/hid/intel-ish-hid/ipc/hw-ish.h  | 1 +
- drivers/hid/intel-ish-hid/ipc/pci-ish.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/hid/hid-multitouch.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/intel-ish-hid/ipc/hw-ish.h b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-index 6c1e611..905e1bc 100644
---- a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-+++ b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-@@ -24,6 +24,7 @@
- #define ICL_MOBILE_DEVICE_ID	0x34FC
- #define SPT_H_DEVICE_ID		0xA135
- #define CML_LP_DEVICE_ID	0x02FC
-+#define CMP_H_DEVICE_ID		0x06FC
- #define EHL_Ax_DEVICE_ID	0x4BB3
- 
- #define	REVISION_ID_CHT_A0	0x6
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index 784dcc8..9c8cefe 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -34,6 +34,7 @@ static const struct pci_device_id ish_pci_tbl[] = {
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ICL_MOBILE_DEVICE_ID)},
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, SPT_H_DEVICE_ID)},
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, CML_LP_DEVICE_ID)},
-+	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, CMP_H_DEVICE_ID)},
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, EHL_Ax_DEVICE_ID)},
- 	{0, }
- };
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 3cfeb16..368de81 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -1019,7 +1019,7 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 		tool = MT_TOOL_DIAL;
+ 	else if (unlikely(!confidence_state)) {
+ 		tool = MT_TOOL_PALM;
+-		if (!active &&
++		if (!active && mt
+ 		    input_mt_is_active(&mt->slots[slotnum])) {
+ 			/*
+ 			 * The non-confidence was reported for
 -- 
 2.7.4
 
