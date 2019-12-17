@@ -2,120 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CBF84122932
-	for <lists+linux-input@lfdr.de>; Tue, 17 Dec 2019 11:50:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B19AB122963
+	for <lists+linux-input@lfdr.de>; Tue, 17 Dec 2019 12:00:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727238AbfLQKuI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Dec 2019 05:50:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45849 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726655AbfLQKuI (ORCPT
+        id S1726164AbfLQLAQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Dec 2019 06:00:16 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:43466 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726141AbfLQLAQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Dec 2019 05:50:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1576579807;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Rt3wBXjdkOLTAGZAw3Tafg9k0wX1EERiUeh4YXdvZFw=;
-        b=KfivxuS+43UGy2hhZ/CzqEHCj3M9iEKj8c5Fk0pKxCDBXL9LlLO+jWQrbWyGFPxOItXNUF
-        9SpFzoj8V91wlFwNN7ohJrmtwiLeabf7hMxVfm0QmjDrf6L4njLULwASn0tKOGlApJRQCV
-        QMoTzpetSVvfv/eOY7eRTBF8b047nCQ=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-GzaEEVvANGWFMp4lCWG_iQ-1; Tue, 17 Dec 2019 05:50:06 -0500
-X-MC-Unique: GzaEEVvANGWFMp4lCWG_iQ-1
-Received: by mail-qt1-f198.google.com with SMTP id x8so6652008qtq.14
-        for <linux-input@vger.kernel.org>; Tue, 17 Dec 2019 02:50:06 -0800 (PST)
+        Tue, 17 Dec 2019 06:00:16 -0500
+Received: by mail-qk1-f193.google.com with SMTP id t129so1663877qke.10
+        for <linux-input@vger.kernel.org>; Tue, 17 Dec 2019 03:00:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mG99GA6/Xiwz9qwjNacdCgRQBNUN/DJm+EdzhM5zdJk=;
+        b=ZKi2ffTW6CKhiLlUehhNua4oR+IQVrnfldGgSCvYobXyaxf4QGLMGV1ZZ6p4OBl2tI
+         FkPzuoOceoPyusSCU5xvdzfD0Jr7XdnBsgcW7GlTB8qKVhWCSKtCBYlgVotmWsyfUHm2
+         GL9Y+50K4eb6Wx3TwS6+mOVTAmbDmPtwNFU0USc1pvW0N98+98OXqgU/O1e0K/WRt0Hj
+         q+4ovQ8zbfrAtOkcQotudiZmC2nGxboSBOmLjkpvV5f2Qu9PixHe4hYSngMd6J3ELeNH
+         8pgdbSEjSs7FVMvOEIbXJ+gOTGPRFEGOfa1bVyhCWL92V8E5Moi4UQ7aOev0/NGOIhLz
+         1ayg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Rt3wBXjdkOLTAGZAw3Tafg9k0wX1EERiUeh4YXdvZFw=;
-        b=SGrgGO6RJRke51hqld4jttVWHjKF1XjZPUsWJu8PexnexMXL12WLzcVZ0/EQssLJkV
-         Ow+FUyj7F5a0zI5qVAtAfX5jJl7pTFQoOfA5hfFqa+siN8HMOVirPvGz/9XcXH4+aaDX
-         Y8QaktUSUZ/yEfeTwmzdIU6VXxRPXd31Vl+W9WiB7NL7kepj2dBe+rlj01zD5R6WqRHT
-         w8A8S/53Hv5vQVc7THhfN94Uz1z+61wV6zvkXUQCZCi/Jk8BF1qOkB8iY3HU5hmYjVOc
-         LAZn3HbWAKj4yF+fEYEB1rlUNCD+1KQqAppmFsJAzTx9Isw0uV1lR0e4G3/O5ml8WqjN
-         lp7g==
-X-Gm-Message-State: APjAAAVTho3c2+NvhLJalkjxN//vFtsZoVPQL7pgEITzPSgbF9KmvRGY
-        6dMd25bFA3ySd8zajEkHVSfKaTu40PJtPMHGsGE+lNTpHnEZykdp1Evva8YYznkU7+vGe2Uq7Qc
-        Jl9roPPGsiMuTSi5habIS7/cj84pRgoI7LVR/7SQ=
-X-Received: by 2002:ad4:46ce:: with SMTP id g14mr3904988qvw.67.1576579805655;
-        Tue, 17 Dec 2019 02:50:05 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw/VLutc07+0j4Bx9/r9IYnqLdnpclrVJSO4VZrNxQqBV6UHMzCpcyo2Ftqj81CkaG3aSoCQu3p0VvOw1+5D9I=
-X-Received: by 2002:ad4:46ce:: with SMTP id g14mr3904970qvw.67.1576579805418;
- Tue, 17 Dec 2019 02:50:05 -0800 (PST)
+        bh=mG99GA6/Xiwz9qwjNacdCgRQBNUN/DJm+EdzhM5zdJk=;
+        b=jom8jeijUrpbb1KyLq+ytXQxmZKqJBcmc2B3/v9isbESHFRgQK8Pb5gZI7HnUls8r3
+         FdwwQigdg9LjS/zcJaBDg3u9kFunImxzMpeoh0dXVr4K6rQZdI/qQJwcQZ/5jrJ/o1ic
+         Fr5AQ+x7f1YUCFtf0rczPrKGwSzVVIrQl6Hp3WPoNVOzP2R+5M51S+aDT5w9dJDkDTmS
+         qKDYEH4ntocj14YEE6Kc0S9GH7p8WC649TeS0VqsvqmDY35BKamnyyS3zyheaUHWRk93
+         29FJ2g3EH2x4OcGcTXjZxL/KVuU6YuNKjpJxPLJo7Uj6TyZVDNUOBtbJOxxjGppt06mz
+         dgCw==
+X-Gm-Message-State: APjAAAWgVPFtXC46XiKcr58RQsxBQ5z2c9xmw6wzmtDwP8vjUKcYPvMH
+        32j/PdqPlxHB/L5vPgnj51D864HAsIDwNUVc/RDT9YdSG4k=
+X-Google-Smtp-Source: APXvYqywDIx8QZijrqsCgnbP1i8WSjZej+2z1QKYbvCx4iGWrKY4auHMIOJEyC9uciCsefBQ0G4vqX+E02yg22qADrU=
+X-Received: by 2002:ae9:eb48:: with SMTP id b69mr4157084qkg.43.1576580415093;
+ Tue, 17 Dec 2019 03:00:15 -0800 (PST)
 MIME-Version: 1.0
-References: <1576551722-16966-1-git-send-email-zhangpan26@huawei.com>
-In-Reply-To: <1576551722-16966-1-git-send-email-zhangpan26@huawei.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 17 Dec 2019 11:49:54 +0100
-Message-ID: <CAO-hwJ+5Ch02fPQ+XF=A4iEcH81V5PrCdV2qGQDZ8HxnQAoEog@mail.gmail.com>
-Subject: Re: [PATCH] drivers/hid/hid-multitouch.c: fix a possible null pointer access.
-To:     z00417012 <zhangpan26@huawei.com>
-Cc:     hushiyuan@huawei.com, Jiri Kosina <jikos@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
+References: <95e7a12ac909e7de584133772efc7ef982a16bbb.1576170740.git.andreyknvl@google.com>
+ <Pine.LNX.4.44L0.1912121313030.1352-100000@iolanthe.rowland.org> <CAAeHK+yOBcNz_iopRs6PEu=1-rZn6Gkm+Urq+iVBFQeSjSXqNA@mail.gmail.com>
+In-Reply-To: <CAAeHK+yOBcNz_iopRs6PEu=1-rZn6Gkm+Urq+iVBFQeSjSXqNA@mail.gmail.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Tue, 17 Dec 2019 12:00:03 +0100
+Message-ID: <CACT4Y+aN20NXxXhe9qv_WRLntAHbL98Shj8NAvg0WafDw8C=jA@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/2] kcov: collect coverage from interrupts
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        USB list <linux-usb@vger.kernel.org>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
+        LKML <linux-kernel@vger.kernel.org>,
+        Alexander Potapenko <glider@google.com>,
+        Marco Elver <elver@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On Tue, Dec 17, 2019 at 4:17 AM z00417012 <zhangpan26@huawei.com> wrote:
-
-Can you add at the beginning of your commit message:
-From: Pan Zhang <zhangpan26@huawei.com>
-
-This way we have the commit author that matches the signature, which
-is a requirement for the kernel.
-
+On Fri, Dec 13, 2019 at 1:09 PM Andrey Konovalov <andreyknvl@google.com> wrote:
 >
-> 1002     if ((quirks & MT_QUIRK_IGNORE_DUPLICATES) && mt) {
-> 1003         struct input_mt_slot *i_slot = &mt->slots[slotnum];
-> 1004
-> 1005         if (input_mt_is_active(i_slot) &&
-> 1006             input_mt_is_used(mt, i_slot))
-> 1007             return -EAGAIN;
-> 1008     }
+> On Thu, Dec 12, 2019 at 7:15 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> >
+> > On Thu, 12 Dec 2019, Andrey Konovalov wrote:
+> >
+> > > This change extends kcov remote coverage support to allow collecting
+> > > coverage from interrupts in addition to kernel background threads.
+> > >
+> > > To collect coverage from code that is executed in interrupt context, a
+> > > part of that code has to be annotated with kcov_remote_start/stop() in a
+> > > similar way as how it is done for global kernel background threads. Then
+> > > the handle used for the annotations has to be passed to the
+> > > KCOV_REMOTE_ENABLE ioctl.
+> > >
+> > > Internally this patch adjusts the __sanitizer_cov_trace_pc() compiler
+> > > inserted callback to not bail out when called from interrupt context.
+> > > kcov_remote_start/stop() are updated to save/restore the current per
+> > > task kcov state in a per-cpu area (in case the interrupt came when the
+> > > kernel was already collecting coverage in task context). Coverage from
+> > > interrupts is collected into pre-allocated per-cpu areas, whose size is
+> > > controlled by the new CONFIG_KCOV_IRQ_AREA_SIZE.
+> > >
+> > > This patch also cleans up some of kcov debug messages.
+> > >
+> > > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> > > ---
+> >
+> > > diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
+> > > index 4c9d1e49d5ed..faf84ada71a5 100644
+> > > --- a/drivers/usb/gadget/udc/dummy_hcd.c
+> > > +++ b/drivers/usb/gadget/udc/dummy_hcd.c
+> > > @@ -38,6 +38,7 @@
+> > >  #include <linux/usb/gadget.h>
+> > >  #include <linux/usb/hcd.h>
+> > >  #include <linux/scatterlist.h>
+> > > +#include <linux/kcov.h>
+> > >
+> > >  #include <asm/byteorder.h>
+> > >  #include <linux/io.h>
+> >
+> > That's the only change to this driver.  As such, it doesn't appear to
+> > be needed, judging by the patch description.
 >
-> We previously assumed 'mt' could be null (see line 1002).
->
-> The following situation is similar, so add a judgement.
->
-> Signed-off-by: Pan Zhang <zhangpan26@huawei.com>
-> ---
->  drivers/hid/hid-multitouch.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index 3cfeb16..368de81 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -1019,7 +1019,7 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
->                 tool = MT_TOOL_DIAL;
->         else if (unlikely(!confidence_state)) {
->                 tool = MT_TOOL_PALM;
-> -               if (!active &&
-> +               if (!active && mt
+> Right, will fix in the next version, thanks!
 
-Ack on the principle, but this doesn't even compile. You are missing a
-`&&` at the end of the line.
-
-Can you send a v2 with the comments above? And we will queue the v2
-for 5.5 I think.
-
-Cheers,
-Benjamin
-
->                     input_mt_is_active(&mt->slots[slotnum])) {
->                         /*
->                          * The non-confidence was reported for
-> --
-> 2.7.4
->
-
+Please also post a github or gerrit link. These small scraps of
+changes without context and better visualisation are extremely hard to
+review meaningfully.
