@@ -2,192 +2,188 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B043D123F74
-	for <lists+linux-input@lfdr.de>; Wed, 18 Dec 2019 07:16:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A51A1240E5
+	for <lists+linux-input@lfdr.de>; Wed, 18 Dec 2019 09:02:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725810AbfLRGQp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Dec 2019 01:16:45 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30626 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725799AbfLRGQp (ORCPT
+        id S1725797AbfLRICR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Dec 2019 03:02:17 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:45824 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726698AbfLRICQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Dec 2019 01:16:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1576649803;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=z1QaV1fOw0+UsZyLAgw/u50No3w3TDLBJ6WiYDXs8ZM=;
-        b=BvmhN13UXUSkYowR5Pz1e4DPnAaxDzRmlI/kwMkc9libj+qaSmIjz2As7U7FRrT1drPitc
-        0R0A+VgBZKgYFsJKqQUOQ2Ll9s6upOAw9VSTx1Ld25fp86FA66a5xz/xDxG5zWO194m+MJ
-        Tfw8rZLyj4DTEaGIDH1L+m7MIMRlCS4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-lvsHapkNOFqOrrblAz0vgg-1; Wed, 18 Dec 2019 01:16:41 -0500
-X-MC-Unique: lvsHapkNOFqOrrblAz0vgg-1
-Received: by mail-wm1-f69.google.com with SMTP id m133so180486wmf.2
-        for <linux-input@vger.kernel.org>; Tue, 17 Dec 2019 22:16:41 -0800 (PST)
+        Wed, 18 Dec 2019 03:02:16 -0500
+Received: by mail-pg1-f193.google.com with SMTP id b9so819287pgk.12;
+        Wed, 18 Dec 2019 00:02:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=n363ckt80OC6w9Gla54BO6ui4m8bnWsgDlZFAMHXc0w=;
+        b=W8z2T1d4GwL9jbI1cnNLj+IrMd2q4U8J/2ceDn65wufGtPxsRdVevPpduhlbWU8OEE
+         5wUPDM1BrG8A7XUWiQmsK/K05J0xdxoy+UMW69kxI7hnJ0AuqeEQHAHuKH/TMUsPKMpG
+         4dTxKOkSkmXZfyGFnsD7ueGXnmJKJnhCRxovFhOE4IF4etzugDd3AqLj2CZLfGuXIZaT
+         7jkgEj4YY1EkTsxCgjtR05eaqQ1Z+byhoyCCroX5A5FSJFsqULP6CD+6i23MDiQmT7zS
+         HQP9k/gBZ31czJthgHWlNAcsqhMF3uEAbQOpL2d0GblKnTuHmHX/8wr5PbUcZ3jiQ90b
+         l4ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=z1QaV1fOw0+UsZyLAgw/u50No3w3TDLBJ6WiYDXs8ZM=;
-        b=mFhPLw2fRJxN1ljLr7p1i1brbjt2vSULU6Vkll7/c5b6XCjOCAeUMws1FPM8i4Ue+W
-         9W04G8mBy9mwBPA3EB9k6oE/Iqlx24yGEwEU4BEUE0MMXPIXDcXHbCdxFYD1lnrd11TO
-         NOoECjwWNc6c1PM3pjC9mexjNvlBoHfQH0MnwEJw1VDw+hyA5RrRKjWeuP+xXE4/4WeU
-         LgyZmG5yNHY/LuOBN9z6GQ2Z4jhoeiy4lfb4mCsc3BnO3N6YWFW0d6FMt4ifVrR0N4I0
-         KaiXtztRF/geRzCfiDLGIRkVapHVyPYLDxH20rmp7CqoSC1jih+NWoT0DYJHFOqGMuz7
-         ZUVw==
-X-Gm-Message-State: APjAAAWPsfOpvFHS0H0q6Xe4Q352Het0a4PkLKnOjoXgrddfyunoGMs5
-        Qh2omi1Xikc8a5EVMoR3qW2oh7KoAgN67a3ZqyIVeXjP3+pn6U5lH2IPeT8A7v2mdkKkPayPM7V
-        V9i/za0sTZhpvXW4YNlkB7tc=
-X-Received: by 2002:adf:dfd2:: with SMTP id q18mr666471wrn.152.1576649800501;
-        Tue, 17 Dec 2019 22:16:40 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyCpLvk75Ppc1vvR5mhBsbDYCzBrn1QxbEMr+9aNtJP9CW0NvlzLZUKTlbN+j9eW+K84xXKog==
-X-Received: by 2002:adf:dfd2:: with SMTP id q18mr666445wrn.152.1576649800184;
-        Tue, 17 Dec 2019 22:16:40 -0800 (PST)
-Received: from shalem.localdomain (2001-1c00-0c0c-fe00-7e79-4dac-39d0-9c14.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:7e79:4dac:39d0:9c14])
-        by smtp.gmail.com with ESMTPSA id f1sm1339937wrp.93.2019.12.17.22.16.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2019 22:16:39 -0800 (PST)
-Subject: =?UTF-8?B?UmU6INCy0L7Qv9GA0L7RgSDQv9C+IHN1c3BlbmQvcmVzdW1lINCyIGdv?=
- =?UTF-8?Q?odix?=
-To:     Dmitry Mastykin <mastichi@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-References: <CALieaefYFFBaFAo4E7hsESrxhN7N_tbWbeG_C6WHzwDpFiLqeQ@mail.gmail.com>
- <20191212192009.GB101194@dtor-ws>
- <e2876e96-ba7d-47ff-44e0-6478b48c6fe3@redhat.com>
- <CALieaecDVVO0GMySV8ge4ecsyPziRxKpCo=RTdWX266vzdNyBw@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <bceaca05-bec1-4fcf-9f52-3a9a2a3318c7@redhat.com>
-Date:   Wed, 18 Dec 2019 07:16:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <CALieaecDVVO0GMySV8ge4ecsyPziRxKpCo=RTdWX266vzdNyBw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=n363ckt80OC6w9Gla54BO6ui4m8bnWsgDlZFAMHXc0w=;
+        b=sz4LBoxF0azXwRg+cRjwzp1SI8orFgwTyyF/DW6NCuB+eN3zvczEPc925qjli8MXvL
+         c7xk2hSIDvNvmVmZ6BUShhZi8eqsAMj4NrHLl39BVPN/WU/xdV7kgw/aoRxI9tRaPpkm
+         oU5J6Pfr6ah0jai6zMlFFkqI3Srz67nBk1sm6zPgYlbsEFXmG0ejd56sJ5JzMoRk/jHY
+         uZy7FCW1/LtO5UUaxiHzNcEbgCsjo2NsuK4Q2d33b1SbF81c6iGpan3hmKQVb/b7Mn8G
+         fqOxwip545PfukL4lMS/51HlltkXSBPEVyU3tI77dPBx9UHAY4d6OHiMESmDRTGlV8YG
+         ZjOw==
+X-Gm-Message-State: APjAAAXX4/ENRfbUlw7ZddBcM+emir5umnpblZUePMqH8F+7ahx6a8jS
+        z5yO43err0DpUMVUsmGPLoTHVTtoiRS+fw==
+X-Google-Smtp-Source: APXvYqyepGVLKB4Cj/YWyjabdX/jvjgmd4g6+3rv+6HhyWk73LFUKohNcDCVUebsKWUUzgJzorptrA==
+X-Received: by 2002:a62:3141:: with SMTP id x62mr1634189pfx.214.1576656135864;
+        Wed, 18 Dec 2019 00:02:15 -0800 (PST)
+Received: from oslab.tsinghua.edu.cn ([166.111.139.172])
+        by smtp.gmail.com with ESMTPSA id 11sm1886442pfz.25.2019.12.18.00.02.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2019 00:02:15 -0800 (PST)
+From:   Jia-Ju Bai <baijiaju1990@gmail.com>
+To:     bonbons@linux-vserver.org, jikos@kernel.org,
+        benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jia-Ju Bai <baijiaju1990@gmail.com>
+Subject: [PATCH] hid: hid-picolcd: fix possible sleep-in-atomic-context bug
+Date:   Wed, 18 Dec 2019 16:02:01 +0800
+Message-Id: <20191218080201.2508-1-baijiaju1990@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+The driver may sleep while holding a read lock.
+The function call path (from bottom to top) in Linux 4.19 is:
 
-On 13-12-2019 09:17, Dmitry Mastykin wrote:
-> Hi guys!
-> Thank you very much for your answers, it's always surprising how fast
-> the community reacts!
-> 
->> We have reports of the touchscreen no longer working after suspend/resume
->> on some GPD pocket devices, but not combined with these errors.
->>
-> I copied my error messages precisely from gpd support site, because I
-> have the same:
-> https://gpdsupport.com/t/touchscreen-issue-resolved/132/84
-> But seems that rmmod/insmod helps in their case.
-> I noticed that the problem is not repeatable. But happens very often.
+drivers/hid/hid-core.c, 1459: 
+	hid_alloc_report_buf(GFP_KERNEL) in __hid_request
+./include/linux/hid.h, 1051: 
+	__hid_request in hid_hw_request
+drivers/hid/hid-picolcd_leds.c, 56:
+	hid_hw_request in picolcd_leds_set
+drivers/hid/hid-picolcd_leds.c, 53:
+	_raw_spin_lock_irqsave in picolcd_leds_set
 
-Interesting I did not realize the same errors are showing on the GPD pocket.
+drivers/hid/hid-core.c, 1459: 
+	hid_alloc_report_buf(GFP_KERNEL) in __hid_request
+./include/linux/hid.h, 1051: 
+	__hid_request in hid_hw_request
+drivers/hid/hid-picolcd_lcd.c, 49: 
+	hid_hw_request in picolcd_set_contrast
+drivers/hid/hid-picolcd_lcd.c, 46: 
+	_raw_spin_lock_irqsave in picolcd_set_contrast
 
-I have the feeling this might have something todo with us not putting the
-touchscreen controller to sleep on ACPI devices because we cannot use
-the IRQ pin as GPIO which is necessary for wakeup.
+drivers/hid/hid-core.c, 1459: 
+	hid_alloc_report_buf(GFP_KERNEL) in __hid_request
+./include/linux/hid.h, 1051: 
+	__hid_request in hid_hw_request
+drivers/hid/hid-picolcd_core.c, 245: 
+	hid_hw_request in picolcd_reset
+drivers/hid/hid-picolcd_core.c, 235: 
+	_raw_spin_lock_irqsave in picolcd_reset
 
-On most newer devices (such as the GPD) the IRQ pin is actually declared
-as a GpioInt in the ACPI tables, so we should be able to use it as a GPIO
-with some extra work.
+drivers/hid/hid-core.c, 1459: 
+	hid_alloc_report_buf(GFP_KERNEL) in __hid_request
+./include/linux/hid.h, 1051: 
+	__hid_request in hid_hw_request
+drivers/hid/hid-picolcd_core.c, 111: 
+	hid_hw_request in picolcd_send_and_wait
+drivers/hid/hid-picolcd_core.c, 100: 
+	_raw_spin_lock_irqsave in picolcd_send_and_wait
 
-I plan to write a patch to make us do this sometime in the near future
-(no idea when I will get around to this though). I will put you
-(Dmitry Mastykin) in the Cc of the patch when I get around to writing it.
+hid_alloc_report_buf(GFP_KERNEL) can sleep at runtime.
 
-Note I do not know if this patch will actually help.
+To fix these bugs, hid_hw_request() is called without holding the
+spinlock.
 
-Regards,
+These bugs are found by a static analysis tool STCheck written by myself.
 
-Hans
+Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+---
+ drivers/hid/hid-picolcd_core.c | 4 ++--
+ drivers/hid/hid-picolcd_lcd.c  | 6 ++++--
+ drivers/hid/hid-picolcd_leds.c | 6 ++++--
+ 3 files changed, 10 insertions(+), 6 deletions(-)
 
-
-> 
-> 
->> When this happens, are these messages appear constantly, or only in
->> response to actual touch? Can you still interact with the device?
->>
-> Constantly with 25Hz frequency.
-> 
->> The fact that you can talk to the controller like that is interesting.
->> Just to confirm, does it return sane data, or garbage?
->>
-> root@or212:/home/u# i2cset -y 6 0x5d 0x81 0x4e 0x00 i
-> root@or212:/home/u# i2cset -y 6 0x5d 0x81 0x4e i
-> root@or212:/home/u# i2cget -y 6 0x5d
-> 0x83
-> root@or212:/home/u# i2cset -y 6 0x5d 0x81 0x4e 0x00 i
-> root@or212:/home/u# i2cset -y 6 0x5d 0x81 0x4e i
-> root@or212:/home/u# i2cget -y 6 0x5d
-> 0x81
-> First I touch with 3 fingers, then with one.
-> 
->> What is the model of the tablet?
->>
-> Not sure about model, seems that it's this one:
-> http://logic-instrument.com/en/fieldbook-k122.php
-> 
-> Dmesg is attached
-> 
-> Thank you!
-> Kind regards,
-> Dmitry Mastykin
-> 
-> On Thu, Dec 12, 2019 at 11:51 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 12-12-2019 20:20, Dmitry Torokhov wrote:
->>> Hi Dmitry,
->>>
->>> On Thu, Dec 12, 2019 at 06:34:46PM +0300, Dmitry Mastykin wrote:
->>>> Здравствуйте, Дмитрий.
->>>> Простите, что отвлекаю, если что - не отвечайте и в лучшем случае
->>>> пошлите в mail-list)
->>>> У меня есть планшет с x86, вариантом Debian с ядром 4.15 и
->>>> контроллером тач-скрина gt928.
->>>
->>> What is the model of the tablet?
->>>
->>>> После suspend/resume не всегда, но очень часто тачскрин перестает
->>>> работать и постоянно выводит:
->>>> [ 3276.729412] Goodix-TS i2c-GDIX1002:00: I2C write end_cmd error
->>>> [ 3276.770153] Goodix-TS i2c-GDIX1002:00: I2C transfer error: -121
->>>
->>> When this happens, are these messages appear constantly, or only in
->>> response to actual touch? Can you still interact with the device?
->>>
->>> Could you please send the full dmesg so we know more about the device.
->>>
->>> Hans, Bastien, have you seen such issues with Goodix occasionally
->>> misbehaving on resume?
->>
->> We have reports of the touchscreen no longer working after suspend/resume
->> on some GPD pocket devices, but not combined with these errors.
->>
->> Regards,
->>
->> Hans
->>
->>
->>>
->>>> По i2cget/i2cset контроллер успешно отвечает.
->>>
->>> The fact that you can talk to the controller like that is interesting.
->>> Just to confirm, does it return sane data, or garbage?
->>>
->>> Thanks.
->>>
->>
+diff --git a/drivers/hid/hid-picolcd_core.c b/drivers/hid/hid-picolcd_core.c
+index 1b5c63241af0..55d1892daa15 100644
+--- a/drivers/hid/hid-picolcd_core.c
++++ b/drivers/hid/hid-picolcd_core.c
+@@ -99,8 +99,8 @@ struct picolcd_pending *picolcd_send_and_wait(struct hid_device *hdev,
+ 		work = NULL;
+ 	} else {
+ 		data->pending = work;
+-		hid_hw_request(data->hdev, report, HID_REQ_SET_REPORT);
+ 		spin_unlock_irqrestore(&data->lock, flags);
++		hid_hw_request(data->hdev, report, HID_REQ_SET_REPORT);
+ 		wait_for_completion_interruptible_timeout(&work->ready, HZ*2);
+ 		spin_lock_irqsave(&data->lock, flags);
+ 		data->pending = NULL;
+@@ -233,8 +233,8 @@ int picolcd_reset(struct hid_device *hdev)
+ 		spin_unlock_irqrestore(&data->lock, flags);
+ 		return -ENODEV;
+ 	}
+-	hid_hw_request(hdev, report, HID_REQ_SET_REPORT);
+ 	spin_unlock_irqrestore(&data->lock, flags);
++	hid_hw_request(hdev, report, HID_REQ_SET_REPORT);
+ 
+ 	error = picolcd_check_version(hdev);
+ 	if (error)
+diff --git a/drivers/hid/hid-picolcd_lcd.c b/drivers/hid/hid-picolcd_lcd.c
+index 0c4b76de8ae5..1fd291674ffe 100644
+--- a/drivers/hid/hid-picolcd_lcd.c
++++ b/drivers/hid/hid-picolcd_lcd.c
+@@ -26,6 +26,7 @@ static int picolcd_get_contrast(struct lcd_device *ldev)
+ static int picolcd_set_contrast(struct lcd_device *ldev, int contrast)
+ {
+ 	struct picolcd_data *data = lcd_get_data(ldev);
++	int status;
+ 	struct hid_report *report = picolcd_out_report(REPORT_CONTRAST, data->hdev);
+ 	unsigned long flags;
+ 
+@@ -35,9 +36,10 @@ static int picolcd_set_contrast(struct lcd_device *ldev, int contrast)
+ 	data->lcd_contrast = contrast & 0x0ff;
+ 	spin_lock_irqsave(&data->lock, flags);
+ 	hid_set_field(report->field[0], 0, data->lcd_contrast);
+-	if (!(data->status & PICOLCD_FAILED))
+-		hid_hw_request(data->hdev, report, HID_REQ_SET_REPORT);
++	status = data->status;
+ 	spin_unlock_irqrestore(&data->lock, flags);
++	if (!(status & PICOLCD_FAILED))
++		hid_hw_request(data->hdev, report, HID_REQ_SET_REPORT);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/hid/hid-picolcd_leds.c b/drivers/hid/hid-picolcd_leds.c
+index 6b505a753511..6652aa6b98dd 100644
+--- a/drivers/hid/hid-picolcd_leds.c
++++ b/drivers/hid/hid-picolcd_leds.c
+@@ -32,6 +32,7 @@
+ void picolcd_leds_set(struct picolcd_data *data)
+ {
+ 	struct hid_report *report;
++	int status;
+ 	unsigned long flags;
+ 
+ 	if (!data->led[0])
+@@ -42,9 +43,10 @@ void picolcd_leds_set(struct picolcd_data *data)
+ 
+ 	spin_lock_irqsave(&data->lock, flags);
+ 	hid_set_field(report->field[0], 0, data->led_state);
+-	if (!(data->status & PICOLCD_FAILED))
+-		hid_hw_request(data->hdev, report, HID_REQ_SET_REPORT);
++	status = data->status;
+ 	spin_unlock_irqrestore(&data->lock, flags);
++	if (!(status & PICOLCD_FAILED))
++		hid_hw_request(data->hdev, report, HID_REQ_SET_REPORT);
+ }
+ 
+ static void picolcd_led_set_brightness(struct led_classdev *led_cdev,
+-- 
+2.17.1
 
