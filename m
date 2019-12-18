@@ -2,135 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A86D6124905
-	for <lists+linux-input@lfdr.de>; Wed, 18 Dec 2019 15:05:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 998F51249F3
+	for <lists+linux-input@lfdr.de>; Wed, 18 Dec 2019 15:44:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726856AbfLROFw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Dec 2019 09:05:52 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46528 "EHLO
+        id S1727035AbfLROoY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Dec 2019 09:44:24 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55843 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726984AbfLROFv (ORCPT
+        by vger.kernel.org with ESMTP id S1726921AbfLROoY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Dec 2019 09:05:51 -0500
+        Wed, 18 Dec 2019 09:44:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1576677949;
+        s=mimecast20190719; t=1576680263;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=hKeKFdBiRsbTRVEMHRwLpZNizEHEkznl+vD7uDZN8A0=;
-        b=BHBG5JnMZe91augEFu/Orh3AOkVYhdyxJp7Oo8JqPD4/lLbH5W6LQlCgXkz2hWVe806URa
-        yQHjZbj/id8nbtdk3HT4vFA0otQ+ftTIsBHBsR6HNMhP/ZNV5PU/sCyHqgkZKXT+wa3G5f
-        S5NLArFfBmfX0JsvMFI3aRCDfbjXybs=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-qFqoRiHnOM6r_fMHactMGg-1; Wed, 18 Dec 2019 09:05:48 -0500
-X-MC-Unique: qFqoRiHnOM6r_fMHactMGg-1
-Received: by mail-qv1-f71.google.com with SMTP id z9so1373152qvo.10
-        for <linux-input@vger.kernel.org>; Wed, 18 Dec 2019 06:05:48 -0800 (PST)
+        bh=joJVqPDloIrR1QDlqpej3wOFdp1Q41SUYVLzur/FTuo=;
+        b=DBCVn91pDVjd2srODsEoaifW94Jpq8qHimAvVUJBw0D63/48fEa29e7r4jV13FAO5rUxHe
+        unzcYlf2Q7jsobARw1DlOzgoGz8fSC6h/aEJFVvagvFoItK52m9xh7yQEBBVCTeZB39bm/
+        kbrNWWllilbeBmRfcmIlV4zSmQxCkJk=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-276-bPjYXIkXPB66yNzJ9DLZnA-1; Wed, 18 Dec 2019 09:44:21 -0500
+X-MC-Unique: bPjYXIkXPB66yNzJ9DLZnA-1
+Received: by mail-qt1-f200.google.com with SMTP id e8so1513542qtg.9
+        for <linux-input@vger.kernel.org>; Wed, 18 Dec 2019 06:44:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hKeKFdBiRsbTRVEMHRwLpZNizEHEkznl+vD7uDZN8A0=;
-        b=N9ct68ljq18zjOmItpxajc068obizB8jPCutftlBMZ6y40WAaCo2RXoc9h0qkGatQG
-         74pydzTvT9pv+fJH3DeiWbIc29VZIunS1ixP/W3JF/zsKaoh7+9VWEMvs/sI6gTBXVXx
-         y8T/HmDVg+wL/5kW7PXWl4wAp1kRp5ZKpmmSGSsYeI5Z8UdpNXKKbH8koOVUaBhb+2wT
-         dsWoLZeUckqRQ7N3OZXkXOk8ifxXme7Xj6SmBZZpaeJgfc2s06AB9ugpNKhodffuCnpi
-         rPp6krtYezitqSJq2w4q8eCLNxie83es+2PkZQRUAc1SvOg17AHRQq3CUAbpK7UQikO1
-         yvZQ==
-X-Gm-Message-State: APjAAAUl6y/09391oOqjrLSpfC5tTghXMv9ioX9XJ3tlRHAutMdpK3CV
-        5jd93xNBnfULMujTH1ffuElsr5eutmXgpGTeH0gUVmv8J5WZvLldb8bIcMe4IcQt+nNBMlbatQ2
-        e15Y0KegzpYWCSkTj43EDKy+7wsJS7CpxBDJ2BSs=
-X-Received: by 2002:ae9:ef4b:: with SMTP id d72mr2603003qkg.27.1576677948192;
-        Wed, 18 Dec 2019 06:05:48 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxKvdiV0BKf8uQoqA75j4nlqoe0xziRqEhs2pVb5VXGW7tV9Z+/BlLLKm7sIxOMOgkkobh52Km32jESxnU5rbA=
-X-Received: by 2002:ae9:ef4b:: with SMTP id d72mr2602972qkg.27.1576677947946;
- Wed, 18 Dec 2019 06:05:47 -0800 (PST)
+        bh=joJVqPDloIrR1QDlqpej3wOFdp1Q41SUYVLzur/FTuo=;
+        b=H7xBDm6daclfUioyS9BZlGwNu3/mizOR2Q+lgrCQWN+0YzP2OWsrxzKeQTkbaXplIq
+         BKZdIGpuIFmJvBhqpA12oAy5pk+3MRDYkZ25YxFSgmnRUmqzl5RUEzNDRQqOnjtmBVfP
+         qYcBvxiFZDfuPldFjri69auk/Fb/DNqzt2ApSB8NadBSiRsdsq4G1HsivcKl/yhoerJZ
+         D24zcns3xmntTxRx5/P6lVu6UZm6Ps018vLKeJymNlk7GhXiIbt2xPfAMGIehAYr25qp
+         smnSeKHzpiG6KOJtjY0zJGABSFvV19iuU4i4K9Bzm+bNtoQRHPHpZmKACW1M6ewqOZxt
+         YuLg==
+X-Gm-Message-State: APjAAAUr42ZRdKIuuPLJseSQYhhqf8meM6UqyqKeGfQuHgiDrzYNezkR
+        sQaAu1NN8V/WNB9nn6gKCIN/Rn3VIbxFh4Eq6U9FoM2zuqL3XZVBmhG14MpIs1bFS5+h5n5rZ8y
+        ZR9c9TI2VM5qLmQ5k7N/mxEWvMprSr3HUyOM8oak=
+X-Received: by 2002:aed:20e5:: with SMTP id 92mr2466771qtb.294.1576680261089;
+        Wed, 18 Dec 2019 06:44:21 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwA2D58EayAhd0q01/R0PSPIzaG/BmW2J4URFqns/k5EB204vHrkCQjlDW8Kc73wq9TI84QwNIle+XiOgNEkFc=
+X-Received: by 2002:aed:20e5:: with SMTP id 92mr2466752qtb.294.1576680260854;
+ Wed, 18 Dec 2019 06:44:20 -0800 (PST)
 MIME-Version: 1.0
-References: <CAO-hwJ+5Ch02fPQ+XF=A4iEcH81V5PrCdV2qGQDZ8HxnQAoEog@mail.gmail.com>
- <1576585687-10426-1-git-send-email-zhangpan26@huawei.com>
-In-Reply-To: <1576585687-10426-1-git-send-email-zhangpan26@huawei.com>
+References: <_0snBXtGhwWiRLYmuVIeDLYkvksMVMxiBv1lW_bTTaFpcVN45l6yCU5gWZ_5oJr8SQOZA6qCZSkVskkEX0ZePpboYtDYRsTdVg3xfcwmw6M=@protonmail.com>
+ <haSzI6CpbhKWB-YGuSryCNj3sW6YXUkBlN1LZyy6pyoYPUD-Z7DwCkoRnVY-1iHX3FlxpsydH2YF_effQsePpDZnTp7937mNgvLVPjneUYY=@protonmail.com>
+In-Reply-To: <haSzI6CpbhKWB-YGuSryCNj3sW6YXUkBlN1LZyy6pyoYPUD-Z7DwCkoRnVY-1iHX3FlxpsydH2YF_effQsePpDZnTp7937mNgvLVPjneUYY=@protonmail.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 18 Dec 2019 15:05:36 +0100
-Message-ID: <CAO-hwJLykG4zPquaHnJ0DL-Ce9CNre4Lpgg4naKp_EnDe7Wyzg@mail.gmail.com>
-Subject: Re: Re: [PATCH v2] drivers/hid/hid-multitouch.c: fix a possible null
- pointer access.
-To:     Pan Zhang <zhangpan26@huawei.com>
-Cc:     hushiyuan@huawei.com, Jiri Kosina <jikos@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
+Date:   Wed, 18 Dec 2019 15:44:09 +0100
+Message-ID: <CAO-hwJJWwu3O1_qCdhEZ_yzd366x9JDvWFXpqb7=60LrDNWbxQ@mail.gmail.com>
+Subject: Re: [PATCH v8 0/2] Logitech HID++ Bluetooth LE support
+To:     Mazin Rezk <mnrzk@protonmail.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "jikos@kernel.org" <jikos@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Mazin,
 
-On Tue, Dec 17, 2019 at 1:28 PM Pan Zhang <zhangpan26@huawei.com> wrote:
+On Sun, Nov 24, 2019 at 10:05 PM Mazin Rezk <mnrzk@protonmail.com> wrote:
 >
-> On Tue, Dec 17, 2019 at 18:50 PM Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
+> On Sunday, October 27, 2019 1:44 PM, Mazin Rezk <mnrzk@protonmail.com> wrote:
 >
-> >Can you add at the beginning of your commit message:
-> >From: Pan Zhang <zhangpan26@huawei.com>
+> > This series allows hid-logitech-hidpp to support Bluetooth LE HID++
+> > devices. Only the MX Master (b012 and b01e) is added right now but more
+> > HID++ Bluetooth LE devices can be added once they are tested.
 > >
-> >This way we have the commit author that matches the signature, which is a requirement for the kernel.
->
-> Firstly, thanks for your reviewing very much. I would fix my signature.
->
-> >>  drivers/hid/hid-multitouch.c | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/hid/hid-multitouch.c
-> >> b/drivers/hid/hid-multitouch.c index 3cfeb16..368de81 100644
-> >> --- a/drivers/hid/hid-multitouch.c
-> >> +++ b/drivers/hid/hid-multitouch.c
-> >> @@ -1019,7 +1019,7 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
-> >>                 tool = MT_TOOL_DIAL;
-> >>         else if (unlikely(!confidence_state)) {
-> >>                 tool = MT_TOOL_PALM;
-> >> -               if (!active &&
-> >> +               if (!active && mt
->
-> >Ack on the principle, but this doesn't even compile. You are missing a `&&` at the end of the line.
+> > Changes since [v7]:
+> > - Squashed "HID: logitech-hidpp: Support MX Master (b012, b01e)
+> > over Bluetooth" into "HID: logitech-hidpp: Support translations
+> > from short to long reports"
 > >
-> >Can you send a v2 with the comments above? And we will queue the v2 for 5.5 I think.
+> > Changes since [v6]:
+> >
+> > - Based patch on "HID: logitech-hidpp: rework device validation"
+> >
+> > - Removed the need for additional quirks
+> >
+> > Changes since [v5]:
+> >
+> > - Fixed bug where added quirks would overflow an unsigned long
+> >
+> > - Changed the reserved quirk class bits from 0..20 to 0..15
+> >
+> > Changes since [v4]:
+> >
+> > - Omitted "HID: logitech: Add feature 0x0001: FeatureSet"
+> >
+> > - Stored WirelessDeviceStatus feature index in hidpp_device
+> >
+> > - Made Bluetooth quirk class alias quirks instead of vice versa
+> >
+> > - Omitted non-tested devices
+> >
+> > Changes since [v3]:
+> >
+> > - Renamed hidpp20_featureset_get_feature to
+> > hidpp20_featureset_get_feature_id.
+> >
+> > - Re-ordered hidpp20_featureset_get_count and
+> > hidpp20_featureset_get_feature_id based on their command IDs.
+> >
+> > - Made feature_count initialize to 0 before running
+> > hidpp20_get_features.
+> >
+> > Changes since [v2]:
+> >
+> > - Split up the single patch into a series
+> >
+> > Changes since [v1]:
+> >
+> > - Added WirelessDeviceStatus support
+> >
+> > [v7] https://lore.kernel.org/lkml/t5LOL-A4W7aknqQdC-3TavitC94BY_Ra1qyxCZMh_nprrDNSl4UF-jYpWtaDSU-0oQ5xzRyAo9o_mvSnA78bib_p6I3ePSJnTrp3Eb0X_yg=@protonmail.com
+> > [v6] https://lore.kernel.org/lkml/ggKipcQplIlTFmoP3hPnrQ-7_5-C0PKGd5feFymts3uenIBA8zOwz47YmKheD34H1rpkguDAGdx5YbS9UqpwfjT5Ir0Lji941liLVp--QtQ=@protonmail.com
+> > [v5] https://lore.kernel.org/lkml/Mbf4goGxXZTfWwWtQQUke_rNf8kezpNOS9DVEVHf6RnnmjS1oRtMOJf4r14WfCC6GRYVs7gi0uZcIJ18Va2OJowzSbyMUGwLrl6I5fjW48o=@protonmail.com
+> > [v4] https://lore.kernel.org/lkml/uBbIS3nFJ1jdYNLHcqjW5wxQAwmZv0kmYEoeoPrxNhfzi6cHwmCOY-ewdqe7S1hNEj-p4Hd9D0_Y3PymUTdh_6WFXuMmIYUkV2xaKCPMYz0=@protonmail.com
+> > [v3] https://lore.kernel.org/lkml/l7xYjnA9EGfZe03FsrFhnH2aMq8qS8plWhHVvOtY_l4ShZ1NV6HA6hn9aI-jAzbLYUGFCIQCIKkx9z42Uoj4-AZDwBfRcAecYIn-0ZA5upE=@protonmail.com
+> > [v2] https://www.spinics.net/lists/linux-input/msg63467.html
+> > [v1] https://www.spinics.net/lists/linux-input/msg63317.html
+> >
+> > Mazin Rezk (2):
+> > HID: logitech-hidpp: Support translations from short to long reports
+> > HID: logitech-hidpp: Support WirelessDeviceStatus connect events
+> >
+> > drivers/hid/hid-logitech-hidpp.c | 69 +++++++++++++++++++++++++++-----
+> > 1 file changed, 59 insertions(+), 10 deletions(-)
+> >
+> > ---
+> > 2.23.0
 >
-> Sorry about that. I made a stupid mistake. This patch fixed it.
+> I recently saw "HID: logitech-hidpp: Silence intermittent
+> get_battery_capacity errors" get applied into the kernel, would I need to
+> rebase this patch on top of https://patchwork.kernel.org/patch/11243871/
 
-No worries, mistakes happen.
+No worries, your series still applies cleanly (git magic).
 
-However, can you resend the patch to the LKML in a separate thread?
-Also prefix the patch with "[PATCH v2]". It's easier for our tools to
-handle patches when they are send on their own. Because here, I would
-have to manually edit either the commit message removing the thread,
-either take the first version and edit the patch. It's not so hard for
-this kind of simple patches, but it's best to take good habits :)
+I am in the process of doing some final tests for this series, and I
+plan to merge it for 5.6. Sorry we missed 5.5.
 
 Cheers,
 Benjamin
 
 >
-> Signed-off-by: Pan Zhang <zhangpan26@huawei.com>
-> ---
->  drivers/hid/hid-multitouch.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index 3cfeb16..368de81 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -1019,7 +1019,7 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
->                 tool = MT_TOOL_DIAL;
->         else if (unlikely(!confidence_state)) {
->                 tool = MT_TOOL_PALM;
-> -               if (!active &&
-> +               if (!active && mt &&
->                     input_mt_is_active(&mt->slots[slotnum])) {
->                         /*
->                          * The non-confidence was reported for
-> --
-> 2.7.4
+> Thanks,
+> Mazin
 >
 
