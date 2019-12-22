@@ -2,106 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61092128F5C
-	for <lists+linux-input@lfdr.de>; Sun, 22 Dec 2019 19:44:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C72F12901B
+	for <lists+linux-input@lfdr.de>; Sun, 22 Dec 2019 22:49:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725932AbfLVSo4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 22 Dec 2019 13:44:56 -0500
-Received: from hygieia.sysophe.eu ([138.201.91.14]:33275 "EHLO
-        hygieia.sysophe.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725919AbfLVSo4 (ORCPT
+        id S1726664AbfLVVtE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 22 Dec 2019 16:49:04 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:50563 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726604AbfLVVtE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 22 Dec 2019 13:44:56 -0500
-X-Greylist: delayed 410 seconds by postgrey-1.27 at vger.kernel.org; Sun, 22 Dec 2019 13:44:55 EST
-Received: from hemera.lan.sysophe.eu (unknown [IPv6:2a06:4944:bfe:5600:fa75:a4ff:fe28:fe3a])
-        by smtp.sysophe.eu (Postfix) with ESMTPSA id 9717210360441;
-        Sun, 22 Dec 2019 19:31:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=sysophe.eu; s=201205;
-        t=1577039503; x=1577125903;
-        bh=7gBx+VSPddS7vCOze4HplGbV+LwhkjaL63c8//6KUU8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References;
-        b=T0nPyxi4l4eY8Sz5BnuTOgILD5uy2O19/REHKR2sgedyWg3bga7JsA4sLDCO46qu4
-         C+hZnfNqm4xy9lkgMGug5RqC9GFgwTcez93WPWDikJ0SBJ4NNLtZCimW8mQqqFOkUg
-         YDgcnI11VMeX2bO6bOhsMG2/USGAEClU4ra1aCZI=
-Date:   Sun, 22 Dec 2019 19:37:39 +0100
-From:   Bruno =?UTF-8?B?UHLDqW1vbnQ=?= <bonbons@sysophe.eu>
-To:     Jia-Ju Bai <baijiaju1990@gmail.com>
-Cc:     Bruno =?UTF-8?B?UHLDqW1vbnQ=?= <bonbons@linux-vserver.org>,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hid: hid-picolcd: fix possible sleep-in-atomic-context
- bug
-Message-ID: <20191222193739.76123ce7@hemera.lan.sysophe.eu>
-In-Reply-To: <e36ad913-c498-4d5a-0a5a-bec016d49a16@gmail.com>
-References: <20191218080201.2508-1-baijiaju1990@gmail.com>
-        <20191218094141.785d8e31@pluto.restena.lu>
-        <e36ad913-c498-4d5a-0a5a-bec016d49a16@gmail.com>
-X-Mailer: Claws Mail 3.16.0git897 (GTK+ 3.24.11; x86_64-pc-linux-gnu)
+        Sun, 22 Dec 2019 16:49:04 -0500
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ij95p-0002Wh-9Q; Sun, 22 Dec 2019 22:48:53 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ij95n-000697-Bk; Sun, 22 Dec 2019 22:48:51 +0100
+Date:   Sun, 22 Dec 2019 22:48:51 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "lars@metafoo.de" <lars@metafoo.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "jic23@kernel.org" <jic23@kernel.org>,
+        "knaack.h@gmx.de" <knaack.h@gmx.de>
+Subject: Re: [PATCH v2 4/7] pwm: Add support for Azoteq IQS620A PWM generator
+Message-ID: <20191222214851.kapsro6b6qylke43@pengutronix.de>
+References: <1575851866-18919-1-git-send-email-jeff@labundy.com>
+ <1575851866-18919-5-git-send-email-jeff@labundy.com>
+ <20191209073206.6pftsak5v25jdepz@pengutronix.de>
+ <20191210000252.GA6361@labundy.com>
+ <20191210072227.434hyv5wl3rwztqx@pengutronix.de>
+ <20191215203607.GA31390@labundy.com>
+ <20191216091912.r4onikojbkbmguag@pengutronix.de>
+ <20191220031924.GA2658@labundy.com>
+ <20191220085948.iagsdpjqd6ixdo7j@pengutronix.de>
+ <20191221032755.GA3051@labundy.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191221032755.GA3051@labundy.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jia-Ju,
+Hello Jeff,
 
-I've had a deeper look at the code (possibly also applies to hid-lg4ff).
+On Sat, Dec 21, 2019 at 03:28:01AM +0000, Jeff LaBundy wrote:
+> I heard back from the vendor today; they've acknowledged the limitation and
+> are considering adding support for 0% in a future ROM spin. In the meantime,
+> they've agreed to describe the high-impedance behavior in the data sheet as
+> well as include the pull-down resistor in an example schematic.
 
+Oh wow, seems like a good vendor then. :-)
 
-The hdev->ll_driver->request (at least on USB bus which is the only one
-that matters for hid-picolcd) points to:
-  usbhid_request() from drivers/hid/usbhid/hid-core.c
+> > > Option (3) seems like overkill for such a simple PWM, and ultimately doesn't
+> > > add any value because I don't want to allow option (1) behavior in any case.
+> > > Whether the PWM is disabled because it is truly disabled or to simulate a 0%
+> > > duty cycle as in option (2), the pull-down is ultimately required regardless
+> > > of whether or not the data sheet happens to go into such detail.
+> > 
+> > Actually I like option 3 best.
+> >  
+> 
+> Based on your other feedback, I'm moving forward under the impression that
+> you'll still accept option (2); please let me know if I have misunderstood
+> (thank you for being flexible).
 
-This one directly calls usbhid_submit_report() which then directly calls
-__usbhid_submit_report() under spinlock.
+Yeah, that's fine. If in the end it shows that this is a bad idea we can
+still change to (3).
 
-Thus for USB bus there is no possible sleep left.
+Best regards
+Uwe
 
-
-Just moving the hid_hw_request() calls out of the spinlock is
-incorrect though as it would introduce the possibility of unexpected
-concurrent initialization/submissions of reports from the distinct
-sub-drivers. The report pointer used is not call-private but comes from
-feature description and is filled with data on each call within the
-spinlock.
-
-
-The question could be whether the generic fallback in hid_hw_request()
-should be adjusted to be non-sleeping.
-It has been introduced rather more recently than both drivers you
-detected.
-
-
-Best regards,
-Bruno Pr=C3=A9mont
-
-On Wed, 18 Dec 2019 20:11:47 Jia-Ju Bai wrote:
-> Thanks for the reply.
->=20
-> On 2019/12/18 16:41, Bruno Pr=C3=A9mont wrote:
-> > Hi Jia-Ju,
-> >
-> > Your checker has been looking at fallback implementation for
-> > the might-sleep hid_alloc_report_buf(GFP_KERNEL).
-> >
-> > Did you have a look at the low-lever bus-driver implementations:
-> >    hdev->ll_driver->request
-> >                     ^^^^^^^
-> >
-> > Are those all sleeping as well or maybe they don't sleep?\ =20
->=20
-> In fact, I find that a function possibly-related to this function=20
-> pointer can sleep:
->=20
-> drivers/hid/intel-ish-hid/ishtp-hid.c, 97:
->  =C2=A0=C2=A0=C2=A0 kzalloc(GFP_KERNEL) in ishtp_hid_request
->=20
-> But I am not quite sure whether this function is really referenced by=20
-> the function pointer, so I did not report it.
->=20
->=20
-> Best wishes,
-> Jia-Ju Bai
-
+-- 
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
