@@ -2,98 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C72F12901B
-	for <lists+linux-input@lfdr.de>; Sun, 22 Dec 2019 22:49:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9596B12974B
+	for <lists+linux-input@lfdr.de>; Mon, 23 Dec 2019 15:25:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726664AbfLVVtE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 22 Dec 2019 16:49:04 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:50563 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726604AbfLVVtE (ORCPT
+        id S1726876AbfLWOZy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Dec 2019 09:25:54 -0500
+Received: from condef-05.nifty.com ([202.248.20.70]:59859 "EHLO
+        condef-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726763AbfLWOZx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 22 Dec 2019 16:49:04 -0500
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ij95p-0002Wh-9Q; Sun, 22 Dec 2019 22:48:53 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ij95n-000697-Bk; Sun, 22 Dec 2019 22:48:51 +0100
-Date:   Sun, 22 Dec 2019 22:48:51 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "lars@metafoo.de" <lars@metafoo.de>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "jic23@kernel.org" <jic23@kernel.org>,
-        "knaack.h@gmx.de" <knaack.h@gmx.de>
-Subject: Re: [PATCH v2 4/7] pwm: Add support for Azoteq IQS620A PWM generator
-Message-ID: <20191222214851.kapsro6b6qylke43@pengutronix.de>
-References: <1575851866-18919-1-git-send-email-jeff@labundy.com>
- <1575851866-18919-5-git-send-email-jeff@labundy.com>
- <20191209073206.6pftsak5v25jdepz@pengutronix.de>
- <20191210000252.GA6361@labundy.com>
- <20191210072227.434hyv5wl3rwztqx@pengutronix.de>
- <20191215203607.GA31390@labundy.com>
- <20191216091912.r4onikojbkbmguag@pengutronix.de>
- <20191220031924.GA2658@labundy.com>
- <20191220085948.iagsdpjqd6ixdo7j@pengutronix.de>
- <20191221032755.GA3051@labundy.com>
+        Mon, 23 Dec 2019 09:25:53 -0500
+X-Greylist: delayed 421 seconds by postgrey-1.27 at vger.kernel.org; Mon, 23 Dec 2019 09:25:52 EST
+Received: from conwmuserg-02.nifty.com ([10.126.8.121])by condef-05.nifty.com with ESMTP id xBNEEoTJ020784
+        for <linux-input@vger.kernel.org>; Mon, 23 Dec 2019 23:14:52 +0900
+Received: from aps-01 ([10.126.10.34])by conwmuserg-02.nifty.com with ESMTP id xBNE3EHv016108;
+        Mon, 23 Dec 2019 23:03:15 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conwmuserg-02.nifty.com xBNE3EHv016108
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1577109806;
+        bh=zyB0LHZBeA+XeGtKP/Jpk/0G016Vwbg9gEdqnm3j+EQ=;
+        h=Date:From:Reply-To:To:Subject:From;
+        b=ebaF0ImFDWqmWBYrxDyVr/t9uH7WQAxeQQxyRD0QhjdybaKIo+K18DwUZNBKdgCxl
+         zx9IZN7YtVU1iho4wTSyCX40WNYMw4Gr2wEVi2i4F8DQUqZ0/tEVsQf0HGyH4b2Qjt
+         FRa4YwezAhTWCI8XPNA36x5Vx5ikV5SmAdMuznXWjDCQfe186dma4BRoRHjWP9BPyR
+         zLpvyKlTme4yRWMv0duVGpvuH4TmvfDv80d4g8cGsJ0zIIw0qBjQHpWWLXeWpFXish
+         KJ6Gnvq82TZmA77ukJwsvYDIXt9C+ncH9eGmeOGsIxXvxQwWdApuvC4CY2/XVwyPTJ
+         UlKocIi/ogpWw==
+X-Nifty-SrcIP: [10.126.10.34]
+Message-ID: <716616135.470471577109794877.nnamosa3@dog.nifty.jp>
+Date:   Mon, 23 Dec 2019 23:03:14 +0900 (JST)
+From:   Mrs Anna <nnamosa3@dog.nifty.jp>
+Reply-To: annamostafa5@gmail.com
+To:     mrshannamos@yahoo.co.jp
+Subject: God bless you.
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191221032755.GA3051@labundy.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+Organization: Hello
+X-Mailer: @nifty Webmail
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Jeff,
+Dear friend how are you today?
+I know you will be surprise to receive this message from me because; we have n
+ot met before but please listen to me very well. I am writing you this mail fr
+om a Hospital. My name is Mrs. Anna Mustafa. I am a widow and very sick now. I
+ am suffering from Endometrial Cancer which my doctor has confirmed that I wil
+l not survive it because of some damages. Now because of the condition of my h
+ealth I have decided to donate out my late husband fund the sum  of $3, 500,00
+0.00 on Charity Purpose through your  help. All you have to do is to use the m
+oney in the following ways.
 
-On Sat, Dec 21, 2019 at 03:28:01AM +0000, Jeff LaBundy wrote:
-> I heard back from the vendor today; they've acknowledged the limitation and
-> are considering adding support for 0% in a future ROM spin. In the meantime,
-> they've agreed to describe the high-impedance behavior in the data sheet as
-> well as include the pull-down resistor in an example schematic.
+(1) To build school for the poor children.
+(2) To help the Orphanages, Sick People, and Poor Widows etc. If you agree to 
+help me, I will instruct the bank to proceed and transfer the money to your ac
+count to enable you start this project on my behalf since I am very sick now a
+nd cannot do this work by myself.
 
-Oh wow, seems like a good vendor then. :-)
+Lastly, after the transfer of the money to your account, I permit you to take 
+out 30% of the money for your recompense in doing this work. I don$B!G(Jt have a c
+hild or any available relative who can inherit this money when I die. I wil te
+ll you more about myself and how to proceed forward on this transaction.God bl
+ess you.
+Mrs. Anna
 
-> > > Option (3) seems like overkill for such a simple PWM, and ultimately doesn't
-> > > add any value because I don't want to allow option (1) behavior in any case.
-> > > Whether the PWM is disabled because it is truly disabled or to simulate a 0%
-> > > duty cycle as in option (2), the pull-down is ultimately required regardless
-> > > of whether or not the data sheet happens to go into such detail.
-> > 
-> > Actually I like option 3 best.
-> >  
-> 
-> Based on your other feedback, I'm moving forward under the impression that
-> you'll still accept option (2); please let me know if I have misunderstood
-> (thank you for being flexible).
-
-Yeah, that's fine. If in the end it shows that this is a bad idea we can
-still change to (3).
-
-Best regards
-Uwe
-
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
