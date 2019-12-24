@@ -2,71 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9596B12974B
-	for <lists+linux-input@lfdr.de>; Mon, 23 Dec 2019 15:25:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79845129D29
+	for <lists+linux-input@lfdr.de>; Tue, 24 Dec 2019 04:52:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726876AbfLWOZy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Dec 2019 09:25:54 -0500
-Received: from condef-05.nifty.com ([202.248.20.70]:59859 "EHLO
-        condef-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726763AbfLWOZx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Dec 2019 09:25:53 -0500
-X-Greylist: delayed 421 seconds by postgrey-1.27 at vger.kernel.org; Mon, 23 Dec 2019 09:25:52 EST
-Received: from conwmuserg-02.nifty.com ([10.126.8.121])by condef-05.nifty.com with ESMTP id xBNEEoTJ020784
-        for <linux-input@vger.kernel.org>; Mon, 23 Dec 2019 23:14:52 +0900
-Received: from aps-01 ([10.126.10.34])by conwmuserg-02.nifty.com with ESMTP id xBNE3EHv016108;
-        Mon, 23 Dec 2019 23:03:15 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conwmuserg-02.nifty.com xBNE3EHv016108
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1577109806;
-        bh=zyB0LHZBeA+XeGtKP/Jpk/0G016Vwbg9gEdqnm3j+EQ=;
-        h=Date:From:Reply-To:To:Subject:From;
-        b=ebaF0ImFDWqmWBYrxDyVr/t9uH7WQAxeQQxyRD0QhjdybaKIo+K18DwUZNBKdgCxl
-         zx9IZN7YtVU1iho4wTSyCX40WNYMw4Gr2wEVi2i4F8DQUqZ0/tEVsQf0HGyH4b2Qjt
-         FRa4YwezAhTWCI8XPNA36x5Vx5ikV5SmAdMuznXWjDCQfe186dma4BRoRHjWP9BPyR
-         zLpvyKlTme4yRWMv0duVGpvuH4TmvfDv80d4g8cGsJ0zIIw0qBjQHpWWLXeWpFXish
-         KJ6Gnvq82TZmA77ukJwsvYDIXt9C+ncH9eGmeOGsIxXvxQwWdApuvC4CY2/XVwyPTJ
-         UlKocIi/ogpWw==
-X-Nifty-SrcIP: [10.126.10.34]
-Message-ID: <716616135.470471577109794877.nnamosa3@dog.nifty.jp>
-Date:   Mon, 23 Dec 2019 23:03:14 +0900 (JST)
-From:   Mrs Anna <nnamosa3@dog.nifty.jp>
-Reply-To: annamostafa5@gmail.com
-To:     mrshannamos@yahoo.co.jp
-Subject: God bless you.
+        id S1726832AbfLXDw4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Dec 2019 22:52:56 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:7737 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726747AbfLXDw4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 23 Dec 2019 22:52:56 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 99CE0BD3E0E93DEBEFC4;
+        Tue, 24 Dec 2019 11:52:54 +0800 (CST)
+Received: from HGHY4L002753561.china.huawei.com (10.133.215.186) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 24 Dec 2019 11:52:45 +0800
+From:   Zhen Lei <thunder.leizhen@huawei.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>
+CC:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Hillf Danton <hdanton@sina.com>
+Subject: [PATCH 1/1] HID: hiddev: remove a duplicated check
+Date:   Tue, 24 Dec 2019 11:51:17 +0800
+Message-ID: <20191224035117.98816-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-Organization: Hello
-X-Mailer: @nifty Webmail
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.133.215.186]
+X-CFilter-Loop: Reflected
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear friend how are you today?
-I know you will be surprise to receive this message from me because; we have n
-ot met before but please listen to me very well. I am writing you this mail fr
-om a Hospital. My name is Mrs. Anna Mustafa. I am a widow and very sick now. I
- am suffering from Endometrial Cancer which my doctor has confirmed that I wil
-l not survive it because of some damages. Now because of the condition of my h
-ealth I have decided to donate out my late husband fund the sum  of $3, 500,00
-0.00 on Charity Purpose through your  help. All you have to do is to use the m
-oney in the following ways.
+After commit 9c09b214f30e ("HID: hiddev: avoid opening a disconnected
+device"), the original check "list->hiddev->exist" become unnecessary.
 
-(1) To build school for the poor children.
-(2) To help the Orphanages, Sick People, and Poor Widows etc. If you agree to 
-help me, I will instruct the bank to proceed and transfer the money to your ac
-count to enable you start this project on my behalf since I am very sick now a
-nd cannot do this work by myself.
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ drivers/hid/usbhid/hiddev.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-Lastly, after the transfer of the money to your account, I permit you to take 
-out 30% of the money for your recompense in doing this work. I don’t have a c
-hild or any available relative who can inherit this money when I die. I wil te
-ll you more about myself and how to proceed forward on this transaction.God bl
-ess you.
-Mrs. Anna
+diff --git a/drivers/hid/usbhid/hiddev.c b/drivers/hid/usbhid/hiddev.c
+index e421cdf2d1a4ec5..e04cf95fca094a8 100644
+--- a/drivers/hid/usbhid/hiddev.c
++++ b/drivers/hid/usbhid/hiddev.c
+@@ -292,16 +292,16 @@ static int hiddev_open(struct inode *inode, struct file *file)
+ 		res = -ENODEV;
+ 		goto bail_unlock;
+ 	}
+-	if (!list->hiddev->open++)
+-		if (list->hiddev->exist) {
+-			struct hid_device *hid = hiddev->hid;
+-			res = hid_hw_power(hid, PM_HINT_FULLON);
+-			if (res < 0)
+-				goto bail_unlock;
+-			res = hid_hw_open(hid);
+-			if (res < 0)
+-				goto bail_normal_power;
+-		}
++	if (!list->hiddev->open++) {
++		struct hid_device *hid = hiddev->hid;
++
++		res = hid_hw_power(hid, PM_HINT_FULLON);
++		if (res < 0)
++			goto bail_unlock;
++		res = hid_hw_open(hid);
++		if (res < 0)
++			goto bail_normal_power;
++	}
+ 	mutex_unlock(&hiddev->existancelock);
+ 	return 0;
+ bail_normal_power:
+-- 
+1.8.3
+
 
