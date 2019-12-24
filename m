@@ -2,82 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79845129D29
-	for <lists+linux-input@lfdr.de>; Tue, 24 Dec 2019 04:52:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D0F3129F8F
+	for <lists+linux-input@lfdr.de>; Tue, 24 Dec 2019 10:04:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726832AbfLXDw4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Dec 2019 22:52:56 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:7737 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726747AbfLXDw4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Dec 2019 22:52:56 -0500
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 99CE0BD3E0E93DEBEFC4;
-        Tue, 24 Dec 2019 11:52:54 +0800 (CST)
-Received: from HGHY4L002753561.china.huawei.com (10.133.215.186) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 24 Dec 2019 11:52:45 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Hillf Danton <hdanton@sina.com>
-Subject: [PATCH 1/1] HID: hiddev: remove a duplicated check
-Date:   Tue, 24 Dec 2019 11:51:17 +0800
-Message-ID: <20191224035117.98816-1-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.21.0.windows.1
+        id S1726261AbfLXJEj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Dec 2019 04:04:39 -0500
+Received: from mail-qv1-f66.google.com ([209.85.219.66]:41010 "EHLO
+        mail-qv1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726222AbfLXJEj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 24 Dec 2019 04:04:39 -0500
+Received: by mail-qv1-f66.google.com with SMTP id x1so7257715qvr.8
+        for <linux-input@vger.kernel.org>; Tue, 24 Dec 2019 01:04:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=T+/t7noVmCnipzpx0EipiuoSs8D3VSnUxNHRKwid9CC0wiDbW+X/7ifkYeunyqedwQ
+         BGdMrKiSqKnqF0r8Ye2KwFtk0h3GLL39TxNb3CHAu3bXzv5AN/Kgu5ag8P+iBs/MQlQV
+         uiWtOeIaQkWcLsKNf6KZJnk5gu30Oe2Wb5W5ckfQ5559XhNTvEvyadD8dkI5XOU8pCG3
+         aEK2B3iE+wm7bJkjfR7s8BrUNiVlj+YT1q1jfY76M++ddXl3Ujhw972TMvRh6ukNAwlj
+         XJqSDAmeFoGE6A8arcoUtdb2DZEBYbduX+OXcqMJa9a6fPb761KxhkI0pSMZmZbjw+/9
+         dW5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=HAMqPSQP91yEJ/TSlNnauEt5PW/1INwB8YpHEkRoT/dyZoA5846iR/N3unp9sFaGzR
+         ZaOfNwSpqBJQVaNeEX8QdZweqZ5mJZ/2kQINItmzEm5Uq79hWKV65qxxyDx0UhZTQxfh
+         yAjLelqEXguTz2Wii4rHzZ4U+2zx9PmnXAfy71eboqswusPu9F2C2MjMz7ooEP4YzZJR
+         YpDmFQV9wA80DTfjQhRJuJ97pp2295vRp9Tx3FCMvuDvDgnHY//4FNSwqttUquunlmvl
+         riAXP4M6fPxi5O5uhvKsqGJO83goboFwGtXbDWmK6ti8nzBncA+GBuWrm9PnNie+1B+J
+         bILw==
+X-Gm-Message-State: APjAAAV34JpQLkTcct4AJRI2J52/xgvMdOymH4XSSk4JrT2HeW0vWz4E
+        F5ZW1rdd6p+SJVqas5OoPlj4PPGVDyjguF2kFjA=
+X-Google-Smtp-Source: APXvYqxVGVmKHh36H3FtCwgzZ5FU95JoblzpuCw5SoZ9RS/aHnMUAQsP+TIBYVHkaxqYCJ5qeKl56QyyoiPTbeZ5we0=
+X-Received: by 2002:a0c:fac7:: with SMTP id p7mr27888544qvo.46.1577178276846;
+ Tue, 24 Dec 2019 01:04:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.133.215.186]
-X-CFilter-Loop: Reflected
+Received: by 2002:ad4:530a:0:0:0:0:0 with HTTP; Tue, 24 Dec 2019 01:04:36
+ -0800 (PST)
+Reply-To: bethnatividad9@gmail.com
+From:   Beth Nat <anthonymoore105@gmail.com>
+Date:   Tue, 24 Dec 2019 09:04:36 +0000
+Message-ID: <CAKqrdYCodJzPTTHz6kph8Sgthe6xHddAUidHBCggQaKHYA7ZUw@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-After commit 9c09b214f30e ("HID: hiddev: avoid opening a disconnected
-device"), the original check "list->hiddev->exist" become unnecessary.
-
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- drivers/hid/usbhid/hiddev.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/hid/usbhid/hiddev.c b/drivers/hid/usbhid/hiddev.c
-index e421cdf2d1a4ec5..e04cf95fca094a8 100644
---- a/drivers/hid/usbhid/hiddev.c
-+++ b/drivers/hid/usbhid/hiddev.c
-@@ -292,16 +292,16 @@ static int hiddev_open(struct inode *inode, struct file *file)
- 		res = -ENODEV;
- 		goto bail_unlock;
- 	}
--	if (!list->hiddev->open++)
--		if (list->hiddev->exist) {
--			struct hid_device *hid = hiddev->hid;
--			res = hid_hw_power(hid, PM_HINT_FULLON);
--			if (res < 0)
--				goto bail_unlock;
--			res = hid_hw_open(hid);
--			if (res < 0)
--				goto bail_normal_power;
--		}
-+	if (!list->hiddev->open++) {
-+		struct hid_device *hid = hiddev->hid;
-+
-+		res = hid_hw_power(hid, PM_HINT_FULLON);
-+		if (res < 0)
-+			goto bail_unlock;
-+		res = hid_hw_open(hid);
-+		if (res < 0)
-+			goto bail_normal_power;
-+	}
- 	mutex_unlock(&hiddev->existancelock);
- 	return 0;
- bail_normal_power:
--- 
-1.8.3
-
-
+How are you today my dear? i saw your profile and it interests me, i
+am a Military nurse from USA. Can we be friend? I want to know more
+about you.
