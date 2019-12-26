@@ -2,80 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EEBE212AB32
-	for <lists+linux-input@lfdr.de>; Thu, 26 Dec 2019 10:22:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 263FA12AD1D
+	for <lists+linux-input@lfdr.de>; Thu, 26 Dec 2019 15:56:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726378AbfLZJWc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Dec 2019 04:22:32 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:49992 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725878AbfLZJWb (ORCPT
+        id S1726480AbfLZO4p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Dec 2019 09:56:45 -0500
+Received: from smtp05.smtpout.orange.fr ([80.12.242.127]:35987 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726336AbfLZO4p (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Dec 2019 04:22:31 -0500
-Received: from mail-wr1-f71.google.com ([209.85.221.71])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <chia-lin.kao@canonical.com>)
-        id 1ikPLh-0004ig-O2
-        for linux-input@vger.kernel.org; Thu, 26 Dec 2019 09:22:29 +0000
-Received: by mail-wr1-f71.google.com with SMTP id v17so10540546wrm.17
-        for <linux-input@vger.kernel.org>; Thu, 26 Dec 2019 01:22:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=TNt04kFlxAJX+WAKJE2NLOKKM37LIXZ+D9p7JEtCd3U=;
-        b=Of/TQJqyLZHlEHSw4oWyGTtraVK0P5tiagp4f4DbafvzftWyVV+7NqpkRRmzjQZ8YI
-         zfKgkucsTFBQPK4oP8hmZT3S+Q5jGcJVRXqylmRD8YoX14v5eZA3ISRAZJwEiEkNbqJK
-         2v4uMyXuLwyCDIa2L6yoMQa70XS/EGFJKmxecrMbhnZEu6i5IKXi0HyUxYwSys+JUZ2K
-         bTN4faPGIgHB96uAEBE1a/zXA9kpELbNjiU1NncCvlsMRR4n2Mvp6PzOAEHiFVLzxaMg
-         daqq+ko+qaU6ojYDeqFiWutoqZ4bhHxEZw+aiSx7ouzky8p0qD5VYz5/XQUlmU+mXgCo
-         1fGQ==
-X-Gm-Message-State: APjAAAUM6SReQAMRfiW02yI7G3wtCWNY8SDzB7qFOAkrXLPAYq1GOwfG
-        z+iKB7TtgWi/+UGszjtOnS0Q8LojNeoeyS9ggQnCiTiS4+JrPv4Mpw/WX5wRJ1hNl0T6dMpBFQj
-        RCINUkpFsg9TX0ma6NbjvMcQXUvMjvN8b2vaL4jI1Ir9w+JX9Lza79jLY
-X-Received: by 2002:adf:f3d1:: with SMTP id g17mr45315330wrp.378.1577352149521;
-        Thu, 26 Dec 2019 01:22:29 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxru5cVc4h4n6ndB+KZ1f3fGjJXajZ/dftoXybIFxNlB5BFtYYghIVWuZcxoapi9bSViB8r6wshzsfsnhTLv94=
-X-Received: by 2002:adf:f3d1:: with SMTP id g17mr45315316wrp.378.1577352149359;
- Thu, 26 Dec 2019 01:22:29 -0800 (PST)
+        Thu, 26 Dec 2019 09:56:45 -0500
+Received: from localhost.localdomain ([90.40.29.152])
+        by mwinf5d81 with ME
+        id iewg2100M3Gv28S03ewhKe; Thu, 26 Dec 2019 15:56:42 +0100
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 26 Dec 2019 15:56:42 +0100
+X-ME-IP: 90.40.29.152
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] HID: logitech-hidpp: avoid duplicate error handling code in 'hidpp_probe()'
+Date:   Thu, 26 Dec 2019 15:54:35 +0100
+Message-Id: <20191226145435.8262-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-From:   AceLan Kao <acelan.kao@canonical.com>
-Date:   Thu, 26 Dec 2019 17:22:18 +0800
-Message-ID: <CAFv23QmiDdhe+xJw2y7CXiWq4-GK1S-1bcKxEpNhNJu3ZtzA_w@mail.gmail.com>
-Subject: Display got wrong rotation after hid_sensor_accel_3d is loaded
-To:     Jiri Kosina <jikos@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi all,
+'hid_hw_stop()' is already in the error handling path when branching to
+the 'hid_hw_open_fail' label.
+There is no point in calling it twice, so remove one.
 
-I'm working on a new platform which comes with an accelerator meter.
-It's a STMicroelectronics LSM6DS3US accelerator meter, it doesn't use
-st_sensors driver, but hid_sensor_accel_3d.
-After hid_sensor_accel_3d is loaded, the display becomes upside down,
-so I tried to add some code to make it become normal.(ACCEL_X should
-have the same modification)
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/hid/hid-logitech-hidpp.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-I don't know how to fix this in a correct way, please give me some hints.
-Thanks.
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index bb063e7d48df..70e1cb928bf0 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -3817,7 +3817,6 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	if (ret < 0) {
+ 		dev_err(&hdev->dev, "%s:hid_hw_open returned error:%d\n",
+ 			__func__, ret);
+-		hid_hw_stop(hdev);
+ 		goto hid_hw_open_fail;
+ 	}
+ 
+-- 
+2.20.1
 
-diff --git a/drivers/iio/accel/hid-sensor-accel-3d.c
-b/drivers/iio/accel/hid-sensor-accel-3d.c
-index 24573eb647a3..8ca6a222b773 100644
---- a/drivers/iio/accel/hid-sensor-accel-3d.c
-+++ b/drivers/iio/accel/hid-sensor-accel-3d.c
-@@ -270,6 +270,8 @@ static int accel_3d_capture_sample(struct
-hid_sensor_hub_device *hsdev,
-               accel_state->accel_val[CHANNEL_SCAN_INDEX_X + offset] =
-                                               *(u32 *)raw_data;
-+               if (usage_id == HID_USAGE_SENSOR_ACCEL_Y_AXIS)
-+                       accel_state->accel_val[CHANNEL_SCAN_INDEX_Y] *= -1;
-
-Best regards,
-AceLan Kao.
