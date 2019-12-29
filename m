@@ -2,246 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72BB412CAA4
-	for <lists+linux-input@lfdr.de>; Sun, 29 Dec 2019 20:34:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FFB412CAC9
+	for <lists+linux-input@lfdr.de>; Sun, 29 Dec 2019 21:42:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726958AbfL2TeV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 Dec 2019 14:34:21 -0500
-Received: from relay-b03.edpnet.be ([212.71.1.220]:53282 "EHLO
-        relay-b03.edpnet.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727106AbfL2TeU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 Dec 2019 14:34:20 -0500
-X-ASG-Debug-ID: 1577647292-0a881838821e9eb50003-vblZzk
-Received: from zotac.vandijck-laurijssen.be (77.109.105.251.adsl.dyn.edpnet.net [77.109.105.251]) by relay-b03.edpnet.be with ESMTP id ddLVsluFVPRxLYnx; Sun, 29 Dec 2019 20:21:34 +0100 (CET)
-X-Barracuda-Envelope-From: dev.kurt@vandijck-laurijssen.be
-X-Barracuda-Effective-Source-IP: 77.109.105.251.adsl.dyn.edpnet.net[77.109.105.251]
-X-Barracuda-Apparent-Source-IP: 77.109.105.251
-Received: from x1.vandijck-laurijssen.be (x1.vandijck-laurijssen.be [192.168.0.36])
-        by zotac.vandijck-laurijssen.be (Postfix) with ESMTPSA id C716DC02E54;
-        Sun, 29 Dec 2019 20:21:33 +0100 (CET)
-From:   Kurt Van Dijck <dev.kurt@vandijck-laurijssen.be>
-To:     linux-input@vger.kernel.org
-Cc:     linux-can@vger.kernel.org,
-        Kurt Van Dijck <dev.kurt@vandijck-laurijssen.be>
-Subject: [PATCH 6/6] cap11xx: export major chip settings to sysfs
-Date:   Sun, 29 Dec 2019 20:21:17 +0100
-X-ASG-Orig-Subj: [PATCH 6/6] cap11xx: export major chip settings to sysfs
-Message-Id: <1577647277-8298-7-git-send-email-dev.kurt@vandijck-laurijssen.be>
-X-Mailer: git-send-email 1.8.5.rc3
-In-Reply-To: <1577647277-8298-1-git-send-email-dev.kurt@vandijck-laurijssen.be>
-References: <1577647277-8298-1-git-send-email-dev.kurt@vandijck-laurijssen.be>
-X-Barracuda-Connect: 77.109.105.251.adsl.dyn.edpnet.net[77.109.105.251]
-X-Barracuda-Start-Time: 1577647294
-X-Barracuda-URL: https://212.71.1.220:443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at edpnet.be
-X-Barracuda-Scan-Msg-Size: 6389
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: SPAM GLOBAL 1.0000 1.0000 4.3428
-X-Barracuda-Spam-Score: 4.84
-X-Barracuda-Spam-Status: No, SCORE=4.84 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=7.0 tests=BSF_SC0_MV0713, BSF_SC0_MV0713_2
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.78985
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.30 BSF_SC0_MV0713_2       BSF_SC0_MV0713_2
-        0.20 BSF_SC0_MV0713         Custom rule MV0713
+        id S1726307AbfL2UmK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 Dec 2019 15:42:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49026 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726302AbfL2UmK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 29 Dec 2019 15:42:10 -0500
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8BA3A207E0;
+        Sun, 29 Dec 2019 20:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1577652129;
+        bh=9A1GT7JTdZZyrH+F7P5nhc/s/Ch+Nj6eiq7D6FyJpvg=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=ZdnGa1+BACKulp3414bThSiFLYqSsJMW7maDjPPprdmYXGc/f7pwW11E/bj4ra25Z
+         +pxS0/6jaogiPpKqlsqeaVFCzWRhh88yOKcx1wkOgD2oX4arxIf1PZ1s1O7N+wz0Ud
+         keJJxKhdQr1ctMglEdkRjbLyhvva5tu2IrkGuMQ4=
+Date:   Sun, 29 Dec 2019 21:42:06 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Add Tiger Lake PCI device ID
+In-Reply-To: <20191227214057.31438-1-srinivas.pandruvada@linux.intel.com>
+Message-ID: <nycvar.YFH.7.76.1912292140210.4603@cbobk.fhfr.pm>
+References: <20191227214057.31438-1-srinivas.pandruvada@linux.intel.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Signed-off-by: Kurt Van Dijck <dev.kurt@vandijck-laurijssen.be>
----
- drivers/input/keyboard/cap11xx.c | 161 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 161 insertions(+)
+On Fri, 27 Dec 2019, Srinivas Pandruvada wrote:
 
-diff --git a/drivers/input/keyboard/cap11xx.c b/drivers/input/keyboard/cap11xx.c
-index cdcc89b9..eb68efc 100644
---- a/drivers/input/keyboard/cap11xx.c
-+++ b/drivers/input/keyboard/cap11xx.c
-@@ -346,6 +346,159 @@ static int cap11xx_init_leds(struct device *dev,
- }
- #endif
- 
-+/* register attribute:
-+ * create a simple way to export properties in the register map
-+ */
-+struct register_attribute {
-+	struct device_attribute dev_attr;
-+	int reg;
-+	int mask;
-+	int shift;
-+};
-+#define to_reg_attr(_dev_attr) container_of((dev_attr), \
-+		struct register_attribute, dev_attr)
-+#define to_dev_attr(_attr) container_of(attr, struct device_attribute, attr)
-+
-+static ssize_t show_reg_attr(struct device *dev, struct device_attribute *attr,
-+		char *buf)
-+{
-+	struct cap11xx_priv *priv = dev_get_drvdata(dev);
-+	struct register_attribute *rattr = to_reg_attr(attr);
-+	int ret, value;
-+
-+	ret = regmap_read(priv->regmap, rattr->reg, &value);
-+	if (ret < 0)
-+		return ret;
-+	return sprintf(buf, "0x%02x\n", (value >> rattr->shift) & rattr->mask);
-+}
-+
-+static ssize_t store_reg_attr(struct device *dev, struct device_attribute * attr,
-+		const char *buf, size_t len)
-+{
-+	struct cap11xx_priv *priv = dev_get_drvdata(dev);
-+	struct register_attribute *rattr = to_reg_attr(attr);
-+	int ret;
-+	long value;
-+
-+	ret = kstrtoul(buf, 0, &value);
-+	if (ret)
-+		return ret;
-+
-+	if (value & ~rattr->mask)
-+		return -ERANGE;
-+
-+	ret = regmap_update_bits(priv->regmap, rattr->reg,
-+			rattr->mask << rattr->shift, value << rattr->shift);
-+	if (ret)
-+		return ret;
-+	return len;
-+}
-+
-+#define REG_ATTR(_name, _mode, _reg, _nbits, _shift) \
-+	struct register_attribute reg_dev_attr_##_name = { \
-+		__ATTR(_name, _mode, show_reg_attr, store_reg_attr), \
-+		.reg = _reg, \
-+		.mask = (1 << (_nbits)) -1, \
-+		.shift = _shift, \
-+	}
-+#define TO_ATTR(_name) (&(reg_dev_attr_##_name).dev_attr.attr)
-+
-+static REG_ATTR(gain, 0644, CAP11XX_REG_MAIN_CONTROL, 2, 6);
-+static REG_ATTR(delta_sense, 0644, CAP11XX_REG_SENSITIVITY_CONTROL, 3, 4);
-+static REG_ATTR(base_shift, 0644, CAP11XX_REG_SENSITIVITY_CONTROL, 4, 0);
-+static REG_ATTR(dis_dig_noise, 0644, CAP11XX_REG_CONFIG, 1, 5);
-+static REG_ATTR(dis_ana_noise, 0644, CAP11XX_REG_CONFIG, 1, 4);
-+static REG_ATTR(max_dur_enable, 0644, CAP11XX_REG_CONFIG, 1, 3);
-+static REG_ATTR(cs_en, 0644, CAP11XX_REG_SENSOR_ENABLE, 8, 0);
-+static REG_ATTR(max_dur, 0644, CAP11XX_REG_SENSOR_CONFIG, 4, 4);
-+static REG_ATTR(avg, 0644, CAP11XX_REG_SAMPLING_CONFIG, 3, 4);
-+static REG_ATTR(samp_time, 0644, CAP11XX_REG_SAMPLING_CONFIG, 2, 2);
-+static REG_ATTR(cycle_time, 0644, CAP11XX_REG_SAMPLING_CONFIG, 2, 0);
-+static REG_ATTR(mulkt_blk_en, 0644, CAP11XX_REG_MT_CONFIG, 1, 7);
-+static REG_ATTR(b_mult_t, 0644, CAP11XX_REG_MT_CONFIG, 2, 2);
-+static REG_ATTR(mtp_en, 0644, CAP11XX_REG_MT_PATTERN_CONFIG, 1, 7);
-+static REG_ATTR(mtp_th, 0644, CAP11XX_REG_MT_PATTERN_CONFIG, 2, 2);
-+static REG_ATTR(comp_ptrn, 0644, CAP11XX_REG_MT_PATTERN_CONFIG, 1, 1);
-+static REG_ATTR(cs_ptrn, 0644, CAP11XX_REG_MT_PATTERN, 8, 0);
-+static REG_ATTR(cs_th1, 0644, CAP11XX_REG_SENSOR_THRESH(0), 8, 0);
-+static REG_ATTR(cs_th2, 0644, CAP11XX_REG_SENSOR_THRESH(1), 8, 0);
-+static REG_ATTR(cs_th3, 0644, CAP11XX_REG_SENSOR_THRESH(2), 8, 0);
-+static REG_ATTR(cs_th4, 0644, CAP11XX_REG_SENSOR_THRESH(3), 8, 0);
-+static REG_ATTR(cs_th5, 0644, CAP11XX_REG_SENSOR_THRESH(4), 8, 0);
-+static REG_ATTR(cs_th6, 0644, CAP11XX_REG_SENSOR_THRESH(5), 8, 0);
-+static REG_ATTR(cs_th7, 0644, CAP11XX_REG_SENSOR_THRESH(6), 8, 0);
-+static REG_ATTR(cs_th8, 0644, CAP11XX_REG_SENSOR_THRESH(7), 8, 0);
-+static REG_ATTR(cs_bn_th, 0644, CAP11XX_REG_SENSOR_NOISE_THRESH, 2, 0);
-+static REG_ATTR(cs_led, 0644, CAP11XX_REG_SENSOR_LED_LINK, 8, 0);
-+
-+static struct attribute *reg_attrs[] = {
-+	TO_ATTR(gain),
-+	TO_ATTR(delta_sense),
-+	TO_ATTR(base_shift),
-+	TO_ATTR(dis_dig_noise),
-+	TO_ATTR(dis_ana_noise),
-+	TO_ATTR(max_dur_enable),
-+	TO_ATTR(cs_en),
-+	TO_ATTR(max_dur),
-+	TO_ATTR(avg),
-+	TO_ATTR(samp_time),
-+	TO_ATTR(cycle_time),
-+	TO_ATTR(mulkt_blk_en),
-+	TO_ATTR(b_mult_t),
-+	TO_ATTR(mtp_en),
-+	TO_ATTR(mtp_th),
-+	TO_ATTR(comp_ptrn),
-+	TO_ATTR(cs_ptrn),
-+	TO_ATTR(cs_th1),
-+	TO_ATTR(cs_th2),
-+	TO_ATTR(cs_th3),
-+	TO_ATTR(cs_th4),
-+	TO_ATTR(cs_th5),
-+	TO_ATTR(cs_th6),
-+	TO_ATTR(cs_th7),
-+	TO_ATTR(cs_th8),
-+	TO_ATTR(cs_bn_th),
-+	TO_ATTR(cs_led),
-+	NULL,
-+};
-+
-+static const struct attribute_group reg_attr_group = {
-+	.name = "reg",
-+	.attrs = reg_attrs,
-+};
-+
-+/* load register properties from OF */
-+static int cap11xx_load_regs_from_of(struct device *dev)
-+{
-+	struct cap11xx_priv *priv = dev_get_drvdata(dev);
-+	struct attribute **attr;
-+	struct register_attribute *rattr;
-+	char name[32];
-+	int ret, value;
-+
-+	for (attr = reg_attrs; *attr; ++attr) {
-+		rattr = to_reg_attr(to_dev_attr(*attr));
-+
-+		sprintf(name, "reg,%s", rattr->dev_attr.attr.name);
-+		ret = of_property_read_u32(dev->of_node, name, &value);
-+		if (ret)
-+			continue;
-+		if (value & ~rattr->mask) {
-+			dev_warn(dev, "of %s: value %u, max %u\n",
-+					name, value, rattr->mask);
-+			continue;
-+		}
-+		ret = regmap_update_bits(priv->regmap, rattr->reg,
-+				rattr->mask << rattr->shift,
-+				value << rattr->shift);
-+		if (ret) {
-+			dev_err(dev, "of %s, regmap returned %i\n", name, ret);
-+			return ret;
-+		}
-+	}
-+	return 0;
-+}
-+
- static int cap11xx_i2c_remove(struct i2c_client *i2c_client)
- {
- 	struct cap11xx_priv *priv = i2c_get_clientdata(i2c_client);
-@@ -430,6 +583,10 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client,
- 			return error;
- 	}
- 
-+	error = cap11xx_load_regs_from_of(dev);
-+	if (error)
-+		return error;
-+
- 	/* Provide some useful defaults */
- 	for (i = 0; i < cap->num_channels; i++)
- 		priv->keycodes[i] = KEY_A + i;
-@@ -491,6 +648,10 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client,
- 	if (error)
- 		return error;
- 
-+	error = devm_device_add_group(dev, &reg_attr_group);
-+	if (error)
-+		return error;
-+
- 	irq = irq_of_parse_and_map(node, 0);
- 	if (!irq) {
- 		if (!of_property_read_bool(node, "linux,irq-poll")) {
+> Added Tiger Lake PCI device ID to the supported device list.
+
+Applied to for-5.5/upstream-fixes. Will send it to Linus some time in the 
+next decade :P
+
+Thanks,
+
 -- 
-1.8.5.rc3
+Jiri Kosina
+SUSE Labs
 
