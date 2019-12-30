@@ -2,58 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0512212CBA4
-	for <lists+linux-input@lfdr.de>; Mon, 30 Dec 2019 02:27:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B64612CBA5
+	for <lists+linux-input@lfdr.de>; Mon, 30 Dec 2019 02:27:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726673AbfL3B1n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 Dec 2019 20:27:43 -0500
-Received: from mail-yb1-f196.google.com ([209.85.219.196]:38996 "EHLO
-        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726626AbfL3B1n (ORCPT
+        id S1726675AbfL3B1p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 Dec 2019 20:27:45 -0500
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:37453 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726626AbfL3B1p (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 Dec 2019 20:27:43 -0500
-Received: by mail-yb1-f196.google.com with SMTP id b12so13567173ybg.6
-        for <linux-input@vger.kernel.org>; Sun, 29 Dec 2019 17:27:42 -0800 (PST)
+        Sun, 29 Dec 2019 20:27:45 -0500
+Received: by mail-yw1-f67.google.com with SMTP id z7so13582413ywd.4
+        for <linux-input@vger.kernel.org>; Sun, 29 Dec 2019 17:27:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0qrcqWRTcvS3MGfC2Ns3liWI0kgVrATpg5EssarES6o=;
-        b=C1+DW7ZlEKIQHXiKiJA72nBehnEMa0pBsIQsaBqo/gWe+J3Swy6hupMLMpcFYDT/Fe
-         Uyg3uzPXOcBH+44pGSF2lXqs+TPHIUxda0hBEtydkeHNL7TgNGWnhrHad7FH3uTloMW6
-         qVUuGUYCcBcwn1npQTAiIF8foyzcpCMLbbU3fzQL/V/A/gZRdK9KQ/+wVtVFsPN25anc
-         a0CY7hmBQc4VX7X16qryl4oZuWAcdRwPH+cb8gZMh5hO76PMHNpVhxR4VK5yn+9s69Dy
-         Zb7cwvVXwvewhL+iyoSj5d1yBzVuYcESrfvsV7rmIbChx4QlMY/1hxo4DvX3H/LVJ4n+
-         iNBA==
+        bh=C8uDRIWzMyMW2I9LxpkDqdaXx13zyHsQRAGPxFlb2KY=;
+        b=NAYcdOa9ZEnBQMbHFigNziSR62pSRKP9UmR8xixoE9yOKxSQYJ/tX8rGNq8hqUIBUZ
+         Z5GDi2IpHQNgIabwVkhxVltRmhx2iZVHzkXSW4VqTXmzfhGsq1W8wLArGB1poAU8Kvvy
+         GQb0WxQ+AOhZ7HyuUMfVkKpb21aNwzuZ5/4C3r+qOYS34Pdi9vJt8a5UjA885WF4nOdN
+         RinuEkfVNaGThkfuqsueo2N5Be5nH4Lc9YBJ5ni8xB6evY1xIf2VKbIU+UVs52ze+Hm+
+         oIvZwSyj+3DK2BhfII1w07vlxzq9JckvnGT5sJ76eQ0ZDbZDvy0HnQEp7cjg/Ixwy7Rc
+         rL5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0qrcqWRTcvS3MGfC2Ns3liWI0kgVrATpg5EssarES6o=;
-        b=TW6pkt6w44Iq3fhLvg2pxXzqBmdSFXMngGE04CJrG3oS1VIYV64i+lU5VaqHiy37Tb
-         z7qyqe/+MwBiV9w/Hl5arCQ+6B3iogj/kV15jXtbILOLW215bk/mP0Y+fY0iQjKdAc48
-         HomDs+soTwz8gto2VAgE5jHqC5IJJUbtNsZLrUJGaGMCbgsX/rYYl+k7KOikHG+fZmDg
-         Tyi/gW8Adu+2IzaXDh3bubI9bL6g/QSpJ5YyJhBLMmaeeZn61v2jSwJhQS5cJYgFA/nm
-         LNQsIeCTfxp5/A6hdrN28aTZYVegZoSWbvfAXhoOwUdWIr13cRfjcHh1zRupZQonHhcT
-         U8Qw==
-X-Gm-Message-State: APjAAAUG1m05I6+mCgvEMv1IATefYjUK9ZtJzZDQPNF6aZlFWdKDHA7Y
-        rWVuDH8ecfUCSVqghyif2rQxflbqMI4=
-X-Google-Smtp-Source: APXvYqziLIOTwMozqmy5TFO9w/S2PR08IMyj5GT9uruCwYwi+X0ic0h3lwcw8K9QIl5L10PxWpHVVA==
-X-Received: by 2002:a25:6509:: with SMTP id z9mr44374242ybb.343.1577669260921;
-        Sun, 29 Dec 2019 17:27:40 -0800 (PST)
+        bh=C8uDRIWzMyMW2I9LxpkDqdaXx13zyHsQRAGPxFlb2KY=;
+        b=fwkn2y0jCEdWZ9VTf6B1Jii4dchLo9Xk72OfZUMli9KCdAtv0/ACcCmdhoIoeACfz7
+         f+Zq/NuYRk9y1nyB7xxpeoMEVUlA4I4Lke+ENkcWrVVNnKXyVBuz+50I589JrVViddIg
+         87LGb1QhWHy9X2IlKPA65dsQgBId/hTpe71EMjvKI8sKVvrZI3pDNMPhcpg2JySA/UJW
+         cfLv8huHSzJL8h2hCQeU9V+KUkES5OirbqVXHGVNThRBHUjwL05VQy2t1Tr9Pid/4zkE
+         kjyTszJjg+VTQuNjdD1fE7HaFVzk8xGQDu5HEXzfs0nnrmLn+yhAkwl6Sq0uzo7b5zl6
+         oXjQ==
+X-Gm-Message-State: APjAAAXkfl6gdcbhC0+aY6F8w0UwDjFCgpA6TTSOXiDmIjRsSNnV+RkH
+        weGmcBsNq5fobCSHs5YOv01Savm/XgE=
+X-Google-Smtp-Source: APXvYqy05sQUe1vXh9fXmaSJ0Bcz+aDnuWybgQngQ9moCEweiZdDm5XJnQ8+3SXmX3rAoAlosnA6vw==
+X-Received: by 2002:a81:ac64:: with SMTP id z36mr46017748ywj.40.1577669263996;
+        Sun, 29 Dec 2019 17:27:43 -0800 (PST)
 Received: from Arrakis.djogorchock.com ([136.33.205.58])
-        by smtp.gmail.com with ESMTPSA id g11sm17175584ywe.14.2019.12.29.17.27.39
+        by smtp.gmail.com with ESMTPSA id g11sm17175584ywe.14.2019.12.29.17.27.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Dec 2019 17:27:40 -0800 (PST)
+        Sun, 29 Dec 2019 17:27:42 -0800 (PST)
 From:   "Daniel J. Ogorchock" <djogorchock@gmail.com>
 To:     linux-input@vger.kernel.org
 Cc:     thunderbird2k@gmail.com, blaws05@gmail.com,
         benjamin.tissoires@redhat.com, jikos@kernel.org,
         Roderick.Colenbrander@sony.com, svv@google.com, s.jegen@gmail.com,
         carmueller@gmail.com, "Daniel J. Ogorchock" <djogorchock@gmail.com>
-Subject: [PATCH v10 11/12] HID: nintendo: add IMU support
-Date:   Sun, 29 Dec 2019 19:27:19 -0600
-Message-Id: <20191230012720.2368987-12-djogorchock@gmail.com>
+Subject: [PATCH v10 12/12] HID: nintendo: add support for charging grip
+Date:   Sun, 29 Dec 2019 19:27:20 -0600
+Message-Id: <20191230012720.2368987-13-djogorchock@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191230012720.2368987-1-djogorchock@gmail.com>
 References: <20191230012720.2368987-1-djogorchock@gmail.com>
@@ -64,420 +64,259 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds support for the controller's IMU. The accelerometer and
-gyro data are both provided to userspace using a second input device.
-The devices can be associated using their uniq value (set to the
-controller's MAC address).
+This patch adds support for the joy-con charging grip. The peripheral
+essentially behaves the same as a pro controller, but with two joy-cons
+attached to the grip. However the grip exposes the two joy-cons as
+separate hid devices, so extra handling is required. The joy-con is
+queried to check if it is a right or left joy-con (since the product ID
+is identical between left/right when using the grip).
 
-The majority of this patch's functinoality was provided by Carl Mueller.
+Since controller model detection is now more complicated, the various
+checks for hid product values have been replaced with helper macros to
+reduce code duplication.
 
 Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
 ---
- drivers/hid/hid-nintendo.c | 267 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 259 insertions(+), 8 deletions(-)
+ drivers/hid/hid-ids.h      |  1 +
+ drivers/hid/hid-nintendo.c | 87 ++++++++++++++++++++++++++++----------
+ 2 files changed, 65 insertions(+), 23 deletions(-)
 
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 5e3e872feb29..89807f826e5f 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -871,6 +871,7 @@
+ #define USB_DEVICE_ID_NINTENDO_JOYCONL	0x2006
+ #define USB_DEVICE_ID_NINTENDO_JOYCONR	0x2007
+ #define USB_DEVICE_ID_NINTENDO_PROCON	0x2009
++#define USB_DEVICE_ID_NINTENDO_CHRGGRIP	0x200E
+ 
+ #define USB_VENDOR_ID_NOVATEK		0x0603
+ #define USB_DEVICE_ID_NOVATEK_PCT	0x0600
 diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 7b7a0cf3fe0b..edf2ef140cb3 100644
+index edf2ef140cb3..b86588a2ccc3 100644
 --- a/drivers/hid/hid-nintendo.c
 +++ b/drivers/hid/hid-nintendo.c
-@@ -101,12 +101,29 @@ static const u16 JC_CAL_DATA_START		= 0x603d;
- static const u16 JC_CAL_DATA_END		= 0x604e;
- #define JC_CAL_DATA_SIZE	(JC_CAL_DATA_END - JC_CAL_DATA_START + 1)
- 
-+/* SPI storage addresses of IMU factory calibration data */
-+static const u16 JC_IMU_CAL_DATA_START		= 0x6020;
-+static const u16 JC_IMU_CAL_DATA_END		= 0x6037;
-+#define JC_IMU_CAL_DATA_SIZE \
-+			(JC_IMU_CAL_DATA_END - JC_IMU_CAL_DATA_START + 1)
- 
- /* The raw analog joystick values will be mapped in terms of this magnitude */
- static const u16 JC_MAX_STICK_MAG		= 32767;
- static const u16 JC_STICK_FUZZ			= 250;
- static const u16 JC_STICK_FLAT			= 500;
- 
-+/* The accel axes will be mapped in terms of this magnitude */
-+static const u16 JC_MAX_ACCEL_MAG		= 32767;
-+static const u16 JC_ACCEL_RES			= 4096;
-+static const u16 JC_ACCEL_FUZZ			= 10;
-+static const u16 JC_ACCEL_FLAT			/*= 0*/;
-+
-+/* The gyro axes will be mapped in terms of this magnitude */
-+static const u16 JC_MAX_GYRO_MAG		= 32767;
-+static const u16 JC_GYRO_RES			= 13371 / 936; /* 14 (14.285) */
-+static const u16 JC_GYRO_FUZZ			= 10;
-+static const u16 JC_GYRO_FLAT			/*= 0*/;
-+
- /* frequency/amplitude tables for rumble */
- struct joycon_rumble_freq_data {
- 	u16 high;
-@@ -234,6 +251,11 @@ struct joycon_stick_cal {
- 	s32 center;
+@@ -245,6 +245,13 @@ enum joycon_ctlr_state {
+ 	JOYCON_CTLR_STATE_REMOVED,
  };
  
-+struct joycon_imu_cal {
-+	s16 offset[3];
-+	s16 scale[3];
++/* Controller type received as part of device info */
++enum joycon_ctlr_type {
++	JOYCON_CTLR_TYPE_JCL = 0x01,
++	JOYCON_CTLR_TYPE_JCR = 0x02,
++	JOYCON_CTLR_TYPE_PRO = 0x03,
 +};
 +
- /*
-  * All the controller's button values are stored in a u32.
-  * They can be accessed with bitwise ANDs.
-@@ -281,6 +303,19 @@ struct joycon_subcmd_reply {
- 	u8 data[0]; /* will be at most 35 bytes */
- } __packed;
+ struct joycon_stick_cal {
+ 	s32 max;
+ 	s32 min;
+@@ -350,6 +357,7 @@ struct joycon_ctlr {
+ 	spinlock_t lock;
+ 	u8 mac_addr[6];
+ 	char *mac_addr_str;
++	enum joycon_ctlr_type ctlr_type;
  
-+struct joycon_imu_data {
-+	s16 accel_x;
-+	s16 accel_y;
-+	s16 accel_z;
-+	s16 gyro_x;
-+	s16 gyro_y;
-+	s16 gyro_z;
-+} __packed;
-+
-+struct joycon_imu_report {
-+	struct joycon_imu_data data[3];
-+} __packed;
-+
- struct joycon_input_report {
- 	u8 id;
- 	u8 timer;
-@@ -290,11 +325,10 @@ struct joycon_input_report {
- 	u8 right_stick[3];
- 	u8 vibrator_report;
- 
--	/*
--	 * If support for firmware updates, gyroscope data, and/or NFC/IR
--	 * are added in the future, this can be swapped for a union.
--	 */
--	struct joycon_subcmd_reply reply;
-+	union {
-+		struct joycon_subcmd_reply subcmd_reply;
-+		struct joycon_imu_report imu_report;
-+	};
- } __packed;
- 
- #define JC_MAX_RESP_SIZE	(sizeof(struct joycon_input_report) + 35)
-@@ -334,6 +368,9 @@ struct joycon_ctlr {
- 	struct joycon_stick_cal right_stick_cal_x;
- 	struct joycon_stick_cal right_stick_cal_y;
- 
-+	struct joycon_imu_cal accel_cal;
-+	struct joycon_imu_cal gyro_cal;
-+
- 	/* power supply data */
- 	struct power_supply *battery;
- 	struct power_supply_desc battery_desc;
-@@ -352,6 +389,10 @@ struct joycon_ctlr {
- 	u16 rumble_lh_freq;
- 	u16 rumble_rl_freq;
- 	u16 rumble_rh_freq;
-+
-+	/* imu */
-+	struct input_dev *imu_input;
-+	int timestamp;
+ 	/* The following members are used for synchronous sends/receives */
+ 	enum joycon_msg_type msg_type;
+@@ -395,6 +403,26 @@ struct joycon_ctlr {
+ 	int timestamp;
  };
  
++/* Helper macros for checking controller type */
++#define jc_type_is_joycon(ctlr) \
++	(ctlr->hdev->product == USB_DEVICE_ID_NINTENDO_JOYCONL || \
++	 ctlr->hdev->product == USB_DEVICE_ID_NINTENDO_JOYCONR || \
++	 ctlr->hdev->product == USB_DEVICE_ID_NINTENDO_CHRGGRIP)
++#define jc_type_is_procon(ctlr) \
++	(ctlr->hdev->product == USB_DEVICE_ID_NINTENDO_PROCON)
++#define jc_type_is_chrggrip(ctlr) \
++	(ctlr->hdev->product == USB_DEVICE_ID_NINTENDO_CHRGGRIP)
++
++/* Does this controller have inputs associated with left joycon? */
++#define jc_type_has_left(ctlr) \
++	(ctlr->ctlr_type == JOYCON_CTLR_TYPE_JCL || \
++	 ctlr->ctlr_type == JOYCON_CTLR_TYPE_PRO)
++
++/* Does this controller have inputs associated with right joycon? */
++#define jc_type_has_right(ctlr) \
++	(ctlr->ctlr_type == JOYCON_CTLR_TYPE_JCR || \
++	 ctlr->ctlr_type == JOYCON_CTLR_TYPE_PRO)
++
  static int __joycon_hid_send(struct hid_device *hdev, u8 *data, size_t len)
-@@ -547,7 +588,7 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
+ {
+ 	u8 *buf;
+@@ -785,7 +813,6 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
+ 	unsigned long flags;
+ 	u8 tmp;
+ 	u32 btns;
+-	u32 id = ctlr->hdev->product;
+ 	unsigned long msecs = jiffies_to_msecs(jiffies);
+ 
+ 	spin_lock_irqsave(&ctlr->lock, flags);
+@@ -824,7 +851,7 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
+ 	/* Parse the buttons and sticks */
+ 	btns = hid_field_extract(ctlr->hdev, rep->button_status, 0, 24);
+ 
+-	if (id != USB_DEVICE_ID_NINTENDO_JOYCONR) {
++	if (jc_type_has_left(ctlr)) {
+ 		u16 raw_x;
+ 		u16 raw_y;
+ 		s32 x;
+@@ -844,7 +871,7 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
+ 		/* report buttons */
+ 		input_report_key(dev, BTN_TL, btns & JC_BTN_L);
+ 		input_report_key(dev, BTN_TL2, btns & JC_BTN_ZL);
+-		if (id != USB_DEVICE_ID_NINTENDO_PROCON) {
++		if (jc_type_is_joycon(ctlr)) {
+ 			/* Report the S buttons as the non-existent triggers */
+ 			input_report_key(dev, BTN_TR, btns & JC_BTN_SL_L);
+ 			input_report_key(dev, BTN_TR2, btns & JC_BTN_SR_L);
+@@ -857,7 +884,7 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
+ 		input_report_key(dev, BTN_DPAD_RIGHT, btns & JC_BTN_RIGHT);
+ 		input_report_key(dev, BTN_DPAD_LEFT, btns & JC_BTN_LEFT);
  	}
- 
- 	report = (struct joycon_input_report *)ctlr->input_buf;
--	raw_cal = &report->reply.data[5];
-+	raw_cal = &report->subcmd_reply.data[5];
- 
- 	/* left stick calibration parsing */
- 	cal_x = &ctlr->left_stick_cal_x;
-@@ -601,6 +642,85 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
- 	return 0;
- }
- 
-+static const s16 DFLT_ACCEL_OFFSET /*= 0*/;
-+static const s16 DFLT_ACCEL_SCALE = 16384;
-+static const s16 DFLT_GYRO_OFFSET /*= 0*/;
-+static const s16 DFLT_GYRO_SCALE  = 13371;
-+static int joycon_request_imu_calibration(struct joycon_ctlr *ctlr)
-+{
-+	struct joycon_subcmd_request *req;
-+	u8 buffer[sizeof(*req) + 5] = { 0 };
-+	struct joycon_input_report *report;
-+	u8 *data;
-+	u8 *raw_cal;
-+	int ret;
-+	int i;
-+
-+	/* request IMU calibration data */
-+	req = (struct joycon_subcmd_request *)buffer;
-+	req->subcmd_id = JC_SUBCMD_SPI_FLASH_READ;
-+	data = req->data;
-+	data[0] = 0xFF & JC_IMU_CAL_DATA_START;
-+	data[1] = 0xFF & (JC_IMU_CAL_DATA_START >> 8);
-+	data[2] = 0xFF & (JC_IMU_CAL_DATA_START >> 16);
-+	data[3] = 0xFF & (JC_IMU_CAL_DATA_START >> 24);
-+	data[4] = JC_IMU_CAL_DATA_SIZE;
-+
-+	hid_dbg(ctlr->hdev, "requesting IMU cal data\n");
-+	ret = joycon_send_subcmd(ctlr, req, 5, HZ);
-+
-+	if (ret) {
-+		hid_warn(ctlr->hdev,
-+			 "Failed to read IMU cal, using defaults; ret=%d\n",
-+			 ret);
-+
-+		for (i = 0; i < 3; i++) {
-+			ctlr->accel_cal.offset[i] = DFLT_ACCEL_OFFSET;
-+			ctlr->accel_cal.scale[i] = DFLT_ACCEL_SCALE;
-+			ctlr->gyro_cal.offset[i] = DFLT_GYRO_OFFSET;
-+			ctlr->gyro_cal.scale[i] = DFLT_GYRO_SCALE;
-+		}
-+		return ret;
-+	}
-+
-+	report = (struct joycon_input_report *)ctlr->input_buf;
-+	raw_cal = &report->subcmd_reply.data[5];
-+
-+	/* IMU calibration parsing */
-+	for (i = 0; i < 3; i++) {
-+		int j = i * 2;
-+
-+		ctlr->accel_cal.offset[i] = raw_cal[j + 0] |
-+						((s16)raw_cal[j + 1] << 8);
-+		ctlr->accel_cal.scale[i] = raw_cal[j + 6] |
-+						((s16)raw_cal[j + 7] << 8);
-+		ctlr->gyro_cal.offset[i] = raw_cal[j + 12] |
-+						((s16)raw_cal[j + 13] << 8);
-+		ctlr->gyro_cal.scale[i] = raw_cal[j + 18] |
-+						((s16)raw_cal[j + 19] << 8);
-+	}
-+
-+	hid_dbg(ctlr->hdev, "IMU calibration:\n"
-+			    "a_o[0]=%d a_o[1]=%d a_o[2]=%d\n"
-+			    "a_s[0]=%d a_s[1]=%d a_s[2]=%d\n"
-+			    "g_o[0]=%d g_o[1]=%d g_o[2]=%d\n"
-+			    "g_s[0]=%d g_s[1]=%d g_s[2]=%d\n",
-+			    ctlr->accel_cal.offset[0],
-+			    ctlr->accel_cal.offset[1],
-+			    ctlr->accel_cal.offset[2],
-+			    ctlr->accel_cal.scale[0],
-+			    ctlr->accel_cal.scale[1],
-+			    ctlr->accel_cal.scale[2],
-+			    ctlr->gyro_cal.offset[0],
-+			    ctlr->gyro_cal.offset[1],
-+			    ctlr->gyro_cal.offset[2],
-+			    ctlr->gyro_cal.scale[0],
-+			    ctlr->gyro_cal.scale[1],
-+			    ctlr->gyro_cal.scale[2]);
-+
-+	return 0;
-+}
-+
- static int joycon_set_report_mode(struct joycon_ctlr *ctlr)
- {
- 	struct joycon_subcmd_request *req;
-@@ -627,6 +747,19 @@ static int joycon_enable_rumble(struct joycon_ctlr *ctlr, bool enable)
- 	return joycon_send_subcmd(ctlr, req, 1, HZ/4);
- }
- 
-+static int joycon_enable_imu(struct joycon_ctlr *ctlr, bool enable)
-+{
-+	struct joycon_subcmd_request *req;
-+	u8 buffer[sizeof(*req) + 1] = { 0 };
-+
-+	req = (struct joycon_subcmd_request *)buffer;
-+	req->subcmd_id = JC_SUBCMD_ENABLE_IMU;
-+	req->data[0] = enable ? 0x01 : 0x00;
-+
-+	hid_dbg(ctlr->hdev, "%s IMU\n", enable ? "enabling" : "disabling");
-+	return joycon_send_subcmd(ctlr, req, 1, HZ);
-+}
-+
- static s32 joycon_map_stick_val(struct joycon_stick_cal *cal, s32 val)
- {
- 	s32 center = cal->center;
-@@ -771,6 +904,54 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
- 		spin_unlock_irqrestore(&ctlr->lock, flags);
- 		wake_up(&ctlr->wait);
- 	}
-+
-+	/* parse IMU data if present */
-+	if (rep->id == JC_INPUT_IMU_DATA) {
-+		struct joycon_imu_data *imu_data = rep->imu_report.data;
-+		struct input_dev *idev = ctlr->imu_input;
-+		int i;
-+		int value[6];
-+
-+		for (i = 0; i < 3; i++) { /* there are 3 reports */
-+			ctlr->timestamp += 5000; /* each is 5 ms apart */
-+			input_event(idev, EV_MSC, MSC_TIMESTAMP,
-+				    ctlr->timestamp);
-+
-+			/*
-+			 * Rather than convert to floats, we adjust by
-+			 * calibration factors and then multiply by the default
-+			 * scaling values. This way, the consumer only needs to
-+			 * divide by the default scale values.
-+			 */
-+			value[0] = (imu_data[i].gyro_x -
-+				    ctlr->gyro_cal.offset[0]) *
-+				    DFLT_GYRO_SCALE / ctlr->gyro_cal.scale[0];
-+			value[1] = (imu_data[i].gyro_y -
-+				    ctlr->gyro_cal.offset[1]) *
-+				    DFLT_GYRO_SCALE / ctlr->gyro_cal.scale[1];
-+			value[2] = (imu_data[i].gyro_z -
-+				    ctlr->gyro_cal.offset[2]) *
-+				    DFLT_GYRO_SCALE / ctlr->gyro_cal.scale[2];
-+
-+			value[3] = (imu_data[i].accel_x -
-+				    ctlr->accel_cal.offset[0]) *
-+				    DFLT_ACCEL_SCALE / ctlr->accel_cal.scale[0];
-+			value[4] = (imu_data[i].accel_y -
-+				    ctlr->accel_cal.offset[1]) *
-+				    DFLT_ACCEL_SCALE / ctlr->accel_cal.scale[1];
-+			value[5] = (imu_data[i].accel_z -
-+				    ctlr->accel_cal.offset[2]) *
-+				    DFLT_ACCEL_SCALE / ctlr->accel_cal.scale[2];
-+
-+			input_report_abs(idev, ABS_RX, value[0]);
-+			input_report_abs(idev, ABS_RY, value[1]);
-+			input_report_abs(idev, ABS_RZ, value[2]);
-+			input_report_abs(idev, ABS_X, value[3]);
-+			input_report_abs(idev, ABS_Y, value[4]);
-+			input_report_abs(idev, ABS_Z, value[5]);
-+			input_sync(idev);
-+		}
-+	}
- }
- 
- static void joycon_rumble_worker(struct work_struct *work)
-@@ -950,6 +1131,7 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
- {
- 	struct hid_device *hdev;
- 	const char *name;
-+	const char *imu_name;
- 	int ret;
- 	int i;
- 
-@@ -958,12 +1140,15 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
- 	switch (hdev->product) {
- 	case USB_DEVICE_ID_NINTENDO_PROCON:
+-	if (id != USB_DEVICE_ID_NINTENDO_JOYCONL) {
++	if (jc_type_has_right(ctlr)) {
+ 		u16 raw_x;
+ 		u16 raw_y;
+ 		s32 x;
+@@ -877,7 +904,7 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
+ 		/* report buttons */
+ 		input_report_key(dev, BTN_TR, btns & JC_BTN_R);
+ 		input_report_key(dev, BTN_TR2, btns & JC_BTN_ZR);
+-		if (id != USB_DEVICE_ID_NINTENDO_PROCON) {
++		if (jc_type_is_joycon(ctlr)) {
+ 			/* Report the S buttons as the non-existent triggers */
+ 			input_report_key(dev, BTN_TL, btns & JC_BTN_SL_R);
+ 			input_report_key(dev, BTN_TL2, btns & JC_BTN_SR_R);
+@@ -1142,6 +1169,15 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
  		name = "Nintendo Switch Pro Controller";
-+		imu_name = "Nintendo Switch Pro Controller IMU";
+ 		imu_name = "Nintendo Switch Pro Controller IMU";
  		break;
++	case USB_DEVICE_ID_NINTENDO_CHRGGRIP:
++		if (jc_type_has_left(ctlr)) {
++			name = "Nintendo Switch Left Joy-Con (Grip)";
++			imu_name = "Nintendo Switch Left Joy-Con IMU (Grip)";
++		} else {
++			name = "Nintendo Switch Right Joy-Con (Grip)";
++			imu_name = "Nintendo Switch Right Joy-Con IMU (Grip)";
++		}
++		break;
  	case USB_DEVICE_ID_NINTENDO_JOYCONL:
  		name = "Nintendo Switch Left Joy-Con";
-+		imu_name = "Nintendo Switch Left Joy-Con IMU";
- 		break;
- 	case USB_DEVICE_ID_NINTENDO_JOYCONR:
- 		name = "Nintendo Switch Right Joy-Con";
-+		imu_name = "Nintendo Switch Right Joy-Con IMU";
- 		break;
- 	default: /* Should be impossible */
- 		hid_err(hdev, "Invalid hid product\n");
-@@ -1029,6 +1214,55 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
- 	if (ret)
- 		return ret;
+ 		imu_name = "Nintendo Switch Left Joy-Con IMU";
+@@ -1166,32 +1202,28 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
+ 	ctlr->input->name = name;
+ 	input_set_drvdata(ctlr->input, ctlr);
  
-+	/* configure the imu input device */
-+	ctlr->imu_input = devm_input_allocate_device(&hdev->dev);
-+	if (!ctlr->imu_input)
-+		return -ENOMEM;
-+
-+	ctlr->imu_input->id.bustype = hdev->bus;
-+	ctlr->imu_input->id.vendor = hdev->vendor;
-+	ctlr->imu_input->id.product = hdev->product;
-+	ctlr->imu_input->id.version = hdev->version;
-+	ctlr->imu_input->uniq = ctlr->mac_addr_str;
-+	ctlr->imu_input->name = imu_name;
-+	input_set_drvdata(ctlr->imu_input, ctlr);
-+
-+	/* configure imu axes */
-+	input_set_abs_params(ctlr->imu_input, ABS_X,
-+			     -JC_MAX_ACCEL_MAG, JC_MAX_ACCEL_MAG,
-+			     JC_ACCEL_FUZZ, JC_ACCEL_FLAT);
-+	input_set_abs_params(ctlr->imu_input, ABS_Y,
-+			     -JC_MAX_ACCEL_MAG, JC_MAX_ACCEL_MAG,
-+			     JC_ACCEL_FUZZ, JC_ACCEL_FLAT);
-+	input_set_abs_params(ctlr->imu_input, ABS_Z,
-+			     -JC_MAX_ACCEL_MAG, JC_MAX_ACCEL_MAG,
-+			     JC_ACCEL_FUZZ, JC_ACCEL_FLAT);
-+	input_abs_set_res(ctlr->imu_input, ABS_X, JC_ACCEL_RES);
-+	input_abs_set_res(ctlr->imu_input, ABS_Y, JC_ACCEL_RES);
-+	input_abs_set_res(ctlr->imu_input, ABS_Z, JC_ACCEL_RES);
-+
-+	input_set_abs_params(ctlr->imu_input, ABS_RX,
-+			     -JC_MAX_GYRO_MAG, JC_MAX_GYRO_MAG,
-+			     JC_GYRO_FUZZ, JC_GYRO_FLAT);
-+	input_set_abs_params(ctlr->imu_input, ABS_RY,
-+			     -JC_MAX_GYRO_MAG, JC_MAX_GYRO_MAG,
-+			     JC_GYRO_FUZZ, JC_GYRO_FLAT);
-+	input_set_abs_params(ctlr->imu_input, ABS_RZ,
-+			     -JC_MAX_GYRO_MAG, JC_MAX_GYRO_MAG,
-+			     JC_GYRO_FUZZ, JC_GYRO_FLAT);
-+
-+	input_abs_set_res(ctlr->imu_input, ABS_RX, JC_GYRO_RES);
-+	input_abs_set_res(ctlr->imu_input, ABS_RY, JC_GYRO_RES);
-+	input_abs_set_res(ctlr->imu_input, ABS_RZ, JC_GYRO_RES);
-+
-+	__set_bit(EV_MSC, ctlr->imu_input->evbit);
-+	__set_bit(MSC_TIMESTAMP, ctlr->imu_input->mscbit);
-+	__set_bit(INPUT_PROP_ACCELEROMETER, ctlr->imu_input->propbit);
-+
-+	ret = input_register_device(ctlr->imu_input);
-+	if (ret)
-+		return ret;
+-
+-	/* set up sticks */
+-	if (hdev->product != USB_DEVICE_ID_NINTENDO_JOYCONR) {
++	if (jc_type_has_left(ctlr)) {
++		/* set up sticks */
+ 		input_set_abs_params(ctlr->input, ABS_X,
+ 				     -JC_MAX_STICK_MAG, JC_MAX_STICK_MAG,
+ 				     JC_STICK_FUZZ, JC_STICK_FLAT);
+ 		input_set_abs_params(ctlr->input, ABS_Y,
+ 				     -JC_MAX_STICK_MAG, JC_MAX_STICK_MAG,
+ 				     JC_STICK_FUZZ, JC_STICK_FLAT);
++		/* set up buttons */
++		for (i = 0; joycon_button_inputs_l[i] > 0; i++)
++			input_set_capability(ctlr->input, EV_KEY,
++					     joycon_button_inputs_l[i]);
+ 	}
+-	if (hdev->product != USB_DEVICE_ID_NINTENDO_JOYCONL) {
++	if (jc_type_has_right(ctlr)) {
++		/* set up sticks */
+ 		input_set_abs_params(ctlr->input, ABS_RX,
+ 				     -JC_MAX_STICK_MAG, JC_MAX_STICK_MAG,
+ 				     JC_STICK_FUZZ, JC_STICK_FLAT);
+ 		input_set_abs_params(ctlr->input, ABS_RY,
+ 				     -JC_MAX_STICK_MAG, JC_MAX_STICK_MAG,
+ 				     JC_STICK_FUZZ, JC_STICK_FLAT);
+-	}
+-
+-	/* set up buttons */
+-	if (hdev->product != USB_DEVICE_ID_NINTENDO_JOYCONR) {
+-		for (i = 0; joycon_button_inputs_l[i] > 0; i++)
+-			input_set_capability(ctlr->input, EV_KEY,
+-					     joycon_button_inputs_l[i]);
+-	}
+-	if (hdev->product != USB_DEVICE_ID_NINTENDO_JOYCONL) {
++		/* set up buttons */
+ 		for (i = 0; joycon_button_inputs_r[i] > 0; i++)
+ 			input_set_capability(ctlr->input, EV_KEY,
+ 					     joycon_button_inputs_r[i]);
+@@ -1392,7 +1424,7 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
+ 	mutex_unlock(&joycon_input_num_mutex);
+ 
+ 	/* configure the home LED */
+-	if (ctlr->hdev->product != USB_DEVICE_ID_NINTENDO_JOYCONL) {
++	if (jc_type_has_right(ctlr)) {
+ 		name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", d_name, "home");
+ 		if (!name)
+ 			return ret;
+@@ -1504,7 +1536,7 @@ static int joycon_power_supply_create(struct joycon_ctlr *ctlr)
+ 	return 0;
+ }
+ 
+-static int joycon_read_mac(struct joycon_ctlr *ctlr)
++static int joycon_read_info(struct joycon_ctlr *ctlr)
+ {
+ 	int ret;
+ 	int i;
+@@ -1536,6 +1568,9 @@ static int joycon_read_mac(struct joycon_ctlr *ctlr)
+ 		return -ENOMEM;
+ 	hid_info(ctlr->hdev, "controller MAC = %s\n", ctlr->mac_addr_str);
+ 
++	/* Retrieve the type so we can distinguish for charging grip */
++	ctlr->ctlr_type = report->subcmd_reply.data[2];
 +
  	return 0;
  }
  
-@@ -1288,7 +1522,7 @@ static int joycon_read_mac(struct joycon_ctlr *ctlr)
- 	report = (struct joycon_input_report *)ctlr->input_buf;
- 
- 	for (i = 4, j = 0; j < 6; i++, j++)
--		ctlr->mac_addr[j] = report->reply.data[i];
-+		ctlr->mac_addr[j] = report->subcmd_reply.data[i];
- 
- 	ctlr->mac_addr_str = devm_kasprintf(&ctlr->hdev->dev, GFP_KERNEL,
- 					    "%02X:%02X:%02X:%02X:%02X:%02X",
-@@ -1343,7 +1577,7 @@ static int joycon_ctlr_handle_event(struct joycon_ctlr *ctlr, u8 *data,
- 			    data[0] != JC_INPUT_SUBCMD_REPLY)
- 				break;
- 			report = (struct joycon_input_report *)data;
--			if (report->reply.id == ctlr->subcmd_ack_match)
-+			if (report->subcmd_reply.id == ctlr->subcmd_ack_match)
- 				match = true;
- 			break;
- 		default:
-@@ -1469,6 +1703,16 @@ static int nintendo_hid_probe(struct hid_device *hdev,
- 		hid_warn(hdev, "Analog stick positions may be inaccurate\n");
+@@ -1671,7 +1706,7 @@ static int nintendo_hid_probe(struct hid_device *hdev,
+ 	/* Initialize the controller */
+ 	mutex_lock(&ctlr->output_mutex);
+ 	/* if handshake command fails, assume ble pro controller */
+-	if (hdev->product == USB_DEVICE_ID_NINTENDO_PROCON &&
++	if ((jc_type_is_procon(ctlr) || jc_type_is_chrggrip(ctlr)) &&
+ 	    !joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ)) {
+ 		hid_dbg(hdev, "detected USB controller\n");
+ 		/* set baudrate for improved latency */
+@@ -1691,6 +1726,10 @@ static int nintendo_hid_probe(struct hid_device *hdev,
+ 		 * This doesn't send a response, so ignore the timeout.
+ 		 */
+ 		joycon_send_usb(ctlr, JC_USB_CMD_NO_TIMEOUT, HZ/10);
++	} else if (jc_type_is_chrggrip(ctlr)) {
++		hid_err(hdev, "Failed charging grip handshake\n");
++		ret = -ETIMEDOUT;
++		goto err_mutex;
  	}
  
-+	/* get IMU calibration data, and parse it */
-+	ret = joycon_request_imu_calibration(ctlr);
-+	if (ret) {
-+		/*
-+		 * We can function with default calibration, but it may be
-+		 * inaccurate. Provide a warning, and continue on.
-+		 */
-+		hid_warn(hdev, "Unable to read IMU calibration data\n");
-+	}
-+
- 	/* Set the reporting mode to 0x30, which is the full report mode */
- 	ret = joycon_set_report_mode(ctlr);
- 	if (ret) {
-@@ -1483,6 +1727,13 @@ static int nintendo_hid_probe(struct hid_device *hdev,
+ 	/* get controller calibration data, and parse it */
+@@ -1734,9 +1773,9 @@ static int nintendo_hid_probe(struct hid_device *hdev,
  		goto err_mutex;
  	}
  
-+	/* Enable the IMU */
-+	ret = joycon_enable_imu(ctlr, true);
-+	if (ret) {
-+		hid_err(hdev, "Failed to enable the IMU; ret=%d\n", ret);
-+		goto err_mutex;
-+	}
-+
- 	ret = joycon_read_mac(ctlr);
+-	ret = joycon_read_mac(ctlr);
++	ret = joycon_read_info(ctlr);
  	if (ret) {
- 		hid_err(hdev, "Failed to retrieve controller MAC; ret=%d\n",
+-		hid_err(hdev, "Failed to retrieve controller MAC; ret=%d\n",
++		hid_err(hdev, "Failed to retrieve controller info; ret=%d\n",
+ 			ret);
+ 		goto err_close;
+ 	}
+@@ -1804,6 +1843,8 @@ static const struct hid_device_id nintendo_hid_devices[] = {
+ 			 USB_DEVICE_ID_NINTENDO_PROCON) },
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_NINTENDO,
+ 			 USB_DEVICE_ID_NINTENDO_PROCON) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_NINTENDO,
++			 USB_DEVICE_ID_NINTENDO_CHRGGRIP) },
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_NINTENDO,
+ 			 USB_DEVICE_ID_NINTENDO_JOYCONL) },
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_NINTENDO,
 -- 
 2.24.1
 
