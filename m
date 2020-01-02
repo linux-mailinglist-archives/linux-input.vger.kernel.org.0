@@ -2,539 +2,326 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA1FD12E0E8
-	for <lists+linux-input@lfdr.de>; Wed,  1 Jan 2020 23:51:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E923C12E1C8
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2020 03:48:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727465AbgAAWvN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Jan 2020 17:51:13 -0500
-Received: from mail-dm6nam12on2067.outbound.protection.outlook.com ([40.107.243.67]:6250
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727454AbgAAWvN (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 1 Jan 2020 17:51:13 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O1wsF7Huw4zvJ1/6n6da2YFT4j7FZEhuXPrmktCkA4PFVJeyl5CEe8eTxFq/iPVgGKW0ci7aCcdYGcNaoj3JGZYwB8JMhq4jr1FvQT8hkDSYnvtVcfDJDh+2XcegrDilgBBoU16DJqqLuRrmR7fgueVmIj6D+7Cl4XJZ9+uIqKIePvLw7ZnWqaFlrHTkP9kJdk0cuOKSv55uuICPwVOu24HTJ1aNvepSzPQBmMSk2elJAurdw4DP7H9CAmxYQI2hWjelaqc5xaoOFGiWpO963HouJuBTHy2Gfoe0skvkzxpRPxo9WE+4xKjsrEnBkIdBoXveCXLagk7EqY8D+35JLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RK0NcIKdQBOHHb/bq8IpYXKFzDFMGMVbKunC4h0KuqQ=;
- b=OBmVOO4yL3FOeTcokZVA3Oj3Jw5a7Ed0701bsTQt3dqmQLpCwh2pvks3HcX63cSkhD9E8w5q5MWyvpYFf9P853SnmyOYL2zaZ1UVtT+ukQTR38v831xQu3RYKyscP+34kTdlrEftOg9lNEj1XhukXFPU1VGfS73+L0EXf5ytF6/R3MWVGbU+UnqfnJ8xPzwjFr9z/7TxhjwQKgdDTGHiGWCD7Eu8bgn/ruu9PC0/FfVmsIYnoc5/o+HjmrGSKb7dHSnYj4MqeFdXTDXHJFkOehfvLft03GnTLh/D7sVFWXPAFJ/SONzIXGb2iO8OES4Y8cay2SLV5v9GyXhcls4lpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RK0NcIKdQBOHHb/bq8IpYXKFzDFMGMVbKunC4h0KuqQ=;
- b=p7DkAdxTrFY29v46IvxI1PvZy9WiWT055+bb2WqttG6ALXVLxEtSa6hsZfsrLAMTK7E7uavjA9h6olnG7YtpmOid+UB5cjs8debjTde2ZY/gRoADL20zTp31xtS9lQmOOVjUEwe0IFKPz4EIEfGSpq6FBsHRogbZ7X5jl/yum2Y=
-Received: from SN6PR08MB5053.namprd08.prod.outlook.com (52.135.107.153) by
- SN6PR08MB5357.namprd08.prod.outlook.com (52.135.114.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.12; Wed, 1 Jan 2020 22:51:08 +0000
-Received: from SN6PR08MB5053.namprd08.prod.outlook.com
- ([fe80::7c80:2b62:5d9a:2139]) by SN6PR08MB5053.namprd08.prod.outlook.com
- ([fe80::7c80:2b62:5d9a:2139%4]) with mapi id 15.20.2581.007; Wed, 1 Jan 2020
- 22:51:08 +0000
-Received: from labundy.com (136.49.227.119) by SN4PR0501CA0154.namprd05.prod.outlook.com (2603:10b6:803:2c::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2602.9 via Frontend Transport; Wed, 1 Jan 2020 22:51:06 +0000
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Jonathan Cameron <jic23@kernel.org>
-CC:     "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "knaack.h@gmx.de" <knaack.h@gmx.de>,
-        "lars@metafoo.de" <lars@metafoo.de>,
-        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>
-Subject: Re: [PATCH v2 7/7] iio: position: Add support for Azoteq IQS624/625
- angle sensors
-Thread-Topic: [PATCH v2 7/7] iio: position: Add support for Azoteq IQS624/625
- angle sensors
-Thread-Index: AQHVrikBIkVSIrZAc0Gxy9PYoURzHae7dAYAgBsbhQA=
-Date:   Wed, 1 Jan 2020 22:51:08 +0000
-Message-ID: <20200101225058.GC14339@labundy.com>
-References: <1575851866-18919-1-git-send-email-jeff@labundy.com>
- <1575851866-18919-8-git-send-email-jeff@labundy.com>
- <20191215165328.789e8a16@archlinux>
-In-Reply-To: <20191215165328.789e8a16@archlinux>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN4PR0501CA0154.namprd05.prod.outlook.com
- (2603:10b6:803:2c::32) To SN6PR08MB5053.namprd08.prod.outlook.com
- (2603:10b6:805:78::25)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=jeff@labundy.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [136.49.227.119]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ec84bcdc-1cac-400d-19f6-08d78f0d16ff
-x-ms-traffictypediagnostic: SN6PR08MB5357:
-x-microsoft-antispam-prvs: <SN6PR08MB53571CE78E3622581B270A78D3210@SN6PR08MB5357.namprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 02698DF457
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(136003)(39830400003)(396003)(346002)(376002)(34096005)(189003)(501634003)(199004)(66446008)(64756008)(26005)(66556008)(66476007)(54906003)(956004)(1076003)(2616005)(52116002)(36756003)(316002)(16526019)(86362001)(2906002)(30864003)(186003)(66946007)(508600001)(33656002)(81156014)(81166006)(71200400001)(7416002)(6916009)(5660300002)(8936002)(7696005)(55016002)(8886007)(8676002)(4326008);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR08MB5357;H:SN6PR08MB5053.namprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: labundy.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: s7Ygqca7eLG80X2tN6HYGs9aUAv5cykWALN87t5+31i7yuDBibriRon0SZMLCMPEC6MTkcz4JoTB9ODjHfIegNsFMic8E9nNgZUXATDMkBGHcQn49wMQ3oM+svArAmbR4vq5KQelwe9RREEjxPPlz5pzgYMgint22TO/PIPryzZJo8g3kRXGzxSbMhC/DA1rXmEO4ahpK24OcbOhxhDQ7XUMmukOFg8lfxbQIVJfPeMviNhGeyxB1prPh3GQ/F5zCMNM1JMmsf5wzKHxEM/9xR7te+JNU7GHBK+PPT/GtlDbxcQ0NRpjpb0ad6yQvu80JsXar5ARVGCBj/Dp1IJlSyoQNU1rHVZzeqz6LkI69n13rhwY3JP8qluzRd7JyB094QiwyfeNgfqDwzbu1JRHmbWWTw0Fz0T2HUUStbuD0Txt/x+M2T1vaUELpqAlnRA118maLO7OoJM1o1pwqYtRalyhdLYpUVqP+p8nPo9YEvNwkpAyM4V7KTwyKIdLOuLA
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <E418FDC8470AC54BACA1F542823AE577@namprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1727536AbgABCsL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Jan 2020 21:48:11 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:53670 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727525AbgABCsL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jan 2020 21:48:11 -0500
+Received: from mail-wr1-f69.google.com ([209.85.221.69])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <chia-lin.kao@canonical.com>)
+        id 1imqVJ-0008A4-Tq
+        for linux-input@vger.kernel.org; Thu, 02 Jan 2020 02:46:29 +0000
+Received: by mail-wr1-f69.google.com with SMTP id f10so12745154wro.14
+        for <linux-input@vger.kernel.org>; Wed, 01 Jan 2020 18:46:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pz7z4GGlB5HAuo/J4rqK/C+YsZQ3SQ99xPr8rkpIjP0=;
+        b=IqAT5VZW/30lXMGI9OyIY18w6aPt73D1WLUdJG2TCiLmmT9lFsP98R5g5G7nux3/6M
+         somYLF6HUh1uKLF3A8nWgHjaSnH+joKo8GZz8GlG8wd5N61bzbWYX0WYabwjBf8UpabK
+         YyOFpL5MeIyO1hTANwxN6NpkyW7KIKtlhIjJ+nE2p0aqGh8oQP32ZzBWBkJfNLgug50v
+         jVvbJ35VtqkzPuqrD3HDf+Aw331TTel3mjFvUQuC08YcdM1O2veiFqPbnVC0sqdVyOIS
+         ClUOFi4uPdiXrL/pxvV0WYEDiVSqnkkid9AVPGlLXqJw7atZ8RRYWXttbilmOesI+ke3
+         Q0XQ==
+X-Gm-Message-State: APjAAAUtZ/HojF0MoQUZYiUXuvDVSi3xfXsa+iYoTwIRBitVGY/NLEgq
+        XZbwx/y5xyR32a4EZC9dWT8o4DFSB0EIG6gAs/6qIgSmv0HLeU7c5JcRoqgbXg9EUdBZKVcxJUq
+        q4Pt1rdfzotalue2VAzv+X7YMKS2a/Aq7k+pRC0hKj6hjqPal9zxdQeD8
+X-Received: by 2002:a05:600c:2c53:: with SMTP id r19mr11840838wmg.39.1577933189346;
+        Wed, 01 Jan 2020 18:46:29 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyYMmP86gYe2T8sIVWmRDeE/HN6gm6Zn8zPt6J+HOGZREvf5LSQ4vTpsFrXHImr/qAsm5OCHVtzEhGTLz1kHhU=
+X-Received: by 2002:a05:600c:2c53:: with SMTP id r19mr11840821wmg.39.1577933189010;
+ Wed, 01 Jan 2020 18:46:29 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec84bcdc-1cac-400d-19f6-08d78f0d16ff
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jan 2020 22:51:08.1607
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pMgvHzyLszpORFVFoNLwszU38nc5p9Vop/1zAwMHXIwiLZapASKeeDw18WZMNgYCD3aM/wU6e0pZONoeOSUSuA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5357
+References: <CAFv23QmiDdhe+xJw2y7CXiWq4-GK1S-1bcKxEpNhNJu3ZtzA_w@mail.gmail.com>
+ <9baeb165eddb4872fb701ff81f11692b7e153bf6.camel@hadess.net>
+ <CAFv23Qmj_ZqKs9_tw1Grzzj5unFBLfK0Scy396vcHCEB+fdLOA@mail.gmail.com> <7830ad25a5cb7640e1da55c4278ce73c1ff3e0ad.camel@linux.intel.com>
+In-Reply-To: <7830ad25a5cb7640e1da55c4278ce73c1ff3e0ad.camel@linux.intel.com>
+From:   AceLan Kao <acelan.kao@canonical.com>
+Date:   Thu, 2 Jan 2020 10:46:17 +0800
+Message-ID: <CAFv23Q=aOq1YCQnW7r_eSRn1COfpvQkfjtK2+a3zU0ggxnuYew@mail.gmail.com>
+Subject: Re: Display got wrong rotation after hid_sensor_accel_3d is loaded
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Bastien Nocera <hadess@hadess.net>, Jiri Kosina <jikos@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org
+Content-Type: multipart/mixed; boundary="000000000000360dbc059b1f3346"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jonathan,
+--000000000000360dbc059b1f3346
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your continued support on this project.
+Yes, this machine will be sold with Windows, but currently we didn't
+hear any issues from Windows side.
+Here is the rdesc I found under /sys/kernel/debug/hid
 
-On Sun, Dec 15, 2019 at 04:53:28PM +0000, Jonathan Cameron wrote:
-> On Mon, 9 Dec 2019 00:38:41 +0000
-> Jeff LaBundy <jeff@labundy.com> wrote:
->=20
-> > This patch adds support for the Azoteq IQS624 and IQS625 angular positi=
-on
-> > sensors, capable of reporting the angle of a rotating shaft down to 1 a=
-nd
-> > 10 degrees of accuracy, respectively.
-> >=20
-> > This patch also introduces a home for linear and angular position senso=
-rs.
-> > Unlike resolvers, they are typically contactless and use the Hall effec=
-t.
-> >=20
-> > Signed-off-by: Jeff LaBundy <jeff@labundy.com>
->=20
-> Looks good
->=20
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->=20
-> My current assumption is that Lee will take this lot via an immutable bra=
-nch
-> in MFD once it's ready.  Shout if a different path makes sense.
+BTW, we're trying to push BIOS to provide some useful info about the
+orientation of the sensor, so that we don't have to list those
+machines in the driver.
 
-Same here. @Lee, please let us know if you disagree.
+Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> =E6=96=BC
+2019=E5=B9=B412=E6=9C=8831=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=881:=
+18=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Hi Kao,
+>
+> Is this device sold with Windows?
+> Can you send full report descriptor (You can get from
+> /sys/kernel/debug/hid)?
+>
+> Thanks,
+> Srinivas
+>
+> On Fri, 2019-12-27 at 10:30 +0800, AceLan Kao wrote:
+> > Hi Bastien,
+> >
+> > Thanks for your suggestion.
+> > I just tried to add the following line into
+> > /lib/udev/hwdb.d/60-sensor.hwdb and got the correct screen rotation.
+> > But the cursor is still un-rotated, the cursor is drawn upside down,
+> > and its coordinates are inverted.
+> >
+> > #########################################
+> > # STMicro
+> > #########################################
+> > sensor:modalias:platform:platform:HID-SENSOR-200073
+> >  ACCEL_MOUNT_MATRIX=3D-1, 0, 0; 0, -1, 0; 0, 0, 1
+> >
+> > It looks like we should introduce a quirk into hid_sensor_accel_3d
+> > driver.
+> > There are 3 different scale variables in hid_sensor_accel_3d, but I
+> > don't see any of them would work the way I want.
+> > Do you mean to introduce new scale variables?
+> >
+> >    drivers/iio/accel/hid-sensor-accel-3d.c:34:     int
+> > scale_pre_decml;
+> >    drivers/iio/accel/hid-sensor-accel-3d.c:35:     int
+> > scale_post_decml;
+> >    drivers/iio/accel/hid-sensor-accel-3d.c:36:     int
+> > scale_precision;
+> >
+> > Bastien Nocera <hadess@hadess.net> =E6=96=BC 2019=E5=B9=B412=E6=9C=8826=
+=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8811:03=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+> > >
+> > > On Thu, 2019-12-26 at 17:22 +0800, AceLan Kao wrote:
+> > > > Hi all,
+> > > >
+> > > > I'm working on a new platform which comes with an accelerator
+> > > > meter.
+> > > > It's a STMicroelectronics LSM6DS3US accelerator meter, it doesn't
+> > > > use
+> > > > st_sensors driver, but hid_sensor_accel_3d.
+> > > > After hid_sensor_accel_3d is loaded, the display becomes upside
+> > > > down,
+> > > > so I tried to add some code to make it become normal.(ACCEL_X
+> > > > should
+> > > > have the same modification)
+> > > >
+> > > > I don't know how to fix this in a correct way, please give me
+> > > > some
+> > > > hints.
+> > >
+> > > This needs to be done as a quirk, either by applying a quirk for
+> > > the
+> > > HID descriptors (which should have a definition of the scale, which
+> > > would be negative for this device), or in user-space in systemd's
+> > > hwdb
+> > > database, which your user-space consumers need to take care of:
+> > >
+> https://github.com/systemd/systemd/blob/master/hwdb.d/60-sensor.hwdb
+> > >
+> > > Cheers
+> > >
+>
 
-> > ---
-> > Changes in v2:
-> >   - Merged 'Copyright' and 'Author' lines into one in introductory comm=
-ents
-> >   - Replaced 'error' with 'ret' throughout
-> >   - Added iqs624_pos_angle_en and iqs624_pos_angle_get to remove duplic=
-ate
-> >     logic previously used throughout
-> >   - Refactored the logic in iqs624_pos_notifier and added a lock to saf=
-ely
-> >     evaluate variables that may change in response to user action
-> >   - Refactored the logic in iqs624_pos_read_raw
-> >   - Added a lock to iqs624_pos_read_event_config to account for cases i=
-n which
-> >     the corresponding hardware state is in the process of being updated
-> >   - Refactored the logic in iqs624_pos_write_event_config and read the =
-initial
-> >     angle in case it changed since having first been read in iqs624_pos=
-_init
-> >   - Removed iqs624_pos_init as its logic has since been absorbed elsewh=
-ere
-> >   - Removed devm_add_action_or_reset failure message
-> >   - Eliminated tabbed alignment of platform_driver struct members
-> >   - Changed Kconfig "depends on" logic to MFD_IQS62X || COMPILE_TEST
-> >=20
-> >  drivers/iio/Kconfig               |   1 +
-> >  drivers/iio/Makefile              |   1 +
-> >  drivers/iio/position/Kconfig      |  19 +++
-> >  drivers/iio/position/Makefile     |   7 +
-> >  drivers/iio/position/iqs624-pos.c | 284 ++++++++++++++++++++++++++++++=
-++++++++
-> >  5 files changed, 312 insertions(+)
-> >  create mode 100644 drivers/iio/position/Kconfig
-> >  create mode 100644 drivers/iio/position/Makefile
-> >  create mode 100644 drivers/iio/position/iqs624-pos.c
-> >=20
-> > diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
-> > index 5bd5185..d5c073a 100644
-> > --- a/drivers/iio/Kconfig
-> > +++ b/drivers/iio/Kconfig
-> > @@ -88,6 +88,7 @@ source "drivers/iio/orientation/Kconfig"
-> >  if IIO_TRIGGER
-> >     source "drivers/iio/trigger/Kconfig"
-> >  endif #IIO_TRIGGER
-> > +source "drivers/iio/position/Kconfig"
-> >  source "drivers/iio/potentiometer/Kconfig"
-> >  source "drivers/iio/potentiostat/Kconfig"
-> >  source "drivers/iio/pressure/Kconfig"
-> > diff --git a/drivers/iio/Makefile b/drivers/iio/Makefile
-> > index bff682a..1712011 100644
-> > --- a/drivers/iio/Makefile
-> > +++ b/drivers/iio/Makefile
-> > @@ -31,6 +31,7 @@ obj-y +=3D light/
-> >  obj-y +=3D magnetometer/
-> >  obj-y +=3D multiplexer/
-> >  obj-y +=3D orientation/
-> > +obj-y +=3D position/
-> >  obj-y +=3D potentiometer/
-> >  obj-y +=3D potentiostat/
-> >  obj-y +=3D pressure/
-> > diff --git a/drivers/iio/position/Kconfig b/drivers/iio/position/Kconfi=
-g
-> > new file mode 100644
-> > index 0000000..eda67f0
-> > --- /dev/null
-> > +++ b/drivers/iio/position/Kconfig
-> > @@ -0,0 +1,19 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +#
-> > +# Linear and angular position sensors
-> > +#
-> > +# When adding new entries keep the list in alphabetical order
-> > +
-> > +menu "Linear and angular position sensors"
-> > +
-> > +config IQS624_POS
-> > +	tristate "Azoteq IQS624/625 angular position sensors"
-> > +	depends on MFD_IQS62X || COMPILE_TEST
-> > +	help
-> > +	  Say Y here if you want to build support for the Azoteq IQS624
-> > +	  and IQS625 angular position sensors.
-> > +
-> > +	  To compile this driver as a module, choose M here: the module
-> > +	  will be called iqs624-pos.
-> > +
-> > +endmenu
-> > diff --git a/drivers/iio/position/Makefile b/drivers/iio/position/Makef=
-ile
-> > new file mode 100644
-> > index 0000000..3cbe7a7
-> > --- /dev/null
-> > +++ b/drivers/iio/position/Makefile
-> > @@ -0,0 +1,7 @@
-> > +#
-> > +# Makefile for IIO linear and angular position sensors
-> > +#
-> > +
-> > +# When adding new entries keep the list in alphabetical order
-> > +
-> > +obj-$(CONFIG_IQS624_POS)	+=3D iqs624-pos.o
-> > diff --git a/drivers/iio/position/iqs624-pos.c b/drivers/iio/position/i=
-qs624-pos.c
-> > new file mode 100644
-> > index 0000000..af629bf5
-> > --- /dev/null
-> > +++ b/drivers/iio/position/iqs624-pos.c
-> > @@ -0,0 +1,284 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Azoteq IQS624/625 Angular Position Sensors
-> > + *
-> > + * Copyright (C) 2019 Jeff LaBundy <jeff@labundy.com>
-> > + */
-> > +
-> > +#include <linux/device.h>
-> > +#include <linux/iio/events.h>
-> > +#include <linux/iio/iio.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/mfd/iqs62x.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/notifier.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/regmap.h>
-> > +
-> > +#define IQS624_POS_DEG_OUT			0x16
-> > +
-> > +#define IQS624_POS_SCALE1			(314159 / 180)
-> > +#define IQS624_POS_SCALE2			100000
-> > +
-> > +struct iqs624_pos_private {
-> > +	struct iqs62x_core *iqs62x;
-> > +	struct notifier_block notifier;
-> > +	struct mutex lock;
-> > +	bool angle_en;
-> > +	u16 angle;
-> > +};
-> > +
-> > +static int iqs624_pos_angle_en(struct iqs62x_core *iqs62x, bool angle_=
-en)
-> > +{
-> > +	unsigned int event_mask =3D IQS624_HALL_UI_WHL_EVENT;
-> > +
-> > +	/*
-> > +	 * The IQS625 reports angular position in the form of coarse interval=
-s,
-> > +	 * so only interval change events are unmasked. Conversely, the IQS62=
-4
-> > +	 * reports angular position down to one degree of resolution, so whee=
-l
-> > +	 * movement events are unmasked instead.
-> > +	 */
-> > +	if (iqs62x->dev_desc->prod_num =3D=3D IQS625_PROD_NUM)
-> > +		event_mask =3D IQS624_HALL_UI_INT_EVENT;
-> > +
-> > +	return regmap_update_bits(iqs62x->map, IQS624_HALL_UI, event_mask,
-> > +				  angle_en ? 0 : 0xFF);
-> > +}
-> > +
-> > +static int iqs624_pos_notifier(struct notifier_block *notifier,
-> > +			       unsigned long event_flags, void *context)
-> > +{
-> > +	struct iqs62x_event_data *event_data =3D context;
-> > +	struct iqs624_pos_private *iqs624_pos;
-> > +	struct iqs62x_core *iqs62x;
-> > +	struct iio_dev *indio_dev;
-> > +	u16 angle =3D event_data->ui_data;
-> > +	s64 timestamp;
-> > +	int ret;
-> > +
-> > +	iqs624_pos =3D container_of(notifier, struct iqs624_pos_private,
-> > +				  notifier);
-> > +	indio_dev =3D iio_priv_to_dev(iqs624_pos);
-> > +	timestamp =3D iio_get_time_ns(indio_dev);
-> > +
-> > +	iqs62x =3D iqs624_pos->iqs62x;
-> > +	if (iqs62x->dev_desc->prod_num =3D=3D IQS625_PROD_NUM)
-> > +		angle =3D event_data->interval;
-> > +
-> > +	mutex_lock(&iqs624_pos->lock);
-> > +
-> > +	if (event_flags & BIT(IQS62X_EVENT_SYS_RESET)) {
-> > +		ret =3D iqs624_pos_angle_en(iqs62x, iqs624_pos->angle_en);
-> > +		if (ret) {
-> > +			dev_err(indio_dev->dev.parent,
-> > +				"Failed to re-initialize device: %d\n", ret);
-> > +			ret =3D NOTIFY_BAD;
-> > +		} else {
-> > +			ret =3D NOTIFY_OK;
-> > +		}
-> > +	} else if (iqs624_pos->angle_en && (angle !=3D iqs624_pos->angle)) {
-> > +		iio_push_event(indio_dev,
-> > +			       IIO_UNMOD_EVENT_CODE(IIO_ANGL, 0,
-> > +						    IIO_EV_TYPE_CHANGE,
-> > +						    IIO_EV_DIR_NONE),
-> > +			       timestamp);
-> > +
-> > +		iqs624_pos->angle =3D angle;
-> > +		ret =3D NOTIFY_OK;
-> > +	} else {
-> > +		ret =3D NOTIFY_DONE;
-> > +	}
-> > +
-> > +	mutex_unlock(&iqs624_pos->lock);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static void iqs624_pos_notifier_unregister(void *context)
-> > +{
-> > +	struct iqs624_pos_private *iqs624_pos =3D context;
-> > +	struct iio_dev *indio_dev =3D iio_priv_to_dev(iqs624_pos);
-> > +	int ret;
-> > +
-> > +	ret =3D blocking_notifier_chain_unregister(&iqs624_pos->iqs62x->nh,
-> > +						 &iqs624_pos->notifier);
-> > +	if (ret)
-> > +		dev_err(indio_dev->dev.parent,
-> > +			"Failed to unregister notifier: %d\n", ret);
-> > +}
-> > +
-> > +static int iqs624_pos_angle_get(struct iqs62x_core *iqs62x, unsigned i=
-nt *val)
-> > +{
-> > +	int ret;
-> > +	__le16 val_buf;
-> > +
-> > +	if (iqs62x->dev_desc->prod_num =3D=3D IQS625_PROD_NUM)
-> > +		return regmap_read(iqs62x->map, iqs62x->dev_desc->interval,
-> > +				   val);
-> > +
-> > +	ret =3D regmap_raw_read(iqs62x->map, IQS624_POS_DEG_OUT, &val_buf,
-> > +			      sizeof(val_buf));
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	*val =3D le16_to_cpu(val_buf);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int iqs624_pos_read_raw(struct iio_dev *indio_dev,
-> > +			       struct iio_chan_spec const *chan,
-> > +			       int *val, int *val2, long mask)
-> > +{
-> > +	struct iqs624_pos_private *iqs624_pos =3D iio_priv(indio_dev);
-> > +	struct iqs62x_core *iqs62x =3D iqs624_pos->iqs62x;
-> > +	unsigned int scale =3D 1;
-> > +	int ret;
-> > +
-> > +	switch (mask) {
-> > +	case IIO_CHAN_INFO_RAW:
-> > +		ret =3D iqs624_pos_angle_get(iqs62x, val);
-> > +		if (ret)
-> > +			return ret;
-> > +
-> > +		return IIO_VAL_INT;
-> > +
-> > +	case IIO_CHAN_INFO_SCALE:
-> > +		if (iqs62x->dev_desc->prod_num =3D=3D IQS625_PROD_NUM) {
-> > +			ret =3D regmap_read(iqs62x->map, IQS624_INTERVAL_DIV,
-> > +					  &scale);
-> > +			if (ret)
-> > +				return ret;
-> > +		}
-> > +
-> > +		*val =3D scale * IQS624_POS_SCALE1;
-> > +		*val2 =3D IQS624_POS_SCALE2;
-> > +		return IIO_VAL_FRACTIONAL;
-> > +
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +}
-> > +
-> > +static int iqs624_pos_read_event_config(struct iio_dev *indio_dev,
-> > +					const struct iio_chan_spec *chan,
-> > +					enum iio_event_type type,
-> > +					enum iio_event_direction dir)
-> > +{
-> > +	struct iqs624_pos_private *iqs624_pos =3D iio_priv(indio_dev);
-> > +	int ret;
-> > +
-> > +	mutex_lock(&iqs624_pos->lock);
-> > +	ret =3D iqs624_pos->angle_en;
-> > +	mutex_unlock(&iqs624_pos->lock);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int iqs624_pos_write_event_config(struct iio_dev *indio_dev,
-> > +					 const struct iio_chan_spec *chan,
-> > +					 enum iio_event_type type,
-> > +					 enum iio_event_direction dir,
-> > +					 int state)
-> > +{
-> > +	struct iqs624_pos_private *iqs624_pos =3D iio_priv(indio_dev);
-> > +	struct iqs62x_core *iqs62x =3D iqs624_pos->iqs62x;
-> > +	unsigned int val;
-> > +	int ret;
-> > +
-> > +	mutex_lock(&iqs624_pos->lock);
-> > +
-> > +	ret =3D iqs624_pos_angle_get(iqs62x, &val);
-> > +	if (ret)
-> > +		goto err_mutex;
-> > +
-> > +	ret =3D iqs624_pos_angle_en(iqs62x, state);
-> > +	if (ret)
-> > +		goto err_mutex;
-> > +
-> > +	iqs624_pos->angle =3D val;
-> > +	iqs624_pos->angle_en =3D state;
-> > +
-> > +err_mutex:
-> > +	mutex_unlock(&iqs624_pos->lock);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static const struct iio_info iqs624_pos_info =3D {
-> > +	.read_raw =3D &iqs624_pos_read_raw,
-> > +	.read_event_config =3D iqs624_pos_read_event_config,
-> > +	.write_event_config =3D iqs624_pos_write_event_config,
-> > +};
-> > +
-> > +static const struct iio_event_spec iqs624_pos_events[] =3D {
-> > +	{
-> > +		.type =3D IIO_EV_TYPE_CHANGE,
-> > +		.dir =3D IIO_EV_DIR_NONE,
-> > +		.mask_separate =3D BIT(IIO_EV_INFO_ENABLE),
-> > +	},
-> > +};
-> > +
-> > +static const struct iio_chan_spec iqs624_pos_channels[] =3D {
-> > +	{
-> > +		.type =3D IIO_ANGL,
-> > +		.info_mask_separate =3D BIT(IIO_CHAN_INFO_RAW) |
-> > +				      BIT(IIO_CHAN_INFO_SCALE),
-> > +		.event_spec =3D iqs624_pos_events,
-> > +		.num_event_specs =3D ARRAY_SIZE(iqs624_pos_events),
-> > +	},
-> > +};
-> > +
-> > +static int iqs624_pos_probe(struct platform_device *pdev)
-> > +{
-> > +	struct iqs62x_core *iqs62x =3D dev_get_drvdata(pdev->dev.parent);
-> > +	struct iqs624_pos_private *iqs624_pos;
-> > +	struct iio_dev *indio_dev;
-> > +	int ret;
-> > +
-> > +	indio_dev =3D devm_iio_device_alloc(&pdev->dev, sizeof(*iqs624_pos));
-> > +	if (!indio_dev)
-> > +		return -ENOMEM;
-> > +
-> > +	iqs624_pos =3D iio_priv(indio_dev);
-> > +	iqs624_pos->iqs62x =3D iqs62x;
-> > +
-> > +	indio_dev->modes =3D INDIO_DIRECT_MODE;
-> > +	indio_dev->dev.parent =3D &pdev->dev;
-> > +	indio_dev->channels =3D iqs624_pos_channels;
-> > +	indio_dev->num_channels =3D ARRAY_SIZE(iqs624_pos_channels);
-> > +	indio_dev->name =3D iqs62x->dev_desc->dev_name;
-> > +	indio_dev->info =3D &iqs624_pos_info;
-> > +
-> > +	mutex_init(&iqs624_pos->lock);
-> > +
-> > +	iqs624_pos->notifier.notifier_call =3D iqs624_pos_notifier;
-> > +	ret =3D blocking_notifier_chain_register(&iqs624_pos->iqs62x->nh,
-> > +					       &iqs624_pos->notifier);
-> > +	if (ret) {
-> > +		dev_err(&pdev->dev, "Failed to register notifier: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	ret =3D devm_add_action_or_reset(&pdev->dev,
-> > +				       iqs624_pos_notifier_unregister,
-> > +				       iqs624_pos);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return devm_iio_device_register(&pdev->dev, indio_dev);
-> > +}
-> > +
-> > +static struct platform_driver iqs624_pos_platform_driver =3D {
-> > +	.driver =3D {
-> > +		.name =3D IQS624_DRV_NAME_POS,
-> > +	},
-> > +	.probe =3D iqs624_pos_probe,
-> > +};
-> > +module_platform_driver(iqs624_pos_platform_driver);
-> > +
-> > +MODULE_AUTHOR("Jeff LaBundy <jeff@labundy.com>");
-> > +MODULE_DESCRIPTION("Azoteq IQS624/625 Angular Position Sensors");
-> > +MODULE_LICENSE("GPL");
-> > +MODULE_ALIAS("platform:" IQS624_DRV_NAME_POS);
-> > --
-> > 2.7.4
-> >=20
->=20
+--000000000000360dbc059b1f3346
+Content-Type: application/x-compressed-tar; name="hid.tgz"
+Content-Disposition: attachment; filename="hid.tgz"
+Content-Transfer-Encoding: base64
+Content-ID: <f_k4w4i3cy0>
+X-Attachment-Id: f_k4w4i3cy0
 
-Wishing you a Happy New Year,
-Jeff LaBundy
+H4sIAONXDV4AA+1dXXOcSJbVs38Fj+4HqfMTKD/0hMdtz3Zsd09H296dDsc+1AeyFeuWHFJ5djy/
+foGqLKgiyeJCQkHVIRQSOpkJ3JuXmzc5yeXT3er7q543lm6R1vnfdDv8m+9zGTIptIxkWo+nu9FV
+oPu+sGz7+rSePwbB1ePDw9pV71j5RLdPaf8zxuMXTMXxCy7Yy5u0O/TN4yp5Wno6R9bBoVI1/a+U
+DNWu/zUXaf/LDAqYp/M7twvvf6YDxgM2C5gI5jzbj3cIzxEWZHVmAc8Rkf6WAdcZLvKaUf57pjM8
+5tlxsn2d7/Ngd3zJ8t88a5sWpW2j27xtnNcXef0wr7NBuEHS/WXA5hm+q7Zk2U9WtMovVZcuPs4Q
+sRFH7F1qiqso/y22J412JxLbk0a5IEJvpdam9FBMuRVte/wwkLcZklbjLNApmARhum9kl3k1FQZh
+etmqJKDI2t7eZjtpacyynY2iNqXLzdGWQRjmp2OZCGn9rAnLT73/7+YCNsff6UeH26Nl+2orXSFv
+bEpzkTddf9i5ZS1FJQ2scp3nrbQudSjfnmWxO+/M7IfZdaYXnDWcZ0VLXahxI8j2OHnN9FALowqW
+KyGrs7PPTafLLWI/Tnr8xfb6s8pqa/CH+EYQuZVxscNzs0xbxeXLELbLiIojx+H27MXF78w1KTVZ
+7Jlrpqiy0c73VFocateE5QdZ5g3zs+u41Gti24+LXd+F+b7c3kHPngXBT7/+9v7dc/7dh3znf1Ik
+CN7cJZ9Xz9l3+T9B8Nunb093y/nn539L7pPHu+WPydP/rh++3Pz2cHe/Th5NtZdfvnxOq63vHu4P
+a/7y8PUpMfXeP80/Js+l+TcI/vp1vX64z0YebsGEBZNb7OeHj9mFBb/c3d/9+fXP4pJ3BfN/5QXc
+FPyefHl4XAdv7/6dVMBXD1/v18WFbdG/394+Jevi0G8+zz8+PQ/+a/54N198ToKXi6eHz1/XSfBd
+SXe8V92JQncHlf9RV/BHjcauuYhqlVYUldUWW9Um7GqL69T2e/I5Ffef+2oTvaqN16rtvz8lyee+
+NXRoblsNCUVSkRxKRa8e7p++/pk83vzHw+Pdvx/u1/PPp1STFI3UtHFnscudba/u+Y93H+/W6XU8
+Pt28ubv/aFdZqdK7h6/LT7/NV7X3Yqluqrzbu1Vyv0xspe/uvrz9v7v18lOPbqzmfmzpxvzqjNfp
+bD1frn/6kaoVbdPKoRt334MkrYjetVLj1ZvbiVQVP1FtVZSYZukMcHdN93fr4PW/vjzcJ6nerkUZ
+f/72p+Dnu/sknTq9CF6l5Xd/JiWXs2ecIaUfakcLaz/IofuhbhCt7YcojFp0Q6hO2wv1I5K1G1RX
+LZfqMqZDqpJDraVuo+ZyuwNFq1pFv02WD/erp+5aVjRXrD1qeetp88tr7WxPqWlS5KBDkqLDroqu
+Tmfo4/tJzZii3LCZr9iEZdIVlpXVfXvLeK7Ag1grKrS8qwLkbJHG943QI3ZLlckPKRTf3DmqhztH
+ADlbBHeOuXPCjneO5cZRJ0DOo0M79eeb1y/fvf/99fPZdx+2u0f7tFt8vFXOr1//XCSP1H4YcS/U
+hHItHw150PcmYn737Uty/lpu9ojD2DpnHo1dFDOh3MGw1MEsNRAgQIAAAQIECBAgQIAAAQIECJAz
+RM7jcXLpgVaXB8q6+TO228YkgTwBch696oUkiEh9Kix9yqXa69W8jgACBAgQIECAAAHiGTmPGLYU
+PHaJYjl3h7FtX3z4Mfnn3TLJX1L6+PUxL26yTuOn+y9f1788rMjLNLilQ0bTVV46Srg7aveynvee
+sr9/xpiOavCY3Hlj6DvvL7k9Ky3TD66vr38I/jP5dvNzcrv+6/q+VCiKwt/vPn46KJVF6S93q9Xn
+JCs+fHtrU8e8pnjzj8MKfxxU+OOwQv7e5UGlvzyre0GzUtH6XuKm1ttv98ubjfKe2V5QdNbavbBX
+rWVXgaPGH84zZa8FNbmU3CqqFZ1dfWse6RRFfwEIsCEoquaGIhRNv0gV1v7Xx2zku0+ent5/mXz5
+qXMujWnb5v968yJmcfSCvXyVT8XkcPm/0klcyIv8b1pHWf4vJZH/a5CN6UCwvWxfsUkdtcGTUhaw
+DJkHPDQpwDY5nuReiqJtGqN5oFieiivd4WZHmHRIm+xd8/xEonSoyH4oZg7FzKGYMDvS7Cizo81O
+WDndrNGVS3M6aU4nK1fODw4V2g+lzaG0OZQ2V67NlWtz5VpXLliVsq2ZPF+bnyjvjs3pdF5hsVNX
+0qpVvFXINn1YVCqK9op4WCoK94vKrfR+UflcfK9IlIr4vM3F80UrkUXtZSiVHS0VZ5NV7SDV2pEj
+mztlAPOOy9Yi9k9XY5PcnI6b03FzOm5Ox83puD48izZ57g5kj3c2nxypIGb7FUReYVaqsLBVCIsK
+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
+--000000000000360dbc059b1f3346--
