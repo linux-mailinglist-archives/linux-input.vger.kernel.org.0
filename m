@@ -2,116 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 477C012E392
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2020 08:57:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5674512E982
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2020 18:43:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727811AbgABH5e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Jan 2020 02:57:34 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51352 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727663AbgABH5d (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Jan 2020 02:57:33 -0500
-Received: by mail-wm1-f65.google.com with SMTP id d73so4854252wmd.1
-        for <linux-input@vger.kernel.org>; Wed, 01 Jan 2020 23:57:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=UanL6Xg19x3IJk9ON7AVf5trQLWWaJ2V1mNFz4i2lZQ=;
-        b=APZhCqey6B4qED7ETGokXrNnEuOyR9M5iVHr7TkJbN/kb8pcr8dKqESIq+m5v4Pbka
-         LbMt4U7DquYpX6+tWDKArajARZhgiWeg/xAh+/G3yG81hHEclX6mo0LKYKUazrx1+vQ0
-         x12VU1OnfcIX3RqaGrvFyq1zr+Db2M5rYFdsqixq/cr20JaHii0Trkkq5LnQQ2IL0gr1
-         PB70YfwF0+1nwPKzATao4i0beOSWDbcOEEOZ9BeGrZl2MX7fm4bfcVegCMLWctshM6kk
-         eHHZoEL/LoYpD/LUPTsSRQVcrnaPlp+ZEFwaeYieogUeXpQzp0H2sSPylvgcXqDPZf6B
-         M/+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=UanL6Xg19x3IJk9ON7AVf5trQLWWaJ2V1mNFz4i2lZQ=;
-        b=d1EAagme50L7S1fZkBmFBrCVl0R7ZHDmrGanqaz+PdTO2vIFeXBTQFzCodw8pY6Ve5
-         /0nEtCF7KLUmc7QQ8ODT+EHNuCk05YoaS932iWkco7X3sWfAevGmbnwXBjKmpSDdu6ds
-         kR4Lc+luz+tNwXqlLlUMqIXxjdYd4UsWtpsi0AOj85UHTKF6OrAOZrS4NC9+HfgfNhEZ
-         LqcRSxeomXhX4qmFundmxmiA3oxBAo/5RJTOyYnds7bLWjlsVY7Wr3Rq5OYDN/nEjJaT
-         H1MleG0WeHwt+y9o9trWQGu0Qgn9CY9EOjMz5Fs9gNL1kadtJ027sKlfyyQDK/kVCpEO
-         TRJw==
-X-Gm-Message-State: APjAAAWrxtwxrRaG2xni1DKb9dtkKqmvtihtMe9zJ4bhJ4dxVwB4UtxI
-        KDF+E7d1/9SW1Ku+NB8pmG4qTQ==
-X-Google-Smtp-Source: APXvYqwwGNguWVcv79X0HETbGo9RlTIwQoUP0B3nLtlPehl4xsbv/YUXMNe/5ajm92azqw8ypm1rvg==
-X-Received: by 2002:a7b:c934:: with SMTP id h20mr12871982wml.103.1577951851625;
-        Wed, 01 Jan 2020 23:57:31 -0800 (PST)
-Received: from dell ([2.27.35.135])
-        by smtp.gmail.com with ESMTPSA id f1sm55533281wru.6.2020.01.01.23.57.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jan 2020 23:57:30 -0800 (PST)
-Date:   Thu, 2 Jan 2020 07:57:43 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "knaack.h@gmx.de" <knaack.h@gmx.de>,
-        "lars@metafoo.de" <lars@metafoo.de>,
-        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>
-Subject: Re: [PATCH v2 7/7] iio: position: Add support for Azoteq IQS624/625
- angle sensors
-Message-ID: <20200102075743.GA3591@dell>
-References: <1575851866-18919-1-git-send-email-jeff@labundy.com>
- <1575851866-18919-8-git-send-email-jeff@labundy.com>
- <20191215165328.789e8a16@archlinux>
- <20200101225058.GC14339@labundy.com>
+        id S1727814AbgABRnt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Jan 2020 12:43:49 -0500
+Received: from mga07.intel.com ([134.134.136.100]:49206 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727706AbgABRnt (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 2 Jan 2020 12:43:49 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Jan 2020 09:43:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,387,1571727600"; 
+   d="scan'208";a="244666361"
+Received: from spandruv-mobl3.jf.intel.com ([10.254.45.199])
+  by fmsmga004.fm.intel.com with ESMTP; 02 Jan 2020 09:43:47 -0800
+Message-ID: <19ec09f45d1728c852ff30c7a6c18d9aca826923.camel@linux.intel.com>
+Subject: Re: Display got wrong rotation after hid_sensor_accel_3d is loaded
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     AceLan Kao <acelan.kao@canonical.com>
+Cc:     Bastien Nocera <hadess@hadess.net>, Jiri Kosina <jikos@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org
+Date:   Thu, 02 Jan 2020 09:43:47 -0800
+In-Reply-To: <CAFv23Q=aOq1YCQnW7r_eSRn1COfpvQkfjtK2+a3zU0ggxnuYew@mail.gmail.com>
+References: <CAFv23QmiDdhe+xJw2y7CXiWq4-GK1S-1bcKxEpNhNJu3ZtzA_w@mail.gmail.com>
+         <9baeb165eddb4872fb701ff81f11692b7e153bf6.camel@hadess.net>
+         <CAFv23Qmj_ZqKs9_tw1Grzzj5unFBLfK0Scy396vcHCEB+fdLOA@mail.gmail.com>
+         <7830ad25a5cb7640e1da55c4278ce73c1ff3e0ad.camel@linux.intel.com>
+         <CAFv23Q=aOq1YCQnW7r_eSRn1COfpvQkfjtK2+a3zU0ggxnuYew@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200101225058.GC14339@labundy.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 01 Jan 2020, Jeff LaBundy wrote:
+On Thu, 2020-01-02 at 10:46 +0800, AceLan Kao wrote:
+> Yes, this machine will be sold with Windows, but currently we didn't
+> hear any issues from Windows side.
+There are custom sensors, which probably getting used by Windows
+instead of accel_3d. I didn't see any special fields in accel_3d.
 
-> Hi Jonathan,
+Thanks,
+Srinivas
+
+> Here is the rdesc I found under /sys/kernel/debug/hid
 > 
-> Thank you for your continued support on this project.
+> BTW, we're trying to push BIOS to provide some useful info about the
+> orientation of the sensor, so that we don't have to list those
+> machines in the driver.
 > 
-> On Sun, Dec 15, 2019 at 04:53:28PM +0000, Jonathan Cameron wrote:
-> > On Mon, 9 Dec 2019 00:38:41 +0000
-> > Jeff LaBundy <jeff@labundy.com> wrote:
+> Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> 於
+> 2019年12月31日 週二 上午1:18寫道：
+> > Hi Kao,
 > > 
-> > > This patch adds support for the Azoteq IQS624 and IQS625 angular position
-> > > sensors, capable of reporting the angle of a rotating shaft down to 1 and
-> > > 10 degrees of accuracy, respectively.
+> > Is this device sold with Windows?
+> > Can you send full report descriptor (You can get from
+> > /sys/kernel/debug/hid)?
+> > 
+> > Thanks,
+> > Srinivas
+> > 
+> > On Fri, 2019-12-27 at 10:30 +0800, AceLan Kao wrote:
+> > > Hi Bastien,
 > > > 
-> > > This patch also introduces a home for linear and angular position sensors.
-> > > Unlike resolvers, they are typically contactless and use the Hall effect.
+> > > Thanks for your suggestion.
+> > > I just tried to add the following line into
+> > > /lib/udev/hwdb.d/60-sensor.hwdb and got the correct screen
+> > > rotation.
+> > > But the cursor is still un-rotated, the cursor is drawn upside
+> > > down,
+> > > and its coordinates are inverted.
 > > > 
-> > > Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-> > 
-> > Looks good
-> > 
-> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > 
-> > My current assumption is that Lee will take this lot via an immutable branch
-> > in MFD once it's ready.  Shout if a different path makes sense.
-> 
-> Same here. @Lee, please let us know if you disagree.
+> > > #########################################
+> > > # STMicro
+> > > #########################################
+> > > sensor:modalias:platform:platform:HID-SENSOR-200073
+> > >  ACCEL_MOUNT_MATRIX=-1, 0, 0; 0, -1, 0; 0, 0, 1
+> > > 
+> > > It looks like we should introduce a quirk into
+> > > hid_sensor_accel_3d
+> > > driver.
+> > > There are 3 different scale variables in hid_sensor_accel_3d, but
+> > > I
+> > > don't see any of them would work the way I want.
+> > > Do you mean to introduce new scale variables?
+> > > 
+> > >    drivers/iio/accel/hid-sensor-accel-3d.c:34:     int
+> > > scale_pre_decml;
+> > >    drivers/iio/accel/hid-sensor-accel-3d.c:35:     int
+> > > scale_post_decml;
+> > >    drivers/iio/accel/hid-sensor-accel-3d.c:36:     int
+> > > scale_precision;
+> > > 
+> > > Bastien Nocera <hadess@hadess.net> 於 2019年12月26日 週四 下午11:03寫道：
+> > > > On Thu, 2019-12-26 at 17:22 +0800, AceLan Kao wrote:
+> > > > > Hi all,
+> > > > > 
+> > > > > I'm working on a new platform which comes with an accelerator
+> > > > > meter.
+> > > > > It's a STMicroelectronics LSM6DS3US accelerator meter, it
+> > > > > doesn't
+> > > > > use
+> > > > > st_sensors driver, but hid_sensor_accel_3d.
+> > > > > After hid_sensor_accel_3d is loaded, the display becomes
+> > > > > upside
+> > > > > down,
+> > > > > so I tried to add some code to make it become normal.(ACCEL_X
+> > > > > should
+> > > > > have the same modification)
+> > > > > 
+> > > > > I don't know how to fix this in a correct way, please give me
+> > > > > some
+> > > > > hints.
+> > > > 
+> > > > This needs to be done as a quirk, either by applying a quirk
+> > > > for
+> > > > the
+> > > > HID descriptors (which should have a definition of the scale,
+> > > > which
+> > > > would be negative for this device), or in user-space in
+> > > > systemd's
+> > > > hwdb
+> > > > database, which your user-space consumers need to take care of:
+> > > > 
+> > https://github.com/systemd/systemd/blob/master/hwdb.d/60-sensor.hwdb
+> > > > Cheers
+> > > > 
 
-That's fine.
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
