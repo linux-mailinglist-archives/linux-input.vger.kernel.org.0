@@ -2,100 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EECCF12FD90
-	for <lists+linux-input@lfdr.de>; Fri,  3 Jan 2020 21:19:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FA5113051E
+	for <lists+linux-input@lfdr.de>; Sun,  5 Jan 2020 01:10:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727791AbgACUTu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Jan 2020 15:19:50 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:35207 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728704AbgACUTr (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Jan 2020 15:19:47 -0500
-Received: by mail-pg1-f196.google.com with SMTP id l24so23891640pgk.2
-        for <linux-input@vger.kernel.org>; Fri, 03 Jan 2020 12:19:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=40ACnQIUnpge54Cj+EODMXbGQ2AM0yGbootCDBdgIh0=;
-        b=AWCc/ylFmQ91zZEJrbKovcmODhKduqUVkKGxHK8uCtVvWppAnjCzAVhlqtuTB6Zv3H
-         fwGfadWPG5OWx3vtouAanI9rAb4+nCSTS9ougZHH94RmFVRXusGOhSeq6LcZbXUbpYke
-         LecHuReAxOHZIAlNr0puF8IN10taJseJbu/8dZmgE65qy44VHc90CsjCbMPz9YIW56uc
-         KAocddCq9fbTe+4eLEe4ukQAx3KuF/S8Bs/5ss0PU18bAsmodPObJCziaNGvW+fW97nj
-         vqPpR6NvW2UHqccwDYrcuioTdRRCTX8F5vGOe97A6Uj5iUQG4sbm5c76feOsNIPb/J8O
-         nOKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=40ACnQIUnpge54Cj+EODMXbGQ2AM0yGbootCDBdgIh0=;
-        b=o91+Q2APlvlTlM2qIlpTU/+7jl9RjMfB2rf6vKXXooZtxHFN/nKVoU+p/6mOWiQiMe
-         /XHAEkKm6126lQP5vm4Y5lSoTPnb/lOuha5j9l3crhhfmrG31sSMYYBtodYg9oLy3FNR
-         3I1zwxw+gvNBuGyd4+OhD2J6Mvnhz6ghSDAVU5b3+KHcK53yeMrqtkhKbMnH/dSTFBlZ
-         U7FpHb+QvdSytd7PMlnYEAvSDXSyKbCA8hPU/lj0eQzr2AzRzKiG8s0NjRxrMYDP3PNM
-         sMyFcOiO5aHXvE/OyuQuYyXSZiCEyQyxVVwPBpSwWBRVcc39HttMMo0HL0hRjarKjv4I
-         4D4w==
-X-Gm-Message-State: APjAAAWpId7CdyIDKoFb/813dZdjLYJZcMHMgg6HsET2KZzRR9ef2tCz
-        exjVcEIIuNOmE5BHj5BMvgHNXEWZeB2s5OleVzRrrtWAbms=
-X-Google-Smtp-Source: APXvYqwTD0MzQRfSqMjBdpNUeZAJzfDvhrEGhXGCrMyvXGb//+N8M9ASxsqTbkQfP5NbaV7n6hKI5gEfY+hOjDS6Fyg=
-X-Received: by 2002:ad4:478b:: with SMTP id z11mr69635758qvy.185.1578082785331;
- Fri, 03 Jan 2020 12:19:45 -0800 (PST)
+        id S1726260AbgAEAKj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 4 Jan 2020 19:10:39 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:37699 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726191AbgAEAKj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 4 Jan 2020 19:10:39 -0500
+X-Originating-IP: 195.189.32.242
+Received: from pc.localdomain (unknown [195.189.32.242])
+        (Authenticated sender: contact@artur-rojek.eu)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 71EC31C0004;
+        Sun,  5 Jan 2020 00:10:35 +0000 (UTC)
+From:   Artur Rojek <contact@artur-rojek.eu>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Paul Cercueil <paul@crapouillou.net>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Artur Rojek <contact@artur-rojek.eu>
+Subject: [PATCH 1/5] IIO: Ingenic JZ47xx: Add xlate cb to retrieve correct channel idx
+Date:   Sun,  5 Jan 2020 01:16:35 +0100
+Message-Id: <20200105001639.142061-1-contact@artur-rojek.eu>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Received: by 2002:ac8:4410:0:0:0:0:0 with HTTP; Fri, 3 Jan 2020 12:19:45 -0800 (PST)
-From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" 
-        <westernunion.benin982@gmail.com>
-Date:   Fri, 3 Jan 2020 21:19:45 +0100
-Message-ID: <CAP=nHBKxfmbdRg7q4-1jdSUL6+zok9agasMSrXV5CsEJEmZz3A@mail.gmail.com>
-Subject: I promise you must be happy today, God has uplifted you and your
- family ok
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Friend
+Provide an of_xlate callback in order to retrieve the correct channel
+specifier index from the IIO channels array.
 
-i hope all is well with you,if so, glory be to God almighty. I'm very
-happy to inform you, about my success in getting payment funds under
-the cooperation of a new partner from United States of
-America.Presently I am in uk for investment projects with my own share
-of the total sum. I didn't forget your past efforts. IMF finally
-approved your compensation payment funds this morning by prepaid (ATM)
-Debit card of US$12,500.000.00Million Dollars, Since you not received
-this payment yet, I was not certified
-but it is not your fault and not my fault, I hold nothing against
-you.than bank official whom has been detaining the transfer in the
-bank, trying to claim your funds by themselves.
+Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
+Tested-by: Paul Cercueil <paul@crapouillou.net>
+---
+ drivers/iio/adc/ingenic-adc.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Therefore, in appreciation of your effort I have raised an
-International prepaid (ATM) Debit card of US$12,500.000.00 in your
-favor as compensation to you.
+diff --git a/drivers/iio/adc/ingenic-adc.c b/drivers/iio/adc/ingenic-adc.c
+index 39c0a609fc94..7a24bc1dabe1 100644
+--- a/drivers/iio/adc/ingenic-adc.c
++++ b/drivers/iio/adc/ingenic-adc.c
+@@ -383,6 +383,21 @@ static int ingenic_adc_read_raw(struct iio_dev *iio_dev,
+ 	}
+ }
+ 
++static int ingenic_adc_of_xlate(struct iio_dev *iio_dev,
++				const struct of_phandle_args *iiospec)
++{
++	int i;
++
++	if (!iiospec->args_count)
++		return -EINVAL;
++
++	for (i = 0; i < iio_dev->num_channels; ++i)
++		if (iio_dev->channels[i].channel == iiospec->args[0])
++			return i;
++
++	return -EINVAL;
++}
++
+ static void ingenic_adc_clk_cleanup(void *data)
+ {
+ 	clk_unprepare(data);
+@@ -392,6 +407,7 @@ static const struct iio_info ingenic_adc_info = {
+ 	.write_raw = ingenic_adc_write_raw,
+ 	.read_raw = ingenic_adc_read_raw,
+ 	.read_avail = ingenic_adc_read_avail,
++	.of_xlate = ingenic_adc_of_xlate,
+ };
+ 
+ static const struct iio_chan_spec ingenic_channels[] = {
+-- 
+2.24.1
 
-Now, i want you to contact my Diplomatic Agent, His name is Mike Benz
-on His  e-mail Address (mikebenz550@aol.com
-
-ask Him to send the Prepaid (ATM) Debit card to you. Bear in mind that
-the money is in Prepaid (ATM) Debit card, not cash, so you need to
-send to him,
-your full name
-address  where the prepaid (ATM) Debit card will be delivered to you,
-including your cell phone number. Finally, I left explicit
-instructions with him, on how to send the (ATM CARD) to you.
-
-The Prepaid (ATM) Debit card, will be send to you through my
-Diplomatic Agent Mr. Mike Benz immediately you contact him. So contact
-my Diplomatic Agent Mr. Mike Benz immediately you receive this letter.
-Below is his contact information:
-
-NAME : MIKE BENZ
-EMAIL ADDRESS: mikebenz550@aol.com
-Text Him, (256) 284-4886
-
-Request for Delivery of the Prepaid (ATM) Debit card  to you today.
-Note, please I have paid for the whole service fees for you, so the
-only money you will send to my Diplomatic Agent Mr. Mike Benz is
-$50.00 for your prepaid (ATM) Debit card DELIVERY FEE to your address
-ok.
-Let me know once you receive this Card at your address.
-Best regards,
-Rev.Dr, George Adadar
