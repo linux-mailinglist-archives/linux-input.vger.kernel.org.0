@@ -2,129 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CC601306CE
-	for <lists+linux-input@lfdr.de>; Sun,  5 Jan 2020 09:35:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC6CA130716
+	for <lists+linux-input@lfdr.de>; Sun,  5 Jan 2020 11:36:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725828AbgAEIff (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 5 Jan 2020 03:35:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53992 "EHLO mail.kernel.org"
+        id S1725938AbgAEKgb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 5 Jan 2020 05:36:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40718 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725535AbgAEIfe (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 5 Jan 2020 03:35:34 -0500
-Received: from kernel.org (unknown [104.132.0.74])
+        id S1725897AbgAEKgb (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 5 Jan 2020 05:36:31 -0500
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 01EB12071A;
-        Sun,  5 Jan 2020 08:35:33 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9FCD520866;
+        Sun,  5 Jan 2020 10:36:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578213334;
-        bh=ADADXtiRMJ8GY/BHNd1uS0UdQYNUUVQcEinoIdZJmYA=;
-        h=In-Reply-To:References:Cc:Subject:To:From:Date:From;
-        b=NNEg5KHjF6zAVzMLn6mv13ZVJzxC6EdeNGCm6nTv6mur+H8QltaU45h8qRKHg4I2Y
-         5CnhBSgCqgZgDqp3fG1sCLsGIvaRWm1fCFN4BA40OQZlM8QLAdaVM+f1rmbjrkjvff
-         LQ81wEA/lGHOy32ojqvGQ7lAkhKMyLkcIaXzISIE=
-Content-Type: text/plain; charset="utf-8"
+        s=default; t=1578220590;
+        bh=+/iStnPwhP542628pOw3mMn8MnVqED4tQzXbzXKLjX0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=jgdrO4luZGTN4hh/Bi100t2Ifh8xx+Dfu9snipBpGBvIvFPoD0jqTHFFrmD69mjyN
+         oghPX5cKXINRXRzZi++u6fnogFn8k18nEvesM/YIo6oNZ8tHaJC8VrOFMWRhgk/PnD
+         TG9Jw6rjP60YdIsHGQr7N+JAxul5X7yXoCZHflVQ=
+Date:   Sun, 5 Jan 2020 10:36:24 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-iio@vger.kernel.org, Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-input@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>,
+        Donggeun Kim <dg77.kim@samsung.com>,
+        Minkyu Kang <mk7.kang@samsung.com>,
+        =?UTF-8?B?UGF3ZcWC?= Chmiel <pawel.mikolaj.chmiel@gmail.com>,
+        Jonathan Bakker <xc-racer2@live.ca>,
+        Oskar Andero <oskar.andero@gmail.com>
+Subject: Re: [PATCH 2/2 v1] iio: light: Add a driver for Sharp GP2AP002x00F
+Message-ID: <20200105103624.07b3820c@archlinux>
+In-Reply-To: <20200102221533.GC8314@dtor-ws>
+References: <20191228201109.13635-1-linus.walleij@linaro.org>
+        <20191228201109.13635-2-linus.walleij@linaro.org>
+        <20191230173919.373f4e8a@archlinux>
+        <20200102221533.GC8314@dtor-ws>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20191205002503.13088-5-masneyb@onstation.org>
-References: <20191205002503.13088-1-masneyb@onstation.org> <20191205002503.13088-5-masneyb@onstation.org>
-Cc:     mark.rutland@arm.com, agross@kernel.org,
-        bjorn.andersson@linaro.org, mturquette@baylibre.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH 4/7] dt-bindings: Input: introduce new clock vibrator bindings
-To:     Brian Masney <masneyb@onstation.org>, dmitry.torokhov@gmail.com,
-        robh+dt@kernel.org
-From:   Stephen Boyd <sboyd@kernel.org>
-User-Agent: alot/0.8.1
-Date:   Sun, 05 Jan 2020 00:35:33 -0800
-Message-Id: <20200105083534.01EB12071A@mail.kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting Brian Masney (2019-12-04 16:25:00)
-> diff --git a/Documentation/devicetree/bindings/input/clk-vibrator.yaml b/=
-Documentation/devicetree/bindings/input/clk-vibrator.yaml
-> new file mode 100644
-> index 000000000000..2103a5694fad
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/clk-vibrator.yaml
-> @@ -0,0 +1,60 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/bindings/input/clk-vibrator.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Clock vibrator
-> +
-> +maintainers:
-> +  - Brian Masney <masneyb@onstation.org>
-> +
-> +description: |
-> +  Support for clock-based vibrator devices where the speed can be contro=
-lled
-> +  by changing the duty cycle.
-> +
-> +properties:
-> +  compatible:
-> +    const: clk-vibrator
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    description: output clock that controls the speed
-> +    items:
-> +      - const: core
-> +
-> +  clock-frequency: true
+On Thu, 2 Jan 2020 14:15:33 -0800
+Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
 
-Can you use assigned-clock-rates for this instead? Then the driver can
-call clk_get_rate() if it wants to know the rate that was actually set
-on the clk.
+> Hi Jonathan,
+> 
+> On Mon, Dec 30, 2019 at 05:39:19PM +0000, Jonathan Cameron wrote:
+> > On Sat, 28 Dec 2019 21:11:09 +0100
+> > Linus Walleij <linus.walleij@linaro.org> wrote:
+> >   
+> > > +	/* Enable chip and IRQ, disable analog sleep */
+> > > +	ret = regmap_write(gp2ap002->map, GP2AP002_OPMOD,
+> > > +			   OPMOD_SSD_OPERATING | OPMOD_VCON_IRQ);
+> > > +	if (ret < 0) {
+> > > +		dev_err(gp2ap002->dev, "error setting up operation mode\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	/* Interrupt on VOUT enabled */
+> > > +	ret = regmap_write(gp2ap002->map, GP2AP002_CON, CON_OCON_ENABLE);
+> > > +	if (ret < 0) {
+> > > +		dev_err(gp2ap002->dev, "error setting up VOUT control\n");
+> > > +		return ret;  
+> > 
+> > drop this return ret out of the brackets as it's either 0 or negative anyway.  
+> 
+> Not my subsystem, but $0.02 anyways: I like calling the temp as "error"
+> and explicitly return 0 in the success path even if it could be
+> collapsed, as you can easily add more initialization without needing
+> to go and alter previous blocks.
 
-> +
-> +  enable-gpios:
-> +    maxItems: 1
-> +
-> +  vcc-supply:
-> +    description: Regulator that provides power
-> +
-> +required:
-> +  - compatible
-> +  - clocks
-> +  - clock-names
-> +  - clock-frequency
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/qcom,mmcc-msm8974.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    vibrator {
-> +        compatible =3D "clk-vibrator";
-> +
-> +        vcc-supply =3D <&pm8941_l19>;
-> +
-> +        clocks =3D <&mmcc CAMSS_GP1_CLK>;
-> +        clock-names =3D "core";
-> +        clock-frequency =3D <24000>;
-> +
-> +        enable-gpios =3D <&msmgpio 60 GPIO_ACTIVE_HIGH>;
-> +
-> +        pinctrl-names =3D "default";
-> +        pinctrl-0 =3D <&vibrator_pin>;
+That's a perfectly valid method as long as ret is only ever an error
+(or good).  We've tended to go with ret in IIO, so better to carry on with
+that. 
 
-I'm still trying to wrap my head around this. I think we can have a pwm
-provider in a clk controller node (so imagine &mmcc has #pwm-cells) and
-then this 'clk-vibrator' binding wouldn't exist? Instead we would have
-some sort of binding for a device that expects a pwm and whatever else
-is required, like the enable gpio and power supply. Is there an actual
-hardware block that is this way? Does it have a real product id and is
-made by some company? Right now this looks a little too generic to not
-just be a catch-all for something that buzzes.
+I'm not that fussed about dropping the return ret; out, but definitely
+prefer explicit if (ret) to make it clear ret is never positive in the
+good path though.
+
+Thanks,
+
+Jonathan
+
+> 
+> Thanks.
+> 
 
