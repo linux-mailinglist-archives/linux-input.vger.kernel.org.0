@@ -2,112 +2,167 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 23FF8131A8E
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2020 22:35:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08BB5131BA8
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2020 23:41:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727140AbgAFVfI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Jan 2020 16:35:08 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:44558 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726731AbgAFVfH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Jan 2020 16:35:07 -0500
-Received: by mail-pg1-f196.google.com with SMTP id x7so27439383pgl.11;
-        Mon, 06 Jan 2020 13:35:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=m5JbUZHGVS7KhF/eteOGbVRmf/p5dDdWHItMOmdV+PY=;
-        b=KXEBFPr7uLQ4erGLtuIgSp+jERI4sICam+LtekOisclwM/7Qx2N3YufOUEUvR5OLLO
-         XdTzdU8wj6aTXkVgZQghUWNKX8HHrujLuUn7U/6QdzzfigQDunDmhBZPk7pTbg4HAn09
-         8ux3h6/ue1ptdVg7cPXq2UwMXsxX3J3i0cCAbZXn4HTwJig05+Ff2b8/ARSw65Au3Z4c
-         WDfXSfvuEh9BNLMKuAY1hTMyoLvov63knvGkpmFO2OaYyzPQivH3SevLolpROMrsxRba
-         mpsaWA5DwVT6nUFBEWYEFJ7GnNTFP0nIBGlGku150zrhA4iZjYHmjachj/FdlaSVvnle
-         omPg==
-X-Gm-Message-State: APjAAAUaDyzvedV6CbNNLujbyp3HLCfwfxN1tinkfl0NdZXKzsJpBi6I
-        DUjEMlCNofyeOBCdPVIJ0v8=
-X-Google-Smtp-Source: APXvYqw182QJjFmapUgFthZkzGtp0VoNIvjQLkmo3FZplcl6V6fewGd0Km+oD9FveLcEgGfjcf+wSw==
-X-Received: by 2002:a62:486:: with SMTP id 128mr111783695pfe.236.1578346506948;
-        Mon, 06 Jan 2020 13:35:06 -0800 (PST)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id g22sm74464874pgk.85.2020.01.06.13.35.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2020 13:35:05 -0800 (PST)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 2F19740321; Mon,  6 Jan 2020 21:35:05 +0000 (UTC)
-Date:   Mon, 6 Jan 2020 21:35:05 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v10 00/10] efi/firmware/platform-x86: Add EFI embedded fw
- support
-Message-ID: <20200106213505.GW11244@42.do-not-panic.com>
-References: <20191210115117.303935-1-hdegoede@redhat.com>
- <66f45932-756d-0bb0-d7a8-330d61785663@redhat.com>
- <CAKv+Gu_X+UM95MJJMjT69upL9zN3H9BnUkv8s9TjcpevANbYEw@mail.gmail.com>
+        id S1727163AbgAFWky (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Jan 2020 17:40:54 -0500
+Received: from mail-eopbgr700105.outbound.protection.outlook.com ([40.107.70.105]:22464
+        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726742AbgAFWky (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 6 Jan 2020 17:40:54 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q0Q0jJb+kSLiAW93CP9hSC4GwP1558R689b+LfW91AftEfPNrmTDwqHASvB+4v73/MQmaTeB2dxij9mwpYj6MRmBgFfn0vtsX/T85Myz0UB7Qn/6m5iHyStCh7ngl4FZLZXrC9JJQy3B/Yv27eXWa9CCiupTl3sr9W2GsOxJ7zdNyXO/mDagelssvHne3ALqdmTHzy3ssvXdI0uWzXleas9jCA/TPsSsigDPOGrFiolhFzFLbvIxSKm/dFCr+o2+5LFH0yET2gpzp5jYMkB6hfSUTOfALAbPx35oVQMBuomLLBXDbhfZ0FbDHjK0bZQldeOiTHlyHdv/esdpt4MMkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zMourdQM1ifxJbLoShY1of/Ps/fd9Aqqs+g/RkNk7Mw=;
+ b=dqwNESZBrs8hQRKJWfkycKF/yOzLqgaIIbUWTQmt/b/ceRn9wJ2idrpeGqzxMND+CgS0Z/hLZC1toohXQ0xzMNlpkKnwXAmq9yZlrwX9JLW5ee9KKxBN8/zGfMXO45ftqMB0g4ogeCWFEaF4JLKCuUyO6WI0x2LVMgy6xInQc7HGecs20pIRggoL3V6zhMZ3FTm9u43otVLCkpQGWOjSDKw5ykckhLXwselJXjglkH758XLSyHd5dZJJeUsXLL73pnqrwlu2+iwtvQ7H3Z+6p0U7HPDgakKkIff6vw9+BUHftlfF5+aHYs2izOGTAyMRB2tQoT6aoa7h+6h5jP9ELw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zMourdQM1ifxJbLoShY1of/Ps/fd9Aqqs+g/RkNk7Mw=;
+ b=E/7XU3z6jKMv2G9gGnvYOy2JusncMRNnllJ18x8Mp0BwUJpEjUNSmMzpyE34V2nW4/ijvZZ95ZbqxLf0zM/nox9uQsG9mPgI3bGiw7dJa0FDS6bSRYKHbXy7HTFrHnHstUut9oVQfBdKz+oOPtmsOHfldKWMKpK6a8+3upNI5sw=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=decui@microsoft.com; 
+Received: from CY4PR21MB0775.namprd21.prod.outlook.com (10.173.192.21) by
+ CY4PR21MB0181.namprd21.prod.outlook.com (10.173.193.7) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2644.4; Mon, 6 Jan 2020 22:40:51 +0000
+Received: from CY4PR21MB0775.namprd21.prod.outlook.com
+ ([fe80::6155:bc1d:1d39:977b]) by CY4PR21MB0775.namprd21.prod.outlook.com
+ ([fe80::6155:bc1d:1d39:977b%8]) with mapi id 15.20.2644.002; Mon, 6 Jan 2020
+ 22:40:51 +0000
+From:   Dexuan Cui <decui@microsoft.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        sashal@kernel.org, dmitry.torokhov@gmail.com,
+        linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mikelley@microsoft.com,
+        Alexander.Levin@microsoft.com
+Cc:     Dexuan Cui <decui@microsoft.com>
+Subject: [PATCH][RESEND] Input: hyperv-keyboard: Add the support of hibernation
+Date:   Mon,  6 Jan 2020 14:40:44 -0800
+Message-Id: <1578350444-129991-1-git-send-email-decui@microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+Reply-To: decui@microsoft.com
+Content-Type: text/plain
+X-ClientProxiedBy: MWHPR19CA0018.namprd19.prod.outlook.com
+ (2603:10b6:300:d4::28) To CY4PR21MB0775.namprd21.prod.outlook.com
+ (2603:10b6:903:b8::21)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKv+Gu_X+UM95MJJMjT69upL9zN3H9BnUkv8s9TjcpevANbYEw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by MWHPR19CA0018.namprd19.prod.outlook.com (2603:10b6:300:d4::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2602.12 via Frontend Transport; Mon, 6 Jan 2020 22:40:51 +0000
+X-Mailer: git-send-email 1.8.3.1
+X-Originating-IP: [13.77.154.182]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 447ba918-4c98-49b3-773d-08d792f97bc6
+X-MS-TrafficTypeDiagnostic: CY4PR21MB0181:|CY4PR21MB0181:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CY4PR21MB01815D121863D35B0596F471BF3C0@CY4PR21MB0181.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 0274272F87
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(396003)(366004)(136003)(376002)(39860400002)(346002)(189003)(199004)(6666004)(2616005)(956004)(86362001)(478600001)(10290500003)(6486002)(66556008)(316002)(66476007)(66946007)(966005)(2906002)(3450700001)(107886003)(6636002)(8676002)(81156014)(5660300002)(6512007)(6506007)(81166006)(36756003)(52116002)(26005)(16526019)(186003)(4326008)(8936002)(921003)(21314003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:CY4PR21MB0181;H:CY4PR21MB0775.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+Received-SPF: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: S28xdM+fdzmRtXZ7gGu3vzd8eb7Bz1GOZyM6Xe62f6MnrkjU8pdVCYRb3h6rzTTdDEm5jc++s6Ut7jHcyLqBwj5PEywHs7g7n6fo0enKDVyE/l4t/3Ydwix+qrYFfDGfv975m89MrB+e3JTHa4abbH1fWXxjhVEPsNkDAqsni+j6wgZBi2MGK6D7YywR9sTMjVqeWX+8vh5lMvt4hGhabOi1UNek46A3073khXFfmp8M1Z11pHauKhQGaUUTj1Tk8hHYusFM2t20tRD4ZY/+Og2pvXmF+TL+NbfdMb/XwI9sHtx+LkVVsK7iu242B281s8ODK/xreHLhp9dIAeOvisNcJOKqebWdSoMklWBaWN8W7R6+n3pUJr6ELUrNHU0L9HsLeYHTfRmuHZ0623uXZTKxS7vqtA6z5657Q2tr5xH1Z8JvH47/XRAh4d4SwSnw6JnHVvvCK4rPWHB+pM55ninEc02wqaUxVWhaf6vPxRqb/0ydL37HdC8mJLVJYLGPpXv6G7ZTOcq+gqJNfUz97yZbh+ORkFwhtTHIsp6KEhv+ZVeoW/R76zgFVjSuW3v6RgEkiKk/bwQ5f575OFEjqWsnLIHN1qe0xSd/WxdFhm0=
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 447ba918-4c98-49b3-773d-08d792f97bc6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2020 22:40:51.8770
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: //y+vIIvUlbtE3M41ASss03uN4ww2dI7kjMINVpCxJ9ulqoog+FsZudPenmhFnspdkOLKRnJtv1zwk2UbLl+RQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR21MB0181
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 03, 2020 at 12:36:04PM +0100, Ard Biesheuvel wrote:
-> On Fri, 3 Jan 2020 at 12:27, Hans de Goede <hdegoede@redhat.com> wrote:
-> >
-> > Hi All,
-> >
-> > Since I send this out, efi-next has seen some changes causing the first
-> > 2 patches to no longer cleanly apply. So it looks like we need to
-> > merge this one bit at a time with immutable branches.
-> >
-> > Ard, the first 2 patches in this series should be merged through your
-> > efi tree. AFAIK everyone is happy with them in their current state
-> > so they are ready for merging. Can you create an immutable branch
-> > with these 2 patches and merge that into your efi-next branch?
-> >
-> > Note if you do the immutable branch on 5.5-rc1 + just these 2 patches,
-> > there will be a conflict when you merge this into efi-next, but it is
-> > trivial to resolve.
-> >
-> 
-> I will need to defer to Ingo here, as he usually applies the EFI
-> changes piecemeal rather than merging my branches directly.
-> 
-> I'd be fine with just annotating the conflict in the pull request if
-> it is trivial, though, but it is really up to Luis and Ingo to align
-> here.
+Add suspend() and resume() functions so the Hyper-V virtual keyboard
+can participate in VM hibernation.
 
-I don't have a tree, and firmware goes Greg's driver core tree so
-actually its up to Greg and Ingo on how this gets merged. But it seems
-you just have one issue to fix:
+Note that the keyboard is a "wakeup" device that could abort an in-progress
+hibernation if there is keyboard event.  No attempt is made to suppress this
+behavior.  If desired, a sysadmin can disable the keyboard as a wakeup device
+using standard mechanisms such as:
 
-[PATCH v10 05/10] test_firmware: add support for firmware_request_platform
+echo disabled > /sys/bus/vmbus/drivers/hyperv_keyboard/XXX/power/wakeup
+(where XXX is the device's GUID)
 
-There is a few set of empty lines added and I had one comment on the
-release of the firmware.
+Reviewed-by:  Michael Kelley <mikelley@microsoft.com>
+Signed-off-by: Dexuan Cui <decui@microsoft.com>
+---
 
-Other than this, I agree this seems ready to be merged.
+This is a RESEND of https://lkml.org/lkml/2019/11/24/115 .
 
-  Luis
+Please review.
+
+If it looks good, Sasha Levin, can you please pick it up via the
+hyperv/linux.git tree, as you did last time for this driver?
+
+
+ drivers/input/serio/hyperv-keyboard.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
+index e486a8a74c40..df4e9f6f4529 100644
+--- a/drivers/input/serio/hyperv-keyboard.c
++++ b/drivers/input/serio/hyperv-keyboard.c
+@@ -259,6 +259,8 @@ static int hv_kbd_connect_to_vsp(struct hv_device *hv_dev)
+ 	u32 proto_status;
+ 	int error;
+ 
++	reinit_completion(&kbd_dev->wait_event);
++
+ 	request = &kbd_dev->protocol_req;
+ 	memset(request, 0, sizeof(struct synth_kbd_protocol_request));
+ 	request->header.type = __cpu_to_le32(SYNTH_KBD_PROTOCOL_REQUEST);
+@@ -380,6 +382,29 @@ static int hv_kbd_remove(struct hv_device *hv_dev)
+ 	return 0;
+ }
+ 
++static int hv_kbd_suspend(struct hv_device *hv_dev)
++{
++	vmbus_close(hv_dev->channel);
++
++	return 0;
++}
++
++static int hv_kbd_resume(struct hv_device *hv_dev)
++{
++	int ret;
++
++	ret = vmbus_open(hv_dev->channel,
++			 KBD_VSC_SEND_RING_BUFFER_SIZE,
++			 KBD_VSC_RECV_RING_BUFFER_SIZE,
++			 NULL, 0,
++			 hv_kbd_on_channel_callback,
++			 hv_dev);
++	if (ret == 0)
++		ret = hv_kbd_connect_to_vsp(hv_dev);
++
++	return ret;
++}
++
+ static const struct hv_vmbus_device_id id_table[] = {
+ 	/* Keyboard guid */
+ 	{ HV_KBD_GUID, },
+@@ -393,6 +418,8 @@ static struct  hv_driver hv_kbd_drv = {
+ 	.id_table = id_table,
+ 	.probe = hv_kbd_probe,
+ 	.remove = hv_kbd_remove,
++	.suspend = hv_kbd_suspend,
++	.resume = hv_kbd_resume,
+ 	.driver = {
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 	},
+-- 
+2.19.1
+
