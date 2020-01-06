@@ -2,166 +2,167 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9965D130BEC
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2020 02:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E067C130F35
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2020 10:09:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727290AbgAFBxr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Sun, 5 Jan 2020 20:53:47 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:55889 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727226AbgAFBxq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Jan 2020 20:53:46 -0500
-Received: from mail-wr1-f71.google.com ([209.85.221.71])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <chia-lin.kao@canonical.com>)
-        id 1ioHaS-0003pV-NP
-        for linux-input@vger.kernel.org; Mon, 06 Jan 2020 01:53:44 +0000
-Received: by mail-wr1-f71.google.com with SMTP id c17so1396239wrp.10
-        for <linux-input@vger.kernel.org>; Sun, 05 Jan 2020 17:53:44 -0800 (PST)
+        id S1725996AbgAFJJK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Jan 2020 04:09:10 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:40132 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725821AbgAFJJJ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Jan 2020 04:09:09 -0500
+Received: by mail-lj1-f195.google.com with SMTP id u1so50168134ljk.7
+        for <linux-input@vger.kernel.org>; Mon, 06 Jan 2020 01:09:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8DARrvaq+PcRquTcIaqd1gCUQRO9MABf9bEpQXNB0WQ=;
+        b=U/wK22yxF40YKv9qtBYMsz0hBZAw8ftksSCLmOX7v9m1l53IF3FYygEF8t4rgXKq2V
+         D9nLMyXPnZUZs/SKALpZlMCvcdkVL2F8myu31I4yHROQFhADFa6LwKkmbGRxV9DijPuN
+         IU7zROdEL0LJngZl1tC7YY8jYrPKImax6lNnqVDDU8vs1gWramgTz2UPNQ2dmSPG6gDJ
+         t/a800X/DWZvVEjtRyrM1lLTiIRkaCev64i/P8zcvYFYEKVuq4P04isclqgeEOUskZBs
+         QVhKResmNwQHYMfLG0u3hNx/7ZwA0wHdHGZ8jb037e9JI9NVZ1gmaNpg4wLB+MhwQXfE
+         51YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=aplBudq8rCxlCvhRC+PlNxRLQg8mVG6pG5DyVN/SbB8=;
-        b=sSkm0lO4TT6uIGa45ODOcyOFWXU/B0gB2NzLH7fyy8Uj2TJKDoBvIePblvRvDW3dGl
-         O3ekZw8sMfmbAXDp4oPGihU1oJ0994o5gIUOJ61Xaym7uuJvsQ9/q2wDx7+zy7yB9eVS
-         uKl1cQp424HCYjBaY4MINE1PmNY2m06M1QnwJtnLUfY41UyrhH/dODsmjCPrdT7dk9ig
-         Gg04zuiBMdJXKelsCB8i1iVLBoxnMRQXqK3j+xl/NilFPZ3ZMaOeyiUoqLTz73wsWB5r
-         q7zQpC1lPHyioXmu7JRqFUCsUUjy5601LmG7S2scZRjOrsetEkslC9qYVJ5XIXI6N8CI
-         +lMw==
-X-Gm-Message-State: APjAAAVFZVepWoFgiHD9E3nTWJ+sSlCE2Yacr14+9GZdeRlyg8OUsN29
-        SimAXSeBq327jTIfaUSgC7fbIQzxNcPlxjsC0GTKg4NHWd17iIYAue7KuZ3zE9lH3NmYseitOqk
-        iUr1rDLSNG+TWrynxwl8BWIVKIP54mqqbItNpfe3OV5AWZgsICeFhSY7O
-X-Received: by 2002:a1c:80d4:: with SMTP id b203mr31193122wmd.102.1578275624201;
-        Sun, 05 Jan 2020 17:53:44 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwX09GIJKZNyYI69L6r9jLkI+iVSKaZnlKCDaOl4lRD7lj9a/4lLmfP/8ZxEOSxoSNKeqTIPc7S/y0lUL76CNw=
-X-Received: by 2002:a1c:80d4:: with SMTP id b203mr31193100wmd.102.1578275623954;
- Sun, 05 Jan 2020 17:53:43 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=8DARrvaq+PcRquTcIaqd1gCUQRO9MABf9bEpQXNB0WQ=;
+        b=Z8A6QJwfZQDYGZ+jHKbOMfPS5Yo10xhmTEQv8mcvNKYvInrjBbAuhgbj8Of8rw8s1z
+         6OpPpp1oZizkIlZ7wFS6xArObas2BL3GZFVh5OPYVhlKrL7thza+x1dBt7Fb5oF8s5gV
+         Pn2wTCBLHU/KINAO6nRKwaQ1cNjIWZyXnP+/OAxeQSOPKG92rHVVc4wukeO7HznFZgme
+         2wauh2fYORjKA04uH21A1w5bSlwQcP8atTged4Vf8BhgKEZndQ+K5WRnUZe1nc5jz7+z
+         Pm4ZhXKKTb2lE9Na9nK0qscie3bXZvoDzaKlH/+9t67uhoxavO4mv3K1pNoEVxxpR4cc
+         E/OQ==
+X-Gm-Message-State: APjAAAU4CbHy8JD4DHjbo4j2noy6tGbAawRHDNfKQsuN/JT8CJe/K/z3
+        iGjxdgOYB8wBnz8LxgXo+73uarOcGwTbHHbqUm8rNQ==
+X-Google-Smtp-Source: APXvYqw5DNOYHqq0/bb+XxEER9k0ajbxWEguyNVy9ZnfEBWGWy6IUtk9Qz1740T+o15PeJhnbDujBdR5B45EkTvtv5k=
+X-Received: by 2002:a05:651c:1049:: with SMTP id x9mr58486521ljm.233.1578301747096;
+ Mon, 06 Jan 2020 01:09:07 -0800 (PST)
 MIME-Version: 1.0
-References: <CAFv23QmiDdhe+xJw2y7CXiWq4-GK1S-1bcKxEpNhNJu3ZtzA_w@mail.gmail.com>
- <9baeb165eddb4872fb701ff81f11692b7e153bf6.camel@hadess.net>
- <CAFv23Qmj_ZqKs9_tw1Grzzj5unFBLfK0Scy396vcHCEB+fdLOA@mail.gmail.com>
- <7830ad25a5cb7640e1da55c4278ce73c1ff3e0ad.camel@linux.intel.com>
- <CAFv23Q=aOq1YCQnW7r_eSRn1COfpvQkfjtK2+a3zU0ggxnuYew@mail.gmail.com> <19ec09f45d1728c852ff30c7a6c18d9aca826923.camel@linux.intel.com>
-In-Reply-To: <19ec09f45d1728c852ff30c7a6c18d9aca826923.camel@linux.intel.com>
-From:   AceLan Kao <acelan.kao@canonical.com>
-Date:   Mon, 6 Jan 2020 09:53:32 +0800
-Message-ID: <CAFv23QnngVCQQX7OEnBZG2DMUZFmd6ct69YAtYN-OGgoJbtH1w@mail.gmail.com>
-Subject: Re: Display got wrong rotation after hid_sensor_accel_3d is loaded
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Bastien Nocera <hadess@hadess.net>, Jiri Kosina <jikos@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org
+References: <20191228201109.13635-1-linus.walleij@linaro.org>
+ <20191228201109.13635-2-linus.walleij@linaro.org> <20191230173919.373f4e8a@archlinux>
+In-Reply-To: <20191230173919.373f4e8a@archlinux>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 6 Jan 2020 10:08:55 +0100
+Message-ID: <CACRpkdbpqge9beL8QEdqnA3pN+41PUfJg4Zr9hDnnYYkatSYTg@mail.gmail.com>
+Subject: Re: [PATCH 2/2 v1] iio: light: Add a driver for Sharp GP2AP002x00F
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     linux-iio <linux-iio@vger.kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Donggeun Kim <dg77.kim@samsung.com>,
+        Minkyu Kang <mk7.kang@samsung.com>,
+        =?UTF-8?Q?Pawe=C5=82_Chmiel?= <pawel.mikolaj.chmiel@gmail.com>,
+        Jonathan Bakker <xc-racer2@live.ca>,
+        Oskar Andero <oskar.andero@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi all,
+Hi Jonathan,
 
-Quick update, ODM BIOS admits it's a BIOS issue, and they will fix
-this from BIOS side.
-Thanks all.
+fixed most of the things and resending as v2 soon-ish,
+some inline responses, comments:
 
-Best regards,
-AceLan Kao.
+On Mon, Dec 30, 2019 at 6:39 PM Jonathan Cameron <jic23@kernel.org> wrote:
+> On Sat, 28 Dec 2019 21:11:09 +0100 Linus Walleij <linus.walleij@linaro.org> wrote:
 
-Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> 於 2020年1月3日
-週五 上午1:43寫道：
+> If at all possible I'd like to discourage use of of specific
+> calls in favour of the generic ones.  It's pretty unlikely we'll
+> ever see this driver using anything else, but I'd like to build
+> up a good set of examples to point people at now that functionality
+> is in place.
+
+I guess you mean to use fwnode where possible. I comment on this
+below.
+
+> > +     iio_push_event(indio_dev, ev, iio_get_time_ns(indio_dev));
+> > +     usleep_range(20000, 30000);
 >
-> On Thu, 2020-01-02 at 10:46 +0800, AceLan Kao wrote:
-> > Yes, this machine will be sold with Windows, but currently we didn't
-> > hear any issues from Windows side.
-> There are custom sensors, which probably getting used by Windows
-> instead of accel_3d. I didn't see any special fields in accel_3d.
+> What is the basis for these timings?
+
+Detection cycle, I explained this with an inline comment.
+
+> > +     gp2ap002->is_gp2ap002s00f =
+> > +             of_device_is_compatible(np, "sharp,gp2ap002s00f");
 >
-> Thanks,
-> Srinivas
+> Hmm. This rather breaks my comment below about trying to avoid making
+> this of specific if we don't need to...
 >
-> > Here is the rdesc I found under /sys/kernel/debug/hid
-> >
-> > BTW, we're trying to push BIOS to provide some useful info about the
-> > orientation of the sensor, so that we don't have to list those
-> > machines in the driver.
-> >
-> > Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> 於
-> > 2019年12月31日 週二 上午1:18寫道：
-> > > Hi Kao,
-> > >
-> > > Is this device sold with Windows?
-> > > Can you send full report descriptor (You can get from
-> > > /sys/kernel/debug/hid)?
-> > >
-> > > Thanks,
-> > > Srinivas
-> > >
-> > > On Fri, 2019-12-27 at 10:30 +0800, AceLan Kao wrote:
-> > > > Hi Bastien,
-> > > >
-> > > > Thanks for your suggestion.
-> > > > I just tried to add the following line into
-> > > > /lib/udev/hwdb.d/60-sensor.hwdb and got the correct screen
-> > > > rotation.
-> > > > But the cursor is still un-rotated, the cursor is drawn upside
-> > > > down,
-> > > > and its coordinates are inverted.
-> > > >
-> > > > #########################################
-> > > > # STMicro
-> > > > #########################################
-> > > > sensor:modalias:platform:platform:HID-SENSOR-200073
-> > > >  ACCEL_MOUNT_MATRIX=-1, 0, 0; 0, -1, 0; 0, 0, 1
-> > > >
-> > > > It looks like we should introduce a quirk into
-> > > > hid_sensor_accel_3d
-> > > > driver.
-> > > > There are 3 different scale variables in hid_sensor_accel_3d, but
-> > > > I
-> > > > don't see any of them would work the way I want.
-> > > > Do you mean to introduce new scale variables?
-> > > >
-> > > >    drivers/iio/accel/hid-sensor-accel-3d.c:34:     int
-> > > > scale_pre_decml;
-> > > >    drivers/iio/accel/hid-sensor-accel-3d.c:35:     int
-> > > > scale_post_decml;
-> > > >    drivers/iio/accel/hid-sensor-accel-3d.c:36:     int
-> > > > scale_precision;
-> > > >
-> > > > Bastien Nocera <hadess@hadess.net> 於 2019年12月26日 週四 下午11:03寫道：
-> > > > > On Thu, 2019-12-26 at 17:22 +0800, AceLan Kao wrote:
-> > > > > > Hi all,
-> > > > > >
-> > > > > > I'm working on a new platform which comes with an accelerator
-> > > > > > meter.
-> > > > > > It's a STMicroelectronics LSM6DS3US accelerator meter, it
-> > > > > > doesn't
-> > > > > > use
-> > > > > > st_sensors driver, but hid_sensor_accel_3d.
-> > > > > > After hid_sensor_accel_3d is loaded, the display becomes
-> > > > > > upside
-> > > > > > down,
-> > > > > > so I tried to add some code to make it become normal.(ACCEL_X
-> > > > > > should
-> > > > > > have the same modification)
-> > > > > >
-> > > > > > I don't know how to fix this in a correct way, please give me
-> > > > > > some
-> > > > > > hints.
-> > > > >
-> > > > > This needs to be done as a quirk, either by applying a quirk
-> > > > > for
-> > > > > the
-> > > > > HID descriptors (which should have a definition of the scale,
-> > > > > which
-> > > > > would be negative for this device), or in user-space in
-> > > > > systemd's
-> > > > > hwdb
-> > > > > database, which your user-space consumers need to take care of:
-> > > > >
-> > > https://github.com/systemd/systemd/blob/master/hwdb.d/60-sensor.hwdb
-> > > > > Cheers
-> > > > >
+> I 'think' we could use device_property_read_string
+> There is a bit of precedence for doing so, but it is not common.
+
+This is the real trick. Using
+device_property_read_string(dev, "compatible", str);
+isn't going to work as ACPI probes from a unique 4-char
+ID not a compatible string this will never work on ACPI
+anyways.
+
+I can try to go some extra mile to support a hypothetical
+ACPI client by adding a struct with one bool member as
+match data and pass that around if you insist, but I think it's
+more something appropriate for the first ACPI user to do.
+
+It's no problem if you want it, but it will add a bunch of
+boilerplate just for this.
+
+> > +     /* Check the device tree for the IR LED hysteresis */
+> > +     ret = of_property_read_u32(np, "sharp,proximity-far-hysteresis", &val);
 >
+> Do these belong in DT at all, or are they more of a policy decision?
+> Without a datasheet I'm kind of guessing what they actually are.
+
+There is a datasheet:
+https://global.sharp/products/device-china/lineup/data/pdf/datasheet/gp2ap002s00f_appl_e.pdf
+
+> We have the option for hysterisis controls on events from sysfs if that
+> make sense.
+
+I don't know, these are two hysteresis settings: one that detects an
+object close to the sensor and one detecting an object far from
+the sensor.
+
+The two settings are describes as fixed to mode A, B1 and B2 in the
+datasheet. However there is a vendor driver in one of the phone
+trees that use "mode B 1.5" not documented in the datasheet
+(bummer). So given how fluid this all is I opted for just an u8
+in the device tree for "close" and "far" hysteresis setting.
+
+> Could use the fwnode_get_property_u32 etc to drop reliance on OF.
+
+Will do if we must support hypotetical non-DT probe.
+
+> > +     /* The GP2AP002A00F has a light sensor too */
+> > +     if (!gp2ap002->is_gp2ap002s00f) {
+>
+> This section is rather 'unusual' and definitely needs some explanatory
+> comments - particularly as I can't find any reference docs for the part.
+
+The only reference for the light sensor part in GP2AP002A00F
+is the submission from Samsung mentioned in the header of the
+driver submitted by Donggeun Kim & Minkyu Kang in 2011:
+https://lore.kernel.org/lkml/1315556546-7445-1-git-send-email-dg77.kim@samsung.com/
+
+It also appears in the GPL code from GT-S7710 which seems to
+derive from a code drop from Sharp.
+
+Yep the code is the documentation...
+
+> I'm guessing that the light sensor is simply an analog output?  As such
+> you need to wire it up to a separate ADC to actually read the light level...
+
+Yep that's the same method as used for
+drivers/iio/light/cm3605.c
+Most early Androids do something like that, and all SoCs seem to
+provide some ADC to do the conversion.
+
+Yours,
+Linus Walleij
