@@ -2,86 +2,177 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5AB9131F57
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 06:33:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85E89132101
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 09:08:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725874AbgAGFdO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Jan 2020 00:33:14 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:38412 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725267AbgAGFdO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jan 2020 00:33:14 -0500
-Received: by mail-lj1-f193.google.com with SMTP id w1so31395426ljh.5;
-        Mon, 06 Jan 2020 21:33:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=veUZeWQZbFotsYKfqCj5Y1xDEGG7Ogankt+eKInlDDg=;
-        b=MMfH6XnxLwcfhqY5ZYFKRsc3ald9qks2waZ+5mhHbxfbPDldlzeHEyFnWC32mjlXiD
-         nv5uIdsSajiXc6qMcPW+thKv2TdmQxMyY+KSy0o2fyGK91cU93LX0jr8dTipdjZEisxa
-         n92MWUnqgs+nXMqghBgQrTgDdj9/4KyBOGOOK+ftTLiwW96rgYuiA0ye296hJCljaHKk
-         bS8T8oyQai1Im75g3knKsixURKV1ZaFfm/fzitEejbyMebTkXFfMGS1vFF1HJJpsQYMP
-         FYiPRWPQ+N0sW95n1immb1Q1q4u1FFcuWp31D9cM+7DsZGTBOSb+AWGP9WkopSZPfBhw
-         8JBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=veUZeWQZbFotsYKfqCj5Y1xDEGG7Ogankt+eKInlDDg=;
-        b=bXr3C7oya5CfXPs9LQ8oxzcLO1AzrP5BgIH9PFl6gUQYnrxYOncxf/txR/CblRwQwS
-         U8+DDP/C6c8/x6ZGHoaaZ3RC2YrtJSZVM+LRhCAqBt9aPYDv0YhezI3OW10uwcVYSqIj
-         bjDDFmBa7iIACbp2TyAAqu+7CY4DJlps93+7/WjJiJwikzKH5zee2urVz/h9Z3Q7Q3Mz
-         UzjiSih8AyRxz9Py0digkOVE1BGFPcRJTUUqupj4jXM8PrR94FJJXojvowidnHSgaOsx
-         AatVB3Sg+hoMseapFzzZxVysIDH33cFqprdZ4dMXkVd6B5uVwOlHKAm7ZgVpsat37VhQ
-         NPLA==
-X-Gm-Message-State: APjAAAWFnVu3ZAlKBI46ufBWB8nwCMcizsJjSqF7fzt/u2oEeu1WdrNq
-        SJKwmi9WWEDtVnO+OZoExSQ=
-X-Google-Smtp-Source: APXvYqwQuxl/nNc1WZx6Hq7z8hwzhuGnyiQkFsUMBIML9+phR645Yvg8qHIcxH0R9Etz+2+hei6HEw==
-X-Received: by 2002:a2e:7e05:: with SMTP id z5mr48052335ljc.99.1578375191537;
-        Mon, 06 Jan 2020 21:33:11 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id m21sm29860754lfh.53.2020.01.06.21.33.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jan 2020 21:33:10 -0800 (PST)
-Subject: Re: [PATCH v2 0/9] input: elants: Support Asus TF300T touchscreen
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        Scott Liu <scott.liu@emc.com.tw>,
-        James Chen <james.chen@emc.com.tw>,
-        linux-kernel@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh-dt@kernel.org>
-References: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
- <20191212192420.GD101194@dtor-ws>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7c67b849-369f-8a20-4f9e-9e0a7caec1cb@gmail.com>
-Date:   Tue, 7 Jan 2020 08:33:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1726485AbgAGIIi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Jan 2020 03:08:38 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:38803 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725987AbgAGIIi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jan 2020 03:08:38 -0500
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iojui-0004tf-Oq; Tue, 07 Jan 2020 09:08:32 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iojuh-0003Rx-Os; Tue, 07 Jan 2020 09:08:31 +0100
+Date:   Tue, 7 Jan 2020 09:08:31 +0100
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
+Cc:     Support Opensource <Support.Opensource@diasemi.com>,
+        Steve Twiss <stwiss.opensource@diasemi.com>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH v2 3/3] dt-bindings: Input: da9062 - fix
+ dlg,disable-key-power description
+Message-ID: <20200107080831.lbeqpdxkgk42pbke@pengutronix.de>
+References: <20191127132304.22924-1-m.felsch@pengutronix.de>
+ <20191127132304.22924-4-m.felsch@pengutronix.de>
+ <AM5PR1001MB099439FC20DAEBFC6584081280430@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
+ <20191210082759.2hf6ekuqgs2uzzm2@pengutronix.de>
+ <AM5PR1001MB0994D38015B1799F3F3A7CF380550@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-In-Reply-To: <20191212192420.GD101194@dtor-ws>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <AM5PR1001MB0994D38015B1799F3F3A7CF380550@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 09:05:04 up 52 days, 23:23, 43 users,  load average: 0.09, 0.13,
+ 0.06
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-12.12.2019 22:24, Dmitry Torokhov пишет:
-> On Wed, Dec 11, 2019 at 05:03:18PM +0100, Michał Mirosław wrote:
->> This series cleans up the driver a bit and implements changes needed to
->> support EKTF3624-based touchscreen used in eg. Asus TF300T tablet. 
-> 
-> Johnny, could you please take a look at this patch series?
-> 
-> Thanks!
+Hi Adam, Dmitry,
 
-Hello Johnny,
+On 19-12-12 10:08, Adam Thomson wrote:
+> On 10 December 2019 08:28, Marco Felsch wrote:
+> 
+> > Hi Adam,
+> >
+> > On 19-12-02 12:15, Adam Thomson wrote:
+> > > On 27 November 2019 13:23, Marco Felsch wrote:
+> > >
+> > > > There was a bug within the driver since commit f889beaaab1c ("Input:
+> > > > da9063 - report KEY_POWER instead of KEY_SLEEP during power
+> > > > key-press"). Since we fixed the bug the KEY_POWER will be reported
+> > > > always so we need to adapt the dt-bindings too. Make the description
+> > > > more precise while on it.
+> > > >
+> > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > > ---
+> > > > v2:
+> > > > - change description according Dmitry's suggestion.
+> > > >
+> > > >  Documentation/devicetree/bindings/input/da9062-onkey.txt | 5 ++---
+> > > >  1 file changed, 2 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/input/da9062-onkey.txt
+> > > > b/Documentation/devicetree/bindings/input/da9062-onkey.txt
+> > > > index 0005b2bdcdd7..9f895454179d 100644
+> > > > --- a/Documentation/devicetree/bindings/input/da9062-onkey.txt
+> > > > +++ b/Documentation/devicetree/bindings/input/da9062-onkey.txt
+> > > > @@ -15,9 +15,8 @@ Required properties:
+> > > >
+> > > >  Optional properties:
+> > > >
+> > > > -- dlg,disable-key-power : Disable power-down using a long key-press. If this
+> > > > -    entry exists the OnKey driver will remove support for the KEY_POWER key
+> > > > -    press when triggered using a long press of the OnKey.
+> > > > +- dlg,disable-key-power : If this property is present, the host will not be
+> > > > +    issuing shutdown command over I2C in response to a long key-press.
+> > >
+> > > This also changes behaviour of button press reporting as the driver will not
+> > > report a longer press (i.e. a button hold where the driver polls for release).
+> > > It will only report a short key press to user-space with this property provided.
+> > >
+> > > The question here is do we still want to support long press reporting but
+> > > without the I2C sequence for shutdown? If so the driver needs to be updated
+> > to
+> > > work this way as right now it doesn't.
+> >
+> > Good point. I checked the driver and the documentation for the
+> > da9062/3 again and it seems that we interrupt the pmic hw by doing the
+> > shutdown by itself. As the documentation says:
+> >
+> > DA9063:
+> > If the hardware reset was initiated by a (debounced) press of nONKEY (or
+> > GPIO14 and GPIO15 together) longer than SD_DELAY, the DA9063 initially
+> > only asserts control bit KEY_RESET in the fault register and signals a
+> > non-maskable interrupt allowing the host to clear the armed reset
+> > sequence within 1 s. If the host does not clear KEY_RESET then a
+> > shutdown to RESET mode is executed. KEY_SD_MODE determines if normal
+> > power sequence timing or a fast shutdown is implemented.
+> >
+> > DA9062:
+> > If the reset was initiated by a user’s long press of nONKEY, initially
+> > only KEY_RESET is set and the nIRQ port will be asserted. KEY_RESET
+> > signals the host that a shutdown sequence is started. If the host does
+> > not then clear KEY_RESET within 1 s by writing a 1 to the related bit in
+> > register FAULT_LOG, the shutdown sequence will complete. When the reset
+> > condition has disappeared, DA9062 requires a supply (VSYS >
+> > VDD_FAULT_UPPER) that provides enough power to start-up from the
+> > POWERDOWN mode.
+> >
+> > So we don't need to check for the KEY_RESET? This would cleanup the code
+> > a bit.
+> 
+> We could remove that but I think the intention originally was to have this code
+> there in case there was some way to more gracefully shutdown the system in this
+> scenario. Right now that's not the case as the code simply calls to shutdown
+> the pmic via a manual register call, but maybe in the future this could be made
+> more gracful. Another slight advantage of leaving that code in is that we're
+> not waiting for another second delay for the PMIC to pull the plug.
+> 
+> With regards to this patch and the subsequent one to update the OnKey driver, I
+> think we should deprecate this property. The OnKey mode binding you added in
+> a different patch will configure the OnKey according to how you want it to
+> behave in hardware so I don't think this property makes much sense anymore. We
+> can then remove the need for 'key_power' usage in the driver.
 
-Could you please let us know whether you or anyone else from Elan are
-going to take a look at this patchset anytime soon?
+Is it okay for you both to drop this patch from this series and open a
+new 'rework' series?
+
+Regards,
+  Marco
+
+> 
+> >
+> > Regards,
+> >   Marco
+> >
+> > > >
+> > > >  - dlg,key-opmode : Set the nONKEY behaviour. This value is initial set by the
+> > > >      otp values. See nONKEY_PIN register description for more information.
+> > > > --
+> > > > 2.20.1
+> > >
+> > >
+> >
+> > --
+> > Pengutronix e.K.                           |                             |
+> > Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+> > 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+> > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
