@@ -2,78 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B9B14133019
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 20:56:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 859AA1330C0
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 21:43:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728744AbgAGT4j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Jan 2020 14:56:39 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:38211 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728718AbgAGT4i (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jan 2020 14:56:38 -0500
-Received: by mail-ed1-f67.google.com with SMTP id i16so626731edr.5
-        for <linux-input@vger.kernel.org>; Tue, 07 Jan 2020 11:56:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=lUsTd9lJYwK928kai9reachpHe0HC9Hv8/gDLGwtaBI=;
-        b=m/Udengj3famfT4AeeQ1IRW+yMW7VasUnASahB37i/PoeHrkRBk2CGyFKYNukmjW7S
-         L8SRka5Jakx3oOkJPsG2IofN9vOqI+MJeZI3Q0YE0hhIfxJgla/Mvi4GlBIJ0+PXKJyR
-         fGhtIsUmeS9lphgKJPwASTV0Wis5x+akjvA6FztTMBR/K8fgi7sOjdtLa1OeTeeGw/oC
-         WuhGv+1qsxod0shrSr56iRhzuujf6ypC8mQV8JosjFfNeYtuq3xDGNFupimiXFOQL0SO
-         8SxYRsEAywqZcf7WmcQRmN/Qkf20W+/a6rRSJl252WjsQoa/SZxLvQ4mGRJVkfZ3ex9s
-         ABpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=lUsTd9lJYwK928kai9reachpHe0HC9Hv8/gDLGwtaBI=;
-        b=lIA5+KIvnvuWWyqBEKlFsbzfG30ZtFi1fiGfs9G1+pNHIPzXRVDi6wvEJ2y23reNLB
-         5lamg7zHD63HuwBav58gw3IHcdZjja7ZZNtozxFHRXlLE2aBSpWSeJdFycpleGi7tEXY
-         V9IfqldrGlDMNTjz9S5rZb3aS2eElGJxp7yI3TQ67WEYJK+4rdCkaeajpeqMJFvHiHAp
-         r/Jk4CQdEGA5Oqx0MKVBT+Ad/t8GyozUxd6ufhiz1Mda5RncQEUR9FGA5KJGayUEnr77
-         b5zC5Zm6Wgsp3gSZApUxZb5RmOiCc0bY+p75LMfzvvSLTu5caQTsTA6OUw90EZuXac1K
-         GjAg==
-X-Gm-Message-State: APjAAAXPP6zXAmkqudCJXV3dhus3owLghZiDSbMU4/ubydiMzs1uhE7Z
-        YuFx14Ixew+N8DT/cvLOxDBxNeLoF05+BxuqLdU=
-X-Google-Smtp-Source: APXvYqzNbcT08PcgNHBR6CjdjGMonF1aREtl3FixKkalZzLFfyP3YZsjOtPyVn2SjFoUiZ8TzNVIEuitC7fnDU0d3Kk=
-X-Received: by 2002:a17:907:20ef:: with SMTP id rh15mr1111482ejb.325.1578426995176;
- Tue, 07 Jan 2020 11:56:35 -0800 (PST)
+        id S1726111AbgAGUnG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Jan 2020 15:43:06 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:41613 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726142AbgAGUnF (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jan 2020 15:43:05 -0500
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1Mk1BG-1jYwlJ2CMq-00kOo3; Tue, 07 Jan 2020 21:43:01 +0100
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Oleksandr Natalenko <oleksandr@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Richard Fontana <rfontana@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] input: appletouch: shut up -Wmaybe-uninitialized warning
+Date:   Tue,  7 Jan 2020 21:42:45 +0100
+Message-Id: <20200107204300.1365789-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-Received: by 2002:a17:906:72c6:0:0:0:0 with HTTP; Tue, 7 Jan 2020 11:56:34
- -0800 (PST)
-Reply-To: dhlexpresscouriercompany.nyusa@gmail.com
-From:   "Dr. William Johnson" <currency1000000@gmail.com>
-Date:   Tue, 7 Jan 2020 20:56:34 +0100
-Message-ID: <CAPqfnSEyU1pBR_7HT2g1KK7i8caLMBQ8yPA8KRDVm+MN-K_Z4w@mail.gmail.com>
-Subject: contact Dhl office New York to receive your Prepaid ATM Master Card
- worth $15.8Million US DOLLARS now.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:qgZ7jx6brPqr3DJUiVtmNZgtLjzRT+2qQdnCUsfgjChRG18mMU1
+ s0eCpoecStsNJ1VUyiitj+YDY9H4iZBLIiYJPrflwlGkVEZn5BCQjmakeydFC9BGzfJmTo5
+ BCBrnDEJ1B80A85OJooIB0pBrK0mgyy9DxZIu6pthX0Ii6GzBQhrA4GeCbsj0ZlMuYytIt2
+ Mu7PRP0TRwR4jYjKGPMnQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:n77QML3xySw=:4Jkl26AcpldHuzhon2Bcf6
+ HRlIHGxnmxay39fgnDI5iXC+jj5XzYH9u+SKcLFsI4D+u4ZqVfxC4aFAL9eCt7bq3GO3GEw50
+ cv2xh/61sQBriaVvJDXlZZZj+C7AaPWu3aQwL5M6dtvSxdt6+nz4Tj+3OV+KV3H6xunW0F6k2
+ 1Wl/fSS3UiYh4GXVdWERYs/Wk4IMIfSrv4SF5odqiZRDuC50vf9Sl8hGz+L1paMw0Cu6t9iRc
+ XXm7JtqXzo8YyGh8WOZjTt8XJRJITBG7AsnDXoVU00S0yv+7MaVrh6AKPbWRol8JC0VnsyHGu
+ k8LI2wAKO9zN1TLKMqVokZU+oo2jB4z1vH5fgu2HwmNKqtyjR1Dlo8wlHEEGzz60YMkmhGZcd
+ 3v1IAeGYRqXfmaiKqgU4fketxlU0TpEROsy6tM5r2KwltQsXz9Z/lD1asnq2CDJ6Wkn1gAXiz
+ A9+b7H3eMQbq+0D75/5lvQfn3X9wo+rF76NiXxd+RZEvXmcw+beaZIskHTvoinhrKxmvvJkP2
+ dotHE/kiK/+it8pkkWoMZb2nyEgIft2c/c5T2o9Ze6Z61sA5wvEbR5atW4C4KGIKf4pAcT7ka
+ jeW5lBpmf5uGWy1bala+z0QKMpg93Epi2/LlhuWu3svWclEyzlUaYyC7TZVMdVqFdW4vcZn8i
+ x2YTyjMi1JzfJHgxh4RTtKcTwoIRW043MBKB6QaFW9XoDYkBxeYkvmPgaqIpe9pskU5Lzpw8U
+ GdJ2xgx0fyjCwE75mWXrT3DIViM2O+o8RkOI+oWYP1wpA19XsKRbGqCmwFd2pnv8rpCOjz0aM
+ 8d465tPCH2VJUqAwEGO0uPYzogrSe1h27ZVJkf38VqHxqmr0OwZkCFw7B/Os6XQr/XkI2zdjr
+ yeGNxWs71pOAqXacSYUQ==
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-ATTN Dear Beneficiary.
-Goodnews
-I have Registered your Prepaid ATM Master Card
-worth $15.800,000.00 US DOLLARS with Courier company
-asigned to deliver it to you today.
-So contact Dhl office New York to receive your Prepaid ATM Master Card
-worth $15.8Million US DOLLARS now.
-Contact Person: Mrs. Mary Michael, Director, DHL Courier Company-NY USA. 10218
-Email. dhlexpresscouriercompany.nyusa@gmail.com
-Call the office +(202) 890-8752
-Rec-Confirmed your mailing address to the office as I listed below.
-Your Full Name--------------
-House Address-----------
-Your working Phone Number----------------
-ID copy-------------------------
-Sex-----------------------------
-Note,delivery fee to your address is only $25.00. send it to this
-company urgent on itunes card today so that DHL will deliver this
-Prepaid ATM Master Card to you today according to our finally
-agreement.
-Thanks for coperations,
-Dr. William Johnson
+Building with -O3 introduces a false-positive warning in this file:
+
+In file included from include/linux/compiler_types.h:68,
+                 from <command-line>:
+drivers/input/mouse/appletouch.c: In function 'atp_complete_geyser_3_4':
+include/linux/compiler-gcc.h:71:45: error: 'x_z' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+ #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+                                             ^~~~~~~~~~~~
+drivers/input/mouse/appletouch.c:657:12: note: 'x_z' was declared here
+  int x, y, x_z, y_z, x_f, y_f;
+            ^~~
+In file included from include/linux/compiler_types.h:68,
+                 from <command-line>:
+drivers/input/mouse/appletouch.c: In function 'atp_complete_geyser_1_2':
+include/linux/compiler-gcc.h:71:45: error: 'x_z' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+ #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+                                             ^~~~~~~~~~~~
+drivers/input/mouse/appletouch.c:517:12: note: 'x_z' was declared here
+  int x, y, x_z, y_z, x_f, y_f;
+            ^~~
+
+The variables are not actually used here since the only usage
+happens when both 'x' and 'y' are non-zero, but this is something
+that gcc fails to track.
+
+Fixes: mmtom ("init/Kconfig: enable -O3 for all arches")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/input/mouse/appletouch.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/input/mouse/appletouch.c b/drivers/input/mouse/appletouch.c
+index 3f06e8a495d8..ec2139c43fcd 100644
+--- a/drivers/input/mouse/appletouch.c
++++ b/drivers/input/mouse/appletouch.c
+@@ -330,7 +330,7 @@ static void atp_reinit(struct work_struct *work)
+ 			retval);
+ }
+ 
+-static int atp_calculate_abs(struct atp *dev, int offset, int nb_sensors,
++static noinline int atp_calculate_abs(struct atp *dev, int offset, int nb_sensors,
+ 			     int fact, int *z, int *fingers)
+ {
+ 	int i, pass;
+-- 
+2.20.0
+
