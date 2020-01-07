@@ -2,80 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0194A132DE7
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 19:03:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 174CB132FD4
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 20:48:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728365AbgAGSDI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Jan 2020 13:03:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44822 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728451AbgAGSDI (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 7 Jan 2020 13:03:08 -0500
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6F1622146E;
-        Tue,  7 Jan 2020 18:03:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578420187;
-        bh=cSIlJoOHgh09/Owb7TPSkjG78kZT597IFYgjh7h8uB4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=e2LzPBNXp3x9Bm5rMIEhqwZU81/LocL4/QqhOxwF/P+YoAWqVZI0jLC5EM8khBdqF
-         MioV+9WAdD3+dUiHdLpMCdx4wAXSTcy0PZCcO8yKcP2J4vJw+juDRuGFP5pNxv3pTQ
-         29KO2sWh0NSf5f3ZXEzDza38dv7g3MSSEJvAMvn8=
-Received: by mail-qt1-f173.google.com with SMTP id n15so502441qtp.5;
-        Tue, 07 Jan 2020 10:03:07 -0800 (PST)
-X-Gm-Message-State: APjAAAURryYFfymvWfxrvVZZkLs41BOLguW2QEjLcRRrUaEm3uUOtIFk
-        5ipif0b1PSO56d0bYgjZGpXOakCNBMreHmOR+Q==
-X-Google-Smtp-Source: APXvYqzYgPt2mmOM92fmtqc1Y7J5YrHICFVpYfLAMISsmbC9T8x4hClE7gReZJC7gNb4Eez9i67VoJZ6iFbj0o1RXfE=
-X-Received: by 2002:ac8:6747:: with SMTP id n7mr187365qtp.224.1578420186617;
- Tue, 07 Jan 2020 10:03:06 -0800 (PST)
+        id S1728384AbgAGTsW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Jan 2020 14:48:22 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:53533 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728364AbgAGTsW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jan 2020 14:48:22 -0500
+Received: by mail-wm1-f68.google.com with SMTP id m24so54619wmc.3;
+        Tue, 07 Jan 2020 11:48:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AatB6SnFG8u2SLLdhFsdVidlt+oz2jmCm0IaxJ6W8Rg=;
+        b=S6JC31IgPS1HgpRe+vaG49HHlOjrjBUAkzo6BezIYnfUteL6HEYNpq1uPFRv+vsutm
+         TbgcGeJ6kpW3D8EKPAHuieaMxHSNzszYDp/4UmjF/ROYhNFlteT8mer+aQBLXDEf+wue
+         nEqy8IDecjNGhe7OpjJEzXGwCAwZc1LMBwKNZ27b3PF+x/Zb/bBdbUp9X8k75KGV7JyG
+         36788O+adECfVv+gzq4BEahG0g0yTSv0Q/tMKzLCTYeeWwKeuS8iJBinnzhVcP6xXirH
+         fnQz8SDH5w8E+KC2JIm9IO22SKVCjM8q1yj7CW+jvU1VD93AOYdBGhjs0wctgZMVK71M
+         nP8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AatB6SnFG8u2SLLdhFsdVidlt+oz2jmCm0IaxJ6W8Rg=;
+        b=JnF9U3tNSoyxhR4jb9Jd/k1+I6SZnidW/EOmC1BEeseIdbpcp866vA1yf2FooiNUy7
+         6TUHUXtCwqQjUCNap9XC1rU5pkmll6S/54nXtnXsywzBEeoQmbIxKfTnxBV/I4e/OgNH
+         UA9+ds2Yx08En+vpq95VzSM050KM2q0MqP7NXyVcgspAEY1jDg5x1XyMmtKHgeSk9hLC
+         eIgibu1qI2NjBJyuwS67Vjuyw3Pl9/+Ae6Zb1Ot2q1ZuchS+ceMPp+B9JZoPCeKnJFug
+         cPYlpCs7yc8DUD51PSs84RHsObSgHSrVsiso8qAGC7Y1bg9xmrEOmM/zrrgAq13G5MoG
+         u3KA==
+X-Gm-Message-State: APjAAAUPuyEAbdoO19T8VjEQoe8t+FIhXKkw9WMBKkSskY9+QodRzUUj
+        1cXsM3sg+vbS0d69v4TrYOk=
+X-Google-Smtp-Source: APXvYqxdA3ILZlLTG11JZaKjfRImWav+Oi8dOSq5VC2PGlj2crlSU/CYQ0FxNUtdDZmZK6UqGYio1w==
+X-Received: by 2002:a1c:6389:: with SMTP id x131mr18925wmb.155.1578426500298;
+        Tue, 07 Jan 2020 11:48:20 -0800 (PST)
+Received: from localhost.localdomain (10.pool85-61-15.dynamic.orange.es. [85.61.15.10])
+        by smtp.gmail.com with ESMTPSA id w17sm1162516wrt.89.2020.01.07.11.48.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jan 2020 11:48:19 -0800 (PST)
+From:   Rodrigo Rivas Costa <rodrigorivascosta@gmail.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>
+Cc:     Rodrigo Rivas Costa <rodrigorivascosta@gmail.com>
+Subject: [PATCH] HID: steam: Fix input device disappearing
+Date:   Tue,  7 Jan 2020 20:48:13 +0100
+Message-Id: <20200107194813.162038-1-rodrigorivascosta@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200107130903.14421-1-benjamin.gaignard@st.com>
- <20200107130903.14421-3-benjamin.gaignard@st.com> <99576d0367241bff637e82dddca839c40f672d86.camel@hadess.net>
-In-Reply-To: <99576d0367241bff637e82dddca839c40f672d86.camel@hadess.net>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 7 Jan 2020 12:02:52 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLGJehgW6c=GbyFSV8hL+WsUEkRzEBO0_kEka-d2nQ8pw@mail.gmail.com>
-Message-ID: <CAL_JsqLGJehgW6c=GbyFSV8hL+WsUEkRzEBO0_kEka-d2nQ8pw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dt-bindings: touchscreen: Convert Goodix touchscreen
- to json-schema
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     Benjamin Gaignard <benjamin.gaignard@st.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Yannick Fertre <yannick.fertre@st.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 7, 2020 at 7:38 AM Bastien Nocera <hadess@hadess.net> wrote:
->
-> On Tue, 2020-01-07 at 14:09 +0100, Benjamin Gaignard wrote:
-> > Convert the Goodix binding to DT schema format using json-schema
->
-> I don't have an opinion on the migration itself, but this really should
-> not lose any of the descriptions that were in the old text file.
+The `connected` value for wired devices was not properly initialized,
+it must be set to `true` upon creation, because wired devices do not
+generate connection events.
 
-To some extent, yes. Any information specific to the device should be.
-Anything generic can be dropped. I see 2 cases that should be kept:
+When a raw client (the Steam Client) uses the device, the input device
+is destroyed. Then, when the raw client finishes, it must be recreated.
+But since the `connected` variable was false this never happended.
 
-> > - - reg                       : I2C address of the chip. Should be
-> > 0x5d or 0x14
+Signed-off-by: Rodrigo Rivas Costa <rodrigorivascosta@gmail.com>
+---
+ drivers/hid/hid-steam.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-'I2C address of the chip' can be dropped as that's every 'reg'
-property for I2C devices. The addresses can be expressed as
-constraints.
+diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
+index 8dae0f9b819e..6286204d4c56 100644
+--- a/drivers/hid/hid-steam.c
++++ b/drivers/hid/hid-steam.c
+@@ -768,8 +768,12 @@ static int steam_probe(struct hid_device *hdev,
+ 
+ 	if (steam->quirks & STEAM_QUIRK_WIRELESS) {
+ 		hid_info(hdev, "Steam wireless receiver connected");
++		/* If using a wireless adaptor ask for connection status */
++		steam->connected = false;
+ 		steam_request_conn_status(steam);
+ 	} else {
++		/* A wired connection is always present */
++		steam->connected = true;
+ 		ret = steam_register(steam);
+ 		if (ret) {
+ 			hid_err(hdev,
+-- 
+2.24.1
 
-> > - - irq-gpios         : GPIO pin used for IRQ. The driver uses the
-> > -                       interrupt gpio pin as output to reset the
-> > device.
-
-Also useful info.
-
-Rob
