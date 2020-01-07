@@ -2,191 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2E9E13257D
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 12:59:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18C44132591
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 13:03:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728037AbgAGL7m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Jan 2020 06:59:42 -0500
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2233 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726690AbgAGL7l (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 7 Jan 2020 06:59:41 -0500
-Received: from lhreml709-cah.china.huawei.com (unknown [172.18.7.108])
-        by Forcepoint Email with ESMTP id 12FB45C68102FBB7BE4F;
-        Tue,  7 Jan 2020 11:59:40 +0000 (GMT)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml709-cah.china.huawei.com (10.201.108.32) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Tue, 7 Jan 2020 11:59:39 +0000
-Received: from localhost (10.202.226.57) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 7 Jan 2020
- 11:59:39 +0000
-Date:   Tue, 7 Jan 2020 11:59:38 +0000
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-CC:     Jonathan Cameron <jic23@kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        "Lars-Peter Clausen" <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        "Linux Input" <linux-input@vger.kernel.org>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Donggeun Kim <dg77.kim@samsung.com>,
-        Minkyu Kang <mk7.kang@samsung.com>,
-        =?UTF-8?Q?Pawe=C5=82?= Chmiel <pawel.mikolaj.chmiel@gmail.com>,
-        "Jonathan Bakker" <xc-racer2@live.ca>,
-        Oskar Andero <oskar.andero@gmail.com>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH 2/2 v1] iio: light: Add a driver for Sharp GP2AP002x00F
-Message-ID: <20200107115938.00005c08@Huawei.com>
-In-Reply-To: <CACRpkdbpqge9beL8QEdqnA3pN+41PUfJg4Zr9hDnnYYkatSYTg@mail.gmail.com>
-References: <20191228201109.13635-1-linus.walleij@linaro.org>
-        <20191228201109.13635-2-linus.walleij@linaro.org>
-        <20191230173919.373f4e8a@archlinux>
-        <CACRpkdbpqge9beL8QEdqnA3pN+41PUfJg4Zr9hDnnYYkatSYTg@mail.gmail.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        id S1727834AbgAGMDT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Jan 2020 07:03:19 -0500
+Received: from onstation.org ([52.200.56.107]:59186 "EHLO onstation.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726690AbgAGMDT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 7 Jan 2020 07:03:19 -0500
+Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net [98.239.145.235])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: masneyb)
+        by onstation.org (Postfix) with ESMTPSA id C829B3EE6F;
+        Tue,  7 Jan 2020 12:03:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
+        s=default; t=1578398598;
+        bh=G1NgPRmqbaXrZt93MHof7xiFvsWe6mnmfknmDsCSABw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GA0fdnhnOSDm5j34rjSDsYJaMexcgJedMapRAkvYbkjiOTfLhhDYqXNnvO57AAsK1
+         kDxUvPA5pzm4TWkzT+gSXhXnYN7pB+YqvFyQvCrwhdx59Vi9S1z2O4Pnc+JBa1MprS
+         bu2enSjcwniB+kfLJFfY8gNVtjf6Ew9/NeesMMq0=
+Date:   Tue, 7 Jan 2020 07:03:17 -0500
+From:   Brian Masney <masneyb@onstation.org>
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, agross@kernel.org,
+        bjorn.andersson@linaro.org, mturquette@baylibre.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH 4/7] dt-bindings: Input: introduce new clock vibrator
+ bindings
+Message-ID: <20200107120317.GB8083@onstation.org>
+References: <20191205002503.13088-1-masneyb@onstation.org>
+ <20191205002503.13088-5-masneyb@onstation.org>
+ <20200105083534.01EB12071A@mail.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.57]
-X-ClientProxiedBy: lhreml736-chm.china.huawei.com (10.201.108.87) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200105083534.01EB12071A@mail.kernel.org>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 6 Jan 2020 10:08:55 +0100
-Linus Walleij <linus.walleij@linaro.org> wrote:
+On Sun, Jan 05, 2020 at 12:35:33AM -0800, Stephen Boyd wrote:
+> Quoting Brian Masney (2019-12-04 16:25:00)
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/qcom,mmcc-msm8974.h>
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    vibrator {
+> > +        compatible = "clk-vibrator";
+> > +
+> > +        vcc-supply = <&pm8941_l19>;
+> > +
+> > +        clocks = <&mmcc CAMSS_GP1_CLK>;
+> > +        clock-names = "core";
+> > +        clock-frequency = <24000>;
+> > +
+> > +        enable-gpios = <&msmgpio 60 GPIO_ACTIVE_HIGH>;
+> > +
+> > +        pinctrl-names = "default";
+> > +        pinctrl-0 = <&vibrator_pin>;
+> 
+> I'm still trying to wrap my head around this. I think we can have a pwm
+> provider in a clk controller node (so imagine &mmcc has #pwm-cells) and
+> then this 'clk-vibrator' binding wouldn't exist? Instead we would have
+> some sort of binding for a device that expects a pwm and whatever else
+> is required, like the enable gpio and power supply. Is there an actual
+> hardware block that is this way? Does it have a real product id and is
+> made by some company? Right now this looks a little too generic to not
+> just be a catch-all for something that buzzes.
 
-> Hi Jonathan,
-> 
-> fixed most of the things and resending as v2 soon-ish,
-> some inline responses, comments:
-> 
-> On Mon, Dec 30, 2019 at 6:39 PM Jonathan Cameron <jic23@kernel.org> wrote:
-> > On Sat, 28 Dec 2019 21:11:09 +0100 Linus Walleij <linus.walleij@linaro.org> wrote:  
-> 
-> > If at all possible I'd like to discourage use of of specific
-> > calls in favour of the generic ones.  It's pretty unlikely we'll
-> > ever see this driver using anything else, but I'd like to build
-> > up a good set of examples to point people at now that functionality
-> > is in place.  
-> 
-> I guess you mean to use fwnode where possible. I comment on this
-> below.
+So have some of the Qualcomm clocks like this one register with both the
+clk and the pwm frameworks? I feel that approach would better represent
+the hardware in device tree.
 
-yes, though more specifically PRP0001 usage, which basically puts the
-DT directly into ACPI.
+If we did that, then the pwm-vibra driver in the input subsystem could
+be used.
 
-> 
-> > > +     iio_push_event(indio_dev, ev, iio_get_time_ns(indio_dev));
-> > > +     usleep_range(20000, 30000);  
-> >
-> > What is the basis for these timings?  
-> 
-> Detection cycle, I explained this with an inline comment.
-> 
-> > > +     gp2ap002->is_gp2ap002s00f =
-> > > +             of_device_is_compatible(np, "sharp,gp2ap002s00f");  
-> >
-> > Hmm. This rather breaks my comment below about trying to avoid making
-> > this of specific if we don't need to...
-> >
-> > I 'think' we could use device_property_read_string
-> > There is a bit of precedence for doing so, but it is not common.  
-> 
-> This is the real trick. Using
-> device_property_read_string(dev, "compatible", str);
-> isn't going to work as ACPI probes from a unique 4-char
-> ID not a compatible string this will never work on ACPI
-> anyways.
-
-Is that true for PRP0001?  That's the ACPI case we normally
-care about in cases like this.
-
-https://lkml.org/lkml/2019/3/22/1612
-
-Has an explicit "compatible" property.
-
-
-> 
-> I can try to go some extra mile to support a hypothetical
-> ACPI client by adding a struct with one bool member as
-> match data and pass that around if you insist, but I think it's
-> more something appropriate for the first ACPI user to do.
-> 
-> It's no problem if you want it, but it will add a bunch of
-> boilerplate just for this.
-> 
-> > > +     /* Check the device tree for the IR LED hysteresis */
-> > > +     ret = of_property_read_u32(np, "sharp,proximity-far-hysteresis", &val);  
-> >
-> > Do these belong in DT at all, or are they more of a policy decision?
-> > Without a datasheet I'm kind of guessing what they actually are.  
-> 
-> There is a datasheet:
-> https://global.sharp/products/device-china/lineup/data/pdf/datasheet/gp2ap002s00f_appl_e.pdf
-> 
-> > We have the option for hysterisis controls on events from sysfs if that
-> > make sense.  
-> 
-> I don't know, these are two hysteresis settings: one that detects an
-> object close to the sensor and one detecting an object far from
-> the sensor.
-> 
-> The two settings are describes as fixed to mode A, B1 and B2 in the
-> datasheet. However there is a vendor driver in one of the phone
-> trees that use "mode B 1.5" not documented in the datasheet
-> (bummer). So given how fluid this all is I opted for just an u8
-> in the device tree for "close" and "far" hysteresis setting.
-
-OK, lets leave this, but maybe add a comment somewhere to give this
-bit of detail.
-
-> 
-> > Could use the fwnode_get_property_u32 etc to drop reliance on OF.  
-> 
-> Will do if we must support hypotetical non-DT probe.
-> 
-> > > +     /* The GP2AP002A00F has a light sensor too */
-> > > +     if (!gp2ap002->is_gp2ap002s00f) {  
-> >
-> > This section is rather 'unusual' and definitely needs some explanatory
-> > comments - particularly as I can't find any reference docs for the part.  
-> 
-> The only reference for the light sensor part in GP2AP002A00F
-> is the submission from Samsung mentioned in the header of the
-> driver submitted by Donggeun Kim & Minkyu Kang in 2011:
-> https://lore.kernel.org/lkml/1315556546-7445-1-git-send-email-dg77.kim@samsung.com/
-> 
-> It also appears in the GPL code from GT-S7710 which seems to
-> derive from a code drop from Sharp.
-> 
-> Yep the code is the documentation...
-
-:(
-
-> 
-> > I'm guessing that the light sensor is simply an analog output?  As such
-> > you need to wire it up to a separate ADC to actually read the light level...  
-> 
-> Yep that's the same method as used for
-> drivers/iio/light/cm3605.c
-> Most early Androids do something like that, and all SoCs seem to
-> provide some ADC to do the conversion.
-> 
-
-Fair enough, a few more comments perhaps in the code for when we inevitably
-forget all this history ;)
-
-Thanks,
-
-Jonathan
-
-> Yours,
-> Linus Walleij
-
-
+Brian
