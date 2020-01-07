@@ -2,167 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08BB5131BA8
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2020 23:41:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5AB9131F57
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 06:33:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727163AbgAFWky (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Jan 2020 17:40:54 -0500
-Received: from mail-eopbgr700105.outbound.protection.outlook.com ([40.107.70.105]:22464
-        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726742AbgAFWky (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 6 Jan 2020 17:40:54 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q0Q0jJb+kSLiAW93CP9hSC4GwP1558R689b+LfW91AftEfPNrmTDwqHASvB+4v73/MQmaTeB2dxij9mwpYj6MRmBgFfn0vtsX/T85Myz0UB7Qn/6m5iHyStCh7ngl4FZLZXrC9JJQy3B/Yv27eXWa9CCiupTl3sr9W2GsOxJ7zdNyXO/mDagelssvHne3ALqdmTHzy3ssvXdI0uWzXleas9jCA/TPsSsigDPOGrFiolhFzFLbvIxSKm/dFCr+o2+5LFH0yET2gpzp5jYMkB6hfSUTOfALAbPx35oVQMBuomLLBXDbhfZ0FbDHjK0bZQldeOiTHlyHdv/esdpt4MMkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zMourdQM1ifxJbLoShY1of/Ps/fd9Aqqs+g/RkNk7Mw=;
- b=dqwNESZBrs8hQRKJWfkycKF/yOzLqgaIIbUWTQmt/b/ceRn9wJ2idrpeGqzxMND+CgS0Z/hLZC1toohXQ0xzMNlpkKnwXAmq9yZlrwX9JLW5ee9KKxBN8/zGfMXO45ftqMB0g4ogeCWFEaF4JLKCuUyO6WI0x2LVMgy6xInQc7HGecs20pIRggoL3V6zhMZ3FTm9u43otVLCkpQGWOjSDKw5ykckhLXwselJXjglkH758XLSyHd5dZJJeUsXLL73pnqrwlu2+iwtvQ7H3Z+6p0U7HPDgakKkIff6vw9+BUHftlfF5+aHYs2izOGTAyMRB2tQoT6aoa7h+6h5jP9ELw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zMourdQM1ifxJbLoShY1of/Ps/fd9Aqqs+g/RkNk7Mw=;
- b=E/7XU3z6jKMv2G9gGnvYOy2JusncMRNnllJ18x8Mp0BwUJpEjUNSmMzpyE34V2nW4/ijvZZ95ZbqxLf0zM/nox9uQsG9mPgI3bGiw7dJa0FDS6bSRYKHbXy7HTFrHnHstUut9oVQfBdKz+oOPtmsOHfldKWMKpK6a8+3upNI5sw=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=decui@microsoft.com; 
-Received: from CY4PR21MB0775.namprd21.prod.outlook.com (10.173.192.21) by
- CY4PR21MB0181.namprd21.prod.outlook.com (10.173.193.7) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.4; Mon, 6 Jan 2020 22:40:51 +0000
-Received: from CY4PR21MB0775.namprd21.prod.outlook.com
- ([fe80::6155:bc1d:1d39:977b]) by CY4PR21MB0775.namprd21.prod.outlook.com
- ([fe80::6155:bc1d:1d39:977b%8]) with mapi id 15.20.2644.002; Mon, 6 Jan 2020
- 22:40:51 +0000
-From:   Dexuan Cui <decui@microsoft.com>
-To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        sashal@kernel.org, dmitry.torokhov@gmail.com,
-        linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mikelley@microsoft.com,
-        Alexander.Levin@microsoft.com
-Cc:     Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH][RESEND] Input: hyperv-keyboard: Add the support of hibernation
-Date:   Mon,  6 Jan 2020 14:40:44 -0800
-Message-Id: <1578350444-129991-1-git-send-email-decui@microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-Reply-To: decui@microsoft.com
-Content-Type: text/plain
-X-ClientProxiedBy: MWHPR19CA0018.namprd19.prod.outlook.com
- (2603:10b6:300:d4::28) To CY4PR21MB0775.namprd21.prod.outlook.com
- (2603:10b6:903:b8::21)
+        id S1725874AbgAGFdO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Jan 2020 00:33:14 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:38412 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725267AbgAGFdO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jan 2020 00:33:14 -0500
+Received: by mail-lj1-f193.google.com with SMTP id w1so31395426ljh.5;
+        Mon, 06 Jan 2020 21:33:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=veUZeWQZbFotsYKfqCj5Y1xDEGG7Ogankt+eKInlDDg=;
+        b=MMfH6XnxLwcfhqY5ZYFKRsc3ald9qks2waZ+5mhHbxfbPDldlzeHEyFnWC32mjlXiD
+         nv5uIdsSajiXc6qMcPW+thKv2TdmQxMyY+KSy0o2fyGK91cU93LX0jr8dTipdjZEisxa
+         n92MWUnqgs+nXMqghBgQrTgDdj9/4KyBOGOOK+ftTLiwW96rgYuiA0ye296hJCljaHKk
+         bS8T8oyQai1Im75g3knKsixURKV1ZaFfm/fzitEejbyMebTkXFfMGS1vFF1HJJpsQYMP
+         FYiPRWPQ+N0sW95n1immb1Q1q4u1FFcuWp31D9cM+7DsZGTBOSb+AWGP9WkopSZPfBhw
+         8JBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=veUZeWQZbFotsYKfqCj5Y1xDEGG7Ogankt+eKInlDDg=;
+        b=bXr3C7oya5CfXPs9LQ8oxzcLO1AzrP5BgIH9PFl6gUQYnrxYOncxf/txR/CblRwQwS
+         U8+DDP/C6c8/x6ZGHoaaZ3RC2YrtJSZVM+LRhCAqBt9aPYDv0YhezI3OW10uwcVYSqIj
+         bjDDFmBa7iIACbp2TyAAqu+7CY4DJlps93+7/WjJiJwikzKH5zee2urVz/h9Z3Q7Q3Mz
+         UzjiSih8AyRxz9Py0digkOVE1BGFPcRJTUUqupj4jXM8PrR94FJJXojvowidnHSgaOsx
+         AatVB3Sg+hoMseapFzzZxVysIDH33cFqprdZ4dMXkVd6B5uVwOlHKAm7ZgVpsat37VhQ
+         NPLA==
+X-Gm-Message-State: APjAAAWFnVu3ZAlKBI46ufBWB8nwCMcizsJjSqF7fzt/u2oEeu1WdrNq
+        SJKwmi9WWEDtVnO+OZoExSQ=
+X-Google-Smtp-Source: APXvYqwQuxl/nNc1WZx6Hq7z8hwzhuGnyiQkFsUMBIML9+phR645Yvg8qHIcxH0R9Etz+2+hei6HEw==
+X-Received: by 2002:a2e:7e05:: with SMTP id z5mr48052335ljc.99.1578375191537;
+        Mon, 06 Jan 2020 21:33:11 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id m21sm29860754lfh.53.2020.01.06.21.33.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jan 2020 21:33:10 -0800 (PST)
+Subject: Re: [PATCH v2 0/9] input: elants: Support Asus TF300T touchscreen
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Scott Liu <scott.liu@emc.com.tw>,
+        James Chen <james.chen@emc.com.tw>,
+        linux-kernel@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh-dt@kernel.org>
+References: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
+ <20191212192420.GD101194@dtor-ws>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <7c67b849-369f-8a20-4f9e-9e0a7caec1cb@gmail.com>
+Date:   Tue, 7 Jan 2020 08:33:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by MWHPR19CA0018.namprd19.prod.outlook.com (2603:10b6:300:d4::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2602.12 via Frontend Transport; Mon, 6 Jan 2020 22:40:51 +0000
-X-Mailer: git-send-email 1.8.3.1
-X-Originating-IP: [13.77.154.182]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 447ba918-4c98-49b3-773d-08d792f97bc6
-X-MS-TrafficTypeDiagnostic: CY4PR21MB0181:|CY4PR21MB0181:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CY4PR21MB01815D121863D35B0596F471BF3C0@CY4PR21MB0181.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 0274272F87
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(396003)(366004)(136003)(376002)(39860400002)(346002)(189003)(199004)(6666004)(2616005)(956004)(86362001)(478600001)(10290500003)(6486002)(66556008)(316002)(66476007)(66946007)(966005)(2906002)(3450700001)(107886003)(6636002)(8676002)(81156014)(5660300002)(6512007)(6506007)(81166006)(36756003)(52116002)(26005)(16526019)(186003)(4326008)(8936002)(921003)(21314003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:CY4PR21MB0181;H:CY4PR21MB0775.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-Received-SPF: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S28xdM+fdzmRtXZ7gGu3vzd8eb7Bz1GOZyM6Xe62f6MnrkjU8pdVCYRb3h6rzTTdDEm5jc++s6Ut7jHcyLqBwj5PEywHs7g7n6fo0enKDVyE/l4t/3Ydwix+qrYFfDGfv975m89MrB+e3JTHa4abbH1fWXxjhVEPsNkDAqsni+j6wgZBi2MGK6D7YywR9sTMjVqeWX+8vh5lMvt4hGhabOi1UNek46A3073khXFfmp8M1Z11pHauKhQGaUUTj1Tk8hHYusFM2t20tRD4ZY/+Og2pvXmF+TL+NbfdMb/XwI9sHtx+LkVVsK7iu242B281s8ODK/xreHLhp9dIAeOvisNcJOKqebWdSoMklWBaWN8W7R6+n3pUJr6ELUrNHU0L9HsLeYHTfRmuHZ0623uXZTKxS7vqtA6z5657Q2tr5xH1Z8JvH47/XRAh4d4SwSnw6JnHVvvCK4rPWHB+pM55ninEc02wqaUxVWhaf6vPxRqb/0ydL37HdC8mJLVJYLGPpXv6G7ZTOcq+gqJNfUz97yZbh+ORkFwhtTHIsp6KEhv+ZVeoW/R76zgFVjSuW3v6RgEkiKk/bwQ5f575OFEjqWsnLIHN1qe0xSd/WxdFhm0=
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 447ba918-4c98-49b3-773d-08d792f97bc6
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2020 22:40:51.8770
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: //y+vIIvUlbtE3M41ASss03uN4ww2dI7kjMINVpCxJ9ulqoog+FsZudPenmhFnspdkOLKRnJtv1zwk2UbLl+RQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR21MB0181
+In-Reply-To: <20191212192420.GD101194@dtor-ws>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add suspend() and resume() functions so the Hyper-V virtual keyboard
-can participate in VM hibernation.
+12.12.2019 22:24, Dmitry Torokhov пишет:
+> On Wed, Dec 11, 2019 at 05:03:18PM +0100, Michał Mirosław wrote:
+>> This series cleans up the driver a bit and implements changes needed to
+>> support EKTF3624-based touchscreen used in eg. Asus TF300T tablet. 
+> 
+> Johnny, could you please take a look at this patch series?
+> 
+> Thanks!
 
-Note that the keyboard is a "wakeup" device that could abort an in-progress
-hibernation if there is keyboard event.  No attempt is made to suppress this
-behavior.  If desired, a sysadmin can disable the keyboard as a wakeup device
-using standard mechanisms such as:
+Hello Johnny,
 
-echo disabled > /sys/bus/vmbus/drivers/hyperv_keyboard/XXX/power/wakeup
-(where XXX is the device's GUID)
-
-Reviewed-by:  Michael Kelley <mikelley@microsoft.com>
-Signed-off-by: Dexuan Cui <decui@microsoft.com>
----
-
-This is a RESEND of https://lkml.org/lkml/2019/11/24/115 .
-
-Please review.
-
-If it looks good, Sasha Levin, can you please pick it up via the
-hyperv/linux.git tree, as you did last time for this driver?
-
-
- drivers/input/serio/hyperv-keyboard.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
-index e486a8a74c40..df4e9f6f4529 100644
---- a/drivers/input/serio/hyperv-keyboard.c
-+++ b/drivers/input/serio/hyperv-keyboard.c
-@@ -259,6 +259,8 @@ static int hv_kbd_connect_to_vsp(struct hv_device *hv_dev)
- 	u32 proto_status;
- 	int error;
- 
-+	reinit_completion(&kbd_dev->wait_event);
-+
- 	request = &kbd_dev->protocol_req;
- 	memset(request, 0, sizeof(struct synth_kbd_protocol_request));
- 	request->header.type = __cpu_to_le32(SYNTH_KBD_PROTOCOL_REQUEST);
-@@ -380,6 +382,29 @@ static int hv_kbd_remove(struct hv_device *hv_dev)
- 	return 0;
- }
- 
-+static int hv_kbd_suspend(struct hv_device *hv_dev)
-+{
-+	vmbus_close(hv_dev->channel);
-+
-+	return 0;
-+}
-+
-+static int hv_kbd_resume(struct hv_device *hv_dev)
-+{
-+	int ret;
-+
-+	ret = vmbus_open(hv_dev->channel,
-+			 KBD_VSC_SEND_RING_BUFFER_SIZE,
-+			 KBD_VSC_RECV_RING_BUFFER_SIZE,
-+			 NULL, 0,
-+			 hv_kbd_on_channel_callback,
-+			 hv_dev);
-+	if (ret == 0)
-+		ret = hv_kbd_connect_to_vsp(hv_dev);
-+
-+	return ret;
-+}
-+
- static const struct hv_vmbus_device_id id_table[] = {
- 	/* Keyboard guid */
- 	{ HV_KBD_GUID, },
-@@ -393,6 +418,8 @@ static struct  hv_driver hv_kbd_drv = {
- 	.id_table = id_table,
- 	.probe = hv_kbd_probe,
- 	.remove = hv_kbd_remove,
-+	.suspend = hv_kbd_suspend,
-+	.resume = hv_kbd_resume,
- 	.driver = {
- 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
- 	},
--- 
-2.19.1
-
+Could you please let us know whether you or anyone else from Elan are
+going to take a look at this patchset anytime soon?
