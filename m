@@ -2,106 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F7D9132D98
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 18:52:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3426132DB2
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 18:56:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728521AbgAGRwX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Jan 2020 12:52:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49670 "EHLO mail.kernel.org"
+        id S1728390AbgAGR40 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Jan 2020 12:56:26 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58418 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728358AbgAGRwX (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 7 Jan 2020 12:52:23 -0500
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728266AbgAGR40 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 7 Jan 2020 12:56:26 -0500
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6B5052073D;
-        Tue,  7 Jan 2020 17:52:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 05C4D21744;
+        Tue,  7 Jan 2020 17:56:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578419542;
-        bh=N8kKuZH+IiH6SzhPc6h2mqRI8IEhFlVh6ta+BjiG0PA=;
-        h=In-Reply-To:References:Cc:To:Subject:From:Date:From;
-        b=ybRlfiE8lpreqNDlmuq0T6s79Vk91yUUXBueGQJwCTKHg0CwwBoLldVavaNiR5c2i
-         bGGVFO9iCfDMwDucVKX23f2QJV9gtQw9fLOBSf4W7e0SGBSuEd16lAp5F8k9Uc2sV6
-         HRVEpzGgo5tFSXUv2uwUFX9Lr/mCTssneGSpO0g8=
-Content-Type: text/plain; charset="utf-8"
+        s=default; t=1578419785;
+        bh=sN3A/gVmvY08EVkOw02CCTJ8qQ4qt4GuWbnEiWDMlDk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ng9ynkCme5Wbdl2xJGlooU27pt9n+nw/miTwaeQS5XmjXZMt4dRfiqEnCrH06coxA
+         f5Ey/oP/p9oZ71NEx7PKHifqNdmdi5K9YqLwLW1IKB+SdlP86vssJp28YYz7aT9IUk
+         Cuc0Sf7FAO9wQNWwGe1ppbcUsPQg2HzXL8oWWOSs=
+Received: by mail-qv1-f49.google.com with SMTP id o18so248376qvf.1;
+        Tue, 07 Jan 2020 09:56:24 -0800 (PST)
+X-Gm-Message-State: APjAAAW1EmKWH3LJwHqOFNaMvqgzpVHouwKzR1IqCC/tmGvS5bUeAtNf
+        KRVuY18YS/Zb68Xue0aMNZrT3r0ihTvycWCqnQ==
+X-Google-Smtp-Source: APXvYqzF/BfLHaaeTgK5EYiU4pH7Lg18L2BUarYIRmwIQvhvDK1mPGCkPRdU126f/Ll3H32W9ezOumk47Rv77DBA4es=
+X-Received: by 2002:a05:6214:11ac:: with SMTP id u12mr577861qvv.85.1578419784123;
+ Tue, 07 Jan 2020 09:56:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200107120317.GB8083@onstation.org>
-References: <20191205002503.13088-1-masneyb@onstation.org> <20191205002503.13088-5-masneyb@onstation.org> <20200105083534.01EB12071A@mail.kernel.org> <20200107120317.GB8083@onstation.org>
-Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        mark.rutland@arm.com, agross@kernel.org,
-        bjorn.andersson@linaro.org, mturquette@baylibre.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-clk@vger.kernel.org
-To:     Brian Masney <masneyb@onstation.org>
-Subject: Re: [PATCH 4/7] dt-bindings: Input: introduce new clock vibrator bindings
-From:   Stephen Boyd <sboyd@kernel.org>
-User-Agent: alot/0.8.1
-Date:   Tue, 07 Jan 2020 09:52:21 -0800
-Message-Id: <20200107175222.6B5052073D@mail.kernel.org>
+References: <20200107130903.14421-1-benjamin.gaignard@st.com> <20200107130903.14421-3-benjamin.gaignard@st.com>
+In-Reply-To: <20200107130903.14421-3-benjamin.gaignard@st.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 7 Jan 2020 11:56:10 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+7rnnaTA3MOVZPS70m8ESdFYZWtpCUtVZOX_g1S-bPNA@mail.gmail.com>
+Message-ID: <CAL_Jsq+7rnnaTA3MOVZPS70m8ESdFYZWtpCUtVZOX_g1S-bPNA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dt-bindings: touchscreen: Convert Goodix touchscreen
+ to json-schema
+To:     Benjamin Gaignard <benjamin.gaignard@st.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Linux Input <linux-input@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Yannick Fertre <yannick.fertre@st.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting Brian Masney (2020-01-07 04:03:17)
-> On Sun, Jan 05, 2020 at 12:35:33AM -0800, Stephen Boyd wrote:
-> > Quoting Brian Masney (2019-12-04 16:25:00)
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/clock/qcom,mmcc-msm8974.h>
-> > > +    #include <dt-bindings/gpio/gpio.h>
-> > > +
-> > > +    vibrator {
-> > > +        compatible =3D "clk-vibrator";
-> > > +
-> > > +        vcc-supply =3D <&pm8941_l19>;
-> > > +
-> > > +        clocks =3D <&mmcc CAMSS_GP1_CLK>;
-> > > +        clock-names =3D "core";
-> > > +        clock-frequency =3D <24000>;
-> > > +
-> > > +        enable-gpios =3D <&msmgpio 60 GPIO_ACTIVE_HIGH>;
-> > > +
-> > > +        pinctrl-names =3D "default";
-> > > +        pinctrl-0 =3D <&vibrator_pin>;
-> >=20
-> > I'm still trying to wrap my head around this. I think we can have a pwm
-> > provider in a clk controller node (so imagine &mmcc has #pwm-cells) and
-> > then this 'clk-vibrator' binding wouldn't exist? Instead we would have
-> > some sort of binding for a device that expects a pwm and whatever else
-> > is required, like the enable gpio and power supply. Is there an actual
-> > hardware block that is this way? Does it have a real product id and is
-> > made by some company? Right now this looks a little too generic to not
-> > just be a catch-all for something that buzzes.
->=20
-> So have some of the Qualcomm clocks like this one register with both the
-> clk and the pwm frameworks? I feel that approach would better represent
-> the hardware in device tree.
+On Tue, Jan 7, 2020 at 7:09 AM Benjamin Gaignard
+<benjamin.gaignard@st.com> wrote:
+>
+> Convert the Goodix binding to DT schema format using json-schema
+>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+> ---
+>  .../bindings/input/touchscreen/goodix.txt          | 50 ----------------
+>  .../bindings/input/touchscreen/goodix.yaml         | 69 ++++++++++++++++++++++
+>  2 files changed, 69 insertions(+), 50 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/goodix.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.txt b/Documentation/devicetree/bindings/input/touchscreen/goodix.txt
+> deleted file mode 100644
+> index fc03ea4cf5ab..000000000000
+> --- a/Documentation/devicetree/bindings/input/touchscreen/goodix.txt
+> +++ /dev/null
+> @@ -1,50 +0,0 @@
+> -Device tree bindings for Goodix GT9xx series touchscreen controller
+> -
+> -Required properties:
+> -
+> - - compatible          : Should be "goodix,gt1151"
+> -                                or "goodix,gt5663"
+> -                                or "goodix,gt5688"
+> -                                or "goodix,gt911"
+> -                                or "goodix,gt9110"
+> -                                or "goodix,gt912"
+> -                                or "goodix,gt927"
+> -                                or "goodix,gt9271"
+> -                                or "goodix,gt928"
+> -                                or "goodix,gt967"
+> - - reg                 : I2C address of the chip. Should be 0x5d or 0x14
+> - - interrupts          : Interrupt to which the chip is connected
+> -
+> -Optional properties:
+> -
+> - - irq-gpios           : GPIO pin used for IRQ. The driver uses the
+> -                         interrupt gpio pin as output to reset the device.
+> - - reset-gpios         : GPIO pin used for reset
+> - - AVDD28-supply       : Analog power supply regulator on AVDD28 pin
+> - - VDDIO-supply                : GPIO power supply regulator on VDDIO pin
+> - - touchscreen-inverted-x
+> - - touchscreen-inverted-y
+> - - touchscreen-size-x
+> - - touchscreen-size-y
+> - - touchscreen-swapped-x-y
+> -
+> -The touchscreen-* properties are documented in touchscreen.txt in this
+> -directory.
+> -
+> -Example:
+> -
+> -       i2c@00000000 {
+> -               /* ... */
+> -
+> -               gt928@5d {
+> -                       compatible = "goodix,gt928";
+> -                       reg = <0x5d>;
+> -                       interrupt-parent = <&gpio>;
+> -                       interrupts = <0 0>;
+> -
+> -                       irq-gpios = <&gpio1 0 0>;
+> -                       reset-gpios = <&gpio1 1 0>;
+> -               };
+> -
+> -               /* ... */
+> -       };
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+> new file mode 100644
+> index 000000000000..05b52d359ac5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+> @@ -0,0 +1,69 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/goodix.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Goodix GT9xx series touchscreen controller Bindings
+> +
+> +maintainers:
+> +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - goodix,gt1151
+> +      - goodix,gt5663
+> +      - goodix,gt5688
+> +      - goodix,gt911
+> +      - goodix,gt9110
+> +      - goodix,gt912
+> +      - goodix,gt927
+> +      - goodix,gt9271
+> +      - goodix,gt928
+> +      - goodix,gt967
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  irq-gpios:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  AVDD28-supply:
+> +    description: Analog power supply regulator on AVDD28 pin
+> +
+> +  VDDIO-supply:
+> +    description: GPIO power supply regulator on VDDIO pin
+> +
+> +additionalProperties: false
 
-That is one option. Or another option would be to have another node that
-"adapts" a clk signal to a pwm provider. Similar to how we adapt a gpio
-to make a clk gate or mux. Something like:
+This doesn't work if you have any touchscreen properties as this
+doesn't account for things referenced. You need add them in this
+schema:
 
-	gcc: clock-controller@f00d {
-		reg =3D <0xf00d 0xd00d>;
-		#clock-cells =3D <1>;
-	};
+touchscreen-inverted-x: true
 
+This serves 2 purposes. It prevents additional properties not defined
+here and defines which of the common properties are valid for this
+device.
 
-	pwm {
-		compatible =3D "pwm-clk";
-		#pwm-cells =3D <0>;
-		clocks =3D <&gcc 45>;
-		assigned-clocks =3D <&gcc 45>;
-		assigned-clock-rates =3D <1400000>;
-	};
-
-And then the pwm-clk driver would adjust the duty cycle to generate a
-pwm.
-
->=20
-> If we did that, then the pwm-vibra driver in the input subsystem could
-> be used.
-
+Rob
