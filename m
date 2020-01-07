@@ -2,369 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 386E0132CD0
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 18:17:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C97F132D63
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2020 18:48:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728211AbgAGRRn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Jan 2020 12:17:43 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:47061 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728321AbgAGRRn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jan 2020 12:17:43 -0500
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1iosU9-00057y-H2; Tue, 07 Jan 2020 18:17:41 +0100
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, patchwork-lst@pengutronix.de,
-        kernel@pengutronix.de, Chris Healy <cphealy@gmail.com>
-Subject: [PATCH 4/4] Input: exc3000: add firmware update support
-Date:   Tue,  7 Jan 2020 18:17:40 +0100
-Message-Id: <20200107171741.10856-4-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200107171741.10856-1-l.stach@pengutronix.de>
-References: <20200107171741.10856-1-l.stach@pengutronix.de>
+        id S1728266AbgAGRsA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Jan 2020 12:48:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40514 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728211AbgAGRsA (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 7 Jan 2020 12:48:00 -0500
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A8CD42087F;
+        Tue,  7 Jan 2020 17:47:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578419278;
+        bh=kTXZQjN173fCqmgTGewLyg98W69N0GpFT+kNBfLzEDI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HR3USh9sYG0VnEHrfsPVmJUywzTogMyMYEoiNpLU76gdgueuJ+hqo4f+x0mdgy3ez
+         a955S7kulz4m4Aw8Cz8VcHYLtd0Y+CG7ab1Eo59tMeOLC1h8hYoPndsAytRDkOYrwG
+         l6KSatU+wBe8syQ3hDKKaOYpHyelebkEduEGuKo4=
+Received: by mail-qv1-f47.google.com with SMTP id z3so239583qvn.0;
+        Tue, 07 Jan 2020 09:47:58 -0800 (PST)
+X-Gm-Message-State: APjAAAVCPKd0dHXDscERiZkbv9AS3Wcn/3TQDxN31a7UakC2nYQN6HiG
+        PGm11aPYg8P1YqrfM1U2xxj0S1UOM7vQegqFWg==
+X-Google-Smtp-Source: APXvYqy2gvndoftu+Svzdtgi4ocpDnEG+xgfxqRliZPMO1eJIZNuzlk7B27b+jq5NQ2EWa4xSJ8ybWKNGOelefYwehQ=
+X-Received: by 2002:a0c:f68f:: with SMTP id p15mr518790qvn.79.1578419277767;
+ Tue, 07 Jan 2020 09:47:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+References: <20200107130903.14421-1-benjamin.gaignard@st.com> <20200107130903.14421-2-benjamin.gaignard@st.com>
+In-Reply-To: <20200107130903.14421-2-benjamin.gaignard@st.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 7 Jan 2020 11:47:46 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKDqea2r-ocsj4U6Uv8p4zoANzWgq6a49F3EvBEeRqD0w@mail.gmail.com>
+Message-ID: <CAL_JsqKDqea2r-ocsj4U6Uv8p4zoANzWgq6a49F3EvBEeRqD0w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: touchscreen: Add touchscreen schema
+To:     Benjamin Gaignard <benjamin.gaignard@st.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Linux Input <linux-input@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Yannick Fertre <yannick.fertre@st.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This change allows the device firmware to be updated by putting a firmware
-file in /lib/firmware and providing the name of the file via the update_fw
-sysfs property. The driver will then flash the firmware image into the
-controller internal storage and restart the controller to activate the new
-firmware.
+On Tue, Jan 7, 2020 at 7:09 AM Benjamin Gaignard
+<benjamin.gaignard@st.com> wrote:
+>
+> Add touchscreen schema for common properties
+>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+> ---
+>  .../bindings/input/touchscreen/touchscreen.yaml    | 63 ++++++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
 
-The implementation was done by looking at the the messages passed between
-the controller and proprietary vendor update tool. Not every detail of the
-protocol is totally well understood, so the implementation still has some
-"monkey see, monkey do" parts, as far as they have been found to be required
-for the update to succeed.
+Don't just add schema. Remove the old definitions. To avoid updating a
+bunch of references to touchscreen.txt, I just put a 'see
+touchscreen.yaml' in it.
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
- drivers/input/touchscreen/exc3000.c | 248 +++++++++++++++++++++++++++-
- 1 file changed, 246 insertions(+), 2 deletions(-)
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+> new file mode 100644
+> index 000000000000..f6e7c73ef14e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+> @@ -0,0 +1,63 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/touchscreen.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Common touchscreen Bindings
+> +
+> +maintainers:
+> +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> +
+> +properties:
+> +  touchscreen-min-x:
+> +    description: minimum x coordinate reported (0 if not set)
 
-diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
-index ce83914d65ff..f9a9820dc232 100644
---- a/drivers/input/touchscreen/exc3000.c
-+++ b/drivers/input/touchscreen/exc3000.c
-@@ -3,8 +3,8 @@
-  * Driver for I2C connected EETI EXC3000 multiple touch controller
-  *
-  * Copyright (C) 2017 Ahmet Inan <inan@distec.de>
-- *
-- * minimal implementation based on egalax_ts.c and egalax_i2c.c
-+ * Copyright (C) 2019 Pengutronix <kernel@pengutronix.de>
-+ * Copyright (C) 2019 Zodiac Inflight Innovations
-  */
- 
- #include <linux/bitops.h>
-@@ -18,6 +18,8 @@
- #include <linux/of.h>
- #include <linux/timer.h>
- #include <asm/unaligned.h>
-+#include <linux/firmware.h>
-+#include <linux/delay.h>
- 
- #define EXC3000_NUM_SLOTS		10
- #define EXC3000_SLOTS_PER_FRAME		5
-@@ -37,6 +39,7 @@ struct exc3000_data {
- 	struct mutex vendor_data_lock;
- 	struct completion vendor_data_done;
- 	char *type, *model, *fw_rev;
-+	int update_status;
- };
- 
- static void exc3000_report_slots(struct input_dev *input,
-@@ -215,6 +218,8 @@ static int exc3000_populate_device_info(struct exc3000_data *data)
- 	if (ret < 0)
- 		return -ENODEV;
- 
-+	if (data->type)
-+		devm_kfree(dev, data->type);
- 	data->type = devm_kmemdup(dev, &response[1], ret - 1, GFP_KERNEL);
- 
- 	/* query model info */
-@@ -222,6 +227,8 @@ static int exc3000_populate_device_info(struct exc3000_data *data)
- 	if (ret < 0)
- 		return -ENODEV;
- 
-+	if (data->model)
-+		devm_kfree(dev, data->model);
- 	data->model = devm_kmemdup(dev, &response[1], ret - 1, GFP_KERNEL);
- 
- 	/* query bootloader info */
-@@ -239,6 +246,8 @@ static int exc3000_populate_device_info(struct exc3000_data *data)
- 		char bl_version[8];
- 
- 		snprintf(bl_version, 8, "%d.%d", response[2], response[3]);
-+		if (data->fw_rev)
-+			devm_kfree(dev, data->fw_rev);
- 		data->fw_rev = devm_kmemdup(dev, bl_version,
- 					    strlen(bl_version), GFP_KERNEL);
- 	} else {
-@@ -248,6 +257,8 @@ static int exc3000_populate_device_info(struct exc3000_data *data)
- 		if (ret < 0)
- 			return -ENODEV;
- 
-+		if (data->fw_rev)
-+			devm_kfree(dev, data->fw_rev);
- 		data->fw_rev = devm_kmemdup(dev, &response[1],
- 					    ret - 1, GFP_KERNEL);
- 	}
-@@ -289,10 +300,243 @@ static ssize_t exc3000_sysfs_fw_rev_show(struct device *dev,
- }
- static DEVICE_ATTR(fw_rev, 0444, exc3000_sysfs_fw_rev_show, NULL);
- 
-+static void exc3000_generate_unlock_response(u8 *challenge, u8 *response)
-+{
-+	u8 op, rot, sum;
-+	int i;
-+
-+	op = challenge[0] + challenge[3];
-+	rot = challenge[1] + challenge[2];
-+	sum = challenge[0] + challenge[1] + challenge[2] + challenge[3];
-+
-+	for (i = 0; i < 4; i++) {
-+		if ((op >> i) & 0x1) {
-+			response[i] = sum + challenge[(rot + i) & 0x3];
-+		} else {
-+			response[i] = sum - challenge[(rot + i) & 0x3];
-+		}
-+	}
-+}
-+
-+static int exc3000_firmware_update(struct exc3000_data *data,
-+				   const struct firmware *fw)
-+{
-+	struct device *dev = &data->client->dev;
-+	u8 resp[EXC3000_LEN_FRAME];
-+	int ret, i;
-+
-+	dev_info(dev, "starting firmware update\n");
-+
-+	/* 1: check device state */
-+	ret = exc3000_vendor_data_request(data, (u8[]){0x39, 0x02}, 2, resp);
-+	if (ret < 0)
-+		goto out;
-+
-+	/* 2: switch state from app to bootloader mode if necessary */
-+	if (!resp[2] && !resp[3]) {
-+		u8 unlock_req[6] = { 0x3a, 0xfc };
-+
-+		dev_dbg(dev, "device in app mode, switching to bootloader\n");
-+
-+		/* 2.1 request unlock challenge */
-+		ret = exc3000_vendor_data_request(data,
-+						  (u8[]){0x3a, 0xfb}, 2, resp);
-+		if (ret < 0)
-+			goto out;
-+
-+		/* 2.2 generate and send response */
-+		exc3000_generate_unlock_response(&resp[2], &unlock_req[2]);
-+		ret = exc3000_vendor_data_request(data, unlock_req, 6, resp);
-+		if (ret < 0)
-+			goto out;
-+
-+		if (resp[2] != 0x01) {
-+			dev_err(dev, "device unlock failed, aborting\n");
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		/* 2.3 unknown, but required and invariant data */
-+		ret = exc3000_vendor_data_request(data,
-+						  (u8[]){0x3a, 0xfe, 0x34,
-+						         0x43, 0xcc}, 5, resp);
-+		if (ret < 0)
-+			goto out;
-+
-+		/* 2.4 reset controller */
-+		ret = exc3000_vendor_data_request(data, (u8[]){0x3a, 0xff},
-+						  2, NULL);
-+		if (ret < 0)
-+			goto out;
-+
-+		/* wait for controller init after reset */
-+		msleep(500);
-+
-+		/* 2.5: check communication after reset */
-+		ret = exc3000_vendor_data_request(data, (u8[]){0x39, 0x01},
-+						  2, resp);
-+		if (ret < 0)
-+			goto out;
-+
-+		if (resp[1] != 0x02) {
-+			dev_err(dev, "device ping request NACK, aborting\n");
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		/* 2.6: check device mode again */
-+		ret = exc3000_vendor_data_request(data, (u8[]){0x39, 0x02},
-+						  2, resp);
-+		if (ret < 0)
-+			goto out;
-+
-+		if (!resp[2] && !resp[3]) {
-+			dev_err(dev, "device still app mode, aborting\n");
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+	}
-+
-+	/* 3: start firmware upload */
-+	dev_dbg(dev, "start firmware upload\n");
-+	ret = exc3000_vendor_data_request(data, (u8[]){0x3a, 0x04}, 2, resp);
-+	if (ret < 0)
-+		goto out;
-+
-+	if (resp[2] != 0x01) {
-+		dev_err(dev, "firmware update start NACK, aborting\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	/* 4: upload firmware */
-+	for (i = 0x56; i < fw->size; i += 36) {
-+		u8 fw_chunk[37] = { 0x3a, 0x01, fw->data[i],
-+				    fw->data[i+1],fw->data[i+34] };
-+
-+		memcpy(&fw_chunk[5], &fw->data[i+2], 32);
-+		ret = exc3000_vendor_data_request(data, fw_chunk, 37, resp);
-+		if (ret < 0)
-+			goto out;
-+
-+		if (resp[2] != fw->data[i] || resp[3] != fw->data[i+1] ||
-+		    resp[4] != fw->data[i+34]) {
-+			dev_err(dev,
-+				"firmware update readback wrong, aborting\n");
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		data->update_status = DIV_ROUND_UP(i * 100, fw->size);
-+	}
-+
-+	/* 5: end firmware upload */
-+	ret = exc3000_vendor_data_request(data,
-+					  (u8[]){0x3a, 0x05, fw->data[0x37],
-+						fw->data[0x38], fw->data[0x39],
-+						fw->data[0x1f], fw->data[0x20]},
-+					  7, resp);
-+	if (ret < 0)
-+		goto out;
-+
-+	if (resp[2] != 0x01) {
-+		dev_err(dev, "firmware update end NACK, aborting\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	/* 6: switch back to app mode */
-+	ret = exc3000_vendor_data_request(data, (u8[]){0x3a, 0xff}, 2, NULL);
-+	if (ret < 0)
-+		goto out;
-+
-+	/* wait for controller init after reset */
-+	msleep(500);
-+
-+	/* 7: check communication */
-+	ret = exc3000_vendor_data_request(data, (u8[]){0x39, 0x01}, 2, resp);
-+	if (ret < 0)
-+		goto out;
-+
-+	if (resp[1] != 0x02) {
-+		dev_err(dev, "device ping request NACK, aborting\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	/* 8: check if we are in app mode again */
-+	ret = exc3000_vendor_data_request(data, (u8[]){0x39, 0x02}, 2, resp);
-+	if (ret < 0)
-+		goto out;
-+
-+	if (resp[2] || resp[3]) {
-+		dev_err(dev, "device still bootloader mode, aborting\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	dev_info(dev, "firmware update complete\n");
-+
-+	exc3000_populate_device_info(data);
-+
-+	data->update_status = 0;
-+
-+	return 0;
-+
-+out:
-+	data->update_status = ret;
-+	return ret;
-+}
-+
-+static ssize_t exc3000_update_fw_store(struct device *dev,
-+				       struct device_attribute *dattr,
-+				       const char *buf, size_t count)
-+{
-+	struct exc3000_data *data = dev_get_drvdata(dev);
-+	char fw_name[NAME_MAX];
-+	const struct firmware *fw;
-+	size_t copy_count = count;
-+	int ret;
-+
-+	if (count == 0 || count >= NAME_MAX)
-+		return -EINVAL;
-+
-+	if (buf[count - 1] == '\0' || buf[count - 1] == '\n')
-+		copy_count -= 1;
-+
-+	strncpy(fw_name, buf, copy_count);
-+	fw_name[copy_count] = '\0';
-+
-+	ret = request_firmware(&fw, fw_name, dev);
-+	if (ret)
-+		return ret;
-+
-+	dev_info(dev, "Flashing %s\n", fw_name);
-+
-+	ret = exc3000_firmware_update(data, fw);
-+
-+	release_firmware(fw);
-+
-+	return ret ?: count;
-+}
-+static DEVICE_ATTR(update_fw, 0200, NULL, exc3000_update_fw_store);
-+
-+static ssize_t exc3000_update_fw_status_show(struct device *dev,
-+					     struct device_attribute *dattr,
-+					     char *buf)
-+{
-+	struct exc3000_data *data = dev_get_drvdata(dev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", data->update_status);
-+}
-+static DEVICE_ATTR(update_fw_status, 0444, exc3000_update_fw_status_show, NULL);
-+
- static struct attribute *exc3000_attrs[] = {
- 	&dev_attr_type.attr,
- 	&dev_attr_model.attr,
- 	&dev_attr_fw_rev.attr,
-+	&dev_attr_update_fw.attr,
-+	&dev_attr_update_fw_status.attr,
- 	NULL
- };
- 
--- 
-2.20.1
+You need a type reference on a bunch of these. And "(0 if not set)"
+sounds like a 'default' constraint.
 
+> +
+> +  touchscreen-min-y:
+> +    description: minimum y coordinate reported (0 if not set)
+> +
+> +  touchscreen-size-x:
+> +    description: horizontal resolution of touchscreen (maximum x coordinate reported + 1)
+> +
+> +  touchscreen-size-y:
+> +    description: vertical resolution of touchscreen (maximum y coordinate reported + 1)
+
+I don't think it makes sense if both of these aren't present, so you need:
+
+dependencies:
+  touchscreen-size-x: [ touchscreen-size-y ]
+  touchscreen-size-y: [ touchscreen-size-x ]
+
+> +
+> +  touchscreen-max-pressure:
+> +    description: maximum reported pressure (arbitrary range dependent on the controller)
+> +
+> +  touchscreen-min-pressure:
+> +    description: minimum pressure on the touchscreen to be achieved in order for the
+> +                 touchscreen driver to report a touch event.
+> +
+> +  touchscreen-fuzz-x:
+> +    description: horizontal noise value of the absolute input device (in pixels)
+> +
+> +  touchscreen-fuzz-y:
+> +    description: vertical noise value of the absolute input device (in pixels)
+> +
+> +  touchscreen-fuzz-pressure:
+> +    description: pressure noise value of the absolute input device (arbitrary range
+> +                 dependent on the controller)
+> +
+> +  touchscreen-average-samples:
+> +    description: Number of data samples which are averaged for each read (valid values
+> +                 dependent on the controller)
+> +
+> +  touchscreen-inverted-x:
+> +    description: X axis is inverted (boolean)
+> +    type: boolean
+> +
+> +  touchscreen-inverted-y:
+> +    description: Y axis is inverted (boolean)
+> +    type: boolean
+> +
+> +  touchscreen-swapped-x-y:
+> +    description: X and Y axis are swapped (boolean)
+> +                 Swapping is done after inverting the axis
+> +    type: boolean
+> +
+> +  touchscreen-x-mm:
+> +    description: horizontal length in mm of the touchscreen
+> +
+> +  touchscreen-y-mm:
+> +    description: vertical length in mm of the touchscreen
+
+Same dependencies here.
+
+Rob
