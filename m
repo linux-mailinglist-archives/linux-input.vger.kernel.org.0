@@ -2,101 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AF9813406A
-	for <lists+linux-input@lfdr.de>; Wed,  8 Jan 2020 12:26:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 488BF134584
+	for <lists+linux-input@lfdr.de>; Wed,  8 Jan 2020 16:00:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbgAHL0R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Jan 2020 06:26:17 -0500
-Received: from mga18.intel.com ([134.134.136.126]:44512 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726107AbgAHL0Q (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 8 Jan 2020 06:26:16 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 03:26:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,409,1571727600"; 
-   d="scan'208";a="218043679"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga008.fm.intel.com with ESMTP; 08 Jan 2020 03:26:09 -0800
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ip9TV-0001sB-6p; Wed, 08 Jan 2020 13:26:09 +0200
-Date:   Wed, 8 Jan 2020 13:26:09 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Yingjoe Chen <yingjoe.chen@mediatek.com>
-Cc:     fengping yu <fengping.yu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Leonard Crestez <leonard.crestez@nxp.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Stefan Agner <stefan@agner.cn>, Jacky Bai <ping.bai@nxp.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        devicetree@vger.kernel.org, wsd_upstream@mediatek.com,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH V2 2/2] drivers: input: keyboard
-Message-ID: <20200108112609.GN32742@smile.fi.intel.com>
-References: <20200108062923.14684-1-fengping.yu@mediatek.com>
- <20200108062923.14684-3-fengping.yu@mediatek.com>
- <1578473162.12131.13.camel@mtksdaap41>
+        id S1727541AbgAHPAt convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 8 Jan 2020 10:00:49 -0500
+Received: from emcscan.emc.com.tw ([192.72.220.5]:30737 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726556AbgAHPAt (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jan 2020 10:00:49 -0500
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="34122421"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 08 Jan 2020 23:00:45 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(2832:0:AUTH_RELAY)
+        (envelope-from <johnny.chuang@emc.com.tw>); Wed, 08 Jan 2020 23:00:43 +0800 (CST)
+Received: from 39.10.5.22
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2479:0:AUTH_LOGIN)
+        (envelope-from <johnny.chuang@emc.com.tw>); Wed, 08 Jan 2020 23:00:41 +0800 (CST)
+From:   "Johnny.Chuang" <johnny.chuang@emc.com.tw>
+To:     "'Dmitry Osipenko'" <digetx@gmail.com>,
+        "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>,
+        =?utf-8?Q?'Micha=C5=82_Miros=C5=82aw'?= <mirq-linux@rere.qmqm.pl>
+Cc:     <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        "'Scott Liu'" <scott.liu@emc.com.tw>,
+        "'James Chen'" <james.chen@emc.com.tw>,
+        <linux-kernel@vger.kernel.org>,
+        "'Henrik Rydberg'" <rydberg@bitmath.org>,
+        "'Mark Rutland'" <mark.rutland@arm.com>,
+        "'Rob Herring'" <robh-dt@kernel.org>
+References: <cover.1576079249.git.mirq-linux@rere.qmqm.pl> <20191212192420.GD101194@dtor-ws> <7c67b849-369f-8a20-4f9e-9e0a7caec1cb@gmail.com>
+In-Reply-To: <7c67b849-369f-8a20-4f9e-9e0a7caec1cb@gmail.com>
+Subject: RE: [PATCH v2 0/9] input: elants: Support Asus TF300T touchscreen
+Date:   Wed, 8 Jan 2020 23:00:33 +0800
+Message-ID: <000001d5c634$655bed20$3013c760$@emc.com.tw>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1578473162.12131.13.camel@mtksdaap41>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQG/wbboUgEFdZ2Q4eX8SCV758q1EAKWfXCAAgu9J8mn59GaYA==
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDUwMTBcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy00YjEyMDg4NC0zMjI3LTExZWEtODM0MS03YzVjZjg3NDk0NzhcYW1lLXRlc3RcNGIxMjA4ODYtMzIyNy0xMWVhLTgzNDEtN2M1Y2Y4NzQ5NDc4Ym9keS50eHQiIHN6PSI3MDMiIHQ9IjEzMjIyOTY5MDk0Mjk2MzgxMiIgaD0iU0RWQzJ5V3lBTldGRWdEVzgvaUpjQ0RGdG5BPSIgaWQ9IiIgYmw9IjAiIGJvPSIxIi8+PC9tZXRhPg==
+x-dg-rorf: true
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jan 08, 2020 at 04:46:02PM +0800, Yingjoe Chen wrote:
-> On Wed, 2020-01-08 at 14:29 +0800, fengping yu wrote:
-
-> > +	tasklet_init(&keypad->tasklet, kpd_keymap_handler,
-> > +		     (unsigned long)keypad);
-> > +
-> > +	writew((u16)(keypad->key_debounce & KPD_DEBOUNCE_MASK),
-> > +		     keypad->base + KP_DEBOUNCE);
+> 12.12.2019 22:24, Dmitry Torokhov пишет:
+> > On Wed, Dec 11, 2019 at 05:03:18PM +0100, Michał Mirosław wrote:
+> >> This series cleans up the driver a bit and implements changes needed
+> >> to support EKTF3624-based touchscreen used in eg. Asus TF300T tablet.
+> >
+> > Johnny, could you please take a look at this patch series?
+> >
+> > Thanks!
 > 
-> You use a 13 bits mask and set it directly to KP_DEBOUNCE register. Are
-> you sure the debounce unit is ms?
+> Hello Johnny,
 > 
-> > +
-> > +	/* register IRQ */
-> > +	err = request_irq(keypad->irqnr, kpd_irq_handler, IRQF_TRIGGER_NONE,
-> > +			  KPD_NAME, keypad);
-> 
-> please consider using devm_request_irq, otherwise you have to free it in
-> _remove function.
+> Could you please let us know whether you or anyone else from Elan are going
+> to take a look at this patchset anytime soon?
 
-No, you may not use devm_*_irq() when tasklets are in use. There is a nasty
-race condition.
+Hi Dmitry Osipenko,
 
-Actually the rule of thumb is to NOT use devm_*_irq() unless you exactly know
-what you are doing.
-
-P.S. Why simple not to switch to threaded IRQ handler and drop tasklet? In such
-case devm_*_irq() is fine.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+I'm sorry to reply late. James Chen will take a look at this patch set. 
 
