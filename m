@@ -2,169 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92E7E133D8F
-	for <lists+linux-input@lfdr.de>; Wed,  8 Jan 2020 09:48:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D223133DF6
+	for <lists+linux-input@lfdr.de>; Wed,  8 Jan 2020 10:13:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726481AbgAHIsG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Jan 2020 03:48:06 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:37963 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727313AbgAHIsG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jan 2020 03:48:06 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1ip70T-0004RZ-If; Wed, 08 Jan 2020 09:48:01 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1ip70S-0005ud-Iv; Wed, 08 Jan 2020 09:48:00 +0100
-Date:   Wed, 8 Jan 2020 09:48:00 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     support.opensource@diasemi.com, stwiss.opensource@diasemi.com,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        Adam.Thomson.Opensource@diasemi.com, lee.jones@linaro.org
-Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] input: misc: da9063_onkey: add mode change support
-Message-ID: <20200108084800.x2doud4v6m3ssz6s@pengutronix.de>
-References: <20191127132304.22924-1-m.felsch@pengutronix.de>
- <20191127132304.22924-3-m.felsch@pengutronix.de>
+        id S1727505AbgAHJLd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Jan 2020 04:11:33 -0500
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:65224 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727386AbgAHJLd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 8 Jan 2020 04:11:33 -0500
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 00897hBs009968;
+        Wed, 8 Jan 2020 10:11:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=2cU/4JR4XYcXyOTK9ys4Wvfgw0cmENpuoxKs1hQNqko=;
+ b=kbZqzA5V7hRgjfMNEVlKj9K5O6xYEBfL7WOK7lWlc8BBDJ9GZABE3zV+YgS2HQFYTG7f
+ oBd6hQMS+oFfwi+TYpo59m1KjaNzRS1dErCh4vVsTtwHdPWNbp01OwJvYCc5Q85dvwar
+ mNF4YNrt9JZSlO1uWgTt5y0eOXH477wOGaXr/TLvHiO118b5coNqvXU66fOwZbJPOOaE
+ TStsmSRwu6960CGXDok/Z8nuLSiDfoUdwH+/FJaOYhVBHvbYAC0ebX6UEsmeiNpajoGc
+ 57NTjKvTGPTYgB4BPZaLdNSXnfCL3I142AcOJcfp28h3mLe5bDS2SzaV30dXAIn94XCh gw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2xakm5jxkc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 08 Jan 2020 10:11:25 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E81FF100039;
+        Wed,  8 Jan 2020 10:11:20 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B727622088E;
+        Wed,  8 Jan 2020 10:11:20 +0100 (CET)
+Received: from localhost (10.75.127.44) by SFHDAG3NODE3.st.com (10.75.127.9)
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 8 Jan 2020 10:11:20
+ +0100
+From:   Benjamin Gaignard <benjamin.gaignard@st.com>
+To:     <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <hadess@hadess.net>
+CC:     <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <yannick.fertre@st.com>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: [PATCH v2 0/2] Convert touchscreen bindings to json-schema
+Date:   Wed, 8 Jan 2020 10:11:16 +0100
+Message-ID: <20200108091118.5130-1-benjamin.gaignard@st.com>
+X-Mailer: git-send-email 2.15.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191127132304.22924-3-m.felsch@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 09:46:36 up 54 days, 5 min, 46 users,  load average: 0.02, 0.02,
- 0.00
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG5NODE1.st.com (10.75.127.13) To SFHDAG3NODE3.st.com
+ (10.75.127.9)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
+ definitions=2020-01-08_01:2020-01-08,2020-01-08 signatures=0
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Lee,
+This series convert Goodix touchscreen used on STM32 boards to json-schema.
+Before converting goodix bindings itself it add a schema for common
+touchscreen properties.
 
-I forgot to add you to review the mfd part, sorry. Please can you have a
-look on it?
+version 2:
+- remove old definition in touchscreen.txt
+- add type for all properties
+- add dependencies between properties 
+- enumerate goodix's I2C adresses
+- add description for irq-gpio property
+- reference the common properties used by goodix
 
-Regards,
-  Marco
+Benjamin Gaignard (2):
+  dt-bindings: touchscreen: Add touchscreen schema
+  dt-bindings: touchscreen: Convert Goodix touchscreen to json-schema
 
-On 19-11-27 14:23, Marco Felsch wrote:
-> The pmic state machine behaviour upon a 'onkey press' event can be
-> configured using the ONKEY_PIN bit field. Most the time this is
-> configured correct by the OTP but sometimes we need to adjust the
-> behaviour so we need to add the support here.
-> 
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> ---
-> v2:
-> - make use of da906x_chip_config
-> - rm unnecessary key_opmode
-> 
->  drivers/input/misc/da9063_onkey.c | 16 ++++++++++++++++
->  drivers/mfd/da9062-core.c         |  1 +
->  2 files changed, 17 insertions(+)
-> 
-> diff --git a/drivers/input/misc/da9063_onkey.c b/drivers/input/misc/da9063_onkey.c
-> index 79851923ee57..3a3f06a33eda 100644
-> --- a/drivers/input/misc/da9063_onkey.c
-> +++ b/drivers/input/misc/da9063_onkey.c
-> @@ -19,6 +19,7 @@
->  
->  struct da906x_chip_config {
->  	/* REGS */
-> +	int onkey_config;
->  	int onkey_status;
->  	int onkey_pwr_signalling;
->  	int onkey_fault_log;
-> @@ -26,6 +27,7 @@ struct da906x_chip_config {
->  	/* MASKS */
->  	int onkey_nonkey_mask;
->  	int onkey_nonkey_lock_mask;
-> +	int onkey_nonkey_pin_mask;
->  	int onkey_key_reset_mask;
->  	int onkey_shutdown_mask;
->  	/* NAMES */
-> @@ -44,6 +46,7 @@ struct da9063_onkey {
->  
->  static const struct da906x_chip_config da9063_regs = {
->  	/* REGS */
-> +	.onkey_config = DA9063_REG_CONFIG_I,
->  	.onkey_status = DA9063_REG_STATUS_A,
->  	.onkey_pwr_signalling = DA9063_REG_CONTROL_B,
->  	.onkey_fault_log = DA9063_REG_FAULT_LOG,
-> @@ -51,6 +54,7 @@ static const struct da906x_chip_config da9063_regs = {
->  	/* MASKS */
->  	.onkey_nonkey_mask = DA9063_NONKEY,
->  	.onkey_nonkey_lock_mask = DA9063_NONKEY_LOCK,
-> +	.onkey_nonkey_pin_mask = DA9063_NONKEY_PIN_MASK,
->  	.onkey_key_reset_mask = DA9063_KEY_RESET,
->  	.onkey_shutdown_mask = DA9063_SHUTDOWN,
->  	/* NAMES */
-> @@ -59,6 +63,7 @@ static const struct da906x_chip_config da9063_regs = {
->  
->  static const struct da906x_chip_config da9062_regs = {
->  	/* REGS */
-> +	.onkey_config = DA9062AA_CONFIG_I,
->  	.onkey_status = DA9062AA_STATUS_A,
->  	.onkey_pwr_signalling = DA9062AA_CONTROL_B,
->  	.onkey_fault_log = DA9062AA_FAULT_LOG,
-> @@ -66,6 +71,7 @@ static const struct da906x_chip_config da9062_regs = {
->  	/* MASKS */
->  	.onkey_nonkey_mask = DA9062AA_NONKEY_MASK,
->  	.onkey_nonkey_lock_mask = DA9062AA_NONKEY_LOCK_MASK,
-> +	.onkey_nonkey_pin_mask = DA9062AA_NONKEY_PIN_MASK,
->  	.onkey_key_reset_mask = DA9062AA_KEY_RESET_MASK,
->  	.onkey_shutdown_mask = DA9062AA_SHUTDOWN_MASK,
->  	/* NAMES */
-> @@ -193,6 +199,7 @@ static int da9063_onkey_probe(struct platform_device *pdev)
->  {
->  	struct da9063_onkey *onkey;
->  	const struct of_device_id *match;
-> +	unsigned int val;
->  	int irq;
->  	int error;
->  
-> @@ -220,6 +227,15 @@ static int da9063_onkey_probe(struct platform_device *pdev)
->  	onkey->key_power = !of_property_read_bool(pdev->dev.of_node,
->  						  "dlg,disable-key-power");
->  
-> +	if (!of_property_read_u32(pdev->dev.of_node, "dlg,key-opmode", &val)) {
-> +		error = regmap_update_bits(onkey->regmap,
-> +					   onkey->config->onkey_config,
-> +					   onkey->config->onkey_nonkey_pin_mask,
-> +					   val);
-> +		if (error)
-> +			return error;
-> +	}
-> +
->  	onkey->input = devm_input_allocate_device(&pdev->dev);
->  	if (!onkey->input) {
->  		dev_err(&pdev->dev, "Failed to allocated input device.\n");
-> diff --git a/drivers/mfd/da9062-core.c b/drivers/mfd/da9062-core.c
-> index e69626867c26..aaa1f1841bc3 100644
-> --- a/drivers/mfd/da9062-core.c
-> +++ b/drivers/mfd/da9062-core.c
-> @@ -510,6 +510,7 @@ static const struct regmap_range da9062_aa_writeable_ranges[] = {
->  	regmap_reg_range(DA9062AA_VLDO1_B, DA9062AA_VLDO4_B),
->  	regmap_reg_range(DA9062AA_BBAT_CONT, DA9062AA_BBAT_CONT),
->  	regmap_reg_range(DA9062AA_GP_ID_0, DA9062AA_GP_ID_19),
-> +	regmap_reg_range(DA9062AA_CONFIG_I, DA9062AA_CONFIG_I),
->  };
->  
->  static const struct regmap_range da9062_aa_volatile_ranges[] = {
-> -- 
-> 2.20.1
-> 
-> 
-> 
+ .../bindings/input/touchscreen/goodix.txt          | 50 -------------
+ .../bindings/input/touchscreen/goodix.yaml         | 78 ++++++++++++++++++++
+ .../bindings/input/touchscreen/touchscreen.txt     | 40 +----------
+ .../bindings/input/touchscreen/touchscreen.yaml    | 83 ++++++++++++++++++++++
+ 4 files changed, 162 insertions(+), 89 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/goodix.txt
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+
+-- 
+2.15.0
+
