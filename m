@@ -2,23 +2,23 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB291133FEE
-	for <lists+linux-input@lfdr.de>; Wed,  8 Jan 2020 12:11:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2B3E133FF0
+	for <lists+linux-input@lfdr.de>; Wed,  8 Jan 2020 12:11:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727270AbgAHLLE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Jan 2020 06:11:04 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:42265 "EHLO
+        id S1727640AbgAHLLF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Jan 2020 06:11:05 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:54719 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727435AbgAHLLD (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jan 2020 06:11:03 -0500
+        with ESMTP id S1727613AbgAHLLE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jan 2020 06:11:04 -0500
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1ip9Ei-0003Uw-Tn; Wed, 08 Jan 2020 12:10:52 +0100
+        id 1ip9Ei-0003Ux-UL; Wed, 08 Jan 2020 12:10:52 +0100
 Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1ip9Eh-0005TU-6q; Wed, 08 Jan 2020 12:10:51 +0100
+        id 1ip9Eh-0005TX-7H; Wed, 08 Jan 2020 12:10:51 +0100
 From:   Marco Felsch <m.felsch@pengutronix.de>
 To:     robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
         dmitry.torokhov@gmail.com, bparrot@ti.com,
@@ -26,10 +26,10 @@ To:     robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
         hdegoede@redhat.com, fcooper@ti.com, mripard@kernel.org,
         alexandre.belloni@bootlin.com, shawnguo@kernel.org
 Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
-        linux-input@vger.kernel.org
-Subject: [PATCH v3 2/6] Input: edt-ft5x06 - alphabetical include reorder
-Date:   Wed,  8 Jan 2020 12:10:46 +0100
-Message-Id: <20200108111050.19001-3-m.felsch@pengutronix.de>
+        linux-input@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: [PATCH v3 3/6] dt-bindings: Input: edt-ft5x06 - document wakeup-source capability
+Date:   Wed,  8 Jan 2020 12:10:47 +0100
+Message-Id: <20200108111050.19001-4-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200108111050.19001-1-m.felsch@pengutronix.de>
 References: <20200108111050.19001-1-m.felsch@pengutronix.de>
@@ -44,56 +44,41 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-It seems that the include order is historical increased and no one takes
-care of it. Fix this to align it with the common rule to be in a
-alphabetical order.
+The current driver behaviour was to enable the wakeup-source everytime.
+After discussion [1] we decided to change that behaviour so the device
+will act as wakeup-source only if the "wakeup-source" dt-property is
+present.
+
+The patch adds the binding documentation to enable the wakeup-source
+capability.
+
+[1] https://patchwork.kernel.org/patch/11149037/
 
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 Tested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- drivers/input/touchscreen/edt-ft5x06.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+v2:
+- make use of common dt-property wakeup-source
+- adapt commit message
+---
+ .../devicetree/bindings/input/touchscreen/edt-ft5x06.txt        | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index b87b1e074f62..e1b31fd525e2 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -13,22 +13,23 @@
-  *    http://www.glyn.com/Products/Displays
-  */
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
+index 0f6950073d6f..0e57315e9cbd 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
++++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
+@@ -36,6 +36,8 @@ Optional properties:
+  - pinctrl-0:   a phandle pointing to the pin settings for the
+                 control gpios
  
--#include <linux/module.h>
--#include <linux/ratelimit.h>
--#include <linux/irq.h>
--#include <linux/interrupt.h>
--#include <linux/input.h>
--#include <linux/i2c.h>
--#include <linux/kernel.h>
--#include <linux/uaccess.h>
--#include <linux/delay.h>
- #include <linux/debugfs.h>
--#include <linux/slab.h>
-+#include <linux/delay.h>
- #include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/interrupt.h>
-+#include <linux/input.h>
- #include <linux/input/mt.h>
- #include <linux/input/touchscreen.h>
--#include <asm/unaligned.h>
-+#include <linux/irq.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/ratelimit.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/slab.h>
-+#include <linux/uaccess.h>
++ - wakeup-source: If present the device will act as wakeup-source
 +
-+#include <asm/unaligned.h>
+  - threshold:   allows setting the "click"-threshold in the range
+                 from 0 to 80.
  
- #define WORK_REGISTER_THRESHOLD		0x00
- #define WORK_REGISTER_REPORT_RATE	0x08
 -- 
 2.20.1
 
