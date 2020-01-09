@@ -2,1168 +2,683 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5ED613545D
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2020 09:32:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEF731354D6
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2020 09:53:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728435AbgAIIcs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Jan 2020 03:32:48 -0500
-Received: from mail-bn8nam11on2050.outbound.protection.outlook.com ([40.107.236.50]:43975
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728347AbgAIIcs (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 9 Jan 2020 03:32:48 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SbYWv5HjOMmNCDaowNXcnSJVgdwTFzdEqRfz374/HHJI5XgC2GnP6AJFKNwpXldNK+Zbh/iajP0/t61qib2umsYH2yGDut+1yHOdfA0gUbW/l8VYH49HMOUvhtJpCvBAC6xNBz78Rbo3BiIhE/EjnHZtliXgmvmvNFsoMok1d7TM/nFTclmvO6V8yNtLNiDb2S0Sfe9SChwGCCXyzhhv6cpW3lZJE97GfhB+PnGWUDENgAg35treDhtSZGfVNPSN6lRGCZ2ExQkavAdchR8gcp395h9huh7OWHeBhX5lRkzugXIzRyqt1he0GPZQ7FwxJugEOMRYYFKicIkhI2i+ZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jSK+FNao8F9FoLLkewxeLd7wECELFCnE200juhmq7tI=;
- b=BVegEylm8ZUEAPI0Hq0fFYvjGQVAxn2zkAZ6Yu0bWmmMTbtZeC2bxO2cVvNerHqAWgZ5JvXkc0J0r/s8F1FZe/GHgivXZbp/4VbGNLZW1fPZ6iMAtpnV8Ls0y2vh58abxVLjBTQNeGQO7rli1vyog0eVbT879FQpCcUMJwKniTpyaCjEglw5xetIjEODkHR45XduD6zPx69r9ceQfDGdRi+NGWFKJYnpA+gHZEu4OODAmRmryCFvi9Avh7HW3j/ttQ0ow6mglJ0znWEEwA/f4SNi+TBgMtQRJWZNRRN9epHcC3daiFCarulSG3MuDEymLFMQA6uIGXOcpgTbvFVnuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+        id S1728835AbgAIIxb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jan 2020 03:53:31 -0500
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:42860 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728782AbgAIIxa (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jan 2020 03:53:30 -0500
+Received: by mail-vs1-f66.google.com with SMTP id b79so3701817vsd.9
+        for <linux-input@vger.kernel.org>; Thu, 09 Jan 2020 00:53:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jSK+FNao8F9FoLLkewxeLd7wECELFCnE200juhmq7tI=;
- b=RbWsXuhd0Uueze/Pp+Z8qrOxNStoSpuzs6BDVvdK3FtbmYaB0zeEnpNY+YUctoifSsObsgI9QklGYOA57yXjlFfoGqOVEeQ5NC5APZW4SXk3IZjY/krAxPKAEuQmEU+VksSEz0Zlo8MrSEr4OtPWoIjHeIFtT7OXmgpMBri16dM=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Sandeep.Singh@amd.com; 
-Received: from MN2PR12MB3598.namprd12.prod.outlook.com (20.178.244.84) by
- MN2PR12MB3871.namprd12.prod.outlook.com (10.255.238.81) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2623.9; Thu, 9 Jan 2020 08:29:44 +0000
-Received: from MN2PR12MB3598.namprd12.prod.outlook.com
- ([fe80::10ce:b4fb:586d:8b9c]) by MN2PR12MB3598.namprd12.prod.outlook.com
- ([fe80::10ce:b4fb:586d:8b9c%3]) with mapi id 15.20.2623.008; Thu, 9 Jan 2020
- 08:29:44 +0000
-From:   Sandeep Singh <Sandeep.Singh@amd.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        srinivas.pandruvada@linux.intel.com, jic23@kernel.org,
-        linux-iio@vger.kernel.org
-Cc:     Shyam-sundar.S-k@amd.com, Sandeep Singh <sandeep.singh@amd.com>,
-        Nehal Shah <Nehal-bakulchandra.Shah@amd.com>
-Subject: [PATCH 4/4] SFH: Create HID report to Enable support of AMD sensor fusion Hub (SFH)
-Date:   Thu,  9 Jan 2020 13:59:25 +0530
-Message-Id: <1578558565-10154-1-git-send-email-Sandeep.Singh@amd.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1578558077-9798-1-git-send-email-Sandeep.Singh@amd.com>
-References: <1578558077-9798-1-git-send-email-Sandeep.Singh@amd.com>
-Content-Type: text/plain
-X-ClientProxiedBy: MA1PR0101CA0045.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:22::31) To MN2PR12MB3598.namprd12.prod.outlook.com
- (2603:10b6:208:d1::20)
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MWarYyQR0YL+derJjJsTPilt4GWzxhqzyi0IjAuhuYs=;
+        b=GwMWhMRbl5E+EWxGThT7v96Nfn7bt5HLPlpoGfts5PuGw45qzet7Gr4pNHIeyEwxru
+         AQ7ily2bXC3gfBoFGkW+7CU4TlEmWs8UnXhGgE9f9IG9JenVACTekC7XODhcd7ZAczrs
+         V3s7qSJPM79kTwcz2j3E/3ZPe1bPFnsyeVi7fnWN8dFusSAqdKQ7ZVFmmPL8R/2+jt6b
+         5jf0sGwFjMkpcn/KCmXLT57OIWnsH1cKTNz3pPTEsh8d8z8xPpIKRfDMlnkBsunfB7Xe
+         coOd1k0+LjneXpf/ikMIYS/uSYQMBFKJYHACQZIVpCiV12muTl0U9c6Jnhp/s5eokNjp
+         6j3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MWarYyQR0YL+derJjJsTPilt4GWzxhqzyi0IjAuhuYs=;
+        b=PBYfZy9mjT2y5hgf3JRMnoakCgBsHJ91kpUqKggMkEAn9gqL7tSMcgIomiZNwC8Ir4
+         B1QXk15Z7vYCh0lpb+xRJCEVNn2KwnXWqftRBLlDr0T+/hJ9XmVP8O5B76C00cUxycL0
+         1OMM1MJ2jZqfnCxPgwxzG7pTrTBl7u6bgA+3CcvihnSf6IRXpvWHHQ4HcmKfIbJDOUnR
+         gcjkRm4oEJok59ROeSd4EfXO7n3Qt5df71itpEL4vGZSWVJ6khtKI7NLDngAcw8tgNEo
+         R3XvHfW0nXFgfrCpPMEhazus3lO6dFthfKC5p+tAXV6RNL0iP1kPWlU8MvxL6vKu+sfw
+         2z8w==
+X-Gm-Message-State: APjAAAUdLMQ8S5UDOT0kRmRAEoHu7da38J3b4auiYDz1tRz2byxmkEao
+        wJMYLD44tsMPlEFCru9H6605UDb2XjuCiWKHo6XtDELF16NO5A==
+X-Google-Smtp-Source: APXvYqyX5rQzdRZKuOMQVLVm/1LqfDWmqf7+oy00eSZfSY5HxfKUDCD0qG+m3vitcOkVpCLSXoHto5EufwkWDzHG7+0=
+X-Received: by 2002:a67:6341:: with SMTP id x62mr5342350vsb.88.1578560008717;
+ Thu, 09 Jan 2020 00:53:28 -0800 (PST)
 MIME-Version: 1.0
-Received: from andbang2.amd.com (165.204.156.251) by MA1PR0101CA0045.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:22::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.2623.9 via Frontend Transport; Thu, 9 Jan 2020 08:29:41 +0000
-X-Mailer: git-send-email 2.7.4
-X-Originating-IP: [165.204.156.251]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 52e9258b-60ab-4916-b787-08d794de145c
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3871:|MN2PR12MB3871:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3871F6FCB6CCAF31225C9063E0390@MN2PR12MB3871.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-Forefront-PRVS: 02778BF158
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(39860400002)(136003)(366004)(346002)(376002)(199004)(189003)(30864003)(6666004)(4326008)(6486002)(8676002)(81166006)(54906003)(26005)(66556008)(81156014)(36756003)(2906002)(8936002)(66476007)(316002)(16526019)(7696005)(66946007)(2616005)(186003)(956004)(86362001)(5660300002)(478600001)(52116002)(579004);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR12MB3871;H:MN2PR12MB3598.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AsaEN+hflWrkMzfhzDZuyV9QTkoILIrILCgGJ8Gerp9qWJSkO1FWCvaZMUAGEP6WspnH+aa0u3w8SZjuAWaNnZsB9+DPEx5J/jrOZTjVbSuS+86ShmyaSsf2/PZlvj8Q/mgi4GmTwR2u40gi9hZNdZHm5DRVUhy071Ch3HcIpXBT2UW7Tij0Nt6iuoR8SQNLkRO2M8hMlgIkKPlFVUFfe70/TkrE+39o25Q0loeIsDniy7RMPyGvlPrVPHKjoBfSmpkAcTN/GMSAZReRrvZIrYvws12OSXnLto2NeyCmqQu6T83TvQW0oKWGb3LSdx/xdAJtbYuF81YNvTb9PhagwJSb/gaSL68Z8YJXzpsek42WEVNUzafySzEOYZ9vLQCPrIgCSd9omnXB63UpbKmXWXdxhlKG5Zo1ajjDZlmEMKPXyyLf4ojxDagk0/Q/+TBg
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52e9258b-60ab-4916-b787-08d794de145c
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2020 08:29:44.6193
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jYaMXzeYMJKjOAvpiDtN1K5nenPmkgFGXxY0fZ3vD1ASJq9Y15bxrNctu5PG2iar
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3871
+References: <20191230012720.2368987-1-djogorchock@gmail.com>
+ <20191230012720.2368987-12-djogorchock@gmail.com> <CAEc3jaBy9c=GTXX1iuQsCn8N2vg4zG1trzddRtsmQLsX4YO7oA@mail.gmail.com>
+ <CAEVj2tnt4FnQiiaVJgbaKaeGQqMk6CUkmvy2KjRk2Ew79USaaw@mail.gmail.com>
+ <CAEc3jaBsxOD1Cs1231+mabVqx2dLGZ0hW8aH3dbXFbt5n50Qpw@mail.gmail.com> <CAPh2-TB=UZhHAWfsyPBpATT79qeKzzOwo41VDPpid6NH7kUYJA@mail.gmail.com>
+In-Reply-To: <CAPh2-TB=UZhHAWfsyPBpATT79qeKzzOwo41VDPpid6NH7kUYJA@mail.gmail.com>
+From:   Daniel Ogorchock <djogorchock@gmail.com>
+Date:   Thu, 9 Jan 2020 02:53:17 -0600
+Message-ID: <CAEVj2tnxVNXLje3Y0+2Rnfr9Pje88cfvmvOXHk1UuL8g9W3j0w@mail.gmail.com>
+Subject: Re: [PATCH v10 11/12] HID: nintendo: add IMU support
+To:     Carl Mueller <carmueller@gmail.com>
+Cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Billy Laws <blaws05@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        "Colenbrander, Roelof" <Roderick.Colenbrander@sony.com>,
+        Siarhei Vishniakou <svv@google.com>, s.jegen@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Sandeep Singh <sandeep.singh@amd.com>
+Hi Carl,
 
-This part of module will define the data into HID reports.
-Get data from PCIe driver and populate that data into
-reports. HID core communication between devices and
-HID core is mostly done via HID reports.
+When I was initially implementing the button mappings, I referred to the
+standard described here:
+    https://www.kernel.org/doc/html/latest/input/gamepad.html
 
-Signed-off-by: Nehal Shah <Nehal-bakulchandra.Shah@amd.com>
-Signed-off-by: Sandeep Singh <sandeep.singh@amd.com>
----
- .../hid_descriptor/amd_sfh_hid_descriptor.c        | 275 +++++++++
- .../hid_descriptor/amd_sfh_hid_descriptor.h        | 125 ++++
- .../hid_descriptor/amd_sfh_hid_report_descriptor.h | 642 +++++++++++++++++++++
- 3 files changed, 1042 insertions(+)
- create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.c
- create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.h
- create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_descriptor.h
+It mentions under the d-pad section that digital inputs should be
+reported using the BTN_DPAD_* variant. Do the other controllers
+mentioned report their d-pads as analog values, or has using the
+ABS_HAT* values become the de facto format for digital inputs
+as well?
 
-diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.c b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.c
-new file mode 100644
-index 0000000..766b0ed
---- /dev/null
-+++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.c
-@@ -0,0 +1,275 @@
-+// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
-+/*
-+ *  AMD SFH Report Descriptor generator logic
-+ *  Author: Nehal Bakulchandra Shah <Nehal-Bakulchandra.Shah@amd.com>
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/string.h>
-+#include <linux/slab.h>
-+#include "amd_sfh_hid_descriptor.h"
-+#include "amd_sfh_hid_report_descriptor.h"
-+#include "amd_mp2_pcie.h"
-+
-+#define	AMD_SFH_FIRMWARE_MULTIPLIER (1000)
-+#define HID_USAGE_SENSOR_PROP_REPORTING_STATE_ALL_EVENTS_ENUM	0x41
-+#define HID_USAGE_SENSOR_PROP_POWER_STATE_D0_FULL_POWER_ENUM	0x51
-+#define HID_DEFAULT_REPORT_INTERVAL				0x50
-+#define HID_DEFAULT_MIN_VALUE					0X7F
-+#define HID_DEFAULT_MAX_VALUE					0x80
-+#define HID_DEFAULT_SENSITIVITY					0x7F
-+#define HID_USAGE_SENSOR_PROPERTY_CONNECTION_TYPE_PC_INTEGRATED_ENUM  0x01
-+/* state enums */
-+#define HID_USAGE_SENSOR_STATE_READY_ENUM                             0x02
-+#define HID_USAGE_SENSOR_STATE_INITIALIZING_ENUM                      0x05
-+#define HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM                      0x04
-+
-+int get_report_descriptor(int sensor_idx, u8 *rep_desc)
-+{
-+	switch (sensor_idx) {
-+	case ACCEL_IDX: /* accel */
-+		memset(rep_desc, 0, sizeof(accel3_report_descriptor));
-+		memcpy(rep_desc, accel3_report_descriptor,
-+		       sizeof(accel3_report_descriptor));
-+		break;
-+
-+	case GYRO_IDX: /* gyro */
-+		memset(rep_desc, 0, sizeof(gyro3_report_descriptor));
-+		memcpy(rep_desc, gyro3_report_descriptor,
-+		       sizeof(gyro3_report_descriptor));
-+		break;
-+
-+	case MAG_IDX: /* Magnetometer */
-+		memset(rep_desc, 0, sizeof(comp3_report_descriptor));
-+		memcpy(rep_desc, comp3_report_descriptor,
-+		       sizeof(comp3_report_descriptor));
-+		break;
-+
-+	case AMBIENT_LIGHT_IDX: /* ambient light sensor */
-+		memset(rep_desc, 0, sizeof(als_report_descriptor));
-+		memcpy(rep_desc, als_report_descriptor,
-+		       sizeof(als_report_descriptor));
-+		break;
-+	}
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(get_report_descriptor);
-+
-+u32 get_descriptor_size(int sensor_idx, int descriptor_name)
-+{
-+	switch (sensor_idx) {
-+	case ACCEL_IDX:
-+		if (descriptor_name == descr_size)
-+			return sizeof(accel3_report_descriptor);
-+		else if (descriptor_name == input_size)
-+			return sizeof(struct accel3_input_report);
-+		else if (descriptor_name == feature_size)
-+			return sizeof(struct accel3_feature_report);
-+		break;
-+
-+	case GYRO_IDX:
-+		if (descriptor_name == descr_size)
-+			return sizeof(gyro3_report_descriptor);
-+		else if (descriptor_name == input_size)
-+			return sizeof(struct gyro_input_report);
-+		else if (descriptor_name == feature_size)
-+			return sizeof(struct gyro_feature_report);
-+		break;
-+
-+	case MAG_IDX:
-+		if (descriptor_name == descr_size)
-+			return sizeof(comp3_report_descriptor);
-+		else if (descriptor_name == input_size)
-+			return sizeof(struct magno_input_report);
-+		else if (descriptor_name == feature_size)
-+			return sizeof(struct magno_input_report);
-+		break;
-+
-+	case AMBIENT_LIGHT_IDX:
-+		if (descriptor_name == descr_size)
-+			return sizeof(als_report_descriptor);
-+		else if (descriptor_name == input_size)
-+			return sizeof(struct als_input_report);
-+		else if (descriptor_name == feature_size)
-+			return sizeof(struct als_feature_report);
-+		break;
-+
-+	default:
-+		pr_info("Unknown Sensor index detected");
-+	}
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(get_descriptor_size);
-+
-+u8 get_feature_report(int sensor_idx, int report_id, u8 *feature_report)
-+{
-+	u8 report_size = 0;
-+	struct accel3_feature_report acc_feature;
-+	struct gyro_feature_report gyro_feature;
-+	struct magno_feature_report magno_feature;
-+	struct als_feature_report als_feature;
-+
-+	if (!feature_report)
-+		return report_size;
-+
-+	switch (sensor_idx) {
-+	case ACCEL_IDX: /* accel */
-+		acc_feature.common_property.connection_type =
-+		HID_USAGE_SENSOR_PROPERTY_CONNECTION_TYPE_PC_INTEGRATED_ENUM;
-+		acc_feature.common_property.report_state =
-+			HID_USAGE_SENSOR_PROP_REPORTING_STATE_ALL_EVENTS_ENUM;
-+		acc_feature.common_property.power_state =
-+			HID_USAGE_SENSOR_PROP_POWER_STATE_D0_FULL_POWER_ENUM;
-+		acc_feature.common_property.sensor_state =
-+			HID_USAGE_SENSOR_STATE_INITIALIZING_ENUM;
-+		acc_feature.common_property.report_interval =
-+					HID_DEFAULT_REPORT_INTERVAL;
-+		acc_feature.accel_change_sesnitivity =
-+						HID_DEFAULT_SENSITIVITY;
-+		acc_feature.accel_sensitivity_min = HID_DEFAULT_MIN_VALUE;
-+		acc_feature.accel_sensitivity_max = HID_DEFAULT_MAX_VALUE;
-+		memcpy(feature_report, &acc_feature, sizeof(acc_feature));
-+		report_size = sizeof(acc_feature);
-+		break;
-+
-+	case GYRO_IDX: /* gyro */
-+		gyro_feature.common_property.connection_type =
-+		HID_USAGE_SENSOR_PROPERTY_CONNECTION_TYPE_PC_INTEGRATED_ENUM;
-+		gyro_feature.common_property.report_state =
-+			HID_USAGE_SENSOR_PROP_REPORTING_STATE_ALL_EVENTS_ENUM;
-+		gyro_feature.common_property.power_state =
-+			HID_USAGE_SENSOR_PROP_POWER_STATE_D0_FULL_POWER_ENUM;
-+		gyro_feature.common_property.sensor_state =
-+			HID_USAGE_SENSOR_STATE_INITIALIZING_ENUM;
-+		gyro_feature.common_property.report_interval =
-+					HID_DEFAULT_REPORT_INTERVAL;
-+		gyro_feature.gyro_change_sesnitivity = HID_DEFAULT_SENSITIVITY;
-+		gyro_feature.gyro_sensitivity_min = HID_DEFAULT_MIN_VALUE;
-+		gyro_feature.gyro_sensitivity_max = HID_DEFAULT_MAX_VALUE;
-+		memcpy(feature_report, &gyro_feature, sizeof(gyro_feature));
-+		report_size = sizeof(gyro_feature);
-+		break;
-+
-+	case MAG_IDX: /* Magnetometer */
-+		magno_feature.common_property.report_id = report_id;
-+		magno_feature.common_property.connection_type =
-+		HID_USAGE_SENSOR_PROPERTY_CONNECTION_TYPE_PC_INTEGRATED_ENUM;
-+		magno_feature.common_property.report_state =
-+			HID_USAGE_SENSOR_PROP_REPORTING_STATE_ALL_EVENTS_ENUM;
-+		magno_feature.common_property.power_state =
-+			HID_USAGE_SENSOR_PROP_POWER_STATE_D0_FULL_POWER_ENUM;
-+		magno_feature.common_property.sensor_state =
-+			HID_USAGE_SENSOR_STATE_INITIALIZING_ENUM;
-+		magno_feature.common_property.report_interval =
-+					HID_DEFAULT_REPORT_INTERVAL;
-+		magno_feature.magno_headingchange_sensitivity =
-+						HID_DEFAULT_SENSITIVITY;
-+		magno_feature.heading_min = HID_DEFAULT_MIN_VALUE;
-+		magno_feature.heading_max = HID_DEFAULT_MAX_VALUE;
-+		magno_feature.flux_change_sensitivity = HID_DEFAULT_MIN_VALUE;
-+		magno_feature.flux_min = HID_DEFAULT_MIN_VALUE;
-+		magno_feature.flux_max = HID_DEFAULT_MAX_VALUE;
-+		memcpy(feature_report, &magno_feature, sizeof(magno_feature));
-+		report_size = sizeof(magno_feature);
-+		break;
-+
-+	case AMBIENT_LIGHT_IDX:  /* ambient light sensor */
-+		als_feature.common_property.report_id = report_id;
-+		als_feature.common_property.connection_type =
-+		HID_USAGE_SENSOR_PROPERTY_CONNECTION_TYPE_PC_INTEGRATED_ENUM;
-+		als_feature.common_property.report_state =
-+			HID_USAGE_SENSOR_PROP_REPORTING_STATE_ALL_EVENTS_ENUM;
-+		als_feature.common_property.power_state =
-+			HID_USAGE_SENSOR_PROP_POWER_STATE_D0_FULL_POWER_ENUM;
-+		als_feature.common_property.sensor_state =
-+				HID_USAGE_SENSOR_STATE_INITIALIZING_ENUM;
-+		als_feature.common_property.report_interval =
-+						HID_DEFAULT_REPORT_INTERVAL;
-+		als_feature.als_change_sesnitivity = HID_DEFAULT_SENSITIVITY;
-+		als_feature.als_sensitivity_min = HID_DEFAULT_MIN_VALUE;
-+		als_feature.als_sensitivity_max = HID_DEFAULT_MAX_VALUE;
-+		memcpy(feature_report, &als_feature, sizeof(als_feature));
-+		report_size = sizeof(als_feature);
-+		break;
-+	}
-+	return report_size;
-+}
-+EXPORT_SYMBOL_GPL(get_feature_report);
-+
-+u8 get_input_report(int sensor_idx, int report_id,
-+		    u8 *input_report, u32 *sensor_virt_addr)
-+{
-+	u8 report_size = 0;
-+	struct accel3_input_report acc_input;
-+	struct gyro_input_report gyro_input;
-+	struct magno_input_report magno_input;
-+	struct als_input_report als_input;
-+
-+	if (!sensor_virt_addr || !input_report)
-+		return report_size;
-+
-+	switch (sensor_idx) {
-+	case ACCEL_IDX: /* accel */
-+		acc_input.common_property.report_id = report_id;
-+		acc_input.common_property.sensor_state =
-+					HID_USAGE_SENSOR_STATE_READY_ENUM;
-+		acc_input.common_property.event_type =
-+				HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
-+		acc_input.in_accel_x_value = (int)sensor_virt_addr[0] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		acc_input.in_accel_y_value = (int)sensor_virt_addr[1] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		acc_input.in_accel_z_value =  (int)sensor_virt_addr[2] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		memcpy(input_report, &acc_input, sizeof(acc_input));
-+		report_size = sizeof(acc_input);
-+		break;
-+
-+	case GYRO_IDX: /* gyro */
-+		gyro_input.common_property.report_id = report_id;
-+		gyro_input.common_property.sensor_state =
-+			HID_USAGE_SENSOR_STATE_READY_ENUM;
-+		gyro_input.common_property.event_type =
-+			HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
-+		gyro_input.in_angel_x_value = (int)sensor_virt_addr[0] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		gyro_input.in_angel_y_value = (int)sensor_virt_addr[1] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		gyro_input.in_angel_z_value =  (int)sensor_virt_addr[2] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		memcpy(input_report, &gyro_input, sizeof(gyro_input));
-+		report_size = sizeof(gyro_input);
-+		break;
-+
-+	case MAG_IDX: /* Magnetometer */
-+		magno_input.common_property.report_id = report_id;
-+		magno_input.common_property.sensor_state =
-+			HID_USAGE_SENSOR_STATE_READY_ENUM;
-+		magno_input.common_property.event_type =
-+			HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
-+		magno_input.in_magno_x = (int)sensor_virt_addr[0] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		magno_input.in_magno_y = (int)sensor_virt_addr[1] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		magno_input.in_magno_z = (int)sensor_virt_addr[2] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		magno_input.in_magno_accuracy = (u16)sensor_virt_addr[3] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		memcpy(input_report, &magno_input, sizeof(magno_input));
-+		report_size = sizeof(magno_input);
-+		break;
-+
-+	case AMBIENT_LIGHT_IDX: /* Als */
-+		als_input.common_property.report_id = report_id;
-+		als_input.common_property.sensor_state =
-+					HID_USAGE_SENSOR_STATE_READY_ENUM;
-+		als_input.common_property.event_type =
-+				HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
-+		als_input.illuminance_value =  (int)sensor_virt_addr[0] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		report_size = sizeof(als_input);
-+		memcpy(input_report, &als_input, sizeof(als_input));
-+		break;
-+	}
-+	return report_size;
-+}
-diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.h b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.h
-new file mode 100644
-index 0000000..9f0b042
---- /dev/null
-+++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.h
-@@ -0,0 +1,125 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * HID report and descriptor stuructures and routines
-+ *
-+ * Author: Nehal Bakulchandra Shah <Nehal-bakulchandra.shah@amd.com>
-+ */
-+
-+#ifndef AMD_SFH_HID_DESCRIPTOR_H
-+#define AMD_SFH_HID_DESCRIPTOR_H
-+
-+enum desc_type {
-+	/* Report descriptor name */
-+	descr_size = 1,
-+	input_size,
-+	feature_size,
-+};
-+
-+struct _hid_report_descriptor {
-+	u8 bDescriptorType;
-+	u8 wDescriptorLength;
-+};
-+
-+struct common_feature_property {
-+	/* common properties */
-+	u8	 report_id;
-+	u8	 connection_type;
-+	u8	 report_state;
-+	u8	 power_state;
-+	u8	 sensor_state;
-+	u32  report_interval;
-+} __packed;
-+
-+struct common_input_porperty {
-+	/* common properties */
-+	u8	 report_id;
-+	u8	 sensor_state;
-+	u8	 event_type;
-+} __packed;
-+
-+struct _hid_device_descriptor {
-+	u8 bLength;
-+	u8 bDescriptorType;
-+	u8 bcdHID[2];
-+	u8 bCountryCode;
-+	u8 bNumDescriptors;
-+	struct _hid_report_descriptor *reports;
-+};
-+
-+struct accel3_feature_report {
-+	struct common_feature_property common_property;
-+	/* properties specific to this sensor */
-+	u16  accel_change_sesnitivity;
-+	s16  accel_sensitivity_max;
-+	s16  accel_sensitivity_min;
-+} __packed;
-+
-+struct accel3_input_report {
-+	struct	common_input_porperty common_property;
-+	/* values specific to this sensor */
-+	int   in_accel_x_value;
-+	int   in_accel_y_value;
-+	int   in_accel_z_value;
-+	/* include if required to support the "shake" event */
-+	u8   in_accel_shake_detection;
-+} __packed;
-+
-+struct gyro_feature_report {
-+	struct common_feature_property common_property;
-+	/* properties specific to this sensor */
-+	u16  gyro_change_sesnitivity;
-+	s16  gyro_sensitivity_max;
-+	s16  gyro_sensitivity_min;
-+} __packed;
-+
-+struct gyro_input_report {
-+	struct	common_input_porperty common_property;
-+	/* values specific to this sensor */
-+	int   in_angel_x_value;
-+	int   in_angel_y_value;
-+	int   in_angel_z_value;
-+} __packed;
-+
-+struct magno_feature_report {
-+	struct common_feature_property common_property;
-+	/*properties specific to this sensor */
-+	u16	magno_headingchange_sensitivity;
-+	s16	heading_min;
-+	s16	heading_max;
-+	u16	flux_change_sensitivity;
-+	s16	flux_min;
-+	s16	flux_max;
-+} __packed;
-+
-+struct magno_input_report {
-+	struct	common_input_porperty common_property;
-+	int	in_magno_x;
-+	int	in_magno_y;
-+	int	in_magno_z;
-+	int	in_magno_accuracy;
-+} __packed;
-+
-+struct als_feature_report {
-+	struct common_feature_property common_property;
-+	/* properties specific to this sensor */
-+	u16  als_change_sesnitivity;
-+	s16  als_sensitivity_max;
-+	s16  als_sensitivity_min;
-+} __packed;
-+
-+struct als_input_report {
-+	struct  common_input_porperty common_property;
-+	/* values specific to this sensor */
-+	int illuminance_value;
-+} __packed;
-+
-+int get_report_descriptor(int sensor_idx, u8 rep_desc[]);
-+u32 get_descriptor_size(int sensor_idx, int descriptor_name);
-+//u32 get_report_descriptor_size(int sensor_idx);
-+//u32 get_feature_report_size(int sensor_idx);
-+//u32 get_input_report_size(int sensor_idx);
-+u8 get_feature_report(int sensor_idx, int report_id, u8 *feature_report);
-+u8 get_input_report(int sensor_idx, int report_id, u8 *input_report,
-+		    u32 *sensor_virt_addr);
-+
-+#endif
-diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_descriptor.h b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_descriptor.h
-new file mode 100644
-index 0000000..b686ed7
---- /dev/null
-+++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_descriptor.h
-@@ -0,0 +1,642 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
-+/*
-+ * HID  descriptor stuructures
-+ *
-+ * Author: Nehal Bakulchandra Shah <Nehal-bakulchandra.shah@amd.com>
-+ */
-+
-+#ifndef AMD_SFH_HID_REPORT_DESCRIPTOR_H
-+#define AMD_SFH_HID_REPORT_DESCRIPTOR_H
-+
-+// Accelerometer 3D Sensor
-+static const u8 accel3_report_descriptor[] = {
-+0x05, 0x20,          /* Usage page */
-+0x09, 0x73,          /* Motion type Accel 3D */
-+0xA1, 0x00,          /* HID Collection (Physical) */
-+
-+//feature reports(xmit/receive)
-+0x85, 1,           /* HID  Report ID */
-+0x05, 0x20,	   /* HID usage page sensor */
-+0x0A, 0x09, 0x03,  /* Sensor property and sensor connection type */
-+0x15, 0,           /* HID logical MIN_8(0) */
-+0x25, 2,	   /* HID logical MAX_8(2) */
-+0x75, 8,	   /* HID report size(8) */
-+0x95, 1,	   /* HID report count(1) */
-+0xA1, 0x02,	   /* HID collection (logical) */
-+0x0A, 0x30, 0x08, /* Sensor property connection type intergated sel*/
-+0x0A, 0x31, 0x08, /* Sensor property connection type attached sel */
-+0x0A, 0x32, 0x08, /* Sensor property connection type external sel */
-+0xB1, 0x00,       /* HID feature (Data_Arr_Abs) */
-+0xC0,		  /* HID end collection */
-+0x0A, 0x16, 0x03, /* HID usage sensor property reporting state */
-+0x15, 0,          /* HID logical Min_8(0) */
-+0x25, 5,	  /* HID logical Max_8(5) */
-+0x75, 8,	  /* HID report size(8) */
-+0x95, 1,          /* HID report count(1) */
-+0xA1, 0x02,	  /* HID collection(logical) */
-+0x0A, 0x40, 0x08, /* Sensor property report state no events sel */
-+0x0A, 0x41, 0x08, /* Sensor property report state all events sel */
-+0x0A, 0x42, 0x08, /* Sensor property report state threshold events sel */
-+0x0A, 0x43, 0x08, /* Sensor property report state no events wake sel */
-+0x0A, 0x44, 0x08, /* Sensor property report state all events wake sel */
-+0x0A, 0x45, 0x08, /* Sensor property report state threshold events wake sel */
-+0xB1, 0x00,	  /* HID feature (Data_Arr_Abs) */
-+0xC0,		  /* HID end collection */
-+0x0A, 0x19, 0x03, /* HID usage sensor property power state */
-+0x15, 0,	  /* HID logical Min_8(0) */
-+0x25, 5,	  /* HID logical Max_8(5) */
-+0x75, 8,	  /* HID report size(8) */
-+0x95, 1,	  /* HID report count(1) */
-+0xA1, 0x02,	  /* HID collection(logical) */
-+0x0A, 0x50, 0x08, /* Sensor property power state undefined sel */
-+0x0A, 0x51, 0x08, /* Sensor property power state D0 full power  sel */
-+0x0A, 0x52, 0x08, /* Sensor property power state D1 low power sel */
-+0x0A, 0x53, 0x08, /* Sensor property power state D2 standby with wake sel */
-+0x0A, 0x54, 0x08, /* Sensor property power state D3 sleep with wake  sel */
-+0x0A, 0x55, 0x08, /* Sensor property power state D4 power off sel */
-+0xB1, 0x00,       /* HID feature (Data_Arr_Abs) */
-+0xC0,		  /* HID end collection */
-+0x0A, 0x01, 0x02, /* HID usage sensor state */
-+0x15, 0,	  /* HID logical Min_8(0) */
-+0x25, 6,	  /* HID logical Max_8(6) */
-+0x75, 8,	  /* HID report size(8) */
-+0x95, 1,	  /* HID report count(1) */
-+0xA1, 0x02,	  /* HID collection(logical) */
-+0x0A, 0x00, 0x08, /* HID usage sensor state unknown sel */
-+0x0A, 0x01, 0x08, /* HID usage sensor state ready sel */
-+0x0A, 0x02, 0x08, /* HID usage sensor state not available sel */
-+0x0A, 0x03, 0x08, /* HID usage sensor state no data sel */
-+0x0A, 0x04, 0x08, /* HID usage sensor state initializing sel */
-+0x0A, 0x05, 0x08, /* HID usage sensor state access denied sel */
-+0x0A, 0x06, 0x08, /* HID usage sensor state error sel */
-+0xB1, 0x00,	  /* HID feature (Data_Arr_Abs) */
-+0xC0,		  /* HID end collection */
-+0x0A, 0x0E, 0x03, /* HID usage sensor property report interval */
-+0x15, 0,	  /* HID logical Min_8(0) */
-+0x27, 0xFF, 0xFF, 0xFF, 0xFF, /* HID logical Max_32 */
-+
-+0x75, 32,	  /* HID report size(32) */
-+0x95, 1,	  /* HID report count(1) */
-+0x55, 0,	  /* HID unit exponent(0) */
-+0xB1, 0x02,	  /* HID feature (Data_Arr_Abs) */
-+0x0A, 0x52, 0x14, /* Sensor data motion accel and mod change sensitivity ABS) */
-+
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x26, 0xFF, 0xFF,	/* HID logical Max_16(0xFF,0xFF) */
-+
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0x52, 0x24,	/* HID usage sensor data (motion accel and mod max) */
-+
-+0x16, 0x01, 0x80,	/* HID logical Min_16(0x01,0x80) */
-+
-+0x26, 0xFF, 0x7F,	/* HID logical Max_16(0xFF,0x7F) */
-+
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0x52, 0x34,	/* HID usage sensor data (motion accel and mod min) */
-+
-+0x16, 0x01, 0x80,	/* HID logical Min_16(0x01,0x80) */
-+
-+0x26, 0xFF, 0x7F,	/* HID logical Max_16(0xFF,0x7F) */
-+
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+
-+//input report (transmit)
-+0x05, 0x20,		 /* HID usage page sensors */
-+0x0A, 0x01, 0x02,	 /* HID usage sensor state */
-+0x15, 0,		 /* HID logical Min_8(0) */
-+0x25, 6,		 /* HID logical Max_8(6) */
-+0x75, 8,		 /* HID report size(8) */
-+0x95, 1,		 /* HID report count (1) */
-+0xA1, 0x02,		 /* HID end collection (logical) */
-+0x0A, 0x00, 0x08,	 /* HID usage sensor state unknown sel */
-+0x0A, 0x01, 0x08,	 /* HID usage sensor state ready sel */
-+0x0A, 0x02, 0x08,	 /* HID usage sensor state not available sel */
-+0x0A, 0x03, 0x08,	 /* HID usage sensor state no data sel */
-+0x0A, 0x04, 0x08,	 /* HID usage sensor state initializing sel */
-+0x0A, 0x05, 0x08,	 /* HID usage sensor state access denied sel */
-+0x0A, 0x06, 0x08,	 /* HID usage sensor state error sel */
-+0X81, 0x00,		 /* HID Input (Data_Arr_Abs) */
-+0xC0,			 /* HID end collection */
-+0x0A, 0x02, 0x02,	 /* HID usage sensor event */
-+0x15, 0,		 /* HID logical Min_8(0) */
-+0x25, 5,		 /* HID logical Max_8(5) */
-+0x75, 8,		 /* HID report size(8) */
-+0x95, 1,		 /* HID report count (1) */
-+0xA1, 0x02,		 /* HID end collection (logical) */
-+0x0A, 0x10, 0x08,	 /* HID usage sensor event unknown sel */
-+0x0A, 0x11, 0x08,	 /* HID usage sensor event state changed sel */
-+0x0A, 0x12, 0x08,	 /* HID usage sensor event property changed sel */
-+0x0A, 0x13, 0x08,	 /* HID usage sensor event data updated sel */
-+0x0A, 0x14, 0x08,	 /* HID usage sensor event poll response sel */
-+0x0A, 0x15, 0x08,	 /* HID usage sensor event change sensitivity sel */
-+0X81, 0x00,		 /* HID Input (Data_Arr_Abs) */
-+0xC0,			 /* HID end collection */
-+0x0A, 0x53, 0x04,	 /* HID usage sensor data motion Acceleration X axis */
-+0x17, 0x00, 0x00, 0x01, 0x80, /* HID logical Min_32 */
-+
-+0x27, 0xFF, 0xff, 0XFF, 0XFF, /* HID logical Max_32  */
-+
-+0x75, 32,		/* HID report size(32) */
-+0x95, 1,		/* HID report count (1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0X81, 0x02,		/* HID Input (Data_Arr_Abs) */
-+0x0A, 0x54, 0x04,	/* HID usage sensor data motion Acceleration Y axis */
-+0x17, 0X00, 0X00, 0x01, 0x80, /* HID logical Min_32 */
-+
-+0x27, 0xFF, 0xFF, 0XFF, 0XFF, /* HID logical Max_32 */
-+
-+0x75, 32,		/* HID report size(32) */
-+0x95, 1,		/* HID report count (1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0X81, 0x02,		/* HID Input (Data_Arr_Abs) */
-+0x0A, 0x55, 0x04,	/* HID usage sensor data motion Acceleration Z axis */
-+0x17, 0X00, 0X00, 0x01, 0x80, /* HID logical Min_32 */
-+
-+0x27, 0XFF, 0XFF, 0xFF, 0x7F, /* HID logical Max_32 */
-+
-+0x75, 32,		/* HID report size(32) */
-+0x95, 1,		/* HID report count (1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0X81, 0x02,		/* HID Input (Data_Arr_Abs) */
-+
-+0x0A, 0x51, 0x04,	/* HID usage sensor data motion state */
-+0x15, 0,		/* HID logical Min_8(0) False = Still*/
-+0x25, 1,		/* HID logical Min_8(1) True = In motion */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count (1) */
-+0X81, 0x02,		/* HID Input (Data_Arr_Abs) */
-+0xC0			/* HID end collection */
-+};
-+
-+const unsigned char gyro3_report_descriptor[] = {
-+0x05, 0x20,		/* Usage page */
-+0x09, 0x76,		/* Motion type Gyro3D */
-+0xA1, 0x00,		/* HID Collection (Physical) */
-+
-+0x85, 2,		/* HID  Report ID */
-+0x05, 0x20,		/* HID usage page sensor */
-+0x0A, 0x09, 0x03,	/* Sensor property and sensor connection type */
-+0x15, 0,		/* HID logical MIN_8(0) */
-+0x25, 2,		/* HID logical MAX_8(2) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count(1) */
-+0xA1, 0x02,		/* HID collection (logical) */
-+0x0A, 0x30, 0x08,	/* Sensor property connection type intergated sel */
-+0x0A, 0x31, 0x08,	/* Sensor property connection type attached sel */
-+0x0A, 0x32, 0x08,	/* Sensor property connection type external sel */
-+0xB1, 0x00,		/* HID feature (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x16, 0x03,	/* HID usage sensor property reporting state */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 5,		/* HID logical Max_8(5) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count(1) */
-+0xA1, 0x02,		/* HID collection(logical) */
-+0x0A, 0x40, 0x08,	/* Sensor reporting state no events sel */
-+0x0A, 0x41, 0x08,	/* Sensor reporting state all events sel */
-+0x0A, 0x42, 0x08,	/* Sensor reporting state threshold events sel */
-+0x0A, 0x43, 0x08,	/* Sensor reporting state no events wake sel */
-+0x0A, 0x44, 0x08,	/* Sensor reporting state all events wake sel */
-+0x0A, 0x45, 0x08,	/* Sensor reporting state threshold events wake sel */
-+0xB1, 0x00,		/* HID feature (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x19, 0x03,	/* HID usage sensor property power state */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 5,		/* HID logical Max_8(5) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count(1) */
-+0xA1, 0x02,		/* HID collection(logical) */
-+0x0A, 0x50, 0x08,	/* Sensor  power state undefined sel */
-+0x0A, 0x51, 0x08,	/* Sensor  power state D0 full power  sel */
-+0x0A, 0x52, 0x08,	/* Sensor  power state D1 low power sel */
-+0x0A, 0x53, 0x08,	/* Sensor  power state D2 standby with wake sel */
-+0x0A, 0x54, 0x08,	/* Sensor  power state D3 sleep with wake  sel */
-+0x0A, 0x55, 0x08,	/* Sensor  power state D4 power off sel */
-+0xB1, 0x00,		/* HID feature (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x01, 0x02,	/* HID usage sensor state */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 6,		/* HID logical Max_8(6) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count(1) */
-+0xA1, 0x02,		/* HID collection(logical) */
-+0x0A, 0x00, 0x08,	/* HID usage sensor state unknown sel */
-+0x0A, 0x01, 0x08,	/* HID usage sensor state ready sel */
-+0x0A, 0x02, 0x08,	/* HID usage sensor state not available sel */
-+0x0A, 0x03, 0x08,	/* HID usage sensor state no data sel */
-+0x0A, 0x04, 0x08,	/* HID usage sensor state initializing sel */
-+0x0A, 0x05, 0x08,	/* HID usage sensor state access denied sel */
-+0x0A, 0x06, 0x08,	/* HID usage sensor state error sel */
-+0xB1, 0x00,		/* HID feature (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x0E, 0x03,	/* HID usage sensor property report interval */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x27, 0xFF, 0xFF, 0xFF, 0xFF,	/* HID logical Max_32 */
-+
-+0x75, 32,		/* HID report size(32) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0,		/* HID unit exponent(0) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0x56, 0x14,	/* Angular velocity and mod change sensitivity ABS)*/
-+
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x26, 0xFF, 0xFF,	/* HID logical Max_16(0xFF,0xFF) */
-+
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0x56, 0x24,	/* Sensor data (motion angular velocity and mod max) */
-+
-+0x16, 0x01, 0x80,	/* HID logical Min_16(0x01,0x80) */
-+
-+0x26, 0xFF, 0x7F,	/* HID logical Max_16(0xFF,0x7F) */
-+
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0x56, 0x34,	/* HID usage sensor data (motion accel and mod min) */
-+
-+0x16, 0x01, 0x80,	/* HID logical Min_16(0x01,0x80) */
-+
-+0x26, 0xFF, 0x7F,	/* HID logical Max_16(0xFF,0x7F) */
-+
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+
-+//Input reports(transmit)
-+0x05, 0x20,		/* HID usage page sensors */
-+0x0A, 0x01, 0x02,	/* HID usage sensor state */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 6,		/* HID logical Max_8(6) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count (1) */
-+0xA1, 0x02,		/* HID end collection (logical) */
-+0x0A, 0x00, 0x08,	/* HID usage sensor state unknown sel */
-+0x0A, 0x01, 0x08,	/* HID usage sensor state ready sel */
-+0x0A, 0x02, 0x08,	/* HID usage sensor state not available sel */
-+0x0A, 0x03, 0x08,	/* HID usage sensor state no data sel */
-+0x0A, 0x04, 0x08,	/* HID usage sensor state initializing sel */
-+0x0A, 0x05, 0x08,	/* HID usage sensor state access denied sel */
-+0x0A, 0x06, 0x08,	/* HID usage sensor state error sel */
-+0X81, 0x00,		/* HID Input (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x02, 0x02,	/* HID usage sensor event */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 5,		/* HID logical Max_8(5) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count (1) */
-+0xA1, 0x02,		/* HID end collection (logical) */
-+0x0A, 0x10, 0x08,	/* HID usage sensor event unknown sel */
-+0x0A, 0x11, 0x08,	/* HID usage sensor event state changed sel */
-+0x0A, 0x12, 0x08,	/* HID usage sensor event property changed sel */
-+0x0A, 0x13, 0x08,	/* HID usage sensor event data updated sel */
-+0x0A, 0x14, 0x08,	/* HID usage sensor event poll response sel */
-+0x0A, 0x15, 0x08,	/* HID usage sensor event change sensitivity sel */
-+0X81, 0x00,		/* HID Input (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x57, 0x04,	/* Sensor data motion Angular velocity  X axis */
-+0x17, 0x00, 0x00, 0x01, 0x80,	/* HID logical Min_32 */
-+
-+0x27, 0xFF, 0xFF, 0xFF, 0x7F,	/* HID logical Max_32 */
-+
-+0x75, 32,		/* HID report size(32) */
-+0x95, 1,		/* HID report count (1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0X81, 0x02,		/* HID Input (Data_Arr_Abs) */
-+0x0A, 0x58, 0x04,	/* Sensor data motion Angular velocity  Y axis */
-+0x17, 0x00, 0x00, 0x01, 0x80, /* HID logical Min_32 */
-+
-+0x27, 0xFF, 0xFF, 0xFF, 0x7F, /* HID logical Max_32 */
-+
-+0x75, 32,		/* HID report size(32) */
-+0x95, 1,		/* HID report count (1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0X81, 0x02,		/* HID Input (Data_Arr_Abs) */
-+0x0A, 0x59, 0x04,	/* Sensor data motion Angular velocity  Z axis */
-+0x17, 0x00, 0x00, 0x01, 0x80, /* HID logical Min_32 */
-+
-+0x27, 0xFF, 0xFF, 0xFF, 0x7F, /* HID logical Max_32 */
-+
-+0x75, 32,		/* HID report size(32) */
-+0x95, 1,		/* HID report count (1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0X81, 0x02,		/* HID Input (Data_Arr_Abs) */
-+
-+0xC0,			/* HID end collection */
-+};
-+
-+const unsigned char comp3_report_descriptor[] = {
-+0x05, 0x20,		/* Usage page */
-+0x09, 0x83,		/* Motion type Orientation compass 3D */
-+0xA1, 0x00,		/* HID Collection (Physical) */
-+
-+0x05, 0x20,		/* HID usage page sensor */
-+0x0A, 0x09, 0x03,	/* Sensor property and sensor connection type */
-+0x15, 0,		/* HID logical MIN_8(0) */
-+0x25, 2,		/* HID logical MAX_8(2) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count(1) */
-+0xA1, 0x02,		/* HID collection (logical) */
-+0x0A, 0x30, 0x08,	/* Sensor property connection type intergated sel */
-+0x0A, 0x31, 0x08,	/* Sensor property connection type attached sel */
-+0x0A, 0x32, 0x08,	/* Sensor property connection type external sel */
-+0xB1, 0x00,		/* HID feature (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x16, 0x03,	/* HID usage sensor property reporting state */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 5,		/* HID logical Max_8(5) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count(1) */
-+0xA1, 0x02,		/* HID collection(logical) */
-+0x0A, 0x40, 0x08,	/* Sensor reporting state no events sel */
-+0x0A, 0x41, 0x08,	/* Sensor reporting state all events sel */
-+0x0A, 0x42, 0x08,	/* Sensor reporting state threshold events sel */
-+0x0A, 0x43, 0x08,	/* Sensor reporting state no events wake sel */
-+0x0A, 0x44, 0x08,	/* Sensor reporting state all events wake sel */
-+0x0A, 0x45, 0x08,	/* Sensor reporting state threshold events wake sel */
-+0xB1, 0x00,		/* HID feature (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x19, 0x03,       /* HID usage sensor property power state */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 5,		/* HID logical Max_8(5) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count(1) */
-+0xA1, 0x02,		/* HID collection(logical) */
-+0x0A, 0x50, 0x08,	/* Sensor power state undefined sel */
-+0x0A, 0x51, 0x08,	/* Sensor power state D0 full power  sel */
-+0x0A, 0x52, 0x08,	/* Sensor power state D1 low power sel */
-+0x0A, 0x53, 0x08,	/* Sensor power state D2 standby with wake sel */
-+0x0A, 0x54, 0x08,	/* Sensor power state D3 sleep with wake  sel */
-+0x0A, 0x55, 0x08,	/* Sensor power state D4 power off sel */
-+0xB1, 0x00,		/* HID feature (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x01, 0x02,	/* HID usage sensor state */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 6,		/* HID logical Max_8(6) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count(1) */
-+0xA1, 0x02,		/* HID collection(logical) */
-+0x0A, 0x00, 0x08,       /* HID usage sensor state unknown sel */
-+0x0A, 0x01, 0x08,       /* HID usage sensor state ready sel */
-+0x0A, 0x02, 0x08,       /* HID usage sensor state not available sel */
-+0x0A, 0x03, 0x08,       /* HID usage sensor state no data sel */
-+0x0A, 0x04, 0x08,       /* HID usage sensor state initializing sel */
-+0x0A, 0x05, 0x08,       /* HID usage sensor state access denied sel */
-+0x0A, 0x06, 0x08,       /* HID usage sensor state error sel */
-+0xB1, 0x00,		/* HID feature (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x0E, 0x03,	/* HID usage sensor property report interval */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x27, 0xFF, 0xFF, 0xFF, 0xFF,	/* HID logical Max_32 */
-+0x75, 32,		/* HID report size(32) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0,		/* HID unit exponent(0) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0x71, 0x14,	/* Orientation  and mod change sensitivity ABS)*/
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x26, 0xFF, 0xFF,	/* HID logical Max_16(0xFF,0xFF) */
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0x71, 0x24,	/* Sensor data (motion orientation  and mod max) */
-+0x16, 0x01, 0x80,	/* HID logical Min_16(0x01,0x80) */
-+0x26, 0xFF, 0x7F,	/* HID logical Max_16(0xFF,0x7F) */
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0F,		/* HID unit exponent(0x0F) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0x71, 0x34,	/* Sensor data (motion orientation  and mod min) */
-+0x16, 0x01, 0x80,	/* HID logical Min_16(0x01,0x80) */
-+0x26, 0xFF, 0x7F,	/* HID logical Max_16(0xFF,0x7F) */
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0F,		/* HID unit exponent(0x0F) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0x84, 0x14,	/* Maganetic flux and change sensitivity ABS) */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x26, 0xFF, 0xFF,	/* HID logical Max_16(0xFF,0xFF) */
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0x84, 0x24,	/* Maganetic flux and mod change sensitivity Max) */
-+0x16, 0x01, 0x80,	/* HID logical Min_16(0x01,0x80) */
-+0x26, 0xFF, 0x7F,	/* HID logical Max_16(0xFF,0x7F) */
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0F,		/* HID unit exponent(0x0F) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0x84, 0x34,	/* Maganetic flux and mod change sensitivity Min */
-+0x16, 0x01, 0x80,	/* HID logical Min_16(0x01,0x80) */
-+0x26, 0xFF, 0x7F,	/* HID logical Max_16(0xFF,0x7F) */
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0F,		/* HID unit exponent(0x0F) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+
-+//Input reports(transmit)
-+0x05, 0x20,		/* HID usage page sensors */
-+0x0A, 0x01, 0x02,	/* HID usage sensor state */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 6,		/* HID logical Max_8(6) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count (1) */
-+0xA1, 0x02,		/* HID end collection (logical) */
-+0x0A, 0x00, 0x08,	/* HID usage sensor state unknown sel */
-+0x0A, 0x01, 0x08,	/* HID usage sensor state ready sel */
-+0x0A, 0x02, 0x08,	/* HID usage sensor state not available sel */
-+0x0A, 0x03, 0x08,	/* HID usage sensor state no data sel */
-+0x0A, 0x04, 0x08,	/* HID usage sensor state initializing sel */
-+0x0A, 0x05, 0x08,	/* HID usage sensor state access denied sel */
-+0x0A, 0x06, 0x08,	/* HID usage sensor state error sel */
-+0X81, 0x00,		/* HID Input (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x02, 0x02,	/* HID usage sensor event */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 5,		/* HID logical Max_8(5) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count (1) */
-+0xA1, 0x02,		/* HID end collection (logical) */
-+0x0A, 0x10, 0x08,	/* HID usage sensor event unknown sel */
-+0x0A, 0x11, 0x08,	/* HID usage sensor event state changed sel */
-+0x0A, 0x12, 0x08,	/* HID usage sensor event property changed sel */
-+0x0A, 0x13, 0x08,	/* HID usage sensor event data updated sel */
-+0x0A, 0x14, 0x08,	/* HID usage sensor event poll response sel */
-+0x0A, 0x15, 0x08,	/* HID usage sensor event change sensitivity sel */
-+0X81, 0x00,		/* HID Input (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x85, 0x04,	/* Sensor data orientation magnetic flux X axis */
-+0x17, 0x00, 0x00, 0x01, 0x80,	/* HID logical Min_32 */
-+0x27, 0xFF, 0xFF, 0xFF, 0x7F,	/* HID logical Max_32 */
-+0x75, 32,		/* HID report size(32) */
-+0x95, 1,		/* HID report count (1) */
-+0x55, 0x0D,		/* HID unit exponent(0x0D) */
-+0X81, 0x02,		/* HID Input (Data_Arr_Abs) */
-+0x0A, 0x86, 0x04,	/* Sensor data orientation magnetic flux Y axis */
-+0x17, 0x00, 0x00, 0x01, 0x80,	/* HID logical Min_32 */
-+0x27, 0xFF, 0xFF, 0xFF, 0x7F,	/* HID logical Max_32 */
-+0x75, 32,		/* HID report size(32) */
-+0x95, 1,		/* HID report count (1) */
-+0x55, 0x0D,		/* HID unit exponent(0x0D) */
-+0X81, 0x02,		/* HID Input (Data_Arr_Abs) */
-+0x0A, 0x87, 0x04,	/* Sensor data orientation magnetic flux Z axis */
-+0x17, 0x00, 0x00, 0x01, 0x80,	/* HID logical Min_32 */
-+0x27, 0xFF, 0xFF, 0xFF, 0x7F,	/* HID logical Max_32 */
-+0x75, 32,			/* HID report size(32) */
-+0x95, 1,			/* HID report count (1) */
-+0x55, 0x0D,			/* HID unit exponent(0x0D) */
-+0X81, 0x02,			/* HID Input (Data_Arr_Abs) */
-+0x0A, 0x88, 0x04,	/* Sensor data orientation magnetometer accuracy */
-+0x17, 0x00, 0x00, 0x01, 0x80,	/* HID logical Min_32 */
-+0x27, 0xFF, 0xFF, 0xFF, 0x7F,	/* HID logical Max_32 */
-+0x75, 32,			/* HID report size(32) */
-+0x95, 1,			/* HID report count (1) */
-+0X81, 0x02,			/* HID Input (Data_Arr_Abs) */
-+0xC0				/* HID end collection */
-+};
-+
-+const unsigned char als_report_descriptor[] = {
-+0x05, 0x20,	/* HID usage page sensor */
-+0x09, 0x41,	/* HID usage sensor type Ambientlight  */
-+0xA1, 0x00,	/* HID Collection (Physical) */
-+
-+//feature reports(xmit/receive)
-+0x05, 0x20,	/* HID usage page sensor */
-+0x0A, 0x09, 0x03,	/* Sensor property and sensor connection type */
-+0x15, 0,		/* HID logical MIN_8(0) */
-+0x25, 2,		/* HID logical MAX_8(2) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count(1) */
-+0xA1, 0x02,		/* HID collection (logical) */
-+0x0A, 0x30, 0x08,	/* Sensor property connection type intergated sel */
-+0x0A, 0x31, 0x08,	/* Sensor property connection type attached sel */
-+0x0A, 0x32, 0x08,	/* Sensor property connection type external sel */
-+0xB1, 0x00,		/* HID feature (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x16, 0x03,	/* HID usage sensor property reporting state */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 5,		/* HID logical Max_8(5) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count(1) */
-+0xA1, 0x02,		/* HID collection(logical) */
-+0x0A, 0x40, 0x08,	/* Sensor reporting state no events sel */
-+0x0A, 0x41, 0x08,	/* Sensor reporting state all events sel */
-+0x0A, 0x42, 0x08,	/* Sensor reporting state threshold events sel */
-+0x0A, 0x43, 0x08,	/* Sensor reporting state no events wake sel */
-+0x0A, 0x44, 0x08,	/* Sensor reporting state all events wake sel */
-+0x0A, 0x45, 0x08,	/* Sensor reporting state threshold events wake sel */
-+0xB1, 0x00,		/* HID feature (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x19, 0x03,	/* HID usage sensor property power state */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 5,		/* HID logical Max_8(5) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count(1) */
-+0xA1, 0x02,		/* HID collection(logical) */
-+0x0A, 0x50, 0x08,	/* Sensor power state undefined sel */
-+0x0A, 0x51, 0x08,	/* Sensor power state D0 full power  sel */
-+0x0A, 0x52, 0x08,	/* Sensor power state D1 low power sel */
-+0x0A, 0x53, 0x08,	/* Sensor power state D2 standby with wake sel */
-+0x0A, 0x54, 0x08,	/* Sensor power state D3 sleep with wake  sel */
-+0x0A, 0x55, 0x08,	/* Sensor power state D4 power off sel */
-+0xB1, 0x00,		/* HID feature (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x01, 0x02,	/* HID usage sensor state */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 6,		/* HID logical Max_8(6) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count(1) */
-+0xA1, 0x02,		/* HID collection(logical) */
-+0x0A, 0x00, 0x08,	/* HID usage sensor state unknown sel */
-+0x0A, 0x01, 0x08,	/* HID usage sensor state ready sel */
-+0x0A, 0x02, 0x08,	/* HID usage sensor state not available sel */
-+0x0A, 0x03, 0x08,	/* HID usage sensor state no data sel */
-+0x0A, 0x04, 0x08,	/* HID usage sensor state initializing sel */
-+0x0A, 0x05, 0x08,	/* HID usage sensor state access denied sel */
-+0x0A, 0x06, 0x08,	/* HID usage sensor state error sel */
-+0xB1, 0x00,		/* HID feature (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x0E, 0x03,	/* HID usage sensor property report interval */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x27, 0xFF, 0xFF, 0xFF, 0xFF,	/* HID logical Max_32 */
-+0x75, 32,		/* HID report size(32) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0,		/* HID unit exponent(0) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0xD1, 0xE4,	/* Light illuminance and sensitivity REL PCT) */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x26, 0x10, 0x27,	/* HID logical Max_16(0x10,0x27) */
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0E,		/* HID unit exponent(0x0E) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0xD1, 0x24,	/* Sensor data (Light illuminance and mod max) */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x26, 0xFF, 0xFF,	/* HID logical Max_16(0xFF,0xFF) */
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0F,		/* HID unit exponent(0x0F) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+0x0A, 0xD1, 0x34,	/* Sensor data (Light illuminance and mod min) */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x26, 0xFF, 0xFF,	/* HID logical Max_16(0xFF,0xFF) */
-+0x75, 16,		/* HID report size(16) */
-+0x95, 1,		/* HID report count(1) */
-+0x55, 0x0F,		/* HID unit exponent(0x0F) */
-+0xB1, 0x02,		/* HID feature (Data_Arr_Abs) */
-+
-+//Input reports (transmit)
-+0x05, 0x20,		/* HID usage page sensors */
-+0x0A, 0x01, 0x02,	/* HID usage sensor state */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 6,		/* HID logical Max_8(6) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count (1) */
-+0xA1, 0x02,		/* HID end collection (logical) */
-+0x0A, 0x00, 0x08,	/* HID usage sensor state unknown sel */
-+0x0A, 0x01, 0x08,	/* HID usage sensor state ready sel */
-+0x0A, 0x02, 0x08,	/* HID usage sensor state not available sel */
-+0x0A, 0x03, 0x08,	/* HID usage sensor state no data sel */
-+0x0A, 0x04, 0x08,	/* HID usage sensor state initializing sel */
-+0x0A, 0x05, 0x08,	/* HID usage sensor state access denied sel */
-+0x0A, 0x06, 0x08,	/* HID usage sensor state error sel */
-+0X81, 0x00,		/* HID Input (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0x02, 0x02,	/* HID usage sensor event */
-+0x15, 0,		/* HID logical Min_8(0) */
-+0x25, 5,		/* HID logical Max_8(5) */
-+0x75, 8,		/* HID report size(8) */
-+0x95, 1,		/* HID report count (1) */
-+0xA1, 0x02,		/* HID end collection (logical) */
-+0x0A, 0x10, 0x08,	/* HID usage sensor event unknown sel */
-+0x0A, 0x11, 0x08,	/* HID usage sensor event state changed sel */
-+0x0A, 0x12, 0x08,	/* HID usage sensor event property changed sel */
-+0x0A, 0x13, 0x08,	/* HID usage sensor event data updated sel */
-+0x0A, 0x14, 0x08,	/* HID usage sensor event poll response sel */
-+0x0A, 0x15, 0x08,	/* HID usage sensor event change sensitivity sel */
-+0X81, 0x00,		/* HID Input (Data_Arr_Abs) */
-+0xC0,			/* HID end collection */
-+0x0A, 0xD1, 0x04,	/* HID usage sensor data light illuminance */
-+0x17, 0x00, 0x00, 0x01, 0x80,	 /* HID logical Min_32 */
-+0x27, 0xFF, 0xFF, 0xFF, 0x7F,	 /* HID logical Max_32 */
-+0x55, 0x0F,		/* HID unit exponent(0x0F) */
-+0x75, 32,		/* HID report size(32) */
-+0x95, 1,		/* HID report count (1) */
-+0X81, 0x02,		/* HID Input (Data_Arr_Abs) */
-+0xC0			/* HID end collection */
-+};
-+#endif
+If the latter, I guess it would make sense to go with the crowd for the pro.
+It just seems a bit odd to report digital inputs as absolute axes, but I'm
+open to changing it if that's the consensus.
+
+Thanks,
+Daniel
+
+On Thu, Jan 9, 2020 at 12:23 AM Carl Mueller <carmueller@gmail.com> wrote:
+>
+> (3rd/final attempt at reply due to list server rejecting message with
+> HTML subpart; sorry about the spam!)
+>
+> Hi Everyone,
+>
+> In trying out this driver to use with the Switch Pro Controller,
+> the biggest difficulty I had was that the D-pad is reported as buttons
+> instead of as a Hat.  All other controllers that are similar in structure
+> (such as the PS3 and PS4 controllers, the Xbox controllers, and many
+> others) report the D-pad as a Hat.  This kind of consistency is needed
+> to avoid lots of software compatibility issues.
+>
+> I mentioned this to Daniel, and he indicated that he wanted the Switch
+> Pro Controller to behave like the JoyCons, which have buttons instead
+> of a D-pad.  Having the JoyCons report the buttons as buttons makes
+> sense, since it's possible to push opposite directions at the same time.
+> However, I don't think that the argument carries over to the Switch Pro
+> Controller, since it has a physically different control.
+>
+> Again, the consistency with the other controllers that have all the same
+> physical structure and the same types of controls seems more important
+> to me than consistency with a controller that is physically much different.
+> Additionally, many games are already written for use with controllers
+> that look like the Switch Pro Controller, whereas fewer are written for use
+> with Nintendo JoyCons.  If we have to cause trouble for one side or the
+> other, let's not cause trouble with the more established side.
+>
+> On Thu, Jan 9, 2020 at 12:22 AM Roderick Colenbrander
+> <thunderbird2k@gmail.com> wrote:
+> >
+> > Hi Daniel,
+> >
+> > Unfortunately there is no public test application at the moment to
+> > illustrate these features. I agree something is definitely needed.
+> >
+> > I need to see if we can come up with something. One of the test apps
+> > we have internally is a 3D cube, which is controllable by controller
+> > motion. It of course shows the gyro / accelerometer values, but the
+> > position of the cube is tied to the calculated orientation. If
+> > something is off you will see weird movements in the cube or drift
+> > building up over time etcetera.
+> >
+> > Though it would take some time to prepare something. The rest of the
+> > patch series looked fine I think, so the IMU parts may need to wait
+> > for a next kernel cycle, but all the other plumbing could go in (if
+> > others are okay of course).
+> >
+> > Thanks,
+> > Roderick
+> >
+> > On Wed, Jan 8, 2020 at 7:26 PM Daniel Ogorchock <djogorchock@gmail.com> wrote:
+> > >
+> > > Hi Roderick,
+> > >
+> > > Thanks for the feedback. In addition to the inline comments below,
+> > > do you have any recommendations for test programs that you
+> > > know work well with hid-sony's gyro implementation? Up to this
+> > > point I've just been using evtest, which obviously isn't too useful
+> > > for testing actual functionality of the gyro in an intuitive way.
+> > >
+> > > On Tue, Dec 31, 2019 at 12:29 AM Roderick Colenbrander
+> > > <thunderbird2k@gmail.com> wrote:
+> > > >
+> > > > Hi Daniel,
+> > > >
+> > > > I had some time to review the motion sensors patch. I have added some
+> > > > feedback inline with your patch below.
+> > > >
+> > > > Aside from standard feedback on the code, I wanted to have a close
+> > > > look at the accelerometer / gyro data. My team has been doing a lot of
+> > > > work on this (and still is) and I want to make sure any work we do on
+> > > > "user space" software (e.g. Android) automatically works for Joycon as
+> > > > well. The accuracy of the data is very important else applications
+> > > > will make bad decisions. Userspace applications often combine the data
+> > > > of both sensors to calculate a position for position tracking.
+> > > > Inaccurate axes ranges or wrong precision can cause major issues. I
+> > > > may be a bit strict below, but it will just be to prevent headaches
+> > > > for others later on. I use the DS4 as a reference point as it was the
+> > > > first device (aside from Wii early on) where we properly report
+> > > > acceleration and gyro axes with INPUT_PROP_ACCELEROMETER and we should
+> > > > be consistent with it here else applications could be confused, so we
+> > > > should use similar orientation of axes and resolutions.
+> > > >
+> > > > Thanks,
+> > > > Roderick
+> > > >
+> > > > On Sun, Dec 29, 2019 at 5:27 PM Daniel J. Ogorchock
+> > > > <djogorchock@gmail.com> wrote:
+> > > > >
+> > > > > This patch adds support for the controller's IMU. The accelerometer and
+> > > > > gyro data are both provided to userspace using a second input device.
+> > > > > The devices can be associated using their uniq value (set to the
+> > > > > controller's MAC address).
+> > > > >
+> > > > > The majority of this patch's functinoality was provided by Carl Mueller.
+> > > > >
+> > > > > Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
+> > > > > ---
+> > > > >  drivers/hid/hid-nintendo.c | 267 +++++++++++++++++++++++++++++++++++--
+> > > > >  1 file changed, 259 insertions(+), 8 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+> > > > > index 7b7a0cf3fe0b..edf2ef140cb3 100644
+> > > > > --- a/drivers/hid/hid-nintendo.c
+> > > > > +++ b/drivers/hid/hid-nintendo.c
+> > > > > @@ -101,12 +101,29 @@ static const u16 JC_CAL_DATA_START                = 0x603d;
+> > > > >  static const u16 JC_CAL_DATA_END               = 0x604e;
+> > > > >  #define JC_CAL_DATA_SIZE       (JC_CAL_DATA_END - JC_CAL_DATA_START + 1)
+> > > > >
+> > > > > +/* SPI storage addresses of IMU factory calibration data */
+> > > > > +static const u16 JC_IMU_CAL_DATA_START         = 0x6020;
+> > > > > +static const u16 JC_IMU_CAL_DATA_END           = 0x6037;
+> > > > > +#define JC_IMU_CAL_DATA_SIZE \
+> > > > > +                       (JC_IMU_CAL_DATA_END - JC_IMU_CAL_DATA_START + 1)
+> > > > >
+> > > > >  /* The raw analog joystick values will be mapped in terms of this magnitude */
+> > > > >  static const u16 JC_MAX_STICK_MAG              = 32767;
+> > > > >  static const u16 JC_STICK_FUZZ                 = 250;
+> > > > >  static const u16 JC_STICK_FLAT                 = 500;
+> > > > >
+> > > > > +/* The accel axes will be mapped in terms of this magnitude */
+> > > > > +static const u16 JC_MAX_ACCEL_MAG              = 32767;
+> > > > > +static const u16 JC_ACCEL_RES                  = 4096;
+> > > >
+> > > > What does the acceleration resolution equate to? For DS4 we use
+> > > > multiples of 'g'. (We don't know the position on earth, so can't
+> > > > report in m/s^2).
+> > > >
+> > > > > +static const u16 JC_ACCEL_FUZZ                 = 10;
+> > > > > +static const u16 JC_ACCEL_FLAT                 /*= 0*/;
+> > > > > +
+> > > > > +/* The gyro axes will be mapped in terms of this magnitude */
+> > > > > +static const u16 JC_MAX_GYRO_MAG               = 32767;
+> > > > > +static const u16 JC_GYRO_RES                   = 13371 / 936; /* 14 (14.285) */
+> > > >
+> > > > What does the gyro resolution equate to? For DS4 we report "degrees
+> > > > per second". We should do the same for the joycons, but I don't know
+> > > > how you guys figured out the exact resolution. As I mentioned if it is
+> > > > not accurate, applications will make wrong calculations.
+> > > >
+> > > > > +static const u16 JC_GYRO_FUZZ                  = 10;
+> > > > > +static const u16 JC_GYRO_FLAT                  /*= 0*/;
+> > > > > +
+> > > > >  /* frequency/amplitude tables for rumble */
+> > > > >  struct joycon_rumble_freq_data {
+> > > > >         u16 high;
+> > > > > @@ -234,6 +251,11 @@ struct joycon_stick_cal {
+> > > > >         s32 center;
+> > > > >  };
+> > > > >
+> > > > > +struct joycon_imu_cal {
+> > > > > +       s16 offset[3];
+> > > > > +       s16 scale[3];
+> > > > > +};
+> > > > > +
+> > > > >  /*
+> > > > >   * All the controller's button values are stored in a u32.
+> > > > >   * They can be accessed with bitwise ANDs.
+> > > > > @@ -281,6 +303,19 @@ struct joycon_subcmd_reply {
+> > > > >         u8 data[0]; /* will be at most 35 bytes */
+> > > > >  } __packed;
+> > > > >
+> > > > > +struct joycon_imu_data {
+> > > > > +       s16 accel_x;
+> > > > > +       s16 accel_y;
+> > > > > +       s16 accel_z;
+> > > > > +       s16 gyro_x;
+> > > > > +       s16 gyro_y;
+> > > > > +       s16 gyro_z;
+> > > > > +} __packed;
+> > > > > +
+> > > > > +struct joycon_imu_report {
+> > > > > +       struct joycon_imu_data data[3];
+> > > > > +} __packed;
+> > > >
+> > > > See comments later on about imu_data, but you can't directly cast your
+> > > > data buffer to this data type due to endian issues. It may not really
+> > > > make sense to keep the data structure as you need to do manual data
+> > > > fetching.
+> > > >
+> > > > > +
+> > > > >  struct joycon_input_report {
+> > > > >         u8 id;
+> > > > >         u8 timer;
+> > > > > @@ -290,11 +325,10 @@ struct joycon_input_report {
+> > > > >         u8 right_stick[3];
+> > > > >         u8 vibrator_report;
+> > > > >
+> > > > > -       /*
+> > > > > -        * If support for firmware updates, gyroscope data, and/or NFC/IR
+> > > > > -        * are added in the future, this can be swapped for a union.
+> > > > > -        */
+> > > > > -       struct joycon_subcmd_reply reply;
+> > > > > +       union {
+> > > > > +               struct joycon_subcmd_reply subcmd_reply;
+> > > > > +               struct joycon_imu_report imu_report;
+> > > >
+> > > > maybe add a raw byte array to this union. Could help for parsing the imu data.
+> > > > > +       };
+> > > > >  } __packed;
+> > > > >
+> > > > >  #define JC_MAX_RESP_SIZE       (sizeof(struct joycon_input_report) + 35)
+> > > > > @@ -334,6 +368,9 @@ struct joycon_ctlr {
+> > > > >         struct joycon_stick_cal right_stick_cal_x;
+> > > > >         struct joycon_stick_cal right_stick_cal_y;
+> > > > >
+> > > > > +       struct joycon_imu_cal accel_cal;
+> > > > > +       struct joycon_imu_cal gyro_cal;
+> > > > > +
+> > > > >         /* power supply data */
+> > > > >         struct power_supply *battery;
+> > > > >         struct power_supply_desc battery_desc;
+> > > > > @@ -352,6 +389,10 @@ struct joycon_ctlr {
+> > > > >         u16 rumble_lh_freq;
+> > > > >         u16 rumble_rl_freq;
+> > > > >         u16 rumble_rh_freq;
+> > > > > +
+> > > > > +       /* imu */
+> > > > > +       struct input_dev *imu_input;
+> > > > > +       int timestamp;
+> > > > >  };
+> > > > >
+> > > > >  static int __joycon_hid_send(struct hid_device *hdev, u8 *data, size_t len)
+> > > > > @@ -547,7 +588,7 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
+> > > > >         }
+> > > > >
+> > > > >         report = (struct joycon_input_report *)ctlr->input_buf;
+> > > > > -       raw_cal = &report->reply.data[5];
+> > > > > +       raw_cal = &report->subcmd_reply.data[5];
+> > > > >
+> > > > >         /* left stick calibration parsing */
+> > > > >         cal_x = &ctlr->left_stick_cal_x;
+> > > > > @@ -601,6 +642,85 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
+> > > > >         return 0;
+> > > > >  }
+> > > > >
+> > > > > +static const s16 DFLT_ACCEL_OFFSET /*= 0*/;
+> > > > > +static const s16 DFLT_ACCEL_SCALE = 16384;
+> > > > > +static const s16 DFLT_GYRO_OFFSET /*= 0*/;
+> > > > > +static const s16 DFLT_GYRO_SCALE  = 13371;
+> > > > > +static int joycon_request_imu_calibration(struct joycon_ctlr *ctlr)
+> > > > > +{
+> > > > > +       struct joycon_subcmd_request *req;
+> > > > > +       u8 buffer[sizeof(*req) + 5] = { 0 };
+> > > > > +       struct joycon_input_report *report;
+> > > > > +       u8 *data;
+> > > > > +       u8 *raw_cal;
+> > > > > +       int ret;
+> > > > > +       int i;
+> > > > > +
+> > > > > +       /* request IMU calibration data */
+> > > > > +       req = (struct joycon_subcmd_request *)buffer;
+> > > > > +       req->subcmd_id = JC_SUBCMD_SPI_FLASH_READ;
+> > > > > +       data = req->data;
+> > > > > +       data[0] = 0xFF & JC_IMU_CAL_DATA_START;
+> > > > > +       data[1] = 0xFF & (JC_IMU_CAL_DATA_START >> 8);
+> > > > > +       data[2] = 0xFF & (JC_IMU_CAL_DATA_START >> 16);
+> > > > > +       data[3] = 0xFF & (JC_IMU_CAL_DATA_START >> 24);
+> > > >
+> > > > Maybe use put_unaligned_le32? I think it allows you to avoid doing all
+> > > > these calculations yourself:
+> > > > put_unaligned_le32(JC_IMU_CAL_DATA_START, data);
+> > > >
+> > > > > +       data[4] = JC_IMU_CAL_DATA_SIZE;
+> > > > > +
+> > > > > +       hid_dbg(ctlr->hdev, "requesting IMU cal data\n");
+> > > > > +       ret = joycon_send_subcmd(ctlr, req, 5, HZ);
+> > > > > +
+> > > > > +       if (ret) {
+> > > > > +               hid_warn(ctlr->hdev,
+> > > > > +                        "Failed to read IMU cal, using defaults; ret=%d\n",
+> > > > > +                        ret);
+> > > > > +
+> > > > > +               for (i = 0; i < 3; i++) {
+> > > > > +                       ctlr->accel_cal.offset[i] = DFLT_ACCEL_OFFSET;
+> > > > > +                       ctlr->accel_cal.scale[i] = DFLT_ACCEL_SCALE;
+> > > > > +                       ctlr->gyro_cal.offset[i] = DFLT_GYRO_OFFSET;
+> > > > > +                       ctlr->gyro_cal.scale[i] = DFLT_GYRO_SCALE;
+> > > > > +               }
+> > > > > +               return ret;
+> > > > > +       }
+> > > > > +
+> > > > > +       report = (struct joycon_input_report *)ctlr->input_buf;
+> > > > > +       raw_cal = &report->subcmd_reply.data[5];
+> > > > > +
+> > > > > +       /* IMU calibration parsing */
+> > > > > +       for (i = 0; i < 3; i++) {
+> > > > > +               int j = i * 2;
+> > > > > +
+> > > > > +               ctlr->accel_cal.offset[i] = raw_cal[j + 0] |
+> > > > > +                                               ((s16)raw_cal[j + 1] << 8);
+> > > > > +               ctlr->accel_cal.scale[i] = raw_cal[j + 6] |
+> > > > > +                                               ((s16)raw_cal[j + 7] << 8);
+> > > > > +               ctlr->gyro_cal.offset[i] = raw_cal[j + 12] |
+> > > > > +                                               ((s16)raw_cal[j + 13] << 8);
+> > > > > +               ctlr->gyro_cal.scale[i] = raw_cal[j + 18] |
+> > > > > +                                               ((s16)raw_cal[j + 19] << 8);
+> > > >
+> > > > get_unaligned_le16 instead of doing your own bitshifts?
+> > > > > +       }
+> > > > > +
+> > > > > +       hid_dbg(ctlr->hdev, "IMU calibration:\n"
+> > > > > +                           "a_o[0]=%d a_o[1]=%d a_o[2]=%d\n"
+> > > > > +                           "a_s[0]=%d a_s[1]=%d a_s[2]=%d\n"
+> > > > > +                           "g_o[0]=%d g_o[1]=%d g_o[2]=%d\n"
+> > > > > +                           "g_s[0]=%d g_s[1]=%d g_s[2]=%d\n",
+> > > > > +                           ctlr->accel_cal.offset[0],
+> > > > > +                           ctlr->accel_cal.offset[1],
+> > > > > +                           ctlr->accel_cal.offset[2],
+> > > > > +                           ctlr->accel_cal.scale[0],
+> > > > > +                           ctlr->accel_cal.scale[1],
+> > > > > +                           ctlr->accel_cal.scale[2],
+> > > > > +                           ctlr->gyro_cal.offset[0],
+> > > > > +                           ctlr->gyro_cal.offset[1],
+> > > > > +                           ctlr->gyro_cal.offset[2],
+> > > > > +                           ctlr->gyro_cal.scale[0],
+> > > > > +                           ctlr->gyro_cal.scale[1],
+> > > > > +                           ctlr->gyro_cal.scale[2]);
+> > > > > +
+> > > > > +       return 0;
+> > > > > +}
+> > > > > +
+> > > > >  static int joycon_set_report_mode(struct joycon_ctlr *ctlr)
+> > > > >  {
+> > > > >         struct joycon_subcmd_request *req;
+> > > > > @@ -627,6 +747,19 @@ static int joycon_enable_rumble(struct joycon_ctlr *ctlr, bool enable)
+> > > > >         return joycon_send_subcmd(ctlr, req, 1, HZ/4);
+> > > > >  }
+> > > > >
+> > > > > +static int joycon_enable_imu(struct joycon_ctlr *ctlr, bool enable)
+> > > > > +{
+> > > > > +       struct joycon_subcmd_request *req;
+> > > > > +       u8 buffer[sizeof(*req) + 1] = { 0 };
+> > > > > +
+> > > > > +       req = (struct joycon_subcmd_request *)buffer;
+> > > > > +       req->subcmd_id = JC_SUBCMD_ENABLE_IMU;
+> > > > > +       req->data[0] = enable ? 0x01 : 0x00;
+> > > > > +
+> > > > > +       hid_dbg(ctlr->hdev, "%s IMU\n", enable ? "enabling" : "disabling");
+> > > > > +       return joycon_send_subcmd(ctlr, req, 1, HZ);
+> > > > > +}
+> > > > > +
+> > > > >  static s32 joycon_map_stick_val(struct joycon_stick_cal *cal, s32 val)
+> > > > >  {
+> > > > >         s32 center = cal->center;
+> > > > > @@ -771,6 +904,54 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
+> > > > >                 spin_unlock_irqrestore(&ctlr->lock, flags);
+> > > > >                 wake_up(&ctlr->wait);
+> > > > >         }
+> > > > > +
+> > > > > +       /* parse IMU data if present */
+> > > > > +       if (rep->id == JC_INPUT_IMU_DATA) {
+> > > > > +               struct joycon_imu_data *imu_data = rep->imu_report.data;
+> > > >
+> > > > I don't think you can directly covert your input report data to
+> > > > imu_data. Until now you have been lucky enough (based on a quick
+> > > > glance of the the other patches) that your data are single bytes.
+> > > > However, this data seems to be a bunch of s16's. In other words you
+> > > > have to deal with endianess issues. You need to use get_unaligned_le16
+> > > > to retrieve data from your raw byte buffer. See other HID drivers for
+> > > > reference.
+> > >
+> > > Ah, good point. I'd overlooked that entirely.
+> > >
+> > > >
+> > > > Since you will have to use get_unaligned_le16, it probably won't make
+> > > > much sense to really have a joycon_imu_data structure. Maybe extend
+> > > > your input_buffer union with raw bytes and in this case just use raw
+> > > > bytes. Each of your loop iterations below just grab the values from
+> > > > the buffer and store them in a variable.
+> > > >
+> > > > > +               struct input_dev *idev = ctlr->imu_input;
+> > > > > +               int i;
+> > > > > +               int value[6];
+> > > > > +
+> > > > > +               for (i = 0; i < 3; i++) { /* there are 3 reports */
+> > > > > +                       ctlr->timestamp += 5000; /* each is 5 ms apart */
+> > > > > +                       input_event(idev, EV_MSC, MSC_TIMESTAMP,
+> > > > > +                                   ctlr->timestamp);
+> > > >
+> > > > How sure are you that this is always 5ms? Is there a hardware
+> > > > timestamp somewhere? If I look at our DS4 the timing isn't guaranteed
+> > > > (Bluetooth is lossy) and not all packets even make it.
+> > > >
+> > >
+> > > It appears that the closest thing to a hardware timestamp available is a
+> > > quickly incrementing 1-byte timer sent with every report. It's only really
+> > > useful for latency estimation. Each input report includes 3 IMU samples
+> > > which are 5ms apart for the joy-cons. It's recently come to my attention
+> > > that the samples may be spaced differently for the pro controller, so I'm
+> > > going to need to dive into this more anyway. I'm not sure what a great
+> > > way would be to handle lost reports.
+> > >
+> > > > > +
+> > > > > +                       /*
+> > > > > +                        * Rather than convert to floats, we adjust by
+> > > > > +                        * calibration factors and then multiply by the default
+> > > > > +                        * scaling values. This way, the consumer only needs to
+> > > > > +                        * divide by the default scale values.
+> > > > > +                        */
+> > > > > +                       value[0] = (imu_data[i].gyro_x -
+> > > > > +                                   ctlr->gyro_cal.offset[0]) *
+> > > > > +                                   DFLT_GYRO_SCALE / ctlr->gyro_cal.scale[0];
+> > > > > +                       value[1] = (imu_data[i].gyro_y -
+> > > > > +                                   ctlr->gyro_cal.offset[1]) *
+> > > > > +                                   DFLT_GYRO_SCALE / ctlr->gyro_cal.scale[1];
+> > > > > +                       value[2] = (imu_data[i].gyro_z -
+> > > > > +                                   ctlr->gyro_cal.offset[2]) *
+> > > > > +                                   DFLT_GYRO_SCALE / ctlr->gyro_cal.scale[2];
+> > > > > +
+> > > > > +                       value[3] = (imu_data[i].accel_x -
+> > > > > +                                   ctlr->accel_cal.offset[0]) *
+> > > > > +                                   DFLT_ACCEL_SCALE / ctlr->accel_cal.scale[0];
+> > > > > +                       value[4] = (imu_data[i].accel_y -
+> > > > > +                                   ctlr->accel_cal.offset[1]) *
+> > > > > +                                   DFLT_ACCEL_SCALE / ctlr->accel_cal.scale[1];
+> > > > > +                       value[5] = (imu_data[i].accel_z -
+> > > > > +                                   ctlr->accel_cal.offset[2]) *
+> > > > > +                                   DFLT_ACCEL_SCALE / ctlr->accel_cal.scale[2];
+> > > >
+> > > > Just in case I would double check the precision of your calculations.
+> > > > For DS4 we had similar calculations, but we had a small loss of
+> > > > precision, which ultimately caused major calculation errors.
+> > > > (Applications often use accelerometer + gyro data to calculate an
+> > > > absolute position. This involves  integration.. and small errors
+> > > > become big). We had to use the "mult_frac" macro to restore some of
+> > > > the precision during the calculations. It might be something to double
+> > > > check.
+> > > >
+> > >
+> > > That's good to know. I'll look more closely at how it's implemented in
+> > > hid-sony.
+> > >
+> > > > In addition what orientation are you using for the axes? I need to
+> > > > double check the DS4 datasheets, but I think we were using a "right
+> > > > handed" coordinate system. (So if you make a fist of your right hand
+> > > > with thumb up, the gyro curls around it counter clockwise along the
+> > > > direction of your fingers).
+> > > >
+> > >
+> > > The orientation of the axes (and much more) are documented here:
+> > > https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/imu_sensor_notes.md
+> > > Since the the right vs. left joy-cons have different axes orientations, I
+> > > assume it's preferable to standardize it all in software to match the
+> > > orientation of the DS4.
+> > >
+> > > >
+> > > > > +
+> > > > > +                       input_report_abs(idev, ABS_RX, value[0]);
+> > > > > +                       input_report_abs(idev, ABS_RY, value[1]);
+> > > > > +                       input_report_abs(idev, ABS_RZ, value[2]);
+> > > > > +                       input_report_abs(idev, ABS_X, value[3]);
+> > > > > +                       input_report_abs(idev, ABS_Y, value[4]);
+> > > > > +                       input_report_abs(idev, ABS_Z, value[5]);
+> > > > > +                       input_sync(idev);
+> > > > > +               }
+> > > > > +       }
+> > > > >  }
+> > > > >
+> > > > >  static void joycon_rumble_worker(struct work_struct *work)
+> > > > > @@ -950,6 +1131,7 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
+> > > > >  {
+> > > > >         struct hid_device *hdev;
+> > > > >         const char *name;
+> > > > > +       const char *imu_name;
+> > > > >         int ret;
+> > > > >         int i;
+> > > > >
+> > > > > @@ -958,12 +1140,15 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
+> > > > >         switch (hdev->product) {
+> > > > >         case USB_DEVICE_ID_NINTENDO_PROCON:
+> > > > >                 name = "Nintendo Switch Pro Controller";
+> > > > > +               imu_name = "Nintendo Switch Pro Controller IMU";
+> > > > >                 break;
+> > > > >         case USB_DEVICE_ID_NINTENDO_JOYCONL:
+> > > > >                 name = "Nintendo Switch Left Joy-Con";
+> > > > > +               imu_name = "Nintendo Switch Left Joy-Con IMU";
+> > > > >                 break;
+> > > > >         case USB_DEVICE_ID_NINTENDO_JOYCONR:
+> > > > >                 name = "Nintendo Switch Right Joy-Con";
+> > > > > +               imu_name = "Nintendo Switch Right Joy-Con IMU";
+> > > > >                 break;
+> > > > >         default: /* Should be impossible */
+> > > > >                 hid_err(hdev, "Invalid hid product\n");
+> > > > > @@ -1029,6 +1214,55 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
+> > > > >         if (ret)
+> > > > >                 return ret;
+> > > > >
+> > > > > +       /* configure the imu input device */
+> > > > > +       ctlr->imu_input = devm_input_allocate_device(&hdev->dev);
+> > > > > +       if (!ctlr->imu_input)
+> > > > > +               return -ENOMEM;
+> > > > > +
+> > > > > +       ctlr->imu_input->id.bustype = hdev->bus;
+> > > > > +       ctlr->imu_input->id.vendor = hdev->vendor;
+> > > > > +       ctlr->imu_input->id.product = hdev->product;
+> > > > > +       ctlr->imu_input->id.version = hdev->version;
+> > > > > +       ctlr->imu_input->uniq = ctlr->mac_addr_str;
+> > > > > +       ctlr->imu_input->name = imu_name;
+> > > > > +       input_set_drvdata(ctlr->imu_input, ctlr);
+> > > > > +
+> > > > > +       /* configure imu axes */
+> > > > > +       input_set_abs_params(ctlr->imu_input, ABS_X,
+> > > > > +                            -JC_MAX_ACCEL_MAG, JC_MAX_ACCEL_MAG,
+> > > > > +                            JC_ACCEL_FUZZ, JC_ACCEL_FLAT);
+> > > > > +       input_set_abs_params(ctlr->imu_input, ABS_Y,
+> > > > > +                            -JC_MAX_ACCEL_MAG, JC_MAX_ACCEL_MAG,
+> > > > > +                            JC_ACCEL_FUZZ, JC_ACCEL_FLAT);
+> > > > > +       input_set_abs_params(ctlr->imu_input, ABS_Z,
+> > > > > +                            -JC_MAX_ACCEL_MAG, JC_MAX_ACCEL_MAG,
+> > > > > +                            JC_ACCEL_FUZZ, JC_ACCEL_FLAT);
+> > > > > +       input_abs_set_res(ctlr->imu_input, ABS_X, JC_ACCEL_RES);
+> > > > > +       input_abs_set_res(ctlr->imu_input, ABS_Y, JC_ACCEL_RES);
+> > > > > +       input_abs_set_res(ctlr->imu_input, ABS_Z, JC_ACCEL_RES);
+> > > > > +
+> > > > > +       input_set_abs_params(ctlr->imu_input, ABS_RX,
+> > > > > +                            -JC_MAX_GYRO_MAG, JC_MAX_GYRO_MAG,
+> > > > > +                            JC_GYRO_FUZZ, JC_GYRO_FLAT);
+> > > > > +       input_set_abs_params(ctlr->imu_input, ABS_RY,
+> > > > > +                            -JC_MAX_GYRO_MAG, JC_MAX_GYRO_MAG,
+> > > > > +                            JC_GYRO_FUZZ, JC_GYRO_FLAT);
+> > > > > +       input_set_abs_params(ctlr->imu_input, ABS_RZ,
+> > > > > +                            -JC_MAX_GYRO_MAG, JC_MAX_GYRO_MAG,
+> > > > > +                            JC_GYRO_FUZZ, JC_GYRO_FLAT);
+> > > > > +
+> > > > > +       input_abs_set_res(ctlr->imu_input, ABS_RX, JC_GYRO_RES);
+> > > > > +       input_abs_set_res(ctlr->imu_input, ABS_RY, JC_GYRO_RES);
+> > > > > +       input_abs_set_res(ctlr->imu_input, ABS_RZ, JC_GYRO_RES);
+> > > > > +
+> > > > > +       __set_bit(EV_MSC, ctlr->imu_input->evbit);
+> > > > > +       __set_bit(MSC_TIMESTAMP, ctlr->imu_input->mscbit);
+> > > > > +       __set_bit(INPUT_PROP_ACCELEROMETER, ctlr->imu_input->propbit);
+> > > > > +
+> > > > > +       ret = input_register_device(ctlr->imu_input);
+> > > > > +       if (ret)
+> > > > > +               return ret;
+> > > > > +
+> > > > >         return 0;
+> > > > >  }
+> > > > >
+> > > > > @@ -1288,7 +1522,7 @@ static int joycon_read_mac(struct joycon_ctlr *ctlr)
+> > > > >         report = (struct joycon_input_report *)ctlr->input_buf;
+> > > > >
+> > > > >         for (i = 4, j = 0; j < 6; i++, j++)
+> > > > > -               ctlr->mac_addr[j] = report->reply.data[i];
+> > > > > +               ctlr->mac_addr[j] = report->subcmd_reply.data[i];
+> > > > >
+> > > > >         ctlr->mac_addr_str = devm_kasprintf(&ctlr->hdev->dev, GFP_KERNEL,
+> > > > >                                             "%02X:%02X:%02X:%02X:%02X:%02X",
+> > > > > @@ -1343,7 +1577,7 @@ static int joycon_ctlr_handle_event(struct joycon_ctlr *ctlr, u8 *data,
+> > > > >                             data[0] != JC_INPUT_SUBCMD_REPLY)
+> > > > >                                 break;
+> > > > >                         report = (struct joycon_input_report *)data;
+> > > > > -                       if (report->reply.id == ctlr->subcmd_ack_match)
+> > > > > +                       if (report->subcmd_reply.id == ctlr->subcmd_ack_match)
+> > > > >                                 match = true;
+> > > > >                         break;
+> > > > >                 default:
+> > > > > @@ -1469,6 +1703,16 @@ static int nintendo_hid_probe(struct hid_device *hdev,
+> > > > >                 hid_warn(hdev, "Analog stick positions may be inaccurate\n");
+> > > > >         }
+> > > > >
+> > > > > +       /* get IMU calibration data, and parse it */
+> > > > > +       ret = joycon_request_imu_calibration(ctlr);
+> > > > > +       if (ret) {
+> > > > > +               /*
+> > > > > +                * We can function with default calibration, but it may be
+> > > > > +                * inaccurate. Provide a warning, and continue on.
+> > > > > +                */
+> > > > > +               hid_warn(hdev, "Unable to read IMU calibration data\n");
+> > > > > +       }
+> > > > > +
+> > > > >         /* Set the reporting mode to 0x30, which is the full report mode */
+> > > > >         ret = joycon_set_report_mode(ctlr);
+> > > > >         if (ret) {
+> > > > > @@ -1483,6 +1727,13 @@ static int nintendo_hid_probe(struct hid_device *hdev,
+> > > > >                 goto err_mutex;
+> > > > >         }
+> > > > >
+> > > > > +       /* Enable the IMU */
+> > > > > +       ret = joycon_enable_imu(ctlr, true);
+> > > > > +       if (ret) {
+> > > > > +               hid_err(hdev, "Failed to enable the IMU; ret=%d\n", ret);
+> > > > > +               goto err_mutex;
+> > > > > +       }
+> > > > > +
+> > > > >         ret = joycon_read_mac(ctlr);
+> > > > >         if (ret) {
+> > > > >                 hid_err(hdev, "Failed to retrieve controller MAC; ret=%d\n",
+> > > > > --
+> > > > > 2.24.1
+> > > > >
+
+
+
 -- 
-2.7.4
-
+Daniel Ogorchock
