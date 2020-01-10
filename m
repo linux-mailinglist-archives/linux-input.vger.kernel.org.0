@@ -2,111 +2,216 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21413137606
-	for <lists+linux-input@lfdr.de>; Fri, 10 Jan 2020 19:30:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3371E13777A
+	for <lists+linux-input@lfdr.de>; Fri, 10 Jan 2020 20:49:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727856AbgAJSan (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Jan 2020 13:30:43 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:39852 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726346AbgAJSan (ORCPT
+        id S1728358AbgAJTtC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Jan 2020 14:49:02 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30157 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728202AbgAJTtB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Jan 2020 13:30:43 -0500
-Received: by mail-pl1-f194.google.com with SMTP id g6so1157980plp.6;
-        Fri, 10 Jan 2020 10:30:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=2MLWB+VELLlq0wMcKq+XkHGiD3q/IxvQaVGfRiGmonk=;
-        b=IO9T0yg4ydrb35q0ooBVnp0n7unfx9Y9Fy9zTrdT5tabhRFK8WlrTVSEPyDorq3FFa
-         c6ovMoBrHzlbnGWGiGzI/TiYat0sNQAWrEbDyqXiNLyICk8mIklTlsj3Z9c2cUy6ZGNc
-         3L+3vN/lDlX3iX0XhnFeZ04LFjVsZgEQpgdWWBdU5iDkJ+/MOIrtsGwB9PpQROFUU85V
-         vdgfDijTDnYULmvgco5+nEfO06tZMvJkH5vDHJ/aOJfUFL/8c5ePno9s0PeJtlKEmzvh
-         tcWJhuhP+LqCsVaAaI0EsFZX5cwFr6vKFCGJoUm7t8WTC2HzIxxO2cCZ+kkKbJ7m33Wt
-         lEhA==
+        Fri, 10 Jan 2020 14:49:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1578685740;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=riUDIprs0OHwhmObTROTPPNxIryJYavnWepv59WA+CA=;
+        b=Lm0he3q0adbAAlE2ec1hTg/cQeWZBPP8kAgzvAgJgnjzk/QAaEmljePhZF0KiT/vWxQMqD
+        BIeSfIu+VaetTuoAP67NNVW8YlVqOHizK1+p5tzNN7sIbJWGfHQtXR5iiHEGK79vqUzjz+
+        dLWwH9fEVbFBNwu2X+J5R9ddOiN3ROM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-263-TljaXBsCNkGKgj1RI3Hd4A-1; Fri, 10 Jan 2020 14:48:57 -0500
+X-MC-Unique: TljaXBsCNkGKgj1RI3Hd4A-1
+Received: by mail-wm1-f71.google.com with SMTP id c4so1228622wmb.8
+        for <linux-input@vger.kernel.org>; Fri, 10 Jan 2020 11:48:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2MLWB+VELLlq0wMcKq+XkHGiD3q/IxvQaVGfRiGmonk=;
-        b=pJ501gd+NWj/eW04VUSHlOrXFS4NHz+ZiB4g8JSoXZGfufwHJDWaOTCofzEAjKqtvn
-         hGasBLbB5qVpva3KOXXO8mHKLsserW6pY/qwHSpc/vMtiDg78mr1Ta771kJ1b3V3T6mk
-         ZMeIQLc6Fwy6moTmE4M0S5TMNK3EIFuO6lSbSe5FiuLNQixGFqPbhs4KGHSlrapW24nc
-         7LGGhUahdcntwc8bSofuLOwEy67afM0dbeUMOtPHcc9cQH2cXqe53i0wzA9HgTu2b5c1
-         GzXA65QVG/HzOENuQ7gnAJcD5rYMZNFH8XP/999s6Fg7nv3jcpPTh9LIMxhB1iKZtQ5O
-         F/4Q==
-X-Gm-Message-State: APjAAAVYOZPWmJHJnUs2blr7yTE8PjQxnP9HhutYd5pxkeB1oXRwlAHb
-        8clDH17vd8jWL7sOvrbQeUJYzwaY
-X-Google-Smtp-Source: APXvYqzqeW7byawmap6bSb/B/RJacb9Z8R9ZQUQyQ5r0w7sQ9QIStqmWbjRGnG1bFtk1ZGkGfknskQ==
-X-Received: by 2002:a17:902:820b:: with SMTP id x11mr5880582pln.196.1578681042024;
-        Fri, 10 Jan 2020 10:30:42 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id b12sm3693774pfi.157.2020.01.10.10.30.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2020 10:30:41 -0800 (PST)
-Date:   Fri, 10 Jan 2020 10:30:39 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Chuhong Yuan <hslester96@gmail.com>
-Cc:     Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: sun4i-ts - add a check for
- devm_thermal_zone_of_sensor_register
-Message-ID: <20200110183039.GU8314@dtor-ws>
-References: <20191210091401.23388-1-hslester96@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=riUDIprs0OHwhmObTROTPPNxIryJYavnWepv59WA+CA=;
+        b=BDQfYcTgRVh8OG49dVn3EbKFmEcPdDnJdKdYX6zK6mzh7b0a0OKZN0Y3Xr4y742MD9
+         Fv6vqDU4V37xbmBLLr6DnEKTBLqnGt0ZiYfSfKYJlkIZynd5xmtAzRc0OxM7DEy6ckJW
+         dg3tNCPDu8x1w8MFkjtc9m85/ee0B9nOvUZImjWNeTTvQI0BPVuxzMh+nNHtvbPrI/ja
+         9fk1IzhCNuBB27sJ4tUQPuCElFLNdWJBD/t5lL9VGsW//z+8/PTxtWlv0NUOtmS3vums
+         s0i4YQ84rqagui985y8uQtX7XtwL0SmTpnOyJhz4NiSKyOdwT7Hj6gZ/qLUXtMuVx7qW
+         H8Dg==
+X-Gm-Message-State: APjAAAWxHCJQzgKrXgVkMH/4LLG7LH0LGnetDj+1tga0G5r46BBPwdoB
+        P2MLxikY3n6FhFkUa5nFm/K7mHNZML+k0pE8dQ7pXFwCEL31KLC2TqngZ2HmMIM8fD7UeDd9gYd
+        sEzmEiglCZn9LnJQu8a/0UYE=
+X-Received: by 2002:a5d:6a02:: with SMTP id m2mr4963213wru.52.1578685736122;
+        Fri, 10 Jan 2020 11:48:56 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxnkUfoP+uLL1SY4zC1FGF5vm1kFUOUl7yLkO6Ifz3AOpkkYChb29i69nRMpO6ILyWjfQK53w==
+X-Received: by 2002:a5d:6a02:: with SMTP id m2mr4963192wru.52.1578685735822;
+        Fri, 10 Jan 2020 11:48:55 -0800 (PST)
+Received: from dhcp-44-196.space.revspace.nl ([2a0e:5700:4:11:6eb:1143:b8be:2b8])
+        by smtp.gmail.com with ESMTPSA id f17sm3450764wmc.8.2020.01.10.11.48.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jan 2020 11:48:55 -0800 (PST)
+Subject: Re: [PATCH v10 05/10] test_firmware: add support for
+ firmware_request_platform
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+References: <20191210115117.303935-1-hdegoede@redhat.com>
+ <20191210115117.303935-6-hdegoede@redhat.com>
+ <20200106213343.GV11244@42.do-not-panic.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <071db8c5-4be1-c6d1-0ccb-a2268cd5b347@redhat.com>
+Date:   Fri, 10 Jan 2020 20:48:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191210091401.23388-1-hslester96@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200106213343.GV11244@42.do-not-panic.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 10, 2019 at 05:14:01PM +0800, Chuhong Yuan wrote:
-> The driver misses a check for devm_thermal_zone_of_sensor_register().
-> Add a check to fix it.
-> 
-> Fixes: e28d0c9cd381 ("input: convert sun4i-ts to use devm_thermal_zone_of_sensor_register")
-> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+Hi,
 
-Applied, thank you.
-
-> ---
->  drivers/input/touchscreen/sun4i-ts.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+On 1/6/20 10:33 PM, Luis Chamberlain wrote:
+> On Tue, Dec 10, 2019 at 12:51:12PM +0100, Hans de Goede wrote:
+>> Add support for testing firmware_request_platform through a new
+>> trigger_request_platform trigger.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   lib/test_firmware.c | 68 +++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 68 insertions(+)
+>>
+>> diff --git a/lib/test_firmware.c b/lib/test_firmware.c
+>> index 251213c872b5..9af00cfc8979 100644
+>> --- a/lib/test_firmware.c
+>> +++ b/lib/test_firmware.c
+>> @@ -24,6 +24,7 @@
+>>   #include <linux/delay.h>
+>>   #include <linux/kthread.h>
+>>   #include <linux/vmalloc.h>
+>> +#include <linux/efi_embedded_fw.h>
+>>   
+>>   #define TEST_FIRMWARE_NAME	"test-firmware.bin"
+>>   #define TEST_FIRMWARE_NUM_REQS	4
+>> @@ -507,12 +508,76 @@ static ssize_t trigger_request_store(struct device *dev,
+>>   }
+>>   static DEVICE_ATTR_WO(trigger_request);
+>>   
+>> +#ifdef CONFIG_EFI_EMBEDDED_FIRMWARE
+>> +static ssize_t trigger_request_platform_store(struct device *dev,
+>> +					      struct device_attribute *attr,
+>> +					      const char *buf, size_t count)
+>> +{
+>> +	static const u8 test_data[] = {
+>> +		0x55, 0xaa, 0x55, 0xaa, 0x01, 0x02, 0x03, 0x04,
+>> +		0x55, 0xaa, 0x55, 0xaa, 0x05, 0x06, 0x07, 0x08,
+>> +		0x55, 0xaa, 0x55, 0xaa, 0x10, 0x20, 0x30, 0x40,
+>> +		0x55, 0xaa, 0x55, 0xaa, 0x50, 0x60, 0x70, 0x80
+>> +	};
+>> +	struct efi_embedded_fw fw;
+>> +	int rc;
+>> +	char *name;
+>> +
+>> +	name = kstrndup(buf, count, GFP_KERNEL);
+>> +	if (!name)
+>> +		return -ENOSPC;
+>> +
+>> +	pr_info("inserting test platform fw '%s'\n", name);
+>> +	fw.name = name;
+>> +	fw.data = (void *)test_data;
+>> +	fw.length = sizeof(test_data);
+>> +	list_add(&fw.list, &efi_embedded_fw_list);
+>> +
+>> +	pr_info("loading '%s'\n", name);
+>> +
+>> +	mutex_lock(&test_fw_mutex);
+>> +	release_firmware(test_firmware);
+>> +	test_firmware = NULL;
 > 
-> diff --git a/drivers/input/touchscreen/sun4i-ts.c b/drivers/input/touchscreen/sun4i-ts.c
-> index 0af0fe8c40d7..742a7e96c1b5 100644
-> --- a/drivers/input/touchscreen/sun4i-ts.c
-> +++ b/drivers/input/touchscreen/sun4i-ts.c
-> @@ -237,6 +237,7 @@ static int sun4i_ts_probe(struct platform_device *pdev)
->  	struct device *dev = &pdev->dev;
->  	struct device_node *np = dev->of_node;
->  	struct device *hwmon;
-> +	struct thermal_zone_device *thermal;
->  	int error;
->  	u32 reg;
->  	bool ts_attached;
-> @@ -355,7 +356,10 @@ static int sun4i_ts_probe(struct platform_device *pdev)
->  	if (IS_ERR(hwmon))
->  		return PTR_ERR(hwmon);
->  
-> -	devm_thermal_zone_of_sensor_register(ts->dev, 0, ts, &sun4i_ts_tz_ops);
-> +	thermal = devm_thermal_zone_of_sensor_register(ts->dev, 0, ts,
-> +						       &sun4i_ts_tz_ops);
-> +	if (IS_ERR(thermal))
-> +		return PTR_ERR(thermal);
->  
->  	writel(TEMP_IRQ_EN(1), ts->base + TP_INT_FIFOC);
->  
-> -- 
-> 2.24.0
-> 
+> Seems odd to have the above two lines here before the request, why not
+> after as noted below.
 
--- 
-Dmitry
+I modelled this after trigger_request_store which keeps the
+test_firmware around after it has been called so that its contents can be
+read back from the char misc device which the test_firmware module registers.
+
+Since e.g. trigger_request_store which keeps the test_firmware around
+we must check and free it before assigning a new firmware to it using
+firmware_request_platform, which is why this is done before and not
+after the request.
+
+> 
+>> +	rc = firmware_request_platform(&test_firmware, name, dev);
+>> +	if (rc) {
+>> +		pr_info("load of '%s' failed: %d\n", name, rc);
+>> +		goto out;
+>> +	}
+>> +	if (test_firmware->size != sizeof(test_data) ||
+>> +	    memcmp(test_firmware->data, test_data, sizeof(test_data)) != 0) {
+>> +		pr_info("firmware contents mismatch for '%s'\n", name);
+>> +		rc = -EINVAL;
+>> +		goto out;
+>> +	}
+>> +	pr_info("loaded: %zu\n", test_firmware->size);
+>> +	rc = count;
+> 
+> Here.
+> 
+>> +
+>> +out:
+>> +	mutex_unlock(&test_fw_mutex);
+>> +
+>> +	list_del(&fw.list);
+>> +	kfree(name);
+>> +
+>> +	return rc;
+>> +}
+>> +static DEVICE_ATTR_WO(trigger_request_platform);
+>> +#endif
+>> +
+>>   static DECLARE_COMPLETION(async_fw_done);
+>>   
+>>   static void trigger_async_request_cb(const struct firmware *fw, void *context)
+>>   {
+>>   	test_firmware = fw;
+>>   	complete(&async_fw_done);
+>> +
+>> +
+>> +
+>> +
+>> +
+>> +
+>> +
+>> +
+>> +
+>>   }
+> 
+> Ummm, new empty lines without any code added... did you forget
+> something?  Please address this.
+
+This is a left over from an earlier version of the patch, my bad, I will remove
+this and send out a new version.
+
+Regards,
+
+Hans
+
