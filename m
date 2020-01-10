@@ -2,80 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25BB3136846
-	for <lists+linux-input@lfdr.de>; Fri, 10 Jan 2020 08:25:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEB2113685A
+	for <lists+linux-input@lfdr.de>; Fri, 10 Jan 2020 08:37:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726072AbgAJHZS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Jan 2020 02:25:18 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:34103 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726591AbgAJHZS (ORCPT
+        id S1726508AbgAJHhA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Jan 2020 02:37:00 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:40995 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726199AbgAJHhA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Jan 2020 02:25:18 -0500
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ipofL-00036B-QN; Fri, 10 Jan 2020 08:25:07 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ipofK-0002Pu-Fg; Fri, 10 Jan 2020 08:25:06 +0100
-Date:   Fri, 10 Jan 2020 08:25:06 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "lars@metafoo.de" <lars@metafoo.de>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "jic23@kernel.org" <jic23@kernel.org>,
-        "knaack.h@gmx.de" <knaack.h@gmx.de>
-Subject: Re: [PATCH v2 4/7] pwm: Add support for Azoteq IQS620A PWM generator
-Message-ID: <20200110072506.dsp3xxhmvq4s4st6@pengutronix.de>
-References: <20191210072227.434hyv5wl3rwztqx@pengutronix.de>
- <20191215203607.GA31390@labundy.com>
- <20191216091912.r4onikojbkbmguag@pengutronix.de>
- <20191220031924.GA2658@labundy.com>
- <20191220085948.iagsdpjqd6ixdo7j@pengutronix.de>
- <20191221032755.GA3051@labundy.com>
- <20191222214851.kapsro6b6qylke43@pengutronix.de>
- <20200101223933.GB14339@labundy.com>
- <20200107111940.ymiey7npx6rrppqz@pengutronix.de>
- <20200110042851.GA23906@labundy.com>
+        Fri, 10 Jan 2020 02:37:00 -0500
+Received: by mail-pl1-f195.google.com with SMTP id bd4so519238plb.8;
+        Thu, 09 Jan 2020 23:36:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yTj4OJccQHZ2BrF4urivSeZlUB6G0DA2jB2WOE566iw=;
+        b=U9S1u6MURdSbih/awgcGfOrKcqm8Vkw7+33OoYTsoFVsWAOcNOyxVoIwr5xxwkDjfg
+         GgNxv/WnxbAdFR1H68bnX2vI2cla0dT6WbZJb02XejnWHpKcOSOZRJ6OEau3nz4Fiz2+
+         QTj/EpWng6qg/kdSWBMWoO3WUnb4/0a93XE0phpqok+ZuZDsw75BTlsjGbRE8D0X8get
+         oC8r2haOMhnRRNIKOzbgGVehuNzhnpTDQlYXxwgez08WJNAQMhw7WgIe9L0TKOcYDdnN
+         UfJn1M1CneOkhninJNPdVb40dtFJu1a7G5A51AUfaWE784PDwnPkIQQgpiFKFUxJOR43
+         sIww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yTj4OJccQHZ2BrF4urivSeZlUB6G0DA2jB2WOE566iw=;
+        b=LA1+lR7AVCJ4iKW27+miDC3veDo7Ozq3Kk+2mIGkvKlrqngvBHdWnnX20saxLS14tr
+         1005I/mnRGU7TNXVLfvo1MV9sMkjoDr5AHZaVqbGPL44HYTBMdQs6HUhcZl1Ctk85c22
+         +vbC178kSp7tUt8i7GAQosBNUI1aSBpCBbNEzKJa2zYNfhBqmojf7dIUR9pI3k8x7XJM
+         2VSPnM3X3fcN1ap4OIRuCHrRxobc/DLIT4EcI/HQazTaiXyRMpKuq9W3Z2rbJwb663cQ
+         lEK0FMOJGeZBIVK66CEuuqmxfoKANla0hQxtxNuFQgV8JaGjodS6rL1Sn0+xOd8VCUvU
+         iK7g==
+X-Gm-Message-State: APjAAAUqK1NsddZvNkmf3t+ljD3jkK9ix6fzWY9JviV9rEVzsRTIvJWt
+        fejlzlgAZRSovS9TABJjeypfghArSNoZJ5k1zEU=
+X-Google-Smtp-Source: APXvYqzPmV7BK59xh7j+/AotZwJxnKvCKvDFyUX9AG5hXPOx5Bk8qmVEtPzgimgz8T9tDl1dzgD1mOB1nffV/fd5Xgo=
+X-Received: by 2002:a17:902:8d96:: with SMTP id v22mr2634726plo.262.1578641819147;
+ Thu, 09 Jan 2020 23:36:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200110042851.GA23906@labundy.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+References: <20200108062923.14684-1-fengping.yu@mediatek.com>
+ <20200108062923.14684-3-fengping.yu@mediatek.com> <20200110013230.GS8314@dtor-ws>
+In-Reply-To: <20200110013230.GS8314@dtor-ws>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 10 Jan 2020 09:35:30 +0200
+Message-ID: <CAHp75VcELo3f5VYqGbgjgBzOZOj360+EPmRF5Oh3VqBAF8TeHw@mail.gmail.com>
+Subject: Re: [PATCH V2 2/2] drivers: input: keyboard
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     fengping yu <fengping.yu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Leonard Crestez <leonard.crestez@nxp.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        YueHaibing <yuehaibing@huawei.com>,
+        Stefan Agner <stefan@agner.cn>, Jacky Bai <ping.bai@nxp.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        wsd_upstream@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Jeff,
+On Fri, Jan 10, 2020 at 3:34 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+> On Wed, Jan 08, 2020 at 02:29:23PM +0800, fengping yu wrote:
+> > From: "fengping.yu" <fengping.yu@mediatek.com>
 
-On Fri, Jan 10, 2020 at 04:29:08AM +0000, Jeff LaBundy wrote:
-> I managed to send out v3 this past weekend; please let me know if you
-> have any further feedback or you find it to be satisfactory.
+...
 
-Yeah, I'm aware. It's on my todo list to take a deeper look.
+> > +static void kpd_get_keymap_state(void __iomem *kp_base, u16 state[])
+> > +{
+> > +     state[0] = readw(kp_base + KP_MEM1);
+> > +     state[1] = readw(kp_base + KP_MEM2);
+> > +     state[2] = readw(kp_base + KP_MEM3);
+> > +     state[3] = readw(kp_base + KP_MEM4);
+> > +     state[4] = readw(kp_base + KP_MEM5);
+>
+> Please use memcpy_formio() here.
 
-Best regards
-Uwe
+Actually it's not an equivalent and may have side effects.
+I already told somewhere that we lack of
+mem*_*io{32,16,8}() implementation.
 
 -- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+With Best Regards,
+Andy Shevchenko
