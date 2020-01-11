@@ -2,145 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 295B7137A4C
-	for <lists+linux-input@lfdr.de>; Sat, 11 Jan 2020 00:39:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F94C137A93
+	for <lists+linux-input@lfdr.de>; Sat, 11 Jan 2020 01:26:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727542AbgAJXjt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Jan 2020 18:39:49 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:40065 "EHLO
+        id S1727647AbgAKA04 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Jan 2020 19:26:56 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:33332 "EHLO
         mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727541AbgAJXjt (ORCPT
+        with ESMTP id S1727544AbgAKA04 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Jan 2020 18:39:49 -0500
-Received: by mail-pf1-f194.google.com with SMTP id q8so1869470pfh.7;
-        Fri, 10 Jan 2020 15:39:48 -0800 (PST)
+        Fri, 10 Jan 2020 19:26:56 -0500
+Received: by mail-pf1-f194.google.com with SMTP id z16so1930711pfk.0;
+        Fri, 10 Jan 2020 16:26:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=44y917WLdq58ocmQ2Lws4t8TAPMUMEf06qKa/NEI0S4=;
-        b=faNHqQwGwynn/dgmKt3WYHFpm6uiw2H5QNzf8Mf78NiN4X6Erwrt44chrkNW3PTr/M
-         69ZgnGTonbH/87YLyazDRFzosRf7QL84cJ+RhP7ZQBXOmEJRqmtV0M3yOjyiNrrusd9d
-         J1YF8xOrAr4dqlG02RNErpMVBB+xLlRwWhtOtvICMFuE4+gtrUK07iiUEE3RsuHhke57
-         SbLRnFzYUpTA7BJ+U7StG3VRzJb9Z6i/6NpQTwlnXHIprlv6EENxuHDT9Dw+sOYr6i+4
-         uH0ej6nMkyWQ1oCkoWSXHktPENXAGQ1BZyMhoUPXLfImH2c+4PJAS4i+a5rplD3U84D3
-         mtWQ==
+        bh=A71y9VQlReJTssS0IAmq8UbP15UPKQsywks0ru8PC8E=;
+        b=PY0lhVhZ9ohJAD/bvWZ4lGHaXTozVoJpxIVRBm0ow69bH4fdjbnfJm/FWHLwUSGQ+9
+         83MVLOZ7C0QC8eDZYlDDN1Hvt8+/4n7TpWjlPEGwEEOnQj+z45m+R1XmAjk5lCYq52bA
+         eDDqFLiC+EjF9G5weRZvNdK+hX7P7zjr+d9iLNI1cz23AMBDWqkAeUovzeTmqho+4VNl
+         r/qCGdBLkC0RszWPmrJzMmHx7joWbKENHG//yRr3wZkqDHW1bCz87p4qOhtFZso5R+Qv
+         35DPcGhlka3NRkuEyrA3TL1KjWcitLUSNs3BLamyXraTdLRrCFnIbvsXM6tONQ6Z7ah7
+         zKaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=44y917WLdq58ocmQ2Lws4t8TAPMUMEf06qKa/NEI0S4=;
-        b=PqR2ExDOMTnWqT7E0y0IYIOeJp5gHUAPnQAkBP0MG2dHUqVhnPCmIa+fY1jwQAsQWA
-         mGN2V3mbpt1Aa/krbGjRCzKTM29QlQhu/9cjy3BFOPnfYY+Q+ujtEGm/UoP+i6n4PDTX
-         g3sJPamky9FlNP72woxxQFdIYbvUe34cbFiQxgv6pimF1CdPuAsz60HUurpaxN/bk7nQ
-         /2P6qhEdHfdYG6F+cuS0/cmReZMnQdw3pwI+WISvoNTJIQaPzrPuQ2ZLQmw8rzmZyMkw
-         H43GfYBVWzSg/Skox2HXPtJoFepP+iHTuTtGXwE1xgOgsxvI8dA1JPfjHFJu6vqI/rMP
-         aV5Q==
-X-Gm-Message-State: APjAAAUz7Bkx2m4gvLz3WG9nc6k90TkQMNcWy0aIL19wqxYqBHkCC/y6
-        TGQsl3VOVhguoHBdCvz1S4s=
-X-Google-Smtp-Source: APXvYqzUqPssZI88/RttkJE4mzGnBEeajQSjv67oTTh/hplvPmWaIJqnu7TNCsoM6c7MDq0JSy69AQ==
-X-Received: by 2002:a62:cdcb:: with SMTP id o194mr6850034pfg.117.1578699587626;
-        Fri, 10 Jan 2020 15:39:47 -0800 (PST)
+        bh=A71y9VQlReJTssS0IAmq8UbP15UPKQsywks0ru8PC8E=;
+        b=aQ2WrQUgQca13CLjWzoBNDD0yRqPESZwOzhJ5lxWmLsyp0Hay9htxFAHZ+Jlf52nMo
+         Xm0iYEFFentaDGZ67oKMwBkD/JyILYwyBicHzd1odQSUCNII5FmRSip0QyRUe7Cxmu8H
+         blNOgUtcxhcvj1EnmmZjgQT5qOkH7Q+WyXBax08nGXoeAWfOpIch/HJayaLkaqBcY/AX
+         L7N+ouct0OWQ3k6qUYwsD6gjDB/OkwxW1glRT0UQACTs9scFEL/lka2caBNXeT8YbZzj
+         GGIoo2XDxbWtyEV5Cdui4Ms/C78lCM4bz3/YsmSbwcc1ANTQocV8OGUWVLAQjCawwT6F
+         TrRg==
+X-Gm-Message-State: APjAAAVNj8tHKVlxbCsdqUdNe1jlLeL5JBaoD8BNLarM3w+pSLIKQA/E
+        Bx/m+Q+80GJoThv/MJbxMou8uvo6
+X-Google-Smtp-Source: APXvYqyEjXiIU05eTkj8I71b9d6q+aHmeG8FtJRBYvS05lMvw0tO+mUUe9dRGlHz/HAQFQwiBdHeRQ==
+X-Received: by 2002:a63:4702:: with SMTP id u2mr7689186pga.125.1578702415435;
+        Fri, 10 Jan 2020 16:26:55 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id v13sm4349910pgc.54.2020.01.10.15.39.46
+        by smtp.gmail.com with ESMTPSA id x21sm4285178pfn.164.2020.01.10.16.26.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2020 15:39:46 -0800 (PST)
-Date:   Fri, 10 Jan 2020 15:39:44 -0800
+        Fri, 10 Jan 2020 16:26:54 -0800 (PST)
+Date:   Fri, 10 Jan 2020 16:26:52 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Alexandru Ardelean <alexandru.ardelean@analog.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        info@metux.net, tglx@linutronix.de, m.felsch@pengutronix.de
-Subject: Re: [PATCH] Input: ads7846: use new `delay` structure for SPI
- transfer delays
-Message-ID: <20200110233944.GW8314@dtor-ws>
-References: <20191210141103.15910-1-alexandru.ardelean@analog.com>
+To:     Icenowy Zheng <icenowy@aosc.io>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] Input: goodix - use string-based chip ID
+Message-ID: <20200111002652.GX8314@dtor-ws>
+References: <20200110162608.1066397-1-icenowy@aosc.io>
+ <20200110162608.1066397-3-icenowy@aosc.io>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191210141103.15910-1-alexandru.ardelean@analog.com>
+In-Reply-To: <20200110162608.1066397-3-icenowy@aosc.io>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 10, 2019 at 04:11:03PM +0200, Alexandru Ardelean wrote:
-> In a recent change to the SPI subsystem [1], a new `delay` struct was added
-> to replace the `delay_usecs`. This change replaces the current `delay_usecs`
-> with `delay` for this driver.
+On Sat, Jan 11, 2020 at 12:26:07AM +0800, Icenowy Zheng wrote:
+> For Goodix GT917S chip, the chip ID string is "917S", which contains not
+> only numbers now.
 > 
-> The `spi_transfer_delay_exec()` function [in the SPI framework] makes sure
-> that both `delay_usecs` & `delay` are used (in this order to preserve
-> backwards compatibility).
+> Use string-based chip ID in the driver to support this chip and further
+> chips with alphanumber ID.
 > 
-> [1] commit bebcfd272df6485 ("spi: introduce `delay` field for
-> `spi_transfer` + spi_transfer_delay_exec()")
-> 
-> Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
-
-Applied, thank you.
-
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 > ---
->  drivers/input/touchscreen/ads7846.c | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
+>  drivers/input/touchscreen/goodix.c | 39 ++++++++++++++----------------
+>  1 file changed, 18 insertions(+), 21 deletions(-)
 > 
-> diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-> index 51ddb204ca1b..8fd7fc39c4fd 100644
-> --- a/drivers/input/touchscreen/ads7846.c
-> +++ b/drivers/input/touchscreen/ads7846.c
-> @@ -333,7 +333,8 @@ static int ads7846_read12_ser(struct device *dev, unsigned command)
->  		req->xfer[1].len = 2;
+> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+> index 0403102e807e..bfd067d7145e 100644
+> --- a/drivers/input/touchscreen/goodix.c
+> +++ b/drivers/input/touchscreen/goodix.c
+> @@ -48,7 +48,7 @@ struct goodix_ts_data {
+>  	struct regulator *vddio;
+>  	struct gpio_desc *gpiod_int;
+>  	struct gpio_desc *gpiod_rst;
+> -	u16 id;
+> +	char id[5];
+>  	u16 version;
+>  	const char *cfg_name;
+>  	struct completion firmware_loading_complete;
+> @@ -235,28 +235,25 @@ static int goodix_i2c_write_u8(struct i2c_client *client, u16 reg, u8 value)
+>  	return goodix_i2c_write(client, reg, &value, sizeof(value));
+>  }
 >  
->  		/* for 1uF, settle for 800 usec; no cap, 100 usec.  */
-> -		req->xfer[1].delay_usecs = ts->vref_delay_usecs;
-> +		req->xfer[1].delay.value = ts->vref_delay_usecs;
-> +		req->xfer[1].delay.unit = SPI_DELAY_UNIT_USECS;
->  		spi_message_add_tail(&req->xfer[1], &req->msg);
+> -static const struct goodix_chip_data *goodix_get_chip_data(u16 id)
+> +static const struct goodix_chip_data *goodix_get_chip_data(const char *id)
+>  {
+> -	switch (id) {
+> -	case 1151:
+> -	case 5663:
+> -	case 5688:
+> +	if (!strcmp(id, "1151") ||
+> +	    !strcmp(id, "5663") ||
+> +	    !strcmp(id, "5688"))
+>  		return &gt1x_chip_data;
 >  
->  		/* Enable reference voltage */
-> @@ -1018,7 +1019,8 @@ static void ads7846_setup_spi_msg(struct ads7846 *ts,
->  	 * have had enough time to stabilize.
->  	 */
->  	if (pdata->settle_delay_usecs) {
-> -		x->delay_usecs = pdata->settle_delay_usecs;
-> +		x->delay.value = pdata->settle_delay_usecs;
-> +		x->delay.unit = SPI_DELAY_UNIT_USECS;
+> -	case 911:
+> -	case 9271:
+> -	case 9110:
+> -	case 927:
+> -	case 928:
+> +	if (!strcmp(id, "911") ||
+> +	    !strcmp(id, "9271") ||
+> +	    !strcmp(id, "9110") ||
+> +	    !strcmp(id, "927") ||
+> +	    !strcmp(id, "928"))
+>  		return &gt911_chip_data;
 >  
->  		x++;
->  		x->tx_buf = &packet->read_y;
-> @@ -1061,7 +1063,8 @@ static void ads7846_setup_spi_msg(struct ads7846 *ts,
+> -	case 912:
+> -	case 967:
+> +	if (!strcmp(id, "912") ||
+> +	    !strcmp(id, "967"))
+>  		return &gt967_chip_data;
 >  
->  	/* ... maybe discard first sample ... */
->  	if (pdata->settle_delay_usecs) {
-> -		x->delay_usecs = pdata->settle_delay_usecs;
-> +		x->delay.value = pdata->settle_delay_usecs;
-> +		x->delay.unit = SPI_DELAY_UNIT_USECS;
->  
->  		x++;
->  		x->tx_buf = &packet->read_x;
-> @@ -1094,7 +1097,8 @@ static void ads7846_setup_spi_msg(struct ads7846 *ts,
->  
->  		/* ... maybe discard first sample ... */
->  		if (pdata->settle_delay_usecs) {
-> -			x->delay_usecs = pdata->settle_delay_usecs;
-> +			x->delay.value = pdata->settle_delay_usecs;
-> +			x->delay.unit = SPI_DELAY_UNIT_USECS;
->  
->  			x++;
->  			x->tx_buf = &packet->read_z1;
-> @@ -1125,7 +1129,8 @@ static void ads7846_setup_spi_msg(struct ads7846 *ts,
->  
->  		/* ... maybe discard first sample ... */
->  		if (pdata->settle_delay_usecs) {
-> -			x->delay_usecs = pdata->settle_delay_usecs;
-> +			x->delay.value = pdata->settle_delay_usecs;
-> +			x->delay.unit = SPI_DELAY_UNIT_USECS;
->  
->  			x++;
->  			x->tx_buf = &packet->read_z2;
-> -- 
-> 2.20.1
-> 
+> -	default:
+> -		return &gt9x_chip_data;
+> -	}
+> +	return &gt9x_chip_data;
+
+I wonder if with strings it would not be simpler to have a id -> pointer
+mapping table and loop over it.
+
+Thanks.
 
 -- 
 Dmitry
