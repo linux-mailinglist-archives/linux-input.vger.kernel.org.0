@@ -2,140 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B6551381E3
-	for <lists+linux-input@lfdr.de>; Sat, 11 Jan 2020 15:58:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60D3713825F
+	for <lists+linux-input@lfdr.de>; Sat, 11 Jan 2020 17:27:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730145AbgAKO55 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Jan 2020 09:57:57 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35642 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730277AbgAKO5x (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Jan 2020 09:57:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1578754672;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6IIyl7nwLzkMIjP69KzWLUXNNYREWPo9znJtU/sIj/o=;
-        b=duAIfecSUhygFuQdn3GTZXSqBW4t4q4HeKOdMcumT2eGhPniI2QNgsJQhvHIW1zchaJBWL
-        G6sUROPTaQ12r/dJt8ljCS8Id9u/nV1x5ZqSc3+1h9HVZ856HgcPeaAHaOm+BLwt5WQsOI
-        Te5zQMSnUDxXPrI3rdztQxKovLFuaAE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-A5kjaX56M6GbHvBdLqSCmQ-1; Sat, 11 Jan 2020 09:57:50 -0500
-X-MC-Unique: A5kjaX56M6GbHvBdLqSCmQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1730241AbgAKQ1A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 Jan 2020 11:27:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38070 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730198AbgAKQ07 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 11 Jan 2020 11:26:59 -0500
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FE49107ACC4;
-        Sat, 11 Jan 2020 14:57:48 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-84.ams2.redhat.com [10.36.116.84])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4C21487EC6;
-        Sat, 11 Jan 2020 14:57:44 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Ard Biesheuvel <ardb@kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Subject: [PATCH v11 10/10] platform/x86: touchscreen_dmi: Add info for the Chuwi Vi8 Plus tablet
-Date:   Sat, 11 Jan 2020 15:57:03 +0100
-Message-Id: <20200111145703.533809-11-hdegoede@redhat.com>
-In-Reply-To: <20200111145703.533809-1-hdegoede@redhat.com>
-References: <20200111145703.533809-1-hdegoede@redhat.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id EB7742072E;
+        Sat, 11 Jan 2020 16:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578760019;
+        bh=Lm/dzwnqk+gKnieQ7A6Z4s9GBTYaGC56Kq2TS5W+4IM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GxmxpJnNXr8/koHGDhQZ17ryncVVp95IEGCDLoePQ7dCEW5oqjG7g6B59wFBoeR/J
+         9Arp1JNXpRxN7Q+vCYqzUWnxjA5sIzoWcke+sh9KxSH9vLgRV22wwaC16doWvGkUpy
+         r9yIVd4d/iNNtaywxaSjkCq51XkuZETg7NuMFSZA=
+Date:   Sat, 11 Jan 2020 11:26:57 -0500
+From:   Sasha Levin <sashal@kernel.org>
+To:     Dexuan Cui <decui@microsoft.com>
+Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        dmitry.torokhov@gmail.com, linux-hyperv@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mikelley@microsoft.com, Alexander.Levin@microsoft.com
+Subject: Re: [PATCH][RESEND] Input: hyperv-keyboard: Add the support of
+ hibernation
+Message-ID: <20200111162657.GJ1706@sasha-vm>
+References: <1578350444-129991-1-git-send-email-decui@microsoft.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <1578350444-129991-1-git-send-email-decui@microsoft.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add touchscreen info for the Chuwi Vi8 Plus tablet. This tablet uses a
-Chipone ICN8505 touchscreen controller, with the firmware used by the
-touchscreen embedded in the EFI firmware.
+On Mon, Jan 06, 2020 at 02:40:44PM -0800, Dexuan Cui wrote:
+>Add suspend() and resume() functions so the Hyper-V virtual keyboard
+>can participate in VM hibernation.
+>
+>Note that the keyboard is a "wakeup" device that could abort an in-progress
+>hibernation if there is keyboard event.  No attempt is made to suppress this
+>behavior.  If desired, a sysadmin can disable the keyboard as a wakeup device
+>using standard mechanisms such as:
+>
+>echo disabled > /sys/bus/vmbus/drivers/hyperv_keyboard/XXX/power/wakeup
+>(where XXX is the device's GUID)
+>
+>Reviewed-by:  Michael Kelley <mikelley@microsoft.com>
+>Signed-off-by: Dexuan Cui <decui@microsoft.com>
+>---
+>
+>This is a RESEND of https://lkml.org/lkml/2019/11/24/115 .
+>
+>Please review.
+>
+>If it looks good, Sasha Levin, can you please pick it up via the
+>hyperv/linux.git tree, as you did last time for this driver?
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v7:
-- Remove PROPERTY_ENTRY_BOOL("efi-embedded-firmware") properties entry,
-  as this is no longer necessary
+This will need an ack from the input driver maintainers, unless they
+want to give a blanket ack to this type of patches.
 
-Changes in v6:
-- Switch from crc sums to SHA256 hashes for the firmware hash
----
- drivers/platform/x86/touchscreen_dmi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x8=
-6/touchscreen_dmi.c
-index 4449e4c0b26b..4a09b479cda5 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -132,6 +132,18 @@ static const struct ts_dmi_data chuwi_vi8_data =3D {
- 	.properties     =3D chuwi_vi8_props,
- };
-=20
-+static const struct ts_dmi_data chuwi_vi8_plus_data =3D {
-+	.embedded_fw =3D {
-+		.name	=3D "chipone/icn8505-HAMP0002.fw",
-+		.prefix =3D { 0xb0, 0x07, 0x00, 0x00, 0xe4, 0x07, 0x00, 0x00 },
-+		.length	=3D 35012,
-+		.sha256	=3D { 0x93, 0xe5, 0x49, 0xe0, 0xb6, 0xa2, 0xb4, 0xb3,
-+			    0x88, 0x96, 0x34, 0x97, 0x5e, 0xa8, 0x13, 0x78,
-+			    0x72, 0x98, 0xb8, 0x29, 0xeb, 0x5c, 0xa7, 0xf1,
-+			    0x25, 0x13, 0x43, 0xf4, 0x30, 0x7c, 0xfc, 0x7c },
-+	},
-+};
-+
- static const struct property_entry chuwi_vi10_props[] =3D {
- 	PROPERTY_ENTRY_U32("touchscreen-min-x", 0),
- 	PROPERTY_ENTRY_U32("touchscreen-min-y", 4),
-@@ -743,6 +755,15 @@ const struct dmi_system_id touchscreen_dmi_table[] =3D=
- {
- 			DMI_MATCH(DMI_BIOS_VERSION, "CHUWI.D86JLBNR"),
- 		},
- 	},
-+	{
-+		/* Chuwi Vi8 Plus (CWI519) */
-+		.driver_data =3D (void *)&chuwi_vi8_plus_data,
-+		.matches =3D {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Hampoo"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "D2D3_Vi8A1"),
-+			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
-+		},
-+	},
- 	{
- 		/* Chuwi Vi10 (CWI505) */
- 		.driver_data =3D (void *)&chuwi_vi10_data,
-@@ -1137,6 +1158,9 @@ static int __init ts_dmi_init(void)
- 		return 0; /* Not an error */
-=20
- 	ts_data =3D dmi_id->driver_data;
-+	/* Some dmi table entries only provide an efi_embedded_fw_desc */
-+	if (!ts_data->properties)
-+		return 0;
-=20
- 	error =3D bus_register_notifier(&i2c_bus_type, &ts_dmi_notifier);
- 	if (error)
---=20
-2.24.1
-
+-- 
+Thanks,
+Sasha
