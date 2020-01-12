@@ -2,100 +2,260 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CA80138866
-	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2020 23:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6833C13887A
+	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2020 23:45:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387404AbgALWGz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Jan 2020 17:06:55 -0500
-Received: from orion.archlinux.org ([88.198.91.70]:43436 "EHLO
-        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727222AbgALWGz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Jan 2020 17:06:55 -0500
-Received: from orion.archlinux.org (localhost [127.0.0.1])
-        by orion.archlinux.org (Postfix) with ESMTP id 81F1818143E1CD;
-        Sun, 12 Jan 2020 22:06:52 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.3 (2019-12-06) on orion.archlinux.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
-        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
-        autolearn=no autolearn_force=no version=3.4.3
-X-Spam-BL-Results: 
-Received: from localhost.localdomain (unknown [IPv6:2001:8a0:f254:2300:dad6:8c60:8394:88da])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S1727222AbgALWpZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Jan 2020 17:45:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45510 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387466AbgALWpZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 12 Jan 2020 17:45:25 -0500
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        (Authenticated sender: ffy00)
-        by orion.archlinux.org (Postfix) with ESMTPSA;
-        Sun, 12 Jan 2020 22:06:51 +0000 (UTC)
-From:   =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
-Subject: [PATCH v2] HID: logitech-hidpp: add support for the Powerplay mat/receiver
-Date:   Sun, 12 Jan 2020 22:06:12 +0000
-Message-Id: <20200112220612.3448741-1-lains@archlinux.org>
-X-Mailer: git-send-email 2.24.1
+        by mail.kernel.org (Postfix) with ESMTPSA id 3A2F124679
+        for <linux-input@vger.kernel.org>; Sun, 12 Jan 2020 22:45:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578869123;
+        bh=0GZEGpPzCGuL/Yh1V/9xQ1rCTWIFkQVZGOa+pizi/yA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=jM3YqI81FMb3rQKbSbQ8vwOPdpfm4mmV3uTKsVyPpbIgpxuG5sVXqLGjMUUFJZILJ
+         Z30P+/d8YMkxj3QRJaDF8yF5Qi4ZeHl6YFQHMkwrw30r/8LVvjuEILSViTsstP7oGZ
+         cgY/ASfcwi87J17Y5gB0iuozg+l4yReFnuA3dxio=
+Received: by mail-wr1-f52.google.com with SMTP id w15so6799116wru.4
+        for <linux-input@vger.kernel.org>; Sun, 12 Jan 2020 14:45:23 -0800 (PST)
+X-Gm-Message-State: APjAAAX8vuRtdFoVMtStHYWKDRWbAA+stKCKyAZrMANoMR13NPYO8QAj
+        ryM9L4GjVgOCY1HsON/K1xU/ULgIfLec1Vz8jcF1Sw==
+X-Google-Smtp-Source: APXvYqyT6CDS6nQCsUI7FRMpOYPBG+ma/dLH32SCCjPVnRJcoY4JWdZf3QaLnUqHBLjSmocrDg7HXZRTfc9FdqTyIzk=
+X-Received: by 2002:a5d:4acb:: with SMTP id y11mr3933522wrs.106.1578869120894;
+ Sun, 12 Jan 2020 14:45:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200111145703.533809-1-hdegoede@redhat.com> <20200111145703.533809-3-hdegoede@redhat.com>
+In-Reply-To: <20200111145703.533809-3-hdegoede@redhat.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Sun, 12 Jan 2020 14:45:09 -0800
+X-Gmail-Original-Message-ID: <CALCETrUz4gdVOH=5X+MkB56ST=DNcHKicRST1j1ff0kU1yXWzw@mail.gmail.com>
+Message-ID: <CALCETrUz4gdVOH=5X+MkB56ST=DNcHKicRST1j1ff0kU1yXWzw@mail.gmail.com>
+Subject: Re: [PATCH v11 02/10] efi: Add embedded peripheral firmware support
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, X86 ML <x86@kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Logitech G Powerplay has a lightspeed receiver with a static HID++
-device with ID 7 attached to it to. It is used to configure the led on
-the mat. For this reason I increased the max number of devices.
+On Sat, Jan 11, 2020 at 6:57 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Just like with PCI options ROMs, which we save in the setup_efi_pci*
+> functions from arch/x86/boot/compressed/eboot.c, the EFI code / ROM itself
+> sometimes may contain data which is useful/necessary for peripheral drivers
+> to have access to.
+>
+> Specifically the EFI code may contain an embedded copy of firmware which
+> needs to be (re)loaded into the peripheral. Normally such firmware would be
+> part of linux-firmware, but in some cases this is not feasible, for 2
+> reasons:
+>
+> 1) The firmware is customized for a specific use-case of the chipset / use
+> with a specific hardware model, so we cannot have a single firmware file
+> for the chipset. E.g. touchscreen controller firmwares are compiled
+> specifically for the hardware model they are used with, as they are
+> calibrated for a specific model digitizer.
+>
+> 2) Despite repeated attempts we have failed to get permission to
+> redistribute the firmware. This is especially a problem with customized
+> firmwares, these get created by the chip vendor for a specific ODM and the
+> copyright may partially belong with the ODM, so the chip vendor cannot
+> give a blanket permission to distribute these.
+>
+> This commit adds support for finding peripheral firmware embedded in the
+> EFI code and makes the found firmware available through the new
+> efi_get_embedded_fw() function.
+>
+> Support for loading these firmwares through the standard firmware loading
+> mechanism is added in a follow-up commit in this patch-series.
+>
+> Note we check the EFI_BOOT_SERVICES_CODE for embedded firmware near the end
+> of start_kernel(), just before calling rest_init(), this is on purpose
+> because the typical EFI_BOOT_SERVICES_CODE memory-segment is too large for
+> early_memremap(), so the check must be done after mm_init(). This relies
+> on EFI_BOOT_SERVICES_CODE not being free-ed until efi_free_boot_services()
+> is called, which means that this will only work on x86 for now.
+>
 
-I also marked all lightspeed devices as HID++ compatible. As the
-internal powerplay device does not have REPORT_TYPE_KEYBOARD or
-REPORT_TYPE_MOUSE it was not being marked as HID++ compatible in
-logi_hidpp_dev_conn_notif_equad.
+A couple general comments:
 
-Signed-off-by: Filipe Laíns <lains@archlinux.org>
----
- drivers/hid/hid-logitech-dj.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+How does this interact with modules?  It looks like you're referencing
+the dmi table from otherwise modular or potentially modular code in
+early EFI code, which seems like it will either prevent modular builds
+or will actually fail at compile time depending on config.  Perhaps
+you should have a single collection of EFI firmware references in a
+separate place in the kernel tree and reference *that* from the EFI
+code.
 
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index bb50d6e7745b..732380b55b15 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -16,11 +16,11 @@
- #include <asm/unaligned.h>
- #include "hid-ids.h"
- 
--#define DJ_MAX_PAIRED_DEVICES			6
-+#define DJ_MAX_PAIRED_DEVICES			7
- #define DJ_MAX_NUMBER_NOTIFS			8
- #define DJ_RECEIVER_INDEX			0
- #define DJ_DEVICE_INDEX_MIN			1
--#define DJ_DEVICE_INDEX_MAX			6
-+#define DJ_DEVICE_INDEX_MAX			7
- 
- #define DJREPORT_SHORT_LENGTH			15
- #define DJREPORT_LONG_LENGTH			32
-@@ -971,7 +971,7 @@ static void logi_hidpp_recv_queue_notif(struct hid_device *hdev,
- 	case 0x0c:
- 		device_type = "eQUAD Lightspeed 1";
- 		logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
--		workitem.reports_supported |= STD_KEYBOARD;
-+		workitem.reports_supported |= STD_KEYBOARD | HIDPP;
- 		break;
- 	case 0x0d:
- 		device_type = "eQUAD Lightspeed 1_1";
-@@ -1850,6 +1850,10 @@ static const struct hid_device_id logi_dj_receivers[] = {
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
- 		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1),
- 	 .driver_data = recvr_type_gaming_hidpp},
-+	{ /* Logitech powerplay mat/receiver (0xc539) */
-+	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
-+		0xc53a),
-+	 .driver_data = recvr_type_gaming_hidpp},
- 	{ /* Logitech 27 MHz HID++ 1.0 receiver (0xc513) */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_MX3000_RECEIVER),
- 	 .driver_data = recvr_type_27mhz},
--- 
-2.24.1
+In the event you have many DMI matches (e.g. if anyone ends up using
+this in a case where the DMI match has to match very broad things),
+you'll iterate over the EFI code and data multiple times and
+performance will suck.  It would be much better to iterate once and
+search for everything.
+
+I suspect that a rolling hash would be better than the prefix you're
+using, but this could be changed later, assuming someone can actually
+find all the firmware needed.
+
+> +static int __init efi_check_md_for_embedded_firmware(
+> +       efi_memory_desc_t *md, const struct efi_embedded_fw_desc *desc)
+> +{
+> +       const u64 prefix = *((u64 *)desc->prefix);
+> +       struct sha256_state sctx;
+> +       struct efi_embedded_fw *fw;
+> +       u8 sha256[32];
+> +       u64 i, size;
+> +       void *map;
+> +
+> +       size = md->num_pages << EFI_PAGE_SHIFT;
+> +       map = memremap(md->phys_addr, size, MEMREMAP_WB);
+> +       if (!map) {
+> +               pr_err("Error mapping EFI mem at %#llx\n", md->phys_addr);
+> +               return -ENOMEM;
+> +       }
+> +
+> +       for (i = 0; (i + desc->length) <= size; i += 8) {
+> +               u64 *mem = map + i;
+> +
+> +               if (*mem != prefix)
+> +                       continue;
+
+This is very ugly.  You're casting a pointer to a bunch of bytes to
+u64* and then dereferencing it like it's an integer.  This has major
+endian issues with are offset by the similar endianness issues when
+you type-pun prefix to u64.  You should instead just memcmp the
+pointer with the data.  This will get rid of all the type punning in
+this function.  You will also fail to detect firmware that isn't
+8-byte-aligned.
+
+So perhaps just use memmem() to replace this whole mess?
+
+> +
+> +               sha256_init(&sctx);
+> +               sha256_update(&sctx, map + i, desc->length);
+> +               sha256_final(&sctx, sha256);
+> +               if (memcmp(sha256, desc->sha256, 32) == 0)
+> +                       break;
+> +       }
+> +       if ((i + desc->length) > size) {
+> +               memunmap(map);
+> +               return -ENOENT;
+> +       }
+> +
+> +       pr_info("Found EFI embedded fw '%s'\n", desc->name);
+> +
+
+It might be nice to also log which EFI section it was in?
+
+> +       fw = kmalloc(sizeof(*fw), GFP_KERNEL);
+> +       if (!fw) {
+> +               memunmap(map);
+> +               return -ENOMEM;
+> +       }
+> +
+> +       fw->data = kmemdup(map + i, desc->length, GFP_KERNEL);
+> +       memunmap(map);
+> +       if (!fw->data) {
+> +               kfree(fw);
+> +               return -ENOMEM;
+> +       }
+> +
+> +       fw->name = desc->name;
+> +       fw->length = desc->length;
+> +       list_add(&fw->list, &efi_embedded_fw_list);
+> +
+
+If you actually copy the firmware name instead of just a pointer to
+it, then you could potentially free the list of EFI firmwares.
+
+Why are you copying the firmware into linear (kmemdup) memory here
+just to copy it to vmalloc space down below...
+
+> +       return 0;
+> +}
+> +
+> +void __init efi_check_for_embedded_firmwares(void)
+> +{
+> +       const struct efi_embedded_fw_desc *fw_desc;
+> +       const struct dmi_system_id *dmi_id;
+> +       efi_memory_desc_t *md;
+> +       int i, r;
+> +
+> +       for (i = 0; embedded_fw_table[i]; i++) {
+> +               dmi_id = dmi_first_match(embedded_fw_table[i]);
+> +               if (!dmi_id)
+> +                       continue;
+> +
+> +               fw_desc = dmi_id->driver_data;
+> +
+> +               /*
+> +                * In some drivers the struct driver_data contains may contain
+> +                * other driver specific data after the fw_desc struct; and
+> +                * the fw_desc struct itself may be empty, skip these.
+> +                */
+> +               if (!fw_desc->name)
+> +                       continue;
+> +
+> +               for_each_efi_memory_desc(md) {
+> +                       if (md->type != EFI_BOOT_SERVICES_CODE)
+> +                               continue;
+> +
+> +                       r = efi_check_md_for_embedded_firmware(md, fw_desc);
+> +                       if (r == 0)
+> +                               break;
+> +               }
+> +       }
+> +
+> +       checked_for_fw = true;
+> +}
+
+Have you measured how long this takes on a typical system per matching DMI id?
+
+> +
+> +int efi_get_embedded_fw(const char *name, void **data, size_t *size)
+> +{
+> +       struct efi_embedded_fw *iter, *fw = NULL;
+> +       void *buf = *data;
+> +
+> +       if (!checked_for_fw) {
+
+WARN_ON_ONCE?  A stack dump would be quite nice here.
+
+> +       buf = vmalloc(fw->length);
+> +       if (!buf)
+> +               return -ENOMEM;
+> +
+> +       memcpy(buf, fw->data, fw->length);
+> +       *size = fw->length;
+> +       *data = buf;
+
+See above.  What's vmalloc() for?  Where's the vfree()?
+
+BTW, it would be very nice to have a straightforward way
+(/sys/kernel/debug/efi_firmware/[name]?) to dump all found firmwares.
