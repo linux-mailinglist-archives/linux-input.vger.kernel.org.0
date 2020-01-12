@@ -2,43 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D53E4138304
-	for <lists+linux-input@lfdr.de>; Sat, 11 Jan 2020 20:24:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81E681385E9
+	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2020 12:13:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730953AbgAKTYo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Jan 2020 14:24:44 -0500
-Received: from orion.archlinux.org ([88.198.91.70]:48662 "EHLO
-        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730948AbgAKTYo (ORCPT
+        id S1732654AbgALLNr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Jan 2020 06:13:47 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:46887 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732650AbgALLNr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Jan 2020 14:24:44 -0500
-Received: from orion.archlinux.org (localhost [127.0.0.1])
-        by orion.archlinux.org (Postfix) with ESMTP id 4841E180A9717F;
-        Sat, 11 Jan 2020 19:24:41 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.3 (2019-12-06) on orion.archlinux.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
-        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
-        autolearn=no autolearn_force=no version=3.4.3
-X-Spam-BL-Results: 
-Received: from localhost.localdomain (unknown [IPv6:2001:8a0:f254:2300:dad6:8c60:8394:88da])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: ffy00)
-        by orion.archlinux.org (Postfix) with ESMTPSA;
-        Sat, 11 Jan 2020 19:24:40 +0000 (UTC)
-From:   =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pedro Vanzella <pedro@pedrovanzella.com>
-Cc:     =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
-Subject: [PATCH] HID: logitech-hidpp: BatteryVoltage: only read chargeStatus if extPower is active
-Date:   Sat, 11 Jan 2020 19:24:19 +0000
-Message-Id: <20200111192419.2503922-1-lains@archlinux.org>
-X-Mailer: git-send-email 2.24.1
+        Sun, 12 Jan 2020 06:13:47 -0500
+Received: by mail-lj1-f193.google.com with SMTP id m26so6826273ljc.13
+        for <linux-input@vger.kernel.org>; Sun, 12 Jan 2020 03:13:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0lBXyzQei435C4TzmaHRwGhDla2uBHLmX41nbjZkSq8=;
+        b=mH3A73cZfDv2+qpk/1a/sqnblMtq88TaTkdakE3nKsGgGDFDZzoQUH1pjR/M0twFHI
+         +1GwzqzqZHpAmPbHu2OJcQACC+gsW+7aDqk7U1YdzHxQlo/OapT6ln9ZIjzmF5Y0LM6y
+         F0LGa4i0AupkJqYnXmudxYbptnVS1yrEcEDBD7ht2uvdLUQghMpn3bFaQiVCSX7tcsoc
+         yLRfpsYWdxqGZcU2NNKzZuJatupMygqErinwV4gCy7m/nfn7JuSeswVyY/qCZ9IT5zOe
+         KXnRsxBbTFz9vH2Do1xFslcMR3wOz1dUUElj1GxAgodup67+Hu9VA6KDu5DZ2T0xZIYD
+         srbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0lBXyzQei435C4TzmaHRwGhDla2uBHLmX41nbjZkSq8=;
+        b=TW5IwFkX0v5Qyda88RtAd7zHlopbKPcG/q3Vb8dVLI6sMyieNTLduoiRNCnCTM2VhT
+         8MjqHLF0xDd+SBLjwe5u/HCC2iZvju5ajDPf5RvnVHj1MJ6l9dk5WHoiwHXiQtT05U2/
+         s2cefbarPfFh1nhjKDYEZeUG/ZhIkVqF68Gxwdsym5Xl7pYRb0BZiFPO5pD9C/v3t/pZ
+         zbn4FFU34tqORdRarB+yMH7Mbe1OSwxsO+uwrcT5WeYYvkLlLEKawToJABJOECShF5kS
+         Y37bAIAbC07wy5E2tOoV6F1QMvNozkDYXcLejVuKo6C1JxzUeCnn9dIOjalhJKzYPb/Z
+         QjRA==
+X-Gm-Message-State: APjAAAU4OyE9KFbruwm+W+I0sJ6NzZVfXWnEXY19/quqOXFrAylu5mC4
+        A2L8Kf8tnlmLrJI5CPQB95yywg==
+X-Google-Smtp-Source: APXvYqyxgKMi2Fm7zMCKS3ET+AjXq3JANMYh0URRm5aTB3P+YTJEOov0csj/+cW/HoF/odh0ezdSpA==
+X-Received: by 2002:a2e:b4e7:: with SMTP id s7mr7696530ljm.58.1578827625064;
+        Sun, 12 Jan 2020 03:13:45 -0800 (PST)
+Received: from localhost.bredbandsbolaget (c-5ac9225c.014-348-6c756e10.bbcust.telenor.se. [92.34.201.90])
+        by smtp.gmail.com with ESMTPSA id i4sm4636723lji.0.2020.01.12.03.13.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jan 2020 03:13:43 -0800 (PST)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org
+Cc:     Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-input@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Minkyu Kang <mk7.kang@samsung.com>,
+        =?UTF-8?q?Pawe=C5=82=20Chmiel?= <pawel.mikolaj.chmiel@gmail.com>,
+        Jonathan Bakker <xc-racer2@live.ca>,
+        Oskar Andero <oskar.andero@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: [PATCH 1/2 v4] iio: light: Add DT bindings for GP2AP002
+Date:   Sun, 12 Jan 2020 12:13:40 +0100
+Message-Id: <20200112111341.21388-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -47,109 +71,126 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In the HID++ 2.0 function getBatteryInfo() from the BatteryVoltage
-(0x1001) feature, chargeStatus is only valid if extPower is active.
+This adds device tree bindings for the GP2AP002 light
+and proximity sensor.
 
-Previously we were ignoring extPower, which resulted in wrong values.
+As with other early proximity sensors (~2010) the light
+sensor and proximity sensors were combined into a single
+component.
 
-Example:
-    With an unplugged mouse
-
-    $ cat /sys/class/power_supply/hidpp_battery_0/status
-    Charging
-
-This patch makes fixes that, it also renames charge_sts to flags as
-charge_sts can be confused with chargeStatus from the spec.
-
-Spec:
-+--------+-------------------------------------------------------------------------+
-|  byte  |                                    2                                    |
-+--------+--------------+------------+------------+----------+----------+----------+
-|   bit  |     0..2     |      3     |      4     |     5    |     6    |     7    |
-+--------+--------------+------------+------------+----------+----------+----------+
-| buffer | chargeStatus | fastCharge | slowCharge | critical | (unused) | extPower |
-+--------+--------------+------------+------------+----------+----------+----------+
-Table 1 - battery voltage (0x1001), getBatteryInfo() (ASE 0), 3rd byte
-
-+-------+--------------------------------------+
-| value |                meaning               |
-+-------+--------------------------------------+
-|   0   | Charging                             |
-+-------+--------------------------------------+
-|   1   | End of charge (100% charged)         |
-+-------+--------------------------------------+
-|   2   | Charge stopped (any "normal" reason) |
-+-------+--------------------------------------+
-|   7   | Hardware error                       |
-+-------+--------------------------------------+
-Table 2 - chargeStatus value
-
-Signed-off-by: Filipe Laíns <lains@archlinux.org>
+Cc: Stephan Gerhold <stephan@gerhold.net>
+Cc: Minkyu Kang <mk7.kang@samsung.com>
+Cc: Paweł Chmiel <pawel.mikolaj.chmiel@gmail.com>
+Cc: Jonathan Bakker <xc-racer2@live.ca>
+Cc: Oskar Andero <oskar.andero@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/hid/hid-logitech-hidpp.c | 43 ++++++++++++++++----------------
- 1 file changed, 21 insertions(+), 22 deletions(-)
+ChangeLog v3->v4:
+- Resend with the changes in the main patch.
+ChangeLog v1->v3:
+- Drop the maxitems on the supplies, it is already 1
+- Drop quotes around "alsout"
+- Limit the sharp hysteresis to 8 bits as it should be
+- Use /bits/ 8 in the example so it is correct
+---
+ .../bindings/iio/light/sharp,gp2ap002.yaml    | 85 +++++++++++++++++++
+ 1 file changed, 85 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/light/sharp,gp2ap002.yaml
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index bb063e7d48df..39a5ee0aaab0 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -1256,36 +1256,35 @@ static int hidpp20_battery_map_status_voltage(u8 data[3], int *voltage,
- {
- 	int status;
- 
--	long charge_sts = (long)data[2];
-+	long flags = (long) data[2];
- 
--	*level = POWER_SUPPLY_CAPACITY_LEVEL_UNKNOWN;
--	switch (data[2] & 0xe0) {
--	case 0x00:
--		status = POWER_SUPPLY_STATUS_CHARGING;
--		break;
--	case 0x20:
--		status = POWER_SUPPLY_STATUS_FULL;
--		*level = POWER_SUPPLY_CAPACITY_LEVEL_FULL;
--		break;
--	case 0x40:
-+	if (flags & 0x80)
-+		switch (flags & 0x07) {
-+		case 0:
-+			status = POWER_SUPPLY_STATUS_CHARGING;
-+			break;
-+		case 1:
-+			status = POWER_SUPPLY_STATUS_FULL;
-+			*level = POWER_SUPPLY_CAPACITY_LEVEL_FULL;
-+			break;
-+		case 2:
-+			status = POWER_SUPPLY_STATUS_NOT_CHARGING;
-+			break;
-+		default:
-+			status = POWER_SUPPLY_STATUS_UNKNOWN;
-+			break;
-+		}
-+	else
- 		status = POWER_SUPPLY_STATUS_DISCHARGING;
--		break;
--	case 0xe0:
--		status = POWER_SUPPLY_STATUS_NOT_CHARGING;
--		break;
--	default:
--		status = POWER_SUPPLY_STATUS_UNKNOWN;
--	}
- 
- 	*charge_type = POWER_SUPPLY_CHARGE_TYPE_STANDARD;
--	if (test_bit(3, &charge_sts)) {
-+	if (test_bit(3, &flags)) {
- 		*charge_type = POWER_SUPPLY_CHARGE_TYPE_FAST;
- 	}
--	if (test_bit(4, &charge_sts)) {
-+	if (test_bit(4, &flags)) {
- 		*charge_type = POWER_SUPPLY_CHARGE_TYPE_TRICKLE;
- 	}
--
--	if (test_bit(5, &charge_sts)) {
-+	if (test_bit(5, &flags)) {
- 		*level = POWER_SUPPLY_CAPACITY_LEVEL_CRITICAL;
- 	}
- 
+diff --git a/Documentation/devicetree/bindings/iio/light/sharp,gp2ap002.yaml b/Documentation/devicetree/bindings/iio/light/sharp,gp2ap002.yaml
+new file mode 100644
+index 000000000000..12aa16f24772
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/light/sharp,gp2ap002.yaml
+@@ -0,0 +1,85 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/light/sharp,gp2ap002.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sharp GP2AP002A00F and GP2AP002S00F proximity and ambient light sensors
++
++maintainers:
++  - Linus Walleij <linus.walleij@linaro.org>
++
++description: |
++  Proximity and ambient light sensor with IR LED for the proximity
++  sensing and an analog output for light intensity. The ambient light
++  sensor output is not available on the GP2AP002S00F variant.
++
++properties:
++  compatible:
++    enum:
++      - sharp,gp2ap002a00f
++      - sharp,gp2ap002s00f
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description: an interrupt for proximity, usually a GPIO line
++
++  vdd-supply:
++    description: VDD power supply a phandle to a regulator
++
++  vio-supply:
++    description: VIO power supply a phandle to a regulator
++
++  io-channels:
++    maxItems: 1
++    description: ALSOUT ADC channel to read the ambient light
++
++  io-channel-names:
++    const: alsout
++
++  sharp,proximity-far-hysteresis:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    description: |
++      Hysteresis setting for "far" object detection, this setting is
++      device-unique and adjust the optical setting for proximity detection
++      of a "far away" object in front of the sensor.
++
++  sharp,proximity-close-hysteresis:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    description: |
++      Hysteresis setting for "close" object detection, this setting is
++      device-unique and adjust the optical setting for proximity detection
++      of a "close" object in front of the sensor.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - sharp,proximity-far-hysteresis
++  - sharp,proximity-close-hysteresis
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      light-sensor@44 {
++        compatible = "sharp,gp2ap002a00f";
++        reg = <0x44>;
++        interrupts = <18 IRQ_TYPE_EDGE_FALLING>;
++        vdd-supply = <&vdd_regulator>;
++        vio-supply = <&vio_regulator>;
++        io-channels = <&adc_channel>;
++        io-channel-names = "alsout";
++        sharp,proximity-far-hysteresis = /bits/ 8 <0x2f>;
++        sharp,proximity-close-hysteresis = /bits/ 8 <0x0f>;
++      };
++    };
++
++...
 -- 
-2.24.1
+2.21.0
+
