@@ -2,115 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AF471388CE
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2020 00:50:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D6CD1389AE
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2020 04:20:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387422AbgALXub (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Jan 2020 18:50:31 -0500
-Received: from orion.archlinux.org ([88.198.91.70]:59150 "EHLO
-        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727323AbgALXub (ORCPT
+        id S1733228AbgAMDUl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Jan 2020 22:20:41 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:42865 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1733020AbgAMDUf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Jan 2020 18:50:31 -0500
-Received: from orion.archlinux.org (localhost [127.0.0.1])
-        by orion.archlinux.org (Postfix) with ESMTP id E4D6B18144FDB0;
-        Sun, 12 Jan 2020 23:50:27 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.3 (2019-12-06) on orion.archlinux.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
-        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
-        autolearn=no autolearn_force=no version=3.4.3
-X-Spam-BL-Results: 
-Received: from localhost.localdomain (unknown [IPv6:2001:8a0:f254:2300:dad6:8c60:8394:88da])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: ffy00)
-        by orion.archlinux.org (Postfix) with ESMTPSA;
-        Sun, 12 Jan 2020 23:50:27 +0000 (UTC)
-From:   =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
-Subject: [PATCH v2] HID: logitech: drop outdated references to unifying receivers
-Date:   Sun, 12 Jan 2020 23:50:09 +0000
-Message-Id: <20200112235009.4074405-1-lains@archlinux.org>
-X-Mailer: git-send-email 2.24.1
+        Sun, 12 Jan 2020 22:20:35 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 0A9F6220E1;
+        Sun, 12 Jan 2020 22:20:34 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Sun, 12 Jan 2020 22:20:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm1; bh=ayrlkXHGm5lt6lLJAPNWvVy/hi
+        Q1duOWAQwfasBu6FY=; b=fTKl6SlKcwHTYRxceYjcmQA61y8VvSiLy9Hr1QbYB/
+        p6581XesWJ7WbUoUAOL50AVG/lPP58AS12R4HOgOwzinc6husDGEKcfgeDuPlvur
+        LW8J+U60+7IfkJOtKiffQIQxSUsffwPoaTFD8Xjy6cB0QkUrhRYEfSztoMD3dFpf
+        vZ6zzlui0I9189MKJlJjQGsJ526+IaC9Eo+EvPdIh1r4dRxVc/QVODua/zN9I8BX
+        s5qv3BTJEB8eGDME366oqLSrCtkbguMSleG0sNp5bgLBI32jO+jO+k1Q4lG0ysF4
+        m9xWuzQ7ih9m0KgePgG5JLkq4bQESj304HzOXEb1f+vA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ayrlkXHGm5lt6lLJA
+        PNWvVy/hiQ1duOWAQwfasBu6FY=; b=ivuoZhBspxctCYYxWJW37iFqveK8zdUgL
+        zeVq/XzjCU94qeYtiqrhF+o5f0K5vEJQRTktDthQQyuOzljZJVmXAgYyrMGlD3GP
+        ss0mifrki86dukgnXg59+9ZtEMiLygnckmCNl/vk2VMv+t7um9sBzRgVOOMOxq2/
+        j45UM6PKZ2IsXe1vjv354PTM89afrchN42kJQqyF97E+XlZ72tSXZx5c8tb4MpmZ
+        +npsjlyOoBIjU6WvPVzggJZxoc016AKMACmxc5WYPQU0LFRrYoFW8TzFKb6RP4FP
+        8B+++tJY60I16ctOQiBHeqk0ra0RySou05QqsyOd9EcnvDbZzpB6w==
+X-ME-Sender: <xms:AeIbXp2k1gbGUhg6BafMwW_6KY8ZG7OeEQ8EtDzgS2ahcEHaBAAurA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdeiledgheelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucfkphepje
+    dtrddufeehrddugeekrdduhedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgv
+    lhesshhhohhllhgrnhgurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:AeIbXkUaKkkL_Qi7-_gfz5xfdIPGR3yyao4Vvk-sdp3X_p4u42-BTw>
+    <xmx:AeIbXk4azsmlfRGUiaMeRadAzJWtTyRlo92lFMdNk8eo0DBMYTbbpA>
+    <xmx:AeIbXrJQSgsMJG7r9-yGeiloFfQ-ICqyPBthQCvC4nFRPMox-TU13A>
+    <xmx:AuIbXkNLubhc2LuzG0tD7xQ9nFhw1LHM078rOJ-X_Q2p1W984HjH5g>
+Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 17B718005B;
+        Sun, 12 Jan 2020 22:20:33 -0500 (EST)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sunxi@googlegroups.com, Samuel Holland <samuel@sholland.org>
+Subject: [PATCH 1/3] Input: axp20x-pek - Remove unique wakeup event handling
+Date:   Sun, 12 Jan 2020 21:20:30 -0600
+Message-Id: <20200113032032.38709-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The hid-logitech-{dj,hidpp} were originally developed for unifying
-receivers but since then they have evolved and now support other types
-of receivers and devices. This patch adjusts the original descriptions
-with this in mind.
+This driver attempts to avoid reporting wakeup events to userspace by
+clearing a possible pending IRQ before IRQs are enabled during resume.
+The assumption seems to be that userspace cannot cope with a KEY_POWER
+press during resume. However, no other input driver does this, so it
+would be a bug that such events are missing with this driver.
 
-Signed-off-by: Filipe Laíns <lains@archlinux.org>
+Furthermore, for PMICs connected via I2C or RSB, it is not possible to
+update the regmap during the noirq resume phase, because the bus
+controller drivers require IRQs to perform bus transactions. And the
+resume hook cannot move to a later phase, because then it would race
+with the power key IRQ handler.
+
+So the best solution seems to be simply removing the hook.
+
+Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
- drivers/hid/Kconfig              | 6 +++---
- drivers/hid/hid-logitech-dj.c    | 4 ++--
- drivers/hid/hid-logitech-hidpp.c | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/input/misc/axp20x-pek.c | 25 -------------------------
+ 1 file changed, 25 deletions(-)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 494a39e74939..56f9f16220e3 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -531,14 +531,14 @@ config HID_LOGITECH
- 	Support for Logitech devices that are not fully compliant with HID standard.
+diff --git a/drivers/input/misc/axp20x-pek.c b/drivers/input/misc/axp20x-pek.c
+index 17c1cca74498..7d0ee5bececb 100644
+--- a/drivers/input/misc/axp20x-pek.c
++++ b/drivers/input/misc/axp20x-pek.c
+@@ -352,30 +352,6 @@ static int axp20x_pek_probe(struct platform_device *pdev)
+ 	return 0;
+ }
  
- config HID_LOGITECH_DJ
--	tristate "Logitech Unifying receivers full support"
-+	tristate "Logitech receivers full support"
- 	depends on USB_HID
- 	depends on HIDRAW
- 	depends on HID_LOGITECH
- 	select HID_LOGITECH_HIDPP
- 	---help---
--	Say Y if you want support for Logitech Unifying receivers and devices.
--	Unifying receivers are capable of pairing up to 6 Logitech compliant
-+	Say Y if you want support for Logitech receivers and devices.
-+	Logitech receivers are capable of pairing multiple Logitech compliant
- 	devices to the same receiver. Without this driver it will be handled by
- 	generic USB_HID driver and all incoming events will be multiplexed
- 	into a single mouse and a single keyboard device.
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index 732380b55b15..cc7fc71d8b05 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- *  HID driver for Logitech Unifying receivers
-+ *  HID driver for Logitech receivers
-  *
-  *  Copyright (c) 2011 Logitech
-  */
-@@ -701,7 +701,7 @@ static void logi_dj_recv_add_djhid_device(struct dj_receiver_dev *djrcv_dev,
- 			type_str, dj_hiddev->product);
- 	} else {
- 		snprintf(dj_hiddev->name, sizeof(dj_hiddev->name),
--			"Logitech Unifying Device. Wireless PID:%04x",
-+			"Logitech Wireless Device PID:%04x",
- 			dj_hiddev->product);
- 	}
- 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 39a5ee0aaab0..c04018f8a727 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- *  HIDPP protocol for Logitech Unifying receivers
-+ *  HIDPP protocol for Logitech receivers
-  *
-  *  Copyright (c) 2011 Logitech (c)
-  *  Copyright (c) 2012-2013 Google (c)
+-static int __maybe_unused axp20x_pek_resume_noirq(struct device *dev)
+-{
+-	struct axp20x_pek *axp20x_pek = dev_get_drvdata(dev);
+-
+-	if (axp20x_pek->axp20x->variant != AXP288_ID)
+-		return 0;
+-
+-	/*
+-	 * Clear interrupts from button presses during suspend, to avoid
+-	 * a wakeup power-button press getting reported to userspace.
+-	 */
+-	regmap_write(axp20x_pek->axp20x->regmap,
+-		     AXP20X_IRQ1_STATE + AXP288_IRQ_POKN / 8,
+-		     BIT(AXP288_IRQ_POKN % 8));
+-
+-	return 0;
+-}
+-
+-static const struct dev_pm_ops axp20x_pek_pm_ops = {
+-#ifdef CONFIG_PM_SLEEP
+-	.resume_noirq = axp20x_pek_resume_noirq,
+-#endif
+-};
+-
+ static const struct platform_device_id axp_pek_id_match[] = {
+ 	{
+ 		.name = "axp20x-pek",
+@@ -394,7 +370,6 @@ static struct platform_driver axp20x_pek_driver = {
+ 	.id_table	= axp_pek_id_match,
+ 	.driver		= {
+ 		.name		= "axp20x-pek",
+-		.pm		= &axp20x_pek_pm_ops,
+ 		.dev_groups	= axp20x_groups,
+ 	},
+ };
 -- 
-2.24.1
+2.23.0
+
