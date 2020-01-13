@@ -2,93 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 892691394D1
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2020 16:31:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED796139534
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2020 16:50:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728670AbgAMPbx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Jan 2020 10:31:53 -0500
-Received: from orion.archlinux.org ([88.198.91.70]:48790 "EHLO
-        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726163AbgAMPbx (ORCPT
+        id S1728621AbgAMPuJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Jan 2020 10:50:09 -0500
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:36476 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727222AbgAMPuJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Jan 2020 10:31:53 -0500
-Received: from orion.archlinux.org (localhost [127.0.0.1])
-        by orion.archlinux.org (Postfix) with ESMTP id D530818170BB4C;
-        Mon, 13 Jan 2020 15:31:50 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.3 (2019-12-06) on orion.archlinux.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
-        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
-        autolearn=no autolearn_force=no version=3.4.3
-X-Spam-BL-Results: 
-Received: from genesis (unknown [IPv6:2001:8a0:f254:2300:dad6:8c60:8394:88da])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: ffy00)
-        by orion.archlinux.org (Postfix) with ESMTPSA;
-        Mon, 13 Jan 2020 15:31:50 +0000 (UTC)
-Message-ID: <7d49a8444ea1740444d1e9133104530731bfb30a.camel@archlinux.org>
-Subject: Re: [PATCH] HID: logitech-hidpp: add support for the Powerplay
- mat/receiver
-From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20200112205021.3004703-1-lains@archlinux.org>
-References: <20200112205021.3004703-1-lains@archlinux.org>
-Organization: Archlinux
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-SqfsoRYx0FWj0PIgDlOr"
-Date:   Mon, 13 Jan 2020 15:31:49 +0000
+        Mon, 13 Jan 2020 10:50:09 -0500
+Received: by mail-yw1-f67.google.com with SMTP id n184so6374978ywc.3;
+        Mon, 13 Jan 2020 07:50:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=P7zkiitkCWsuSRKPmAwAK7CcYVjDngYZSCq21E01NRk=;
+        b=rmvepy1x5AqgPVLurPEniloBeaJ0Q1QKeRGpndF2ifpZQ73OV3EUZb0epbw0BBJ0zD
+         6VYKXQLrmKZYG2hvhBAnCXwpeh0ACOS6xMK1CBrrM0vMNmCjUNPYMXKm1KCnNpcws1NQ
+         KvEXhdUJiaUaV4f5m+k9ItmFETt0cyh6Luk62RVyjB/kFubHj4PW4yVn4vcwWIa4PbiS
+         pLbeB+OzgVXUfDJXXoU3sDG2p0fo4FiVQWhK2bemBaAiRaJcNqBUjQ6gePRAz6Z+gI1p
+         KKJd+59/7v9VNyqb7r3Bx6irnyvx2fwkvGq1I6NafL4DrFuw5t8C/D9frxzpWklGoUhW
+         RvHQ==
+X-Gm-Message-State: APjAAAVjB+okExrPtoMz3lKoGEK9TnSwHkWOOWW9ZMUVu/8iSH9yspYl
+        tMzH7D24xuif6c0J9ejzUrA=
+X-Google-Smtp-Source: APXvYqwysToLWulQEKKQYs42+APLU16g4SfL5vezVQaE09a4FXcdkrOwmGA1950TxEodJ/XryowyeA==
+X-Received: by 2002:a0d:e697:: with SMTP id p145mr13360006ywe.199.1578930607860;
+        Mon, 13 Jan 2020 07:50:07 -0800 (PST)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id 144sm5172420ywy.20.2020.01.13.07.50.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2020 07:50:07 -0800 (PST)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 1E9EB4018C; Mon, 13 Jan 2020 15:50:06 +0000 (UTC)
+Date:   Mon, 13 Jan 2020 15:50:06 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v11 05/10] test_firmware: add support for
+ firmware_request_platform
+Message-ID: <20200113155006.GC11244@42.do-not-panic.com>
+References: <20200111145703.533809-1-hdegoede@redhat.com>
+ <20200111145703.533809-6-hdegoede@redhat.com>
+ <20200113145328.GA11244@42.do-not-panic.com>
+ <54f70265-265b-ad23-7d2d-af0b27ab1475@redhat.com>
 MIME-Version: 1.0
-User-Agent: Evolution 3.34.3 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54f70265-265b-ad23-7d2d-af0b27ab1475@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Mon, Jan 13, 2020 at 04:22:36PM +0100, Hans de Goede wrote:
+> 
+> test_firmware and dropping the mutex calls is better. I will make
+> this change for v12 of this series.
+> 
+> I'll send out a v12 once the remarks from Andy Lutomirski's
+> have also been discussed.
 
---=-SqfsoRYx0FWj0PIgDlOr
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Sure, just think twice about loosing the ability to access the
+test_firmware pointer from userspace. If you can find value
+in extending your tests then keep it, otherwise if its just
+to do the actual test in C in the call itself, it makes sense
+to avoid it for that test case.
 
-On Sun, 2020-01-12 at 20:50 +0000, Filipe La=C3=ADns wrote:
-> I also marked all lightspeed devices as HID++ compatible. As the
-> internal powerplay device does not have REPORT_TYPE_KEYBOARD or
-> REPORT_TYPE_KEYBOARD it was not being marked as HID++ compatible in
-> logi_hidpp_dev_conn_notif_equad.
-
-Actually I had another look at the code and I don't understand why we
-are manually setting |=3D HIDPP in
-logi_hidpp_dev_conn_notif_equad/logi_hidpp_dev_conn_notif_27mhz. We
-should set it in logi_dj_hidpp_event as it is triggered by receiving a
-HID++ packet.
-
-What do you think Benjamin?
-
---
-Filipe La=C3=ADns
-
---=-SqfsoRYx0FWj0PIgDlOr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAl4cjVoACgkQ+JPGdIFq
-qV19XBAAh7RH19Z4xTovja5qdXkfK4GPahfaPvuXcFgD/B3HPUbugTHUVqqUkkDY
-yJloDjloPk4Ug4jEO2p3fG+iZlWrM/sSoz8YDhpabMHuabV0ON2EDM0cxUY4o6iT
-Hx/kQdxGm9OuU4ZwPgQUTUcWQqCzFY3QPFE7vBnlpF0vVgjYhlzFvlv+gqdvzVlf
-1TlWyT+HYmz70w7Sk0Fo4ao2aDKbQbd+hMpwPXNVzsXE8sD2Kp3LjzycDwWp27vN
-4TGod0hZQN8VDBS2VUd4X8jsdYERkXuVrQph8Hb7Xn5k1GuGhszkJXOz1ZY27aNX
-PevlfCzs7aJfIKj5kBysdVJef0r/CwEASI+xzRS8+zLKoxvXKSIOWkke6n1FBxQm
-py2x3j3PPiYL+3HGHDWMQP2MpYk9hTGb2GLo+VsiWZuqTffcH+xMCCXCgU2E05Jr
-Y6w9HY9e5Alib5scgpJ52Lkt1GTx5xxnl7FP3LMjr9qf1lQNlFrUTimcgZ6vAJhL
-OE3ND+iZQnz32/fAPQ1Jt8mSJEMzDyGS5gMwm0bXYfxRLE3A3c/FgtXo5IOG0dsG
-19GDejciXw0f3nSL9O1yurcyYNKYp46l1JzdGUiX6yilI9uJZOpqcVDtzCmtPbEp
-XCfqHGvPbE86eSkmbtnyQrmlCsyzc39KxKoFD1CzPdd9RJ5aZhM=
-=vhH9
------END PGP SIGNATURE-----
-
---=-SqfsoRYx0FWj0PIgDlOr--
+  Luis
