@@ -2,355 +2,209 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C3BD813941F
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2020 15:59:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E48061394B6
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2020 16:22:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728811AbgAMO7V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Jan 2020 09:59:21 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:33186 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728646AbgAMO7V (ORCPT
+        id S1727286AbgAMPWn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Jan 2020 10:22:43 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54867 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726567AbgAMPWn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Jan 2020 09:59:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1578927557; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
+        Mon, 13 Jan 2020 10:22:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1578928962;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=QylB/cC3XR0W6TSZItoFx03/arcyZMHUAVM0VFmVRqM=;
-        b=TduK/K81V72pl7QRPORYrRvjVH7jZNCriEnqdiEI2SIFNy1rvzz2Y/C7VBOzdjdG3FeANP
-        tLRMfKAAEXe7CiXAfUBX8+inXGUXr2pEamSHLh3txsviWt4xamjT/m05aYO3aL5Hn7Hts7
-        0K+LTDPqWKp3GMXZvXTwNDMGnPPwi4A=
-Date:   Mon, 13 Jan 2020 11:59:00 -0300
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 3/5] IIO: Ingenic JZ47xx: Add touchscreen mode.
-To:     Jonathan Cameron <jic23@jic23.retrosnub.co.uk>
-Cc:     Artur Rojek <contact@artur-rojek.eu>,
+        bh=VOTGMvgDQlL7dRbs3ZO0Cylb6qsjQ7963pN+mQ0JZwc=;
+        b=Y9r0Wi7QQTuR83TgR4JgjOJNsyT0q+YcxIwnoVB+Gl97psAskH8LXH5XNa6ey3iXzUWj7T
+        1JZ56Qqrc+KRE5blsDyxdTFrByUQcLrCzuSxo/lDwVcseu/1+EXgR4ja0xkZnXZinxUuKG
+        uRHU/7bhPfPbcUikSBV3Nz0lNW4eMbs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-_PmmczrHPX63utTyW14WcA-1; Mon, 13 Jan 2020 10:22:40 -0500
+X-MC-Unique: _PmmczrHPX63utTyW14WcA-1
+Received: by mail-wm1-f72.google.com with SMTP id l11so40934wmi.0
+        for <linux-input@vger.kernel.org>; Mon, 13 Jan 2020 07:22:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=VOTGMvgDQlL7dRbs3ZO0Cylb6qsjQ7963pN+mQ0JZwc=;
+        b=UHPqaFwqvv/ccvwcu/Bh7aeWEQoPUX4kemi30ZDYStw4G1jaavoB3KRGx04hFUR3ee
+         IzHd2NcaD9cnkGdiuNpxRrWD4sqFDwOOc4Ecal80qXnHlznq50D75MyiCN6HBAlsaPQo
+         VToZQXoJstIqO2mexnDTirAwrSrZxHacYzTaRoGDX9JgqOx4XjQVqHdSkCTWoTrSeiDX
+         4RSt56+HKIiWZXnxkm0y8lokCOd3D4e6Iqc1zyl5PxiotDLjdgOkPeRGDBWVPI88sOBP
+         +qBADMuWHV7yMnwTdsWC0+qNK9/ORJXzwWVUj2z7b8hFUwziho6bDnGbf+/GRFzEa5uh
+         Fl3Q==
+X-Gm-Message-State: APjAAAVo2HCYOlzNB87JoUXSrJpQlJ0/xuFObaPZMC/XrADU4uaDqGPv
+        HVR1ZnoFhsTfth6/YsafI++4HH+1CYRld4X4nFU4/TESXhZpHd9uyvvtQN4jd9T7wRnPiXWkNDm
+        0nSiT1D5LWb2NWrI5z1CrfmY=
+X-Received: by 2002:a1c:a406:: with SMTP id n6mr20939388wme.40.1578928958680;
+        Mon, 13 Jan 2020 07:22:38 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyUmkECQJyn5SeeaSEv+fAyzoafrVckwo+t9N110O05ZIO2UB7J1Jik4S2xxmzSNHA+roPuQw==
+X-Received: by 2002:a1c:a406:: with SMTP id n6mr20939363wme.40.1578928958439;
+        Mon, 13 Jan 2020 07:22:38 -0800 (PST)
+Received: from shalem.localdomain (2001-1c00-0c0c-fe00-7e79-4dac-39d0-9c14.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:7e79:4dac:39d0:9c14])
+        by smtp.gmail.com with ESMTPSA id j12sm16877545wrw.54.2020.01.13.07.22.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jan 2020 07:22:37 -0800 (PST)
+Subject: Re: [PATCH v11 05/10] test_firmware: add support for
+ firmware_request_platform
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-Id: <1578927540.3.0@crapouillou.net>
-In-Reply-To: <20200111114609.1979a8ff@archlinux>
-References: <20200105001639.142061-1-contact@artur-rojek.eu>
-        <20200105001639.142061-3-contact@artur-rojek.eu>
-        <20200111114609.1979a8ff@archlinux>
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+References: <20200111145703.533809-1-hdegoede@redhat.com>
+ <20200111145703.533809-6-hdegoede@redhat.com>
+ <20200113145328.GA11244@42.do-not-panic.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <54f70265-265b-ad23-7d2d-af0b27ab1475@redhat.com>
+Date:   Mon, 13 Jan 2020 16:22:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200113145328.GA11244@42.do-not-panic.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jonathan,
+Hi,
+
+On 13-01-2020 15:53, Luis Chamberlain wrote:
+> On Sat, Jan 11, 2020 at 03:56:58PM +0100, Hans de Goede wrote:
+>> Add support for testing firmware_request_platform through a new
+>> trigger_request_platform trigger.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>> Changes in v11:
+>> - Drop a few empty lines which were accidentally introduced
+> 
+> But you didn't address my other feedback.
+> 
+>> --- a/lib/test_firmware.c
+>> +++ b/lib/test_firmware.c
+>> @@ -507,6 +508,61 @@ static ssize_t trigger_request_store(struct device *dev,
+>>   }
+>>   static DEVICE_ATTR_WO(trigger_request);
+>>   
+>> +#ifdef CONFIG_EFI_EMBEDDED_FIRMWARE
+>> +static ssize_t trigger_request_platform_store(struct device *dev,
+>> +					      struct device_attribute *attr,
+>> +					      const char *buf, size_t count)
+>> +{
+>> +	static const u8 test_data[] = {
+>> +		0x55, 0xaa, 0x55, 0xaa, 0x01, 0x02, 0x03, 0x04,
+>> +		0x55, 0xaa, 0x55, 0xaa, 0x05, 0x06, 0x07, 0x08,
+>> +		0x55, 0xaa, 0x55, 0xaa, 0x10, 0x20, 0x30, 0x40,
+>> +		0x55, 0xaa, 0x55, 0xaa, 0x50, 0x60, 0x70, 0x80
+>> +	};
+>> +	struct efi_embedded_fw fw;
+>> +	int rc;
+>> +	char *name;
+>> +
+>> +	name = kstrndup(buf, count, GFP_KERNEL);
+>> +	if (!name)
+>> +		return -ENOSPC;
+>> +
+>> +	pr_info("inserting test platform fw '%s'\n", name);
+>> +	fw.name = name;
+>> +	fw.data = (void *)test_data;
+>> +	fw.length = sizeof(test_data);
+>> +	list_add(&fw.list, &efi_embedded_fw_list);
+>> +
+>> +	pr_info("loading '%s'\n", name);
+>> +
+> 
+> I mentioned this in my last review, and it seems you forgot to address
+> this.
+
+I did address this in my reply to your review, as explained there,
+the check + free on test_firmware before calling firmware_request_platform()
+is necessary because test_firmware may be non NULL when entering
+the function (continued below) ...
+
+> But now some more feedback:
+> 
+> These two:
+> 
+>> +	mutex_lock(&test_fw_mutex);
+>> +	release_firmware(test_firmware);
+> 
+> You are doing this because this is a test, but a typical driver will
+> do this after, and we don't loose anything in doing this after. Can you
+> move the mutex lock and assign the pointer to a temporary used pointer
+> for the call, *after* your call.
+> 
+> But since your test is not using any interfaces to query information
+> about the firmware, and you are just doing the test in C code right
+> away, instead of say, using a trigger for later use in userspace,
+> you can just do away with the mutex lock and make the call use its
+> own pointer:
+> 
+> 	rc = firmware_request_platform(&tmp_test_firmware, name, dev);
+> 	if (rc) {
+> 		...
+> 	}
+> 	/* Your test branch code goes here */
+> 
+> I see no reason why you use the test_firmware pointer.
+
+I agree that using a private/local firmware pointer instead of
+test_firmware and dropping the mutex calls is better. I will make
+this change for v12 of this series.
+
+I'll send out a v12 once the remarks from Andy Lutomirski's
+have also been discussed.
+
+Regards,
+
+Hans
 
 
-Le sam., janv. 11, 2020 at 11:46, Jonathan Cameron=20
-<jic23@jic23.retrosnub.co.uk> a =E9crit :
-> On Sun,  5 Jan 2020 01:16:37 +0100
-> Artur Rojek <contact@artur-rojek.eu> wrote:
->=20
->>  Implement support for the touchscreen mode found in JZ47xx SoCs ADC.
-> This needs more description.
->=20
-> Looks like it enables a kfifo and also selects the callback buffer
-> stuff to run with a generic touchscreen iio-> input driver.
->=20
-> A few other bits inline, but basically fine.
->=20
-> I've never really thought about whether we support a CB buffer
-> without anything on the IIO side.   That should be possible,
-> but I'm not sure what odd corner cases will turn up.  I'm guessing
-> there are some, or you'd not have bothered exposing it here?
-
-I'm sorry, what do you mean by "nothing on the IIO side"?
-
-
->=20
-> Thanks
->=20
-> Jonathan
->=20
->=20
->>=20
->>  Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
->>  Tested-by: Paul Cercueil <paul@crapouillou.net>
->>  ---
->>   drivers/iio/adc/Kconfig       |   3 +
->>   drivers/iio/adc/ingenic-adc.c | 120=20
->> +++++++++++++++++++++++++++++++++-
->>   2 files changed, 121 insertions(+), 2 deletions(-)
->>=20
->>  diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
->>  index 5d8540b7b427..dabbf15032af 100644
->>  --- a/drivers/iio/adc/Kconfig
->>  +++ b/drivers/iio/adc/Kconfig
->>  @@ -446,6 +446,9 @@ config INA2XX_ADC
->>   config INGENIC_ADC
->>   	tristate "Ingenic JZ47xx SoCs ADC driver"
->>   	depends on MIPS || COMPILE_TEST
->>  +	select IIO_BUFFER
->>  +	select IIO_BUFFER_CB
->=20
-> Feels like IIO_BUFFER_CB should be selected by the driver that
-> uses that functionality rather than this one.
->=20
->>  +	select IIO_KFIFO_BUF
->>   	help
->>   	  Say yes here to build support for the Ingenic JZ47xx SoCs ADC=20
->> unit.
->>=20
->>  diff --git a/drivers/iio/adc/ingenic-adc.c=20
->> b/drivers/iio/adc/ingenic-adc.c
->>  index 7a24bc1dabe1..4dbf15fdd95d 100644
->>  --- a/drivers/iio/adc/ingenic-adc.c
->>  +++ b/drivers/iio/adc/ingenic-adc.c
->>  @@ -8,7 +8,10 @@
->>=20
->>   #include <dt-bindings/iio/adc/ingenic,adc.h>
->>   #include <linux/clk.h>
->>  +#include <linux/iio/buffer.h>
->>   #include <linux/iio/iio.h>
->>  +#include <linux/iio/kfifo_buf.h>
->>  +#include <linux/interrupt.h>
->>   #include <linux/io.h>
->>   #include <linux/iopoll.h>
->>   #include <linux/kernel.h>
->>  @@ -20,6 +23,8 @@
->>   #define JZ_ADC_REG_CFG			0x04
->>   #define JZ_ADC_REG_CTRL			0x08
->>   #define JZ_ADC_REG_STATUS		0x0c
->>  +#define JZ_ADC_REG_ADSAME		0x10
->>  +#define JZ_ADC_REG_ADWAIT		0x14
->>   #define JZ_ADC_REG_ADTCH		0x18
->>   #define JZ_ADC_REG_ADBDAT		0x1c
->>   #define JZ_ADC_REG_ADSDAT		0x20
->>  @@ -28,6 +33,9 @@
->>   #define JZ_ADC_REG_ENABLE_PD		BIT(7)
->>   #define JZ_ADC_REG_CFG_AUX_MD		(BIT(0) | BIT(1))
->>   #define JZ_ADC_REG_CFG_BAT_MD		BIT(4)
->>  +#define JZ_ADC_REG_CFG_PULL_UP(n)	((n) << 16)
->>  +#define JZ_ADC_REG_CFG_SAMPLE_NUM(n)	((n) << 10)
->>  +#define JZ_ADC_REG_CFG_TOUCH_OPS_MASK	(BIT(31) | GENMASK(23, 10))
->>   #define JZ_ADC_REG_ADCLK_CLKDIV_LSB	0
->>   #define JZ4725B_ADC_REG_ADCLK_CLKDIV10US_LSB	16
->>   #define JZ4770_ADC_REG_ADCLK_CLKDIV10US_LSB	8
->>  @@ -44,6 +52,14 @@
->>   #define JZ4770_ADC_BATTERY_VREF			6600
->>   #define JZ4770_ADC_BATTERY_VREF_BITS		12
->>=20
->>  +#define JZ_ADC_IRQ_AUX			BIT(0)
->>  +#define JZ_ADC_IRQ_BATTERY		BIT(1)
->>  +#define JZ_ADC_IRQ_TOUCH		BIT(2)
->>  +#define JZ_ADC_IRQ_PEN_DOWN		BIT(3)
->>  +#define JZ_ADC_IRQ_PEN_UP		BIT(4)
->>  +#define JZ_ADC_IRQ_PEN_DOWN_SLEEP	BIT(5)
->>  +#define JZ_ADC_IRQ_SLEEP		BIT(7)
->>  +
->>   struct ingenic_adc;
->>=20
->>   struct ingenic_adc_soc_data {
->>  @@ -411,6 +427,30 @@ static const struct iio_info ingenic_adc_info=20
->> =3D {
->>   };
->>=20
->>   static const struct iio_chan_spec ingenic_channels[] =3D {
->>  +	{
->>  +		.extend_name =3D "touchscreen_xp",
->=20
-> Note that adding extended names:
->=20
-> 1) Needs documenting as it create ABI - so something in
-> Documentation/ABI/testing/sysfs-bus-iio-*
->=20
-> 2) Breaks any generic userspace application.
->=20
-> Why can't we use modified and an axis to identify this?
-
-I'm in a good place to know that extended names are bad. The problem=20
-here is that Xn/Yn channels will be added later (we have a board that=20
-has one joystick connected to Xp/Yp, and a second joystick connected to=20
-Xn/Yn). I assume that it is not possible to have two channels with the=20
-same type and modifier?
-
-Alternatively I believe we could also have the first two channels as=20
-X/Y single-ended, and then two channels as X/Y differential, and do=20
-some easy math in the joystick driver, but that would make it pretty=20
-hardware-specific.
-
-Cheers,
--Paul
-
->=20
->>  +		.type =3D IIO_POSITIONRELATIVE,
->>  +		.indexed =3D 1,
->>  +		.channel =3D INGENIC_ADC_TOUCH_XP,
->>  +		.scan_index =3D 0,
->>  +		.scan_type =3D {
->>  +			.sign =3D 'u',
->>  +			.realbits =3D 12,
->>  +			.storagebits =3D 16
->>  +		},
->>  +	},
->>  +	{
->>  +		.extend_name =3D "touchscreen_yp",
->>  +		.type =3D IIO_POSITIONRELATIVE,
->>  +		.indexed =3D 1,
->>  +		.channel =3D INGENIC_ADC_TOUCH_YP,
->>  +		.scan_index =3D 1,
->>  +		.scan_type =3D {
->>  +			.sign =3D 'u',
->>  +			.realbits =3D 12,
->>  +			.storagebits =3D 16
->>  +		},
->>  +	},
->>   	{
->>   		.extend_name =3D "aux",
->>   		.type =3D IIO_VOLTAGE,
->>  @@ -418,6 +458,7 @@ static const struct iio_chan_spec=20
->> ingenic_channels[] =3D {
->>   				      BIT(IIO_CHAN_INFO_SCALE),
->>   		.indexed =3D 1,
->>   		.channel =3D INGENIC_ADC_AUX,
->>  +		.scan_index =3D -1
->>   	},
->>   	{
->>   		.extend_name =3D "battery",
->>  @@ -428,6 +469,7 @@ static const struct iio_chan_spec=20
->> ingenic_channels[] =3D {
->>   						BIT(IIO_CHAN_INFO_SCALE),
->>   		.indexed =3D 1,
->>   		.channel =3D INGENIC_ADC_BATTERY,
->>  +		.scan_index =3D -1
->>   	},
->>   	{ /* Must always be last in the array. */
->>   		.extend_name =3D "aux2",
->>  @@ -436,16 +478,70 @@ static const struct iio_chan_spec=20
->> ingenic_channels[] =3D {
->>   				      BIT(IIO_CHAN_INFO_SCALE),
->>   		.indexed =3D 1,
->>   		.channel =3D INGENIC_ADC_AUX2,
->>  +		.scan_index =3D -1
->>   	},
->>   };
->>=20
->>  +static int ingenic_adc_buffer_enable(struct iio_dev *iio_dev)
->>  +{
->>  +	struct ingenic_adc *adc =3D iio_priv(iio_dev);
->>  +
->>  +	clk_enable(adc->clk);
->>  +	/* It takes significant time for the touchscreen hw to stabilize.=20
->> */
->>  +	msleep(50);
->>  +	ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_TOUCH_OPS_MASK,
->>  +			       JZ_ADC_REG_CFG_SAMPLE_NUM(4) |
->>  +			       JZ_ADC_REG_CFG_PULL_UP(4));
->>  +	writew(80, adc->base + JZ_ADC_REG_ADWAIT);
->>  +	writew(2, adc->base + JZ_ADC_REG_ADSAME);
->>  +	writeb((u8)~JZ_ADC_IRQ_TOUCH, adc->base + JZ_ADC_REG_CTRL);
->>  +	writel(0, adc->base + JZ_ADC_REG_ADTCH);
->>  +	ingenic_adc_enable(adc, 2, true);
->>  +
->>  +	return 0;
->>  +}
->>  +
->>  +static int ingenic_adc_buffer_disable(struct iio_dev *iio_dev)
->>  +{
->>  +	struct ingenic_adc *adc =3D iio_priv(iio_dev);
->>  +
->>  +	ingenic_adc_enable(adc, 2, false);
->>  +	writeb(0xff, adc->base + JZ_ADC_REG_CTRL);
->>  +	writeb(0xff, adc->base + JZ_ADC_REG_STATUS);
->>  +	ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_TOUCH_OPS_MASK, 0);
->>  +	writew(0, adc->base + JZ_ADC_REG_ADSAME);
->>  +	writew(0, adc->base + JZ_ADC_REG_ADWAIT);
->>  +	clk_disable(adc->clk);
->>  +
->>  +	return 0;
->>  +}
->>  +
->>  +static const struct iio_buffer_setup_ops ingenic_buffer_setup_ops=20
->> =3D {
->>  +	.postenable =3D &ingenic_adc_buffer_enable,
->>  +	.predisable =3D &ingenic_adc_buffer_disable
->>  +};
->>  +
->>  +static irqreturn_t ingenic_adc_irq(int irq, void *data)
->>  +{
->>  +	struct iio_dev *iio_dev =3D data;
->>  +	struct ingenic_adc *adc =3D iio_priv(iio_dev);
->>  +	u32 tdat;
->>  +
->>  +	tdat =3D readl(adc->base + JZ_ADC_REG_ADTCH);
->>  +	iio_push_to_buffers(iio_dev, &tdat);
->>  +	writeb(JZ_ADC_IRQ_TOUCH, adc->base + JZ_ADC_REG_STATUS);
->>  +
->>  +	return IRQ_HANDLED;
->>  +}
->>  +
->>   static int ingenic_adc_probe(struct platform_device *pdev)
->>   {
->>   	struct device *dev =3D &pdev->dev;
->>   	struct iio_dev *iio_dev;
->>   	struct ingenic_adc *adc;
->>   	const struct ingenic_adc_soc_data *soc_data;
->>  -	int ret;
->>  +	struct iio_buffer *buffer;
->>  +	int irq, ret;
->>=20
->>   	soc_data =3D device_get_match_data(dev);
->>   	if (!soc_data)
->>  @@ -460,6 +556,18 @@ static int ingenic_adc_probe(struct=20
->> platform_device *pdev)
->>   	mutex_init(&adc->aux_lock);
->>   	adc->soc_data =3D soc_data;
->>=20
->>  +	irq =3D platform_get_irq(pdev, 0);
->>  +	if (irq < 0) {
->>  +		dev_err(dev, "Failed to get irq: %d\n", irq);
->>  +		return irq;
->>  +	}
->>  +	ret =3D devm_request_irq(dev, irq, ingenic_adc_irq, 0,
->>  +			       dev_name(dev), iio_dev);
->>  +	if (ret < 0) {
->>  +		dev_err(dev, "Failed to request irq: %d\n", ret);
->>  +		return ret;
->>  +	}
->>  +
->>   	adc->base =3D devm_platform_ioremap_resource(pdev, 0);
->>   	if (IS_ERR(adc->base))
->>   		return PTR_ERR(adc->base);
->>  @@ -499,7 +607,8 @@ static int ingenic_adc_probe(struct=20
->> platform_device *pdev)
->>=20
->>   	iio_dev->dev.parent =3D dev;
->>   	iio_dev->name =3D "jz-adc";
->>  -	iio_dev->modes =3D INDIO_DIRECT_MODE;
->>  +	iio_dev->modes =3D INDIO_DIRECT_MODE | INDIO_BUFFER_SOFTWARE;
->>  +	iio_dev->setup_ops =3D &ingenic_buffer_setup_ops;
->>   	iio_dev->channels =3D ingenic_channels;
->>   	iio_dev->num_channels =3D ARRAY_SIZE(ingenic_channels);
->>   	/* Remove AUX2 from the list of supported channels. */
->>  @@ -507,6 +616,13 @@ static int ingenic_adc_probe(struct=20
->> platform_device *pdev)
->>   		iio_dev->num_channels -=3D 1;
->>   	iio_dev->info =3D &ingenic_adc_info;
->>=20
->>  +	buffer =3D devm_iio_kfifo_allocate(dev);
->>  +	if (!buffer) {
->>  +		dev_err(dev, "Unable to add IIO buffer\n");
->>  +		return -ENOMEM;
->>  +	}
->>  +	iio_device_attach_buffer(iio_dev, buffer);
->>  +
->>   	ret =3D devm_iio_device_register(dev, iio_dev);
->>   	if (ret)
->>   		dev_err(dev, "Unable to register IIO device\n");
->=20
-
-=
+> 
+>> +	test_firmware = NULL;
+>> +	rc = firmware_request_platform(&test_firmware, name, dev);
+>> +	if (rc) {
+>> +		pr_info("load of '%s' failed: %d\n", name, rc);
+>> +		goto out;
+>> +	}
+>> +	if (test_firmware->size != sizeof(test_data) ||
+>> +	    memcmp(test_firmware->data, test_data, sizeof(test_data)) != 0) {
+>> +		pr_info("firmware contents mismatch for '%s'\n", name);
+>> +		rc = -EINVAL;
+>> +		goto out;
+>> +	}
+>> +	pr_info("loaded: %zu\n", test_firmware->size);
+>> +	rc = count;
+>> +
+>> +out:
+>> +	mutex_unlock(&test_fw_mutex);
+>> +
+>> +	list_del(&fw.list);
+>> +	kfree(name);
+>> +
+>> +	return rc;
+>> +}
+> 
 
