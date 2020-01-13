@@ -2,73 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 77617138B65
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2020 06:52:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B1EA138F5A
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2020 11:40:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733212AbgAMFwh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Jan 2020 00:52:37 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:36057 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726475AbgAMFw0 (ORCPT
+        id S1726133AbgAMKkK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Jan 2020 05:40:10 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:51293 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726127AbgAMKkK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Jan 2020 00:52:26 -0500
-Received: by mail-oi1-f196.google.com with SMTP id c16so7219149oic.3
-        for <linux-input@vger.kernel.org>; Sun, 12 Jan 2020 21:52:26 -0800 (PST)
+        Mon, 13 Jan 2020 05:40:10 -0500
+Received: by mail-wm1-f65.google.com with SMTP id d73so9048090wmd.1
+        for <linux-input@vger.kernel.org>; Mon, 13 Jan 2020 02:40:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
-        b=El5YZgtDEXJCHEtZrRB1ujEJT5GnrR9nqQvx3oNXkD1KXWKAy5lE4fahagwXmNRBuY
-         Z373bCStdjZZAvrcMmyjZhqXNYKD7qS8gpQ1uKt4Zm/CJYofbOmd6y2KCfdaIf8lu4gx
-         e04Qq2Wd5k0QzXhgODgXLh9+BTAbr7mIJG1kvrHD2cB5892G2QaMtoQjZ8YbwAsn/v/R
-         qN1ulSwy8kLJzDOOwwvDkEa6g0paOaNUUW6lO8NcaOsOsQMTh2eV34LXY/bnRxfyDcL+
-         OFIAYoYpyWTxvo4nB11oXa8J2BNLiFXnr18VfN4DCPOmpXqWPT8f/9GzmZX8VWLxs4VK
-         s+8g==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=8woBrjBV2pJrpCEHmipp5tCMuainYmDSO6QY88461Bw=;
+        b=v3vjyNLsU/ZP+duwAMBIiT/jTK8pe+/ftmLtCCvrnYszggFFYPTlNqj9hvYjDOOUmq
+         EpgQZglWUe1m2gz3HugJRucSZwcNiMfPUkj7Eav0XFDbxrEr/ahC36GknblhDRjc7ahH
+         zQjHyJwdJJhf+QMpI0IDbA/wNfOcZ2FznT70pmF8lv26V2byaqL3jChP1ohJIt0TXMcH
+         Udb7ZfjiUa/aUwIvQJ7yybd9UwrI/FtTqZdU9m8cJaaQQFkFmDImu/OE3+WU9PajHTUo
+         4c92RFQuMMUFx5sEkOfW1ctKcz6VghA9q4Ry+EEEAp7p2MtqTeW+fEIsng1iLqdHdWrY
+         gs/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
-        b=QQtJwDAOCqW0zWvvAQo+jDekL28/8CJpTIEgdTH6y1pXzUzDfLAjrE1HJq7x8YgvSj
-         DwLm+wSj6tRu6rC/D0FLr6cJbmSHNcZHNzQ45ivh22QbGgYmhObcBogHN+p7ex94U+Kc
-         8k6Ci8GQQ7xgYrzj9wVBzIyffKAESbst4roID9cNAR8Xa4+jqiGOKuGAYw2kUohmO/Xq
-         WYTDmAEffycXJvbweIqy3UCqda/uqs/mxnObEdFlsVqcuu7e4z5SueSem9BIdTynGf2r
-         SnwDQe5jrF5pNy7K0af7h3MSaGyRBwBrI+YlXhPFGFr8ZlrO/u1u0w6GQ0uwEKBcmzEN
-         TTWw==
-X-Gm-Message-State: APjAAAXTqCUIyJ3gMU7ohyllhE2dE3GL7mjpI73bjqSw4IBNN+fDyMzE
-        7k+nNZMbia4+XlQOHmPvBOtkazp+luU5MW8NYHouY5tH
-X-Google-Smtp-Source: APXvYqy7JhGBt0ZjJ/1t4CT74GIhTuvbOMnCynReBbsGRcTAfZPwoiLBCe9XiPA9xaK1JAPmy14eucUMWI9DLkbKsUo=
-X-Received: by 2002:a54:4713:: with SMTP id k19mr11513430oik.113.1578894745174;
- Sun, 12 Jan 2020 21:52:25 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=8woBrjBV2pJrpCEHmipp5tCMuainYmDSO6QY88461Bw=;
+        b=EfIVN5aUwGu8nmOdR9MiQkxxSDlXmcXq/A9N+Hu8zzrbba30leTDev0LOQjDnbdf7O
+         QjVctEMhHZMw6x3Y/Tur722nP9DeXFodpGgRGcKpaAC2IsQ+RqMjzcTlMcVEjiANuqKr
+         QgWtZ38AuuFJkTjb2abBRcPBdySbTjlvCZ5mfx9PfNwE0qzPWYj5asqokPfUFcNlhK/F
+         o8Nhfce7ZoW81o53y+Q3IyFInx0Rf/AL8LFQBff2KmFAvmHOHES8puF0Jolp0Cw3ZDqc
+         wiM7oPp3GHuP83OrmMI64c8PjVu0ihtsCr8zOkBJy9NtnA6B634Oh4TeIQwVgAby/69y
+         Lp9A==
+X-Gm-Message-State: APjAAAVBp3aQ7Uk6dTamVPCjfGeDJGIaGqXWx3yN8GSbreQF8mest2Kn
+        rrv41WS7tOxvomND7kEH5im2ig==
+X-Google-Smtp-Source: APXvYqzahBcdOwjWkOf5gPeQ+ARXeltCNOTaht2mJFVatu9RTi95f0Vd/GWdieYkCfCRg7L1Uj2Cnw==
+X-Received: by 2002:a1c:e108:: with SMTP id y8mr18978661wmg.147.1578912008310;
+        Mon, 13 Jan 2020 02:40:08 -0800 (PST)
+Received: from dell ([95.147.198.95])
+        by smtp.gmail.com with ESMTPSA id c5sm14403122wmb.9.2020.01.13.02.40.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2020 02:40:07 -0800 (PST)
+Date:   Mon, 13 Jan 2020 10:40:28 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     support.opensource@diasemi.com, stwiss.opensource@diasemi.com,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        Adam.Thomson.Opensource@diasemi.com, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] input: misc: da9063_onkey: add mode change support
+Message-ID: <20200113104028.GB5414@dell>
+References: <20191127132304.22924-1-m.felsch@pengutronix.de>
+ <20191127132304.22924-3-m.felsch@pengutronix.de>
+ <20200108084800.x2doud4v6m3ssz6s@pengutronix.de>
 MIME-Version: 1.0
-Received: by 2002:a4a:41cb:0:0:0:0:0 with HTTP; Sun, 12 Jan 2020 21:52:24
- -0800 (PST)
-Reply-To: rickschaech@gmail.com
-From:   Rick Schaech <cathben72@gmail.com>
-Date:   Mon, 13 Jan 2020 01:52:24 -0400
-Message-ID: <CAEcBxO=TAnFn5LzizHa22hUC0Db5FuiZJF28m=yX3_9m--jRqg@mail.gmail.com>
-Subject: I wait for your swift response,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200108084800.x2doud4v6m3ssz6s@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear, I'm Mr Rick Schaech, I am the General Account Auditor, Though i
-know we have not meet each other before but sometimes in life God have
-a reason of bringing two people from two different countries together
-as business partners or life partners.
+On Wed, 08 Jan 2020, Marco Felsch wrote:
 
-My dear friend, I have the sum of 15.7 Million USD i wish to put in
-your name due to the death of my late client who died several years
-ago as his next of kin column still remain blank. Though the internet
-medium is highly abuse these days but am assuring you that this
-transaction is legitimate and I am contacting you that we may have a
-deal, note for your cooperation and collaboration 40% of the sum will
-be for you while the other 60% will be for me as well. I wait for your
-swift response for more details. please forward your response to my
-personal E-mail: rickschaech@gmail.com
+> Hi Lee,
+> 
+> I forgot to add you to review the mfd part, sorry. Please can you have a
+> look on it?
 
-Yours sincerely,
-Rick Schaech.
+[...]
+
+> > --- a/drivers/mfd/da9062-core.c
+> > +++ b/drivers/mfd/da9062-core.c
+> > @@ -510,6 +510,7 @@ static const struct regmap_range da9062_aa_writeable_ranges[] = {
+> >  	regmap_reg_range(DA9062AA_VLDO1_B, DA9062AA_VLDO4_B),
+> >  	regmap_reg_range(DA9062AA_BBAT_CONT, DA9062AA_BBAT_CONT),
+> >  	regmap_reg_range(DA9062AA_GP_ID_0, DA9062AA_GP_ID_19),
+> > +	regmap_reg_range(DA9062AA_CONFIG_I, DA9062AA_CONFIG_I),
+> >  };
+> >  
+> >  static const struct regmap_range da9062_aa_volatile_ranges[] = {
+
+Looks fine.
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
