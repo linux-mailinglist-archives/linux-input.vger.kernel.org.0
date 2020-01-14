@@ -2,130 +2,306 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FB8C139F2A
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2020 02:47:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 661B5139F6F
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2020 03:19:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728931AbgANBr2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Jan 2020 20:47:28 -0500
-Received: from orion.archlinux.org ([88.198.91.70]:42476 "EHLO
-        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728838AbgANBr2 (ORCPT
+        id S1729235AbgANCTv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Jan 2020 21:19:51 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:39744 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729030AbgANCTv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Jan 2020 20:47:28 -0500
-Received: from orion.archlinux.org (localhost [127.0.0.1])
-        by orion.archlinux.org (Postfix) with ESMTP id 015C5181900AAE;
-        Tue, 14 Jan 2020 01:47:25 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.3 (2019-12-06) on orion.archlinux.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
-        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
-        autolearn=no autolearn_force=no version=3.4.3
-X-Spam-BL-Results: 
-Received: from genesis (unknown [IPv6:2001:8a0:f254:2300:dad6:8c60:8394:88da])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: ffy00)
-        by orion.archlinux.org (Postfix) with ESMTPSA;
-        Tue, 14 Jan 2020 01:47:24 +0000 (UTC)
-Message-ID: <320e6e0d7f8968b3febb3422ba02a2b249e09f60.camel@archlinux.org>
-Subject: Re: [PATCH] HID: logitech-dj: add debug msg when exporting a HID++
- report descriptors
-From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-In-Reply-To: <CAO-hwJKkMv7T0e11XoYKh9GtsnNCfOztFsoU7JXgmxCvfROeZw@mail.gmail.com>
-References: <20200113192300.2482096-1-lains@archlinux.org>
-         <CAO-hwJKkMv7T0e11XoYKh9GtsnNCfOztFsoU7JXgmxCvfROeZw@mail.gmail.com>
-Organization: Archlinux
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-XZpYMbjM2oNFIHaa2S3w"
-Date:   Tue, 14 Jan 2020 01:47:23 +0000
+        Mon, 13 Jan 2020 21:19:51 -0500
+Received: by mail-pl1-f193.google.com with SMTP id g6so4592852plp.6
+        for <linux-input@vger.kernel.org>; Mon, 13 Jan 2020 18:19:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dqEckbXPcfEUqWhZqBJ6PLYPFoSJZMoENeqIIUphVrg=;
+        b=FDVtaIks8h5cHACCyLs3Pmb5QWY44/zulF/aRPl1D/iQVlGOHgHWhMcujCAbxWLo4d
+         GkROgNx+6EvrBGFuryyXlEFFt6UOrwco+BG171HX85xqiS6PkyxeWtjV7FpAtLx9v0Ze
+         ufbcWFSvCR2evHRpsKVeQwCpoKy/sm1WVQ8qs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dqEckbXPcfEUqWhZqBJ6PLYPFoSJZMoENeqIIUphVrg=;
+        b=Vkfji45QAYxnCbOohcvIiYrEom+lD1T9TgtawejKSQnfrkKf64u9Qa9xcPo8oljdMw
+         HShftoh2xm7BYZM7IL++vKeKxmwDXY4etenSpfCDWW2LOukpRlq3orgzZq1mxOI7K2Yh
+         fe6b3KcY/nYuNrszw8qSOkfHDzDn45aQnrwU3SONYatkdYaWwjFQOWLRQs3nGDm7L5gp
+         Egrj+JfScX6SyQb0k2z4MzN79aiB4gQ6tDi1Ebm1ri9zb/YVZHEqvZmfH7wWGbHJF5Em
+         vBdQ3NqcW2+3qJeItmE/x97yMCoKO02ZG9dYPqovVTMzlijGwgBNvs4FNeC+XDf89QaB
+         DtBQ==
+X-Gm-Message-State: APjAAAWPW3AOleYHvGzk5gHDtPNAAft5FgrArh8oiLCvAEruxh6InrTK
+        4YZjRbLyEo8AK5qmIuiLzSD6jA==
+X-Google-Smtp-Source: APXvYqwlGH3Ognm6z0tQ+Au+E2DQFBMhX51rM1Vy+V6FDYSrDbwBvzchGYk5q8S/YQoLJsxpgjH9jw==
+X-Received: by 2002:a17:902:8e87:: with SMTP id bg7mr17654652plb.279.1578968389360;
+        Mon, 13 Jan 2020 18:19:49 -0800 (PST)
+Received: from ikjn-p920.tpe.corp.google.com ([2401:fa00:1:10:254e:2b40:ef8:ee17])
+        by smtp.gmail.com with ESMTPSA id e15sm4080353pja.13.2020.01.13.18.19.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2020 18:19:48 -0800 (PST)
+From:   Ikjoon Jang <ikjn@chromium.org>
+To:     devicetree@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nicolas Boitchat <drinkcat@chromium.org>,
+        linux-input@vger.kernel.org, Ikjoon Jang <ikjn@chromium.org>
+Subject: [PATCH] dt-bindings: mfd: Convert ChromeOS EC bindings to json-schema
+Date:   Tue, 14 Jan 2020 10:19:34 +0800
+Message-Id: <20200114021934.178057-1-ikjn@chromium.org>
+X-Mailer: git-send-email 2.25.0.rc1.283.g88dfdc4193-goog
 MIME-Version: 1.0
-User-Agent: Evolution 3.34.3 
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Convert the ChromeOS EC bindings to json-schema.
 
---=-XZpYMbjM2oNFIHaa2S3w
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
+---
+ .../devicetree/bindings/mfd/cros-ec.txt       |  76 ----------
+ .../devicetree/bindings/mfd/cros-ec.yaml      | 138 ++++++++++++++++++
+ 2 files changed, 138 insertions(+), 76 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
+ create mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.yaml
 
-On Tue, 2020-01-14 at 11:24 +1000, Benjamin Tissoires wrote:
-> Hi Filipe,
->=20
-> On Tue, Jan 14, 2020 at 5:23 AM Filipe La=C3=ADns <lains@archlinux.org> w=
-rote:
-> > When exporting all other types of report descriptors we print a debug
-> > message. Not doing so for HID++ descriptors makes unaware users think
-> > that no HID++ descriptor was exported.
->=20
-> Unless I am mistaken, those dbg_hid() calls are not displayed by
-> default on any distribution. So I am not sure what is the benefit to
-> add this one here when we are already not showing the rest to the
-> users by default. There is a tiny improvement to have some code
-> symmetry, but here, honestly, it doesn't feel that required.
->=20
-> Cheers,
-> Benjamin
+diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.txt b/Documentation/devicetree/bindings/mfd/cros-ec.txt
+deleted file mode 100644
+index 4860eabd0f72..000000000000
+--- a/Documentation/devicetree/bindings/mfd/cros-ec.txt
++++ /dev/null
+@@ -1,76 +0,0 @@
+-ChromeOS Embedded Controller
+-
+-Google's ChromeOS EC is a Cortex-M device which talks to the AP and
+-implements various function such as keyboard and battery charging.
+-
+-The EC can be connect through various means (I2C, SPI, LPC, RPMSG) and the
+-compatible string used depends on the interface. Each connection method has
+-its own driver which connects to the top level interface-agnostic EC driver.
+-Other Linux driver (such as cros-ec-keyb for the matrix keyboard) connect to
+-the top-level driver.
+-
+-Required properties (I2C):
+-- compatible: "google,cros-ec-i2c"
+-- reg: I2C slave address
+-
+-Required properties (SPI):
+-- compatible: "google,cros-ec-spi"
+-- reg: SPI chip select
+-
+-Required properties (RPMSG):
+-- compatible: "google,cros-ec-rpmsg"
+-
+-Optional properties (SPI):
+-- google,cros-ec-spi-pre-delay: Some implementations of the EC need a little
+-  time to wake up from sleep before they can receive SPI transfers at a high
+-  clock rate. This property specifies the delay, in usecs, between the
+-  assertion of the CS to the start of the first clock pulse.
+-- google,cros-ec-spi-msg-delay: Some implementations of the EC require some
+-  additional processing time in order to accept new transactions. If the delay
+-  between transactions is not long enough the EC may not be able to respond
+-  properly to subsequent transactions and cause them to hang. This property
+-  specifies the delay, in usecs, introduced between transactions to account
+-  for the time required by the EC to get back into a state in which new data
+-  can be accepted.
+-
+-Required properties (LPC):
+-- compatible: "google,cros-ec-lpc"
+-- reg: List of (IO address, size) pairs defining the interface uses
+-
+-Optional properties (all):
+-- google,has-vbc-nvram: Some implementations of the EC include a small
+-  nvram space used to store verified boot context data. This boolean flag
+-  is used to specify whether this nvram is present or not.
+-
+-Example for I2C:
+-
+-i2c@12ca0000 {
+-	cros-ec@1e {
+-		reg = <0x1e>;
+-		compatible = "google,cros-ec-i2c";
+-		interrupts = <14 0>;
+-		interrupt-parent = <&wakeup_eint>;
+-		wakeup-source;
+-	};
+-
+-
+-Example for SPI:
+-
+-spi@131b0000 {
+-	ec@0 {
+-		compatible = "google,cros-ec-spi";
+-		reg = <0x0>;
+-		interrupts = <14 0>;
+-		interrupt-parent = <&wakeup_eint>;
+-		wakeup-source;
+-		spi-max-frequency = <5000000>;
+-		controller-data {
+-		cs-gpio = <&gpf0 3 4 3 0>;
+-		samsung,spi-cs;
+-		samsung,spi-feedback-delay = <2>;
+-		};
+-	};
+-};
+-
+-
+-Example for LPC is not supplied as it is not yet implemented.
+diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.yaml b/Documentation/devicetree/bindings/mfd/cros-ec.yaml
+new file mode 100644
+index 000000000000..ea430f0a553b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/cros-ec.yaml
+@@ -0,0 +1,138 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/cros-ec.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ChromeOS Embedded Controller
++
++maintainers:
++  - Benson Leung <bleung@chromium.org>
++  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
++  - Guenter Roeck <groeck@chromium.org>
++
++description: |
++  Google's ChromeOS EC is a Cortex-M device which talks to the AP and
++  implements various function such as keyboard and battery charging.
++  The EC can be connect through various means (I2C, SPI, LPC, RPMSG)
++  and the compatible string used depends on the interface.
++  Each connection method has its own driver which connects to the
++  top level interface-agnostic EC driver. Other Linux driver
++  (such as cros-ec-keyb for the matrix keyboard) connect to the
++  top-level driver.
++
++properties:
++  compatible:
++    oneOf:
++      - description:
++          For implementations of the EC is connected through I2C.
++        const: google,cros-ec-i2c
++      - description:
++          For implementations of the EC is connected through SPI.
++        const: google,cros-ec-spi
++      - description:
++          For implementations of the EC is connected through LPC.
++        const: google,cros-ec-lpc
++      - description:
++          For implementations of the EC is connected through RPMSG.
++        const: google,cros-ec-rpmsg
++
++  google,has-vbc-nvram:
++    description: |
++      Some implementations of the EC include a small
++      nvram space used to store verified boot context data.
++      This boolean flag is used to specify whether this nvram is present or not.
++    type: boolean
++
++required:
++  - compatible
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          const: google,cros-ec-i2c
++    then:
++      properties:
++        reg:
++          description: I2C slave address
++          maxItems: 1
++      required:
++        - reg
++  - if:
++      properties:
++        compatible:
++          const: google,cros-ec-spi
++    then:
++      properties:
++        reg:
++          description: SPI chip select
++          maxItems: 1
++        google,cros-ec-spi-pre-delay:
++          description: |
++            Some implementations of the EC need a little time to wake up
++            from sleep before they can receive SPI transfers
++            at a high clock rate. This property specifies the delay,
++            in usecs, between the assertion of the CS to the start of
++            the first clock pulse.
++        google,cros-ec-spi-msg-delay:
++          description: |
++            Some implementations of the EC require some additional
++            processing time in order to accept new transactions.
++            If the delay between transactions is not long enough
++            the EC may not be able to respond properly to
++            subsequent transactions and cause them to hang.
++            This property specifies the delay, in usecs,
++            introduced between transactions to account for the
++            time required by the EC to get back into a state
++            in which new data can be accepted.
++      required:
++        - reg
++
++  - if:
++      properties:
++        compatible:
++          const: google,cros-ec-lpc
++    then:
++      properties:
++        reg:
++          description: |
++            List of (IO address, size) pairs defining the interface uses
++      required:
++        - reg
++
++examples:
++  - |+
++    // Example for I2C
++    i2c@12ca0000 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        cros-ec@1e {
++            reg = <0x1e>;
++            compatible = "google,cros-ec-i2c";
++            interrupts = <14 0>;
++            interrupt-parent = <&wakeup_eint>;
++            wakeup-source;
++        };
++    };
++  - |+
++    // Example for SPI
++    spi@131b0000 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        ec@0 {
++            compatible = "google,cros-ec-spi";
++            reg = <0x0>;
++            interrupts = <14 0>;
++            interrupt-parent = <&wakeup_eint>;
++            wakeup-source;
++            spi-max-frequency = <5000000>;
++            controller-data {
++                cs-gpio = <&gpf0 3 4 3 0>;
++                samsung,spi-cs;
++                samsung,spi-feedback-delay = <2>;
++            };
++        };
++    };
++
++...
+-- 
+2.25.0.rc1.283.g88dfdc4193-goog
 
-Hi Benjamin,
-
-As far as I know, they aren't. This was just a nitpick. As I already
-had the code locally I decided to just go ahead and submit the patch.
-But noted, I won't submit any more of this nitpick patches.
-
-> > Signed-off-by: Filipe La=C3=ADns <lains@archlinux.org>
-> > ---
-> >  drivers/hid/hid-logitech-dj.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >=20
-> > diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-d=
-j.c
-> > index cc7fc71d8b05..8f17a29b5a94 100644
-> > --- a/drivers/hid/hid-logitech-dj.c
-> > +++ b/drivers/hid/hid-logitech-dj.c
-> > @@ -1368,6 +1368,8 @@ static int logi_dj_ll_parse(struct hid_device *hi=
-d)
-> >         }
-> >=20
-> >         if (djdev->reports_supported & HIDPP) {
-> > +               dbg_hid("%s: sending a HID++ descriptor, reports_suppor=
-ted: %llx\n",
-> > +                       __func__, djdev->reports_supported);
-> >                 rdcat(rdesc, &rsize, hidpp_descriptor,
-> >                       sizeof(hidpp_descriptor));
-> >         }
-> > --
-> > 2.24.1
-> >=20
-
-Thank you,
-Filipe La=C3=ADns
-
---=-XZpYMbjM2oNFIHaa2S3w
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAl4dHaYACgkQ+JPGdIFq
-qV06zQ//XmrOqe71XNz/hvtjcOSxohDk+tdLtCvBOwhJr7UKJLWvRDqYy245uO3h
-4VOFKNQfbAFmuAJnGybxQSPlZp0qnqEaBj5OnycfLmpEfuhGP1afxv8dJxA0TNZF
-FbBmjm+oj2tenrtgE4kQ4GyzrE/AWE3vkKp3FMR+5vILxUG8gd8VKwvYX553gO5r
-sz46WGhkc4+skHscqKqqefRW+Z72kNmp1YuOKYntXeK6qomBmWPfN4xH4jM5R1je
-03tnYOH45uT+swXczKSoLZXfPNuEVVK7SA0g7HQqrpRe0P7q4KDmbgTaEGec5Y8r
-WZopYPDe822UwKukLR7h9EN2ilKdmg2/XwoVgnYofzy0f/0lAisAO9cNTNRwY3C6
-ElftlSUZlrruwy9wDX4T3pN+a+ynEybPLRyQj4KwBwFI5Bh2IXwEh5YpHFvz6Odi
-5qo0vtUE5cL6Du1Aomqk9WBcIvfPd8dxZojsQfUJJvFocmPk6WzO8CVSBRm8RZT3
-nNoYzT5pLMU9A+VWkdIlIjd2wCZWMsV9KYIPNq11wfMYcbuc0XbJXKG/vq6D3Yue
-vczfAaoWIDNY6zccimwYT67iF6ZZtogBmeNb4DAN6PlHA7L1I0OxQColmB9Zbke+
-uYRmBGZO4yigaKsdj1892j4qaP4Xh5Qyf/mKCBOovzNpMqzrQdA=
-=EY9x
------END PGP SIGNATURE-----
-
---=-XZpYMbjM2oNFIHaa2S3w--
