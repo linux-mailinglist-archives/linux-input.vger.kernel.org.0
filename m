@@ -2,40 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E1A0B13AA38
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2020 14:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45BDE13AA3D
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2020 14:06:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729536AbgANNEL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Jan 2020 08:04:11 -0500
-Received: from mail-il1-f197.google.com ([209.85.166.197]:40163 "EHLO
-        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729518AbgANNEK (ORCPT
+        id S1729134AbgANNEU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Jan 2020 08:04:20 -0500
+Received: from mail-io1-f71.google.com ([209.85.166.71]:36918 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729504AbgANNEK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Tue, 14 Jan 2020 08:04:10 -0500
-Received: by mail-il1-f197.google.com with SMTP id e4so10504207ilm.7
+Received: by mail-io1-f71.google.com with SMTP id s6so776260iod.4
         for <linux-input@vger.kernel.org>; Tue, 14 Jan 2020 05:04:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=Ktv5lJMscUKFORWcOMAcl6GxcBAhuEkRrEdgCvWDWG0=;
-        b=N1ePh41xTnimmH8XoRaXDkjgmgr/LSeIzLn4euySriHpcnjT7iYfAhTTl9wtZACn3w
-         rjbv5C7LUltExW30D+QhNGD9d3686vdzcUHPBO0/BZPYAe+HP87uFJE0BljtEcqP8EYi
-         I6bHRrud7h2IS8JnrqwnyByAkCMPjMdu0UCctJjEAv4n+k7Pf4mhZBwHgvWVhIiTSy4j
-         +Fl8A7BbvnENKme3jy+9kLRPAM4VoIW6bzmwuMczkeQvKiLLJ9y/kGESMrq3GTXZ1Ydv
-         19pdVFl6nFo60M1xZe7S3BlqC0Ka00dWlSMr2Rm/9SZZjSCLsZrw4/PUx6sDXLOrzuF4
-         JGPg==
-X-Gm-Message-State: APjAAAUeqxBR4UhucuF3s80CyfURG1zCEaU4VP8YBlc1NrJuIvRTPbDU
-        7T9X3v8z/nx7+muBB1VsaxJU4AsMfF5d3gyxKItbkH2jCEr2
-X-Google-Smtp-Source: APXvYqzTN4POteeYcC0YrGGClX7sB/q5mptHZ+mIwVgUrUHaLCA1BE7+xzwVurlE0KZAtPgcyM+9ndHdPzhAJQp/XI4waggsoSHu
+        bh=fmPqi2gWXOd710aLJSiqSPAqm1Qm2zPjhgMXQU/SWIE=;
+        b=NJO0JpOFClhTzV/TGAqrNZwmGPG0OHJnscKH+REJ9GVRxTBgZhp6lJHZfzs2oBta8O
+         fAbNqOx61Jq0a4V/Mvw/KkKaRsckn2781lAKAsycXYTUs069bncc06z70TdoSkXBzuom
+         lF3lsH0tt4kA5ikUeMLXOKb7N5b0Jv80xpIx6u+ogQJm9JKFwjTlpbofE+n6hWOWEf1I
+         2ya8ub75iuhb7Tk9GGnZ7zoWdRYdXVrf90hGwN0FcuEPn1ok6c7KhSZR0MXn9qaIFP6R
+         X5TF84jc7cwAb8+ry0aDBxyEKvrtZdfR8rFq7kNWzjzSM+l+cB8ihbMw0fpbq5/jYtWp
+         EoMQ==
+X-Gm-Message-State: APjAAAUgjfOVWCvRhQiiGdvz6tMIeKlQUCd94wRk0JQ+I9rwiySmJKl6
+        5eaCSXWactdnnVN7gm5N6nUgJKTSrmtP5WOYoRODJFZIEpiW
+X-Google-Smtp-Source: APXvYqyujrtOa05y3ssEDcSGo9U93hsBvGt+9lxy+Y6YOfUK2tuxQDaZMKfPgO1h6jXd62VIhUV+WZT7z5QJrtMlwPD/rgc39Ek7
 MIME-Version: 1.0
-X-Received: by 2002:a92:8991:: with SMTP id w17mr3009260ilk.12.1579007049838;
+X-Received: by 2002:a05:6638:a31:: with SMTP id 17mr18149783jao.15.1579007049598;
  Tue, 14 Jan 2020 05:04:09 -0800 (PST)
 Date:   Tue, 14 Jan 2020 05:04:09 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000004dbaf2059c193a36@google.com>
-Subject: KASAN: use-after-free Read in hiddev_disconnect
-From:   syzbot <syzbot+106b378813251e52fc5e@syzkaller.appspotmail.com>
+Message-ID: <0000000000004a11c1059c193a54@google.com>
+Subject: KASAN: use-after-free Write in hiddev_disconnect
+From:   syzbot <syzbot+784ccb935f9900cc7c9e@syzkaller.appspotmail.com>
 To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
         jikos@kernel.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
@@ -52,23 +52,23 @@ syzbot found the following crash on:
 
 HEAD commit:    5a67532c usb: gadget: add raw-gadget interface
 git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=103175e1e00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=10b1419ee00000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=9ba75825443d54bd
-dashboard link: https://syzkaller.appspot.com/bug?extid=106b378813251e52fc5e
+dashboard link: https://syzkaller.appspot.com/bug?extid=784ccb935f9900cc7c9e
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
 
 Unfortunately, I don't have any reproducer for this crash yet.
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+106b378813251e52fc5e@syzkaller.appspotmail.com
+Reported-by: syzbot+784ccb935f9900cc7c9e@syzkaller.appspotmail.com
 
-usb 2-1: USB disconnect, device number 119
+usb 6-1: USB disconnect, device number 34
 ==================================================================
-BUG: KASAN: use-after-free in __lock_acquire+0x31af/0x3b60  
-kernel/locking/lockdep.c:3828
-Read of size 8 at addr ffff8881ca9748a8 by task kworker/1:6/4036
+BUG: KASAN: use-after-free in register_lock_class+0xeda/0x11d0  
+kernel/locking/lockdep.c:1263
+Write of size 8 at addr ffff8881ce6284b0 by task kworker/0:3/3833
 
-CPU: 1 PID: 4036 Comm: kworker/1:6 Not tainted 5.5.0-rc6-syzkaller #0
+CPU: 0 PID: 3833 Comm: kworker/0:3 Not tainted 5.5.0-rc6-syzkaller #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
 Workqueue: usb_hub_wq hub_event
@@ -78,7 +78,8 @@ Call Trace:
   print_address_description.constprop.0.cold+0xd3/0x314 mm/kasan/report.c:374
   __kasan_report.cold+0x37/0x85 mm/kasan/report.c:506
   kasan_report+0xe/0x20 mm/kasan/common.c:639
-  __lock_acquire+0x31af/0x3b60 kernel/locking/lockdep.c:3828
+  register_lock_class+0xeda/0x11d0 kernel/locking/lockdep.c:1263
+  __lock_acquire+0xfc/0x3b60 kernel/locking/lockdep.c:3837
   lock_acquire+0x130/0x340 kernel/locking/lockdep.c:4485
   __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
   _raw_spin_lock_irqsave+0x32/0x50 kernel/locking/spinlock.c:159
@@ -111,7 +112,7 @@ Call Trace:
   kthread+0x318/0x420 kernel/kthread.c:255
   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 
-Allocated by task 3947:
+Allocated by task 5:
   save_stack+0x1b/0x80 mm/kasan/common.c:72
   set_track mm/kasan/common.c:80 [inline]
   __kasan_kmalloc mm/kasan/common.c:513 [inline]
@@ -158,12 +159,11 @@ Allocated by task 3947:
   port_event drivers/usb/core/hub.c:5470 [inline]
   hub_event+0x21cb/0x4300 drivers/usb/core/hub.c:5552
   process_one_work+0x945/0x15c0 kernel/workqueue.c:2264
-  process_scheduled_works kernel/workqueue.c:2326 [inline]
-  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2412
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2410
   kthread+0x318/0x420 kernel/kthread.c:255
   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 
-Freed by task 6508:
+Freed by task 4638:
   save_stack+0x1b/0x80 mm/kasan/common.c:72
   set_track mm/kasan/common.c:80 [inline]
   kasan_set_free_info mm/kasan/common.c:335 [inline]
@@ -175,31 +175,35 @@ Freed by task 6508:
   hiddev_release+0x402/0x520 drivers/hid/usbhid/hiddev.c:232
   __fput+0x2d7/0x840 fs/file_table.c:280
   task_work_run+0x13f/0x1c0 kernel/task_work.c:113
-  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
-  exit_to_usermode_loop+0x1d2/0x200 arch/x86/entry/common.c:164
+  exit_task_work include/linux/task_work.h:22 [inline]
+  do_exit+0xb8b/0x2c50 kernel/exit.c:801
+  do_group_exit+0x125/0x340 kernel/exit.c:899
+  get_signal+0x480/0x2470 kernel/signal.c:2734
+  do_signal+0x88/0x1490 arch/x86/kernel/signal.c:815
+  exit_to_usermode_loop+0x1a2/0x200 arch/x86/entry/common.c:160
   prepare_exit_to_usermode arch/x86/entry/common.c:195 [inline]
   syscall_return_slowpath arch/x86/entry/common.c:278 [inline]
   do_syscall_64+0x4e0/0x5a0 arch/x86/entry/common.c:304
   entry_SYSCALL_64_after_hwframe+0x49/0xbe
 
-The buggy address belongs to the object at ffff8881ca974800
+The buggy address belongs to the object at ffff8881ce628400
   which belongs to the cache kmalloc-512 of size 512
-The buggy address is located 168 bytes inside of
-  512-byte region [ffff8881ca974800, ffff8881ca974a00)
+The buggy address is located 176 bytes inside of
+  512-byte region [ffff8881ce628400, ffff8881ce628600)
 The buggy address belongs to the page:
-page:ffffea00072a5d00 refcount:1 mapcount:0 mapping:ffff8881da002500  
-index:0x0 compound_mapcount: 0
-raw: 0200000000010200 dead000000000100 dead000000000122 ffff8881da002500
-raw: 0000000000000000 0000000000100010 00000001ffffffff 0000000000000000
+page:ffffea0007398a00 refcount:1 mapcount:0 mapping:ffff8881da002500  
+index:0xffff8881ce62a800 compound_mapcount: 0
+raw: 0200000000010200 0000000000000000 0000000100000001 ffff8881da002500
+raw: ffff8881ce62a800 000000008010000f 00000001ffffffff 0000000000000000
 page dumped because: kasan: bad access detected
 
 Memory state around the buggy address:
-  ffff8881ca974780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-  ffff8881ca974800: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ffff8881ca974880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                   ^
-  ffff8881ca974900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881ca974980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff8881ce628380: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+  ffff8881ce628400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ffff8881ce628480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                      ^
+  ffff8881ce628500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff8881ce628580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
 ==================================================================
 
 
