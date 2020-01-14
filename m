@@ -2,90 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 30A1113B23C
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2020 19:40:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C56113B5DA
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2020 00:30:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726839AbgANSkJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Jan 2020 13:40:09 -0500
-Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.165]:33898 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726053AbgANSkJ (ORCPT
+        id S1728874AbgANXaO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Jan 2020 18:30:14 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:44715 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728978AbgANXaN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 Jan 2020 13:40:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1579027207;
-        s=strato-dkim-0002; d=gerhold.net;
-        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
-        Subject:Sender;
-        bh=mYuDdY7+V7q0aGXGzV5KWOWo9ghzK4i+Cs2P566NUhM=;
-        b=Kf/iaNGg1BEr3aU867wos6TlXmiQVuC3RWV75nv8M+KbOUzL74qffKvgjqqpnUl1ub
-        eBqewr8ogGfgd4gZEwJjyUH6dmzWlV15reM+lgeLxwM8mS4R8QK1RKTWXZrkn4AHYyuy
-        JnrSYbD6WYYdr8z7mabG0Wm3zttyzqM+AP8LiN9G/1CskYdURFZT/CRnwZFfnRLfMnyw
-        LDB3J4I68gqh/k3IBxXwUDii/pQ5ZtKkLM/Dh7s2G7myYg/dn9Z08zAzEgMM23peOCcq
-        OMpYjeZJuDBXqDVuvGfJ3HdSZHNNF57iNCe4ZOraPsNeeCjNctWwaEHxSq3vGSfHATnk
-        S/0Q==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVORvLd4SsytBXQ7IOGU5qzCB3a93viaVr"
-X-RZG-CLASS-ID: mo00
-Received: from localhost.localdomain
-        by smtp.strato.de (RZmta 46.1.4 AUTH)
-        with ESMTPSA id h048a6w0EIb6Xrc
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-        Tue, 14 Jan 2020 19:37:06 +0100 (CET)
-From:   Stephan Gerhold <stephan@gerhold.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>,
-        Damien Riegel <damien.riegel@savoirfairelinux.com>
-Subject: [PATCH v2] Input: pm8xxx-vib - fix handling of separate enable register
-Date:   Tue, 14 Jan 2020 19:34:42 +0100
-Message-Id: <20200114183442.45720-1-stephan@gerhold.net>
-X-Mailer: git-send-email 2.24.1
+        Tue, 14 Jan 2020 18:30:13 -0500
+Received: by mail-oi1-f196.google.com with SMTP id d62so13596853oia.11
+        for <linux-input@vger.kernel.org>; Tue, 14 Jan 2020 15:30:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=fIrwJWeNixjwwvurnQiJ8LKkUrdrIhXQmbfrBg5Oibw=;
+        b=Ib0ZdLYWVRuEV1lovA8Mbpa29E8hM8S02yGRcBAsqQXTHAUoA8APFPbL8m2lcrh+kL
+         2WpXUBgfYHNBQk91NHS1oh9981j6+fLtnEuxgj2FnOtoW2G6ewRODBozR57ozZAY6eyK
+         PZUnbLFfzB9LyaAHDxMRm6AAhkB8GLY3ZT9One4vSH3DLWv2X4oXTLUeuC3/QEUEp00u
+         QaYOKf/l25fR3fikPXnoE6XzSwoFvzWpvh/G9kUYInii+d8eUD16ghIdbh6W/YCSwL8D
+         xYUKt7gzNDQlnbeQtf2Q1te60rr/DiNBzqrUeXQ+q/SPt68KihxrdrN9wCtWMcNjVCDf
+         yBWA==
+X-Gm-Message-State: APjAAAUNeAOhgly7hrxGi18WiZBOqI54IySpwYxlE8vRuIzJyFWymA78
+        a6+XrE4P0GZG0R3F3qZTxAGRZg4=
+X-Google-Smtp-Source: APXvYqz8aHJbaIlHW8D4unixxAF1Rrv7ZZ3ohxxbaYkicoILa1AgCyDtGABAky8CjtS7z9e74qygAQ==
+X-Received: by 2002:aca:cdca:: with SMTP id d193mr19078217oig.152.1579044612354;
+        Tue, 14 Jan 2020 15:30:12 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id n7sm5089891oij.14.2020.01.14.15.30.11
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2020 15:30:11 -0800 (PST)
+Received: from rob (uid 1000)
+        (envelope-from rob@rob-hp-laptop)
+        id 220a2e
+        by rob-hp-laptop (DragonFly Mail Agent v0.11);
+        Tue, 14 Jan 2020 17:30:10 -0600
+Date:   Tue, 14 Jan 2020 17:30:10 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Benjamin Gaignard <benjamin.gaignard@st.com>
+Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, hadess@hadess.net,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, yannick.fertre@st.com,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: touchscreen: Add touchscreen schema
+Message-ID: <20200114233010.GA21560@bogus>
+References: <20200108091118.5130-1-benjamin.gaignard@st.com>
+ <20200108091118.5130-2-benjamin.gaignard@st.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200108091118.5130-2-benjamin.gaignard@st.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Setting the vibrator enable_mask is not implemented correctly:
+On Wed, 8 Jan 2020 10:11:17 +0100, Benjamin Gaignard wrote:
+> Add touchscreen schema for common properties
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+> ---
+> version 2:
+> - remove old definition in touchscreen.txt
+> - add type for all properties
+> - add dependencies between properties 
+> 
+>  .../bindings/input/touchscreen/touchscreen.txt     | 40 +----------
+>  .../bindings/input/touchscreen/touchscreen.yaml    | 83 ++++++++++++++++++++++
+>  2 files changed, 84 insertions(+), 39 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+> 
 
-For regmap_update_bits(map, reg, mask, val) we give in either
-regs->enable_mask or 0 (= no-op) as mask and "val" as value.
-But "val" actually refers to the vibrator voltage control register,
-which has nothing to do with the enable_mask.
-
-So we usually end up doing nothing when we really wanted
-to enable the vibrator.
-
-We want to set or clear the enable_mask (to enable/disable the vibrator).
-Therefore, change the call to always modify the enable_mask
-and set the bits only if we want to enable the vibrator.
-
-Cc: Damien Riegel <damien.riegel@savoirfairelinux.com>
-Fixes: d4c7c5c96c92 ("Input: pm8xxx-vib - handle separate enable register")
-Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
----
-v1: https://patchwork.kernel.org/patch/11286073/
-Changes in v2:
- - Changed regmap_update_bits(..., regs->enable_mask, on ? regs->enable_mask : 0)
-   to regmap_update_bits(..., regs->enable_mask, on ? ~0 : 0)
-     (suggested by Dmitry Torokhov)
----
- drivers/input/misc/pm8xxx-vibrator.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
-index ecd762f93732..53ad25eaf1a2 100644
---- a/drivers/input/misc/pm8xxx-vibrator.c
-+++ b/drivers/input/misc/pm8xxx-vibrator.c
-@@ -90,7 +90,7 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
- 
- 	if (regs->enable_mask)
- 		rc = regmap_update_bits(vib->regmap, regs->enable_addr,
--					on ? regs->enable_mask : 0, val);
-+					regs->enable_mask, on ? ~0 : 0);
- 
- 	return rc;
- }
--- 
-2.24.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
