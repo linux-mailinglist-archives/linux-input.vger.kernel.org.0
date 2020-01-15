@@ -2,101 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DD3413B6E4
-	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2020 02:30:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7178C13B803
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2020 03:58:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728862AbgAOBag (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Jan 2020 20:30:36 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54502 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728848AbgAOBag (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 Jan 2020 20:30:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1579051835;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=cq04Ga1b8xTrH17T3rkjESGzzrFCqY7RRinYPFVL2u0=;
-        b=Q7eWKs0w9E1gn14AnUZJCdjk1u2cWMfRu1SefhIc4yLM8s7FcZXMEdlN4/L6KKzqHsZQXj
-        IBj7oPVJV1Kepe539MehgjLIpixYGfY/ZnFB50Dhn9+5IRICkY4fY6Gx4ZOYjD3gPSzLTy
-        KxIEXtJFbtt+Svgt0F9vA0qez0Vf4Hk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-MILkH8OSOieJ7asONUSy-w-1; Tue, 14 Jan 2020 20:30:31 -0500
-X-MC-Unique: MILkH8OSOieJ7asONUSy-w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A71C1800D78;
-        Wed, 15 Jan 2020 01:30:30 +0000 (UTC)
-Received: from plouf.redhat.com (ovpn-116-34.ams2.redhat.com [10.36.116.34])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B657A675AE;
-        Wed, 15 Jan 2020 01:30:26 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH] Input: synaptics - remove the LEN0049 dmi id from topbuttonpad list
-Date:   Wed, 15 Jan 2020 02:30:23 +0100
-Message-Id: <20200115013023.9710-1-benjamin.tissoires@redhat.com>
+        id S1728894AbgAOC6q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Jan 2020 21:58:46 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:49052 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728883AbgAOC6q (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 14 Jan 2020 21:58:46 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 25934B7FB7549D8DC35F;
+        Wed, 15 Jan 2020 10:58:43 +0800 (CST)
+Received: from [127.0.0.1] (10.133.215.186) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.439.0; Wed, 15 Jan 2020
+ 10:58:39 +0800
+Subject: Re: [PATCH 1/1] HID: hiddev: remove a duplicated check
+To:     Jiri Kosina <jikos@kernel.org>
+CC:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        "Hillf Danton" <hdanton@sina.com>
+References: <20191224035117.98816-1-thunder.leizhen@huawei.com>
+ <50fd522f-e276-420c-3c6a-0f193bc16ca2@huawei.com>
+ <nycvar.YFH.7.76.2001141518000.31058@cbobk.fhfr.pm>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <358ce05d-a01b-fa54-802c-995724d506f6@huawei.com>
+Date:   Wed, 15 Jan 2020 10:58:39 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <nycvar.YFH.7.76.2001141518000.31058@cbobk.fhfr.pm>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.133.215.186]
+X-CFilter-Loop: Reflected
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Yoga 11e is using LEN0049, but it doesn't have a trackstick.
-
-Thus, there is no need to create a software top buttons row.
-
-However, it seems that the device works under SMBus, so keep it as part
-of the smbus_pnp_ids.
 
 
-Link: https://gitlab.freedesktop.org/libinput/libinput/issues/414
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+On 2020/1/14 22:19, Jiri Kosina wrote:
+> On Tue, 14 Jan 2020, Leizhen (ThunderTown) wrote:
+> 
+>> Does no one pay attention to this problem? Although there is no
+>> functional problem, but it seems confusing.
+>>
+>>         if (!list->hiddev->exist) {                 <---------
+>>                 res = -ENODEV;                                |
+>>                 goto bail_unlock;                             |
+>>         }                                                     |
+>>         if (!list->hiddev->open++)                            |
+>>                 if (list->hiddev->exist) {          <--------- //It's always true.
+> 
+> This code no longer exists after refactoring that happened in commit 
+> 18a1b06e5b91d47.
+OK
 
---
-
-Hi Dmitry,
-
-Sending the patch to the list untested (sanity only), and I'll ask
-for the reporter to provide a little bit more testing.
-
-I will keep you updated when you can merge the patch.
-
-Cheers,
-Benjamin
----
- drivers/input/mouse/synaptics.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synapt=
-ics.c
-index 1ae6f8bba9ae..7aa84f743c48 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -146,7 +146,6 @@ static const char * const topbuttonpad_pnp_ids[] =3D =
-{
- 	"LEN0042", /* Yoga */
- 	"LEN0045",
- 	"LEN0047",
--	"LEN0049",
- 	"LEN2000", /* S540 */
- 	"LEN2001", /* Edge E431 */
- 	"LEN2002", /* Edge E531 */
-@@ -166,6 +165,7 @@ static const char * const smbus_pnp_ids[] =3D {
- 	/* all of the topbuttonpad_pnp_ids are valid, we just add some extras *=
-/
- 	"LEN0048", /* X1 Carbon 3 */
- 	"LEN0046", /* X250 */
-+	"LEN0049", /* Yoga 11e */
- 	"LEN004a", /* W541 */
- 	"LEN005b", /* P50 */
- 	"LEN005e", /* T560 */
---=20
-2.24.1
+> 
 
