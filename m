@@ -2,42 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC19F13B8D4
-	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2020 06:12:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AEFF13B8D9
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2020 06:13:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725999AbgAOFM4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Jan 2020 00:12:56 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:53717 "EHLO
+        id S1725942AbgAOFM5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Jan 2020 00:12:57 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:39075 "EHLO
         out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725942AbgAOFM4 (ORCPT
+        by vger.kernel.org with ESMTP id S1725957AbgAOFM4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Wed, 15 Jan 2020 00:12:56 -0500
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 70D5022139;
+        by mailout.nyi.internal (Postfix) with ESMTP id B5F1D2213A;
         Wed, 15 Jan 2020 00:12:55 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
   by compute5.internal (MEProxy); Wed, 15 Jan 2020 00:12:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm1; bh=rqjA/bBm6Efiy
-        JMjxSo/r1phlA8NYcHSBKYtzL6xSvg=; b=ahqVmnPgT6/E3N+HpzLzYB9zvFmX/
-        7B0gvaO4WXUtZSG0UIdhlIC/S/uHJJRx422n1LjwWc7hcP9SyNsK8x3FWyGehSyg
-        2s7nIQbuVpDr6SALmjUAyLdSwZnZ9TTI7Q8Z0Ry0J3OeBMU+klWip9rSjeRSsSqs
-        ENZ50XWZ2YyUBJb9SvPmMn8b4pWy+UvlenSyajT3MQAJlJgo4EYjdMidRknprbvP
-        VTbRDj2wboTYaGUs1YwcPmEQe4IaWO0pOqMjU5OaowqiowSCRg2DV9cPK2EDnQY6
-        m9nm64yFH0bxa4724MjEsFhtnOmTJ1cGblU+nsKvgh2I+TXTRnGLiRBUQ==
+        :mime-version:content-transfer-encoding; s=fm1; bh=D98v2uAcTult3
+        PQU33a4vT0Zg4C0UFnIOjrqJQvWS0U=; b=MCyrB0gu/NReSpXDBOtdD7GJAJxIP
+        8EGD2u+uMk/32phcTlozZmuMo9f2EHyZi4yuaD0euNDKEdzm+k8gyYn4dL+BUw1L
+        ZV29HtrYk3EypcglvWdNSnwbmGDf2itw32RuE34yO7ws/Y8uVhl9QbEOnyayUnMu
+        ypVUXGDkaQ/2mD4LA46/ATTf4/8IH/N/aUQWnZMmQkDOGdSE9LCG2Y8vUl9Ri5lm
+        2PE852Nnino/VuMwpgHAWGwzawfGbcZK0C6jy5FYcqgEjRlOz56ppuPo0ehj8aB2
+        HJK4hTT8Tj8UDgMorHshmjrYnlt0PcxoqYDPU9fd+Y3ko7rX+hjv7OPfQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=rqjA/bBm6EfiyJMjxSo/r1phlA8NYcHSBKYtzL6xSvg=; b=DuFQLnaI
-        oTlOBXoh69lZ44fxyNbKv4kd0dMv52rrVDabMHL393XbsTKI4C8/CV3HQjDsyp24
-        c+iFVwbevg3xikbpFu3g93dSutP0+fC4j07xKo16RXDIrvSkkclKm5ZF2wWphkZx
-        fLlIqTDjhI+Gl43dHYdf4XIz16Jk9QG4EPHsoAkXH+v6Y/aM81dQhiZ7SZ+xW4D6
-        TcI2hrlQCAIA0snAG/Oa2hn3qOoejkC0KA+/XdUar9v+DUP1w18Mwj86f97evgDU
-        mWwDBEgkv1GHKQ/S2HdU24DHn82NHpTQMo/qQmS7FvR5OcHzP25rp7CPvH+J1EVE
-        setRR6Gny8Wpeg==
-X-ME-Sender: <xms:V58eXrMQq7sLEazI-j0kdhMz-BFkruJyn3htCWKjbxd7499rS1pLLQ>
+        fm1; bh=D98v2uAcTult3PQU33a4vT0Zg4C0UFnIOjrqJQvWS0U=; b=ovSfeyh/
+        wrlUhsPSArepQdaMSyXGSXsjHHCzu8oNZc7vUJ9q5uClp3zz/NkTAsuimAhBIEUc
+        K/h1VH6RFwXMaOWyATgm6XAXdShh9Yqh40+J5/jJwuTSgCE4VAtFwR1yMJbOENcE
+        /Gpmz6v0e+QNdBF0Bqqb4t/zKfX4YKqG34I5TMj/msbkJLxlYKCIyOAQuARM/FOx
+        HByuRMGMuQfx46ChMQZ0hmFM6sDaSpDbiuroqq96J7IWmgzzDVBaizly9UDMf4yk
+        VKJyVYmciPaHGuTVkSv6oKly2qk0BSAtRyJDj/oUjhx79mRE6ttH08h004dTkZ44
+        Nr8oZydiNs1fgg==
+X-ME-Sender: <xms:V58eXksWDN7NM_WbbOcXmFcFS5cRFIol_XHi1xKm0Sk9fZdGVbpnYg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrtddvgdektdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -45,22 +45,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrtddvgdektdcutefuodetggdote
     ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecukfhppe
     ejtddrudefhedrudegkedrudehudenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhu
     vghlsehshhholhhlrghnugdrohhrghenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:V58eXublo9bFwQuGN3nCY7FFSrUKPvlWtbd9i4XmB_PAT3mh7W5tDw>
-    <xmx:V58eXv6w8pW7bmQ2hn52-3EPeHtRBwgES2Qo9g_xToUQHFNpSHsCiA>
-    <xmx:V58eXjy38VQzkYFQA_W_yuwapQ_2BRrmbQYwWaBGkxYJRrPcrZsqDg>
-    <xmx:V58eXu0_AxDj2RC6Rx1-EuaYjGrdQpz26vHNkwRPviZ33DvsAzW3dA>
+X-ME-Proxy: <xmx:V58eXkvYssv-rlOzE3ktd2diS5asJObVBMDtWoiF2mNxLZJI60dozQ>
+    <xmx:V58eXnRWwFx5nSbnbPi6Eaa-fNxf8WmES1Ows7A0kGBLOnwspWSmBA>
+    <xmx:V58eXk0alpgCO_llI_tyZLhkGjqpxA5YznyBrIEeByVkUUCYvselkA>
+    <xmx:V58eXhYPcIWqekD18DVSwLcp4XzmAKJDbAjPcjwtZ7A0YS8som65IA>
 Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-        by mail.messagingengine.com (Postfix) with ESMTPA id BE86180065;
-        Wed, 15 Jan 2020 00:12:54 -0500 (EST)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 2C99A80066;
+        Wed, 15 Jan 2020 00:12:55 -0500 (EST)
 From:   Samuel Holland <samuel@sholland.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Chen-Yu Tsai <wens@csie.org>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-sunxi@googlegroups.com, Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v2 1/2] Input: axp20x-pek - Respect userspace wakeup configuration
-Date:   Tue, 14 Jan 2020 23:12:52 -0600
-Message-Id: <20200115051253.32603-2-samuel@sholland.org>
+Subject: [PATCH v2 2/2] Input: axp20x-pek - Enable wakeup for all AXP variants
+Date:   Tue, 14 Jan 2020 23:12:53 -0600
+Message-Id: <20200115051253.32603-3-samuel@sholland.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200115051253.32603-1-samuel@sholland.org>
 References: <20200115051253.32603-1-samuel@sholland.org>
@@ -71,82 +71,30 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Unlike most other power button drivers, this driver unconditionally
-enables its wakeup IRQ. It should be using device_may_wakeup() to
-respect the userspace configuration of wakeup sources.
+There are many devices, including several mobile battery-powered
+devices, using other AXP variants as their PMIC. Allow them to use
+the power key as a wakeup source.
 
-Because the AXP20x MFD device uses regmap-irq, the AXP20x PEK IRQs are
-nested off of regmap-irq's threaded interrupt handler. The device core
-ignores such interrupts, so to actually disable wakeup, we must
-explicitly disable all non-wakeup interrupts during suspend.
-
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
- drivers/input/misc/axp20x-pek.c | 37 ++++++++++++++++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
+ drivers/input/misc/axp20x-pek.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/input/misc/axp20x-pek.c b/drivers/input/misc/axp20x-pek.c
-index 17c1cca74498..0ace3fe3d7dc 100644
+index 0ace3fe3d7dc..1872607e87c3 100644
 --- a/drivers/input/misc/axp20x-pek.c
 +++ b/drivers/input/misc/axp20x-pek.c
-@@ -280,7 +280,7 @@ static int axp20x_pek_probe_input_device(struct axp20x_pek *axp20x_pek,
+@@ -279,8 +279,7 @@ static int axp20x_pek_probe_input_device(struct axp20x_pek *axp20x_pek,
+ 		return error;
  	}
  
- 	if (axp20x_pek->axp20x->variant == AXP288_ID)
--		enable_irq_wake(axp20x_pek->irq_dbr);
-+		device_init_wakeup(&pdev->dev, true);
+-	if (axp20x_pek->axp20x->variant == AXP288_ID)
+-		device_init_wakeup(&pdev->dev, true);
++	device_init_wakeup(&pdev->dev, true);
  
  	return 0;
  }
-@@ -352,6 +352,40 @@ static int axp20x_pek_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static int __maybe_unused axp20x_pek_suspend(struct device *dev)
-+{
-+	struct axp20x_pek *axp20x_pek = dev_get_drvdata(dev);
-+
-+	/*
-+	 * As nested threaded IRQs are not automatically disabled during
-+	 * suspend, we must explicitly disable non-wakeup IRQs.
-+	 */
-+	if (device_may_wakeup(dev)) {
-+		enable_irq_wake(axp20x_pek->irq_dbf);
-+		enable_irq_wake(axp20x_pek->irq_dbr);
-+	} else {
-+		disable_irq(axp20x_pek->irq_dbf);
-+		disable_irq(axp20x_pek->irq_dbr);
-+	}
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused axp20x_pek_resume(struct device *dev)
-+{
-+	struct axp20x_pek *axp20x_pek = dev_get_drvdata(dev);
-+
-+	if (device_may_wakeup(dev)) {
-+		disable_irq_wake(axp20x_pek->irq_dbf);
-+		disable_irq_wake(axp20x_pek->irq_dbr);
-+	} else {
-+		enable_irq(axp20x_pek->irq_dbf);
-+		enable_irq(axp20x_pek->irq_dbr);
-+	}
-+
-+	return 0;
-+}
-+
- static int __maybe_unused axp20x_pek_resume_noirq(struct device *dev)
- {
- 	struct axp20x_pek *axp20x_pek = dev_get_drvdata(dev);
-@@ -371,6 +405,7 @@ static int __maybe_unused axp20x_pek_resume_noirq(struct device *dev)
- }
- 
- static const struct dev_pm_ops axp20x_pek_pm_ops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(axp20x_pek_suspend, axp20x_pek_resume)
- #ifdef CONFIG_PM_SLEEP
- 	.resume_noirq = axp20x_pek_resume_noirq,
- #endif
 -- 
 2.23.0
 
