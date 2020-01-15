@@ -2,266 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C53213C228
-	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2020 14:00:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC1A513C789
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2020 16:25:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726100AbgAONAH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Jan 2020 08:00:07 -0500
-Received: from mx2.suse.de ([195.135.220.15]:33086 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726088AbgAONAG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Jan 2020 08:00:06 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 36DB7AFE1;
-        Wed, 15 Jan 2020 13:00:03 +0000 (UTC)
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH] Input: add IOC3 serio driver
-Date:   Wed, 15 Jan 2020 13:59:50 +0100
-Message-Id: <20200115125951.3677-1-tbogendoerfer@suse.de>
-X-Mailer: git-send-email 2.24.1
+        id S1729076AbgAOPZ1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Jan 2020 10:25:27 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:38696 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726550AbgAOPZZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 15 Jan 2020 10:25:25 -0500
+Received: by mail-ot1-f66.google.com with SMTP id z9so14296193oth.5
+        for <linux-input@vger.kernel.org>; Wed, 15 Jan 2020 07:25:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=WFi9eiSujdmRgUALnYgUAdNpHS3NpE41hamHBXYiuxI=;
+        b=JMqlbvPVEG/6scQjamrScE4H/cg0KZswrvOuJ1qUJCsJyhT2BhmP/6wzOdtOY31u4N
+         WHdS+zPog7xhMNh7Grpel0N+f2pM72EPebXMugosM0Unok1Ph2ReASi+HUtohc3CkgOI
+         Nxxt4bvXSjyGEAaUGyZiZrKS9G+gqlq+sunj9jHpP8QNJtalI8WbKxV50NOs4K3iM/vK
+         IL59OCPlpdjI/+cb1mPB/IVJUD6N3z2V9UVtRcjOuH6e+eij7vvKCe3fb8UPMNwonxBf
+         bSRDZW62PArayWbrkYGEZbfl4pGk7RHGScAg4UKH29jfQvTZS/Nn8N9jCBtcGdA1aZ5k
+         6NCg==
+X-Gm-Message-State: APjAAAVNCknTtgDiOMZ1SQQPWhtFXx7uXUZmtMMumDLQnsgC/0URykWl
+        wDtVfSbaPvgvid9r8asnzA/pGLM=
+X-Google-Smtp-Source: APXvYqxc3+Zr7fisQB9SVxZY4Z+LFDHXzlxQ5e51SlMWJ0vwT0c2h+oGyyfKcXn5uVaudTMDQT9rQg==
+X-Received: by 2002:a9d:66ca:: with SMTP id t10mr3059938otm.352.1579101924461;
+        Wed, 15 Jan 2020 07:25:24 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id w6sm5692689oih.19.2020.01.15.07.25.23
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jan 2020 07:25:23 -0800 (PST)
+Received: from rob (uid 1000)
+        (envelope-from rob@rob-hp-laptop)
+        id 22040c
+        by rob-hp-laptop (DragonFly Mail Agent v0.11);
+        Wed, 15 Jan 2020 09:25:22 -0600
+Date:   Wed, 15 Jan 2020 09:25:22 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Icenowy Zheng <icenowy@aosc.io>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: input: touchscreen: add compatible
+ string for Goodix GT917S
+Message-ID: <20200115152522.GA15943@bogus>
+References: <20200110162608.1066397-1-icenowy@aosc.io>
+ <20200110162608.1066397-2-icenowy@aosc.io>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200110162608.1066397-2-icenowy@aosc.io>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds a platform driver for supporting keyboard and mouse
-interface of SGI IOC3 chips.
+On Sat, Jan 11, 2020 at 12:26:06AM +0800, Icenowy Zheng wrote:
+> Goodix GT917S is a new touchscreen chip from Goodix.
+> 
+> Add its compatible string to the device tree binding.
+> 
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+> ---
+>  Documentation/devicetree/bindings/input/touchscreen/goodix.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.txt b/Documentation/devicetree/bindings/input/touchscreen/goodix.txt
+> index fc03ea4cf5ab..c5447b136eb3 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/goodix.txt
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.txt
+> @@ -8,6 +8,7 @@ Required properties:
+>  				 or "goodix,gt911"
+>  				 or "goodix,gt9110"
+>  				 or "goodix,gt912"
+> +				 or "goodix,gt917s"
 
-Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
----
- drivers/input/serio/Kconfig   |  10 ++
- drivers/input/serio/Makefile  |   1 +
- drivers/input/serio/ioc3kbd.c | 183 ++++++++++++++++++++++++++++++++++
- 3 files changed, 194 insertions(+)
- create mode 100644 drivers/input/serio/ioc3kbd.c
+This binding is getting converted to schema, so you'll probably need to 
+respin. In any case,
 
-diff --git a/drivers/input/serio/Kconfig b/drivers/input/serio/Kconfig
-index f3e18f8ef9ca..373a1646019e 100644
---- a/drivers/input/serio/Kconfig
-+++ b/drivers/input/serio/Kconfig
-@@ -165,6 +165,16 @@ config SERIO_MACEPS2
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called maceps2.
- 
-+config SERIO_SGI_IOC3
-+	tristate "SGI IOC3 PS/2 controller"
-+	depends on SGI_MFD_IOC3
-+	help
-+	  Say Y here if you have an SGI Onyx2, SGI Octane or IOC3 PCI card
-+	  and you want to attach and use a keyboard, mouse, or both.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called ioc3kbd.
-+
- config SERIO_LIBPS2
- 	tristate "PS/2 driver library"
- 	depends on SERIO_I8042 || SERIO_I8042=n
-diff --git a/drivers/input/serio/Makefile b/drivers/input/serio/Makefile
-index 67950a5ccb3f..6d97bad7b844 100644
---- a/drivers/input/serio/Makefile
-+++ b/drivers/input/serio/Makefile
-@@ -20,6 +20,7 @@ obj-$(CONFIG_HIL_MLC)		+= hp_sdc_mlc.o hil_mlc.o
- obj-$(CONFIG_SERIO_PCIPS2)	+= pcips2.o
- obj-$(CONFIG_SERIO_PS2MULT)	+= ps2mult.o
- obj-$(CONFIG_SERIO_MACEPS2)	+= maceps2.o
-+obj-$(CONFIG_SERIO_SGI_IOC3)	+= ioc3kbd.o
- obj-$(CONFIG_SERIO_LIBPS2)	+= libps2.o
- obj-$(CONFIG_SERIO_RAW)		+= serio_raw.o
- obj-$(CONFIG_SERIO_AMS_DELTA)	+= ams_delta_serio.o
-diff --git a/drivers/input/serio/ioc3kbd.c b/drivers/input/serio/ioc3kbd.c
-new file mode 100644
-index 000000000000..814ca640732f
---- /dev/null
-+++ b/drivers/input/serio/ioc3kbd.c
-@@ -0,0 +1,183 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * SGI IOC3 PS/2 controller driver for linux
-+ *
-+ * Copyright (C) 2019 Thomas Bogendoerfer <tbogendoerfer@suse.de>
-+ *
-+ * Based on code Copyright (C) 2005 Stanislaw Skowronek <skylark@unaligned.org>
-+ *               Copyright (C) 2009 Johannes Dickgreber <tanzy@gmx.de>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/init.h>
-+#include <linux/io.h>
-+#include <linux/serio.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+
-+#include <asm/sn/ioc3.h>
-+
-+struct ioc3kbd_data {
-+	struct ioc3_serioregs __iomem *regs;
-+	struct serio *kbd, *aux;
-+	int irq;
-+};
-+
-+static int ioc3kbd_wait(struct ioc3_serioregs __iomem *regs, u32 mask)
-+{
-+	unsigned long timeout = 0;
-+
-+	while ((readl(&regs->km_csr) & mask) && (timeout < 250)) {
-+		udelay(50);
-+		timeout++;
-+	}
-+	return (timeout >= 250) ? -ETIMEDOUT : 0;
-+}
-+
-+static int ioc3kbd_write(struct serio *dev, u8 val)
-+{
-+	struct ioc3kbd_data *d = dev->port_data;
-+	int ret;
-+
-+	ret = ioc3kbd_wait(d->regs, KM_CSR_K_WRT_PEND);
-+	if (ret)
-+		return ret;
-+
-+	writel(val, &d->regs->k_wd);
-+
-+	return 0;
-+}
-+
-+static int ioc3aux_write(struct serio *dev, u8 val)
-+{
-+	struct ioc3kbd_data *d = dev->port_data;
-+	int ret;
-+
-+	ret = ioc3kbd_wait(d->regs, KM_CSR_M_WRT_PEND);
-+	if (ret)
-+		return ret;
-+
-+	writel(val, &d->regs->m_wd);
-+
-+	return 0;
-+}
-+
-+static irqreturn_t ioc3kbd_intr(int itq, void *dev_id)
-+{
-+	struct ioc3kbd_data *d = dev_id;
-+	u32 data_k, data_m;
-+
-+	data_k = readl(&d->regs->k_rd);
-+	data_m = readl(&d->regs->m_rd);
-+
-+	if (data_k & KM_RD_VALID_0)
-+		serio_interrupt(d->kbd, (data_k >> KM_RD_DATA_0_SHIFT) & 0xff,
-+				0);
-+	if (data_k & KM_RD_VALID_1)
-+		serio_interrupt(d->kbd, (data_k >> KM_RD_DATA_1_SHIFT) & 0xff,
-+				0);
-+	if (data_k & KM_RD_VALID_2)
-+		serio_interrupt(d->kbd, (data_k >> KM_RD_DATA_2_SHIFT) & 0xff,
-+				0);
-+	if (data_m & KM_RD_VALID_0)
-+		serio_interrupt(d->aux, (data_m >> KM_RD_DATA_0_SHIFT) & 0xff,
-+				0);
-+	if (data_m & KM_RD_VALID_1)
-+		serio_interrupt(d->aux, (data_m >> KM_RD_DATA_1_SHIFT) & 0xff,
-+				0);
-+	if (data_m & KM_RD_VALID_2)
-+		serio_interrupt(d->aux, (data_m >> KM_RD_DATA_2_SHIFT) & 0xff,
-+				0);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int ioc3kbd_probe(struct platform_device *pdev)
-+{
-+	struct ioc3_serioregs __iomem *regs;
-+	struct device *dev = &pdev->dev;
-+	struct ioc3kbd_data *d;
-+	struct serio *sk, *sa;
-+	int irq, ret;
-+
-+	regs = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(regs))
-+		return PTR_ERR(regs);
-+
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return -ENXIO;
-+
-+	d = devm_kzalloc(dev, sizeof(*d), GFP_KERNEL);
-+	if (!d)
-+		return -ENOMEM;
-+
-+	sk = kzalloc(sizeof(*sk), GFP_KERNEL);
-+	if (!sk)
-+		return -ENOMEM;
-+
-+	sa = kzalloc(sizeof(*sa), GFP_KERNEL);
-+	if (!sa) {
-+		kfree(sk);
-+		return -ENOMEM;
-+	}
-+
-+	sk->id.type = SERIO_8042;
-+	sk->write = ioc3kbd_write;
-+	snprintf(sk->name, sizeof(sk->name), "IOC3 keyboard %d", pdev->id);
-+	snprintf(sk->phys, sizeof(sk->phys), "ioc3/serio%dkbd", pdev->id);
-+	sk->port_data = d;
-+	sk->dev.parent = dev;
-+
-+	sa->id.type = SERIO_8042;
-+	sa->write = ioc3aux_write;
-+	snprintf(sa->name, sizeof(sa->name), "IOC3 auxiliary %d", pdev->id);
-+	snprintf(sa->phys, sizeof(sa->phys), "ioc3/serio%daux", pdev->id);
-+	sa->port_data = d;
-+	sa->dev.parent = dev;
-+
-+	d->regs = regs;
-+	d->kbd = sk;
-+	d->aux = sa;
-+	d->irq = irq;
-+
-+	platform_set_drvdata(pdev, d);
-+	serio_register_port(d->kbd);
-+	serio_register_port(d->aux);
-+
-+	ret = request_irq(irq, ioc3kbd_intr, IRQF_SHARED, "ioc3-kbd", d);
-+	if (ret) {
-+		dev_err(dev, "could not request IRQ %d\n", irq);
-+		serio_unregister_port(d->kbd);
-+		serio_unregister_port(d->aux);
-+		return ret;
-+	}
-+
-+	/* enable ports */
-+	writel(KM_CSR_K_CLAMP_3 | KM_CSR_M_CLAMP_3, &regs->km_csr);
-+
-+	return 0;
-+}
-+
-+static int ioc3kbd_remove(struct platform_device *pdev)
-+{
-+	struct ioc3kbd_data *d = platform_get_drvdata(pdev);
-+
-+	free_irq(d->irq, d);
-+	serio_unregister_port(d->kbd);
-+	serio_unregister_port(d->aux);
-+	return 0;
-+}
-+
-+static struct platform_driver ioc3kbd_driver = {
-+	.probe          = ioc3kbd_probe,
-+	.remove         = ioc3kbd_remove,
-+	.driver = {
-+		.name = "ioc3-kbd",
-+	},
-+};
-+module_platform_driver(ioc3kbd_driver);
-+
-+MODULE_AUTHOR("Thomas Bogendoerfer <tbogendoerfer@suse.de>");
-+MODULE_DESCRIPTION("SGI IOC3 serio driver");
-+MODULE_LICENSE("GPL");
--- 
-2.24.1
+Acked-by: Rob Herring <robh@kernel.org>
 
+>  				 or "goodix,gt927"
+>  				 or "goodix,gt9271"
+>  				 or "goodix,gt928"
+> -- 
+> 2.23.0
+> 
