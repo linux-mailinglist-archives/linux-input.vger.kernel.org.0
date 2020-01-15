@@ -2,61 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19E7013BCE9
-	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2020 10:57:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EDCF13BDC4
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2020 11:50:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729616AbgAOJ5D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Jan 2020 04:57:03 -0500
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:42191 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729504AbgAOJ5D (ORCPT
+        id S1725999AbgAOKuO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Jan 2020 05:50:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52968 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728904AbgAOKuO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Jan 2020 04:57:03 -0500
-Received: by mail-vs1-f65.google.com with SMTP id b79so10071604vsd.9
-        for <linux-input@vger.kernel.org>; Wed, 15 Jan 2020 01:57:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=o56000SPWNtNfLS/UOhvjIjcXffjJW9nLc5ULePZ0jA=;
-        b=JrH3yMVM8562bX2/6XqoOwrSuuo6qJTMbhiK+o13In/riqnO/f/Z9la6qh57xv2UUc
-         jLXXAjF/88N2pn3dsnnQ0I2d3tzuNx/QYTo4WERSKnN5H3PgLNTZPR6ToKFZSVk1pW9e
-         Kk4G6thADhgL2VrGL4BNWE8kxiXK8/XCoU/gs=
+        Wed, 15 Jan 2020 05:50:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1579085412;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=0zPdYw55o/NQ5YWQsGG35pXdQyrv0EYjb0Mj4Frs9Ks=;
+        b=enLnaSMdQxg+rRqxahneSLTdm2ENo+aATIEUZtQA2tqAwvbISHbgPbixf3Eor8fwwAk0nB
+        EMq/4H0Du/BMPxSuhv4qGZy5Anvj2yJ5Or3zK3NA8u2mKOT4E0XCszC+XssAFAXZJdFejI
+        f/W/R+QCilNe+DPKwTNLXTq8FysZxsA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-4kQFVLIeM1qUhRtE6ifrhA-1; Wed, 15 Jan 2020 05:50:11 -0500
+X-MC-Unique: 4kQFVLIeM1qUhRtE6ifrhA-1
+Received: by mail-wm1-f72.google.com with SMTP id y125so1368706wmg.1
+        for <linux-input@vger.kernel.org>; Wed, 15 Jan 2020 02:50:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=o56000SPWNtNfLS/UOhvjIjcXffjJW9nLc5ULePZ0jA=;
-        b=hqrYjWzIxWpFD2Ecfxxg8jeqLyHjWtVy6Db6CRr/hxyUvwWQXFVUuR7LUCgxaVEjmJ
-         kEy0FagudMSDgX/V4QtewlgmQgcrM9EGipijf6uc1Rvs+7S1L6O7b1gKaH/iHC8gcG3U
-         yW7FZpW2JcZOmQHPHv2HASev5lgsErn/g0NYGz/Rv/2yD6C4UWkbwayBb3eiEq6iNxt/
-         4nf2AoNINwugRhOdWy12aDUBxbpfM+0hPWsVHkfjLSpUVQJQAgyPOfxCr1xTc5G5JHCg
-         81wkp9dcu4uaCN6Hx3TnkKxnPTncdMkqepYv6l7n0dhi0x2VzsU0roBQVSQj6pqh9yFA
-         gz7Q==
-X-Gm-Message-State: APjAAAVhnv6qtoCUQPaGFgHaLKQoukzRA1zu3Kh4/CcrOu5L5DeCZHnp
-        qV4hylgb12y1eDb27rjpDANtuX1YsrfJSSwcfVDhPA==
-X-Google-Smtp-Source: APXvYqynIeAqmxnZJPVrUBX0HL4mFe2i1csabok42yOPSoE47RkIe1URyWw7Hs5Tsysc1003S9Ir62lLft7SIrvKOsY=
-X-Received: by 2002:a67:fd4e:: with SMTP id g14mr3950334vsr.182.1579082222132;
- Wed, 15 Jan 2020 01:57:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20200114021934.178057-1-ikjn@chromium.org> <ad5b6728-2435-9f97-870a-7107f5cc805b@collabora.com>
-In-Reply-To: <ad5b6728-2435-9f97-870a-7107f5cc805b@collabora.com>
-From:   Ikjoon Jang <ikjn@chromium.org>
-Date:   Wed, 15 Jan 2020 17:56:51 +0800
-Message-ID: <CAATdQgDNqPtYRsStvbQsy7M7S_TMShGELwuKg8AjARDi_KN6Pg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: mfd: Convert ChromeOS EC bindings to json-schema
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0zPdYw55o/NQ5YWQsGG35pXdQyrv0EYjb0Mj4Frs9Ks=;
+        b=EkCinEA6WcDWSqeztKC4ZYBkoSUubKN+bblxSDeEehwk/KCmnbGSfmMkrVZvr7UNtt
+         6g4Xi9GAw1Oo6Yn/6Csbgy9SU2yL3iHi7ea2rwclJe2rCruMjnTHIR1WWRoiQFDs+urL
+         uUqjViEElAb0Lcgp1FwzDKGQuYM7RERs9+PhrbV7U281FdnbfYZsAk5MMuLwFI1q4/hz
+         L5C0SDH2XwMCuDsZF97v8yjXbgvAcPvwv5IcB1lqmRUJ3289VrN7Ka5XK4BzXqMQrjw/
+         V92YH/hvt7ae9cv5VHWjPxQsR+RrnJS2Spyem4FVllMH6WoqSZufDIBVi0L35CezxTrr
+         efPQ==
+X-Gm-Message-State: APjAAAW3qO3kP8kY5yug0esFWkRcHGBF+1XmU8x22H9kwVqWRVxukf3U
+        pP7iokQ2RYvF4OV+WKKV2DfLXIqgq5MJaj3Y6bVwjUyonBgwgm7AwimEEDpKRckE9edLL80rcde
+        xGTBD8Ln3zGWr9KB0QOvaFgg=
+X-Received: by 2002:a7b:c1c7:: with SMTP id a7mr31182567wmj.168.1579085409808;
+        Wed, 15 Jan 2020 02:50:09 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxXY+dnsYNXC/k0VTIyQlvYqpGEx/a/AJP7STlMcs8KdLZzeEcSOCesRyRmKX4FhdBaQrIkKw==
+X-Received: by 2002:a7b:c1c7:: with SMTP id a7mr31182549wmj.168.1579085409606;
+        Wed, 15 Jan 2020 02:50:09 -0800 (PST)
+Received: from shalem.localdomain (2001-1c00-0c0c-fe00-7e79-4dac-39d0-9c14.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:7e79:4dac:39d0:9c14])
+        by smtp.gmail.com with ESMTPSA id r68sm22683998wmr.43.2020.01.15.02.50.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jan 2020 02:50:08 -0800 (PST)
+Subject: Re: [PATCH v2 1/2] Input: axp20x-pek - Respect userspace wakeup
+ configuration
+To:     Samuel Holland <samuel@sholland.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Nicolas Boitchat <drinkcat@chromium.org>,
-        linux-input@vger.kernel.org, Gwendal Grignou <gwendal@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+        Chen-Yu Tsai <wens@csie.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sunxi@googlegroups.com
+References: <20200115051253.32603-1-samuel@sholland.org>
+ <20200115051253.32603-2-samuel@sholland.org>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <674932c7-c120-092f-0255-5fa94925155d@redhat.com>
+Date:   Wed, 15 Jan 2020 11:50:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+MIME-Version: 1.0
+In-Reply-To: <20200115051253.32603-2-samuel@sholland.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
@@ -64,230 +78,93 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-<snip>
-> > Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-> > ---
-> >  .../devicetree/bindings/mfd/cros-ec.txt       |  76 ----------
-> >  .../devicetree/bindings/mfd/cros-ec.yaml      | 138 ++++++++++++++++++
->
-> This is not an mfd binding anymore, the old binding is in the wrong place,
-> please move to devicetree/bindings/chrome/google,cros-ec.yaml
->
-I think creating a new 'chrome' subdirectory should involve more
-discussions as there are
-other chrome related things in dt-binding.
-I'd like to convert the format first before moving forward.
+On 15-01-2020 06:12, Samuel Holland wrote:
+> Unlike most other power button drivers, this driver unconditionally
+> enables its wakeup IRQ. It should be using device_may_wakeup() to
+> respect the userspace configuration of wakeup sources.
+> 
+> Because the AXP20x MFD device uses regmap-irq, the AXP20x PEK IRQs are
+> nested off of regmap-irq's threaded interrupt handler. The device core
+> ignores such interrupts, so to actually disable wakeup, we must
+> explicitly disable all non-wakeup interrupts during suspend.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-<snip>
-> > +description: |
-> > +  Google's ChromeOS EC is a Cortex-M device which talks to the AP and
-> > +  implements various function such as keyboard and battery charging.
->
-> I am not English native but I guess there are some typos. Lets take this
-> opportunity to rewrite fix some parts, please feel free to ignore them if I am
-> wrong.
->
-yeah, I'm not too. Honestly, there was nothing strange for me before
-you point out. :-)
-anyway I'm trying my best to fix those things mentioned (typos,
-removing LPC, rpmsg examples)
-and do some generalizations (e.g. Cortex --> microcontroller). send v2
-patch soon.
+Patch looks good to me:
 
-Thanks!
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-> typo: functions?
->
-> > +  The EC can be connect through various means (I2C, SPI, LPC, RPMSG)
->
-> typo: 'connected' or 'is connected'
->
->
-> I'd add '(I2C, SPI and others)' where other is RPMSG, ISHP, and future transport
-> layers.
->
-> > +  and the compatible string used depends on the interface.
->
-> on the communication interface?
->
-> > +  Each connection method has its own driver which connects to the
-> > +  top level interface-agnostic EC driver. Other Linux driver
-> > +  (such as cros-ec-keyb for the matrix keyboard) connect to the
-> > +  top-level driver.
->
-> Not sure this part is clear an accurate to the reality, I'd just remove it.
+Regards,
 
-ACK
+Hans
 
->
-> > +
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - description:
-> > +          For implementations of the EC is connected through I2C.
->
-> s/is/are connected/?
->
-> And the same change applies below.
->
-> > +        const: google,cros-ec-i2c
-> > +      - description:
-> > +          For implementations of the EC is connected through SPI.
-> > +        const: google,cros-ec-spi
->
-> > +      - description:
-> > +          For implementations of the EC is connected through LPC.
-> > +        const: google,cros-ec-lpc
->
-> This does not exist in mainline so remove it.
 
-ACK
 
-<snip>
-> +        google,cros-ec-spi-pre-delay:
-> +          description: |
-> +            Some implementations of the EC need a little time to wake up
-> +            from sleep before they can receive SPI transfers
-> +            at a high clock rate. This property specifies the delay,
-> +            in usecs, between the assertion of the CS to the start of
-> +            the first clock pulse.
-> +        google,cros-ec-spi-msg-delay:
-> +          description: |
-> +            Some implementations of the EC require some additional
-> +            processing time in order to accept new transactions.
-> +            If the delay between transactions is not long enough
-> +            the EC may not be able to respond properly to
-> +            subsequent transactions and cause them to hang.
-> +            This property specifies the delay, in usecs,
-> +            introduced between transactions to account for the
-> +            time required by the EC to get back into a state
-> +            in which new data can be accepted.
+> ---
+>   drivers/input/misc/axp20x-pek.c | 37 ++++++++++++++++++++++++++++++++-
+>   1 file changed, 36 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/misc/axp20x-pek.c b/drivers/input/misc/axp20x-pek.c
+> index 17c1cca74498..0ace3fe3d7dc 100644
+> --- a/drivers/input/misc/axp20x-pek.c
+> +++ b/drivers/input/misc/axp20x-pek.c
+> @@ -280,7 +280,7 @@ static int axp20x_pek_probe_input_device(struct axp20x_pek *axp20x_pek,
+>   	}
+>   
+>   	if (axp20x_pek->axp20x->variant == AXP288_ID)
+> -		enable_irq_wake(axp20x_pek->irq_dbr);
+> +		device_init_wakeup(&pdev->dev, true);
+>   
+>   	return 0;
+>   }
+> @@ -352,6 +352,40 @@ static int axp20x_pek_probe(struct platform_device *pdev)
+>   	return 0;
+>   }
+>   
+> +static int __maybe_unused axp20x_pek_suspend(struct device *dev)
+> +{
+> +	struct axp20x_pek *axp20x_pek = dev_get_drvdata(dev);
+> +
+> +	/*
+> +	 * As nested threaded IRQs are not automatically disabled during
+> +	 * suspend, we must explicitly disable non-wakeup IRQs.
+> +	 */
+> +	if (device_may_wakeup(dev)) {
+> +		enable_irq_wake(axp20x_pek->irq_dbf);
+> +		enable_irq_wake(axp20x_pek->irq_dbr);
+> +	} else {
+> +		disable_irq(axp20x_pek->irq_dbf);
+> +		disable_irq(axp20x_pek->irq_dbr);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused axp20x_pek_resume(struct device *dev)
+> +{
+> +	struct axp20x_pek *axp20x_pek = dev_get_drvdata(dev);
+> +
+> +	if (device_may_wakeup(dev)) {
+> +		disable_irq_wake(axp20x_pek->irq_dbf);
+> +		disable_irq_wake(axp20x_pek->irq_dbr);
+> +	} else {
+> +		enable_irq(axp20x_pek->irq_dbf);
+> +		enable_irq(axp20x_pek->irq_dbr);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   static int __maybe_unused axp20x_pek_resume_noirq(struct device *dev)
+>   {
+>   	struct axp20x_pek *axp20x_pek = dev_get_drvdata(dev);
+> @@ -371,6 +405,7 @@ static int __maybe_unused axp20x_pek_resume_noirq(struct device *dev)
+>   }
+>   
+>   static const struct dev_pm_ops axp20x_pek_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(axp20x_pek_suspend, axp20x_pek_resume)
+>   #ifdef CONFIG_PM_SLEEP
+>   	.resume_noirq = axp20x_pek_resume_noirq,
+>   #endif
+> 
 
-I will remove some details here ('some implementations need something' parts).
-
-<snip>
-
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          const: google,cros-ec-lpc
-> > +    then:
-> > +      properties:
-> > +        reg:
-> > +          description: |
-> > +            List of (IO address, size) pairs defining the interface uses
-> > +      required:
-> > +        - reg
-> > +
->
-> Remove the LPC part.
-
-ACK
-
->
-> > +examples:
-> > +  - |+
-> > +    // Example for I2C
->
-> Use c style comments I guess
-
-Okay, I will use '#' outside of example context in v2.
-
->
-> > +    i2c@12ca0000 {
->
-> i2c0 {
->
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
->
-> nit: Add an empty line here
-
-ACK
-
->
-> > +        cros-ec@1e {
-> > +            reg = <0x1e>;
-> > +            compatible = "google,cros-ec-i2c";
->
-> The compatible on top
->
-> > +            interrupts = <14 0>;
-> > +            interrupt-parent = <&wakeup_eint>;
-> > +            wakeup-source;
-> > +        };
->
-> Just let's use an upstream example, i.e the snow one:
->
->    cros-ec@1e {
->         compatible = "google,cros-ec-i2c";
->         reg = <0x1e>;
->         interrupts = <6 IRQ_TYPE_NONE>;
->         interrupt-parent = <&gpx1>;
->    };
->
-> > +    };
-> > +  - |+
-> > +    // Example for SPI
-> > +    spi@131b0000 {
->
-> spi0 {
->
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
->
-> nit: Add an empty line here
-
-ACK
-
->
-> > +        ec@0 {
->
-> Use cros-ec@0, same name as before to be coherent
->
-> > +            compatible = "google,cros-ec-spi";
-> > +            reg = <0x0>;
-> > +            interrupts = <14 0>;
-> > +            interrupt-parent = <&wakeup_eint>;
->
-> What about selecting a more simple example, without the controller-data to not
-> confuse the reader.
->
-> > +            wakeup-source;
-> > +            spi-max-frequency = <5000000>;
-> > +            controller-data {
-> > +                cs-gpio = <&gpf0 3 4 3 0>;
-> > +                samsung,spi-cs;
-> > +                samsung,spi-feedback-delay = <2>;
-> > +            };
-> > +        };
-> > +    };
-> > +
->
-> I propose the veyron one.
->
->         cros-ec@0 {
->
->                 compatible = "google,cros-ec-spi";
->                 reg = <0>;
->                 google,cros-ec-spi-pre-delay = <30>;
->                 interrupt-parent = <&gpio7>;
->                 interrupts = <RK_PA7 IRQ_TYPE_LEVEL_LOW>;
->                 spi-max-frequency = <3000000>;
->         };
->
-> > +...
-> >
->
-
-Okay, but I will use interrupts = <99 0> instead of <RK_XXX IRQ_XXX>
-in here. :-)
-
-> Could we have a RPMSG example too?
-
-Okay
-
->
-> Thanks,
->  Enric
