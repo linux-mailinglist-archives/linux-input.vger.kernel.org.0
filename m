@@ -2,144 +2,266 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A031313C19D
-	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2020 13:48:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C53213C228
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2020 14:00:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729008AbgAOMs1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Jan 2020 07:48:27 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:39331 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726483AbgAOMs0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Jan 2020 07:48:26 -0500
-Received: from cobaltpc1.rd.cisco.com
- ([IPv6:2001:420:44c1:2577:18d8:d5d6:4408:6200])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id ri5riEH6BT6sRri5wiaE9x; Wed, 15 Jan 2020 13:48:24 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1579092504; bh=Iu1ikL9oMVTEbQXYlG9XJ+78XXDhr0SKQ2Yb+u9kv7E=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=U80pPzOhgMJ46Y5ggskl2JK4Yi16ktMFnMgCzrqZwaPMGOBC1TFfJk/Hxun11/d0Z
-         kowkT2fhwe7Nl56vYzmRaW2QkbyXWG7NryzowXKqh2p5wEkjLIv+xHViV3HEXZuPpy
-         lPF82V5nYNn3XT1hSnkEOMRG92Uz3y4iv4rVEdUW6BBIe1ARF2bOEhWnmLbiYNrPCn
-         2ezYrAt+7GUBoLtBMxbfzA1uAacH2Ad86uaS1qZ86qMdsDzHUN8ZPX67hj7FHtjyW3
-         Q2cXL7Mtq55TmNrKGKo6zaxrbCecjxkhJZf0bKeDDtzgqLe+TC7iy4rMvb+6vW+HJ3
-         z3gpRzouF/A7Q==
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Timo Kaufmann <timokau@zoho.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>, stable@vger.kernel.org
-Subject: [PATCH for v5.5 2/2] Input: rmi_f54: read from FIFO in 32 byte blocks
-Date:   Wed, 15 Jan 2020 13:48:19 +0100
-Message-Id: <20200115124819.3191024-3-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200115124819.3191024-1-hverkuil-cisco@xs4all.nl>
-References: <20200115124819.3191024-1-hverkuil-cisco@xs4all.nl>
+        id S1726100AbgAONAH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Jan 2020 08:00:07 -0500
+Received: from mx2.suse.de ([195.135.220.15]:33086 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726088AbgAONAG (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 15 Jan 2020 08:00:06 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 36DB7AFE1;
+        Wed, 15 Jan 2020 13:00:03 +0000 (UTC)
+From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH] Input: add IOC3 serio driver
+Date:   Wed, 15 Jan 2020 13:59:50 +0100
+Message-Id: <20200115125951.3677-1-tbogendoerfer@suse.de>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfCrwfkwhmKthDssy6WLiJ5HPIAldwwLU4BHSNjMRxnK9CCQEWscB0QLHf0bk+1tXNv/a1JENJ2ggRjBDlrHMXnfbd44jibhtgIPXr4cQufBuHALzgnTj
- 1I8AGYBkSf/JPJ9lrSx6Cf39xY5+SqUcsWvFAj0Jz785E9g5tnoUqOVAdTxc+4jGSBPaFZhjWW+RSZv0ClAvZ90nJH2AoTlAHId11SZev1oeE4/Q9yGySH/K
- 5bQh/4pnUzDA+md66dE8MklYl9p44P+SeD16Sy+UC9Zc2rdDRNXPPfedrTHwNlMe805waKOY+4+8UYvszqHISfwA3JTPxSyyXP3O6KTWCHK2wubTAllXdnbl
- 0R/Q+x1wGQj0Q8+Ed1o//nnqIM3dHvY1MzbQwaXpGGeXVdXw0Q6sEXEfja1S5GDpYw0l871n37vaWiDlynB1fvDc1yN0dQ==
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The F54 Report Data is apparently read through a fifo and for
-the smbus protocol that means that between reading a block of 32
-bytes the rmiaddr shouldn't be incremented. However, changing
-that causes other non-fifo reads to fail and so that change was
-reverted.
+This patch adds a platform driver for supporting keyboard and mouse
+interface of SGI IOC3 chips.
 
-This patch changes just the F54 function and it now reads 32 bytes
-at a time from the fifo, using the F54_FIFO_OFFSET to update the
-start address that is used when reading from the fifo.
-
-This has only been tested with smbus, not with i2c or spi. But I
-suspect that the same is needed there since I think similar
-problems will occur there when reading more than 256 bytes.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reported-by: Timo Kaufmann <timokau@zoho.com>
-Fixes: a284e11c371e ("Input: synaptics-rmi4 - don't increment rmiaddr for SMBus transfers")
-Cc: stable@vger.kernel.org
+Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
 ---
- drivers/input/rmi4/rmi_f54.c | 43 ++++++++++++++++++++++--------------
- 1 file changed, 27 insertions(+), 16 deletions(-)
+ drivers/input/serio/Kconfig   |  10 ++
+ drivers/input/serio/Makefile  |   1 +
+ drivers/input/serio/ioc3kbd.c | 183 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 194 insertions(+)
+ create mode 100644 drivers/input/serio/ioc3kbd.c
 
-diff --git a/drivers/input/rmi4/rmi_f54.c b/drivers/input/rmi4/rmi_f54.c
-index 0bc01cfc2b51..6b23e679606e 100644
---- a/drivers/input/rmi4/rmi_f54.c
-+++ b/drivers/input/rmi4/rmi_f54.c
-@@ -24,6 +24,12 @@
- #define F54_NUM_TX_OFFSET       1
- #define F54_NUM_RX_OFFSET       0
+diff --git a/drivers/input/serio/Kconfig b/drivers/input/serio/Kconfig
+index f3e18f8ef9ca..373a1646019e 100644
+--- a/drivers/input/serio/Kconfig
++++ b/drivers/input/serio/Kconfig
+@@ -165,6 +165,16 @@ config SERIO_MACEPS2
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called maceps2.
  
++config SERIO_SGI_IOC3
++	tristate "SGI IOC3 PS/2 controller"
++	depends on SGI_MFD_IOC3
++	help
++	  Say Y here if you have an SGI Onyx2, SGI Octane or IOC3 PCI card
++	  and you want to attach and use a keyboard, mouse, or both.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called ioc3kbd.
++
+ config SERIO_LIBPS2
+ 	tristate "PS/2 driver library"
+ 	depends on SERIO_I8042 || SERIO_I8042=n
+diff --git a/drivers/input/serio/Makefile b/drivers/input/serio/Makefile
+index 67950a5ccb3f..6d97bad7b844 100644
+--- a/drivers/input/serio/Makefile
++++ b/drivers/input/serio/Makefile
+@@ -20,6 +20,7 @@ obj-$(CONFIG_HIL_MLC)		+= hp_sdc_mlc.o hil_mlc.o
+ obj-$(CONFIG_SERIO_PCIPS2)	+= pcips2.o
+ obj-$(CONFIG_SERIO_PS2MULT)	+= ps2mult.o
+ obj-$(CONFIG_SERIO_MACEPS2)	+= maceps2.o
++obj-$(CONFIG_SERIO_SGI_IOC3)	+= ioc3kbd.o
+ obj-$(CONFIG_SERIO_LIBPS2)	+= libps2.o
+ obj-$(CONFIG_SERIO_RAW)		+= serio_raw.o
+ obj-$(CONFIG_SERIO_AMS_DELTA)	+= ams_delta_serio.o
+diff --git a/drivers/input/serio/ioc3kbd.c b/drivers/input/serio/ioc3kbd.c
+new file mode 100644
+index 000000000000..814ca640732f
+--- /dev/null
++++ b/drivers/input/serio/ioc3kbd.c
+@@ -0,0 +1,183 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * The smbus protocol can read only 32 bytes max at a time.
-+ * But this should be fine for i2c/spi as well.
++ * SGI IOC3 PS/2 controller driver for linux
++ *
++ * Copyright (C) 2019 Thomas Bogendoerfer <tbogendoerfer@suse.de>
++ *
++ * Based on code Copyright (C) 2005 Stanislaw Skowronek <skylark@unaligned.org>
++ *               Copyright (C) 2009 Johannes Dickgreber <tanzy@gmx.de>
 + */
-+#define F54_REPORT_DATA_SIZE	32
 +
- /* F54 commands */
- #define F54_GET_REPORT          1
- #define F54_FORCE_CAL           2
-@@ -526,6 +532,7 @@ static void rmi_f54_work(struct work_struct *work)
- 	int report_size;
- 	u8 command;
- 	int error;
-+	int i;
- 
- 	report_size = rmi_f54_get_report_size(f54);
- 	if (report_size == 0) {
-@@ -558,23 +565,27 @@ static void rmi_f54_work(struct work_struct *work)
- 
- 	rmi_dbg(RMI_DEBUG_FN, &fn->dev, "Get report command completed, reading data\n");
- 
--	fifo[0] = 0;
--	fifo[1] = 0;
--	error = rmi_write_block(fn->rmi_dev,
--				fn->fd.data_base_addr + F54_FIFO_OFFSET,
--				fifo, sizeof(fifo));
--	if (error) {
--		dev_err(&fn->dev, "Failed to set fifo start offset\n");
--		goto abort;
--	}
-+	for (i = 0; i < report_size; i += F54_REPORT_DATA_SIZE) {
-+		int size = min(F54_REPORT_DATA_SIZE, report_size - i);
++#include <linux/delay.h>
++#include <linux/init.h>
++#include <linux/io.h>
++#include <linux/serio.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
 +
-+		fifo[0] = i & 0xff;
-+		fifo[1] = i >> 8;
-+		error = rmi_write_block(fn->rmi_dev,
-+					fn->fd.data_base_addr + F54_FIFO_OFFSET,
-+					fifo, sizeof(fifo));
-+		if (error) {
-+			dev_err(&fn->dev, "Failed to set fifo start offset\n");
-+			goto abort;
-+		}
- 
--	error = rmi_read_block(fn->rmi_dev, fn->fd.data_base_addr +
--			       F54_REPORT_DATA_OFFSET, f54->report_data,
--			       report_size);
--	if (error) {
--		dev_err(&fn->dev, "%s: read [%d bytes] returned %d\n",
--			__func__, report_size, error);
--		goto abort;
-+		error = rmi_read_block(fn->rmi_dev, fn->fd.data_base_addr +
-+				       F54_REPORT_DATA_OFFSET,
-+				       f54->report_data + i, size);
-+		if (error) {
-+			dev_err(&fn->dev, "%s: read [%d bytes] returned %d\n",
-+				__func__, size, error);
-+			goto abort;
-+		}
- 	}
- 
- abort:
++#include <asm/sn/ioc3.h>
++
++struct ioc3kbd_data {
++	struct ioc3_serioregs __iomem *regs;
++	struct serio *kbd, *aux;
++	int irq;
++};
++
++static int ioc3kbd_wait(struct ioc3_serioregs __iomem *regs, u32 mask)
++{
++	unsigned long timeout = 0;
++
++	while ((readl(&regs->km_csr) & mask) && (timeout < 250)) {
++		udelay(50);
++		timeout++;
++	}
++	return (timeout >= 250) ? -ETIMEDOUT : 0;
++}
++
++static int ioc3kbd_write(struct serio *dev, u8 val)
++{
++	struct ioc3kbd_data *d = dev->port_data;
++	int ret;
++
++	ret = ioc3kbd_wait(d->regs, KM_CSR_K_WRT_PEND);
++	if (ret)
++		return ret;
++
++	writel(val, &d->regs->k_wd);
++
++	return 0;
++}
++
++static int ioc3aux_write(struct serio *dev, u8 val)
++{
++	struct ioc3kbd_data *d = dev->port_data;
++	int ret;
++
++	ret = ioc3kbd_wait(d->regs, KM_CSR_M_WRT_PEND);
++	if (ret)
++		return ret;
++
++	writel(val, &d->regs->m_wd);
++
++	return 0;
++}
++
++static irqreturn_t ioc3kbd_intr(int itq, void *dev_id)
++{
++	struct ioc3kbd_data *d = dev_id;
++	u32 data_k, data_m;
++
++	data_k = readl(&d->regs->k_rd);
++	data_m = readl(&d->regs->m_rd);
++
++	if (data_k & KM_RD_VALID_0)
++		serio_interrupt(d->kbd, (data_k >> KM_RD_DATA_0_SHIFT) & 0xff,
++				0);
++	if (data_k & KM_RD_VALID_1)
++		serio_interrupt(d->kbd, (data_k >> KM_RD_DATA_1_SHIFT) & 0xff,
++				0);
++	if (data_k & KM_RD_VALID_2)
++		serio_interrupt(d->kbd, (data_k >> KM_RD_DATA_2_SHIFT) & 0xff,
++				0);
++	if (data_m & KM_RD_VALID_0)
++		serio_interrupt(d->aux, (data_m >> KM_RD_DATA_0_SHIFT) & 0xff,
++				0);
++	if (data_m & KM_RD_VALID_1)
++		serio_interrupt(d->aux, (data_m >> KM_RD_DATA_1_SHIFT) & 0xff,
++				0);
++	if (data_m & KM_RD_VALID_2)
++		serio_interrupt(d->aux, (data_m >> KM_RD_DATA_2_SHIFT) & 0xff,
++				0);
++
++	return IRQ_HANDLED;
++}
++
++static int ioc3kbd_probe(struct platform_device *pdev)
++{
++	struct ioc3_serioregs __iomem *regs;
++	struct device *dev = &pdev->dev;
++	struct ioc3kbd_data *d;
++	struct serio *sk, *sa;
++	int irq, ret;
++
++	regs = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(regs))
++		return PTR_ERR(regs);
++
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0)
++		return -ENXIO;
++
++	d = devm_kzalloc(dev, sizeof(*d), GFP_KERNEL);
++	if (!d)
++		return -ENOMEM;
++
++	sk = kzalloc(sizeof(*sk), GFP_KERNEL);
++	if (!sk)
++		return -ENOMEM;
++
++	sa = kzalloc(sizeof(*sa), GFP_KERNEL);
++	if (!sa) {
++		kfree(sk);
++		return -ENOMEM;
++	}
++
++	sk->id.type = SERIO_8042;
++	sk->write = ioc3kbd_write;
++	snprintf(sk->name, sizeof(sk->name), "IOC3 keyboard %d", pdev->id);
++	snprintf(sk->phys, sizeof(sk->phys), "ioc3/serio%dkbd", pdev->id);
++	sk->port_data = d;
++	sk->dev.parent = dev;
++
++	sa->id.type = SERIO_8042;
++	sa->write = ioc3aux_write;
++	snprintf(sa->name, sizeof(sa->name), "IOC3 auxiliary %d", pdev->id);
++	snprintf(sa->phys, sizeof(sa->phys), "ioc3/serio%daux", pdev->id);
++	sa->port_data = d;
++	sa->dev.parent = dev;
++
++	d->regs = regs;
++	d->kbd = sk;
++	d->aux = sa;
++	d->irq = irq;
++
++	platform_set_drvdata(pdev, d);
++	serio_register_port(d->kbd);
++	serio_register_port(d->aux);
++
++	ret = request_irq(irq, ioc3kbd_intr, IRQF_SHARED, "ioc3-kbd", d);
++	if (ret) {
++		dev_err(dev, "could not request IRQ %d\n", irq);
++		serio_unregister_port(d->kbd);
++		serio_unregister_port(d->aux);
++		return ret;
++	}
++
++	/* enable ports */
++	writel(KM_CSR_K_CLAMP_3 | KM_CSR_M_CLAMP_3, &regs->km_csr);
++
++	return 0;
++}
++
++static int ioc3kbd_remove(struct platform_device *pdev)
++{
++	struct ioc3kbd_data *d = platform_get_drvdata(pdev);
++
++	free_irq(d->irq, d);
++	serio_unregister_port(d->kbd);
++	serio_unregister_port(d->aux);
++	return 0;
++}
++
++static struct platform_driver ioc3kbd_driver = {
++	.probe          = ioc3kbd_probe,
++	.remove         = ioc3kbd_remove,
++	.driver = {
++		.name = "ioc3-kbd",
++	},
++};
++module_platform_driver(ioc3kbd_driver);
++
++MODULE_AUTHOR("Thomas Bogendoerfer <tbogendoerfer@suse.de>");
++MODULE_DESCRIPTION("SGI IOC3 serio driver");
++MODULE_LICENSE("GPL");
 -- 
-2.24.0
+2.24.1
 
