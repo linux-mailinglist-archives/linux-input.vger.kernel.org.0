@@ -2,121 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33C5213DC07
-	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2020 14:32:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD48A13E660
+	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2020 18:20:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726362AbgAPNc0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Jan 2020 08:32:26 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:48367 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726689AbgAPNc0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Jan 2020 08:32:26 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1is5G1-0003HQ-6w; Thu, 16 Jan 2020 14:32:21 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1is5Fz-0000kB-QS; Thu, 16 Jan 2020 14:32:19 +0100
-Date:   Thu, 16 Jan 2020 14:32:19 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     devicetree@vger.kernel.org, alexandre.belloni@bootlin.com,
-        simon.budig@kernelconcepts.de, mripard@kernel.org, bparrot@ti.com,
-        hdegoede@redhat.com, andy.shevchenko@gmail.com, robh+dt@kernel.org,
-        kernel@pengutronix.de, linux-input@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com, shawnguo@kernel.org,
-        fcooper@ti.com
-Subject: Re: [PATCH v3 6/6] Input: edt-ft5x06 - improve power management
- operations
-Message-ID: <20200116133219.xtp3wkkcefbcumca@pengutronix.de>
-References: <20200108111050.19001-1-m.felsch@pengutronix.de>
- <20200108111050.19001-7-m.felsch@pengutronix.de>
- <20200110010957.GP8314@dtor-ws>
- <20200110071606.g42csvhgtriddqj4@pengutronix.de>
- <20200110071847.h5hqfb7ujnahuuus@pengutronix.de>
+        id S2391025AbgAPRSJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Jan 2020 12:18:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44832 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2391323AbgAPRSI (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:18:08 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D43F2246B1;
+        Thu, 16 Jan 2020 17:18:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579195087;
+        bh=nmFAhrHtoLLCzhzFImZuzpAFjoAw2xKjA7eVQFApg7Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=AaH0vZrlXiaROd6SXyJQGFOtKvvQLDJOJmFyUvcf2XD87mNLHnuuBcJhqmx0S3SiS
+         DTOWz6h9n2uLgoDVYuD+hk7/B08utiwrUfFmEcDxqRycpHZbunOlKE3foT4BWprv2p
+         BIuaoF3oxKo/d9MtcNNFzx/S5UPpHbEOs+6roaIA=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 035/371] Input: nomadik-ske-keypad - fix a loop timeout test
+Date:   Thu, 16 Jan 2020 12:11:43 -0500
+Message-Id: <20200116171719.16965-35-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200116171719.16965-1-sashal@kernel.org>
+References: <20200116171719.16965-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200110071847.h5hqfb7ujnahuuus@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 14:28:33 up 62 days,  4:47, 53 users,  load average: 0.01, 0.02,
- 0.00
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
-On 20-01-10 08:18, Marco Felsch wrote:
-> On 20-01-10 08:16, Marco Felsch wrote:
-> > Hi Dmitry,
-> > 
-> > On 20-01-09 17:09, Dmitry Torokhov wrote:
-> > > Hi Marco,
-> > > 
-> > > On Wed, Jan 08, 2020 at 12:10:50PM +0100, Marco Felsch wrote:
-> > > > +static int __maybe_unused edt_ft5x06_ts_resume(struct device *dev)
-> > > > +{
-> > > > +	struct i2c_client *client = to_i2c_client(dev);
-> > > > +	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
-> > > > +	int ret;
-> > > > +
-> > > > +	if (device_may_wakeup(dev))
-> > > > +		return 0;
-> > > > +
-> > > > +	ret = regulator_enable(tsdata->vcc);
-> > > > +	if (ret)
-> > > > +		dev_warn(dev, "Failed to enable vcc\n");
-> > > 
-> > > I wonder if we should not return error here instead of continuing. If
-> > > device is not powered up properly we'll have hard time communicating
-> > > with it.
-> > 
-> > That's a reasonable point.
-> > 
-> > > The same is for suspend: maybe we should abort if we can't switch off
-> > > regulator or write to the device.
-> > 
-> > I have no strong opinion about that case but IMHO it's okay to go further
-> > if we can't switch it off. Instead we should print a warning.
-> 
-> I just noticed that we do that already.. So the suspend case should be
-> okay.
+[ Upstream commit 4d8f727b83bcd6702c2d210330872c9122d2d360 ]
 
+The loop exits with "timeout" set to -1 not to 0.
 
-Is it okay to check the return val for the resume case only? I want to
-prepare a v4 of this patch to get this done.
+Fixes: 1158f0f16224 ("Input: add support for Nomadik SKE keypad controller")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/input/keyboard/nomadik-ske-keypad.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-  Marco
-
-> 
-> > Regards,
-> >   Marco
-> > 
-> > > Thanks.
-> > > 
-> > > -- 
-> > > Dmitry
-> > > 
-> 
-> 
-
+diff --git a/drivers/input/keyboard/nomadik-ske-keypad.c b/drivers/input/keyboard/nomadik-ske-keypad.c
+index 8567ee47761e..ae3b04557074 100644
+--- a/drivers/input/keyboard/nomadik-ske-keypad.c
++++ b/drivers/input/keyboard/nomadik-ske-keypad.c
+@@ -100,7 +100,7 @@ static int __init ske_keypad_chip_init(struct ske_keypad *keypad)
+ 	while ((readl(keypad->reg_base + SKE_RIS) != 0x00000000) && timeout--)
+ 		cpu_relax();
+ 
+-	if (!timeout)
++	if (timeout == -1)
+ 		return -EINVAL;
+ 
+ 	/*
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.20.1
+
