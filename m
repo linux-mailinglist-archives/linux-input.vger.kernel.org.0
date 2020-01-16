@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E54513ECB3
-	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2020 18:58:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2497213F7A3
+	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2020 20:13:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405807AbgAPR54 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Jan 2020 12:57:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33252 "EHLO mail.kernel.org"
+        id S2387418AbgAPTNM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Jan 2020 14:13:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43854 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2393901AbgAPRnQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:43:16 -0500
+        id S2387412AbgAPQ5E (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Jan 2020 11:57:04 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E625E24718;
-        Thu, 16 Jan 2020 17:43:14 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 16A6024656;
+        Thu, 16 Jan 2020 16:57:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579196595;
+        s=default; t=1579193823;
         bh=nmFAhrHtoLLCzhzFImZuzpAFjoAw2xKjA7eVQFApg7Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jvE0jLg5Ccg2j5/77+L/umqdoNb8pAgHYkYSW9WAyA1h6Cgcp7t8hXlL4/Vjhay0Z
-         RJoJFhKhM7odA8z1sqIkbPFRA2Ls4F0PuDdAujKq0/l7wIzuZCRtxoUfJC4+u12Tgy
-         OcPHEcZSGhBa5NUa8D2ZZ5OyLi78c/NNXtlCzgJw=
+        b=UViuoHu6USGvQdeHHGhcXujPLoxuVOavpBlCS6L0ft/irhpBNs4nkcPz/BBpIeS3W
+         qVvYWKfuys6RBgiNoHcuIWcmlNXEarkNxF/4X3azdkET3xj+XBoVmkbHWBO46EjWS/
+         C+1yXwnovCtD6Wbu6JBWqUzuxF4Bb1Eg4C9o5A8w=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 018/174] Input: nomadik-ske-keypad - fix a loop timeout test
-Date:   Thu, 16 Jan 2020 12:40:15 -0500
-Message-Id: <20200116174251.24326-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 082/671] Input: nomadik-ske-keypad - fix a loop timeout test
+Date:   Thu, 16 Jan 2020 11:45:13 -0500
+Message-Id: <20200116165502.8838-82-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116174251.24326-1-sashal@kernel.org>
-References: <20200116174251.24326-1-sashal@kernel.org>
+In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
+References: <20200116165502.8838-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
