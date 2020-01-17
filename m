@@ -2,143 +2,206 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA9C2141040
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2020 18:53:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74E2C1411CC
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2020 20:31:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726761AbgAQRxL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Jan 2020 12:53:11 -0500
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2282 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726603AbgAQRxL (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Jan 2020 12:53:11 -0500
-Received: from lhreml705-cah.china.huawei.com (unknown [172.18.7.106])
-        by Forcepoint Email with ESMTP id 8C6A6AEF7A93634FEC18;
-        Fri, 17 Jan 2020 17:53:09 +0000 (GMT)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml705-cah.china.huawei.com (10.201.108.46) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Fri, 17 Jan 2020 17:53:08 +0000
-Received: from localhost (10.202.226.57) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5; Fri, 17 Jan
- 2020 17:53:08 +0000
-Date:   Fri, 17 Jan 2020 17:53:07 +0000
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-CC:     Stephan Gerhold <stephan@gerhold.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        "Peter Meerwald-Stadler" <pmeerw@pmeerw.net>,
-        Linux Input <linux-input@vger.kernel.org>,
-        Minkyu Kang <mk7.kang@samsung.com>,
-        =?UTF-8?Q?Pawe=C5=82?= Chmiel <pawel.mikolaj.chmiel@gmail.com>,
-        "Jonathan Bakker" <xc-racer2@live.ca>,
-        Oskar Andero <oskar.andero@gmail.com>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH 2/2 v4] iio: light: Add a driver for Sharp GP2AP002x00F
-Message-ID: <20200117175307.00000c8c@Huawei.com>
-In-Reply-To: <CACRpkdbDEhCu8LVBT_xjuar1UgCPALJg0V12varZjG-eGqj=2Q@mail.gmail.com>
-References: <20200112111341.21388-1-linus.walleij@linaro.org>
-        <20200112111341.21388-2-linus.walleij@linaro.org>
-        <20200112165404.GA72221@gerhold.net>
-        <CACRpkdbDEhCu8LVBT_xjuar1UgCPALJg0V12varZjG-eGqj=2Q@mail.gmail.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        id S1728773AbgAQTb4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Jan 2020 14:31:56 -0500
+Received: from mga06.intel.com ([134.134.136.31]:57391 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726897AbgAQTb4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 17 Jan 2020 14:31:56 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Jan 2020 11:28:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,331,1574150400"; 
+   d="scan'208";a="220826761"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 17 Jan 2020 11:28:34 -0800
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1isXII-0003qm-6t; Sat, 18 Jan 2020 03:28:34 +0800
+Date:   Sat, 18 Jan 2020 03:28:14 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:for-linus] BUILD SUCCESS
+ ba9a103f40fc4a3ec7558ec9b0b97d4f92034249
+Message-ID: <5e220ace.EU8WSup2/JJcnUo8%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.57]
-X-ClientProxiedBy: lhreml701-chm.china.huawei.com (10.201.108.50) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 13 Jan 2020 22:02:00 +0100
-Linus Walleij <linus.walleij@linaro.org> wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  for-linus
+branch HEAD: ba9a103f40fc4a3ec7558ec9b0b97d4f92034249  Input: keyspan-remote - fix control-message timeouts
 
-> On Sun, Jan 12, 2020 at 5:54 PM Stephan Gerhold <stephan@gerhold.net> wrote:
-> 
-> > It seems to work fine on samsung,golden with gp2ap002s00f.
-> > There are interrupts being sent when something moves in front of the
-> > sensor and iio-event-monitor looks good too:
-> >
-> > Tested-by: Stephan Gerhold <stephan@gerhold.net>  
-> 
-> Thanks! I think I'm up at v7 or something on this driver
-> and now it looks good.
-> 
-> > Out of curiosity: I'm not so familiar with the IIO subsystem,
-> > is it intended that the sensor is active the whole time?
-> > Wouldn't it be better to activate it only when something is reading
-> > /dev/iio:device2?  
-> 
-> IMO the best way to power manage an IIO sensor is like I do in
-> drivers/iio/gyro/mpu3050-core.c
-> 
-> Of course I think it is excellent code since I wrote it. Beware
-> of hubris in the driver.
-> 
-> The idea is to take the runtime pm handle on the device
-> whenever in use (reading values from the hardware or
-> using the trigger), and then use autosuspend to completely
-> shut it down (including regulators) when not in use. If the power-up
-> time for the sensor is long, then the autosuspend timeout
-> should be proportionally longer, like a magnitude or two above.
-> 
-> With the proximity events I have this problem that I don't know
-> in the driver if someone had opened the file to read events
-> or not, only the core knows, I think. I just emit my events
-> and be happy.
-> 
-> Jonathan: is there a way for the driver to know if someone
-> is listening on the event interface?
+elapsed time: 385m
 
-Hmm. Normally we'd do it on someone actually enabling the events on
-the basis I'd expect userspace to open the file then enable the events.
+configs tested: 151
+configs skipped: 1
 
-Nothing stops us doing it on file open I guess, but not sure what the
-real world benefit would be.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> 
-> > There is one problem I noticed, although I'm not sure if it is a problem
-> > in this driver. Reading one of the files in the sysfs results in:
-> >
-> > $ cat /sys/bus/iio/devices/iio\:device2/events/in_proximity_thresh_either_en
-> > Segmentation fault  
-> 
-> That looks like an ordinary bug, but that seems to be for the
-> core? Hm...
-Ah.. Seems I missed that you have the driver set event spec for enable, but
-didn't actually provide the callback function.   + we clearly don't sanity
-check that one.  Hence IIO core could do with hardening but driver is
-buggy as well.
+csky                 randconfig-a001-20200118
+openrisc             randconfig-a001-20200118
+s390                 randconfig-a001-20200118
+sh                   randconfig-a001-20200118
+xtensa               randconfig-a001-20200118
+sh                               allmodconfig
+sh                                allnoconfig
+sh                          rsk7269_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                            titan_defconfig
+c6x                              allyesconfig
+c6x                        evmc6678_defconfig
+nios2                         10m50_defconfig
+nios2                         3c120_defconfig
+openrisc                    or1ksim_defconfig
+openrisc                 simple_smp_defconfig
+xtensa                       common_defconfig
+xtensa                          iss_defconfig
+x86_64               randconfig-e001-20200118
+x86_64               randconfig-e002-20200118
+x86_64               randconfig-e003-20200118
+i386                 randconfig-e001-20200118
+i386                 randconfig-e002-20200118
+i386                 randconfig-e003-20200118
+c6x                  randconfig-a001-20200118
+h8300                randconfig-a001-20200118
+microblaze           randconfig-a001-20200118
+nios2                randconfig-a001-20200118
+sparc64              randconfig-a001-20200118
+x86_64               randconfig-f001-20200117
+x86_64               randconfig-f002-20200117
+x86_64               randconfig-f003-20200117
+i386                 randconfig-f001-20200117
+i386                 randconfig-f002-20200117
+i386                 randconfig-f003-20200117
+arc                  randconfig-a001-20200118
+arm                  randconfig-a001-20200118
+arm64                randconfig-a001-20200118
+ia64                 randconfig-a001-20200118
+powerpc              randconfig-a001-20200118
+sparc                randconfig-a001-20200118
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+csky                 randconfig-a001-20200117
+openrisc             randconfig-a001-20200117
+s390                 randconfig-a001-20200117
+sh                   randconfig-a001-20200117
+xtensa               randconfig-a001-20200117
+alpha                randconfig-a001-20200118
+m68k                 randconfig-a001-20200118
+mips                 randconfig-a001-20200118
+nds32                randconfig-a001-20200118
+parisc               randconfig-a001-20200118
+riscv                randconfig-a001-20200118
+x86_64               randconfig-b001-20200117
+x86_64               randconfig-b002-20200117
+x86_64               randconfig-b003-20200117
+i386                 randconfig-b001-20200117
+i386                 randconfig-b002-20200117
+i386                 randconfig-b003-20200117
+h8300                     edosk2674_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+m68k                       m5475evb_defconfig
+m68k                          multi_defconfig
+m68k                           sun3_defconfig
+s390                             alldefconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+parisc                        c3000_defconfig
+parisc                         b180_defconfig
+parisc                              defconfig
+parisc                            allnoconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                             allyesconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                                  defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                               rhel-7.6
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+alpha                               defconfig
+csky                                defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+i386                             alldefconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+x86_64               randconfig-c001-20200118
+x86_64               randconfig-c002-20200118
+x86_64               randconfig-c003-20200118
+i386                 randconfig-c001-20200118
+i386                 randconfig-c002-20200118
+i386                 randconfig-c003-20200118
+x86_64               randconfig-c001-20200117
+x86_64               randconfig-c002-20200117
+x86_64               randconfig-c003-20200117
+i386                 randconfig-c001-20200117
+i386                 randconfig-c002-20200117
+i386                 randconfig-c003-20200117
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+ia64                             alldefconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+ia64                                defconfig
+parisc                            allyesonfig
 
-+static const struct iio_event_spec gp2ap002_events[] = {
-+	{
-+		.type = IIO_EV_TYPE_THRESH,
-+		.dir = IIO_EV_DIR_EITHER,
-+		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
-+	},
-+};
-
-Means you must supply read_event_config in iio_info.
-It's a bit odd if you don't also supply write event config for that
-matter though that wasn't the bug here. It would cause a similar
-bug if you wrote the sysfs file though :)
-
-Kind of also explains why my logic about enabling the event
-doesn't apply currently.
-
-Good find from Stephan on both fronts.
-
-Jonathan
-
-> 
-> Yours,
-> Linus Walleij
-
-
+---
+0-DAY kernel test infrastructure                 Open Source Technology Center
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
