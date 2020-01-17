@@ -2,206 +2,294 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74E2C1411CC
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2020 20:31:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 669EB141219
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2020 21:06:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728773AbgAQTb4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Jan 2020 14:31:56 -0500
-Received: from mga06.intel.com ([134.134.136.31]:57391 "EHLO mga06.intel.com"
+        id S1729652AbgAQUGU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Jan 2020 15:06:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39670 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726897AbgAQTb4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Jan 2020 14:31:56 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Jan 2020 11:28:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,331,1574150400"; 
-   d="scan'208";a="220826761"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Jan 2020 11:28:34 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1isXII-0003qm-6t; Sat, 18 Jan 2020 03:28:34 +0800
-Date:   Sat, 18 Jan 2020 03:28:14 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:for-linus] BUILD SUCCESS
- ba9a103f40fc4a3ec7558ec9b0b97d4f92034249
-Message-ID: <5e220ace.EU8WSup2/JJcnUo8%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1729465AbgAQUGU (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 17 Jan 2020 15:06:20 -0500
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 26BAD214AF
+        for <linux-input@vger.kernel.org>; Fri, 17 Jan 2020 20:06:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579291579;
+        bh=zlUQicqWtn1RliknLWKWm7sEYt4NefZp0gNvmqIw488=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KzTLeP52K4zKI+RhTMViTXBhq3KaONo4N/xlgPJRVL28rGRggwnCy2lHbkq53SwZ3
+         jT32Isuf6qM9kh2lWHbEtBzD5zA/8Hs37rA3GFBM3UyjAz/8AJkyG7bNfds26kpumT
+         evi+rq0qHVD+FqVOZXuVh06vmZPGRq9crgy+5LG0=
+Received: by mail-wm1-f52.google.com with SMTP id w5so10198268wmi.1
+        for <linux-input@vger.kernel.org>; Fri, 17 Jan 2020 12:06:19 -0800 (PST)
+X-Gm-Message-State: APjAAAVNpjEcKzUIYMNDDEOnJ2tgOtj4xQVrwSdjc+LL+H/tZoo7zzT+
+        OrEkyEsur/l+v8PYfRfbs4axHXLEbR9oYc44yrnthg==
+X-Google-Smtp-Source: APXvYqwawazLywdb2Oy7uHqxVHomoEfaLVG4a9tdL505slD/JJ9wZrwPXYXJ1YNzKwmPFG5/lnC3TIoyyBJheNygp/U=
+X-Received: by 2002:a7b:c957:: with SMTP id i23mr6570340wml.49.1579291575471;
+ Fri, 17 Jan 2020 12:06:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20200111145703.533809-1-hdegoede@redhat.com> <20200111145703.533809-3-hdegoede@redhat.com>
+ <CALCETrUz4gdVOH=5X+MkB56ST=DNcHKicRST1j1ff0kU1yXWzw@mail.gmail.com> <9b5b8304-74bc-4e5c-5030-98bd6e12eaf0@redhat.com>
+In-Reply-To: <9b5b8304-74bc-4e5c-5030-98bd6e12eaf0@redhat.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Fri, 17 Jan 2020 12:06:03 -0800
+X-Gmail-Original-Message-ID: <CALCETrWtf3iEdZS8zu=k60cnZtokbxRaH5dfkWoM7JokkhAL2w@mail.gmail.com>
+Message-ID: <CALCETrWtf3iEdZS8zu=k60cnZtokbxRaH5dfkWoM7JokkhAL2w@mail.gmail.com>
+Subject: Re: [PATCH v11 02/10] efi: Add embedded peripheral firmware support
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, X86 ML <x86@kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  for-linus
-branch HEAD: ba9a103f40fc4a3ec7558ec9b0b97d4f92034249  Input: keyspan-remote - fix control-message timeouts
+> On Jan 14, 2020, at 4:25 AM, Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> =EF=BB=BFHi Andy,
+>
 
-elapsed time: 385m
+> Even if we get more use of this the chances of 1 device model using
+> more then 1 embedded fw are small. Where as if we first map the
+> EFI_BOOT_SERVICES_CODE segment before doing the DMI match then we
+> do this for all EFI_BOOT_SERVICES_CODE segments on all hardware.
+> The current implementation is very much optimized to do as little
+> work as possible when there is no DMI match, which will be true
+> on almost all devices out there.
 
-configs tested: 151
-configs skipped: 1
+Fine with me.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-csky                 randconfig-a001-20200118
-openrisc             randconfig-a001-20200118
-s390                 randconfig-a001-20200118
-sh                   randconfig-a001-20200118
-xtensa               randconfig-a001-20200118
-sh                               allmodconfig
-sh                                allnoconfig
-sh                          rsk7269_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                            titan_defconfig
-c6x                              allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-xtensa                          iss_defconfig
-x86_64               randconfig-e001-20200118
-x86_64               randconfig-e002-20200118
-x86_64               randconfig-e003-20200118
-i386                 randconfig-e001-20200118
-i386                 randconfig-e002-20200118
-i386                 randconfig-e003-20200118
-c6x                  randconfig-a001-20200118
-h8300                randconfig-a001-20200118
-microblaze           randconfig-a001-20200118
-nios2                randconfig-a001-20200118
-sparc64              randconfig-a001-20200118
-x86_64               randconfig-f001-20200117
-x86_64               randconfig-f002-20200117
-x86_64               randconfig-f003-20200117
-i386                 randconfig-f001-20200117
-i386                 randconfig-f002-20200117
-i386                 randconfig-f003-20200117
-arc                  randconfig-a001-20200118
-arm                  randconfig-a001-20200118
-arm64                randconfig-a001-20200118
-ia64                 randconfig-a001-20200118
-powerpc              randconfig-a001-20200118
-sparc                randconfig-a001-20200118
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-csky                 randconfig-a001-20200117
-openrisc             randconfig-a001-20200117
-s390                 randconfig-a001-20200117
-sh                   randconfig-a001-20200117
-xtensa               randconfig-a001-20200117
-alpha                randconfig-a001-20200118
-m68k                 randconfig-a001-20200118
-mips                 randconfig-a001-20200118
-nds32                randconfig-a001-20200118
-parisc               randconfig-a001-20200118
-riscv                randconfig-a001-20200118
-x86_64               randconfig-b001-20200117
-x86_64               randconfig-b002-20200117
-x86_64               randconfig-b003-20200117
-i386                 randconfig-b001-20200117
-i386                 randconfig-b002-20200117
-i386                 randconfig-b003-20200117
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-m68k                             allmodconfig
-m68k                       m5475evb_defconfig
-m68k                          multi_defconfig
-m68k                           sun3_defconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-parisc                        c3000_defconfig
-parisc                         b180_defconfig
-parisc                              defconfig
-parisc                            allnoconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-mips                             allyesconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                                  defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                               rhel-7.6
-riscv                            allmodconfig
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-alpha                               defconfig
-csky                                defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-i386                             alldefconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-x86_64               randconfig-c001-20200118
-x86_64               randconfig-c002-20200118
-x86_64               randconfig-c003-20200118
-i386                 randconfig-c001-20200118
-i386                 randconfig-c002-20200118
-i386                 randconfig-c003-20200118
-x86_64               randconfig-c001-20200117
-x86_64               randconfig-c002-20200117
-x86_64               randconfig-c003-20200117
-i386                 randconfig-c001-20200117
-i386                 randconfig-c002-20200117
-i386                 randconfig-c003-20200117
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                             defconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                                defconfig
-parisc                            allyesonfig
+> If we hit firmware which is not 8 byte aligned, then yes that would be
+> a good idea, but for now I feel that that would just cause a slowdown
+> in the scanning without any benefits.
+>
 
----
-0-DAY kernel test infrastructure                 Open Source Technology Center
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
+It would shorten the code and remove a comment :). Also, a good memmem
+implementation should be very fast, potentially faster than your loop.
+I suspect the latter is only true in user code where SSE would get
+used, but still.
+
+it would also be unfortunate if some firmware update switches to
+4-byte alignment and touchscreens stop working with no explanation.
+
+
+>>> +
+>>> +               sha256_init(&sctx);
+>>> +               sha256_update(&sctx, map + i, desc->length);
+>>> +               sha256_final(&sctx, sha256);
+>>> +               if (memcmp(sha256, desc->sha256, 32) =3D=3D 0)
+>>> +                       break;
+>>> +       }
+>>> +       if ((i + desc->length) > size) {
+>>> +               memunmap(map);
+>>> +               return -ENOENT;
+>>> +       }
+>>> +
+>>> +       pr_info("Found EFI embedded fw '%s'\n", desc->name);
+>>> +
+>> It might be nice to also log which EFI section it was in?
+>
+> The EFI sections do not have names, so all I could is log
+> the section number which does not really feel useful?
+>
+>>> +       fw =3D kmalloc(sizeof(*fw), GFP_KERNEL);
+>>> +       if (!fw) {
+>>> +               memunmap(map);
+>>> +               return -ENOMEM;
+>>> +       }
+>>> +
+>>> +       fw->data =3D kmemdup(map + i, desc->length, GFP_KERNEL);
+>>> +       memunmap(map);
+>>> +       if (!fw->data) {
+>>> +               kfree(fw);
+>>> +               return -ENOMEM;
+>>> +       }
+>>> +
+>>> +       fw->name =3D desc->name;
+>>> +       fw->length =3D desc->length;
+>>> +       list_add(&fw->list, &efi_embedded_fw_list);
+>>> +
+>> If you actually copy the firmware name instead of just a pointer to
+>> it, then you could potentially free the list of EFI firmwares.
+>
+> If we move to having a separate dmi_system_id table for this then
+> that would be true. ATM the dmi_system_id from
+> drivers/platform/x86/touchscreen_dmi.c
+> is not freed as it is referenced from a bus-notifier.
+>
+>> Why are you copying the firmware into linear (kmemdup) memory here
+>
+> The kmemdup is because the EFI_BOOT_SERVICES_CODE section is
+> free-ed almost immediately after we run.
+>
+>> just to copy it to vmalloc space down below...
+>
+> The vmalloc is because the efi_get_embedded_fw() function is
+> a helper for later implementing firmware_Request_platform
+> which returns a struct firmware *fw and release_firmware()
+> uses vfree() to free the firmware contents.
+>
+> I guess we could have efi_get_embedded_fw() return an const u8 *
+> and have the firmware code do the vmalloc + memcpy but it boils
+> down to the same thing.
+>
+>
+>>> +       return 0;
+>>> +}
+>>> +
+>>> +void __init efi_check_for_embedded_firmwares(void)
+>>> +{
+>>> +       const struct efi_embedded_fw_desc *fw_desc;
+>>> +       const struct dmi_system_id *dmi_id;
+>>> +       efi_memory_desc_t *md;
+>>> +       int i, r;
+>>> +
+>>> +       for (i =3D 0; embedded_fw_table[i]; i++) {
+>>> +               dmi_id =3D dmi_first_match(embedded_fw_table[i]);
+>>> +               if (!dmi_id)
+>>> +                       continue;
+>>> +
+>>> +               fw_desc =3D dmi_id->driver_data;
+>>> +
+>>> +               /*
+>>> +                * In some drivers the struct driver_data contains may =
+contain
+>>> +                * other driver specific data after the fw_desc struct;=
+ and
+>>> +                * the fw_desc struct itself may be empty, skip these.
+>>> +                */
+>>> +               if (!fw_desc->name)
+>>> +                       continue;
+>>> +
+>>> +               for_each_efi_memory_desc(md) {
+>>> +                       if (md->type !=3D EFI_BOOT_SERVICES_CODE)
+>>> +                               continue;
+>>> +
+>>> +                       r =3D efi_check_md_for_embedded_firmware(md, fw=
+_desc);
+>>> +                       if (r =3D=3D 0)
+>>> +                               break;
+>>> +               }
+>>> +       }
+>>> +
+>>> +       checked_for_fw =3D true;
+>>> +}
+>> Have you measured how long this takes on a typical system per matching D=
+MI id?
+>
+> I originally wrote this approx. 18 months ago, it has been on hold for a =
+while
+> since it needed a sha256 method which would work before subsys_initcall-s
+> run so I couldn't use the standard crypto_alloc_shash() stuff. In the end
+> I ended up merging the duplicate purgatory and crypto/sha256_generic.c
+> generic C SHA256 implementation into a set of new directly callable lib
+> functions in lib/crypto/sha256.c, just so that I could move forward with
+> this...
+>
+> Anyways the reason for this background info is that because this is a whi=
+le
+> ago I do not remember exactly how, but yes I did measure this (but not
+> very scientifically) and there was no discernible difference in boot
+> to init (from the initrd) with this in place vs without this.
+>
+>>> +
+>>> +int efi_get_embedded_fw(const char *name, void **data, size_t *size)
+>>> +{
+>>> +       struct efi_embedded_fw *iter, *fw =3D NULL;
+>>> +       void *buf =3D *data;
+>>> +
+>>> +       if (!checked_for_fw) {
+>> WARN_ON_ONCE?  A stack dump would be quite nice here.
+>
+> As discussed when this check was added (discussion in v7 of
+> the set I guess, check added in v8) we can also hit this without
+> it being a bug, e.g. when booted through kexec the whole
+> efi_check_for_embedded_firmwares() call we be skipped, hence the
+> pr_warn.
+>
+>
+>>> +       buf =3D vmalloc(fw->length);
+>>> +       if (!buf)
+>>> +               return -ENOMEM;
+>>> +
+>>> +       memcpy(buf, fw->data, fw->length);
+>>> +       *size =3D fw->length;
+>>> +       *data =3D buf;
+>> See above.  What's vmalloc() for?  Where's the vfree()?
+>
+> See above for my answer. I'm fine with moving this into the
+> firmware code, since that is where the matching vfree is, please
+> let me know how you want to proceed with this.
+>
+>> BTW, it would be very nice to have a straightforward way
+>> (/sys/kernel/debug/efi_firmware/[name]?) to dump all found firmwares.
+>
+> That is an interesting idea, we could add a subsys_init call or
+> some such to add this to debugfs (efi_check_for_embedded_firmwares runs
+> too early).
+>
+> But given how long this patch-set has been in the making I would really
+> like to get this (or at least the first 2 patches as a start) upstream,
+> so for now I would like to keep the changes to a minimum. Are you ok
+> with me adding the debugfs support with a follow-up patch ?
+>
+> Let me also reply to your summary comment elsewhere in the thread here:
+>
+> > Early in boot, you check a bunch of firmware descriptors, bundled with
+> > drivers, to search EFI code and data for firmware before you free said
+> > code and data.  You catalogue it by name.  Later on, you use this list
+> > as a fallback, again catalogued by name.  I think it would be rather
+> > nicer if you simply had a list in a single file containing all these
+> > descriptors rather than commingling it with the driver's internal dmi
+> > data.  This gets rid of all the ifdeffery and module issues.  It also
+> > avoids any potential nastiness when you have a dmi entry that contains
+> > driver_data that points into the driver when the driver is a module.
+> >
+> > And you can mark the entire list __initdata.  And you can easily (now
+> > or later on) invert the code flow so you map each EFI region exactly
+> > once and then search for all the firmware in it.
+>
+> I believe we have mostly discussed this above. At least for the
+> X86 touchscreen case, which is the only user of this for now, I
+> believe that re-using the table from drivers/platform/x86/touchscreen_dmi=
+.c
+> is better as it avoids duplication of DMI strings and it keeps all
+> the info in one place (also avoiding churn in 2 files / 2 different
+> trees when new models are added).
+>
+> I agree that when looking at this as a generic mechanism which may be
+> used elsewhere, your suggestion makes a lot of sense. But even though
+> this is very much written so that it can be used as a generic mechanism
+> I'm not sure if other users will appear. So for now, with only the X86
+> touchscreen use-case actually using this I believe the current
+> implementation is best, but I'm definitely open to changing this around
+> if more users show up.
+>
+> Regards,
+>
+> Hans
+>
