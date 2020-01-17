@@ -2,98 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CCF8F140300
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2020 05:24:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58BD314047D
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2020 08:34:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726925AbgAQEYN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Jan 2020 23:24:13 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:51344 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726566AbgAQEYN (ORCPT
+        id S1729139AbgAQHeg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Jan 2020 02:34:36 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:45059 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726675AbgAQHeg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Jan 2020 23:24:13 -0500
-Received: by mail-pj1-f67.google.com with SMTP id d15so2583414pjw.1;
-        Thu, 16 Jan 2020 20:24:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=ANpzFmgjjuaZgNEEBDm5PaG+F+Suwy/uIclI0OaRnP4=;
-        b=cIVbgfHFRatkQnOmtGISxJXOYHYBnXKXuk/8gi0JxX7/6LqD7P28IGHSgERryqKAp3
-         qR4KGBZ2DCGcmtX+wZMFcOIuyjoxC2zW2YUI4XlgN+ao4SvFQXmcrv09ev3cGvkFj47s
-         q5RiJCo5xsqJ9Lf2XQEoaXMXFyJ4nKsj7/lQNoX/tkhFnTLE0kqF7wzs2Wmo9Ox5jhgJ
-         uiYY/5jaadyzv5m64cGex4Rc33tZ6Cl+oQWe0T2P7lmJnQogFAKZluEcG/0sP6gZu1J9
-         X9ZMQepYdPVTNRcTyR9mWXpoPukvLzVaAeuopMyYLoHgnJEv/OfYNVnfWtLtAFrEgnLA
-         LWDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=ANpzFmgjjuaZgNEEBDm5PaG+F+Suwy/uIclI0OaRnP4=;
-        b=eCFW+pTG3wHAnVrnLfA8wDnaArkXK0dixsjfRPp/Etr0AfnAAvVJ+E4hXDN8IoAnYO
-         SzGr60YNKPBmEhFelPPeXDPoE+ovTpKwnM9jyHWpNKjPVzLNCe9pqjhrUsPChojF7UCZ
-         YqMxtXxThj4DRjUWGFSujLAUBADAumYRduEZw238bBeqIZ/dfLg3I936BfugJ+rhbOIo
-         GdrQLCSo0NNTt3vv1IvKZxa9MMBVmQQJCBIka9CxJRKNjJbUtxuNwFgDDSbGB6IpAOGk
-         Ozcf6xGtBredW6jtSvGnKMkJTYXz6LY3n/iQUk6qaqB5G+ikTroJSpf5gV21GT8CCwvp
-         qgAA==
-X-Gm-Message-State: APjAAAUPqvD9nEXZslvwiILJJ+dySYdB1QcpyEKRpbCP4Q6wGfn1UExW
-        5RFdMXnaZZ/OG/b5stIlEH4=
-X-Google-Smtp-Source: APXvYqwE05jpaDTRqD3BU1fHu6zE7cC/ZX1k2DsUR0/fW/MOvfolBW34Hl0kZoAtkbRKjImpQRTWzQ==
-X-Received: by 2002:a17:902:b48e:: with SMTP id y14mr36241040plr.260.1579235052436;
-        Thu, 16 Jan 2020 20:24:12 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id j125sm26799062pfg.160.2020.01.16.20.24.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2020 20:24:11 -0800 (PST)
-Date:   Thu, 16 Jan 2020 20:24:09 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH] input: max77650-onkey: add of_match table
-Message-ID: <20200117042409.GE47797@dtor-ws>
-References: <20191210100753.11090-1-brgl@bgdev.pl>
- <20200110182841.GT8314@dtor-ws>
- <CAMRc=Mcu-oNC009JLkNSDrKjg_ygb63ZTnrmu+8NwNZrOVsEZQ@mail.gmail.com>
+        Fri, 17 Jan 2020 02:34:36 -0500
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1isM9F-0005gR-I7; Fri, 17 Jan 2020 08:34:29 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1isM9D-00028c-L9; Fri, 17 Jan 2020 08:34:27 +0100
+Date:   Fri, 17 Jan 2020 08:34:27 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "jic23@kernel.org" <jic23@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "knaack.h@gmx.de" <knaack.h@gmx.de>,
+        "lars@metafoo.de" <lars@metafoo.de>,
+        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>
+Subject: Re: [PATCH v4 4/7] pwm: Add support for Azoteq IQS620A PWM generator
+Message-ID: <20200117073427.ufrduwagvppeasgr@pengutronix.de>
+References: <1579228475-6681-1-git-send-email-jeff@labundy.com>
+ <1579228475-6681-5-git-send-email-jeff@labundy.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=Mcu-oNC009JLkNSDrKjg_ygb63ZTnrmu+8NwNZrOVsEZQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1579228475-6681-5-git-send-email-jeff@labundy.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Jan 11, 2020 at 11:22:55AM +0100, Bartosz Golaszewski wrote:
-> pt., 10 sty 2020 o 19:28 Dmitry Torokhov <dmitry.torokhov@gmail.com> napisaÅ‚(a):
-> >
-> > On Tue, Dec 10, 2019 at 11:07:53AM +0100, Bartosz Golaszewski wrote:
-> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > >
-> > > We need the of_match table if we want to use the compatible string in
-> > > the pmic's child node and get the onkey driver loaded automatically.
-> >
-> > Do we really need of_match table or adding
-> >
-> 
-> Not really. Technically not anyway but we merged bindings that define
-> it (at the time I didn't know any better) and seems we're stuck with
-> it. Please see the discussion below a similar patch for regulator
-> subsystem[1].
-> 
-> > MODULE_ALIAS("platform:max77650-onkey");
-> >
-> 
-> This is already in there, but if someone defines the compatible in the
-> device tree as per bindings, the module won't be loaded despite the
-> MODULE_ALIAS() definition.
+On Fri, Jan 17, 2020 at 02:35:57AM +0000, Jeff LaBundy wrote:
+> +static void iqs620_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+> +				 struct pwm_state *state)
+> +{
+> +	struct iqs620_pwm_private *iqs620_pwm;
+> +
+> +	iqs620_pwm = container_of(chip, struct iqs620_pwm_private, chip);
+> +
+> +	mutex_lock(&iqs620_pwm->lock);
+> +
+> +	/*
+> +	 * Since the device cannot generate a 0% duty cycle, requests to do so
+> +	 * cause subsequent calls to iqs620_pwm_get_state to report the output
+> +	 * as disabled with duty cycle equal to that which was in use prior to
+> +	 * the request. This is not ideal, but is the best compromise based on
+> +	 * the capabilities of the device.
+> +	 */
+> +	state->enabled = iqs620_pwm->out_en;
 
-I see. Applied, thank you.
+Hmm, when .get_state is called first (before the first invokation of
+.apply) .out_en doesn't represent the hardware's state but is false
+unconditionally. This makes it hard to take over a running PWM setup by
+the bootloader.
+
+Best regards
+Uwe
+
+> +	state->duty_cycle = DIV_ROUND_UP((iqs620_pwm->duty_val + 1) *
+> +					 IQS620_PWM_PERIOD_NS, 256);
+> +
+> +	mutex_unlock(&iqs620_pwm->lock);
+> +
+> +	state->period = IQS620_PWM_PERIOD_NS;
+> +}
 
 -- 
-Dmitry
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
