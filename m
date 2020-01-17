@@ -2,294 +2,512 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 669EB141219
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2020 21:06:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 937D4141327
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2020 22:33:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729652AbgAQUGU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Jan 2020 15:06:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39670 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729465AbgAQUGU (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Jan 2020 15:06:20 -0500
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 26BAD214AF
-        for <linux-input@vger.kernel.org>; Fri, 17 Jan 2020 20:06:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579291579;
-        bh=zlUQicqWtn1RliknLWKWm7sEYt4NefZp0gNvmqIw488=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KzTLeP52K4zKI+RhTMViTXBhq3KaONo4N/xlgPJRVL28rGRggwnCy2lHbkq53SwZ3
-         jT32Isuf6qM9kh2lWHbEtBzD5zA/8Hs37rA3GFBM3UyjAz/8AJkyG7bNfds26kpumT
-         evi+rq0qHVD+FqVOZXuVh06vmZPGRq9crgy+5LG0=
-Received: by mail-wm1-f52.google.com with SMTP id w5so10198268wmi.1
-        for <linux-input@vger.kernel.org>; Fri, 17 Jan 2020 12:06:19 -0800 (PST)
-X-Gm-Message-State: APjAAAVNpjEcKzUIYMNDDEOnJ2tgOtj4xQVrwSdjc+LL+H/tZoo7zzT+
-        OrEkyEsur/l+v8PYfRfbs4axHXLEbR9oYc44yrnthg==
-X-Google-Smtp-Source: APXvYqwawazLywdb2Oy7uHqxVHomoEfaLVG4a9tdL505slD/JJ9wZrwPXYXJ1YNzKwmPFG5/lnC3TIoyyBJheNygp/U=
-X-Received: by 2002:a7b:c957:: with SMTP id i23mr6570340wml.49.1579291575471;
- Fri, 17 Jan 2020 12:06:15 -0800 (PST)
+        id S1727018AbgAQVdf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Jan 2020 16:33:35 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:40822 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726587AbgAQVde (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 17 Jan 2020 16:33:34 -0500
+Received: by mail-pl1-f195.google.com with SMTP id s21so10359767plr.7;
+        Fri, 17 Jan 2020 13:33:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=wdp6cLJwlGdaiNgVZ7Oq+Sray4WTuyHCCJRXgdtyBAc=;
+        b=GoPFcDUCxQafzsGDZGpN0UaUZxqmsRvqy9i3YmdfLB961xfWifkd6LXSzLEG8zr1or
+         Gp8uDzjg+1sivte+xusXPCR2peQWTEV6MWAOCSNALFrZgCvZAiQYCjlSFDDrb4c5tPup
+         XaMvVGAFR8SG7YspVUByfvC3NpM0dPXCAJrySwBGYySjm/gRiALLY8aS65U68XzGf776
+         Sml/BlVEEdoDo1DmOU2iv92Hz6X0lIl9FRPPdnncOAXn3/HkUWtQBSdHcTaJZbNoKFmi
+         EkQMugyjul3ZOeUBoLndXcYLr2/COC4K/6yjQ69C+2gGgolzDu/NBJ1/6UNENXtvCEDz
+         7x/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wdp6cLJwlGdaiNgVZ7Oq+Sray4WTuyHCCJRXgdtyBAc=;
+        b=t3PthZ6gfO0E1LO+b1ChilkWM0JVK6ht2K/xL+W8gJn7llADq0dg8bZzkZIZlW+xl7
+         atXkZHZ67mZKVdoL2P+yU78LzTacT9PKpi6LParxVeKRbCZL1bnpFn6B6X/plnD1Whx4
+         sxDkfpiSbzB5nCRYG+dta6A89WBlE/MhJIit4gZDhFc6wkIjWP6+h3p5c+v90QwTJap6
+         DHrC3N2YC5kcFV+oMrh5xuXsE2RPOx2Ko03Ck8/nQ8S5wqWZX7lbxtoCCNH08iAxmQu+
+         67qsekinRYtU7ZzsJjaaxaibQ+c0OAia6A3ZsVcTBfSrHSthtncM/WfSsmYngJeoOH/u
+         1tLw==
+X-Gm-Message-State: APjAAAUs9LKm6XUpLrjFXLTxR9ZVLDd9CAHqIKZdw3LW0c/5Pr2I0Yac
+        YiZGpkMmt2wL/LHlCNUov0U=
+X-Google-Smtp-Source: APXvYqyGEg2C78QqJ9gcxuqqLXXe62GWDIUUzySWaO4mU2ow0kPF8/uwMwqim2J74vrsUuWPDSwoyQ==
+X-Received: by 2002:a17:902:7613:: with SMTP id k19mr1360737pll.7.1579296813676;
+        Fri, 17 Jan 2020 13:33:33 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id y203sm31409362pfb.65.2020.01.17.13.33.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jan 2020 13:33:32 -0800 (PST)
+Date:   Fri, 17 Jan 2020 13:33:30 -0800
+From:   "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "jic23@kernel.org" <jic23@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "knaack.h@gmx.de" <knaack.h@gmx.de>,
+        "lars@metafoo.de" <lars@metafoo.de>,
+        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>
+Subject: Re: [PATCH v4 3/7] input: keyboard: Add support for Azoteq
+ IQS620A/621/622/624/625
+Message-ID: <20200117213330.GF47797@dtor-ws>
+References: <1579228475-6681-1-git-send-email-jeff@labundy.com>
+ <1579228475-6681-4-git-send-email-jeff@labundy.com>
 MIME-Version: 1.0
-References: <20200111145703.533809-1-hdegoede@redhat.com> <20200111145703.533809-3-hdegoede@redhat.com>
- <CALCETrUz4gdVOH=5X+MkB56ST=DNcHKicRST1j1ff0kU1yXWzw@mail.gmail.com> <9b5b8304-74bc-4e5c-5030-98bd6e12eaf0@redhat.com>
-In-Reply-To: <9b5b8304-74bc-4e5c-5030-98bd6e12eaf0@redhat.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Fri, 17 Jan 2020 12:06:03 -0800
-X-Gmail-Original-Message-ID: <CALCETrWtf3iEdZS8zu=k60cnZtokbxRaH5dfkWoM7JokkhAL2w@mail.gmail.com>
-Message-ID: <CALCETrWtf3iEdZS8zu=k60cnZtokbxRaH5dfkWoM7JokkhAL2w@mail.gmail.com>
-Subject: Re: [PATCH v11 02/10] efi: Add embedded peripheral firmware support
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, X86 ML <x86@kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1579228475-6681-4-git-send-email-jeff@labundy.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> On Jan 14, 2020, at 4:25 AM, Hans de Goede <hdegoede@redhat.com> wrote:
->
-> =EF=BB=BFHi Andy,
->
+Hi Jeff,
 
-> Even if we get more use of this the chances of 1 device model using
-> more then 1 embedded fw are small. Where as if we first map the
-> EFI_BOOT_SERVICES_CODE segment before doing the DMI match then we
-> do this for all EFI_BOOT_SERVICES_CODE segments on all hardware.
-> The current implementation is very much optimized to do as little
-> work as possible when there is no DMI match, which will be true
-> on almost all devices out there.
+On Fri, Jan 17, 2020 at 02:35:46AM +0000, Jeff LaBundy wrote:
+> This patch adds key and switch support for the Azoteq IQS620A,
+> IQS621, IQS622, IQS624 and IQS625 multi-function sensors.
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+> Changes in v4:
+>   - None
+> 
+> Changes in v3:
+>   - None
+> 
+> Changes in v2:
+>   - Merged 'Copyright' and 'Author' lines into one in introductory comments
+>   - Replaced 'error' with 'ret' throughout
+>   - Updated iqs62x_keys_parse_prop to use unified device property interface
+>   - Clarified the comment in iqs62x_keys_notifier to state that wheel up or
+>     down events elicit an emulated release cycle
+>   - Eliminated tabbed alignment of platform_driver struct members
+> 
+>  drivers/input/keyboard/Kconfig       |  10 ++
+>  drivers/input/keyboard/Makefile      |   1 +
+>  drivers/input/keyboard/iqs62x-keys.c | 340 +++++++++++++++++++++++++++++++++++
+>  3 files changed, 351 insertions(+)
+>  create mode 100644 drivers/input/keyboard/iqs62x-keys.c
+> 
+> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+> index 4706ff0..28de965 100644
+> --- a/drivers/input/keyboard/Kconfig
+> +++ b/drivers/input/keyboard/Kconfig
+> @@ -663,6 +663,16 @@ config KEYBOARD_IPAQ_MICRO
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called ipaq-micro-keys.
+> 
+> +config KEYBOARD_IQS62X
+> +	tristate "Azoteq IQS620A/621/622/624/625 keys and switches"
+> +	depends on MFD_IQS62X
+> +	help
+> +	  Say Y here to enable key and switch support for the Azoteq IQS620A,
+> +	  IQS621, IQS622, IQS624 and IQS625 multi-function sensors.
+> +
+> +	  To compile this driver as a module, choose M here: the module will
+> +	  be called iqs62x-keys.
+> +
+>  config KEYBOARD_OMAP
+>  	tristate "TI OMAP keypad support"
+>  	depends on ARCH_OMAP1
+> diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
+> index f5b1752..1d689fd 100644
+> --- a/drivers/input/keyboard/Makefile
+> +++ b/drivers/input/keyboard/Makefile
+> @@ -28,6 +28,7 @@ obj-$(CONFIG_KEYBOARD_TCA8418)		+= tca8418_keypad.o
+>  obj-$(CONFIG_KEYBOARD_HIL)		+= hil_kbd.o
+>  obj-$(CONFIG_KEYBOARD_HIL_OLD)		+= hilkbd.o
+>  obj-$(CONFIG_KEYBOARD_IPAQ_MICRO)	+= ipaq-micro-keys.o
+> +obj-$(CONFIG_KEYBOARD_IQS62X)		+= iqs62x-keys.o
+>  obj-$(CONFIG_KEYBOARD_IMX)		+= imx_keypad.o
+>  obj-$(CONFIG_KEYBOARD_IMX_SC_KEY)	+= imx_sc_key.o
+>  obj-$(CONFIG_KEYBOARD_HP6XX)		+= jornada680_kbd.o
+> diff --git a/drivers/input/keyboard/iqs62x-keys.c b/drivers/input/keyboard/iqs62x-keys.c
+> new file mode 100644
+> index 0000000..b477334
+> --- /dev/null
+> +++ b/drivers/input/keyboard/iqs62x-keys.c
+> @@ -0,0 +1,340 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Azoteq IQS620A/621/622/624/625 Keys and Switches
+> + *
+> + * Copyright (C) 2019 Jeff LaBundy <jeff@labundy.com>
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/input.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/iqs62x.h>
+> +#include <linux/module.h>
+> +#include <linux/notifier.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +#include <linux/regmap.h>
+> +#include <linux/slab.h>
+> +
+> +enum {
+> +	IQS62X_SW_HALL_N,
+> +	IQS62X_SW_HALL_S,
+> +};
+> +
+> +static const char * const iqs62x_switch_names[] = {
+> +	[IQS62X_SW_HALL_N] = "hall-switch-north",
+> +	[IQS62X_SW_HALL_S] = "hall-switch-south",
+> +};
+> +
+> +struct iqs62x_switch_desc {
+> +	enum iqs62x_event_flag flag;
+> +	unsigned int code;
+> +	bool enabled;
+> +};
+> +
+> +struct iqs62x_keys_private {
+> +	struct iqs62x_core *iqs62x;
+> +	struct input_dev *input;
+> +	struct notifier_block notifier;
+> +	struct iqs62x_switch_desc switches[ARRAY_SIZE(iqs62x_switch_names)];
+> +	unsigned int keycode[IQS62X_NUM_KEYS];
+> +	unsigned int keycodemax;
+> +	u8 interval;
+> +};
+> +
+> +static int iqs62x_keys_parse_prop(struct platform_device *pdev,
+> +				  struct iqs62x_keys_private *iqs62x_keys)
+> +{
+> +	struct fwnode_handle *child;
+> +	unsigned int val;
+> +	int ret, i;
+> +
+> +	ret = device_property_read_u32_array(&pdev->dev, "linux,keycodes",
+> +					     NULL, 0);
 
-Fine with me.
+You can use device_property_count_u32().
 
+> +	if (ret > IQS62X_NUM_KEYS) {
+> +		dev_err(&pdev->dev, "Too many keycodes present\n");
+> +		return -EINVAL;
+> +	} else if (ret < 0) {
+> +		dev_err(&pdev->dev, "Failed to count keycodes: %d\n", ret);
+> +		return ret;
+> +	}
+> +	iqs62x_keys->keycodemax = ret;
+> +
+> +	ret = device_property_read_u32_array(&pdev->dev, "linux,keycodes",
+> +					     iqs62x_keys->keycode,
+> +					     iqs62x_keys->keycodemax);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to read keycodes: %d\n", ret);
+> +		return ret;
+> +	}
 
-> If we hit firmware which is not 8 byte aligned, then yes that would be
-> a good idea, but for now I feel that that would just cause a slowdown
-> in the scanning without any benefits.
->
+I wonder why you can't simply use
 
-It would shorten the code and remove a comment :). Also, a good memmem
-implementation should be very fast, potentially faster than your loop.
-I suspect the latter is only true in user code where SSE would get
-used, but still.
+	error = device_property_read_u32_array(&pdev->dev, "linux,keycodes",
+						iqs62x_keys->keycode,
+						IQS62X_NUM_KEYS);
 
-it would also be unfortunate if some firmware update switches to
-4-byte alignment and touchscreens stop working with no explanation.
+Are you concerned with someone trying to set up keys that are not
+actually exposed later via EVOCSKEYCODES and that is why you are
+limiting keycodemax?
 
+> +
+> +	for (i = 0; i < ARRAY_SIZE(iqs62x_keys->switches); i++) {
+> +		child = device_get_named_child_node(&pdev->dev,
+> +						    iqs62x_switch_names[i]);
+> +		if (!child)
+> +			continue;
+> +
+> +		ret = fwnode_property_read_u32(child, "linux,code", &val);
+> +		if (ret) {
+> +			dev_err(&pdev->dev, "Failed to read switch code: %d\n",
+> +				ret);
+> +			return ret;
+> +		}
+> +		iqs62x_keys->switches[i].code = val;
+> +		iqs62x_keys->switches[i].enabled = true;
+> +
+> +		if (fwnode_property_present(child, "azoteq,use-prox"))
+> +			iqs62x_keys->switches[i].flag = (i == IQS62X_SW_HALL_N ?
+> +							 IQS62X_EVENT_HALL_N_P :
+> +							 IQS62X_EVENT_HALL_S_P);
+> +		else
+> +			iqs62x_keys->switches[i].flag = (i == IQS62X_SW_HALL_N ?
+> +							 IQS62X_EVENT_HALL_N_T :
+> +							 IQS62X_EVENT_HALL_S_T);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int iqs62x_keys_init(struct iqs62x_keys_private *iqs62x_keys)
+> +{
+> +	struct iqs62x_core *iqs62x = iqs62x_keys->iqs62x;
+> +	enum iqs62x_event_flag flag;
+> +	unsigned int event_mask_reg;
+> +	unsigned int event_mask = 0;
+> +	unsigned int val;
+> +	int ret, i;
+> +
+> +	switch (iqs62x->dev_desc->prod_num) {
+> +	case IQS620_PROD_NUM:
+> +	case IQS621_PROD_NUM:
+> +	case IQS622_PROD_NUM:
+> +		event_mask_reg = IQS620_GLBL_EVENT_MASK;
+> +
+> +		/*
+> +		 * Discreet button, hysteresis and SAR UI flags represent keys
+> +		 * and are unmasked if mapped to a valid keycode.
+> +		 */
+> +		for (i = 0; i < iqs62x_keys->keycodemax; i++) {
+> +			if (iqs62x_keys->keycode[i] == KEY_RESERVED)
+> +				continue;
+> +
+> +			if (iqs62x_events[i].reg == IQS62X_EVENT_PROX)
+> +				event_mask |= iqs62x->dev_desc->prox_mask;
+> +			else if (iqs62x_events[i].reg == IQS62X_EVENT_HYST)
+> +				event_mask |= (iqs62x->dev_desc->hyst_mask |
+> +					       iqs62x->dev_desc->sar_mask);
+> +		}
+> +
+> +		ret = regmap_read(iqs62x->map, iqs62x->dev_desc->hall_flags,
+> +				  &val);
+> +		if (ret)
+> +			return ret;
+> +
+> +		/*
+> +		 * Hall UI flags represent switches and are unmasked if their
+> +		 * corresponding child nodes are present.
+> +		 */
+> +		for (i = 0; i < ARRAY_SIZE(iqs62x_keys->switches); i++) {
+> +			if (!(iqs62x_keys->switches[i].enabled))
+> +				continue;
+> +
+> +			flag = iqs62x_keys->switches[i].flag;
+> +
+> +			if (iqs62x_events[flag].reg != IQS62X_EVENT_HALL)
+> +				continue;
+> +
+> +			event_mask |= iqs62x->dev_desc->hall_mask;
+> +
+> +			input_report_switch(iqs62x_keys->input,
+> +					    iqs62x_keys->switches[i].code,
+> +					    (val & iqs62x_events[flag].mask) ==
+> +					    iqs62x_events[flag].val);
+> +		}
+> +
+> +		input_sync(iqs62x_keys->input);
+> +		break;
+> +
+> +	case IQS624_PROD_NUM:
+> +		event_mask_reg = IQS624_HALL_UI;
+> +
+> +		/*
+> +		 * Interval change events represent keys and are unmasked if
+> +		 * either wheel movement flag is mapped to a valid keycode.
+> +		 */
+> +		if (iqs62x_keys->keycode[IQS62X_EVENT_WHEEL_UP] != KEY_RESERVED)
+> +			event_mask |= IQS624_HALL_UI_INT_EVENT;
+> +
+> +		if (iqs62x_keys->keycode[IQS62X_EVENT_WHEEL_DN] != KEY_RESERVED)
+> +			event_mask |= IQS624_HALL_UI_INT_EVENT;
+> +
+> +		ret = regmap_read(iqs62x->map, iqs62x->dev_desc->interval,
+> +				  &val);
+> +		if (ret)
+> +			return ret;
+> +
+> +		iqs62x_keys->interval = val;
+> +		break;
+> +
+> +	default:
+> +		return 0;
+> +	}
+> +
+> +	return regmap_update_bits(iqs62x->map, event_mask_reg, event_mask, 0);
+> +}
+> +
+> +static int iqs62x_keys_notifier(struct notifier_block *notifier,
+> +				unsigned long event_flags, void *context)
+> +{
+> +	struct iqs62x_event_data *event_data = context;
+> +	struct iqs62x_keys_private *iqs62x_keys;
+> +	int ret, i;
+> +
+> +	iqs62x_keys = container_of(notifier, struct iqs62x_keys_private,
+> +				   notifier);
+> +
+> +	if (event_flags & BIT(IQS62X_EVENT_SYS_RESET)) {
+> +		ret = iqs62x_keys_init(iqs62x_keys);
+> +		if (ret) {
+> +			dev_err(iqs62x_keys->input->dev.parent,
+> +				"Failed to re-initialize device: %d\n", ret);
+> +			return NOTIFY_BAD;
+> +		}
+> +
+> +		return NOTIFY_OK;
+> +	}
+> +
+> +	for (i = 0; i < iqs62x_keys->keycodemax; i++) {
+> +		if (iqs62x_events[i].reg == IQS62X_EVENT_WHEEL &&
+> +		    event_data->interval == iqs62x_keys->interval)
+> +			continue;
+> +
+> +		input_report_key(iqs62x_keys->input, iqs62x_keys->keycode[i],
+> +				 event_flags & BIT(i));
+> +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(iqs62x_keys->switches); i++)
+> +		if (iqs62x_keys->switches[i].enabled)
+> +			input_report_switch(iqs62x_keys->input,
+> +					    iqs62x_keys->switches[i].code,
+> +					    event_flags &
+> +					    BIT(iqs62x_keys->switches[i].flag));
+> +
+> +	input_sync(iqs62x_keys->input);
+> +
+> +	if (event_data->interval == iqs62x_keys->interval)
+> +		return NOTIFY_OK;
+> +
+> +	/*
+> +	 * Each frame contains at most one wheel event (up or down), in which
+> +	 * case a complementary release cycle is emulated.
+> +	 */
+> +	if (event_flags & BIT(IQS62X_EVENT_WHEEL_UP)) {
+> +		input_report_key(iqs62x_keys->input,
+> +				 iqs62x_keys->keycode[IQS62X_EVENT_WHEEL_UP],
+> +				 0);
+> +		input_sync(iqs62x_keys->input);
+> +	} else if (event_flags & BIT(IQS62X_EVENT_WHEEL_DN)) {
+> +		input_report_key(iqs62x_keys->input,
+> +				 iqs62x_keys->keycode[IQS62X_EVENT_WHEEL_DN],
+> +				 0);
+> +		input_sync(iqs62x_keys->input);
+> +	}
+> +
+> +	iqs62x_keys->interval = event_data->interval;
+> +
+> +	return NOTIFY_OK;
+> +}
+> +
+> +static int iqs62x_keys_probe(struct platform_device *pdev)
+> +{
+> +	struct iqs62x_core *iqs62x = dev_get_drvdata(pdev->dev.parent);
+> +	struct iqs62x_keys_private *iqs62x_keys;
+> +	struct input_dev *input;
+> +	int ret, i;
+> +
+> +	iqs62x_keys = devm_kzalloc(&pdev->dev, sizeof(*iqs62x_keys),
+> +				   GFP_KERNEL);
+> +	if (!iqs62x_keys)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, iqs62x_keys);
+> +
+> +	ret = iqs62x_keys_parse_prop(pdev, iqs62x_keys);
+> +	if (ret)
+> +		return ret;
+> +
+> +	input = devm_input_allocate_device(&pdev->dev);
+> +	if (!input)
+> +		return -ENOMEM;
+> +
+> +	input->keycodemax = iqs62x_keys->keycodemax;
+> +	input->keycode = iqs62x_keys->keycode;
+> +	input->keycodesize = sizeof(*iqs62x_keys->keycode);
+> +
+> +	input->name = iqs62x->dev_desc->dev_name;
+> +	input->id.bustype = BUS_I2C;
+> +
+> +	__set_bit(EV_KEY, input->evbit);
+> +
+> +	for (i = 0; i < iqs62x_keys->keycodemax; i++)
+> +		__set_bit(iqs62x_keys->keycode[i], input->keybit);
+> +
+> +	__clear_bit(KEY_RESERVED, input->keybit);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(iqs62x_keys->switches); i++)
+> +		if (iqs62x_keys->switches[i].enabled) {
+> +			__set_bit(EV_SW, input->evbit);
+> +			__set_bit(iqs62x_keys->switches[i].code, input->swbit);
 
->>> +
->>> +               sha256_init(&sctx);
->>> +               sha256_update(&sctx, map + i, desc->length);
->>> +               sha256_final(&sctx, sha256);
->>> +               if (memcmp(sha256, desc->sha256, 32) =3D=3D 0)
->>> +                       break;
->>> +       }
->>> +       if ((i + desc->length) > size) {
->>> +               memunmap(map);
->>> +               return -ENOENT;
->>> +       }
->>> +
->>> +       pr_info("Found EFI embedded fw '%s'\n", desc->name);
->>> +
->> It might be nice to also log which EFI section it was in?
->
-> The EFI sections do not have names, so all I could is log
-> the section number which does not really feel useful?
->
->>> +       fw =3D kmalloc(sizeof(*fw), GFP_KERNEL);
->>> +       if (!fw) {
->>> +               memunmap(map);
->>> +               return -ENOMEM;
->>> +       }
->>> +
->>> +       fw->data =3D kmemdup(map + i, desc->length, GFP_KERNEL);
->>> +       memunmap(map);
->>> +       if (!fw->data) {
->>> +               kfree(fw);
->>> +               return -ENOMEM;
->>> +       }
->>> +
->>> +       fw->name =3D desc->name;
->>> +       fw->length =3D desc->length;
->>> +       list_add(&fw->list, &efi_embedded_fw_list);
->>> +
->> If you actually copy the firmware name instead of just a pointer to
->> it, then you could potentially free the list of EFI firmwares.
->
-> If we move to having a separate dmi_system_id table for this then
-> that would be true. ATM the dmi_system_id from
-> drivers/platform/x86/touchscreen_dmi.c
-> is not freed as it is referenced from a bus-notifier.
->
->> Why are you copying the firmware into linear (kmemdup) memory here
->
-> The kmemdup is because the EFI_BOOT_SERVICES_CODE section is
-> free-ed almost immediately after we run.
->
->> just to copy it to vmalloc space down below...
->
-> The vmalloc is because the efi_get_embedded_fw() function is
-> a helper for later implementing firmware_Request_platform
-> which returns a struct firmware *fw and release_firmware()
-> uses vfree() to free the firmware contents.
->
-> I guess we could have efi_get_embedded_fw() return an const u8 *
-> and have the firmware code do the vmalloc + memcpy but it boils
-> down to the same thing.
->
->
->>> +       return 0;
->>> +}
->>> +
->>> +void __init efi_check_for_embedded_firmwares(void)
->>> +{
->>> +       const struct efi_embedded_fw_desc *fw_desc;
->>> +       const struct dmi_system_id *dmi_id;
->>> +       efi_memory_desc_t *md;
->>> +       int i, r;
->>> +
->>> +       for (i =3D 0; embedded_fw_table[i]; i++) {
->>> +               dmi_id =3D dmi_first_match(embedded_fw_table[i]);
->>> +               if (!dmi_id)
->>> +                       continue;
->>> +
->>> +               fw_desc =3D dmi_id->driver_data;
->>> +
->>> +               /*
->>> +                * In some drivers the struct driver_data contains may =
-contain
->>> +                * other driver specific data after the fw_desc struct;=
- and
->>> +                * the fw_desc struct itself may be empty, skip these.
->>> +                */
->>> +               if (!fw_desc->name)
->>> +                       continue;
->>> +
->>> +               for_each_efi_memory_desc(md) {
->>> +                       if (md->type !=3D EFI_BOOT_SERVICES_CODE)
->>> +                               continue;
->>> +
->>> +                       r =3D efi_check_md_for_embedded_firmware(md, fw=
-_desc);
->>> +                       if (r =3D=3D 0)
->>> +                               break;
->>> +               }
->>> +       }
->>> +
->>> +       checked_for_fw =3D true;
->>> +}
->> Have you measured how long this takes on a typical system per matching D=
-MI id?
->
-> I originally wrote this approx. 18 months ago, it has been on hold for a =
-while
-> since it needed a sha256 method which would work before subsys_initcall-s
-> run so I couldn't use the standard crypto_alloc_shash() stuff. In the end
-> I ended up merging the duplicate purgatory and crypto/sha256_generic.c
-> generic C SHA256 implementation into a set of new directly callable lib
-> functions in lib/crypto/sha256.c, just so that I could move forward with
-> this...
->
-> Anyways the reason for this background info is that because this is a whi=
-le
-> ago I do not remember exactly how, but yes I did measure this (but not
-> very scientifically) and there was no discernible difference in boot
-> to init (from the initrd) with this in place vs without this.
->
->>> +
->>> +int efi_get_embedded_fw(const char *name, void **data, size_t *size)
->>> +{
->>> +       struct efi_embedded_fw *iter, *fw =3D NULL;
->>> +       void *buf =3D *data;
->>> +
->>> +       if (!checked_for_fw) {
->> WARN_ON_ONCE?  A stack dump would be quite nice here.
->
-> As discussed when this check was added (discussion in v7 of
-> the set I guess, check added in v8) we can also hit this without
-> it being a bug, e.g. when booted through kexec the whole
-> efi_check_for_embedded_firmwares() call we be skipped, hence the
-> pr_warn.
->
->
->>> +       buf =3D vmalloc(fw->length);
->>> +       if (!buf)
->>> +               return -ENOMEM;
->>> +
->>> +       memcpy(buf, fw->data, fw->length);
->>> +       *size =3D fw->length;
->>> +       *data =3D buf;
->> See above.  What's vmalloc() for?  Where's the vfree()?
->
-> See above for my answer. I'm fine with moving this into the
-> firmware code, since that is where the matching vfree is, please
-> let me know how you want to proceed with this.
->
->> BTW, it would be very nice to have a straightforward way
->> (/sys/kernel/debug/efi_firmware/[name]?) to dump all found firmwares.
->
-> That is an interesting idea, we could add a subsys_init call or
-> some such to add this to debugfs (efi_check_for_embedded_firmwares runs
-> too early).
->
-> But given how long this patch-set has been in the making I would really
-> like to get this (or at least the first 2 patches as a start) upstream,
-> so for now I would like to keep the changes to a minimum. Are you ok
-> with me adding the debugfs support with a follow-up patch ?
->
-> Let me also reply to your summary comment elsewhere in the thread here:
->
-> > Early in boot, you check a bunch of firmware descriptors, bundled with
-> > drivers, to search EFI code and data for firmware before you free said
-> > code and data.  You catalogue it by name.  Later on, you use this list
-> > as a fallback, again catalogued by name.  I think it would be rather
-> > nicer if you simply had a list in a single file containing all these
-> > descriptors rather than commingling it with the driver's internal dmi
-> > data.  This gets rid of all the ifdeffery and module issues.  It also
-> > avoids any potential nastiness when you have a dmi entry that contains
-> > driver_data that points into the driver when the driver is a module.
-> >
-> > And you can mark the entire list __initdata.  And you can easily (now
-> > or later on) invert the code flow so you map each EFI region exactly
-> > once and then search for all the firmware in it.
->
-> I believe we have mostly discussed this above. At least for the
-> X86 touchscreen case, which is the only user of this for now, I
-> believe that re-using the table from drivers/platform/x86/touchscreen_dmi=
-.c
-> is better as it avoids duplication of DMI strings and it keeps all
-> the info in one place (also avoiding churn in 2 files / 2 different
-> trees when new models are added).
->
-> I agree that when looking at this as a generic mechanism which may be
-> used elsewhere, your suggestion makes a lot of sense. But even though
-> this is very much written so that it can be used as a generic mechanism
-> I'm not sure if other users will appear. So for now, with only the X86
-> touchscreen use-case actually using this I believe the current
-> implementation is best, but I'm definitely open to changing this around
-> if more users show up.
->
-> Regards,
->
-> Hans
->
+input_set_capability(input, EV_SW, iqs62x_keys->switches[i].code)
+
+> +		}
+> +
+> +	iqs62x_keys->iqs62x = iqs62x;
+> +	iqs62x_keys->input = input;
+> +
+> +	ret = iqs62x_keys_init(iqs62x_keys);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to initialize device: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = input_register_device(iqs62x_keys->input);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to register device: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	iqs62x_keys->notifier.notifier_call = iqs62x_keys_notifier;
+> +	ret = blocking_notifier_chain_register(&iqs62x_keys->iqs62x->nh,
+> +					       &iqs62x_keys->notifier);
+> +	if (ret)
+> +		dev_err(&pdev->dev, "Failed to register notifier: %d\n", ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static int iqs62x_keys_remove(struct platform_device *pdev)
+> +{
+> +	struct iqs62x_keys_private *iqs62x_keys = platform_get_drvdata(pdev);
+> +	int ret;
+> +
+> +	ret = blocking_notifier_chain_unregister(&iqs62x_keys->iqs62x->nh,
+> +						 &iqs62x_keys->notifier);
+> +	if (ret)
+> +		dev_err(&pdev->dev, "Failed to unregister notifier: %d\n", ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static struct platform_driver iqs62x_keys_platform_driver = {
+> +	.driver = {
+> +		.name = IQS62X_DRV_NAME_KEYS,
+> +	},
+> +	.probe = iqs62x_keys_probe,
+> +	.remove = iqs62x_keys_remove,
+> +};
+> +module_platform_driver(iqs62x_keys_platform_driver);
+> +
+> +MODULE_AUTHOR("Jeff LaBundy <jeff@labundy.com>");
+> +MODULE_DESCRIPTION("Azoteq IQS620A/621/622/624/625 Keys and Switches");
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:" IQS62X_DRV_NAME_KEYS);
+
+Otherwise
+
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+I suppose it will be merged through MFD?
+
+Thanks.
+
+-- 
+Dmitry
