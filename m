@@ -2,47 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BDF9140FBE
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2020 18:18:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA9C2141040
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2020 18:53:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726861AbgAQRRZ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 17 Jan 2020 12:17:25 -0500
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2279 "EHLO huawei.com"
+        id S1726761AbgAQRxL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Jan 2020 12:53:11 -0500
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2282 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726684AbgAQRRZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Jan 2020 12:17:25 -0500
-Received: from lhreml703-cah.china.huawei.com (unknown [172.18.7.108])
-        by Forcepoint Email with ESMTP id 4177884F9168D7895625;
-        Fri, 17 Jan 2020 17:17:23 +0000 (GMT)
+        id S1726603AbgAQRxL (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 17 Jan 2020 12:53:11 -0500
+Received: from lhreml705-cah.china.huawei.com (unknown [172.18.7.106])
+        by Forcepoint Email with ESMTP id 8C6A6AEF7A93634FEC18;
+        Fri, 17 Jan 2020 17:53:09 +0000 (GMT)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml703-cah.china.huawei.com (10.201.108.44) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Fri, 17 Jan 2020 17:17:22 +0000
+ lhreml705-cah.china.huawei.com (10.201.108.46) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Fri, 17 Jan 2020 17:53:08 +0000
 Received: from localhost (10.202.226.57) by lhreml710-chm.china.huawei.com
  (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5; Fri, 17 Jan
- 2020 17:17:22 +0000
-Date:   Fri, 17 Jan 2020 17:17:21 +0000
+ 2020 17:53:08 +0000
+Date:   Fri, 17 Jan 2020 17:53:07 +0000
 From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Paul Cercueil <paul@crapouillou.net>
-CC:     Jonathan Cameron <jic23@jic23.retrosnub.co.uk>,
-        Artur Rojek <contact@artur-rojek.eu>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 3/5] IIO: Ingenic JZ47xx: Add touchscreen mode.
-Message-ID: <20200117171721.000052d2@Huawei.com>
-In-Reply-To: <1578927540.3.0@crapouillou.net>
-References: <20200105001639.142061-1-contact@artur-rojek.eu>
-        <20200105001639.142061-3-contact@artur-rojek.eu>
-        <20200111114609.1979a8ff@archlinux>
-        <1578927540.3.0@crapouillou.net>
+To:     Linus Walleij <linus.walleij@linaro.org>
+CC:     Stephan Gerhold <stephan@gerhold.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        "Peter Meerwald-Stadler" <pmeerw@pmeerw.net>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Minkyu Kang <mk7.kang@samsung.com>,
+        =?UTF-8?Q?Pawe=C5=82?= Chmiel <pawel.mikolaj.chmiel@gmail.com>,
+        "Jonathan Bakker" <xc-racer2@live.ca>,
+        Oskar Andero <oskar.andero@gmail.com>,
+        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH 2/2 v4] iio: light: Add a driver for Sharp GP2AP002x00F
+Message-ID: <20200117175307.00000c8c@Huawei.com>
+In-Reply-To: <CACRpkdbDEhCu8LVBT_xjuar1UgCPALJg0V12varZjG-eGqj=2Q@mail.gmail.com>
+References: <20200112111341.21388-1-linus.walleij@linaro.org>
+        <20200112111341.21388-2-linus.walleij@linaro.org>
+        <20200112165404.GA72221@gerhold.net>
+        <CACRpkdbDEhCu8LVBT_xjuar1UgCPALJg0V12varZjG-eGqj=2Q@mail.gmail.com>
 Organization: Huawei Technologies Research and Development (UK) Ltd.
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.202.226.57]
 X-ClientProxiedBy: lhreml701-chm.china.huawei.com (10.201.108.50) To
  lhreml710-chm.china.huawei.com (10.201.108.61)
@@ -52,324 +57,88 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 13 Jan 2020 11:59:00 -0300
-Paul Cercueil <paul@crapouillou.net> wrote:
+On Mon, 13 Jan 2020 22:02:00 +0100
+Linus Walleij <linus.walleij@linaro.org> wrote:
 
-> Hi Jonathan,
+> On Sun, Jan 12, 2020 at 5:54 PM Stephan Gerhold <stephan@gerhold.net> wrote:
 > 
+> > It seems to work fine on samsung,golden with gp2ap002s00f.
+> > There are interrupts being sent when something moves in front of the
+> > sensor and iio-event-monitor looks good too:
+> >
+> > Tested-by: Stephan Gerhold <stephan@gerhold.net>  
 > 
-> Le sam., janv. 11, 2020 at 11:46, Jonathan Cameron 
-> <jic23@jic23.retrosnub.co.uk> a écrit :
-> > On Sun,  5 Jan 2020 01:16:37 +0100
-> > Artur Rojek <contact@artur-rojek.eu> wrote:
-> >   
-> >>  Implement support for the touchscreen mode found in JZ47xx SoCs ADC.  
-> > This needs more description.
-> > 
-> > Looks like it enables a kfifo and also selects the callback buffer
-> > stuff to run with a generic touchscreen iio-> input driver.
-> > 
-> > A few other bits inline, but basically fine.
-> > 
-> > I've never really thought about whether we support a CB buffer
-> > without anything on the IIO side.   That should be possible,
-> > but I'm not sure what odd corner cases will turn up.  I'm guessing
-> > there are some, or you'd not have bothered exposing it here?  
+> Thanks! I think I'm up at v7 or something on this driver
+> and now it looks good.
 > 
-> I'm sorry, what do you mean by "nothing on the IIO side"?
+> > Out of curiosity: I'm not so familiar with the IIO subsystem,
+> > is it intended that the sensor is active the whole time?
+> > Wouldn't it be better to activate it only when something is reading
+> > /dev/iio:device2?  
+> 
+> IMO the best way to power manage an IIO sensor is like I do in
+> drivers/iio/gyro/mpu3050-core.c
+> 
+> Of course I think it is excellent code since I wrote it. Beware
+> of hubris in the driver.
+> 
+> The idea is to take the runtime pm handle on the device
+> whenever in use (reading values from the hardware or
+> using the trigger), and then use autosuspend to completely
+> shut it down (including regulators) when not in use. If the power-up
+> time for the sensor is long, then the autosuspend timeout
+> should be proportionally longer, like a magnitude or two above.
+> 
+> With the proximity events I have this problem that I don't know
+> in the driver if someone had opened the file to read events
+> or not, only the core knows, I think. I just emit my events
+> and be happy.
+> 
+> Jonathan: is there a way for the driver to know if someone
+> is listening on the event interface?
 
-If these channels are only used for touchscreen, why expose them
-as an IIO Kfifo?
+Hmm. Normally we'd do it on someone actually enabling the events on
+the basis I'd expect userspace to open the file then enable the events.
 
-That's the IIO userspace interface, but you really just want them
-to be available via the cb buffer (which isn't actually a buffer,
-it calls the function without any buffering).
+Nothing stops us doing it on file open I guess, but not sure what the
+real world benefit would be.
 
-J
 > 
+> > There is one problem I noticed, although I'm not sure if it is a problem
+> > in this driver. Reading one of the files in the sysfs results in:
+> >
+> > $ cat /sys/bus/iio/devices/iio\:device2/events/in_proximity_thresh_either_en
+> > Segmentation fault  
 > 
-> > 
-> > Thanks
-> > 
-> > Jonathan
-> > 
-> >   
-> >> 
-> >>  Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
-> >>  Tested-by: Paul Cercueil <paul@crapouillou.net>
-> >>  ---
-> >>   drivers/iio/adc/Kconfig       |   3 +
-> >>   drivers/iio/adc/ingenic-adc.c | 120 
-> >> +++++++++++++++++++++++++++++++++-
-> >>   2 files changed, 121 insertions(+), 2 deletions(-)
-> >> 
-> >>  diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> >>  index 5d8540b7b427..dabbf15032af 100644
-> >>  --- a/drivers/iio/adc/Kconfig
-> >>  +++ b/drivers/iio/adc/Kconfig
-> >>  @@ -446,6 +446,9 @@ config INA2XX_ADC
-> >>   config INGENIC_ADC
-> >>   	tristate "Ingenic JZ47xx SoCs ADC driver"
-> >>   	depends on MIPS || COMPILE_TEST
-> >>  +	select IIO_BUFFER
-> >>  +	select IIO_BUFFER_CB  
-> > 
-> > Feels like IIO_BUFFER_CB should be selected by the driver that
-> > uses that functionality rather than this one.
-> >   
-> >>  +	select IIO_KFIFO_BUF
-> >>   	help
-> >>   	  Say yes here to build support for the Ingenic JZ47xx SoCs ADC 
-> >> unit.
-> >> 
-> >>  diff --git a/drivers/iio/adc/ingenic-adc.c 
-> >> b/drivers/iio/adc/ingenic-adc.c
-> >>  index 7a24bc1dabe1..4dbf15fdd95d 100644
-> >>  --- a/drivers/iio/adc/ingenic-adc.c
-> >>  +++ b/drivers/iio/adc/ingenic-adc.c
-> >>  @@ -8,7 +8,10 @@
-> >> 
-> >>   #include <dt-bindings/iio/adc/ingenic,adc.h>
-> >>   #include <linux/clk.h>
-> >>  +#include <linux/iio/buffer.h>
-> >>   #include <linux/iio/iio.h>
-> >>  +#include <linux/iio/kfifo_buf.h>
-> >>  +#include <linux/interrupt.h>
-> >>   #include <linux/io.h>
-> >>   #include <linux/iopoll.h>
-> >>   #include <linux/kernel.h>
-> >>  @@ -20,6 +23,8 @@
-> >>   #define JZ_ADC_REG_CFG			0x04
-> >>   #define JZ_ADC_REG_CTRL			0x08
-> >>   #define JZ_ADC_REG_STATUS		0x0c
-> >>  +#define JZ_ADC_REG_ADSAME		0x10
-> >>  +#define JZ_ADC_REG_ADWAIT		0x14
-> >>   #define JZ_ADC_REG_ADTCH		0x18
-> >>   #define JZ_ADC_REG_ADBDAT		0x1c
-> >>   #define JZ_ADC_REG_ADSDAT		0x20
-> >>  @@ -28,6 +33,9 @@
-> >>   #define JZ_ADC_REG_ENABLE_PD		BIT(7)
-> >>   #define JZ_ADC_REG_CFG_AUX_MD		(BIT(0) | BIT(1))
-> >>   #define JZ_ADC_REG_CFG_BAT_MD		BIT(4)
-> >>  +#define JZ_ADC_REG_CFG_PULL_UP(n)	((n) << 16)
-> >>  +#define JZ_ADC_REG_CFG_SAMPLE_NUM(n)	((n) << 10)
-> >>  +#define JZ_ADC_REG_CFG_TOUCH_OPS_MASK	(BIT(31) | GENMASK(23, 10))
-> >>   #define JZ_ADC_REG_ADCLK_CLKDIV_LSB	0
-> >>   #define JZ4725B_ADC_REG_ADCLK_CLKDIV10US_LSB	16
-> >>   #define JZ4770_ADC_REG_ADCLK_CLKDIV10US_LSB	8
-> >>  @@ -44,6 +52,14 @@
-> >>   #define JZ4770_ADC_BATTERY_VREF			6600
-> >>   #define JZ4770_ADC_BATTERY_VREF_BITS		12
-> >> 
-> >>  +#define JZ_ADC_IRQ_AUX			BIT(0)
-> >>  +#define JZ_ADC_IRQ_BATTERY		BIT(1)
-> >>  +#define JZ_ADC_IRQ_TOUCH		BIT(2)
-> >>  +#define JZ_ADC_IRQ_PEN_DOWN		BIT(3)
-> >>  +#define JZ_ADC_IRQ_PEN_UP		BIT(4)
-> >>  +#define JZ_ADC_IRQ_PEN_DOWN_SLEEP	BIT(5)
-> >>  +#define JZ_ADC_IRQ_SLEEP		BIT(7)
-> >>  +
-> >>   struct ingenic_adc;
-> >> 
-> >>   struct ingenic_adc_soc_data {
-> >>  @@ -411,6 +427,30 @@ static const struct iio_info ingenic_adc_info 
-> >> = {
-> >>   };
-> >> 
-> >>   static const struct iio_chan_spec ingenic_channels[] = {
-> >>  +	{
-> >>  +		.extend_name = "touchscreen_xp",  
-> > 
-> > Note that adding extended names:
-> > 
-> > 1) Needs documenting as it create ABI - so something in
-> > Documentation/ABI/testing/sysfs-bus-iio-*
-> > 
-> > 2) Breaks any generic userspace application.
-> > 
-> > Why can't we use modified and an axis to identify this?  
+> That looks like an ordinary bug, but that seems to be for the
+> core? Hm...
+Ah.. Seems I missed that you have the driver set event spec for enable, but
+didn't actually provide the callback function.   + we clearly don't sanity
+check that one.  Hence IIO core could do with hardening but driver is
+buggy as well.
+
++static const struct iio_event_spec gp2ap002_events[] = {
++	{
++		.type = IIO_EV_TYPE_THRESH,
++		.dir = IIO_EV_DIR_EITHER,
++		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
++	},
++};
+
+Means you must supply read_event_config in iio_info.
+It's a bit odd if you don't also supply write event config for that
+matter though that wasn't the bug here. It would cause a similar
+bug if you wrote the sysfs file though :)
+
+Kind of also explains why my logic about enabling the event
+doesn't apply currently.
+
+Good find from Stephan on both fronts.
+
+Jonathan
+
 > 
-> I'm in a good place to know that extended names are bad. The problem 
-> here is that Xn/Yn channels will be added later (we have a board that 
-> has one joystick connected to Xp/Yp, and a second joystick connected to 
-> Xn/Yn). I assume that it is not possible to have two channels with the 
-> same type and modifier?
-> 
-> Alternatively I believe we could also have the first two channels as 
-> X/Y single-ended, and then two channels as X/Y differential, and do 
-> some easy math in the joystick driver, but that would make it pretty 
-> hardware-specific.
-> 
-> Cheers,
-> -Paul
-> 
-> >   
-> >>  +		.type = IIO_POSITIONRELATIVE,
-> >>  +		.indexed = 1,
-> >>  +		.channel = INGENIC_ADC_TOUCH_XP,
-> >>  +		.scan_index = 0,
-> >>  +		.scan_type = {
-> >>  +			.sign = 'u',
-> >>  +			.realbits = 12,
-> >>  +			.storagebits = 16
-> >>  +		},
-> >>  +	},
-> >>  +	{
-> >>  +		.extend_name = "touchscreen_yp",
-> >>  +		.type = IIO_POSITIONRELATIVE,
-> >>  +		.indexed = 1,
-> >>  +		.channel = INGENIC_ADC_TOUCH_YP,
-> >>  +		.scan_index = 1,
-> >>  +		.scan_type = {
-> >>  +			.sign = 'u',
-> >>  +			.realbits = 12,
-> >>  +			.storagebits = 16
-> >>  +		},
-> >>  +	},
-> >>   	{
-> >>   		.extend_name = "aux",
-> >>   		.type = IIO_VOLTAGE,
-> >>  @@ -418,6 +458,7 @@ static const struct iio_chan_spec 
-> >> ingenic_channels[] = {
-> >>   				      BIT(IIO_CHAN_INFO_SCALE),
-> >>   		.indexed = 1,
-> >>   		.channel = INGENIC_ADC_AUX,
-> >>  +		.scan_index = -1
-> >>   	},
-> >>   	{
-> >>   		.extend_name = "battery",
-> >>  @@ -428,6 +469,7 @@ static const struct iio_chan_spec 
-> >> ingenic_channels[] = {
-> >>   						BIT(IIO_CHAN_INFO_SCALE),
-> >>   		.indexed = 1,
-> >>   		.channel = INGENIC_ADC_BATTERY,
-> >>  +		.scan_index = -1
-> >>   	},
-> >>   	{ /* Must always be last in the array. */
-> >>   		.extend_name = "aux2",
-> >>  @@ -436,16 +478,70 @@ static const struct iio_chan_spec 
-> >> ingenic_channels[] = {
-> >>   				      BIT(IIO_CHAN_INFO_SCALE),
-> >>   		.indexed = 1,
-> >>   		.channel = INGENIC_ADC_AUX2,
-> >>  +		.scan_index = -1
-> >>   	},
-> >>   };
-> >> 
-> >>  +static int ingenic_adc_buffer_enable(struct iio_dev *iio_dev)
-> >>  +{
-> >>  +	struct ingenic_adc *adc = iio_priv(iio_dev);
-> >>  +
-> >>  +	clk_enable(adc->clk);
-> >>  +	/* It takes significant time for the touchscreen hw to stabilize. 
-> >> */
-> >>  +	msleep(50);
-> >>  +	ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_TOUCH_OPS_MASK,
-> >>  +			       JZ_ADC_REG_CFG_SAMPLE_NUM(4) |
-> >>  +			       JZ_ADC_REG_CFG_PULL_UP(4));
-> >>  +	writew(80, adc->base + JZ_ADC_REG_ADWAIT);
-> >>  +	writew(2, adc->base + JZ_ADC_REG_ADSAME);
-> >>  +	writeb((u8)~JZ_ADC_IRQ_TOUCH, adc->base + JZ_ADC_REG_CTRL);
-> >>  +	writel(0, adc->base + JZ_ADC_REG_ADTCH);
-> >>  +	ingenic_adc_enable(adc, 2, true);
-> >>  +
-> >>  +	return 0;
-> >>  +}
-> >>  +
-> >>  +static int ingenic_adc_buffer_disable(struct iio_dev *iio_dev)
-> >>  +{
-> >>  +	struct ingenic_adc *adc = iio_priv(iio_dev);
-> >>  +
-> >>  +	ingenic_adc_enable(adc, 2, false);
-> >>  +	writeb(0xff, adc->base + JZ_ADC_REG_CTRL);
-> >>  +	writeb(0xff, adc->base + JZ_ADC_REG_STATUS);
-> >>  +	ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_TOUCH_OPS_MASK, 0);
-> >>  +	writew(0, adc->base + JZ_ADC_REG_ADSAME);
-> >>  +	writew(0, adc->base + JZ_ADC_REG_ADWAIT);
-> >>  +	clk_disable(adc->clk);
-> >>  +
-> >>  +	return 0;
-> >>  +}
-> >>  +
-> >>  +static const struct iio_buffer_setup_ops ingenic_buffer_setup_ops 
-> >> = {
-> >>  +	.postenable = &ingenic_adc_buffer_enable,
-> >>  +	.predisable = &ingenic_adc_buffer_disable
-> >>  +};
-> >>  +
-> >>  +static irqreturn_t ingenic_adc_irq(int irq, void *data)
-> >>  +{
-> >>  +	struct iio_dev *iio_dev = data;
-> >>  +	struct ingenic_adc *adc = iio_priv(iio_dev);
-> >>  +	u32 tdat;
-> >>  +
-> >>  +	tdat = readl(adc->base + JZ_ADC_REG_ADTCH);
-> >>  +	iio_push_to_buffers(iio_dev, &tdat);
-> >>  +	writeb(JZ_ADC_IRQ_TOUCH, adc->base + JZ_ADC_REG_STATUS);
-> >>  +
-> >>  +	return IRQ_HANDLED;
-> >>  +}
-> >>  +
-> >>   static int ingenic_adc_probe(struct platform_device *pdev)
-> >>   {
-> >>   	struct device *dev = &pdev->dev;
-> >>   	struct iio_dev *iio_dev;
-> >>   	struct ingenic_adc *adc;
-> >>   	const struct ingenic_adc_soc_data *soc_data;
-> >>  -	int ret;
-> >>  +	struct iio_buffer *buffer;
-> >>  +	int irq, ret;
-> >> 
-> >>   	soc_data = device_get_match_data(dev);
-> >>   	if (!soc_data)
-> >>  @@ -460,6 +556,18 @@ static int ingenic_adc_probe(struct 
-> >> platform_device *pdev)
-> >>   	mutex_init(&adc->aux_lock);
-> >>   	adc->soc_data = soc_data;
-> >> 
-> >>  +	irq = platform_get_irq(pdev, 0);
-> >>  +	if (irq < 0) {
-> >>  +		dev_err(dev, "Failed to get irq: %d\n", irq);
-> >>  +		return irq;
-> >>  +	}
-> >>  +	ret = devm_request_irq(dev, irq, ingenic_adc_irq, 0,
-> >>  +			       dev_name(dev), iio_dev);
-> >>  +	if (ret < 0) {
-> >>  +		dev_err(dev, "Failed to request irq: %d\n", ret);
-> >>  +		return ret;
-> >>  +	}
-> >>  +
-> >>   	adc->base = devm_platform_ioremap_resource(pdev, 0);
-> >>   	if (IS_ERR(adc->base))
-> >>   		return PTR_ERR(adc->base);
-> >>  @@ -499,7 +607,8 @@ static int ingenic_adc_probe(struct 
-> >> platform_device *pdev)
-> >> 
-> >>   	iio_dev->dev.parent = dev;
-> >>   	iio_dev->name = "jz-adc";
-> >>  -	iio_dev->modes = INDIO_DIRECT_MODE;
-> >>  +	iio_dev->modes = INDIO_DIRECT_MODE | INDIO_BUFFER_SOFTWARE;
-> >>  +	iio_dev->setup_ops = &ingenic_buffer_setup_ops;
-> >>   	iio_dev->channels = ingenic_channels;
-> >>   	iio_dev->num_channels = ARRAY_SIZE(ingenic_channels);
-> >>   	/* Remove AUX2 from the list of supported channels. */
-> >>  @@ -507,6 +616,13 @@ static int ingenic_adc_probe(struct 
-> >> platform_device *pdev)
-> >>   		iio_dev->num_channels -= 1;
-> >>   	iio_dev->info = &ingenic_adc_info;
-> >> 
-> >>  +	buffer = devm_iio_kfifo_allocate(dev);
-> >>  +	if (!buffer) {
-> >>  +		dev_err(dev, "Unable to add IIO buffer\n");
-> >>  +		return -ENOMEM;
-> >>  +	}
-> >>  +	iio_device_attach_buffer(iio_dev, buffer);
-> >>  +
-> >>   	ret = devm_iio_device_register(dev, iio_dev);
-> >>   	if (ret)
-> >>   		dev_err(dev, "Unable to register IIO device\n");  
-> >   
-> 
-> 
+> Yours,
+> Linus Walleij
 
 
