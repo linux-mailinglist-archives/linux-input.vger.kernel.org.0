@@ -2,100 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06F3C1402DD
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2020 05:15:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCF8F140300
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2020 05:24:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729567AbgAQEPK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Jan 2020 23:15:10 -0500
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:39332 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729559AbgAQEPK (ORCPT
+        id S1726925AbgAQEYN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Jan 2020 23:24:13 -0500
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:51344 "EHLO
+        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726566AbgAQEYN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Jan 2020 23:15:10 -0500
-Received: by mail-pj1-f66.google.com with SMTP id e11so2684719pjt.4;
-        Thu, 16 Jan 2020 20:15:09 -0800 (PST)
+        Thu, 16 Jan 2020 23:24:13 -0500
+Received: by mail-pj1-f67.google.com with SMTP id d15so2583414pjw.1;
+        Thu, 16 Jan 2020 20:24:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bbL7DykLMjR4IBh+1blOFW3gZb5qagjDzhxfjiFEjd8=;
-        b=qK6PT7KCcMfj1muWed0b3i6ok5ZKMYYZy7gdJlXw2tC6TIleyMD6OJFswgO9BP9mKY
-         MonsjQOW3UlPvlrFcc8IR6PbuKIDt/sevzLXR6HZtEeHXDNyRvTozS9ai7EbRmp/BViv
-         7xnCdScSNi0ISqmUPuD9kGsVQxmogeShbiG5QlyeqUZiFN78tx0Z7oKFNcf8EWqTOOG0
-         m/+YpEWMQ/gfj1SaihNtFZVlqWSthkGsJ+/Nke4+sa+UfwcgvKzt0ljBfO73fVWIe4Q7
-         WBDD7r8USoLe1sZqrBjkxF7WLX6U20qg8Ci+w6lPdwBwgT6zcO3EgYVDKacDOrvbsRdG
-         A8dg==
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=ANpzFmgjjuaZgNEEBDm5PaG+F+Suwy/uIclI0OaRnP4=;
+        b=cIVbgfHFRatkQnOmtGISxJXOYHYBnXKXuk/8gi0JxX7/6LqD7P28IGHSgERryqKAp3
+         qR4KGBZ2DCGcmtX+wZMFcOIuyjoxC2zW2YUI4XlgN+ao4SvFQXmcrv09ev3cGvkFj47s
+         q5RiJCo5xsqJ9Lf2XQEoaXMXFyJ4nKsj7/lQNoX/tkhFnTLE0kqF7wzs2Wmo9Ox5jhgJ
+         uiYY/5jaadyzv5m64cGex4Rc33tZ6Cl+oQWe0T2P7lmJnQogFAKZluEcG/0sP6gZu1J9
+         X9ZMQepYdPVTNRcTyR9mWXpoPukvLzVaAeuopMyYLoHgnJEv/OfYNVnfWtLtAFrEgnLA
+         LWDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bbL7DykLMjR4IBh+1blOFW3gZb5qagjDzhxfjiFEjd8=;
-        b=N3ifG72x9rDuI/5e2etaA6RdH3xeXLL6JKB5RrAvi9fk93wJSBIq8bhB3IQp8JAGQo
-         TMWMP+hn/6iYtQjoUQVntT0TTna7nthUIk4Y1xNVhw0H0jU4k4nwba1FCTmFqXuTT0sV
-         iMkhHNJFXIazPWf1B3VTYt/0X67zDW+E5hNwCc723EeYzn6N9nrfJ3LtLsboLPC1P1S9
-         KoDaEOoCe276eVg3FeWoB3sSIDoEhAjRPgU5ZOdr6gSz/kC2qRYnhqIGM2WV5+oGNWne
-         nvja8l9lBJv4H9b1gkY7zUfh+J6f2pblqGrvbs2Kjdqq9t2SiLFWnysXxzl6XPitPFmp
-         U3VQ==
-X-Gm-Message-State: APjAAAVGiANqmmHFU+iBQ8CDvPofZYNRIcaK4jxoH91UYidUg0v0bfUm
-        F6IrXCgVbLeiMsj63GoSfVY=
-X-Google-Smtp-Source: APXvYqyOwN5MUuJbgblp1NTy+y/gUkoYCTgxAVuPkvbDAV+zy+hv76xpdSI2yFN+nRPwtZvwR+mpYg==
-X-Received: by 2002:a17:90a:fa07:: with SMTP id cm7mr3265779pjb.119.1579234509410;
-        Thu, 16 Jan 2020 20:15:09 -0800 (PST)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=ANpzFmgjjuaZgNEEBDm5PaG+F+Suwy/uIclI0OaRnP4=;
+        b=eCFW+pTG3wHAnVrnLfA8wDnaArkXK0dixsjfRPp/Etr0AfnAAvVJ+E4hXDN8IoAnYO
+         SzGr60YNKPBmEhFelPPeXDPoE+ovTpKwnM9jyHWpNKjPVzLNCe9pqjhrUsPChojF7UCZ
+         YqMxtXxThj4DRjUWGFSujLAUBADAumYRduEZw238bBeqIZ/dfLg3I936BfugJ+rhbOIo
+         GdrQLCSo0NNTt3vv1IvKZxa9MMBVmQQJCBIka9CxJRKNjJbUtxuNwFgDDSbGB6IpAOGk
+         Ozcf6xGtBredW6jtSvGnKMkJTYXz6LY3n/iQUk6qaqB5G+ikTroJSpf5gV21GT8CCwvp
+         qgAA==
+X-Gm-Message-State: APjAAAUPqvD9nEXZslvwiILJJ+dySYdB1QcpyEKRpbCP4Q6wGfn1UExW
+        5RFdMXnaZZ/OG/b5stIlEH4=
+X-Google-Smtp-Source: APXvYqwE05jpaDTRqD3BU1fHu6zE7cC/ZX1k2DsUR0/fW/MOvfolBW34Hl0kZoAtkbRKjImpQRTWzQ==
+X-Received: by 2002:a17:902:b48e:: with SMTP id y14mr36241040plr.260.1579235052436;
+        Thu, 16 Jan 2020 20:24:12 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id k23sm25303816pgg.7.2020.01.16.20.15.08
+        by smtp.gmail.com with ESMTPSA id j125sm26799062pfg.160.2020.01.16.20.24.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2020 20:15:08 -0800 (PST)
-Date:   Thu, 16 Jan 2020 20:15:06 -0800
+        Thu, 16 Jan 2020 20:24:11 -0800 (PST)
+Date:   Thu, 16 Jan 2020 20:24:09 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-input@vger.kernel.org,
-        Timo Kaufmann <timokau@zoho.com>, stable@vger.kernel.org
-Subject: Re: [PATCH for v5.5 2/2] Input: rmi_f54: read from FIFO in 32 byte
- blocks
-Message-ID: <20200117041506.GD47797@dtor-ws>
-References: <20200115124819.3191024-1-hverkuil-cisco@xs4all.nl>
- <20200115124819.3191024-3-hverkuil-cisco@xs4all.nl>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH] input: max77650-onkey: add of_match table
+Message-ID: <20200117042409.GE47797@dtor-ws>
+References: <20191210100753.11090-1-brgl@bgdev.pl>
+ <20200110182841.GT8314@dtor-ws>
+ <CAMRc=Mcu-oNC009JLkNSDrKjg_ygb63ZTnrmu+8NwNZrOVsEZQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200115124819.3191024-3-hverkuil-cisco@xs4all.nl>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=Mcu-oNC009JLkNSDrKjg_ygb63ZTnrmu+8NwNZrOVsEZQ@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
-
-On Wed, Jan 15, 2020 at 01:48:19PM +0100, Hans Verkuil wrote:
-> The F54 Report Data is apparently read through a fifo and for
-> the smbus protocol that means that between reading a block of 32
-> bytes the rmiaddr shouldn't be incremented. However, changing
-> that causes other non-fifo reads to fail and so that change was
-> reverted.
+On Sat, Jan 11, 2020 at 11:22:55AM +0100, Bartosz Golaszewski wrote:
+> pt., 10 sty 2020 o 19:28 Dmitry Torokhov <dmitry.torokhov@gmail.com> napisał(a):
+> >
+> > On Tue, Dec 10, 2019 at 11:07:53AM +0100, Bartosz Golaszewski wrote:
+> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > >
+> > > We need the of_match table if we want to use the compatible string in
+> > > the pmic's child node and get the onkey driver loaded automatically.
+> >
+> > Do we really need of_match table or adding
+> >
 > 
-> This patch changes just the F54 function and it now reads 32 bytes
-> at a time from the fifo, using the F54_FIFO_OFFSET to update the
-> start address that is used when reading from the fifo.
+> Not really. Technically not anyway but we merged bindings that define
+> it (at the time I didn't know any better) and seems we're stuck with
+> it. Please see the discussion below a similar patch for regulator
+> subsystem[1].
 > 
-> This has only been tested with smbus, not with i2c or spi. But I
-> suspect that the same is needed there since I think similar
-> problems will occur there when reading more than 256 bytes.
+> > MODULE_ALIAS("platform:max77650-onkey");
+> >
 > 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Reported-by: Timo Kaufmann <timokau@zoho.com>
-> Fixes: a284e11c371e ("Input: synaptics-rmi4 - don't increment rmiaddr for SMBus transfers")
-> Cc: stable@vger.kernel.org
+> This is already in there, but if someone defines the compatible in the
+> device tree as per bindings, the module won't be loaded despite the
+> MODULE_ALIAS() definition.
 
-As you mentioned this one is not urgent so I dropped the stable
-designation (you may forward to stable once it cooks in 5.5 for a bit)
-and also dropped fixes as it does not fixes this particular commit but
-something that was done before.
-
-Otherwise applied.
-
-Thanks.
+I see. Applied, thank you.
 
 -- 
 Dmitry
