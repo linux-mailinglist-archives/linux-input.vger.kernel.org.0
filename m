@@ -2,366 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BD8314172A
-	for <lists+linux-input@lfdr.de>; Sat, 18 Jan 2020 12:16:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED4EF141F4E
+	for <lists+linux-input@lfdr.de>; Sun, 19 Jan 2020 19:15:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727049AbgARLPo convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Sat, 18 Jan 2020 06:15:44 -0500
-Received: from saturn.retrosnub.co.uk ([46.235.226.198]:34998 "EHLO
-        saturn.retrosnub.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726961AbgARLPn (ORCPT
+        id S1727144AbgASSPE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Jan 2020 13:15:04 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:44222 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727111AbgASSPE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Jan 2020 06:15:43 -0500
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        by saturn.retrosnub.co.uk (Postfix; Retrosnub mail submission) with ESMTPSA id 139429E7724;
-        Sat, 18 Jan 2020 11:15:38 +0000 (GMT)
-Date:   Sat, 18 Jan 2020 11:15:36 +0000
-From:   Jonathan Cameron <jic23@jic23.retrosnub.co.uk>
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Artur Rojek <contact@artur-rojek.eu>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] IIO: Ingenic JZ47xx: Add touchscreen mode.
-Message-ID: <20200118111536.10972b03@archlinux>
-In-Reply-To: <1578927540.3.0@crapouillou.net>
-References: <20200105001639.142061-1-contact@artur-rojek.eu>
-        <20200105001639.142061-3-contact@artur-rojek.eu>
-        <20200111114609.1979a8ff@archlinux>
-        <1578927540.3.0@crapouillou.net>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Sun, 19 Jan 2020 13:15:04 -0500
+Received: by mail-ot1-f66.google.com with SMTP id h9so26690793otj.11
+        for <linux-input@vger.kernel.org>; Sun, 19 Jan 2020 10:15:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=0MrTpv+HDBPNR7/4Dq9BS8nqKwI3pL3S3fRcWBhKH8Q=;
+        b=PYexgQoI3cAhnYcApsrqj/TQjYXLL+1uRDWhtf50u6undgDWhrn+nrGTq8yQdlz3VQ
+         kLcyWkCYpbdU5nW7pcqZGXl4O4pCtJDXtuBH+1OGVxtRDHe8yNTQvcTu1FjVcbRXr87z
+         R6Zg5NFRuCetsm0wMGb6Z8lijzN818BaUWXnioXqcPTJEPUhzpye3qXCU0GED0dPaww0
+         vNkFKlHv8YbrVRiAP2VMB9pIj/GLz+O4xdbhrhsHx+d4e5K0eGQENmbfyhT2zdJoJLx4
+         LmwGX7pmdEdq1xgrCXB9MZiIJGQFrmJb7fcuWV42jdsjTr1Yl37Xj1P0kutWZIl0Uzx9
+         TfXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=0MrTpv+HDBPNR7/4Dq9BS8nqKwI3pL3S3fRcWBhKH8Q=;
+        b=QHuztbz/RX/dvGqq0dw1L8DBvoRTVM5YphbraBm8E/S9Vg05eM6nwLFD10sobD2GB5
+         52dQYWNgHpp66/XJ4hy1qhheoLURUhY9owZu8M4hjOzxGwgMHUZ1mCNNrLoJihCOD0m6
+         jNhqP/axvA2EpJRo7J3AgO8g8zJ+O3x3a3wjKY6c6jsLxQuuCfRuWQ++1tg074Sgj3pK
+         +bNX7Q0Lh47khOyzsC8Z9yqKAywmYsqr5l758NhEcJuc3vR4pemBHxkqV7K8qgtpkQx4
+         TXigz6G47ZgMUDAbpL1aA4vZ+e8xmTk0VjVRIJmCKEZb94n0FbwzDclsy8WfXZrU4lZL
+         Msug==
+X-Gm-Message-State: APjAAAU0KDkKWyBam5gjdeyGVT6Op2NSg0cwqb19nqX/LmAb4zP6a2Vz
+        zHzDbqZPLsPwuHYW6ZOVZEn4nqZNntl/1CEJfqE=
+X-Google-Smtp-Source: APXvYqxEXwda8VmpqokD8xMmyIFiIVfS7sUH8TtvqVXK+jboAh7i2riHS9cOuOD5w2R3c62U6wezYGjShsso3ENrD7w=
+X-Received: by 2002:a9d:7d85:: with SMTP id j5mr13457255otn.86.1579457703379;
+ Sun, 19 Jan 2020 10:15:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+From:   js <sym.i.nem@gmail.com>
+Date:   Sun, 19 Jan 2020 13:14:52 -0500
+Message-ID: <CAKsRvPPjk7RZanEwO3hVa+UZ9_zq6xWakOxckBfx-a+_bEgUtA@mail.gmail.com>
+Subject: [BUG + PATCH] HID ELAN9038 probe fails with "report is too long"
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Content-Type: multipart/mixed; boundary="000000000000591ab2059c8227f4"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 13 Jan 2020 11:59:00 -0300
-Paul Cercueil <paul@crapouillou.net> wrote:
+--000000000000591ab2059c8227f4
+Content-Type: text/plain; charset="UTF-8"
 
-> Hi Jonathan,
-> 
-> 
-> Le sam., janv. 11, 2020 at 11:46, Jonathan Cameron 
-> <jic23@jic23.retrosnub.co.uk> a écrit :
-> > On Sun,  5 Jan 2020 01:16:37 +0100
-> > Artur Rojek <contact@artur-rojek.eu> wrote:
-> >   
-> >>  Implement support for the touchscreen mode found in JZ47xx SoCs ADC.  
-> > This needs more description.
-> > 
-> > Looks like it enables a kfifo and also selects the callback buffer
-> > stuff to run with a generic touchscreen iio-> input driver.
-> > 
-> > A few other bits inline, but basically fine.
-> > 
-> > I've never really thought about whether we support a CB buffer
-> > without anything on the IIO side.   That should be possible,
-> > but I'm not sure what odd corner cases will turn up.  I'm guessing
-> > there are some, or you'd not have bothered exposing it here?  
-> 
-> I'm sorry, what do you mean by "nothing on the IIO side"?
+i posted this bug to bugzilla with the attached patch.
+this email is to notify the maintainers.
+https://bugzilla.kernel.org/show_bug.cgi?id=206259
 
-Hmm. I thought I replied to this from work yesterday, but
-not seeing anything on my personal email.  Oh well.
+thanks!
 
-You currently support an IIO kfifo buffer.  That isn't
-actually used in the path to the touchscreen assuming you
-are using a callback buffer.   So in theory it might be
-nice to drop the IIO side.  However, I'm not sure the
-core actually supports that at the moment, or what needs
-to change to make it possible.
+js
+----
 
-Jonathan
+ELAN i2c digitizer on microsoft surface go fails to initialize and
+device is non-functional
 
-> 
-> 
-> > 
-> > Thanks
-> > 
-> > Jonathan
-> > 
-> >   
-> >> 
-> >>  Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
-> >>  Tested-by: Paul Cercueil <paul@crapouillou.net>
-> >>  ---
-> >>   drivers/iio/adc/Kconfig       |   3 +
-> >>   drivers/iio/adc/ingenic-adc.c | 120 
-> >> +++++++++++++++++++++++++++++++++-
-> >>   2 files changed, 121 insertions(+), 2 deletions(-)
-> >> 
-> >>  diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> >>  index 5d8540b7b427..dabbf15032af 100644
-> >>  --- a/drivers/iio/adc/Kconfig
-> >>  +++ b/drivers/iio/adc/Kconfig
-> >>  @@ -446,6 +446,9 @@ config INA2XX_ADC
-> >>   config INGENIC_ADC
-> >>   	tristate "Ingenic JZ47xx SoCs ADC driver"
-> >>   	depends on MIPS || COMPILE_TEST
-> >>  +	select IIO_BUFFER
-> >>  +	select IIO_BUFFER_CB  
-> > 
-> > Feels like IIO_BUFFER_CB should be selected by the driver that
-> > uses that functionality rather than this one.
-> >   
-> >>  +	select IIO_KFIFO_BUF
-> >>   	help
-> >>   	  Say yes here to build support for the Ingenic JZ47xx SoCs ADC 
-> >> unit.
-> >> 
-> >>  diff --git a/drivers/iio/adc/ingenic-adc.c 
-> >> b/drivers/iio/adc/ingenic-adc.c
-> >>  index 7a24bc1dabe1..4dbf15fdd95d 100644
-> >>  --- a/drivers/iio/adc/ingenic-adc.c
-> >>  +++ b/drivers/iio/adc/ingenic-adc.c
-> >>  @@ -8,7 +8,10 @@
-> >> 
-> >>   #include <dt-bindings/iio/adc/ingenic,adc.h>
-> >>   #include <linux/clk.h>
-> >>  +#include <linux/iio/buffer.h>
-> >>   #include <linux/iio/iio.h>
-> >>  +#include <linux/iio/kfifo_buf.h>
-> >>  +#include <linux/interrupt.h>
-> >>   #include <linux/io.h>
-> >>   #include <linux/iopoll.h>
-> >>   #include <linux/kernel.h>
-> >>  @@ -20,6 +23,8 @@
-> >>   #define JZ_ADC_REG_CFG			0x04
-> >>   #define JZ_ADC_REG_CTRL			0x08
-> >>   #define JZ_ADC_REG_STATUS		0x0c
-> >>  +#define JZ_ADC_REG_ADSAME		0x10
-> >>  +#define JZ_ADC_REG_ADWAIT		0x14
-> >>   #define JZ_ADC_REG_ADTCH		0x18
-> >>   #define JZ_ADC_REG_ADBDAT		0x1c
-> >>   #define JZ_ADC_REG_ADSDAT		0x20
-> >>  @@ -28,6 +33,9 @@
-> >>   #define JZ_ADC_REG_ENABLE_PD		BIT(7)
-> >>   #define JZ_ADC_REG_CFG_AUX_MD		(BIT(0) | BIT(1))
-> >>   #define JZ_ADC_REG_CFG_BAT_MD		BIT(4)
-> >>  +#define JZ_ADC_REG_CFG_PULL_UP(n)	((n) << 16)
-> >>  +#define JZ_ADC_REG_CFG_SAMPLE_NUM(n)	((n) << 10)
-> >>  +#define JZ_ADC_REG_CFG_TOUCH_OPS_MASK	(BIT(31) | GENMASK(23, 10))
-> >>   #define JZ_ADC_REG_ADCLK_CLKDIV_LSB	0
-> >>   #define JZ4725B_ADC_REG_ADCLK_CLKDIV10US_LSB	16
-> >>   #define JZ4770_ADC_REG_ADCLK_CLKDIV10US_LSB	8
-> >>  @@ -44,6 +52,14 @@
-> >>   #define JZ4770_ADC_BATTERY_VREF			6600
-> >>   #define JZ4770_ADC_BATTERY_VREF_BITS		12
-> >> 
-> >>  +#define JZ_ADC_IRQ_AUX			BIT(0)
-> >>  +#define JZ_ADC_IRQ_BATTERY		BIT(1)
-> >>  +#define JZ_ADC_IRQ_TOUCH		BIT(2)
-> >>  +#define JZ_ADC_IRQ_PEN_DOWN		BIT(3)
-> >>  +#define JZ_ADC_IRQ_PEN_UP		BIT(4)
-> >>  +#define JZ_ADC_IRQ_PEN_DOWN_SLEEP	BIT(5)
-> >>  +#define JZ_ADC_IRQ_SLEEP		BIT(7)
-> >>  +
-> >>   struct ingenic_adc;
-> >> 
-> >>   struct ingenic_adc_soc_data {
-> >>  @@ -411,6 +427,30 @@ static const struct iio_info ingenic_adc_info 
-> >> = {
-> >>   };
-> >> 
-> >>   static const struct iio_chan_spec ingenic_channels[] = {
-> >>  +	{
-> >>  +		.extend_name = "touchscreen_xp",  
-> > 
-> > Note that adding extended names:
-> > 
-> > 1) Needs documenting as it create ABI - so something in
-> > Documentation/ABI/testing/sysfs-bus-iio-*
-> > 
-> > 2) Breaks any generic userspace application.
-> > 
-> > Why can't we use modified and an axis to identify this?  
-> 
-> I'm in a good place to know that extended names are bad. The problem 
-> here is that Xn/Yn channels will be added later (we have a board that 
-> has one joystick connected to Xp/Yp, and a second joystick connected to 
-> Xn/Yn). I assume that it is not possible to have two channels with the 
-> same type and modifier?
-> 
-> Alternatively I believe we could also have the first two channels as 
-> X/Y single-ended, and then two channels as X/Y differential, and do 
-> some easy math in the joystick driver, but that would make it pretty 
-> hardware-specific.
-> 
-> Cheers,
-> -Paul
-> 
-> >   
-> >>  +		.type = IIO_POSITIONRELATIVE,
-> >>  +		.indexed = 1,
-> >>  +		.channel = INGENIC_ADC_TOUCH_XP,
-> >>  +		.scan_index = 0,
-> >>  +		.scan_type = {
-> >>  +			.sign = 'u',
-> >>  +			.realbits = 12,
-> >>  +			.storagebits = 16
-> >>  +		},
-> >>  +	},
-> >>  +	{
-> >>  +		.extend_name = "touchscreen_yp",
-> >>  +		.type = IIO_POSITIONRELATIVE,
-> >>  +		.indexed = 1,
-> >>  +		.channel = INGENIC_ADC_TOUCH_YP,
-> >>  +		.scan_index = 1,
-> >>  +		.scan_type = {
-> >>  +			.sign = 'u',
-> >>  +			.realbits = 12,
-> >>  +			.storagebits = 16
-> >>  +		},
-> >>  +	},
-> >>   	{
-> >>   		.extend_name = "aux",
-> >>   		.type = IIO_VOLTAGE,
-> >>  @@ -418,6 +458,7 @@ static const struct iio_chan_spec 
-> >> ingenic_channels[] = {
-> >>   				      BIT(IIO_CHAN_INFO_SCALE),
-> >>   		.indexed = 1,
-> >>   		.channel = INGENIC_ADC_AUX,
-> >>  +		.scan_index = -1
-> >>   	},
-> >>   	{
-> >>   		.extend_name = "battery",
-> >>  @@ -428,6 +469,7 @@ static const struct iio_chan_spec 
-> >> ingenic_channels[] = {
-> >>   						BIT(IIO_CHAN_INFO_SCALE),
-> >>   		.indexed = 1,
-> >>   		.channel = INGENIC_ADC_BATTERY,
-> >>  +		.scan_index = -1
-> >>   	},
-> >>   	{ /* Must always be last in the array. */
-> >>   		.extend_name = "aux2",
-> >>  @@ -436,16 +478,70 @@ static const struct iio_chan_spec 
-> >> ingenic_channels[] = {
-> >>   				      BIT(IIO_CHAN_INFO_SCALE),
-> >>   		.indexed = 1,
-> >>   		.channel = INGENIC_ADC_AUX2,
-> >>  +		.scan_index = -1
-> >>   	},
-> >>   };
-> >> 
-> >>  +static int ingenic_adc_buffer_enable(struct iio_dev *iio_dev)
-> >>  +{
-> >>  +	struct ingenic_adc *adc = iio_priv(iio_dev);
-> >>  +
-> >>  +	clk_enable(adc->clk);
-> >>  +	/* It takes significant time for the touchscreen hw to stabilize. 
-> >> */
-> >>  +	msleep(50);
-> >>  +	ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_TOUCH_OPS_MASK,
-> >>  +			       JZ_ADC_REG_CFG_SAMPLE_NUM(4) |
-> >>  +			       JZ_ADC_REG_CFG_PULL_UP(4));
-> >>  +	writew(80, adc->base + JZ_ADC_REG_ADWAIT);
-> >>  +	writew(2, adc->base + JZ_ADC_REG_ADSAME);
-> >>  +	writeb((u8)~JZ_ADC_IRQ_TOUCH, adc->base + JZ_ADC_REG_CTRL);
-> >>  +	writel(0, adc->base + JZ_ADC_REG_ADTCH);
-> >>  +	ingenic_adc_enable(adc, 2, true);
-> >>  +
-> >>  +	return 0;
-> >>  +}
-> >>  +
-> >>  +static int ingenic_adc_buffer_disable(struct iio_dev *iio_dev)
-> >>  +{
-> >>  +	struct ingenic_adc *adc = iio_priv(iio_dev);
-> >>  +
-> >>  +	ingenic_adc_enable(adc, 2, false);
-> >>  +	writeb(0xff, adc->base + JZ_ADC_REG_CTRL);
-> >>  +	writeb(0xff, adc->base + JZ_ADC_REG_STATUS);
-> >>  +	ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_TOUCH_OPS_MASK, 0);
-> >>  +	writew(0, adc->base + JZ_ADC_REG_ADSAME);
-> >>  +	writew(0, adc->base + JZ_ADC_REG_ADWAIT);
-> >>  +	clk_disable(adc->clk);
-> >>  +
-> >>  +	return 0;
-> >>  +}
-> >>  +
-> >>  +static const struct iio_buffer_setup_ops ingenic_buffer_setup_ops 
-> >> = {
-> >>  +	.postenable = &ingenic_adc_buffer_enable,
-> >>  +	.predisable = &ingenic_adc_buffer_disable
-> >>  +};
-> >>  +
-> >>  +static irqreturn_t ingenic_adc_irq(int irq, void *data)
-> >>  +{
-> >>  +	struct iio_dev *iio_dev = data;
-> >>  +	struct ingenic_adc *adc = iio_priv(iio_dev);
-> >>  +	u32 tdat;
-> >>  +
-> >>  +	tdat = readl(adc->base + JZ_ADC_REG_ADTCH);
-> >>  +	iio_push_to_buffers(iio_dev, &tdat);
-> >>  +	writeb(JZ_ADC_IRQ_TOUCH, adc->base + JZ_ADC_REG_STATUS);
-> >>  +
-> >>  +	return IRQ_HANDLED;
-> >>  +}
-> >>  +
-> >>   static int ingenic_adc_probe(struct platform_device *pdev)
-> >>   {
-> >>   	struct device *dev = &pdev->dev;
-> >>   	struct iio_dev *iio_dev;
-> >>   	struct ingenic_adc *adc;
-> >>   	const struct ingenic_adc_soc_data *soc_data;
-> >>  -	int ret;
-> >>  +	struct iio_buffer *buffer;
-> >>  +	int irq, ret;
-> >> 
-> >>   	soc_data = device_get_match_data(dev);
-> >>   	if (!soc_data)
-> >>  @@ -460,6 +556,18 @@ static int ingenic_adc_probe(struct 
-> >> platform_device *pdev)
-> >>   	mutex_init(&adc->aux_lock);
-> >>   	adc->soc_data = soc_data;
-> >> 
-> >>  +	irq = platform_get_irq(pdev, 0);
-> >>  +	if (irq < 0) {
-> >>  +		dev_err(dev, "Failed to get irq: %d\n", irq);
-> >>  +		return irq;
-> >>  +	}
-> >>  +	ret = devm_request_irq(dev, irq, ingenic_adc_irq, 0,
-> >>  +			       dev_name(dev), iio_dev);
-> >>  +	if (ret < 0) {
-> >>  +		dev_err(dev, "Failed to request irq: %d\n", ret);
-> >>  +		return ret;
-> >>  +	}
-> >>  +
-> >>   	adc->base = devm_platform_ioremap_resource(pdev, 0);
-> >>   	if (IS_ERR(adc->base))
-> >>   		return PTR_ERR(adc->base);
-> >>  @@ -499,7 +607,8 @@ static int ingenic_adc_probe(struct 
-> >> platform_device *pdev)
-> >> 
-> >>   	iio_dev->dev.parent = dev;
-> >>   	iio_dev->name = "jz-adc";
-> >>  -	iio_dev->modes = INDIO_DIRECT_MODE;
-> >>  +	iio_dev->modes = INDIO_DIRECT_MODE | INDIO_BUFFER_SOFTWARE;
-> >>  +	iio_dev->setup_ops = &ingenic_buffer_setup_ops;
-> >>   	iio_dev->channels = ingenic_channels;
-> >>   	iio_dev->num_channels = ARRAY_SIZE(ingenic_channels);
-> >>   	/* Remove AUX2 from the list of supported channels. */
-> >>  @@ -507,6 +616,13 @@ static int ingenic_adc_probe(struct 
-> >> platform_device *pdev)
-> >>   		iio_dev->num_channels -= 1;
-> >>   	iio_dev->info = &ingenic_adc_info;
-> >> 
-> >>  +	buffer = devm_iio_kfifo_allocate(dev);
-> >>  +	if (!buffer) {
-> >>  +		dev_err(dev, "Unable to add IIO buffer\n");
-> >>  +		return -ENOMEM;
-> >>  +	}
-> >>  +	iio_device_attach_buffer(iio_dev, buffer);
-> >>  +
-> >>   	ret = devm_iio_device_register(dev, iio_dev);
-> >>   	if (ret)
-> >>   		dev_err(dev, "Unable to register IIO device\n");  
-> >   
-> 
-> 
+initialization fails on 4.19.96:
+----
+[    5.507245] hid-generic 0018:04F3:261A.0005: report is too long
+[    5.507256] hid-generic 0018:04F3:261A.0005: item 0 1 0 8 parsing failed
+[    5.507290] hid-generic: probe of 0018:04F3:261A.0005 failed with error -22
+[    5.556409] hid-multitouch 0018:04F3:261A.0005: report is too long
+[    5.581641] hid-multitouch 0018:04F3:261A.0005: item 0 1 0 8 parsing failed
+[    5.618495] hid-multitouch: probe of 0018:04F3:261A.0005 failed
+with error -22
 
+initialization succeeds on 4.19.95:
+----
+[    7.150887] hid-generic 0018:04F3:261A.0001: input,hidraw2: I2C HID
+v1.00 Device [ELAN9038:00 04F3:261A] on i2c-ELAN9038:00
+[    8.253077] input: ELAN9038:00 04F3:261A as
+/devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-1/i2c-ELAN9038:00/0018:04F3:261A.0001/input/input20
+[    8.253219] input: ELAN9038:00 04F3:261A Pen as
+/devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-1/i2c-ELAN9038:00/0018:04F3:261A.0001/input/input23
+[    8.253330] hid-multitouch 0018:04F3:261A.0001: input,hidraw0: I2C
+HID v1.00 Device [ELAN9038:00 04F3:261A] on i2c-ELAN9038:00
+
+problem seems to be due to this commit:
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-4.19.y&id=31d06cc8e7caec36bedeb4f90444920431462f61
+
+--000000000000591ab2059c8227f4
+Content-Type: text/x-patch; charset="US-ASCII"; name="hid-core.patch"
+Content-Disposition: attachment; filename="hid-core.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_k5lc9yxb0>
+X-Attachment-Id: f_k5lc9yxb0
+
+ZGlmZiAtcnVwTiBsaW51eC00LjE5Ljk3L2RyaXZlcnMvaGlkL2hpZC1jb3JlLmMgbGludXgtNC4x
+OS45Ny0xL2RyaXZlcnMvaGlkL2hpZC1jb3JlLmMKLS0tIGxpbnV4LTQuMTkuOTcvZHJpdmVycy9o
+aWQvaGlkLWNvcmUuYwkyMDIwLTAxLTE3IDE4OjQ3OjE3LjAwMDAwMDAwMCArMDAwMAorKysgbGlu
+dXgtNC4xOS45Ny0xL2RyaXZlcnMvaGlkL2hpZC1jb3JlLmMJMjAyMC0wMS0xOSAxNjozMTozMS44
+MjMwMDU5NzcgKzAwMDAKQEAgLTI5MCw4ICsyOTAsMTEgQEAgc3RhdGljIGludCBoaWRfYWRkX2Zp
+ZWxkKHN0cnVjdCBoaWRfcGFycwogCiAJLyogVG90YWwgc2l6ZSBjaGVjazogQWxsb3cgZm9yIHBv
+c3NpYmxlIHJlcG9ydCBpbmRleCBieXRlICovCiAJaWYgKHJlcG9ydC0+c2l6ZSA+IChISURfTUFY
+X0JVRkZFUl9TSVpFIC0gMSkgPDwgMykgewotCQloaWRfZXJyKHBhcnNlci0+ZGV2aWNlLCAicmVw
+b3J0IGlzIHRvbyBsb25nXG4iKTsKLQkJcmV0dXJuIC0xOworCQloaWRfZXJyKHBhcnNlci0+ZGV2
+aWNlLAorCQkJCSJyZXBvcnQgaXMgdG9vIGxvbmc6ICVkID4gJWRcbiIsCisJCQkJcmVwb3J0LT5z
+aXplLAorCQkJCShISURfTUFYX0JVRkZFUl9TSVpFIC0gMSkgPDwgMyk7CisJCXJldHVybiAwOwog
+CX0KIAogCWlmICghcGFyc2VyLT5sb2NhbC51c2FnZV9pbmRleCkgLyogSWdub3JlIHBhZGRpbmcg
+ZmllbGRzICovCg==
+--000000000000591ab2059c8227f4--
