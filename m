@@ -2,144 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 073941424A3
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2020 09:00:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9BCE14290B
+	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2020 12:16:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726619AbgATIAM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Jan 2020 03:00:12 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:37285 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726451AbgATIAL (ORCPT
+        id S1727018AbgATLQd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Jan 2020 06:16:33 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:40513 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726451AbgATLQc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Jan 2020 03:00:11 -0500
-Received: by mail-wr1-f67.google.com with SMTP id w15so28471210wru.4
-        for <linux-input@vger.kernel.org>; Mon, 20 Jan 2020 00:00:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=MfuL6BqlY9EL8BEnsX5fv65JIP4/kcoSTzU2TVafC8o=;
-        b=Ji5Kp3qac5rK+dk4oGVu9H0nQJK5nlx5Me5oL81WYCb2zGtZN/vSxMGDE447PZ/OZf
-         IbG1E3IjKMV/eULv6j2e0s0zo3/ppkcIzDeWkq+H2Uajzh4IV4AjNDdgbu32OhARhgBg
-         ETztA5v3PPPQjWUi8iBDs7PpyOZBXG5tY3TOLF2fUSLPRpWHsbH8G4yzxdblUiLephEk
-         6UfSPyLHcK1c8V//Jt1d6rz49Va596DpnssENjQRUGE98dBIDCvxYkfeoOpyGWUwiPFY
-         8CrzGUYqj+KSQf7N+DddgMCKdu1U6GWOfnbHZtCZVrwMKyLs+GnUGA4r71mBPJ/r5nIU
-         Po5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=MfuL6BqlY9EL8BEnsX5fv65JIP4/kcoSTzU2TVafC8o=;
-        b=l4rCPTEFYcqAuY6LhNI1JNRsD78pCh0L46dH87jRMOKpl1y8lXPl5nXJsVu9Cb1sRh
-         vbqJMynV9UlIdEn3jQNyN57o6QsWHKJXf4H9N6Y9Lfw1d7FgYi1ffpcNFZ22H4SJXHcQ
-         yhz+MSBQlfjVPaJSwIOsSISvoCjWgxFmsGdRKq87F0MQ1cBfT+yqqDg9p5y9mQIE2qy9
-         0HuNisNXzjeuhix+BDfsp+psD8JM2WsUO+GopdzDNIVaVwS13+tuwsxIR8UX5vSUssQt
-         IJgXD3DEoQsb8i4IXaLsI6Ht/zld2YlevMOxmY7g0jJidlEW1TtRrsbNstk2Lqu+ztEY
-         alEw==
-X-Gm-Message-State: APjAAAVzdDTl8wULQZdVtIOMqU6sokMC2POtC/RGcVU0L1sab/gZ3Kzq
-        XIXc4hqnLVYhFTAeha1aaZmxsQ==
-X-Google-Smtp-Source: APXvYqz2ucJXStRlD+7VmrbMk5Dz+tYnaocAv6Y/icPKXH/Bi2LQWUG43izVO8TogblaWw+PjwIbeA==
-X-Received: by 2002:a5d:6ac3:: with SMTP id u3mr17556499wrw.25.1579507209626;
-        Mon, 20 Jan 2020 00:00:09 -0800 (PST)
-Received: from dell ([2.27.35.227])
-        by smtp.gmail.com with ESMTPSA id x132sm7469683wmg.0.2020.01.20.00.00.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2020 00:00:08 -0800 (PST)
-Date:   Mon, 20 Jan 2020 08:00:25 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "jic23@kernel.org" <jic23@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "knaack.h@gmx.de" <knaack.h@gmx.de>,
-        "lars@metafoo.de" <lars@metafoo.de>,
-        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>
-Subject: Re: [PATCH v4 2/7] mfd: Add support for Azoteq
- IQS620A/621/622/624/625
-Message-ID: <20200120080025.GP15507@dell>
-References: <1579228475-6681-1-git-send-email-jeff@labundy.com>
- <1579228475-6681-3-git-send-email-jeff@labundy.com>
- <20200117132143.GK15507@dell>
- <20200120042303.GC28865@labundy.com>
+        Mon, 20 Jan 2020 06:16:32 -0500
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1itV2k-0003Ko-Cm; Mon, 20 Jan 2020 12:16:30 +0100
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andrew Duggan <aduggan@synaptics.com>
+Cc:     linux-input@vger.kernel.org, kernel@pengutronix.de,
+        patchwork-lst@pengutronix.de
+Subject: [PATCH] Input: synaptics-rmi4 - switch to reduced reporting mode
+Date:   Mon, 20 Jan 2020 12:16:28 +0100
+Message-Id: <20200120111628.18376-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200120042303.GC28865@labundy.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 20 Jan 2020, Jeff LaBundy wrote:
-> On Fri, Jan 17, 2020 at 01:21:43PM +0000, Lee Jones wrote:
-> > On Fri, 17 Jan 2020, Jeff LaBundy wrote:
-> > 
-> > > This patch adds core support for the Azoteq IQS620A, IQS621, IQS622,
-> > > IQS624 and IQS625 multi-function sensors.
-> > > 
-> > > Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-> > > ---
-> > > Changes in v4:
-> > >   - None
-> > > 
-> > > Changes in v3:
-> > >   - None
-> > > 
-> > > Changes in v2:
-> > >   - Merged 'Copyright' and 'Author' lines into one in introductory comments
-> > >   - Replaced 'error' with 'ret' throughout
-> > >   - Updated iqs62x_dev_init to account for 4/8/16-MHz clock divider in start-up
-> > >     delays and replaced ATI timeout routine with regmap_read_poll_timeout
-> > >   - Added an error message to iqs62x_irq in case device status fails to be read
-> > >   - Replaced sw_num member of iqs62x_core with a local variable in iqs62x_probe
-> > >     as the former was unused anywhere else
-> > >   - Added comments throughout iqs62x_probe to clarify how devices are matched
-> > >     based on the presence of calibration data
-> > >   - Inverted the product and software number comparison logic in iqs62x_probe
-> > >     to avoid an else...continue branch
-> > >   - Changed iqs62x_probe from .probe callback to .probe_new callback, thereby
-> > >     eliminating the otherwise unused iqs62x_id array
-> > >   - Moved iqs62x_suspend and iqs62x_resume below iqs62x_remove
-> > >   - Eliminated tabbed alignment of regmap_config and i2c_driver struct members
-> > >   - Added register definitions for register addresses used in iqs621_cal_regs,
-> > >     iqs620at_cal_regs and iqs62x_devs arrays
-> > >   - Removed of_compatible string from IQS622 mfd_cell struct as its proximity
-> > >     (now ambient light) sensing functionality need not be represented using a
-> > >     child node
-> > >   - Dissolved union in iqs62x_event_data to allow simultaneous use of ir_flags
-> > >     and als_flags
-> > >   - Removed temp_flags member of iqs62x_event_data, IQS62X_EVENT_TEMP register
-> > >     enumeration and IQS62X_EVENT_UI_HI/LO from iqs620a_event_regs (thereby re-
-> > >     ducing IQS62X_EVENT_SIZE to 10) as they were unused
-> > > 
-> > >  drivers/mfd/Kconfig         |  13 +
-> > >  drivers/mfd/Makefile        |   3 +
-> > >  drivers/mfd/iqs62x-core.c   | 639 ++++++++++++++++++++++++++++++++++++++++++++
-> > >  drivers/mfd/iqs62x-tables.c | 438 ++++++++++++++++++++++++++++++
-> > >  include/linux/mfd/iqs62x.h  | 146 ++++++++++
-> > >  5 files changed, 1239 insertions(+)
-> > >  create mode 100644 drivers/mfd/iqs62x-core.c
-> > >  create mode 100644 drivers/mfd/iqs62x-tables.c
-> > >  create mode 100644 include/linux/mfd/iqs62x.h
+When the distance thresholds are set the controller must be in reduced
+reporting mode for them to have any effect on the interrupt generation.
+This has a potentially large impact on the number of events the host
+needs to process.
 
-In future, could you trim all unnecessary parts of the review,
-snipping out all of the parts you agree with, leaving only the
-contentious context please?  It saves an awful lot of scrolling on
-behalf of the reader/reviewer.  Thanks.
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+I'm not sure if we want a separate DT property to allow the use of
+reduced reporting mode, as this change might lead to problems for
+controllers with unreasonably large threshold values. I'm not sure if
+any controller with bogus threshold values exist in the wild.
+---
+ drivers/input/rmi4/rmi_f11.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
+diff --git a/drivers/input/rmi4/rmi_f11.c b/drivers/input/rmi4/rmi_f11.c
+index bbf9ae9f3f0c..6adea8a3e8fb 100644
+--- a/drivers/input/rmi4/rmi_f11.c
++++ b/drivers/input/rmi4/rmi_f11.c
+@@ -412,6 +412,10 @@ struct f11_2d_sensor_queries {
+ 
+ /* Defs for Ctrl0. */
+ #define RMI_F11_REPORT_MODE_MASK        0x07
++#define RMI_F11_REPORT_MODE_CONTINUOUS  (0 << 0)
++#define RMI_F11_REPORT_MODE_REDUCED     (1 << 0)
++#define RMI_F11_REPORT_MODE_FS_CHANGE   (2 << 0)
++#define RMI_F11_REPORT_MODE_FP_CHANGE   (3 << 0)
+ #define RMI_F11_ABS_POS_FILT            (1 << 3)
+ #define RMI_F11_REL_POS_FILT            (1 << 4)
+ #define RMI_F11_REL_BALLISTICS          (1 << 5)
+@@ -1195,6 +1199,16 @@ static int rmi_f11_initialize(struct rmi_function *fn)
+ 		ctrl->ctrl0_11[RMI_F11_DELTA_Y_THRESHOLD] =
+ 			sensor->axis_align.delta_y_threshold;
+ 
++	/*
++	 * If distance threshold values are set, switch to reduced reporting
++	 * mode so they actually get used by the controller.
++	 */
++	if (ctrl->ctrl0_11[RMI_F11_DELTA_X_THRESHOLD] ||
++	    ctrl->ctrl0_11[RMI_F11_DELTA_Y_THRESHOLD]) {
++		ctrl->ctrl0_11[0] &= ~RMI_F11_REPORT_MODE_MASK;
++		ctrl->ctrl0_11[0] |= RMI_F11_REPORT_MODE_REDUCED;
++	}
++
+ 	if (f11->sens_query.has_dribble) {
+ 		switch (sensor->dribble) {
+ 		case RMI_REG_STATE_OFF:
 -- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.20.1
+
