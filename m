@@ -2,170 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D1C6F1432A4
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2020 20:51:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AEA31432A8
+	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2020 20:54:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726607AbgATTvy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Jan 2020 14:51:54 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:43405 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726586AbgATTvy (ORCPT
+        id S1726607AbgATTye (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Jan 2020 14:54:34 -0500
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:40620 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726586AbgATTye (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Jan 2020 14:51:54 -0500
-Received: by mail-pf1-f194.google.com with SMTP id x6so220287pfo.10
-        for <linux-input@vger.kernel.org>; Mon, 20 Jan 2020 11:51:53 -0800 (PST)
+        Mon, 20 Jan 2020 14:54:34 -0500
+Received: by mail-pj1-f66.google.com with SMTP id bg7so241223pjb.5
+        for <linux-input@vger.kernel.org>; Mon, 20 Jan 2020 11:54:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=w/f3XsKLwdaTokaDi/QOyQIz3TYAKO3g8Z0fTPCjH9Y=;
-        b=MD2zUusPIUOKokq6jbFMRQXSXapVeBmWYOg1FNbU0S99wqlEh22C9GEDODs/7OcFYJ
-         lh4m9AJ45bf9Hs4YMmh0bKjqLHdm/2QNrTsd/zWdkRxIAHZ70Ijoxjbd6zXVaJ0EQTj1
-         doabw9aWRHGyq8vSmunfNxCGRJv0sLMVMzyoZ9ofxeSrnmFvvJWTipqHxshQ9xyqDiXM
-         FQ1jBtlsw4RZuvOPsVqZNhAfCMDyBQugQsykRfwPMy/2AWcSGJoiPLub5AHPmi7lA2Ee
-         A/rKxeqaQTcWPwBEw6NTg8buFPp0JIG4U9fHnyl8W7BjeamzK4D8VqqI+Pm+5WxLeckT
-         cAlA==
+        bh=71Gmy4dWHwL/lp3j1S99f+7m22+6mCCiYOkFnTLTB90=;
+        b=Thq3cBTUqgAj/OYV/is1n9tGQ9OKcfd8wDws0d0S+NAJUhp9SlXroR9evGaF4ArfNY
+         cplDNR4jYwZjjSdhWOziyS18fwCY0PPvzY77rPq77ktaJYApdNBcHKSknsYC3BpvzdPa
+         OYAgB7uTGPHazOeI0pKK1gsebqJw23D6pkq/4hbS68sZcdgD7Kpz30Z6uyL6kZJd2auS
+         6Gg+rN6+zVpsDzufjJvSs1yYQTXWM9Y60Lj3WiT1kHDWy3kjzyRoriHF/R7l7QRyOoWh
+         S+lIq84BcZs1r5oNW45fEaFqbbtSgwyeF/NOelmtUeiUHMADcyclgyiWCMUWwpiOObAP
+         4Uww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=w/f3XsKLwdaTokaDi/QOyQIz3TYAKO3g8Z0fTPCjH9Y=;
-        b=abQ6YyPFTZqYLkAJb16Rjl6AbGEL9xsEDh71EhaN/eXRoj9er/FvdLGAxukjq874fx
-         eeNpOPfscbPfYEN9n7Qh+LYvPisTIs1JSVJryJ8Ufvs4PH5EZjt34dYW+YsLWPJNBvvz
-         CYQwv+Ug8/n0e4nZ/+4Kzz5G6yXgoGNXbE4bygTa9RAflaPEIipE2HVxpSveaDRoqKNT
-         0yNSe1vBVEiAbEYnabnwgbIOGAvCtkK9YjDGjCFjNJ2haNlWA8v0XYpuBsmXKQfcj0we
-         iboFk0jnySP3qg0y+2CIaGPM68yytrQYVu69JCltC2zxLgA4AQdKBf4ulsUDZ92pG1v0
-         r3dg==
-X-Gm-Message-State: APjAAAUy/6/TQRX10UE5fsm6IbkHWFzFNOUE6YVjn9m8j1mf4iiK4pom
-        0zGufffUApT+zIWT7Cc425zO9XXU
-X-Google-Smtp-Source: APXvYqx9me6hbphiUf3FMRUniphDRh7uqzngL3DJ9ogBpoD3OEj7MIVXRfdfrKQhZovZAIC7KlpDNw==
-X-Received: by 2002:a63:9d0f:: with SMTP id i15mr1361779pgd.240.1579549913295;
-        Mon, 20 Jan 2020 11:51:53 -0800 (PST)
+        bh=71Gmy4dWHwL/lp3j1S99f+7m22+6mCCiYOkFnTLTB90=;
+        b=UoNb8dZ3x4ZKYZD/xLdgiUebs3xboBnBzd5eejsDVD7rsZS1prEgI6kysGJXkmAuMF
+         MWjSOn8vyIr3G3CLlXFHCMFxGaSBsqRClpavfe5KqlTkq1lUzC+FjykiejskkeFZSW/u
+         3xJvCFgzDz3/Npp5NVmclyk5xdGJjM1o+Qa9VBw9e7Xj5IDSNl+c+VyP4vtyx0UnHvsz
+         W22SUlHmgMU2gw1qCNzuT87s9F03gqEtBJB31cZQproZ5jhpQJAiYsFKA4V868tfAzlm
+         A763PP/VHHMt2g87aYjrzGpEb2BYW+bfWKp49CMT5bA/HkNqcUDfjj1/ZvBwMRxOXiL5
+         fTAQ==
+X-Gm-Message-State: APjAAAWj8SZUfeW6+BGMyKEt7W+WgiI6fORhJ+Kqo55pcbF6n5ZUcWO+
+        yhwzImx1VKiGtoxKpMtZOPk=
+X-Google-Smtp-Source: APXvYqxCynaJq4C/ArpF0tpccM535jntpOm+WwtxORGaND6JzRRmyI3nd0PIO3zYFtU4e6P38YdDaQ==
+X-Received: by 2002:a17:90a:b78d:: with SMTP id m13mr751935pjr.100.1579550073500;
+        Mon, 20 Jan 2020 11:54:33 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id 83sm39374546pgh.12.2020.01.20.11.51.52
+        by smtp.gmail.com with ESMTPSA id fa21sm282170pjb.17.2020.01.20.11.54.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2020 11:51:52 -0800 (PST)
-Date:   Mon, 20 Jan 2020 11:51:50 -0800
+        Mon, 20 Jan 2020 11:54:32 -0800 (PST)
+Date:   Mon, 20 Jan 2020 11:54:30 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Lucas Stach <l.stach@pengutronix.de>
 Cc:     linux-input@vger.kernel.org, patchwork-lst@pengutronix.de,
         kernel@pengutronix.de, Chris Healy <cphealy@gmail.com>
-Subject: Re: [PATCH 3/4] Input: exc3000: expose type, model and firmware
- revision as sysfs attributes
-Message-ID: <20200120195150.GJ47797@dtor-ws>
+Subject: Re: [PATCH 4/4] Input: exc3000: add firmware update support
+Message-ID: <20200120195430.GK47797@dtor-ws>
 References: <20200107171741.10856-1-l.stach@pengutronix.de>
- <20200107171741.10856-3-l.stach@pengutronix.de>
+ <20200107171741.10856-4-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200107171741.10856-3-l.stach@pengutronix.de>
+In-Reply-To: <20200107171741.10856-4-l.stach@pengutronix.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 07, 2020 at 06:17:39PM +0100, Lucas Stach wrote:
-> This can be used by userspace to determine if a firmware update should be
-> started.
+On Tue, Jan 07, 2020 at 06:17:40PM +0100, Lucas Stach wrote:
+> This change allows the device firmware to be updated by putting a firmware
+> file in /lib/firmware and providing the name of the file via the update_fw
+> sysfs property. The driver will then flash the firmware image into the
+> controller internal storage and restart the controller to activate the new
+> firmware.
+> 
+> The implementation was done by looking at the the messages passed between
+> the controller and proprietary vendor update tool. Not every detail of the
+> protocol is totally well understood, so the implementation still has some
+> "monkey see, monkey do" parts, as far as they have been found to be required
+> for the update to succeed.
 > 
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
->  drivers/input/touchscreen/exc3000.c | 54 +++++++++++++++++++++++++++++
->  1 file changed, 54 insertions(+)
+>  drivers/input/touchscreen/exc3000.c | 248 +++++++++++++++++++++++++++-
+>  1 file changed, 246 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
-> index accee4fd1b97..ce83914d65ff 100644
+> index ce83914d65ff..f9a9820dc232 100644
 > --- a/drivers/input/touchscreen/exc3000.c
 > +++ b/drivers/input/touchscreen/exc3000.c
-> @@ -259,6 +259,47 @@ static int exc3000_populate_device_info(struct exc3000_data *data)
->  	return 0;
->  }
+> @@ -3,8 +3,8 @@
+>   * Driver for I2C connected EETI EXC3000 multiple touch controller
+>   *
+>   * Copyright (C) 2017 Ahmet Inan <inan@distec.de>
+> - *
+> - * minimal implementation based on egalax_ts.c and egalax_i2c.c
+> + * Copyright (C) 2019 Pengutronix <kernel@pengutronix.de>
+> + * Copyright (C) 2019 Zodiac Inflight Innovations
+>   */
 >  
-> +static ssize_t exc3000_sysfs_type_show(struct device *dev,
-> +				       struct device_attribute *dattr,
-> +				       char *buf)
-> +{
-> +	struct exc3000_data *data = dev_get_drvdata(dev);
-> +
-> +	return scnprintf(buf, PAGE_SIZE, "%s\n", data->type);
-> +}
-> +static DEVICE_ATTR(type, 0444, exc3000_sysfs_type_show, NULL);
-> +
-> +static ssize_t exc3000_sysfs_model_show(struct device *dev,
-> +					struct device_attribute *dattr,
-> +					char *buf)
-> +{
-> +	struct exc3000_data *data = dev_get_drvdata(dev);
-> +
-> +	return scnprintf(buf, PAGE_SIZE, "%s\n", data->model);
-> +}
-> +static DEVICE_ATTR(model, 0444, exc3000_sysfs_model_show, NULL);
-> +
-> +static ssize_t exc3000_sysfs_fw_rev_show(struct device *dev,
-> +					 struct device_attribute *dattr,
-> +					 char *buf)
-> +{
-> +	struct exc3000_data *data = dev_get_drvdata(dev);
-> +
-> +	return scnprintf(buf, PAGE_SIZE, "%s\n", data->fw_rev);
-> +}
-> +static DEVICE_ATTR(fw_rev, 0444, exc3000_sysfs_fw_rev_show, NULL);
-> +
-> +static struct attribute *exc3000_attrs[] = {
-> +	&dev_attr_type.attr,
-> +	&dev_attr_model.attr,
-> +	&dev_attr_fw_rev.attr,
-> +	NULL
-> +};
-> +
-> +static const struct attribute_group exc3000_attr_group = {
-> +	.attrs = exc3000_attrs,
-> +};
-> +
->  static int exc3000_probe(struct i2c_client *client,
->  			 const struct i2c_device_id *id)
->  {
-> @@ -285,6 +326,11 @@ static int exc3000_probe(struct i2c_client *client,
->  	if (error)
->  		return error;
+>  #include <linux/bitops.h>
+> @@ -18,6 +18,8 @@
+>  #include <linux/of.h>
+>  #include <linux/timer.h>
+>  #include <asm/unaligned.h>
+> +#include <linux/firmware.h>
+> +#include <linux/delay.h>
 >  
-> +	dev_set_drvdata(&client->dev, data);
-> +	error = sysfs_create_group(&client->dev.kobj, &exc3000_attr_group);
-> +	if (error)
-> +		return error;
-
-Please use devm_device_add_group() instead.
-
-> +
->  	input = devm_input_allocate_device(&client->dev);
->  	if (!input)
->  		return -ENOMEM;
-> @@ -310,6 +356,13 @@ static int exc3000_probe(struct i2c_client *client,
->  	return 0;
->  }
->  
-> +int exc3000_remove(struct i2c_client *client)
-> +{
-> +	sysfs_remove_group(&client->dev.kobj, &exc3000_attr_group);
-> +
-> +	return 0;
-> +}
-> +
->  static const struct i2c_device_id exc3000_id[] = {
->  	{ "exc3000", 0 },
->  	{ }
-> @@ -331,6 +384,7 @@ static struct i2c_driver exc3000_driver = {
->  	},
->  	.id_table	= exc3000_id,
->  	.probe		= exc3000_probe,
-> +	.remove		= exc3000_remove,
+>  #define EXC3000_NUM_SLOTS		10
+>  #define EXC3000_SLOTS_PER_FRAME		5
+> @@ -37,6 +39,7 @@ struct exc3000_data {
+>  	struct mutex vendor_data_lock;
+>  	struct completion vendor_data_done;
+>  	char *type, *model, *fw_rev;
+> +	int update_status;
 >  };
 >  
->  module_i2c_driver(exc3000_driver);
-> -- 
-> 2.20.1
-> 
+>  static void exc3000_report_slots(struct input_dev *input,
+> @@ -215,6 +218,8 @@ static int exc3000_populate_device_info(struct exc3000_data *data)
+>  	if (ret < 0)
+>  		return -ENODEV;
+>  
+> +	if (data->type)
+> +		devm_kfree(dev, data->type);
+>  	data->type = devm_kmemdup(dev, &response[1], ret - 1, GFP_KERNEL);
+
+This makes me uncomfortable, as this changes the release order of the
+resources (newly re-allocated memory will be freed first). Please
+reassure me that it will work fine WRT device removal (or,
+alternatively, we will need devm_realloc() that would preserve devm
+release ordering.
 
 Thanks.
 
