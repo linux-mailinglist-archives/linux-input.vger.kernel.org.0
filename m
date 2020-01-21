@@ -2,736 +2,928 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF48A1435C4
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2020 03:49:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49A56143652
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2020 05:44:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728587AbgAUCtw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Jan 2020 21:49:52 -0500
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:43244 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726890AbgAUCtw (ORCPT
+        id S1727829AbgAUEof (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Jan 2020 23:44:35 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:37947 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727144AbgAUEof (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Jan 2020 21:49:52 -0500
-Received: by mail-vs1-f65.google.com with SMTP id s16so820875vsc.10
-        for <linux-input@vger.kernel.org>; Mon, 20 Jan 2020 18:49:51 -0800 (PST)
+        Mon, 20 Jan 2020 23:44:35 -0500
+Received: by mail-pl1-f193.google.com with SMTP id f20so775673plj.5;
+        Mon, 20 Jan 2020 20:44:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HVR1nDK7Xg5KrjRylGfSLD7HD0BP/xruOKJsXFprvSY=;
-        b=qkspBWWDOK4pgD5KP0OMywIAllB1DOGEM9s7MFEjTg1fry8uKUaW3TYit3Em6fF5x7
-         zfO8fjrERAoiLlysE4hgYQ787kR1R+xG8ytcpUTvPPm/s9VjWtYshAbgRBjmTmFCwlOV
-         CBYdjqprJ//JrIPOX5D1Ko0oIL1DByOB9bjCAn0yOR1nvxd9JjKJfYG0O6VrI7VEAeBl
-         HYMuWPO/PdQRdVuQcszLeSkQoBylBxcevvNC2jp7a2mbuBoQGXxltYAD1QwTLO4sRDVG
-         7L9yx/1R84KhAyampxHNOnh5UxxxN/mhEnchJDRLjC829YuY1mlYLaE9L9grEiVjyhD1
-         sETg==
+        h=from:to:cc:subject:date:message-id;
+        bh=irImxe1RAkl01hyXB81qz4X5Ijl9U4FvHor2WxVoW1o=;
+        b=KJjn4MJaDYr7C6duzkqkglPytzS0AQYp+m0KbJGejsxSGXM3oTVsthugeJ43/twemx
+         EAt9XX3ODvHXs2PvYBzu6jN0VimZNFTOWL5IWuVUoe76Q5wQl9zSEx8kmc2qVzq9JPf6
+         gwRzT5QGKUe8VFoIzbWDsS4QFDzbie5MU8cwY4K0JmBlFp/eiS6QA7EXE/ce8u2Nk3/o
+         1QK3ot2E9ZEzSoGd71KetPSD8TgOdH/WRrY7aX8ynfwT04ugFoyedap2Lpkt3CiiCMob
+         MulrYm/j9CUspXPIR8yJqtcfsmjQtxAPSOj6zAFXmL5C4Rx6fgtWBUAA7COac/S/v2ai
+         C06A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HVR1nDK7Xg5KrjRylGfSLD7HD0BP/xruOKJsXFprvSY=;
-        b=Hc2Vj4da/GjSroKa9FF1X5kImXsQ5T3F5kdIcg93M3bYlmbrUlR7KXgQqxziZCVqD2
-         /g70iYuojPaDI5seo+emee47O7t4GWhNV+qVdDXePWV/CmD+5D8evffZQ/kG6JLufG51
-         a0dtFxijuxieSU1BQ+BClzwEx0TWcdyXozc85yMMSyu3qdg3E3P4agBlE8YuZK0hVnnw
-         xdaQCS+7Bc4Sp7/4mX7dhj4fDzQTD+LanJKOVOzlD3EmYYGyrMxQMwqNePrKZGazLGH9
-         8U0yBSsufDb4wMzkKFZFNs8Bglf+hw+dCXs94dyR6jjVhQ1N/Vgu0chio1Rchd+Qbygv
-         643g==
-X-Gm-Message-State: APjAAAX4cI3laJIWcqDpa2ekfyvEiqb2UOAqgzdmNcgZXmqU2eF0pkKe
-        CGyII20SCScldTriR+Nd9Z7QrvCbwx85B7o8g0s=
-X-Google-Smtp-Source: APXvYqyf9xlxuiJxmluGJqGxOlmXw11xNYqXX2RNcCtFvQZtHr5MJI5sSOK+FvlGIEv97d6NgLmXbs0gVKGeshurZwE=
-X-Received: by 2002:a05:6102:3024:: with SMTP id v4mr1329447vsa.220.1579574990475;
- Mon, 20 Jan 2020 18:49:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20191230012720.2368987-1-djogorchock@gmail.com>
- <20191230012720.2368987-12-djogorchock@gmail.com> <CAEc3jaBy9c=GTXX1iuQsCn8N2vg4zG1trzddRtsmQLsX4YO7oA@mail.gmail.com>
- <CAEVj2tnt4FnQiiaVJgbaKaeGQqMk6CUkmvy2KjRk2Ew79USaaw@mail.gmail.com>
- <CAEc3jaBsxOD1Cs1231+mabVqx2dLGZ0hW8aH3dbXFbt5n50Qpw@mail.gmail.com>
- <CAPh2-TB=UZhHAWfsyPBpATT79qeKzzOwo41VDPpid6NH7kUYJA@mail.gmail.com>
- <CAEVj2tnxVNXLje3Y0+2Rnfr9Pje88cfvmvOXHk1UuL8g9W3j0w@mail.gmail.com>
- <CAEc3jaBo2LHh==_K8_EM+NVQ+pkO6HvoTVtq145dBicPQO-Suw@mail.gmail.com> <CAPh2-TBNHH=RjZcgKzXCKysKKX23yGesXq-AzqaWr1+y4+gAdQ@mail.gmail.com>
-In-Reply-To: <CAPh2-TBNHH=RjZcgKzXCKysKKX23yGesXq-AzqaWr1+y4+gAdQ@mail.gmail.com>
-From:   Daniel Ogorchock <djogorchock@gmail.com>
-Date:   Mon, 20 Jan 2020 20:49:39 -0600
-Message-ID: <CAEVj2tn2U_--W985VMwVk_yJ_LRWWPrKq_y5dsT2fiignM7bYw@mail.gmail.com>
-Subject: Re: [PATCH v10 11/12] HID: nintendo: add IMU support
-To:     Carl Mueller <carmueller@gmail.com>
-Cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Billy Laws <blaws05@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        "Colenbrander, Roelof" <Roderick.Colenbrander@sony.com>,
-        Siarhei Vishniakou <svv@google.com>, s.jegen@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=irImxe1RAkl01hyXB81qz4X5Ijl9U4FvHor2WxVoW1o=;
+        b=tyVzY708/1eeIXsMkOqjbw9zTU/2FSR6xY/tFMtanitlBBEC7M/2OuifGerYD+zGWV
+         bbgBThIjX2YJB0FDwqEPmwbg5K9YVd/vuDP/aC9foDjc0xk5y5shFyb8CoXAL0uNl3UX
+         bl0JpkUU0v8ekOdDC2WxDMhl+S9fxW308u6I5EiJmdEBazu+MS4FDWj8f/xs3VgjooIt
+         hymVeZ4t7F0Onmx9k6DHQkmLi8ICdVBcjJltmp7ku3Whwj9rmHx5svxSf6PFxmNBj5UO
+         bfSAudmft/mAHZ31gckHn0qmmOO4c+6juDsk1pkdqo05BWUNzbdLXWkdXfjC/wqMuENU
+         zk1g==
+X-Gm-Message-State: APjAAAVznkYz78R2CGhkpu4xa4RwmhLUr9w+culo9Z5Tl8xcWMuR0So6
+        4m0MwKX2WZWgcCFH2IxMO8A=
+X-Google-Smtp-Source: APXvYqy8eLYcnKr++tTLrIs/1dibU9kFA06p4ghp8lmPb+bqljmuIR7qZ7zMyf+n4zQTPVGRXiJ+WQ==
+X-Received: by 2002:a17:90a:c211:: with SMTP id e17mr3277970pjt.14.1579581873290;
+        Mon, 20 Jan 2020 20:44:33 -0800 (PST)
+Received: from localhost.localdomain ([106.51.16.249])
+        by smtp.gmail.com with ESMTPSA id a1sm40670415pfo.68.2020.01.20.20.44.30
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Mon, 20 Jan 2020 20:44:32 -0800 (PST)
+From:   Rishi Gupta <gupt21@gmail.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        wsa+renesas@sang-engineering.com
+Cc:     gregkh@linuxfoundation.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rishi Gupta <gupt21@gmail.com>
+Subject: [PATCH v2] HID: mcp2221: add usb to i2c-smbus host bridge driver
+Date:   Tue, 21 Jan 2020 10:14:20 +0530
+Message-Id: <1579581860-29560-1-git-send-email-gupt21@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Does anyone else have an opinion on this? I agree with Carl that the
-D-pad cannot register opposite direction inputs simultaneously.
+MCP2221 is a USB HID to I2C/SMbus host bridge device. This
+commit implements i2c and smbus host adapter support. 7-bit
+address and i2c multi-message transaction is also supported.
 
-Thanks,
-Daniel
+Signed-off-by: Rishi Gupta <gupt21@gmail.com>
+---
 
-On Thu, Jan 9, 2020 at 2:39 PM Carl Mueller <carmueller@gmail.com> wrote:
->
-> Hi Roderick,
->
-> The Switch Pro Controller D-pad functions as a D-pad.  You cannot push
-> left and right at the same time.
->
-> Also, the Switch Pro Controller already functions as a controller when
-> connected with Bluetooth and
-> using the standard Linux device driver.  In this case, the D-pad is
-> registered as a Hat.
-> I'd prefer if we didn't change this.
->
->
-> On Thu, Jan 9, 2020 at 11:38 AM Roderick Colenbrander
-> <thunderbird2k@gmail.com> wrote:
-> >
-> > Hi Daniel,
-> >
-> > Whether to report as HAT or BTN_DPAD depends on how the hardware works
-> > internally. You see the HAT vs buton at the HID report layer (it is
-> > quite different), but if you just touch the controller sticks you will
-> > also notice. A HAT axis is really like a joystick e.g. with a range -1
-> > to +1. If you hold down e.g. "left" and "right" on a d-pad, you would
-> > get "0" back as you are unable to press both left and right at the
-> > same time. With d-pad buttons you could press left and right at the
-> > same time (depending on design).
-> >
-> > When I just tried my Switch Pro controller it really felt like the
-> > d-pad were buttons. Various other controllers using BTN_DPAD as well
-> > for example DualShock 3. Most applications these days should use SDL2,
-> > which will hide that.
-> >
-> > Thanks,
-> > Roderick
-> >
-> > On Thu, Jan 9, 2020 at 12:53 AM Daniel Ogorchock <djogorchock@gmail.com> wrote:
-> > >
-> > > Hi Carl,
-> > >
-> > > When I was initially implementing the button mappings, I referred to the
-> > > standard described here:
-> > >     https://www.kernel.org/doc/html/latest/input/gamepad.html
-> > >
-> > > It mentions under the d-pad section that digital inputs should be
-> > > reported using the BTN_DPAD_* variant. Do the other controllers
-> > > mentioned report their d-pads as analog values, or has using the
-> > > ABS_HAT* values become the de facto format for digital inputs
-> > > as well?
-> > >
-> > > If the latter, I guess it would make sense to go with the crowd for the pro.
-> > > It just seems a bit odd to report digital inputs as absolute axes, but I'm
-> > > open to changing it if that's the consensus.
-> > >
-> > > Thanks,
-> > > Daniel
-> > >
-> > > On Thu, Jan 9, 2020 at 12:23 AM Carl Mueller <carmueller@gmail.com> wrote:
-> > > >
-> > > > (3rd/final attempt at reply due to list server rejecting message with
-> > > > HTML subpart; sorry about the spam!)
-> > > >
-> > > > Hi Everyone,
-> > > >
-> > > > In trying out this driver to use with the Switch Pro Controller,
-> > > > the biggest difficulty I had was that the D-pad is reported as buttons
-> > > > instead of as a Hat.  All other controllers that are similar in structure
-> > > > (such as the PS3 and PS4 controllers, the Xbox controllers, and many
-> > > > others) report the D-pad as a Hat.  This kind of consistency is needed
-> > > > to avoid lots of software compatibility issues.
-> > > >
-> > > > I mentioned this to Daniel, and he indicated that he wanted the Switch
-> > > > Pro Controller to behave like the JoyCons, which have buttons instead
-> > > > of a D-pad.  Having the JoyCons report the buttons as buttons makes
-> > > > sense, since it's possible to push opposite directions at the same time.
-> > > > However, I don't think that the argument carries over to the Switch Pro
-> > > > Controller, since it has a physically different control.
-> > > >
-> > > > Again, the consistency with the other controllers that have all the same
-> > > > physical structure and the same types of controls seems more important
-> > > > to me than consistency with a controller that is physically much different.
-> > > > Additionally, many games are already written for use with controllers
-> > > > that look like the Switch Pro Controller, whereas fewer are written for use
-> > > > with Nintendo JoyCons.  If we have to cause trouble for one side or the
-> > > > other, let's not cause trouble with the more established side.
-> > > >
-> > > > On Thu, Jan 9, 2020 at 12:22 AM Roderick Colenbrander
-> > > > <thunderbird2k@gmail.com> wrote:
-> > > > >
-> > > > > Hi Daniel,
-> > > > >
-> > > > > Unfortunately there is no public test application at the moment to
-> > > > > illustrate these features. I agree something is definitely needed.
-> > > > >
-> > > > > I need to see if we can come up with something. One of the test apps
-> > > > > we have internally is a 3D cube, which is controllable by controller
-> > > > > motion. It of course shows the gyro / accelerometer values, but the
-> > > > > position of the cube is tied to the calculated orientation. If
-> > > > > something is off you will see weird movements in the cube or drift
-> > > > > building up over time etcetera.
-> > > > >
-> > > > > Though it would take some time to prepare something. The rest of the
-> > > > > patch series looked fine I think, so the IMU parts may need to wait
-> > > > > for a next kernel cycle, but all the other plumbing could go in (if
-> > > > > others are okay of course).
-> > > > >
-> > > > > Thanks,
-> > > > > Roderick
-> > > > >
-> > > > > On Wed, Jan 8, 2020 at 7:26 PM Daniel Ogorchock <djogorchock@gmail.com> wrote:
-> > > > > >
-> > > > > > Hi Roderick,
-> > > > > >
-> > > > > > Thanks for the feedback. In addition to the inline comments below,
-> > > > > > do you have any recommendations for test programs that you
-> > > > > > know work well with hid-sony's gyro implementation? Up to this
-> > > > > > point I've just been using evtest, which obviously isn't too useful
-> > > > > > for testing actual functionality of the gyro in an intuitive way.
-> > > > > >
-> > > > > > On Tue, Dec 31, 2019 at 12:29 AM Roderick Colenbrander
-> > > > > > <thunderbird2k@gmail.com> wrote:
-> > > > > > >
-> > > > > > > Hi Daniel,
-> > > > > > >
-> > > > > > > I had some time to review the motion sensors patch. I have added some
-> > > > > > > feedback inline with your patch below.
-> > > > > > >
-> > > > > > > Aside from standard feedback on the code, I wanted to have a close
-> > > > > > > look at the accelerometer / gyro data. My team has been doing a lot of
-> > > > > > > work on this (and still is) and I want to make sure any work we do on
-> > > > > > > "user space" software (e.g. Android) automatically works for Joycon as
-> > > > > > > well. The accuracy of the data is very important else applications
-> > > > > > > will make bad decisions. Userspace applications often combine the data
-> > > > > > > of both sensors to calculate a position for position tracking.
-> > > > > > > Inaccurate axes ranges or wrong precision can cause major issues. I
-> > > > > > > may be a bit strict below, but it will just be to prevent headaches
-> > > > > > > for others later on. I use the DS4 as a reference point as it was the
-> > > > > > > first device (aside from Wii early on) where we properly report
-> > > > > > > acceleration and gyro axes with INPUT_PROP_ACCELEROMETER and we should
-> > > > > > > be consistent with it here else applications could be confused, so we
-> > > > > > > should use similar orientation of axes and resolutions.
-> > > > > > >
-> > > > > > > Thanks,
-> > > > > > > Roderick
-> > > > > > >
-> > > > > > > On Sun, Dec 29, 2019 at 5:27 PM Daniel J. Ogorchock
-> > > > > > > <djogorchock@gmail.com> wrote:
-> > > > > > > >
-> > > > > > > > This patch adds support for the controller's IMU. The accelerometer and
-> > > > > > > > gyro data are both provided to userspace using a second input device.
-> > > > > > > > The devices can be associated using their uniq value (set to the
-> > > > > > > > controller's MAC address).
-> > > > > > > >
-> > > > > > > > The majority of this patch's functinoality was provided by Carl Mueller.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
-> > > > > > > > ---
-> > > > > > > >  drivers/hid/hid-nintendo.c | 267 +++++++++++++++++++++++++++++++++++--
-> > > > > > > >  1 file changed, 259 insertions(+), 8 deletions(-)
-> > > > > > > >
-> > > > > > > > diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-> > > > > > > > index 7b7a0cf3fe0b..edf2ef140cb3 100644
-> > > > > > > > --- a/drivers/hid/hid-nintendo.c
-> > > > > > > > +++ b/drivers/hid/hid-nintendo.c
-> > > > > > > > @@ -101,12 +101,29 @@ static const u16 JC_CAL_DATA_START                = 0x603d;
-> > > > > > > >  static const u16 JC_CAL_DATA_END               = 0x604e;
-> > > > > > > >  #define JC_CAL_DATA_SIZE       (JC_CAL_DATA_END - JC_CAL_DATA_START + 1)
-> > > > > > > >
-> > > > > > > > +/* SPI storage addresses of IMU factory calibration data */
-> > > > > > > > +static const u16 JC_IMU_CAL_DATA_START         = 0x6020;
-> > > > > > > > +static const u16 JC_IMU_CAL_DATA_END           = 0x6037;
-> > > > > > > > +#define JC_IMU_CAL_DATA_SIZE \
-> > > > > > > > +                       (JC_IMU_CAL_DATA_END - JC_IMU_CAL_DATA_START + 1)
-> > > > > > > >
-> > > > > > > >  /* The raw analog joystick values will be mapped in terms of this magnitude */
-> > > > > > > >  static const u16 JC_MAX_STICK_MAG              = 32767;
-> > > > > > > >  static const u16 JC_STICK_FUZZ                 = 250;
-> > > > > > > >  static const u16 JC_STICK_FLAT                 = 500;
-> > > > > > > >
-> > > > > > > > +/* The accel axes will be mapped in terms of this magnitude */
-> > > > > > > > +static const u16 JC_MAX_ACCEL_MAG              = 32767;
-> > > > > > > > +static const u16 JC_ACCEL_RES                  = 4096;
-> > > > > > >
-> > > > > > > What does the acceleration resolution equate to? For DS4 we use
-> > > > > > > multiples of 'g'. (We don't know the position on earth, so can't
-> > > > > > > report in m/s^2).
-> > > > > > >
-> > > > > > > > +static const u16 JC_ACCEL_FUZZ                 = 10;
-> > > > > > > > +static const u16 JC_ACCEL_FLAT                 /*= 0*/;
-> > > > > > > > +
-> > > > > > > > +/* The gyro axes will be mapped in terms of this magnitude */
-> > > > > > > > +static const u16 JC_MAX_GYRO_MAG               = 32767;
-> > > > > > > > +static const u16 JC_GYRO_RES                   = 13371 / 936; /* 14 (14.285) */
-> > > > > > >
-> > > > > > > What does the gyro resolution equate to? For DS4 we report "degrees
-> > > > > > > per second". We should do the same for the joycons, but I don't know
-> > > > > > > how you guys figured out the exact resolution. As I mentioned if it is
-> > > > > > > not accurate, applications will make wrong calculations.
-> > > > > > >
-> > > > > > > > +static const u16 JC_GYRO_FUZZ                  = 10;
-> > > > > > > > +static const u16 JC_GYRO_FLAT                  /*= 0*/;
-> > > > > > > > +
-> > > > > > > >  /* frequency/amplitude tables for rumble */
-> > > > > > > >  struct joycon_rumble_freq_data {
-> > > > > > > >         u16 high;
-> > > > > > > > @@ -234,6 +251,11 @@ struct joycon_stick_cal {
-> > > > > > > >         s32 center;
-> > > > > > > >  };
-> > > > > > > >
-> > > > > > > > +struct joycon_imu_cal {
-> > > > > > > > +       s16 offset[3];
-> > > > > > > > +       s16 scale[3];
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > >  /*
-> > > > > > > >   * All the controller's button values are stored in a u32.
-> > > > > > > >   * They can be accessed with bitwise ANDs.
-> > > > > > > > @@ -281,6 +303,19 @@ struct joycon_subcmd_reply {
-> > > > > > > >         u8 data[0]; /* will be at most 35 bytes */
-> > > > > > > >  } __packed;
-> > > > > > > >
-> > > > > > > > +struct joycon_imu_data {
-> > > > > > > > +       s16 accel_x;
-> > > > > > > > +       s16 accel_y;
-> > > > > > > > +       s16 accel_z;
-> > > > > > > > +       s16 gyro_x;
-> > > > > > > > +       s16 gyro_y;
-> > > > > > > > +       s16 gyro_z;
-> > > > > > > > +} __packed;
-> > > > > > > > +
-> > > > > > > > +struct joycon_imu_report {
-> > > > > > > > +       struct joycon_imu_data data[3];
-> > > > > > > > +} __packed;
-> > > > > > >
-> > > > > > > See comments later on about imu_data, but you can't directly cast your
-> > > > > > > data buffer to this data type due to endian issues. It may not really
-> > > > > > > make sense to keep the data structure as you need to do manual data
-> > > > > > > fetching.
-> > > > > > >
-> > > > > > > > +
-> > > > > > > >  struct joycon_input_report {
-> > > > > > > >         u8 id;
-> > > > > > > >         u8 timer;
-> > > > > > > > @@ -290,11 +325,10 @@ struct joycon_input_report {
-> > > > > > > >         u8 right_stick[3];
-> > > > > > > >         u8 vibrator_report;
-> > > > > > > >
-> > > > > > > > -       /*
-> > > > > > > > -        * If support for firmware updates, gyroscope data, and/or NFC/IR
-> > > > > > > > -        * are added in the future, this can be swapped for a union.
-> > > > > > > > -        */
-> > > > > > > > -       struct joycon_subcmd_reply reply;
-> > > > > > > > +       union {
-> > > > > > > > +               struct joycon_subcmd_reply subcmd_reply;
-> > > > > > > > +               struct joycon_imu_report imu_report;
-> > > > > > >
-> > > > > > > maybe add a raw byte array to this union. Could help for parsing the imu data.
-> > > > > > > > +       };
-> > > > > > > >  } __packed;
-> > > > > > > >
-> > > > > > > >  #define JC_MAX_RESP_SIZE       (sizeof(struct joycon_input_report) + 35)
-> > > > > > > > @@ -334,6 +368,9 @@ struct joycon_ctlr {
-> > > > > > > >         struct joycon_stick_cal right_stick_cal_x;
-> > > > > > > >         struct joycon_stick_cal right_stick_cal_y;
-> > > > > > > >
-> > > > > > > > +       struct joycon_imu_cal accel_cal;
-> > > > > > > > +       struct joycon_imu_cal gyro_cal;
-> > > > > > > > +
-> > > > > > > >         /* power supply data */
-> > > > > > > >         struct power_supply *battery;
-> > > > > > > >         struct power_supply_desc battery_desc;
-> > > > > > > > @@ -352,6 +389,10 @@ struct joycon_ctlr {
-> > > > > > > >         u16 rumble_lh_freq;
-> > > > > > > >         u16 rumble_rl_freq;
-> > > > > > > >         u16 rumble_rh_freq;
-> > > > > > > > +
-> > > > > > > > +       /* imu */
-> > > > > > > > +       struct input_dev *imu_input;
-> > > > > > > > +       int timestamp;
-> > > > > > > >  };
-> > > > > > > >
-> > > > > > > >  static int __joycon_hid_send(struct hid_device *hdev, u8 *data, size_t len)
-> > > > > > > > @@ -547,7 +588,7 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
-> > > > > > > >         }
-> > > > > > > >
-> > > > > > > >         report = (struct joycon_input_report *)ctlr->input_buf;
-> > > > > > > > -       raw_cal = &report->reply.data[5];
-> > > > > > > > +       raw_cal = &report->subcmd_reply.data[5];
-> > > > > > > >
-> > > > > > > >         /* left stick calibration parsing */
-> > > > > > > >         cal_x = &ctlr->left_stick_cal_x;
-> > > > > > > > @@ -601,6 +642,85 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
-> > > > > > > >         return 0;
-> > > > > > > >  }
-> > > > > > > >
-> > > > > > > > +static const s16 DFLT_ACCEL_OFFSET /*= 0*/;
-> > > > > > > > +static const s16 DFLT_ACCEL_SCALE = 16384;
-> > > > > > > > +static const s16 DFLT_GYRO_OFFSET /*= 0*/;
-> > > > > > > > +static const s16 DFLT_GYRO_SCALE  = 13371;
-> > > > > > > > +static int joycon_request_imu_calibration(struct joycon_ctlr *ctlr)
-> > > > > > > > +{
-> > > > > > > > +       struct joycon_subcmd_request *req;
-> > > > > > > > +       u8 buffer[sizeof(*req) + 5] = { 0 };
-> > > > > > > > +       struct joycon_input_report *report;
-> > > > > > > > +       u8 *data;
-> > > > > > > > +       u8 *raw_cal;
-> > > > > > > > +       int ret;
-> > > > > > > > +       int i;
-> > > > > > > > +
-> > > > > > > > +       /* request IMU calibration data */
-> > > > > > > > +       req = (struct joycon_subcmd_request *)buffer;
-> > > > > > > > +       req->subcmd_id = JC_SUBCMD_SPI_FLASH_READ;
-> > > > > > > > +       data = req->data;
-> > > > > > > > +       data[0] = 0xFF & JC_IMU_CAL_DATA_START;
-> > > > > > > > +       data[1] = 0xFF & (JC_IMU_CAL_DATA_START >> 8);
-> > > > > > > > +       data[2] = 0xFF & (JC_IMU_CAL_DATA_START >> 16);
-> > > > > > > > +       data[3] = 0xFF & (JC_IMU_CAL_DATA_START >> 24);
-> > > > > > >
-> > > > > > > Maybe use put_unaligned_le32? I think it allows you to avoid doing all
-> > > > > > > these calculations yourself:
-> > > > > > > put_unaligned_le32(JC_IMU_CAL_DATA_START, data);
-> > > > > > >
-> > > > > > > > +       data[4] = JC_IMU_CAL_DATA_SIZE;
-> > > > > > > > +
-> > > > > > > > +       hid_dbg(ctlr->hdev, "requesting IMU cal data\n");
-> > > > > > > > +       ret = joycon_send_subcmd(ctlr, req, 5, HZ);
-> > > > > > > > +
-> > > > > > > > +       if (ret) {
-> > > > > > > > +               hid_warn(ctlr->hdev,
-> > > > > > > > +                        "Failed to read IMU cal, using defaults; ret=%d\n",
-> > > > > > > > +                        ret);
-> > > > > > > > +
-> > > > > > > > +               for (i = 0; i < 3; i++) {
-> > > > > > > > +                       ctlr->accel_cal.offset[i] = DFLT_ACCEL_OFFSET;
-> > > > > > > > +                       ctlr->accel_cal.scale[i] = DFLT_ACCEL_SCALE;
-> > > > > > > > +                       ctlr->gyro_cal.offset[i] = DFLT_GYRO_OFFSET;
-> > > > > > > > +                       ctlr->gyro_cal.scale[i] = DFLT_GYRO_SCALE;
-> > > > > > > > +               }
-> > > > > > > > +               return ret;
-> > > > > > > > +       }
-> > > > > > > > +
-> > > > > > > > +       report = (struct joycon_input_report *)ctlr->input_buf;
-> > > > > > > > +       raw_cal = &report->subcmd_reply.data[5];
-> > > > > > > > +
-> > > > > > > > +       /* IMU calibration parsing */
-> > > > > > > > +       for (i = 0; i < 3; i++) {
-> > > > > > > > +               int j = i * 2;
-> > > > > > > > +
-> > > > > > > > +               ctlr->accel_cal.offset[i] = raw_cal[j + 0] |
-> > > > > > > > +                                               ((s16)raw_cal[j + 1] << 8);
-> > > > > > > > +               ctlr->accel_cal.scale[i] = raw_cal[j + 6] |
-> > > > > > > > +                                               ((s16)raw_cal[j + 7] << 8);
-> > > > > > > > +               ctlr->gyro_cal.offset[i] = raw_cal[j + 12] |
-> > > > > > > > +                                               ((s16)raw_cal[j + 13] << 8);
-> > > > > > > > +               ctlr->gyro_cal.scale[i] = raw_cal[j + 18] |
-> > > > > > > > +                                               ((s16)raw_cal[j + 19] << 8);
-> > > > > > >
-> > > > > > > get_unaligned_le16 instead of doing your own bitshifts?
-> > > > > > > > +       }
-> > > > > > > > +
-> > > > > > > > +       hid_dbg(ctlr->hdev, "IMU calibration:\n"
-> > > > > > > > +                           "a_o[0]=%d a_o[1]=%d a_o[2]=%d\n"
-> > > > > > > > +                           "a_s[0]=%d a_s[1]=%d a_s[2]=%d\n"
-> > > > > > > > +                           "g_o[0]=%d g_o[1]=%d g_o[2]=%d\n"
-> > > > > > > > +                           "g_s[0]=%d g_s[1]=%d g_s[2]=%d\n",
-> > > > > > > > +                           ctlr->accel_cal.offset[0],
-> > > > > > > > +                           ctlr->accel_cal.offset[1],
-> > > > > > > > +                           ctlr->accel_cal.offset[2],
-> > > > > > > > +                           ctlr->accel_cal.scale[0],
-> > > > > > > > +                           ctlr->accel_cal.scale[1],
-> > > > > > > > +                           ctlr->accel_cal.scale[2],
-> > > > > > > > +                           ctlr->gyro_cal.offset[0],
-> > > > > > > > +                           ctlr->gyro_cal.offset[1],
-> > > > > > > > +                           ctlr->gyro_cal.offset[2],
-> > > > > > > > +                           ctlr->gyro_cal.scale[0],
-> > > > > > > > +                           ctlr->gyro_cal.scale[1],
-> > > > > > > > +                           ctlr->gyro_cal.scale[2]);
-> > > > > > > > +
-> > > > > > > > +       return 0;
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > >  static int joycon_set_report_mode(struct joycon_ctlr *ctlr)
-> > > > > > > >  {
-> > > > > > > >         struct joycon_subcmd_request *req;
-> > > > > > > > @@ -627,6 +747,19 @@ static int joycon_enable_rumble(struct joycon_ctlr *ctlr, bool enable)
-> > > > > > > >         return joycon_send_subcmd(ctlr, req, 1, HZ/4);
-> > > > > > > >  }
-> > > > > > > >
-> > > > > > > > +static int joycon_enable_imu(struct joycon_ctlr *ctlr, bool enable)
-> > > > > > > > +{
-> > > > > > > > +       struct joycon_subcmd_request *req;
-> > > > > > > > +       u8 buffer[sizeof(*req) + 1] = { 0 };
-> > > > > > > > +
-> > > > > > > > +       req = (struct joycon_subcmd_request *)buffer;
-> > > > > > > > +       req->subcmd_id = JC_SUBCMD_ENABLE_IMU;
-> > > > > > > > +       req->data[0] = enable ? 0x01 : 0x00;
-> > > > > > > > +
-> > > > > > > > +       hid_dbg(ctlr->hdev, "%s IMU\n", enable ? "enabling" : "disabling");
-> > > > > > > > +       return joycon_send_subcmd(ctlr, req, 1, HZ);
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > >  static s32 joycon_map_stick_val(struct joycon_stick_cal *cal, s32 val)
-> > > > > > > >  {
-> > > > > > > >         s32 center = cal->center;
-> > > > > > > > @@ -771,6 +904,54 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
-> > > > > > > >                 spin_unlock_irqrestore(&ctlr->lock, flags);
-> > > > > > > >                 wake_up(&ctlr->wait);
-> > > > > > > >         }
-> > > > > > > > +
-> > > > > > > > +       /* parse IMU data if present */
-> > > > > > > > +       if (rep->id == JC_INPUT_IMU_DATA) {
-> > > > > > > > +               struct joycon_imu_data *imu_data = rep->imu_report.data;
-> > > > > > >
-> > > > > > > I don't think you can directly covert your input report data to
-> > > > > > > imu_data. Until now you have been lucky enough (based on a quick
-> > > > > > > glance of the the other patches) that your data are single bytes.
-> > > > > > > However, this data seems to be a bunch of s16's. In other words you
-> > > > > > > have to deal with endianess issues. You need to use get_unaligned_le16
-> > > > > > > to retrieve data from your raw byte buffer. See other HID drivers for
-> > > > > > > reference.
-> > > > > >
-> > > > > > Ah, good point. I'd overlooked that entirely.
-> > > > > >
-> > > > > > >
-> > > > > > > Since you will have to use get_unaligned_le16, it probably won't make
-> > > > > > > much sense to really have a joycon_imu_data structure. Maybe extend
-> > > > > > > your input_buffer union with raw bytes and in this case just use raw
-> > > > > > > bytes. Each of your loop iterations below just grab the values from
-> > > > > > > the buffer and store them in a variable.
-> > > > > > >
-> > > > > > > > +               struct input_dev *idev = ctlr->imu_input;
-> > > > > > > > +               int i;
-> > > > > > > > +               int value[6];
-> > > > > > > > +
-> > > > > > > > +               for (i = 0; i < 3; i++) { /* there are 3 reports */
-> > > > > > > > +                       ctlr->timestamp += 5000; /* each is 5 ms apart */
-> > > > > > > > +                       input_event(idev, EV_MSC, MSC_TIMESTAMP,
-> > > > > > > > +                                   ctlr->timestamp);
-> > > > > > >
-> > > > > > > How sure are you that this is always 5ms? Is there a hardware
-> > > > > > > timestamp somewhere? If I look at our DS4 the timing isn't guaranteed
-> > > > > > > (Bluetooth is lossy) and not all packets even make it.
-> > > > > > >
-> > > > > >
-> > > > > > It appears that the closest thing to a hardware timestamp available is a
-> > > > > > quickly incrementing 1-byte timer sent with every report. It's only really
-> > > > > > useful for latency estimation. Each input report includes 3 IMU samples
-> > > > > > which are 5ms apart for the joy-cons. It's recently come to my attention
-> > > > > > that the samples may be spaced differently for the pro controller, so I'm
-> > > > > > going to need to dive into this more anyway. I'm not sure what a great
-> > > > > > way would be to handle lost reports.
-> > > > > >
-> > > > > > > > +
-> > > > > > > > +                       /*
-> > > > > > > > +                        * Rather than convert to floats, we adjust by
-> > > > > > > > +                        * calibration factors and then multiply by the default
-> > > > > > > > +                        * scaling values. This way, the consumer only needs to
-> > > > > > > > +                        * divide by the default scale values.
-> > > > > > > > +                        */
-> > > > > > > > +                       value[0] = (imu_data[i].gyro_x -
-> > > > > > > > +                                   ctlr->gyro_cal.offset[0]) *
-> > > > > > > > +                                   DFLT_GYRO_SCALE / ctlr->gyro_cal.scale[0];
-> > > > > > > > +                       value[1] = (imu_data[i].gyro_y -
-> > > > > > > > +                                   ctlr->gyro_cal.offset[1]) *
-> > > > > > > > +                                   DFLT_GYRO_SCALE / ctlr->gyro_cal.scale[1];
-> > > > > > > > +                       value[2] = (imu_data[i].gyro_z -
-> > > > > > > > +                                   ctlr->gyro_cal.offset[2]) *
-> > > > > > > > +                                   DFLT_GYRO_SCALE / ctlr->gyro_cal.scale[2];
-> > > > > > > > +
-> > > > > > > > +                       value[3] = (imu_data[i].accel_x -
-> > > > > > > > +                                   ctlr->accel_cal.offset[0]) *
-> > > > > > > > +                                   DFLT_ACCEL_SCALE / ctlr->accel_cal.scale[0];
-> > > > > > > > +                       value[4] = (imu_data[i].accel_y -
-> > > > > > > > +                                   ctlr->accel_cal.offset[1]) *
-> > > > > > > > +                                   DFLT_ACCEL_SCALE / ctlr->accel_cal.scale[1];
-> > > > > > > > +                       value[5] = (imu_data[i].accel_z -
-> > > > > > > > +                                   ctlr->accel_cal.offset[2]) *
-> > > > > > > > +                                   DFLT_ACCEL_SCALE / ctlr->accel_cal.scale[2];
-> > > > > > >
-> > > > > > > Just in case I would double check the precision of your calculations.
-> > > > > > > For DS4 we had similar calculations, but we had a small loss of
-> > > > > > > precision, which ultimately caused major calculation errors.
-> > > > > > > (Applications often use accelerometer + gyro data to calculate an
-> > > > > > > absolute position. This involves  integration.. and small errors
-> > > > > > > become big). We had to use the "mult_frac" macro to restore some of
-> > > > > > > the precision during the calculations. It might be something to double
-> > > > > > > check.
-> > > > > > >
-> > > > > >
-> > > > > > That's good to know. I'll look more closely at how it's implemented in
-> > > > > > hid-sony.
-> > > > > >
-> > > > > > > In addition what orientation are you using for the axes? I need to
-> > > > > > > double check the DS4 datasheets, but I think we were using a "right
-> > > > > > > handed" coordinate system. (So if you make a fist of your right hand
-> > > > > > > with thumb up, the gyro curls around it counter clockwise along the
-> > > > > > > direction of your fingers).
-> > > > > > >
-> > > > > >
-> > > > > > The orientation of the axes (and much more) are documented here:
-> > > > > > https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/imu_sensor_notes.md
-> > > > > > Since the the right vs. left joy-cons have different axes orientations, I
-> > > > > > assume it's preferable to standardize it all in software to match the
-> > > > > > orientation of the DS4.
-> > > > > >
-> > > > > > >
-> > > > > > > > +
-> > > > > > > > +                       input_report_abs(idev, ABS_RX, value[0]);
-> > > > > > > > +                       input_report_abs(idev, ABS_RY, value[1]);
-> > > > > > > > +                       input_report_abs(idev, ABS_RZ, value[2]);
-> > > > > > > > +                       input_report_abs(idev, ABS_X, value[3]);
-> > > > > > > > +                       input_report_abs(idev, ABS_Y, value[4]);
-> > > > > > > > +                       input_report_abs(idev, ABS_Z, value[5]);
-> > > > > > > > +                       input_sync(idev);
-> > > > > > > > +               }
-> > > > > > > > +       }
-> > > > > > > >  }
-> > > > > > > >
-> > > > > > > >  static void joycon_rumble_worker(struct work_struct *work)
-> > > > > > > > @@ -950,6 +1131,7 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
-> > > > > > > >  {
-> > > > > > > >         struct hid_device *hdev;
-> > > > > > > >         const char *name;
-> > > > > > > > +       const char *imu_name;
-> > > > > > > >         int ret;
-> > > > > > > >         int i;
-> > > > > > > >
-> > > > > > > > @@ -958,12 +1140,15 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
-> > > > > > > >         switch (hdev->product) {
-> > > > > > > >         case USB_DEVICE_ID_NINTENDO_PROCON:
-> > > > > > > >                 name = "Nintendo Switch Pro Controller";
-> > > > > > > > +               imu_name = "Nintendo Switch Pro Controller IMU";
-> > > > > > > >                 break;
-> > > > > > > >         case USB_DEVICE_ID_NINTENDO_JOYCONL:
-> > > > > > > >                 name = "Nintendo Switch Left Joy-Con";
-> > > > > > > > +               imu_name = "Nintendo Switch Left Joy-Con IMU";
-> > > > > > > >                 break;
-> > > > > > > >         case USB_DEVICE_ID_NINTENDO_JOYCONR:
-> > > > > > > >                 name = "Nintendo Switch Right Joy-Con";
-> > > > > > > > +               imu_name = "Nintendo Switch Right Joy-Con IMU";
-> > > > > > > >                 break;
-> > > > > > > >         default: /* Should be impossible */
-> > > > > > > >                 hid_err(hdev, "Invalid hid product\n");
-> > > > > > > > @@ -1029,6 +1214,55 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
-> > > > > > > >         if (ret)
-> > > > > > > >                 return ret;
-> > > > > > > >
-> > > > > > > > +       /* configure the imu input device */
-> > > > > > > > +       ctlr->imu_input = devm_input_allocate_device(&hdev->dev);
-> > > > > > > > +       if (!ctlr->imu_input)
-> > > > > > > > +               return -ENOMEM;
-> > > > > > > > +
-> > > > > > > > +       ctlr->imu_input->id.bustype = hdev->bus;
-> > > > > > > > +       ctlr->imu_input->id.vendor = hdev->vendor;
-> > > > > > > > +       ctlr->imu_input->id.product = hdev->product;
-> > > > > > > > +       ctlr->imu_input->id.version = hdev->version;
-> > > > > > > > +       ctlr->imu_input->uniq = ctlr->mac_addr_str;
-> > > > > > > > +       ctlr->imu_input->name = imu_name;
-> > > > > > > > +       input_set_drvdata(ctlr->imu_input, ctlr);
-> > > > > > > > +
-> > > > > > > > +       /* configure imu axes */
-> > > > > > > > +       input_set_abs_params(ctlr->imu_input, ABS_X,
-> > > > > > > > +                            -JC_MAX_ACCEL_MAG, JC_MAX_ACCEL_MAG,
-> > > > > > > > +                            JC_ACCEL_FUZZ, JC_ACCEL_FLAT);
-> > > > > > > > +       input_set_abs_params(ctlr->imu_input, ABS_Y,
-> > > > > > > > +                            -JC_MAX_ACCEL_MAG, JC_MAX_ACCEL_MAG,
-> > > > > > > > +                            JC_ACCEL_FUZZ, JC_ACCEL_FLAT);
-> > > > > > > > +       input_set_abs_params(ctlr->imu_input, ABS_Z,
-> > > > > > > > +                            -JC_MAX_ACCEL_MAG, JC_MAX_ACCEL_MAG,
-> > > > > > > > +                            JC_ACCEL_FUZZ, JC_ACCEL_FLAT);
-> > > > > > > > +       input_abs_set_res(ctlr->imu_input, ABS_X, JC_ACCEL_RES);
-> > > > > > > > +       input_abs_set_res(ctlr->imu_input, ABS_Y, JC_ACCEL_RES);
-> > > > > > > > +       input_abs_set_res(ctlr->imu_input, ABS_Z, JC_ACCEL_RES);
-> > > > > > > > +
-> > > > > > > > +       input_set_abs_params(ctlr->imu_input, ABS_RX,
-> > > > > > > > +                            -JC_MAX_GYRO_MAG, JC_MAX_GYRO_MAG,
-> > > > > > > > +                            JC_GYRO_FUZZ, JC_GYRO_FLAT);
-> > > > > > > > +       input_set_abs_params(ctlr->imu_input, ABS_RY,
-> > > > > > > > +                            -JC_MAX_GYRO_MAG, JC_MAX_GYRO_MAG,
-> > > > > > > > +                            JC_GYRO_FUZZ, JC_GYRO_FLAT);
-> > > > > > > > +       input_set_abs_params(ctlr->imu_input, ABS_RZ,
-> > > > > > > > +                            -JC_MAX_GYRO_MAG, JC_MAX_GYRO_MAG,
-> > > > > > > > +                            JC_GYRO_FUZZ, JC_GYRO_FLAT);
-> > > > > > > > +
-> > > > > > > > +       input_abs_set_res(ctlr->imu_input, ABS_RX, JC_GYRO_RES);
-> > > > > > > > +       input_abs_set_res(ctlr->imu_input, ABS_RY, JC_GYRO_RES);
-> > > > > > > > +       input_abs_set_res(ctlr->imu_input, ABS_RZ, JC_GYRO_RES);
-> > > > > > > > +
-> > > > > > > > +       __set_bit(EV_MSC, ctlr->imu_input->evbit);
-> > > > > > > > +       __set_bit(MSC_TIMESTAMP, ctlr->imu_input->mscbit);
-> > > > > > > > +       __set_bit(INPUT_PROP_ACCELEROMETER, ctlr->imu_input->propbit);
-> > > > > > > > +
-> > > > > > > > +       ret = input_register_device(ctlr->imu_input);
-> > > > > > > > +       if (ret)
-> > > > > > > > +               return ret;
-> > > > > > > > +
-> > > > > > > >         return 0;
-> > > > > > > >  }
-> > > > > > > >
-> > > > > > > > @@ -1288,7 +1522,7 @@ static int joycon_read_mac(struct joycon_ctlr *ctlr)
-> > > > > > > >         report = (struct joycon_input_report *)ctlr->input_buf;
-> > > > > > > >
-> > > > > > > >         for (i = 4, j = 0; j < 6; i++, j++)
-> > > > > > > > -               ctlr->mac_addr[j] = report->reply.data[i];
-> > > > > > > > +               ctlr->mac_addr[j] = report->subcmd_reply.data[i];
-> > > > > > > >
-> > > > > > > >         ctlr->mac_addr_str = devm_kasprintf(&ctlr->hdev->dev, GFP_KERNEL,
-> > > > > > > >                                             "%02X:%02X:%02X:%02X:%02X:%02X",
-> > > > > > > > @@ -1343,7 +1577,7 @@ static int joycon_ctlr_handle_event(struct joycon_ctlr *ctlr, u8 *data,
-> > > > > > > >                             data[0] != JC_INPUT_SUBCMD_REPLY)
-> > > > > > > >                                 break;
-> > > > > > > >                         report = (struct joycon_input_report *)data;
-> > > > > > > > -                       if (report->reply.id == ctlr->subcmd_ack_match)
-> > > > > > > > +                       if (report->subcmd_reply.id == ctlr->subcmd_ack_match)
-> > > > > > > >                                 match = true;
-> > > > > > > >                         break;
-> > > > > > > >                 default:
-> > > > > > > > @@ -1469,6 +1703,16 @@ static int nintendo_hid_probe(struct hid_device *hdev,
-> > > > > > > >                 hid_warn(hdev, "Analog stick positions may be inaccurate\n");
-> > > > > > > >         }
-> > > > > > > >
-> > > > > > > > +       /* get IMU calibration data, and parse it */
-> > > > > > > > +       ret = joycon_request_imu_calibration(ctlr);
-> > > > > > > > +       if (ret) {
-> > > > > > > > +               /*
-> > > > > > > > +                * We can function with default calibration, but it may be
-> > > > > > > > +                * inaccurate. Provide a warning, and continue on.
-> > > > > > > > +                */
-> > > > > > > > +               hid_warn(hdev, "Unable to read IMU calibration data\n");
-> > > > > > > > +       }
-> > > > > > > > +
-> > > > > > > >         /* Set the reporting mode to 0x30, which is the full report mode */
-> > > > > > > >         ret = joycon_set_report_mode(ctlr);
-> > > > > > > >         if (ret) {
-> > > > > > > > @@ -1483,6 +1727,13 @@ static int nintendo_hid_probe(struct hid_device *hdev,
-> > > > > > > >                 goto err_mutex;
-> > > > > > > >         }
-> > > > > > > >
-> > > > > > > > +       /* Enable the IMU */
-> > > > > > > > +       ret = joycon_enable_imu(ctlr, true);
-> > > > > > > > +       if (ret) {
-> > > > > > > > +               hid_err(hdev, "Failed to enable the IMU; ret=%d\n", ret);
-> > > > > > > > +               goto err_mutex;
-> > > > > > > > +       }
-> > > > > > > > +
-> > > > > > > >         ret = joycon_read_mac(ctlr);
-> > > > > > > >         if (ret) {
-> > > > > > > >                 hid_err(hdev, "Failed to retrieve controller MAC; ret=%d\n",
-> > > > > > > > --
-> > > > > > > > 2.24.1
-> > > > > > > >
-> > >
-> > >
-> > >
-> > > --
-> > > Daniel Ogorchock
+Changes in v2:
+* added myself in MAINTAINERS for this driver
+* use macro from hid-ids.h for usb vid and pid
+* optimize mcp_i2c_write() - less coding
+* correctly set data length in smbus transaction hid report
+* added static keyword before int mcp_smbus_xfer()
+* replace references to silicon labs with microchip
 
+Only smbus block/proc is not tested due to lack of appropriate
+hardware. Rest all is fully tested.
 
+ MAINTAINERS               |   7 +
+ drivers/hid/Kconfig       |  10 +
+ drivers/hid/Makefile      |   1 +
+ drivers/hid/hid-ids.h     |   1 +
+ drivers/hid/hid-mcp2221.c | 756 ++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/hid/hid-quirks.c  |   3 +
+ 6 files changed, 778 insertions(+)
+ create mode 100644 drivers/hid/hid-mcp2221.c
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cf6ccca..bc392c7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10121,6 +10121,13 @@ F:	drivers/net/can/m_can/m_can.c
+ F:	drivers/net/can/m_can/m_can.h
+ F:	drivers/net/can/m_can/m_can_platform.c
+ 
++MCP2221A MICROCHIP USB TO I2C BRIDGE DRIVER
++M:	Rishi Gupta <gupt21@gmail.com>
++L:	linux-i2c@vger.kernel.org
++L:	linux-input@vger.kernel.org
++S:	Maintained
++F:	drivers/hid/hid-mcp2221.c
++
+ MCP4018 AND MCP4531 MICROCHIP DIGITAL POTENTIOMETER DRIVERS
+ M:	Peter Rosin <peda@axentia.se>
+ L:	linux-iio@vger.kernel.org
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 494a39e..08a2522 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -1145,6 +1145,16 @@ config HID_ALPS
+ 	Say Y here if you have a Alps touchpads over i2c-hid or usbhid
+ 	and want support for its special functionalities.
+ 
++config HID_MCP2221
++	tristate "Microchip MCP2221 HID USB-to-I2C/SMbus host support"
++	depends on USB_HID && HIDRAW && I2C
++	---help---
++	Provides I2C host adapter functionality over USB through MCP2221
++	from Microchip. I2C bus speed can be set during driver loading.
++
++	To compile this driver as a module, choose M here: the module
++	will be called hid-mcp2221.ko.
++
+ endmenu
+ 
+ endif # HID
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index bfefa36..567a241 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -71,6 +71,7 @@ obj-$(CONFIG_HID_MACALLY)	+= hid-macally.o
+ obj-$(CONFIG_HID_MAGICMOUSE)	+= hid-magicmouse.o
+ obj-$(CONFIG_HID_MALTRON)	+= hid-maltron.o
+ obj-$(CONFIG_HID_MAYFLASH)	+= hid-mf.o
++obj-$(CONFIG_HID_MCP2221)	+= hid-mcp2221.o
+ obj-$(CONFIG_HID_MICROSOFT)	+= hid-microsoft.o
+ obj-$(CONFIG_HID_MONTEREY)	+= hid-monterey.o
+ obj-$(CONFIG_HID_MULTITOUCH)	+= hid-multitouch.o
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 3a400ce..53236ac 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -819,6 +819,7 @@
+ #define USB_DEVICE_ID_PICK16F1454	0x0042
+ #define USB_DEVICE_ID_PICK16F1454_V2	0xf2f7
+ #define USB_DEVICE_ID_LUXAFOR		0xf372
++#define USB_DEVICE_ID_MCP2221		0x00dd
+ 
+ #define USB_VENDOR_ID_MICROSOFT		0x045e
+ #define USB_DEVICE_ID_SIDEWINDER_GV	0x003b
+diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+new file mode 100644
+index 0000000..5035f1e
+--- /dev/null
++++ b/drivers/hid/hid-mcp2221.c
+@@ -0,0 +1,756 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * MCP2221A - Microchip USB to I2C Host Protocol Bridge
++ *
++ * Copyright (c) 2019, Rishi Gupta <gupt21@gmail.com>
++ *
++ * Datasheet: http://ww1.microchip.com/downloads/en/DeviceDoc/20005565B.pdf
++ */
++
++#include <linux/module.h>
++#include <linux/err.h>
++#include <linux/mutex.h>
++#include <linux/completion.h>
++#include <linux/delay.h>
++#include <linux/hid.h>
++#include <linux/usb.h>
++#include <linux/i2c.h>
++#include "hid-ids.h"
++
++/* Commands codes in a raw output report */
++#define MCP2221_I2C_WR_DATA			0x90
++#define MCP2221_I2C_WR_NO_STOP		0x94
++#define MCP2221_I2C_RD_DATA			0x91
++#define MCP2221_I2C_RD_RPT_START	0x93
++#define MCP2221_I2C_GET_DATA		0x40
++#define MCP2221_I2C_PARAM_OR_STATUS	0x10
++#define MCP2221_I2C_SET_SPEED		0x20
++#define MCP2221_I2C_CANCEL			0x10
++
++/* Response codes in a raw input report */
++#define MCP2221_SUCCESS				0x00
++#define MCP2221_I2C_ENG_BUSY		0x01
++#define MCP2221_I2C_START_TOUT		0x12
++#define MCP2221_I2C_STOP_TOUT		0x62
++#define MCP2221_I2C_WRADDRL_TOUT	0x23
++#define MCP2221_I2C_WRDATA_TOUT		0x44
++#define MCP2221_I2C_WRADDRL_NACK	0x25
++#define MCP2221_I2C_MASK_ADDR_NACK	0x40
++#define MCP2221_I2C_WRADDRL_SEND	0x21
++#define MCP2221_I2C_ADDR_NACK		0x25
++#define MCP2221_I2C_READ_COMPL		0x55
++
++/*
++ * There is no way to distinguish responses. Therefore next command
++ * is sent only after response to previous has been received. Mutex
++ * lock is used for this purpose mainly.
++ */
++struct mcp2221 {
++	struct hid_device *hdev;
++	struct i2c_adapter adapter;
++	struct mutex lock;
++	struct completion wait_in_report;
++	u8 *rxbuf;
++	u8 txbuf[64];
++	int rxbuf_idx;
++	int status;
++	u8 cur_i2c_clk_div;
++};
++
++/*
++ * Default i2c bus clock frequency in kHz. Override through
++ * module param if required.
++ */
++static uint i2c_clk_freq = 400;
++
++/* Synchronously send output report to the device */
++static int mcp_send_report(struct mcp2221 *mcp,
++					u8 *out_report, size_t len)
++{
++	u8 *buf;
++	int ret;
++
++	buf = kmemdup(out_report, len, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	/* mcp2221 uses interrupt endpoint for out reports */
++	ret = hid_hw_output_report(mcp->hdev, buf, len);
++	kfree(buf);
++
++	if (ret < 0)
++		return ret;
++	return 0;
++}
++
++/*
++ * Send o/p report to the device and wait for i/p report to be
++ * received from the device. If the device does not respond,
++ * we timeout.
++ */
++static int mcp_send_data_req_status(struct mcp2221 *mcp,
++			u8 *out_report, int len)
++{
++	int ret;
++	unsigned long t;
++
++	reinit_completion(&mcp->wait_in_report);
++
++	ret = mcp_send_report(mcp, out_report, len);
++	if (ret)
++		return ret;
++
++	t = wait_for_completion_timeout(&mcp->wait_in_report,
++							msecs_to_jiffies(4000));
++	if (!t)
++		return -ETIMEDOUT;
++
++	return mcp->status;
++}
++
++/* Check pass/fail for actual communication with i2c slave */
++static int mcp_chk_last_cmd_status(struct mcp2221 *mcp)
++{
++	int x;
++
++	mcp->txbuf[0] = MCP2221_I2C_PARAM_OR_STATUS;
++
++	for (x = 1; x < 8; x++)
++		mcp->txbuf[x] = 0;
++
++	return mcp_send_data_req_status(mcp, mcp->txbuf, 8);
++}
++
++/* Cancels last command releasing i2c bus just in case occupied */
++static int mcp_cancel_last_cmd(struct mcp2221 *mcp)
++{
++	int x;
++
++	mcp->txbuf[0] = MCP2221_I2C_PARAM_OR_STATUS;
++	mcp->txbuf[1] = 0;
++	mcp->txbuf[2] = MCP2221_I2C_CANCEL;
++
++	for (x = 3; x < 8; x++)
++		mcp->txbuf[x] = 0;
++
++	return mcp_send_data_req_status(mcp, mcp->txbuf, 8);
++}
++
++static int mcp_set_i2c_speed(struct mcp2221 *mcp)
++{
++	int ret;
++
++	mcp->txbuf[0] = MCP2221_I2C_PARAM_OR_STATUS;
++	mcp->txbuf[1] = 0;
++	mcp->txbuf[2] = 0;
++	mcp->txbuf[3] = MCP2221_I2C_SET_SPEED;
++	mcp->txbuf[4] = mcp->cur_i2c_clk_div;
++	mcp->txbuf[5] = 0;
++	mcp->txbuf[6] = 0;
++	mcp->txbuf[7] = 0;
++
++	ret = mcp_send_data_req_status(mcp, mcp->txbuf, 8);
++	if (ret) {
++		/* Small delay is needed here */
++		usleep_range(980, 1000);
++		mcp_cancel_last_cmd(mcp);
++	}
++
++	return 0;
++}
++
++/*
++ * An output report can contain minimum 1 and maximum 60 user data
++ * bytes. If the number of data bytes is more then 60, we send it
++ * in chunks of 60 bytes. Last chunk may contain exactly 60 or less
++ * bytes. Total number of bytes is informed in very first report to
++ * mcp2221, from that point onwards it first collect all the data
++ * from host and then send to i2c slave device.
++ */
++static int mcp_i2c_write(struct mcp2221 *mcp,
++				struct i2c_msg *msg, int type, u8 last_status)
++{
++	int ret, len, idx, sent;
++
++	idx = 0;
++	sent  = 0;
++	if (msg->len < 60)
++		len = msg->len;
++	else
++		len = 60;
++
++	do {
++		mcp->txbuf[0] = type;
++		mcp->txbuf[1] = msg->len & 0xff;
++		mcp->txbuf[2] = msg->len >> 8;
++		mcp->txbuf[3] = (u8)(msg->addr << 1);
++
++		memcpy(&mcp->txbuf[4], &msg->buf[idx], len);
++
++		ret = mcp_send_data_req_status(mcp, mcp->txbuf, len + 4);
++		if (ret)
++			return ret;
++
++		usleep_range(980, 1000);
++
++		ret = mcp_chk_last_cmd_status(mcp);
++		if (ret)
++			return ret;
++
++		sent = sent + len;
++		if (sent >= msg->len)
++			break;
++
++		idx = idx + len;
++		if ((msg->len - sent) < 60)
++			len = msg->len - sent;
++		else
++			len = 60;
++
++		/*
++		 * Testing shows delay is needed between successive writes
++		 * otherwise next write fails on first-try from i2c core.
++		 * This value is obtained through automated stress testing.
++		 */
++		usleep_range(980, 1000);
++	} while (len > 0);
++
++	return ret;
++}
++
++/*
++ * Device reads all data (0 - 65535 bytes) from i2c slave device and
++ * stores it in device itself. This data is read back from device to
++ * host in multiples of 60 bytes using input reports.
++ */
++static int mcp_i2c_smbus_read(struct mcp2221 *mcp,
++				struct i2c_msg *msg, int type, u16 smbus_addr,
++				u8 smbus_len, u8 *smbus_buf)
++{
++	int ret;
++	u16 total_len;
++
++	mcp->txbuf[0] = type;
++	if (msg) {
++		mcp->txbuf[1] = msg->len & 0xff;
++		mcp->txbuf[2] = msg->len >> 8;
++		mcp->txbuf[3] = (u8)(msg->addr << 1);
++		total_len = msg->len;
++		mcp->rxbuf = msg->buf;
++	} else {
++		mcp->txbuf[1] = smbus_len;
++		mcp->txbuf[2] = 0;
++		mcp->txbuf[3] = (u8)(smbus_addr << 1);
++		total_len = smbus_len;
++		mcp->rxbuf = smbus_buf;
++	}
++
++	ret = mcp_send_data_req_status(mcp, mcp->txbuf, 4);
++	if (ret)
++		return ret;
++
++	mcp->rxbuf_idx = 0;
++
++	do {
++		mcp->txbuf[0] = MCP2221_I2C_GET_DATA;
++		mcp->txbuf[1] = 0;
++		mcp->txbuf[2] = 0;
++		mcp->txbuf[3] = 0;
++
++		ret = mcp_send_data_req_status(mcp, mcp->txbuf, 1);
++		if (ret)
++			return ret;
++
++		ret = mcp_chk_last_cmd_status(mcp);
++		if (ret)
++			return ret;
++
++		usleep_range(980, 1000);
++	} while (mcp->rxbuf_idx < total_len);
++
++	return ret;
++}
++
++static int mcp_i2c_xfer(struct i2c_adapter *adapter,
++				struct i2c_msg msgs[], int num)
++{
++	int ret;
++	struct mcp2221 *mcp = i2c_get_adapdata(adapter);
++
++	hid_hw_power(mcp->hdev, PM_HINT_FULLON);
++
++	mutex_lock(&mcp->lock);
++
++	/* Setting speed before every transaction is required for mcp2221 */
++	ret = mcp_set_i2c_speed(mcp);
++	if (ret)
++		goto exit;
++
++	if (num == 1) {
++		if (msgs->flags & I2C_M_RD) {
++			ret = mcp_i2c_smbus_read(mcp, msgs, MCP2221_I2C_RD_DATA,
++							0, 0, NULL);
++		} else {
++			ret = mcp_i2c_write(mcp, msgs, MCP2221_I2C_WR_DATA, 1);
++		}
++		if (ret)
++			goto exit;
++		ret = num;
++	} else if (num == 2) {
++		/* Ex transaction; send reg address and read its contents */
++		if (msgs[0].addr == msgs[1].addr &&
++			!(msgs[0].flags & I2C_M_RD) &&
++			 (msgs[1].flags & I2C_M_RD)) {
++
++			ret = mcp_i2c_write(mcp, &msgs[0],
++						MCP2221_I2C_WR_NO_STOP, 0);
++			if (ret)
++				goto exit;
++
++			ret = mcp_i2c_smbus_read(mcp, &msgs[1],
++						MCP2221_I2C_RD_RPT_START,
++						0, 0, NULL);
++			if (ret)
++				goto exit;
++			ret = num;
++		} else {
++			dev_err(&adapter->dev,
++				"unsupported i2c transaction size: %d\n", num);
++			ret = -EOPNOTSUPP;
++		}
++	} else {
++		dev_err(&adapter->dev,
++			"unsupported i2c transaction size: %d\n", num);
++		ret = -EOPNOTSUPP;
++	}
++
++exit:
++	hid_hw_power(mcp->hdev, PM_HINT_NORMAL);
++	mutex_unlock(&mcp->lock);
++	return ret;
++}
++
++static int mcp_smbus_write(struct mcp2221 *mcp, u16 addr,
++				u8 command, u8 *buf, u8 len, int type,
++				u8 last_status)
++{
++	int data_len, ret;
++
++	mcp->txbuf[0] = type;
++	mcp->txbuf[1] = len + 1; /* 1 is due to command byte itself */
++	mcp->txbuf[2] = 0;
++	mcp->txbuf[3] = (u8)(addr << 1);
++	mcp->txbuf[4] = command;
++
++	switch (len) {
++	case 0:
++		data_len = 5;
++		break;
++	case 1:
++		mcp->txbuf[5] = buf[0];
++		data_len = 6;
++		break;
++	case 2:
++		mcp->txbuf[5] = buf[0];
++		mcp->txbuf[6] = buf[1];
++		data_len = 7;
++		break;
++	default:
++		memcpy(&mcp->txbuf[5], buf, len);
++		data_len = len + 5;
++	}
++
++	ret = mcp_send_data_req_status(mcp, mcp->txbuf, data_len);
++	if (ret)
++		return ret;
++
++	if (last_status) {
++		usleep_range(980, 1000);
++
++		ret = mcp_chk_last_cmd_status(mcp);
++		if (ret)
++			return ret;
++	}
++
++	return ret;
++}
++
++static int mcp_smbus_xfer(struct i2c_adapter *adapter, u16 addr,
++				unsigned short flags, char read_write,
++				u8 command, int size,
++				union i2c_smbus_data *data)
++{
++	int ret;
++	struct mcp2221 *mcp = i2c_get_adapdata(adapter);
++
++	hid_hw_power(mcp->hdev, PM_HINT_FULLON);
++
++	mutex_lock(&mcp->lock);
++
++	ret = mcp_set_i2c_speed(mcp);
++	if (ret)
++		goto exit;
++
++	switch (size) {
++
++	case I2C_SMBUS_QUICK:
++		if (read_write == I2C_SMBUS_READ)
++			ret = mcp_i2c_smbus_read(mcp, NULL, MCP2221_I2C_RD_DATA,
++						addr, 0, &data->byte);
++		else
++			ret = mcp_smbus_write(mcp, addr, command, NULL,
++						0, MCP2221_I2C_WR_DATA, 1);
++		break;
++	case I2C_SMBUS_BYTE:
++		if (read_write == I2C_SMBUS_READ)
++			ret = mcp_i2c_smbus_read(mcp, NULL, MCP2221_I2C_RD_DATA,
++						addr, 1, &data->byte);
++		else
++			ret = mcp_smbus_write(mcp, addr, command, NULL,
++						0, MCP2221_I2C_WR_DATA, 1);
++		break;
++	case I2C_SMBUS_BYTE_DATA:
++		if (read_write == I2C_SMBUS_READ) {
++			ret = mcp_smbus_write(mcp, addr, command, NULL,
++						0, MCP2221_I2C_WR_NO_STOP, 0);
++			if (ret)
++				goto exit;
++
++			ret = mcp_i2c_smbus_read(mcp, NULL,
++						MCP2221_I2C_RD_RPT_START,
++						addr, 1, &data->byte);
++		} else {
++			ret = mcp_smbus_write(mcp, addr, command, &data->byte,
++						1, MCP2221_I2C_WR_DATA, 1);
++		}
++		break;
++	case I2C_SMBUS_WORD_DATA:
++		if (read_write == I2C_SMBUS_READ) {
++			ret = mcp_smbus_write(mcp, addr, command, NULL,
++						0, MCP2221_I2C_WR_NO_STOP, 0);
++			if (ret)
++				goto exit;
++
++			ret = mcp_i2c_smbus_read(mcp, NULL,
++						MCP2221_I2C_RD_RPT_START,
++						addr, 2, (u8 *)&data->word);
++		} else {
++			ret = mcp_smbus_write(mcp, addr, command,
++						(u8 *)&data->word, 2,
++						MCP2221_I2C_WR_DATA, 1);
++		}
++		break;
++	case I2C_SMBUS_BLOCK_DATA:
++		if (read_write == I2C_SMBUS_READ) {
++			ret = mcp_smbus_write(mcp, addr, command, NULL,
++						0, MCP2221_I2C_WR_NO_STOP, 1);
++			if (ret)
++				goto exit;
++
++			mcp->rxbuf_idx = 0;
++			mcp->rxbuf = data->block;
++			mcp->txbuf[0] = MCP2221_I2C_GET_DATA;
++			ret = mcp_send_data_req_status(mcp, mcp->txbuf, 1);
++			if (ret)
++				goto exit;
++		} else {
++			if (!data->block[0]) {
++				ret = -EINVAL;
++				goto exit;
++			}
++			ret = mcp_smbus_write(mcp, addr, command, data->block,
++						data->block[0] + 1,
++						MCP2221_I2C_WR_DATA, 1);
++		}
++		break;
++	case I2C_SMBUS_I2C_BLOCK_DATA:
++		if (read_write == I2C_SMBUS_READ) {
++			ret = mcp_smbus_write(mcp, addr, command, NULL,
++						0, MCP2221_I2C_WR_NO_STOP, 1);
++			if (ret)
++				goto exit;
++
++			mcp->rxbuf_idx = 0;
++			mcp->rxbuf = data->block;
++			mcp->txbuf[0] = MCP2221_I2C_GET_DATA;
++			ret = mcp_send_data_req_status(mcp, mcp->txbuf, 1);
++			if (ret)
++				goto exit;
++		} else {
++			if (!data->block[0]) {
++				ret = -EINVAL;
++				goto exit;
++			}
++			ret = mcp_smbus_write(mcp, addr, command,
++						&data->block[1], data->block[0],
++						MCP2221_I2C_WR_DATA, 1);
++		}
++		break;
++	case I2C_SMBUS_PROC_CALL:
++		ret = mcp_smbus_write(mcp, addr, command,
++						(u8 *)&data->word,
++						2, MCP2221_I2C_WR_NO_STOP, 0);
++		if (ret)
++			goto exit;
++
++		ret = mcp_i2c_smbus_read(mcp, NULL,
++						MCP2221_I2C_RD_RPT_START,
++						addr, 2, (u8 *)&data->word);
++		break;
++	case I2C_SMBUS_BLOCK_PROC_CALL:
++		ret = mcp_smbus_write(mcp, addr, command, data->block,
++						data->block[0] + 1,
++						MCP2221_I2C_WR_NO_STOP, 0);
++		if (ret)
++			goto exit;
++
++		ret = mcp_i2c_smbus_read(mcp, NULL,
++						MCP2221_I2C_RD_RPT_START,
++						addr, I2C_SMBUS_BLOCK_MAX,
++						data->block);
++		break;
++	default:
++		dev_err(&mcp->adapter.dev,
++			"unsupported smbus transaction size:%d\n", size);
++		ret = -EOPNOTSUPP;
++	}
++
++exit:
++	hid_hw_power(mcp->hdev, PM_HINT_NORMAL);
++	mutex_unlock(&mcp->lock);
++	return ret;
++}
++
++static u32 mcp_i2c_func(struct i2c_adapter *adapter)
++{
++	return I2C_FUNC_I2C |
++			I2C_FUNC_SMBUS_READ_BLOCK_DATA |
++			I2C_FUNC_SMBUS_BLOCK_PROC_CALL |
++			(I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_PEC);
++}
++
++static const struct i2c_algorithm mcp_i2c_algo = {
++	.master_xfer = mcp_i2c_xfer,
++	.smbus_xfer = mcp_smbus_xfer,
++	.functionality = mcp_i2c_func,
++};
++
++/* Gives current state of i2c engine inside mcp2221 */
++static int mcp_get_i2c_eng_state(struct mcp2221 *mcp,
++				u8 *data, u8 idx)
++{
++	int ret;
++
++	switch (data[idx]) {
++	case MCP2221_I2C_WRADDRL_NACK:
++	case MCP2221_I2C_WRADDRL_SEND:
++		ret = -ENXIO;
++		break;
++	case MCP2221_I2C_START_TOUT:
++	case MCP2221_I2C_STOP_TOUT:
++	case MCP2221_I2C_WRADDRL_TOUT:
++	case MCP2221_I2C_WRDATA_TOUT:
++		ret = -ETIMEDOUT;
++		break;
++	case MCP2221_I2C_ENG_BUSY:
++		ret = -EAGAIN;
++		break;
++	case MCP2221_SUCCESS:
++		ret = 0x00;
++		break;
++	default:
++		ret = -EIO;
++	}
++
++	return ret;
++}
++
++/*
++ * MCP2221 uses interrupt endpoint for input reports. This function
++ * is called by HID layer when it receives i/p report from mcp2221,
++ * which is actually a response to the previously sent command.
++ *
++ * MCP2221A firmware specific return codes are parsed and 0 or
++ * appropriate negative error code is returned. Delayed response
++ * results in timeout error and stray reponses results in -EIO.
++ */
++static int mcp2221_raw_event(struct hid_device *hdev,
++				struct hid_report *report, u8 *data, int size)
++{
++	u8 *buf;
++	struct mcp2221 *mcp = hid_get_drvdata(hdev);
++
++	switch (data[0]) {
++
++	case MCP2221_I2C_WR_DATA:
++	case MCP2221_I2C_WR_NO_STOP:
++	case MCP2221_I2C_RD_DATA:
++	case MCP2221_I2C_RD_RPT_START:
++		switch (data[1]) {
++		case MCP2221_SUCCESS:
++			mcp->status = 0;
++			break;
++		default:
++			mcp->status = mcp_get_i2c_eng_state(mcp, data, 2);
++		}
++		complete(&mcp->wait_in_report);
++		break;
++
++	case MCP2221_I2C_PARAM_OR_STATUS:
++		switch (data[1]) {
++		case MCP2221_SUCCESS:
++			if ((mcp->txbuf[3] == MCP2221_I2C_SET_SPEED) &&
++				(data[3] != MCP2221_I2C_SET_SPEED)) {
++				mcp->status = -EAGAIN;
++				break;
++			}
++			if (data[20] & MCP2221_I2C_MASK_ADDR_NACK) {
++				mcp->status = -ENXIO;
++				break;
++			}
++			mcp->status = mcp_get_i2c_eng_state(mcp, data, 8);
++			break;
++		default:
++			mcp->status = -EIO;
++		}
++		complete(&mcp->wait_in_report);
++		break;
++
++	case MCP2221_I2C_GET_DATA:
++		switch (data[1]) {
++		case MCP2221_SUCCESS:
++			if (data[2] == MCP2221_I2C_ADDR_NACK) {
++				mcp->status = -ENXIO;
++				break;
++			}
++			if (!mcp_get_i2c_eng_state(mcp, data, 2)
++				&& (data[3] == 0)) {
++				mcp->status = 0;
++				break;
++			}
++			if (data[3] == 127) {
++				mcp->status = -EIO;
++				break;
++			}
++			if (data[2] == MCP2221_I2C_READ_COMPL) {
++				buf = mcp->rxbuf;
++				memcpy(&buf[mcp->rxbuf_idx], &data[4], data[3]);
++				mcp->rxbuf_idx = mcp->rxbuf_idx + data[3];
++				mcp->status = 0;
++				break;
++			}
++			mcp->status = -EIO;
++			break;
++		default:
++			mcp->status = -EIO;
++		}
++		complete(&mcp->wait_in_report);
++		break;
++
++	default:
++		mcp->status = -EIO;
++		complete(&mcp->wait_in_report);
++	}
++
++	return 1;
++}
++
++static int mcp2221_probe(struct hid_device *hdev,
++					const struct hid_device_id *id)
++{
++	int ret;
++	struct mcp2221 *mcp;
++	struct usb_device *usd = to_usb_device(hdev->dev.parent->parent);
++
++	mcp = devm_kzalloc(&hdev->dev, sizeof(*mcp), GFP_KERNEL);
++	if (!mcp)
++		return -ENOMEM;
++
++	ret = hid_parse(hdev);
++	if (ret) {
++		hid_err(hdev, "can't parse reports\n");
++		return ret;
++	}
++
++	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
++	if (ret) {
++		hid_err(hdev, "can't start hardware\n");
++		return ret;
++	}
++
++	ret = hid_hw_open(hdev);
++	if (ret) {
++		hid_err(hdev, "can't open device\n");
++		goto err_hstop;
++	}
++
++	mutex_init(&mcp->lock);
++	init_completion(&mcp->wait_in_report);
++	hid_set_drvdata(hdev, mcp);
++	mcp->hdev = hdev;
++
++	/* Set I2C bus clock diviser */
++	if (i2c_clk_freq > 400)
++		i2c_clk_freq = 400;
++	if (i2c_clk_freq < 50)
++		i2c_clk_freq = 50;
++	mcp->cur_i2c_clk_div = (12000000 / (i2c_clk_freq * 1000)) - 3;
++
++	mcp->adapter.owner = THIS_MODULE;
++	mcp->adapter.class = I2C_CLASS_HWMON;
++	mcp->adapter.algo = &mcp_i2c_algo;
++	mcp->adapter.retries = 1;
++	mcp->adapter.dev.parent = &hdev->dev;
++	snprintf(mcp->adapter.name, sizeof(mcp->adapter.name),
++		"mcp2221 at usb bus %03d dev %03d", usd->bus->busnum,
++		usd->devnum);
++
++	ret = i2c_add_adapter(&mcp->adapter);
++	if (ret) {
++		hid_err(hdev, "can't add usb-i2c adapter: %d\n", ret);
++		goto err_i2c;
++	}
++	i2c_set_adapdata(&mcp->adapter, mcp);
++
++	return 0;
++
++err_i2c:
++	hid_hw_close(mcp->hdev);
++err_hstop:
++	hid_hw_stop(mcp->hdev);
++	return ret;
++}
++
++static void mcp2221_remove(struct hid_device *hdev)
++{
++	struct mcp2221 *mcp = hid_get_drvdata(hdev);
++
++	i2c_del_adapter(&mcp->adapter);
++	hid_hw_close(mcp->hdev);
++	hid_hw_stop(mcp->hdev);
++}
++
++static const struct hid_device_id mcp2221_devices[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_ID_MICROCHIP, USB_DEVICE_ID_MCP2221) },
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, mcp2221_devices);
++
++static struct hid_driver mcp2221_driver = {
++	.name		= "mcp2221",
++	.id_table	= mcp2221_devices,
++	.probe		= mcp2221_probe,
++	.remove		= mcp2221_remove,
++	.raw_event	= mcp2221_raw_event,
++};
++
++/* Register with HID core */
++module_hid_driver(mcp2221_driver);
++
++/* I2C bus clock frequency can be set only during driver loading */
++module_param(i2c_clk_freq, uint, 0444);
++MODULE_PARM_DESC(i2c_clk_freq, "I2C bus clock frequency 50-400 kHz");
++
++MODULE_AUTHOR("Rishi Gupta <gupt21@gmail.com>");
++MODULE_DESCRIPTION("MCP2221 Microchip HID USB to I2C master bridge");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 0e7b2d9..ee815eb 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -473,6 +473,9 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_GAMECUBE1) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_GAMECUBE2) },
+ #endif
++#if IS_ENABLED(CONFIG_HID_MCP2221)
++	{ HID_USB_DEVICE(USB_VENDOR_ID_MICROCHIP, USB_DEVICE_ID_MCP2221) },
++#endif
+ #if IS_ENABLED(CONFIG_HID_MICROSOFT)
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_COMFORT_MOUSE_4500) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_COMFORT_KEYBOARD) },
 -- 
-Daniel Ogorchock
+2.7.4
+
