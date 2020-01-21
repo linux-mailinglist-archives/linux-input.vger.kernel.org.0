@@ -2,108 +2,207 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C8B2143F46
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2020 15:19:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E65114404F
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2020 16:15:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729030AbgAUOTH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Jan 2020 09:19:07 -0500
-Received: from mout.web.de ([217.72.192.78]:51253 "EHLO mout.web.de"
+        id S1728186AbgAUPO7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Jan 2020 10:14:59 -0500
+Received: from mga14.intel.com ([192.55.52.115]:31529 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728794AbgAUOTG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Jan 2020 09:19:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1579616342;
-        bh=9kRnx6Jx4zaILv3sEjaVmFzBKiRSW1pV8G1VB8CJASA=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=ODOAl3bYQl7SaKcOWN9MzrEsCh8KQviYNFjI1R0Zq/hIItUPDFXVPUk8fCfhSQs17
-         iadm2Mbo2B6SNc+NaqSEEYPrcRW8paZMEXcyLflVHxw4Ig3MNqhYS0MXSBv3mL1nfi
-         fq6eV8YX/0h8cCe1EWkdhsjqmu4YpvSxilhgxc48=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from LaptopNick.fritz.box ([79.227.106.217]) by smtp.web.de
- (mrweb101 [213.165.67.124]) with ESMTPSA (Nemesis) id
- 0MUFGo-1j2GM00yEE-00R2Ha; Tue, 21 Jan 2020 15:19:02 +0100
-From:   Nick Reitemeyer <nick.reitemeyer@web.de>
-To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
-Cc:     stephan@gerhold.net, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Nick Reitemeyer <nick.reitemeyer@web.de>
-Subject: [PATCH 3/3] Input: tm2-touchkey - add support for Coreriver TC360 variant
-Date:   Tue, 21 Jan 2020 15:15:26 +0100
-Message-Id: <20200121141525.3404-3-nick.reitemeyer@web.de>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200121141525.3404-1-nick.reitemeyer@web.de>
-References: <20200121141525.3404-1-nick.reitemeyer@web.de>
+        id S1727817AbgAUPO7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 21 Jan 2020 10:14:59 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Jan 2020 07:14:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,346,1574150400"; 
+   d="scan'208";a="374616982"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 21 Jan 2020 07:14:57 -0800
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1itvF2-0005gm-TA; Tue, 21 Jan 2020 23:14:56 +0800
+Date:   Tue, 21 Jan 2020 23:13:58 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:for-linus] BUILD SUCCESS
+ 996d5d5f89a558a3608a46e73ccd1b99f1b1d058
+Message-ID: <5e271536.WTKVYnh06ZRQxSy6%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:k2+u9ZfeHwTXo/d5p4ZrSG55i2emVHb8kyrVo/l1GUPLBrHNxY2
- V8ZN8Myc/LGrAiZl0hyphimMnp+hZhQ8tVuomgH9VjRa5+yisWx4FlojBTdPtJUFhS4WM9s
- 3hx+0LywkSLQCCmQyWESeu+65CoKsWQYEIujYlksjwmL0BrgFyDHuGeMY9Xvjrvt7vNW0oa
- fhTOd0cS5Sd5WtFAZKEeg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZOgEio7KkAI=:MQnRiI+KYBY6HbEqOH9T7E
- pzuvNli34D6a+CMx/UuDppIiKsHEyKOiRITaPOHg5XHu8v882vmwD4gLvekHu9iQuvdkCK8Kn
- oVaYnvVU3wwMLaqY6jTQvwZYhPZ8z/8UGRBeUxGv6GoVRgsq46I5pQd8f9pfJ+5ZJXLBDq5cz
- 5yP5CKcFjs8dwYLfYNkxMEWqUrnfo1Uech+ncdZkCJI1NwHgLq+XS4xDMVyHe3rLWtXGRxyuk
- a9pbOtgTcrQHazIV1TaMGoWegQKS219bUlPzt89RuvLq3/G1cx6doDP3IPUI7hurXBDpxqlPw
- eiVoz+TgblrqxOySGHhwupY+PlADf/R0C+uJvGF8qMRih8IpW2hWX8CnskHfYZnqUxvJ5WZL0
- lYc0t9HiBOPOt+yCE47ouw3AIEfPd9s/LYnru0fZ4/aMKuME2XTmPYaSSAbn7z/rU0D+BMbe+
- DJ2jHoSetadkZwG7UMyDMBKEHHF/81LZCC5V0Te4fT0ic0clhxqWRR4acZTNZ11VXfiazb2CP
- coWdyCRc0DEnmD77yV4NEAb5SglTkcVkYBeHL151PK6pcpKNtzMDJroWQAOjbxWN67D92QFNG
- /QsIFccoJAn4vkMP3krXn2FsJ7uu6wTTl+mF0czY3BrgGL0zEgyxgVJnCnob8KRYhy2jKSruG
- DpMsiDREtX6cTIWBC7xoZtoxN1WZCW0idt41cL0YwDIZOFanOl3wGHO/FXYFHGT6gTQ/3O7xa
- UMw+NjUbriO91hjPGAXLK9MTNcS3Oq4Uva9sw/KUWJK6S9LWL0q14r0euw7+G26Ax3bAj8zym
- nPRjCRZMuIrJy10gbNDKTa3CnDcRXQzDPuE97KK3AEvUklGa/SWCP8skqWm1AEcVT9QVjbA+f
- YzKmV1wP9O4HLtdFRxCRXKal8hL8cI4BChOmf54ulmmmc4+XmjE1mHk9Cq+0FsBZyA7p3u02J
- ICxpK+K/uM9obFhT3Raxc8WYb2aS6gPt8g7kyIWdma7fT77daqQgxFnG+RtVb5IL61brQ+25R
- 5a1HFWexqxSPYa1acyPCB+QewBnL6RHV/UvI+xb/dF0pmNj6ww/MIL9SaB8sB3co5KdengFV4
- S2Sy1s83XZfCFUt7/ZRnDi3HkmIFrAwoXCPqxqXShhmJ4hnkQfUFUFsS4f0wdIcRKNOWFVRDh
- KRHa4nYbX+H95AWsZoNXgEOsqT5CqbmUyjYcL/eIv1loUIvFBH3H+ogv/dhIY3tz+NCy46bk6
- uhNn7CFiQk/mG8b0FLtux0dPjVeXLcmHswjnGR+yeXXXZ786ZtI1ff1hqMQs=
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Coreriver TouchCore 360 is like the midas board touchkey, but it is us=
-ing a fixed regulator.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  for-linus
+branch HEAD: 996d5d5f89a558a3608a46e73ccd1b99f1b1d058  Input: pm8xxx-vib - fix handling of separate enable register
 
-Signed-off-by: Nick Reitemeyer <nick.reitemeyer@web.de>
-=2D--
- drivers/input/keyboard/tm2-touchkey.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+elapsed time: 332m
 
-diff --git a/drivers/input/keyboard/tm2-touchkey.c b/drivers/input/keyboar=
-d/tm2-touchkey.c
-index 14b55bacdd0f..fb078e049413 100644
-=2D-- a/drivers/input/keyboard/tm2-touchkey.c
-+++ b/drivers/input/keyboard/tm2-touchkey.c
-@@ -75,6 +75,14 @@ static struct touchkey_variant aries_touchkey_variant =
-=3D {
- 	.cmd_led_off =3D ARIES_TOUCHKEY_CMD_LED_OFF,
- };
+configs tested: 152
+configs skipped: 0
 
-+static const struct touchkey_variant tc360_touchkey_variant =3D {
-+	.keycode_reg =3D 0x00,
-+	.base_reg =3D 0x00,
-+	.fixed_regulator =3D true,
-+	.cmd_led_on =3D TM2_TOUCHKEY_CMD_LED_ON,
-+	.cmd_led_off =3D TM2_TOUCHKEY_CMD_LED_OFF,
-+};
-+
- static int tm2_touchkey_led_brightness_set(struct led_classdev *led_dev,
- 					    enum led_brightness brightness)
- {
-@@ -327,6 +335,9 @@ static const struct of_device_id tm2_touchkey_of_match=
-[] =3D {
- 	}, {
- 		.compatible =3D "cypress,aries-touchkey",
- 		.data =3D &aries_touchkey_variant,
-+	}, {
-+		.compatible =3D "coreriver,tc360-touchkey",
-+		.data =3D &tc360_touchkey_variant,
- 	},
- 	{ },
- };
-=2D-
-2.23.0
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+h8300                     edosk2674_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+m68k                       m5475evb_defconfig
+m68k                          multi_defconfig
+m68k                           sun3_defconfig
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+c6x                              allyesconfig
+c6x                        evmc6678_defconfig
+nios2                         10m50_defconfig
+nios2                         3c120_defconfig
+openrisc                    or1ksim_defconfig
+openrisc                 simple_smp_defconfig
+xtensa                       common_defconfig
+xtensa                          iss_defconfig
+arc                  randconfig-a001-20200121
+arm                  randconfig-a001-20200121
+arm64                randconfig-a001-20200121
+ia64                 randconfig-a001-20200121
+powerpc              randconfig-a001-20200121
+sparc                randconfig-a001-20200121
+x86_64               randconfig-h001-20200121
+x86_64               randconfig-h002-20200121
+x86_64               randconfig-h003-20200121
+i386                 randconfig-h001-20200121
+i386                 randconfig-h002-20200121
+i386                 randconfig-h003-20200121
+parisc                            allnoconfig
+parisc                            allyesonfig
+parisc                         b180_defconfig
+parisc                        c3000_defconfig
+parisc                              defconfig
+csky                 randconfig-a001-20200121
+openrisc             randconfig-a001-20200121
+s390                 randconfig-a001-20200121
+sh                   randconfig-a001-20200121
+xtensa               randconfig-a001-20200121
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                               rhel-7.6
+ia64                             alldefconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+ia64                                defconfig
+x86_64               randconfig-b001-20200121
+x86_64               randconfig-b002-20200121
+x86_64               randconfig-b003-20200121
+i386                 randconfig-b001-20200121
+i386                 randconfig-b002-20200121
+i386                 randconfig-b003-20200121
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+alpha                randconfig-a001-20200121
+m68k                 randconfig-a001-20200121
+mips                 randconfig-a001-20200121
+nds32                randconfig-a001-20200121
+parisc               randconfig-a001-20200121
+riscv                randconfig-a001-20200121
+x86_64               randconfig-d001-20200121
+x86_64               randconfig-d002-20200121
+x86_64               randconfig-d003-20200121
+i386                 randconfig-d001-20200121
+i386                 randconfig-d002-20200121
+i386                 randconfig-d003-20200121
+um                                  defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64               randconfig-e001-20200121
+x86_64               randconfig-e002-20200121
+x86_64               randconfig-e003-20200121
+i386                 randconfig-e001-20200121
+i386                 randconfig-e002-20200121
+i386                 randconfig-e003-20200121
+sh                               allmodconfig
+sh                                allnoconfig
+sh                          rsk7269_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                            titan_defconfig
+alpha                               defconfig
+csky                                defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+arm64                               defconfig
+s390                             alldefconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                             allyesconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+arm                              allmodconfig
+arm64                            allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+x86_64               randconfig-g001-20200121
+x86_64               randconfig-g002-20200121
+x86_64               randconfig-g003-20200121
+i386                 randconfig-g001-20200121
+i386                 randconfig-g002-20200121
+i386                 randconfig-g003-20200121
+i386                             alldefconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+c6x                  randconfig-a001-20200121
+h8300                randconfig-a001-20200121
+microblaze           randconfig-a001-20200121
+nios2                randconfig-a001-20200121
+sparc64              randconfig-a001-20200121
+x86_64               randconfig-f001-20200121
+x86_64               randconfig-f002-20200121
+x86_64               randconfig-f003-20200121
+i386                 randconfig-f001-20200121
+i386                 randconfig-f002-20200121
+i386                 randconfig-f003-20200121
+
+---
+0-DAY kernel test infrastructure                 Open Source Technology Center
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
