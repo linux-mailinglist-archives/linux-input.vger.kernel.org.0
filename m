@@ -2,88 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 097FE144C3D
-	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2020 08:02:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 508F2145153
+	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2020 10:53:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725884AbgAVHCe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Jan 2020 02:02:34 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:45577 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725836AbgAVHCd (ORCPT
+        id S1731703AbgAVJxb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Jan 2020 04:53:31 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:43145 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731286AbgAVJxb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Jan 2020 02:02:33 -0500
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1iuA1w-0001M8-Db; Wed, 22 Jan 2020 08:02:24 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1iuA1t-0007cM-Si; Wed, 22 Jan 2020 08:02:21 +0100
-Date:   Wed, 22 Jan 2020 08:02:21 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "jic23@kernel.org" <jic23@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "knaack.h@gmx.de" <knaack.h@gmx.de>,
-        "lars@metafoo.de" <lars@metafoo.de>,
-        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>
-Subject: Re: [PATCH v4 4/7] pwm: Add support for Azoteq IQS620A PWM generator
-Message-ID: <20200122070221.mq6a5lejsepnajgf@pengutronix.de>
-References: <1579228475-6681-1-git-send-email-jeff@labundy.com>
- <1579228475-6681-5-git-send-email-jeff@labundy.com>
- <20200117073427.ufrduwagvppeasgr@pengutronix.de>
- <20200119233234.GB28865@labundy.com>
- <20200120072739.sixr5e76uckrugvu@pengutronix.de>
- <20200122035608.GA1455@labundy.com>
+        Wed, 22 Jan 2020 04:53:31 -0500
+Received: by mail-qk1-f196.google.com with SMTP id j20so1770555qka.10
+        for <linux-input@vger.kernel.org>; Wed, 22 Jan 2020 01:53:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=1OTCzRuZLXKgKtG0YjZ5OtZ6bjyEuVtHenJ+Tqkqok8=;
+        b=Vvcyg9ajPsGRqCg5vdCGGcjfjAwjtzP/XrC9OXM+74J+BGbkz5db2jdC1DSBy4VrkK
+         d6bI/BfgJcluwR/H6IW/7ALxNhTimaWCWEsHeD6ZtJ+Wko5tT9l3CLI8hA2pYvSFocBw
+         uVswg+yB2qWezZxvzu5aBt3/RNuIvwlumYnSad1U5NtUeIo6qKFcLNUHoc6af4lz0iIa
+         PiANNRayTWL+/K5Jd9cPBoT4T6cTbf4Zx1Z6UyHi7/s5/trmcXSv/aC8xtyVpwh1bEjN
+         s4Zsb8X5P98sldXGefPzLnOZKbdIPgtdYsUc8wRcuMe07Ot5kQ6q1D1I5Cbu0pxraH+m
+         elCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=1OTCzRuZLXKgKtG0YjZ5OtZ6bjyEuVtHenJ+Tqkqok8=;
+        b=XrtmTUg1a6OdOVvla4KOUncikL4nMEbvhWWV9t8r/4KieYUbxAjV/gJY0Odep9mYTF
+         iUBzH12kBGAlQjDgK14hCRagXGmyoEGEqu5oYtmTvNMBNYXurDjcwxaZOo+3RQ/dNHWG
+         1NnOz7ht/zCMGcgL3EzevCb+xhOdmRarrXAn+DatJ+P6NE7lFXHkuTxO1/xTgYqAODMz
+         XfJEyumAiDJNLFLT2KL9TDd43ljVjvmUBODff+g97exF3pKSxscooUbB8VFCGTYpy3DV
+         moSTMUbtrpQ5euddZ1BrM2PMQDCWgQIPjn41wGDTZ3ZmrbcUXLcg+h0RuAW2z2aP8DcI
+         2X9A==
+X-Gm-Message-State: APjAAAV+/peiG+ZOPgYRisWf5nzDZyQc99eUvIRzw7rXdFQlkNwTUSXc
+        LwyDGGxVOHkcf3oh8lMbwJqLI4wikowvIBd4vh0=
+X-Google-Smtp-Source: APXvYqwNDvhQB6R3RyAHJkaIl8lcJVqzOVU+RM3Yh9hSZxSTO491gCBMCBZCctxDAuu0EUQ4Y9p+wvrzFrikeGOOxCE=
+X-Received: by 2002:ae9:e206:: with SMTP id c6mr9276479qkc.105.1579686809756;
+ Wed, 22 Jan 2020 01:53:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200122035608.GA1455@labundy.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Received: by 2002:a0c:c382:0:0:0:0:0 with HTTP; Wed, 22 Jan 2020 01:53:29
+ -0800 (PST)
+Reply-To: aishagaddafi969@aol.com
+From:   AISHA GADDAFI <aishagddafi680@gmail.com>
+Date:   Wed, 22 Jan 2020 01:53:29 -0800
+Message-ID: <CAO3JireTMvH=8kSkqY9LojM84G76PBn1iQi6X9jrra4-i740vw@mail.gmail.com>
+Subject: Dear Friend (Assalamu Alaikum),
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Jeff,
-
-On Wed, Jan 22, 2020 at 03:56:14AM +0000, Jeff LaBundy wrote:
-> > > The only problem is that leds-pwm disables the pwm at start-up, so the end
-> > > result is the same anyway. Regardless of the behavior of any one consumer,
-> > > however, I'm slightly inclined to go with the second option as it seems to
-> > > be less restrictive and more maintainable. Let me know if you disagree.
-> > 
-> > With
-> > 
-> > 	default-state = "keep";
-> > 
-> > in your dt the LED shouldn't get disabled.
-> 
-> I see default-state defined as a common LED property, but leds-pwm doesn't
-> seem to use it unfortunately. Looking through its code, brightness is just
-> initialized to zero unconditionally.
-
-Sounds like a bug.
-
-Best regards
-Uwe
-
 -- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Dear Friend (Assalamu Alaikum),
+
+I came across your e-mail contact prior a private search while in need of
+your assistance. My name is Aisha  Al-Qaddafi a single Mother and a Widow
+with three Children. I am the only biological Daughter of late Libyan
+President (Late Colonel Muammar Gaddafi).
+
+I have investment funds worth Twenty Seven Million Five Hundred Thousand
+United State Dollar ($27.500.000.00 ) and i need a trusted investment
+Manager/Partner because of my current refugee status, however, I am
+interested in you for investment project assistance in your country, may be
+from there, we can build business relationship in the nearest future.
+
+I am willing to negotiate investment/business profit sharing ratio with you
+base on the future investment earning profits.
+
+If you are willing to handle this project on my behalf kindly reply urgent
+to enable me provide you more information about the investment funds.
+
+Your Urgent Reply Will Be Appreciated. write me at this email address(
+aishagaddafi969@aol.com ) for further discussion.
+
+Best Regards
+Mrs Aisha Al-Qaddafi
+Reply to: aishagaddafi969@aol.com
