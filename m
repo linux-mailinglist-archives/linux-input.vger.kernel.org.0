@@ -2,129 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9D60144B8E
-	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2020 07:00:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F39CD144B95
+	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2020 07:04:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725836AbgAVGAV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Jan 2020 01:00:21 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:36328 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725805AbgAVGAU (ORCPT
+        id S1725871AbgAVGEY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Jan 2020 01:04:24 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:44951 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725836AbgAVGEY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Jan 2020 01:00:20 -0500
-Received: by mail-pf1-f196.google.com with SMTP id x184so2810120pfb.3;
-        Tue, 21 Jan 2020 22:00:20 -0800 (PST)
+        Wed, 22 Jan 2020 01:04:24 -0500
+Received: by mail-pg1-f193.google.com with SMTP id x7so2861591pgl.11;
+        Tue, 21 Jan 2020 22:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=q6AE7P4ZLtQuKFwEWHmJlyzS5LEfQqdxCBPGs6J70Ns=;
-        b=SmxnMsZrXszPm8r6VzfE5WWUcHsKzzYkyps6RDS4FParQiAG9NkJWoMTK4bvePCkon
-         Au5pFRpLIWqNQ0byUn8QJbwIZ3VsLREp6Rvk+Jmcg79qym7EeOLzXOnYDll0YzRZ+WLc
-         0G1BBCjLMfB/80P4DwpYs0txubiw3LkvKL/CPjzLheoeNeNYiI05x1sTENmL/jU+5JRF
-         Vf6rJe2jfpa1YRsOajT8/ePjCceEGQ3x66hwt2g/OB6JhC7921OIE4A03yjVHteId4pc
-         PQC2ECXq9XOdpC6ouCzZ3Ri9gfOaQMwJ0Wdq9Wh8FaFOlffVIvZ09JLfnfnMmD2KBww3
-         LEag==
+        bh=/h9o3IJUBowmLWfA61u+50384SsUM8Xhdmip5ZMDV/U=;
+        b=rDOLU2b+w9DoleHwa3ayn9bAX80pvFO+gWeoYnPUyDv2Jqo4vowsYXjY+jxll+NcQi
+         TKFSL98RF0EWxJETVrA7hGJBeM0YuljRnym0dCYpoFsb9gWAQUZrL9f2jx/bk9w2s7/J
+         DAt/Od0CABWhKpTjSa67PnkZXXhZTx6rCWTaH76jB7u8fAGuElmfa+dzLorX6jIUC+JV
+         q3rD+O6gkcde0mnYTi5WzNq0hGEFK0Z09QvHGEFSBofGF30mI0jJ3I8AiAE+rX7ZQSfA
+         q9dour+qWb1s2NUKky+QXewZDTM4WJ9+FSPVFFwgg6lmtcHazuker0sY4+ZTeXwx7HjC
+         FdEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=q6AE7P4ZLtQuKFwEWHmJlyzS5LEfQqdxCBPGs6J70Ns=;
-        b=Q2omjDLRUC0tiXLoGXVlEF0PcoVIQ3+178tr6ZR1Z7tmidyqK47hSo+bJEBwa30TvX
-         gAINzLzhxzFPV1MjbsWplHSx8VDmL6t9UjaH3K7qo/wmjRnlbwBhlQBXCiWTdF8Quu/3
-         g/5QzLcgD338pzn4YY9YBdeEVb/iWP5wtY12HbMz4H4s2wYjZJO19duT9XByIVSw6tzN
-         G6SnGrrelDtDxxup1hrkZCDFyJyLbl1JyP3tkZQoTcpfsYzhJNis6z/THQv/uplzmFdR
-         70QFasdy/yIMVAQvCUgVFFwHQ5e8vVID/Yi4EVPAa+VndOouStFIOoOWADiFLdy7ohyE
-         CeMg==
-X-Gm-Message-State: APjAAAW54Ss0XIpPRIPxhyGPkjYnkuqLDd5HccWhm9sYAKzcO2eK8D/h
-        aqDiUd2kz4ZXDGS6FtWJpk8=
-X-Google-Smtp-Source: APXvYqyW7SQF7PHDOhPc9KRISc7/Z492Dp3QPFwCYIKYtwqRjz+lUZnSmKP/vZ7O09rP8l0ry5f8nA==
-X-Received: by 2002:a65:68ca:: with SMTP id k10mr9705967pgt.222.1579672819903;
-        Tue, 21 Jan 2020 22:00:19 -0800 (PST)
+        bh=/h9o3IJUBowmLWfA61u+50384SsUM8Xhdmip5ZMDV/U=;
+        b=rB3tsVj1a6Y39M2+r1sQGdRt8dfLPB4yksYKy1ThDMdeSHVjK/abPxcdpJ7V2GW2AO
+         ky8BHxf0YKTi6L0veSYPInId/ECl2Lm/3ADarcGAeoXFvmsu3nP3WVCBcuezJF0H5M0m
+         AzEyVLTRw2HGJ0vVOxkEA/CSt9BVJk8pzwVrQ2izO/IwV0HKslMERt4Wrwn8RbUEA/QF
+         XzXkVNPgtysYR/zd0A6aaiAF0zgTruexeCFfyB3ikh3tLGt8eyTn7tNHX5Es44Gqk1nU
+         Dx8QCH13kderOEOY0i0XYW/t0c+WWNiiLKl5cFlpmPM2M4gGdTZVSybIpn2hflr90i0U
+         9kcA==
+X-Gm-Message-State: APjAAAVCcZVY+S7ofgo/cc3nOxrYDH2S4WbSlTluSTSWANSrgiEJiHa3
+        plk9UpPGSeFqxCFKmeZHyDI=
+X-Google-Smtp-Source: APXvYqz9OeBvN7zgKLhewIMrKkPlKMyOwBLBE0xGHFrKV4R5pDxHgUjfmYDjBtCK6dLd0rZVOia8Og==
+X-Received: by 2002:a62:1548:: with SMTP id 69mr1146889pfv.239.1579673063272;
+        Tue, 21 Jan 2020 22:04:23 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id h3sm1491806pjs.0.2020.01.21.22.00.18
+        by smtp.gmail.com with ESMTPSA id o134sm47192992pfg.137.2020.01.21.22.04.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2020 22:00:19 -0800 (PST)
-Date:   Tue, 21 Jan 2020 22:00:17 -0800
+        Tue, 21 Jan 2020 22:04:22 -0800 (PST)
+Date:   Tue, 21 Jan 2020 22:04:19 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     devicetree@vger.kernel.org, alexandre.belloni@bootlin.com,
-        simon.budig@kernelconcepts.de, mripard@kernel.org, bparrot@ti.com,
-        hdegoede@redhat.com, andy.shevchenko@gmail.com, robh+dt@kernel.org,
-        kernel@pengutronix.de, linux-input@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com, shawnguo@kernel.org,
-        fcooper@ti.com
-Subject: Re: [PATCH v3 6/6] Input: edt-ft5x06 - improve power management
- operations
-Message-ID: <20200122060017.GC110084@dtor-ws>
-References: <20200108111050.19001-1-m.felsch@pengutronix.de>
- <20200108111050.19001-7-m.felsch@pengutronix.de>
- <20200110010957.GP8314@dtor-ws>
- <20200110071606.g42csvhgtriddqj4@pengutronix.de>
- <20200110071847.h5hqfb7ujnahuuus@pengutronix.de>
- <20200116133219.xtp3wkkcefbcumca@pengutronix.de>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sunxi@googlegroups.com
+Subject: Re: [PATCH v2 1/2] Input: axp20x-pek - Respect userspace wakeup
+ configuration
+Message-ID: <20200122060419.GD110084@dtor-ws>
+References: <20200115051253.32603-1-samuel@sholland.org>
+ <20200115051253.32603-2-samuel@sholland.org>
+ <674932c7-c120-092f-0255-5fa94925155d@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200116133219.xtp3wkkcefbcumca@pengutronix.de>
+In-Reply-To: <674932c7-c120-092f-0255-5fa94925155d@redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Marco,
-
-On Thu, Jan 16, 2020 at 02:32:19PM +0100, Marco Felsch wrote:
-> Hi Dmitry,
+On Wed, Jan 15, 2020 at 11:50:08AM +0100, Hans de Goede wrote:
+> Hi,
 > 
-> On 20-01-10 08:18, Marco Felsch wrote:
-> > On 20-01-10 08:16, Marco Felsch wrote:
-> > > Hi Dmitry,
-> > > 
-> > > On 20-01-09 17:09, Dmitry Torokhov wrote:
-> > > > Hi Marco,
-> > > > 
-> > > > On Wed, Jan 08, 2020 at 12:10:50PM +0100, Marco Felsch wrote:
-> > > > > +static int __maybe_unused edt_ft5x06_ts_resume(struct device *dev)
-> > > > > +{
-> > > > > +	struct i2c_client *client = to_i2c_client(dev);
-> > > > > +	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	if (device_may_wakeup(dev))
-> > > > > +		return 0;
-> > > > > +
-> > > > > +	ret = regulator_enable(tsdata->vcc);
-> > > > > +	if (ret)
-> > > > > +		dev_warn(dev, "Failed to enable vcc\n");
-> > > > 
-> > > > I wonder if we should not return error here instead of continuing. If
-> > > > device is not powered up properly we'll have hard time communicating
-> > > > with it.
-> > > 
-> > > That's a reasonable point.
-> > > 
-> > > > The same is for suspend: maybe we should abort if we can't switch off
-> > > > regulator or write to the device.
-> > > 
-> > > I have no strong opinion about that case but IMHO it's okay to go further
-> > > if we can't switch it off. Instead we should print a warning.
+> On 15-01-2020 06:12, Samuel Holland wrote:
+> > Unlike most other power button drivers, this driver unconditionally
+> > enables its wakeup IRQ. It should be using device_may_wakeup() to
+> > respect the userspace configuration of wakeup sources.
 > > 
-> > I just noticed that we do that already.. So the suspend case should be
-> > okay.
+> > Because the AXP20x MFD device uses regmap-irq, the AXP20x PEK IRQs are
+> > nested off of regmap-irq's threaded interrupt handler. The device core
+> > ignores such interrupts, so to actually disable wakeup, we must
+> > explicitly disable all non-wakeup interrupts during suspend.
+> > 
+> > Signed-off-by: Samuel Holland <samuel@sholland.org>
+> 
+> Patch looks good to me:
+> 
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Applied, thank you.
+
+> 
+> Regards,
+> 
+> Hans
 > 
 > 
-> Is it okay to check the return val for the resume case only? I want to
-> prepare a v4 of this patch to get this done.
-
-OK, I now remember my issues with power management in this driver. It
-supports factory mode vs operational/normal mode, and updating register
-settings at runtime. If you want to cut power off at suspend, then you
-need to make sure you restore the mode and register settings at resume
-time, not simply revert to normal mode.
-
-Thanks.
+> 
+> > ---
+> >   drivers/input/misc/axp20x-pek.c | 37 ++++++++++++++++++++++++++++++++-
+> >   1 file changed, 36 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/input/misc/axp20x-pek.c b/drivers/input/misc/axp20x-pek.c
+> > index 17c1cca74498..0ace3fe3d7dc 100644
+> > --- a/drivers/input/misc/axp20x-pek.c
+> > +++ b/drivers/input/misc/axp20x-pek.c
+> > @@ -280,7 +280,7 @@ static int axp20x_pek_probe_input_device(struct axp20x_pek *axp20x_pek,
+> >   	}
+> >   	if (axp20x_pek->axp20x->variant == AXP288_ID)
+> > -		enable_irq_wake(axp20x_pek->irq_dbr);
+> > +		device_init_wakeup(&pdev->dev, true);
+> >   	return 0;
+> >   }
+> > @@ -352,6 +352,40 @@ static int axp20x_pek_probe(struct platform_device *pdev)
+> >   	return 0;
+> >   }
+> > +static int __maybe_unused axp20x_pek_suspend(struct device *dev)
+> > +{
+> > +	struct axp20x_pek *axp20x_pek = dev_get_drvdata(dev);
+> > +
+> > +	/*
+> > +	 * As nested threaded IRQs are not automatically disabled during
+> > +	 * suspend, we must explicitly disable non-wakeup IRQs.
+> > +	 */
+> > +	if (device_may_wakeup(dev)) {
+> > +		enable_irq_wake(axp20x_pek->irq_dbf);
+> > +		enable_irq_wake(axp20x_pek->irq_dbr);
+> > +	} else {
+> > +		disable_irq(axp20x_pek->irq_dbf);
+> > +		disable_irq(axp20x_pek->irq_dbr);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int __maybe_unused axp20x_pek_resume(struct device *dev)
+> > +{
+> > +	struct axp20x_pek *axp20x_pek = dev_get_drvdata(dev);
+> > +
+> > +	if (device_may_wakeup(dev)) {
+> > +		disable_irq_wake(axp20x_pek->irq_dbf);
+> > +		disable_irq_wake(axp20x_pek->irq_dbr);
+> > +	} else {
+> > +		enable_irq(axp20x_pek->irq_dbf);
+> > +		enable_irq(axp20x_pek->irq_dbr);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >   static int __maybe_unused axp20x_pek_resume_noirq(struct device *dev)
+> >   {
+> >   	struct axp20x_pek *axp20x_pek = dev_get_drvdata(dev);
+> > @@ -371,6 +405,7 @@ static int __maybe_unused axp20x_pek_resume_noirq(struct device *dev)
+> >   }
+> >   static const struct dev_pm_ops axp20x_pek_pm_ops = {
+> > +	SET_SYSTEM_SLEEP_PM_OPS(axp20x_pek_suspend, axp20x_pek_resume)
+> >   #ifdef CONFIG_PM_SLEEP
+> >   	.resume_noirq = axp20x_pek_resume_noirq,
+> >   #endif
+> > 
+> 
 
 -- 
 Dmitry
