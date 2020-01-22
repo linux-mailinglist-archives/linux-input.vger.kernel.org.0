@@ -2,88 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 23C52144C2C
-	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2020 07:58:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 097FE144C3D
+	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2020 08:02:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725975AbgAVG5l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Jan 2020 01:57:41 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:45315 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725924AbgAVG5l (ORCPT
+        id S1725884AbgAVHCe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Jan 2020 02:02:34 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:45577 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725836AbgAVHCd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Jan 2020 01:57:41 -0500
-Received: by mail-pf1-f196.google.com with SMTP id 2so2863628pfg.12;
-        Tue, 21 Jan 2020 22:57:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=MYul01GCq37ayThShJ9dZaDN18M/FwlRxDl1QupNebU=;
-        b=dnzCF34eyTR4XHrGflmfk99UgHH1ncq0JXUlqVGa8SKI91xQirSGUn6f8ydQYdA6rQ
-         bvAJBjhSG/qAbH4AZQQ6RyvwPBjVPAKjDn+i9XeeCiSdbWYLMp1lOtwKY2fYxZz21nKI
-         vF+lhMIQs6wHMe6KytTDLuJn/Li32hZUniHyCBqpyzXtKfI49xMqCxpJXhZVTOhyb9Ff
-         gjmlDu95gKdkd7MRcBeSEGBrr0H4DPQY4QgrjLwgl3fYem3tzEatpmB2ojgzxvs9rOhE
-         UnhRcjHzSigUZapD1Y/cOnyCzoF6VNvfDkKGZI8RBwXZ/2GdIv5cTKyBspdTMfTsDQoh
-         8YNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=MYul01GCq37ayThShJ9dZaDN18M/FwlRxDl1QupNebU=;
-        b=lrxE0HZgaaZ4dwTAVsVXb537ARRh6diSEyHlgrHtDqwGwRmYE8JTElymayTOm04tY9
-         VNetj3eOawC4fgF809PGimK+YSaxUY+lAxzuYDpcOuMTD0rqSHQSRkA+VpRa2mhCh54f
-         JU3VgRe1Vmuu9PxKf7ZreSoreJ0WABY4NuuKMRFs0QmHVjPa+XV0Jiw3yQTZBCki/rMh
-         yujSdQC4UDP8K8iBf3DxOb60GQcJWc7oQ+YaZn62R0DRJZUrIMmp1V47+ZH0gjibAuMf
-         4HKoM0E+1yLA5rpJlyU6DZifl2KRhOTifBuc3SMHTLrOSxBiQKM2UfqiMrcb5tdB4p1m
-         2kFA==
-X-Gm-Message-State: APjAAAVrqmdXWjrlS74TCBnpwI9ZSszVLwdvjjLh+iXrY9GdP0cA3tAC
-        02y5q0oq54qL/1RcV7SPgwE=
-X-Google-Smtp-Source: APXvYqxjCexWKOScgRfZfKpFHyxyq43XkgznyZRFleu5ixWogr/GkiFAO/vChUmU23ICbwPFVTBGXg==
-X-Received: by 2002:a63:590e:: with SMTP id n14mr9404729pgb.10.1579676260432;
-        Tue, 21 Jan 2020 22:57:40 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id b19sm44632997pfo.56.2020.01.21.22.57.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2020 22:57:39 -0800 (PST)
-Date:   Tue, 21 Jan 2020 22:57:37 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: add IOC3 serio driver
-Message-ID: <20200122065737.GG110084@dtor-ws>
-References: <20200115125951.3677-1-tbogendoerfer@suse.de>
+        Wed, 22 Jan 2020 02:02:33 -0500
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1iuA1w-0001M8-Db; Wed, 22 Jan 2020 08:02:24 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1iuA1t-0007cM-Si; Wed, 22 Jan 2020 08:02:21 +0100
+Date:   Wed, 22 Jan 2020 08:02:21 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "jic23@kernel.org" <jic23@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "knaack.h@gmx.de" <knaack.h@gmx.de>,
+        "lars@metafoo.de" <lars@metafoo.de>,
+        "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>
+Subject: Re: [PATCH v4 4/7] pwm: Add support for Azoteq IQS620A PWM generator
+Message-ID: <20200122070221.mq6a5lejsepnajgf@pengutronix.de>
+References: <1579228475-6681-1-git-send-email-jeff@labundy.com>
+ <1579228475-6681-5-git-send-email-jeff@labundy.com>
+ <20200117073427.ufrduwagvppeasgr@pengutronix.de>
+ <20200119233234.GB28865@labundy.com>
+ <20200120072739.sixr5e76uckrugvu@pengutronix.de>
+ <20200122035608.GA1455@labundy.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200115125951.3677-1-tbogendoerfer@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200122035608.GA1455@labundy.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Thomas,
+Hello Jeff,
 
-On Wed, Jan 15, 2020 at 01:59:50PM +0100, Thomas Bogendoerfer wrote:
-> +
-> +	platform_set_drvdata(pdev, d);
-> +	serio_register_port(d->kbd);
-> +	serio_register_port(d->aux);
-> +
-> +	ret = request_irq(irq, ioc3kbd_intr, IRQF_SHARED, "ioc3-kbd", d);
+On Wed, Jan 22, 2020 at 03:56:14AM +0000, Jeff LaBundy wrote:
+> > > The only problem is that leds-pwm disables the pwm at start-up, so the end
+> > > result is the same anyway. Regardless of the behavior of any one consumer,
+> > > however, I'm slightly inclined to go with the second option as it seems to
+> > > be less restrictive and more maintainable. Let me know if you disagree.
+> > 
+> > With
+> > 
+> > 	default-state = "keep";
+> > 
+> > in your dt the LED shouldn't get disabled.
+> 
+> I see default-state defined as a common LED property, but leds-pwm doesn't
+> seem to use it unfortunately. Looking through its code, brightness is just
+> initialized to zero unconditionally.
 
-I just realized something - serio ports are registered asynchronously,
-and therefore may not be ready when you request IRQ which may fire
-immediately. To solve this issue serio core allows to specify start()
-method that is called after serio port has been registered. In this
-method you can set "exist" flag associated with either kbd or aux port,
-and check these flags in your interrupt routine before deciding whether
-you can forward the received data to appropriate port via
-serio_interrupt().
+Sounds like a bug.
 
-Please see i8042_start() for example of use.
-
-Thanks.
+Best regards
+Uwe
 
 -- 
-Dmitry
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
