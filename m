@@ -2,94 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7105B146664
-	for <lists+linux-input@lfdr.de>; Thu, 23 Jan 2020 12:12:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA77F146FE6
+	for <lists+linux-input@lfdr.de>; Thu, 23 Jan 2020 18:39:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729009AbgAWLMe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Jan 2020 06:12:34 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:46738 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726026AbgAWLMe (ORCPT
+        id S1728709AbgAWRj5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Jan 2020 12:39:57 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:44430 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727022AbgAWRj5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Jan 2020 06:12:34 -0500
-Received: by mail-qk1-f196.google.com with SMTP id g195so1568872qke.13
-        for <linux-input@vger.kernel.org>; Thu, 23 Jan 2020 03:12:33 -0800 (PST)
+        Thu, 23 Jan 2020 12:39:57 -0500
+Received: by mail-lj1-f196.google.com with SMTP id q8so4449735ljj.11;
+        Thu, 23 Jan 2020 09:39:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=pIBBB+FyqjefbIxBTNbhDe9jNmYX2Aqjd2a2x8BkoQg=;
-        b=Ue664TQhEwZM5RkeqDSeds4uUy6OwguWrMO5qhhm7Z3Ypy+ChH7MlfJjv1aH2XhVkR
-         iMjz7k4JIJ5PPc5kyRhqiWGDH9eZdzu1tFA0LEPR68RQs5kNvB0MfsrzbuvGLOJJo2kz
-         rlWOSgx1ctl5N3cM1Tbhs3biqRln5kCfow2c/hZM/6kwAqOnr7rhbZI4RLH17SgXTnA9
-         W7spjr/UGLHGY6/YcocjBEOlzIAIxXatGG81dJHAfxOZJ7cSFBh0LHF9o+43Ej+AdChi
-         9z0K36n5jmQtyE5nYATo6Tp+86m2JuC6/UUv+wyMslDlhIIZkoyCpMRVI8p0Zo92PyWl
-         mfXg==
+        bh=yFNfvLLpVwrxfE4d/23goL8ipurkosHK6cucyJx3weQ=;
+        b=NM3FsjMuPvJoEpN6PjTU2zC9O95D/1OOpI+dDQsgi+guT5b518OSJA7bMJ0Nk5xi98
+         EMFIj2CGEvAVgLd6NNMShh7Z96gwdtymGCS3AublihRtzY813sfUFXwy0YAqbZutnH7B
+         9qdIU1sPjgsqGXK9SKgGc9AX55NUp9j7k163QvhSBF3bokEE9mIrm18pQJHZ9RHeZGhz
+         rHRAcVi6LmN1PLCTgu3NBE4T1nJF0DtXYUZIfCRF3Nu0W2L7t0ffguukI0nAxfdqBHJM
+         FbiekKDoFJ+5ucboYonNJsNbNs0XA8IBOlPoIhpn7Uy9oHp7jo2Vbyd6zPYGIR3IKdat
+         GtgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=pIBBB+FyqjefbIxBTNbhDe9jNmYX2Aqjd2a2x8BkoQg=;
-        b=uOp7eFh5PuYz+UBz+IpKROP5Ztk3GO4LTXCxwqqdBDu3zu+/a58KVCTalA5ARmoMmZ
-         l6e331RlUU43o/w/2wtkaAWCbCxu6fMiYHxVtldtfH2Q1cwQ5SnaLhcvYTBGmcEB8jyM
-         XCwAHeY4bAwrn7jmBtrukUic2OiVWkV1JjI4DVDDPETH26LrjIk33Dof0+5ozS4OFRXi
-         CV2lc6fGwKcq5XljHnT5fc+IMFRlHJC90jmEFfbbNGcAmgSK4MjOcKj97x8r90rA1lJX
-         QW9sm2H8GdSrTCEqPw4w9mZYFCTys4ZrD2Azpvlu8eHDs5AfiKyUpMlWTFXGd1ackgLt
-         +4iA==
-X-Gm-Message-State: APjAAAW1fhw7EGwQwilCYpu05s0dS1Lr2wnWkRRdKV97j6vTbD9aqJdv
-        A2yZOpKJ3Zwf6oRVMCwThDJoafMH691edz1i/Yj+hRVr
-X-Google-Smtp-Source: APXvYqxDoxRLWl8p/goo3wa7Z/b0K70cLk3Dn+KiaA5F/HnzfAT0jTVP3K+xc5jGIlwT7TTho1CGMcp7voSGYr7fOBc=
-X-Received: by 2002:a05:620a:1663:: with SMTP id d3mr15522828qko.204.1579777952870;
- Thu, 23 Jan 2020 03:12:32 -0800 (PST)
+        bh=yFNfvLLpVwrxfE4d/23goL8ipurkosHK6cucyJx3weQ=;
+        b=ho8LYOv93Ovnkm7LDDIOpYPtNRuaC3BJxJvMahZT31QX0R4a8CvVC0pMQVzD6f7RfW
+         ZULY8xy31niACU5SLNgne/z9r1NbDW6X40yLmCNgL+2HaRsVFh0riCGxQ40aI9j0fKs1
+         JIammpbDNajGMqfjXagXnWzx1pAt9Wru5ih8fh4/8Jkh64BJ7aN9yaFK4z6EOl26W0Q5
+         b1f25tL7zr1kt9oS+4rX9rIH8t4FzcgQSBBapW7XfqfqQpkFmPKSc/ShVKIr4wudpd0Q
+         tKFhME0LBwXDklKIdQXYCmDeao5X80XNCPQ7TpraQyy8NhPhsM8VuZWg707EGcRk787B
+         IG5w==
+X-Gm-Message-State: APjAAAVEVGujtqyKJmdjgy6sDBW+4VX8Qfq6FZX7O6M3q0HcTaxoo1Sw
+        fSILeLYnmIyrMRZWOAqqL6rbKcBn
+X-Google-Smtp-Source: APXvYqxB/CslpriNX9CDhIYOGnL8o06dSzLt/0G5siEyvWLLw/p9f0d5ulOCOj1AlzCKbl//i4cDWA==
+X-Received: by 2002:a2e:9ad0:: with SMTP id p16mr24499202ljj.111.1579801195468;
+        Thu, 23 Jan 2020 09:39:55 -0800 (PST)
+Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.gmail.com with ESMTPSA id s9sm1912778ljh.90.2020.01.23.09.39.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jan 2020 09:39:54 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Nick Dyer <nick@shmanahar.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1] Input: atmel_mxt_ts - correct local variable type
+Date:   Thu, 23 Jan 2020 20:39:07 +0300
+Message-Id: <20200123173907.6870-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Received: by 2002:ac8:678d:0:0:0:0:0 with HTTP; Thu, 23 Jan 2020 03:12:32
- -0800 (PST)
-From:   patrick goutain <goutainpatrick@gmail.com>
-Date:   Thu, 23 Jan 2020 12:12:32 +0100
-Message-ID: <CAFj==g2t=+5CeTSPgVZ2oOQLPyNzkKpfD2=TiHJDfumAvvKMhg@mail.gmail.com>
-Subject: Kreditangebot
-To:     linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hallo
-Kreditangebot f=C3=BCr Unternehmen und Privatpersonen, um den reibungslosen
-Ablauf Ihrer Investitionen zu gew=C3=A4hrleisten.
-Wir sind spezialisiert auf den Bereich der Finanzierung, Wir bieten
-unsere Dienstleistungen allen Personen mit gutem Charakter und vor
-allem in der Lage, ihren Verpflichtungen nachzukommen.
-Wir sind in allen folgenden F=C3=B6rderbereichen t=C3=A4tig:  Ausleihe:
-Pers=C3=B6nlich, Konsolidierung, Renovierung, Kommerziell, Student, Auto,
-Sonstige / Sonstiges, Gesch=C3=A4ftlich, Landwirtschaft, Computer,
-Geistiges Eigentum, Dienstleistungsunternehmen, Industriell, K=C3=BCnstler,
-Mode, Medizin, Medien, Hypothek, Immobilien
-Sie k=C3=B6nnen einen Kredit von 5.000 =E2=82=AC bis 10.000.000 =E2=82=AC b=
-eantragen, wenn
-Sie ein Unternehmen sind.
-Der Zinssatz betr=C3=A4gt 3%, und die R=C3=BCckzahlungsfrist betr=C3=A4gt 1=
- bis 30 Jahre.
-Es wird eine gro=C3=9Fe Freude f=C3=BCr uns, wenn Sie finanziell stabil sin=
-d.
-F=C3=BCllen Sie dieses Formular aus, Und senden Sie es an unser Adressfeld =
-zur=C3=BCck:
+GCC produces this warning when kernel compiled using `make W=1`:
 
-Vorname: ....
-Name:=E2=80=A6 ..
-Stadt: =E2=80=A6=E2=80=A6=E2=80=A6
-Postleitzahl: =E2=80=A6=E2=80=A6
-Status: =E2=80=A6=E2=80=A6=E2=80=A6
-Land: =E2=80=A6=E2=80=A6=E2=80=A6
-Geburtsdatum:=E2=80=A6
-Telefon: =E2=80=A6=E2=80=A6 ..
-Familienstand: =E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6 ..
-Beruf: =E2=80=A6=E2=80=A6
-Darlehensbetrag: =E2=80=A6=E2=80=A6
-Laufzeit der Kreditr=C3=BCckzahlung: =E2=80=A6=E2=80=A6 ...........
-Monatliches Einkommen:=E2=80=A6 ..
+  warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+  if (byte_offset >= 0 && byte_offset < cfg->mem_size) {
 
-e-mail. financementauto51@gmail.com
-Danke.
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/input/touchscreen/atmel_mxt_ts.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index ae60442efda0..bd0fc4b08608 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -1287,8 +1287,8 @@ static int mxt_prepare_cfg_mem(struct mxt_data *data, struct mxt_cfg *cfg)
+ {
+ 	struct device *dev = &data->client->dev;
+ 	struct mxt_object *object;
+-	unsigned int type, instance, size, byte_offset;
+-	int offset;
++	unsigned int type, instance, size;
++	int offset, byte_offset;
+ 	int ret;
+ 	int i;
+ 	u16 reg;
+-- 
+2.24.0
+
