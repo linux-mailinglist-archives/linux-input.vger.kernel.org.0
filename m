@@ -2,38 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2478B147619
-	for <lists+linux-input@lfdr.de>; Fri, 24 Jan 2020 02:18:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3256147621
+	for <lists+linux-input@lfdr.de>; Fri, 24 Jan 2020 02:18:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730909AbgAXBSC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Jan 2020 20:18:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33158 "EHLO mail.kernel.org"
+        id S1730996AbgAXBSJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Jan 2020 20:18:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33312 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730879AbgAXBSB (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Jan 2020 20:18:01 -0500
+        id S1730988AbgAXBSI (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 23 Jan 2020 20:18:08 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EE0FE24655;
-        Fri, 24 Jan 2020 01:17:59 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 44DCA2253D;
+        Fri, 24 Jan 2020 01:18:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579828680;
-        bh=jMpYoVKZZmhxfblWsVYFG09q0ERX0bmgtj5z33SF3hY=;
+        s=default; t=1579828687;
+        bh=Nk9jNBcw53r9L6+tLhH7YjGpWnkMDQa7jjKGCG4czck=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yjYCPlUarSMF6ha7/j8mr0TkZFRk5EI0E70JAKw2EaDPJyZZdqY8/NLB9/6ZftaJp
-         dDpXP11pGOI8HctoILzVLQwZhEp0UUSbhrFqsDP3ntS5kqgEL+EmebX7kuDyFT3ykT
-         PHiQvQhaq0cuGok2579FpJMqTcBJFtNiOKRlS8yM=
+        b=UKUBc7oihc33JLW40fO2YBmsgnHVdNwGagZtYacq4LvLrz+0cVXcg/xHp8YT6d3wb
+         DOcYuylUiIuk058fQs+ATC8lOSAQMRcZLR7a5zgiPpuSAMglbFdK6G3Y9wkAJUMr/e
+         iOwTkTHzeC75gQ1N7tOeiOeGWjXn5NB0If1oti5A=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Pan Zhang <zhangpan26@huawei.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+Cc:     Hans de Goede <hdegoede@redhat.com>, Jiri Kosina <jkosina@suse.cz>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 11/11] drivers/hid/hid-multitouch.c: fix a possible null pointer access.
-Date:   Thu, 23 Jan 2020 20:17:47 -0500
-Message-Id: <20200124011747.18575-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 5/5] HID: ite: Add USB id match for Acer SW5-012 keyboard dock
+Date:   Thu, 23 Jan 2020 20:18:01 -0500
+Message-Id: <20200124011801.18712-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200124011747.18575-1-sashal@kernel.org>
-References: <20200124011747.18575-1-sashal@kernel.org>
+In-Reply-To: <20200124011801.18712-1-sashal@kernel.org>
+References: <20200124011801.18712-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,42 +42,54 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Pan Zhang <zhangpan26@huawei.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 306d5acbfc66e7cccb4d8f91fc857206b8df80d1 ]
+[ Upstream commit 8f18eca9ebc57d6b150237033f6439242907e0ba ]
 
-1002     if ((quirks & MT_QUIRK_IGNORE_DUPLICATES) && mt) {
-1003         struct input_mt_slot *i_slot = &mt->slots[slotnum];
-1004
-1005         if (input_mt_is_active(i_slot) &&
-1006             input_mt_is_used(mt, i_slot))
-1007             return -EAGAIN;
-1008     }
+The Acer SW5-012 2-in-1 keyboard dock uses a Synaptics S91028 touchpad
+which is connected to an ITE 8595 USB keyboard controller chip.
 
-We previously assumed 'mt' could be null (see line 1002).
+This keyboard has the same quirk for its rfkill / airplane mode hotkey as
+other keyboards with the ITE 8595 chip, it only sends a single release
+event when pressed and released, it never sends a press event.
 
-The following situation is similar, so add a judgement.
+This commit adds this keyboards USB id to the hid-ite id-table, fixing
+the rfkill key not working on this keyboard.
 
-Signed-off-by: Pan Zhang <zhangpan26@huawei.com>
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-multitouch.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hid-ids.h | 1 +
+ drivers/hid/hid-ite.c | 3 +++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index f9167d0e095ce..4a1e13ec7e7f0 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1007,7 +1007,7 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
- 		tool = MT_TOOL_DIAL;
- 	else if (unlikely(!confidence_state)) {
- 		tool = MT_TOOL_PALM;
--		if (!active &&
-+		if (!active && mt &&
- 		    input_mt_is_active(&mt->slots[slotnum])) {
- 			/*
- 			 * The non-confidence was reported for
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 1e2e6e58256ad..9d372fa7c298c 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1024,6 +1024,7 @@
+ #define USB_DEVICE_ID_SYNAPTICS_LTS2	0x1d10
+ #define USB_DEVICE_ID_SYNAPTICS_HD	0x0ac3
+ #define USB_DEVICE_ID_SYNAPTICS_QUAD_HD	0x1ac3
++#define USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012	0x2968
+ #define USB_DEVICE_ID_SYNAPTICS_TP_V103	0x5710
+ 
+ #define USB_VENDOR_ID_TEXAS_INSTRUMENTS	0x2047
+diff --git a/drivers/hid/hid-ite.c b/drivers/hid/hid-ite.c
+index 98b059d79bc89..2ce1eb0c92125 100644
+--- a/drivers/hid/hid-ite.c
++++ b/drivers/hid/hid-ite.c
+@@ -43,6 +43,9 @@ static int ite_event(struct hid_device *hdev, struct hid_field *field,
+ static const struct hid_device_id ite_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ITE, USB_DEVICE_ID_ITE8595) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_258A, USB_DEVICE_ID_258A_6A88) },
++	/* ITE8595 USB kbd ctlr, with Synaptics touchpad connected to it. */
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS,
++			 USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(hid, ite_devices);
 -- 
 2.20.1
 
