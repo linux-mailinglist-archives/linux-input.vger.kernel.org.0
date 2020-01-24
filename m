@@ -2,22 +2,22 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA827147EA3
-	for <lists+linux-input@lfdr.de>; Fri, 24 Jan 2020 11:19:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A183147EE4
+	for <lists+linux-input@lfdr.de>; Fri, 24 Jan 2020 11:42:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731659AbgAXKTW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 24 Jan 2020 05:19:22 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:57002 "EHLO
+        id S1728767AbgAXKm0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 Jan 2020 05:42:26 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:57246 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731584AbgAXKTV (ORCPT
+        with ESMTP id S1725843AbgAXKm0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 Jan 2020 05:19:21 -0500
+        Fri, 24 Jan 2020 05:42:26 -0500
 Received: from localhost.localdomain (p200300CB87166A009DA8F7B8A96C6547.dip0.t-ipconnect.de [IPv6:2003:cb:8716:6a00:9da8:f7b8:a96c:6547])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 539B9294A57;
-        Fri, 24 Jan 2020 10:19:18 +0000 (GMT)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DDA6D294A67;
+        Fri, 24 Jan 2020 10:42:22 +0000 (GMT)
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To:     linux-input@vger.kernel.org
 Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
@@ -26,9 +26,9 @@ Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
         ezequiel@collabora.com, kernel@collabora.com, dafna3@gmail.com
-Subject: [PATCH] dt-bindings: convert cros-ec-keyb.txt to yaml
-Date:   Fri, 24 Jan 2020 11:19:09 +0100
-Message-Id: <20200124101909.15019-1-dafna.hirschfeld@collabora.com>
+Subject: [PATCH v2] dt-bindings: convert cros-ec-keyb.txt to yaml
+Date:   Fri, 24 Jan 2020 11:41:58 +0100
+Message-Id: <20200124104158.5008-1-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
@@ -44,9 +44,12 @@ make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/input/cros-ec-
 
 Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 ---
+Changes from v1:
+add: "additionalProperties: false"
+
  .../bindings/input/cros-ec-keyb.txt           |  72 ------------
- .../bindings/input/cros-ec-keyb.yaml          | 105 ++++++++++++++++++
- 2 files changed, 105 insertions(+), 72 deletions(-)
+ .../bindings/input/cros-ec-keyb.yaml          | 107 ++++++++++++++++++
+ 2 files changed, 107 insertions(+), 72 deletions(-)
  delete mode 100644 Documentation/devicetree/bindings/input/cros-ec-keyb.txt
  create mode 100644 Documentation/devicetree/bindings/input/cros-ec-keyb.yaml
 
@@ -130,10 +133,10 @@ index 0f6355ce39b5..000000000000
 -};
 diff --git a/Documentation/devicetree/bindings/input/cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/cros-ec-keyb.yaml
 new file mode 100644
-index 000000000000..82c81af98176
+index 000000000000..d414a2ad7c69
 --- /dev/null
 +++ b/Documentation/devicetree/bindings/input/cros-ec-keyb.yaml
-@@ -0,0 +1,105 @@
+@@ -0,0 +1,107 @@
 +# SPDX-License-Identifier: GPL-2.0
 +%YAML 1.2
 +---
@@ -183,6 +186,8 @@ index 000000000000..82c81af98176
 +required:
 +  - compatible
 +  - linux,keymap
++
++additionalProperties: false
 +
 +examples:
 +  - |
