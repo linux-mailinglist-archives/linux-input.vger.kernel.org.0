@@ -2,185 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21E99149026
-	for <lists+linux-input@lfdr.de>; Fri, 24 Jan 2020 22:30:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79564149273
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2020 02:01:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728731AbgAXVas (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 24 Jan 2020 16:30:48 -0500
-Received: from mga06.intel.com ([134.134.136.31]:17977 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725747AbgAXVas (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 Jan 2020 16:30:48 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Jan 2020 13:30:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,358,1574150400"; 
-   d="scan'208";a="221148427"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 24 Jan 2020 13:30:46 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1iv6XN-000IMi-TJ; Sat, 25 Jan 2020 05:30:45 +0800
-Date:   Sat, 25 Jan 2020 05:30:06 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD INCOMPLETE
- 273db8f03509619cd570a4b1225b399f8fb4b0b7
-Message-ID: <5e2b61de.mlKnYarA7ps6d1nd%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S2387560AbgAYBB4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 Jan 2020 20:01:56 -0500
+Received: from mail-pg1-f182.google.com ([209.85.215.182]:41724 "EHLO
+        mail-pg1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387475AbgAYBB4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 24 Jan 2020 20:01:56 -0500
+Received: by mail-pg1-f182.google.com with SMTP id x8so1985252pgk.8;
+        Fri, 24 Jan 2020 17:01:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=LkUPWh5kdl4Sg46sJyfitt6HLC6I557q2490DP7qh3M=;
+        b=dZZ3UTU4UOOlw606J6+uj+IkABJEPApFTlmhcoT0n6lu9OHkz1ziZqvbJNTEOebkaM
+         ZzwKG1IUL3AZK07M1F8Qg8B7BMwaN3SQoCvy9nirCrzrEs2utFvaXKht5HdttlldovxP
+         Hc2mgCFGckAiybUbdH1zq88owtW8V3rqT6rAxoxUKNwt9uGUy+t7fz2JO2zs7p4cz8lg
+         KEcylnv9u56hg9zEZf5LvQfRhGsMT4KX5Q/oev9cQl9r8OuDid18rVmaAtqqNrDK3d/C
+         wWEC7cuFKOu2hVfV7vOpj37Qox77SkqbZ9PhGGk+1+EmG/RPZwGgFgxDKJGAyXHHXJKH
+         HDTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=LkUPWh5kdl4Sg46sJyfitt6HLC6I557q2490DP7qh3M=;
+        b=goaZj5OzRgnU+bQUKj69FhK++CIFOp83aN+LeJRDDaNvTCc26Pol0lq9XiHsO6wcVp
+         QYlLFjZUr1BxVLDlGVjVaRZMHJ/JMj6ndfx+zrG175TxlpBwhkDR+PXqECptIuGI4UgO
+         xuT7fQGblMeV/QWb3sGJQEXomAdKxBdq4GV3F79TidUxyhHUl1nxP954Vnat6vlDUfFH
+         3n/Kw8nSx0vI8zulERIfWAfCK5/HgVHRkq8q2wWTl7S0bqpsDjMgvm1VZ7fksfpqcBYt
+         SglAR0u4znwCy6Q0ln0jvOcTiAHj55Nmxrzem71rl/tRFVL8XLBwo5vJ10EFHHG370na
+         Q6yw==
+X-Gm-Message-State: APjAAAXT+3x+WoP7mosKqgRuBJNuwR6Y2FyFeIJkoiwiyIMYd61XyP7C
+        rp4aEP+oK3ZFYivFkoW3RrU=
+X-Google-Smtp-Source: APXvYqxDiDA5+kIDCFhEfVFU67Utzivxc1wCtaT/Q51DKRn9CC1Bi7/2Z2qQ9hNsj+8hA331vUjfzw==
+X-Received: by 2002:a63:d047:: with SMTP id s7mr6922468pgi.81.1579914115234;
+        Fri, 24 Jan 2020 17:01:55 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id c184sm7662382pfa.39.2020.01.24.17.01.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jan 2020 17:01:54 -0800 (PST)
+Date:   Fri, 24 Jan 2020 17:01:52 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.5-rc7
+Message-ID: <20200125010152.GA14053@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  master
-branch HEAD: 273db8f03509619cd570a4b1225b399f8fb4b0b7  Input: add IOC3 serio driver
+Hi Linus,
 
-TIMEOUT after 2885m
+Please pull from:
+
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+
+to receive updates for the input subsystem. You will receive:
+
+- patches adding sanoty checks to USB endpoints in various dirvers
+- max77650-onkey was missing a OF table which was preventing module
+  autoloading
+- a revert and a different fix for F54 handling in Synaptics dirver
+- a fixup for handling register in pm8xxx vibrator driver.
+
+Changelog:
+---------
+
+Bartosz Golaszewski (1):
+      Input: max77650-onkey - add of_match table
+
+Chuhong Yuan (1):
+      Input: sun4i-ts - add a check for devm_thermal_zone_of_sensor_register
+
+Hans Verkuil (2):
+      Revert "Input: synaptics-rmi4 - don't increment rmiaddr for SMBus transfers"
+      Input: rmi_f54 - read from FIFO in 32 byte blocks
+
+Johan Hovold (8):
+      Input: pegasus_notetaker - fix endpoint sanity check
+      Input: aiptek - fix endpoint sanity check
+      Input: aiptek - use descriptors of current altsetting
+      Input: gtco - fix endpoint sanity check
+      Input: gtco - fix extra-descriptor debug message
+      Input: gtco - drop redundant variable reinit
+      Input: sur40 - fix interface sanity checks
+      Input: keyspan-remote - fix control-message timeouts
+
+Miles Chen (1):
+      Input: evdev - convert kzalloc()/vzalloc() to kvzalloc()
+
+Stephan Gerhold (1):
+      Input: pm8xxx-vib - fix handling of separate enable register
+
+Diffstat:
+--------
+
+ drivers/input/evdev.c                    |  5 +---
+ drivers/input/misc/keyspan_remote.c      |  9 ++++---
+ drivers/input/misc/max77650-onkey.c      |  7 ++++++
+ drivers/input/misc/pm8xxx-vibrator.c     |  2 +-
+ drivers/input/rmi4/rmi_f54.c             | 43 ++++++++++++++++++++------------
+ drivers/input/rmi4/rmi_smbus.c           |  2 ++
+ drivers/input/tablet/aiptek.c            |  8 +++---
+ drivers/input/tablet/gtco.c              | 13 +++-------
+ drivers/input/tablet/pegasus_notetaker.c |  2 +-
+ drivers/input/touchscreen/sun4i-ts.c     |  6 ++++-
+ drivers/input/touchscreen/sur40.c        |  2 +-
+ 11 files changed, 59 insertions(+), 40 deletions(-)
+
+Thanks.
 
 
-Sorry we cannot finish the testset for your branch within a reasonable time.
-It's our fault -- either some build server is down or some build worker is busy
-doing bisects for _other_ trees. The branch will get more complete coverage and
-possible error reports when our build infrastructure is restored or catches up.
-There will be no more build success notification for this branch head, but you
-can expect reasonably good test coverage after waiting for 1 day.
-
-configs timed out: 50
-
-alpha                               defconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-csky                                defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-mips                             allyesconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-parisc                            allnoconfig
-parisc                            allyesonfig
-parisc                         b180_defconfig
-parisc                        c3000_defconfig
-parisc                              defconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                             defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
-
-configs tested: 72
-configs skipped: 0
-
-x86_64               randconfig-f001-20200123
-x86_64               randconfig-f002-20200123
-x86_64               randconfig-f003-20200123
-i386                 randconfig-f001-20200123
-i386                 randconfig-f002-20200123
-i386                 randconfig-f003-20200123
-sh                               allmodconfig
-sh                                allnoconfig
-sh                          rsk7269_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                            titan_defconfig
-x86_64               randconfig-h001-20200123
-x86_64               randconfig-h002-20200123
-x86_64               randconfig-h003-20200123
-i386                 randconfig-h001-20200123
-i386                 randconfig-h002-20200123
-i386                 randconfig-h003-20200123
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-m68k                             allmodconfig
-m68k                       m5475evb_defconfig
-m68k                          multi_defconfig
-m68k                           sun3_defconfig
-xtensa                       common_defconfig
-xtensa                          iss_defconfig
-openrisc                 simple_smp_defconfig
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-i386                             alldefconfig
-um                                  defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-c6x                              allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-riscv                            allmodconfig
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                                defconfig
-x86_64               randconfig-g001-20200123
-x86_64               randconfig-g002-20200123
-x86_64               randconfig-g003-20200123
-i386                 randconfig-g001-20200123
-i386                 randconfig-g002-20200123
-i386                 randconfig-g003-20200123
-x86_64               randconfig-e001-20200123
-x86_64               randconfig-e002-20200123
-x86_64               randconfig-e003-20200123
-i386                 randconfig-e001-20200123
-i386                 randconfig-e002-20200123
-i386                 randconfig-e003-20200123
-csky                 randconfig-a001-20200123
-openrisc             randconfig-a001-20200123
-s390                 randconfig-a001-20200123
-sh                   randconfig-a001-20200123
-xtensa               randconfig-a001-20200123
-
----
-0-DAY kernel test infrastructure                 Open Source Technology Center
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
+-- 
+Dmitry
