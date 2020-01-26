@@ -2,158 +2,208 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 608D6149CD6
-	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2020 21:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64D70149CD4
+	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2020 21:27:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbgAZU2c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 26 Jan 2020 15:28:32 -0500
-Received: from ams-node6.websitehostserver.net ([107.6.163.66]:34645 "EHLO
-        ams-node6.websitehostserver.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726087AbgAZU2c (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 26 Jan 2020 15:28:32 -0500
-X-Greylist: delayed 2590 seconds by postgrey-1.27 at vger.kernel.org; Sun, 26 Jan 2020 15:28:31 EST
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=welchs.me.uk; s=default; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=1iuIIHLDXFgbIP0KUUM70+Fje7EhMg4VrZHvVRTSgKw=; b=ZJklnSWBRRBb4P0ApvH+OVF0qR
-        JZWS+MnOcYi+wMV7zD8butsJuYD9vddeRTCllH43d/P+FF3wecIvRBTM4sZ35bhjxPO6C8lP4uAjl
-        ugx/LrTAvB/bw09KERFl6I6q7tqiNbwkAE2fEUaLiskBS5DCPEnm0ZVZ6tZhjizWedh/ORvKXPu+H
-        vpjXPMkEu3TG1wiPyu4jRarnMTlH9qCkTIeAtZvF3Jsb4JMmUJNFN+filcljRo00q0yzkof1dH2WK
-        84j0qLaM/eqfB8poR30D9DdbXQWPVfVIjkYmCjhe9r721FEhONOInpAt5N5hqnXfSBIZeATV2o0zA
-        jVO9+j8A==;
-Received: from host86-133-53-79.range86-133.btcentralplus.com ([86.133.53.79]:37384 helo=hera.home)
-        by ams-node6.websitehostserver.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <martyn@welchs.me.uk>)
-        id 1ivnqR-0002ep-Ns; Sun, 26 Jan 2020 20:45:19 +0100
-From:   Martyn Welch <martyn@welchs.me.uk>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Martyn Welch <martyn@welchs.me.uk>,
-        Conn O'Griofa <connogriofa@gmail.com>
-Subject: [PATCH] HID: Sony: Add support for Gasia controllers
-Date:   Sun, 26 Jan 2020 19:45:13 +0000
-Message-Id: <20200126194513.6359-1-martyn@welchs.me.uk>
-X-Mailer: git-send-email 2.20.1
+        id S1726144AbgAZU12 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 26 Jan 2020 15:27:28 -0500
+Received: from mail-oln040092005107.outbound.protection.outlook.com ([40.92.5.107]:42470
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726087AbgAZU12 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 26 Jan 2020 15:27:28 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jokq1wbPZQO6njGu0Qfs2hfA/8tG43yJyNhfixEwB6E9L6fDHHU6mv6ZOV+/GF6rCIjOWbd25Y2jc+E7d402dxVGSWWYBzFO1SdLWh8wrxgrUvv+lhNfvEjQUj0wTVluKQkaFMfpJk3eigp5iHOYBQlOpwYGTmJRWPLbuxw/CetDoF6aKLA6tCq93/P0pPd9tQa4w3e5zlzGx1OlfBjTEftsjtPWleN1jGgWwfJHQHMtN/KOxaV7E9mT57GESzOdBX3WYggvKCCrkqJFs0rKpICIDAEsO8SMp3QFcyjWMtaKX1IX9U+/3PkVPgruyd6wsr8Hd7NwuOVTZVaLukdR3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uDVs4Y+0Mq9GgbkiTuvoyb19iNnXsiPL2OTvDg1Tvkw=;
+ b=fhRTurQ5erIn4UtLN/v2eKjp0uX2qBJedKNMsQadDSZN+2dTRc9SJ394nb2kmIR6Xk9rDTRoRoqkQ8sO6XmcC4vhCWtjY2H4BjylpljiKs60WGQqRRnCEmotwjxZprIzdFsnwSmJK0vFzFdL04exkJU59eFl/c2hyN01HqLTHDUX6lM8kj9nVvoPrB4bgXyLE3h5XZJdZyYsDGvcu/u+gjL4759amM1nMS8TdgrgAy0I6gfOv2bL0IvQnDm8hVxR50gJVUVJAN24HJAFegCS08zXa27hJ43zNZD/MVpgVjEcvpHBqtELQUH4ksyLnkD8fuqUXO52DR6QwXs+9DIjsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from BL2NAM02FT055.eop-nam02.prod.protection.outlook.com
+ (10.152.76.53) by BL2NAM02HT164.eop-nam02.prod.protection.outlook.com
+ (10.152.77.189) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2665.18; Sun, 26 Jan
+ 2020 20:27:23 +0000
+Received: from BYAPR10MB3479.namprd10.prod.outlook.com (10.152.76.53) by
+ BL2NAM02FT055.mail.protection.outlook.com (10.152.77.126) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2665.18 via Frontend Transport; Sun, 26 Jan 2020 20:27:23 +0000
+Received: from BYAPR10MB3479.namprd10.prod.outlook.com
+ ([fe80::609c:d845:cbb0:ce16]) by BYAPR10MB3479.namprd10.prod.outlook.com
+ ([fe80::609c:d845:cbb0:ce16%7]) with mapi id 15.20.2665.017; Sun, 26 Jan 2020
+ 20:27:23 +0000
+Received: from [IPv6:2001:569:fb67:7300:9f89:4b96:de0b:cd14] (2001:569:fb67:7300:9f89:4b96:de0b:cd14) by MW2PR2101CA0005.namprd21.prod.outlook.com (2603:10b6:302:1::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.0 via Frontend Transport; Sun, 26 Jan 2020 20:27:20 +0000
+From:   Jonathan Bakker <xc-racer2@live.ca>
+To:     Linus Walleij <linus.walleij@linaro.org>
+CC:     Jonathan Cameron <jic23@kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Minkyu Kang <mk7.kang@samsung.com>,
+        =?utf-8?B?UGF3ZcWCIENobWllbA==?= <pawel.mikolaj.chmiel@gmail.com>,
+        Oskar Andero <oskar.andero@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH 2/2 v5] iio: light: Add a driver for Sharp GP2AP002x00F
+Thread-Topic: [PATCH 2/2 v5] iio: light: Add a driver for Sharp GP2AP002x00F
+Thread-Index: AQHV0J5muon1F28DBkWxjme5gakZOaf4/mYAgAQXq4CAAFa1gA==
+Date:   Sun, 26 Jan 2020 20:27:22 +0000
+Message-ID: <BYAPR10MB3479E348502A3E94F293559DA3080@BYAPR10MB3479.namprd10.prod.outlook.com>
+References: <20200121210419.13372-1-linus.walleij@linaro.org>
+ <20200121210419.13372-2-linus.walleij@linaro.org>
+ <BYAPR10MB3479CEEA65545B8422C77091A30E0@BYAPR10MB3479.namprd10.prod.outlook.com>
+ <CACRpkdYMxXL6oY0eA+5EYOUTZ_opAtiT-6THfc9dwy_9Ufq8MQ@mail.gmail.com>
+In-Reply-To: <CACRpkdYMxXL6oY0eA+5EYOUTZ_opAtiT-6THfc9dwy_9Ufq8MQ@mail.gmail.com>
+Accept-Language: en-CA, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: MW2PR2101CA0005.namprd21.prod.outlook.com
+ (2603:10b6:302:1::18) To BYAPR10MB3479.namprd10.prod.outlook.com
+ (2603:10b6:a03:11a::16)
+x-incomingtopheadermarker: OriginalChecksum:E24ABE3F4281B950D9AB14C778179D36266DF9CA4F6116D00426011462D3C090;UpperCasedChecksum:B62B1AF8EE7120D378CD1D02934C55BEF4E4A4AE6231AD0B4CFBE0EE4C88A7D8;SizeAsReceived:8433;Count:50
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [Sc9FURb9PPODoBElwPUDeB5Qr0ODnef/FEcS54IaH7xXJEJI6O3kK7DOttavWmld]
+x-microsoft-original-message-id: <8e8c216e-cf06-2ead-90cd-71a1f70a30e4@live.ca>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 50
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: 825eda0b-d8e9-4f07-af96-08d7a29e2565
+x-ms-traffictypediagnostic: BL2NAM02HT164:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: rUFTv7wk8LnLYReBTQ2cc7IOflZ2OldGCMUAfzM0uzlBirrEj/GqMmLdiVTTElGaqNcDLUzuOgr17Ir2Jr3ZkLSNwqbO6fhEDImjcIacBC2mUjQPjZCGDaKkZXwtTiQ/ah2An3mcWa1y9krc/+j9dwGp9chRThN8GzUd87mKUBwJNGJFOWatLwWyzpYRL5r8ftmQkuHW+baoZ00+hVDLbNXiru0W97kdBDeQp5ouG14=
+x-ms-exchange-antispam-messagedata: cJdvYYRADhHLifhROnPcx6ShpW5IBjX8XcqQlR4JbbS+XN29bdI7EeIjWZvY0sr4VfYhK6+Q57umqQjdSNJKY2a/8JhnXzE9KySoNjOX1N00WfG576Up+KAbHkrJh/We9tLxW/FR6esUkToffSMnuue4Z6akg1tO1UcJu1ZHn4ln+uED0/Cp0AbZ6mrGMfB2TKtRMF53Mepp+HXawWBMbQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3C5C16F7D9CD9446BB2CBC96C0E9D627@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - ams-node6.websitehostserver.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - welchs.me.uk
-X-Get-Message-Sender-Via: ams-node6.websitehostserver.net: authenticated_id: martyn@welchs.me.uk
-X-Authenticated-Sender: ams-node6.websitehostserver.net: martyn@welchs.me.uk
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 825eda0b-d8e9-4f07-af96-08d7a29e2565
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jan 2020 20:27:23.6364
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL2NAM02HT164
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-There seems to be a number of subtly different firmwares for the
-Playstation controllers made by "Gasia Co.,Ltd". Whilst such controllers
-are easily detectable when attached via USB that is not always the case
-via Bluetooth. Some controllers are named "PLAYSTATION(R)3 Controller"
-where as the official Sony controllers are named
-"Sony PLAYSTATION(R)3 Controller", however some versions of firmware use
-the exact name used by the official controllers. The only way I've been
-able to distinguish these versions of the controller (when connected via
-Bluetooth) is that the Bluetooth Class of Device incorrectly reports the
-controller as a keyboard rather than a gamepad. I've so far failed to work
-out how to access this information from a HID driver.
-
-The Gasia controllers need output reports to be configured in the same way
-as the Shanwan controllers. In order to ensure both types of Gasia firmware
-will work, this patch adds a quirk for those devices it can detect and
-reworks `sixaxis_send_output_report()` to attempt `hid_hw_output_report()`
-should `hid_hw_raw_request()` be known to be the wrong option (as is the
-case with the Shanwan controllers) or fails.
-
-This has got all the controllers I have working, with the slight
-anoyance that the Gasia controllers that don't currently get marked with
-a quirk require the call to `hid_hw_raw_request()` to fail before the
-controller finishes initialising (which adds a significant extra delay
-before the controller is ready).
-
-This patch is based on the following patch by Conn O'Griofa:
-
-https://github.com/RetroPie/RetroPie-Setup/pull/2263/commits/017f00f6e15f04b3272ff1abae8742dc4c47b608
-
-Cc: Conn O'Griofa <connogriofa@gmail.com>
-Signed-off-by: Martyn Welch <martyn@welchs.me.uk>
----
- drivers/hid/hid-sony.c | 31 +++++++++++++++++++++++++------
- 1 file changed, 25 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-index 4c6ed6ef31f1..d1088a85cb59 100644
---- a/drivers/hid/hid-sony.c
-+++ b/drivers/hid/hid-sony.c
-@@ -56,6 +56,7 @@
- #define NSG_MR5U_REMOTE_BT        BIT(14)
- #define NSG_MR7U_REMOTE_BT        BIT(15)
- #define SHANWAN_GAMEPAD           BIT(16)
-+#define GASIA_GAMEPAD             BIT(17)
- 
- #define SIXAXIS_CONTROLLER (SIXAXIS_CONTROLLER_USB | SIXAXIS_CONTROLLER_BT)
- #define MOTION_CONTROLLER (MOTION_CONTROLLER_USB | MOTION_CONTROLLER_BT)
-@@ -2067,6 +2068,7 @@ static void sixaxis_send_output_report(struct sony_sc *sc)
- 	struct sixaxis_output_report *report =
- 		(struct sixaxis_output_report *)sc->output_report_dmabuf;
- 	int n;
-+	int ret = -1;
- 
- 	/* Initialize the report with default values */
- 	memcpy(report, &default_report, sizeof(struct sixaxis_output_report));
-@@ -2101,14 +2103,23 @@ static void sixaxis_send_output_report(struct sony_sc *sc)
- 		}
- 	}
- 
--	/* SHANWAN controllers require output reports via intr channel */
--	if (sc->quirks & SHANWAN_GAMEPAD)
--		hid_hw_output_report(sc->hdev, (u8 *)report,
--				sizeof(struct sixaxis_output_report));
--	else
--		hid_hw_raw_request(sc->hdev, report->report_id, (u8 *)report,
-+	/*
-+	 * SHANWAN & GASIA controllers require output reports via intr channel.
-+	 * Some of the Gasia controllers are basically indistinguishable from
-+	 * the official ones and thus try hid_hw_output_report() should
-+	 * hid_hw_raw_request() fail.
-+	 */
-+	if (!(sc->quirks & (SHANWAN_GAMEPAD | GASIA_GAMEPAD)))
-+		ret = hid_hw_raw_request(sc->hdev, report->report_id,
-+				(u8 *)report,
- 				sizeof(struct sixaxis_output_report),
- 				HID_OUTPUT_REPORT, HID_REQ_SET_REPORT);
-+
-+	if (ret >= 0)
-+		return;
-+
-+	hid_hw_output_report(sc->hdev, (u8 *)report,
-+			sizeof(struct sixaxis_output_report));
- }
- 
- static void dualshock4_send_output_report(struct sony_sc *sc)
-@@ -2833,6 +2844,14 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	if (!strcmp(hdev->name, "SHANWAN PS3 GamePad"))
- 		quirks |= SHANWAN_GAMEPAD;
- 
-+	/*
-+	 * Some Gasia controllers are named "PLAYSTATION(R)3 Controller"
-+	 * where as the official Sony controllers are named
-+	 * "Sony PLAYSTATION(R)3 Controller".
-+	 */
-+	if (!strcmp(hdev->name, "PLAYSTATION(R)3 Controller"))
-+		quirks |= GASIA_GAMEPAD;
-+
- 	sc = devm_kzalloc(&hdev->dev, sizeof(*sc), GFP_KERNEL);
- 	if (sc == NULL) {
- 		hid_err(hdev, "can't alloc sony descriptor\n");
--- 
-2.20.1
-
+SGkgTGludXMsDQoNCk9uIDIwMjAtMDEtMjYgNzoxNiBhLm0uLCBMaW51cyBXYWxsZWlqIHdyb3Rl
+Og0KPiBPbiBGcmksIEphbiAyNCwgMjAyMCBhdCAxOjQ3IEFNIEpvbmF0aGFuIEJha2tlciA8eGMt
+cmFjZXIyQGxpdmUuY2E+IHdyb3RlOg0KPiANCj4+IFRoYW5rcyBmb3IgdGhlIGRyaXZlciwgSSd2
+ZSB0ZXN0ZWQgaXQgb24gYSBmaXJzdC1nZW4gR2FsYXh5IFMNCj4+IGRldmljZSB3aXRoIGEgR1Ay
+QVAwMDJBMDBGLiAgSSBoYXZlIGEgZmV3IGNvbW1lbnRzIHRoYXQgSSd2ZSBwdXQgaW5saW5lDQo+
+PiBiYXNlZCBvbiBteSBleHBlcmllbmNlcy4NCj4gDQo+IFRoYW5rcyBhIGxvdCENCj4gDQo+PiBC
+b3RoIHNob3J0bHkgYWZ0ZXIgcHJvYmUgKHdoZW4gcnVudGltZSBwbSB0aW1lb3V0IG9jY3Vycz8p
+IGFuZCBhZnRlcg0KPj4gbWFudWFsbHkgZGlzYWJsaW5nIHRoZSBwcm94aW1pdHkgZXZlbnQsIHRo
+aXMNCj4+IGlycSBoYW5kbGVyIGlzIGNhbGxlZC4gIFNpbmNlIHRoZSBjaGlwIGlzIGluIGxvdyBw
+b3dlciBzdGF0ZSwgaXQgb2J2aW91c2x5DQo+PiBmYWlscyB0byByZWFkIHRoZSBwcm94aW1pdHkg
+dmFsdWUgYW5kIHdyaXRlIHRvIHRoZSBPQ09OIHJlZ2lzdGVyIGJlbG93LCBlZw0KPj4NCj4+IFsg
+ICAgNy4yMTU4NzVdIGdwMmFwMDAyIDExLTAwNDQ6IGVycm9yIHJlYWRpbmcgcHJveGltaXR5DQo+
+PiBbICAgIDguMTA1ODc4XSBncDJhcDAwMiAxMS0wMDQ0OiBlcnJvciBzZXR0aW5nIHVwIFZPVVQg
+Y29udHJvbCAxDQo+Pg0KPj4gQ2FuIHdlIGRvIHNvbWV0aGluZyBsaWtlIGRpc2FibGVfaXJxKCkg
+aW4gdGhlIHJ1bnRpbWUgcG0gZnVuY3Rpb24gdG8gcHJldmVudA0KPj4gdGhpcz8NCj4gDQo+IEkg
+YWRkZWQgdGhhdCBpbiB2NiwgSSBob3BlIHRoaXMgc29sdmVzIHlvdXIgcHJvYmxlbS4NCg0KWWVw
+LCBpdCBhcHBlYXJzIHRvLiAgVGhhbmtzLg0KDQo+IA0KPj4gVGhlIGdwMmFwMDAyczAwZl9yZWdt
+YXBfaTJjX3JlYWQgZnVuY3Rpb24gd29ya3Mgb24gdGhlIGdwMmFwMDAyYTAwZiBhcyB3ZWxsLA0K
+Pj4gc28gdGhpcyBjYW4gYmUgc2ltcGxpZmllZC9kcm9wcGVkLg0KPiANCj4gRml4ZWQgdGhpcyB0
+b28gaW4gdjYuDQo+IA0KPj4+ICsgICAgICAgICAgICAgaWYgKGNoX3R5cGUgIT0gSUlPX0NVUlJF
+TlQpIHsNCj4+PiArICAgICAgICAgICAgICAgICAgICAgZGV2X2VycihkZXYsDQo+Pj4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIndyb25nIHR5cGUgb2YgSUlPIGNoYW5uZWwgc3BlY2lm
+aWVkIGZvciBBTFNPVVRcbiIpOw0KPj4+ICsgICAgICAgICAgICAgICAgICAgICByZXR1cm4gLUVJ
+TlZBTDsNCj4+PiArICAgICAgICAgICAgIH0NCj4+DQo+PiBUaGlzIGVuZm9yY2VzIGEgY3VycmVu
+dCBBREMsIHdoaWxlIHNldmVyYWwgZGV2aWNlcyBiZXNpZGVzIG1pbmUgKGVnIEdhbGF4eSBOZXh1
+cykNCj4+IHVzZSBhIHJlc2lzdG9yIGFuZCBhIHZvbHRhZ2UgQURDLiAgRm9yIHRoaXMgY2FzZSwg
+Y291bGQgd2UgYWRkIGEgZGV2aWNlIHByb3BlcnR5IHN1Y2ggYXMNCj4+IHNoYXJwLGFkYy1hZGp1
+c3RtZW50LXJhdGlvIHRvIGNvbnZlcnQgZnJvbSB0aGUgcmF3IEFEQyB2YWx1ZXMgdG8gYSAiY3Vy
+cmVudCIgdGhhdA0KPj4gY291bGQgYmUgdXNlZCBpbiB0aGUgbG9va3VwIHRhYmxlPyAgU28gdGhl
+ICJjdXJyZW50IiB3b3VsZCBiZSB0aGUgcmF3IEFEQyBkaXZpZGVkDQo+PiBieSB0aGF0IHNwZWNp
+YWwgdmFsdWUuDQo+Pg0KPj4gSW5zdHJ1Y3Rpb25zIGZvciBjb252ZXJ0aW5nIHRoZSBBREMgYmFj
+ayB0byB0aGUgY3VycmVudCBjYW4gYmUgZm91bmQgZWcgYXQNCj4+IGh0dHBzOi8vYW5kcm9pZC5n
+b29nbGVzb3VyY2UuY29tL2RldmljZS9zYW1zdW5nL2NyZXNwby8rLzJlMGFiNzI2NWUzMDM5ZmVl
+Nzg3YzIyMTZlMGM5OGQ5MmVhMGI0OWUlNUUlMjEvI0YwDQo+IA0KPiBJJ2QgbGlrZSB0byBrZWVw
+IHRoYXQgYXMgYSBmdXR1cmUgZW5oYW5jZW1lbnQgdW5sZXNzIHNvbWVvbmUgaXMgdmVyeSBlYWdl
+cg0KPiB0byBnZXQgaXQgYW5kIGhhcyBhIGRldmljZSB0aGV5IGNhbiB0ZXN0IGl0IG9uLiBPdGhl
+cndpc2UgaXQgd2lsbCBiZQ0KPiBqdXN0IGRyeS1jb2RpbmcNCj4gb24gbXkgcGFydC4NCg0KV2Vs
+bCwgSSd2ZSBnb3Qgc3VjaCBhIGRldmljZSBhbmQgY2FuIHRlc3QgOikNCg0KPiANCj4gSSB0aGlu
+ayB0aGUgcHJvcGVydHkgd2Ugd291bGQgYWRkIGluIHRoZSBkZXZpY2UgdHJlZSBpbiB0aGF0IGNh
+c2Ugc2hvdWxkDQo+IGJlIHRoZSByZXNpc3RhbmNlIHZhbHVlLiBUaGlzIGlzIGJhc2VkIG9uIHRo
+ZSBmb2xsb3dpbmcgYXNzdW1wdGlvbg0KPiB3aGljaCBpcyBpbmRlZWQgYSBiaXQgb2Ygc3BlY3Vs
+YXRpb24gc2luY2UgdGhlcmUgaXMgbm8gcHJvcGVyIGRhdGFzaGVldA0KPiBmb3IgdGhlIGxpZ2h0
+IHNlbnNvciBwYXJ0IG9mIHRoZSBjb21wb25lbnQ6DQo+IA0KPiAtIFRoZSBsaWdodCBzZW5zb3Ig
+cGFydCBpcyBzaW1wbHkgYSBwaG90b2Rpb2RlDQo+IC0gVGhpcyBlbWl0cyBhIG5vbmxpbmVhciBj
+dXJyZW50IGluIHJlbGF0aW9uIHRvIGhvdyBtYW55DQo+ICAgcGhvdG9ucyBoaXQgdGhlIHBob3Rv
+ZGlvZGUgaW4gYSB0aW1lIGludGVydmFsLCB0aGUgcmVsYXRpb25zaGlwDQo+ICAgaXMgZGVzY3Jp
+YmVkIGluIHRoZSBjdXJyZW4tPmx1eCB0YWJsZSB3ZSBoYXZlDQo+IC0gU29tZSB2ZW5kb3JzIGRv
+IG5vdCBoYXZlIGFueSBjdXJyZW50IEFEQywgc28gdGhleSBjb25uZWN0DQo+ICAgdGhpcyB0byBh
+IHJlc2lzdG9yLCBhbmQgbWVhc3VyZSB0aGUgdm9sdGFnZSBvdmVyIHRoZQ0KPiAgIHJlc2lzdG9y
+IGJlY2F1c2UgdGhlIGhhdmUgYSB2b2x0YWdlIEFEQw0KPiANCj4gU2luY2UgY3VycmVudCBpcyBs
+aW5lYXIgdG8gdGhlIHZvbHRhZ2Ugb3ZlciB0aGUgcmVzaXN0b3IsIHdlIHNob3VsZA0KPiBpbmNs
+dWRlIHRoZSByZXNpc3RhbmNlIGluIHRoZSBkZXZpY2UgdHJlZSwgdGhlbiB1c2luZyB0aGF0IHRo
+ZQ0KPiBjb3JyZXNwb25kaW5nIGN1cnJlbnQgY2FuIGJlIGNhbGN1bGF0ZWQgYW5kIHdlIHVzZSB0
+aGUgc2FtZQ0KPiBsb29rLXVwIHRhYmxlIHRvIGZpbmQgdGhlIGx1eC4gUHJvYmFibHkgZWFjaCBz
+eXN0ZW0gbWF5IG5lZWQNCj4gdG8gYWxzbyBzdWJ0cmFjdCBzb21lIGJpYXMgdm9sdGFnZSBvciBz
+by4NCg0KWWVzLCB0aGlzIGlzIG15IHVuZGVyc3RhbmRpbmcgb2YgaXQgYXMgd2VsbCAoSSBhbHNv
+IGhhdmUgbm8gZGF0YXNoZWV0KS4NCg0KR2l2ZW4gViA9IGFjdHVhbCB2b2x0YWdlIGluIFYsIFZy
+ZWYgPSByZWZlcmVuY2Ugdm9sdGFnZSBvZiBBREMgaW4gViwgQURDID0gdmFsdWUNCnJlYWQgZnJv
+bSBBREMsIEFEQ21heCA9IG1heGltdW0gcG9zc2libGUgdmFsdWUgcmVhZCBmcm9tIEFEQywgSSA9
+IGN1cnJlbnQgaW4gYW1wcywNClIgPSByZXNpc3RvciB2YWx1ZSBpbiBvaG1zLCB1QSA9IGN1cnJl
+bnQgaW4gbWljcm9hbXBzDQoNClYgLyBWcmVmID0gQURDIC8gQURDbWF4DQpWID0gKEFEQyAvIEFE
+Q21heCkgKiBWcmVmDQoNClYgPSBJICogUg0KSSAqIFIgPSAoQURDIC8gQURDbWF4KSAqIFZyZWYN
+CkkgPSBBREMgKiBWcmVmIC8gQURDbWF4IC8gUg0KDQpIb3dldmVyLCBiZWNhdXNlIHdlIHdhbnQg
+dGhlIGN1cnJlbnQgaW4gdUEgZm9yIHRoZSB0YWJsZSwgKG5vdGUsIHlvdXIgY29tbWVudCBzYXlz
+DQp0aGF0IHRoZSB0YWJsZSBpcyBiYXNlZCBvbiBtQSwgYnV0IEkgYmVsaWV2ZSB0aGF0IGl0IHNo
+b3VsZCBhY3R1YWxseSBiZSB1QSkNCg0KdUEgPSBBREMgKiBWcmVmIC8gQURDbWF4IC8gUiAqIDEw
+MDAwMDANCg0KVGhlbiwgaW4gb3JkZXIgdG8gYXZvaWQgbXVsdGlwbHlpbmcgYnkgYSBkZWNpbWFs
+LCB0aGUgdUEgaXMgdGhlIEFEQyB2YWx1ZSBkaXZpZGVkDQpieSB0aGUgaW52ZXJzZSBvZg0KDQoo
+MTAwMDAwMCAqIFZyZWYgLyBBRENtYXggLyBSKQ0KDQpGb3IgZXhhbXBsZSwgb24gdGhlIGZpcnN0
+IGdlbiBHYWxheHkgUyBzZXJpZXMgYW5kIHRoZSBOZXh1cyBTLCB0aGUgVnJlZiBpcyAzLjNWLA0K
+dGhlIEFEQyBpcyAxMiBiaXQgKDJeMTIgPSA0MDk2LCBzbyBoaWdoIHZhbHVlIGlzIDQwOTUpLCB0
+aGUgcmVzaXN0b3IgaXMgNDcwMDBvaG1zLA0KDQppbnZlcnNlIG9mICgxMDAwMDAwICogMy4zIC8g
+NDA5NSAvIDQ3MDAwKSA9IDU4DQoNCnNvIHdlIG5lZWQgdG8gZGl2aWRlIHRoZSByYXcgQURDIHJl
+YWRpbmcgYnkgNTggaW4gb3JkZXIgdG8gZ2V0IHRoZSB1QSBmb3IgdGhlIGN1cnJlbnQtPmx1eA0K
+dGFibGUuDQoNCkEgcXVpY2sgcGF0Y2ggdGhhdCBJIHVzZWQgZm9yIHRlc3RpbmcgKGJhc2VkIG9m
+ZiBvZiB2NSkgaXMNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvaWlvL2xpZ2h0L2dwMmFwMDAyLmMg
+Yi9kcml2ZXJzL2lpby9saWdodC9ncDJhcDAwMi5jDQppbmRleCBhNTg5Nzk1OWY3MGQuLmI5OGFl
+YzMzN2Y4YiAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvaWlvL2xpZ2h0L2dwMmFwMDAyLmMNCisrKyBi
+L2RyaXZlcnMvaWlvL2xpZ2h0L2dwMmFwMDAyLmMNCkBAIC0xMzAsNiArMTMwLDcgQEANCiAgKiBA
+dmRkOiByZWd1bGF0b3IgY29udHJvbGxpbmcgVkREDQogICogQHZpbzogcmVndWxhdG9yIGNvbnRy
+b2xsaW5nIFZJTw0KICAqIEBhbHNvdXQ6IElJTyBBREMgY2hhbm5lbCB0byBjb252ZXJ0IHRoZSBB
+TFNPVVQgc2lnbmFsDQorICogQGFkY19hZGo6IGNvbnZlcnNpb24gZmFjdG9yIGlmIHZvbHRhZ2Ug
+QURDIHVzZWQgaW5zdGVhZCBvZiBjdXJyZW50IEFEQw0KICAqIEBpc19ncDJhcDAwMnMwMGY6IHRo
+aXMgaXMgdGhlIEdQMkFQMDAyRiB2YXJpYW50IG9mIHRoZSBjaGlwDQogICogQGVuYWJsZWQ6IHdl
+IGNhbm5vdCByZWFkIHRoZSBzdGF0dXMgb2YgdGhlIGhhcmR3YXJlIHNvIHdlIG5lZWQgdG8NCiAg
+KiBrZWVwIHRyYWNrIG9mIHdoZXRoZXIgdGhlIGV2ZW50IGlzIGVuYWJsZWQgdXNpbmcgdGhpcyBz
+dGF0ZSB2YXJpYWJsZQ0KQEAgLTE0Myw2ICsxNDQsNyBAQCBzdHJ1Y3QgZ3AyYXAwMDIgew0KIAll
+bnVtIGlpb19ldmVudF9kaXJlY3Rpb24gZGlyOw0KIAl1OCBoeXNfZmFyOw0KIAl1OCBoeXNfY2xv
+c2U7DQorCXU4IGFkY19hZGo7DQogCWJvb2wgaXNfZ3AyYXAwMDJzMDBmOw0KIAlib29sIGVuYWJs
+ZWQ7DQogfTsNCkBAIC0yNzIsNiArMjc0LDkgQEAgc3RhdGljIGludCBncDJhcDAwMl9nZXRfbHV4
+KHN0cnVjdCBncDJhcDAwMiAqZ3AyYXAwMDIpDQogCWlmIChyZXQgPCAwKQ0KIAkJcmV0dXJuIHJl
+dDsNCiANCisJaWYgKGdwMmFwMDAyLT5hZGNfYWRqKQ0KKwkJcmVzIC89IGdwMmFwMDAyLT5hZGNf
+YWRqOw0KKw0KIAlkZXZfZGJnKGdwMmFwMDAyLT5kZXYsICJyZWFkICVkIG1BIGZyb20gQURDXG4i
+LCByZXMpOw0KIA0KIAlpbGwxID0gJmdwMmFwMDAyX2lsbHVtaW5hbmNlX3RhYmxlWzBdOw0KQEAg
+LTU4OCw3ICs1OTMsMTYgQEAgc3RhdGljIGludCBncDJhcDAwMl9wcm9iZShzdHJ1Y3QgaTJjX2Ns
+aWVudCAqY2xpZW50LA0KIAkJcmV0ID0gaWlvX2dldF9jaGFubmVsX3R5cGUoZ3AyYXAwMDItPmFs
+c291dCwgJmNoX3R5cGUpOw0KIAkJaWYgKHJldCA8IDApDQogCQkJcmV0dXJuIHJldDsNCi0JCWlm
+IChjaF90eXBlICE9IElJT19DVVJSRU5UKSB7DQorCQlpZiAoY2hfdHlwZSA9PSBJSU9fVk9MVEFH
+RSkgew0KKwkJCXJldCA9IGRldmljZV9wcm9wZXJ0eV9yZWFkX3U4KGRldiwNCisJCQkJInNoYXJw
+LGFkYy1hZGp1c3RtZW50LXJhdGlvIiwgJnZhbCk7DQorCQkJaWYgKHJldCkgew0KKwkJCQlkZXZf
+ZXJyKGRldiwNCisJCQkJCSJmYWlsZWQgdG8gb2J0YWluIGFkYyBjb252ZXJzaW9uXG4iKTsNCisJ
+CQkJcmV0dXJuIC1FSU5WQUw7DQorCQkJfQ0KKwkJCWdwMmFwMDAyLT5hZGNfYWRqID0gdmFsOw0K
+KwkJfSBlbHNlIGlmIChjaF90eXBlICE9IElJT19DVVJSRU5UKSB7DQogCQkJZGV2X2VycihkZXYs
+DQogCQkJCSJ3cm9uZyB0eXBlIG9mIElJTyBjaGFubmVsIHNwZWNpZmllZCBmb3IgQUxTT1VUXG4i
+KTsNCiAJCQlyZXR1cm4gLUVJTlZBTDsNCg0KQWx0ZXJuYXRpdmVseSwgeW91IGNvdWxkIGNvbGxl
+Y3QgdGhlIHJlc2lzdG9yIHZhbHVlLCB0aGUgQURDIHByZWNpc2lvbiAodGhpcyBkb2Vzbid0DQph
+cHBlYXIgdG8gYmUgcXVlcnlhYmxlIHZpYSB0aGUgSUlPIGxheWVyKSwgYW5kIHRoZSByZWZlcmVu
+Y2Ugdm9sdGFnZSBsZXZlbCAtIGJ1dCBJJ20NCm5vdCBzdXJlIGhvdyB5b3UnZCBkbyB0aGUgaW52
+ZXJzZSBjYWxjdWxhdGlvbiBpbiB0aGUga2VybmVsLg0KDQo+IA0KPiBCdXQgd2UgZGVmaW5hdGVs
+eSBuZWVkIHNvbWV0aGluZyB0byB0ZXN0IG9uIHRvIGRvIHRoaXMgcmlnaHQ+IA0KPiBZb3VycywN
+Cj4gTGludXMgV2FsbGVpag0KPiANCg0KVGhhbmtzLA0KSm9uYXRoYW4gQmFra2VyDQo=
