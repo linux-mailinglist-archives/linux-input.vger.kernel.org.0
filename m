@@ -2,348 +2,158 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C5A66149BD1
-	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2020 17:07:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 608D6149CD6
+	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2020 21:28:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729074AbgAZQFd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 26 Jan 2020 11:05:33 -0500
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:41887 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729030AbgAZQFc (ORCPT
+        id S1726144AbgAZU2c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 26 Jan 2020 15:28:32 -0500
+Received: from ams-node6.websitehostserver.net ([107.6.163.66]:34645 "EHLO
+        ams-node6.websitehostserver.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726087AbgAZU2c (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 26 Jan 2020 11:05:32 -0500
-X-Originating-IP: 195.189.32.242
-Received: from pc.localdomain (unknown [195.189.32.242])
-        (Authenticated sender: contact@artur-rojek.eu)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 493EC1BF20B;
-        Sun, 26 Jan 2020 16:05:28 +0000 (UTC)
-From:   Artur Rojek <contact@artur-rojek.eu>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Paul Cercueil <paul@crapouillou.net>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Artur Rojek <contact@artur-rojek.eu>
-Subject: [PATCH v2 5/5] input: joystick: Add ADC attached joystick driver.
-Date:   Sun, 26 Jan 2020 17:12:36 +0100
-Message-Id: <20200126161236.63631-5-contact@artur-rojek.eu>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200126161236.63631-1-contact@artur-rojek.eu>
-References: <20200126161236.63631-1-contact@artur-rojek.eu>
+        Sun, 26 Jan 2020 15:28:32 -0500
+X-Greylist: delayed 2590 seconds by postgrey-1.27 at vger.kernel.org; Sun, 26 Jan 2020 15:28:31 EST
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=welchs.me.uk; s=default; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=1iuIIHLDXFgbIP0KUUM70+Fje7EhMg4VrZHvVRTSgKw=; b=ZJklnSWBRRBb4P0ApvH+OVF0qR
+        JZWS+MnOcYi+wMV7zD8butsJuYD9vddeRTCllH43d/P+FF3wecIvRBTM4sZ35bhjxPO6C8lP4uAjl
+        ugx/LrTAvB/bw09KERFl6I6q7tqiNbwkAE2fEUaLiskBS5DCPEnm0ZVZ6tZhjizWedh/ORvKXPu+H
+        vpjXPMkEu3TG1wiPyu4jRarnMTlH9qCkTIeAtZvF3Jsb4JMmUJNFN+filcljRo00q0yzkof1dH2WK
+        84j0qLaM/eqfB8poR30D9DdbXQWPVfVIjkYmCjhe9r721FEhONOInpAt5N5hqnXfSBIZeATV2o0zA
+        jVO9+j8A==;
+Received: from host86-133-53-79.range86-133.btcentralplus.com ([86.133.53.79]:37384 helo=hera.home)
+        by ams-node6.websitehostserver.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.92)
+        (envelope-from <martyn@welchs.me.uk>)
+        id 1ivnqR-0002ep-Ns; Sun, 26 Jan 2020 20:45:19 +0100
+From:   Martyn Welch <martyn@welchs.me.uk>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Martyn Welch <martyn@welchs.me.uk>,
+        Conn O'Griofa <connogriofa@gmail.com>
+Subject: [PATCH] HID: Sony: Add support for Gasia controllers
+Date:   Sun, 26 Jan 2020 19:45:13 +0000
+Message-Id: <20200126194513.6359-1-martyn@welchs.me.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - ams-node6.websitehostserver.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - welchs.me.uk
+X-Get-Message-Sender-Via: ams-node6.websitehostserver.net: authenticated_id: martyn@welchs.me.uk
+X-Authenticated-Sender: ams-node6.websitehostserver.net: martyn@welchs.me.uk
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a driver for joystick devices connected to ADC controllers
-supporting the Industrial I/O subsystem.
+There seems to be a number of subtly different firmwares for the
+Playstation controllers made by "Gasia Co.,Ltd". Whilst such controllers
+are easily detectable when attached via USB that is not always the case
+via Bluetooth. Some controllers are named "PLAYSTATION(R)3 Controller"
+where as the official Sony controllers are named
+"Sony PLAYSTATION(R)3 Controller", however some versions of firmware use
+the exact name used by the official controllers. The only way I've been
+able to distinguish these versions of the controller (when connected via
+Bluetooth) is that the Bluetooth Class of Device incorrectly reports the
+controller as a keyboard rather than a gamepad. I've so far failed to work
+out how to access this information from a HID driver.
 
-Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
-Tested-by: Paul Cercueil <paul@crapouillou.net>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+The Gasia controllers need output reports to be configured in the same way
+as the Shanwan controllers. In order to ensure both types of Gasia firmware
+will work, this patch adds a quirk for those devices it can detect and
+reworks `sixaxis_send_output_report()` to attempt `hid_hw_output_report()`
+should `hid_hw_raw_request()` be known to be the wrong option (as is the
+case with the Shanwan controllers) or fails.
+
+This has got all the controllers I have working, with the slight
+anoyance that the Gasia controllers that don't currently get marked with
+a quirk require the call to `hid_hw_raw_request()` to fail before the
+controller finishes initialising (which adds a significant extra delay
+before the controller is ready).
+
+This patch is based on the following patch by Conn O'Griofa:
+
+https://github.com/RetroPie/RetroPie-Setup/pull/2263/commits/017f00f6e15f04b3272ff1abae8742dc4c47b608
+
+Cc: Conn O'Griofa <connogriofa@gmail.com>
+Signed-off-by: Martyn Welch <martyn@welchs.me.uk>
 ---
+ drivers/hid/hid-sony.c | 31 +++++++++++++++++++++++++------
+ 1 file changed, 25 insertions(+), 6 deletions(-)
 
- Changes:
-
- v2: - sanity check supported channel format on probe,
-     - rename adc_joystick_disable to a more sensible adc_joystick_cleanup, 
-     - enforce correct axis order by checking the `reg` property of
-       child nodes
-
- drivers/input/joystick/Kconfig        |  10 ++
- drivers/input/joystick/Makefile       |   1 +
- drivers/input/joystick/adc-joystick.c | 245 ++++++++++++++++++++++++++
- 3 files changed, 256 insertions(+)
- create mode 100644 drivers/input/joystick/adc-joystick.c
-
-diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
-index 940b744639c7..efbc20ec5099 100644
---- a/drivers/input/joystick/Kconfig
-+++ b/drivers/input/joystick/Kconfig
-@@ -42,6 +42,16 @@ config JOYSTICK_A3D
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called a3d.
+diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
+index 4c6ed6ef31f1..d1088a85cb59 100644
+--- a/drivers/hid/hid-sony.c
++++ b/drivers/hid/hid-sony.c
+@@ -56,6 +56,7 @@
+ #define NSG_MR5U_REMOTE_BT        BIT(14)
+ #define NSG_MR7U_REMOTE_BT        BIT(15)
+ #define SHANWAN_GAMEPAD           BIT(16)
++#define GASIA_GAMEPAD             BIT(17)
  
-+config JOYSTICK_ADC
-+	tristate "Simple joystick connected over ADC"
-+	depends on IIO
-+	select IIO_BUFFER_CB
-+	help
-+	  Say Y here if you have a simple joystick connected over ADC.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called adc-joystick.
-+
- config JOYSTICK_ADI
- 	tristate "Logitech ADI digital joysticks and gamepads"
- 	select GAMEPORT
-diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
-index 8656023f6ef5..58232b3057d3 100644
---- a/drivers/input/joystick/Makefile
-+++ b/drivers/input/joystick/Makefile
-@@ -6,6 +6,7 @@
- # Each configuration option enables a list of files.
+ #define SIXAXIS_CONTROLLER (SIXAXIS_CONTROLLER_USB | SIXAXIS_CONTROLLER_BT)
+ #define MOTION_CONTROLLER (MOTION_CONTROLLER_USB | MOTION_CONTROLLER_BT)
+@@ -2067,6 +2068,7 @@ static void sixaxis_send_output_report(struct sony_sc *sc)
+ 	struct sixaxis_output_report *report =
+ 		(struct sixaxis_output_report *)sc->output_report_dmabuf;
+ 	int n;
++	int ret = -1;
  
- obj-$(CONFIG_JOYSTICK_A3D)		+= a3d.o
-+obj-$(CONFIG_JOYSTICK_ADC)		+= adc-joystick.o
- obj-$(CONFIG_JOYSTICK_ADI)		+= adi.o
- obj-$(CONFIG_JOYSTICK_AMIGA)		+= amijoy.o
- obj-$(CONFIG_JOYSTICK_AS5011)		+= as5011.o
-diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
-new file mode 100644
-index 000000000000..9cb9896da26e
---- /dev/null
-+++ b/drivers/input/joystick/adc-joystick.c
-@@ -0,0 +1,245 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Input driver for joysticks connected over ADC.
-+ * Copyright (c) 2019-2020 Artur Rojek <contact@artur-rojek.eu>
-+ */
-+#include <linux/ctype.h>
-+#include <linux/input.h>
-+#include <linux/iio/iio.h>
-+#include <linux/iio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
+ 	/* Initialize the report with default values */
+ 	memcpy(report, &default_report, sizeof(struct sixaxis_output_report));
+@@ -2101,14 +2103,23 @@ static void sixaxis_send_output_report(struct sony_sc *sc)
+ 		}
+ 	}
+ 
+-	/* SHANWAN controllers require output reports via intr channel */
+-	if (sc->quirks & SHANWAN_GAMEPAD)
+-		hid_hw_output_report(sc->hdev, (u8 *)report,
+-				sizeof(struct sixaxis_output_report));
+-	else
+-		hid_hw_raw_request(sc->hdev, report->report_id, (u8 *)report,
++	/*
++	 * SHANWAN & GASIA controllers require output reports via intr channel.
++	 * Some of the Gasia controllers are basically indistinguishable from
++	 * the official ones and thus try hid_hw_output_report() should
++	 * hid_hw_raw_request() fail.
++	 */
++	if (!(sc->quirks & (SHANWAN_GAMEPAD | GASIA_GAMEPAD)))
++		ret = hid_hw_raw_request(sc->hdev, report->report_id,
++				(u8 *)report,
+ 				sizeof(struct sixaxis_output_report),
+ 				HID_OUTPUT_REPORT, HID_REQ_SET_REPORT);
 +
-+struct adc_joystick_axis {
-+	u32 code;
-+	s32 range[2];
-+	s32 fuzz;
-+	s32 flat;
-+};
++	if (ret >= 0)
++		return;
 +
-+struct adc_joystick {
-+	struct input_dev *input;
-+	struct iio_cb_buffer *buffer;
-+	struct adc_joystick_axis *axes;
-+	struct iio_channel *chans;
-+	int num_chans;
-+};
++	hid_hw_output_report(sc->hdev, (u8 *)report,
++			sizeof(struct sixaxis_output_report));
+ }
+ 
+ static void dualshock4_send_output_report(struct sony_sc *sc)
+@@ -2833,6 +2844,14 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	if (!strcmp(hdev->name, "SHANWAN PS3 GamePad"))
+ 		quirks |= SHANWAN_GAMEPAD;
+ 
++	/*
++	 * Some Gasia controllers are named "PLAYSTATION(R)3 Controller"
++	 * where as the official Sony controllers are named
++	 * "Sony PLAYSTATION(R)3 Controller".
++	 */
++	if (!strcmp(hdev->name, "PLAYSTATION(R)3 Controller"))
++		quirks |= GASIA_GAMEPAD;
 +
-+static int adc_joystick_handle(const void *data, void *private)
-+{
-+	struct adc_joystick *joy = private;
-+	enum iio_endian endianness;
-+	int bytes, msb, val, i;
-+	bool sign;
-+
-+	bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
-+
-+	for (i = 0; i < joy->num_chans; ++i) {
-+		endianness = joy->chans[i].channel->scan_type.endianness;
-+		msb = joy->chans[i].channel->scan_type.realbits - 1;
-+		sign = (tolower(joy->chans[i].channel->scan_type.sign) == 's');
-+
-+		switch (bytes) {
-+		case 1:
-+			val = ((const u8 *)data)[i];
-+			break;
-+		case 2:
-+			val = ((const u16 *)data)[i];
-+			if (endianness == IIO_BE)
-+				val = be16_to_cpu(val);
-+			else if (endianness == IIO_LE)
-+				val = le16_to_cpu(val);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+
-+		val >>= joy->chans[i].channel->scan_type.shift;
-+		if (sign)
-+			val = sign_extend32(val, msb);
-+		else
-+			val &= GENMASK(msb, 0);
-+		input_report_abs(joy->input, joy->axes[i].code, val);
-+	}
-+
-+	input_sync(joy->input);
-+
-+	return 0;
-+}
-+
-+static int adc_joystick_open(struct input_dev *dev)
-+{
-+	struct adc_joystick *joy = input_get_drvdata(dev);
-+	int ret;
-+
-+	ret = iio_channel_start_all_cb(joy->buffer);
-+	if (ret)
-+		dev_err(dev->dev.parent, "Unable to start callback buffer");
-+
-+	return ret;
-+}
-+
-+static void adc_joystick_close(struct input_dev *dev)
-+{
-+	struct adc_joystick *joy = input_get_drvdata(dev);
-+
-+	iio_channel_stop_all_cb(joy->buffer);
-+}
-+
-+static void adc_joystick_cleanup(void *data)
-+{
-+	iio_channel_release_all_cb(data);
-+}
-+
-+static int adc_joystick_set_axes(struct device *dev, struct adc_joystick *joy)
-+{
-+	struct adc_joystick_axis *axes;
-+	struct fwnode_handle *child;
-+	int num_axes, ret, i;
-+
-+	num_axes = device_get_child_node_count(dev);
-+	if (!num_axes) {
-+		dev_err(dev, "Unable to find child nodes");
-+		return -EINVAL;
-+	}
-+
-+	if (num_axes != joy->num_chans) {
-+		dev_err(dev, "Got %d child nodes for %d channels",
-+			num_axes, joy->num_chans);
-+		return -EINVAL;
-+	}
-+
-+	axes = devm_kmalloc_array(dev, num_axes, sizeof(*axes), GFP_KERNEL);
-+	if (!axes)
-+		return -ENOMEM;
-+
-+	device_for_each_child_node(dev, child) {
-+		ret = fwnode_property_read_u32(child, "reg", &i);
-+		if (ret || i >= num_axes) {
-+			dev_err(dev, "reg invalid or missing");
-+			goto err;
-+		}
-+
-+		if (fwnode_property_read_u32(child, "linux,code",
-+					     &axes[i].code)) {
-+			dev_err(dev, "linux,code invalid or missing");
-+			goto err;
-+		}
-+
-+		if (fwnode_property_read_u32_array(child, "abs-range",
-+						   axes[i].range, 2)) {
-+			dev_err(dev, "abs-range invalid or missing");
-+			goto err;
-+		}
-+
-+		fwnode_property_read_u32(child, "abs-fuzz",
-+					 &axes[i].fuzz);
-+		fwnode_property_read_u32(child, "abs-flat",
-+					 &axes[i].flat);
-+
-+		input_set_abs_params(joy->input, axes[i].code,
-+				     axes[i].range[0], axes[i].range[1],
-+				     axes[i].fuzz,
-+				     axes[i].flat);
-+		input_set_capability(joy->input, EV_ABS, axes[i].code);
-+	}
-+
-+	joy->axes = axes;
-+
-+	return 0;
-+
-+err:
-+	fwnode_handle_put(child);
-+	return -EINVAL;
-+}
-+
-+static int adc_joystick_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct adc_joystick *joy;
-+	struct input_dev *input;
-+	int bits, ret, i;
-+
-+	joy = devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
-+	if (!joy)
-+		return -ENOMEM;
-+
-+	joy->chans = devm_iio_channel_get_all(dev);
-+	if (IS_ERR(joy->chans)) {
-+		ret = PTR_ERR(joy->chans);
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(dev, "Unable to get IIO channels");
-+		return ret;
-+	}
-+
-+	/* Count how many channels we got. NULL terminated. */
-+	while (joy->chans[joy->num_chans].indio_dev)
-+		joy->num_chans++;
-+
-+	bits = joy->chans[0].channel->scan_type.storagebits;
-+	if (!bits || (bits >> 3) > 2) {
-+		dev_err(dev, "Unsupported channel storage size");
-+		return -EINVAL;
-+	}
-+	for (i = 1; i < joy->num_chans; ++i)
-+		if (joy->chans[i].channel->scan_type.storagebits != bits) {
-+			dev_err(dev, "Channels must have equal storage size");
-+			return -EINVAL;
-+		}
-+
-+	input = devm_input_allocate_device(dev);
-+	if (!input) {
-+		dev_err(dev, "Unable to allocate input device");
-+		return -ENOMEM;
-+	}
-+
-+	joy->input = input;
-+	input->name = pdev->name;
-+	input->id.bustype = BUS_HOST;
-+	input->open = adc_joystick_open;
-+	input->close = adc_joystick_close;
-+
-+	ret = adc_joystick_set_axes(dev, joy);
-+	if (ret)
-+		return ret;
-+
-+	input_set_drvdata(input, joy);
-+	ret = input_register_device(input);
-+	if (ret) {
-+		dev_err(dev, "Unable to register input device: %d", ret);
-+		return ret;
-+	}
-+
-+	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
-+	if (IS_ERR(joy->buffer)) {
-+		dev_err(dev, "Unable to allocate callback buffer");
-+		return PTR_ERR(joy->buffer);
-+	}
-+
-+	ret = devm_add_action_or_reset(dev, adc_joystick_cleanup, joy->buffer);
-+	if (ret)
-+		dev_err(dev, "Unable to add action");
-+
-+	return ret;
-+}
-+
-+static const struct of_device_id adc_joystick_of_match[] = {
-+	{ .compatible = "adc-joystick", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, adc_joystick_of_match);
-+
-+static struct platform_driver adc_joystick_driver = {
-+	.driver = {
-+		.name = "adc-joystick",
-+		.of_match_table = of_match_ptr(adc_joystick_of_match),
-+	},
-+	.probe = adc_joystick_probe,
-+};
-+module_platform_driver(adc_joystick_driver);
-+
-+MODULE_DESCRIPTION("Input driver for joysticks connected over ADC");
-+MODULE_AUTHOR("Artur Rojek <contact@artur-rojek.eu>");
-+MODULE_LICENSE("GPL");
+ 	sc = devm_kzalloc(&hdev->dev, sizeof(*sc), GFP_KERNEL);
+ 	if (sc == NULL) {
+ 		hid_err(hdev, "can't alloc sony descriptor\n");
 -- 
-2.25.0
+2.20.1
 
