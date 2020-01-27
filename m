@@ -2,218 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DA5F14A07F
-	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2020 10:12:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C143A14A0C4
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2020 10:30:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726267AbgA0JMX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Jan 2020 04:12:23 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26191 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728262AbgA0JMW (ORCPT
+        id S1729378AbgA0J3n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Jan 2020 04:29:43 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:34940 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727872AbgA0J3n (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Jan 2020 04:12:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1580116340;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=M9hxx9ozEZkaPTM1+VPDc3TWQ0gfjD9WZsQqXUI/VqM=;
-        b=I4eDJQ1xLo5vlABA+N764oOu+z5cbhhMoLOkK4Gm7gsKM+OmX8y5pS+LEFiGf1/O4NTwi7
-        R0EfWr2l0+0Z27mwT43OKEuflqbFV1QkSn3ETjBRQT6XRH8l35aCyT0Kx2O+96/cnsvU6P
-        I2wV4LodZs+PtS/XcslO2j3DFTQ3QBM=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-cm7Ya9UGOdSlFY_Q46XM7A-1; Mon, 27 Jan 2020 04:12:18 -0500
-X-MC-Unique: cm7Ya9UGOdSlFY_Q46XM7A-1
-Received: by mail-qv1-f71.google.com with SMTP id g15so6041172qvq.20
-        for <linux-input@vger.kernel.org>; Mon, 27 Jan 2020 01:12:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=M9hxx9ozEZkaPTM1+VPDc3TWQ0gfjD9WZsQqXUI/VqM=;
-        b=Y0QIxFHUoijvu5ksx2TDJ1H1kfI4VpMt+vYPTjD+cXU0YAgjFpa8McGnCEXwD6wQfx
-         lwcKOq9W24XwPCLA1KtujQSV3SxmQplB0FIYK+bGPaN9uQ3KbJGUEHHSlmk2beJt0o6U
-         h8WtMZQXhad7IOUeKyah2EbHeklw05c7vFB9jQhKEqi5TIqSoGuOIiER7pp3UqyB3ATN
-         1c/mSn4B9YJnRJ8VWqF0pwTbirbfHbe1VWoplE4CHC0SdVetDFPPcqf/2sXbLwXrDfrH
-         DxOUrypsO2wk/1bGkc4sPoxEQI7gZvVctX9TSp35ti5EwS9htHr/qHwPKUfsSoUwtZWJ
-         76PA==
-X-Gm-Message-State: APjAAAWBY8otvvRaBOGNi6ukvThDPXV8uFuRHDZYUDy5/SofwHYLSvv8
-        DrYOz6xyERDjLrgqyyCB0wHAFT0UDVyugPa941kB+ua3+i2pejYQ/4taAQpnINEqJK7Wiv+9ZXe
-        jZ8Uxzcqt2c5+kEYY6ksIomWj3e4Sc449wsjXbAI=
-X-Received: by 2002:ac8:365c:: with SMTP id n28mr7847299qtb.260.1580116337681;
-        Mon, 27 Jan 2020 01:12:17 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzr6xug3BnUa3I0Ylf4L+XjMwNQRytDMt23oIEXtx/gEFXcaRoK7dGGiqQEcSKnoWu1R6ivcG4RuChkPRN+7W4=
-X-Received: by 2002:ac8:365c:: with SMTP id n28mr7847278qtb.260.1580116337395;
- Mon, 27 Jan 2020 01:12:17 -0800 (PST)
+        Mon, 27 Jan 2020 04:29:43 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00R9DDEP054968;
+        Mon, 27 Jan 2020 09:29:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=dqtak0Ip1v1fu40eyS07aEJt+TSWkVxnjJJIK8PU5JU=;
+ b=FehyzrEO2zhzN5U4IqRc/54MG6VUkpCZQxx5DJKM2lyXsufyEqZHzUOS7Q7JH7IcXeZp
+ hP5NIOXHbi9UoNufThTJ5/vt3vRAd5OlBpFe3/86+dv0y4Y64hOCBZyGdPRfTRBfRuut
+ Ds7nY0xZFvYbA13ZT5rBbuANyxTZFKyNhJIwLtw4Db+zYF0IvQTmyT09C27V/eOSG6Ke
+ 3YjWgfxu4NRmImfF5D4UptRorAZO0dDaqOvqi9knfYpaZO5MfUDFCHb6cRKjm1r4Zgey
+ uUeJ9PSAFRQTNHz972N8q2UNshZ8jzvdB9BzpPcleSuOuzaNrFINkaDWYzHNMJBPk2Jf 5Q== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2120.oracle.com with ESMTP id 2xrdmq61kc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 27 Jan 2020 09:29:06 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00R9Dev7147737;
+        Mon, 27 Jan 2020 09:29:05 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3020.oracle.com with ESMTP id 2xry6rrt2a-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 27 Jan 2020 09:29:05 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00R9T3fq014947;
+        Mon, 27 Jan 2020 09:29:03 GMT
+Received: from kadam (/129.205.23.165)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 27 Jan 2020 01:29:02 -0800
+Date:   Mon, 27 Jan 2020 12:28:50 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Hillf Danton <hdanton@sina.com>
+Cc:     syzbot <syzbot+106b378813251e52fc5e@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: KASAN: use-after-free Read in hiddev_disconnect
+Message-ID: <20200127092850.GX1847@kadam>
+References: <0000000000004dbaf2059c193a36@google.com>
+ <20200126024957.11392-1-hdanton@sina.com>
 MIME-Version: 1.0
-References: <20200111192419.2503922-1-lains@archlinux.org> <aaca852e-cb31-2690-7f90-819ed673bacb@pedrovanzella.com>
-In-Reply-To: <aaca852e-cb31-2690-7f90-819ed673bacb@pedrovanzella.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 27 Jan 2020 10:12:06 +0100
-Message-ID: <CAO-hwJJwqXbJSTY2iEBTv3=N1_NaoHii6JvpA7_1oJUWQHZHag@mail.gmail.com>
-Subject: Re: [PATCH] HID: logitech-hidpp: BatteryVoltage: only read
- chargeStatus if extPower is active
-To:     Pedro Vanzella <pedro@pedrovanzella.com>
-Cc:     =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200126024957.11392-1-hdanton@sina.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9512 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=309
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001270081
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9512 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=388 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001270081
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+I already fixed this bug in an earlier thread.
 
-On Mon, Jan 20, 2020 at 2:43 PM Pedro Vanzella <pedro@pedrovanzella.com> wr=
-ote:
->
-> On 1/11/20 4:24 PM, Filipe La=C3=ADns wrote:
-> > In the HID++ 2.0 function getBatteryInfo() from the BatteryVoltage
-> > (0x1001) feature, chargeStatus is only valid if extPower is active.
-> >
-> > Previously we were ignoring extPower, which resulted in wrong values.
->
-> Nice catch. Sorry for missing that the first time around.
->
-> >
-> > Example:
-> >      With an unplugged mouse
-> >
-> >      $ cat /sys/class/power_supply/hidpp_battery_0/status
-> >      Charging
->
-> Tested and it works as expected now.
+Syzbot always reports a use after free as two separate bugs, a read
+after free and a write after free.  It's too much hassle to mark all
+the duplicates.
 
-Thanks for the patch and the tests.
+regards,
+dan carpenter
 
-Unfortunately, the merge window is already opened, and I'd rather not
-sneak this one right now. This patch doesn't seem very critical so I
-rather not annoy the other maintainers.
-I'll make sure it gets in the 5.6 final by pushing it into a rc when
-things are calmer for everybody.
-
-So the plan would be:
-- wait for the 'normal' 5.6 HID pull request to be sent
-- apply this one in for-5.6/upstream-fixes
-- sent this branch for either 5.6-rc1 or 5.6-rc2
-
-Cheers,
-Benjamin
-
->
-> >
-> > This patch makes fixes that, it also renames charge_sts to flags as
-> > charge_sts can be confused with chargeStatus from the spec.
-> >
-> > Spec:
-> > +--------+-------------------------------------------------------------=
-------------+
-> > |  byte  |                                    2                        =
-            |
-> > +--------+--------------+------------+------------+----------+---------=
--+----------+
-> > |   bit  |     0..2     |      3     |      4     |     5    |     6   =
- |     7    |
-> > +--------+--------------+------------+------------+----------+---------=
--+----------+
-> > | buffer | chargeStatus | fastCharge | slowCharge | critical | (unused)=
- | extPower |
-> > +--------+--------------+------------+------------+----------+---------=
--+----------+
-> > Table 1 - battery voltage (0x1001), getBatteryInfo() (ASE 0), 3rd byte
-> >
-> > +-------+--------------------------------------+
-> > | value |                meaning               |
-> > +-------+--------------------------------------+
-> > |   0   | Charging                             |
-> > +-------+--------------------------------------+
-> > |   1   | End of charge (100% charged)         |
-> > +-------+--------------------------------------+
-> > |   2   | Charge stopped (any "normal" reason) |
-> > +-------+--------------------------------------+
-> > |   7   | Hardware error                       |
-> > +-------+--------------------------------------+
-> > Table 2 - chargeStatus value
-> >
-> > Signed-off-by: Filipe La=C3=ADns <lains@archlinux.org>
-> > ---
-> >   drivers/hid/hid-logitech-hidpp.c | 43 ++++++++++++++++---------------=
--
-> >   1 file changed, 21 insertions(+), 22 deletions(-)
-> >
-> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitec=
-h-hidpp.c
-> > index bb063e7d48df..39a5ee0aaab0 100644
-> > --- a/drivers/hid/hid-logitech-hidpp.c
-> > +++ b/drivers/hid/hid-logitech-hidpp.c
-> > @@ -1256,36 +1256,35 @@ static int hidpp20_battery_map_status_voltage(u=
-8 data[3], int *voltage,
-> >   {
-> >       int status;
-> >
-> > -     long charge_sts =3D (long)data[2];
-> > +     long flags =3D (long) data[2];
-> >
-> > -     *level =3D POWER_SUPPLY_CAPACITY_LEVEL_UNKNOWN;
-> > -     switch (data[2] & 0xe0) {
-> > -     case 0x00:
-> > -             status =3D POWER_SUPPLY_STATUS_CHARGING;
-> > -             break;
-> > -     case 0x20:
-> > -             status =3D POWER_SUPPLY_STATUS_FULL;
-> > -             *level =3D POWER_SUPPLY_CAPACITY_LEVEL_FULL;
-> > -             break;
-> > -     case 0x40:
-> > +     if (flags & 0x80)
-> > +             switch (flags & 0x07) {
-> > +             case 0:
-> > +                     status =3D POWER_SUPPLY_STATUS_CHARGING;
-> > +                     break;
-> > +             case 1:
-> > +                     status =3D POWER_SUPPLY_STATUS_FULL;
-> > +                     *level =3D POWER_SUPPLY_CAPACITY_LEVEL_FULL;
-> > +                     break;
-> > +             case 2:
-> > +                     status =3D POWER_SUPPLY_STATUS_NOT_CHARGING;
-> > +                     break;
-> > +             default:
-> > +                     status =3D POWER_SUPPLY_STATUS_UNKNOWN;
-> > +                     break;
-> > +             }
-> > +     else
-> >               status =3D POWER_SUPPLY_STATUS_DISCHARGING;
-> > -             break;
-> > -     case 0xe0:
-> > -             status =3D POWER_SUPPLY_STATUS_NOT_CHARGING;
-> > -             break;
-> > -     default:
-> > -             status =3D POWER_SUPPLY_STATUS_UNKNOWN;
-> > -     }
-> >
-> >       *charge_type =3D POWER_SUPPLY_CHARGE_TYPE_STANDARD;
-> > -     if (test_bit(3, &charge_sts)) {
-> > +     if (test_bit(3, &flags)) {
-> >               *charge_type =3D POWER_SUPPLY_CHARGE_TYPE_FAST;
-> >       }
-> > -     if (test_bit(4, &charge_sts)) {
-> > +     if (test_bit(4, &flags)) {
-> >               *charge_type =3D POWER_SUPPLY_CHARGE_TYPE_TRICKLE;
-> >       }
-> > -
-> > -     if (test_bit(5, &charge_sts)) {
-> > +     if (test_bit(5, &flags)) {
-> >               *level =3D POWER_SUPPLY_CAPACITY_LEVEL_CRITICAL;
-> >       }
-> >
-> >
->
-> Tested-by: Pedro Vanzella <pedro@pedrovanzella.com>
-> Reviewed-by: Pedro Vanzella <pedro@pedrovanzella.com>
->
 
