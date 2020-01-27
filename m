@@ -2,48 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED29614A6F8
-	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2020 16:12:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1774E14A789
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2020 16:51:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729213AbgA0PMm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Jan 2020 10:12:42 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:47210 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729146AbgA0PMm (ORCPT
+        id S1729548AbgA0PvS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Jan 2020 10:51:18 -0500
+Received: from mail-qk1-f181.google.com ([209.85.222.181]:39134 "EHLO
+        mail-qk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729399AbgA0PvS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Jan 2020 10:12:42 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00RF9eHL000915;
-        Mon, 27 Jan 2020 15:12:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=fHfyRYxqrv2GKnEybOSy0pNXaorqVF+m3LA7NpU4Y+A=;
- b=TxBbi15sPi/V6nRfn13IAtcIKgCb0WeWBlfmPsoGYlIHQ4pw6eVE7EJsopSxiO4H8WjH
- tX1XpwmJgGqmH+88IZ/Amkc4UTW3e2HEFN3HtsBjJBrwvJfnCHkH1TTCyatnMspBQRn2
- SHrufJwDShOtNuC3ARyrhNftW7TudNhQbre0gkCZyC+5TV7LtdaSi69UuKvcmWYHeflP
- rpJJKoQV0TiVJdIhjDRLmxeacksq+pC4HDtqIixtNcXYM0EZevENMX+2mCai65OFz0k8
- hvkUbdfYvYRIJgnB/pQhKX1kxHPiyWajR/5TfV+DXBmIZGZVcHSuHAdNjo2GDHgcDKR1 TA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2130.oracle.com with ESMTP id 2xrd3tyxqr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 27 Jan 2020 15:12:05 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00RFBfPG131063;
-        Mon, 27 Jan 2020 15:12:04 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 2xrytq7aym-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 27 Jan 2020 15:12:03 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00RFBi2v003902;
-        Mon, 27 Jan 2020 15:11:44 GMT
-Received: from kadam (/129.205.23.165)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 27 Jan 2020 07:11:43 -0800
-Date:   Mon, 27 Jan 2020 18:11:35 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Dmitry Vyukov <dvyukov@google.com>
+        Mon, 27 Jan 2020 10:51:18 -0500
+Received: by mail-qk1-f181.google.com with SMTP id w15so8335407qkf.6
+        for <linux-input@vger.kernel.org>; Mon, 27 Jan 2020 07:51:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2bynkYO/VfrflNCUOpdCEBQtWE9uevrxves93+nkBNg=;
+        b=QKQOioEPrUVeKSj7Lk3b6riyhYFvcUoN9UrIRxyVKhPk6si/ExnvFLr7SfVnfG+0eT
+         kdPIDRiseXehUgtuwLNOJ6RdynHXa2HPOYPta2ivqOmnLIfiU7TcYg0x352BSMaCnQd5
+         jKFnCxrXe3lDYI5TNtiiVmDkqOP++3c0nHBwczGhJ/0ce6lTDNgy6wzwSklyT9f8iOMy
+         euLEQ8YyP4vtpI4Xi72cQ5ZJvIU6qvaE2ijgo68//OrnzIVFfxMw4VH14ZaeX1DgLY4J
+         Y7HQhL72QaEbY66iRVcma/UtbK3Kw6HxA8AiT2tXwRN/Qwu2wFE25usgOpDILFlrCnqW
+         OUaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2bynkYO/VfrflNCUOpdCEBQtWE9uevrxves93+nkBNg=;
+        b=AhsPL9PQNgqFYiR6VfQ+x169RUCLxKoU7ERuLQ9qNnIRxK7YYqxFs+B8hB0NI92ufb
+         KPiCxx08tRcvmlUB2vBDbxC2y69v0Nb5bBokZDWI9Xdp9RpOZ2V3rCSQ5cLEqv1ly0pF
+         J9VVwZ52/CZBdWfgsw4KFdJR2vUwp5KkLpv0Q1X6aq+Fgt0HOQ1Sr5ApnsfeEb04tQi/
+         epOtAPYn20Lm91Oq5S9xxnsIJjFRGmCtCHcGUMeSDZsUuh8Kq5bHHMKMUrEF0Kn3EboP
+         EC6WCfM9gRqBOnIeIHzLAbS2FQjQWT1sb/bw237Cl3em1Aht2KLHL9lmWXIaVX5Rnx4b
+         nnBw==
+X-Gm-Message-State: APjAAAW9GcMhZBJW7g7u09jal370KSSf3EzFJ+c4x9EWfNCnIWECE/Av
+        irFHZ6EPxW728FomT4SVryd65/hV6hEbusUQNcjPsA==
+X-Google-Smtp-Source: APXvYqyW/Dv+r7IzLVHyn5vKXp9eLH03u8Oq1EucWp83Jstsj4ATT35HA7fr3z/q5ImHk9D4Fcu5s28HtcVbBYCRrgs=
+X-Received: by 2002:ae9:e50c:: with SMTP id w12mr15641083qkf.407.1580140276809;
+ Mon, 27 Jan 2020 07:51:16 -0800 (PST)
+MIME-Version: 1.0
+References: <0000000000004dbaf2059c193a36@google.com> <20200126024957.11392-1-hdanton@sina.com>
+ <20200127092850.GX1847@kadam> <CACT4Y+ag59G4p=DO3Dg7jnFt3wQb=dtjzBujADtGHKn-97O8_g@mail.gmail.com>
+ <20200127151135.GM1870@kadam>
+In-Reply-To: <20200127151135.GM1870@kadam>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Mon, 27 Jan 2020 16:51:05 +0100
+Message-ID: <CACT4Y+Ya-GEPAezCceKadsXGD0WdAHMeNH=hkkGaM50nP7S6ww@mail.gmail.com>
+Subject: Re: KASAN: use-after-free Read in hiddev_disconnect
+To:     Dan Carpenter <dan.carpenter@oracle.com>
 Cc:     syzkaller <syzkaller@googlegroups.com>,
         Hillf Danton <hdanton@sina.com>,
         syzbot <syzbot+106b378813251e52fc5e@syzkaller.appspotmail.com>,
@@ -54,47 +61,35 @@ Cc:     syzkaller <syzkaller@googlegroups.com>,
         LKML <linux-kernel@vger.kernel.org>,
         USB list <linux-usb@vger.kernel.org>,
         syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: Re: KASAN: use-after-free Read in hiddev_disconnect
-Message-ID: <20200127151135.GM1870@kadam>
-References: <0000000000004dbaf2059c193a36@google.com>
- <20200126024957.11392-1-hdanton@sina.com>
- <20200127092850.GX1847@kadam>
- <CACT4Y+ag59G4p=DO3Dg7jnFt3wQb=dtjzBujADtGHKn-97O8_g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACT4Y+ag59G4p=DO3Dg7jnFt3wQb=dtjzBujADtGHKn-97O8_g@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9513 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=612
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001270127
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9513 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=675 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001270127
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-One possible option would be to list the similar bugs at the start of
-the bug report.
+On Mon, Jan 27, 2020 at 4:12 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> One possible option would be to list the similar bugs at the start of
+> the bug report.
+>
+> See also:
+>
+>         KASAN: use-after-free Write in hiddev_disconnect
+>         https://syzkaller.appspot.com/bug?extid=784ccb935f9900cc7c9e
+>
+> Then we could just copy and paste to the "#syz dup:" command.  The
+> bitmap_port_list() stuff was reported something like 15 times so it was
+> really complicated to track.  Hopefully if it were easier to mark things
+> as duplicate that would help.
+>
+> regards,
+> dan carpenter
 
-See also:
-
-	KASAN: use-after-free Write in hiddev_disconnect
-	https://syzkaller.appspot.com/bug?extid=784ccb935f9900cc7c9e
-
-Then we could just copy and paste to the "#syz dup:" command.  The
-bitmap_port_list() stuff was reported something like 15 times so it was
-really complicated to track.  Hopefully if it were easier to mark things
-as duplicate that would help.
-
-regards,
-dan carpenter
-
-
+Interesting. This should be doable. I've filed
+https://github.com/google/syzkaller/issues/1575 to keep track of this.
+If it detects potential dups, then it could auto-dup as well, but it's
+not completely trivial (some things are mentioned on the issue).
+But note it won't help if the bug happens in different functions (e.g.
+I think lots of bitmap_port_list were actually in different
+functions). And this is also common for racy bugs -- a racy free
+catches use in another thread at different locations.
