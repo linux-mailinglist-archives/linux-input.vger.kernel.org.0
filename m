@@ -2,79 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E72314A3DC
-	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2020 13:29:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 507A014A5FF
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2020 15:26:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730619AbgA0M3H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Jan 2020 07:29:07 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:36777 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729719AbgA0M3H (ORCPT
+        id S1729066AbgA0O0x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Jan 2020 09:26:53 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:43743 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727235AbgA0O0x (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Jan 2020 07:29:07 -0500
-Received: by mail-pj1-f67.google.com with SMTP id gv17so3058492pjb.1
-        for <linux-input@vger.kernel.org>; Mon, 27 Jan 2020 04:29:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h1R6WgPaLfjprnwT2K/UdFzkWhfqg+Wgh1Aa2jhCg0M=;
-        b=kyngqvLLf3+MJMnVXsCplq5vDbb0JfZH1dTrEG0ryUa7zh+3I64JbYu9R3L1CxVb/a
-         Xo6urOcr8ADLoISKgDXoGJSd/zkVFTiRv174duzJgZPi8UOfUvkGdgcHMT08TCrGH3AA
-         Hr0pSULJWzoHk0pkXOUQiq7JrmKOGqqsQTxMU37WobJ9OPtBtemdL585dgUDsC7GBMdR
-         iKHXbSk+Qdks7U32g84daLQ5o2ekHG4kOPnoUeWM3kTy6S8SUxJhMtQDpx1AKg2IeDHP
-         o248tw9F0wR/82oFB1vZqwc6+srMdD/0TxOOVQlgJtC3CvYA32rel3tI/xG4O8LUvUJY
-         FvPw==
+        Mon, 27 Jan 2020 09:26:53 -0500
+Received: by mail-ot1-f65.google.com with SMTP id p8so8490029oth.10;
+        Mon, 27 Jan 2020 06:26:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h1R6WgPaLfjprnwT2K/UdFzkWhfqg+Wgh1Aa2jhCg0M=;
-        b=c35APnj9/QKdGFO7x/l+iU9wXcXDYF+++1kDFODadsp4XweaLC0g9SHFdGc0pj3jz+
-         bCWZb6eCVXNipM5px3/cwTCEXFWiAYaqGZZehUlAeW/hi1q8GxgH0vSBwuqsC85hTKMm
-         VK+qWdDtMLd7/hl/OuyO3U9QxrSzc9COZ3wnKkXJXX7mfnJ8KLStctdSQeoT91x7KuJ9
-         vcoQohZRkIusWXd+OIzrGuNUWujvfXvO4+c577p7HoFTcCjkJmphB5M89JTPuh7q+3Fz
-         W8lymd+ncT9evvQLELzPtfRv/Q8h/CqFeOxew4FiGb2Jw2gHTid3nCKM7Gbm9cQeQqxL
-         8c8w==
-X-Gm-Message-State: APjAAAWP3hAwu36fElHaH8qxqGlhERAOrXTWYHKdyT3Zr2+exwpixvwI
-        BXT4sfKSdzkOpHB/J8JxpOUsRdC7EX0MseZLzxmYkg==
-X-Google-Smtp-Source: APXvYqwbkq6UEFBP55j3Hu+JAlu5Cyx+6MQ4jxtADqpUnjtOkwWS78sgZ2BBaiYS2fpkGLv6HL6e7mZyBq8tqwh4L+8=
-X-Received: by 2002:a17:902:704b:: with SMTP id h11mr18100629plt.147.1580128146719;
- Mon, 27 Jan 2020 04:29:06 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=384aXLk+Dp5oNTQmdLCF7Z+jOr9Ua155OMVyKVmomg4=;
+        b=VIWewOxjLUuTP2WoCzETvP8DVDjMBREHRfXYK4fGAaCW0XjBk2XtvaYqp309JaBwio
+         QK9gp4h5SLvlE5+PQm49FhDpAAuXAv8R6mnywS4qKhJ/0TOv0Th0Pj4hQrH5ngffuhhn
+         LspSM1yQQjSQ2kEZAPXfRLz1ROPY7W3plfNd6LkbdfZqxTsX09WjaMYLpiv4O7tIwkn/
+         7vL0S8e8xXuH1ZblAG2lkl2Vc1IdlXkKyOf2ImKTZJBydTOi1mKTr2sCm5h6ud/g3gSw
+         OJMEssjOvzwKgE950jpviFC/aKmGIO150hXVIRdvOucaYDvCpNKSkDKZcx0MHjP1qDSX
+         oB0g==
+X-Gm-Message-State: APjAAAVTIqachpf9810jVb+cDA28vOlfSnGvC1WiSuX3J5H8s7QqZ2/Z
+        K65Q6KaPjE2vdWOJPRvMs4nDaSM=
+X-Google-Smtp-Source: APXvYqyP63MnmHJt0hGWP9PkKahnDDxwFoVmtDIBkx6YXdHnUBlVqA1nwvgSNYg+n1ALMcngCXMc9w==
+X-Received: by 2002:a9d:6f0d:: with SMTP id n13mr12889727otq.165.1580135212187;
+        Mon, 27 Jan 2020 06:26:52 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id n2sm4798369oia.58.2020.01.27.06.26.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jan 2020 06:26:51 -0800 (PST)
+Received: (nullmailer pid 30592 invoked by uid 1000);
+        Mon, 27 Jan 2020 14:26:50 -0000
+Date:   Mon, 27 Jan 2020 08:26:50 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Artur Rojek <contact@artur-rojek.eu>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Artur Rojek <contact@artur-rojek.eu>
+Subject: Re: [PATCH v2 4/5] dt-bindings: input: Add docs for ADC driven
+ joystick.
+Message-ID: <20200127142650.GA30045@bogus>
+References: <20200126161236.63631-1-contact@artur-rojek.eu>
+ <20200126161236.63631-4-contact@artur-rojek.eu>
 MIME-Version: 1.0
-References: <0000000000004dbaf2059c193a36@google.com> <20200126024957.11392-1-hdanton@sina.com>
- <20200127092850.GX1847@kadam>
-In-Reply-To: <20200127092850.GX1847@kadam>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 27 Jan 2020 13:28:55 +0100
-Message-ID: <CAAeHK+wddN62F0JAVfma8aUHy4FtkfSViSQuXB1ESNjQXLSD0Q@mail.gmail.com>
-Subject: Re: KASAN: use-after-free Read in hiddev_disconnect
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Hillf Danton <hdanton@sina.com>,
-        syzbot <syzbot+106b378813251e52fc5e@syzkaller.appspotmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200126161236.63631-4-contact@artur-rojek.eu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jan 27, 2020 at 10:29 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> I already fixed this bug in an earlier thread.
->
-> Syzbot always reports a use after free as two separate bugs, a read
-> after free and a write after free.  It's too much hassle to mark all
-> the duplicates.
->
-> regards,
-> dan carpenter
->
->
+On Sun, 26 Jan 2020 17:12:35 +0100, Artur Rojek wrote:
+> Add documentation for the adc-joystick driver, used to provide support
+> for joysticks connected over ADC.
+> 
+> Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
+> Tested-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+> 
+>  Changes:
+> 
+>  v2: - Add `reg` property to axis subnode in order to enumerate the axes,
+>      - rename `linux,abs-code` property to `linux,code`,
+>      - drop `linux,` prefix from the remaining properties of axis subnode
+> 
+>  .../bindings/input/adc-joystick.yaml          | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/adc-joystick.yaml
+> 
 
-#syz dup: KASAN: use-after-free Write in hiddev_disconnect
+My bot found errors running 'make dt_binding_check' on your patch:
+
+Documentation/devicetree/bindings/display/simple-framebuffer.example.dts:21.16-37.11: Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
+Error: Documentation/devicetree/bindings/input/adc-joystick.example.dts:22.31-32 syntax error
+FATAL ERROR: Unable to parse input tree
+scripts/Makefile.lib:300: recipe for target 'Documentation/devicetree/bindings/input/adc-joystick.example.dt.yaml' failed
+make[1]: *** [Documentation/devicetree/bindings/input/adc-joystick.example.dt.yaml] Error 1
+Makefile:1263: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
+
+See https://patchwork.ozlabs.org/patch/1229387
+Please check and re-submit.
