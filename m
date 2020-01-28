@@ -2,138 +2,229 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB47214B3B0
-	for <lists+linux-input@lfdr.de>; Tue, 28 Jan 2020 12:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23E5B14BCC6
+	for <lists+linux-input@lfdr.de>; Tue, 28 Jan 2020 16:25:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725974AbgA1Lox (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 Jan 2020 06:44:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38778 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725941AbgA1Lox (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 Jan 2020 06:44:53 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0283224684;
-        Tue, 28 Jan 2020 11:44:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1580211892;
-        bh=E7sSxi9rEy9lj8TVZnfhNZG9e0AVuStsXP4sldUxT4Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ijsPN1f6iteMPvBro/SwB7dEVl3seXEWeB2zfYTOVkE1nDJtOwJjS23a1CkDbQ3ZO
-         A7wtuCSmPJO2W0fJ08rbudp+K20sw0w0JIFUMtWNGYg+1Xqzk/zZb45aRAwF0GIxgO
-         KHKecvvnQLkBroKWsOysi+JR6xpIBT/6ApGqxrio=
-Date:   Tue, 28 Jan 2020 12:44:50 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Naresh Kamboju <naresh.kamboju@linaro.org>
-Cc:     Sasha Levin <sashal@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
-        Shaohua Li <shli@kernel.org>, linux-raid@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Yury Norov <ynorov@caviumnetworks.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        mika.westerberg@linux.intel.com, Joe Perches <joe@perches.com>,
-        linux- stable <stable@vger.kernel.org>,
-        lkft-triage@lists.linaro.org
-Subject: Re: [PATCH v4 3/5] bitmap: Add bitmap_alloc(), bitmap_zalloc() and
- bitmap_free()
-Message-ID: <20200128114450.GA2672297@kroah.com>
-References: <20180630201750.2588-1-andriy.shevchenko@linux.intel.com>
- <20180630201750.2588-4-andriy.shevchenko@linux.intel.com>
- <CA+G9fYs3GPid5fcHEWp2i9NKR1hQGc5h0zKaUK5xr1RGJ83xLg@mail.gmail.com>
+        id S1726303AbgA1PZs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Jan 2020 10:25:48 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55928 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726291AbgA1PZs (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 28 Jan 2020 10:25:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580225146;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4u1eecLUmt9wBhg+/Wu6HCzpTCvXarAFVysnsNaCuCA=;
+        b=daANP32jCVGQEGzUL6sHQKX8rZybWMD5G5YHOib6fBRqKI6ukHMX5yGt3SeQJxOj3wl6/1
+        Hb1tIn7MX8js4/qCix7dfsjOH70pSsw+J0GV+Fmr2FQCvzn/rnSM4DdV/HJBqvId+XJH1w
+        eocxJg3q2yIHx1+Sj9rtUvnwa4HiWtI=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-FtsQ4eriMpWrjVUBXdd7Lw-1; Tue, 28 Jan 2020 10:25:45 -0500
+X-MC-Unique: FtsQ4eriMpWrjVUBXdd7Lw-1
+Received: by mail-qv1-f71.google.com with SMTP id p3so8919284qvt.9
+        for <linux-input@vger.kernel.org>; Tue, 28 Jan 2020 07:25:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=4u1eecLUmt9wBhg+/Wu6HCzpTCvXarAFVysnsNaCuCA=;
+        b=AOmRG7qYf8GsRc5MJtrlMu9FkTlJswfxDGQ00yHyxeywRuDT2bltzRUJmAgH+izoXn
+         bXJqk+ZSnBPkm1Rz9JdfeW6j9ZL2PR+310wOhP1shEE7IflQGHHHvT5O6Ju/6RtEWbuU
+         hWKhmK5A2zr0REvhDXgdCMHWBMTc5Ue4US4zxmucEkQPHgduAgvw5DhBfvsgOfKO7Cb3
+         TtIgsrN/JLeXih/3jS5cS7Z578KcSKBOdRnq3gQzliZnbvtgDWBN7wUhv1Qhi3d9mEl5
+         6pCXtg9ANTeYGS2cbcDKQdqqDvQyS9F0JstDEml7lxjiWSs18RnT50ijiKVzjCcdfiSM
+         j7ig==
+X-Gm-Message-State: APjAAAUPsnQ/fNAtRLaV5dad+k9pKAtwmTBn+iVYPNG1bQUwgxROkM7h
+        MnUUfcGa85C1OIdkxOhm2J6As2u1pAK8vyW0I27cMeenes5LRQGswYZZMPIq4OZhtP+Z2b8BTy4
+        STwRqVMSFViw/UInCJAlfaAN9k+HuwTC7NlI1sUw=
+X-Received: by 2002:ae9:ef4b:: with SMTP id d72mr22040722qkg.27.1580225144374;
+        Tue, 28 Jan 2020 07:25:44 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwa0r9/LJBQh84MY0bPX7/2+z98kqzE1ApQo3V/9ZMyGSk2kMAPZn6udWvO3iCtpJlQ3zhVkr+15X6sFqoFhBE=
+X-Received: by 2002:ae9:ef4b:: with SMTP id d72mr22040694qkg.27.1580225144075;
+ Tue, 28 Jan 2020 07:25:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+G9fYs3GPid5fcHEWp2i9NKR1hQGc5h0zKaUK5xr1RGJ83xLg@mail.gmail.com>
+References: <20200111192419.2503922-1-lains@archlinux.org> <aaca852e-cb31-2690-7f90-819ed673bacb@pedrovanzella.com>
+ <CAO-hwJJwqXbJSTY2iEBTv3=N1_NaoHii6JvpA7_1oJUWQHZHag@mail.gmail.com>
+In-Reply-To: <CAO-hwJJwqXbJSTY2iEBTv3=N1_NaoHii6JvpA7_1oJUWQHZHag@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 28 Jan 2020 16:25:33 +0100
+Message-ID: <CAO-hwJLXQSjq0J-emUMCu9Z69FmzzQO3Am0E3Xiw6aWBfiEjnA@mail.gmail.com>
+Subject: Re: [PATCH] HID: logitech-hidpp: BatteryVoltage: only read
+ chargeStatus if extPower is active
+To:     Pedro Vanzella <pedro@pedrovanzella.com>
+Cc:     =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 28, 2020 at 05:08:27PM +0530, Naresh Kamboju wrote:
-> On Sun, 1 Jul 2018 at 01:49, Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
+On Mon, Jan 27, 2020 at 10:12 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> Hi,
+>
+> On Mon, Jan 20, 2020 at 2:43 PM Pedro Vanzella <pedro@pedrovanzella.com> =
+wrote:
 > >
-> > A lot of code become ugly because of open coding allocations for bitmaps.
+> > On 1/11/20 4:24 PM, Filipe La=C3=ADns wrote:
+> > > In the HID++ 2.0 function getBatteryInfo() from the BatteryVoltage
+> > > (0x1001) feature, chargeStatus is only valid if extPower is active.
+> > >
+> > > Previously we were ignoring extPower, which resulted in wrong values.
 > >
-> > Introduce three helpers to allow users be more clear of intention
-> > and keep their code neat.
+> > Nice catch. Sorry for missing that the first time around.
 > >
-> > Note, due to multiple circular dependencies we may not provide
-> > the helpers as inliners. For now we keep them exported and, perhaps,
-> > at some point in the future we will sort out header inclusion and
-> > inheritance.
+> > >
+> > > Example:
+> > >      With an unplugged mouse
+> > >
+> > >      $ cat /sys/class/power_supply/hidpp_battery_0/status
+> > >      Charging
 > >
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > ---
-> >  include/linux/bitmap.h |  8 ++++++++
-> >  lib/bitmap.c           | 19 +++++++++++++++++++
-> >  2 files changed, 27 insertions(+)
+> > Tested and it works as expected now.
+>
+> Thanks for the patch and the tests.
+>
+> Unfortunately, the merge window is already opened, and I'd rather not
+> sneak this one right now. This patch doesn't seem very critical so I
+> rather not annoy the other maintainers.
+> I'll make sure it gets in the 5.6 final by pushing it into a rc when
+> things are calmer for everybody.
+>
+> So the plan would be:
+> - wait for the 'normal' 5.6 HID pull request to be sent
+> - apply this one in for-5.6/upstream-fixes
+> - sent this branch for either 5.6-rc1 or 5.6-rc2
+>
+> Cheers,
+> Benjamin
+>
 > >
-> > diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
-> > index 1ee46f492267..acf5e8df3504 100644
-> > --- a/include/linux/bitmap.h
-> > +++ b/include/linux/bitmap.h
-> > @@ -104,6 +104,14 @@
-> >   * contain all bit positions from 0 to 'bits' - 1.
-> >   */
-> >
-> > +/*
-> > + * Allocation and deallocation of bitmap.
-> > + * Provided in lib/bitmap.c to avoid circular dependency.
-> > + */
-> > +extern unsigned long *bitmap_alloc(unsigned int nbits, gfp_t flags);
-> > +extern unsigned long *bitmap_zalloc(unsigned int nbits, gfp_t flags);
-> > +extern void bitmap_free(const unsigned long *bitmap);
-> > +
-> >  /*
-> >   * lib/bitmap.c provides these functions:
-> >   */
-> > diff --git a/lib/bitmap.c b/lib/bitmap.c
-> > index 33e95cd359a2..09acf2fd6a35 100644
-> > --- a/lib/bitmap.c
-> > +++ b/lib/bitmap.c
-> > @@ -13,6 +13,7 @@
-> >  #include <linux/bitops.h>
-> >  #include <linux/bug.h>
-> >  #include <linux/kernel.h>
-> > +#include <linux/slab.h>
-> >  #include <linux/string.h>
-> >  #include <linux/uaccess.h>
-> >
-> > @@ -1125,6 +1126,24 @@ void bitmap_copy_le(unsigned long *dst, const unsigned long *src, unsigned int n
-> >  EXPORT_SYMBOL(bitmap_copy_le);
-> >  #endif
-> >
-> > +unsigned long *bitmap_alloc(unsigned int nbits, gfp_t flags)
-> > +{
-> > +       return kmalloc_array(BITS_TO_LONGS(nbits), sizeof(unsigned long), flags);
-> > +}
-> > +EXPORT_SYMBOL(bitmap_alloc);
-> > +
-> > +unsigned long *bitmap_zalloc(unsigned int nbits, gfp_t flags)
-> > +{
-> > +       return bitmap_alloc(nbits, flags | __GFP_ZERO);
-> > +}
-> > +EXPORT_SYMBOL(bitmap_zalloc);
-> > +
-> > +void bitmap_free(const unsigned long *bitmap)
-> > +{
-> > +       kfree(bitmap);
-> > +}
-> > +EXPORT_SYMBOL(bitmap_free);
-> > +
-> >  #if BITS_PER_LONG == 64
-> >  /**
-> >   * bitmap_from_arr32 - copy the contents of u32 array of bits to bitmap
-> 
-> stable-rc 4.14 build failed due to these build error,
+> > >
+> > > This patch makes fixes that, it also renames charge_sts to flags as
 
-Yeah, sorry, I noticed this right before I had to leave for a few hours.
-I'll go fix this up now...
+Fixed the typo: 's/makes //' and pushed to for-5.6/upstream-fixes
 
-greg k-h
+Cheers,
+Benjamin
+
+> > > charge_sts can be confused with chargeStatus from the spec.
+> > >
+> > > Spec:
+> > > +--------+-----------------------------------------------------------=
+--------------+
+> > > |  byte  |                                    2                      =
+              |
+> > > +--------+--------------+------------+------------+----------+-------=
+---+----------+
+> > > |   bit  |     0..2     |      3     |      4     |     5    |     6 =
+   |     7    |
+> > > +--------+--------------+------------+------------+----------+-------=
+---+----------+
+> > > | buffer | chargeStatus | fastCharge | slowCharge | critical | (unuse=
+d) | extPower |
+> > > +--------+--------------+------------+------------+----------+-------=
+---+----------+
+> > > Table 1 - battery voltage (0x1001), getBatteryInfo() (ASE 0), 3rd byt=
+e
+> > >
+> > > +-------+--------------------------------------+
+> > > | value |                meaning               |
+> > > +-------+--------------------------------------+
+> > > |   0   | Charging                             |
+> > > +-------+--------------------------------------+
+> > > |   1   | End of charge (100% charged)         |
+> > > +-------+--------------------------------------+
+> > > |   2   | Charge stopped (any "normal" reason) |
+> > > +-------+--------------------------------------+
+> > > |   7   | Hardware error                       |
+> > > +-------+--------------------------------------+
+> > > Table 2 - chargeStatus value
+> > >
+> > > Signed-off-by: Filipe La=C3=ADns <lains@archlinux.org>
+> > > ---
+> > >   drivers/hid/hid-logitech-hidpp.c | 43 ++++++++++++++++-------------=
+---
+> > >   1 file changed, 21 insertions(+), 22 deletions(-)
+> > >
+> > > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logit=
+ech-hidpp.c
+> > > index bb063e7d48df..39a5ee0aaab0 100644
+> > > --- a/drivers/hid/hid-logitech-hidpp.c
+> > > +++ b/drivers/hid/hid-logitech-hidpp.c
+> > > @@ -1256,36 +1256,35 @@ static int hidpp20_battery_map_status_voltage=
+(u8 data[3], int *voltage,
+> > >   {
+> > >       int status;
+> > >
+> > > -     long charge_sts =3D (long)data[2];
+> > > +     long flags =3D (long) data[2];
+> > >
+> > > -     *level =3D POWER_SUPPLY_CAPACITY_LEVEL_UNKNOWN;
+> > > -     switch (data[2] & 0xe0) {
+> > > -     case 0x00:
+> > > -             status =3D POWER_SUPPLY_STATUS_CHARGING;
+> > > -             break;
+> > > -     case 0x20:
+> > > -             status =3D POWER_SUPPLY_STATUS_FULL;
+> > > -             *level =3D POWER_SUPPLY_CAPACITY_LEVEL_FULL;
+> > > -             break;
+> > > -     case 0x40:
+> > > +     if (flags & 0x80)
+> > > +             switch (flags & 0x07) {
+> > > +             case 0:
+> > > +                     status =3D POWER_SUPPLY_STATUS_CHARGING;
+> > > +                     break;
+> > > +             case 1:
+> > > +                     status =3D POWER_SUPPLY_STATUS_FULL;
+> > > +                     *level =3D POWER_SUPPLY_CAPACITY_LEVEL_FULL;
+> > > +                     break;
+> > > +             case 2:
+> > > +                     status =3D POWER_SUPPLY_STATUS_NOT_CHARGING;
+> > > +                     break;
+> > > +             default:
+> > > +                     status =3D POWER_SUPPLY_STATUS_UNKNOWN;
+> > > +                     break;
+> > > +             }
+> > > +     else
+> > >               status =3D POWER_SUPPLY_STATUS_DISCHARGING;
+> > > -             break;
+> > > -     case 0xe0:
+> > > -             status =3D POWER_SUPPLY_STATUS_NOT_CHARGING;
+> > > -             break;
+> > > -     default:
+> > > -             status =3D POWER_SUPPLY_STATUS_UNKNOWN;
+> > > -     }
+> > >
+> > >       *charge_type =3D POWER_SUPPLY_CHARGE_TYPE_STANDARD;
+> > > -     if (test_bit(3, &charge_sts)) {
+> > > +     if (test_bit(3, &flags)) {
+> > >               *charge_type =3D POWER_SUPPLY_CHARGE_TYPE_FAST;
+> > >       }
+> > > -     if (test_bit(4, &charge_sts)) {
+> > > +     if (test_bit(4, &flags)) {
+> > >               *charge_type =3D POWER_SUPPLY_CHARGE_TYPE_TRICKLE;
+> > >       }
+> > > -
+> > > -     if (test_bit(5, &charge_sts)) {
+> > > +     if (test_bit(5, &flags)) {
+> > >               *level =3D POWER_SUPPLY_CAPACITY_LEVEL_CRITICAL;
+> > >       }
+> > >
+> > >
+> >
+> > Tested-by: Pedro Vanzella <pedro@pedrovanzella.com>
+> > Reviewed-by: Pedro Vanzella <pedro@pedrovanzella.com>
+> >
+
