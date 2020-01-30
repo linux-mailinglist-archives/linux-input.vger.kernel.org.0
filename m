@@ -2,121 +2,144 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 581AD14E40C
-	for <lists+linux-input@lfdr.de>; Thu, 30 Jan 2020 21:34:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EB0B14E437
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jan 2020 21:45:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727142AbgA3Ueb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Jan 2020 15:34:31 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:35286 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727630AbgA3Ueb (ORCPT
+        id S1727240AbgA3Upa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Jan 2020 15:45:30 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:35081 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727235AbgA3UpY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Jan 2020 15:34:31 -0500
-Received: by mail-pg1-f195.google.com with SMTP id l24so2255720pgk.2
-        for <linux-input@vger.kernel.org>; Thu, 30 Jan 2020 12:34:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ls2tMeKv9f/jgxrcgT00rlFPgO3Iqf2bPNU9NTKhuuA=;
-        b=g7awB2ne4o5cENNYO4XNZlKcdtN8PAc/gTPbg8CFzfTmV7vVXy0DaMpOT1WCpvirXj
-         ILtB4VGoCSqxDbVxIIg6dkSkjOOAzvGm2Muc0iM7VUAcvoFOWtR6d8uoQGpV8IHdkguE
-         GUejGP2g1hEG3giv+H3VxhLiwH9QDlLB1OYpE=
+        Thu, 30 Jan 2020 15:45:24 -0500
+Received: by mail-wr1-f65.google.com with SMTP id g17so5876781wro.2;
+        Thu, 30 Jan 2020 12:45:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ls2tMeKv9f/jgxrcgT00rlFPgO3Iqf2bPNU9NTKhuuA=;
-        b=UHL7kfD++7pxJSdb+TncdjEI6tt4nwGfm9mrTtwENseKZrbTJI8/yVffoArVSS2Rby
-         vH4WP/2Ab19wOftML/tWETyPxxALve2cz9tB4VxgQ649Ov/T63rnP+B0GVU7iDqwGKoS
-         4aJOHQEwlyRzqHAqgQOHqJJxZykUbjeZqwG+OZOPBC29us4cB/PdhCaKOPvlG8A8hAjM
-         eUvuMogOEuH3m/+6arjPggM5bDRAOMLyjATUO15VX+aQDsRnvF9Bca5j03QZuNh7DDiI
-         aJErKO8MCSQk4lb1kXsWBKqWvUEp7Fh5hOAoZk5ejDh+Gwjag/VCMGjiyVSv9NkSQ6FE
-         6rag==
-X-Gm-Message-State: APjAAAVTsSu5zBOiJNIFPsQRPK11z1a8k8TDyc0mhgNBj17zU3XGfxgy
-        rCop7QUhP9khr915AcuY9oPVMg==
-X-Google-Smtp-Source: APXvYqy/Joy7rxQu+O8dsSuoijXrNllSzK67kFbyoHNLVIFp3OdJPOLc29S4oQ8YzWkHSSCf0ip0mA==
-X-Received: by 2002:a63:ed4a:: with SMTP id m10mr5736301pgk.99.1580416469829;
-        Thu, 30 Jan 2020 12:34:29 -0800 (PST)
-Received: from pmalani2.mtv.corp.google.com ([2620:15c:202:201:172e:4646:c089:ce59])
-        by smtp.gmail.com with ESMTPSA id q12sm7469321pfh.158.2020.01.30.12.34.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=c3k6VjpBHrIjrTaQQqSSGNBzkMebYDOeyw44+9Ugl28=;
+        b=BZbL7AZmPKc+N/zSWqpQwIg9PS5WhatQpMDFlKj9pbvh1MPpjOzOeI35auwFWimMqh
+         km4io1AwxZ0BGwZ/sZx8gu71qjj5Igb22xaJssDy84Md3aEEvrtYvFwAigu/HxlMKRIK
+         TeTXehQbW9+Q6atDHlk9F8j4lPLd4eu/yECKzOH2VGtcDnuh0lheQCUUQf1saD6y6Q8b
+         esaHUs7CkrnsPownPc9EcXKcVZ3UhyqpXZnJdQc9yM2oD7BrwZfUXHOsJ8paXMXsz3xT
+         wwx/FJlcFJWRoWlDS8y4mLzbAMLr+eJy7Q6aaxmFFXdMX0PBSa5OiDYv6c9Iozpwe5VW
+         YQBw==
+X-Gm-Message-State: APjAAAXWrWJkmhZfr3jbMlQhKWGLdF1kG0tpJ1WXTuQz0Bn/Cuq40ktE
+        2j+frSH3YR0dvZDXXETJBApdGbU/R2I=
+X-Google-Smtp-Source: APXvYqzufaKIH2yFtJKt/PAlyEiLYKiQxZwNEqm75p8FMQ5XDYt4a/jHjsFBr4WM0QP6oZC70qK17A==
+X-Received: by 2002:a05:6000:8c:: with SMTP id m12mr1285707wrx.142.1580417120933;
+        Thu, 30 Jan 2020 12:45:20 -0800 (PST)
+Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
+        by smtp.gmail.com with ESMTPSA id x7sm8874885wrq.41.2020.01.30.12.45.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2020 12:34:29 -0800 (PST)
-From:   Prashant Malani <pmalani@chromium.org>
+        Thu, 30 Jan 2020 12:45:20 -0800 (PST)
+From:   =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To:     linux-kernel@vger.kernel.org
-Cc:     Prashant Malani <pmalani@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org (open list:HID CORE LAYER)
-Subject: [PATCH 09/17] hid: google-hammer: Use cros_ec_send_cmd_msg()
-Date:   Thu, 30 Jan 2020 12:30:52 -0800
-Message-Id: <20200130203106.201894-10-pmalani@chromium.org>
-X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-In-Reply-To: <20200130203106.201894-1-pmalani@chromium.org>
-References: <20200130203106.201894-1-pmalani@chromium.org>
+Cc:     =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        =?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH 1/3] ARM: dts: imx7s: add snvs clock to pwrkey
+Date:   Thu, 30 Jan 2020 20:45:14 +0000
+Message-Id: <20200130204516.4760-1-git@andred.net>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Replace cros_ec_cmd_xfer_status() with cros_ec_send_cmd_msg() which does
-the message buffer setup and cleanup.
+On i.MX7, the SNVS requires a clock. This is similar to the clock
+bound to the SNVS RTC node, but if the SNVS RTC driver isn't enabled,
+then SNVS doesn't work, and as such the pwrkey driver doesn't
+work (i.e. hangs the kernel, as the clock isn't enabled).
 
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
+Also see commit ec2a844ef7c1
+("ARM: dts: imx7s: add snvs rtc clock")
+for a similar fix.
+
+Signed-off-by: André Draszik <git@andred.net>
+Cc: Anson Huang <Anson.Huang@nxp.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: "Horia Geantă" <horia.geanta@nxp.com>
+Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: linux-crypto@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-input@vger.kernel.org
 ---
- drivers/hid/hid-google-hammer.c | 23 +++++------------------
- 1 file changed, 5 insertions(+), 18 deletions(-)
+ .../devicetree/bindings/crypto/fsl-sec4.txt     | 17 +++++++++++++++++
+ arch/arm/boot/dts/imx7s.dtsi                    |  2 ++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-index 2aa4ed157aec87..428762a6a4993f 100644
---- a/drivers/hid/hid-google-hammer.c
-+++ b/drivers/hid/hid-google-hammer.c
-@@ -53,38 +53,25 @@ static bool cbas_parse_base_state(const void *data)
- static int cbas_ec_query_base(struct cros_ec_device *ec_dev, bool get_state,
- 				  bool *state)
- {
--	struct ec_params_mkbp_info *params;
--	struct cros_ec_command *msg;
-+	struct ec_params_mkbp_info params = {0};
- 	int ret;
+diff --git a/Documentation/devicetree/bindings/crypto/fsl-sec4.txt b/Documentation/devicetree/bindings/crypto/fsl-sec4.txt
+index 2fe245ca816a..755c2838d658 100644
+--- a/Documentation/devicetree/bindings/crypto/fsl-sec4.txt
++++ b/Documentation/devicetree/bindings/crypto/fsl-sec4.txt
+@@ -449,6 +449,19 @@ System ON/OFF key driver
+       Value type: <phandle>
+       Definition: this is phandle to the register map node.
  
--	msg = kzalloc(sizeof(*msg) + max(sizeof(u32), sizeof(*params)),
--		      GFP_KERNEL);
--	if (!msg)
--		return -ENOMEM;
--
--	msg->command = EC_CMD_MKBP_INFO;
--	msg->version = 1;
--	msg->outsize = sizeof(*params);
--	msg->insize = sizeof(u32);
--	params = (struct ec_params_mkbp_info *)msg->data;
--	params->info_type = get_state ?
-+	params.info_type = get_state ?
- 		EC_MKBP_INFO_CURRENT : EC_MKBP_INFO_SUPPORTED;
--	params->event_type = EC_MKBP_EVENT_SWITCH;
-+	params.event_type = EC_MKBP_EVENT_SWITCH;
++   - clocks
++      Usage: optional, required if SNVS LP requires explicit
++          enablement of clocks
++      Value type: <prop_encoded-array>
++      Definition:  a clock specifier describing the clock required for
++          enabling and disabling SNVS LP RTC.
++
++   - clock-names
++      Usage: optional, required if SNVS LP requires explicit
++          enablement of clocks
++      Value type: <string>
++      Definition: clock name string should be "snvs-pwrkey".
++
+ EXAMPLE:
+ 	snvs-pwrkey@020cc000 {
+ 		compatible = "fsl,sec-v4.0-pwrkey";
+@@ -456,6 +469,8 @@ EXAMPLE:
+ 		interrupts = <0 4 0x4>
+ 	        linux,keycode = <116>; /* KEY_POWER */
+ 		wakeup-source;
++		clocks = <&clks IMX7D_SNVS_CLK>;
++		clock-names = "snvs-pwrkey";
+ 	};
  
--	ret = cros_ec_cmd_xfer_status(ec_dev, msg);
-+	ret = cros_ec_send_cmd_msg(ec_dev, 1, EC_CMD_MKBP_INFO,
-+				   &params, sizeof(params), state, sizeof(u32));
- 	if (ret >= 0) {
- 		if (ret != sizeof(u32)) {
- 			dev_warn(ec_dev->dev, "wrong result size: %d != %zu\n",
- 				 ret, sizeof(u32));
- 			ret = -EPROTO;
- 		} else {
--			*state = cbas_parse_base_state(msg->data);
- 			ret = 0;
- 		}
- 	}
+ =====================================================================
+@@ -547,6 +562,8 @@ FULL EXAMPLE
+ 			interrupts = <0 4 0x4>;
+ 			linux,keycode = <116>; /* KEY_POWER */
+ 			wakeup-source;
++			clocks = <&clks IMX7D_SNVS_CLK>;
++			clock-names = "snvs-pwrkey";
+ 		};
+ 	};
  
--	kfree(msg);
--
- 	return ret;
- }
+diff --git a/arch/arm/boot/dts/imx7s.dtsi b/arch/arm/boot/dts/imx7s.dtsi
+index 1b812f4e7453..6240a6f58048 100644
+--- a/arch/arm/boot/dts/imx7s.dtsi
++++ b/arch/arm/boot/dts/imx7s.dtsi
+@@ -614,6 +614,8 @@
+ 					linux,keycode = <KEY_POWER>;
+ 					wakeup-source;
+ 					status = "disabled";
++					clocks = <&clks IMX7D_SNVS_CLK>;
++					clock-names = "snvs-pwrkey";
+ 				};
+ 			};
  
 -- 
-2.25.0.341.g760bfbb309-goog
+2.23.0.rc1
 
