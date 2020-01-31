@@ -2,112 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DED4914E436
-	for <lists+linux-input@lfdr.de>; Thu, 30 Jan 2020 21:45:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19BB614E9F7
+	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2020 10:18:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727641AbgA3Up0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Jan 2020 15:45:26 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:41841 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727240AbgA3UpZ (ORCPT
+        id S1728248AbgAaJSi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 31 Jan 2020 04:18:38 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54466 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728159AbgAaJSi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Jan 2020 15:45:25 -0500
-Received: by mail-wr1-f68.google.com with SMTP id c9so5820773wrw.8;
-        Thu, 30 Jan 2020 12:45:23 -0800 (PST)
+        Fri, 31 Jan 2020 04:18:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580462317;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Jmme96QlUa+IDqsjrFZAnCl0yr/9BugGtCDrextrlNc=;
+        b=XJbnGQjNZx//NdVaSuWmUHxBVEzV4KO+N0XDTd7v8cjfyw3KGC2x2oekhCZurKl6W7PtCS
+        r/cN64ks9PBqbTKENxV57NnYwJ7MgHtDBpVOgSO1NwaLQVfvibf7uAb1PbGwr+Zg/nHC1c
+        OVM8a4zGtQghFsbVT25Pr5cPdEPpPvA=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-412-m_oKliw2M3uk4WaUNVzuLw-1; Fri, 31 Jan 2020 04:18:34 -0500
+X-MC-Unique: m_oKliw2M3uk4WaUNVzuLw-1
+Received: by mail-qv1-f71.google.com with SMTP id z9so4021990qvo.10
+        for <linux-input@vger.kernel.org>; Fri, 31 Jan 2020 01:18:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ieWAQTrOem5SRCTrltmfG6dgZLD+sBaJH9/U+lcfZjk=;
-        b=aMBF2zKEbx9veZdKawIcTaBy+201a6IZidPg2le9miaRo2O6ggXD1t1GFVx1WiXewo
-         GwvavFunI1UMP54qrnnaUx3rG0WGQNOEaoAwmkHHDFdzZXViH3sX/0J3gU29OeVp49FA
-         ugPbMUfdNF1q0dgs3z1A0mTMckk3o9hVkyShNEUZZEe9A/M+7nTAfvXE2K36G0zUOJuy
-         DmwMXs+Y765Fb4iM0FNSUYMkfQulWLwunCxj8KtdbfCtLSWF1ceerjCaIh3bTfoOW8XT
-         4jUIlaSduCLAmshZyEZL0qV0/MqZAPNBK8A+m8oV09IVj/20nIsdDgwFUOzjw9yC8YeC
-         8qTg==
-X-Gm-Message-State: APjAAAXLmIATy1grgoZoKGQ5nRVc2X8xozH2aIPdMacUWqNSSoVmMQVU
-        jf3UkcHpt8AgKVb5VzWLWFLchBCq0a0=
-X-Google-Smtp-Source: APXvYqzffeOZN5v031xJHMCR8/A2sYa+jJ+fAZHoBGPXzSZH5J0cKA5elfcwn4kPbGf9RhXNEadMKw==
-X-Received: by 2002:a5d:568a:: with SMTP id f10mr6962723wrv.180.1580417122955;
-        Thu, 30 Jan 2020 12:45:22 -0800 (PST)
-Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
-        by smtp.gmail.com with ESMTPSA id x7sm8874885wrq.41.2020.01.30.12.45.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2020 12:45:22 -0800 (PST)
-From:   =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH 3/3] Input: snvs_pwrkey - only IRQ_HANDLED for our own events
-Date:   Thu, 30 Jan 2020 20:45:16 +0000
-Message-Id: <20200130204516.4760-3-git@andred.net>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <20200130204516.4760-1-git@andred.net>
-References: <20200130204516.4760-1-git@andred.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Jmme96QlUa+IDqsjrFZAnCl0yr/9BugGtCDrextrlNc=;
+        b=HnDs4w+Tyw+IyzYwFjD1vJrHIJIBxrTjeDFEDR++68kcUapwhZH3FW6MhkiEgoPZvc
+         QjyAlEMAXANMDNq554Hn6RxurZQk9xehgwiGT5U7pBpJDwOuSdvOTCjunx7k9WtkcGKf
+         yMm+p/A0OrgziuIJcQefBK2Ipvh7KHNCaHFL+ussNx2yaHVmaTV4ObE1n9f+6FPj6wrz
+         mrolx5199hFu19QTdrVKWf6QMAtVycfTKS4AZfUNBeZZJdWngNDJsc5abrcGPpycK3kh
+         3n/bW1aQFQ9uyGKKByeCSpbmVKBS+LNaslHHhqATNK8AQ1PHffen6F1AP5QyDktVE0Fo
+         rUtA==
+X-Gm-Message-State: APjAAAVXjM72bICps5EGZiWUZ3uB2HQ32x5/ubXhqAQzGMw/vYVmaNpA
+        sVvNqn61H4n/KQL92ixwFWgqNX/h5qR4O02A/O8ZJMjGr5KIDuJx8m6hZPm7cvOWbfEBOYwgJo2
+        4ufbGftiScY/1j4Tp1WXllMfYhkvwJS3reELmUbw=
+X-Received: by 2002:a05:620a:782:: with SMTP id 2mr9726744qka.169.1580462313421;
+        Fri, 31 Jan 2020 01:18:33 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxSJN/gnvHSnFVwAfiBsVQyZn0u3acWA821ZspGgOXnAv3U+LlXcqYOnln2cs/dSXzTSi0GtdQHMO/4X/uA61E=
+X-Received: by 2002:a05:620a:782:: with SMTP id 2mr9726721qka.169.1580462313162;
+ Fri, 31 Jan 2020 01:18:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200130192126.GA101099@ariel>
+In-Reply-To: <20200130192126.GA101099@ariel>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 31 Jan 2020 10:18:22 +0100
+Message-ID: <CAO-hwJLba+CPcWNcB2CK+JU7npM9sMjHYkOWAS=VCuvdtzRDcg@mail.gmail.com>
+Subject: Re: [PATCH] HID: Add quirk for Apple Magic Keyboard over Bluetooth
+To:     Daniel Lockyer <hi@daniellockyer.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The snvs_pwrkey shares the SNVS LPSR status register with the snvs_rtc.
+Hi Daniel,
 
-This driver here should only return IRQ_HANDLED if the status register
-indicates that the event we're handling in the irq handler was genuinely
-intended for this driver. Otheriwse the interrupt subsystem will
-assume the interrupt was handled successfully even though it wasn't
-at all.
+On Thu, Jan 30, 2020 at 8:31 PM Daniel Lockyer <hi@daniellockyer.com> wrote:
+>
+> The Apple Magic Keyboard works flawlessly over USB but has weird bugs
+> over Bluetooth. This patch adds the missing quirk.
+>
+> Signed-off-by: Daniel Lockyer <hi@daniellockyer.com>
+> ---
+>  drivers/hid/hid-quirks.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> index 0e7b2d998395..6d68a9201e1d 100644
+> --- a/drivers/hid/hid-quirks.c
+> +++ b/drivers/hid/hid-quirks.c
+> @@ -280,6 +280,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
+>         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ANSI) },
+>         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ISO) },
+>         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_JIS) },
+> +       { HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_ANSI) },
 
-Signed-off-by: André Draszik <git@andred.net>
-Cc: Anson Huang <Anson.Huang@nxp.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Alessandro Zummo <a.zummo@towertech.it>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: linux-input@vger.kernel.org
----
- drivers/input/keyboard/snvs_pwrkey.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+That is weird. The whole purpose of this list (which I'd like to
+remove in the future) is to prevent hid-generic to ever bind to those
+devices. This can be problematic in situations where you do not have
+the corresponding driver, in the initrd for instance.
 
-diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/keyboard/snvs_pwrkey.c
-index c29711d8735c..9f51bcc5b5fd 100644
---- a/drivers/input/keyboard/snvs_pwrkey.c
-+++ b/drivers/input/keyboard/snvs_pwrkey.c
-@@ -80,7 +80,9 @@ static irqreturn_t imx_snvs_pwrkey_interrupt(int irq, void *dev_id)
- 	pm_wakeup_event(input->dev.parent, 0);
- 
- 	regmap_read(pdata->snvs, SNVS_LPSR_REG, &lp_status);
--	if (lp_status & SNVS_LPSR_SPO) {
-+	lp_status &= SNVS_LPSR_SPO;
-+
-+	if (lp_status) {
- 		if (pdata->minor_rev == 0) {
- 			/*
- 			 * The first generation i.MX6 SoCs only sends an
-@@ -96,15 +98,14 @@ static irqreturn_t imx_snvs_pwrkey_interrupt(int irq, void *dev_id)
- 			mod_timer(&pdata->check_timer,
- 			          jiffies + msecs_to_jiffies(DEBOUNCE_TIME));
- 		}
--	}
- 
--	/* clear SPO status */
--	regmap_write(pdata->snvs, SNVS_LPSR_REG, SNVS_LPSR_SPO);
-+		regmap_write(pdata->snvs, SNVS_LPSR_REG, SNVS_LPSR_SPO);
-+	}
- 
- 	if (pdata->clk)
- 		clk_disable(pdata->clk);
- 
--	return IRQ_HANDLED;
-+	return lp_status ? IRQ_HANDLED : IRQ_NONE;
- }
- 
- static void imx_snvs_pwrkey_act(void *pdata)
--- 
-2.23.0.rc1
+Can you share your dmesg before and after applying this patch so I get
+a grasp on why you need that change?
+
+Cheers,
+Benjamin
+
+>         { HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_ANSI) },
+>         { HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_FOUNTAIN_TP_ONLY) },
+>         { HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER1_TP_ONLY) },
+> --
+> 2.25.0
+>
 
