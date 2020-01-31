@@ -2,273 +2,171 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 035B814EE2A
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2020 15:04:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DF1E14EE2E
+	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2020 15:07:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728735AbgAaOEn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 31 Jan 2020 09:04:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44370 "EHLO
+        id S1728827AbgAaOHB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 31 Jan 2020 09:07:01 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35518 "EHLO
         us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728500AbgAaOEn (ORCPT
+        with ESMTP id S1728804AbgAaOHB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 31 Jan 2020 09:04:43 -0500
+        Fri, 31 Jan 2020 09:07:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1580479482;
+        s=mimecast20190719; t=1580479619;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=VdOW7PNJeuMmmDY9kZwQNkZeEVlpGmsTxVCL30ndvIg=;
-        b=UR4jKORwiyyaYhqdDmn4LrTpvyIOe21CQqwpTRZdjfcTPYyoRsQe6SyvraEkdWoW20xd0z
-        jJmqWOyUKEqUXNhTgBZEVnvz1VArxQkwcQfQcArVYTX25mURXRI9iI+SUTSsnpPD38W7bj
-        cXHxZvVWlcMfoqYuU1PZD8iKdSbr9zg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-x7Suu6xLMl6SXGIEmIZ2tA-1; Fri, 31 Jan 2020 09:04:39 -0500
-X-MC-Unique: x7Suu6xLMl6SXGIEmIZ2tA-1
-Received: by mail-wr1-f72.google.com with SMTP id t3so3368947wrm.23
-        for <linux-input@vger.kernel.org>; Fri, 31 Jan 2020 06:04:39 -0800 (PST)
+        bh=BOtRx/+NP5bPyI5lxHsciSb3K/NYAM0JQEMQrR+g3fg=;
+        b=B149Soo+J7dsr8Ki9tQ5B8Fjvr82DLF6zlDdoOZ+SiN0madnslZ5e4WmCJCyzqRNiQi2Xj
+        EKuXL+ZXQw8eRWayo6+mDFpJVHHaAUnQ37bc50rmi+sUnHcANMXUVu88hqwN9cJS6kAfdc
+        w71ULdbmxXqWQBEL2+BxmGI6ZxtM5Tk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-19-BrDjsc2yM9K4KBXr-wJZHg-1; Fri, 31 Jan 2020 09:06:58 -0500
+X-MC-Unique: BrDjsc2yM9K4KBXr-wJZHg-1
+Received: by mail-wr1-f69.google.com with SMTP id h30so3403488wrh.5
+        for <linux-input@vger.kernel.org>; Fri, 31 Jan 2020 06:06:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=VdOW7PNJeuMmmDY9kZwQNkZeEVlpGmsTxVCL30ndvIg=;
-        b=owTHfxOX7cMTOKtgx86d0lV29ULKsX7EzOUl4w95Jmj3SqzPr6pkYoLdIcKy5EQWpY
-         DFmwTuUQYu6acCqEcn/ioh37g/RnPt7++fjjVvTX9coLotPJaliGUyDeeKOi0wIP22Jv
-         nMvGmOIJ9PcJfd1Vb1UEME1qVWNAOK05BPW0+ZlEOdmdK52EYDInv92sVt1qzBW/0F+1
-         CMYF6bNf8Uo0yzmQ79e/onGaoUZjOipqyJN7WQyD8gwoAVVKFcxOriRMiLGthMQXae+j
-         D6FMtQ7T8468hJr/5NYvdpeXxcwqx+63ohLrQacC0ux4ZjvZZrl9bRSB2kBIfUWKlc0l
-         8eTw==
-X-Gm-Message-State: APjAAAWufh3bZShV/wDcwWOkN+WF11jfQRilILwpuea6/eLwFLXQpnwg
-        iozwu4EvyVW7Od/RmeuI0yADXGC+Bo79co8y3C9eW34BioK8/6DovK8FO8jke6/veScq4Rb/793
-        rabitVlAS67vDqkfXEHjzBi8=
-X-Received: by 2002:adf:cd04:: with SMTP id w4mr13108321wrm.219.1580479467277;
-        Fri, 31 Jan 2020 06:04:27 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwGp9bgSUTCDiHCJ4QeoJtRo7//i35bQ2dIxy7owX0NHN+MtvuteERwIDccDqwixzEi1IoVPg==
-X-Received: by 2002:adf:cd04:: with SMTP id w4mr13108286wrm.219.1580479466826;
-        Fri, 31 Jan 2020 06:04:26 -0800 (PST)
+        bh=BOtRx/+NP5bPyI5lxHsciSb3K/NYAM0JQEMQrR+g3fg=;
+        b=D1ZBJ6y8PRA7VvIq42booPOJiX6EUja0pME7Z1TJSweuq5LEyixWm85U8stCLSMQ97
+         4iaYZI08DG7Z4ajyRzsz2PjWHaXd354KOOuZrz6elIGmehBRwrJbtqueoP6x7e0AwMmF
+         HCn57z2sBZOTMzoSCRF4vEJqvNpyXjcD/7vCDDYSnq5S65fE2OVFaqrvpBUOZQ6gTZ5d
+         5o+o7VuCPt9iC+XaTZv2cF3csdpD4EZ16V83lgfNUtAvdoULT7Ge0G/jZr7ScM7HWkwg
+         /9qGCLAbAb0Rdb1tKr2/ZLkNs1oNhJ8gx5K5aB3DBXkqQtlZIBzIIS70QQNq4ZxCbv6Q
+         Fi6Q==
+X-Gm-Message-State: APjAAAV8EzYnZTEBRWQ85ODan6jluC+8K4W0muuo7oAGcwdRzXrvxkA2
+        CtjwG3Hp41JGibMctG1O1HHgm3lKo2pRcB74mDWc27lyRL40flw1tSr5vRYideSJ35bQARaEje/
+        TnL6SlmLBxKMgaNEFcMe3zCc=
+X-Received: by 2002:adf:fd91:: with SMTP id d17mr13221622wrr.340.1580479616642;
+        Fri, 31 Jan 2020 06:06:56 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwFYEqaLoMFMaFPWNlaWV7R+sHLlHQ1YP9IeI58c0PtZiEzbqHIaVYT6G969BPskMb0I9Ucmw==
+X-Received: by 2002:adf:fd91:: with SMTP id d17mr13221603wrr.340.1580479616388;
+        Fri, 31 Jan 2020 06:06:56 -0800 (PST)
 Received: from localhost.localdomain ([62.72.193.75])
-        by smtp.gmail.com with ESMTPSA id w8sm11030625wmm.0.2020.01.31.06.04.25
+        by smtp.gmail.com with ESMTPSA id i2sm11242880wmb.28.2020.01.31.06.06.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jan 2020 06:04:26 -0800 (PST)
-Subject: Re: [PATCH] HID: ite: Only bind to keyboard USB interface on Acer
- SW5-012 keyboard dock
+        Fri, 31 Jan 2020 06:06:55 -0800 (PST)
+Subject: Re: [PATCH] HID: generic: Check other drivers match callback from
+ __check_hid_generic
 To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        "3.8+" <stable@vger.kernel.org>,
-        =?UTF-8?Q?Zden=c4=9bk_Rampas?= <zdenda.rampas@gmail.com>
-References: <20200131124553.27796-1-hdegoede@redhat.com>
- <CAO-hwJK-wwZ8UJRaBgjVc0ZXakU9C3eDbh+i6Q5vm8xh1P76LQ@mail.gmail.com>
- <ea896405-6784-7cfd-b27c-28e8ebc3cd7e@redhat.com>
- <CAO-hwJJ1v30NT5quobYawV9yv87buyrQXOG9u-nY3zXXSrCGvg@mail.gmail.com>
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+References: <20200131124615.27849-1-hdegoede@redhat.com>
+ <CAO-hwJL_5JKGjoKFyybfpA=89eK4C3nJtZMb5_8oxnzf9EJGaQ@mail.gmail.com>
+ <d90a5b8f-08fa-b358-900c-b579f64e8782@redhat.com>
+ <CAO-hwJLW=40M0SvehBxYS=M-w2CAB8Ypco3bphQnqGnbk5F-wQ@mail.gmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <6d94cf74-c28f-08b0-a136-044c231b8bc5@redhat.com>
-Date:   Fri, 31 Jan 2020 15:04:23 +0100
+Message-ID: <f75a44af-6192-26a1-f0b3-8beead36dda4@redhat.com>
+Date:   Fri, 31 Jan 2020 15:06:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAO-hwJJ1v30NT5quobYawV9yv87buyrQXOG9u-nY3zXXSrCGvg@mail.gmail.com>
+In-Reply-To: <CAO-hwJLW=40M0SvehBxYS=M-w2CAB8Ypco3bphQnqGnbk5F-wQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+HI,
 
-On 1/31/20 2:54 PM, Benjamin Tissoires wrote:
-> On Fri, Jan 31, 2020 at 2:41 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On 1/31/20 3:00 PM, Benjamin Tissoires wrote:
+> On Fri, Jan 31, 2020 at 2:49 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >>
 >> Hi,
 >>
->> On 1/31/20 2:10 PM, Benjamin Tissoires wrote:
+>> On 1/31/20 2:39 PM, Benjamin Tissoires wrote:
 >>> Hi Hans,
 >>>
 >>> On Fri, Jan 31, 2020 at 1:46 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >>>>
->>>> Commit 8f18eca9ebc5 ("HID: ite: Add USB id match for Acer SW5-012 keyboard
->>>> dock") added the USB id for the Acer SW5-012's keyboard dock to the
->>>> hid-ite driver to fix the rfkill driver not working.
+>>>> __check_hid_generic is used to check if there is a driver, other then
+>>>> the hid-generic driver, which wants to handle the hid-device, in which
+>>>> case hid_generic_match() will return false so that the other driver can
+>>>> bind.
 >>>>
->>>> Most keyboard docks with an ITE 8595 keyboard/touchpad controller have the
->>>> "Wireless Radio Control" bits which need the special hid-ite driver on the
->>>> second USB interface (the mouse interface) and their touchpad only supports
->>>> mouse emulation, so using generic hid-input handling for anything but
->>>> the "Wireless Radio Control" bits is fine. On these devices we simply bind
->>>> to all USB interfaces.
+>>>> But what if the other driver also has a match callback and that indicates
+>>>> it does not want to handle the device? Then hid-generic should bind to it
+>>>> and thus hid_generic_match() should NOT return false in that case.
 >>>>
->>>> But unlike other ITE8595 using keyboard docks, the Acer Aspire Switch 10
->>>> (SW5-012)'s touchpad not only does mouse emulation it also supports
->>>> HID-multitouch and all the keys including the "Wireless Radio Control"
->>>> bits have been moved to the first USB interface (the keyboard intf).
->>>>
->>>> So we need hid-ite to handle the first (keyboard) USB interface and have
->>>> it NOT bind to the second (mouse) USB interface so that that can be
->>>> handled by hid-multitouch.c and we get proper multi-touch support.
->>>>
->>>> This commit adds a match callback to hid-ite which makes it only
->>>> match the first USB interface when running on the Acer SW5-012,
->>>> fixing the regression to mouse-emulation mode introduced by adding the
->>>> keyboard dock USB id.
->>>>
->>>> Note the match function only does the special only bind to the first
->>>> USB interface on the Acer SW5-012, on other devices the hid-ite driver
->>>> actually must bind to the second interface as that is where the
->>>> "Wireless Radio Control" bits are.
+>>>> This commit makes __check_hid_generic check if a matching driver has
+>>>> a match callback and if it does makes its check this, so that
+>>>> hid-generic will bind to devices which have a matching other driver,
+>>>> but that other driver's match callback rejects the device.
 >>>
->>> This is not a full review, but a couple of things that popped out
->>> while scrolling through the patch.
+>>> I get that part, but I am not sure I'll remember this in 2 months time
+>>> when/if we need to extend the .match() in another driver.
+>>> I am especially worried about the potential circular calls where an
+>>> other driver decides to check on all the other drivers having a match
+>>> callback...
 >>>
->>>>
->>>> Cc: stable@vger.kernel.org
->>>> Fixes: 8f18eca9ebc5 ("HID: ite: Add USB id match for Acer SW5-012 keyboard dock")
->>>> Reported-by: Zdeněk Rampas <zdenda.rampas@gmail.com>
->>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>>> ---
->>>>    drivers/hid/hid-ite.c | 34 ++++++++++++++++++++++++++++++++++
->>>>    1 file changed, 34 insertions(+)
->>>>
->>>> diff --git a/drivers/hid/hid-ite.c b/drivers/hid/hid-ite.c
->>>> index c436e12feb23..69a4ddfd033d 100644
->>>> --- a/drivers/hid/hid-ite.c
->>>> +++ b/drivers/hid/hid-ite.c
->>>> @@ -8,9 +8,12 @@
->>>>    #include <linux/input.h>
->>>>    #include <linux/hid.h>
->>>>    #include <linux/module.h>
->>>> +#include <linux/usb.h>
->>>>
->>>>    #include "hid-ids.h"
->>>>
->>>> +#define ITE8595_KBD_USB_INTF           0
->>>> +
->>>>    static int ite_event(struct hid_device *hdev, struct hid_field *field,
->>>>                        struct hid_usage *usage, __s32 value)
->>>>    {
->>>> @@ -37,6 +40,36 @@ static int ite_event(struct hid_device *hdev, struct hid_field *field,
->>>>           return 0;
->>>>    }
->>>>
->>>> +static bool ite_match(struct hid_device *hdev, bool ignore_special_driver)
->>>> +{
->>>> +       struct usb_interface *intf;
->>>> +
->>>> +       if (ignore_special_driver)
->>>> +               return false;
->>>> +
->>>> +       /*
->>>> +        * Most keyboard docks with an ITE 8595 keyboard/touchpad controller
->>>> +        * have the "Wireless Radio Control" bits which need this special
->>>> +        * driver on the second USB interface (the mouse interface). On
->>>> +        * these devices we simply bind to all USB interfaces.
->>>> +        *
->>>> +        * The Acer Aspire Switch 10 (SW5-012) is special, its touchpad
->>>> +        * not only does mouse emulation it also supports HID-multitouch
->>>> +        * and all the keys including the "Wireless Radio Control" bits
->>>> +        * have been moved to the first USB interface (the keyboard intf).
->>>> +        *
->>>> +        * We want the hid-multitouch driver to bind to the touchpad, so on
->>>> +        * the Acer SW5-012 we should only bind to the keyboard USB intf.
->>>> +        */
->>>> +       if (hdev->bus != BUS_USB || hdev->vendor != USB_VENDOR_ID_SYNAPTICS ||
->>>> +                    hdev->product != USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012)
+>>> Could you add a little blurb either in hid-generic.c explaining the
+>>> logic, or (and) in hid.h where .match is defined?
 >>>
->>> Isn't there an existing matching function we can use here, instead of
->>> checking each individual field?
+>>> Because now, we have 2 callers for .match(): hid-core and hid-generic
+>>> (and 2 is usually one too many :-/).
 >>
->> There is hid_match_one_id() but that is not exported (can be fixed) and it
->> requires a struct hid_device_id, which either requires declaring an extra
->> standalone struct hid_device_id for the SW5-012 kbd-dock, or hardcoding an
->> index into the existing hid_device_id array for the driver (with the hardcoding
->> being error prone, so not a good idea).
+>> Ok, how about the following:
 >>
->> Given the problems with using hid_match_one_id() I decided to just go with
->> the above.
-> 
-> right. An other solution would be to have a local macro/function that
-> does that. Because as soon as you start adding a quirk, an other comes
-> right after.
-> 
->>
->> But see below.
->>
->>>
->>>> +               return true;
->>>> +
->>>> +       intf = to_usb_interface(hdev->dev.parent);
->>>
->>> And this is oops-prone. You need:
->>> - ensure hid_is_using_ll_driver(hdev, &usb_hid_driver) returns true.
->>> - add a dependency on USBHID in the KConfig now that you are checking
->>> on the USB transport layer.
->>>
->>> That being said, I would love instead:
->>> - to have a non USB version of this match, where you decide which
->>> component needs to be handled based on the report descriptor
->>
->> Actually your idea to use the desciptors is not bad, but since what
->> we really want is to not bind to the interface which is marked for the
->> hid-multitouch driver I just realized we can just check that.
->>
->> So how about:
->>
->> static bool ite_match(struct hid_device *hdev, bool ignore_special_driver)
+>> static int __check_hid_generic(struct device_driver *drv, void *data)
 >> {
->>           if (ignore_special_driver)
->>                   return false;
+>>          struct hid_driver *hdrv = to_hid_driver(drv);
+>>          struct hid_device *hdev = data;
 >>
->>           /*
->>            * Some keyboard docks with an ITE 8595 keyboard/touchpad controller
->>            * support the HID multitouch protocol for the touchpad, in that
->>            * case the "Wireless Radio Control" bits which we care about are
->>            * on the other interface; and we should not bind to the multitouch
->>            * capable interface as that breaks multitouch support.
->>            */
->>           return hdev->group != HID_GROUP_MULTITOUCH_WIN_8;
+>>          if (hdrv == &hid_generic)
+>>                  return 0;
+>>
+>>          if (!hid_match_device(hdev, hdrv))
+>>                  return 0;
+>>
+>>          /*
+>>           * The purpose of looping over all drivers to see if one is a match
+>>           * for the hdev, is for hid-generic to NOT bind to any devices which
+>>           * have another, specialized, driver registerd. But in some cases that
+>>           * specialized driver might have a match callback itself, e.g. because
+>>           * it only wants to bind to a single USB interface of a device with
+>>           * multiple HID interfaces.
+>>           * So if another driver defines a match callback and that match
+>>           * callback returns false then hid-generic should still bind to the
+>>           * device and we should thus keep looping over the registered drivers.
+>>           */
+>>          if (!hdrv->match)
+>>                  return 1;
+>>
+>>          return hdrv->match(hdev, false);
 >> }
+>>
+>> ?
+>>
+>> Let me know if you like this then I'll send a v2 with this.
 > 
-> Yep, I like that very much :)
+> Yep, sounds good.
+> 
+> Could you also add a blurb in the docs of struct hid_driver in
+> include/linux/hid.h?
+> 
+> Something along the lines of:
+> 
+> match should return true if the driver wants the device, false
+> otherwise. Note that hid-generic has a special handling of this in
+> which it will also iterate over other .match() callbacks in other
+> drivers. Please refrain from duplicating this behaviour in other
+> drivers or dragons will come due to circular calls.
 
-Actually if we want to check the group and there are only 2 interfaces we do
-not need to use the match callback at all, w e can simply match on the
-group of the interface which we do want:
-
-diff --git a/drivers/hid/hid-ite.c b/drivers/hid/hid-ite.c
-index db0f35be5a8b..21bd48f16033 100644
---- a/drivers/hid/hid-ite.c
-+++ b/drivers/hid/hid-ite.c
-@@ -56,8 +56,9 @@ static const struct hid_device_id ite_devices[] = {
-  	{ HID_USB_DEVICE(USB_VENDOR_ID_ITE, USB_DEVICE_ID_ITE8595) },
-  	{ HID_USB_DEVICE(USB_VENDOR_ID_258A, USB_DEVICE_ID_258A_6A88) },
-  	/* ITE8595 USB kbd ctlr, with Synaptics touchpad connected to it. */
--	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS,
--			 USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012) },
-+	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-+		     USB_VENDOR_ID_SYNAPTICS,
-+		     USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012) },
-  	{ }
-  };
-  MODULE_DEVICE_TABLE(hid, ite_devices);
-
-Much cleaner (and now I don't need to write a test, which is always
-a good motivation to come up with a cleaner solution :)
-
-Let me turn this into a proper patch and then I will send that to
-Zdeněk (off-list) for him to test (note don't worry if you do
-not have time to test this weekend, then I'll do it on Monday).
+Ack, now that we are  likely not going to add a match callback to
+the hid-ite driver (see its thread) do we still want to move ahead
+with this patch? On one hand it still makes sense, OTOH if we never
+add a match callback to another driver ...
 
 Regards,
 
 Hans
-
-p.s.
-
-1. My train is approaching Brussels (Fosdem) so my email response
-time will soon become irregular.
-
-2. Benjamin will you be at Fosdem too ?
 
