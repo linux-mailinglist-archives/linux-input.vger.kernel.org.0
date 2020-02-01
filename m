@@ -2,60 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA58214F782
-	for <lists+linux-input@lfdr.de>; Sat,  1 Feb 2020 11:23:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60D2914F7A6
+	for <lists+linux-input@lfdr.de>; Sat,  1 Feb 2020 12:45:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726336AbgBAKXH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 1 Feb 2020 05:23:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56273 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726335AbgBAKXH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 1 Feb 2020 05:23:07 -0500
+        id S1726379AbgBALpE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 1 Feb 2020 06:45:04 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32601 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726297AbgBALpE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 1 Feb 2020 06:45:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1580552584;
+        s=mimecast20190719; t=1580557503;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Ygk86g7XE5FJ86PQtQyq0klsIpzsmrdoJbkOKAtXeks=;
-        b=g1jWtIYc1h9Ke8M6iKKh3YsH66fG8DTZ85zDcoASOQGag2D61OvVtnUzfVTN8Ur15KeND/
-        PGNyczeWmM6FeuoJbf2wJ/SVFNY7Ku4k0KUwrs1kXmUqNmOp2D7vpQ2RrJPvJfJVmLN0oA
-        5dFfv4z3ULEGQ1fLWkBFvf5391vzl8Q=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-NMFLjTFaONONPCU-eFpt8A-1; Sat, 01 Feb 2020 05:23:00 -0500
-X-MC-Unique: NMFLjTFaONONPCU-eFpt8A-1
-Received: by mail-wr1-f70.google.com with SMTP id d8so4776185wrq.12
-        for <linux-input@vger.kernel.org>; Sat, 01 Feb 2020 02:23:00 -0800 (PST)
+        bh=Yk+kTfcsf8R33615ncEr7TEpkv1k66QDIp747QRwuq4=;
+        b=T0BCWsTZhEcJCycPYa/vQ/RnlqYQXD7mwXj8GNw1egE2pbHyAw1zDIGd1M3Kgm56QndbP0
+        49Zx18Pil7t/sLi+fOcbDEYK6KGJA+FLvlqUin38ir4GkM+iFzz4CfD5HbIqJuN2USUiiV
+        r9JZ1X9Nz0/a8Ga4WKkk73lrrzLFQ5Q=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-319-X1OEImPqNbWE4_awytg4UA-1; Sat, 01 Feb 2020 06:44:57 -0500
+X-MC-Unique: X1OEImPqNbWE4_awytg4UA-1
+Received: by mail-wm1-f72.google.com with SMTP id g26so3661137wmk.6
+        for <linux-input@vger.kernel.org>; Sat, 01 Feb 2020 03:44:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Ygk86g7XE5FJ86PQtQyq0klsIpzsmrdoJbkOKAtXeks=;
-        b=jBEsrhryUWLGYILwYC3c0sTsWt8x+l6qjQxgqBDTszYPY31an22POkSUWyRewi0Gia
-         HQBlKv9H+SkXlqdoe6dNkXS6cza8u2UZ9glozS5R+CKP9bfq8YUfE95zu6RTSoUB0+wm
-         /ygWDRSgmtCDThPGMPTtctPYdq8qMtxRkdgmO4bynOb8S9Gf4ywCLKVvxy0+rnGj0F+q
-         RXDE0P4LmzzKkbrHdmXORnrmQ4/jTem9mhXHUofM2wqDDRzHEcd3tiXXLGAP/5/kLTJg
-         1AQN3mUAzS1BszKLbpZ717ULB2FBLEKkh5Zzv9ALNtlL1E6Ltpe/IpyWj1YuNdzf1Srl
-         Ma2A==
-X-Gm-Message-State: APjAAAXEKydZd2yZb/GGJFVoKGF5RXUNlP18HZLV87WlJLPu6WreI+Dx
-        2uMm0mWDT6J0Q3LcjLolPy5Cxr0dvKn9ckyuChTeLPWHdh4+o2AZZX9VuvlKdk7QOLSy/TJQfsi
-        v81E2dmeVOrIC5CxvAjYdD7w=
-X-Received: by 2002:a5d:448c:: with SMTP id j12mr3925177wrq.125.1580552579349;
-        Sat, 01 Feb 2020 02:22:59 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzZ/2tWm7o3QKYHJw6/ahvbsxG3Lk3p49HsaeYAdNRiSbSIQGMUviKWmZobt6xdXD51vZCZPg==
-X-Received: by 2002:a5d:448c:: with SMTP id j12mr3925154wrq.125.1580552578994;
-        Sat, 01 Feb 2020 02:22:58 -0800 (PST)
+        bh=Yk+kTfcsf8R33615ncEr7TEpkv1k66QDIp747QRwuq4=;
+        b=f6h+HW9yXTonnrqXgq/VVDJb0ytq02aqJeRx1op4w+IITAi9gnqnK4JaUrloSx6WZ/
+         ZTqeGRpyJrvcrGGJ6ol3eMR7HeW+ODgIC/s1dvYqK+pWYm3Z400s7RRL4AjMxek2Mpb4
+         gLHKETjRiEhtA6F8O9Q92yIn8VFSrtBVsRlqvIRXEmf2GWbshql2UDk+Tm2HkNkLFmpA
+         8lU0dHVN4CArfqCHqxiiFuCkZFAnEzl7inROFst86G4Jppkyf3rZAj86Zfd0im7cBWoH
+         GW9dq6EtQPMs9+OtiGVh5fwqC9YVxBpLwJpL8sAUMJ98z76DWA58CVyVf+5LSMyG6TMm
+         06VQ==
+X-Gm-Message-State: APjAAAVoqsHXC06xczSE8Q1al/Q0ouy9WVf+2dPumYq6QX4iPoUAmdsP
+        SFZ8d4rda+DeWpuZfHkipQqzESJVEue4S9R3NeCPilPdgoO4L0bmhza92KarB9v9vOglGsOka3l
+        y2f0Yy/DC28rsiDCK41toh2s=
+X-Received: by 2002:adf:f491:: with SMTP id l17mr4677531wro.149.1580557496344;
+        Sat, 01 Feb 2020 03:44:56 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxTAT9FzEovuslbYDdF+Xd1DrQKjFRwIfDmXu/oWF6AVQyHD3ZW42b7/gpuAFi0OfcFn2tSoQ==
+X-Received: by 2002:adf:f491:: with SMTP id l17mr4677516wro.149.1580557496148;
+        Sat, 01 Feb 2020 03:44:56 -0800 (PST)
 Received: from localhost.localdomain ([2001:67c:1810:f055:3fec:c198:3e12:89c7])
-        by smtp.gmail.com with ESMTPSA id b17sm16284811wrp.49.2020.02.01.02.22.57
+        by smtp.gmail.com with ESMTPSA id 5sm12298168wrc.75.2020.02.01.03.44.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Feb 2020 02:22:58 -0800 (PST)
+        Sat, 01 Feb 2020 03:44:55 -0800 (PST)
 Subject: Re: [PATCH] HID: ite: Only bind to keyboard USB interface on Acer
  SW5-012 keyboard dock
-To:     Z R <zdenda.rampas@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
+To:     Z R <zdenda.rampas@gmail.com>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
         "3.8+" <stable@vger.kernel.org>
 References: <20200131124553.27796-1-hdegoede@redhat.com>
@@ -69,13 +70,15 @@ References: <20200131124553.27796-1-hdegoede@redhat.com>
  <CABHH5-KNv7TU6=fiMk3JDxEX2mx7y9qr0Qx9sjOL9-=Rd5jsMw@mail.gmail.com>
  <CAO-hwJ+QnjLu1-Q_KneyOnpc-QaedYUdJUJHH-0E=Txv3kqy5Q@mail.gmail.com>
  <CABHH5-+MQZgj+Wz-BdHLJbK7X2dyyAES6KJspR=gK0TO0Dk73A@mail.gmail.com>
+ <ae52762f-b743-de74-f978-7607a4f02eaf@redhat.com>
+ <CABHH5-L0Ywc7nirnChy4YnGNeqhKa=_rXq9O5QUWtzWs1C6-_w@mail.gmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <ae52762f-b743-de74-f978-7607a4f02eaf@redhat.com>
-Date:   Sat, 1 Feb 2020 11:22:56 +0100
+Message-ID: <ac936152-26f7-2f43-5628-07691d9eda90@redhat.com>
+Date:   Sat, 1 Feb 2020 12:44:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CABHH5-+MQZgj+Wz-BdHLJbK7X2dyyAES6KJspR=gK0TO0Dk73A@mail.gmail.com>
+In-Reply-To: <CABHH5-L0Ywc7nirnChy4YnGNeqhKa=_rXq9O5QUWtzWs1C6-_w@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -86,319 +89,44 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-On 1/31/20 6:17 PM, Z R wrote:
-> Hi Benjamin,
-> in last log touchpad.log (omg, should be keyboard.log), I pressed fn-f3 multiple times. I got one two liner:
+On 2/1/20 11:58 AM, Z R wrote:
+> Good morning guys,
+> ls -l /sys/bus/hid/devices/0003*/driver
+> lrwxrwxrwx 1 root root 0 Feb  1 11:44 /sys/bus/hid/devices/0003:06CB:2968.0002/driver -> ../../../../../../../../bus/hid/drivers/itetech
+> lrwxrwxrwx 1 root root 0 Feb  1 11:44 /sys/bus/hid/devices/0003:06CB:2968.0003/driver -> ../../../../../../../../bus/hid/drivers/hid-multitouch
 > 
-> # ReportID: 3 / Wireless Radio Button: 0 | #
-> E: 000007.606583 2 03 00
+> ################################
+> #      Waiting for events      #
+> ################################
+> E: 0.000001 0004 0004 458792    # EV_MSC / MSC_SCAN             458792
+> E: 0.000001 0001 001c 0000      # EV_KEY / KEY_ENTER            0
+> E: 0.000001 0000 0000 0000      # ------------ SYN_REPORT (0) ---------- +0ms
+> E: 4.068903 0001 00f7 0001      # EV_KEY / KEY_RFKILL           1
+> E: 4.068903 0000 0000 0000      # ------------ SYN_REPORT (0) ---------- +4068ms
+> E: 4.068997 0001 00f7 0000      # EV_KEY / KEY_RFKILL           0
+> E: 4.068997 0000 0000 0000      # ------------ SYN_REPORT (0) ---------- +0ms
+> E: 17.695302 0001 00f7 0001     # EV_KEY / KEY_RFKILL           1
+> E: 17.695302 0000 0000 0000     # ------------ SYN_REPORT (0) ---------- +13627ms
+> E: 17.695395 0001 00f7 0000     # EV_KEY / KEY_RFKILL           0
+> E: 17.695395 0000 0000 0000     # ------------ SYN_REPORT (0) ---------- +0ms
+> E: 24.508532 0004 0004 458976   # EV_MSC / MSC_SCAN             458976
+> E: 24.508532 0001 001d 0001     # EV_KEY / KEY_LEFTCTRL         1
+> E: 24.508532 0000 0000 0000     # ------------ SYN_REPORT (0) ---------- +6813ms
+> E: 24.744600 0004 0004 458758   # EV_MSC / MSC_SCAN             458758
+> E: 24.744600 0001 002e 0001     # EV_KEY / KEY_C                1
+> E: 24.744600 0000 0000 0000     # ------------ SYN_REPORT (0) ---------- +236ms
 > 
-> every time i release f3. Does not matter what is happening with fn-key. (could be released already or still pushed down). This log was collected with last patch from Hans applied.
-> 
-> Sorry for the mess I caused :-) I still don't get how you guys manage to have your emails so well polished and readable.
+> I pressed fn-f3 2x ... Wifi disabled, wifi enabled, on kernel patched with:
+> -       { HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS,
+> -                        USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012) },
+> +        { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+> +                     USB_VENDOR_ID_SYNAPTICS,
+> +                     USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012) },
 
-I don't think you've, caused a mess. Thank you both for the bug report and for your
-help in testing this.
-
-One last test request, can you run evemu-record on a kernel with my latest simplified patch,
-select the keyboard device and then press (and release) the "rfkill" key and see it generates
-a RF_KILL key press + release evdev event?
-
-What would also be helpful is the output of:
-
-ls -l /sys/bus/hid/devices/0003*/driver
+Great, so everything is working as it should with the simplified patch, I will go and
+submit that to Benjamin then so that we can get this regression fixed.
 
 Regards,
 
 Hans
-
-
-
-
-
-> pá 31. 1. 2020 v 18:00 odesílatel Benjamin Tissoires <benjamin.tissoires@redhat.com <mailto:benjamin.tissoires@redhat.com>> napsal:
-> 
->     On Fri, Jan 31, 2020 at 5:09 PM Z R <zdenda.rampas@gmail.com <mailto:zdenda.rampas@gmail.com>> wrote:
->      >
->      > I believe I pressed wifi button on both replays for keyboard.
-> 
->     Yep, I can see that. Just to double check, on the last log, you
->     pressed the wifi button twice?
-> 
->     Anyway, thanks for all the logs, I should have enough to implement the
->     regression tests.
-> 
->     Cheers,
->     Benjamin
-> 
->      >
->      > With latest patch from Hans on top of v5.5.0 touchpads "two finger scrolling" is working again. Attaching current hid-record for keyboard with Wifi button pressed. Events in log appeared after f3 button was "released".
->      >
->      > Thanks
->      >
->      > Zdeněk
->      >
->      > pá 31. 1. 2020 v 16:45 odesílatel Hans de Goede <hdegoede@redhat.com <mailto:hdegoede@redhat.com>> napsal:
->      >>
->      >> Hi,
->      >>
->      >> On 1/31/20 4:38 PM, Z R wrote:
->      >> > Hi Benjamin,
->      >> > hid-record for keyboard and touchpad. With Commit 8f18eca9ebc5 reverted and from unmodified kernel.
->      >> >
->      >> > I hope it is what you asked for :-)
->      >> >
->      >> > Currently waiting for reworked patch from Hans.
->      >>
->      >> I just send you the reworked patch.
->      >>
->      >> Does the recordning include pressing of the wlan on/off key (Fn + F3 I believe) ?
->      >> That is the whole reason why the special hid-ite driver is necessary.
->      >>
->      >> Benjamin about the wlan on/off key. AFAICR on a press + release of the key a
->      >> single hid input report for the generic-desktop  Wireless Radio Controls group
->      >> is send. This input-report only has the one button with usage code HID_GD_RFKILL_BTN
->      >> in there and it is always 0. It is as if the input-report is only send on release
->      >> and not on press. So the hid-ite code emulates a press + release whenever the
->      >> input-report is send.
->      >>
->      >> IOW the receiving of the input report is (ab)used as indication of the button
->      >> having been pressed.
->      >>
->      >> Regards,
->      >>
->      >> Hans
->      >>
->      >>
->      >> >
->      >> > Bye for now
->      >> > Zdeněk
->      >> >
->      >> > pá 31. 1. 2020 v 15:12 odesílatel Benjamin Tissoires <benjamin.tissoires@redhat.com <mailto:benjamin.tissoires@redhat.com> <mailto:benjamin.tissoires@redhat.com <mailto:benjamin.tissoires@redhat.com>>> napsal:
->      >> >
->      >> >     On Fri, Jan 31, 2020 at 3:04 PM Hans de Goede <hdegoede@redhat.com <mailto:hdegoede@redhat.com> <mailto:hdegoede@redhat.com <mailto:hdegoede@redhat.com>>> wrote:
->      >> >      >
->      >> >      > Hi,
->      >> >      >
->      >> >      > On 1/31/20 2:54 PM, Benjamin Tissoires wrote:
->      >> >      > > On Fri, Jan 31, 2020 at 2:41 PM Hans de Goede <hdegoede@redhat.com <mailto:hdegoede@redhat.com> <mailto:hdegoede@redhat.com <mailto:hdegoede@redhat.com>>> wrote:
->      >> >      > >>
->      >> >      > >> Hi,
->      >> >      > >>
->      >> >      > >> On 1/31/20 2:10 PM, Benjamin Tissoires wrote:
->      >> >      > >>> Hi Hans,
->      >> >      > >>>
->      >> >      > >>> On Fri, Jan 31, 2020 at 1:46 PM Hans de Goede <hdegoede@redhat.com <mailto:hdegoede@redhat.com> <mailto:hdegoede@redhat.com <mailto:hdegoede@redhat.com>>> wrote:
->      >> >      > >>>>
->      >> >      > >>>> Commit 8f18eca9ebc5 ("HID: ite: Add USB id match for Acer SW5-012 keyboard
->      >> >      > >>>> dock") added the USB id for the Acer SW5-012's keyboard dock to the
->      >> >      > >>>> hid-ite driver to fix the rfkill driver not working.
->      >> >      > >>>>
->      >> >      > >>>> Most keyboard docks with an ITE 8595 keyboard/touchpad controller have the
->      >> >      > >>>> "Wireless Radio Control" bits which need the special hid-ite driver on the
->      >> >      > >>>> second USB interface (the mouse interface) and their touchpad only supports
->      >> >      > >>>> mouse emulation, so using generic hid-input handling for anything but
->      >> >      > >>>> the "Wireless Radio Control" bits is fine. On these devices we simply bind
->      >> >      > >>>> to all USB interfaces.
->      >> >      > >>>>
->      >> >      > >>>> But unlike other ITE8595 using keyboard docks, the Acer Aspire Switch 10
->      >> >      > >>>> (SW5-012)'s touchpad not only does mouse emulation it also supports
->      >> >      > >>>> HID-multitouch and all the keys including the "Wireless Radio Control"
->      >> >      > >>>> bits have been moved to the first USB interface (the keyboard intf).
->      >> >      > >>>>
->      >> >      > >>>> So we need hid-ite to handle the first (keyboard) USB interface and have
->      >> >      > >>>> it NOT bind to the second (mouse) USB interface so that that can be
->      >> >      > >>>> handled by hid-multitouch.c and we get proper multi-touch support.
->      >> >      > >>>>
->      >> >      > >>>> This commit adds a match callback to hid-ite which makes it only
->      >> >      > >>>> match the first USB interface when running on the Acer SW5-012,
->      >> >      > >>>> fixing the regression to mouse-emulation mode introduced by adding the
->      >> >      > >>>> keyboard dock USB id.
->      >> >      > >>>>
->      >> >      > >>>> Note the match function only does the special only bind to the first
->      >> >      > >>>> USB interface on the Acer SW5-012, on other devices the hid-ite driver
->      >> >      > >>>> actually must bind to the second interface as that is where the
->      >> >      > >>>> "Wireless Radio Control" bits are.
->      >> >      > >>>
->      >> >      > >>> This is not a full review, but a couple of things that popped out
->      >> >      > >>> while scrolling through the patch.
->      >> >      > >>>
->      >> >      > >>>>
->      >> >      > >>>> Cc: stable@vger.kernel.org <mailto:stable@vger.kernel.org> <mailto:stable@vger.kernel.org <mailto:stable@vger.kernel.org>>
->      >> >      > >>>> Fixes: 8f18eca9ebc5 ("HID: ite: Add USB id match for Acer SW5-012 keyboard dock")
->      >> >      > >>>> Reported-by: Zdeněk Rampas <zdenda.rampas@gmail.com <mailto:zdenda.rampas@gmail.com> <mailto:zdenda.rampas@gmail.com <mailto:zdenda.rampas@gmail.com>>>
->      >> >      > >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com <mailto:hdegoede@redhat.com> <mailto:hdegoede@redhat.com <mailto:hdegoede@redhat.com>>>
->      >> >      > >>>> ---
->      >> >      > >>>>    drivers/hid/hid-ite.c | 34 ++++++++++++++++++++++++++++++++++
->      >> >      > >>>>    1 file changed, 34 insertions(+)
->      >> >      > >>>>
->      >> >      > >>>> diff --git a/drivers/hid/hid-ite.c b/drivers/hid/hid-ite.c
->      >> >      > >>>> index c436e12feb23..69a4ddfd033d 100644
->      >> >      > >>>> --- a/drivers/hid/hid-ite.c
->      >> >      > >>>> +++ b/drivers/hid/hid-ite.c
->      >> >      > >>>> @@ -8,9 +8,12 @@
->      >> >      > >>>>    #include <linux/input.h>
->      >> >      > >>>>    #include <linux/hid.h>
->      >> >      > >>>>    #include <linux/module.h>
->      >> >      > >>>> +#include <linux/usb.h>
->      >> >      > >>>>
->      >> >      > >>>>    #include "hid-ids.h"
->      >> >      > >>>>
->      >> >      > >>>> +#define ITE8595_KBD_USB_INTF           0
->      >> >      > >>>> +
->      >> >      > >>>>    static int ite_event(struct hid_device *hdev, struct hid_field *field,
->      >> >      > >>>>                        struct hid_usage *usage, __s32 value)
->      >> >      > >>>>    {
->      >> >      > >>>> @@ -37,6 +40,36 @@ static int ite_event(struct hid_device *hdev, struct hid_field *field,
->      >> >      > >>>>           return 0;
->      >> >      > >>>>    }
->      >> >      > >>>>
->      >> >      > >>>> +static bool ite_match(struct hid_device *hdev, bool ignore_special_driver)
->      >> >      > >>>> +{
->      >> >      > >>>> +       struct usb_interface *intf;
->      >> >      > >>>> +
->      >> >      > >>>> +       if (ignore_special_driver)
->      >> >      > >>>> +               return false;
->      >> >      > >>>> +
->      >> >      > >>>> +       /*
->      >> >      > >>>> +        * Most keyboard docks with an ITE 8595 keyboard/touchpad controller
->      >> >      > >>>> +        * have the "Wireless Radio Control" bits which need this special
->      >> >      > >>>> +        * driver on the second USB interface (the mouse interface). On
->      >> >      > >>>> +        * these devices we simply bind to all USB interfaces.
->      >> >      > >>>> +        *
->      >> >      > >>>> +        * The Acer Aspire Switch 10 (SW5-012) is special, its touchpad
->      >> >      > >>>> +        * not only does mouse emulation it also supports HID-multitouch
->      >> >      > >>>> +        * and all the keys including the "Wireless Radio Control" bits
->      >> >      > >>>> +        * have been moved to the first USB interface (the keyboard intf).
->      >> >      > >>>> +        *
->      >> >      > >>>> +        * We want the hid-multitouch driver to bind to the touchpad, so on
->      >> >      > >>>> +        * the Acer SW5-012 we should only bind to the keyboard USB intf.
->      >> >      > >>>> +        */
->      >> >      > >>>> +       if (hdev->bus != BUS_USB || hdev->vendor != USB_VENDOR_ID_SYNAPTICS ||
->      >> >      > >>>> +                    hdev->product != USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012)
->      >> >      > >>>
->      >> >      > >>> Isn't there an existing matching function we can use here, instead of
->      >> >      > >>> checking each individual field?
->      >> >      > >>
->      >> >      > >> There is hid_match_one_id() but that is not exported (can be fixed) and it
->      >> >      > >> requires a struct hid_device_id, which either requires declaring an extra
->      >> >      > >> standalone struct hid_device_id for the SW5-012 kbd-dock, or hardcoding an
->      >> >      > >> index into the existing hid_device_id array for the driver (with the hardcoding
->      >> >      > >> being error prone, so not a good idea).
->      >> >      > >>
->      >> >      > >> Given the problems with using hid_match_one_id() I decided to just go with
->      >> >      > >> the above.
->      >> >      > >
->      >> >      > > right. An other solution would be to have a local macro/function that
->      >> >      > > does that. Because as soon as you start adding a quirk, an other comes
->      >> >      > > right after.
->      >> >      > >
->      >> >      > >>
->      >> >      > >> But see below.
->      >> >      > >>
->      >> >      > >>>
->      >> >      > >>>> +               return true;
->      >> >      > >>>> +
->      >> >      > >>>> +       intf = to_usb_interface(hdev->dev.parent);
->      >> >      > >>>
->      >> >      > >>> And this is oops-prone. You need:
->      >> >      > >>> - ensure hid_is_using_ll_driver(hdev, &usb_hid_driver) returns true.
->      >> >      > >>> - add a dependency on USBHID in the KConfig now that you are checking
->      >> >      > >>> on the USB transport layer.
->      >> >      > >>>
->      >> >      > >>> That being said, I would love instead:
->      >> >      > >>> - to have a non USB version of this match, where you decide which
->      >> >      > >>> component needs to be handled based on the report descriptor
->      >> >      > >>
->      >> >      > >> Actually your idea to use the desciptors is not bad, but since what
->      >> >      > >> we really want is to not bind to the interface which is marked for the
->      >> >      > >> hid-multitouch driver I just realized we can just check that.
->      >> >      > >>
->      >> >      > >> So how about:
->      >> >      > >>
->      >> >      > >> static bool ite_match(struct hid_device *hdev, bool ignore_special_driver)
->      >> >      > >> {
->      >> >      > >>           if (ignore_special_driver)
->      >> >      > >>                   return false;
->      >> >      > >>
->      >> >      > >>           /*
->      >> >      > >>            * Some keyboard docks with an ITE 8595 keyboard/touchpad controller
->      >> >      > >>            * support the HID multitouch protocol for the touchpad, in that
->      >> >      > >>            * case the "Wireless Radio Control" bits which we care about are
->      >> >      > >>            * on the other interface; and we should not bind to the multitouch
->      >> >      > >>            * capable interface as that breaks multitouch support.
->      >> >      > >>            */
->      >> >      > >>           return hdev->group != HID_GROUP_MULTITOUCH_WIN_8;
->      >> >      > >> }
->      >> >      > >
->      >> >      > > Yep, I like that very much :)
->      >> >      >
->      >> >      > Actually if we want to check the group and there are only 2 interfaces we do
->      >> >      > not need to use the match callback at all, w e can simply match on the
->      >> >      > group of the interface which we do want:
->      >> >      >
->      >> >      > diff --git a/drivers/hid/hid-ite.c b/drivers/hid/hid-ite.c
->      >> >      > index db0f35be5a8b..21bd48f16033 100644
->      >> >      > --- a/drivers/hid/hid-ite.c
->      >> >      > +++ b/drivers/hid/hid-ite.c
->      >> >      > @@ -56,8 +56,9 @@ static const struct hid_device_id ite_devices[] = {
->      >> >      >         { HID_USB_DEVICE(USB_VENDOR_ID_ITE, USB_DEVICE_ID_ITE8595) },
->      >> >      >         { HID_USB_DEVICE(USB_VENDOR_ID_258A, USB_DEVICE_ID_258A_6A88) },
->      >> >      >         /* ITE8595 USB kbd ctlr, with Synaptics touchpad connected to it. */
->      >> >      > -       { HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS,
->      >> >      > -                        USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012) },
->      >> >      > +       { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
->      >> >      > +                    USB_VENDOR_ID_SYNAPTICS,
->      >> >      > +                    USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012) },
->      >> >      >         { }
->      >> >      >   };
->      >> >      >   MODULE_DEVICE_TABLE(hid, ite_devices);
->      >> >      >
->      >> >      > Much cleaner
->      >> >
->      >> >     yep
->      >> >
->      >> >      > (and now I don't need to write a test, which is always
->      >> >      > a good motivation to come up with a cleaner solution :)
->      >> >
->      >> >     Hehe, too bad, you already picked up my curiosity on this one, and I
->      >> >     really would like to see the report descriptors and some events of the
->      >> >     keys that are fixed by hid-ite.c.
->      >> >     <with a low voice>This will be a hard requirement to accept this patch </joke>.
->      >> >
->      >> >     More seriously, Zdeněk, can you run hid-recorder from
->      >> > https://gitlab.freedesktop.org/libevdev/hid-tools/ and provide me the
->      >> >     report descriptor for all of your ITE HID devices? I'll add the
->      >> >     matching tests in hid-tools and be sure we do not regress in the
->      >> >     future.
->      >> >
->      >> >      >
->      >> >      > Let me turn this into a proper patch and then I will send that to
->      >> >      > Zdeněk (off-list) for him to test (note don't worry if you do
->      >> >      > not have time to test this weekend, then I'll do it on Monday).
->      >> >      >
->      >> >      > Regards,
->      >> >      >
->      >> >      > Hans
->      >> >      >
->      >> >      > p.s.
->      >> >      >
->      >> >      > 1. My train is approaching Brussels (Fosdem) so my email response
->      >> >      > time will soon become irregular.
->      >> >
->      >> >     How dare you? :)
->      >> >
->      >> >      >
->      >> >      > 2. Benjamin will you be at Fosdem too ?
->      >> >      >
->      >> >
->      >> >     Unfortunately no. Already got my quota of meeting people for this year
->      >> >     between Kernel Recipes in September, XDC in October and LCA last week.
->      >> >     So I need to keep in a quiet environment for a little bit :)
->      >> >
->      >> >     Cheers,
->      >> >     Benjamin
->      >> >
->      >>
-> 
 
