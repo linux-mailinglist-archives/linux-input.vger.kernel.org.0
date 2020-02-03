@@ -2,204 +2,339 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DAB3150639
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2020 13:35:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1564D15085E
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2020 15:29:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727023AbgBCMfo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Feb 2020 07:35:44 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:39356 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726992AbgBCMfn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Feb 2020 07:35:43 -0500
-Received: by mail-wm1-f67.google.com with SMTP id c84so16814720wme.4;
-        Mon, 03 Feb 2020 04:35:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xXa4goUYYVZ0ZTHIzT0gn35b1DItXYVERf7wIcsGJf0=;
-        b=ufMDYop+TWcrUN5PJd7NvZEDF5imwwCAcqgeKMjaCZuFdd66qX+Py1aT1qsFGdWccg
-         QN3jOvqajxFN59FrILXDscF2/igHsccRMMLopBqCk0fpNFoqbvNETD5dhrccXI0l66WK
-         HxUtoUoB1JcFewc27XM9b8VoAxIjSg7S7Uv4gL6ChOL+SHS/ZVOnwmP/+eJORPOudrF2
-         qf3ZOe0iG/TnSmuptCcTu89BQhBeucy5hCGK7BgWRjqF8a9rFkiMEiCFdKodFTrwKX4x
-         2MgR4/BbqKCMfPVt9aGmY0q9+NpN8wQ5yUIZl7/0ZdFIFgBWM8ZoltrKsR1eDOYhmW/8
-         dLrQ==
-X-Gm-Message-State: APjAAAXhDne6CN4aje+JUA7gC1jWEuPpLujs0YvXcg3EZqOlRFyck/bQ
-        zrzjYWIV7ZkB8zvodrj0E5Hv5p6txA==
-X-Google-Smtp-Source: APXvYqwD7AkEk5EzolooJ7Or0i+TDQW2CUQRuKKaGWjXnRMaB//sjvTWOKVzvrjd6RQlRKk18jSjOw==
-X-Received: by 2002:a1c:9cce:: with SMTP id f197mr30280639wme.133.1580733341113;
-        Mon, 03 Feb 2020 04:35:41 -0800 (PST)
-Received: from rob-hp-laptop ([212.187.182.163])
-        by smtp.gmail.com with ESMTPSA id l29sm1804725wrb.64.2020.02.03.04.35.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2020 04:35:40 -0800 (PST)
-Received: (nullmailer pid 14680 invoked by uid 1000);
-        Mon, 03 Feb 2020 12:35:39 -0000
-Date:   Mon, 3 Feb 2020 12:35:39 +0000
-From:   Rob Herring <robh@kernel.org>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-        mark.rutland@arm.com, bleung@chromium.org,
-        enric.balletbo@collabora.com, groeck@chromium.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        kernel@collabora.com, dafna3@gmail.com
-Subject: Re: [PATCH v2] dt-bindings: convert cros-ec-keyb.txt to yaml
-Message-ID: <20200203123539.GA26961@bogus>
-References: <20200124104158.5008-1-dafna.hirschfeld@collabora.com>
+        id S1728314AbgBCO3N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Feb 2020 09:29:13 -0500
+Received: from mga17.intel.com ([192.55.52.151]:4372 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728212AbgBCO3N (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 3 Feb 2020 09:29:13 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Feb 2020 06:29:11 -0800
+X-IronPort-AV: E=Sophos;i="5.70,398,1574150400"; 
+   d="scan'208";a="337385490"
+Received: from montimix-mobl.gar.corp.intel.com ([10.251.72.214])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Feb 2020 06:29:08 -0800
+Message-ID: <f669f2682373bcd79995dcd518d3405fd62ec61f.camel@linux.intel.com>
+Subject: Re: [PATCH v2 1/4] SFH: Add maintainer list and documentation for
+ AMD SFH based on HID framework
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Sandeep Singh <Sandeep.Singh@amd.com>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, jic23@kernel.org,
+        linux-iio@vger.kernel.org
+Cc:     Shyam-sundar.S-k@amd.com,
+        Nehal Shah <Nehal-bakulchandra.Shah@amd.com>
+Date:   Mon, 03 Feb 2020 06:29:04 -0800
+In-Reply-To: <1580272046-32101-2-git-send-email-Sandeep.Singh@amd.com>
+References: <1580272046-32101-1-git-send-email-Sandeep.Singh@amd.com>
+         <1580272046-32101-2-git-send-email-Sandeep.Singh@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200124104158.5008-1-dafna.hirschfeld@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 24, 2020 at 11:41:58AM +0100, Dafna Hirschfeld wrote:
-> Convert the binding file cros-ec-keyb.txt to yaml format.
+On Wed, 2020-01-29 at 09:57 +0530, Sandeep Singh wrote:
+> From: Sandeep Singh <sandeep.singh@amd.com>
 > 
-> This was tested and verified on ARM and ARM64 with:
+> Add Maintainer list for AMD SFH
+
+SFH (SENSOR FUSION HUB)
+
+This way it will be clear what is SFH.
+
+>  Solution and work flow
+> document.
 > 
-> make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/input/cros-ec-keyb.yaml
-> make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/input/cros-ec-keyb.yaml
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Signed-off-by: Nehal Shah <Nehal-bakulchandra.Shah@amd.com>
+> Signed-off-by: Sandeep Singh <sandeep.singh@amd.com>
 > ---
-> Changes from v1:
-> add: "additionalProperties: false"
+>  Documentation/hid/amd-sfh-hid.rst | 159
+> ++++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                       |   8 ++
+>  2 files changed, 167 insertions(+)
+>  create mode 100644 Documentation/hid/amd-sfh-hid.rst
 > 
->  .../bindings/input/cros-ec-keyb.txt           |  72 ------------
->  .../bindings/input/cros-ec-keyb.yaml          | 107 ++++++++++++++++++
->  2 files changed, 107 insertions(+), 72 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/cros-ec-keyb.txt
->  create mode 100644 Documentation/devicetree/bindings/input/cros-ec-keyb.yaml
-
-[...]
-
-> diff --git a/Documentation/devicetree/bindings/input/cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/cros-ec-keyb.yaml
+> diff --git a/Documentation/hid/amd-sfh-hid.rst
+> b/Documentation/hid/amd-sfh-hid.rst
 > new file mode 100644
-> index 000000000000..d414a2ad7c69
+> index 0000000..1183350
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/cros-ec-keyb.yaml
-> @@ -0,0 +1,107 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/cros-ec-keyb.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/Documentation/hid/amd-sfh-hid.rst
+> @@ -0,0 +1,159 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +title: ChromeOS EC Keyboard
+> +AMD Sensor Fusion Hub:-
+> +======================
+> +AMD sensor fushion Hub is part of a SOC starting from ryzon based
+> platforms.
+> +The solution is working well on windows OS in several
+> +OEM products. AMD SFH uses HID over PCIe bus. In terms of
+> architecture
+> +it is much more resmebles like ISH .However the major diffrence is
+> all
+> +The hid reports are generated as part of kernel driver.
 > +
-> +maintainers:
-> +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> +  - Rob Herring <robh+dt@kernel.org>
+> +Block Diagram:-
+> +=============
+> +	-------------------------------
+> +	|  HID User Space Applications  |
+> +	-------------------------------
+> +---------------------------------------------
+> +	 ---------------------------------
+> +	|		HID Core          |
+> +	 ---------------------------------
+> +
+> +	 ---------------------------------
+> +	|     AMD HID Transport Driver    |
+> +	 ---------------------------------
+> +
+> +	 --------------------------------
+> +	|     AMD HID Client Driver      |
+> +	|	with HID Report Generator|
+> +	 --------------------------------
+> +
+> +	 --------------------------------
+> +	|     AMD MP2 PCIe Driver         |
+> +	 --------------------------------
+> +---------------------------------------------
+> +	  -------------------------------
+> +	|     SFH MP2 Processor         |
+> +	 --------------------------------
+> +
+> +
+> +AMD HID Transport Layer :-
+> +***************************
+> +AMD SFH transport is also implemented as a bus. Each client
+> application
+> +executing in the AMD MP2 is registered as a device on this bus.
+> +The driver, which binds each device (AMD SFH  HID driver) identifies
+> +the device type and registers with the hid core. Transport drivers
+> +attach a constant "struct hid_ll_driver" object with each device.
+> +Once a device is registered with HID core, the callbacks provided
+> via
+> +this struct are used by HID core to communicate with the device.
+> +AMD HID Transport driver implements the synchronous calls.
+> +
+> +AMD HID Client Driver:-
+> +**********************
+> +This driver is responsible to implement HID request and descriptors.
+> +As firmware is OS agnostic, HID client driver fills the HID request
+> +structure and descriptors. HID client driver is in complex in nature
+> +as it is interface between MP2 PCIe driver and HID. HID client
+> driver
+> +initialized the MP2 PCIe driver and holds the instance of MP2
+> driver.
+> +It identified the number of sensors connected using MP2- PCIe driver
+> and
+> +based on that allocate the DRAM address for each and every sensor
+> and
+> +pass it to MP2-PCIe driver.
+> +On enumeration of each sensor, client driver fills out the HID
+> Descriptor
+> +structure and HID input report structure. HID Feature report
+> structure can
+> +be optional.  The report descriptor structure varies sensor to
+> sensor.
+> +Now on enumeration client driver does two major things
+> +1.	Register the HID sensor client to virtual bus (Platform driver)
+> and bind it.
+> +2.	Probes the AMD HID transport driver. Which in turns register
+> device to the core.
+> +
+> +AMD MP2 PCIe Driver:-
+> +********************
+> +MP2 PCIe driver is responsible for making all transaction with the
+> firmware over
+> +PCIe.The connection establishment between firmware and MP2 PCIe
+> driver happens here.
+> +
+> +The communication between X86 and MP2 is spilt into three parts.
+> +1. Command Transfer => C2P Mailbox Register are used
+> +2. Data Transfer => DRAM
+> +
+> +Commands are sent to MP2 using C2P Mail Box registers. These
+> C2P  registers
+> +are mapped in PCIe address space.Writing into C2P Message register
+> generate
+> +interrupt to MP2.  The client driver allocates the physical memory
+> and send
+> +the same to MP2 for data transfer. MP2 firmware uses DRAM interface
+> registers
+> +to indirectly access DRAM memory. For Firmware always write minimum
+> 32 bytes
+> +into DRAM.So it is expected that driver shall allocate minimum 32
+> bytes DRAM space.
+> +
+> +Enumeration and Probing flow:-
+> +*****************************
+> +       HID             AMD            AMD                       AMD
+> -PCIe             MP2
+> +       Core         Transport      Client
+> Driver                 Driver               FW
+> +	|		|	       |                           |         
+>         |
+> +	|		|       on Boot Driver Loaded	  	   |         
+>         |
+> +	|		|	       |                           |         
+>         |
+> +	|		|	       |----MP2-PCIe Int--------->
+> |                 |
+> +	|		|              |			   |         
+>         |
+> +	|		|	       |---Get Number of sensors->
+> |                 |
+> +	|		|              |                       Read
+> P2C              |
+> +	|		|	       |			Register     
+>         |
+> +	|		|              |                           |         
+>         |
+> +	|               |              | Loop(for No of
+> Sensors)   |                 |
+> +	|		|	       |--------------------
+> --|    |                 |
+> +	|		|              | Create HID
+> Descriptor|    |                 |
+> +	|		|	       | Create Input  report
+> |    |                 |
+> +	|		|              |  Descriptor
+> Map      |    |                 |
+> +	|		|	       |  the MP2 FW Index to
+> |    |                 |
+> +	|		|              |   HID
+> Index          |    |                 |
+> +	|		|	       | Allocate the
+> DRAM    |  Enable              |
+> +        |		|	       |	address       |  Sensors     
+>         |
+> +	|		|              |--------------------
+> --|    |                 |
+> +	|		| HID
+> transport|                           |    Enable       |
+> +	|	        |<--Probe------|                           |---Sensor 
+> CMD--> |
+> +	|		| Create the   |			   |         
+>         |
+> +	|		| HID
+> device   |                           |                 |
+> +	|               |    (MFD)     |                           |   
+>               |
+> +	|		| by Populating|			   |         
+>         |
+> +        |               |  the
+> HID     |                           |                 |
+> +	|               |  ll_driver   |                           |   
+>               |
+> +	| HID           |	       |			   |         
+>         |
+> +	|  add          |              |                           |   
+>               |
+> +	|Device         |              |                           |   
+>               |
+> +	|<------------- |	       |			   |         
+>         |
+> +
+> +
+> +Data Flow from Application to the AMD SFH Driver:-
+> +*************************************************
+> +
+> +	|	       |              |	  	 	          |		
+>     |
+> +Get   	|	       |	      |			          |  
+>                |
+> +Input 	|	       |	      |			          |  
+>                |
+> +Report	|              |              |                        
+>    |                 |
+> +--->  	|              |              |                        
+>    |                 |
+> +	|HID_req       |              |                           |    
+>              |
+> +	|get_report    |              |                           |    
+>              |
+> +	|-------------
+> >|              |                           |                 |
+> +	|              |
+> HID_get_input|                           |                 |
+> +	|              |  report      |                           |    
+>              |
+> +	|              |------------->|----------------------
+> --|  |                 |
+> +	|              |              |  Read the DRAM data
+> for|  |                 |
+> +	|              |              |  requsted sensor
+> and   |  |                 |
+> +	|              |              |  create the HID
+> input  |  |                 |
+> +	|              |              |  report                |  |    
+>              |
+> +	|              |              |----------------------
+> --|  |                 |
+> +	|              |Data received
+> |                           |                 |
+> +	|              | in HID
+> report|                           |                 |
+> + To	|<-------------|<-------------
+> |                           |                 |
+> +Applications           |              |                           | 
+>                 |
+> +<-------
+> |              |              |                           |          
+>        |
+> +
+> +
+> +Data Flow from AMD SFH Driver to Application:-
+> +**********************************************
+> +      |		  |               |	            	     
+>      |		    |
+> +      |           |               |----------------------
+> --|      |                 |
+> +      |           |               |Periodically
+> Read       |      |                 |
+> +      |           |               |the data for
+> all        |      |                 |
+> +      |           |               |enumerated
+> sensors      |      |                 |
+> +      |           |               |from the dram and
+> create|      |                 |
+> +      |           |               | HID Input
+> reports      |      |                 |
+> +      |           |               |----------------------
+> --|      |                 |
+> +      |           |HID
+> Input      |                               |                 |
+> +      |           |Input
+> report   |                               |                 |
+> +   <----submit to Application-----
+> |                               |                 |
+> +      |           |               |                               | 
+>                 |
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 56765f5..7cfeb5a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -884,6 +884,14 @@ S:	Supported
+>  F:	drivers/net/ethernet/amd/xgbe/
+>  F:	arch/arm64/boot/dts/amd/amd-seattle-xgbe*.dtsi
+>  
+> +AMD SENSOR FUSION HUB DRIVER
+> +M:	Nehal Shah <nehal-bakulchandra.shah@amd.com>
+> +M:	Sandeep Singh <sandeep.singh@amd.com>
+> +L:	linux-input@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/hid/amd-sfh*
+> +F:	drivers/hid/amd-sfh-hid/
+> +
+>  ANALOG DEVICES INC AD5686 DRIVER
+>  M:	Stefan Popa <stefan.popa@analog.com>
+>  L:	linux-pm@vger.kernel.org
 
-Again, should be a Google/Cros person (I'm assuming Dmitry is here as 
-input maintainer). 
-
-> +
-> +description: |
-> +  Google's ChromeOS EC Keyboard is a simple matrix keyboard implemented on
-> +  a separate EC (Embedded Controller) device. It provides a message for reading
-> +  key scans from the EC. These are then converted into keycodes for processing
-> +  by the kernel. This binding is based on matrix-keymap.txt and extends it.
-> +
-> +properties:
-> +  compatible:
-> +    const: google,cros-ec-keyb
-> +
-> +  google,needs-ghost-filter:
-> +    type: boolean
-> +    description: |
-> +      True to enable a ghost filter for the matrix keyboard.
-> +      This is recommended if the EC does not have its own logic or
-> +      hardware for this.
-> +
-> +  # properties from matrix-keymap.txt
-> +  linux,keymap:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description: |
-> +      an array of packed 1-cell entries containing the equivalent
-> +      of row, column and linux key-code. The 32-bit big endian cell is packed
-> +      as:
-> +      row << 24 | column << 16 | key-code
-> +
-> +  keypad,num-rows:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Number of row lines connected to the keypad controller.
-> +
-> +  keypad,num-columns:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Number of column lines connected to the keypad controller.
-
-matrix-keypad.txt should be converted to yaml and then referenced here.
-
-Unless you have max sizes, then there's not any more to add here.
-
-> +
-> +required:
-> +  - compatible
-> +  - linux,keymap
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    cros-ec-keyb {
-> +        compatible = "google,cros-ec-keyb";
-> +        keypad,num-rows = <8>;
-> +        keypad,num-columns = <13>;
-> +        google,needs-ghost-filter;
-> +        /*
-> +         * Keymap entries take the form of 0xRRCCKKKK where
-> +         * RR=Row CC=Column KKKK=Key Code
-> +         * The values below are for a US keyboard layout and
-> +         * are taken from the Linux driver. Note that the
-> +         * 102ND key is not used for US keyboards.
-> +         */
-> +        linux,keymap = <
-> +                /* CAPSLCK F1         B          F10     */
-> +                0x0001003a 0x0002003b 0x00030030 0x00040044
-> +                /* N       =          R_ALT      ESC     */
-> +                0x00060031 0x0008000d 0x000a0064 0x01010001
-> +                /* F4      G          F7         H       */
-> +                0x0102003e 0x01030022 0x01040041 0x01060023
-> +                /* '       F9         BKSPACE    L_CTRL  */
-> +                0x01080028 0x01090043 0x010b000e 0x0200001d
-> +                /* TAB     F3         T          F6      */
-> +                0x0201000f 0x0202003d 0x02030014 0x02040040
-> +                /* ]       Y          102ND      [       */
-> +                0x0205001b 0x02060015 0x02070056 0x0208001a
-> +                /* F8      GRAVE      F2         5       */
-> +                0x02090042 0x03010029 0x0302003c 0x03030006
-> +                /* F5      6          -          \       */
-> +                0x0304003f 0x03060007 0x0308000c 0x030b002b
-> +                /* R_CTRL  A          D          F       */
-> +                0x04000061 0x0401001e 0x04020020 0x04030021
-> +                /* S       K          J          ;       */
-> +                0x0404001f 0x04050025 0x04060024 0x04080027
-> +                /* L       ENTER      Z          C       */
-> +                0x04090026 0x040b001c 0x0501002c 0x0502002e
-> +                /* V       X          ,          M       */
-> +                0x0503002f 0x0504002d 0x05050033 0x05060032
-> +                /* L_SHIFT /          .          SPACE   */
-> +                0x0507002a 0x05080035 0x05090034 0x050B0039
-> +                /* 1       3          4          2       */
-> +                0x06010002 0x06020004 0x06030005 0x06040003
-> +                /* 8       7          0          9       */
-> +                0x06050009 0x06060008 0x0608000b 0x0609000a
-> +                /* L_ALT   DOWN       RIGHT      Q       */
-> +                0x060a0038 0x060b006c 0x060c006a 0x07010010
-> +                /* E       R          W          I       */
-> +                0x07020012 0x07030013 0x07040011 0x07050017
-> +                /* U       R_SHIFT    P          O       */
-> +                0x07060016 0x07070036 0x07080019 0x07090018
-> +                /* UP      LEFT    */
-> +                0x070b0067 0x070c0069>;
-> +    };
-> +...
-> -- 
-> 2.17.1
-> 
