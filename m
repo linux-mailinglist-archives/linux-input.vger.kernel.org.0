@@ -2,160 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 072A9150FF9
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2020 19:52:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AEFE151050
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2020 20:33:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728728AbgBCSwW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Feb 2020 13:52:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36608 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727067AbgBCSwV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Feb 2020 13:52:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1580755940;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WxxqmNqN4+u9WuwjHeqcGXqvaUr6K7Pz14tR1poHNLU=;
-        b=UqQygm24Vc8Z1JtMehZ/fJv1r8KGmdwa2Ewsy+5XHFWZSM7jX8/+LA2XkS0fE9f1n3tcop
-        Lpy9AksBA8G/mb0AmAvdXno20S2i5zmY+ohYUAioqFjCCJbotwE2bpLABLNTkgeWKSx+pH
-        VjAHFZynLC9cpWbqChC0ryExvd7qi0o=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-cwWX4rlfMKKpTYPCyd-Ijg-1; Mon, 03 Feb 2020 13:52:14 -0500
-X-MC-Unique: cwWX4rlfMKKpTYPCyd-Ijg-1
-Received: by mail-wm1-f71.google.com with SMTP id m21so113041wmg.6
-        for <linux-input@vger.kernel.org>; Mon, 03 Feb 2020 10:52:14 -0800 (PST)
+        id S1726224AbgBCTds (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Feb 2020 14:33:48 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:35692 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726187AbgBCTdr (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Feb 2020 14:33:47 -0500
+Received: by mail-pg1-f194.google.com with SMTP id l24so8341666pgk.2;
+        Mon, 03 Feb 2020 11:33:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=9m2gQqR3TG+zayD2lUAz+sGUfkAioxIkGFXPiCFj/Wo=;
+        b=r2ea2VEQUvn8Yaal56k/qFIT5mNGwtfTB1eJNLyPrb7qyo0ZzOXvf6nA2DcNFKXqQ7
+         UJczPVP7PVM9AhpqIvxuxA31pdj5jrKdlc6Czkfzd/bacqloXxsi1S8GAv9OmdoQU+Q0
+         eJ+hp07lZgARzt5wsBx5Gc7IsYkGbBXRsfpKtHZXe8cAvVlm71edK/n3mkPeyUZ2RjEe
+         OovP9qQJ0YyQ/pFdEfn641pd2JrnT3ruuUIV0sS/xeQGBYYLuogmoe/lA6540fDRaRmj
+         VqOMkWfeQuQfEOTkESaJsr6YdL6YC62f2jexnuFl8gxFUI9s6cxZHOAOZb92t2JlExyp
+         jL2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WxxqmNqN4+u9WuwjHeqcGXqvaUr6K7Pz14tR1poHNLU=;
-        b=fZaynPNgXT5UlM92rTsHH4c6CNkm31ot3vlKBcXwnG3FuzVZ1ebdWRpLyygw8Fg7oh
-         Ci2dtEsTu0++Tzp7Us6NCUzPbSWh2dwyPf0G+dTQfSC1RVqjrz2A80HXUWcvM2EgpM9x
-         O6cvNPKO4C2ATCTmqfXBdRXtsZKFCwpVhFZRJQ8rkifv/p/CtmKyVxpGCcPwKfBA0N4i
-         hT6eigqA2teSs/5m6N8wpIexaVdPwKEZmUGr4dS2wKARHGIMyuovsgrzJHDjXzilpsTs
-         W1KnR1tz9hfqu5aE7RTVQI5BGMfMX7zzkKJOiEegS//HO7h6xkVg3HWPV7uud7lEyK1O
-         oBOw==
-X-Gm-Message-State: APjAAAWmJTGl3b2pTiOVnOKvxB46N7xTFFaqqOPCEmLJJh4fMg/pHTRb
-        diAT29aO336bh7fcNO66OAVnQA7yQgAsEjVqUz93bG4mqQrELUVaYK49OhXC4jnPmpuBCqwPViF
-        Ade4p4kpZG2XZp0lOqeE7CbA=
-X-Received: by 2002:a5d:6b88:: with SMTP id n8mr17926071wrx.288.1580755933574;
-        Mon, 03 Feb 2020 10:52:13 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyQd1U+egjG9xO3itB9VTUpOv9w+NsmegmdKhmDD/KKyVNGqnfFGK8XCVTMu/uSyWv+dHEwnw==
-X-Received: by 2002:a5d:6b88:: with SMTP id n8mr17926053wrx.288.1580755933381;
-        Mon, 03 Feb 2020 10:52:13 -0800 (PST)
-Received: from shalem.localdomain (2001-1c00-0c0c-fe00-7e79-4dac-39d0-9c14.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:7e79:4dac:39d0:9c14])
-        by smtp.gmail.com with ESMTPSA id z19sm331883wmi.35.2020.02.03.10.52.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Feb 2020 10:52:12 -0800 (PST)
-Subject: Re: [PATCH v2] HID: ite: Only bind to keyboard USB interface on Acer
- SW5-012 keyboard dock
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        "3.8+" <stable@vger.kernel.org>,
-        =?UTF-8?Q?Zden=c4=9bk_Rampas?= <zdenda.rampas@gmail.com>
-References: <20200201115648.3934-1-hdegoede@redhat.com>
- <CAO-hwJK0BjKQMeUT11MxR4TaDN4sdMvN-4YtVBk+V_-JBOrEuw@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <4dc29694-8a7c-40bc-dfd5-97cb4ce8112c@redhat.com>
-Date:   Mon, 3 Feb 2020 19:52:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=9m2gQqR3TG+zayD2lUAz+sGUfkAioxIkGFXPiCFj/Wo=;
+        b=LaB9c+WNfg7xSA+6dtq0kJqdI45L9hS2RwvDn21Nsq3rebM16nyRbK6L9irt9aVAfW
+         /evpRm257lui30n+rna1HYA0TDJJRxhWAdIcp7xTY1+Kra+VO+TMKH4aTeLdq2uJWUGr
+         TSgGKF7cC9C2EVGBdKgrp6DvHu3yF9IhjLx2749GKi/hUNORNeeTXGiFRig3aNrnPJbv
+         k9njuz3e1EDDeGWSLabXhWfpgMUHG/w4QVyAyyUPE1ZFZfD8loJbvAZ80lkYRl7sIMHt
+         EPaNsolhYD+eHAAVmpYfruK7Y5SNnhD4zZ026m18qjHD3kPO3COd+k1bpJebyEoatNtE
+         KT/Q==
+X-Gm-Message-State: APjAAAWXigd+ABLwLsaD9yudNiM9TaUO3F9r/2XR7L5/3bhjqReCHMTz
+        XZJ+4orZxF0Mlmbwh2PwEv6+x3zK
+X-Google-Smtp-Source: APXvYqxvlzY6Z7i+iGZf0PVupY54FCrrWmjgA+K+fhJUjT70WUBX2TI4jmOHGYkVRR18KW4SiV0s8A==
+X-Received: by 2002:aa7:9f90:: with SMTP id z16mr26799136pfr.161.1580758427119;
+        Mon, 03 Feb 2020 11:33:47 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id k63sm249290pjb.10.2020.02.03.11.33.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2020 11:33:46 -0800 (PST)
+Date:   Mon, 3 Feb 2020 11:33:44 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.6-rc0
+Message-ID: <20200203193344.GA202502@dtor-ws>
 MIME-Version: 1.0
-In-Reply-To: <CAO-hwJK0BjKQMeUT11MxR4TaDN4sdMvN-4YtVBk+V_-JBOrEuw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-HI,
+Hi Linus,
 
-On 03-02-2020 16:14, Benjamin Tissoires wrote:
-> On Sat, Feb 1, 2020 at 12:56 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Commit 8f18eca9ebc5 ("HID: ite: Add USB id match for Acer SW5-012 keyboard
->> dock") added the USB id for the Acer SW5-012's keyboard dock to the
->> hid-ite driver to fix the rfkill driver not working.
->>
->> Most keyboard docks with an ITE 8595 keyboard/touchpad controller have the
->> "Wireless Radio Control" bits which need the special hid-ite driver on the
->> second USB interface (the mouse interface) and their touchpad only supports
->> mouse emulation, so using generic hid-input handling for anything but
->> the "Wireless Radio Control" bits is fine. On these devices we simply bind
->> to all USB interfaces.
->>
->> But unlike other ITE8595 using keyboard docks, the Acer Aspire Switch 10
->> (SW5-012)'s touchpad not only does mouse emulation it also supports
->> HID-multitouch and all the keys including the "Wireless Radio Control"
->> bits have been moved to the first USB interface (the keyboard intf).
->>
->> So we need hid-ite to handle the first (keyboard) USB interface and have
->> it NOT bind to the second (mouse) USB interface so that that can be
->> handled by hid-multitouch.c and we get proper multi-touch support.
->>
->> This commit changes the hid_device_id for the SW5-012 keyboard dock to
->> only match on hid devices from the HID_GROUP_GENERIC group, this way
->> hid-ite will not bind the the mouse/multi-touch interface which has
->> HID_GROUP_MULTITOUCH_WIN_8 as group.
->> This fixes the regression to mouse-emulation mode introduced by adding
->> the keyboard dock USB id.
->>
->> Cc: stable@vger.kernel.org
->> Fixes: 8f18eca9ebc5 ("HID: ite: Add USB id match for Acer SW5-012 keyboard dock")
->> Reported-by: Zdeněk Rampas <zdenda.rampas@gmail.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->> Changes in v2:
->> - Extend hid_device_id to also match on the HID_GROUP_GENERIC group,
->>    instead of adding a match callback which peeks at the USB descriptors
-> 
-> Thanks for the quick revision.
-> 
-> Applied to for-5.6/upstream-fixes
-> 
-> And for the record, 2 MR have been added to hid-tools for regression testing:
-> - https://gitlab.freedesktop.org/libevdev/hid-tools/merge_requests/70
-> (keyboard and wifi key)
-> - https://gitlab.freedesktop.org/libevdev/hid-tools/merge_requests/69
-> (touchpad, which currently fails on Linux master unless this patch
-> gets in)
+Please pull from:
 
-Cool, thank you for doing that.
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
-Regards,
+to receive updates for the input subsystem. You will get:
 
-Hans
+- a driver for SGI IOC3 PS/2 controller
+- updates to driver for FocalTech FT5x06 series touch screen controllers
+- other assorted fixes.
+
+Changelog:
+---------
+
+Alexandru Ardelean (1):
+      Input: ads7846 - use new `delay` structure for SPI transfer delays
+
+Ben Dooks (Codethink) (2):
+      Input: axp20x-pek - make device attributes static
+      Input: apbps2 - add __iomem to register struct
+
+Benjamin Gaignard (2):
+      dt-bindings: touchscreen: Add touchscreen schema
+      dt-bindings: touchscreen: Convert Goodix touchscreen to json-schema
+
+Johnny.Chuang (1):
+      Input: elants_i2c - check Remark ID when attempting firmware update
+
+Lucas Stach (1):
+      Input: synaptics-rmi4 - switch to reduced reporting mode
+
+Marco Felsch (4):
+      Input: edt-ft5x06 - alphabetical include reorder
+      Input: edt-ft5x06 - document wakeup-source capability
+      Input: edt-ft5x06 - make wakeup-source switchable
+      Input: edt-ft5x06 - use pm core to enable/disable the wake irq
+
+Philipp Zabel (1):
+      Input: edt-ft5x06 - work around first register access error
+
+Samuel Holland (2):
+      Input: axp20x-pek - respect userspace wakeup configuration
+      Input: axp20x-pek - enable wakeup for all AXP variants
+
+Thomas Bogendoerfer (1):
+      Input: add IOC3 serio driver
+
+Diffstat:
+--------
+
+ .../bindings/input/touchscreen/edt-ft5x06.txt      |   2 +
+ .../bindings/input/touchscreen/goodix.txt          |  50 -----
+ .../bindings/input/touchscreen/goodix.yaml         |  78 ++++++++
+ .../bindings/input/touchscreen/touchscreen.txt     |  40 +---
+ .../bindings/input/touchscreen/touchscreen.yaml    |  83 ++++++++
+ drivers/input/misc/axp20x-pek.c                    |  45 ++++-
+ drivers/input/rmi4/rmi_f11.c                       |  14 ++
+ drivers/input/serio/Kconfig                        |  10 +
+ drivers/input/serio/Makefile                       |   1 +
+ drivers/input/serio/apbps2.c                       |   2 +-
+ drivers/input/serio/ioc3kbd.c                      | 216 +++++++++++++++++++++
+ drivers/input/touchscreen/ads7846.c                |  15 +-
+ drivers/input/touchscreen/edt-ft5x06.c             |  55 ++----
+ drivers/input/touchscreen/elants_i2c.c             |  77 +++++++-
+ 14 files changed, 544 insertions(+), 144 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/goodix.txt
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+ create mode 100644 drivers/input/serio/ioc3kbd.c
+
+Thanks.
 
 
->> ---
->>   drivers/hid/hid-ite.c | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/hid/hid-ite.c b/drivers/hid/hid-ite.c
->> index c436e12feb23..6c55682c5974 100644
->> --- a/drivers/hid/hid-ite.c
->> +++ b/drivers/hid/hid-ite.c
->> @@ -41,8 +41,9 @@ static const struct hid_device_id ite_devices[] = {
->>          { HID_USB_DEVICE(USB_VENDOR_ID_ITE, USB_DEVICE_ID_ITE8595) },
->>          { HID_USB_DEVICE(USB_VENDOR_ID_258A, USB_DEVICE_ID_258A_6A88) },
->>          /* ITE8595 USB kbd ctlr, with Synaptics touchpad connected to it. */
->> -       { HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS,
->> -                        USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012) },
->> +       { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
->> +                    USB_VENDOR_ID_SYNAPTICS,
->> +                    USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012) },
->>          { }
->>   };
->>   MODULE_DEVICE_TABLE(hid, ite_devices);
->> --
->> 2.23.0
->>
-> 
-
+-- 
+Dmitry
