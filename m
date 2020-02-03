@@ -2,91 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE5A515052B
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2020 12:23:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 898C81505AF
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2020 12:54:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726268AbgBCLXA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Feb 2020 06:23:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38038 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727072AbgBCLXA (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 3 Feb 2020 06:23:00 -0500
-Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9634520661;
-        Mon,  3 Feb 2020 11:22:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1580728979;
-        bh=WY0s7CN0cRyL7YAzy6I+2wLOmNOSlFcDEdOTX5DsXQo=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=lFWqV0iyfR38dTxTBMIlOpp7DbA7K5zpiYTYRj4S6gswkt1Vm32AMbEOqPg2dqrlU
-         P54iRjfhhQ5N7UIYdt6CViMsnOsoyX2XDVUvheZPBhl+5Z1XtxKa0zUWFZ3zBBhbBX
-         ip5En1032rGXQpqCOHP4ya/++Ea0w+JxYmh4fB0Q=
-Date:   Mon, 3 Feb 2020 12:22:42 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
-        Martyn Welch <martyn@welchs.me.uk>,
-        linux-input <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Conn O'Griofa <connogriofa@gmail.com>,
-        "Colenbrander, Roelof" <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH] HID: Sony: Add support for Gasia controllers
-In-Reply-To: <CAO-hwJ+k8fxULS1xC-28jHmhZLZVN5EGc=kY5sqNX1GCNKpt4A@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2002031218230.26888@cbobk.fhfr.pm>
-References: <20200126194513.6359-1-martyn@welchs.me.uk> <CAEc3jaDjVZF_Z7Guj1YUo5J5C_-GEOYTH=LKARKccCwQAwuZnQ@mail.gmail.com> <fb8850c6c1766b4360a69419845aa8bf7a3aa7a6.camel@welchs.me.uk> <CAEc3jaB9ubRLJJG9eWL8-QnEU1s-6cOYsY-PKd57e_K9BiPkSA@mail.gmail.com>
- <nycvar.YFH.7.76.2002031100500.31058@cbobk.fhfr.pm> <CAO-hwJ+k8fxULS1xC-28jHmhZLZVN5EGc=kY5sqNX1GCNKpt4A@mail.gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1727256AbgBCLyY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Feb 2020 06:54:24 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:36916 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726258AbgBCLyX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Feb 2020 06:54:23 -0500
+Received: by mail-wm1-f67.google.com with SMTP id f129so16649654wmf.2;
+        Mon, 03 Feb 2020 03:54:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GsEDW/FBwDbqEDgsSOp7b8GtI71AOIhOF9dkOu8aKL8=;
+        b=hsxKhjMDBRg5cSsv9EkNAsRoo/RLzzmuiq0p98K9Di2CctV6/EANQW+NsNIUB51sT8
+         TKQeykVZ3jb8Rzx5uCBmXHPjAe0QjPr0uKDVoazhq3DiBWo+i7C3AaZF7zTiLiGNRIRl
+         WTHxFRNBxsaO/qY/WUz5uBIDPKcCh+jMyVTbuszsDdmPbOzMeVgUtVBUvEcVmBhIPuh4
+         NB7EMA7tI6tHVXCLdPo3KCCXAftNKaF+y79GtuNdiPHxlhusVOhewZPX+8vvT4p/ovnA
+         wIm0IdARmMrHNM7qfhjZYfliNDvds3R2s8pUgMnSDsnYZmtfDpdC8Z4pTADsyBs0TGo7
+         FgMw==
+X-Gm-Message-State: APjAAAV1c5NOvfQi+Bcm7OAxWM2BOD2FWCPqz7T6COzvhCG9ZdWmBKDi
+        BpWc/wX2ESBWCvFv89SunR9fXEZ8Dw==
+X-Google-Smtp-Source: APXvYqxzbSM2JF3AX1i6UQDV1bhOBfs5HG8SEy6P4arYwtN9q5w5NeqP0JWJp/yg2WaBMB2NF0PadA==
+X-Received: by 2002:a7b:c38c:: with SMTP id s12mr28013109wmj.96.1580730861147;
+        Mon, 03 Feb 2020 03:54:21 -0800 (PST)
+Received: from rob-hp-laptop ([212.187.182.163])
+        by smtp.gmail.com with ESMTPSA id s19sm22788368wmj.33.2020.02.03.03.54.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2020 03:54:20 -0800 (PST)
+Received: (nullmailer pid 8764 invoked by uid 1000);
+        Mon, 03 Feb 2020 11:54:19 -0000
+Date:   Mon, 3 Feb 2020 11:54:19 +0000
+From:   Rob Herring <robh@kernel.org>
+To:     Nick Reitemeyer <nick.reitemeyer@web.de>
+Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org, stephan@gerhold.net,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Nick Reitemeyer <nick.reitemeyer@web.de>
+Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: Add Coreriver vendor
+ prefix
+Message-ID: <20200203115419.GA8706@bogus>
+References: <20200121141525.3404-1-nick.reitemeyer@web.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200121141525.3404-1-nick.reitemeyer@web.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 3 Feb 2020, Benjamin Tissoires wrote:
-
-> I am definitely not in favour of that :(
+On Tue, 21 Jan 2020 15:15:24 +0100, Nick Reitemeyer wrote:
 > 
-> The basic problem we have here is that some vendors are overriding your 
-> VID/PIDs, and this is nasty. And I do not see any reasons why you can't 
-> say: "well, we broke it, sorry, but we only support *our* devices, not 
-> third party ones".
+> Coreriver is a South Korean microcontroller manufacturer: http://coreriver.com
+> 
+> Signed-off-by: Nick Reitemeyer <nick.reitemeyer@web.de>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-Well, it's not about "we broke it" in the first place, as far as I 
-can tell.
-
-Roderick's concern is that 3rd party devices with overriden VID/PID 
-malfunction for completely unrelated reason to (correctly working) changes 
-done in favor of stock Sony devices, but it'll be Sony receiving all the 
-reports/blame.
-
-> One thing that comes to my mind (probably not the best solution), is to 
-> taint the kernel if you are facing a non genuine product. We do that for 
-> nvidia, and basically, we can say: "well, supporting the nvidia blob is 
-> done on a best effort case, and see with them directly if you have an 
-> issue". Tainting the kernel is a little bit rough, but maybe adding an 
-> info message in the dmesg if you detect one of those can lead to a 
-> situation were we can count on you for supporting the official products, 
-> and you can get community support for the clones.
-
-Yeah; which I wouldn't like to do for upstream kernel, but Sony could 
-definitely do this for the products they ship.
-
-The same way distros are tainting their kernels when unsupported modules 
-(but otherwise perfectly fine wrt. GPL and everything else) are loaded 
-into distro-supported kernels.
-
-> One last thing. Roderick, I am not sure if I mentioned that or not, but 
-> I am heavily adding regression tests for HID in 
-> https://gitlab.freedesktop.org/libevdev/hid-tools/
-
-... and words can't express how thankful I am for that :)
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Acked-by: Rob Herring <robh@kernel.org>
