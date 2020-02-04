@@ -2,116 +2,233 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A8D3151997
-	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2020 12:21:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31AB4151A7D
+	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2020 13:28:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727417AbgBDLT2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Feb 2020 06:19:28 -0500
-Received: from mta-out1.inet.fi ([62.71.2.226]:34846 "EHLO johanna3.inet.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727067AbgBDLT2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 4 Feb 2020 06:19:28 -0500
-X-Greylist: delayed 378 seconds by postgrey-1.27 at vger.kernel.org; Tue, 04 Feb 2020 06:19:26 EST
-Received: from MinistryOfSillyWalk.home (84.248.30.195) by johanna3.inet.fi (9.0.019.26-1)
-        id 5E1C39D515F02B02; Tue, 4 Feb 2020 13:13:00 +0200
-From:   Lauri Jakku <lja@iki.fi>
-To:     oneukum@suse.com, benjamin.tissoires@redhat.com
-Cc:     jikos@kernel.org, linux-input@vger.kernel.org,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        Lauri Jakku <lja@iki.fi>
-Subject: [PATCH v2] USB: HID: random timeout failures tackle try.
-Date:   Tue,  4 Feb 2020 13:06:59 +0200
-Message-Id: <20200204110658.32454-1-lja@iki.fi>
-X-Mailer: git-send-email 2.25.0
+        id S1727165AbgBDM2R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Feb 2020 07:28:17 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:36345 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727127AbgBDM2R (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Feb 2020 07:28:17 -0500
+Received: by mail-ot1-f67.google.com with SMTP id j20so8450053otq.3
+        for <linux-input@vger.kernel.org>; Tue, 04 Feb 2020 04:28:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=lh293ywZWKN+39Q/OsZoEUoW+PX69XhEFVzis+ZtBDQ=;
+        b=s8Oam7EWmUKhEO99EDtWqsKwu1gq3D0LKtcx9Q2n9WOSNdaqggo/7z5I0Wt6yp4GaZ
+         sgdNknVHV2EtVTw1mdn1K0p/yCFumkfHJs6GByy+zqSeYQ4nnX/Of2uCLfgxex5mR7L8
+         5GmkTUBzl68RA9+Ojg45A9VmpFR1NHp/ScIjJ9GbJ4CYkT4tjs9J30sOUls9bHLVMTJn
+         hr+Kgl9wkI59kezrxz7Y3XSmo0g8rIkznQGuotfInZY1BRlLXNiaiAZUGGaDQaWKaS/e
+         ALoCISPatgq5UvZacDt/01AG0D8x2NXw1veRYv5D6UFLsb6ro5gZW/4zyXVDmKSanRMa
+         oIBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=lh293ywZWKN+39Q/OsZoEUoW+PX69XhEFVzis+ZtBDQ=;
+        b=qioyB/DhRolc8Vs55afJ1dDpXG7VvMifOXpiD7WGEFjWakq5NiKVGgJhpA2gF8KxOa
+         g8fmPBQ7y/XCQbDfhzkHHiZq45NW1Ao9UQ/PZBFnYWA6ndtWxIi/X4QXD0aS1euf2iHJ
+         D9vk2a6kCoSsnhLJLdQqb5vdH9ZQae+ib3ETvAYMwcv0YggB2TiFSfyvSZYIhu/ATK0a
+         zGh5l/2Zz4in7OvgFxfeuhvgjwu/SImLlkovhNQ0KKBiaYtSO625UpyBsrxgKMZJlYBx
+         LnPo7hDPgdsoW8rIzrmgxIepqNeBinABzV6vy9jlYKmS966Axs86Lp7p4VhVW2K43uCZ
+         LaeQ==
+X-Gm-Message-State: APjAAAVcNGopjyjZ+NWwVb1I+vIbaa14E89zaBTCGwgYkSGEZDDSZ4zX
+        RHb+dFNm0NQEgNBqV2ulyrhlss2B9VgDd2/lGxGFa1Mt+IcrhA==
+X-Google-Smtp-Source: APXvYqwyx7AE1uE1I3I3m9XcWp9n69ZHEUT5OX60zTy4VtNlKrEU9qgiL9KWv7JWW8Wk5ggSlqhpODSQbHRgCoBuZOk=
+X-Received: by 2002:a05:6830:1353:: with SMTP id r19mr22480190otq.288.1580819295685;
+ Tue, 04 Feb 2020 04:28:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From:   js <sym.i.nem@gmail.com>
+Date:   Tue, 4 Feb 2020 07:28:04 -0500
+Message-ID: <CAKsRvPOyPqxLaUx+gemCARq+gVeOO94iqyVMWspUEKXk==_wZg@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: truncate hid reports exceeding HID_MAX_BUFFER_SIZE
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Armando Visconti <armando.visconti@st.com>,
+        Johan Korsnes <jkorsnes@cisco.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-There is multiple reports of random behaviour of USB HID devices.
+Commit 8ec321e96e05 ("HID: Fix slab-out-of-bounds read in
+hid_field_extract") introduced a regression bug that broke
+hardware probes which request large report sizes.
 
-I have mouse that acts sometimes quite randomly, I debugged with
-logs others have published: that there is HW timeouts that leave
-device in state that it is errorneus.
+An example of this hardware is the ELON9038 digitizer on the
+Microsoft Surface Go as per bug id 206259.
+https://bugzilla.kernel.org/show_bug.cgi?id=206259
 
-To fix this, I introduce retry mechanism in root of USB HID drivers.
+To eliminate the regression, return 0 instead of -1 when a
+large report size is requested, allowing the hardware to
+probe properly while size error is output to kernel log.
 
-Fix does not slow down operations at all if there is no -ETIMEDOUT
-got from control message sending. 
+Commit 8ec321e96e05 does not enforce buffer size limitation
+on the size of the incoming report.
+Added enforcement by truncation to prevent buffer overflow in
+hid_report_raw_event().
 
-If there is one, then sleep 20ms and try again. Retry count is 20
-witch translates maximium of 400ms before giving up. If the 400ms
-boundary is reached the HW is really bad.
-
-JUST to be clear:
-    This does not make USB HID devices to sleep anymore than
-    before, if all is golden.
-
-Why modify usb-hid-core: No need to modify driver by driver.
-
-Signed-off-by: Lauri Jakku <lja@iki.fi>
+Fixes: 8ec321e96e05 ("HID: Fix slab-out-of-bounds read in hid_field_extract")
+Reported-and-tested-by: James Smith <sym.i.nem@gmail.com>
+Signed-off-by: James Smith <sym.i.nem@gmail.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Armando Visconti <armando.visconti@st.com>
+Cc: Jiri Kosina <jkosina@suse.cz>
+Cc: Johan Korsnes <jkorsnes@cisco.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/usb/core/message.c | 30 +++++++++++++++++++++++++-----
- 1 file changed, 25 insertions(+), 5 deletions(-)
+Sorry about my earlier email, I'm new to this forum and am still
+learning the conventions.
 
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 5adf489428aa..b375e376ea22 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -20,6 +20,7 @@
- #include <linux/usb/hcd.h>	/* for usbcore internals */
- #include <linux/usb/of.h>
- #include <asm/byteorder.h>
-+#include <linux/errno.h>
- 
- #include "usb.h"
- 
-@@ -137,7 +138,10 @@ int usb_control_msg(struct usb_device *dev, unsigned int pipe, __u8 request,
- 		    __u16 size, int timeout)
- {
- 	struct usb_ctrlrequest *dr;
--	int ret;
-+	int ret = -ETIMEDOUT;
-+
-+	/* retry_cnt * 20ms, max retry time set to 400ms */
-+	int retry_cnt = 20;
- 
- 	dr = kmalloc(sizeof(struct usb_ctrlrequest), GFP_NOIO);
- 	if (!dr)
-@@ -149,11 +153,27 @@ int usb_control_msg(struct usb_device *dev, unsigned int pipe, __u8 request,
- 	dr->wIndex = cpu_to_le16(index);
- 	dr->wLength = cpu_to_le16(size);
- 
--	ret = usb_internal_control_msg(dev, pipe, dr, data, size, timeout);
-+	do {
-+		ret = usb_internal_control_msg(dev,
-+					pipe,
-+					dr,
-+					data,
-+					size,
-+					timeout);
-+
-+		/*
-+		 * Linger a bit, prior to the next control message
-+		 * or if return value is timeout, but do try few
-+		 * times (max 400ms) before quitting.
-+		 */
-+		if (dev->quirks & USB_QUIRK_DELAY_CTRL_MSG)
-+			msleep(200);
-+		else if (ret == -ETIMEDOUT)
-+			msleep(20);
-+
-+		/* Loop while timeout, max loops: retry_cnt times. */
-+	} while ((retry_cnt-- > 0) && (ret == -ETIMEDOUT));
- 
--	/* Linger a bit, prior to the next control message. */
--	if (dev->quirks & USB_QUIRK_DELAY_CTRL_MSG)
--		msleep(200);
- 
- 	kfree(dr);
- 
--- 
-2.25.0
+At your suggestion, I examined the code more carefully and I think
+that the previous patch (commit 8ec321e96e05) did not solve the buffer
+overflow at all, it just killed a tranche of hardware of unknown size
+which requests report sizes exceeding 4K.
 
+The problem, and why the previous patch didn't really address the
+issue, is that the enforcement occurs at a declarative point in the
+code, which is to say, the device is just describing itself, it is not
+actually requesting memory or generating a report. A malicious device
+could easily describe itself incorrectly then generate a report
+exceeding both the size it indicated in hid_add_field() and
+HID_MAX_BUFFER_SIZE, overflowing the buffer and causing unintended
+behavior.
+
+The correct point to enforce a buffer size constraint is the point
+where the report is taken from the device and copied into the hid
+handling layer. From my examination of the code, this seems to be in
+hid_report_raw_event(). Thus, I placed an enforcement constraint on
+the report size in that method, took out the enforcement constraint in
+hid_add_field(), because it was causing a hardware regression and not
+properly enforcing the boundary constraint, and added user-facing
+warnings to notify when hardware is going to be affected by the
+introduced boundary constraints.
+
+I also Cc'd Johan Korsnes because he submitted a patch for a related problem.
+
+Thanks,
+
+js
+---
+
+--- a/drivers/hid/hid-core.c  2020-01-28 02:04:58.918309900 +0000
++++ b/drivers/hid/hid-core.c  2020-01-29 06:37:22.861190986 +0000
+@@ -290,8 +290,12 @@ static int hid_add_field(struct hid_pars
+
+  /* Total size check: Allow for possible report index byte */
+  if (report->size > (HID_MAX_BUFFER_SIZE - 1) << 3) {
+-   hid_err(parser->device, "report is too long\n");
+-   return -1;
++   hid_warn(parser->device,
++       "report is too long and will be truncated: %d > %d\n",
++       report->size,
++       (HID_MAX_BUFFER_SIZE - 1) << 3);
++   parser->global.report_size = report->size =
++     (HID_MAX_BUFFER_SIZE - 1) << 3;
+  }
+
+  if (!parser->local.usage_index) /* Ignore padding fields */
+@@ -1748,6 +1752,10 @@ int hid_report_raw_event(struct hid_devi
+    dbg_hid("report %d is too short, (%d < %d)\n", report->id,
+        csize, rsize);
+    memset(cdata + csize, 0, rsize - csize);
++ } else if (csize > rsize) {
++   hid_warn(hid, "report %d is too long, truncating (%d > %d)\n",
++       report->id, csize, rsize);
++   report->size = size = rsize;
+  }
+
+  if ((hid->claimed & HID_CLAIMED_HIDDEV) && hid->hiddev_report_event)
+
+
+On Tue, Jan 28, 2020 at 12:44 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> Hi,
+>
+> On Mon, Jan 27, 2020 at 9:41 PM js <sym.i.nem@gmail.com> wrote:
+> >
+> > i'm bumping this bug because i haven't heard anything from the
+> > maintainers for a week.
+>
+> Apologies for the delay. I have been in a conference the past 2 weeks
+> in Australia, so couldn't handle much of upstream.
+> Furthermore, we are currently in the merge window, which means we
+> should not push patches to linux-next unless they are absolutely
+> needed.
+>
+> > there's been no change in the git either.
+> > what's going on guys? this is a tiny patch for a very simple bug.
+> > it should be a fast review and commit to the kernel tree.
+>
+> Nope, that is not that simple:
+>
+> - please submit your patches following
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst#n340
+> Our tools require the patches to not be attached in an email so we can
+> process them
+> - this patch affects the core of the HID subsystem, which means we
+> should take extra care when dealing with it to not break other systems
+> - this patch seems to paper over a security patch
+> (8ec321e96e056de84022c032ffea253431a83c3c) by changing the return
+> value from an error to "yeah, that's fine". So unless there is a proof
+> that this is the correct way, it's going to be a nack from me until
+> proven otherwise
+> - this patch affects in the end hid-multitouch, and as mentioned in
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/hid/hid-multitouch.c#n26
+> I'd like to have a reproducer in
+> https://gitlab.freedesktop.org/libevdev/hid-tools so we do not break
+> those devices in the future.
+>
+> So I understand the frustration of having a HW regression, but this
+> patch is clearly not the correct solution given what I have here, so I
+> can not push it right now.
+>
+> Cheers,
+> Benjamin
+>
+> >
+> > js
+> >
+> > On Sun, Jan 19, 2020 at 1:14 PM js <sym.i.nem@gmail.com> wrote:
+> > >
+> > > i posted this bug to bugzilla with the attached patch.
+> > > this email is to notify the maintainers.
+> > > https://bugzilla.kernel.org/show_bug.cgi?id=206259
+> > >
+> > > thanks!
+> > >
+> > > js
+> > > ----
+> > >
+> > > ELAN i2c digitizer on microsoft surface go fails to initialize and
+> > > device is non-functional
+> > >
+> > > initialization fails on 4.19.96:
+> > > ----
+> > > [    5.507245] hid-generic 0018:04F3:261A.0005: report is too long
+> > > [    5.507256] hid-generic 0018:04F3:261A.0005: item 0 1 0 8 parsing failed
+> > > [    5.507290] hid-generic: probe of 0018:04F3:261A.0005 failed with error -22
+> > > [    5.556409] hid-multitouch 0018:04F3:261A.0005: report is too long
+> > > [    5.581641] hid-multitouch 0018:04F3:261A.0005: item 0 1 0 8 parsing failed
+> > > [    5.618495] hid-multitouch: probe of 0018:04F3:261A.0005 failed
+> > > with error -22
+> > >
+> > > initialization succeeds on 4.19.95:
+> > > ----
+> > > [    7.150887] hid-generic 0018:04F3:261A.0001: input,hidraw2: I2C HID
+> > > v1.00 Device [ELAN9038:00 04F3:261A] on i2c-ELAN9038:00
+> > > [    8.253077] input: ELAN9038:00 04F3:261A as
+> > > /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-1/i2c-ELAN9038:00/0018:04F3:261A.0001/input/input20
+> > > [    8.253219] input: ELAN9038:00 04F3:261A Pen as
+> > > /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-1/i2c-ELAN9038:00/0018:04F3:261A.0001/input/input23
+> > > [    8.253330] hid-multitouch 0018:04F3:261A.0001: input,hidraw0: I2C
+> > > HID v1.00 Device [ELAN9038:00 04F3:261A] on i2c-ELAN9038:00
+> > >
+> > > problem seems to be due to this commit:
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-4.19.y&id=31d06cc8e7caec36bedeb4f90444920431462f61
+> >
+>
