@@ -2,120 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B18F4151697
-	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2020 08:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E7651516E5
+	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2020 09:17:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726603AbgBDHoy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Feb 2020 02:44:54 -0500
-Received: from mail-vk1-f196.google.com ([209.85.221.196]:41530 "EHLO
-        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726566AbgBDHox (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Feb 2020 02:44:53 -0500
-Received: by mail-vk1-f196.google.com with SMTP id p191so4893821vkf.8
-        for <linux-input@vger.kernel.org>; Mon, 03 Feb 2020 23:44:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PrJkaVosHVyDC3fJ7ODIJY8tH2A+lqKAd2gAEcP3LqI=;
-        b=RXnUPNFAExJbKvzQbWRSzigj2n5KQbtVWAkmfN5b3Cx7N17s6x6+JFpKQa1oUei03F
-         BXlRwmOaBRBls7iCRkBmqhAmPd16T9JcinVAR6gN9hCJE7HXZEMaCuuUUhgdfZPJw2hO
-         LSZ+Is1b0UJHU942FfZwiLITm3RsZrzWRHZvs=
+        id S1726981AbgBDIRb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Feb 2020 03:17:31 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23218 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726864AbgBDIRb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 4 Feb 2020 03:17:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580804250;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+FYfNRtUohHmVazhCUWaHs/bP1B6+JdFa92vhI6uTJY=;
+        b=Kz7Gsccyo12ozKcCoQdXEXf6gJ5kKYSQIjuI2z5S4hDDYWZ4V6sAJr6rYq7I5toIAfgyQV
+        YWizNp0PkZe4U0ZMArjpCZDAnXX53VPgo4jb+TQp76jdu1Q4mmI0ijB8U/egUsXc8ZpNC0
+        dZpeF+OKHBY5VakWCd6d3d7iyXftTAc=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-NOJDG6KTPOKnFMFGwKZIiw-1; Tue, 04 Feb 2020 03:17:28 -0500
+X-MC-Unique: NOJDG6KTPOKnFMFGwKZIiw-1
+Received: by mail-qt1-f198.google.com with SMTP id c8so11811182qte.22
+        for <linux-input@vger.kernel.org>; Tue, 04 Feb 2020 00:17:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=PrJkaVosHVyDC3fJ7ODIJY8tH2A+lqKAd2gAEcP3LqI=;
-        b=nCdYRNo97De+YI90Ztn590Fk8F+faKFp9M5lVGdB+7qEP73OSQFGKgREx3Z65CjSc4
-         CgtpYimOqNTNfdG2i7EwLE8kjrOhwILg9ksTV2vkElkZBbzKnhqY9huweGQnobDWrBbq
-         lPKWQaROxDYSQ/kCOS3wW20kusU9/kVCIGRoAI/Ib3htIstv+8Gy1eBggEeeTy9X+ynJ
-         bUtu0i9/unmfgRDtRLacVpb/qzjOf18jwte9PbtnFGVBjdv8C4YLkDSADYPR92I88iYp
-         f3Bb/PXS2AmwiU6ROppR1HMPzWANRIuggfKRhiEVqKeicpHAhEYOpOzONHbQr0G2NLMk
-         zhRw==
-X-Gm-Message-State: APjAAAW4IPVjvNo0UQsQxhXUy9JN6eVh5I4ZBudmXBTtt93jo+FnOkGo
-        SU/Y0QFCLKRkfQzvGOyM1eskQKtJiOi3PdFfsgNHihM8
-X-Google-Smtp-Source: APXvYqyIj13EoH0jYPwM1kKCOFX/RV4/LYJXjijNF/m1go8sCfb68u/ehTXS8H/FGQhgexUB6V01thob+q5J+/A/jKg=
-X-Received: by 2002:a1f:264b:: with SMTP id m72mr16513637vkm.51.1580802292741;
- Mon, 03 Feb 2020 23:44:52 -0800 (PST)
+        bh=+FYfNRtUohHmVazhCUWaHs/bP1B6+JdFa92vhI6uTJY=;
+        b=ctONV+XLeagIyt+zCahj6FH/cuM+bjqoiJWcpojjNzWZd7Mk7okv9end2CWjsSujK/
+         lGWGOesuYJHV1eyXU5lfU5BPZ60hA04QLEriPdj9kRIUa9lqxxOyzn5cA7ZRktfHaaIv
+         EdK/ccA9Ch2MkxT6UjL/E/2vLYy4CVmqL7SaqseF6EU/ohfaruD/nUJ2WsJ4Um82pVhq
+         BN30JnoLP0Bvwy61GShmS9sikuEx6RRO8Dr3J6CFKdqd4CAVETOrM6M2R4AGu6LS027y
+         LSAgyLOjzOwmkHfzd6sqBGkPRVd+WQJ7OswWED/q4qRWVhwYWKTtLiyjDjW8CFc2GdPd
+         aCmA==
+X-Gm-Message-State: APjAAAUh/CYjaA+HqkDQpDWN86K/2E7veE5GVbO3Y8d61NRVqSUjKOyv
+        EshxksCogLWHapD/uTy5si275x1TjeYGA6foou9T0YrCuNArm4KdmMzlEBdv0jJLd6aUXM2ULC0
+        5lTxQTJ0sBJK9XNjsFIYZLhqUpo3F1NhdJxRA5p0=
+X-Received: by 2002:a0c:fac7:: with SMTP id p7mr26824685qvo.46.1580804247654;
+        Tue, 04 Feb 2020 00:17:27 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzjKwMwjxavu7NYEJjE1m0Q0ek71T0gHQF4aw6iSTCDbCwPr7eWRME0OuH8bnHqlWTp1ooYu+RR4JG6sn8rQjc=
+X-Received: by 2002:a0c:fac7:: with SMTP id p7mr26824675qvo.46.1580804247330;
+ Tue, 04 Feb 2020 00:17:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20200114021934.178057-1-ikjn@chromium.org> <20200121074727.35893-1-ikjn@chromium.org>
- <6739cc32-9beb-ac0a-f500-db2d70bb8e22@collabora.com> <20200127161206.GB30843@bogus>
- <ef653218-4a59-73e1-186e-9b62b8ed6dae@collabora.com>
-In-Reply-To: <ef653218-4a59-73e1-186e-9b62b8ed6dae@collabora.com>
-From:   Ikjoon Jang <ikjn@chromium.org>
-Date:   Tue, 4 Feb 2020 15:44:41 +0800
-Message-ID: <CAATdQgAf8udrhAYt048m5crkDy2sGDu5n6BP0U1v-qgbyjUJrQ@mail.gmail.com>
-Subject: Re: [PATCH v3] dt-bindings: mfd: Convert ChromeOS EC bindings to json-schema
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Nicolas Boitchat <drinkcat@chromium.org>,
-        linux-input@vger.kernel.org
+References: <9cf20b6f-5bfa-2346-ca9f-5ca81245bfff@pp.inet.fi>
+In-Reply-To: <9cf20b6f-5bfa-2346-ca9f-5ca81245bfff@pp.inet.fi>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 4 Feb 2020 09:17:16 +0100
+Message-ID: <CAO-hwJJDkFh+ZS7pCZLhfuoXeAByFLzKbPW8mHtF=N_e-hn+Dg@mail.gmail.com>
+Subject: Re: USB HID fix: Retry sending timedout device commands 20 times
+To:     Lauri Jakku <lauri.jakku@pp.inet.fi>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Thanks for the reviews,
-I will send v4 soon, sorry for the late reply.
+Hi Lauri,
 
-On Tue, Jan 28, 2020 at 12:25 AM Enric Balletbo i Serra
-<enric.balletbo@collabora.com> wrote:
+On Tue, Feb 4, 2020 at 3:21 AM Lauri Jakku <lauri.jakku@pp.inet.fi> wrote:
 >
-> Hi Rob,
->
-> On 27/1/20 17:12, Rob Herring wrote:
-> > On Mon, Jan 27, 2020 at 04:57:13PM +0100, Enric Balletbo i Serra wrote:
-> >> Hi Ikjoon,
-> >>
-> >> On 21/1/20 8:47, Ikjoon Jang wrote:
-> >>> Convert the ChromeOS EC bindings to json-schema.
-> >>>
-> >>> Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-> >>> ---
-> >>> v3: node name changed in rpmsg example
-> >>> v2: cleanup description, fix typos, remove LPC, add add RPMSG example
-> >>> ---
-> >>>  .../devicetree/bindings/mfd/cros-ec.txt       |  76 ------------
-> >>>  .../devicetree/bindings/mfd/cros-ec.yaml      | 111 ++++++++++++++++++
-> >>>  2 files changed, 111 insertions(+), 76 deletions(-)
-> >>>  delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
-> >>>  create mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.yaml
-> >>>
-> >>
-> >> Still in mfd directory, this is not a MFD driver, please move to chrome/cros-ec.yaml
-> >
-> > Please don't. Looks to me like the chrome EC has multiple functions and
-> > is a device.
-> >
->
-> This binding is part of the Chrome EC core and we explicitly moved all this out
-> from mfd subsytem in the past because wasn't really fit as mfd driver.
->
-> We still have one device driver (cros_ec_dev) in mfd, this is the one that
-> instantiates all the subdevices but the above binding is not related to this
-> one. All the core/bus part is in platform/chrome, looks to me more coherent have
-> the binding accordingly.
->
-> Anyway I'll let you the final decision, nothing that worries me too much.
->
-> Thanks,
->  Enric
->
-> > Bindings directories are often 1:1 with kernel driver directories, but
-> > not always.
+> Hi,
+> I made possible fix for USB HID devices randomly fail to operate correctly.
 
-Converting the format at this time. I will keep the same directory in v4.
-It seems that cros_ec_dev device driver should be changed before moving.
+Can you tell us a little bit more of which devices are failing, and on
+which platform? I never had such failure, so I guess it must be device
+specific.
 
-> >
-> > Rob
-> >
+>
+> Fix: If device reports timedout operation, try re-send command 20 times, 10ms apart,
+> before giving up. I got 5.5-series kernel running with 5 times resending and it seems
+> to be quite good, i made the patch of 20 times resending. That should be enough for
+> most cases.
+
+Ouch, very much ouch. Resending 20 times on a generic path when the
+timeout can be several seconds is pretty much a bad thing. Again, this
+should be limited to the device you are talking to, and not be
+generic. Or maybe you are encountering a usb controller issue.
+
+>
+> Code for drivers/usb/core/message.c include error definitions with adding include:
+>
+> #include <linux/errno.h>
+>
+>
+> Code for drivers/usb/core/message.c function usb_control_msg:
+
+This code / idea should be sent to linux-usb@vger.kernel.org (Cc-ed),
+not just linux-input. This code touches the USB part, and we have no
+control of it in the HID or input tree.
+
+Cheers,
+Benjamin
+
+>
+> int usb_control_msg(struct usb_device *dev, unsigned int pipe, __u8 request,
+>    __u8 requesttype, __u16 value, __u16 index, void *data,
+>    __u16 size, int timeout)
+> {
+>     struct usb_ctrlrequest *dr;
+>     int ret = -ETIMEDOUT;
+>     int retry_cnt = 20;
+>
+> dr = kmalloc(sizeof(struct usb_ctrlrequest), GFP_NOIO);
+> if (!dr)
+> return -ENOMEM;
+>
+> dr->bRequestType = requesttype;
+> dr->bRequest = request;
+> dr->wValue = cpu_to_le16(value);
+> dr->wIndex = cpu_to_le16(index);
+> dr->wLength = cpu_to_le16(size);
+>
+>     do
+>     {
+>         ret = usb_internal_control_msg(dev, pipe, dr, data, size, timeout);
+>
+>         /*
+>          * Linger a bit, prior to the next control message or if return
+>          * value is timeout, but do try few times before quitting.
+>          */
+>         if (dev->quirks & USB_QUIRK_DELAY_CTRL_MSG)
+>             msleep(200);
+>         else if (ret == -ETIMEDOUT) {
+>             dev_dbg(dev,
+>                     "timed out, trying %d times more.\n",
+>                     retry_cnt);
+>             msleep(10);
+>         }
+>
+>     } while ( (retry_cnt-- > 0)
+>                 &&
+>               (ret == -ETIMEDOUT));
+>
+>
+> kfree(dr);
+>
+> return ret;
+> }
+> EXPORT_SYMBOL_GPL(usb_control_msg);
+>
+>
+> --
+> Br,
+> Lauri J.
+
