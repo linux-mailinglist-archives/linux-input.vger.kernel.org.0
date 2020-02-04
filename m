@@ -2,100 +2,248 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F3F21516FA
-	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2020 09:24:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79CCD151720
+	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2020 09:39:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726983AbgBDIYf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Feb 2020 03:24:35 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:36356 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726763AbgBDIYf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Feb 2020 03:24:35 -0500
-Received: by mail-lf1-f66.google.com with SMTP id f24so11581238lfh.3;
-        Tue, 04 Feb 2020 00:24:33 -0800 (PST)
+        id S1725834AbgBDIjv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Feb 2020 03:39:51 -0500
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:44230 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726371AbgBDIjv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Feb 2020 03:39:51 -0500
+Received: by mail-vs1-f65.google.com with SMTP id p6so10778135vsj.11
+        for <linux-input@vger.kernel.org>; Tue, 04 Feb 2020 00:39:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JdACrWI5vpsKlW8g7CbCx4APcl8wQGsCUNfkqtOAUqY=;
+        b=ZoTry6ifrXYZ8NRpb4uFD6f8WFpGkP1CXTPfFBVnloLaIWSa7gZ+buv7s86HWwnxs/
+         M12XR6tin65nLhbuNc/o+4+qbt5ruCZys/maCffFMoxrDNT0KQ4n/dey147sgi9U/B9t
+         3Lc7xnftI3HMCCyCCMU1azLJfdD3iTNbF2pWE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=E6T1KOOke4/c747RNor42t/cZnyazvkZ3EY6Urb5I3I=;
-        b=mSRQsscU0xBPZIchK/X3YiAiekPaUYkwqordB7xA6oZRZ8DBnROSyLG5lWtylPidaw
-         5OUigektmD9fRVUwxSyPu3tXz1BMJMPwUTLJ699P15Y9ATPj8HJAyhMJMWwvovevLgqb
-         Gp0lkCYXnOGhryLX61rfQP4uRaBzPCZIA2Y7lFwsD2A/y5Z9EOBpCZYzehx3FrC747k/
-         98oVuTRBuIl8p+KWBvYZ+zN2gUGlJoJcePeClL+gw3TSCNS4FDU+qqBWDE1R2U/qbeh0
-         soDlu/6xN79t2z7jRBK4jmlx6ffnJv3XV+qVZA3xZZC1hQIZw9FF05MexOVdVpw5WgXR
-         0/kQ==
-X-Gm-Message-State: APjAAAU855vUymFZxUeV2Mj9edcJP+/Svsnk+KLYPLkEfaMcveXUFTb7
-        NvU2aP+oOYBHwfdWe0/xyIQ=
-X-Google-Smtp-Source: APXvYqxlKfcco2CZ6OmZ++hYA9pV0igvVPF/VyC2dwjPLoS7uc3OKJzegAJFxxgfc6cWfFbmSfpIDA==
-X-Received: by 2002:ac2:46dc:: with SMTP id p28mr14269160lfo.23.1580804672704;
-        Tue, 04 Feb 2020 00:24:32 -0800 (PST)
-Received: from xi.terra (c-12aae455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.170.18])
-        by smtp.gmail.com with ESMTPSA id v7sm10192776lfa.10.2020.02.04.00.24.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2020 00:24:32 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@kernel.org>)
-        id 1iytVh-0008Ia-6v; Tue, 04 Feb 2020 09:24:41 +0100
-Date:   Tue, 4 Feb 2020 09:24:41 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>, stable@vger.kernel.org
-Cc:     linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        stable <stable@vger.kernel.org>,
-        Martin Kepplinger <martink@posteo.de>
-Subject: Re: [PATCH 1/7] Input: pegasus_notetaker: fix endpoint sanity check
-Message-ID: <20200204082441.GD26725@localhost>
-References: <20191210113737.4016-1-johan@kernel.org>
- <20191210113737.4016-2-johan@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JdACrWI5vpsKlW8g7CbCx4APcl8wQGsCUNfkqtOAUqY=;
+        b=QPoaQk9ieTH9J+3MngS+Q6tuxbWmRHpJ8iakTh64iMbJDmjjr89ArrmBCFI71l9bkT
+         +kKZmDtcuQF695iaPadur9iZhTnTQr0VbUEtMMvw3zS5riBVh0BbGD1AZ+30D0ys77Dl
+         siq/avcSxktRZY85ShJNdOYPwtqsAiHDIbo/h1SyvbFSolFKgrej1xChjpQ4OW6UXovF
+         eZx5A+MllY1Ube9sCJchY1uhWP/x7rGxjHrpJxxAVTEOhzuptgBMkpC/sBdlwZMe9MZ5
+         XFz1Y/uaqPRMgPsVmeVOwdaOB/crg2LM1E2O75DdSFSrhXSNzen/ACuJy4yHA2CJSQlT
+         I2sw==
+X-Gm-Message-State: APjAAAW/zvKbqstT05U38jpqzlfOJAbFGeAJTqhqodYbh3Vcvp9aOQwG
+        isycnJ9FgsHWUOUp/KxsIrpWd08POkhucR5YDRqtXQ==
+X-Google-Smtp-Source: APXvYqzm6bymaLptiCwaALgQxa/dXLU/xksVDThtHsJkaE+BEyd84+Ci1h/y9Kiw/5Sf5kCjVQl5T9ZFrWSe8P1XwVs=
+X-Received: by 2002:a67:ecd5:: with SMTP id i21mr17903723vsp.166.1580805589999;
+ Tue, 04 Feb 2020 00:39:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191210113737.4016-2-johan@kernel.org>
+References: <20200114021934.178057-1-ikjn@chromium.org> <20200121074727.35893-1-ikjn@chromium.org>
+ <20200127160529.GA30843@bogus>
+In-Reply-To: <20200127160529.GA30843@bogus>
+From:   Ikjoon Jang <ikjn@chromium.org>
+Date:   Tue, 4 Feb 2020 16:39:39 +0800
+Message-ID: <CAATdQgDW6H_jM5UV-jqB98ep93fSh-zTNE8agkoU4XbgSWj0TQ@mail.gmail.com>
+Subject: Re: [PATCH v3] dt-bindings: mfd: Convert ChromeOS EC bindings to json-schema
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nicolas Boitchat <drinkcat@chromium.org>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 10, 2019 at 12:37:31PM +0100, Johan Hovold wrote:
-> The driver was checking the number of endpoints of the first alternate
-> setting instead of the current one, something which could be used by a
-> malicious device (or USB descriptor fuzzer) to trigger a NULL-pointer
-> dereference.
-> 
-> Fixes: 1afca2b66aac ("Input: add Pegasus Notetaker tablet driver")
-> Cc: stable <stable@vger.kernel.org>     # 4.8
-> Cc: Martin Kepplinger <martink@posteo.de>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
+On Tue, Jan 28, 2020 at 12:05 AM Rob Herring <robh@kernel.org> wrote:
+>
+> On Tue, Jan 21, 2020 at 03:47:27PM +0800, Ikjoon Jang wrote:
+> > Convert the ChromeOS EC bindings to json-schema.
+> >
+> > Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
+> > ---
+> > v3: node name changed in rpmsg example
+> > v2: cleanup description, fix typos, remove LPC, add add RPMSG example
+> > ---
+> >  .../devicetree/bindings/mfd/cros-ec.txt       |  76 ------------
+> >  .../devicetree/bindings/mfd/cros-ec.yaml      | 111 ++++++++++++++++++
+> >  2 files changed, 111 insertions(+), 76 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
+> >  create mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.yaml
+>
+> > -Required properties (LPC):
+> > -- compatible: "google,cros-ec-lpc"
+> > -- reg: List of (IO address, size) pairs defining the interface uses
+>
+> Where did this go?
 
-Looks like the stable tag was removed when this one was applied, and
-similar for patches 2, 4 and 7 of this series (commits 3111491fca4f,
-a8eeb74df5a6, 6b32391ed675 upstream).
+I'm not sure about the details or future plans on LPC interface,
+but I guess LPC has been just a future plan without any usages, so removed it.
 
-While the last three are mostly an issue for the syzbot fuzzer, we have
-started backporting those as well.
+>
+>
+> > diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.yaml b/Documentation/devicetree/bindings/mfd/cros-ec.yaml
+> > new file mode 100644
+> > index 000000000000..6a5b87cebcfa
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/mfd/cros-ec.yaml
+> > @@ -0,0 +1,111 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/mfd/cros-ec.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: ChromeOS Embedded Controller
+> > +
+> > +maintainers:
+> > +  - Benson Leung <bleung@chromium.org>
+> > +  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> > +  - Guenter Roeck <groeck@chromium.org>
+> > +
+> > +description: |
+> > +  Google's ChromeOS EC is a microcontroller which talks to the AP and
+> > +  implements various functions such as keyboard and battery charging.
+> > +  The EC can be connected through various interfaces (I2C, SPI, and others)
+> > +  and the compatible string specifies which interface is being used.
+> > +
 
-This one (bcfcb7f9b480) is more clear cut as it can be used to trigger a
-NULL-deref.
+I will drop | here also.
 
-I only noticed because Sasha picked up one of the other patches in the
-series which was never intended for stable.
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - description:
+> > +          For implementations of the EC is connected through I2C.
+> > +        const: google,cros-ec-i2c
+> > +      - description:
+> > +          For implementations of the EC is connected through SPI.
+> > +        const: google,cros-ec-spi
+> > +      - description:
+> > +          For implementations of the EC is connected through RPMSG.
+> > +        const: google,cros-ec-rpmsg
+> > +
+> > +  google,has-vbc-nvram:
+> > +    description: |
+>
+> You can drop '|' if there's no formatting to maintain. And you should
+> reflow this.
 
-> ---
->  drivers/input/tablet/pegasus_notetaker.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/tablet/pegasus_notetaker.c b/drivers/input/tablet/pegasus_notetaker.c
-> index a1f3a0cb197e..38f087404f7a 100644
-> --- a/drivers/input/tablet/pegasus_notetaker.c
-> +++ b/drivers/input/tablet/pegasus_notetaker.c
-> @@ -275,7 +275,7 @@ static int pegasus_probe(struct usb_interface *intf,
->  		return -ENODEV;
->  
->  	/* Sanity check that the device has an endpoint */
-> -	if (intf->altsetting[0].desc.bNumEndpoints < 1) {
-> +	if (intf->cur_altsetting->desc.bNumEndpoints < 1) {
->  		dev_err(&intf->dev, "Invalid number of endpoints\n");
->  		return -EINVAL;
->  	}
+Okay,
 
-Johan
+>
+> > +      Some implementations of the EC include a small
+> > +      nvram space used to store verified boot context data.
+> > +      This boolean flag is used to specify whether this nvram is
+> > +      present or not.
+> > +    type: boolean
+> > +
+> > +required:
+> > +  - compatible
+> > +
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          const: google,cros-ec-i2c
+> > +    then:
+> > +      properties:
+> > +        reg:
+> > +          description: I2C slave address
+> > +          maxItems: 1
+> > +      required:
+> > +        - reg
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          const: google,cros-ec-spi
+> > +    then:
+> > +      properties:
+> > +        reg:
+> > +          description: SPI chip select
+> > +          maxItems: 1
+> > +        google,cros-ec-spi-pre-delay:
+> > +          description: |
+> > +            This property specifies the delay in usecs between the
+> > +            assertion of the CS and the first clock pulse.
+>
+> Needs a type reference at a minumum and ideally some constraints.
+
+Got it, I will add a type reference here,
+and for the constraints, these spi transaction delay cannot be bound.
+I will just add default: 0 here.
+
+>
+> > +        google,cros-ec-spi-msg-delay:
+> > +          description: |
+> > +            This property specifies the delay in usecs between messages.
+>
+> Same here.
+>
+> > +      required:
+> > +        - reg
+> > +
+>
+> Add:
+> additionalProperties: false
+
+Ack.
+
+>
+> > +examples:
+> > +  # Example for I2C
+> > +  - |
+> > +    i2c0 {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        cros-ec@1e {
+> > +            compatible = "google,cros-ec-i2c";
+> > +            reg = <0x1e>;
+> > +            interrupts = <6 0>;
+>
+> Not documented.
+
+Sorry but I can't understand this part, can you elaborate on here?
+Do you mean adding comments here? or
+need more documentation on cros-ec-i2c?
+
+>
+> > +            interrupt-parent = <&gpx1>;
+> > +        };
+> > +    };
+> > +  # Example for SPI
+> > +  - |
+> > +    spi0 {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        cros-ec@0 {
+> > +            compatible = "google,cros-ec-spi";
+> > +            reg = <0x0>;
+> > +            google,cros-ec-spi-msg-delay = <30>;
+> > +            interrupts = <99 0>;
+> > +            interrupt-parent = <&gpio7>;
+> > +            spi-max-frequency = <5000000>;
+> > +        };
+> > +    };
+> > +  # Example for RPMSG
+> > +  - |
+> > +    scp0 {
+> > +        cros-ec@0 {
+> > +            compatible = "google,cros-ec-rpmsg";
+> > +        };
+> > +    };
+> > +...
+> > --
+> > 2.25.0.341.g760bfbb309-goog
+> >
