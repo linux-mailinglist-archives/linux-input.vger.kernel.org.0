@@ -2,104 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 83A7F1518A6
-	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2020 11:14:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A8D3151997
+	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2020 12:21:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726887AbgBDKOa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Feb 2020 05:14:30 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:41887 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726684AbgBDKOa (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Feb 2020 05:14:30 -0500
-Received: by mail-lj1-f193.google.com with SMTP id h23so17959196ljc.8;
-        Tue, 04 Feb 2020 02:14:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=YroDskDtOiHLDDMcrVefUIpLn8oU+NjUW8m8Wr0DB+0=;
-        b=sEMB/MkGhQYTHekGCt/zaKVDl9fnK7aJkgeP2aoNxiNyGs7QvV3k51sy1kDtDdNb/8
-         YeeydrNe++ltk98zHoWjqWEs8gZNL0KgqHUOgb0AVJz9ty9eJVl7UJpXRNMpH/sYYSax
-         2S0yXnQTUXNJqGZF5LvwGnK/KOb7TYFjpt5bfWubwSG0eGcaq/UZJI87TY8G6XFX+Mw3
-         ZHVMxh7bMy4iH6ROgJ0fa6HdQadfuF2FcIc+VWyl+GnBbm7KlX9RSV03pNLRzqicok1R
-         2gRpcDrBbSxdo1878dcvNv+91+C0HUV1VMkNiPqcknhrJWb2xoAVAvWso1SHoQrp3nUb
-         seLw==
-X-Gm-Message-State: APjAAAXj0EPivO4Ov32x8pPZPr16yKhnbq0ifDAim/9qmPZAwLdMhAoy
-        0B79Ozaycn6qDeXYZfu9I6cbPhWE
-X-Google-Smtp-Source: APXvYqxvN2spd0grsAdJdC39ryTTu164g1OIKcHz1JEILoyVxWuZXhzV7+rWFIUGZPtBNaSu8ojCIA==
-X-Received: by 2002:a2e:9a93:: with SMTP id p19mr16872179lji.177.1580811266356;
-        Tue, 04 Feb 2020 02:14:26 -0800 (PST)
-Received: from xi.terra (c-12aae455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.170.18])
-        by smtp.gmail.com with ESMTPSA id f4sm11211472ljo.79.2020.02.04.02.14.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2020 02:14:25 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@kernel.org>)
-        id 1iyvE3-0003Wz-57; Tue, 04 Feb 2020 11:14:35 +0100
-Date:   Tue, 4 Feb 2020 11:14:35 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Johan Hovold <johan@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        stable@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Martin Kepplinger <martink@posteo.de>
-Subject: Re: [PATCH 1/7] Input: pegasus_notetaker: fix endpoint sanity check
-Message-ID: <20200204101435.GH26725@localhost>
-References: <20191210113737.4016-1-johan@kernel.org>
- <20191210113737.4016-2-johan@kernel.org>
- <20200204082441.GD26725@localhost>
- <20200204100232.GB1088789@kroah.com>
+        id S1727417AbgBDLT2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Feb 2020 06:19:28 -0500
+Received: from mta-out1.inet.fi ([62.71.2.226]:34846 "EHLO johanna3.inet.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727067AbgBDLT2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 4 Feb 2020 06:19:28 -0500
+X-Greylist: delayed 378 seconds by postgrey-1.27 at vger.kernel.org; Tue, 04 Feb 2020 06:19:26 EST
+Received: from MinistryOfSillyWalk.home (84.248.30.195) by johanna3.inet.fi (9.0.019.26-1)
+        id 5E1C39D515F02B02; Tue, 4 Feb 2020 13:13:00 +0200
+From:   Lauri Jakku <lja@iki.fi>
+To:     oneukum@suse.com, benjamin.tissoires@redhat.com
+Cc:     jikos@kernel.org, linux-input@vger.kernel.org,
+        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        Lauri Jakku <lja@iki.fi>
+Subject: [PATCH v2] USB: HID: random timeout failures tackle try.
+Date:   Tue,  4 Feb 2020 13:06:59 +0200
+Message-Id: <20200204110658.32454-1-lja@iki.fi>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200204100232.GB1088789@kroah.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Feb 04, 2020 at 10:02:32AM +0000, Greg Kroah-Hartman wrote:
-> On Tue, Feb 04, 2020 at 09:24:41AM +0100, Johan Hovold wrote:
-> > On Tue, Dec 10, 2019 at 12:37:31PM +0100, Johan Hovold wrote:
-> > > The driver was checking the number of endpoints of the first alternate
-> > > setting instead of the current one, something which could be used by a
-> > > malicious device (or USB descriptor fuzzer) to trigger a NULL-pointer
-> > > dereference.
-> > > 
-> > > Fixes: 1afca2b66aac ("Input: add Pegasus Notetaker tablet driver")
-> > > Cc: stable <stable@vger.kernel.org>     # 4.8
-> > > Cc: Martin Kepplinger <martink@posteo.de>
-> > > Signed-off-by: Johan Hovold <johan@kernel.org>
-> > 
-> > Looks like the stable tag was removed when this one was applied, and
-> > similar for patches 2, 4 and 7 of this series (commits 3111491fca4f,
-> > a8eeb74df5a6, 6b32391ed675 upstream).
-> > 
-> > While the last three are mostly an issue for the syzbot fuzzer, we have
-> > started backporting those as well.
-> > 
-> > This one (bcfcb7f9b480) is more clear cut as it can be used to trigger a
-> > NULL-deref.
-> > 
-> > I only noticed because Sasha picked up one of the other patches in the
-> > series which was never intended for stable.
-> 
-> Did I end up catching all of these properly?  I've had to expand my
-> search for some patches like this that do not explicitly have the cc:
-> stable mark on them as not all subsystems do this well (if at all.)
+There is multiple reports of random behaviour of USB HID devices.
 
-No, sorry, should have been more clear on that point; these four were
-never picked up for stable it seems.
+I have mouse that acts sometimes quite randomly, I debugged with
+logs others have published: that there is HW timeouts that leave
+device in state that it is errorneus.
 
-I was a bit surprised to see the stable-tags be removed from the
-original submissions here, even if I know the net-maintainers do this
-routinely, and any maintainer can of course override a submitters
-judgement.
+To fix this, I introduce retry mechanism in root of USB HID drivers.
 
-> And there's also Sasha's work in digging up patches based on patterns of
-> fixes, which also is needed because of this "problem".
+Fix does not slow down operations at all if there is no -ETIMEDOUT
+got from control message sending. 
 
-Yeah, seems likely that autosel would have caught these eventually.
+If there is one, then sleep 20ms and try again. Retry count is 20
+witch translates maximium of 400ms before giving up. If the 400ms
+boundary is reached the HW is really bad.
 
-Johan
+JUST to be clear:
+    This does not make USB HID devices to sleep anymore than
+    before, if all is golden.
+
+Why modify usb-hid-core: No need to modify driver by driver.
+
+Signed-off-by: Lauri Jakku <lja@iki.fi>
+---
+ drivers/usb/core/message.c | 30 +++++++++++++++++++++++++-----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+index 5adf489428aa..b375e376ea22 100644
+--- a/drivers/usb/core/message.c
++++ b/drivers/usb/core/message.c
+@@ -20,6 +20,7 @@
+ #include <linux/usb/hcd.h>	/* for usbcore internals */
+ #include <linux/usb/of.h>
+ #include <asm/byteorder.h>
++#include <linux/errno.h>
+ 
+ #include "usb.h"
+ 
+@@ -137,7 +138,10 @@ int usb_control_msg(struct usb_device *dev, unsigned int pipe, __u8 request,
+ 		    __u16 size, int timeout)
+ {
+ 	struct usb_ctrlrequest *dr;
+-	int ret;
++	int ret = -ETIMEDOUT;
++
++	/* retry_cnt * 20ms, max retry time set to 400ms */
++	int retry_cnt = 20;
+ 
+ 	dr = kmalloc(sizeof(struct usb_ctrlrequest), GFP_NOIO);
+ 	if (!dr)
+@@ -149,11 +153,27 @@ int usb_control_msg(struct usb_device *dev, unsigned int pipe, __u8 request,
+ 	dr->wIndex = cpu_to_le16(index);
+ 	dr->wLength = cpu_to_le16(size);
+ 
+-	ret = usb_internal_control_msg(dev, pipe, dr, data, size, timeout);
++	do {
++		ret = usb_internal_control_msg(dev,
++					pipe,
++					dr,
++					data,
++					size,
++					timeout);
++
++		/*
++		 * Linger a bit, prior to the next control message
++		 * or if return value is timeout, but do try few
++		 * times (max 400ms) before quitting.
++		 */
++		if (dev->quirks & USB_QUIRK_DELAY_CTRL_MSG)
++			msleep(200);
++		else if (ret == -ETIMEDOUT)
++			msleep(20);
++
++		/* Loop while timeout, max loops: retry_cnt times. */
++	} while ((retry_cnt-- > 0) && (ret == -ETIMEDOUT));
+ 
+-	/* Linger a bit, prior to the next control message. */
+-	if (dev->quirks & USB_QUIRK_DELAY_CTRL_MSG)
+-		msleep(200);
+ 
+ 	kfree(dr);
+ 
+-- 
+2.25.0
+
