@@ -2,103 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6362151CEB
-	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2020 16:06:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A317151D9D
+	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2020 16:48:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727306AbgBDPGv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Feb 2020 10:06:51 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:46632 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727290AbgBDPGv (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Feb 2020 10:06:51 -0500
-Received: (qmail 2187 invoked by uid 2102); 4 Feb 2020 10:06:50 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 4 Feb 2020 10:06:50 -0500
-Date:   Tue, 4 Feb 2020 10:06:50 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     js <sym.i.nem@gmail.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        <linux-input@vger.kernel.org>,
-        Armando Visconti <armando.visconti@st.com>,
-        Johan Korsnes <jkorsnes@cisco.com>
-Subject: Re: [PATCH v2] HID: truncate hid reports exceeding HID_MAX_BUFFER_SIZE
-In-Reply-To: <CAKsRvPOyPqxLaUx+gemCARq+gVeOO94iqyVMWspUEKXk==_wZg@mail.gmail.com>
-Message-ID: <Pine.LNX.4.44L0.2002040958360.1587-100000@iolanthe.rowland.org>
+        id S1727305AbgBDPsQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Feb 2020 10:48:16 -0500
+Received: from mta-out1.inet.fi ([62.71.2.226]:58200 "EHLO julia1.inet.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727317AbgBDPsQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 4 Feb 2020 10:48:16 -0500
+Received: from [192.168.1.134] (84.248.30.195) by julia1.inet.fi (9.0.019.26-1) (authenticated as laujak-3)
+        id 5E37D3E20005F751; Tue, 4 Feb 2020 17:48:13 +0200
+Subject: Re: [PATCH v4] USB: HID: random timeout failures tackle try.
+To:     Alan Stern <stern@rowland.harvard.edu>, Lauri Jakku <lja@iki.fi>
+Cc:     oneukum@suse.com, benjamin.tissoires@redhat.com, jikos@kernel.org,
+        linux-input@vger.kernel.org, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org
+References: <Pine.LNX.4.44L0.2002040954190.1587-100000@iolanthe.rowland.org>
+From:   Lauri Jakku <lauri.jakku@pp.inet.fi>
+Message-ID: <10da971f-2935-7883-1283-d9f22e73a21a@pp.inet.fi>
+Date:   Tue, 4 Feb 2020 17:48:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+In-Reply-To: <Pine.LNX.4.44L0.2002040954190.1587-100000@iolanthe.rowland.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 4 Feb 2020, js wrote:
 
-> Commit 8ec321e96e05 ("HID: Fix slab-out-of-bounds read in
-> hid_field_extract") introduced a regression bug that broke
-> hardware probes which request large report sizes.
-> 
-> An example of this hardware is the ELON9038 digitizer on the
-> Microsoft Surface Go as per bug id 206259.
-> https://bugzilla.kernel.org/show_bug.cgi?id=206259
-> 
-> To eliminate the regression, return 0 instead of -1 when a
-> large report size is requested, allowing the hardware to
-> probe properly while size error is output to kernel log.
-> 
-> Commit 8ec321e96e05 does not enforce buffer size limitation
-> on the size of the incoming report.
-> Added enforcement by truncation to prevent buffer overflow in
-> hid_report_raw_event().
-> 
-> Fixes: 8ec321e96e05 ("HID: Fix slab-out-of-bounds read in hid_field_extract")
-> Reported-and-tested-by: James Smith <sym.i.nem@gmail.com>
-> Signed-off-by: James Smith <sym.i.nem@gmail.com>
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Cc: Armando Visconti <armando.visconti@st.com>
-> Cc: Jiri Kosina <jkosina@suse.cz>
-> Cc: Johan Korsnes <jkorsnes@cisco.com>
-> Cc: stable@vger.kernel.org
-> ---
-> Sorry about my earlier email, I'm new to this forum and am still
-> learning the conventions.
-> 
-> At your suggestion, I examined the code more carefully and I think
-> that the previous patch (commit 8ec321e96e05) did not solve the buffer
-> overflow at all, it just killed a tranche of hardware of unknown size
-> which requests report sizes exceeding 4K.
-> 
-> The problem, and why the previous patch didn't really address the
-> issue, is that the enforcement occurs at a declarative point in the
-> code, which is to say, the device is just describing itself, it is not
-> actually requesting memory or generating a report. A malicious device
-> could easily describe itself incorrectly then generate a report
-> exceeding both the size it indicated in hid_add_field() and
-> HID_MAX_BUFFER_SIZE, overflowing the buffer and causing unintended
-> behavior.
+On 4.2.2020 16.57, Alan Stern wrote:
+> On Tue, 4 Feb 2020, Lauri Jakku wrote:
+>
+>> -- v1 ------------------------------------------------------------
+>> send, 20ms apart, control messages, if error is timeout.
+>>
+>> There is multiple reports of random behaviour of USB HID devices.
+>>
+>> I have mouse that acts sometimes quite randomly, I debugged with
+>> logs others have published that there is HW timeouts that leave
+>> device in state that it is errorneus.
+>>
+>> To fix this I introduced retry mechanism in root of USB HID drivers.
+>>
+>> Fix does not slow down operations at all if there is no -ETIMEDOUT
+>> got from control message sending. If there is one, then sleep 20ms
+>> and try again. Retry count is 20 witch translates maximium of 400ms
+>> before giving up.
+>>
+>> NOTE: This does not sleep anymore then before, if all is golden.
+> How do other operating systems handle these problems?  Perhaps we 
+> should use the same approach.
+>
+> Also, if this problem only affects USB HID devices, why not put the 
+> fix in the usbhid driver rather than the USB core?
+>
+> Alan Stern
 
-Such behavior would not overflow anything.  The driver never transfers 
-more than HID_MAX_BUFFER_SIZE, no matter how data the device wants to 
-send.  The only effect would be a truncated report (which probably 
-would lead to unintended behavior).
+hmm, i investigate, what i know now is few mentions about mouse
 
-> The correct point to enforce a buffer size constraint is the point
-> where the report is taken from the device and copied into the hid
-> handling layer. From my examination of the code, this seems to be in
-> hid_report_raw_event(). Thus, I placed an enforcement constraint on
-> the report size in that method, took out the enforcement constraint in
-> hid_add_field(), because it was causing a hardware regression and not
-> properly enforcing the boundary constraint, and added user-facing
-> warnings to notify when hardware is going to be affected by the
-> introduced boundary constraints.
+acting up etc.
 
-This is not an unreasonable approach, although I do not think you have 
-described it fairly.
 
-On the other hand, how often does it happen that a device sends report 
-messages that are considerably smaller than the value given in the 
-descriptor?  I can't tell from the Bugzilla report exactly what the 
-ELON9038 digitizer and other devices are doing.
+I do more research, tomorrow.
 
-Alan Stern
+
+I think in my mind, that the core is good place, the thing ppl are forgetting
+
+that it does not make any unnecessary sleeps and when it does it it is
+
+about 70-100ms max per loop, and they are restricted to 20.
+
+
+The patch does not enforce any different use, in non-timeout case it is
+
+as fast as without the patch.
+
+
+I can easilly debug, cause my mouse acts up and that 5 loop version that
+
+I tried on my PC+ usb keyboard + usb mouse. It was way better.
+
+
+And now i got confirmation from my dad (Suse user) that with latest kernel,
+
+there have been acting up.
+
+
+The timeout retry loop done in patch within the USB core activates only
+
+when the timeout happens, and latest version adapts the 5000ms (common)
+
+to 50ms timeout, and sleeps 20ms per loop.
+
+
+But, keep comments coming & suggestions .. and if someone could test too,
+
+so I do not be only one to test this :) ..
+
+
+
+-- 
+Br,
+Lauri J.
 
