@@ -2,63 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66B611517CB
-	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2020 10:27:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27250151873
+	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2020 11:05:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726230AbgBDJ1c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Feb 2020 04:27:32 -0500
-Received: from mta-out1.inet.fi ([62.71.2.202]:51026 "EHLO julia1.inet.fi"
+        id S1726917AbgBDKFi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Feb 2020 05:05:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40110 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726151AbgBDJ1c (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 4 Feb 2020 04:27:32 -0500
-X-RazorGate-Vade-Verdict: clean 0
-X-RazorGate-Vade-Classification: clean
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedugedrgeelgddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepnfgruhhrihculfgrkhhkuhcuoehlrghurhhirdhjrghkkhhusehpphdrihhnvghtrdhfiheqnecukfhppeekgedrvdegkedrfedtrdduleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehhvghloheplgduledvrdduieekrddurddufeegngdpihhnvghtpeekgedrvdegkedrfedtrdduleehpdhmrghilhhfrhhomhepoehlrghujhgrkhdqfeesmhgsohigrdhinhgvthdrfhhiqecuuefqffgjpeekuefkvffokffogfdprhgtphhtthhopeeosggvnhhjrghmihhnrdhtihhsshhoihhrvghssehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrgheqpdhrtghpthhtohepoehjihhkohhssehkvghrnhgvlhdrohhrgheqpdhrtghpthhtohepoehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgqedprhgtphhtthhopeeolhhinhhugidquhhssgesvhhgvghrrdhkvghrnhgvlhdrohhrgheqpdhrtghpthhtohepoehonhgvuhhkuhhmsehsuhhsvgdrtghomheq
-Received: from [192.168.1.134] (84.248.30.195) by julia1.inet.fi (9.0.019.26-1) (authenticated as laujak-3)
-        id 5E37D3E200048C87; Tue, 4 Feb 2020 11:27:29 +0200
-Subject: Re: USB HID fix: Retry sending timedout device commands 20 times
-To:     Oliver Neukum <oneukum@suse.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>
-References: <9cf20b6f-5bfa-2346-ca9f-5ca81245bfff@pp.inet.fi>
- <CAO-hwJJDkFh+ZS7pCZLhfuoXeAByFLzKbPW8mHtF=N_e-hn+Dg@mail.gmail.com>
- <1580807154.11089.0.camel@suse.com>
-From:   Lauri Jakku <lauri.jakku@pp.inet.fi>
-Message-ID: <11338553-09e7-5201-d829-4c52eb86f50e@pp.inet.fi>
-Date:   Tue, 4 Feb 2020 11:27:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+        id S1726506AbgBDKFi (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 4 Feb 2020 05:05:38 -0500
+Received: from localhost (unknown [212.187.182.163])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9DDCA2192A;
+        Tue,  4 Feb 2020 10:05:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580810738;
+        bh=sVWw5io65CFud55R48cwmbeybCwucc32GqEz2clXunY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ax84ru3DK2QxnRTnncBb96xb4kYi7b9Nl02GW0bc1uYLwCNmBIZKvAejB5unuRIbP
+         swUYQujkGap5VWVJB/accBIEXOfyiz0/V9EXV6CS0OpVIqIrjk8o/j6nyJfou35mT8
+         Ps/R7s0IwOQNnQffVe81oqnurYtgOu/hAz+uqYaw=
+Date:   Tue, 4 Feb 2020 10:02:32 +0000
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        stable@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Martin Kepplinger <martink@posteo.de>
+Subject: Re: [PATCH 1/7] Input: pegasus_notetaker: fix endpoint sanity check
+Message-ID: <20200204100232.GB1088789@kroah.com>
+References: <20191210113737.4016-1-johan@kernel.org>
+ <20191210113737.4016-2-johan@kernel.org>
+ <20200204082441.GD26725@localhost>
 MIME-Version: 1.0
-In-Reply-To: <1580807154.11089.0.camel@suse.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200204082441.GD26725@localhost>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, Feb 04, 2020 at 09:24:41AM +0100, Johan Hovold wrote:
+> On Tue, Dec 10, 2019 at 12:37:31PM +0100, Johan Hovold wrote:
+> > The driver was checking the number of endpoints of the first alternate
+> > setting instead of the current one, something which could be used by a
+> > malicious device (or USB descriptor fuzzer) to trigger a NULL-pointer
+> > dereference.
+> > 
+> > Fixes: 1afca2b66aac ("Input: add Pegasus Notetaker tablet driver")
+> > Cc: stable <stable@vger.kernel.org>     # 4.8
+> > Cc: Martin Kepplinger <martink@posteo.de>
+> > Signed-off-by: Johan Hovold <johan@kernel.org>
+> 
+> Looks like the stable tag was removed when this one was applied, and
+> similar for patches 2, 4 and 7 of this series (commits 3111491fca4f,
+> a8eeb74df5a6, 6b32391ed675 upstream).
+> 
+> While the last three are mostly an issue for the syzbot fuzzer, we have
+> started backporting those as well.
+> 
+> This one (bcfcb7f9b480) is more clear cut as it can be used to trigger a
+> NULL-deref.
+> 
+> I only noticed because Sasha picked up one of the other patches in the
+> series which was never intended for stable.
 
-On 4.2.2020 11.05, Oliver Neukum wrote:
-> Am Dienstag, den 04.02.2020, 09:17 +0100 schrieb Benjamin Tissoires:
->> Ouch, very much ouch. Resending 20 times on a generic path when the
->> timeout can be several seconds is pretty much a bad thing. Again, this
->> should be limited to the device you are talking to, and not be
->> generic. Or maybe you are encountering a usb controller issue.
-> Yes. You need a least to consider teh unplug case.
->
-> 	Regards
-> 		Oliver
+Did I end up catching all of these properly?  I've had to expand my
+search for some patches like this that do not explicitly have the cc:
+stable mark on them as not all subsystems do this well (if at all.)
 
-The patch does not loop in normal case, only if there are timeouts, and
+And there's also Sasha's work in digging up patches based on patterns of
+fixes, which also is needed because of this "problem".
 
-even then not more than 400ms .. 20ms sleep while retry.
+thanks,
 
-
--- 
-Br,
-Lauri J.
-
+greg k-h
