@@ -2,124 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E36C71538CC
-	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2020 20:11:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 297AA153AA0
+	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2020 23:04:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727492AbgBETLx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Feb 2020 14:11:53 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:33140 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727083AbgBETLw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Feb 2020 14:11:52 -0500
-Received: by mail-pj1-f65.google.com with SMTP id m7so2084057pjs.0
-        for <linux-input@vger.kernel.org>; Wed, 05 Feb 2020 11:11:51 -0800 (PST)
+        id S1727106AbgBEWEU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Feb 2020 17:04:20 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:41125 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727033AbgBEWEU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Feb 2020 17:04:20 -0500
+Received: by mail-lj1-f195.google.com with SMTP id h23so3919821ljc.8;
+        Wed, 05 Feb 2020 14:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=y/dxpKcYEXxmnsITAJ6pnZifEuXekQdEG50zLc7fDeo=;
-        b=CxEmMnwR6rjD71F46jEADMXkj7EssJmMqd+P3L3f6w6ESIFbj1Hw7dJPhu400glIU7
-         9HNGruSKqCRaiHvJNyIp5ineGRVLgeIkRrfxwSw0Ry2Ne74Iu/U8pYeooGac19uXIZ4g
-         Bgrk8bznNFJ+13cj9tnhhFsYs0hNLKSvUA6Dw=
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=pk8y8L/7fWcEgbfZB0mRm6yQ6lXCoZd8ttkFILQfDTw=;
+        b=UlxNIvgBepcrbCFYkZnRtRj55ZBLpR7udvoYROznI72RY9soj51GIm1Tt0bG6pzUqq
+         +vBxByBHINDKyOM1JjpfZ/fna9f313H2YIDk0RVhotd/Ult/mjHfhRbgSjMJSkJ8q7cO
+         /VCgoTwPJ12UO4D/gPV51xjUu52PNlHVW4Z3fUaKAQ/fQip9NZbim1IF9bCWqeVCNhLD
+         gtwqRZ0s603xCwwXLgFmo+5pBhISc0J/bR3H6IFAJQSZl1DGYgtmIXeHTOUBTHYSJ3H6
+         qk4YUx4uZaKz+oPq9ii+CnhRlE6WQuCSiE+7WRQXoaPzD5Y0f1aij1LWroJ+uihKivTY
+         GHvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=y/dxpKcYEXxmnsITAJ6pnZifEuXekQdEG50zLc7fDeo=;
-        b=FaakZ5ByYWgT6x0gBXf/w7wdw7GEbrohDpW+JaZajrmI1vf4ej05oc3BxRNqBB+GUJ
-         USljYp2y6+3CR8qF8GhYlWLoPgKYG7Jso3BQIJOI/rstW1t38MZtEuxg3Ki1zjir3hAg
-         wXOhwK45E+UcNrryD72N9VnNpD/Pc0wQNP5daakxQ4QA+ERj/eqT2OYRG1B3SR0EzRC1
-         Y2XIC65YQ/tksyd/Zag2QxloMzih4+cM4Sh2wmu2SBmOhkUqHvq8sFGVwmbCBEtr7Ctf
-         M6tBwZfPNDgsSMUwnzBns0uaHkjA0k7Kx5PlQkrjmwQLZztZT4KLxSgcR4P86rQhUK/V
-         NpQQ==
-X-Gm-Message-State: APjAAAVGKIfJJOHw3hZNfhLVLHqwMtzkRmcizAOgxsDECmxL9BzmSD4k
-        dbxBS5ti7IipvgP9z8jS+YG72w==
-X-Google-Smtp-Source: APXvYqxHu1ZnioRv8yjOxEtywN6zzgA9Bc4iTDVAOFO5SWiSh8udQjlCLSp9knX7DA4TIgWFrn+mhQ==
-X-Received: by 2002:a17:902:82c3:: with SMTP id u3mr34711027plz.73.1580929910558;
-        Wed, 05 Feb 2020 11:11:50 -0800 (PST)
-Received: from pmalani2.mtv.corp.google.com ([2620:15c:202:201:172e:4646:c089:ce59])
-        by smtp.gmail.com with ESMTPSA id u23sm257224pfm.29.2020.02.05.11.11.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2020 11:11:50 -0800 (PST)
-From:   Prashant Malani <pmalani@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Prashant Malani <pmalani@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org (open list:HID CORE LAYER)
-Subject: [PATCH v2 09/17] hid: google-hammer: Use cros_ec_cmd()
-Date:   Wed,  5 Feb 2020 11:00:11 -0800
-Message-Id: <20200205190028.183069-10-pmalani@chromium.org>
-X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-In-Reply-To: <20200205190028.183069-1-pmalani@chromium.org>
-References: <20200205190028.183069-1-pmalani@chromium.org>
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pk8y8L/7fWcEgbfZB0mRm6yQ6lXCoZd8ttkFILQfDTw=;
+        b=DLCzN+WRSha2A0VPiIh7rym3+peYmfNw7ZC5GV9rmwzoSu0xJ9yMmCBzG4odQPzjc6
+         cM/DjMLgZik1c2L8Uc7gm2ArK89gvEH+xc2HMRGpJV9BHUxZMt73Jn1Z1Vpda/uR7KT7
+         4rYj8dgCFf+V9jTbZrt2ez/flGWhaY6NYw1UcVSY5rHdWae3pOm8OnLvQB3P5ybu5Dfb
+         oWtMHHVGAaq7FnMTg/GUGmDin7MlgrEsdBzRGkl0g8vq5SvqsDeQkyj89hwM8xVH1atL
+         pRxh6VxTxLLfdQcK2NuZpMVpExIMefAZUWAQpTZxAkJMaOTgr45xyBPI/YjBBXsue5nh
+         hXHw==
+X-Gm-Message-State: APjAAAVYCEsJCqEJbJPamEICvBfVsyDFS7ca9EhifxF5KQaxBiwYzdvC
+        v/Awht1h+EnbbY6xDyTxxtRnAK4Y
+X-Google-Smtp-Source: APXvYqx5GIbkh+oqThkktNikrIEdcNqbvRyA97U/iYxplu2VIvQOl3/tD8B82Z6Fp8ERBvrmbrA1AA==
+X-Received: by 2002:a2e:b0e3:: with SMTP id h3mr12392ljl.56.1580940257879;
+        Wed, 05 Feb 2020 14:04:17 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id d24sm323489lfl.58.2020.02.05.14.04.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Feb 2020 14:04:16 -0800 (PST)
+Subject: Re: [PATCH v2 0/9] input: elants: Support Asus TF300T touchscreen
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     "Johnny.Chuang" <johnny.chuang@emc.com.tw>,
+        'Dmitry Torokhov' <dmitry.torokhov@gmail.com>,
+        =?UTF-8?B?J01pY2hhxYIgTWlyb3PFgmF3Jw==?= <mirq-linux@rere.qmqm.pl>,
+        'James Chen' <james.chen@emc.com.tw>
+Cc:     linux-input@vger.kernel.org, 'Scott Liu' <scott.liu@emc.com.tw>,
+        linux-kernel@vger.kernel.org,
+        'Henrik Rydberg' <rydberg@bitmath.org>
+References: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
+ <20191212192420.GD101194@dtor-ws>
+ <7c67b849-369f-8a20-4f9e-9e0a7caec1cb@gmail.com>
+ <000001d5c634$655bed20$3013c760$@emc.com.tw>
+ <1451c959-03fc-9493-48f1-404cbd273aa9@gmail.com>
+ <9b5b8dd4-0d21-0d1f-cd4a-36d0f9008605@gmail.com>
+Message-ID: <3f5a1a99-a147-5796-0b06-7773fc6d54bb@gmail.com>
+Date:   Thu, 6 Feb 2020 01:04:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
+In-Reply-To: <9b5b8dd4-0d21-0d1f-cd4a-36d0f9008605@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Replace cros_ec_cmd_xfer_status() with cros_ec_cmd() which does the
-message buffer setup and cleanup.
+23.01.2020 22:16, Dmitry Osipenko пишет:
+> 08.01.2020 18:37, Dmitry Osipenko пишет:
+>> 08.01.2020 18:00, Johnny.Chuang пишет:
+>>>> 12.12.2019 22:24, Dmitry Torokhov пишет:
+>>>>> On Wed, Dec 11, 2019 at 05:03:18PM +0100, Michał Mirosław wrote:
+>>>>>> This series cleans up the driver a bit and implements changes needed
+>>>>>> to support EKTF3624-based touchscreen used in eg. Asus TF300T tablet.
+>>>>>
+>>>>> Johnny, could you please take a look at this patch series?
+>>>>>
+>>>>> Thanks!
+>>>>
+>>>> Hello Johnny,
+>>>>
+>>>> Could you please let us know whether you or anyone else from Elan are going
+>>>> to take a look at this patchset anytime soon?
+>>>
+>>> Hi Dmitry Osipenko,
+>>>
+>>> I'm sorry to reply late. James Chen will take a look at this patch set. 
+>>>
+>>
+>> No problems, thank you very much.
+> 
+> Hello James,
+> 
+> Could you please let us know whether you'll be able to take a look at
+> this series? Thanks in advance.
 
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
----
+James?
 
-Changes in v2:
-- Updated to use new function name and parameter list.
-
- drivers/hid/hid-google-hammer.c | 23 +++++------------------
- 1 file changed, 5 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-index 2aa4ed157aec87..fb0d2a01e2736e 100644
---- a/drivers/hid/hid-google-hammer.c
-+++ b/drivers/hid/hid-google-hammer.c
-@@ -53,38 +53,25 @@ static bool cbas_parse_base_state(const void *data)
- static int cbas_ec_query_base(struct cros_ec_device *ec_dev, bool get_state,
- 				  bool *state)
- {
--	struct ec_params_mkbp_info *params;
--	struct cros_ec_command *msg;
-+	struct ec_params_mkbp_info params = {0};
- 	int ret;
- 
--	msg = kzalloc(sizeof(*msg) + max(sizeof(u32), sizeof(*params)),
--		      GFP_KERNEL);
--	if (!msg)
--		return -ENOMEM;
--
--	msg->command = EC_CMD_MKBP_INFO;
--	msg->version = 1;
--	msg->outsize = sizeof(*params);
--	msg->insize = sizeof(u32);
--	params = (struct ec_params_mkbp_info *)msg->data;
--	params->info_type = get_state ?
-+	params.info_type = get_state ?
- 		EC_MKBP_INFO_CURRENT : EC_MKBP_INFO_SUPPORTED;
--	params->event_type = EC_MKBP_EVENT_SWITCH;
-+	params.event_type = EC_MKBP_EVENT_SWITCH;
- 
--	ret = cros_ec_cmd_xfer_status(ec_dev, msg);
-+	ret = cros_ec_cmd(ec_dev, 1, EC_CMD_MKBP_INFO, &params, sizeof(params),
-+			  state, sizeof(u32), NULL);
- 	if (ret >= 0) {
- 		if (ret != sizeof(u32)) {
- 			dev_warn(ec_dev->dev, "wrong result size: %d != %zu\n",
- 				 ret, sizeof(u32));
- 			ret = -EPROTO;
- 		} else {
--			*state = cbas_parse_base_state(msg->data);
- 			ret = 0;
- 		}
- 	}
- 
--	kfree(msg);
--
- 	return ret;
- }
- 
--- 
-2.25.0.341.g760bfbb309-goog
-
+@Dmitry Torokhov, will you be able to make at least a generic review of
+the code and then take the patches if there won't be much interest from
+the Elan people?
