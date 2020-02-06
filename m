@@ -2,289 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F5E51541A4
-	for <lists+linux-input@lfdr.de>; Thu,  6 Feb 2020 11:14:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04D8A1542C4
+	for <lists+linux-input@lfdr.de>; Thu,  6 Feb 2020 12:14:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728446AbgBFKOv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Feb 2020 05:14:51 -0500
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:1264 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728064AbgBFKOu (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 6 Feb 2020 05:14:50 -0500
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 016AE1cT029531;
-        Thu, 6 Feb 2020 11:14:41 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=STMicroelectronics;
- bh=cd4NIXD5xZnyms8X8dFTpTnCxvt97ezcFjxViV6JTTI=;
- b=YSvdrznssoEfjr8wHs2Zcssoi+gwwsZ+C79Hi2W0z0xYP4QmaWxCtVvMCC0Mye4C1F7Y
- M9yWIqcKbRAQuoZBscLGPcHj+JrKk0nSscd3jVBzju5zQFrF7kfTRyUFlYR514xpBB9X
- 31NlSDyce5ajZtUinGYNJ9lUVWVJH3oS9Q8UIgcESc/OIBwaYcmoCB+pHpSSOAE1+hlm
- w8jq/jgL4Xk/saz4Sov5aVDHUeoeBs83p7gsZTzuIwP0/tGf+5gqYHyKg8+shpoNI1Av
- w4P7Z8hp3LyjJuefeC2O559LH/aHVjl1jVuG9VfjcB0P75Jf734/K7iFf3qIxBha24JT 4Q== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2xyhkbefvm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 06 Feb 2020 11:14:41 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 227B9100034;
-        Thu,  6 Feb 2020 11:14:37 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0CC142AAB71;
-        Thu,  6 Feb 2020 11:14:37 +0100 (CET)
-Received: from localhost (10.75.127.50) by SFHDAG3NODE3.st.com (10.75.127.9)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 6 Feb 2020 11:14:36
- +0100
-From:   Benjamin Gaignard <benjamin.gaignard@st.com>
-To:     <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <megous@megous.com>,
-        <mylene.josserand@bootlin.com>
-CC:     <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: [PATCH v2] dt-bindings: touchscreen: Convert edt-ft5x06 to json-schema
-Date:   Thu, 6 Feb 2020 11:14:34 +0100
-Message-ID: <20200206101434.30209-1-benjamin.gaignard@st.com>
-X-Mailer: git-send-email 2.15.0
+        id S1727572AbgBFLON (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Feb 2020 06:14:13 -0500
+Received: from orion.archlinux.org ([88.198.91.70]:33198 "EHLO
+        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727538AbgBFLOM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Feb 2020 06:14:12 -0500
+Received: from orion.archlinux.org (localhost [127.0.0.1])
+        by orion.archlinux.org (Postfix) with ESMTP id 8E5C118B2E11F7;
+        Thu,  6 Feb 2020 11:14:09 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.3 (2019-12-06) on orion.archlinux.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
+        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
+        autolearn=no autolearn_force=no version=3.4.3
+X-Spam-BL-Results: 
+Received: from localhost (dragon.archlinux.org [IPv6:2a01:4f8:13a:102a::2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: ffy00)
+        by orion.archlinux.org (Postfix) with ESMTPSA;
+        Thu,  6 Feb 2020 11:14:08 +0000 (UTC)
+Message-ID: <451e552444483c52a038d3d14391611f897582f4.camel@archlinux.org>
+Subject: Make the hid-logitech-dj driver remove the HID++ nodes when the
+ device disconnects
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
+To:     linux-input <linux-input@vger.kernel.org>
+Cc:     Benjamin Tissoires <btissoir@redhat.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Julien Hartmann <juli1.hartmann@gmail.com>
+Organization: Archlinux
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-wM+IjAFPSxwVHsYetjnr"
+Date:   Thu, 06 Feb 2020 11:14:05 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.50]
-X-ClientProxiedBy: SFHDAG6NODE3.st.com (10.75.127.18) To SFHDAG3NODE3.st.com
- (10.75.127.9)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
- definitions=2020-02-06_01:2020-02-06,2020-02-05 signatures=0
+User-Agent: Evolution 3.34.3 
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Convert the EDT-FT5x06 to DT schema using json-schema.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
----
-version 2:
-- preserve formatting in description
-- use 'const' rather than 'enum' for reg property
-- fix max/min issues 
- .../bindings/input/touchscreen/edt-ft5x06.txt      |  75 -------------
- .../bindings/input/touchscreen/edt-ft5x06.yaml     | 123 +++++++++++++++++++++
- 2 files changed, 123 insertions(+), 75 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+--=-wM+IjAFPSxwVHsYetjnr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
-deleted file mode 100644
-index 0f6950073d6f..000000000000
---- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
-+++ /dev/null
-@@ -1,75 +0,0 @@
--FocalTech EDT-FT5x06 Polytouch driver
--=====================================
--
--There are 5 variants of the chip for various touch panel sizes
--FT5206GE1  2.8" .. 3.8"
--FT5306DE4  4.3" .. 7"
--FT5406EE8  7"   .. 8.9"
--FT5506EEG  7"   .. 8.9"
--FT5726NEI  5.7” .. 11.6"
--
--The software interface is identical for all those chips, so that
--currently there is no need for the driver to distinguish between the
--different chips. Nevertheless distinct compatible strings are used so
--that a distinction can be added if necessary without changing the DT
--bindings.
--
--
--Required properties:
-- - compatible:  "edt,edt-ft5206"
--           or:  "edt,edt-ft5306"
--           or:  "edt,edt-ft5406"
--           or:  "edt,edt-ft5506"
--           or:  "evervision,ev-ft5726"
--           or:  "focaltech,ft6236"
--
-- - reg:         I2C slave address of the chip (0x38)
-- - interrupts:       interrupt specification for the touchdetect
--                     interrupt
--
--Optional properties:
-- - reset-gpios: GPIO specification for the RESET input
-- - wake-gpios:  GPIO specification for the WAKE input
-- - vcc-supply:  Regulator that supplies the touchscreen
--
-- - pinctrl-names: should be "default"
-- - pinctrl-0:   a phandle pointing to the pin settings for the
--                control gpios
--
-- - threshold:   allows setting the "click"-threshold in the range
--                from 0 to 80.
--
-- - gain:        allows setting the sensitivity in the range from 0 to
--                31. Note that lower values indicate higher
--                sensitivity.
--
-- - offset:      allows setting the edge compensation in the range from
--                0 to 31.
--
-- - offset-x:    Same as offset, but applies only to the horizontal position.
--                Range from 0 to 80, only supported by evervision,ev-ft5726
--                devices.
--
-- - offset-y:    Same as offset, but applies only to the vertical position.
--                Range from 0 to 80, only supported by evervision,ev-ft5726
--                devices.
--
-- - touchscreen-size-x	   : See touchscreen.txt
-- - touchscreen-size-y	   : See touchscreen.txt
-- - touchscreen-fuzz-x      : See touchscreen.txt
-- - touchscreen-fuzz-y      : See touchscreen.txt
-- - touchscreen-inverted-x  : See touchscreen.txt
-- - touchscreen-inverted-y  : See touchscreen.txt
-- - touchscreen-swapped-x-y : See touchscreen.txt
--
--Example:
--	polytouch: edt-ft5x06@38 {
--		compatible = "edt,edt-ft5406", "edt,edt-ft5x06";
--		reg = <0x38>;
--		pinctrl-names = "default";
--		pinctrl-0 = <&edt_ft5x06_pins>;
--		interrupt-parent = <&gpio2>;
--		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
--		reset-gpios = <&gpio2 6 GPIO_ACTIVE_LOW>;
--		wake-gpios = <&gpio4 9 GPIO_ACTIVE_HIGH>;
--	};
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-new file mode 100644
-index 000000000000..0ea104fd49a5
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-@@ -0,0 +1,123 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/touchscreen/edt-ft5x06.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: FocalTech EDT-FT5x06 Polytouch Bindings
-+
-+description: |
-+             There are 5 variants of the chip for various touch panel sizes
-+              FT5206GE1  2.8" .. 3.8"
-+              FT5306DE4  4.3" .. 7"
-+              FT5406EE8  7"   .. 8.9"
-+              FT5506EEG  7"   .. 8.9"
-+              FT5726NEI  5.7” .. 11.6"
-+
-+maintainers:
-+  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
-+
-+allOf:
-+  - $ref: touchscreen.yaml#
-+  - if:
-+     properties:
-+       compatible:
-+         contains:
-+           enum:
-+             - evervision,ev-ft5726
-+
-+    then:
-+      properties:
-+        offset-x: true
-+        offset-y: true
-+
-+properties:
-+  compatible:
-+    enum:
-+      - edt,edt-ft5206
-+      - edt,edt-ft5306
-+      - edt,edt-ft5406
-+      - edt,edt-ft5506
-+      - evervision,ev-ft5726
-+      - focaltech,ft6236
-+
-+  reg:
-+    const: 0x38
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  reset-gpios:
-+    maxItems: 1
-+
-+  wake-gpios:
-+    maxItems: 1
-+
-+  vcc-supply:
-+    maxItems: 1
-+
-+  gain:
-+    description: Allows setting the sensitivity in the range from 0 to 31.
-+                 Note that lower values indicate higher sensitivity.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - minimum: 0
-+      - maximum: 31
-+
-+  offset:
-+    description: Allows setting the edge compensation in the range from 0 to 31.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - minimum: 0
-+      - maximum: 31
-+
-+  offset-x:
-+    description: Same as offset, but applies only to the horizontal position.
-+                 Range from 0 to 80, only supported by evervision,ev-ft5726 devices.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - minimum: 0
-+      - maximum: 80
-+
-+  offset-y:
-+    description: Same as offset, but applies only to the vertical position.
-+                 Range from 0 to 80, only supported by evervision,ev-ft5726 devices.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - minimum: 0
-+      - maximum: 80
-+
-+  touchscreen-size-x: true
-+  touchscreen-size-y: true
-+  touchscreen-fuzz-x: true
-+  touchscreen-fuzz-y: true
-+  touchscreen-inverted-x: true
-+  touchscreen-inverted-y: true
-+  touchscreen-swapped-x-y: true
-+  interrupt-controller: true
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    i2c@00000000 {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      edt-ft5x06@38 {
-+        compatible = "edt,edt-ft5406";
-+        reg = <0x38>;
-+        interrupt-parent = <&gpio2>;
-+        interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-+        reset-gpios = <&gpio2 6 GPIO_ACTIVE_LOW>;
-+        wake-gpios = <&gpio4 9 GPIO_ACTIVE_HIGH>;
-+      };
-+    };
-+
-+...
--- 
-2.15.0
+Hello,
 
+Right now the hid-logitech-dj driver will export one node for each
+connected device, even when the device is not connected. That causes
+some trouble because in userspace we don't have have any way to know if
+the device is connected or not, so when we try to communicate, if the
+device is disconnected it will fail.
+
+The reason we do this is because otherwise we would loose the first
+packets when the device is turned on by key press. When a device is
+turned on we would have to create the device node, and the packets
+received while we are creating the device node would be lost. This
+could solved by buffering those packets, but that is a bad solution as
+it would mess up the timings.
+
+At the moment the created node includes both normal HID and vendor
+usages. To solve this problem, I propose that instead of creating a
+single device node that contains all usages, we create one for normal
+HID, which would exist all the time, and one for the vendor usage,
+which would go away when the device disconnects.
+
+This slight behavior change will affect userspace. Two hidraw nodes
+would be created instead of one. We need to make sure the current
+userspace stacks interfacing with this would be able to properly handle
+such changes.
+
+What do you think of this approach? Anyone has a better idea?
+
+If you are CCed you might be maintaining one of the affected userspace
+stacks, if so, please let me know your project is able to handle this.
+If not, I can help you adapt to the new behavior.
+
+Thank you,
+Filipe La=C3=ADns
+
+--=-wM+IjAFPSxwVHsYetjnr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAl479P0ACgkQ+JPGdIFq
+qV1dlRAAjoORT7zEOQ9NXozUWT8nkm+EiPRhEbYNfrsdhyLYbzzBgFpVfNoxlK5k
+GkFaQeKSSduKZsHd/hXONebshBE9NsIbhxgqOS6Hx3Otwmr7ZFha0Gv7WHU7kVhU
+Kf04UVxc0ftJEc4aV7PJhfSLC6V73GEPEXWmQiT3ZRqvZcwyn2WDNrUNmEvJanIk
+x4iSQoF0g+j5YfOYyQhZe2Cs9KuIoYZQwn/Vub5sv3J+UUyyz4Jj48Vz/XsI9xPb
+L+BvPJRJU8/dcVbZ78nG35DP2MN/dls+gV2uUH9JhMgo2JRaLE+24m3Wc4p7XmZ9
+08g5XNnUSX9XtRRfY1CxhMUPjEHQ9grT0jV/BG9k2r/QdhtCNFib2z3uqgyTfQ9W
+UVh5OgSRRHjOz4sz/UVhKU9RoNBQr2YwdE/sA/ujx0M/0dYV2s3pCWd+eO/SUT3x
+FEzKRNjASCqdAtG9gVUDagvtubwrvLVzyxb5O4AgfHejuppB0c+RlNMhINC9F7gj
+h1BKuAtputvRC+sMevmvZ3YjPPbNarpk6tk82atu2Gkdyw5O7FSt0hjR/Cupj88h
+BD6dGsTfjix0hZcicjL9zptaYgQkTD4nyamfcSM25jKkKfXdZ5iOYzbltryyDJLb
+kHpOk6Q/j/pWfC0inp4lrWmZ8kGovhbk37J6jjX1n/HlmdhZERQ=
+=3IQ3
+-----END PGP SIGNATURE-----
+
+--=-wM+IjAFPSxwVHsYetjnr--
