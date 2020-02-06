@@ -2,109 +2,141 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 297AA153AA0
-	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2020 23:04:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED556153FC7
+	for <lists+linux-input@lfdr.de>; Thu,  6 Feb 2020 09:10:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727106AbgBEWEU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Feb 2020 17:04:20 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:41125 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727033AbgBEWEU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Feb 2020 17:04:20 -0500
-Received: by mail-lj1-f195.google.com with SMTP id h23so3919821ljc.8;
-        Wed, 05 Feb 2020 14:04:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pk8y8L/7fWcEgbfZB0mRm6yQ6lXCoZd8ttkFILQfDTw=;
-        b=UlxNIvgBepcrbCFYkZnRtRj55ZBLpR7udvoYROznI72RY9soj51GIm1Tt0bG6pzUqq
-         +vBxByBHINDKyOM1JjpfZ/fna9f313H2YIDk0RVhotd/Ult/mjHfhRbgSjMJSkJ8q7cO
-         /VCgoTwPJ12UO4D/gPV51xjUu52PNlHVW4Z3fUaKAQ/fQip9NZbim1IF9bCWqeVCNhLD
-         gtwqRZ0s603xCwwXLgFmo+5pBhISc0J/bR3H6IFAJQSZl1DGYgtmIXeHTOUBTHYSJ3H6
-         qk4YUx4uZaKz+oPq9ii+CnhRlE6WQuCSiE+7WRQXoaPzD5Y0f1aij1LWroJ+uihKivTY
-         GHvw==
+        id S1727822AbgBFIKL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Feb 2020 03:10:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47085 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727572AbgBFIKK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Feb 2020 03:10:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580976609;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pNqlj/aIPtqooHVrOVDSEY2d6+X7P8FExh0I8Cp7N+M=;
+        b=DqT3ekhuO8d5zQ2rjl9vTdVuI3L0N/t0+guUmieHOX6J14sGHJ/BNbrMUuMXLnCixpEYSI
+        Y5LIjng9FfxCyYUOAhOSaeVZjhNlWio+N3/wrAg0MK5tj6dRoO87sac87BKXrImxQVn2o6
+        Fh6l+9PY3kMzWQiVUDEUCo6IHEhpZ1s=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223-72UUtbpPMr2QpMxgx7QNtA-1; Thu, 06 Feb 2020 03:10:04 -0500
+X-MC-Unique: 72UUtbpPMr2QpMxgx7QNtA-1
+Received: by mail-qt1-f197.google.com with SMTP id c8so3273110qte.22
+        for <linux-input@vger.kernel.org>; Thu, 06 Feb 2020 00:10:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pk8y8L/7fWcEgbfZB0mRm6yQ6lXCoZd8ttkFILQfDTw=;
-        b=DLCzN+WRSha2A0VPiIh7rym3+peYmfNw7ZC5GV9rmwzoSu0xJ9yMmCBzG4odQPzjc6
-         cM/DjMLgZik1c2L8Uc7gm2ArK89gvEH+xc2HMRGpJV9BHUxZMt73Jn1Z1Vpda/uR7KT7
-         4rYj8dgCFf+V9jTbZrt2ez/flGWhaY6NYw1UcVSY5rHdWae3pOm8OnLvQB3P5ybu5Dfb
-         oWtMHHVGAaq7FnMTg/GUGmDin7MlgrEsdBzRGkl0g8vq5SvqsDeQkyj89hwM8xVH1atL
-         pRxh6VxTxLLfdQcK2NuZpMVpExIMefAZUWAQpTZxAkJMaOTgr45xyBPI/YjBBXsue5nh
-         hXHw==
-X-Gm-Message-State: APjAAAVYCEsJCqEJbJPamEICvBfVsyDFS7ca9EhifxF5KQaxBiwYzdvC
-        v/Awht1h+EnbbY6xDyTxxtRnAK4Y
-X-Google-Smtp-Source: APXvYqx5GIbkh+oqThkktNikrIEdcNqbvRyA97U/iYxplu2VIvQOl3/tD8B82Z6Fp8ERBvrmbrA1AA==
-X-Received: by 2002:a2e:b0e3:: with SMTP id h3mr12392ljl.56.1580940257879;
-        Wed, 05 Feb 2020 14:04:17 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id d24sm323489lfl.58.2020.02.05.14.04.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Feb 2020 14:04:16 -0800 (PST)
-Subject: Re: [PATCH v2 0/9] input: elants: Support Asus TF300T touchscreen
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     "Johnny.Chuang" <johnny.chuang@emc.com.tw>,
-        'Dmitry Torokhov' <dmitry.torokhov@gmail.com>,
-        =?UTF-8?B?J01pY2hhxYIgTWlyb3PFgmF3Jw==?= <mirq-linux@rere.qmqm.pl>,
-        'James Chen' <james.chen@emc.com.tw>
-Cc:     linux-input@vger.kernel.org, 'Scott Liu' <scott.liu@emc.com.tw>,
-        linux-kernel@vger.kernel.org,
-        'Henrik Rydberg' <rydberg@bitmath.org>
-References: <cover.1576079249.git.mirq-linux@rere.qmqm.pl>
- <20191212192420.GD101194@dtor-ws>
- <7c67b849-369f-8a20-4f9e-9e0a7caec1cb@gmail.com>
- <000001d5c634$655bed20$3013c760$@emc.com.tw>
- <1451c959-03fc-9493-48f1-404cbd273aa9@gmail.com>
- <9b5b8dd4-0d21-0d1f-cd4a-36d0f9008605@gmail.com>
-Message-ID: <3f5a1a99-a147-5796-0b06-7773fc6d54bb@gmail.com>
-Date:   Thu, 6 Feb 2020 01:04:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pNqlj/aIPtqooHVrOVDSEY2d6+X7P8FExh0I8Cp7N+M=;
+        b=WdYIaUPMhcv9Dpq/xfbeuoF4cPXC7nrXm4YUnKzjNyH3l7E3VYjFYKiny4kpO++pWa
+         CxY7aWvdcQQo5Q9Eb6B1lxz0ycNftUYFsYkiHrEPmKbJq1qZowVYTKl4j1Ql1J5gfNjp
+         Jjzxwjx7WTZSq16d8I6dQPzMjE07X/xPXwoECGtBOrzAfSaegjmHqE0ZJ7QTAREmMsri
+         oTyzwPAfk07VBDSG0mxc5lXZAQoXPKLD0vJuZdIpBPcneE3b88DlyrLwxfmX8aNxSBUZ
+         zfPFAKOzlpLan5MCkQdqwYx44e3Mgg6Zud+itLlCdf1ldk3rNZrcblTWZl6d5XWlkxAK
+         VMZQ==
+X-Gm-Message-State: APjAAAVpYEDXaxdchhj87hVlx8bgIXHsU6y761tyEdyIhuNtr8Pw6sly
+        cVIpMujuZ5W9RG83Oik8lJ81s+50NcFhS8a/EoagdY4kf2/bjgs1+ovR9a1BDatXOXatI6G8D12
+        qyDiButFK/C7vqCFH57x4MOOT82qhgojpAcsUjRo=
+X-Received: by 2002:ae9:ef4b:: with SMTP id d72mr1392217qkg.27.1580976604392;
+        Thu, 06 Feb 2020 00:10:04 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyF+uGZ8Ea+EIqllofbuMHnsKLrT5VS1cxbxgTen+ILjpjQqajo5Rbpeqqd2pOVLfnRIYnnbagS1R64wN2XaTQ=
+X-Received: by 2002:ae9:ef4b:: with SMTP id d72mr1392204qkg.27.1580976604136;
+ Thu, 06 Feb 2020 00:10:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <9b5b8dd4-0d21-0d1f-cd4a-36d0f9008605@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200126194513.6359-1-martyn@welchs.me.uk> <CAEc3jaDjVZF_Z7Guj1YUo5J5C_-GEOYTH=LKARKccCwQAwuZnQ@mail.gmail.com>
+ <fb8850c6c1766b4360a69419845aa8bf7a3aa7a6.camel@welchs.me.uk>
+ <CAEc3jaB9ubRLJJG9eWL8-QnEU1s-6cOYsY-PKd57e_K9BiPkSA@mail.gmail.com>
+ <nycvar.YFH.7.76.2002031100500.31058@cbobk.fhfr.pm> <CAO-hwJ+k8fxULS1xC-28jHmhZLZVN5EGc=kY5sqNX1GCNKpt4A@mail.gmail.com>
+ <nycvar.YFH.7.76.2002031218230.26888@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2002031218230.26888@cbobk.fhfr.pm>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 6 Feb 2020 09:09:53 +0100
+Message-ID: <CAO-hwJJk411hGTJ6uSdzAFCzf1WJehhifdN0r5kMG6aqL=dnpw@mail.gmail.com>
+Subject: Re: [PATCH] HID: Sony: Add support for Gasia controllers
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
+        Martyn Welch <martyn@welchs.me.uk>,
+        linux-input <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "Conn O'Griofa" <connogriofa@gmail.com>,
+        "Colenbrander, Roelof" <roderick.colenbrander@sony.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-23.01.2020 22:16, Dmitry Osipenko пишет:
-> 08.01.2020 18:37, Dmitry Osipenko пишет:
->> 08.01.2020 18:00, Johnny.Chuang пишет:
->>>> 12.12.2019 22:24, Dmitry Torokhov пишет:
->>>>> On Wed, Dec 11, 2019 at 05:03:18PM +0100, Michał Mirosław wrote:
->>>>>> This series cleans up the driver a bit and implements changes needed
->>>>>> to support EKTF3624-based touchscreen used in eg. Asus TF300T tablet.
->>>>>
->>>>> Johnny, could you please take a look at this patch series?
->>>>>
->>>>> Thanks!
->>>>
->>>> Hello Johnny,
->>>>
->>>> Could you please let us know whether you or anyone else from Elan are going
->>>> to take a look at this patchset anytime soon?
->>>
->>> Hi Dmitry Osipenko,
->>>
->>> I'm sorry to reply late. James Chen will take a look at this patch set. 
->>>
->>
->> No problems, thank you very much.
-> 
-> Hello James,
-> 
-> Could you please let us know whether you'll be able to take a look at
-> this series? Thanks in advance.
+Hi,
 
-James?
+On Mon, Feb 3, 2020 at 12:23 PM Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Mon, 3 Feb 2020, Benjamin Tissoires wrote:
+>
+> > I am definitely not in favour of that :(
+> >
+> > The basic problem we have here is that some vendors are overriding your
+> > VID/PIDs, and this is nasty. And I do not see any reasons why you can't
+> > say: "well, we broke it, sorry, but we only support *our* devices, not
+> > third party ones".
+>
+> Well, it's not about "we broke it" in the first place, as far as I
+> can tell.
+>
+> Roderick's concern is that 3rd party devices with overriden VID/PID
+> malfunction for completely unrelated reason to (correctly working) changes
+> done in favor of stock Sony devices, but it'll be Sony receiving all the
+> reports/blame.
 
-@Dmitry Torokhov, will you be able to make at least a generic review of
-the code and then take the patches if there won't be much interest from
-the Elan people?
+After re-reading the code, I am not sure we can easily detect the
+clones. So at some point, I think we will break them, but there is not
+much we can do. I don't really have a solution for that :(
+
+>
+> > One thing that comes to my mind (probably not the best solution), is to
+> > taint the kernel if you are facing a non genuine product. We do that for
+> > nvidia, and basically, we can say: "well, supporting the nvidia blob is
+> > done on a best effort case, and see with them directly if you have an
+> > issue". Tainting the kernel is a little bit rough, but maybe adding an
+> > info message in the dmesg if you detect one of those can lead to a
+> > situation were we can count on you for supporting the official products,
+> > and you can get community support for the clones.
+>
+> Yeah; which I wouldn't like to do for upstream kernel, but Sony could
+> definitely do this for the products they ship.
+>
+> The same way distros are tainting their kernels when unsupported modules
+> (but otherwise perfectly fine wrt. GPL and everything else) are loaded
+> into distro-supported kernels.
+>
+> > One last thing. Roderick, I am not sure if I mentioned that or not, but
+> > I am heavily adding regression tests for HID in
+> > https://gitlab.freedesktop.org/libevdev/hid-tools/
+>
+> ... and words can't express how thankful I am for that :)
+>
+
+OK, I played with that idea earlier this week:
+https://gitlab.freedesktop.org/libevdev/hid-tools/merge_requests/74
+I only have a Sixaxis controller, and I only implemented the USB part
+of it (AFAICT).
+Currently this ensures the button mapping is correct, and that the
+LEDs are working properly.
+We are still missing a few bits and pieces, but the initialization
+(requests made by the kernel to start the device and press on the PS
+button) is handled properly.
+
+If this is something Roderick would be interested in, we can then try
+to extend this initial work on Bluetooth controllers and the DualShock
+ones.
+Adding the clones ones based on the current kernel code is something
+doable, but I do not expect Sony to be involved in that process.
+
+That being said, before we merge this particular patch about Gasia
+controllers, now we need to implement a regression test first :)
+
+Cheers,
+Benjamin
+
