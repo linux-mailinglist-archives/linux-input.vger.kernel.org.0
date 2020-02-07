@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B2058155314
-	for <lists+linux-input@lfdr.de>; Fri,  7 Feb 2020 08:37:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAFDC155380
+	for <lists+linux-input@lfdr.de>; Fri,  7 Feb 2020 09:10:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726642AbgBGHhE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 Feb 2020 02:37:04 -0500
-Received: from mail-eopbgr140072.outbound.protection.outlook.com ([40.107.14.72]:54740
-        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
+        id S1726982AbgBGIK3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 Feb 2020 03:10:29 -0500
+Received: from mail-eopbgr00089.outbound.protection.outlook.com ([40.107.0.89]:12707
+        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726136AbgBGHhE (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 7 Feb 2020 02:37:04 -0500
+        id S1726130AbgBGIK2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 7 Feb 2020 03:10:28 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f9K+FxcNOkCSRCC1a2XshiVm3icLMtkQD6utmPgcZPEFnPlnMgCcc5mQlkm13Gi1CUvwGQR651V2+TP5Sw9bwgvs2q+KvvJxcH4dU1s8n/dDlV++kxgrLmzx8PGKPi+dpbPT5AGZUG7ueTHMc232nLTTNO0G6znJuPH4IWh3AgHi97kYAOJg2sYt5koFKqgN9GYjg+eeNM1RG8Pwz943zmLlkJxAs44mbpdxxdJJGMVilrJiwZzSuLXGAvZqbKM3eVu/8b7h+G1CSZ0mUf4rYbhyzJ7C8Iy+FRpy4N92u5f29Q3Yk1PXdjGGtQhWqMwiFWHVNaA4ZqcQOi5Im0lIVQ==
+ b=CclBG4vWG8BW28zU4IStJ11FWF51MZOFpA7XxtralPBXaXTjjP3uRxpFbsiVyLZy+gBvNHZVtQwftJGe9zatlhlS+kgS+8jJpqxkuCmneLRvzmiyMBiDde0HNNdGs63EvzPIz1bTV2FNPfG2XMPrzYojTcoEchqWMYItYWCnQMKZzYWo7rLyoVEYJNmJYOto/FHJl4YuYotXn/2MEcEQ0JEn9F/ggL2edz5OrEaOMVbPW9ehKP07zoaBpxdPAQiIBwJYxLZXP7l1m4UZa6i0AUnCrjRwISLc4YxHExPQ3kSMVESAaLGtSoR9c73fnLsmDbsdrFCVbPveqofWPCbmvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TonupJVX6lcZ/M4/yDVPGJ+52Btda+VNZDZ3nh1xoPI=;
- b=fOPxO6nBiyPMCxTpQVJdugA/jw7mSc+e3zfG8djGxHwq3vQ5nK82aYSgRh/prOd3n0dzgu7AAk1lHjG55H7CsP/nhER2vw8ejmTZxa9/7S0wbXE01IgChcdHFeQKkFCiaZHpm75ShtCKosxBhWNg3WSO3g0/OLia9+AGuY+RVIkwhZ7EVXDRAPHONlJuA+bmTcXf9uBzy9VZvZyty3bCYa3ych9L7GPqvkg5M+vzJAb8KtaAopzXa1BZQXGkh6fb4T0voRB0qX7c0wYK2uDtDVRXol1BA6JJ2dI8rrahZ9siaZ7VnU/0321u7lgkOu/zyNgqVEsR1TsxmxNXKL9sPA==
+ bh=tWpfQjQ8kJI8DTUzc69VkE9kwzJn0d+di+JsZZZjwtQ=;
+ b=AfRWFwJWBsRt+4dJanhkUCn0kdfMqWw2WkHMERKi8CB6H1E3hp8+4XGHxfZ12gyaZOK3F+Sglt1WPYK/G5VVqoMKRh3ApgCNop/TavSu+cZ0YodccY6rL+ZxZrCMloTiPi4M1LR38lvrrerb4Mzh3neMCUNYyWj2pMKtb5SN0HCCqrfjOslwj4BTSwh8MMA7utJFnCG2EAfAlsyC45XyTj4/TWzedUeQCxW0aPNS2898PUEV1eqx38SkZy1q9kPwU95RWDnpDV+ILyuYN/NFY7m9izH83+S+KvNB7Ri/00TcGn98yuTTLqSIKtf5zvE+IM0w+VWQ0EewUALn704CHQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TonupJVX6lcZ/M4/yDVPGJ+52Btda+VNZDZ3nh1xoPI=;
- b=Q6+3f/HFutM8sNpF07h9ohkUIQqUCkF75QVBLOiv7Uev7ruuLJpECepdOJOLWR0qizWi926wPtj+y7z+q7HKZ8m+JM2TTMyZ+j6G9NYa9r6ypOjKFjjZavPpWEbSU7RidHtng+Z41eH2tr7EacULOI/ZG/WUaq6OWAAqPqW4T7w=
+ bh=tWpfQjQ8kJI8DTUzc69VkE9kwzJn0d+di+JsZZZjwtQ=;
+ b=j5eYJ8iZjZjCEfv/RtWhOgQYhxhfnDwxYXX/RLcP/cXmwaX0JgoGYriW73vuZdHqTjYo/1LOPbZUz3y7POpMTOViUZuy5LCOaTYSMJoN7sjBzObyyrCpb9WdXHBgeDMmoDoqhk62yv593nFAXgdJAaaCLWmKeMnFXY4sj0WWCwM=
 Received: from VI1PR0402MB3485.eurprd04.prod.outlook.com (52.134.3.153) by
- VI1PR0402MB3504.eurprd04.prod.outlook.com (52.134.4.21) with Microsoft SMTP
+ VI1PR0402MB2831.eurprd04.prod.outlook.com (10.175.23.136) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.27; Fri, 7 Feb 2020 07:36:59 +0000
+ 15.20.2707.21; Fri, 7 Feb 2020 08:10:22 +0000
 Received: from VI1PR0402MB3485.eurprd04.prod.outlook.com
  ([fe80::85e9:f844:f8b0:27d]) by VI1PR0402MB3485.eurprd04.prod.outlook.com
  ([fe80::85e9:f844:f8b0:27d%7]) with mapi id 15.20.2707.024; Fri, 7 Feb 2020
- 07:36:59 +0000
+ 08:10:22 +0000
 From:   Horia Geanta <horia.geanta@nxp.com>
 To:     =?iso-8859-2?Q?Andr=E9_Draszik?= <git@andred.net>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
@@ -49,12 +49,13 @@ CC:     Anson Huang <anson.huang@nxp.com>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         Robin Gong <yibin.gong@nxp.com>,
         dl-linux-imx <linux-imx@nxp.com>
-Subject: Re: [PATCH 1/3] ARM: dts: imx7s: add snvs clock to pwrkey
-Thread-Topic: [PATCH 1/3] ARM: dts: imx7s: add snvs clock to pwrkey
-Thread-Index: AQHV164xC7dgwu9e4kaRkYTJlTesdg==
-Date:   Fri, 7 Feb 2020 07:36:59 +0000
-Message-ID: <VI1PR0402MB3485BFC1B2BD9842ACE2E834981C0@VI1PR0402MB3485.eurprd04.prod.outlook.com>
+Subject: Re: [PATCH 2/3] Input: snvs_pwrkey - enable snvs clock as needed
+Thread-Topic: [PATCH 2/3] Input: snvs_pwrkey - enable snvs clock as needed
+Thread-Index: AQHV164yHhXoESmTiUqzHJu+3DHGMA==
+Date:   Fri, 7 Feb 2020 08:10:22 +0000
+Message-ID: <VI1PR0402MB3485EC2F82DDE52DC5CA0795981C0@VI1PR0402MB3485.eurprd04.prod.outlook.com>
 References: <20200130204516.4760-1-git@andred.net>
+ <20200130204516.4760-2-git@andred.net>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -64,49 +65,52 @@ authentication-results: spf=none (sender IP is )
 x-originating-ip: [212.146.100.6]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 4612cabb-3d35-467a-cb43-08d7aba083e9
-x-ms-traffictypediagnostic: VI1PR0402MB3504:|VI1PR0402MB3504:
+x-ms-office365-filtering-correlation-id: 8580592e-cffa-4e3d-d394-08d7aba52de4
+x-ms-traffictypediagnostic: VI1PR0402MB2831:|VI1PR0402MB2831:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <VI1PR0402MB35048F878DC6960B70EFDAA0981C0@VI1PR0402MB3504.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
+x-microsoft-antispam-prvs: <VI1PR0402MB28313F3E7789B81307AFE51A981C0@VI1PR0402MB2831.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
 x-forefront-prvs: 0306EE2ED4
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(136003)(366004)(39860400002)(396003)(376002)(346002)(189003)(199004)(91956017)(54906003)(316002)(76116006)(110136005)(64756008)(5660300002)(55016002)(9686003)(52536014)(7696005)(66946007)(66556008)(66446008)(6506007)(53546011)(66476007)(26005)(86362001)(71200400001)(4326008)(8936002)(81166006)(7416002)(8676002)(186003)(44832011)(33656002)(81156014)(2906002)(478600001);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3504;H:VI1PR0402MB3485.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(136003)(376002)(366004)(346002)(39860400002)(199004)(189003)(44832011)(71200400001)(478600001)(54906003)(110136005)(86362001)(52536014)(5660300002)(6506007)(53546011)(33656002)(7696005)(9686003)(7416002)(26005)(55016002)(2906002)(186003)(316002)(8676002)(4326008)(66446008)(76116006)(66476007)(91956017)(81156014)(66946007)(64756008)(66556008)(81166006)(8936002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB2831;H:VI1PR0402MB3485.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: nxp.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ihjRnMdEf3l8PtR7XKZ4R1tZirSdkkpxhn02dHsiRWsw5k8r63ByyjeJY2T4ci1hylTRWhbV2WOYrD0PIN2fNVawz4p6rmYiCnrUZzPhayupKdxAxHPLkrhgNOt+6ogT+8C3fDC5gcNTFTUzL3NWd+nCCfd8jn6UD8qWMh9a14CVbXoCPPg804UrPkE2yZVfaAwGgWxNkAmirFMhTtpvCImVwkMw4AtRURqnGyn4tQ3Ky/+5iiFffgxe2a1PJvA39N5nzBeBoheVZ8VLE3V4AMJSwWDTOQZcKXRaHbfIy6wUh1nnXiCmByyp9k2Y8MoVumZvNLqjr9AYnHQh3ciN+X7gWrqFU78ZoI3dn+oUG6H7gnHsaORMAVm7Fb50abZHR5Cv8ifKDtuOXTCfxXHl7AgP2VSEfxTQlOcNFF7/PTQoz7QuJsU8ChE91QU1XxDI
-x-ms-exchange-antispam-messagedata: ucqayEml1S6C62EefBkbdxoSRBB41cCfRm+t60A+qogsIMg5eDqXIYfZcZpdHD/uuLcs3Fx0hxKtiySbyLdta/6j8EWNjEAq5R/7czCzKXa9i7uzVMKAqfk4h1FQwFaq424EgugMzXP0SLpVwjZcew==
+x-microsoft-antispam-message-info: 5i593SuVIV9VlrFODnta1JRZxl64VhMc52UqyZNe/iHQ3TjHU/NZK6KvXsgBuk1i8M0egru7iTPEX44Sr9M7qhGv5mqGR0qx7J0AqY63U2eRYS1zbh9PeSuTuX0h1dNVaSEA/zaWhdwZt31JcVMxwag3Owsf+DABF1VJnr15OjS7QwxG9sUNwmVG+TLolAg+oFolZTbbDQj2YRmO6tmOhMj5PxvwxuaxH8vbyBMwluDsyk1EANm20UHPVhq0PvCA304kHcqJvAYNhw+BWspLo8q6hpq9nf4QeseM2Ar2LWtucXSzq4CK156/h4LtYcXAwVzlsVXQkKcxma7P9awkSwHQA/ILXGw0DGBcq1I7B0L9nEErB2PqCWZ0Ca6DolBsKpeT5u4FOY+PKNjwbUW3cWS6QDT+98cnnhyhaiqQO2Swd3Cy087rsEzr3yc9jDck
+x-ms-exchange-antispam-messagedata: Bhp15MSc5oNhXwm9ztodemqNFKrR8LMyHqD0nq9Qe9HfUVi4abqGMgiz82+N9FDrfNeKX9AVklGOBCVvMmSubnGct0j432qeIQBvoyr+jLNDez5oQiAx5ck0q9xdXutmMGgZmKfLKqd1upQrQPJZqQ==
 Content-Type: text/plain; charset="iso-8859-2"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4612cabb-3d35-467a-cb43-08d7aba083e9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2020 07:36:59.1489
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8580592e-cffa-4e3d-d394-08d7aba52de4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2020 08:10:22.3029
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DOuPcsjVHOIs+tb67ieQ7Muz5PeCd6d0AGipbbS02y0+BA4b5FN24TIsyclmWaVarvQ9trl8PtF6rnjgzh+gCA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3504
+X-MS-Exchange-CrossTenant-userprincipalname: Xb7V0opFCYwMk2eE4+4oWGRLomzYNRU0HQQnyoOW28xmUxdsbRHOSjCbWA2Z3PXxsZ0MDZ40JCigQ3+cVkeoow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB2831
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 On 1/30/2020 10:45 PM, Andr=E9 Draszik wrote:=0A=
-> On i.MX7, the SNVS requires a clock. This is similar to the clock=0A=
-> bound to the SNVS RTC node, but if the SNVS RTC driver isn't enabled,=0A=
-> then SNVS doesn't work, and as such the pwrkey driver doesn't=0A=
-> work (i.e. hangs the kernel, as the clock isn't enabled).=0A=
+> At the moment, enabling this driver without the SNVS RTC driver=0A=
+> being active will hang the kernel as soon as the power button=0A=
+> is pressed.=0A=
 > =0A=
-This is true also for i.MX8M.=0A=
-For this reason it would probably better splitting the=0A=
-DT bindings update in a separate patch.=0A=
+> The reason is that in that case the SNVS isn't enabled, and=0A=
+> any attempt to read the SNVS registers will simply hang forever.=0A=
+> =0A=
+> Ensure the clock is enabled (during the interrupt handler) to=0A=
+> make this driver work.=0A=
+> =0A=
+> Also see commit 7f8993995410 ("drivers/rtc/rtc-snvs: add clock support")=
 =0A=
-> Also see commit ec2a844ef7c1=0A=
-> ("ARM: dts: imx7s: add snvs rtc clock")=0A=
-> for a similar fix.=0A=
+> and commit edb190cb1734=0A=
+> ("rtc: snvs: make sure clock is enabled for interrupt handle")=0A=
+> for similar updates to the snvs rtc driver.=0A=
 > =0A=
 > Signed-off-by: Andr=E9 Draszik <git@andred.net>=0A=
 > Cc: Anson Huang <Anson.Huang@nxp.com>=0A=
@@ -120,72 +124,83 @@ DT bindings update in a separate patch.=0A=
 > Cc: linux-crypto@vger.kernel.org=0A=
 > Cc: devicetree@vger.kernel.org=0A=
 > Cc: linux-input@vger.kernel.org=0A=
-Reviewed-by: Horia Geant=E3 <horia.geanta@nxp.com>=0A=
-=0A=
 > ---=0A=
->  .../devicetree/bindings/crypto/fsl-sec4.txt     | 17 +++++++++++++++++=
-=0A=
->  arch/arm/boot/dts/imx7s.dtsi                    |  2 ++=0A=
->  2 files changed, 19 insertions(+)=0A=
+>  drivers/input/keyboard/snvs_pwrkey.c | 27 +++++++++++++++++++++++++++=0A=
+>  1 file changed, 27 insertions(+)=0A=
 > =0A=
-> diff --git a/Documentation/devicetree/bindings/crypto/fsl-sec4.txt b/Docu=
-mentation/devicetree/bindings/crypto/fsl-sec4.txt=0A=
-> index 2fe245ca816a..755c2838d658 100644=0A=
-> --- a/Documentation/devicetree/bindings/crypto/fsl-sec4.txt=0A=
-> +++ b/Documentation/devicetree/bindings/crypto/fsl-sec4.txt=0A=
-> @@ -449,6 +449,19 @@ System ON/OFF key driver=0A=
->        Value type: <phandle>=0A=
->        Definition: this is phandle to the register map node.=0A=
+> diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/keyboar=
+d/snvs_pwrkey.c=0A=
+> index 2f5e3ab5ed63..c29711d8735c 100644=0A=
+> --- a/drivers/input/keyboard/snvs_pwrkey.c=0A=
+> +++ b/drivers/input/keyboard/snvs_pwrkey.c=0A=
+> @@ -16,6 +16,7 @@=0A=
+>  #include <linux/of_address.h>=0A=
+>  #include <linux/platform_device.h>=0A=
+>  #include <linux/pm_wakeirq.h>=0A=
+> +#include <linux/clk.h>=0A=
+>  #include <linux/mfd/syscon.h>=0A=
+>  #include <linux/regmap.h>=0A=
 >  =0A=
-> +   - clocks=0A=
-> +      Usage: optional, required if SNVS LP requires explicit=0A=
-> +          enablement of clocks=0A=
-> +      Value type: <prop_encoded-array>=0A=
-> +      Definition:  a clock specifier describing the clock required for=
-=0A=
-> +          enabling and disabling SNVS LP RTC.=0A=
+> @@ -38,6 +39,7 @@ struct pwrkey_drv_data {=0A=
+>  	int wakeup;=0A=
+>  	struct timer_list check_timer;=0A=
+>  	struct input_dev *input;=0A=
+> +	struct clk *clk;=0A=
+>  	u8 minor_rev;=0A=
+>  };=0A=
+>  =0A=
+> @@ -72,6 +74,9 @@ static irqreturn_t imx_snvs_pwrkey_interrupt(int irq, v=
+oid *dev_id)=0A=
+>  	struct input_dev *input =3D pdata->input;=0A=
+>  	u32 lp_status;=0A=
+>  =0A=
+> +	if (pdata->clk)=0A=
+> +		clk_enable(pdata->clk);=0A=
 > +=0A=
-> +   - clock-names=0A=
-> +      Usage: optional, required if SNVS LP requires explicit=0A=
-> +          enablement of clocks=0A=
-> +      Value type: <string>=0A=
-> +      Definition: clock name string should be "snvs-pwrkey".=0A=
-> +=0A=
->  EXAMPLE:=0A=
->  	snvs-pwrkey@020cc000 {=0A=
->  		compatible =3D "fsl,sec-v4.0-pwrkey";=0A=
-> @@ -456,6 +469,8 @@ EXAMPLE:=0A=
->  		interrupts =3D <0 4 0x4>=0A=
->  	        linux,keycode =3D <116>; /* KEY_POWER */=0A=
->  		wakeup-source;=0A=
-> +		clocks =3D <&clks IMX7D_SNVS_CLK>;=0A=
-> +		clock-names =3D "snvs-pwrkey";=0A=
->  	};=0A=
->  =0A=
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0A=
-> @@ -547,6 +562,8 @@ FULL EXAMPLE=0A=
->  			interrupts =3D <0 4 0x4>;=0A=
->  			linux,keycode =3D <116>; /* KEY_POWER */=0A=
->  			wakeup-source;=0A=
-> +			clocks =3D <&clks IMX7D_SNVS_CLK>;=0A=
-> +			clock-names =3D "snvs-pwrkey";=0A=
->  		};=0A=
->  	};=0A=
->  =0A=
-> diff --git a/arch/arm/boot/dts/imx7s.dtsi b/arch/arm/boot/dts/imx7s.dtsi=
+clk framework handles NULL pointers internally, the check is redundant.=0A=
 =0A=
-> index 1b812f4e7453..6240a6f58048 100644=0A=
-> --- a/arch/arm/boot/dts/imx7s.dtsi=0A=
-> +++ b/arch/arm/boot/dts/imx7s.dtsi=0A=
-> @@ -614,6 +614,8 @@=0A=
->  					linux,keycode =3D <KEY_POWER>;=0A=
->  					wakeup-source;=0A=
->  					status =3D "disabled";=0A=
-> +					clocks =3D <&clks IMX7D_SNVS_CLK>;=0A=
-> +					clock-names =3D "snvs-pwrkey";=0A=
->  				};=0A=
->  			};=0A=
+>  	pm_wakeup_event(input->dev.parent, 0);=0A=
+>  =0A=
+>  	regmap_read(pdata->snvs, SNVS_LPSR_REG, &lp_status);=0A=
+> @@ -96,6 +101,9 @@ static irqreturn_t imx_snvs_pwrkey_interrupt(int irq, =
+void *dev_id)=0A=
+>  	/* clear SPO status */=0A=
+>  	regmap_write(pdata->snvs, SNVS_LPSR_REG, SNVS_LPSR_SPO);=0A=
+>  =0A=
+> +	if (pdata->clk)=0A=
+> +		clk_disable(pdata->clk);=0A=
+> +=0A=
+>  	return IRQ_HANDLED;=0A=
+>  }=0A=
+>  =0A=
+> @@ -140,6 +148,25 @@ static int imx_snvs_pwrkey_probe(struct platform_dev=
+ice *pdev)=0A=
+>  	if (pdata->irq < 0)=0A=
+>  		return -EINVAL;=0A=
+>  =0A=
+> +	pdata->clk =3D devm_clk_get(&pdev->dev, "snvs-pwrkey");=0A=
+> +	if (IS_ERR(pdata->clk)) {=0A=
+> +		pdata->clk =3D NULL;=0A=
+Using devm_clk_get_optional() would simplify error handling.=0A=
+=0A=
+> +	} else {=0A=
+> +		error =3D clk_prepare_enable(pdata->clk);=0A=
+> +		if (error) {=0A=
+> +			dev_err(&pdev->dev,=0A=
+> +				"Could not prepare or enable the snvs clock\n");=0A=
+> +			return error;=0A=
+> +		}=0A=
+> +		error =3D devm_add_action_or_reset(&pdev->dev,=0A=
+> +				(void(*)(void *))clk_disable_unprepare,=0A=
+> +				pdata->clk);=0A=
+> +		if (error) {=0A=
+> +			dev_err(&pdev->dev, "failed to add reset action on 'snvs-pwrkey'");=
+=0A=
+> +			return error;=0A=
+> +		}=0A=
+> +	}=0A=
+> +=0A=
+>  	regmap_read(pdata->snvs, SNVS_HPVIDR1_REG, &vid);=0A=
+>  	pdata->minor_rev =3D vid & 0xff;=0A=
 >  =0A=
 > =0A=
