@@ -2,205 +2,293 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BAFDC155380
-	for <lists+linux-input@lfdr.de>; Fri,  7 Feb 2020 09:10:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DE441553EA
+	for <lists+linux-input@lfdr.de>; Fri,  7 Feb 2020 09:47:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726982AbgBGIK3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 Feb 2020 03:10:29 -0500
-Received: from mail-eopbgr00089.outbound.protection.outlook.com ([40.107.0.89]:12707
-        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726130AbgBGIK2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 7 Feb 2020 03:10:28 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CclBG4vWG8BW28zU4IStJ11FWF51MZOFpA7XxtralPBXaXTjjP3uRxpFbsiVyLZy+gBvNHZVtQwftJGe9zatlhlS+kgS+8jJpqxkuCmneLRvzmiyMBiDde0HNNdGs63EvzPIz1bTV2FNPfG2XMPrzYojTcoEchqWMYItYWCnQMKZzYWo7rLyoVEYJNmJYOto/FHJl4YuYotXn/2MEcEQ0JEn9F/ggL2edz5OrEaOMVbPW9ehKP07zoaBpxdPAQiIBwJYxLZXP7l1m4UZa6i0AUnCrjRwISLc4YxHExPQ3kSMVESAaLGtSoR9c73fnLsmDbsdrFCVbPveqofWPCbmvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tWpfQjQ8kJI8DTUzc69VkE9kwzJn0d+di+JsZZZjwtQ=;
- b=AfRWFwJWBsRt+4dJanhkUCn0kdfMqWw2WkHMERKi8CB6H1E3hp8+4XGHxfZ12gyaZOK3F+Sglt1WPYK/G5VVqoMKRh3ApgCNop/TavSu+cZ0YodccY6rL+ZxZrCMloTiPi4M1LR38lvrrerb4Mzh3neMCUNYyWj2pMKtb5SN0HCCqrfjOslwj4BTSwh8MMA7utJFnCG2EAfAlsyC45XyTj4/TWzedUeQCxW0aPNS2898PUEV1eqx38SkZy1q9kPwU95RWDnpDV+ILyuYN/NFY7m9izH83+S+KvNB7Ri/00TcGn98yuTTLqSIKtf5zvE+IM0w+VWQ0EewUALn704CHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tWpfQjQ8kJI8DTUzc69VkE9kwzJn0d+di+JsZZZjwtQ=;
- b=j5eYJ8iZjZjCEfv/RtWhOgQYhxhfnDwxYXX/RLcP/cXmwaX0JgoGYriW73vuZdHqTjYo/1LOPbZUz3y7POpMTOViUZuy5LCOaTYSMJoN7sjBzObyyrCpb9WdXHBgeDMmoDoqhk62yv593nFAXgdJAaaCLWmKeMnFXY4sj0WWCwM=
-Received: from VI1PR0402MB3485.eurprd04.prod.outlook.com (52.134.3.153) by
- VI1PR0402MB2831.eurprd04.prod.outlook.com (10.175.23.136) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.21; Fri, 7 Feb 2020 08:10:22 +0000
-Received: from VI1PR0402MB3485.eurprd04.prod.outlook.com
- ([fe80::85e9:f844:f8b0:27d]) by VI1PR0402MB3485.eurprd04.prod.outlook.com
- ([fe80::85e9:f844:f8b0:27d%7]) with mapi id 15.20.2707.024; Fri, 7 Feb 2020
- 08:10:22 +0000
-From:   Horia Geanta <horia.geanta@nxp.com>
-To:     =?iso-8859-2?Q?Andr=E9_Draszik?= <git@andred.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     Anson Huang <anson.huang@nxp.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Robin Gong <yibin.gong@nxp.com>,
-        dl-linux-imx <linux-imx@nxp.com>
-Subject: Re: [PATCH 2/3] Input: snvs_pwrkey - enable snvs clock as needed
-Thread-Topic: [PATCH 2/3] Input: snvs_pwrkey - enable snvs clock as needed
-Thread-Index: AQHV164yHhXoESmTiUqzHJu+3DHGMA==
-Date:   Fri, 7 Feb 2020 08:10:22 +0000
-Message-ID: <VI1PR0402MB3485EC2F82DDE52DC5CA0795981C0@VI1PR0402MB3485.eurprd04.prod.outlook.com>
-References: <20200130204516.4760-1-git@andred.net>
- <20200130204516.4760-2-git@andred.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=horia.geanta@nxp.com; 
-x-originating-ip: [212.146.100.6]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 8580592e-cffa-4e3d-d394-08d7aba52de4
-x-ms-traffictypediagnostic: VI1PR0402MB2831:|VI1PR0402MB2831:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <VI1PR0402MB28313F3E7789B81307AFE51A981C0@VI1PR0402MB2831.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-forefront-prvs: 0306EE2ED4
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(136003)(376002)(366004)(346002)(39860400002)(199004)(189003)(44832011)(71200400001)(478600001)(54906003)(110136005)(86362001)(52536014)(5660300002)(6506007)(53546011)(33656002)(7696005)(9686003)(7416002)(26005)(55016002)(2906002)(186003)(316002)(8676002)(4326008)(66446008)(76116006)(66476007)(91956017)(81156014)(66946007)(64756008)(66556008)(81166006)(8936002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB2831;H:VI1PR0402MB3485.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5i593SuVIV9VlrFODnta1JRZxl64VhMc52UqyZNe/iHQ3TjHU/NZK6KvXsgBuk1i8M0egru7iTPEX44Sr9M7qhGv5mqGR0qx7J0AqY63U2eRYS1zbh9PeSuTuX0h1dNVaSEA/zaWhdwZt31JcVMxwag3Owsf+DABF1VJnr15OjS7QwxG9sUNwmVG+TLolAg+oFolZTbbDQj2YRmO6tmOhMj5PxvwxuaxH8vbyBMwluDsyk1EANm20UHPVhq0PvCA304kHcqJvAYNhw+BWspLo8q6hpq9nf4QeseM2Ar2LWtucXSzq4CK156/h4LtYcXAwVzlsVXQkKcxma7P9awkSwHQA/ILXGw0DGBcq1I7B0L9nEErB2PqCWZ0Ca6DolBsKpeT5u4FOY+PKNjwbUW3cWS6QDT+98cnnhyhaiqQO2Swd3Cy087rsEzr3yc9jDck
-x-ms-exchange-antispam-messagedata: Bhp15MSc5oNhXwm9ztodemqNFKrR8LMyHqD0nq9Qe9HfUVi4abqGMgiz82+N9FDrfNeKX9AVklGOBCVvMmSubnGct0j432qeIQBvoyr+jLNDez5oQiAx5ck0q9xdXutmMGgZmKfLKqd1upQrQPJZqQ==
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+        id S1726642AbgBGIrN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 Feb 2020 03:47:13 -0500
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:61439 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726451AbgBGIrN (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 7 Feb 2020 03:47:13 -0500
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0178hw0U010097;
+        Fri, 7 Feb 2020 09:47:04 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=STMicroelectronics;
+ bh=+IugkoOSPneMXOwW11LDlQwXU4lKUTtwdA6iRSssH6c=;
+ b=kcW4yQ1d1msQtwa7OAqlywQAGg8q3ZQvqsb13EzuHveaH3/EkT2GkE0TqOseMWeDXU5z
+ XN5qzoXRC8RmHmugrjhfkMGV8tXGUeXDnXcXPeig71CIRdykrqj8ciCAgDz1NCEqLg5r
+ iUTuhyZlsmkcnM2OvKTBn1nhWk/NeqdmJ+Am9mQ+0G1Q6BBypEjmOyQqvYQAm/v/fNvZ
+ iVfpYmpKtC/Y5JoiEF/XwdEG2rtNil9Xjpo4IZnEnL4GBycZ3J1ElaVytlPWaiuXiv3m
+ J2PlSR2j981KvUnSsXsglW9k1N0gBveQN4PflWsQk+1RSP9R5J3tVPbh9FxQqLb1Rn3z pQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2xyhk8sche-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 07 Feb 2020 09:47:04 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D447010002A;
+        Fri,  7 Feb 2020 09:46:59 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id BD165222C83;
+        Fri,  7 Feb 2020 09:46:59 +0100 (CET)
+Received: from localhost (10.75.127.48) by SFHDAG3NODE3.st.com (10.75.127.9)
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 7 Feb 2020 09:46:59
+ +0100
+From:   Benjamin Gaignard <benjamin.gaignard@st.com>
+To:     <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <megous@megous.com>,
+        <mylene.josserand@bootlin.com>
+CC:     <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: [PATCH v3] dt-bindings: touchscreen: Convert edt-ft5x06 to json-schema
+Date:   Fri, 7 Feb 2020 09:46:57 +0100
+Message-ID: <20200207084657.31195-1-benjamin.gaignard@st.com>
+X-Mailer: git-send-email 2.15.0
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8580592e-cffa-4e3d-d394-08d7aba52de4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2020 08:10:22.3029
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Xb7V0opFCYwMk2eE4+4oWGRLomzYNRU0HQQnyoOW28xmUxdsbRHOSjCbWA2Z3PXxsZ0MDZ40JCigQ3+cVkeoow==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB2831
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.75.127.48]
+X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG3NODE3.st.com
+ (10.75.127.9)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
+ definitions=2020-02-06_04:2020-02-06,2020-02-06 signatures=0
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 1/30/2020 10:45 PM, Andr=E9 Draszik wrote:=0A=
-> At the moment, enabling this driver without the SNVS RTC driver=0A=
-> being active will hang the kernel as soon as the power button=0A=
-> is pressed.=0A=
-> =0A=
-> The reason is that in that case the SNVS isn't enabled, and=0A=
-> any attempt to read the SNVS registers will simply hang forever.=0A=
-> =0A=
-> Ensure the clock is enabled (during the interrupt handler) to=0A=
-> make this driver work.=0A=
-> =0A=
-> Also see commit 7f8993995410 ("drivers/rtc/rtc-snvs: add clock support")=
-=0A=
-> and commit edb190cb1734=0A=
-> ("rtc: snvs: make sure clock is enabled for interrupt handle")=0A=
-> for similar updates to the snvs rtc driver.=0A=
-> =0A=
-> Signed-off-by: Andr=E9 Draszik <git@andred.net>=0A=
-> Cc: Anson Huang <Anson.Huang@nxp.com>=0A=
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>=0A=
-> Cc: "Horia Geant=E3" <horia.geanta@nxp.com>=0A=
-> Cc: Aymen Sghaier <aymen.sghaier@nxp.com>=0A=
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>=0A=
-> Cc: "David S. Miller" <davem@davemloft.net>=0A=
-> Cc: Rob Herring <robh+dt@kernel.org>=0A=
-> Cc: Mark Rutland <mark.rutland@arm.com>=0A=
-> Cc: linux-crypto@vger.kernel.org=0A=
-> Cc: devicetree@vger.kernel.org=0A=
-> Cc: linux-input@vger.kernel.org=0A=
-> ---=0A=
->  drivers/input/keyboard/snvs_pwrkey.c | 27 +++++++++++++++++++++++++++=0A=
->  1 file changed, 27 insertions(+)=0A=
-> =0A=
-> diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/keyboar=
-d/snvs_pwrkey.c=0A=
-> index 2f5e3ab5ed63..c29711d8735c 100644=0A=
-> --- a/drivers/input/keyboard/snvs_pwrkey.c=0A=
-> +++ b/drivers/input/keyboard/snvs_pwrkey.c=0A=
-> @@ -16,6 +16,7 @@=0A=
->  #include <linux/of_address.h>=0A=
->  #include <linux/platform_device.h>=0A=
->  #include <linux/pm_wakeirq.h>=0A=
-> +#include <linux/clk.h>=0A=
->  #include <linux/mfd/syscon.h>=0A=
->  #include <linux/regmap.h>=0A=
->  =0A=
-> @@ -38,6 +39,7 @@ struct pwrkey_drv_data {=0A=
->  	int wakeup;=0A=
->  	struct timer_list check_timer;=0A=
->  	struct input_dev *input;=0A=
-> +	struct clk *clk;=0A=
->  	u8 minor_rev;=0A=
->  };=0A=
->  =0A=
-> @@ -72,6 +74,9 @@ static irqreturn_t imx_snvs_pwrkey_interrupt(int irq, v=
-oid *dev_id)=0A=
->  	struct input_dev *input =3D pdata->input;=0A=
->  	u32 lp_status;=0A=
->  =0A=
-> +	if (pdata->clk)=0A=
-> +		clk_enable(pdata->clk);=0A=
-> +=0A=
-clk framework handles NULL pointers internally, the check is redundant.=0A=
-=0A=
->  	pm_wakeup_event(input->dev.parent, 0);=0A=
->  =0A=
->  	regmap_read(pdata->snvs, SNVS_LPSR_REG, &lp_status);=0A=
-> @@ -96,6 +101,9 @@ static irqreturn_t imx_snvs_pwrkey_interrupt(int irq, =
-void *dev_id)=0A=
->  	/* clear SPO status */=0A=
->  	regmap_write(pdata->snvs, SNVS_LPSR_REG, SNVS_LPSR_SPO);=0A=
->  =0A=
-> +	if (pdata->clk)=0A=
-> +		clk_disable(pdata->clk);=0A=
-> +=0A=
->  	return IRQ_HANDLED;=0A=
->  }=0A=
->  =0A=
-> @@ -140,6 +148,25 @@ static int imx_snvs_pwrkey_probe(struct platform_dev=
-ice *pdev)=0A=
->  	if (pdata->irq < 0)=0A=
->  		return -EINVAL;=0A=
->  =0A=
-> +	pdata->clk =3D devm_clk_get(&pdev->dev, "snvs-pwrkey");=0A=
-> +	if (IS_ERR(pdata->clk)) {=0A=
-> +		pdata->clk =3D NULL;=0A=
-Using devm_clk_get_optional() would simplify error handling.=0A=
-=0A=
-> +	} else {=0A=
-> +		error =3D clk_prepare_enable(pdata->clk);=0A=
-> +		if (error) {=0A=
-> +			dev_err(&pdev->dev,=0A=
-> +				"Could not prepare or enable the snvs clock\n");=0A=
-> +			return error;=0A=
-> +		}=0A=
-> +		error =3D devm_add_action_or_reset(&pdev->dev,=0A=
-> +				(void(*)(void *))clk_disable_unprepare,=0A=
-> +				pdata->clk);=0A=
-> +		if (error) {=0A=
-> +			dev_err(&pdev->dev, "failed to add reset action on 'snvs-pwrkey'");=
-=0A=
-> +			return error;=0A=
-> +		}=0A=
-> +	}=0A=
-> +=0A=
->  	regmap_read(pdata->snvs, SNVS_HPVIDR1_REG, &vid);=0A=
->  	pdata->minor_rev =3D vid & 0xff;=0A=
->  =0A=
-> =0A=
+Convert the EDT-FT5x06 to DT schema using json-schema.
+
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+version 3:
+- rebased on top of input tree
+- add wakeup-source
+ .../bindings/input/touchscreen/edt-ft5x06.txt      |  77 -------------
+ .../bindings/input/touchscreen/edt-ft5x06.yaml     | 125 +++++++++++++++++++++
+ 2 files changed, 125 insertions(+), 77 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
+deleted file mode 100644
+index 0e57315e9cbd..000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.txt
++++ /dev/null
+@@ -1,77 +0,0 @@
+-FocalTech EDT-FT5x06 Polytouch driver
+-=====================================
+-
+-There are 5 variants of the chip for various touch panel sizes
+-FT5206GE1  2.8" .. 3.8"
+-FT5306DE4  4.3" .. 7"
+-FT5406EE8  7"   .. 8.9"
+-FT5506EEG  7"   .. 8.9"
+-FT5726NEI  5.7” .. 11.6"
+-
+-The software interface is identical for all those chips, so that
+-currently there is no need for the driver to distinguish between the
+-different chips. Nevertheless distinct compatible strings are used so
+-that a distinction can be added if necessary without changing the DT
+-bindings.
+-
+-
+-Required properties:
+- - compatible:  "edt,edt-ft5206"
+-           or:  "edt,edt-ft5306"
+-           or:  "edt,edt-ft5406"
+-           or:  "edt,edt-ft5506"
+-           or:  "evervision,ev-ft5726"
+-           or:  "focaltech,ft6236"
+-
+- - reg:         I2C slave address of the chip (0x38)
+- - interrupts:       interrupt specification for the touchdetect
+-                     interrupt
+-
+-Optional properties:
+- - reset-gpios: GPIO specification for the RESET input
+- - wake-gpios:  GPIO specification for the WAKE input
+- - vcc-supply:  Regulator that supplies the touchscreen
+-
+- - pinctrl-names: should be "default"
+- - pinctrl-0:   a phandle pointing to the pin settings for the
+-                control gpios
+-
+- - wakeup-source: If present the device will act as wakeup-source
+-
+- - threshold:   allows setting the "click"-threshold in the range
+-                from 0 to 80.
+-
+- - gain:        allows setting the sensitivity in the range from 0 to
+-                31. Note that lower values indicate higher
+-                sensitivity.
+-
+- - offset:      allows setting the edge compensation in the range from
+-                0 to 31.
+-
+- - offset-x:    Same as offset, but applies only to the horizontal position.
+-                Range from 0 to 80, only supported by evervision,ev-ft5726
+-                devices.
+-
+- - offset-y:    Same as offset, but applies only to the vertical position.
+-                Range from 0 to 80, only supported by evervision,ev-ft5726
+-                devices.
+-
+- - touchscreen-size-x	   : See touchscreen.txt
+- - touchscreen-size-y	   : See touchscreen.txt
+- - touchscreen-fuzz-x      : See touchscreen.txt
+- - touchscreen-fuzz-y      : See touchscreen.txt
+- - touchscreen-inverted-x  : See touchscreen.txt
+- - touchscreen-inverted-y  : See touchscreen.txt
+- - touchscreen-swapped-x-y : See touchscreen.txt
+-
+-Example:
+-	polytouch: edt-ft5x06@38 {
+-		compatible = "edt,edt-ft5406", "edt,edt-ft5x06";
+-		reg = <0x38>;
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&edt_ft5x06_pins>;
+-		interrupt-parent = <&gpio2>;
+-		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
+-		reset-gpios = <&gpio2 6 GPIO_ACTIVE_LOW>;
+-		wake-gpios = <&gpio4 9 GPIO_ACTIVE_HIGH>;
+-	};
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+new file mode 100644
+index 000000000000..8d58709d4b47
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+@@ -0,0 +1,125 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/edt-ft5x06.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: FocalTech EDT-FT5x06 Polytouch Bindings
++
++description: |
++             There are 5 variants of the chip for various touch panel sizes
++              FT5206GE1  2.8" .. 3.8"
++              FT5306DE4  4.3" .. 7"
++              FT5406EE8  7"   .. 8.9"
++              FT5506EEG  7"   .. 8.9"
++              FT5726NEI  5.7” .. 11.6"
++
++maintainers:
++  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
++
++allOf:
++  - $ref: touchscreen.yaml#
++  - if:
++     properties:
++       compatible:
++         contains:
++           enum:
++             - evervision,ev-ft5726
++
++    then:
++      properties:
++        offset-x: true
++        offset-y: true
++
++properties:
++  compatible:
++    enum:
++      - edt,edt-ft5206
++      - edt,edt-ft5306
++      - edt,edt-ft5406
++      - edt,edt-ft5506
++      - evervision,ev-ft5726
++      - focaltech,ft6236
++
++  reg:
++    const: 0x38
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  wake-gpios:
++    maxItems: 1
++
++  wakeup-source: true
++
++  vcc-supply:
++    maxItems: 1
++
++  gain:
++    description: Allows setting the sensitivity in the range from 0 to 31.
++                 Note that lower values indicate higher sensitivity.
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - minimum: 0
++      - maximum: 31
++
++  offset:
++    description: Allows setting the edge compensation in the range from 0 to 31.
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - minimum: 0
++      - maximum: 31
++
++  offset-x:
++    description: Same as offset, but applies only to the horizontal position.
++                 Range from 0 to 80, only supported by evervision,ev-ft5726 devices.
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - minimum: 0
++      - maximum: 80
++
++  offset-y:
++    description: Same as offset, but applies only to the vertical position.
++                 Range from 0 to 80, only supported by evervision,ev-ft5726 devices.
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - minimum: 0
++      - maximum: 80
++
++  touchscreen-size-x: true
++  touchscreen-size-y: true
++  touchscreen-fuzz-x: true
++  touchscreen-fuzz-y: true
++  touchscreen-inverted-x: true
++  touchscreen-inverted-y: true
++  touchscreen-swapped-x-y: true
++  interrupt-controller: true
++
++additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    i2c@00000000 {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      edt-ft5x06@38 {
++        compatible = "edt,edt-ft5406";
++        reg = <0x38>;
++        interrupt-parent = <&gpio2>;
++        interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
++        reset-gpios = <&gpio2 6 GPIO_ACTIVE_LOW>;
++        wake-gpios = <&gpio4 9 GPIO_ACTIVE_HIGH>;
++      };
++    };
++
++...
+-- 
+2.15.0
+
