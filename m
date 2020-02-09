@@ -2,130 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5016156AF6
-	for <lists+linux-input@lfdr.de>; Sun,  9 Feb 2020 16:20:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3BE4156CE1
+	for <lists+linux-input@lfdr.de>; Sun,  9 Feb 2020 23:38:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727698AbgBIPU2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 9 Feb 2020 10:20:28 -0500
-Received: from mail.z3ntu.xyz ([128.199.32.197]:50494 "EHLO mail.z3ntu.xyz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727514AbgBIPU2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 9 Feb 2020 10:20:28 -0500
-Received: from localhost.localdomain (80-110-126-226.cgn.dynamic.surfer.at [80.110.126.226])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 00E4DC1E6F;
-        Sun,  9 Feb 2020 15:20:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1581261625; bh=yU5+GbnKv24kCO8ScL2Ee8KtKAa6j8RtJf1mj6xw9tg=;
-        h=From:To:Cc:Subject:Date;
-        b=nvy5+HxvKgqPca59Ke/8b/MWJn6wdmZNuW45zMihRHDSVzKrRr2l7eisM5GsOaD6m
-         h3YslYNtbyNyGdKHI5KohpQqil8G+WKNwaACejW/ZdfmXxJqlj8WrS9HXD1H55Tqls
-         YtlyPJ8e8vq6Yj6WEp8fk16RMKBsLcbj9q/w+KRA=
-From:   Luca Weiss <luca@z3ntu.xyz>
-To:     linux-input@vger.kernel.org
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, Luca Weiss <luca@z3ntu.xyz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        id S1727477AbgBIWim (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 9 Feb 2020 17:38:42 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:39256 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726890AbgBIWil (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Feb 2020 17:38:41 -0500
+Received: by mail-pg1-f194.google.com with SMTP id j15so2861699pgm.6;
+        Sun, 09 Feb 2020 14:38:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=viMGruOG1jCZUXMu+S3mzXnhGnr2IgHNYMxCSKKh4Nc=;
+        b=LIIgNjiUgKkKaVVXHKRdajm65ZvbHkrCZa4bMUEmHrcgUFP4tHshvkJ840Dc4J/zan
+         BMxHWABfZY6hTxS3wHQ65RmMijAgW2gPoIxnVOaNmNBpPnuTSXbOvXa1PEFJsrZ/yaK+
+         3naQUyt84xVoah8HXzI5dYgpgv31UKtjWsbnn3bv4Pt2vWwCen6mw4hZ/VTKIJDp2t2e
+         otIN3pfJbu/6OA+m5pn2o11Q1yEy6dYZuYMFt51dAQhDY0Ury6zwyoZa9e+3WvquVFhw
+         qrzbv5yfhEQJM1Xv63iTbgmpZWcPukkBkwUcUT059m5GcA0/ttpob3ZF9AP9d6gvCpqh
+         308A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=viMGruOG1jCZUXMu+S3mzXnhGnr2IgHNYMxCSKKh4Nc=;
+        b=ed9YHpH1gt9M4fjkNTOwq91mIGR402P3gzfb8KtdFVcAKglChh5uNbAodwSaWIY758
+         HSOb7JiVQA/CdFXI8m/QkuDTGIGMNuWT8kljBjEcUsfpPKLvCqgjWKrLSrsySQvkbTQo
+         OwwKBXUPTGzmHqxZCJR6cQgT845JckO1ynG1SJZ5gbuv9xMhZHKGkPRWVfGr/gBT445T
+         hDjhlbZn2Su83P7ExiAHR14lX+NJAdpvFDjkW7EaRpwML4YfKntVKYNk1sAhLU1dFiAz
+         JT/9/HzYtMCcHGre51GV7jQmSzQoBvgXVR5H1yibPEWaUk74+QGqweAJ02jLW79EoUlP
+         mrYg==
+X-Gm-Message-State: APjAAAUxJTK850uKfpdbfgGztKOoIovj1r/ulxIeq/+sHEdiAE4IA0VA
+        zpjMnMT6pkG8GV0u3XwA4O4=
+X-Google-Smtp-Source: APXvYqzKZWT9r2WimNRYcuopBkOAfSQWZMZqv3jI5fZK/5+JusC3Y5A2EGwNrZYbZK2ERqdr0hnUSw==
+X-Received: by 2002:aa7:86c2:: with SMTP id h2mr10045616pfo.45.1581287919219;
+        Sun, 09 Feb 2020 14:38:39 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id 76sm10154918pfx.97.2020.02.09.14.38.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Feb 2020 14:38:38 -0800 (PST)
+Date:   Sun, 9 Feb 2020 14:38:36 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Horia Geanta <horia.geanta@nxp.com>
+Cc:     =?iso-8859-1?Q?Andr=E9?= Draszik <git@andred.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Anson Huang <anson.huang@nxp.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Marek Vasut <marex@denx.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Input: ili210x - add ili2120 support
-Date:   Sun,  9 Feb 2020 16:19:03 +0100
-Message-Id: <20200209151904.661210-1-luca@z3ntu.xyz>
-X-Mailer: git-send-email 2.25.0
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Robin Gong <yibin.gong@nxp.com>,
+        dl-linux-imx <linux-imx@nxp.com>
+Subject: Re: [PATCH 2/3] Input: snvs_pwrkey - enable snvs clock as needed
+Message-ID: <20200209223836.GA199269@dtor-ws>
+References: <20200130204516.4760-1-git@andred.net>
+ <20200130204516.4760-2-git@andred.net>
+ <VI1PR0402MB3485EC2F82DDE52DC5CA0795981C0@VI1PR0402MB3485.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <VI1PR0402MB3485EC2F82DDE52DC5CA0795981C0@VI1PR0402MB3485.eurprd04.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This adds support for the Ilitek ili2120 touchscreen found in the
-Fairphone 2 smartphone.
+On Fri, Feb 07, 2020 at 08:10:22AM +0000, Horia Geanta wrote:
+> On 1/30/2020 10:45 PM, André Draszik wrote:
+> > At the moment, enabling this driver without the SNVS RTC driver
+> > being active will hang the kernel as soon as the power button
+> > is pressed.
+> > 
+> > The reason is that in that case the SNVS isn't enabled, and
+> > any attempt to read the SNVS registers will simply hang forever.
+> > 
+> > Ensure the clock is enabled (during the interrupt handler) to
+> > make this driver work.
+> > 
+> > Also see commit 7f8993995410 ("drivers/rtc/rtc-snvs: add clock support")
+> > and commit edb190cb1734
+> > ("rtc: snvs: make sure clock is enabled for interrupt handle")
+> > for similar updates to the snvs rtc driver.
+> > 
+> > Signed-off-by: André Draszik <git@andred.net>
+> > Cc: Anson Huang <Anson.Huang@nxp.com>
+> > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > Cc: "Horia Geantă" <horia.geanta@nxp.com>
+> > Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
+> > Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> > Cc: "David S. Miller" <davem@davemloft.net>
+> > Cc: Rob Herring <robh+dt@kernel.org>
+> > Cc: Mark Rutland <mark.rutland@arm.com>
+> > Cc: linux-crypto@vger.kernel.org
+> > Cc: devicetree@vger.kernel.org
+> > Cc: linux-input@vger.kernel.org
+> > ---
+> >  drivers/input/keyboard/snvs_pwrkey.c | 27 +++++++++++++++++++++++++++
+> >  1 file changed, 27 insertions(+)
+> > 
+> > diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/keyboard/snvs_pwrkey.c
+> > index 2f5e3ab5ed63..c29711d8735c 100644
+> > --- a/drivers/input/keyboard/snvs_pwrkey.c
+> > +++ b/drivers/input/keyboard/snvs_pwrkey.c
+> > @@ -16,6 +16,7 @@
+> >  #include <linux/of_address.h>
+> >  #include <linux/platform_device.h>
+> >  #include <linux/pm_wakeirq.h>
+> > +#include <linux/clk.h>
+> >  #include <linux/mfd/syscon.h>
+> >  #include <linux/regmap.h>
+> >  
+> > @@ -38,6 +39,7 @@ struct pwrkey_drv_data {
+> >  	int wakeup;
+> >  	struct timer_list check_timer;
+> >  	struct input_dev *input;
+> > +	struct clk *clk;
+> >  	u8 minor_rev;
+> >  };
+> >  
+> > @@ -72,6 +74,9 @@ static irqreturn_t imx_snvs_pwrkey_interrupt(int irq, void *dev_id)
+> >  	struct input_dev *input = pdata->input;
+> >  	u32 lp_status;
+> >  
+> > +	if (pdata->clk)
+> > +		clk_enable(pdata->clk);
+> > +
+> clk framework handles NULL pointers internally, the check is redundant.
+> 
+> >  	pm_wakeup_event(input->dev.parent, 0);
+> >  
+> >  	regmap_read(pdata->snvs, SNVS_LPSR_REG, &lp_status);
+> > @@ -96,6 +101,9 @@ static irqreturn_t imx_snvs_pwrkey_interrupt(int irq, void *dev_id)
+> >  	/* clear SPO status */
+> >  	regmap_write(pdata->snvs, SNVS_LPSR_REG, SNVS_LPSR_SPO);
+> >  
+> > +	if (pdata->clk)
+> > +		clk_disable(pdata->clk);
+> > +
+> >  	return IRQ_HANDLED;
+> >  }
+> >  
+> > @@ -140,6 +148,25 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
+> >  	if (pdata->irq < 0)
+> >  		return -EINVAL;
+> >  
+> > +	pdata->clk = devm_clk_get(&pdev->dev, "snvs-pwrkey");
+> > +	if (IS_ERR(pdata->clk)) {
+> > +		pdata->clk = NULL;
+> Using devm_clk_get_optional() would simplify error handling.
 
-Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
----
-Changes from v1:
-- Rebase on master, adjust for upstream changes
+It sounds to me that this clock is not at all optional and the driver
+currently "works" only by accident and therefore optional is not
+suitable here.
 
- .../bindings/input/ilitek,ili2xxx.txt         |  3 +-
- drivers/input/touchscreen/ili210x.c           | 32 +++++++++++++++++++
- 2 files changed, 34 insertions(+), 1 deletion(-)
+> 
+> > +	} else {
+> > +		error = clk_prepare_enable(pdata->clk);
 
-diff --git a/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt b/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
-index dc194b2c151a..cdcaa3f52d25 100644
---- a/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
-+++ b/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
-@@ -1,9 +1,10 @@
--Ilitek ILI210x/ILI2117/ILI251x touchscreen controller
-+Ilitek ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller
- 
- Required properties:
- - compatible:
-     ilitek,ili210x for ILI210x
-     ilitek,ili2117 for ILI2117
-+    ilitek,ili2120 for ILI2120
-     ilitek,ili251x for ILI251x
- 
- - reg: The I2C address of the device
-diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
-index 84bf51d79888..199cf3daec10 100644
---- a/drivers/input/touchscreen/ili210x.c
-+++ b/drivers/input/touchscreen/ili210x.c
-@@ -167,6 +167,36 @@ static const struct ili2xxx_chip ili211x_chip = {
- 	.resolution		= 2048,
- };
- 
-+static bool ili212x_touchdata_to_coords(const u8 *touchdata,
-+					unsigned int finger,
-+					unsigned int *x, unsigned int *y)
-+{
-+	u16 val;
-+
-+	val = get_unaligned_be16(touchdata + 3 + (finger * 5) + 0);
-+	if (!(val & BIT(15)))	/* Touch indication */
-+		return false;
-+
-+	*x = val & 0x3fff;
-+	*y = get_unaligned_be16(touchdata + 3 + (finger * 5) + 2);
-+
-+	return true;
-+}
-+
-+static bool ili212x_check_continue_polling(const u8 *data, bool touch)
-+{
-+	return touch;
-+}
-+
-+static const struct ili2xxx_chip ili212x_chip = {
-+	.read_reg		= ili210x_read_reg,
-+	.get_touch_data		= ili210x_read_touch_data,
-+	.parse_touch_data	= ili212x_touchdata_to_coords,
-+	.continue_polling	= ili212x_check_continue_polling,
-+	.max_touches		= 10,
-+	.has_calibrate_reg	= true,
-+};
-+
- static int ili251x_read_reg(struct i2c_client *client,
- 			    u8 reg, void *buf, size_t len)
- {
-@@ -447,6 +477,7 @@ static int ili210x_i2c_probe(struct i2c_client *client,
- static const struct i2c_device_id ili210x_i2c_id[] = {
- 	{ "ili210x", (long)&ili210x_chip },
- 	{ "ili2117", (long)&ili211x_chip },
-+	{ "ili2120", (long)&ili212x_chip },
- 	{ "ili251x", (long)&ili251x_chip },
- 	{ }
- };
-@@ -455,6 +486,7 @@ MODULE_DEVICE_TABLE(i2c, ili210x_i2c_id);
- static const struct of_device_id ili210x_dt_ids[] = {
- 	{ .compatible = "ilitek,ili210x", .data = &ili210x_chip },
- 	{ .compatible = "ilitek,ili2117", .data = &ili211x_chip },
-+	{ .compatible = "ilitek,ili2120", .data = &ili212x_chip },
- 	{ .compatible = "ilitek,ili251x", .data = &ili251x_chip },
- 	{ }
- };
+So if you enable clock here and do not disable it, why do you need to
+enable it again in interrupt?
+
+Thanks.
+
 -- 
-2.25.0
-
+Dmitry
