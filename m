@@ -2,65 +2,150 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08ED91570BD
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2020 09:21:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 069B115793F
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2020 14:14:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727079AbgBJIV1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Feb 2020 03:21:27 -0500
-Received: from mail-io1-f41.google.com ([209.85.166.41]:43132 "EHLO
-        mail-io1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727029AbgBJIV0 (ORCPT
+        id S1729179AbgBJMij (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Feb 2020 07:38:39 -0500
+Received: from orion.archlinux.org ([88.198.91.70]:38070 "EHLO
+        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728158AbgBJMii (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Feb 2020 03:21:26 -0500
-Received: by mail-io1-f41.google.com with SMTP id n21so6556999ioo.10;
-        Mon, 10 Feb 2020 00:21:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=6f+qi7dpQ9dAnUohkOS6K1cHu/QmF346SAMV5H3UnC0=;
-        b=J1qKydLSxIWTX3wWnPEzSSWhu7fsmH8CemAkEXUGPvAtVhEsSW1h0Jxw10fgssMs5j
-         Zf5oGh6aZypevGnCdgr4S4F8tuDsmxTfGUdKnsH5d5Uovw4oquPf26Z/BE7J1pPzlG9B
-         qKHpxIJguVgqjP23BQDseuqjXrYOJrg7I/4PxDKd7G4Wni/f81EKbLv+gC02xvfIaYUY
-         HR2attiHwVs2PFKh7cdFeZKu5f+i6Z9KCDHcIUSfRjJycuIZG2DOiq8+7VCgpQpIoVx7
-         JVSllME+aW2WGgBjdT2xSUwI5dbG5476lUvn93XYk/IbBgLhZ5lRXK0INZ/lFSRXrr0r
-         QiIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=6f+qi7dpQ9dAnUohkOS6K1cHu/QmF346SAMV5H3UnC0=;
-        b=GnsHMHGLC1ZbW9HBaCoeUFC6z57tjf8ZP0/kawQH1U85ah+eskVSfr5x5/Q2wjGwPm
-         JDddYL8x4lODI6TFk8+tD4DKrzTITLZ7teQGPmBkp3QDvqTx6PdLQ0F+tA2fZTFp4A/1
-         xqIb1yNJkRHb6Hxr5qUnxZzba9tkQCpcEVNpPLKb55k4r+hkthf7N8c9ex4m0h+zerEN
-         EYf6NT1ReQJM4YW1VDPDA/GSHjX8X2/zWfn1soAPcmMlxl0BHAANcsa/dkTrsRd2P2Sy
-         DbbdF6GV4wyO0BzUcxkwDTlpMbGVWkdcFP/tN0iRoId1mJ4vVpUO58nU5OGGZwbHAcn8
-         Hjxw==
-X-Gm-Message-State: APjAAAXfsJKu0nEUvFd3ORIH32/D+bz9m74l9MEGhSslWz7JJDVrnbuF
-        kRDSask8fn7ByvTCyBbEeqSwI6ZltWfkvAfNmwP4P2sBffI=
-X-Google-Smtp-Source: APXvYqxKzP1C5Mdoq7PtTCKbU/y9VLzvZ8FoFa+Oh+4Za8oSyFlh8tM+m+gXyLz/HADSua0I2d1hEWF6z1QeNzaEylE=
-X-Received: by 2002:a5d:9dc5:: with SMTP id 5mr8396812ioo.111.1581322885754;
- Mon, 10 Feb 2020 00:21:25 -0800 (PST)
-MIME-Version: 1.0
-From:   Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date:   Mon, 10 Feb 2020 13:21:15 +0500
-Message-ID: <CABXGCsMfzj+mpjvuZifzWEKbX7X36v7iMVPampSS6kOc2Hzoow@mail.gmail.com>
-Subject: [BUG] Kernel log flooded by message "logitech-djreceiver
+        Mon, 10 Feb 2020 07:38:38 -0500
+Received: from orion.archlinux.org (localhost [127.0.0.1])
+        by orion.archlinux.org (Postfix) with ESMTP id BC39418CCD29EA;
+        Mon, 10 Feb 2020 12:38:34 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.3 (2019-12-06) on orion.archlinux.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
+        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
+        autolearn=no autolearn_force=no version=3.4.3
+X-Spam-BL-Results: 
+Received: from genesis (unknown [IPv6:2001:8a0:f254:2300:dad6:8c60:8394:88da])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ffy00)
+        by orion.archlinux.org (Postfix) with ESMTPSA;
+        Mon, 10 Feb 2020 12:38:34 +0000 (UTC)
+Message-ID: <2405a741abf0d5fe8f55b5d3de8488e3054cc5e1.camel@archlinux.org>
+Subject: Re: [BUG] Kernel log flooded by message "logitech-djreceiver
  0003:046D:C53A.000C: logi_dj_hidpp_event: invalid device index:7"
-To:     Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
+To:     Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
         linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CABXGCsMfzj+mpjvuZifzWEKbX7X36v7iMVPampSS6kOc2Hzoow@mail.gmail.com>
+References: <CABXGCsMfzj+mpjvuZifzWEKbX7X36v7iMVPampSS6kOc2Hzoow@mail.gmail.com>
+Organization: Archlinux
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-CC7fhrLK0x2ihemV6EOD"
+Date:   Mon, 10 Feb 2020 12:38:32 +0000
+MIME-Version: 1.0
+User-Agent: Evolution 3.34.3 
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Kernel log flooded by message
-logitech-djreceiver 0003:046D:C53A.000C: logi_dj_hidpp_event: invalid
-device index:7
-This happens when the mouse is idle.
-And it started since I begin using the mouse pad with Power Play technology.
 
+--=-CC7fhrLK0x2ihemV6EOD
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Kernel ver: 5.6 pre RC
---
-Best Regards,
-Mike Gavrilov.
+On Mon, 2020-02-10 at 13:21 +0500, Mikhail Gavrilov wrote:
+> Kernel log flooded by message
+> logitech-djreceiver 0003:046D:C53A.000C: logi_dj_hidpp_event: invalid
+> device index:7
+> This happens when the mouse is idle.
+> And it started since I begin using the mouse pad with Power Play
+> technology.
+>=20
+>=20
+> Kernel ver: 5.6 pre RC
+> --
+> Best Regards,
+> Mike Gavrilov.
+
+Hello Mike,
+
+Yes, the Powerplay mat exports a static HID++ 2.0 device with index 7
+to configure the led on the mat. The current code expects devices to
+have a maximum index of 6, which is the maximum index of pairable
+devices.=20
+
+I already submitted a patch adding support for the Logitech G Powerplay
+mat but it wasn't been upstreamed it. I will attach it in case you want
+to try it.
+
+Cheers,
+Filipe La=C3=ADns
+
+---
+Author: Filipe La=C3=ADns <lains@archlinux.org>
+Date:   Sun Jan 12 20:15:41 2020 +0000
+
+    HID: logitech-dj: add support for the static device in the Powerplay ma=
+t/receiver
+
+    The Logitech G Powerplay has a lightspeed receiver with a static HID++
+    device with ID 7 attached to it to. It is used to configure the led on
+    the mat. For this reason I increased the max number of devices.
+
+    Signed-off-by: Filipe La=C3=ADns <lains@archlinux.org>
+
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index bb50d6e7745b..79294b873057 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -16,11 +16,11 @@
+ #include <asm/unaligned.h>
+ #include "hid-ids.h"
+
+-#define DJ_MAX_PAIRED_DEVICES                  6
++#define DJ_MAX_PAIRED_DEVICES                  7
+ #define DJ_MAX_NUMBER_NOTIFS                   8
+ #define DJ_RECEIVER_INDEX                      0
+ #define DJ_DEVICE_INDEX_MIN                    1
+-#define DJ_DEVICE_INDEX_MAX                    6
++#define DJ_DEVICE_INDEX_MAX                    7
+
+ #define DJREPORT_SHORT_LENGTH                  15
+ #define DJREPORT_LONG_LENGTH                   32
+@@ -980,6 +980,11 @@ static void logi_hidpp_recv_queue_notif(struct hid_dev=
+ice *hdev,
+                break;
+        }
+
++       /* custom receiver device (eg. powerplay) */
++       if (hidpp_report->device_index =3D=3D 7) {
++               workitem.reports_supported |=3D HIDPP;
++       }
++
+        if (workitem.type =3D=3D WORKITEM_TYPE_EMPTY) {
+                hid_warn(hdev,
+                         "unusable device of type %s (0x%02x) connected on =
+slot %d",
+
+--=-CC7fhrLK0x2ihemV6EOD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAl5BTsQACgkQ+JPGdIFq
+qV2o1BAArnqS+PoUWAyJOVrP4wEmyHC0lyB5osiGEehXtMvhd2pDWwl9P8U8nYdj
+TusgiebYY4F9lrZu00g7ggqD5iQQA1uyOvOGkV91sYez4YdKYU8lpUfGS+jTgTOo
+gIWlGntJi/qjbYkHqz5zeI+K0mvCpmUyinn2/WkV7y5ErPvgdiXPsTIzQq9geSJn
+i2syAUY0fTwDMe60AQ/2MhIXRiUCvMyMH8TLbDUFz2uzbzwhzBZH6tRY1tlPM0ow
+mtUPCEHWNTazfd56317QHDGMVne8/bWd4z+Gsyd2WqZVXNBvDAoX58aMxNH2FTtG
+jN6TjA01SAb9/yKcRdOe4hb7wstmjX9744ClGmueQNCPJyvjuWuGOBj/eMNVRk7p
+2PTAoR+ijTdHkUghZ3i+aGnzQVFpbgyistvNj1XajIhusHTMlHWep8f4IKPVS7zb
+5HGx6HF/ThBALxFUAOQjdpITzBF605I4b0XjOrx5UnZiYokCwVIulJrKFMwggUos
+UHNJrVbIx4fmjBvolMLAx9zmf9Hsd0BCj17ToECPXQpnZsV1K80q2K4XmzS5Zpx8
+gHvZlMsjq92JS4pnebyJIjeS22S8AnHESe6TBQyqelVlYJnKaiQ2eZVbQkO3QbqI
+6XEAShG/PJ1HIcHur1l23aEoYvu0cgzP+FyRQ5oucNwhuuLdcmI=
+=t81+
+-----END PGP SIGNATURE-----
+
+--=-CC7fhrLK0x2ihemV6EOD--
