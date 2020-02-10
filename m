@@ -2,190 +2,390 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ABED51583C6
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2020 20:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 977981585B6
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2020 23:45:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727613AbgBJTdT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Feb 2020 14:33:19 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:41884 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727604AbgBJTdT (ORCPT
+        id S1727437AbgBJWpl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Feb 2020 17:45:41 -0500
+Received: from outils.crapouillou.net ([89.234.176.41]:35966 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727116AbgBJWpk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Feb 2020 14:33:19 -0500
-Received: by mail-ed1-f66.google.com with SMTP id c26so1717710eds.8;
-        Mon, 10 Feb 2020 11:33:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=w36s0BPm77BtIMuulCGapzg9CWOiNHppbNkMRE8NHG4=;
-        b=YzTsA+wkKDG075Nf8XE9yHWoLixAPqqzahbqJuowbazDImV6P8Sup8vVB9CfAXp+0x
-         pUoWOQsm2WmPfGZq7IowHRAhQujYdKN42L7ODR4tgPTQX0YkhysbBelSB0ZCW8hMEnF8
-         S9uCXz/ezfs3XlI4wotg++3TFb7eU74rQ2Xynw7VYke/lvEE63mlH7fT1T92T4jKwd3S
-         bdiR1TPEgWKimYSmhxX664aqcF+YCAA326azj39GsuqcMoUSR9FPWB0Qr2o9QNXE2bNn
-         11nCVVDUxodz7msBDKnsNgwv47taLmUpdPgYrbPWxgQkqq6m/ITVkbWsoC3eQKR6ss2w
-         gScA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=w36s0BPm77BtIMuulCGapzg9CWOiNHppbNkMRE8NHG4=;
-        b=m+tb5bxFOAOM6Hut1CCyfIzZQwHrfkzfDsoj+rStqHN8ZYFmwsveMCe1HiCwjG5VMe
-         N/4IhRivypw1RVtYZXT+rOpLJ6dGYXqvwPvy7lZc6GscaG1vtucLwsJ+ngGqUsM/x7s2
-         Hy09iQcfws/1fbi3Dwo3yjA+rJODVc3qugwVtfaBBP1mtWcdM8kiqmyuDHwPQA7aWtjw
-         Bd9ONgb+GmiO81GUaf7mvEEoMd30jDFkpiy1ma/GMEG9qNx1JQK3Fq0QAX12bjpu4pMq
-         V5XS7qPIicT1dVABj/V1u64r3KZNnmEIMof0pdcLzQhSoZRrTWxQEWXS9vIA0Led0yx2
-         Knsw==
-X-Gm-Message-State: APjAAAW2mvRrkABUONrNznPsq2VPPtSIbg0Is1SEZvzCEnChKNFHvN2k
-        iUbwJhnsiYDoXvvtflX1Rpsc2AsdeRA=
-X-Google-Smtp-Source: APXvYqzPIJcSWUtbXBj27wM6EvP3Fgl1/B8SrsCSAhzC2XzuUDnuf6YXsTEYxE2N/CT8Kwq4ZKRP2w==
-X-Received: by 2002:aa7:d294:: with SMTP id w20mr2685781edq.134.1581363197666;
-        Mon, 10 Feb 2020 11:33:17 -0800 (PST)
-Received: from ?IPv6:2a02:168:575a:b00b:bdbc:c867:2267:5ad0? ([2a02:168:575a:b00b:bdbc:c867:2267:5ad0])
-        by smtp.googlemail.com with ESMTPSA id cf2sm84986edb.2.2020.02.10.11.33.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2020 11:33:17 -0800 (PST)
-Subject: Re: [PATCH] RFT: iio: gp2ap002: Replace LUT with math
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Linux Input <linux-input@vger.kernel.org>,
-        Jonathan Bakker <xc-racer2@live.ca>
-References: <20200208123359.396-1-linus.walleij@linaro.org>
- <74ab4b7b-eae2-0c6f-bb4a-eabbd3b4d042@gmail.com>
- <CACRpkdau3ei4OXcpucctxKqb7baHsMf8a0Q6sQ4P=gOf=bxQ5A@mail.gmail.com>
-From:   Gregor Riepl <onitake@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=onitake@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- WFSiKQ==
-Message-ID: <395b3e38-cea4-9376-1544-f1ef85abf171@gmail.com>
-Date:   Mon, 10 Feb 2020 20:33:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Mon, 10 Feb 2020 17:45:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1581374737; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ffqJXmf3Ce5NtIAL0hrW4y/tyjBbMnMNG97y0sXY1h0=;
+        b=R00tW4LSRIGmC/mUv2LsknqmgZhEwWjFvI4tEUHrC2YipACSjCQ8ZkofuzTXNESW3eass7
+        i/FtjFTSeXOf7Efqey/XExd22uZcArmam4md/BaY8sGVXCkS03gcAEVgPunKywfHm3DNIZ
+        2xRXIk67AqZw5PYyyKoN3DcOFKx2GLU=
+Date:   Mon, 10 Feb 2020 19:45:21 -0300
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 5/5] input: joystick: Add ADC attached joystick driver.
+To:     Jonathan Cameron <jic23@jic23.retrosnub.co.uk>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Artur Rojek <contact@artur-rojek.eu>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-Id: <1581374721.3.3@crapouillou.net>
+In-Reply-To: <20200202145839.437cc176@archlinux>
+References: <20200126161236.63631-1-contact@artur-rojek.eu>
+        <20200126161236.63631-5-contact@artur-rojek.eu>
+        <20200202145839.437cc176@archlinux>
 MIME-Version: 1.0
-In-Reply-To: <CACRpkdau3ei4OXcpucctxKqb7baHsMf8a0Q6sQ4P=gOf=bxQ5A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
->> Also: It looks like int_pow doesn't saturate, so even though it uses 64bit
->> integer math, it might be better to move the range check before the calculation.
-> 
-> How do you mean I should be doing that without actually
-> doing the power calculation? (Maybe a dumb question but
-> math was never my best subject.)
+Hi Jonathan, Rob,
 
-Well, if you clamp the input value to a valid range, there is no risk of
-under- or overflow:
+The DT check does succeed here, as long as patch [2/5] is applied. I=20
+believe Rob's automated test does not apply all patches and that's why=20
+it fails here, as the DTS example includes a file that is added in=20
+patch 2/5.
 
-#define GP2AP002_ADC_MIN 5
-#define GP2AP002_ADC_MAX 47
-/* ensure lux stays in a valid range
-   lux > 10^(5/10)
-   lux < 10^(47/10)
- */
-clamp(res, GP2AP002_ADC_MIN, GP2AP002_ADC_MAX);
-lux = int_pow(10, (res/10));
+-Paul
 
-However, there is another problem with this solution:
-If you divide the input value by 10 before raising it to the power of 10, you
-lose a lot of precision. Keep in mind that you're doing integer math here.
-The input range is very limited, so reducing it further will also reduce the
-number of lux steps: int((47-5)/10) = 4, so you will end up with only 4
-luminance steps.
 
-Instead of messing with the precision, I propose simplifying the original code
-to a simple table lookup.
-This will reduce constant memory usage to 42 values * 16 bit = 84 bytes and
-computational complexity to one single memory reference.
-While I'm sure there is a more optimal solution, I think it's the easiest to
-understand with the least impact on accuracy and performance:
 
-#define GP2AP002_ADC_MIN 5
-#define GP2AP002_ADC_MAX 47
+Le dim., f=E9vr. 2, 2020 at 14:58, Jonathan Cameron=20
+<jic23@jic23.retrosnub.co.uk> a =E9crit :
+> On Sun, 26 Jan 2020 17:12:36 +0100
+> Artur Rojek <contact@artur-rojek.eu> wrote:
+>=20
+>>  Add a driver for joystick devices connected to ADC controllers
+>>  supporting the Industrial I/O subsystem.
+>>=20
+>>  Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
+>>  Tested-by: Paul Cercueil <paul@crapouillou.net>
+>>  Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>=20
+> This also looks good to me.  Just that dt patch to tidy up.
+>=20
+> Thanks,
+>=20
+> Jonathan
+>=20
+>>  ---
+>>=20
+>>   Changes:
+>>=20
+>>   v2: - sanity check supported channel format on probe,
+>>       - rename adc_joystick_disable to a more sensible=20
+>> adc_joystick_cleanup,
+>>       - enforce correct axis order by checking the `reg` property of
+>>         child nodes
+>>=20
+>>   drivers/input/joystick/Kconfig        |  10 ++
+>>   drivers/input/joystick/Makefile       |   1 +
+>>   drivers/input/joystick/adc-joystick.c | 245=20
+>> ++++++++++++++++++++++++++
+>>   3 files changed, 256 insertions(+)
+>>   create mode 100644 drivers/input/joystick/adc-joystick.c
+>>=20
+>>  diff --git a/drivers/input/joystick/Kconfig=20
+>> b/drivers/input/joystick/Kconfig
+>>  index 940b744639c7..efbc20ec5099 100644
+>>  --- a/drivers/input/joystick/Kconfig
+>>  +++ b/drivers/input/joystick/Kconfig
+>>  @@ -42,6 +42,16 @@ config JOYSTICK_A3D
+>>   	  To compile this driver as a module, choose M here: the
+>>   	  module will be called a3d.
+>>=20
+>>  +config JOYSTICK_ADC
+>>  +	tristate "Simple joystick connected over ADC"
+>>  +	depends on IIO
+>>  +	select IIO_BUFFER_CB
+>>  +	help
+>>  +	  Say Y here if you have a simple joystick connected over ADC.
+>>  +
+>>  +	  To compile this driver as a module, choose M here: the
+>>  +	  module will be called adc-joystick.
+>>  +
+>>   config JOYSTICK_ADI
+>>   	tristate "Logitech ADI digital joysticks and gamepads"
+>>   	select GAMEPORT
+>>  diff --git a/drivers/input/joystick/Makefile=20
+>> b/drivers/input/joystick/Makefile
+>>  index 8656023f6ef5..58232b3057d3 100644
+>>  --- a/drivers/input/joystick/Makefile
+>>  +++ b/drivers/input/joystick/Makefile
+>>  @@ -6,6 +6,7 @@
+>>   # Each configuration option enables a list of files.
+>>=20
+>>   obj-$(CONFIG_JOYSTICK_A3D)		+=3D a3d.o
+>>  +obj-$(CONFIG_JOYSTICK_ADC)		+=3D adc-joystick.o
+>>   obj-$(CONFIG_JOYSTICK_ADI)		+=3D adi.o
+>>   obj-$(CONFIG_JOYSTICK_AMIGA)		+=3D amijoy.o
+>>   obj-$(CONFIG_JOYSTICK_AS5011)		+=3D as5011.o
+>>  diff --git a/drivers/input/joystick/adc-joystick.c=20
+>> b/drivers/input/joystick/adc-joystick.c
+>>  new file mode 100644
+>>  index 000000000000..9cb9896da26e
+>>  --- /dev/null
+>>  +++ b/drivers/input/joystick/adc-joystick.c
+>>  @@ -0,0 +1,245 @@
+>>  +// SPDX-License-Identifier: GPL-2.0
+>>  +/*
+>>  + * Input driver for joysticks connected over ADC.
+>>  + * Copyright (c) 2019-2020 Artur Rojek <contact@artur-rojek.eu>
+>>  + */
+>>  +#include <linux/ctype.h>
+>>  +#include <linux/input.h>
+>>  +#include <linux/iio/iio.h>
+>>  +#include <linux/iio/consumer.h>
+>>  +#include <linux/module.h>
+>>  +#include <linux/of.h>
+>>  +#include <linux/platform_device.h>
+>>  +#include <linux/property.h>
+>>  +
+>>  +struct adc_joystick_axis {
+>>  +	u32 code;
+>>  +	s32 range[2];
+>>  +	s32 fuzz;
+>>  +	s32 flat;
+>>  +};
+>>  +
+>>  +struct adc_joystick {
+>>  +	struct input_dev *input;
+>>  +	struct iio_cb_buffer *buffer;
+>>  +	struct adc_joystick_axis *axes;
+>>  +	struct iio_channel *chans;
+>>  +	int num_chans;
+>>  +};
+>>  +
+>>  +static int adc_joystick_handle(const void *data, void *private)
+>>  +{
+>>  +	struct adc_joystick *joy =3D private;
+>>  +	enum iio_endian endianness;
+>>  +	int bytes, msb, val, i;
+>>  +	bool sign;
+>>  +
+>>  +	bytes =3D joy->chans[0].channel->scan_type.storagebits >> 3;
+>>  +
+>>  +	for (i =3D 0; i < joy->num_chans; ++i) {
+>>  +		endianness =3D joy->chans[i].channel->scan_type.endianness;
+>>  +		msb =3D joy->chans[i].channel->scan_type.realbits - 1;
+>>  +		sign =3D (tolower(joy->chans[i].channel->scan_type.sign) =3D=3D 's')=
+;
+>>  +
+>>  +		switch (bytes) {
+>>  +		case 1:
+>>  +			val =3D ((const u8 *)data)[i];
+>>  +			break;
+>>  +		case 2:
+>>  +			val =3D ((const u16 *)data)[i];
+>>  +			if (endianness =3D=3D IIO_BE)
+>>  +				val =3D be16_to_cpu(val);
+>>  +			else if (endianness =3D=3D IIO_LE)
+>>  +				val =3D le16_to_cpu(val);
+>>  +			break;
+>>  +		default:
+>>  +			return -EINVAL;
+>>  +		}
+>>  +
+>>  +		val >>=3D joy->chans[i].channel->scan_type.shift;
+>>  +		if (sign)
+>>  +			val =3D sign_extend32(val, msb);
+>>  +		else
+>>  +			val &=3D GENMASK(msb, 0);
+>>  +		input_report_abs(joy->input, joy->axes[i].code, val);
+>>  +	}
+>>  +
+>>  +	input_sync(joy->input);
+>>  +
+>>  +	return 0;
+>>  +}
+>>  +
+>>  +static int adc_joystick_open(struct input_dev *dev)
+>>  +{
+>>  +	struct adc_joystick *joy =3D input_get_drvdata(dev);
+>>  +	int ret;
+>>  +
+>>  +	ret =3D iio_channel_start_all_cb(joy->buffer);
+>>  +	if (ret)
+>>  +		dev_err(dev->dev.parent, "Unable to start callback buffer");
+>>  +
+>>  +	return ret;
+>>  +}
+>>  +
+>>  +static void adc_joystick_close(struct input_dev *dev)
+>>  +{
+>>  +	struct adc_joystick *joy =3D input_get_drvdata(dev);
+>>  +
+>>  +	iio_channel_stop_all_cb(joy->buffer);
+>>  +}
+>>  +
+>>  +static void adc_joystick_cleanup(void *data)
+>>  +{
+>>  +	iio_channel_release_all_cb(data);
+>>  +}
+>>  +
+>>  +static int adc_joystick_set_axes(struct device *dev, struct=20
+>> adc_joystick *joy)
+>>  +{
+>>  +	struct adc_joystick_axis *axes;
+>>  +	struct fwnode_handle *child;
+>>  +	int num_axes, ret, i;
+>>  +
+>>  +	num_axes =3D device_get_child_node_count(dev);
+>>  +	if (!num_axes) {
+>>  +		dev_err(dev, "Unable to find child nodes");
+>>  +		return -EINVAL;
+>>  +	}
+>>  +
+>>  +	if (num_axes !=3D joy->num_chans) {
+>>  +		dev_err(dev, "Got %d child nodes for %d channels",
+>>  +			num_axes, joy->num_chans);
+>>  +		return -EINVAL;
+>>  +	}
+>>  +
+>>  +	axes =3D devm_kmalloc_array(dev, num_axes, sizeof(*axes),=20
+>> GFP_KERNEL);
+>>  +	if (!axes)
+>>  +		return -ENOMEM;
+>>  +
+>>  +	device_for_each_child_node(dev, child) {
+>>  +		ret =3D fwnode_property_read_u32(child, "reg", &i);
+>>  +		if (ret || i >=3D num_axes) {
+>>  +			dev_err(dev, "reg invalid or missing");
+>>  +			goto err;
+>>  +		}
+>>  +
+>>  +		if (fwnode_property_read_u32(child, "linux,code",
+>>  +					     &axes[i].code)) {
+>>  +			dev_err(dev, "linux,code invalid or missing");
+>>  +			goto err;
+>>  +		}
+>>  +
+>>  +		if (fwnode_property_read_u32_array(child, "abs-range",
+>>  +						   axes[i].range, 2)) {
+>>  +			dev_err(dev, "abs-range invalid or missing");
+>>  +			goto err;
+>>  +		}
+>>  +
+>>  +		fwnode_property_read_u32(child, "abs-fuzz",
+>>  +					 &axes[i].fuzz);
+>>  +		fwnode_property_read_u32(child, "abs-flat",
+>>  +					 &axes[i].flat);
+>>  +
+>>  +		input_set_abs_params(joy->input, axes[i].code,
+>>  +				     axes[i].range[0], axes[i].range[1],
+>>  +				     axes[i].fuzz,
+>>  +				     axes[i].flat);
+>>  +		input_set_capability(joy->input, EV_ABS, axes[i].code);
+>>  +	}
+>>  +
+>>  +	joy->axes =3D axes;
+>>  +
+>>  +	return 0;
+>>  +
+>>  +err:
+>>  +	fwnode_handle_put(child);
+>>  +	return -EINVAL;
+>>  +}
+>>  +
+>>  +static int adc_joystick_probe(struct platform_device *pdev)
+>>  +{
+>>  +	struct device *dev =3D &pdev->dev;
+>>  +	struct adc_joystick *joy;
+>>  +	struct input_dev *input;
+>>  +	int bits, ret, i;
+>>  +
+>>  +	joy =3D devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
+>>  +	if (!joy)
+>>  +		return -ENOMEM;
+>>  +
+>>  +	joy->chans =3D devm_iio_channel_get_all(dev);
+>>  +	if (IS_ERR(joy->chans)) {
+>>  +		ret =3D PTR_ERR(joy->chans);
+>>  +		if (ret !=3D -EPROBE_DEFER)
+>>  +			dev_err(dev, "Unable to get IIO channels");
+>>  +		return ret;
+>>  +	}
+>>  +
+>>  +	/* Count how many channels we got. NULL terminated. */
+>>  +	while (joy->chans[joy->num_chans].indio_dev)
+>>  +		joy->num_chans++;
+>>  +
+>>  +	bits =3D joy->chans[0].channel->scan_type.storagebits;
+>>  +	if (!bits || (bits >> 3) > 2) {
+>>  +		dev_err(dev, "Unsupported channel storage size");
+>>  +		return -EINVAL;
+>>  +	}
+>>  +	for (i =3D 1; i < joy->num_chans; ++i)
+>>  +		if (joy->chans[i].channel->scan_type.storagebits !=3D bits) {
+>>  +			dev_err(dev, "Channels must have equal storage size");
+>>  +			return -EINVAL;
+>>  +		}
+>>  +
+>>  +	input =3D devm_input_allocate_device(dev);
+>>  +	if (!input) {
+>>  +		dev_err(dev, "Unable to allocate input device");
+>>  +		return -ENOMEM;
+>>  +	}
+>>  +
+>>  +	joy->input =3D input;
+>>  +	input->name =3D pdev->name;
+>>  +	input->id.bustype =3D BUS_HOST;
+>>  +	input->open =3D adc_joystick_open;
+>>  +	input->close =3D adc_joystick_close;
+>>  +
+>>  +	ret =3D adc_joystick_set_axes(dev, joy);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	input_set_drvdata(input, joy);
+>>  +	ret =3D input_register_device(input);
+>>  +	if (ret) {
+>>  +		dev_err(dev, "Unable to register input device: %d", ret);
+>>  +		return ret;
+>>  +	}
+>>  +
+>>  +	joy->buffer =3D iio_channel_get_all_cb(dev, adc_joystick_handle,=20
+>> joy);
+>>  +	if (IS_ERR(joy->buffer)) {
+>>  +		dev_err(dev, "Unable to allocate callback buffer");
+>>  +		return PTR_ERR(joy->buffer);
+>>  +	}
+>>  +
+>>  +	ret =3D devm_add_action_or_reset(dev, adc_joystick_cleanup,=20
+>> joy->buffer);
+>>  +	if (ret)
+>>  +		dev_err(dev, "Unable to add action");
+>>  +
+>>  +	return ret;
+>>  +}
+>>  +
+>>  +static const struct of_device_id adc_joystick_of_match[] =3D {
+>>  +	{ .compatible =3D "adc-joystick", },
+>>  +	{ },
+>>  +};
+>>  +MODULE_DEVICE_TABLE(of, adc_joystick_of_match);
+>>  +
+>>  +static struct platform_driver adc_joystick_driver =3D {
+>>  +	.driver =3D {
+>>  +		.name =3D "adc-joystick",
+>>  +		.of_match_table =3D of_match_ptr(adc_joystick_of_match),
+>>  +	},
+>>  +	.probe =3D adc_joystick_probe,
+>>  +};
+>>  +module_platform_driver(adc_joystick_driver);
+>>  +
+>>  +MODULE_DESCRIPTION("Input driver for joysticks connected over=20
+>> ADC");
+>>  +MODULE_AUTHOR("Artur Rojek <contact@artur-rojek.eu>");
+>>  +MODULE_LICENSE("GPL");
+>=20
 
-/*
- * This array maps current and lux.
- *
- * Ambient light sensing range is 3 to 55000 lux.
- *
- * This mapping is based on the following formula.
- * illuminance = 10 ^ (current[mA] / 10)
- */
-static const u16 gp2ap002_illuminance_table[] = {
-	3, 4, 5, 6, 8, 10, 12, 16, 20, 25, 32, 40, 50, 63, 79, 100, 126, 158,
-	200, 251, 316, 398, 501, 631, 794, 1000, 1259, 1585, 1995, 2512, 3162,
-	3981, 5012, 6310, 7943, 10000, 12589, 15849, 19953, 25119, 31623,
-	39811, 50119,
-};
+=
 
-static int gp2ap002_get_lux(struct gp2ap002 *gp2ap002)
-{
-	const struct gp2ap002_illuminance *ill1;
-	const struct gp2ap002_illuminance *ill2;
-	int ret, res;
-	u16 lux;
-
-	ret = iio_read_channel_processed(gp2ap002->alsout, &res);
-	if (ret < 0)
-		return ret;
-
-	dev_dbg(gp2ap002->dev, "read %d mA from ADC\n", res);
-
-	/* ensure we're staying inside the boundaries of the lookup table */
-	clamp(res, GP2AP002_ADC_MIN, GP2AP002_ADC_MAX);
-	lux = gp2ap002_illuminance_table[res - GP2AP002_ADC_MIN];
-
-	return (int)lux;
-}
