@@ -2,262 +2,181 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DAA7D1585C2
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2020 23:53:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3923515861E
+	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2020 00:20:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727433AbgBJWxV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Feb 2020 17:53:21 -0500
-Received: from mail-dm6nam12olkn2084.outbound.protection.outlook.com ([40.92.22.84]:5171
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        id S1727452AbgBJXUD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Feb 2020 18:20:03 -0500
+Received: from mail-oln040092005029.outbound.protection.outlook.com ([40.92.5.29]:41125
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727116AbgBJWxV (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Feb 2020 17:53:21 -0500
+        id S1727422AbgBJXUD (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 10 Feb 2020 18:20:03 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qr4uTGXbblTAjpDa462XmE/6r6hiI8O33+pLUVf6VFgJ+uiikuR8Ru0qUXyFbolzsjaEJZ7qCtUVCLV4MNRkQ2oz9wQnRlsp6VAY2dNHPZUXXKqMzpqgEt2oEl4rNv45Az50ebDRxS7Rpyno4gmbRue0b/2ATUiQMwhBMDz7QvBfxXHciQNLbclpm1dqstLxfwncB8UHFTFoBXtlXvF+DeRV3UXa5c6ojnl4oGfboVCeaHaCbpe2Hb1Uucr8TBZCFojdESYi5PM5Wq4BOmBjCIiQVbLyWYfJAbUbHb9aEfYUzPgn2lamGO3FPqJRGZAMqxBSOhjQRbzzwFBu78uC0Q==
+ b=fVHTvCIVPC0tc8KXvk7CSpEFcXT9mZP3KMPehaD2xUbF2CU+JQxcTNBEUyIkoIOC+xAX+1jQvp7i2LpUOScBOJH4qWi5f0ElJ2oh5dItOhmrdPEopWKAZWoSn2IBzfLSS95GVYHeMdlpJN2COVJK4R1P8NL2uZVJwpucw9EX25jYPNu4LwLkYHz+iyeL9ukQ4IUq5Azi4A51oiqjsJEEuVvtPgl8eVlmQsYWxRs8iITu73FZg0wUz3QoGjsC23oqWue39ttS47Vyqmn2QxdR9BLEfNEl6Ir2ClvMuu912ry9lQWBbe6JTjEEWhP7crEATUwj9e6tlg0sWZ9k+HlaNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xvol4RmJ6Rd94M//HxyRihI+XD20/55NnmFIHnpHkOs=;
- b=HYa6a8EGlQaDIfhl/gzuRZfgL5TPS5Gwdyzvno4CjHnPeLcTkYEro0JdDw/EZOBLm+I11FOxFZkoElqv8jdWpqjDR2cO7TiMglxMc5OGRn3d/QEbIY5hp/U5EQIpBlW+2FCXa0bdIRi4Che3p7B8QMsSaMKANgki+Ca+LF7ZuuFcbJReLJ/sGCBv+ioqoLaImFHyU6JazJSNDR9GaONvFcxgczd1etoWuscI5ZVRnFRvEhdsSfsc3NXH9MRuUBILkPgrau/Q751kmEILGw64AHcDcG1nxU5+4M48KwcJCGKk1X30cNED+Io4gIcN/n/lQW5CEvf4mm66XFUtjf3oHA==
+ bh=sy2cphUvIDM0nwmBw4Fd2L56B0G/xLD1NLMrYwqZVqw=;
+ b=Ubqml/uQlHxs9d3+IFyYcnXJuDm8etXpikiuymPdPSaeAhr7mtz2tkd3C2RRRZH+fZUETUSRC4bNtlcJYeZ0n2q/A/xXx5CzFQ8LJc4jx2yjrPYiC0bV+PNpiLY5t4j0BkuhOAzLgOhkq1iFvtlBXqtuwid9IelPtJ3sIEqQxDahvLWmi498ZsqH/2M+x8JYlMv4oqbAXT6r+cpT8KJNqF4ugOUyiL+VyibZrrqw+dGRlUKMtM27YLEqKL2LNBnQbMpnlao7qthZa8Xz5bRN2MGuDcwBS57GofmMS1LkjUGjs7cAHwAtG8sWZYMPsQtv3rj/pox2Z0/lNJ9Hfpve4g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=live.ca; dmarc=pass action=none header.from=live.ca; dkim=pass
  header.d=live.ca; arc=none
-Received: from BN8NAM12FT013.eop-nam12.prod.protection.outlook.com
- (2a01:111:e400:fc66::37) by
- BN8NAM12HT019.eop-nam12.prod.protection.outlook.com (2a01:111:e400:fc66::387)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.10; Mon, 10 Feb
- 2020 22:53:17 +0000
-Received: from BYAPR10MB3479.namprd10.prod.outlook.com (10.13.182.55) by
- BN8NAM12FT013.mail.protection.outlook.com (10.13.182.227) with Microsoft SMTP
+Received: from CY1NAM02FT030.eop-nam02.prod.protection.outlook.com
+ (10.152.74.54) by CY1NAM02HT034.eop-nam02.prod.protection.outlook.com
+ (10.152.74.115) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.21; Mon, 10 Feb
+ 2020 23:20:00 +0000
+Received: from BYAPR10MB3479.namprd10.prod.outlook.com (10.152.74.60) by
+ CY1NAM02FT030.mail.protection.outlook.com (10.152.75.163) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2729.10 via Frontend Transport; Mon, 10 Feb 2020 22:53:17 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:3E50AC6ECAFB7DB039BE6AEE108B2F62DCAC7E165E11EB198F42FBC05EEEC0C6;UpperCasedChecksum:7F56E281B9D995169C7217B5FF86F0E97400ABE102B705F6612CBF0592167F92;SizeAsReceived:9047;Count:49
+ 15.20.2707.21 via Frontend Transport; Mon, 10 Feb 2020 23:20:00 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:9A7A3E6CD93C0012FA84CF5B9ADBC3AFECB588A3FAD51516FFD7EBB3083DFB58;UpperCasedChecksum:8B17EDBD233844C44B0366EB8030BB3818BF340ABC2B89EC3A1B0A64BE32870F;SizeAsReceived:9295;Count:49
 Received: from BYAPR10MB3479.namprd10.prod.outlook.com
  ([fe80::609c:d845:cbb0:ce16]) by BYAPR10MB3479.namprd10.prod.outlook.com
  ([fe80::609c:d845:cbb0:ce16%7]) with mapi id 15.20.2707.028; Mon, 10 Feb 2020
- 22:53:17 +0000
+ 23:19:59 +0000
 Subject: Re: [PATCH] RFT: iio: gp2ap002: Replace LUT with math
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org
-Cc:     Hartmut Knaack <knaack.h@gmx.de>,
+To:     Gregor Riepl <onitake@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
         Lars-Peter Clausen <lars@metafoo.de>,
         Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-input@vger.kernel.org
+        Linux Input <linux-input@vger.kernel.org>
 References: <20200208123359.396-1-linus.walleij@linaro.org>
+ <74ab4b7b-eae2-0c6f-bb4a-eabbd3b4d042@gmail.com>
+ <CACRpkdau3ei4OXcpucctxKqb7baHsMf8a0Q6sQ4P=gOf=bxQ5A@mail.gmail.com>
+ <395b3e38-cea4-9376-1544-f1ef85abf171@gmail.com>
 From:   Jonathan Bakker <xc-racer2@live.ca>
-Message-ID: <BYAPR10MB3479CA8AAFC7CA02A5827B01A3190@BYAPR10MB3479.namprd10.prod.outlook.com>
-Date:   Mon, 10 Feb 2020 14:53:13 -0800
+Message-ID: <BYAPR10MB34797AABF2536F03BC3B4065A3190@BYAPR10MB3479.namprd10.prod.outlook.com>
+Date:   Mon, 10 Feb 2020 15:19:56 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
-In-Reply-To: <20200208123359.396-1-linus.walleij@linaro.org>
+In-Reply-To: <395b3e38-cea4-9376-1544-f1ef85abf171@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MWHPR22CA0022.namprd22.prod.outlook.com
- (2603:10b6:300:ef::32) To BYAPR10MB3479.namprd10.prod.outlook.com
+X-ClientProxiedBy: MWHPR13CA0016.namprd13.prod.outlook.com
+ (2603:10b6:300:16::26) To BYAPR10MB3479.namprd10.prod.outlook.com
  (2603:10b6:a03:11a::16)
-X-Microsoft-Original-Message-ID: <8196ec96-1999-ded8-005a-1f37ca38a702@live.ca>
+X-Microsoft-Original-Message-ID: <3132a8d5-f2b6-07aa-26cb-77a41893a84c@live.ca>
 MIME-Version: 1.0
-Received: from [IPv6:2001:569:fb67:7300:9f89:4b96:de0b:cd14] (2001:569:fb67:7300:9f89:4b96:de0b:cd14) by MWHPR22CA0022.namprd22.prod.outlook.com (2603:10b6:300:ef::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.21 via Frontend Transport; Mon, 10 Feb 2020 22:53:15 +0000
-X-Microsoft-Original-Message-ID: <8196ec96-1999-ded8-005a-1f37ca38a702@live.ca>
-X-TMN:  [lXslJ8Fa6v9eiq3KGAwiPIrFTBltzXquQ0+aseneyoEjpCLwcLvPe4KOBEnzQ0Z2]
+Received: from [IPv6:2001:569:fb67:7300:9f89:4b96:de0b:cd14] (2001:569:fb67:7300:9f89:4b96:de0b:cd14) by MWHPR13CA0016.namprd13.prod.outlook.com (2603:10b6:300:16::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.14 via Frontend Transport; Mon, 10 Feb 2020 23:19:59 +0000
+X-Microsoft-Original-Message-ID: <3132a8d5-f2b6-07aa-26cb-77a41893a84c@live.ca>
+X-TMN:  [3I8V3vXHrZjyYMG37qEE5KI5rg8VRtpwHCW1lj+ElTvBxh2d4Uy7q0MeZYLGraoT]
 X-MS-PublicTrafficType: Email
 X-IncomingHeaderCount: 49
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 189afcb6-0c92-4d16-bed4-08d7ae7c0399
-X-MS-TrafficTypeDiagnostic: BN8NAM12HT019:
+X-MS-Office365-Filtering-Correlation-Id: 6b4e40c7-37de-4634-6dfb-08d7ae7fbfa8
+X-MS-TrafficTypeDiagnostic: CY1NAM02HT034:
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: StE9o6bPwKIotRFWjqo76TVeRQL5ifZWJkwHGFfI2TyC5AnEmcf+NvACScJcnL3secADH69NlbKNAYAchfUAymKglw5VTQcOhzxDs1bL9HdrBndDQRpA/sHPh8Pys7Ak5MtJ3Hf1gfbrPWZ+kP1MVk3igBWpoDvndKCqdb59GtNeS6TagaZJjmYEcTrTj5fG
-X-MS-Exchange-AntiSpam-MessageData: R2AFwWwVU8o+bSOiBVV3Ne1iBA8WbHnm60AH/7W3XilQ5683qPLOZ9PFBD67qEPCwYBWrN0+0Nit3plxoGyZ0eIr+Q1TsjRKR6ZM+nLoXqb/zcA5OjSHHTpU70FYb4oGdsh9NLoq8eWm08IM7xyh31B4y4beb/bwaZXI9hSiiqcMXPKzfQSwCAUXv2X2HP4laqiISu+wE/9pK4Thvz95wQ==
+X-Microsoft-Antispam-Message-Info: emp8yhV0zXnOFfFABSoTg1I7iu8zxI0aCRotomJNvz6mVf2ztbfqq9YvlNUdxkg44ct3i2ZhMTSFnYLAzmyDuTv2Pj1px7Ly9zLZQhY6ue6KfFZ0fJW/EzV94l0yS1vUw9Jqw5Jldjyya2zmy6WJibZhp0pgqeLC14E4VQHSeDXWCsvMyy7GAFFfGdd1OTOIOJOCCu0Dcy1WTMF3zMnXmyhqG2u9thft6qWqDsVf1Dk=
+X-MS-Exchange-AntiSpam-MessageData: 450hozFQPRe99v0ff5ccW9ZyU9UonF48SybBSPCzbNxKHICLTr1R07U9liG0Rvfa1I/VwQKll2vsSrRIARdyv1wDsYFqoXIt2m8jFx1XZj7rv/Y2XC4QNsJqp7Y/ZJ0pVI3TzQJDzpggw5AioyUg4ee3cdXA9qNyMS/+PZDvvKFYOMExY8U9PApS9czhxl+IA/zLSF/yTOInowqCFw9TTg==
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 189afcb6-0c92-4d16-bed4-08d7ae7c0399
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2020 22:53:17.6677
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b4e40c7-37de-4634-6dfb-08d7ae7fbfa8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2020 23:19:59.9038
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8NAM12HT019
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1NAM02HT034
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+Just an FYI - the ADC_MIN should probably be 0 for full darkness,
+but I understand the concept and like it :)
 
-After implementing a small shim from the voltage ADC on my device, I was able to test this.
-Please see my inline comments.
+I believe the light sensor part to be a Sharp GA1A light detector or similar,
+based on the fact that DigiKey had a page (1) that
+mentions both together and that the specs for the GA1A1S202WP (2) line up quite well with
+those of the GP2AP002.  Note that the datasheet for the GA1A1S202WP even mentions the
+illuminance = 10 ^ (current / 10) formula, re-arranged as
+current = 10 * log(illuminance), although it specifies uA as opposed to mA which is the same
+as the Android libsensors (both the Nexus S (crespo) (3) and Galaxy Nexus (tuna) (4)) versions.
+I suspect that this should be adjusted after the call to iio_read_channel_processed().
 
-On 2020-02-08 4:33 a.m., Linus Walleij wrote:
-> This replaces the current-to-lux look up table with some
-> integer math using int_pow() from <linux/kernel.h>.
-> Drop the unused <linux/math64.h> in the process.
-> 
-> Cc: Jonathan Bakker <xc-racer2@live.ca>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> I would appreciate testing that this give the right
-> result. Using math does look a lot better.
-> ---
->  drivers/iio/light/gp2ap002.c | 94 +++---------------------------------
->  1 file changed, 7 insertions(+), 87 deletions(-)
-> 
-> diff --git a/drivers/iio/light/gp2ap002.c b/drivers/iio/light/gp2ap002.c
-> index 433907619268..153ae0a163ab 100644
-> --- a/drivers/iio/light/gp2ap002.c
-> +++ b/drivers/iio/light/gp2ap002.c
-> @@ -33,7 +33,6 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/interrupt.h>
->  #include <linux/bits.h>
-> -#include <linux/math64.h>
->  #include <linux/pm.h>
->  
->  #define GP2AP002_PROX_CHANNEL 0
-> @@ -205,71 +204,10 @@ static irqreturn_t gp2ap002_prox_irq(int irq, void *d)
->  	return IRQ_HANDLED;
->  }
->  
-> -struct gp2ap002_illuminance {
-> -	unsigned int curr;
-> -	unsigned int lux;
-> -};
-> -
-> -/*
-> - * This array maps current and lux.
-> - *
-> - * Ambient light sensing range is 3 to 55000 lux.
-> - *
-> - * This mapping is based on the following formula.
-> - * illuminance = 10 ^ (current / 10)
-> - */
-> -static const struct gp2ap002_illuminance gp2ap002_illuminance_table[] = {
-> -	{ .curr		= 5, .lux	= 3 },
-> -	{ .curr		= 6, .lux	= 4 },
-> -	{ .curr		= 7, .lux	= 5 },
-> -	{ .curr		= 8, .lux	= 6 },
-> -	{ .curr		= 9, .lux	= 8 },
-> -	{ .curr		= 10, .lux	= 10 },
-> -	{ .curr		= 11, .lux	= 12 },
-> -	{ .curr		= 12, .lux	= 16 },
-> -	{ .curr		= 13, .lux	= 20 },
-> -	{ .curr		= 14, .lux	= 25 },
-> -	{ .curr		= 15, .lux	= 32 },
-> -	{ .curr		= 16, .lux	= 40 },
-> -	{ .curr		= 17, .lux	= 50 },
-> -	{ .curr		= 18, .lux	= 63 },
-> -	{ .curr		= 19, .lux	= 79 },
-> -	{ .curr		= 20, .lux	= 100 },
-> -	{ .curr		= 21, .lux	= 126 },
-> -	{ .curr		= 22, .lux	= 158 },
-> -	{ .curr		= 23, .lux	= 200 },
-> -	{ .curr		= 24, .lux	= 251 },
-> -	{ .curr		= 25, .lux	= 316 },
-> -	{ .curr		= 26, .lux	= 398 },
-> -	{ .curr		= 27, .lux	= 501 },
-> -	{ .curr		= 28, .lux	= 631 },
-> -	{ .curr		= 29, .lux	= 794 },
-> -	{ .curr		= 30, .lux	= 1000 },
-> -	{ .curr		= 31, .lux	= 1259 },
-> -	{ .curr		= 32, .lux	= 1585 },
-> -	{ .curr		= 33, .lux	= 1995 },
-> -	{ .curr		= 34, .lux	= 2512 },
-> -	{ .curr		= 35, .lux	= 3162 },
-> -	{ .curr		= 36, .lux	= 3981 },
-> -	{ .curr		= 37, .lux	= 5012 },
-> -	{ .curr		= 38, .lux	= 6310 },
-> -	{ .curr		= 39, .lux	= 7943 },
-> -	{ .curr		= 40, .lux	= 10000 },
-> -	{ .curr		= 41, .lux	= 12589 },
-> -	{ .curr		= 42, .lux	= 15849 },
-> -	{ .curr		= 43, .lux	= 19953 },
-> -	{ .curr		= 44, .lux	= 25119 },
-> -	{ .curr		= 45, .lux	= 31623 },
-> -	{ .curr		= 46, .lux	= 39811 },
-> -	{ .curr		= 47, .lux	= 50119 },
-> -};
-> -
->  static int gp2ap002_get_lux(struct gp2ap002 *gp2ap002)
->  {
-> -	const struct gp2ap002_illuminance *ill1;
-> -	const struct gp2ap002_illuminance *ill2;
->  	int ret, res;
-> -	int i;
-> +	u64 lux;
->  
->  	ret = iio_read_channel_processed(gp2ap002->alsout, &res);
->  	if (ret < 0)
-> @@ -277,31 +215,13 @@ static int gp2ap002_get_lux(struct gp2ap002 *gp2ap002)
->  
->  	dev_dbg(gp2ap002->dev, "read %d mA from ADC\n", res);
->  
-> -	ill1 = &gp2ap002_illuminance_table[0];
-> -	if (res < ill1->curr) {
-> -		dev_dbg(gp2ap002->dev, "total darkness\n");
-> -		return 0;
-> -	}
-> -	for (i = 0; i < ARRAY_SIZE(gp2ap002_illuminance_table) - 1; i++) {
-> -		ill1 = &gp2ap002_illuminance_table[i];
-> -		ill2 = &gp2ap002_illuminance_table[i + 1];
-> -
-> -		if (res > ill2->curr)
-> -			continue;
-> -		if ((res <= ill1->curr) && (res >= ill2->curr))
-> -			break;
-> +	lux = int_pow(10, (res/10));
-
-Unfortunately, this doesn't seem to work.  Since it's integer math, it means we
-only have an output of 100, 1000, or 10000 depending on the reading.  A LUT is
-probably a much better solution.
-
-> +	if (lux > INT_MAX) {
-> +		dev_err(gp2ap002->dev, "lux overflow, capped\n");
-> +		lux = INT_MAX;
->  	}
-> -	if (res > ill2->curr) {
-> -		dev_info_once(gp2ap002->dev, "max current overflow\n");
-> -		return ill2->curr;
-> -	}
-> -	/* Interpolate and return */
-> -	dev_dbg(gp2ap002->dev, "interpolate index %d and %d\n", i, i + 1);
-> -	/* How many steps along the curve */
-> -	i = res - ill1->curr; /* x - x0 */
-> -	/* Linear interpolation */
-> -	return ill1->lux + i *
-> -		((ill2->lux - ill1->lux) / (ill2->curr - ill1->curr));
-
-However, this also apparently didn't really work either as I was having what appeared to be
-overflow errors (ie when a raw ADC value of 37, this calculation pulls out -52961).
-
-Here's a few entries after add a debug print right after the gp2ap002_get_lux() call in
-gp2ap002_read_raw():
-
-gp2ap002 11-0044: read 33 mA from ADC
-iio iio:device4: read value of -94193
-gp2ap002 11-0044: read 37 mA from ADC
-iio iio:device4: read value of -52961
-gp2ap002 11-0044: read 39 mA from ADC
-iio iio:device4: read value of -32345
-gp2ap002 11-0044: read 42 mA from ADC
-iio iio:device4: read value of -1421
-gp2ap002 11-0044: read 39 mA from ADC
-iio iio:device4: read value of -32345
-gp2ap002 11-0044: read 29 mA from ADC
-iio iio:device4: read value of -135425
-gp2ap002 11-0044: read 48 mA from ADC
-gp2ap002 11-0044: max current overflow
-iio iio:device4: read value of 47
-gp2ap002 11-0044: read 33 mA from ADC
-
-My apologies for not catching this first time around.
-
-> +
-> +	return (int)lux;
->  }
->  
->  static int gp2ap002_read_raw(struct iio_dev *indio_dev,
-> 
+1. https://web.archive.org/web/20130303022051/http://www.digikey.com/catalog/en/partgroup/ga1a-and-gp2a/26402
+2. https://web.archive.org/web/20121221163708/http://www.sharpsma.com/download/GA1A1S202WP-Specpdf
+3. https://android.googlesource.com/device/samsung/crespo/+/refs/heads/jb-release/libsensors/LightSensor.cpp
+4. https://android.googlesource.com/device/samsung/tuna/+/refs/tags/android-4.3_r3/libsensors/LightSensor.cpp
 
 Thanks,
-Jonathan Bakker
+Jonathan
+
+On 2020-02-10 11:33 a.m., Gregor Riepl wrote:
+>>> Also: It looks like int_pow doesn't saturate, so even though it uses 64bit
+>>> integer math, it might be better to move the range check before the calculation.
+>>
+>> How do you mean I should be doing that without actually
+>> doing the power calculation? (Maybe a dumb question but
+>> math was never my best subject.)
+> 
+> Well, if you clamp the input value to a valid range, there is no risk of
+> under- or overflow:
+> 
+> #define GP2AP002_ADC_MIN 5
+> #define GP2AP002_ADC_MAX 47
+> /* ensure lux stays in a valid range
+>    lux > 10^(5/10)
+>    lux < 10^(47/10)
+>  */
+> clamp(res, GP2AP002_ADC_MIN, GP2AP002_ADC_MAX);
+> lux = int_pow(10, (res/10));
+> 
+> However, there is another problem with this solution:
+> If you divide the input value by 10 before raising it to the power of 10, you
+> lose a lot of precision. Keep in mind that you're doing integer math here.
+> The input range is very limited, so reducing it further will also reduce the
+> number of lux steps: int((47-5)/10) = 4, so you will end up with only 4
+> luminance steps.
+> 
+> Instead of messing with the precision, I propose simplifying the original code
+> to a simple table lookup.
+> This will reduce constant memory usage to 42 values * 16 bit = 84 bytes and
+> computational complexity to one single memory reference.
+> While I'm sure there is a more optimal solution, I think it's the easiest to
+> understand with the least impact on accuracy and performance:
+> 
+> #define GP2AP002_ADC_MIN 5
+> #define GP2AP002_ADC_MAX 47
+> 
+> /*
+>  * This array maps current and lux.
+>  *
+>  * Ambient light sensing range is 3 to 55000 lux.
+>  *
+>  * This mapping is based on the following formula.
+>  * illuminance = 10 ^ (current[mA] / 10)
+>  */
+> static const u16 gp2ap002_illuminance_table[] = {
+> 	3, 4, 5, 6, 8, 10, 12, 16, 20, 25, 32, 40, 50, 63, 79, 100, 126, 158,
+> 	200, 251, 316, 398, 501, 631, 794, 1000, 1259, 1585, 1995, 2512, 3162,
+> 	3981, 5012, 6310, 7943, 10000, 12589, 15849, 19953, 25119, 31623,
+> 	39811, 50119,
+> };
+> 
+> static int gp2ap002_get_lux(struct gp2ap002 *gp2ap002)
+> {
+> 	const struct gp2ap002_illuminance *ill1;
+> 	const struct gp2ap002_illuminance *ill2;
+> 	int ret, res;
+> 	u16 lux;
+> 
+> 	ret = iio_read_channel_processed(gp2ap002->alsout, &res);
+> 	if (ret < 0)
+> 		return ret;
+> 
+> 	dev_dbg(gp2ap002->dev, "read %d mA from ADC\n", res);
+> 
+> 	/* ensure we're staying inside the boundaries of the lookup table */
+> 	clamp(res, GP2AP002_ADC_MIN, GP2AP002_ADC_MAX);
+> 	lux = gp2ap002_illuminance_table[res - GP2AP002_ADC_MIN];
+> 
+> 	return (int)lux;
+> }
+> 
