@@ -2,181 +2,230 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3923515861E
-	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2020 00:20:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92C211587CB
+	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2020 02:16:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727452AbgBJXUD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Feb 2020 18:20:03 -0500
-Received: from mail-oln040092005029.outbound.protection.outlook.com ([40.92.5.29]:41125
-        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727422AbgBJXUD (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Feb 2020 18:20:03 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fVHTvCIVPC0tc8KXvk7CSpEFcXT9mZP3KMPehaD2xUbF2CU+JQxcTNBEUyIkoIOC+xAX+1jQvp7i2LpUOScBOJH4qWi5f0ElJ2oh5dItOhmrdPEopWKAZWoSn2IBzfLSS95GVYHeMdlpJN2COVJK4R1P8NL2uZVJwpucw9EX25jYPNu4LwLkYHz+iyeL9ukQ4IUq5Azi4A51oiqjsJEEuVvtPgl8eVlmQsYWxRs8iITu73FZg0wUz3QoGjsC23oqWue39ttS47Vyqmn2QxdR9BLEfNEl6Ir2ClvMuu912ry9lQWBbe6JTjEEWhP7crEATUwj9e6tlg0sWZ9k+HlaNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sy2cphUvIDM0nwmBw4Fd2L56B0G/xLD1NLMrYwqZVqw=;
- b=Ubqml/uQlHxs9d3+IFyYcnXJuDm8etXpikiuymPdPSaeAhr7mtz2tkd3C2RRRZH+fZUETUSRC4bNtlcJYeZ0n2q/A/xXx5CzFQ8LJc4jx2yjrPYiC0bV+PNpiLY5t4j0BkuhOAzLgOhkq1iFvtlBXqtuwid9IelPtJ3sIEqQxDahvLWmi498ZsqH/2M+x8JYlMv4oqbAXT6r+cpT8KJNqF4ugOUyiL+VyibZrrqw+dGRlUKMtM27YLEqKL2LNBnQbMpnlao7qthZa8Xz5bRN2MGuDcwBS57GofmMS1LkjUGjs7cAHwAtG8sWZYMPsQtv3rj/pox2Z0/lNJ9Hfpve4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=live.ca; dmarc=pass action=none header.from=live.ca; dkim=pass
- header.d=live.ca; arc=none
-Received: from CY1NAM02FT030.eop-nam02.prod.protection.outlook.com
- (10.152.74.54) by CY1NAM02HT034.eop-nam02.prod.protection.outlook.com
- (10.152.74.115) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.21; Mon, 10 Feb
- 2020 23:20:00 +0000
-Received: from BYAPR10MB3479.namprd10.prod.outlook.com (10.152.74.60) by
- CY1NAM02FT030.mail.protection.outlook.com (10.152.75.163) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.21 via Frontend Transport; Mon, 10 Feb 2020 23:20:00 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:9A7A3E6CD93C0012FA84CF5B9ADBC3AFECB588A3FAD51516FFD7EBB3083DFB58;UpperCasedChecksum:8B17EDBD233844C44B0366EB8030BB3818BF340ABC2B89EC3A1B0A64BE32870F;SizeAsReceived:9295;Count:49
-Received: from BYAPR10MB3479.namprd10.prod.outlook.com
- ([fe80::609c:d845:cbb0:ce16]) by BYAPR10MB3479.namprd10.prod.outlook.com
- ([fe80::609c:d845:cbb0:ce16%7]) with mapi id 15.20.2707.028; Mon, 10 Feb 2020
- 23:19:59 +0000
-Subject: Re: [PATCH] RFT: iio: gp2ap002: Replace LUT with math
-To:     Gregor Riepl <onitake@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Linux Input <linux-input@vger.kernel.org>
-References: <20200208123359.396-1-linus.walleij@linaro.org>
- <74ab4b7b-eae2-0c6f-bb4a-eabbd3b4d042@gmail.com>
- <CACRpkdau3ei4OXcpucctxKqb7baHsMf8a0Q6sQ4P=gOf=bxQ5A@mail.gmail.com>
- <395b3e38-cea4-9376-1544-f1ef85abf171@gmail.com>
-From:   Jonathan Bakker <xc-racer2@live.ca>
-Message-ID: <BYAPR10MB34797AABF2536F03BC3B4065A3190@BYAPR10MB3479.namprd10.prod.outlook.com>
-Date:   Mon, 10 Feb 2020 15:19:56 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-In-Reply-To: <395b3e38-cea4-9376-1544-f1ef85abf171@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MWHPR13CA0016.namprd13.prod.outlook.com
- (2603:10b6:300:16::26) To BYAPR10MB3479.namprd10.prod.outlook.com
- (2603:10b6:a03:11a::16)
-X-Microsoft-Original-Message-ID: <3132a8d5-f2b6-07aa-26cb-77a41893a84c@live.ca>
+        id S1727523AbgBKBQN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Feb 2020 20:16:13 -0500
+Received: from mail-io1-f71.google.com ([209.85.166.71]:48425 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727398AbgBKBQN (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 10 Feb 2020 20:16:13 -0500
+Received: by mail-io1-f71.google.com with SMTP id e15so5950774ioh.15
+        for <linux-input@vger.kernel.org>; Mon, 10 Feb 2020 17:16:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=C4ZSySAadciP/qy5lHe+8m4JJ/rKCTer5ZGKdDebbL0=;
+        b=D5sZz2vMZ2p69Nt/Y1Pve35ySSx2bLU91xo76F0tcO+dU1RYU8gTkcnmanQgYDu4d0
+         2BfIrd76z36RSaAdfNZ51/AD21vAJ1HyU3MyTabvzgn81BtLH9/PNM8zYjnBM+nDxYmR
+         1GIbYSo+2oBcQve9luLy5aV3Iwah4pqwaO7XOKDkQIIgPblxA2TXCSZPFhNw6abdpy2E
+         1bRziY92YddUb7/cHtO3tp7wqRfvPcKBI4/wE/Si6HkAxXS2h5FYBlzOZENvO0eB8e88
+         PZEIoxpLxjSYdvzChnJ8hXKdQt0qJssQyGqyAB6+vHqcXhbWgo+/giWPSbEKix3QFEfa
+         g8nQ==
+X-Gm-Message-State: APjAAAWVaAxz7VRqGmq/oWReqyLag86yPrt8znOl/mr2ch0by0tHlKTG
+        g7fd1Z0PYmKG0Q6gZSRrVPe08Tdj0V1Xbgba/O60WWagbzYZ
+X-Google-Smtp-Source: APXvYqwsOT/OwXGXrX7P8JU//4vXFQ8QPjqEYzAvGCMjyLsMo6zisZL5EM4kfxLU0VJ/pqwzmXj/HXZ1oJjwLVRKdrIhVcb4VKKJ
 MIME-Version: 1.0
-Received: from [IPv6:2001:569:fb67:7300:9f89:4b96:de0b:cd14] (2001:569:fb67:7300:9f89:4b96:de0b:cd14) by MWHPR13CA0016.namprd13.prod.outlook.com (2603:10b6:300:16::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.14 via Frontend Transport; Mon, 10 Feb 2020 23:19:59 +0000
-X-Microsoft-Original-Message-ID: <3132a8d5-f2b6-07aa-26cb-77a41893a84c@live.ca>
-X-TMN:  [3I8V3vXHrZjyYMG37qEE5KI5rg8VRtpwHCW1lj+ElTvBxh2d4Uy7q0MeZYLGraoT]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 49
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 6b4e40c7-37de-4634-6dfb-08d7ae7fbfa8
-X-MS-TrafficTypeDiagnostic: CY1NAM02HT034:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: emp8yhV0zXnOFfFABSoTg1I7iu8zxI0aCRotomJNvz6mVf2ztbfqq9YvlNUdxkg44ct3i2ZhMTSFnYLAzmyDuTv2Pj1px7Ly9zLZQhY6ue6KfFZ0fJW/EzV94l0yS1vUw9Jqw5Jldjyya2zmy6WJibZhp0pgqeLC14E4VQHSeDXWCsvMyy7GAFFfGdd1OTOIOJOCCu0Dcy1WTMF3zMnXmyhqG2u9thft6qWqDsVf1Dk=
-X-MS-Exchange-AntiSpam-MessageData: 450hozFQPRe99v0ff5ccW9ZyU9UonF48SybBSPCzbNxKHICLTr1R07U9liG0Rvfa1I/VwQKll2vsSrRIARdyv1wDsYFqoXIt2m8jFx1XZj7rv/Y2XC4QNsJqp7Y/ZJ0pVI3TzQJDzpggw5AioyUg4ee3cdXA9qNyMS/+PZDvvKFYOMExY8U9PApS9czhxl+IA/zLSF/yTOInowqCFw9TTg==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b4e40c7-37de-4634-6dfb-08d7ae7fbfa8
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2020 23:19:59.9038
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1NAM02HT034
+X-Received: by 2002:a6b:b206:: with SMTP id b6mr11661758iof.299.1581383772669;
+ Mon, 10 Feb 2020 17:16:12 -0800 (PST)
+Date:   Mon, 10 Feb 2020 17:16:12 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000000610eb059e429abd@google.com>
+Subject: KASAN: slab-out-of-bounds Write in betop_probe
+From:   syzbot <syzbot+07efed3bc5a1407bd742@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Just an FYI - the ADC_MIN should probably be 0 for full darkness,
-but I understand the concept and like it :)
+Hello,
 
-I believe the light sensor part to be a Sharp GA1A light detector or similar,
-based on the fact that DigiKey had a page (1) that
-mentions both together and that the specs for the GA1A1S202WP (2) line up quite well with
-those of the GP2AP002.  Note that the datasheet for the GA1A1S202WP even mentions the
-illuminance = 10 ^ (current / 10) formula, re-arranged as
-current = 10 * log(illuminance), although it specifies uA as opposed to mA which is the same
-as the Android libsensors (both the Nexus S (crespo) (3) and Galaxy Nexus (tuna) (4)) versions.
-I suspect that this should be adjusted after the call to iio_read_channel_processed().
+syzbot found the following crash on:
 
-1. https://web.archive.org/web/20130303022051/http://www.digikey.com/catalog/en/partgroup/ga1a-and-gp2a/26402
-2. https://web.archive.org/web/20121221163708/http://www.sharpsma.com/download/GA1A1S202WP-Specpdf
-3. https://android.googlesource.com/device/samsung/crespo/+/refs/heads/jb-release/libsensors/LightSensor.cpp
-4. https://android.googlesource.com/device/samsung/tuna/+/refs/tags/android-4.3_r3/libsensors/LightSensor.cpp
+HEAD commit:    e5cd56e9 usb: gadget: add raw-gadget interface
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=1517fed9e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8cff427cc8996115
+dashboard link: https://syzkaller.appspot.com/bug?extid=07efed3bc5a1407bd742
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=147026b5e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1683b6b5e00000
 
-Thanks,
-Jonathan
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+07efed3bc5a1407bd742@syzkaller.appspotmail.com
 
-On 2020-02-10 11:33 a.m., Gregor Riepl wrote:
->>> Also: It looks like int_pow doesn't saturate, so even though it uses 64bit
->>> integer math, it might be better to move the range check before the calculation.
->>
->> How do you mean I should be doing that without actually
->> doing the power calculation? (Maybe a dumb question but
->> math was never my best subject.)
-> 
-> Well, if you clamp the input value to a valid range, there is no risk of
-> under- or overflow:
-> 
-> #define GP2AP002_ADC_MIN 5
-> #define GP2AP002_ADC_MAX 47
-> /* ensure lux stays in a valid range
->    lux > 10^(5/10)
->    lux < 10^(47/10)
->  */
-> clamp(res, GP2AP002_ADC_MIN, GP2AP002_ADC_MAX);
-> lux = int_pow(10, (res/10));
-> 
-> However, there is another problem with this solution:
-> If you divide the input value by 10 before raising it to the power of 10, you
-> lose a lot of precision. Keep in mind that you're doing integer math here.
-> The input range is very limited, so reducing it further will also reduce the
-> number of lux steps: int((47-5)/10) = 4, so you will end up with only 4
-> luminance steps.
-> 
-> Instead of messing with the precision, I propose simplifying the original code
-> to a simple table lookup.
-> This will reduce constant memory usage to 42 values * 16 bit = 84 bytes and
-> computational complexity to one single memory reference.
-> While I'm sure there is a more optimal solution, I think it's the easiest to
-> understand with the least impact on accuracy and performance:
-> 
-> #define GP2AP002_ADC_MIN 5
-> #define GP2AP002_ADC_MAX 47
-> 
-> /*
->  * This array maps current and lux.
->  *
->  * Ambient light sensing range is 3 to 55000 lux.
->  *
->  * This mapping is based on the following formula.
->  * illuminance = 10 ^ (current[mA] / 10)
->  */
-> static const u16 gp2ap002_illuminance_table[] = {
-> 	3, 4, 5, 6, 8, 10, 12, 16, 20, 25, 32, 40, 50, 63, 79, 100, 126, 158,
-> 	200, 251, 316, 398, 501, 631, 794, 1000, 1259, 1585, 1995, 2512, 3162,
-> 	3981, 5012, 6310, 7943, 10000, 12589, 15849, 19953, 25119, 31623,
-> 	39811, 50119,
-> };
-> 
-> static int gp2ap002_get_lux(struct gp2ap002 *gp2ap002)
-> {
-> 	const struct gp2ap002_illuminance *ill1;
-> 	const struct gp2ap002_illuminance *ill2;
-> 	int ret, res;
-> 	u16 lux;
-> 
-> 	ret = iio_read_channel_processed(gp2ap002->alsout, &res);
-> 	if (ret < 0)
-> 		return ret;
-> 
-> 	dev_dbg(gp2ap002->dev, "read %d mA from ADC\n", res);
-> 
-> 	/* ensure we're staying inside the boundaries of the lookup table */
-> 	clamp(res, GP2AP002_ADC_MIN, GP2AP002_ADC_MAX);
-> 	lux = gp2ap002_illuminance_table[res - GP2AP002_ADC_MIN];
-> 
-> 	return (int)lux;
-> }
-> 
+betop 0003:20BC:5500.0001: unknown main item tag 0x0
+betop 0003:20BC:5500.0001: hidraw0: USB HID v0.00 Device [HID 20bc:5500] on usb-dummy_hcd.0-1/input0
+==================================================================
+BUG: KASAN: slab-out-of-bounds in set_bit include/asm-generic/bitops/instrumented-atomic.h:28 [inline]
+BUG: KASAN: slab-out-of-bounds in betopff_init drivers/hid/hid-betopff.c:99 [inline]
+BUG: KASAN: slab-out-of-bounds in betop_probe+0x396/0x570 drivers/hid/hid-betopff.c:134
+Write of size 8 at addr ffff8881d4f43ac0 by task kworker/1:2/94
+
+CPU: 1 PID: 94 Comm: kworker/1:2 Not tainted 5.5.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0xef/0x16e lib/dump_stack.c:118
+ print_address_description.constprop.0.cold+0xd3/0x314 mm/kasan/report.c:374
+ __kasan_report.cold+0x37/0x77 mm/kasan/report.c:506
+ kasan_report+0xe/0x20 mm/kasan/common.c:641
+ check_memory_region_inline mm/kasan/generic.c:185 [inline]
+ check_memory_region+0x152/0x1c0 mm/kasan/generic.c:192
+ set_bit include/asm-generic/bitops/instrumented-atomic.h:28 [inline]
+ betopff_init drivers/hid/hid-betopff.c:99 [inline]
+ betop_probe+0x396/0x570 drivers/hid/hid-betopff.c:134
+ hid_device_probe+0x2be/0x3f0 drivers/hid/hid-core.c:2261
+ really_probe+0x290/0xac0 drivers/base/dd.c:551
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:724
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:831
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:431
+ __device_attach+0x217/0x390 drivers/base/dd.c:897
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ hid_add_device drivers/hid/hid-core.c:2417 [inline]
+ hid_add_device+0x33c/0x9a0 drivers/hid/hid-core.c:2366
+ usbhid_probe+0xa81/0xfa0 drivers/hid/usbhid/hid-core.c:1386
+ usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:361
+ really_probe+0x290/0xac0 drivers/base/dd.c:551
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:724
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:831
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:431
+ __device_attach+0x217/0x390 drivers/base/dd.c:897
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_set_configuration+0xe47/0x17d0 drivers/usb/core/message.c:2023
+ generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+ usb_probe_device+0xaf/0x140 drivers/usb/core/driver.c:266
+ really_probe+0x290/0xac0 drivers/base/dd.c:551
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:724
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:831
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:431
+ __device_attach+0x217/0x390 drivers/base/dd.c:897
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_new_device.cold+0x540/0xcd0 drivers/usb/core/hub.c:2538
+ hub_port_connect drivers/usb/core/hub.c:5185 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5325 [inline]
+ port_event drivers/usb/core/hub.c:5471 [inline]
+ hub_event+0x21cb/0x4300 drivers/usb/core/hub.c:5553
+ process_one_work+0x94b/0x1620 kernel/workqueue.c:2264
+ worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+ kthread+0x318/0x420 kernel/kthread.c:255
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+Allocated by task 94:
+ save_stack+0x1b/0x80 mm/kasan/common.c:72
+ set_track mm/kasan/common.c:80 [inline]
+ __kasan_kmalloc mm/kasan/common.c:515 [inline]
+ __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:488
+ kmalloc include/linux/slab.h:556 [inline]
+ kzalloc include/linux/slab.h:670 [inline]
+ hidraw_connect+0x4b/0x3e0 drivers/hid/hidraw.c:521
+ hid_connect+0x5c7/0xbb0 drivers/hid/hid-core.c:1937
+ hid_hw_start drivers/hid/hid-core.c:2033 [inline]
+ hid_hw_start+0xa2/0x130 drivers/hid/hid-core.c:2024
+ betop_probe+0xbc/0x570 drivers/hid/hid-betopff.c:128
+ hid_device_probe+0x2be/0x3f0 drivers/hid/hid-core.c:2261
+ really_probe+0x290/0xac0 drivers/base/dd.c:551
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:724
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:831
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:431
+ __device_attach+0x217/0x390 drivers/base/dd.c:897
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ hid_add_device drivers/hid/hid-core.c:2417 [inline]
+ hid_add_device+0x33c/0x9a0 drivers/hid/hid-core.c:2366
+ usbhid_probe+0xa81/0xfa0 drivers/hid/usbhid/hid-core.c:1386
+ usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:361
+ really_probe+0x290/0xac0 drivers/base/dd.c:551
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:724
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:831
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:431
+ __device_attach+0x217/0x390 drivers/base/dd.c:897
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_set_configuration+0xe47/0x17d0 drivers/usb/core/message.c:2023
+ generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+ usb_probe_device+0xaf/0x140 drivers/usb/core/driver.c:266
+ really_probe+0x290/0xac0 drivers/base/dd.c:551
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:724
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:831
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:431
+ __device_attach+0x217/0x390 drivers/base/dd.c:897
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_new_device.cold+0x540/0xcd0 drivers/usb/core/hub.c:2538
+ hub_port_connect drivers/usb/core/hub.c:5185 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5325 [inline]
+ port_event drivers/usb/core/hub.c:5471 [inline]
+ hub_event+0x21cb/0x4300 drivers/usb/core/hub.c:5553
+ process_one_work+0x94b/0x1620 kernel/workqueue.c:2264
+ worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+ kthread+0x318/0x420 kernel/kthread.c:255
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+Freed by task 12:
+ save_stack+0x1b/0x80 mm/kasan/common.c:72
+ set_track mm/kasan/common.c:80 [inline]
+ kasan_set_free_info mm/kasan/common.c:337 [inline]
+ __kasan_slab_free+0x117/0x160 mm/kasan/common.c:476
+ slab_free_hook mm/slub.c:1444 [inline]
+ slab_free_freelist_hook mm/slub.c:1477 [inline]
+ slab_free mm/slub.c:3024 [inline]
+ kfree+0xd5/0x300 mm/slub.c:3976
+ urb_destroy drivers/usb/core/urb.c:26 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ usb_free_urb.part.0+0xaf/0x110 drivers/usb/core/urb.c:96
+ usb_free_urb+0x1b/0x30 drivers/usb/core/urb.c:95
+ usb_start_wait_urb+0x1e8/0x4c0 drivers/usb/core/message.c:79
+ usb_internal_control_msg drivers/usb/core/message.c:101 [inline]
+ usb_control_msg+0x31c/0x4a0 drivers/usb/core/message.c:152
+ get_port_status drivers/usb/core/hub.c:570 [inline]
+ hub_ext_port_status+0x125/0x460 drivers/usb/core/hub.c:587
+ hub_port_status drivers/usb/core/hub.c:609 [inline]
+ hub_activate+0x51f/0x17c0 drivers/usb/core/hub.c:1112
+ process_one_work+0x94b/0x1620 kernel/workqueue.c:2264
+ worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+ kthread+0x318/0x420 kernel/kthread.c:255
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+The buggy address belongs to the object at ffff8881d4f43a00
+ which belongs to the cache kmalloc-192 of size 192
+The buggy address is located 0 bytes to the right of
+ 192-byte region [ffff8881d4f43a00, ffff8881d4f43ac0)
+The buggy address belongs to the page:
+page:ffffea000753d0c0 refcount:1 mapcount:0 mapping:ffff8881da002a00 index:0x0
+flags: 0x200000000000200(slab)
+raw: 0200000000000200 ffffea0007567200 0000000300000003 ffff8881da002a00
+raw: 0000000000000000 0000000080100010 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff8881d4f43980: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+ ffff8881d4f43a00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>ffff8881d4f43a80: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
+                                           ^
+ ffff8881d4f43b00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff8881d4f43b80: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
+==================================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
