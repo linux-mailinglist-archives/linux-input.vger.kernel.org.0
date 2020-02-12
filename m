@@ -2,161 +2,183 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD79A159E6A
-	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2020 01:58:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86772159F45
+	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2020 03:57:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728137AbgBLA6U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Feb 2020 19:58:20 -0500
-Received: from mail-eopbgr10068.outbound.protection.outlook.com ([40.107.1.68]:4622
-        "EHLO EUR02-HE1-obe.outbound.protection.outlook.com"
+        id S1727641AbgBLC5A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Feb 2020 21:57:00 -0500
+Received: from mail-mw2nam12on2049.outbound.protection.outlook.com ([40.107.244.49]:3296
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728103AbgBLA6U (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Feb 2020 19:58:20 -0500
+        id S1727565AbgBLC5A (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 11 Feb 2020 21:57:00 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q65iwtul3tt4ElkDH48uXBLiUBctvus7B02iG/QnUkxot4uv84rwPb4z7WvHASHUFYufj9i7Yjw/Nr7wMUzYnG5H40hDrDUw61yBepQk8H1rb/Zm1EZXZRNMmvnV451xT3mE64arH9BLU8Sdsab5NULdTnS/Rn9Nvg+9f0iu5uOpF0pdYoJz1ME+9CUKenhcyudiKRm0bxwMXn08IIldascmSW35xQWCtriTiBbJiJ1saXhe0k1ea24NfJxb0EDYnX0PROFqQoOkwYp0/r+nlv3emtm2B/mQrz+VoyihyNizg493dyzGf1DaZ4O4orBk7cWUiCfYCpHZy/W6AeO95Q==
+ b=G8MT7Mzbdey/AnY/Obr45a97JzoLjHEFEhXN3apgcwZYgL3A+0kI8oor2Yv7dBOyWeyWj3iNiZNKzLsLUkdUCJ+wG47VoyTeqGJXi9YpWPcJ7MoRsGJkDPJLMI8LUBxzUNygwyQ8mARgPBvbH2h5GzCQYGKz+1jekUND5DA8shOfXI7zOM+kLd0vQormKiUz3FVUB7Ej2Ybf7+BNcmDnrDKElh5LKnyX5ylg78+e1xGi4/7jsA3eK0KUbBbBgjOmt1rN2PCZF26O0A8Uel2Hhbc/WB23gxkNQQI2Y6BWIXqQbhf/qpv5UFQqk/xwL5HsTL/ed3EhP3/lIu1XdIZcXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O4LlyWR+46Ca4bY6AuLD3Hx3Ox3Eo/vor6X4YR5rNSM=;
- b=VQY2uJCLxPiXn5srpL2BwPakhKC+ZlYCe6i7znNaBi6Bjmz2Tn/7P5I9mrMlimTNiSQQuHwQX38nI2kJz6vu6qBz+dMq9LQk4ZQeJN+mqAsDH+PJ+CQmdMQ/1YqhV3qLdhC9P4eCeeCIZ/78XfUXsjPnqBzr7VQRFIuLAjN4b9s2jWf5qV+EYfZZe+/t++e2HNeSBXK3DW6t3Ppn35Qyv6dKNCYqldqtSLxA1acZ+NWfeqU7Z+TKntjYqwFxtHRraPoCAt6tyZQs/Jyw8MMkk0xRvCMs+ktLQ7ph63TDcDKt1swNvU78YDP2QOFoxx9tyDCsDur4ntbqRG+Km+xApQ==
+ bh=cYPFoNh94xjfveTdL/DtjIKbETAT3qI2ZQEo951cqoQ=;
+ b=bdh8NCOQyQrhqOxMRlTxVDzRg2NA2ms7SjGMXZaL4lo1G7aUafFYtn+piFhG8bYFK9kG2PNQMXrN9f/eFMI6zodwNhTk+ko0gOH1LsUlTYNaSw/O9UkxpoQ+0UuRYBZxZVgUrYQHRb24bAkmWZc9XSjwrVZ4aUqNoq2oPY0G3+L2eGQQPJ9rqEeSAMQujXvwhPnhbjRiNIHyKuYHqt8rtnDwIM+rkH+CCbtkCikUXTy8cGewbZt1zPSfYWHjqiyIn46NaReMI6VmivznEWmpx75waz1OWs1kLpJ1hlk+XeR9dFNKkpQnv+TXYOR/KK/mCPfpCjqsUwGyes5zJ+ZQAQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O4LlyWR+46Ca4bY6AuLD3Hx3Ox3Eo/vor6X4YR5rNSM=;
- b=PpDNsrFtudAOq/sd3PqjWSYnXiiWKnb9vv9qjVMkoF0a/nBpvnUrOAcjyzS9ZY02B3ECzqv72GbwIzKxyQCVkVi1pwLKDGq+ghJcIjGeebegNXRHkowGlGLPQE5Wa/z2HziO8NZyqV44WU/BdA8ZsbgjV7VF7EBzfVQlbL5baBY=
-Received: from VE1PR04MB6638.eurprd04.prod.outlook.com (20.179.232.15) by
- VE1PR04MB6365.eurprd04.prod.outlook.com (20.179.233.214) with Microsoft SMTP
+ bh=cYPFoNh94xjfveTdL/DtjIKbETAT3qI2ZQEo951cqoQ=;
+ b=kT6QLZNICwwR6dzONRsoqCPQlMvWcsPGpCmLEF/x19HLTIXt+9ZYVYdGsOzaTKDwW5RbYgP4NznKHP/SfIt86V05hCqwFVYbofAtMU/PVPIb/yBzw5hfp5B9uwzf+Zx3Bm+AhvlsoBmEP1cPOHiHJPqVZIf1BOlKYoEUNNnZVyM=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Sandeep.Singh@amd.com; 
+Received: from MN2PR12MB3598.namprd12.prod.outlook.com (20.178.244.84) by
+ MN2PR12MB3343.namprd12.prod.outlook.com (20.178.240.159) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.25; Wed, 12 Feb 2020 00:58:14 +0000
-Received: from VE1PR04MB6638.eurprd04.prod.outlook.com
- ([fe80::490:6caa:24b:4a31]) by VE1PR04MB6638.eurprd04.prod.outlook.com
- ([fe80::490:6caa:24b:4a31%6]) with mapi id 15.20.2707.030; Wed, 12 Feb 2020
- 00:58:14 +0000
-From:   Robin Gong <yibin.gong@nxp.com>
-To:     =?utf-8?B?QW5kcsOpIERyYXN6aWs=?= <git@andred.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Horia Geanta <horia.geanta@nxp.com>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Anson Huang <anson.huang@nxp.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        dl-linux-imx <linux-imx@nxp.com>
-Subject: RE: [PATCH 2/3] Input: snvs_pwrkey - enable snvs clock as needed
-Thread-Topic: [PATCH 2/3] Input: snvs_pwrkey - enable snvs clock as needed
-Thread-Index: AQHV164yHhXoESmTiUqzHJu+3DHGMKgUx1EAgACAgDCAAH/jgIABBc0g
-Date:   Wed, 12 Feb 2020 00:58:14 +0000
-Message-ID: <VE1PR04MB6638C6215F71FA2EE6C4E450891B0@VE1PR04MB6638.eurprd04.prod.outlook.com>
-References: <20200130204516.4760-1-git@andred.net>
-         <20200130204516.4760-2-git@andred.net>
-         <VI1PR0402MB3485EC2F82DDE52DC5CA0795981C0@VI1PR0402MB3485.eurprd04.prod.outlook.com>
-         <20200209223836.GA199269@dtor-ws>
-         <VE1PR04MB6638A4F4E3BABE0ED0CD4A5189190@VE1PR04MB6638.eurprd04.prod.outlook.com>
-         <VI1PR0402MB34851857F012286250BF3BBE98190@VI1PR0402MB3485.eurprd04.prod.outlook.com>
-         <20200210175554.GB199269@dtor-ws>
-         <VE1PR04MB6638761F5F8549C6528FE6B989180@VE1PR04MB6638.eurprd04.prod.outlook.com>
- <7c3a08e97281a54105225fa4f212f5279d3fac30.camel@andred.net>
-In-Reply-To: <7c3a08e97281a54105225fa4f212f5279d3fac30.camel@andred.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yibin.gong@nxp.com; 
-x-originating-ip: [183.192.236.243]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: eb3c0499-115c-4efa-1a99-08d7af56a3d3
-x-ms-traffictypediagnostic: VE1PR04MB6365:|VE1PR04MB6365:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <VE1PR04MB6365E679AFFC1EA2619C5C70891B0@VE1PR04MB6365.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0311124FA9
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(136003)(396003)(376002)(39860400002)(346002)(366004)(189003)(199004)(7416002)(186003)(8676002)(8936002)(4326008)(26005)(81166006)(71200400001)(81156014)(55016002)(9686003)(110136005)(54906003)(316002)(6636002)(66556008)(53546011)(76116006)(5660300002)(33656002)(66946007)(2906002)(52536014)(66446008)(7696005)(6506007)(64756008)(478600001)(66476007)(86362001);DIR:OUT;SFP:1101;SCL:1;SRVR:VE1PR04MB6365;H:VE1PR04MB6638.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Uht2PTUzSN5dzvs8C7u3kjM5LLxjc5ie+PgAEhyn+TEGrwpGjnv2jZhve56Hst9euvtQj4kyf/YgFUZm5OZcZXYQRSaw2pdAyNp2ySJkWrDh6fw8eVrmQbR6p+Iu8dAwErmekhH7odKsDzE4yh+5y83v3FABHutBi6IaPRAQ4YGRvtA3B0cfs2ojeqxqNOPVyJuxbMxVaZzHli8Nk3Fzl0Y/TPqyZ4oZ2hV3K41MTJql0GJDIvkhTznsijRonXwpwr79bFcF0SUBwiGLFuwY5eWF3T9a2fg4e+0kZ2BBmoT5zJM8qhRjexwu3FDbpapTUKUChgRheznD+W/prcS1bHx5NrSWPA2g591AG5qisYkjy4szvrKs035XXcdkQlZdPNeFEyeSbXKLgKjvqDkJ81sOdgZ0HnkHg9WgOPeCzyPCXzXv05lp4cFAO7hEakL/
-x-ms-exchange-antispam-messagedata: d9C8y0pClovxyf1mDI2Kq6phM4Pa2zDjqhVZQqTWf7o0I//ZYYnHjfMsJtdYzwa5AMHCeyAGbq60MWGcFJPtn3SSBp/BJHF8/0bVnGn6rRZYgo+vh/8+Nz/1tO06UCPRman9Pai+UZsqjhKJij8HJQ==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ 15.20.2707.28; Wed, 12 Feb 2020 02:56:56 +0000
+Received: from MN2PR12MB3598.namprd12.prod.outlook.com
+ ([fe80::10ce:b4fb:586d:8b9c]) by MN2PR12MB3598.namprd12.prod.outlook.com
+ ([fe80::10ce:b4fb:586d:8b9c%3]) with mapi id 15.20.2707.030; Wed, 12 Feb 2020
+ 02:56:56 +0000
+From:   Sandeep Singh <Sandeep.Singh@amd.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        srinivas.pandruvada@linux.intel.com, jic23@kernel.org,
+        linux-iio@vger.kernel.org, Nehal-bakulchandra.Shah@amd.com
+Cc:     Shyam-sundar.S-k@amd.com, Sandeep Singh <sandeep.singh@amd.com>
+Subject: [PATCH v3 0/5] SFH: Add Support for AMD Sensor Fusion Hub
+Date:   Wed, 12 Feb 2020 08:26:32 +0530
+Message-Id: <1581476197-25854-1-git-send-email-Sandeep.Singh@amd.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA1PR0101CA0016.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:21::26) To MN2PR12MB3598.namprd12.prod.outlook.com
+ (2603:10b6:208:d1::20)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb3c0499-115c-4efa-1a99-08d7af56a3d3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Feb 2020 00:58:14.5144
+Received: from andbang2.amd.com (165.204.156.251) by MA1PR0101CA0016.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:21::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.2707.21 via Frontend Transport; Wed, 12 Feb 2020 02:56:53 +0000
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [165.204.156.251]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 9024b952-21d4-43fb-9d9f-08d7af673861
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3343:|MN2PR12MB3343:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB33432F63F9846A065BD965E1E01B0@MN2PR12MB3343.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 0311124FA9
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(396003)(136003)(376002)(366004)(346002)(189003)(199004)(6636002)(81166006)(6666004)(2906002)(81156014)(8676002)(6486002)(8936002)(86362001)(956004)(36756003)(66946007)(66556008)(966005)(4326008)(5660300002)(7696005)(66476007)(2616005)(52116002)(16526019)(316002)(26005)(478600001)(186003);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR12MB3343;H:MN2PR12MB3598.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LMm7yspdIMPeynH+QSkptr+pqwSk8MIervclo+N1lZvfZSqEiPCNfqezMgKSa2+I5Dk7at1Z5j3BiXYeguMuaMDnDWzZsS/GMP7kkw15utN2j01AQJbNNXJD8t+BEDVYo4WKDxP2me6lhOB/EibX4FfrTDfvt3eFi39xytsFXlnVN+/XyI09pFgvwXBETMtNh0FOX7/Yz+LqohN1F+cJbosiq3IBLPcpzHYkHzIZongNBP36qBPPGhq25dNimaSInkpVdxJ1PP+sA6zJgFK9yHENXTVkFLOZgMtCoXGcmw7OLjLJ2KsbEXRiBBqwrf4gLR9K1XHltC3pocZi186QzxvcfqHqavFQtEpHc42hKWT9+ZCMUQHvtqNzwhnnV1YrXpENyrO1pdr06ITYZwOAda5CkZal4P8kc+naaXRicijnwtYwO7AaeTTD6HptjDasur0GpMKuaqUgSyVdZglpwTUyQJi8+CTBZDamwywPlmg6NgH81JuljGuHuK/K9bZh6usYtdnpO5MvsGB9HePOKw==
+X-MS-Exchange-AntiSpam-MessageData: RTPvAVIwoGLifvP8HeBbJ9/1pGaEmvFpkshcNXo8GC58DY5ArHquCUMpBeiB29rUoqM+N2QyVmpERT4xRbG/1v+qT3aSYZ4EYI3wwUU5zuy/RuT4fhqVq56Uf0xlp31EFJ6B3IZfwW3GN7kPq1LZ6w==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9024b952-21d4-43fb-9d9f-08d7af673861
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2020 02:56:56.1106
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FGgdbTNgJUw2L1wWu7YTmuwGwrIcsuuuJ2TF2u8MYo6g9Kcf9kT4Ui+diwviMcG1BZr1bdiTq31HupznXBe2Eg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6365
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TdnbWZ0KybB5BPhMKbYzvJEGJD99QEAk90QvBWx9rza//jJ0KuUbSCbYfMTjwP6X
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3343
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-T24gMjAyMC8wMi8xMSBBbmRyw6kgRHJhc3ppayA8Z2l0QGFuZHJlZC5uZXQ+IHdyb3RlOg0KPiBI
-aSwNCj4gDQo+IE9uIFR1ZSwgMjAyMC0wMi0xMSBhdCAwMTo1NCArMDAwMCwgUm9iaW4gR29uZyB3
-cm90ZToNCj4gPiBPbiAyMDIwLzAyLzExIERtaXRyeSBUb3Jva2hvdiA8ZG1pdHJ5LnRvcm9raG92
-QGdtYWlsLmNvbT4gd3JvdGU6DQo+ID4gPiBPbiBNb24sIEZlYiAxMCwgMjAyMCBhdCAwNjozMzoz
-MEFNICswMDAwLCBIb3JpYSBHZWFudGEgd3JvdGU6DQo+ID4gPiA+IE9uIDIvMTAvMjAyMCA0OjAz
-IEFNLCBSb2JpbiBHb25nIHdyb3RlOg0KPiA+ID4gPiA+IE9uIDIwMjAvMDIvMTAgRG1pdHJ5IFRv
-cm9raG92IDxkbWl0cnkudG9yb2tob3ZAZ21haWwuY29tPiB3cm90ZToNCj4gPiA+ID4gPiA+IE9u
-IEZyaSwgRmViIDA3LCAyMDIwIGF0IDA4OjEwOjIyQU0gKzAwMDAsIEhvcmlhIEdlYW50YSB3cm90
-ZToNCj4gPiA+ID4gPiA+ID4gT24gMS8zMC8yMDIwIDEwOjQ1IFBNLCBBbmRyw6kgRHJhc3ppayB3
-cm90ZToNCj4gPiA+ID4gPiA+ID4gPiBAQCAtMTQwLDYgKzE0OCwyNSBAQCBzdGF0aWMgaW50DQo+
-ID4gPiA+ID4gPiA+ID4gaW14X3NudnNfcHdya2V5X3Byb2JlKHN0cnVjdA0KPiA+ID4gPiA+ID4g
-cGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+ID4gPiA+ID4gPiA+ICAJaWYgKHBkYXRhLT5pcnEg
-PCAwKQ0KPiA+ID4gPiA+ID4gPiA+ICAJCXJldHVybiAtRUlOVkFMOw0KPiA+ID4gPiA+ID4gPiA+
-DQo+ID4gPiA+ID4gPiA+ID4gKwlwZGF0YS0+Y2xrID0gZGV2bV9jbGtfZ2V0KCZwZGV2LT5kZXYs
-ICJzbnZzLXB3cmtleSIpOw0KPiA+ID4gPiA+ID4gPiA+ICsJaWYgKElTX0VSUihwZGF0YS0+Y2xr
-KSkgew0KPiA+ID4gPiA+ID4gPiA+ICsJCXBkYXRhLT5jbGsgPSBOVUxMOw0KPiA+ID4gPiA+ID4g
-PiBVc2luZyBkZXZtX2Nsa19nZXRfb3B0aW9uYWwoKSB3b3VsZCBzaW1wbGlmeSBlcnJvciBoYW5k
-bGluZy4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBJdCBzb3VuZHMgdG8gbWUgdGhhdCB0aGlz
-IGNsb2NrIGlzIG5vdCBhdCBhbGwgb3B0aW9uYWwgYW5kIHRoZQ0KPiA+ID4gPiA+ID4gZHJpdmVy
-IGN1cnJlbnRseSAid29ya3MiIG9ubHkgYnkgYWNjaWRlbnQgYW5kIHRoZXJlZm9yZQ0KPiA+ID4g
-PiA+ID4gb3B0aW9uYWwgaXMgbm90DQo+ID4gPiBzdWl0YWJsZSBoZXJlLg0KPiA+ID4gPiA+IFll
-cywgdGhlbiB3ZSBuZWVkIHRvIGFkZCBhbGwgc252cyBjbGsgaW4gZHRzIGZvciBvbiBsZWdhY3kg
-aS5NWA0KPiA+ID4gPiA+IGNoaXBzIGluIHRoaXMgcGF0Y2hzZXQgdG8gYXZvaWQgYW55IHBvdGVu
-dGlhbCBmdW5jdGlvbiBicm9rZW4uDQo+ID4gPg0KPiA+ID4gSG93IG1hbnkgYXJlIHRoZXJlPyBJ
-IGFtIG5vdCB0b28gdGVycmlibHkgb3Bwb3NlZCBvZiBoYXZpbmcgdGhlDQo+ID4gPiBkcml2ZXIg
-aGFuZGxlIG1pc3NpbmcgY2xrIGlmIHRoZXJlIGFyZSB2ZXJ5IG1hbnkgbGVnYWN5IERUU2VzIG91
-dA0KPiA+ID4gdGhlcmUuIEJ1dCB0aGVuIHdlIG5lZWQgdG8gaGFuZGxlIGl0IHByb3Blcmx5IChp
-LmUuIGN1cnJlbnQNCj4gPiA+IGl0ZXJhdGlvbiBkb2VzIG5vdCBoYW5kbGUgcmVmZXJyYWwgcHJv
-cGVybHkgZm9yIGV4YW1wbGUpLg0KPiA+IFRoZXJlIGFyZSBmb3VyIGR0c2kgd2hpY2ggaGF2ZSBj
-bG9jayBzdXBwb3J0IGluIHNudnMtcnRjICBpbmNsdWRpbmcNCj4gPiBpLm14N3MvaS5teDhtcS84
-bW0vOG1uLiBTbyBmb3IgdGhpcyBwYXRjaCBzZXQsIGl0J3MgYmV0dGVyIHVwZGF0ZQ0KPiA+IGku
-bXg4bVggZHRzaSBleGNlcHQgaS5teDdzLg0KPiA+ID4gPiBJbiB0aGF0IGNhc2UgdGhlIERUIGJp
-bmRpbmcgc2hvdWxkIGJlIHVwZGF0ZWQgdG9vLCB0byBtYWtlIHRoZQ0KPiA+ID4gPiBjbG9jayBt
-YW5kYXRvcnkuDQo+ID4gPg0KPiA+ID4gSSB0aGluayB0aGlzIHNob3VsZCBiZSBkb25lIGluIGVp
-dGhlciBjYXNlLCBhcyBhcyBmYXIgSSB1bmRlcnN0YW5kDQo+ID4gPiB0aGUgcGFydCBjYW4gbm90
-IGZ1bmN0aW9uIHdpdGhvdXQgdGhlIGNsb2NrIGFuZCBpdCB3b3JrZWQgcHVyZWx5IGJ5DQo+ID4g
-PiBjaGFuY2Ugb24gc29tZSBzeXN0ZW1zIGFzIHNvbWV0aGluZyBlbHNlIHdhcyB0dXJuaW5nIHRo
-ZSBjbG9jayBvbi4NCj4gPiBZZXMsIGZvciBhbGwgY2hpcHMgc252cyBjbGsgbWFuYWdlbWVudCBh
-ZGRlZCwgc252cyBjbG9jayBhbHNvIGhhcyB0bw0KPiA+IGJlZW4gYWRkIGluIHNudnNfcHdya2V5
-IGR0cywgYnV0IGZvciBvdGhlcnMgbGVnYWN5IGNoaXBzIGxpa2UgaS5teDZYDQo+ID4gd2hpY2gg
-aGF2ZSBubyBzbnZzIGNsayBtYW5hZ2VtZW50LCBzbnZzIGNsb2NrIGlzIGFsd2F5cyBvbiwgc28g
-bm8gbmVlZA0KPiA+IHN1Y2ggY2xrIGluIHNudnNfcHdya2V5IGR0cyBlaXRoZXIsIG9wdGlvbmFs
-IGlzIGJldHRlci4NCj4gPiA+IFRoYW5rcy4NCj4gDQo+IEl0IHNlZW1zIHRvIG1lIHRob3VnaCB0
-aGF0IHRoZSBjbG9jayBzaG91bGQgcmVhbGx5IGJlIG1vdmVkIGludG8gdGhlIChwYXJlbnQpDQo+
-IFNOVlMgbm9kZSBpdHNlbGYsIHJhdGhlciB0aGFuIGR1cGxpY2F0aW5nIHRoZSBjbG9jayBpbiB0
-aGUgdGhlIHBvd2VyIGtleSBub2RlDQo+IGFuZCBpbiB0aGUgUlRDIG5vZGUuIElzIHRoYXQgcG9z
-c2libGU/IChJIGRvbid0IGtub3cpLi4uDQpUaGF0J3MgcG9zc2libGUgYnV0IG11Y2ggY29kZSBj
-aGFuZ2VzIG5lZWQgdG8gYmUgYWRkZWQgaW50byBzbnZzLXJ0Yy9zbnZzX3B3cmtleQ0KZHJpdmVy
-LiBJbmRlcGVuZGVudCBwYXRjaCBpcyBiZXR0ZXIuDQo+IA0KPiBUbyBzdW1tYXJpc2UsIEknbGwg
-cG9zdCBhbiB1cGRhdGVkIHBhdGNoc2V0IHdpdGhpbiB0aGUgbmV4dCBjb3VwbGUgZGF5cyBzbyB0
-bzoNCj4gDQo+ICoga2VlcCB0aGUgY2xvY2sgb3B0aW9uYWwgKGZvciBpLk1YNiBwbGF0Zm9ybXMp
-DQo+ICogY29udmVydCB0byBkZXZtX2Nsa19nZXRfb3B0aW9uYWwoKQ0KPiAqIG9ubHkgZW5hYmxl
-IHRoZSBjbG9jayBpbiBpbnRlcnJ1cHQgaGFuZGxlciBhbmQNCj4gaW14X2lteF9zbnZzX2NoZWNr
-X2Zvcl9ldmVudHMoKQ0KPiAgIGJ1dCBub3QgZHVyaW5nIGRyaXZlciBsb2FkaW5nDQo+ICogdXBk
-YXRlIGFsbCBmb3VyIERUU0lzOiBpbXg4bW0uZHRzaSBpbXg4bW4uZHRzaSBpbXg4bXEuZHRzaSBp
-bXg3cy5kdHNpDQo+ICAgTm90ZSB0aGF0IEknbGwgb25seSBiZSBhYmxlIHRvIHRlc3Qgb25uIHRo
-ZSBpLk1YNw0KQ29ycmVjdC4NCj4gDQo+IA0KPiBDaGVlcnMsDQo+IEFuZHJlJw0KPiANCg0K
+From: Sandeep Singh <sandeep.singh@amd.com>
+
+AMD SFH(Sensor Fusion Hub) is HID based driver.SFH FW 
+is part of MP2 processor (MP2 which is an ARM® Cortex-M4 
+core based co-processor to x86) and it runs on MP2 where 
+in driver resides on X86.The driver functionalities are 
+divided  into three parts:-
+
+1: amd-mp2-pcie:-       This module will communicate with MP2 FW and
+                        provide that data into DRAM.
+2: Client driver :-     This part for driver will use dram data and
+                        convert that data into HID format based on
+                        HID reports.
+3: Transport driver :-  This part of driver will communicate with
+                        HID core. Communication between devices and
+                        HID core is mostly done via HID reports
+
+In terms of architecture it is much more reassembles like 
+ISH(Intel Integrated Sensor Hub). However the major difference 
+is all the hid reports are generated as part of kernel driver. 
+AMD SFH driver taken reference from ISH in terms of 
+design and functionalities at fewer location.
+
+AMD sensor fusion Hub is part of a SOC 17h family based platforms. 
+The solution is working well on several OEM products.
+AMD SFH uses HID over PCIe bus.
+
+
+Sandeep Singh (5):
+  SFH: Add maintainers and documentation for AMD SFH based on HID
+    framework
+  SFH: PCI driver to add support of AMD sensor fusion Hub using HID
+    framework
+  SFH: Transport Driver to add support of AMD Sensor Fusion Hub (SFH)
+  SFH: Add debugfs support to AMD Sensor Fusion Hub
+  SFH: Create HID report to Enable support of AMD sensor fusion Hub
+    (SFH)
+
+Changes since v1:
+        -Fix auto build test warnings
+        -Fix warnings captured using smatch
+        -Changes suggested by Dan Carpenter
+
+Links of the review comments for v1:
+        [1] https://patchwork.kernel.org/patch/11325163/
+        [2] https://patchwork.kernel.org/patch/11325167/
+        [3] https://patchwork.kernel.org/patch/11325171/
+        [4] https://patchwork.kernel.org/patch/11325187/
+
+
+Changes since v2:
+        -Debugfs divided into another patch
+        -Fix some cosmetic changes
+        -Fix for review comments
+         Reported and Suggested by:-  Srinivas Pandruvada
+
+Links of the review comments for v2:
+        [1] https://patchwork.kernel.org/patch/11355491/
+        [2] https://patchwork.kernel.org/patch/11355495/
+        [3] https://patchwork.kernel.org/patch/11355499/
+        [4] https://patchwork.kernel.org/patch/11355503/
+
+
+ Documentation/hid/amd-sfh-hid.rst                  | 160 +++++
+ MAINTAINERS                                        |   8 +
+ drivers/hid/Kconfig                                |   2 +
+ drivers/hid/Makefile                               |   1 +
+ drivers/hid/amd-sfh-hid/Kconfig                    |  20 +
+ drivers/hid/amd-sfh-hid/Makefile                   |  17 +
+ drivers/hid/amd-sfh-hid/amd_mp2_pcie.c             | 243 ++++++++
+ drivers/hid/amd-sfh-hid/amd_mp2_pcie.h             | 177 ++++++
+ drivers/hid/amd-sfh-hid/amdsfh-debugfs.c           | 250 ++++++++
+ drivers/hid/amd-sfh-hid/amdsfh-debugfs.h           |  14 +
+ drivers/hid/amd-sfh-hid/amdsfh-hid-client.c        | 260 +++++++++
+ drivers/hid/amd-sfh-hid/amdsfh-hid.c               | 179 ++++++
+ drivers/hid/amd-sfh-hid/amdsfh-hid.h               |  85 +++
+ .../hid_descriptor/amd_sfh_hid_descriptor.c        | 275 +++++++++
+ .../hid_descriptor/amd_sfh_hid_descriptor.h        | 125 ++++
+ .../hid_descriptor/amd_sfh_hid_report_descriptor.h | 642 +++++++++++++++++++++
+ 16 files changed, 2458 insertions(+)
+ create mode 100644 Documentation/hid/amd-sfh-hid.rst
+ create mode 100644 drivers/hid/amd-sfh-hid/Kconfig
+ create mode 100644 drivers/hid/amd-sfh-hid/Makefile
+ create mode 100644 drivers/hid/amd-sfh-hid/amd_mp2_pcie.c
+ create mode 100644 drivers/hid/amd-sfh-hid/amd_mp2_pcie.h
+ create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-debugfs.c
+ create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-debugfs.h
+ create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid-client.c
+ create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid.c
+ create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid.h
+ create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.c
+ create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.h
+ create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_descriptor.h
+
+-- 
+2.7.4
+
