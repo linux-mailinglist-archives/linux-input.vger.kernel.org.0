@@ -2,254 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E15C215AB31
-	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2020 15:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C10615B49B
+	for <lists+linux-input@lfdr.de>; Thu, 13 Feb 2020 00:23:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728264AbgBLOpa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Feb 2020 09:45:30 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56216 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727519AbgBLOpa (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Feb 2020 09:45:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1581518728;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5yxu7FAFWwnIWX0SIGmGmSoK4AorTJs9H07QQ92CKAE=;
-        b=i4MtEetD5RhwTIUKPQVuzOY0P9ku3syFHu78K3hsLtI6kFkNrGY4N5pJM8RBCIzTNn/c1J
-        g7+cwzj3VCEpqBwd/GHsr68sgPiqgLvM0QvNSYvkxVp5z4JDdxic0bvLOaU9UBBac4rndb
-        mbHOD53kotEi3jcEcI0AnbFYHzFatHw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-1T-EYTR2PsCU1fq2hsCqdQ-1; Wed, 12 Feb 2020 09:45:21 -0500
-X-MC-Unique: 1T-EYTR2PsCU1fq2hsCqdQ-1
-Received: by mail-wm1-f69.google.com with SMTP id p26so807545wmg.5
-        for <linux-input@vger.kernel.org>; Wed, 12 Feb 2020 06:45:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5yxu7FAFWwnIWX0SIGmGmSoK4AorTJs9H07QQ92CKAE=;
-        b=lDCvaXtUoiyosKmlOk5DS8awloF3+b+SpbYi5xJJc4NM7ffs3Zd3ZAccoRax87mllV
-         nO/Yn6Dk8hHPj3EmYtutA5atrUn4tDc4o9KSmkWrRKLylHboNEhqw0YcPwYl9YK7PDPm
-         ch2be/wMU0TOnOSHbY0ccbRbedm2n5us8/d6KNW6VisCK0566pK+HbGs4sULmH7fVGkR
-         iWsdhXz1xUBGp+rKnVTQAVbRmQSnQUHHPX4XQsV3B/w0x1H8DZ7tBYM1BOvpmN7qdBXN
-         w1h4lEE2XjjTr5csl/yE3LXxrjm7dbIZeBMY3zl57XV/SJUv9ZetaPiZdICPncYSwKt6
-         UMOw==
-X-Gm-Message-State: APjAAAVs6x/7Zg3I+2RfT6MJAdclJawE9omuwT1MABDgK0vNRdecFLBz
-        02nksNXO9BQJIV8501JE8N1hXNmZe6wVF0qFT/12bHxMrzO+PwqcCFZTXTfNAYLbmFpJku3iiXA
-        2VnszUFfJ+SclwYYU++EYXuM=
-X-Received: by 2002:a05:600c:2207:: with SMTP id z7mr13285282wml.138.1581518719658;
-        Wed, 12 Feb 2020 06:45:19 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz/DPnyNQBFf9qRLXEDxykkC41nBOMiGj9xsFs5aS89vZNDZnDfVr0gows1yjwgUiGwyd6Rsw==
-X-Received: by 2002:a05:600c:2207:: with SMTP id z7mr13285259wml.138.1581518719307;
-        Wed, 12 Feb 2020 06:45:19 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-fc7e-fd47-85c1-1ab3.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:fc7e:fd47:85c1:1ab3])
-        by smtp.gmail.com with ESMTPSA id m9sm893216wrx.55.2020.02.12.06.45.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2020 06:45:18 -0800 (PST)
-From:   Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v3 0/5] SFH: Add Support for AMD Sensor Fusion Hub
-To:     Sandeep Singh <Sandeep.Singh@amd.com>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, srinivas.pandruvada@linux.intel.com,
-        jic23@kernel.org, linux-iio@vger.kernel.org,
-        Nehal-bakulchandra.Shah@amd.com
-Cc:     Shyam-sundar.S-k@amd.com
-References: <1581476197-25854-1-git-send-email-Sandeep.Singh@amd.com>
-Message-ID: <1ce6f591-1e8b-8291-7f18-48876fd70e10@redhat.com>
-Date:   Wed, 12 Feb 2020 15:45:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1729095AbgBLXXK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Feb 2020 18:23:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33280 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727117AbgBLXXK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 12 Feb 2020 18:23:10 -0500
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4FB3020848;
+        Wed, 12 Feb 2020 23:23:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581549789;
+        bh=TvICLvO9Snk4i7FuNgUQI0ItU+qw1IAxuj3QcAxRPM0=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=1gdDaDj409R0nHzjEurNMPfxA0HIjFQdV+yJnpk9xhebX21Rx1UiXKxEDc0lZqi4R
+         7+1eZWfMS8M9vBOcMx4DAEKhSVkx1q5kdu0u9N22Exka94D4KVIaHMfuCFLsmmNB64
+         Xfm3fIbHaB3L3ljZcdTMkLViqSHmkjXd9GLNaAhE=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <1581476197-25854-1-git-send-email-Sandeep.Singh@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <0101016eee224b83-b0577d24-8f51-4e1a-9afb-b3f518e5ba77-000000@us-west-2.amazonses.com>
+References: <20191205002503.13088-1-masneyb@onstation.org> <20191205002503.13088-2-masneyb@onstation.org> <0101016eee224b83-b0577d24-8f51-4e1a-9afb-b3f518e5ba77-000000@us-west-2.amazonses.com>
+Subject: Re: [PATCH 1/7] clk: qcom: add support for setting the duty cycle
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     mark.rutland@arm.com, agross@kernel.org,
+        bjorn.andersson@linaro.org, mturquette@baylibre.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-clk@vger.kernel.org
+To:     Brian Masney <masneyb@onstation.org>,
+        Taniya Das <tdas@codeaurora.org>, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org
+Date:   Wed, 12 Feb 2020 15:23:08 -0800
+Message-ID: <158154978850.184098.12366153456613977692@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Quoting Taniya Das (2019-12-09 20:47:35)
+> Hi Brian,
+>=20
+> On 12/5/2019 5:54 AM, Brian Masney wrote:
+> > +     d_reg_val =3D mask - (((mask - 17) * duty->num) / duty->den);
+> > +     ret =3D __clk_rcg2_configure_with_duty_cycle(rcg, rcg->freq_tbl,
+> > +                                                d_reg_val, duty->num,
+> > +                                                duty->den);
+>=20
+> The duty-cycle calculation is not accurate.
+> There is already a plan to submit the duty-cycle changes from my side.
 
-On 2/12/20 3:56 AM, Sandeep Singh wrote:
-> From: Sandeep Singh <sandeep.singh@amd.com>
-> 
-> AMD SFH(Sensor Fusion Hub) is HID based driver.SFH FW
-> is part of MP2 processor (MP2 which is an ARM® Cortex-M4
-> core based co-processor to x86) and it runs on MP2 where
-> in driver resides on X86.The driver functionalities are
-> divided  into three parts:-
-> 
-> 1: amd-mp2-pcie:-       This module will communicate with MP2 FW and
->                          provide that data into DRAM.
-> 2: Client driver :-     This part for driver will use dram data and
->                          convert that data into HID format based on
->                          HID reports.
-> 3: Transport driver :-  This part of driver will communicate with
->                          HID core. Communication between devices and
->                          HID core is mostly done via HID reports
-> 
-> In terms of architecture it is much more reassembles like
-> ISH(Intel Integrated Sensor Hub). However the major difference
-> is all the hid reports are generated as part of kernel driver.
-> AMD SFH driver taken reference from ISH in terms of
-> design and functionalities at fewer location.
-> 
-> AMD sensor fusion Hub is part of a SOC 17h family based platforms.
-> The solution is working well on several OEM products.
-> AMD SFH uses HID over PCIe bus.
-
-I started looking at this patch because of the phoronix' news item on it.
-
-First of all I want to say that it is great that AMD is working on
-getting the Sensor Fusion Hub supported on Linux and that you are
-working on a driver for this.
-
-But, I've taken a quick look, mainly at the
-"[PATCH v3 5/5] SFH: Create HID report to Enable support of AMD sensor fusion Hub (SFH)"
-patch.
-
-AFAIK with the Intel ISH the sensor-hub itself is actually providing
-HID descriptors and HID input reports.
-
-Looking at the AMD code, that does not seem to be the case, it seems
-the values come directly from the AMD sensor-hub without being in any
-HID specific form, e.g.:
-
-+u8 get_input_report(int sensor_idx, int report_id,
-+		    u8 *input_report, u32 *sensor_virt_addr)
-+{
-+	u8 report_size = 0;
-+	struct accel3_input_report acc_input;
-+	struct gyro_input_report gyro_input;
-+	struct magno_input_report magno_input;
-+	struct als_input_report als_input;
-+
-+	if (!sensor_virt_addr || !input_report)
-+		return report_size;
-+
-+	switch (sensor_idx) {
-+	case ACCEL_IDX: /* accel */
-+		acc_input.common_property.report_id = report_id;
-+		acc_input.common_property.sensor_state =
-+					HID_USAGE_SENSOR_STATE_READY_ENUM;
-+		acc_input.common_property.event_type =
-+				HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
-+		acc_input.in_accel_x_value = (int)sensor_virt_addr[0] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		acc_input.in_accel_y_value = (int)sensor_virt_addr[1] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		acc_input.in_accel_z_value =  (int)sensor_virt_addr[2] /
-+						AMD_SFH_FIRMWARE_MULTIPLIER;
-+		memcpy(input_report, &acc_input, sizeof(acc_input));
-+		report_size = sizeof(acc_input);
-+		break;
-
-And the descriptors are hardcoded in the driver so as to fake a HID
-device.
-
-So going through the HID subsystem seems like an unnecessary detour,
-which just makes things needlessly complex and harder to debug
-(and extend).
-
-The HID devices which the current patch-set is creating ultimately
-will result in a number of devices being created under
-
-/sys/bus/iio/devices
-
-And this are the devices which userspace uses to get the sensor data.
-
-IMHO instead of going through the HID subsys the AMD Sensor Fusion Hub
-driver should simply register 4 (*) iio-devices itself and directly
-pass the data through at the iio subsys level rather then going the
-long way around by creating a fake HID device which then gets
-attached to by the hid-sensor driver to ultimately create the same
-iio-devices.
-
-There are examples of e.g. various iio accel drivers under:
-drivers/iio/accel/ you could start with a simple driver supporting
-just the accelerometer bits and then extend things from there.
-
-Benjamin, Jiri, Jonathan, what is your take on this?
-
-Regards,
-
-Hans
-
-
-*) One for accel, gyra, magneto and light each
-
-
-> Sandeep Singh (5):
->    SFH: Add maintainers and documentation for AMD SFH based on HID
->      framework
->    SFH: PCI driver to add support of AMD sensor fusion Hub using HID
->      framework
->    SFH: Transport Driver to add support of AMD Sensor Fusion Hub (SFH)
->    SFH: Add debugfs support to AMD Sensor Fusion Hub
->    SFH: Create HID report to Enable support of AMD sensor fusion Hub
->      (SFH)
-> 
-> Changes since v1:
->          -Fix auto build test warnings
->          -Fix warnings captured using smatch
->          -Changes suggested by Dan Carpenter
-> 
-> Links of the review comments for v1:
->          [1] https://patchwork.kernel.org/patch/11325163/
->          [2] https://patchwork.kernel.org/patch/11325167/
->          [3] https://patchwork.kernel.org/patch/11325171/
->          [4] https://patchwork.kernel.org/patch/11325187/
-> 
-> 
-> Changes since v2:
->          -Debugfs divided into another patch
->          -Fix some cosmetic changes
->          -Fix for review comments
->           Reported and Suggested by:-  Srinivas Pandruvada
-> 
-> Links of the review comments for v2:
->          [1] https://patchwork.kernel.org/patch/11355491/
->          [2] https://patchwork.kernel.org/patch/11355495/
->          [3] https://patchwork.kernel.org/patch/11355499/
->          [4] https://patchwork.kernel.org/patch/11355503/
-> 
-> 
->   Documentation/hid/amd-sfh-hid.rst                  | 160 +++++
->   MAINTAINERS                                        |   8 +
->   drivers/hid/Kconfig                                |   2 +
->   drivers/hid/Makefile                               |   1 +
->   drivers/hid/amd-sfh-hid/Kconfig                    |  20 +
->   drivers/hid/amd-sfh-hid/Makefile                   |  17 +
->   drivers/hid/amd-sfh-hid/amd_mp2_pcie.c             | 243 ++++++++
->   drivers/hid/amd-sfh-hid/amd_mp2_pcie.h             | 177 ++++++
->   drivers/hid/amd-sfh-hid/amdsfh-debugfs.c           | 250 ++++++++
->   drivers/hid/amd-sfh-hid/amdsfh-debugfs.h           |  14 +
->   drivers/hid/amd-sfh-hid/amdsfh-hid-client.c        | 260 +++++++++
->   drivers/hid/amd-sfh-hid/amdsfh-hid.c               | 179 ++++++
->   drivers/hid/amd-sfh-hid/amdsfh-hid.h               |  85 +++
->   .../hid_descriptor/amd_sfh_hid_descriptor.c        | 275 +++++++++
->   .../hid_descriptor/amd_sfh_hid_descriptor.h        | 125 ++++
->   .../hid_descriptor/amd_sfh_hid_report_descriptor.h | 642 +++++++++++++++++++++
->   16 files changed, 2458 insertions(+)
->   create mode 100644 Documentation/hid/amd-sfh-hid.rst
->   create mode 100644 drivers/hid/amd-sfh-hid/Kconfig
->   create mode 100644 drivers/hid/amd-sfh-hid/Makefile
->   create mode 100644 drivers/hid/amd-sfh-hid/amd_mp2_pcie.c
->   create mode 100644 drivers/hid/amd-sfh-hid/amd_mp2_pcie.h
->   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-debugfs.c
->   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-debugfs.h
->   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid-client.c
->   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid.c
->   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid.h
->   create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.c
->   create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.h
->   create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_descriptor.h
-> 
-
+What are the plans to submit this? Should we expect to see this support
+in the next week? Month?
