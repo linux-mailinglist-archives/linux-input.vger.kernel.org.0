@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66C2E15A3BB
-	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2020 09:47:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3A2A15A3BD
+	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2020 09:47:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728567AbgBLIrE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Feb 2020 03:47:04 -0500
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:32536 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728603AbgBLIrD (ORCPT
+        id S1728533AbgBLIrM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Feb 2020 03:47:12 -0500
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:5140 "EHLO
+        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728544AbgBLIrM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Feb 2020 03:47:03 -0500
-IronPort-SDR: UmccEZ6TV3AxSffb6QjU8sVqie8YB7SsOz3nWRgGkcnP2J2UPloq8kex6EefORrvklUhcbCnK4
- bDclgPPniK2bll4h2DZo93lq4N/x8SJiYRXmZdL9LU/QByEDAIeGFQdpLtk0EQ8jXKUHcGBS14
- XNMxsSkKVyYV7QtP1Udvay0Ipi+oACwr5S6XT+hSjOLiJimyVz6ozOpLKGDn1Pb7clcOXrAYl4
- qWK6sJEeRSFan0ev5fm/+Fv2qgrZDvnVpdEUJ8N1eMiMV42slVlsdWV9NfqaApRDhUBOSf+L8J
- Cfs=
+        Wed, 12 Feb 2020 03:47:12 -0500
+IronPort-SDR: fOy+vc4Ykexg2rAn6t6sQkNfPHvzThpPXw6PxvNBfTtRu7wk/WjDS1Dxl9pRXrTUE9am4q7bMT
+ ay8z1X/aNFZwlNi191v9qKQCQReddtiFBzev8tF8ZR+8KckmhR58UcKVINiOcNsvxvEDJb6oEp
+ U4+Xzjfin/u4Dyb3TC1vjsa08xmOuIV2dM6Lmet8kv6ngpgolG93WvIg8OGLcfm/5XiJcX1ffJ
+ zucVErb9SDWsZcgMjY2oYzbvwr4Qikl3MrtW9mCtMSjRKWQ68H8MLqd0hOna2QsJRxOhmZZWYq
+ dic=
 X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; 
-   d="scan'208";a="47667108"
+   d="scan'208";a="45686299"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa1.mentor.iphmx.com with ESMTP; 12 Feb 2020 00:47:03 -0800
-IronPort-SDR: Qa6RS9pSbqtPaLnZQ7y7GM6Qav5yQCUedUJHybQXsv/Wv/bTj5u0nnMcLazrwieAt9UDsE84R2
- o9MQTEsdq6mgKOPxvJp3bTMxifLr+ZH9Q91DAJ4VHSI5ZChTCdU6cs6k3xJyu1hsrjbJ/G3Ai6
- 3axggy+3U9HkubuzJPsG4Zve8lwc1rVXUbiSBOdARD4KPgJIOaU6auPyUR0UMKYQ5hHXKgrI4E
- IgiujfZ5nuMsdKKSeGWde5vEbR/ragAEp+wX2zI01UKDTOOLTn3lRy3uqwCjmSBXgp+7zqjiAr
- Wqw=
+  by esa2.mentor.iphmx.com with ESMTP; 12 Feb 2020 00:47:11 -0800
+IronPort-SDR: OPjzyoNIehf1LkwreltCylrx4xOql3bqx2e5u85F6EwqZlt+QYDwNVjI07oOc/s50PF9QMleG8
+ kRjQK4bhs8/DAVqaQXmsWbNx2uGR0DTmx0VVFS6tzc33KsJc7CsEZmwzJxfUAJisRBr+R1459U
+ m6FPhM+UcODwGNTrnyCTKwzgbGLFgYBYTSGjTX6AMaItABH+F/dL3l8BGe+uVTY7MXtU9xKkra
+ +QRDvbQf9hcyZnbMXzD2dCW6Iae3egSus5lHOWtTy4Jlw65sXh79Ug8ZmLLo8xNPU0ZY0zwTEs
+ s3w=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <rydberg@bitmath.org>, <dmitry.torokhov@gmail.com>,
@@ -33,9 +33,9 @@ To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v7 39/48] Input: Atmel: improve error handling in mxt_initialize()
-Date:   Wed, 12 Feb 2020 00:42:09 -0800
-Message-ID: <20200212084218.32344-40-jiada_wang@mentor.com>
+Subject: [PATCH v7 40/48] Input: Atmel: improve error handling in mxt_update_cfg()
+Date:   Wed, 12 Feb 2020 00:42:10 -0800
+Message-ID: <20200212084218.32344-41-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200212084218.32344-1-jiada_wang@mentor.com>
 References: <20200212084218.32344-1-jiada_wang@mentor.com>
@@ -48,127 +48,31 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Deepak Das <deepak_das@mentor.com>
 
-Currently mxt_initialize() tries to probe bootloader mode
-even if valid bootloader address is not specified.
-
-This commit modifies mxt_initialize() to return error
-if Device is not in appmode and bootloader address is
-not specified.
-
-This commit also returns error code from mxt_send_bootloader_cmd()
-in mxt_initialize().
+mxt_update_cfg() failed to propagate the error
+code from mxt_init_t7_power_cfg() so return the error code.
 
 Signed-off-by: Deepak Das <deepak_das@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 58 +++++++++++++++++-------
- 1 file changed, 41 insertions(+), 17 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index d96726fa00c5..07228df847e3 100644
+index 07228df847e3..3654f4b399d9 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -716,17 +716,13 @@ static int mxt_lookup_bootloader_address(struct mxt_data *data, bool retry)
- 	return 0;
- }
+@@ -2183,7 +2183,9 @@ static int mxt_update_cfg(struct mxt_data *data, const struct firmware *fw)
+ 	dev_info(dev, "Config successfully updated\n");
  
--static int mxt_probe_bootloader(struct mxt_data *data, bool alt_address)
-+static int mxt_probe_bootloader(struct mxt_data *data)
- {
- 	struct device *dev = &data->client->dev;
- 	int error;
- 	u8 buf[3];
- 	bool crc_failure, extended_id;
+ 	/* T7 config may have changed */
+-	mxt_init_t7_power_cfg(data);
++	ret = mxt_init_t7_power_cfg(data);
++	if (ret)
++		dev_warn(dev, "Power Config failed to update\n");
  
--	error = mxt_lookup_bootloader_address(data, alt_address);
--	if (error)
--		return error;
--
- 	/* Check bootloader status and version information */
- 	error = mxt_bootloader_read(data, buf, sizeof(buf));
- 	if (error)
-@@ -2920,6 +2916,32 @@ static void mxt_config_cb(const struct firmware *cfg, void *ctx)
- 	release_firmware(cfg);
- }
- 
-+static int mxt_bootloader_status(struct mxt_data *data)
-+{
-+	struct i2c_client *client = data->client;
-+	int error;
-+
-+	error = mxt_lookup_bootloader_address(data, false);
-+	if (error) {
-+		dev_info(&client->dev,
-+			 "Bootloader address is not specified\n");
-+		return error;
-+	}
-+	/* Check bootloader state */
-+	error = mxt_probe_bootloader(data);
-+	if (error) {
-+		dev_info(&client->dev, "Trying alternate bootloader address\n");
-+		mxt_lookup_bootloader_address(data, true);
-+		error = mxt_probe_bootloader(data);
-+		if (error) {
-+			dev_err(&client->dev,
-+				"Chip is not in appmode or bootloader mode\n");
-+			return error;
-+		}
-+	}
-+	return 0;
-+}
-+
- static int mxt_initialize(struct mxt_data *data)
- {
- 	struct i2c_client *client = data->client;
-@@ -2931,16 +2953,13 @@ static int mxt_initialize(struct mxt_data *data)
- 		if (!error)
- 			break;
- 
--		/* Check bootloader state */
--		error = mxt_probe_bootloader(data, false);
--		if (error) {
--			dev_info(&client->dev, "Trying alternate bootloader address\n");
--			error = mxt_probe_bootloader(data, true);
--			if (error) {
--				/* Chip is not in appmode or bootloader mode */
--				return error;
--			}
--		}
-+		dev_info(&client->dev,
-+			 "info block read failed (%d), so try bootloader method\n",
-+			 error);
-+
-+		error = mxt_bootloader_status(data);
-+		if (error)
-+			return error;
- 
- 		/* OK, we are in bootloader, see if we can recover */
- 		if (++recovery_attempts > 1) {
-@@ -2954,7 +2973,9 @@ static int mxt_initialize(struct mxt_data *data)
- 		}
- 
- 		/* Attempt to exit bootloader into app mode */
--		mxt_send_bootloader_cmd(data, false);
-+		error = mxt_send_bootloader_cmd(data, false);
-+		if (error)
-+			return error;
- 		msleep(MXT_FW_RESET_TIME);
- 	}
- 
-@@ -3646,8 +3667,11 @@ static int mxt_enter_bootloader(struct mxt_data *data)
- 
- 		msleep(MXT_RESET_TIME);
- 
-+		ret = mxt_lookup_bootloader_address(data, false);
-+		if (ret)
-+			return ret;
- 		/* Do not need to scan since we know family ID */
--		ret = mxt_probe_bootloader(data, 0);
-+		ret = mxt_probe_bootloader(data);
- 		if (ret)
- 			return ret;
- 
+ release_mem:
+ 	kfree(cfg.mem);
 -- 
 2.17.1
 
