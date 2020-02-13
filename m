@@ -2,436 +2,245 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D063C15C4FF
-	for <lists+linux-input@lfdr.de>; Thu, 13 Feb 2020 16:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BCBA15C5CA
+	for <lists+linux-input@lfdr.de>; Thu, 13 Feb 2020 17:11:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387571AbgBMPw1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Feb 2020 10:52:27 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56335 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2388059AbgBMPw0 (ORCPT
+        id S1728841AbgBMPYy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Feb 2020 10:24:54 -0500
+Received: from orion.archlinux.org ([88.198.91.70]:37806 "EHLO
+        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728814AbgBMPYx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Feb 2020 10:52:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1581609145;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=j117JhCfb+ifZwAFpTZEAEvyQH0kC6JyN1RvcAMrf0I=;
-        b=XkF8Y0CLBblX5DP4C2/J4v5z3ETTbQthMIS/lg+d/VRVJjIqgbsQ5hRClF1MK3v71OZUzO
-        AdGOeDGmHrpDWL9DBSKJjNppYjdfaJYB73n45Htuz77+SX+0TT+thNP1U0fTY8aQpNpyXY
-        TMZT2HbG+fuv9d+qV6Upcj8JfIgHTAw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-L8KU5yTiNOe3AiSJICcs5Q-1; Thu, 13 Feb 2020 10:52:22 -0500
-X-MC-Unique: L8KU5yTiNOe3AiSJICcs5Q-1
-Received: by mail-wr1-f70.google.com with SMTP id r1so2494469wrc.15
-        for <linux-input@vger.kernel.org>; Thu, 13 Feb 2020 07:52:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=j117JhCfb+ifZwAFpTZEAEvyQH0kC6JyN1RvcAMrf0I=;
-        b=cLnVRxOLF1aTMeLbZJnNp6sjzkxMqUryepTQY/GbuptpKklyes2PYyW78rcOQt3mvB
-         57kLSLAnj3iwhm3IhrNa6FTAu5wQ0HTKJKI2Qw2ewBsK3Xq9OQCZyh9Qu7X0MbULZu2J
-         tBsU6FnkAdhSkd74leMrtqH6pniDpBNSe7NWZgcuGjPz2bRvw2MCspHYTK08d1LdmILq
-         ddIu0D7zwPai4bAXVIUE2cPQdBl3k6Ithbnj70RN/0vhok4vTONnaBuofp5C2FmoO/Nz
-         vlZhnF9vQ9G9VRlfeXze5av4P+/Vs2+S6qlUcVlUq8rmo6UgOx0Py99lECpXm/c8WmZ3
-         E6GQ==
-X-Gm-Message-State: APjAAAVqvXZD3NyQ7jvkGdQHPG3kb1mrjFD2VlTJYD62CQUhhX1RpX8K
-        Ur2L9wrG0yJttXIbm6IhwwU6ZPaJlPqK4d3kGkqzD0K9sxsWIVropR/bspmyMFi0Ox+61jhBXAE
-        NDQQDWjjSFePsX8ljEzbFb1o=
-X-Received: by 2002:a7b:c416:: with SMTP id k22mr6828750wmi.10.1581609140678;
-        Thu, 13 Feb 2020 07:52:20 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzX8u6AaWkpTAMKlfX1n2DYBMXd+2/tBP9UahOmYCe3qWmOhrLff+0NrQBFYqDZxm/DDUV51w==
-X-Received: by 2002:a7b:c416:: with SMTP id k22mr6828711wmi.10.1581609140116;
-        Thu, 13 Feb 2020 07:52:20 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-fc7e-fd47-85c1-1ab3.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:fc7e:fd47:85c1:1ab3])
-        by smtp.gmail.com with ESMTPSA id z19sm3222123wmi.35.2020.02.13.07.52.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Feb 2020 07:52:19 -0800 (PST)
-Subject: Re: Make the hid-logitech-dj driver remove the HID++ nodes when the
- device disconnects
+        Thu, 13 Feb 2020 10:24:53 -0500
+Received: from orion.archlinux.org (localhost [127.0.0.1])
+        by orion.archlinux.org (Postfix) with ESMTP id 49FE118F151497;
+        Thu, 13 Feb 2020 15:24:49 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.3 (2019-12-06) on orion.archlinux.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
+        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
+        autolearn=no autolearn_force=no version=3.4.3
+X-Spam-BL-Results: 
+Received: from genesis (unknown [IPv6:2001:8a0:f254:2300:dad6:8c60:8394:88da])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ffy00)
+        by orion.archlinux.org (Postfix) with ESMTPSA;
+        Thu, 13 Feb 2020 15:24:48 +0000 (UTC)
+Message-ID: <b55426351a0853aa59e100a4f313df24323b0fa6.camel@archlinux.org>
+Subject: Re: Make the hid-logitech-dj driver remove the HID++ nodes when
+ the device disconnects
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
 To:     Benjamin Tissoires <btissoir@redhat.com>
-Cc:     =?UTF-8?Q?Filipe_La=c3=adns?= <lains@archlinux.org>,
+Cc:     Peter Hutterer <peter.hutterer@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>,
         linux-input <linux-input@vger.kernel.org>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
         Nestor Lopez Casado <nlopezcasad@logitech.com>,
         Jiri Kosina <jikos@kernel.org>,
         Bastien Nocera <hadess@hadess.net>,
         Julien Hartmann <juli1.hartmann@gmail.com>
+In-Reply-To: <CAO-hwJ+-Og-0OcNo2gWq+XKM6wjw9oWquZTzPCUhTOaMRYQGHg@mail.gmail.com>
 References: <451e552444483c52a038d3d14391611f897582f4.camel@archlinux.org>
- <f2997fc7-1f34-79d3-f0aa-8367ed09f473@redhat.com>
- <ac804c20c692aa5a65e78ba6c8e22e4f328f1667.camel@archlinux.org>
- <4168f943-5ffe-10aa-b15f-21799ca99c0d@redhat.com>
- <7bf597e43c38518692dee5fdc2c03e21f78f61a1.camel@archlinux.org>
- <CAO-hwJLKrY6vJ-95+A-w3BdGXLVQDsX73VkgqjGCFOztTVRa9w@mail.gmail.com>
- <80aaf01d-fd9f-49fe-44cf-67710a0d136c@redhat.com>
- <c92b913816366b8744ebcb3d067d968431cfffb2.camel@archlinux.org>
- <28244ac8-9b8d-2950-b282-4db5cf7bf9b2@redhat.com>
- <CAO-hwJJ3uLgwUGqEUJ7eUFvf+AfebOD4vRxvhUJkxS3+QBoXmQ@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <1acb46f0-b818-6c5f-0ca6-5b196a722cb8@redhat.com>
-Date:   Thu, 13 Feb 2020 16:52:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+         <f2997fc7-1f34-79d3-f0aa-8367ed09f473@redhat.com>
+         <ac804c20c692aa5a65e78ba6c8e22e4f328f1667.camel@archlinux.org>
+         <4168f943-5ffe-10aa-b15f-21799ca99c0d@redhat.com>
+         <7bf597e43c38518692dee5fdc2c03e21f78f61a1.camel@archlinux.org>
+         <CAO-hwJLKrY6vJ-95+A-w3BdGXLVQDsX73VkgqjGCFOztTVRa9w@mail.gmail.com>
+         <b867da88-991d-4a9b-7640-4a7994b7112a@redhat.com>
+         <74339066fc673cf95c0306e3005239eeae60761c.camel@archlinux.org>
+         <CAO-hwJ+-Og-0OcNo2gWq+XKM6wjw9oWquZTzPCUhTOaMRYQGHg@mail.gmail.com>
+Organization: Archlinux
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-/LNmCDHSO55bOaGBi7HV"
+Date:   Thu, 13 Feb 2020 15:24:46 +0000
 MIME-Version: 1.0
-In-Reply-To: <CAO-hwJJ3uLgwUGqEUJ7eUFvf+AfebOD4vRxvhUJkxS3+QBoXmQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+User-Agent: Evolution 3.34.3 
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
 
-On 2/13/20 4:07 PM, Benjamin Tissoires wrote:
-> [almost forgot about this thread]
-> 
-> On Thu, Feb 6, 2020 at 8:02 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 2/6/20 7:43 PM, Filipe Laíns wrote:
->>> On Thu, 2020-02-06 at 18:45 +0100, Hans de Goede wrote:
->>>> Hi,
->>>>
->>>> On 2/6/20 6:01 PM, Benjamin Tissoires wrote:
->>>>> On Thu, Feb 6, 2020 at 4:42 PM Filipe Laíns <lains@archlinux.org> wrote:
->>>>>> On Thu, 2020-02-06 at 13:13 +0100, Hans de Goede wrote:
->>>>>>> Hi,
->>>>>>>
->>>>>>> On 2/6/20 12:51 PM, Filipe Laíns wrote:
->>>>>>>> On Thu, 2020-02-06 at 12:30 +0100, Hans de Goede wrote:
->>>>>>>>> HI,
->>>>>>>>>
->>>>>>>>> On 2/6/20 12:14 PM, Filipe Laíns wrote:
->>>>>>>>>> Hello,
->>>>>>>>>>
->>>>>>>>>> Right now the hid-logitech-dj driver will export one node for each
->>>>>>>>>> connected device, even when the device is not connected. That causes
->>>>>>>>>> some trouble because in userspace we don't have have any way to know if
->>>>>>>>>> the device is connected or not, so when we try to communicate, if the
->>>>>>>>>> device is disconnected it will fail.
->>>>>>>>>
->>>>>>>>> I'm a bit reluctant to make significant changes to how the
->>>>>>>>> hid-logitech-dj driver works. We have seen a number of regressions
->>>>>>>>> when it was changed to handle the non unifying receivers and I would
->>>>>>>>> like to avoid more regressions.
->>>>>>>>>
->>>>>>>>> Some questions:
->>>>>>>>> 1. What is the specific use case where you are hitting this?
->>>>>>>>
->>>>>>>> For example, in libratbag we enumerate the devices and then probe them.
->>>>>>>> Currently if the device is not connected, the communication fails. To
->>>>>>>> get the device to show up we need to replug it, so it it triggers udev,
->>>>>>>> or restart the daemon.
->>>>>>>
->>>>>>> Thanks, that is exactly the sort of context to your suggested changes
->>>>>>> which I need.
->>>>>>>
->>>>>>>>> 2. Can't the userspace tools involved by modified to handle the errors
->>>>>>>>> they are getting gracefully?
->>>>>>>>
->>>>>>>> They can, but the approaches I see are not optimal:
->>>>>>>>       - Wait for HID events coming from the device, which could never
->>>>>>>> happen.
->>>>>>>>       - Poll the device until it wakes up.
->>>>>>>
->>>>>>> I guess we do get some (other or repeated?) event when the device does
->>>>>>> actually connect, otherwise your suggested changes would not be possible.
->>>>>>
->>>>>> No, I was thinking to just send the HID++ version identification
->>>>>> routine and see if the device replies.
->>>>>
->>>>> Hmm, to continue on these questions:
->>>>> - yes, the current approach is to have the users of the HID++ device
->>>>> try to contact the device, get an error from the receiver, then keep
->>>>> the hidraw node open until we get something out of it, and then we can
->>>>> start talking to it
->>>>> - to your question Hans, when a device connects, it emits a HID++
->>>>> notification, which we should be relaying in the hidraw node. If not,
->>>>> well then starting to receive a key or abs event on the input node is
->>>>> a pretty good hint that the device connected.
->>>>>
->>>>> So at any time, the kernel knows which devices are connected among
->>>>> those that are paired, so the kernel knows a lot more than user space.
->>>>
->>>> Ack.
->>>>
->>>>> The main problem Filipe is facing here is that we specifically
->>>>> designed libratbag to *not* keep the device nodes opened, and to not
->>>>> poll on the input events. The reason being... we do not want libratbag
->>>>> to be considered as a keylogger.
->>>>
->>>> Ack.
->>>>
->>>>>>> So how about if we trigger a udev change event on the hid device instead
->>>>>>> when this happens ? That seems like a less invasive change on the kernel
->>>>>>> side and then libratbag could listen for these change events?
->>>>>>
->>>>>> Yes, that is a good idea :) I did not know this was possible but it
->>>>>> seems like a better approach.
->>>>>
->>>>> Not a big fan of that idea personally. This will add yet an other
->>>>> kernel API that we have to maintain.
->>>>> On Filipe's side, the hotplug support is something that has been
->>>>> around for quite a long time now, so we can safely expect applications
->>>>> to handle it properly.
->>>>
->>>> The suggested udev event change would just require a small change
->>>> to the existing hotplug handling, currently it responds to udev
->>>> "add" and "remove" events. With my suggested change in the "add"
->>>> path it will get an error because the device is not connected and
->>>> then stop adding the device. Combine this with treating "change"
->>>> events as "add" events and that is all that has to change on the
->>>> libratbag side.
->>>>
->>>> This assumes that duplicate add events are already filtered out,
->>>> which one has to do anyways to avoid coldplug enumeration vs
->>>> hotplug races.
->>>>
->>>> As for yet another kernel API to maintain, udev change events
->>>> already are an existing kernel API, what would be new is the hidpp
->>>> driver; and just the hidpp driver emitting them.
->>>>
->>>> All that is needed on the kernel side for this is to make the following
->>>> call when we detect a device moves from the paired to the connected state:
->>>>
->>>>       kobject_uevent(&hdev->dev.kobj, KOBJ_CHANGE);
->>>>
->>>> And there even seems to be a precedent for this, drivers/hid/hid-wiimote-core.c
->>>> already does this for what seems to be similar reasons.
-> 
-> Oooh, so yes, that would be an elegant way of solving this. We don't
-> use KOBJ_CHANGE in the input stack, so there should be no harm in
-> using it for that purpose.
-> 
->>>>
->>>>
->>>>>>>>> 3. Is there a bugreport open about this somewhere?
->>>>>>>>
->>>>>>>> Yes, https://github.com/libratbag/libratbag/issues/785
->>>>>>>>
->>>>>>>>>> The reason we do this is because otherwise we would loose the first
->>>>>>>>>> packets when the device is turned on by key press. When a device is
->>>>>>>>>> turned on we would have to create the device node, and the packets
->>>>>>>>>> received while we are creating the device node would be lost.
->>>>>>>>>
->>>>>>>>> I don't believe that this is the reason, we only create hid child
->>>>>>>>> devices for devices reported by the receiver, but some of the non
->>>>>>>>> unifying hid receiver send a list of all devices paired, rather
->>>>>>>>> then the ones which are actually connected at that time.
->>>>>>>>
->>>>>>>> IIRC from my chats with Benjamin and Peter this is the reason, but
->>>>>>>> please correct me if I'm wrong.
->>>>>
->>>>> Filipe is correct here.
->>>>>
->>>>> For unifying devices, we can have up to 6 devices paired to a
->>>>> receiver, 3 can be used at the same time (connected).
->>>>> For the cheap receivers, we can enumerate 2 paired devices, but they
->>>>> are not necessarily connected too.
->>>>>
->>>>> Historically, when I first wrote the hid-logitech-hidpp driver, I
->>>>> wanted to not export a non connected device. But as mentioned by
->>>>> Filipe, this was posing issues mainly for keyboards, because generally
->>>>> the first thing you type on a keyboard is your password, and you don't
->>>>> necessarily have the feedback to see which keys you typed.
->>>>>
->>>>> So we (Nestor and I) decided to almost always create the input nodes
->>>>> when the device was not connected. The exceptions are when we need
->>>>> some device communication to set up the input node: so just for the
->>>>> touchpads.
->>>>
->>>> Ok.
->>>>
->>>>
->>>>>>> Could be that we can distinguish between "paired" and "connected"
->>>>>>> and that we are enumerating "paired" but not (yet) "connected"
->>>>>>> devices already because of what you say, I've not touched this
->>>>>>> code in a while.
->>>>>
->>>>> That is correct. Paired doesn't mean connected.
->>>>>
->>>>>> We create nodes for all paired devices, no matter if they are connected
->>>>>> or not.
->>>>>>
->>>>>>>>>> This could solved by buffering those packets, but that is a bad solution as
->>>>>>>>>> it would mess up the timings.
->>>>>>>>>>
->>>>>>>>>> At the moment the created node includes both normal HID and vendor
->>>>>>>>>> usages. To solve this problem, I propose that instead of creating a
->>>>>>>>>> single device node that contains all usages, we create one for normal
->>>>>>>>>> HID, which would exist all the time, and one for the vendor usage,
->>>>>>>>>> which would go away when the device disconnects. >
->>>>>>>>>> This slight behavior change will affect userspace. Two hidraw nodes
->>>>>>>>>> would be created instead of one. We need to make sure the current
->>>>>>>>>> userspace stacks interfacing with this would be able to properly handle
->>>>>>>>>> such changes.
->>>>>>>>>>
->>>>>>>>>> What do you think of this approach? Anyone has a better idea?
->>>>>>>>>
->>>>>>>>> The suggested approach sounds fragile and like it adds complexity to
->>>>>>>>> an already not simple driver.
->>>>>
->>>>> OTOH, this is what we have been trying to do in the kernel for years
->>>>> now: have one single node per application/usage, so we can rely on
->>>>> some valid data from the user space.
->>>>>
->>>>> I don't think the complexity of the driver should be a problem here.
->>>>> Yes, it's a complex one, but introducing a new API for that is a no
->>>>> from me.
->>>>
->>>> udev change events are not "adding a new API" there are a well known
->>>> API using e.g. for monitor plug/unplug in the drm subsys, etc. Yes
->>>> using them in the HID subsys this way is somewhat new.
-> 
-> OK. Would be using the KOBJ_CHANGE for "the device connected"
-> something in line with what is done in the drm  subsystem?
+--=-/LNmCDHSO55bOaGBi7HV
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yes, the drm subsys uses this for example for monitor plug/unplug (later more
-detailed separate udev events were added which also indicate which connector
-changes, but the KOBJ_CHANGE event is still there for userspace which uses
-it rather then the detailed events).
+On Thu, 2020-02-13 at 16:12 +0100, Benjamin Tissoires wrote:
+> On Fri, Feb 7, 2020 at 1:37 AM Filipe La=C3=ADns <lains@archlinux.org> wr=
+ote:
+> > On Fri, 2020-02-07 at 10:03 +1000, Peter Hutterer wrote:
+> > > On 7/2/20 3:01 am, Benjamin Tissoires wrote:
+> > > > On Thu, Feb 6, 2020 at 4:42 PM Filipe La=C3=ADns <lains@archlinux.o=
+rg> wrote:
+> > > > > On Thu, 2020-02-06 at 13:13 +0100, Hans de Goede wrote:
+> > > > > > Hi,
+> > > > > >=20
+> > > > > > On 2/6/20 12:51 PM, Filipe La=C3=ADns wrote:
+> > > > > > > On Thu, 2020-02-06 at 12:30 +0100, Hans de Goede wrote:
+> > > > > > > > HI,
+> > > > > > > >=20
+> > > > > > > > On 2/6/20 12:14 PM, Filipe La=C3=ADns wrote:
+> > > > > > > > > Hello,
+> > > > > > > > >=20
+> > > > > > > > > Right now the hid-logitech-dj driver will export one node=
+ for each
+> > > > > > > > > connected device, even when the device is not connected. =
+That causes
+> > > > > > > > > some trouble because in userspace we don't have have any =
+way to know if
+> > > > > > > > > the device is connected or not, so when we try to communi=
+cate, if the
+> > > > > > > > > device is disconnected it will fail.
+> > > > > > > >=20
+> > > > > > > > I'm a bit reluctant to make significant changes to how the
+> > > > > > > > hid-logitech-dj driver works. We have seen a number of regr=
+essions
+> > > > > > > > when it was changed to handle the non unifying receivers an=
+d I would
+> > > > > > > > like to avoid more regressions.
+> > > > > > > >=20
+> > > > > > > > Some questions:
+> > > > > > > > 1. What is the specific use case where you are hitting this=
+?
+> > > > > > >=20
+> > > > > > > For example, in libratbag we enumerate the devices and then p=
+robe them.
+> > > > > > > Currently if the device is not connected, the communication f=
+ails. To
+> > > > > > > get the device to show up we need to replug it, so it it trig=
+gers udev,
+> > > > > > > or restart the daemon.
+> > > > > >=20
+> > > > > > Thanks, that is exactly the sort of context to your suggested c=
+hanges
+> > > > > > which I need.
+> > > > > >=20
+> > > > > > > > 2. Can't the userspace tools involved by modified to handle=
+ the errors
+> > > > > > > > they are getting gracefully?
+> > > > > > >=20
+> > > > > > > They can, but the approaches I see are not optimal:
+> > > > > > >     - Wait for HID events coming from the device, which could=
+ never
+> > > > > > > happen.
+> > > > > > >     - Poll the device until it wakes up.
+> > > > > >=20
+> > > > > > I guess we do get some (other or repeated?) event when the devi=
+ce does
+> > > > > > actually connect, otherwise your suggested changes would not be=
+ possible.
+> > > > >=20
+> > > > > No, I was thinking to just send the HID++ version identification
+> > > > > routine and see if the device replies.
+> > > >=20
+> > > > Hmm, to continue on these questions:
+> > > > - yes, the current approach is to have the users of the HID++ devic=
+e
+> > > > try to contact the device, get an error from the receiver, then kee=
+p
+> > > > the hidraw node open until we get something out of it, and then we =
+can
+> > > > start talking to it
+> > > > - to your question Hans, when a device connects, it emits a HID++
+> > > > notification, which we should be relaying in the hidraw node. If no=
+t,
+> > > > well then starting to receive a key or abs event on the input node =
+is
+> > > > a pretty good hint that the device connected.
+> > > >=20
+> > > > So at any time, the kernel knows which devices are connected among
+> > > > those that are paired, so the kernel knows a lot more than user spa=
+ce.
+> > > >=20
+> > > > The main problem Filipe is facing here is that we specifically
+> > > > designed libratbag to *not* keep the device nodes opened, and to no=
+t
+> > > > poll on the input events. The reason being... we do not want librat=
+bag
+> > > > to be considered as a keylogger.
+> > >=20
+> > > I'm wondering - can we really get around this long-term? Even if we h=
+ave
+> > > a separate HID++ node and/or udev change events and/or some other
+> > > notification, in the end you still have some time T between that even=
+t
+> > > and userspace opening the actual event node. Where the first key even=
+t
+> > > wakes up the physical keyboard, you're now racing.
+> >=20
+> > Yes but it doesn't really matter in this case. We would only be
+> > potentially losing HID++ events, which are not that important, unlike
+> > normal input events. In fact, libratbag does not care about HID++
+> > events, they are just ignored.
+> >=20
+> > We would still have the same issue, yes, except here we don't really
+> > care.
+>=20
+> Well, I guess Peter's point is: "yes, you don't care *right now*, but
+> what if you care in the future, you will have the same race."
+>=20
+> > > So the separate HID++ node works as long as libratbag *only* listens =
+to
+> > > that node, as soon as we need to start caring about a normal event it
+> > > won't work any longer.
+> >=20
+> > You mean when libratbag starts caring about normal input events? What
+> > is the point of that? Why would we need to do that? Also, as Benjamin
+> > pointed out, that would classify as a keylogger.
+>=20
+> For now, I think we are:
+> - to solve the immediate user-space problem, implement the udev events
+> as suggested by Hans. This is minimal code change
 
->>>>>>>> I understand, that is totally reasonable. I am working on a CI for the
->>>>>>>> driver if that helps.
->>>>>>>>
->>>>>>>>> It would be helpful to first describe the actual problem you are trying
->>>>>>>>> to fix (rather then suggesting a solution without clearly defining the
->>>>>>>>> problem) and then we can see from there.
->>>>>>>>
->>>>>>>> I though I described it good enough in the first paragraph but I guess
->>>>>>>> not, sorry. You should be able to get it from my comments above, if not
->>>>>>>> please let me know :)
->>>>>>>
->>>>>>> No problem, I have enough context now. I personally like my udev change
->>>>>>> event idea, which seems more KISS. But ultimately this is Benjamin's call.
->>>>>>
->>>>>> Yes, I don't know about the application details (I'll have to find out
->>>>>> :P) but it makes more sense to me. It avoids breaking the userspace
->>>>>> behavior.
->>>>>
->>>>> The udev change doesn't "break" userspace, but it is a new API. And
->>>>> that means nightmare from the application point of view:
->>>>> How do they know that the new API will be used? There is a high chance
->>>>> they won't, so for backward compatibility they will start listening to
->>>>> the hidraw node to match the current kernel behavior, and then we
->>>>> would just have added a new API for nothing.
->>>>
->>>> I agree that finding out if the udev change events are supported
->>>> is a bit of a challenge from userspace.
->>>>
->>>> But if I understood you correctly, then libratbag currently does
->>>> not keep listening to detect the connect, but rather atm this just
->>>> does not work, in which case it does not need to know if the new API
->>>> is there it can just assume; and even if it does need to know it
->>>> check the kernel-version number for that. Not pretty but that is
->>>> e.g. what libusb does to detect if certain "undetectable" features
->>>> are there, which admittedly is not ideal.
->>>
->>> Actually, since the latest release, libratbag would not require any
->>> changes. Please note that the proposal is to split the current hidraw
->>> node in two, one with just normal HID events, and one with just HID++.
->>> In 26c534cc742dfdbb14a889287f7771063be834cc (libratbag) we started
->>> parsing the report descriptors to find out the supported report IDs,
->>> the node with the normal HID events will fail on hidpp20_device_new
->>> because it won't support any HID++ reports.
->>>
->>>>>> Benjamin, what do you think?
->>>>>
->>>>> My point of view is:
->>>>> - don't add a new kernel API
->>>>
->>>> Again I believe calling udev change events "a new kernel API"
->>>> is exaggerating things a bit.
->>>>
->>>>> - rely on existing and supported user space behavior
->>>>> - ultimately, teach user space how to deal with the current situation
->>>>>
->>>>> So right now I think Filipe's proposal is the best bad solution. I
->>>>> would rank the udev event as worse than Filipe's solution because that
->>>>> involves both userspace and kernel space changes.
->>>>
->>>> The udev solution might require changes on both sides, but they
->>>> are very small easily reviewable changes. Anyways as I said this
->>>> is your call.
->>>>
->>>>> However, the proposal to add/remove the HID++ hidraw node on
->>>>> connect/disconnect really doesn't appeal to me because I am pretty
->>>>> sure we will have the same kind of issues that we are facing with
->>>>> keyboards. There might be an application that listens to the connect
->>>>> HID++ notification and turns the light on in the room whenever the
->>>>> mouse reconnects (and turns it off when the mouse disconnects because
->>>>> that means you left the room).
->>>>>
->>>>> So right now, as I am writing this, I think we should split the HID++
->>>>> node into its own hidraw node. This will allow application to listen
->>>>> to this node without being a keylogger as we will be filtering the key
->>>>> events in the actual input and the other hidraw nodes.
->>>
->>> Do we pass the HID connection notification to userspace? That is a
->>> receiver notification, and I though the driver was only passing the
->>> device packets.
->>>
->>> I don't understand why hotplugging is an issue? For me it's a feature.
->>> The userspace stack should definitely be able to handle it, that's how
->>> the corded devices work. By creating/removing the device node on device
->>> connect/disconnect we get the same behavior as when plugging/unplugging
->>> the mouse with a cable.
->>>
->>> Am I missing something here?
->>>
->>>> It took my a while to wrap my head around this, what you mean here
->>>> is that each paired device gets 2 nodes:
->>>>
->>>> 1) A full hidraw node which gets send all events from that paired device
->>>
->>> Like I said above, we want to split the node in two. One for the
->>> standard HID events (mouse movement, key press, etc.) and one just for
->>> HID++. From my understanding, this is also what Benjamin means.
->>
->> I see, so how would this work at the kernel level? AFAICT with the
->> current kernel code this would require logitech-dj to create 2 devices
->> under /sys/bus/hid/devices one for the HID++ descriptors + events
->> and one for the rest. But how is the drivers/hid/hid-logitech-hidpp.c
->> driver then supposed to work, AFAICT that needs access to both at
->> the same time.
-> 
-> Hmm, this is yet to be decided, yes. But hid-logitech-hidpp already
-> deals with more than one hid device for a physical peripheral, because
-> in the corded case, we might have 2 or 3 HID endpoints for one device.
-> 
->>
->> Or is the plan to modify the hidraw driver for this somehow?
-> 
-> Nope, no changes in hidraw.
+Okay, great. So, this would be step 1, it would fix the immediate
+problem with no breakage.
 
-Ok.
+> - to solve the "keylogger" issue, we can split the HID devices in 2.
 
->> I guess how this will work on the kernel side is mostly a question for Benjamin.
->>
->> I do see how this nicely solves the problem for userspace though,
->> it is a bit weird to have hidraw devices with fake descriptors and
->> which do not get all events, but we already have that with the
->> hidraw devices created for the devices behind the receiver, so I see
->> no harm in splitting these "fake" hidraw devices into 2 fake devices
->> each.
-> 
-> Yeah, the idea is to have a clean userspace implementation. OTOH, if
-> the udev change is sufficient, we might never implement this split
-> until the next need.
+This can come later. libratbag should be able to handle this change
+perfectly fine but we need to check with the other projects. If needed,
+I will test the change on the impacted projects and try submit the
+required patches to handle the new behavior properly to the upstreams.
 
-I think we should be able to make things work with just the KOBJ_CHANGE
-event on the kernel side, but that will require some small changes to
-the existing userspace code (e.g. to libratbag).
+Just to make sure: we want to actually split the devices, not just add
+another node for only HID++ or something like that.
 
-Regards,
+Quick question: is there any way for us to make userspace able to tell
+the nodes apart without having to get the rdesc via an ioctl? Perhaps
+exporting that information via sysfs?
 
-Hans
+> This way, we do not have to deal with hotplug races, but can still get
+> information from the connect event without reading the input events.
+>=20
+> Cheers,
+> Benjamin
+>=20
+> > Cheers,
+> > Filipe La=C3=ADns
 
+Thanks,
+Filipe La=C3=ADns
+
+--=-/LNmCDHSO55bOaGBi7HV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAl5FajgACgkQ+JPGdIFq
+qV3KMw//cdX2CqLbPETnNxdDNyxCljjNbGljqPCj3fazNIWfOILf58++VdFBrFNJ
+jCgB5pvOIu1LDZ0wBiFb8CbokUKA7o+k1jgrlKXNzUvbkbOp+s9MPBYCzHzHlV/u
+ipIe7GMY3LuhKYv+CFybqvpw3s4LunusWOF5N9A+8UKiGzf0tqCOSC67X4sIDf3R
+AffpGfA2ecniRxsABsQyWEynvNvgzZ96MAqKk3Psd0WQE71xAVTG1zGsbqVMPaVB
+hvA7mbjasjPQwvEMBOQQ3Uq6UzgUC0loufz5FObnIMtyvWaoNpytGQ6sqt5sOGE3
+KWy0yOoamk6BxGgE3Dg7ftTGPPX+4ypZdM+lqj9S1aqqUFL3RrryX/UgJ1j5eLRc
+AJ1Cz2MTsTY8iB9ijjTttEX77TDY6ywwoqttt3WxiBJs0t+xgYAydvfLuw7hYlwM
+cB6ksikvEBs6hfHj58O8lH2zWi3yy2cPlBpF91vFar6kOKG6kESjRyk3Rfi5EsKJ
+9KqNeV+WBkit3wfjYV9IHZlwOYo3LDpyBJypH+qHNo70n1X0x7O+tSHlDdk2D5Wt
+c3Y6TuCk0B9omIRBUk1OmYEsvosfyRSDrJU4Ipd19aiVZzoBDJQ85lKu3qBTMhOU
+FLzvDqGmqsJ1D5QKWLz8gwxH63otA6zZs12KCq6FvKKXzos+WNQ=
+=sF5d
+-----END PGP SIGNATURE-----
+
+--=-/LNmCDHSO55bOaGBi7HV--
