@@ -2,23 +2,23 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A110415B622
-	for <lists+linux-input@lfdr.de>; Thu, 13 Feb 2020 01:49:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D3A915B626
+	for <lists+linux-input@lfdr.de>; Thu, 13 Feb 2020 01:50:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729190AbgBMAtW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Feb 2020 19:49:22 -0500
-Received: from gateway33.websitewelcome.com ([192.185.146.21]:15387 "EHLO
-        gateway33.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729185AbgBMAtW (ORCPT
+        id S1729132AbgBMAu2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Feb 2020 19:50:28 -0500
+Received: from gateway23.websitewelcome.com ([192.185.49.177]:16158 "EHLO
+        gateway23.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729185AbgBMAu2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Feb 2020 19:49:22 -0500
-X-Greylist: delayed 1486 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Feb 2020 19:49:21 EST
-Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
-        by gateway33.websitewelcome.com (Postfix) with ESMTP id 96FB041C98B
-        for <linux-input@vger.kernel.org>; Wed, 12 Feb 2020 18:24:34 -0600 (CST)
+        Wed, 12 Feb 2020 19:50:28 -0500
+X-Greylist: delayed 1463 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Feb 2020 19:50:27 EST
+Received: from cm13.websitewelcome.com (cm13.websitewelcome.com [100.42.49.6])
+        by gateway23.websitewelcome.com (Postfix) with ESMTP id 424284AA6
+        for <linux-input@vger.kernel.org>; Wed, 12 Feb 2020 18:26:04 -0600 (CST)
 Received: from gator4166.hostgator.com ([108.167.133.22])
         by cmsmtp with SMTP
-        id 22J0jnCdmXVkQ22J0jBHp0; Wed, 12 Feb 2020 18:24:34 -0600
+        id 22KSj6MxoRP4z22KSjXxcs; Wed, 12 Feb 2020 18:26:04 -0600
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
@@ -26,24 +26,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
         List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=9EJb/euG7gkKhGffE7UiOq2aWqCT5JdXBk6xO9IA6+4=; b=V0Q3EHm+hTqpRCdnagX8jgROcl
-        JcRYnpgrbpIEOflPD6b+LDxXZGrvtZTvRo4y4DgFvdhvKKwaKbJvYsFpHEWAt0qaSnoXdKA7JoE4X
-        NdzDfZGC6/DV5PpRRtCTIHBJn0G47PDbFT851nZZxEyMmAEMzZrgZAgTnkCsog5qwMSX4slLOWO0T
-        ayszwKy7zl8ygl0Yp7Rvr2nsLUJZB9Ee4k7V2qNbye7MT3Ec6VM0BrxmC3KbcBpupI9nI6i2KuUNb
-        VLB1XNooMYaCzQoKNjRSvbb9WooDWBQDFtUO08jabYxxS9DAZULWIG0V9GRquLDU0rMgQ4iuxPMaL
-        PVajky2A==;
-Received: from [200.68.141.42] (port=13329 helo=embeddedor)
+        bh=2HOG+cF7ErJztCRrMubk72Din9WB7LDLWJbqEyt+viM=; b=u9J9GAIUzcqfmlHrz79BfTJzza
+        EJBQ2QdrMwZQvbxY5cJQ5jdGAJNE4Sx6YoQ/18ICDomD02e6toNy9fHpv35S8GtcKgOHeixWnAPGF
+        +vQ9px9QKTRLr0IAmJDetOwqRgLtw91xf93931DZyi6xZrA44KDBZ1y33mH2BTte7zjBnumQf+HKe
+        2NuRJOVBzRmNx3Mbbe7dyfeDpj/+AeJ9sS+3q9tHoGxm0zl64ZFGnoyftpD+twjKvKRXrl2raXec/
+        fFIYAHuOLILWoXZXRaED6v3eUfDjvp64OVdKpS3F/CM58ZpBZxSRtnmhlk5laiVuV0u/ARVf/ossR
+        2wThmoZQ==;
+Received: from [200.68.141.42] (port=21527 helo=embeddedor)
         by gator4166.hostgator.com with esmtpa (Exim 4.92)
         (envelope-from <gustavo@embeddedor.com>)
-        id 1j22Iy-003Yme-S2; Wed, 12 Feb 2020 18:24:33 -0600
-Date:   Wed, 12 Feb 2020 18:24:30 -0600
+        id 1j22KQ-003ZSf-AU; Wed, 12 Feb 2020 18:26:02 -0600
+Date:   Wed, 12 Feb 2020 18:26:00 -0600
 From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH] Input: goldfish_events - Replace zero-length array with
+Subject: [PATCH] Input: gpio_keys - replace zero-length array with
  flexible-array member
-Message-ID: <20200213002430.GA31056@embeddedor.com>
+Message-ID: <20200213002600.GA31916@embeddedor.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -56,13 +56,13 @@ X-AntiAbuse: Sender Address Domain - embeddedor.com
 X-BWhitelist: no
 X-Source-IP: 200.68.141.42
 X-Source-L: No
-X-Exim-ID: 1j22Iy-003Yme-S2
+X-Exim-ID: 1j22KQ-003ZSf-AU
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: (embeddedor) [200.68.141.42]:13329
+X-Source-Sender: (embeddedor) [200.68.141.42]:21527
 X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 31
+X-Email-Count: 34
 X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
 X-Local-Domain: yes
 Sender: linux-input-owner@vger.kernel.org
@@ -100,22 +100,22 @@ This issue was found with the help of Coccinelle.
 
 Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- drivers/input/keyboard/goldfish_events.c | 2 +-
+ drivers/input/keyboard/gpio_keys.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/keyboard/goldfish_events.c b/drivers/input/keyboard/goldfish_events.c
-index bc8c85a52a10..57d435fc5c73 100644
---- a/drivers/input/keyboard/goldfish_events.c
-+++ b/drivers/input/keyboard/goldfish_events.c
-@@ -30,7 +30,7 @@ struct event_dev {
+diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
+index 1f56d53454b2..53c9ff338dea 100644
+--- a/drivers/input/keyboard/gpio_keys.c
++++ b/drivers/input/keyboard/gpio_keys.c
+@@ -55,7 +55,7 @@ struct gpio_keys_drvdata {
  	struct input_dev *input;
- 	int irq;
- 	void __iomem *addr;
--	char name[0];
-+	char name[];
+ 	struct mutex disable_lock;
+ 	unsigned short *keymap;
+-	struct gpio_button_data data[0];
++	struct gpio_button_data data[];
  };
  
- static irqreturn_t events_interrupt(int irq, void *dev_id)
+ /*
 -- 
 2.23.0
 
