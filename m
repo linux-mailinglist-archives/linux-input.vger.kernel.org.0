@@ -2,68 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 048A116084D
-	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2020 03:48:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2A1716114C
+	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2020 12:43:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726256AbgBQCsC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 16 Feb 2020 21:48:02 -0500
-Received: from inva021.nxp.com ([92.121.34.21]:56462 "EHLO inva021.nxp.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726251AbgBQCsB (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 16 Feb 2020 21:48:01 -0500
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 24A73200E5D;
-        Mon, 17 Feb 2020 03:48:00 +0100 (CET)
-Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 6FDDC200044;
-        Mon, 17 Feb 2020 03:47:54 +0100 (CET)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 5EBEE402DD;
-        Mon, 17 Feb 2020 10:47:47 +0800 (SGT)
-From:   Anson Huang <Anson.Huang@nxp.com>
-To:     dmitry.torokhov@gmail.com, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        mojha@codeaurora.org, swboyd@chromium.org,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Linux-imx@nxp.com
-Subject: [PATCH] input: keyboard: imx_keypad: Remove unused includes
-Date:   Mon, 17 Feb 2020 10:42:13 +0800
-Message-Id: <1581907333-11493-1-git-send-email-Anson.Huang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S1728803AbgBQLnl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Feb 2020 06:43:41 -0500
+Received: from mail.hlhs.hlc.edu.tw ([210.62.247.253]:58498 "EHLO
+        mail.hlhs.hlc.edu.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728272AbgBQLnl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 17 Feb 2020 06:43:41 -0500
+X-Greylist: delayed 467 seconds by postgrey-1.27 at vger.kernel.org; Mon, 17 Feb 2020 06:43:40 EST
+Received: from mail.hlhs.hlc.edu.tw (mail.hlhs.hlc.edu.tw [127.0.0.1])
+        by mail.hlhs.hlc.edu.tw (8.14.4/8.14.4) with ESMTP id 01DFIVjG028128;
+        Thu, 13 Feb 2020 23:18:31 +0800
+From:   "Telekom Malaysia Berhad" <tmb@hlc.edu.tw>
+Reply-To: tm.com.2020@outlook.my
+Subject: BONUS TMB
+Date:   Thu, 13 Feb 2020 23:18:31 +0800
+Message-Id: <20200213120123.M81210@mail.hlhs.hlc.edu.tw>
+X-Mailer: OpenWebMail 2.53 
+X-OriginatingIP: 196.52.38.24 (junhao)
+MIME-Version: 1.0
+Content-Type: text/plain;
+        charset=utf-8
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-There is nothing in use from device.h/slab.h, remove them.
+Telekom Malaysia Berhad
+Level 51, North Wing, Menara TM,
+Jalan Pantai Baru, 50672,
+Kuala Lumpur,
+WP Kuala Lumpur,
+Malaysia.
 
-Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
----
- drivers/input/keyboard/imx_keypad.c | 2 --
- 1 file changed, 2 deletions(-)
+Hadiah Bonus Tahun Baru.
 
-diff --git a/drivers/input/keyboard/imx_keypad.c b/drivers/input/keyboard/imx_keypad.c
-index 5a46d11..ba4bf80 100644
---- a/drivers/input/keyboard/imx_keypad.c
-+++ b/drivers/input/keyboard/imx_keypad.c
-@@ -5,7 +5,6 @@
- 
- #include <linux/clk.h>
- #include <linux/delay.h>
--#include <linux/device.h>
- #include <linux/err.h>
- #include <linux/input/matrix_keypad.h>
- #include <linux/interrupt.h>
-@@ -15,7 +14,6 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
--#include <linux/slab.h>
- #include <linux/timer.h>
- 
- /*
--- 
-2.7.4
+Pihak Telekom Malaysia @Program Kemenangan yang telah diadakan pada 1 Januari 2020 di 
+mana alamat email anda yang disertakan beraama Tiket Kemenangan nombor 2 - 4 -16-37 -89 
+- 40 -85 dengan siri nombor 2268/02 telah memenangi loteri kategori hadiah kedua khas 
+keluarga Telekom Malaysia.Untuk menuntut hadiah kemenangan ini anda dikehendaki 
+menghubungi melalui e mail Bahagian Tuntutan untuk tujuan pemerosesan dan pembayaran 
+hadiah wang tunai kepada anda.
 
+Di sepanjang program Khas Keluarga Telekom yang telah diadakan di Ibupejabat di Kuala 
+Lumpur sejumlah RM270,000.00 (Ringgit Malaysia : Dua Ratus Tujuh Puluh Ribu) telah 
+dianugerahkan kepada anda oleh Telekom Malaysia Berhad kepada anda dan keluarga anda 
+sempena sambutsn Hari Raya 2020 ini.
+
+Program ini turut dibiayai bersama oleh Toyota Malaysia dan Tenaga Nasional sebagai 
+pakej istimewa Telekom 2020 dan anda perlu memahami bahawa e mail ini adalah 100% sah 
+dan diiktiraf kerana program ini kebiasaannya diadakan sekali dalam masa lima tahun.
+
+Sila hubungi agen kami untuk menuntut hadiah ini :
+
+EN SHAFIE BIN HASSAN
+Pengarah Bahagian Tuntutan
+E-mail: tm.com.2020@outlook.my
+
+
+Untuk tujuan pemerosesan sila hubungi agen kami dengan maklumat-maklumat berikut :
+1). Nama Penuh:
+2). Umur:
+3). Pekerjaan:
+4). Telefon:
+5). Negeri/Bandar:
+
+Perlu diingatkan bahawa hadiah akhir tahun Telekom Malaysia Berhad 2020 ini adalah 
+diberikan khas kepada anda dan keluarga anda dan anda hendaklah membuat tunttan ini 
+sebelum 29 Februari 2020.
+
+Terima kasih.
+
+Mrs Nadia binti Rafik
+Pengurus Eksekutif
+Anugerah Telekom Malaysia
+Ibupejabat telekom Malaysia.
