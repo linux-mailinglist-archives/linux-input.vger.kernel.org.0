@@ -2,180 +2,286 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CFA515B9C8
-	for <lists+linux-input@lfdr.de>; Thu, 13 Feb 2020 07:53:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A4B115C0C6
+	for <lists+linux-input@lfdr.de>; Thu, 13 Feb 2020 15:57:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729383AbgBMGxB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Feb 2020 01:53:01 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:52204 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726368AbgBMGxB (ORCPT
+        id S1727558AbgBMO5R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Feb 2020 09:57:17 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25382 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725781AbgBMO5R (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Feb 2020 01:53:01 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01D6qjLP066637;
-        Thu, 13 Feb 2020 06:52:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type : in-reply-to;
- s=corp-2020-01-29; bh=gDeVsJiTPxvZ1itRfcoCNccy33xDEZAZ6ELj1OHqOOA=;
- b=QNfQ+wdnbLqju8bjl1muGDaYdaMImdH1O7CJnMyZ7S1ueHSB6fRdc509y5GSjGuIsCfT
- 7maBs7RQzuP+0HetaPVyTBLi1nZZlS13lJFreqc92JVInc1SPojdj72vDV/KU6UJgbLd
- V33QbjKipAP1OdOpkkYTQfRJOgv1orPp5gNeN/IPLQ0vcZixgegLecNYF2LDxghPb92B
- swJ8JOD7Qcqsu7Ls7YJpl7zl+BnIRKw/TcFNBqM80zAM0lGBnUmuUTfPpigmIbwmHdef
- uJawpEqNt02D/+Q/a45iDvwKOA8UcoUbmBVbYltxmcw7XK7jnVHRwL6V0LT3zNXf3cHz 4g== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 2y2jx6fvrr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 13 Feb 2020 06:52:45 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01D6lIrA100035;
-        Thu, 13 Feb 2020 06:52:45 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 2y4k34mj7x-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 13 Feb 2020 06:52:45 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01D6qhQw018981;
-        Thu, 13 Feb 2020 06:52:43 GMT
-Received: from kadam (/129.205.23.165)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 12 Feb 2020 22:52:40 -0800
-Date:   Thu, 13 Feb 2020 09:52:10 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     kbuild@lists.01.org,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>
-Cc:     kbuild-all@lists.01.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>
-Subject: Re: [PATCH v3 2/2] input: adp5589: Add basic devicetree support
-Message-ID: <20200213065210.GE7838@kadam>
+        Thu, 13 Feb 2020 09:57:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1581605835;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=OG+hnrSnkCgWf7UG021Y7MWPAq7aPjND81Zb6RKMks0=;
+        b=ASHeKd4G1NISrcqezwbZKd03mykmxNrIwZmAS8pcNlP3CTA3lrKKvoHugX3O7xQ45kItx+
+        9mpbLSFFWGpq1U5h629HwG1vCRGQKToZ164D534hiQ2uJfZ3QtUC055XUBKznyo7DBCYBC
+        jVU6THMIBz0+GosFWpaFGcgtkJWlqYg=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-FeZVajQwPwKMn7oCprtghw-1; Thu, 13 Feb 2020 09:57:08 -0500
+X-MC-Unique: FeZVajQwPwKMn7oCprtghw-1
+Received: by mail-qk1-f200.google.com with SMTP id z64so3868737qke.10
+        for <linux-input@vger.kernel.org>; Thu, 13 Feb 2020 06:57:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=OG+hnrSnkCgWf7UG021Y7MWPAq7aPjND81Zb6RKMks0=;
+        b=tJCypuyMOWpeTx2s68hQAwnlkx3wL8MAaxYMwzBQDp5VO1w8Hen2pyr6OQyUn2w7zq
+         /CTXXUyx0UDHNQZoNjtfYB6tsLWUeTkzHkt3au83JMiTJ19CHAXL9aYd3iARxCSzOHMF
+         0bqGzO7G3UR9Nqo++/C71LTC+jK9GzHxtnOTLgmDRCT+UXGAW2I+YPyrIavncRxofx2G
+         yXiBST1O2ZEvGoPRC/tm+zTqe/fKUr/DekKfaytYiO1a0bUrVu+Ar0E5d6C487Ct+AOq
+         8iJY+seqFX4+q/2PEO4tPtVRjSVWd5UYlXEZmCNclhgx3C7FPVEcaozV5Loei7HrdkIR
+         uiTg==
+X-Gm-Message-State: APjAAAXri7+UaTYpofgm20TAyNsQ5JZFC5zHuTysqBuUSQoL0z07NzgB
+        vssx+eFQVXNgxFOnBdpb9MSNDOmIWzKraSUS0jODcaTPdljxUnUbhMrYlFv5hh7EIUK2N1ctHLU
+        wXD1D6o+2GwrIajld+KyZvztFRcMPP71e69AYy7A=
+X-Received: by 2002:a0c:b61c:: with SMTP id f28mr12127445qve.101.1581605828169;
+        Thu, 13 Feb 2020 06:57:08 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw79GfvtUnCv32Ralzh9mb3Ib+MuApX3vGAqTZi5554x+i/wsufiurBMmJpzi5QIWYX18IaVCdLBTvAhDT4Dq0=
+X-Received: by 2002:a0c:b61c:: with SMTP id f28mr12127419qve.101.1581605827808;
+ Thu, 13 Feb 2020 06:57:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200205142218.15973-2-alexandru.ardelean@analog.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9529 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999 adultscore=0
- bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002130053
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9529 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
- priorityscore=1501 adultscore=0 phishscore=0 impostorscore=0 spamscore=0
- bulkscore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002130054
+References: <1581476197-25854-1-git-send-email-Sandeep.Singh@amd.com> <1ce6f591-1e8b-8291-7f18-48876fd70e10@redhat.com>
+In-Reply-To: <1ce6f591-1e8b-8291-7f18-48876fd70e10@redhat.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 13 Feb 2020 15:56:56 +0100
+Message-ID: <CAO-hwJJkWkpApB-i0tHxEb0BeWcMpFLwSsOWKKdzGKnJEbHA_A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] SFH: Add Support for AMD Sensor Fusion Hub
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sandeep Singh <Sandeep.Singh@amd.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+        Nehal-bakulchandra.Shah@amd.com, Shyam-sundar.S-k@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Alexandru,
+Hi,
 
-url:    https://urldefense.com/v3/__https://github.com/0day-ci/linux/commits/Alexandru-Ardelean/input-adp5589-Add-default-platform-data/20200206-073944__;!!GqivPVa7Brio!MY2_vTOsanTGzkj1sG9gmxs-c72f_T0MK8vYxgXFLKcqgchKaYGVs4ZRunDQ5YstlQ$ 
-base:   https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git__;!!GqivPVa7Brio!MY2_vTOsanTGzkj1sG9gmxs-c72f_T0MK8vYxgXFLKcqgchKaYGVs4ZRunDPI_jD3g$  next
+On Wed, Feb 12, 2020 at 3:45 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 2/12/20 3:56 AM, Sandeep Singh wrote:
+> > From: Sandeep Singh <sandeep.singh@amd.com>
+> >
+> > AMD SFH(Sensor Fusion Hub) is HID based driver.SFH FW
+> > is part of MP2 processor (MP2 which is an ARM=C2=AE Cortex-M4
+> > core based co-processor to x86) and it runs on MP2 where
+> > in driver resides on X86.The driver functionalities are
+> > divided  into three parts:-
+> >
+> > 1: amd-mp2-pcie:-       This module will communicate with MP2 FW and
+> >                          provide that data into DRAM.
+> > 2: Client driver :-     This part for driver will use dram data and
+> >                          convert that data into HID format based on
+> >                          HID reports.
+> > 3: Transport driver :-  This part of driver will communicate with
+> >                          HID core. Communication between devices and
+> >                          HID core is mostly done via HID reports
+> >
+> > In terms of architecture it is much more reassembles like
+> > ISH(Intel Integrated Sensor Hub). However the major difference
+> > is all the hid reports are generated as part of kernel driver.
+> > AMD SFH driver taken reference from ISH in terms of
+> > design and functionalities at fewer location.
+> >
+> > AMD sensor fusion Hub is part of a SOC 17h family based platforms.
+> > The solution is working well on several OEM products.
+> > AMD SFH uses HID over PCIe bus.
+>
+> I started looking at this patch because of the phoronix' news item on it.
+>
+> First of all I want to say that it is great that AMD is working on
+> getting the Sensor Fusion Hub supported on Linux and that you are
+> working on a driver for this.
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Yep, couldn't agree more :)
 
-New smatch warnings:
-drivers/input/keyboard/adp5589-keys.c:1053 adp5589_probe() warn: possible memory leak of 'kpad'
+>
+> But, I've taken a quick look, mainly at the
+> "[PATCH v3 5/5] SFH: Create HID report to Enable support of AMD sensor fu=
+sion Hub (SFH)"
+> patch.
+>
+> AFAIK with the Intel ISH the sensor-hub itself is actually providing
+> HID descriptors and HID input reports.
+>
+> Looking at the AMD code, that does not seem to be the case, it seems
+> the values come directly from the AMD sensor-hub without being in any
+> HID specific form, e.g.:
+>
+> +u8 get_input_report(int sensor_idx, int report_id,
+> +                   u8 *input_report, u32 *sensor_virt_addr)
+> +{
+> +       u8 report_size =3D 0;
+> +       struct accel3_input_report acc_input;
+> +       struct gyro_input_report gyro_input;
+> +       struct magno_input_report magno_input;
+> +       struct als_input_report als_input;
+> +
+> +       if (!sensor_virt_addr || !input_report)
+> +               return report_size;
+> +
+> +       switch (sensor_idx) {
+> +       case ACCEL_IDX: /* accel */
+> +               acc_input.common_property.report_id =3D report_id;
+> +               acc_input.common_property.sensor_state =3D
+> +                                       HID_USAGE_SENSOR_STATE_READY_ENUM=
+;
+> +               acc_input.common_property.event_type =3D
+> +                               HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
+> +               acc_input.in_accel_x_value =3D (int)sensor_virt_addr[0] /
+> +                                               AMD_SFH_FIRMWARE_MULTIPLI=
+ER;
+> +               acc_input.in_accel_y_value =3D (int)sensor_virt_addr[1] /
+> +                                               AMD_SFH_FIRMWARE_MULTIPLI=
+ER;
+> +               acc_input.in_accel_z_value =3D  (int)sensor_virt_addr[2] =
+/
+> +                                               AMD_SFH_FIRMWARE_MULTIPLI=
+ER;
+> +               memcpy(input_report, &acc_input, sizeof(acc_input));
+> +               report_size =3D sizeof(acc_input);
+> +               break;
+>
+> And the descriptors are hardcoded in the driver so as to fake a HID
+> device.
+>
+> So going through the HID subsystem seems like an unnecessary detour,
+> which just makes things needlessly complex and harder to debug
+> (and extend).
+>
+> The HID devices which the current patch-set is creating ultimately
+> will result in a number of devices being created under
+>
+> /sys/bus/iio/devices
+>
+> And this are the devices which userspace uses to get the sensor data.
+>
+> IMHO instead of going through the HID subsys the AMD Sensor Fusion Hub
+> driver should simply register 4 (*) iio-devices itself and directly
+> pass the data through at the iio subsys level rather then going the
+> long way around by creating a fake HID device which then gets
+> attached to by the hid-sensor driver to ultimately create the same
+> iio-devices.
+>
+> There are examples of e.g. various iio accel drivers under:
+> drivers/iio/accel/ you could start with a simple driver supporting
+> just the accelerometer bits and then extend things from there.
+>
+> Benjamin, Jiri, Jonathan, what is your take on this?
 
-Old smatch warnings:
-drivers/input/keyboard/adp5589-keys.c:913 adp5589_keypad_add() error: we previously assumed 'pdata->gpimap' could be null (see line 902)
+Hard to say without knowing AMD roadmap for that. If they intend to
+have an ISH-like approach in the end with reports and descriptors
+provided by the firmwares, then it makes sense to keep this
+architecture for the first revision of devices.
+If not, then yes, this is probably overkill compared to what needs to be do=
+ne.
 
-# https://urldefense.com/v3/__https://github.com/0day-ci/linux/commit/e537dc5175805cf765da36bdd9cafe98b0a191d9__;!!GqivPVa7Brio!MY2_vTOsanTGzkj1sG9gmxs-c72f_T0MK8vYxgXFLKcqgchKaYGVs4ZRunBH8qj3xg$ 
-git remote add linux-review https://urldefense.com/v3/__https://github.com/0day-ci/linux__;!!GqivPVa7Brio!MY2_vTOsanTGzkj1sG9gmxs-c72f_T0MK8vYxgXFLKcqgchKaYGVs4ZRunDP90BKkw$ 
-git remote update linux-review
-git checkout e537dc5175805cf765da36bdd9cafe98b0a191d9
-vim +/kpad +1053 drivers/input/keyboard/adp5589-keys.c
+Sandeep, can you explain to us why you think using HID is the best way?
 
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1030  static int adp5589_probe(struct i2c_client *client,
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1031  			 const struct i2c_device_id *id)
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1032  {
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1033  	struct adp5589_kpad *kpad;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1034  	const struct adp5589_kpad_platform_data *pdata =
-ba322093a2bfbb Lars-Peter Clausen 2020-02-05  1035  		adp5589_kpad_pdata_get(&client->dev);
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1036  	unsigned int revid;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1037  	int error, ret;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1038  
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1039  	if (!i2c_check_functionality(client->adapter,
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1040  				     I2C_FUNC_SMBUS_BYTE_DATA)) {
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1041  		dev_err(&client->dev, "SMBUS Byte Data not Supported\n");
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1042  		return -EIO;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1043  	}
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1044  
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1045  	kpad = kzalloc(sizeof(*kpad), GFP_KERNEL);
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1046  	if (!kpad)
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1047  		return -ENOMEM;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1048  
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1049  	kpad->client = client;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1050  
-e537dc5175805c Lars-Peter Clausen 2020-02-05  1051  	ret = adp5589_i2c_get_driver_data(client, id);
-e537dc5175805c Lars-Peter Clausen 2020-02-05  1052  	if (ret < 0)
-e537dc5175805c Lars-Peter Clausen 2020-02-05 @1053  		return ret;
+On a side note, I don't necessarily like patch 4/5 with the debugfs
+interface. It's adding a kernel API for no gain, and we should already
+have the debug API available in the various subsystems involved.
 
-	error = ret;
-	goto err_free_mem;
+Cheers,
+Benjamin
 
-Better to just delete the "error" variable though and make everything
-ret.
 
-e537dc5175805c Lars-Peter Clausen 2020-02-05  1054  
-e537dc5175805c Lars-Peter Clausen 2020-02-05  1055  	switch (ret) {
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1056  	case ADP5585_02:
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1057  		kpad->support_row5 = true;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1058  		/* fall through */
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1059  	case ADP5585_01:
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1060  		kpad->is_adp5585 = true;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1061  		kpad->var = &const_adp5585;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1062  		break;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1063  	case ADP5589:
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1064  		kpad->support_row5 = true;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1065  		kpad->var = &const_adp5589;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1066  		break;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1067  	}
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1068  
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1069  	ret = adp5589_read(client, ADP5589_5_ID);
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1070  	if (ret < 0) {
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1071  		error = ret;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1072  		goto err_free_mem;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1073  	}
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1074  
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1075  	revid = (u8) ret & ADP5589_5_DEVICE_ID_MASK;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1076  
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1077  	if (pdata->keymapsize) {
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1078  		error = adp5589_keypad_add(kpad, revid);
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1079  		if (error)
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1080  			goto err_free_mem;
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1081  	}
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1082  
-9d2e173644bb5c Michael Hennerich  2011-05-19  1083  	error = adp5589_setup(kpad);
-9d2e173644bb5c Michael Hennerich  2011-05-19  1084  	if (error)
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1085  		goto err_keypad_remove;
-9d2e173644bb5c Michael Hennerich  2011-05-19  1086  
-9d2e173644bb5c Michael Hennerich  2011-05-19  1087  	if (kpad->gpimapsize)
-9d2e173644bb5c Michael Hennerich  2011-05-19  1088  		adp5589_report_switch_state(kpad);
-9d2e173644bb5c Michael Hennerich  2011-05-19  1089  
-9d2e173644bb5c Michael Hennerich  2011-05-19  1090  	error = adp5589_gpio_add(kpad);
-9d2e173644bb5c Michael Hennerich  2011-05-19  1091  	if (error)
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1092  		goto err_keypad_remove;
-9d2e173644bb5c Michael Hennerich  2011-05-19  1093  
-9d2e173644bb5c Michael Hennerich  2011-05-19  1094  	i2c_set_clientdata(client, kpad);
-9d2e173644bb5c Michael Hennerich  2011-05-19  1095  
-9d2e173644bb5c Michael Hennerich  2011-05-19  1096  	dev_info(&client->dev, "Rev.%d keypad, irq %d\n", revid, client->irq);
-9d2e173644bb5c Michael Hennerich  2011-05-19  1097  	return 0;
-9d2e173644bb5c Michael Hennerich  2011-05-19  1098  
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1099  err_keypad_remove:
-cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1100  	adp5589_keypad_remove(kpad);
-3f48e735435851 Michael Hennerich  2011-10-18  1101  err_free_mem:
-9d2e173644bb5c Michael Hennerich  2011-05-19  1102  	kfree(kpad);
-9d2e173644bb5c Michael Hennerich  2011-05-19  1103  
-9d2e173644bb5c Michael Hennerich  2011-05-19  1104  	return error;
-9d2e173644bb5c Michael Hennerich  2011-05-19  1105  }
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://urldefense.com/v3/__https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org__;!!GqivPVa7Brio!MY2_vTOsanTGzkj1sG9gmxs-c72f_T0MK8vYxgXFLKcqgchKaYGVs4ZRunCDo3i4pw$ 
+
+>
+> Regards,
+>
+> Hans
+>
+>
+> *) One for accel, gyra, magneto and light each
+>
+>
+> > Sandeep Singh (5):
+> >    SFH: Add maintainers and documentation for AMD SFH based on HID
+> >      framework
+> >    SFH: PCI driver to add support of AMD sensor fusion Hub using HID
+> >      framework
+> >    SFH: Transport Driver to add support of AMD Sensor Fusion Hub (SFH)
+> >    SFH: Add debugfs support to AMD Sensor Fusion Hub
+> >    SFH: Create HID report to Enable support of AMD sensor fusion Hub
+> >      (SFH)
+> >
+> > Changes since v1:
+> >          -Fix auto build test warnings
+> >          -Fix warnings captured using smatch
+> >          -Changes suggested by Dan Carpenter
+> >
+> > Links of the review comments for v1:
+> >          [1] https://patchwork.kernel.org/patch/11325163/
+> >          [2] https://patchwork.kernel.org/patch/11325167/
+> >          [3] https://patchwork.kernel.org/patch/11325171/
+> >          [4] https://patchwork.kernel.org/patch/11325187/
+> >
+> >
+> > Changes since v2:
+> >          -Debugfs divided into another patch
+> >          -Fix some cosmetic changes
+> >          -Fix for review comments
+> >           Reported and Suggested by:-  Srinivas Pandruvada
+> >
+> > Links of the review comments for v2:
+> >          [1] https://patchwork.kernel.org/patch/11355491/
+> >          [2] https://patchwork.kernel.org/patch/11355495/
+> >          [3] https://patchwork.kernel.org/patch/11355499/
+> >          [4] https://patchwork.kernel.org/patch/11355503/
+> >
+> >
+> >   Documentation/hid/amd-sfh-hid.rst                  | 160 +++++
+> >   MAINTAINERS                                        |   8 +
+> >   drivers/hid/Kconfig                                |   2 +
+> >   drivers/hid/Makefile                               |   1 +
+> >   drivers/hid/amd-sfh-hid/Kconfig                    |  20 +
+> >   drivers/hid/amd-sfh-hid/Makefile                   |  17 +
+> >   drivers/hid/amd-sfh-hid/amd_mp2_pcie.c             | 243 ++++++++
+> >   drivers/hid/amd-sfh-hid/amd_mp2_pcie.h             | 177 ++++++
+> >   drivers/hid/amd-sfh-hid/amdsfh-debugfs.c           | 250 ++++++++
+> >   drivers/hid/amd-sfh-hid/amdsfh-debugfs.h           |  14 +
+> >   drivers/hid/amd-sfh-hid/amdsfh-hid-client.c        | 260 +++++++++
+> >   drivers/hid/amd-sfh-hid/amdsfh-hid.c               | 179 ++++++
+> >   drivers/hid/amd-sfh-hid/amdsfh-hid.h               |  85 +++
+> >   .../hid_descriptor/amd_sfh_hid_descriptor.c        | 275 +++++++++
+> >   .../hid_descriptor/amd_sfh_hid_descriptor.h        | 125 ++++
+> >   .../hid_descriptor/amd_sfh_hid_report_descriptor.h | 642 ++++++++++++=
++++++++++
+> >   16 files changed, 2458 insertions(+)
+> >   create mode 100644 Documentation/hid/amd-sfh-hid.rst
+> >   create mode 100644 drivers/hid/amd-sfh-hid/Kconfig
+> >   create mode 100644 drivers/hid/amd-sfh-hid/Makefile
+> >   create mode 100644 drivers/hid/amd-sfh-hid/amd_mp2_pcie.c
+> >   create mode 100644 drivers/hid/amd-sfh-hid/amd_mp2_pcie.h
+> >   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-debugfs.c
+> >   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-debugfs.h
+> >   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid-client.c
+> >   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid.c
+> >   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid.h
+> >   create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid=
+_descriptor.c
+> >   create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid=
+_descriptor.h
+> >   create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid=
+_report_descriptor.h
+> >
+>
+
