@@ -2,90 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BCE815CF59
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 02:07:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 267E415CF5C
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 02:08:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727782AbgBNBHU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Feb 2020 20:07:20 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:43301 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727609AbgBNBHU (ORCPT
+        id S1728017AbgBNBIg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Feb 2020 20:08:36 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43123 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727848AbgBNBIg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Feb 2020 20:07:20 -0500
-Received: by mail-pl1-f195.google.com with SMTP id p11so3039556plq.10
-        for <linux-input@vger.kernel.org>; Thu, 13 Feb 2020 17:07:20 -0800 (PST)
+        Thu, 13 Feb 2020 20:08:36 -0500
+Received: by mail-pf1-f193.google.com with SMTP id s1so3981357pfh.10;
+        Thu, 13 Feb 2020 17:08:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=um2+50l9kutTaZ/Y8kj8ydGfJkqH+7dBlv0rN5t/rYo=;
-        b=vWPB/dVJRdbka83RpsFHS4++qIt5J5u8oaUqKFwhIcowmXKB8XhZcJT64I6zIhI105
-         lii6hRqO8BFWapvUQ133GTG8lAGrWllJru6EgCyX1j6sLi9mW4s20BBEqH3b0+6zil0n
-         7b78kxaG7TEYXkUJS5g8UmUqwr+JVQ6BTePBlSMn4srzADXHTHaQsaUDPENvL+pnLPjR
-         0Z004OHGxi7yr/1m8lQU79LzPKnuRdzCNb/R2Z8ycevVHzmWjhS2bdyiIfCFnPcHm5nQ
-         aL6ztm3hFHs+Zo79xE0eoJPraHbfelDM3qtXrCYfNBw+F8DA2EfsqJOcEg8V31Xezl57
-         yV0g==
+        bh=+5/gdogPoTT+Pz8V5rRHhUt1xE5pml79Vl2iDdJYL7s=;
+        b=N9p8xewaiVZqtun97pzToeyCXO3JTy1f6stuKFn8t4lsXGSa2CHwubvoK79qJr4MKd
+         Cy0r+RyAzhd1wQAuVSXs1Ft/Y1+Kiwj1lmBdPcEBPR2mmCywwlm2h6Rg0TAdWGipXvGY
+         f4WgYAG0mFu9r81ioQ/0nvNiNxlYm6mj6vdB7bvDs/EtRwa+khjaBacDjJhAHfdODovV
+         YYzwp9GEwJAwpxUhsavYj5+yaXW3joNO5XS2LlmNVDri9FbBTBVIHONCzWkNMGPiZizC
+         akw1f6K7zn4K8ZNj0gU+O4fgCmO0vSq/3nmb82nrdDiIhEdem00yNrvjQCvEUlD+rhtt
+         hYTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=um2+50l9kutTaZ/Y8kj8ydGfJkqH+7dBlv0rN5t/rYo=;
-        b=YWcRqBpkIRSrpqP4cy1kPOZMxnvAvB+xTYzyzuYs2FBwmWOkT7fnAgAiZF3LtI6+mh
-         27QJ9M1k4pQBxv8IXuTUW1vxPMTMzQMZDxBbh4plGk4Y6wtnhMo2ITx0hlvSXLi9qrrU
-         SHKBvw4RtYw00b/mmqEpbie0QG9klSwSV7QJqjLuEI4S1ALJyQtbiwWu+fUmqXbJ0QtU
-         HBkY6IbqA5xYSsmNpO8WCkeXhCGaGQi0REjsw1ZGkFdJNdaJdj/l781m0hI+WZXFqhIu
-         FaWLmUVVF8lBkpB096LO9mRM0DXONuzsQUhXZhwZApWPQ3QcK8I6XvsoPdgg2AmN01vE
-         VLig==
-X-Gm-Message-State: APjAAAVd+F9bcd2MSwcnUVkQuzVGcwZAoAocpXgqpmBpkR85045VswDW
-        /BGkTf3iZkhmP9Jhy9nTLyg=
-X-Google-Smtp-Source: APXvYqyLUxm+wIR3nUgYq4bjakySTcaQpuXZMHuUS2B48CiyGFE4L82rkFiLi0PojoWML2WzP5CzhQ==
-X-Received: by 2002:a17:90a:db0f:: with SMTP id g15mr389673pjv.40.1581642439451;
-        Thu, 13 Feb 2020 17:07:19 -0800 (PST)
+        bh=+5/gdogPoTT+Pz8V5rRHhUt1xE5pml79Vl2iDdJYL7s=;
+        b=kh0dvR0HPkMPwF40Eff90v+JpNnU82jZl4P8eta8s3fCaYr9L0u6vxPTqZnXKTrwCy
+         OcgWyI8/eINXhWdum002LjPBcYxyo63B9EDKrAQDL3TbXhOKZ/o92P/NiNM9eu9tQhFO
+         ZNHgrxkrlNtpM3GuzNf18o4PsJQS+x0hkhSukwmT1yD8xJmkSJhVzPDK6mcCt1gZaaFm
+         Ajg/PyAQzJ6KFJelB/2FszeXNij5PX/JF2Eh4cN+AyKfyqyUetytGiZLxtQL7/8S/Qpi
+         lZyQ2P8A95JnLWwN46gtc5DV/OLckLE3Lal4qb4u8uxkFgzd+Vv5brUbKo4S93U3BSQW
+         c2PQ==
+X-Gm-Message-State: APjAAAVkhsyYtH8/xjGJDiEUCEztjmNixAQ6iL1rudkYhnv01cBVAmKs
+        bO1gtQjBaCNta8hVQQHMWb8=
+X-Google-Smtp-Source: APXvYqwtplA8tGyB6aIIHOA7JaRfj3JsTjhdzewHWggEe+LOAfGBihMGinV4AXNoNcSgPRydMXXS/g==
+X-Received: by 2002:a63:2010:: with SMTP id g16mr772627pgg.314.1581642514488;
+        Thu, 13 Feb 2020 17:08:34 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id f13sm4619195pfk.64.2020.02.13.17.07.18
+        by smtp.gmail.com with ESMTPSA id i68sm4595662pfe.173.2020.02.13.17.08.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2020 17:07:18 -0800 (PST)
-Date:   Thu, 13 Feb 2020 17:07:16 -0800
+        Thu, 13 Feb 2020 17:08:33 -0800 (PST)
+Date:   Thu, 13 Feb 2020 17:08:32 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Gaurav Agrawal <agrawalgaurav@gnome.org>
-Cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com
-Subject: Re: Input: synaptics - enable SMBus on ThinkPad L470
-Message-ID: <20200214010716.GD183709@dtor-ws>
-References: <CADdtggVzVJq5gGNmFhKSz2MBwjTpdN5YVOdr4D3Hkkv=KZRc9g@mail.gmail.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Input: synaptics - remove the LEN0049 dmi id from
+ topbuttonpad list
+Message-ID: <20200214010832.GE183709@dtor-ws>
+References: <20200115013023.9710-1-benjamin.tissoires@redhat.com>
+ <CAO-hwJK38mpMp0yL1v+4KAhhuUuwAPrTm7kSTGhXPL2JC1F-6w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CADdtggVzVJq5gGNmFhKSz2MBwjTpdN5YVOdr4D3Hkkv=KZRc9g@mail.gmail.com>
+In-Reply-To: <CAO-hwJK38mpMp0yL1v+4KAhhuUuwAPrTm7kSTGhXPL2JC1F-6w@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Feb 08, 2020 at 12:20:16AM +0530, Gaurav Agrawal wrote:
-> Add touchpad LEN2044 to the list, as it is capable of working with
-> psmouse.synaptics_intertouch=1
+On Wed, Feb 12, 2020 at 09:53:25AM +0100, Benjamin Tissoires wrote:
+> On Wed, Jan 15, 2020 at 2:30 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > The Yoga 11e is using LEN0049, but it doesn't have a trackstick.
+> >
+> > Thus, there is no need to create a software top buttons row.
+> >
+> > However, it seems that the device works under SMBus, so keep it as part
+> > of the smbus_pnp_ids.
+> >
+> >
+> > Link: https://gitlab.freedesktop.org/libinput/libinput/issues/414
+> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> >
+> > --
+> >
+> > Hi Dmitry,
+> >
+> > Sending the patch to the list untested (sanity only), and I'll ask
+> > for the reporter to provide a little bit more testing.
+> >
+> > I will keep you updated when you can merge the patch.
 > 
-> Signed-off-by: Gaurav Agrawal <agrawalgaurav@gnome.org>
-
-Applied, thank you.
-
-> ---
->  drivers/input/mouse/synaptics.c | 1 +
->  1 file changed, 1 insertion(+)
+> Hi Dmitry,
 > 
-> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-> index 1ae6f8bba9ae1..6947772cfc405 100644
-> --- a/drivers/input/mouse/synaptics.c
-> +++ b/drivers/input/mouse/synaptics.c
-> @@ -179,6 +179,7 @@ static const char * const smbus_pnp_ids[] = {
->      "LEN0097", /* X280 -> ALPS trackpoint */
->      "LEN009b", /* T580 */
->      "LEN200f", /* T450s */
-> +    "LEN2044", /* L470  */
->      "LEN2054", /* E480 */
->      "LEN2055", /* E580 */
->      "SYN3052", /* HP EliteBook 840 G4 */
+> Sergej tested the patch last week and it works well. So I think we can
+> merge it now.
+> Maybe we should also add a stable@ tag here...
+
+Tagged for stable, thank you Benjamin.
+
+> 
+> Cheers,
+> Benjamin
+> 
+> >
+> > Cheers,
+> > Benjamin
+> > ---
+> >  drivers/input/mouse/synaptics.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+> > index 1ae6f8bba9ae..7aa84f743c48 100644
+> > --- a/drivers/input/mouse/synaptics.c
+> > +++ b/drivers/input/mouse/synaptics.c
+> > @@ -146,7 +146,6 @@ static const char * const topbuttonpad_pnp_ids[] = {
+> >         "LEN0042", /* Yoga */
+> >         "LEN0045",
+> >         "LEN0047",
+> > -       "LEN0049",
+> >         "LEN2000", /* S540 */
+> >         "LEN2001", /* Edge E431 */
+> >         "LEN2002", /* Edge E531 */
+> > @@ -166,6 +165,7 @@ static const char * const smbus_pnp_ids[] = {
+> >         /* all of the topbuttonpad_pnp_ids are valid, we just add some extras */
+> >         "LEN0048", /* X1 Carbon 3 */
+> >         "LEN0046", /* X250 */
+> > +       "LEN0049", /* Yoga 11e */
+> >         "LEN004a", /* W541 */
+> >         "LEN005b", /* P50 */
+> >         "LEN005e", /* T560 */
+> > --
+> > 2.24.1
+> >
+> 
 
 -- 
 Dmitry
