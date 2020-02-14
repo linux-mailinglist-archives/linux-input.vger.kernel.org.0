@@ -2,310 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C19B615DB2D
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 16:39:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E92215E26A
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 17:23:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729439AbgBNPjo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Feb 2020 10:39:44 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:46844 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729416AbgBNPjo (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:39:44 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id 2C7D2295576
-Subject: Re: [PATCH v4] dt-bindings: mfd: Convert ChromeOS EC bindings to
- json-schema
-To:     Ikjoon Jang <ikjn@chromium.org>, devicetree@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        id S2405219AbgBNQXQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Feb 2020 11:23:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59340 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405563AbgBNQXO (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 14 Feb 2020 11:23:14 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 28B4E24772;
+        Fri, 14 Feb 2020 16:23:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581697394;
+        bh=xTfDbkr37bVX7WPtntC0qxawFpQYpjYWedgmtw+jqao=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=1Tg/SenFZQ5u6GeUiczqSc9HKSwyLrnct6FMqy5jEWNgvhfwSv7K+YvVnfyEbhZUr
+         +B7lay2uzK2luMUsDg5uFExc+UJ6G4ujiGjR8pzMwx4oxu+c1C61U902b7zasFiBEK
+         jlqOzKol0g2kWKFI6/plTXfjNqnxn7g1kQVN2cDg=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Nicolas Boitchat <drinkcat@chromium.org>,
-        linux-input@vger.kernel.org
-References: <20200114021934.178057-1-ikjn@chromium.org>
- <20200214062614.220699-1-ikjn@chromium.org>
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <bc55f82d-5f0b-9bc5-3178-245f2830f89f@collabora.com>
-Date:   Fri, 14 Feb 2020 16:39:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.9 088/141] Input: edt-ft5x06 - work around first register access error
+Date:   Fri, 14 Feb 2020 11:20:28 -0500
+Message-Id: <20200214162122.19794-88-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200214162122.19794-1-sashal@kernel.org>
+References: <20200214162122.19794-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200214062614.220699-1-ikjn@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Ikjoon,
+From: Philipp Zabel <p.zabel@pengutronix.de>
 
-Two few comments more, and I think will be ready if Rob is fine.
+[ Upstream commit e112324cc0422c046f1cf54c56f333d34fa20885 ]
 
-On 14/2/20 7:26, Ikjoon Jang wrote:
-> Convert the ChromeOS EC bindings to json-schema.
-> 
-> Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-> 
-> ---
-> v4: text reflows, add type references, and fix examples
-> v3: node name changed in rpmsg example
-> v2: cleanup description, fix typos, remove LPC, and add RPMSG example
-> ---
->  .../devicetree/bindings/mfd/cros-ec.txt       |  76 ----------
->  .../devicetree/bindings/mfd/cros-ec.yaml      | 139 ++++++++++++++++++
->  2 files changed, 139 insertions(+), 76 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.txt b/Documentation/devicetree/bindings/mfd/cros-ec.txt
-> deleted file mode 100644
-> index 4860eabd0f72..000000000000
-> --- a/Documentation/devicetree/bindings/mfd/cros-ec.txt
-> +++ /dev/null
-> @@ -1,76 +0,0 @@
-> -ChromeOS Embedded Controller
-> -
-> -Google's ChromeOS EC is a Cortex-M device which talks to the AP and
-> -implements various function such as keyboard and battery charging.
-> -
-> -The EC can be connect through various means (I2C, SPI, LPC, RPMSG) and the
-> -compatible string used depends on the interface. Each connection method has
-> -its own driver which connects to the top level interface-agnostic EC driver.
-> -Other Linux driver (such as cros-ec-keyb for the matrix keyboard) connect to
-> -the top-level driver.
-> -
-> -Required properties (I2C):
-> -- compatible: "google,cros-ec-i2c"
-> -- reg: I2C slave address
-> -
-> -Required properties (SPI):
-> -- compatible: "google,cros-ec-spi"
-> -- reg: SPI chip select
-> -
-> -Required properties (RPMSG):
-> -- compatible: "google,cros-ec-rpmsg"
-> -
-> -Optional properties (SPI):
-> -- google,cros-ec-spi-pre-delay: Some implementations of the EC need a little
-> -  time to wake up from sleep before they can receive SPI transfers at a high
-> -  clock rate. This property specifies the delay, in usecs, between the
-> -  assertion of the CS to the start of the first clock pulse.
-> -- google,cros-ec-spi-msg-delay: Some implementations of the EC require some
-> -  additional processing time in order to accept new transactions. If the delay
-> -  between transactions is not long enough the EC may not be able to respond
-> -  properly to subsequent transactions and cause them to hang. This property
-> -  specifies the delay, in usecs, introduced between transactions to account
-> -  for the time required by the EC to get back into a state in which new data
-> -  can be accepted.
-> -
-> -Required properties (LPC):
-> -- compatible: "google,cros-ec-lpc"
-> -- reg: List of (IO address, size) pairs defining the interface uses
-> -
-> -Optional properties (all):
-> -- google,has-vbc-nvram: Some implementations of the EC include a small
-> -  nvram space used to store verified boot context data. This boolean flag
-> -  is used to specify whether this nvram is present or not.
-> -
-> -Example for I2C:
-> -
-> -i2c@12ca0000 {
-> -	cros-ec@1e {
-> -		reg = <0x1e>;
-> -		compatible = "google,cros-ec-i2c";
-> -		interrupts = <14 0>;
-> -		interrupt-parent = <&wakeup_eint>;
-> -		wakeup-source;
-> -	};
-> -
-> -
-> -Example for SPI:
-> -
-> -spi@131b0000 {
-> -	ec@0 {
-> -		compatible = "google,cros-ec-spi";
-> -		reg = <0x0>;
-> -		interrupts = <14 0>;
-> -		interrupt-parent = <&wakeup_eint>;
-> -		wakeup-source;
-> -		spi-max-frequency = <5000000>;
-> -		controller-data {
-> -		cs-gpio = <&gpf0 3 4 3 0>;
-> -		samsung,spi-cs;
-> -		samsung,spi-feedback-delay = <2>;
-> -		};
-> -	};
-> -};
-> -
-> -
-> -Example for LPC is not supplied as it is not yet implemented.
-> diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.yaml b/Documentation/devicetree/bindings/mfd/cros-ec.yaml
-> new file mode 100644
-> index 000000000000..20d54cddc967
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/cros-ec.yaml
-> @@ -0,0 +1,139 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/cros-ec.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ChromeOS Embedded Controller
-> +
-> +maintainers:
-> +  - Benson Leung <bleung@chromium.org>
-> +  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> +  - Guenter Roeck <groeck@chromium.org>
-> +
-> +description:
-> +  Google's ChromeOS EC is a microcontroller which talks to the AP and
-> +  implements various functions such as keyboard and battery charging.
-> +  The EC can be connected through various interfaces (I2C, SPI, and others)
-> +  and the compatible string specifies which interface is being used.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - description:
-> +          For implementations of the EC is connected through I2C.
-> +        const: google,cros-ec-i2c
-> +      - description:
-> +          For implementations of the EC is connected through SPI.
-> +        const: google,cros-ec-spi
-> +      - description:
-> +          For implementations of the EC is connected through RPMSG.
-> +        const: google,cros-ec-rpmsg
-> +
-> +  google,has-vbc-nvram:
-> +    description:
-> +      Some implementations of the EC include a small nvram space used to
-> +      store verified boot context data. This boolean flag is used to specify
-> +      whether this nvram is present or not.
-> +    type: boolean
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          const: google,cros-ec-i2c
-> +    then:
-> +      properties:
-> +        reg:
-> +          description: I2C slave address
-> +          maxItems: 1
-> +
-> +      required:
-> +        - reg
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          const: google,cros-ec-spi
-> +    then:
-> +      properties:
-> +        reg:
-> +          description: SPI chip select
-> +          maxItems: 1
-> +
-> +        google,cros-ec-spi-pre-delay:
-> +          description:
-> +            This property specifies the delay in usecs between the
-> +            assertion of the CS and the first clock pulse.
-> +          allOf:
-> +            - $ref: /schemas/types.yaml#/definitions/uint32
-> +            - default: 0
-> +            - minimum: 0
-> +
-> +        google,cros-ec-spi-msg-delay:
-> +          description:
-> +            This property specifies the delay in usecs between messages.
-> +          allOf:
-> +            - $ref: /schemas/types.yaml#/definitions/uint32
-> +            - default: 0
-> +            - minimum: 0
-> +
-> +      required:
-> +        - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
+The EP0700MLP1 returns bogus data on the first register read access
+(reading the threshold parameter from register 0x00):
 
-Run
+    edt_ft5x06 2-0038: crc error: 0xfc expected, got 0x40
 
-make dt_binding_check
-DT_SCHEMA_FILES=Documentation/devicetree/bindings/mfd/cros-ec.yaml
+It ignores writes until then. This patch adds a dummy read after which
+the number of sensors and parameter read/writes work correctly.
 
-to validate the examples, you will get the following error:
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+Tested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/input/touchscreen/edt-ft5x06.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-> +  # Example for I2C
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        cros-ec@1e {
-> +            compatible = "google,cros-ec-i2c";
-> +            reg = <0x1e>;
-> +            interrupts = <6 0>;
-> +            interrupt-parent = <&gpio0>;
-> +        };
-> +    };
-> +
-> +  # Example for SPI
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    spi0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        cros-ec@0 {
-> +            compatible = "google,cros-ec-spi";
-> +            reg = <0x0>;
-> +            google,cros-ec-spi-msg-delay = <30>;
-> +            google,cros-ec-spi-pre-delay = <10>;
+diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+index 28466e358fee1..22c8d2070faac 100644
+--- a/drivers/input/touchscreen/edt-ft5x06.c
++++ b/drivers/input/touchscreen/edt-ft5x06.c
+@@ -887,6 +887,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+ {
+ 	const struct edt_i2c_chip_data *chip_data;
+ 	struct edt_ft5x06_ts_data *tsdata;
++	u8 buf[2] = { 0xfc, 0x00 };
+ 	struct input_dev *input;
+ 	unsigned long irq_flags;
+ 	int error;
+@@ -956,6 +957,12 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+ 		return error;
+ 	}
+ 
++	/*
++	 * Dummy read access. EP0700MLP1 returns bogus data on the first
++	 * register read access and ignores writes.
++	 */
++	edt_ft5x06_ts_readwrite(tsdata->client, 2, buf, 2, buf);
++
+ 	edt_ft5x06_ts_set_regs(tsdata);
+ 	edt_ft5x06_ts_get_defaults(&client->dev, tsdata);
+ 	edt_ft5x06_ts_get_parameters(tsdata);
+-- 
+2.20.1
 
-cros-ec@0: 'google,cros-ec-spi-msg-delay', 'google,cros-ec-spi-pre-delay',
-'spi-max-frequency' do not match any of the regexes: 'pinctrl-[0-9]+'
-
-> +            interrupts = <99 0>;
-> +            interrupt-parent = <&gpio7>;
-> +            spi-max-frequency = <5000000>;
-> +        };
-> +    };
-> +
-> +  # Example for RPMSG
-> +  - |
-> +    scp0 {
-> +        cros-ec@0 {
-
-I see there is no 'reg' here so no unit-address.
-
-> +            compatible = "google,cros-ec-rpmsg";
-> +        };
-> +    };
-> +...
-> 
