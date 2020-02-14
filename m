@@ -2,96 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 481C315E923
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 18:05:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CBF015EAF7
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 18:17:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404064AbgBNQPD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Feb 2020 11:15:03 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45036 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392021AbgBNQPC (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:15:02 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0EB9E246E5;
-        Fri, 14 Feb 2020 16:15:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696901;
-        bh=aTkwBG4IKOurcW/xcYirLZ4nz5+6vBqxuGUZY+UNv+U=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JYM53RSv599PQMMCYaL4CTxGLttCvbIHcwGEcHVVdruii+e42vflz2Uxj0v3TwxUx
-         4PibD4hefYgybFgM73117Sq+df6326Wz/QP0MB+42SpFZwF3hSt5JuMwPZ1pxHuXPp
-         kX7wGkbxLsPA4v21CbqVfSn5Ew3Upmxrw7y3C/hs=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 152/252] Input: edt-ft5x06 - work around first register access error
-Date:   Fri, 14 Feb 2020 11:10:07 -0500
-Message-Id: <20200214161147.15842-152-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214161147.15842-1-sashal@kernel.org>
-References: <20200214161147.15842-1-sashal@kernel.org>
+        id S2394651AbgBNRRr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Feb 2020 12:17:47 -0500
+Received: from gateway33.websitewelcome.com ([192.185.146.80]:21083 "EHLO
+        gateway33.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2394642AbgBNRRr (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 14 Feb 2020 12:17:47 -0500
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+        by gateway33.websitewelcome.com (Postfix) with ESMTP id 31F221C035
+        for <linux-input@vger.kernel.org>; Fri, 14 Feb 2020 11:17:46 -0600 (CST)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id 2eb4jOxK6Sl8q2eb4j74tA; Fri, 14 Feb 2020 11:17:46 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=WdyaSABb4nKRDgvU/3FE2JdQX1c2NVD5ZKrARuHcShM=; b=qs/HLk5wau6g/8LIk47qnzlbnJ
+        zGHUfSrcnyz12L9l+y0IWzynMRmB0VCGylL+HkeNO70QQ9OFfhbFu0ch4PbLkNuljJW+kQJ36TnTO
+        2d6J6raQp9pd07yE6zJh3bpvWsBBmnORokFdr6rku6ttEzsIvcl8N31N7JeCpj5cCOIS2JCwmrbjb
+        5CDsrFarF7OGlPOMR+5Pet9GRcVUbnUrk+16rWdrwh6g3bFONmKBvVNnWnVnahz0LnHO3tmZmjucV
+        wRLei6IixqBJfOJZirvPj+3aPN84/CoXbenFEVQqvnok14+azd6D7bmblmV6b1Mbz5XWJZmpxL/jy
+        V9+PMaOg==;
+Received: from [200.68.140.137] (port=19663 helo=embeddedor)
+        by gator4166.hostgator.com with esmtpa (Exim 4.92)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1j2eb2-003hYb-Lo; Fri, 14 Feb 2020 11:17:44 -0600
+Date:   Fri, 14 Feb 2020 11:20:22 -0600
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [PATCH] Input: tca6416-keypad - replace zero-length array with
+ flexible-array member
+Message-ID: <20200214172022.GA27490@embeddedor>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 200.68.140.137
+X-Source-L: No
+X-Exim-ID: 1j2eb2-003hYb-Lo
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [200.68.140.137]:19663
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 28
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Philipp Zabel <p.zabel@pengutronix.de>
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
-[ Upstream commit e112324cc0422c046f1cf54c56f333d34fa20885 ]
+struct foo {
+        int stuff;
+        struct boo array[];
+};
 
-The EP0700MLP1 returns bogus data on the first register read access
-(reading the threshold parameter from register 0x00):
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertently introduced[3] to the codebase from now on.
 
-    edt_ft5x06 2-0038: crc error: 0xfc expected, got 0x40
+Also, notice that, dynamic memory allocations won't be affected by
+this change:
 
-It ignores writes until then. This patch adds a dummy read after which
-the number of sensors and parameter read/writes work correctly.
+"Flexible array members have incomplete type, and so the sizeof operator
+may not be applied. As a quirk of the original implementation of
+zero-length arrays, sizeof evaluates to zero."[1]
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-Tested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+This issue was found with the help of Coccinelle.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- drivers/input/touchscreen/edt-ft5x06.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/input/keyboard/tca6416-keypad.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index 1e18ca0d1b4e1..3fdaa644a82c1 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -968,6 +968,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
- {
- 	const struct edt_i2c_chip_data *chip_data;
- 	struct edt_ft5x06_ts_data *tsdata;
-+	u8 buf[2] = { 0xfc, 0x00 };
- 	struct input_dev *input;
- 	unsigned long irq_flags;
- 	int error;
-@@ -1037,6 +1038,12 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
- 		return error;
- 	}
+diff --git a/drivers/input/keyboard/tca6416-keypad.c b/drivers/input/keyboard/tca6416-keypad.c
+index 2a14769de637..21758767ccf0 100644
+--- a/drivers/input/keyboard/tca6416-keypad.c
++++ b/drivers/input/keyboard/tca6416-keypad.c
+@@ -33,7 +33,7 @@ MODULE_DEVICE_TABLE(i2c, tca6416_id);
  
-+	/*
-+	 * Dummy read access. EP0700MLP1 returns bogus data on the first
-+	 * register read access and ignores writes.
-+	 */
-+	edt_ft5x06_ts_readwrite(tsdata->client, 2, buf, 2, buf);
-+
- 	edt_ft5x06_ts_set_regs(tsdata);
- 	edt_ft5x06_ts_get_defaults(&client->dev, tsdata);
- 	edt_ft5x06_ts_get_parameters(tsdata);
+ struct tca6416_drv_data {
+ 	struct input_dev *input;
+-	struct tca6416_button data[0];
++	struct tca6416_button data[];
+ };
+ 
+ struct tca6416_keypad_chip {
+@@ -48,7 +48,7 @@ struct tca6416_keypad_chip {
+ 	int irqnum;
+ 	u16 pinmask;
+ 	bool use_polling;
+-	struct tca6416_button buttons[0];
++	struct tca6416_button buttons[];
+ };
+ 
+ static int tca6416_write_reg(struct tca6416_keypad_chip *chip, int reg, u16 val)
 -- 
-2.20.1
+2.25.0
 
