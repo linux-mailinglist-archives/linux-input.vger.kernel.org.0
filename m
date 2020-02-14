@@ -2,283 +2,271 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A0C715D607
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 11:49:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88B3C15D65A
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 12:12:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727965AbgBNKt5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Feb 2020 05:49:57 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22882 "EHLO
+        id S1729183AbgBNLMS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Feb 2020 06:12:18 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54270 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726220AbgBNKt4 (ORCPT
+        by vger.kernel.org with ESMTP id S2387433AbgBNLMR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Feb 2020 05:49:56 -0500
+        Fri, 14 Feb 2020 06:12:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1581677395;
+        s=mimecast20190719; t=1581678734;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=fSgEluaHGa8leFnsE9iqw+rk1Yo4kiBvDA+ooR2L+T4=;
-        b=R3mUuLqNEnp3H6pdihFeQ1F3mBs+d6JkyV7Y+0Fs/r/HwGNXYJfchNLI3LSeBzBfwok7gF
-        BXuQmylg7Sn2q47ty0foHgDxd50L3WN+XUR225ZgWHmQi/RYbkTK+KrZ6NiUAcdNw5ErCR
-        5eeTRUo3hRjSCy1ZQ6LO7uIcrnEXrN8=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51-fD6o7rRZMhGLrY7IdMny3Q-1; Fri, 14 Feb 2020 05:49:45 -0500
-X-MC-Unique: fD6o7rRZMhGLrY7IdMny3Q-1
-Received: by mail-qt1-f199.google.com with SMTP id n4so5673369qtv.5
-        for <linux-input@vger.kernel.org>; Fri, 14 Feb 2020 02:49:45 -0800 (PST)
+        bh=0EgADtpXAIc9NC8vLjU5weib7HnB3a9Giee4qncSXqQ=;
+        b=Xs0RsahvFwCp29abo8vRmou/9nd62H3oCWfsoWr+6FWYredgGfGgt4ZDrX6CDwBBerVpqz
+        UUxTW84B6B7rleQ/C8NWw4rZYrrt2enNAtokqYnhYpH8wFNVD6F03tPnFgviPPR1tmdboV
+        K6Gfe0kijDCxT97TIE+Y4Oc7RTqUICo=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-285-wzegRAWcPpe3zg377H8pvQ-1; Fri, 14 Feb 2020 06:12:09 -0500
+X-MC-Unique: wzegRAWcPpe3zg377H8pvQ-1
+Received: by mail-qv1-f71.google.com with SMTP id p3so5469121qvt.9
+        for <linux-input@vger.kernel.org>; Fri, 14 Feb 2020 03:12:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fSgEluaHGa8leFnsE9iqw+rk1Yo4kiBvDA+ooR2L+T4=;
-        b=FV2u+VXMLu1h/MNp544UGfRz/d4rU8bzPsHQYoUB00NraGULIJmv3+ew50pbg6tWW0
-         2nuO2NdmkXxY0dFGfCuMqGO1zNsIygQ282DRT/gjlxeh+lI5sR/PObHB6wMIMdKL3lP8
-         3aqC8EVqEdYKulTwgiWOQqEGAiRLGoDm6sGz2TmXONKTUVG6xsStBRUCVxaSXk+3ZYXr
-         0XTzLNBR0G74gdGWSoYa2UQwU5cgUk/l2/Pvddv+z/x1vCFIeLqZImsPIr39ERTiNqsF
-         I7jEbpob8WKId75m6DUulf6TpB3T6up7qaWN2uyRKlxpi6q/PfjC0y0JqdrlF7pemMv6
-         PNAQ==
-X-Gm-Message-State: APjAAAX0dWusleZOwL4l2qXvy1WAugBxCSvY+CiWES4+6bUhxbfhCRb+
-        9o6JXXAMqUCkjubvUjgJtWXVjKtpCStFQ7V+2oZreGFkEwvGkNrmEaiqjhsK79KFZ+mmtn9HpDg
-        Hzbu/2mboN1D2I7D2PRfRd0QfsogIzqWcM80b51g=
-X-Received: by 2002:ac8:365c:: with SMTP id n28mr1951214qtb.260.1581677384805;
-        Fri, 14 Feb 2020 02:49:44 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzGgJRFy6veg67wjwjYwpy9jTbZD9mlVLCLZoGzId3sjpz1VR+IHf7fAA/LWUOzTgF9JEAPy3OOKOoGXjekTWQ=
-X-Received: by 2002:ac8:365c:: with SMTP id n28mr1951188qtb.260.1581677384443;
- Fri, 14 Feb 2020 02:49:44 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=0EgADtpXAIc9NC8vLjU5weib7HnB3a9Giee4qncSXqQ=;
+        b=Pabr+Aam4n+qZxQvZX5aYyKTx8hwDRatZm4oVvgfteb+RoNQbrLAGdsFlLL9IbJlgu
+         ekrQ1uDLEanPrhIpBZSv35VHlpIRExZRdjb3wAvSM/D4yPjcGbgbKnYeCIFUtlVmq7oz
+         rvTfR4QRG3WnWuNZGYqdfZ6BoG9tpk2p8/xcrs7eeNQe4txJiYlOx3XHbmlW3IB1myXD
+         Incrbb+8GiQ8AIHzXrY9JqKjZTzfotdpZwoNfGmGz2F+McjrlMGZiZNlvUMFlZ3NUK5W
+         BzlzKwawmYcB1VwC/+frQO5K/Cobq7cwChblYSsQc32mRNYk7EN3BMgaHoc1Nvo4F5vQ
+         +3iQ==
+X-Gm-Message-State: APjAAAVW2gIZzBPaepy8J5sCVGtHjAn1iOyhL3EIrTs3JSGvOSr0OFxO
+        LQ4iHxIByc/Oyf81y2BSxtlyV8yuS9ayh239f0maEaxbeI4w7+4DAheEd51k3GhmKMl8o+R3bu9
+        /dvlj+++vAyPZ8sS1OQvTKQZ238OT4I9tJkxYOJ8=
+X-Received: by 2002:ac8:365c:: with SMTP id n28mr2025216qtb.260.1581678728261;
+        Fri, 14 Feb 2020 03:12:08 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz1QckY2romso9aqxIFBMHsb1vON4cEumXd/xunHm/MgJQfIkQVY0uU+NSxeeBpwO6SAZ14npaTT48Dv089ZVM=
+X-Received: by 2002:ac8:365c:: with SMTP id n28mr2025194qtb.260.1581678727879;
+ Fri, 14 Feb 2020 03:12:07 -0800 (PST)
 MIME-Version: 1.0
-References: <CAKsRvPOyPqxLaUx+gemCARq+gVeOO94iqyVMWspUEKXk==_wZg@mail.gmail.com>
- <7c767187-38a2-f3a7-faef-8e3d445607d9@cisco.com>
-In-Reply-To: <7c767187-38a2-f3a7-faef-8e3d445607d9@cisco.com>
+References: <1581476197-25854-1-git-send-email-Sandeep.Singh@amd.com>
+ <1ce6f591-1e8b-8291-7f18-48876fd70e10@redhat.com> <CAO-hwJJkWkpApB-i0tHxEb0BeWcMpFLwSsOWKKdzGKnJEbHA_A@mail.gmail.com>
+ <719b929927ce76dd7dda3a48319b5798aced591a.camel@linux.intel.com> <7a9b6f51-ef50-9078-325c-28e8cd17c182@amd.com>
+In-Reply-To: <7a9b6f51-ef50-9078-325c-28e8cd17c182@amd.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 14 Feb 2020 11:49:33 +0100
-Message-ID: <CAO-hwJJsaB3XK631OMvTiPHz8MTHpCfj0zX98+6EpkbD5W2dQQ@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: truncate hid reports exceeding HID_MAX_BUFFER_SIZE
-To:     "Johan Korsnes (jkorsnes)" <jkorsnes@cisco.com>
-Cc:     js <sym.i.nem@gmail.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Armando Visconti <armando.visconti@st.com>
+Date:   Fri, 14 Feb 2020 12:11:56 +0100
+Message-ID: <CAO-hwJJj8uHVr_BTG0rcBchiEttuQTr7ovrtTQ=Cp5vJ2eeoNg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] SFH: Add Support for AMD Sensor Fusion Hub
+To:     "Shah, Nehal-bakulchandra" <nehal-bakulchandra.shah@amd.com>
+Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sandeep Singh <Sandeep.Singh@amd.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+        Shyam-sundar.S-k@amd.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Feb 4, 2020 at 6:10 PM Johan Korsnes (jkorsnes)
-<jkorsnes@cisco.com> wrote:
+On Fri, Feb 14, 2020 at 11:04 AM Shah, Nehal-bakulchandra
+<nehal-bakulchandra.shah@amd.com> wrote:
 >
-> On 2/4/20 1:28 PM, js wrote:
-> > Commit 8ec321e96e05 ("HID: Fix slab-out-of-bounds read in
-> > hid_field_extract") introduced a regression bug that broke
-> > hardware probes which request large report sizes.
-> >
-> > An example of this hardware is the ELON9038 digitizer on the
-> > Microsoft Surface Go as per bug id 206259.
-> > https://bugzilla.kernel.org/show_bug.cgi?id=206259
-> >
-> > To eliminate the regression, return 0 instead of -1 when a
-> > large report size is requested, allowing the hardware to
-> > probe properly while size error is output to kernel log.
-> >
-> > Commit 8ec321e96e05 does not enforce buffer size limitation
-> > on the size of the incoming report.
-> > Added enforcement by truncation to prevent buffer overflow in
-> > hid_report_raw_event().
-> >
-> > Fixes: 8ec321e96e05 ("HID: Fix slab-out-of-bounds read in hid_field_extract")
-> > Reported-and-tested-by: James Smith <sym.i.nem@gmail.com>
-> > Signed-off-by: James Smith <sym.i.nem@gmail.com>
-> > Cc: Alan Stern <stern@rowland.harvard.edu>
-> > Cc: Armando Visconti <armando.visconti@st.com>
-> > Cc: Jiri Kosina <jkosina@suse.cz>
-> > Cc: Johan Korsnes <jkorsnes@cisco.com>
-> > Cc: stable@vger.kernel.org
-> > ---
-> > Sorry about my earlier email, I'm new to this forum and am still
-> > learning the conventions.
-> >
-> > At your suggestion, I examined the code more carefully and I think
-> > that the previous patch (commit 8ec321e96e05) did not solve the buffer
-> > overflow at all, it just killed a tranche of hardware of unknown size
-> > which requests report sizes exceeding 4K.
-> >
-> > The problem, and why the previous patch didn't really address the
-> > issue, is that the enforcement occurs at a declarative point in the
-> > code, which is to say, the device is just describing itself, it is not
-> > actually requesting memory or generating a report. A malicious device
-> > could easily describe itself incorrectly then generate a report
-> > exceeding both the size it indicated in hid_add_field() and
-> > HID_MAX_BUFFER_SIZE, overflowing the buffer and causing unintended
-> > behavior.
-> >
-> > The correct point to enforce a buffer size constraint is the point
-> > where the report is taken from the device and copied into the hid
-> > handling layer. From my examination of the code, this seems to be in
-> > hid_report_raw_event(). Thus, I placed an enforcement constraint on
-> > the report size in that method, took out the enforcement constraint in
-> > hid_add_field(), because it was causing a hardware regression and not
-> > properly enforcing the boundary constraint, and added user-facing
-> > warnings to notify when hardware is going to be affected by the
-> > introduced boundary constraints.
-> >
-> > I also Cc'd Johan Korsnes because he submitted a patch for a related problem.
+> Hi
+>
+> On 2/14/2020 10:10 AM, Srinivas Pandruvada wrote:
+> > On Thu, 2020-02-13 at 15:56 +0100, Benjamin Tissoires wrote:
+> >> Hi,
+> >>
+> >> On Wed, Feb 12, 2020 at 3:45 PM Hans de Goede <hdegoede@redhat.com>
+> >> wrote:
+> >>> Hi,
+> >>>
+> >>> On 2/12/20 3:56 AM, Sandeep Singh wrote:
+> >>>> From: Sandeep Singh <sandeep.singh@amd.com>
+> >>>>
+> >>>> AMD SFH(Sensor Fusion Hub) is HID based driver.SFH FW
+> >>>> is part of MP2 processor (MP2 which is an ARM=C2=AE Cortex-M4
+> >>>> core based co-processor to x86) and it runs on MP2 where
+> >>>> in driver resides on X86.The driver functionalities are
+> >>>> divided  into three parts:-
+> >>>>
+> >>>> 1: amd-mp2-pcie:-       This module will communicate with MP2 FW
+> >>>> and
+> >>>>                          provide that data into DRAM.
+> >>>> 2: Client driver :-     This part for driver will use dram data
+> >>>> and
+> >>>>                          convert that data into HID format based
+> >>>> on
+> >>>>                          HID reports.
+> >>>> 3: Transport driver :-  This part of driver will communicate with
+> >>>>                          HID core. Communication between devices
+> >>>> and
+> >>>>                          HID core is mostly done via HID reports
+> >>>>
+> >>>> In terms of architecture it is much more reassembles like
+> >>>> ISH(Intel Integrated Sensor Hub). However the major difference
+> >>>> is all the hid reports are generated as part of kernel driver.
+> >>>> AMD SFH driver taken reference from ISH in terms of
+> >>>> design and functionalities at fewer location.
+> >>>>
+> >>>> AMD sensor fusion Hub is part of a SOC 17h family based
+> >>>> platforms.
+> >>>> The solution is working well on several OEM products.
+> >>>> AMD SFH uses HID over PCIe bus.
+> >>> I started looking at this patch because of the phoronix' news item
+> >>> on it.
+> >>>
+> >>> First of all I want to say that it is great that AMD is working on
+> >>> getting the Sensor Fusion Hub supported on Linux and that you are
+> >>> working on a driver for this.
+> Thanks for the valuable input.
+> >> But, I've taken a quick look, mainly at the
+> >> "[PATCH v3 5/5] SFH: Create HID report to Enable support of AMD
+> >> sensor fusion Hub (SFH)"
+> >> patch.
+> >>
+> >> AFAIK with the Intel ISH the sensor-hub itself is actually
+> >> providing
+> >> HID descriptors and HID input reports.
+> >>
+> >> Looking at the AMD code, that does not seem to be the case, it
+> >> seems
+> >> the values come directly from the AMD sensor-hub without being in
+> >> any
+> >> HID specific form, e.g.:
+> >>
+> >> +u8 get_input_report(int sensor_idx, int report_id,
+> >> +                   u8 *input_report, u32 *sensor_virt_addr)
+> >> +{
+> >> +       u8 report_size =3D 0;
+> >> +       struct accel3_input_report acc_input;
+> >> +       struct gyro_input_report gyro_input;
+> >> +       struct magno_input_report magno_input;
+> >> +       struct als_input_report als_input;
+> >> +
+> >> +       if (!sensor_virt_addr || !input_report)
+> >> +               return report_size;
+> >> +
+> >> +       switch (sensor_idx) {
+> >> +       case ACCEL_IDX: /* accel */
+> >> +               acc_input.common_property.report_id =3D report_id;
+> >> +               acc_input.common_property.sensor_state =3D
+> >> +                                       HID_USAGE_SENSOR_STATE_READ
+> >> Y_ENUM;
+> >> +               acc_input.common_property.event_type =3D
+> >> +                               HID_USAGE_SENSOR_EVENT_DATA_UPDATED
+> >> _ENUM;
+> >> +               acc_input.in_accel_x_value =3D
+> >> (int)sensor_virt_addr[0] /
+> >> +                                               AMD_SFH_FIRMWARE_MU
+> >> LTIPLIER;
+> >> +               acc_input.in_accel_y_value =3D
+> >> (int)sensor_virt_addr[1] /
+> >> +                                               AMD_SFH_FIRMWARE_MU
+> >> LTIPLIER;
+> >> +               acc_input.in_accel_z_value
+> >> =3D  (int)sensor_virt_addr[2] /
+> >> +                                               AMD_SFH_FIRMWARE_MU
+> >> LTIPLIER;
+> >> +               memcpy(input_report, &acc_input,
+> >> sizeof(acc_input));
+> >> +               report_size =3D sizeof(acc_input);
+> >> +               break;
+> >>
+> >> And the descriptors are hardcoded in the driver so as to fake a HID
+> >> device.
+> >>
+> >> So going through the HID subsystem seems like an unnecessary
+> >> detour,
+> >> which just makes things needlessly complex and harder to debug
+> >> (and extend).
+> >>
+> >> The HID devices which the current patch-set is creating ultimately
+> >> will result in a number of devices being created under
+> >>
+> >> /sys/bus/iio/devices
+> >>
+> >> And this are the devices which userspace uses to get the sensor
+> >> data.
+> >>
+> >> IMHO instead of going through the HID subsys the AMD Sensor Fusion
+> >> Hub
+> >> driver should simply register 4 (*) iio-devices itself and directly
+> >> pass the data through at the iio subsys level rather then going the
+> >> long way around by creating a fake HID device which then gets
+> >> attached to by the hid-sensor driver to ultimately create the same
+> >> iio-devices.
+> >>
+> >> There are examples of e.g. various iio accel drivers under:
+> >> drivers/iio/accel/ you could start with a simple driver supporting
+> >> just the accelerometer bits and then extend things from there.
+> >>
+> >> Benjamin, Jiri, Jonathan, what is your take on this?
+> >> Hard to say without knowing AMD roadmap for that. If they intend to
+> >> have an ISH-like approach in the end with reports and descriptors
+> >> provided by the firmwares, then it makes sense to keep this
+> >> architecture for the first revision of devices.
+> >> If not, then yes, this is probably overkill compared to what needs to
+> >> be done.
+> >>
+> > I suggested this approach to follow something like Chrome-OS EC based
+> > hub, but looks like in longer run this may come from firmware. That's
+> > why they may have decided.
 > >
 > > Thanks,
+> > Srinivas
 > >
-> > js
-> > ---
 > >
-> > --- a/drivers/hid/hid-core.c  2020-01-28 02:04:58.918309900 +0000
-> > +++ b/drivers/hid/hid-core.c  2020-01-29 06:37:22.861190986 +0000
-> > @@ -290,8 +290,12 @@ static int hid_add_field(struct hid_pars
-> >
-> >   /* Total size check: Allow for possible report index byte */
-> >   if (report->size > (HID_MAX_BUFFER_SIZE - 1) << 3) {
-> > -   hid_err(parser->device, "report is too long\n");
-> > -   return -1;
-> > +   hid_warn(parser->device,
-> > +       "report is too long and will be truncated: %d > %d\n",
-> > +       report->size,
-> > +       (HID_MAX_BUFFER_SIZE - 1) << 3);
-> > +   parser->global.report_size = report->size =
-> > +     (HID_MAX_BUFFER_SIZE - 1) << 3;
-> >   }
-> >
-> >   if (!parser->local.usage_index) /* Ignore padding fields */
-> > @@ -1748,6 +1752,10 @@ int hid_report_raw_event(struct hid_devi
-> >     dbg_hid("report %d is too short, (%d < %d)\n", report->id,
-> >         csize, rsize);
-> >     memset(cdata + csize, 0, rsize - csize);
+> >> Sandeep, can you explain to us why you think using HID is the best
+> >> way?
+> >>
+> >> On a side note, I don't necessarily like patch 4/5 with the debugfs
+> >> interface. It's adding a kernel API for no gain, and we should
+> >> already
+> >> have the debug API available in the various subsystems involved.
+> >>
+> >> Cheers,
+> >> Benjamin
 >
-> With your patch I assume we're still vulnerable to the off-by-one
-> memset() for which I proposed a fix[0]. If so, I suggest my patch is
-> applied first, or simply merged with this patch. With your patch we no
-> longer abort at probe if a report is too long. We are therefore more
-> likely to end up with a kernel Oops and ensuing crash if we receive a
-> report with size greater than HID_MAX_BUFFER_SIZE.
+> Yes today, the  HID Reports are getting generated in driver. But, we woul=
+d like to have HID based driver as we may go for HID based firmware in futu=
+re . Hence keeping that in mind current AMD SFH design.
 >
-> [0] https://lore.kernel.org/linux-usb/20200117120836.2354966-1-jkorsnes@cisco.com/
+> So, kindly consider our design w.r.t HID for this patch series.
 
-Hi Johan,
+OK, that's good enough for me. Jiri, are you fine with that too?
 
-can you please fix your process to also include the linux-input ML and
-myself to HID related patches?
+>
+> For the debugfs part,currently it is really handy for us to debug raw val=
+ues coming from firmware.But if guys feel that it is not necessary, we can =
+remove it.
+>
 
-It doesn't matter for this one, as I see it in the HID tree, but I
-wasn't aware of it nor the other one ("HID: core: increase HID report
-buffer size to 8KiB"). And I like being aware of HID patches :)
+2 problems here:
+- patch 3/5 references this debugfs interface which is only added in 4/5.
+- you are creating a new sysfs set of file for debug purpose only, but
+as soon as we start shipping those, some other people will find it
+more convenient to use that directly instead or IIO, and you won't be
+able to change anything there.
 
-The main reason is that whenever a patch hit linux-input, I run a
-series of test with https://gitlab.freedesktop.org/libevdev/hid-tools,
-and the 2 fixes you sent are some very strong candidates for
-regression tests.
+So I would strongly advocate against having this debugfs, and suggest you t=
+o:
+- either keep this debugfs as a downstream patch
+- either play with eBPF or kprobes to retrieve the same information
+without changing the kernel.
 
-Can you send me your report descriptors with the `hid-recorder` tool
-in the hid-tools project, and I'll add your device in the test suite?
+For reference, I recently tried to replicate the hidraw functionality
+with eBPF[0] without changing the kernel code, and it was working.
+Well, there was no filtering on the source of the HID event, but
+still, I got the same data directly from the kernel just by adding
+instrumentation in a couple of functions.
 
 Cheers,
 Benjamin
 
->
-> Johan
->
-> > + } else if (csize > rsize) {
-> > +   hid_warn(hid, "report %d is too long, truncating (%d > %d)\n",
-> > +       report->id, csize, rsize);
-> > +   report->size = size = rsize;
-> >   }
-> >
-> >   if ((hid->claimed & HID_CLAIMED_HIDDEV) && hid->hiddev_report_event)
-> >
-> >
-> > On Tue, Jan 28, 2020 at 12:44 AM Benjamin Tissoires
-> > <benjamin.tissoires@redhat.com> wrote:
-> >>
-> >> Hi,
-> >>
-> >> On Mon, Jan 27, 2020 at 9:41 PM js <sym.i.nem@gmail.com> wrote:
-> >>>
-> >>> i'm bumping this bug because i haven't heard anything from the
-> >>> maintainers for a week.
-> >>
-> >> Apologies for the delay. I have been in a conference the past 2 weeks
-> >> in Australia, so couldn't handle much of upstream.
-> >> Furthermore, we are currently in the merge window, which means we
-> >> should not push patches to linux-next unless they are absolutely
-> >> needed.
-> >>
-> >>> there's been no change in the git either.
-> >>> what's going on guys? this is a tiny patch for a very simple bug.
-> >>> it should be a fast review and commit to the kernel tree.
-> >>
-> >> Nope, that is not that simple:
-> >>
-> >> - please submit your patches following
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst#n340
-> >> Our tools require the patches to not be attached in an email so we can
-> >> process them
-> >> - this patch affects the core of the HID subsystem, which means we
-> >> should take extra care when dealing with it to not break other systems
-> >> - this patch seems to paper over a security patch
-> >> (8ec321e96e056de84022c032ffea253431a83c3c) by changing the return
-> >> value from an error to "yeah, that's fine". So unless there is a proof
-> >> that this is the correct way, it's going to be a nack from me until
-> >> proven otherwise
-> >> - this patch affects in the end hid-multitouch, and as mentioned in
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/hid/hid-multitouch.c#n26
-> >> I'd like to have a reproducer in
-> >> https://gitlab.freedesktop.org/libevdev/hid-tools so we do not break
-> >> those devices in the future.
-> >>
-> >> So I understand the frustration of having a HW regression, but this
-> >> patch is clearly not the correct solution given what I have here, so I
-> >> can not push it right now.
-> >>
-> >> Cheers,
-> >> Benjamin
-> >>
-> >>>
-> >>> js
-> >>>
-> >>> On Sun, Jan 19, 2020 at 1:14 PM js <sym.i.nem@gmail.com> wrote:
-> >>>>
-> >>>> i posted this bug to bugzilla with the attached patch.
-> >>>> this email is to notify the maintainers.
-> >>>> https://bugzilla.kernel.org/show_bug.cgi?id=206259
-> >>>>
-> >>>> thanks!
-> >>>>
-> >>>> js
-> >>>> ----
-> >>>>
-> >>>> ELAN i2c digitizer on microsoft surface go fails to initialize and
-> >>>> device is non-functional
-> >>>>
-> >>>> initialization fails on 4.19.96:
-> >>>> ----
-> >>>> [    5.507245] hid-generic 0018:04F3:261A.0005: report is too long
-> >>>> [    5.507256] hid-generic 0018:04F3:261A.0005: item 0 1 0 8 parsing failed
-> >>>> [    5.507290] hid-generic: probe of 0018:04F3:261A.0005 failed with error -22
-> >>>> [    5.556409] hid-multitouch 0018:04F3:261A.0005: report is too long
-> >>>> [    5.581641] hid-multitouch 0018:04F3:261A.0005: item 0 1 0 8 parsing failed
-> >>>> [    5.618495] hid-multitouch: probe of 0018:04F3:261A.0005 failed
-> >>>> with error -22
-> >>>>
-> >>>> initialization succeeds on 4.19.95:
-> >>>> ----
-> >>>> [    7.150887] hid-generic 0018:04F3:261A.0001: input,hidraw2: I2C HID
-> >>>> v1.00 Device [ELAN9038:00 04F3:261A] on i2c-ELAN9038:00
-> >>>> [    8.253077] input: ELAN9038:00 04F3:261A as
-> >>>> /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-1/i2c-ELAN9038:00/0018:04F3:261A.0001/input/input20
-> >>>> [    8.253219] input: ELAN9038:00 04F3:261A Pen as
-> >>>> /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-1/i2c-ELAN9038:00/0018:04F3:261A.0001/input/input23
-> >>>> [    8.253330] hid-multitouch 0018:04F3:261A.0001: input,hidraw0: I2C
-> >>>> HID v1.00 Device [ELAN9038:00 04F3:261A] on i2c-ELAN9038:00
-> >>>>
-> >>>> problem seems to be due to this commit:
-> >>>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-4.19.y&id=31d06cc8e7caec36bedeb4f90444920431462f61
-> >>>
-> >>
->
+[0] https://gitlab.freedesktop.org/bentiss/hid-tools/snippets/875
 
