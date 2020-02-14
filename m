@@ -2,254 +2,197 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC70E15D657
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 12:12:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A77E15D6B9
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 12:44:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387432AbgBNLMO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Feb 2020 06:12:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28435 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729020AbgBNLMN (ORCPT
+        id S1727805AbgBNLo4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Feb 2020 06:44:56 -0500
+Received: from www149.your-server.de ([78.47.15.70]:54436 "EHLO
+        www149.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726635AbgBNLo4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Feb 2020 06:12:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1581678731;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nBkJ6kyoxKiH31C8ZTN4hED9LVBPPseIz9N2/FKfF1M=;
-        b=LSVckGI9Bf+yfg5+WqzeLeLwP1pcZOt4+e8quNDvWX1rYmLtC1PB0grQTtDIACDjH3ejW3
-        8Dj1TvHRmexR0JP0d/wWDm4SneCb9ex5VP3dH/ei8OoLvksko1VE91XSo8OZ1ot9fl5rT8
-        Y3e26vxKMbt20p+uL5RSlpHtbRzLU0M=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-_oQxd6_PODO5ySNUGF72Vw-1; Fri, 14 Feb 2020 06:12:06 -0500
-X-MC-Unique: _oQxd6_PODO5ySNUGF72Vw-1
-Received: by mail-wr1-f71.google.com with SMTP id z15so3875975wrw.0
-        for <linux-input@vger.kernel.org>; Fri, 14 Feb 2020 03:12:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=nBkJ6kyoxKiH31C8ZTN4hED9LVBPPseIz9N2/FKfF1M=;
-        b=AE4wh9Li440tTNVgIcNhnK7f/YI7LOiUdcer5CZOW5/V9I4Y97hE+II9WVu1SNm4rd
-         Kj4Mg6f1bq27spDU8PW18RKio6yF1KOO0EL3R9Lyz+n9akBkX/sfYHlPqATrJLNy4heM
-         ewPxOAADBEs6PsZ6V7YqgSajobJuUsAJidHV/IFzRK4SGt64YvoCSymixxK5yi+vrFb7
-         e8DZEF6RFdgg6qbYfeWcqZD2chWWZCGLgZxYb6pVw37Bmk59Z01Y8zuJ4LiAdPt4qI28
-         dbp5yIEecmMo3PcYgBgFdcaQlLldH+mx0iNl3MqlEU8meNnNig188bDb0PLhD/xmrgnb
-         ZalQ==
-X-Gm-Message-State: APjAAAUYihkrnTb9u4MRNr4OupylqdJTF79HDPuJqd3sc66tAgMrb28s
-        11TxD4QI1LFJmFAZUbooHp+S+I+i87mNiKngNvneaa0k7eIKrdbwjYiUpgtzPwMZXgjLFh+Ree8
-        XXl8kRNY+OUXho6V7rf5C1aQ=
-X-Received: by 2002:adf:f986:: with SMTP id f6mr3661876wrr.182.1581678725060;
-        Fri, 14 Feb 2020 03:12:05 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxgBdY0nmrgGd5UUedT9UtUjS4mbwJ6nsA0CuQMGz6O3mufawejjglrVBFt78ao/D+vk6TCWQ==
-X-Received: by 2002:adf:f986:: with SMTP id f6mr3661308wrr.182.1581678717659;
-        Fri, 14 Feb 2020 03:11:57 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-fc7e-fd47-85c1-1ab3.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:fc7e:fd47:85c1:1ab3])
-        by smtp.gmail.com with ESMTPSA id u4sm6520237wrt.37.2020.02.14.03.11.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Feb 2020 03:11:56 -0800 (PST)
-Subject: Re: [PATCH v3 0/5] SFH: Add Support for AMD Sensor Fusion Hub
-To:     "Shah, Nehal-bakulchandra" <nehal-bakulchandra.shah@amd.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Sandeep Singh <Sandeep.Singh@amd.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
-        Shyam-sundar.S-k@amd.com
-References: <1581476197-25854-1-git-send-email-Sandeep.Singh@amd.com>
- <1ce6f591-1e8b-8291-7f18-48876fd70e10@redhat.com>
- <CAO-hwJJkWkpApB-i0tHxEb0BeWcMpFLwSsOWKKdzGKnJEbHA_A@mail.gmail.com>
- <719b929927ce76dd7dda3a48319b5798aced591a.camel@linux.intel.com>
- <7a9b6f51-ef50-9078-325c-28e8cd17c182@amd.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <a4362e76-6d35-2efe-dbda-f90d9a9c29c0@redhat.com>
-Date:   Fri, 14 Feb 2020 12:11:56 +0100
+        Fri, 14 Feb 2020 06:44:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hanno.de;
+         s=default1911; h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:
+        References:Cc:To:Subject:Sender:Reply-To:Content-Transfer-Encoding:Content-ID
+        :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+        Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
+        :List-Post:List-Owner:List-Archive;
+        bh=oCrzqEKydGOK50SQ/d0BhcqDwBywPeH/TaOtl5eRo7M=; b=daGmpyanzLk6RVg/mr5dfO8G+3
+        qREdTP00Ya2vfZ0qdXK6UbYYp7RMXVmKle+R+PkRuCTYnQ1BFB1gThZZIF+UMD3IRRM8L5gaSE3Fk
+        nH7miRbgNnZjue1qqpIEsbDl3AGyY2hjMBnSpzLd35h+qcUehQzI+f//3M174/PXHeD6EC6I67ijL
+        d4TA5D8e+eKFDWvVJUbDT12L1To7DOwXbhSj+hGr6NRbNCj3DnzG5L/htwFqAamQXo+YTm5vcJcRI
+        iAQseGju5JTgnSxyStf53ydzyttLGAePHUc27nsDgBERpVoGAoD8bVYn4fzaTDg2uzhOx/gTnO9EM
+        pk8mJpAw==;
+Received: from sslproxy06.your-server.de ([78.46.172.3])
+        by www149.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92.3)
+        (envelope-from <abos@hanno.de>)
+        id 1j2ZJE-0000lj-6I; Fri, 14 Feb 2020 12:39:00 +0100
+Received: from [62.96.7.134] (helo=[10.1.0.41])
+        by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <abos@hanno.de>)
+        id 1j2ZJE-000Rcy-1k; Fri, 14 Feb 2020 12:39:00 +0100
+Subject: hid-bigbenff general protection fault on unplug (Re: hid-sony kernel
+ crash)
+To:     Roderick Colenbrander <thunderbird2k@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     linux-input <linux-input@vger.kernel.org>
+References: <CAEc3jaC0yJF7oYs1TK_zcrQ6_Er5sSBD41feC8GEjpDsBs9iLA@mail.gmail.com>
+From:   Hanno Zulla <abos@hanno.de>
+Message-ID: <f61c212e-159e-b42c-bbab-ccf985e90975@hanno.de>
+Date:   Fri, 14 Feb 2020 12:38:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <7a9b6f51-ef50-9078-325c-28e8cd17c182@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAEc3jaC0yJF7oYs1TK_zcrQ6_Er5sSBD41feC8GEjpDsBs9iLA@mail.gmail.com>
+Content-Type: multipart/mixed;
+ boundary="------------2462E7BC0BDD91F01AB9AEA7"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: abos@hanno.de
+X-Virus-Scanned: Clear (ClamAV 0.102.1/25722/Thu Feb 13 12:45:05 2020)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+This is a multi-part message in MIME format.
+--------------2462E7BC0BDD91F01AB9AEA7
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2/14/20 11:04 AM, Shah, Nehal-bakulchandra wrote:
-> Hi
+Hi there,
+
+unplugging the BigBen gamepad supported by the hid-bigbenff driver 
+reliably leads to a general protection fault when memory is allocated by 
+something else afterwards, see the log (made with a 5.3.13 kernel).
+
+Apparently, the resource cleanup in bigben_remove() is wrong in some 
+way. I wonder if this is somehow related to the problem Roderick 
+discussed below or possibly its original cause.
+
+I'm pretty sure that I tested plugging/unplugging/replugging extensively 
+when I originally wrote the hid-bigbenff driver against a 4.19/4.20 
+kernel tree, so a bisect may be in order, but also cannot rule out that 
+my use of devm_kzalloc() was faulty from the start.
+
+If you see something obvious there, I'd be glad if you point it out. Am 
+trying to debug this right now (am new to kernel debugging) and will try 
+to provide a patch once the bug is identified.
+
+Thanks,
+
+Hanno
+
+
+Am 30.07.19 um 07:50 schrieb Roderick Colenbrander:
+
+
+> Hi Benjamin and Jiri,
 > 
-> On 2/14/2020 10:10 AM, Srinivas Pandruvada wrote:
->> On Thu, 2020-02-13 at 15:56 +0100, Benjamin Tissoires wrote:
->>> Hi,
->>>
->>> On Wed, Feb 12, 2020 at 3:45 PM Hans de Goede <hdegoede@redhat.com>
->>> wrote:
->>>> Hi,
->>>>
->>>> On 2/12/20 3:56 AM, Sandeep Singh wrote:
->>>>> From: Sandeep Singh <sandeep.singh@amd.com>
->>>>>
->>>>> AMD SFH(Sensor Fusion Hub) is HID based driver.SFH FW
->>>>> is part of MP2 processor (MP2 which is an ARM® Cortex-M4
->>>>> core based co-processor to x86) and it runs on MP2 where
->>>>> in driver resides on X86.The driver functionalities are
->>>>> divided  into three parts:-
->>>>>
->>>>> 1: amd-mp2-pcie:-       This module will communicate with MP2 FW
->>>>> and
->>>>>                           provide that data into DRAM.
->>>>> 2: Client driver :-     This part for driver will use dram data
->>>>> and
->>>>>                           convert that data into HID format based
->>>>> on
->>>>>                           HID reports.
->>>>> 3: Transport driver :-  This part of driver will communicate with
->>>>>                           HID core. Communication between devices
->>>>> and
->>>>>                           HID core is mostly done via HID reports
->>>>>
->>>>> In terms of architecture it is much more reassembles like
->>>>> ISH(Intel Integrated Sensor Hub). However the major difference
->>>>> is all the hid reports are generated as part of kernel driver.
->>>>> AMD SFH driver taken reference from ISH in terms of
->>>>> design and functionalities at fewer location.
->>>>>
->>>>> AMD sensor fusion Hub is part of a SOC 17h family based
->>>>> platforms.
->>>>> The solution is working well on several OEM products.
->>>>> AMD SFH uses HID over PCIe bus.
->>>> I started looking at this patch because of the phoronix' news item
->>>> on it.
->>>>
->>>> First of all I want to say that it is great that AMD is working on
->>>> getting the Sensor Fusion Hub supported on Linux and that you are
->>>> working on a driver for this.
-> Thanks for the valuable input.
->>> But, I've taken a quick look, mainly at the
->>> "[PATCH v3 5/5] SFH: Create HID report to Enable support of AMD
->>> sensor fusion Hub (SFH)"
->>> patch.
->>>
->>> AFAIK with the Intel ISH the sensor-hub itself is actually
->>> providing
->>> HID descriptors and HID input reports.
->>>
->>> Looking at the AMD code, that does not seem to be the case, it
->>> seems
->>> the values come directly from the AMD sensor-hub without being in
->>> any
->>> HID specific form, e.g.:
->>>
->>> +u8 get_input_report(int sensor_idx, int report_id,
->>> +                   u8 *input_report, u32 *sensor_virt_addr)
->>> +{
->>> +       u8 report_size = 0;
->>> +       struct accel3_input_report acc_input;
->>> +       struct gyro_input_report gyro_input;
->>> +       struct magno_input_report magno_input;
->>> +       struct als_input_report als_input;
->>> +
->>> +       if (!sensor_virt_addr || !input_report)
->>> +               return report_size;
->>> +
->>> +       switch (sensor_idx) {
->>> +       case ACCEL_IDX: /* accel */
->>> +               acc_input.common_property.report_id = report_id;
->>> +               acc_input.common_property.sensor_state =
->>> +                                       HID_USAGE_SENSOR_STATE_READ
->>> Y_ENUM;
->>> +               acc_input.common_property.event_type =
->>> +                               HID_USAGE_SENSOR_EVENT_DATA_UPDATED
->>> _ENUM;
->>> +               acc_input.in_accel_x_value =
->>> (int)sensor_virt_addr[0] /
->>> +                                               AMD_SFH_FIRMWARE_MU
->>> LTIPLIER;
->>> +               acc_input.in_accel_y_value =
->>> (int)sensor_virt_addr[1] /
->>> +                                               AMD_SFH_FIRMWARE_MU
->>> LTIPLIER;
->>> +               acc_input.in_accel_z_value
->>> =  (int)sensor_virt_addr[2] /
->>> +                                               AMD_SFH_FIRMWARE_MU
->>> LTIPLIER;
->>> +               memcpy(input_report, &acc_input,
->>> sizeof(acc_input));
->>> +               report_size = sizeof(acc_input);
->>> +               break;
->>>
->>> And the descriptors are hardcoded in the driver so as to fake a HID
->>> device.
->>>
->>> So going through the HID subsystem seems like an unnecessary
->>> detour,
->>> which just makes things needlessly complex and harder to debug
->>> (and extend).
->>>
->>> The HID devices which the current patch-set is creating ultimately
->>> will result in a number of devices being created under
->>>
->>> /sys/bus/iio/devices
->>>
->>> And this are the devices which userspace uses to get the sensor
->>> data.
->>>
->>> IMHO instead of going through the HID subsys the AMD Sensor Fusion
->>> Hub
->>> driver should simply register 4 (*) iio-devices itself and directly
->>> pass the data through at the iio subsys level rather then going the
->>> long way around by creating a fake HID device which then gets
->>> attached to by the hid-sensor driver to ultimately create the same
->>> iio-devices.
->>>
->>> There are examples of e.g. various iio accel drivers under:
->>> drivers/iio/accel/ you could start with a simple driver supporting
->>> just the accelerometer bits and then extend things from there.
->>>
->>> Benjamin, Jiri, Jonathan, what is your take on this?
->>> Hard to say without knowing AMD roadmap for that. If they intend to
->>> have an ISH-like approach in the end with reports and descriptors
->>> provided by the firmwares, then it makes sense to keep this
->>> architecture for the first revision of devices.
->>> If not, then yes, this is probably overkill compared to what needs to
->>> be done.
->>>
->> I suggested this approach to follow something like Chrome-OS EC based
->> hub, but looks like in longer run this may come from firmware. That's
->> why they may have decided.
->>
->> Thanks,
->> Srinivas
->>   
->>
->>> Sandeep, can you explain to us why you think using HID is the best
->>> way?
->>>
->>> On a side note, I don't necessarily like patch 4/5 with the debugfs
->>> interface. It's adding a kernel API for no gain, and we should
->>> already
->>> have the debug API available in the various subsystems involved.
->>>
->>> Cheers,
->>> Benjamin
-> 
-> Yes today, the  HID Reports are getting generated in driver. But, we would like to have HID based driver as we may go for HID based firmware in future . Hence keeping that in mind current AMD SFH design.
-> 
-> So, kindly consider our design w.r.t HID for this patch series.
+> Last week, Valve notified us of a kernel crash in hid-sony when
+> disconnecting a controller (DS4 or DS3) while rumble is ongoing.
+Message-ID: 
+<CAEc3jaC0yJF7oYs1TK_zcrQ6_Er5sSBD41feC8GEjpDsBs9iLA@mail.gmail.com>
 
-If the plan is to move to using HID in the future and the HID maintainers
-(Benjamin and Jiri) are ok with the current approach then I'm fine with the current approach too.
 
-Regards,
+--------------2462E7BC0BDD91F01AB9AEA7
+Content-Type: text/x-log; charset=UTF-8;
+ name="bigbenff-gpf.log"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="bigbenff-gpf.log"
 
-Hans
+Feb 14 11:59:49 test-pc kernel: [  105.541342] usb 1-2: new full-speed USB device number 2 using uhci_hcd
+Feb 14 11:59:49 test-pc kernel: [  105.904145] usb 1-2: New USB device found, idVendor=146b, idProduct=0902, bcdDevice= 1.00
+Feb 14 11:59:49 test-pc kernel: [  105.904149] usb 1-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+Feb 14 11:59:49 test-pc kernel: [  105.904162] usb 1-2: Product: Bigben Game Pad
+Feb 14 11:59:49 test-pc kernel: [  105.904164] usb 1-2: Manufacturer: Bigben Interactive
+Feb 14 11:59:49 test-pc mtp-probe: checking bus 1, device 2: "/sys/devices/pci0000:00/0000:00:01.2/usb1/1-2"
+Feb 14 11:59:49 test-pc mtp-probe: bus: 1, device: 2 was not an MTP device
+Feb 14 11:59:49 test-pc kernel: [  105.951733] hidraw: raw HID events driver (C) Jiri Kosina
+Feb 14 11:59:50 test-pc kernel: [  105.975007] usbcore: registered new interface driver usbhid
+Feb 14 11:59:50 test-pc kernel: [  105.975008] usbhid: USB HID core driver
+Feb 14 11:59:50 test-pc mtp-probe: checking bus 1, device 2: "/sys/devices/pci0000:00/0000:00:01.2/usb1/1-2"
+Feb 14 11:59:50 test-pc mtp-probe: bus: 1, device: 2 was not an MTP device
+Feb 14 11:59:50 test-pc kernel: [  106.007788] input: Bigben Interactive Bigben Game Pad as /devices/pci0000:00/0000:00:01.2/usb1/1-2/1-2:1.0/0003:146B:0902.0001/input/input5
+Feb 14 11:59:50 test-pc kernel: [  106.066985] hid-generic 0003:146B:0902.0001: input,hidraw0: USB HID v1.11 Gamepad [Bigben Interactive Bigben Game Pad] on usb-0000:00:01.2-2/input0
+Feb 14 11:59:50 test-pc kernel: [  106.127408] input: Bigben Interactive Bigben Game Pad as /devices/pci0000:00/0000:00:01.2/usb1/1-2/1-2:1.0/0003:146B:0902.0001/input/input6
+Feb 14 11:59:50 test-pc kernel: [  106.187137] bigben 0003:146B:0902.0001: input,hidraw0: USB HID v1.11 Gamepad [Bigben Interactive Bigben Game Pad] on usb-0000:00:01.2-2/input0
+Feb 14 11:59:50 test-pc kernel: [  106.187700] bigben 0003:146B:0902.0001: LED and force feedback support for BigBen gamepad
+Feb 14 11:59:50 test-pc systemd-udevd[1786]: Process '/usr/bin/jscal-restore /dev/input/js0' failed with exit code 1.
+Feb 14 11:59:50 test-pc systemd-udevd[1786]: Process '/usr/bin/jscal-restore /dev/input/js0' failed with exit code 1.
+Feb 14 11:59:50 test-pc /usr/lib/gdm3/gdm-x-session[626]: (II) config/udev: Adding input device Bigben Interactive Bigben Game Pad (/dev/input/js0)
+Feb 14 11:59:50 test-pc /usr/lib/gdm3/gdm-x-session[626]: (II) No input driver specified, ignoring this device.
+Feb 14 11:59:50 test-pc /usr/lib/gdm3/gdm-x-session[626]: (II) This device may have been added with another device file.
+Feb 14 11:59:50 test-pc /usr/lib/gdm3/gdm-x-session[626]: (II) config/udev: Adding input device Bigben Interactive Bigben Game Pad (/dev/input/event4)
+Feb 14 11:59:50 test-pc /usr/lib/gdm3/gdm-x-session[626]: (II) No input driver specified, ignoring this device.
+Feb 14 11:59:50 test-pc /usr/lib/gdm3/gdm-x-session[626]: (II) This device may have been added with another device file.
 
+
+
+Feb 14 11:59:59 test-pc kernel: [  115.426849] usb 1-2: USB disconnect, device number 2
+
+
+
+Feb 14 12:00:02 test-pc systemd[1]: Starting Message of the Day...
+Feb 14 12:00:02 test-pc systemd[1]: motd-news.service: Main process exited, code=killed, status=11/SEGV
+Feb 14 12:00:02 test-pc systemd[1]: motd-news.service: Failed with result 'signal'.
+Feb 14 12:00:02 test-pc kernel: [  118.351173] ------------[ cut here ]------------
+Feb 14 12:00:02 test-pc kernel: [  118.351176] kernel BUG at mm/slub.c:306!
+Feb 14 12:00:02 test-pc kernel: [  118.351192] invalid opcode: 0000 [#1] SMP PTI
+Feb 14 12:00:02 test-pc kernel: [  118.351198] CPU: 0 PID: 1810 Comm: 50-motd-news Not tainted 5.3.13+ #8
+Feb 14 12:00:02 test-pc kernel: [  118.351199] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
+Feb 14 12:00:02 test-pc kernel: [  118.351210] RIP: 0010:new_slab+0x2b1/0x4b0
+Feb 14 12:00:02 test-pc kernel: [  118.351212] Code: 40 48 8b 55 a0 48 85 f6 0f 84 78 ff ff ff 48 89 df e8 03 d9 b6 00 41 8b 76 20 48 8b 55 a0 4c 01 e6 49 39 dc 0f 85 6c ff ff ff <0f> 0b fb 66 0f 1f 44 00 00 e9 9a fd ff ff 41 8b 46 08 a9 00 0d 21
+Feb 14 12:00:02 test-pc kernel: [  118.351214] RSP: 0018:ffffbd5000c9bc00 EFLAGS: 00010246
+Feb 14 12:00:02 test-pc kernel: [  118.351216] RAX: ffff92f5e41c3000 RBX: ffff92f5e41c3000 RCX: 0000000000000000
+Feb 14 12:00:02 test-pc kernel: [  118.351217] RDX: 000000000000000e RSI: ffff92f5e41c3000 RDI: ffff92f672b09c40
+Feb 14 12:00:02 test-pc kernel: [  118.351219] RBP: ffffbd5000c9bc60 R08: 0000000000000000 R09: 00000000000a02bc
+Feb 14 12:00:02 test-pc kernel: [  118.351220] R10: 0000000000000002 R11: 0000000000000000 R12: ffff92f5e41c3000
+Feb 14 12:00:02 test-pc kernel: [  118.351221] R13: 000000000000000a R14: ffff92f672b09c40 R15: fffff37cc29070c0
+Feb 14 12:00:02 test-pc kernel: [  118.351223] FS:  00007f9e2c2d9580(0000) GS:ffff92f67ba00000(0000) knlGS:0000000000000000
+Feb 14 12:00:02 test-pc kernel: [  118.351225] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+Feb 14 12:00:02 test-pc kernel: [  118.351226] CR2: 0000564f82d324fa CR3: 00000000a4172000 CR4: 00000000000006f0
+Feb 14 12:00:02 test-pc kernel: [  118.351230] Call Trace:
+Feb 14 12:00:02 test-pc kernel: [  118.351246]  ___slab_alloc+0x338/0x550
+Feb 14 12:00:02 test-pc kernel: [  118.351250]  ? alloc_pid+0x23/0x290
+Feb 14 12:00:02 test-pc kernel: [  118.351256]  ? flush_tlb_func_common.constprop.0+0x9a/0x220
+Feb 14 12:00:02 test-pc kernel: [  118.351263]  ? cpumask_any_but+0x2b/0x40
+Feb 14 12:00:02 test-pc kernel: [  118.351266]  __slab_alloc+0x20/0x40
+Feb 14 12:00:02 test-pc kernel: [  118.351268]  kmem_cache_alloc+0x204/0x220
+Feb 14 12:00:02 test-pc kernel: [  118.351270]  ? alloc_pid+0x23/0x290
+Feb 14 12:00:02 test-pc kernel: [  118.351272]  alloc_pid+0x23/0x290
+Feb 14 12:00:02 test-pc kernel: [  118.351275]  copy_process+0xf4e/0x1b90
+Feb 14 12:00:02 test-pc kernel: [  118.351277]  _do_fork+0x89/0x360
+Feb 14 12:00:02 test-pc kernel: [  118.351281]  ? get_unused_fd_flags+0x30/0x40
+Feb 14 12:00:02 test-pc kernel: [  118.351283]  __x64_sys_clone+0x81/0xa0
+Feb 14 12:00:02 test-pc kernel: [  118.351287]  do_syscall_64+0x5a/0x130
+Feb 14 12:00:02 test-pc kernel: [  118.351292]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+Feb 14 12:00:02 test-pc kernel: [  118.351294] RIP: 0033:0x7f9e2c1ccddf
+Feb 14 12:00:02 test-pc kernel: [  118.351296] Code: ed 0f 85 04 01 00 00 64 4c 8b 0c 25 10 00 00 00 45 31 c0 4d 8d 91 d0 02 00 00 31 d2 31 f6 bf 11 00 20 01 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 0f 87 95 00 00 00 41 89 c5 85 c0 0f 85 a2 00 00
+Feb 14 12:00:02 test-pc kernel: [  118.351298] RSP: 002b:00007ffd29ddf220 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
+Feb 14 12:00:02 test-pc kernel: [  118.351300] RAX: ffffffffffffffda RBX: 0000000000000002 RCX: 00007f9e2c1ccddf
+Feb 14 12:00:02 test-pc kernel: [  118.351301] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
+Feb 14 12:00:02 test-pc kernel: [  118.351302] RBP: 0000000000000000 R08: 0000000000000000 R09: 00007f9e2c2d9580
+Feb 14 12:00:02 test-pc kernel: [  118.351304] R10: 00007f9e2c2d9850 R11: 0000000000000246 R12: 0000000000000000
+Feb 14 12:00:02 test-pc kernel: [  118.351305] R13: 0000564f82d33b00 R14: 0000000000000044 R15: 0000564f82d2aec2
+Feb 14 12:00:02 test-pc kernel: [  118.351307] Modules linked in: hid_bigbenff ff_memless hid_generic usbhid hid kvm_intel bochs_drm drm_vram_helper ttm kvm drm_kms_helper irqbypass drm input_leds joydev fb_sys_fops syscopyarea sysfillrect serio_raw sysimgblt mac_hid qemu_fw_cfg sch_fq_codel parport_pc ppdev lp parport ip_tables x_tables autofs4 psmouse e1000 i2c_piix4 pata_acpi floppy
+Feb 14 12:00:02 test-pc kernel: [  118.351325] ---[ end trace 5918081d37bb574a ]---
+Feb 14 12:00:02 test-pc kernel: [  118.351328] RIP: 0010:new_slab+0x2b1/0x4b0
+Feb 14 12:00:02 test-pc kernel: [  118.351330] Code: 40 48 8b 55 a0 48 85 f6 0f 84 78 ff ff ff 48 89 df e8 03 d9 b6 00 41 8b 76 20 48 8b 55 a0 4c 01 e6 49 39 dc 0f 85 6c ff ff ff <0f> 0b fb 66 0f 1f 44 00 00 e9 9a fd ff ff 41 8b 46 08 a9 00 0d 21
+Feb 14 12:00:02 test-pc kernel: [  118.351331] RSP: 0018:ffffbd5000c9bc00 EFLAGS: 00010246
+Feb 14 12:00:02 test-pc kernel: [  118.351333] RAX: ffff92f5e41c3000 RBX: ffff92f5e41c3000 RCX: 0000000000000000
+Feb 14 12:00:02 test-pc kernel: [  118.351334] RDX: 000000000000000e RSI: ffff92f5e41c3000 RDI: ffff92f672b09c40
+Feb 14 12:00:02 test-pc kernel: [  118.351335] RBP: ffffbd5000c9bc60 R08: 0000000000000000 R09: 00000000000a02bc
+Feb 14 12:00:02 test-pc kernel: [  118.351336] R10: 0000000000000002 R11: 0000000000000000 R12: ffff92f5e41c3000
+Feb 14 12:00:02 test-pc kernel: [  118.351338] R13: 000000000000000a R14: ffff92f672b09c40 R15: fffff37cc29070c0
+Feb 14 12:00:02 test-pc kernel: [  118.351339] FS:  00007f9e2c2d9580(0000) GS:ffff92f67ba00000(0000) knlGS:0000000000000000
+Feb 14 12:00:02 test-pc kernel: [  118.351341] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+Feb 14 12:00:02 test-pc kernel: [  118.351342] CR2: 0000564f82d324fa CR3: 00000000a4172000 CR4: 00000000000006f0
+Feb 14 12:00:02 test-pc systemd[1]: Failed to start Message of the Day.
+Feb 14 12:00:19 test-pc systemd[599]: Reached target GNOME Session is stable (running for >2 minutes).
+
+--------------2462E7BC0BDD91F01AB9AEA7--
