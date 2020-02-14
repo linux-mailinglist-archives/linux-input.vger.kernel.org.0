@@ -2,68 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B3CC15CF44
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 01:57:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01D1A15CF46
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 01:57:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727782AbgBNA5N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Feb 2020 19:57:13 -0500
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:40925 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727604AbgBNA5N (ORCPT
+        id S1728043AbgBNA50 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Feb 2020 19:57:26 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:35984 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727604AbgBNA50 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Feb 2020 19:57:13 -0500
-Received: by mail-pg1-f194.google.com with SMTP id z7so4043115pgk.7;
-        Thu, 13 Feb 2020 16:57:12 -0800 (PST)
+        Thu, 13 Feb 2020 19:57:26 -0500
+Received: by mail-pf1-f194.google.com with SMTP id 185so3979937pfv.3;
+        Thu, 13 Feb 2020 16:57:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=bGkG6EmBM3SxY3EHAOikLI2DxuwzV4xiWAyP2JMjyI8=;
-        b=vEK7ZNs0UsRHVsXXdzZpSl9xAT6pZ/7af3d/3zklhcTsPWw7UQ7goyJaU+NFyBpfC7
-         pZBg74IiGr3SiR+fCF5txXhLyeKfv0+/fuD4zakoVyK3gwBP9kbRVp+FrgMUbW0t8ZsD
-         qR0ulFcoBWY9l4Glj//EAdlZ6JncAin3VAsQtgwBI4/RrCkCPl/g84sKaEa27xwoUi1z
-         cws0dvJ+mrjbuJQuSPPGFqzXv0KHWH6xjm3t52zxQJ+Xl+irouGNkp4802yWdmxyXvHs
-         J4cYbvSQ0qba89ke5oHLURs2921aJgYYxJNskjVztCqDUDRCXMByfZRtte7FwAELHPp2
-         wBWg==
+        bh=JAqZbTX+OtdulbheUXuHYFQl0hEVGoo3ACHp8Q/hPeA=;
+        b=uGe7Fcdjkg3zIei0ClxKotI4LDVzol4kfxdS+WPLa3mBouL0JNlAw6FHxndygGTX9h
+         doRAdWFHr/37SmQPyiy/X8INnYl8pguaAYioEE2lqkjy9Tqf9G0F7itZ8BlcKmAiJ18U
+         y+PloCGn9A3taQf2Cdn6f8uavQIfXHIDFj0E9JDuqR0wqa3REmsLCkygu9r7jaX5vHpp
+         d/6MekCESUEGOBwCQVs8rwWPcA4NLUfW1N7sXefXgU8g/2QB8GaLizzCvmn68giP6hVa
+         7Gpq+4TLtE7O/RYO8+uWzRzFdxMdExcfJMXR8Fp7lq9nOahVDyyR2s6dTXyMV4oNZ0KD
+         oGhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bGkG6EmBM3SxY3EHAOikLI2DxuwzV4xiWAyP2JMjyI8=;
-        b=mlkPyr1JCPi/VZu0y1nNcOZhi4dnMMdwkmxKMNAbOJTkPWgmO7KamsiAaSvK/npa3g
-         vzT8FnxVHbsU6T1IJYU1juaXw35JsKxa4q5aM85I3ZurPp0XW8PXFLixUnVxkzO6rkAx
-         cfkaTPT7BzcEVMCs1OZ2hHSyuWF6kIHQAZFH/FYhAhy2OqgwPVCBtuj+ELSyhC5Trmtm
-         iIWCIc4Jt/NTCP704WBS+JXH2AtcWUI8DiqF9GSCUT/qBw3YiqJR23/h6jziAtljitNW
-         tlsZO8kOwm5eQgfkPij1UiRXPkitlZ7ZxKMldDcEHhKWjNaYeqwFE14Rtmsii5foSStT
-         Ch+Q==
-X-Gm-Message-State: APjAAAVfw6s0AtWw7DTrH7BBtVZcfl5G1TiEFCEiaiwG5hkYxccRaKjG
-        EykSP/SKSiWH7OdzJ4rfkgk=
-X-Google-Smtp-Source: APXvYqxGanzLFfeCrA1ydSnSbR6XpGrSh1y4w8O/mNEJCHkakUU3huCSE28aiHVzPV2pGxFbkcsRwQ==
-X-Received: by 2002:a63:8c18:: with SMTP id m24mr733183pgd.70.1581641832052;
-        Thu, 13 Feb 2020 16:57:12 -0800 (PST)
+        bh=JAqZbTX+OtdulbheUXuHYFQl0hEVGoo3ACHp8Q/hPeA=;
+        b=tjz4cQ+VclSHLvuMU/C/WxIoHKu1uCnNved/MA8erH7Vf0ccvLFbHlKGt+V3wI69Sn
+         C2OePJtdeSb/+ryxpT8QKP1ZtMB6qlqnL2FLP8l6NkcHa0A7pCaujN1QT8wUr173Y5aR
+         4M7joqPZx9sP/7OhGLkJ64CUgjPzBBXDuAvjbjfOrYv7WKO8/elxHE84MCPkiq28dwr3
+         49weDbOpQhuAup5rYSxrBtmyoPXG6LGYFTVOwUWBS076X7pnXDMNtfYUqdbf6ZExMWv2
+         egirNspgPHcpHG8URhU9waKvhdJ/KQmBxoNqpv4ewybItIYvuaeCyLix72DvhtKddF4v
+         MR3g==
+X-Gm-Message-State: APjAAAXgjG8RsPHF6c4D89JQ2AxWrLEkkFM3E8T5rH+HtDtxTNjn6AWo
+        O3d83WlXY22NLW/b1esZ6Qw=
+X-Google-Smtp-Source: APXvYqxAiCZZ5WoG8ltU5w+vYRkIsIdMawV63Zsidu+ITKvOpMplQF3KpLbpRbJtpJiuObE2RETLJA==
+X-Received: by 2002:a62:17c3:: with SMTP id 186mr644924pfx.158.1581641845610;
+        Thu, 13 Feb 2020 16:57:25 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id g24sm4505499pfk.92.2020.02.13.16.57.11
+        by smtp.gmail.com with ESMTPSA id x143sm4628732pgx.54.2020.02.13.16.57.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2020 16:57:11 -0800 (PST)
-Date:   Thu, 13 Feb 2020 16:57:09 -0800
+        Thu, 13 Feb 2020 16:57:25 -0800 (PST)
+Date:   Thu, 13 Feb 2020 16:57:23 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: goldfish_events - Replace zero-length array with
+Subject: Re: [PATCH] Input: gpio_keys - replace zero-length array with
  flexible-array member
-Message-ID: <20200214005709.GA183709@dtor-ws>
-References: <20200213002430.GA31056@embeddedor.com>
+Message-ID: <20200214005723.GB183709@dtor-ws>
+References: <20200213002600.GA31916@embeddedor.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200213002430.GA31056@embeddedor.com>
+In-Reply-To: <20200213002600.GA31916@embeddedor.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Feb 12, 2020 at 06:24:30PM -0600, Gustavo A. R. Silva wrote:
+On Wed, Feb 12, 2020 at 06:26:00PM -0600, Gustavo A. R. Silva wrote:
 > The current codebase makes use of the zero-length array language
 > extension to the C90 standard, but the preferred mechanism to declare
 > variable-length types such as these ones is a flexible array member[1][2],
@@ -97,22 +97,22 @@ On Wed, Feb 12, 2020 at 06:24:30PM -0600, Gustavo A. R. Silva wrote:
 Applied, thank you.
 
 > ---
->  drivers/input/keyboard/goldfish_events.c | 2 +-
+>  drivers/input/keyboard/gpio_keys.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/input/keyboard/goldfish_events.c b/drivers/input/keyboard/goldfish_events.c
-> index bc8c85a52a10..57d435fc5c73 100644
-> --- a/drivers/input/keyboard/goldfish_events.c
-> +++ b/drivers/input/keyboard/goldfish_events.c
-> @@ -30,7 +30,7 @@ struct event_dev {
+> diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
+> index 1f56d53454b2..53c9ff338dea 100644
+> --- a/drivers/input/keyboard/gpio_keys.c
+> +++ b/drivers/input/keyboard/gpio_keys.c
+> @@ -55,7 +55,7 @@ struct gpio_keys_drvdata {
 >  	struct input_dev *input;
->  	int irq;
->  	void __iomem *addr;
-> -	char name[0];
-> +	char name[];
+>  	struct mutex disable_lock;
+>  	unsigned short *keymap;
+> -	struct gpio_button_data data[0];
+> +	struct gpio_button_data data[];
 >  };
 >  
->  static irqreturn_t events_interrupt(int irq, void *dev_id)
+>  /*
 > -- 
 > 2.23.0
 > 
