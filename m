@@ -2,27 +2,27 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CBC215E6DB
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 17:51:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 586EA15E3C6
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 17:32:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404626AbgBNQTp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Feb 2020 11:19:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52928 "EHLO mail.kernel.org"
+        id S2406204AbgBNQZq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Feb 2020 11:25:46 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35674 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392806AbgBNQTp (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:19:45 -0500
+        id S2406197AbgBNQZp (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 14 Feb 2020 11:25:45 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 244D124718;
-        Fri, 14 Feb 2020 16:19:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 423AB247D0;
+        Fri, 14 Feb 2020 16:25:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581697185;
-        bh=NTq86b0DCPvXQOu5B4YCHjoybaZyE1rhW4Q21+e191c=;
+        s=default; t=1581697545;
+        bh=T1ZKD43Hoi0VlEAm4qsLbLuTAyNG1fwLV0FTSp5WMTQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=omnOixlSkCbxrzzhEVjGMKFjNli10E+TK93q1zp30OSfbaPp03C+wcGrYZ+Nr5Us7
-         dvImN8uCOw9TFgZ8NP7npKsvKEpCBZ75rmn0Z6ZhBgrosFNAPDoC+mPvmB+9hI0hsp
-         Kl5RcTfWwLA2ba7sczbjckxN4hmG75KhLqPXAoFo=
+        b=zFhJTgmuketWb8/eBZ+nELYOaPL7ct6LZqdv3nRPFMtGtB+iTaUJLnyDbGTxv4aTU
+         Hm9NT1dqBlCO9ir3KbSqxi0w0Kf8qGB55oYoPB63tLkFhzfbPcM/Urys1EGFMdObY8
+         YVZzssrNq+JCExmaTit6N0IW5ooTyo8VGLL9dcgg=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
@@ -30,12 +30,12 @@ Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 115/186] Input: edt-ft5x06 - work around first register access error
-Date:   Fri, 14 Feb 2020 11:16:04 -0500
-Message-Id: <20200214161715.18113-115-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 064/100] Input: edt-ft5x06 - work around first register access error
+Date:   Fri, 14 Feb 2020 11:23:48 -0500
+Message-Id: <20200214162425.21071-64-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214161715.18113-1-sashal@kernel.org>
-References: <20200214161715.18113-1-sashal@kernel.org>
+In-Reply-To: <20200214162425.21071-1-sashal@kernel.org>
+References: <20200214162425.21071-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -68,10 +68,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+)
 
 diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index 5bf63f76dddac..4eff5b44640cf 100644
+index 0b0f8c17f3f7e..a9d97d577a7e9 100644
 --- a/drivers/input/touchscreen/edt-ft5x06.c
 +++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -888,6 +888,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+@@ -880,6 +880,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
  {
  	const struct edt_i2c_chip_data *chip_data;
  	struct edt_ft5x06_ts_data *tsdata;
@@ -79,7 +79,7 @@ index 5bf63f76dddac..4eff5b44640cf 100644
  	struct input_dev *input;
  	unsigned long irq_flags;
  	int error;
-@@ -957,6 +958,12 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+@@ -949,6 +950,12 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
  		return error;
  	}
  
