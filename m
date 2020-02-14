@@ -2,74 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35E6C15D6B8
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 12:44:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 862F215D870
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 14:28:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727754AbgBNLoq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Feb 2020 06:44:46 -0500
-Received: from www149.your-server.de ([78.47.15.70]:54408 "EHLO
-        www149.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726635AbgBNLoq (ORCPT
+        id S1729102AbgBNN2z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Feb 2020 08:28:55 -0500
+Received: from a80-127-99-228.adsl.xs4all.nl ([80.127.99.228]:59720 "EHLO
+        hetgrotebos.org" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729032AbgBNN2z (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Feb 2020 06:44:46 -0500
-X-Greylist: delayed 341 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Feb 2020 06:44:45 EST
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hanno.de;
-         s=default1911; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=MDhs0k5Hxjx7r04RR09T+FpIodHW2WaEwAQBV4p365k=; b=eWeiVeGrrohEGbZIMPZV1zgwXf
-        P3ZKv5n6mt56MfBf6rkEaxoAdAKiw6mgtXddPz5TvnpzaawBJpJVX5EYyWS2UqoFUKspYgTdg6A6G
-        DWOb3aufkjUBW1uPV9h59qO7SeZEnPIf+RAP+KMvUCCHl1LMqjr60Q5+j25pWao6PvfvhHoDbv2W6
-        ad0FZPZLCbZFwB3maY8KwjqBtSxFQOzEGwKBDzrJKAdMx2WAhWCTqnQeqN8Z7bSpgV1neDpTkd4V6
-        8oPHRy9LlaXu+fCVp77jYx86SZwTubbxk8AOMHyYcV+n0VcrtPaXl8PUALgqCLhgSvJWJoLzJTj48
-        SagRHggQ==;
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-        by www149.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3)
-        (envelope-from <abos@hanno.de>)
-        id 1j2ZOj-0001ag-C2; Fri, 14 Feb 2020 12:44:41 +0100
-Received: from [62.96.7.134] (helo=[10.1.0.41])
-        by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <abos@hanno.de>)
-        id 1j2ZOj-000OMQ-80; Fri, 14 Feb 2020 12:44:41 +0100
-Subject: Re: hid-bigbenff general protection fault on unplug (Re: hid-sony
- kernel crash)
-From:   Hanno Zulla <abos@hanno.de>
-To:     Roderick Colenbrander <thunderbird2k@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     linux-input <linux-input@vger.kernel.org>
-References: <CAEc3jaC0yJF7oYs1TK_zcrQ6_Er5sSBD41feC8GEjpDsBs9iLA@mail.gmail.com>
- <f61c212e-159e-b42c-bbab-ccf985e90975@hanno.de>
-Message-ID: <272a035e-45cb-1281-4151-84ae4be5c6dc@hanno.de>
-Date:   Fri, 14 Feb 2020 12:44:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Fri, 14 Feb 2020 08:28:55 -0500
+X-Greylist: delayed 1672 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Feb 2020 08:28:54 EST
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizzup.org;
+         s=mail; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:
+        To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=Q9PRBzzMe+a3dzAzMxrx0xT2y1fZevZ8aQZ/OjHoBN8=; b=J+8f2YqS5b9SXJ+ctf75ziQntm
+        IDqPGFfoH6VLBLfEb78RBz7itd9w+j6Doe5sUOpKFvlB/Ir38fY7Y125Nrrk8maCGT1xGRphJXyOT
+        Ka6W94g+va9bmC0V9S+PajK41qIUQjnVm08bAsXDlA/AfuJTlN5a4zCPhbaWGmW4W+VcTRgOsQm7j
+        JLo7t4JTOVZhLpHe16q+E6O6M6fwYsEc2CJtLbWqsXWI2SgZhqVTaYTzTjHJRVCRuolNLpcNbpRjq
+        KaGBvOF7t6dbOgAZmkZsFeM9kQOXOOze0iTpOD+fs28Tin+gMPGNfwRM2i/PdRf9UNaGcyo9VTKcM
+        oA9d1m7Q==;
+Received: from kgpe-d16.fritz.box ([192.168.178.22])
+        by hetgrotebos.org with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <merlijn@wizzup.org>)
+        id 1j2aaS-0002df-Ny; Fri, 14 Feb 2020 13:00:52 +0000
+From:   Merlijn Wajer <merlijn@wizzup.org>
+To:     merlijn@wizzup.org
+Cc:     =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mattias Jacobsson <2pi@mok.nu>,
+        "Darren Hart (VMware)" <dvhart@infradead.org>,
+        linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [RFC PATCH 0/2] Add SW_MACHINE_COVER key
+Date:   Fri, 14 Feb 2020 14:02:46 +0100
+Message-Id: <20200214130249.6845-1-merlijn@wizzup.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <f61c212e-159e-b42c-bbab-ccf985e90975@hanno.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: abos@hanno.de
-X-Virus-Scanned: Clear (ClamAV 0.102.1/25722/Thu Feb 13 12:45:05 2020)
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi there,
+This series adds the SW_MACHINE_COVER key, and changes the Nokia N900 dts to
+expose the key via gpio-keys.
 
-> unplugging the BigBen gamepad supported by the hid-bigbenff driver 
-> reliably leads to a general protection fault
+Before, this gpio was used as card detect GPIO, causing the card not to show up
+if the phone was booted without cover, see this thread on linux-omap:
 
-Wanted to add - this is just caused by plugging in, unplugging and then 
-waiting for the next memory allocation.
+    N900: Remove mmc1 "safety feature"? (was: Re: mmc0 on Nokia N900 on Linux 5.4.18)
 
-The GPF happens without rumble effects.
+Since there is no realistic use for using this gpio as card detect, instead
+expose it to userspace via gpio-keys. There are no event type for machine covers
+yet, so add that first.
 
-Kind regards,
+The key should be 1 when the cover is closed, and 0 when the cover is open.
 
-Hanno
+Starting the Nokia N900 with the cover removed, putting the cover in place:
+
+    Event: time 1581684523.415296, type 5 (EV_SW), code 16 (?), value 1
+
+Removing the cover again, exposing mmc1 and the battery:
+
+    Event: time 1581684529.413706, type 5 (EV_SW), code 16 (?), value 0
+
+Merlijn Wajer (2):
+  Input: add `SW_MACHINE_COVER`
+  ARM: dts: n900: remove mmc1 card detect gpio
+
+ arch/arm/boot/dts/omap3-n900.dts       | 12 ++++++++----
+ include/linux/mod_devicetable.h        |  2 +-
+ include/uapi/linux/input-event-codes.h |  3 ++-
+ 3 files changed, 11 insertions(+), 6 deletions(-)
+
+-- 
+2.23.0
+
