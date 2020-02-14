@@ -2,41 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11FA115D125
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 05:40:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C054915D209
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 07:26:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728263AbgBNEkP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Feb 2020 23:40:15 -0500
-Received: from mga07.intel.com ([134.134.136.100]:49367 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728239AbgBNEkO (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Feb 2020 23:40:14 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Feb 2020 20:40:13 -0800
-X-IronPort-AV: E=Sophos;i="5.70,439,1574150400"; 
-   d="scan'208";a="347881419"
-Received: from amanivas-mobl.gar.corp.intel.com ([10.252.162.109])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Feb 2020 20:40:08 -0800
-Message-ID: <719b929927ce76dd7dda3a48319b5798aced591a.camel@linux.intel.com>
-Subject: Re: [PATCH v3 0/5] SFH: Add Support for AMD Sensor Fusion Hub
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     Sandeep Singh <Sandeep.Singh@amd.com>,
+        id S1728764AbgBNG0U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Feb 2020 01:26:20 -0500
+Received: from mail-pj1-f43.google.com ([209.85.216.43]:34734 "EHLO
+        mail-pj1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726048AbgBNG0U (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 14 Feb 2020 01:26:20 -0500
+Received: by mail-pj1-f43.google.com with SMTP id f2so535296pjq.1
+        for <linux-input@vger.kernel.org>; Thu, 13 Feb 2020 22:26:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=j3Xyx8fRbicPOjRu9j2e0LsG8c5+ZnJjBZgg9ohEEXs=;
+        b=gVc1c004qVQWIrfk97TY/QhWJws5yi4ccbyTNrM9uzZ70yUg9lZzt+/G6/ZTAIDUrR
+         foKhCnYhWQOjicaAS2SKv6Gg9p3aHrxhhT+so0UYx7OvD5dK29YdSZ4tMZ5KO+UZkRA6
+         DmRkhzJsIKb1foTmDgelR3EcHAK9pdzy4qjqQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=j3Xyx8fRbicPOjRu9j2e0LsG8c5+ZnJjBZgg9ohEEXs=;
+        b=MhtQiXYHhFUd/VhdYtKahjF639nyzsgxYl3Dbt7a00yKEQpokqQs+wbkuNfk07kgD5
+         kDKGo4PFdEyI0gh5DDAFmPFDnHWoQY/rCaUebotg82YF6VruDhraKli/rJ/tWqgLUXSZ
+         qfENJ6rtUNBR5UJsheyny64bF1lqUx0ViEvMavNfNRWr+ztVdVGGJNvV1vq/X7PMe1Im
+         j0DQyG04Cwn1ELioRqPTlDwFb4s5QPkWdPc5OvhAH5OrdowrE1IH+Qq1yXThHzWD4Umw
+         ehfeAkqqo+wKY37+n4Kvc2iZpehzPR5de5da73ylenmiFQUdbi7sDbls2XiZ63f/aEXj
+         lmgg==
+X-Gm-Message-State: APjAAAXuYWvPJHvJJbbFIt852f3Q25iVwXkPm3eUIGWLjuedjfHahVl0
+        TkZ6emA2kVdG0U2WtebE7WYiQNta/dE=
+X-Google-Smtp-Source: APXvYqx3jJCPQiDaPMqTILJKjdDrncHj6OUTkBgV2TDazbHtb84Mg5PdUHrXroM6oC5owWzjZnPNhw==
+X-Received: by 2002:a17:90b:1110:: with SMTP id gi16mr1587676pjb.110.1581661579697;
+        Thu, 13 Feb 2020 22:26:19 -0800 (PST)
+Received: from ikjn-p920.tpe.corp.google.com ([2401:fa00:1:10:254e:2b40:ef8:ee17])
+        by smtp.gmail.com with ESMTPSA id x21sm5409598pfq.76.2020.02.13.22.26.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2020 22:26:19 -0800 (PST)
+From:   Ikjoon Jang <ikjn@chromium.org>
+To:     devicetree@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
         Jiri Kosina <jikos@kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
-        Nehal-bakulchandra.Shah@amd.com, Shyam-sundar.S-k@amd.com
-Date:   Thu, 13 Feb 2020 20:40:05 -0800
-In-Reply-To: <CAO-hwJJkWkpApB-i0tHxEb0BeWcMpFLwSsOWKKdzGKnJEbHA_A@mail.gmail.com>
-References: <1581476197-25854-1-git-send-email-Sandeep.Singh@amd.com>
-         <1ce6f591-1e8b-8291-7f18-48876fd70e10@redhat.com>
-         <CAO-hwJJkWkpApB-i0tHxEb0BeWcMpFLwSsOWKKdzGKnJEbHA_A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.1-2 
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nicolas Boitchat <drinkcat@chromium.org>,
+        linux-input@vger.kernel.org, Ikjoon Jang <ikjn@chromium.org>
+Subject: [PATCH v4] dt-bindings: mfd: Convert ChromeOS EC bindings to json-schema
+Date:   Fri, 14 Feb 2020 14:26:14 +0800
+Message-Id: <20200214062614.220699-1-ikjn@chromium.org>
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
+In-Reply-To: <20200114021934.178057-1-ikjn@chromium.org>
+References: <20200114021934.178057-1-ikjn@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
@@ -44,251 +69,248 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2020-02-13 at 15:56 +0100, Benjamin Tissoires wrote:
-> Hi,
-> 
-> On Wed, Feb 12, 2020 at 3:45 PM Hans de Goede <hdegoede@redhat.com>
-> wrote:
-> > Hi,
-> > 
-> > On 2/12/20 3:56 AM, Sandeep Singh wrote:
-> > > From: Sandeep Singh <sandeep.singh@amd.com>
-> > > 
-> > > AMD SFH(Sensor Fusion Hub) is HID based driver.SFH FW
-> > > is part of MP2 processor (MP2 which is an ARM® Cortex-M4
-> > > core based co-processor to x86) and it runs on MP2 where
-> > > in driver resides on X86.The driver functionalities are
-> > > divided  into three parts:-
-> > > 
-> > > 1: amd-mp2-pcie:-       This module will communicate with MP2 FW
-> > > and
-> > >                          provide that data into DRAM.
-> > > 2: Client driver :-     This part for driver will use dram data
-> > > and
-> > >                          convert that data into HID format based
-> > > on
-> > >                          HID reports.
-> > > 3: Transport driver :-  This part of driver will communicate with
-> > >                          HID core. Communication between devices
-> > > and
-> > >                          HID core is mostly done via HID reports
-> > > 
-> > > In terms of architecture it is much more reassembles like
-> > > ISH(Intel Integrated Sensor Hub). However the major difference
-> > > is all the hid reports are generated as part of kernel driver.
-> > > AMD SFH driver taken reference from ISH in terms of
-> > > design and functionalities at fewer location.
-> > > 
-> > > AMD sensor fusion Hub is part of a SOC 17h family based
-> > > platforms.
-> > > The solution is working well on several OEM products.
-> > > AMD SFH uses HID over PCIe bus.
-> > 
-> > I started looking at this patch because of the phoronix' news item
-> > on it.
-> > 
-> > First of all I want to say that it is great that AMD is working on
-> > getting the Sensor Fusion Hub supported on Linux and that you are
-> > working on a driver for this.
-> 
-> Yep, couldn't agree more :)
-> 
-> > But, I've taken a quick look, mainly at the
-> > "[PATCH v3 5/5] SFH: Create HID report to Enable support of AMD
-> > sensor fusion Hub (SFH)"
-> > patch.
-> > 
-> > AFAIK with the Intel ISH the sensor-hub itself is actually
-> > providing
-> > HID descriptors and HID input reports.
-> > 
-> > Looking at the AMD code, that does not seem to be the case, it
-> > seems
-> > the values come directly from the AMD sensor-hub without being in
-> > any
-> > HID specific form, e.g.:
-> > 
-> > +u8 get_input_report(int sensor_idx, int report_id,
-> > +                   u8 *input_report, u32 *sensor_virt_addr)
-> > +{
-> > +       u8 report_size = 0;
-> > +       struct accel3_input_report acc_input;
-> > +       struct gyro_input_report gyro_input;
-> > +       struct magno_input_report magno_input;
-> > +       struct als_input_report als_input;
-> > +
-> > +       if (!sensor_virt_addr || !input_report)
-> > +               return report_size;
-> > +
-> > +       switch (sensor_idx) {
-> > +       case ACCEL_IDX: /* accel */
-> > +               acc_input.common_property.report_id = report_id;
-> > +               acc_input.common_property.sensor_state =
-> > +                                       HID_USAGE_SENSOR_STATE_READ
-> > Y_ENUM;
-> > +               acc_input.common_property.event_type =
-> > +                               HID_USAGE_SENSOR_EVENT_DATA_UPDATED
-> > _ENUM;
-> > +               acc_input.in_accel_x_value =
-> > (int)sensor_virt_addr[0] /
-> > +                                               AMD_SFH_FIRMWARE_MU
-> > LTIPLIER;
-> > +               acc_input.in_accel_y_value =
-> > (int)sensor_virt_addr[1] /
-> > +                                               AMD_SFH_FIRMWARE_MU
-> > LTIPLIER;
-> > +               acc_input.in_accel_z_value
-> > =  (int)sensor_virt_addr[2] /
-> > +                                               AMD_SFH_FIRMWARE_MU
-> > LTIPLIER;
-> > +               memcpy(input_report, &acc_input,
-> > sizeof(acc_input));
-> > +               report_size = sizeof(acc_input);
-> > +               break;
-> > 
-> > And the descriptors are hardcoded in the driver so as to fake a HID
-> > device.
-> > 
-> > So going through the HID subsystem seems like an unnecessary
-> > detour,
-> > which just makes things needlessly complex and harder to debug
-> > (and extend).
-> > 
-> > The HID devices which the current patch-set is creating ultimately
-> > will result in a number of devices being created under
-> > 
-> > /sys/bus/iio/devices
-> > 
-> > And this are the devices which userspace uses to get the sensor
-> > data.
-> > 
-> > IMHO instead of going through the HID subsys the AMD Sensor Fusion
-> > Hub
-> > driver should simply register 4 (*) iio-devices itself and directly
-> > pass the data through at the iio subsys level rather then going the
-> > long way around by creating a fake HID device which then gets
-> > attached to by the hid-sensor driver to ultimately create the same
-> > iio-devices.
-> > 
-> > There are examples of e.g. various iio accel drivers under:
-> > drivers/iio/accel/ you could start with a simple driver supporting
-> > just the accelerometer bits and then extend things from there.
-> > 
-> > Benjamin, Jiri, Jonathan, what is your take on this?
-> 
-> Hard to say without knowing AMD roadmap for that. If they intend to
-> have an ISH-like approach in the end with reports and descriptors
-> provided by the firmwares, then it makes sense to keep this
-> architecture for the first revision of devices.
-> If not, then yes, this is probably overkill compared to what needs to
-> be done.
-> 
-I suggested this approach to follow something like Chrome-OS EC based
-hub, but looks like in longer run this may come from firmware. That's
-why they may have decided.
+Convert the ChromeOS EC bindings to json-schema.
 
-Thanks,
-Srinivas
- 
+Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
 
-> Sandeep, can you explain to us why you think using HID is the best
-> way?
-> 
-> On a side note, I don't necessarily like patch 4/5 with the debugfs
-> interface. It's adding a kernel API for no gain, and we should
-> already
-> have the debug API available in the various subsystems involved.
-> 
-> Cheers,
-> Benjamin
-> 
-> 
-> 
-> 
-> > Regards,
-> > 
-> > Hans
-> > 
-> > 
-> > *) One for accel, gyra, magneto and light each
-> > 
-> > 
-> > > Sandeep Singh (5):
-> > >    SFH: Add maintainers and documentation for AMD SFH based on
-> > > HID
-> > >      framework
-> > >    SFH: PCI driver to add support of AMD sensor fusion Hub using
-> > > HID
-> > >      framework
-> > >    SFH: Transport Driver to add support of AMD Sensor Fusion Hub
-> > > (SFH)
-> > >    SFH: Add debugfs support to AMD Sensor Fusion Hub
-> > >    SFH: Create HID report to Enable support of AMD sensor fusion
-> > > Hub
-> > >      (SFH)
-> > > 
-> > > Changes since v1:
-> > >          -Fix auto build test warnings
-> > >          -Fix warnings captured using smatch
-> > >          -Changes suggested by Dan Carpenter
-> > > 
-> > > Links of the review comments for v1:
-> > >          [1] https://patchwork.kernel.org/patch/11325163/
-> > >          [2] https://patchwork.kernel.org/patch/11325167/
-> > >          [3] https://patchwork.kernel.org/patch/11325171/
-> > >          [4] https://patchwork.kernel.org/patch/11325187/
-> > > 
-> > > 
-> > > Changes since v2:
-> > >          -Debugfs divided into another patch
-> > >          -Fix some cosmetic changes
-> > >          -Fix for review comments
-> > >           Reported and Suggested by:-  Srinivas Pandruvada
-> > > 
-> > > Links of the review comments for v2:
-> > >          [1] https://patchwork.kernel.org/patch/11355491/
-> > >          [2] https://patchwork.kernel.org/patch/11355495/
-> > >          [3] https://patchwork.kernel.org/patch/11355499/
-> > >          [4] https://patchwork.kernel.org/patch/11355503/
-> > > 
-> > > 
-> > >   Documentation/hid/amd-sfh-hid.rst                  | 160 +++++
-> > >   MAINTAINERS                                        |   8 +
-> > >   drivers/hid/Kconfig                                |   2 +
-> > >   drivers/hid/Makefile                               |   1 +
-> > >   drivers/hid/amd-sfh-hid/Kconfig                    |  20 +
-> > >   drivers/hid/amd-sfh-hid/Makefile                   |  17 +
-> > >   drivers/hid/amd-sfh-hid/amd_mp2_pcie.c             | 243
-> > > ++++++++
-> > >   drivers/hid/amd-sfh-hid/amd_mp2_pcie.h             | 177 ++++++
-> > >   drivers/hid/amd-sfh-hid/amdsfh-debugfs.c           | 250
-> > > ++++++++
-> > >   drivers/hid/amd-sfh-hid/amdsfh-debugfs.h           |  14 +
-> > >   drivers/hid/amd-sfh-hid/amdsfh-hid-client.c        | 260
-> > > +++++++++
-> > >   drivers/hid/amd-sfh-hid/amdsfh-hid.c               | 179 ++++++
-> > >   drivers/hid/amd-sfh-hid/amdsfh-hid.h               |  85 +++
-> > >   .../hid_descriptor/amd_sfh_hid_descriptor.c        | 275
-> > > +++++++++
-> > >   .../hid_descriptor/amd_sfh_hid_descriptor.h        | 125 ++++
-> > >   .../hid_descriptor/amd_sfh_hid_report_descriptor.h | 642
-> > > +++++++++++++++++++++
-> > >   16 files changed, 2458 insertions(+)
-> > >   create mode 100644 Documentation/hid/amd-sfh-hid.rst
-> > >   create mode 100644 drivers/hid/amd-sfh-hid/Kconfig
-> > >   create mode 100644 drivers/hid/amd-sfh-hid/Makefile
-> > >   create mode 100644 drivers/hid/amd-sfh-hid/amd_mp2_pcie.c
-> > >   create mode 100644 drivers/hid/amd-sfh-hid/amd_mp2_pcie.h
-> > >   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-debugfs.c
-> > >   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-debugfs.h
-> > >   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid-client.c
-> > >   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid.c
-> > >   create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid.h
-> > >   create mode 100644 drivers/hid/amd-sfh-
-> > > hid/hid_descriptor/amd_sfh_hid_descriptor.c
-> > >   create mode 100644 drivers/hid/amd-sfh-
-> > > hid/hid_descriptor/amd_sfh_hid_descriptor.h
-> > >   create mode 100644 drivers/hid/amd-sfh-
-> > > hid/hid_descriptor/amd_sfh_hid_report_descriptor.h
-> > > 
+---
+v4: text reflows, add type references, and fix examples
+v3: node name changed in rpmsg example
+v2: cleanup description, fix typos, remove LPC, and add RPMSG example
+---
+ .../devicetree/bindings/mfd/cros-ec.txt       |  76 ----------
+ .../devicetree/bindings/mfd/cros-ec.yaml      | 139 ++++++++++++++++++
+ 2 files changed, 139 insertions(+), 76 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
+ create mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.yaml
+
+diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.txt b/Documentation/devicetree/bindings/mfd/cros-ec.txt
+deleted file mode 100644
+index 4860eabd0f72..000000000000
+--- a/Documentation/devicetree/bindings/mfd/cros-ec.txt
++++ /dev/null
+@@ -1,76 +0,0 @@
+-ChromeOS Embedded Controller
+-
+-Google's ChromeOS EC is a Cortex-M device which talks to the AP and
+-implements various function such as keyboard and battery charging.
+-
+-The EC can be connect through various means (I2C, SPI, LPC, RPMSG) and the
+-compatible string used depends on the interface. Each connection method has
+-its own driver which connects to the top level interface-agnostic EC driver.
+-Other Linux driver (such as cros-ec-keyb for the matrix keyboard) connect to
+-the top-level driver.
+-
+-Required properties (I2C):
+-- compatible: "google,cros-ec-i2c"
+-- reg: I2C slave address
+-
+-Required properties (SPI):
+-- compatible: "google,cros-ec-spi"
+-- reg: SPI chip select
+-
+-Required properties (RPMSG):
+-- compatible: "google,cros-ec-rpmsg"
+-
+-Optional properties (SPI):
+-- google,cros-ec-spi-pre-delay: Some implementations of the EC need a little
+-  time to wake up from sleep before they can receive SPI transfers at a high
+-  clock rate. This property specifies the delay, in usecs, between the
+-  assertion of the CS to the start of the first clock pulse.
+-- google,cros-ec-spi-msg-delay: Some implementations of the EC require some
+-  additional processing time in order to accept new transactions. If the delay
+-  between transactions is not long enough the EC may not be able to respond
+-  properly to subsequent transactions and cause them to hang. This property
+-  specifies the delay, in usecs, introduced between transactions to account
+-  for the time required by the EC to get back into a state in which new data
+-  can be accepted.
+-
+-Required properties (LPC):
+-- compatible: "google,cros-ec-lpc"
+-- reg: List of (IO address, size) pairs defining the interface uses
+-
+-Optional properties (all):
+-- google,has-vbc-nvram: Some implementations of the EC include a small
+-  nvram space used to store verified boot context data. This boolean flag
+-  is used to specify whether this nvram is present or not.
+-
+-Example for I2C:
+-
+-i2c@12ca0000 {
+-	cros-ec@1e {
+-		reg = <0x1e>;
+-		compatible = "google,cros-ec-i2c";
+-		interrupts = <14 0>;
+-		interrupt-parent = <&wakeup_eint>;
+-		wakeup-source;
+-	};
+-
+-
+-Example for SPI:
+-
+-spi@131b0000 {
+-	ec@0 {
+-		compatible = "google,cros-ec-spi";
+-		reg = <0x0>;
+-		interrupts = <14 0>;
+-		interrupt-parent = <&wakeup_eint>;
+-		wakeup-source;
+-		spi-max-frequency = <5000000>;
+-		controller-data {
+-		cs-gpio = <&gpf0 3 4 3 0>;
+-		samsung,spi-cs;
+-		samsung,spi-feedback-delay = <2>;
+-		};
+-	};
+-};
+-
+-
+-Example for LPC is not supplied as it is not yet implemented.
+diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.yaml b/Documentation/devicetree/bindings/mfd/cros-ec.yaml
+new file mode 100644
+index 000000000000..20d54cddc967
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/cros-ec.yaml
+@@ -0,0 +1,139 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/cros-ec.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ChromeOS Embedded Controller
++
++maintainers:
++  - Benson Leung <bleung@chromium.org>
++  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
++  - Guenter Roeck <groeck@chromium.org>
++
++description:
++  Google's ChromeOS EC is a microcontroller which talks to the AP and
++  implements various functions such as keyboard and battery charging.
++  The EC can be connected through various interfaces (I2C, SPI, and others)
++  and the compatible string specifies which interface is being used.
++
++properties:
++  compatible:
++    oneOf:
++      - description:
++          For implementations of the EC is connected through I2C.
++        const: google,cros-ec-i2c
++      - description:
++          For implementations of the EC is connected through SPI.
++        const: google,cros-ec-spi
++      - description:
++          For implementations of the EC is connected through RPMSG.
++        const: google,cros-ec-rpmsg
++
++  google,has-vbc-nvram:
++    description:
++      Some implementations of the EC include a small nvram space used to
++      store verified boot context data. This boolean flag is used to specify
++      whether this nvram is present or not.
++    type: boolean
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          const: google,cros-ec-i2c
++    then:
++      properties:
++        reg:
++          description: I2C slave address
++          maxItems: 1
++
++      required:
++        - reg
++  - if:
++      properties:
++        compatible:
++          const: google,cros-ec-spi
++    then:
++      properties:
++        reg:
++          description: SPI chip select
++          maxItems: 1
++
++        google,cros-ec-spi-pre-delay:
++          description:
++            This property specifies the delay in usecs between the
++            assertion of the CS and the first clock pulse.
++          allOf:
++            - $ref: /schemas/types.yaml#/definitions/uint32
++            - default: 0
++            - minimum: 0
++
++        google,cros-ec-spi-msg-delay:
++          description:
++            This property specifies the delay in usecs between messages.
++          allOf:
++            - $ref: /schemas/types.yaml#/definitions/uint32
++            - default: 0
++            - minimum: 0
++
++      required:
++        - reg
++
++additionalProperties: false
++
++examples:
++  # Example for I2C
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        cros-ec@1e {
++            compatible = "google,cros-ec-i2c";
++            reg = <0x1e>;
++            interrupts = <6 0>;
++            interrupt-parent = <&gpio0>;
++        };
++    };
++
++  # Example for SPI
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    spi0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        cros-ec@0 {
++            compatible = "google,cros-ec-spi";
++            reg = <0x0>;
++            google,cros-ec-spi-msg-delay = <30>;
++            google,cros-ec-spi-pre-delay = <10>;
++            interrupts = <99 0>;
++            interrupt-parent = <&gpio7>;
++            spi-max-frequency = <5000000>;
++        };
++    };
++
++  # Example for RPMSG
++  - |
++    scp0 {
++        cros-ec@0 {
++            compatible = "google,cros-ec-rpmsg";
++        };
++    };
++...
+-- 
+2.25.0.265.gbab2e86ba0-goog
 
