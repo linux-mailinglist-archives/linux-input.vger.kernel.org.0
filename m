@@ -2,34 +2,33 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 862F215D870
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 14:28:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4542615D871
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 14:28:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729102AbgBNN2z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Feb 2020 08:28:55 -0500
-Received: from a80-127-99-228.adsl.xs4all.nl ([80.127.99.228]:59720 "EHLO
+        id S1729020AbgBNN25 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Feb 2020 08:28:57 -0500
+Received: from a80-127-99-228.adsl.xs4all.nl ([80.127.99.228]:59724 "EHLO
         hetgrotebos.org" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729032AbgBNN2z (ORCPT
+        with ESMTP id S1727822AbgBNN25 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Feb 2020 08:28:55 -0500
-X-Greylist: delayed 1672 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Feb 2020 08:28:54 EST
+        Fri, 14 Feb 2020 08:28:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizzup.org;
-         s=mail; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:
-        To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+         s=mail; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
         List-Post:List-Owner:List-Archive;
-        bh=Q9PRBzzMe+a3dzAzMxrx0xT2y1fZevZ8aQZ/OjHoBN8=; b=J+8f2YqS5b9SXJ+ctf75ziQntm
-        IDqPGFfoH6VLBLfEb78RBz7itd9w+j6Doe5sUOpKFvlB/Ir38fY7Y125Nrrk8maCGT1xGRphJXyOT
-        Ka6W94g+va9bmC0V9S+PajK41qIUQjnVm08bAsXDlA/AfuJTlN5a4zCPhbaWGmW4W+VcTRgOsQm7j
-        JLo7t4JTOVZhLpHe16q+E6O6M6fwYsEc2CJtLbWqsXWI2SgZhqVTaYTzTjHJRVCRuolNLpcNbpRjq
-        KaGBvOF7t6dbOgAZmkZsFeM9kQOXOOze0iTpOD+fs28Tin+gMPGNfwRM2i/PdRf9UNaGcyo9VTKcM
-        oA9d1m7Q==;
+        bh=J/V7zkHQUUcwpBuxtuCDV4YxrtNB7KF4oGNQiKpJiEw=; b=nQGPPlyKanYjWB0RIjUWLuigHo
+        dAooLceMvbxlBtLfNCvFCN6J5Pf79Wdb+eF/QgO+SpITbvqY8a6OIF02ie3nIrV9BJcDwPJ8kXQCx
+        IC9lpsCXixEfELHoxeHHhxL2CgMB9d3StJKTNFGLF8LRsyhka8S+REvV/xJBobBh3NiTEc4gnybOS
+        gUbZuBkL7qLPuxoL1V5qVCw3e+wIL/PfWkDcSBH12QYFz4wl8o3CNTvAkSluwIKP7o3b8d9Itieve
+        m94MBywHCUiNv0ybq0pKJjsj6Zh4VkPV/vf9fx/UIkZObc7wvYgGsBpPk0k1m5gnC7KvFZoZDjT8A
+        hI3gnZzQ==;
 Received: from kgpe-d16.fritz.box ([192.168.178.22])
         by hetgrotebos.org with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <merlijn@wizzup.org>)
-        id 1j2aaS-0002df-Ny; Fri, 14 Feb 2020 13:00:52 +0000
+        id 1j2aaY-0002df-8z; Fri, 14 Feb 2020 13:00:58 +0000
 From:   Merlijn Wajer <merlijn@wizzup.org>
 To:     merlijn@wizzup.org
 Cc:     =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
@@ -41,10 +40,12 @@ Cc:     =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
         "Darren Hart (VMware)" <dvhart@infradead.org>,
         linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [RFC PATCH 0/2] Add SW_MACHINE_COVER key
-Date:   Fri, 14 Feb 2020 14:02:46 +0100
-Message-Id: <20200214130249.6845-1-merlijn@wizzup.org>
+Subject: [RFC PATCH 1/2] Input: add `SW_MACHINE_COVER`
+Date:   Fri, 14 Feb 2020 14:02:47 +0100
+Message-Id: <20200214130249.6845-2-merlijn@wizzup.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200214130249.6845-1-merlijn@wizzup.org>
+References: <20200214130249.6845-1-merlijn@wizzup.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
@@ -52,37 +53,44 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This series adds the SW_MACHINE_COVER key, and changes the Nokia N900 dts to
-expose the key via gpio-keys.
+This event code represents the state of a removable cover of a device.
+Value 1 means that the cover is open or removed, value 0 means that the
+cover is closed.
 
-Before, this gpio was used as card detect GPIO, causing the card not to show up
-if the phone was booted without cover, see this thread on linux-omap:
+This can be used to preempt users removing a removable mmc card or even
+the battery, allowing userspace to attempt to safely unmount a card.
+---
+ include/linux/mod_devicetable.h        | 2 +-
+ include/uapi/linux/input-event-codes.h | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-    N900: Remove mmc1 "safety feature"? (was: Re: mmc0 on Nokia N900 on Linux 5.4.18)
-
-Since there is no realistic use for using this gpio as card detect, instead
-expose it to userspace via gpio-keys. There are no event type for machine covers
-yet, so add that first.
-
-The key should be 1 when the cover is closed, and 0 when the cover is open.
-
-Starting the Nokia N900 with the cover removed, putting the cover in place:
-
-    Event: time 1581684523.415296, type 5 (EV_SW), code 16 (?), value 1
-
-Removing the cover again, exposing mmc1 and the battery:
-
-    Event: time 1581684529.413706, type 5 (EV_SW), code 16 (?), value 0
-
-Merlijn Wajer (2):
-  Input: add `SW_MACHINE_COVER`
-  ARM: dts: n900: remove mmc1 card detect gpio
-
- arch/arm/boot/dts/omap3-n900.dts       | 12 ++++++++----
- include/linux/mod_devicetable.h        |  2 +-
- include/uapi/linux/input-event-codes.h |  3 ++-
- 3 files changed, 11 insertions(+), 6 deletions(-)
-
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index 448621c32e4d..4c692cb3cc1d 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -299,7 +299,7 @@ struct pcmcia_device_id {
+ #define INPUT_DEVICE_ID_LED_MAX		0x0f
+ #define INPUT_DEVICE_ID_SND_MAX		0x07
+ #define INPUT_DEVICE_ID_FF_MAX		0x7f
+-#define INPUT_DEVICE_ID_SW_MAX		0x0f
++#define INPUT_DEVICE_ID_SW_MAX		0x10
+ #define INPUT_DEVICE_ID_PROP_MAX	0x1f
+ 
+ #define INPUT_DEVICE_ID_MATCH_BUS	1
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 64cee116928e..318a6387cdfb 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -807,7 +807,8 @@
+ #define SW_LINEIN_INSERT	0x0d  /* set = inserted */
+ #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
+ #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
+-#define SW_MAX			0x0f
++#define SW_MACHINE_COVER	 0x10 /* set = cover closed */
++#define SW_MAX			0x10
+ #define SW_CNT			(SW_MAX+1)
+ 
+ /*
 -- 
 2.23.0
 
