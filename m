@@ -2,120 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C163015EE05
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 18:38:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF0B915F11F
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2020 19:03:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388603AbgBNRhw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Feb 2020 12:37:52 -0500
-Received: from gateway21.websitewelcome.com ([192.185.45.155]:24527 "EHLO
-        gateway21.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387544AbgBNRhw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Feb 2020 12:37:52 -0500
-X-Greylist: delayed 1279 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Feb 2020 12:37:51 EST
-Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
-        by gateway21.websitewelcome.com (Postfix) with ESMTP id 99BFF4011BDFA
-        for <linux-input@vger.kernel.org>; Fri, 14 Feb 2020 11:16:30 -0600 (CST)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id 2eZqjst8vAGTX2eZqj4hVQ; Fri, 14 Feb 2020 11:16:30 -0600
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Hc+KXK55XGoMw2zvxQfSgUAWMXk86qqphrar4Mbwloc=; b=o/fbEawRgGH+SpYTbkk03vEU+n
-        CgMzJmTCsdJWuzjjdxPApWm5kT9x7eqWaUHAr7mK/foulobXcF4PdipL+BC4ScgICWWbrCgZpv8IC
-        H/paByw/b8GI3S6r9opFa0He6Wg9r+Z3L2g4vjS0OyAOrFE+TuN6BHKaW2OBEebyZs+FkK2hCJhUS
-        TAzBR/NLsvDBCZ8hcbBcizSNauGg1WOmSylL+dsHrs5j7RXbrD6sShuXdbrEeBFjHgKcExmJXrofY
-        BYc3lBu5esyvVu8DU8j4W31qpEuTGZGGgQwh1Ix4HoQzxYe9dDy2CHLmkE9Xuc38PqvutAZFGvX7t
-        +CXwK18w==;
-Received: from [200.68.140.137] (port=3263 helo=embeddedor)
-        by gator4166.hostgator.com with esmtpa (Exim 4.92)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1j2eZp-003gzW-4C; Fri, 14 Feb 2020 11:16:29 -0600
-Date:   Fri, 14 Feb 2020 11:19:07 -0600
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH] Input: gpio_keys_polled - replace zero-length array with
- flexible-array member
-Message-ID: <20200214171907.GA26588@embeddedor>
+        id S1731582AbgBNPz4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Feb 2020 10:55:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37276 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731422AbgBNPz4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 14 Feb 2020 10:55:56 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 795B224676;
+        Fri, 14 Feb 2020 15:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581695755;
+        bh=6j1K92uXQHGUNZx44H0eiABCvbiGImXRdsQbp3X8P6A=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=FZfWP+s4qH4O7clynH7/CPtZKUsLJ6Wzdl71bI9ULIjG3SDU2UxLoBquKxAFkcLc6
+         JnBsS8ThlJlW62v2SOUpDDaUw9ZLqY/SAFsNoxzUbGm1njdz430u7oOAFBNfI6THbb
+         Q1rk/vQBLcUdgN46IgDzrd685j3SwlWRYuOaJDfY=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.5 324/542] Input: edt-ft5x06 - work around first register access error
+Date:   Fri, 14 Feb 2020 10:45:16 -0500
+Message-Id: <20200214154854.6746-324-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
+References: <20200214154854.6746-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 200.68.140.137
-X-Source-L: No
-X-Exim-ID: 1j2eZp-003gzW-4C
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: (embeddedor) [200.68.140.137]:3263
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 25
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The current codebase makes use of the zero-length array language
-extension to the C90 standard, but the preferred mechanism to declare
-variable-length types such as these ones is a flexible array member[1][2],
-introduced in C99:
+From: Philipp Zabel <p.zabel@pengutronix.de>
 
-struct foo {
-        int stuff;
-        struct boo array[];
-};
+[ Upstream commit e112324cc0422c046f1cf54c56f333d34fa20885 ]
 
-By making use of the mechanism above, we will get a compiler warning
-in case the flexible array does not occur last in the structure, which
-will help us prevent some kind of undefined behavior bugs from being
-inadvertently introduced[3] to the codebase from now on.
+The EP0700MLP1 returns bogus data on the first register read access
+(reading the threshold parameter from register 0x00):
 
-Also, notice that, dynamic memory allocations won't be affected by
-this change:
+    edt_ft5x06 2-0038: crc error: 0xfc expected, got 0x40
 
-"Flexible array members have incomplete type, and so the sizeof operator
-may not be applied. As a quirk of the original implementation of
-zero-length arrays, sizeof evaluates to zero."[1]
+It ignores writes until then. This patch adds a dummy read after which
+the number of sensors and parameter read/writes work correctly.
 
-This issue was found with the help of Coccinelle.
-
-[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-[2] https://github.com/KSPP/linux/issues/21
-[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
-
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+Tested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/keyboard/gpio_keys_polled.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/touchscreen/edt-ft5x06.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
-index 6eb0a2f3f9de..c3937d2fc744 100644
---- a/drivers/input/keyboard/gpio_keys_polled.c
-+++ b/drivers/input/keyboard/gpio_keys_polled.c
-@@ -38,7 +38,7 @@ struct gpio_keys_polled_dev {
- 	const struct gpio_keys_platform_data *pdata;
- 	unsigned long rel_axis_seen[BITS_TO_LONGS(REL_CNT)];
- 	unsigned long abs_axis_seen[BITS_TO_LONGS(ABS_CNT)];
--	struct gpio_keys_button_data data[0];
-+	struct gpio_keys_button_data data[];
- };
+diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+index d61731c0037d1..b87b1e074f624 100644
+--- a/drivers/input/touchscreen/edt-ft5x06.c
++++ b/drivers/input/touchscreen/edt-ft5x06.c
+@@ -1050,6 +1050,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+ {
+ 	const struct edt_i2c_chip_data *chip_data;
+ 	struct edt_ft5x06_ts_data *tsdata;
++	u8 buf[2] = { 0xfc, 0x00 };
+ 	struct input_dev *input;
+ 	unsigned long irq_flags;
+ 	int error;
+@@ -1140,6 +1141,12 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+ 		return error;
+ 	}
  
- static void gpio_keys_button_event(struct input_dev *input,
++	/*
++	 * Dummy read access. EP0700MLP1 returns bogus data on the first
++	 * register read access and ignores writes.
++	 */
++	edt_ft5x06_ts_readwrite(tsdata->client, 2, buf, 2, buf);
++
+ 	edt_ft5x06_ts_set_regs(tsdata);
+ 	edt_ft5x06_ts_get_defaults(&client->dev, tsdata);
+ 	edt_ft5x06_ts_get_parameters(tsdata);
 -- 
-2.25.0
+2.20.1
 
