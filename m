@@ -2,119 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F339160118
-	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2020 00:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D293D16011A
+	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2020 00:30:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbgBOXaB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 15 Feb 2020 18:30:01 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:35926 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726275AbgBOXaA (ORCPT
+        id S1726638AbgBOXaP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 15 Feb 2020 18:30:15 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:37413 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726275AbgBOXaP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 15 Feb 2020 18:30:00 -0500
-Received: by mail-pj1-f68.google.com with SMTP id gv17so5613725pjb.1;
-        Sat, 15 Feb 2020 15:29:59 -0800 (PST)
+        Sat, 15 Feb 2020 18:30:15 -0500
+Received: by mail-pf1-f195.google.com with SMTP id p14so6912848pfn.4;
+        Sat, 15 Feb 2020 15:30:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=1OFKdKYOuEdt3GbD33I0905t17EPvxaa1y/xmesPAeA=;
-        b=LKTKKo6IQMZadGO/lWGugOcSOQsBCVwuWaSL00B+WzZGXa6RVORH7E6H2P3P/pWKSj
-         Yajivy3Gs8xpZimJQMOgDq9PPJBbGFQzNG6AecSC2hSOJzCSVfDjGKqkuX9fZ0mJzSsO
-         vOauOqaREm/Gau13kqDxhdzxIU3uISOxylGrGnNGOEecJbA75dDeT7ISSL4xHFc3VafK
-         JIOQWtPRmKa9to9GWVw3td//eMXLVbZ70jqdxvE3XdYMFaoNgibh9z09NwUbMeolGJQc
-         rVwUJXrNHCjaLppPM9EujdrSNBqIa47NIJEe+tytVhGjkPfCEYTZce0pP5kb5ASEkvut
-         3cyQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=1sKOMRPObfR2xQm2scpkMxZpLRKv7uX2cnDzDTR91ng=;
+        b=jQlOHMK80wziZ3tdSv5Ms+X4D8GXqgxSVp918tdGJaHOK+M+AlyL4NRat7PwbqV81E
+         4BjuApgTtg9BWwCuaGQ/ygO+aPR1sTyhIMe65rI9pAiA/AOPoPyizNvd3Ej+5600bz3r
+         IrKemH/w7UD/GFQMtOGuez+FUBB1M5GkcUkg0U0iOM6TBb93NAnjNMi59Pa5hxOLVmSk
+         aeLLhAZn/KWy8TJyO9vj+pFpZJmjDTWPvwnmrfbj1k1BvG1ElYlbyFQujkrJ2XtIdm3D
+         HruWzHP1e0mRuYMMrk0hgoIPziVmBABSQv27ldbAaWBKcHTwd9o2sFVK7B/FSaJJcLv2
+         z1PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=1OFKdKYOuEdt3GbD33I0905t17EPvxaa1y/xmesPAeA=;
-        b=RrqSch/I/4knqmnx2Bf6fBPtirNxolFYqnElvoknoIkGZS7//JjMYEgfmopR4lPXtE
-         MVnO2Fy8z9dMZ2yS5QHo5ENldk+sAre5kARymij+/3WJomgKyd6GYyPLdpskhBwV+10F
-         OWttFYKnm7DQIqwBl7S7gXEim0dbubXBYKf+IxbWKLV06E+Sxk0UHdacBB3pj13UjfLK
-         6751Y+8+1RD6k32Hb+jT1Y7sllSNUxIxV1dcFnBCuyGyWTS/rYI9tqFthiSGjVjDNv5G
-         ZVdcdYaG52hNhM/OrxjaS55dSsVWegwk6//0vYc2DuCUQZWSPWVMQLU2T09OOqdzUf4l
-         WhDA==
-X-Gm-Message-State: APjAAAVUVeLyLAORQHWTMHS5OSQoo0E/HluUGIJM15E9lOmT8vaMykan
-        oOzawmiAjkZdUUheq3hJlvI=
-X-Google-Smtp-Source: APXvYqy3Sorh9JO1ouujKisYYibaAI/Ueun1snCnmwz6mM/5l6P6pd+RxZInKrz/2BiNeliOOd3BOQ==
-X-Received: by 2002:a17:90a:3188:: with SMTP id j8mr11494117pjb.82.1581809398294;
-        Sat, 15 Feb 2020 15:29:58 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1sKOMRPObfR2xQm2scpkMxZpLRKv7uX2cnDzDTR91ng=;
+        b=BuhCqmvdX+lPeuh3n2xcOg5pXBi90oYSj0bsfi0oP0efEamoKeXmI1UAG1u/vawWM8
+         Kdf9fOf92Kaqh2xgSQY1DM/voQ7vxdWcPa79ZjqZkSDhrzAlLX/AmdLmH+1T2FTeWTIY
+         xrLs9bXUYXNT20cpucAx6MwOAN8Ub0VbZ+SCmELozjYPWr8gXGVxExk7E2mwRbshFJ9S
+         IN4PoARheF+NDMDsK1Q8JyTBSuHWErijlEJbgdh6KnqCt7JB5paNfuiL7BwUCktKLJ0j
+         KEIPBn3P0cuWJG9Ebl6cVAB3sg8QRXO6JzI2MwDtPpzY62hecqANUCgDDS+3mTLdcfmE
+         T3EQ==
+X-Gm-Message-State: APjAAAWqGxJuiBR+a8c9Yp9P+vvMwfbY6IGHZ9RHNq1U8qWUya+ddLOw
+        2hDW02JtnuvIGdlRvbS4YHDmP5f9
+X-Google-Smtp-Source: APXvYqyg8EzkdxwXN8nBGQAl0mtxZwyhctz+eg87xkgmqHqmyDd+Y0UalfT5CI9M3Vx41tMDmhBjVA==
+X-Received: by 2002:a62:fc93:: with SMTP id e141mr9777593pfh.262.1581809414805;
+        Sat, 15 Feb 2020 15:30:14 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id a17sm11114657pfo.146.2020.02.15.15.29.57
+        by smtp.gmail.com with ESMTPSA id f9sm11553299pfd.141.2020.02.15.15.30.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Feb 2020 15:29:57 -0800 (PST)
-Date:   Sat, 15 Feb 2020 15:29:55 -0800
+        Sat, 15 Feb 2020 15:30:14 -0800 (PST)
+Date:   Sat, 15 Feb 2020 15:30:12 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v5.6-rc1
-Message-ID: <20200215232955.GA107886@dtor-ws>
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: gpio_keys_polled - replace zero-length array with
+ flexible-array member
+Message-ID: <20200215233012.GF183709@dtor-ws>
+References: <20200214171907.GA26588@embeddedor>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20200214171907.GA26588@embeddedor>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+On Fri, Feb 14, 2020 at 11:19:07AM -0600, Gustavo A. R. Silva wrote:
+> The current codebase makes use of the zero-length array language
+> extension to the C90 standard, but the preferred mechanism to declare
+> variable-length types such as these ones is a flexible array member[1][2],
+> introduced in C99:
+> 
+> struct foo {
+>         int stuff;
+>         struct boo array[];
+> };
+> 
+> By making use of the mechanism above, we will get a compiler warning
+> in case the flexible array does not occur last in the structure, which
+> will help us prevent some kind of undefined behavior bugs from being
+> inadvertently introduced[3] to the codebase from now on.
+> 
+> Also, notice that, dynamic memory allocations won't be affected by
+> this change:
+> 
+> "Flexible array members have incomplete type, and so the sizeof operator
+> may not be applied. As a quirk of the original implementation of
+> zero-length arrays, sizeof evaluates to zero."[1]
+> 
+> This issue was found with the help of Coccinelle.
+> 
+> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+> [2] https://github.com/KSPP/linux/issues/21
+> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 
-Please pull from:
+Applied, thank you.
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-
-to receive updates for the input subsystem:
-
-- a few drivers have been updated to use flexible-array syntax instead
-  of GCC extension
-- ili210x touchscreen driver now supports the 2120 protocol flavor
-- a couple more of Synaptics devices have been switched over to RMI4
-
-Changelog:
----------
-
-Benjamin Tissoires (1):
-      Input: synaptics - remove the LEN0049 dmi id from topbuttonpad list
-
-Gaurav Agrawal (1):
-      Input: synaptics - enable SMBus on ThinkPad L470
-
-Gustavo A. R. Silva (5):
-      Input: goldfish_events - replace zero-length array with flexible-array member
-      Input: gpio_keys - replace zero-length array with flexible-array member
-      Input: gpio_keys_polled - replace zero-length array with flexible-array member
-      Input: tca6416-keypad - replace zero-length array with flexible-array member
-      Input: cyapa - replace zero-length array with flexible-array member
-
-Luca Weiss (2):
-      Input: ili210x - fix return value of is_visible function
-      Input: ili210x - add ili2120 support
-
-Lyude Paul (1):
-      Input: synaptics - switch T470s to RMI4 by default
-
-Wolfram Sang (1):
-      Input: psmouse - switch to using i2c_new_scanned_device()
-
-Diffstat:
---------
-
- .../devicetree/bindings/input/ilitek,ili2xxx.txt   |  3 +-
- drivers/input/keyboard/goldfish_events.c           |  2 +-
- drivers/input/keyboard/gpio_keys.c                 |  2 +-
- drivers/input/keyboard/gpio_keys_polled.c          |  2 +-
- drivers/input/keyboard/tca6416-keypad.c            |  4 +--
- drivers/input/mouse/cyapa_gen5.c                   |  8 ++---
- drivers/input/mouse/psmouse-smbus.c                |  8 +++--
- drivers/input/mouse/synaptics.c                    |  4 ++-
- drivers/input/touchscreen/ili210x.c                | 34 +++++++++++++++++++++-
- 9 files changed, 52 insertions(+), 15 deletions(-)
-
-Thanks.
-
+> ---
+>  drivers/input/keyboard/gpio_keys_polled.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
+> index 6eb0a2f3f9de..c3937d2fc744 100644
+> --- a/drivers/input/keyboard/gpio_keys_polled.c
+> +++ b/drivers/input/keyboard/gpio_keys_polled.c
+> @@ -38,7 +38,7 @@ struct gpio_keys_polled_dev {
+>  	const struct gpio_keys_platform_data *pdata;
+>  	unsigned long rel_axis_seen[BITS_TO_LONGS(REL_CNT)];
+>  	unsigned long abs_axis_seen[BITS_TO_LONGS(ABS_CNT)];
+> -	struct gpio_keys_button_data data[0];
+> +	struct gpio_keys_button_data data[];
+>  };
+>  
+>  static void gpio_keys_button_event(struct input_dev *input,
+> -- 
+> 2.25.0
+> 
 
 -- 
 Dmitry
