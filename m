@@ -2,112 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3C5716012A
-	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2020 00:42:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B434C16012E
+	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2020 00:48:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726340AbgBOXmP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 15 Feb 2020 18:42:15 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:41435 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726275AbgBOXmP (ORCPT
+        id S1726512AbgBOXso (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 15 Feb 2020 18:48:44 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:35044 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726504AbgBOXso (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 15 Feb 2020 18:42:15 -0500
-Received: by mail-pf1-f196.google.com with SMTP id j9so6900330pfa.8;
-        Sat, 15 Feb 2020 15:42:15 -0800 (PST)
+        Sat, 15 Feb 2020 18:48:44 -0500
+Received: by mail-pl1-f196.google.com with SMTP id g6so5269417plt.2;
+        Sat, 15 Feb 2020 15:48:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=zBsjCn468WTGT/oy+fBMtes2F6D7F/Y2VPHhTxZnAPA=;
-        b=U4w8UrINOvtJAf5QVoCPoOopv31OO3KCArq3KkSilhpHfO6C98gFbXUlWsqCicw8UE
-         nhs45wOxdZc9vmCyKWVq11yg9jgPLY3DsJAGchcmTOS6Waz208veookXm4InM9h81Zhu
-         cy3v44uGNCzq+3xqGFmVfR3dhnktovnQXCiG1AiUkyV3XO8oR3AVfiecKandsdjt2/vG
-         ktjZhkW3qP05sL2OvBwTso1tLLIWHm3F8+SReGaA69AePS4t0j4qGbywuEcdx8WuPS1x
-         0r5Chcy7nNqqh8RoiGcrrDSgmFfht++lq2NG627cmB7KqaG97CAyBNNuIgEs8/IUyJsB
-         w9CA==
+        bh=KSNr+yHW4ycn1sxEse/mYo6PN+i2/AGLioB236lCzWo=;
+        b=Fu3hFeU3H9cIrAGixOQOIa3DrO9tMNQUqJ5DnbRAIIp/FVsgL187aSBB0LbLxc6FrD
+         ldjuRzW4KHHR5W+tuq8vR6ry+PiMZqEIqS6dBQILVlP63X130G+XKZnFohX9ghPCeHIC
+         ceSeCP7m2ceZAlBD6jzsmyesGZOWHysCdqb8Zy4/nVyD0MlkfrpWqXiAYGBthL0oAyHY
+         ueFaeO5RSfIXcqIs347aSXUlo/zyfLyJn3RbZTGcDCKChcbgGL16/5i+WZ1PdY11Rg+u
+         Su8RGYqnUJWiSCJwan2NJ/TdcCaSLltfk/KryFMgebOODc3uK9FV954qWiHkFZD5u+DO
+         kneA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=zBsjCn468WTGT/oy+fBMtes2F6D7F/Y2VPHhTxZnAPA=;
-        b=es+t3awWn/pj260emQshYDvqHRk5estvUxJbCSqXTmX88Llz90MzRAfA6sO/JlgcZy
-         2e8/MPpJSoD9fyq1vW0MjrJ7bc/ZUDxEO59Tpp4iktaNRmiGEwZFXo6xlizr2FPbqsDg
-         OYO4ohH7M91Gl0woStxnAITsI/oU5/5YVSfH++skuJ6rrJR2gduWOWh2CZ4JodqV3Py5
-         qPQcIbeb+4p01a71AULJC2AAtY1CPOV+PWqTjVD+Dfd9PBBmZ+CjUos6Yl4Ym1cZ2QJ0
-         J4mWVJ3eXvVRULLqVdCgLnQQ0VPO2c7Fehqa0obcnmB8hEnhUwW4TDLVtuATOt/9Imgq
-         gbhw==
-X-Gm-Message-State: APjAAAUxcTuss/gs8YrvD48GPdHW1n83AvFiBODeI1jilTm3zijR7nN4
-        GQecSkBfF2nUIa6nEzFJa+s=
-X-Google-Smtp-Source: APXvYqyiCCglLn70UE+afnXnqNGyyYjJ95AFwEPC9P1Z3qIPCg2Ilc1MqAQqnjaHwo5LcDcXSto6Cw==
-X-Received: by 2002:a63:2a13:: with SMTP id q19mr10152806pgq.82.1581810135002;
-        Sat, 15 Feb 2020 15:42:15 -0800 (PST)
+        bh=KSNr+yHW4ycn1sxEse/mYo6PN+i2/AGLioB236lCzWo=;
+        b=m2EWaXrtpz5jBOlHUYsdW2oWg3/t3soItu9x9tA1v2FzbKQ0NplVzlHMj66dVmkG/y
+         uXGx698QYQ7Yj8h16PlDJx0qczMwN5znv4HyRZFqoB8p3mlqMLJ+q++XRZeY2+EXTd4A
+         B0eZL2jRcQ8xE+vWMMH/2pdGtCdKXwYLxcgPsMEhguH4lqiKx1duezWdO5Yjo8BtO2bn
+         Uz0aQ85aoSQKyyHJh8SgGflSinHGMVOZLOvQJhvvq6eaMiul4RX65TxOp3UxsvVwdGdC
+         a3AXsrMHWx2iqt6MWDQgs/WoYAWAkwXMqjbxxV9jnn5Hb+pKaibyC7X49MyaGCmsYS0x
+         IW7Q==
+X-Gm-Message-State: APjAAAW4E3ncM4h0POgnLEkU53QWnDFZ3akvOVXlFVunaBH8Ms0wwMO4
+        h9fdfLHnWldNbu7ZL3ptoBY=
+X-Google-Smtp-Source: APXvYqxlOJLVG7eC47baAse1iAF1gIb+QDc1RCaMWHEuJMoZzV9i2WIIriIlCt4cip6JWtyyq1qZdQ==
+X-Received: by 2002:a17:902:b944:: with SMTP id h4mr9586794pls.92.1581810523942;
+        Sat, 15 Feb 2020 15:48:43 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id 144sm11955123pfc.45.2020.02.15.15.42.14
+        by smtp.gmail.com with ESMTPSA id q21sm11493734pff.105.2020.02.15.15.48.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Feb 2020 15:42:14 -0800 (PST)
-Date:   Sat, 15 Feb 2020 15:42:12 -0800
+        Sat, 15 Feb 2020 15:48:43 -0800 (PST)
+Date:   Sat, 15 Feb 2020 15:48:41 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Nick Reitemeyer <nick.reitemeyer@web.de>
-Cc:     robh+dt@kernel.org, stephan@gerhold.net,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/3] Input: tm2-touchkey - add support for Coreriver
- TC360 variant
-Message-ID: <20200215234212.GK183709@dtor-ws>
-References: <20200121141525.3404-1-nick.reitemeyer@web.de>
- <20200121141525.3404-3-nick.reitemeyer@web.de>
+To:     Sven Van Asbroeck <thesven73@gmail.com>
+Cc:     Luca Weiss <luca@z3ntu.xyz>, linux-input@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, Marek Vasut <marex@denx.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Input: ili210x - fix return value of is_visible function
+Message-ID: <20200215234841.GL183709@dtor-ws>
+References: <20200209145628.649409-1-luca@z3ntu.xyz>
+ <CAGngYiUCC10epFwLO7wXMT-ko2g-zXRDecMwaK5=Y4nCCHHVEw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200121141525.3404-3-nick.reitemeyer@web.de>
+In-Reply-To: <CAGngYiUCC10epFwLO7wXMT-ko2g-zXRDecMwaK5=Y4nCCHHVEw@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 21, 2020 at 03:15:26PM +0100, Nick Reitemeyer wrote:
-> The Coreriver TouchCore 360 is like the midas board touchkey, but it is using a fixed regulator.
+On Mon, Feb 10, 2020 at 10:07:34AM -0500, Sven Van Asbroeck wrote:
+> Luca,
 > 
-> Signed-off-by: Nick Reitemeyer <nick.reitemeyer@web.de>
+> Good catch. That's what happens when I post a patch I can't test :)
+> 
+> Reviewed-by: Sven Van Asbroeck <TheSven73@gmail.com>
 
 Applied, thank you.
 
-> ---
->  drivers/input/keyboard/tm2-touchkey.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
 > 
-> diff --git a/drivers/input/keyboard/tm2-touchkey.c b/drivers/input/keyboard/tm2-touchkey.c
-> index 14b55bacdd0f..fb078e049413 100644
-> --- a/drivers/input/keyboard/tm2-touchkey.c
-> +++ b/drivers/input/keyboard/tm2-touchkey.c
-> @@ -75,6 +75,14 @@ static struct touchkey_variant aries_touchkey_variant = {
->  	.cmd_led_off = ARIES_TOUCHKEY_CMD_LED_OFF,
->  };
-> 
-> +static const struct touchkey_variant tc360_touchkey_variant = {
-> +	.keycode_reg = 0x00,
-> +	.base_reg = 0x00,
-> +	.fixed_regulator = true,
-> +	.cmd_led_on = TM2_TOUCHKEY_CMD_LED_ON,
-> +	.cmd_led_off = TM2_TOUCHKEY_CMD_LED_OFF,
-> +};
-> +
->  static int tm2_touchkey_led_brightness_set(struct led_classdev *led_dev,
->  					    enum led_brightness brightness)
->  {
-> @@ -327,6 +335,9 @@ static const struct of_device_id tm2_touchkey_of_match[] = {
->  	}, {
->  		.compatible = "cypress,aries-touchkey",
->  		.data = &aries_touchkey_variant,
-> +	}, {
-> +		.compatible = "coreriver,tc360-touchkey",
-> +		.data = &tc360_touchkey_variant,
->  	},
->  	{ },
->  };
-> --
-> 2.23.0
-> 
+> On Sun, Feb 9, 2020 at 9:58 AM Luca Weiss <luca@z3ntu.xyz> wrote:
+> >
+> > The is_visible function expects the permissions associated with an
+> > attribute of the sysfs group or 0 if an attribute is not visible.
+> >
+> > Change the code to return the attribute permissions when the attribute
+> > should be visible which resolves the warning:
+> >
+> >   Attribute calibrate: Invalid permissions 01
+> >
+> > Fixes: cc12ba1872c6 ("Input: ili210x - optionally show calibrate sysfs attribute")
+> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> > ---
+> >  drivers/input/touchscreen/ili210x.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+> > index 37526baff8a6..199cf3daec10 100644
+> > --- a/drivers/input/touchscreen/ili210x.c
+> > +++ b/drivers/input/touchscreen/ili210x.c
+> > @@ -351,7 +351,7 @@ static umode_t ili210x_calibrate_visible(struct kobject *kobj,
+> >         struct i2c_client *client = to_i2c_client(dev);
+> >         struct ili210x *priv = i2c_get_clientdata(client);
+> >
+> > -       return priv->chip->has_calibrate_reg;
+> > +       return priv->chip->has_calibrate_reg ? attr->mode : 0;
+> >  }
+> >
+> >  static const struct attribute_group ili210x_attr_group = {
+> > --
+> > 2.25.0
+> >
 
 -- 
 Dmitry
