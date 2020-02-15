@@ -2,68 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5528416011C
-	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2020 00:30:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93AAF16011E
+	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2020 00:30:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726777AbgBOXaW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 15 Feb 2020 18:30:22 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:45383 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726275AbgBOXaW (ORCPT
+        id S1727680AbgBOXaa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 15 Feb 2020 18:30:30 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:33414 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726275AbgBOXaa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 15 Feb 2020 18:30:22 -0500
-Received: by mail-pf1-f196.google.com with SMTP id 2so6893905pfg.12;
-        Sat, 15 Feb 2020 15:30:22 -0800 (PST)
+        Sat, 15 Feb 2020 18:30:30 -0500
+Received: by mail-pf1-f193.google.com with SMTP id n7so6916931pfn.0;
+        Sat, 15 Feb 2020 15:30:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=91pCYAHi6fo9tzkGPZKqMgAVSr+r1d8/AdSiKc1bZTE=;
-        b=Uz82U+SjZGYAPMTCpN189+sckEJlK3UsaNFy2SW6zj68Gl5UASjo/3ttEGxZbRuOG9
-         RYwzE3PaD8ansUFvZmx6LfIVEojLjcd/bdr5LUjINs0nZQYuzxKtWiNRovou2XKCfMER
-         5HXYSxhJlXk1IqRhmj+2GzuQ2+Jkb4XjnFWldpGMvP4iTuF2uITKzKNadEYa7rtb82hI
-         yR9sZrNBM6no6sjjLbjWppvXdZltQlcURGCu4hafgfp9UNKn36sVbwqz335sq7u9TIrT
-         kQfG+5TalmUwn+FF6sdKWKlSLJY1NzaOwGpuJ223DemuI6ol9wfMD7MvOM9n2xohHpsA
-         S6og==
+        bh=ZBXxDyA8XNQFw91nYiC9lsyYtTrUdOUOLfCOiOqTfp4=;
+        b=hUqybxD3QEuGBjSZFahOu65wT1lOZXpP45FJ16K98GRvDXxqu7kjpN/JT2F4IZB48P
+         G3VDVGvR59A/ynAxJpDfbXZ4x+EkJu9/TC1pYqGyT+XRXYbXR3Z6Q7XH9PIHQ7mt3XF8
+         v6TgCzlzo1ypRaiIjOWtBE6hPEYSxNp5ar6UM2FwngrB9i791lzQWqpdsrZDFX8XaqwQ
+         Y+HRHedLYZJiGhgf3GGh542xja+0bvkNjeA0D67o+JGw3Ypr3EJCxQlU2BtDOP1ZSqQP
+         cphBK0Z53WDJRNZ+UbLpKVD77HMIG3O5Rt4dGfH3VZviXh52leewNuCPMHpTRbuwVqK6
+         0R3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=91pCYAHi6fo9tzkGPZKqMgAVSr+r1d8/AdSiKc1bZTE=;
-        b=VNCBfB8SOWBCTi4HUg8mx4KcszzUAM5PDESYbaPS4NcdvAg82Yl5vU+AkHqdolheu6
-         6C17qCFES6SnrCmabK8Rr9WowvmOPQYpYIPCAW1Gk50wetrBEaoxOy1uDIuAbd1PqP24
-         x+kB37AbGsgktIXWgZ418ZoohtwvbngFT4Hawm1nISbZNMnYzyiZp+YO5CPRCykfs+sc
-         USEFsDd+D2erD668aj8MkfwDZblB001/QywZ0qazgRNxkHb3ODJUxslOO31madUtl9pB
-         EjjCbGFNXt7jvdcckfyRG/WCH5Llw7iA9qrb46F/KN8KoW4lQ0YgkPGIqdTx8Eo38Zid
-         e7Qg==
-X-Gm-Message-State: APjAAAXWWL9zwMUKZ7/wNs/X8Uh8FskMm/0HlVWFXzdB/bk0cLp6uNzU
-        M6FJRR0M49dQin5iE3JwXtw=
-X-Google-Smtp-Source: APXvYqwia53Js2u+nacU3OromeC/Zr9fRkBv7q0jQo3XZJXJN05RqLfFh7Y8sQSmCMG9Q7AnqIweeg==
-X-Received: by 2002:a63:ec0c:: with SMTP id j12mr10260811pgh.78.1581809421668;
-        Sat, 15 Feb 2020 15:30:21 -0800 (PST)
+        bh=ZBXxDyA8XNQFw91nYiC9lsyYtTrUdOUOLfCOiOqTfp4=;
+        b=sRwmo+1o7CEUP4PSrZu658tvjtKYdvS+9sBZvdXFy/fPwEbcZfcKmjLGJBE/7hww78
+         /xHCo89+PE98w+voyR8ZfT8OecyqgNOzY4xDiwgrJU0D7I7ucRfMaTwBGpyXKQkSxf7+
+         oEF1oBtRi/2lJyIwmEDWYDbwuRNJGyy9wMhub8ujSrufYmpDpaoKFMjm+ouGo4Ot8XXs
+         WJaY7TaZ9NumwQXv2HZiRjmG8oTqN/bSaPaNf2J6rc+Pl27vRAxiCwAlaaRPS8gsXfPR
+         wX5kJ8E/GU1KKJaBArBlXde6qAnUyjokv1XkHOKMxLxUpN9yFAdKCsPX4TYCmjWi7+1w
+         mYGg==
+X-Gm-Message-State: APjAAAWhUlXvww4ViL0g644wdjd9u/pP2EUyB6gk8mqPWeKJL05EKmf8
+        T/pMUgSvl1EJpznZs26gNJA=
+X-Google-Smtp-Source: APXvYqz9/uLmGzxPysVxAfK8UipyDhC1Eajm9z4pTgbVQdyOTSJ77IBh5NDC7hBbEcMSiAQHTHXXnw==
+X-Received: by 2002:a62:6842:: with SMTP id d63mr10180113pfc.113.1581809429633;
+        Sat, 15 Feb 2020 15:30:29 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id u12sm11192837pfm.165.2020.02.15.15.30.20
+        by smtp.gmail.com with ESMTPSA id cx18sm11233212pjb.26.2020.02.15.15.30.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Feb 2020 15:30:21 -0800 (PST)
-Date:   Sat, 15 Feb 2020 15:30:19 -0800
+        Sat, 15 Feb 2020 15:30:29 -0800 (PST)
+Date:   Sat, 15 Feb 2020 15:30:27 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: tca6416-keypad - replace zero-length array with
+Subject: Re: [PATCH] Input: cyapa - replace zero-length array with
  flexible-array member
-Message-ID: <20200215233019.GG183709@dtor-ws>
-References: <20200214172022.GA27490@embeddedor>
+Message-ID: <20200215233027.GH183709@dtor-ws>
+References: <20200214172132.GA28389@embeddedor>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200214172022.GA27490@embeddedor>
+In-Reply-To: <20200214172132.GA28389@embeddedor>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Feb 14, 2020 at 11:20:22AM -0600, Gustavo A. R. Silva wrote:
+On Fri, Feb 14, 2020 at 11:21:32AM -0600, Gustavo A. R. Silva wrote:
 > The current codebase makes use of the zero-length array language
 > extension to the C90 standard, but the preferred mechanism to declare
 > variable-length types such as these ones is a flexible array member[1][2],
@@ -97,31 +97,49 @@ On Fri, Feb 14, 2020 at 11:20:22AM -0600, Gustavo A. R. Silva wrote:
 Applied, thank you.
 
 > ---
->  drivers/input/keyboard/tca6416-keypad.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/input/mouse/cyapa_gen5.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/input/keyboard/tca6416-keypad.c b/drivers/input/keyboard/tca6416-keypad.c
-> index 2a14769de637..21758767ccf0 100644
-> --- a/drivers/input/keyboard/tca6416-keypad.c
-> +++ b/drivers/input/keyboard/tca6416-keypad.c
-> @@ -33,7 +33,7 @@ MODULE_DEVICE_TABLE(i2c, tca6416_id);
+> diff --git a/drivers/input/mouse/cyapa_gen5.c b/drivers/input/mouse/cyapa_gen5.c
+> index 14239fbd72cf..7f012bfa2658 100644
+> --- a/drivers/input/mouse/cyapa_gen5.c
+> +++ b/drivers/input/mouse/cyapa_gen5.c
+> @@ -250,7 +250,7 @@ struct cyapa_tsg_bin_image_data_record {
 >  
->  struct tca6416_drv_data {
->  	struct input_dev *input;
-> -	struct tca6416_button data[0];
-> +	struct tca6416_button data[];
->  };
+>  struct cyapa_tsg_bin_image {
+>  	struct cyapa_tsg_bin_image_head image_head;
+> -	struct cyapa_tsg_bin_image_data_record records[0];
+> +	struct cyapa_tsg_bin_image_data_record records[];
+>  } __packed;
 >  
->  struct tca6416_keypad_chip {
-> @@ -48,7 +48,7 @@ struct tca6416_keypad_chip {
->  	int irqnum;
->  	u16 pinmask;
->  	bool use_polling;
-> -	struct tca6416_button buttons[0];
-> +	struct tca6416_button buttons[];
->  };
+>  struct pip_bl_packet_start {
+> @@ -271,7 +271,7 @@ struct pip_bl_cmd_head {
+>  	u8 report_id;  /* Bootloader output report id, must be 40h */
+>  	u8 rsvd;  /* Reserved, must be 0 */
+>  	struct pip_bl_packet_start packet_start;
+> -	u8 data[0];  /* Command data variable based on commands */
+> +	u8 data[];  /* Command data variable based on commands */
+>  } __packed;
 >  
->  static int tca6416_write_reg(struct tca6416_keypad_chip *chip, int reg, u16 val)
+>  /* Initiate bootload command data structure. */
+> @@ -300,7 +300,7 @@ struct tsg_bl_metadata_row_params {
+>  struct tsg_bl_flash_row_head {
+>  	u8 flash_array_id;
+>  	__le16 flash_row_id;
+> -	u8 flash_data[0];
+> +	u8 flash_data[];
+>  } __packed;
+>  
+>  struct pip_app_cmd_head {
+> @@ -314,7 +314,7 @@ struct pip_app_cmd_head {
+>  	 * Bit 6-0: command code.
+>  	 */
+>  	u8 cmd_code;
+> -	u8 parameter_data[0];  /* Parameter data variable based on cmd_code */
+> +	u8 parameter_data[];  /* Parameter data variable based on cmd_code */
+>  } __packed;
+>  
+>  /* Application get/set parameter command data structure */
 > -- 
 > 2.25.0
 > 
