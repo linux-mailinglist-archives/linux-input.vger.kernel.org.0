@@ -2,112 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9444D160133
-	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2020 00:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22A55160151
+	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2020 02:20:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727555AbgBOXtI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 15 Feb 2020 18:49:08 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:41731 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726504AbgBOXtI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 15 Feb 2020 18:49:08 -0500
-Received: by mail-pg1-f193.google.com with SMTP id 70so7070646pgf.8;
-        Sat, 15 Feb 2020 15:49:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=rnC2Ds+EwbzVL/T+AxeZaE34NxC8qW00bQsFdhfFbMs=;
-        b=ViFN3ZKP7EUrlmLXFMCv3zw/OdanOJPxP9i4sOmLF+OHeB/Ucu8V/XvHpIeWp6spsE
-         kpiURiuSKsbBJe/gBdAiNJgaxNl/JTiQBBF+oqmJxJ4Ju2lCF5sQgFDmtOsWnfDdc9tV
-         752Dz218AKcYK39P+F27sKxbBM5hIs9ieEg0rguzwEaBF0n+qkUDmKwyG+dLpHzDTdqA
-         BLuMPmUrOUrI2oQRRDFkFeT+c4BZtZRTkbm3O1oKdoR2f4cYKbe6A53zuNZ0txhDI+LD
-         Bi80YpLlwk5mgeUstd6xXSyn34F8Rci668ghNl6DSvgqX4tBMNZICjnP8UE6s3T4oqYx
-         4nIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rnC2Ds+EwbzVL/T+AxeZaE34NxC8qW00bQsFdhfFbMs=;
-        b=HSf6QcdEqM3G30B/mMF/34dHsWw1lq4UIKA81rhEE4VRZczII4xka49E+RlpQNVe8x
-         g8gDLAvYUHJenBOB1x2nNlHIhpLKcwHQZT32kVUog5+U4uHZUHBhYz3POfXF2ihK/zpx
-         JM7nPnLUYIfRUscfRC5uyVCz+bMThZ9OS02/pJuKi21D0czyP5f1M1TxSeN/dffSy3xu
-         Zaozm4iL4S+1WdyM9KdVtlQxkkC5drG9hucZAKkfU63Z2AvhEo8wV6wPFxQ7P3Uo0ZDS
-         1a7rv2HGIO0YtsZL8iBljjsQ74jPBmMUjvoAkSGZ7Tw6+dpzz40mqSir6m4ZxYNglUyd
-         j8aA==
-X-Gm-Message-State: APjAAAW0Sbhjlqpw2phCM+rS0WolSou5F91YrtBZWvj067MKfdPyLL5b
-        SlbKlOIdXJi7pJXq/+pRLYo=
-X-Google-Smtp-Source: APXvYqxaVB+6AvROuLcSyHczDzjlB4ApeodtZQkLUp0pAO678Pj6wSye9jx569CCB3Gix+jv+Yjw6g==
-X-Received: by 2002:a65:404d:: with SMTP id h13mr10279431pgp.156.1581810545957;
-        Sat, 15 Feb 2020 15:49:05 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id n2sm11639955pfq.50.2020.02.15.15.49.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Feb 2020 15:49:05 -0800 (PST)
-Date:   Sat, 15 Feb 2020 15:49:03 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-input@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [PATCH RESEND] input: mouse: convert to i2c_new_scanned_device
-Message-ID: <20200215234903.GN183709@dtor-ws>
-References: <20200210165902.5250-1-wsa+renesas@sang-engineering.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200210165902.5250-1-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1727662AbgBPBUW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 15 Feb 2020 20:20:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50340 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726389AbgBPBUV (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 15 Feb 2020 20:20:21 -0500
+Subject: Re: [git pull] Input updates for v5.6-rc1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581816021;
+        bh=9gQo8v4pYACRiN+vb3qpavld45PGltE/OWnhfEX5i+8=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=jF/0z10L5hT0I0+oYOGoHcwRIpiLcAJDd3MGIJUn4BaNnF0xE3bB/Xwz9qCjdc1va
+         7vj33shSvEDY/5XuReIzxYhs6YBA6mKFm8CAfqiuZi79ElpR8k6R0Aaj2tLtv2zIj/
+         5O3KtYjn9QEPjtHR4q8BF3/+qFEswXSXhdTVOnlE=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20200215232955.GA107886@dtor-ws>
+References: <20200215232955.GA107886@dtor-ws>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20200215232955.GA107886@dtor-ws>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+X-PR-Tracked-Commit-Id: 3dbae15538972c9e1578cb216964c2840361a538
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: db70e26e33eef1b148ca1c9f50de92203ec7e82e
+Message-Id: <158181602139.2543.14771856880930382668.pr-tracker-bot@kernel.org>
+Date:   Sun, 16 Feb 2020 01:20:21 +0000
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Feb 10, 2020 at 05:59:02PM +0100, Wolfram Sang wrote:
-> Move from the deprecated i2c_new_probed_device() to the new
-> i2c_new_scanned_device(). Make use of the new ERRPTR if suitable.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+The pull request you sent on Sat, 15 Feb 2020 15:29:55 -0800:
 
-Applied, thank you.
+> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
-> ---
-> 
-> Build tested only.
-> 
->  drivers/input/mouse/psmouse-smbus.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/input/mouse/psmouse-smbus.c b/drivers/input/mouse/psmouse-smbus.c
-> index 027efdd2b2ad..27358e543283 100644
-> --- a/drivers/input/mouse/psmouse-smbus.c
-> +++ b/drivers/input/mouse/psmouse-smbus.c
-> @@ -190,6 +190,7 @@ static int psmouse_smbus_create_companion(struct device *dev, void *data)
->  	struct psmouse_smbus_dev *smbdev = data;
->  	unsigned short addr_list[] = { smbdev->board.addr, I2C_CLIENT_END };
->  	struct i2c_adapter *adapter;
-> +	struct i2c_client *client;
->  
->  	adapter = i2c_verify_adapter(dev);
->  	if (!adapter)
-> @@ -198,12 +199,12 @@ static int psmouse_smbus_create_companion(struct device *dev, void *data)
->  	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_HOST_NOTIFY))
->  		return 0;
->  
-> -	smbdev->client = i2c_new_probed_device(adapter, &smbdev->board,
-> -					       addr_list, NULL);
-> -	if (!smbdev->client)
-> +	client = i2c_new_scanned_device(adapter, &smbdev->board, addr_list, NULL);
-> +	if (IS_ERR(client))
->  		return 0;
->  
->  	/* We have our(?) device, stop iterating i2c bus. */
-> +	smbdev->client = client;
->  	return 1;
->  }
->  
-> -- 
-> 2.20.1
-> 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/db70e26e33eef1b148ca1c9f50de92203ec7e82e
+
+Thank you!
 
 -- 
-Dmitry
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
