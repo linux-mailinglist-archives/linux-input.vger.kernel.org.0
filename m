@@ -2,51 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AB7F161622
-	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2020 16:26:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02B94161625
+	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2020 16:27:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727107AbgBQP0s (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Feb 2020 10:26:48 -0500
-Received: from www149.your-server.de ([78.47.15.70]:34788 "EHLO
+        id S1726911AbgBQP1y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Feb 2020 10:27:54 -0500
+Received: from www149.your-server.de ([78.47.15.70]:35408 "EHLO
         www149.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726397AbgBQP0s (ORCPT
+        with ESMTP id S1726528AbgBQP1x (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Feb 2020 10:26:48 -0500
+        Mon, 17 Feb 2020 10:27:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hanno.de;
          s=default1911; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
         MIME-Version:Date:Message-ID:References:To:From:Subject:Sender:Reply-To:Cc:
         Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
         Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
         List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Bb4OdgL+FDT36bk2A4nHd/zr93kNst/7y92D3y2OBd0=; b=Zn+oCkzUO5VaWdajzLkIySEex5
-        BPBHU/QGBcRWeHLwRb5CN9+69ovJuCvgdT9LEBd2m6PXzAoUb51qzltqAkS9hrVA+cLfu4nFKhgQS
-        zzASf8KcJ0YI5Y62ZyFWS4hENFOLVW1HVlNYSe8rdpRkzeX5DgvJOK+NKOcYlwetiAyKG/na26tUu
-        qWpI2jxFzPmBCKr0u8Qkf9X31OTAgJSBLQXAH04ZA534/Eg+D8nn+a/wpfVlOccWt585FiEEq8QVy
-        AKPJlyhz423sUmRiDVp4VhpasDVtXwWSTJHqVdC38O/i9bU5x16nHWh5DQGHJf3Fm0q4wD5xdFhv/
-        q4kg80zg==;
+        bh=wcHYCgvIc1V4L4eqgKkfizJKSrtKfmAWPhFBpvyI6bQ=; b=CfA7MMRTU9iH7WaHpY+SpuuLuS
+        wTXycQngxf33BvZiH7nz/WRHkiRUmkZEaSSOzK3Vg82OuD0KXbwIMIono5wT4BCW3bDLmCzcnIWn6
+        Hw8gmHBlnkak3TwCNcC8bJrVwGhNqakK0nhRHer79drJ0t/2tRGH5Bt3GyzGdO5zOt1x2mM0GYYst
+        qE72AZnmmqGYewTYW1oj/KDOj7mvQdOuO+m7FrCXxBXlIbah6fLIShjejJFIiYNVmb8vtAxfNe2l6
+        4HGb7wkdGdZT+ovAJbFGOf4coUJ58T4Mb+gG8zy67Gc93LU8YVi/f/NshVFmKVKhHIct4gDsp+R8f
+        f3MstsZQ==;
 Received: from sslproxy06.your-server.de ([78.46.172.3])
         by www149.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
         (Exim 4.92.3)
         (envelope-from <abos@hanno.de>)
-        id 1j3iIG-0004oz-CY; Mon, 17 Feb 2020 16:26:44 +0100
+        id 1j3iJJ-0004sF-OY; Mon, 17 Feb 2020 16:27:49 +0100
 Received: from [62.96.7.134] (helo=[10.1.0.41])
         by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <abos@hanno.de>)
-        id 1j3iIG-000Bhk-7i; Mon, 17 Feb 2020 16:26:44 +0100
-Subject: [PATCH 2/3] HID: hid-bigbenff: call hid_hw_stop() in case of error
+        id 1j3iJJ-000GeY-Jh; Mon, 17 Feb 2020 16:27:49 +0100
+Subject: [PATCH 3/3] HID: hid-bigbenff: fix race condition for scheduled work
+ during removal
 From:   Hanno Zulla <abos@hanno.de>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <ae5eee33-9dfc-0609-1bf8-33fd773b9bd5@hanno.de>
  <798ec119-ce24-e1e3-17c9-b6018b04d75f@hanno.de>
-Message-ID: <1c355bbe-c0fb-395c-9050-346f87eb324c@hanno.de>
-Date:   Mon, 17 Feb 2020 16:26:43 +0100
+ <1c355bbe-c0fb-395c-9050-346f87eb324c@hanno.de>
+Message-ID: <782af9b1-b648-bd21-b0f0-b0db22b8c0b7@hanno.de>
+Date:   Mon, 17 Feb 2020 16:27:49 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <798ec119-ce24-e1e3-17c9-b6018b04d75f@hanno.de>
+In-Reply-To: <1c355bbe-c0fb-395c-9050-346f87eb324c@hanno.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: de-DE
 Content-Transfer-Encoding: 7bit
@@ -57,71 +59,56 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-[PATCH 2/3] HID: hid-bigbenff: call hid_hw_stop() in case of error
+HID: hid-bigbenff: fix race condition for scheduled work during removal
 
-It's required to call hid_hw_stop() once hid_hw_start() was called
-previously, so error cases need to handle this. Also, hid_hw_close() is
-not necessary during removal.
+It's possible that there is scheduled work left while the device is
+already being removed, which can cause a kernel crash. Adding a flag
+will avoid this.
 
 Signed-off-by: Hanno Zulla <kontakt@hanno.de>
 ---
- drivers/hid/hid-bigbenff.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ drivers/hid/hid-bigbenff.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/hid/hid-bigbenff.c b/drivers/hid/hid-bigbenff.c
-index f7e85bacb688..f8c552b64a89 100644
+index f8c552b64a89..db6da21ade06 100644
 --- a/drivers/hid/hid-bigbenff.c
 +++ b/drivers/hid/hid-bigbenff.c
-@@ -305,7 +305,6 @@ static void bigben_remove(struct hid_device *hid)
+@@ -174,6 +174,7 @@ static __u8 pid0902_rdesc_fixed[] = {
+ struct bigben_device {
+ 	struct hid_device *hid;
+ 	struct hid_report *report;
++	bool removed;
+ 	u8 led_state;         /* LED1 = 1 .. LED4 = 8 */
+ 	u8 right_motor_on;    /* right motor off/on 0/1 */
+ 	u8 left_motor_force;  /* left motor force 0-255 */
+@@ -190,6 +191,9 @@ static void bigben_worker(struct work_struct *work)
+ 		struct bigben_device, worker);
+ 	struct hid_field *report_field = bigben->report->field[0];
+ 
++	if (bigben->removed)
++		return;
++
+ 	if (bigben->work_led) {
+ 		bigben->work_led = false;
+ 		report_field->value[0] = 0x01; /* 1 = led message */
+@@ -304,6 +308,7 @@ static void bigben_remove(struct hid_device *hid)
+ {
  	struct bigben_device *bigben = hid_get_drvdata(hid);
  
++	bigben->removed = true;
  	cancel_work_sync(&bigben->worker);
--	hid_hw_close(hid);
  	hid_hw_stop(hid);
  }
+@@ -324,6 +329,7 @@ static int bigben_probe(struct hid_device *hid,
+ 		return -ENOMEM;
+ 	hid_set_drvdata(hid, bigben);
+ 	bigben->hid = hid;
++	bigben->removed = false;
  
-@@ -350,7 +349,7 @@ static int bigben_probe(struct hid_device *hid,
- 	error = input_ff_create_memless(hidinput->input, NULL,
- 		hid_bigben_play_effect);
- 	if (error)
--		return error;
-+		goto error_hw_stop;
- 
- 	name_sz = strlen(dev_name(&hid->dev)) + strlen(":red:bigben#") + 1;
- 
-@@ -360,8 +359,10 @@ static int bigben_probe(struct hid_device *hid,
- 			sizeof(struct led_classdev) + name_sz,
- 			GFP_KERNEL
- 		);
--		if (!led)
--			return -ENOMEM;
-+		if (!led) {
-+			error = -ENOMEM;
-+			goto error_hw_stop;
-+		}
- 		name = (void *)(&led[1]);
- 		snprintf(name, name_sz,
- 			"%s:red:bigben%d",
-@@ -375,7 +376,7 @@ static int bigben_probe(struct hid_device *hid,
- 		bigben->leds[n] = led;
- 		error = devm_led_classdev_register(&hid->dev, led);
- 		if (error)
--			return error;
-+			goto error_hw_stop;
- 	}
- 
- 	/* initial state: LED1 is on, no rumble effect */
-@@ -389,6 +390,10 @@ static int bigben_probe(struct hid_device *hid,
- 	hid_info(hid, "LED and force feedback support for BigBen gamepad\n");
- 
- 	return 0;
-+
-+error_hw_stop:
-+	hid_hw_stop(hid);
-+	return error;
- }
- 
- static __u8 *bigben_report_fixup(struct hid_device *hid, __u8 *rdesc,
+ 	error = hid_parse(hid);
+ 	if (error) {
 -- 
 2.20.1
+
 
