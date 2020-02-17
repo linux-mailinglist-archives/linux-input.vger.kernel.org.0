@@ -2,49 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A83B161609
-	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2020 16:24:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 382CB161620
+	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2020 16:25:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726401AbgBQPYr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Feb 2020 10:24:47 -0500
-Received: from www149.your-server.de ([78.47.15.70]:33306 "EHLO
+        id S1727533AbgBQPZ6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Feb 2020 10:25:58 -0500
+Received: from www149.your-server.de ([78.47.15.70]:34078 "EHLO
         www149.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726397AbgBQPYr (ORCPT
+        with ESMTP id S1727329AbgBQPZ6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Feb 2020 10:24:47 -0500
+        Mon, 17 Feb 2020 10:25:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hanno.de;
-         s=default1911; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
-        Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=kwxIYXO9ZQLxZYLWCibVPzyp30EQ5TPRFr5H4jfiVTI=; b=JLTbFHMrzb0U/YZo+Q2GX34SRM
-        8/DeFYvH+bgrA6GDjZ/ATzJ4wnXfrdOX6I2m6tOZxCJa7T+NPbUuO94BICoBeAHETxx65yfJYoj1S
-        BiwmYZ7ieysCJvj+xcJMeuA9z/qHajM7rv4ZaTRgRxl0y9YU/StytnAGklintSrSUHkl+Pj/yYXnC
-        mR/WYuIoOPOqUw/SKF2JPCawaTdoQso/OpT/OUK33SDznwQNilxi+EqzOatiYfTJ68ohBgN0j1FLi
-        nMbkYK68SRiR55Vl/qmTtYL5ee7m4uPLRbLVIzqfK8FVC0gbKyL9H0z38ZccAhkxApE0k4fGLfUU3
-        N3J+0pGQ==;
+         s=default1911; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:References:To:From:Subject:Sender:Reply-To:Cc:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=P5DWN49D92TYsuLESpqd7fS0a6DhOWs1cg95OmyVKFk=; b=D2lB239xIof0jQmbs+GSHfSNbe
+        CMoDIL7ln0iQ7lJIMnWDjDJmJlzg8vxPAO8N1/n6EqKTVSx1FRDIB9SF5OSc3lFkpPIb3XVMywhIk
+        2J6E9UFfXCDohvAIJdetYWPzVAAdrZlaVrsNVB0YunW94QPcZdLFyLjOR8fITnEP8W1YsRGFNj0sc
+        DdO/Y3OJRNQxo9P7UvID3Ty9gR8ttOXTto6cDLlsFLmLNdz0wgucfiNd4yUmmcVK5pg+9BToxclTF
+        HrdOY63IXqFjuVYPbhucOAn0L6r1UwTtJ7yB3UL0EEmFSraFoiRwtRnlDbQMvhGbuQnIdH8quq5S1
+        Zr3xR+bQ==;
 Received: from sslproxy06.your-server.de ([78.46.172.3])
         by www149.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
         (Exim 4.92.3)
         (envelope-from <abos@hanno.de>)
-        id 1j3iGH-0004g8-J2; Mon, 17 Feb 2020 16:24:41 +0100
+        id 1j3iHS-0004ld-Q4; Mon, 17 Feb 2020 16:25:54 +0100
 Received: from [62.96.7.134] (helo=[10.1.0.41])
         by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <abos@hanno.de>)
-        id 1j3iGH-0002Cx-Fs; Mon, 17 Feb 2020 16:24:41 +0100
+        id 1j3iHS-00080q-MV; Mon, 17 Feb 2020 16:25:54 +0100
+Subject: [PATCH 1/3] HID: hid-bigbenff: fix general protection fault caused by
+ double kfree
+From:   Hanno Zulla <abos@hanno.de>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-From:   Hanno Zulla <abos@hanno.de>
-Subject: [PATCH 0/3] HID: hid-bigbenff: fixing three crash bugs in a gamepad
- driver
-Message-ID: <ae5eee33-9dfc-0609-1bf8-33fd773b9bd5@hanno.de>
-Date:   Mon, 17 Feb 2020 16:24:41 +0100
+References: <ae5eee33-9dfc-0609-1bf8-33fd773b9bd5@hanno.de>
+Message-ID: <798ec119-ce24-e1e3-17c9-b6018b04d75f@hanno.de>
+Date:   Mon, 17 Feb 2020 16:25:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <ae5eee33-9dfc-0609-1bf8-33fd773b9bd5@hanno.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -55,29 +57,49 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi there,
+HID: hid-bigbenff: fix general protection fault caused by double kfree
 
-the hid-bigbenff.c had three bugs causing possible kernel crashes.
+The struct *bigben was allocated via devm_kzalloc() and then used as a
+parameter in input_ff_create_memless(). This caused a double kfree
+during removal of the device, since both the managed resource API and
+ml_ff_destroy() in drivers/input/ff-memless.c would call kfree() on it.
 
-The first patch fixes a double free during device removal, which was 
-caused by a wrong use of input_ff_create_memless(). The 
-"driver-specific data to be passed into play_effect" parameter of 
-input_ff_create_memless() would later be freed automatically when the ff 
-device is removed. Since the driver also uses the managed resource API, 
-it would automatically free the memory of this parameter twice, causing 
-a general protection fault moments later.
+Signed-off-by: Hanno Zulla <kontakt@hanno.de>
+---
+ drivers/hid/hid-bigbenff.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-The second patch fixes the error path after hid_hw_start(), as a call 
-to hid_hw_stop() is required in case of an error.
+diff --git a/drivers/hid/hid-bigbenff.c b/drivers/hid/hid-bigbenff.c
+index 3f6abd190df4..f7e85bacb688 100644
+--- a/drivers/hid/hid-bigbenff.c
++++ b/drivers/hid/hid-bigbenff.c
+@@ -220,10 +220,16 @@ static void bigben_worker(struct work_struct *work)
+ static int hid_bigben_play_effect(struct input_dev *dev, void *data,
+ 			 struct ff_effect *effect)
+ {
+-	struct bigben_device *bigben = data;
++	struct hid_device *hid = input_get_drvdata(dev);
++	struct bigben_device *bigben = hid_get_drvdata(hid);
+ 	u8 right_motor_on;
+ 	u8 left_motor_force;
+ 
++	if (!bigben) {
++		hid_err(hid, "no device data\n");
++		return 0;
++	}
++
+ 	if (effect->type != FF_RUMBLE)
+ 		return 0;
+ 
+@@ -341,7 +347,7 @@ static int bigben_probe(struct hid_device *hid,
+ 
+ 	INIT_WORK(&bigben->worker, bigben_worker);
+ 
+-	error = input_ff_create_memless(hidinput->input, bigben,
++	error = input_ff_create_memless(hidinput->input, NULL,
+ 		hid_bigben_play_effect);
+ 	if (error)
+ 		return error;
+-- 
+2.20.1
 
-The second patch also removes the hid_hw_close() call during device 
-removal, as several other hid device drivers don't call this routine, 
-either.
-
-The third patch adds a flag to avoid a race condition when there is 
-still scheduled work left (or newly being scheduled) during or after 
-device removal, which could cause a kernel crash.
-
-Thanks in advance for your review & kind regards,
-
-Hanno
