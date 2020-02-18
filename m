@@ -2,113 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 02B94161625
-	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2020 16:27:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 860F71624BF
+	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2020 11:40:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726911AbgBQP1y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Feb 2020 10:27:54 -0500
-Received: from www149.your-server.de ([78.47.15.70]:35408 "EHLO
-        www149.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726528AbgBQP1x (ORCPT
+        id S1726437AbgBRKk1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Feb 2020 05:40:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43196 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726199AbgBRKk1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Feb 2020 10:27:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hanno.de;
-         s=default1911; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:References:To:From:Subject:Sender:Reply-To:Cc:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=wcHYCgvIc1V4L4eqgKkfizJKSrtKfmAWPhFBpvyI6bQ=; b=CfA7MMRTU9iH7WaHpY+SpuuLuS
-        wTXycQngxf33BvZiH7nz/WRHkiRUmkZEaSSOzK3Vg82OuD0KXbwIMIono5wT4BCW3bDLmCzcnIWn6
-        Hw8gmHBlnkak3TwCNcC8bJrVwGhNqakK0nhRHer79drJ0t/2tRGH5Bt3GyzGdO5zOt1x2mM0GYYst
-        qE72AZnmmqGYewTYW1oj/KDOj7mvQdOuO+m7FrCXxBXlIbah6fLIShjejJFIiYNVmb8vtAxfNe2l6
-        4HGb7wkdGdZT+ovAJbFGOf4coUJ58T4Mb+gG8zy67Gc93LU8YVi/f/NshVFmKVKhHIct4gDsp+R8f
-        f3MstsZQ==;
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-        by www149.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3)
-        (envelope-from <abos@hanno.de>)
-        id 1j3iJJ-0004sF-OY; Mon, 17 Feb 2020 16:27:49 +0100
-Received: from [62.96.7.134] (helo=[10.1.0.41])
-        by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <abos@hanno.de>)
-        id 1j3iJJ-000GeY-Jh; Mon, 17 Feb 2020 16:27:49 +0100
-Subject: [PATCH 3/3] HID: hid-bigbenff: fix race condition for scheduled work
- during removal
-From:   Hanno Zulla <abos@hanno.de>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <ae5eee33-9dfc-0609-1bf8-33fd773b9bd5@hanno.de>
- <798ec119-ce24-e1e3-17c9-b6018b04d75f@hanno.de>
- <1c355bbe-c0fb-395c-9050-346f87eb324c@hanno.de>
-Message-ID: <782af9b1-b648-bd21-b0f0-b0db22b8c0b7@hanno.de>
-Date:   Mon, 17 Feb 2020 16:27:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Tue, 18 Feb 2020 05:40:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1582022426;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TdO6y8AHR+AaKNMW/gc1AonKG1Co8fKJjYOLG4b+LMk=;
+        b=WTRM+mexDY0DajVByEJEl9dUt0xlrWQrCuoCcYeu2WyX+wHZRyQbAV2kNkfP6+Kmqzsj/z
+        Mfp19qDYIni7UWkLegiBDA5iAj4XmxjWyaqf6/bMf5C55eI4GEus11/wiVgDLXCdOTVFSg
+        IqSn1j04knaKf+QkQoATW/TFjtYiOt0=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-VKIeDO_lNfOuOsIvvuH76Q-1; Tue, 18 Feb 2020 05:40:20 -0500
+X-MC-Unique: VKIeDO_lNfOuOsIvvuH76Q-1
+Received: by mail-qv1-f72.google.com with SMTP id e26so12106676qvb.4
+        for <linux-input@vger.kernel.org>; Tue, 18 Feb 2020 02:40:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TdO6y8AHR+AaKNMW/gc1AonKG1Co8fKJjYOLG4b+LMk=;
+        b=Wc6hAHY8ncnNyRuQMkbxh3AehI2JyyIMcHE41aBm0zyoA60w3pfubnJzLaNrADJRCk
+         z7BZzDzp2Bi55Aft55KDHDcpflFt3p1SOvPRvn15S5p/rHpH8bTIyzoZljZoaUDeUcR8
+         Kt5J0HGPYDPh3sMQORlTWDKl1hhsrTQd90lXGPQa8uZ1VayRws91MvHg8jmmk3PTYTIM
+         ricmghDt1iuNXOsu2T/hPw1EZCzOPtpYK03LMER91YFFvnSjkQwPvRoIY7xciw7/yQ34
+         5sNGBXcqr3/yyavmxZj1Vnk2NyvCTxTrcxz4OvDF2VGI63ghmSWKdqhAXlhZjsyiky36
+         6Xiw==
+X-Gm-Message-State: APjAAAUOVgBIbZSLe0JO569s/2KIl2wYyJAUU7P1Zrdi0Pk7XFmoRMn1
+        NcRgUZGSN2Z5zWXU3UXHbKMRFxzRtuyflNFMcj0dPetH34M71C18XHnyWm1v5i/KWWV6Mz9AFem
+        62UthoBZ1l+s2buBGWWINxPSqCi6QZzk2XjroMQI=
+X-Received: by 2002:ac8:4914:: with SMTP id e20mr16568404qtq.199.1582022420169;
+        Tue, 18 Feb 2020 02:40:20 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzop8HEVbMlqlTBReRnlW8cuV5OvmWmqddfFy0j/sJmV4q9d4HcrjMvRfW6D61qeuNc5yVz8c7y9clG60iT4W8=
+X-Received: by 2002:ac8:4914:: with SMTP id e20mr16568385qtq.199.1582022419942;
+ Tue, 18 Feb 2020 02:40:19 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1c355bbe-c0fb-395c-9050-346f87eb324c@hanno.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: abos@hanno.de
-X-Virus-Scanned: Clear (ClamAV 0.102.1/25726/Mon Feb 17 15:01:07 2020)
+References: <ae5eee33-9dfc-0609-1bf8-33fd773b9bd5@hanno.de>
+In-Reply-To: <ae5eee33-9dfc-0609-1bf8-33fd773b9bd5@hanno.de>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 18 Feb 2020 11:40:09 +0100
+Message-ID: <CAO-hwJJ1sc_RAh4ytWSOmRqfVESi2dvB_Ao_Vn+6XXixxVyxrA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] HID: hid-bigbenff: fixing three crash bugs in a
+ gamepad driver
+To:     Hanno Zulla <abos@hanno.de>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-HID: hid-bigbenff: fix race condition for scheduled work during removal
+Hi Hanno,
 
-It's possible that there is scheduled work left while the device is
-already being removed, which can cause a kernel crash. Adding a flag
-will avoid this.
+On Mon, Feb 17, 2020 at 4:24 PM Hanno Zulla <abos@hanno.de> wrote:
+>
+> Hi there,
+>
+> the hid-bigbenff.c had three bugs causing possible kernel crashes.
+>
+> The first patch fixes a double free during device removal, which was
+> caused by a wrong use of input_ff_create_memless(). The
+> "driver-specific data to be passed into play_effect" parameter of
+> input_ff_create_memless() would later be freed automatically when the ff
+> device is removed. Since the driver also uses the managed resource API,
+> it would automatically free the memory of this parameter twice, causing
+> a general protection fault moments later.
+>
+> The second patch fixes the error path after hid_hw_start(), as a call
+> to hid_hw_stop() is required in case of an error.
+>
+> The second patch also removes the hid_hw_close() call during device
+> removal, as several other hid device drivers don't call this routine,
+> either.
+>
+> The third patch adds a flag to avoid a race condition when there is
+> still scheduled work left (or newly being scheduled) during or after
+> device removal, which could cause a kernel crash.
+>
+> Thanks in advance for your review & kind regards,
+>
 
-Signed-off-by: Hanno Zulla <kontakt@hanno.de>
----
- drivers/hid/hid-bigbenff.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+I think the patches are correct (have you tested them with actual HW?).
+However, checkpatch complains that the From and Signed-off-by email
+differ. Can you send a v2 with a fix for that?
 
-diff --git a/drivers/hid/hid-bigbenff.c b/drivers/hid/hid-bigbenff.c
-index f8c552b64a89..db6da21ade06 100644
---- a/drivers/hid/hid-bigbenff.c
-+++ b/drivers/hid/hid-bigbenff.c
-@@ -174,6 +174,7 @@ static __u8 pid0902_rdesc_fixed[] = {
- struct bigben_device {
- 	struct hid_device *hid;
- 	struct hid_report *report;
-+	bool removed;
- 	u8 led_state;         /* LED1 = 1 .. LED4 = 8 */
- 	u8 right_motor_on;    /* right motor off/on 0/1 */
- 	u8 left_motor_force;  /* left motor force 0-255 */
-@@ -190,6 +191,9 @@ static void bigben_worker(struct work_struct *work)
- 		struct bigben_device, worker);
- 	struct hid_field *report_field = bigben->report->field[0];
- 
-+	if (bigben->removed)
-+		return;
-+
- 	if (bigben->work_led) {
- 		bigben->work_led = false;
- 		report_field->value[0] = 0x01; /* 1 = led message */
-@@ -304,6 +308,7 @@ static void bigben_remove(struct hid_device *hid)
- {
- 	struct bigben_device *bigben = hid_get_drvdata(hid);
- 
-+	bigben->removed = true;
- 	cancel_work_sync(&bigben->worker);
- 	hid_hw_stop(hid);
- }
-@@ -324,6 +329,7 @@ static int bigben_probe(struct hid_device *hid,
- 		return -ENOMEM;
- 	hid_set_drvdata(hid, bigben);
- 	bigben->hid = hid;
-+	bigben->removed = false;
- 
- 	error = hid_parse(hid);
- 	if (error) {
--- 
-2.20.1
-
+Cheers,
+Benjamin
 
