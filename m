@@ -2,500 +2,295 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AA60A164799
-	for <lists+linux-input@lfdr.de>; Wed, 19 Feb 2020 15:59:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDAB21647BA
+	for <lists+linux-input@lfdr.de>; Wed, 19 Feb 2020 16:05:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726664AbgBSO7q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Feb 2020 09:59:46 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:37941 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726645AbgBSO7q (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Feb 2020 09:59:46 -0500
-Received: by mail-oi1-f193.google.com with SMTP id r137so4490263oie.5;
-        Wed, 19 Feb 2020 06:59:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=b0M4AU/OktLu6nw7hjE6KvxeRkIXGUmWVLhDAqIZxis=;
-        b=r4Ay4l6AfxX9LsfMruDoE3fRTYREJyByn1IWNm3gipbY9g1cpD2jEeuCtK05YQjWuO
-         kpLP25ZIqIasi+1PSv6WbvB6ia+d4Dzj2nNJNpnLUVnXfrm2p+NvnF1xuLNLteQ3QiSm
-         jMus3S92/kR4PYw6VTauXoRS08r3+jEPe0NJQZ5GTISJrXAqjrHRaKGTrVzkgE84Xbl4
-         AECLXo0kC/tMc6JjXpCZl8Fi9Ukaw3Ptw9PpxxoG/EVaEzFEqfynEEGBp3JSY8ktGrD9
-         SnH9Qda36eYdw/uaosDCfBZjwUBvVBHJiTD32XUJsaS3IYjIpq+ongIuewp+d/sOJtL+
-         ilBw==
-X-Gm-Message-State: APjAAAWyQ5b9usmW217/Pwd1VwGsVCxNuKizbiidGXQ2xsej6ecqMXxc
-        iVX+q3MDwfjUrOnN7h0LJw==
-X-Google-Smtp-Source: APXvYqyn7n3QHJiot9xZtfGrEy4dbgN3mat4XOKLFrgw1HpBASc/gh36XeFSUP+DCdg5Ex6R/6UXvg==
-X-Received: by 2002:aca:b703:: with SMTP id h3mr4845658oif.148.1582124384158;
-        Wed, 19 Feb 2020 06:59:44 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id n17sm703996otq.46.2020.02.19.06.59.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2020 06:59:43 -0800 (PST)
-Received: (nullmailer pid 14856 invoked by uid 1000);
-        Wed, 19 Feb 2020 14:59:42 -0000
-Date:   Wed, 19 Feb 2020 08:59:42 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Benjamin Gaignard <benjamin.gaignard@st.com>
-Cc:     dmitry.torokhov@gmail.com, mark.rutland@arm.com,
-        lee.jones@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
-        wim@linux-watchdog.org, linux@roeck-us.net, p.paillet@st.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: mfd: Convert stpmic1 bindings to
- json-schema
-Message-ID: <20200219145942.GA7517@bogus>
-References: <20200207105135.25074-1-benjamin.gaignard@st.com>
+        id S1726656AbgBSPFM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Feb 2020 10:05:12 -0500
+Received: from mail-eopbgr750049.outbound.protection.outlook.com ([40.107.75.49]:53476
+        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726528AbgBSPFL (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 19 Feb 2020 10:05:11 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I2GcDsr8BBmSVOZyQ+aTcQ4BB3s23UmLgbxOs3xX97diygTL2b3D1YN3+HpIHBJf3bXsS6CdeNFHjBP4ENwJruwjzhZZeiFWh0+F1NlT4TM/6gWIcZKk7aTKRahcYCBThl2RwEGxTFn8Bgy8pJQhf+OTKpnu6y0SeFyt1UDGHEguwR7CLc91rGVAYqT0mHpteRAcWr4H5ctx4m7pnmruH3uEzcfeHLDpZZNNiXQIoZPy5VFuoQE51/auXDhWSgbieikL4+jYF0jzuVPQHZB7dAVCzohL+hupaYXRatRCXSHNveoD7uFHNR3o5gZ5jfzatdg6HnVXZC8KozcNASv8wQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g+0tDCn/6mdK9uR3Gs5KKPrhDNB/oIJl5+JYO6L6OQI=;
+ b=l1MaXD2F6b8Sev2kZUjenfPNBZZuWc5gygj6nDBFADBgBoTSW10Y/10H5R/A4scTolHWZSMe70EJfwvOJToJaPt/YtSF5zd3tl5sautm1QLCzJdAWvbcnrPfkHP7CLdcsp9r6rtl6Xf/WACIrRGXkGSK7g4IcaPobiZab8RnI4T30Tmcb8I11e8VAiMBWof+3yCJ615BU4oy6hjfJJdju52U2aZKn2mPFkohHIQZU8DT+2mzDQOkAJweNq/jSR0czT0bkAt62l8bh/Ghe24nT+mJAbGQP2yBvCidoOx8MaAHwBwHQp7ZxNDCfD4OVnBEP9HuM4ZAL+VdPg56NgLyVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g+0tDCn/6mdK9uR3Gs5KKPrhDNB/oIJl5+JYO6L6OQI=;
+ b=QKfmIioU4ze0pkKFjqMCG99JcZ0TFrwSfaA8vTK1I7057ENZD4TgZrJIZa22VGBAzxm2Efw3f7TTtD6/Jl0vtbRiIEDdNsYsfuVtFRqV33Gj6eVU5p2KtOXBwGVr1flsqV1A0/qt3wz4s5vngg4S0jaa1Xlb+D9C6hV06HuUlVU=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Nehal-bakulchandra.Shah@amd.com; 
+Received: from SN1PR12MB2575.namprd12.prod.outlook.com (52.132.194.142) by
+ SN1PR12MB2400.namprd12.prod.outlook.com (52.132.199.153) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2750.17; Wed, 19 Feb 2020 15:05:08 +0000
+Received: from SN1PR12MB2575.namprd12.prod.outlook.com
+ ([fe80::91ea:acda:e830:2e21]) by SN1PR12MB2575.namprd12.prod.outlook.com
+ ([fe80::91ea:acda:e830:2e21%3]) with mapi id 15.20.2750.016; Wed, 19 Feb 2020
+ 15:05:08 +0000
+Subject: Re: [PATCH v3 0/5] SFH: Add Support for AMD Sensor Fusion Hub
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sandeep Singh <Sandeep.Singh@amd.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+        Shyam-sundar.S-k@amd.com
+References: <1581476197-25854-1-git-send-email-Sandeep.Singh@amd.com>
+ <1ce6f591-1e8b-8291-7f18-48876fd70e10@redhat.com>
+ <CAO-hwJJkWkpApB-i0tHxEb0BeWcMpFLwSsOWKKdzGKnJEbHA_A@mail.gmail.com>
+ <719b929927ce76dd7dda3a48319b5798aced591a.camel@linux.intel.com>
+ <7a9b6f51-ef50-9078-325c-28e8cd17c182@amd.com>
+ <CAO-hwJJj8uHVr_BTG0rcBchiEttuQTr7ovrtTQ=Cp5vJ2eeoNg@mail.gmail.com>
+From:   "Shah, Nehal-bakulchandra" <nehal-bakulchandra.shah@amd.com>
+Message-ID: <79506ad3-5172-be36-cecc-19d97bfa8b36@amd.com>
+Date:   Wed, 19 Feb 2020 20:34:52 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+In-Reply-To: <CAO-hwJJj8uHVr_BTG0rcBchiEttuQTr7ovrtTQ=Cp5vJ2eeoNg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: PN1PR0101CA0033.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c00:c::19) To SN1PR12MB2575.namprd12.prod.outlook.com
+ (2603:10b6:802:25::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200207105135.25074-1-benjamin.gaignard@st.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.106] (202.62.82.154) by PN1PR0101CA0033.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c00:c::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.24 via Frontend Transport; Wed, 19 Feb 2020 15:05:04 +0000
+X-Originating-IP: [202.62.82.154]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 205ac5a1-7ed8-491a-ac16-08d7b54d1b9e
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2400:|SN1PR12MB2400:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN1PR12MB24005AB161C641F3C79D86EAA0100@SN1PR12MB2400.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 0318501FAE
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(376002)(396003)(346002)(136003)(39860400002)(199004)(189003)(2906002)(53546011)(316002)(16576012)(54906003)(55236004)(26005)(186003)(16526019)(66476007)(66946007)(31696002)(86362001)(66556008)(52116002)(5660300002)(4326008)(478600001)(956004)(6916009)(6666004)(2616005)(6486002)(36756003)(81156014)(81166006)(8676002)(8936002)(31686004);DIR:OUT;SFP:1101;SCL:1;SRVR:SN1PR12MB2400;H:SN1PR12MB2575.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IxbpjJa48A+ipxfRjrkxPMGKQtG9JtNtE5Oob4R4xST12LXOghxWp/GAjEUKRL0zLjdiUkdeOcxdOULdRifoDeGH/fyVFfTfJzzkl6TsR8Y39io8nruSB+WezsYLPJ/Iz777q3d3wcfCEeVhsyc8+7DzkyL8uIpBn7uoc1grTLP7uE500426tq17jeD81MrZsvtZOC3JXoyBFPnZaSgLTytXq3PGFxuHt72U+5JJIpGzk1i2T6flpcIfr6DZB5n/S/AOOhnT+PwiQZ/AKScBdgkXbbnkHReg4aDGG5HT9I3r96udVfPdc2eL5EID7BtniSRBMkjJ/aIcSGYxM+SXGvil/Rbssy7MOPApI/hAbAvSLs4JPjMM4dIK3pSafp9zTjBNustNgy+rDBg/FIJVAvhxB30Wyv+wmuaaQXs4I7yskmfApx4k2Cp0EFcK3C/f
+X-MS-Exchange-AntiSpam-MessageData: 4fBLBoGOeCpUCJyIVt564QgFtW8Tni//7d7qW6X7dML9qKExsqMvr6hUmjrhQpov+lLU1fREuLM6nfMsdQ8kwMrnv2Q6wOUDGhJ9cdLVOG8quIXpBGNdpbuf54SwSVTlOSaGSA+Oskfxf8qd5CAdlA==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 205ac5a1-7ed8-491a-ac16-08d7b54d1b9e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2020 15:05:08.1434
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +mzBs93KNnPLWlRd4uA5ckILCPN4fLTfalHxj7SLHiuzlz/qmSluFNKw4ExG6mNo
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2400
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Feb 07, 2020 at 11:51:35AM +0100, Benjamin Gaignard wrote:
-> Convert stpmic1 bindings to json-schema.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
-> ---
-> version 2:
-> - document -supply properties
-> - add $ref in nodes
-> - move patternProperties under 'regulators' node
->  .../devicetree/bindings/input/st,stpmic1-onkey.txt |  28 ---
->  .../devicetree/bindings/mfd/st,stpmic1.txt         |  61 ------
->  .../devicetree/bindings/mfd/st,stpmic1.yaml        | 214 +++++++++++++++++++++
->  .../bindings/regulator/st,stpmic1-regulator.txt    |  64 ------
->  .../bindings/watchdog/st,stpmic1-wdt.txt           |  11 --
->  5 files changed, 214 insertions(+), 164 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/st,stpmic1-onkey.txt
->  delete mode 100644 Documentation/devicetree/bindings/mfd/st,stpmic1.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/st,stpmic1.yaml
->  delete mode 100644 Documentation/devicetree/bindings/regulator/st,stpmic1-regulator.txt
->  delete mode 100644 Documentation/devicetree/bindings/watchdog/st,stpmic1-wdt.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/input/st,stpmic1-onkey.txt b/Documentation/devicetree/bindings/input/st,stpmic1-onkey.txt
-> deleted file mode 100644
-> index eb8e83736c02..000000000000
-> --- a/Documentation/devicetree/bindings/input/st,stpmic1-onkey.txt
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -STMicroelectronics STPMIC1 Onkey
-> -
-> -Required properties:
-> -
-> -- compatible = "st,stpmic1-onkey";
-> -- interrupts: interrupt line to use
-> -- interrupt-names = "onkey-falling", "onkey-rising"
-> -	onkey-falling: happens when onkey is pressed; IT_PONKEY_F of pmic
-> -	onkey-rising: happens when onkey is released; IT_PONKEY_R of pmic
-> -
-> -Optional properties:
-> -
-> -- st,onkey-clear-cc-flag: onkey is able power on after an
-> -  over-current shutdown event.
-> -- st,onkey-pu-inactive: onkey pull up is not active
-> -- power-off-time-sec: Duration in seconds which the key should be kept
-> -        pressed for device to power off automatically (from 1 to 16 seconds).
-> -        see See Documentation/devicetree/bindings/input/input.yaml
-> -
-> -Example:
-> -
-> -onkey {
-> -	compatible = "st,stpmic1-onkey";
-> -	interrupt-parent = <&pmic>;
-> -	interrupts = <IT_PONKEY_F 0>,<IT_PONKEY_R 1>;
-> -	interrupt-names = "onkey-falling", "onkey-rising";
-> -	power-off-time-sec = <10>;
-> -};
-> diff --git a/Documentation/devicetree/bindings/mfd/st,stpmic1.txt b/Documentation/devicetree/bindings/mfd/st,stpmic1.txt
-> deleted file mode 100644
-> index afd45c089585..000000000000
-> --- a/Documentation/devicetree/bindings/mfd/st,stpmic1.txt
-> +++ /dev/null
-> @@ -1,61 +0,0 @@
-> -* STMicroelectronics STPMIC1 Power Management IC
-> -
-> -Required properties:
-> -- compatible:		: "st,stpmic1"
-> -- reg:			: The I2C slave address for the STPMIC1 chip.
-> -- interrupts:		: The interrupt line the device is connected to.
-> -- #interrupt-cells:	: Should be 1.
-> -- interrupt-controller:	: Marks the device node as an interrupt controller.
-> -			    Interrupt numbers are defined at
-> -			    dt-bindings/mfd/st,stpmic1.h.
-> -
-> -STPMIC1 consists in a varied group of sub-devices.
-> -Each sub-device binding is be described in own documentation file.
-> -
-> -Device			 Description
-> -------			------------
-> -st,stpmic1-onkey	: Power on key, see ../input/st,stpmic1-onkey.txt
-> -st,stpmic1-regulators	: Regulators, see ../regulator/st,stpmic1-regulator.txt
-> -st,stpmic1-wdt		: Watchdog, see ../watchdog/st,stpmic1-wdt.txt
-> -
-> -Example:
-> -
-> -#include <dt-bindings/mfd/st,stpmic1.h>
-> -
-> -pmic: pmic@33 {
-> -	compatible = "st,stpmic1";
-> -	reg = <0x33>;
-> -	interrupt-parent = <&gpioa>;
-> -	interrupts = <0 2>;
-> -
-> -	interrupt-controller;
-> -	#interrupt-cells = <2>;
-> -
-> -	onkey {
-> -		compatible = "st,stpmic1-onkey";
-> -		interrupts = <IT_PONKEY_F 0>,<IT_PONKEY_R 1>;
-> -		interrupt-names = "onkey-falling", "onkey-rising";
-> -		power-off-time-sec = <10>;
-> -	};
-> -
-> -	watchdog {
-> -		compatible = "st,stpmic1-wdt";
-> -	};
-> -
-> -	regulators {
-> -		compatible = "st,stpmic1-regulators";
-> -
-> -		vdd_core: buck1 {
-> -			regulator-name = "vdd_core";
-> -			regulator-boot-on;
-> -			regulator-min-microvolt = <700000>;
-> -			regulator-max-microvolt = <1200000>;
-> -		};
-> -		vdd: buck3 {
-> -			regulator-name = "vdd";
-> -			regulator-min-microvolt = <3300000>;
-> -			regulator-max-microvolt = <3300000>;
-> -			regulator-boot-on;
-> -			regulator-pull-down;
-> -		};
-> -	};
-> diff --git a/Documentation/devicetree/bindings/mfd/st,stpmic1.yaml b/Documentation/devicetree/bindings/mfd/st,stpmic1.yaml
-> new file mode 100644
-> index 000000000000..2d1c70512c42
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/st,stpmic1.yaml
-> @@ -0,0 +1,214 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/st,stpmic1.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: STMicroelectonics STPMIC1 Power Management IC bindings
-> +
-> +description: STMicroelectronics STPMIC1 Power Management IC
-> +
-> +maintainers:
-> +  - pascal Paillet <p.paillet@st.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: st,stpmic1
-> +
-> +  reg:
-> +    const: 0x33
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  "#interrupt-cells":
-> +    const: 2
-> +
-> +  interrupt-controller: true
-> +
-> +  onkey:
-> +    type: object
-> +
-> +    $ref: ../input/input.yaml
+Hi
 
-Has to be under an 'allOf' or everything else here is ignored.
+On 2/14/2020 4:41 PM, Benjamin Tissoires wrote:
+> On Fri, Feb 14, 2020 at 11:04 AM Shah, Nehal-bakulchandra
+> <nehal-bakulchandra.shah@amd.com> wrote:
+>> Hi
+>>
+>> On 2/14/2020 10:10 AM, Srinivas Pandruvada wrote:
+>>> On Thu, 2020-02-13 at 15:56 +0100, Benjamin Tissoires wrote:
+>>>> Hi,
+>>>>
+>>>> On Wed, Feb 12, 2020 at 3:45 PM Hans de Goede <hdegoede@redhat.com>
+>>>> wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On 2/12/20 3:56 AM, Sandeep Singh wrote:
+>>>>>> From: Sandeep Singh <sandeep.singh@amd.com>
+>>>>>>
+>>>>>> AMD SFH(Sensor Fusion Hub) is HID based driver.SFH FW
+>>>>>> is part of MP2 processor (MP2 which is an ARM® Cortex-M4
+>>>>>> core based co-processor to x86) and it runs on MP2 where
+>>>>>> in driver resides on X86.The driver functionalities are
+>>>>>> divided  into three parts:-
+>>>>>>
+>>>>>> 1: amd-mp2-pcie:-       This module will communicate with MP2 FW
+>>>>>> and
+>>>>>>                          provide that data into DRAM.
+>>>>>> 2: Client driver :-     This part for driver will use dram data
+>>>>>> and
+>>>>>>                          convert that data into HID format based
+>>>>>> on
+>>>>>>                          HID reports.
+>>>>>> 3: Transport driver :-  This part of driver will communicate with
+>>>>>>                          HID core. Communication between devices
+>>>>>> and
+>>>>>>                          HID core is mostly done via HID reports
+>>>>>>
+>>>>>> In terms of architecture it is much more reassembles like
+>>>>>> ISH(Intel Integrated Sensor Hub). However the major difference
+>>>>>> is all the hid reports are generated as part of kernel driver.
+>>>>>> AMD SFH driver taken reference from ISH in terms of
+>>>>>> design and functionalities at fewer location.
+>>>>>>
+>>>>>> AMD sensor fusion Hub is part of a SOC 17h family based
+>>>>>> platforms.
+>>>>>> The solution is working well on several OEM products.
+>>>>>> AMD SFH uses HID over PCIe bus.
+>>>>> I started looking at this patch because of the phoronix' news item
+>>>>> on it.
+>>>>>
+>>>>> First of all I want to say that it is great that AMD is working on
+>>>>> getting the Sensor Fusion Hub supported on Linux and that you are
+>>>>> working on a driver for this.
+>> Thanks for the valuable input.
+>>>> But, I've taken a quick look, mainly at the
+>>>> "[PATCH v3 5/5] SFH: Create HID report to Enable support of AMD
+>>>> sensor fusion Hub (SFH)"
+>>>> patch.
+>>>>
+>>>> AFAIK with the Intel ISH the sensor-hub itself is actually
+>>>> providing
+>>>> HID descriptors and HID input reports.
+>>>>
+>>>> Looking at the AMD code, that does not seem to be the case, it
+>>>> seems
+>>>> the values come directly from the AMD sensor-hub without being in
+>>>> any
+>>>> HID specific form, e.g.:
+>>>>
+>>>> +u8 get_input_report(int sensor_idx, int report_id,
+>>>> +                   u8 *input_report, u32 *sensor_virt_addr)
+>>>> +{
+>>>> +       u8 report_size = 0;
+>>>> +       struct accel3_input_report acc_input;
+>>>> +       struct gyro_input_report gyro_input;
+>>>> +       struct magno_input_report magno_input;
+>>>> +       struct als_input_report als_input;
+>>>> +
+>>>> +       if (!sensor_virt_addr || !input_report)
+>>>> +               return report_size;
+>>>> +
+>>>> +       switch (sensor_idx) {
+>>>> +       case ACCEL_IDX: /* accel */
+>>>> +               acc_input.common_property.report_id = report_id;
+>>>> +               acc_input.common_property.sensor_state =
+>>>> +                                       HID_USAGE_SENSOR_STATE_READ
+>>>> Y_ENUM;
+>>>> +               acc_input.common_property.event_type =
+>>>> +                               HID_USAGE_SENSOR_EVENT_DATA_UPDATED
+>>>> _ENUM;
+>>>> +               acc_input.in_accel_x_value =
+>>>> (int)sensor_virt_addr[0] /
+>>>> +                                               AMD_SFH_FIRMWARE_MU
+>>>> LTIPLIER;
+>>>> +               acc_input.in_accel_y_value =
+>>>> (int)sensor_virt_addr[1] /
+>>>> +                                               AMD_SFH_FIRMWARE_MU
+>>>> LTIPLIER;
+>>>> +               acc_input.in_accel_z_value
+>>>> =  (int)sensor_virt_addr[2] /
+>>>> +                                               AMD_SFH_FIRMWARE_MU
+>>>> LTIPLIER;
+>>>> +               memcpy(input_report, &acc_input,
+>>>> sizeof(acc_input));
+>>>> +               report_size = sizeof(acc_input);
+>>>> +               break;
+>>>>
+>>>> And the descriptors are hardcoded in the driver so as to fake a HID
+>>>> device.
+>>>>
+>>>> So going through the HID subsystem seems like an unnecessary
+>>>> detour,
+>>>> which just makes things needlessly complex and harder to debug
+>>>> (and extend).
+>>>>
+>>>> The HID devices which the current patch-set is creating ultimately
+>>>> will result in a number of devices being created under
+>>>>
+>>>> /sys/bus/iio/devices
+>>>>
+>>>> And this are the devices which userspace uses to get the sensor
+>>>> data.
+>>>>
+>>>> IMHO instead of going through the HID subsys the AMD Sensor Fusion
+>>>> Hub
+>>>> driver should simply register 4 (*) iio-devices itself and directly
+>>>> pass the data through at the iio subsys level rather then going the
+>>>> long way around by creating a fake HID device which then gets
+>>>> attached to by the hid-sensor driver to ultimately create the same
+>>>> iio-devices.
+>>>>
+>>>> There are examples of e.g. various iio accel drivers under:
+>>>> drivers/iio/accel/ you could start with a simple driver supporting
+>>>> just the accelerometer bits and then extend things from there.
+>>>>
+>>>> Benjamin, Jiri, Jonathan, what is your take on this?
+>>>> Hard to say without knowing AMD roadmap for that. If they intend to
+>>>> have an ISH-like approach in the end with reports and descriptors
+>>>> provided by the firmwares, then it makes sense to keep this
+>>>> architecture for the first revision of devices.
+>>>> If not, then yes, this is probably overkill compared to what needs to
+>>>> be done.
+>>>>
+>>> I suggested this approach to follow something like Chrome-OS EC based
+>>> hub, but looks like in longer run this may come from firmware. That's
+>>> why they may have decided.
+>>>
+>>> Thanks,
+>>> Srinivas
+>>>
+>>>
+>>>> Sandeep, can you explain to us why you think using HID is the best
+>>>> way?
+>>>>
+>>>> On a side note, I don't necessarily like patch 4/5 with the debugfs
+>>>> interface. It's adding a kernel API for no gain, and we should
+>>>> already
+>>>> have the debug API available in the various subsystems involved.
+>>>>
+>>>> Cheers,
+>>>> Benjamin
+>> Yes today, the  HID Reports are getting generated in driver. But, we would like to have HID based driver as we may go for HID based firmware in future . Hence keeping that in mind current AMD SFH design.
+>>
+>> So, kindly consider our design w.r.t HID for this patch series.
+> OK, that's good enough for me. Jiri, are you fine with that too?
+>
+>> For the debugfs part,currently it is really handy for us to debug raw values coming from firmware.But if guys feel that it is not necessary, we can remove it.
+>>
+> 2 problems here:
+> - patch 3/5 references this debugfs interface which is only added in 4/5.
+> - you are creating a new sysfs set of file for debug purpose only, but
+> as soon as we start shipping those, some other people will find it
+> more convenient to use that directly instead or IIO, and you won't be
+> able to change anything there.
+>
+> So I would strongly advocate against having this debugfs, and suggest you to:
+> - either keep this debugfs as a downstream patch
+> - either play with eBPF or kprobes to retrieve the same information
+> without changing the kernel.
+>
+> For reference, I recently tried to replicate the hidraw functionality
+> with eBPF[0] without changing the kernel code, and it was working.
+> Well, there was no filtering on the source of the HID event, but
+> still, I got the same data directly from the kernel just by adding
+> instrumentation in a couple of functions.
+>
+> Cheers,
+> Benjamin
 
-> +
-> +    properties:
-> +      compatible:
-> +        const: st,stpmic1-onkey
-> +
-> +      interrupts:
-> +        items:
-> +          - description: onkey-falling, happens when onkey is pressed. IT_PONKEY_F of pmic
-> +          - description: onkey-rising, happens when onkey is released. IT_PONKEY_R of pmic
-> +
-> +      interrupt-names:
-> +        items:
-> +          - const: onkey-falling
-> +          - const: onkey-rising
-> +
-> +      st,onkey-clear-cc-flag:
-> +        description: onkey is able power on after an over-current shutdown event.
-> +        $ref: /schemas/types.yaml#/definitions/flag
-> +
-> +      st,onkey-pu-inactive:
-> +        description: onkey pull up is not active
-> +        $ref: /schemas/types.yaml#/definitions/flag
-> +
-> +      power-off-time-sec:
-> +        minimum: 1
-> +        maximum: 16
-> +
-> +    required:
-> +      - compatible
-> +      - interrupts
-> +      - interrupt-names
-> +
-> +  watchdog:
-> +    type: object
-> +
-> +    $ref: ../watchdog/watchdog.yaml
+If Jiri is Ok, then we will push the next patch as per suggestion here i.e. taking out debugfs.
 
-Same here.
+Thanks
 
-> +
-> +    properties:
-> +      compatible:
-> +        const: st,stpmic1-wdt
-> +
-> +    required:
-> +      - compatible
-> +
-> +  regulators:
-> +    type: object
-> +
-> +    description: |
-> +      Available Regulators in STPMIC1 device are:
-> +        - buck1 for Buck BUCK1
-> +        - buck2 for Buck BUCK2
-> +        - buck3 for Buck BUCK3
-> +        - buck4 for Buck BUCK4
-> +        - ldo1 for LDO LDO1
-> +        - ldo2 for LDO LDO2
-> +        - ldo3 for LDO LDO3
-> +        - ldo4 for LDO LDO4
-> +        - ldo5 for LDO LDO5
-> +        - ldo6 for LDO LDO6
-> +        - vref_ddr for LDO Vref DDR
-> +        - boost for Buck BOOST
-> +        - pwr_sw1 for VBUS_OTG switch
-> +        - pwr_sw2 for SW_OUT switch
-> +      Switches are fixed voltage regulators with only enable/disable capability.
-> +
-> +    properties:
-> +      compatible:
-> +        const: st,stpmic1-regulators
-> +
-> +    patternProperties:
-> +      "^(buck[1-4]|ldo[1-6]|boost|pwr_sw[1-2])-supply$":
-> +        description: STPMIC1 voltage regulators supplies
-> +
-> +      "^(buck[1-4]|ldo[1-6]|vref_ddr|boost)$":
-> +        type: object
-> +
-> +        $ref: ../regulator/regulator.yaml
-> +
-> +        properties:
-> +          st,mask-reset:
-> +            description: mask reset for this regulator,
-> +                         the regulator configuration is maintained during pmic reset.
-> +            $ref: /schemas/types.yaml#/definitions/flag
-> +
-> +          interrupts:
-> +            maxItems: 1
-> +
-> +          regulator-over-current-protection: true
-> +
-> +      "^(pwr_sw[1-2])$":
-> +        type: object
-> +
-> +        $ref: ../regulator/regulator.yaml
-> +
-> +        properties:
-> +          interrupts:
-> +            maxItems: 1
-> +
-> +          regulator-over-current-protection: true
-> +          regulator-active-discharge: true
+Nehal Shah
 
-No regulator properties are required?
-
-> +
-> +    required:
-> +      - compatible
-> +
-> +    additionalProperties: false
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - "#interrupt-cells"
-> +  - interrupt-controller
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/mfd/st,stpmic1.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    i2c@0 {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      pmic@33 {
-> +        compatible = "st,stpmic1";
-> +        reg = <0x33>;
-> +        interrupt-parent = <&gpioa>;
-> +        interrupts = <0 2>;
-> +
-> +        interrupt-controller;
-> +        #interrupt-cells = <2>;
-> +
-> +        onkey {
-> +          compatible = "st,stpmic1-onkey";
-> +          interrupts = <IT_PONKEY_F 0>,<IT_PONKEY_R 1>;
-> +          interrupt-names = "onkey-falling", "onkey-rising";
-> +          power-off-time-sec = <10>;
-> +        };
-> +
-> +        watchdog {
-> +          compatible = "st,stpmic1-wdt";
-> +        };
-> +
-> +        regulators {
-> +          compatible = "st,stpmic1-regulators";
-> +
-> +          ldo6-supply = <&v3v3>;
-> +
-> +          buck1 {
-> +            regulator-name = "vdd_core";
-> +            interrupts = <IT_CURLIM_BUCK1 0>;
-> +            st,mask-reset;
-> +            regulator-boot-on;
-> +            regulator-min-microvolt = <700000>;
-> +            regulator-max-microvolt = <1200000>;
-> +          };
-> +
-> +          buck3 {
-> +            regulator-name = "vdd";
-> +            regulator-min-microvolt = <3300000>;
-> +            regulator-max-microvolt = <3300000>;
-> +            regulator-boot-on;
-> +            regulator-pull-down;
-> +          };
-> +
-> +          buck4 {
-> +            regulator-name = "v3v3";
-> +            interrupts = <IT_CURLIM_BUCK4 0>;
-> +            regulator-min-microvolt = <3300000>;
-> +            regulator-max-microvolt = <3300000>;
-> +          };
-> +
-> +          ldo6 {
-> +            regulator-name = "v1v8";
-> +            regulator-min-microvolt = <1800000>;
-> +            regulator-max-microvolt = <1800000>;
-> +            regulator-over-current-protection;
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/regulator/st,stpmic1-regulator.txt b/Documentation/devicetree/bindings/regulator/st,stpmic1-regulator.txt
-> deleted file mode 100644
-> index 6189df71ea98..000000000000
-> --- a/Documentation/devicetree/bindings/regulator/st,stpmic1-regulator.txt
-> +++ /dev/null
-> @@ -1,64 +0,0 @@
-> -STMicroelectronics STPMIC1 Voltage regulators
-> -
-> -Regulator Nodes are optional depending on needs.
-> -
-> -Available Regulators in STPMIC1 device are:
-> -  - buck1 for Buck BUCK1
-> -  - buck2 for Buck BUCK2
-> -  - buck3 for Buck BUCK3
-> -  - buck4 for Buck BUCK4
-> -  - ldo1 for LDO LDO1
-> -  - ldo2 for LDO LDO2
-> -  - ldo3 for LDO LDO3
-> -  - ldo4 for LDO LDO4
-> -  - ldo5 for LDO LDO5
-> -  - ldo6 for LDO LDO6
-> -  - vref_ddr for LDO Vref DDR
-> -  - boost for Buck BOOST
-> -  - pwr_sw1 for VBUS_OTG switch
-> -  - pwr_sw2 for SW_OUT switch
-> -
-> -Switches are fixed voltage regulators with only enable/disable capability.
-> -
-> -Optional properties:
-> -- st,mask-reset: mask reset for this regulator: the regulator configuration
-> -  is maintained during pmic reset.
-> -- regulator-over-current-protection:
-> -    if set, all regulators are switched off in case of over-current detection
-> -    on this regulator,
-> -    if not set, the driver only sends an over-current event.
-> -- interrupts: index of current limit detection interrupt
-> -- <regulator>-supply: phandle to the parent supply/regulator node
-> -	each regulator supply can be described except vref_ddr.
-> -- regulator-active-discharge: can be used on pwr_sw1 and pwr_sw2.
-> -
-> -Example:
-> -regulators {
-> -	compatible = "st,stpmic1-regulators";
-> -
-> -	ldo6-supply = <&v3v3>;
-> -
-> -	vdd_core: buck1 {
-> -		regulator-name = "vdd_core";
-> -		interrupts = <IT_CURLIM_BUCK1 0>;
-> -		st,mask-reset;
-> -		regulator-pull-down;
-> -		regulator-min-microvolt = <700000>;
-> -		regulator-max-microvolt = <1200000>;
-> -	};
-> -
-> -	v3v3: buck4 {
-> -		regulator-name = "v3v3";
-> -		interrupts = <IT_CURLIM_BUCK4 0>;
-> -
-> -		regulator-min-microvolt = <3300000>;
-> -		regulator-max-microvolt = <3300000>;
-> -	};
-> -
-> -	v1v8: ldo6 {
-> -		regulator-name = "v1v8";
-> -		regulator-min-microvolt = <1800000>;
-> -		regulator-max-microvolt = <1800000>;
-> -		regulator-over-current-protection;
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/watchdog/st,stpmic1-wdt.txt b/Documentation/devicetree/bindings/watchdog/st,stpmic1-wdt.txt
-> deleted file mode 100644
-> index 7cc1407f15cb..000000000000
-> --- a/Documentation/devicetree/bindings/watchdog/st,stpmic1-wdt.txt
-> +++ /dev/null
-> @@ -1,11 +0,0 @@
-> -STMicroelectronics STPMIC1 Watchdog
-> -
-> -Required properties:
-> -
-> -- compatible : should be "st,stpmic1-wdt"
-> -
-> -Example:
-> -
-> -watchdog {
-> -	compatible = "st,stpmic1-wdt";
-> -};
-> -- 
-> 2.15.0
-> 
+>
