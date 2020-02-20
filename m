@@ -2,102 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59B111655B5
-	for <lists+linux-input@lfdr.de>; Thu, 20 Feb 2020 04:32:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60675165A8B
+	for <lists+linux-input@lfdr.de>; Thu, 20 Feb 2020 10:54:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727976AbgBTDcj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Feb 2020 22:32:39 -0500
-Received: from mail-lf1-f46.google.com ([209.85.167.46]:46837 "EHLO
-        mail-lf1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727974AbgBTDcj (ORCPT
+        id S1727069AbgBTJyi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Feb 2020 04:54:38 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:34438 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727039AbgBTJyi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Feb 2020 22:32:39 -0500
-Received: by mail-lf1-f46.google.com with SMTP id z26so1829095lfg.13
-        for <linux-input@vger.kernel.org>; Wed, 19 Feb 2020 19:32:36 -0800 (PST)
+        Thu, 20 Feb 2020 04:54:38 -0500
+Received: by mail-pf1-f196.google.com with SMTP id i6so1682000pfc.1
+        for <linux-input@vger.kernel.org>; Thu, 20 Feb 2020 01:54:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to;
-        bh=1hZMWi/+0W+ECg+qBExFFuhEYDCJpmtqHfYHMBUsYKA=;
-        b=YPv/5VPcybeoprZdMckMbhAO3HENv/ZyR7W3WFMtBk0Fe0Q6/K5znzSGeSIudDwQJO
-         SqvKkxRN7iN+3lmzQTgv+crNf/H2LcRft9FOlZpeUZd+tfdsflAmNhUmHhuMhT919Xd9
-         veyJ+j/B/717oLDpwRbu3cOYLGQwk60Tv0UnWKgzB/MIVyTQZ535/nbjVlm429f/APqn
-         oKAyPgA9qB7nL2M/JltFZviY66LFqaKIDvqY1Y3uNJEY9DKibTxdWqOjwagw5HtToaxZ
-         /HCKrP3WpRn2WQ6MzqXME6omUa4ophhIa7kqRX/o20HcNsrTjw/tuYzumhyOV44sJgJD
-         a5kw==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
+        b=KfNWW2kcqvTW/9/08hTLogIqobA7bvlKpQJoYHafvufqDMAEJNGTi16kdgjiBPR6K2
+         IBu4QoBeoD1zPK+mAFEFCyGoW7vmbfnnJRoF3S1jn953AwhHjpsb61lJNKtC5Cd4w3ly
+         LyXVFblZTrGK4xKB1acSQvvf0L0W5gtLLv17Nc8u08V8JuGNOrki7Hu4hIn889cOrocf
+         OI7ofI/Ba26rlHcp25+n0dtCNsZNHdepJpLTvIgblIc5oB7MwKt85sd2HkDRZ6GK9GOZ
+         1AD79o4ZcYs/IVxzGoSLwT+BZX2xrTfctgg/ehk24p/tiuqY5cUAh9nbhz8Oq+hbCjua
+         K5DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to;
-        bh=1hZMWi/+0W+ECg+qBExFFuhEYDCJpmtqHfYHMBUsYKA=;
-        b=kDrWIa52LfQkG5rlJIfVwMF87T1xRE1p49fZFw3BJgQvJ7VMTJgINK5qt1MxbeJObz
-         /V2189ft7LoGvrKKaW75tz0EVbTmqKxSmSwL4gf5rR3LzrvVXExJc7foX9XhJDoV6BC7
-         c1UV5+mYOTzczhRyNUj9Rbecwube+IkRLFQNgYOuVx3kRrbPoP0NOMGUiBLHkDgUONWo
-         DKkXE9ThTPV2YqlXXez7f6K9cFjRTFe3Q5uhlZ/jdSx0ByZiVud8h92wCIyE/CkUcUse
-         YcqeH5/iehsL4yTngPh/ANjCDmWXSjwzfbOTaBNa6X/YJ0ES+OgY3LlJfq3k+BJ9ENaX
-         NpNw==
-X-Gm-Message-State: APjAAAUbPGPT+cUc0QKsGJxtPxDJR1/Zg+ADN093rRurL+ggtqQhVZKq
-        f31S3NU9KBUTfLrI1nWLT7r/S9f/Khp6tDzUhNa8L2FVBPg=
-X-Google-Smtp-Source: APXvYqx12VTO7sZh013FjMeZgtm6LWC360fe6nSH7ibh1VRd+0yDnFxjj51s2m6TNHSoEkvmdYMOEcXsfZcif4FFJ+Y=
-X-Received: by 2002:ac2:555c:: with SMTP id l28mr15307351lfk.52.1582169555599;
- Wed, 19 Feb 2020 19:32:35 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
+        b=opSSa23HjjvQ+OMob7IjJLSIbBV4F4fpfTb4kAtDj60ZdsHvd7FeVjZqXWupI25t43
+         RBxLqeHyD5mCvAKB/Q3cBxq29b/lRqVGbxwGQ/OeBeW05zStDUqQZfWbPwREloWjNTVT
+         GUv6ipW3HsfLr799iukrEvTPtb3NZtc8m/T9oBqOxA9JKe27IKLPgDvSIzUSXts0Q1l0
+         02+TaUDotSPGEP+g5eFMU9qvWZkADbmh8fxdMx6F9kyDKUuMR9WwCEBU242QAZuCX5Bz
+         KnE/16JGob3pzlw1Rfd+SyVcqvGa/BNNmz0xxQNl83VydF2IYhnusLwCabf0RJzTZPvs
+         6V4w==
+X-Gm-Message-State: APjAAAVnxpuZn4G++zbAs5cDsw+qU+EnmlMvZUZTpZrUqvqHUuqkA7/r
+        YC6qThHC8twP10LuaTaOQsPbasnMizkZ16lRDEk=
+X-Google-Smtp-Source: APXvYqySoCSJ82A8OuYPdZOTOSzwsgpIu/3GOYLR3uHjrSC8cVSsXETPeL8PxFF00bDBm0liDA2StN1CChwALXKR/tU=
+X-Received: by 2002:a62:5bc7:: with SMTP id p190mr30655380pfb.16.1582192477900;
+ Thu, 20 Feb 2020 01:54:37 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:ab3:64c6:0:0:0:0:0 with HTTP; Wed, 19 Feb 2020 19:32:34
+Received: by 2002:a17:90a:90f:0:0:0:0 with HTTP; Thu, 20 Feb 2020 01:54:37
  -0800 (PST)
-In-Reply-To: <CALY12-HbbG+1Kv=saansTJAkqPsoXHj6LvC-9JzFxnzDE1-9Xw@mail.gmail.com>
-References: <CALY12-HbbG+1Kv=saansTJAkqPsoXHj6LvC-9JzFxnzDE1-9Xw@mail.gmail.com>
-From:   Andrew James <andrew.james8710@gmail.com>
-Date:   Thu, 20 Feb 2020 14:32:34 +1100
-Message-ID: <CALY12-FS+-EXseWcJdvaS5bmafkz1X1qkhafTE6YDKA3nWk1fw@mail.gmail.com>
-Subject: Re: [BUG] hid-cp2112 sda stuck low, doesn't clear
-To:     linux-input <linux-input@vger.kernel.org>
+Reply-To: cagesusan199@gmail.com
+From:   "Mrs. Susan S. Cage" <drgoodluckebelejonathan061@gmail.com>
+Date:   Thu, 20 Feb 2020 01:54:37 -0800
+Message-ID: <CALjo5=_qROtCiT4u8zj8ta2R612eUBzRGz6aZpKsD-fVmmvMXA@mail.gmail.com>
+Subject: Attention:Beneficiary
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+-- 
+Dearest Friend,
 
-For some reason David's email address bounces:
-dbarksdale <dbarksdale@uplogix.com>
+Sorry for invading your privacy, my name is Susan S. Cage I am 81
+years, citizen of United States and presently in hospital undergoing
+chromatography for bronchogenic carcinomas (Lung cancer) which
+affected both Lungs. The doctors said I have few days to live because
+the cancer has now affected my brain.
 
-He was the original author of this chip driver.
-If anyone can help me to grab his attention that would be awesome.
+My late husband left Fifteen Million, Five Hundred British Pounds
+Sterling in my account, I want to transfer the money to you and I want
+you to use it as a donate for charitable and help the needy,
+motherless, less privileged and widows within your location.
 
-Thanks!
-Andrew
+I need your assurance that you will use the fund for charity, once I a
+favorable reply from you, will inform my Bank through my lawyer to
+transfer the fund to you as my Next of Kin and Sole Beneficiary. Once
+I receive your response, I will inform my bank in writing through my
+lawyer.
 
-On 2/20/20, Andrew James <andrew.james8710@gmail.com> wrote:
-> Hi David,
->
-> I found a problem with the driver.  In this situation, the SDA line is
-> stuck low, but never clears, until cold rebooted.
->
-> I am using the CP2112 as a USB-to-I2C adapter with two slave devices.
-> Kernel version is 4.9.88.  CP2112 silicon revision is F03.
->
-> From userspace, if I ctrl+c (^c) the output of the device file of one
-> of the slaves, this occurs:
->
-> [  110.877415] cp2112 0003:10C4:EA90.0001: Transfer timed out, cancelling.
-> [  111.909193] cp2112 0003:10C4:EA90.0001: Transfer timed out, cancelling.
-> [  112.941004] cp2112 0003:10C4:EA90.0001: Transfer timed out, cancelling.
-> [  113.973812] cp2112 0003:10C4:EA90.0001: Transfer timed out, cancelling.
-> [  115.005627] cp2112 0003:10C4:EA90.0001: Transfer timed out, cancelling.
-> [  116.037474] cp2112 0003:10C4:EA90.0001: Transfer timed out, cancelling.
-> [  117.068261] cp2112 0003:10C4:EA90.0001: Transfer timed out, cancelling.
-> [  118.100093] cp2112 0003:10C4:EA90.0001: Transfer timed out, cancelling.
->
->
-> The log message continues indefinitely; the clock is stuck high and
-> the data line is stuck low.
->
-> When we swap to a different I2C adapter in hardware, the bus lockup no
-> longer occurs.
->
-> Is there a modification I can make to the driver so that it can clear
-> the bus, or recover the CP2112?  I can forward some I2C traces if
-> needed.
->
-> Andrew
->
+
+
+Thank you and God bless you.
+
+Mrs. Susan S. Cage
