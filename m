@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 644571683FC
-	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2020 17:48:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1E841683FD
+	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2020 17:48:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727020AbgBUQsB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Feb 2020 11:48:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26031 "EHLO
+        id S1727099AbgBUQsD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Feb 2020 11:48:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40650 "EHLO
         us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726955AbgBUQsA (ORCPT
+        with ESMTP id S1726955AbgBUQsC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Feb 2020 11:48:00 -0500
+        Fri, 21 Feb 2020 11:48:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582303680;
+        s=mimecast20190719; t=1582303682;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=WHTRVbOJSnLyD+b9eFeWynm9ZD0sAC98G0y7Pko23xQ=;
-        b=b9M9YrVDJQI5HoRvMMAWUNJCgWP4+G7mVAwLZap0F/pDeWb5XsfFZUviRttsAiaFRD9qyZ
-        UUh0ojymOh6Ge5O/5h0a6IrKo6eRxu6R73XGuSFigahcRl09FwH4+y2AMH6nt1VYsqnxG2
-        vhrNmtH9g2mIkUQ+P8bI+ECCTrqJFuM=
+        bh=bquC9KARuuAmR03x10VZwd61LQFsfoDm76rVfzrZzt0=;
+        b=YfxbkNWNvZN4wBjQpvxEKFxpBGZg1NmDPD9Jst3JWHvbJzoj2q+fk0i1cefJwBtQgSVtZe
+        IO/Rf9Eg0Zbs0uOfh4Br/FMBuvp/UoXnDMzIX2X6akqgGFZ6zVu/nYvGWybIwC+iCXpQ7/
+        KSE5QSEHoyKZ6S4ZK5IjmvB+CtbUTO0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-O0RZzHb_NdCi3bd1WGZKhg-1; Fri, 21 Feb 2020 11:47:56 -0500
-X-MC-Unique: O0RZzHb_NdCi3bd1WGZKhg-1
+ us-mta-333-jl6j7mW4OuydsLFo6a7nOg-1; Fri, 21 Feb 2020 11:48:00 -0500
+X-MC-Unique: jl6j7mW4OuydsLFo6a7nOg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2B18801E5C;
-        Fri, 21 Feb 2020 16:47:54 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C51B9802704;
+        Fri, 21 Feb 2020 16:47:58 +0000 (UTC)
 Received: from x1.localdomain.com (ovpn-116-191.ams2.redhat.com [10.36.116.191])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 73FAA6106C;
-        Fri, 21 Feb 2020 16:47:53 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4E39960FC5;
+        Fri, 21 Feb 2020 16:47:55 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Bastien Nocera <hadess@hadess.net>
 Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
         Dmitry Mastykin <mastichi@gmail.com>
-Subject: [PATCH resend 06/10] Input: goodix - Add support for controlling the IRQ pin through ACPI methods
-Date:   Fri, 21 Feb 2020 17:47:31 +0100
-Message-Id: <20200221164735.508324-6-hdegoede@redhat.com>
+Subject: [PATCH resend 07/10] Input: goodix - Move defines to above struct goodix_ts_data declaration
+Date:   Fri, 21 Feb 2020 17:47:32 +0100
+Message-Id: <20200221164735.508324-7-hdegoede@redhat.com>
 In-Reply-To: <20200221164735.508324-1-hdegoede@redhat.com>
 References: <20200221164735.508324-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -52,14 +52,9 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some Apollo Lake (x86, UEFI + ACPI) devices only list the reset GPIO
-in their _CRS table and the bit-banging of the IRQ line necessary to
-wake-up the controller from suspend can be done by calling 2 Goodix
-custom / specific ACPI methods.
-
-This commit adds support for controlling the IRQ line in this matter,
-allowing us to properly suspend the touchscreen controller on such
-devices.
+Move the  defines to above the struct goodix_ts_data declaration, so
+that the MAX defines can be used inside the struct goodix_ts_data
+declaration. No functional changes, just moving a block of code.
 
 BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1786317
 BugLink: https://github.com/nexus511/gpd-ubuntu-packages/issues/10
@@ -67,110 +62,88 @@ BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=3D199207
 Cc: Dmitry Mastykin <mastichi@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/input/touchscreen/goodix.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/input/touchscreen/goodix.c | 60 +++++++++++++++---------------
+ 1 file changed, 30 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscre=
 en/goodix.c
-index d178aa33b529..784c4dd8c430 100644
+index 784c4dd8c430..66d6bb74507d 100644
 --- a/drivers/input/touchscreen/goodix.c
 +++ b/drivers/input/touchscreen/goodix.c
-@@ -35,6 +35,7 @@ enum goodix_irq_pin_access_method {
- 	irq_pin_access_none,
- 	irq_pin_access_gpio,
- 	irq_pin_access_acpi_gpio,
-+	irq_pin_access_acpi_method,
+@@ -29,6 +29,36 @@
+ #include <linux/of.h>
+ #include <asm/unaligned.h>
+=20
++#define GOODIX_GPIO_INT_NAME		"irq"
++#define GOODIX_GPIO_RST_NAME		"reset"
++
++#define GOODIX_MAX_HEIGHT		4096
++#define GOODIX_MAX_WIDTH		4096
++#define GOODIX_INT_TRIGGER		1
++#define GOODIX_CONTACT_SIZE		8
++#define GOODIX_MAX_CONTACT_SIZE		9
++#define GOODIX_MAX_CONTACTS		10
++
++#define GOODIX_CONFIG_MAX_LENGTH	240
++#define GOODIX_CONFIG_911_LENGTH	186
++#define GOODIX_CONFIG_967_LENGTH	228
++
++/* Register defines */
++#define GOODIX_REG_COMMAND		0x8040
++#define GOODIX_CMD_SCREEN_OFF		0x05
++
++#define GOODIX_READ_COOR_ADDR		0x814E
++#define GOODIX_GT1X_REG_CONFIG_DATA	0x8050
++#define GOODIX_GT9X_REG_CONFIG_DATA	0x8047
++#define GOODIX_REG_ID			0x8140
++
++#define GOODIX_BUFFER_STATUS_READY	BIT(7)
++#define GOODIX_BUFFER_STATUS_TIMEOUT	20
++
++#define RESOLUTION_LOC		1
++#define MAX_CONTACTS_LOC	5
++#define TRIGGER_LOC		6
++
+ struct goodix_ts_data;
+=20
+ enum goodix_irq_pin_access_method {
+@@ -68,36 +98,6 @@ struct goodix_ts_data {
+ 	unsigned int contact_size;
  };
 =20
- struct goodix_chip_data {
-@@ -516,6 +517,9 @@ static int goodix_send_cfg(struct goodix_ts_data *ts,
- static int goodix_irq_direction_output(struct goodix_ts_data *ts,
- 				       int value)
- {
-+	struct device *dev =3D &ts->client->dev;
-+	acpi_status status;
-+
- 	switch (ts->irq_pin_access_method) {
- 	case irq_pin_access_none:
- 		dev_err(&ts->client->dev,
-@@ -530,6 +534,10 @@ static int goodix_irq_direction_output(struct goodix=
-_ts_data *ts,
- 		 * as active-low, use output_raw to avoid the value inversion.
- 		 */
- 		return gpiod_direction_output_raw(ts->gpiod_int, value);
-+	case irq_pin_access_acpi_method:
-+		status =3D acpi_execute_simple_method(ACPI_HANDLE(dev),
-+						    "INTO", value);
-+		return ACPI_SUCCESS(status) ? 0 : -EIO;
- 	}
-=20
- 	return -EINVAL; /* Never reached */
-@@ -537,6 +545,9 @@ static int goodix_irq_direction_output(struct goodix_=
-ts_data *ts,
-=20
- static int goodix_irq_direction_input(struct goodix_ts_data *ts)
- {
-+	struct device *dev =3D &ts->client->dev;
-+	acpi_status status;
-+
- 	switch (ts->irq_pin_access_method) {
- 	case irq_pin_access_none:
- 		dev_err(&ts->client->dev,
-@@ -546,6 +557,10 @@ static int goodix_irq_direction_input(struct goodix_=
-ts_data *ts)
- 	case irq_pin_access_gpio:
- 	case irq_pin_access_acpi_gpio:
- 		return gpiod_direction_input(ts->gpiod_int);
-+	case irq_pin_access_acpi_method:
-+		status =3D acpi_evaluate_object(ACPI_HANDLE(dev), "INTI",
-+					      NULL, NULL);
-+		return ACPI_SUCCESS(status) ? 0 : -EIO;
- 	}
-=20
- 	return -EINVAL; /* Never reached */
-@@ -640,6 +655,11 @@ static const struct acpi_gpio_mapping acpi_goodix_in=
-t_last_gpios[] =3D {
- 	{ },
- };
-=20
-+static const struct acpi_gpio_mapping acpi_goodix_reset_only_gpios[] =3D=
- {
-+	{ GOODIX_GPIO_RST_NAME "-gpios", &first_gpio, 1 },
-+	{ },
-+};
-+
- static int goodix_resource(struct acpi_resource *ares, void *data)
- {
- 	struct goodix_ts_data *ts =3D data;
-@@ -690,6 +710,12 @@ static int goodix_add_acpi_gpio_mappings(struct good=
-ix_ts_data *ts)
- 	} else if (ts->gpio_count =3D=3D 2 && ts->gpio_int_idx =3D=3D 1) {
- 		ts->irq_pin_access_method =3D irq_pin_access_acpi_gpio;
- 		gpio_mapping =3D acpi_goodix_int_last_gpios;
-+	} else if (ts->gpio_count =3D=3D 1 && ts->gpio_int_idx =3D=3D -1 &&
-+		   acpi_has_method(ACPI_HANDLE(dev), "INTI") &&
-+		   acpi_has_method(ACPI_HANDLE(dev), "INTO")) {
-+		dev_info(dev, "Using ACPI INTI and INTO methods for IRQ pin access\n")=
-;
-+		ts->irq_pin_access_method =3D irq_pin_access_acpi_method;
-+		gpio_mapping =3D acpi_goodix_reset_only_gpios;
- 	} else if (is_byt() && ts->gpio_count =3D=3D 2 && ts->gpio_int_idx =3D=3D=
- -1) {
- 		dev_info(dev, "No ACPI GpioInt resource, assuming that the GPIO order =
-is reset, int\n");
- 		ts->irq_pin_access_method =3D irq_pin_access_acpi_gpio;
-@@ -778,6 +804,10 @@ static int goodix_get_gpio_config(struct goodix_ts_d=
-ata *ts)
- 		if (!ts->gpiod_int || !ts->gpiod_rst)
- 			ts->irq_pin_access_method =3D irq_pin_access_none;
- 		break;
-+	case irq_pin_access_acpi_method:
-+		if (!ts->gpiod_rst)
-+			ts->irq_pin_access_method =3D irq_pin_access_none;
-+		break;
- 	default:
- 		if (ts->gpiod_int && ts->gpiod_rst) {
- 			ts->reset_controller_at_probe =3D true;
+-#define GOODIX_GPIO_INT_NAME		"irq"
+-#define GOODIX_GPIO_RST_NAME		"reset"
+-
+-#define GOODIX_MAX_HEIGHT		4096
+-#define GOODIX_MAX_WIDTH		4096
+-#define GOODIX_INT_TRIGGER		1
+-#define GOODIX_CONTACT_SIZE		8
+-#define GOODIX_MAX_CONTACT_SIZE		9
+-#define GOODIX_MAX_CONTACTS		10
+-
+-#define GOODIX_CONFIG_MAX_LENGTH	240
+-#define GOODIX_CONFIG_911_LENGTH	186
+-#define GOODIX_CONFIG_967_LENGTH	228
+-
+-/* Register defines */
+-#define GOODIX_REG_COMMAND		0x8040
+-#define GOODIX_CMD_SCREEN_OFF		0x05
+-
+-#define GOODIX_READ_COOR_ADDR		0x814E
+-#define GOODIX_GT1X_REG_CONFIG_DATA	0x8050
+-#define GOODIX_GT9X_REG_CONFIG_DATA	0x8047
+-#define GOODIX_REG_ID			0x8140
+-
+-#define GOODIX_BUFFER_STATUS_READY	BIT(7)
+-#define GOODIX_BUFFER_STATUS_TIMEOUT	20
+-
+-#define RESOLUTION_LOC		1
+-#define MAX_CONTACTS_LOC	5
+-#define TRIGGER_LOC		6
+-
+ static int goodix_check_cfg_8(struct goodix_ts_data *ts,
+ 			const struct firmware *cfg);
+ static int goodix_check_cfg_16(struct goodix_ts_data *ts,
 --=20
 2.25.0
 
