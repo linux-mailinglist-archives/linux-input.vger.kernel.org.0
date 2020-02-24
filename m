@@ -2,59 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2B521699CA
-	for <lists+linux-input@lfdr.de>; Sun, 23 Feb 2020 20:34:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53E3716A13A
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2020 10:11:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726740AbgBWTeH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Feb 2020 14:34:07 -0500
-Received: from sonic305-36.consmr.mail.bf2.yahoo.com ([74.6.133.235]:45881
-        "EHLO sonic305-36.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726302AbgBWTeH (ORCPT
+        id S1727857AbgBXJLR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Feb 2020 04:11:17 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:36727 "EHLO
+        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727794AbgBXJLD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Feb 2020 14:34:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1582486446; bh=VxFSqOLnoyhxZXWK73TPGK3hr8yutZ4yWmLQa/jSY/I=; h=Date:From:Reply-To:Subject:References:From:Subject; b=Ru6kRsNgYNxrgJKwo8J7vl2zlfaGl7ETU+aX1fQPpyyJh6XVeLLrr1iWAby4XzPXvcqX//YCMCTMRd3VLmjOZxI3hpxF2HJ9ELsVuwv2fbznZ2MonCTFn1/+gqmOiezHAAgBV8/9HtYncPFwS6y+XX4/p/hqjz3jLT73KbWWtT/bE4Gx8mRdy8cwdnQdSW3yAArgXbqYuGFeHJT1yX3wOInNpE59+wnZmxz0hr+S0a5aNjzYvo2irvmQThY+DPasvNzcgeLFC/d03gd/a/7isN02nXEcgZDcxJKcWv2lSpiggb3qmTDw/27Lu2gJMQ3sl4DwkXUnkI1l3fTzoSptGg==
-X-YMail-OSG: BtObS7EVM1nTVN65xaJUufmCxJji.Fpe8Cqbmi6Fj9ENPnGDf6LuHTPX3xelaB7
- swPgHzZWKCvszS8F0AhulGEtMeRCrzmXAg7MmvbA4WbVp6hVLcn5GXmT3_Qm1ZkIExrbfj83yujI
- MgbTf8Fk_j3nWyT0MCzUh4kgOsXB6VCNeqk80iIvLNS7MBMtT_EKeTtoZQvs9Y4Gaufp_ucDtWta
- SNaYaIv0TivPDMEFxHoj53sJh6HDLMjAP4LbcC.8nw3M0W_6Mj0tMKcXoaWiM_UZFEaQuNBzEpkM
- wLFRTUBCvm_qdax25qH4E.4nPvoqBraGB3tfVjMYepRlZjzdXTfKTX3ARX2e_s2YKUEI0U.CmI2t
- WIZoeN3Z.av1xyKbJuvkWi0Rd16s4rA71gPQ3PfYjAI95li0xeXK5Rf9zUd2ponf50gPhGFnB5YA
- cMRHM.i8_MthEWcclN5WzJbfabA4SspzhGn.dxCdXVOKV5GqHe91LprxiFr2mVLIfzoquESUTvGz
- i9Izxog84co9XE0TuMZ58IiVlRwjiPOt5cABCgytCuKgf3yPd_s1ht8yVkqBR8iS1HCau9LUm2rE
- teZq8tdIW0bLG24Nfsl8ugXd6kBZFcmWm8SbVpyJFuCplX.4fXESnSwd62YnY9CunXyWCDsaLW8.
- j8ngbzpb0E0Jp3Uq4N2yHsoSQw6EMX4MaSnhhgeHizflD8GhnEf3yZZxU2TVIiXBvU5kyBpI.Nl2
- K_Hm4F0UOM3FtsrAwfvRzO5peEKjlNI9mWaNTO5vMEMwSP1xDtkFTCxbZcqhh2eXmX_uCWQ9UtcB
- jU0r18jPxZpiswMfkiglofy4Nwc2lnkFe3k9NM6i64HTQDXqJ2Y_aiOpTNuWVC0e2ejN0lGg9kO6
- CecZF_WcpOtz6lvnE.gbAj6nL4sF51eJuXz6uDA.xoj0j9in4HYkBm.MBJnGTZ46IjennIBiWJUd
- t_9wLHg6deKRm0_2HsumMGKc6oVSvdsnQBdJeYYIPBncpB5.gWBCVQQ3JVxaZA3f_ZWFtAlEx.YJ
- wGto7bckyfoD2NiTKjG.Q9phg_TS71yiPVcsygRxrkBJhgY1lEWnmsRNWFNH.pXHYU820qxNfwrS
- JQAW4eL5mkuYZf0LprkILnNkw.1ILCq7yLIjlI7LHoYFpG0qxkUFYEctMiXXPW0GL6igNiJcSJAR
- p53Qymg6rHhilg2SSIphMUOagvvCELlZ2ivU9DFArOgw3PwrrIFQhu.KLrGy058cB3wFy4JWjVTc
- 36SRYVcjpA0FW3jAn4E5ZXaDdohdksWGM1Ayh2oFhc4QwAkpgt9I1z1Sz8Qi3JpfEtKyuE053b4w
- bB9fMq4QRC_BUofuIqleAvuuEI1RzgmsEwJ7_gQETIw.X_40fqMU-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.bf2.yahoo.com with HTTP; Sun, 23 Feb 2020 19:34:06 +0000
-Date:   Sun, 23 Feb 2020 19:32:05 +0000 (UTC)
-From:   "Mrs. Maureen Hinckley" <hh5@gztmo.com>
-Reply-To: maurhinck6@gmail.com
-Message-ID: <843874354.5079702.1582486325912@mail.yahoo.com>
-Subject: 
+        Mon, 24 Feb 2020 04:11:03 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 34D407698;
+        Mon, 24 Feb 2020 04:11:02 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 24 Feb 2020 04:11:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=P6NSWkrKZ4ycnvFOSuy67yShL4e
+        kMBsFHiAL05968xc=; b=lZ4OE2YE954qYDC16RXXOtM/qnFZraFfeQ0BPlrNAQt
+        GXa5BRrgjuoMXO09Hj3a+SRn3OWbiJfp1i7iHeX49HvPtvYKGj2ka60gIk6QygsS
+        xOedDCFBmF5v3PSXS+L3NxwVtIqE9RznUlMhphBxtmlaexBZKMCsLbsXEtmnyWFY
+        pEHkRiCnYtzef/iZ9FYqOK2PmauywfwotGSDS2ZUzSt7Y+pIb5q+qAQYlq5a9+4S
+        4EP5CiPaANupbgvtbAquupThLnPHIfavvUMjae8bB/oPE3uGTWNm4571hPnqzcdV
+        tIp44pxnFoVzlNbG6lpp5aNwDIpEsxcIGB/g47CMCuw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=P6NSWk
+        rKZ4ycnvFOSuy67yShL4ekMBsFHiAL05968xc=; b=r57KjA79/p5plmAAJXNv/J
+        hnoNbfH/Fm5PIKdb1WwapcoQy4JZwmrTAKiYdDrU1xmPe7YO7cg67fWW48x/8Fg0
+        W26pjrXMh+5qpMVxoKbHogk903GtPfV8zMhdIYPCRS2I4WRgLVL9zN0dmtKVcK+i
+        +nFZkhg/lAgAR/F4y/hcFeDm10hT/erEAES/h79aAY8bMLzzV6UcDsBWX01txzKi
+        9J3KqrQ01PWX26AWkYE4nz7E7TgV/YUQHv3e2RlERTMoj0olsRWysMp3i+g4zilC
+        ikqMBqw87Ow0nRPMkSim4j0vTFLFbDC0hjG/xkHYH/Scm6XVExWWXkLkrNQgbz8w
+        ==
+X-ME-Sender: <xms:JJNTXoeASscD0ZE79XXdYIUaj_4HERRURm8t60DN_w_LZdOkXgefiQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrledtucetufdoteggodetrfdotffvucfrrh
+    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhmvgcutfhi
+    phgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltddrkeelrd
+    eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+    mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:JJNTXluWuPtuGN1waXd_JiswnG4e7u-fVcy7PczKJAgHSvNxt3tqQg>
+    <xmx:JJNTXv_wMhB5XVyVpuBZBac9XmYEjBsod6Y6Tlf2Dk6TfKZoM0gR_w>
+    <xmx:JJNTXo1zXyyBSNGeEc12xnIp9_AK21g3yWfN8SJAGvtSF8hQMAa4Sg>
+    <xmx:JpNTXugmknZ6EKgtv52oiyQ9y3cZAT18nBrpAmieETp8hBTU8RsCag>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 421BA328005A;
+        Mon, 24 Feb 2020 04:11:00 -0500 (EST)
+Date:   Mon, 24 Feb 2020 10:10:59 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Ondrej Jirman <megous@megous.com>
+Cc:     linux-sunxi@googlegroups.com,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Luca Weiss <luca@z3ntu.xyz>, Tomas Novotny <tomas@novotny.cz>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 3/4] ARM: dts: sun8i-a83t-tbs-a711: Add support for the
+ vibrator motor
+Message-ID: <20200224091059.lljffogofbexhudt@gilmour.lan>
+References: <20200222231428.233621-1-megous@megous.com>
+ <20200222231428.233621-4-megous@megous.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <843874354.5079702.1582486325912.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.15199 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="rf2uuzktvcqtstk3"
+Content-Disposition: inline
+In-Reply-To: <20200222231428.233621-4-megous@megous.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
+--rf2uuzktvcqtstk3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I am Maureen Hinckley and my foundation is donating (Five hundred and fifty=
- thousand USD) to you. Contact us via my email at (maurhinck6@gmail.com) fo=
-r further details.
+Hi,
 
-Best Regards,
-Mrs. Maureen Hinckley,
-Copyright =C2=A92020 The Maureen Hinckley Foundation All Rights Reserved.
+On Sun, Feb 23, 2020 at 12:14:27AM +0100, Ondrej Jirman wrote:
+> The board has a vibrator mottor. Hook it to the input subsystem.
+>
+> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> ---
+>  arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts b/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
+> index 2fd31a0a0b344..a22920275e99b 100644
+> --- a/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
+> +++ b/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
+> @@ -99,6 +99,11 @@ panel_input: endpoint {
+>  		};
+>  	};
+>
+> +	vibrator {
+> +		compatible = "gpio-vibrator";
+> +		vcc-supply = <&reg_ldo_io1>;
+> +	};
+> +
+
+LDO IO1 can also be muxed in as a GPIO iirc, why did you choose the
+regulator instead?
+
+Maxime
+
+--rf2uuzktvcqtstk3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXlOTIwAKCRDj7w1vZxhR
+xVFTAQDQJHOWWsog4Y0l4mRxEOjNKPwakKZYlCWd4M50UL9jDAEArb1p2WwTIOaO
+jt5TR3xH+He9Bb3uaRGhWtWZpIcV9Aw=
+=/rlr
+-----END PGP SIGNATURE-----
+
+--rf2uuzktvcqtstk3--
