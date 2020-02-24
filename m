@@ -2,124 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53E3716A13A
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2020 10:11:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5AAC16A4A3
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2020 12:13:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727857AbgBXJLR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Feb 2020 04:11:17 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:36727 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727794AbgBXJLD (ORCPT
+        id S1727202AbgBXLNy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Feb 2020 06:13:54 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:40566 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726216AbgBXLNy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Feb 2020 04:11:03 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 34D407698;
-        Mon, 24 Feb 2020 04:11:02 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Mon, 24 Feb 2020 04:11:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=P6NSWkrKZ4ycnvFOSuy67yShL4e
-        kMBsFHiAL05968xc=; b=lZ4OE2YE954qYDC16RXXOtM/qnFZraFfeQ0BPlrNAQt
-        GXa5BRrgjuoMXO09Hj3a+SRn3OWbiJfp1i7iHeX49HvPtvYKGj2ka60gIk6QygsS
-        xOedDCFBmF5v3PSXS+L3NxwVtIqE9RznUlMhphBxtmlaexBZKMCsLbsXEtmnyWFY
-        pEHkRiCnYtzef/iZ9FYqOK2PmauywfwotGSDS2ZUzSt7Y+pIb5q+qAQYlq5a9+4S
-        4EP5CiPaANupbgvtbAquupThLnPHIfavvUMjae8bB/oPE3uGTWNm4571hPnqzcdV
-        tIp44pxnFoVzlNbG6lpp5aNwDIpEsxcIGB/g47CMCuw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=P6NSWk
-        rKZ4ycnvFOSuy67yShL4ekMBsFHiAL05968xc=; b=r57KjA79/p5plmAAJXNv/J
-        hnoNbfH/Fm5PIKdb1WwapcoQy4JZwmrTAKiYdDrU1xmPe7YO7cg67fWW48x/8Fg0
-        W26pjrXMh+5qpMVxoKbHogk903GtPfV8zMhdIYPCRS2I4WRgLVL9zN0dmtKVcK+i
-        +nFZkhg/lAgAR/F4y/hcFeDm10hT/erEAES/h79aAY8bMLzzV6UcDsBWX01txzKi
-        9J3KqrQ01PWX26AWkYE4nz7E7TgV/YUQHv3e2RlERTMoj0olsRWysMp3i+g4zilC
-        ikqMBqw87Ow0nRPMkSim4j0vTFLFbDC0hjG/xkHYH/Scm6XVExWWXkLkrNQgbz8w
-        ==
-X-ME-Sender: <xms:JJNTXoeASscD0ZE79XXdYIUaj_4HERRURm8t60DN_w_LZdOkXgefiQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrledtucetufdoteggodetrfdotffvucfrrh
-    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhmvgcutfhi
-    phgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltddrkeelrd
-    eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
-    mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:JJNTXluWuPtuGN1waXd_JiswnG4e7u-fVcy7PczKJAgHSvNxt3tqQg>
-    <xmx:JJNTXv_wMhB5XVyVpuBZBac9XmYEjBsod6Y6Tlf2Dk6TfKZoM0gR_w>
-    <xmx:JJNTXo1zXyyBSNGeEc12xnIp9_AK21g3yWfN8SJAGvtSF8hQMAa4Sg>
-    <xmx:JpNTXugmknZ6EKgtv52oiyQ9y3cZAT18nBrpAmieETp8hBTU8RsCag>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 421BA328005A;
-        Mon, 24 Feb 2020 04:11:00 -0500 (EST)
-Date:   Mon, 24 Feb 2020 10:10:59 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Ondrej Jirman <megous@megous.com>
-Cc:     linux-sunxi@googlegroups.com,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Luca Weiss <luca@z3ntu.xyz>, Tomas Novotny <tomas@novotny.cz>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/4] ARM: dts: sun8i-a83t-tbs-a711: Add support for the
- vibrator motor
-Message-ID: <20200224091059.lljffogofbexhudt@gilmour.lan>
-References: <20200222231428.233621-1-megous@megous.com>
- <20200222231428.233621-4-megous@megous.com>
+        Mon, 24 Feb 2020 06:13:54 -0500
+Received: by mail-wr1-f66.google.com with SMTP id t3so9882824wru.7
+        for <linux-input@vger.kernel.org>; Mon, 24 Feb 2020 03:13:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=Mh1d0aGZXBcGpL9RuplRZdSm3AVkRnYe3oS1toATjYE=;
+        b=tL8VJS4ob05hCQrgIx8wpD7rln8HVS80aBRN3zNf1hHjE5+2uwPcKZQD4kpRNRUzVw
+         y2HNshaAjNmGi7Sov6ebNaGRnmUuoFACFUBstueEhotMxvTvqQP6CzX4Zyo8FSbAuDv7
+         QFlK9ZOzujld6GYBDPa5xRg/5EYIRSZAA3fBy+2iVGLWMDfS3nb+faUGolfyc32UvgH7
+         fOzaRlXd8bsTSYUCHK0fvC4P4jRXkI/34JtDLW7OdDztGP0OEEChAL70D0tjb+ufFEUK
+         rLsnnXpGZsCfYYm/lo66E9zepWp7JS8qnQUEY+oX7MA8c390zjk+EDH5IkBdp0bACXEq
+         fbVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=Mh1d0aGZXBcGpL9RuplRZdSm3AVkRnYe3oS1toATjYE=;
+        b=Xrbznve/V53Um6aFsBwnTFFdUfYDPQbEUmqjTgqhk8ZJHrjO4m9todM9JF17uW7WE6
+         Zj3WvzMguzbG593LGgk2UhIH+g9EDJr8syVNklNIQjqJ5NAV888JsASyE23gdcGkf+cd
+         h4yhNXskXVnETJ/sDMqfZ4a1CktuS6a5mSKeVtVknuq0qMC+Q6Rx1c+BbuCbkwIlOWPc
+         ZwT4KLFIsGXjN0Q6NxAGego7GTIj5WVPrKM4ygtfVzhXB9+6+vi9lYrr6N3K2u25dVYX
+         itE4/A+THznZlBavCrhh8OLrOg0jfDxZs4j/CMCAgNVyRpAegUV4oFRD12tLqE5KlVKp
+         wAiw==
+X-Gm-Message-State: APjAAAWEFm3dSUwpIF0TU7OTXaG8l/JfQvEPDb5SDacVoUMmwxERehn+
+        pw+C+sWVc5XDikaAYgQDKMWfSA==
+X-Google-Smtp-Source: APXvYqzSwHgv7l1zqhx5avrCHp4FE1Qp8CaMgplZWJajrSVOxXJtGoOGvCDqGgzPuchDv1c+GXos3w==
+X-Received: by 2002:a5d:5381:: with SMTP id d1mr65289586wrv.259.1582542832122;
+        Mon, 24 Feb 2020 03:13:52 -0800 (PST)
+Received: from dell ([2.31.163.122])
+        by smtp.gmail.com with ESMTPSA id d17sm12802127wmb.36.2020.02.24.03.13.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2020 03:13:51 -0800 (PST)
+Date:   Mon, 24 Feb 2020 11:14:22 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     dmitry.torokhov@gmail.com, thierry.reding@gmail.com,
+        jic23@kernel.org, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, u.kleine-koenig@pengutronix.de,
+        linux-pwm@vger.kernel.org, knaack.h@gmx.de, lars@metafoo.de,
+        pmeerw@pmeerw.net, linux-iio@vger.kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com
+Subject: Re: [PATCH v5 1/7] dt-bindings: Add bindings for Azoteq
+ IQS620A/621/622/624/625
+Message-ID: <20200224111422.GR3494@dell>
+References: <1581895931-6056-1-git-send-email-jeff@labundy.com>
+ <1581895931-6056-2-git-send-email-jeff@labundy.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="rf2uuzktvcqtstk3"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200222231428.233621-4-megous@megous.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1581895931-6056-2-git-send-email-jeff@labundy.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Sun, 16 Feb 2020, Jeff LaBundy wrote:
 
---rf2uuzktvcqtstk3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi,
-
-On Sun, Feb 23, 2020 at 12:14:27AM +0100, Ondrej Jirman wrote:
-> The board has a vibrator mottor. Hook it to the input subsystem.
->
-> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> This patch adds device tree bindings for the Azoteq IQS620A, IQS621,
+> IQS622, IQS624 and IQS625 multi-function sensors.
+> 
+> A total of three bindings are presented (one MFD and two child nodes);
+> they are submitted as a single patch because the child node bindings
+> have no meaning in the absence of the MFD binding.
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
->  arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts b/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
-> index 2fd31a0a0b344..a22920275e99b 100644
-> --- a/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
-> +++ b/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
-> @@ -99,6 +99,11 @@ panel_input: endpoint {
->  		};
->  	};
->
-> +	vibrator {
-> +		compatible = "gpio-vibrator";
-> +		vcc-supply = <&reg_ldo_io1>;
-> +	};
-> +
+> Changes in v5:
+>   - Corrected spelling of "data sheets" to "datasheets"
+>   - Replaced words "additional air button" with "proximity-activated function"
+>     in comment above first example
+> 
+> Changes in v4:
+>   - None
+> 
+> Changes in v3:
+>   - Specified 'additionalProperties: false' within the parent MFD node and all
+>     child nodes ("keys", "hall-switch-north/south" and "pwm")
+>   - Defined the "hall-switch-north/south" child nodes unconditionally and then
+>     inverted the subsequent if/then to filter them from devices for which that
+>     functionality is unavailable
+>   - Added Reviewed-by trailer
+> 
+> Changes in v2:
+>   - Removed "prox" child node and moved "keys" and "pwm" child nodes to their
+>     own bindings
+>   - Replaced linux,fw-file property with more common firmware-name property
+>   - Converted all bindings to YAML
+> 
+>  .../devicetree/bindings/input/iqs62x-keys.yaml     | 132 +++++++++++++++
+>  Documentation/devicetree/bindings/mfd/iqs62x.yaml  | 179 +++++++++++++++++++++
+>  .../devicetree/bindings/pwm/iqs620a-pwm.yaml       |  32 ++++
+>  3 files changed, 343 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/iqs62x-keys.yaml
+>  create mode 100644 Documentation/devicetree/bindings/mfd/iqs62x.yaml
+>  create mode 100644 Documentation/devicetree/bindings/pwm/iqs620a-pwm.yaml
 
-LDO IO1 can also be muxed in as a GPIO iirc, why did you choose the
-regulator instead?
+Applied, thanks.
 
-Maxime
-
---rf2uuzktvcqtstk3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXlOTIwAKCRDj7w1vZxhR
-xVFTAQDQJHOWWsog4Y0l4mRxEOjNKPwakKZYlCWd4M50UL9jDAEArb1p2WwTIOaO
-jt5TR3xH+He9Bb3uaRGhWtWZpIcV9Aw=
-=/rlr
------END PGP SIGNATURE-----
-
---rf2uuzktvcqtstk3--
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
