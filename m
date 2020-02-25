@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6C0316EAFE
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2020 17:12:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C46DF16EAEC
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2020 17:12:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731136AbgBYQMK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1731134AbgBYQMK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Tue, 25 Feb 2020 11:12:10 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:36094 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729206AbgBYQMJ (ORCPT
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:42722 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731125AbgBYQMJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Tue, 25 Feb 2020 11:12:09 -0500
-Received: by mail-wr1-f65.google.com with SMTP id z3so15415672wru.3;
-        Tue, 25 Feb 2020 08:12:07 -0800 (PST)
+Received: by mail-wr1-f68.google.com with SMTP id p18so11750019wre.9;
+        Tue, 25 Feb 2020 08:12:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fC8IWNnAE99VUOqzzszcLhSt7LoIGXK7nF3gE1G09Bs=;
-        b=jVC7R5H7DhM65gFfhTaHg5TAq6mify6m9/fi2otf+x2+wk7X+RzYUwN3juQUr8CfUx
-         +I0y8df4AWaZL/MdTP+A07LxzQj7gD5PgMh35ogRe6uSR+eMrfkM5s+R7k6D8lrFZRoT
-         AJqBrxDW3kkMjzq/RBu0FPsiHScpmCkU9pmxxk5SenxWQO74chDyWovq0KCDfapVK27H
-         SGfhIYJQ86ItmdpCU8wRG+ORtWtL+hFETovK9sK/gF5tn4q5vkaFfyKUzAViuqIeWUbi
-         dlYSQOqoivY5Ld44uXUFn5NQJg0jDGfFsuQN4glx5/Od7A04h3OrZ3XSb9+r2+KhFeaD
-         GcUw==
-X-Gm-Message-State: APjAAAXTSrk4hu1FScahBOFY5ZG3AwIH1ESha3XO6mCVGYzPd46A+yjz
-        X+qLQSxULDqgqdTuWHsD4a9sufK8Ffs=
-X-Google-Smtp-Source: APXvYqzUizPxXdhLVFH8Pc8TvFvpiyM7nhjaoxaFjP0/A4WKAcCtx2U92Y02Qne8XBL3nyKovvTJ3A==
-X-Received: by 2002:a5d:4584:: with SMTP id p4mr78175875wrq.25.1582647126645;
-        Tue, 25 Feb 2020 08:12:06 -0800 (PST)
+        bh=5iVYMAf3KBBmBN8bPXGHIYJDp6KSir9PCdvRV/c4buI=;
+        b=ZzuHnvjK7FAcHFoPikOh3iLCFksYqEx1slSgUTeOgKbeVFIevGLfaotmeEgZ2FJmWL
+         MVFMUnn/KjtHAm5uGnsn7ITF3knLkMuH0x2oSe6zNWXj8Mxdp4ySYzm3304M54G2UbPV
+         STfticLkpBHNF4IX1+ukvxoiMDmHoJlFL6S+Ift7G49JGYJb0I7Z6T8692YK237Srnpi
+         ebMVSXaxOVEvVw+FOuAIEOHHnIaQUhl4wAg4no2Te7zRMjBGU22PoPnu67uR+02zeccq
+         igN+khRIkvbl9RoHG+h77Cskdlnr8Z9A7cMeaj1rhv4KugcYON6+IJ28r210xbDQm0Hq
+         fXAg==
+X-Gm-Message-State: APjAAAX8urQfgenqaKTKJXOHGYQKnD4ubgd6pBYNnY4NghBYYOuq1ios
+        punWasO0zwckrppBhT4Mg2YWEqHjZYY=
+X-Google-Smtp-Source: APXvYqwVFbTeK+gtM5LGRrDz4P5JBGZYNZnTL7U+Ql1eq5kiHsrnuyxsnSA9ZxfS5KEcA0Yx+tY6xw==
+X-Received: by 2002:a5d:5647:: with SMTP id j7mr74240686wrw.265.1582647127853;
+        Tue, 25 Feb 2020 08:12:07 -0800 (PST)
 Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
-        by smtp.gmail.com with ESMTPSA id h10sm4757339wml.18.2020.02.25.08.12.05
+        by smtp.gmail.com with ESMTPSA id h10sm4757339wml.18.2020.02.25.08.12.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 08:12:06 -0800 (PST)
+        Tue, 25 Feb 2020 08:12:07 -0800 (PST)
 From:   =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To:     linux-kernel@vger.kernel.org
 Cc:     =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>,
@@ -53,9 +53,9 @@ Cc:     =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>,
         Robin Gong <yibin.gong@nxp.com>, linux-crypto@vger.kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-input@vger.kernel.org
-Subject: [PATCH v2 3/6] arm64: dts: imx8mm: add snvs clock to pwrkey
-Date:   Tue, 25 Feb 2020 16:11:58 +0000
-Message-Id: <20200225161201.1975-3-git@andred.net>
+Subject: [PATCH v2 4/6] arm64: dts: imx8mq: add snvs clock to pwrkey
+Date:   Tue, 25 Feb 2020 16:11:59 +0000
+Message-Id: <20200225161201.1975-4-git@andred.net>
 X-Mailer: git-send-email 2.23.0.rc1
 In-Reply-To: <20200225161201.1975-1-git@andred.net>
 References: <20200225161201.1975-1-git@andred.net>
@@ -99,18 +99,18 @@ Cc: linux-input@vger.kernel.org
 ---
 v2: new patch
 ---
- arch/arm64/boot/dts/freescale/imx8mm.dtsi | 2 ++
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-index 3d95b66a2d71..804031010a8a 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-@@ -460,6 +460,8 @@
+diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+index 7f9319452b58..e4ab037183d7 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+@@ -501,6 +501,8 @@
  					compatible = "fsl,sec-v4.0-pwrkey";
  					regmap = <&snvs>;
  					interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
-+					clocks = <&clk IMX8MM_CLK_SNVS_ROOT>;
++					clocks = <&clk IMX8MQ_CLK_SNVS_ROOT>;
 +					clock-names = "snvs-pwrkey";
  					linux,keycode = <KEY_POWER>;
  					wakeup-source;
