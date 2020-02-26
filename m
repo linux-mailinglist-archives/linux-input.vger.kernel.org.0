@@ -2,155 +2,320 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E99F16F4E7
-	for <lists+linux-input@lfdr.de>; Wed, 26 Feb 2020 02:15:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9125B16F5F5
+	for <lists+linux-input@lfdr.de>; Wed, 26 Feb 2020 04:10:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729403AbgBZBP3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Feb 2020 20:15:29 -0500
-Received: from mail-eopbgr20071.outbound.protection.outlook.com ([40.107.2.71]:15106
-        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729346AbgBZBP2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Feb 2020 20:15:28 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M4kTsX/8lPw23g2JEViK32KQgp1V9GKQdq4WgI2iybR0B7BoyizG1IWeYMP0BpxFBY3/6+6grnAOTJcMSKVvQDkJZcbLZkUnLBRj8pNnk/RAPDTAlzoBNjLJj8xmqQ9aoF29PJ1R2YR5ceDzviW+s5CfRtFeycQtyiShf/lGeLE+TnzHsF4CdHavjJ2MzEsr7NyKJzZr/6vMUGE1Zm/E3TlHDVfJ5Kbkg92Svdxr7/XnHbgRTAjQDRhuz1QpBI4QWmsDI8J/JL5rczIqAeadMWrRMpwNdCVGOyyTpjdSq8LUWMSMNfyC4EZrrpt9mTFr5gArbeSnMa3Xhhdq52Pm7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YGwBXjH65ANMue6vNN9DogQv5/N4MeZ6TOk1IlhLwDA=;
- b=kDslWEY3qVd9BD6+Zm0rnGbAvZ08dQQJGCApLbHO8bbukDQqJWPYDfC8NSskX5LnsoVUBKN0MeoERg/YD4h3sLkxqDMnIBZ9rKLNnS2qecDAAzVjAMOsY+Ggb5HLsawrdgc/ZAoZ+wt2SKfW9FI5zS8Ks/C4J7vIGnkGnlVowBO9uGGqREJ7u5Y9igMbvweKZlyITi3ZMEdIe4onT1S3X+plRDRyR+zAxiEtjqXWIfqzC2ViU7mSrjRwVN1fdpcGbHc5uebuBTUjzVEIucrqk+dFAzCEh+mg7kPfegPW6AiP7PpCnPLrHRzRaACz/K5JE6rBvXMjX57zJSvZEfygcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YGwBXjH65ANMue6vNN9DogQv5/N4MeZ6TOk1IlhLwDA=;
- b=lg7DwZROa9FZariLitQ1t4cknvEJJfDUW2utvenYPpUn9qiXhyYIBvdBGaq8iZy6tLXIgr12YRHfyZfIfo6Bnc/ph7I4860q3Gz6Rbf8zndll9tIAT+ZvTCLGqFreEqKPeRSDYfncPecYsT66xr1A0Y7/NfdDRssredzec7xeL4=
-Received: from VE1PR04MB6638.eurprd04.prod.outlook.com (20.179.232.15) by
- VE1PR04MB6368.eurprd04.prod.outlook.com (20.179.232.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2750.22; Wed, 26 Feb 2020 01:15:23 +0000
-Received: from VE1PR04MB6638.eurprd04.prod.outlook.com
- ([fe80::490:6caa:24b:4a31]) by VE1PR04MB6638.eurprd04.prod.outlook.com
- ([fe80::490:6caa:24b:4a31%6]) with mapi id 15.20.2750.021; Wed, 26 Feb 2020
- 01:15:23 +0000
-From:   Robin Gong <yibin.gong@nxp.com>
-To:     =?utf-8?B?QW5kcsOpIERyYXN6aWs=?= <git@andred.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     Horia Geanta <horia.geanta@nxp.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
+        id S1729652AbgBZDKi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Feb 2020 22:10:38 -0500
+Received: from mail-pf1-f174.google.com ([209.85.210.174]:33117 "EHLO
+        mail-pf1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727880AbgBZDKi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 25 Feb 2020 22:10:38 -0500
+Received: by mail-pf1-f174.google.com with SMTP id n7so680287pfn.0
+        for <linux-input@vger.kernel.org>; Tue, 25 Feb 2020 19:10:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZOVDf2cfnyC0v+3gtlmyMf276AJH5zfo1llXk1BdAfY=;
+        b=JMqqLXXdiM2EB0OzopVIZ1OdSarmbVggpxnOOFdVm4lOa7t8Btc5s7xVKlYQNPEyod
+         UsuyUXpKy7eBfxyiFu3rjQ+go9yOtrRdevKQydAubSEZPrRUtR3DdMssU/9Ipnp4c2N9
+         DdTwn9KxosTaJeMDbvmVUcFoOBn/ObPkQ3v8M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZOVDf2cfnyC0v+3gtlmyMf276AJH5zfo1llXk1BdAfY=;
+        b=d6G1tpzkF7sIHZwNaHA+HRFDD3537Sl9E88zOUrfLqvMrHGUnNAOOxeQJ8oiqp5YiG
+         KytpIa1pfe+sYXWq2u3aXY/I42SpxVZ/j/zytobE+Htht1pX/tH8lphywXdHnPuwnabc
+         eNvJUrHos67AeALXsVfqwZJ9MnMTSf14b/5Oc9QlpAe5evwzj0sdXknyjCWbx5G1koaL
+         CVjEXYNl+6sM2Y3KLYSWb7AJXtYW/Q4CneQncX8zyAzYclwK1hivas7ImbWsxjewQEuU
+         VDXVzP/ShYl9R5uRGvOPO2XaGl9r4CYQjdTNBOjHDJx6D5ExPACMLZ5CQk4dcPnNWRv9
+         CYSw==
+X-Gm-Message-State: APjAAAWh7i80vdtiPu2Uc/GZzeqXp9xvqvIAV5R6mQinADwdLrBnIp2r
+        Bwsqm+GsPWJ+tJy5sEKWqCJLAg==
+X-Google-Smtp-Source: APXvYqwZ7+1GtOpKixpQZac9ZFaWWdFQjrXAwirQ5B3VRhL/Y0kDcFoNpSAQaTur8cou0rw3G5zk0w==
+X-Received: by 2002:a63:354b:: with SMTP id c72mr1425435pga.99.1582686636759;
+        Tue, 25 Feb 2020 19:10:36 -0800 (PST)
+Received: from ikjn-p920.tpe.corp.google.com ([2401:fa00:1:10:254e:2b40:ef8:ee17])
+        by smtp.gmail.com with ESMTPSA id z4sm487885pfn.42.2020.02.25.19.10.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2020 19:10:36 -0800 (PST)
+From:   Ikjoon Jang <ikjn@chromium.org>
+To:     devicetree@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Anson Huang <anson.huang@nxp.com>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: RE: [PATCH v2 6/6] Input: snvs_pwrkey - only IRQ_HANDLED for our own
- events
-Thread-Topic: [PATCH v2 6/6] Input: snvs_pwrkey - only IRQ_HANDLED for our own
- events
-Thread-Index: AQHV6/ZVtFBmLLNhAkqJunTqxVUTUqgsqtgA
-Date:   Wed, 26 Feb 2020 01:15:23 +0000
-Message-ID: <VE1PR04MB66385DDED7C654AE2181E08E89EA0@VE1PR04MB6638.eurprd04.prod.outlook.com>
-References: <20200225161201.1975-1-git@andred.net>
- <20200225161201.1975-6-git@andred.net>
-In-Reply-To: <20200225161201.1975-6-git@andred.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yibin.gong@nxp.com; 
-x-originating-ip: [183.192.236.243]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: cc10a075-ff00-41d4-2862-08d7ba595b11
-x-ms-traffictypediagnostic: VE1PR04MB6368:|VE1PR04MB6368:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <VE1PR04MB63684B6B47A524144CDB47AE89EA0@VE1PR04MB6368.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0325F6C77B
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(136003)(366004)(376002)(346002)(396003)(189003)(199004)(55016002)(9686003)(86362001)(54906003)(110136005)(2906002)(7696005)(66556008)(7416002)(478600001)(81166006)(8676002)(4326008)(52536014)(64756008)(8936002)(316002)(33656002)(5660300002)(66946007)(66446008)(81156014)(186003)(26005)(6506007)(71200400001)(66476007)(76116006);DIR:OUT;SFP:1101;SCL:1;SRVR:VE1PR04MB6368;H:VE1PR04MB6638.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: d7zUShpg7eyxbOvG8zAqJPMErvs+v0unSa80B6A7mOAtcu7O3ok53cMa2Ai31wULPC4XPf6MNxxQfGOLkQBvt6jYccR2XcY6GxfUfNHLW5XwvxaKFieF7q1dZ0Yu4UQJA5CaTA8NjWFNxmx8Mou3TA+xNJUEh8ffB0nrPWCFBTyOOHG/e/qpVeK3jHpLDq2SjxWY73yFlpCBzF70gT6vEjpVIPjDkrd6JxEjVr6VRBJ6pVLs0KYWzgWFvAqk/aNuf/bisZeU1mHQn4m6W4dda2g3uyz8zCURVgeWb/VIM3v71OiznCn8x7krgCq1aEsaPFcCWhEXsI22msjzTRIqgd0FcMqiryJ9GFvpiEZZq63+bLLg1M5xFdM3jPKCanV/EliwC18HkbkG32kXp+0DwURNW092MwRyLjv27dcxNBJEjUFjVDydyBoBejfUKrd0
-x-ms-exchange-antispam-messagedata: ehWTJuhuKV0HSGWJKqBx22dy/5otLAvoOmv95+LwIXI3EdnSDek0aDbi18ubuUOzDvSdfjnN/Hy8LAaYWXoXgZnh9cWxoSUjoxHTEZ5QArKrLy7EI4FPvBD+/NflVJ0xl7UTF0tUJMY/Ut8PuU8dJA==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Gwendal Grignou <gwendal@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nicolas Boitchat <drinkcat@chromium.org>,
+        linux-input@vger.kernel.org, Ikjoon Jang <ikjn@chromium.org>
+Subject: [PATCH v5] dt-bindings: mfd: Convert ChromeOS EC bindings to json-schema
+Date:   Wed, 26 Feb 2020 11:10:09 +0800
+Message-Id: <20200226031009.164703-1-ikjn@chromium.org>
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc10a075-ff00-41d4-2862-08d7ba595b11
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Feb 2020 01:15:23.7811
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: n2CfGAHRiJmFBrynKaiIDOS3hvtVcJXzfvZRVMO0K7/eM5QbIRdhu73tSPUjDL2yv+DZWVnYYKHl/BWN5A0WDg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6368
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-T24gMjAyMC8wMi8yNiBBbmRyw6kgRHJhc3ppayA8Z2l0QGFuZHJlZC5uZXQ+IHdyb3RlOiANCj4g
-VGhlIHNudnNfcHdya2V5IHNoYXJlcyB0aGUgU05WUyBMUFNSIHN0YXR1cyByZWdpc3RlciB3aXRo
-IHRoZSBzbnZzX3J0Yy4NCj4gDQo+IFRoaXMgZHJpdmVyIGhlcmUgc2hvdWxkIG9ubHkgcmV0dXJu
-IElSUV9IQU5ETEVEIGlmIHRoZSBzdGF0dXMgcmVnaXN0ZXINCj4gaW5kaWNhdGVzIHRoYXQgdGhl
-IGV2ZW50IHdlJ3JlIGhhbmRsaW5nIGluIHRoZSBpcnEgaGFuZGxlciB3YXMgZ2VudWluZWx5DQo+
-IGludGVuZGVkIGZvciB0aGlzIGRyaXZlci4gT3RoZXJpd3NlIHRoZSBpbnRlcnJ1cHQgc3Vic3lz
-dGVtIHdpbGwgYXNzdW1lIHRoZQ0KPiBpbnRlcnJ1cHQgd2FzIGhhbmRsZWQgc3VjY2Vzc2Z1bGx5
-IGV2ZW4gdGhvdWdoIGl0IHdhc24ndCBhdCBhbGwuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBBbmRy
-w6kgRHJhc3ppayA8Z2l0QGFuZHJlZC5uZXQ+DQo+IENjOiAiSG9yaWEgR2VhbnTEgyIgPGhvcmlh
-LmdlYW50YUBueHAuY29tPg0KPiBDYzogQXltZW4gU2doYWllciA8YXltZW4uc2doYWllckBueHAu
-Y29tPg0KPiBDYzogSGVyYmVydCBYdSA8aGVyYmVydEBnb25kb3IuYXBhbmEub3JnLmF1Pg0KPiBD
-YzogIkRhdmlkIFMuIE1pbGxlciIgPGRhdmVtQGRhdmVtbG9mdC5uZXQ+DQo+IENjOiBSb2IgSGVy
-cmluZyA8cm9iaCtkdEBrZXJuZWwub3JnPg0KPiBDYzogTWFyayBSdXRsYW5kIDxtYXJrLnJ1dGxh
-bmRAYXJtLmNvbT4NCj4gQ2M6IFNoYXduIEd1byA8c2hhd25ndW9Aa2VybmVsLm9yZz4NCj4gQ2M6
-IFNhc2NoYSBIYXVlciA8cy5oYXVlckBwZW5ndXRyb25peC5kZT4NCj4gQ2M6IFBlbmd1dHJvbml4
-IEtlcm5lbCBUZWFtIDxrZXJuZWxAcGVuZ3V0cm9uaXguZGU+DQo+IENjOiBGYWJpbyBFc3RldmFt
-IDxmZXN0ZXZhbUBnbWFpbC5jb20+DQo+IENjOiBOWFAgTGludXggVGVhbSA8bGludXgtaW14QG54
-cC5jb20+DQo+IENjOiBEbWl0cnkgVG9yb2tob3YgPGRtaXRyeS50b3Jva2hvdkBnbWFpbC5jb20+
-DQo+IENjOiBBbnNvbiBIdWFuZyA8QW5zb24uSHVhbmdAbnhwLmNvbT4NCj4gQ2M6IFJvYmluIEdv
-bmcgPHlpYmluLmdvbmdAbnhwLmNvbT4NCj4gQ2M6IGxpbnV4LWNyeXB0b0B2Z2VyLmtlcm5lbC5v
-cmcNCj4gQ2M6IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnDQo+IENjOiBsaW51eC1hcm0ta2Vy
-bmVsQGxpc3RzLmluZnJhZGVhZC5vcmcNCj4gQ2M6IGxpbnV4LWlucHV0QHZnZXIua2VybmVsLm9y
-Zw0KPiANCj4gLS0tDQo+IHYyOg0KPiAqIG5vIGNoYW5nZXMNCj4gLS0tDQo+ICBkcml2ZXJzL2lu
-cHV0L2tleWJvYXJkL3NudnNfcHdya2V5LmMgfCAxMiArKysrKysrLS0tLS0NCj4gIDEgZmlsZSBj
-aGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9zbnZzX3B3cmtleS5jDQo+IGIvZHJpdmVycy9pbnB1
-dC9rZXlib2FyZC9zbnZzX3B3cmtleS5jDQo+IGluZGV4IDM4MmQyYWU4MmM5Yi4uOTgwODY3ODg2
-YjM0IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2lucHV0L2tleWJvYXJkL3NudnNfcHdya2V5LmMN
-Cj4gKysrIGIvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9zbnZzX3B3cmtleS5jDQo+IEBAIC04Miw3
-ICs4Miw5IEBAIHN0YXRpYyBpcnFyZXR1cm5fdCBpbXhfc252c19wd3JrZXlfaW50ZXJydXB0KGlu
-dCBpcnEsIHZvaWQNCj4gKmRldl9pZCkNCj4gIAljbGtfZW5hYmxlKHBkYXRhLT5jbGspOw0KPiAN
-Cj4gIAlyZWdtYXBfcmVhZChwZGF0YS0+c252cywgU05WU19MUFNSX1JFRywgJmxwX3N0YXR1cyk7
-DQo+IC0JaWYgKGxwX3N0YXR1cyAmIFNOVlNfTFBTUl9TUE8pIHsNCj4gKwlscF9zdGF0dXMgJj0g
-U05WU19MUFNSX1NQTzsNCj4gKw0KPiArCWlmIChscF9zdGF0dXMpIHsNCj4gIAkJaWYgKHBkYXRh
-LT5taW5vcl9yZXYgPT0gMCkgew0KPiAgCQkJLyoNCj4gIAkJCSAqIFRoZSBmaXJzdCBnZW5lcmF0
-aW9uIGkuTVhbNnw3XSBTb0NzIG9ubHkgc2VuZCBhbiBAQCAtOTgsMTQNCj4gKzEwMCwxNCBAQCBz
-dGF0aWMgaXJxcmV0dXJuX3QgaW14X3NudnNfcHdya2V5X2ludGVycnVwdChpbnQgaXJxLCB2b2lk
-DQo+ICpkZXZfaWQpDQo+ICAJCQltb2RfdGltZXIoJnBkYXRhLT5jaGVja190aW1lciwNCj4gIAkJ
-CSAgICAgICAgICBqaWZmaWVzICsgbXNlY3NfdG9famlmZmllcyhERUJPVU5DRV9USU1FKSk7DQo+
-ICAJCX0NCj4gLQl9DQo+IA0KPiAtCS8qIGNsZWFyIFNQTyBzdGF0dXMgKi8NCj4gLQlyZWdtYXBf
-d3JpdGUocGRhdGEtPnNudnMsIFNOVlNfTFBTUl9SRUcsIFNOVlNfTFBTUl9TUE8pOw0KPiArCQkv
-KiBjbGVhciBTUE8gc3RhdHVzICovDQo+ICsJCXJlZ21hcF93cml0ZShwZGF0YS0+c252cywgU05W
-U19MUFNSX1JFRywgU05WU19MUFNSX1NQTyk7DQpCdXQgaXJxIHN0b3JtIHdpbGwgY29tZSBpbiBv
-bmNlIHRoZXJlIGlzIG90aGVyIGludGVycnVwdCB0cmlnZ2VyZWQgYXMgdW5leHBlY3RlZCwNCmFs
-dGhvdWdoIEkgbmV2ZXIgbWV0IGl0IGJlZm9yZS4gQ291bGQgd2UgZHJvcCB0aGlzIHBhdGNoIG5v
-dz8gT3RoZXJzIGFyZSBvayBmb3IgbWUuDQoNClJldmlld2VkLWJ5OiBSb2JpbiBHb25nIDx5aWJp
-bi5nb25nQG54cD4NCj4gKwl9DQo+IA0KPiAgCWNsa19kaXNhYmxlKHBkYXRhLT5jbGspOw0KPiAN
-Cj4gLQlyZXR1cm4gSVJRX0hBTkRMRUQ7DQo+ICsJcmV0dXJuIGxwX3N0YXR1cyA/IElSUV9IQU5E
-TEVEIDogSVJRX05PTkU7DQo+ICB9DQo+IA0KPiAgc3RhdGljIHZvaWQgaW14X3NudnNfcHdya2V5
-X2FjdCh2b2lkICpwZGF0YSkNCj4gLS0NCj4gMi4yMy4wLnJjMQ0KDQo=
+Convert the ChromeOS EC bindings to json-schema.
+
+Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
+---
+v5: unset additionalProperties
+v4: text reflows, add type references, and fix examples
+v3: node name changed in rpmsg example
+v2: cleanup description, fix typos, remove LPC, and add RPMSG example
+
+some properties defined under allOf/if/compatible/google,cros-ec-spi
+are recongnized as additional properties by dt-validate.
+
+Is there more cleaner ways to handle this? (property depending on
+another one)
+---
+ .../devicetree/bindings/mfd/cros-ec.txt       |  76 ----------
+ .../devicetree/bindings/mfd/cros-ec.yaml      | 140 ++++++++++++++++++
+ 2 files changed, 140 insertions(+), 76 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
+ create mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.yaml
+
+diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.txt b/Documentation/devicetree/bindings/mfd/cros-ec.txt
+deleted file mode 100644
+index 4860eabd0f72..000000000000
+--- a/Documentation/devicetree/bindings/mfd/cros-ec.txt
++++ /dev/null
+@@ -1,76 +0,0 @@
+-ChromeOS Embedded Controller
+-
+-Google's ChromeOS EC is a Cortex-M device which talks to the AP and
+-implements various function such as keyboard and battery charging.
+-
+-The EC can be connect through various means (I2C, SPI, LPC, RPMSG) and the
+-compatible string used depends on the interface. Each connection method has
+-its own driver which connects to the top level interface-agnostic EC driver.
+-Other Linux driver (such as cros-ec-keyb for the matrix keyboard) connect to
+-the top-level driver.
+-
+-Required properties (I2C):
+-- compatible: "google,cros-ec-i2c"
+-- reg: I2C slave address
+-
+-Required properties (SPI):
+-- compatible: "google,cros-ec-spi"
+-- reg: SPI chip select
+-
+-Required properties (RPMSG):
+-- compatible: "google,cros-ec-rpmsg"
+-
+-Optional properties (SPI):
+-- google,cros-ec-spi-pre-delay: Some implementations of the EC need a little
+-  time to wake up from sleep before they can receive SPI transfers at a high
+-  clock rate. This property specifies the delay, in usecs, between the
+-  assertion of the CS to the start of the first clock pulse.
+-- google,cros-ec-spi-msg-delay: Some implementations of the EC require some
+-  additional processing time in order to accept new transactions. If the delay
+-  between transactions is not long enough the EC may not be able to respond
+-  properly to subsequent transactions and cause them to hang. This property
+-  specifies the delay, in usecs, introduced between transactions to account
+-  for the time required by the EC to get back into a state in which new data
+-  can be accepted.
+-
+-Required properties (LPC):
+-- compatible: "google,cros-ec-lpc"
+-- reg: List of (IO address, size) pairs defining the interface uses
+-
+-Optional properties (all):
+-- google,has-vbc-nvram: Some implementations of the EC include a small
+-  nvram space used to store verified boot context data. This boolean flag
+-  is used to specify whether this nvram is present or not.
+-
+-Example for I2C:
+-
+-i2c@12ca0000 {
+-	cros-ec@1e {
+-		reg = <0x1e>;
+-		compatible = "google,cros-ec-i2c";
+-		interrupts = <14 0>;
+-		interrupt-parent = <&wakeup_eint>;
+-		wakeup-source;
+-	};
+-
+-
+-Example for SPI:
+-
+-spi@131b0000 {
+-	ec@0 {
+-		compatible = "google,cros-ec-spi";
+-		reg = <0x0>;
+-		interrupts = <14 0>;
+-		interrupt-parent = <&wakeup_eint>;
+-		wakeup-source;
+-		spi-max-frequency = <5000000>;
+-		controller-data {
+-		cs-gpio = <&gpf0 3 4 3 0>;
+-		samsung,spi-cs;
+-		samsung,spi-feedback-delay = <2>;
+-		};
+-	};
+-};
+-
+-
+-Example for LPC is not supplied as it is not yet implemented.
+diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.yaml b/Documentation/devicetree/bindings/mfd/cros-ec.yaml
+new file mode 100644
+index 000000000000..8416a1299321
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/cros-ec.yaml
+@@ -0,0 +1,140 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/cros-ec.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ChromeOS Embedded Controller
++
++maintainers:
++  - Benson Leung <bleung@chromium.org>
++  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
++  - Guenter Roeck <groeck@chromium.org>
++
++description:
++  Google's ChromeOS EC is a microcontroller which talks to the AP and
++  implements various functions such as keyboard and battery charging.
++  The EC can be connected through various interfaces (I2C, SPI, and others)
++  and the compatible string specifies which interface is being used.
++
++properties:
++  compatible:
++    oneOf:
++      - description:
++          For implementations of the EC is connected through I2C.
++        const: google,cros-ec-i2c
++      - description:
++          For implementations of the EC is connected through SPI.
++        const: google,cros-ec-spi
++      - description:
++          For implementations of the EC is connected through RPMSG.
++        const: google,cros-ec-rpmsg
++
++  google,has-vbc-nvram:
++    description:
++      Some implementations of the EC include a small nvram space used to
++      store verified boot context data. This boolean flag is used to specify
++      whether this nvram is present or not.
++    type: boolean
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          const: google,cros-ec-i2c
++    then:
++      properties:
++        reg:
++          description: I2C slave address
++          maxItems: 1
++
++      required:
++        - reg
++  - if:
++      properties:
++        compatible:
++          const: google,cros-ec-spi
++    then:
++      properties:
++        reg:
++          description: SPI chip select
++          maxItems: 1
++
++        google,cros-ec-spi-pre-delay:
++          description:
++            This property specifies the delay in usecs between the
++            assertion of the CS and the first clock pulse.
++          allOf:
++            - $ref: /schemas/types.yaml#/definitions/uint32
++            - default: 0
++            - minimum: 0
++
++        google,cros-ec-spi-msg-delay:
++          description:
++            This property specifies the delay in usecs between messages.
++          allOf:
++            - $ref: /schemas/types.yaml#/definitions/uint32
++            - default: 0
++            - minimum: 0
++
++      required:
++        - reg
++
++# FIXME: spi-related properties are not additional properties
++#additionalProperties: false
++
++examples:
++  # Example for I2C
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        cros-ec@1e {
++            compatible = "google,cros-ec-i2c";
++            reg = <0x1e>;
++            interrupts = <6 0>;
++            interrupt-parent = <&gpio0>;
++        };
++    };
++
++  # Example for SPI
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    spi0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        cros-ec@0 {
++            compatible = "google,cros-ec-spi";
++            reg = <0x0>;
++            google,cros-ec-spi-msg-delay = <30>;
++            google,cros-ec-spi-pre-delay = <10>;
++            interrupts = <99 0>;
++            interrupt-parent = <&gpio7>;
++            spi-max-frequency = <5000000>;
++        };
++    };
++
++  # Example for RPMSG
++  - |
++    scp0 {
++        cros-ec@0 {
++            compatible = "google,cros-ec-rpmsg";
++        };
++    };
++...
+-- 
+2.25.0.265.gbab2e86ba0-goog
+
