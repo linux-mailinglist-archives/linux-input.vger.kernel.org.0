@@ -2,107 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 845F6171834
-	for <lists+linux-input@lfdr.de>; Thu, 27 Feb 2020 14:06:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FE811722FA
+	for <lists+linux-input@lfdr.de>; Thu, 27 Feb 2020 17:16:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729059AbgB0NGb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Feb 2020 08:06:31 -0500
-Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:54690 "EHLO
-        mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729032AbgB0NGb (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Feb 2020 08:06:31 -0500
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 01RD3ROn004946;
-        Thu, 27 Feb 2020 08:06:30 -0500
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-        by mx0a-00128a01.pphosted.com with ESMTP id 2ydtrwk6h0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Feb 2020 08:06:29 -0500
-Received: from ASHBMBX9.ad.analog.com (ashbmbx9.ad.analog.com [10.64.17.10])
-        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 01RD6SOu051997
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
-        Thu, 27 Feb 2020 08:06:28 -0500
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1779.2; Thu, 27 Feb
- 2020 08:06:27 -0500
-Received: from zeus.spd.analog.com (10.64.82.11) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.1.1779.2 via Frontend
- Transport; Thu, 27 Feb 2020 08:06:27 -0500
-Received: from analog.ad.analog.com ([10.48.65.180])
-        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 01RD6Pbg025622;
-        Thu, 27 Feb 2020 08:06:25 -0500
-From:   Sergiu Cuciurean <sergiu.cuciurean@analog.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <dmitry.torokhov@gmail.com>, <michael.hennerich@analog.com>
-CC:     Sergiu Cuciurean <sergiu.cuciurean@analog.com>
-Subject: [PATCH] input: touchscreen: ad7877: Use new structure for SPI transfer delays
-Date:   Thu, 27 Feb 2020 15:06:19 +0200
-Message-ID: <20200227130619.28142-1-sergiu.cuciurean@analog.com>
-X-Mailer: git-send-email 2.17.1
+        id S1729487AbgB0QQC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Feb 2020 11:16:02 -0500
+Received: from hermes.aosc.io ([199.195.250.187]:55146 "EHLO hermes.aosc.io"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729258AbgB0QQC (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 27 Feb 2020 11:16:02 -0500
+Received: from localhost (localhost [127.0.0.1]) (Authenticated sender: icenowy@aosc.io)
+        by hermes.aosc.io (Postfix) with ESMTPSA id 1074B4B2DD;
+        Thu, 27 Feb 2020 16:08:30 +0000 (UTC)
+From:   Icenowy Zheng <icenowy@aosc.io>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Ondrej Jirman <megous@megous.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Icenowy Zheng <icenowy@aosc.io>
+Subject: [PATCH v2 0/3] Add support for Goodix GT917S touch controller
+Date:   Fri, 28 Feb 2020 00:07:59 +0800
+Message-Id: <20200227160802.7043-1-icenowy@aosc.io>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ADIRoutedOnPrem: True
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
- definitions=2020-02-27_03:2020-02-26,2020-02-27 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- phishscore=0 adultscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002270103
+Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aosc.io; s=dkim;
+        t=1582819721;
+        h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding;
+        bh=FpRj0r9YXZ520UOqR7tl+VuCJUkCeKC7tvRB0u7eAwI=;
+        b=KvjohEZ1c4KgUwjgW1MUuLW66Wbg+BMWwEXG7FCHrhtM+IqbBIotsPCuEtEyfSbCkE2Mfs
+        4rY25BOhxEf5g//KkUSpixfjR7WKwBxig16gqcRh7l8aifYUys5WZYcehuoxpBqJxYAgFz
+        tpI/C8uUgz9u/C9aa+8oW8p/kyq1f1Y=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In a recent change to the SPI subsystem [1], a new `delay` struct was added
-to replace the `delay_usecs`. This change replaces the current
-`delay_usecs` with `delay` for this driver.
+This patchset introduces support for Goodix GT917S touch controller.
 
-The `spi_transfer_delay_exec()` function [in the SPI framework] makes sure
-that both `delay_usecs` & `delay` are used (in this order to preserve
-backwards compatibility).
+The major difference with other touch controllers from Goodix is that
+the ID string is no longer number-only (it contains a 'S'), so an
+additional patch is introduced for migrating the ID to a string.
 
-[1] commit bebcfd272df6 ("spi: introduce `delay` field for
-`spi_transfer` + spi_transfer_delay_exec()")
+Icenowy Zheng (3):
+  dt-bindings: input: touchscreen: add compatible string for Goodix
+    GT917S
+  Input: goodix - use string-based chip ID
+  Input: goodix - Add support for Goodix GT917S
 
-Signed-off-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
----
- drivers/input/touchscreen/ad7877.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ .../bindings/input/touchscreen/goodix.yaml    |  1 +
+ drivers/input/touchscreen/goodix.c            | 63 +++++++++++--------
+ 2 files changed, 38 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/input/touchscreen/ad7877.c b/drivers/input/touchscreen/ad7877.c
-index 9b652f61837f..0007aaf5cbd7 100644
---- a/drivers/input/touchscreen/ad7877.c
-+++ b/drivers/input/touchscreen/ad7877.c
-@@ -281,12 +281,14 @@ static int ad7877_read_adc(struct spi_device *spi, unsigned command)
- 
- 	req->xfer[1].tx_buf = &req->ref_on;
- 	req->xfer[1].len = 2;
--	req->xfer[1].delay_usecs = ts->vref_delay_usecs;
-+	req->xfer[1].delay.value = ts->vref_delay_usecs;
-+	req->xfer[1].delay.unit = SPI_DELAY_UNIT_USECS;
- 	req->xfer[1].cs_change = 1;
- 
- 	req->xfer[2].tx_buf = &req->command;
- 	req->xfer[2].len = 2;
--	req->xfer[2].delay_usecs = ts->vref_delay_usecs;
-+	req->xfer[2].delay.value = ts->vref_delay_usecs;
-+	req->xfer[2].delay.unit = SPI_DELAY_UNIT_USECS;
- 	req->xfer[2].cs_change = 1;
- 
- 	req->xfer[3].rx_buf = &req->sample;
-@@ -716,7 +718,8 @@ static int ad7877_probe(struct spi_device *spi)
- 	spin_lock_init(&ts->lock);
- 
- 	ts->model = pdata->model ? : 7877;
--	ts->vref_delay_usecs = pdata->vref_delay_usecs ? : 100;
-+	ts->vref_delay.value = pdata->vref_delay_usecs ? : 100;
-+	ts->vref_delay.unit = SPI_DELAY_UNIT_USECS;
- 	ts->x_plate_ohms = pdata->x_plate_ohms ? : 400;
- 	ts->pressure_max = pdata->pressure_max ? : ~0;
- 
 -- 
-2.17.1
+2.24.1
 
