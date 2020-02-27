@@ -2,76 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0F81171537
-	for <lists+linux-input@lfdr.de>; Thu, 27 Feb 2020 11:42:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE08D1715EC
+	for <lists+linux-input@lfdr.de>; Thu, 27 Feb 2020 12:28:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728858AbgB0KmZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Feb 2020 05:42:25 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:33742 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728844AbgB0KmZ (ORCPT
+        id S1728846AbgB0L22 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Feb 2020 06:28:28 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:47057 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728896AbgB0L21 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Feb 2020 05:42:25 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 2949D1C0311; Thu, 27 Feb 2020 11:42:23 +0100 (CET)
-Date:   Thu, 27 Feb 2020 11:42:22 +0100
-From:   Pavel Machek <pavel@denx.de>
-To:     Andrea.Ho@advantech.com.tw
-Cc:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        linux-kernel@vger.kernel.org, voyandrea@gmail.com,
-        amy.shih@advantech.com.tw, oakley.ding@advantech.com.tw
-Subject: Re: [V2,1/1] Input/misc: add support for Advantech software defined
- button
-Message-ID: <20200227104222.GA25104@duo.ucw.cz>
-References: <20200227101738.22389-1-Andrea.Ho@advantech.com.tw>
+        Thu, 27 Feb 2020 06:28:27 -0500
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1j7HL4-0000p4-Gu; Thu, 27 Feb 2020 12:28:22 +0100
+Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1j7HL3-0001k0-8j; Thu, 27 Feb 2020 12:28:21 +0100
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     dmitry.torokhov@gmail.com, andriy.shevchenko@linux.intel.com,
+        hdegoede@redhat.com, LW@KARO-electronics.de
+Cc:     linux-input@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH 0/4] EDT-FT5x06 Fixes and improvments
+Date:   Thu, 27 Feb 2020 12:28:15 +0100
+Message-Id: <20200227112819.16754-1-m.felsch@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ZPt4rx8FFjLCG7dd"
-Content-Disposition: inline
-In-Reply-To: <20200227101738.22389-1-Andrea.Ho@advantech.com.tw>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi,
 
---ZPt4rx8FFjLCG7dd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+first this series fixes a possible undefined register access for
+ev-ft5726 devices.
 
-Hi!
+This series also includes the v4 of the improved pm ops. Please check
+my notes I made on the patch.
 
-> +/* Defined keycodes */
-> +static short swbtn_keycodes[]  =3D {
-> +	BTN_TRIGGER_HAPPY2, /* double click */
-> +	BTN_TRIGGER_HAPPY,  /* tick */
-> +	BTN_TRIGGER_HAPPY3, BTN_TRIGGER_HAPPY4, /* long press */
-> +	BTN_TRIGGER_HAPPY5, BTN_TRIGGER_HAPPY6, BTN_TRIGGER_HAPPY7,
-> +	BTN_TRIGGER_HAPPY8, BTN_TRIGGER_HAPPY9, BTN_TRIGGER_HAPPY10
-> +};
+Last but least it adds the support for async probe which is important
+for fast booting because devices having a reset-pin specified sleeps
+300ms..
 
-NAK. See my prev email.
-								Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+Regards,
+  Marco
 
---ZPt4rx8FFjLCG7dd
-Content-Type: application/pgp-signature; name="signature.asc"
+Ahmad Fatoum (1):
+  Input: edt-ft5x06 - prefer asynchronous probe
 
------BEGIN PGP SIGNATURE-----
+Marco Felsch (3):
+  Input: edt-ft5x06 - fix get_default register write access
+  Input: edt-ft5x06 - move parameter restore into helper
+  Input: edt-ft5x06 - improve power management operations
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXledDgAKCRAw5/Bqldv6
-8oV9AKCi6b7noclyjt7mj4GvMMIWU9Xo+wCeMjTPUj85fu6rwD5+0AVCXbnc62U=
-=AEx8
------END PGP SIGNATURE-----
+ drivers/input/touchscreen/edt-ft5x06.c | 179 ++++++++++++++++++++++---
+ 1 file changed, 157 insertions(+), 22 deletions(-)
 
---ZPt4rx8FFjLCG7dd--
+-- 
+2.20.1
+
