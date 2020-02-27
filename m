@@ -2,136 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 284B417168B
-	for <lists+linux-input@lfdr.de>; Thu, 27 Feb 2020 12:59:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EC5E1717BC
+	for <lists+linux-input@lfdr.de>; Thu, 27 Feb 2020 13:45:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728965AbgB0L7U convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Thu, 27 Feb 2020 06:59:20 -0500
-Received: from mail-vi1eur05olkn2024.outbound.protection.outlook.com ([40.92.90.24]:24224
-        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728885AbgB0L7U (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Feb 2020 06:59:20 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XDBi6V7439s6nowKtd1l/cL59qjky1CY6bzkjjGqxxwgdbrNLebS0ADia0bSl0SK0t+WXV3/8S0gvusXpT9V3BCwl9iSjR95xg/pXHfaearXUIzYtHquBRQTONK6uW8AmNx9Bzs/JC0ANaCeXOaEzVBOo6DxXaGBJFmP1RJ7fihuvaLfkq2r6L2wsLTxRTZVey2Wm6SVl85UxNtFiqcKK9ljZgapKQS/s/HNvMRc6lPBv9ecxzteIo8C9TCYHVwjkQS2AVT/+4YgT3mkl8mkvZdSxPyUhNFK2ubn8u307vsGwS3uW72/MvtTmoruDkOiYgsbHxQanSEjvjonoqk6rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0mU+DHsqyz+ahTmiUW83qzjEEc87JEwrIQ0NUXY3f54=;
- b=GI0jwgtBGnQVE89nzIFVOjdzK1JPP/lVqnHBjPjHKgavB6E37cTiouNuM+8/NUidw9x9E8sw5mjdU2MkXA/999AZosgCZTCeVkClQQTFadJs3b6F2cBu8pEeS6r53/QJfAD+2U/m0gbQkht3GqcwZi7lB7FD1DXhREjPueHbe8jsMhxv7YvKy3MVKUbMpzy5NcXjnnTXo9apwK1CkmLxxMOpA53bnsu7/mfCLtKaMVPOLOn8G9E7RLb/1RgyX9Z0nIcs17FWEWytUNLOQxuWM2Wnjk2Vw93NSowzLC9acKcF1Itj6WmaM0KFvu2gbRyRh2wjitN3eS6R4hsoLXhtiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from AM6EUR05FT007.eop-eur05.prod.protection.outlook.com
- (2a01:111:e400:fc11::38) by
- AM6EUR05HT097.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::120)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.14; Thu, 27 Feb
- 2020 11:59:16 +0000
-Received: from PR2PR03MB5179.eurprd03.prod.outlook.com (10.233.240.55) by
- AM6EUR05FT007.mail.protection.outlook.com (10.233.240.92) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2772.14 via Frontend Transport; Thu, 27 Feb 2020 11:59:16 +0000
-Received: from PR2PR03MB5179.eurprd03.prod.outlook.com
- ([fe80::5914:cd4e:9863:88c2]) by PR2PR03MB5179.eurprd03.prod.outlook.com
- ([fe80::5914:cd4e:9863:88c2%5]) with mapi id 15.20.2772.012; Thu, 27 Feb 2020
- 11:59:16 +0000
-Received: from [192.168.1.101] (92.77.140.102) by FR2P281CA0025.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15 via Frontend Transport; Thu, 27 Feb 2020 11:59:15 +0000
-From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
-To:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Enrico Weigelt <info@metux.net>,
-        Allison Randal <allison@lohutok.net>,
-        Aaron Ma <aaron.ma@canonical.com>
-Subject: [PATCH] Input: elantech - fix x_max/y_max values
-Thread-Topic: [PATCH] Input: elantech - fix x_max/y_max values
-Thread-Index: AQHV7WVVYTVl2cgg3k+48LjBx/56vQ==
-Date:   Thu, 27 Feb 2020 11:59:16 +0000
-Message-ID: <PR2PR03MB517975370D754EEF47E062BFE4EB0@PR2PR03MB5179.eurprd03.prod.outlook.com>
-Accept-Language: en-US, en-GB, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: FR2P281CA0025.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::12) To PR2PR03MB5179.eurprd03.prod.outlook.com
- (2603:10a6:101:25::12)
-x-incomingtopheadermarker: OriginalChecksum:A835BFBD5A89C80C4A3532F162A3C94726B0864F931F3748CD71DCED6EB0F6B7;UpperCasedChecksum:1ADFC1D5127C058C4ADD419C2149F02314F5B99A1C44542A36FB3419C40914E7;SizeAsReceived:7697;Count:47
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [9HcJat3D8YsDGOMh7MWukCqKGgwGRPUL]
-x-microsoft-original-message-id: <8d6d8d05-fa9d-b1c8-a6e9-9af4ce7605a9@hotmail.de>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 47
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: 74011f02-cc98-4ab2-7b0d-08d7bb7c77df
-x-ms-traffictypediagnostic: AM6EUR05HT097:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: w5VTVXK7gQGnElD1GXk3XmsOsGdHiFewaqwTMLixzBVQqwScOhixPkDxI9R46tRZGbc/Uu0x1YrSaKNUHiwLtHZSN7Y+8RiY9MyDYku45v1pvBPQwAZ14GsPzJ+4UCPZqT2FQYqH7SaI05b4s8jh99el2wxxeqn9d1XmxSrLH7VEX2XkNTNLvI2j+RibEudf
-x-ms-exchange-antispam-messagedata: x+iMtO6I/lwbA6yaU2DfbFqyRiNJBz6+cE4SUhgrZhvE5WEu1Ein2+yA953fxiRdPCfSfopo+/KILH45RaWJVk2H5NdEGS2mTkCrPnHgav1gMJxUju2XyqNcoy7fTRtIVe48lINwxnhXQ2jv+GLN7w==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <CB78FBB99F4E7341884BD469B64B0D45@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: 8BIT
+        id S1728977AbgB0Mp4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Feb 2020 07:45:56 -0500
+Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:54986 "EHLO
+        mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728964AbgB0Mpz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 27 Feb 2020 07:45:55 -0500
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 01RChLTh030151;
+        Thu, 27 Feb 2020 07:45:50 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-00128a01.pphosted.com with ESMTP id 2ydtrwk4ga-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Feb 2020 07:45:50 -0500
+Received: from m0167089.ppops.net (m0167089.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01RCjosb031849;
+        Thu, 27 Feb 2020 07:45:50 -0500
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+        by mx0a-00128a01.pphosted.com with ESMTP id 2ydtrwk4g4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Feb 2020 07:45:50 -0500
+Received: from SCSQMBX10.ad.analog.com (scsqmbx10.ad.analog.com [10.77.17.5])
+        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 01RCjm49048102
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
+        Thu, 27 Feb 2020 07:45:48 -0500
+Received: from SCSQMBX10.ad.analog.com (10.77.17.5) by SCSQMBX10.ad.analog.com
+ (10.77.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1779.2; Thu, 27 Feb
+ 2020 04:45:47 -0800
+Received: from zeus.spd.analog.com (10.64.82.11) by SCSQMBX10.ad.analog.com
+ (10.77.17.5) with Microsoft SMTP Server id 15.1.1779.2 via Frontend
+ Transport; Thu, 27 Feb 2020 04:45:46 -0800
+Received: from analog.ad.analog.com ([10.48.65.180])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 01RCjd88032054;
+        Thu, 27 Feb 2020 07:45:40 -0500
+From:   Sergiu Cuciurean <sergiu.cuciurean@analog.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <dmitry.torokhov@gmail.com>, <nikolas@gnu.org>,
+        <gregkh@linuxfoundation.org>
+CC:     <ronald@innovation.ch>, <andriy.shevchenko@linux.intel.com>,
+        <maowenan@huawei.com>,
+        Sergiu Cuciurean <sergiu.cuciurean@analog.com>
+Subject: [PATCH] input: keyboard: applespi: Use new structure for SPI transfer delays
+Date:   Thu, 27 Feb 2020 14:45:34 +0200
+Message-ID: <20200227124534.23399-1-sergiu.cuciurean@analog.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74011f02-cc98-4ab2-7b0d-08d7bb7c77df
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2020 11:59:16.1286
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT097
+Content-Type: text/plain
+X-ADIRoutedOnPrem: True
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
+ definitions=2020-02-27_03:2020-02-26,2020-02-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ phishscore=0 adultscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ suspectscore=0 clxscore=1011 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002270102
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Since 37548659bb2 moved the querying of the x_max/y_max
-values from elantech_set_input_params to elantech_query_info,
-the returned x_max/y_max values are different than before,
-at least for some firmware versions.
+In a recent change to the SPI subsystem [1], a new `delay` struct was added
+to replace the `delay_usecs`. This change replaces the current
+`delay_usecs` with `delay` for this driver.
 
-The reason is likely that this is now done before
-elantech_set_absolute_mode does run.  So it may happen that
-the returned values are exactly half of what they used to be,
-which makes input_report_abs in PS/2 mode report ABS_X values which
-exceed the x_max value, which is very annoying since the mouse stops
-to move then, and ABS_Y value become negative, which is benign.
+The `spi_transfer_delay_exec()` function [in the SPI framework] makes sure
+that both `delay_usecs` & `delay` are used (in this order to preserve
+backwards compatibility).
 
-This was observed with a MSI GX70 laptop:
+[1] commit bebcfd272df6 ("spi: introduce `delay` field for
+`spi_transfer` + spi_transfer_delay_exec()")
 
-elantech: assuming hardware version 3 (with firmware version 0x250f01)
-elantech: Synaptics capabilities query result 0x18, 0x17, 0x0b.
-elantech: Elan sample query result 05, 0e, 00
-input: ETPS/2 Elantech Touchpad as /devices/platform/i8042/serio...
-
-Correct this by doubling the returned x_max and y_max
-value for this specific firmware version.
-
-Fixes: 37548659bb2 ("Input: elantech - query the min/max
-information beforehand too")
-
-Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+Signed-off-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
 ---
- drivers/input/mouse/elantech.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/input/keyboard/applespi.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-index 2d8434b..3399db8 100644
---- a/drivers/input/mouse/elantech.c
-+++ b/drivers/input/mouse/elantech.c
-@@ -1720,6 +1720,10 @@ static int elantech_query_info(struct psmouse *psmouse,
+diff --git a/drivers/input/keyboard/applespi.c b/drivers/input/keyboard/applespi.c
+index d38398526965..d6a847e5f7e4 100644
+--- a/drivers/input/keyboard/applespi.c
++++ b/drivers/input/keyboard/applespi.c
+@@ -545,7 +545,8 @@ static void applespi_setup_read_txfrs(struct applespi_data *applespi)
+ 	memset(dl_t, 0, sizeof(*dl_t));
+ 	memset(rd_t, 0, sizeof(*rd_t));
  
- 		info->x_max = (0x0f & param[0]) << 8 | param[1];
- 		info->y_max = (0xf0 & param[0]) << 4 | param[2];
-+		if (info->fw_version == 0x250f01) {
-+			info->x_max <<= 1;
-+			info->y_max <<= 1;
-+		}
- 		break;
+-	dl_t->delay_usecs = applespi->spi_settings.spi_cs_delay;
++	dl_t->delay.value = applespi->spi_settings.spi_cs_delay;
++	dl_t->delay.unit = SPI_DELAY_UNIT_USECS;
  
- 	case 4:
+ 	rd_t->rx_buf = applespi->rx_buffer;
+ 	rd_t->len = APPLESPI_PACKET_SIZE;
+@@ -574,14 +575,17 @@ static void applespi_setup_write_txfrs(struct applespi_data *applespi)
+ 	 * end up with an extra unnecessary (but harmless) cs assertion and
+ 	 * deassertion.
+ 	 */
+-	wt_t->delay_usecs = SPI_RW_CHG_DELAY_US;
++	wt_t->delay.value = SPI_RW_CHG_DELAY_US;
++	wt_t->delay.unit = SPI_DELAY_UNIT_USECS;
+ 	wt_t->cs_change = 1;
+ 
+-	dl_t->delay_usecs = applespi->spi_settings.spi_cs_delay;
++	dl_t->delay.value = applespi->spi_settings.spi_cs_delay;
++	dl_t->delay.unit = SPI_DELAY_UNIT_USECS;
+ 
+ 	wr_t->tx_buf = applespi->tx_buffer;
+ 	wr_t->len = APPLESPI_PACKET_SIZE;
+-	wr_t->delay_usecs = SPI_RW_CHG_DELAY_US;
++	wr_t->delay.value = SPI_RW_CHG_DELAY_US;
++	wr_t->delay.unit = SPI_DELAY_UNIT_USECS;
+ 
+ 	st_t->rx_buf = applespi->tx_status;
+ 	st_t->len = APPLESPI_STATUS_SIZE;
 -- 
-1.9.1
+2.17.1
+
