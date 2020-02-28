@@ -2,68 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A8C91733C1
-	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2020 10:22:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F880173475
+	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2020 10:46:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726207AbgB1JWp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Feb 2020 04:22:45 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:55249 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726148AbgB1JWp (ORCPT
+        id S1726642AbgB1JqL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Feb 2020 04:46:11 -0500
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:62967 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726413AbgB1JqL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Feb 2020 04:22:45 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1j7bqv-0004Iz-EA; Fri, 28 Feb 2020 10:22:37 +0100
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1j7bqs-0005Tm-LD; Fri, 28 Feb 2020 10:22:34 +0100
-Date:   Fri, 28 Feb 2020 10:22:34 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     lee.jones@linaro.org, dmitry.torokhov@gmail.com,
-        thierry.reding@gmail.com, jic23@kernel.org,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pwm@vger.kernel.org, knaack.h@gmx.de, lars@metafoo.de,
-        pmeerw@pmeerw.net, linux-iio@vger.kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com
-Subject: Re: [PATCH v5 4/7] pwm: Add support for Azoteq IQS620A PWM generator
-Message-ID: <20200228092234.owlqvpuwu4hk3vog@pengutronix.de>
-References: <1581895931-6056-1-git-send-email-jeff@labundy.com>
- <1581895931-6056-5-git-send-email-jeff@labundy.com>
+        Fri, 28 Feb 2020 04:46:11 -0500
+X-Originating-IP: 83.155.44.161
+Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
+        (Authenticated sender: hadess@hadess.net)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 405F924000E;
+        Fri, 28 Feb 2020 09:46:07 +0000 (UTC)
+Message-ID: <c352b9e4e60a214c0f7f6b87aaf90d7fd49d5ee6.camel@hadess.net>
+Subject: Re: [PATCH v3 0/3] Add support for Goodix GT917S touch controller
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Icenowy Zheng <icenowy@aosc.io>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Ondrej Jirman <megous@megous.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 28 Feb 2020 10:46:06 +0100
+In-Reply-To: <20200228010146.12215-1-icenowy@aosc.io>
+References: <20200228010146.12215-1-icenowy@aosc.io>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.35.91 (3.35.91-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1581895931-6056-5-git-send-email-jeff@labundy.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Jeff,
-
-On Sun, Feb 16, 2020 at 05:32:08PM -0600, Jeff LaBundy wrote:
-> This patch adds support for the Azoteq IQS620A, capable of generating
-> a 1-kHz PWM output with duty cycle between ~0.4% and 100% (inclusive).
+On Fri, 2020-02-28 at 09:01 +0800, Icenowy Zheng wrote:
+> This patchset introduces support for Goodix GT917S touch controller.
 > 
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> The major difference with other touch controllers from Goodix is that
+> the ID string is no longer number-only (it contains a 'S'), so an
+> additional patch is introduced for migrating the ID to a string.
+> 
+> Icenowy Zheng (3):
+>   dt-bindings: input: touchscreen: add compatible string for Goodix
+>     GT917S
+>   Input: goodix - use string-based chip ID
+>   Input: goodix - Add support for Goodix GT917S
 
-I like it,
+For the whole patchset:
+Reviewed-by: Bastien Nocera <hadess@hadess.net>
 
-Reviewed-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Thanks!
 
-Best regards
-Uwe
+>  .../bindings/input/touchscreen/goodix.yaml    |  1 +
+>  drivers/input/touchscreen/goodix.c            | 71 +++++++++++----
+> ----
+>  2 files changed, 43 insertions(+), 29 deletions(-)
+> 
 
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
