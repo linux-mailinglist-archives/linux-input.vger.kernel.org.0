@@ -2,30 +2,31 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D91A1759A1
-	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 12:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFC991759A4
+	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 12:35:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727032AbgCBLeT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Mar 2020 06:34:19 -0500
-Received: from relay12.mail.gandi.net ([217.70.178.232]:49185 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726470AbgCBLeT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 06:34:19 -0500
+        id S1726915AbgCBLff (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Mar 2020 06:35:35 -0500
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:34235 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726470AbgCBLff (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 06:35:35 -0500
+X-Originating-IP: 83.155.44.161
 Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
         (Authenticated sender: hadess@hadess.net)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 5A9C6200011;
-        Mon,  2 Mar 2020 11:33:56 +0000 (UTC)
-Message-ID: <55c1159deb1b7b43bb8b404ab9467eaae9ebbb85.camel@hadess.net>
-Subject: Re: [PATCH resend 09/10] Input: goodix - Make goodix_send_cfg()
- take a raw buffer as argument
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id E0789C0009;
+        Mon,  2 Mar 2020 11:35:31 +0000 (UTC)
+Message-ID: <30842bb43aa29e8f1edeadc335e3f792a7a76092.camel@hadess.net>
+Subject: Re: [PATCH resend 10/10] Input: goodix - Restore config on resume
+ if necessary
 From:   Bastien Nocera <hadess@hadess.net>
 To:     Hans de Goede <hdegoede@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org, Dmitry Mastykin <mastichi@gmail.com>
-Date:   Mon, 02 Mar 2020 12:33:55 +0100
-In-Reply-To: <20200221164735.508324-9-hdegoede@redhat.com>
+Date:   Mon, 02 Mar 2020 12:35:31 +0100
+In-Reply-To: <20200221164735.508324-10-hdegoede@redhat.com>
 References: <20200221164735.508324-1-hdegoede@redhat.com>
-         <20200221164735.508324-9-hdegoede@redhat.com>
+         <20200221164735.508324-10-hdegoede@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.35.91 (3.35.91-1.fc32) 
 MIME-Version: 1.0
@@ -36,180 +37,83 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 On Fri, 2020-02-21 at 17:47 +0100, Hans de Goede wrote:
-> Make goodix_send_cfg() take a raw buffer as argument instead of a
-> struct firmware *cfg, so that it can also be used to restore the
+> Some devices, e.g the Trekstor Primetab S11B, loose there config over
+
+"lose".
+
+> a suspend/resume cycle (likely the controller looses power during 
+
+"loses".
+
+> suspend).
+> 
+> This commit reads back the config version on resume and if matches
+> the
+> expected config version it resets the controller and resends the
 > config
-> on resume if necessary.
+> we read back and saved at probe time.
 > 
 > BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1786317
 > BugLink: https://github.com/nexus511/gpd-ubuntu-packages/issues/10
 > BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=199207
 > Cc: Dmitry Mastykin <mastichi@gmail.com>
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/input/touchscreen/goodix.c | 46 ++++++++++++++------------
-> ----
->  1 file changed, 21 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/goodix.c
-> b/drivers/input/touchscreen/goodix.c
-> index 21be33384d14..0f39c499e3a9 100644
-> --- a/drivers/input/touchscreen/goodix.c
-> +++ b/drivers/input/touchscreen/goodix.c
-> @@ -71,7 +71,7 @@ enum goodix_irq_pin_access_method {
->  struct goodix_chip_data {
->  	u16 config_addr;
->  	int config_len;
-> -	int (*check_config)(struct goodix_ts_data *, const struct
-> firmware *);
-> +	int (*check_config)(struct goodix_ts_data *ts, const u8 *cfg,
-> int len);
 
-Any way to make the length a uint instead of an int? That way, we
-wouldn't need to add < 0 guards, and the "len > MAX_LENGTH" check would
-be enough.
-
-Looks good otherwise:
+Looks fine apart from the nitpicks.
 
 Reviewed-by: Bastien Nocera <hadess@hadess.net>
 
->  	void (*fix_config)(struct goodix_ts_data *ts);
->  };
->  
-> @@ -101,9 +101,9 @@ struct goodix_ts_data {
->  };
->  
->  static int goodix_check_cfg_8(struct goodix_ts_data *ts,
-> -			const struct firmware *cfg);
-> +			      const u8 *cfg, int len);
->  static int goodix_check_cfg_16(struct goodix_ts_data *ts,
-> -			const struct firmware *cfg);
-> +			       const u8 *cfg, int len);
->  static void goodix_fix_cfg_8(struct goodix_ts_data *ts);
->  static void goodix_fix_cfg_16(struct goodix_ts_data *ts);
->  
-> @@ -426,22 +426,21 @@ static int goodix_request_irq(struct
-> goodix_ts_data *ts)
->  					 ts->irq_flags, ts->client-
-> >name, ts);
->  }
->  
-> -static int goodix_check_cfg_8(struct goodix_ts_data *ts,
-> -			const struct firmware *cfg)
-> +static int goodix_check_cfg_8(struct goodix_ts_data *ts, const u8
-> *cfg, int len)
+> ---
+>  drivers/input/touchscreen/goodix.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/drivers/input/touchscreen/goodix.c
+> b/drivers/input/touchscreen/goodix.c
+> index 0f39c499e3a9..389d3e044f97 100644
+> --- a/drivers/input/touchscreen/goodix.c
+> +++ b/drivers/input/touchscreen/goodix.c
+> @@ -1232,6 +1232,7 @@ static int __maybe_unused goodix_resume(struct
+> device *dev)
 >  {
-> -	int i, raw_cfg_len = cfg->size - 2;
-> +	int i, raw_cfg_len = len - 2;
->  	u8 check_sum = 0;
->  
->  	for (i = 0; i < raw_cfg_len; i++)
-> -		check_sum += cfg->data[i];
-> +		check_sum += cfg[i];
->  	check_sum = (~check_sum) + 1;
-> -	if (check_sum != cfg->data[raw_cfg_len]) {
-> +	if (check_sum != cfg[raw_cfg_len]) {
->  		dev_err(&ts->client->dev,
->  			"The checksum of the config fw is not
-> correct");
->  		return -EINVAL;
->  	}
->  
-> -	if (cfg->data[raw_cfg_len + 1] != 1) {
-> +	if (cfg[raw_cfg_len + 1] != 1) {
->  		dev_err(&ts->client->dev,
->  			"Config fw must have Config_Fresh register
-> set");
->  		return -EINVAL;
-> @@ -463,22 +462,22 @@ static void goodix_fix_cfg_8(struct
-> goodix_ts_data *ts)
->  	ts->config[raw_cfg_len + 1] = 1;
->  }
->  
-> -static int goodix_check_cfg_16(struct goodix_ts_data *ts,
-> -			const struct firmware *cfg)
-> +static int goodix_check_cfg_16(struct goodix_ts_data *ts, const u8
-> *cfg,
-> +			       int len)
->  {
-> -	int i, raw_cfg_len = cfg->size - 3;
-> +	int i, raw_cfg_len = len - 3;
->  	u16 check_sum = 0;
->  
->  	for (i = 0; i < raw_cfg_len; i += 2)
-> -		check_sum += get_unaligned_be16(&cfg->data[i]);
-> +		check_sum += get_unaligned_be16(&cfg[i]);
->  	check_sum = (~check_sum) + 1;
-> -	if (check_sum != get_unaligned_be16(&cfg->data[raw_cfg_len])) {
-> +	if (check_sum != get_unaligned_be16(&cfg[raw_cfg_len])) {
->  		dev_err(&ts->client->dev,
->  			"The checksum of the config fw is not
-> correct");
->  		return -EINVAL;
->  	}
->  
-> -	if (cfg->data[raw_cfg_len + 2] != 1) {
-> +	if (cfg[raw_cfg_len + 2] != 1) {
->  		dev_err(&ts->client->dev,
->  			"Config fw must have Config_Fresh register
-> set");
->  		return -EINVAL;
-> @@ -506,16 +505,15 @@ static void goodix_fix_cfg_16(struct
-> goodix_ts_data *ts)
->   * @ts: goodix_ts_data pointer
->   * @cfg: firmware config data
->   */
-> -static int goodix_check_cfg(struct goodix_ts_data *ts,
-> -			    const struct firmware *cfg)
-> +static int goodix_check_cfg(struct goodix_ts_data *ts, const u8
-> *cfg, int len)
->  {
-> -	if (cfg->size > GOODIX_CONFIG_MAX_LENGTH) {
-> +	if (len > GOODIX_CONFIG_MAX_LENGTH) {
->  		dev_err(&ts->client->dev,
->  			"The length of the config fw is not correct");
->  		return -EINVAL;
->  	}
->  
-> -	return ts->chip->check_config(ts, cfg);
-> +	return ts->chip->check_config(ts, cfg, len);
->  }
->  
->  /**
-> @@ -524,17 +522,15 @@ static int goodix_check_cfg(struct
-> goodix_ts_data *ts,
->   * @ts: goodix_ts_data pointer
->   * @cfg: config firmware to write to device
->   */
-> -static int goodix_send_cfg(struct goodix_ts_data *ts,
-> -			   const struct firmware *cfg)
-> +static int goodix_send_cfg(struct goodix_ts_data *ts, const u8 *cfg,
-> int len)
->  {
+>  	struct i2c_client *client = to_i2c_client(dev);
+>  	struct goodix_ts_data *ts = i2c_get_clientdata(client);
+> +	u8 config_ver;
 >  	int error;
 >  
-> -	error = goodix_check_cfg(ts, cfg);
-> +	error = goodix_check_cfg(ts, cfg, len);
+>  	if (ts->irq_pin_access_method == irq_pin_access_none) {
+> @@ -1253,6 +1254,27 @@ static int __maybe_unused goodix_resume(struct
+> device *dev)
 >  	if (error)
 >  		return error;
 >  
-> -	error = goodix_i2c_write(ts->client, ts->chip->config_addr,
-> cfg->data,
-> -				 cfg->size);
-> +	error = goodix_i2c_write(ts->client, ts->chip->config_addr,
-> cfg, len);
->  	if (error) {
->  		dev_err(&ts->client->dev, "Failed to write config data:
-> %d",
->  			error);
-> @@ -1058,7 +1054,7 @@ static void goodix_config_cb(const struct
-> firmware *cfg, void *ctx)
->  
->  	if (cfg) {
->  		/* send device configuration to the firmware */
-> -		error = goodix_send_cfg(ts, cfg);
-> +		error = goodix_send_cfg(ts, cfg->data, cfg->size);
->  		if (error)
->  			goto err_release_cfg;
->  	}
+> +	error = goodix_i2c_read(ts->client, ts->chip->config_addr,
+> +				&config_ver, 1);
+> +	if (error)
+> +		dev_warn(dev, "Error reading config version: %d,
+> resetting controller\n",
+> +			 error);
+> +	else if (config_ver != ts->config[0])
+> +		dev_warn(dev, "Config version mismatch %d != %d,
+> resetting controller\n",
+> +			 config_ver, ts->config[0]);
+
+Should it really be a warning if it happens regularly?
+
+> +
+> +	if (error != 0 || config_ver != ts->config[0]) {
+> +		error = goodix_reset(ts);
+> +		if (error) {
+> +			dev_err(dev, "Controller reset failed.\n");
+> +			return error;
+> +		}
+> +
+> +		error = goodix_send_cfg(ts, ts->config, ts->chip-
+> >config_len);
+> +		if (error)
+> +			return error;
+> +	}
+> +
+>  	error = goodix_request_irq(ts);
+>  	if (error)
+>  		return error;
 
