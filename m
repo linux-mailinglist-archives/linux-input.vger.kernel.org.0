@@ -2,90 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B10BA175A0D
-	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 13:09:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76CD4175A15
+	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 13:10:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727648AbgCBMJ5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Mar 2020 07:09:57 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:38315 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726773AbgCBMJ4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 07:09:56 -0500
-Received: by mail-wm1-f66.google.com with SMTP id u9so4552169wml.3;
-        Mon, 02 Mar 2020 04:09:55 -0800 (PST)
+        id S1727758AbgCBMK1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Mar 2020 07:10:27 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:42324 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727627AbgCBMK1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 07:10:27 -0500
+Received: by mail-lj1-f194.google.com with SMTP id d10so11442572ljl.9
+        for <linux-input@vger.kernel.org>; Mon, 02 Mar 2020 04:10:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=typeblog-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lf5revSpm3qfJv2nXZJRbS1f7fWl78G2borqCkC/EVs=;
+        b=AxpP11wTXpvVI79tk/T3EKzaj9yqhaWb1BUaqiCFFAo1t1sWGWC0fA+987M/VI6zSB
+         qjuNesM2TgfdnBRH9Y9Vq+q9vp42qWrfRKPLkpfqnPiFqJniV0WFMwEtNJqQzzk5tTsY
+         oUzAqfahRkpDxW+YTMgvsufiyvVBIxVeVw/DQ0rTw++oBvx5OLbPtqxPpjgJHddUwzF9
+         hV2G0nnLUBXpU+JuEA//RTFVsOfSeg+2BVuJTTjVpW257+nGRtpIgX7qIqKZsoMcRwkS
+         gxcmSKqCoKC09KcZAUgRdcCHitAXU4657+it0pmURd3HEg90RT8n2iHxqHI4SoABNOn/
+         QENw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HIdRpR70+QiBon8Ma1Xnuin2v9Xkjqqh4sLfhR88VOM=;
-        b=jdWX0w1jICgaYAyYG/vju/waqVq+LoN0pr44AVHZrMFPPzKpNzJNdHWWBtLe4mF0Gi
-         AqyOaeDaSjR4JRPsW2nGCeBp8ldrTs9EwqQtQMUZT5tji+HBgNgFOZOic7rY2kh3uuRW
-         gI+qzVEGnW2Ik7mWmfgX1z9+B11DO2P5OMNDKVIwy87pTY5WxCQMsb54dzorclHSWFmi
-         ZqVOK/gbQ9mtMVBx34hPwRoK6cLmc2Ehi8lbnL4Qmb1OXbi4pZCDQ5bXhTHs60v146Jq
-         w0Wyj+eHv/en7HLZAGB2g2TnbGxYpCXqKZ0fsLc/LjVZv4eYoHIFLgLaL85ZisdWmoJV
-         XLOg==
-X-Gm-Message-State: APjAAAV+mhnDep4B2m6HDkhwDsCQnnLRG8QocLKMc4arr1qM3zm22VuB
-        8UJ/9mQow6PlMpTuKAbFucCdsEBe
-X-Google-Smtp-Source: APXvYqzS6jA4Bf74WoSBtBQEM9gCfI3J+KLYf70fc37trFR2aHCaU3D+9BVxUEA+UPJd1Taywlmzvw==
-X-Received: by 2002:a7b:cb03:: with SMTP id u3mr15031793wmj.41.1583150994648;
-        Mon, 02 Mar 2020 04:09:54 -0800 (PST)
-Received: from debian (41.142.6.51.dyn.plus.net. [51.6.142.41])
-        by smtp.gmail.com with ESMTPSA id h14sm10765190wrs.85.2020.03.02.04.09.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 04:09:53 -0800 (PST)
-Date:   Mon, 2 Mar 2020 12:09:51 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Lucas Tanure <tanure@linux.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>, linux-hyperv@vger.kernel.org,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, Wei Liu <wei.liu@kernel.org>
-Subject: Re: [PATCH] HID: hyperv: NULL check before some freeing functions is
- not needed.
-Message-ID: <20200302120951.fhdafzl5xtnmjrls@debian>
-References: <20200229173007.61838-1-tanure@linux.com>
- <CAO-hwJJDv=LnOQDbgWwg2sOccM9Tt-h=082Coi0aYdwG-CG-Kg@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lf5revSpm3qfJv2nXZJRbS1f7fWl78G2borqCkC/EVs=;
+        b=FEXhFaTQj3oGDReVTRJ6vKp9Nd4MN2RZHWp+elvevXwlAZ570urjHeu/sEf6ILUDwh
+         BbPYqvNyMn+kK7yJxlI0myKsmcBq+OalquNeaFGOtZHQFtjWUrQb9o8UgESjG+xILQl2
+         nbOggdti/BrDgWU3TCfTg6ctR2n3xDTSz9IvH+6TwVVu7jatFzwQjthWey9kGrmWlpRm
+         xIZNhyBmGsUtP9CBmT5VqdvuNjDOH+FiIRcobQKPxF56D6P9QBGlDrftmQ1DwFk7O1iQ
+         xPeIibcQ6GefqW3XZAK9DsjKXDtKutET3+MeRtsOizg5l1tLuRcE9c+wAd521rV2t7wU
+         FKZQ==
+X-Gm-Message-State: ANhLgQ2l0ews9i6J1ljj5TTeGAvP2AtWxx3/qFR4zAzr67MzYHlFAFbu
+        j3dHVPZOUcSgxyhprQy6gIi5LVKz3W5Wpon/xOJv+g==
+X-Google-Smtp-Source: ADFU+vsXy4SeIjKrwpbs1vqbQniY8JnehYm6c42utMHH2tPR0dqlr+JpbkMZNot8feBlGkvR3fDWhwBRjY8nV0xQgtA=
+X-Received: by 2002:a2e:884c:: with SMTP id z12mr11440314ljj.55.1583151024920;
+ Mon, 02 Mar 2020 04:10:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO-hwJJDv=LnOQDbgWwg2sOccM9Tt-h=082Coi0aYdwG-CG-Kg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+References: <20190831030916.13172-1-peter@typeblog.net> <20190902124352.12291-1-peter@typeblog.net>
+ <20190902124352.12291-2-peter@typeblog.net> <daeec373292e14c6aea179ddf690a5dace6c83f7.camel@hadess.net>
+In-Reply-To: <daeec373292e14c6aea179ddf690a5dace6c83f7.camel@hadess.net>
+From:   Peter Cai <peter@typeblog.net>
+Date:   Mon, 2 Mar 2020 20:10:13 +0800
+Message-ID: <CA+Zf_0fBX3YBVsiJbAGdtFp-428uwsRS3oncZCytSvxw8rXO4Q@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] touchscreen: goodix: define GPIO mapping for GPD
+ P2 Max
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin
-
-On Mon, Mar 02, 2020 at 11:16:30AM +0100, Benjamin Tissoires wrote:
-> On Sat, Feb 29, 2020 at 6:30 PM Lucas Tanure <tanure@linux.com> wrote:
+On Mon, Mar 2, 2020 at 7:57 PM Bastien Nocera <hadess@hadess.net> wrote:
+>
+> On Mon, 2019-09-02 at 20:43 +0800, Peter Cai wrote:
+> > The firmware of GPD P2 Max could not handle panel resets although
+> > code
+> > is present in DSDT. The kernel needs to take on this job instead, but
+> > the DSDT does not provide _DSD, rendering kernel helpless when trying
+> > to
+> > find the respective GPIO pins.
 > >
-> > Fix below warnings reported by coccicheck:
-> > drivers/hid/hid-hyperv.c:197:2-7: WARNING: NULL check before some freeing functions is not needed.
-> > drivers/hid/hid-hyperv.c:211:2-7: WARNING: NULL check before some freeing functions is not needed.
+> > Fortunately, this time GPD has proper DMI vendor / product strings
+> > that
+> > we could match against. We simply apply an acpi_gpio_mapping table
+> > when
+> > GPD P2 Max is matched.
 > >
-> > Signed-off-by: Lucas Tanure <tanure@linux.com>
-> > ---
-> 
-> Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> 
-> Sasha, do you prefer taking this through your tree or through the HID
-> one. I don't think we have much scheduled for hyperv, so it's up to
-> you.
+> > Additionally, the DSDT definition of the irq pin specifies a wrong
+> > polarity. The new quirk introduced in the previous patch
+> > (ACPI_GPIO_QUIRK_OVERRIDE_POLARITY) is applied to correct this.
+>
+> Hans has posted a patchset which reworks GPIO access for ACPI devices.
+>
+> Could you please check whether you could rebase your patch on top of
+> that?
+>
+> I also think the comment in "Input: goodix - Add support for getting
+> IRQ + reset GPIOs on Cherry Trail devices" might also be of use:
+>
+> +       case irq_pin_access_acpi_gpio:
+> +               /*
+> +                * The IRQ pin triggers on a falling edge, so its gets
+> marked
+> +                * as active-low, use output_raw to avoid the value
+> inversion.
+> +                */
+>
+> Cheers
+>
 
-Sasha stepped down as a hyperv maintainer a few days back. I will be
-taking over maintenance of the hyperv tree.
-
-The problem is at the moment I haven't got write access to the
-repository hosted on git.kernel.org. That's something I will need to
-sort out as soon as possible.
-
-In the meantime, it would be great if you can pick up this patch so that
-it doesn't get lost while I sort out access on my side.
-
-Thanks,
-Wei.
+Sorry I forgot to notify you earlier, but it turned out that the
+manufacturer of the device has already applied a fix in their ACPI
+table after this patch was submitted and discussed. This patch is no
+longer needed.
