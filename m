@@ -2,101 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7E951759F5
-	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 13:04:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B10BA175A0D
+	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 13:09:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727492AbgCBMEZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Mar 2020 07:04:25 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:53546 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727782AbgCBMEZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 07:04:25 -0500
-Received: by mail-wm1-f67.google.com with SMTP id f15so10864034wml.3
-        for <linux-input@vger.kernel.org>; Mon, 02 Mar 2020 04:04:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=LfwHBF+1G3/DK1Sa/fxKynvnskOyWmgOn43G66JuuXg=;
-        b=fJsoGkY66Y+OGJcqLdZCFSg2SEwEJ5bMmGoYoNjlCGPFA1TJKDS5CosrXav6DjtawT
-         YZQSyHU8kThF342vvA4c6n8b5oSXIfH5BzLS9T6rwV0s61QDV+vUYr/KozQ8ZKKLE8mQ
-         /vR5oDePM6lxDYnfsQiZQg1fScIT0dKeLkw9rwSscm0W9j6mcX6jUvpdZ0zC9CXV+3v1
-         hofXleOlfL3zDrk1tpmFkeRCXYaboRfbceNBVBugoL9w6hB/+mMHIf6UnburM8FBaOSg
-         ei7g/pxeh3OkZPwnY2LoRgm/aqeqPouwI3tsmDyZZZ8xFRLAMMIAEVL5KzGuOXM6jXtP
-         CR2A==
+        id S1727648AbgCBMJ5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Mar 2020 07:09:57 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:38315 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726773AbgCBMJ4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 07:09:56 -0500
+Received: by mail-wm1-f66.google.com with SMTP id u9so4552169wml.3;
+        Mon, 02 Mar 2020 04:09:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=LfwHBF+1G3/DK1Sa/fxKynvnskOyWmgOn43G66JuuXg=;
-        b=PMnn/QDa1MwIT2+QkSo1x2q49tXGD6sy/Iw6yjkgWQ3KFL5GQPxCgzVbU/kXse/+Kx
-         48JrH0TsonAeYQxWfGOTaHHsd/G+PpwPfQRf4DJ12x9FNO8UdFMsZUKD/DBKYYgBJ0zK
-         lOdE+Jgm8IAbqZuZAWKM6wOHibpsQeNXoeWTKJHvfikCvhFJpNcpK6bquZBWqj3JIO7n
-         zSyfMexUhnsxqGr6lFbs86NCCYKlXm0mYSnzCSCxw0w5TwXfKoAcqVbVhKo4zcUvTsNY
-         SkCxBuW7qR8fjrFyyhQ075wObmnRsLCSvNTtS+j+lAf/CTPm1uXyAUOOPw1PxvB0iDUu
-         S8og==
-X-Gm-Message-State: APjAAAUZg2gMRbukqSXu0/8ZoR3AkkhjTiY4QwqK8g3w5L4OFvu+kjOE
-        47WgnL/nfjFrr6dKb0H/LOmxBwkeG0g=
-X-Google-Smtp-Source: APXvYqwY7JNdGcibXu8arbodj+Ox9DFMTorii9SxoGFb+i/waE0uuBxRdi/Lb0LYg2yCgoBDixUQvg==
-X-Received: by 2002:a1c:2504:: with SMTP id l4mr19983737wml.72.1583150663296;
-        Mon, 02 Mar 2020 04:04:23 -0800 (PST)
-Received: from dell ([2.31.163.122])
-        by smtp.gmail.com with ESMTPSA id v8sm27192427wrw.2.2020.03.02.04.04.22
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HIdRpR70+QiBon8Ma1Xnuin2v9Xkjqqh4sLfhR88VOM=;
+        b=jdWX0w1jICgaYAyYG/vju/waqVq+LoN0pr44AVHZrMFPPzKpNzJNdHWWBtLe4mF0Gi
+         AqyOaeDaSjR4JRPsW2nGCeBp8ldrTs9EwqQtQMUZT5tji+HBgNgFOZOic7rY2kh3uuRW
+         gI+qzVEGnW2Ik7mWmfgX1z9+B11DO2P5OMNDKVIwy87pTY5WxCQMsb54dzorclHSWFmi
+         ZqVOK/gbQ9mtMVBx34hPwRoK6cLmc2Ehi8lbnL4Qmb1OXbi4pZCDQ5bXhTHs60v146Jq
+         w0Wyj+eHv/en7HLZAGB2g2TnbGxYpCXqKZ0fsLc/LjVZv4eYoHIFLgLaL85ZisdWmoJV
+         XLOg==
+X-Gm-Message-State: APjAAAV+mhnDep4B2m6HDkhwDsCQnnLRG8QocLKMc4arr1qM3zm22VuB
+        8UJ/9mQow6PlMpTuKAbFucCdsEBe
+X-Google-Smtp-Source: APXvYqzS6jA4Bf74WoSBtBQEM9gCfI3J+KLYf70fc37trFR2aHCaU3D+9BVxUEA+UPJd1Taywlmzvw==
+X-Received: by 2002:a7b:cb03:: with SMTP id u3mr15031793wmj.41.1583150994648;
+        Mon, 02 Mar 2020 04:09:54 -0800 (PST)
+Received: from debian (41.142.6.51.dyn.plus.net. [51.6.142.41])
+        by smtp.gmail.com with ESMTPSA id h14sm10765190wrs.85.2020.03.02.04.09.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 04:04:22 -0800 (PST)
-Date:   Mon, 2 Mar 2020 12:04:58 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     dmitry.torokhov@gmail.com, thierry.reding@gmail.com,
-        jic23@kernel.org, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, u.kleine-koenig@pengutronix.de,
-        linux-pwm@vger.kernel.org, knaack.h@gmx.de, lars@metafoo.de,
-        pmeerw@pmeerw.net, linux-iio@vger.kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com
-Subject: Re: [PATCH v5 2/7] mfd: Add support for Azoteq
- IQS620A/621/622/624/625
-Message-ID: <20200302120458.GY3494@dell>
-References: <1581895931-6056-1-git-send-email-jeff@labundy.com>
- <1581895931-6056-3-git-send-email-jeff@labundy.com>
- <20200224111448.GS3494@dell>
- <20200228034220.GA3510@labundy.com>
+        Mon, 02 Mar 2020 04:09:53 -0800 (PST)
+Date:   Mon, 2 Mar 2020 12:09:51 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Lucas Tanure <tanure@linux.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>, linux-hyperv@vger.kernel.org,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>, Wei Liu <wei.liu@kernel.org>
+Subject: Re: [PATCH] HID: hyperv: NULL check before some freeing functions is
+ not needed.
+Message-ID: <20200302120951.fhdafzl5xtnmjrls@debian>
+References: <20200229173007.61838-1-tanure@linux.com>
+ <CAO-hwJJDv=LnOQDbgWwg2sOccM9Tt-h=082Coi0aYdwG-CG-Kg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200228034220.GA3510@labundy.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAO-hwJJDv=LnOQDbgWwg2sOccM9Tt-h=082Coi0aYdwG-CG-Kg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 27 Feb 2020, Jeff LaBundy wrote:
+Hi Benjamin
 
-> Hi Lee,
+On Mon, Mar 02, 2020 at 11:16:30AM +0100, Benjamin Tissoires wrote:
+> On Sat, Feb 29, 2020 at 6:30 PM Lucas Tanure <tanure@linux.com> wrote:
+> >
+> > Fix below warnings reported by coccicheck:
+> > drivers/hid/hid-hyperv.c:197:2-7: WARNING: NULL check before some freeing functions is not needed.
+> > drivers/hid/hid-hyperv.c:211:2-7: WARNING: NULL check before some freeing functions is not needed.
+> >
+> > Signed-off-by: Lucas Tanure <tanure@linux.com>
+> > ---
 > 
-> On Mon, Feb 24, 2020 at 11:14:48AM +0000, Lee Jones wrote:
+> Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 > 
-> [...]
-> 
-> > 
-> > Well done Jeff.  Good job.
-> > 
-> > Applied, thanks.
-> > 
-> 
-> Thank you for your kind words as well as your support in fleshing out this
-> series.
-> 
-> Just to confirm, does your offer to take the remainder (once everything is
-> approved) through immutable branches still stand?
+> Sasha, do you prefer taking this through your tree or through the HID
+> one. I don't think we have much scheduled for hyperv, so it's up to
+> you.
 
-Depends how quickly you can get the other drivers turned around.
+Sasha stepped down as a hyperv maintainer a few days back. I will be
+taking over maintenance of the hyperv tree.
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+The problem is at the moment I haven't got write access to the
+repository hosted on git.kernel.org. That's something I will need to
+sort out as soon as possible.
+
+In the meantime, it would be great if you can pick up this patch so that
+it doesn't get lost while I sort out access on my side.
+
+Thanks,
+Wei.
