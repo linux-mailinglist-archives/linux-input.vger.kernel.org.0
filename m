@@ -2,29 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6DDB1759B2
-	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 12:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5D801759D3
+	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 12:57:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727027AbgCBLp1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Mar 2020 06:45:27 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:41195 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726806AbgCBLp0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 06:45:26 -0500
+        id S1727731AbgCBL5X (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Mar 2020 06:57:23 -0500
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:46439 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727228AbgCBL5X (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 06:57:23 -0500
 X-Originating-IP: 83.155.44.161
 Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
         (Authenticated sender: hadess@hadess.net)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id B8F08C000A;
-        Mon,  2 Mar 2020 11:45:24 +0000 (UTC)
-Message-ID: <5835e5f3c2a5e1ed525f0aaa4dbcac581fa47afc.camel@hadess.net>
-Subject: Re: [PATCH v2] Input: goodix: fix touch coordinates on Cube I15-TC
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id E4BE340016;
+        Mon,  2 Mar 2020 11:57:18 +0000 (UTC)
+Message-ID: <daeec373292e14c6aea179ddf690a5dace6c83f7.camel@hadess.net>
+Subject: Re: [PATCH v3 2/2] touchscreen: goodix: define GPIO mapping for GPD
+ P2 Max
 From:   Bastien Nocera <hadess@hadess.net>
-To:     "Sergei A. Trusov" <sergei.a.trusov@ya.ru>,
+To:     Peter Cai <peter@typeblog.net>, Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Date:   Mon, 02 Mar 2020 12:45:24 +0100
-In-Reply-To: <e39e5cca-fec5-512f-0a33-f3dd20a33ff9@ya.ru>
-References: <e39e5cca-fec5-512f-0a33-f3dd20a33ff9@ya.ru>
+        linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Date:   Mon, 02 Mar 2020 12:57:18 +0100
+In-Reply-To: <20190902124352.12291-2-peter@typeblog.net>
+References: <20190831030916.13172-1-peter@typeblog.net>
+         <20190902124352.12291-1-peter@typeblog.net>
+         <20190902124352.12291-2-peter@typeblog.net>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.35.91 (3.35.91-1.fc32) 
 MIME-Version: 1.0
@@ -34,78 +42,39 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 2018-08-31 at 15:44 +1000, Sergei A. Trusov wrote:
-> The touchscreen on the Cube I15-TC don't match the default display,
-> with 0,0 touches being reported when touching at the top-right of
-> the screen.
+On Mon, 2019-09-02 at 20:43 +0800, Peter Cai wrote:
+> The firmware of GPD P2 Max could not handle panel resets although
+> code
+> is present in DSDT. The kernel needs to take on this job instead, but
+> the DSDT does not provide _DSD, rendering kernel helpless when trying
+> to
+> find the respective GPIO pins.
 > 
-> Add a quirk to invert the x coordinate.
+> Fortunately, this time GPD has proper DMI vendor / product strings
+> that
+> we could match against. We simply apply an acpi_gpio_mapping table
+> when
+> GPD P2 Max is matched.
 > 
-> Reported-and-tested-by: Arkadiy <arkan49@yandex.ru>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Signed-off-by: Sergei A. Trusov <sergei.a.trusov@ya.ru>
+> Additionally, the DSDT definition of the irq pin specifies a wrong
+> polarity. The new quirk introduced in the previous patch
+> (ACPI_GPIO_QUIRK_OVERRIDE_POLARITY) is applied to correct this.
 
-Some patch queue draining/grave digging. Sorry for taking so long to
-get back to you.
+Hans has posted a patchset which reworks GPIO access for ACPI devices.
 
+Could you please check whether you could rebase your patch on top of
+that?
 
-If that still applies, please add my:
+I also think the comment in "Input: goodix - Add support for getting
+IRQ + reset GPIOs on Cherry Trail devices" might also be of use:
 
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
++       case irq_pin_access_acpi_gpio:
++               /*
++                * The IRQ pin triggers on a falling edge, so its gets
+marked
++                * as active-low, use output_raw to avoid the value
+inversion.
++                */
 
-> ---
-> 
-> Changes in v2:
->  - Commit message fix
->  - Removed extra linefeeds
-> 
->  drivers/input/touchscreen/goodix.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/drivers/input/touchscreen/goodix.c
-> b/drivers/input/touchscreen/goodix.c
-> index f2d9c2c41885..27adf216f230 100644
-> --- a/drivers/input/touchscreen/goodix.c
-> +++ b/drivers/input/touchscreen/goodix.c
-> @@ -145,6 +145,22 @@ static const struct dmi_system_id
-> rotated_screen[] = {
->  	{}
->  };
->  
-> +/*
-> + * Those tablets have their x coordinate inverted
-> + */
-> +static const struct dmi_system_id inverted_x_screen[] = {
-> +#if defined(CONFIG_DMI) && defined(CONFIG_X86)
-> +	{
-> +		.ident = "Cube I15-TC",
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Cube"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "I15-TC")
-> +		},
-> +	},
-> +#endif
-> +	{}
-> +};
-> +
->  /**
->   * goodix_i2c_read - read data from a register of the i2c slave
-> device.
->   *
-> @@ -709,6 +725,12 @@ static int goodix_configure_dev(struct
-> goodix_ts_data *ts)
->  			"Applying '180 degrees rotated screen'
-> quirk\n");
->  	}
->  
-> +	if (dmi_check_system(inverted_x_screen)) {
-> +		ts->prop.invert_x = true;
-> +		dev_dbg(&ts->client->dev,
-> +			"Applying 'inverted x screen' quirk\n");
-> +	}
-> +
->  	error = input_mt_init_slots(ts->input_dev, ts->max_touch_num,
->  				    INPUT_MT_DIRECT |
-> INPUT_MT_DROP_UNUSED);
->  	if (error) {
+Cheers
 
