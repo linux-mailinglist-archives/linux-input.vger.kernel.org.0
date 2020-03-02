@@ -2,97 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2007D1753F5
-	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 07:44:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53FA01755F4
+	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 09:24:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726263AbgCBGoP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Mar 2020 01:44:15 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:56315 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725446AbgCBGoP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 01:44:15 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1j8eo6-0004Yc-1e; Mon, 02 Mar 2020 07:44:02 +0100
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1j8eo1-0005p9-Nk; Mon, 02 Mar 2020 07:43:57 +0100
-Date:   Mon, 2 Mar 2020 07:43:57 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Roy Im <roy.im.opensource@diasemi.com>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        Rob Herring <robh@kernel.org>,
-        Samuel Ortiz <sameo@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Support Opensource <Support.Opensource@diasemi.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
-Subject: Re: [PATCH V9 3/3] Input: new da7280 haptic driver
-Message-ID: <20200302064357.ke57i2wchulph5f7@pengutronix.de>
-References: <cover.1582270025.git.Roy.Im@diasemi.com>
- <1569958274d409298695cf86184c7b67aaf19bef.1582270025.git.Roy.Im@diasemi.com>
- <20200226161307.6tv5q2yh62cp7vk6@pengutronix.de>
- <VE1PR10MB30859CB04A6F9DB58D921F7485E90@VE1PR10MB3085.EURPRD10.PROD.OUTLOOK.COM>
- <20200301212025.lw4f6uv453oulu22@pengutronix.de>
- <VE1PR10MB30856D67BB5ED36BED574FBF85E70@VE1PR10MB3085.EURPRD10.PROD.OUTLOOK.COM>
+        id S1727335AbgCBIYn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Mar 2020 03:24:43 -0500
+Received: from emcscan.emc.com.tw ([192.72.220.5]:40493 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726887AbgCBIYn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 03:24:43 -0500
+X-Greylist: delayed 586 seconds by postgrey-1.27 at vger.kernel.org; Mon, 02 Mar 2020 03:24:42 EST
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="34654535"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 02 Mar 2020 16:14:54 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(177026:0:AUTH_RELAY)
+        (envelope-from <johnny.chuang@emc.com.tw>); Mon, 02 Mar 2020 16:14:56 +0800 (CST)
+Received: from 192.168.55.71
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2486:0:AUTH_LOGIN)
+        (envelope-from <johnny.chuang@emc.com.tw>); Mon, 02 Mar 2020 16:14:55 +0800 (CST)
+From:   "Johnny.Chuang" <johnny.chuang@emc.com.tw>
+To:     "'Peter Hutterer'" <peter.hutterer@who-t.net>,
+        "'Johnny Chuang'" <johnny.chuang.emc@gmail.com>
+Cc:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>,
+        "'Benjamin Tissoires'" <benjamin.tissoires@redhat.com>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        "'Jennifer Tsai'" <jennifer.tsai@emc.com.tw>,
+        "'James Chen'" <james.chen@emc.com.tw>,
+        "'Paul Liang'" <paul.liang@emc.com.tw>,
+        "'Jeff Chuang'" <jeff.chuang@emc.com.tw>
+References: <1582766000-23023-1-git-send-email-johnny.chuang.emc@gmail.com> <20200227223608.GB1087116@jelly>
+In-Reply-To: <20200227223608.GB1087116@jelly>
+Subject: RE: [PATCH] Input: elants_i2c - Report resolution information for touch major
+Date:   Mon, 2 Mar 2020 16:14:51 +0800
+Message-ID: <007201d5f06a$a5f341c0$f1d9c540$@emc.com.tw>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <VE1PR10MB30856D67BB5ED36BED574FBF85E70@VE1PR10MB3085.EURPRD10.PROD.OUTLOOK.COM>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQKWH33oxoD7nuWwmg1Q/5rISp31bAHeLyTrpqWIE/A=
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDUwMTBcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1lMGYxMjliOS01YzVkLTExZWEtODUyMC03YzVjZjg3NDk0NzhcYW1lLXRlc3RcZTBmMTI5YmItNWM1ZC0xMWVhLTg1MjAtN2M1Y2Y4NzQ5NDc4Ym9keS50eHQiIHN6PSIyMjc3IiB0PSIxMzIyNzYxMDQ5MTI5NDI1OTkiIGg9Ik9jTEovN3VSbFA2eE5CRjlCK3J2Z2J6WXZvcz0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hey Roy,
-
-On Mon, Mar 02, 2020 at 01:52:30AM +0000, Roy Im wrote:
-> On Monday, March 2, 2020 6:20 AM, Uwe Kleine-König wrote:
-> > On Sat, Feb 29, 2020 at 12:59:20AM +0000, Roy Im wrote:
-> > > Okay, thanks. I have tried to update that as below.
-> > > Could I get your comment if you still see anything on this?
-> > >
-> > > 	/* Maximum gain is 0x7fff for PWM mode */
-> > > 	#define MAX_MAGNITUDE_SHIFT		15
-> > >        [...]
-> > > 	period_mag_multi >>= MAX_MAGNITUDE_SHIFT;
-> > >
-> > > 	/* The interpretation of duty cycle depends on the acc_en,
-> > > 	* it should be from 50% to 100% for acc_en = 0.
-> > > 	* See datasheet 'PWM mode' section for more details.
-> > > 	*/
-> > > 	if (!haptics->acc_en) {
-> > > 		period_mag_multi += state.period;
-> > > 		period_mag_multi /= 2;
-> > > 	}
-> > 
-> > Much better. Extra points if you add a link to the datasheet at the top of the driver. I didn't look at the datasheet and
-> > assume that the reasoning is obvious then.
+> -----Original Message-----
+> From: Peter Hutterer [mailto:peter.hutterer@who-t.net]
+> Sent: Friday, February 28, 2020 6:36 AM
+> To: Johnny Chuang
+> Cc: Dmitry Torokhov; Benjamin Tissoires; linux-kernel@vger.kernel.org;
+> linux-input@vger.kernel.org; Johnny Chuang; Jennifer Tsai; James Chen;
+Paul
+> Liang; Jeff Chuang
+> Subject: Re: [PATCH] Input: elants_i2c - Report resolution information for
+touch
+> major
 > 
-> Okay, then do you think it would be better to remove that comment(the 3rd line - datasheet)?. 
+> On Thu, Feb 27, 2020 at 09:13:20AM +0800, Johnny Chuang wrote:
+> > From: Johnny Chuang <johnny.chuang@emc.com.tw>
+> >
+> > This patch supports reporting resolution for ABS_MT_TOUCH_MAJOR event.
+> > This information is needed in showing pressure/width radius.
+> >
+> > Signed-off-by: Johnny Chuang <johnny.chuang@emc.com.tw>
+> > ---
+> >  drivers/input/touchscreen/elants_i2c.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/input/touchscreen/elants_i2c.c
+> b/drivers/input/touchscreen/elants_i2c.c
+> > index 4911799..14c577c 100644
+> > --- a/drivers/input/touchscreen/elants_i2c.c
+> > +++ b/drivers/input/touchscreen/elants_i2c.c
+> > @@ -1309,6 +1309,7 @@ static int elants_i2c_probe(struct i2c_client
+> *client,
+> >  	input_set_abs_params(ts->input, ABS_MT_PRESSURE, 0, 255, 0, 0);
+> >  	input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
+> >  	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
+> > +	input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, 1);
+> 
+> official resolution for absinfo is "units per mm", so a value of 3 would
+> mean 3mm, is that correct?
 
-No, please keep the reference.
+Correct.
+This resolution (1 unit/mm) is for all elan I2C touchscreen devices, 
+including the touchscreen devices in the future.
+This information is from our firmware members.
 
-Best regards
-Uwe
+> 
+> Not that it matters too much, since touch major is already all over the
+> place and needs userspace overrides for every device but it'd be nice to
+at
+> least make this useful out of the box on one device class.
+> 
+> Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+> 
+> otherwise
+> 
+> Cheers,
+>    Peter
+> 
+> >
+> >  	error = input_register_device(ts->input);
+> >  	if (error) {
+> > --
+> > 2.7.4
+> >
 
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
