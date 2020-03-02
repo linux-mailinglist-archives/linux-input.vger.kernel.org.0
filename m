@@ -2,93 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D35461757F9
-	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 11:08:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C15617581C
+	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 11:16:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727430AbgCBKIS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Mar 2020 05:08:18 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43206 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726887AbgCBKIS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 05:08:18 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id CE511292A3E
-Subject: Re: [PATCH 2/8] Input: cros_ec_keyb: Use cros_ec_cmd_xfer_status
- helper
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Collabora Kernel ML <kernel@collabora.com>, groeck@chromium.org,
-        bleung@chromium.org, dtor@chromium.org, gwendal@chromium.org,
-        pmalani@chromium.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Ting Shen <phoenixshen@chromium.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Fei Shao <fshao@chromium.org>, linux-input@vger.kernel.org
-References: <20200220155859.906647-1-enric.balletbo@collabora.com>
- <20200220155859.906647-3-enric.balletbo@collabora.com>
-Message-ID: <a4beacb4-b309-9e72-b522-186c5c059718@collabora.com>
-Date:   Mon, 2 Mar 2020 11:08:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727060AbgCBKQo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Mar 2020 05:16:44 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50822 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726889AbgCBKQo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 05:16:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583144203;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IXo+jOnMJnVg0BdBfAq0eKhEwbhNb8AEFiily5Isa3s=;
+        b=Lz48/6MrklQ1TgrAYgUnMvL5H84FnwqamDiw5QpMRvpI+KhLtT1OYWTXsdQKZb4YrC553c
+        pjGPssl6LbEcGWewxswEoLeP2tbCoQn2oasM5FaaNaSExMpoWniYULBixvqkNzdj+wCSl+
+        W1q7crQ1fFotjylPUNKyInhDV5VEHTs=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-T9deRxbiNvWbtVUNCymq5g-1; Mon, 02 Mar 2020 05:16:41 -0500
+X-MC-Unique: T9deRxbiNvWbtVUNCymq5g-1
+Received: by mail-qk1-f198.google.com with SMTP id 206so8450167qkd.21
+        for <linux-input@vger.kernel.org>; Mon, 02 Mar 2020 02:16:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IXo+jOnMJnVg0BdBfAq0eKhEwbhNb8AEFiily5Isa3s=;
+        b=kY4fU3jmhv+zfLbeaxd2nrpWdr0oxPnrdLNiVbdBoJSwM1N/t3fTccvphdb3cqvs+r
+         j9rpIsx9SVqUTiA8mpDtsQGb9Hru+1+xxWxDYm0qiaxPIAwMrDfyClFIXGZlu7XaJmK1
+         r4NhbBrhuPc4AXXjqwFwI7Gs7Z+4GF6pyQ35RaY00cEfijw27Ba/fIzQOPu9A8pn/PjD
+         tCjbs9Ux/SorFFgmpE+NAiQdRQz4RmxyZnptkVPZjUAZKZWwG0mW7W8b82BhQm6UTDis
+         EZ8mT3STu7lnEAJKWRpZQBUWC5z+vFajK/zEHKBiHBktwdWUhJ96nZNKbdLOjTJXIIdp
+         Jbhw==
+X-Gm-Message-State: ANhLgQ0VdKOp+YXT4j1bQQ8aUzqbT4XEg3qVQeRLCqWGahN7j9IPe9ml
+        Vd0GfifZw4F1p8RczhbzM8mxQHMwgjZE+BODGYcvsFSBAwypZaXsWHeaczCImUHelhcuMuU5+Xp
+        js1M/PFpm3QHMaxGjyKN4LL1GLyr+pNQ4gaOtHZY=
+X-Received: by 2002:a05:620a:1517:: with SMTP id i23mr7903641qkk.459.1583144201401;
+        Mon, 02 Mar 2020 02:16:41 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vvciVC+XX0L/bTNhtxk+6Nmcqb4gcKNRf+REB1cVh+9NmujV8iEZpeEbQ7bkpaxLzOlPc2RTSKI9C/8YAO1yK4=
+X-Received: by 2002:a05:620a:1517:: with SMTP id i23mr7903622qkk.459.1583144201197;
+ Mon, 02 Mar 2020 02:16:41 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200220155859.906647-3-enric.balletbo@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200229173007.61838-1-tanure@linux.com>
+In-Reply-To: <20200229173007.61838-1-tanure@linux.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 2 Mar 2020 11:16:30 +0100
+Message-ID: <CAO-hwJJDv=LnOQDbgWwg2sOccM9Tt-h=082Coi0aYdwG-CG-Kg@mail.gmail.com>
+Subject: Re: [PATCH] HID: hyperv: NULL check before some freeing functions is
+ not needed.
+To:     Lucas Tanure <tanure@linux.com>
+Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>, linux-hyperv@vger.kernel.org,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
-
-Gentle ping, I'd like feedback from you on this series, and are you fine with
-this change?
-
-Thanks,
- Enric
-
-On 20/2/20 16:58, Enric Balletbo i Serra wrote:
-> This patch makes use of cros_ec_cmd_xfer_status() instead of
-> cros_ec_cmd_xfer(). In this case there is no advantage of doing this
-> apart from that we want to make cros_ec_cmd_xfer() a private function
-> for the EC protocol and let people only use the
-> cros_ec_cmd_xfer_status() to return Linux standard error codes.
-> 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+On Sat, Feb 29, 2020 at 6:30 PM Lucas Tanure <tanure@linux.com> wrote:
+>
+> Fix below warnings reported by coccicheck:
+> drivers/hid/hid-hyperv.c:197:2-7: WARNING: NULL check before some freeing functions is not needed.
+> drivers/hid/hid-hyperv.c:211:2-7: WARNING: NULL check before some freeing functions is not needed.
+>
+> Signed-off-by: Lucas Tanure <tanure@linux.com>
 > ---
-> 
->  drivers/input/keyboard/cros_ec_keyb.c | 14 +++++---------
->  1 file changed, 5 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-> index 2b71c5a51f90..fc1793ca2f17 100644
-> --- a/drivers/input/keyboard/cros_ec_keyb.c
-> +++ b/drivers/input/keyboard/cros_ec_keyb.c
-> @@ -347,18 +347,14 @@ static int cros_ec_keyb_info(struct cros_ec_device *ec_dev,
->  	params->info_type = info_type;
->  	params->event_type = event_type;
->  
-> -	ret = cros_ec_cmd_xfer(ec_dev, msg);
-> -	if (ret < 0) {
-> -		dev_warn(ec_dev->dev, "Transfer error %d/%d: %d\n",
-> -			 (int)info_type, (int)event_type, ret);
-> -	} else if (msg->result == EC_RES_INVALID_VERSION) {
-> +	ret = cros_ec_cmd_xfer_status(ec_dev, msg);
-> +	if (ret == -ENOTSUPP) {
->  		/* With older ECs we just return 0 for everything */
->  		memset(result, 0, result_size);
->  		ret = 0;
-> -	} else if (msg->result != EC_RES_SUCCESS) {
-> -		dev_warn(ec_dev->dev, "Error getting info %d/%d: %d\n",
-> -			 (int)info_type, (int)event_type, msg->result);
-> -		ret = -EPROTO;
-> +	} else if (ret < 0) {
-> +		dev_warn(ec_dev->dev, "Transfer error %d/%d: %d\n",
-> +			 (int)info_type, (int)event_type, ret);
->  	} else if (ret != result_size) {
->  		dev_warn(ec_dev->dev, "Wrong size %d/%d: %d != %zu\n",
->  			 (int)info_type, (int)event_type,
-> 
+
+Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+
+Sasha, do you prefer taking this through your tree or through the HID
+one. I don't think we have much scheduled for hyperv, so it's up to
+you.
+
+Cheers,
+Benjamin
+
+>  drivers/hid/hid-hyperv.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
+> index dddfca555df9..0b6ee1dee625 100644
+> --- a/drivers/hid/hid-hyperv.c
+> +++ b/drivers/hid/hid-hyperv.c
+> @@ -193,8 +193,7 @@ static void mousevsc_on_receive_device_info(struct mousevsc_dev *input_device,
+>                 goto cleanup;
+>
+>         /* The pointer is not NULL when we resume from hibernation */
+> -       if (input_device->hid_desc != NULL)
+> -               kfree(input_device->hid_desc);
+> +       kfree(input_device->hid_desc);
+>         input_device->hid_desc = kmemdup(desc, desc->bLength, GFP_ATOMIC);
+>
+>         if (!input_device->hid_desc)
+> @@ -207,8 +206,7 @@ static void mousevsc_on_receive_device_info(struct mousevsc_dev *input_device,
+>         }
+>
+>         /* The pointer is not NULL when we resume from hibernation */
+> -       if (input_device->report_desc != NULL)
+> -               kfree(input_device->report_desc);
+> +       kfree(input_device->report_desc);
+>         input_device->report_desc = kzalloc(input_device->report_desc_size,
+>                                           GFP_ATOMIC);
+>
+> --
+> 2.25.1
+>
+
