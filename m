@@ -2,100 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 14E50175827
-	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 11:18:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75C6A1758CA
+	for <lists+linux-input@lfdr.de>; Mon,  2 Mar 2020 11:58:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727406AbgCBKSm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Mar 2020 05:18:42 -0500
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:46850 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726654AbgCBKSm (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 2 Mar 2020 05:18:42 -0500
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 022AHPre029337;
-        Mon, 2 Mar 2020 11:18:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : subject :
- date : message-id : in-reply-to : references : mime-version :
- content-type; s=STMicroelectronics;
- bh=lVNZlW2TEVzdSx5uY5AV+8wsV6wkYAOCEPlhpaxFhqE=;
- b=MLjyrgYA4M86XIJV8V7CqZt4mKdphl5A8zC7n7GdYWWo/M8so1U+8ZgLWDXQzUc0MZav
- edN/c6ChqRYWX8ssrxtoN2DFg6W2YS7WEszimG4CYm8LHyfDKZxwZ+q3em7TeWZoyM4F
- M7Ut6WWdNQvzW3DUsVXy64iQgihAn41cbBc2DW36eKgEHOCX39fJCrCK13+S/6SrO98c
- 6hT42Ffzs7eW/ZukXB1oCVRS73NiqT9W7yx7dIdIUDYSuxSjAgNW29boqB4EWcAIeDwH
- d2nnDfleC7Nv3w798YPN5tnc13vYQ7dIHb+z/RZHIAA4cH/FP8YJ9EAuhLyONf6uggp/ EQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2yffqpjqat-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 02 Mar 2020 11:18:35 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 3008C10003A;
-        Mon,  2 Mar 2020 11:18:31 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag6node1.st.com [10.75.127.16])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 243CF2B62F5;
-        Mon,  2 Mar 2020 11:18:31 +0100 (CET)
-Received: from localhost (10.75.127.46) by SFHDAG6NODE1.st.com (10.75.127.16)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 2 Mar 2020 11:18:30
- +0100
-From:   Yannick Fertre <yannick.fertre@st.com>
-To:     Bastien Nocera <hadess@hadess.net>,
+        id S1727210AbgCBK6X (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Mar 2020 05:58:23 -0500
+Received: from relay10.mail.gandi.net ([217.70.178.230]:56097 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727027AbgCBK6X (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Mar 2020 05:58:23 -0500
+Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
+        (Authenticated sender: hadess@hadess.net)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 09ED5240008;
+        Mon,  2 Mar 2020 10:58:18 +0000 (UTC)
+Message-ID: <995e0bab1c3c2013230c640f2e3a111bdafe3002.camel@hadess.net>
+Subject: Re: [PATCH v3 0/3] Add support for Goodix GT917S touch controller
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Icenowy Zheng <icenowy@aosc.io>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>,
-        Yannick Fertre <yannick.fertre@st.com>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v1 2/2] Input: goodix - support gt9147 touchpanel
-Date:   Mon, 2 Mar 2020 11:18:28 +0100
-Message-ID: <1583144308-3781-3-git-send-email-yannick.fertre@st.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1583144308-3781-1-git-send-email-yannick.fertre@st.com>
-References: <1583144308-3781-1-git-send-email-yannick.fertre@st.com>
+        Ondrej Jirman <megous@megous.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Mon, 02 Mar 2020 11:58:17 +0100
+In-Reply-To: <c352b9e4e60a214c0f7f6b87aaf90d7fd49d5ee6.camel@hadess.net>
+References: <20200228010146.12215-1-icenowy@aosc.io>
+         <c352b9e4e60a214c0f7f6b87aaf90d7fd49d5ee6.camel@hadess.net>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.35.91 (3.35.91-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG6NODE1.st.com
- (10.75.127.16)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
- definitions=2020-03-02_03:2020-02-28,2020-03-02 signatures=0
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for it by adding compatible and supported chip data
-(default settings used).
-The chip data on GT9147 is similar to GT912, like
-- config data register has 0x8047 address
-- config data register max len is 240
-- config data checksum has 8-bit
+On Fri, 2020-02-28 at 10:46 +0100, Bastien Nocera wrote:
+> On Fri, 2020-02-28 at 09:01 +0800, Icenowy Zheng wrote:
+> > This patchset introduces support for Goodix GT917S touch
+> > controller.
+> > 
+> > The major difference with other touch controllers from Goodix is
+> > that
+> > the ID string is no longer number-only (it contains a 'S'), so an
+> > additional patch is introduced for migrating the ID to a string.
+> > 
+> > Icenowy Zheng (3):
+> >   dt-bindings: input: touchscreen: add compatible string for Goodix
+> >     GT917S
+> >   Input: goodix - use string-based chip ID
+> >   Input: goodix - Add support for Goodix GT917S
+> 
+> For the whole patchset:
+> Reviewed-by: Bastien Nocera <hadess@hadess.net>
 
-Signed-off-by: Yannick Fertre <yannick.fertre@st.com>
----
- drivers/input/touchscreen/goodix.c | 2 ++
- 1 file changed, 2 insertions(+)
+Dmitry, would be nice to land this soon, there are a couple of patches
+still in the queue to be reviewed with support for new models, and they
+will conflict with this one.
 
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index 0403102..8851a35 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -251,6 +251,7 @@ static const struct goodix_chip_data *goodix_get_chip_data(u16 id)
- 		return &gt911_chip_data;
- 
- 	case 912:
-+	case 9147:
- 	case 967:
- 		return &gt967_chip_data;
- 
-@@ -1054,6 +1055,7 @@ static const struct of_device_id goodix_of_match[] = {
- 	{ .compatible = "goodix,gt9271" },
- 	{ .compatible = "goodix,gt928" },
- 	{ .compatible = "goodix,gt967" },
-+	{ .compatible = "goodix,gt9147",},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, goodix_of_match);
--- 
-2.7.4
+Cheers
 
