@@ -2,72 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E18B3176F17
-	for <lists+linux-input@lfdr.de>; Tue,  3 Mar 2020 07:03:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8AED1770E7
+	for <lists+linux-input@lfdr.de>; Tue,  3 Mar 2020 09:15:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725944AbgCCGDx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Mar 2020 01:03:53 -0500
-Received: from chill.innovation.ch ([216.218.245.220]:53750 "EHLO
-        chill.innovation.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725879AbgCCGDw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Mar 2020 01:03:52 -0500
-Date:   Mon, 2 Mar 2020 22:03:51 -0800
-DKIM-Filter: OpenDKIM Filter v2.10.3 chill.innovation.ch DC00A6412A7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innovation.ch;
-        s=default; t=1583215431;
-        bh=CoCegPxzkwOrSb2LMFv1mRjuEAk+XhXfz7ah1mwZ+iI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SF0fmxfG2Fs+V3rpagT9o+yvQ+7Hiy6jPkWlEq9djzzV94xtc87f0xPMMcMJQlqir
-         QsLzFPuMvBnU8tRaglCAkLvBH0ceVKX8X0d2LcgjuCOPoml9fXdDhTOJAtw0Fd82cq
-         i4Q+rJLaVSi/6n8JdyJHfdPS+IW+hM6BwNkwd8oTg7b9houEANYddbXvTV9HohENbl
-         JRBoxDU50dn9HE+Z1gqf7ol7VSkcJ4j+oC5PgtCyC51IoEC96mHw3BHKAPxpFH+BDk
-         p8NLulQGA4VRc5FqDA5r/lu1stu3K8uxrOtQ61T2dFqhRyuwLg/JhJI9Qn2uoOQRPO
-         yDd/AVFuLnv+Q==
-From:   "Life is hard, and then you die" <ronald@innovation.ch>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com, nikolas@gnu.org,
-        gregkh@linuxfoundation.org, maowenan@huawei.com
-Subject: Re: [PATCH] input: keyboard: applespi: Use new structure for SPI
- transfer delays
-Message-ID: <20200303060351.GA12060@innovation.ch>
-References: <20200227124534.23399-1-sergiu.cuciurean@analog.com>
- <20200229032616.GA27264@innovation.ch>
- <20200302110932.GS1224808@smile.fi.intel.com>
+        id S1727644AbgCCIPi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Mar 2020 03:15:38 -0500
+Received: from relay10.mail.gandi.net ([217.70.178.230]:42787 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727594AbgCCIPi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Mar 2020 03:15:38 -0500
+Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
+        (Authenticated sender: hadess@hadess.net)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 5677C240038;
+        Tue,  3 Mar 2020 08:15:03 +0000 (UTC)
+Message-ID: <fe4e0010826d4d18843b148dc088c2b01c7e2072.camel@hadess.net>
+Subject: Re: [PATCH 1/2] Input: Add keycodes for keyboard backlight control
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Rajat Jain <rajatja@google.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dtor@google.com
+Cc:     rajatxjain@gmail.com
+Date:   Tue, 03 Mar 2020 09:15:02 +0100
+In-Reply-To: <20200303005645.237763-1-rajatja@google.com>
+References: <20200303005645.237763-1-rajatja@google.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.35.92 (3.35.92-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200302110932.GS1224808@smile.fi.intel.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
-On Mon, Mar 02, 2020 at 01:09:32PM +0200, Andy Shevchenko wrote:
-> On Fri, Feb 28, 2020 at 07:26:16PM -0800, Life is hard, and then you die wrote:
-> > On Thu, Feb 27, 2020 at 02:45:34PM +0200, Sergiu Cuciurean wrote:
+On Mon, 2020-03-02 at 16:56 -0800, Rajat Jain wrote:
+> New keyboards can have backlight control keys. Allocating keycodes
+> for them. Such keyboards are already available in ChromeOS.
 > 
-> ...
+> Signed-off-by: Rajat Jain <rajatja@google.com>
+> ---
+>  include/uapi/linux/input-event-codes.h | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> > > -	wr_t->delay_usecs = SPI_RW_CHG_DELAY_US;
-> > > +	wr_t->delay.value = SPI_RW_CHG_DELAY_US;
-> > > +	wr_t->delay.unit = SPI_DELAY_UNIT_USECS;
-> > 
-> > Looks good to me and tested to confirm things still work.
-> 
-> Ronald, we have the established tags for such, like Tested-by:, Reviewed-by:.
+> diff --git a/include/uapi/linux/input-event-codes.h
+> b/include/uapi/linux/input-event-codes.h
+> index 0f1db1cccc3fd..e12a19dc30262 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -652,6 +652,10 @@
+>  /* Electronic privacy screen control */
+>  #define KEY_PRIVACY_SCREEN_TOGGLE	0x279
+>  
+> +/* Keyboard Backlight control */
+> +#define KEY_KBD_BKLIGHT_UP              0x280
+> +#define KEY_KBD_BKLIGHT_DOWN            0x281
 
-Apologies, that was sloppy of me. So:
+There's already KEY_KBDILLUMDOWN and KEY_KBDILLUMUP, used since the
+aluminium PowerBook G4 in 2005 (commit
+146a4b3bdfb5641bfbf975e29680b482b8b343ba)
 
-Tested-by: Ronald Tschalär <ronald@innovation.ch>
-Reviewed-by: Ronald Tschalär <ronald@innovation.ch>
-
-
-  Cheers,
-
-  Ronald
+> +
+>  /*
+>   * Some keyboards have keys which do not have a defined meaning,
+> these keys
+>   * are intended to be programmed / bound to macros by the user. For
+> most
 
