@@ -2,89 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34BC017A620
-	for <lists+linux-input@lfdr.de>; Thu,  5 Mar 2020 14:12:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85CCB17A65F
+	for <lists+linux-input@lfdr.de>; Thu,  5 Mar 2020 14:29:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726263AbgCENLe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Mar 2020 08:11:34 -0500
-Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:17716 "EHLO
-        mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726769AbgCENLd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 5 Mar 2020 08:11:33 -0500
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 025CoR9L022360;
-        Thu, 5 Mar 2020 08:11:18 -0500
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-        by mx0a-00128a01.pphosted.com with ESMTP id 2ygm52f46e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 Mar 2020 08:11:18 -0500
-Received: from ASHBMBX8.ad.analog.com (ashbmbx8.ad.analog.com [10.64.17.5])
-        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 025DBHJH041817
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
-        Thu, 5 Mar 2020 08:11:17 -0500
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1779.2; Thu, 5 Mar 2020
- 08:11:16 -0500
-Received: from zeus.spd.analog.com (10.64.82.11) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.1.1779.2 via Frontend
- Transport; Thu, 5 Mar 2020 08:11:16 -0500
-Received: from saturn.ad.analog.com ([10.48.65.112])
-        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 025DB78C029497;
-        Thu, 5 Mar 2020 08:11:13 -0500
-From:   Alexandru Ardelean <alexandru.ardelean@analog.com>
-To:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <dmitry.torokhov@gmail.com>, <lars@metafoo.de>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        kbuild test robot <lkp@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH v4 4/4] Input: adp5589: fix possible memleak of 'kpad'
-Date:   Thu, 5 Mar 2020 15:14:05 +0200
-Message-ID: <20200305131405.6598-4-alexandru.ardelean@analog.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200305131405.6598-1-alexandru.ardelean@analog.com>
+        id S1725912AbgCEN3u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Mar 2020 08:29:50 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:38450 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725880AbgCEN3u (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Mar 2020 08:29:50 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 025DTZJU142167;
+        Thu, 5 Mar 2020 13:29:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=kQZF8mt3je26TVHWHBg0ACWv3oE6PtGwqyzyfEjsppM=;
+ b=Vpb8WWf7rsVvSubbRu9kq1q5foSqt3ZwDrFmx+RrZiDTDpWPQG44C9bo4JtSbh55oail
+ DpLy6IBvkHsWOVkbp4FpPLVYbL8rnw9D1vXqsUYC6m6jUxDTOuv67DMu0QQvwEZdjDVY
+ CAUGOz3usCY3gHNvNrFA4bPXegm1xoGRQ9MnAJ1EG6AOQ09R9MU0Ep++kMaBzrfdcAfr
+ D1A0oZZ1gzQ6rIe2+u6TGpBvrVpWmQFFiQSLhxUUn0RK+ACaJ5gRV51+9LDHtRFuuk/v
+ UAHsO4yah4TygUrm49yl5VMMbprWVaOZCIOeY6gq4Tih9IdkfWgpxE/pX10DtepYRXWi 5Q== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 2yghn3gw46-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 05 Mar 2020 13:29:35 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 025DR8w7150179;
+        Thu, 5 Mar 2020 13:29:19 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 2yg1pakebx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 05 Mar 2020 13:29:19 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 025DTH86012877;
+        Thu, 5 Mar 2020 13:29:18 GMT
+Received: from kadam (/41.210.146.162)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 05 Mar 2020 05:29:16 -0800
+Date:   Thu, 5 Mar 2020 16:29:09 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Alexandru Ardelean <alexandru.ardelean@analog.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dmitry.torokhov@gmail.com, lars@metafoo.de
+Subject: Re: [PATCH v4 3/4] Input: adp5589: unify ret & error variables
+Message-ID: <20200305132908.GI4118@kadam>
 References: <20200305131405.6598-1-alexandru.ardelean@analog.com>
+ <20200305131405.6598-3-alexandru.ardelean@analog.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-ADIRoutedOnPrem: True
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
- definitions=2020-03-05_03:2020-03-05,2020-03-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- mlxlogscore=999 mlxscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
- impostorscore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003050083
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200305131405.6598-3-alexandru.ardelean@analog.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9550 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
+ mlxlogscore=999 mlxscore=0 spamscore=0 adultscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003050086
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9550 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0 spamscore=0
+ impostorscore=0 mlxscore=0 adultscore=0 mlxlogscore=999 lowpriorityscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2003050086
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-If 'adp5589_i2c_get_driver_data()' returns an error, the exit path should
-be to also free the 'kpad' object.
-This change fixes that.
+On Thu, Mar 05, 2020 at 03:14:04PM +0200, Alexandru Ardelean wrote:
+> Both variables are used mostly in the same way in the probe function.
+> Having both means that we need to copy 'ret' to 'error' before exiting, so
+> just use 'ret' everywhere.
+> 
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
+> ---
 
-Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
----
- drivers/input/keyboard/adp5589-keys.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Looks good.
 
-diff --git a/drivers/input/keyboard/adp5589-keys.c b/drivers/input/keyboard/adp5589-keys.c
-index 1fd36c581a91..5cef5a13b776 100644
---- a/drivers/input/keyboard/adp5589-keys.c
-+++ b/drivers/input/keyboard/adp5589-keys.c
-@@ -1050,7 +1050,7 @@ static int adp5589_probe(struct i2c_client *client,
- 
- 	ret = adp5589_i2c_get_driver_data(client, id);
- 	if (ret < 0)
--		return ret;
-+		goto err_free_mem;
- 
- 	switch (ret) {
- 	case ADP5585_02:
--- 
-2.20.1
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+regards,
+dan carpenter
 
