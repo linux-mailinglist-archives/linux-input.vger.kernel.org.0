@@ -2,36 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BAB0F17AB4A
-	for <lists+linux-input@lfdr.de>; Thu,  5 Mar 2020 18:13:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 596F617AD04
+	for <lists+linux-input@lfdr.de>; Thu,  5 Mar 2020 18:24:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726775AbgCERNZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Mar 2020 12:13:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38784 "EHLO mail.kernel.org"
+        id S1727030AbgCERNc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Mar 2020 12:13:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39026 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726650AbgCERNW (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 5 Mar 2020 12:13:22 -0500
+        id S1726141AbgCERNb (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 5 Mar 2020 12:13:31 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6B16120870;
-        Thu,  5 Mar 2020 17:13:21 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 91B9C22B48;
+        Thu,  5 Mar 2020 17:13:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583428402;
-        bh=3FrZdYvpqhFybQqlRH77rhrJ/OHxk2sMndBLGH2KYyY=;
+        s=default; t=1583428411;
+        bh=F1D0R/proQlgrCAIHqb84XFSvyT3s+JQd9HSM/5D7iQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Yz6SMDLzqQQLEbq6x1kR0y4qqXxmg8K/tG+oQWSJxkr2lS7TN1n3ib4xrIQfuv5r1
-         V1LVivWDqReUYwL6jVjxlqYfu26Mnyh0vV9IdyNWGHEPlmiMqh6mG0C7630v3hUyWa
-         FnhmG3EvlYQE6caoxQ/JW9iMaZMyByRnkKWSRywc=
+        b=pJm/5sTmhooF8KlZ1ZaG9eRoVbVwsz8WODqs28TYgfaVoLePK2BTcPEAAJ3wI2dyt
+         Q16+k3pYJ1L9RnQlte/8VoBbhtJQrhtEmzIyyRJLx5rys7treRYCTK0wKDMritP+IT
+         W5XVTviXNmwfT0aqZ9oYgNKXegLATKETGASV1ONk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Hans de Goede <hdegoede@redhat.com>,
+Cc:     Hanno Zulla <kontakt@hanno.de>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 09/67] HID: i2c-hid: add Trekstor Surfbook E11B to descriptor override
-Date:   Thu,  5 Mar 2020 12:12:10 -0500
-Message-Id: <20200305171309.29118-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 15/67] HID: hid-bigbenff: fix general protection fault caused by double kfree
+Date:   Thu,  5 Mar 2020 12:12:16 -0500
+Message-Id: <20200305171309.29118-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200305171309.29118-1-sashal@kernel.org>
 References: <20200305171309.29118-1-sashal@kernel.org>
@@ -44,41 +43,53 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+From: Hanno Zulla <kontakt@hanno.de>
 
-[ Upstream commit be0aba826c4a6ba5929def1962a90d6127871969 ]
+[ Upstream commit 789a2c250340666220fa74bc6c8f58497e3863b3 ]
 
-The Surfbook E11B uses the SIPODEV SP1064 touchpad, which does not supply
-descriptors, so it has to be added to the override list.
+The struct *bigben was allocated via devm_kzalloc() and then used as a
+parameter in input_ff_create_memless(). This caused a double kfree
+during removal of the device, since both the managed resource API and
+ml_ff_destroy() in drivers/input/ff-memless.c would call kfree() on it.
 
-BugLink: https://bugs.launchpad.net/bugs/1858299
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hanno Zulla <kontakt@hanno.de>
 Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/hid/hid-bigbenff.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-index d31ea82b84c17..a66f08041a1aa 100644
---- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-@@ -341,6 +341,14 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
- 		},
- 		.driver_data = (void *)&sipodev_desc
- 	},
-+	{
-+		.ident = "Trekstor SURFBOOK E11B",
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "TREKSTOR"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "SURFBOOK E11B"),
-+		},
-+		.driver_data = (void *)&sipodev_desc
-+	},
- 	{
- 		.ident = "Direkt-Tek DTLAPY116-2",
- 		.matches = {
+diff --git a/drivers/hid/hid-bigbenff.c b/drivers/hid/hid-bigbenff.c
+index 3f6abd190df43..f7e85bacb6889 100644
+--- a/drivers/hid/hid-bigbenff.c
++++ b/drivers/hid/hid-bigbenff.c
+@@ -220,10 +220,16 @@ static void bigben_worker(struct work_struct *work)
+ static int hid_bigben_play_effect(struct input_dev *dev, void *data,
+ 			 struct ff_effect *effect)
+ {
+-	struct bigben_device *bigben = data;
++	struct hid_device *hid = input_get_drvdata(dev);
++	struct bigben_device *bigben = hid_get_drvdata(hid);
+ 	u8 right_motor_on;
+ 	u8 left_motor_force;
+ 
++	if (!bigben) {
++		hid_err(hid, "no device data\n");
++		return 0;
++	}
++
+ 	if (effect->type != FF_RUMBLE)
+ 		return 0;
+ 
+@@ -341,7 +347,7 @@ static int bigben_probe(struct hid_device *hid,
+ 
+ 	INIT_WORK(&bigben->worker, bigben_worker);
+ 
+-	error = input_ff_create_memless(hidinput->input, bigben,
++	error = input_ff_create_memless(hidinput->input, NULL,
+ 		hid_bigben_play_effect);
+ 	if (error)
+ 		return error;
 -- 
 2.20.1
 
