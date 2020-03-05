@@ -2,97 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 406C517959D
-	for <lists+linux-input@lfdr.de>; Wed,  4 Mar 2020 17:47:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC7E317A019
+	for <lists+linux-input@lfdr.de>; Thu,  5 Mar 2020 07:44:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387860AbgCDQrP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Mar 2020 11:47:15 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:45989 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729792AbgCDQrP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Mar 2020 11:47:15 -0500
-Received: by mail-qk1-f194.google.com with SMTP id z12so2245276qkg.12;
-        Wed, 04 Mar 2020 08:47:14 -0800 (PST)
+        id S1726269AbgCEGo1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Mar 2020 01:44:27 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43343 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726251AbgCEGo1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Mar 2020 01:44:27 -0500
+Received: by mail-pf1-f193.google.com with SMTP id c144so2275444pfb.10;
+        Wed, 04 Mar 2020 22:44:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=czUUsTYyYv4aMuyuTWXd4LsVX5riUlW5X85NHq9ZSmI=;
-        b=cA/B56Rzwdv57NkhQssbXzL6cC4IXf6Y3TdSU6eACtMMqmTkpjKNaP3AG0RFfQq7hY
-         0dvE9gIncXjPKU9y4sA5LlVd2f4NMSHnowZecE4xZyEIyZnx5UjH1V8e1fFXxFxVMvlo
-         QOenHumwAgOZYAktyYrm8DxsEJiW7h1XpUAiHTlOBEeJeZR7bE8OBht0Ob2I+TpcqjT3
-         jVkUZQDNWY2jcBNzHmcsrKJQ885ylrJDoS1eF6e+u5yWhaBcnzej5bxn813eV5G3ye2N
-         0fAY6dAPC0jnfqlCk2W6eo+tbBXegIwI5bDKidkIWHDms0fWyxxg1M8Bg31hHjLbzsU2
-         HRQA==
+        h=sender:from:to:subject:date:message-id;
+        bh=iHCLUX4LlZEuEw2wjTqn+Kf9HUrwO3gyzSzh9eS6vB8=;
+        b=i8Z7wwYJp4A559I+KmDI1uIIDf4ALcKodvGO5dAfEp8Pbp7WGuoD2aDGeQYZXcGTnh
+         DxJMSLMKx6+dWWK0vx+xrr6VWqM2SeCHrDslGkN1w7SIhXeb+OW9jKBpwu/4wuR4R0fo
+         qcKtYtsGBAV3ozx6TlKvkzo+j6Sqxv7hyngUOOP94we/DANDqxX2X3jjRzZiecp6fw3N
+         +wA/UWriRtmXxNZ7WyLcxnRR7/eM2Au+eB1wJgOrrQ0DPsNFvwBxyiBZvwU8HgVwP93e
+         QfEk7+AAWRL01NFi7tMxF2SuelaHgdOZU/DZUGqXRYbkwx41U5TQJUWYI2nm1zf7O6eB
+         /75w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=czUUsTYyYv4aMuyuTWXd4LsVX5riUlW5X85NHq9ZSmI=;
-        b=GHKfW8bMkiJNLK/vBLX5Y1fJQbHl5WweFITOmxBcsh7nO4OsTjnYlcdvlK8fxkfB8F
-         JTxtQkljuPoPgLxDZWUDvohhaXAuvAtMGW/YEjATVqCZL4CSHer/3TLpROR8rJvl3q9Y
-         bzG+BZCILbiW6Nlvys7zhGEHdqazZ1v2HFKIRZoBxo1oZWNx25VNwofGXhzWjUpyawWH
-         KRgTN6u3PNhZrsjeUKupLz9zDGHD6Rpzj7fEhCytSD56reFYuTmIxBhwLzQd5mZBdYXA
-         ssaIbl0c0Cefob6n/qBO8r7SutBuOjTNk/Sl3fdVMYDRf/EraP9MYxFF6018taGz/28U
-         pQEQ==
-X-Gm-Message-State: ANhLgQ2rVrxfWXk4kUAbY37i9U/h8yHoyT7uISglDUizZD2u+7EmM+ai
-        Km3/pn1yPiL5GTeIfcwXdVc=
-X-Google-Smtp-Source: ADFU+vtKQCMYIACC9m0z0xKgAZngGRhg0Jz+TEUzs2A/FqWhJpQy9OC9+L+Ix6PfTiYdk69lh3sdqQ==
-X-Received: by 2002:ae9:dc85:: with SMTP id q127mr3736449qkf.460.1583340434302;
-        Wed, 04 Mar 2020 08:47:14 -0800 (PST)
-Received: from localhost.localdomain ([65.88.88.177])
-        by smtp.gmail.com with ESMTPSA id t55sm14923074qte.24.2020.03.04.08.47.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2020 08:47:13 -0800 (PST)
-From:   Tony Fischetti <tony.fischetti@gmail.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tony.fischetti@gmail.com
-Subject: [PATCH] add ALWAYS_POLL quirk to lenovo pixart mouse
-Date:   Wed,  4 Mar 2020 11:47:00 -0500
-Message-Id: <20200304164700.11574-1-tony.fischetti@gmail.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:sender:from:to:subject:date:message-id;
+        bh=iHCLUX4LlZEuEw2wjTqn+Kf9HUrwO3gyzSzh9eS6vB8=;
+        b=e5FXFKZY8Sbma/zOqeUN/8zUzDytnqJmkfqTvJm2XOY9rBjZZIGKyMfuz0ouAoaEjT
+         vgf9lD1YpgSFE+Thtu3s4bmy4dLEw1WmP2be/5tgZIVXMWtD2JxlMM5NQBtRzGLE+1jX
+         eL+IrY5F8q186NiW4+M8oxG1eFLW3oHap5bmXLc4i29AvV3pQ7pfNtvQI98Jm/p0bWJh
+         eVCrfe86hGryOj1mk+cj+9d5LSY0POIGjPOLcdBk8LgAnX+KmR5J1yVE7lbBKmV4d/03
+         +Y1zdlNbp9Wqh17hKaWr2mq8UIzsODr69TEAiD6Fbv+n8jUjntIACT1BCyfiSAdiEjbq
+         nYqQ==
+X-Gm-Message-State: ANhLgQ2pYlz71ljUhTiMqnG7uWSIOEA6pX1WnBKmeyZeVTAmH3Mbl5nh
+        Zil0woQjwKdNbXbKW5Yt6uI=
+X-Google-Smtp-Source: ADFU+vsZdz4mOQHRYedWXA90jUzMBhPRBEjV3ILIMadz2Ii8pDZqacczIffSpWyMTQqroUq7ZZ/lcQ==
+X-Received: by 2002:a62:d10b:: with SMTP id z11mr7164103pfg.38.1583390665965;
+        Wed, 04 Mar 2020 22:44:25 -0800 (PST)
+Received: from localhost (61-220-137-37.HINET-IP.hinet.net. [61.220.137.37])
+        by smtp.gmail.com with ESMTPSA id e1sm30964891pff.188.2020.03.04.22.44.24
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 04 Mar 2020 22:44:25 -0800 (PST)
+From:   AceLan Kao <acelan.kao@canonical.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: i8042 - Fix the selftest retry logic
+Date:   Thu,  5 Mar 2020 14:44:23 +0800
+Message-Id: <20200305064423.16196-1-acelan.kao@canonical.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-A lenovo pixart mouse (17ef:608d) is afflicted common the the malfunction
-where it disconnects and reconnects every minute--each time incrementing
-the device number. This patch adds the device id of the device and
-specifies that it needs the HID_QUIRK_ALWAYS_POLL quirk in order to
-work properly.
----
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
+It returns -NODEV at the first selftest timeout, so the retry logic
+doesn't work. Move the return outside of the while loop to make it real
+retry 5 times before returns -ENODEV.
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 3a400ce603c4..9e1dfc714ea8 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -726,6 +726,7 @@
- #define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
- #define USB_DEVICE_ID_LENOVO_X1_TAB	0x60a3
- #define USB_DEVICE_ID_LENOVO_X1_TAB3	0x60b5
-+#define USB_DEVICE_ID_LENOVO_PIXART_USB_OPTICAL_MOUSE	0x608d
+BTW, the origin loop will retry 6 times, also fix this.
+
+Signed-off-by: AceLan Kao <acelan.kao@canonical.com>
+---
+ drivers/input/serio/i8042.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index 20ff2bed3917..3f6433a5c8e6 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -944,10 +944,9 @@ static int i8042_controller_selftest(void)
+ 	 */
+ 	do {
  
- #define USB_VENDOR_ID_LG		0x1fd2
- #define USB_DEVICE_ID_LG_MULTITOUCH	0x0064
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 0e7b2d998395..247747d6d8cf 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -103,6 +103,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_PENSKETCH_M912), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406XE), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_C007), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_C077), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_KEYBOARD_G710_PLUS), HID_QUIRK_NOGET },
+-		if (i8042_command(&param, I8042_CMD_CTL_TEST)) {
+-			pr_err("i8042 controller selftest timeout\n");
+-			return -ENODEV;
+-		}
++		if (i8042_command(&param, I8042_CMD_CTL_TEST))
++			pr_err("i8042 controller selftest timeout (%d/5)\n",
++			       i+1);
+ 
+ 		if (param == I8042_RET_CTL_TEST)
+ 			return 0;
+@@ -955,7 +954,9 @@ static int i8042_controller_selftest(void)
+ 		dbg("i8042 controller selftest: %#x != %#x\n",
+ 		    param, I8042_RET_CTL_TEST);
+ 		msleep(50);
+-	} while (i++ < 5);
++	} while (++i < 5);
++	if (i == 5)
++		return -ENODEV;
+ 
+ #ifdef CONFIG_X86
+ 	/*
 -- 
-2.20.1
+2.17.1
 
