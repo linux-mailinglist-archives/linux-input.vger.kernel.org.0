@@ -2,39 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BFDA17ABF6
-	for <lists+linux-input@lfdr.de>; Thu,  5 Mar 2020 18:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80FE117ABF0
+	for <lists+linux-input@lfdr.de>; Thu,  5 Mar 2020 18:19:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727408AbgCERRF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Mar 2020 12:17:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43112 "EHLO mail.kernel.org"
+        id S1727520AbgCERQp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Mar 2020 12:16:45 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43334 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727460AbgCERQG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 5 Mar 2020 12:16:06 -0500
+        id S1728436AbgCERQO (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 5 Mar 2020 12:16:14 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 39CF32166E;
-        Thu,  5 Mar 2020 17:16:05 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8AC48207FD;
+        Thu,  5 Mar 2020 17:16:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583428566;
-        bh=+IjVORKh/seQrNgXksEThu2KTYNq7FzrhANnMv4hTSA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fkp+HALU9VYL8Ht0ukNclUUi8QwW4L2brkRlWCT9Whb87/utRJvN+AV2fvnlg5gPU
-         EIIXonurpbw6qUbjUon9nw+L9i9WBvztn+1zCmAcBVia2iteAVr9EO3g+7IxQ3aqZk
-         1vevPyfmHqb4LT33Qke4PKWKunV9rfwIqlGNaFsM=
+        s=default; t=1583428574;
+        bh=d8Up60HswRPJVcQTm9fRbX78V0Y0r+ar09TsxbZZpGM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=0v2rcFV5MJd/lYWQXy2D1jJ117icjGGiq7bOdyVVBWR/TuQRM+A/rPgzH3UhKKQNE
+         fZJENSz4hRv0XQnhZjV3xQuai+ng9wUQuKyPuwbApQ0nR/ppTMLlhYZdoc1dlqvNKT
+         24tB8Lx/Vju0mOP+eJcuvoCzyuIlAapYJDUqOpgw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+Cc:     Johan Korsnes <jkorsnes@cisco.com>,
+        Armando Visconti <armando.visconti@st.com>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Alan Stern <stern@rowland.harvard.edu>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 05/12] HID: i2c-hid: add Trekstor Surfbook E11B to descriptor override
-Date:   Thu,  5 Mar 2020 12:15:52 -0500
-Message-Id: <20200305171559.30422-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 1/7] HID: core: fix off-by-one memset in hid_report_raw_event()
+Date:   Thu,  5 Mar 2020 12:16:06 -0500
+Message-Id: <20200305171612.30555-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200305171559.30422-1-sashal@kernel.org>
-References: <20200305171559.30422-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,41 +43,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+From: Johan Korsnes <jkorsnes@cisco.com>
 
-[ Upstream commit be0aba826c4a6ba5929def1962a90d6127871969 ]
+[ Upstream commit 5ebdffd25098898aff1249ae2f7dbfddd76d8f8f ]
 
-The Surfbook E11B uses the SIPODEV SP1064 touchpad, which does not supply
-descriptors, so it has to be added to the override list.
+In case a report is greater than HID_MAX_BUFFER_SIZE, it is truncated,
+but the report-number byte is not correctly handled. This results in a
+off-by-one in the following memset, causing a kernel Oops and ensuing
+system crash.
 
-BugLink: https://bugs.launchpad.net/bugs/1858299
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Note: With commit 8ec321e96e05 ("HID: Fix slab-out-of-bounds read in
+hid_field_extract") I no longer hit the kernel Oops as we instead fail
+"controlled" at probe if there is a report too long in the HID
+report-descriptor. hid_report_raw_event() is an exported symbol, so
+presumabely we cannot always rely on this being the case.
+
+Fixes: 966922f26c7f ("HID: fix a crash in hid_report_raw_event()
+                     function.")
+Signed-off-by: Johan Korsnes <jkorsnes@cisco.com>
+Cc: Armando Visconti <armando.visconti@st.com>
+Cc: Jiri Kosina <jkosina@suse.cz>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/hid/hid-core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-index 10af8585c820d..95052373a8282 100644
---- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-@@ -341,6 +341,14 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
- 		},
- 		.driver_data = (void *)&sipodev_desc
- 	},
-+	{
-+		.ident = "Trekstor SURFBOOK E11B",
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "TREKSTOR"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "SURFBOOK E11B"),
-+		},
-+		.driver_data = (void *)&sipodev_desc
-+	},
- 	{
- 		.ident = "Direkt-Tek DTLAPY116-2",
- 		.matches = {
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 16ff8d3c7cfe4..325adbef134cc 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -1508,7 +1508,9 @@ int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,
+ 
+ 	rsize = ((report->size - 1) >> 3) + 1;
+ 
+-	if (rsize > HID_MAX_BUFFER_SIZE)
++	if (report_enum->numbered && rsize >= HID_MAX_BUFFER_SIZE)
++		rsize = HID_MAX_BUFFER_SIZE - 1;
++	else if (rsize > HID_MAX_BUFFER_SIZE)
+ 		rsize = HID_MAX_BUFFER_SIZE;
+ 
+ 	if (csize < rsize) {
 -- 
 2.20.1
 
