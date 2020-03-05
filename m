@@ -2,299 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1062217A1BD
-	for <lists+linux-input@lfdr.de>; Thu,  5 Mar 2020 09:55:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AC7C17A3F7
+	for <lists+linux-input@lfdr.de>; Thu,  5 Mar 2020 12:16:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725944AbgCEIzD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Mar 2020 03:55:03 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:51116 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbgCEIzD (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Mar 2020 03:55:03 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id 8AFC7291A17
-Subject: Re: [PATCH v6] dt-bindings: mfd: Convert ChromeOS EC bindings to
- json-schema
-To:     Ikjoon Jang <ikjn@chromium.org>, devicetree@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Nicolas Boitchat <drinkcat@chromium.org>,
-        linux-input@vger.kernel.org
-References: <20200305075302.200959-1-ikjn@chromium.org>
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <199d9fc9-5eba-c135-14a5-e78000859f47@collabora.com>
-Date:   Thu, 5 Mar 2020 09:54:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727178AbgCELQR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Mar 2020 06:16:17 -0500
+Received: from ulan.pagasa.dost.gov.ph ([202.90.128.205]:47754 "EHLO
+        mailgw.pagasa.dost.gov.ph" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725880AbgCELQQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 5 Mar 2020 06:16:16 -0500
+X-Greylist: delayed 1274 seconds by postgrey-1.27 at vger.kernel.org; Thu, 05 Mar 2020 06:16:06 EST
+Received: from webmail.pagasa.dost.int ([10.10.11.8])
+        by mailgw.pagasa.dost.gov.ph  with ESMTP id 025AseSK006737-025AseSM006737
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Thu, 5 Mar 2020 18:54:40 +0800
+Received: from localhost (localhost [127.0.0.1])
+        by webmail.pagasa.dost.int (Postfix) with ESMTP id 2FB4F2981A90;
+        Thu,  5 Mar 2020 18:46:49 +0800 (PST)
+Received: from webmail.pagasa.dost.int ([127.0.0.1])
+        by localhost (webmail.pagasa.dost.int [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id r7J1A0N3aHYl; Thu,  5 Mar 2020 18:46:48 +0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by webmail.pagasa.dost.int (Postfix) with ESMTP id 2232C2981A4C;
+        Thu,  5 Mar 2020 18:46:48 +0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 webmail.pagasa.dost.int 2232C2981A4C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pagasa.dost.gov.ph;
+        s=96B9A03E-48B0-11EA-A7E8-92F42F537CE2; t=1583405208;
+        bh=RC75T5p3JPNk7JUNB+lH0UfaFQO1Ac584gPL3SIL6h8=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=vwxX3L8Z7uHnDJPZBIix9IBQi0XMBiY4sLQTc/9+h6pT2FHeTz61v6B+3f3w6WhXh
+         jUdnW3+FuZCvkf1pcG3LkjpsYvCQO7zO587a10BanpMqFFL6zPGTaTUsrqnCnsqpAd
+         CtN8Atz3iXBEFHZeiXsfNfnWSfk0n7tqEffbmBy8=
+X-Virus-Scanned: amavisd-new at pagasa.dost.int
+Received: from webmail.pagasa.dost.int ([127.0.0.1])
+        by localhost (webmail.pagasa.dost.int [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id WT2tTJV-1oie; Thu,  5 Mar 2020 18:46:47 +0800 (PST)
+Received: from webmail.pagasa.dost.int (webmail.pagasa.dost.int [10.11.1.8])
+        by webmail.pagasa.dost.int (Postfix) with ESMTP id 5119729819D2;
+        Thu,  5 Mar 2020 18:46:46 +0800 (PST)
+Date:   Thu, 5 Mar 2020 18:46:46 +0800 (PST)
+From:   "Juanito S. Galang" <juanito.galang@pagasa.dost.gov.ph>
+Message-ID: <1980644409.3575157.1583405206290.JavaMail.zimbra@pagasa.dost.gov.ph>
+Subject: 
 MIME-Version: 1.0
-In-Reply-To: <20200305075302.200959-1-ikjn@chromium.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Zimbra 8.8.15_GA_3899 (ZimbraWebClient - GC79 (Win)/8.8.15_GA_3895)
+Thread-Index: lWYDQbv6QI/eIWKrWUD3NPCXqIIr9A==
+Thread-Topic: 
+X-FEAS-DKIM: Valid
+Authentication-Results: mailgw.pagasa.dost.gov.ph;
+        dkim=pass header.i=@pagasa.dost.gov.ph
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Ikjoon,
 
-On 5/3/20 8:53, Ikjoon Jang wrote:
-> Convert the ChromeOS EC bindings to json-schema.
-> 
-> Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-> ---
-> v6: adjust property dependencies, drop duplicated definitions,
->     and set additionalProperties
-> v5: unset additionalProperties
-> v4: text reflows, add type references, and fix examples
-> v3: node name changed in rpmsg example
-> v2: cleanup description, fix typos, remove LPC, and add RPMSG example
-> ---
->  .../devicetree/bindings/mfd/cros-ec.txt       |  76 -----------
->  .../devicetree/bindings/mfd/cros-ec.yaml      | 125 ++++++++++++++++++
 
-According to the feedback I received on other patches from Rob, the name of the
-file should include the vendor, in that case should be google,cros-ec.yaml
-
-I already argued in previous version why I think this should go in
-bindings/chrome instead of mfd, these bindings correspond to the platform/chrome
-device not the mfd cros ec device (cros-ec-dev) in MFD, anyway, I don't want to
-be touchy, but, as is, should go through the Lee Jones tree not our
-chrome-platform tree. So if Lee is fine with it I'm fine too.
-
-Just another minor change (see below) and looks good to me.
-
-Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-
->  2 files changed, 125 insertions(+), 76 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.txt b/Documentation/devicetree/bindings/mfd/cros-ec.txt
-> deleted file mode 100644
-> index 4860eabd0f72..000000000000
-> --- a/Documentation/devicetree/bindings/mfd/cros-ec.txt
-> +++ /dev/null
-> @@ -1,76 +0,0 @@
-> -ChromeOS Embedded Controller
-> -
-> -Google's ChromeOS EC is a Cortex-M device which talks to the AP and
-> -implements various function such as keyboard and battery charging.
-> -
-> -The EC can be connect through various means (I2C, SPI, LPC, RPMSG) and the
-> -compatible string used depends on the interface. Each connection method has
-> -its own driver which connects to the top level interface-agnostic EC driver.
-> -Other Linux driver (such as cros-ec-keyb for the matrix keyboard) connect to
-> -the top-level driver.
-> -
-> -Required properties (I2C):
-> -- compatible: "google,cros-ec-i2c"
-> -- reg: I2C slave address
-> -
-> -Required properties (SPI):
-> -- compatible: "google,cros-ec-spi"
-> -- reg: SPI chip select
-> -
-> -Required properties (RPMSG):
-> -- compatible: "google,cros-ec-rpmsg"
-> -
-> -Optional properties (SPI):
-> -- google,cros-ec-spi-pre-delay: Some implementations of the EC need a little
-> -  time to wake up from sleep before they can receive SPI transfers at a high
-> -  clock rate. This property specifies the delay, in usecs, between the
-> -  assertion of the CS to the start of the first clock pulse.
-> -- google,cros-ec-spi-msg-delay: Some implementations of the EC require some
-> -  additional processing time in order to accept new transactions. If the delay
-> -  between transactions is not long enough the EC may not be able to respond
-> -  properly to subsequent transactions and cause them to hang. This property
-> -  specifies the delay, in usecs, introduced between transactions to account
-> -  for the time required by the EC to get back into a state in which new data
-> -  can be accepted.
-> -
-> -Required properties (LPC):
-> -- compatible: "google,cros-ec-lpc"
-> -- reg: List of (IO address, size) pairs defining the interface uses
-> -
-> -Optional properties (all):
-> -- google,has-vbc-nvram: Some implementations of the EC include a small
-> -  nvram space used to store verified boot context data. This boolean flag
-> -  is used to specify whether this nvram is present or not.
-> -
-> -Example for I2C:
-> -
-> -i2c@12ca0000 {
-> -	cros-ec@1e {
-> -		reg = <0x1e>;
-> -		compatible = "google,cros-ec-i2c";
-> -		interrupts = <14 0>;
-> -		interrupt-parent = <&wakeup_eint>;
-> -		wakeup-source;
-> -	};
-> -
-> -
-> -Example for SPI:
-> -
-> -spi@131b0000 {
-> -	ec@0 {
-> -		compatible = "google,cros-ec-spi";
-> -		reg = <0x0>;
-> -		interrupts = <14 0>;
-> -		interrupt-parent = <&wakeup_eint>;
-> -		wakeup-source;
-> -		spi-max-frequency = <5000000>;
-> -		controller-data {
-> -		cs-gpio = <&gpf0 3 4 3 0>;
-> -		samsung,spi-cs;
-> -		samsung,spi-feedback-delay = <2>;
-> -		};
-> -	};
-> -};
-> -
-> -
-> -Example for LPC is not supplied as it is not yet implemented.
-> diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.yaml b/Documentation/devicetree/bindings/mfd/cros-ec.yaml
-> new file mode 100644
-> index 000000000000..19add9d6bd09
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/cros-ec.yaml
-> @@ -0,0 +1,125 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/cros-ec.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ChromeOS Embedded Controller
-> +
-> +maintainers:
-> +  - Benson Leung <bleung@chromium.org>
-> +  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> +  - Guenter Roeck <groeck@chromium.org>
-> +
-> +description:
-> +  Google's ChromeOS EC is a microcontroller which talks to the AP and
-> +  implements various functions such as keyboard and battery charging.
-> +  The EC can be connected through various interfaces (I2C, SPI, and others)
-> +  and the compatible string specifies which interface is being used.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - description:
-> +          For implementations of the EC is connected through I2C.
-> +        const: google,cros-ec-i2c
-> +      - description:
-> +          For implementations of the EC is connected through SPI.
-> +        const: google,cros-ec-spi
-> +      - description:
-> +          For implementations of the EC is connected through RPMSG.
-> +        const: google,cros-ec-rpmsg
-> +
-> +  google,cros-ec-spi-pre-delay:
-> +    description:
-> +      This property specifies the delay in usecs between the
-> +      assertion of the CS and the first clock pulse.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - default: 0
-> +      - minimum: 0
-> +
-> +  google,cros-ec-spi-msg-delay:
-> +    description:
-> +      This property specifies the delay in usecs between messages.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - default: 0
-> +      - minimum: 0
-> +
-> +  google,has-vbc-nvram:
-> +    description:
-> +      Some implementations of the EC include a small nvram space used to
-> +      store verified boot context data. This boolean flag is used to specify
-> +      whether this nvram is present or not.
-> +    type: boolean
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - google,cros-ec-i2c
-> +          - google,cros-ec-rpmsg
-> +then:
-> +  properties:
-> +    google,cros-ec-spi-pre-delay: false
-> +    google,cros-ec-spi-msg-delay: false
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  # Example for I2C
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        cros-ec@1e {
-> +            compatible = "google,cros-ec-i2c";
-> +            reg = <0x1e>;
-> +            interrupts = <6 0>;
-> +            interrupt-parent = <&gpio0>;
-> +        };
-> +    };
-> +
-> +  # Example for SPI
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    spi0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        cros-ec@0 {
-> +            compatible = "google,cros-ec-spi";
-> +            reg = <0x0>;
-> +            google,cros-ec-spi-msg-delay = <30>;
-> +            google,cros-ec-spi-pre-delay = <10>;
-> +            interrupts = <99 0>;
-> +            interrupt-parent = <&gpio7>;
-> +            spi-max-frequency = <5000000>;
-> +        };
-> +    };
-> +
-> +  # Example for RPMSG
-> +  - |
-> +    scp0 {
-> +        cros-ec@0 {
-
-There is no reg so so you should remove the unit address in this case s/@0//
-
-> +            compatible = "google,cros-ec-rpmsg";
-> +        };
-> +    };
-> +...
-> 
-
-Thanks,
-  Enric
+Herzlichen Gl=C3=BCckwunsch Lieber Beg=C3=BCnstigter,Sie erhalten diese E-M=
+ail von der Robert Bailey Foundation. Ich bin ein pensionierter Regierungsa=
+ngestellter aus Harlem und ein Gewinner des Powerball Lottery Jackpot im We=
+rt von 343,8 Millionen US-Dollar. Ich bin der gr=C3=B6=C3=9Fte Jackpot-Gewi=
+nner in der Geschichte der New Yorker Lotterie im US-Bundesstaat Amerika. I=
+ch habe diese Lotterie am 27. Oktober 2018 gewonnen und m=C3=B6chte Sie dar=
+=C3=BCber informieren, dass Google in Zusammenarbeit mit Microsoft Ihre "E-=
+Mail-Adresse" auf meine Bitte, einen Spendenbetrag von 3.000.000,00 Million=
+en Euro zu erhalten, =C3=BCbermittelt hat. Ich spende diese 3 Millionen Eur=
+o an Sie, um den Wohlt=C3=A4tigkeitsheimen und armen Menschen in Ihrer Geme=
+inde zu helfen, damit wir die Welt f=C3=BCr alle verbessern k=C3=B6nnen.Wei=
+tere Informationen finden Sie auf der folgenden Website, damit Sie nicht sk=
+eptisch sind
+Diese Spende von 3 Mio. EUR.https://nypost.com/2018/11/14/meet-the-winner-o=
+f-the-biggest-lottery-jackpot-in-new-york-history/Sie k=C3=B6nnen auch mein=
+ YouTube f=C3=BCr mehr Best=C3=A4tigung aufpassen:
+https://www.youtube.com/watch?v=3DH5vT18Ysavc
+Bitte beachten Sie, dass alle Antworten an (robertdonation7@gmail.com=C2=A0=
+ ) gesendet werden, damit wir das k=C3=B6nnen
+Fahren Sie fort, um das gespendete Geld an Sie zu =C3=BCberweisen.E-Mail: r=
+obertdonation7@gmail.comFreundliche Gr=C3=BC=C3=9Fe,
+Robert Bailey
+* * * * * * * * * * * * * * * *
+Powerball Jackpot Gewinner
