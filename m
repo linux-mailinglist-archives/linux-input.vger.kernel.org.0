@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5100917AC7F
-	for <lists+linux-input@lfdr.de>; Thu,  5 Mar 2020 18:21:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFE5017AC31
+	for <lists+linux-input@lfdr.de>; Thu,  5 Mar 2020 18:19:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727756AbgCEROl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Mar 2020 12:14:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41012 "EHLO mail.kernel.org"
+        id S1725963AbgCERTB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Mar 2020 12:19:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42000 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727749AbgCEROl (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 5 Mar 2020 12:14:41 -0500
+        id S1727902AbgCERPT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 5 Mar 2020 12:15:19 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DCF2721556;
-        Thu,  5 Mar 2020 17:14:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8E0D420848;
+        Thu,  5 Mar 2020 17:15:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583428480;
-        bh=MdM4dmvB1NrI3FG6lrkvPkf35G6mA0uFNk6ScnH/2ew=;
+        s=default; t=1583428519;
+        bh=mtnlBCmHerKf8Q879eLnDJEOQK8W1BiYUPGGqs279ZE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SdwYnAHCMb3/c+eQ43ulpZb3dX+x9vMgAgZXY6XQuJzcBwqqg+He5Hahry1GhpTSp
-         kyU1GQVJj5HnPzjyCgyP8sVu0zNUaB/+LeuxR90hG5lAvG7ghBxphQ/ikXb/Dh7ihn
-         5Zt2mdRZv0wDFO2l2iDbONCF861vsj7kBWpWxBbQ=
+        b=gcTMk0c0XJyXoflPwfogG8ytv590dFdRKPrb0dNH8pZemhM6Kes5T0ezqRk0UBNZ1
+         etF8Nzq/nmi6DxvRyR47Ky7twy4OxBSsYMAiSVPkx5mODHJ8iKbBCB3M+yPpKZ2qdv
+         Za4360iu/SXhiNbKMPJdjXibLtnPe1uGPEVvklHU=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hanno Zulla <kontakt@hanno.de>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 16/58] HID: hid-bigbenff: fix race condition for scheduled work during removal
-Date:   Thu,  5 Mar 2020 12:13:37 -0500
-Message-Id: <20200305171420.29595-16-sashal@kernel.org>
+Cc:     Mansour Behabadi <mansour@oxplot.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 02/31] HID: apple: Add support for recent firmware on Magic Keyboards
+Date:   Thu,  5 Mar 2020 12:14:46 -0500
+Message-Id: <20200305171516.30028-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200305171420.29595-1-sashal@kernel.org>
-References: <20200305171420.29595-1-sashal@kernel.org>
+In-Reply-To: <20200305171516.30028-1-sashal@kernel.org>
+References: <20200305171516.30028-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,59 +43,35 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hanno Zulla <kontakt@hanno.de>
+From: Mansour Behabadi <mansour@oxplot.com>
 
-[ Upstream commit 4eb1b01de5b9d8596d6c103efcf1a15cfc1bedf7 ]
+[ Upstream commit e433be929e63265b7412478eb7ff271467aee2d7 ]
 
-It's possible that there is scheduled work left while the device is
-already being removed, which can cause a kernel crash. Adding a flag
-will avoid this.
+Magic Keyboards with more recent firmware (0x0100) report Fn key differently.
+Without this patch, Fn key may not behave as expected and may not be
+configurable via hid_apple fnmode module parameter.
 
-Signed-off-by: Hanno Zulla <kontakt@hanno.de>
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Signed-off-by: Mansour Behabadi <mansour@oxplot.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-bigbenff.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/hid/hid-apple.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-bigbenff.c b/drivers/hid/hid-bigbenff.c
-index f8c552b64a899..db6da21ade063 100644
---- a/drivers/hid/hid-bigbenff.c
-+++ b/drivers/hid/hid-bigbenff.c
-@@ -174,6 +174,7 @@ static __u8 pid0902_rdesc_fixed[] = {
- struct bigben_device {
- 	struct hid_device *hid;
- 	struct hid_report *report;
-+	bool removed;
- 	u8 led_state;         /* LED1 = 1 .. LED4 = 8 */
- 	u8 right_motor_on;    /* right motor off/on 0/1 */
- 	u8 left_motor_force;  /* left motor force 0-255 */
-@@ -190,6 +191,9 @@ static void bigben_worker(struct work_struct *work)
- 		struct bigben_device, worker);
- 	struct hid_field *report_field = bigben->report->field[0];
- 
-+	if (bigben->removed)
-+		return;
-+
- 	if (bigben->work_led) {
- 		bigben->work_led = false;
- 		report_field->value[0] = 0x01; /* 1 = led message */
-@@ -304,6 +308,7 @@ static void bigben_remove(struct hid_device *hid)
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index d0a81a03ddbdd..8ab8f2350bbcd 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -343,7 +343,8 @@ static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+ 		unsigned long **bit, int *max)
  {
- 	struct bigben_device *bigben = hid_get_drvdata(hid);
- 
-+	bigben->removed = true;
- 	cancel_work_sync(&bigben->worker);
- 	hid_hw_stop(hid);
- }
-@@ -324,6 +329,7 @@ static int bigben_probe(struct hid_device *hid,
- 		return -ENOMEM;
- 	hid_set_drvdata(hid, bigben);
- 	bigben->hid = hid;
-+	bigben->removed = false;
- 
- 	error = hid_parse(hid);
- 	if (error) {
+ 	if (usage->hid == (HID_UP_CUSTOM | 0x0003) ||
+-			usage->hid == (HID_UP_MSVENDOR | 0x0003)) {
++			usage->hid == (HID_UP_MSVENDOR | 0x0003) ||
++			usage->hid == (HID_UP_HPVENDOR2 | 0x0003)) {
+ 		/* The fn key on Apple USB keyboards */
+ 		set_bit(EV_REP, hi->input->evbit);
+ 		hid_map_usage_clear(hi, usage, bit, max, EV_KEY, KEY_FN);
 -- 
 2.20.1
 
