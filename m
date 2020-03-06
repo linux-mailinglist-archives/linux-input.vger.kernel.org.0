@@ -2,154 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EC7817B72B
-	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 08:06:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 218DB17B751
+	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 08:24:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725934AbgCFHGB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Mar 2020 02:06:01 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:50711 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725908AbgCFHGB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 02:06:01 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1jA73L-0005sH-MH; Fri, 06 Mar 2020 08:05:47 +0100
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1jA73I-00038n-BO; Fri, 06 Mar 2020 08:05:44 +0100
-Date:   Fri, 6 Mar 2020 08:05:44 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Roy Im <roy.im.opensource@diasemi.com>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
+        id S1725869AbgCFHYB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Mar 2020 02:24:01 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:36871 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726256AbgCFHYB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 02:24:01 -0500
+Received: by mail-wr1-f66.google.com with SMTP id 6so1078804wre.4
+        for <linux-input@vger.kernel.org>; Thu, 05 Mar 2020 23:23:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=OjSejv2JJ2JWA4MOD2Ua80DTgBsI2ciXKHuKLp62nNQ=;
+        b=MQzuHt74wlVMFLtLf+XKCyFtFiP0OZACrpNL3iDuYk1PsjH7ivfylf6GMedDSpHrA+
+         +rpZXuO/hvi3sao+44yncL5iFWuV/UQzdOU/G/70eilMHfLTv6lV7YayhU3lk9R91tvQ
+         y/jiEZLUI8XuQCSjDX/ypPrWOeYnmU7plRJodOGIr4kCvhvZ6gRolmWNg4aIy66i7NBr
+         IUj/++l6OOlyHGlaRoH74YT6fWJGJY+suLeH8SAqt7xNzQ6xFcAHKBHQ0I/Bb9wcXuXz
+         DZu0FNVzvh9o+7OJ22MnsEgXWX4Cz3r5dWrF1t8ucKlTJuf1J4NGD3RAjM/t6YAwtP/N
+         JJsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=OjSejv2JJ2JWA4MOD2Ua80DTgBsI2ciXKHuKLp62nNQ=;
+        b=d+hKuF1vH3lAWE1NhqF8uMhEtZE/IAt/LyIKHwdSAmte2JOQN/7rJLxu2ppSlmJFp+
+         90Vd9/Ur9j0j3PjBEo5KJnmmuambzb5goGmNERAWTiWqRIQhyF2W2+b3h2stW0CSDGYe
+         W2lXd8JdzsIuOiycgjde63ljj4C4EUuqOsSlisSVLX6neiRzrt/Xghgo0ex9WAZ7h9VI
+         lQw89zOgJIb1wumjiLyxbZ1PxSlYPvEJOW6usZBEtmZtQOT+g13Bbe3iBS/M1uxsBsQ2
+         sH1rJ/bT4045XkDOMfAFiAAwaBLd2atxsk9E10H78Yz2wK3M4TS8CpFD71UxOZTaLoj8
+         hN2w==
+X-Gm-Message-State: ANhLgQ0wrySCIIe2sTZcPYTkEJp9/vbA0EMcVpPF3197Ujl6jB7jsOsh
+        VKEoiwG6FXjp/xbRSG4JkjC3OZpdP64=
+X-Google-Smtp-Source: ADFU+vufcMPJhoz525ReiJIke606YTgQB9zlW2QHLNkqzTMEKlmjaYtQF2XY4me1raSEbZfX/h8K+Q==
+X-Received: by 2002:adf:ef92:: with SMTP id d18mr2408404wro.193.1583479438509;
+        Thu, 05 Mar 2020 23:23:58 -0800 (PST)
+Received: from dell ([2.31.163.122])
+        by smtp.gmail.com with ESMTPSA id v16sm30547928wrp.84.2020.03.05.23.23.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2020 23:23:58 -0800 (PST)
+Date:   Fri, 6 Mar 2020 07:24:38 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc:     Ikjoon Jang <ikjn@chromium.org>, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        Rob Herring <robh@kernel.org>,
-        Samuel Ortiz <sameo@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Support Opensource <support.opensource@diasemi.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH V10 3/3] Input: new da7280 haptic driver
-Message-ID: <20200306070544.7rj5y44e23kiz65e@pengutronix.de>
-References: <cover.1583425388.git.Roy.Im@diasemi.com>
- <fd7066d21e994de56b331d9320f9671356fac408.1583425388.git.Roy.Im@diasemi.com>
+        Gwendal Grignou <gwendal@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nicolas Boitchat <drinkcat@chromium.org>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v6] dt-bindings: mfd: Convert ChromeOS EC bindings to
+ json-schema
+Message-ID: <20200306072438.GH3332@dell>
+References: <20200305075302.200959-1-ikjn@chromium.org>
+ <199d9fc9-5eba-c135-14a5-e78000859f47@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fd7066d21e994de56b331d9320f9671356fac408.1583425388.git.Roy.Im@diasemi.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+In-Reply-To: <199d9fc9-5eba-c135-14a5-e78000859f47@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Roy,
+On Thu, 05 Mar 2020, Enric Balletbo i Serra wrote:
 
-On Fri, Mar 06, 2020 at 01:23:08AM +0900, Roy Im wrote:
-> +static int da7280_haptic_set_pwm(struct da7280_haptic *haptics, bool enabled)
-> +{
-> +	struct pwm_state state;
-> +	u64 period_mag_multi;
-> +	int error;
-> +
-> +	if (!haptics->gain) {
-> +		dev_err(haptics->dev,
-> +			"Please set the gain first for the pwm mode\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	pwm_get_state(haptics->pwm_dev, &state);
-> +	state.enabled = enabled;
-> +	if (enabled) {
-> +		period_mag_multi = state.period * haptics->gain;
-> +		period_mag_multi >>= MAX_MAGNITUDE_SHIFT;
-> +
-> +		/* The interpretation of duty cycle depends on the acc_en,
-> +		 * it should be form 50% to 100% for acc_en = 0.
+> Hi Ikjoon,
+> 
+> On 5/3/20 8:53, Ikjoon Jang wrote:
+> > Convert the ChromeOS EC bindings to json-schema.
+> > 
+> > Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
+> > ---
+> > v6: adjust property dependencies, drop duplicated definitions,
+> >     and set additionalProperties
+> > v5: unset additionalProperties
+> > v4: text reflows, add type references, and fix examples
+> > v3: node name changed in rpmsg example
+> > v2: cleanup description, fix typos, remove LPC, and add RPMSG example
+> > ---
+> >  .../devicetree/bindings/mfd/cros-ec.txt       |  76 -----------
+> >  .../devicetree/bindings/mfd/cros-ec.yaml      | 125 ++++++++++++++++++
+> 
+> According to the feedback I received on other patches from Rob, the name of the
+> file should include the vendor, in that case should be google,cros-ec.yaml
+> 
+> I already argued in previous version why I think this should go in
+> bindings/chrome instead of mfd, these bindings correspond to the platform/chrome
+> device not the mfd cros ec device (cros-ec-dev) in MFD, anyway, I don't want to
+> be touchy, but, as is, should go through the Lee Jones tree not our
+> chrome-platform tree. So if Lee is fine with it I'm fine too.
 
-At least s/form/from/, but maybe better: it should be between 50% and
-100% ...
+Actually these have been reviewed and taken by Rob of late.
 
-> +		 * See datasheet 'PWM mode' section.
-> +		 */
-> +		if (!haptics->acc_en) {
-> +			period_mag_multi += state.period;
-> +			period_mag_multi /= 2;
-> +		}
-> +
-> +		state.duty_cycle  = (unsigned int)period_mag_multi;
-
-This cast is not needed. (Also it seems struct pwm_state::duty_cycle
-becomes u64 soon, after this happens the cast even hurts.)
-
-> [...]
-> +	struct device *dev = &client->dev;
-> +	struct da7280_haptic *haptics;
-> +	struct input_dev *input_dev;
-> +	struct ff_device *ff;
-> +	struct pwm_state state;
-> +	unsigned int period2freq;
-> +	int error;
-> +
-> +	haptics = devm_kzalloc(dev, sizeof(*haptics), GFP_KERNEL);
-> +	if (!haptics)
-> +		return -ENOMEM;
-> +	haptics->dev = dev;
-> +
-> +	if (!client->irq) {
-> +		dev_err(dev, "No IRQ configured\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	da7280_parse_properties(dev, haptics);
-> +
-> +	if (haptics->const_op_mode == DA7280_PWM_MODE) {
-> +		haptics->pwm_dev = devm_pwm_get(dev, NULL);
-> +		if (IS_ERR(haptics->pwm_dev)) {
-> +			dev_err(dev, "failed to get PWM device\n");
-
-Please use %pE to show the actual error and don't print if it is
-EPROBE_DEFER.
-
-> +			return PTR_ERR(haptics->pwm_dev);
-> +		}
-> +
-> +		pwm_init_state(haptics->pwm_dev, &state);
-> +		state.enabled = false;
-
-This usuage is strange (which might be because pwm_init_state() is
-strange). I assume the goal here is to disable the PWM with the right
-polarity set, right? Ah, and initialize .period as this isn't touched
-later on. Hmm, no better idea, I guess we have to leave it as is for
-now.
-
-Can it be that the PWM is already on at probe time and it might be
-usefull to keep it running as is?
-
-> +		error = pwm_apply_state(haptics->pwm_dev, &state);
-> +		if (error) {
-> +			dev_err(dev,
-> +				"failed to apply initial PWM state: %pE\n",
-> +				ERR_PTR(error));
-> +			return error;
-> +		}
-
-Best regards
-Uwe
+> Just another minor change (see below) and looks good to me.
+> 
+> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 
 -- 
-Pengutronix e.K.                           | Uwe Kleine-K�nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
