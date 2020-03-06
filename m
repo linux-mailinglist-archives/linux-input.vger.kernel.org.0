@@ -2,101 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA46E17C63E
-	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 20:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EF4317C65A
+	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 20:33:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726178AbgCFTXr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Mar 2020 14:23:47 -0500
-Received: from muru.com ([72.249.23.125]:59268 "EHLO muru.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725873AbgCFTXr (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 6 Mar 2020 14:23:47 -0500
-Received: from atomide.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id E22DC8027;
-        Fri,  6 Mar 2020 19:24:31 +0000 (UTC)
-Date:   Fri, 6 Mar 2020 11:23:43 -0800
-From:   Tony Lindgren <tony@atomide.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org,
-        Arthur Demchenkov <spinal.by@gmail.com>,
-        Merlijn Wajer <merlijn@wizzup.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Sebastian Reichel <sre@kernel.org>, ruleh <ruleh@gmx.de>
-Subject: Re: [PATCH 3/3] Input: omap4-keypad - check state again for lost
- key-up interrupts
-Message-ID: <20200306192343.GN37466@atomide.com>
-References: <20200228171223.11444-1-tony@atomide.com>
- <20200228171223.11444-4-tony@atomide.com>
- <20200306191021.GH217608@dtor-ws>
+        id S1726178AbgCFTdP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Mar 2020 14:33:15 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:37024 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725922AbgCFTdO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 14:33:14 -0500
+Received: by mail-pl1-f193.google.com with SMTP id b8so1271710plx.4;
+        Fri, 06 Mar 2020 11:33:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=z3KT8EeBZ4kaVLgnDAz4UiYDB1f5ZpcHkzDsT+BdSZk=;
+        b=rxSdDrqzraT4uwdK4VFCE5tw55F0ImCJ4F37HWzATRmaxytGqnISM36ath42eIQYyS
+         rBxO7a6vHaGFt06R6XSFwSP1nK647qwCkhSGR3uLvqqK0Zl6BgHyntKqbDXBoqlJf96k
+         mwsBKxGe3/qFV7x7SqiCwoCNzEaFRucueRUkHjxI/aduFKiKdxl109Pf5SL+vws6BKUK
+         +eMM7neFp8TqrDj96iPZM2jdRCKC3rsRpjxGUVUmlbD2WmHYrE+Ns/PpMw6e2BZbL4rF
+         kDtclqHTx03ggdYNn8/LVa11NjdycrQMnWIfiK/oLXyIG2vM3XUsWAvm3PMHLW5RPo/O
+         WW0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=z3KT8EeBZ4kaVLgnDAz4UiYDB1f5ZpcHkzDsT+BdSZk=;
+        b=gCmpp87GTQqwQXl65UfJp9nS9h6YuVB5ivacdhRDBxl1sT5OJJTibJPw3Gq2hbyPvF
+         UVEKg3nealg/mUZ92R7jgOOHuPQy3Jv4pJevwMcRVVgQGFjIaZCz5n/uXVF8FcZG3ATK
+         lrFbL1s9mXH//6zrIwXZRZ3/qQ3qX7ZGddBqyUTDefn+bGaDDDmcAK1BWT37i/iFuC+Y
+         vdWGy5HzjHRY6wDgiw3cavll8qb2Ni7HdYhu6HCF2diO5pJvwWMdc+Nir995GGZq34q4
+         8BaOwhL99gVz0qcMWQ7BPgGKFhOhUBC2fkdxTkSO5usnODjv6akYYxYS3JGdYBexNx7k
+         ekeg==
+X-Gm-Message-State: ANhLgQ0LgpLAN/JIMq4X+5waFi9omsLKILTSrAzuKBEAB0kEqZdChKTd
+        q9F0oxyFrLG/DlYPL8dzYcs=
+X-Google-Smtp-Source: ADFU+vsT3WVYwhpJooawROdOiTWGvCsUv6cL9HuV5P5d1U/LqQqpNY07JVvpUBPh8/8LLWwZnSFs9Q==
+X-Received: by 2002:a17:90a:ef17:: with SMTP id k23mr5138094pjz.139.1583523193162;
+        Fri, 06 Mar 2020 11:33:13 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id a7sm10093043pjo.11.2020.03.06.11.33.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Mar 2020 11:33:12 -0800 (PST)
+Date:   Fri, 6 Mar 2020 11:33:10 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Anson Huang <Anson.Huang@nxp.com>
+Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, a.zummo@towertech.it,
+        alexandre.belloni@bootlin.com, rui.zhang@intel.com,
+        daniel.lezcano@linaro.org, amit.kucheria@verdurent.com,
+        wim@linux-watchdog.org, linux@roeck-us.net, daniel.baluta@nxp.com,
+        linux@rempel-privat.de, gregkh@linuxfoundation.org,
+        tglx@linutronix.de, m.felsch@pengutronix.de,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de,
+        enric.balletbo@collabora.com, ronald@innovation.ch,
+        krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, Linux-imx@nxp.com
+Subject: Re: [PATCH 3/5] input: keyboard: add COMPILE_TEST support for
+ KEYBOARD_IMX_SC_KEY
+Message-ID: <20200306193310.GI217608@dtor-ws>
+References: <1583509356-8265-1-git-send-email-Anson.Huang@nxp.com>
+ <1583509356-8265-3-git-send-email-Anson.Huang@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200306191021.GH217608@dtor-ws>
+In-Reply-To: <1583509356-8265-3-git-send-email-Anson.Huang@nxp.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-* Dmitry Torokhov <dmitry.torokhov@gmail.com> [200306 19:11]:
-> On Fri, Feb 28, 2020 at 09:12:23AM -0800, Tony Lindgren wrote:
-> > We only have partial errata i689 implemented with Commit 6c3516fed7b6
-> > ("Input: omap-keypad - fix keyboard debounce configuration"). We are
-> > still missing the check for lost key-up interrupts as described in the
-> > omap4 silicon errata documentation as Errata ID i689 "1.32 Keyboard Key
-> > Up Event Can Be Missed":
-> > 
-> > "When a key is released for a time shorter than the debounce time,
-> >  in-between 2 key press (KP1 and KP2), the keyboard state machine will go
-> >  to idle mode and will never detect the key release (after KP1, and also
-> >  after KP2), and thus will never generate a new IRQ indicating the key
-> >  release."
-> > 
-> > Let's check the keyboard state with delayed_work after each event. And
-> > if the problem state is detect, let's clear all events.
-> > 
-> > Cc: Arthur Demchenkov <spinal.by@gmail.com>
-> > Cc: Merlijn Wajer <merlijn@wizzup.org>
-> > Cc: Pavel Machek <pavel@ucw.cz>
-> > Cc: Sebastian Reichel <sre@kernel.org>
-> > Signed-off-by: Tony Lindgren <tony@atomide.com>
-> > ---
-> >  drivers/input/keyboard/omap4-keypad.c | 56 ++++++++++++++++++++++++---
-> >  1 file changed, 50 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
-> > --- a/drivers/input/keyboard/omap4-keypad.c
-> > +++ b/drivers/input/keyboard/omap4-keypad.c
-> > @@ -71,6 +71,8 @@ struct omap4_keypad {
-> >  	void __iomem *base;
-> >  	bool irq_wake_enabled;
-> >  	unsigned int irq;
-> > +	struct delayed_work key_work;
-> > +	struct mutex lock;		/* for key scan */
+On Fri, Mar 06, 2020 at 11:42:34PM +0800, Anson Huang wrote:
+> Add COMPILE_TEST support to i.MX SC keyboard driver for better compile
+> testing coverage.
 > 
-> I think having threaded interrupt and delayed work together defeats the
-> purpose of having threaded interrupt. If you want to add a delay before
-> repeating scan I think you can add it directly in
-> omap4_keypad_irq_thread_fn(). Or is there a concern that we will not
-> rely quickly enough on additional key presses? It is unclear to me if
-> additional key press within the debounce time will result in additional
-> interrupt.
+> Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
 
-Well if we wait in threaded interrupt, we won't see a new interrupt.
-So yes, an additional key press will still produce an interrupt.
+Applied, thank you.
 
-After a key press has been detected, we need to set a timer that checks
-the keyboard controller state after it has idled. Then check for a
-potentially stuck state, and clear all down events if the state is
-idle with keys down.
+> ---
+>  drivers/input/keyboard/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+> index 4706ff0..81e26f6 100644
+> --- a/drivers/input/keyboard/Kconfig
+> +++ b/drivers/input/keyboard/Kconfig
+> @@ -467,7 +467,7 @@ config KEYBOARD_IMX
+>  
+>  config KEYBOARD_IMX_SC_KEY
+>  	tristate "IMX SCU Key Driver"
+> -	depends on IMX_SCU
+> +	depends on IMX_SCU || COMPILE_TEST
+>  	help
+>  	  This is the system controller key driver for NXP i.MX SoCs with
+>  	  system controller inside.
+> -- 
+> 2.7.4
+> 
 
-I don't think we can really use runtime PM autosuspend delay here as we
-already keep the device enabled with clock autogated so there's nothing
-to do. If we now added runtime PM calls, we'd end up in mode with
-clocks completely disabled. Maybe some tinkering of usage counts in
-the interrupt handler would allow using PM runtime though :)
-
-Regards,
-
-Tony
-
+-- 
+Dmitry
