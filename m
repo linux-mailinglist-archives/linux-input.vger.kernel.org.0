@@ -2,298 +2,173 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BEF317B8C9
-	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 09:55:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C856B17B8E3
+	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 10:01:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725873AbgCFIzW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Mar 2020 03:55:22 -0500
-Received: from mail-pj1-f42.google.com ([209.85.216.42]:51253 "EHLO
-        mail-pj1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726368AbgCFIzW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 03:55:22 -0500
-Received: by mail-pj1-f42.google.com with SMTP id l8so790546pjy.1
-        for <linux-input@vger.kernel.org>; Fri, 06 Mar 2020 00:55:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CYXa4yHXWi3kICwEN7+EFIlWiibCOLY8oNkE7sS2q8Y=;
-        b=X3fqCKKcH8hZQ+CDy5FT4hRTTUTdih7N8SWPs6CE2t2jRq3anEvqlMtPj974wadC0m
-         nAhk6kEJzZjmBIdz/UpPcSK1XZ8IYbpmzi23Rsgzw/mL91bCauclcjUB/7kHXhPk7n7o
-         mS4FyD5gj4Eij2qUEJHzWTWFzcTA7kRbFqBrE=
+        id S1725959AbgCFJB6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Mar 2020 04:01:58 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36105 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725951AbgCFJB6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 6 Mar 2020 04:01:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583485316;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=CPC5mHfHRAVLVzgdzo/eGk9jTCdznxeTA1V5jsqoaMQ=;
+        b=hbeQjH8ubc1o1GfDyRGFbSswlh366qCHUZU8P5PwRlGoos7NKfGssbSNTb4ZBl4z4Rsll2
+        00Mm8LpJLCCKOK5p1FRFSpUY66YNrUUSyeD7pjwG5jeKzZcB11QOhW2qsaxf2DWCmFwf0P
+        XF3g/Epi/UuGefkXj6Pa6ir000ujjmM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-SLgKsrlpP5uHwztfiYn4Cg-1; Fri, 06 Mar 2020 04:01:55 -0500
+X-MC-Unique: SLgKsrlpP5uHwztfiYn4Cg-1
+Received: by mail-wm1-f72.google.com with SMTP id w12so379844wmc.3
+        for <linux-input@vger.kernel.org>; Fri, 06 Mar 2020 01:01:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=CYXa4yHXWi3kICwEN7+EFIlWiibCOLY8oNkE7sS2q8Y=;
-        b=rawNI3pnJuwPxNoPvAd+clTM//I4dIQDdmEuJ/hADBAD1Qk5y2Ex6etMfmAxwzVzSA
-         OU4A0s4aZa2l16TeZhB8EKdIejU96ueEkpCOQRO6gH0OjFQDDQH2NR8/dbuYK/CZ//qV
-         wtKf7qAfqPq4Pg7AMzveyCngwfoQ9ec7QyoK0exMNZRRuCIKp/JEf5/ZBbrcNaSObbzu
-         JYhOsfhscviz6qFPfh8XAA1754JHbCz8qKlOLhL78+BdGySCv6qDK2mCIqwXcl3OXGSC
-         ZyMQgLQKOhMa/qOih2hNUZsCALQzDlCWpjgg5O3//jzYYjSCvzn4Igjov12cSffRiBBi
-         Svag==
-X-Gm-Message-State: ANhLgQ2dLYCqOqEoVVpC5ZCx6DRq8kg/ZXUBbfVrekxUYiQxN56T1/bR
-        jK0SrIle9ZeVhDN5yxNO/pZkSg==
-X-Google-Smtp-Source: ADFU+vuq+zd/HVMZCuOD/L7VM8deo+mS+5KA8h+OcUNH6UwtGKOqkyTB2qPc2liUuDJdmvWecHTRPw==
-X-Received: by 2002:a17:902:8215:: with SMTP id x21mr2129945pln.59.1583484920336;
-        Fri, 06 Mar 2020 00:55:20 -0800 (PST)
-Received: from ikjn-p920.tpe.corp.google.com ([2401:fa00:1:10:254e:2b40:ef8:ee17])
-        by smtp.gmail.com with ESMTPSA id s18sm8576991pjp.24.2020.03.06.00.55.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2020 00:55:19 -0800 (PST)
-From:   Ikjoon Jang <ikjn@chromium.org>
-To:     devicetree@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Nicolas Boitchat <drinkcat@chromium.org>,
-        linux-input@vger.kernel.org, Ikjoon Jang <ikjn@chromium.org>
-Subject: [PATCH v7] dt-bindings: mfd: Convert ChromeOS EC bindings to json-schema
-Date:   Fri,  6 Mar 2020 16:55:13 +0800
-Message-Id: <20200306085513.76024-1-ikjn@chromium.org>
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
+        bh=CPC5mHfHRAVLVzgdzo/eGk9jTCdznxeTA1V5jsqoaMQ=;
+        b=NMGk3IdTan9smoaDRnJFpXb1I5GeWEXjnn65dgMEUldux2J0RKqRRWh8DFCQzJ1vWx
+         tIFT34GxtY+qfTUh9jFNRGQbEG+Y9lCOSsYsUPcA+V6LQB3+n5iLuOGt+fzb5F0aseG+
+         8BH7MhV1CsMXhgIiiirBF+E+Bf2Obo/XAsdA6uvnDIPLl4MXMo2PWzQbIaM6HjmiVoIS
+         EfUwPi2jV7zChRBAQFytVCmgnyPpx5jnFPLWPyudrDCKQoBDJQm/FgxArr/4eWRTyFi6
+         3StjHtrRJsA5BbuRsQ7B7KHIwEhN+01YD6NIKjKrz0+JLKRrC2XzYs8F88X1Linq3l7t
+         xoHA==
+X-Gm-Message-State: ANhLgQ2qyeEUe5HgNMsQLL480dm8w49NG4PTJKrZ1C1S+2UEd93If3Yu
+        EPctuhdITvzB3t89wpCqz3YPXTl0thWA164tBnqO16akCD9eHgcyYGrvYPYXdqG2dTNN+eyprGr
+        EVL/z8zvww+LaEq4OUJvVFo4=
+X-Received: by 2002:adf:dfc1:: with SMTP id q1mr2172860wrn.62.1583485313920;
+        Fri, 06 Mar 2020 01:01:53 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vv/V4HMYArkO+LO0T+h7pUdFVqFo9ZBz7nb93iG5qtczdbIiYcInZBdKwnuUuf6mStnM41eSA==
+X-Received: by 2002:adf:dfc1:: with SMTP id q1mr2172839wrn.62.1583485313620;
+        Fri, 06 Mar 2020 01:01:53 -0800 (PST)
+Received: from x1.localdomain ([2a0e:5700:4:11:42c0:3c5d:2f33:1a6c])
+        by smtp.gmail.com with ESMTPSA id a7sm12006313wmj.12.2020.03.06.01.01.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Mar 2020 01:01:52 -0800 (PST)
+Subject: Re: [PATCH v2 02/11] Input: goodix - Make loading the config from
+ disk independent from the GPIO setup
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org,
+        Dmitry Mastykin <mastichi@gmail.com>
+References: <20200305220132.228722-1-hdegoede@redhat.com>
+ <20200305220132.228722-2-hdegoede@redhat.com>
+ <20200306040427.GC217608@dtor-ws>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <c332be91-4487-fd8c-9a53-abf87ec32ecc@redhat.com>
+Date:   Fri, 6 Mar 2020 10:01:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200306040427.GC217608@dtor-ws>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Convert the ChromeOS EC bindings to json-schema.
+Hi,
 
-Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
----
- .../devicetree/bindings/mfd/cros-ec.txt       |  76 -----------
- .../bindings/mfd/google,cros-ec.yaml          | 129 ++++++++++++++++++
- 2 files changed, 129 insertions(+), 76 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
- create mode 100644 Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+Thank you for the review.
 
-diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.txt b/Documentation/devicetree/bindings/mfd/cros-ec.txt
-deleted file mode 100644
-index 4860eabd0f72..000000000000
---- a/Documentation/devicetree/bindings/mfd/cros-ec.txt
-+++ /dev/null
-@@ -1,76 +0,0 @@
--ChromeOS Embedded Controller
--
--Google's ChromeOS EC is a Cortex-M device which talks to the AP and
--implements various function such as keyboard and battery charging.
--
--The EC can be connect through various means (I2C, SPI, LPC, RPMSG) and the
--compatible string used depends on the interface. Each connection method has
--its own driver which connects to the top level interface-agnostic EC driver.
--Other Linux driver (such as cros-ec-keyb for the matrix keyboard) connect to
--the top-level driver.
--
--Required properties (I2C):
--- compatible: "google,cros-ec-i2c"
--- reg: I2C slave address
--
--Required properties (SPI):
--- compatible: "google,cros-ec-spi"
--- reg: SPI chip select
--
--Required properties (RPMSG):
--- compatible: "google,cros-ec-rpmsg"
--
--Optional properties (SPI):
--- google,cros-ec-spi-pre-delay: Some implementations of the EC need a little
--  time to wake up from sleep before they can receive SPI transfers at a high
--  clock rate. This property specifies the delay, in usecs, between the
--  assertion of the CS to the start of the first clock pulse.
--- google,cros-ec-spi-msg-delay: Some implementations of the EC require some
--  additional processing time in order to accept new transactions. If the delay
--  between transactions is not long enough the EC may not be able to respond
--  properly to subsequent transactions and cause them to hang. This property
--  specifies the delay, in usecs, introduced between transactions to account
--  for the time required by the EC to get back into a state in which new data
--  can be accepted.
--
--Required properties (LPC):
--- compatible: "google,cros-ec-lpc"
--- reg: List of (IO address, size) pairs defining the interface uses
--
--Optional properties (all):
--- google,has-vbc-nvram: Some implementations of the EC include a small
--  nvram space used to store verified boot context data. This boolean flag
--  is used to specify whether this nvram is present or not.
--
--Example for I2C:
--
--i2c@12ca0000 {
--	cros-ec@1e {
--		reg = <0x1e>;
--		compatible = "google,cros-ec-i2c";
--		interrupts = <14 0>;
--		interrupt-parent = <&wakeup_eint>;
--		wakeup-source;
--	};
--
--
--Example for SPI:
--
--spi@131b0000 {
--	ec@0 {
--		compatible = "google,cros-ec-spi";
--		reg = <0x0>;
--		interrupts = <14 0>;
--		interrupt-parent = <&wakeup_eint>;
--		wakeup-source;
--		spi-max-frequency = <5000000>;
--		controller-data {
--		cs-gpio = <&gpf0 3 4 3 0>;
--		samsung,spi-cs;
--		samsung,spi-feedback-delay = <2>;
--		};
--	};
--};
--
--
--Example for LPC is not supplied as it is not yet implemented.
-diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-new file mode 100644
-index 000000000000..6a7279a85ec1
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-@@ -0,0 +1,129 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ChromeOS Embedded Controller
-+
-+maintainers:
-+  - Benson Leung <bleung@chromium.org>
-+  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
-+  - Guenter Roeck <groeck@chromium.org>
-+
-+description:
-+  Google's ChromeOS EC is a microcontroller which talks to the AP and
-+  implements various functions such as keyboard and battery charging.
-+  The EC can be connected through various interfaces (I2C, SPI, and others)
-+  and the compatible string specifies which interface is being used.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - description:
-+          For implementations of the EC is connected through I2C.
-+        const: google,cros-ec-i2c
-+      - description:
-+          For implementations of the EC is connected through SPI.
-+        const: google,cros-ec-spi
-+      - description:
-+          For implementations of the EC is connected through RPMSG.
-+        const: google,cros-ec-rpmsg
-+
-+  google,cros-ec-spi-pre-delay:
-+    description:
-+      This property specifies the delay in usecs between the
-+      assertion of the CS and the first clock pulse.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - default: 0
-+      - minimum: 0
-+
-+  google,cros-ec-spi-msg-delay:
-+    description:
-+      This property specifies the delay in usecs between messages.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - default: 0
-+      - minimum: 0
-+
-+  google,has-vbc-nvram:
-+    description:
-+      Some implementations of the EC include a small nvram space used to
-+      store verified boot context data. This boolean flag is used to specify
-+      whether this nvram is present or not.
-+    type: boolean
-+
-+  spi-max-frequency:
-+    description: Maximum SPI frequency of the device in Hz.
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - google,cros-ec-i2c
-+          - google,cros-ec-rpmsg
-+then:
-+  properties:
-+    google,cros-ec-spi-pre-delay: false
-+    google,cros-ec-spi-msg-delay: false
-+    spi-max-frequency: false
-+
-+additionalProperties: false
-+
-+examples:
-+  # Example for I2C
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c0 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        cros-ec@1e {
-+            compatible = "google,cros-ec-i2c";
-+            reg = <0x1e>;
-+            interrupts = <6 0>;
-+            interrupt-parent = <&gpio0>;
-+        };
-+    };
-+
-+  # Example for SPI
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    spi0 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        cros-ec@0 {
-+            compatible = "google,cros-ec-spi";
-+            reg = <0x0>;
-+            google,cros-ec-spi-msg-delay = <30>;
-+            google,cros-ec-spi-pre-delay = <10>;
-+            interrupts = <99 0>;
-+            interrupt-parent = <&gpio7>;
-+            spi-max-frequency = <5000000>;
-+        };
-+    };
-+
-+  # Example for RPMSG
-+  - |
-+    scp0 {
-+        cros-ec {
-+            compatible = "google,cros-ec-rpmsg";
-+        };
-+    };
-+...
--- 
-2.25.1.481.gfbce0eb801-goog
+On 3/6/20 5:04 AM, Dmitry Torokhov wrote:
+> On Thu, Mar 05, 2020 at 11:01:23PM +0100, Hans de Goede wrote:
+>> At least on X86 ACPI platforms it is not necessary to load the touchscreen
+>> controller config from disk, if it needs to be loaded this has already been
+>> done by the BIOS / UEFI firmware.
+>>
+>> Even on other (e.g. devicetree) platforms the config-loading as currently
+>> done has the issue that the loaded cfg file is based on the controller
+>> model, but the actual cfg is device specific, so the cfg files are not
+>> part of linux-firmware and this can only work with a device specific OS
+>> image which includes the cfg file.
+>>
+>> And we do not need access to the GPIOs at all to load the config, if we
+>> do not have access we can still load the config.
+>>
+>> So all in all tying the decision to try to load the config from disk to
+>> being able to access the GPIOs is not desirable. This commit adds a new
+>> load_cfg_from_disk boolean to control the firmware loading instead.
+>>
+>> This commits sets the new bool to true when we set irq_pin_access_method
+>> to IRQ_PIN_ACCESS_GPIO, so there are no functional changes.
+>>
+>> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1786317
+>> BugLink: https://github.com/nexus511/gpd-ubuntu-packages/issues/10
+>> BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=199207
+>> Cc: Dmitry Mastykin <mastichi@gmail.com>
+>> Reviewed-by: Bastien Nocera <hadess@hadess.net>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   drivers/input/touchscreen/goodix.c | 12 ++++++++----
+>>   1 file changed, 8 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+>> index 9cfbcf3cbca8..28bb4385a54d 100644
+>> --- a/drivers/input/touchscreen/goodix.c
+>> +++ b/drivers/input/touchscreen/goodix.c
+>> @@ -56,6 +56,7 @@ struct goodix_ts_data {
+>>   	u16 id;
+>>   	u16 version;
+>>   	const char *cfg_name;
+>> +	bool load_cfg_from_disk;
+>>   	struct completion firmware_loading_complete;
+>>   	unsigned long irq_flags;
+>>   	enum goodix_irq_pin_access_method irq_pin_access_method;
+>> @@ -654,8 +655,10 @@ static int goodix_get_gpio_config(struct goodix_ts_data *ts)
+>>   
+>>   	ts->gpiod_rst = gpiod;
+>>   
+>> -	if (ts->gpiod_int && ts->gpiod_rst)
+>> +	if (ts->gpiod_int && ts->gpiod_rst) {
+>> +		ts->load_cfg_from_disk = true;
+>>   		ts->irq_pin_access_method = IRQ_PIN_ACCESS_GPIO;
+>> +	}
+>>   
+>>   	return 0;
+>>   }
+>> @@ -952,7 +955,7 @@ static int goodix_ts_probe(struct i2c_client *client,
+>>   
+>>   	ts->chip = goodix_get_chip_data(ts->id);
+>>   
+>> -	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_GPIO) {
+>> +	if (ts->load_cfg_from_disk) {
+>>   		/* update device config */
+>>   		ts->cfg_name = devm_kasprintf(&client->dev, GFP_KERNEL,
+>>   					      "goodix_%d_cfg.bin", ts->id);
+>> @@ -983,7 +986,7 @@ static int goodix_ts_remove(struct i2c_client *client)
+>>   {
+>>   	struct goodix_ts_data *ts = i2c_get_clientdata(client);
+>>   
+>> -	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_GPIO)
+>> +	if (ts->load_cfg_from_disk)
+>>   		wait_for_completion(&ts->firmware_loading_complete);
+>>   
+>>   	return 0;
+>> @@ -1001,7 +1004,8 @@ static int __maybe_unused goodix_suspend(struct device *dev)
+>>   		return 0;
+>>   	}
+>>   
+>> -	wait_for_completion(&ts->firmware_loading_complete);
+>> +	if (ts->load_cfg_from_disk)
+>> +		wait_for_completion(&ts->firmware_loading_complete);
+> 
+> If you are detaching presence of GPIOs from firmware loading, then you
+> need to move this wait higher, so we do not complete early if GPIOs are
+> not there, but firmware is being loaded.
+
+That is a good point, I've fixed this for v3. Do you have any other
+remarks before I send out v3?
+
+Regards,
+
+Hans
 
