@@ -2,94 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6218817B6DD
-	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 07:40:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EC7817B72B
+	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 08:06:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725941AbgCFGkR convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 6 Mar 2020 01:40:17 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:44406 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725835AbgCFGkR (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 01:40:17 -0500
-Received: from mail-wm1-f70.google.com ([209.85.128.70])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <chia-lin.kao@canonical.com>)
-        id 1jA6ec-0007AY-Qk
-        for linux-input@vger.kernel.org; Fri, 06 Mar 2020 06:40:14 +0000
-Received: by mail-wm1-f70.google.com with SMTP id w12so259310wmc.3
-        for <linux-input@vger.kernel.org>; Thu, 05 Mar 2020 22:40:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=EpKnowuU59lPtoZuyG1qUEH+kEQ22uKgOl7ZuBWQsiA=;
-        b=enxgZdYdagpLbY5K+bIlPBwKKuXypYJDPcOULa8H9QBIfrxDhIH4gCBo78UucAb6TG
-         syMrS7yZ31iGDYzpW3jL6qfbhJ7KsjsAclnebyxyFlltIkShwUMsFqn1DAc0m8VlLCJC
-         gaIJ6llplRFv8lgeuFJ48Z8wBirjQ3QJRFMKjvgBs0+IKWcK9HDgrDNWB9x8kWKe6gyi
-         0oqWQLTIJF0OQx0f7sIuf8ROlHOFe9bOrN4TAwRb2DFhLh2pVcniJY67mA1EvnzGhlvC
-         qroUwZT196zmsiGDZLdDFIH9KipAFRU+9HiLkZfYJeuSp46l4qo1fJC/k6wva4v+6/Pc
-         cw+g==
-X-Gm-Message-State: ANhLgQ3WzXsV2u3M6jnxmGyqka1+MbQSP+x6bS4pm9G+NRBZXGL9HJph
-        QiiWP52ZduIwvAZBsUGEtbOBeCuqbJ9lC+5eFZXo/G9Q+nGDs+m9MCtG40F9LYmVTkT94G9KMV5
-        mmIwaOaxv97/xHjMKLoXhf1RjGfHkoq1OYXGXGhxOXYmnr1SagMGTupcm
-X-Received: by 2002:a5d:4c52:: with SMTP id n18mr2392155wrt.403.1583476814553;
-        Thu, 05 Mar 2020 22:40:14 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vtW31iSGk+adXSK/Yr7Qi7q8DHETQMzekXTWHtim33Iv76ZWOnxUcuVVs8w7irYklXu27ruDt3hjgo/EiwdBc4=
-X-Received: by 2002:a5d:4c52:: with SMTP id n18mr2392114wrt.403.1583476814289;
- Thu, 05 Mar 2020 22:40:14 -0800 (PST)
-MIME-Version: 1.0
-References: <20200305064423.16196-1-acelan.kao@canonical.com> <20200306041642.GD217608@dtor-ws>
-In-Reply-To: <20200306041642.GD217608@dtor-ws>
-From:   AceLan Kao <acelan.kao@canonical.com>
-Date:   Fri, 6 Mar 2020 14:40:03 +0800
-Message-ID: <CAFv23Q=W8-hafqBkBeT0HXGBb6kJC=1dHwnGv57=Z3NTOH0-6w@mail.gmail.com>
-Subject: Re: [PATCH] Input: i8042 - Fix the selftest retry logic
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        id S1725934AbgCFHGB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Mar 2020 02:06:01 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:50711 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725908AbgCFHGB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 02:06:01 -0500
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1jA73L-0005sH-MH; Fri, 06 Mar 2020 08:05:47 +0100
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1jA73I-00038n-BO; Fri, 06 Mar 2020 08:05:44 +0100
+Date:   Fri, 6 Mar 2020 08:05:44 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Roy Im <roy.im.opensource@diasemi.com>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        Rob Herring <robh@kernel.org>,
+        Samuel Ortiz <sameo@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Stephen Boyd <swboyd@chromium.org>,
-        linux-input@vger.kernel.org,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        Support Opensource <support.opensource@diasemi.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH V10 3/3] Input: new da7280 haptic driver
+Message-ID: <20200306070544.7rj5y44e23kiz65e@pengutronix.de>
+References: <cover.1583425388.git.Roy.Im@diasemi.com>
+ <fd7066d21e994de56b331d9320f9671356fac408.1583425388.git.Roy.Im@diasemi.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fd7066d21e994de56b331d9320f9671356fac408.1583425388.git.Roy.Im@diasemi.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Hello Roy,
 
-We have a Dell desktop with ps2 addon card, after S3, the ps2 keyboard
-lost function and got below errors
-Jan 15 07:10:08 Rh-MT kernel: [  346.575353] i8042: i8042 controller
-selftest timeout
-Jan 15 07:10:08 Rh-MT kernel: [  346.575358] PM: Device i8042 failed
-to resume: error -19
+On Fri, Mar 06, 2020 at 01:23:08AM +0900, Roy Im wrote:
+> +static int da7280_haptic_set_pwm(struct da7280_haptic *haptics, bool enabled)
+> +{
+> +	struct pwm_state state;
+> +	u64 period_mag_multi;
+> +	int error;
+> +
+> +	if (!haptics->gain) {
+> +		dev_err(haptics->dev,
+> +			"Please set the gain first for the pwm mode\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	pwm_get_state(haptics->pwm_dev, &state);
+> +	state.enabled = enabled;
+> +	if (enabled) {
+> +		period_mag_multi = state.period * haptics->gain;
+> +		period_mag_multi >>= MAX_MAGNITUDE_SHIFT;
+> +
+> +		/* The interpretation of duty cycle depends on the acc_en,
+> +		 * it should be form 50% to 100% for acc_en = 0.
 
-Adding this patch, I found the selftest passes at the second retry and
-the keyboard continue working fine.
+At least s/form/from/, but maybe better: it should be between 50% and
+100% ...
 
-Best regards,
-AceLan Kao.
+> +		 * See datasheet 'PWM mode' section.
+> +		 */
+> +		if (!haptics->acc_en) {
+> +			period_mag_multi += state.period;
+> +			period_mag_multi /= 2;
+> +		}
+> +
+> +		state.duty_cycle  = (unsigned int)period_mag_multi;
 
-Dmitry Torokhov <dmitry.torokhov@gmail.com> 於 2020年3月6日 週五 下午12:16寫道：
->
-> Hi AceLan,
->
-> On Thu, Mar 05, 2020 at 02:44:23PM +0800, AceLan Kao wrote:
-> > It returns -NODEV at the first selftest timeout, so the retry logic
-> > doesn't work. Move the return outside of the while loop to make it real
-> > retry 5 times before returns -ENODEV.
->
-> The retry logic here was for the controller not returning the expected
-> selftest value, not the controller refusing to communicate at all.
->
-> Could you pease tell me what device requires this change?
->
-> Thanks.
->
-> --
-> Dmitry
+This cast is not needed. (Also it seems struct pwm_state::duty_cycle
+becomes u64 soon, after this happens the cast even hurts.)
+
+> [...]
+> +	struct device *dev = &client->dev;
+> +	struct da7280_haptic *haptics;
+> +	struct input_dev *input_dev;
+> +	struct ff_device *ff;
+> +	struct pwm_state state;
+> +	unsigned int period2freq;
+> +	int error;
+> +
+> +	haptics = devm_kzalloc(dev, sizeof(*haptics), GFP_KERNEL);
+> +	if (!haptics)
+> +		return -ENOMEM;
+> +	haptics->dev = dev;
+> +
+> +	if (!client->irq) {
+> +		dev_err(dev, "No IRQ configured\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	da7280_parse_properties(dev, haptics);
+> +
+> +	if (haptics->const_op_mode == DA7280_PWM_MODE) {
+> +		haptics->pwm_dev = devm_pwm_get(dev, NULL);
+> +		if (IS_ERR(haptics->pwm_dev)) {
+> +			dev_err(dev, "failed to get PWM device\n");
+
+Please use %pE to show the actual error and don't print if it is
+EPROBE_DEFER.
+
+> +			return PTR_ERR(haptics->pwm_dev);
+> +		}
+> +
+> +		pwm_init_state(haptics->pwm_dev, &state);
+> +		state.enabled = false;
+
+This usuage is strange (which might be because pwm_init_state() is
+strange). I assume the goal here is to disable the PWM with the right
+polarity set, right? Ah, and initialize .period as this isn't touched
+later on. Hmm, no better idea, I guess we have to leave it as is for
+now.
+
+Can it be that the PWM is already on at probe time and it might be
+usefull to keep it running as is?
+
+> +		error = pwm_apply_state(haptics->pwm_dev, &state);
+> +		if (error) {
+> +			dev_err(dev,
+> +				"failed to apply initial PWM state: %pE\n",
+> +				ERR_PTR(error));
+> +			return error;
+> +		}
+
+Best regards
+Uwe
+
+-- 
+Pengutronix e.K.                           | Uwe Kleine-K�nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
