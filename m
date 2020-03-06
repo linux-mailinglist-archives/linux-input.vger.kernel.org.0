@@ -2,106 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EF4317C65A
-	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 20:33:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6882317C684
+	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 20:51:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726178AbgCFTdP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Mar 2020 14:33:15 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:37024 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725922AbgCFTdO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 14:33:14 -0500
-Received: by mail-pl1-f193.google.com with SMTP id b8so1271710plx.4;
-        Fri, 06 Mar 2020 11:33:13 -0800 (PST)
+        id S1726178AbgCFTvk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Mar 2020 14:51:40 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:34556 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726083AbgCFTvk (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 14:51:40 -0500
+Received: by mail-pj1-f68.google.com with SMTP id gc16so1987340pjb.1;
+        Fri, 06 Mar 2020 11:51:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=z3KT8EeBZ4kaVLgnDAz4UiYDB1f5ZpcHkzDsT+BdSZk=;
-        b=rxSdDrqzraT4uwdK4VFCE5tw55F0ImCJ4F37HWzATRmaxytGqnISM36ath42eIQYyS
-         rBxO7a6vHaGFt06R6XSFwSP1nK647qwCkhSGR3uLvqqK0Zl6BgHyntKqbDXBoqlJf96k
-         mwsBKxGe3/qFV7x7SqiCwoCNzEaFRucueRUkHjxI/aduFKiKdxl109Pf5SL+vws6BKUK
-         +eMM7neFp8TqrDj96iPZM2jdRCKC3rsRpjxGUVUmlbD2WmHYrE+Ns/PpMw6e2BZbL4rF
-         kDtclqHTx03ggdYNn8/LVa11NjdycrQMnWIfiK/oLXyIG2vM3XUsWAvm3PMHLW5RPo/O
-         WW0w==
+        bh=c6P5kPHf07Ale8pEsJ/RqXtKfroxZj1z7x2Wtc11kAA=;
+        b=VCNE6aHZWA/Sj3h88/Qilkeq3pQ9QmC1Lg/AfeL6VjJ5IzF3zVNONFBfwWdCsswYxm
+         c1TSGIUu2NuWqFdTGiR7fW3xYoN67vTnreMsBOd6f31p6NWJLXVT5u6uqNF4aV1NKfaP
+         jSayAZCrVUf4Ub51ca4E7LeczP8cWK6pFtg2AHMXQNfAzOdfWj4JgY5A5yua8u85WWgD
+         ryhj7dHFUxTqTzKU/rARZJuuXpXQ3gO2UljGg8nYZWUtAV+o6537HfpytPPgJVEUJyCf
+         BQfT+0IM34KTvWP5gQtD0S96E5LYKsT7HIBf2SCITriu2xiOGmz2OGjQvZpuWqQZ7s1f
+         JXHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=z3KT8EeBZ4kaVLgnDAz4UiYDB1f5ZpcHkzDsT+BdSZk=;
-        b=gCmpp87GTQqwQXl65UfJp9nS9h6YuVB5ivacdhRDBxl1sT5OJJTibJPw3Gq2hbyPvF
-         UVEKg3nealg/mUZ92R7jgOOHuPQy3Jv4pJevwMcRVVgQGFjIaZCz5n/uXVF8FcZG3ATK
-         lrFbL1s9mXH//6zrIwXZRZ3/qQ3qX7ZGddBqyUTDefn+bGaDDDmcAK1BWT37i/iFuC+Y
-         vdWGy5HzjHRY6wDgiw3cavll8qb2Ni7HdYhu6HCF2diO5pJvwWMdc+Nir995GGZq34q4
-         8BaOwhL99gVz0qcMWQ7BPgGKFhOhUBC2fkdxTkSO5usnODjv6akYYxYS3JGdYBexNx7k
-         ekeg==
-X-Gm-Message-State: ANhLgQ0LgpLAN/JIMq4X+5waFi9omsLKILTSrAzuKBEAB0kEqZdChKTd
-        q9F0oxyFrLG/DlYPL8dzYcs=
-X-Google-Smtp-Source: ADFU+vsT3WVYwhpJooawROdOiTWGvCsUv6cL9HuV5P5d1U/LqQqpNY07JVvpUBPh8/8LLWwZnSFs9Q==
-X-Received: by 2002:a17:90a:ef17:: with SMTP id k23mr5138094pjz.139.1583523193162;
-        Fri, 06 Mar 2020 11:33:13 -0800 (PST)
+        bh=c6P5kPHf07Ale8pEsJ/RqXtKfroxZj1z7x2Wtc11kAA=;
+        b=TdrbdoK/qihpWhxSUcHOSElpf4uqW5uJh/4sS8/M9CHbO8gdtn/4eUion/2+hyrAoH
+         oKXmgMLdnAfl0KvLFUk05OYjAhil1IWgz6lg6GcqDp+lcOMV5Qzr7fYCTZKjI/aK3DKB
+         9ppO/ISmUkVDZYaDJOewBhALLjmdDdqSrGF/+j1LJs9qQ3lqNUM6DpPanw+sHbsl/kGO
+         kjhDdeIUxb24noPOdPWPWjQGBcOlM+SAZOFb5FdX+pD/BsOiwXm9KpDmm63Vz629fjRB
+         eQTfOm3lnWvUnriSyBrAlGqttMIbSmexw9AAS0xzg0c1r8VFY1L4kqIa01yropMgUteL
+         anvA==
+X-Gm-Message-State: ANhLgQ3arGzkfLiG4fG5nIKAtjV9dljBmS/2OLL/vHrMUR5Ufs3YHe/U
+        KRaZkJqmIHzaKsLFwlSBSzs=
+X-Google-Smtp-Source: ADFU+vvmXScorSVduhMswCeyrT2aiZLcWKmEbgdagLgxX25pUfYBIPpbqEiKiQZnxgTgx5AMl88W6Q==
+X-Received: by 2002:a17:90a:26c2:: with SMTP id m60mr5064249pje.70.1583524299195;
+        Fri, 06 Mar 2020 11:51:39 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id a7sm10093043pjo.11.2020.03.06.11.33.11
+        by smtp.gmail.com with ESMTPSA id k16sm10626464pfh.127.2020.03.06.11.51.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2020 11:33:12 -0800 (PST)
-Date:   Fri, 6 Mar 2020 11:33:10 -0800
+        Fri, 06 Mar 2020 11:51:38 -0800 (PST)
+Date:   Fri, 6 Mar 2020 11:51:36 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Anson Huang <Anson.Huang@nxp.com>
-Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, a.zummo@towertech.it,
-        alexandre.belloni@bootlin.com, rui.zhang@intel.com,
-        daniel.lezcano@linaro.org, amit.kucheria@verdurent.com,
-        wim@linux-watchdog.org, linux@roeck-us.net, daniel.baluta@nxp.com,
-        linux@rempel-privat.de, gregkh@linuxfoundation.org,
-        tglx@linutronix.de, m.felsch@pengutronix.de,
-        andriy.shevchenko@linux.intel.com, arnd@arndb.de,
-        enric.balletbo@collabora.com, ronald@innovation.ch,
-        krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, Linux-imx@nxp.com
-Subject: Re: [PATCH 3/5] input: keyboard: add COMPILE_TEST support for
- KEYBOARD_IMX_SC_KEY
-Message-ID: <20200306193310.GI217608@dtor-ws>
-References: <1583509356-8265-1-git-send-email-Anson.Huang@nxp.com>
- <1583509356-8265-3-git-send-email-Anson.Huang@nxp.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Jeffrey Lin <jeffrey.lin@rad-ic.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Rob Herring <robh@kernel.org>, linux-input@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] Input: raydium_i2c_ts - fix error codes in
+ raydium_i2c_boot_trigger()
+Message-ID: <20200306195136.GJ217608@dtor-ws>
+References: <20200303101306.4potflz7na2nn3od@kili.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1583509356-8265-3-git-send-email-Anson.Huang@nxp.com>
+In-Reply-To: <20200303101306.4potflz7na2nn3od@kili.mountain>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Mar 06, 2020 at 11:42:34PM +0800, Anson Huang wrote:
-> Add COMPILE_TEST support to i.MX SC keyboard driver for better compile
-> testing coverage.
+On Tue, Mar 03, 2020 at 01:13:06PM +0300, Dan Carpenter wrote:
+> These functions are supposed to return negative error codes but instead
+> it returns true on failure and false on success.  The error codes are
+> eventually propogated back to user space.
 > 
-> Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
+> Fixes: 48a2b783483b ("Input: add Raydium I2C touchscreen driver")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 Applied, thank you.
 
 > ---
->  drivers/input/keyboard/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/input/touchscreen/raydium_i2c_ts.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-> index 4706ff0..81e26f6 100644
-> --- a/drivers/input/keyboard/Kconfig
-> +++ b/drivers/input/keyboard/Kconfig
-> @@ -467,7 +467,7 @@ config KEYBOARD_IMX
+> diff --git a/drivers/input/touchscreen/raydium_i2c_ts.c b/drivers/input/touchscreen/raydium_i2c_ts.c
+> index 6ed9f22e6401..fe245439adee 100644
+> --- a/drivers/input/touchscreen/raydium_i2c_ts.c
+> +++ b/drivers/input/touchscreen/raydium_i2c_ts.c
+> @@ -432,7 +432,7 @@ static int raydium_i2c_write_object(struct i2c_client *client,
+>  	return 0;
+>  }
 >  
->  config KEYBOARD_IMX_SC_KEY
->  	tristate "IMX SCU Key Driver"
-> -	depends on IMX_SCU
-> +	depends on IMX_SCU || COMPILE_TEST
->  	help
->  	  This is the system controller key driver for NXP i.MX SoCs with
->  	  system controller inside.
+> -static bool raydium_i2c_boot_trigger(struct i2c_client *client)
+> +static int raydium_i2c_boot_trigger(struct i2c_client *client)
+>  {
+>  	static const u8 cmd[7][6] = {
+>  		{ 0x08, 0x0C, 0x09, 0x00, 0x50, 0xD7 },
+> @@ -457,10 +457,10 @@ static bool raydium_i2c_boot_trigger(struct i2c_client *client)
+>  		}
+>  	}
+>  
+> -	return false;
+> +	return 0;
+>  }
+>  
+> -static bool raydium_i2c_fw_trigger(struct i2c_client *client)
+> +static int raydium_i2c_fw_trigger(struct i2c_client *client)
+>  {
+>  	static const u8 cmd[5][11] = {
+>  		{ 0, 0x09, 0x71, 0x0C, 0x09, 0x00, 0x50, 0xD7, 0, 0, 0 },
+> @@ -483,7 +483,7 @@ static bool raydium_i2c_fw_trigger(struct i2c_client *client)
+>  		}
+>  	}
+>  
+> -	return false;
+> +	return 0;
+>  }
+>  
+>  static int raydium_i2c_check_path(struct i2c_client *client)
 > -- 
-> 2.7.4
+> 2.11.0
 > 
 
 -- 
