@@ -2,172 +2,298 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 795A717B8C4
-	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 09:54:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BEF317B8C9
+	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 09:55:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726108AbgCFIyg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Mar 2020 03:54:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51749 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725873AbgCFIyg (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 03:54:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583484874;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=KBL/hRkkdlvockqir54IqcUl++mMvmn3H/4duUsIMnQ=;
-        b=AcGNc5lW/sKxyKn42VbWHk3Rn5PN5lAARayyn/0V0Bu4TFuBkPPqRzfDK+YQVhqdqAcTtF
-        DrAoabh1Sm9zWGr1yj4CUW8niuejV0K5q9tQdiStLp+Wuy2bYA7c2eiyuXySvUqj71njV/
-        lUPp9Q/zuqRugKRLTg3NEVkgLx7d0s0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-8LZD6eOdO22_PT1L0T4N1g-1; Fri, 06 Mar 2020 03:54:30 -0500
-X-MC-Unique: 8LZD6eOdO22_PT1L0T4N1g-1
-Received: by mail-wr1-f69.google.com with SMTP id z16so708467wrm.15
-        for <linux-input@vger.kernel.org>; Fri, 06 Mar 2020 00:54:29 -0800 (PST)
+        id S1725873AbgCFIzW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Mar 2020 03:55:22 -0500
+Received: from mail-pj1-f42.google.com ([209.85.216.42]:51253 "EHLO
+        mail-pj1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726368AbgCFIzW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 03:55:22 -0500
+Received: by mail-pj1-f42.google.com with SMTP id l8so790546pjy.1
+        for <linux-input@vger.kernel.org>; Fri, 06 Mar 2020 00:55:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CYXa4yHXWi3kICwEN7+EFIlWiibCOLY8oNkE7sS2q8Y=;
+        b=X3fqCKKcH8hZQ+CDy5FT4hRTTUTdih7N8SWPs6CE2t2jRq3anEvqlMtPj974wadC0m
+         nAhk6kEJzZjmBIdz/UpPcSK1XZ8IYbpmzi23Rsgzw/mL91bCauclcjUB/7kHXhPk7n7o
+         mS4FyD5gj4Eij2qUEJHzWTWFzcTA7kRbFqBrE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=KBL/hRkkdlvockqir54IqcUl++mMvmn3H/4duUsIMnQ=;
-        b=J8RvoQsW60WHM+DuW9d/cI0EJp+Ua7nzumGIHFBFnxM4l/fwGyO6qjt0qzVpRyuD+o
-         KbO+D7bJo21QXuQ6my3hYbJUg0W3SkXthgUBqe0casvlYeTTT1X+Vu/6jhErKM56+htC
-         SzMb79UpBbZtR5WHuEXUlyJ1ysi+jFuJyLZ+dr/fF1sXNCL/8mMHm7ZHueLza/9sj3mZ
-         1Iwegg1UNEJNhdcIgVGD5xTt6XRvVuMIlHy9mZ70kf9p/Y+dNAKKfGJo/aTeb3hSygF3
-         rG1Kqkd2Evsw7tD/3B0brGQdYLfjY7wDr7u15gGmQfumOERQhxF69NuNFGVWZSjtJRuk
-         8DnQ==
-X-Gm-Message-State: ANhLgQ0T7QVhRBGm7ck7qvWLjTqenCFqfrTQcfPR3CmBDupGGdCHPqD5
-        SFUKZUH+s4N9B8onAr0PuxvrGgQxGsKKGTKouAQ70V/zF/o672OSq/wgivER8M42NaQ/yPzWMml
-        1hymrK6m30Bw2lVMm4HK81TI=
-X-Received: by 2002:a1c:63c4:: with SMTP id x187mr197509wmb.124.1583484868834;
-        Fri, 06 Mar 2020 00:54:28 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vt9aWl2ALe3rZctuLGpXLDFlXNnnMhtk9T1VAvxGwMWuMWLvQE5kWLtu1LxHN+QA8XaQdjpaQ==
-X-Received: by 2002:a1c:63c4:: with SMTP id x187mr197484wmb.124.1583484868607;
-        Fri, 06 Mar 2020 00:54:28 -0800 (PST)
-Received: from x1.localdomain ([2a0e:5700:4:11:42c0:3c5d:2f33:1a6c])
-        by smtp.gmail.com with ESMTPSA id u1sm29386971wrt.78.2020.03.06.00.54.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Mar 2020 00:54:27 -0800 (PST)
-Subject: Re: [PATCH v2 01/11] Input: goodix - Refactor IRQ pin GPIO accesses
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org,
-        Dmitry Mastykin <mastichi@gmail.com>
-References: <20200305220132.228722-1-hdegoede@redhat.com>
- <20200306040301.GB217608@dtor-ws>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <63a3f7ca-d2c8-2e42-4934-a7e7ca521507@redhat.com>
-Date:   Fri, 6 Mar 2020 09:54:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        bh=CYXa4yHXWi3kICwEN7+EFIlWiibCOLY8oNkE7sS2q8Y=;
+        b=rawNI3pnJuwPxNoPvAd+clTM//I4dIQDdmEuJ/hADBAD1Qk5y2Ex6etMfmAxwzVzSA
+         OU4A0s4aZa2l16TeZhB8EKdIejU96ueEkpCOQRO6gH0OjFQDDQH2NR8/dbuYK/CZ//qV
+         wtKf7qAfqPq4Pg7AMzveyCngwfoQ9ec7QyoK0exMNZRRuCIKp/JEf5/ZBbrcNaSObbzu
+         JYhOsfhscviz6qFPfh8XAA1754JHbCz8qKlOLhL78+BdGySCv6qDK2mCIqwXcl3OXGSC
+         ZyMQgLQKOhMa/qOih2hNUZsCALQzDlCWpjgg5O3//jzYYjSCvzn4Igjov12cSffRiBBi
+         Svag==
+X-Gm-Message-State: ANhLgQ2dLYCqOqEoVVpC5ZCx6DRq8kg/ZXUBbfVrekxUYiQxN56T1/bR
+        jK0SrIle9ZeVhDN5yxNO/pZkSg==
+X-Google-Smtp-Source: ADFU+vuq+zd/HVMZCuOD/L7VM8deo+mS+5KA8h+OcUNH6UwtGKOqkyTB2qPc2liUuDJdmvWecHTRPw==
+X-Received: by 2002:a17:902:8215:: with SMTP id x21mr2129945pln.59.1583484920336;
+        Fri, 06 Mar 2020 00:55:20 -0800 (PST)
+Received: from ikjn-p920.tpe.corp.google.com ([2401:fa00:1:10:254e:2b40:ef8:ee17])
+        by smtp.gmail.com with ESMTPSA id s18sm8576991pjp.24.2020.03.06.00.55.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Mar 2020 00:55:19 -0800 (PST)
+From:   Ikjoon Jang <ikjn@chromium.org>
+To:     devicetree@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nicolas Boitchat <drinkcat@chromium.org>,
+        linux-input@vger.kernel.org, Ikjoon Jang <ikjn@chromium.org>
+Subject: [PATCH v7] dt-bindings: mfd: Convert ChromeOS EC bindings to json-schema
+Date:   Fri,  6 Mar 2020 16:55:13 +0800
+Message-Id: <20200306085513.76024-1-ikjn@chromium.org>
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 MIME-Version: 1.0
-In-Reply-To: <20200306040301.GB217608@dtor-ws>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Convert the ChromeOS EC bindings to json-schema.
 
-On 3/6/20 5:03 AM, Dmitry Torokhov wrote:
-> Hi Hans,
-> 
-> On Thu, Mar 05, 2020 at 11:01:22PM +0100, Hans de Goede wrote:
->> Suspending Goodix touchscreens requires changing the interrupt pin to
->> output before sending them a power-down command. Followed by wiggling
->> the interrupt pin to wake the device up, after which it is put back
->> in input mode.
->>
->> So far we have only effectively supported this on devices which use
->> devicetree. On X86 ACPI platforms both looking up the pins; and using a
->> pin as both IRQ and GPIO is a bit more complicated. E.g. on some devices
->> we cannot directly access the IRQ pin as GPIO and we need to call ACPI
->> methods to control it instead.
->>
->> This commit adds a new irq_pin_access_method field to the goodix_chip_data
->> struct and adds goodix_irq_direction_output and goodix_irq_direction_input
->> helpers which together abstract the GPIO accesses to the IRQ pin.
->>
->> This is a preparation patch for adding support for properly suspending the
->> touchscreen on X86 ACPI platforms.
->>
->> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1786317
->> BugLink: https://github.com/nexus511/gpd-ubuntu-packages/issues/10
->> BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=199207
->> Cc: Dmitry Mastykin <mastichi@gmail.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->> Changes in v2:
->> - Make enum member names upper-case
->> ---
->>   drivers/input/touchscreen/goodix.c | 62 ++++++++++++++++++++++++------
->>   1 file changed, 51 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
->> index 0403102e807e..9cfbcf3cbca8 100644
->> --- a/drivers/input/touchscreen/goodix.c
->> +++ b/drivers/input/touchscreen/goodix.c
->> @@ -31,6 +31,11 @@
->>   
->>   struct goodix_ts_data;
->>   
->> +enum goodix_irq_pin_access_method {
->> +	IRQ_PIN_ACCESS_NONE,
->> +	IRQ_PIN_ACCESS_GPIO,
->> +};
->> +
->>   struct goodix_chip_data {
->>   	u16 config_addr;
->>   	int config_len;
->> @@ -53,6 +58,7 @@ struct goodix_ts_data {
->>   	const char *cfg_name;
->>   	struct completion firmware_loading_complete;
->>   	unsigned long irq_flags;
->> +	enum goodix_irq_pin_access_method irq_pin_access_method;
->>   	unsigned int contact_size;
->>   };
->>   
->> @@ -502,17 +508,48 @@ static int goodix_send_cfg(struct goodix_ts_data *ts,
->>   	return 0;
->>   }
->>   
->> +static int goodix_irq_direction_output(struct goodix_ts_data *ts,
->> +				       int value)
->> +{
->> +	switch (ts->irq_pin_access_method) {
->> +	case IRQ_PIN_ACCESS_NONE:
->> +		dev_err(&ts->client->dev,
->> +			"%s called without an irq_pin_access_method set\n",
->> +			__func__);
->> +		return -EINVAL;
->> +	case IRQ_PIN_ACCESS_GPIO:
->> +		return gpiod_direction_output(ts->gpiod_int, value);
->> +	}
->> +
->> +	return -EINVAL; /* Never reached */
-> 
-> I do not like these "never reached" comments. We can either let compiler
-> issue a warning that we did not cover all switch cases, or stick
-> "default:" alongside "case IRQ_PIN_ACCESS_NONE:".
+Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
+Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+---
+ .../devicetree/bindings/mfd/cros-ec.txt       |  76 -----------
+ .../bindings/mfd/google,cros-ec.yaml          | 129 ++++++++++++++++++
+ 2 files changed, 129 insertions(+), 76 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
+ create mode 100644 Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
 
-I just tried removing this line, this results in:
-
-   CC [M]  drivers/input/touchscreen/goodix.o
-drivers/input/touchscreen/goodix.c: In function ‘goodix_irq_direction_output’:
-drivers/input/touchscreen/goodix.c:593:1: warning: control reaches end of non-void function [-Wreturn-type]
-   593 | }
-       | ^
-
-And I do not want to add a default label, the switch-case is on an enum type and
-if I do that I loose the useful warnings for one of the enum values not being
-handled in the switch-case.
-
-Regards,
-
-Hans
+diff --git a/Documentation/devicetree/bindings/mfd/cros-ec.txt b/Documentation/devicetree/bindings/mfd/cros-ec.txt
+deleted file mode 100644
+index 4860eabd0f72..000000000000
+--- a/Documentation/devicetree/bindings/mfd/cros-ec.txt
++++ /dev/null
+@@ -1,76 +0,0 @@
+-ChromeOS Embedded Controller
+-
+-Google's ChromeOS EC is a Cortex-M device which talks to the AP and
+-implements various function such as keyboard and battery charging.
+-
+-The EC can be connect through various means (I2C, SPI, LPC, RPMSG) and the
+-compatible string used depends on the interface. Each connection method has
+-its own driver which connects to the top level interface-agnostic EC driver.
+-Other Linux driver (such as cros-ec-keyb for the matrix keyboard) connect to
+-the top-level driver.
+-
+-Required properties (I2C):
+-- compatible: "google,cros-ec-i2c"
+-- reg: I2C slave address
+-
+-Required properties (SPI):
+-- compatible: "google,cros-ec-spi"
+-- reg: SPI chip select
+-
+-Required properties (RPMSG):
+-- compatible: "google,cros-ec-rpmsg"
+-
+-Optional properties (SPI):
+-- google,cros-ec-spi-pre-delay: Some implementations of the EC need a little
+-  time to wake up from sleep before they can receive SPI transfers at a high
+-  clock rate. This property specifies the delay, in usecs, between the
+-  assertion of the CS to the start of the first clock pulse.
+-- google,cros-ec-spi-msg-delay: Some implementations of the EC require some
+-  additional processing time in order to accept new transactions. If the delay
+-  between transactions is not long enough the EC may not be able to respond
+-  properly to subsequent transactions and cause them to hang. This property
+-  specifies the delay, in usecs, introduced between transactions to account
+-  for the time required by the EC to get back into a state in which new data
+-  can be accepted.
+-
+-Required properties (LPC):
+-- compatible: "google,cros-ec-lpc"
+-- reg: List of (IO address, size) pairs defining the interface uses
+-
+-Optional properties (all):
+-- google,has-vbc-nvram: Some implementations of the EC include a small
+-  nvram space used to store verified boot context data. This boolean flag
+-  is used to specify whether this nvram is present or not.
+-
+-Example for I2C:
+-
+-i2c@12ca0000 {
+-	cros-ec@1e {
+-		reg = <0x1e>;
+-		compatible = "google,cros-ec-i2c";
+-		interrupts = <14 0>;
+-		interrupt-parent = <&wakeup_eint>;
+-		wakeup-source;
+-	};
+-
+-
+-Example for SPI:
+-
+-spi@131b0000 {
+-	ec@0 {
+-		compatible = "google,cros-ec-spi";
+-		reg = <0x0>;
+-		interrupts = <14 0>;
+-		interrupt-parent = <&wakeup_eint>;
+-		wakeup-source;
+-		spi-max-frequency = <5000000>;
+-		controller-data {
+-		cs-gpio = <&gpf0 3 4 3 0>;
+-		samsung,spi-cs;
+-		samsung,spi-feedback-delay = <2>;
+-		};
+-	};
+-};
+-
+-
+-Example for LPC is not supplied as it is not yet implemented.
+diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+new file mode 100644
+index 000000000000..6a7279a85ec1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+@@ -0,0 +1,129 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ChromeOS Embedded Controller
++
++maintainers:
++  - Benson Leung <bleung@chromium.org>
++  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
++  - Guenter Roeck <groeck@chromium.org>
++
++description:
++  Google's ChromeOS EC is a microcontroller which talks to the AP and
++  implements various functions such as keyboard and battery charging.
++  The EC can be connected through various interfaces (I2C, SPI, and others)
++  and the compatible string specifies which interface is being used.
++
++properties:
++  compatible:
++    oneOf:
++      - description:
++          For implementations of the EC is connected through I2C.
++        const: google,cros-ec-i2c
++      - description:
++          For implementations of the EC is connected through SPI.
++        const: google,cros-ec-spi
++      - description:
++          For implementations of the EC is connected through RPMSG.
++        const: google,cros-ec-rpmsg
++
++  google,cros-ec-spi-pre-delay:
++    description:
++      This property specifies the delay in usecs between the
++      assertion of the CS and the first clock pulse.
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - default: 0
++      - minimum: 0
++
++  google,cros-ec-spi-msg-delay:
++    description:
++      This property specifies the delay in usecs between messages.
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - default: 0
++      - minimum: 0
++
++  google,has-vbc-nvram:
++    description:
++      Some implementations of the EC include a small nvram space used to
++      store verified boot context data. This boolean flag is used to specify
++      whether this nvram is present or not.
++    type: boolean
++
++  spi-max-frequency:
++    description: Maximum SPI frequency of the device in Hz.
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - google,cros-ec-i2c
++          - google,cros-ec-rpmsg
++then:
++  properties:
++    google,cros-ec-spi-pre-delay: false
++    google,cros-ec-spi-msg-delay: false
++    spi-max-frequency: false
++
++additionalProperties: false
++
++examples:
++  # Example for I2C
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        cros-ec@1e {
++            compatible = "google,cros-ec-i2c";
++            reg = <0x1e>;
++            interrupts = <6 0>;
++            interrupt-parent = <&gpio0>;
++        };
++    };
++
++  # Example for SPI
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    spi0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        cros-ec@0 {
++            compatible = "google,cros-ec-spi";
++            reg = <0x0>;
++            google,cros-ec-spi-msg-delay = <30>;
++            google,cros-ec-spi-pre-delay = <10>;
++            interrupts = <99 0>;
++            interrupt-parent = <&gpio7>;
++            spi-max-frequency = <5000000>;
++        };
++    };
++
++  # Example for RPMSG
++  - |
++    scp0 {
++        cros-ec {
++            compatible = "google,cros-ec-rpmsg";
++        };
++    };
++...
+-- 
+2.25.1.481.gfbce0eb801-goog
 
