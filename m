@@ -2,117 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0006C17B6AC
-	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 07:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6218817B6DD
+	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 07:40:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725829AbgCFG2G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Mar 2020 01:28:06 -0500
-Received: from emcscan.emc.com.tw ([192.72.220.5]:51727 "EHLO
-        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725941AbgCFG2G (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 01:28:06 -0500
-X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
-   d="scan'208";a="34723355"
-Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 06 Mar 2020 14:28:01 +0800
-Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(69135:0:AUTH_RELAY)
-        (envelope-from <johnny.chuang@emc.com.tw>); Fri, 06 Mar 2020 14:28:04 +0800 (CST)
-Received: from 192.168.55.71
-        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2482:1:AUTH_LOGIN)
-        (envelope-from <johnny.chuang@emc.com.tw>); Fri, 06 Mar 2020 14:28:03 +0800 (CST)
-From:   "Johnny.Chuang" <johnny.chuang@emc.com.tw>
-To:     "'Peter Hutterer'" <peter.hutterer@who-t.net>,
-        "'Johnny Chuang'" <johnny.chuang.emc@gmail.com>
-Cc:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>,
-        "'Benjamin Tissoires'" <benjamin.tissoires@redhat.com>,
-        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        "'Jennifer Tsai'" <jennifer.tsai@emc.com.tw>,
-        "'James Chen'" <james.chen@emc.com.tw>,
-        "'Paul Liang'" <paul.liang@emc.com.tw>,
-        "'Jeff Chuang'" <jeff.chuang@emc.com.tw>
-References: <1582766000-23023-1-git-send-email-johnny.chuang.emc@gmail.com> <20200227223608.GB1087116@jelly> 
-In-Reply-To: 
-Subject: RE: [PATCH] Input: elants_i2c - Report resolution information for touch major
-Date:   Fri, 6 Mar 2020 14:27:57 +0800
-Message-ID: <005d01d5f380$60a3f920$21ebeb60$@emc.com.tw>
+        id S1725941AbgCFGkR convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Fri, 6 Mar 2020 01:40:17 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:44406 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725835AbgCFGkR (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 01:40:17 -0500
+Received: from mail-wm1-f70.google.com ([209.85.128.70])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <chia-lin.kao@canonical.com>)
+        id 1jA6ec-0007AY-Qk
+        for linux-input@vger.kernel.org; Fri, 06 Mar 2020 06:40:14 +0000
+Received: by mail-wm1-f70.google.com with SMTP id w12so259310wmc.3
+        for <linux-input@vger.kernel.org>; Thu, 05 Mar 2020 22:40:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=EpKnowuU59lPtoZuyG1qUEH+kEQ22uKgOl7ZuBWQsiA=;
+        b=enxgZdYdagpLbY5K+bIlPBwKKuXypYJDPcOULa8H9QBIfrxDhIH4gCBo78UucAb6TG
+         syMrS7yZ31iGDYzpW3jL6qfbhJ7KsjsAclnebyxyFlltIkShwUMsFqn1DAc0m8VlLCJC
+         gaIJ6llplRFv8lgeuFJ48Z8wBirjQ3QJRFMKjvgBs0+IKWcK9HDgrDNWB9x8kWKe6gyi
+         0oqWQLTIJF0OQx0f7sIuf8ROlHOFe9bOrN4TAwRb2DFhLh2pVcniJY67mA1EvnzGhlvC
+         qroUwZT196zmsiGDZLdDFIH9KipAFRU+9HiLkZfYJeuSp46l4qo1fJC/k6wva4v+6/Pc
+         cw+g==
+X-Gm-Message-State: ANhLgQ3WzXsV2u3M6jnxmGyqka1+MbQSP+x6bS4pm9G+NRBZXGL9HJph
+        QiiWP52ZduIwvAZBsUGEtbOBeCuqbJ9lC+5eFZXo/G9Q+nGDs+m9MCtG40F9LYmVTkT94G9KMV5
+        mmIwaOaxv97/xHjMKLoXhf1RjGfHkoq1OYXGXGhxOXYmnr1SagMGTupcm
+X-Received: by 2002:a5d:4c52:: with SMTP id n18mr2392155wrt.403.1583476814553;
+        Thu, 05 Mar 2020 22:40:14 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vtW31iSGk+adXSK/Yr7Qi7q8DHETQMzekXTWHtim33Iv76ZWOnxUcuVVs8w7irYklXu27ruDt3hjgo/EiwdBc4=
+X-Received: by 2002:a5d:4c52:: with SMTP id n18mr2392114wrt.403.1583476814289;
+ Thu, 05 Mar 2020 22:40:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQKWH33oxoD7nuWwmg1Q/5rISp31bAHeLyTrpqWIE/CABka78A==
-Content-Language: zh-tw
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDUwMTBcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy05ZTEwMmIzNi01ZjczLTExZWEtYmE5Yi03YzVjZjg3NDk0NzhcYW1lLXRlc3RcOWUxMDJiMzgtNWY3My0xMWVhLWJhOWItN2M1Y2Y4NzQ5NDc4Ym9keS50eHQiIHN6PSIyNDc3IiB0PSIxMzIyNzk0OTY3NzY0MjY5NjYiIGg9Imw4cEZoMmd1OS96b2lKY2w3ZzZacmJjUkxFST0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
-x-dg-rorf: true
+References: <20200305064423.16196-1-acelan.kao@canonical.com> <20200306041642.GD217608@dtor-ws>
+In-Reply-To: <20200306041642.GD217608@dtor-ws>
+From:   AceLan Kao <acelan.kao@canonical.com>
+Date:   Fri, 6 Mar 2020 14:40:03 +0800
+Message-ID: <CAFv23Q=W8-hafqBkBeT0HXGBb6kJC=1dHwnGv57=Z3NTOH0-6w@mail.gmail.com>
+Subject: Re: [PATCH] Input: i8042 - Fix the selftest retry logic
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-input@vger.kernel.org,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> > -----Original Message-----
-> > From: Peter Hutterer [mailto:peter.hutterer@who-t.net]
-> > Sent: Friday, February 28, 2020 6:36 AM
-> > To: Johnny Chuang
-> > Cc: Dmitry Torokhov; Benjamin Tissoires; linux-kernel@vger.kernel.org;
-> > linux-input@vger.kernel.org; Johnny Chuang; Jennifer Tsai; James Chen;
-> > Paul Liang; Jeff Chuang
-> > Subject: Re: [PATCH] Input: elants_i2c - Report resolution information
-> > for touch major
-> >
-> > On Thu, Feb 27, 2020 at 09:13:20AM +0800, Johnny Chuang wrote:
-> > > From: Johnny Chuang <johnny.chuang@emc.com.tw>
-> > >
-> > > This patch supports reporting resolution for ABS_MT_TOUCH_MAJOR
-> event.
-> > > This information is needed in showing pressure/width radius.
-> > >
-> > > Signed-off-by: Johnny Chuang <johnny.chuang@emc.com.tw>
-> > > ---
-> > >  drivers/input/touchscreen/elants_i2c.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/drivers/input/touchscreen/elants_i2c.c
-> > b/drivers/input/touchscreen/elants_i2c.c
-> > > index 4911799..14c577c 100644
-> > > --- a/drivers/input/touchscreen/elants_i2c.c
-> > > +++ b/drivers/input/touchscreen/elants_i2c.c
-> > > @@ -1309,6 +1309,7 @@ static int elants_i2c_probe(struct i2c_client
-> > *client,
-> > >  	input_set_abs_params(ts->input, ABS_MT_PRESSURE, 0, 255, 0, 0);
-> > >  	input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
-> > >  	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
-> > > +	input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, 1);
-> >
-> > official resolution for absinfo is "units per mm", so a value of 3
-> > would mean 3mm, is that correct?
-> 
-> Correct.
-> This resolution (1 unit/mm) is for all elan I2C touchscreen devices,
-including
-> the touchscreen devices in the future.
-> This information is from our firmware members.
+Hi Dmitry,
 
-Hi Peter / Benjamin,
-Could you help to review and approve this patch?
+We have a Dell desktop with ps2 addon card, after S3, the ps2 keyboard
+lost function and got below errors
+Jan 15 07:10:08 Rh-MT kernel: [  346.575353] i8042: i8042 controller
+selftest timeout
+Jan 15 07:10:08 Rh-MT kernel: [  346.575358] PM: Device i8042 failed
+to resume: error -19
 
-> 
-> >
-> > Not that it matters too much, since touch major is already all over
-> > the place and needs userspace overrides for every device but it'd be
-> > nice to at least make this useful out of the box on one device class.
-> >
-> > Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
-> >
-> > otherwise
-> >
-> > Cheers,
-> >    Peter
-> >
-> > >
-> > >  	error = input_register_device(ts->input);
-> > >  	if (error) {
-> > > --
-> > > 2.7.4
-> > >
+Adding this patch, I found the selftest passes at the second retry and
+the keyboard continue working fine.
 
+Best regards,
+AceLan Kao.
+
+Dmitry Torokhov <dmitry.torokhov@gmail.com> 於 2020年3月6日 週五 下午12:16寫道：
+>
+> Hi AceLan,
+>
+> On Thu, Mar 05, 2020 at 02:44:23PM +0800, AceLan Kao wrote:
+> > It returns -NODEV at the first selftest timeout, so the retry logic
+> > doesn't work. Move the return outside of the while loop to make it real
+> > retry 5 times before returns -ENODEV.
+>
+> The retry logic here was for the controller not returning the expected
+> selftest value, not the controller refusing to communicate at all.
+>
+> Could you pease tell me what device requires this change?
+>
+> Thanks.
+>
+> --
+> Dmitry
