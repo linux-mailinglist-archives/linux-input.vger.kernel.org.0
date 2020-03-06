@@ -2,116 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 218DB17B751
-	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 08:24:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEB9F17B7B3
+	for <lists+linux-input@lfdr.de>; Fri,  6 Mar 2020 08:47:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725869AbgCFHYB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Mar 2020 02:24:01 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:36871 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726256AbgCFHYB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 02:24:01 -0500
-Received: by mail-wr1-f66.google.com with SMTP id 6so1078804wre.4
-        for <linux-input@vger.kernel.org>; Thu, 05 Mar 2020 23:23:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=OjSejv2JJ2JWA4MOD2Ua80DTgBsI2ciXKHuKLp62nNQ=;
-        b=MQzuHt74wlVMFLtLf+XKCyFtFiP0OZACrpNL3iDuYk1PsjH7ivfylf6GMedDSpHrA+
-         +rpZXuO/hvi3sao+44yncL5iFWuV/UQzdOU/G/70eilMHfLTv6lV7YayhU3lk9R91tvQ
-         y/jiEZLUI8XuQCSjDX/ypPrWOeYnmU7plRJodOGIr4kCvhvZ6gRolmWNg4aIy66i7NBr
-         IUj/++l6OOlyHGlaRoH74YT6fWJGJY+suLeH8SAqt7xNzQ6xFcAHKBHQ0I/Bb9wcXuXz
-         DZu0FNVzvh9o+7OJ22MnsEgXWX4Cz3r5dWrF1t8ucKlTJuf1J4NGD3RAjM/t6YAwtP/N
-         JJsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=OjSejv2JJ2JWA4MOD2Ua80DTgBsI2ciXKHuKLp62nNQ=;
-        b=d+hKuF1vH3lAWE1NhqF8uMhEtZE/IAt/LyIKHwdSAmte2JOQN/7rJLxu2ppSlmJFp+
-         90Vd9/Ur9j0j3PjBEo5KJnmmuambzb5goGmNERAWTiWqRIQhyF2W2+b3h2stW0CSDGYe
-         W2lXd8JdzsIuOiycgjde63ljj4C4EUuqOsSlisSVLX6neiRzrt/Xghgo0ex9WAZ7h9VI
-         lQw89zOgJIb1wumjiLyxbZ1PxSlYPvEJOW6usZBEtmZtQOT+g13Bbe3iBS/M1uxsBsQ2
-         sH1rJ/bT4045XkDOMfAFiAAwaBLd2atxsk9E10H78Yz2wK3M4TS8CpFD71UxOZTaLoj8
-         hN2w==
-X-Gm-Message-State: ANhLgQ0wrySCIIe2sTZcPYTkEJp9/vbA0EMcVpPF3197Ujl6jB7jsOsh
-        VKEoiwG6FXjp/xbRSG4JkjC3OZpdP64=
-X-Google-Smtp-Source: ADFU+vufcMPJhoz525ReiJIke606YTgQB9zlW2QHLNkqzTMEKlmjaYtQF2XY4me1raSEbZfX/h8K+Q==
-X-Received: by 2002:adf:ef92:: with SMTP id d18mr2408404wro.193.1583479438509;
-        Thu, 05 Mar 2020 23:23:58 -0800 (PST)
-Received: from dell ([2.31.163.122])
-        by smtp.gmail.com with ESMTPSA id v16sm30547928wrp.84.2020.03.05.23.23.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2020 23:23:58 -0800 (PST)
-Date:   Fri, 6 Mar 2020 07:24:38 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     Ikjoon Jang <ikjn@chromium.org>, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Nicolas Boitchat <drinkcat@chromium.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v6] dt-bindings: mfd: Convert ChromeOS EC bindings to
- json-schema
-Message-ID: <20200306072438.GH3332@dell>
-References: <20200305075302.200959-1-ikjn@chromium.org>
- <199d9fc9-5eba-c135-14a5-e78000859f47@collabora.com>
+        id S1725966AbgCFHrD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Mar 2020 02:47:03 -0500
+Received: from emcscan.emc.com.tw ([192.72.220.5]:36998 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725923AbgCFHrC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Mar 2020 02:47:02 -0500
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="34725027"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 06 Mar 2020 15:46:58 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(146073:0:AUTH_RELAY)
+        (envelope-from <johnny.chuang@emc.com.tw>); Fri, 06 Mar 2020 15:47:01 +0800 (CST)
+Received: from 192.168.55.71
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2487:0:AUTH_LOGIN)
+        (envelope-from <johnny.chuang@emc.com.tw>); Fri, 06 Mar 2020 15:47:00 +0800 (CST)
+From:   "Johnny.Chuang" <johnny.chuang@emc.com.tw>
+To:     "'Peter Hutterer'" <peter.hutterer@who-t.net>,
+        "'Johnny Chuang'" <johnny.chuang.emc@gmail.com>
+Cc:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>,
+        "'Benjamin Tissoires'" <benjamin.tissoires@redhat.com>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        "'Jennifer Tsai'" <jennifer.tsai@emc.com.tw>,
+        "'James Chen'" <james.chen@emc.com.tw>,
+        "'Paul Liang'" <paul.liang@emc.com.tw>,
+        "'Jeff Chuang'" <jeff.chuang@emc.com.tw>
+References: <1582766000-23023-1-git-send-email-johnny.chuang.emc@gmail.com> <20200227223608.GB1087116@jelly>  
+In-Reply-To: 
+Subject: RE: [PATCH] Input: elants_i2c - Report resolution information for touch major
+Date:   Fri, 6 Mar 2020 15:46:55 +0800
+Message-ID: <007301d5f38b$68683080$39389180$@emc.com.tw>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <199d9fc9-5eba-c135-14a5-e78000859f47@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQKWH33oxoD7nuWwmg1Q/5rISp31bAHeLyTrpqWIE/CABka78IAAFcSw
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDUwMTBcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1hNWQ2ODkyZS01ZjdlLTExZWEtYmE5Yi03YzVjZjg3NDk0NzhcYW1lLXRlc3RcYTVkNjg5MzAtNWY3ZS0xMWVhLWJhOWItN2M1Y2Y4NzQ5NDc4Ym9keS50eHQiIHN6PSIyODk1IiB0PSIxMzIyNzk1NDQxNTEzNTE5MTgiIGg9IlJ2R2I0NDJFVitGN0dna1VRTjJPU3IyYTRqOD0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 05 Mar 2020, Enric Balletbo i Serra wrote:
-
-> Hi Ikjoon,
+> > > -----Original Message-----
+> > > From: Peter Hutterer [mailto:peter.hutterer@who-t.net]
+> > > Sent: Friday, February 28, 2020 6:36 AM
+> > > To: Johnny Chuang
+> > > Cc: Dmitry Torokhov; Benjamin Tissoires;
+> > > linux-kernel@vger.kernel.org; linux-input@vger.kernel.org; Johnny
+> > > Chuang; Jennifer Tsai; James Chen; Paul Liang; Jeff Chuang
+> > > Subject: Re: [PATCH] Input: elants_i2c - Report resolution
+> > > information for touch major
+> > >
+> > > On Thu, Feb 27, 2020 at 09:13:20AM +0800, Johnny Chuang wrote:
+> > > > From: Johnny Chuang <johnny.chuang@emc.com.tw>
+> > > >
+> > > > This patch supports reporting resolution for ABS_MT_TOUCH_MAJOR
+> > event.
+> > > > This information is needed in showing pressure/width radius.
+> > > >
+> > > > Signed-off-by: Johnny Chuang <johnny.chuang@emc.com.tw>
+> > > > ---
+> > > >  drivers/input/touchscreen/elants_i2c.c | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/drivers/input/touchscreen/elants_i2c.c
+> > > b/drivers/input/touchscreen/elants_i2c.c
+> > > > index 4911799..14c577c 100644
+> > > > --- a/drivers/input/touchscreen/elants_i2c.c
+> > > > +++ b/drivers/input/touchscreen/elants_i2c.c
+> > > > @@ -1309,6 +1309,7 @@ static int elants_i2c_probe(struct
+> > > > i2c_client
+> > > *client,
+> > > >  	input_set_abs_params(ts->input, ABS_MT_PRESSURE, 0, 255, 0,
+0);
+> > > >  	input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
+> > > >  	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
+> > > > +	input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, 1);
+> > >
+> > > official resolution for absinfo is "units per mm", so a value of 3
+> > > would mean 3mm, is that correct?
+> >
+> > Correct.
+> > This resolution (1 unit/mm) is for all elan I2C touchscreen devices,
+> > including the touchscreen devices in the future.
+> > This information is from our firmware members.
 > 
-> On 5/3/20 8:53, Ikjoon Jang wrote:
-> > Convert the ChromeOS EC bindings to json-schema.
-> > 
-> > Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-> > ---
-> > v6: adjust property dependencies, drop duplicated definitions,
-> >     and set additionalProperties
-> > v5: unset additionalProperties
-> > v4: text reflows, add type references, and fix examples
-> > v3: node name changed in rpmsg example
-> > v2: cleanup description, fix typos, remove LPC, and add RPMSG example
-> > ---
-> >  .../devicetree/bindings/mfd/cros-ec.txt       |  76 -----------
-> >  .../devicetree/bindings/mfd/cros-ec.yaml      | 125 ++++++++++++++++++
+> Hi Peter / Benjamin,
+> Could you help to review and approve this patch?
 > 
-> According to the feedback I received on other patches from Rob, the name of the
-> file should include the vendor, in that case should be google,cros-ec.yaml
-> 
-> I already argued in previous version why I think this should go in
-> bindings/chrome instead of mfd, these bindings correspond to the platform/chrome
-> device not the mfd cros ec device (cros-ec-dev) in MFD, anyway, I don't want to
-> be touchy, but, as is, should go through the Lee Jones tree not our
-> chrome-platform tree. So if Lee is fine with it I'm fine too.
 
-Actually these have been reviewed and taken by Rob of late.
+Hi Peter / Benjamin,
+HP project Mordin mass production on 2020/3/10. ODM needs to upgrade new
+image with this patch to verify.
+Because ODM can not get the image link from Google, already delay verify
+schedule.
+Please help to review and approve this patch ASAP. Thank you very much.
 
-> Just another minor change (see below) and looks good to me.
-> 
-> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> >
+> > >
+> > > Not that it matters too much, since touch major is already all over
+> > > the place and needs userspace overrides for every device but it'd be
+> > > nice to at least make this useful out of the box on one device class.
+> > >
+> > > Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+> > >
+> > > otherwise
+> > >
+> > > Cheers,
+> > >    Peter
+> > >
+> > > >
+> > > >  	error = input_register_device(ts->input);
+> > > >  	if (error) {
+> > > > --
+> > > > 2.7.4
+> > > >
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
