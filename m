@@ -2,109 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2306317D077
-	for <lists+linux-input@lfdr.de>; Sat,  7 Mar 2020 23:34:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA82617D07A
+	for <lists+linux-input@lfdr.de>; Sat,  7 Mar 2020 23:39:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726266AbgCGWe2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 7 Mar 2020 17:34:28 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:41216 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725911AbgCGWe2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Mar 2020 17:34:28 -0500
-Received: by mail-pl1-f193.google.com with SMTP id t14so2420628plr.8
-        for <linux-input@vger.kernel.org>; Sat, 07 Mar 2020 14:34:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=9Hxmd3F5iYuKjmsn5YWW7+/tglYNdFxYnjYUSKDWuoQ=;
-        b=bHz1wqEe9g/hww71ZZ8yMeWhT0L3ZqrzW+nnX9lsE3KuHwwr6nBNhpF5Q0VAfWbK1d
-         ctdY4+S8HnZ19SoZ6tMd/RlR6RDpqiQ7AYuUrPj36XfASbTm4wuhh9PeHlLB6+pFQ2lQ
-         jxR4f/4DL73hALwLZEk8llufynK5pliLQqq79NK2Iq1xjiwg9E+N4Wqcjjzu2zgfZVbf
-         WQlqBqBXI5R+ti6tNWw0W+BFsGriCEymVoeE8EBy+23AMfHgAX+GZP/LoZR7iTNARZc6
-         TY0tve/TOPJT3Q9MRrw9S59999hbhRJDbksrjD1eyGzWj5Arp454tTCx428I7jUYOGJ1
-         yMdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9Hxmd3F5iYuKjmsn5YWW7+/tglYNdFxYnjYUSKDWuoQ=;
-        b=jg+2NG+VR2sKqd0K8P/5IaDVJIRs5fLhCt39nDGgv85mMrx6R2SbZwktRqOsPQ72oF
-         pUtymwUckXnDLnzx2Qy896FIva2LMQlHs8bgaX5H1XVpWnWr1FP9L3QpT1UPDZflouwy
-         STy4KYLObz5bZ23uPWJ9Infx4ATfqXcVmgXo+ri3yKJ15Ac8rTpTgHcqlGHpywVZ0fX7
-         qLDhS2SkR0Hki0pqrnohNTzfYozREt0UmxTETicK92TmwJuWaCbYn41yJM3qZKfikPuG
-         sgfOqNwqa0xpeEaxiQjFGh1nFmFqu48lHRbEMDokL1+RKzxP1J+Uzyb4ASi7JqB0TMAU
-         6R6g==
-X-Gm-Message-State: ANhLgQ1Ap/YhVWUlKccvU/bjXD8/Wm1a7r9d0DwV3YUWGkbalJuWlN4S
-        zJnglgie7A2aUtb0S3pLUjM=
-X-Google-Smtp-Source: ADFU+vvXbkLYqa0XK1WPKvgkNipaRDqSeemXNJVwRe1BYgqA287NXexA8IndhBdgKhSLvqyNxWmqsw==
-X-Received: by 2002:a17:902:7794:: with SMTP id o20mr9300732pll.312.1583620466693;
-        Sat, 07 Mar 2020 14:34:26 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id 191sm33378248pfa.142.2020.03.07.14.34.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2020 14:34:24 -0800 (PST)
-Date:   Sat, 7 Mar 2020 14:34:21 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andrew Duggan <aduggan@synaptics.com>
-Cc:     Paul Hollinsky <phollinsky@holtechnik.com>,
-        Christopher Heiny <Cheiny@synaptics.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "patchwork-lst@pengutronix.de" <patchwork-lst@pengutronix.de>
-Subject: Re: [PATCH] Input: synaptics-rmi4 - switch to reduced reporting mode
-Message-ID: <20200307223421.GS217608@dtor-ws>
-References: <20200120111628.18376-1-l.stach@pengutronix.de>
- <20200127022448.GC184237@dtor-ws>
- <b2ca3006-281a-c991-4c6c-7ae7ce5cc3f7@synaptics.com>
- <23ecff7a48f801fcc18680fb6cb150e32fc3c858.camel@synaptics.com>
- <a46120cfd113a4d016f37270eb92c4fccd00a2ed.camel@pengutronix.de>
- <f7b19df4972a7293a701b738426fb63738a771a0.camel@synaptics.com>
- <0da4c22b-efb0-fccc-fd99-cdb398e1df8c@synaptics.com>
- <20200201013852.GG184237@dtor-ws>
- <1f6b0b96-d6fb-7e76-afdd-0ff405e3e84a@holtechnik.com>
- <2d54859d-ee5a-97ec-fe62-79fc1f9e3122@synaptics.com>
+        id S1726271AbgCGWjw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 7 Mar 2020 17:39:52 -0500
+Received: from saul.pp3345.net ([163.172.111.124]:52078 "EHLO saul.pp3345.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726138AbgCGWjw (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 7 Mar 2020 17:39:52 -0500
+Received: from localhost (localhost [127.0.0.1]) (Authenticated sender: dev@pp3345.net)
+        by saul.pp3345.net (Postcow) with ESMTPSA id CF43F9A4411;
+        Sat,  7 Mar 2020 23:39:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pp3345.net; s=saul;
+        t=1583620791; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references:openpgp:autocrypt;
+        bh=mFMFTtNNRFGMFKc9Dj+5ZTdNUIaj/o3jwaMi9W8rPrw=;
+        b=IQVbx8pEVsfWNpFhZuULP6wkqLkiQ+IOwqUNiFrxXrGAHDIghvuK39fvsfpIr57b+Jl6eU
+        9VFgqxhTfnpX0fxyLEvYVIzzCyFCJm0FCMPmmn5DZDwjC+ckHtPOtkQBz3FArgydn/UO2l
+        40J0VzrcfKNaJcqbKBPyCwbl/MYLBHPIvXLDnrkBf+IW3sVT+fmVnvZWQrlA/n+f0iurZ5
+        W+gyjMA67fFxc5HVEcxIcJLH4QemFlrmvuoRzEBz3cb2PCjN/Ruohu2+dx6nrfMc7xhCvf
+        J1qFU9oaXyl5Nx/D6s0sHbrD1OYx0Olzi8edYHtC8Seu5U0XUnr8NCVqtGAtGg==
+Subject: Re: [PATCH] Input: synaptics - Enable RMI on HP Envy 13-ad105ng
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200307213508.267187-1-dev@pp3345.net>
+ <20200307221843.GR217608@dtor-ws>
+From:   Yussuf Khalil <dev@pp3345.net>
+Message-ID: <ca0d34cd-505d-5107-3528-ca6a9c7d13bf@pp3345.net>
+Date:   Sat, 7 Mar 2020 23:39:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2d54859d-ee5a-97ec-fe62-79fc1f9e3122@synaptics.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20200307221843.GR217608@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pp3345.net;
+        s=saul; t=1583620791; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references:openpgp:autocrypt;
+        bh=mFMFTtNNRFGMFKc9Dj+5ZTdNUIaj/o3jwaMi9W8rPrw=;
+        b=eGmsYshvtyeCjo35BbH2j6IV9HvtyBAk2yNUrp/A6K5Jo6mMFJlttDalQT91GySMI+KQQn
+        uB1KSifqwWTTqe0116A2XJ6kr4ZVvnp2oOFaD2HRWWt6I6nnl8J739n6nmkCAtHXHQryyi
+        cvKX0BiUJE2FuopTH/7GDhopPzIAmmSg1xDhIZbHIUaf1Aeqg7B2KpOrbrAISZ+B/JFqR4
+        feCrAaNX+YWCIRIC7UyEIfzNMEKPl7iWH3gVvlz334Lvmxi3vFPgvY7SqNANdAjuG5Ex4F
+        3ZzwcOSgeHEEk0bLW6oymLEWQDa5ymfiaF9Seuuay9BQLQlNgLDzfoWLqorhpg==
+ARC-Seal: i=1; s=saul; d=pp3345.net; t=1583620791; a=rsa-sha256; cv=none;
+        b=aK8dTX53CSvYztdlh6QUPsdVkPzAYHSPhnMH0cTZyWRksyeaI9xcG/pHg+6rUwZXOZF786
+        cMZQTBR+hdU5icx5cjQWbPqMywoVSAllBwvs6j898k2a0P0TvtBiXlJkgd9kq6GDoG0foI
+        vLaXP61u+ByyP7mRwSnxoiRoogl6EM94ongtp6gS3k/DGjr7zt6vMWKFt/tMWYjE1oDW+P
+        h0PKVkwFCpoJ2CmB1cQZdKl0rt6bj2SmXSlagCcEjw+/CLhaz/v6JIyWneTFgxncqh8I6z
+        eNuL1AVI0SembpeWcaISvKi5s7SmRdAFL5FbDjfL6heVW3qpsoqjumUKYbTD9A==
+ARC-Authentication-Results: i=1;
+        saul.pp3345.net;
+        auth=pass smtp.auth=dev@pp3345.net smtp.mailfrom=dev@pp3345.net
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Feb 20, 2020 at 06:36:59PM -0800, Andrew Duggan wrote:
+Hi Dmitry,
+
+I currently don't have access to the device anymore, but apart from 
+missing gesture functionality, it seemed to have some issues with 
+selecting text by clicking and moving the cursor when running in PS/2 
+mode, so I guess it might be good to push the patch to stable.
+
+Regards
+Yussuf Khalil
+
+> Hi Yussuf,
 > 
-> On 2/18/20 7:01 PM, Paul Hollinsky wrote:
-> > 
-> > Hi everyone,
-> > 
-> > I believe there may be an issue with the reduced reporting mode, at
-> > least on my machine. I have a Lenovo ThinkPad X250 with the Synaptics
-> > TM3075-002 trackpad.
-> > 
-> > With this patch, the trackpad becomes unusable. On a reboot, my control
-> > register values are [38 00 19 19 00 10 90 06 ea 03 0f 01]. This
-> > corresponds to a delta X/Y threshold of 25 and a palm rejection value of
-> > 0. The protocol documentation mentions that the palm rejection value
-> > becomes active when in reduced reporting mode, hence its inclusion here.
-> > 
-> Hmm, it looks like the firmware was configured with non-zero Delta X/Y
-> Position thresholds. But, the firmware does not enable reduced reporting
-> mode by default so those thresholds have no effect. However, this patch will
-> now enable reduced reporting mode since it sees the non-zero threshold which
-> were read from the firmware. I did not consider the case where the firmware
-> would have thresholds set, but not enabled when I reviewed this patch
-> initially. Based on this new info I would suggest we change the if statement
-> to check sensor->axis_align.delta_x_threshold ||
-> sensor->axis_align.delta_y_threshold. Then we would only change the
-> reporting mode if the driver is explicitly setting the thresholds.
-
-Any chance I could get a patch implementing this?
-
-Thanks.
-
--- 
-Dmitry
+> On Sat, Mar 07, 2020 at 10:35:08PM +0100, Yussuf Khalil wrote:
+>> This laptop (and perhaps other variants of the same model) reports an
+>> SMBus-capable Synaptics touchpad. Everything (including suspend and
+>> resume) works fine when RMI is enabled via the kernel command line, so
+>> let's add it to the whitelist.
+> 
+> Are there issues with the touchpad when it works in the legacy (PS/2)
+> mode? I will be applying your patch, I just need to understand if it
+> needs to go into stable series, or we can just get it into 5.6 and later
+> versions.
+> 
+> Thanks!
+> 
