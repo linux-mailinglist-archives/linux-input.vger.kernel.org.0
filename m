@@ -2,121 +2,293 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C65117CE14
-	for <lists+linux-input@lfdr.de>; Sat,  7 Mar 2020 13:15:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E94117CE30
+	for <lists+linux-input@lfdr.de>; Sat,  7 Mar 2020 13:47:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726269AbgCGMP0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 7 Mar 2020 07:15:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32621 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726292AbgCGMP0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Mar 2020 07:15:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583583325;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WlHKsRL9rU1iClYwn7oCPfzZzhJPPyRN7KpXJlo6K5c=;
-        b=fUjXMiE7F4SdcQHcnyCIzGHLQM6rixJf032CLbWS937bYMzSFidQMH8pqx0HD4rWO0wX+1
-        J0YvxR+/zrT2vJKpepSDHhTHH2/Xpa+9yQzSak41saREw7lw2sudXJ23/+taKFNzNqLxw/
-        GAgyFyRfJJAo1fihTkQcTLXqCaaakJE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-FEQFMBhHPAu11FvToahblA-1; Sat, 07 Mar 2020 07:15:23 -0500
-X-MC-Unique: FEQFMBhHPAu11FvToahblA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84207107ACCA;
-        Sat,  7 Mar 2020 12:15:22 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-116-27.ams2.redhat.com [10.36.116.27])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6BE7F1BC6D;
-        Sat,  7 Mar 2020 12:15:21 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
-        Dmitry Mastykin <mastichi@gmail.com>
-Subject: [PATCH v3 11/11] Input: goodix - Restore config on resume if necessary
-Date:   Sat,  7 Mar 2020 13:15:05 +0100
-Message-Id: <20200307121505.3707-11-hdegoede@redhat.com>
-In-Reply-To: <20200307121505.3707-1-hdegoede@redhat.com>
-References: <20200307121505.3707-1-hdegoede@redhat.com>
+        id S1726086AbgCGMrq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 7 Mar 2020 07:47:46 -0500
+Received: from saturn.retrosnub.co.uk ([46.235.226.198]:34058 "EHLO
+        saturn.retrosnub.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726017AbgCGMrq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Mar 2020 07:47:46 -0500
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        by saturn.retrosnub.co.uk (Postfix; Retrosnub mail submission) with ESMTPSA id 37F9F9E74F4;
+        Sat,  7 Mar 2020 12:47:42 +0000 (GMT)
+Date:   Sat, 7 Mar 2020 12:47:40 +0000
+From:   Jonathan Cameron <jic23@jic23.retrosnub.co.uk>
+To:     Artur Rojek <contact@artur-rojek.eu>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Heiko Stuebner <heiko@sntech.de>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/5] IIO: Ingenic JZ47xx: Add touchscreen mode.
+Message-ID: <20200307124740.708ae2f3@archlinux>
+In-Reply-To: <20200301150920.55993-3-contact@artur-rojek.eu>
+References: <20200301150920.55993-1-contact@artur-rojek.eu>
+        <20200301150920.55993-3-contact@artur-rojek.eu>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some devices, e.g the Trekstor Primetab S11B, lose there config over
-a suspend/resume cycle (likely the controller loses power during suspend)=
-.
+On Sun,  1 Mar 2020 16:09:18 +0100
+Artur Rojek <contact@artur-rojek.eu> wrote:
 
-This commit reads back the config version on resume and if matches the
-expected config version it resets the controller and resends the config
-we read back and saved at probe time.
+> The SADC component in JZ47xx SoCs provides support for touchscreen
+> operations (pen position and pen down pressure) in single-ended and
+> differential modes.
+> 
+> Of the known hardware to use this controller, GCW Zero and Anbernic RG-350
+> utilize the touchscreen mode by having their joystick(s) attached to the
+> X/Y positive/negative input pins.
+> GCW Zero comes with a single joystick and is sufficiently handled with the
+> currently implemented single-ended mode. Support for boards with two
+> joysticks, where one is hooked up to Xn/Yn and the other to Xp/Yp channels
+> will need to be provided in the future.
+> 
+> The touchscreen component of SADC takes a significant time to stabilize
+> after first receiving the clock and a delay of 50ms has been empirically
+> proven to be a safe value before data sampling can begin.
+> 
+> Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
+> Tested-by: Paul Cercueil <paul@crapouillou.net>
 
-BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1786317
-BugLink: https://github.com/nexus511/gpd-ubuntu-packages/issues/10
-BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=3D199207
-Cc: Dmitry Mastykin <mastichi@gmail.com>
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v2:
-- Replace dev_warn on version mismatch on resume with dev_info
----
- drivers/input/touchscreen/goodix.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+This relies on the use of an irq that wasn't previously used.  Was that
+always hooked up?  If not we need to still work as before when it
+isn't provided.
 
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscre=
-en/goodix.c
-index 3c53f7fd1dfa..15e07870c767 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -1246,6 +1246,7 @@ static int __maybe_unused goodix_resume(struct devi=
-ce *dev)
- {
- 	struct i2c_client *client =3D to_i2c_client(dev);
- 	struct goodix_ts_data *ts =3D i2c_get_clientdata(client);
-+	u8 config_ver;
- 	int error;
-=20
- 	if (ts->irq_pin_access_method =3D=3D IRQ_PIN_ACCESS_NONE) {
-@@ -1267,6 +1268,27 @@ static int __maybe_unused goodix_resume(struct dev=
-ice *dev)
- 	if (error)
- 		return error;
-=20
-+	error =3D goodix_i2c_read(ts->client, ts->chip->config_addr,
-+				&config_ver, 1);
-+	if (error)
-+		dev_warn(dev, "Error reading config version: %d, resetting controller\=
-n",
-+			 error);
-+	else if (config_ver !=3D ts->config[0])
-+		dev_info(dev, "Config version mismatch %d !=3D %d, resetting controlle=
-r\n",
-+			 config_ver, ts->config[0]);
-+
-+	if (error !=3D 0 || config_ver !=3D ts->config[0]) {
-+		error =3D goodix_reset(ts);
-+		if (error) {
-+			dev_err(dev, "Controller reset failed.\n");
-+			return error;
-+		}
-+
-+		error =3D goodix_send_cfg(ts, ts->config, ts->chip->config_len);
-+		if (error)
-+			return error;
-+	}
-+
- 	error =3D goodix_request_irq(ts);
- 	if (error)
- 		return error;
---=20
-2.25.1
+Otherwise this looks fine to me.
+
+> ---
+> 
+>  Changes:
+> 
+>  v2: - improve description of the touchscreen mode,
+>      - get rid of the unneeded kfifo,
+>      - drop IIO_BUFFER_CB from Kconfig,
+>      - remove extended names from the touchscreen channels
+> 
+>  v3: remove unneeded `linux/iio/kfifo_buf.h` include
+> 
+>  drivers/iio/adc/Kconfig       |   1 +
+>  drivers/iio/adc/ingenic-adc.c | 109 +++++++++++++++++++++++++++++++++-
+>  2 files changed, 108 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+> index 82e33082958c..d3fd4b6e2d47 100644
+> --- a/drivers/iio/adc/Kconfig
+> +++ b/drivers/iio/adc/Kconfig
+> @@ -453,6 +453,7 @@ config INA2XX_ADC
+>  config INGENIC_ADC
+>  	tristate "Ingenic JZ47xx SoCs ADC driver"
+>  	depends on MIPS || COMPILE_TEST
+> +	select IIO_BUFFER
+>  	help
+>  	  Say yes here to build support for the Ingenic JZ47xx SoCs ADC unit.
+>  
+> diff --git a/drivers/iio/adc/ingenic-adc.c b/drivers/iio/adc/ingenic-adc.c
+> index 7a24bc1dabe1..0dafc8d5d0d8 100644
+> --- a/drivers/iio/adc/ingenic-adc.c
+> +++ b/drivers/iio/adc/ingenic-adc.c
+> @@ -8,7 +8,9 @@
+>  
+>  #include <dt-bindings/iio/adc/ingenic,adc.h>
+>  #include <linux/clk.h>
+> +#include <linux/iio/buffer.h>
+>  #include <linux/iio/iio.h>
+> +#include <linux/interrupt.h>
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+>  #include <linux/kernel.h>
+> @@ -20,6 +22,8 @@
+>  #define JZ_ADC_REG_CFG			0x04
+>  #define JZ_ADC_REG_CTRL			0x08
+>  #define JZ_ADC_REG_STATUS		0x0c
+> +#define JZ_ADC_REG_ADSAME		0x10
+> +#define JZ_ADC_REG_ADWAIT		0x14
+>  #define JZ_ADC_REG_ADTCH		0x18
+>  #define JZ_ADC_REG_ADBDAT		0x1c
+>  #define JZ_ADC_REG_ADSDAT		0x20
+> @@ -28,6 +32,9 @@
+>  #define JZ_ADC_REG_ENABLE_PD		BIT(7)
+>  #define JZ_ADC_REG_CFG_AUX_MD		(BIT(0) | BIT(1))
+>  #define JZ_ADC_REG_CFG_BAT_MD		BIT(4)
+> +#define JZ_ADC_REG_CFG_PULL_UP(n)	((n) << 16)
+> +#define JZ_ADC_REG_CFG_SAMPLE_NUM(n)	((n) << 10)
+> +#define JZ_ADC_REG_CFG_TOUCH_OPS_MASK	(BIT(31) | GENMASK(23, 10))
+>  #define JZ_ADC_REG_ADCLK_CLKDIV_LSB	0
+>  #define JZ4725B_ADC_REG_ADCLK_CLKDIV10US_LSB	16
+>  #define JZ4770_ADC_REG_ADCLK_CLKDIV10US_LSB	8
+> @@ -44,6 +51,14 @@
+>  #define JZ4770_ADC_BATTERY_VREF			6600
+>  #define JZ4770_ADC_BATTERY_VREF_BITS		12
+>  
+> +#define JZ_ADC_IRQ_AUX			BIT(0)
+> +#define JZ_ADC_IRQ_BATTERY		BIT(1)
+> +#define JZ_ADC_IRQ_TOUCH		BIT(2)
+> +#define JZ_ADC_IRQ_PEN_DOWN		BIT(3)
+> +#define JZ_ADC_IRQ_PEN_UP		BIT(4)
+> +#define JZ_ADC_IRQ_PEN_DOWN_SLEEP	BIT(5)
+> +#define JZ_ADC_IRQ_SLEEP		BIT(7)
+> +
+>  struct ingenic_adc;
+>  
+>  struct ingenic_adc_soc_data {
+> @@ -411,6 +426,28 @@ static const struct iio_info ingenic_adc_info = {
+>  };
+>  
+>  static const struct iio_chan_spec ingenic_channels[] = {
+> +	{
+> +		.type = IIO_POSITIONRELATIVE,
+> +		.indexed = 1,
+> +		.channel = INGENIC_ADC_TOUCH_XP,
+> +		.scan_index = 0,
+> +		.scan_type = {
+> +			.sign = 'u',
+> +			.realbits = 12,
+> +			.storagebits = 16
+> +		},
+> +	},
+> +	{
+> +		.type = IIO_POSITIONRELATIVE,
+> +		.indexed = 1,
+> +		.channel = INGENIC_ADC_TOUCH_YP,
+> +		.scan_index = 1,
+> +		.scan_type = {
+> +			.sign = 'u',
+> +			.realbits = 12,
+> +			.storagebits = 16
+> +		},
+> +	},
+>  	{
+>  		.extend_name = "aux",
+>  		.type = IIO_VOLTAGE,
+> @@ -418,6 +455,7 @@ static const struct iio_chan_spec ingenic_channels[] = {
+>  				      BIT(IIO_CHAN_INFO_SCALE),
+>  		.indexed = 1,
+>  		.channel = INGENIC_ADC_AUX,
+> +		.scan_index = -1
+>  	},
+>  	{
+>  		.extend_name = "battery",
+> @@ -428,6 +466,7 @@ static const struct iio_chan_spec ingenic_channels[] = {
+>  						BIT(IIO_CHAN_INFO_SCALE),
+>  		.indexed = 1,
+>  		.channel = INGENIC_ADC_BATTERY,
+> +		.scan_index = -1
+>  	},
+>  	{ /* Must always be last in the array. */
+>  		.extend_name = "aux2",
+> @@ -436,16 +475,69 @@ static const struct iio_chan_spec ingenic_channels[] = {
+>  				      BIT(IIO_CHAN_INFO_SCALE),
+>  		.indexed = 1,
+>  		.channel = INGENIC_ADC_AUX2,
+> +		.scan_index = -1
+>  	},
+>  };
+>  
+> +static int ingenic_adc_buffer_enable(struct iio_dev *iio_dev)
+> +{
+> +	struct ingenic_adc *adc = iio_priv(iio_dev);
+> +
+> +	clk_enable(adc->clk);
+> +	/* It takes significant time for the touchscreen hw to stabilize. */
+> +	msleep(50);
+> +	ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_TOUCH_OPS_MASK,
+> +			       JZ_ADC_REG_CFG_SAMPLE_NUM(4) |
+> +			       JZ_ADC_REG_CFG_PULL_UP(4));
+> +	writew(80, adc->base + JZ_ADC_REG_ADWAIT);
+> +	writew(2, adc->base + JZ_ADC_REG_ADSAME);
+> +	writeb((u8)~JZ_ADC_IRQ_TOUCH, adc->base + JZ_ADC_REG_CTRL);
+> +	writel(0, adc->base + JZ_ADC_REG_ADTCH);
+> +	ingenic_adc_enable(adc, 2, true);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ingenic_adc_buffer_disable(struct iio_dev *iio_dev)
+> +{
+> +	struct ingenic_adc *adc = iio_priv(iio_dev);
+> +
+> +	ingenic_adc_enable(adc, 2, false);
+> +	writeb(0xff, adc->base + JZ_ADC_REG_CTRL);
+> +	writeb(0xff, adc->base + JZ_ADC_REG_STATUS);
+> +	ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_TOUCH_OPS_MASK, 0);
+> +	writew(0, adc->base + JZ_ADC_REG_ADSAME);
+> +	writew(0, adc->base + JZ_ADC_REG_ADWAIT);
+> +	clk_disable(adc->clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct iio_buffer_setup_ops ingenic_buffer_setup_ops = {
+> +	.postenable = &ingenic_adc_buffer_enable,
+> +	.predisable = &ingenic_adc_buffer_disable
+> +};
+> +
+> +static irqreturn_t ingenic_adc_irq(int irq, void *data)
+> +{
+> +	struct iio_dev *iio_dev = data;
+> +	struct ingenic_adc *adc = iio_priv(iio_dev);
+> +	u32 tdat;
+> +
+> +	tdat = readl(adc->base + JZ_ADC_REG_ADTCH);
+> +	iio_push_to_buffers(iio_dev, &tdat);
+> +	writeb(JZ_ADC_IRQ_TOUCH, adc->base + JZ_ADC_REG_STATUS);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static int ingenic_adc_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+>  	struct iio_dev *iio_dev;
+>  	struct ingenic_adc *adc;
+>  	const struct ingenic_adc_soc_data *soc_data;
+> -	int ret;
+> +	int irq, ret;
+>  
+>  	soc_data = device_get_match_data(dev);
+>  	if (!soc_data)
+> @@ -460,6 +552,18 @@ static int ingenic_adc_probe(struct platform_device *pdev)
+>  	mutex_init(&adc->aux_lock);
+>  	adc->soc_data = soc_data;
+>  
+> +	irq = platform_get_irq(pdev, 0);
+
+Do we need a fallback path if there is no irq provided?  We can't break existing
+supported devices that don't specify one.
+
+> +	if (irq < 0) {
+> +		dev_err(dev, "Failed to get irq: %d\n", irq);
+> +		return irq;
+> +	}
+> +	ret = devm_request_irq(dev, irq, ingenic_adc_irq, 0,
+> +			       dev_name(dev), iio_dev);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to request irq: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+>  	adc->base = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(adc->base))
+>  		return PTR_ERR(adc->base);
+> @@ -499,7 +603,8 @@ static int ingenic_adc_probe(struct platform_device *pdev)
+>  
+>  	iio_dev->dev.parent = dev;
+>  	iio_dev->name = "jz-adc";
+> -	iio_dev->modes = INDIO_DIRECT_MODE;
+> +	iio_dev->modes = INDIO_DIRECT_MODE | INDIO_BUFFER_SOFTWARE;
+> +	iio_dev->setup_ops = &ingenic_buffer_setup_ops;
+>  	iio_dev->channels = ingenic_channels;
+>  	iio_dev->num_channels = ARRAY_SIZE(ingenic_channels);
+>  	/* Remove AUX2 from the list of supported channels. */
 
