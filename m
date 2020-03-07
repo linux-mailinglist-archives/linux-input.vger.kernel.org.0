@@ -2,248 +2,263 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AB6B17CCCE
-	for <lists+linux-input@lfdr.de>; Sat,  7 Mar 2020 09:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DB6B17CE08
+	for <lists+linux-input@lfdr.de>; Sat,  7 Mar 2020 13:15:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726072AbgCGIXa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 7 Mar 2020 03:23:30 -0500
-Received: from mga18.intel.com ([134.134.136.126]:18665 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726065AbgCGIXa (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 7 Mar 2020 03:23:30 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Mar 2020 00:23:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,525,1574150400"; 
-   d="scan'208";a="414205014"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 07 Mar 2020 00:23:27 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jAUk3-0005xM-1n; Sat, 07 Mar 2020 16:23:27 +0800
-Date:   Sat, 07 Mar 2020 16:23:11 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:for-linus] BUILD SUCCESS
- da3289044833769188c0da945d2cec90af35e87e
-Message-ID: <5e6359ef.brk+ZjiZxbGzpzYQ%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1726134AbgCGMPP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 7 Mar 2020 07:15:15 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56193 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726065AbgCGMPP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 7 Mar 2020 07:15:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583583314;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=MGn3sS5Coc011eZD68ygqWoytHfSDgGTKJeqUj3CCa0=;
+        b=LeNILuGJswm8OcANIuaG8j3PH2iuKUR2ZZq0w1qopuYgZYu9v7WnbdikaWdDDxgLAL7DMH
+        k1deOa9fU01GB9awKi4OwG/WcRVtY4Vpoij9/VzQwaU/WpVTPCw4P9BlFTMHmDTAwACdp3
+        dDsJ1wiUTxuhKvD9PwhmW3hjfIKsQwo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-7wzhLG11OnKc5oKHxDyLFg-1; Sat, 07 Mar 2020 07:15:09 -0500
+X-MC-Unique: 7wzhLG11OnKc5oKHxDyLFg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD1BC800D50;
+        Sat,  7 Mar 2020 12:15:08 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-116-27.ams2.redhat.com [10.36.116.27])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7ED327388A;
+        Sat,  7 Mar 2020 12:15:07 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        Dmitry Mastykin <mastichi@gmail.com>
+Subject: [PATCH v3 01/11] Input: goodix - Refactor IRQ pin GPIO accesses
+Date:   Sat,  7 Mar 2020 13:14:55 +0100
+Message-Id: <20200307121505.3707-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  for-linus
-branch HEAD: da3289044833769188c0da945d2cec90af35e87e  Input: tm2-touchkey - add support for Coreriver TC360 variant
+Suspending Goodix touchscreens requires changing the interrupt pin to
+output before sending them a power-down command. Followed by wiggling
+the interrupt pin to wake the device up, after which it is put back
+in input mode.
 
-elapsed time: 577m
+So far we have only effectively supported this on devices which use
+devicetree. On X86 ACPI platforms both looking up the pins; and using a
+pin as both IRQ and GPIO is a bit more complicated. E.g. on some devices
+we cannot directly access the IRQ pin as GPIO and we need to call ACPI
+methods to control it instead.
 
-configs tested: 193
-configs skipped: 0
+This commit adds a new irq_pin_access_method field to the goodix_chip_dat=
+a
+struct and adds goodix_irq_direction_output and goodix_irq_direction_inpu=
+t
+helpers which together abstract the GPIO accesses to the IRQ pin.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This is a preparation patch for adding support for properly suspending th=
+e
+touchscreen on X86 ACPI platforms.
 
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                               defconfig
-sparc                            allyesconfig
-i386                              allnoconfig
-h8300                    h8300h-sim_defconfig
-openrisc                 simple_smp_defconfig
-sparc64                          allmodconfig
-h8300                       h8s-sim_defconfig
-csky                                defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-xtensa                       common_defconfig
-i386                             alldefconfig
-i386                             allyesconfig
-i386                                defconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                                defconfig
-nios2                         3c120_defconfig
-nios2                         10m50_defconfig
-c6x                        evmc6678_defconfig
-xtensa                          iss_defconfig
-c6x                              allyesconfig
-openrisc                    or1ksim_defconfig
-alpha                               defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-h8300                     edosk2674_defconfig
-m68k                             allmodconfig
-m68k                       m5475evb_defconfig
-m68k                          multi_defconfig
-m68k                           sun3_defconfig
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allyesconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-parisc                            allnoconfig
-parisc                           allyesconfig
-parisc                generic-32bit_defconfig
-parisc                generic-64bit_defconfig
-alpha                randconfig-a001-20200306
-m68k                 randconfig-a001-20200306
-mips                 randconfig-a001-20200306
-nds32                randconfig-a001-20200306
-parisc               randconfig-a001-20200306
-riscv                randconfig-a001-20200306
-alpha                randconfig-a001-20200307
-m68k                 randconfig-a001-20200307
-mips                 randconfig-a001-20200307
-nds32                randconfig-a001-20200307
-parisc               randconfig-a001-20200307
-csky                 randconfig-a001-20200307
-openrisc             randconfig-a001-20200307
-s390                 randconfig-a001-20200307
-sh                   randconfig-a001-20200307
-xtensa               randconfig-a001-20200307
-csky                 randconfig-a001-20200305
-openrisc             randconfig-a001-20200305
-s390                 randconfig-a001-20200305
-sh                   randconfig-a001-20200305
-xtensa               randconfig-a001-20200305
-x86_64               randconfig-b001-20200305
-x86_64               randconfig-b002-20200305
-x86_64               randconfig-b003-20200305
-i386                 randconfig-b001-20200305
-i386                 randconfig-b002-20200305
-i386                 randconfig-b003-20200305
-x86_64               randconfig-b001-20200306
-x86_64               randconfig-b002-20200306
-x86_64               randconfig-b003-20200306
-i386                 randconfig-b001-20200306
-i386                 randconfig-b002-20200306
-i386                 randconfig-b003-20200306
-x86_64               randconfig-c001-20200306
-x86_64               randconfig-c002-20200306
-x86_64               randconfig-c003-20200306
-i386                 randconfig-c001-20200306
-i386                 randconfig-c002-20200306
-i386                 randconfig-c003-20200306
-x86_64               randconfig-d001-20200305
-x86_64               randconfig-d002-20200305
-x86_64               randconfig-d003-20200305
-i386                 randconfig-d001-20200305
-i386                 randconfig-d002-20200305
-i386                 randconfig-d003-20200305
-x86_64               randconfig-d001-20200307
-x86_64               randconfig-d002-20200307
-x86_64               randconfig-d003-20200307
-i386                 randconfig-d001-20200307
-i386                 randconfig-d002-20200307
-i386                 randconfig-d003-20200307
-x86_64               randconfig-e001-20200305
-x86_64               randconfig-e002-20200305
-x86_64               randconfig-e003-20200305
-i386                 randconfig-e001-20200305
-i386                 randconfig-e002-20200305
-i386                 randconfig-e003-20200305
-x86_64               randconfig-e001-20200307
-x86_64               randconfig-e002-20200307
-x86_64               randconfig-e003-20200307
-i386                 randconfig-e001-20200307
-i386                 randconfig-e002-20200307
-i386                 randconfig-e003-20200307
-x86_64               randconfig-f001-20200305
-x86_64               randconfig-f002-20200305
-x86_64               randconfig-f003-20200305
-i386                 randconfig-f001-20200305
-i386                 randconfig-f002-20200305
-i386                 randconfig-f003-20200305
-i386                 randconfig-f003-20200306
-x86_64               randconfig-f001-20200306
-i386                 randconfig-f001-20200306
-i386                 randconfig-f002-20200306
-x86_64               randconfig-f002-20200306
-x86_64               randconfig-f003-20200306
-x86_64               randconfig-g001-20200305
-x86_64               randconfig-g002-20200305
-x86_64               randconfig-g003-20200305
-i386                 randconfig-g001-20200305
-i386                 randconfig-g002-20200305
-i386                 randconfig-g003-20200305
-x86_64               randconfig-h001-20200305
-x86_64               randconfig-h002-20200305
-x86_64               randconfig-h003-20200305
-i386                 randconfig-h001-20200305
-i386                 randconfig-h002-20200305
-i386                 randconfig-h003-20200305
-arc                  randconfig-a001-20200307
-arm                  randconfig-a001-20200307
-arm64                randconfig-a001-20200307
-ia64                 randconfig-a001-20200307
-powerpc              randconfig-a001-20200307
-sparc                randconfig-a001-20200307
-arc                  randconfig-a001-20200306
-arm                  randconfig-a001-20200306
-arm64                randconfig-a001-20200306
-ia64                 randconfig-a001-20200306
-powerpc              randconfig-a001-20200306
-sparc                randconfig-a001-20200306
-riscv                            allmodconfig
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-sh                               allmodconfig
-sh                                allnoconfig
-sh                          rsk7269_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                            titan_defconfig
-sparc                               defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                             defconfig
-um                                  defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
-
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1786317
+BugLink: https://github.com/nexus511/gpd-ubuntu-packages/issues/10
+BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=3D199207
+Cc: Dmitry Mastykin <mastichi@gmail.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Changes in v2:
+- Make enum member names upper-case
+---
+ drivers/input/touchscreen/goodix.c | 62 ++++++++++++++++++++++++------
+ 1 file changed, 51 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscre=
+en/goodix.c
+index 0403102e807e..9cfbcf3cbca8 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -31,6 +31,11 @@
+=20
+ struct goodix_ts_data;
+=20
++enum goodix_irq_pin_access_method {
++	IRQ_PIN_ACCESS_NONE,
++	IRQ_PIN_ACCESS_GPIO,
++};
++
+ struct goodix_chip_data {
+ 	u16 config_addr;
+ 	int config_len;
+@@ -53,6 +58,7 @@ struct goodix_ts_data {
+ 	const char *cfg_name;
+ 	struct completion firmware_loading_complete;
+ 	unsigned long irq_flags;
++	enum goodix_irq_pin_access_method irq_pin_access_method;
+ 	unsigned int contact_size;
+ };
+=20
+@@ -502,17 +508,48 @@ static int goodix_send_cfg(struct goodix_ts_data *t=
+s,
+ 	return 0;
+ }
+=20
++static int goodix_irq_direction_output(struct goodix_ts_data *ts,
++				       int value)
++{
++	switch (ts->irq_pin_access_method) {
++	case IRQ_PIN_ACCESS_NONE:
++		dev_err(&ts->client->dev,
++			"%s called without an irq_pin_access_method set\n",
++			__func__);
++		return -EINVAL;
++	case IRQ_PIN_ACCESS_GPIO:
++		return gpiod_direction_output(ts->gpiod_int, value);
++	}
++
++	return -EINVAL; /* Never reached */
++}
++
++static int goodix_irq_direction_input(struct goodix_ts_data *ts)
++{
++	switch (ts->irq_pin_access_method) {
++	case IRQ_PIN_ACCESS_NONE:
++		dev_err(&ts->client->dev,
++			"%s called without an irq_pin_access_method set\n",
++			__func__);
++		return -EINVAL;
++	case IRQ_PIN_ACCESS_GPIO:
++		return gpiod_direction_input(ts->gpiod_int);
++	}
++
++	return -EINVAL; /* Never reached */
++}
++
+ static int goodix_int_sync(struct goodix_ts_data *ts)
+ {
+ 	int error;
+=20
+-	error =3D gpiod_direction_output(ts->gpiod_int, 0);
++	error =3D goodix_irq_direction_output(ts, 0);
+ 	if (error)
+ 		return error;
+=20
+ 	msleep(50);				/* T5: 50ms */
+=20
+-	error =3D gpiod_direction_input(ts->gpiod_int);
++	error =3D goodix_irq_direction_input(ts);
+ 	if (error)
+ 		return error;
+=20
+@@ -536,7 +573,7 @@ static int goodix_reset(struct goodix_ts_data *ts)
+ 	msleep(20);				/* T2: > 10ms */
+=20
+ 	/* HIGH: 0x28/0x29, LOW: 0xBA/0xBB */
+-	error =3D gpiod_direction_output(ts->gpiod_int, ts->client->addr =3D=3D=
+ 0x14);
++	error =3D goodix_irq_direction_output(ts, ts->client->addr =3D=3D 0x14)=
+;
+ 	if (error)
+ 		return error;
+=20
+@@ -617,6 +654,9 @@ static int goodix_get_gpio_config(struct goodix_ts_da=
+ta *ts)
+=20
+ 	ts->gpiod_rst =3D gpiod;
+=20
++	if (ts->gpiod_int && ts->gpiod_rst)
++		ts->irq_pin_access_method =3D IRQ_PIN_ACCESS_GPIO;
++
+ 	return 0;
+ }
+=20
+@@ -889,7 +929,7 @@ static int goodix_ts_probe(struct i2c_client *client,
+ 	if (error)
+ 		return error;
+=20
+-	if (ts->gpiod_int && ts->gpiod_rst) {
++	if (ts->irq_pin_access_method =3D=3D IRQ_PIN_ACCESS_GPIO) {
+ 		/* reset the controller */
+ 		error =3D goodix_reset(ts);
+ 		if (error) {
+@@ -912,7 +952,7 @@ static int goodix_ts_probe(struct i2c_client *client,
+=20
+ 	ts->chip =3D goodix_get_chip_data(ts->id);
+=20
+-	if (ts->gpiod_int && ts->gpiod_rst) {
++	if (ts->irq_pin_access_method =3D=3D IRQ_PIN_ACCESS_GPIO) {
+ 		/* update device config */
+ 		ts->cfg_name =3D devm_kasprintf(&client->dev, GFP_KERNEL,
+ 					      "goodix_%d_cfg.bin", ts->id);
+@@ -943,7 +983,7 @@ static int goodix_ts_remove(struct i2c_client *client=
+)
+ {
+ 	struct goodix_ts_data *ts =3D i2c_get_clientdata(client);
+=20
+-	if (ts->gpiod_int && ts->gpiod_rst)
++	if (ts->irq_pin_access_method =3D=3D IRQ_PIN_ACCESS_GPIO)
+ 		wait_for_completion(&ts->firmware_loading_complete);
+=20
+ 	return 0;
+@@ -956,7 +996,7 @@ static int __maybe_unused goodix_suspend(struct devic=
+e *dev)
+ 	int error;
+=20
+ 	/* We need gpio pins to suspend/resume */
+-	if (!ts->gpiod_int || !ts->gpiod_rst) {
++	if (ts->irq_pin_access_method =3D=3D IRQ_PIN_ACCESS_NONE) {
+ 		disable_irq(client->irq);
+ 		return 0;
+ 	}
+@@ -967,7 +1007,7 @@ static int __maybe_unused goodix_suspend(struct devi=
+ce *dev)
+ 	goodix_free_irq(ts);
+=20
+ 	/* Output LOW on the INT pin for 5 ms */
+-	error =3D gpiod_direction_output(ts->gpiod_int, 0);
++	error =3D goodix_irq_direction_output(ts, 0);
+ 	if (error) {
+ 		goodix_request_irq(ts);
+ 		return error;
+@@ -979,7 +1019,7 @@ static int __maybe_unused goodix_suspend(struct devi=
+ce *dev)
+ 				    GOODIX_CMD_SCREEN_OFF);
+ 	if (error) {
+ 		dev_err(&ts->client->dev, "Screen off command failed\n");
+-		gpiod_direction_input(ts->gpiod_int);
++		goodix_irq_direction_input(ts);
+ 		goodix_request_irq(ts);
+ 		return -EAGAIN;
+ 	}
+@@ -999,7 +1039,7 @@ static int __maybe_unused goodix_resume(struct devic=
+e *dev)
+ 	struct goodix_ts_data *ts =3D i2c_get_clientdata(client);
+ 	int error;
+=20
+-	if (!ts->gpiod_int || !ts->gpiod_rst) {
++	if (ts->irq_pin_access_method =3D=3D IRQ_PIN_ACCESS_NONE) {
+ 		enable_irq(client->irq);
+ 		return 0;
+ 	}
+@@ -1008,7 +1048,7 @@ static int __maybe_unused goodix_resume(struct devi=
+ce *dev)
+ 	 * Exit sleep mode by outputting HIGH level to INT pin
+ 	 * for 2ms~5ms.
+ 	 */
+-	error =3D gpiod_direction_output(ts->gpiod_int, 1);
++	error =3D goodix_irq_direction_output(ts, 1);
+ 	if (error)
+ 		return error;
+=20
+--=20
+2.25.1
+
