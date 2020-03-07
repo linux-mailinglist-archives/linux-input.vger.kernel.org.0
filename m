@@ -2,348 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AEEF17D038
-	for <lists+linux-input@lfdr.de>; Sat,  7 Mar 2020 22:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E20517D056
+	for <lists+linux-input@lfdr.de>; Sat,  7 Mar 2020 22:43:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726397AbgCGVGj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 7 Mar 2020 16:06:39 -0500
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:48499 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726402AbgCGVGi (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Mar 2020 16:06:38 -0500
-X-Originating-IP: 195.189.32.242
-Received: from pc.localdomain (unknown [195.189.32.242])
-        (Authenticated sender: contact@artur-rojek.eu)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 9BDD540007;
-        Sat,  7 Mar 2020 21:06:33 +0000 (UTC)
-From:   Artur Rojek <contact@artur-rojek.eu>
+        id S1726139AbgCGVnr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 7 Mar 2020 16:43:47 -0500
+Received: from saul.pp3345.net ([163.172.111.124]:48280 "EHLO saul.pp3345.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725911AbgCGVnr (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 7 Mar 2020 16:43:47 -0500
+X-Greylist: delayed 359 seconds by postgrey-1.27 at vger.kernel.org; Sat, 07 Mar 2020 16:43:47 EST
+Received: from localhost (localhost [127.0.0.1]) (Authenticated sender: dev@pp3345.net)
+        by saul.pp3345.net (Postcow) with ESMTPSA id 0C4859A4476;
+        Sat,  7 Mar 2020 22:37:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pp3345.net; s=saul;
+        t=1583617041; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:references:openpgp:autocrypt;
+        bh=eMd+3S034ujloizLSEGn5fFGkqYDsgwRJjOC/E8Yefc=;
+        b=Z3v853wDFqTxKkaJhWj6sIsnuw2pU72+gSmTI6p63iaE9T8N7lY/Gz5nOGP1dAiUtWfVVf
+        WDdbvKYu34epYZMCLSRzWGH4/nhKtKMOB36NErHmmDXIO6NJM4KveqKfQ27Rdv9wDDBOrz
+        0yOFnz8jORrDegafBgykz07b4TbPRkUaJ3Sr7lWJwrfIKermBuEdZTdw9j2A9KjcdBMP4P
+        aX9/4c4XfuthgSeYKSV1SF/FD+NrZ5LXkLKUx3zD19E4vNNMXD1TQdLAMcGdEJHowNHDQy
+        K8IzpLSTlRQs/AxqZ0beIbvj8TxwZXVZ2CWbzzh8SA+89oQP4tUzu3qVWF7VWw==
+From:   Yussuf Khalil <dev@pp3345.net>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>
-Cc:     Heiko Stuebner <heiko@sntech.de>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-iio@vger.kernel.org, Artur Rojek <contact@artur-rojek.eu>
-Subject: [PATCH v4 5/5] input: joystick: Add ADC attached joystick driver.
-Date:   Sat,  7 Mar 2020 22:14:12 +0100
-Message-Id: <20200307211412.44148-5-contact@artur-rojek.eu>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200307211412.44148-1-contact@artur-rojek.eu>
-References: <20200307211412.44148-1-contact@artur-rojek.eu>
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Yussuf Khalil <dev@pp3345.net>
+Subject: [PATCH] Input: synaptics - Enable RMI on HP Envy 13-ad105ng
+Date:   Sat,  7 Mar 2020 22:35:08 +0100
+Message-Id: <20200307213508.267187-1-dev@pp3345.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pp3345.net;
+        s=saul; t=1583617041; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:references:openpgp:autocrypt;
+        bh=eMd+3S034ujloizLSEGn5fFGkqYDsgwRJjOC/E8Yefc=;
+        b=PkUK/vNTCjXp2KnTUZDaHfTjfrI+p1ZBESrQx2Yi72BOn2dblXZ+3xQLk1p8EUCZp5ihhD
+        kp9kR9WlCGUS/ippOi27MxZG4sptegqEbL6WF/zzHKDE/MQGn5i6isPCC7Z7iJWqfVHP+m
+        k7IYzE5RlDOeCWGKcmqcTJsIzRkAkIhScC+FrL1pztUwLZnd2Y3BhZz5DGd/RM4dhMh5QG
+        qOTG899mzd+DjdjCucqXa3XWT7HBrSRrKE3tsayEmY8yxL6y+U/VOIlhBm96pgsOWwzPkr
+        mpOuNOfUeYzRBdey51Jm84w4diMOMDZE68Ej/8wfGDKWVSagnNYpn4mBapV9Fg==
+ARC-Seal: i=1; s=saul; d=pp3345.net; t=1583617041; a=rsa-sha256; cv=none;
+        b=Ju1+Se+VmqZWSES//MjMLDPNtfSyZgm0cSu1ageTz9DcGfx+QbJpcvnOsnvKtKTsoSgTfP
+        ZBkoxA0g0gP/ZhLIUm7N5+MGODCPSt8fKlwjK2FozJos1gI/PeFUr8O1kLgNo/kFepCH8R
+        KokSP6didlnX86dSXQkwl1XqUImm8TfOiYsEsmT3bh9m5tlW0Zah94cmsefWHeUb64AwDV
+        AJKLCjqYF5/CUWY3sF2tmdupwdtPt6EIr9TmvFuEevq+xK7xD0KbV53uP/UPQLcDtyJ4yK
+        7rphQJXud9e14EXu6q3mzPa53xo2ct80UxD4dUuOJtMEGVTppnj69mxZ1MsFeQ==
+ARC-Authentication-Results: i=1;
+        saul.pp3345.net;
+        auth=pass smtp.auth=dev@pp3345.net smtp.mailfrom=dev@pp3345.net
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a driver for joystick devices connected to ADC controllers
-supporting the Industrial I/O subsystem.
+This laptop (and perhaps other variants of the same model) reports an
+SMBus-capable Synaptics touchpad. Everything (including suspend and
+resume) works fine when RMI is enabled via the kernel command line, so
+let's add it to the whitelist.
 
-Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
-Tested-by: Paul Cercueil <paul@crapouillou.net>
-Tested-by: Heiko Stuebner <heiko@sntech.de>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Yussuf Khalil <dev@pp3345.net>
 ---
+ drivers/input/mouse/synaptics.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- v2: - sanity check supported channel format on probe,
-     - rename adc_joystick_disable to a more sensible adc_joystick_cleanup, 
-     - enforce correct axis order by checking the `reg` property of
-       child nodes
-
- v3-v4: no change
-
- drivers/input/joystick/Kconfig        |  10 ++
- drivers/input/joystick/Makefile       |   1 +
- drivers/input/joystick/adc-joystick.c | 245 ++++++++++++++++++++++++++
- 3 files changed, 256 insertions(+)
- create mode 100644 drivers/input/joystick/adc-joystick.c
-
-diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
-index 940b744639c7..efbc20ec5099 100644
---- a/drivers/input/joystick/Kconfig
-+++ b/drivers/input/joystick/Kconfig
-@@ -42,6 +42,16 @@ config JOYSTICK_A3D
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called a3d.
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+index 2c666fb34625..4d2036209b45 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -186,6 +186,7 @@ static const char * const smbus_pnp_ids[] = {
+ 	"SYN3052", /* HP EliteBook 840 G4 */
+ 	"SYN3221", /* HP 15-ay000 */
+ 	"SYN323d", /* HP Spectre X360 13-w013dx */
++	"SYN3257", /* HP Envy 13-ad105ng */
+ 	NULL
+ };
  
-+config JOYSTICK_ADC
-+	tristate "Simple joystick connected over ADC"
-+	depends on IIO
-+	select IIO_BUFFER_CB
-+	help
-+	  Say Y here if you have a simple joystick connected over ADC.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called adc-joystick.
-+
- config JOYSTICK_ADI
- 	tristate "Logitech ADI digital joysticks and gamepads"
- 	select GAMEPORT
-diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
-index 8656023f6ef5..58232b3057d3 100644
---- a/drivers/input/joystick/Makefile
-+++ b/drivers/input/joystick/Makefile
-@@ -6,6 +6,7 @@
- # Each configuration option enables a list of files.
- 
- obj-$(CONFIG_JOYSTICK_A3D)		+= a3d.o
-+obj-$(CONFIG_JOYSTICK_ADC)		+= adc-joystick.o
- obj-$(CONFIG_JOYSTICK_ADI)		+= adi.o
- obj-$(CONFIG_JOYSTICK_AMIGA)		+= amijoy.o
- obj-$(CONFIG_JOYSTICK_AS5011)		+= as5011.o
-diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
-new file mode 100644
-index 000000000000..9cb9896da26e
---- /dev/null
-+++ b/drivers/input/joystick/adc-joystick.c
-@@ -0,0 +1,245 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Input driver for joysticks connected over ADC.
-+ * Copyright (c) 2019-2020 Artur Rojek <contact@artur-rojek.eu>
-+ */
-+#include <linux/ctype.h>
-+#include <linux/input.h>
-+#include <linux/iio/iio.h>
-+#include <linux/iio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+
-+struct adc_joystick_axis {
-+	u32 code;
-+	s32 range[2];
-+	s32 fuzz;
-+	s32 flat;
-+};
-+
-+struct adc_joystick {
-+	struct input_dev *input;
-+	struct iio_cb_buffer *buffer;
-+	struct adc_joystick_axis *axes;
-+	struct iio_channel *chans;
-+	int num_chans;
-+};
-+
-+static int adc_joystick_handle(const void *data, void *private)
-+{
-+	struct adc_joystick *joy = private;
-+	enum iio_endian endianness;
-+	int bytes, msb, val, i;
-+	bool sign;
-+
-+	bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
-+
-+	for (i = 0; i < joy->num_chans; ++i) {
-+		endianness = joy->chans[i].channel->scan_type.endianness;
-+		msb = joy->chans[i].channel->scan_type.realbits - 1;
-+		sign = (tolower(joy->chans[i].channel->scan_type.sign) == 's');
-+
-+		switch (bytes) {
-+		case 1:
-+			val = ((const u8 *)data)[i];
-+			break;
-+		case 2:
-+			val = ((const u16 *)data)[i];
-+			if (endianness == IIO_BE)
-+				val = be16_to_cpu(val);
-+			else if (endianness == IIO_LE)
-+				val = le16_to_cpu(val);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+
-+		val >>= joy->chans[i].channel->scan_type.shift;
-+		if (sign)
-+			val = sign_extend32(val, msb);
-+		else
-+			val &= GENMASK(msb, 0);
-+		input_report_abs(joy->input, joy->axes[i].code, val);
-+	}
-+
-+	input_sync(joy->input);
-+
-+	return 0;
-+}
-+
-+static int adc_joystick_open(struct input_dev *dev)
-+{
-+	struct adc_joystick *joy = input_get_drvdata(dev);
-+	int ret;
-+
-+	ret = iio_channel_start_all_cb(joy->buffer);
-+	if (ret)
-+		dev_err(dev->dev.parent, "Unable to start callback buffer");
-+
-+	return ret;
-+}
-+
-+static void adc_joystick_close(struct input_dev *dev)
-+{
-+	struct adc_joystick *joy = input_get_drvdata(dev);
-+
-+	iio_channel_stop_all_cb(joy->buffer);
-+}
-+
-+static void adc_joystick_cleanup(void *data)
-+{
-+	iio_channel_release_all_cb(data);
-+}
-+
-+static int adc_joystick_set_axes(struct device *dev, struct adc_joystick *joy)
-+{
-+	struct adc_joystick_axis *axes;
-+	struct fwnode_handle *child;
-+	int num_axes, ret, i;
-+
-+	num_axes = device_get_child_node_count(dev);
-+	if (!num_axes) {
-+		dev_err(dev, "Unable to find child nodes");
-+		return -EINVAL;
-+	}
-+
-+	if (num_axes != joy->num_chans) {
-+		dev_err(dev, "Got %d child nodes for %d channels",
-+			num_axes, joy->num_chans);
-+		return -EINVAL;
-+	}
-+
-+	axes = devm_kmalloc_array(dev, num_axes, sizeof(*axes), GFP_KERNEL);
-+	if (!axes)
-+		return -ENOMEM;
-+
-+	device_for_each_child_node(dev, child) {
-+		ret = fwnode_property_read_u32(child, "reg", &i);
-+		if (ret || i >= num_axes) {
-+			dev_err(dev, "reg invalid or missing");
-+			goto err;
-+		}
-+
-+		if (fwnode_property_read_u32(child, "linux,code",
-+					     &axes[i].code)) {
-+			dev_err(dev, "linux,code invalid or missing");
-+			goto err;
-+		}
-+
-+		if (fwnode_property_read_u32_array(child, "abs-range",
-+						   axes[i].range, 2)) {
-+			dev_err(dev, "abs-range invalid or missing");
-+			goto err;
-+		}
-+
-+		fwnode_property_read_u32(child, "abs-fuzz",
-+					 &axes[i].fuzz);
-+		fwnode_property_read_u32(child, "abs-flat",
-+					 &axes[i].flat);
-+
-+		input_set_abs_params(joy->input, axes[i].code,
-+				     axes[i].range[0], axes[i].range[1],
-+				     axes[i].fuzz,
-+				     axes[i].flat);
-+		input_set_capability(joy->input, EV_ABS, axes[i].code);
-+	}
-+
-+	joy->axes = axes;
-+
-+	return 0;
-+
-+err:
-+	fwnode_handle_put(child);
-+	return -EINVAL;
-+}
-+
-+static int adc_joystick_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct adc_joystick *joy;
-+	struct input_dev *input;
-+	int bits, ret, i;
-+
-+	joy = devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
-+	if (!joy)
-+		return -ENOMEM;
-+
-+	joy->chans = devm_iio_channel_get_all(dev);
-+	if (IS_ERR(joy->chans)) {
-+		ret = PTR_ERR(joy->chans);
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(dev, "Unable to get IIO channels");
-+		return ret;
-+	}
-+
-+	/* Count how many channels we got. NULL terminated. */
-+	while (joy->chans[joy->num_chans].indio_dev)
-+		joy->num_chans++;
-+
-+	bits = joy->chans[0].channel->scan_type.storagebits;
-+	if (!bits || (bits >> 3) > 2) {
-+		dev_err(dev, "Unsupported channel storage size");
-+		return -EINVAL;
-+	}
-+	for (i = 1; i < joy->num_chans; ++i)
-+		if (joy->chans[i].channel->scan_type.storagebits != bits) {
-+			dev_err(dev, "Channels must have equal storage size");
-+			return -EINVAL;
-+		}
-+
-+	input = devm_input_allocate_device(dev);
-+	if (!input) {
-+		dev_err(dev, "Unable to allocate input device");
-+		return -ENOMEM;
-+	}
-+
-+	joy->input = input;
-+	input->name = pdev->name;
-+	input->id.bustype = BUS_HOST;
-+	input->open = adc_joystick_open;
-+	input->close = adc_joystick_close;
-+
-+	ret = adc_joystick_set_axes(dev, joy);
-+	if (ret)
-+		return ret;
-+
-+	input_set_drvdata(input, joy);
-+	ret = input_register_device(input);
-+	if (ret) {
-+		dev_err(dev, "Unable to register input device: %d", ret);
-+		return ret;
-+	}
-+
-+	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
-+	if (IS_ERR(joy->buffer)) {
-+		dev_err(dev, "Unable to allocate callback buffer");
-+		return PTR_ERR(joy->buffer);
-+	}
-+
-+	ret = devm_add_action_or_reset(dev, adc_joystick_cleanup, joy->buffer);
-+	if (ret)
-+		dev_err(dev, "Unable to add action");
-+
-+	return ret;
-+}
-+
-+static const struct of_device_id adc_joystick_of_match[] = {
-+	{ .compatible = "adc-joystick", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, adc_joystick_of_match);
-+
-+static struct platform_driver adc_joystick_driver = {
-+	.driver = {
-+		.name = "adc-joystick",
-+		.of_match_table = of_match_ptr(adc_joystick_of_match),
-+	},
-+	.probe = adc_joystick_probe,
-+};
-+module_platform_driver(adc_joystick_driver);
-+
-+MODULE_DESCRIPTION("Input driver for joysticks connected over ADC");
-+MODULE_AUTHOR("Artur Rojek <contact@artur-rojek.eu>");
-+MODULE_LICENSE("GPL");
 -- 
-2.25.1
+2.24.1
 
