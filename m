@@ -2,65 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DCE217E576
-	for <lists+linux-input@lfdr.de>; Mon,  9 Mar 2020 18:13:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D11AC17E5B6
+	for <lists+linux-input@lfdr.de>; Mon,  9 Mar 2020 18:30:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727229AbgCIRNE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Mar 2020 13:13:04 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:57049 "EHLO
+        id S1727242AbgCIRa6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Mar 2020 13:30:58 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:45589 "EHLO
         relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727198AbgCIRNE (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Mar 2020 13:13:04 -0400
-X-Originating-IP: 83.155.44.161
-Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
-        (Authenticated sender: hadess@hadess.net)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 353EEE000A;
-        Mon,  9 Mar 2020 17:13:01 +0000 (UTC)
-Message-ID: <fa64548fdf75e2440df6ab66490460329e43017b.camel@hadess.net>
-Subject: Re: [PATCH v3 09/11] Input: goodix - Add minimum firmware size check
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Date:   Mon, 09 Mar 2020 18:13:01 +0100
-In-Reply-To: <20200307121505.3707-9-hdegoede@redhat.com>
-References: <20200307121505.3707-1-hdegoede@redhat.com>
-         <20200307121505.3707-9-hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.35.92 (3.35.92-1.fc32) 
+        with ESMTP id S1727185AbgCIRa6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Mar 2020 13:30:58 -0400
+X-Originating-IP: 86.202.105.35
+Received: from localhost (lfbn-lyo-1-9-35.w86-202.abo.wanadoo.fr [86.202.105.35])
+        (Authenticated sender: alexandre.belloni@bootlin.com)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 4773AE000A;
+        Mon,  9 Mar 2020 17:30:54 +0000 (UTC)
+Date:   Mon, 9 Mar 2020 18:30:54 +0100
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Anson Huang <Anson.Huang@nxp.com>, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        dmitry.torokhov@gmail.com, a.zummo@towertech.it,
+        rui.zhang@intel.com, daniel.lezcano@linaro.org,
+        amit.kucheria@verdurent.com, wim@linux-watchdog.org,
+        daniel.baluta@nxp.com, gregkh@linuxfoundation.org,
+        linux@rempel-privat.de, tglx@linutronix.de,
+        m.felsch@pengutronix.de, andriy.shevchenko@linux.intel.com,
+        arnd@arndb.de, ronald@innovation.ch, krzk@kernel.org,
+        robh@kernel.org, leonard.crestez@nxp.com, aisheng.dong@nxp.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        Linux-imx@nxp.com
+Subject: Re: [PATCH V3 1/7] firmware: imx: Add stubs for !CONFIG_IMX_SCU case
+Message-ID: <20200309171556.GH3563@piout.net>
+References: <1583714300-19085-1-git-send-email-Anson.Huang@nxp.com>
+ <20200309110609.GE3563@piout.net>
+ <1ad38cdb-bf0d-1c19-b233-15a5857bd6fa@roeck-us.net>
+ <20200309164705.GG3563@piout.net>
+ <20200309171012.GA24802@roeck-us.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200309171012.GA24802@roeck-us.net>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 2020-03-07 at 13:15 +0100, Hans de Goede wrote:
-> Our goodix_check_cfg_* helpers do things like:
+On 09/03/2020 10:10:12-0700, Guenter Roeck wrote:
+> On Mon, Mar 09, 2020 at 05:47:05PM +0100, Alexandre Belloni wrote:
+> > On 09/03/2020 06:27:06-0700, Guenter Roeck wrote:
+> > > On 3/9/20 4:06 AM, Alexandre Belloni wrote:
+> > > > On 09/03/2020 08:38:14+0800, Anson Huang wrote:
+> > > >> Add stubs for those i.MX SCU APIs to make those modules depending
+> > > >> on IMX_SCU can pass build when COMPILE_TEST is enabled.
+> > > >>
+> > > >> Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
+> > > >> ---
+> > > >> Changes since V2:
+> > > >> 	- return error for stubs.
+> > > > 
+> > > > I'm not sure why you are sending v3 with the stubs as we determined that
+> > > > 2/7 is enough to compile all the drivers with COMPILE_TEST.
+> > > > 
+> > > > 
+> > > 2/7 alone is not sufficient. With only 2/7, one can explicitly configure
+> > > IMX_SCU=n, COMPILE_TEST=y, and get lots of compile failures. Granted,
+> > > one should not do that, but 0day does (I don't know if that is the result
+> > > of RANDCONFIG), and I am not looking forward having to deal with the
+> > > fallout.
+> > > 
+> > 
+> > How would that be possible if the drivers all depend on IMX_SCU?
+> > 
+> That dependency is being changed to IMX_SCU || COMPILE_TEST
+> as part of the series.
 > 
-> 	int i, raw_cfg_len = cfg->size - 2;
-> 	...
-> 	if (check_sum != cfg->data[raw_cfg_len]) {
-> 
-> When cfg->size < 2, this will end up indexing the cfg->data array
-> with
-> a negative value, which will not end well.
-> 
-> To fix this this commit adds a new GOODIX_CONFIG_MIN_LENGTH define
-> and
-> adds a minimum size check for firmware-config files using this new
-> define.
-> 
-> For consistency this commit also adds a new GOODIX_CONFIG_GT9X_LENGTH
-> for
-> the length used for recent gt9xx and gt1xxx chips, instead of using
-> GOODIX_CONFIG_MAX_LENGTH for this, so that if other length defines
-> get
-> added in the future it will be clear that the MIN and MAX defines
-> should
-> contain the min and max values of all the other defines.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
+Yes, my point is that those patches should not be applied at all, only
+2/7.
 
+
+-- 
+Alexandre Belloni, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
