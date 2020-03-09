@@ -2,227 +2,200 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C356317D663
-	for <lists+linux-input@lfdr.de>; Sun,  8 Mar 2020 22:38:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B12E17D73D
+	for <lists+linux-input@lfdr.de>; Mon,  9 Mar 2020 01:01:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726368AbgCHViL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 8 Mar 2020 17:38:11 -0400
-Received: from 109-230-57-163.dynamic.orange.sk ([109.230.57.163]:56416 "EHLO
-        mail.sammserver.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726346AbgCHViL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 8 Mar 2020 17:38:11 -0400
-X-Greylist: delayed 503 seconds by postgrey-1.27 at vger.kernel.org; Sun, 08 Mar 2020 17:38:10 EDT
-Received: by mail.sammserver.com (Postfix, from userid 5011)
-        id F232091CED1; Sun,  8 Mar 2020 22:29:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sammserver.com;
-        s=email; t=1583702985;
-        bh=dcJuL7aZ/LO/cCw9tSvxNVq+5T2x8hXF3UN7VlqyATA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=S+GPhvBhdSQQkvHKev186Zom8IboabftwknExcx1salDsbYl7TsHJxigKAsM9LIv1
-         QqBT59iyX44uNDkSj00H+1aIKRRyq6tcOTj8rqVecZuGHn/Ta3n1aLF/iiWT5+R7jp
-         p5BptPUtNjg6Z+UZIC/W7OWmcJFAQ5jUw0gddEMM=
-Received: from fastboi.localdomain (fastboi.wg [10.32.40.5])
-        by mail.sammserver.com (Postfix) with ESMTP id A4F0C91CECE;
-        Sun,  8 Mar 2020 22:29:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sammserver.com;
-        s=email; t=1583702985;
-        bh=dcJuL7aZ/LO/cCw9tSvxNVq+5T2x8hXF3UN7VlqyATA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=S+GPhvBhdSQQkvHKev186Zom8IboabftwknExcx1salDsbYl7TsHJxigKAsM9LIv1
-         QqBT59iyX44uNDkSj00H+1aIKRRyq6tcOTj8rqVecZuGHn/Ta3n1aLF/iiWT5+R7jp
-         p5BptPUtNjg6Z+UZIC/W7OWmcJFAQ5jUw0gddEMM=
-Received: by fastboi.localdomain (Postfix, from userid 1000)
-        id 8510D142290F; Sun,  8 Mar 2020 22:29:45 +0100 (CET)
-From:   =?UTF-8?q?Samuel=20=C4=8Cavoj?= <sammko@sammserver.com>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org,
-        =?UTF-8?q?Samuel=20=C4=8Cavoj?= <sammko@sammserver.com>
-Subject: [PATCH] HID: Add driver fixing Glorious PC Gaming Race mouse report descriptor
-Date:   Sun,  8 Mar 2020 22:27:30 +0100
-Message-Id: <20200308212729.51336-1-sammko@sammserver.com>
-X-Mailer: git-send-email 2.25.1
+        id S1726484AbgCIABA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 8 Mar 2020 20:01:00 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:40153 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726354AbgCIABA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 8 Mar 2020 20:01:00 -0400
+Received: by mail-pl1-f193.google.com with SMTP id h11so55035plk.7;
+        Sun, 08 Mar 2020 17:00:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=V3EnAxyKfLmIeTAixSuTqX1IXT45nU66efv2U7XXuYc=;
+        b=RtqGkW8D0lBvQQ1sOqiu79XEPqp89unTbnXFwtaYvcveKigLF/KlZGTz0DO4vh5SHd
+         zeg4hPAJpHqoP3ndT0t7pN9bYJ+1+uZ0e6pDpJMr94o7K8HTGNSS44X4ZTQVNvgWaGcw
+         85PzzEbOlMoFu5ShVPfPOcJpS3Tqo7Vzwv6bg1wcVfIFhdqqTB7YMYL7/gyQSesIGFaw
+         MyZ99v/my8jEg2qfG9c0RS/bUjoQQEquW3aFAnQCucKJyjUq6nwz0hvVZnJquthvFrAY
+         A1OKSZFrrGdQjPSli9AqjUOSHiocMIntGbECFd0IzhimZUysScGhXgJjN9Nj6G4OIXBo
+         lPcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=V3EnAxyKfLmIeTAixSuTqX1IXT45nU66efv2U7XXuYc=;
+        b=IFe/yvwMGKJqkGOTZ1OtY0BM3Jjn7WqH0Tc8Ohp3eIpEC7hYLHgvzoWtOsVtFbRDuL
+         dUcD0SafGahR+5BsX5Z4P35cwveHi4SSrD6INekP0vdjkxzr4PJxd9BtMHr1xTu9NgGw
+         JussUQu5YAcS1cM7SS+PiQ+embm40kEMyCIzHZwrX1E5oyhGXp2ChRpEAs07B/1Ybg1j
+         O0i/E9vLjK1MQuZjJvY2x9H5NJErTmDFGuNuDh49FlGC4iFY7zNY3w/n4drM0SmiANfS
+         +cDkcBd4JxHfwx3u9YK03Uv94azLl2x+1WEjJ+ygdnqjpsGq5HhimJ1Evc7qxBSqaSOx
+         Pk/w==
+X-Gm-Message-State: ANhLgQ1X6q0LhbZo1y2Hw3skraN6OMhOc8E9Z6EeBKiqnImFufD9MZK/
+        rG+6fHDZpWJTGE7EQhqi664=
+X-Google-Smtp-Source: ADFU+vu4FYIo7JhjPOzORuhZULdRbF7Q1TTpEpx3AW0ScSMIO4kLUQY7hIg+Ix4DxE/icqdb55/k/A==
+X-Received: by 2002:a17:90a:fa06:: with SMTP id cm6mr16082073pjb.109.1583712058652;
+        Sun, 08 Mar 2020 17:00:58 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id u12sm41739573pfm.165.2020.03.08.17.00.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Mar 2020 17:00:57 -0700 (PDT)
+Subject: Re: [PATCH V2 1/7] firmware: imx: Add stubs for !CONFIG_IMX_SCU case
+To:     Anson Huang <Anson.Huang@nxp.com>, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        dmitry.torokhov@gmail.com, a.zummo@towertech.it,
+        alexandre.belloni@bootlin.com, rui.zhang@intel.com,
+        daniel.lezcano@linaro.org, amit.kucheria@verdurent.com,
+        wim@linux-watchdog.org, daniel.baluta@nxp.com,
+        linux@rempel-privat.de, gregkh@linuxfoundation.org,
+        tglx@linutronix.de, m.felsch@pengutronix.de,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de, robh@kernel.org,
+        yuehaibing@huawei.com, ronald@innovation.ch, krzk@kernel.org,
+        leonard.crestez@nxp.com, aisheng.dong@nxp.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org
+Cc:     Linux-imx@nxp.com
+References: <1583544359-515-1-git-send-email-Anson.Huang@nxp.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <63862bdf-874f-86d3-3bb5-b41185efffe1@roeck-us.net>
+Date:   Sun, 8 Mar 2020 17:00:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on sammserver.tu
+In-Reply-To: <1583544359-515-1-git-send-email-Anson.Huang@nxp.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Glorious Model O mice (and also at least the Model O-, which is
-driver-wise the same mouse) have a bug in the descriptor of HID
-Report with ID 2. This report is used for Consumer Control buttons,
-which can be mapped using the provided Windows only software.
+On 3/6/20 5:25 PM, Anson Huang wrote:
+> Add stubs for those i.MX SCU APIs to make those modules depending
+> on IMX_SCU can pass build when COMPILE_TEST is enabled.
+> 
+> Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
+> ---
+> new patch.
+> ---
+>  include/linux/firmware/imx/ipc.h | 11 +++++++++++
+>  include/linux/firmware/imx/sci.h | 19 +++++++++++++++++++
+>  2 files changed, 30 insertions(+)
+> 
+> diff --git a/include/linux/firmware/imx/ipc.h b/include/linux/firmware/imx/ipc.h
+> index 8910574..3fff0e2 100644
+> --- a/include/linux/firmware/imx/ipc.h
+> +++ b/include/linux/firmware/imx/ipc.h
+> @@ -34,6 +34,7 @@ struct imx_sc_rpc_msg {
+>  	uint8_t func;
+>  };
+>  
+> +#ifdef CONFIG_IMX_SCU
+>  /*
+>   * This is an function to send an RPC message over an IPC channel.
+>   * It is called by client-side SCFW API function shims.
+> @@ -55,4 +56,14 @@ int imx_scu_call_rpc(struct imx_sc_ipc *ipc, void *msg, bool have_resp);
+>   * @return Returns an error code (0 = success, failed if < 0)
+>   */
+>  int imx_scu_get_handle(struct imx_sc_ipc **ipc);
+> +#else
+> +static inline int imx_scu_call_rpc(struct imx_sc_ipc *ipc, void *msg, bool have_resp)
+> +{
+> +	return 0;
+> +}
+> +static inline int imx_scu_get_handle(struct imx_sc_ipc **ipc)
+> +{
+> +	return 0;
+> +}
+> +#endif
+>  #endif /* _SC_IPC_H */
+> diff --git a/include/linux/firmware/imx/sci.h b/include/linux/firmware/imx/sci.h
+> index 17ba4e4..4688b60 100644
+> --- a/include/linux/firmware/imx/sci.h
+> +++ b/include/linux/firmware/imx/sci.h
+> @@ -16,8 +16,27 @@
+>  #include <linux/firmware/imx/svc/misc.h>
+>  #include <linux/firmware/imx/svc/pm.h>
+>  
+> +#ifdef CONFIG_IMX_SCU
+>  int imx_scu_enable_general_irq_channel(struct device *dev);
+>  int imx_scu_irq_register_notifier(struct notifier_block *nb);
+>  int imx_scu_irq_unregister_notifier(struct notifier_block *nb);
+>  int imx_scu_irq_group_enable(u8 group, u32 mask, u8 enable);
+> +#else
+> +static inline int imx_scu_enable_general_irq_channel(struct device *dev)
+> +{
+> +	return 0;
+> +}
+> +static inline int imx_scu_irq_register_notifier(struct notifier_block *nb)
+> +{
+> +	return 0;
+> +}
+> +static inline int imx_scu_irq_unregister_notifier(struct notifier_block *nb)
+> +{
+> +	return 0;
+> +}
+> +static inline int imx_scu_irq_group_enable(u8 group, u32 mask, u8 enable)
+> +{
+> +	return 0;
+> +}
 
-Here is an excerpt from the original descriptor:
+It would probably be more appropriate to return errors from the stub functions.
 
-  INPUT(2)[INPUT]
-    Field(0)
-      Flags( Constant Variable Absolute )
-    Field(1)
-      Flags( Constant Variable Absolute )
-    Field(2)
-      Flags( Constant Variable Absolute )
+Guenter
 
-The issue is the Constant flag specified on all 3 fields, which
-causes the hid driver to ignore changes in these fields and
-essentialy causes the buttons to not work at all. The submitted driver
-patches the descriptor to end up with the following:
-
-  INPUT(2)[INPUT]
-    Field(0)
-      Flags( Variable Relative )
-    Field(1)
-      Flags( Variable Relative )
-    Field(2)
-      Flags( Variable Relative )
-
-The Constant bit is reset and the Relative bit has been set in
-order to prevent repeat events when holding down the button.
-Additionally, the device name is set to "Glorious Model O",
-where the original was "SINOWEALTH Wired Gaming Mouse".
-
-Signed-off-by: Samuel Čavoj <sammko@sammserver.com>
----
- drivers/hid/Kconfig        |  9 ++++-
- drivers/hid/Makefile       |  1 +
- drivers/hid/hid-glorious.c | 69 ++++++++++++++++++++++++++++++++++++++
- drivers/hid/hid-ids.h      |  3 ++
- 4 files changed, 81 insertions(+), 1 deletion(-)
- create mode 100644 drivers/hid/hid-glorious.c
-
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 494a39e74939..1e1f1b16d44d 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -362,6 +362,13 @@ config HID_GFRM
- 	---help---
- 	Support for Google Fiber TV Box remote controls
- 
-+config HID_GLORIOUS
-+	tristate "Glorious PC Gaming Race mice"
-+	depends on HID
-+	help
-+	  Support for Glorious PC Gaming Race mice such as
-+	  the Glorious Model O and O-.
-+
- config HID_HOLTEK
- 	tristate "Holtek HID devices"
- 	depends on USB_HID
-@@ -892,7 +899,7 @@ config HID_SONY
- 	  * Logitech Harmony adapter for Sony Playstation 3 (Bluetooth)
- 
- config SONY_FF
--	bool "Sony PS2/3/4 accessories force feedback support" 
-+	bool "Sony PS2/3/4 accessories force feedback support"
- 	depends on HID_SONY
- 	select INPUT_FF_MEMLESS
- 	---help---
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index bfefa365b1ce..be0f38dcf942 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -48,6 +48,7 @@ obj-$(CONFIG_HID_ELO)		+= hid-elo.o
- obj-$(CONFIG_HID_EZKEY)		+= hid-ezkey.o
- obj-$(CONFIG_HID_GEMBIRD)	+= hid-gembird.o
- obj-$(CONFIG_HID_GFRM)		+= hid-gfrm.o
-+obj-$(CONFIG_HID_GLORIOUS)  += hid-glorious.o
- obj-$(CONFIG_HID_GOOGLE_HAMMER)	+= hid-google-hammer.o
- obj-$(CONFIG_HID_GT683R)	+= hid-gt683r.o
- obj-$(CONFIG_HID_GYRATION)	+= hid-gyration.o
-diff --git a/drivers/hid/hid-glorious.c b/drivers/hid/hid-glorious.c
-new file mode 100644
-index 000000000000..c12bf36b8d4c
---- /dev/null
-+++ b/drivers/hid/hid-glorious.c
-@@ -0,0 +1,69 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ *  USB HID driver for Glorious PC Gaming Race
-+ *  Glorious Model O and O- mice.
-+ *
-+ *  Copyright (c) 2020 Samuel Čavoj <sammko@sammserver.com>
-+ */
-+
-+/*
-+ */
-+
-+#include <linux/hid.h>
-+#include <linux/module.h>
-+
-+#include "hid-ids.h"
-+
-+MODULE_AUTHOR("Samuel Čavoj <sammko@sammserver.com>");
-+MODULE_DESCRIPTION("HID driver for Glorious PC Gaming Race mice");
-+
-+/*
-+ * Glorious Model O and O- specify the const flag in the consumer input
-+ * report descriptor, which leads to inputs being ignored. Fix this
-+ * by patching the descriptor.
-+ */
-+static __u8 *glorious_report_fixup(struct hid_device *hdev, __u8 *rdesc,
-+		unsigned int *rsize)
-+{
-+	if (*rsize == 213 &&
-+		rdesc[84] == 129 && rdesc[112] == 129 && rdesc[140] == 129 &&
-+		rdesc[85] == 3   && rdesc[113] == 3   && rdesc[141] == 3) {
-+		hid_info(hdev, "patching Glorious Model O consumer control report descriptor\n");
-+		rdesc[85] = rdesc[113] = rdesc[141] = 6;
-+	}
-+	return rdesc;
-+}
-+
-+static int glorious_probe(struct hid_device *hdev,
-+		const struct hid_device_id *id)
-+{
-+	int ret;
-+
-+	hdev->quirks |= HID_QUIRK_INPUT_PER_APP;
-+
-+	ret = hid_parse(hdev);
-+	if (ret)
-+		return ret;
-+
-+	snprintf(hdev->name, sizeof(hdev->name), "%s", "Glorious Model O");
-+
-+	return hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-+}
-+
-+static const struct hid_device_id glorious_devices[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_GLORIOUS,
-+		USB_DEVICE_ID_GLORIOUS_MODEL_O) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, glorious_devices);
-+
-+static struct hid_driver glorious_driver = {
-+	.name = "glorious",
-+	.id_table = glorious_devices,
-+	.probe = glorious_probe,
-+	.report_fixup = glorious_report_fixup
-+};
-+
-+module_hid_driver(glorious_driver);
-+
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 3a400ce603c4..3256ac6953fc 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -464,6 +464,9 @@
- #define USB_DEVICE_ID_GENERAL_TOUCH_WIN8_PIT_010A 0x010a
- #define USB_DEVICE_ID_GENERAL_TOUCH_WIN8_PIT_E100 0xe100
- 
-+#define USB_VENDOR_ID_GLORIOUS  0x258a
-+#define USB_DEVICE_ID_GLORIOUS_MODEL_O 0x0036
-+
- #define I2C_VENDOR_ID_GOODIX		0x27c6
- #define I2C_DEVICE_ID_GOODIX_01F0	0x01f0
- 
--- 
-2.25.1
+> +#endif
+>  #endif /* _SC_SCI_H */
+> 
 
