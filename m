@@ -2,115 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E0BD17FD6F
-	for <lists+linux-input@lfdr.de>; Tue, 10 Mar 2020 14:29:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E27F117FCA4
+	for <lists+linux-input@lfdr.de>; Tue, 10 Mar 2020 14:22:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728989AbgCJMyZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Mar 2020 08:54:25 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:36029 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729350AbgCJMyX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Mar 2020 08:54:23 -0400
-Received: by mail-qk1-f193.google.com with SMTP id u25so12557091qkk.3;
-        Tue, 10 Mar 2020 05:54:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4gPRUE/8c5unfeblSQvhYpKxeSuVZhZNXJJMTut3+xc=;
-        b=XkznGvkaYBTUY217XQ+/JcQlXuOsrjWrLd6qvYVsRlLicZNCjg+d1sTOEeWvFDBjed
-         ZUQFiYxNYCClkr65W3vIB7yabWXsorUCj9aoLmomRhnyGmNzS97zSfSpHywipgu2WlML
-         5GQjtgI93aBcWLFmFWtro9CmlXquwSClaP6pI8JhmVxxHoD+ywnBhYIi0tL5byG53uHe
-         HOh3OK35wClm2ks6crxtZTJmPM1XzoHgk/pmQ3S/3FEKsFWVaHcUpEs4Li1XwIw9Eij7
-         l3eZfqtzF8TEb9w+VUtY2cK+IIlD/WcB23bnYGWkxIH/bCgp91JtqG+n3saW1kbB6HGz
-         07jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4gPRUE/8c5unfeblSQvhYpKxeSuVZhZNXJJMTut3+xc=;
-        b=NCOg7YCbAvKQHwGhs0qvOzf8I6su65P9a+E50imI6lUwlMGid9USmjS/APlZTv8ryO
-         /Hqr4Xey0NxaRPqZ36fvuaccNRHFNDrxsTW5fk8wpwkjwf7fMskYucrWRQwkhhm+fNmz
-         FV5zpvm5f9kO8sFTNTGwfnTNPhRAH2OdMiCHF/N+9xzas4BHvucVLUcMQxpX7KTJqDCz
-         WyG5UUC5pp+XFDgiYWkwsh/b+8tkclRvSvoVUBBk7diP9/SnbwqrexK7jXksmUvlxKkW
-         /b4Z2jflslLdcAvgX2U58uooGyKdXcrN6XdFJtUXE9w+OOpEAJO+diuVUE0stslIptNi
-         PwrQ==
-X-Gm-Message-State: ANhLgQ1nKO/VtkW8wHApSt5FV8XxvnIp7vwnkHYiOgl/sxeW3uEpW1J8
-        UxrRV73nXNdp4X78621mjbjYSpoYjm8Nfa37+Pg=
-X-Google-Smtp-Source: ADFU+vvDgu6r2lvGrzD+aENtSuJiR4ntDHyMa/Gp9A1Gub6RnDjugtxTlXjHNfyjGwMDnaqFEam8O6u6HzvTy4j0zEU=
-X-Received: by 2002:a05:620a:22cd:: with SMTP id o13mr10800851qki.160.1583844862180;
- Tue, 10 Mar 2020 05:54:22 -0700 (PDT)
+        id S1727967AbgCJNWU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Mar 2020 09:22:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47952 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730239AbgCJNWT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 10 Mar 2020 09:22:19 -0400
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 53E39208E4;
+        Tue, 10 Mar 2020 13:22:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583846539;
+        bh=FaMTD2na3NDedgKSwXsZVOGx7i/nxquek6psyjDM3Lo=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=nOHUzyv8eb4NIsmREF9QILrzXXWOx92nJ+aS2RDg1Dv7jNtzGLBsZOeyveMA7AQVV
+         Cq8vn5QKZbw+kqb6EA5V7asq10eKRxLNL69aHKd+KpzRG/coxJDSXCz2f2nx0TCNRr
+         L6a5/PaJXVH3SRWycAiQbGPnBxTmEZsULi5zIptM=
+Date:   Tue, 10 Mar 2020 14:22:16 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@archlinux.org>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+Subject: Re: [PATCH] HID: logitech-dj: add support for the static device in
+ the Powerplay mat/receiver
+In-Reply-To: <5a93677bd6238a9d7928e4fd16a8915faeb5f19e.camel@archlinux.org>
+Message-ID: <nycvar.YFH.7.76.2003101301280.19500@cbobk.fhfr.pm>
+References: <20200115201811.3271284-1-lains@archlinux.org>  <nycvar.YFH.7.76.2002121449191.3144@cbobk.fhfr.pm> <5a93677bd6238a9d7928e4fd16a8915faeb5f19e.camel@archlinux.org>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <1580185137-11255-1-git-send-email-gupt21@gmail.com> <20200310122934.GA13896@ninjato>
-In-Reply-To: <20200310122934.GA13896@ninjato>
-From:   rishi gupta <gupt21@gmail.com>
-Date:   Tue, 10 Mar 2020 18:24:10 +0530
-Message-ID: <CALUj-guKqkRKVKDa1U+gv0rLx23zc5cFT3Qnakp4muk9LSUYfQ@mail.gmail.com>
-Subject: Re: [PATCH v3] HID: mcp2221: add usb to i2c-smbus host bridge
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        wsa+renesas@sang-engineering.com,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I will send two more patches in sometime.
+On Wed, 12 Feb 2020, Filipe Laíns wrote:
 
-Patch 1: Define i2c_adapter_quirks to let i2c core check msg's order,
-type and length
-              As of now this driver itself is doing this sanity.
+> > > +	/* custom receiver device (eg. powerplay) */
+> > > +	if (hidpp_report->device_index == 7) {
+> > > +		workitem.reports_supported |= HIDPP;
+> > > +	}
+> > > +
+> > 
+> > I guess we can't do anything else than to trust Logitech that they will 
+> > not assign conflicting device_index ID in the future to something that 
+> > will not be HID++, right?
+> > 
+> > Or is this properly documented somewhere?
+> > 
+> > Thanks,
+> 
+> 
+> CCing Nestor
+> 
+> Yes, we need to trust Logitech on this. There's isn't anything
+> documented regarding this AFAIK.
+> 
+> Even if Logitech released a device with index 7 that didn't support
+> HID++, it wouldn't be that big of an issue. We would just end up with a
+> hidraw node which would export a vendor page report descriptor but the
+> device wouldn't actually reply to anything.
 
-Patch 2: Add support for GPIO functionality
+Given the silence from Nestor, I guess we can just apply this for 5.7; 
+pushing to for-5.7/logitech branch.
 
-On Tue, Mar 10, 2020 at 5:59 PM Wolfram Sang <wsa@the-dreams.de> wrote:
->
->
-> > +     if (num == 1) {
-> > +             if (msgs->flags & I2C_M_RD) {
-> > +                     ret = mcp_i2c_smbus_read(mcp, msgs, MCP2221_I2C_RD_DATA,
-> > +                                                     0, 0, NULL);
-> > +             } else {
-> > +                     ret = mcp_i2c_write(mcp, msgs, MCP2221_I2C_WR_DATA, 1);
-> > +             }
-> > +             if (ret)
-> > +                     goto exit;
-> > +             ret = num;
-> > +     } else if (num == 2) {
-> > +             /* Ex transaction; send reg address and read its contents */
-> > +             if (msgs[0].addr == msgs[1].addr &&
-> > +                     !(msgs[0].flags & I2C_M_RD) &&
-> > +                      (msgs[1].flags & I2C_M_RD)) {
-> > +
-> > +                     ret = mcp_i2c_write(mcp, &msgs[0],
-> > +                                             MCP2221_I2C_WR_NO_STOP, 0);
-> > +                     if (ret)
-> > +                             goto exit;
-> > +
-> > +                     ret = mcp_i2c_smbus_read(mcp, &msgs[1],
-> > +                                             MCP2221_I2C_RD_RPT_START,
-> > +                                             0, 0, NULL);
-> > +                     if (ret)
-> > +                             goto exit;
-> > +                     ret = num;
-> > +             } else {
-> > +                     dev_err(&adapter->dev,
-> > +                             "unsupported multi-msg i2c transaction\n");
-> > +                     ret = -EOPNOTSUPP;
-> > +             }
-> > +     } else {
-> > +             dev_err(&adapter->dev,
-> > +                     "unsupported multi-msg i2c transaction\n");
-> > +             ret = -EOPNOTSUPP;
-> > +     }
->
-> Have a look at struct i2c_adapter_quirks and especially the flags to let
-> the I2C core do the sanity checks from here.
->
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
