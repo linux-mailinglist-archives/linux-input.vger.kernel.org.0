@@ -2,75 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7F5217F71D
-	for <lists+linux-input@lfdr.de>; Tue, 10 Mar 2020 13:09:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E671917F724
+	for <lists+linux-input@lfdr.de>; Tue, 10 Mar 2020 13:11:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726269AbgCJMJr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Mar 2020 08:09:47 -0400
-Received: from mail.11d01.mspz7.gob.ec ([190.152.145.91]:37370 "EHLO
-        mail.11d01.mspz7.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726252AbgCJMJr (ORCPT
+        id S1726271AbgCJMLo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Mar 2020 08:11:44 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:44228 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726205AbgCJMLo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Mar 2020 08:09:47 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTP id 692612F6F4C0;
-        Tue, 10 Mar 2020 04:11:38 -0500 (-05)
-Received: from mail.11d01.mspz7.gob.ec ([127.0.0.1])
-        by localhost (mail.11d01.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id VDbya_X3t-rr; Tue, 10 Mar 2020 04:11:37 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTP id 681522F6E87C;
-        Tue, 10 Mar 2020 03:20:25 -0500 (-05)
-DKIM-Filter: OpenDKIM Filter v2.9.2 mail.11d01.mspz7.gob.ec 681522F6E87C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=11d01.mspz7.gob.ec;
-        s=50CBC7E4-8BED-11E9-AF6C-F1A741A224D3; t=1583828425;
-        bh=o+H3O7n1+zJcXo0FhJs7spyf8HmE4ClnBa/Y2Gk0DL0=;
-        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
-         From:Date:Reply-To:Message-Id;
-        b=RFD6923mYfgItBklqsLMaHDiCYJ/ciB1F3I5Aj+0ML4i3kI2zsLuLXG0NehCYXFEN
-         V1TyrOpmp1D6bXzcupNZvMZWj3ucKjy3wAfGM/aDMcvEfjJQinNLD5Oi20pdb7B6Zf
-         Du3iGnKCpaB/6+caWqSvz1KsViAPGZsGMNPx31fo=
-X-Virus-Scanned: amavisd-new at 11d01.mspz7.gob.ec
-Received: from mail.11d01.mspz7.gob.ec ([127.0.0.1])
-        by localhost (mail.11d01.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id JsPstQYDv_MG; Tue, 10 Mar 2020 03:20:24 -0500 (-05)
-Received: from [10.19.167.32] (unknown [105.0.4.171])
-        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTPSA id 081B02F6B822;
-        Tue, 10 Mar 2020 02:44:58 -0500 (-05)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 10 Mar 2020 08:11:44 -0400
+Received: by mail-qt1-f193.google.com with SMTP id h16so9380918qtr.11;
+        Tue, 10 Mar 2020 05:11:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jt79snC5Ck9GdmHCqifHja5JE72+04hwhwUIgFwsoJs=;
+        b=VLyKRhXJYcg7RCztvHPC9b5FOb1qSWoZtV8BdnSN3AdCLBYYMgTE0uzPo2ZFZd89Xg
+         izUpwCqX9zyCviNlSYJwGzvHjr92hUIod8weznD4ibUp/acnhsVS1+QzQ1FMuaWfCd9d
+         tHV+hP8oDm4yhTkJfKUZ7u30+58yage84D+gpLtmO55OkHYVrMkc6B6XQ8OgTfSy8jQR
+         dk7FISurLCF5GD6yfv1WiqfW/UPP9bS32/T2QaS9zktlrDpfqfx4LO2uUZr0zsBA8Z7w
+         n00JURu8YcopR4WOHu35w+DmZjH2aJT0f1v3Yl1ZZFnKcs4DOGTq2GH5j86IJrv0DyxZ
+         9/vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jt79snC5Ck9GdmHCqifHja5JE72+04hwhwUIgFwsoJs=;
+        b=qDcwDdIlCHLIb1yFh1Oqr9V285gWSqH7CJ1n5MM0X+VMlHdgeYU3t5oF7AAVzeuBI1
+         iWfiHquF/F6BeEPTUrXxQ/isXfeVTxKsh+Xm/YCxq4752YBimwzC3CgeRE+EyavetJdh
+         lqN+sXSvLNPJDDkXtdFY9kQp5ziQh/U8mRx6+DIs1mwlxjUyRNRpPP4GRyTd0anadHpS
+         4SrWnUA1VR7+Xif96x0704XYbvLCVLbjykXYZubWYGjvnemhb7Qk8jXzkUBqeE+/9u4F
+         sD3BYQ1Bq5BB6HqDUq2NVVKym4Pb6OT+uSc3FJbzd9hFJJvVWw0PSHlzLiU8slcYuP5T
+         EWxw==
+X-Gm-Message-State: ANhLgQ2+ZVXIhC1xLrZOaUCacVUwb/gb8mr9aJSL/+/5BDv7aJ3xwvB+
+        wgocP8eOY92FcxPmPiAOTIjDfDtxwqv47Op9CgU=
+X-Google-Smtp-Source: ADFU+vskPzc35t1H25E3s3HpAGVBfpG0vWNTuqrpxtNONzwU0XuGsG+Qih97IXnwq96KiNHIm7cDbMcmX/J1juGftow=
+X-Received: by 2002:ac8:4c8f:: with SMTP id j15mr19147393qtv.232.1583842302771;
+ Tue, 10 Mar 2020 05:11:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
-To:     Recipients <ronald.pena@11d01.mspz7.gob.ec>
-From:   ''Michael weirsky'' <ronald.pena@11d01.mspz7.gob.ec>
-Date:   Tue, 10 Mar 2020 10:14:27 +0200
-Reply-To: mikeweirskyspende@gmail.com
-Message-Id: <20200310074500.081B02F6B822@mail.11d01.mspz7.gob.ec>
+References: <1580185137-11255-1-git-send-email-gupt21@gmail.com> <nycvar.YFH.7.76.2003101241580.19500@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2003101241580.19500@cbobk.fhfr.pm>
+From:   rishi gupta <gupt21@gmail.com>
+Date:   Tue, 10 Mar 2020 17:41:31 +0530
+Message-ID: <CALUj-gvUthgPRFBje3uJf03S_Fh2m5Ez6JX-A3-mvdW9TYvHhg@mail.gmail.com>
+Subject: Re: [PATCH v3] HID: mcp2221: add usb to i2c-smbus host bridge
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        wsa+renesas@sang-engineering.com,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Lieber Freund,
+I am really grateful to you and all other maintainers.
+You really do a lot work; code review is a manual and time consuming task.
 
-Ich bin Herr Mike Weirsky, New Jersey, Vereinigte Staaten von Amerika, der =
-Mega-Gewinner von $ 273million In Mega Millions Jackpot, spende ich an 5 zu=
-f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
-il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
-meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
-und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
-Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
- spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen.
-Das ist dein Spendencode: [MW530342019]
-www.youtube.com/watch?v=3Dun8yRTmrYMY
+Regards,
+Rishi
 
-Antworten Sie mit dem SPENDE-CODE an diese =
-
-
-E-Mail:mikeweirskyspende@gmail.com
-
-Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
-
-Gr=C3=BC=C3=9Fe
-Herr Mike Weirsky
+On Tue, Mar 10, 2020 at 5:12 PM Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Tue, 28 Jan 2020, Rishi Gupta wrote:
+>
+> > MCP2221 is a USB HID to I2C/SMbus host bridge device. This
+> > commit implements i2c and smbus host adapter support. 7-bit
+> > address and i2c multi-message transaction is also supported.
+>
+> Applied; sorry this took me a bit longer to review.
+>
+> --
+> Jiri Kosina
+> SUSE Labs
+>
