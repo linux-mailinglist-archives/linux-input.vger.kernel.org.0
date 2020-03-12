@@ -2,54 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2999B183981
-	for <lists+linux-input@lfdr.de>; Thu, 12 Mar 2020 20:33:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FEDE183AA6
+	for <lists+linux-input@lfdr.de>; Thu, 12 Mar 2020 21:31:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726752AbgCLTdY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Mar 2020 15:33:24 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:45385 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726523AbgCLTdY (ORCPT
+        id S1725268AbgCLUbx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Mar 2020 16:31:53 -0400
+Received: from mail-qv1-f67.google.com ([209.85.219.67]:44430 "EHLO
+        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726706AbgCLUbu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Mar 2020 15:33:24 -0400
-Received: by mail-lj1-f196.google.com with SMTP id e18so7847989ljn.12
-        for <linux-input@vger.kernel.org>; Thu, 12 Mar 2020 12:33:23 -0700 (PDT)
+        Thu, 12 Mar 2020 16:31:50 -0400
+Received: by mail-qv1-f67.google.com with SMTP id w5so3349905qvp.11
+        for <linux-input@vger.kernel.org>; Thu, 12 Mar 2020 13:31:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=CzwX3JhIDPjn8Zf/b6fbGBesCy+eZsCppQlTq8HkhYg=;
-        b=QayA64qNRNU0xH2o43FSdFi17MC1VTw0kY/pBfJsjBmYlPISlqtpekl7jTiNx8x3hE
-         55R1wq+qpLpzNqeLXWdpY4gPPcyBEye7AGwxG4Zcve0CY2L+DGtVnKF2YybmxaNT8duv
-         nD+1885Owz9j04pPDu+yUhYEBwyunOV0Gi5q9OTwgv85DHsGANsNhsxHwrfMr8eNx51w
-         dVnp3JT2f0h0SZ3YoyMKSFItFngKk7Kuw+LW0E99wFWjzdBkZANK7SRPC9H55F7CwCoa
-         plU3fXfEhKh/AKwk8wn9KIFAWEEg4ICZxnRlYQC7RlNxzpNjjE+R0SHcq0ODuhPunjkP
-         FKnQ==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OSLhuIxEpdiu4IChuu+kUY7XbNTQNzxVu0kBYJHewI0=;
+        b=eTGxhfXPoIRX+zZNKelilanBP2pQAgyeLUeHUq4AebBDBvuoAcOqcvK6/rL1VkDS3T
+         KmZ2HJV92jzkFplHPBuV9azhiNjpj45MVNZ1V8lApj0Bd5r/q6wUmH65V3uUl5ZpIiSJ
+         fdJ89S2UTfx4MI4020mmrVTAnmsWaDBO/g/so=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=CzwX3JhIDPjn8Zf/b6fbGBesCy+eZsCppQlTq8HkhYg=;
-        b=VOgxdAfm1G28blBPHXJr+cmxgu1vvavWmvkq/pjvYvUeGdg96iYgx8uUtGy0nFXYeG
-         YCpt+gtdJoOB7todCMS7i7YXAzNi+pceREiS4OOH+oymn5Ljz7e4BCwOAgLI7MJCWO+8
-         c8+uekwU0mF/h4WGymcO2/04SOZChBI/moq23At6BQK+cLwShMPIidigCldQli/NRMJF
-         b18dYJf1vkNV0vkUxZyEOTxpS2jKr4pkuWCqZOmVI9xWssdg8OzTIodGPe8xPLWPP3A3
-         7gIwN/kjSVpY3xEtG86QMPD1jJreEyiHj74sEDKpcY5dYTbuD6BzrCAwnZXOINrdZED4
-         Jd8w==
-X-Gm-Message-State: ANhLgQ13iM+5bR5NxwqNsXCnRGtW3OD6o8352FLuYpnin623vXRnhdYf
-        jAvSnU/HpuKM86uo+VLO+L7V6Fj/i0kwksrh9LycVb2C
-X-Google-Smtp-Source: ADFU+vsyPcIWcQDYaioXlz7FWZjzsE68UJXRIDHTYfF+ewOuSZoHHX7h5fQh44mivCxhpzdWLwkm0r/7qTrNw5LJPsM=
-X-Received: by 2002:a2e:b88d:: with SMTP id r13mr5766672ljp.66.1584041602698;
- Thu, 12 Mar 2020 12:33:22 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=OSLhuIxEpdiu4IChuu+kUY7XbNTQNzxVu0kBYJHewI0=;
+        b=GDSEy10VieeepovLOrgql/4J/Ltcemet8NemuR2HkKIQT+iMr8cEA5s6nkxtJnkLRK
+         aqbIuVdws5h7jE6Er9OaeXsyu6IXgrPZe7FT7kQYv/vTsE/XLr54I6xZVA87vbdgaaIT
+         sv7dnam8pPVO4isHa4ESFT6bX5ArCo+hO2LkQ+lNe2j+tOCTWdR7GlHclPfg8vuYr+jg
+         jlLdagcF3vKGMlSnw0cCGPJtqAG8VWWkwSEKzLD750oERasfi8bStcOEWuwvnyfQRT1Y
+         /RDAcVyaYqAQthEd4YCSj1puaWFlnwMiAz9/PUX6TJh0vITYqlumxpDVgUXtxwp8VGqH
+         Vtag==
+X-Gm-Message-State: ANhLgQ3SwZJH/lAHyemnw821oWgLWYaA0ZYEiXFS7m9MTixuHa96vcpz
+        Kdjf7oHSuYTvHVjCZh6oN/rKxm+wF+I=
+X-Google-Smtp-Source: ADFU+vs5mc8p/Wm25ZHLuoRkIcgU4ZbXiR9F5X3l/C5fKsSoJetgSOMgihgtS2kOkGoWZ/Axa/uf+w==
+X-Received: by 2002:ad4:5642:: with SMTP id bl2mr9392932qvb.11.1584045108380;
+        Thu, 12 Mar 2020 13:31:48 -0700 (PDT)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com. [209.85.222.180])
+        by smtp.gmail.com with ESMTPSA id k4sm2856628qkc.18.2020.03.12.13.31.47
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Mar 2020 13:31:47 -0700 (PDT)
+Received: by mail-qk1-f180.google.com with SMTP id b5so8611577qkh.8
+        for <linux-input@vger.kernel.org>; Thu, 12 Mar 2020 13:31:47 -0700 (PDT)
+X-Received: by 2002:a37:a543:: with SMTP id o64mr8063320qke.460.1584045106987;
+ Thu, 12 Mar 2020 13:31:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200304002137.83630-1-rajatja@google.com>
 In-Reply-To: <20200304002137.83630-1-rajatja@google.com>
-From:   Rajat Jain <rajatja@google.com>
-Date:   Thu, 12 Mar 2020 12:32:46 -0700
-Message-ID: <CACK8Z6FNmZFW9c=1tY4Q4rn4ZyUu--CUTuLk0SHZsuYb1-H7Og@mail.gmail.com>
+From:   Harry Cutts <hcutts@chromium.org>
+Date:   Thu, 12 Mar 2020 13:31:35 -0700
+X-Gmail-Original-Message-ID: <CA+jURcsGvKbQi0bUs1BtAa7RC0NmtKBS=qtEzYWv=pUBqenmgQ@mail.gmail.com>
+Message-ID: <CA+jURcsGvKbQi0bUs1BtAa7RC0NmtKBS=qtEzYWv=pUBqenmgQ@mail.gmail.com>
 Subject: Re: [PATCH v2] Input: Allocate keycode for SNIP key
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+To:     Rajat Jain <rajatja@google.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
         Dmitry Torokhov <dtor@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
@@ -57,21 +66,11 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
-
-
-On Tue, Mar 3, 2020 at 4:21 PM Rajat Jain <rajatja@google.com> wrote:
+On Tue, 3 Mar 2020 at 16:21, Rajat Jain <rajatja@google.com> wrote:
 >
 > New chromeos keyboards have a "snip" key that is basically a selective
 > screenshot (allows a user to select an area of screen to be copied).
 > Allocate a keyvode for it.
-
-Any comments on this patch?
-
-Thanks & Best Regards,
-
-Rajat
-
 >
 > Signed-off-by: Rajat Jain <rajatja@google.com>
 > ---
@@ -91,6 +90,15 @@ Rajat
 > +/* Selective Screenshot */
 > +#define KEY_SNIP                        0x280
 > +
+
+It's not very obvious to me what KEY_SNIP represents, without the
+comment above. Maybe you could call it something like
+KEY_SELECTIVE_SCREENSHOT, so that its purpose is more apparent to
+someone seeing it in use.
+
+Harry Cutts
+Chrome OS Touch/Input team
+
 >  /*
 >   * Some keyboards have keys which do not have a defined meaning, these keys
 >   * are intended to be programmed / bound to macros by the user. For most
