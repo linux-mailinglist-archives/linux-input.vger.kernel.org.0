@@ -2,252 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D48F1834D3
-	for <lists+linux-input@lfdr.de>; Thu, 12 Mar 2020 16:22:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 870791834DD
+	for <lists+linux-input@lfdr.de>; Thu, 12 Mar 2020 16:22:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727747AbgCLPWA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Mar 2020 11:22:00 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:40564 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727577AbgCLPWA (ORCPT
+        id S1727747AbgCLPWm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Mar 2020 11:22:42 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35454 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727446AbgCLPWm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Mar 2020 11:22:00 -0400
-Received: by mail-lf1-f67.google.com with SMTP id j17so5148949lfe.7;
-        Thu, 12 Mar 2020 08:21:57 -0700 (PDT)
+        Thu, 12 Mar 2020 11:22:42 -0400
+Received: by mail-ot1-f67.google.com with SMTP id k26so6678827otr.2;
+        Thu, 12 Mar 2020 08:22:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=D9E8rm4o9MsqGKz3FO1TqOf9Msyu6iXKeRSjuW+jFpA=;
-        b=SzVhRpOcNJXXlgBglky08t5PKaalzu1Abq5tu7ukaaxMZE3GltMfVzvyhf+1ILCn94
-         /ZtvTS52QSw3QgjZEp4FvGGUl0kBqXzU7NckX5s8Vk10SOVllYCbkc00/NAo93jYSPKD
-         YCWGSQRszm34ZHsUluZFNVb9qKm5NLAlI6/jvA0BEha/RqnFZHEy7qz3H1ofGulztqvK
-         liWSe6hEZDiL2+0X1Pfek68J8YATxqx5bHegwo68gf1AYBDhRB+/wqCadlJEXBmmWU9w
-         r5b60vOuLh1e9rLr4KGVf6ezReUqrUe5AFDJakOoaiz4hIQCHjSkm4potFrCrNrIJN0O
-         a/6w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=3CEHFjpyc9/ZGVlSOC4X/gcnKa22KLNZWM3ttUw+GaY=;
+        b=X1aj1zSaQSY8xndb9omYxHIdZwCylcFB6uD+ViZebe28st96b/Zey2TdqN3YVNGQOg
+         XlqWlmyJtDuydUWHsG0xpr+QPpJ0e8baLS1usHhOh2zTO6o7FF3iOd5/zVi3V/EvF1rc
+         yRFl//ENMNcJA1Eih0NRBK+BDyIr7kia9QUdo/Ov77e306V5jLFU6LE1azSZL9WWfum/
+         7JA/dXzoHtyFTgtNwIyZSsRmZCXPYq+iLQCfbo8ep0DXfeJYHYvU1oZZGzchFDg7ur+F
+         gWSpAyav3tYz3HUVumNQicWmIWhB60EwMjUt8KfM87pOlmNxk9lQRXamaz9Gfr54sRXY
+         zzxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=D9E8rm4o9MsqGKz3FO1TqOf9Msyu6iXKeRSjuW+jFpA=;
-        b=kOilI2er/AQRw8wAbb2QJBGEncnHvh0Nk/DHVC5Ha9F2gdPy35mKQ5tPCiETmC0bXj
-         n/VAeUXlBwkcLgvImIO6uIrgUcFwERr4h9taGcXekWQ9Zt7qXDN881dDtpYZIIFeHceA
-         1ca8MRheSaj1kkbQrqNDUBU3VNomcnrIqOvZCTZQyX9+z7Tz6DR8XNLo5za8biMQLfPh
-         DpOsdh5GpJrF9MLKdPjqPXgwkaV1GM9s57J3hGqEoQ2qpuQQ/KwWfYKpaZYgVKUDFxTY
-         9X0WFOQES0nQnk2Dr36mjhUQHtKrFd5U7WJSreLHnQt165JPK3VKhmeEme8/XgPg+LJj
-         V58w==
-X-Gm-Message-State: ANhLgQ3AEtKSYvhUZTxjYWtEgHJX6XnnfHRpl08czy0QTBzrpf9nYAok
-        0vBjrILXKVNTLva1pAQCaU0=
-X-Google-Smtp-Source: ADFU+vt4TkuZv34P1wrPvlhaHvPViwdFBBiSsgMjS9P7nTxz92gcpZldB6m7nbNGZG1XmIZwMyGxNQ==
-X-Received: by 2002:a19:c34e:: with SMTP id t75mr5294087lff.197.1584026516304;
-        Thu, 12 Mar 2020 08:21:56 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id o13sm5482528lfg.90.2020.03.12.08.21.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Mar 2020 08:21:55 -0700 (PDT)
-Subject: Re: [PATCH v7 00/48] atmel_mxt_ts misc
-To:     Jiada Wang <jiada_wang@mentor.com>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, rydberg@bitmath.org,
-        dmitry.torokhov@gmail.com, nick@shmanahar.org, bsz@semihalf.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
-References: <20200212084218.32344-1-jiada_wang@mentor.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <c583d151-9243-cbde-a04b-bc0389d9be5a@gmail.com>
-Date:   Thu, 12 Mar 2020 18:21:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=3CEHFjpyc9/ZGVlSOC4X/gcnKa22KLNZWM3ttUw+GaY=;
+        b=dBuDNAJiawz2LNz2QWMsoUChlPbASavE+sMy6x9Xnhyr7r8nSQU8bDqDa+y8iOJKGM
+         JftoOs4FD/gW0gqHU29HnGGnlFRf2KNx/69OiyM485gkjVhwEmXvEJnnGtS7oeabViOY
+         f8ViOV+WU75zHasspn7wFbhzgOeWxDLaOtDam/m4r2tujHFpZSOGDA/vFN7xmEI2fGCo
+         fVfRvPOkXcmjWvs3a2DXP/cXaZx5ZCfcwcAuphbwEGsKwuVXDTwpyMeM9ukVQxinDhtQ
+         QEVENwK+REDfhiTqOv4WjSBJ3fLFrgbgSeaaz3UlxFUiobDAuttWJiOqfsyzm6RdTE7X
+         kF6A==
+X-Gm-Message-State: ANhLgQ1SQSr8YW6ZaiWcgD2LAj2V8pEBbtKxnIphqvHE5LKGjwzm0Wog
+        +PH3L4aYNgC3xskJoe9knIO4lv9PNQnCfU23OysyjcAV
+X-Google-Smtp-Source: ADFU+vsjS/B8wd7MjyjSvFWCuIRNbsoBiEnwif9Xs2TVDjTHdUTqIT5q5v2JXe3xoCnprDgyo0xUfH87+FEdx5X+430=
+X-Received: by 2002:a4a:bf19:: with SMTP id r25mr4310784oop.3.1584026561419;
+ Thu, 12 Mar 2020 08:22:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200212084218.32344-1-jiada_wang@mentor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200304164700.11574-1-tony.fischetti@gmail.com> <6c58685f039d329615d84e2df1cd2a155db73c61.camel@archlinux.org>
+In-Reply-To: <6c58685f039d329615d84e2df1cd2a155db73c61.camel@archlinux.org>
+From:   Tony Fischetti <tony.fischetti@gmail.com>
+Date:   Thu, 12 Mar 2020 11:22:30 -0400
+Message-ID: <CAOMV6SVxL=DLP6yWa+jHzu5A+PUJTJi4bk_1ZW-kXXwnaCBT5Q@mail.gmail.com>
+Subject: Re: [PATCH] add ALWAYS_POLL quirk to lenovo pixart mouse
+To:     =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-12.02.2020 11:41, Jiada Wang пишет:
-> This patch-set forward ports Nick Dyer's work in ndyer/linux github repository
-> as long as some other features and fixes
-> 
-> Balasubramani Vivekanandan (2):
->   Input: atmel_mxt_ts: Limit the max bytes transferred in an i2c
->     transaction
->   Input: atmel_mxt_ts: use gpiod_set_value_cansleep for reset pin
-> 
-> Dean Jenkins (1):
->   Input: atmel_mxt_ts: return error from
->     mxt_process_messages_until_invalid()
-> 
-> Deepak Das (6):
->   Input: Atmel: improve error handling in mxt_start()
->   Input: Atmel: improve error handling in mxt_initialize()
->   Input: Atmel: improve error handling in mxt_update_cfg()
->   Input: Atmel: Improve error handling in mxt_initialize_input_device()
->   Input: Atmel: handle ReportID "0x00" while processing T5 messages
->   Input: Atmel: use T44 object to process T5 messages
-> 
-> George G. Davis (1):
->   input: atmel_mxt_ts: export GPIO reset line via sysfs
-> 
-> Jiada Wang (3):
->   Input: introduce input_mt_report_slot_inactive
->   Input: atmel_mxt_ts - eliminate data->raw_info_block
->   Input: atmel_mxt_ts - Fix compilation warning
-> 
-> Karl Tsou (1):
->   Input: atmel_mxt_ts - add debug for T92 gesture and T93 touch seq msgs
-> 
-> Kautuk Consul (2):
->   Input: atmel_mxt_ts - Change call-points of mxt_free_* functions
->   Input: atmel_mxt_ts - rely on calculated_crc rather than file
->     config_crc
-> 
-> Naveen Chakka (2):
->   input: touchscreen: atmel_mxt_ts: Added sysfs entry for touchscreen
->     status
->   input: atmel_mxt_ts: added sysfs interface to update atmel T38 data
-> 
-> Nick Dyer (26):
->   Input: atmel_mxt_ts - rework sysfs init/remove
->   Input: atmel_mxt_ts - only read messages in mxt_acquire_irq() when
->     necessary
->   Input: atmel_mxt_ts - split large i2c transfers into blocks
->   Input: atmel_mxt_ts - output status from T48 Noise Supression
->   Input: atmel_mxt_ts - output status from T42 Touch Suppression
->   Input: atmel_mxt_ts - implement T9 vector/orientation support
->   Input: atmel_mxt_ts - implement T15 Key Array support
->   Input: atmel_mxt_ts - handle reports from T47 Stylus object
->   Input: atmel_mxt_ts - implement support for T107 active stylus
->   Input: atmel_mxt_ts - release touch state during suspend
->   Input: atmel_mxt_ts - add regulator control support
->   Input: atmel_mxt_ts - report failures in suspend/resume
->   Input: atmel_mxt_ts - allow specification of firmware file name
->   Input: atmel_mxt_ts - handle cfg filename via pdata/sysfs
->   Input: atmel_mxt_ts - allow input name to be specified in platform
->     data
->   Input: atmel_mxt_ts - refactor firmware flash to extract context into
->     struct
->   Input: atmel_mxt_ts - refactor code to enter bootloader into separate
->     func
->   Input: atmel_mxt_ts - combine bootloader version query with probe
->   Input: atmel_mxt_ts - improve bootloader state machine handling
->   Input: atmel_mxt_ts - rename bl_completion to chg_completion
->   Input: atmel_mxt_ts - make bootloader interrupt driven
->   Input: atmel_mxt_ts - delay enabling IRQ when not using regulators
->   Input: atmel_mxt_ts - implement I2C retries
->   Input: atmel_mxt_ts - orientation is not present in hover
->   Input: atmel_mxt_ts - implement debug output for messages
->   Input: atmel_mxt_ts - implement improved debug message interface
-> 
-> Nikhil Ravindran (1):
->   Input: atmel_mxt_ts: Add support for run self-test routine.
-> 
-> Sanjeev Chugh (1):
->   Input: atmel_mxt_ts: Implement synchronization during various
->     operation
-> 
-> karl tsou (1):
->   Input: atmel_mxt_ts - add config checksum attribute to sysfs
-> 
-> keerthikumarp (1):
->   input: atmel_mxt_ts: Add Missing Delay for reset handling of Atmel
->     touch panel controller in detachable displays.
-> 
-> ---
-> v7:
-> Fix regression found when updating firmware
-> Following commits have been updated to fix regression found when
-> updating firmware
-> Input: atmel_mxt_ts - improve bootloader state machine handling
-> Input: atmel_mxt_ts - make bootloader interrupt driven
-> input: touchscreen: atmel_mxt_ts: Added sysfs entry for touchscreen status
-> Input: atmel_mxt_ts: Implement synchronization during various operation
-> 
-> v6:
-> Fix issue in commit ("Input: introduce input_mt_report_slot_inactive")
-> reported by kernel test robot
-> 
-> v5:
-> Following commits have been updated to address warnings & errors
-> reported by kbuild test robot 
-> Input: atmel_mxt_ts - make bootloader interrupt driven
-> Input: atmel_mxt_ts - add debug for T92 gesture and T93 touch seq msgs
-> 
-> Following commit has been updated
-> Input: introduce input_mt_report_slot_inactive
-> 
-> v4:
-> Following commit in v3 patch-set has been removed
-> Input: switch to use return value of input_mt_report_slot_state
-> 
-> Following commit has been updated to address checkpatch warning
-> Input: atmel_mxt_ts: Implement synchronization during various operation
-> 
-> v3:
-> Following commits have been updated compared to v2 patchset
-> Input: atmel_mxt_ts - implement debug output for messages
-> - added inline comment
-> Input: atmel_mxt_ts - add debug for T92 gesture and T93 touch seq msg
-> - changed dev_info() to dev_dbg()
-> 
-> v2:
-> Following commit in v1 patchset has been split into two commits
-> Input: introduce input_mt_report_slot_inactive
-> 
-> Following commits have been updated compared to v1 patchset
-> Input: atmel_mxt_ts - split large i2c transfers into blocks
-> Input: atmel_mxt_ts - output status from T42 Touch Suppression
-> 
-> Following commits in v1 patchset have been squashed
-> Input: touchscreen: Atmel: Add device tree support for T15 key array
-> objects
-> Input: atmel_mxt_ts - check data->input_dev is not null in
-> mxt_input_sync()
-> Input: atmel_mxt_ts - check firmware format before entering bootloader
-> Input: atmel_mxt_ts: update stale use_retrigen_workaround flag
-> input: atmel_mxt_ts: move bootloader probe from mxt_initialize()
-> input: Atmel: limit the max bytes transferred while reading T5 messages
-> Input: atmel_mxt_ts: Use msecs_to_jiffies() instead of HZ
-> Input: atmel_mxt_ts: Use complete when in_bootloader true
-> Input: atmel_mxt_ts: Prevent crash due to freeing of input device
-> input: atmel_mxt_ts: Add NULL check for sysfs attribute debug_msg_attr
-> 
-> Following commits in v1 patchset have been dropped:
-> Input: atmel_mxt_ts - configure and use gpios as real gpios
-> Input: touchscreen: Atmel: Enable IRQ_DISABLE_UNLAZY flag for interrupt
-> Input: atmel_mxt_ts - add memory access interface via sysfs
-> Input: atmel_mxt_ts: Remove sysfs attributes during driver detach
-> Input: atmel_mxt_ts: Avoid race condition in freeing of input device
-> 
-> 
-> v1: initial version
-> ---
->  .../bindings/input/atmel,maxtouch.txt         |   14 +
->  MAINTAINERS                                   |    1 +
->  drivers/hid/hid-alps.c                        |    3 +-
->  drivers/hid/hid-multitouch.c                  |    6 +-
->  drivers/input/misc/xen-kbdfront.c             |    2 +-
->  drivers/input/mouse/elan_i2c_core.c           |    2 +-
->  drivers/input/touchscreen/atmel_mxt_ts.c      | 2270 ++++++++++++++---
->  drivers/input/touchscreen/cyttsp4_core.c      |    5 +-
->  drivers/input/touchscreen/cyttsp_core.c       |    2 +-
->  drivers/input/touchscreen/melfas_mip4.c       |    4 +-
->  drivers/input/touchscreen/mms114.c            |    2 +-
->  drivers/input/touchscreen/raspberrypi-ts.c    |    2 +-
->  drivers/input/touchscreen/stmfts.c            |    2 +-
->  include/dt-bindings/input/atmel_mxt_ts.h      |   22 +
->  include/linux/input/mt.h                      |    5 +
->  15 files changed, 1985 insertions(+), 357 deletions(-)
->  create mode 100644 include/dt-bindings/input/atmel_mxt_ts.h
-> 
+Thanks for the feedback, y'all.
+I will rename the device and add the signed-off field and resubmit.
+Thanks again
 
-Hello Jiada,
+On Tue, Mar 10, 2020 at 9:48 AM Filipe La=C3=ADns <lains@archlinux.org> wro=
+te:
+>
+> On Wed, 2020-03-04 at 11:47 -0500, Tony Fischetti wrote:
+> > A lenovo pixart mouse (17ef:608d) is afflicted common the the malfuncti=
+on
+> > where it disconnects and reconnects every minute--each time incrementin=
+g
+> > the device number. This patch adds the device id of the device and
+> > specifies that it needs the HID_QUIRK_ALWAYS_POLL quirk in order to
+> > work properly.
+> > ---
+> >  drivers/hid/hid-ids.h    | 1 +
+> >  drivers/hid/hid-quirks.c | 1 +
+> >  2 files changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> > index 3a400ce603c4..9e1dfc714ea8 100644
+> > --- a/drivers/hid/hid-ids.h
+> > +++ b/drivers/hid/hid-ids.h
+> > @@ -726,6 +726,7 @@
+> >  #define USB_DEVICE_ID_LENOVO_X1_COVER        0x6085
+> >  #define USB_DEVICE_ID_LENOVO_X1_TAB  0x60a3
+> >  #define USB_DEVICE_ID_LENOVO_X1_TAB3 0x60b5
+> > +#define USB_DEVICE_ID_LENOVO_PIXART_USB_OPTICAL_MOUSE        0x608d
+>
+> This ID is really ambiguous. Pixart makes the sensors for the big
+> majority of devices. Isn't there any other identifier you could use? If
+> there isn't, you could do USB_DEVICE_ID_LENOVO_MOUSE_608D.
+>
+> >  #define USB_VENDOR_ID_LG             0x1fd2
+> >  #define USB_DEVICE_ID_LG_MULTITOUCH  0x0064
+> > diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> > index 0e7b2d998395..247747d6d8cf 100644
+> > --- a/drivers/hid/hid-quirks.c
+> > +++ b/drivers/hid/hid-quirks.c
+> > @@ -103,6 +103,7 @@ static const struct hid_device_id hid_quirks[] =3D =
+{
+> >       { HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_PENSKETCH_M=
+912), HID_QUIRK_MULTI_INPUT },
+> >       { HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M40=
+6XE), HID_QUIRK_MULTI_INPUT },
+> >       { HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTI=
+CAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
+> > +     { HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXAR=
+T_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
+> >       { HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_C=
+007), HID_QUIRK_ALWAYS_POLL },
+> >       { HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_C=
+077), HID_QUIRK_ALWAYS_POLL },
+> >       { HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_K=
+EYBOARD_G710_PLUS), HID_QUIRK_NOGET },
+>
+> --
+> Filipe La=C3=ADns
 
-Please run all the patches through `scripts/checkpatch.pl --strict` and
-fix all the reported problems.
 
-Otherwise this is a very good series, it makes MXT1386 to work because
-I2C retying is indeed required for that controller.
+
+--=20
+--
+Tony Fischetti
+tony.fischetti@gmail.com
+(718) 431-4597
