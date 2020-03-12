@@ -2,106 +2,191 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9681C182D24
-	for <lists+linux-input@lfdr.de>; Thu, 12 Mar 2020 11:11:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E13061833C6
+	for <lists+linux-input@lfdr.de>; Thu, 12 Mar 2020 15:52:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726632AbgCLKLn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Mar 2020 06:11:43 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:58297 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726000AbgCLKLn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Mar 2020 06:11:43 -0400
-Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1jCKoV-00089R-23; Thu, 12 Mar 2020 11:11:39 +0100
-Message-ID: <e66f788ae84b13df9ff8d28129c089431f1af9b4.camel@pengutronix.de>
-Subject: Re: [PATCH] Input: synaptics-rmi4 - Do not set reduced reporting
- mode thresholds are not set by the driver
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Peter Hutterer <peter.hutterer@who-t.net>,
-        Andrew Duggan <aduggan@synaptics.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        id S1727512AbgCLOwA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Mar 2020 10:52:00 -0400
+Received: from mail.astralinux.ru ([217.74.38.120]:46751 "EHLO astralinux.ru"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727072AbgCLOv7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 12 Mar 2020 10:51:59 -0400
+Received: from [46.148.196.138] (HELO mastykin.cct.rbt)
+  by astralinux.ru (CommuniGate Pro SMTP 6.2.7)
+  with ESMTPS id 1757306; Thu, 12 Mar 2020 17:49:44 +0300
+From:   Dmitry Mastykin <dmastykin@astralinux.ru>
+To:     Hans de Goede <hdegoede@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Paul Hollinsky <phollinsky@holtechnik.com>,
-        Christopher Heiny <Cheiny@synaptics.com>,
-        kernel@pengutronix.de, patchwork-lst@pengutronix.de
-Date:   Thu, 12 Mar 2020 11:11:36 +0100
-In-Reply-To: <20200312031422.GA1823643@jelly>
-References: <20200312005549.29922-1-aduggan@synaptics.com>
-         <20200312031422.GA1823643@jelly>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        Bastien Nocera <hadess@hadess.net>
+Cc:     linux-input@vger.kernel.org,
+        Dmitry Mastykin <dmastykin@astralinux.ru>
+Subject: [PATCH v2 1/2] Input: goodix - Add support for more then one touch-key
+Date:   Thu, 12 Mar 2020 17:50:09 +0300
+Message-Id: <20200312145009.27449-1-dmastykin@astralinux.ru>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Peter,
+Some devices with a goodix touchscreen have more then 1 capacitive
+touch-key. This commit replaces the current support for a single
+touch-key, which ignored the reported key-code. With support for
+up to 7 touch-keys, based upon checking the key-code which is
+post-fixed to any reported touch-data.
 
-On Do, 2020-03-12 at 13:14 +1000, Peter Hutterer wrote:
-> Hi Andrew,
-> 
-> On Wed, Mar 11, 2020 at 05:55:49PM -0700, Andrew Duggan wrote:
-> > The previous patch "c5ccf2ad3d33 (Input: synaptics-rmi4 - switch to
-> > reduced reporting mode)" enabled reduced reporting mode
-> > unintentionally
-> > on some devices, if the firmware was configured with default Delta
-> > X/Y
-> > threshold values. The result unintentionally degrade the
-> > performance of
-> > some touchpads.
-> 
-> could this be the cause of a stuttering cursor on a P50 as well?
-> A recording in the issue below shows the cursor moving by ~25 units per
-> event, regardless of the time between those events.
-> https://gitlab.freedesktop.org/libinput/libinput/issues/448
+KEY_LEFTMETA is assigned to the first touch-key (it will still be
+the default keycode for devices with a single touch-key).
+KEY_F1, KEY_F2... are assigned as default keycode for the other
+touch-keys.
 
-Yes, that's very much possible, as reduced reporting mode is about only
-reporting events once they cross a predefined movement threshold.
+This commit also add supports for keycode remapping, so that
+systemd-udev's hwdb can be used to remap the codes to send
+keycodes to match the icons on the buttons for devices with more
+then 1 touch-key.
 
-Regards,
-Lucas
+Signed-off-by: Dmitry Mastykin <dmastykin@astralinux.ru>
+---
+Changes in v2:
+- Improve commit message
+---
+ drivers/input/touchscreen/goodix.c | 54 ++++++++++++++++++++++++------
+ 1 file changed, 44 insertions(+), 10 deletions(-)
 
-> thanks!
-> 
-> Cheers,
->    Peter
-> 
-> > This patch checks to see that the driver is modifying the delta X/Y
-> > thresholds before modifying the reporting mode.
-> > 
-> > Signed-off-by: Andrew Duggan <aduggan@synaptics.com>
-> > ---
-> >  drivers/input/rmi4/rmi_f11.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/input/rmi4/rmi_f11.c
-> > b/drivers/input/rmi4/rmi_f11.c
-> > index 6adea8a3e8fb..ffa39ab153f2 100644
-> > --- a/drivers/input/rmi4/rmi_f11.c
-> > +++ b/drivers/input/rmi4/rmi_f11.c
-> > @@ -1203,8 +1203,8 @@ static int rmi_f11_initialize(struct
-> > rmi_function *fn)
-> >  	 * If distance threshold values are set, switch to reduced
-> > reporting
-> >  	 * mode so they actually get used by the controller.
-> >  	 */
-> > -	if (ctrl->ctrl0_11[RMI_F11_DELTA_X_THRESHOLD] ||
-> > -	    ctrl->ctrl0_11[RMI_F11_DELTA_Y_THRESHOLD]) {
-> > +	if (sensor->axis_align.delta_x_threshold ||
-> > +	    sensor->axis_align.delta_y_threshold) {
-> >  		ctrl->ctrl0_11[0] &= ~RMI_F11_REPORT_MODE_MASK;
-> >  		ctrl->ctrl0_11[0] |= RMI_F11_REPORT_MODE_REDUCED;
-> >  	}
-> > -- 
-> > 2.20.1
-> > 
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index adb9b92..daf1781 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -38,6 +38,7 @@
+ #define GOODIX_CONTACT_SIZE		8
+ #define GOODIX_MAX_CONTACT_SIZE		9
+ #define GOODIX_MAX_CONTACTS		10
++#define GOODIX_MAX_KEYS			7
+ 
+ #define GOODIX_CONFIG_MIN_LENGTH	186
+ #define GOODIX_CONFIG_911_LENGTH	186
+@@ -55,6 +56,7 @@
+ #define GOODIX_REG_ID			0x8140
+ 
+ #define GOODIX_BUFFER_STATUS_READY	BIT(7)
++#define GOODIX_HAVE_KEY			BIT(4)
+ #define GOODIX_BUFFER_STATUS_TIMEOUT	20
+ 
+ #define RESOLUTION_LOC		1
+@@ -100,6 +102,7 @@ struct goodix_ts_data {
+ 	enum goodix_irq_pin_access_method irq_pin_access_method;
+ 	unsigned int contact_size;
+ 	u8 config[GOODIX_CONFIG_MAX_LENGTH];
++	unsigned short keymap[GOODIX_MAX_KEYS];
+ };
+ 
+ static int goodix_check_cfg_8(struct goodix_ts_data *ts,
+@@ -285,8 +288,14 @@ static int goodix_ts_read_input_report(struct goodix_ts_data *ts, u8 *data)
+ 	 */
+ 	max_timeout = jiffies + msecs_to_jiffies(GOODIX_BUFFER_STATUS_TIMEOUT);
+ 	do {
++		/*
++		 * We are going to read ts->contact_size * max(1, touch_num) + 2
++		 * bytes, where + 2 consists of reading 1 extra byte for the
++		 * header + 1 extra byte for the footer which contains the
++		 * touch-key code.
++		 */
+ 		error = goodix_i2c_read(ts->client, GOODIX_READ_COOR_ADDR,
+-					data, ts->contact_size + 1);
++					data, ts->contact_size + 2);
+ 		if (error) {
+ 			dev_err(&ts->client->dev, "I2C transfer error: %d\n",
+ 					error);
+@@ -299,10 +308,10 @@ static int goodix_ts_read_input_report(struct goodix_ts_data *ts, u8 *data)
+ 				return -EPROTO;
+ 
+ 			if (touch_num > 1) {
+-				data += 1 + ts->contact_size;
++				data += 2 + ts->contact_size;
+ 				error = goodix_i2c_read(ts->client,
+ 						GOODIX_READ_COOR_ADDR +
+-							1 + ts->contact_size,
++							2 + ts->contact_size,
+ 						data,
+ 						ts->contact_size *
+ 							(touch_num - 1));
+@@ -353,6 +362,23 @@ static void goodix_ts_report_touch_9b(struct goodix_ts_data *ts, u8 *coor_data)
+ 	input_report_abs(ts->input_dev, ABS_MT_WIDTH_MAJOR, input_w);
+ }
+ 
++static void goodix_ts_report_key(struct goodix_ts_data *ts, u8 *data)
++{
++	int touch_num;
++	u8 key_value;
++	int i;
++
++	if (data[0] & GOODIX_HAVE_KEY) {
++		touch_num = data[0] & 0x0f;
++		key_value = data[1 + ts->contact_size * touch_num];
++		for (i = 0; i < GOODIX_MAX_KEYS; ++i)
++			if (key_value & (1 << i))
++				input_report_key(ts->input_dev, ts->keymap[i], 1);
++	} else
++		for (i = 0; i < GOODIX_MAX_KEYS; ++i)
++			input_report_key(ts->input_dev, ts->keymap[i], 0);
++}
++
+ /**
+  * goodix_process_events - Process incoming events
+  *
+@@ -363,7 +389,7 @@ static void goodix_ts_report_touch_9b(struct goodix_ts_data *ts, u8 *coor_data)
+  */
+ static void goodix_process_events(struct goodix_ts_data *ts)
+ {
+-	u8  point_data[1 + GOODIX_MAX_CONTACT_SIZE * GOODIX_MAX_CONTACTS];
++	u8  point_data[2 + GOODIX_MAX_CONTACT_SIZE * GOODIX_MAX_CONTACTS];
+ 	int touch_num;
+ 	int i;
+ 
+@@ -371,11 +397,7 @@ static void goodix_process_events(struct goodix_ts_data *ts)
+ 	if (touch_num < 0)
+ 		return;
+ 
+-	/*
+-	 * Bit 4 of the first byte reports the status of the capacitive
+-	 * Windows/Home button.
+-	 */
+-	input_report_key(ts->input_dev, KEY_LEFTMETA, point_data[0] & BIT(4));
++	goodix_ts_report_key(ts, point_data);
+ 
+ 	for (i = 0; i < touch_num; i++)
+ 		if (ts->contact_size == 9)
+@@ -961,6 +983,7 @@ static int goodix_i2c_test(struct i2c_client *client)
+ static int goodix_configure_dev(struct goodix_ts_data *ts)
+ {
+ 	int error;
++	int i;
+ 
+ 	ts->int_trigger_type = GOODIX_INT_TRIGGER;
+ 	ts->max_touch_num = GOODIX_MAX_CONTACTS;
+@@ -978,8 +1001,19 @@ static int goodix_configure_dev(struct goodix_ts_data *ts)
+ 	ts->input_dev->id.product = ts->id;
+ 	ts->input_dev->id.version = ts->version;
+ 
++	ts->input_dev->keycode = ts->keymap;
++	ts->input_dev->keycodesize = sizeof(ts->keymap[0]);
++	ts->input_dev->keycodemax = GOODIX_MAX_KEYS;
++
+ 	/* Capacitive Windows/Home button on some devices */
+-	input_set_capability(ts->input_dev, EV_KEY, KEY_LEFTMETA);
++	for (i = 0; i < GOODIX_MAX_KEYS; ++i) {
++		if (i == 0)
++			ts->keymap[i] = KEY_LEFTMETA;
++		else
++			ts->keymap[i] = KEY_F1 + (i - 1);
++
++		input_set_capability(ts->input_dev, EV_KEY, ts->keymap[i]);
++	}
+ 
+ 	input_set_capability(ts->input_dev, EV_ABS, ABS_MT_POSITION_X);
+ 	input_set_capability(ts->input_dev, EV_ABS, ABS_MT_POSITION_Y);
+-- 
+2.23.0
 
