@@ -2,112 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B550D18219A
-	for <lists+linux-input@lfdr.de>; Wed, 11 Mar 2020 20:10:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E913A182663
+	for <lists+linux-input@lfdr.de>; Thu, 12 Mar 2020 01:56:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731030AbgCKTKY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Mar 2020 15:10:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20885 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730827AbgCKTKX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Mar 2020 15:10:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583953823;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=1hGKjHeTButN4pahe21ujciqKoFA1ETc94HuyisLC6E=;
-        b=FySYEYF5w7/f79zcYfyd16vI2xfnRWqfjfqei/cPOtkzHTkP3BGfQXilkZpkp/X2NdeiLu
-        9vTHrJezrGaZ6XkT2hgRwwgM/VtCzwoV3k3A3zDGAhD+8uIKCYf27yPPEvCx4oSebnTFJE
-        4aUerBEESu5LLQAr4Nm4lQryw0i87BM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-HnBCj7krNd2RnmMM_Nprkw-1; Wed, 11 Mar 2020 15:10:19 -0400
-X-MC-Unique: HnBCj7krNd2RnmMM_Nprkw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59412107ACCA;
-        Wed, 11 Mar 2020 19:10:18 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-116-105.ams2.redhat.com [10.36.116.105])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2541560E3E;
-        Wed, 11 Mar 2020 19:10:16 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Mastykin <dmastykin@astralinux.ru>,
-        linux-input@vger.kernel.org
-Subject: [PATCH] Input: goodix - Try to reset the controller if the i2c-test fails
-Date:   Wed, 11 Mar 2020 20:10:13 +0100
-Message-Id: <20200311191013.10826-2-hdegoede@redhat.com>
-In-Reply-To: <20200311191013.10826-1-hdegoede@redhat.com>
-References: <20200311191013.10826-1-hdegoede@redhat.com>
+        id S2387505AbgCLA4O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Mar 2020 20:56:14 -0400
+Received: from mail-co1nam11on2048.outbound.protection.outlook.com ([40.107.220.48]:26730
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2387404AbgCLA4N (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 11 Mar 2020 20:56:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JnktPdPqhGmq+mTf8YWypPtEJ8QDBU6qItPqJZJP2ZO9jNVy8fScHpavq3kL0Vv3AJ7EHzjGqzmv43gSsBJtsmcwtsI4QFwO1US7NOgaf2G8f1SliWEmeWTS/+Ltac8TyDhQVUD4pZmYeWLS72kjbMp+VTFL5Qeq/eyjOgzquCbdIITRiz51FCH+MTs6kja1cuiul3PaIcw4blAKIHKA16bgGBATsIcnLGtE2RUY040o1vHv8wtJIT90BZrFYB8gnTYWs1OX57ZNKanQQn+bn5HYOr0CQK1GCzKlaMwiHgKzvRtzIXHsT3t9G0EipMXH8UWu0xmo7vX3sMjieo0PjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I1yW9YWezLSb77Gyj3ohrw8ymBJtQrxXvv5eCvZGvSE=;
+ b=gnqN5NcIHNN6x40BrxjxbdQsYssHNfr/10mcd2F/tW0ZUxJe80ASvcal11GYGKCBgcAiKJZ3DnL5RN6C459qsjR19+HCrmMciHNmK/HJp35ECuhQsIWeM/AF//BFD1uj+eh1BfIouKjtDLaCZ+RpemE9qiO/Qd3SbERQdzw/ms1Z9VHSx1qlCMvCIcrEHiQrx4hNQnPnhABhAxC9aGoeeqk1ZXls7zUxC3LU7Nmpc71yx0BPEB13cRymW7lYoF+K0WKZRlf2/U46dI8H6NusKVVDcddsx2Vt/fDj/rjPq9d4EP7PeeU+W3zK7Z3DrMPqkxBS26al5ASNnKkPw21bgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I1yW9YWezLSb77Gyj3ohrw8ymBJtQrxXvv5eCvZGvSE=;
+ b=h1Zr6c+UYeLu+7OGgDaiQaKd0pW1Dsxi3uuCLWm4Cb/fEwAB+BWPnCr01609ZVitJWNxSfmhaHe0bouAzNf5kYeSg/rjhqfKezJ/x7l9v0Mise79P6zncHFuaJTAmuobcBDzCYJASnDFrg/uvkLgOEDIk2KjAYGnGqd0V3w3seE=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=aduggan@synaptics.com; 
+Received: from SN6PR03MB4144.namprd03.prod.outlook.com (2603:10b6:805:be::17)
+ by SN6PR03MB4064.namprd03.prod.outlook.com (2603:10b6:805:b9::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.17; Thu, 12 Mar
+ 2020 00:56:10 +0000
+Received: from SN6PR03MB4144.namprd03.prod.outlook.com
+ ([fe80::4027:d39:bb5:4662]) by SN6PR03MB4144.namprd03.prod.outlook.com
+ ([fe80::4027:d39:bb5:4662%4]) with mapi id 15.20.2814.007; Thu, 12 Mar 2020
+ 00:56:10 +0000
+From:   Andrew Duggan <aduggan@synaptics.com>
+To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Andrew Duggan <aduggan@synaptics.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Paul Hollinsky <phollinsky@holtechnik.com>,
+        Christopher Heiny <Cheiny@synaptics.com>,
+        Lucas Stach <l.stach@pengutronix.de>, kernel@pengutronix.de,
+        patchwork-lst@pengutronix.de
+Subject: [PATCH] Input: synaptics-rmi4 - Do not set reduced reporting mode thresholds are not set by the driver
+Date:   Wed, 11 Mar 2020 17:55:49 -0700
+Message-Id: <20200312005549.29922-1-aduggan@synaptics.com>
+X-Mailer: git-send-email 2.20.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR03CA0032.namprd03.prod.outlook.com
+ (2603:10b6:a02:a8::45) To SN6PR03MB4144.namprd03.prod.outlook.com
+ (2603:10b6:805:be::17)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from noble.synaptics-inc.local (192.147.44.15) by BYAPR03CA0032.namprd03.prod.outlook.com (2603:10b6:a02:a8::45) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.16 via Frontend Transport; Thu, 12 Mar 2020 00:56:09 +0000
+X-Mailer: git-send-email 2.20.1
+X-Originating-IP: [192.147.44.15]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6fc687e7-154d-4e84-2eb5-08d7c62027ab
+X-MS-TrafficTypeDiagnostic: SN6PR03MB4064:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB406417B10E57115EF44C5634B2FD0@SN6PR03MB4064.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-Forefront-PRVS: 0340850FCD
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(39850400004)(136003)(396003)(366004)(346002)(376002)(199004)(6512007)(5660300002)(4326008)(26005)(956004)(66556008)(2906002)(66476007)(66946007)(6486002)(81166006)(36756003)(478600001)(6666004)(86362001)(8936002)(2616005)(52116002)(8676002)(81156014)(186003)(1076003)(54906003)(316002)(16526019)(6506007);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR03MB4064;H:SN6PR03MB4144.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
+Received-SPF: None (protection.outlook.com: synaptics.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3i4Mgqol+P95HXrY4a3rOeUNGG8Xw/UrrV/8Wr8HtAiS8LdbaTsvQMcqGOsRyUow22Q1nxXM9zOydqGoy6aKsklq1TBK7/8fcn6yiccVBnAOqyXLT5D0hUCGSGyeABXpOcJjOt/B7zfKkTU116+t0yZtxe4FSMUXn6qxIYa4JzORRDV+r3BbX6c5nw5QaYg1ZFMMWrlB8xYWabMUrdlUNX1VyZONqYbJSJNXfyLEztAFLf10Pf2qwu6BKnKkd3DnjlDeR8jaHgwg6b7aK3Gij0pXt0qXa6a5eJp8YKQW8iHBOa/nFrYj0GH1wC2c5he7szRWfdbQwaL3SvnYlV0RuGdevsTuf+6CDAnzD3UEjEVKewFAuvSVP04dWN+akeJCq9U5lH5E/DqoeEdHTEumpkiEDWoFCKyxlvT0OnKyugbdJKXlV4DUUrw9lzPK9/ZX
+X-MS-Exchange-AntiSpam-MessageData: 2FDBqmU1XWheCWvXRarZk25BuQ3gB5sR5tqR/XfVgFD034047AjXqOQKArnIed8zjj7rX1ONf/4ma3KO/WiW1bh5D+y8z96aXwlPcO50G0whwqtKgjp3949fUVc+Ddi/SVWf1lvtFCRyJRj2PlL8Xw==
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fc687e7-154d-4e84-2eb5-08d7c62027ab
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2020 00:56:10.6445
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ze2yTwnnRRn0tw+qMo9SuHuMKmJ6GC0qAt62mHUEX9F2bKzqKC+fI0gnvbiWatSDbmjVUlmC7r4PvRoB+edN/Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4064
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On some ACPI/x86 devices (where we use one of the ACPI IRQ pin access
-methods) the firmware is buggy, it does not properly reset the controller
-at boot, and we cannot communicate with it.
+The previous patch "c5ccf2ad3d33 (Input: synaptics-rmi4 - switch to
+reduced reporting mode)" enabled reduced reporting mode unintentionally
+on some devices, if the firmware was configured with default Delta X/Y
+threshold values. The result unintentionally degrade the performance of
+some touchpads.
 
-Normally on ACPI/x86 devices we do not want to reset the controller at
-probe time since in some cases this causes the controller to loose its
-configuration and this is loaded into it by the system's firmware.
-So on these systems we leave the reset_controller_at_probe flag unset,
-even though we have a access to both the IRQ and reset pins and thus
-could reset it.
+This patch checks to see that the driver is modifying the delta X/Y
+thresholds before modifying the reporting mode.
 
-In the case of the buggy firmware we have to reset the controller to
-actually be able to talk to it.
-
-This commit adds a special case for this, if the goodix_i2c_test() fails,
-and we have not reset the controller yet; and we do have a way to reset
-the controller then retry the i2c-test after resetting the controller.
-
-This fixes the driver failing at probe on ACPI/x86 systems with this
-firmware bug.
-
-Reported-and-tested-by: Dmitry Mastykin <dmastykin@astralinux.ru>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Andrew Duggan <aduggan@synaptics.com>
 ---
- drivers/input/touchscreen/goodix.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/input/rmi4/rmi_f11.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscre=
-en/goodix.c
-index 2f135ac9484e..816d6ade89a9 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -1165,6 +1165,7 @@ static int goodix_ts_probe(struct i2c_client *clien=
-t,
- 	if (error)
- 		return error;
-=20
-+reset:
- 	if (ts->reset_controller_at_probe) {
- 		/* reset the controller */
- 		error =3D goodix_reset(ts);
-@@ -1176,6 +1177,12 @@ static int goodix_ts_probe(struct i2c_client *clie=
-nt,
-=20
- 	error =3D goodix_i2c_test(client);
- 	if (error) {
-+		if (!ts->reset_controller_at_probe &&
-+		    ts->irq_pin_access_method !=3D IRQ_PIN_ACCESS_NONE) {
-+			/* Retry after a controller reset */
-+			ts->reset_controller_at_probe =3D true;
-+			goto reset;
-+		}
- 		dev_err(&client->dev, "I2C communication failure: %d\n", error);
- 		return error;
+diff --git a/drivers/input/rmi4/rmi_f11.c b/drivers/input/rmi4/rmi_f11.c
+index 6adea8a3e8fb..ffa39ab153f2 100644
+--- a/drivers/input/rmi4/rmi_f11.c
++++ b/drivers/input/rmi4/rmi_f11.c
+@@ -1203,8 +1203,8 @@ static int rmi_f11_initialize(struct rmi_function *fn)
+ 	 * If distance threshold values are set, switch to reduced reporting
+ 	 * mode so they actually get used by the controller.
+ 	 */
+-	if (ctrl->ctrl0_11[RMI_F11_DELTA_X_THRESHOLD] ||
+-	    ctrl->ctrl0_11[RMI_F11_DELTA_Y_THRESHOLD]) {
++	if (sensor->axis_align.delta_x_threshold ||
++	    sensor->axis_align.delta_y_threshold) {
+ 		ctrl->ctrl0_11[0] &= ~RMI_F11_REPORT_MODE_MASK;
+ 		ctrl->ctrl0_11[0] |= RMI_F11_REPORT_MODE_REDUCED;
  	}
---=20
-2.25.1
+-- 
+2.20.1
 
