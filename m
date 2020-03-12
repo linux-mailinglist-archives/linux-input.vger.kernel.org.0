@@ -2,126 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 870791834DD
-	for <lists+linux-input@lfdr.de>; Thu, 12 Mar 2020 16:22:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66FAB1834EB
+	for <lists+linux-input@lfdr.de>; Thu, 12 Mar 2020 16:26:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727747AbgCLPWm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Mar 2020 11:22:42 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:35454 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727446AbgCLPWm (ORCPT
+        id S1727658AbgCLP0I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Mar 2020 11:26:08 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:42330 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727481AbgCLP0I (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Mar 2020 11:22:42 -0400
-Received: by mail-ot1-f67.google.com with SMTP id k26so6678827otr.2;
-        Thu, 12 Mar 2020 08:22:41 -0700 (PDT)
+        Thu, 12 Mar 2020 11:26:08 -0400
+Received: by mail-lf1-f66.google.com with SMTP id t21so5169539lfe.9;
+        Thu, 12 Mar 2020 08:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3CEHFjpyc9/ZGVlSOC4X/gcnKa22KLNZWM3ttUw+GaY=;
-        b=X1aj1zSaQSY8xndb9omYxHIdZwCylcFB6uD+ViZebe28st96b/Zey2TdqN3YVNGQOg
-         XlqWlmyJtDuydUWHsG0xpr+QPpJ0e8baLS1usHhOh2zTO6o7FF3iOd5/zVi3V/EvF1rc
-         yRFl//ENMNcJA1Eih0NRBK+BDyIr7kia9QUdo/Ov77e306V5jLFU6LE1azSZL9WWfum/
-         7JA/dXzoHtyFTgtNwIyZSsRmZCXPYq+iLQCfbo8ep0DXfeJYHYvU1oZZGzchFDg7ur+F
-         gWSpAyav3tYz3HUVumNQicWmIWhB60EwMjUt8KfM87pOlmNxk9lQRXamaz9Gfr54sRXY
-         zzxA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=vcwEiIvK8xFYmZdS3HZshdr30V5CMjH5zNok9mf+3j4=;
+        b=aWwG3D/HDLwXLtiMCMQ2zz+GLNhT+J0GyVV3PTijJB4JYuXpIFqbJBiHxruRsHL9kd
+         TgO+JVChJCjXZLFS5UIbZtnJmW7+KErZM41BN30u8+uyS7yrOcVtX9xq0MQQI2242icr
+         uesfIet8csgun8dRY6Poe/Y0AHkc+ir8chYNlRXyXePty8IEqEYrbOWo7XpF532D7Pzm
+         Bg6ft+2DpFOmMgykLFjhO0cQljFPaeSY14Y/rFRHNX+OglY9MoOXiGZTi/1CzRN9ZRi1
+         0nVDknOiGLS+QKWBzsfmUJQOVNpdmOuiePdlOdhZD3nNey2OKnsHKhHdj52nP03CUIOl
+         ubeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3CEHFjpyc9/ZGVlSOC4X/gcnKa22KLNZWM3ttUw+GaY=;
-        b=dBuDNAJiawz2LNz2QWMsoUChlPbASavE+sMy6x9Xnhyr7r8nSQU8bDqDa+y8iOJKGM
-         JftoOs4FD/gW0gqHU29HnGGnlFRf2KNx/69OiyM485gkjVhwEmXvEJnnGtS7oeabViOY
-         f8ViOV+WU75zHasspn7wFbhzgOeWxDLaOtDam/m4r2tujHFpZSOGDA/vFN7xmEI2fGCo
-         fVfRvPOkXcmjWvs3a2DXP/cXaZx5ZCfcwcAuphbwEGsKwuVXDTwpyMeM9ukVQxinDhtQ
-         QEVENwK+REDfhiTqOv4WjSBJ3fLFrgbgSeaaz3UlxFUiobDAuttWJiOqfsyzm6RdTE7X
-         kF6A==
-X-Gm-Message-State: ANhLgQ1SQSr8YW6ZaiWcgD2LAj2V8pEBbtKxnIphqvHE5LKGjwzm0Wog
-        +PH3L4aYNgC3xskJoe9knIO4lv9PNQnCfU23OysyjcAV
-X-Google-Smtp-Source: ADFU+vsjS/B8wd7MjyjSvFWCuIRNbsoBiEnwif9Xs2TVDjTHdUTqIT5q5v2JXe3xoCnprDgyo0xUfH87+FEdx5X+430=
-X-Received: by 2002:a4a:bf19:: with SMTP id r25mr4310784oop.3.1584026561419;
- Thu, 12 Mar 2020 08:22:41 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=vcwEiIvK8xFYmZdS3HZshdr30V5CMjH5zNok9mf+3j4=;
+        b=MnFT65hB6CZGYVG/XfM53whLBYxIPw1dBB6sCF2K598vsc11zNBmNUlcJaG+jUfwdH
+         642K2DkTuqEKA3lrk0toU3UizMmCSCwbkq4d1Bj92sAv7IqMd3hcjvwlK+ETmmDrAhqN
+         0X8TnDGboQXeD7pcWO7J4f1emQ4PPupAQgimtjGUTJeYT7vHxGSbY3XSh1oO5dhPLxAR
+         F/L2GQng7Guqu1XJbWu9q8IQHG/xHEFB3U43D7OMD0ROYkRXYYDaS6CQS/Qcr6vknZON
+         GJOeuoTZzmUsgtH2CeXy9ph8AFFSCJAcpjaQTlFoDcLunett0+5/J7yaYXJzwDCln6fj
+         adhA==
+X-Gm-Message-State: ANhLgQ0Y3i44V+PBU4qPqoRaFuSlWp8XtKArXh9BgyOT5OlURSLRw4Aq
+        2dZczGb/prnzabc3cJ2NFh9ZWwDT
+X-Google-Smtp-Source: ADFU+vvaq/JyiP4oj8+1MUltq5sI4O0Fm9ziOCRBV0SAnQIG3y6m1pLj6MSPfBQIfOXGjoTL6S11UQ==
+X-Received: by 2002:a05:6512:2031:: with SMTP id s17mr5048223lfs.151.1584026766438;
+        Thu, 12 Mar 2020 08:26:06 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.googlemail.com with ESMTPSA id c6sm3660876ljj.71.2020.03.12.08.26.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Mar 2020 08:26:05 -0700 (PDT)
+Subject: Re: [PATCH v7 13/48] Input: atmel_mxt_ts - add regulator control
+ support
+To:     Jiada Wang <jiada_wang@mentor.com>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, rydberg@bitmath.org,
+        dmitry.torokhov@gmail.com, nick@shmanahar.org, bsz@semihalf.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
+References: <20200212084218.32344-1-jiada_wang@mentor.com>
+ <20200212084218.32344-14-jiada_wang@mentor.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <a4045caf-0ad4-9642-808b-61bdcc575ac2@gmail.com>
+Date:   Thu, 12 Mar 2020 18:26:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200304164700.11574-1-tony.fischetti@gmail.com> <6c58685f039d329615d84e2df1cd2a155db73c61.camel@archlinux.org>
-In-Reply-To: <6c58685f039d329615d84e2df1cd2a155db73c61.camel@archlinux.org>
-From:   Tony Fischetti <tony.fischetti@gmail.com>
-Date:   Thu, 12 Mar 2020 11:22:30 -0400
-Message-ID: <CAOMV6SVxL=DLP6yWa+jHzu5A+PUJTJi4bk_1ZW-kXXwnaCBT5Q@mail.gmail.com>
-Subject: Re: [PATCH] add ALWAYS_POLL quirk to lenovo pixart mouse
-To:     =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200212084218.32344-14-jiada_wang@mentor.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Thanks for the feedback, y'all.
-I will rename the device and add the signed-off field and resubmit.
-Thanks again
+12.02.2020 11:41, Jiada Wang пишет:
+> From: Nick Dyer <nick.dyer@itdev.co.uk>
+> 
+> Allow the driver to optionally manage enabling/disable power to the touch
+> controller itself. If the regulators are not present then use the deep
+> sleep power mode instead.
+> 
+> For a correct power on sequence, it is required that we have control over
+> the RESET line.
 
-On Tue, Mar 10, 2020 at 9:48 AM Filipe La=C3=ADns <lains@archlinux.org> wro=
-te:
->
-> On Wed, 2020-03-04 at 11:47 -0500, Tony Fischetti wrote:
-> > A lenovo pixart mouse (17ef:608d) is afflicted common the the malfuncti=
-on
-> > where it disconnects and reconnects every minute--each time incrementin=
-g
-> > the device number. This patch adds the device id of the device and
-> > specifies that it needs the HID_QUIRK_ALWAYS_POLL quirk in order to
-> > work properly.
-> > ---
-> >  drivers/hid/hid-ids.h    | 1 +
-> >  drivers/hid/hid-quirks.c | 1 +
-> >  2 files changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> > index 3a400ce603c4..9e1dfc714ea8 100644
-> > --- a/drivers/hid/hid-ids.h
-> > +++ b/drivers/hid/hid-ids.h
-> > @@ -726,6 +726,7 @@
-> >  #define USB_DEVICE_ID_LENOVO_X1_COVER        0x6085
-> >  #define USB_DEVICE_ID_LENOVO_X1_TAB  0x60a3
-> >  #define USB_DEVICE_ID_LENOVO_X1_TAB3 0x60b5
-> > +#define USB_DEVICE_ID_LENOVO_PIXART_USB_OPTICAL_MOUSE        0x608d
->
-> This ID is really ambiguous. Pixart makes the sensors for the big
-> majority of devices. Isn't there any other identifier you could use? If
-> there isn't, you could do USB_DEVICE_ID_LENOVO_MOUSE_608D.
->
-> >  #define USB_VENDOR_ID_LG             0x1fd2
-> >  #define USB_DEVICE_ID_LG_MULTITOUCH  0x0064
-> > diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> > index 0e7b2d998395..247747d6d8cf 100644
-> > --- a/drivers/hid/hid-quirks.c
-> > +++ b/drivers/hid/hid-quirks.c
-> > @@ -103,6 +103,7 @@ static const struct hid_device_id hid_quirks[] =3D =
-{
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_PENSKETCH_M=
-912), HID_QUIRK_MULTI_INPUT },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M40=
-6XE), HID_QUIRK_MULTI_INPUT },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTI=
-CAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
-> > +     { HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXAR=
-T_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_C=
-007), HID_QUIRK_ALWAYS_POLL },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_C=
-077), HID_QUIRK_ALWAYS_POLL },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_K=
-EYBOARD_G710_PLUS), HID_QUIRK_NOGET },
->
-> --
-> Filipe La=C3=ADns
-
-
-
---=20
---
-Tony Fischetti
-tony.fischetti@gmail.com
-(718) 431-4597
+...
+>  /* Firmware files */
+>  #define MXT_FW_NAME		"maxtouch.fw"
+> @@ -215,6 +217,9 @@ enum t100_type {
+>  #define MXT_CRC_TIMEOUT		1000	/* msec */
+>  #define MXT_FW_RESET_TIME	3000	/* msec */
+>  #define MXT_FW_CHG_TIMEOUT	300	/* msec */
+> +#define MXT_REGULATOR_DELAY	150	/* msec */
+> +#define MXT_CHG_DELAY	        100	/* msec */
+                                ^
+Please use a tab instead of white-spaces. Same for MXT_COMMS_RETRIGEN in
+the patch #4.
