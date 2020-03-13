@@ -2,93 +2,182 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 356BF184923
-	for <lists+linux-input@lfdr.de>; Fri, 13 Mar 2020 15:20:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 939C118496A
+	for <lists+linux-input@lfdr.de>; Fri, 13 Mar 2020 15:33:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726664AbgCMOUH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Mar 2020 10:20:07 -0400
-Received: from mail.astralinux.ru ([217.74.38.120]:57369 "EHLO astralinux.ru"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726406AbgCMOUH (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Mar 2020 10:20:07 -0400
-Received: from [46.148.196.138] (account dmastykin@astralinux.ru HELO [192.168.32.103])
-  by astralinux.ru (CommuniGate Pro SMTP 6.2.7)
-  with ESMTPSA id 1759932; Fri, 13 Mar 2020 17:17:52 +0300
-Subject: Re: [PATCH v2 2/2] Input: goodix - Ignore spurious interrupts
-To:     Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-References: <20200312145009.27449-1-dmastykin@astralinux.ru>
- <20200312145009.27449-2-dmastykin@astralinux.ru>
- <f7519cf8de6bd6982ae1064d0352370f2d725444.camel@hadess.net>
-From:   Dmitry Mastykin <dmastykin@astralinux.ru>
-Message-ID: <ca4b48c0-bff4-99ba-1870-7484a30825b1@astralinux.ru>
-Date:   Fri, 13 Mar 2020 17:20:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726767AbgCMOdr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Mar 2020 10:33:47 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:48221 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726741AbgCMOdr (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 13 Mar 2020 10:33:47 -0400
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1jClNh-0007u2-NY; Fri, 13 Mar 2020 15:33:45 +0100
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, kernel@pengutronix.de,
+        patchwork-lst@pengutronix.de
+Subject: [PATCH v2 1/4] Input: exc3000: split MT event handling from IRQ handler
+Date:   Fri, 13 Mar 2020 15:33:42 +0100
+Message-Id: <20200313143345.28565-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <f7519cf8de6bd6982ae1064d0352370f2d725444.camel@hadess.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-Agree, it's better like this, especially the header.
-Kind regards
-Dmitry Mastykin
+Split out the multitouch event handling into it's own function to allow other
+events to be handled in the IRQ handler without disturbing the MT handling.
 
-On 3/13/20 4:28 PM, Bastien Nocera wrote:
-> On Thu, 2020-03-12 at 17:50 +0300, Dmitry Mastykin wrote:
->> The goodix panel sends spurious interrupts after a 'finger up' event,
->> which always cause a timeout.
->> The timeout was reported as touch_num == 0 and caused reading of
->> not ready buffer and false key release event.
->> In this patch the timeout is reported as ENOMSG and not processed.
-> 
-> I think a better commit message would be:
-> "
-> Input: goodix - Fix spurious key release events
-> 
-> The goodix panel sends spurious interrupts after a 'finger up' event,
-> which always cause a timeout.
-> We were exiting the interrupt handler by reporting touch_num == 0, but
-> this was still processed as valid and caused the code to use the
-> uninitialised point_data, creating spurious key release events.
-> 
-> Report an error from the interrupt handler so as to avoid processing
-> invalid point_data further.
-> "
-> 
-> Looks good otherwise.
-> 
->>
->> Signed-off-by: Dmitry Mastykin <dmastykin@astralinux.ru>
->> ---
->> Changes in v2:
->> - Improve commit message
->> ---
->>   drivers/input/touchscreen/goodix.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/input/touchscreen/goodix.c
->> b/drivers/input/touchscreen/goodix.c
->> index daf1781..0e14719 100644
->> --- a/drivers/input/touchscreen/goodix.c
->> +++ b/drivers/input/touchscreen/goodix.c
->> @@ -329,7 +329,7 @@ static int goodix_ts_read_input_report(struct
->> goodix_ts_data *ts, u8 *data)
->>   	 * The Goodix panel will send spurious interrupts after a
->>   	 * 'finger up' event, which will always cause a timeout.
->>   	 */
->> -	return 0;
->> +	return -ENOMSG;
->>   }
->>   
->>   static void goodix_ts_report_touch_8b(struct goodix_ts_data *ts, u8
->> *coor_data)
-> 
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/input/touchscreen/exc3000.c | 92 +++++++++++++++++------------
+ 1 file changed, 54 insertions(+), 38 deletions(-)
+
+diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
+index e007e2e8f626..3458d02310dd 100644
+--- a/drivers/input/touchscreen/exc3000.c
++++ b/drivers/input/touchscreen/exc3000.c
+@@ -58,6 +58,11 @@ static void exc3000_timer(struct timer_list *t)
+ 	input_sync(data->input);
+ }
+ 
++static inline void exc3000_schedule_timer(struct exc3000_data *data)
++{
++	mod_timer(&data->timer, jiffies + msecs_to_jiffies(EXC3000_TIMEOUT_MS));
++}
++
+ static int exc3000_read_frame(struct i2c_client *client, u8 *buf)
+ {
+ 	int ret;
+@@ -76,54 +81,35 @@ static int exc3000_read_frame(struct i2c_client *client, u8 *buf)
+ 	if (ret != EXC3000_LEN_FRAME)
+ 		return -EIO;
+ 
+-	if (get_unaligned_le16(buf) != EXC3000_LEN_FRAME ||
+-			buf[2] != EXC3000_MT_EVENT)
++	if (get_unaligned_le16(buf) != EXC3000_LEN_FRAME)
+ 		return -EINVAL;
+ 
+ 	return 0;
+ }
+ 
+-static int exc3000_read_data(struct i2c_client *client,
+-			     u8 *buf, int *n_slots)
++static int exc3000_handle_mt_event(struct exc3000_data *data)
+ {
+-	int error;
+-
+-	error = exc3000_read_frame(client, buf);
+-	if (error)
+-		return error;
++	struct input_dev *input = data->input;
++	int ret, total_slots;
++	u8 *buf = data->buf;
+ 
+-	*n_slots = buf[3];
+-	if (!*n_slots || *n_slots > EXC3000_NUM_SLOTS)
+-		return -EINVAL;
++	total_slots = buf[3];
++	if (!total_slots || total_slots > EXC3000_NUM_SLOTS) {
++		ret = -EINVAL;
++		goto out_fail;
++	}
+ 
+-	if (*n_slots > EXC3000_SLOTS_PER_FRAME) {
++	if (total_slots > EXC3000_SLOTS_PER_FRAME) {
+ 		/* Read 2nd frame to get the rest of the contacts. */
+-		error = exc3000_read_frame(client, buf + EXC3000_LEN_FRAME);
+-		if (error)
+-			return error;
++		ret = exc3000_read_frame(data->client, buf + EXC3000_LEN_FRAME);
++		if (ret)
++			goto out_fail;
+ 
+ 		/* 2nd chunk must have number of contacts set to 0. */
+-		if (buf[EXC3000_LEN_FRAME + 3] != 0)
+-			return -EINVAL;
+-	}
+-
+-	return 0;
+-}
+-
+-static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
+-{
+-	struct exc3000_data *data = dev_id;
+-	struct input_dev *input = data->input;
+-	u8 *buf = data->buf;
+-	int slots, total_slots;
+-	int error;
+-
+-	error = exc3000_read_data(data->client, buf, &total_slots);
+-	if (error) {
+-		/* Schedule a timer to release "stuck" contacts */
+-		mod_timer(&data->timer,
+-			  jiffies + msecs_to_jiffies(EXC3000_TIMEOUT_MS));
+-		goto out;
++		if (buf[EXC3000_LEN_FRAME + 3] != 0) {
++			ret = -EINVAL;
++			goto out_fail;
++		}
+ 	}
+ 
+ 	/*
+@@ -132,7 +118,7 @@ static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
+ 	del_timer_sync(&data->timer);
+ 
+ 	while (total_slots > 0) {
+-		slots = min(total_slots, EXC3000_SLOTS_PER_FRAME);
++		int slots = min(total_slots, EXC3000_SLOTS_PER_FRAME);
+ 		exc3000_report_slots(input, &data->prop, buf + 4, slots);
+ 		total_slots -= slots;
+ 		buf += EXC3000_LEN_FRAME;
+@@ -141,6 +127,36 @@ static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
+ 	input_mt_sync_frame(input);
+ 	input_sync(input);
+ 
++	return 0;
++
++out_fail:
++	/* Schedule a timer to release "stuck" contacts */
++	exc3000_schedule_timer(data);
++
++	return ret;
++}
++
++static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
++{
++	struct exc3000_data *data = dev_id;
++	u8 *buf = data->buf;
++	int ret;
++
++	ret = exc3000_read_frame(data->client, buf);
++	if (ret) {
++		/* Schedule a timer to release "stuck" contacts */
++		exc3000_schedule_timer(data);
++		goto out;
++	}
++
++	switch (buf[2]) {
++		case EXC3000_MT_EVENT:
++			exc3000_handle_mt_event(data);
++			break;
++		default:
++			break;
++	}
++
+ out:
+ 	return IRQ_HANDLED;
+ }
+-- 
+2.20.1
+
