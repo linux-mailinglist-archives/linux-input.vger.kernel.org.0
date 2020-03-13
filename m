@@ -2,33 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7356D18496C
-	for <lists+linux-input@lfdr.de>; Fri, 13 Mar 2020 15:33:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6823F184979
+	for <lists+linux-input@lfdr.de>; Fri, 13 Mar 2020 15:36:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726754AbgCMOds (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Mar 2020 10:33:48 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:52879 "EHLO
+        id S1726327AbgCMOg3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Mar 2020 10:36:29 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:46499 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726406AbgCMOdr (ORCPT
+        with ESMTP id S1726216AbgCMOg2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Mar 2020 10:33:47 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        Fri, 13 Mar 2020 10:36:28 -0400
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <l.stach@pengutronix.de>)
-        id 1jClNh-0007u2-QE; Fri, 13 Mar 2020 15:33:45 +0100
+        id 1jClQJ-0008RB-6x; Fri, 13 Mar 2020 15:36:27 +0100
+Message-ID: <389bbd283c2ac1513ec77980917c713b26bc272e.camel@pengutronix.de>
+Subject: Re: [PATCH 2/4] Input: exc3000: query and show type, model and
+ firmware revision info
 From:   Lucas Stach <l.stach@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, kernel@pengutronix.de,
-        patchwork-lst@pengutronix.de
-Subject: [PATCH v2 4/4] Input: exc3000: add firmware update support
-Date:   Fri, 13 Mar 2020 15:33:45 +0100
-Message-Id: <20200313143345.28565-4-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200313143345.28565-1-l.stach@pengutronix.de>
-References: <20200313143345.28565-1-l.stach@pengutronix.de>
+Cc:     linux-input@vger.kernel.org, patchwork-lst@pengutronix.de,
+        kernel@pengutronix.de, Chris Healy <cphealy@gmail.com>
+Date:   Fri, 13 Mar 2020 15:36:27 +0100
+In-Reply-To: <20200120194944.GI47797@dtor-ws>
+References: <20200107171741.10856-1-l.stach@pengutronix.de>
+         <20200107171741.10856-2-l.stach@pengutronix.de>
+         <20200120194944.GI47797@dtor-ws>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
 X-SA-Exim-Mail-From: l.stach@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-input@vger.kernel.org
@@ -37,363 +41,227 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This change allows the device firmware to be updated by putting a firmware
-file in /lib/firmware and providing the name of the file via the update_fw
-sysfs property. The driver will then flash the firmware image into the
-controller internal storage and restart the controller to activate the new
-firmware.
+Hi Dmitry,
 
-The implementation was done by looking at the the messages passed between
-the controller and proprietary vendor update tool. Not every detail of the
-protocol is well understood, so the implementation still has some "monkey
-see, monkey do" parts, as far as they have been found to be required for
-the update to succeed.
+On Mo, 2020-01-20 at 11:49 -0800, Dmitry Torokhov wrote:
+> Hi Lucas,
+> 
+> On Tue, Jan 07, 2020 at 06:17:38PM +0100, Lucas Stach wrote:
+> > It's very useful to have this information in the log, as differences in
+> > behavior can be tied to the controller firmware.
+> > 
+> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > ---
+> >  drivers/input/touchscreen/exc3000.c | 116 ++++++++++++++++++++++++++--
+> >  1 file changed, 110 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
+> > index 3458d02310dd..accee4fd1b97 100644
+> > --- a/drivers/input/touchscreen/exc3000.c
+> > +++ b/drivers/input/touchscreen/exc3000.c
+> > @@ -22,7 +22,9 @@
+> >  #define EXC3000_NUM_SLOTS		10
+> >  #define EXC3000_SLOTS_PER_FRAME		5
+> >  #define EXC3000_LEN_FRAME		66
+> > +#define EXC3000_LEN_VENDOR_REQUEST	68
+> >  #define EXC3000_LEN_POINT		10
+> > +#define EXC3000_VENDOR_EVENT		3
+> >  #define EXC3000_MT_EVENT		6
+> >  #define EXC3000_TIMEOUT_MS		100
+> >  
+> > @@ -32,6 +34,9 @@ struct exc3000_data {
+> >  	struct touchscreen_properties prop;
+> >  	struct timer_list timer;
+> >  	u8 buf[2 * EXC3000_LEN_FRAME];
+> > +	struct mutex vendor_data_lock;
+> > +	struct completion vendor_data_done;
+> > +	char *type, *model, *fw_rev;
+> >  };
+> >  
+> >  static void exc3000_report_slots(struct input_dev *input,
+> > @@ -136,6 +141,13 @@ static int exc3000_handle_mt_event(struct exc3000_data *data)
+> >  	return ret;
+> >  }
+> >  
+> > +static int exc3000_handle_vendor_event(struct exc3000_data *data)
+> > +{
+> > +	complete(&data->vendor_data_done);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
+> >  {
+> >  	struct exc3000_data *data = dev_id;
+> > @@ -153,6 +165,9 @@ static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
+> >  		case EXC3000_MT_EVENT:
+> >  			exc3000_handle_mt_event(data);
+> >  			break;
+> > +		case EXC3000_VENDOR_EVENT:
+> > +			exc3000_handle_vendor_event(data);
+> > +			break;
+> >  		default:
+> >  			break;
+> >  	}
+> > @@ -161,6 +176,89 @@ static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
+> >  	return IRQ_HANDLED;
+> >  }
+> >  
+> > +static int exc3000_vendor_data_request(struct exc3000_data *data, u8 *request,
+> > +				       u8 request_len, u8 *response)
+> > +{
+> > +	u8 buf[EXC3000_LEN_VENDOR_REQUEST] = { 0x67, 0x00, 0x42, 0x00, 0x03 };
+> > +	int ret;
+> > +
+> > +	mutex_lock(&data->vendor_data_lock);
+> > +
+> > +	reinit_completion(&data->vendor_data_done);
+> > +
+> > +	buf[5] = request_len;
+> > +	memcpy(&buf[6], request, request_len);
+> > +
+> > +	ret = i2c_master_send(data->client, buf, EXC3000_LEN_VENDOR_REQUEST);
+> > +	if (ret < 0)
+> > +		goto out_unlock;
+> > +
+> > +	if (response) {
+> > +		wait_for_completion(&data->vendor_data_done);
+> 
+> You want some kind of timeout here to avoid hanging forever if device
+> does not respond properly.
+> 
+> > +		memcpy(response, &data->buf[4], data->buf[3]);
+> > +		ret = data->buf[3];
+> > +	}
+> > +
+> > +out_unlock:
+> > +	mutex_unlock(&data->vendor_data_lock);
+> > +
+> > +	return ret;
+> > +}
+> > +static int exc3000_populate_device_info(struct exc3000_data *data)
+> > +{
+> > +	struct device *dev = &data->client->dev;
+> > +	u8 response[EXC3000_LEN_FRAME];
+> > +	int ret;
+> > +
+> > +	/* query type info */
+> > +	ret = exc3000_vendor_data_request(data, (u8[]){0x46}, 1, response);
+> > +	if (ret < 0)
+> > +		return -ENODEV;
+> > +
+> > +	data->type = devm_kmemdup(dev, &response[1], ret - 1, GFP_KERNEL);
+> > +
+> > +	/* query model info */
+> > +	ret = exc3000_vendor_data_request(data, (u8[]){0x45}, 1, response);
+> > +	if (ret < 0)
+> > +		return -ENODEV;
+> > +
+> > +	data->model = devm_kmemdup(dev, &response[1], ret - 1, GFP_KERNEL);
+> > +
+> > +	/* query bootloader info */
+> > +	ret = exc3000_vendor_data_request(data,
+> > +					  (u8[]){0x39, 0x02}, 2, response);
+> > +	if (ret < 0)
+> > +		return -ENODEV;
+> > +
+> > +	/*
+> > +	 * If the bootloader version is non-zero then the device is in
+> > +	 * bootloader mode and won't answer a query for the application FW
+> > +	 * version, so we just use the bootloader version info.
+> > +	 */
+> > +	if (response[2] || response[3]) {
+> > +		char bl_version[8];
+> > +
+> > +		snprintf(bl_version, 8, "%d.%d", response[2], response[3]);
+> > +		data->fw_rev = devm_kmemdup(dev, bl_version,
+> > +					    strlen(bl_version), GFP_KERNEL);
+> 
+> Error handing?
+> 
+> > +	} else {
+> > +		/* query application firmware version */
+> > +		ret = exc3000_vendor_data_request(data,
+> > +						  (u8[]){0x44}, 1, response);
+> > +		if (ret < 0)
+> > +			return -ENODEV;
+> > +
+> > +		data->fw_rev = devm_kmemdup(dev, &response[1],
+> > +					    ret - 1, GFP_KERNEL);
+> 
+> Error handling?
+> 
+> > +	}
+> > +
+> > +	dev_info(&data->client->dev,
+> > +		 "found type %s, model %s, firmware revision %s",
+> > +		 data->type, data->model, data->fw_rev);
+> 
+> dev_dbg()
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
-v2:
-- split FW info and update sysfs groups, so the info group can be removed
-  and re-added to keep devm resource ordering.
----
- drivers/input/touchscreen/exc3000.c | 264 +++++++++++++++++++++++++++-
- 1 file changed, 262 insertions(+), 2 deletions(-)
+This one I kept as-is, as I really want to have this information in the
+system log. It's a single line and carries quite important information
+when trying to understand touchscreen issues, so IMHO the signal to
+noise ratio is good enough to keep it at the info level.
 
-diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
-index 28621389917c..8ecd850e2801 100644
---- a/drivers/input/touchscreen/exc3000.c
-+++ b/drivers/input/touchscreen/exc3000.c
-@@ -3,8 +3,8 @@
-  * Driver for I2C connected EETI EXC3000 multiple touch controller
-  *
-  * Copyright (C) 2017 Ahmet Inan <inan@distec.de>
-- *
-- * minimal implementation based on egalax_ts.c and egalax_i2c.c
-+ * Copyright (C) 2019 Pengutronix <kernel@pengutronix.de>
-+ * Copyright (C) 2019 Zodiac Inflight Innovations
-  */
- 
- #include <linux/bitops.h>
-@@ -18,6 +18,8 @@
- #include <linux/of.h>
- #include <linux/timer.h>
- #include <asm/unaligned.h>
-+#include <linux/firmware.h>
-+#include <linux/delay.h>
- 
- #define EXC3000_NUM_SLOTS		10
- #define EXC3000_SLOTS_PER_FRAME		5
-@@ -37,6 +39,7 @@ struct exc3000_data {
- 	struct mutex vendor_data_lock;
- 	struct completion vendor_data_done;
- 	char *type, *model, *fw_rev;
-+	int update_status;
- };
- 
- static void exc3000_report_slots(struct input_dev *input,
-@@ -257,11 +260,16 @@ static int exc3000_populate_device_info(struct exc3000_data *data)
- 	u8 response[EXC3000_LEN_FRAME];
- 	int ret;
- 
-+	if (data->type || data->model || data->fw_rev)
-+		devm_device_remove_group(dev, &exc3000_fw_info_attr_group);
-+
- 	/* query type info */
- 	ret = exc3000_vendor_data_request(data, (u8[]){0x46}, 1, response);
- 	if (ret < 0)
- 		return -ENODEV;
- 
-+	if (data->type)
-+		devm_kfree(dev, data->type);
- 	data->type = devm_kmemdup(dev, &response[1], ret - 1, GFP_KERNEL);
- 	if (!data->type)
- 		return -ENOMEM;
-@@ -271,6 +279,8 @@ static int exc3000_populate_device_info(struct exc3000_data *data)
- 	if (ret < 0)
- 		return -ENODEV;
- 
-+	if (data->model)
-+		devm_kfree(dev, data->model);
- 	data->model = devm_kmemdup(dev, &response[1], ret - 1, GFP_KERNEL);
- 	if (!data->model)
- 		return -ENOMEM;
-@@ -290,6 +300,8 @@ static int exc3000_populate_device_info(struct exc3000_data *data)
- 		char bl_version[8];
- 
- 		snprintf(bl_version, 8, "%d.%d", response[2], response[3]);
-+		if (data->fw_rev)
-+			devm_kfree(dev, data->fw_rev);
- 		data->fw_rev = devm_kmemdup(dev, bl_version,
- 					    strlen(bl_version), GFP_KERNEL);
- 	} else {
-@@ -299,6 +311,8 @@ static int exc3000_populate_device_info(struct exc3000_data *data)
- 		if (ret < 0)
- 			return -ENODEV;
- 
-+		if (data->fw_rev)
-+			devm_kfree(dev, data->fw_rev);
- 		data->fw_rev = devm_kmemdup(dev, &response[1],
- 					    ret - 1, GFP_KERNEL);
- 	}
-@@ -316,6 +330,247 @@ static int exc3000_populate_device_info(struct exc3000_data *data)
- 	return 0;
- }
- 
-+static void exc3000_generate_unlock_response(u8 *challenge, u8 *response)
-+{
-+	u8 op, rot, sum;
-+	int i;
-+
-+	op = challenge[0] + challenge[3];
-+	rot = challenge[1] + challenge[2];
-+	sum = challenge[0] + challenge[1] + challenge[2] + challenge[3];
-+
-+	for (i = 0; i < 4; i++) {
-+		if ((op >> i) & 0x1) {
-+			response[i] = sum + challenge[(rot + i) & 0x3];
-+		} else {
-+			response[i] = sum - challenge[(rot + i) & 0x3];
-+		}
-+	}
-+}
-+
-+static int exc3000_firmware_update(struct exc3000_data *data,
-+				   const struct firmware *fw)
-+{
-+	struct device *dev = &data->client->dev;
-+	u8 resp[EXC3000_LEN_FRAME];
-+	int ret, i;
-+
-+	dev_info(dev, "starting firmware update\n");
-+
-+	/* 1: check device state */
-+	ret = exc3000_vendor_data_request(data, (u8[]){0x39, 0x02}, 2, resp);
-+	if (ret < 0)
-+		goto out;
-+
-+	/* 2: switch state from app to bootloader mode if necessary */
-+	if (!resp[2] && !resp[3]) {
-+		u8 unlock_req[6] = { 0x3a, 0xfc };
-+
-+		dev_dbg(dev, "device in app mode, switching to bootloader\n");
-+
-+		/* 2.1 request unlock challenge */
-+		ret = exc3000_vendor_data_request(data,
-+						  (u8[]){0x3a, 0xfb}, 2, resp);
-+		if (ret < 0)
-+			goto out;
-+
-+		/* 2.2 generate and send response */
-+		exc3000_generate_unlock_response(&resp[2], &unlock_req[2]);
-+		ret = exc3000_vendor_data_request(data, unlock_req, 6, resp);
-+		if (ret < 0)
-+			goto out;
-+
-+		if (resp[2] != 0x01) {
-+			dev_err(dev, "device unlock failed, aborting\n");
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		/* 2.3 unknown, but required and invariant data */
-+		ret = exc3000_vendor_data_request(data,
-+						  (u8[]){0x3a, 0xfe, 0x34,
-+						         0x43, 0xcc}, 5, resp);
-+		if (ret < 0)
-+			goto out;
-+
-+		/* 2.4 reset controller */
-+		ret = exc3000_vendor_data_request(data, (u8[]){0x3a, 0xff},
-+						  2, NULL);
-+		if (ret < 0)
-+			goto out;
-+
-+		/* wait for controller init after reset */
-+		msleep(500);
-+
-+		/* 2.5: check communication after reset */
-+		ret = exc3000_vendor_data_request(data, (u8[]){0x39, 0x01},
-+						  2, resp);
-+		if (ret < 0)
-+			goto out;
-+
-+		if (resp[1] != 0x02) {
-+			dev_err(dev, "device ping request NACK, aborting\n");
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		/* 2.6: check device mode again */
-+		ret = exc3000_vendor_data_request(data, (u8[]){0x39, 0x02},
-+						  2, resp);
-+		if (ret < 0)
-+			goto out;
-+
-+		if (!resp[2] && !resp[3]) {
-+			dev_err(dev, "device still app mode, aborting\n");
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+	}
-+
-+	/* 3: start firmware upload */
-+	dev_dbg(dev, "start firmware upload\n");
-+	ret = exc3000_vendor_data_request(data, (u8[]){0x3a, 0x04}, 2, resp);
-+	if (ret < 0)
-+		goto out;
-+
-+	if (resp[2] != 0x01) {
-+		dev_err(dev, "firmware update start NACK, aborting\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	/* 4: upload firmware */
-+	for (i = 0x56; i < fw->size; i += 36) {
-+		u8 fw_chunk[37] = { 0x3a, 0x01, fw->data[i],
-+				    fw->data[i+1],fw->data[i+34] };
-+
-+		memcpy(&fw_chunk[5], &fw->data[i+2], 32);
-+		ret = exc3000_vendor_data_request(data, fw_chunk, 37, resp);
-+		if (ret < 0)
-+			goto out;
-+
-+		if (resp[2] != fw->data[i] || resp[3] != fw->data[i+1] ||
-+		    resp[4] != fw->data[i+34]) {
-+			dev_err(dev,
-+				"firmware update readback wrong, aborting\n");
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		data->update_status = DIV_ROUND_UP(i * 100, fw->size);
-+	}
-+
-+	/* 5: end firmware upload */
-+	ret = exc3000_vendor_data_request(data,
-+					  (u8[]){0x3a, 0x05, fw->data[0x37],
-+						fw->data[0x38], fw->data[0x39],
-+						fw->data[0x1f], fw->data[0x20]},
-+					  7, resp);
-+	if (ret < 0)
-+		goto out;
-+
-+	if (resp[2] != 0x01) {
-+		dev_err(dev, "firmware update end NACK, aborting\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	/* 6: switch back to app mode */
-+	ret = exc3000_vendor_data_request(data, (u8[]){0x3a, 0xff}, 2, NULL);
-+	if (ret < 0)
-+		goto out;
-+
-+	/* wait for controller init after reset */
-+	msleep(500);
-+
-+	/* 7: check communication */
-+	ret = exc3000_vendor_data_request(data, (u8[]){0x39, 0x01}, 2, resp);
-+	if (ret < 0)
-+		goto out;
-+
-+	if (resp[1] != 0x02) {
-+		dev_err(dev, "device ping request NACK, aborting\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	/* 8: check if we are in app mode again */
-+	ret = exc3000_vendor_data_request(data, (u8[]){0x39, 0x02}, 2, resp);
-+	if (ret < 0)
-+		goto out;
-+
-+	if (resp[2] || resp[3]) {
-+		dev_err(dev, "device still bootloader mode, aborting\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	dev_info(dev, "firmware update complete\n");
-+
-+	exc3000_populate_device_info(data);
-+
-+	data->update_status = 0;
-+
-+	return 0;
-+
-+out:
-+	data->update_status = ret;
-+	return ret;
-+}
-+
-+static ssize_t exc3000_update_fw_store(struct device *dev,
-+				       struct device_attribute *dattr,
-+				       const char *buf, size_t count)
-+{
-+	struct exc3000_data *data = dev_get_drvdata(dev);
-+	char fw_name[NAME_MAX];
-+	const struct firmware *fw;
-+	size_t copy_count = count;
-+	int ret;
-+
-+	if (count == 0 || count >= NAME_MAX)
-+		return -EINVAL;
-+
-+	if (buf[count - 1] == '\0' || buf[count - 1] == '\n')
-+		copy_count -= 1;
-+
-+	strncpy(fw_name, buf, copy_count);
-+	fw_name[copy_count] = '\0';
-+
-+	ret = request_firmware(&fw, fw_name, dev);
-+	if (ret)
-+		return ret;
-+
-+	dev_info(dev, "Flashing %s\n", fw_name);
-+
-+	ret = exc3000_firmware_update(data, fw);
-+
-+	release_firmware(fw);
-+
-+	return ret ?: count;
-+}
-+static DEVICE_ATTR(update_fw, 0200, NULL, exc3000_update_fw_store);
-+
-+static ssize_t exc3000_update_fw_status_show(struct device *dev,
-+					     struct device_attribute *dattr,
-+					     char *buf)
-+{
-+	struct exc3000_data *data = dev_get_drvdata(dev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", data->update_status);
-+}
-+static DEVICE_ATTR(update_fw_status, 0444, exc3000_update_fw_status_show, NULL);
-+
-+static struct attribute *exc3000_fw_update_attrs[] = {
-+	&dev_attr_update_fw.attr,
-+	&dev_attr_update_fw_status.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group exc3000_fw_update_attr_group = {
-+	.attrs = exc3000_fw_update_attrs,
-+};
-+
- static int exc3000_probe(struct i2c_client *client,
- 			 const struct i2c_device_id *id)
- {
-@@ -365,6 +620,11 @@ static int exc3000_probe(struct i2c_client *client,
- 	if (error)
- 		return error;
- 
-+	error = devm_device_add_group(&client->dev,
-+				      &exc3000_fw_update_attr_group);
-+	if (error)
-+		return error;
-+
- 	return 0;
- }
- 
--- 
-2.20.1
+All other comments have been fixed in v2.
+
+Regards,
+Lucas
+
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int exc3000_probe(struct i2c_client *client,
+> >  			 const struct i2c_device_id *id)
+> >  {
+> > @@ -174,6 +272,18 @@ static int exc3000_probe(struct i2c_client *client,
+> >  
+> >  	data->client = client;
+> >  	timer_setup(&data->timer, exc3000_timer, 0);
+> > +	mutex_init(&data->vendor_data_lock);
+> > +	init_completion(&data->vendor_data_done);
+> > +
+> > +	error = devm_request_threaded_irq(&client->dev, client->irq,
+> > +					  NULL, exc3000_interrupt, IRQF_ONESHOT,
+> > +					  client->name, data);
+> > +	if (error)
+> > +		return error;
+> 
+> Since you moved it to be earlier than input device allocation I think it
+> will bomb if you boot when your finger touches the screen as it will try
+> to dereference NULL pointer.
+> 
+> It is usually OK to send events through allocated
+> but not yet registered input device, but I'd double-checked that
+> touchscreen_report_pos() API is also safe, and then moved input device
+> allocation to happen before you request interrupt.
+> 
+> > +
+> > +	error = exc3000_populate_device_info(data);
+> > +	if (error)
+> > +		return error;
+> >  
+> >  	input = devm_input_allocate_device(&client->dev);
+> >  	if (!input)
+> > @@ -197,12 +307,6 @@ static int exc3000_probe(struct i2c_client *client,
+> >  	if (error)
+> >  		return error;
+> >  
+> > -	error = devm_request_threaded_irq(&client->dev, client->irq,
+> > -					  NULL, exc3000_interrupt, IRQF_ONESHOT,
+> > -					  client->name, data);
+> > -	if (error)
+> > -		return error;
+> > -
+> >  	return 0;
+> >  }
+> >  
+> > -- 
+> > 2.20.1
+> > 
+> 
+> Thanks.
+> 
 
