@@ -2,93 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22EF21856FC
-	for <lists+linux-input@lfdr.de>; Sun, 15 Mar 2020 02:31:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEA1618593A
+	for <lists+linux-input@lfdr.de>; Sun, 15 Mar 2020 03:41:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726593AbgCOBba (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 14 Mar 2020 21:31:30 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:37143 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725962AbgCOBba (ORCPT
+        id S1726986AbgCOClN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 14 Mar 2020 22:41:13 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:39208 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726902AbgCOClM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 14 Mar 2020 21:31:30 -0400
-Received: by mail-oi1-f194.google.com with SMTP id w13so13920583oih.4;
-        Sat, 14 Mar 2020 18:31:29 -0700 (PDT)
+        Sat, 14 Mar 2020 22:41:12 -0400
+Received: by mail-qk1-f193.google.com with SMTP id e16so20042398qkl.6
+        for <linux-input@vger.kernel.org>; Sat, 14 Mar 2020 19:41:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=VXyJJa4oBQQ+uT+JNHNMnu1aQ1PPRYgU53MpHacnB7c=;
-        b=IT3icGRKBm9ic21ACgD6K3BR5Ki512PXjI8zdm9gI1P5+KExSZzXQwsWDYK7nAlbqa
-         7cux/ZEByz8CaAhEWvMekA+85IBKIpdk5vj5sdjmK3jXeHSS4LBH97AOMtXA9uFgaC9p
-         6vzFN2lflyUQDb00gvVNW8TrM14naGifClbL1duQZVSbGBZwfjyuGwV66JUbdlmepzjY
-         uhwhCMbRDPk47o1/bo/wzkqtIl3e8OGEnoUWonrlMHZ1oA4AdOiQ0XTRp+bC3KMixUrN
-         lF/VVFIW8nXvleXSYeegLD14+G0uZq0E62vhAJlevFlG9CrASB6HwVx/P0iqG9B/jW9z
-         8Dxw==
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=rySLrb6e8pdxDloLytBEUWmIP8HvBNLPxIuJLcg1j9c=;
+        b=h9YhYCfhuvcoOK9JuTSnuiXg2cILoy3ExIWXtsaJYq8huKBTSezqcgybwNUJnF31OD
+         8M4XkdAA+wF3Kc0hz30O/kK9eMooTs7yoqdIBJNfvWQnNRWRGMPcYzXrJl2zdeF1j7va
+         J8XdxMT0KmL8llAYJuvJtfAv+moo5flCUCJCh/tlglJ+fFmIUPVbZ1fac7bCjKhbkCn+
+         rZJerUAJLBThHl7kvNkOSCFj/J2Gim7L2OHs8nEEBbbGF0yG+oMEoxI1m7Q6XmwEaoXK
+         TKHu+SSgJteucaBn++J1ylejcFocesa/O0LZlk7VxDKA6TPZDYhdjLA4ADjt7vhRjRdb
+         KZMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=VXyJJa4oBQQ+uT+JNHNMnu1aQ1PPRYgU53MpHacnB7c=;
-        b=ofMxecK8TXi8pvAgpcU4437k4dI/KdSqiUz2Ck3cSaZzicIczcwj3YmxRRiPCWIFsg
-         92UNIcus/qMNby1f3ygGXf3U0bgKlqb2sqtlLtvacKRS7CCYsa4osPfdF+gwJ63MLejF
-         ePCX2BjzBdJEE8+KEDyjbghvH47l6iIbA3kXjW7246h0qqz6IX95L6ZArsKAwiXuvAA/
-         /zzV25n/HcsycYb+DkqL1ZWoBmVdmXoHinfKRXppPuX3v9h8hgfz94DiJuWp9SthDK5F
-         oLCUpha76DGWOqAPJVp9HzvmlNATwrvDzCWkjWKjA6KXyYXk+reVXlurhVusVudF5Gwf
-         apXg==
-X-Gm-Message-State: ANhLgQ2/lx0P1oPF52yh1wjbiGZpHnzVx7s6r8tKtAk5nkB04qvFjMCp
-        IoR89fqg4fyn9cWmnLu0nn37DaC84hoiSQbqukeDDVwng5s=
-X-Google-Smtp-Source: ADFU+vtg+w1KKGgnLsXrURgTNcshIGy36gF0ch/IG3LaOgW1UuDSzmI1mtZ3NDBJUL3AozKVHuZTjqhsLxytZoBjUls=
-X-Received: by 2002:aca:3f09:: with SMTP id m9mr11970001oia.55.1584234462459;
- Sat, 14 Mar 2020 18:07:42 -0700 (PDT)
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=rySLrb6e8pdxDloLytBEUWmIP8HvBNLPxIuJLcg1j9c=;
+        b=gDhkdO1JPYIIFMqKH0iyIlVu9l/HalXaeK+0AjF+6TV1ewynCAHGWKyVaApWWkN5Q9
+         EfKeWm5mxGJ/fhEn16Y/fE/iqyTq+Rur3X7CSKGyKokhGLOy/pjtKxRAqo9oFCkg6AAz
+         +Y8oNBW8b4xtkkJA48crX0/vLM4UN0i/o6/QvPFzTJaigsMqZxH+kRcsNHEID3FFx/NL
+         RBIS63XHdql0Onh9ycC73wEmKE8gDBEVOJZ96Vk8aopCrvjQA9rXwaK+8iePm0+n7oFR
+         tG7IzAFo6PdfYvWoy8RcsYN5PropZyGbP+8Sk/MdW6/3U2DDTU86IHzZz9DFR0cpqkBz
+         YXQQ==
+X-Gm-Message-State: ANhLgQ1X+m75oG2pgdustpLkOtdW6rxOHoV0L234zRYyUSCWGoX5O26R
+        PzAXX26M9PPCBhnjZ5Cs9c/t6i8u0qOvtrfxZ9Xiz9bH
+X-Google-Smtp-Source: ADFU+vsJ8OZ/Dhr0DwwgkL8CDPySYZHLYuNtMBF50V178xoCgQ3+Wbsy6eqrOFGI1hDMkk7GA6AGM8FMlDHfqPtuVxs=
+X-Received: by 2002:a02:3f4c:: with SMTP id c12mr12249418jaf.115.1584206617074;
+ Sat, 14 Mar 2020 10:23:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200304164700.11574-1-tony.fischetti@gmail.com>
- <6c58685f039d329615d84e2df1cd2a155db73c61.camel@archlinux.org>
- <CAOMV6SVxL=DLP6yWa+jHzu5A+PUJTJi4bk_1ZW-kXXwnaCBT5Q@mail.gmail.com> <nycvar.YFH.7.76.2003131222470.19500@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2003131222470.19500@cbobk.fhfr.pm>
-From:   Tony Fischetti <tony.fischetti@gmail.com>
-Date:   Sat, 14 Mar 2020 21:07:31 -0400
-Message-ID: <CAOMV6SV-_A_vAXQ7y=vZheE9A6+Aye0xjst_Zdwk6Y--W3JEmA@mail.gmail.com>
-Subject: Re: [PATCH] add ALWAYS_POLL quirk to lenovo pixart mouse
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+Received: by 2002:a02:63c1:0:0:0:0:0 with HTTP; Sat, 14 Mar 2020 10:23:36
+ -0700 (PDT)
+From:   Omar Ousman <omarousman25@gmail.com>
+Date:   Sat, 14 Mar 2020 18:23:36 +0100
+X-Google-Sender-Auth: e3Esaw6NMf2t59gU8aF8hbfxq5E
+Message-ID: <CAOdk3H=BWVFSbBHnPp89pkv5eyhE_YLWx_uztwjom2+untGdDQ@mail.gmail.com>
+Subject: You received my last mail,,,,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Before I got your email, I sent the patch again, separately.
-I'm terribly sorry but I'm new to kernel development=E2=80=94how do I send =
-it
-instead as a followup patch? Do you mean just responding to this
-thread with the new patch?
+I am Mr.Omar Ousman, a regional managing director (CORIS BANK
+INTERNATIONAL) Ouagadougou Burkina Faso, in my department we have
+US$9,500.0000 million united state dollars, to transfer into your
+account as a dormant fund.If you are interested to use this fund to
+help the orphans around the world contact and send me your personal
+information for more details to my email omarousman25@gmail.com
 
-On Fri, Mar 13, 2020 at 7:23 AM Jiri Kosina <jikos@kernel.org> wrote:
->
-> On Thu, 12 Mar 2020, Tony Fischetti wrote:
->
-> > Thanks for the feedback, y'all.
-> > I will rename the device and add the signed-off field and resubmit.
-> > Thanks again
->
-> Please do it as a followup patch on top of your previous one, as I've
-> already pushed that one out and we are generally not rebasing live
-> branches in hid.git.
->
-> Thanks,
->
-> --
-> Jiri Kosina
-> SUSE Labs
->
+Your full names..........
+Your country of origin..........
+Your occupation..........
+Your Age..........
+Your Mobile Number..........
 
-
---=20
---
-Tony Fischetti
-tony.fischetti@gmail.com
-(718) 431-4597
+Best Regards,
