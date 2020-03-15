@@ -2,105 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48A7A185EC0
-	for <lists+linux-input@lfdr.de>; Sun, 15 Mar 2020 18:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D87118603A
+	for <lists+linux-input@lfdr.de>; Sun, 15 Mar 2020 23:22:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728966AbgCORfB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 15 Mar 2020 13:35:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60257 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728947AbgCORfB (ORCPT
+        id S1729270AbgCOWWx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 15 Mar 2020 18:22:53 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:41271 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729261AbgCOWWx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 15 Mar 2020 13:35:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1584293700;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=8J2wARP0Hjfkbaur3RYx3jtrBPk2eNpCjjR+5RjBtyc=;
-        b=dORD6GXfGzLS4FfhgVQwEgocxAdEed6K3J1MTDA6obtKiOWxH46g+G454d/cF0DSqcnJZ2
-        UHFyt9KgOT6cO30cg48KrHPfocHwvDSXhUiU1NFPP0ku/kSrrLiAMAMpbim+ld+1k/m6c4
-        WNKrE1yK1WELPfL0sCklSLLZx2u8H7k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-KRwSvLXePiy4BH9yyf2xyg-1; Sun, 15 Mar 2020 13:34:56 -0400
-X-MC-Unique: KRwSvLXePiy4BH9yyf2xyg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 504FA189D6C0;
-        Sun, 15 Mar 2020 17:34:55 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-116-18.ams2.redhat.com [10.36.116.18])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9D8B492D0C;
-        Sun, 15 Mar 2020 17:34:51 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Subject: [PATCH] HID: lg-g15: Do not fail the probe when we fail to disable F# emulation
-Date:   Sun, 15 Mar 2020 18:34:49 +0100
-Message-Id: <20200315173449.24857-1-hdegoede@redhat.com>
+        Sun, 15 Mar 2020 18:22:53 -0400
+Received: by mail-pl1-f196.google.com with SMTP id t16so28047plr.8
+        for <linux-input@vger.kernel.org>; Sun, 15 Mar 2020 15:22:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=POHJNb39576N/BduiK9PvgWZr9eLq5KMyBpLPw7FP14=;
+        b=dnOBtnncH1Svi0h7aIREPik51aNC156AKnVMFrJTFYFJlqbQ4sGf4rTYm2r4dIZ3jT
+         HSJ8nVlTizy8WuLzVN368GhyT7lOntoaE/1TEDG3Ze9heAVL5vgVpAjgZLepqIAa/n9v
+         Qpeefry7lytsbCtxRtzaLpIUFYGSSuC6FGBYWgOSAFbKjZ9tI50F7djvrXPx1wshCVZO
+         kReJ+QhN5B8FXhUAZukOf5GYb6bEN8QKVZE2i9l17QVdA0VTs2I3YNPufRq5mH6ZsJDW
+         /jDr6giVaA2pTeTVhqLhmhYfJtY3ATD2PA4TCleAejahQhbHHAEWU8Fq3DMgVGa8TibT
+         afZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=POHJNb39576N/BduiK9PvgWZr9eLq5KMyBpLPw7FP14=;
+        b=A+NEhxyxnNkzmtD7Q1/3TDyzIstJpAi7IPiYOqWtNVd6WwvDC1WY6zxU8FyovPlGSq
+         Vji6HzeuEPgA+/04JB6uMnrjhBMRYoh8QyJzbHpG1v35jOH/Z2RmTOt/+GSomzfFa/GW
+         TcEc70VJDBytd7g6qS+RK7WWlfWaBlVDpChxlnv18nmq0IrQv0075e8iSndLoTxQR/o1
+         Y39YrlNJiWZUOQ3sLOq35y7i2fHHY1uxAwVNFUM3xEDETdpO64us9jPtn79lGsd8sUux
+         MMmUhiHxRby9da3IZLD1xyqxARKMXuKrUFOwoRgkkXNMBsHlFYWlo4X/srrXEXsHLS7Q
+         lXGQ==
+X-Gm-Message-State: ANhLgQ1V/goTOfzCnOpuby1cFys1HdUTzKila+ttTxyWEti+/fWQP3oz
+        SpvJewqTeZ70Fs0PiD/ETME=
+X-Google-Smtp-Source: ADFU+vvcUYlUEBBvJcx72WKidEe9GKSCnB391zLdzU8X9yh7qaiC3MpkVo15L+Xbb51yOT2q5xEPvg==
+X-Received: by 2002:a17:902:8485:: with SMTP id c5mr23743224plo.156.1584310971714;
+        Sun, 15 Mar 2020 15:22:51 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id h22sm62961475pgn.57.2020.03.15.15.22.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Mar 2020 15:22:50 -0700 (PDT)
+Date:   Sun, 15 Mar 2020 15:22:48 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>
+Subject: Re: [PATCH 2/2 v1] Input: cy8ctma140 - add driver
+Message-ID: <20200315222248.GE192640@dtor-ws>
+References: <20200310142818.15415-1-linus.walleij@linaro.org>
+ <20200310142818.15415-2-linus.walleij@linaro.org>
+ <20200310170809.GC192640@dtor-ws>
+ <CACRpkdZYU0zvjRC-2L-Ra=td0iUSPLhP3BFQKUTkh4POYHTNNg@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkdZYU0zvjRC-2L-Ra=td0iUSPLhP3BFQKUTkh4POYHTNNg@mail.gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-By default the G1-G12 keys on the Logitech gaming keyboards send
-F1 - F12 when in "generic HID" mode.
+On Sun, Mar 15, 2020 at 05:12:29PM +0100, Linus Walleij wrote:
+> Hi Dmitry,
+> 
+> thanks for the quick review!
+> 
+> I fixed most stuff, just one minor comment:
+> 
+> On Tue, Mar 10, 2020 at 6:08 PM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> 
+> > > +     /* According to datasheet this should be in the 2.7-3.6 V range */
+> > > +     ret = regulator_set_voltage(ts->vcpin, 2700000, 3600000);
+> > > +     if (ret) {
+> > > +             dev_err(dev, "failed to set VCPIN voltage\n");
+> > > +             return ret;
+> > > +     }
+> >
+> > Shouldn't this already be in DT? We typically do not configure voltage
+> > on various rail unless in very specific circumstances.
+> 
+> Certainly the DT defines the voltage range on the regulator
+> on the producer side.
+> 
+> This is the consumer range, and DT has no facility to put
+> restrictions on the consumer voltage window.
+> 
+> I think it is pretty natural to do in the code.
 
-The first thing the hid-lg-g15 driver does is disable this behavior.
+That means we will have essentially a boilerplate code in many many
+drivers.
 
-We have received a bugreport that this does not work when the keyboard
-is connected through an Aten KVM switch. Using a gaming keyboard with
-a KVM is a bit weird setup, but still we can try to fail a bit more
-gracefully here.
+If we indeed want to do this (although I am not sure if practically this
+makes much sense - nobody creates a rail delivering 24 volts by default
+and saying "oh well, when driver loads it will request us to lower the
+voltage down to 1.5V that components attached to the rail require") can
+we consider adding consumer side constraints to the DT so that
+regulator_get() can set the voltage right there and driver does not have
+to? I am just trying to limit the amount of custom code in the drivers.
 
-On the G510 keyboards the same USB-interface which is used for the gaming
-keys is also used for the media-keys. Before this commit we would call
-hid_hw_stop() on failure to disable the F# emulation and then exit the
-probe method with an error code.
+> 
+> The typical usecase is when two components share the
+> same line, and in this case two voltage consumer inputs
+> *may* be connected to the same producer regulator.
+> 
+> The regulator framework will the infer that the producer
+> can produce a voltage that fulfil the constraints on all the
+> consumers.
+> 
+> The fact that few devices issue regulator_set_voltage()
+> is a combination of "good enough" and general sloppiness,
+> I think it should reflect the operation voltages of the component
+> and stop people from shooting themselves in the foot.
+> 
+> But I CC Mark on this and see what he says. (I might be wrong.)
 
-This not only causes us to not handle the gaming-keys, but this also
-breaks the media keys which is a regression compared to the situation
-when these keyboards where handled by the generic hidinput driver.
+Thanks.
 
-This commit changes the error handling to clear the hiddev drvdata
-(to disable our .raw_event handler) and then returning from the probe
-method with success.
-
-The net result of this is that, when connected through a KVM, things
-work as well as they did before the hid-lg-g15 driver was introduced.
-
-Fixes: ad4203f5a243 ("HID: lg-g15: Add support for the G510 keyboards' ga=
-ming keys")
-BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1806321
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/hid/hid-lg-g15.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
-index 8a9268a5c66a..ad4b5412a9f4 100644
---- a/drivers/hid/hid-lg-g15.c
-+++ b/drivers/hid/hid-lg-g15.c
-@@ -803,8 +803,10 @@ static int lg_g15_probe(struct hid_device *hdev, con=
-st struct hid_device_id *id)
- 	}
-=20
- 	if (ret < 0) {
--		hid_err(hdev, "Error disabling keyboard emulation for the G-keys\n");
--		goto error_hw_stop;
-+		hid_err(hdev, "Error %d disabling keyboard emulation for the G-keys, f=
-alling back to generic hid-input driver\n",
-+			ret);
-+		hid_set_drvdata(hdev, NULL);
-+		return 0;
- 	}
-=20
- 	/* Get initial brightness levels */
---=20
-2.25.1
-
+-- 
+Dmitry
