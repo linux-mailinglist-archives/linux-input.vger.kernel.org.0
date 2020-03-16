@@ -2,127 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D87118603A
-	for <lists+linux-input@lfdr.de>; Sun, 15 Mar 2020 23:22:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD6401860C6
+	for <lists+linux-input@lfdr.de>; Mon, 16 Mar 2020 01:28:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729270AbgCOWWx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 15 Mar 2020 18:22:53 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:41271 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729261AbgCOWWx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 15 Mar 2020 18:22:53 -0400
-Received: by mail-pl1-f196.google.com with SMTP id t16so28047plr.8
-        for <linux-input@vger.kernel.org>; Sun, 15 Mar 2020 15:22:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=POHJNb39576N/BduiK9PvgWZr9eLq5KMyBpLPw7FP14=;
-        b=dnOBtnncH1Svi0h7aIREPik51aNC156AKnVMFrJTFYFJlqbQ4sGf4rTYm2r4dIZ3jT
-         HSJ8nVlTizy8WuLzVN368GhyT7lOntoaE/1TEDG3Ze9heAVL5vgVpAjgZLepqIAa/n9v
-         Qpeefry7lytsbCtxRtzaLpIUFYGSSuC6FGBYWgOSAFbKjZ9tI50F7djvrXPx1wshCVZO
-         kReJ+QhN5B8FXhUAZukOf5GYb6bEN8QKVZE2i9l17QVdA0VTs2I3YNPufRq5mH6ZsJDW
-         /jDr6giVaA2pTeTVhqLhmhYfJtY3ATD2PA4TCleAejahQhbHHAEWU8Fq3DMgVGa8TibT
-         afZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=POHJNb39576N/BduiK9PvgWZr9eLq5KMyBpLPw7FP14=;
-        b=A+NEhxyxnNkzmtD7Q1/3TDyzIstJpAi7IPiYOqWtNVd6WwvDC1WY6zxU8FyovPlGSq
-         Vji6HzeuEPgA+/04JB6uMnrjhBMRYoh8QyJzbHpG1v35jOH/Z2RmTOt/+GSomzfFa/GW
-         TcEc70VJDBytd7g6qS+RK7WWlfWaBlVDpChxlnv18nmq0IrQv0075e8iSndLoTxQR/o1
-         Y39YrlNJiWZUOQ3sLOq35y7i2fHHY1uxAwVNFUM3xEDETdpO64us9jPtn79lGsd8sUux
-         MMmUhiHxRby9da3IZLD1xyqxARKMXuKrUFOwoRgkkXNMBsHlFYWlo4X/srrXEXsHLS7Q
-         lXGQ==
-X-Gm-Message-State: ANhLgQ1V/goTOfzCnOpuby1cFys1HdUTzKila+ttTxyWEti+/fWQP3oz
-        SpvJewqTeZ70Fs0PiD/ETME=
-X-Google-Smtp-Source: ADFU+vvcUYlUEBBvJcx72WKidEe9GKSCnB391zLdzU8X9yh7qaiC3MpkVo15L+Xbb51yOT2q5xEPvg==
-X-Received: by 2002:a17:902:8485:: with SMTP id c5mr23743224plo.156.1584310971714;
-        Sun, 15 Mar 2020 15:22:51 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id h22sm62961475pgn.57.2020.03.15.15.22.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2020 15:22:50 -0700 (PDT)
-Date:   Sun, 15 Mar 2020 15:22:48 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>
-Subject: Re: [PATCH 2/2 v1] Input: cy8ctma140 - add driver
-Message-ID: <20200315222248.GE192640@dtor-ws>
-References: <20200310142818.15415-1-linus.walleij@linaro.org>
- <20200310142818.15415-2-linus.walleij@linaro.org>
- <20200310170809.GC192640@dtor-ws>
- <CACRpkdZYU0zvjRC-2L-Ra=td0iUSPLhP3BFQKUTkh4POYHTNNg@mail.gmail.com>
+        id S1729264AbgCPA2V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 15 Mar 2020 20:28:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49588 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729245AbgCPA2U (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 15 Mar 2020 20:28:20 -0400
+Received: from dragon (80.251.214.228.16clouds.com [80.251.214.228])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E12C7205ED;
+        Mon, 16 Mar 2020 00:28:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584318499;
+        bh=7mS3ixlj3Z2fEufutJZBKCVTlxROm0o1iSECfEWYPus=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Kj2QyDQgDqMp3oWKZVS49hoxbhcJ/SEABJVxKM04nCqfSe2w+BJ2BWY1e/kiIKZam
+         lgwtJEsQ5HS4dobQ+gsyXayKxneTQBPsR2s3Gcpcgj8Ifb+0HH4JdYJvF8O1X5JWpv
+         UgJ8cXyz6Sj8Ns5lqRnIEQ3sEeNlDYXgvvb2OlSk=
+Date:   Mon, 16 Mar 2020 08:28:04 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Anson Huang <Anson.Huang@nxp.com>
+Cc:     s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        dmitry.torokhov@gmail.com, a.zummo@towertech.it,
+        alexandre.belloni@bootlin.com, rui.zhang@intel.com,
+        daniel.lezcano@linaro.org, amit.kucheria@verdurent.com,
+        wim@linux-watchdog.org, linux@roeck-us.net, daniel.baluta@nxp.com,
+        linux@rempel-privat.de, gregkh@linuxfoundation.org,
+        tglx@linutronix.de, m.felsch@pengutronix.de,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de, robh@kernel.org,
+        yuehaibing@huawei.com, ronald@innovation.ch, krzk@kernel.org,
+        leonard.crestez@nxp.com, aisheng.dong@nxp.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        Linux-imx@nxp.com
+Subject: Re: [PATCH V2 1/7] firmware: imx: Add stubs for !CONFIG_IMX_SCU case
+Message-ID: <20200316002803.GL29269@dragon>
+References: <1583544359-515-1-git-send-email-Anson.Huang@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACRpkdZYU0zvjRC-2L-Ra=td0iUSPLhP3BFQKUTkh4POYHTNNg@mail.gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <1583544359-515-1-git-send-email-Anson.Huang@nxp.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Mar 15, 2020 at 05:12:29PM +0100, Linus Walleij wrote:
-> Hi Dmitry,
+On Sat, Mar 07, 2020 at 09:25:53AM +0800, Anson Huang wrote:
+> Add stubs for those i.MX SCU APIs to make those modules depending
+> on IMX_SCU can pass build when COMPILE_TEST is enabled.
 > 
-> thanks for the quick review!
-> 
-> I fixed most stuff, just one minor comment:
-> 
-> On Tue, Mar 10, 2020 at 6:08 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> 
-> > > +     /* According to datasheet this should be in the 2.7-3.6 V range */
-> > > +     ret = regulator_set_voltage(ts->vcpin, 2700000, 3600000);
-> > > +     if (ret) {
-> > > +             dev_err(dev, "failed to set VCPIN voltage\n");
-> > > +             return ret;
-> > > +     }
-> >
-> > Shouldn't this already be in DT? We typically do not configure voltage
-> > on various rail unless in very specific circumstances.
-> 
-> Certainly the DT defines the voltage range on the regulator
-> on the producer side.
-> 
-> This is the consumer range, and DT has no facility to put
-> restrictions on the consumer voltage window.
-> 
-> I think it is pretty natural to do in the code.
+> Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
 
-That means we will have essentially a boilerplate code in many many
-drivers.
+Already had such a patch from Peng Fan.
 
-If we indeed want to do this (although I am not sure if practically this
-makes much sense - nobody creates a rail delivering 24 volts by default
-and saying "oh well, when driver loads it will request us to lower the
-voltage down to 1.5V that components attached to the rail require") can
-we consider adding consumer side constraints to the DT so that
-regulator_get() can set the voltage right there and driver does not have
-to? I am just trying to limit the amount of custom code in the drivers.
+Shawn
 
+> ---
+> new patch.
+> ---
+>  include/linux/firmware/imx/ipc.h | 11 +++++++++++
+>  include/linux/firmware/imx/sci.h | 19 +++++++++++++++++++
+>  2 files changed, 30 insertions(+)
 > 
-> The typical usecase is when two components share the
-> same line, and in this case two voltage consumer inputs
-> *may* be connected to the same producer regulator.
+> diff --git a/include/linux/firmware/imx/ipc.h b/include/linux/firmware/imx/ipc.h
+> index 8910574..3fff0e2 100644
+> --- a/include/linux/firmware/imx/ipc.h
+> +++ b/include/linux/firmware/imx/ipc.h
+> @@ -34,6 +34,7 @@ struct imx_sc_rpc_msg {
+>  	uint8_t func;
+>  };
+>  
+> +#ifdef CONFIG_IMX_SCU
+>  /*
+>   * This is an function to send an RPC message over an IPC channel.
+>   * It is called by client-side SCFW API function shims.
+> @@ -55,4 +56,14 @@ int imx_scu_call_rpc(struct imx_sc_ipc *ipc, void *msg, bool have_resp);
+>   * @return Returns an error code (0 = success, failed if < 0)
+>   */
+>  int imx_scu_get_handle(struct imx_sc_ipc **ipc);
+> +#else
+> +static inline int imx_scu_call_rpc(struct imx_sc_ipc *ipc, void *msg, bool have_resp)
+> +{
+> +	return 0;
+> +}
+> +static inline int imx_scu_get_handle(struct imx_sc_ipc **ipc)
+> +{
+> +	return 0;
+> +}
+> +#endif
+>  #endif /* _SC_IPC_H */
+> diff --git a/include/linux/firmware/imx/sci.h b/include/linux/firmware/imx/sci.h
+> index 17ba4e4..4688b60 100644
+> --- a/include/linux/firmware/imx/sci.h
+> +++ b/include/linux/firmware/imx/sci.h
+> @@ -16,8 +16,27 @@
+>  #include <linux/firmware/imx/svc/misc.h>
+>  #include <linux/firmware/imx/svc/pm.h>
+>  
+> +#ifdef CONFIG_IMX_SCU
+>  int imx_scu_enable_general_irq_channel(struct device *dev);
+>  int imx_scu_irq_register_notifier(struct notifier_block *nb);
+>  int imx_scu_irq_unregister_notifier(struct notifier_block *nb);
+>  int imx_scu_irq_group_enable(u8 group, u32 mask, u8 enable);
+> +#else
+> +static inline int imx_scu_enable_general_irq_channel(struct device *dev)
+> +{
+> +	return 0;
+> +}
+> +static inline int imx_scu_irq_register_notifier(struct notifier_block *nb)
+> +{
+> +	return 0;
+> +}
+> +static inline int imx_scu_irq_unregister_notifier(struct notifier_block *nb)
+> +{
+> +	return 0;
+> +}
+> +static inline int imx_scu_irq_group_enable(u8 group, u32 mask, u8 enable)
+> +{
+> +	return 0;
+> +}
+> +#endif
+>  #endif /* _SC_SCI_H */
+> -- 
+> 2.7.4
 > 
-> The regulator framework will the infer that the producer
-> can produce a voltage that fulfil the constraints on all the
-> consumers.
-> 
-> The fact that few devices issue regulator_set_voltage()
-> is a combination of "good enough" and general sloppiness,
-> I think it should reflect the operation voltages of the component
-> and stop people from shooting themselves in the foot.
-> 
-> But I CC Mark on this and see what he says. (I might be wrong.)
-
-Thanks.
-
--- 
-Dmitry
