@@ -2,58 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DF0218782E
-	for <lists+linux-input@lfdr.de>; Tue, 17 Mar 2020 04:30:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78FDB187831
+	for <lists+linux-input@lfdr.de>; Tue, 17 Mar 2020 04:30:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726222AbgCQDaH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 Mar 2020 23:30:07 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:33777 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726192AbgCQDaG (ORCPT
+        id S1726189AbgCQDaI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 Mar 2020 23:30:08 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:41186 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725783AbgCQDaI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 Mar 2020 23:30:06 -0400
-Received: by mail-qk1-f194.google.com with SMTP id q17so5571993qki.0
-        for <linux-input@vger.kernel.org>; Mon, 16 Mar 2020 20:30:06 -0700 (PDT)
+        Mon, 16 Mar 2020 23:30:08 -0400
+Received: by mail-qk1-f195.google.com with SMTP id s11so18915402qks.8
+        for <linux-input@vger.kernel.org>; Mon, 16 Mar 2020 20:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=LMJ6lOJDnC5LdR8tL831SC3Pwn85DmO9Vw2+wVHOXhY=;
-        b=HaMgVoj6CixK/fiRARinTvZKL13++Gx7v7/wsUhGVTPfAzeouoyGYJeiK3WTlwwD+c
-         s/QmGhSm6hxH7RkUl1qLaASZ7IcWAlOHvg835vtRaN940HspYbiWr/CkXAOWnObIA6QM
-         x2Oo9X7GE0vbW64MFlkc+TRcESScjMriA3TGTb4m3dphqp9K+nWjH2/UqMFOLKxqQwmp
-         uuhNEOZbTAP5r3SsLEdngBlSYeiLzwqy+fq/M4QUW9BwENSkntFklB5SXkRPMzM214MV
-         uGlfMv2j9FQQd5TeZXMgYY0SoCr5dk6FvyjwI/EvCcHG4hZxr7Gk7/l8/bzCJ71H1HTS
-         hZ4w==
+        bh=leVLAdT+W/buvZ8Zg3ry/YZKPP0/AxJaPWTc4uA+O2Y=;
+        b=dILMJV/J2tt4Mh922sbRlk03nugYLYdCKFScZrvK6S7BTeIGdpU2b8OKi/Y4/8GsaD
+         gvKVXtMVrccAF5CpGBSsJR69CxSUquCxBKLMPhoUcBhxN3sAvs0bU5SJ7M5yUtj3ZPdD
+         34RntNlydVv6xDJMTr0J9Dcs81ZQqlhqmNDjrPKr+ENo5u0d5QGpTRX1OxXr23fnlGv+
+         bG1xLUaXnBez50dthUxvSczi8hzXqmmaha/hcZqUwTGjqCOLyms8p162YJP2YVBNyoGq
+         s/MZ4oW3Nw+05xhPEm0XPEwo6nNVPEbwPf4vJwnGUIORnnwKl8DGS+8fFsHc+Fd+UURh
+         2ygA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LMJ6lOJDnC5LdR8tL831SC3Pwn85DmO9Vw2+wVHOXhY=;
-        b=QZn8T89XKe22M+uzR54tVvg1h4g5+v7SIzF5vN8YBWQYkkmjtS6XxxziVpMGrvT4UN
-         qFeAJZSxwq5Wjr00ytnwCdRFKbf/yd4jSobESBGoDIyzFI1gGeeTGfIzih4KSxt0V8Zi
-         7sSjpsFSoQD6xVSlz20LgSSMlZVvspov/4d0IiPGM5Za8HpA3uVolSfAUACj3HsTdBbP
-         9HOziy2XeZhrFNaMWDsz63tnPvaPyCnw4OFJ0RUe+A2Lqa82ZHLPRV9MCFNfjJpTl2LW
-         sPNePdZtl9qwNup2a7gEA/oHmFlwprneLtpowPoR2TqlGb9Ox7opG0QguWkqftu04AwW
-         GM2Q==
-X-Gm-Message-State: ANhLgQ1FlO3EvohyW8Ngf9h3aHVby08O2U+R0dFFuPCsnZ0lDyr9sN9z
-        7gz4U4a+C+lFNGa41DR/Dkg9SdUaH2U=
-X-Google-Smtp-Source: ADFU+vsUc8nGAGz4ZpvB/aNbdbdMcWGIf8VznSPT7rfrDFUWDX7zY5imw3TWltfdL0YPnWALtLNuPA==
-X-Received: by 2002:ae9:e8c6:: with SMTP id a189mr2867902qkg.361.1584415805683;
-        Mon, 16 Mar 2020 20:30:05 -0700 (PDT)
+        bh=leVLAdT+W/buvZ8Zg3ry/YZKPP0/AxJaPWTc4uA+O2Y=;
+        b=j1EVxFNHkjX1vuST5+KOFldQlJSvXdqQeWKF/Dn43GkhA1w964Z4MuAQ32wZWI2xCa
+         SQVeSiDoD0afPHf64QOHBZTqvjb3eXCaAm4LTpTc0gUzc0eFoqEqJml4CsbjPQLO3YTM
+         6O34EkY+zpenHHe4kmt3fKiZBuvtN92tUb+y09BlrPW2FGB4h+iO47cf8bOh4L6l7L87
+         PCsARNgZqFSQ8JgOXgJJJL3oy6qwd8UYoIMu2kmBckc9iZCLsrJt9n1X0Wi4olvmloh5
+         hbTbjZSD3vVMJftPGXO+tXmPs/25lnvIFjjvfIWZ2UxVCBTVZHBX5DU9RoV4iuT8wBM2
+         cZ4Q==
+X-Gm-Message-State: ANhLgQ1TMYEx6kAQrFbNf1cQDrCX7shLe9l5HfrOxzSqYqTySfSpn91h
+        Eo/uCfi5W4rzR1QZLBHMbLsWS2/wLZU=
+X-Google-Smtp-Source: ADFU+vspCG8U1Mj5/NvMqL4Vd2hb1arCoFORwTsiZzlVSNRWXFHyHYGQEnV2Je3qWMbX/d5q31ldZw==
+X-Received: by 2002:ae9:c012:: with SMTP id u18mr3029271qkk.140.1584415807059;
+        Mon, 16 Mar 2020 20:30:07 -0700 (PDT)
 Received: from Arrakis.djogorchock.com ([136.33.205.58])
-        by smtp.gmail.com with ESMTPSA id t2sm1272264qtp.13.2020.03.16.20.30.04
+        by smtp.gmail.com with ESMTPSA id t2sm1272264qtp.13.2020.03.16.20.30.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2020 20:30:04 -0700 (PDT)
+        Mon, 16 Mar 2020 20:30:06 -0700 (PDT)
 From:   "Daniel J. Ogorchock" <djogorchock@gmail.com>
 To:     linux-input@vger.kernel.org
 Cc:     thunderbird2k@gmail.com, blaws05@gmail.com,
         benjamin.tissoires@redhat.com, jikos@kernel.org,
         Roderick.Colenbrander@sony.com, svv@google.com, s.jegen@gmail.com,
         carmueller@gmail.com, "Daniel J. Ogorchock" <djogorchock@gmail.com>
-Subject: [PATCH v11 07/11] HID: nintendo: send subcommands after receiving input report
-Date:   Mon, 16 Mar 2020 22:29:24 -0500
-Message-Id: <20200317032928.546172-8-djogorchock@gmail.com>
+Subject: [PATCH v11 08/11] HID: nintendo: reduce device removal subcommand errors
+Date:   Mon, 16 Mar 2020 22:29:25 -0500
+Message-Id: <20200317032928.546172-9-djogorchock@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200317032928.546172-1-djogorchock@gmail.com>
 References: <20200317032928.546172-1-djogorchock@gmail.com>
@@ -64,74 +64,76 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Waiting to send subcommands until right after receiving an input report
-drastically improves subcommand reliability. If the driver has finished
-initial controller configuration, it now waits until receiving an input
-report for all subcommands.
+This patch fixes meaningless error output from trying to send
+subcommands immediately after controller removal. It now disables
+subcommands as soon as possible on removal.
 
 Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
 ---
- drivers/hid/hid-nintendo.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ drivers/hid/hid-nintendo.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 2421ce10f234..8e26672661dc 100644
+index 8e26672661dc..abac0497b1cb 100644
 --- a/drivers/hid/hid-nintendo.c
 +++ b/drivers/hid/hid-nintendo.c
-@@ -328,6 +328,7 @@ struct joycon_ctlr {
- 	bool received_resp;
- 	u8 usb_ack_match;
- 	u8 subcmd_ack_match;
-+	bool received_input_report;
+@@ -230,6 +230,7 @@ static const struct joycon_rumble_amp_data joycon_rumble_amplitudes[] = {
+ enum joycon_ctlr_state {
+ 	JOYCON_CTLR_STATE_INIT,
+ 	JOYCON_CTLR_STATE_READ,
++	JOYCON_CTLR_STATE_REMOVED,
+ };
  
- 	/* factory calibration data */
- 	struct joycon_stick_cal left_stick_cal_x;
-@@ -381,6 +382,26 @@ static int joycon_hid_send_sync(struct joycon_ctlr *ctlr, u8 *data, size_t len,
- 	 * doing one retry after a timeout appears to always work.
- 	 */
- 	while (tries--) {
-+		/*
-+		 * If we are in the proper reporting mode, wait for an input
-+		 * report prior to sending the subcommand. This improves
-+		 * reliability considerably.
-+		 */
-+		if (ctlr->ctlr_state == JOYCON_CTLR_STATE_READ) {
-+			unsigned long flags;
-+
-+			spin_lock_irqsave(&ctlr->lock, flags);
-+			ctlr->received_input_report = false;
-+			spin_unlock_irqrestore(&ctlr->lock, flags);
-+			ret = wait_event_timeout(ctlr->wait,
-+						 ctlr->received_input_report,
-+						 HZ / 4);
-+			/* We will still proceed, even with a timeout here */
-+			if (!ret)
-+				hid_warn(ctlr->hdev,
-+					 "timeout waiting for input report\n");
-+		}
-+
- 		ret = __joycon_hid_send(ctlr->hdev, data, len);
- 		if (ret < 0) {
- 			memset(ctlr->input_buf, 0, JC_MAX_RESP_SIZE);
-@@ -753,6 +774,18 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
- 	}
+ struct joycon_stick_cal {
+@@ -451,6 +452,14 @@ static int joycon_send_subcmd(struct joycon_ctlr *ctlr,
+ 	unsigned long flags;
  
- 	input_sync(dev);
-+
+ 	spin_lock_irqsave(&ctlr->lock, flags);
 +	/*
-+	 * Immediately after receiving a report is the most reliable time to
-+	 * send a subcommand to the controller. Wake any subcommand senders
-+	 * waiting for a report.
++	 * If the controller has been removed, just return ENODEV so the LED
++	 * subsystem doesn't print invalid errors on removal.
 +	 */
-+	if (unlikely(mutex_is_locked(&ctlr->output_mutex))) {
-+		spin_lock_irqsave(&ctlr->lock, flags);
-+		ctlr->received_input_report = true;
++	if (ctlr->ctlr_state == JOYCON_CTLR_STATE_REMOVED) {
 +		spin_unlock_irqrestore(&ctlr->lock, flags);
-+		wake_up(&ctlr->wait);
++		return -ENODEV;
 +	}
- }
+ 	memcpy(subcmd->rumble_data, ctlr->rumble_data[ctlr->rumble_queue_tail],
+ 	       JC_RUMBLE_DATA_SIZE);
+ 	spin_unlock_irqrestore(&ctlr->lock, flags);
+@@ -800,10 +809,13 @@ static void joycon_rumble_worker(struct work_struct *work)
+ 		mutex_lock(&ctlr->output_mutex);
+ 		ret = joycon_enable_rumble(ctlr, true);
+ 		mutex_unlock(&ctlr->output_mutex);
+-		if (ret < 0)
+-			hid_warn(ctlr->hdev, "Failed to set rumble; e=%d", ret);
  
- static void joycon_rumble_worker(struct work_struct *work)
++		/* -ENODEV means the controller was just unplugged */
+ 		spin_lock_irqsave(&ctlr->lock, flags);
++		if (ret < 0 && ret != -ENODEV &&
++		    ctlr->ctlr_state != JOYCON_CTLR_STATE_REMOVED)
++			hid_warn(ctlr->hdev, "Failed to set rumble; e=%d", ret);
++
+ 		ctlr->rumble_msecs = jiffies_to_msecs(jiffies);
+ 		if (ctlr->rumble_queue_tail != ctlr->rumble_queue_head) {
+ 			if (++ctlr->rumble_queue_tail >= JC_RUMBLE_QUEUE_SIZE)
+@@ -1516,9 +1528,17 @@ static int nintendo_hid_probe(struct hid_device *hdev,
+ static void nintendo_hid_remove(struct hid_device *hdev)
+ {
+ 	struct joycon_ctlr *ctlr = hid_get_drvdata(hdev);
++	unsigned long flags;
+ 
+ 	hid_dbg(hdev, "remove\n");
++
++	/* Prevent further attempts at sending subcommands. */
++	spin_lock_irqsave(&ctlr->lock, flags);
++	ctlr->ctlr_state = JOYCON_CTLR_STATE_REMOVED;
++	spin_unlock_irqrestore(&ctlr->lock, flags);
++
+ 	destroy_workqueue(ctlr->rumble_queue);
++
+ 	hid_hw_close(hdev);
+ 	hid_hw_stop(hdev);
+ }
 -- 
 2.25.1
 
