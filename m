@@ -2,128 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5519E187870
-	for <lists+linux-input@lfdr.de>; Tue, 17 Mar 2020 05:23:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11563187E1A
+	for <lists+linux-input@lfdr.de>; Tue, 17 Mar 2020 11:20:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726616AbgCQEXC convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Tue, 17 Mar 2020 00:23:02 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:33509 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726613AbgCQEXC (ORCPT
+        id S1726506AbgCQKUQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Mar 2020 06:20:16 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:36745 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726066AbgCQKUQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Mar 2020 00:23:02 -0400
-Received: from mail-wm1-f69.google.com ([209.85.128.69])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <chia-lin.kao@canonical.com>)
-        id 1jE3kq-0006l4-36
-        for linux-input@vger.kernel.org; Tue, 17 Mar 2020 04:23:00 +0000
-Received: by mail-wm1-f69.google.com with SMTP id 20so5304310wmk.1
-        for <linux-input@vger.kernel.org>; Mon, 16 Mar 2020 21:23:00 -0700 (PDT)
+        Tue, 17 Mar 2020 06:20:16 -0400
+Received: by mail-lj1-f193.google.com with SMTP id g12so22149101ljj.3;
+        Tue, 17 Mar 2020 03:20:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=2bvQoM7fTBjp0klcuiM54Wdtln7AcxQr31yym9z34dg=;
+        b=MZDRgS4BaT0SU4IYSBvCwUz5CUebXUPcrF+pOqrlQ1nhj3L6353fbCQP8jVC8mCPoM
+         If2LSZ8A1bUp6I1JalHYrMfCENCwipMZawDM3C9DxuEvV2bOreSnHD4oq5016l48hXvd
+         YBEq1jmeL7JcsMdn1Aiel7r7H6xkrbU4IoBKDGPRfUcNbWF5dpCJXyge6KD889Qvzcog
+         feNv988Lw6Fj7ZZ1AqjZQ/hRPBcmFU+WvZ+OiyVIdU8yYLhyCE8KAsp8KJSBdZL0JiZ4
+         gNwDURP5LVtLbziVRCqlTW+LOJPwTJVmDHi++ePSEnUbwOEOdMbJtFOa/h7wiAXm41Ux
+         GeHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=LR2lWYgIayYbanKxoGsZXWtRIFq/icnuafwUCJSqlBY=;
-        b=YTR4VqxOD79MuxvuiXxfjJzZmvENE6KKnW+OMzdxgNZeaj66JYMnlQgmOIYPjliE65
-         C7k5Hc6vXJLWCK6QsZnA3o7wL9gmGNPbUZbJR7A8ejdP30MaCq4HGosh9/UzefT/UFGE
-         SkTMQB+uUYFaS3LO4zJXH9fOEMN3EVBHHeiMLyGnRTZ+So7PhW33LZVLecEoD/SUxsho
-         ZK/ClkrQmbuRf9LHe+q4NUjUs8PIWUJFD9yzFqIwkRSMvwqA8Mu7q2S34st6BEaOz3uW
-         75W0oCbv55Xu3eO8BWj+2FV+EtdcsCKbvoJFsH6xDvtQ78qJK6xY7vKvBTHVlL6qn1AO
-         Umsw==
-X-Gm-Message-State: ANhLgQ0O3M/E59xqVuty0vNw015ZZMsOrqX3QrVkhgJhhjqGG2823xG3
-        xY8cjzbXGl/8ydyyZlb6RUavbeRPc7N2L17qGete6VyYBT7I+NccjbxTPo3sOVWg8E+BWXH+JHI
-        aR2SBmxiJFns/yAmf103bjvA/cHv9Mu5zYrvI9SU8Qmv3A3N2G0e40D4Y
-X-Received: by 2002:a5d:480a:: with SMTP id l10mr3446129wrq.178.1584418979798;
-        Mon, 16 Mar 2020 21:22:59 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtS9xGu/clE7LssO/c1MTX7szfSJuHMsj9Z3gBuclu0wafunqLHCm+rn+msLWfL6mk91VyTZm7sdG3II1XWvOY=
-X-Received: by 2002:a5d:480a:: with SMTP id l10mr3446094wrq.178.1584418979572;
- Mon, 16 Mar 2020 21:22:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <501e8224-e334-0aa8-41c0-8f67552e7069@gmail.com> <20200310033640.14440-1-vicamo@gmail.com>
-In-Reply-To: <20200310033640.14440-1-vicamo@gmail.com>
-From:   AceLan Kao <acelan.kao@canonical.com>
-Date:   Tue, 17 Mar 2020 12:22:48 +0800
-Message-ID: <CAFv23Q=q2N7gyvKrgJZJN04+1YqV=VxP2smm6gxn4oAwx2=QNA@mail.gmail.com>
-Subject: Re: [PATCH v2] Input: i8042 - fix the selftest retry logic
-To:     You-Sheng Yang <vicamo@gmail.com>
-Cc:     Allison Randal <allison@lohutok.net>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=2bvQoM7fTBjp0klcuiM54Wdtln7AcxQr31yym9z34dg=;
+        b=oqz9q7TsVX8ClG9rVUO6zjnMQFEx68OcULKohhUgaHsSzLBLIULQmIJdzLvA0989zW
+         uZJcmclAwTJUjehQNm8AGYZ49GPMKPGHTqKd9Mf2rjzD1MDu7kQobzdaBzOJ+BvS5wTp
+         J0ehO30DDq2Eyzz1H6tl4FFMJIOJOKgRCi2toLDlVF0Axrr13ptCmrMng/WgEv+KZuau
+         aObzfRHsgbOLZBfAGDrA8d9LHDrHK2R79gR3tn7Oduf5CKPwu/rMBtulrrwyBB9E7RN6
+         fZclOY0O/Jo3V2fHYN5d7kD2PmVvD0zf7V3SCTpf3fc4225wbW8W0ue09pvTyt735grP
+         lJsw==
+X-Gm-Message-State: ANhLgQ1RQ1GieUyHt0PopgEYvldXXklcc5EIoLQgRllkJMxahkDl6FcO
+        50SHwU4taBXuqJ9QFRqp51s=
+X-Google-Smtp-Source: ADFU+vvszzeoWJVd3TcHDvI8WAFElfYnQkMXm+roHZR329HPbNexz7N9xlKt3WDG1FhhpHxuuB7jgA==
+X-Received: by 2002:a2e:5844:: with SMTP id x4mr2279916ljd.40.1584440413435;
+        Tue, 17 Mar 2020 03:20:13 -0700 (PDT)
+Received: from localhost (host-176-37-176-139.la.net.ua. [176.37.176.139])
+        by smtp.gmail.com with ESMTPSA id c20sm2189438lfb.60.2020.03.17.03.20.12
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 17 Mar 2020 03:20:12 -0700 (PDT)
+From:   Igor Opaniuk <igor.opaniuk@gmail.com>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     Max Krummenacher <max.krummenacher@toradex.com>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
+        Igor Opaniuk <igor.opaniuk@toradex.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Enrico Weigelt <info@metux.net>, linux-input@vger.kernel.org,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        You-Sheng Yang <vicamo.yang@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH v1 5/5] input: Dual license file adding MIT
+Date:   Tue, 17 Mar 2020 12:19:47 +0200
+Message-Id: <20200317101947.27250-5-igor.opaniuk@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200317101947.27250-1-igor.opaniuk@gmail.com>
+References: <20200317101947.27250-1-igor.opaniuk@gmail.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This v2 fix my issue, too.
-Please consider to merge this patch.
-Thanks.
+From: Igor Opaniuk <igor.opaniuk@toradex.com>
 
-You-Sheng Yang <vicamo@gmail.com> 於 2020年3月10日 週二 上午11:37寫道：
->
-> From: You-Sheng Yang <vicamo.yang@canonical.com>
->
-> It returns -NODEV at the first selftest timeout, so the retry logic
-> doesn't work. Move the return outside of the while loop to make it real
-> retry 5 times before returns -ENODEV.
->
-> BTW, the origin loop will retry 6 times, also fix this.
->
-> Signed-off-by: You-Sheng Yang <vicamo.yang@canonical.com>
-> ---
->  drivers/input/serio/i8042.c | 23 +++++++++++++----------
->  1 file changed, 13 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
-> index 20ff2bed3917..e8f2004071d4 100644
-> --- a/drivers/input/serio/i8042.c
-> +++ b/drivers/input/serio/i8042.c
-> @@ -937,25 +937,28 @@ static int i8042_controller_selftest(void)
->  {
->         unsigned char param;
->         int i = 0;
-> +       int ret;
->
->         /*
->          * We try this 5 times; on some really fragile systems this does not
->          * take the first time...
->          */
-> -       do {
-> -
-> -               if (i8042_command(&param, I8042_CMD_CTL_TEST)) {
-> -                       pr_err("i8042 controller selftest timeout\n");
-> -                       return -ENODEV;
-> -               }
-> +       while (i++ < 5) {
->
-> -               if (param == I8042_RET_CTL_TEST)
-> +               ret = i8042_command(&param, I8042_CMD_CTL_TEST);
-> +               if (ret)
-> +                       pr_err("i8042 controller selftest timeout (%d/5)\n", i);
-> +               else if (param == I8042_RET_CTL_TEST)
->                         return 0;
-> +               else
-> +                       dbg("i8042 controller selftest: %#x != %#x\n",
-> +                           param, I8042_RET_CTL_TEST);
->
-> -               dbg("i8042 controller selftest: %#x != %#x\n",
-> -                   param, I8042_RET_CTL_TEST);
->                 msleep(50);
-> -       } while (i++ < 5);
-> +       }
-> +
-> +       if (ret)
-> +               return -ENODEV;
->
->  #ifdef CONFIG_X86
->         /*
-> --
-> 2.25.0
->
+Dual license file adding MIT license, which will permit to re-use
+bindings and dependent device tree sources (that include this file
+directly or indirectly via dt-bindings) in other non-GPL OSS projects.
+
+Signed-off-by: Igor Opaniuk <igor.opaniuk@toradex.com>
+---
+
+ include/uapi/linux/input-event-codes.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 0f1db1cccc3f..2f86c4554721 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -1,4 +1,4 @@
+-/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note OR MIT */
+ /*
+  * Input event codes
+  *
+-- 
+2.17.1
+
