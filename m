@@ -2,67 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3F2C189F79
-	for <lists+linux-input@lfdr.de>; Wed, 18 Mar 2020 16:18:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2071D18A05F
+	for <lists+linux-input@lfdr.de>; Wed, 18 Mar 2020 17:19:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726762AbgCRPSk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Mar 2020 11:18:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41390 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726619AbgCRPSk (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Mar 2020 11:18:40 -0400
-Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726836AbgCRQTZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Mar 2020 12:19:25 -0400
+Received: from orion.archlinux.org ([88.198.91.70]:43124 "EHLO
+        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726974AbgCRQTZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 18 Mar 2020 12:19:25 -0400
+Received: from orion.archlinux.org (localhost [127.0.0.1])
+        by orion.archlinux.org (Postfix) with ESMTP id 8556C1A324B994;
+        Wed, 18 Mar 2020 16:19:22 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on orion.archlinux.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
+        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
+        autolearn=no autolearn_force=no version=3.4.4
+X-Spam-BL-Results: 
+Received: from localhost.localdomain (unknown [IPv6:2001:8a0:f254:2300:dad6:8c60:8394:88da])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D63FC20757;
-        Wed, 18 Mar 2020 15:18:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584544719;
-        bh=3ik3W4R/WOTCf/Ip5Ko5O1i7v7YMu4dBHBzNotGH174=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=fqmCjn6fxOtMF6p5X1Qb5e48PAabDtwuKZ+Klqnyyj6Ynfsm5PFCnPIzKA1LvhEEZ
-         ixEQBg5rgTHkRA4VRoV4dpIBrrYZFrRFf8icV8ulyCEc40EKRGy+ZkLjBZxrj8C9Ue
-         2KpWgiv/66IQmfVub0Kxjsm3azSHLIAlZldSkkrI=
-Date:   Wed, 18 Mar 2020 16:18:36 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-2?Q?Samuel_=C8avoj?= <sammko@sammserver.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        (Authenticated sender: ffy00)
+        by orion.archlinux.org (Postfix) with ESMTPSA;
+        Wed, 18 Mar 2020 16:19:21 +0000 (UTC)
+From:   =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Silvan Jegen <s.jegen@gmail.com>
-Subject: Re: [PATCH v2] HID: Add driver fixing Glorious PC Gaming Race mouse
- report descriptor
-In-Reply-To: <20200313021236.1069863-1-sammko@sammserver.com>
-Message-ID: <nycvar.YFH.7.76.2003181618040.19500@cbobk.fhfr.pm>
-References: <20200308212729.51336-1-sammko@sammserver.com> <20200313021236.1069863-1-sammko@sammserver.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mario Limonciello <superm1@gmail.com>,
+        Richard Hughes <hughsient@gmail.com>
+Cc:     =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
+Subject: [PATCH] HID: logitech-dj: issue udev change event on device connection
+Date:   Wed, 18 Mar 2020 16:19:06 +0000
+Message-Id: <20200318161906.3340959-1-lains@archlinux.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 13 Mar 2020, Samuel Čavoj wrote:
+As discussed in the mailing list:
 
-> The Glorious Model O mice (and also at least the Model O-, which is
-> driver-wise the same mouse) have a bug in the descriptor of HID
-> Report with ID 2. This report is used for Consumer Control buttons,
-> which can be mapped using the provided Windows only software.
-> 
-> Here is an excerpt from the original descriptor:
-> 
->   INPUT(2)[INPUT]
->     Field(0)
->       Flags( Constant Variable Absolute )
->     Field(1)
->       Flags( Constant Variable Absolute )
->     Field(2)
->       Flags( Constant Variable Absolute )
+> Right now the hid-logitech-dj driver will export one node for each
+> connected device, even when the device is not connected. That causes
+> some trouble because in userspace we don't have have any way to know if
+> the device is connected or not, so when we try to communicate, if the
+> device is disconnected it will fail.
 
-Applied, thanks.
+The solution reached to solve this issue is to trigger an udev change
+event when the device connects, this way userspace can just wait on
+those connections instead of trying to ping the device.
 
+Signed-off-by: Filipe Laíns <lains@archlinux.org>
+---
+ drivers/hid/hid-logitech-dj.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index 48dff5d6b605..fcd481a0be1f 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -1464,6 +1464,8 @@ static int logi_dj_dj_event(struct hid_device *hdev,
+ 		if (dj_report->report_params[CONNECTION_STATUS_PARAM_STATUS] ==
+ 		    STATUS_LINKLOSS) {
+ 			logi_dj_recv_forward_null_report(djrcv_dev, dj_report);
++		} else {
++			kobject_uevent(&hdev->dev.kobj, KOBJ_CHANGE);
+ 		}
+ 		break;
+ 	default:
 -- 
-Jiri Kosina
-SUSE Labs
-
+2.25.1
