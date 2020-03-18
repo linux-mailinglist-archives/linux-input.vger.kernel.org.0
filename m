@@ -2,124 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92B89189C7A
-	for <lists+linux-input@lfdr.de>; Wed, 18 Mar 2020 14:02:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F6CF189CFA
+	for <lists+linux-input@lfdr.de>; Wed, 18 Mar 2020 14:27:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726752AbgCRNCv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Mar 2020 09:02:51 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:23793 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726638AbgCRNCv (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Mar 2020 09:02:51 -0400
-IronPort-SDR: VN2W5FDW5IzeIApCYsQpKfsEb9uaG+u+Mu2F3u4+xj6myHXB7ISHEGBwp6XBYzcC2ze7mt6XbU
- oOjoGUiYwtRbIW1gUvilsBg715TCMT/3cNPcV5rJ3dvZbViAO65rhje/9d5f3y0vJR0xD+KkDD
- 8ijjjyVwAHKGE+LA1r/3xSl8WwjsBXiDdwkv+/fQ2ijkHo0sx71AGz9JZtfuw9D63/bw5MvCz9
- prlRGDpf7AZYTqjMzHCG0Sgc776UC0e9r8GkIRf45RszzSA3EuFGyyYfPF7RYdo+dJG6Rf5ykr
- H94=
-X-IronPort-AV: E=Sophos;i="5.70,567,1574150400"; 
-   d="scan'208";a="48803579"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa1.mentor.iphmx.com with ESMTP; 18 Mar 2020 05:02:50 -0800
-IronPort-SDR: VOewRTdBF2YEGobwY6tYStdtlGoMq4v9FtnEeJskrsApWCEBGxSF6H1rCOwuBx/STrJDy9a27P
- EP0qvFfF3O2UIoi/y+GqslvgEhMk+tJGEi4Mmi79UypYOeJw7vrJdQvQVO+VozbhFn0IIfGDTN
- 6CJcMgEpJ4+iix3DA0w7EoTQhnUrVXmXrYHcXMjO6fjeY01D1/ip8rxVmjuCZ2+QoNIpIXcR52
- 3tiMEmc3eolg6ArjYINFE1qPHi9EaKysY3vrt74x/PNjHQDypo/aPyi9yOO50ICgroYeU8dogY
- Vi8=
-Subject: Re: [PATCH v7 03/48] Input: atmel_mxt_ts - only read messages in
- mxt_acquire_irq() when necessary
-To:     Dmitry Osipenko <digetx@gmail.com>, <jikos@kernel.org>,
-        <benjamin.tissoires@redhat.com>, <rydberg@bitmath.org>,
-        <dmitry.torokhov@gmail.com>, <nick@shmanahar.org>,
-        <bsz@semihalf.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>
-References: <20200212084218.32344-1-jiada_wang@mentor.com>
- <20200212084218.32344-4-jiada_wang@mentor.com>
- <8ea1244b-f045-df34-b6b2-2b812ab6dee4@gmail.com>
-From:   "Wang, Jiada" <jiada_wang@mentor.com>
-Message-ID: <e586b057-1ec1-896e-374e-dba743709806@mentor.com>
-Date:   Wed, 18 Mar 2020 22:02:36 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726777AbgCRN1q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Mar 2020 09:27:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35842 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726738AbgCRN1p (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 18 Mar 2020 09:27:45 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E0A2C20772;
+        Wed, 18 Mar 2020 13:27:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584538063;
+        bh=oIHo118B/P4ps6bCbCVqy1PT/9fV4w7MXfcifS4hIdI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MvBTxOqdmnHsDg1WiZ0CR7fg6rQLSQUb/sx1NYSgsIpiLfoMcF+ZEqhKUZHMdL/Es
+         16436zOaucxfW4wE1Kmm0fpm8NAgBEFAv0c2jXykiWkXGFjWNOUAZwr2RrRRSsZR2A
+         6OKUexXnmMm5q3bx5th2BjaAg7CLS9TgTfBTRwb8=
+Date:   Wed, 18 Mar 2020 14:27:41 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v12 03/10] firmware: Rename FW_OPT_NOFALLBACK to
+ FW_OPT_NOFALLBACK_SYSFS
+Message-ID: <20200318132741.GA2794545@kroah.com>
+References: <20200115163554.101315-1-hdegoede@redhat.com>
+ <20200115163554.101315-4-hdegoede@redhat.com>
+ <20200124085751.GA2957916@kroah.com>
+ <d25d5d6e-0348-b19f-539e-048cfa70d6a6@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <8ea1244b-f045-df34-b6b2-2b812ab6dee4@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202) To
- svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d25d5d6e-0348-b19f-539e-048cfa70d6a6@redhat.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Dmitry
+On Fri, Jan 24, 2020 at 10:16:48AM +0100, Hans de Goede wrote:
+> Hi,
+> 
+> On 1/24/20 9:57 AM, Greg Kroah-Hartman wrote:
+> > On Wed, Jan 15, 2020 at 05:35:47PM +0100, Hans de Goede wrote:
+> > > This is a preparation patch for adding a new platform fallback mechanism,
+> > > which will have its own enable/disable FW_OPT_xxx option.
+> > > 
+> > > Note this also fixes a typo in one of the re-wordwrapped comments:
+> > > enfoce -> enforce.
+> > > 
+> > > Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > 
+> > I've taken this in my tree for now in a quest to try to get others to
+> > pay attention to this series...
+> 
+> Thank you.
+> 
+> As mentioned before I believe that this series is ready for merging now.
+> 
+> Andy Lutomirski had one last change request for v12 of the second
+> patch in the series, specifically to replace the loop searching for
+> the prefix with a memem, but the kernel does not have memmem.
+> 
+> Andy, are you ok with v12 as is, given that we don't have memmem ?
+> 
+> Assuming Andy is ok with v12 as is, then to merge this we need
+> to probably wait for 5.6-rc1 and then have the x86/efi folks do
+> an immutable branch with the first 2 patches of the series.
 
-On 2020/03/18 7:44, Dmitry Osipenko wrote:
-> 12.02.2020 11:41, Jiada Wang пишет:
->> From: Nick Dyer <nick.dyer@itdev.co.uk>
->>
->> The workaround of reading all messages until an invalid is received is a
->> way of forcing the CHG line high, which means that when using
->> edge-triggered interrupts the interrupt can be acquired.
->>
->> With level-triggered interrupts the workaround is unnecessary.
->>
->> Also, most recent maXTouch chips have a feature called RETRIGEN which, when
->> enabled, reasserts the interrupt line every cycle if there are messages
->> waiting. This also makes the workaround unnecessary.
->>
->> Note: the RETRIGEN feature is only in some firmware versions/chips, it's
->> not valid simply to enable the bit.
-> 
-> ...
->> +static int mxt_check_retrigen(struct mxt_data *data)
->> +{
->> +	struct i2c_client *client = data->client;
->> +	int error;
->> +	int val;
->> +
->> +	data->use_retrigen_workaround = false;
->> +
->> +	if (irq_get_trigger_type(data->irq) & IRQF_TRIGGER_LOW)
->> +		return 0;
->> +
->> +	if (data->T18_address) {
->> +		error = __mxt_read_reg(client,
->> +				       data->T18_address + MXT_COMMS_CTRL,
->> +				       1, &val);
->> +		if (error)
->> +			return error;
->> +
->> +		if (val & MXT_COMMS_RETRIGEN)
->> +			return 0;
->> +	}
->> +
->> +	dev_warn(&client->dev, "Enabling RETRIGEN workaround\n");
->> +	data->use_retrigen_workaround = true;
->> +	return 0;
->> +}
-> 
-> Hello Jiada,
-> 
-> I'm seeing "Enabling RETRIGEN workaround" message with the following
-> device-tree entry:
-> 
-> touchscreen@4c {
-> 	compatible = "atmel,maxtouch";
-> 	reg = <0x4c>;
-> 
-> 	interrupt-parent = <&gpio>;
-> 	interrupts = <TEGRA_GPIO(V, 6) IRQ_TYPE_LEVEL_LOW>;
-> 
-> 	reset-gpios = <&gpio TEGRA_GPIO(Q, 7) GPIO_ACTIVE_HIGH>;
-> };
-> 
-> This happens because data->irq is NULL. Please fix it, thanks in advance.
-Thanks for reporting this issue,
-I will fix this issue in v8 patch-set
+Did this every happen?  Or do I need to dump this all into my tree?
 
-Thanks,
-Jiada
-> 
+thanks,
+
+greg k-h
