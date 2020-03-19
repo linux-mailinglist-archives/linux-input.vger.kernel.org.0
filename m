@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9768718BA15
-	for <lists+linux-input@lfdr.de>; Thu, 19 Mar 2020 16:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C35018BA17
+	for <lists+linux-input@lfdr.de>; Thu, 19 Mar 2020 16:03:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728129AbgCSPCY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Mar 2020 11:02:24 -0400
+        id S1728207AbgCSPC3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Mar 2020 11:02:29 -0400
 Received: from esa1.mentor.iphmx.com ([68.232.129.153]:16097 "EHLO
         esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728207AbgCSPCY (ORCPT
+        with ESMTP id S1727754AbgCSPC3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Mar 2020 11:02:24 -0400
-IronPort-SDR: Bv49ZsGTTNOxYrDxlZi43iL1dBnPC1rLdbrwd9rCzcB68DK1Pely9KV9zPSK61rBkqSJ6fJ60K
- c1ggTCpMVJht3wFQzFcmZ54WtISbqGLoQNDc2Pf+3WkALroF9QBehJTn55lIv/EVxbzds4Huzo
- S7FmnGv1/fpJNY4utwKOV+Pn8bSmopRliVp+EiiFUUxtLhLz3vIThINWLmgwTAmK1ZKsykov0s
- 8sFSRmBEnhBH3bIlrRTjPUtajza7Xhg0ZEPVrYrrNxryug6kZSeTaXgdbIwhBpb+nSPIRTGsva
- Rrg=
+        Thu, 19 Mar 2020 11:02:29 -0400
+IronPort-SDR: lhFgc0e6hGbGGYRBSjfdvX4bW8aP1WLPGs3q9xLO7y7DiELuwuk62MtJ0Y8gtsO533l8APHg+4
+ 4OiGkBh9yuea3JBA/DtJu05xngZvyVVomIOG7kILLXmdVojF8Kpc8+vx/MMxIpyhzCZwz8uD07
+ eFsGAjkdNy+f3HoQ1CFusN6kbEIpvsR7J3vfsKTC09Og1z3x7zhOy0URORZW18svQMZaggswCx
+ 5Hs3ljGRVSbNlbcWA1A70YgPjtrxMUdzdlBjbPmYDwVuwlNRUCkyMZZaBJiIlLQVnL8KOyJl+u
+ Ghs=
 X-IronPort-AV: E=Sophos;i="5.70,572,1574150400"; 
-   d="scan'208";a="48850347"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa1.mentor.iphmx.com with ESMTP; 19 Mar 2020 07:02:23 -0800
-IronPort-SDR: OhiAWB4TLJDcXnwdj0IrUqS8MTXx3b1Be1OUlqFd+GjkmwtnedSafK6Q21PeUWxBeo1c1lwnHg
- gHzzIhvTqakO9bnnYh7woP6dVZufH0kgnBjTv1f2aPe79Zd/dnwmvcgDiyqryJ4Ools0pcaag3
- 63o6zqCD4sKBIgonuszlecKGOV794+xtterg/1J+4QzHwDR4Gs55zD0M+1SOCTwFZU9WqvjoMl
- CWAByLYVIYgESEctvggX5GQ/l9rH7U4xquCyRSLKRR34QeX4ZTGU4gpCxrQtj4Jv4nkdI7+z58
- 7sY=
+   d="scan'208";a="48850353"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa1.mentor.iphmx.com with ESMTP; 19 Mar 2020 07:02:27 -0800
+IronPort-SDR: u1wpgXUT2lm18szSxBcQoRjBzChb+hHv9+0rKVQONds0qOFt/MWiUDwlHF595O47LeDJAxb0Na
+ Ys+znmit4MlI2cynCZP+tBcrnzZwDsM+rogJPDJLF2SH9zy1JFZ5m/4H+twa8S88Ksr70szg9k
+ 5GsQYSoqXXaYnXFSZ2LKvRLj8XPrPiK/SkQ0J/rlXRdwOv4ReS7OSn3CgRH5KIiKhiGXODLRVc
+ 1yCxHPHY71DztNEqxjhDPHcvIaUrB3NLfrWxA8WVkKJL3AF8cu5XLdjf+dQQBHBHKl/U5xKQ7w
+ jQg=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -33,9 +33,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v8 31/52] Input: atmel_mxt_ts - implement debug output for messages
-Date:   Thu, 19 Mar 2020 07:59:55 -0700
-Message-ID: <20200319150016.61398-32-jiada_wang@mentor.com>
+Subject: [PATCH v8 32/52] Input: atmel_mxt_ts - implement improved debug message interface
+Date:   Thu, 19 Mar 2020 07:59:56 -0700
+Message-ID: <20200319150016.61398-33-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200319150016.61398-1-jiada_wang@mentor.com>
 References: <20200319150016.61398-1-jiada_wang@mentor.com>
@@ -48,84 +48,261 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-Add a debug switch which causes all messages from the touch controller to
-be dumped to the dmesg log with a set prefix "MXT MSG:". This is used by
-Atmel user-space utilities to debug touch operation. Enabling this output
-does impact touch performance.
+Implement improved debug message interface
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-(cherry picked from ndyer/linux/for-upstream commit 3c3fcfdd4889dfeb1c80ae8cd94a622c6342b06a)
-[gdavis: Forward port and fix conflicts.]
+(cherry picked from ndyer/linux/for-upstream commit 078569c13c88dcb6f8d882bfe17168587712df7d)
+[gdavis: Resolve forward port conflicts due to v4.14.51 commit
+	 960fe000b1d3 ("Input: atmel_mxt_ts - fix the firmware
+	 update").]
 Signed-off-by: George G. Davis <george_davis@mentor.com>
-[jiada: Replace symbolic permissions 'S_IWUSR | S_IRUSR' with 0600]
+[gdavis: Squash fixes from Dirk Behme:
+	 - Input: atmel_mxt_ts - add missing unlock in error path
+	 - Input: atmel_mxt_ts - add missing unlock in error path
+	 - Input: atmel_mxt_ts - call mxt_debug_msg_remove() in error path
+	 - Input: atmel_mxt_ts - protect debug_v2_enabled by mutex
+Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
+[gdavis: Squash fix from Vladimir Zapolskiy:
+	 - Input: atmel_mxt_ts - simplify debug_msg binary attribute
+	   handling]
+Signed-off-by: Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
+[jiada: Replace symbolic permissions to octal permissions]
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 47 ++++++++++++++++++++++--
- 1 file changed, 44 insertions(+), 3 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 194 ++++++++++++++++++++++-
+ 1 file changed, 192 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 2c3a59ff70c4..10da40c6c91b 100644
+index 10da40c6c91b..15bc1b1864de 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -335,6 +335,7 @@ struct mxt_data {
- 	u8 t100_aux_ampl;
+@@ -242,6 +242,8 @@ enum t100_type {
+ 
+ #define MXT_PIXELS_PER_MM	20
+ 
++#define DEBUG_MSG_MAX		200
++
+ struct mxt_info {
+ 	u8 family_id;
+ 	u8 variant_id;
+@@ -336,6 +338,11 @@ struct mxt_data {
  	u8 t100_aux_area;
  	u8 t100_aux_vect;
-+	bool debug_enabled;
+ 	bool debug_enabled;
++	bool debug_v2_enabled;
++	u8 *debug_msg_data;
++	u16 debug_msg_count;
++	struct bin_attribute *debug_msg_attr;
++	struct mutex debug_msg_lock;
  	u8 max_reportid;
  	u32 config_crc;
  	u32 info_crc;
-@@ -460,8 +461,11 @@ static bool mxt_object_readable(unsigned int type)
- 
- static void mxt_dump_message(struct mxt_data *data, u8 *message)
- {
--	dev_dbg(&data->client->dev, "message: %*ph\n",
--		data->T5_msg_size, message);
-+	/* debug message with prefix 'MXT MSG:' used by
-+	 * Atmel user-space utilities to debug touch operation
-+	 */
-+	dev_dbg(&data->client->dev, "MXT MSG: %*ph\n",
-+		       data->T5_msg_size, message);
+@@ -468,6 +475,144 @@ static void mxt_dump_message(struct mxt_data *data, u8 *message)
+ 		       data->T5_msg_size, message);
  }
  
++static void mxt_debug_msg_enable(struct mxt_data *data)
++{
++	struct device *dev = &data->client->dev;
++
++	if (data->debug_v2_enabled)
++		return;
++
++	mutex_lock(&data->debug_msg_lock);
++
++	data->debug_msg_data = kcalloc(DEBUG_MSG_MAX,
++				data->T5_msg_size, GFP_KERNEL);
++	if (!data->debug_msg_data) {
++		mutex_unlock(&data->debug_msg_lock);
++		return;
++	}
++
++	data->debug_v2_enabled = true;
++	mutex_unlock(&data->debug_msg_lock);
++
++	dev_dbg(dev, "Enabled message output\n");
++}
++
++static void mxt_debug_msg_disable(struct mxt_data *data)
++{
++	struct device *dev = &data->client->dev;
++
++	if (!data->debug_v2_enabled)
++		return;
++
++	mutex_lock(&data->debug_msg_lock);
++
++	data->debug_v2_enabled = false;
++
++	kfree(data->debug_msg_data);
++	data->debug_msg_data = NULL;
++	data->debug_msg_count = 0;
++	mutex_unlock(&data->debug_msg_lock);
++	dev_dbg(dev, "Disabled message output\n");
++}
++
++static void mxt_debug_msg_add(struct mxt_data *data, u8 *msg)
++{
++	struct device *dev = &data->client->dev;
++
++	mutex_lock(&data->debug_msg_lock);
++
++	if (!data->debug_msg_data) {
++		mutex_unlock(&data->debug_msg_lock);
++		dev_err(dev, "No buffer!\n");
++		return;
++	}
++
++	if (data->debug_msg_count < DEBUG_MSG_MAX) {
++		memcpy(data->debug_msg_data +
++		       data->debug_msg_count * data->T5_msg_size,
++		       msg,
++		       data->T5_msg_size);
++		data->debug_msg_count++;
++	} else {
++		dev_dbg(dev, "Discarding %u messages\n", data->debug_msg_count);
++		data->debug_msg_count = 0;
++	}
++
++	mutex_unlock(&data->debug_msg_lock);
++
++	sysfs_notify(&data->client->dev.kobj, NULL, "debug_notify");
++}
++
++static ssize_t mxt_debug_msg_read(struct file *filp, struct kobject *kobj,
++	struct bin_attribute *bin_attr, char *buf, loff_t off, size_t bytes)
++{
++	struct device *dev = container_of(kobj, struct device, kobj);
++	struct mxt_data *data = dev_get_drvdata(dev);
++	int count;
++	size_t bytes_read;
++
++	if (!data->debug_msg_data) {
++		dev_err(dev, "No buffer!\n");
++		return 0;
++	}
++
++	count = bytes / data->T5_msg_size;
++
++	if (count > DEBUG_MSG_MAX)
++		count = DEBUG_MSG_MAX;
++
++	mutex_lock(&data->debug_msg_lock);
++
++	if (count > data->debug_msg_count)
++		count = data->debug_msg_count;
++
++	bytes_read = count * data->T5_msg_size;
++
++	memcpy(buf, data->debug_msg_data, bytes_read);
++	data->debug_msg_count = 0;
++
++	mutex_unlock(&data->debug_msg_lock);
++
++	return bytes_read;
++}
++
++static struct bin_attribute debug_msg_attr = {
++	.attr = {
++		.name = "debug_msg",
++		.mode = 0444,
++	},
++	.read = mxt_debug_msg_read,
++};
++
++static int mxt_debug_msg_init(struct mxt_data *data)
++{
++	/*
++	 * Binary attribute is not used in callback, removal is done by name,
++	 * so it is safe to update a single struct bin_attribute entity
++	 */
++	debug_msg_attr.size = data->T5_msg_size * DEBUG_MSG_MAX;
++
++	if (sysfs_create_bin_file(&data->client->dev.kobj,
++				  &debug_msg_attr) < 0) {
++		dev_err(&data->client->dev, "Failed to create %s\n",
++			debug_msg_attr.attr.name);
++		return -EINVAL;
++	}
++
++	data->debug_msg_attr = &debug_msg_attr;
++
++	return 0;
++}
++
++static void mxt_debug_msg_remove(struct mxt_data *data)
++{
++	if (data->debug_msg_attr) {
++		sysfs_remove_bin_file(&data->client->dev.kobj,
++				      data->debug_msg_attr);
++		data->debug_msg_attr = NULL;
++	}
++}
++
  static int mxt_wait_for_completion(struct mxt_data *data,
-@@ -1211,6 +1215,7 @@ static void mxt_proc_t93_messages(struct mxt_data *data, u8 *msg)
- static int mxt_proc_message(struct mxt_data *data, u8 *message)
- {
- 	u8 report_id = message[0];
-+	bool dump = data->debug_enabled;
+ 				   struct completion *comp,
+ 				   unsigned int timeout_ms)
+@@ -1256,6 +1401,9 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
+ 	if (dump)
+ 		mxt_dump_message(data, message);
  
- 	if (report_id == MXT_RPTID_NOMSG)
- 		return 0;
-@@ -1245,9 +1250,12 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
- 	} else if (report_id == data->T93_reportid) {
- 		mxt_proc_t93_messages(data, message);
- 	} else {
--		mxt_dump_message(data, message);
-+		dump = true;
- 	}
- 
-+	if (dump)
-+		mxt_dump_message(data, message);
++	if (data->debug_v2_enabled)
++		mxt_debug_msg_add(data, message);
 +
  	return 1;
  }
  
-@@ -3519,6 +3527,36 @@ static ssize_t mxt_update_cfg_store(struct device *dev,
- 	return ret;
+@@ -2674,6 +2822,10 @@ static int mxt_initialize(struct mxt_data *data)
+ 	if (error)
+ 		return error;
+ 
++	error = mxt_debug_msg_init(data);
++	if (error)
++		goto err_free_sysfs;
++
+ 	if (data->cfg_name) {
+ 		error = request_firmware_nowait(THIS_MODULE, true,
+ 						data->cfg_name,
+@@ -2683,16 +2835,18 @@ static int mxt_initialize(struct mxt_data *data)
+ 		if (error) {
+ 			dev_err(&client->dev, "Failed to invoke firmware loader: %d\n",
+ 				error);
+-			goto err_free_sysfs;
++			goto err_free_dbg_msg;
+ 		}
+ 	} else {
+ 		error = mxt_configure_objects(data, NULL);
+ 		if (error)
+-			goto err_free_sysfs;
++			goto err_free_dbg_msg;
+ 	}
+ 
+ 	return 0;
+ 
++err_free_dbg_msg:
++	mxt_debug_msg_remove(data);
+ err_free_sysfs:
+ 	mxt_sysfs_remove(data);
+ 	return error;
+@@ -3354,6 +3508,7 @@ static int mxt_enter_bootloader(struct mxt_data *data)
+ 			return ret;
+ 
+ 		data->in_bootloader = true;
++		mxt_debug_msg_remove(data);
+ 		mxt_sysfs_remove(data);
+ 		mxt_free_input_device(data);
+ 		mxt_free_object_table(data);
+@@ -3537,6 +3692,34 @@ static ssize_t mxt_debug_enable_show(struct device *dev,
+ 	return scnprintf(buf, PAGE_SIZE, "%c\n", c);
  }
  
-+static ssize_t mxt_debug_enable_show(struct device *dev,
++static ssize_t mxt_debug_notify_show(struct device *dev,
 +	struct device_attribute *attr, char *buf)
 +{
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+	char c;
-+
-+	c = data->debug_enabled ? '1' : '0';
-+	return scnprintf(buf, PAGE_SIZE, "%c\n", c);
++	return sprintf(buf, "0\n");
 +}
 +
-+static ssize_t mxt_debug_enable_store(struct device *dev,
++static ssize_t mxt_debug_v2_enable_store(struct device *dev,
 +	struct device_attribute *attr, const char *buf, size_t count)
 +{
 +	struct mxt_data *data = dev_get_drvdata(dev);
@@ -133,9 +310,11 @@ index 2c3a59ff70c4..10da40c6c91b 100644
 +	ssize_t ret;
 +
 +	if (kstrtou8(buf, 0, &i) == 0 && i < 2) {
-+		data->debug_enabled = (i == 1);
++		if (i == 1)
++			mxt_debug_msg_enable(data);
++		else
++			mxt_debug_msg_disable(data);
 +
-+		dev_dbg(dev, "%s\n", i ? "debug enabled" : "debug disabled");
 +		ret = count;
 +	} else {
 +		dev_dbg(dev, "debug_enabled write error\n");
@@ -145,26 +324,44 @@ index 2c3a59ff70c4..10da40c6c91b 100644
 +	return ret;
 +}
 +
- static DEVICE_ATTR(update_fw, 0200, NULL, mxt_update_fw_store);
- 
- static struct attribute *mxt_fw_attrs[] = {
-@@ -3535,6 +3573,8 @@ static DEVICE_ATTR(hw_version, S_IRUGO, mxt_hw_version_show, NULL);
- static DEVICE_ATTR(object, S_IRUGO, mxt_object_show, NULL);
- static DEVICE_ATTR(update_cfg, 0200, NULL, mxt_update_cfg_store);
+ static ssize_t mxt_debug_enable_store(struct device *dev,
+ 	struct device_attribute *attr, const char *buf, size_t count)
+ {
+@@ -3575,6 +3758,9 @@ static DEVICE_ATTR(update_cfg, 0200, NULL, mxt_update_cfg_store);
  static DEVICE_ATTR(config_crc, 0444, mxt_config_crc_show, NULL);
-+static DEVICE_ATTR(debug_enable, 0600, mxt_debug_enable_show,
-+		   mxt_debug_enable_store);
+ static DEVICE_ATTR(debug_enable, 0600, mxt_debug_enable_show,
+ 		   mxt_debug_enable_store);
++static DEVICE_ATTR(debug_v2_enable, 0600, NULL,
++		   mxt_debug_v2_enable_store);
++static DEVICE_ATTR(debug_notify, 0444, mxt_debug_notify_show, NULL);
  
  static struct attribute *mxt_attrs[] = {
  	&dev_attr_fw_version.attr,
-@@ -3542,6 +3582,7 @@ static struct attribute *mxt_attrs[] = {
- 	&dev_attr_object.attr,
+@@ -3583,6 +3769,8 @@ static struct attribute *mxt_attrs[] = {
  	&dev_attr_update_cfg.attr,
  	&dev_attr_config_crc.attr,
-+	&dev_attr_debug_enable.attr,
+ 	&dev_attr_debug_enable.attr,
++	&dev_attr_debug_v2_enable.attr,
++	&dev_attr_debug_notify.attr,
  	NULL
  };
  
+@@ -3872,6 +4060,7 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	init_completion(&data->chg_completion);
+ 	init_completion(&data->reset_completion);
+ 	init_completion(&data->crc_completion);
++	mutex_init(&data->debug_msg_lock);
+ 
+ 	data->suspend_mode = dmi_check_system(chromebook_T9_suspend_dmi) ?
+ 		MXT_SUSPEND_T9_CTRL : MXT_SUSPEND_DEEP_SLEEP;
+@@ -3930,6 +4119,7 @@ static int mxt_remove(struct i2c_client *client)
+ 
+ 	disable_irq(data->irq);
+ 	sysfs_remove_group(&client->dev.kobj, &mxt_fw_attr_group);
++	mxt_debug_msg_remove(data);
+ 	mxt_sysfs_remove(data);
+ 	mxt_free_input_device(data);
+ 	mxt_free_object_table(data);
 -- 
 2.17.1
 
