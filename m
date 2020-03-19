@@ -2,173 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98D5F18BDF9
-	for <lists+linux-input@lfdr.de>; Thu, 19 Mar 2020 18:27:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D81718C292
+	for <lists+linux-input@lfdr.de>; Thu, 19 Mar 2020 22:50:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727536AbgCSR1N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Mar 2020 13:27:13 -0400
-Received: from mail-io1-f72.google.com ([209.85.166.72]:47620 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727009AbgCSR1N (ORCPT
+        id S1726858AbgCSVup (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Mar 2020 17:50:45 -0400
+Received: from gateway34.websitewelcome.com ([192.185.149.72]:25045 "EHLO
+        gateway34.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726619AbgCSVup (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Mar 2020 13:27:13 -0400
-Received: by mail-io1-f72.google.com with SMTP id w21so2356403iod.14
-        for <linux-input@vger.kernel.org>; Thu, 19 Mar 2020 10:27:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=kZsDp4x4c6PvNfWtdDThiADDEhsyb7AvXm9IBnKdaVo=;
-        b=HPdhpfPLUpRKEPFwG6JEEANUwl8/Pr2Xp8aRcrm67dPFgEa9L7eX9Ck7WPf59HPgsy
-         Bsv5OsQEa8kecqs9iEqpnNUjHf+7O74QOzR+IsBMKNvce/Kk9Sv4CrkNgMUcAtS2TuoN
-         9lCKDQIlpFPARKus+Szsnw0KsYjDMHJyWFAy1lWDsYPb1Q7Ufi8sLLhjJuqNd3Hy6dut
-         yqEaIHgHk+858bcaG9Xu41XLP6wT6ffNAKY+y9GKR2saJuAekLx/khri8ha2qKqjtpT8
-         vBjVTSkw1zab+vBrNo2HBLkblqow0bXxXEbXz5LsoOqdes1eqSdIwNM2FCgBiXtdaOQg
-         1+dA==
-X-Gm-Message-State: ANhLgQ27uOO3eX+MIubgl0HwPH5jcfpPAnYNIXtgUW4V1Hjn4AphJ55S
-        8XM9x293Gc048C5TWrs6pnnxQrxUmh/e32xxwkkpxUqW88/y
-X-Google-Smtp-Source: ADFU+vsR0izIiTdX6Py/Gn5z7ouRhf0Dz2jtP3lTPqEmsnzFGfZClCTFOyXDb/kLPBmwyJjAGbOi3tbJWcmoJ45YJCJs2VRlU3g+
+        Thu, 19 Mar 2020 17:50:45 -0400
+X-Greylist: delayed 1252 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Mar 2020 17:50:44 EDT
+Received: from cm16.websitewelcome.com (cm16.websitewelcome.com [100.42.49.19])
+        by gateway34.websitewelcome.com (Postfix) with ESMTP id 8AB674018C
+        for <linux-input@vger.kernel.org>; Thu, 19 Mar 2020 16:29:52 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id F2jgjY8kh8vkBF2jgjPAuP; Thu, 19 Mar 2020 16:29:52 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=clKI7nARFTFO5GFD0Ih3lvAENgeNhLrB6NvEoRgvUuk=; b=JviXO3L7PfFv8CDg2Dp7utxg+D
+        B18IncsSGyIoi0uznb7dFep0uW5P2LsgTsPKW6GX64Fx42NbG7E3d2YI/MKU5txg0y+u3QRAmKKsv
+        lJOe4o8TBduUkmHqKQYbNp9Mbq/jSLroljBO1P7DfdwjTPLIyDHWnnuVAPOLdzxtThxejHOJOcNGk
+        PqKoO+8SfCkb8EYYB0yLqUPvDqrFjaPQVZdRMGx/+Ar2QDRpAzfuQRdBSi0ntYLQHS/KYY4wIukAF
+        tP54Qi28yh4oiCLaB6nGi/Cpkjyl8vJUpQt9PidZZeYZHtW/4VoxMqRujdiGv/wpGdo5j1em+rk2g
+        G+QDSBcg==;
+Received: from cablelink-189-218-116-241.hosts.intercable.net ([189.218.116.241]:53318 helo=embeddedor)
+        by gator4166.hostgator.com with esmtpa (Exim 4.92)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1jF2je-001cPg-UB; Thu, 19 Mar 2020 16:29:51 -0500
+Date:   Thu, 19 Mar 2020 16:29:50 -0500
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [PATCH][next] intel-ish-hid: ishtp: hbm.h: Replace zero-length array
+ with flexible-array member
+Message-ID: <20200319212950.GA9155@embeddedor.com>
 MIME-Version: 1.0
-X-Received: by 2002:a92:91d0:: with SMTP id e77mr4266826ill.225.1584638831308;
- Thu, 19 Mar 2020 10:27:11 -0700 (PDT)
-Date:   Thu, 19 Mar 2020 10:27:11 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000a3346f05a1387a04@google.com>
-Subject: INFO: trying to register non-static key in prepare_to_wait_event
-From:   syzbot <syzbot+08c9aea900cea24d398d@syzkaller.appspotmail.com>
-To:     benjamin.tissoires@redhat.com, dh.herrmann@googlemail.com,
-        jikos@kernel.org, jkorsnes@cisco.com, jkosina@suse.cz,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 189.218.116.241
+X-Source-L: No
+X-Exim-ID: 1jF2je-001cPg-UB
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: cablelink-189-218-116-241.hosts.intercable.net (embeddedor) [189.218.116.241]:53318
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 19
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
-syzbot found the following crash on:
+struct foo {
+        int stuff;
+        struct boo array[];
+};
 
-HEAD commit:    5076190d mm: slub: be more careful about the double cmpxch..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=178ca61de00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9f894bd92023de02
-dashboard link: https://syzkaller.appspot.com/bug?extid=08c9aea900cea24d398d
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=131fbfc3e00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1186cbe3e00000
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertently introduced[3] to the codebase from now on.
 
-The bug was bisected to:
+Also, notice that, dynamic memory allocations won't be affected by
+this change:
 
-commit 84a4062632462c4320704fcdf8e99e89e94c0aba
-Author: Johan Korsnes <jkorsnes@cisco.com>
-Date:   Fri Jan 17 12:08:36 2020 +0000
+"Flexible array members have incomplete type, and so the sizeof operator
+may not be applied. As a quirk of the original implementation of
+zero-length arrays, sizeof evaluates to zero."[1]
 
-    HID: core: increase HID report buffer size to 8KiB
+This issue was found with the help of Coccinelle.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13aecbe3e00000
-final crash:    https://syzkaller.appspot.com/x/report.txt?x=106ecbe3e00000
-console output: https://syzkaller.appspot.com/x/log.txt?x=17aecbe3e00000
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+08c9aea900cea24d398d@syzkaller.appspotmail.com
-Fixes: 84a406263246 ("HID: core: increase HID report buffer size to 8KiB")
-
-INFO: trying to register non-static key.
-the code is fine but needs lockdep annotation.
-turning off the locking correctness validator.
-CPU: 0 PID: 9392 Comm: syz-executor302 Not tainted 5.6.0-rc6-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x188/0x20d lib/dump_stack.c:118
- assign_lock_key kernel/locking/lockdep.c:880 [inline]
- register_lock_class+0x14c4/0x1540 kernel/locking/lockdep.c:1189
- __lock_acquire+0xfc/0x3ca0 kernel/locking/lockdep.c:3836
- lock_acquire+0x197/0x420 kernel/locking/lockdep.c:4484
- __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
- _raw_spin_lock_irqsave+0x8c/0xbf kernel/locking/spinlock.c:159
- prepare_to_wait_event+0x5b/0x650 kernel/sched/wait.c:280
- uhid_char_read+0x31b/0x6c0 drivers/hid/uhid.c:669
- do_loop_readv_writev fs/read_write.c:714 [inline]
- do_loop_readv_writev fs/read_write.c:701 [inline]
- do_iter_read+0x47f/0x650 fs/read_write.c:935
- vfs_readv+0xf0/0x160 fs/read_write.c:1053
- do_readv+0x279/0x2f0 fs/read_write.c:1090
- do_syscall_64+0xf6/0x7d0 arch/x86/entry/common.c:294
- entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x4458d9
-Code: e8 bc b7 02 00 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 2b 12 fc ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007f0082936da8 EFLAGS: 00000246 ORIG_RAX: 0000000000000013
-RAX: ffffffffffffffda RBX: 00000000006dac28 RCX: 00000000004458d9
-RDX: 0000000000000002 RSI: 0000000020001680 RDI: 0000000000000003
-RBP: 00000000006dac20 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000006dac2c
-R13: 0000000020000b40 R14: 00000000004adda8 R15: 20c49ba5e353f7cf
-list_del corruption. prev->next should be ffffc90002197bc0, but was 0000000000000000
-------------[ cut here ]------------
-kernel BUG at lib/list_debug.c:51!
-invalid opcode: 0000 [#1] PREEMPT SMP KASAN
-CPU: 0 PID: 9392 Comm: syz-executor302 Not tainted 5.6.0-rc6-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-RIP: 0010:__list_del_entry_valid.cold+0xf/0x55 lib/list_debug.c:51
-Code: e8 44 93 c9 fd 0f 0b 48 89 f1 48 c7 c7 c0 e6 51 88 4c 89 e6 e8 30 93 c9 fd 0f 0b 48 89 ee 48 c7 c7 60 e8 51 88 e8 1f 93 c9 fd <0f> 0b 4c 89 ea 48 89 ee 48 c7 c7 a0 e7 51 88 e8 0b 93 c9 fd 0f 0b
-RSP: 0018:ffffc90002197a60 EFLAGS: 00010082
-RAX: 0000000000000054 RBX: ffffc90002197ba8 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff815c06c1 RDI: fffff52000432f3e
-RBP: ffffc90002197bc0 R08: 0000000000000054 R09: ffffed1015cc45c9
-R10: ffffed1015cc45c8 R11: ffff8880ae622e43 R12: ffff88808d4e11f8
-R13: ffff88808d4e11f8 R14: 0000000000000286 R15: ffffc90002197bc0
-FS:  00007f0082937700(0000) GS:ffff8880ae600000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fc99cd1c000 CR3: 000000009f435000 CR4: 00000000001406f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- __list_del_entry include/linux/list.h:132 [inline]
- list_del_init include/linux/list.h:204 [inline]
- prepare_to_wait_event+0x19c/0x650 kernel/sched/wait.c:294
- uhid_char_read+0x31b/0x6c0 drivers/hid/uhid.c:669
- do_loop_readv_writev fs/read_write.c:714 [inline]
- do_loop_readv_writev fs/read_write.c:701 [inline]
- do_iter_read+0x47f/0x650 fs/read_write.c:935
- vfs_readv+0xf0/0x160 fs/read_write.c:1053
- do_readv+0x279/0x2f0 fs/read_write.c:1090
- do_syscall_64+0xf6/0x7d0 arch/x86/entry/common.c:294
- entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x4458d9
-Code: e8 bc b7 02 00 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 2b 12 fc ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007f0082936da8 EFLAGS: 00000246 ORIG_RAX: 0000000000000013
-RAX: ffffffffffffffda RBX: 00000000006dac28 RCX: 00000000004458d9
-RDX: 0000000000000002 RSI: 0000000020001680 RDI: 0000000000000003
-RBP: 00000000006dac20 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000006dac2c
-R13: 0000000020000b40 R14: 00000000004adda8 R15: 20c49ba5e353f7cf
-Modules linked in:
----[ end trace d2f12cae324b95c6 ]---
-RIP: 0010:__list_del_entry_valid.cold+0xf/0x55 lib/list_debug.c:51
-Code: e8 44 93 c9 fd 0f 0b 48 89 f1 48 c7 c7 c0 e6 51 88 4c 89 e6 e8 30 93 c9 fd 0f 0b 48 89 ee 48 c7 c7 60 e8 51 88 e8 1f 93 c9 fd <0f> 0b 4c 89 ea 48 89 ee 48 c7 c7 a0 e7 51 88 e8 0b 93 c9 fd 0f 0b
-RSP: 0018:ffffc90002197a60 EFLAGS: 00010082
-RAX: 0000000000000054 RBX: ffffc90002197ba8 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff815c06c1 RDI: fffff52000432f3e
-RBP: ffffc90002197bc0 R08: 0000000000000054 R09: ffffed1015cc45c9
-R10: ffffed1015cc45c8 R11: ffff8880ae622e43 R12: ffff88808d4e11f8
-R13: ffff88808d4e11f8 R14: 0000000000000286 R15: ffffc90002197bc0
-FS:  00007f0082937700(0000) GS:ffff8880ae600000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fc99cd1c000 CR3: 000000009f435000 CR4: 00000000001406f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-
-
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/hid/intel-ish-hid/ishtp/hbm.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+diff --git a/drivers/hid/intel-ish-hid/ishtp/hbm.h b/drivers/hid/intel-ish-hid/ishtp/hbm.h
+index bb85985b1620..7c445b203f2a 100644
+--- a/drivers/hid/intel-ish-hid/ishtp/hbm.h
++++ b/drivers/hid/intel-ish-hid/ishtp/hbm.h
+@@ -82,7 +82,7 @@ struct ishtp_msg_hdr {
+ 
+ struct ishtp_bus_message {
+ 	uint8_t hbm_cmd;
+-	uint8_t data[0];
++	uint8_t data[];
+ } __packed;
+ 
+ /**
+-- 
+2.23.0
+
