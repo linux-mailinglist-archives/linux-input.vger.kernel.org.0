@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 558B818BA21
-	for <lists+linux-input@lfdr.de>; Thu, 19 Mar 2020 16:03:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94C8718BA34
+	for <lists+linux-input@lfdr.de>; Thu, 19 Mar 2020 16:03:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728313AbgCSPCw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Mar 2020 11:02:52 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:16159 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728317AbgCSPCv (ORCPT
+        id S1727608AbgCSPD2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Mar 2020 11:03:28 -0400
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:32379 "EHLO
+        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728317AbgCSPC4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Mar 2020 11:02:51 -0400
-IronPort-SDR: aw8MG52B+1v/Y8gbwF/Jdz4zS7+BPvSmJKzQhqWXsovUMDK+/MejbCE5tRs3S4JHlISGRT8cpk
- 2jKZ+Zs5enXxVnNLB7Ra29m1j3mjr56UILCIF8yj4DdWrWU686omacGWzR8LTMi7lbbEGs6hAN
- 8fqotZXWPRwRXcVVpqj0j+QX8nEASO8JEqsVTNEXguLMAtoymk0vOszWaoaoX4kE06OLZSGiM3
- OA0FA6fPn/AVsTYJn1edQ9y2XQlopEgnlU68IElqIDg4hP4nXVpctN2E+YFzhef7rtBb8Xuncr
- LQo=
+        Thu, 19 Mar 2020 11:02:56 -0400
+IronPort-SDR: jF1Ppi4WRtyGgQrY9zFZyrc3eF9GValARb77kH460p3ISRNWrHQvJaf9ceI6iqWc4yD4/JYYnm
+ nJc26cO6pXjaT76mfucmrV2OfsVLfpLYllbuSbRGgiivV/mFArDH1BNW62aZtXMAxkmQRJQYLT
+ W6KGPftuh55kyyC22A57zjcJYfoQIgHaK/n3y7kYNwe8PaKQ6tCh/lZHxWdyYDwu1enJ+4Pp/2
+ cGpTTF6S7qiUa0epSdO7WQ9a0uSgBMsOPeYHtAr6gdyeLsIGhZhvt1ZBrp8yDcv6XYp8hHu5hG
+ 0Dc=
 X-IronPort-AV: E=Sophos;i="5.70,572,1574150400"; 
-   d="scan'208";a="48850401"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa1.mentor.iphmx.com with ESMTP; 19 Mar 2020 07:02:50 -0800
-IronPort-SDR: WdpMbYcntqpRPPikVRRsCEISuGsRZYeKRXlaX+Oj2CxcoArcjwyTMuVb/mUFDa32j9PDp0ZWkC
- 9l1dqF2cfpbAjEK9/QZND4avs+GdUJv4HiDrQaDh1bbnQXMeK2xC4WigrmVYvtTsie4NVjEOZp
- VPg3Y8CPbgWibNQenY6OofIYC3HN/SwCUwr+vWdyU4ojGX9+iv5ojfOD8yvE3fDv22HRars9yi
- 1PutEi7EGGC1C0e6zmUceF25z405Qqt3x4Jt2qfCHOrJGx5dJD7OKT7NXfFg87lwEkXT9LVZy0
- CJY=
+   d="scan'208";a="46891019"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa3.mentor.iphmx.com with ESMTP; 19 Mar 2020 07:02:55 -0800
+IronPort-SDR: exR7hdURaWid+agzLLL3WwkP2pkKXpn8VpscSoPFDYktUs3ulb7pb3Ne7N5aDGUNNSYJ1PCKo9
+ S3RlyXE5xHS68+R77OKjwt3+AcTyKlqAGDXVDOXWTXIiDSoQbWfIbPO6OQ1V/hWvmFB7UZ8Lp7
+ 9EhQAvPtW+hoRtQlQolX1bzpePMSCuAFEEV7qIi35MxuCxv5XGL1ExChWUmengSbeZHTFv6WGv
+ xpoOJsqwOxe7ACdGO+AP/EsazzYxARTrYV7Jecf28n4JDNRGEwBPzNd78a/eTCH5MZpMGbVewA
+ 1YA=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -33,9 +33,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v8 38/52] Input: atmel_mxt_ts: Add support for run self-test routine.
-Date:   Thu, 19 Mar 2020 08:00:02 -0700
-Message-ID: <20200319150016.61398-39-jiada_wang@mentor.com>
+Subject: [PATCH v8 39/52] Input: atmel_mxt_ts: Limit the max bytes transferred in an i2c transaction
+Date:   Thu, 19 Mar 2020 08:00:03 -0700
+Message-ID: <20200319150016.61398-40-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200319150016.61398-1-jiada_wang@mentor.com>
 References: <20200319150016.61398-1-jiada_wang@mentor.com>
@@ -46,199 +46,157 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nikhil Ravindran <Nikhil.Ravindran@in.bosch.com>
+From: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
 
-The self test object T25 runs self test routines in device to find faults
-Sysfs entry add to start self test routine and read back the test results
-for atmel touchcontrollers.The feature will be used for A-IVI and CAF
-projects.
+In mxt_process_messages_until_invalid() function, driver tries to read
+all possible reportid in a single i2c transaction. Number of bytes read
+is limited by the max_reportid parameter.
+If the max_reportid is a very large value, then a large chunk of bytes
+will be requested from the controller in a single i2c transaction.
+This transaction can fail due to timeout. This is visible when the
+Atmel controller is connected to the SOC via a i2c mux hardware.
 
-Signed-off-by: Nikhil Ravindran <Nikhil.Ravindran@in.bosch.com>
+mxt_process_messages_t44() reads the T44 message which contains the
+pending T5 message count. If the number of pending T5 messages returned
+by T44 message is too high then there is a risk of i2c transaction
+timeout while reading T5 messages in mxt_process_messages_t44().
+
+New property 'atmel,mtu' is created. This property limits the maximum
+number of bytes that can read/transferred in an i2c transcation
+
+Signed-off-by: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 113 +++++++++++++++++++++++
- 1 file changed, 113 insertions(+)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 65 +++++++++++++++++++-----
+ 1 file changed, 51 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index edffdec0d2a2..fe646d7edccf 100644
+index fe646d7edccf..13258da70305 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -336,6 +336,9 @@ struct mxt_data {
- 	u8 t100_aux_ampl;
- 	u8 t100_aux_area;
- 	u8 t100_aux_vect;
-+	u16 T25_address;
-+	u8  T25_reportid;
-+	u8  t25_msg[6];
- 	bool debug_enabled;
- 	bool debug_v2_enabled;
- 	u8 *debug_msg_data;
-@@ -413,6 +416,8 @@ struct mxt_data {
- 
+@@ -417,6 +417,7 @@ struct mxt_data {
  	/* Indicates whether device is updating configuration */
  	bool updating_config;
-+
-+	bool t25_status;
+ 
++	unsigned int mtu;
+ 	bool t25_status;
  };
  
- struct mxt_vb2_buffer {
-@@ -1356,6 +1361,24 @@ static void mxt_proc_t93_messages(struct mxt_data *data, u8 *msg)
- 	dev_info(dev, "T93 report double tap %d\n", status);
+@@ -1462,11 +1463,32 @@ static int mxt_read_and_process_messages(struct mxt_data *data, u8 count)
+ 	return num_valid;
  }
  
-+static void mxt_proc_t25_messages(struct mxt_data *data, u8 *msg)
++static u8 mxt_max_msg_read_count(struct mxt_data *data, u8 max_T5_msg_count)
 +{
-+	struct device *dev = &data->client->dev;
++	u8 T5_msg_count_limit = data->mtu / data->T5_msg_size;
 +
-+	/* Output debug if status has changed */
-+	dev_dbg(dev, "T25 Status 0x%x Info: %x %x %x %x %x\n",
-+		msg[1],
-+		msg[2],
-+		msg[3],
-+		msg[4],
-+		msg[5],
-+		msg[6]);
++	if (!data->mtu)
++		return max_T5_msg_count;
 +
-+	/* Save current status */
-+	memcpy(&data->t25_msg[0], &msg[1], sizeof(data->t25_msg));
-+	data->t25_status = false;
++	if (data->mtu < data->T5_msg_size) {
++		WARN(1, "mtu set is lesser than the T5 message size\n");
++		/* Return count of 1, as fallback */
++		return 1;
++	}
++	/*
++	 * Return maximum number of T5 messages in single i2c transaction
++	 * based on "atmel,mtu" property.
++	 */
++	return min(T5_msg_count_limit, max_T5_msg_count);
 +}
 +
- static int mxt_proc_message(struct mxt_data *data, u8 *message)
+ static irqreturn_t mxt_process_messages_t44(struct mxt_data *data)
  {
- 	u8 report_id = message[0];
-@@ -1386,6 +1409,8 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
- 	} else if (report_id == data->T19_reportid) {
- 		mxt_input_button(data, message);
- 		data->update_input = true;
-+	} else if (report_id == data->T25_reportid) {
-+		mxt_proc_t25_messages(data, message);
- 	} else if (report_id >= data->T15_reportid_min
- 		   && report_id <= data->T15_reportid_max) {
- 		mxt_proc_t15_messages(data, message);
-@@ -1610,6 +1635,86 @@ static int mxt_t6_command(struct mxt_data *data, u16 cmd_offset,
- 	return 0;
- }
+ 	struct device *dev = &data->client->dev;
+ 	int ret;
+-	u8 count, num_left;
++	u8 T5_msg_count, total_pending;
++	u8 total_processed = 0;
++	u8 processed_valid = 0;
  
-+static int mxt_t25_command(struct mxt_data *data, u8 cmd, bool wait)
-+{
-+	u16 reg;
-+	int timeout_counter = 0;
-+	int ret;
-+	u8  val[2];
-+
-+	reg = data->T25_address;
-+	val[0] = 0x3;
-+	val[1] = cmd;
-+
-+	data->t25_status = true;
-+	ret = __mxt_write_reg(data->client, reg, sizeof(val), val);
-+	if (ret) {
-+		data->t25_status = false;
-+		return ret;
-+	}
-+
-+	if (!wait)
-+		return 0;
+ 	/* Read T44 and T5 together */
+ 	ret = __mxt_read_reg(data->client, data->T44_address,
+@@ -1476,18 +1498,19 @@ static irqreturn_t mxt_process_messages_t44(struct mxt_data *data)
+ 		return IRQ_NONE;
+ 	}
+ 
+-	count = data->msg_buf[0];
++	T5_msg_count = data->msg_buf[0];
+ 
+ 	/*
+ 	 * This condition may be caused by the CHG line being configured in
+ 	 * Mode 0. It results in unnecessary I2C operations but it is benign.
+ 	 */
+-	if (count == 0)
++	if (!T5_msg_count)
+ 		return IRQ_NONE;
+ 
+-	if (count > data->max_reportid) {
+-		dev_warn(dev, "T44 count %d exceeded max report id\n", count);
+-		count = data->max_reportid;
++	if (T5_msg_count > data->max_reportid) {
++		dev_warn(dev, "T44 count %d exceeded max report id\n",
++			 T5_msg_count);
++		T5_msg_count = data->max_reportid;
+ 	}
+ 
+ 	/* Process first message */
+@@ -1497,16 +1520,25 @@ static irqreturn_t mxt_process_messages_t44(struct mxt_data *data)
+ 		return IRQ_NONE;
+ 	}
+ 
+-	num_left = count - 1;
++	total_pending = T5_msg_count - 1;
++	if (!total_pending)
++		goto end;
+ 
+ 	/* Process remaining messages if necessary */
+-	if (num_left) {
+-		ret = mxt_read_and_process_messages(data, num_left);
++	T5_msg_count = mxt_max_msg_read_count(data, total_pending);
 +
 +	do {
-+		msleep(MXT_WAKEUP_TIME);
-+		ret = __mxt_read_reg(data->client, reg + 1, 1, &val[1]);
-+		if (ret)
-+			return ret;
-+	} while ((val[1] != 0) && (timeout_counter++ <= 100));
++		if ((total_pending - total_processed) < T5_msg_count)
++			T5_msg_count = total_pending - total_processed;
++		ret = mxt_read_and_process_messages(data, T5_msg_count);
+ 		if (ret < 0)
+ 			goto end;
+-		else if (ret != num_left)
+-			dev_warn(dev, "Unexpected invalid message\n");
+-	}
++		total_processed += T5_msg_count;
++		processed_valid += ret;
++	} while (total_processed < total_pending);
 +
-+	if (timeout_counter > 100) {
-+		dev_err(&data->client->dev, "Command failed!\n");
-+		data->t25_status = false;
-+		return -EIO;
-+	}
-+	return 0;
-+}
-+
-+/* Firmware Version is returned as Major.Minor.Build */
-+static ssize_t mxt_t25_selftest_show(struct device *dev, struct
-+				     device_attribute * attr, char *buf)
-+{
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+	ssize_t offset = 0;
-+
-+	if (data->t25_status)
-+		return -EAGAIN;
-+
-+	if (data->t25_msg[0] == 0xFE)
-+		offset += scnprintf(buf, PAGE_SIZE, "PASS\n");
-+	else
-+		offset += scnprintf(buf, PAGE_SIZE, "FAILED\n");
-+
-+	offset += scnprintf(buf + offset, PAGE_SIZE, "%x %x %x %x %x %x\n",
-+		 data->t25_msg[0],
-+		 data->t25_msg[1],
-+		 data->t25_msg[2],
-+		 data->t25_msg[3],
-+		 data->t25_msg[4],
-+		 data->t25_msg[5]);
-+	return offset;
-+}
-+
-+static ssize_t mxt_t25_selftest_store(struct device *dev, struct
-+				      device_attribute * attr, const char *buf,
-+				      size_t count)
-+{
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+	u32 cmd;
-+	int ret;
-+
-+	ret = kstrtou32(buf, 0, &cmd);
-+	if (ret)
-+		return ret;
-+
-+	if (mxt_t25_command(data, (u8)cmd, 1) == 0)
-+		return count;
-+
-+	dev_dbg(dev, "mxt_t25_cmd_store write cmd %x error\n", cmd);
-+	return -EINVAL;
-+}
-+
- static int mxt_acquire_irq(struct mxt_data *data)
- {
- 	int error;
-@@ -2088,6 +2193,8 @@ static void mxt_free_object_table(struct mxt_data *data)
- 	data->T15_reportid_max = 0;
- 	data->T18_address = 0;
- 	data->T19_reportid = 0;
-+	data->T25_address = 0;
-+	data->T25_reportid = 0;
- 	data->T42_reportid_min = 0;
- 	data->T42_reportid_max = 0;
- 	data->T44_address = 0;
-@@ -2175,6 +2282,10 @@ static int mxt_parse_object_table(struct mxt_data *data,
- 		case MXT_SPT_COMMSCONFIG_T18:
- 			data->T18_address = object->start_address;
- 			break;
-+		case MXT_SPT_SELFTEST_T25:
-+			data->T25_address = object->start_address;
-+			data->T25_reportid = min_id;
-+			break;
- 		case MXT_PROCI_TOUCHSUPPRESSION_T42:
- 			data->T42_reportid_min = min_id;
- 			data->T42_reportid_max = max_id;
-@@ -3761,6 +3872,7 @@ static DEVICE_ATTR(debug_enable, 0600, mxt_debug_enable_show,
- static DEVICE_ATTR(debug_v2_enable, 0600, NULL,
- 		   mxt_debug_v2_enable_store);
- static DEVICE_ATTR(debug_notify, 0444, mxt_debug_notify_show, NULL);
-+static DEVICE_ATTR(t25, 0600, mxt_t25_selftest_show, mxt_t25_selftest_store);
++	if (processed_valid != total_pending)
++		dev_warn(dev, "Unexpected invalid message\n");
  
- static struct attribute *mxt_attrs[] = {
- 	&dev_attr_fw_version.attr,
-@@ -3771,6 +3883,7 @@ static struct attribute *mxt_attrs[] = {
- 	&dev_attr_debug_enable.attr,
- 	&dev_attr_debug_v2_enable.attr,
- 	&dev_attr_debug_notify.attr,
-+	&dev_attr_t25.attr,
- 	NULL
- };
+ end:
+ 	if (data->update_input) {
+@@ -1521,9 +1553,10 @@ static int mxt_process_messages_until_invalid(struct mxt_data *data)
+ {
+ 	struct device *dev = &data->client->dev;
+ 	int count, read;
+-	u8 tries = 2;
++	int tries;
+ 
+-	count = data->max_reportid;
++	count = mxt_max_msg_read_count(data, data->max_reportid);
++	tries = (data->max_reportid / count) + 1;
+ 
+ 	/* Read messages until we force an invalid */
+ 	do {
+@@ -4112,6 +4145,10 @@ static int mxt_parse_device_properties(struct mxt_data *data)
+ 
+ 	device_property_read_u32(dev, "atmel,suspend-mode",
+ 				 &data->suspend_mode);
++	device_property_read_u32(dev, "atmel,mtu", &data->mtu);
++	if (data->mtu)
++		dev_dbg(dev, "mtu is set as %d\n", data->mtu);
++
+ 	return 0;
+ }
  
 -- 
 2.17.1
