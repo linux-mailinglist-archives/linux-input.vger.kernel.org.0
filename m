@@ -2,209 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA6D718D2B7
-	for <lists+linux-input@lfdr.de>; Fri, 20 Mar 2020 16:21:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D040918D35E
+	for <lists+linux-input@lfdr.de>; Fri, 20 Mar 2020 16:54:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727122AbgCTPVy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Mar 2020 11:21:54 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:39970 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727046AbgCTPVy (ORCPT
+        id S1726953AbgCTPyA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Mar 2020 11:54:00 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:42039 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726840AbgCTPyA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Mar 2020 11:21:54 -0400
-Received: from [IPv6:2a02:810a:113f:ad1c:d59e:75b0:dca:337a] (unknown [IPv6:2a02:810a:113f:ad1c:d59e:75b0:dca:337a])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9A4662975DA;
-        Fri, 20 Mar 2020 15:21:51 +0000 (GMT)
-Subject: Re: [PATCH] dt-bindings: input: atmel_mxt_ts: convert
- atmel,maxtouch.txt to yaml
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, Nick Dyer <nick@shmanahar.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Collabora Kernel ML <kernel@collabora.com>, dafna3@gmail.com
-References: <20200303172533.30602-1-dafna.hirschfeld@collabora.com>
- <20200310211437.GA18992@bogus>
- <f612396e-e5e2-db76-6297-a108b53e4000@collabora.com>
- <CAL_JsqLTMdG-=_pTPsazspEO3LtDth=xm9s8sqzW+AswWttKJA@mail.gmail.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <496a1e2d-a595-f6a6-0ce5-559453b15702@collabora.com>
-Date:   Fri, 20 Mar 2020 16:21:48 +0100
+        Fri, 20 Mar 2020 11:54:00 -0400
+Received: by mail-lf1-f65.google.com with SMTP id t21so4929593lfe.9;
+        Fri, 20 Mar 2020 08:53:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1V8FF9eJrm9wvwD4q3tqsWWsW0ZrqInhPAWcIStqMyY=;
+        b=Y3aVTjLECSkF093nyIgekKyw2TJGu4YSFGj2zNevrKYE2v5CWDPQiIl+adnZq+y+Oy
+         uJ6PniVUeFVg0KqllKNg2jLhDkM++/+1zMfN364Ht9dtCR7lvhkZxyxKYIm6NWpzPMXJ
+         obNd8/Z0J3qDm5iBmDTBFPM/sHo3Fqc+JhQ3ot9cnxj0ZYejOIfZ/Esu8eK/ye9zV24H
+         UXPLxFGmvtfAG0iC/rtm6nlbSBpMffiNGRvC7+69rx+eA8MxyWOz11IXC0GZmmieBdCx
+         GGKvUv0WFT/Z9Di5HlF7WT8zqjuPqUAKQ+zF++L1ZvaU57ILjGqwa7cIJH7TdGHd0AAP
+         Vs9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1V8FF9eJrm9wvwD4q3tqsWWsW0ZrqInhPAWcIStqMyY=;
+        b=ACCPDkebZGepKhejPoZFhE/us3QvhpNnz7KrSJMRfM5PeqVk4Q4MyCwZsRqU043xu7
+         NFGyEktdzdEZJ0+VO1qG1IBS9wQGjeuvikHc9D+kbHYdSH/WJptGdFrpEi9qpjPqhhB5
+         7gCSai7UzpElp9ozBpLiBIpyJn1Uh3OaK0i92Bz6ynGO1X5SSHq3klFGODISVSQEXylP
+         TLhjnmubtO18F1eymoEHJgJSROl1NKSCjWE4vefSSVQl7FkRWfa5709ospN3KgNQTsKw
+         qY990cGT04gp6G6amYxo3Oqnh96K9EG8I46KnSSjup63mkfqDsZxxsz0YdnPeMGUtoAQ
+         xAhA==
+X-Gm-Message-State: ANhLgQ0msmQ/ArCc+X9eZetXKH4cQ6jmSSwKUA8HGjifVbauKIZrv4bS
+        lFi9Z+w8Ym1GVyIPrhszm8g=
+X-Google-Smtp-Source: ADFU+vtu5cEYNc1o2tNDXGsVXlSY1xVgFic5YowTxtx9YfTm+lQaO/ztP5C9wnLSHzL2LIXwaK2fpQ==
+X-Received: by 2002:a19:fc12:: with SMTP id a18mr5857736lfi.117.1584719637199;
+        Fri, 20 Mar 2020 08:53:57 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.googlemail.com with ESMTPSA id k2sm3721398lfc.95.2020.03.20.08.53.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Mar 2020 08:53:56 -0700 (PDT)
+Subject: Re: [PATCH v7 00/48] atmel_mxt_ts misc
+To:     "Wang, Jiada" <jiada_wang@mentor.com>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, rydberg@bitmath.org,
+        dmitry.torokhov@gmail.com, nick@shmanahar.org, bsz@semihalf.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
+References: <20200212084218.32344-1-jiada_wang@mentor.com>
+ <c583d151-9243-cbde-a04b-bc0389d9be5a@gmail.com>
+ <89e4bb0b-b2eb-0b67-4307-fb2af914b1c0@mentor.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f9b221e7-f189-3e47-adab-1cbc49490d4b@gmail.com>
+Date:   Fri, 20 Mar 2020 18:53:55 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqLTMdG-=_pTPsazspEO3LtDth=xm9s8sqzW+AswWttKJA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <89e4bb0b-b2eb-0b67-4307-fb2af914b1c0@mentor.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hello Jiada,
 
-
-On 11.03.20 16:48, Rob Herring wrote:
-> On Wed, Mar 11, 2020 at 10:23 AM Dafna Hirschfeld
-> <dafna.hirschfeld@collabora.com> wrote:
->>
->> Hi,
->> Thanks for the review
->>
->> On 10.03.20 22:14, Rob Herring wrote:
->>> On Tue, Mar 03, 2020 at 07:25:33PM +0200, Dafna Hirschfeld wrote:
->>>> Convert the binding file atmel,maxtouch.txt to yaml format.
->>>> Also change the file name in the MAINTAINERS file.
->>>>
->>>> This was tested and verified on ARM and ARM64 with:
->>>>
->>>> make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
->>>> make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
->>>>
->>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>> ---
->>>>    .../bindings/input/atmel,maxtouch.txt         | 41 ------------
->>>>    .../bindings/input/atmel,maxtouch.yaml        | 64 +++++++++++++++++++
->>>>    MAINTAINERS                                   |  2 +-
->>>>    3 files changed, 65 insertions(+), 42 deletions(-)
->>>>    delete mode 100644 Documentation/devicetree/bindings/input/atmel,maxtouch.txt
->>>>    create mode 100644 Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
->>>> deleted file mode 100644
->>>> index c88919480d37..000000000000
->>>> --- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
->>>> +++ /dev/null
->>>> @@ -1,41 +0,0 @@
->>>> -Atmel maXTouch touchscreen/touchpad
->>>> -
->>>> -Required properties:
->>>> -- compatible:
->>>> -    atmel,maxtouch
->>>> -
->>>> -    The following compatibles have been used in various products but are
->>>> -    deprecated:
->>>> -    atmel,qt602240_ts
->>>> -    atmel,atmel_mxt_ts
->>>> -    atmel,atmel_mxt_tp
->>>> -    atmel,mXT224
->>>> -
->>>> -- reg: The I2C address of the device
->>>> -
->>>> -- interrupts: The sink for the touchpad's IRQ output
->>>> -    See ../interrupt-controller/interrupts.txt
->>>> -
->>>> -Optional properties for main touchpad device:
->>>> -
->>>> -- linux,gpio-keymap: When enabled, the SPT_GPIOPWN_T19 object sends messages
->>>> -    on GPIO bit changes. An array of up to 8 entries can be provided
->>>> -    indicating the Linux keycode mapped to each bit of the status byte,
->>>> -    starting at the LSB. Linux keycodes are defined in
->>>> -    <dt-bindings/input/input.h>.
->>>> -
->>>> -    Note: the numbering of the GPIOs and the bit they start at varies between
->>>> -    maXTouch devices. You must either refer to the documentation, or
->>>> -    experiment to determine which bit corresponds to which input. Use
->>>> -    KEY_RESERVED for unused padding values.
->>>> -
->>>> -- reset-gpios: GPIO specifier for the touchscreen's reset pin (active low)
->>>> -
->>>> -Example:
->>>> -
->>>> -    touch@4b {
->>>> -            compatible = "atmel,maxtouch";
->>>> -            reg = <0x4b>;
->>>> -            interrupt-parent = <&gpio>;
->>>> -            interrupts = <TEGRA_GPIO(W, 3) IRQ_TYPE_LEVEL_LOW>;
->>>> -    };
->>>> diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
->>>> new file mode 100644
->>>> index 000000000000..024dc4ded4f3
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
->>>> @@ -0,0 +1,64 @@
->>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: http://devicetree.org/schemas/input/atmel,maxtouch.yaml#
->>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>> +
->>>> +title: Atmel maXTouch touchscreen/touchpad
->>>> +
->>>> +maintainers:
->>>> +  - Nick Dyer <nick@shmanahar.org>
->>>> +
->>>> +description: |
->>>> +  Atmel maXTouch touchscreen/touchpad
->>>> +
->>>> +properties:
->>>> +  compatible:
->>>> +    const: atmel,maxtouch
->>>> +
->>>> +  reg:
->>>> +    description: The I2C address of the device
->>>> +    maxItems: 1
->>>> +
->>>> +  interrupts:
->>>> +    description: The sink for the touchpad's IRQ output
->>>
->>> How many? Needs 'maxItems: 1'>
->>> You can drop the description.
->>>
->>>> +
->>>> +  linux,gpio-keymap:
->>>> +    description:
->>>> +      When enabled, the SPT_GPIOPWN_T19 object sends messages
->>>> +      on GPIO bit changes. An array of up to 8 entries can be provided
->>>> +      indicating the Linux keycode mapped to each bit of the status byte,
->>>> +      starting at the LSB. Linux keycodes are defined in
->>>> +      <dt-bindings/input/input.h>.
->>>> +      Note, the numbering of the GPIOs and the bit they start at varies between
->>>> +      maXTouch devices. You must either refer to the documentation, or
->>>> +      experiment to determine which bit corresponds to which input. Use
->>>> +      KEY_RESERVED for unused padding values.
->>>> +    $ref: /schemas/types.yaml#/definitions/uint32-array
->>>> +    maxItems: 8
->>>> +
->>>> +  reset-gpios:
->>>> +    description: GPIO specifier for the touchscreen's reset pin (active low)
->>>> +    maxItems: 1
->>>> +
->>>> +required:
->>>> +  - compatible
->>>> +  - reg
->>>> +  - interrupts
->>>> +
->>>> +additionalProperties: true
->>>
->>> That's the default and we generally want this to be 'false'.
->> but many nodes has more properties not described here so I could not
->> set it to false.
+20.03.2020 06:37, Wang, Jiada пишет:
+> Hello Dmitry
 > 
-> Like touchscreen-* properties? Then you should reference
-> touchscreen.yaml. And add 'unevaluatedProperties: false' here. That
-> doesn't yet do anything, but will when the tools support the lastest
-> json-schema release.
-
-Hi, no it is other properties, these are the warnings:
-arch/arm/boot/dts/s5pv210-goni.dt.yaml: tsp@4a: 'atmel,burst-length', 'atmel,orientation', 'atmel,threshold', 'atmel,x-line', 'atmel,x-size', 'atmel,y-line', 'atmel,y-size', 'vdd-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-
-arch/arm/boot/dts/omap4-droid4-xt894.dt.yaml: touchscreen@4a: 'interrupt-names', 'wakeup-source' do not match any of the regexes: 'pinctrl-[0-9]+'
-
-arch/arm/boot/dts/exynos5800-peach-pi.dt.yaml: trackpad@4b: 'wakeup-source' does not match any of the regexes: 'pinctrl-[0-9]+'
-
-Dafna
-
+> I have submitted v8 patch-set to address your comments towards v7
+> patch-set,
+> most of checkpatch warnings and errors have been addressed,
 > 
-> Rob
+> But I didn't update for following two types of warnings
+> since I want to keep consistency with legacy code
 > 
+> WARNING: DEVICE_ATTR unusual permissions '0600' used
+> #290: FILE: drivers/input/touchscreen/atmel_mxt_ts.c:3761:
+> +static DEVICE_ATTR(debug_v2_enable, 0600, NULL,
+
+What will happen if you'll use 0644? Will an empty line be returned or
+driver will crash?
+
+> WARNING: Consider renaming function(s) 'mxt_debug_notify_show' to
+> 'debug_notify_show'
+> #292: FILE: drivers/input/touchscreen/atmel_mxt_ts.c:3763:
+> +static DEVICE_ATTR(debug_notify, 0444, mxt_debug_notify_show, NULL);
+
+Perhaps this should be fine to ignore, although the prefix is indeed a
+bit superfluous.
+
+> please let me know if you have different view on this
+
+Thank you very much, I'll test v8 during the weekend.
