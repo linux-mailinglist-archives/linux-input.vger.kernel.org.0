@@ -2,79 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C492F18CCC4
-	for <lists+linux-input@lfdr.de>; Fri, 20 Mar 2020 12:22:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ED5918CFA5
+	for <lists+linux-input@lfdr.de>; Fri, 20 Mar 2020 15:02:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727054AbgCTLWV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Mar 2020 07:22:21 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:41865 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726980AbgCTLWT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Mar 2020 07:22:19 -0400
-Received: by mail-ot1-f65.google.com with SMTP id s15so5577381otq.8
-        for <linux-input@vger.kernel.org>; Fri, 20 Mar 2020 04:22:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=6w+aFSJ+2vZ3lBtg9xVXLOFVqSNoMPd625E7FNYobb8=;
-        b=Pf/weUAfOIiJrSxirpBihZi6rDPdhyQPdqV31VjwvFYCZrXzvBkOQEdBeDD+fX+N79
-         qt9tmCm3FjbnRdoqGWpCa20Uk5e1bhGZ/0wJS+wlw72uJad71tcUBjcoeSwEUuruvXcA
-         84tRSqCB2Tph2tBoxOjpJV1x/Ea/J8W5HzqXPv65IQxNfJKY1At/wswC5dSURMa29aoD
-         8zo4+xruOlzLz3L4vwtTRqRx9ghKaKGisLI9y4mD1Sh4zDOfgU90m4NEBHVFFDUWfnA4
-         NQH6UOJvtwAQlpwMApniIE8f8/D2Yc9OrACifoz9y0lKr31XZXe0ZPRAGdpIASeffTj+
-         mh1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=6w+aFSJ+2vZ3lBtg9xVXLOFVqSNoMPd625E7FNYobb8=;
-        b=cfgYGB7Y2nGAklNbCcebpRLfucsjQeqVx7NzORa0GA5mRDCIK9zphdtbQhrppbrgQ2
-         jOYcYtS/E9j8liVxz60TCqroVQeF58ToKqkd01oqm64eOXiyFWnilMNDjEfVCWCyk5Ua
-         N+GMoUD1RFisTDgCn96mFcOjUtXnpYG2/twq6bkHjm+TsMsU5BFKAkBTqd7OCf6EykmF
-         SKR+oubkyXCFHhldVcsldouAkw/FSRv9R5QnoqXu5CFMQaQpXaYJGXOZiXhz4JJCDNBr
-         5p7nSIqiwpf/3OvoKqw6VKcZYNj0NKdPC02rSAlwpCd5b4p5Zz6c7dJAfr+BdmkA/lbp
-         D+HA==
-X-Gm-Message-State: ANhLgQ2B47uU25NbA56MJr1LzUGmK4Uv1AZ7D5oNmRlrxDtcjwA8fjWB
-        t6nkuAVyC+p3seNteDL4hWBfTo92Al4vPz/+j0M=
-X-Google-Smtp-Source: ADFU+vsduRj3hrCf9DhK2bNvKDpHo5/uVyU9cffULt+Uh+xPEULP1CtCYadaVmwGXRoaldTKMt0qeMlG0eCXLSlrUpo=
-X-Received: by 2002:a05:6830:3151:: with SMTP id c17mr6555852ots.310.1584703339020;
- Fri, 20 Mar 2020 04:22:19 -0700 (PDT)
+        id S1726829AbgCTOCs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Mar 2020 10:02:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60234 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726773AbgCTOCs (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 20 Mar 2020 10:02:48 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F21AA2051A;
+        Fri, 20 Mar 2020 14:02:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584712965;
+        bh=5Z1pwexTYyYy7sJMHe5keJj5QUuvGZ/XrTgYgp87Uzs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CU1YZ99qYJjikO714HJH+W1kSSWtM3oLBz3Ba5Qr9MKPBBgyb81IhZjckTVEYTERa
+         0qZq+Oz5Wb63F44ixOBDajGaMzEvL6yRLxI/ao0QE5aP/fhFTp68/17ewN2mScGYWN
+         tx1uwXKWpzgaWa6Dycv2plDnaEhOoo9lzTw5v9PE=
+Date:   Fri, 20 Mar 2020 15:02:43 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v12 03/10] firmware: Rename FW_OPT_NOFALLBACK to
+ FW_OPT_NOFALLBACK_SYSFS
+Message-ID: <20200320140243.GA636547@kroah.com>
+References: <20200115163554.101315-1-hdegoede@redhat.com>
+ <20200115163554.101315-4-hdegoede@redhat.com>
+ <20200124085751.GA2957916@kroah.com>
+ <d25d5d6e-0348-b19f-539e-048cfa70d6a6@redhat.com>
+ <20200318132741.GA2794545@kroah.com>
+ <8fa336bd-339f-40e0-08fe-e6b968736679@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6838:40c6:0:0:0:0 with HTTP; Fri, 20 Mar 2020 04:22:18
- -0700 (PDT)
-From:   ECOWAS COMMITEE <ecowasmonitoringcommitteeabj@gmail.com>
-Date:   Fri, 20 Mar 2020 11:22:18 +0000
-Message-ID: <CAHHubrYe0Tme3z6y4=35rwkeKtHK_aNvGc957sh9eWYyPOf1Vg@mail.gmail.com>
-Subject: HAPPY SURVIVAL OF CORONAVIRUS
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8fa336bd-339f-40e0-08fe-e6b968736679@redhat.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Sir/Madam
+On Wed, Mar 18, 2020 at 02:56:23PM +0100, Hans de Goede wrote:
+> Hi Greg,
+> 
+> On 3/18/20 2:27 PM, Greg Kroah-Hartman wrote:
+> > On Fri, Jan 24, 2020 at 10:16:48AM +0100, Hans de Goede wrote:
+> > > Hi,
+> > > 
+> > > On 1/24/20 9:57 AM, Greg Kroah-Hartman wrote:
+> > > > On Wed, Jan 15, 2020 at 05:35:47PM +0100, Hans de Goede wrote:
+> > > > > This is a preparation patch for adding a new platform fallback mechanism,
+> > > > > which will have its own enable/disable FW_OPT_xxx option.
+> > > > > 
+> > > > > Note this also fixes a typo in one of the re-wordwrapped comments:
+> > > > > enfoce -> enforce.
+> > > > > 
+> > > > > Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> > > > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > > > 
+> > > > I've taken this in my tree for now in a quest to try to get others to
+> > > > pay attention to this series...
+> > > 
+> > > Thank you.
+> > > 
+> > > As mentioned before I believe that this series is ready for merging now.
+> > > 
+> > > Andy Lutomirski had one last change request for v12 of the second
+> > > patch in the series, specifically to replace the loop searching for
+> > > the prefix with a memem, but the kernel does not have memmem.
+> > > 
+> > > Andy, are you ok with v12 as is, given that we don't have memmem ?
+> > > 
+> > > Assuming Andy is ok with v12 as is, then to merge this we need
+> > > to probably wait for 5.6-rc1 and then have the x86/efi folks do
+> > > an immutable branch with the first 2 patches of the series.
+> > 
+> > Did this every happen?  Or do I need to dump this all into my tree?
+> 
+> Ard has done a immutable branch with just the 2 patches:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git/tag/?h=stable-shared-branch-for-driver-tree
+> 
+> I did not see any mails about this being pulled / merged, but I just
+> checked and this has landed in the tip tree 10 days ago:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/log/include/linux/efi.h?h=efi/core
+> 
+> So if you merge the stable-shared-branch-for-driver-tree tag and then
+> merge patches 3-8 of this series (or rather 4-8 since you already
+> merged 3 IIRC) that would be great.
 
-HAPPY SURVIVAL OF CORONAVIRUS
+Ok, I've merged the above branch with just the two patches, and the rest
+of yours now, sorry this took so long.
 
-We the West African Monitoring Committee of the West African Economic
-Community(ECOWAS)are contacting you for a business transaction which
-we feel will be of great interest to you.
-
-Our duty is to see to the coming in and out of funds into this sub
-region.There is a fund which we confiscated worth of $12.5 million
-dollars.We will like you to receive this fund on your name in your
-account and as well helping us in the investment.
-
-You are advised to contact us as soon as you get this message for
-details of the transaction if you find it interesting.
-
-Best Regards,
-
-Mr John Aka
-
-Chairman
-ECOWAS
-West African Monitoring Committee
-Tel 00225 6716 6756
-Abidjan Cote D'Ivoire
+greg k-h
