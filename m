@@ -2,102 +2,162 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D211018EDF3
-	for <lists+linux-input@lfdr.de>; Mon, 23 Mar 2020 03:25:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAFDC190066
+	for <lists+linux-input@lfdr.de>; Mon, 23 Mar 2020 22:32:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726951AbgCWCZj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 22 Mar 2020 22:25:39 -0400
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:26587 "EHLO
-        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726946AbgCWCZj (ORCPT
+        id S1727025AbgCWVcl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Mar 2020 17:32:41 -0400
+Received: from mail-il1-f193.google.com ([209.85.166.193]:34084 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725897AbgCWVcl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 22 Mar 2020 22:25:39 -0400
-IronPort-SDR: oTHr/xuWbcMqzEs7Pl93CAY7efHXkbfHrxbMsWekF5Kcnrji7qnVUaptxzbFyfbShH0TcRBaUb
- TzMMOaTcxaWryv9n6Di3I2ZeMthIliGtCJmoV5+SS27Git8zeNzJ/cvx3y7Xon9u8p6ngzxneA
- rqnaMFVSSUBsnRgml2In529bLmO9Gv9lTJB7UYyfIU7UzdXs/85ckpKThsb1wPwygShFVzZ0nQ
- lT95+rZ65nCQ4XozU4NQhMsiG4pwnsPCxWOVXv77a6ux78YOBAlieHvNi7iDXFhaAMxE4dLocH
- PiY=
-X-IronPort-AV: E=Sophos;i="5.72,294,1580803200"; 
-   d="scan'208";a="46900258"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 22 Mar 2020 18:25:38 -0800
-IronPort-SDR: wr1s1LqmQRKwjqXoRK0E6cEyEj9fZ5fHXctbQTkpThcSjl09EYhw6tpOS2CW3xwjkH8XmGqvCE
- MRiKNEF3lynyWxkHWEOWLp8aN7je5ZfIdM7XCN/zFAoN/BXwyYe4f5wxflA+QRnvibn8NQ+kSO
- t2IAZ6hkffxwU8eBveIRPA1Ab4WtJtgEJZS9KficHw10h/sAwL7nJr7qBq1gKLVAOJB+i48IAM
- 8JvNapJC5vPsbRvrSC+ZYKjyPHJN8heKARUQWmYAv8eIpJx5EHM4b3yJfRfVpgbcvu/Bt4HLho
- mI8=
-Subject: Re: [PATCH v7 00/48] atmel_mxt_ts misc
-To:     Dmitry Osipenko <digetx@gmail.com>, <jikos@kernel.org>,
-        <benjamin.tissoires@redhat.com>, <rydberg@bitmath.org>,
-        <dmitry.torokhov@gmail.com>, <nick@shmanahar.org>,
-        <bsz@semihalf.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>
-References: <20200212084218.32344-1-jiada_wang@mentor.com>
- <c583d151-9243-cbde-a04b-bc0389d9be5a@gmail.com>
- <89e4bb0b-b2eb-0b67-4307-fb2af914b1c0@mentor.com>
- <f9b221e7-f189-3e47-adab-1cbc49490d4b@gmail.com>
-From:   "Wang, Jiada" <jiada_wang@mentor.com>
-Message-ID: <bd3c487b-b065-3e4f-6ab1-f344a4113fcd@mentor.com>
-Date:   Mon, 23 Mar 2020 11:25:20 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Mon, 23 Mar 2020 17:32:41 -0400
+Received: by mail-il1-f193.google.com with SMTP id t11so4961556ils.1;
+        Mon, 23 Mar 2020 14:32:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=qFDFZEF2IE5G2XSanobwC6e4wfS266KN7sjR0GtTr3A=;
+        b=GmpdE05cieHRUMaKwUAAG6jNyBcQnG/TCNfhh7DaKsLsvHaOzTYlExjeuFobjLCZ2z
+         cbYRk/ztXVAfUrQpWbr76G+tJNP7eI7lI+AqZN5TaVqdQ8MUGYrNIhBgx7bKQ5KQ+oke
+         b/M/OYpuxSrn1Gzf2u/4Hh2Y3A2InA8Ms1q0HmxMmf4Hm+dfUt+Ck/M3CDOON2qv8JaA
+         xAACfTrQnKk+DlEyvY1nmPXQpDmxjV0eEN7nzNlGwxiXLdcpvNEYyZ2Wf5H8FDSK4r5d
+         9Vkpty4T0FRL0GC6pk8QJB1TGpPmtWrWa8Q/87Dt18C6qlpPN7mya2q188gTURyiCJ5S
+         x8gw==
+X-Gm-Message-State: ANhLgQ1nz4prDEQ6Kj1j2xvMlr3pS0VJczwlUPceu4HMa59iswEVoL8n
+        IqigQZ6kcgfAwLYnnbJozg==
+X-Google-Smtp-Source: ADFU+vsdj+CL7qScZ2QMMXXFIpqS7PR2Aj0hpAbWGIXfavNyIOQeG6mSi5+SvWjx8/e821aDJWCPhg==
+X-Received: by 2002:a92:d3d0:: with SMTP id c16mr7945343ilh.22.1584999158718;
+        Mon, 23 Mar 2020 14:32:38 -0700 (PDT)
+Received: from rob-hp-laptop ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id k81sm5674964ilf.44.2020.03.23.14.32.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2020 14:32:38 -0700 (PDT)
+Received: (nullmailer pid 29102 invoked by uid 1000);
+        Mon, 23 Mar 2020 21:32:37 -0000
+Date:   Mon, 23 Mar 2020 15:32:37 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Ferruh Yigit <fery@cypress.com>,
+        Henrik Rydberg <rydberg@bitmath.org>
+Subject: Re: [PATCH 1/2 v1] dt-bindings: touchscreen: Add CY8CTMA140 bindings
+Message-ID: <20200323213237.GA20027@bogus>
+References: <20200310142818.15415-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <f9b221e7-f189-3e47-adab-1cbc49490d4b@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202) To
- svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200310142818.15415-1-linus.walleij@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Dmitry
+On Tue, Mar 10, 2020 at 03:28:17PM +0100, Linus Walleij wrote:
+> This adds device tree bindings for the Cypress CY8CTMA140
+> touchscreen.
+> 
+> Cc: devicetree@vger.kernel.org
+> Cc: Ferruh Yigit <fery@cypress.com>
+> Cc: Henrik Rydberg <rydberg@bitmath.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  .../input/touchscreen/cypress,cy8ctma140.yaml | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma140.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma140.yaml b/Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma140.yaml
+> new file mode 100644
+> index 000000000000..66b488e48b74
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma140.yaml
+> @@ -0,0 +1,72 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/cypress,cy8ctma140.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Cypress CY8CTMA140 series touchscreen controller bindings
+> +
+> +maintainers:
+> +  - Linus Walleij <linus.walleij@linaro.org>
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: cypress,cy8ctma140
+> +
+> +  reg:
+> +    description: I2C client address, defined by hardware
 
-On 2020/03/21 0:53, Dmitry Osipenko wrote:
-> Hello Jiada,
-> 
-> 20.03.2020 06:37, Wang, Jiada пишет:
->> Hello Dmitry
->>
->> I have submitted v8 patch-set to address your comments towards v7
->> patch-set,
->> most of checkpatch warnings and errors have been addressed,
->>
->> But I didn't update for following two types of warnings
->> since I want to keep consistency with legacy code
->>
->> WARNING: DEVICE_ATTR unusual permissions '0600' used
->> #290: FILE: drivers/input/touchscreen/atmel_mxt_ts.c:3761:
->> +static DEVICE_ATTR(debug_v2_enable, 0600, NULL,
-> 
-> What will happen if you'll use 0644? Will an empty line be returned or
-> driver will crash?
-> 
-debug_v2_enable doesn't have .show callback implemented, so after change 
-permission to 644, read of it results in an I/O error,
+Can drop this. That's every 'reg'.
 
-for other 0600 permission interfaces (t38_data, t25 and debug_enable)
-added in this series,
-change to 644 can return expected information when read.
+> +    const: 0x20
+> +
+> +  clock-frequency:
+> +    description: I2C client max frequency, defined by hardware
+> +    const: 400000
 
-Do you think it's better to change debug_v2_enable to 0200,
-and others to 0644?
+What if I have a board which can't do 400k? Perhaps 'maximum: 400000' 
+instead.
 
-Thanks,
-Jiada
+With that,
 
->> WARNING: Consider renaming function(s) 'mxt_debug_notify_show' to
->> 'debug_notify_show'
->> #292: FILE: drivers/input/touchscreen/atmel_mxt_ts.c:3763:
->> +static DEVICE_ATTR(debug_notify, 0444, mxt_debug_notify_show, NULL);
-> 
-> Perhaps this should be fine to ignore, although the prefix is indeed a
-> bit superfluous.
-> 
->> please let me know if you have different view on this
-> 
-> Thank you very much, I'll test v8 during the weekend.
+Reviewed-by: Rob Herring <robh@kernel.org>
+
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  vcpin-supply:
+> +    description: Analog power supply regulator on VCPIN pin
+> +
+> +  vdd-supply:
+> +    description: Digital power supply regulator on VDD pin
+> +
+> +  touchscreen-inverted-x: true
+> +  touchscreen-inverted-y: true
+> +  touchscreen-size-x: true
+> +  touchscreen-size-y: true
+> +  touchscreen-swapped-x-y: true
+> +  touchscreen-max-pressure: true
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - touchscreen-size-x
+> +  - touchscreen-size-y
+> +  - touchscreen-max-pressure
+> +
+> +examples:
+> +- |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    i2c@00000000 {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +      touchscreen@20 {
+> +        compatible = "cypress,cy8ctma140";
+> +        reg = <0x20>;
+> +        touchscreen-size-x = <480>;
+> +        touchscreen-size-y = <800>;
+> +        touchscreen-max-pressure = <255>;
+> +        interrupt-parent = <&gpio6>;
+> +        interrupts = <26 IRQ_TYPE_EDGE_FALLING>;
+> +        vdd-supply = <&ab8500_ldo_aux2_reg>;
+> +        vcpin-supply = <&ab8500_ldo_aux2_reg>;
+> +      };
+> +    };
+> +
+> +...
+> -- 
+> 2.21.1
 > 
