@@ -2,155 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C1B418EDE8
-	for <lists+linux-input@lfdr.de>; Mon, 23 Mar 2020 03:16:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D211018EDF3
+	for <lists+linux-input@lfdr.de>; Mon, 23 Mar 2020 03:25:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726987AbgCWCQR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 22 Mar 2020 22:16:17 -0400
-Received: from mail-bn8nam12on2046.outbound.protection.outlook.com ([40.107.237.46]:3680
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726958AbgCWCQR (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 22 Mar 2020 22:16:17 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TCSFPRg4zyrl2/jHTgvQHsDbP+DQ6Ei+tMgu9edt859q8ZbEDSUQUJ4lomCmCVYWbYd4ofbQLUDu46U3zNiWsCEqRZXxlnjN+8KBMSa71N+7TOQV7MrhRQI1T54Bop1pCLhl2zWgqvIZIw4cBeI9+v/8irEVI4vrc2nNl3D7kcZ9G8/OH8h8W0LVjwFAk9P5O7BLWSjKG8h20ErrLHWdVgcYgrdY6T9QQ6qkI2rDPpoRJjTUixJR+HSHsZLOpwY9iqlNiELQ5R4ygSrGtEF+P0EJ4Aa3bhE/BqgBz7D45OLW1QtWvjVf30MVHBiuEiiO0q0wekTrYlj/a43yoLm6YA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dbBvtZL/EKf7OWNdo/un9vRVM623L5JFkAzHqseC2YI=;
- b=hewXEJxWa0WhCfMaiQ7CDoGI+EfYWYCahHalZ5KUTZQ9HFCk18/8AsCot7hLFEWUAb7es0pSvZTHONBXSsaz76oeZg3uPTtPRRffgIhqgXA3q0mkOH+olquJiySPwR0ywlKNlc3SlJWSqAms2BcV45j8nvoTIlkQF7/w4jWtCKTZw836Bulmx/0CW8oi88lvGhrSG4RAql7QR7A1YHXNlkecC0EHuDV7nQiI9+CA0m63AmudivGIjE0G9kqYljYo2bgEl/a/SSXmIBGn9tUhXa1mFe/DjSglN1843yMzcAnN2dHXZ4KkAixNYduCBK1UeYdwXe/BehPHChllFMNeTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dbBvtZL/EKf7OWNdo/un9vRVM623L5JFkAzHqseC2YI=;
- b=lvm2skNHRL3yMgDBnrBYHnuGBlklIBq5SY076qBf48SS2AQXPr7aFuMV422Nhciclnr95SNcM4slSU6WFrrOFuGpOYEkfhuzZQseF3bvqG/50MsEiFV0aGhp2gPz2gzcfcK0UoXH8WYiW94DET+m9eaiNaL15k8wPBjQ3YdTY2g=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=jeff@labundy.com; 
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
- by SN6PR08MB5120.namprd08.prod.outlook.com (2603:10b6:805:70::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.22; Mon, 23 Mar
- 2020 02:16:13 +0000
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::e87b:9b6:d4b8:af68]) by SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::e87b:9b6:d4b8:af68%6]) with mapi id 15.20.2835.017; Mon, 23 Mar 2020
- 02:16:12 +0000
-Date:   Sun, 22 Mar 2020 21:16:05 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     dmitry.torokhov@gmail.com, thierry.reding@gmail.com,
-        jic23@kernel.org, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, u.kleine-koenig@pengutronix.de,
-        linux-pwm@vger.kernel.org, knaack.h@gmx.de, lars@metafoo.de,
-        pmeerw@pmeerw.net, linux-iio@vger.kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com
-Subject: Re: [PATCH v5 2/7] mfd: Add support for Azoteq
- IQS620A/621/622/624/625
-Message-ID: <20200323021605.GA2731@labundy.com>
-References: <1581895931-6056-1-git-send-email-jeff@labundy.com>
- <1581895931-6056-3-git-send-email-jeff@labundy.com>
- <20200224111448.GS3494@dell>
- <20200228034220.GA3510@labundy.com>
- <20200302120458.GY3494@dell>
- <20200302141117.GA11787@labundy.com>
- <20200302142405.GA3494@dell>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200302142405.GA3494@dell>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-ClientProxiedBy: DM6PR17CA0002.namprd17.prod.outlook.com
- (2603:10b6:5:1b3::15) To SN6PR08MB5517.namprd08.prod.outlook.com
- (2603:10b6:805:fb::32)
+        id S1726951AbgCWCZj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 22 Mar 2020 22:25:39 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:26587 "EHLO
+        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726946AbgCWCZj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 22 Mar 2020 22:25:39 -0400
+IronPort-SDR: oTHr/xuWbcMqzEs7Pl93CAY7efHXkbfHrxbMsWekF5Kcnrji7qnVUaptxzbFyfbShH0TcRBaUb
+ TzMMOaTcxaWryv9n6Di3I2ZeMthIliGtCJmoV5+SS27Git8zeNzJ/cvx3y7Xon9u8p6ngzxneA
+ rqnaMFVSSUBsnRgml2In529bLmO9Gv9lTJB7UYyfIU7UzdXs/85ckpKThsb1wPwygShFVzZ0nQ
+ lT95+rZ65nCQ4XozU4NQhMsiG4pwnsPCxWOVXv77a6ux78YOBAlieHvNi7iDXFhaAMxE4dLocH
+ PiY=
+X-IronPort-AV: E=Sophos;i="5.72,294,1580803200"; 
+   d="scan'208";a="46900258"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa2.mentor.iphmx.com with ESMTP; 22 Mar 2020 18:25:38 -0800
+IronPort-SDR: wr1s1LqmQRKwjqXoRK0E6cEyEj9fZ5fHXctbQTkpThcSjl09EYhw6tpOS2CW3xwjkH8XmGqvCE
+ MRiKNEF3lynyWxkHWEOWLp8aN7je5ZfIdM7XCN/zFAoN/BXwyYe4f5wxflA+QRnvibn8NQ+kSO
+ t2IAZ6hkffxwU8eBveIRPA1Ab4WtJtgEJZS9KficHw10h/sAwL7nJr7qBq1gKLVAOJB+i48IAM
+ 8JvNapJC5vPsbRvrSC+ZYKjyPHJN8heKARUQWmYAv8eIpJx5EHM4b3yJfRfVpgbcvu/Bt4HLho
+ mI8=
+Subject: Re: [PATCH v7 00/48] atmel_mxt_ts misc
+To:     Dmitry Osipenko <digetx@gmail.com>, <jikos@kernel.org>,
+        <benjamin.tissoires@redhat.com>, <rydberg@bitmath.org>,
+        <dmitry.torokhov@gmail.com>, <nick@shmanahar.org>,
+        <bsz@semihalf.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>
+References: <20200212084218.32344-1-jiada_wang@mentor.com>
+ <c583d151-9243-cbde-a04b-bc0389d9be5a@gmail.com>
+ <89e4bb0b-b2eb-0b67-4307-fb2af914b1c0@mentor.com>
+ <f9b221e7-f189-3e47-adab-1cbc49490d4b@gmail.com>
+From:   "Wang, Jiada" <jiada_wang@mentor.com>
+Message-ID: <bd3c487b-b065-3e4f-6ab1-f344a4113fcd@mentor.com>
+Date:   Mon, 23 Mar 2020 11:25:20 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from labundy.com (136.49.227.119) by DM6PR17CA0002.namprd17.prod.outlook.com (2603:10b6:5:1b3::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.15 via Frontend Transport; Mon, 23 Mar 2020 02:16:11 +0000
-X-Originating-IP: [136.49.227.119]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fb9c19f7-95c1-471e-0c69-08d7ced02848
-X-MS-TrafficTypeDiagnostic: SN6PR08MB5120:
-X-Microsoft-Antispam-PRVS: <SN6PR08MB51204FA55EF6716EB2BC559AD3F00@SN6PR08MB5120.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 0351D213B3
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(346002)(396003)(376002)(39830400003)(366004)(136003)(199004)(6666004)(2616005)(186003)(508600001)(33656002)(956004)(16526019)(26005)(6916009)(1076003)(86362001)(7416002)(66476007)(66556008)(36756003)(66946007)(8886007)(55016002)(8936002)(81156014)(81166006)(316002)(5660300002)(2906002)(52116002)(7696005)(4326008)(8676002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR08MB5120;H:SN6PR08MB5517.namprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
-Received-SPF: None (protection.outlook.com: labundy.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Lt6SJbb9FYxKSlN+rfNryuw8WC7AO5EvoNQJoH4kdf60PW2hUOff6+ETrcNNPYjYDb5dhqqDBfjnR0IC7WuX/tNhHnOm2RAqZoyXB83AopKq6Q8k+svk9+sy/71j/g1xM3Kcz0QnMU6SRjncwi+7/F4OpKreArZmt2wBFMwVTO7rtE8lgy52iueWJllWDPETsRaiDwxNrSK7lNJZlRgLwY4vPW+s0G+KUNbTBOcKRqn4PnpLeWDWTSJecsd0nnJE+ALb59d1QIT9AmXX9ntsTCMOjca4UgqyfXplQLpJVAIJPZ3AE0ZUjLmH8r+MWKbJ6k67xS/AFU8egJmsZsME9W9T/DO1hHzoC1XzjTV31vEoBHtQkaVJydKXxhaWO9iLkhu7cHn3QPvZT1KIgqnFbwUyFmit7BL/sx8nf447CSM4XU1tdBGJT7k16Mj+sQWV
-X-MS-Exchange-AntiSpam-MessageData: K7+lIfuY9XeXy789g03ittDPyoWjwY3w2xi0WDd5AKLVlODIo9azgObGvibx/FRs7gpa5tyEmABTBM3/WlZTDZKcKHysY9PD5TXCcYG6www4r3fPQ9P996guUmvG3HHsReQ9GuRzWp1Hwfhox5nbGQ==
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb9c19f7-95c1-471e-0c69-08d7ced02848
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2020 02:16:12.7040
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cUdrbTHpoc1jBFZ37Cqs7hGjUt/FaFuLEJF780t6r3J8pzx9EZ9qW2GJDQSYFrnPjVEOiYU7BCSQm2M1za1ImA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5120
+In-Reply-To: <f9b221e7-f189-3e47-adab-1cbc49490d4b@gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202) To
+ svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Lee,
+Hello Dmitry
 
-On Mon, Mar 02, 2020 at 02:24:05PM +0000, Lee Jones wrote:
-> On Mon, 02 Mar 2020, Jeff LaBundy wrote:
+On 2020/03/21 0:53, Dmitry Osipenko wrote:
+> Hello Jiada,
 > 
-> > Hi Lee,
-> > 
-> > On Mon, Mar 02, 2020 at 12:04:58PM +0000, Lee Jones wrote:
-> > > On Thu, 27 Feb 2020, Jeff LaBundy wrote:
-> > > 
-> > > > Hi Lee,
-> > > > 
-> > > > On Mon, Feb 24, 2020 at 11:14:48AM +0000, Lee Jones wrote:
-> > > > 
-> > > > [...]
-> > > > 
-> > > > > 
-> > > > > Well done Jeff.  Good job.
-> > > > > 
-> > > > > Applied, thanks.
-> > > > > 
-> > > > 
-> > > > Thank you for your kind words as well as your support in fleshing out this
-> > > > series.
-> > > > 
-> > > > Just to confirm, does your offer to take the remainder (once everything is
-> > > > approved) through immutable branches still stand?
-> > > 
-> > > Depends how quickly you can get the other drivers turned around.
-> > 
-> > With Uwe's approval from Friday, all five drivers are complete. Dmitry and
-> > Jonathan's approvals were given in previous review cycles and were carried
-> > forward with their permission. If anything else is required, please let me
-> > know.
+> 20.03.2020 06:37, Wang, Jiada пишет:
+>> Hello Dmitry
+>>
+>> I have submitted v8 patch-set to address your comments towards v7
+>> patch-set,
+>> most of checkpatch warnings and errors have been addressed,
+>>
+>> But I didn't update for following two types of warnings
+>> since I want to keep consistency with legacy code
+>>
+>> WARNING: DEVICE_ATTR unusual permissions '0600' used
+>> #290: FILE: drivers/input/touchscreen/atmel_mxt_ts.c:3761:
+>> +static DEVICE_ATTR(debug_v2_enable, 0600, NULL,
 > 
-> Does Uwe's review mean that Thierry's is not required?
-
-Sorry about that; I was jumping the gun (thank you Uwe for clarifying).
-The pwm patch still needs an Ack from Thierry before it can be applied.
-
-I have not received any feedback from Thierry throughout this patch set,
-and I'd like to unblock the remainder if possible. In case Thierry does
-not respond by the time you elect to send your next pull request, would
-you be willing to drop the pwm patch and take the input and iio patches
-through your tree?
-
-If so, I'll re-send the pwm patch on its own to Thierry during a future
-cycle so that he can take it through his tree at his convenience.
-
+> What will happen if you'll use 0644? Will an empty line be returned or
+> driver will crash?
 > 
-> -- 
-> Lee Jones [李琼斯]
-> Linaro Services Technical Lead
-> Linaro.org │ Open source software for ARM SoCs
-> Follow Linaro: Facebook | Twitter | Blog
+debug_v2_enable doesn't have .show callback implemented, so after change 
+permission to 644, read of it results in an I/O error,
 
-Kind regards,
-Jeff LaBundy
+for other 0600 permission interfaces (t38_data, t25 and debug_enable)
+added in this series,
+change to 644 can return expected information when read.
+
+Do you think it's better to change debug_v2_enable to 0200,
+and others to 0644?
+
+Thanks,
+Jiada
+
+>> WARNING: Consider renaming function(s) 'mxt_debug_notify_show' to
+>> 'debug_notify_show'
+>> #292: FILE: drivers/input/touchscreen/atmel_mxt_ts.c:3763:
+>> +static DEVICE_ATTR(debug_notify, 0444, mxt_debug_notify_show, NULL);
+> 
+> Perhaps this should be fine to ignore, although the prefix is indeed a
+> bit superfluous.
+> 
+>> please let me know if you have different view on this
+> 
+> Thank you very much, I'll test v8 during the weekend.
+> 
