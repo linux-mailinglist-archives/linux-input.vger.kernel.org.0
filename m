@@ -2,51 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD42C1913B6
-	for <lists+linux-input@lfdr.de>; Tue, 24 Mar 2020 15:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9F141913D1
+	for <lists+linux-input@lfdr.de>; Tue, 24 Mar 2020 16:03:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727674AbgCXOzA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Mar 2020 10:55:00 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:36522 "EHLO
+        id S1727455AbgCXPDN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Mar 2020 11:03:13 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:45532 "EHLO
         mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727065AbgCXOy7 (ORCPT
+        with ESMTP id S1727168AbgCXPDM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Mar 2020 10:54:59 -0400
-Received: by mail-lj1-f196.google.com with SMTP id g12so18910367ljj.3;
-        Tue, 24 Mar 2020 07:54:58 -0700 (PDT)
+        Tue, 24 Mar 2020 11:03:12 -0400
+Received: by mail-lj1-f196.google.com with SMTP id t17so8270234ljc.12;
+        Tue, 24 Mar 2020 08:03:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=AOSS3eFveilVZn/DBbbwh0izNJbKh2tnXbF729vy+ig=;
-        b=WrlNghczCsey37/MKE3w8tCZ2XzHcdmxxQnDbBLx/KkZdZJaB48QcwugA33f5AYk5I
-         KQ9H4EcdVf5G0OY/4B94T4N2OuEjHl8mCBhcYsRdr385N33Llhupz5oStGeGW2LLTWJa
-         38wNnLTn57+OPZH86ID4htim9sSaWwM0b1bqI+dVKKfyTnSTMyB5RAkzn7thHQVBSF0C
-         tFBXDAKeVrBUOhpRpjOfavyD/bUs8+h4mYs7OtAFVwIhj+C7HeaOYW50htqulzwDICzZ
-         FkomX58TuXFMnrDSSRMlD4mj2BBPYE7UGX2uVIH5O3UKAdFYK0b9S2yY0dsxdOHFwHg3
-         s9nw==
+        bh=I7ST19asnOGG0MvlKCXAazKkdXSFzwFfpgOHQe5IauY=;
+        b=C3p61EaT7Ansyr+VG6Zms58wIAIdlIeXUlQlRWHEzHgosPG4eTbCfxvVKOlyXpuMKJ
+         UMkA1qSBDLqjzZ516QFLp4yt/3qfUxBqxaJvBcj8LZRy5cJV/emrqMeNA2nm29VTd2LB
+         hiEAduSEjAUca7c2TVIcxwNXORz+W2Jp/c7HbXw49iP9KCTBTjVgORNWm9RkbmupOjSv
+         JEVaicWfU4oPm+je2fjhGZATErWWRg61aEQFM2ACPsTnQMSoVrgcqo9qraE09ZGwUs66
+         36Jk6bVFpRsAfcxYVr4XYYsPZgsAxbQbfj2lIAHEjvJvV51/QFoQMSrgcyRDIzF8qS8S
+         XR7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=AOSS3eFveilVZn/DBbbwh0izNJbKh2tnXbF729vy+ig=;
-        b=ZAPaPo/iNon6cBmt9lVJk4JFM71D7OSNqd0mqHAXfWnVAgJcJ5g2Ww03etWXoy0jS0
-         4VN8QACBtkEAlX12NjxJVp8EKF2r+Sw7zneFDQw6bdk465YeDSw8gnvEIxb1XaTZeiLw
-         Sajx3MR37rKU6LTgDEcS3EKjJ4Au1t/sbysDzjqyMtzdsriri0xpTaLsNTSuBlYL1joQ
-         1afTgzA7KuXv4s+wXJonjJl5MjhH95CefTBU/58uD+o3P+p8bUU7LfYnbkArWXe8v51R
-         YOjUCxCEgGY0BnRkP9PvZ9Bl3eTO+DH9xzMYOAUzMS6sNwMomXw4BJduxCPZw2WRZ3kT
-         Hxug==
-X-Gm-Message-State: ANhLgQ0yXqP7ArcFRwMnaLmtHVnnC/BNOpDH0zJeO1aAQtm54U2zZtfc
-        A7Kr3QL3q00fmAeOLcfLTvI=
-X-Google-Smtp-Source: ADFU+vveJotGWX053MYJksGQ4e55grhJu+aTUF4p1M6m8YJCoBbxN+4WPmArxVjhO/YKIcbaGGSUwQ==
-X-Received: by 2002:a05:651c:201d:: with SMTP id s29mr3721559ljo.214.1585061697401;
-        Tue, 24 Mar 2020 07:54:57 -0700 (PDT)
+        bh=I7ST19asnOGG0MvlKCXAazKkdXSFzwFfpgOHQe5IauY=;
+        b=FZVoQR+j6Nf7EYVtVNvHf3AeXPz6/MQuJYn0Vbv6cokHAkMVdAmLbPwZDjn9v9wUZ8
+         X2nb4OIZOeICSVLWT59j6YN8LPg9D7RlNRD0sMSno6MaasItL/ruHdWXyPukL3huM4uS
+         P6ZmEV7dvdkgYjKaRI5zS6zB61L48JVaKRavg0DUc9Qat7TGgH8fupwWC60hkQ+mAOFU
+         0RbOoZU+G1+UwkoPMBwSe5ddgfLD+yUoGAz5YqyNx6/i0eORf2uWrldjIk0Pl48CIwmJ
+         9blFRgrh+eW3xEfDZP7VQseNxpVowuMIlmtrf7ABa4pUZqGAmkK1dlOl3uHKEJmBv7El
+         9/AA==
+X-Gm-Message-State: ANhLgQ0RarWSR7xuEm+XwzhcS5GA4jRqR/GzcNpUnSaWXYJIH+mS4H6c
+        wodMcWA4aDkeYrwXTfCNSz8=
+X-Google-Smtp-Source: ADFU+vsH+UIsIfX+xigBdx82/+KW5l3a/4mEXGfuKimOIM5aB97Q/HYnQwUG5Nhu8rQhgSr0M287WA==
+X-Received: by 2002:a05:651c:50e:: with SMTP id o14mr17295986ljp.241.1585062190955;
+        Tue, 24 Mar 2020 08:03:10 -0700 (PDT)
 Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id y20sm10270084ljd.35.2020.03.24.07.54.55
+        by smtp.googlemail.com with ESMTPSA id h10sm10347020ljg.38.2020.03.24.08.03.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2020 07:54:56 -0700 (PDT)
+        Tue, 24 Mar 2020 08:03:10 -0700 (PDT)
 Subject: Re: [PATCH v7 00/48] atmel_mxt_ts misc
+From:   Dmitry Osipenko <digetx@gmail.com>
 To:     "Wang, Jiada" <jiada_wang@mentor.com>, jikos@kernel.org,
         benjamin.tissoires@redhat.com, rydberg@bitmath.org,
         dmitry.torokhov@gmail.com, nick@shmanahar.org, bsz@semihalf.com
@@ -57,13 +58,13 @@ References: <20200212084218.32344-1-jiada_wang@mentor.com>
  <89e4bb0b-b2eb-0b67-4307-fb2af914b1c0@mentor.com>
  <f9b221e7-f189-3e47-adab-1cbc49490d4b@gmail.com>
  <bd3c487b-b065-3e4f-6ab1-f344a4113fcd@mentor.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5d8fdfc1-cc95-59db-b83e-87bb16ea79e8@gmail.com>
-Date:   Tue, 24 Mar 2020 17:54:54 +0300
+ <5d8fdfc1-cc95-59db-b83e-87bb16ea79e8@gmail.com>
+Message-ID: <60f89c4e-91e0-e660-58e7-5b152bc3e8e7@gmail.com>
+Date:   Tue, 24 Mar 2020 18:03:09 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <bd3c487b-b065-3e4f-6ab1-f344a4113fcd@mentor.com>
+In-Reply-To: <5d8fdfc1-cc95-59db-b83e-87bb16ea79e8@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -72,42 +73,50 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-23.03.2020 05:25, Wang, Jiada пишет:
-> Hello Dmitry
-> 
-> On 2020/03/21 0:53, Dmitry Osipenko wrote:
->> Hello Jiada,
+24.03.2020 17:54, Dmitry Osipenko пишет:
+> 23.03.2020 05:25, Wang, Jiada пишет:
+>> Hello Dmitry
 >>
->> 20.03.2020 06:37, Wang, Jiada пишет:
->>> Hello Dmitry
+>> On 2020/03/21 0:53, Dmitry Osipenko wrote:
+>>> Hello Jiada,
 >>>
->>> I have submitted v8 patch-set to address your comments towards v7
->>> patch-set,
->>> most of checkpatch warnings and errors have been addressed,
+>>> 20.03.2020 06:37, Wang, Jiada пишет:
+>>>> Hello Dmitry
+>>>>
+>>>> I have submitted v8 patch-set to address your comments towards v7
+>>>> patch-set,
+>>>> most of checkpatch warnings and errors have been addressed,
+>>>>
+>>>> But I didn't update for following two types of warnings
+>>>> since I want to keep consistency with legacy code
+>>>>
+>>>> WARNING: DEVICE_ATTR unusual permissions '0600' used
+>>>> #290: FILE: drivers/input/touchscreen/atmel_mxt_ts.c:3761:
+>>>> +static DEVICE_ATTR(debug_v2_enable, 0600, NULL,
 >>>
->>> But I didn't update for following two types of warnings
->>> since I want to keep consistency with legacy code
+>>> What will happen if you'll use 0644? Will an empty line be returned or
+>>> driver will crash?
 >>>
->>> WARNING: DEVICE_ATTR unusual permissions '0600' used
->>> #290: FILE: drivers/input/touchscreen/atmel_mxt_ts.c:3761:
->>> +static DEVICE_ATTR(debug_v2_enable, 0600, NULL,
+>> debug_v2_enable doesn't have .show callback implemented, so after change
+>> permission to 644, read of it results in an I/O error,
 >>
->> What will happen if you'll use 0644? Will an empty line be returned or
->> driver will crash?
+>> for other 0600 permission interfaces (t38_data, t25 and debug_enable)
+>> added in this series,
+>> change to 644 can return expected information when read.
 >>
-> debug_v2_enable doesn't have .show callback implemented, so after change
-> permission to 644, read of it results in an I/O error,
+>> Do you think it's better to change debug_v2_enable to 0200,
+>> and others to 0644?
 > 
-> for other 0600 permission interfaces (t38_data, t25 and debug_enable)
-> added in this series,
-> change to 644 can return expected information when read.
+> Since the debug_enable has mxt_debug_enable_show(), the same should be
+> done for debug_v2_enable, for consistency.
 > 
-> Do you think it's better to change debug_v2_enable to 0200,
-> and others to 0644?
+> The permissions should be 0644 for everything that is read/write.
+> 
+> The 0200 should be used for everything that is root-only and write-only.
+> 
 
-Since the debug_enable has mxt_debug_enable_show(), the same should be
-done for debug_v2_enable, for consistency.
+Also, please take a look at [1], see DEVICE_ATTR_WO() and
+DEVICE_BOOL_ATTR() macros, which should be handy.
 
-The permissions should be 0644 for everything that is read/write.
-
-The 0200 should be used for everything that is root-only and write-only.
+[1]
+https://elixir.bootlin.com/linux/v5.6-rc7/source/include/linux/device.h#L125
