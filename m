@@ -2,109 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 060B219197B
-	for <lists+linux-input@lfdr.de>; Tue, 24 Mar 2020 19:54:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC981191A1A
+	for <lists+linux-input@lfdr.de>; Tue, 24 Mar 2020 20:38:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727468AbgCXSwa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Mar 2020 14:52:30 -0400
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:36215 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726879AbgCXSwa (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Mar 2020 14:52:30 -0400
-Received: by mail-pj1-f67.google.com with SMTP id nu11so1883371pjb.1
-        for <linux-input@vger.kernel.org>; Tue, 24 Mar 2020 11:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=c+p7uBmHPGLCaEAYjZ1RI+tE5pxvx9tHCJ0o5iD1x88=;
-        b=EUrqrdtfio2RX/5Ysvug9fe1DUvUhxOlnSyEf8n/tUtU1Hqj4ETLkpqYvt2xbI/6PS
-         JlQHCQJhI5+QOVELdjxvpDHal+sw7xTlArWVpsQ1ZhTNDHnFJ5aGGxinSG9j9JpvCtQ3
-         7U2LoS4fkY5po3zYavdgzvzme/+hIPUffL9+NYL6mssoV/2lY/XeioCxVNs6tIZ4mJhm
-         wFipxYthB+muRSMKPfFyfkF4w5Nbh+Tqnp58u7FCY+vIsBjsR9G+k4uT0F2gKu9G0WSx
-         k8swhWmpIucwhej3JLVAFlfB3hJJuIrV6qx9a0Cf1EU/qNAxWoGlGUlo/9Nam0+E9eYW
-         zbYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=c+p7uBmHPGLCaEAYjZ1RI+tE5pxvx9tHCJ0o5iD1x88=;
-        b=eUwN+/bgpSh1kgkmcYAjVwnAM7amOREihjv5sBn/riqUBYd0gjmawGuDJNxFHLkjd8
-         EJsaDDe6o/ExVv4uZOC/wQLAgfeF1Y2rfld6XWS0Ne2CUBJCFoSe/BiARs68tfvUS+Vk
-         WNNzJEqge1iDepkRixhpaaTW0/ZE1kOErS/SNJNsNwEzUXZ4aZC67I7LV2IlJfNb/B3M
-         ZbJu4QCW+7kw4M7rAw684xHD+b6Pz2XUAWuq5ZYdb8G7pWlzp9oPq/KXOxF4s+gDZMRI
-         PZ/hLBmGgvEJrjdlb2wBKfoLUFTCq06dyHl5le58hHyLFR6IG2iFJ5QOugT61C4huSej
-         L5/w==
-X-Gm-Message-State: ANhLgQ0VRAMOle23XBovtSF7vzyII+bVKpFSwPtPSgKRKLYc+4+tVIpj
-        lb2zHWlqPDL9IVF0OeTMTbA=
-X-Google-Smtp-Source: ADFU+vtGaAPLhO89bekT5GE+q8tEeuBnuqa9znSAntK+r5UZANaP3o/LHbskFE8qTyeY/Iv5oaD/ow==
-X-Received: by 2002:a17:902:76c9:: with SMTP id j9mr2275908plt.166.1585075948747;
-        Tue, 24 Mar 2020 11:52:28 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id x3sm16184249pfp.167.2020.03.24.11.52.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 11:52:28 -0700 (PDT)
-Date:   Tue, 24 Mar 2020 11:52:26 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Dmitry Mastykin <dmastykin@astralinux.ru>
+        id S1725866AbgCXTiO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Mar 2020 15:38:14 -0400
+Received: from mail.astralinux.ru ([217.74.38.120]:40740 "EHLO astralinux.ru"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725835AbgCXTiO (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 24 Mar 2020 15:38:14 -0400
+Received: from [46.148.196.138] (account dmastykin@astralinux.ru HELO [192.168.32.67])
+  by astralinux.ru (CommuniGate Pro SMTP 6.2.7)
+  with ESMTPSA id 1787107; Tue, 24 Mar 2020 22:35:34 +0300
+Subject: Re: [PATCH v3 1/2] Input: goodix - Add support for more then one
+ touch-key
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Bastien Nocera <hadess@hadess.net>,
         Hans de Goede <hdegoede@redhat.com>,
         linux-input@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] Input: goodix - Fix spurious key release events
-Message-ID: <20200324185226.GD75430@dtor-ws>
 References: <20200316075302.3759-1-dmastykin@astralinux.ru>
- <20200316075302.3759-2-dmastykin@astralinux.ru>
+ <20200324185121.GA75430@dtor-ws>
+From:   Dmitry Mastykin <dmastykin@astralinux.ru>
+Message-ID: <4c0be7d7-4d88-5adf-bbb3-5af036115e7a@astralinux.ru>
+Date:   Tue, 24 Mar 2020 22:38:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200316075302.3759-2-dmastykin@astralinux.ru>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20200324185121.GA75430@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Mar 16, 2020 at 10:53:05AM +0300, Dmitry Mastykin wrote:
-> The goodix panel sends spurious interrupts after a 'finger up' event,
-> which always cause a timeout.
-> We were exiting the interrupt handler by reporting touch_num == 0, but
-> this was still processed as valid and caused the code to use the
-> uninitialised point_data, creating spurious key release events.
-> 
-> Report an error from the interrupt handler so as to avoid processing
-> invalid point_data further.
-> 
-> Signed-off-by: Dmitry Mastykin <dmastykin@astralinux.ru>
+Hi Dmitry,
+we had discussed earlier this point with Hans:
 
-Applied, thank you.
+Hans:
+ >>> 3) In goodix_ts_report_key you do:
+ >>>
+ >>>                   for (i = 0; i < GOODIX_MAX_KEYS; ++i)
+ >>>                           if (key_value & (1 << i))
+ >>>                                   input_report_key(ts->input_dev, 
+ts->keymap[i], 1
+ >>>
+ >>> But if the user then jumps his finger from say touch_key 0 to 
+touch_key 1
+ >>> without us receiving a "packet" in between with GOODIX_HAVE_KEY set,
+ >>> then we never release touch_key 0. So instead this really should be:
+ >>>
+ >>>                   for (i = 0; i < GOODIX_MAX_KEYS; ++i)
+ >>>                           input_report_key(ts->input_dev, 
+ts->keymap[i],
+ >>>                                            key_value & (1 << i));
+ >>>
 
-> ---
-> Changes in v3:
-> - Improve commit message
-> 
-> Changes in v2:
-> - Improve commit message
-> ---
->  drivers/input/touchscreen/goodix.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-> index 04b5c7b..cc965fe 100644
-> --- a/drivers/input/touchscreen/goodix.c
-> +++ b/drivers/input/touchscreen/goodix.c
-> @@ -329,7 +329,7 @@ static int goodix_ts_read_input_report(struct goodix_ts_data *ts, u8 *data)
->  	 * The Goodix panel will send spurious interrupts after a
->  	 * 'finger up' event, which will always cause a timeout.
->  	 */
-> -	return 0;
-> +	return -ENOMSG;
->  }
->  
->  static void goodix_ts_report_touch_8b(struct goodix_ts_data *ts, u8 *coor_data)
-> -- 
-> 2.23.0
-> 
+Me:
+ >> It seems, that this problem never happens. When user moves finger from
+ >> button to button, we stably receive 2-3 packets without
+ >> GOODIX_HAVE_KEY in between, that release all previous touches. From
+ >> other hand, your change will not work when the same keycode is
+ >> assigned to several buttons - it will be immediately released.
 
--- 
-Dmitry
+Hans:
+ >
+ > Hmm, interesting point I did not think of that. That would be a bit
+ > weird thing to do, but it is not impossible...
+ >
+ > I'm afraid Dmitry (the input maintainer) will likely make the same
+ > remark as I do though (when you submit this upstream). But we'll see.
+ >
+ > Keeping this as is is fine with me.
+
+So I'm impressed about your mutual understanding) And waiting for your 
+decision.
+Thank you!
+
+Kind regards
+Dmitry Mastykin
+
+On 3/24/20 9:51 PM, Dmitry Torokhov wrote:
+> Hi Dmitry,
+> 
+> On Mon, Mar 16, 2020 at 10:53:03AM +0300, Dmitry Mastykin wrote:
+>> +static void goodix_ts_report_key(struct goodix_ts_data *ts, u8 *data)
+>> +{
+>> +	int touch_num;
+>> +	u8 key_value;
+>> +	int i;
+>> +
+>> +	if (data[0] & GOODIX_HAVE_KEY) {
+>> +		touch_num = data[0] & 0x0f;
+>> +		key_value = data[1 + ts->contact_size * touch_num];
+>> +		for (i = 0; i < GOODIX_MAX_KEYS; ++i)
+>> +			if (key_value & (1 << i))
+>> +				input_report_key(ts->input_dev, ts->keymap[i], 1);
+>> +	} else
+>> +		for (i = 0; i < GOODIX_MAX_KEYS; ++i)
+>> +			input_report_key(ts->input_dev, ts->keymap[i], 0);
+> 
+> Should this be written as:
+> 
+> 	if (data[0] & GOODIX_HAVE_KEY) {
+> 		touch_num = data[0] & 0x0f;
+> 		key_value = data[1 + ts->contact_size * touch_num];
+> 	} else {
+> 		/* Release all keys */
+> 		key_value = 0;
+> 	}
+> 
+> 	for (i = 0; i < GOODIX_MAX_KEYS; i++)
+> 		input_report_key(ts->input_dev, ts->keymap[i],
+> 				 key_value & BIT(i);
+> 
+> or the device may send incremental updates to the keys pressed without
+> resending currently pressed keys (sounds unlikely)?
+> 
+> Thanks.
+> 
