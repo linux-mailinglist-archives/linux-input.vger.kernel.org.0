@@ -2,137 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 41726190765
-	for <lists+linux-input@lfdr.de>; Tue, 24 Mar 2020 09:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7183D190A8D
+	for <lists+linux-input@lfdr.de>; Tue, 24 Mar 2020 11:20:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726167AbgCXIQE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Mar 2020 04:16:04 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:37190 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725922AbgCXIQE (ORCPT
+        id S1726845AbgCXKU1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Mar 2020 06:20:27 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:35115 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727150AbgCXKU1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Mar 2020 04:16:04 -0400
-Received: by mail-wm1-f68.google.com with SMTP id d1so2395424wmb.2
-        for <linux-input@vger.kernel.org>; Tue, 24 Mar 2020 01:16:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=nCmrtRi63VazCm5/zsbCw7DEK5Z7dLbwQao7Tq0w8UI=;
-        b=TYxi9wxqyr7ZuG8v7NeMKLzIJ5DKBo0KD25LlPVXxOMPs9byUNhx5xErNOM2TNuu4W
-         uBQ5djcQQUevw22VSpRPc+SGlWLzzM3AHp1SwUhrvqAOIhayuejqPjAmtJP7agqPd6TX
-         7/A5dhfR3w1WC3TWWDv/dQ+y2AT4kyf6qBWOnSNmY0LDL8p2FCUI+v3XQIIgF+P0Gjo9
-         ZVRykXOxoW2DEfM77oSzjwjeNrqKvnGsSqmbQCDnBQEI2lziwn2q89CgYC56yEf7YG90
-         CbgVL68NrZX32+c59WxzYUknlxv/eGId9maiUFN2jENO3yLPZlOWOY7eLLTIoqpCuS0g
-         BWOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=nCmrtRi63VazCm5/zsbCw7DEK5Z7dLbwQao7Tq0w8UI=;
-        b=NqNOMtCRMW+/xqRxDOhlOu0AiGxjuIPxjVmn0u5/HsU3ZvyPCSqsh0lKWN1U7ck/5q
-         diRkrF600FuoZWxnkTNYC+B+PY+eTDd90Rx7yucryQ5H12kQgzY/uX+FtrqDLuLlYzGy
-         Jua6mXTvJu/eW3til42AHNNmmdJr5oZsXvD+rtyIk3nKp5OR8IqlgyWltAkpBTnJ3BDB
-         EE2z/ZL21mcSXZYRoJOXeEQXzw4fxizJovOEBdw+UNRUbK1PYFhcIIp2exkepYWQjtYu
-         ysENFuAgWfzN/rfgQWOOll6agOKvI6Xm/qgGZrGVCKODrth6YxDDEn978WU8kZ2CKsQi
-         2tFg==
-X-Gm-Message-State: ANhLgQ2TfQrehy5sR6hP/b0pzhNT+ctiGvChTGNiLxReBy6tuZp3G/rq
-        vSsA9lutKJ1DZFKYJSup22SSKA==
-X-Google-Smtp-Source: ADFU+vu2MY3Q/scatxmu05MiPn0AajbEO2ZWaYCbPYz5dU4kEJeQFhYcQWrbv+Zv6zDqL1jyIuSs7w==
-X-Received: by 2002:a05:600c:2283:: with SMTP id 3mr3900004wmf.157.1585037762724;
-        Tue, 24 Mar 2020 01:16:02 -0700 (PDT)
-Received: from dell ([2.27.35.213])
-        by smtp.gmail.com with ESMTPSA id n124sm3337129wma.11.2020.03.24.01.16.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 01:16:01 -0700 (PDT)
-Date:   Tue, 24 Mar 2020 08:16:51 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     dmitry.torokhov@gmail.com, thierry.reding@gmail.com,
-        jic23@kernel.org, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, u.kleine-koenig@pengutronix.de,
-        linux-pwm@vger.kernel.org, knaack.h@gmx.de, lars@metafoo.de,
-        pmeerw@pmeerw.net, linux-iio@vger.kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com
-Subject: Re: [PATCH v5 2/7] mfd: Add support for Azoteq
- IQS620A/621/622/624/625
-Message-ID: <20200324081651.GG5477@dell>
-References: <1581895931-6056-1-git-send-email-jeff@labundy.com>
- <1581895931-6056-3-git-send-email-jeff@labundy.com>
- <20200224111448.GS3494@dell>
- <20200228034220.GA3510@labundy.com>
- <20200302120458.GY3494@dell>
- <20200302141117.GA11787@labundy.com>
- <20200302142405.GA3494@dell>
- <20200323021605.GA2731@labundy.com>
+        Tue, 24 Mar 2020 06:20:27 -0400
+Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
+        (Authenticated sender: hadess@hadess.net)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id A326D200011;
+        Tue, 24 Mar 2020 10:20:22 +0000 (UTC)
+Message-ID: <92f48f409e913299c12322d195c88792bb4e5c9c.camel@hadess.net>
+Subject: Re: [PATCH v2] HID: logitech-dj: issue udev change event on device
+ connection
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mario Limonciello <superm1@gmail.com>,
+        Richard Hughes <hughsient@gmail.com>
+Date:   Tue, 24 Mar 2020 11:20:21 +0100
+In-Reply-To: <20200318192721.390630-1-lains@archlinux.org>
+References: <20200318161906.3340959-1-lains@archlinux.org>
+         <20200318192721.390630-1-lains@archlinux.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.0 (3.36.0-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200323021605.GA2731@labundy.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 22 Mar 2020, Jeff LaBundy wrote:
-
-> Hi Lee,
+On Wed, 2020-03-18 at 19:27 +0000, Filipe Laíns wrote:
+> As discussed in the mailing list:
 > 
-> On Mon, Mar 02, 2020 at 02:24:05PM +0000, Lee Jones wrote:
-> > On Mon, 02 Mar 2020, Jeff LaBundy wrote:
-> > 
-> > > Hi Lee,
-> > > 
-> > > On Mon, Mar 02, 2020 at 12:04:58PM +0000, Lee Jones wrote:
-> > > > On Thu, 27 Feb 2020, Jeff LaBundy wrote:
-> > > > 
-> > > > > Hi Lee,
-> > > > > 
-> > > > > On Mon, Feb 24, 2020 at 11:14:48AM +0000, Lee Jones wrote:
-> > > > > 
-> > > > > [...]
-> > > > > 
-> > > > > > 
-> > > > > > Well done Jeff.  Good job.
-> > > > > > 
-> > > > > > Applied, thanks.
-> > > > > > 
-> > > > > 
-> > > > > Thank you for your kind words as well as your support in fleshing out this
-> > > > > series.
-> > > > > 
-> > > > > Just to confirm, does your offer to take the remainder (once everything is
-> > > > > approved) through immutable branches still stand?
-> > > > 
-> > > > Depends how quickly you can get the other drivers turned around.
-> > > 
-> > > With Uwe's approval from Friday, all five drivers are complete. Dmitry and
-> > > Jonathan's approvals were given in previous review cycles and were carried
-> > > forward with their permission. If anything else is required, please let me
-> > > know.
-> > 
-> > Does Uwe's review mean that Thierry's is not required?
-> 
-> Sorry about that; I was jumping the gun (thank you Uwe for clarifying).
-> The pwm patch still needs an Ack from Thierry before it can be applied.
-> 
-> I have not received any feedback from Thierry throughout this patch set,
-> and I'd like to unblock the remainder if possible. In case Thierry does
-> not respond by the time you elect to send your next pull request, would
-> you be willing to drop the pwm patch and take the input and iio patches
-> through your tree?
-> 
-> If so, I'll re-send the pwm patch on its own to Thierry during a future
-> cycle so that he can take it through his tree at his convenience.
+> > Right now the hid-logitech-dj driver will export one node for each
+> > connected device, even when the device is not connected. That
+> > causes
+> > some trouble because in userspace we don't have have any way to
+> > know if
+> > the device is connected or not, so when we try to communicate, if
+> > the
+> > device is disconnected it will fail.
 
-Hopefully we hear fro Thierry.
+Why is it a problem that user-space communication fails? Note that
+sending a signal without any way to fetch the state means that it's
+always going to be racy.
 
-If not, yes I can apply the set without the PWM patch.
+> The solution reached to solve this issue is to trigger an udev change
+> event when the device connects, this way userspace can just wait on
+> those connections instead of trying to ping the device.
+> 
+> Signed-off-by: Filipe Laíns <lains@archlinux.org>
+> 
+> ---
+> 
+> v2:
+>   - Issue udev change event on the connected hid device, not on the
+>   receiver
+> 
+> ---
+>  drivers/hid/hid-logitech-dj.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-
+> logitech-dj.c
+> index 48dff5d6b605..282e57dd467d 100644
+> --- a/drivers/hid/hid-logitech-dj.c
+> +++ b/drivers/hid/hid-logitech-dj.c
+> @@ -1412,6 +1412,7 @@ static int logi_dj_dj_event(struct hid_device
+> *hdev,
+>  {
+>  	struct dj_receiver_dev *djrcv_dev = hid_get_drvdata(hdev);
+>  	struct dj_report *dj_report = (struct dj_report *) data;
+> +	struct dj_device *dj_dev;
+>  	unsigned long flags;
+>  
+>  	/*
+> @@ -1447,7 +1448,9 @@ static int logi_dj_dj_event(struct hid_device
+> *hdev,
+>  
+>  	spin_lock_irqsave(&djrcv_dev->lock, flags);
+>  
+> -	if (!djrcv_dev->paired_dj_devices[dj_report->device_index]) {
+> +	dj_dev = djrcv_dev->paired_dj_devices[dj_report->device_index];
+> +
+> +	if (!dj_dev) {
+>  		/* received an event for an unknown device, bail out */
+>  		logi_dj_recv_queue_notification(djrcv_dev, dj_report);
+>  		goto out;
+> @@ -1464,6 +1467,8 @@ static int logi_dj_dj_event(struct hid_device
+> *hdev,
+>  		if (dj_report-
+> >report_params[CONNECTION_STATUS_PARAM_STATUS] ==
+>  		    STATUS_LINKLOSS) {
+>  			logi_dj_recv_forward_null_report(djrcv_dev,
+> dj_report);
+> +		} else {
+> +			kobject_uevent(&dj_dev->hdev->dev.kobj,
+> KOBJ_CHANGE);
+>  		}
+>  		break;
+>  	default:
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
