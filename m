@@ -2,349 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BEDA9190C3D
-	for <lists+linux-input@lfdr.de>; Tue, 24 Mar 2020 12:16:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C83AE190CBB
+	for <lists+linux-input@lfdr.de>; Tue, 24 Mar 2020 12:51:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727502AbgCXLPt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Mar 2020 07:15:49 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:40943 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727480AbgCXLPt (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Mar 2020 07:15:49 -0400
-X-Originating-IP: 195.189.32.242
-Received: from pc.localdomain (unknown [195.189.32.242])
-        (Authenticated sender: contact@artur-rojek.eu)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 0E0FB1C0005;
-        Tue, 24 Mar 2020 11:15:44 +0000 (UTC)
-From:   Artur Rojek <contact@artur-rojek.eu>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        id S1726802AbgCXLvE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Mar 2020 07:51:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49514 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727066AbgCXLvE (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 24 Mar 2020 07:51:04 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D2FB1208C3;
+        Tue, 24 Mar 2020 11:51:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585050663;
+        bh=GbjME65ILfkmi8zJstR/SFqAkxmeGRJlOv2QSmeTsWg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SelyDidDQxeilzoIowIkSureeYmuqpKBdTJT15rQEZ/Fu5q6pCoTIkPiCgt2REO5W
+         uR1PkqKJRSfa7aEEpJQNpyCQjlng6o6oeL4X5t5M0vp+sy6k/0FhNIUsM1iHa4K50h
+         Bu2+mDmKg/hHaOCjvvTGgPVLXrq3yMd+tw/w0GOY=
+Date:   Tue, 24 Mar 2020 12:50:59 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Rajat Jain <rajatja@google.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>, dtor@google.com,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>
-Cc:     Heiko Stuebner <heiko@sntech.de>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Artur Rojek <contact@artur-rojek.eu>
-Subject: [PATCH v5 5/5] input: joystick: Add ADC attached joystick driver.
-Date:   Tue, 24 Mar 2020 12:23:36 +0100
-Message-Id: <20200324112336.29755-5-contact@artur-rojek.eu>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200324112336.29755-1-contact@artur-rojek.eu>
-References: <20200324112336.29755-1-contact@artur-rojek.eu>
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Enrico Weigelt <info@metux.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, furquan@google.com,
+        dlaurie@google.com, bleung@google.com, zentaro@google.com,
+        dbehr@google.com, rajatxjain@gmail.com
+Subject: Re: [PATCH RESEND 1/5] input/serio/i8042: Attach fwnode to serio
+ i8042 kbd device
+Message-ID: <20200324115059.GA2333340@kroah.com>
+References: <20200323234505.226919-1-rajatja@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200323234505.226919-1-rajatja@google.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a driver for joystick devices connected to ADC controllers
-supporting the Industrial I/O subsystem.
+On Mon, Mar 23, 2020 at 04:45:01PM -0700, Rajat Jain wrote:
+> Attach the firmware node to the serio i8042 kbd device so that device
+> properties can be passed from the firmware.
+> 
+> Signed-off-by: Rajat Jain <rajatja@google.com>
+> Change-Id: I36032f4bdee1dc52f26b57734068fd0ee7a6db0b
 
-Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
-Tested-by: Paul Cercueil <paul@crapouillou.net>
-Tested-by: Heiko Stuebner <heiko@sntech.de>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
+Didn't you run checkpatch.pl on your patches which told you to remove
+all of these Change-Id: values?
 
- v2: - sanity check supported channel format on probe,
-     - rename adc_joystick_disable to a more sensible adc_joystick_cleanup, 
-     - enforce correct axis order by checking the `reg` property of
-       child nodes
+Please do so...
 
- v3-v5: no change
-
- drivers/input/joystick/Kconfig        |  10 ++
- drivers/input/joystick/Makefile       |   1 +
- drivers/input/joystick/adc-joystick.c | 245 ++++++++++++++++++++++++++
- 3 files changed, 256 insertions(+)
- create mode 100644 drivers/input/joystick/adc-joystick.c
-
-diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
-index 940b744639c7..efbc20ec5099 100644
---- a/drivers/input/joystick/Kconfig
-+++ b/drivers/input/joystick/Kconfig
-@@ -42,6 +42,16 @@ config JOYSTICK_A3D
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called a3d.
- 
-+config JOYSTICK_ADC
-+	tristate "Simple joystick connected over ADC"
-+	depends on IIO
-+	select IIO_BUFFER_CB
-+	help
-+	  Say Y here if you have a simple joystick connected over ADC.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called adc-joystick.
-+
- config JOYSTICK_ADI
- 	tristate "Logitech ADI digital joysticks and gamepads"
- 	select GAMEPORT
-diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
-index 8656023f6ef5..58232b3057d3 100644
---- a/drivers/input/joystick/Makefile
-+++ b/drivers/input/joystick/Makefile
-@@ -6,6 +6,7 @@
- # Each configuration option enables a list of files.
- 
- obj-$(CONFIG_JOYSTICK_A3D)		+= a3d.o
-+obj-$(CONFIG_JOYSTICK_ADC)		+= adc-joystick.o
- obj-$(CONFIG_JOYSTICK_ADI)		+= adi.o
- obj-$(CONFIG_JOYSTICK_AMIGA)		+= amijoy.o
- obj-$(CONFIG_JOYSTICK_AS5011)		+= as5011.o
-diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
-new file mode 100644
-index 000000000000..9cb9896da26e
---- /dev/null
-+++ b/drivers/input/joystick/adc-joystick.c
-@@ -0,0 +1,245 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Input driver for joysticks connected over ADC.
-+ * Copyright (c) 2019-2020 Artur Rojek <contact@artur-rojek.eu>
-+ */
-+#include <linux/ctype.h>
-+#include <linux/input.h>
-+#include <linux/iio/iio.h>
-+#include <linux/iio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+
-+struct adc_joystick_axis {
-+	u32 code;
-+	s32 range[2];
-+	s32 fuzz;
-+	s32 flat;
-+};
-+
-+struct adc_joystick {
-+	struct input_dev *input;
-+	struct iio_cb_buffer *buffer;
-+	struct adc_joystick_axis *axes;
-+	struct iio_channel *chans;
-+	int num_chans;
-+};
-+
-+static int adc_joystick_handle(const void *data, void *private)
-+{
-+	struct adc_joystick *joy = private;
-+	enum iio_endian endianness;
-+	int bytes, msb, val, i;
-+	bool sign;
-+
-+	bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
-+
-+	for (i = 0; i < joy->num_chans; ++i) {
-+		endianness = joy->chans[i].channel->scan_type.endianness;
-+		msb = joy->chans[i].channel->scan_type.realbits - 1;
-+		sign = (tolower(joy->chans[i].channel->scan_type.sign) == 's');
-+
-+		switch (bytes) {
-+		case 1:
-+			val = ((const u8 *)data)[i];
-+			break;
-+		case 2:
-+			val = ((const u16 *)data)[i];
-+			if (endianness == IIO_BE)
-+				val = be16_to_cpu(val);
-+			else if (endianness == IIO_LE)
-+				val = le16_to_cpu(val);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+
-+		val >>= joy->chans[i].channel->scan_type.shift;
-+		if (sign)
-+			val = sign_extend32(val, msb);
-+		else
-+			val &= GENMASK(msb, 0);
-+		input_report_abs(joy->input, joy->axes[i].code, val);
-+	}
-+
-+	input_sync(joy->input);
-+
-+	return 0;
-+}
-+
-+static int adc_joystick_open(struct input_dev *dev)
-+{
-+	struct adc_joystick *joy = input_get_drvdata(dev);
-+	int ret;
-+
-+	ret = iio_channel_start_all_cb(joy->buffer);
-+	if (ret)
-+		dev_err(dev->dev.parent, "Unable to start callback buffer");
-+
-+	return ret;
-+}
-+
-+static void adc_joystick_close(struct input_dev *dev)
-+{
-+	struct adc_joystick *joy = input_get_drvdata(dev);
-+
-+	iio_channel_stop_all_cb(joy->buffer);
-+}
-+
-+static void adc_joystick_cleanup(void *data)
-+{
-+	iio_channel_release_all_cb(data);
-+}
-+
-+static int adc_joystick_set_axes(struct device *dev, struct adc_joystick *joy)
-+{
-+	struct adc_joystick_axis *axes;
-+	struct fwnode_handle *child;
-+	int num_axes, ret, i;
-+
-+	num_axes = device_get_child_node_count(dev);
-+	if (!num_axes) {
-+		dev_err(dev, "Unable to find child nodes");
-+		return -EINVAL;
-+	}
-+
-+	if (num_axes != joy->num_chans) {
-+		dev_err(dev, "Got %d child nodes for %d channels",
-+			num_axes, joy->num_chans);
-+		return -EINVAL;
-+	}
-+
-+	axes = devm_kmalloc_array(dev, num_axes, sizeof(*axes), GFP_KERNEL);
-+	if (!axes)
-+		return -ENOMEM;
-+
-+	device_for_each_child_node(dev, child) {
-+		ret = fwnode_property_read_u32(child, "reg", &i);
-+		if (ret || i >= num_axes) {
-+			dev_err(dev, "reg invalid or missing");
-+			goto err;
-+		}
-+
-+		if (fwnode_property_read_u32(child, "linux,code",
-+					     &axes[i].code)) {
-+			dev_err(dev, "linux,code invalid or missing");
-+			goto err;
-+		}
-+
-+		if (fwnode_property_read_u32_array(child, "abs-range",
-+						   axes[i].range, 2)) {
-+			dev_err(dev, "abs-range invalid or missing");
-+			goto err;
-+		}
-+
-+		fwnode_property_read_u32(child, "abs-fuzz",
-+					 &axes[i].fuzz);
-+		fwnode_property_read_u32(child, "abs-flat",
-+					 &axes[i].flat);
-+
-+		input_set_abs_params(joy->input, axes[i].code,
-+				     axes[i].range[0], axes[i].range[1],
-+				     axes[i].fuzz,
-+				     axes[i].flat);
-+		input_set_capability(joy->input, EV_ABS, axes[i].code);
-+	}
-+
-+	joy->axes = axes;
-+
-+	return 0;
-+
-+err:
-+	fwnode_handle_put(child);
-+	return -EINVAL;
-+}
-+
-+static int adc_joystick_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct adc_joystick *joy;
-+	struct input_dev *input;
-+	int bits, ret, i;
-+
-+	joy = devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
-+	if (!joy)
-+		return -ENOMEM;
-+
-+	joy->chans = devm_iio_channel_get_all(dev);
-+	if (IS_ERR(joy->chans)) {
-+		ret = PTR_ERR(joy->chans);
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(dev, "Unable to get IIO channels");
-+		return ret;
-+	}
-+
-+	/* Count how many channels we got. NULL terminated. */
-+	while (joy->chans[joy->num_chans].indio_dev)
-+		joy->num_chans++;
-+
-+	bits = joy->chans[0].channel->scan_type.storagebits;
-+	if (!bits || (bits >> 3) > 2) {
-+		dev_err(dev, "Unsupported channel storage size");
-+		return -EINVAL;
-+	}
-+	for (i = 1; i < joy->num_chans; ++i)
-+		if (joy->chans[i].channel->scan_type.storagebits != bits) {
-+			dev_err(dev, "Channels must have equal storage size");
-+			return -EINVAL;
-+		}
-+
-+	input = devm_input_allocate_device(dev);
-+	if (!input) {
-+		dev_err(dev, "Unable to allocate input device");
-+		return -ENOMEM;
-+	}
-+
-+	joy->input = input;
-+	input->name = pdev->name;
-+	input->id.bustype = BUS_HOST;
-+	input->open = adc_joystick_open;
-+	input->close = adc_joystick_close;
-+
-+	ret = adc_joystick_set_axes(dev, joy);
-+	if (ret)
-+		return ret;
-+
-+	input_set_drvdata(input, joy);
-+	ret = input_register_device(input);
-+	if (ret) {
-+		dev_err(dev, "Unable to register input device: %d", ret);
-+		return ret;
-+	}
-+
-+	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
-+	if (IS_ERR(joy->buffer)) {
-+		dev_err(dev, "Unable to allocate callback buffer");
-+		return PTR_ERR(joy->buffer);
-+	}
-+
-+	ret = devm_add_action_or_reset(dev, adc_joystick_cleanup, joy->buffer);
-+	if (ret)
-+		dev_err(dev, "Unable to add action");
-+
-+	return ret;
-+}
-+
-+static const struct of_device_id adc_joystick_of_match[] = {
-+	{ .compatible = "adc-joystick", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, adc_joystick_of_match);
-+
-+static struct platform_driver adc_joystick_driver = {
-+	.driver = {
-+		.name = "adc-joystick",
-+		.of_match_table = of_match_ptr(adc_joystick_of_match),
-+	},
-+	.probe = adc_joystick_probe,
-+};
-+module_platform_driver(adc_joystick_driver);
-+
-+MODULE_DESCRIPTION("Input driver for joysticks connected over ADC");
-+MODULE_AUTHOR("Artur Rojek <contact@artur-rojek.eu>");
-+MODULE_LICENSE("GPL");
--- 
-2.26.0
-
+greg k-h
