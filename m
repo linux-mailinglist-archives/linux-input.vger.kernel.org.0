@@ -2,121 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9F141913D1
-	for <lists+linux-input@lfdr.de>; Tue, 24 Mar 2020 16:03:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10AB5191976
+	for <lists+linux-input@lfdr.de>; Tue, 24 Mar 2020 19:51:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727455AbgCXPDN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Mar 2020 11:03:13 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:45532 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727168AbgCXPDM (ORCPT
+        id S1727543AbgCXSvZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Mar 2020 14:51:25 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:42605 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727468AbgCXSvZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Mar 2020 11:03:12 -0400
-Received: by mail-lj1-f196.google.com with SMTP id t17so8270234ljc.12;
-        Tue, 24 Mar 2020 08:03:11 -0700 (PDT)
+        Tue, 24 Mar 2020 14:51:25 -0400
+Received: by mail-pg1-f194.google.com with SMTP id h8so9476957pgs.9
+        for <linux-input@vger.kernel.org>; Tue, 24 Mar 2020 11:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=I7ST19asnOGG0MvlKCXAazKkdXSFzwFfpgOHQe5IauY=;
-        b=C3p61EaT7Ansyr+VG6Zms58wIAIdlIeXUlQlRWHEzHgosPG4eTbCfxvVKOlyXpuMKJ
-         UMkA1qSBDLqjzZ516QFLp4yt/3qfUxBqxaJvBcj8LZRy5cJV/emrqMeNA2nm29VTd2LB
-         hiEAduSEjAUca7c2TVIcxwNXORz+W2Jp/c7HbXw49iP9KCTBTjVgORNWm9RkbmupOjSv
-         JEVaicWfU4oPm+je2fjhGZATErWWRg61aEQFM2ACPsTnQMSoVrgcqo9qraE09ZGwUs66
-         36Jk6bVFpRsAfcxYVr4XYYsPZgsAxbQbfj2lIAHEjvJvV51/QFoQMSrgcyRDIzF8qS8S
-         XR7g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=9btm4eeFMrtQH0GA96/+zzP0kg6lFhTNnEdJkODNmGc=;
+        b=piaD8Hvkx7c3k1XB5oWPxUjY7rmVZQJ2b4Du0qW47jKl8OtTg8o1eixDbxFUBynG/v
+         Gg9xnPROrpXmFOfwtP9AGhkg2c4FInYMBJnkpps3yjNKmoMs9RpUofK2BqW6fLVf4pXX
+         XCR5mecZ0PM9/ypgQMc9uPbcZbg6d9RLiCv4esuqXDuMF2/g99E32qArnhnhA7XRjwkC
+         nxsaNqu/TOzu9oxyU7JvN/ygRsW5uqia0rm1+0rw7CKo1eZ1ltX4NPysKLzZ+8wQ4qgK
+         h4isDkqey6eu8TYfAKII29j1X4q+5Au3oGu3sw+rfdz5szavzUph1ZQ9Y777IfFBgNWn
+         kqNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=I7ST19asnOGG0MvlKCXAazKkdXSFzwFfpgOHQe5IauY=;
-        b=FZVoQR+j6Nf7EYVtVNvHf3AeXPz6/MQuJYn0Vbv6cokHAkMVdAmLbPwZDjn9v9wUZ8
-         X2nb4OIZOeICSVLWT59j6YN8LPg9D7RlNRD0sMSno6MaasItL/ruHdWXyPukL3huM4uS
-         P6ZmEV7dvdkgYjKaRI5zS6zB61L48JVaKRavg0DUc9Qat7TGgH8fupwWC60hkQ+mAOFU
-         0RbOoZU+G1+UwkoPMBwSe5ddgfLD+yUoGAz5YqyNx6/i0eORf2uWrldjIk0Pl48CIwmJ
-         9blFRgrh+eW3xEfDZP7VQseNxpVowuMIlmtrf7ABa4pUZqGAmkK1dlOl3uHKEJmBv7El
-         9/AA==
-X-Gm-Message-State: ANhLgQ0RarWSR7xuEm+XwzhcS5GA4jRqR/GzcNpUnSaWXYJIH+mS4H6c
-        wodMcWA4aDkeYrwXTfCNSz8=
-X-Google-Smtp-Source: ADFU+vsH+UIsIfX+xigBdx82/+KW5l3a/4mEXGfuKimOIM5aB97Q/HYnQwUG5Nhu8rQhgSr0M287WA==
-X-Received: by 2002:a05:651c:50e:: with SMTP id o14mr17295986ljp.241.1585062190955;
-        Tue, 24 Mar 2020 08:03:10 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id h10sm10347020ljg.38.2020.03.24.08.03.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2020 08:03:10 -0700 (PDT)
-Subject: Re: [PATCH v7 00/48] atmel_mxt_ts misc
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     "Wang, Jiada" <jiada_wang@mentor.com>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, rydberg@bitmath.org,
-        dmitry.torokhov@gmail.com, nick@shmanahar.org, bsz@semihalf.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
-References: <20200212084218.32344-1-jiada_wang@mentor.com>
- <c583d151-9243-cbde-a04b-bc0389d9be5a@gmail.com>
- <89e4bb0b-b2eb-0b67-4307-fb2af914b1c0@mentor.com>
- <f9b221e7-f189-3e47-adab-1cbc49490d4b@gmail.com>
- <bd3c487b-b065-3e4f-6ab1-f344a4113fcd@mentor.com>
- <5d8fdfc1-cc95-59db-b83e-87bb16ea79e8@gmail.com>
-Message-ID: <60f89c4e-91e0-e660-58e7-5b152bc3e8e7@gmail.com>
-Date:   Tue, 24 Mar 2020 18:03:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=9btm4eeFMrtQH0GA96/+zzP0kg6lFhTNnEdJkODNmGc=;
+        b=ZeyuDaieR7AC3Zso6fNfuvX9GNNjYIueS015qZjl8RRN8FZ5ys6gxJogxkWlYwtcTu
+         07L2v9xpkiABUo8PA3U0GV3kO67cdhuubS9nsrWtIHPK0PfYpSiDO7+VP9chARkSFRDj
+         fL+qw6/ZGqDSW2v4v5WxFNqeNrbaziMz0HNog0BJQ5eIk8jdGO/kvm5DqFBSlrLDMo5R
+         KEeut0F2O0qF7ZSanVfDOxYsd+4xadHyIYw62r7bXtu29ZnVl3+FLRoHhFWPdVOYspA3
+         quhlnxKKh26z686GijxMCjFLLHvFfYCC+Dak+NxgVGaOLHTgYv3Q8FLkUqyMXKwLF3WR
+         DS9g==
+X-Gm-Message-State: ANhLgQ2baKSfc5K0i1/dZU1PlWVtdBYze4Rb6CFQyVPp3Tc+aAYOJ6LA
+        NkkRraMzRhqkEuDFrLuGNLY=
+X-Google-Smtp-Source: ADFU+vsvIoyRlhXrOxD/HtfKnbnUR0FZdOrpIUAdvtzm+9eeA8VBRgCFam54zF23bA1FVvcEvS9Iog==
+X-Received: by 2002:a05:6a00:4:: with SMTP id h4mr30689891pfk.92.1585075883638;
+        Tue, 24 Mar 2020 11:51:23 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id c9sm2852835pjr.47.2020.03.24.11.51.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2020 11:51:23 -0700 (PDT)
+Date:   Tue, 24 Mar 2020 11:51:21 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Dmitry Mastykin <dmastykin@astralinux.ru>
+Cc:     Bastien Nocera <hadess@hadess.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] Input: goodix - Add support for more then one
+ touch-key
+Message-ID: <20200324185121.GA75430@dtor-ws>
+References: <20200316075302.3759-1-dmastykin@astralinux.ru>
 MIME-Version: 1.0
-In-Reply-To: <5d8fdfc1-cc95-59db-b83e-87bb16ea79e8@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200316075302.3759-1-dmastykin@astralinux.ru>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-24.03.2020 17:54, Dmitry Osipenko пишет:
-> 23.03.2020 05:25, Wang, Jiada пишет:
->> Hello Dmitry
->>
->> On 2020/03/21 0:53, Dmitry Osipenko wrote:
->>> Hello Jiada,
->>>
->>> 20.03.2020 06:37, Wang, Jiada пишет:
->>>> Hello Dmitry
->>>>
->>>> I have submitted v8 patch-set to address your comments towards v7
->>>> patch-set,
->>>> most of checkpatch warnings and errors have been addressed,
->>>>
->>>> But I didn't update for following two types of warnings
->>>> since I want to keep consistency with legacy code
->>>>
->>>> WARNING: DEVICE_ATTR unusual permissions '0600' used
->>>> #290: FILE: drivers/input/touchscreen/atmel_mxt_ts.c:3761:
->>>> +static DEVICE_ATTR(debug_v2_enable, 0600, NULL,
->>>
->>> What will happen if you'll use 0644? Will an empty line be returned or
->>> driver will crash?
->>>
->> debug_v2_enable doesn't have .show callback implemented, so after change
->> permission to 644, read of it results in an I/O error,
->>
->> for other 0600 permission interfaces (t38_data, t25 and debug_enable)
->> added in this series,
->> change to 644 can return expected information when read.
->>
->> Do you think it's better to change debug_v2_enable to 0200,
->> and others to 0644?
-> 
-> Since the debug_enable has mxt_debug_enable_show(), the same should be
-> done for debug_v2_enable, for consistency.
-> 
-> The permissions should be 0644 for everything that is read/write.
-> 
-> The 0200 should be used for everything that is root-only and write-only.
-> 
+Hi Dmitry,
 
-Also, please take a look at [1], see DEVICE_ATTR_WO() and
-DEVICE_BOOL_ATTR() macros, which should be handy.
+On Mon, Mar 16, 2020 at 10:53:03AM +0300, Dmitry Mastykin wrote:
+> +static void goodix_ts_report_key(struct goodix_ts_data *ts, u8 *data)
+> +{
+> +	int touch_num;
+> +	u8 key_value;
+> +	int i;
+> +
+> +	if (data[0] & GOODIX_HAVE_KEY) {
+> +		touch_num = data[0] & 0x0f;
+> +		key_value = data[1 + ts->contact_size * touch_num];
+> +		for (i = 0; i < GOODIX_MAX_KEYS; ++i)
+> +			if (key_value & (1 << i))
+> +				input_report_key(ts->input_dev, ts->keymap[i], 1);
+> +	} else
+> +		for (i = 0; i < GOODIX_MAX_KEYS; ++i)
+> +			input_report_key(ts->input_dev, ts->keymap[i], 0);
 
-[1]
-https://elixir.bootlin.com/linux/v5.6-rc7/source/include/linux/device.h#L125
+Should this be written as:
+
+	if (data[0] & GOODIX_HAVE_KEY) {
+		touch_num = data[0] & 0x0f;
+		key_value = data[1 + ts->contact_size * touch_num];
+	} else {
+		/* Release all keys */
+		key_value = 0;
+	}
+
+	for (i = 0; i < GOODIX_MAX_KEYS; i++)
+		input_report_key(ts->input_dev, ts->keymap[i],
+				 key_value & BIT(i);
+
+or the device may send incremental updates to the keys pressed without
+resending currently pressed keys (sounds unlikely)?
+
+Thanks.
+
+-- 
+Dmitry
