@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D81A1930D6
-	for <lists+linux-input@lfdr.de>; Wed, 25 Mar 2020 20:05:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5F20193131
+	for <lists+linux-input@lfdr.de>; Wed, 25 Mar 2020 20:35:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727306AbgCYTFn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Mar 2020 15:05:43 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:39064 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727279AbgCYTFn (ORCPT
+        id S1727356AbgCYTf1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Mar 2020 15:35:27 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:45798 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727281AbgCYTf1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Mar 2020 15:05:43 -0400
-Received: by mail-lj1-f193.google.com with SMTP id i20so3740233ljn.6;
-        Wed, 25 Mar 2020 12:05:41 -0700 (PDT)
+        Wed, 25 Mar 2020 15:35:27 -0400
+Received: by mail-lj1-f196.google.com with SMTP id t17so3805405ljc.12;
+        Wed, 25 Mar 2020 12:35:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pcRErvm2Q518gCbI05/42E3zgrQBPnKUjsE254rV4i8=;
-        b=jOsvlDmAnsWF8Zgi1Kc+OAsbG3gWnfkPWsVsEAuywtsKrez7awraN/gAflS+VbGpgi
-         lTb+NL7GMqfRW6s9+bLM4tq5JXPaRTnpJQJmzpbZMUsMKaLogF/62JoIQws11Q2bz4Q3
-         kN/q/qbygHS9gbZrwgeP3stxTlSaXTAQB2tLTdVrTk5AZISotzbrm9fUhQddE8Qhp57Q
-         vmcrjRIT5KEr16szoVRPVX9XZpfEia+hbwv14K9xL0XSS116ExAvKiJVMqzwNUOhj3U4
-         Ehspp7hOpL4MalroyZbd3HkMeCw2OmCrO1o/WDTFKkxu9nDrazlcmxDwFmTMOraeEopO
-         kANQ==
+        bh=7fZLDf+lfcWl33b+ZMq73HRJnpE12IsxFS0P2yb1f7A=;
+        b=ukSUhl8XWlf3YoH6GMjHzHoXhR5WjZaILKHopaRbz+T/TSY9o9sFcQCPb97iRVxJ6p
+         x6mQwoajicCwY1tLxzLeWHJQSXbVcOIQLym9pJDJW7QgylQQiD1WCQWqvNj9jHcNrJ+Q
+         eeDQPi2hdzhW0AyCXmSlAEnN0KzxVqZ2aAC90bvTCU7As1u1SlMtxVBv3H21pzMi6K/3
+         +P8u6v8rksbpJ8lYouGUDNmf+txKX83W49VQlYsP6y+e40Z1Fq0aW1LbsqqmvdQPgxO3
+         IuTbt41p4kEe4AoUzr1Rvy8ValFuBB8eHEfC80mvWc8kilJWaj1+CuIECivRbnOiWtiZ
+         o/vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=pcRErvm2Q518gCbI05/42E3zgrQBPnKUjsE254rV4i8=;
-        b=CpSO9ng2HxSRENHsqLi8NeR7p2tOMWk6Di29Lz0CCpwaZGPxMSfhnLqPHBUbHVgAfS
-         MMka3msRsHyt+cE8WAVfAyWCQ28EGbXR7JJwZ2SbLuPDB3VqtC1x8xvq3JAqkkf3InWp
-         qgtrM+DIt8WwY2wKSpO5l9jV35zA3BTUOSM8WvnqR1dbYulCakueBLw+lUIxh0ZeTX9R
-         mdNzguAxgn42y5/QfHOZlkUoQ3sLIRXn2urtT68FnvxZIZHeoWFu+XkuzhJXW9+4XeMO
-         TuiRoSiRFSmhTwVXGPW1gIB7Nxbo/AZNoXmvOV8X/cPN/oIj3mP6V7zBE0iiGNumSbn4
-         E0tg==
-X-Gm-Message-State: ANhLgQ2Pjc9+c6fSvjGVF9h0fyXw0mU0ritWV+gc9gVKqAlkIWNh37LA
-        g3oGCremauC8pWoDk6ZQ74U=
-X-Google-Smtp-Source: ADFU+vtNtlANgH6ZU/SxscTh0o9bgRwziu95+xWxmtzh+N/lwSGsvM5yQMpXh/Hd6K53fTv+dhxjBg==
-X-Received: by 2002:a2e:854e:: with SMTP id u14mr2793589ljj.95.1585163140593;
-        Wed, 25 Mar 2020 12:05:40 -0700 (PDT)
+        bh=7fZLDf+lfcWl33b+ZMq73HRJnpE12IsxFS0P2yb1f7A=;
+        b=o15tj5MX/m1XpzAbnxX3nfyqg+5U8eKsRwDy5sjit0t0uJB+ULfvmYTfoludNPwSyg
+         LZm6+pcC0V4DyMQ7YTKYhQEuVR8B7w/ve1t3a8Lrn7flPqJ8gcAsSvMcnhGkf8TQtiGD
+         APowQtR3PC8uCqfnaM9nN1loOBoRkXXp38ThKlM4a69uE/9w7URdd9loyB9ByNhzvRyW
+         ZOfe9hPnA46xkjRMgthJw7MXd5fWxRnNWmgjpn7Qdf+mhgbK5Lyu0Ge2n/aLSJwtmrqw
+         GX2oyZPkpbjYpcjwAyc6W7a9FO/caYhxHkgjWUQF+Z/hhIsh4PvxM/RtY8/y/MjCQgp5
+         eXQQ==
+X-Gm-Message-State: ANhLgQ0Y1w+o1CGDStcxcoLGS13rqdC1EIXCw6EupUR0AKRjqDRJ+HoG
+        PaRTGoCnokG5wlSnXFLkvcI=
+X-Google-Smtp-Source: APiQypLFaCdWl3h7RFl0sB3C1+hTDF//3X+lqpx03g+ZZN/UNUdZlWZMuvKqyG2B8pCRsObx+2auIA==
+X-Received: by 2002:a2e:b88b:: with SMTP id r11mr2953059ljp.116.1585164924279;
+        Wed, 25 Mar 2020 12:35:24 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id t23sm4927602lfq.4.2020.03.25.12.05.39
+        by smtp.googlemail.com with ESMTPSA id i30sm3302532lfp.36.2020.03.25.12.35.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2020 12:05:39 -0700 (PDT)
-Subject: Re: [PATCH v9 13/55] Input: atmel_mxt_ts - add regulator control
- support
+        Wed, 25 Mar 2020 12:35:23 -0700 (PDT)
+Subject: Re: [PATCH v9 52/55] input: touchscreen: atmel_mxt_ts: Added sysfs
+ entry for touchscreen status
 To:     Jiada Wang <jiada_wang@mentor.com>, nick@shmanahar.org,
         dmitry.torokhov@gmail.com, jikos@kernel.org,
         benjamin.tissoires@redhat.com, bsz@semihalf.com,
@@ -55,14 +55,14 @@ To:     Jiada Wang <jiada_wang@mentor.com>, nick@shmanahar.org,
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
 References: <20200325133334.19346-1-jiada_wang@mentor.com>
- <20200325133334.19346-14-jiada_wang@mentor.com>
+ <20200325133334.19346-53-jiada_wang@mentor.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <672615bc-adce-213f-9e44-864163c0a770@gmail.com>
-Date:   Wed, 25 Mar 2020 22:05:39 +0300
+Message-ID: <4aeda6f1-25d8-9437-5cd0-560e43dbe081@gmail.com>
+Date:   Wed, 25 Mar 2020 22:35:22 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200325133334.19346-14-jiada_wang@mentor.com>
+In-Reply-To: <20200325133334.19346-53-jiada_wang@mentor.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -71,32 +71,77 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-25.03.2020 16:32, Jiada Wang пишет:
-> From: Nick Dyer <nick.dyer@itdev.co.uk>
+25.03.2020 16:33, Jiada Wang пишет:
+> From: Naveen Chakka <Naveen.Chakka@in.bosch.com>
 > 
-> Allow the driver to optionally manage enabling/disable power to the touch
-> controller itself. If the regulators are not present then use the deep
-> sleep power mode instead.
+> To know the current communication status of the touch controller during
+> runtime, sysfs interface is added
 > 
-> For a correct power on sequence, it is required that we have control over
-> the RESET line.
+> sysfs interface: /sys/class/i2c-dev/i2c-*/device/*/touch_dev_stat
+> Executing the above sysfs interface provides two output values
+> 
+> 1)Status of the touch device
+> 	value 0 represents device is inactive
+> 	value 1 represents device is active
+> 2)Error counter
+> 	value represents the number of times device in inactive since last read
 
 ...
-> +	data->reg_vdd = devm_regulator_get(dev, "vdd");
-> +	if (IS_ERR(data->reg_vdd)) {
-> +		error = PTR_ERR(data->reg_vdd);
-> +		dev_err(dev, "Error %d getting vdd regulator\n", error);
-> +		goto fail;
-> +	}
+>  /* Each client has this additional data */
+>  struct mxt_data {
+>  	struct i2c_client *client;
+> @@ -372,6 +380,9 @@ struct mxt_data {
+>  	const char *pcfg_name;
+>  	const char *input_name;
+>  	struct mxt_flash *flash;
+
+> +	struct work_struct watchdog_work;
+> +	struct timer_list watchdog_timer;
+
+This should be replaced with a delayed_work.
+
+> +	struct mxt_statusinfo mxt_status;
+>  
+>  	/* Cached parameters from object table */
+>  	u16 T5_address;
+
+...
+> +static void mxt_watchdog_work(struct work_struct *work)
+> +{
+> +	struct mxt_data *data =
+> +		container_of(work, struct mxt_data, watchdog_work);
+> +	u16 info_buf;
+> +	int ret = 0;
+> +	u8 size = 2;
+
+> +	if (data->suspended || data->in_bootloader)
+> +		return;
 > +
-> +	data->reg_avdd = devm_regulator_get(dev, "avdd");
-> +	if (IS_ERR(data->reg_avdd)) {
-> +		error = PTR_ERR(data->reg_avdd);
-> +		dev_err(dev, "Error %d getting avdd regulator\n", error);
-> +		goto fail_release;
+> +	ret = __mxt_read_reg(data->client, 0, size, &info_buf);
+
+Looks like this need to be protected with a lock to not race with the
+suspending / bootloader states.
+
+> +	if (ret) {
+> +		data->mxt_status.error_count++;
+> +		data->mxt_status.dev_status = false;
+> +	} else {
+> +		data->mxt_status.dev_status = true;
 > +	}
+> +}
 
-Hello Jiada,
+...> @@ -4329,6 +4414,13 @@ static int mxt_probe(struct i2c_client
+*client, const struct i2c_device_id *id)
+>  		msleep(MXT_RESET_TIME);
+>  	}
+>  
+> +	INIT_WORK(&data->watchdog_work, mxt_watchdog_work);
+> +
+> +	/* setup watchdog timer */
+> +	timer_setup(&data->watchdog_timer, mxt_watchdog_timer, 0);
+> +
+> +	mxt_start_wd_timer(data);
 
-The new regulator properties should be documented in the device-tree
-binding.
+I'd expect it to be optional and opt-in by either using #ifdef
+TOUCHSCREEN_ATMEL_MXT_DEBUG or having a new debugfs option to explicitly
+enable the "watchdog".
