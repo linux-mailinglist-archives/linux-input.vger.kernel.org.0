@@ -2,223 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22CA9192198
-	for <lists+linux-input@lfdr.de>; Wed, 25 Mar 2020 08:10:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C98AD1923E0
+	for <lists+linux-input@lfdr.de>; Wed, 25 Mar 2020 10:19:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725911AbgCYHK2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Mar 2020 03:10:28 -0400
-Received: from mga04.intel.com ([192.55.52.120]:17742 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725832AbgCYHK2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Mar 2020 03:10:28 -0400
-IronPort-SDR: gAb6fgfbnqnzXiDsXao7J8HD7cAkB6OL0bk4nE5U58yX7jqf4ounoeU/6/ejFu9Yw+LlE7LcLC
- BPxHXldUEQTg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2020 00:10:25 -0700
-IronPort-SDR: rUljuz6oxqDMv0NEzwF4/R1m4QCRABgjMYJ/rRhaYJQ2gbCAAZfgTiRbEfZs+ZBsMz3lj3kO+O
- o8rJ/my4gFmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,303,1580803200"; 
-   d="scan'208";a="393540479"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 25 Mar 2020 00:10:23 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jH0BC-000G3k-Sq; Wed, 25 Mar 2020 15:10:22 +0800
-Date:   Wed, 25 Mar 2020 15:09:32 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:for-linus] BUILD SUCCESS
- 52afa505a03d914081f40cb869a3248567a57573
-Message-ID: <5e7b03ac.GXy2vTskKxIYfpmP%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1726154AbgCYJTR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Mar 2020 05:19:17 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:44625 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726103AbgCYJTR (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 25 Mar 2020 05:19:17 -0400
+Received: by mail-wr1-f67.google.com with SMTP id m17so1887328wrw.11
+        for <linux-input@vger.kernel.org>; Wed, 25 Mar 2020 02:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=jNQsElt5CknsQbyuzbClTNd1rNuCD5PB0IFY7FEkEZE=;
+        b=Zbj6ldZYm/mR4aIkxVyvY0IPEf0i16ypXx5eYF0TkoVSDTejJNAwc128AVd2WXPFvo
+         xZ4lSV5Z37VyDD4C0CeoUTKuDVd97oJKvHvnUYhKiNnQf0iMWhCO8Jr2TQgTe8tIOtdM
+         6humiowd7FhUMmlsTlfTvB6RKGIWWCqQ7EVNY6qNUHIJZTFtA+WcFM8HGw/gPSmA2DVJ
+         zcBaHh6jKvUjRHNl5Rd/1CWV8sZ51VL+znHwfW2zFnzcM0MUB2ME0GFN828xxmA5BQBT
+         K9PL+VfT2szihueuddUB3PiYHcUerLFe4r+gqKQW7/X7MJslYafLSu9W/qEWxyA0VQUI
+         WbyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=jNQsElt5CknsQbyuzbClTNd1rNuCD5PB0IFY7FEkEZE=;
+        b=WIcYp67WFcDfZkyxYGX0SqWB7xP8OyMu+k9VCC5pXWankejqM6o0+fCFTZOZxaiQbV
+         5KZmHP9NiWl0CU1iGmpG57AunrZpdwTShuMdtslFwrvxDCOi/DtfD+ji/UUJQtBKf3Mq
+         WNiNOB2LnRF3iPAhskwGFstGpftgShul7HxP1bnpsaVnH/vwNAPuLQjh782eISZJR0Pb
+         6Ic4uBy2Md3xcRUZwkKzniun1VwFKMyIWmhj4EU4f9uHAsDHqdDSA4eOizfPbqX0lxB/
+         Ykb/1J2X1I6QS3E226Gj64qzRC3Nhgz+uXoyq41KbvdtmMDjPJZTebxlmrRAfLIMLwVZ
+         9Q8Q==
+X-Gm-Message-State: ANhLgQ2QE/iAGDPl3m0aj0QWBOzg9O5GOHIfCYGOiqUScZLI0BRLzJBE
+        vCjjxyIGwSjGXiryvgF3HvrMMg==
+X-Google-Smtp-Source: ADFU+vt92TEy1uQV/pgVv75Mxe1VsUGqvn6nRZAGARmxAmaHNRKw1/pBPR5pqT6ZOGKIR2rc2xfxew==
+X-Received: by 2002:a5d:6646:: with SMTP id f6mr2228715wrw.235.1585127955840;
+        Wed, 25 Mar 2020 02:19:15 -0700 (PDT)
+Received: from dell ([2.27.35.213])
+        by smtp.gmail.com with ESMTPSA id o9sm33495181wrw.20.2020.03.25.02.19.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2020 02:19:15 -0700 (PDT)
+Date:   Wed, 25 Mar 2020 09:20:04 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Benjamin Gaignard <benjamin.gaignard@st.com>,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, lgirdwood@gmail.com, broonie@kernel.org,
+        wim@linux-watchdog.org, linux@roeck-us.net, p.paillet@st.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH v5] dt-bindings: mfd: Convert stpmic1 bindings to
+ json-schema
+Message-ID: <20200325092004.GF442973@dell>
+References: <20200304094220.28156-1-benjamin.gaignard@st.com>
+ <20200310211849.GA13562@bogus>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200310211849.GA13562@bogus>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  for-linus
-branch HEAD: 52afa505a03d914081f40cb869a3248567a57573  Input: avoid BIT() macro usage in the serio.h UAPI header
+On Tue, 10 Mar 2020, Rob Herring wrote:
 
-elapsed time: 480m
+> On Wed, 4 Mar 2020 10:42:20 +0100, Benjamin Gaignard wrote:
+> > Convert stpmic1 bindings to json-schema.
+> > 
+> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+> > ---
+> > version 5:
+> > - move $ref regulator.yaml under a patternProperties
+> > - move remain fixed strings under properties field
+> > 
+> > version 4:
+> > - move on uppder node $ref: ../regulator/regulator.yaml 
+> > - move fixed strings under properties field
+> > - remove unneeded () in patternProperties
+> > - keep ldo3 separate from other ldo properties
+> > Note:
+> > - 'st,mask-reset' property stay in each subnode, I don't find
+> >   the syntax to avoid dupliquate it. 
+> > - ldo6-supply and all possible *-supply are describe by this regular
+> >   expression: ^(buck[1-4]|ldo[1-6]|boost|pwr_sw[1-2])-supply$":
+> > 
+> > version 3:
+> > - put $ref under allOf keyword
+> > - for each regulator node add the list of supported regulator properties
+> > 
+> >  .../devicetree/bindings/input/st,stpmic1-onkey.txt |  28 --
+> >  .../devicetree/bindings/mfd/st,stpmic1.txt         |  61 ----
+> >  .../devicetree/bindings/mfd/st,stpmic1.yaml        | 339 +++++++++++++++++++++
+> >  .../bindings/regulator/st,stpmic1-regulator.txt    |  64 ----
+> >  .../bindings/watchdog/st,stpmic1-wdt.txt           |  11 -
+> >  5 files changed, 339 insertions(+), 164 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/input/st,stpmic1-onkey.txt
+> >  delete mode 100644 Documentation/devicetree/bindings/mfd/st,stpmic1.txt
+> >  create mode 100644 Documentation/devicetree/bindings/mfd/st,stpmic1.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/regulator/st,stpmic1-regulator.txt
+> >  delete mode 100644 Documentation/devicetree/bindings/watchdog/st,stpmic1-wdt.txt
+> > 
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-configs tested: 164
-configs skipped: 0
+Can you take this please Rob?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+It would save an IB and PR.
 
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm                           efm32_defconfig
-arm                         at91_dt_defconfig
-arm                        shmobile_defconfig
-arm64                               defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                           sunxi_defconfig
-arm                        multi_v7_defconfig
-sparc                            allyesconfig
-sh                          rsk7269_defconfig
-sparc64                           allnoconfig
-nios2                         3c120_defconfig
-s390                             allyesconfig
-sh                  sh7785lcr_32bit_defconfig
-arc                                 defconfig
-um                           x86_64_defconfig
-nds32                             allnoconfig
-powerpc                       ppc64_defconfig
-riscv                    nommu_virt_defconfig
-parisc                            allnoconfig
-xtensa                          iss_defconfig
-ia64                             allyesconfig
-i386                             alldefconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                                defconfig
-nios2                         10m50_defconfig
-c6x                        evmc6678_defconfig
-c6x                              allyesconfig
-xtensa                       common_defconfig
-openrisc                 simple_smp_defconfig
-openrisc                    or1ksim_defconfig
-alpha                               defconfig
-csky                                defconfig
-nds32                               defconfig
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-m68k                             allmodconfig
-m68k                       m5475evb_defconfig
-m68k                          multi_defconfig
-m68k                           sun3_defconfig
-arc                              allyesconfig
-powerpc                             defconfig
-powerpc                          rhel-kconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-mips                             allyesconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-parisc                generic-64bit_defconfig
-parisc                generic-32bit_defconfig
-parisc                           allyesconfig
-x86_64               randconfig-a001-20200324
-x86_64               randconfig-a002-20200324
-x86_64               randconfig-a003-20200324
-i386                 randconfig-a001-20200324
-i386                 randconfig-a002-20200324
-i386                 randconfig-a003-20200324
-alpha                randconfig-a001-20200324
-m68k                 randconfig-a001-20200324
-mips                 randconfig-a001-20200324
-nds32                randconfig-a001-20200324
-parisc               randconfig-a001-20200324
-riscv                randconfig-a001-20200324
-h8300                randconfig-a001-20200324
-microblaze           randconfig-a001-20200324
-nios2                randconfig-a001-20200324
-c6x                  randconfig-a001-20200324
-sparc64              randconfig-a001-20200324
-csky                 randconfig-a001-20200324
-openrisc             randconfig-a001-20200324
-s390                 randconfig-a001-20200324
-xtensa               randconfig-a001-20200324
-sh                   randconfig-a001-20200324
-x86_64               randconfig-b001-20200324
-x86_64               randconfig-b002-20200324
-x86_64               randconfig-b003-20200324
-i386                 randconfig-b001-20200324
-i386                 randconfig-b002-20200324
-i386                 randconfig-b003-20200324
-x86_64               randconfig-c001-20200324
-x86_64               randconfig-c002-20200324
-x86_64               randconfig-c003-20200324
-i386                 randconfig-c001-20200324
-i386                 randconfig-c002-20200324
-i386                 randconfig-c003-20200324
-x86_64               randconfig-d001-20200324
-x86_64               randconfig-d002-20200324
-x86_64               randconfig-d003-20200324
-i386                 randconfig-d001-20200324
-i386                 randconfig-d002-20200324
-i386                 randconfig-d003-20200324
-x86_64               randconfig-e001-20200324
-x86_64               randconfig-e002-20200324
-x86_64               randconfig-e003-20200324
-i386                 randconfig-e001-20200324
-i386                 randconfig-e002-20200324
-i386                 randconfig-e003-20200324
-i386                 randconfig-f001-20200325
-i386                 randconfig-f003-20200325
-i386                 randconfig-f002-20200325
-x86_64               randconfig-f002-20200325
-x86_64               randconfig-f003-20200325
-x86_64               randconfig-f001-20200325
-i386                 randconfig-g003-20200324
-x86_64               randconfig-g002-20200324
-i386                 randconfig-g001-20200324
-i386                 randconfig-g002-20200324
-x86_64               randconfig-g001-20200324
-x86_64               randconfig-g003-20200324
-x86_64               randconfig-h001-20200324
-x86_64               randconfig-h002-20200324
-x86_64               randconfig-h003-20200324
-i386                 randconfig-h001-20200324
-i386                 randconfig-h002-20200324
-i386                 randconfig-h003-20200324
-arc                  randconfig-a001-20200324
-arm                  randconfig-a001-20200324
-arm64                randconfig-a001-20200324
-ia64                 randconfig-a001-20200324
-powerpc              randconfig-a001-20200324
-sparc                randconfig-a001-20200324
-riscv                            allmodconfig
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                          debug_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-sh                               allmodconfig
-sh                            titan_defconfig
-sh                                allnoconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                          allyesconfig
-sparc64                             defconfig
-um                             i386_defconfig
-um                                  defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
