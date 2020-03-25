@@ -2,107 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC502192DF6
-	for <lists+linux-input@lfdr.de>; Wed, 25 Mar 2020 17:14:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC58519306D
+	for <lists+linux-input@lfdr.de>; Wed, 25 Mar 2020 19:31:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728140AbgCYQOJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Mar 2020 12:14:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58152 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728132AbgCYQOI (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Mar 2020 12:14:08 -0400
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4A8A420836;
-        Wed, 25 Mar 2020 16:14:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585152847;
-        bh=wVeCzzQOe5s2fJsmGoK1DwiiQhm+yokBIBkbN7cjDrM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Jt+Nhvu8WR2HB5LMtLsy+AMnWzMEv6EzjEMwZuYpiXU2HNY24cKyilbtS7gsEo0Dl
-         p9IVkN8+X5tLMau7Si6f2OCiMpQEloPAdwIzCLi8GV2dTWmn9EiLWMRPYI6WaHiQMJ
-         UVoXm6rL2REa+wWrMiprolfN7XJt5C+XRUsgMQ0k=
-Received: by mail-qk1-f172.google.com with SMTP id c145so3090196qke.12;
-        Wed, 25 Mar 2020 09:14:07 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ3jHmTjbPypnmDthRX2himDcnnDXq5gl9x9GbZo3fj/ytAyh9yG
-        l38cgXpE0LRIPS2cK8RgwvH6TIGejh0rHJy4JQ==
-X-Google-Smtp-Source: ADFU+vtZfZlg/qTdAzpY920OXOLDt+yCqLosSPRhFxeYgvrlPS+oV459gEy5edJtvAOkVIBuySDN240c6NQffSPyDT8=
-X-Received: by 2002:a37:4a85:: with SMTP id x127mr3744966qka.152.1585152846283;
- Wed, 25 Mar 2020 09:14:06 -0700 (PDT)
+        id S1727993AbgCYSbn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Mar 2020 14:31:43 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:33112 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727981AbgCYSbn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 25 Mar 2020 14:31:43 -0400
+Received: by mail-ed1-f68.google.com with SMTP id z65so3858531ede.0
+        for <linux-input@vger.kernel.org>; Wed, 25 Mar 2020 11:31:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=+/FlwGh8/LOtk0UABTkA0mmXHmbkZhf+lN/fed2r7Ag=;
+        b=PN/NYWO+PG30ugSkWhBnvbkv+t73HABxhs7VLfdoPWJAxEgyR8f1t2LbQhpmDeuBqA
+         QluQA2LG4evUafBDdK0wBlgcIAr/qS6rbB/VfGMpUZDAiyyNuFVlCKuHWxVDG/r3xra+
+         95iA3kEGQPrvDg59T5I80vPyfQwonSXD6Fy7ks1oTbhtSJ1m6TlkM9aGPCuxyTDXqGS0
+         zyjsp7Tx6tG7HodqjPa1aq3m7wjjD9KITav8a2NJaj9vnxjQ+4V5mEW5jy5eQSWLB/rq
+         QcKPtKiWsmn/faaT046NnikXvEA61xf26AZjiXmQC3wywOB41cLXzCkPU31vwMdOSE8K
+         b0ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=+/FlwGh8/LOtk0UABTkA0mmXHmbkZhf+lN/fed2r7Ag=;
+        b=cod4kVbj1HBS8KkhmzHTVYugpwEPN8oMiPWdkXYGH7cTPGmjG8PG1GIMCfhDd8NqMj
+         /s9dg/f+yfm5mMIJv1l0JQMkEz5MlF5l3E+HhO2/Q8QDD3tuiujl8cbYq1AkYTjCXmCC
+         0ia8GtVZboLC2tYIlhUnCEToEUgfCeO8Av/XXo3fn4PT517mXFHieUf8dPf7l4cJqVVs
+         ial8gp1SLwZE00TCIQUqcSl/dXWInz49Cchrou8NaaKQpLi+YquuFQHGTuv959CUrfjG
+         cL1AbQbX+FA2Y0nk2aWjxiRZvDoXS7RGjMl29JKmZ6kVKJKXfB+oLdfZkHDONRUgPxL+
+         7AoA==
+X-Gm-Message-State: ANhLgQ03uxM0VhCiT2aysWZGbegBOQeEIg61ri22x3CckimiuPa8OL5d
+        LcbkQ9bGNrPsTPxj+nyBwM34vxa06ce4C2M0Ucs=
+X-Google-Smtp-Source: ADFU+vvIy+NLhP2kXUZi/G0wCi9HThQtedmwmsxL2uab2neIXN0URZdvKRafIT8ha9J8197wLgw9VwMrpIVmcSwCiBc=
+X-Received: by 2002:a05:6402:1695:: with SMTP id a21mr4394077edv.111.1585161101372;
+ Wed, 25 Mar 2020 11:31:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200304094220.28156-1-benjamin.gaignard@st.com>
- <20200310211849.GA13562@bogus> <20200325092004.GF442973@dell>
-In-Reply-To: <20200325092004.GF442973@dell>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 25 Mar 2020 10:13:54 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLW-5=T0p85M9ZurywdNj_nFwj0VJyxHSJGrdzZGkQcJQ@mail.gmail.com>
-Message-ID: <CAL_JsqLW-5=T0p85M9ZurywdNj_nFwj0VJyxHSJGrdzZGkQcJQ@mail.gmail.com>
-Subject: Re: [PATCH v5] dt-bindings: mfd: Convert stpmic1 bindings to json-schema
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Benjamin Gaignard <benjamin.gaignard@st.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        LINUX-WATCHDOG <linux-watchdog@vger.kernel.org>
+Received: by 2002:a50:8b46:0:0:0:0:0 with HTTP; Wed, 25 Mar 2020 11:31:41
+ -0700 (PDT)
+Reply-To: grech247andrew@gmail.com
+From:   Grech Andrew <captkatiehiggins21@gmail.com>
+Date:   Wed, 25 Mar 2020 18:31:41 +0000
+Message-ID: <CAJuBQtoi4L9efmx153C-u30d_GFYAqDtyc+5D7tq18wg0mgKDA@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Mar 25, 2020 at 3:19 AM Lee Jones <lee.jones@linaro.org> wrote:
->
-> On Tue, 10 Mar 2020, Rob Herring wrote:
->
-> > On Wed, 4 Mar 2020 10:42:20 +0100, Benjamin Gaignard wrote:
-> > > Convert stpmic1 bindings to json-schema.
-> > >
-> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
-> > > ---
-> > > version 5:
-> > > - move $ref regulator.yaml under a patternProperties
-> > > - move remain fixed strings under properties field
-> > >
-> > > version 4:
-> > > - move on uppder node $ref: ../regulator/regulator.yaml
-> > > - move fixed strings under properties field
-> > > - remove unneeded () in patternProperties
-> > > - keep ldo3 separate from other ldo properties
-> > > Note:
-> > > - 'st,mask-reset' property stay in each subnode, I don't find
-> > >   the syntax to avoid dupliquate it.
-> > > - ldo6-supply and all possible *-supply are describe by this regular
-> > >   expression: ^(buck[1-4]|ldo[1-6]|boost|pwr_sw[1-2])-supply$":
-> > >
-> > > version 3:
-> > > - put $ref under allOf keyword
-> > > - for each regulator node add the list of supported regulator properties
-> > >
-> > >  .../devicetree/bindings/input/st,stpmic1-onkey.txt |  28 --
-> > >  .../devicetree/bindings/mfd/st,stpmic1.txt         |  61 ----
-> > >  .../devicetree/bindings/mfd/st,stpmic1.yaml        | 339 +++++++++++++++++++++
-> > >  .../bindings/regulator/st,stpmic1-regulator.txt    |  64 ----
-> > >  .../bindings/watchdog/st,stpmic1-wdt.txt           |  11 -
-> > >  5 files changed, 339 insertions(+), 164 deletions(-)
-> > >  delete mode 100644 Documentation/devicetree/bindings/input/st,stpmic1-onkey.txt
-> > >  delete mode 100644 Documentation/devicetree/bindings/mfd/st,stpmic1.txt
-> > >  create mode 100644 Documentation/devicetree/bindings/mfd/st,stpmic1.yaml
-> > >  delete mode 100644 Documentation/devicetree/bindings/regulator/st,stpmic1-regulator.txt
-> > >  delete mode 100644 Documentation/devicetree/bindings/watchdog/st,stpmic1-wdt.txt
-> > >
-> >
-> > Reviewed-by: Rob Herring <robh@kernel.org>
->
-> Can you take this please Rob?
+Hello daer
 
-Yes, done.
+I am Andrew Grech from the United Kingdom. The Managing Director of
+law firm Slater & Gordon UK,i contacting you so that you will stand as
+appointed legal beneficiary to my Late client, a citizen of your
+country He left his huge amount of money in a bank. He wasinto Mining,
+Oil and Gas; He was a successful business man before he died.Please
+for more details reply me back.
 
-Rob
+
+Respectfully,
+
+Andrew Grech
+50-52 Chancery Lane
+London United Kingdom WC2A 1HL
+Privet:  44 7840 599 956
