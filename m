@@ -2,106 +2,276 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33D391927E8
-	for <lists+linux-input@lfdr.de>; Wed, 25 Mar 2020 13:13:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0D80192883
+	for <lists+linux-input@lfdr.de>; Wed, 25 Mar 2020 13:34:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727253AbgCYMN2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Mar 2020 08:13:28 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:55231 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726969AbgCYMN2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Mar 2020 08:13:28 -0400
-IronPort-SDR: 4NntKNMwAeFnkYAEAgljL50YrhiRHC/zhuOgrCjV2tZkC+lrX3TKdHnlhtJqtm71nfd58YAQAi
- G7o1pbcefvMSwUwiBPzFWrjUR83wgI2jLuOSJfeUdFqsFQdrIpV+BNEUT/zVRrAfd3mN7vAyK4
- SkoqnB9fD12VEQFOjxwMG9D757kVXzXwG8oKbdgzsVNWYYtgivN0fPmLlfGE8RYQesL2blgyjU
- mSpymhsvFRVYsDTaUFLUN27JenaDZs9rrC718eG2Gh9UVXyVMyOuz9P5wU1vFEnQSKxsi5c+EE
- K4Q=
+        id S1727286AbgCYMe3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Mar 2020 08:34:29 -0400
+Received: from mga12.intel.com ([192.55.52.136]:34213 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727177AbgCYMe3 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 25 Mar 2020 08:34:29 -0400
+IronPort-SDR: b8twcqpfStWEcyGbvxf1kDi+Eyvo5QDpKY4Clti24LGTGN1G3aAf1z70enGf6IkAqzKfC7SsCZ
+ Kz0rvHNfgFqw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2020 05:34:29 -0700
+IronPort-SDR: U25pLWPEhsiAcossKnZyBWaWl/9qK3+o49BrDod0tAzWP+V1sX/PbxOgPuxB88gcZG192V+NEE
+ +kGsMVo0VEXA==
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.72,304,1580803200"; 
-   d="scan'208";a="49056887"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa1.mentor.iphmx.com with ESMTP; 25 Mar 2020 04:13:27 -0800
-IronPort-SDR: sqayK+8xJmiqpMUYpqK7uCRGuIZVkfrcbZpQzhMac03DRzoGluwB440yfTj6j1I99kH4GP4qZ1
- vKl52/R5wRnC+ZaEiBVh0eKSgdSFnIRf6LscdNryW0cVuT4CsEj2iVl0GblZbga4dVhsJzLyPB
- wJ2HCQnAZe3FX2BqdhKXQry3b+k6Deah8AKPYksbF00XB6KYwleg0PqzXrGZxOSfCxtsMFzMXK
- xXoBycU8W4Z5fFIUj3xtrXUDjO3gW81CgkuakO+wAVOgcY60w7b2EL9YNwj40I1i2eqrXrmECz
- g1Q=
-Subject: Re: [PATCH v7 00/48] atmel_mxt_ts misc
-To:     Dmitry Osipenko <digetx@gmail.com>, <jikos@kernel.org>,
-        <benjamin.tissoires@redhat.com>, <rydberg@bitmath.org>,
-        <dmitry.torokhov@gmail.com>, <nick@shmanahar.org>,
-        <bsz@semihalf.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>
-References: <20200212084218.32344-1-jiada_wang@mentor.com>
- <c583d151-9243-cbde-a04b-bc0389d9be5a@gmail.com>
- <89e4bb0b-b2eb-0b67-4307-fb2af914b1c0@mentor.com>
- <f9b221e7-f189-3e47-adab-1cbc49490d4b@gmail.com>
- <bd3c487b-b065-3e4f-6ab1-f344a4113fcd@mentor.com>
- <5d8fdfc1-cc95-59db-b83e-87bb16ea79e8@gmail.com>
-From:   "Wang, Jiada" <jiada_wang@mentor.com>
-Message-ID: <4d39b644-7fcb-427e-7110-c61fb36122f5@mentor.com>
-Date:   Wed, 25 Mar 2020 21:13:09 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+   d="scan'208";a="357787254"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 25 Mar 2020 05:34:27 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jH5Ep-0006hC-7t; Wed, 25 Mar 2020 20:34:27 +0800
+Date:   Wed, 25 Mar 2020 20:33:22 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:master] BUILD REGRESSION
+ 10ad4845cd3d760c191ab4ecef446b99a6b2c779
+Message-ID: <5e7b4f92.VjQFDkFG3J++zbtM%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <5d8fdfc1-cc95-59db-b83e-87bb16ea79e8@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: svr-orw-mbx-08.mgc.mentorg.com (147.34.90.208) To
- svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  master
+branch HEAD: 10ad4845cd3d760c191ab4ecef446b99a6b2c779  dt-bindings: touchscreen: Convert edt-ft5x06 to json-schema
 
-On 2020/03/24 23:54, Dmitry Osipenko wrote:
-> 23.03.2020 05:25, Wang, Jiada пишет:
->> Hello Dmitry
->>
->> On 2020/03/21 0:53, Dmitry Osipenko wrote:
->>> Hello Jiada,
->>>
->>> 20.03.2020 06:37, Wang, Jiada пишет:
->>>> Hello Dmitry
->>>>
->>>> I have submitted v8 patch-set to address your comments towards v7
->>>> patch-set,
->>>> most of checkpatch warnings and errors have been addressed,
->>>>
->>>> But I didn't update for following two types of warnings
->>>> since I want to keep consistency with legacy code
->>>>
->>>> WARNING: DEVICE_ATTR unusual permissions '0600' used
->>>> #290: FILE: drivers/input/touchscreen/atmel_mxt_ts.c:3761:
->>>> +static DEVICE_ATTR(debug_v2_enable, 0600, NULL,
->>>
->>> What will happen if you'll use 0644? Will an empty line be returned or
->>> driver will crash?
->>>
->> debug_v2_enable doesn't have .show callback implemented, so after change
->> permission to 644, read of it results in an I/O error,
->>
->> for other 0600 permission interfaces (t38_data, t25 and debug_enable)
->> added in this series,
->> change to 644 can return expected information when read.
->>
->> Do you think it's better to change debug_v2_enable to 0200,
->> and others to 0644?
-> 
-> Since the debug_enable has mxt_debug_enable_show(), the same should be
-> done for debug_v2_enable, for consistency.
-> 
-> The permissions should be 0644 for everything that is read/write.
-> 
-> The 0200 should be used for everything that is root-only and write-only.
+Regressions in current branch:
 
-Thanks for your comments and suggestion in another email,
-I will submit v9 patch-set to address these warnings
+drivers/input/touchscreen/goodix.c:554:12: error: implicit declaration of function 'acpi_execute_simple_method' [-Werror=implicit-function-declaration]
+drivers/input/touchscreen/goodix.c:624:12: error: implicit declaration of function 'acpi_execute_simple_method' [-Werror=implicit-function-declaration]
 
-Thanks,
-Jiada
-> 
+Error ids grouped by kconfigs:
+
+recent_errors
+|-- arm-allmodconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- arm-allyesconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- arm-imx_v6_v7_defconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- m68k-allmodconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- m68k-allyesconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- mips-allmodconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- mips-allyesconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- nds32-allmodconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- nds32-allyesconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- nds32-randconfig-a001-20200324
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- parisc-allmodconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- parisc-allyesconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- riscv-allmodconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- riscv-allyesconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- s390-allmodconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- s390-allyesconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- sh-allmodconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- sparc-allyesconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- sparc-randconfig-a001-20200324
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+|-- sparc64-allmodconfig
+|   `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+`-- sparc64-allyesconfig
+    `-- drivers-input-touchscreen-goodix.c:error:implicit-declaration-of-function-acpi_execute_simple_method
+
+elapsed time: 798m
+
+configs tested: 169
+configs skipped: 0
+
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                           sunxi_defconfig
+arm                           efm32_defconfig
+arm                         at91_dt_defconfig
+arm                        shmobile_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+sparc                            allyesconfig
+h8300                     edosk2674_defconfig
+mips                      malta_kvm_defconfig
+sh                  sh7785lcr_32bit_defconfig
+arc                                 defconfig
+um                           x86_64_defconfig
+nds32                             allnoconfig
+powerpc                       ppc64_defconfig
+xtensa                          iss_defconfig
+i386                             alldefconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+ia64                             alldefconfig
+xtensa                       common_defconfig
+openrisc                 simple_smp_defconfig
+openrisc                    or1ksim_defconfig
+nios2                         3c120_defconfig
+nios2                         10m50_defconfig
+c6x                        evmc6678_defconfig
+c6x                              allyesconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+m68k                           sun3_defconfig
+m68k                          multi_defconfig
+h8300                       h8s-sim_defconfig
+m68k                       m5475evb_defconfig
+m68k                             allmodconfig
+h8300                    h8300h-sim_defconfig
+powerpc                          rhel-kconfig
+arc                              allyesconfig
+powerpc                             defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                           allnoconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                             allyesconfig
+mips                      fuloong2e_defconfig
+parisc                            allnoconfig
+parisc                generic-64bit_defconfig
+parisc                generic-32bit_defconfig
+parisc                           allyesconfig
+x86_64               randconfig-a001-20200324
+x86_64               randconfig-a002-20200324
+x86_64               randconfig-a003-20200324
+i386                 randconfig-a001-20200324
+i386                 randconfig-a002-20200324
+i386                 randconfig-a003-20200324
+alpha                randconfig-a001-20200324
+m68k                 randconfig-a001-20200324
+mips                 randconfig-a001-20200324
+nds32                randconfig-a001-20200324
+parisc               randconfig-a001-20200324
+riscv                randconfig-a001-20200324
+c6x                  randconfig-a001-20200324
+h8300                randconfig-a001-20200324
+microblaze           randconfig-a001-20200324
+nios2                randconfig-a001-20200324
+sparc64              randconfig-a001-20200324
+csky                 randconfig-a001-20200324
+openrisc             randconfig-a001-20200324
+s390                 randconfig-a001-20200324
+xtensa               randconfig-a001-20200324
+x86_64               randconfig-b001-20200324
+x86_64               randconfig-b002-20200324
+x86_64               randconfig-b003-20200324
+i386                 randconfig-b001-20200324
+i386                 randconfig-b002-20200324
+i386                 randconfig-b003-20200324
+x86_64               randconfig-c001-20200324
+x86_64               randconfig-c002-20200324
+x86_64               randconfig-c003-20200324
+i386                 randconfig-c001-20200324
+i386                 randconfig-c002-20200324
+i386                 randconfig-c003-20200324
+x86_64               randconfig-d001-20200324
+x86_64               randconfig-d002-20200324
+x86_64               randconfig-d003-20200324
+i386                 randconfig-d001-20200324
+i386                 randconfig-d002-20200324
+i386                 randconfig-d003-20200324
+x86_64               randconfig-e001-20200324
+x86_64               randconfig-e002-20200324
+x86_64               randconfig-e003-20200324
+i386                 randconfig-e001-20200324
+i386                 randconfig-e002-20200324
+i386                 randconfig-e003-20200324
+x86_64               randconfig-f001-20200324
+x86_64               randconfig-f002-20200324
+x86_64               randconfig-f003-20200324
+i386                 randconfig-f001-20200324
+i386                 randconfig-f002-20200324
+i386                 randconfig-f003-20200324
+x86_64               randconfig-g001-20200324
+x86_64               randconfig-g002-20200324
+x86_64               randconfig-g003-20200324
+i386                 randconfig-g001-20200324
+i386                 randconfig-g002-20200324
+i386                 randconfig-g003-20200324
+x86_64               randconfig-g001-20200325
+x86_64               randconfig-g002-20200325
+x86_64               randconfig-g003-20200325
+i386                 randconfig-g001-20200325
+i386                 randconfig-g002-20200325
+i386                 randconfig-g003-20200325
+x86_64               randconfig-h001-20200324
+x86_64               randconfig-h002-20200324
+x86_64               randconfig-h003-20200324
+i386                 randconfig-h001-20200324
+i386                 randconfig-h002-20200324
+i386                 randconfig-h003-20200324
+arm                  randconfig-a001-20200324
+arm64                randconfig-a001-20200324
+ia64                 randconfig-a001-20200324
+arc                  randconfig-a001-20200324
+sparc                randconfig-a001-20200324
+powerpc              randconfig-a001-20200324
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+s390                             alldefconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+sh                          rsk7269_defconfig
+sh                               allmodconfig
+sh                            titan_defconfig
+sh                                allnoconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+um                             i386_defconfig
+um                                  defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                               rhel-7.6
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
