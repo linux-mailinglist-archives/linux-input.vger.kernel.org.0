@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54C271929E6
-	for <lists+linux-input@lfdr.de>; Wed, 25 Mar 2020 14:35:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D3151929E8
+	for <lists+linux-input@lfdr.de>; Wed, 25 Mar 2020 14:35:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727473AbgCYNfG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Mar 2020 09:35:06 -0400
+        id S1727494AbgCYNfK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Mar 2020 09:35:10 -0400
 Received: from esa2.mentor.iphmx.com ([68.232.141.98]:13562 "EHLO
         esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727494AbgCYNfF (ORCPT
+        with ESMTP id S1727826AbgCYNfJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Mar 2020 09:35:05 -0400
-IronPort-SDR: cazHNmWqe6TRZMANX/MKhf5ghuBTHQpFjHw4wRkk5tf+4WdNseUx2c9COdg3f9MRYE4JWlvW4+
- iWNDBqjPwH569TqaN74jti/Dm+50YuiQmYuzZlEpVjgdHNMhXf8ANcN75xcfXDVEaZnVUgDUwX
- gG/Kosj4Px8gw7JJPACNTUJGsGm2BCqPjRlGYt9aN79O15ohYXeAG0WA2PPhN85b5fbmlR/cj7
- gRUnBoe4HWO7F6bZmSt7KjGDv9D+ZE+cdDNWX3taUSRsJFw5ur9keZ1FEuygTE+XYCsWxIbKXo
- fEo=
+        Wed, 25 Mar 2020 09:35:09 -0400
+IronPort-SDR: 9YBJkiSsnAyolFvSnPZq2qy7hNBfINJ/zHzG8IK9X0421NxlyhfOQ1aCaj4wPSe+fdYyuhSV0U
+ SYcz2MX4sMVoI/99lVtTphihQ9Y0cUbIVRpZduHxsVgwnF+xmzzyyVEBVvwYdRDhyydf0hzBih
+ ZLsK63cOkmhEU65k4Hq1JwOyLwJOiwZO2OXeFMGHkVg5kFVsx6i6STT83Wa+ElveJLN9CLCq9S
+ Gj4Msjb+2eZYoQ7eNu1l6jpD2PQY+pJjo0HBbHDU6CZp+A4SxvPqZWFpX42Dvm+R8XfR3xzGHo
+ bJg=
 X-IronPort-AV: E=Sophos;i="5.72,304,1580803200"; 
-   d="scan'208";a="47010628"
+   d="scan'208";a="47010632"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 25 Mar 2020 05:35:04 -0800
-IronPort-SDR: 7HjRXQArOQzGhxk/EqPibw0+W31ADf1XNXgBnQ2bOxpWcdtfhkOykl11PF0a0IQFaXNFKT9ntq
- /BDmUIRyswTnBuNyc4ydqtPce1k3G2kURAkSEST6/0eiWssj6XsP0wLVDuv9vYSWLQZnLY/tqK
- wAk0eNxZa7zM0uZutuIR6HeCb4nJ1gNzMV/Xcp57v+FboRUWi3LuZ3+9dmw+UTrnTpSux8mPzE
- pLtHsthyewCrkjzwAMb8B5eyJM47PX4GY/sRc+qoMv2wmvzy/Hy9dhizQCqXFd/a+yAPoAE5/p
- UUs=
+  by esa2.mentor.iphmx.com with ESMTP; 25 Mar 2020 05:35:08 -0800
+IronPort-SDR: w9pTZagqLIHxe7aQyx/vYqfFOst/vTSsysOsccmpWhsG9cVITTX0H8MRZf0T97bun4U8AZV/aU
+ qDvIZKOq7aul1/nTdBwL+UN7IhHwsfhriEJGy0fAbf3lYihttvZfPnlX+f4fcopUbZVgohKsVJ
+ ewnpXgJvJnBjPLjNEWeFT5KhgSZ7DPqoeC+9AREV0aqdfFGhyFVRDYFKAANW4/rSK8kj0Cl9eF
+ 7UoPMxSCJud0RLZvuo+racvQOwiVAfGrxYE5JekQa/9rRUtYqvEi/Tf1U6MdFP6YCz06a7B/ZZ
+ yUU=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -33,9 +33,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v9 21/55] dt-bindings: input: atmel: provide name of configuration file
-Date:   Wed, 25 Mar 2020 06:33:00 -0700
-Message-ID: <20200325133334.19346-22-jiada_wang@mentor.com>
+Subject: [PATCH v9 22/55] Input: atmel_mxt_ts - allow input name to be specified in platform data
+Date:   Wed, 25 Mar 2020 06:33:01 -0700
+Message-ID: <20200325133334.19346-23-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200325133334.19346-1-jiada_wang@mentor.com>
 References: <20200325133334.19346-1-jiada_wang@mentor.com>
@@ -46,27 +46,58 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support to set name of configuration file
+From: Nick Dyer <nick.dyer@itdev.co.uk>
 
+Android systems identify the input device and map to IDC file by using the
+input device name. To avoid unnecessary deltas to the driver file, allow
+this to be set from the platform data.
+
+Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
+(cherry picked from ndyer/linux/for-upstream commit cbf94a7bda754d2e1899d9f50313a0bccc91422d)
+[gdavis: Resolve forward port conflicts due to applying upstream
+	 commit 96a938aa214e ("Input: atmel_mxt_ts - remove platform
+	 data support").]
+Signed-off-by: George G. Davis <george_davis@mentor.com>
+[jiada: Separate Documentation/ portion change to another commit]
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- Documentation/devicetree/bindings/input/atmel,maxtouch.txt | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-index e28139ce3cae..713ce870805c 100644
---- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-+++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-@@ -37,6 +37,9 @@ Optional properties for main touchpad device:
-     MXT_SUSPEND_REGULATOR - use regulators to power down device during suspend
-     Definitions are in <dt-bindings/input/atmel_mxt_ts.h>.
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index d1865250f492..dfc20c0ca0a5 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -336,6 +336,7 @@ struct mxt_data {
+ 	char *fw_name;
+ 	char *cfg_name;
+ 	const char *pcfg_name;
++	const char *input_name;
  
-+- atmel,cfg_name: Provide name of configuration file in OBP_RAW format. This
-+    will be downloaded from the firmware loader on probe to the device.
+ 	/* Cached parameters from object table */
+ 	u16 T5_address;
+@@ -2412,7 +2413,11 @@ static int mxt_initialize_input_device(struct mxt_data *data)
+ 	if (!input_dev)
+ 		return -ENOMEM;
+ 
+-	input_dev->name = "Atmel maXTouch Touchscreen";
++	if (data->input_name)
++		input_dev->name = data->input_name;
++	else
++		input_dev->name = "Atmel maXTouch Touchscreen";
 +
- Example:
+ 	input_dev->phys = data->phys;
+ 	input_dev->id.bustype = BUS_I2C;
+ 	input_dev->dev.parent = dev;
+@@ -3653,6 +3658,8 @@ static int mxt_parse_device_properties(struct mxt_data *data)
  
- 	touch@4b {
+ 	device_property_read_string(dev, "atmel,cfg_name", &data->pcfg_name);
+ 
++	device_property_read_string(dev, "atmel,input_name", &data->input_name);
++
+ 	if (device_property_present(dev, keymap_property)) {
+ 		n_keys = device_property_count_u32(dev, keymap_property);
+ 		if (n_keys <= 0) {
 -- 
 2.17.1
 
