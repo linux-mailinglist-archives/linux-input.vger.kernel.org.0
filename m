@@ -2,72 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC58519306D
-	for <lists+linux-input@lfdr.de>; Wed, 25 Mar 2020 19:31:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D81A1930D6
+	for <lists+linux-input@lfdr.de>; Wed, 25 Mar 2020 20:05:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727993AbgCYSbn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Mar 2020 14:31:43 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:33112 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727981AbgCYSbn (ORCPT
+        id S1727306AbgCYTFn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Mar 2020 15:05:43 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:39064 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727279AbgCYTFn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Mar 2020 14:31:43 -0400
-Received: by mail-ed1-f68.google.com with SMTP id z65so3858531ede.0
-        for <linux-input@vger.kernel.org>; Wed, 25 Mar 2020 11:31:42 -0700 (PDT)
+        Wed, 25 Mar 2020 15:05:43 -0400
+Received: by mail-lj1-f193.google.com with SMTP id i20so3740233ljn.6;
+        Wed, 25 Mar 2020 12:05:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=+/FlwGh8/LOtk0UABTkA0mmXHmbkZhf+lN/fed2r7Ag=;
-        b=PN/NYWO+PG30ugSkWhBnvbkv+t73HABxhs7VLfdoPWJAxEgyR8f1t2LbQhpmDeuBqA
-         QluQA2LG4evUafBDdK0wBlgcIAr/qS6rbB/VfGMpUZDAiyyNuFVlCKuHWxVDG/r3xra+
-         95iA3kEGQPrvDg59T5I80vPyfQwonSXD6Fy7ks1oTbhtSJ1m6TlkM9aGPCuxyTDXqGS0
-         zyjsp7Tx6tG7HodqjPa1aq3m7wjjD9KITav8a2NJaj9vnxjQ+4V5mEW5jy5eQSWLB/rq
-         QcKPtKiWsmn/faaT046NnikXvEA61xf26AZjiXmQC3wywOB41cLXzCkPU31vwMdOSE8K
-         b0ZA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=pcRErvm2Q518gCbI05/42E3zgrQBPnKUjsE254rV4i8=;
+        b=jOsvlDmAnsWF8Zgi1Kc+OAsbG3gWnfkPWsVsEAuywtsKrez7awraN/gAflS+VbGpgi
+         lTb+NL7GMqfRW6s9+bLM4tq5JXPaRTnpJQJmzpbZMUsMKaLogF/62JoIQws11Q2bz4Q3
+         kN/q/qbygHS9gbZrwgeP3stxTlSaXTAQB2tLTdVrTk5AZISotzbrm9fUhQddE8Qhp57Q
+         vmcrjRIT5KEr16szoVRPVX9XZpfEia+hbwv14K9xL0XSS116ExAvKiJVMqzwNUOhj3U4
+         Ehspp7hOpL4MalroyZbd3HkMeCw2OmCrO1o/WDTFKkxu9nDrazlcmxDwFmTMOraeEopO
+         kANQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=+/FlwGh8/LOtk0UABTkA0mmXHmbkZhf+lN/fed2r7Ag=;
-        b=cod4kVbj1HBS8KkhmzHTVYugpwEPN8oMiPWdkXYGH7cTPGmjG8PG1GIMCfhDd8NqMj
-         /s9dg/f+yfm5mMIJv1l0JQMkEz5MlF5l3E+HhO2/Q8QDD3tuiujl8cbYq1AkYTjCXmCC
-         0ia8GtVZboLC2tYIlhUnCEToEUgfCeO8Av/XXo3fn4PT517mXFHieUf8dPf7l4cJqVVs
-         ial8gp1SLwZE00TCIQUqcSl/dXWInz49Cchrou8NaaKQpLi+YquuFQHGTuv959CUrfjG
-         cL1AbQbX+FA2Y0nk2aWjxiRZvDoXS7RGjMl29JKmZ6kVKJKXfB+oLdfZkHDONRUgPxL+
-         7AoA==
-X-Gm-Message-State: ANhLgQ03uxM0VhCiT2aysWZGbegBOQeEIg61ri22x3CckimiuPa8OL5d
-        LcbkQ9bGNrPsTPxj+nyBwM34vxa06ce4C2M0Ucs=
-X-Google-Smtp-Source: ADFU+vvIy+NLhP2kXUZi/G0wCi9HThQtedmwmsxL2uab2neIXN0URZdvKRafIT8ha9J8197wLgw9VwMrpIVmcSwCiBc=
-X-Received: by 2002:a05:6402:1695:: with SMTP id a21mr4394077edv.111.1585161101372;
- Wed, 25 Mar 2020 11:31:41 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pcRErvm2Q518gCbI05/42E3zgrQBPnKUjsE254rV4i8=;
+        b=CpSO9ng2HxSRENHsqLi8NeR7p2tOMWk6Di29Lz0CCpwaZGPxMSfhnLqPHBUbHVgAfS
+         MMka3msRsHyt+cE8WAVfAyWCQ28EGbXR7JJwZ2SbLuPDB3VqtC1x8xvq3JAqkkf3InWp
+         qgtrM+DIt8WwY2wKSpO5l9jV35zA3BTUOSM8WvnqR1dbYulCakueBLw+lUIxh0ZeTX9R
+         mdNzguAxgn42y5/QfHOZlkUoQ3sLIRXn2urtT68FnvxZIZHeoWFu+XkuzhJXW9+4XeMO
+         TuiRoSiRFSmhTwVXGPW1gIB7Nxbo/AZNoXmvOV8X/cPN/oIj3mP6V7zBE0iiGNumSbn4
+         E0tg==
+X-Gm-Message-State: ANhLgQ2Pjc9+c6fSvjGVF9h0fyXw0mU0ritWV+gc9gVKqAlkIWNh37LA
+        g3oGCremauC8pWoDk6ZQ74U=
+X-Google-Smtp-Source: ADFU+vtNtlANgH6ZU/SxscTh0o9bgRwziu95+xWxmtzh+N/lwSGsvM5yQMpXh/Hd6K53fTv+dhxjBg==
+X-Received: by 2002:a2e:854e:: with SMTP id u14mr2793589ljj.95.1585163140593;
+        Wed, 25 Mar 2020 12:05:40 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id t23sm4927602lfq.4.2020.03.25.12.05.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Mar 2020 12:05:39 -0700 (PDT)
+Subject: Re: [PATCH v9 13/55] Input: atmel_mxt_ts - add regulator control
+ support
+To:     Jiada Wang <jiada_wang@mentor.com>, nick@shmanahar.org,
+        dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, bsz@semihalf.com,
+        rydberg@bitmath.org
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
+References: <20200325133334.19346-1-jiada_wang@mentor.com>
+ <20200325133334.19346-14-jiada_wang@mentor.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <672615bc-adce-213f-9e44-864163c0a770@gmail.com>
+Date:   Wed, 25 Mar 2020 22:05:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Received: by 2002:a50:8b46:0:0:0:0:0 with HTTP; Wed, 25 Mar 2020 11:31:41
- -0700 (PDT)
-Reply-To: grech247andrew@gmail.com
-From:   Grech Andrew <captkatiehiggins21@gmail.com>
-Date:   Wed, 25 Mar 2020 18:31:41 +0000
-Message-ID: <CAJuBQtoi4L9efmx153C-u30d_GFYAqDtyc+5D7tq18wg0mgKDA@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200325133334.19346-14-jiada_wang@mentor.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello daer
+25.03.2020 16:32, Jiada Wang пишет:
+> From: Nick Dyer <nick.dyer@itdev.co.uk>
+> 
+> Allow the driver to optionally manage enabling/disable power to the touch
+> controller itself. If the regulators are not present then use the deep
+> sleep power mode instead.
+> 
+> For a correct power on sequence, it is required that we have control over
+> the RESET line.
 
-I am Andrew Grech from the United Kingdom. The Managing Director of
-law firm Slater & Gordon UK,i contacting you so that you will stand as
-appointed legal beneficiary to my Late client, a citizen of your
-country He left his huge amount of money in a bank. He wasinto Mining,
-Oil and Gas; He was a successful business man before he died.Please
-for more details reply me back.
+...
+> +	data->reg_vdd = devm_regulator_get(dev, "vdd");
+> +	if (IS_ERR(data->reg_vdd)) {
+> +		error = PTR_ERR(data->reg_vdd);
+> +		dev_err(dev, "Error %d getting vdd regulator\n", error);
+> +		goto fail;
+> +	}
+> +
+> +	data->reg_avdd = devm_regulator_get(dev, "avdd");
+> +	if (IS_ERR(data->reg_avdd)) {
+> +		error = PTR_ERR(data->reg_avdd);
+> +		dev_err(dev, "Error %d getting avdd regulator\n", error);
+> +		goto fail_release;
+> +	}
 
+Hello Jiada,
 
-Respectfully,
-
-Andrew Grech
-50-52 Chancery Lane
-London United Kingdom WC2A 1HL
-Privet:  44 7840 599 956
+The new regulator properties should be documented in the device-tree
+binding.
