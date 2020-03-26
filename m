@@ -2,129 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE1F81939F8
-	for <lists+linux-input@lfdr.de>; Thu, 26 Mar 2020 08:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9298F194672
+	for <lists+linux-input@lfdr.de>; Thu, 26 Mar 2020 19:27:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726332AbgCZH6x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Mar 2020 03:58:53 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:38024 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726279AbgCZH6x (ORCPT
+        id S1727354AbgCZS1R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Mar 2020 14:27:17 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:39171 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727192AbgCZS1R (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Mar 2020 03:58:53 -0400
-Received: by mail-pl1-f193.google.com with SMTP id w3so1834487plz.5;
-        Thu, 26 Mar 2020 00:58:52 -0700 (PDT)
+        Thu, 26 Mar 2020 14:27:17 -0400
+Received: by mail-pf1-f195.google.com with SMTP id d25so3198863pfn.6;
+        Thu, 26 Mar 2020 11:27:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=kpesQAb1EfvXtxtfV/ThTPpjKNkxOztwAVy2KkYtRQs=;
-        b=jzAIRaqUHbJdHcBmYlTiQwxR7p6qtDzRAZq18vVuoq/WS8xJYMme88GfJsqrf0q9zA
-         GZ98OOXWvIn/4CY3U/VSxm0DgQU1U7v2X1CImXiqUZ4GjcSUkWZS0Uo/alo+Qhy92W01
-         LkEhlCDUdT59m6UWtRiwiG6BL6+k7NXc4go1GF/fDJLJ4LzFTIPHp2k1JAquhtT7Lkz/
-         LRmep1QLA/+xOyqiCCW41O27ByxoKpx1d4u/JGrHGn6QVWRZRMMRbD1T+dJws9kxrEC1
-         QVB9CrLshT97eFW+o8mxQ457lkevhUUY+dBWLephD0e5wiCeWNjWm2wuLZiQcn2sBiRf
-         eJTQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=F8LTRwA29y3BtOwQYRxfFD8Xx4MT6yu8bUXU9YPsEy4=;
+        b=Vl5W6+baQ71vuipLENFdXPlrY8qYR2Hc2S/JEmCK85BcTvYLM6PojE9XAiDHgZeq1G
+         +DckwGV1Tp7JRjufUtrMz7gtdatX3/EIUq17DVzFvYDHG7b/pYXbU/HC0N0ObR+sQfJr
+         TVzaJUvTjk5s99CJAjIUJLe8foFN3UrsstNQDfyMCoPj1WjvcfmBFiLwPDSLmBLgpKvA
+         003xJ6IQSYiGU+y15+TNNpaXaviAGnB9rXErnM0ZpWiEpiJJtnTGyk78Rf+CxZanzWNn
+         DIyvrrx1MU3JMorkVCOBtjfx/QiLtvIbf2kpDRHhEqh3KR/zGUVXuYUayXb/LWtibh9g
+         BJbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=kpesQAb1EfvXtxtfV/ThTPpjKNkxOztwAVy2KkYtRQs=;
-        b=t45X+4OfJ7hxemEF+OZgjXZ43JOlCZkhb3HNvs8KR0D2FFvLGmWDX31/zKNYHAKccC
-         beDA8ya77vdNQjD6f6xlqGer8/gyUK7+sp9DO7uFSYtbPzHl+z8gaJ8DkMbX0hwND+UN
-         O9oiggMxya9dCrgJnwY1UovJ6zlb5RI9VPP72Ay2Vkyc8ONEMO4Me+2xpq8FJDrShd3a
-         qGn+wdQ+frdtE+GiHVKsqj/2SEftqx+BPmXHK45DBFm1Moad2DDXSZgqHXfo4bGiWXP5
-         A0zGOOUvqGv0UxK1lBYVEZjmzjZWSkAKOgVjN6PxGijq0b1fPEIDB1VYFWu3q5gXrTY/
-         U07A==
-X-Gm-Message-State: ANhLgQ2YXQvtcJPx5phrNqz0WS7l5l1CqUNrzg6RX4leryhKVkX9aZc6
-        JTbWrgdCVJA9EdfU9Rq8h34=
-X-Google-Smtp-Source: ADFU+vu56+99aFARGE8a5QmN/kZSODsnm4TPg+HH+ts6prsTBPuNX0IH5gkjvDVPnJEJbrvniXpTpQ==
-X-Received: by 2002:a17:90a:37ea:: with SMTP id v97mr1825249pjb.26.1585209531605;
-        Thu, 26 Mar 2020 00:58:51 -0700 (PDT)
-Received: from localhost.localdomain ([2401:e180:8844:1606:8876:e9fa:cdda:cda2])
-        by smtp.gmail.com with ESMTPSA id 144sm1011804pgd.29.2020.03.26.00.58.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 26 Mar 2020 00:58:51 -0700 (PDT)
-From:   Johnny Chuang <johnny.chuang.emc@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Rob Schonberger <robsc@google.com>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>
-Cc:     James Chen <james.chen@emc.com.tw>,
-        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
-        Paul Liang <paul.liang@emc.com.tw>,
-        Jeff Chuang <jeff.chuang@emc.com.tw>
-Subject: [PATCH] Input: elants_i2c - support palm detection
-Date:   Thu, 26 Mar 2020 15:58:45 +0800
-Message-Id: <1585209525-6047-1-git-send-email-johnny.chuang.emc@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=F8LTRwA29y3BtOwQYRxfFD8Xx4MT6yu8bUXU9YPsEy4=;
+        b=TeT3/obi7o9aXNF9rtqky1AbzQ2Dvcza3+i5u6l0dYZlirF1QALadvBbR3s8rNl18O
+         txOVEY5g45XkX5Kn07jLPjqpGaCnBjeQtEQsinfWL9ID8yRt8oOGZmNb5Wt/9gltSLX6
+         96KqZxOeVZhnFtQTth8iXrst61JLSgQ4fjk6qBbm6cC9Fp48ap3fQPn5jCNYXCaI2NVj
+         88ZklR4o7bFut7CvJqs5S3Gd6FXom/7QhLkV1vaafn0WGNGwr/9pRI/C5td/9+Ty9/Gh
+         mLO0Usk8IWu8NfjYS5gsyzyBQ8snBhQmwxcWg0upA7XD+SsNBcDx1CvqMUhp2eVvnWC7
+         cWFw==
+X-Gm-Message-State: ANhLgQ3wrSTsMdpviaT4q7m6t9rRPHzp27IRj3SqOgonKxTtcwbt52CA
+        X5Q2E4ccoYFIb2Kw9Jk6EMbFwi1r
+X-Google-Smtp-Source: ADFU+vspeI4zcrvbm0Ljq1Q1jwR+7dUgFtJYp1FS4CCntlvNJ4Ude4apmzuG7s1t1Uo8uP9pVhqldg==
+X-Received: by 2002:a63:1210:: with SMTP id h16mr9829963pgl.408.1585247234601;
+        Thu, 26 Mar 2020 11:27:14 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id t3sm2196744pfl.26.2020.03.26.11.27.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2020 11:27:13 -0700 (PDT)
+Date:   Thu, 26 Mar 2020 11:27:11 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Rajat Jain <rajatja@google.com>, Harry Cutts <hcutts@chromium.org>,
+        Mathew King <mathewk@chromium.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: move the new KEY_SELECTIVE_SCREENSHOT keycode
+Message-ID: <20200326182711.GA259753@dtor-ws>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Johnny Chuang <johnny.chuang@emc.com.tw>
+We should try to keep keycodes sequential unless there is a reason to leave
+a gap in numbering, so let's move it from 0x280 to 0x27a while we still
+can.
 
-Elan define finger/palm detection on the least significant bit of byte 33.
-The default value is 1 for all firmwares, which report as MT_TOOL_FINGER.
-If firmware support palm detection, the bit will change to 0 and
-report as MT_TOOL_PALM when firmware detecting palm.
-
-Signed-off-by: Johnny Chuang <johnny.chuang@emc.com.tw>
+Fixes: 3b059da9835c ("Input: allocate keycode for Selective Screenshot key")
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/touchscreen/elants_i2c.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ include/uapi/linux/input-event-codes.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index 14c577c..3b4d9eb3 100644
---- a/drivers/input/touchscreen/elants_i2c.c
-+++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -73,6 +73,7 @@
- #define FW_POS_STATE		1
- #define FW_POS_TOTAL		2
- #define FW_POS_XY		3
-+#define FW_POS_TOOL_TYPE	33
- #define FW_POS_CHECKSUM		34
- #define FW_POS_WIDTH		35
- #define FW_POS_PRESSURE		45
-@@ -842,6 +843,7 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
- {
- 	struct input_dev *input = ts->input;
- 	unsigned int n_fingers;
-+	unsigned int tool_type;
- 	u16 finger_state;
- 	int i;
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 008be2609ce1..6923dc7e0298 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -653,7 +653,7 @@
+ #define KEY_PRIVACY_SCREEN_TOGGLE	0x279
  
-@@ -852,6 +854,12 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
- 	dev_dbg(&ts->client->dev,
- 		"n_fingers: %u, state: %04x\n",  n_fingers, finger_state);
+ /* Select an area of screen to be copied */
+-#define KEY_SELECTIVE_SCREENSHOT	0x280
++#define KEY_SELECTIVE_SCREENSHOT	0x27a
  
-+	/* Note: all fingers have the same tool type */
-+	if (buf[FW_POS_TOOL_TYPE] & 0x01)
-+		tool_type = MT_TOOL_FINGER;
-+	else
-+		tool_type = MT_TOOL_PALM;
-+
- 	for (i = 0; i < MAX_CONTACT_NUM && n_fingers; i++) {
- 		if (finger_state & 1) {
- 			unsigned int x, y, p, w;
-@@ -867,7 +875,7 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
- 				i, x, y, p, w);
- 
- 			input_mt_slot(input, i);
--			input_mt_report_slot_state(input, MT_TOOL_FINGER, true);
-+			input_mt_report_slot_state(input, tool_type, true);
- 			input_event(input, EV_ABS, ABS_MT_POSITION_X, x);
- 			input_event(input, EV_ABS, ABS_MT_POSITION_Y, y);
- 			input_event(input, EV_ABS, ABS_MT_PRESSURE, p);
-@@ -1307,6 +1315,7 @@ static int elants_i2c_probe(struct i2c_client *client,
- 	input_set_abs_params(ts->input, ABS_MT_POSITION_Y, 0, ts->y_max, 0, 0);
- 	input_set_abs_params(ts->input, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
- 	input_set_abs_params(ts->input, ABS_MT_PRESSURE, 0, 255, 0, 0);
-+	input_set_abs_params(ts->input, ABS_MT_TOOL_TYPE, 0, MT_TOOL_MAX, 0, 0);
- 	input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
- 	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
- 	input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, 1);
+ /*
+  * Some keyboards have keys which do not have a defined meaning, these keys
 -- 
-2.7.4
+2.26.0.rc2.310.g2932bb562d-goog
 
+
+-- 
+Dmitry
