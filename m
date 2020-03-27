@@ -2,199 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C31EE194E8E
-	for <lists+linux-input@lfdr.de>; Fri, 27 Mar 2020 02:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2852194F05
+	for <lists+linux-input@lfdr.de>; Fri, 27 Mar 2020 03:32:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727849AbgC0Bic (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Mar 2020 21:38:32 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:41350 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727696AbgC0Bic (ORCPT
+        id S1727878AbgC0Ccj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Mar 2020 22:32:39 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:44409 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727985AbgC0Cci (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Mar 2020 21:38:32 -0400
-Received: by mail-lf1-f68.google.com with SMTP id z23so6554605lfh.8
-        for <linux-input@vger.kernel.org>; Thu, 26 Mar 2020 18:38:30 -0700 (PDT)
+        Thu, 26 Mar 2020 22:32:38 -0400
+Received: by mail-pg1-f196.google.com with SMTP id 142so3862924pgf.11;
+        Thu, 26 Mar 2020 19:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=n7WV/EpnZROyLfEaMPawCMxPabFPT6/7MuhbzbnfSN8=;
-        b=N7+rU/HMdCMrO09FKv2jhmMJmEotS+k7FgW93dzfsVzYT4Wx2yOxLYPiiZVXQmWsKB
-         mTaNEfdk92qmu3JpAGGKf8D8DrJHO1/HnVUuFDZGTTt7eSa3XU0Syfp9jgVd20qDWBX5
-         ruKKWNdS4EvtowHaZWx44yt2eSgVEgGl+S+uDP/fjBEi85avvK3K0ujKSsp7yXugbcnh
-         P3fgtZC5OWKJA5Nju4RKQOF8VgkBfi2iZJyrAUq23w6Q0z4oI+ImhqkJIH5CvogqedDG
-         KkH51MpVZ4dESbvlHGKfVjOmMylfulftRcUj3lGkQEehz/iWGHfoWdx/aQZdSn7QFkCd
-         uK1Q==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=XajnJwqf7IDi08ky1T7ypUpRxAJg4V4LZuWadlWU3Io=;
+        b=dgk4CrDhCdQIJr63haiO9+4bf6Aaiv+yUPotOeJwjO/i2aj4/SDr+cWU3DV34QOxRh
+         MCM/wFYB9/BZdN7NtHCnc9QRepwsMdn8mEvX8g9JH7ffaQtYZWqqaSY2xdxRJdyXuBLJ
+         hFscshr48GoU2JW2v3YBco4J135mtYnUGQRx8mYpdoTik41ovSMIIpytjCgYLu3EwyGK
+         qrkFV6RLiOoWxoEYWuDZ6WQ9h8kIkRYMgGJrVm+tFrKVoAPyWy9nDVqqo36M1bxmIHdm
+         zmhUJ4OEoJQb4ZdK/kbhxJUuygMOnTRJJAhcmyqJI6++yxR1zVUsIqdwt0E+T6m/EYH8
+         xJOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=n7WV/EpnZROyLfEaMPawCMxPabFPT6/7MuhbzbnfSN8=;
-        b=hrAfRVXjr5pDupiD2u9kitzr5drtzkmyK4bD8ZJYwM7watk9xC0G8/hOT85x3HpjX9
-         c1IrtUDL2H7LmySKYwjjodhZ5Sw3QN6P1jq/zb22gS1uLbPzSq7QSLUIgOp0g7ILQLwh
-         BwX0RjJH5cy3CNfFHqsT/gl+gpyztrnuxR0AA2tXCsOgz9I0EikNC7PxOdtkicXQNfFH
-         wCmcGGhN8GXonXVXmCDHZpODH0aIlHEUGrRyoucWScI9HecvMkQICMVaW3CO0N9QMoZJ
-         vkPj7mSAOgtLX1ERk6DZq0bIT5lTvLfNFdxpggEdOq3yoOWILNjO7DqdcihkfLXPdYaq
-         Za6w==
-X-Gm-Message-State: ANhLgQ3fTSXCCDw6eQkgkmrzhMEcjk3JfYNJCBxcS0vfHIu93+P5i0Bj
-        CJ+no+HIAFrANbA7LXLCPN3JfXC8CLVeE5rHvsg6IA==
-X-Google-Smtp-Source: ADFU+vuKmO4rcij2uPD34u8BMt6+NSD83GcaxgfxBTr1GExVYFySIeBtMr9F8AsT2WjwC8O3ItGydbB8E463i11H+o0=
-X-Received: by 2002:a19:3803:: with SMTP id f3mr7647519lfa.160.1585273109028;
- Thu, 26 Mar 2020 18:38:29 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=XajnJwqf7IDi08ky1T7ypUpRxAJg4V4LZuWadlWU3Io=;
+        b=RziibEw2YZHPMVLGV1Za2Sse2eiLbPQ3UPSTU2BMJn//0ateP0yRSDPYVM77yXvVko
+         mhIo1uzg/K7S0XEhR3tb4NCtKWn7JzWfycmZv/whLnFjmMQUHEKlQPjqni/owCh+NDM2
+         qQxZlOUZAipZOv372LiWARpQKRCo5l7avcXbL9mv2sXESFvTmLmxlbA/KW+ybtzR+0Mi
+         Fh6Lu+tr74zbTiozgwIm+JPT+WWUqyyENSAFBp0aWTyo7+d/Gdh0DLAEEGNkAAw13JhL
+         4mORJEpDdTJwrrDXDCw6m0SYu4KMm/6R6OZZkX6DMyHyCx0fPfurfKdN9cbTYm0uRtxQ
+         daJg==
+X-Gm-Message-State: ANhLgQ0bFX/SFmMy2xF9qj10mIH0/YijyU00+5PkKoKaVc2wHemLdFA7
+        jL555Wevb2LBMm1b1X7u7xI=
+X-Google-Smtp-Source: ADFU+vucIB45dpa6qg4/alOcqUA2N4VXWHvcTBfrTBXEclsZeOB/l4jpZTRElsrba32x/sDONvQnbw==
+X-Received: by 2002:aa7:92da:: with SMTP id k26mr12034925pfa.139.1585276356172;
+        Thu, 26 Mar 2020 19:32:36 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id x15sm2743026pfq.107.2020.03.26.19.32.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2020 19:32:35 -0700 (PDT)
+Date:   Thu, 26 Mar 2020 19:32:33 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.6-rc7
+Message-ID: <20200327023233.GA180354@dtor-ws>
 MIME-Version: 1.0
-References: <20200324123518.239768-1-rajatja@google.com> <20200324123518.239768-4-rajatja@google.com>
- <20200326212025.GH75430@dtor-ws>
-In-Reply-To: <20200326212025.GH75430@dtor-ws>
-From:   Rajat Jain <rajatja@google.com>
-Date:   Thu, 26 Mar 2020 18:37:52 -0700
-Message-ID: <CACK8Z6G5PBZozq6TB6-PNtL0PCg_k9wpi1YxWp-E=Snhm7693Q@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] Input: atkbd: Receive and use physcode->keycode
- mapping from FW
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Dmitry Torokhov <dtor@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Enrico Weigelt <info@metux.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Furquan Shaikh <furquan@google.com>,
-        Duncan Laurie <dlaurie@google.com>,
-        Benson Leung <bleung@google.com>,
-        Zentaro Kavanagh <zentaro@google.com>,
-        Dominik Behr <dbehr@google.com>,
-        Rajat Jain <rajatxjain@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Mar 26, 2020 at 2:20 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Rajat,
->
-> On Tue, Mar 24, 2020 at 05:35:17AM -0700, Rajat Jain wrote:
-> > Allow the firmware to specify the mapping between the physical
-> > code and the linux keycode. This takes the form of a "keymap"
-> > property which is an array of u32 values, each value specifying
-> > mapping for a key.
-> >
-> > Signed-off-by: Rajat Jain <rajatja@google.com>
-> > ---
-> > v2: Remove the Change-Id from the commit log
-> >
-> >  drivers/input/keyboard/atkbd.c | 39 ++++++++++++++++++++++++++++++++--
-> >  1 file changed, 37 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
-> > index 7623eebef2593..c8017a5707581 100644
-> > --- a/drivers/input/keyboard/atkbd.c
-> > +++ b/drivers/input/keyboard/atkbd.c
-> > @@ -66,6 +66,9 @@ MODULE_PARM_DESC(terminal, "Enable break codes on an IBM Terminal keyboard conne
-> >
-> >  #define MAX_FUNCTION_ROW_KEYS        24
-> >
-> > +#define PHYSCODE(keymap)     ((keymap >> 16) & 0xFFFF)
-> > +#define KEYCODE(keymap)              (keymap & 0xFFFF)
-> > +
-> >  /*
-> >   * Scancode to keycode tables. These are just the default setting, and
-> >   * are loadable via a userland utility.
-> > @@ -236,6 +239,9 @@ struct atkbd {
-> >
-> >       u16 function_row_physmap[MAX_FUNCTION_ROW_KEYS];
-> >       int num_function_row_keys;
-> > +
-> > +     unsigned short fw_keymap[ATKBD_KEYMAP_SIZE];
-> > +     bool use_fw_keymap;
->
-> Why do we need to keep firmware-provided keymap in atkbd instance? It is
-> not going anywhere and can be accessed via device_property_* API
-> whenever we decide to refresh the keymap.
+Hi Linus,
 
-Done. I've sent out a new v3 patchset for review with this change.
+Please pull from:
 
->
-> >  };
-> >
-> >  /*
-> > @@ -1045,7 +1051,10 @@ static void atkbd_set_keycode_table(struct atkbd *atkbd)
-> >       memset(atkbd->keycode, 0, sizeof(atkbd->keycode));
-> >       bitmap_zero(atkbd->force_release_mask, ATKBD_KEYMAP_SIZE);
-> >
-> > -     if (atkbd->translated) {
-> > +     if (atkbd->use_fw_keymap) {
-> > +             memcpy(atkbd->keycode, atkbd->fw_keymap,
-> > +                    sizeof(atkbd->keycode));
-> > +     } else if (atkbd->translated) {
-> >               for (i = 0; i < 128; i++) {
-> >                       scancode = atkbd_unxlate_table[i];
-> >                       atkbd->keycode[i] = atkbd_set2_keycode[scancode];
-> > @@ -1163,7 +1172,9 @@ static void atkbd_parse_fwnode_data(struct serio *serio)
-> >  {
-> >       struct atkbd *atkbd = serio_get_drvdata(serio);
-> >       struct device *dev = &serio->dev;
-> > -     int n;
-> > +     int i, n;
-> > +     u32 *ptr;
-> > +     u16 physcode, keycode;
-> >
-> >       if (!dev_fwnode(dev))
-> >               return;
-> > @@ -1176,6 +1187,30 @@ static void atkbd_parse_fwnode_data(struct serio *serio)
-> >               atkbd->num_function_row_keys = n;
-> >               dev_info(dev, "FW reported %d function-row key locations\n", n);
-> >       }
-> > +
-> > +     /* Parse "keymap" property */
-> > +     n = device_property_count_u32(dev, "keymap");
-> > +     if (n > 0 && n <= ATKBD_KEYMAP_SIZE) {
-> > +
-> > +             ptr = kcalloc(n, sizeof(u32), GFP_KERNEL);
-> > +             if (!ptr)
-> > +                     return;
-> > +
-> > +             if (device_property_read_u32_array(dev, "keymap", ptr, n)) {
-> > +                     dev_err(dev, "problem parsing FW keymap property\n");
-> > +                     kfree(ptr);
-> > +                     return;
-> > +             }
-> > +
-> > +             for (i = 0; i < n; i++) {
-> > +                     physcode = PHYSCODE(ptr[i]);
-> > +                     keycode = KEYCODE(ptr[i]);
-> > +                     atkbd->fw_keymap[physcode] = keycode;
-> > +             }
-> > +             dev_info(dev, "Using FW keymap (%d keys)\n", n);
->
-> This should be dev_dbg().
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
-Done.
+to receive updates for the input subsystem. You will get:
 
-Thanks,
+- a fix to generate proper timestamps on key autorepeat events that were
+  broken recently
+- a fix for Synaptics driver to only activate reduced reporting mode
+  when explicitly requested
+- a new keycode for "selective screenshot" function
+- other assorted fixes.
 
-Rajat
+Changelog:
+---------
 
->
-> > +             atkbd->use_fw_keymap = true;
-> > +             kfree(ptr);
-> > +     }
-> >  }
-> >
-> >  /*
-> > --
-> > 2.25.1.696.g5e7596f4ac-goog
-> >
->
-> Thanks.
->
-> --
-> Dmitry
+Andrew Duggan (1):
+      Input: synaptics-rmi4 - set reduced reporting mode only when requested
+
+Dan Carpenter (1):
+      Input: raydium_i2c_ts - fix error codes in raydium_i2c_boot_trigger()
+
+Dmitry Torokhov (2):
+      Input: move the new KEY_SELECTIVE_SCREENSHOT keycode
+      Input: fix stale timestamp on key autorepeat events
+
+Eugene Syromiatnikov (1):
+      Input: avoid BIT() macro usage in the serio.h UAPI header
+
+Nick Reitemeyer (3):
+      dt-bindings: vendor-prefixes: Add Coreriver vendor prefix
+      dt-bindings: input: add Coreriver TC360 binding
+      Input: tm2-touchkey - add support for Coreriver TC360 variant
+
+Rajat Jain (1):
+      Input: allocate keycode for "Selective Screenshot" key
+
+Yussuf Khalil (1):
+      Input: synaptics - enable RMI on HP Envy 13-ad105ng
+
+Diffstat:
+--------
+
+ .../devicetree/bindings/input/cypress,tm2-touchkey.txt        |  1 +
+ Documentation/devicetree/bindings/vendor-prefixes.yaml        |  2 ++
+ drivers/input/input.c                                         |  1 +
+ drivers/input/keyboard/tm2-touchkey.c                         | 11 +++++++++++
+ drivers/input/mouse/synaptics.c                               |  1 +
+ drivers/input/rmi4/rmi_f11.c                                  |  4 ++--
+ drivers/input/touchscreen/raydium_i2c_ts.c                    |  8 ++++----
+ include/uapi/linux/input-event-codes.h                        |  3 +++
+ include/uapi/linux/serio.h                                    | 10 +++++-----
+ 9 files changed, 30 insertions(+), 11 deletions(-)
+
+Thanks.
+
+
+-- 
+Dmitry
