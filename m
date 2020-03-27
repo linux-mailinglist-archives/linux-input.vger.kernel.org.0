@@ -2,142 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 468D319577E
-	for <lists+linux-input@lfdr.de>; Fri, 27 Mar 2020 13:49:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5AFE195825
+	for <lists+linux-input@lfdr.de>; Fri, 27 Mar 2020 14:38:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726900AbgC0Mtf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Mar 2020 08:49:35 -0400
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:2339 "EHLO
-        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727125AbgC0Mtf (ORCPT
+        id S1726515AbgC0NiD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Mar 2020 09:38:03 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:39277 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726275AbgC0NiD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Mar 2020 08:49:35 -0400
-IronPort-SDR: N6mJ5jQVFmaoeXk8IMWTdHonEVfzBavS3kGzVjRHFyY9vLDwSuYoottRmIFz0M9PqDdwAPONOM
- VTvo6pqyDhJ+O1sWLY8j73PIhXp1tYpza+durdvE/WHjI6UWejjULSb69/8lybnxh6iSdKsg/A
- l5VsiBgNoJepBtvzaPAHJ1c0TrUbNOkB8ujakZmUDuwlfqogWDHdtvIsUq8DRoxm8ZqYZwQs9R
- CE9Zp042pXau6IG5R8yj2etullPYURzCTGT372j4FxybiB3Qxdr7I/UFDRc92wj8UVswgoPuyY
- JCE=
-X-IronPort-AV: E=Sophos;i="5.72,312,1580803200"; 
-   d="scan'208";a="47175290"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 27 Mar 2020 04:49:34 -0800
-IronPort-SDR: mLbGuIWhr8qHvJEGRs4rGITXzvziN+jYvXMPNxgqaGORCP7VS8sUeq6K/esQ7Ya5CGMEtL1a0p
- QhKXGnBHaLtIdXBRearHR3KfZC66p76yiATCHAQ+PwyMsg0tHj3OulVzXuHvIi3MNLYXFk2/O0
- PjFkrky3JvEk9QP9JheQ3h0iJmxbJ93Vfs93sIDpTmpGkrFCT83SnM/ZPC9lv2QPL0yPXBrKds
- GVEgpuwPOFlbbT5XKeSZLINl9zNhz7B7f+m9D0FBa3hoADIvyiZv4ci2u41JqItwRbFD8OuCEz
- zYA=
+        Fri, 27 Mar 2020 09:38:03 -0400
+Received: by mail-lf1-f67.google.com with SMTP id h6so2104363lfp.6;
+        Fri, 27 Mar 2020 06:38:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=34VhHnVfQfCxnUAIZ8aanvohxvRx0Xe7SWZvIT0s5dU=;
+        b=kiGSVCIXBmiFG+Jwwm9T3FaTwCD64GutramKXcjpM2OEauD/AtMI8qnPyFBqt3OdTE
+         Sm1zEdRlh0tqe6VorFmw7aO4OpsnGxTNOmK8n9r8gBYgWK6+gknRCgDRnjdW/XYNnJso
+         qSQA1ZygeK+KHpyOeiiWLhj/gwIjwfkWuZ36c6JHCCLEnILkUMcz9RI2ubTqL5nVyNkP
+         xuSySsqUjXDKFk/waIk+5TJkdVfCM5opGRqTm2DTqPcbBDIPQ6TX8AU2ijRdhv+AyegI
+         /XGWSVZujj0oXL+CIETJ48GeqY2tV++cn2kDzSafb5u7MTufaGCCk0DUJMNXLc/x8Ndu
+         yU0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=34VhHnVfQfCxnUAIZ8aanvohxvRx0Xe7SWZvIT0s5dU=;
+        b=k6JR3HHjwT0CQhzwFGr1PeWEjQv9wbpBPVhy+lU5Y8PgMsV5wRfITGP2gZia+bJ1hc
+         VxLBDMrPysADoMrxmEejXIglfndVW7yDJzMGlQqMfAL7UOtDQlwi/imLa48mOmDXXVjB
+         JYYnqavvQWgC17FxHLp59moLx3Z70kVujC1XZFxGIsSWh6hv7+/LhopwIjlHAMJSs9At
+         jul1nN8sfYDBuTk3ghrUzCjlZvdGpiTawlOw0++a5l/l9Dr8KwmB0pdzKKSTMDI+w642
+         hY8pYc0L1t89oQ0GGKbdCCuCj3llDTp7znIIVhvX8NEVwIblz4Z061b15RQYoZ1f308A
+         ovMw==
+X-Gm-Message-State: ANhLgQ12e/L0PCiejXLDEpQS6O5YC7QYuYnJj6VCyUDtFiUR6aWvPlS7
+        Xghp15mOk6B/w6ckBJAEp7c=
+X-Google-Smtp-Source: ADFU+vuFudCZffsf6YDRuon6AaHUNJ7IM5uPoDfCX7HpjZkFAInAeO/S0gdrU7+Gj5wqF2SnvIoS5w==
+X-Received: by 2002:a19:22cf:: with SMTP id i198mr9492426lfi.199.1585316281818;
+        Fri, 27 Mar 2020 06:38:01 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id i7sm3031011ljg.99.2020.03.27.06.38.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Mar 2020 06:38:00 -0700 (PDT)
 Subject: Re: [PATCH v9 52/55] input: touchscreen: atmel_mxt_ts: Added sysfs
  entry for touchscreen status
-To:     Dmitry Osipenko <digetx@gmail.com>, <nick@shmanahar.org>,
-        <dmitry.torokhov@gmail.com>, <jikos@kernel.org>,
-        <benjamin.tissoires@redhat.com>, <bsz@semihalf.com>,
-        <rydberg@bitmath.org>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>
+To:     "Wang, Jiada" <jiada_wang@mentor.com>, nick@shmanahar.org,
+        dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, bsz@semihalf.com,
+        rydberg@bitmath.org
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
 References: <20200325133334.19346-1-jiada_wang@mentor.com>
  <20200325133334.19346-53-jiada_wang@mentor.com>
  <4aeda6f1-25d8-9437-5cd0-560e43dbe081@gmail.com>
-From:   "Wang, Jiada" <jiada_wang@mentor.com>
-Message-ID: <b9368137-2fdc-558d-c27c-54d56950f7b8@mentor.com>
-Date:   Fri, 27 Mar 2020 21:49:14 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ <b9368137-2fdc-558d-c27c-54d56950f7b8@mentor.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <5b03bf10-d4f1-fb3d-4561-1097630c195a@gmail.com>
+Date:   Fri, 27 Mar 2020 16:37:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <4aeda6f1-25d8-9437-5cd0-560e43dbe081@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <b9368137-2fdc-558d-c27c-54d56950f7b8@mentor.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SVR-ORW-MBX-06.mgc.mentorg.com (147.34.90.206) To
- svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry
-
-On 2020/03/26 4:35, Dmitry Osipenko wrote:
-> 25.03.2020 16:33, Jiada Wang пишет:
->> From: Naveen Chakka <Naveen.Chakka@in.bosch.com>
+27.03.2020 15:49, Wang, Jiada пишет:
+>>> +static void mxt_watchdog_work(struct work_struct *work)
+>>> +{
+>>> +    struct mxt_data *data =
+>>> +        container_of(work, struct mxt_data, watchdog_work);
+>>> +    u16 info_buf;
+>>> +    int ret = 0;
+>>> +    u8 size = 2;
 >>
->> To know the current communication status of the touch controller during
->> runtime, sysfs interface is added
+>>> +    if (data->suspended || data->in_bootloader)
+>>> +        return;
+>>> +
+>>> +    ret = __mxt_read_reg(data->client, 0, size, &info_buf);
 >>
->> sysfs interface: /sys/class/i2c-dev/i2c-*/device/*/touch_dev_stat
->> Executing the above sysfs interface provides two output values
+>> Looks like this need to be protected with a lock to not race with the
+>> suspending / bootloader states.
 >>
->> 1)Status of the touch device
->> 	value 0 represents device is inactive
->> 	value 1 represents device is active
->> 2)Error counter
->> 	value represents the number of times device in inactive since last read
-> 
-> ...
->>   /* Each client has this additional data */
->>   struct mxt_data {
->>   	struct i2c_client *client;
->> @@ -372,6 +380,9 @@ struct mxt_data {
->>   	const char *pcfg_name;
->>   	const char *input_name;
->>   	struct mxt_flash *flash;
-> 
->> +	struct work_struct watchdog_work;
->> +	struct timer_list watchdog_timer;
-> 
-> This should be replaced with a delayed_work.
+> right, I will add lock in next version
 
-will replace with delayer_work
-> 
->> +	struct mxt_statusinfo mxt_status;
->>   
->>   	/* Cached parameters from object table */
->>   	u16 T5_address;
-> 
-> ...
->> +static void mxt_watchdog_work(struct work_struct *work)
->> +{
->> +	struct mxt_data *data =
->> +		container_of(work, struct mxt_data, watchdog_work);
->> +	u16 info_buf;
->> +	int ret = 0;
->> +	u8 size = 2;
-> 
->> +	if (data->suspended || data->in_bootloader)
->> +		return;
->> +
->> +	ret = __mxt_read_reg(data->client, 0, size, &info_buf);
-> 
-> Looks like this need to be protected with a lock to not race with the
-> suspending / bootloader states.
-> 
-right, I will add lock in next version
-
->> +	if (ret) {
->> +		data->mxt_status.error_count++;
->> +		data->mxt_status.dev_status = false;
->> +	} else {
->> +		data->mxt_status.dev_status = true;
->> +	}
->> +}
-> 
-> ...> @@ -4329,6 +4414,13 @@ static int mxt_probe(struct i2c_client
-> *client, const struct i2c_device_id *id)
->>   		msleep(MXT_RESET_TIME);
->>   	}
->>   
->> +	INIT_WORK(&data->watchdog_work, mxt_watchdog_work);
->> +
->> +	/* setup watchdog timer */
->> +	timer_setup(&data->watchdog_timer, mxt_watchdog_timer, 0);
->> +
->> +	mxt_start_wd_timer(data);
-> 
-> I'd expect it to be optional and opt-in by either using #ifdef
-> TOUCHSCREEN_ATMEL_MXT_DEBUG or having a new debugfs option to explicitly
-> enable the "watchdog".
-> 
-Thanks for your suggestion, I will use module_param to enable/disable
-watchdog
-
-Thanks,
-Jiada
+Alternatively, maybe the watchdog_work could be just stopped in
+suspended / bootloader states.
