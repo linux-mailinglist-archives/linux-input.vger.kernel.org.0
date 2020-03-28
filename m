@@ -2,129 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8C1D196363
-	for <lists+linux-input@lfdr.de>; Sat, 28 Mar 2020 04:43:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11F5C196422
+	for <lists+linux-input@lfdr.de>; Sat, 28 Mar 2020 08:20:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726291AbgC1Dnh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Mar 2020 23:43:37 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:46937 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726225AbgC1Dnh (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Mar 2020 23:43:37 -0400
-Received: by mail-il1-f195.google.com with SMTP id i75so3469647ild.13;
-        Fri, 27 Mar 2020 20:43:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=UVK15i028mkx0jMpDy93kqL7jNl1F+KutZZLwGaGO80=;
-        b=YK5ZxzEo6HEEiK1jDNDS80yDjdrmaTfHno66iowxJhYWqC0NRswO5iVrywDnKCJsh6
-         KeuIkxgEW5X8Ct/nVCwy2pEdUvyrlVNk8o0cid9q4ON1b6sNEAl3ixsrPyWa9CLfcbmM
-         t80TVvuLimGb794UdrWiOy7mzoYijdA1/RV5uVItkeGDa7TKUAhP1ZPsBYu0dE6Uc5RI
-         wloO5fqvW1+8lx8050cqx/gpJuURq2W49w04ra0Nbc9SLaAlYsgU66vEdUlyzn3kvrDl
-         Eh9Fcj60DWW3b9jI3Y1qSdt2lb0zggNPaeH+koVPY8C/PVaKx6AIOu4u8Ve6g40Pp1+U
-         5OTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=UVK15i028mkx0jMpDy93kqL7jNl1F+KutZZLwGaGO80=;
-        b=fkoltFwCVx+dw+nJFEcejCdKLfZ9lSZyMmdRfIJfmjiKUOoLFiJmplFQv4K5jalZ9M
-         XKkeLyzSVLFLlju6dwkKL3mYXahomXMQsGyhoKl2RP6s6Ev8WPhyjK4CvLggGjeVzIFd
-         OaZZSOwbp3UGT9zKKPNfHgQHNtj6QvprtSXobEs+VjVUiZ2hQIEcQrhckgfY3gSJrKH8
-         WNjq5Xaqwoye7F+2g7jHH5+rfLuwHb+2NJxmEvhuc0HcOOu0ldT+bpehKA7hEhCSvrLc
-         iiYrhVK9L4zvqnsrJUI8G1w5x1cT6kDF4HNYoVx/5qwoTLhFTMrvDYP70Vxbh19oQbQr
-         qzCQ==
-X-Gm-Message-State: ANhLgQ2fDDMauAhePvoncmdy+tK7oQrVPSrGS2Kn2fTC+BmKEs0I+RaP
-        aBsDqFSo2FECy9LJiTQhYwqJ8zB1Md48ISGnvFez41Ju
-X-Google-Smtp-Source: ADFU+vvrTjRJAhD7aKWKIBES9XdTRJeSXRCB+0DdH2aQVrMCxPqgOw/bsGRDKE8GVKnrhAQIwquJP/XPFaeajb5G488=
-X-Received: by 2002:a92:96c6:: with SMTP id g189mr2199320ilh.276.1585367015881;
- Fri, 27 Mar 2020 20:43:35 -0700 (PDT)
+        id S1725800AbgC1HUh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 28 Mar 2020 03:20:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60126 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725372AbgC1HUg (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 28 Mar 2020 03:20:36 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2CF8520716;
+        Sat, 28 Mar 2020 07:20:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585380034;
+        bh=83z2KvWH31+Evr36F8PQM6p6cBOnviWjG9oMk4xuN3s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xC47s4ND2qKmfYws+k2HXqzYICSHf3VVf5zNuQ5SKbC7nPIgln3Gc8cVZOK92Y36M
+         pAC+F1o4enSsrpgjwILGs9fjAAoxF815GziC9SUFL85X6rO8/66lTqKct/4J5X6K85
+         IdHHpcQ3k1eBNWm2R2FPNeeaGHe5RAGEhWAfbWQ4=
+Date:   Sat, 28 Mar 2020 08:20:31 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Rajat Jain <rajatja@google.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>, rajatxjain@gmail.com
+Subject: Re: [PATCH] Input: input-event-codes.h: Update the deprecated license
+Message-ID: <20200328072031.GA3651219@kroah.com>
+References: <20200328004832.107247-1-rajatja@google.com>
 MIME-Version: 1.0
-References: <20200225161201.1975-1-git@andred.net> <20200225161201.1975-6-git@andred.net>
- <VI1PR0402MB3485A743C94442533B6840F298E70@VI1PR0402MB3485.eurprd04.prod.outlook.com>
-In-Reply-To: <VI1PR0402MB3485A743C94442533B6840F298E70@VI1PR0402MB3485.eurprd04.prod.outlook.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Fri, 27 Mar 2020 22:43:24 -0500
-Message-ID: <CAHCN7x+NJLaKF9SfHw9sDpw6zDUGs_TuD_co7USjQ5hgFDeaHg@mail.gmail.com>
-Subject: Re: [PATCH v2 6/6] Input: snvs_pwrkey - only IRQ_HANDLED for our own events
-To:     Horia Geanta <horia.geanta@nxp.com>
-Cc:     =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Anson Huang <anson.huang@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Robin Gong <yibin.gong@nxp.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200328004832.107247-1-rajatja@google.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Mar 2, 2020 at 3:22 AM Horia Geanta <horia.geanta@nxp.com> wrote:
->
-> On 2/25/2020 6:12 PM, Andr=C3=A9 Draszik wrote:
-> > The snvs_pwrkey shares the SNVS LPSR status register with the snvs_rtc.
-> >
-> > This driver here should only return IRQ_HANDLED if the status register
-> > indicates that the event we're handling in the irq handler was genuinel=
-y
-> > intended for this driver. Otheriwse the interrupt subsystem will
-> > assume the interrupt was handled successfully even though it wasn't
-> > at all.
-> >
-> > Signed-off-by: Andr=C3=A9 Draszik <git@andred.net>
-> > Cc: "Horia Geant=C4=83" <horia.geanta@nxp.com>
-> > Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
-> > Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> > Cc: "David S. Miller" <davem@davemloft.net>
-> > Cc: Rob Herring <robh+dt@kernel.org>
-> > Cc: Mark Rutland <mark.rutland@arm.com>
-> > Cc: Shawn Guo <shawnguo@kernel.org>
-> > Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> > Cc: Fabio Estevam <festevam@gmail.com>
-> > Cc: NXP Linux Team <linux-imx@nxp.com>
-> > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > Cc: Anson Huang <Anson.Huang@nxp.com>
-> > Cc: Robin Gong <yibin.gong@nxp.com>
-> > Cc: linux-crypto@vger.kernel.org
-> > Cc: devicetree@vger.kernel.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-input@vger.kernel.org
-> For patches 2-6:
-> Reviewed-by: Horia Geant=C4=83 <horia.geanta@nxp.com>
->
-> Also imx8mn.dtsi and imx8mp.dtsi will have to be updated.
+On Fri, Mar 27, 2020 at 05:48:32PM -0700, Rajat Jain wrote:
+> >From https://spdx.org/licenses/
+> 
+> "Release 3.0 replaced previous Identifiers for GNU licenses with more
+> explicit Identifiers to reflect the "this version only" or "any later
+> version" option specific to those licenses. As such, the previously used
+> Identifiers for those licenses are deprecated as of v3.0."
+> 
+> Replace the
+> /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> with
+> /* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+> 
+> Signed-off-by: Rajat Jain <rajatja@google.com>
 
-Is there an update coming for the 8mn family?  I am seeing it not wake
-from the power key, and I was hoping to resolve that before i make a
-push to submit a new 8MN board for review.
+If you like reading documentation for stuff like this, how about reading
+LICENSES/preferred/GPL-2.0 which shows that both examples are just fine
+and we are going to stick with that for now as we don't want to do a
+wholesale change at this point in time.
 
-thanks
+In other words, we do not follow the 3.0 version of the SPDX spec as we
+think it's pretty silly :)
 
-adam
->
-> Thanks,
-> Horia
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+thanks,
+
+greg k-h
