@@ -2,118 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C35E196EA7
-	for <lists+linux-input@lfdr.de>; Sun, 29 Mar 2020 19:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67DD5196F83
+	for <lists+linux-input@lfdr.de>; Sun, 29 Mar 2020 20:54:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727942AbgC2R0y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 Mar 2020 13:26:54 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:45499 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727933AbgC2R0y (ORCPT
+        id S1727330AbgC2Syh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 Mar 2020 14:54:37 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:38445 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726283AbgC2Syh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 Mar 2020 13:26:54 -0400
-Received: by mail-qt1-f194.google.com with SMTP id t17so13128070qtn.12;
-        Sun, 29 Mar 2020 10:26:53 -0700 (PDT)
+        Sun, 29 Mar 2020 14:54:37 -0400
+Received: by mail-lj1-f196.google.com with SMTP id w1so15611264ljh.5;
+        Sun, 29 Mar 2020 11:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=s2iN9tdQplNw0NFuuzYK7adJNl5ToyvPC/6CZtWwoQQ=;
-        b=IXCpujYHm07q8pOLq/RYBqi/Ks9wXvqRBvsgMO/W5UZFR6VpVPPDvh/QtdjbXVSlBK
-         yMyjEly3VCH3BETGX3aZ05WAn8phK455iZ2EQDtFbTkOH/+eV/nNG7G2gt81p+liZkMo
-         6dU4i6ertDBSbhhYXA3d/kZ2Whl8yA8/mdx/BxsCkSY1b9MGKSiLZWebLFOYBM9DcNNn
-         dYMhyXhi4ckxITSgoOcwslL1iZQ1A/g3ZtDNQE0fMM75Mdd/1noILASN1dfJLg4ex49B
-         ECzDPxgCt5DkWm1hkS8r8fihIVHg+TKpmFIcLflDsyYwBmLAgMRc1YzpR5QozkxZSlXP
-         FNLA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GYAAzBuKQAmuhTQi5C5YwP3g4YILwzAZnXWzrjURdgA=;
+        b=KwZrTONmO9AAzkVIy3lPGJF74pPun1ptwTKAhfFAfVbN8oLzBIqCJmwn+y1EanxmYA
+         Ewd+YWP5eumUUEa2FM2xe2toh8PTmLvR/tokOsHx69LpezfF1+PX0ZJbge9w0nlNKpuT
+         ERpaQdkya6A2z+T4XV0XhuVxOXvzzqv5v5BfzLr6piuJPdpjciPr3ZhfO2wCEUjBlZRo
+         W08jvHrxE0SDknXf/O85TfKP5v+NV8ILxzgqz0dkgO7W/X4fyUNlXwEj1KiqLnq2032s
+         7Ch9fkIu1RQjTMhz3uTMXNef3ijKT9yyOsA6aw380u+mNoLVn/VJR4C+GHsf2VMsFXJf
+         7zWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=s2iN9tdQplNw0NFuuzYK7adJNl5ToyvPC/6CZtWwoQQ=;
-        b=UR8ca+0JhLkI6LVhGa/KYNSpsBT2XQA12YALRdl+gQVYb60v35xguGWiTp/vwA0R8x
-         wTPi1gLbDb0GGn/Z8qqDcWZ+7nw4yDMl7pBiX2qQM/ulpKJR4Qi/0VMJ+urxqirRiZYJ
-         H1LL+wmInp8ACApTSxzx7/flESl94sHrByBTjMqzm76YdY1zXWuLqOLGZekBHP6Y4P3Q
-         FSv4F1R0bK24H+VhrTQGP1nctEnOJs90nz6GJbzsLZBDm1SGYzkH+vlxLfgC/MKK0LWP
-         gmsLQGFs7C+kaw/NnJ5syRFYIwoYVkmGokxdGuaC0Sp0I9Qn5+Cy3EKey3x1rOEaFcsT
-         e5cA==
-X-Gm-Message-State: ANhLgQ3RK7jyqWLIr1Q/dCJOk1lor5CZQu4MXbwKAUKJxYYrY7iC8E7T
-        +J/XCwymCkmWc79o9PnkFs8dG3oiYoj+SooJtU/t9pKItJcHZQ==
-X-Google-Smtp-Source: ADFU+vsh9+9ScBuosBEUYBQFHZuwsdI6sZzKepb86QJ+4ntpNZOJk9obCZKR3ijArHAYWMCmUg/KV7R23RO456cox6Y=
-X-Received: by 2002:aed:2314:: with SMTP id h20mr8497316qtc.184.1585502812997;
- Sun, 29 Mar 2020 10:26:52 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GYAAzBuKQAmuhTQi5C5YwP3g4YILwzAZnXWzrjURdgA=;
+        b=XATnmBLsfw4VTl9xuBhUZNI1BTCiAy6xImcQ6il6o4raylkU4QXcxZSmDySgdBiI5V
+         wxlfhiCVLJchh2ZFmeSGznd9RbUPwdfZubGJpc5rFhSwGK6RhVQiaucqfBoAhsx8/ZQM
+         Uq1KtRnA6MwuGylt5n6t9w+T92f4iSXKgNEgbYJ/VoYU1jRpeLjC6uQC1UIidqyFtLtn
+         pDMVpJxmjs3BL1MyzMs5LGQgh4seT5mt3sFI1dTic2paIXwOYUFVEKOeNQdmpcWfD9f7
+         niSYll4ZBA8oaqn4kJ7OwDI0bOYGj8JT7PpZg52IJClpTTvUKOPViZt/LBKJIlrhqkvI
+         IBHQ==
+X-Gm-Message-State: AGi0Pua82gbpvfIcxybTh2CeifiadgBw/0QR5wXtcuQDxETH4qC/OJqD
+        RvkyZPli+bh4+nxgAEeCi60=
+X-Google-Smtp-Source: APiQypKrQPO4lE2vznr1Ljbdbh8ryIoiXwwFanXMkSLlEFYXQCnOmGnEAclsrhnL2it1W1ig5DiD6g==
+X-Received: by 2002:a2e:a0d3:: with SMTP id f19mr5050777ljm.117.1585508075211;
+        Sun, 29 Mar 2020 11:54:35 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id n7sm6653891lfi.5.2020.03.29.11.54.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 29 Mar 2020 11:54:34 -0700 (PDT)
+Subject: Re: [PATCH v9 13/55] Input: atmel_mxt_ts - add regulator control
+ support
+To:     "Wang, Jiada" <jiada_wang@mentor.com>, nick@shmanahar.org,
+        dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, bsz@semihalf.com,
+        rydberg@bitmath.org
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
+References: <20200325133334.19346-1-jiada_wang@mentor.com>
+ <20200325133334.19346-14-jiada_wang@mentor.com>
+ <672615bc-adce-213f-9e44-864163c0a770@gmail.com>
+ <85a74259-6f52-34a0-af34-0217a088cc5b@mentor.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <20d8dbc3-ee0e-95e4-6d33-2ed10c0268c6@gmail.com>
+Date:   Sun, 29 Mar 2020 21:54:33 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200328004832.107247-1-rajatja@google.com> <20200328072031.GA3651219@kroah.com>
- <CAKdAkRQMnR1oKPnmwmj0OYg_DWBZyVbPE8McacwCeQFO2NzpRQ@mail.gmail.com> <20200329072432.GB3909421@kroah.com>
-In-Reply-To: <20200329072432.GB3909421@kroah.com>
-Reply-To: rajatxjain@gmail.com
-From:   Rajat Jain <rajatxjain@gmail.com>
-Date:   Sun, 29 Mar 2020 10:26:41 -0700
-Message-ID: <CAA93t1pt=qh+ppG5btbA4AvRCiMCS+LqMB-a6mSiYktmT1C+xA@mail.gmail.com>
-Subject: Re: [PATCH] Input: input-event-codes.h: Update the deprecated license
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rajat Jain <rajatja@google.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <85a74259-6f52-34a0-af34-0217a088cc5b@mentor.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Mar 29, 2020 at 12:24 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Sat, Mar 28, 2020 at 01:42:09PM -0700, Dmitry Torokhov wrote:
-> > Hi Greg,
-> >
-> > On Sat, Mar 28, 2020 at 12:20 AM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Fri, Mar 27, 2020 at 05:48:32PM -0700, Rajat Jain wrote:
-> > > > >From https://spdx.org/licenses/
-> > > >
-> > > > "Release 3.0 replaced previous Identifiers for GNU licenses with more
-> > > > explicit Identifiers to reflect the "this version only" or "any later
-> > > > version" option specific to those licenses. As such, the previously used
-> > > > Identifiers for those licenses are deprecated as of v3.0."
-> > > >
-> > > > Replace the
-> > > > /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > > > with
-> > > > /* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
-> > > >
-> > > > Signed-off-by: Rajat Jain <rajatja@google.com>
-> > >
-> > > If you like reading documentation for stuff like this, how about reading
-> > > LICENSES/preferred/GPL-2.0 which shows that both examples are just fine
-> > > and we are going to stick with that for now as we don't want to do a
-> > > wholesale change at this point in time.
-> > >
-> > > In other words, we do not follow the 3.0 version of the SPDX spec as we
-> > > think it's pretty silly :)
-> >
-> > coreboot however does follow SPDX 3.0 and would like to be able to
-> > consume this file without relaxing their license checks. I do not
-> > think we need wholesale update, but is there reason to not update this
-> > particular file? I am not following SPDX development, so that's why
-> > you got pulled in ;)
->
-> If you want to take this change because of sharing with other projects,
-> that's fine, but do not say that the reason you are making this change
-> is because it is somehow required by our use of SPDX and the updated
-> version.  Just say that you want to share it with other projects :)
+27.03.2020 14:09, Wang, Jiada пишет:
+> Hi Dmitry
+> 
+> On 2020/03/26 4:05, Dmitry Osipenko wrote:
+>> 25.03.2020 16:32, Jiada Wang пишет:
+>>> From: Nick Dyer <nick.dyer@itdev.co.uk>
+>>>
+>>> Allow the driver to optionally manage enabling/disable power to the
+>>> touch
+>>> controller itself. If the regulators are not present then use the deep
+>>> sleep power mode instead.
+>>>
+>>> For a correct power on sequence, it is required that we have control
+>>> over
+>>> the RESET line.
+>>
+>> ...
+>>> +    data->reg_vdd = devm_regulator_get(dev, "vdd");
+>>> +    if (IS_ERR(data->reg_vdd)) {
+>>> +        error = PTR_ERR(data->reg_vdd);
+>>> +        dev_err(dev, "Error %d getting vdd regulator\n", error);
+>>> +        goto fail;
+>>> +    }
+>>> +
+>>> +    data->reg_avdd = devm_regulator_get(dev, "avdd");
+>>> +    if (IS_ERR(data->reg_avdd)) {
+>>> +        error = PTR_ERR(data->reg_avdd);
+>>> +        dev_err(dev, "Error %d getting avdd regulator\n", error);
+>>> +        goto fail_release;
+>>> +    }
+>>
+>> Hello Jiada,
+>>
+>> The new regulator properties should be documented in the device-tree
+>> binding.
+>>
+> I will document new regulator properties in a separate commit in
+> v10 patch-set
 
-Thank you. Updated patch is here:
+Please make sure that all patches are added in a correct order and that
+they at least compile. This patch doesn't compile:
 
-https://patchwork.kernel.org/patch/11464109/
-
-Best Regards,
-
-Rajat
-
->
-> thanks,
->
-> greg k-h
+  CC      drivers/input/touchscreen/atmel_mxt_ts.o
+drivers/input/touchscreen/atmel_mxt_ts.c:34:10: fatal error:
+dt-bindings/input/atmel_mxt_ts.h: No such file or directory
+   34 | #include <dt-bindings/input/atmel_mxt_ts.h>
