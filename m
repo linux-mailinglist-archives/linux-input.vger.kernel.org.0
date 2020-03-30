@@ -2,96 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8731B19768B
-	for <lists+linux-input@lfdr.de>; Mon, 30 Mar 2020 10:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EC621977C8
+	for <lists+linux-input@lfdr.de>; Mon, 30 Mar 2020 11:23:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729662AbgC3Idy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Mar 2020 04:33:54 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:53923 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729661AbgC3Idx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Mar 2020 04:33:53 -0400
-Received: from envy ([87.123.107.212]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MHoAg-1jXf2D0Va2-00ErkA; Mon, 30
- Mar 2020 10:33:39 +0200
-Message-ID: <048ceb3ded2c8a4b7063b6ac1ad1605f569e9057.camel@richard-neumann.de>
-Subject: Re: [PATCH v4 2/4] SFH: PCI driver to add support of AMD sensor
- fusion Hub using HID framework
-From:   Richard Neumann <mail@richard-neumann.de>
-To:     Sandeep Singh <Sandeep.Singh@amd.com>
-Cc:     Shyam-sundar.S-k@amd.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, srinivas.pandruvada@linux.intel.com,
-        jic23@kernel.org, linux-iio@vger.kernel.org, hdegoede@redhat.com,
-        Nehal-bakulchandra.Shah@amd.com
-Date:   Mon, 30 Mar 2020 10:33:36 +0200
-In-Reply-To: <1582779537-25662-3-git-send-email-Sandeep.Singh@amd.com>
-References: <1582779537-25662-1-git-send-email-Sandeep.Singh@amd.com>
-         <1582779537-25662-3-git-send-email-Sandeep.Singh@amd.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-xu5K+B2HpkD7ANo/1hwE"
-User-Agent: Evolution 3.36.1 
+        id S1728243AbgC3JXH convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Mon, 30 Mar 2020 05:23:07 -0400
+Received: from mail.eclipso.de ([217.69.254.104]:46566 "EHLO mail.eclipso.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727841AbgC3JXH (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 30 Mar 2020 05:23:07 -0400
+Received: from mail.eclipso.de (www1.eclipso.de [217.69.254.102])
+        by mail.eclipso.de with ESMTP id 2C4F4B25
+        for <linux-input@vger.kernel.org>; Mon, 30 Mar 2020 11:23:05 +0200 (CEST)
+Date:   Mon, 30 Mar 2020 11:23:05 +0200
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:52KXuA9Wvi9SCX4EGMAd8VUk0U6to71d4Rv1xC3zOrH/eUBgM6d
- rubt419lNrvV64sQ8ADhqX8lLgUhLG5+reVBNdwqpXoiBmBhJy+VLlLzI3s7SA00A7a1G4g
- XRJP00bc1JFP1IzLvr9j2/AIaeRhJyAtx1QbPfbVDWKpg6iRSHOe2zhEl4LsiQo9pVKP3WJ
- Jl0E86KjVkfWtdgR08Rnw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UdRSUDvqg+E=:a4udqGZ7gYdKz1amxMLmrI
- In8dWEa5RVpMKM0Xqd/5SQqLUKZBVKjc4A5Zl9JxCUd26s0OMG65qUBhvKqjnB8ka8B9clKEt
- yJO/+RKkKEZL5emq2Qxu0XWJQIsXjrr6FM010e2nj/1oqi6HQgkD7EvywBecUf4h9oY6Pj1BG
- 34QNdbNTS263V220Lc/zBEKPw/Q3USrOSxyW335ONgID61xIc/W0GNHcHkwarpqzIpWH3F+jW
- dTSFBHYwu/w2eT3XzgcCUvm9D0Sp6c14h3N/BM9aP0BLSuATKMRSeRh6A9VUBlVto3uTtfEa2
- 8ITsLLSomYNO5z1vMYNf+16Ehg2U6K29cF3yXKIRbY0FqDMnIMt+fpIoG89sOHW5YCvSvjFvd
- yXInm4/6Xh49j6GmiKnLJXpKl1OcpmzK+JsSBFGhm1cAzocnVpSW8mTQihi04fZ5YNa8JM2tm
- GHRm93DwSQ5HQjS+Gb6j783luRs7oUbDEk1jrz8CP/hM/Zo+heNfb3kDAsHjrPV/8p/Pdu1nO
- cKXxT69KKhfnuxEcBhNcg8w3OjToHaJdFv5OWsjNUSv4/rgpQSMCtN4lR8Fjq3/IhACpb5kUU
- cyCQL2cJPjgqRZ7AKLupFy8whojN0dmq3hLigS6IuDJOQyc5csd8pw3z+ITAYO8Ras9kEdWKa
- TWhG33aue4juxx2HrjQ9bUX2gLMpbhyl1/Rp+KK9wQUikySwI6ICh84p8ll/dxoZYyyedg5wW
- THO29loPZZga3fm0/i8W2bwy5oCT193lvXX2hcnLyj5QFAJb55Y2i8rvIjGHbeiRi5Ft1nnVz
- o3EcBcjmnTjIt+A+uEhCn6nAmvV4rbpL4JIF04U4lE0cztzpltiCyrEx31MW0vsWRRw8Mds
+Message-ID: <57b81c3187f78f01e310ee0cde2f9bb7@mail.eclipso.de>
+X-Mailer: eclipso / 7.4.0
+From:   " " <denk@eclipso.email>
+Subject: Re: Error message on shutdown with psmouse.synaptics_intertouch=1 for
+        TM3145-006 (Thinkpad T470s)
+Reply-To: " " <denk@eclipso.email>
+To:     <linux-input@vger.kernel.org>
+In-Reply-To: <75c5157fc291c8ef97283cf366036e0f@mail.eclipso.de>
+References: <75c5157fc291c8ef97283cf366036e0f@mail.eclipso.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+Content-Disposition: inline
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi again,
 
---=-xu5K+B2HpkD7ANo/1hwE
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+as I didn't hear anything about my issue, I would like to ask again, if there is anything I can do that the error message doesn't appear anymore?
 
-I took some time testing the patch series on my HP ENVY x360 13-
-ag0005ng with a Ryzen 5 2500U.
-On my machine the readout of register AMD_P2C_MSG3 (0x1068C) always
-comes back as zero (0x0) and thusly activestatus will be zero as well.
-Consequently the bistmask (0x0) will not match any sensor types.
-I came up with a patch [1] on top of this patch series to add module
-parameters to be able to statically enable the different sensors.
-If I load the module with "force_accel=3D1" I get a working accelerometer
-HID device and working screen rotation through iio-sensor-proxy. This
-only works so far, if I boot the kernel with "amd_iommu=3Doff", which
-seems to be a general issue with this driver [2],[3].
-
-[1] https://gist.githubusercontent.com/conqp/e8a0793406fbe7c9714f01f3078ea3=
-3a/raw/ac2de743e68d1dd90430e57cb28df8c1dc5d1098/amd-sfh.patch
-[2] https://bbs.archlinux.org/viewtopic.php?id=3D253058
-[3] https://bbs.archlinux.org/viewtopic.php?id=3D252815
+Thank you very much and best
+denk
 
 
+--- Ursprüngliche Nachricht ---
+Von: " " <denk@eclipso.email>
+Datum: 28.02.2020 22:29:07
+An: <linux-input@vger.kernel.org>
+Betreff: Error message on shutdown with psmouse.synaptics_intertouch=1 for 	TM3145-006 (Thinkpad T470s)
 
---=-xu5K+B2HpkD7ANo/1hwE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+Hi,
 
------BEGIN PGP SIGNATURE-----
+in dmesg I found the following:
+psmouse serio1: synaptics: Your touchpad (PNP: LEN007a PNP0f13) says it can
+support a different bus. If i2c-hid and hid-rmi are not used, you might want
+to try setting psmouse.synaptics_intertouch to 1 and report this to linux-input@vger.kernel.org.
 
-iHUEABYIAB0WIQT62wKwhMqSt8WaustMqNUjvThq9wUCXoGu4AAKCRBMqNUjvThq
-90CcAP42tzB5p8epHWyLk2ibq8kfLGKbQECKP4upjJ7Y0q0llAEAvBpxLho8wZLp
-c57ghnyWscdAxbchldW7RQ4GVjX+DAs=
-=l8Eg
------END PGP SIGNATURE-----
 
---=-xu5K+B2HpkD7ANo/1hwE--
+After setting psmouse.synaptics_intertouch=1, touchpad and trackpoint still
+work fine. Also no problems with suspending my laptop.
+
+The only problem is the following error meesage on shutdown:
+rmi4_physical rmi4-00: Failed to read irqs, code=-6
+
+/proc/bus/input/devices:
+I: Bus=001d Vendor=06cb Product=0000 Version=0000
+N: Name="Synaptics TM3145-006"
+P: Phys=rmi4-00/input0
+S: Sysfs=/devices/rmi4-00/input/input26
+U: Uniq=
+H: Handlers=event18 mouse0 
+B: PROP=5
+B: EV=b
+B: KEY=e520 10000 0 0 0 0
+B: ABS=6f3800001000003
+
+I: Bus=0011 Vendor=0002 Product=000a Version=0000
+N: Name="TPPS/2 IBM TrackPoint"
+P: Phys=rmi4-00.fn03/serio0/input0
+S: Sysfs=/devices/rmi4-00/rmi4-00.fn03/serio2/input/input27
+U: Uniq=
+H: Handlers=event19 mouse1 
+B: PROP=21
+B: EV=7
+B: KEY=70000 0 0 0 0
+B: REL=3
+
+Is there anything I can do, that the error messsage doesn't appear anymore?
+Should I not use RMI?
+
+If you need further information, please ask.
+
+Best
+denk
+­
+
+---
+
+________________________________________________________
+Ihre E-Mail-Postfächer sicher & zentral an einem Ort. Jetzt wechseln
+und alte E-Mail-Adresse mitnehmen! https://www.eclipso.de
+
+
+---
+
+________________________________________________________
+Ihre E-Mail-Postfächer sicher & zentral an einem Ort. Jetzt wechseln und alte E-Mail-Adresse mitnehmen! https://www.eclipso.de
+
 
