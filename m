@@ -2,132 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BEE01974CE
-	for <lists+linux-input@lfdr.de>; Mon, 30 Mar 2020 09:02:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8731B19768B
+	for <lists+linux-input@lfdr.de>; Mon, 30 Mar 2020 10:33:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729344AbgC3HCn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Mar 2020 03:02:43 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:38753 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729067AbgC3HCn (ORCPT
+        id S1729662AbgC3Idy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Mar 2020 04:33:54 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:53923 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729661AbgC3Idx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Mar 2020 03:02:43 -0400
-Received: by mail-pl1-f195.google.com with SMTP id w3so6360618plz.5;
-        Mon, 30 Mar 2020 00:02:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=WSdIM68tHzXnLZUsgjyCMVOpl5rBtPh7gWtcNiSwSsk=;
-        b=QyasPbmmPxerMFArkA1gDdpKEP41IocDlkn9N7Jc+iF5d15WDnjeT283rEGTaE2ctJ
-         r/dZwD/O9knVv8XQnyUroAALQYsBYDAstv06HRCErgGsFIxdw97NOAP/JR+v1Y6hgSWw
-         QigDXiODhqBMco9nlVLVdPpiV3SubitgfXAf8Vql1A2F0yVJyvt9xDaf+WYpWB1aNEuq
-         MMl+1JhZXKWMNPX7hpv6uHV8t+uKD9q5/coDf9i1LyTUJvGUqquxMqi4ROJfWEsgjzIT
-         n0S5hkjoRVwP2n1LLNPyZk6jB4mY4DnYTgIjLV3thwdZ+OuVz3+OMo+hKwJRVUEH0Pm7
-         ymLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=WSdIM68tHzXnLZUsgjyCMVOpl5rBtPh7gWtcNiSwSsk=;
-        b=JzovIn57/i4DYu2V+kJCBchYa7ufeuaz8eiTSVqEspa1BpKQ/fbpg7AhFu7rXTLNsp
-         LdNzqjTDR6Z0k0A1qX+ScQmAhcwjgYMweqjPtxhCpTSeRnzF19Fi9RPWia/BQrgbS5WC
-         oaeVexRVCBgZxlU72+8Ppvg8FvmVMxNG5Uy2hdm6V4YqsblYvBpPeJTpqLhZdVpiN6Da
-         3rgne3bVe97Ezg7vTciwSE8O1NdTTSL7lYiLDwPxAXj7osTlECK5JrsCRXzxxpihfN7W
-         wCHR8yvZqRN/blhfZOBBQolSP/ana70ce3TqlGwveAC7BaGaclkywUYhzlJiaCQZSOX9
-         70Fg==
-X-Gm-Message-State: ANhLgQ1uhOhSIIq3cVi+lDYhJvDETnojRVERzawE9mYWou9L5iSskGfw
-        EH3uguXf6TfErjf6BIGsjII=
-X-Google-Smtp-Source: ADFU+vsD6jXFSfAjV+dy/g3D8rHYB80TTTxdHjXDxn+8JmS6ZIz0amKobPYbCB+UU/ax01VI6cMnHA==
-X-Received: by 2002:a17:902:ee93:: with SMTP id a19mr11574832pld.258.1585551762617;
-        Mon, 30 Mar 2020 00:02:42 -0700 (PDT)
-Received: from localhost.localdomain ([2401:e180:8810:336b:8876:e9fa:cdda:cda2])
-        by smtp.gmail.com with ESMTPSA id r14sm9566861pjj.48.2020.03.30.00.02.38
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 30 Mar 2020 00:02:42 -0700 (PDT)
-From:   Johnny Chuang <johnny.chuang.emc@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Rob Schonberger <robsc@google.com>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>
-Cc:     James Chen <james.chen@emc.com.tw>,
-        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
-        Paul Liang <paul.liang@emc.com.tw>,
-        Jeff Chuang <jeff.chuang@emc.com.tw>
-Subject: [PATCH v2] Input: elants_i2c - support palm detection
-Date:   Mon, 30 Mar 2020 15:02:36 +0800
-Message-Id: <1585551756-29066-1-git-send-email-johnny.chuang.emc@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        Mon, 30 Mar 2020 04:33:53 -0400
+Received: from envy ([87.123.107.212]) by mrelayeu.kundenserver.de (mreue011
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MHoAg-1jXf2D0Va2-00ErkA; Mon, 30
+ Mar 2020 10:33:39 +0200
+Message-ID: <048ceb3ded2c8a4b7063b6ac1ad1605f569e9057.camel@richard-neumann.de>
+Subject: Re: [PATCH v4 2/4] SFH: PCI driver to add support of AMD sensor
+ fusion Hub using HID framework
+From:   Richard Neumann <mail@richard-neumann.de>
+To:     Sandeep Singh <Sandeep.Singh@amd.com>
+Cc:     Shyam-sundar.S-k@amd.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, srinivas.pandruvada@linux.intel.com,
+        jic23@kernel.org, linux-iio@vger.kernel.org, hdegoede@redhat.com,
+        Nehal-bakulchandra.Shah@amd.com
+Date:   Mon, 30 Mar 2020 10:33:36 +0200
+In-Reply-To: <1582779537-25662-3-git-send-email-Sandeep.Singh@amd.com>
+References: <1582779537-25662-1-git-send-email-Sandeep.Singh@amd.com>
+         <1582779537-25662-3-git-send-email-Sandeep.Singh@amd.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-xu5K+B2HpkD7ANo/1hwE"
+User-Agent: Evolution 3.36.1 
+MIME-Version: 1.0
+X-Provags-ID: V03:K1:52KXuA9Wvi9SCX4EGMAd8VUk0U6to71d4Rv1xC3zOrH/eUBgM6d
+ rubt419lNrvV64sQ8ADhqX8lLgUhLG5+reVBNdwqpXoiBmBhJy+VLlLzI3s7SA00A7a1G4g
+ XRJP00bc1JFP1IzLvr9j2/AIaeRhJyAtx1QbPfbVDWKpg6iRSHOe2zhEl4LsiQo9pVKP3WJ
+ Jl0E86KjVkfWtdgR08Rnw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UdRSUDvqg+E=:a4udqGZ7gYdKz1amxMLmrI
+ In8dWEa5RVpMKM0Xqd/5SQqLUKZBVKjc4A5Zl9JxCUd26s0OMG65qUBhvKqjnB8ka8B9clKEt
+ yJO/+RKkKEZL5emq2Qxu0XWJQIsXjrr6FM010e2nj/1oqi6HQgkD7EvywBecUf4h9oY6Pj1BG
+ 34QNdbNTS263V220Lc/zBEKPw/Q3USrOSxyW335ONgID61xIc/W0GNHcHkwarpqzIpWH3F+jW
+ dTSFBHYwu/w2eT3XzgcCUvm9D0Sp6c14h3N/BM9aP0BLSuATKMRSeRh6A9VUBlVto3uTtfEa2
+ 8ITsLLSomYNO5z1vMYNf+16Ehg2U6K29cF3yXKIRbY0FqDMnIMt+fpIoG89sOHW5YCvSvjFvd
+ yXInm4/6Xh49j6GmiKnLJXpKl1OcpmzK+JsSBFGhm1cAzocnVpSW8mTQihi04fZ5YNa8JM2tm
+ GHRm93DwSQ5HQjS+Gb6j783luRs7oUbDEk1jrz8CP/hM/Zo+heNfb3kDAsHjrPV/8p/Pdu1nO
+ cKXxT69KKhfnuxEcBhNcg8w3OjToHaJdFv5OWsjNUSv4/rgpQSMCtN4lR8Fjq3/IhACpb5kUU
+ cyCQL2cJPjgqRZ7AKLupFy8whojN0dmq3hLigS6IuDJOQyc5csd8pw3z+ITAYO8Ras9kEdWKa
+ TWhG33aue4juxx2HrjQ9bUX2gLMpbhyl1/Rp+KK9wQUikySwI6ICh84p8ll/dxoZYyyedg5wW
+ THO29loPZZga3fm0/i8W2bwy5oCT193lvXX2hcnLyj5QFAJb55Y2i8rvIjGHbeiRi5Ft1nnVz
+ o3EcBcjmnTjIt+A+uEhCn6nAmvV4rbpL4JIF04U4lE0cztzpltiCyrEx31MW0vsWRRw8Mds
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Johnny Chuang <johnny.chuang@emc.com.tw>
 
-Elan define finger/palm detection on the least significant bit of byte 33.
-The default value is 1 for all firmwares, which report as MT_TOOL_FINGER.
-If firmware support palm detection, the bit will change to 0 and
-report as MT_TOOL_PALM when firmware detecting palm.
+--=-xu5K+B2HpkD7ANo/1hwE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Johnny Chuang <johnny.chuang@emc.com.tw>
----
-Changes in v2:
-	- Modify MT_TOOL_MAX to MT_TOOL_PALM
+I took some time testing the patch series on my HP ENVY x360 13-
+ag0005ng with a Ryzen 5 2500U.
+On my machine the readout of register AMD_P2C_MSG3 (0x1068C) always
+comes back as zero (0x0) and thusly activestatus will be zero as well.
+Consequently the bistmask (0x0) will not match any sensor types.
+I came up with a patch [1] on top of this patch series to add module
+parameters to be able to statically enable the different sensors.
+If I load the module with "force_accel=3D1" I get a working accelerometer
+HID device and working screen rotation through iio-sensor-proxy. This
+only works so far, if I boot the kernel with "amd_iommu=3Doff", which
+seems to be a general issue with this driver [2],[3].
 
- drivers/input/touchscreen/elants_i2c.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+[1] https://gist.githubusercontent.com/conqp/e8a0793406fbe7c9714f01f3078ea3=
+3a/raw/ac2de743e68d1dd90430e57cb28df8c1dc5d1098/amd-sfh.patch
+[2] https://bbs.archlinux.org/viewtopic.php?id=3D253058
+[3] https://bbs.archlinux.org/viewtopic.php?id=3D252815
 
-diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index 14c577c..93211fe 100644
---- a/drivers/input/touchscreen/elants_i2c.c
-+++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -73,6 +73,7 @@
- #define FW_POS_STATE		1
- #define FW_POS_TOTAL		2
- #define FW_POS_XY		3
-+#define FW_POS_TOOL_TYPE	33
- #define FW_POS_CHECKSUM		34
- #define FW_POS_WIDTH		35
- #define FW_POS_PRESSURE		45
-@@ -842,6 +843,7 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
- {
- 	struct input_dev *input = ts->input;
- 	unsigned int n_fingers;
-+	unsigned int tool_type;
- 	u16 finger_state;
- 	int i;
- 
-@@ -852,6 +854,12 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
- 	dev_dbg(&ts->client->dev,
- 		"n_fingers: %u, state: %04x\n",  n_fingers, finger_state);
- 
-+	/* Note: all fingers have the same tool type */
-+	if (buf[FW_POS_TOOL_TYPE] & 0x01)
-+		tool_type = MT_TOOL_FINGER;
-+	else
-+		tool_type = MT_TOOL_PALM;
-+
- 	for (i = 0; i < MAX_CONTACT_NUM && n_fingers; i++) {
- 		if (finger_state & 1) {
- 			unsigned int x, y, p, w;
-@@ -867,7 +875,7 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
- 				i, x, y, p, w);
- 
- 			input_mt_slot(input, i);
--			input_mt_report_slot_state(input, MT_TOOL_FINGER, true);
-+			input_mt_report_slot_state(input, tool_type, true);
- 			input_event(input, EV_ABS, ABS_MT_POSITION_X, x);
- 			input_event(input, EV_ABS, ABS_MT_POSITION_Y, y);
- 			input_event(input, EV_ABS, ABS_MT_PRESSURE, p);
-@@ -1307,6 +1315,7 @@ static int elants_i2c_probe(struct i2c_client *client,
- 	input_set_abs_params(ts->input, ABS_MT_POSITION_Y, 0, ts->y_max, 0, 0);
- 	input_set_abs_params(ts->input, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
- 	input_set_abs_params(ts->input, ABS_MT_PRESSURE, 0, 255, 0, 0);
-+	input_set_abs_params(ts->input, ABS_MT_TOOL_TYPE, 0, MT_TOOL_PALM, 0, 0);
- 	input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
- 	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
- 	input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, 1);
--- 
-2.7.4
+
+
+--=-xu5K+B2HpkD7ANo/1hwE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT62wKwhMqSt8WaustMqNUjvThq9wUCXoGu4AAKCRBMqNUjvThq
+90CcAP42tzB5p8epHWyLk2ibq8kfLGKbQECKP4upjJ7Y0q0llAEAvBpxLho8wZLp
+c57ghnyWscdAxbchldW7RQ4GVjX+DAs=
+=l8Eg
+-----END PGP SIGNATURE-----
+
+--=-xu5K+B2HpkD7ANo/1hwE--
 
