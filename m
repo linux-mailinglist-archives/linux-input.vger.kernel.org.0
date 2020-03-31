@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67CE719944A
-	for <lists+linux-input@lfdr.de>; Tue, 31 Mar 2020 12:55:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BBA519944C
+	for <lists+linux-input@lfdr.de>; Tue, 31 Mar 2020 12:55:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730748AbgCaKx4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 Mar 2020 06:53:56 -0400
+        id S1730943AbgCaKx7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 Mar 2020 06:53:59 -0400
 Received: from esa4.mentor.iphmx.com ([68.232.137.252]:43597 "EHLO
         esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730442AbgCaKxy (ORCPT
+        with ESMTP id S1730442AbgCaKx6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 Mar 2020 06:53:54 -0400
-IronPort-SDR: FI83d+LP6hQCVO7qeDjAtyqLRylOo0iZxrYFONzU18h1LGhmaQplFE3XNm37X1mpkJqvt5nli9
- gS+CRKsiLu/0FMxDsednGFADXt8IrSjvha+8+sQ3a/olLvttgsqMdGOjC05TclxGuuNoqdFY61
- IRzWk+PsvtQrZ1+z2Ft9qYeddI59LvtqIjevviIONGU4QY9vkJdi53yGvPnNzYJaaWWX9oRrhx
- y67agsZnn1PUqhIBzME8hQ6/Xf5+UhhGFTxu5e1blkc4KiJvsg1WmZMlE1vG4wEmClU25yHvy1
- gwU=
+        Tue, 31 Mar 2020 06:53:58 -0400
+IronPort-SDR: 7UFbKBYjs9UC4mGHRIwjuoCP+/tDSYVmeVkNCHuiFSxJqrf3sS+n4v16/KDWpLuBGou+l8Ljzh
+ eaBhKIK9IwytNpm0UHv3V6rhqRJhlNY1zBR5PTiLmRoGpPuL6TrsaBZFKFtCjcMQWZZt1FnSnN
+ muLzqmF0ahBwKUxY5KljdXAi/vaAdWD7xWXd9SptBl6NU0z7SovrEgRYSLANiPIF2/hTcwNhDE
+ EdcwUFsedSGFu1BC3ucroc8B4AjfeCUpOBcxVmlwYjwOP3VnZOzh2qV4Ib0R7/yurwg/Miuvqo
+ +Ig=
 X-IronPort-AV: E=Sophos;i="5.72,327,1580803200"; 
-   d="scan'208";a="47330846"
+   d="scan'208";a="47330848"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 31 Mar 2020 02:53:53 -0800
-IronPort-SDR: 9nLGWcYtbMcKIIL9wJ8C5xMlioyufVD/KUUOGX5rjnF/YBam1WnLR76VJJxlVTMSzARajY1kqb
- 5uoPI7prUwh1IphNNqK/uFWD5u4MJv/VSyrNObWXmGeVjRl9ZHoneaJIW3vhfy5iMiOf3Ifjr4
- Evk1leMshBBGptTupOi0j5GbCyYnjH9a63yVLsgAIOtPrymnE6omQDhcMMyjNnQ742yhg7JEFu
- Y7heyLgJatbMc05HedJ7RDpkxiYYbkKaxLvG2j3AO5ZoPNUyTxVxdiW1osCsELvT74YCqP+WTV
- f0k=
+  by esa4.mentor.iphmx.com with ESMTP; 31 Mar 2020 02:53:57 -0800
+IronPort-SDR: Pu2HhLCygRrU10jR/0iFFLx1jJcP0aD+lrJdMYzqzwbzkWqRfRoF3BqdlPO/+IWyF5nh3LpRFq
+ 1SCIqPh7SyB5MuUL+1MQ5AC7UxbvY46cEX2w53X6qEJ+R51DvbUl+GgRzh5UuMqOhWLxLOGDHi
+ q2/kTnnCjWwjap6/Q2NBubGBWZ+mNhfoGsLYC82GUMjjEVd6MIY6lmVegtEegMrkNX2Lp4lQvK
+ w/9+lq0pYvPaQr2WMYornqI+QasJOek8tVkoZSVTQVVS681+kHmBZhLgFCL3v8i+SkF1cNz5oL
+ zmk=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -33,9 +33,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v10 47/55] Input: Atmel: improve error handling in mxt_update_cfg()
-Date:   Tue, 31 Mar 2020 03:50:43 -0700
-Message-ID: <20200331105051.58896-48-jiada_wang@mentor.com>
+Subject: [PATCH v10 48/55] Input: Atmel: Improve error handling in mxt_initialize_input_device()
+Date:   Tue, 31 Mar 2020 03:50:44 -0700
+Message-ID: <20200331105051.58896-49-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200331105051.58896-1-jiada_wang@mentor.com>
 References: <20200331105051.58896-1-jiada_wang@mentor.com>
@@ -48,31 +48,53 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Deepak Das <deepak_das@mentor.com>
 
-mxt_update_cfg() failed to propagate the error
-code from mxt_init_t7_power_cfg() so return the error code.
+Currently Driver probe continues with a warning message when it
+fails to get the proper multitouch object configurations like
+TouchScreen resolution.
+
+But Driver probe should fail in case of above scneario because it
+will not behave as expected without the proper touchscreen
+configurations.
+
+This commit modifies mxt_initialize_input_device() to return error
+when it fails to get the proper touch screen configurations.
 
 Signed-off-by: Deepak Das <deepak_das@mentor.com>
+Signed-off-by: Dean Jenkins <Dean_Jenkins@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 258dcd8a68e5..069a532bd0b2 100644
+index 069a532bd0b2..ed357e958f07 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -2185,7 +2185,9 @@ static int mxt_update_cfg(struct mxt_data *data, const struct firmware *fw)
- 	dev_info(dev, "Config successfully updated\n");
+@@ -2761,15 +2761,19 @@ static int mxt_initialize_input_device(struct mxt_data *data)
+ 	case MXT_TOUCH_MULTI_T9:
+ 		num_mt_slots = data->T9_reportid_max - data->T9_reportid_min + 1;
+ 		error = mxt_read_t9_resolution(data);
+-		if (error)
+-			dev_warn(dev, "Failed to initialize T9 resolution\n");
++		if (error) {
++			dev_err(dev, "Failed to initialize T9 resolution\n");
++			return error;
++		}
+ 		break;
  
- 	/* T7 config may have changed */
--	mxt_init_t7_power_cfg(data);
-+	ret = mxt_init_t7_power_cfg(data);
-+	if (ret)
-+		dev_warn(dev, "Power Config failed to update\n");
+ 	case MXT_TOUCH_MULTITOUCHSCREEN_T100:
+ 		num_mt_slots = data->num_touchids;
+ 		error = mxt_read_t100_config(data);
+-		if (error)
+-			dev_warn(dev, "Failed to read T100 config\n");
++		if (error) {
++			dev_err(dev, "Failed to read T100 config\n");
++			return error;
++		}
+ 		break;
  
- release_mem:
- 	kfree(cfg.mem);
+ 	default:
 -- 
 2.17.1
 
