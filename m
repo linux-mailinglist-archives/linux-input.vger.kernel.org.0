@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DB98199460
+	by mail.lfdr.de (Postfix) with ESMTP id B7FF3199461
 	for <lists+linux-input@lfdr.de>; Tue, 31 Mar 2020 12:55:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730697AbgCaKyh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1730503AbgCaKyh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Tue, 31 Mar 2020 06:54:37 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:43589 "EHLO
+Received: from esa4.mentor.iphmx.com ([68.232.137.252]:43593 "EHLO
         esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730533AbgCaKwl (ORCPT
+        with ESMTP id S1730542AbgCaKwm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 Mar 2020 06:52:41 -0400
-IronPort-SDR: Jjfj1x3GLGu+OQoz8Otq97fQMTfka2E8LBBGP7RDfOlH996AmqMMRoFtzKYQ0rd/g+q8DwcrSL
- RROHHkbZip2f7wbjHehCfaAicY9oTrWscTDihi5EeVZVlPeMMwyle5nzYPjZC1W31+wpWNscrO
- MW00d5fcI0bf1MkqC/K0wID52H86xQrly7krDDU+W0Exi3S4Lj29EsdRKp8VuMG2Qn65eiXz4U
- 5etBn8Bzl3N87hybZXRc2Tw4KRj+H1qQB/fHMWYwSC2dgWn5CR8TPVsbjiMoyd1zUWZu5BeKSI
- bjs=
+        Tue, 31 Mar 2020 06:52:42 -0400
+IronPort-SDR: S8NJUt8s581pvwq5kezZeh92ad3uWGAlPi4Hk3aB1SsbeTQO0UP1wZqrer1oN/UQtAHxvRgcmf
+ vy5oW5PrVrna5KpklAI869xEsH91D3/60Kc4DKZj8OZyg08PqFqIwEZaFEAZ8vgdDR6QFxiOf1
+ RqXXN0MDFojcvoXalTxJsDXh4U5DwcSNg8dHW9Sko1IM7Uhrgf9Liu53Bwu7Zq0ihBycQ4hBD4
+ jKBGQvCJfAVeogOURWmJVvEpOu46hUdhnFzNd/SYeKhrEOYOuoiZSss0rQy9j2qrHP6KwSWLmm
+ JQY=
 X-IronPort-AV: E=Sophos;i="5.72,327,1580803200"; 
-   d="scan'208";a="47330784"
+   d="scan'208";a="47330785"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 31 Mar 2020 02:52:31 -0800
-IronPort-SDR: j/Kk1Nw1R3lZu8YgXxlXawA/OD1F2sSEVx4lCUfHw6nzLg117J81hgMySnG8goUhf29wfN4b+W
- 93zhcddnIFwsnbqYfD5rt7X77Frf0cB1fO3I9ul5NRcWCcZVqSe0tDzcBoPudUuBupe0Q/9zw5
- XeMRBgnb3dX2VP5q5bofSpD9SEhAtoevr1xfPNQA37128kY/tkNguwJ1Ayf64yWqIvK11mI0Qy
- LJDSz2sjs6JqcifzVAZ9AOKukH1Mfc1Mg7JrEKhh6rFrWfLqhHapvfaUd88XA4/eQMx2T1lg6b
- ZhE=
+  by esa4.mentor.iphmx.com with ESMTP; 31 Mar 2020 02:52:35 -0800
+IronPort-SDR: m7oDGqw6BZrIwhibDRC06KmwhLm6AVCl/CZ8dEfzuQMhJNROVXPe9v0u1M8oCCHE7E6/GxPQ/d
+ r6phIWVjIzaMeUcuksoTPS/ooh3ckXLZFHuGsAVCTC7EMrojRK/341+Epivsj8DHtTZ69XFX++
+ EWNuGzcDrLNdnDA1fXpt5gSG+k0lM3BkHrhFvUoJF0Uh3oN4wgedgLDOpU+bXn3Eoh56VfILN1
+ ZDtDmoqGP3ziZfoElk1oJD4uVXENxfzEkszFD6mGRSkT4r71LKAYr2acpERsVJkRaZxnIl2jh3
+ YRg=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -33,9 +33,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v10 25/55] Input: atmel_mxt_ts - refactor firmware flash to extract context into struct
-Date:   Tue, 31 Mar 2020 03:50:21 -0700
-Message-ID: <20200331105051.58896-26-jiada_wang@mentor.com>
+Subject: [PATCH v10 26/55] Input: atmel_mxt_ts - refactor code to enter bootloader into separate func
+Date:   Tue, 31 Mar 2020 03:50:22 -0700
+Message-ID: <20200331105051.58896-27-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200331105051.58896-1-jiada_wang@mentor.com>
 References: <20200331105051.58896-1-jiada_wang@mentor.com>
@@ -48,144 +48,100 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-Refactor firmware flash to extract context into struct
+Refactor code to enter bootloader into separate func
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-(cherry picked from ndyer/linux/for-upstream commit 1bbe20ff3dcd6612e7942c495929eae5c138ece2)
+(cherry picked from ndyer/linux/for-upstream commit bedd706a32522b946467e15f4f4f24de86a1b4d7)
+[gdavis: Resolve forward port conflicts due to applying upstream
+	 commit 96a938aa214e ("Input: atmel_mxt_ts - remove platform
+	 data support").]
 Signed-off-by: George G. Davis <george_davis@mentor.com>
-[jiada: Add commit description]
+[jiada: Squash change from ndyer/linux/for-upstream commit d691d3ee6c6de84b38464a42
+3207b3e23cb9dc3a
+	- Input: atmel_mxt_ts - check firmware format before entering bootloader
+	Add commit description]
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 59 +++++++++++++++---------
- 1 file changed, 36 insertions(+), 23 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 43 +++++++++++++++---------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 67931cf64629..2c4b68802bc3 100644
+index 2c4b68802bc3..11b2f133e6be 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -291,6 +291,22 @@ struct mxt_cfg {
- 	struct mxt_info info;
- };
- 
-+/* Firmware frame structure */
-+struct mxt_fw_frame {
-+	__be16 size;
-+	u8 data[];
-+};
-+
-+/* Firmware update context */
-+struct mxt_flash {
-+	const struct firmware *fw;
-+	struct mxt_fw_frame *frame;
-+	loff_t pos;
-+	size_t frame_size;
-+	unsigned int count;
-+	unsigned int retry;
-+};
-+
- /* Each client has this additional data */
- struct mxt_data {
- 	struct i2c_client *client;
-@@ -3244,21 +3260,17 @@ static int mxt_check_firmware_format(struct device *dev,
- static int mxt_load_fw(struct device *dev)
- {
- 	struct mxt_data *data = dev_get_drvdata(dev);
--	const struct firmware *fw = NULL;
--	unsigned int frame_size;
--	unsigned int pos = 0;
--	unsigned int retry = 0;
--	unsigned int frame = 0;
-+	struct mxt_flash f = { 0, };
- 	int ret;
- 
--	ret = request_firmware(&fw, data->fw_name, dev);
-+	ret = request_firmware(&f.fw, data->fw_name, dev);
- 	if (ret) {
- 		dev_err(dev, "Unable to open firmware %s\n", data->fw_name);
- 		return ret;
- 	}
- 
- 	/* Check for incorrect enc file */
--	ret = mxt_check_firmware_format(dev, fw);
-+	ret = mxt_check_firmware_format(dev, f.fw);
- 	if (ret)
- 		goto release_firmware;
- 
-@@ -3312,41 +3324,42 @@ static int mxt_load_fw(struct device *dev)
- 			goto disable_irq;
- 	}
- 
--	while (pos < fw->size) {
-+	while (f.pos < f.fw->size) {
-+		f.frame = (struct mxt_fw_frame *)(f.fw->data + f.pos);
-+
- 		ret = mxt_check_bootloader(data, MXT_WAITING_FRAME_DATA, true);
- 		if (ret)
- 			goto disable_irq;
- 
--		frame_size = ((*(fw->data + pos) << 8) | *(fw->data + pos + 1));
--
- 		/* Take account of CRC bytes */
--		frame_size += 2;
-+		f.frame_size = __be16_to_cpu(f.frame->size) + 2U;
- 
- 		/* Write one frame to device */
--		ret = mxt_bootloader_write(data, fw->data + pos, frame_size);
-+		ret = mxt_bootloader_write(data, f.fw->data + f.pos,
-+					   f.frame_size);
- 		if (ret)
- 			goto disable_irq;
- 
- 		ret = mxt_check_bootloader(data, MXT_FRAME_CRC_PASS, true);
- 		if (ret) {
--			retry++;
-+			f.retry++;
- 
- 			/* Back off by 20ms per retry */
--			msleep(retry * 20);
-+			msleep(f.retry * 20);
- 
--			if (retry > 20) {
-+			if (f.retry > 20) {
- 				dev_err(dev, "Retry count exceeded\n");
- 				goto disable_irq;
- 			}
- 		} else {
--			retry = 0;
--			pos += frame_size;
--			frame++;
-+			f.retry = 0;
-+			f.pos += f.frame_size;
-+			f.count++;
- 		}
- 
--		if (frame % 50 == 0)
--			dev_dbg(dev, "Sent %d frames, %d/%zd bytes\n",
--				frame, pos, fw->size);
-+		if (f.count % 50 == 0)
-+			dev_dbg(dev, "Sent %u frames, %lld/%zu bytes\n",
-+				f.count, f.pos, f.fw->size);
- 	}
- 
- 	/* Wait for flash. */
-@@ -3355,7 +3368,7 @@ static int mxt_load_fw(struct device *dev)
- 	if (ret)
- 		goto disable_irq;
- 
--	dev_dbg(dev, "Sent %d frames, %d bytes\n", frame, pos);
-+	dev_dbg(dev, "Sent %u frames, %lld bytes\n", f.count, f.pos);
- 
- 	/*
- 	 * Wait for device to reset. Some bootloader versions do not assert
-@@ -3369,7 +3382,7 @@ static int mxt_load_fw(struct device *dev)
- disable_irq:
- 	disable_irq(data->irq);
- release_firmware:
--	release_firmware(fw);
-+	release_firmware(f.fw);
- 	return ret;
+@@ -3257,23 +3257,10 @@ static int mxt_check_firmware_format(struct device *dev,
+ 	return -EINVAL;
  }
  
+-static int mxt_load_fw(struct device *dev)
++static int mxt_enter_bootloader(struct mxt_data *data)
+ {
+-	struct mxt_data *data = dev_get_drvdata(dev);
+-	struct mxt_flash f = { 0, };
+ 	int ret;
+ 
+-	ret = request_firmware(&f.fw, data->fw_name, dev);
+-	if (ret) {
+-		dev_err(dev, "Unable to open firmware %s\n", data->fw_name);
+-		return ret;
+-	}
+-
+-	/* Check for incorrect enc file */
+-	ret = mxt_check_firmware_format(dev, f.fw);
+-	if (ret)
+-		goto release_firmware;
+-
+ 	if (data->suspended) {
+ 		if (data->suspend_mode == MXT_SUSPEND_REGULATOR)
+ 			mxt_regulator_enable(data);
+@@ -3291,14 +3278,14 @@ static int mxt_load_fw(struct device *dev)
+ 		ret = mxt_t6_command(data, MXT_COMMAND_RESET,
+ 				     MXT_BOOT_VALUE, false);
+ 		if (ret)
+-			goto release_firmware;
++			return ret;
+ 
+ 		msleep(MXT_RESET_TIME);
+ 
+ 		/* Do not need to scan since we know family ID */
+ 		ret = mxt_lookup_bootloader_address(data, 0);
+ 		if (ret)
+-			goto release_firmware;
++			return ret;
+ 
+ 		mxt_sysfs_remove(data);
+ 		mxt_free_input_device(data);
+@@ -3309,6 +3296,30 @@ static int mxt_load_fw(struct device *dev)
+ 
+ 	reinit_completion(&data->bl_completion);
+ 
++	return 0;
++}
++
++static int mxt_load_fw(struct device *dev)
++{
++	struct mxt_data *data = dev_get_drvdata(dev);
++	struct mxt_flash f = { 0, };
++	int ret;
++
++	ret = request_firmware(&f.fw, data->fw_name, dev);
++	if (ret) {
++		dev_err(dev, "Unable to open firmware %s\n", data->fw_name);
++		return ret;
++	}
++
++	/* Check for incorrect enc file */
++	ret = mxt_check_firmware_format(dev, f.fw);
++	if (ret)
++		goto release_firmware;
++
++	ret = mxt_enter_bootloader(data);
++	if (ret)
++		goto release_firmware;
++
+ 	ret = mxt_check_bootloader(data, MXT_WAITING_BOOTLOAD_CMD, false);
+ 	if (ret) {
+ 		/* Bootloader may still be unlocked from previous attempt */
 -- 
 2.17.1
 
