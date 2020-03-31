@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B5BF199437
-	for <lists+linux-input@lfdr.de>; Tue, 31 Mar 2020 12:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6058C19943A
+	for <lists+linux-input@lfdr.de>; Tue, 31 Mar 2020 12:55:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730645AbgCaKxV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 Mar 2020 06:53:21 -0400
+        id S1730598AbgCaKxZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 Mar 2020 06:53:25 -0400
 Received: from esa4.mentor.iphmx.com ([68.232.137.252]:43597 "EHLO
         esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730598AbgCaKxU (ORCPT
+        with ESMTP id S1730426AbgCaKxY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 Mar 2020 06:53:20 -0400
-IronPort-SDR: MHBBYfaseZtE4A0L1dFpRXP8VRuCf+rSr8KVUlTQ7Er4BIMwbita81KnxXzD5AEJdPfpAldqOP
- 5QW8QXBarFrQB4PYjVvWQkPMMAFXizLEQVuXGoyN58MQxBbnnBJddLmdzrrqNI0DyOPFXcdESU
- 4bDZmqYqoKK9xuaBQrM+lTWMouV5Tb7NnwiOE01Xg9mWbRhMJjYpiOhGBmPRnfM1up9VhQ04BP
- R7uR2POSqPSXmPQTFVrHFy0Sil7p5kqV/ggFdkMcS4YGKZPpywd38U8BRs9OcjoOophe/dYlPB
- Pe8=
+        Tue, 31 Mar 2020 06:53:24 -0400
+IronPort-SDR: J8JX3sESXb7yNN3hda2C3tA4bpBqE/TK35rPiPHBtEYT3AFOKCKmbnqSeu8piSo2SIHPOnbLU4
+ avtGniSkqGFqtKSEwj7bumL4XQ2qtZUe4XyT85s15PY+Owv7gYnepOKK9/4aBXhg2gxRlPFqc7
+ +yDej5FKhC4u21Sb4b/kEaNM2mLKTUd/4CZTfxZYqqU2RsWGhhJ6YcaSQUlAKPvB8XekKjUFRu
+ c8ZERE6p9KQaL0AXY1D+NhF1nGKfIIf4aX1sE3eoT39XX9zjYpDWXOibVjPuCfY8OSagx1Q2S6
+ CbM=
 X-IronPort-AV: E=Sophos;i="5.72,327,1580803200"; 
-   d="scan'208";a="47330818"
+   d="scan'208";a="47330822"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 31 Mar 2020 02:53:20 -0800
-IronPort-SDR: hbJ35K90321e1qZKqCZeIqrAvJ3jNp9qATj24CTvxdzuhCmLgiFQmQG0JRSHGEak6eqevf5Xn+
- TK8PIeZmqEuosLYDcsvkEBxnn7o6KLOoiW9CXBGpv3XYu1G4Jlcrt4tcdHSlHtsSLMbbc7DOZE
- XybKvOm/WsWgmN8zTSznz+C8E6EdJAkIy8ZSR1hgFbZPYMgom1SodIkwFmOhqXhMrLSEeC7J5a
- /HC1YOO+rCIxend2QtxoLGmIxtBDW2WnslFBOxNtYRs1/V4SggthmBK+p6t+w+GluavTCZuTZQ
- NoM=
+  by esa4.mentor.iphmx.com with ESMTP; 31 Mar 2020 02:53:24 -0800
+IronPort-SDR: 42v7p3t7yIVCpzJt2ENQU1YFWZjoKthTSWkiKSxUGxeyd2bptu6jscayHqlGk6WR409rzV2c9k
+ k7n6RaJNTNHilXLfQjyRDxQnGXhhQvw+jRd8KmRo2xJY53DnsxvIYfSZr+OkCp/m4ZmbRPb+g3
+ Hv8GavJ2IbhtpkEIcmjFyWcoVz12qSCRGfV1KEN4vNcTZhI/qsWuEPzMabdBNdUkNUG8u4qu18
+ IGuRBe8lfUxxphNQMYx+3X7gaj84KafxdGLYxsQ9sJSQm4UAaNVVFzrRwrJzLmkGTE/cL2F2To
+ emE=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -33,9 +33,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v10 38/55] Input: atmel_mxt_ts - rely on calculated_crc rather than file config_crc
-Date:   Tue, 31 Mar 2020 03:50:34 -0700
-Message-ID: <20200331105051.58896-39-jiada_wang@mentor.com>
+Subject: [PATCH v10 39/55] input: atmel_mxt_ts: export GPIO reset line via sysfs
+Date:   Tue, 31 Mar 2020 03:50:35 -0700
+Message-ID: <20200331105051.58896-40-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200331105051.58896-1-jiada_wang@mentor.com>
 References: <20200331105051.58896-1-jiada_wang@mentor.com>
@@ -46,120 +46,67 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Kautuk Consul <kautuk_consul@mentor.com>
+From: "George G. Davis" <george_davis@mentor.com>
 
-We now prefer to rely on the calculated CRC and not on the CRC stored in
-the file.
+N.B. Modifying the atmel_mxt_ts GPIO reset line during operation will
+cause problems with normal driver operation.  This feature is provided
+as a diagnostic debug aid.  It does not take into consideration any
+pending operations which may be in progress.  Modifying the atmel_mxt_ts
+GPIO reset line at any time will inevitably cause the driver to fail.
 
-The new logic is as follows:
-1) stored CRC of file != calculated CRC of file, then refuse the possible
-   corrupted file
-2) calculated CRC of file != CRC of configuration in controller, then
-   update configuration in controller
-3) calculated CRC of file == CRC of configuration in controller, then
-   ignore configuration file
-
-Signed-off-by: Kautuk Consul <kautuk_consul@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
+Signed-off-by: Rajeev Kumar <rajeev_kumar@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 65 +++++++++++++-----------
- 1 file changed, 36 insertions(+), 29 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 860e8ddd4c6b..11e65f32b1a2 100644
+index 11e65f32b1a2..cfeeacdd4084 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -1905,7 +1905,7 @@ static int mxt_update_cfg(struct mxt_data *data, const struct firmware *fw)
- 	int ret;
- 	int offset;
- 	int i;
--	u32 info_crc, config_crc, calculated_crc;
-+	u32 info_crc, config_crc, calculated_crc = 0;
- 	u16 crc_start = 0;
- 
- 	/* Make zero terminated copy of the OBP_RAW file */
-@@ -1968,30 +1968,6 @@ static int mxt_update_cfg(struct mxt_data *data, const struct firmware *fw)
+@@ -4091,6 +4091,19 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 		return error;
  	}
- 	cfg.raw_pos += offset;
  
--	/*
--	 * The Info Block CRC is calculated over mxt_info and the object
--	 * table. If it does not match then we are trying to load the
--	 * configuration from a different chip or firmware version, so
--	 * the configuration CRC is invalid anyway.
--	 */
--	if (info_crc == data->info_crc) {
--		if (config_crc == 0 || data->config_crc == 0) {
--			dev_info(dev, "CRC zero, attempting to apply config\n");
--		} else if (config_crc == data->config_crc) {
--			dev_dbg(dev, "Config CRC 0x%06X: OK\n",
--				 data->config_crc);
--			ret = 0;
--			goto release_raw;
--		} else {
--			dev_info(dev, "Config CRC 0x%06X: does not match file 0x%06X\n",
--				 data->config_crc, config_crc);
--		}
--	} else {
--		dev_warn(dev,
--			 "Warning: Info CRC error - device=0x%06X file=0x%06X\n",
--			 data->info_crc, info_crc);
--	}
--
- 	/* Malloc memory to store configuration */
- 	cfg.start_ofs = MXT_OBJECT_START +
- 			data->info->object_num * sizeof(struct mxt_object) +
-@@ -2015,14 +1991,45 @@ static int mxt_update_cfg(struct mxt_data *data, const struct firmware *fw)
- 	else
- 		dev_warn(dev, "Could not find CRC start\n");
- 
--	if (crc_start > cfg.start_ofs) {
-+	if (crc_start > cfg.start_ofs)
- 		calculated_crc = mxt_calculate_crc(cfg.mem,
- 						   crc_start - cfg.start_ofs,
- 						   cfg.mem_size);
- 
--		if (config_crc > 0 && config_crc != calculated_crc)
--			dev_warn(dev, "Config CRC in file inconsistent, calculated=%06X, file=%06X\n",
--				 calculated_crc, config_crc);
-+	/* If the CRC stored in the file is not the same as what
-+	 * was calculated by mxt_calculate_crc, this means we
-+	 * have to refuse the config file and abort download.
-+	 */
-+	if (config_crc != calculated_crc) {
-+		dev_warn(dev,
-+			 "Config CRC in file inconsistent, calculated=%06X, file=%06X\n",
-+			 calculated_crc, config_crc);
-+		ret = 0;
-+		goto release_mem;
++	if (data->reset_gpio) {
++		error = gpiod_export(data->reset_gpio, 0);
++		if (error)
++			return error;
++
++		error = gpiod_export_link(&client->dev, "reset",
++					  data->reset_gpio);
++		if (error) {
++			gpiod_unexport(data->reset_gpio);
++			return error;
++		}
 +	}
 +
-+	/*
-+	 * The Info Block CRC is calculated over mxt_info and the object
-+	 * table. If it does not match then we are trying to load the
-+	 * configuration from a different chip or firmware version, so
-+	 * the configuration CRC is invalid anyway.
-+	 */
-+	if (info_crc == data->info_crc) {
-+		if (config_crc == 0 || data->config_crc == 0) {
-+			dev_info(dev, "CRC zero, attempting to apply config\n");
-+		} else if (config_crc == data->config_crc) {
-+			dev_dbg(dev, "Config CRC 0x%06X: OK\n",
-+				data->config_crc);
-+			ret = 0;
-+			goto release_mem;
-+		} else {
-+			dev_info(dev, "Config CRC 0x%06X: does not match file 0x%06X\n",
-+				 data->config_crc, config_crc);
-+		}
-+	} else {
-+		dev_warn(dev,
-+			 "Warning: Info CRC error - device=0x%06X file=0x%06X\n",
-+			 data->info_crc, info_crc);
- 	}
+ 	if (data->suspend_mode == MXT_SUSPEND_REGULATOR) {
+ 		error = mxt_acquire_irq(data);
+ 		if (error)
+@@ -4123,6 +4136,10 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ err_free_object:
+ 	mxt_free_input_device(data);
+ 	mxt_free_object_table(data);
++	if (data->reset_gpio) {
++		sysfs_remove_link(&client->dev.kobj, "reset");
++		gpiod_unexport(data->reset_gpio);
++	}
+ 	return error;
+ }
  
- 	ret = mxt_upload_cfg_mem(data, &cfg);
+@@ -4132,6 +4149,10 @@ static int mxt_remove(struct i2c_client *client)
+ 
+ 	disable_irq(data->irq);
+ 	sysfs_remove_group(&client->dev.kobj, &mxt_fw_attr_group);
++	if (data->reset_gpio) {
++		sysfs_remove_link(&client->dev.kobj, "reset");
++		gpiod_unexport(data->reset_gpio);
++	}
+ 	mxt_debug_msg_remove(data);
+ 	mxt_sysfs_remove(data);
+ 	mxt_free_input_device(data);
 -- 
 2.17.1
 
