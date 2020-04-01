@@ -2,65 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DCB419AEF6
-	for <lists+linux-input@lfdr.de>; Wed,  1 Apr 2020 17:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 458D319AF49
+	for <lists+linux-input@lfdr.de>; Wed,  1 Apr 2020 18:04:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733008AbgDAPmh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Apr 2020 11:42:37 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:34752 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732849AbgDAPmh (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Apr 2020 11:42:37 -0400
-Received: by mail-lf1-f66.google.com with SMTP id e7so83571lfq.1;
-        Wed, 01 Apr 2020 08:42:36 -0700 (PDT)
+        id S1727541AbgDAQEp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Apr 2020 12:04:45 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:42052 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732605AbgDAQEo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Apr 2020 12:04:44 -0400
+Received: by mail-lf1-f67.google.com with SMTP id s13so98139lfb.9;
+        Wed, 01 Apr 2020 09:04:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=rwYmNt1B+2fK1+Xh2NPinOO5KUe4mhrRIznaib/EfMg=;
-        b=Y3Js6eXF9aPtBwKRx4CF6yoG7XPUvxIs1onRHVSg2ANldL7UJE5IgbRr/vWaAtSr1l
-         2NL5pOcIti8aOu3RtivgNlx30kppI6qB0/lTgRzKGAVZKXdsi/td9AKeImyzJhHOi220
-         BoaE7DsemJF71eYQs5K4jVv0B21GZIlvgItUCjAEzIqQxmUzEA56sEG6mF9FKZCGFIaP
-         8FTjqVQxLSJmAeTvu43DS2RrxenRI+tYjMTm6jRlqYzhnMNGIyR86CxDz+5Xzle868Hz
-         QO3DkERjnL4MuusotxoL4ZN3qCw+bxN0otaIkHe4eoqxxPWuN8VkNjvEYUrKoy/udSTX
-         DX1g==
+        bh=iWNS7KHFyQ5bu6U8NMaMjkVtL1KiyZGuoLdbDiyhEvM=;
+        b=tn0ISNgF98ws96k/2OHGrVRl8eUWsYbFOx42rO9b/fIzZP3QuhqIpUcSpz3FQo5Mmj
+         IabfzgwkA9Iacz2BrVM4Bg0tbJqT5kgtdqJynXyemmpOWU5lG8VL7jMJzpTPrlyadhZX
+         lJ7ndQFYVbYpvvPxh1a3pBORKBijIpygx5NG+OohDj6A0OnWOVbqGH0lqu5ygo3up8Es
+         HVNW/DPnZAv4zP+IzOgTucjiBDpJXwNOfK2582XBHGGLYe6NitAldOXx32qiS9wPzaOV
+         PeASkLkgkmTwhBc1ThcmUl+VdQ53w1aJerFOTq1snCLOedDhi1+P/ZEHTqfNSCojAkIF
+         ncAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=rwYmNt1B+2fK1+Xh2NPinOO5KUe4mhrRIznaib/EfMg=;
-        b=VfESvvWcngloYOeXtDk9gKGp3Y7+ICqUqtMxQhOxjcj7edz7oMDjDRESsn+CmqDmT5
-         tpeiHPp8+Kz37ZV+zf88Qi7f8uRZDS0nqUZCrOGb+/yTDaaDux2CIlk8pk7hw9UtJzj3
-         ijKEaneZtP/N1hDp5Za2XAuZaIoFWF8xsYsiwat6+yVlU2SdMvbwLA5fiRVBkS8iAPWH
-         v9UgDeTtYV5CNRszMM9iD27nZusc/xIaVw9I/TOFIRRcIAdDKJV8McRms5M/0Fy/w151
-         3ofB/4rmeQTw32XJc0QzmqwcBae2KCZoRloqCLBW2Crgc1/BeBKRaG4FriMG1lyRmK+u
-         yDhQ==
-X-Gm-Message-State: AGi0PuYvGkD48U0QC4qAbsN4XdSU6xPHcowHHQkguIHfU3Z4sP5sRqJa
-        C2G8fdcewXe6v1Tj0xVCz7wIiM+h
-X-Google-Smtp-Source: APiQypLe+ML5z/4pDUursC0w5UC6wEdRQL6lOHiqGJx2G3SbCb4Wu7EjiUrvWFtEl3G2xu7jSdfdJA==
-X-Received: by 2002:ac2:4987:: with SMTP id f7mr15374978lfl.207.1585755755150;
-        Wed, 01 Apr 2020 08:42:35 -0700 (PDT)
+        bh=iWNS7KHFyQ5bu6U8NMaMjkVtL1KiyZGuoLdbDiyhEvM=;
+        b=b/WLyO5DtjJH4UqyjzN2Htz1k9LFR/HPKsyQWOK382HyMTn+PZbP7E1boVB9I7YnSf
+         kidhRH0CSAO+KNeQA/5BiL5yqdldY5ISquN9y4mNRLlzm6K/N2tSJC85FsWmj2BDBrmr
+         hQyevSMmLqXYJll3cMomtFf6jg1M8b4lX+dIzoCPDKHTO74ZzkoufBPAT4ZjQ5ZdE+Fn
+         T/+Y2/ZfCIhNCOXuyAM8ZvK4+Xh12ryECtMXj9eR6kD3C+NKXrMkuRRYHyLaGvAjCZkA
+         WdHdM9WvCkOmcwRy0R+teeasdkE6Yy+D6SI0PnYo5Ft8AMD5wDj8K+hfAQpHtGtOB5m3
+         mUWg==
+X-Gm-Message-State: AGi0PubpFLyKXurBWESeYuGNHiDTxyzn2LOGEFKBj9lAnWx1wO5SYDkw
+        aA9eF+sHxEEhAH86/pj7s2w=
+X-Google-Smtp-Source: APiQypJU1YqCB9vJfCLpdFLUNS5UY3yUTkwDgqWyE/X6+1zGYi8cVwDX5cWNow77G/IfuQWoFhoH6w==
+X-Received: by 2002:ac2:414f:: with SMTP id c15mr10444547lfi.2.1585757080432;
+        Wed, 01 Apr 2020 09:04:40 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id y20sm1508225ljy.100.2020.04.01.08.42.33
+        by smtp.googlemail.com with ESMTPSA id b28sm1638162ljp.90.2020.04.01.09.04.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Apr 2020 08:42:34 -0700 (PDT)
-Subject: Re: [PATCH v10 13/55] dt-bindings: input: atmel: add suspend mode
- support
+        Wed, 01 Apr 2020 09:04:39 -0700 (PDT)
+Subject: Re: [PATCH v10 54/55] Input: atmel_mxt_ts: Implement synchronization
+ during various operation
 To:     Jiada Wang <jiada_wang@mentor.com>, nick@shmanahar.org,
         dmitry.torokhov@gmail.com, jikos@kernel.org,
         benjamin.tissoires@redhat.com, bsz@semihalf.com
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
 References: <20200331105051.58896-1-jiada_wang@mentor.com>
- <20200331105051.58896-14-jiada_wang@mentor.com>
+ <20200331105051.58896-55-jiada_wang@mentor.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <dd09ab5d-4e33-7ca0-9dfe-80be1cee307f@gmail.com>
-Date:   Wed, 1 Apr 2020 18:42:33 +0300
+Message-ID: <c53637ef-8e5d-3243-7236-5da360021f21@gmail.com>
+Date:   Wed, 1 Apr 2020 19:04:38 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200331105051.58896-14-jiada_wang@mentor.com>
+In-Reply-To: <20200331105051.58896-55-jiada_wang@mentor.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -70,42 +70,37 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 31.03.2020 13:50, Jiada Wang пишет:
-> Add suspend mode support for atmel touchscreen driver
+> From: Sanjeev Chugh <sanjeev_chugh@mentor.com>
 > 
-> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
-> ---
->  .../bindings/input/atmel,maxtouch.txt         |  9 ++++++++
->  MAINTAINERS                                   |  1 +
->  include/dt-bindings/input/atmel_mxt_ts.h      | 23 +++++++++++++++++++
->  3 files changed, 33 insertions(+)
->  create mode 100644 include/dt-bindings/input/atmel_mxt_ts.h
+> There could be scope of race conditions when sysfs is being handled
+> and at the same time, device removal is occurring. For example,
+> we don't want the device removal to begin if the Atmel device
+> cfg update is going on or firmware update is going on. In such
+> cases, wait for device update to be completed before the removal
+> continues.
 > 
-> diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-> index c88919480d37..0307e7f7bb43 100644
-> --- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-> +++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-> @@ -31,6 +31,15 @@ Optional properties for main touchpad device:
->  
->  - reset-gpios: GPIO specifier for the touchscreen's reset pin (active low)
->  
-> +- atmel,suspend-mode: Select method used to suspend:
-> +    MXT_SUSPEND_DEEP_SLEEP - use T7 to suspend the device into deep sleep
-> +    MXT_SUSPEND_T9_CTRL - use T9.CTRL to turn off touch processing
-> +    MXT_SUSPEND_REGULATOR - use regulators to power down device during suspend
-> +    Definitions are in <dt-bindings/input/atmel_mxt_ts.h>.
-> +
-> +- vdd: Required supply regulator when MXT_SUSPEND_REGULATOR is used to suspend
-> +- avdd: Required supply regulator when MXT_SUSPEND_REGULATOR is used to suspend
+>     Thread                                          Thread 2:
+> =========================                       =========================
+> mxt_update_fw_store()                           mxt_remove()
+> mutex_lock(&data->lock)                         ...
+> mxt_initialize()                                //Tries to acquire lock
+>   request_firmware_nowait()                     mutex_lock(&data->lock)
+> ...                                             ==>waits for lock()
+> ...                                             .
+> ...                                             .
+> mutex_unlock(&data->lock)                       .
+>                                                 //Gets lock and proceeds
+>                                                 mxt_free_input_device();
+>                                                 ...
+>                                                 mutex_unlock(&data->lock)
+>                                                 //Frees atmel driver data
+>                                                 kfree(data)
+> 
+> If the request_firmware_nowait() completes after the driver removal,
+> and callback is triggered. But kernel crashes since the module is
+> already removed.
+> 
+> This commit adds state machine to serialize such scenarios.
 
-Some of NVIDIA Tegra devices have a VDD regulator in a form of GPIO,
-which is turned off by default at a boot time, and thus, the
-power-regulator needs to be enabled by the driver at a probe time in
-order to power-up the touchscreen.
-
-I think the VDD/AVDD description isn't correct because these are the
-essential power regulators, they aren't used only for the suspending.
-
-What about something more generic, like this:
-
-- vdd: phandle to Power supply regulator
-- avdd: phandle to Analog Power supply regulator
+Won't it be easier to bump driver's module use-count by __module_get()
+while firmware is updating? Or remove sysfs during of mxt_remove()?
