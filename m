@@ -2,156 +2,235 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22B7E19A80E
-	for <lists+linux-input@lfdr.de>; Wed,  1 Apr 2020 10:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98C3B19A867
+	for <lists+linux-input@lfdr.de>; Wed,  1 Apr 2020 11:14:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730333AbgDAI7D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Apr 2020 04:59:03 -0400
-Received: from mail-eopbgr60088.outbound.protection.outlook.com ([40.107.6.88]:25664
-        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727322AbgDAI7C (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 1 Apr 2020 04:59:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AwxntRDI7TxZM+zpsLTtSepxEf2ahUXXNizTr2V8Nd+vKnU0HRtgGjlDCS8Xntz43a/VKRYb4Qd889zR3v0LysTCQr+yYseIcW/K6ze6xe1y57gloKfg/TdWpJNXEFVvgsXsjIFNDvdowC65iCGOcnVO11VUp2+PXSNHxUFUVxPI4M109ZUh+BkpBWOKi5gsBcwXrfNhK+ZyW4tEDTc3XyjeoN3PMz8gNFuEiHkxKU0D1o3C3LwRzQBkHTw0J9tG+dP02o+4mrb470MUPpKqVRRlnHTlMtcQac+eqG+B+56chxKw03y/K8DJZJ44O11tpD7sRfuCCUl2yKLaNuf5mA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4dCXclmoe09oER1oJZd9I98HtlHBLiKLFEkdikmAuAY=;
- b=j3uBsamZDODSovvhELaCNYw+XFEINiBMMFiCvx9xEhcyfkyNBQWz3I+57MfTN6k6I0tcNrmddyOvNZpgK06I4V5jNWwsNb6VFuUqE7FqXUeUOlRnlEAVAR84ekL2N6GWIn4MzFMHcoPUIq2uTc6+R33V7f7aZyM9YXCHrzgtyhYLVpS38SSSGaW5f+R0DEI6kLQhqUE8ZBKtmqQyCfVT/F9yzaSgRgKzXyGxWLQBDs+GA1gwOHQia/GiDBdiUmzY1Eww+1XNWodjNBKCZbQTziTSbKm2H0JtDjStKowFz5Z7ZBQCFFn/JvFG44k9BDIh0qYmXyakrvIlAy5W/NWRZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4dCXclmoe09oER1oJZd9I98HtlHBLiKLFEkdikmAuAY=;
- b=QjJ6X4icK3kWqTAe992Ein8yi2zz+nKyXEwTl8kW7DIBeQaFyYm6HKuEXzJiIUXelFNWvX5ap7zSXm8E221gDMQDoHh7aKcn+vQ2rJtgMzwOl+U+Kz2JBfvNhT9GKVPdpolr98Relu17ppw6xAJXZJKA/W/myq4fhgRL4wAyebM=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=horia.geanta@nxp.com; 
-Received: from VI1PR0402MB3485.eurprd04.prod.outlook.com (52.134.3.153) by
- VI1PR0402MB3759.eurprd04.prod.outlook.com (52.134.15.153) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2856.19; Wed, 1 Apr 2020 08:58:54 +0000
-Received: from VI1PR0402MB3485.eurprd04.prod.outlook.com
- ([fe80::751e:7e8d:ed4:ef5f]) by VI1PR0402MB3485.eurprd04.prod.outlook.com
- ([fe80::751e:7e8d:ed4:ef5f%7]) with mapi id 15.20.2856.019; Wed, 1 Apr 2020
- 08:58:54 +0000
-Subject: Re: [PATCH v2 6/6] Input: snvs_pwrkey - only IRQ_HANDLED for our own
- events
-To:     Adam Ford <aford173@gmail.com>
-Cc:     =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Anson Huang <anson.huang@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Robin Gong <yibin.gong@nxp.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>
-References: <20200225161201.1975-1-git@andred.net>
- <20200225161201.1975-6-git@andred.net>
- <VI1PR0402MB3485A743C94442533B6840F298E70@VI1PR0402MB3485.eurprd04.prod.outlook.com>
- <CAHCN7x+NJLaKF9SfHw9sDpw6zDUGs_TuD_co7USjQ5hgFDeaHg@mail.gmail.com>
-From:   =?UTF-8?Q?Horia_Geant=c4=83?= <horia.geanta@nxp.com>
-Message-ID: <fd36d0ae-f3fa-6608-9179-3e7562068433@nxp.com>
-Date:   Wed, 1 Apr 2020 11:58:49 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+        id S1731749AbgDAJOp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Apr 2020 05:14:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36291 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1732144AbgDAJOp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Apr 2020 05:14:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1585732483;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ugq2TewUyGkRW2qdlfdUeSEMakmbDn/jzzPpfeVRSog=;
+        b=FaHXFjwmGkUCyNJxwg8DiqIuVw0i0oSLWfF0NInr+KGTAQKce5qvj35o7U9NLyCFneONVX
+        bt+tp3krmEP5vvM3YxHIkb4IsJ0x3CpYuhDqgoQ3uAR5n5sfrBNlsnAJTFG90zLQ2fCBQ9
+        fSWurGvrjk4U0sYf+j2Q5h2tgSvNyGw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-kuGbK3ZVPCalxwp1vuw_9w-1; Wed, 01 Apr 2020 05:14:39 -0400
+X-MC-Unique: kuGbK3ZVPCalxwp1vuw_9w-1
+Received: by mail-wm1-f69.google.com with SMTP id s15so1567537wmc.0
+        for <linux-input@vger.kernel.org>; Wed, 01 Apr 2020 02:14:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Ugq2TewUyGkRW2qdlfdUeSEMakmbDn/jzzPpfeVRSog=;
+        b=LtJoxZFke/OX8Mmb0ImehgAmTDOJSlHldIo2WZK+JzLLzYYAq3Tbm3rIIUf6Ji3sXM
+         z+mmPVjZV5gQpz79rig8HNhys9E20zpMdik4o29mkThtDgBlfQLvndg1/zxBks+0rnf7
+         mwAv9B2ZitlsywyCBI/khuczNISDHT45exzZ0C6nFmoIyZaVSHQJj3PcL3HMGxoIotVi
+         7L2oxHPLbmGbioN4kact8rNA39/H6AvNIsvr5x6HTkAfv77hfPrKdu5P600djDwbE2wf
+         +F4b2X553h4Za1NqLbdZK8F8iYlyYuSvIZ0RvxmD/U2OfvGcFhgUnHYTPdi3YqdfKQXs
+         8y+g==
+X-Gm-Message-State: ANhLgQ1Wo9hmDCAXv582DLe9UHX8MwKJgVLXC+y5sTTekbC+HmN4WvGZ
+        2kIyVk5FhfxuM/piqZ/dlTrkYzAva5gcKIWjphFtrGkC0d0Ih0seOm7MlUDFJed68cOXzeft2V5
+        NW1DC0QyewezYBTG30SPAx6I=
+X-Received: by 2002:a05:6000:11c2:: with SMTP id i2mr26612189wrx.210.1585732478445;
+        Wed, 01 Apr 2020 02:14:38 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vttUPVcDqVfcFbjMs5QHV4hISzCY3RRlcAnCeSjbJ4j/YhSCWGueVI3UVnRNs8/js1FlskuWg==
+X-Received: by 2002:a05:6000:11c2:: with SMTP id i2mr26612173wrx.210.1585732478218;
+        Wed, 01 Apr 2020 02:14:38 -0700 (PDT)
+Received: from x1-7.localdomain (2001-1c00-0c0c-fe00-fc7e-fd47-85c1-1ab3.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:fc7e:fd47:85c1:1ab3])
+        by smtp.gmail.com with ESMTPSA id b82sm959681wme.25.2020.04.01.02.14.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Apr 2020 02:14:37 -0700 (PDT)
+Subject: Re: [PATCH v2] Input: goodix - Fix compilation when ACPI support is
+ disabled
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org,
+        kbuild test robot <lkp@intel.com>
+References: <20200325150246.128463-1-hdegoede@redhat.com>
+ <20200401014529.GL75430@dtor-ws>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <939fa592-599c-35cf-908e-d0b29639c992@redhat.com>
+Date:   Wed, 1 Apr 2020 11:14:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
-In-Reply-To: <CAHCN7x+NJLaKF9SfHw9sDpw6zDUGs_TuD_co7USjQ5hgFDeaHg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM0PR05CA0074.eurprd05.prod.outlook.com
- (2603:10a6:208:136::14) To VI1PR0402MB3485.eurprd04.prod.outlook.com
- (2603:10a6:803:7::25)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.0.129] (84.117.251.185) by AM0PR05CA0074.eurprd05.prod.outlook.com (2603:10a6:208:136::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2856.20 via Frontend Transport; Wed, 1 Apr 2020 08:58:51 +0000
-X-Originating-IP: [84.117.251.185]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 27305df6-7ca2-470a-24c1-08d7d61ae760
-X-MS-TrafficTypeDiagnostic: VI1PR0402MB3759:|VI1PR0402MB3759:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0402MB37592A16063B44B016E8B46598C90@VI1PR0402MB3759.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:635;
-X-Forefront-PRVS: 03607C04F0
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0402MB3485.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(376002)(396003)(39860400002)(346002)(366004)(136003)(4326008)(186003)(16526019)(8936002)(81156014)(6486002)(26005)(31696002)(86362001)(53546011)(478600001)(6916009)(66946007)(66476007)(66556008)(31686004)(16576012)(7416002)(81166006)(2906002)(36756003)(316002)(52116002)(5660300002)(2616005)(54906003)(8676002)(956004);DIR:OUT;SFP:1101;
-Received-SPF: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JO6pIwXd0qdU6IzMGQtsgDwesKM3UxUCOLdQe0xqgbRIdr+sEEs6w5y1hVgVqJecOq9sGsQSK5BWyPaSMLu1tTWHdGsGcVtDJnKg8CTBloPmAI/ujln1edKRWFHfyjX857H+1EvPHqMazBuM5dfviu4KYMGmefLR8xcl3LUl9qxDc4eeyJ8Hzgazhz7ap+IljkyfNPU1wrsyQv+JCzhKfiA78KEvkMpnACgadIZln2yqG1dM68cS4BarUA9kgWCGy1rp4fvGPB3TwUtEArmCdRiZGfW/b/lqj8pK+Eorrc281O+Txi2jU20uYPtvu7T30/3gSnBvznP28lKpzfhTyiXrSgMN+gm0bCS3fN3flgFrGKTwR/+nPWCbbEpER4nrEoXd4VT2WGdCKzitaWOJtmf4jTWTANKYZJ2Qsg9Jn2dQICITmhA+rZCMysv1q5l4
-X-MS-Exchange-AntiSpam-MessageData: fLfHbKW1xRbXVWKiTgFwa051hZJdfQ/fS0B8G+MqeGYa8W4MzN19imQnmb2g0rjCcnnEAydQmixvPQ5HwuaHZYlEnSjThnJE660FbYoBca5VzN1BVVZGWToy9pXb71tut5ZsHpN05MQ5g++rtZ10eg==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27305df6-7ca2-470a-24c1-08d7d61ae760
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2020 08:58:54.0053
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ROF+O8SaSxI/sFxwpD/QQWEHUmCECmlzsMKk5O+AXdhIVFlDbULwLLKIRB/ku5tuE+r7NJtkxu/BdKOSIPhLnw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3759
+In-Reply-To: <20200401014529.GL75430@dtor-ws>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 3/28/2020 5:43 AM, Adam Ford wrote:
-> On Mon, Mar 2, 2020 at 3:22 AM Horia Geanta <horia.geanta@nxp.com> wrote:
->>
->> On 2/25/2020 6:12 PM, André Draszik wrote:
->>> The snvs_pwrkey shares the SNVS LPSR status register with the snvs_rtc.
->>>
->>> This driver here should only return IRQ_HANDLED if the status register
->>> indicates that the event we're handling in the irq handler was genuinely
->>> intended for this driver. Otheriwse the interrupt subsystem will
->>> assume the interrupt was handled successfully even though it wasn't
->>> at all.
->>>
->>> Signed-off-by: André Draszik <git@andred.net>
->>> Cc: "Horia Geantă" <horia.geanta@nxp.com>
->>> Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
->>> Cc: Herbert Xu <herbert@gondor.apana.org.au>
->>> Cc: "David S. Miller" <davem@davemloft.net>
->>> Cc: Rob Herring <robh+dt@kernel.org>
->>> Cc: Mark Rutland <mark.rutland@arm.com>
->>> Cc: Shawn Guo <shawnguo@kernel.org>
->>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
->>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
->>> Cc: Fabio Estevam <festevam@gmail.com>
->>> Cc: NXP Linux Team <linux-imx@nxp.com>
->>> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
->>> Cc: Anson Huang <Anson.Huang@nxp.com>
->>> Cc: Robin Gong <yibin.gong@nxp.com>
->>> Cc: linux-crypto@vger.kernel.org
->>> Cc: devicetree@vger.kernel.org
->>> Cc: linux-arm-kernel@lists.infradead.org
->>> Cc: linux-input@vger.kernel.org
->> For patches 2-6:
->> Reviewed-by: Horia Geantă <horia.geanta@nxp.com>
->>
->> Also imx8mn.dtsi and imx8mp.dtsi will have to be updated.
-> 
-> Is there an update coming for the 8mn family?  I am seeing it not wake
-> from the power key, and I was hoping to resolve that before i make a
-> push to submit a new 8MN board for review.
-> 
-Starting with linux-next next-20200320, there's commit
-arm64: dts: imx8mn: Add snvs clock to powerkey
+Hi,
 
-Could you confirm you've tested with a tree including it?
+On 4/1/20 3:45 AM, Dmitry Torokhov wrote:
+> Hi Hans,
+> 
+> On Wed, Mar 25, 2020 at 04:02:46PM +0100, Hans de Goede wrote:
+>> acpi_evaluate_object() and acpi_execute_simple_method() are not part of
+>> the group of ACPI related functions which get stubbed by
+>> include/linux/acpi.h when ACPI support is disabled, so the
+>> IRQ_PIN_ACCESS_ACPI_METHOD handling code must be disabled through
+>> an #ifdef when ACPI support is not enabled.
+>>
+>> For consistency also #ifdef out the IRQ_PIN_ACCESS_ACPI_GPIO code
+>> and use the same #if condition as which is used to replace
+>> goodix_add_acpi_gpio_mappings with a stub.
+> 
+> I am not big fun of multiple #ifdefs sprinkled through the code, can we
+> do more straightforward stubs, like below?
 
-Thanks,
-Horia
+The solution you suggested is fine with me.
+
+Regards,
+
+Hans
+
+
+p.s.
+
+For reference here is Dmitry's solution once again, manually copied
+because my email client cut it of as being part of the signature:
+
+
+Input: goodix - fix compilation when ACPI support is disabled
+
+From: Hans de Goede <hdegoede@redhat.com>
+
+acpi_evaluate_object() and acpi_execute_simple_method() are not part of
+the group of ACPI related functions which get stubbed by
+include/linux/acpi.h when ACPI support is disabled, so the
+IRQ_PIN_ACCESS_ACPI_METHOD handling code must be stubbed out.
+
+For consistency use the same #if condition as which is used to replace
+goodix_add_acpi_gpio_mappings with a stub.
+
+Fixes: c5fca485320e ("Input: goodix - add support for controlling the IRQ pin through ACPI methods")
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+[dtor: stubbed out the ACPI method accessors]
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+  drivers/input/touchscreen/goodix.c |   55 +++++++++++++++++++++++++++---------
+  1 file changed, 42 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index 47f812b804c8..02c75ea385e0 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -63,6 +63,11 @@
+  #define MAX_CONTACTS_LOC	5
+  #define TRIGGER_LOC		6
+
++/* Our special handling for GPIO accesses through ACPI is x86 specific */
++#if defined CONFIG_X86 && defined CONFIG_ACPI
++#define ACPI_GPIO_SUPPORT
++#endif
++
+  struct goodix_ts_data;
+
+  enum goodix_irq_pin_access_method {
+@@ -600,12 +605,42 @@ static int goodix_send_cfg(struct goodix_ts_data *ts, const u8 *cfg, int len)
+  	return 0;
+  }
+
+-static int goodix_irq_direction_output(struct goodix_ts_data *ts,
+-				       int value)
++#ifdef ACPI_GPIO_SUPPORT
++static int goodix_pin_acpi_direction_input(struct goodix_ts_data *ts)
+  {
+-	struct device *dev = &ts->client->dev;
++	acpi_handle handle = ACPI_HANDLE(&ts->client->dev);
+  	acpi_status status;
+
++	status = acpi_evaluate_object(handle, "INTI", NULL, NULL);
++	return ACPI_SUCCESS(status) ? 0 : -EIO;
++}
++
++static int goodix_pin_acpi_output_method(struct goodix_ts_data *ts, int value)
++{
++	acpi_handle handle = ACPI_HANDLE(&ts->client->dev);
++	acpi_status status;
++
++	status = acpi_execute_simple_method(handle, "INTO", value);
++	return ACPI_SUCCESS(status) ? 0 : -EIO;
++}
++#else
++static int goodix_pin_acpi_direction_input(struct goodix_ts_data *ts)
++{
++	dev_err(&ts->client->dev,
++		"%s called on device without ACPI support\n", __func__);
++	return -EINVAL;
++}
++
++static int goodix_pin_acpi_output_method(struct goodix_ts_data *ts, int value)
++{
++	dev_err(&ts->client->dev,
++		"%s called on device without ACPI support\n", __func__);
++	return -EINVAL;
++}
++#endif
++
++static int goodix_irq_direction_output(struct goodix_ts_data *ts, int value)
++{
+  	switch (ts->irq_pin_access_method) {
+  	case IRQ_PIN_ACCESS_NONE:
+  		dev_err(&ts->client->dev,
+@@ -621,9 +656,7 @@ static int goodix_irq_direction_output(struct goodix_ts_data *ts,
+  		 */
+  		return gpiod_direction_output_raw(ts->gpiod_int, value);
+  	case IRQ_PIN_ACCESS_ACPI_METHOD:
+-		status = acpi_execute_simple_method(ACPI_HANDLE(dev),
+-						    "INTO", value);
+-		return ACPI_SUCCESS(status) ? 0 : -EIO;
++		return goodix_pin_acpi_output_method(ts, value);
+  	}
+
+  	return -EINVAL; /* Never reached */
+@@ -631,9 +664,6 @@ static int goodix_irq_direction_output(struct goodix_ts_data *ts,
+
+  static int goodix_irq_direction_input(struct goodix_ts_data *ts)
+  {
+-	struct device *dev = &ts->client->dev;
+-	acpi_status status;
+-
+  	switch (ts->irq_pin_access_method) {
+  	case IRQ_PIN_ACCESS_NONE:
+  		dev_err(&ts->client->dev,
+@@ -641,12 +671,11 @@ static int goodix_irq_direction_input(struct goodix_ts_data *ts)
+  			__func__);
+  		return -EINVAL;
+  	case IRQ_PIN_ACCESS_GPIO:
++		return gpiod_direction_input(ts->gpiod_int);
+  	case IRQ_PIN_ACCESS_ACPI_GPIO:
+  		return gpiod_direction_input(ts->gpiod_int);
+  	case IRQ_PIN_ACCESS_ACPI_METHOD:
+-		status = acpi_evaluate_object(ACPI_HANDLE(dev), "INTI",
+-					      NULL, NULL);
+-		return ACPI_SUCCESS(status) ? 0 : -EIO;
++		return goodix_pin_acpi_direction_input(ts);
+  	}
+
+  	return -EINVAL; /* Never reached */
+@@ -710,7 +739,7 @@ static int goodix_reset(struct goodix_ts_data *ts)
+  	return 0;
+  }
+
+-#if defined CONFIG_X86 && defined CONFIG_ACPI
++#ifdef ACPI_GPIO_SUPPORT
+  #include <asm/cpu_device_id.h>
+  #include <asm/intel-family.h>
+
+
