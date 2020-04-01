@@ -2,112 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FADC19B6E9
-	for <lists+linux-input@lfdr.de>; Wed,  1 Apr 2020 22:23:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F39DC19B783
+	for <lists+linux-input@lfdr.de>; Wed,  1 Apr 2020 23:23:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732441AbgDAUXm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Apr 2020 16:23:42 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:35874 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732385AbgDAUXm (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Apr 2020 16:23:42 -0400
-Received: by mail-pl1-f193.google.com with SMTP id g2so437597plo.3
-        for <linux-input@vger.kernel.org>; Wed, 01 Apr 2020 13:23:41 -0700 (PDT)
+        id S1732527AbgDAVXq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Apr 2020 17:23:46 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:45843 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732357AbgDAVXp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Apr 2020 17:23:45 -0400
+Received: by mail-pf1-f195.google.com with SMTP id r14so636229pfl.12;
+        Wed, 01 Apr 2020 14:23:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=J9jFxg4FOKBKyPijq3ZWQk//durFqhEYIb9+ZwygHKM=;
-        b=b6tvnUleB5bF/SgtAXanDQP2fdUbOWc6WzlA8/6GDwiFXBRtYkelmqcXdg4k8RbDnl
-         smR+qoKML8p9Tr5eUMdwiAkrgP0n5AjeI0w7iGxDmpaFTRHL1P5ItA/QStzfvMd3GVt1
-         h+aiAKKZqt6yhTE+7jagSuI3flWZlyQxcAe+xOrzJ8unUq8NmEo2Rr9jh4rhxFFU9qHp
-         aeTNZ65IfvrinoifoIsUG1DHC/wpw8m50eWeHge5AbYBDECbWTcssy7gByPBtdLayXyX
-         +TWFEOvBUsT3wpHqdru8PzD/7Kpq/ij4d0I195WzOGJOT7E//PNAqgOdCifLD8j3LKPM
-         z4mQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v+JmNVKhpnerqtyi8mBy4La3n5Q5nQ3lqyIBr7pcIx4=;
+        b=DaIyeavSuZ3yeST1QJt+2grBgJE89cwmZD9nAzYS5dDOAWaKpd0G2bgYi3sfcfui4x
+         wXt1SbGHJUZ4SoL4GDgp4qg8PLp/SxcWma6vcVSTVDT3rPqWsHUV4/0Hnuw8c2VARzZY
+         5tPbvDwG9SiN4UIifdGWCzi0nDC4M6w8Fs3yJKpQ3IpaBaVY4zzPzLu0XWNPFLQcJk39
+         P45VrIKmyfDSOSTc3wInoYGQllIN3a2f0c+C+EeyAAD10ejZVEyjPtKa/7tAFrFkzN1X
+         P3+/vXIKInn/6kkbRoVjZGYToSLN+OSULw6BrnHiRwuw3fn+PJ+HAnWW3S0oHxdgSwOt
+         tT8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=J9jFxg4FOKBKyPijq3ZWQk//durFqhEYIb9+ZwygHKM=;
-        b=NVnW4WzIfjXP3RDDp4NUqzcfkJWiqa85TaKeq5y+oYa/I7DRf1qBxNrEQjsmoB5A78
-         WQZelR9mVABppV30zN6DmiXKwP0X2EUzkZSpsOG2327DZAq/airbdPL0OqFjAVWaFt0w
-         TkCfPUmhn/tC1SUaPpJoMDO41bJP/69mwvYLbjrQmoO0PtZ3QhSijg2XcRuC/s/azTTY
-         +2/8n4v+2pjwlZjpkDMBORFKeujP1qAhVaFt57Wgi4jUnzlvKECQ0ifIgvDMXomYi5wf
-         X9JY21KHFkkwRMIlufIsb3rrad1HF03awyZR5XNuBL0Oj5/oxv+d25Ge/6qcIvXUxgEg
-         1EJw==
-X-Gm-Message-State: AGi0PuYTAlOnsHExEq72fGviBe18AdEdeV4tSctQIICYOEBk5jwbj+l7
-        6ifk3vA9LedZFkPbUrXIyK0=
-X-Google-Smtp-Source: APiQypLLxPwhsutTutJqg5dGtnVcZ2Rbgs6bJWvtDX9aC89WmMGUG6wH9Unu8QD3PsPvh0J5mgq6/g==
-X-Received: by 2002:a17:90a:be18:: with SMTP id a24mr6590728pjs.92.1585772620526;
-        Wed, 01 Apr 2020 13:23:40 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id ck3sm2260869pjb.44.2020.04.01.13.23.39
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v+JmNVKhpnerqtyi8mBy4La3n5Q5nQ3lqyIBr7pcIx4=;
+        b=nIE1RuO08k1qFVBocMn4EAwHLbDZdBp11qkwnH/zunrs1LnZYtGhoToI0UB5tMGHLU
+         ZLiQtOR4yCnFTWcIN0P9p/HENdeQj7OJ1CpZYd/zgdDNlj2sX8F3dO4RbHKEzLSS7kxO
+         oaq4STMkqxYKHcBvL169tOZ9mhjLuf/257xQGsMHuvha5lO7fWtbTUgMTqkyGwmsU1eK
+         H8MOl0+SjRVtqHzySUaSns9OSu8p47StPVAn106j0zLDW0UhrKqNUl553iPYNoALVlhl
+         MRNZbl9jDiYyMNfjrWAAqYyEhni88iFfEIKRbKSkOewRxnbkYibZt7hUqhNQ09+K8bEf
+         H8Zw==
+X-Gm-Message-State: ANhLgQ2HMSWslPKaRMPCCdXl91+2FF3JRePKfeuz/gskVKvF+LXmtAJP
+        +SlUxTVQENg82ERWmxNKB/W0mnSWaVM=
+X-Google-Smtp-Source: ADFU+vu+sVOiXb4CvKrhT7PgdHLFsAyVecItHB5St0Uol3GMKRq+Fp7LN6fSJ9trHkYVcpzC75PKng==
+X-Received: by 2002:a62:a116:: with SMTP id b22mr26097681pff.122.1585776224556;
+        Wed, 01 Apr 2020 14:23:44 -0700 (PDT)
+Received: from US-191-ENG0002.lan (75-164-222-94.ptld.qwest.net. [75.164.222.94])
+        by smtp.gmail.com with ESMTPSA id q22sm2248522pfn.22.2020.04.01.14.23.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2020 13:23:40 -0700 (PDT)
-Date:   Wed, 1 Apr 2020 13:23:38 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: i8042 - add Acer Aspire 5738z to nomux list
-Message-ID: <20200401202338.GM75430@dtor-ws>
-References: <20200331123947.318908-1-hdegoede@redhat.com>
+        Wed, 01 Apr 2020 14:23:43 -0700 (PDT)
+From:   "Gerecke, Jason" <killertofu@gmail.com>
+X-Google-Original-From: "Gerecke, Jason" <jason.gerecke@wacom.com>
+To:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Aaron Armstrong Skomra <aaron.skomra@wacom.com>,
+        stable@vger.kernel.org
+Subject: [PATCH] HID: wacom: Read HID_DG_CONTACTMAX directly for non-generic devices
+Date:   Wed,  1 Apr 2020 14:23:29 -0700
+Message-Id: <20200401212329.23305-1-jason.gerecke@wacom.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200331123947.318908-1-hdegoede@redhat.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Mar 31, 2020 at 02:39:47PM +0200, Hans de Goede wrote:
-> The Acer Aspire 5738z has a button to disable (and re-enable) the
-> touchpad next to the touchpad.
-> 
-> When this button is pressed a LED underneath indicates that the touchpad
-> is disabled (and an event is send to userspace and GNOME shows its
-> touchpad enabled / disable OSD thingie).
-> 
-> So far so good, but after re-enabling the touchpad it no longer works.
-> 
-> The laptop does not have an external ps2 port, so mux mode is not needed
-> and disabling mux mode fixes the touchpad no longer working after toggling
-> it off and back on again, so lets add this laptop model to the nomux list.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+From: Jason Gerecke <jason.gerecke@wacom.com>
 
-Applied, thank you. Also marked for stable.
+We've recently switched from extracting the value of HID_DG_CONTACTMAX
+at a fixed offset (which may not be correct for all tablets) to
+injecting the report into the driver for the generic codepath to handle.
+Unfortunately, this change was made for *all* tablets, even those which
+aren't generic. Because `wacom_wac_report` ignores reports from non-
+generic devices, the contact count never gets initialized. Ultimately
+this results in the touch device itself failing to probe, and thus the
+loss of touch input.
 
-> ---
->  drivers/input/serio/i8042-x86ia64io.h | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-> index dc974c288e88..08e919dbeb5d 100644
-> --- a/drivers/input/serio/i8042-x86ia64io.h
-> +++ b/drivers/input/serio/i8042-x86ia64io.h
-> @@ -530,6 +530,17 @@ static const struct dmi_system_id __initconst i8042_dmi_nomux_table[] = {
->  			DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo LaVie Z"),
->  		},
->  	},
-> +	{
-> +		/*
-> +		 * Acer Aspire 5738z
-> +		 * Touchpad stops working in mux mode when dis- + re-enabled
-> +		 * with the touchpad enable/disable toggle hotkey
-> +		 */
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5738"),
-> +		},
-> +	},
->  	{ }
->  };
->  
-> -- 
-> 2.26.0
-> 
+This commit adds back the fixed-offset extraction for non-generic devices.
 
+Ref: https://github.com/linuxwacom/input-wacom/issues/155
+Fixes: 184eccd40389 ("HID: wacom: generic: read HID_DG_CONTACTMAX from any feature report")
+Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+Reviewed-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
+CC: stable@vger.kernel.org # 5.3+
+---
+ drivers/hid/wacom_sys.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+index 5ded94b7bf68..cd71e7133944 100644
+--- a/drivers/hid/wacom_sys.c
++++ b/drivers/hid/wacom_sys.c
+@@ -319,9 +319,11 @@ static void wacom_feature_mapping(struct hid_device *hdev,
+ 			data[0] = field->report->id;
+ 			ret = wacom_get_report(hdev, HID_FEATURE_REPORT,
+ 					       data, n, WAC_CMD_RETRIES);
+-			if (ret == n) {
++			if (ret == n && features->type == HID_GENERIC) {
+ 				ret = hid_report_raw_event(hdev,
+ 					HID_FEATURE_REPORT, data, n, 0);
++			} else if (ret == 2 && features->type != HID_GENERIC) {
++				features->touch_max = data[1];
+ 			} else {
+ 				features->touch_max = 16;
+ 				hid_warn(hdev, "wacom_feature_mapping: "
 -- 
-Dmitry
+2.26.0
+
