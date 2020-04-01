@@ -2,87 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E90E019B6B1
-	for <lists+linux-input@lfdr.de>; Wed,  1 Apr 2020 22:02:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FADC19B6E9
+	for <lists+linux-input@lfdr.de>; Wed,  1 Apr 2020 22:23:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732645AbgDAUCR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Apr 2020 16:02:17 -0400
-Received: from mail-ed1-f41.google.com ([209.85.208.41]:42436 "EHLO
-        mail-ed1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732385AbgDAUCQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Apr 2020 16:02:16 -0400
-Received: by mail-ed1-f41.google.com with SMTP id cw6so1373927edb.9
-        for <linux-input@vger.kernel.org>; Wed, 01 Apr 2020 13:02:16 -0700 (PDT)
+        id S1732441AbgDAUXm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Apr 2020 16:23:42 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:35874 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732385AbgDAUXm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Apr 2020 16:23:42 -0400
+Received: by mail-pl1-f193.google.com with SMTP id g2so437597plo.3
+        for <linux-input@vger.kernel.org>; Wed, 01 Apr 2020 13:23:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=UqVyLLgMQRMs9enXGFret4ueRSlufny8UHXXj/P9X8U=;
-        b=tp4k8dikLJ8iugO0ZZS9qpHNxfZOpM+z2/9zFlhiX2efJ/OYFTmQr1tFyqGUxFjhHe
-         CFrwovW9lE47A25UhL01mQTS/2ppa0kdu2qM6jmCklR30ntptTvAnpaMf/Pqbk3kQx3b
-         WHkNpO8RXZgWtHdnw0PqsoLH3kdWuy8oaXEZCoIpGjWAWYIDn24deNWLEbYJWRb1uO3x
-         IhpFJpztF5Zru387fTnENRpz2IpjVHQq7WCe1nLXKcvyNoJGNyhzEvoQQoldkRphajT2
-         ShMZomyRwX+wgV8fZ3twl3ekIXgztNAt49GX9Hp5pGUni84Fbo3oObm6GACm0tRoG2gq
-         Gq1Q==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=J9jFxg4FOKBKyPijq3ZWQk//durFqhEYIb9+ZwygHKM=;
+        b=b6tvnUleB5bF/SgtAXanDQP2fdUbOWc6WzlA8/6GDwiFXBRtYkelmqcXdg4k8RbDnl
+         smR+qoKML8p9Tr5eUMdwiAkrgP0n5AjeI0w7iGxDmpaFTRHL1P5ItA/QStzfvMd3GVt1
+         h+aiAKKZqt6yhTE+7jagSuI3flWZlyQxcAe+xOrzJ8unUq8NmEo2Rr9jh4rhxFFU9qHp
+         aeTNZ65IfvrinoifoIsUG1DHC/wpw8m50eWeHge5AbYBDECbWTcssy7gByPBtdLayXyX
+         +TWFEOvBUsT3wpHqdru8PzD/7Kpq/ij4d0I195WzOGJOT7E//PNAqgOdCifLD8j3LKPM
+         z4mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=UqVyLLgMQRMs9enXGFret4ueRSlufny8UHXXj/P9X8U=;
-        b=QagDJ5uSV3QxA6IoyMeY2SkGvryWStIrAFwM62k9J3BTXBQF3GveWwHB9D0G2lVoHa
-         Lq7K7AtMsUZ6vYELdLt8cvRhE/JrQDLABtuuElc3gLA4dsd2f0u8yYpQcKXKMEUivqZp
-         4H+FMsuOfxf5IXWjXiBY9AGSIUMXXz+NrLFYxKtBlsu8nINY06DUCpyrpNGE3mnb9OV6
-         ecfPq9EUFTsb9hy5eDvfz9c6YuJ0y2u06tThTCXghNF81+QmUh3OpuM0YAT8xQ1GkOXS
-         ndZUAMQEdLlVSuKhIRlsLIuMxhzaD0L5EuaVcoiD8xacl5cVZILLZlLozgCW3jsBrAnO
-         z6iw==
-X-Gm-Message-State: ANhLgQ3VoDDm/b6u93EO/mpHjAgNJim2bG8zcAoy0JKptR/6QQaxQDYJ
-        N5+e31o13DT67Rtl+iIfk9zqc6KvgkErSklDnRTWERm2hPleHQ==
-X-Google-Smtp-Source: ADFU+vvRYNvDiY+MwBgsyiIFqy+Nxei3x6IJcMaCzRi/WqlttarOWtZrnoRfDBXDGmQhaw7NajCkCNtcz+mCUo2JF1U=
-X-Received: by 2002:a50:cfc6:: with SMTP id i6mr22517640edk.314.1585771335063;
- Wed, 01 Apr 2020 13:02:15 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=J9jFxg4FOKBKyPijq3ZWQk//durFqhEYIb9+ZwygHKM=;
+        b=NVnW4WzIfjXP3RDDp4NUqzcfkJWiqa85TaKeq5y+oYa/I7DRf1qBxNrEQjsmoB5A78
+         WQZelR9mVABppV30zN6DmiXKwP0X2EUzkZSpsOG2327DZAq/airbdPL0OqFjAVWaFt0w
+         TkCfPUmhn/tC1SUaPpJoMDO41bJP/69mwvYLbjrQmoO0PtZ3QhSijg2XcRuC/s/azTTY
+         +2/8n4v+2pjwlZjpkDMBORFKeujP1qAhVaFt57Wgi4jUnzlvKECQ0ifIgvDMXomYi5wf
+         X9JY21KHFkkwRMIlufIsb3rrad1HF03awyZR5XNuBL0Oj5/oxv+d25Ge/6qcIvXUxgEg
+         1EJw==
+X-Gm-Message-State: AGi0PuYTAlOnsHExEq72fGviBe18AdEdeV4tSctQIICYOEBk5jwbj+l7
+        6ifk3vA9LedZFkPbUrXIyK0=
+X-Google-Smtp-Source: APiQypLLxPwhsutTutJqg5dGtnVcZ2Rbgs6bJWvtDX9aC89WmMGUG6wH9Unu8QD3PsPvh0J5mgq6/g==
+X-Received: by 2002:a17:90a:be18:: with SMTP id a24mr6590728pjs.92.1585772620526;
+        Wed, 01 Apr 2020 13:23:40 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id ck3sm2260869pjb.44.2020.04.01.13.23.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2020 13:23:40 -0700 (PDT)
+Date:   Wed, 1 Apr 2020 13:23:38 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: i8042 - add Acer Aspire 5738z to nomux list
+Message-ID: <20200401202338.GM75430@dtor-ws>
+References: <20200331123947.318908-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-From:   Siarhei Vishniakou <svv@google.com>
-Date:   Wed, 1 Apr 2020 13:02:03 -0700
-Message-ID: <CAKF84v2gWnokoyhRe_feiWJcYOAPUcWwjaX93GkqmXqm8OzmYg@mail.gmail.com>
-Subject: behaviour change for keyboards introduced by "HID: generic: create
- one input report per application type"
-To:     Garfield Tan <xutan@google.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jkosina@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200331123947.318908-1-hdegoede@redhat.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello linux-input,
+On Tue, Mar 31, 2020 at 02:39:47PM +0200, Hans de Goede wrote:
+> The Acer Aspire 5738z has a button to disable (and re-enable) the
+> touchpad next to the touchpad.
+> 
+> When this button is pressed a LED underneath indicates that the touchpad
+> is disabled (and an event is send to userspace and GNOME shows its
+> touchpad enabled / disable OSD thingie).
+> 
+> So far so good, but after re-enabling the touchpad it no longer works.
+> 
+> The laptop does not have an external ps2 port, so mux mode is not needed
+> and disabling mux mode fixes the touchpad no longer working after toggling
+> it off and back on again, so lets add this laptop model to the nomux list.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-We have noticed a recent behavior change introduced by the commit:
-https://github.com/torvalds/linux/commit/f07b3c1da92db108662f99417a212fc1ed=
-dc44d1
-HID: generic: create one input report per application type.
+Applied, thank you. Also marked for stable.
 
-We have been looking into the behaviour of the Microsoft Designer
-keyboard. Prior to these patches, the keyboard would report as a
-single input_device to the user space. After these patches, the
-keyboard is now split into 2 input devices: =E2=80=9CDesigner Keyboard
-Consumer Control=E2=80=9D and =E2=80=9C"Designer Keyboard Keyboard". We not=
-iced that
-this behavior also applies to the keyboard Dell KB216. In the Dell
-case, it is split into 3 devices, which include =E2=80=9CConsumer Control=
-=E2=80=9D
-(for some of the media keys) and =E2=80=9CSystem Control=E2=80=9D (for the =
-sleep
-button).
+> ---
+>  drivers/input/serio/i8042-x86ia64io.h | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
+> index dc974c288e88..08e919dbeb5d 100644
+> --- a/drivers/input/serio/i8042-x86ia64io.h
+> +++ b/drivers/input/serio/i8042-x86ia64io.h
+> @@ -530,6 +530,17 @@ static const struct dmi_system_id __initconst i8042_dmi_nomux_table[] = {
+>  			DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo LaVie Z"),
+>  		},
+>  	},
+> +	{
+> +		/*
+> +		 * Acer Aspire 5738z
+> +		 * Touchpad stops working in mux mode when dis- + re-enabled
+> +		 * with the touchpad enable/disable toggle hotkey
+> +		 */
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5738"),
+> +		},
+> +	},
+>  	{ }
+>  };
+>  
+> -- 
+> 2.26.0
+> 
 
-In both Microsoft and Dell cases, these are pretty standard keyboards,
-although they do contain media keys and power/sleep keys.
-
-Could you please confirm that this new behaviour is indeed
-intentional, and that you wanted keyboards to be split in this
-fashion?
-
-Thanks,
-Siarhei
+-- 
+Dmitry
