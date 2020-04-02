@@ -2,108 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F39DC19B783
-	for <lists+linux-input@lfdr.de>; Wed,  1 Apr 2020 23:23:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 029CB19BD94
+	for <lists+linux-input@lfdr.de>; Thu,  2 Apr 2020 10:28:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732527AbgDAVXq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Apr 2020 17:23:46 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:45843 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732357AbgDAVXp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Apr 2020 17:23:45 -0400
-Received: by mail-pf1-f195.google.com with SMTP id r14so636229pfl.12;
-        Wed, 01 Apr 2020 14:23:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=v+JmNVKhpnerqtyi8mBy4La3n5Q5nQ3lqyIBr7pcIx4=;
-        b=DaIyeavSuZ3yeST1QJt+2grBgJE89cwmZD9nAzYS5dDOAWaKpd0G2bgYi3sfcfui4x
-         wXt1SbGHJUZ4SoL4GDgp4qg8PLp/SxcWma6vcVSTVDT3rPqWsHUV4/0Hnuw8c2VARzZY
-         5tPbvDwG9SiN4UIifdGWCzi0nDC4M6w8Fs3yJKpQ3IpaBaVY4zzPzLu0XWNPFLQcJk39
-         P45VrIKmyfDSOSTc3wInoYGQllIN3a2f0c+C+EeyAAD10ejZVEyjPtKa/7tAFrFkzN1X
-         P3+/vXIKInn/6kkbRoVjZGYToSLN+OSULw6BrnHiRwuw3fn+PJ+HAnWW3S0oHxdgSwOt
-         tT8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=v+JmNVKhpnerqtyi8mBy4La3n5Q5nQ3lqyIBr7pcIx4=;
-        b=nIE1RuO08k1qFVBocMn4EAwHLbDZdBp11qkwnH/zunrs1LnZYtGhoToI0UB5tMGHLU
-         ZLiQtOR4yCnFTWcIN0P9p/HENdeQj7OJ1CpZYd/zgdDNlj2sX8F3dO4RbHKEzLSS7kxO
-         oaq4STMkqxYKHcBvL169tOZ9mhjLuf/257xQGsMHuvha5lO7fWtbTUgMTqkyGwmsU1eK
-         H8MOl0+SjRVtqHzySUaSns9OSu8p47StPVAn106j0zLDW0UhrKqNUl553iPYNoALVlhl
-         MRNZbl9jDiYyMNfjrWAAqYyEhni88iFfEIKRbKSkOewRxnbkYibZt7hUqhNQ09+K8bEf
-         H8Zw==
-X-Gm-Message-State: ANhLgQ2HMSWslPKaRMPCCdXl91+2FF3JRePKfeuz/gskVKvF+LXmtAJP
-        +SlUxTVQENg82ERWmxNKB/W0mnSWaVM=
-X-Google-Smtp-Source: ADFU+vu+sVOiXb4CvKrhT7PgdHLFsAyVecItHB5St0Uol3GMKRq+Fp7LN6fSJ9trHkYVcpzC75PKng==
-X-Received: by 2002:a62:a116:: with SMTP id b22mr26097681pff.122.1585776224556;
-        Wed, 01 Apr 2020 14:23:44 -0700 (PDT)
-Received: from US-191-ENG0002.lan (75-164-222-94.ptld.qwest.net. [75.164.222.94])
-        by smtp.gmail.com with ESMTPSA id q22sm2248522pfn.22.2020.04.01.14.23.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2020 14:23:43 -0700 (PDT)
-From:   "Gerecke, Jason" <killertofu@gmail.com>
-X-Google-Original-From: "Gerecke, Jason" <jason.gerecke@wacom.com>
-To:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Aaron Armstrong Skomra <aaron.skomra@wacom.com>,
-        stable@vger.kernel.org
-Subject: [PATCH] HID: wacom: Read HID_DG_CONTACTMAX directly for non-generic devices
-Date:   Wed,  1 Apr 2020 14:23:29 -0700
-Message-Id: <20200401212329.23305-1-jason.gerecke@wacom.com>
-X-Mailer: git-send-email 2.26.0
+        id S2387574AbgDBI20 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Apr 2020 04:28:26 -0400
+Received: from esa4.mentor.iphmx.com ([68.232.137.252]:62250 "EHLO
+        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728612AbgDBI2Z (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Apr 2020 04:28:25 -0400
+IronPort-SDR: 86xBzyAXgimbX+yrEBnR5DlA1qZWKy9NK2pQBu7Sv5pdzhWQ4bKj6N8ZI/P+cWm+WJGQXxXLQl
+ 2SK6TGtxceLgJM/9qpsUBqscmlzb0SblY57AUF0wZAGwdtfP728CEGPg9UPczq2h+2hVXXNKKj
+ aCWR3qcMa4wlQRVQq2msAQxyWpzN5guNpjJiz2GIn9ylxrM4LbLkPnl+oNAwnNLM9iYQtOKXZS
+ fvteiXP0zWBQATbemmkRRoIgpz3JLE8lMCTUmJz64ZRl/XIyl4KIUcD6KcLJ5K+rWO17woFLpr
+ OGc=
+X-IronPort-AV: E=Sophos;i="5.72,335,1580803200"; 
+   d="scan'208";a="47414252"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa4.mentor.iphmx.com with ESMTP; 02 Apr 2020 00:28:25 -0800
+IronPort-SDR: HnzTHpxRUTPLRNdw7UbDjJKlLT6DsPKNnJPI2Qdn6c6fSQ+Y4IeOIDcJIpZujzqARSSyxStwLv
+ S/tdsDmsqtfT69N5nQc4QxxVpvW+yBY6uoWknkWE9xAWzYXg0AXMxaRLLr3ItUDqH+oURiUZqr
+ vzgWyD3lm/5wE16W9pZc1yA95k89WsTMKxYo8n+QU8lFuMEAwXlia221lXDHHJZ66c+hqsIIyQ
+ ZoS8ePSeLFQwW5qZAtaELLht9nqIpiEHWSTBIx0I1dXCG4kf/SnGtVD7KqNBcU1AvwEb/9j1W/
+ VYQ=
+Subject: Re: [PATCH v10 13/55] dt-bindings: input: atmel: add suspend mode
+ support
+To:     Dmitry Osipenko <digetx@gmail.com>, <nick@shmanahar.org>,
+        <dmitry.torokhov@gmail.com>, <jikos@kernel.org>,
+        <benjamin.tissoires@redhat.com>, <bsz@semihalf.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>
+References: <20200331105051.58896-1-jiada_wang@mentor.com>
+ <20200331105051.58896-14-jiada_wang@mentor.com>
+ <dd09ab5d-4e33-7ca0-9dfe-80be1cee307f@gmail.com>
+From:   "Wang, Jiada" <jiada_wang@mentor.com>
+Message-ID: <ea94e940-50c4-2857-fb4f-8e91ec7bcb5e@mentor.com>
+Date:   Thu, 2 Apr 2020 17:28:18 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <dd09ab5d-4e33-7ca0-9dfe-80be1cee307f@gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: svr-orw-mbx-04.mgc.mentorg.com (147.34.90.204) To
+ svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jason Gerecke <jason.gerecke@wacom.com>
+Hi Dmitry
 
-We've recently switched from extracting the value of HID_DG_CONTACTMAX
-at a fixed offset (which may not be correct for all tablets) to
-injecting the report into the driver for the generic codepath to handle.
-Unfortunately, this change was made for *all* tablets, even those which
-aren't generic. Because `wacom_wac_report` ignores reports from non-
-generic devices, the contact count never gets initialized. Ultimately
-this results in the touch device itself failing to probe, and thus the
-loss of touch input.
+On 2020/04/02 0:42, Dmitry Osipenko wrote:
+> 31.03.2020 13:50, Jiada Wang пишет:
+>> Add suspend mode support for atmel touchscreen driver
+>>
+>> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+>> ---
+>>   .../bindings/input/atmel,maxtouch.txt         |  9 ++++++++
+>>   MAINTAINERS                                   |  1 +
+>>   include/dt-bindings/input/atmel_mxt_ts.h      | 23 +++++++++++++++++++
+>>   3 files changed, 33 insertions(+)
+>>   create mode 100644 include/dt-bindings/input/atmel_mxt_ts.h
+>>
+>> diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+>> index c88919480d37..0307e7f7bb43 100644
+>> --- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+>> +++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+>> @@ -31,6 +31,15 @@ Optional properties for main touchpad device:
+>>   
+>>   - reset-gpios: GPIO specifier for the touchscreen's reset pin (active low)
+>>   
+>> +- atmel,suspend-mode: Select method used to suspend:
+>> +    MXT_SUSPEND_DEEP_SLEEP - use T7 to suspend the device into deep sleep
+>> +    MXT_SUSPEND_T9_CTRL - use T9.CTRL to turn off touch processing
+>> +    MXT_SUSPEND_REGULATOR - use regulators to power down device during suspend
+>> +    Definitions are in <dt-bindings/input/atmel_mxt_ts.h>.
+>> +
+>> +- vdd: Required supply regulator when MXT_SUSPEND_REGULATOR is used to suspend
+>> +- avdd: Required supply regulator when MXT_SUSPEND_REGULATOR is used to suspend
+> 
+> Some of NVIDIA Tegra devices have a VDD regulator in a form of GPIO,
+> which is turned off by default at a boot time, and thus, the
+> power-regulator needs to be enabled by the driver at a probe time in
+> order to power-up the touchscreen.
+> 
+> I think the VDD/AVDD description isn't correct because these are the
+> essential power regulators, they aren't used only for the suspending.
+> 
+> What about something more generic, like this:
+> 
+> - vdd: phandle to Power supply regulator
+> - avdd: phandle to Analog Power supply regulator
+> 
+I agree, will update with generic descriptions
 
-This commit adds back the fixed-offset extraction for non-generic devices.
-
-Ref: https://github.com/linuxwacom/input-wacom/issues/155
-Fixes: 184eccd40389 ("HID: wacom: generic: read HID_DG_CONTACTMAX from any feature report")
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-Reviewed-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-CC: stable@vger.kernel.org # 5.3+
----
- drivers/hid/wacom_sys.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-index 5ded94b7bf68..cd71e7133944 100644
---- a/drivers/hid/wacom_sys.c
-+++ b/drivers/hid/wacom_sys.c
-@@ -319,9 +319,11 @@ static void wacom_feature_mapping(struct hid_device *hdev,
- 			data[0] = field->report->id;
- 			ret = wacom_get_report(hdev, HID_FEATURE_REPORT,
- 					       data, n, WAC_CMD_RETRIES);
--			if (ret == n) {
-+			if (ret == n && features->type == HID_GENERIC) {
- 				ret = hid_report_raw_event(hdev,
- 					HID_FEATURE_REPORT, data, n, 0);
-+			} else if (ret == 2 && features->type != HID_GENERIC) {
-+				features->touch_max = data[1];
- 			} else {
- 				features->touch_max = 16;
- 				hid_warn(hdev, "wacom_feature_mapping: "
--- 
-2.26.0
-
+Thanks,
+Jiada
