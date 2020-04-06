@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D29B919EFA0
-	for <lists+linux-input@lfdr.de>; Mon,  6 Apr 2020 06:07:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F17FB19EFA4
+	for <lists+linux-input@lfdr.de>; Mon,  6 Apr 2020 06:18:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725787AbgDFEHk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Apr 2020 00:07:40 -0400
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:63907 "EHLO
-        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725768AbgDFEHk (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Apr 2020 00:07:40 -0400
-IronPort-SDR: xU+VbEKldOlnKkVcx+JEOjZ8T1FbRj0/omO4mNtzlZtQp/YRaF/LcJ3tnnXk1KxJBJobvPnPlf
- XtIqI4w46vVt9D/aI4Mzs/gWDv06tnNeKGgnzXvEhhg8VHDAKJQQBF1C1F15W/p6hj2SNkLxFU
- s+EHl3OpFZk6JUhd4HEnj4Q7Oh32YvnwIvJTciD7nZccvzP/R+iK4rR/ULk4IcfpJS5qcCngtc
- GwFxFIR+X8aVDp8F3v3/T/z+j+KWJOcll7Oyk+MaGmsqf0pzn22zw3YDcYoDrco4JMPEL6q16s
- muM=
+        id S1725768AbgDFES1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Apr 2020 00:18:27 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:28337 "EHLO
+        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbgDFES1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Apr 2020 00:18:27 -0400
+IronPort-SDR: Ni8MtU0rJJpVR4l9FjeVfxTyuH1oSMqr3+kyLKYYjvYauQfwfkAFdVFfENMCnsjbElQnTBUVuj
+ mbXDudO+ScuhjqW3GyPCONzkUZYDqitNilICWPZmA8g6zRlvCNmAS3F/sRghbhuql0/kJS50fC
+ 9uHkOcjdYYS6WX0ZWjanBjOCglfrRRHg7N3HpSVbQ/M+LVvVOElxLORsSpKuwz4/kAkxUNHbW6
+ OlnR0UkINdFnkVF0iSG+rWod0UiugDz6O9W+w2RMQiuLFaD1WQQ+t/wjtDjql00ZgIo2KlxBeL
+ LPY=
 X-IronPort-AV: E=Sophos;i="5.72,349,1580803200"; 
-   d="scan'208";a="47461306"
+   d="scan'208";a="47376664"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa3.mentor.iphmx.com with ESMTP; 05 Apr 2020 20:07:39 -0800
-IronPort-SDR: zofhbpvw1FMAY96LhnFDLug/QL2Adiu8gPR23GZo0AuxoVZyJ+N0MTl/cBxR+Uv1PCiC0/fyMr
- yntkhrPMBKU9RqrliWOP7r4cyicBeCFGnSLGaUMxmlr3tPEKPCgmoLSdffP1VY3Rs8EVY+MC8O
- +hfkpm5YVQWE+ZOt9psgiPYtQpF4BnVz1E9B3WIbB/3ohxR9m7yhaxs9baUFQl5aw9ei7470Ix
- l4rKoMfCM1BRm5CnTHb+UTuhAwLxYgQAFtvN+g9GBDCdD/1TOPl/3/rKX72C3tj0ktetdM1EGI
- 2x0=
+  by esa2.mentor.iphmx.com with ESMTP; 05 Apr 2020 20:18:26 -0800
+IronPort-SDR: DBR+18PDclapNTKp4JqtQltGoJHolxARNGD5NY7LCmWz+dXxDjHa/TY6XMEBYCDWnuwCohZQAh
+ cdLrXIWc0hdH+WHUcS6DFotq9di5G00ZLMt/lP8fo0x9Bl+PP8xEi2X3L+rTxMhQeSoWVvP7O2
+ 0h/tzHcnpn/l5EZLps8bLc/UmUSePbtjIoZYXBvRPKtd0zruZ4JOeYkjHV3G2iWKkhb0gw8bt7
+ LgMsPBBmiVe7EO61VYQ7XNjpcT4+4cZ/jTOC9MF1u/eROgufi/dfD918f1/DC/zKgvShVdoT6d
+ 85w=
 Subject: Re: [PATCH v10 54/55] Input: atmel_mxt_ts: Implement synchronization
  during various operation
 To:     Dmitry Osipenko <digetx@gmail.com>, <nick@shmanahar.org>,
@@ -37,27 +37,27 @@ References: <20200331105051.58896-1-jiada_wang@mentor.com>
  <c53637ef-8e5d-3243-7236-5da360021f21@gmail.com>
  <b06c7915-562f-ec68-766a-2118cfe57a0f@mentor.com>
  <b9a8865c-7754-16f7-8f66-9cd70dc42d3c@gmail.com>
- <12b913cd-cc0e-73b3-7ae5-8589ad5e968b@gmail.com>
+ <c5e7dc2d-08c7-e55e-352d-b9b0d86fe63e@gmail.com>
 From:   "Wang, Jiada" <jiada_wang@mentor.com>
-Message-ID: <7f5435d1-27b0-c337-224c-c78acd989d9e@mentor.com>
-Date:   Mon, 6 Apr 2020 13:07:33 +0900
+Message-ID: <500c814a-b0f4-db9f-30f6-bc6ac985c5e2@mentor.com>
+Date:   Mon, 6 Apr 2020 13:18:20 +0900
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <12b913cd-cc0e-73b3-7ae5-8589ad5e968b@gmail.com>
+In-Reply-To: <c5e7dc2d-08c7-e55e-352d-b9b0d86fe63e@gmail.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SVR-ORW-MBX-07.mgc.mentorg.com (147.34.90.207) To
+X-ClientProxiedBy: svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202) To
  svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitrij
+Hi Dmitry
 
-On 2020/04/02 22:44, Dmitry Osipenko wrote:
+On 2020/04/02 23:00, Dmitry Osipenko wrote:
 > 02.04.2020 16:24, Dmitry Osipenko пишет:
 >> 02.04.2020 14:50, Wang, Jiada пишет:
 >>> Hi Dmitry
@@ -167,13 +167,25 @@ On 2020/04/02 22:44, Dmitry Osipenko wrote:
 >>   }
 >>
 > 
-> I'm also wondering why dev_attr_update_fw needs a separate
-> attribute_group, couldn't it be moved into mxt_attrs[]
-Separate sysfs into different groups are done by commit
-"Input: atmel_mxt_ts - rework sysfs init/remove"
-I think the main purpose,
-is to remove other sysfs entries when firmware is being updated.
+> I'm looking at this again and the original tear-down order of the
+> mxt_remove() looks okay, so no need to change it.
+> 
+> Reading the commit message, it says that request_firmware_nowait() races
+> with kfree(data), but that can't happen because the data is
+> resource-managed and request_firmware_nowait() bumps device's use-count.
+> 
+> https://elixir.bootlin.com/linux/v5.6.2/source/drivers/base/firmware_loader/main.c#L1043
+> 
+> I think this patch was ported from some very old kernel version and it's
+> simply not applicable to the upstream anymore.
+> 
+
+I had some test,
+and confirmed you are right,
+this commit is no longer applicable to upstream,
+but as discussed in another patch,
+disable_irq() need to be moved after remove of mxt_fw_attr_group.
+I will add this change in a new commit.
 
 Thanks,
 Jiada
-
