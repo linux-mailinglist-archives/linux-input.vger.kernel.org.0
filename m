@@ -2,85 +2,139 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B27E71A0FCB
-	for <lists+linux-input@lfdr.de>; Tue,  7 Apr 2020 17:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED4631A122B
+	for <lists+linux-input@lfdr.de>; Tue,  7 Apr 2020 18:53:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729072AbgDGPAd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Apr 2020 11:00:33 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:45372 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729064AbgDGPAd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Apr 2020 11:00:33 -0400
-Received: by mail-lj1-f195.google.com with SMTP id t17so4033188ljc.12;
-        Tue, 07 Apr 2020 08:00:32 -0700 (PDT)
+        id S1726436AbgDGQxk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Apr 2020 12:53:40 -0400
+Received: from mail-qv1-f65.google.com ([209.85.219.65]:35654 "EHLO
+        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726365AbgDGQxk (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Apr 2020 12:53:40 -0400
+Received: by mail-qv1-f65.google.com with SMTP id q73so2177587qvq.2;
+        Tue, 07 Apr 2020 09:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=n9qgnK2KRBH7r2dzJsAycd35bPm5nSXjOlpxrB9QcgM=;
-        b=DnUBQwpLF1yGSi2kCfjTckSu3hVQIAqPRf6DCY6DKO1++HLkqNzgAjG/AOk4unY1sr
-         A/yLSMR7xjVELDvtTH34sD3slYnF0yY/RPfzExQH+W6QU3iNJ9VjsxpoBFOXQixtHP6c
-         /5AmVZSXEX3S5Px2atvu92qQLIx9LmEmBBiqAowyhAfXA2szGkqoYtB0nIF24JEBVQ1b
-         Ng+s6Yvhhk6TgT8yV6vjRFliE8nJrofXIVu1xlT1HHvQp4leEOYSateJojFu5ze5Uj4+
-         jXZO7sEKsJzLI+krVprqAFYNIR4CL75T9ZNEDrTj87TkkRD/tgxNuoGXgN20kDqD0Zsp
-         Rejg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=d3VppNLHFrOcwWwbhA0a42eUvrzhWAyV8lp0TArcKUI=;
+        b=gTMYjS8VCusWzzR0ujkxGvuNVHTf97jQDDyMXbcKUdhzfmqh8hJapcfDJXCqvVpZpH
+         y2GtAqJX+ZTq7ILnqzyqwMPlBeZG6qYiFEZmMWMuGYCZvqaf8ejN8sL87Ju22j+VgjrR
+         7fCs7WafEs77ZB3k+dcLzdVHRizOUpzywpcDREzNQROl8lHJ9z+GEBgRCqavav/TuGky
+         ZAaAHWX/8hTFesdNvVB1CQkMJA6ugBJl2tgreshtXqx2bPI3VZOk1Rb5QEF3zVPNm1qz
+         3aOHzWfcR4WTQ425t7EDeNinHx4272hmXhvbdNIAl5S7wVj0DQcw65lp+JH2cTVw7hKv
+         IsVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=n9qgnK2KRBH7r2dzJsAycd35bPm5nSXjOlpxrB9QcgM=;
-        b=poQJ3OIi3hIiq1zWdj2s6rj6+wLnlEga4SZy6WNShfQuFeN5wVJj51QAbAUxbTibPx
-         faI2s5YjqKUCt7gVGQQMb2RSKN38mnessZ+Edq+5Uq9iLQjSqQosWFsEKwDVVL5cOJwa
-         EmgVu64/r344Uustpube11JFsyuL5z1CO02aImhlsWsE7xPSIolJfUqg7WFI6ijkont0
-         4GfstSRKZgFDonns42zDSKPuRa0ygbW3yeuKOIW6POlDj2tLp2Zwl7LZap40L0AwMPG3
-         D65a9vw19cqqXFg47zF+MZgeoHJthczVuF9Q3Q96eHC+ae+J2teUFgCUe5+Itnvgpdba
-         nMBQ==
-X-Gm-Message-State: AGi0PuYzSq50FbLlVtDgMgK/usnPNU9X5QNeVi8zNDkYkDsLl9Mk0Hat
-        bwAPvYrMTLO3QCbFmcfSygGq3Kk4
-X-Google-Smtp-Source: APiQypKiJGQiLiQA48VDa3JP3jGkXKo3FZCYfQFwllaqzQw15HCQQysW6YJAqfQxTNyNx+zXA5et/A==
-X-Received: by 2002:a2e:6809:: with SMTP id c9mr1974279lja.251.1586271631199;
-        Tue, 07 Apr 2020 08:00:31 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id x24sm4014932lfc.6.2020.04.07.08.00.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Apr 2020 08:00:30 -0700 (PDT)
-Subject: Re: [PATCH v10 54/55] Input: atmel_mxt_ts: Implement synchronization
- during various operation
-To:     "Wang, Jiada" <jiada_wang@mentor.com>, nick@shmanahar.org,
-        dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, bsz@semihalf.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
-References: <20200331105051.58896-1-jiada_wang@mentor.com>
- <20200331105051.58896-55-jiada_wang@mentor.com>
- <c53637ef-8e5d-3243-7236-5da360021f21@gmail.com>
- <b06c7915-562f-ec68-766a-2118cfe57a0f@mentor.com>
- <b9a8865c-7754-16f7-8f66-9cd70dc42d3c@gmail.com>
- <c5e7dc2d-08c7-e55e-352d-b9b0d86fe63e@gmail.com>
- <500c814a-b0f4-db9f-30f6-bc6ac985c5e2@mentor.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b429ec7f-3cea-d689-aecd-ae2abe12420a@gmail.com>
-Date:   Tue, 7 Apr 2020 18:00:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=d3VppNLHFrOcwWwbhA0a42eUvrzhWAyV8lp0TArcKUI=;
+        b=cNNPwgD/+0BNF4UaEO3tNKpSiqITwrsSZh10QMqZYFwDLQYLqX2roNcwE2D0Oylz4C
+         igR7f80kbNL9oP+epYLXbr6JB00u9i6AAZecnHKWoucDKt5vU541ifE/Fe4IhZSI2ke6
+         rh64gWF0+a7SrfWgB8Wx1A046+swmWYA77IvDDJltVy3cvxQh8pCFWpayQ1KUK3gyLFB
+         cix07Ftaw8bSEJGPSj0gooimWWSHrfxhwNH7kXO57LsafKBewCLfDCt12jkx7BogYmry
+         vFebt3XtmsjD1/adFslTluDOGZyfWYfTVeAYEl1vliGQM9ur0ACAg5yMP21sK2ibVUYU
+         ey/g==
+X-Gm-Message-State: AGi0PuadIbbPDNrVfz4oy3+BEPsOkl2mmIEk3WAQnyugTPbejP1A/pv7
+        V0b/QDhCIHHmYhbT18vbCP0=
+X-Google-Smtp-Source: APiQypK11F/M1pHTJnN84IWOLfEDHscNiF0dxYg4qZy2tkh6lY/465HRjDB4R4Bn3/EpZJUuWGcf6w==
+X-Received: by 2002:ad4:496b:: with SMTP id p11mr3140242qvy.202.1586278418655;
+        Tue, 07 Apr 2020 09:53:38 -0700 (PDT)
+Received: from icarus (072-189-064-225.res.spectrum.com. [72.189.64.225])
+        by smtp.gmail.com with ESMTPSA id m127sm13463453qke.64.2020.04.07.09.53.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2020 09:53:37 -0700 (PDT)
+Date:   Tue, 7 Apr 2020 12:53:35 -0400
+From:   William Breathitt Gray <vilhelm.gray@gmail.com>
+To:     Kamel Bouhara <kamel.bouhara@bootlin.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org
+Subject: Re: [PATCH 1/3] ARM: at91: add atmel tcb capabilities
+Message-ID: <20200407165335.GF5578@icarus>
+References: <20200406155320.1291701-1-kamel.bouhara@bootlin.com>
+ <20200406155320.1291701-2-kamel.bouhara@bootlin.com>
 MIME-Version: 1.0
-In-Reply-To: <500c814a-b0f4-db9f-30f6-bc6ac985c5e2@mentor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="RE3pQJLXZi4fr8Xo"
+Content-Disposition: inline
+In-Reply-To: <20200406155320.1291701-2-kamel.bouhara@bootlin.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-06.04.2020 07:18, Wang, Jiada пишет:
-...
-> I had some test,
-> and confirmed you are right,
-> this commit is no longer applicable to upstream,
-> but as discussed in another patch,
-> disable_irq() need to be moved after remove of mxt_fw_attr_group.
-> I will add this change in a new commit.
 
-Sounds good.
+--RE3pQJLXZi4fr8Xo
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Apr 06, 2020 at 05:53:18PM +0200, Kamel Bouhara wrote:
+> Some atmel socs have extra tcb capabilities that allow using a generic
+> clock source or enabling a quadrature decoder.
+>=20
+> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> ---
+>  include/soc/at91/atmel_tcb.h | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/include/soc/at91/atmel_tcb.h b/include/soc/at91/atmel_tcb.h
+> index fbf5474f4484..6b9c9bec982e 100644
+> --- a/include/soc/at91/atmel_tcb.h
+> +++ b/include/soc/at91/atmel_tcb.h
+> @@ -39,7 +39,8 @@ struct clk;
+>   */
+>  struct atmel_tcb_config {
+>  	size_t	counter_width;
+> -	unsigned int has_gclk:1;
+
+Hi Kamel,
+
+I'm having trouble applying this patch, so I think we have different
+bases. Specifically, I'm not sure where this has_gclk member was
+introduced. It doesn't look like it's in the testing branch of the IIO
+tree yet.
+
+What branch did you base your patches on?
+
+Thanks,
+
+William Breathitt Gray
+
+> +	bool	has_gclk;
+> +	bool	has_qdec;
+>  };
+> =20
+>  /**
+> --=20
+> 2.25.0
+>=20
+
+--RE3pQJLXZi4fr8Xo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEk5I4PDJ2w1cDf/bghvpINdm7VJIFAl6MsA8ACgkQhvpINdm7
+VJI7/g/8DlUdnaSLPC9O0tau43LweVzguxsRZUbsgEYcyNqguZF+ZmPWMospskNI
+LqRF7nWh6hVXjz9EarWDGKT+EEw2ykfJnkc+9UYnDseXC8lcphprTyTQxRg1Q0ol
+Ot9jb1uHhPWE5hOQqrwwP84ec43wjUryFER//0NmpJZEPGjCEiJK7oqjJahLN12v
+ooL6gDIB3iGV8QBIfANVUxwBV00pnsFAxtQMZ7euZew+qN9nxxUA1DmfTlW7tO7p
+te+ZW9WwEb2qhE1KhxBv3rcul1kxGSj2gA0MufqW7MsKEQN+iZiZorXy7p9ZbSG5
+L2NgwY/HnIT6yyoOZZ+c25yhfL+suFW2o9s0C16CqTOmmMXoqLevPTllgNSVxkod
+mZ73s9+JOrhGr9qjwqyLOWo4gGvIzaxfwbeTpgVcq0rLcdinDFLH09eorvDogeWv
+QfMZSrR30ATakNbdJcglA6Kf7q6CNxvELc9P5aSxeujLTwezP+Cy6Ea61eSIeR60
+dvxyttF09iBzTKr0VjqFJ19geMFS4RExoN2Vu4w03RqyTihcDQHJnNF8hO4l/mpl
+t/lKLh06mUEB7LFNwh1AisIO+l/EKiPmDGb1cuefI9v92k2Nof32QfvhAmmYDl1g
+0OMxLl/WMd563XzCDKRLPqm7IIgjEtJEg7uU2YHiaSNk3p2t3TA=
+=66eq
+-----END PGP SIGNATURE-----
+
+--RE3pQJLXZi4fr8Xo--
