@@ -2,247 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D91A19F979
-	for <lists+linux-input@lfdr.de>; Mon,  6 Apr 2020 17:58:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06F541A035D
+	for <lists+linux-input@lfdr.de>; Tue,  7 Apr 2020 02:11:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729231AbgDFP6b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Apr 2020 11:58:31 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:17995 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729202AbgDFP6a (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Apr 2020 11:58:30 -0400
-X-Originating-IP: 78.193.40.249
-Received: from localhost (unknown [78.193.40.249])
-        (Authenticated sender: kamel.bouhara@bootlin.com)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 0936F240012;
-        Mon,  6 Apr 2020 15:58:27 +0000 (UTC)
-From:   Kamel Bouhara <kamel.bouhara@bootlin.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        Kamel Bouhara <kamel.bouhara@bootlin.com>
-Subject: [PATCH 3/3] Input: add a rotary encoders based on counter devices
-Date:   Mon,  6 Apr 2020 17:58:06 +0200
-Message-Id: <20200406155806.1295169-4-kamel.bouhara@bootlin.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200406155806.1295169-1-kamel.bouhara@bootlin.com>
-References: <20200406155806.1295169-1-kamel.bouhara@bootlin.com>
+        id S1728021AbgDGAJT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Apr 2020 20:09:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33828 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726692AbgDGABN (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 6 Apr 2020 20:01:13 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 792E120768;
+        Tue,  7 Apr 2020 00:01:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586217673;
+        bh=lmDFwSRJINaEuNcm0imgBOH7qPo597f26/3MDbu0cUE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=j7vjnn88a06IFpTQDiNr8n6aYbqBBUfvK0etQFjsST2RGyB2KANGk1F3svjoENEp+
+         og+fNLumAtQs9y6DcEpygtWpEF8ighP3mUwYseKcjeUb4NcOMVZZ1eviYyZ16pxr5C
+         soNYNVyqV7vzAmZU/0Xgq4sBOW0C6bw869AZGXXY=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Nick Reitemeyer <nick.reitemeyer@web.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.5 11/35] Input: tm2-touchkey - add support for Coreriver TC360 variant
+Date:   Mon,  6 Apr 2020 20:00:33 -0400
+Message-Id: <20200407000058.16423-11-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200407000058.16423-1-sashal@kernel.org>
+References: <20200407000058.16423-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This add support for rotary encoders that use the counter subsystem to
-expose an input device.
+From: Nick Reitemeyer <nick.reitemeyer@web.de>
 
-Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+[ Upstream commit da3289044833769188c0da945d2cec90af35e87e ]
+
+The Coreriver TouchCore 360 is like the midas board touchkey, but it is
+using a fixed regulator.
+
+Signed-off-by: Nick Reitemeyer <nick.reitemeyer@web.de>
+Link: https://lore.kernel.org/r/20200121141525.3404-3-nick.reitemeyer@web.de
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/misc/Kconfig                  |   9 ++
- drivers/input/misc/Makefile                 |   1 +
- drivers/input/misc/rotary_encoder_counter.c | 152 ++++++++++++++++++++
- 3 files changed, 162 insertions(+)
- create mode 100644 drivers/input/misc/rotary_encoder_counter.c
+ drivers/input/keyboard/tm2-touchkey.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 7e2e658d551c..b91b4257e337 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -619,6 +619,15 @@ config INPUT_GPIO_ROTARY_ENCODER
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called rotary_encoder.
+diff --git a/drivers/input/keyboard/tm2-touchkey.c b/drivers/input/keyboard/tm2-touchkey.c
+index 14b55bacdd0f1..fb078e049413f 100644
+--- a/drivers/input/keyboard/tm2-touchkey.c
++++ b/drivers/input/keyboard/tm2-touchkey.c
+@@ -75,6 +75,14 @@ static struct touchkey_variant aries_touchkey_variant = {
+ 	.cmd_led_off = ARIES_TOUCHKEY_CMD_LED_OFF,
+ };
  
-+config INPUT_COUNTER_ROTARY_ENCODER
-+       tristate "Rotary encoders connected to counter devices"
-+       depends on COUNTER || COMPILE_TEST
-+       help
-+         Say Y here to add support for rotary encoders connected to counter devices.
-+
-+         To compile this driver as a module, choose M here: the
-+         module will be called rotary_encoder_counter.
-+
- config INPUT_RB532_BUTTON
- 	tristate "Mikrotik Routerboard 532 button interface"
- 	depends on MIKROTIK_RB532
-diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-index 8fd187f314bd..74bbe6d400a3 100644
---- a/drivers/input/misc/Makefile
-+++ b/drivers/input/misc/Makefile
-@@ -68,6 +68,7 @@ obj-$(CONFIG_INPUT_REGULATOR_HAPTIC)	+= regulator-haptic.o
- obj-$(CONFIG_INPUT_RETU_PWRBUTTON)	+= retu-pwrbutton.o
- obj-$(CONFIG_INPUT_AXP20X_PEK)		+= axp20x-pek.o
- obj-$(CONFIG_INPUT_GPIO_ROTARY_ENCODER)	+= rotary_encoder.o
-+obj-$(CONFIG_INPUT_COUNTER_ROTARY_ENCODER) += rotary_encoder_counter.o
- obj-$(CONFIG_INPUT_RK805_PWRKEY)	+= rk805-pwrkey.o
- obj-$(CONFIG_INPUT_SC27XX_VIBRA)	+= sc27xx-vibra.o
- obj-$(CONFIG_INPUT_SGI_BTNS)		+= sgi_btns.o
-diff --git a/drivers/input/misc/rotary_encoder_counter.c b/drivers/input/misc/rotary_encoder_counter.c
-new file mode 100644
-index 000000000000..20017308f4f3
---- /dev/null
-+++ b/drivers/input/misc/rotary_encoder_counter.c
-@@ -0,0 +1,152 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * A rotary encoder driver using the generic counter interface.
-+ *
-+ * Author: Kamel Bouhara <kamel.bouhara@bootlin.com>
-+ *
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/interrupt.h>
-+#include <linux/input.h>
-+#include <linux/device.h>
-+#include <linux/platform_device.h>
-+#include <linux/counter.h>
-+#include <linux/slab.h>
-+#include <linux/of.h>
-+#include <linux/pm.h>
-+#include <linux/property.h>
-+
-+#define MAX_STEPS	24
-+
-+struct rotary_encoder {
-+	struct input_dev *input;
-+	u32 steps;
-+	u32 axis;
-+	bool relative_axis;
-+	bool rollover;
-+	long last_pos;
-+	struct counter_device *counter;
++static const struct touchkey_variant tc360_touchkey_variant = {
++	.keycode_reg = 0x00,
++	.base_reg = 0x00,
++	.fixed_regulator = true,
++	.cmd_led_on = TM2_TOUCHKEY_CMD_LED_ON,
++	.cmd_led_off = TM2_TOUCHKEY_CMD_LED_OFF,
 +};
 +
-+static void rotary_encoder_poll(struct input_dev *input)
-+{
-+	struct rotary_encoder *encoder = input_get_drvdata(input);
-+	long rotary_pos;
-+	int ret;
-+
-+	ret = counter_count_get(encoder->counter, &rotary_pos);
-+	if (ret)
-+		return;
-+
-+	if (encoder->relative_axis) {
-+		input_report_rel(encoder->input, encoder->axis,
-+				 rotary_pos - encoder->last_pos);
-+	} else {
-+		if (encoder->rollover)
-+			rotary_pos %= encoder->steps;
-+		input_report_abs(encoder->input, encoder->axis, rotary_pos);
-+	}
-+
-+	encoder->last_pos = rotary_pos;
-+	input_sync(encoder->input);
-+}
-+
-+static int rotary_encoder_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct counter_device *counter;
-+	struct rotary_encoder *encoder;
-+	struct input_dev *input;
-+	int qdec_mode;
-+	u32 poll_interval;
-+	int err;
-+
-+	encoder = devm_kzalloc(dev, sizeof(struct rotary_encoder), GFP_KERNEL);
-+	if (!encoder)
-+		return -ENOMEM;
-+
-+	encoder->rollover =
-+		device_property_read_bool(dev, "rollover");
-+
-+	device_property_read_u32(dev, "steps", &encoder->steps);
-+
-+	device_property_read_u32(dev, "linux-axis", &encoder->axis);
-+
-+	encoder->relative_axis =
-+		device_property_read_bool(dev, "relative-axis");
-+
-+	counter = devm_counter_get(dev);
-+	if (IS_ERR(counter))
-+		return PTR_ERR(counter);
-+
-+	if (device_property_read_u32(dev, "qdec-mode", &qdec_mode)) {
-+		dev_err(dev, "Invalid or missing quadrature mode\n");
-+		return -EINVAL;
-+	}
-+
-+	err = counter_function_set(counter, qdec_mode);
-+	if (err) {
-+		dev_err(dev, "Failed to set quadrature mode %d\n",
-+			qdec_mode);
-+		return err;
-+	}
-+
-+	input = devm_input_allocate_device(dev);
-+	if (!input)
-+		return -ENOMEM;
-+
-+	input_set_drvdata(input, encoder);
-+	encoder->input = input;
-+	encoder->counter = counter;
-+	encoder->steps = (!encoder->steps) ? MAX_STEPS : encoder->steps;
-+	input->name = pdev->name;
-+	input->id.bustype = BUS_HOST;
-+	input->dev.parent = dev;
-+
-+	if (encoder->relative_axis)
-+		input_set_capability(input, EV_REL, encoder->axis);
-+	else
-+		input_set_abs_params(input, encoder->axis, 0,
-+				     encoder->steps, 0, 1);
-+
-+	err = input_setup_polling(input, rotary_encoder_poll);
-+	if (err)
-+		return err;
-+
-+	if (!device_property_read_u32(dev, "poll-interval",
-+				      &poll_interval))
-+		input_set_poll_interval(input, poll_interval);
-+
-+	err = input_register_device(input);
-+	if (err) {
-+		dev_err(dev, "failed to register device, err=%d\n", err);
-+		return err;
-+	}
-+
-+	platform_set_drvdata(pdev, encoder);
-+
-+	return 0;
-+}
-+
-+#ifdef CONFIG_OF
-+static const struct of_device_id rotary_encoder_of_match[] = {
-+	{ .compatible = "rotary-encoder-counter", },
-+	{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(of, rotary_encoder_of_match);
-+#endif
-+
-+static struct platform_driver rotary_encoder_driver = {
-+	.probe		= rotary_encoder_probe,
-+	.driver		= {
-+		.name	= "rotary-encoder-counter",
-+		.of_match_table = of_match_ptr(rotary_encoder_of_match),
-+	}
-+};
-+module_platform_driver(rotary_encoder_driver);
-+
-+MODULE_DESCRIPTION("Counter rotary encoder driver");
-+MODULE_AUTHOR("Kamel Bouhara <kamel.bouhara@bootlin.com>");
-+MODULE_LICENSE("GPL v2");
+ static int tm2_touchkey_led_brightness_set(struct led_classdev *led_dev,
+ 					    enum led_brightness brightness)
+ {
+@@ -327,6 +335,9 @@ static const struct of_device_id tm2_touchkey_of_match[] = {
+ 	}, {
+ 		.compatible = "cypress,aries-touchkey",
+ 		.data = &aries_touchkey_variant,
++	}, {
++		.compatible = "coreriver,tc360-touchkey",
++		.data = &tc360_touchkey_variant,
+ 	},
+ 	{ },
+ };
 -- 
-2.25.0
+2.20.1
 
