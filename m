@@ -2,119 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E62A81A0FB8
-	for <lists+linux-input@lfdr.de>; Tue,  7 Apr 2020 16:55:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F24A51A0FBD
+	for <lists+linux-input@lfdr.de>; Tue,  7 Apr 2020 16:56:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729120AbgDGOzW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Apr 2020 10:55:22 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:42197 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729268AbgDGOzW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Apr 2020 10:55:22 -0400
-Received: from kb-xps (unknown [78.193.40.249])
-        (Authenticated sender: kamel.bouhara@bootlin.com)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id DE9D2240009;
-        Tue,  7 Apr 2020 14:55:11 +0000 (UTC)
-Date:   Tue, 7 Apr 2020 16:55:10 +0200
-From:   Kamel Bouhara <kamel.bouhara@bootlin.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 2/3] Input: rotary-encoder-counter: add DT bindings
-Message-ID: <20200407145510.GC1489441@kb-xps>
-References: <20200406155806.1295169-1-kamel.bouhara@bootlin.com>
- <20200406155806.1295169-3-kamel.bouhara@bootlin.com>
- <20200407094159.xtbhtsxorvs2g22c@gilmour.lan>
- <20200407110339.GA1489441@kb-xps>
- <20200407142238.ik67isetbggn2rh3@gilmour.lan>
+        id S1729060AbgDGO41 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Apr 2020 10:56:27 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:37634 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728855AbgDGO41 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Apr 2020 10:56:27 -0400
+Received: by mail-lf1-f65.google.com with SMTP id t11so2631148lfe.4;
+        Tue, 07 Apr 2020 07:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=nRvaZx0CW/m/jWE2uVOD/eMgFMwO805CIg6iMnzrwfQ=;
+        b=Rh5ZIXJ4BX4A7nfqy6jJldrDXLrwYgycJ/H8JLJWXCvAnXodELRZ53RFkm3+Z2xHbJ
+         +fc7dcYqOpaccDSskefX0R8SR+7kgNP0e/WcCD0m+uSJuyoDTBupMrxxiIE6Xg91UPZJ
+         In2jU3YBFxtRnMXmd9taBho56WrB9B+YkfrtAKmG9uvfdr98S6nPAQFtVuGuwhGbWxgZ
+         b9ppQzm8pAZ+ziRGQ9ykxstpzeQsZo+q5NQE0TZ75vkJl4JgsURr5d34oIWtkZw7exDe
+         SFsNWrGYN7V5KJTCOYTiQZ0+g37mbSy1fc2F3ak3X0qePEU3Pd1TqcT7tKJzFL++5J3F
+         zJ8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=nRvaZx0CW/m/jWE2uVOD/eMgFMwO805CIg6iMnzrwfQ=;
+        b=gEir9mjeJuRcgvH8SFiFtqNEWM9yBF1HQz4L8qSCvD7Y0ZGT58b0byPZMLfw6Y9qCm
+         LM6zK1aGfb4Ct2uBHYCtAT6v+fFBAGxlDFirtde8sfHfuxGkvqRXCAB9bEq36oSpDWGf
+         eB7iggNrW3PXgnQS/Z5znF9LBC4OvA66GpU2+Jh1SLUp1l/fH85yue/W9e8BqZ7YlLjj
+         icA9W6G1ql8n+9kOmfKElBmVFgztMjcl1OTcou6vlaT7de6Mr6TI2000mLteYj8OxLZW
+         tnmpEbh3n46AC5C+/5AflZ9OuALibKpB5HgApbk763fcDKabZxdj70Rpsp0PcLdN9pqx
+         6+zA==
+X-Gm-Message-State: AGi0PuZtNq9XD/Oaa1iaK7snIRLrHnabP5HRCYTjRllWc92aNni78rwA
+        tNKAV9TtcmqlYWs38VgegfTt4QzR
+X-Google-Smtp-Source: APiQypL6B8kp5TQs+FJdHUEYk9FXX4Z/oe5sNVyJwhksdok7qiY1iCawCoZgHR01tr1EVXCvQvZqeg==
+X-Received: by 2002:ac2:4d07:: with SMTP id r7mr736918lfi.14.1586271384280;
+        Tue, 07 Apr 2020 07:56:24 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id x29sm10512013lfn.64.2020.04.07.07.56.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Apr 2020 07:56:23 -0700 (PDT)
+Subject: Re: [PATCH v10 20/55] Input: atmel_mxt_ts - handle cfg filename via
+ pdata/sysfs
+To:     Jiada Wang <jiada_wang@mentor.com>, nick@shmanahar.org,
+        dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, bsz@semihalf.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
+References: <20200331105051.58896-1-jiada_wang@mentor.com>
+ <20200331105051.58896-21-jiada_wang@mentor.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <d926e4be-84ee-24f3-3523-776e763e6d4e@gmail.com>
+Date:   Tue, 7 Apr 2020 17:56:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200407142238.ik67isetbggn2rh3@gilmour.lan>
+In-Reply-To: <20200331105051.58896-21-jiada_wang@mentor.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Apr 07, 2020 at 04:22:38PM +0200, Maxime Ripard wrote:
-> On Tue, Apr 07, 2020 at 01:03:39PM +0200, Kamel Bouhara wrote:
-> > > On Mon, Apr 06, 2020 at 05:58:05PM +0200, Kamel Bouhara wrote:
-> > > > Add dt binding for the counter variant of the rotary encoder driver.
-> > > >
-> > > > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > > > ---
-> > > >  .../input/rotary-encoder-counter.yaml         | 67 +++++++++++++++++++
-> > > >  1 file changed, 67 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml b/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..a59f7c1faf0c
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > > > @@ -0,0 +1,67 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0
-> > >
-> > > Bindings are usually used by other OS's, so you should consider
-> > > putting it under a more permissive license, usually that would be GPL2
-> > > and the BSD-2-Clause
-> >
-> > Well to be honest I just looked into an existing binding and I guess
-> > the wrong one :).
->
-> Not the wrong ones, but the old ones :)
->
-> It's painful to change a license on existing files, whereas it's
-> pretty easy to mention it during review.
->
+31.03.2020 13:50, Jiada Wang пишет:
+> From: Nick Dyer <nick.dyer@itdev.co.uk>
+> 
+> There may be multiple maXTouch chips on a single device which will require
+> different configuration files. Add a platform data value for the
+> configuration filename.
+> 
+> Add sysfs entry to write configuration file if the platform data is not
+> set.
+> 
+> Split out the object initialisation code from mxt_initialize() into
+> mxt_configure_objects() to allow this.
+> 
+> Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
+> Acked-by: Yufeng Shen <miletus@chromium.org>
+> (cherry picked from ndyer/linux/for-upstream commit 71a2a4d1954460b949a16b607f72bafab294ca79)
+> [gdavis: Resolve forward port conflicts due to applying upstream
+> 	 commit 96a938aa214e ("Input: atmel_mxt_ts - remove platform
+> 	 data support").]
+> Signed-off-by: George G. Davis <george_davis@mentor.com>
+> [gdavis: Squash fix from Vladimir Zapolskiy:
+> 	 - Input: atmel_mxt_ts - fix error paths in mxt_configure_objects()]
+> Signed-off-by: Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
+> [jiada: Separate Documentation/ portion change to another commit
+> 	Rename mxt_update_cfg_store to update_cfg_store
+> 	Replace DEVICE_ATTR with DEVICE_ATTR_WO]
+> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+> ---
+>  drivers/input/touchscreen/atmel_mxt_ts.c | 109 +++++++++++++++++++----
+>  1 file changed, 94 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+> index 720574417219..d1865250f492 100644
+> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
+> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+> @@ -34,7 +34,6 @@
+>  #include <dt-bindings/input/atmel_mxt_ts.h>
+>  
+>  /* Configuration file */
+> -#define MXT_CFG_NAME		"maxtouch.cfg"
+>  #define MXT_CFG_MAGIC		"OBP_RAW V1"
+...
 
-Alright.
+>  static void mxt_input_sync(struct mxt_data *data)
+>  {
+> -	input_mt_report_pointer_emulation(data->input_dev,
+> -					  data->t19_num_keys);
+> -	input_sync(data->input_dev);
+> +	if (data->input_dev) {
+> +		input_mt_report_pointer_emulation(data->input_dev,
+> +						  data->t19_num_keys);
+> +		input_sync(data->input_dev);
+> +	}
+>  }
 
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/input/rotary-encoder-counter.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Rotary Encoder Counter
-> > > > +
-> > > > +maintainers:
-> > > > +  - Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > > > +
-> > > > +description:
-> > > > +  Registers a Rotary encoder connected through a counter device.
-> > >
-> > > You shouldn't really describe the action here, but more what the
-> > > binding is about. The registration will not depend on the presence of
-> > > the node following that binding, but rather on whether or not the OS
-> > > that uses it has support for it.
-> > >
-> >
-> > Then shall it be better with just :
-> > "A rotary encoder device using a generic counter interface." ?
->
-> The generic counter interface is a Linux-only stuff though, some other
-> OS might want to implement something else. Something like "based on a
-> counter"?
->
+Looks like this hunk shouldn't belong to this patch.
 
-Indeed, that's fair enough.
+...
+> +	if (data->pcfg_name)
+> +		mxt_update_file_name(&data->client->dev,
+> +				     &data->cfg_name,
+> +				     data->pcfg_name,
+> +				     strlen(data->pcfg_name));
 
-Thanks.
-
-> Maxime
-
-
-
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+This looks wrong to me because I think the cfg_name should fall back to
+"maxtouch.cfg" if atmel,cfg_name isn't specified in device-tree,
+otherwise this commit may break devices that use an older device-tree.
