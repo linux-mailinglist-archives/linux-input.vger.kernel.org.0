@@ -2,159 +2,183 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC5D11A0F10
-	for <lists+linux-input@lfdr.de>; Tue,  7 Apr 2020 16:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38C6D1A0F6B
+	for <lists+linux-input@lfdr.de>; Tue,  7 Apr 2020 16:38:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729023AbgDGOWq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Apr 2020 10:22:46 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:57187 "EHLO
-        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728776AbgDGOWq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 7 Apr 2020 10:22:46 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.nyi.internal (Postfix) with ESMTP id E14165800FB;
-        Tue,  7 Apr 2020 10:22:44 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 07 Apr 2020 10:22:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=WZZOGhHApCSV1L4UtRpjl8cMVms
-        LTISqTdlhGk83/tE=; b=wdop+RypTY1L95rFhllqkRhtWYgEAFYClfhAPgL7V8o
-        qMlLR5SE6GWLIa1ZSoQ79+Z0W44kt9OiHmZ3CvUvzPb9jnW8UTnki0vTUO07qO/M
-        IH6Du1/ArFs7vqpgdxcGBcasaf/y7tUY/Qy7R0LaqaiV+vdq3gWWG69cu1/Db2d2
-        tSYjGHL62GfQ854q3eGFOokJ2aVePEbHQyaKzerNy29ZfdIMewn63SjOEecLL7SC
-        keWTudwlRGyEJlyAtfcF1aiupSS+Bt6ZxO/lAXvD3cJrOSGcwc7fHwYCw97oo/XP
-        B09l3Pen7zFk/wx6bMLUR9LR0LM1186/fRdBfVdHAjg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=WZZOGh
-        HApCSV1L4UtRpjl8cMVmsLTISqTdlhGk83/tE=; b=u7Ar+N/LF2C6DeXvp3SLmb
-        v1Aty03403E8GzS/l7ZKt6hE1iFd1OjUSMadk8vZhO0FHQa5CTGzPnz2qMBxScGh
-        VM3E1KLQdyBaBxleBRWqGLabrDiHLEfgPjVNddjZEVwztIaWE4P5pY5cKXNJff1G
-        m4v7B7IbDgM7MLt99bro9rRdWjB2MqQrm0rgPulYrJ6qwW00bE6wZ8PNYhUPXcpA
-        NpZlR0RsXbdqFhNsP68Mf/Bl8eF9YLBED3W7NW8d0Dgna7s6UMubPnxtj7zz17PK
-        db20zhWWFiQbOMl2mISNojJH+Obdtsrx2/DuH48sMTHeAJRm9Yrwpn1QMT9SoKvA
-        ==
-X-ME-Sender: <xms:sIyMXlTiXSiRI3WvCdI1mm-Jzir6hQXM5vePtj5cXsapk4tU1rNmag>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehgdejgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinh
-    epuggvvhhitggvthhrvggvrdhorhhgnecukfhppeeltddrkeelrdeikedrjeeinecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvse
-    gtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:sIyMXgXSx8_2lL0owyyT9Y357BIRf8xmDBvgz7I_14l90OfeLLKC5w>
-    <xmx:sIyMXhLRLGm4H2wIpXCkhFto8ChkzLs0j1QJICpClPHUiGd0LFxaYA>
-    <xmx:sIyMXo1pKdgnUJ6tomalMQBcN1-ucn-9h8KxFx-8TrBFAflFemlHRg>
-    <xmx:tIyMXlK4-tLy7Ok2qgPryQ3kFTA8t51d5wIiKn3KRdcyZJ25Z25gwQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 0064F3280066;
-        Tue,  7 Apr 2020 10:22:39 -0400 (EDT)
-Date:   Tue, 7 Apr 2020 16:22:38 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Kamel Bouhara <kamel.bouhara@bootlin.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 2/3] Input: rotary-encoder-counter: add DT bindings
-Message-ID: <20200407142238.ik67isetbggn2rh3@gilmour.lan>
-References: <20200406155806.1295169-1-kamel.bouhara@bootlin.com>
- <20200406155806.1295169-3-kamel.bouhara@bootlin.com>
- <20200407094159.xtbhtsxorvs2g22c@gilmour.lan>
- <20200407110339.GA1489441@kb-xps>
+        id S1729082AbgDGOib (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Apr 2020 10:38:31 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:39060 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729092AbgDGOib (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Apr 2020 10:38:31 -0400
+Received: by mail-pf1-f193.google.com with SMTP id k15so892799pfh.6
+        for <linux-input@vger.kernel.org>; Tue, 07 Apr 2020 07:38:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1AKdxI0Ga8KgSm00s/LalubIX2DaX0rMxjOX/JSy41E=;
+        b=t7LItNipB68bbzTCJoAxcqtB3y4HywW9BS1ZJd+kE7tqcGnYEeLxqPqRez4h8ZdgXl
+         7+3lMhiEsMqfzU08wS5rDxKUySSlbIg7t68udWWLqF5tHrYypJrgPk27f/ZIPDuNlFwp
+         Z8S2NQQXfPpBz0VIx98E7sokI8aZNafdZefM8BPftB1HrjUAIeDFJI1Jp4Gk0YFZq1bZ
+         9CTaz9bwagW3veA20MbqVFT0jEfMCXYZfhGFIBg2DOWlqE1ZKc7M1YUkK49cB0mU3tqf
+         v41la7zUl9wujx4Pa8P2EHvigqnSJTrFWtLMH9FiNijSmz7UKT3YJ056Q/PUkyiIQJgH
+         MF5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1AKdxI0Ga8KgSm00s/LalubIX2DaX0rMxjOX/JSy41E=;
+        b=RIZPlW60epjutkxOgVPyL/+6Bwcp52iJB0hymUp1KUjtzSspvNbxflgJFozXCkhKE3
+         CgjQOKL2W1/ZvV0r7hPKBkby285e/ImMo7JAuoXCymxdcxmJuhFx8YfmjWw45cQ3hpSt
+         z4Fu/HLpbZrPzjIobVo1Gr/ls10YzZ3GvqAMUBYI3wAoXhuApKnySVV/uFpDf8fFGIkD
+         8Y+qZehRKazsc6Iw+KnYLXPq99BAfr/Qd0FQFJkWlBi7QxInexYWzDyM0sXB8++4WY2I
+         1HXIrzdjDmlRWvO4eIxWnVEHHC5it/DmgtDlLVlQapRpGlvIPTBLM/RLncDQYuCOWBes
+         fUVg==
+X-Gm-Message-State: AGi0PuaGfNAsYDICbSvr+netOp2YtEydEVJsEpQbx1mD63dgA0/u6qW2
+        jv3Ptgn//DuuRD2JGHCk92VN8Kk1aN2xgJ0Z3fuDFQ==
+X-Google-Smtp-Source: APiQypK8I+ny54ZCw1dkNJHgsK+c83ghADl5gJPeWgZfX+gtkUm4MkhfG4dLSL9gcGo3JxS0cB2hsGUXJyWOPDJYKiw=
+X-Received: by 2002:a63:cf02:: with SMTP id j2mr2411345pgg.130.1586270309075;
+ Tue, 07 Apr 2020 07:38:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="cmea35pc2hxci5l3"
-Content-Disposition: inline
-In-Reply-To: <20200407110339.GA1489441@kb-xps>
+References: <000000000000fdc98405a2b44a8c@google.com>
+In-Reply-To: <000000000000fdc98405a2b44a8c@google.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 7 Apr 2020 16:38:17 +0200
+Message-ID: <CAAeHK+wV_cpN9GbJDq4qprAFcL8-svb_8xgXxzFz8gtdykN=sA@mail.gmail.com>
+Subject: Re: WARNING in add_taint/usb_submit_urb
+To:     syzbot <syzbot+f44561cfce4cc0e75b89@syzkaller.appspotmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Vladis Dronov <vdronov@redhat.com>,
+        Johan Hovold <johan@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        ingrassia@epigenesys.com, LKML <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
---cmea35pc2hxci5l3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Tue, Apr 07, 2020 at 01:03:39PM +0200, Kamel Bouhara wrote:
-> > On Mon, Apr 06, 2020 at 05:58:05PM +0200, Kamel Bouhara wrote:
-> > > Add dt binding for the counter variant of the rotary encoder driver.
-> > >
-> > > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > > ---
-> > >  .../input/rotary-encoder-counter.yaml         | 67 +++++++++++++++++++
-> > >  1 file changed, 67 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml b/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > > new file mode 100644
-> > > index 000000000000..a59f7c1faf0c
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > > @@ -0,0 +1,67 @@
-> > > +# SPDX-License-Identifier: GPL-2.0
-> >
-> > Bindings are usually used by other OS's, so you should consider
-> > putting it under a more permissive license, usually that would be GPL2
-> > and the BSD-2-Clause
+On Tue, Apr 7, 2020 at 4:35 PM syzbot
+<syzbot+f44561cfce4cc0e75b89@syzkaller.appspotmail.com> wrote:
 >
-> Well to be honest I just looked into an existing binding and I guess
-> the wrong one :).
-
-Not the wrong ones, but the old ones :)
-
-It's painful to change a license on existing files, whereas it's
-pretty easy to mention it during review.
-
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/input/rotary-encoder-counter.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Rotary Encoder Counter
-> > > +
-> > > +maintainers:
-> > > +  - Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > > +
-> > > +description:
-> > > +  Registers a Rotary encoder connected through a counter device.
-> >
-> > You shouldn't really describe the action here, but more what the
-> > binding is about. The registration will not depend on the presence of
-> > the node following that binding, but rather on whether or not the OS
-> > that uses it has support for it.
-> >
+> Hello,
 >
-> Then shall it be better with just :
-> "A rotary encoder device using a generic counter interface." ?
+> syzbot found the following crash on:
+>
+> HEAD commit:    0fa84af8 Merge tag 'usb-serial-5.7-rc1' of https://git.ker..
+> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=11cce12be00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=6b9c154b0c23aecf
+> dashboard link: https://syzkaller.appspot.com/bug?extid=f44561cfce4cc0e75b89
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17a8312be00000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14e35d8fe00000
+>
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+f44561cfce4cc0e75b89@syzkaller.appspotmail.com
+>
+> ------------[ cut here ]------------
+> usb 1-1: BOGUS urb xfer, pipe 1 != type 3
+> WARNING: CPU: 1 PID: 384 at drivers/usb/core/urb.c:478 usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+> Kernel panic - not syncing: panic_on_warn set ...
+> CPU: 1 PID: 384 Comm: systemd-udevd Not tainted 5.6.0-rc7-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> Call Trace:
+>  __dump_stack lib/dump_stack.c:77 [inline]
+>  dump_stack+0xef/0x16e lib/dump_stack.c:118
+>  usb_submit_urb+0x10b0/0x1460 drivers/usb/core/urb.c:363
+>  panic+0x2aa/0x6e1 kernel/panic.c:221
+>  add_taint.cold+0x16/0x16 kernel/panic.c:434
+>  set_bit include/asm-generic/bitops/instrumented-atomic.h:28 [inline]
+>  set_ti_thread_flag include/linux/thread_info.h:55 [inline]
+>  set_fs arch/x86/include/asm/uaccess.h:33 [inline]
+>  __probe_kernel_read+0x188/0x1d0 mm/maccess.c:67
+>  __warn.cold+0x14/0x30 kernel/panic.c:581
+>  __warn+0xd5/0x1c8 kernel/panic.c:574
+>  usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+>  __warn.cold+0x2f/0x30 kernel/panic.c:582
+>  usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+>  report_bug+0x27b/0x2f0 lib/bug.c:195
+>  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+>  fixup_bug arch/x86/kernel/traps.c:169 [inline]
+>  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
+>  usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+>  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
+>  usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+>  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
+> RIP: 0010:usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+> Code: 4d 85 e
+>
+>
+> ---
+> This bug is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>
+> syzbot will keep track of this bug report. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> syzbot can test patches for this bug, for details see:
+> https://goo.gl/tpsmEJ#testing-patches
 
-The generic counter interface is a Linux-only stuff though, some other
-OS might want to implement something else. Something like "based on a
-counter"?
++GTCO maintainers.
 
-Maxime
+Proper report:
 
---cmea35pc2hxci5l3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXoyMrgAKCRDj7w1vZxhR
-xaGoAP0Rk4zze3+M3tv+xBVv0PmMPLNoqDCmIQF259PcWDF2FQEAovMUQKsz/fRB
-40V3ClfoNka1Z3kbhlkiwiHDy75R/Q0=
-=HdTF
------END PGP SIGNATURE-----
-
---cmea35pc2hxci5l3--
+input: GTCO_CalComp as
+/devices/platform/dummy_hcd.0/usb1/1-1/1-1:0.219/input/input4
+------------[ cut here ]------------
+usb 1-1: BOGUS urb xfer, pipe 1 != type 3
+WARNING: CPU: 0 PID: 892 at drivers/usb/core/urb.c:478
+usb_submit_urb+0x1189/0x1460
+Modules linked in:
+CPU: 0 PID: 892 Comm: systemd-udevd Not tainted 5.6.0+ #167
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
+RIP: 0010:usb_submit_urb+0x1189/0x1460 drivers/usb/core/urb.c:478
+Code: 4d 85 ed 74 46 e8 d7 b5 d7 fd 4c 89 f7 e8 0f b4 16 ff 41 89 d8
+44 89 e1 4c 89 ea 48 89 c6 48 c7 c7d
+RSP: 0018:ffff888062f4f7f8 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 0000000000000003 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8129eb6d RDI: ffffed100c5e9ef1
+RBP: ffff8880689aeb80 R08: ffff888069670000 R09: ffffed100d9443c9
+R10: ffff88806ca21e43 R11: ffffed100d9443c8 R12: 0000000000000001
+R13: ffff888065fa9f00 R14: ffff888068d390a0 R15: ffff88806bf67d00
+FS:  00007f4b1048b8c0(0000) GS:ffff88806ca00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055ad85210280 CR3: 000000005fccc000 CR4: 00000000000006f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ gtco_input_open+0xd5/0x130 drivers/input/tablet/gtco.c:560
+ input_open_device+0x171/0x2d0 drivers/input/input.c:624
+ evdev_open_device drivers/input/evdev.c:414
+ evdev_open+0x3eb/0x4f0 drivers/input/evdev.c:496
+ chrdev_open+0x219/0x5c0 fs/char_dev.c:414
+ do_dentry_open+0x4ac/0x1180 fs/open.c:797
+ do_open fs/namei.c:3229
+ path_openat+0x19dd/0x26f0 fs/namei.c:3346
+ do_filp_open+0x203/0x260 fs/namei.c:3375
+ do_sys_openat2+0x598/0x790 fs/open.c:1148
+ do_sys_open+0xc3/0x140 fs/open.c:1164
+ do_syscall_64+0xb6/0x5a0 arch/x86/entry/common.c:295
+ entry_SYSCALL_64_after_hwframe+0x49/0xb3 arch/x86/entry/entry_64.S:175
+RIP: 0033:0x7f4b0f5d2840
+Code: 73 01 c3 48 8b 0d 68 77 20 00 f7 d8 64 89 01 48 83 c8 ff c3 66
+0f 1f 44 00 00 83 3d 89 bb 20 00 004
+RSP: 002b:00007ffce57653c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
+RAX: ffffffffffffffda RBX: 000055ad852c88e0 RCX: 00007f4b0f5d2840
+RDX: 0000000000000000 RSI: 0000000000080000 RDI: 000055ad852d12a0
+RBP: 000055ad852d12a0 R08: 000055ad83f4afe3 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000020
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+irq event stamp: 6960
+hardirqs last  enabled at (6959): [<ffffffff81299621>]
+console_unlock+0x911/0xca0
+hardirqs last disabled at (6960): [<ffffffff81004721>]
+trace_hardirqs_off_thunk+0x1a/0x1c
+softirqs last  enabled at (6290): [<ffffffff85c00678>] __do_softirq+0x678/0x9a5
+softirqs last disabled at (6281): [<ffffffff8115a258>] irq_exit+0x178/0x1a0
+---[ end trace 066086d0cefb4362 ]---
