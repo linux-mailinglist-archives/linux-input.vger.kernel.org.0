@@ -2,211 +2,198 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C583E1A0C72
-	for <lists+linux-input@lfdr.de>; Tue,  7 Apr 2020 13:03:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0BB81A0D5A
+	for <lists+linux-input@lfdr.de>; Tue,  7 Apr 2020 14:13:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726767AbgDGLDo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Apr 2020 07:03:44 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:48821 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726591AbgDGLDo (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Apr 2020 07:03:44 -0400
-X-Originating-IP: 78.193.40.249
-Received: from kb-xps (unknown [78.193.40.249])
-        (Authenticated sender: kamel.bouhara@bootlin.com)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id D5839FF819;
-        Tue,  7 Apr 2020 11:03:40 +0000 (UTC)
-Date:   Tue, 7 Apr 2020 13:03:39 +0200
-From:   Kamel Bouhara <kamel.bouhara@bootlin.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 2/3] Input: rotary-encoder-counter: add DT bindings
-Message-ID: <20200407110339.GA1489441@kb-xps>
-References: <20200406155806.1295169-1-kamel.bouhara@bootlin.com>
- <20200406155806.1295169-3-kamel.bouhara@bootlin.com>
- <20200407094159.xtbhtsxorvs2g22c@gilmour.lan>
+        id S1728548AbgDGMNX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Apr 2020 08:13:23 -0400
+Received: from mga17.intel.com ([192.55.52.151]:47081 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726562AbgDGMNX (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 7 Apr 2020 08:13:23 -0400
+IronPort-SDR: HdKWSznzNDMhBp4WIrpEACVTGVpjdRjnfLrh6st1k7wnd/3ZpzHOJG8yjT72DUsNm0zKsJQ5w0
+ smLtfTD2aKxA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2020 05:13:22 -0700
+IronPort-SDR: ro26UaMH4QGcyyDwPcd7Aima6euepPd0ipZVlmdSrw4tNgQwMmJotaZ2uRAfzOEkFO6tDTJYSV
+ yftP4/xM83Hw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,354,1580803200"; 
+   d="scan'208";a="242058507"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 07 Apr 2020 05:13:21 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jLn6W-0005I9-TU; Tue, 07 Apr 2020 20:13:20 +0800
+Date:   Tue, 07 Apr 2020 20:12:28 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:for-linus] BUILD SUCCESS
+ cd510679f4b588b7726fc8b25e5a0afd6f889b14
+Message-ID: <5e8c6e2c.GQ2yg05DnLqOY5tY%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200407094159.xtbhtsxorvs2g22c@gilmour.lan>
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Apr 07, 2020 at 11:41:59AM +0200, Maxime Ripard wrote:
-> Hi Kamel,
->
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  for-linus
+branch HEAD: cd510679f4b588b7726fc8b25e5a0afd6f889b14  Merge branch 'next' into for-linus
 
-Hi Maxime,
+elapsed time: 480m
 
-> The prefix for device tree bindings is usually dt-bindings:
-> $framework: $title
->
-> So a title like "dt-bindings: input: Add a counter-based rotary
-> encoder binding" would be better.
->
+configs tested: 139
+configs skipped: 0
 
-OK, to be fixed then.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> On Mon, Apr 06, 2020 at 05:58:05PM +0200, Kamel Bouhara wrote:
-> > Add dt binding for the counter variant of the rotary encoder driver.
-> >
-> > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > ---
-> >  .../input/rotary-encoder-counter.yaml         | 67 +++++++++++++++++++
-> >  1 file changed, 67 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml b/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > new file mode 100644
-> > index 000000000000..a59f7c1faf0c
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > @@ -0,0 +1,67 @@
-> > +# SPDX-License-Identifier: GPL-2.0
->
-> Bindings are usually used by other OS's, so you should consider
-> putting it under a more permissive license, usually that would be GPL2
-> and the BSD-2-Clause
->
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm                           efm32_defconfig
+arm                         at91_dt_defconfig
+arm                        shmobile_defconfig
+arm64                               defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                           sunxi_defconfig
+arm                        multi_v7_defconfig
+m68k                           sun3_defconfig
+microblaze                    nommu_defconfig
+ia64                             allmodconfig
+xtensa                       common_defconfig
+sparc64                          allyesconfig
+ia64                                defconfig
+powerpc                             defconfig
+i386                              allnoconfig
+i386                             alldefconfig
+i386                             allyesconfig
+i386                              debian-10.3
+i386                                defconfig
+ia64                             alldefconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+c6x                              allyesconfig
+c6x                        evmc6678_defconfig
+nios2                         10m50_defconfig
+nios2                         3c120_defconfig
+openrisc                    or1ksim_defconfig
+openrisc                 simple_smp_defconfig
+xtensa                          iss_defconfig
+alpha                               defconfig
+csky                                defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+h8300                       h8s-sim_defconfig
+h8300                     edosk2674_defconfig
+m68k                       m5475evb_defconfig
+m68k                             allmodconfig
+h8300                    h8300h-sim_defconfig
+m68k                          multi_defconfig
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+powerpc                           allnoconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+mips                      malta_kvm_defconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                             allyesconfig
+mips                      fuloong2e_defconfig
+parisc                            allnoconfig
+parisc                           allyesconfig
+parisc                generic-32bit_defconfig
+parisc                generic-64bit_defconfig
+x86_64               randconfig-a001-20200407
+x86_64               randconfig-a002-20200407
+x86_64               randconfig-a003-20200407
+i386                 randconfig-a001-20200407
+i386                 randconfig-a002-20200407
+i386                 randconfig-a003-20200407
+riscv                randconfig-a001-20200407
+alpha                randconfig-a001-20200407
+m68k                 randconfig-a001-20200407
+nds32                randconfig-a001-20200407
+parisc               randconfig-a001-20200407
+sparc64              randconfig-a001-20200407
+h8300                randconfig-a001-20200407
+nios2                randconfig-a001-20200407
+microblaze           randconfig-a001-20200407
+c6x                  randconfig-a001-20200407
+csky                 randconfig-a001-20200407
+openrisc             randconfig-a001-20200407
+s390                 randconfig-a001-20200407
+sh                   randconfig-a001-20200407
+xtensa               randconfig-a001-20200407
+s390                 randconfig-a001-20200406
+xtensa               randconfig-a001-20200406
+csky                 randconfig-a001-20200406
+openrisc             randconfig-a001-20200406
+sh                   randconfig-a001-20200406
+x86_64               randconfig-b001-20200407
+x86_64               randconfig-b002-20200407
+x86_64               randconfig-b003-20200407
+i386                 randconfig-b001-20200407
+i386                 randconfig-b002-20200407
+i386                 randconfig-b003-20200407
+x86_64               randconfig-d001-20200407
+x86_64               randconfig-d002-20200407
+x86_64               randconfig-d003-20200407
+i386                 randconfig-d001-20200407
+i386                 randconfig-d002-20200407
+i386                 randconfig-d003-20200407
+x86_64               randconfig-f001-20200407
+x86_64               randconfig-f002-20200407
+x86_64               randconfig-f003-20200407
+i386                 randconfig-f001-20200407
+i386                 randconfig-f002-20200407
+i386                 randconfig-f003-20200407
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+s390                             alldefconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+sh                          rsk7269_defconfig
+sh                               allmodconfig
+sh                            titan_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                                allnoconfig
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                             defconfig
+um                                  defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                               rhel-7.6
 
-Well to be honest I just looked into an existing binding and I guess
-the wrong one :).
-
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/input/rotary-encoder-counter.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Rotary Encoder Counter
-> > +
-> > +maintainers:
-> > +  - Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > +
-> > +description:
-> > +  Registers a Rotary encoder connected through a counter device.
->
-> You shouldn't really describe the action here, but more what the
-> binding is about. The registration will not depend on the presence of
-> the node following that binding, but rather on whether or not the OS
-> that uses it has support for it.
->
-
-Then shall it be better with just :
-"A rotary encoder device using a generic counter interface." ?
-
-> > +properties:
-> > +  compatible:
-> > +    const: rotary-encoder-counter
-> > +
-> > +  counter:
-> > +    description: Phandle for the counter device providing rotary position.
->
-> This should have a type
->
-> > +  linux-axis:
-> > +    description: The input subsystem axis to map to this rotary encoder.
-> > +    type: boolean
-> > +
-> > +  qdec-mode:
-> > +    description: |
-> > +      Quadrature decoder function to set in the counter device.
-> > +      3: x1-PHA
-> > +      4: x1-PHB
-> > +      5: x2-PHA
-> > +      6: x2-PHB
-> > +      7: x4-PHA and PHB
->
-> That range (even though it's a bit odd) should be expressed through an
-> enum so that you can check that the values are actually within that
-> range.
->
-
-Indeed, that make sens to check it from the binding.
-
-Will fix it in v2.
-
-> > +  steps:
-> > +    description: Number of steps in a full turnaround of the encoder.
->
-> Muli-line strings should have either quotes around them, or a | or >
-> like you did for the description. | will keep the \n, > will make that
-> a single string.
->
-> This should also have a type
->
-> > +      Only relevant for absolute axis.
->
-> This should be expressed through a if / then clause, or a dependencies one
->
-> >                                         Defaults to 24 which is a typical
-> > +      value for such devices.
->
-> This should be expressed through a default property.
->
-
-The devil is in the details and yet quite lot of them to fix.
-
-Thanks.
-
-> > +  relative-axis:
-> > +    description: Register a relative axis rather than an absolute one.
-> > +    type: boolean
-> > +
-> > +  rollover:
-> > +    description: Automatic rollover when the rotary value becomes greater
-> > +      than the specified steps or smaller than 0. For absolute axis only.
-> > +    type: boolean
->
-> Same story than steps for the dependency. Also, what is is the
-> behaviour when this property isn't set?
->
-
-OK, if rollover isn't set then the count is unbounded, of course this
-shall be described here.
-
-> > +  poll-interval:
-> > +    description: Poll interval at which the position is read from the counter
-> > +      device (default 500ms).
->
-> It should have a type too, and a default property
->
-> > +
-> > +required:
-> > +  - compatible
-> > +  - counter
-> > +  - qdec-mode
-> > +
-> > +examples:
-> > +  - |
-> > +    rotary@0 {
-> > +        compatible = "rotary-encoder-counter";
->
-> A unit-address (the part after @) only makes sense for a node if
-> there's a matching reg property in the node. This will trigger a DTC
-> warning, so you should remove the @0
->
-
-Ok I'll fix it then.
-
-Thanks again.
-
-> Maxime
-
-
-
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
