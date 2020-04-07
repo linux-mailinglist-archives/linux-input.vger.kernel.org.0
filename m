@@ -2,103 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 196B71A16AD
-	for <lists+linux-input@lfdr.de>; Tue,  7 Apr 2020 22:21:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 112FC1A17C5
+	for <lists+linux-input@lfdr.de>; Wed,  8 Apr 2020 00:08:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727121AbgDGUV6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Apr 2020 16:21:58 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:33623 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726719AbgDGUV5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Apr 2020 16:21:57 -0400
-X-Originating-IP: 78.193.40.249
-Received: from kb-xps (unknown [78.193.40.249])
-        (Authenticated sender: kamel.bouhara@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id AD90920005;
-        Tue,  7 Apr 2020 20:21:51 +0000 (UTC)
-Date:   Tue, 7 Apr 2020 22:21:50 +0200
-From:   Kamel Bouhara <kamel.bouhara@bootlin.com>
-To:     William Breathitt Gray <vilhelm.gray@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        id S1726619AbgDGWIw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Apr 2020 18:08:52 -0400
+Received: from 11.mo1.mail-out.ovh.net ([188.165.48.29]:33148 "EHLO
+        11.mo1.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726406AbgDGWIv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Apr 2020 18:08:51 -0400
+X-Greylist: delayed 1016 seconds by postgrey-1.27 at vger.kernel.org; Tue, 07 Apr 2020 18:08:50 EDT
+Received: from player692.ha.ovh.net (unknown [10.108.57.226])
+        by mo1.mail-out.ovh.net (Postfix) with ESMTP id 60E0D1B9FA3
+        for <linux-input@vger.kernel.org>; Tue,  7 Apr 2020 23:51:53 +0200 (CEST)
+Received: from etezian.org (213-243-141-64.bb.dnainternet.fi [213.243.141.64])
+        (Authenticated sender: andi@etezian.org)
+        by player692.ha.ovh.net (Postfix) with ESMTPSA id CADFA1114F23A;
+        Tue,  7 Apr 2020 21:51:44 +0000 (UTC)
+Date:   Wed, 8 Apr 2020 00:51:43 +0300
+From:   Andi Shyti <andi@etezian.org>
+To:     Stephan Gerhold <stephan@gerhold.net>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andi Shyti <andi@etezian.org>, linux-input@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-iio@vger.kernel.org
-Subject: Re: [PATCH 1/3] ARM: at91: add atmel tcb capabilities
-Message-ID: <20200407202150.GD1489441@kb-xps>
-References: <20200406155320.1291701-1-kamel.bouhara@bootlin.com>
- <20200406155320.1291701-2-kamel.bouhara@bootlin.com>
- <20200407165335.GF5578@icarus>
+        devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 2/2] dt-bindings: mms114: document melfas,mms345l
+ binding
+Message-ID: <20200407215143.GD207210@jack.zhora.eu>
+References: <20200405170904.61512-1-stephan@gerhold.net>
+ <20200405170904.61512-2-stephan@gerhold.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200407165335.GF5578@icarus>
+In-Reply-To: <20200405170904.61512-2-stephan@gerhold.net>
+X-Ovh-Tracer-Id: 17724197810407588589
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudeigddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehnughiucfuhhihthhiuceorghnughisegvthgviihirghnrdhorhhgqeenucfkpheptddrtddrtddrtddpvddufedrvdegfedrudeguddrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelvddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegrnhguihesvghtvgiiihgrnhdrohhrghdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Apr 07, 2020 at 12:53:35PM -0400, William Breathitt Gray wrote:
-> On Mon, Apr 06, 2020 at 05:53:18PM +0200, Kamel Bouhara wrote:
-> > Some atmel socs have extra tcb capabilities that allow using a generic
-> > clock source or enabling a quadrature decoder.
-> >
-> > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > ---
-> >  include/soc/at91/atmel_tcb.h | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/include/soc/at91/atmel_tcb.h b/include/soc/at91/atmel_tcb.h
-> > index fbf5474f4484..6b9c9bec982e 100644
-> > --- a/include/soc/at91/atmel_tcb.h
-> > +++ b/include/soc/at91/atmel_tcb.h
-> > @@ -39,7 +39,8 @@ struct clk;
-> >   */
-> >  struct atmel_tcb_config {
-> >  	size_t	counter_width;
-> > -	unsigned int has_gclk:1;
->
-> Hi Kamel,
->
+Hi Stephan,
 
-Hi William,
+On Sun, Apr 05, 2020 at 07:09:04PM +0200, Stephan Gerhold wrote:
+> The mms114 driver now supports MMS345L; document the
+> melfas,mms345l binding that is used for it.
+> 
+> Acked-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Andi Shyti <andi@etezian.org>
+> Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
 
-> I'm having trouble applying this patch, so I think we have different
-> bases. Specifically, I'm not sure where this has_gclk member was
-> introduced. It doesn't look like it's in the testing branch of the IIO
-> tree yet.
->
-> What branch did you base your patches on?
+just one nitpick, the signing should be sorted in chronological
+order, I see that you reverted it.
 
-You're right, this line should not be here.
+You first signed it as the author, then I reviewed it and the Rob
+acked it, so that it should be:
 
-I'll fix it for v2.
+  Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+  Reviewed-by: Andi Shyti <andi@etezian.org>
+  Acked-by: Rob Herring <robh@kernel.org>
 
-Thanks,
+you reversed it.
 
-Kamel
+Other than that, I'm sorry I couldn't help you but I haven't
+received answers from Samsung about getting the prototypes.
+However I don't see reason for not applying the patch.
 
->
-> Thanks,
->
-> William Breathitt Gray
->
-> > +	bool	has_gclk;
-> > +	bool	has_qdec;
-> >  };
-> >
-> >  /**
-> > --
-> > 2.25.0
-> >
-
-
-
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Andi
