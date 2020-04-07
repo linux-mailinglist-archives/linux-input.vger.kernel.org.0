@@ -2,91 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43EAB1A0325
-	for <lists+linux-input@lfdr.de>; Tue,  7 Apr 2020 02:10:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA8C51A062E
+	for <lists+linux-input@lfdr.de>; Tue,  7 Apr 2020 07:12:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726708AbgDGAHF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Apr 2020 20:07:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35972 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727877AbgDGACF (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 6 Apr 2020 20:02:05 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 29B0B2083E;
-        Tue,  7 Apr 2020 00:02:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586217724;
-        bh=lmDFwSRJINaEuNcm0imgBOH7qPo597f26/3MDbu0cUE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KDlKJhvVgEWOPHE4BZhHk+IwL+X9hdB/ZbT4a68RY4IQ/1243GVwWhI74WVCBGy8a
-         NXvK1/Bue52Y6ZRpixuQZb1XbbDqJtXRZBkQJbngoHkcuKh54MfMjZGNPfupi/QolF
-         qyl2EXI3rgogbiHwa0x3cPpooFCFnTT+An7OhGAQ=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nick Reitemeyer <nick.reitemeyer@web.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 10/32] Input: tm2-touchkey - add support for Coreriver TC360 variant
-Date:   Mon,  6 Apr 2020 20:01:28 -0400
-Message-Id: <20200407000151.16768-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200407000151.16768-1-sashal@kernel.org>
-References: <20200407000151.16768-1-sashal@kernel.org>
+        id S1726928AbgDGFMm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Apr 2020 01:12:42 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:45300 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726884AbgDGFMm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Apr 2020 01:12:42 -0400
+Received: by mail-ot1-f66.google.com with SMTP id c9so460147otl.12
+        for <linux-input@vger.kernel.org>; Mon, 06 Apr 2020 22:12:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
+        b=m9m/DCsFRus/zRmIuphflM5sHyenmkMN/TOEnECOGthbLJHVg8u2+iqtFZpNbyb2/k
+         2tLF//qwyXGtNVJKRleGUy+KbEtVjN+06Aw6FbGL98d5M/QEqB9c9SHaIsBPFlQYoUCh
+         Lj+P9EPUGdvyQRip4KeH3oSvDVhqDTV0IJcbcI66BzYP/b9Y/1y4LF++1q0teLhPl3GM
+         v15gBTxOBB8qvH4CNaCnwdm2sugBL+St8qIlm7SqBWweWj6hdsos1F0mjeWO8qJt64R9
+         xl3tya8AfljNAFdSOkZ4tC7INitomO8JQPFHHcp+JAODUsaup01At9KIYDntXEoTQZb0
+         DmdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
+        b=AEXI9dOV/X9YHz3t9cf4lx4AxvJjp6hNm6ruExG3Wu3OuEdVi5yeP85Cf2nUONAskU
+         pXQ4bZcA9mVGEqNaQNDjM8ps4urUNTj1A9zait9BZR3crePE95kifTRqs9Ecd9KUTwGD
+         t1kt2eN6WsQvyzXOJ0aJ/H4iByMwgicEWOEcDa+kBDoxKtshiZ9B05YadrDWQfvYO5+U
+         qjoZ436aTbp9QotGh4QCXAZq1myA5QzhDSDtDLKzlwT9jTLXuasHTZh+paqA2URAnmjT
+         dEbxQ1Sh4AzvFcAhc2yAhazDNM9JGMbgxFiMhfkgorYcrZ/XteUEFHXd6PCkUrtvgHq1
+         hTsg==
+X-Gm-Message-State: AGi0Puaq+bizl5wFEjxPETJkN85IdrVeS0UnoXdtTacU5TxqscpwQocz
+        Q+RMpmWOkOjOWpVn4KEaToYJRDVQjvEN7OWQGNKbew53NBI=
+X-Google-Smtp-Source: APiQypIYXniGQUHEpASwiGNjKth4Cu9ElCz4yjrJ2uXbYBYunhfz0887D/TRydUbTstl7MwaeVftG8QxF1P80ST3qos=
+X-Received: by 2002:ab0:a9:: with SMTP id 38mr504317uaj.61.1586236361040; Mon,
+ 06 Apr 2020 22:12:41 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Received: by 2002:ab0:4929:0:0:0:0:0 with HTTP; Mon, 6 Apr 2020 22:12:40 -0700 (PDT)
+From:   SANDRA DEWI <dewisandra154@gmail.com>
+Date:   Tue, 7 Apr 2020 05:12:40 +0000
+Message-ID: <CABRVPWys0xe4CWBkaU0ZXQW+4d=tjDOjyo8cKohc5-VFkWPkcA@mail.gmail.com>
+Subject: whether this is your correct email address or not
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nick Reitemeyer <nick.reitemeyer@web.de>
+Dear ,Pastor
 
-[ Upstream commit da3289044833769188c0da945d2cec90af35e87e ]
 
-The Coreriver TouchCore 360 is like the midas board touchkey, but it is
-using a fixed regulator.
 
-Signed-off-by: Nick Reitemeyer <nick.reitemeyer@web.de>
-Link: https://lore.kernel.org/r/20200121141525.3404-3-nick.reitemeyer@web.de
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/input/keyboard/tm2-touchkey.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+I have a client who is an oil business man and he made a fixed deposit
+of $26 million USD in my bank, where I am the director of the branch,
+My client died with his entire family in Jordanian
 
-diff --git a/drivers/input/keyboard/tm2-touchkey.c b/drivers/input/keyboard/tm2-touchkey.c
-index 14b55bacdd0f1..fb078e049413f 100644
---- a/drivers/input/keyboard/tm2-touchkey.c
-+++ b/drivers/input/keyboard/tm2-touchkey.c
-@@ -75,6 +75,14 @@ static struct touchkey_variant aries_touchkey_variant = {
- 	.cmd_led_off = ARIES_TOUCHKEY_CMD_LED_OFF,
- };
- 
-+static const struct touchkey_variant tc360_touchkey_variant = {
-+	.keycode_reg = 0x00,
-+	.base_reg = 0x00,
-+	.fixed_regulator = true,
-+	.cmd_led_on = TM2_TOUCHKEY_CMD_LED_ON,
-+	.cmd_led_off = TM2_TOUCHKEY_CMD_LED_OFF,
-+};
-+
- static int tm2_touchkey_led_brightness_set(struct led_classdev *led_dev,
- 					    enum led_brightness brightness)
- {
-@@ -327,6 +335,9 @@ static const struct of_device_id tm2_touchkey_of_match[] = {
- 	}, {
- 		.compatible = "cypress,aries-touchkey",
- 		.data = &aries_touchkey_variant,
-+	}, {
-+		.compatible = "coreriver,tc360-touchkey",
-+		.data = &tc360_touchkey_variant,
- 	},
- 	{ },
- };
--- 
-2.20.1
+50% of the fund will be for the church  for the work of God,the
+balance 50% we share it in the ratio of 50/50. Meaning 50% to you and
+50% for me
 
+intervention in the Syrian Civil War 2014 leaving behind no next of
+kin. I Propose to present you as next of kin to claim the funds, if
+interested reply me for full details and how we are to
+
+
+
+proceed to close this deal.
+
+
+
+
+Mrs. Sandra Dewi
+
+
+
+Email  mrsdewi@gmx.com
