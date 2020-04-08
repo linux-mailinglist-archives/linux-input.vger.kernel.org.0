@@ -2,149 +2,595 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1EA41A2788
-	for <lists+linux-input@lfdr.de>; Wed,  8 Apr 2020 18:52:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1555B1A2B24
+	for <lists+linux-input@lfdr.de>; Wed,  8 Apr 2020 23:31:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728040AbgDHQw6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Apr 2020 12:52:58 -0400
-Received: from mout.web.de ([212.227.15.14]:37937 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727187AbgDHQw6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 8 Apr 2020 12:52:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1586364754;
-        bh=qJYnlXZVVFUtPwXcU+P6Py04mAQqsJ4+nGikGWgTZ+k=;
-        h=X-UI-Sender-Class:To:From:Subject:Cc:Date;
-        b=CS1LstZk89SbHuYdStwWN3Rg7oB74VqAQrLN2w0wt3xtopvj6Pm71sjotdmX22AhP
-         cko/aSj9B0I+xLDbLcLHu9i3I5XQJWtzM/xuCmwsePmY8fci8yMuolU1TsUF5fKvFa
-         RN7zYRS1+XrEp8mps9sBlByQ+9cNjhGx1A7qt1Zk=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.3] ([78.48.170.28]) by smtp.web.de (mrweb001
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MVcvn-1jna610FcF-00Z1nS; Wed, 08
- Apr 2020 18:52:34 +0200
-To:     linux-input@vger.kernel.org, Allison Randal <allison@lohutok.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        Olof Johansson <olof@lixom.net>,
-        Thomas Gleixner <tglx@linutronix.de>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Subject: Input: ep93xx_keypad: Checking for a failed platform_get_irq() call
- in ep93xx_keypad_probe()
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
- +v43YoGpDNyhgA0w9CEhuwfZrE91GocMtjLO67TAc2i2nxMc/FJRDI0OemO4VJ9RwID6ltwt
- mpVJgXGKkNJ1ey+QOXouzlErVvE2fRh+KXXN1Q7fSmTJlAW9XJYHS3BDHb0uRpymRSX3O+E2
- lA87C7R8qAigPDZi6Z7UmwIA83ZMKXQ5stA0lhPyYgQcM7fh7V4ZYhnR0I5/qkUoxKpqaYLp
- YHBczVP+Zx/zHOM0KQphOMbU7X3c1pmMruoe6ti9uZzqZSLsF+NKXFEPBS665tQr66HJvZvY
- GMDlntZFAZ6xQvCC1r3MGoxEC1tuEa24vPCC9RZ9wk2sY5Csbva0WwYv3WKRZZBv8eIhGMxs
- rcpeGShRFyZ/0BYO53wZAPV1pEhGLLxd8eLN/nEWjJE0ejakPC1H/mt5F+yQBJAzz9JzbToU
- 5jKLu0SugNI18MspJut8AiA1M44CIWrNHXvWsQ+nnBKHDHHYZu7MoXlOmB32ndsfPthR3GSv
- jN7YD4Ad724H8fhRijmC1+RpuSce7w2JLj5cYj4MlccmNb8YUxsE8brY2WkXQYS8Ivse39MX
- BE66MQN0r5DQ6oqgoJ4gHIVBUv/ZwgcmUNS5gQkNCFA0dWXznQARAQABtCZNYXJrdXMgRWxm
- cmluZyA8TWFya3VzLkVsZnJpbmdAd2ViLmRlPokCVAQTAQgAPhYhBHDP0hzibeXjwQ/ITuU9
- Figxg9azBQJYNvsQAhsjBQkJZgGABQsJCAcCBhUICQoLAgQWAgMBAh4BAheAAAoJEOU9Figx
- g9azcyMP/iVihZkZ4VyH3/wlV3nRiXvSreqg+pGPI3c8J6DjP9zvz7QHN35zWM++1yNek7Ar
- OVXwuKBo18ASlYzZPTFJZwQQdkZSV+atwIzG3US50ZZ4p7VyUuDuQQVVqFlaf6qZOkwHSnk+
- CeGxlDz1POSHY17VbJG2CzPuqMfgBtqIU1dODFLpFq4oIAwEOG6fxRa59qbsTLXxyw+PzRaR
- LIjVOit28raM83Efk07JKow8URb4u1n7k9RGAcnsM5/WMLRbDYjWTx0lJ2WO9zYwPgRykhn2
- sOyJVXk9xVESGTwEPbTtfHM+4x0n0gC6GzfTMvwvZ9G6xoM0S4/+lgbaaa9t5tT/PrsvJiob
- kfqDrPbmSwr2G5mHnSM9M7B+w8odjmQFOwAjfcxoVIHxC4Cl/GAAKsX3KNKTspCHR0Yag78w
- i8duH/eEd4tB8twcqCi3aCgWoIrhjNS0myusmuA89kAWFFW5z26qNCOefovCx8drdMXQfMYv
- g5lRk821ZCNBosfRUvcMXoY6lTwHLIDrEfkJQtjxfdTlWQdwr0mM5ye7vd83AManSQwutgpI
- q+wE8CNY2VN9xAlE7OhcmWXlnAw3MJLW863SXdGlnkA3N+U4BoKQSIToGuXARQ14IMNvfeKX
- NphLPpUUnUNdfxAHu/S3tPTc/E/oePbHo794dnEm57LuuQINBFg2+xABEADZg/T+4o5qj4cw
- nd0G5pFy7ACxk28mSrLuva9tyzqPgRZ2bdPiwNXJUvBg1es2u81urekeUvGvnERB/TKekp25
- 4wU3I2lEhIXj5NVdLc6eU5czZQs4YEZbu1U5iqhhZmKhlLrhLlZv2whLOXRlLwi4jAzXIZAu
- 76mT813jbczl2dwxFxcT8XRzk9+dwzNTdOg75683uinMgskiiul+dzd6sumdOhRZR7YBT+xC
- wzfykOgBKnzfFscMwKR0iuHNB+VdEnZw80XGZi4N1ku81DHxmo2HG3icg7CwO1ih2jx8ik0r
- riIyMhJrTXgR1hF6kQnX7p2mXe6K0s8tQFK0ZZmYpZuGYYsV05OvU8yqrRVL/GYvy4Xgplm3
- DuMuC7/A9/BfmxZVEPAS1gW6QQ8vSO4zf60zREKoSNYeiv+tURM2KOEj8tCMZN3k3sNASfoG
- fMvTvOjT0yzMbJsI1jwLwy5uA2JVdSLoWzBD8awZ2X/eCU9YDZeGuWmxzIHvkuMj8FfX8cK/
- 2m437UA877eqmcgiEy/3B7XeHUipOL83gjfq4ETzVmxVswkVvZvR6j2blQVr+MhCZPq83Ota
- xNB7QptPxJuNRZ49gtT6uQkyGI+2daXqkj/Mot5tKxNKtM1Vbr/3b+AEMA7qLz7QjhgGJcie
- qp4b0gELjY1Oe9dBAXMiDwARAQABiQI8BBgBCAAmFiEEcM/SHOJt5ePBD8hO5T0WKDGD1rMF
- Alg2+xACGwwFCQlmAYAACgkQ5T0WKDGD1rOYSw/+P6fYSZjTJDAl9XNfXRjRRyJSfaw6N1pA
- Ahuu0MIa3djFRuFCrAHUaaFZf5V2iW5xhGnrhDwE1Ksf7tlstSne/G0a+Ef7vhUyeTn6U/0m
- +/BrsCsBUXhqeNuraGUtaleatQijXfuemUwgB+mE3B0SobE601XLo6MYIhPh8MG32MKO5kOY
- hB5jzyor7WoN3ETVNQoGgMzPVWIRElwpcXr+yGoTLAOpG7nkAUBBj9n9TPpSdt/npfok9ZfL
- /Q+ranrxb2Cy4tvOPxeVfR58XveX85ICrW9VHPVq9sJf/a24bMm6+qEg1V/G7u/AM3fM8U2m
- tdrTqOrfxklZ7beppGKzC1/WLrcr072vrdiN0icyOHQlfWmaPv0pUnW3AwtiMYngT96BevfA
- qlwaymjPTvH+cTXScnbydfOQW8220JQwykUe+sHRZfAF5TS2YCkQvsyf7vIpSqo/ttDk4+xc
- Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
- x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
- pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        Tang Bin <tangbin@cmss.chinamobile.com>
-Message-ID: <11aecb68-d243-2eeb-0cc8-50e1ec22bd71@web.de>
-Date:   Wed, 8 Apr 2020 18:52:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1730575AbgDHVbX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Apr 2020 17:31:23 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:35367 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729613AbgDHVbX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Apr 2020 17:31:23 -0400
+Received: by mail-qk1-f196.google.com with SMTP id c63so1948977qke.2;
+        Wed, 08 Apr 2020 14:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=3GdzMyIS6o4XfcCDmmix8QiGCsWxtWhkq+gSFrv4xx0=;
+        b=JzJ300seGItAe4s4hYjoDFezs3QASPmmf5xei5ZlTmxLpGsIQAK00BuCgHFvJoxGVo
+         N+BRcE69RQVLKh8lFXnVaVXQlCGn9x7khIxcoKPntA8mTADLX864yeGMrTHxR3I0ZxZR
+         Z2VL5089MVOu6cE+58t+XTY68NHtxSPqXlYekdbu6Y9P9JWR6GsIvccUqUyI4Lepwt7O
+         M2QNNW+5kcJndJh2JqVQdWMQ8WPDMXp3wnagXg3ykudRjAQofCbrWIXNfsnJskZJKTH9
+         ht2IOtFbV/DFkSGkyP9VoljNRJZXJuSW0uXNoraoMpFLRRfz9e2uBkwF8elAdEQhMhkZ
+         jAdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=3GdzMyIS6o4XfcCDmmix8QiGCsWxtWhkq+gSFrv4xx0=;
+        b=gThZ+WjO0OMC+wyPf2O3GoQPJ/fkWTkiFUUMJYNTy/ohXL8vuhVFzVv4PAM4Hl+/2v
+         EV9CJi9yksPUNJ/QDFDbL4A6pelTc22eWYz4M1KGD5NK8xdOMNnePJTlfiwdJMHZypBh
+         APHRjHSsRiAbQjP7QhXmFjnonfLUNEIz+RRZpjIF6yAIj/Za8EdLNfz2tXtjmu9gLkWB
+         cWISXzeGO6sHe0oNhH6w9GD/dj0luOHoIBTinQfkpYCwM5qgYwoxKSr4huE1pquyYtXn
+         kHIG/QimOcoErD9Pb78FHYLGCJD29xlSug0q0X0nUN428aVEVGTo/jSbF/0nv/TyzmQ9
+         0U2Q==
+X-Gm-Message-State: AGi0PubXuBwIQHzRkr18988dffgWCVgOFHElfYLkU+HXBZfkcMNMpOKi
+        zH4RrYURf5s9UyuzVYzN6/w=
+X-Google-Smtp-Source: APiQypLJhVu6+a6yzc2PfuBawKGhlYDBnRoGqlYZgoeoWun0d7hyqhPeyqsJm4dasFSWvKST17vmkQ==
+X-Received: by 2002:ae9:f44a:: with SMTP id z10mr9768938qkl.353.1586381480363;
+        Wed, 08 Apr 2020 14:31:20 -0700 (PDT)
+Received: from icarus (072-189-064-225.res.spectrum.com. [72.189.64.225])
+        by smtp.gmail.com with ESMTPSA id g14sm2773863qtb.24.2020.04.08.14.31.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Apr 2020 14:31:19 -0700 (PDT)
+Date:   Wed, 8 Apr 2020 17:31:03 -0400
+From:   William Breathitt Gray <vilhelm.gray@gmail.com>
+To:     Kamel Bouhara <kamel.bouhara@bootlin.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org
+Subject: Re: [PATCH 3/3] counter: Add atmel TCB capture counter
+Message-ID: <20200408213013.GA30867@icarus>
+References: <20200406155320.1291701-1-kamel.bouhara@bootlin.com>
+ <20200406155320.1291701-4-kamel.bouhara@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:skPBZXgpslgIJa+q0JDAUv6Vwa6+tDwhjaMdKzEYORrvloMzVqK
- KGkZt3sVAJpSEP9xuWl3AAO5lQ66SH+1ZZdmzcCpzNGPwwsxa9Mb4raln8F7+L1Vojipf0/
- O70/9dvOujj0hAiG7CS15hj5HbsiU8RDwusqOlBJP4+HIY6nUod8AAmmkhE14E2JaLyi49d
- yBv7UH4yP1zWvBuiVpvmA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:umpvU+EbiNk=:ynaetqHtnBFH5IrHeABHAN
- pWs2Z8F7VbWpTDfSdpure3IexqsqKH1vSAkr4zykF8YJdd5P2EHhpsPt1FyXn3t7AkJJwCv1d
- 3uZkj6lkORV7qSnatCqTo6DFF9Hk3UQ81cbX/azdXIlJopSY4Hu5UTvcCayZxx7WCcQpW6mWQ
- 6dci9ec5JooehyEV6BpVEh3FhIBjvotEyImUEWJ85pey7/io+LyMBjb8i3DBMxqGUW/G8dL9v
- Q9SI6qwU4WqwA4eNCNjHkGQf54DOqe9qm8hvkLC/xMaNcSjBJyQJq6b3BGjQ4LtX2p6vXljdy
- Y+bLMkEuI01D11vuSgbHVJupaZRl/Tk6TKirKylmruM3EGFeRr+HdjOPhQnwg+M+wM27KPGE7
- +N3AfnjlicQnMYYP4oO0gkkCpaBXQ4UcCItq6rK2agzhsIzo5X+hSD2itnCOI2aT01CETWlnW
- 3Nttt+lW2cszTs8OmxRCMoWel4QoMw97+bCw1obXUSzf5tiQUsgWyw/VxU+pxbIXkZjHZp323
- kAlBNsl9jEOpC8acYxDv9jUTHGf0oEWxLc+y1M7bh5Fy8WHBJuE57jUV2SF/HZ3gIKtKyIWAH
- l8eErLlg3L8nGeUm+z+DuEEJbQOZbelFPzNFpxfsszrf/LfDr/fKW+7OU7e3ctjwltYatzjNy
- xxpeD1pFdzFSzeL0EPKj17WuKwSVvyqszuUO5vJfbgw/+6RuQ5Kg9prkbzBygBzMZkTOxIzqu
- M62nM1xiOPMkrSCi9LcCQFMbzOV6QK5GrgH178QeQZR14W3/XFcpiJ5PSz9IDbM6bVUNNGt+R
- u91lQK+jnkZaM5NXruphtdAAUE/QvOterGDYk62kfJEF5upj56s9a5XhKfqwm7j2Ca2iZDXK4
- i2zLJe/4TReb57ySE4qJO9AMHE8c/YHK9SNv8mRkjx4urganMKB3Qfs9DgO0wL/UAIzju9QYR
- Q5nimjcTQzEuHe3iEa6ZvC4+QfMRpUzOBvEHicxtSXCdgCJfbs98D4w0wZ4AHWL4sAokQn53j
- 7uqOunDNg71WbCT9oAn3vc0nRisxZDASU+kYTADukwdLXmOfHmKpxsQ6LrK5xu72+STnTrUxK
- +AqqJYroEbObBItiIXO5vCLlBzX7qBlrEjfFf805gyiSMByKfVPDit/PFsSuMEKgxmHISQ6Rs
- 41b3Th4m4yX2gRhcv+e2dB3ZZO5puwmmhPKLUkrPTb6MlXf4gri4iHsZB2We0gBN3o/lVPScv
- iZ708aOm79WJAwrd9
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="kfjH4zxOES6UT95V"
+Content-Disposition: inline
+In-Reply-To: <20200406155320.1291701-4-kamel.bouhara@bootlin.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
 
-I have taken another look at the implementation of the function =E2=80=9Ce=
-p93xx_keypad_probe=E2=80=9D.
-A software analysis approach points the following source code out for
-further development considerations.
-https://elixir.bootlin.com/linux/v5.6.3/source/drivers/input/keyboard/ep93=
-xx_keypad.c#L252
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dr=
-ivers/input/keyboard/ep93xx_keypad.c?id=3Df5e94d10e4c468357019e5c28d48499f=
-677b284f#n252
+--kfjH4zxOES6UT95V
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- 	keypad->irq =3D platform_get_irq(pdev, 0);
- 	if (!keypad->irq) {
- 		err =3D -ENXIO;
- 		goto failed_free;
- 	}
+On Mon, Apr 06, 2020 at 05:53:20PM +0200, Kamel Bouhara wrote:
+> This drivers allows to use the capture mode of the Timer Counter Block
+> hardware block available in Atmel SoCs through the counter subsystem.
+>=20
+> Two functions of the counter are supported for the moment: period
+> capture and quadrature decoder. The latter is only supported by the
+> SAMA5 series of SoCs.
+>=20
+> For the period capture mode a basic setup has been chosen that will
+> reset the counter each time the period is actually reached. Of course
+> the device offers much more possibilities.
+>=20
+> For quadrature mode, both channel 0 and 1 must be configured even if we
+> only capture the position (no revolution/rotation).
+>=20
+> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
 
+Hi Kamel,
 
-The software documentation is providing the following information
-for the used programming interface.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dr=
-ivers/base/platform.c?id=3Df5e94d10e4c468357019e5c28d48499f677b284f#n221
-https://elixir.bootlin.com/linux/v5.6.3/source/drivers/base/platform.c#L20=
-2
+Thank you for submitting support for this driver. Since this is a new
+counter driver, make sure to create an entry for it in the top-level
+MAINTAINERS file so users know who to contact to report bugs and other
+issues.
 
-=E2=80=9C=E2=80=A6
- * Return: IRQ number on success, negative error number on failure.
-=E2=80=A6=E2=80=9D
+I've written some more comments inline below.
 
-Would you like to reconsider the shown condition check?
+> ---
+>  drivers/counter/Kconfig             |  11 +
+>  drivers/counter/Makefile            |   1 +
+>  drivers/counter/atmel-tcb-capture.c | 388 ++++++++++++++++++++++++++++
+>  3 files changed, 400 insertions(+)
+>  create mode 100644 drivers/counter/atmel-tcb-capture.c
+>=20
+> diff --git a/drivers/counter/Kconfig b/drivers/counter/Kconfig
+> index c80fa76bb531..c50d7453ec33 100644
+> --- a/drivers/counter/Kconfig
+> +++ b/drivers/counter/Kconfig
+> @@ -70,4 +70,15 @@ config FTM_QUADDEC
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called ftm-quaddec.
+> =20
+> +config ATMEL_TCB_CAPTURE
+> +	tristate "Atmel Timer Counter Capture driver"
+> +	depends on HAS_IOMEM && OF
+> +	select REGMAP_MMIO
+> +	help
+> +	  Select this option to enable the Atmel Timer Counter Block
+> +	  capture driver.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called atmel-tcb-capture.
+> +
+>  endif # COUNTER
+> diff --git a/drivers/counter/Makefile b/drivers/counter/Makefile
+> index 55142d1f4c43..70c5b8924588 100644
+> --- a/drivers/counter/Makefile
+> +++ b/drivers/counter/Makefile
+> @@ -10,3 +10,4 @@ obj-$(CONFIG_STM32_TIMER_CNT)	+=3D stm32-timer-cnt.o
+>  obj-$(CONFIG_STM32_LPTIMER_CNT)	+=3D stm32-lptimer-cnt.o
+>  obj-$(CONFIG_TI_EQEP)		+=3D ti-eqep.o
+>  obj-$(CONFIG_FTM_QUADDEC)	+=3D ftm-quaddec.o
+> +obj-$(CONFIG_ATMEL_TCB_CAPTURE)	+=3D atmel-tcb-capture.o
+> diff --git a/drivers/counter/atmel-tcb-capture.c b/drivers/counter/atmel-=
+tcb-capture.c
+> new file mode 100644
+> index 000000000000..6ac809503f90
+> --- /dev/null
+> +++ b/drivers/counter/atmel-tcb-capture.c
+> @@ -0,0 +1,388 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/**
+> + * Copyright (C) 2020 Atmel
+> + *
+> + * Author: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> + *
+> + */
+> +#include <linux/clk.h>
+> +#include <linux/counter.h>
+> +#include <linux/mfd/syscon.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +#include <soc/at91/atmel_tcb.h>
+> +
+> +#define ATMEL_TC_CMR_MASK	(ATMEL_TC_LDRA_RISING | ATMEL_TC_LDRB_FALLING =
+| \
+> +				 ATMEL_TC_ETRGEDG_RISING | ATMEL_TC_LDBDIS | \
+> +				 ATMEL_TC_LDBSTOP)
+> +
+> +#define ATMEL_TC_QDEN			BIT(8)
+> +#define ATMEL_TC_POSEN			BIT(9)
+> +
+> +struct atmel_tc_data {
+> +	const struct atmel_tcb_config *tc_cfg;
+> +	struct counter_device counter;
+> +	struct regmap *regmap;
+> +	int qdec_mode;
+> +	int num_channels;
+> +	int channel[2];
+> +	bool trig_inverted;
+> +};
+> +
+> +enum atmel_tc_count_function {
+> +	ATMEL_TC_FUNCTION_INCREASE,
+> +	ATMEL_TC_FUNCTION_QUADRATURE,
+> +};
+> +
+> +static enum counter_count_function atmel_tc_count_functions[] =3D {
+> +	[ATMEL_TC_FUNCTION_INCREASE] =3D COUNTER_COUNT_FUNCTION_INCREASE,
+> +	[ATMEL_TC_FUNCTION_QUADRATURE] =3D COUNTER_COUNT_FUNCTION_QUADRATURE_X4,
+> +};
+> +
+> +enum atmel_tc_synapse_action {
+> +	ATMEL_TC_SYNAPSE_ACTION_NONE =3D 0,
+> +	ATMEL_TC_SYNAPSE_ACTION_RISING_EDGE,
+> +	ATMEL_TC_SYNAPSE_ACTION_FALLING_EDGE,
+> +	ATMEL_TC_SYNAPSE_ACTION_BOTH_EDGE
+> +};
+> +
+> +static enum counter_synapse_action atmel_tc_synapse_actions[] =3D {
+> +	[ATMEL_TC_SYNAPSE_ACTION_NONE] =3D COUNTER_SYNAPSE_ACTION_NONE,
+> +	[ATMEL_TC_SYNAPSE_ACTION_RISING_EDGE] =3D COUNTER_SYNAPSE_ACTION_RISING=
+_EDGE,
+> +	[ATMEL_TC_SYNAPSE_ACTION_FALLING_EDGE] =3D COUNTER_SYNAPSE_ACTION_FALLI=
+NG_EDGE,
+> +	[ATMEL_TC_SYNAPSE_ACTION_BOTH_EDGE] =3D COUNTER_SYNAPSE_ACTION_BOTH_EDG=
+ES,
+> +};
+> +
+> +static struct counter_signal atmel_tc_count_signals[] =3D {
+> +	{
+> +		.id =3D 0,
+> +		.name =3D "Channel A",
+> +	},
+> +	{
+> +		.id =3D 1,
+> +		.name =3D "Channel B",
+> +	}
+> +};
+> +
+> +static struct counter_synapse atmel_tc_count_synapses[] =3D {
+> +	{
+> +		.actions_list =3D atmel_tc_synapse_actions,
+> +		.num_actions =3D ARRAY_SIZE(atmel_tc_synapse_actions),
+> +		.signal =3D &atmel_tc_count_signals[0]
+> +	},
+> +	{
+> +		.actions_list =3D atmel_tc_synapse_actions,
+> +		.num_actions =3D ARRAY_SIZE(atmel_tc_synapse_actions),
+> +		.signal =3D &atmel_tc_count_signals[1]
+> +	}
+> +};
+> +
+> +static int atmel_tc_count_function_get(struct counter_device *counter,
+> +				       struct counter_count *count,
+> +				       size_t *function)
+> +{
+> +	struct atmel_tc_data *const priv =3D counter->priv;
+> +
+> +	if (priv->qdec_mode)
+> +		*function =3D ATMEL_TC_FUNCTION_QUADRATURE;
+> +	else
+> +		*function =3D ATMEL_TC_FUNCTION_INCREASE;
+> +
+> +	return 0;
+> +}
+> +
+> +static int atmel_tc_count_function_set(struct counter_device *counter,
+> +				       struct counter_count *count,
+> +				       size_t function)
+> +{
+> +	struct atmel_tc_data *const priv =3D counter->priv;
+> +	u32 bmr, cmr;
+> +
+> +	regmap_read(priv->regmap, ATMEL_TC_BMR, &bmr);
+> +	regmap_read(priv->regmap, ATMEL_TC_REG(priv->channel[0], CMR), &cmr);
+> +
+> +	/* Set capture mode */
+> +	cmr &=3D ~ATMEL_TC_WAVE;
+> +
+> +	switch (function) {
+> +	case ATMEL_TC_FUNCTION_INCREASE:
+> +		priv->qdec_mode =3D 0;
+> +		/* Set highest rate based on whether soc has gclk or not */
+> +		bmr &=3D ~(ATMEL_TC_QDEN | ATMEL_TC_POSEN);
+> +		if (priv->tc_cfg->has_gclk)
+> +			cmr |=3D ATMEL_TC_TIMER_CLOCK2;
+> +		else
+> +			cmr |=3D ATMEL_TC_TIMER_CLOCK1;
+> +		/* Setup the period capture mode */
+> +		cmr |=3D  ATMEL_TC_CMR_MASK;
+> +		cmr &=3D ~(ATMEL_TC_ABETRG | ATMEL_TC_XC0);
+> +		break;
+> +	case ATMEL_TC_FUNCTION_QUADRATURE:
+> +		if (!priv->tc_cfg->has_qdec)
+> +			return -ENODEV;
 
-Regards,
-Markus
+I think returning an -EINVAL here might be better. I can understand that
+the system does not have a quadrature encoder device in this case, but
+=66rom the user perspective they are requesting to set the function for
+the existing counter device. Therefore, if the existing counter device
+does not support the requested function, it makes sense to report the
+issue as simply an invalid argument (return -EINVAL) for this particular
+device.
+
+> +		/* In QDEC mode settings both channels 0 and 1 are required */
+> +		if (priv->num_channels < 2 || priv->channel[0] !=3D 0 ||
+> +		    priv->channel[1] !=3D 1) {
+> +			pr_err("Invalid channels number or id for quadrature mode\n");
+> +			return -EINVAL;
+> +		}
+> +		priv->qdec_mode =3D 1;
+> +		bmr |=3D ATMEL_TC_QDEN | ATMEL_TC_POSEN;
+> +		cmr |=3D ATMEL_TC_ETRGEDG_RISING | ATMEL_TC_ABETRG | ATMEL_TC_XC0;
+> +		break;
+> +	}
+> +
+> +	regmap_write(priv->regmap, ATMEL_TC_BMR, bmr);
+> +	regmap_write(priv->regmap, ATMEL_TC_REG(priv->channel[0], CMR), cmr);
+> +
+> +	/* Enable clock and trigger counter */
+> +	regmap_write(priv->regmap, ATMEL_TC_REG(priv->channel[0], CCR),
+> +		     ATMEL_TC_CLKEN | ATMEL_TC_SWTRG);
+> +
+> +	if (priv->qdec_mode) {
+> +		regmap_write(priv->regmap,
+> +			     ATMEL_TC_REG(priv->channel[1], CMR), cmr);
+> +		regmap_write(priv->regmap,
+> +			     ATMEL_TC_REG(priv->channel[1], CCR),
+> +			     ATMEL_TC_CLKEN | ATMEL_TC_SWTRG);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int atmel_tc_count_signal_read(struct counter_device *counter,
+> +				      struct counter_signal *signal,
+> +				      enum counter_signal_value *val)
+> +{
+> +	struct atmel_tc_data *const priv =3D counter->priv;
+> +	bool sigstatus;
+> +	u32 sr;
+> +
+> +	regmap_read(priv->regmap, ATMEL_TC_REG(priv->channel[0], SR), &sr);
+> +
+> +	if (priv->trig_inverted)
+> +		sigstatus =3D (sr & ATMEL_TC_MTIOB);
+> +	else
+> +		sigstatus =3D (sr & ATMEL_TC_MTIOA);
+> +
+> +	*val =3D sigstatus ? COUNTER_SIGNAL_HIGH : COUNTER_SIGNAL_LOW;
+> +
+> +	return 0;
+> +}
+> +
+> +static int atmel_tc_count_action_get(struct counter_device *counter,
+> +				     struct counter_count *count,
+> +				     struct counter_synapse *synapse,
+> +				     size_t *action)
+> +{
+> +	struct atmel_tc_data *const priv =3D counter->priv;
+> +	u32 cmr;
+> +
+> +	regmap_read(priv->regmap, ATMEL_TC_REG(priv->channel[0], CMR), &cmr);
+> +
+> +	*action =3D ATMEL_TC_SYNAPSE_ACTION_NONE;
+> +
+> +	if (cmr & ATMEL_TC_ETRGEDG_NONE)
+> +		*action =3D ATMEL_TC_SYNAPSE_ACTION_NONE;
+> +	else if (cmr & ATMEL_TC_ETRGEDG_RISING)
+> +		*action =3D ATMEL_TC_SYNAPSE_ACTION_RISING_EDGE;
+> +	else if (cmr & ATMEL_TC_ETRGEDG_FALLING)
+> +		*action =3D ATMEL_TC_SYNAPSE_ACTION_FALLING_EDGE;
+> +	else if (cmr & ATMEL_TC_ETRGEDG_BOTH)
+> +		*action =3D ATMEL_TC_SYNAPSE_ACTION_BOTH_EDGE;
+> +
+> +	return 0;
+> +}
+> +
+> +static int atmel_tc_count_action_set(struct counter_device *counter,
+> +				     struct counter_count *count,
+> +				     struct counter_synapse *synapse,
+> +				     size_t action)
+> +{
+> +	struct atmel_tc_data *const priv =3D counter->priv;
+> +	u32 edge =3D ATMEL_TC_ETRGEDG_NONE;
+> +
+> +	switch (action) {
+> +	case ATMEL_TC_SYNAPSE_ACTION_NONE:
+> +		edge =3D ATMEL_TC_ETRGEDG_NONE;
+> +		break;
+> +	case ATMEL_TC_SYNAPSE_ACTION_RISING_EDGE:
+> +		edge =3D ATMEL_TC_ETRGEDG_RISING;
+> +		break;
+> +	case ATMEL_TC_SYNAPSE_ACTION_FALLING_EDGE:
+> +		edge =3D ATMEL_TC_ETRGEDG_FALLING;
+> +		break;
+> +	case ATMEL_TC_SYNAPSE_ACTION_BOTH_EDGE:
+> +		edge =3D ATMEL_TC_ETRGEDG_BOTH;
+> +		break;
+> +	}
+> +
+> +	return regmap_write_bits(priv->regmap,
+> +				ATMEL_TC_REG(priv->channel[0], CMR),
+> +				ATMEL_TC_ETRGEDG, edge);
+
+Are users able to adjust the edges like this even if the device is
+configured for QDEC mode? If not, you should return -EINVAL if the
+device is in QDEC mode.
+
+> +}
+> +
+> +static int atmel_tc_count_read(struct counter_device *counter,
+> +			       struct counter_count *count,
+> +			       unsigned long *val)
+> +{
+> +	struct atmel_tc_data *const priv =3D counter->priv;
+> +	u32 cnt;
+> +
+> +	regmap_read(priv->regmap, ATMEL_TC_REG(priv->channel[0], CV), &cnt);
+> +	*val =3D cnt;
+> +
+> +	return 0;
+> +}
+> +
+> +static struct counter_count atmel_tc_count =3D {
+> +	.id =3D 0,
+> +	.name =3D "Timer Counter",
+> +	.functions_list =3D atmel_tc_count_functions,
+> +	.num_functions =3D ARRAY_SIZE(atmel_tc_count_functions),
+> +	.synapses =3D atmel_tc_count_synapses,
+> +	.num_synapses =3D ARRAY_SIZE(atmel_tc_count_synapses),
+> +};
+> +
+> +static struct counter_ops atmel_tc_ops =3D {
+> +	.signal_read  =3D atmel_tc_count_signal_read,
+> +	.count_read   =3D atmel_tc_count_read,
+> +	.count_write  =3D NULL,
+
+No need to explicitly set count_write to NULL since it will be NULL by
+default in this static structure.
+
+> +	.function_get =3D atmel_tc_count_function_get,
+> +	.function_set =3D atmel_tc_count_function_set,
+> +	.action_get   =3D atmel_tc_count_action_get,
+> +	.action_set   =3D atmel_tc_count_action_set
+> +};
+> +
+> +static const struct atmel_tcb_config tcb_rm9200_config =3D {
+> +		.counter_width =3D 16,
+> +};
+> +
+> +static const struct atmel_tcb_config tcb_sam9x5_config =3D {
+> +		.counter_width =3D 32,
+> +};
+> +
+> +static const struct atmel_tcb_config tcb_sama5d2_config =3D {
+> +		.counter_width =3D 32,
+> +		.has_gclk =3D true,
+> +		.has_qdec =3D true,
+> +};
+> +
+> +static const struct atmel_tcb_config tcb_sama5d3_config =3D {
+> +		.counter_width =3D 32,
+> +		.has_qdec =3D true,
+> +};
+> +
+> +static const struct of_device_id atmel_tc_of_match[] =3D {
+> +	{ .compatible =3D "atmel,at91rm9200-tcb", .data =3D &tcb_rm9200_config,=
+ },
+> +	{ .compatible =3D "atmel,at91sam9x5-tcb", .data =3D &tcb_sam9x5_config,=
+ },
+> +	{ .compatible =3D "atmel,sama5d2-tcb", .data =3D &tcb_sama5d2_config, },
+> +	{ .compatible =3D "atmel,sama5d3-tcb", .data =3D &tcb_sama5d3_config, },
+> +	{ /* sentinel */ }
+> +};
+> +
+> +static int atmel_tc_probe(struct platform_device *pdev)
+> +{
+> +	struct device_node *np =3D pdev->dev.of_node;
+> +	const struct atmel_tcb_config *tcb_config;
+> +	const struct of_device_id *match;
+> +	struct atmel_tc_data *priv;
+> +	char clk_name[] =3D "t0_clk";
+> +	struct regmap *regmap;
+> +	struct clk *clk[3];
+> +	int channel;
+> +	int ret, i;
+> +
+> +	priv =3D devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, priv);
+> +
+> +	match =3D of_match_node(atmel_tc_of_match, np->parent);
+> +	tcb_config =3D match->data;
+> +	if (!tcb_config) {
+> +		dev_err(&pdev->dev, "No matching parent node found\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	regmap =3D syscon_node_to_regmap(np->parent);
+> +	if (IS_ERR(priv->regmap))
+> +		return PTR_ERR(priv->regmap);
+> +
+> +	/* max. channels number is 2 when in QDEC mode */
+> +	priv->num_channels =3D of_property_count_u32_elems(np, "reg");
+> +	if (priv->num_channels < 0) {
+> +		dev_err(&pdev->dev, "Invalid or missing channel\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Register channels and initialize clocks */
+> +	for (i =3D 0; i < priv->num_channels; i++) {
+> +		ret =3D of_property_read_u32_index(np, "reg", i, &channel);
+> +		if (ret < 0 || channel > 2)
+> +			return -ENODEV;
+> +
+> +		priv->channel[i] =3D channel;
+> +
+> +		clk_name[1] +=3D channel;
+
+You're being clever here (not a bad thing) but this looks too easy to
+get wrong and confused. I'd much rather see a snprintf here for clarity
+and know that nothing funny is going to happen.
+
+> +		clk[i] =3D of_clk_get_by_name(np->parent, clk_name);
+> +		if (IS_ERR(clk[i])) {
+> +			/* Fallback to t0_clk */
+> +			clk[i] =3D of_clk_get_by_name(np->parent, "t0_clk");
+> +			if (IS_ERR(clk[i]))
+> +				return PTR_ERR(clk[i]);
+> +		}
+> +
+> +		ret =3D clk_prepare_enable(clk[i]);
+> +		if (ret)
+> +			return ret;
+> +
+> +		dev_info(&pdev->dev,
+> +			 "Initialized capture mode on channel %d\n",
+> +			 channel);
+> +	}
+> +
+> +	priv->tc_cfg =3D tcb_config;
+> +	priv->regmap =3D regmap;
+> +	priv->counter.name =3D dev_name(&pdev->dev);
+> +	priv->counter.parent =3D &pdev->dev;
+> +	priv->counter.ops =3D &atmel_tc_ops;
+> +	priv->counter.num_counts =3D 1;
+
+Use ARRAY_SIZE here so that future reviewers will know that num_counts
+matches what's in the atmel_tc_count array without having to check so
+themselves.
+
+William Breathitt Gray
+
+> +	priv->counter.counts =3D &atmel_tc_count;
+> +	priv->counter.num_signals =3D ARRAY_SIZE(atmel_tc_count_signals);
+> +	priv->counter.signals =3D atmel_tc_count_signals;
+> +	priv->counter.priv =3D priv;
+> +
+> +	ret =3D devm_counter_register(&pdev->dev, &priv->counter);
+> +	if (ret < 0) {
+> +		for (i =3D 0; i < priv->num_channels; i++)
+> +			clk_disable_unprepare(clk[i]);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id atmel_tc_dt_ids[] =3D {
+> +	{ .compatible =3D "atmel,tcb-capture", },
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, atmel_tc_dt_ids);
+> +
+> +static struct platform_driver atmel_tc_driver =3D {
+> +	.probe =3D atmel_tc_probe,
+> +	.driver =3D {
+> +		.name =3D "atmel-tcb-capture",
+> +		.of_match_table =3D atmel_tc_dt_ids,
+> +	},
+> +};
+> +module_platform_driver(atmel_tc_driver);
+> +
+> +MODULE_AUTHOR("Kamel Bouhara <kamel.bouhara@bootlin.com>");
+> +MODULE_DESCRIPTION("Atmel TCB Capture driver");
+> +MODULE_LICENSE("GPL v2");
+> --=20
+> 2.25.0
+>=20
+
+--kfjH4zxOES6UT95V
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEk5I4PDJ2w1cDf/bghvpINdm7VJIFAl6OQpcACgkQhvpINdm7
+VJKzkxAA4oyTS1HWLdtrt93Ob0L8o+GxCg4KuvOHneTy0bYwFMJDTZud2/NJYSc+
+llrmcb8Xdka5Kgwse5Pnt0nS58o8jSfuiam13YfdWtwVeB/a1XhOMx52gdpwzHb/
+D8fWlGJUFp1Ww3NOtHUMg0pOKhpFJVC6i2Wa4SRQMfsRADqvtn6J3mLWELFfFpM3
+bIfNyKpr0Fc1ves7afgFWFFinQna8ncGjbKg3mAQbcmZnLy5n+HFG1VfFPvG/VEX
+PSwoUH1tacJDbs9Bb0O/M8tD9Ze3IYbmbDYT35gj1hrgF9gCWjhfPKwBCPimDUpX
+bmuaeHySlWubcIYd9jPLQH91cRSLyQYT14oM05wL5BOGgJwsvISI92UxvhSKwuFQ
+P2KJi3JftsvhDsRFCBqxD8jpKkiF5OjmOEZaY3CBgnU5fOGN9AGJMR4pNxTpF+Up
+dJdTccgE7mHn/oNDAuLmRFXVMByUKbhTYhdNnq8fPSzd2rHzz1ba+VLTR8Kivrr2
+VuksUS6TXVJOxYu6wwVOM9FftTGQehDDYuPxuL9qJjJZsiKxbNN4YmBdRyn/NBmB
+ISPx274bpYpbMoPb0diDs1KZt10BsDnsK8jkDlreIPv0DCxkzUxRSZ71sXDF+/wy
+lDyk+0yzHj/8TSPV71A0iJegA3GRYqjL8KmGLmqKqeiJJmmQxMk=
+=7F1P
+-----END PGP SIGNATURE-----
+
+--kfjH4zxOES6UT95V--
