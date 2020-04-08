@@ -2,234 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF1881A246A
-	for <lists+linux-input@lfdr.de>; Wed,  8 Apr 2020 16:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85D7E1A2518
+	for <lists+linux-input@lfdr.de>; Wed,  8 Apr 2020 17:26:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729189AbgDHO7M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Apr 2020 10:59:12 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:44695 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727612AbgDHO7M (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Apr 2020 10:59:12 -0400
-Received: by mail-pf1-f194.google.com with SMTP id b72so2496825pfb.11;
-        Wed, 08 Apr 2020 07:59:10 -0700 (PDT)
+        id S1727952AbgDHP0z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Apr 2020 11:26:55 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:39751 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727192AbgDHP0y (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Apr 2020 11:26:54 -0400
+Received: by mail-pf1-f196.google.com with SMTP id k15so2547401pfh.6
+        for <linux-input@vger.kernel.org>; Wed, 08 Apr 2020 08:26:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iErtI+DbxKTgj+x4PqFz5xOX1uJj43iKC4UnTZq4iQs=;
-        b=eHd/Z/tZIHWzXX4nfIMZ/8KXkT0Yex/eR0DMpGDIkeifdODcZdvlnl8P5PxF44Ge8h
-         e5YdZfFJSHHzje2TZgdTInToUGYmDQlIGKePZ3WsS35xNWid9jkZ0kkMGtPe79Y7MX+F
-         qflcKeATsXfX0jBg7W3iSGHRdtjnJiWMyt2a2mITWedoWPgrCBn7IVfsu2LtVNqeYwil
-         skqMLZ3nDJ9XdiiFDPnSY/fyWy/FnM+q/lEDTyAYgWOE8DVaG1b1vhnVWjpTVGAvoG1n
-         nbleRWG5GE0/2NPGeuS5UL/Y2XsYG3zBWE1ngdKlm6qDPLuDxoXoAejS2YBgT29goZUu
-         5pzw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=C+U4w7Kh7KCMD+z9p1HTWcc8jDFoEplyMmeswZk5us8=;
+        b=XlKAp1NV11bZzmeb9n6YHnS50wiKbAsskBgxl0X1k2F7n0Apxy2V0azLgcml9V/Q5O
+         c45ssUdPZtWmkZceleTn36Q0QtR0zNa8y6Mxwjxs59TfF/k1smTvIhH4OIpLdVjuZINQ
+         MPW515s3ZH2gcv0iMmawtH22dTnhxt9XH86p/yxf46b/aZB+pQYiGc4Sit9/lUdvSzQt
+         1rgc4QRoCxvfLJmT68++mlbQFP35Ra6UAWe9ruNRXr636P381snSetEHP9Z5x3ZtE3wN
+         R2q1ogUNGweNbk/iESCYHbDvIx+Kn3fWJ4MRi7zlwLNIvU3lWk78FvHBBzb+ENV2Gr5k
+         7BSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iErtI+DbxKTgj+x4PqFz5xOX1uJj43iKC4UnTZq4iQs=;
-        b=MI6HtACX+yR+zUfbjFa9E2n6zY88sWRrQTnuByG7+Jl2D5+bUtInpeim/w4j7MWl/W
-         lCcpHOUqty1YfT0drC/qojxK5cfdshYEx1jCWelRFH7qwlIR4AV5JDAcKnK+dPcI/OAq
-         X3oqetr633T6UGQI4TLxZ9Qlp2OvWAfTkxETDJHy99QnvLG+bH7z7SeN6s+h//7lP4ht
-         u+hNRe7b6z0i2I3p8ZwDdUeEEWjmOSULHeoywj+h0lNhceXVcUIpq5FiO0iZraPn57Un
-         nqzDl+tex/17UCj44SWJVcYonziwK4wJkmDwMD+Ai3YUwSp5l7/oW8HIxyYDxxH2ONOX
-         1pPQ==
-X-Gm-Message-State: AGi0PuaUOdYpWlKjs9n/9VS9qVTNiBZtFGYY+MsnY7DKaV+WCf9iAtmw
-        3hLA6S0Iu4DgJYRh4OeTzeCVEinAdlE=
-X-Google-Smtp-Source: APiQypKt2ZrF57hA1wR3DlWK1Z6mTWQUTXLcFgMTpN+uhfutP+7Z1CbIKyUmP/QGvR52TWc2sKOqLQ==
-X-Received: by 2002:a65:5189:: with SMTP id h9mr7141339pgq.296.1586357949547;
-        Wed, 08 Apr 2020 07:59:09 -0700 (PDT)
-Received: from US-191-ENG0002.corp.onewacom.com (75-164-203-136.ptld.qwest.net. [75.164.203.136])
-        by smtp.gmail.com with ESMTPSA id m29sm15594256pgl.35.2020.04.08.07.59.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2020 07:59:08 -0700 (PDT)
-From:   "Gerecke, Jason" <killertofu@gmail.com>
-X-Google-Original-From: "Gerecke, Jason" <jason.gerecke@wacom.com>
-To:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Aaron Armstrong Skomra <aaron.skomra@wacom.com>,
-        stable@vger.kernel.org
-Subject: [PATCH] Revert "HID: wacom: generic: read the number of expected touches on a per collection basis"
-Date:   Wed,  8 Apr 2020 07:58:37 -0700
-Message-Id: <20200408145837.21961-1-jason.gerecke@wacom.com>
-X-Mailer: git-send-email 2.26.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=C+U4w7Kh7KCMD+z9p1HTWcc8jDFoEplyMmeswZk5us8=;
+        b=rN6dsy6KAPlXUkTjHe7larXQFQ1jBPJfwx7uVNbsgM+oxcOD6nGd4IDWm2WpRJnMka
+         B1GuIrXmwsHTYWJBLTcQPfDUbvHfBJRMFhK9ci+liSSt2+/AE/hFFrffwoYi8lPA2BNP
+         AyUhruHydKPpSnvWSG77QD4bRWQ9dFjBEBuJ4eZgZapNHxWUM8OcZO5Tihc5yL3bdBFL
+         fiUhE4CEDoo23bE3a+eWuc+XI5Pis7G/bQtdlN/9MSn6BY9uYQvdfBXQuAwYqwzUWh5N
+         6vJqU4eaOzFPG3S7vJCuQUZkfURIdBkKPe4HBT9PmvLoa5qAxCHQKcKTj9cvGmrtrq2M
+         lvBg==
+X-Gm-Message-State: AGi0PubSx3Xbuvq3eueWI8GbBrPWMg3PWGWyYs/fRCvf3LFyIF0dPWDP
+        5mPAtyC0C2c1TayFXj884GLaBtTog2Dz/lbsxQ1gh671O6I=
+X-Google-Smtp-Source: APiQypILdP7Hu8vMThcI+d0Jayttt4zdObp70IDn3Mxc7LvaF6HHnCor6CqS2K2BP4OfteL4d8WCpvEm1ojD8n3dAxk=
+X-Received: by 2002:a63:8342:: with SMTP id h63mr7611867pge.141.1586359611329;
+ Wed, 08 Apr 2020 08:26:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <000000000000fdc98405a2b44a8c@google.com> <CAAeHK+wV_cpN9GbJDq4qprAFcL8-svb_8xgXxzFz8gtdykN=sA@mail.gmail.com>
+In-Reply-To: <CAAeHK+wV_cpN9GbJDq4qprAFcL8-svb_8xgXxzFz8gtdykN=sA@mail.gmail.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 8 Apr 2020 17:26:40 +0200
+Message-ID: <CAAeHK+xhvCYFmJVLN=pVLgc5Jt_5c91kor5Zhd=xH3nNncbcmA@mail.gmail.com>
+Subject: Re: WARNING in add_taint/usb_submit_urb
+To:     syzbot <syzbot+f44561cfce4cc0e75b89@syzkaller.appspotmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Vladis Dronov <vdronov@redhat.com>,
+        Johan Hovold <johan@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        ingrassia@epigenesys.com, LKML <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jason Gerecke <killertofu@gmail.com>
+On Tue, Apr 7, 2020 at 4:38 PM Andrey Konovalov <andreyknvl@google.com> wrote:
+>
+> On Tue, Apr 7, 2020 at 4:35 PM syzbot
+> <syzbot+f44561cfce4cc0e75b89@syzkaller.appspotmail.com> wrote:
+> >
+> > Hello,
+> >
+> > syzbot found the following crash on:
+> >
+> > HEAD commit:    0fa84af8 Merge tag 'usb-serial-5.7-rc1' of https://git.ker..
+> > git tree:       https://github.com/google/kasan.git usb-fuzzer
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=11cce12be00000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=6b9c154b0c23aecf
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=f44561cfce4cc0e75b89
+> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17a8312be00000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14e35d8fe00000
+> >
+> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > Reported-by: syzbot+f44561cfce4cc0e75b89@syzkaller.appspotmail.com
+> >
+> > ------------[ cut here ]------------
+> > usb 1-1: BOGUS urb xfer, pipe 1 != type 3
+> > WARNING: CPU: 1 PID: 384 at drivers/usb/core/urb.c:478 usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+> > Kernel panic - not syncing: panic_on_warn set ...
+> > CPU: 1 PID: 384 Comm: systemd-udevd Not tainted 5.6.0-rc7-syzkaller #0
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> > Call Trace:
+> >  __dump_stack lib/dump_stack.c:77 [inline]
+> >  dump_stack+0xef/0x16e lib/dump_stack.c:118
+> >  usb_submit_urb+0x10b0/0x1460 drivers/usb/core/urb.c:363
+> >  panic+0x2aa/0x6e1 kernel/panic.c:221
+> >  add_taint.cold+0x16/0x16 kernel/panic.c:434
+> >  set_bit include/asm-generic/bitops/instrumented-atomic.h:28 [inline]
+> >  set_ti_thread_flag include/linux/thread_info.h:55 [inline]
+> >  set_fs arch/x86/include/asm/uaccess.h:33 [inline]
+> >  __probe_kernel_read+0x188/0x1d0 mm/maccess.c:67
+> >  __warn.cold+0x14/0x30 kernel/panic.c:581
+> >  __warn+0xd5/0x1c8 kernel/panic.c:574
+> >  usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+> >  __warn.cold+0x2f/0x30 kernel/panic.c:582
+> >  usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+> >  report_bug+0x27b/0x2f0 lib/bug.c:195
+> >  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+> >  fixup_bug arch/x86/kernel/traps.c:169 [inline]
+> >  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
+> >  usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+> >  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
+> >  usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+> >  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
+> > RIP: 0010:usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+> > Code: 4d 85 e
+> >
+> >
+> > ---
+> > This bug is generated by a bot. It may contain errors.
+> > See https://goo.gl/tpsmEJ for more information about syzbot.
+> > syzbot engineers can be reached at syzkaller@googlegroups.com.
+> >
+> > syzbot will keep track of this bug report. See:
+> > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> > syzbot can test patches for this bug, for details see:
+> > https://goo.gl/tpsmEJ#testing-patches
+>
+> +GTCO maintainers.
+>
+> Proper report:
+>
+> input: GTCO_CalComp as
+> /devices/platform/dummy_hcd.0/usb1/1-1/1-1:0.219/input/input4
+> ------------[ cut here ]------------
+> usb 1-1: BOGUS urb xfer, pipe 1 != type 3
+> WARNING: CPU: 0 PID: 892 at drivers/usb/core/urb.c:478
+> usb_submit_urb+0x1189/0x1460
+> Modules linked in:
+> CPU: 0 PID: 892 Comm: systemd-udevd Not tainted 5.6.0+ #167
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
+> RIP: 0010:usb_submit_urb+0x1189/0x1460 drivers/usb/core/urb.c:478
+> Code: 4d 85 ed 74 46 e8 d7 b5 d7 fd 4c 89 f7 e8 0f b4 16 ff 41 89 d8
+> 44 89 e1 4c 89 ea 48 89 c6 48 c7 c7d
+> RSP: 0018:ffff888062f4f7f8 EFLAGS: 00010286
+> RAX: 0000000000000000 RBX: 0000000000000003 RCX: 0000000000000000
+> RDX: 0000000000000000 RSI: ffffffff8129eb6d RDI: ffffed100c5e9ef1
+> RBP: ffff8880689aeb80 R08: ffff888069670000 R09: ffffed100d9443c9
+> R10: ffff88806ca21e43 R11: ffffed100d9443c8 R12: 0000000000000001
+> R13: ffff888065fa9f00 R14: ffff888068d390a0 R15: ffff88806bf67d00
+> FS:  00007f4b1048b8c0(0000) GS:ffff88806ca00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 000055ad85210280 CR3: 000000005fccc000 CR4: 00000000000006f0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>  gtco_input_open+0xd5/0x130 drivers/input/tablet/gtco.c:560
+>  input_open_device+0x171/0x2d0 drivers/input/input.c:624
+>  evdev_open_device drivers/input/evdev.c:414
+>  evdev_open+0x3eb/0x4f0 drivers/input/evdev.c:496
+>  chrdev_open+0x219/0x5c0 fs/char_dev.c:414
+>  do_dentry_open+0x4ac/0x1180 fs/open.c:797
+>  do_open fs/namei.c:3229
+>  path_openat+0x19dd/0x26f0 fs/namei.c:3346
+>  do_filp_open+0x203/0x260 fs/namei.c:3375
+>  do_sys_openat2+0x598/0x790 fs/open.c:1148
+>  do_sys_open+0xc3/0x140 fs/open.c:1164
+>  do_syscall_64+0xb6/0x5a0 arch/x86/entry/common.c:295
+>  entry_SYSCALL_64_after_hwframe+0x49/0xb3 arch/x86/entry/entry_64.S:175
+> RIP: 0033:0x7f4b0f5d2840
+> Code: 73 01 c3 48 8b 0d 68 77 20 00 f7 d8 64 89 01 48 83 c8 ff c3 66
+> 0f 1f 44 00 00 83 3d 89 bb 20 00 004
+> RSP: 002b:00007ffce57653c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
+> RAX: ffffffffffffffda RBX: 000055ad852c88e0 RCX: 00007f4b0f5d2840
+> RDX: 0000000000000000 RSI: 0000000000080000 RDI: 000055ad852d12a0
+> RBP: 000055ad852d12a0 R08: 000055ad83f4afe3 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000020
+> R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+> irq event stamp: 6960
+> hardirqs last  enabled at (6959): [<ffffffff81299621>]
+> console_unlock+0x911/0xca0
+> hardirqs last disabled at (6960): [<ffffffff81004721>]
+> trace_hardirqs_off_thunk+0x1a/0x1c
+> softirqs last  enabled at (6290): [<ffffffff85c00678>] __do_softirq+0x678/0x9a5
+> softirqs last disabled at (6281): [<ffffffff8115a258>] irq_exit+0x178/0x1a0
+> ---[ end trace 066086d0cefb4362 ]---
 
-This reverts commit 15893fa40109f5e7c67eeb8da62267d0fdf0be9d.
-
-The referenced commit broke pen and touch input for a variety of devices
-such as the Cintiq Pro 32. Affected devices may appear to work normally
-for a short amount of time, but eventually loose track of actual touch
-state and can leave touch arbitration enabled which prevents the pen
-from working. The commit is not itself required for any currently-available
-Bluetooth device, and so we revert it to correct the behavior of broken
-devices.
-
-This breakage occurs due to a mismatch between the order of collections
-and the order of usages on some devices. This commit tries to read the
-contact count before processing events, but will fail if the contact
-count does not occur prior to the first logical finger collection. This
-is the case for devices like the Cintiq Pro 32 which place the contact
-count at the very end of the report.
-
-Without the contact count set, touches will only be partially processed.
-The `wacom_wac_finger_slot` function will not open any slots since the
-number of contacts seen is greater than the expectation of 0, but we will
-still end up calling `input_mt_sync_frame` for each finger anyway. This
-can cause problems for userspace separate from the issue currently taking
-place in the kernel. Only once all of the individual finger collections
-have been processed do we finally get to the enclosing collection which
-contains the contact count. The value ends up being used for the *next*
-report, however.
-
-This delayed use of the contact count can cause the driver to loose track
-of the actual touch state and believe that there are contacts down when
-there aren't. This leaves touch arbitration enabled and prevents the pen
-from working. It can also cause userspace to incorrectly treat single-
-finger input as gestures.
-
-Link: https://github.com/linuxwacom/input-wacom/issues/146
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-Reviewed-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-Fixes: 15893fa40109 ("HID: wacom: generic: read the number of expected touches on a per collection basis")
-Cc: stable@vger.kernel.org # 5.3+
----
- drivers/hid/wacom_wac.c | 79 +++++++++--------------------------------
- 1 file changed, 16 insertions(+), 63 deletions(-)
-
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index d99a9d407671..96d00eba99c0 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -2637,9 +2637,25 @@ static void wacom_wac_finger_pre_report(struct hid_device *hdev,
- 			case HID_DG_TIPSWITCH:
- 				hid_data->last_slot_field = equivalent_usage;
- 				break;
-+			case HID_DG_CONTACTCOUNT:
-+				hid_data->cc_report = report->id;
-+				hid_data->cc_index = i;
-+				hid_data->cc_value_index = j;
-+				break;
- 			}
- 		}
- 	}
-+
-+	if (hid_data->cc_report != 0 &&
-+	    hid_data->cc_index >= 0) {
-+		struct hid_field *field = report->field[hid_data->cc_index];
-+		int value = field->value[hid_data->cc_value_index];
-+		if (value)
-+			hid_data->num_expected = value;
-+	}
-+	else {
-+		hid_data->num_expected = wacom_wac->features.touch_max;
-+	}
- }
- 
- static void wacom_wac_finger_report(struct hid_device *hdev,
-@@ -2649,7 +2665,6 @@ static void wacom_wac_finger_report(struct hid_device *hdev,
- 	struct wacom_wac *wacom_wac = &wacom->wacom_wac;
- 	struct input_dev *input = wacom_wac->touch_input;
- 	unsigned touch_max = wacom_wac->features.touch_max;
--	struct hid_data *hid_data = &wacom_wac->hid_data;
- 
- 	/* If more packets of data are expected, give us a chance to
- 	 * process them rather than immediately syncing a partial
-@@ -2663,7 +2678,6 @@ static void wacom_wac_finger_report(struct hid_device *hdev,
- 
- 	input_sync(input);
- 	wacom_wac->hid_data.num_received = 0;
--	hid_data->num_expected = 0;
- 
- 	/* keep touch state for pen event */
- 	wacom_wac->shared->touch_down = wacom_wac_finger_count_touches(wacom_wac);
-@@ -2738,73 +2752,12 @@ static void wacom_report_events(struct hid_device *hdev,
- 	}
- }
- 
--static void wacom_set_num_expected(struct hid_device *hdev,
--				   struct hid_report *report,
--				   int collection_index,
--				   struct hid_field *field,
--				   int field_index)
--{
--	struct wacom *wacom = hid_get_drvdata(hdev);
--	struct wacom_wac *wacom_wac = &wacom->wacom_wac;
--	struct hid_data *hid_data = &wacom_wac->hid_data;
--	unsigned int original_collection_level =
--		hdev->collection[collection_index].level;
--	bool end_collection = false;
--	int i;
--
--	if (hid_data->num_expected)
--		return;
--
--	// find the contact count value for this segment
--	for (i = field_index; i < report->maxfield && !end_collection; i++) {
--		struct hid_field *field = report->field[i];
--		unsigned int field_level =
--			hdev->collection[field->usage[0].collection_index].level;
--		unsigned int j;
--
--		if (field_level != original_collection_level)
--			continue;
--
--		for (j = 0; j < field->maxusage; j++) {
--			struct hid_usage *usage = &field->usage[j];
--
--			if (usage->collection_index != collection_index) {
--				end_collection = true;
--				break;
--			}
--			if (wacom_equivalent_usage(usage->hid) == HID_DG_CONTACTCOUNT) {
--				hid_data->cc_report = report->id;
--				hid_data->cc_index = i;
--				hid_data->cc_value_index = j;
--
--				if (hid_data->cc_report != 0 &&
--				    hid_data->cc_index >= 0) {
--
--					struct hid_field *field =
--						report->field[hid_data->cc_index];
--					int value =
--						field->value[hid_data->cc_value_index];
--
--					if (value)
--						hid_data->num_expected = value;
--				}
--			}
--		}
--	}
--
--	if (hid_data->cc_report == 0 || hid_data->cc_index < 0)
--		hid_data->num_expected = wacom_wac->features.touch_max;
--}
--
- static int wacom_wac_collection(struct hid_device *hdev, struct hid_report *report,
- 			 int collection_index, struct hid_field *field,
- 			 int field_index)
- {
- 	struct wacom *wacom = hid_get_drvdata(hdev);
- 
--	if (WACOM_FINGER_FIELD(field))
--		wacom_set_num_expected(hdev, report, collection_index, field,
--				       field_index);
- 	wacom_report_events(hdev, report, collection_index, field_index);
- 
- 	/*
--- 
-2.26.0
-
+#syz dup: WARNING in gtco_input_open/usb_submit_urb (2)
