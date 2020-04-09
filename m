@@ -2,139 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79DBD1A3194
-	for <lists+linux-input@lfdr.de>; Thu,  9 Apr 2020 11:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F7241A31CA
+	for <lists+linux-input@lfdr.de>; Thu,  9 Apr 2020 11:34:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725997AbgDIJLm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Apr 2020 05:11:42 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:40456 "EHLO
-        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725783AbgDIJLl (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Apr 2020 05:11:41 -0400
-IronPort-SDR: ct4va3PXa6gQfQJrKzxknWr6fH1WT2JNNMAOzeV/1M1PsC/1mVNkhXuQIJWdJgyzmbPWZ77D+N
- 3uVFVCRQr9jqWjYcGTRNA1blOzKTtupDioCFPL9QICYrMNL3uTeJWFatPYcFN0tB/lG5BPDJj9
- wBowsRYKJo59K0taIx5dbL1B2ew4d6G7UQytJZo97gqEw65jS8aRxo7qRtAvDYh/6RpOunJgTB
- W23lt5RDa4o32xFcLFgGdi93+bBymZFO6JY7OkHixQXuSOzJbFzeI4ek41VzzUvWqI7nx43+Qd
- O4w=
-X-IronPort-AV: E=Sophos;i="5.72,362,1580803200"; 
-   d="scan'208";a="47642037"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa4.mentor.iphmx.com with ESMTP; 09 Apr 2020 01:11:41 -0800
-IronPort-SDR: /UoAsK/CNHGHlgO2hG4TioUfunh1NUNLEFQIgZ+Wo5sclgKRILoC0zkz8qhgagkWBS4duRMpur
- cqXAjXItpdvzSanhGo2+9IUV9r8kDhzBkxy7ZPpkfTgCm8hOor+bEOwq9Sb3eDLu0MocZgh625
- 0REFH6kmnviSmCnaj6M6zCeeJOX9IDL5ZF/+IWer9ysbHj8e3TXHvNZzRZ1qwLUfpDI7qyx1eb
- RvHV9wxa6kdqJ3W00kW7A0HhNIAUdjB1nDw1KZw/GheMKSBwgG9/qzzsxrUPV/TN3q+YrGV40R
- kMg=
-Subject: Re: [PATCH v10 20/55] Input: atmel_mxt_ts - handle cfg filename via
- pdata/sysfs
-To:     Dmitry Osipenko <digetx@gmail.com>, <nick@shmanahar.org>,
-        <dmitry.torokhov@gmail.com>, <jikos@kernel.org>,
-        <benjamin.tissoires@redhat.com>, <bsz@semihalf.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>
-References: <20200331105051.58896-1-jiada_wang@mentor.com>
- <20200331105051.58896-21-jiada_wang@mentor.com>
- <d926e4be-84ee-24f3-3523-776e763e6d4e@gmail.com>
-From:   "Wang, Jiada" <jiada_wang@mentor.com>
-Message-ID: <9dc72d14-f6fe-45b7-1550-f1f25d841ef2@mentor.com>
-Date:   Thu, 9 Apr 2020 18:11:35 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <d926e4be-84ee-24f3-3523-776e763e6d4e@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SVR-ORW-MBX-06.mgc.mentorg.com (147.34.90.206) To
- svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
+        id S1726470AbgDIJeG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Apr 2020 05:34:06 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55138 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725987AbgDIJeG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Apr 2020 05:34:06 -0400
+Received: by mail-wm1-f65.google.com with SMTP id h2so3194505wmb.4;
+        Thu, 09 Apr 2020 02:34:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=Q+Y8y+xM8vAvx70ujvAzR4mi6uLfRgpj02F8stEfpIA=;
+        b=ofMneNF5Y0aAD9253NDdrUw9Mge6LX6y60ilTfxLFZHKQdoCjmQ2N7ZJQHoGhhyCyf
+         NRTI8H1syvnJCdM0lr8dWnZXMK+1GG1pTce74JM4dqgFCelwqBeZD34gi0DD6VAhwla1
+         K7LiJG+IxuChBO6y5/NwWy24mJkHXw5Z38Z2y0HimI8yTxTyFbCDPpLBuBB/n8DC1Spd
+         0qAWGXtu2mSC4+1jvrrqhlHAB1+ASiSYOCG7q+YJy4h1V0vHENgr5KkmaR26Gd+8uKqg
+         MOM12l0mrWytNgMI2RiOYyFbinuJjeWk66VKevVXwJ3vinfLuJqQkj/D4s/MkjZvnZMw
+         Pu2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Q+Y8y+xM8vAvx70ujvAzR4mi6uLfRgpj02F8stEfpIA=;
+        b=KdNgosNnZVLi9APjSjHvpEXz0fM2jUmUR+eA69GsjSORCFFv4NzAuqyBDg9wPK8+11
+         4TqFvO60RAKJd2X5oia++zukQWV3Z7xXrhXUrOwSG9ofBb11KUkyOei8GN9vlAJcK3JK
+         SwWxxYDHUfVMHBeuRrEL2dfcuhcImApEC19cMv6FTOUG1GmCUmyG7xeqAAorT6LtL+v+
+         1bNTBawy5DEM/oMui8j8E9VZ6wqewJXundSzYNa6yCRdE5aA+cdnQ/1GCDfRaPKm0141
+         VNvL4LU67YHGA44/GQVbWowKxY06MSWtg6DDGXUJA2Onwf05Le9Ppm3mCxivvsD8tX9u
+         LOgw==
+X-Gm-Message-State: AGi0PuZmVDPd9OPP1V+jf3gkF971nHPTrpX2Kn3B02eEbhujIEeovfQh
+        lKGg6mExtWRGyDRExCElTCo=
+X-Google-Smtp-Source: APiQypKmYqD8YLDmepZyhhgWsPaAGtq8nWuP47xQWFlkBa278hJ29MRxmwYNHkqIpqqk3tgrP67MKQ==
+X-Received: by 2002:a1c:5a41:: with SMTP id o62mr2048499wmb.43.1586424844697;
+        Thu, 09 Apr 2020 02:34:04 -0700 (PDT)
+Received: from localhost (ip1f115f16.dynamic.kabel-deutschland.de. [31.17.95.22])
+        by smtp.gmail.com with ESMTPSA id y7sm3150319wmb.43.2020.04.09.02.34.03
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 09 Apr 2020 02:34:03 -0700 (PDT)
+From:   Oliver Graute <oliver.graute@gmail.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     oliver.graute@gmail.com,
+        Oliver Graute <oliver.graute@kococonnector.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1] Input: edt-ft5x06 - added case for EDT EP0110M09
+Date:   Thu,  9 Apr 2020 11:21:52 +0200
+Message-Id: <1586424116-25739-1-git-send-email-oliver.graute@gmail.com>
+X-Mailer: git-send-email 2.7.4
+X-Patchwork-Bot: notify
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitrij
+From: Oliver Graute <oliver.graute@kococonnector.com>
 
-On 2020/04/07 23:56, Dmitry Osipenko wrote:
-> 31.03.2020 13:50, Jiada Wang пишет:
->> From: Nick Dyer <nick.dyer@itdev.co.uk>
->>
->> There may be multiple maXTouch chips on a single device which will require
->> different configuration files. Add a platform data value for the
->> configuration filename.
->>
->> Add sysfs entry to write configuration file if the platform data is not
->> set.
->>
->> Split out the object initialisation code from mxt_initialize() into
->> mxt_configure_objects() to allow this.
->>
->> Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
->> Acked-by: Yufeng Shen <miletus@chromium.org>
->> (cherry picked from ndyer/linux/for-upstream commit 71a2a4d1954460b949a16b607f72bafab294ca79)
->> [gdavis: Resolve forward port conflicts due to applying upstream
->> 	 commit 96a938aa214e ("Input: atmel_mxt_ts - remove platform
->> 	 data support").]
->> Signed-off-by: George G. Davis <george_davis@mentor.com>
->> [gdavis: Squash fix from Vladimir Zapolskiy:
->> 	 - Input: atmel_mxt_ts - fix error paths in mxt_configure_objects()]
->> Signed-off-by: Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
->> [jiada: Separate Documentation/ portion change to another commit
->> 	Rename mxt_update_cfg_store to update_cfg_store
->> 	Replace DEVICE_ATTR with DEVICE_ATTR_WO]
->> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
->> ---
->>   drivers/input/touchscreen/atmel_mxt_ts.c | 109 +++++++++++++++++++----
->>   1 file changed, 94 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
->> index 720574417219..d1865250f492 100644
->> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
->> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
->> @@ -34,7 +34,6 @@
->>   #include <dt-bindings/input/atmel_mxt_ts.h>
->>   
->>   /* Configuration file */
->> -#define MXT_CFG_NAME		"maxtouch.cfg"
->>   #define MXT_CFG_MAGIC		"OBP_RAW V1"
-> ...
-> 
->>   static void mxt_input_sync(struct mxt_data *data)
->>   {
->> -	input_mt_report_pointer_emulation(data->input_dev,
->> -					  data->t19_num_keys);
->> -	input_sync(data->input_dev);
->> +	if (data->input_dev) {
->> +		input_mt_report_pointer_emulation(data->input_dev,
->> +						  data->t19_num_keys);
->> +		input_sync(data->input_dev);
->> +	}
->>   }
-> 
-> Looks like this hunk shouldn't belong to this patch.
-yes, this part of change
-squash fix from ndyer/linux/for-upstream commit 
-c909ada856861f305653b127db3ea0fa60264331
-- Input: atmel_mxt_ts - check data->input_dev is not null in 
-mxt_input_sync()
-seems due to some mistake, commit description about the squash,
-start to be missing from v6 patch-set
+Add Support for EP011M09 Firmware
 
-I will separate it back into a single commit
-> 
-> ...
->> +	if (data->pcfg_name)
->> +		mxt_update_file_name(&data->client->dev,
->> +				     &data->cfg_name,
->> +				     data->pcfg_name,
->> +				     strlen(data->pcfg_name));
-> 
-> This looks wrong to me because I think the cfg_name should fall back to
-> "maxtouch.cfg" if atmel,cfg_name isn't specified in device-tree,
-> otherwise this commit may break devices that use an older device-tree.
-> 
-I agree with you, in next version,
-I will update this patch to also be compatible with legacy cfg name 
-"maxtouch.cfg"
+Signed-off-by: Oliver Graute <oliver.graute@kococonnector.com>
+---
+ drivers/input/touchscreen/edt-ft5x06.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks,
-Jiada
+diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+index d2587724c52a..13665389d28c 100644
+--- a/drivers/input/touchscreen/edt-ft5x06.c
++++ b/drivers/input/touchscreen/edt-ft5x06.c
+@@ -879,6 +879,7 @@ static int edt_ft5x06_ts_identify(struct i2c_client *client,
+ 		 * the identification registers.
+ 		 */
+ 		switch (rdbuf[0]) {
++		case 0x11:   /* EDT EP0110M09 */
+ 		case 0x35:   /* EDT EP0350M09 */
+ 		case 0x43:   /* EDT EP0430M09 */
+ 		case 0x50:   /* EDT EP0500M09 */
+-- 
+2.17.1
+
