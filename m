@@ -2,163 +2,176 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AF801A3C46
-	for <lists+linux-input@lfdr.de>; Fri, 10 Apr 2020 00:15:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 055FE1A3C55
+	for <lists+linux-input@lfdr.de>; Fri, 10 Apr 2020 00:21:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726830AbgDIWPJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Apr 2020 18:15:09 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:36290 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726632AbgDIWPJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Apr 2020 18:15:09 -0400
-Received: by mail-pf1-f195.google.com with SMTP id n10so186738pff.3;
-        Thu, 09 Apr 2020 15:15:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ujIvz9GcBjbJuHCPIeZlZ7rRjsp8syypvJqphKFEdJE=;
-        b=bxJf7lMTyc82+mfaQpWqRniXABYCY4giiTtvZqjIyeftjGKiIT9KnIVVZWVOi7LL36
-         djimTInYz+dOuBxZZl957si303OdBIQtk1T2xEdoq2hHcwS+bw1h6TOicDMsvswouiuk
-         1OT/RdrMGIlAGwSKmNMnDP47xbaR0ovqQu22WOZOXms2NvIHBj8Ja/FGFznJdmoklKo1
-         NmGGIOEjxWzy/9I5wKtnQa7eSvwO0y1gE7KYLwbl5iVvAk9dOTDM6I7PerlR9GQQ8lQk
-         AUyMK4yCwtZHcIFh9Oq4udFSWareLdhwaq/CXEZdkx9Yv7nQlADYpkNEQZpFR67z1AFU
-         gcNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ujIvz9GcBjbJuHCPIeZlZ7rRjsp8syypvJqphKFEdJE=;
-        b=lquQ0ZuYyz3RFfeCf0NoP+Ef7JGXcLaL/MQJJmVl3has4pieo08qwYiPPjlxcYtwKd
-         O6eO83ABdD2RMGNeYcGrqVbJx/kryFMeVT53zhoLZh5fRHGw7xLANbXyTIsG3pXecDFG
-         ZGoPyupJnHUTk5Zc9lqinoV0RjAEZeXpaCCcdkawD9s00tQhhtUGEn5P9UOG+B2hVFex
-         OIJ6QoBvgEaeFzdUD+3rGZ6E2d9pZV9g6klQb0Vji7EaBiSK1hYGB/Cg2srEF3UYeQnI
-         lJrjt/Y6InXkJxaZ6qCa9t0ubQn2l4zBWfndN/SDw2mMJpKM4O7QmFpSrA3qCZWsdRNm
-         Pvsg==
-X-Gm-Message-State: AGi0PuZ2K2XyouablEY2ZfTVxeqqNI1U0DxOjxYmT7LRbxF7IpWJKlO2
-        dqHWPKZR5hslZuyWacpD7Pc=
-X-Google-Smtp-Source: APiQypInhl9ZwTmwR4A+ZU5hQ66TzyPv70UkR4VTu5xufs/7Xigf6TeCLde4qQvqyvr889CSdFk5GA==
-X-Received: by 2002:aa7:96b2:: with SMTP id g18mr1877611pfk.221.1586470506825;
-        Thu, 09 Apr 2020 15:15:06 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id m29sm107299pgl.35.2020.04.09.15.15.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2020 15:15:06 -0700 (PDT)
-Date:   Thu, 9 Apr 2020 15:15:03 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Stephan Gerhold <stephan@gerhold.net>
-Cc:     Andi Shyti <andi@etezian.org>, linux-input@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] Input: mms114 - add support for mms345l
-Message-ID: <20200409221503.GS75430@dtor-ws>
-References: <20200405170904.61512-1-stephan@gerhold.net>
+        id S1726689AbgDIWVP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Apr 2020 18:21:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57144 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726638AbgDIWVP (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 9 Apr 2020 18:21:15 -0400
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9A5EE2083E;
+        Thu,  9 Apr 2020 22:21:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586470875;
+        bh=Jppb1obNkX1IeI3tjxBViiA7iN4ydeaVqv01zbXI0WA=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=AybwdDI/rjq6JeEpISwPayKV7Ui/fiWUlgsjQjGJhLkpTw6uW22lZmrsIb+Ll7JPL
+         J2aiBEfqqxY2/v5Wrx9qqGSh/L0SjYf6GLa2GHKl5nFqCxdIM9QAfCyM/ERpCyr9dy
+         2m4zxvvLv7wQ7MGKO/gw4LorqgirvpaXS1Hccjso=
+Date:   Fri, 10 Apr 2020 00:21:12 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Artem Borisov <dedsa2002@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Masaki Ota <masaki.ota@jp.alps.com>
+Subject: Re: [PATCH 2/2] HID: alps: Refactor axis resolution logic
+In-Reply-To: <20200405235517.18203-2-dedsa2002@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2004100019450.19713@cbobk.fhfr.pm>
+References: <20200405235517.18203-1-dedsa2002@gmail.com> <20200405235517.18203-2-dedsa2002@gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200405170904.61512-1-stephan@gerhold.net>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Stephan,
+On Mon, 6 Apr 2020, Artem Borisov wrote:
 
-On Sun, Apr 05, 2020 at 07:09:03PM +0200, Stephan Gerhold wrote:
-> MMS345L is another first generation touch screen from Melfas,
-> which uses the same registers as MMS152.
-> 
-> However, using I2C_M_NOSTART for it causes errors when reading:
-> 
-> 	i2c i2c-0: sendbytes: NAK bailout.
-> 	mms114 0-0048: __mms114_read_reg: i2c transfer failed (-5)
-> 
-> The driver works fine as soon as I2C_M_NOSTART is removed.
-> 
-> Add a separate melfas,mms345l binding, and make use of I2C_M_NOSTART
-> only for MMS114 and MMS152.
-> 
-> Reviewed-by: Andi Shyti <andi@etezian.org>
-> Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+> AUI1657 doesn't follow the same logic for resolution calculation, since
+> the resulting values are incorrect. Instead, it reports the actual
+> resolution values in place of the pitch ones.
+> While we're at it, also refactor the whole resolution logic to make it more
+> generic and sensible for multiple device support.
 
-Sorry for sitting on this for so long. I looked around, and I think that
-instead of adding separate handling for 345L we shoudl simply drop the
-"no start" bit for everyone. I am not sure what the original version
-tried to do here, as far as I can see in various public Android trees the
-driver for these devices does not use I2C_M_NOSTART.
+Let's add Masaki Ota to ack this change if possible.
 
-Actually, I wonder if the difference is not in the touch controller that
-is being used, but rather in the I2C controller the device in connected
-to.
+Would it be possible to be a little bit more verbose in the changelog, 
+explaining *how* (or why) is the patch making the logic more generic and 
+sensible?
 
-I would like to apply the version of the patch below.
+Thanks!
 
-Thanks.
+> Signed-off-by: Artem Borisov <dedsa2002@gmail.com>
+> ---
+>  drivers/hid/hid-alps.c | 41 +++++++++++++++++++++++++----------------
+>  1 file changed, 25 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-alps.c b/drivers/hid/hid-alps.c
+> index c2a2bd528890..494c08cca645 100644
+> --- a/drivers/hid/hid-alps.c
+> +++ b/drivers/hid/hid-alps.c
+> @@ -83,8 +83,8 @@ enum dev_num {
+>   * @max_fingers: total number of fingers
+>   * @has_sp: boolean of sp existense
+>   * @sp_btn_info: button information
+> - * @x_active_len_mm: active area length of X (mm)
+> - * @y_active_len_mm: active area length of Y (mm)
+> + * @x_res: resolution of X
+> + * @y_res: resolution of Y
+>   * @x_max: maximum x coordinate value
+>   * @y_max: maximum y coordinate value
+>   * @x_min: minimum x coordinate value
+> @@ -100,9 +100,10 @@ struct alps_dev {
+>  	enum dev_num dev_type;
+>  	u8  max_fingers;
+>  	u8  has_sp;
+> +	u8  no_pitch;
+>  	u8	sp_btn_info;
+> -	u32	x_active_len_mm;
+> -	u32	y_active_len_mm;
+> +	u32	x_res;
+> +	u32	y_res;
+>  	u32	x_max;
+>  	u32	y_max;
+>  	u32	x_min;
+> @@ -550,10 +551,6 @@ static int u1_init(struct hid_device *hdev, struct alps_dev *pri_data)
+>  		dev_err(&hdev->dev, "failed U1_RESO_DWN_ABS (%d)\n", ret);
+>  		goto exit;
+>  	}
+> -	pri_data->x_active_len_mm =
+> -		(pitch_x * (sen_line_num_x - 1)) / 10;
+> -	pri_data->y_active_len_mm =
+> -		(pitch_y * (sen_line_num_y - 1)) / 10;
+>  
+>  	pri_data->x_max =
+>  		(resolution << 2) * (sen_line_num_x - 1);
+> @@ -562,6 +559,18 @@ static int u1_init(struct hid_device *hdev, struct alps_dev *pri_data)
+>  		(resolution << 2) * (sen_line_num_y - 1);
+>  	pri_data->y_min = 1;
+>  
+> +	if (pri_data->no_pitch) {
+> +		pri_data->x_res = pitch_x;
+> +		pri_data->y_res = pitch_y;
+> +	} else {
+> +		pri_data->x_res =
+> +			(pri_data->x_max - 1) /
+> +			((pitch_x * (sen_line_num_x - 1)) / 10);
+> +		pri_data->y_res =
+> +			(pri_data->y_max - 1) /
+> +			((pitch_y * (sen_line_num_y - 1)) / 10);
+> +	}
+> +
+>  	ret = u1_read_write_register(hdev, ADDRESS_U1_PAD_BTN,
+>  			&tmp, 0, true);
+>  	if (ret < 0) {
+> @@ -622,7 +631,7 @@ static int T4_init(struct hid_device *hdev, struct alps_dev *pri_data)
+>  	pri_data->x_min = T4_COUNT_PER_ELECTRODE;
+>  	pri_data->y_max = sen_line_num_y * T4_COUNT_PER_ELECTRODE;
+>  	pri_data->y_min = T4_COUNT_PER_ELECTRODE;
+> -	pri_data->x_active_len_mm = pri_data->y_active_len_mm = 0;
+> +	pri_data->x_res = pri_data->y_res = 0;
+>  	pri_data->btn_cnt = 1;
+>  
+>  	ret = t4_read_write_register(hdev, PRM_SYS_CONFIG_1, &tmp, 0, true);
+> @@ -675,7 +684,7 @@ static int alps_input_configured(struct hid_device *hdev, struct hid_input *hi)
+>  	struct alps_dev *data = hid_get_drvdata(hdev);
+>  	struct input_dev *input = hi->input, *input2;
+>  	int ret;
+> -	int res_x, res_y, i;
+> +	int i;
+>  
+>  	data->input = input;
+>  
+> @@ -706,12 +715,9 @@ static int alps_input_configured(struct hid_device *hdev, struct hid_input *hi)
+>  	input_set_abs_params(input, ABS_MT_POSITION_Y,
+>  						data->y_min, data->y_max, 0, 0);
+>  
+> -	if (data->x_active_len_mm && data->y_active_len_mm) {
+> -		res_x = (data->x_max - 1) / data->x_active_len_mm;
+> -		res_y = (data->y_max - 1) / data->y_active_len_mm;
+> -
+> -		input_abs_set_res(input, ABS_MT_POSITION_X, res_x);
+> -		input_abs_set_res(input, ABS_MT_POSITION_Y, res_y);
+> +	if (data->x_res && data->y_res) {
+> +		input_abs_set_res(input, ABS_MT_POSITION_X, data->x_res);
+> +		input_abs_set_res(input, ABS_MT_POSITION_Y, data->y_res);
+>  	}
+>  
+>  	input_set_abs_params(input, ABS_MT_PRESSURE, 0, 64, 0, 0);
+> @@ -802,8 +808,11 @@ static int alps_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>  		break;
+>  	case HID_DEVICE_ID_ALPS_U1_DUAL:
+>  	case HID_DEVICE_ID_ALPS_U1:
+> +		data->dev_type = U1;
+> +		break;
+>  	case HID_DEVICE_ID_ALPS_1657:
+>  		data->dev_type = U1;
+> +		data->no_pitch = 1;
+>  		break;
+>  	default:
+>  		data->dev_type = UNKNOWN;
+> -- 
+> 2.26.0
+> 
 
 -- 
-Dmitry
+Jiri Kosina
+SUSE Labs
 
-
-Input: mms114 - fix handling of mms345l
-
-From: Stephan Gerhold <stephan@gerhold.net>
-
-MMS345L is another first generation touch screen from Melfas,
-which uses the same registers as MMS152.
-
-However, using I2C_M_NOSTART for it causes errors when reading:
-
-	i2c i2c-0: sendbytes: NAK bailout.
-	mms114 0-0048: __mms114_read_reg: i2c transfer failed (-5)
-
-The driver works fine as soon as I2C_M_NOSTART is removed.
-
-Reviewed-by: Andi Shyti <andi@etezian.org>
-Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
-Link: https://lore.kernel.org/r/20200405170904.61512-1-stephan@gerhold.net
-Patchwork-Id: 11474771
-[dtor: removed separate mms345l handling, made everyone use standard
-transfer mode, propagated the 10bit addressing flag to the read part of the
-transfer as well.]
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/touchscreen/mms114.c |   12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/input/touchscreen/mms114.c b/drivers/input/touchscreen/mms114.c
-index 69c6d559eeb0..2ef1adaed9af 100644
---- a/drivers/input/touchscreen/mms114.c
-+++ b/drivers/input/touchscreen/mms114.c
-@@ -91,15 +91,15 @@ static int __mms114_read_reg(struct mms114_data *data, unsigned int reg,
- 	if (reg <= MMS114_MODE_CONTROL && reg + len > MMS114_MODE_CONTROL)
- 		BUG();
- 
--	/* Write register: use repeated start */
-+	/* Write register */
- 	xfer[0].addr = client->addr;
--	xfer[0].flags = I2C_M_TEN | I2C_M_NOSTART;
-+	xfer[0].flags = client->flags & I2C_M_TEN;
- 	xfer[0].len = 1;
- 	xfer[0].buf = &buf;
- 
- 	/* Read data */
- 	xfer[1].addr = client->addr;
--	xfer[1].flags = I2C_M_RD;
-+	xfer[1].flags = (client->flags & I2C_M_TEN) | I2C_M_RD;
- 	xfer[1].len = len;
- 	xfer[1].buf = val;
- 
-@@ -428,10 +428,8 @@ static int mms114_probe(struct i2c_client *client,
- 	const void *match_data;
- 	int error;
- 
--	if (!i2c_check_functionality(client->adapter,
--				I2C_FUNC_PROTOCOL_MANGLING)) {
--		dev_err(&client->dev,
--			"Need i2c bus that supports protocol mangling\n");
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_err(&client->dev, "Not supported I2C adapter\n");
- 		return -ENODEV;
- 	}
- 
