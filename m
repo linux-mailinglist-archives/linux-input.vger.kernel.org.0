@@ -2,120 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24DD01A3B86
-	for <lists+linux-input@lfdr.de>; Thu,  9 Apr 2020 22:48:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AF801A3C46
+	for <lists+linux-input@lfdr.de>; Fri, 10 Apr 2020 00:15:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726916AbgDIUsX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Apr 2020 16:48:23 -0400
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:36024 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726650AbgDIUsW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Apr 2020 16:48:22 -0400
-Received: by mail-pj1-f66.google.com with SMTP id nu11so1763611pjb.1;
-        Thu, 09 Apr 2020 13:48:22 -0700 (PDT)
+        id S1726830AbgDIWPJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Apr 2020 18:15:09 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:36290 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726632AbgDIWPJ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Apr 2020 18:15:09 -0400
+Received: by mail-pf1-f195.google.com with SMTP id n10so186738pff.3;
+        Thu, 09 Apr 2020 15:15:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=Yq49Nu++9i3zAXXAfzhjx/M1svNPVbcVpmDhc428p6Y=;
-        b=UvB8ZTZ63yO4h619p7pJUHFX2LYYElGo+ZrAVp1iZAoYKRKm38FfNX3baVWKtj+UGE
-         lf6Wl7iPAGDDwcb03GD4OVvW6vivoOx8sqTDEOSCaq8xSxzrm5ogqUmJKVp4sW6PBT5F
-         eFxHERpC1wLw5ugHBupA1DGIr/HBK13edgGepM6jS87ZfGvlqO+nGsOlSmak0s+XjXBJ
-         d7SOmSIK97jye6VkO1CvmByeIiwoK7IBSr5QnNgnUc3Ak1E7Ok3g5oVjlQRQLNtbl++O
-         odG8bGBbKHioOmjbgwpQAy55AM1xWQB1GXqmlqov9tOZLlWboW5/6/pKJomRsV8kUCvZ
-         dtgw==
+         :content-disposition:in-reply-to:user-agent;
+        bh=ujIvz9GcBjbJuHCPIeZlZ7rRjsp8syypvJqphKFEdJE=;
+        b=bxJf7lMTyc82+mfaQpWqRniXABYCY4giiTtvZqjIyeftjGKiIT9KnIVVZWVOi7LL36
+         djimTInYz+dOuBxZZl957si303OdBIQtk1T2xEdoq2hHcwS+bw1h6TOicDMsvswouiuk
+         1OT/RdrMGIlAGwSKmNMnDP47xbaR0ovqQu22WOZOXms2NvIHBj8Ja/FGFznJdmoklKo1
+         NmGGIOEjxWzy/9I5wKtnQa7eSvwO0y1gE7KYLwbl5iVvAk9dOTDM6I7PerlR9GQQ8lQk
+         AUyMK4yCwtZHcIFh9Oq4udFSWareLdhwaq/CXEZdkx9Yv7nQlADYpkNEQZpFR67z1AFU
+         gcNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=Yq49Nu++9i3zAXXAfzhjx/M1svNPVbcVpmDhc428p6Y=;
-        b=MzKTi1dCuRYIaDqJNzdXBMkwFLXZUH1TCwTtui+v1CEpJOq+2jGUWk2VroGbOduetV
-         ftIX3hzwYxPqoEBhDjGIFH2IwqXsFmoTK3z+dNC1lXbW7/Lmlq2uCHuLWou2hytVtAWr
-         2tJKNom8CYFgN4OJDHYmTH0g8N/Y6/d1C7R74mLWJXtPRDObSLpmRJcbvX5loVnRDK9D
-         bTUQ0QPpsFJEYigKnn7Jw8cU2nHjD4TD9E2nIux9eEP7CtJc5Q9x1CH77A5OpGeQO6Iz
-         /NgIS+K8YWo+e0p4+NcjSKC+YQzhb0zRcFzGKZF4HZ1Ke7FDz6rU/LippA2A409ldsNq
-         7aZg==
-X-Gm-Message-State: AGi0PuYXvhBwBgYZ4go+mh6FJi1KilrE4vOmt0v3ikNvzljKxQ+orL76
-        1krf103RHNkBNbcdtRbz6+8=
-X-Google-Smtp-Source: APiQypIFh/iHLVwKUI5JspshlUj/HlEIvFYdhLH0oeNMqqYs0gq049IClzpw4xbqJQ4ciMOEfTv39Q==
-X-Received: by 2002:a17:902:107:: with SMTP id 7mr1391190plb.302.1586465301762;
-        Thu, 09 Apr 2020 13:48:21 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ujIvz9GcBjbJuHCPIeZlZ7rRjsp8syypvJqphKFEdJE=;
+        b=lquQ0ZuYyz3RFfeCf0NoP+Ef7JGXcLaL/MQJJmVl3has4pieo08qwYiPPjlxcYtwKd
+         O6eO83ABdD2RMGNeYcGrqVbJx/kryFMeVT53zhoLZh5fRHGw7xLANbXyTIsG3pXecDFG
+         ZGoPyupJnHUTk5Zc9lqinoV0RjAEZeXpaCCcdkawD9s00tQhhtUGEn5P9UOG+B2hVFex
+         OIJ6QoBvgEaeFzdUD+3rGZ6E2d9pZV9g6klQb0Vji7EaBiSK1hYGB/Cg2srEF3UYeQnI
+         lJrjt/Y6InXkJxaZ6qCa9t0ubQn2l4zBWfndN/SDw2mMJpKM4O7QmFpSrA3qCZWsdRNm
+         Pvsg==
+X-Gm-Message-State: AGi0PuZ2K2XyouablEY2ZfTVxeqqNI1U0DxOjxYmT7LRbxF7IpWJKlO2
+        dqHWPKZR5hslZuyWacpD7Pc=
+X-Google-Smtp-Source: APiQypInhl9ZwTmwR4A+ZU5hQ66TzyPv70UkR4VTu5xufs/7Xigf6TeCLde4qQvqyvr889CSdFk5GA==
+X-Received: by 2002:aa7:96b2:: with SMTP id g18mr1877611pfk.221.1586470506825;
+        Thu, 09 Apr 2020 15:15:06 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id u13sm10854pgp.49.2020.04.09.13.48.20
+        by smtp.gmail.com with ESMTPSA id m29sm107299pgl.35.2020.04.09.15.15.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2020 13:48:21 -0700 (PDT)
-Date:   Thu, 9 Apr 2020 13:48:19 -0700
+        Thu, 09 Apr 2020 15:15:06 -0700 (PDT)
+Date:   Thu, 9 Apr 2020 15:15:03 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Markus Elfring <Markus.Elfring@web.de>
-Cc:     linux-input@vger.kernel.org, Allison Randal <allison@lohutok.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        Olof Johansson <olof@lixom.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        Tang Bin <tangbin@cmss.chinamobile.com>
-Subject: Re: Input: ep93xx_keypad: Checking for a failed platform_get_irq()
- call in ep93xx_keypad_probe()
-Message-ID: <20200409204819.GR75430@dtor-ws>
-References: <11aecb68-d243-2eeb-0cc8-50e1ec22bd71@web.de>
+To:     Stephan Gerhold <stephan@gerhold.net>
+Cc:     Andi Shyti <andi@etezian.org>, linux-input@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] Input: mms114 - add support for mms345l
+Message-ID: <20200409221503.GS75430@dtor-ws>
+References: <20200405170904.61512-1-stephan@gerhold.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <11aecb68-d243-2eeb-0cc8-50e1ec22bd71@web.de>
+In-Reply-To: <20200405170904.61512-1-stephan@gerhold.net>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Markus,
+Hi Stephan,
 
-On Wed, Apr 08, 2020 at 06:52:31PM +0200, Markus Elfring wrote:
-> Hello,
+On Sun, Apr 05, 2020 at 07:09:03PM +0200, Stephan Gerhold wrote:
+> MMS345L is another first generation touch screen from Melfas,
+> which uses the same registers as MMS152.
 > 
-> I have taken another look at the implementation of the function “ep93xx_keypad_probe”.
-> A software analysis approach points the following source code out for
-> further development considerations.
-> https://elixir.bootlin.com/linux/v5.6.3/source/drivers/input/keyboard/ep93xx_keypad.c#L252
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/keyboard/ep93xx_keypad.c?id=f5e94d10e4c468357019e5c28d48499f677b284f#n252
+> However, using I2C_M_NOSTART for it causes errors when reading:
 > 
->  	keypad->irq = platform_get_irq(pdev, 0);
->  	if (!keypad->irq) {
->  		err = -ENXIO;
->  		goto failed_free;
->  	}
+> 	i2c i2c-0: sendbytes: NAK bailout.
+> 	mms114 0-0048: __mms114_read_reg: i2c transfer failed (-5)
 > 
+> The driver works fine as soon as I2C_M_NOSTART is removed.
 > 
-> The software documentation is providing the following information
-> for the used programming interface.
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/platform.c?id=f5e94d10e4c468357019e5c28d48499f677b284f#n221
-> https://elixir.bootlin.com/linux/v5.6.3/source/drivers/base/platform.c#L202
+> Add a separate melfas,mms345l binding, and make use of I2C_M_NOSTART
+> only for MMS114 and MMS152.
 > 
-> “…
->  * Return: IRQ number on success, negative error number on failure.
-> …”
-> 
-> Would you like to reconsider the shown condition check?
+> Reviewed-by: Andi Shyti <andi@etezian.org>
+> Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
 
-Platform code historically allowed creating IRQ resources with IRQ
-number 0 to indicate "no interrupt assigned", so this driver tries to
-filter out such conditions. The negative IRQs (errors) will be rejected
-by request_irq() but I guess we can lose -EPROBE_DEFER. We could do
+Sorry for sitting on this for so long. I looked around, and I think that
+instead of adding separate handling for 345L we shoudl simply drop the
+"no start" bit for everyone. I am not sure what the original version
+tried to do here, as far as I can see in various public Android trees the
+driver for these devices does not use I2C_M_NOSTART.
 
-	if (keypad->irq <= 0) {
-		err = keypad->irq ?: -ENXIO : keypad->irq;
-		goto failed_free;
-	}
+Actually, I wonder if the difference is not in the touch controller that
+is being used, but rather in the I2C controller the device in connected
+to.
 
-
-or, maybe we should take a look at platform_get_irq() and see if we can
-stop it returning 0 interrupt numbers and clean up the drivers.
+I would like to apply the version of the patch below.
 
 Thanks.
 
 -- 
 Dmitry
+
+
+Input: mms114 - fix handling of mms345l
+
+From: Stephan Gerhold <stephan@gerhold.net>
+
+MMS345L is another first generation touch screen from Melfas,
+which uses the same registers as MMS152.
+
+However, using I2C_M_NOSTART for it causes errors when reading:
+
+	i2c i2c-0: sendbytes: NAK bailout.
+	mms114 0-0048: __mms114_read_reg: i2c transfer failed (-5)
+
+The driver works fine as soon as I2C_M_NOSTART is removed.
+
+Reviewed-by: Andi Shyti <andi@etezian.org>
+Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+Link: https://lore.kernel.org/r/20200405170904.61512-1-stephan@gerhold.net
+Patchwork-Id: 11474771
+[dtor: removed separate mms345l handling, made everyone use standard
+transfer mode, propagated the 10bit addressing flag to the read part of the
+transfer as well.]
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/touchscreen/mms114.c |   12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/input/touchscreen/mms114.c b/drivers/input/touchscreen/mms114.c
+index 69c6d559eeb0..2ef1adaed9af 100644
+--- a/drivers/input/touchscreen/mms114.c
++++ b/drivers/input/touchscreen/mms114.c
+@@ -91,15 +91,15 @@ static int __mms114_read_reg(struct mms114_data *data, unsigned int reg,
+ 	if (reg <= MMS114_MODE_CONTROL && reg + len > MMS114_MODE_CONTROL)
+ 		BUG();
+ 
+-	/* Write register: use repeated start */
++	/* Write register */
+ 	xfer[0].addr = client->addr;
+-	xfer[0].flags = I2C_M_TEN | I2C_M_NOSTART;
++	xfer[0].flags = client->flags & I2C_M_TEN;
+ 	xfer[0].len = 1;
+ 	xfer[0].buf = &buf;
+ 
+ 	/* Read data */
+ 	xfer[1].addr = client->addr;
+-	xfer[1].flags = I2C_M_RD;
++	xfer[1].flags = (client->flags & I2C_M_TEN) | I2C_M_RD;
+ 	xfer[1].len = len;
+ 	xfer[1].buf = val;
+ 
+@@ -428,10 +428,8 @@ static int mms114_probe(struct i2c_client *client,
+ 	const void *match_data;
+ 	int error;
+ 
+-	if (!i2c_check_functionality(client->adapter,
+-				I2C_FUNC_PROTOCOL_MANGLING)) {
+-		dev_err(&client->dev,
+-			"Need i2c bus that supports protocol mangling\n");
++	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
++		dev_err(&client->dev, "Not supported I2C adapter\n");
+ 		return -ENODEV;
+ 	}
+ 
