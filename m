@@ -2,183 +2,247 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C98DC1A3D0E
-	for <lists+linux-input@lfdr.de>; Fri, 10 Apr 2020 01:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 402721A3D55
+	for <lists+linux-input@lfdr.de>; Fri, 10 Apr 2020 02:28:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726779AbgDIXq3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Apr 2020 19:46:29 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:37850 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726726AbgDIXq3 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Apr 2020 19:46:29 -0400
-Received: by mail-pf1-f193.google.com with SMTP id u65so291667pfb.4;
-        Thu, 09 Apr 2020 16:46:27 -0700 (PDT)
+        id S1727048AbgDJA2h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Apr 2020 20:28:37 -0400
+Received: from mail-eopbgr1410044.outbound.protection.outlook.com ([40.107.141.44]:37421
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726867AbgDJA2g (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 9 Apr 2020 20:28:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VCt7eXxgEbbui/naYaxGKf3+X1ZJu+C6BaFGN29sHTh2lFys7VBTeey6Um66tqETog+oA3KVbLF0kNtPtH8V12JxywZxCOBeXF2ll3Ppa1g1KkH6XwpVfxR5Fs4Zf8Tt8kLDMtvquySpH3BnFScrhYxUmXgkILgQNsf/rbHo4OWNyXn7+TjlGw7ZUiHHRnyPLzHrNWixPcInHNdXQXmSJDRtG23pGpDW71fsBM5ejtudF6hOJCcjDnPaPKcKsrdxSnS5TK0uQPv3g0gM3AViAAfsnofAciEHrRn/jfWZVlnmcg5INTjz3AJ0zan2Pk/wnVbWGlZAQDZ5Rj0XYv10pA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p9H49XI+IwJumcWWYXHU4bEqcboE8MU9Bt97tVRYmQ8=;
+ b=BqjNz7wQICaDE8l4OK1QSSn9mzjNHXwUSRFdtP4D9sylX6TS+Ts+HMFrQN7ODnw/5dULYZ4JcOUIXLHaxzuZBWUWCaoK8cPKuQJpzbwn5Mu1inyAZOzduaPwpvSv+Z7lZSape/CTkKDc1fO8O3GlQIZ5j8KrHy0LOSEOjLofT6qF+zDOdrj0FsIRDpaWJNoMnhYqjDD9ihskg2Tff3hj6h4aKCT2LVJik3XWa+YaWnV077ix6hse41+w2cb9TSwVR83Yyc1jQ5y4E2/tcc2mORKgeif/wtqL967mX7UTwiwa91uKBLcacQC4uL/fB0zdnKr6wk7Lgm3igWwV2aG/3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=alpsalpine.com; dmarc=pass action=none
+ header.from=alpsalpine.com; dkim=pass header.d=alpsalpine.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=X1Y8bnD3QMGmRcwUVI82L0iDUV1q8Fy3GQNmvFYnS2I=;
-        b=EBxEUf08dMeA2iEQohC5/R3ZVAHRMWWtefrFAHbK3WBKDA3GsxHCGkxIMncKubJ14s
-         ZqP447beS2tDu8NLH1Z44HuydTaUOJwx4UvmH8w9UE66LnWULAeThpHVGv7KL/t1IQ0z
-         nXGlMIXpzqjB9hMb2IcXye17mn11vmGodw94zXUXdpypQtgltIkMQUBpX3lpyQLcQhKs
-         kQI2/Tz08GLv0yr0aet1S8RRQlqzSM7yN+zQ+e+KhdgepQmmcXKW4fxnkQaG1Dt82L0h
-         xYs6faP7szYqAUT2Vq+a4PoC+D7liwiWUMPO1Y6tmyF0KcAKHRiKCImaEY+I5eSH5Prx
-         zO6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=X1Y8bnD3QMGmRcwUVI82L0iDUV1q8Fy3GQNmvFYnS2I=;
-        b=k3dyzjRdfrMbravnNC7lg4kpvJooy29jyo12cVeKxCEmoS3vzkmAVw14WfU7OW2yfo
-         KPX7f9WMvwSsMzcYdNwKHtd0/LwC94g5LiA87rfWPKtbevl/uBe/qfLOr5TsLTejdU17
-         zCCyjBwhjnnZGlZPG1lZvYNL0GwBHr4J/CIds4kugSQG8E5uRSkH2KMERlrqj9ZE///j
-         uQXdvnAT3Q7OEELy8rR6pSJ+rk2B5nVjEYkJ51oKUhxfcOeQ2UEBb4aFiqoS6rmK12Aq
-         7pPR6slOjykBp9so88CzHkjWnlebwn9aa+s5/HMFKShF4eVL5NQCBkJNz5QmInh3b1OX
-         3DvQ==
-X-Gm-Message-State: AGi0PuZN9pfwlIF0s84F8nh8IhiSLoIpQ8SuXdlQOcLvnvPDYvZ/APzM
-        y0z/J7Vjusud9n7qOW1iqpc=
-X-Google-Smtp-Source: APiQypJ1xTM0Kzl/R2WKceZ2kuvIzhM7XWOQrpUymOEdXWNA+ZOn9J7ew7DVykXrVkUi5rHMe4xDrg==
-X-Received: by 2002:a62:648f:: with SMTP id y137mr2268339pfb.199.1586475986437;
-        Thu, 09 Apr 2020 16:46:26 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id w27sm191851pfq.211.2020.04.09.16.46.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2020 16:46:25 -0700 (PDT)
-Date:   Thu, 9 Apr 2020 16:46:23 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Kamel Bouhara <kamel.bouhara@bootlin.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 2/3] Input: rotary-encoder-counter: add DT bindings
-Message-ID: <20200409234623.GU75430@dtor-ws>
-References: <20200406155806.1295169-1-kamel.bouhara@bootlin.com>
- <20200406155806.1295169-3-kamel.bouhara@bootlin.com>
- <20200409222115.GT75430@dtor-ws>
- <20200409223907.GW3628@piout.net>
+ d=alpsgroup.onmicrosoft.com; s=selector2-alpsgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p9H49XI+IwJumcWWYXHU4bEqcboE8MU9Bt97tVRYmQ8=;
+ b=nVkI5J8vmNOJIZhkC3eh32NLsun82kKP0DTlqshSyEiS5GPane374dbrMy28H6tiqg+IdKIQAnW5RcY9ES7GuRRlrfDubZgCrVeujVVhqWR2HWun/fbSYyg5I/+GGZ4jUeavYQHiQJyx3MbF2XhI5gAiK93tMxQfmAsb0tXCIE0=
+Received: from TYAPR01MB3871.jpnprd01.prod.outlook.com (20.178.136.214) by
+ TYAPR01MB3344.jpnprd01.prod.outlook.com (20.178.140.83) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2878.20; Fri, 10 Apr 2020 00:28:33 +0000
+Received: from TYAPR01MB3871.jpnprd01.prod.outlook.com
+ ([fe80::1dd1:dda9:f760:4bdd]) by TYAPR01MB3871.jpnprd01.prod.outlook.com
+ ([fe80::1dd1:dda9:f760:4bdd%6]) with mapi id 15.20.2878.022; Fri, 10 Apr 2020
+ 00:28:33 +0000
+From:   Masaki Ota <masaki.ota@alpsalpine.com>
+To:     Xiaojian Cao <xiaojian.cao@cn.alps.com>,
+        Artem Borisov <dedsa2002@gmail.com>
+CC:     "jikos@kernel.org" <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 2/2] HID: alps: Refactor axis resolution logic
+Thread-Topic: [PATCH 2/2] HID: alps: Refactor axis resolution logic
+Thread-Index: AQHWDr0x2NbbGmh+BEarMrC/TfssrKhxZ8AAgAAQo0A=
+Date:   Fri, 10 Apr 2020 00:28:32 +0000
+Message-ID: <TYAPR01MB3871E974EFE06EBF40074470ECDE0@TYAPR01MB3871.jpnprd01.prod.outlook.com>
+References: <nycvar.YFH.7.76.2004100019450.19713@cbobk.fhfr.pm>
+ <20200409230009.22551-1-dedsa2002@gmail.com>
+In-Reply-To: <20200409230009.22551-1-dedsa2002@gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=masaki.ota@alpsalpine.com; 
+x-originating-ip: [106.184.109.136]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 0afb6f13-b7ed-4ff2-169d-08d7dce619d2
+x-ms-traffictypediagnostic: TYAPR01MB3344:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TYAPR01MB3344A862D0C4D90ADEFC278FECDE0@TYAPR01MB3344.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-forefront-prvs: 0369E8196C
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYAPR01MB3871.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(376002)(396003)(346002)(39860400002)(366004)(136003)(6506007)(52536014)(5660300002)(85182001)(4326008)(33656002)(478600001)(2906002)(316002)(110136005)(54906003)(66476007)(81166007)(66946007)(186003)(9686003)(7696005)(66556008)(8676002)(86362001)(26005)(66446008)(71200400001)(55016002)(76116006)(64756008)(81156014)(8936002);DIR:OUT;SFP:1101;
+received-spf: None (protection.outlook.com: alpsalpine.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: JUx6z/qDawGBjvdx/KF+rBIryO+J+kfqe25D0KXrxdBNleGI6VyRB9WHLSPb+xlmjeH2GNUr1os25ScR2TJjnrpkhxCyrv37N8fOSUwdqPzrv9PdNxbFqs5n7ip7T9odd7NO9BBtz8fOExhDHKcvA5HQxGigHjX841XGbdrhlzRReODvV6KX2jsrz0kZQ7dl5Rhx7JY4hR0vZK+LfHM+SUCbh6led4J3KkXVDxnlasvJRjYA9vN3jNxo8RpBfGYsfnF/ygpriQdiRICw9PxCqXEpCbua0IiAiOSE5oDgiKy92h83wWyzG5mgWiofZl2k6PmPvaHO3owETOtp93SkmPFhQoo+c2pSKC4KpCVrYbNvnIAWyAzKigOKN9gI2F48QHFfKYEh/eBDKIhHe32pFiHSTuYvjOmz02xT7EgI6VoR3+MVy1y5XE0T05SN4BY0
+x-ms-exchange-antispam-messagedata: 3RdihPrND1GL0/EPe38vMJ/5yK+0Q8XK8r/rdwIABKIdXRA2Ks3enfVo7J9HWB4Pqbb3T9KamxPB4csrzTCvoeykNf3yhOom5StoMGDuM6yNaFLdsscv9ISpfCm5o6mlVa11B2afnjKqAc5yIrdSMA==
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200409223907.GW3628@piout.net>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+X-OriginatorOrg: alpsalpine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0afb6f13-b7ed-4ff2-169d-08d7dce619d2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Apr 2020 00:28:32.8882
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 57e76998-77bd-4b82-a424-198f46eb2254
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WGOibNxgCr+vsihLHG0XDvi3BC0LcBdX97xwgFiIOuLDisXHTl2KmwxgfcEiXWLQ+XYS1buVm0wO8hvHbJAJEGfSE+AggkdnD0busBlDm3A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3344
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Apr 10, 2020 at 12:39:07AM +0200, Alexandre Belloni wrote:
-> Hi Dmitry,
-> 
-> On 09/04/2020 15:21:15-0700, Dmitry Torokhov wrote:
-> > On Mon, Apr 06, 2020 at 05:58:05PM +0200, Kamel Bouhara wrote:
-> > > Add dt binding for the counter variant of the rotary encoder driver.
-> > > 
-> > > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > > ---
-> > >  .../input/rotary-encoder-counter.yaml         | 67 +++++++++++++++++++
-> > >  1 file changed, 67 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml b/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > > new file mode 100644
-> > > index 000000000000..a59f7c1faf0c
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > > @@ -0,0 +1,67 @@
-> > > +# SPDX-License-Identifier: GPL-2.0
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/input/rotary-encoder-counter.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Rotary Encoder Counter
-> > > +
-> > > +maintainers:
-> > > +  - Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > > +
-> > > +description:
-> > > +  Registers a Rotary encoder connected through a counter device.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: rotary-encoder-counter
-> > 
-> > I wonder if a separate driver is really needed. The original driver be
-> > taught to use counter device when available?
-> > 
-> 
-> By the original driver, do you mean drivers/input/misc/rotary_encoder.c
-> that is using gpios ?
+Hi, Cao-san,
 
-Yes.
+Do you know AUI1657 device? This device looks U1.
+I think recent all U1 devices work as PTP.
+Linux also supports PTP, so I think we should add something ID to Linux sou=
+rce code. (I remember a something flag is already exist.)
 
-> 
-> > > +
-> > > +  counter:
-> > > +    description: Phandle for the counter device providing rotary position.
-> > > +
-> > > +  linux-axis:
-> > > +    description: The input subsystem axis to map to this rotary encoder.
-> > > +    type: boolean
-> > > +
-> > > +  qdec-mode:
-> > > +    description: |
-> > > +      Quadrature decoder function to set in the counter device.
-> > > +      3: x1-PHA
-> > > +      4: x1-PHB
-> > > +      5: x2-PHA
-> > > +      6: x2-PHB
-> > > +      7: x4-PHA and PHB
-> > 
-> > Is it really property of the rotary encoder itself or property of the
-> > counter device?
-> > 
-> 
-> The mode the quadrature decoder has to be put in depends on both the
-> rotary encoder and the qdec.
+Best Regards,
+Masaki Ota
+-----Original Message-----
+From: Artem Borisov <dedsa2002@gmail.com>=20
+Sent: Friday, April 10, 2020 8:00 AM
+Cc: jikos@kernel.org; =1B$BB@ED=1B(B =1B$B??4n=1B(B Masaki Ota <masaki.ota@=
+alpsalpine.com>; Artem Borisov <dedsa2002@gmail.com>; Benjamin Tissoires <b=
+enjamin.tissoires@redhat.com>; Henrik Rydberg <rydberg@bitmath.org>; linux-=
+input@vger.kernel.org; linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] HID: alps: Refactor axis resolution logic
 
-OK.
+AUI1657 doesn't follow the same logic for resolution calculation, since the=
+ resulting values are incorrect. Instead, it reports the actual resolution =
+values in place of the pitch ones.
+While we're at it, also refactor the whole resolution logic to make it more=
+ generic and sensible for multiple device support.
 
-> 
-> > > +
-> > > +  steps:
-> > > +    description: Number of steps in a full turnaround of the encoder.
-> > > +      Only relevant for absolute axis. Defaults to 24 which is a typical
-> > > +      value for such devices.
-> > > +
-> > > +  relative-axis:
-> > > +    description: Register a relative axis rather than an absolute one.
-> > > +    type: boolean
-> > > +
-> > > +  rollover:
-> > > +    description: Automatic rollover when the rotary value becomes greater
-> > > +      than the specified steps or smaller than 0. For absolute axis only.
-> > > +    type: boolean
-> > > +
-> > > +  poll-interval:
-> > > +    description: Poll interval at which the position is read from the counter
-> > > +      device (default 500ms).
-> > 
-> > Is there a way found counters to signal an interrupt?
-> > 
-> 
-> For some counters, there are interrupts available, this is not trivial
-> with the counter that is the target of this work but this is on the TODO
-> list. Of course, this will also require adding a bit more to the
-> in-kernel counter API to allow registering a callback that would be
-> called when an interrupt happens.
+There are two main logical problems with the current code:
+1. active_len_mm values are only used for resolution calculation on U1, yet=
+ are exposed globally as part of alps_dev structure.
+2. The resolution calculation process happens in alps_input_configured, whi=
+le everything else is calculated in u1_init function.
 
-Should it be a callback, or can counter create an irqchip so that users
-do not need to know how exactly it is wired up?
+These problems become more apparent when we try to support a device that do=
+esn't follow the same resolution calculation logic as U1.
+Since alps_input_configured is a device-agnostic function, we should avoid =
+doing any measurements there and handle them in device-specific init functi=
+ons like u1/T4_init instead.
 
-Thanks.
+To eliminate these problems we add global x_res and y_res values and popula=
+te them on a device-specific basis in the according init functions.
 
--- 
-Dmitry
+Signed-off-by: Artem Borisov <dedsa2002@gmail.com>
+---
+ drivers/hid/hid-alps.c | 41 +++++++++++++++++++++++++----------------
+ 1 file changed, 25 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/hid/hid-alps.c b/drivers/hid/hid-alps.c index c2a2bd52=
+8890..494c08cca645 100644
+--- a/drivers/hid/hid-alps.c
++++ b/drivers/hid/hid-alps.c
+@@ -83,8 +83,8 @@ enum dev_num {
+  * @max_fingers: total number of fingers
+  * @has_sp: boolean of sp existense
+  * @sp_btn_info: button information
+- * @x_active_len_mm: active area length of X (mm)
+- * @y_active_len_mm: active area length of Y (mm)
++ * @x_res: resolution of X
++ * @y_res: resolution of Y
+  * @x_max: maximum x coordinate value
+  * @y_max: maximum y coordinate value
+  * @x_min: minimum x coordinate value
+@@ -100,9 +100,10 @@ struct alps_dev {
+ 	enum dev_num dev_type;
+ 	u8  max_fingers;
+ 	u8  has_sp;
++	u8  no_pitch;
+ 	u8	sp_btn_info;
+-	u32	x_active_len_mm;
+-	u32	y_active_len_mm;
++	u32	x_res;
++	u32	y_res;
+ 	u32	x_max;
+ 	u32	y_max;
+ 	u32	x_min;
+@@ -550,10 +551,6 @@ static int u1_init(struct hid_device *hdev, struct alp=
+s_dev *pri_data)
+ 		dev_err(&hdev->dev, "failed U1_RESO_DWN_ABS (%d)\n", ret);
+ 		goto exit;
+ 	}
+-	pri_data->x_active_len_mm =3D
+-		(pitch_x * (sen_line_num_x - 1)) / 10;
+-	pri_data->y_active_len_mm =3D
+-		(pitch_y * (sen_line_num_y - 1)) / 10;
+=20
+ 	pri_data->x_max =3D
+ 		(resolution << 2) * (sen_line_num_x - 1); @@ -562,6 +559,18 @@ static in=
+t u1_init(struct hid_device *hdev, struct alps_dev *pri_data)
+ 		(resolution << 2) * (sen_line_num_y - 1);
+ 	pri_data->y_min =3D 1;
+=20
++	if (pri_data->no_pitch) {
++		pri_data->x_res =3D pitch_x;
++		pri_data->y_res =3D pitch_y;
++	} else {
++		pri_data->x_res =3D
++			(pri_data->x_max - 1) /
++			((pitch_x * (sen_line_num_x - 1)) / 10);
++		pri_data->y_res =3D
++			(pri_data->y_max - 1) /
++			((pitch_y * (sen_line_num_y - 1)) / 10);
++	}
++
+ 	ret =3D u1_read_write_register(hdev, ADDRESS_U1_PAD_BTN,
+ 			&tmp, 0, true);
+ 	if (ret < 0) {
+@@ -622,7 +631,7 @@ static int T4_init(struct hid_device *hdev, struct alps=
+_dev *pri_data)
+ 	pri_data->x_min =3D T4_COUNT_PER_ELECTRODE;
+ 	pri_data->y_max =3D sen_line_num_y * T4_COUNT_PER_ELECTRODE;
+ 	pri_data->y_min =3D T4_COUNT_PER_ELECTRODE;
+-	pri_data->x_active_len_mm =3D pri_data->y_active_len_mm =3D 0;
++	pri_data->x_res =3D pri_data->y_res =3D 0;
+ 	pri_data->btn_cnt =3D 1;
+=20
+ 	ret =3D t4_read_write_register(hdev, PRM_SYS_CONFIG_1, &tmp, 0, true); @@=
+ -675,7 +684,7 @@ static int alps_input_configured(struct hid_device *hdev,=
+ struct hid_input *hi)
+ 	struct alps_dev *data =3D hid_get_drvdata(hdev);
+ 	struct input_dev *input =3D hi->input, *input2;
+ 	int ret;
+-	int res_x, res_y, i;
++	int i;
+=20
+ 	data->input =3D input;
+=20
+@@ -706,12 +715,9 @@ static int alps_input_configured(struct hid_device *hd=
+ev, struct hid_input *hi)
+ 	input_set_abs_params(input, ABS_MT_POSITION_Y,
+ 						data->y_min, data->y_max, 0, 0);
+=20
+-	if (data->x_active_len_mm && data->y_active_len_mm) {
+-		res_x =3D (data->x_max - 1) / data->x_active_len_mm;
+-		res_y =3D (data->y_max - 1) / data->y_active_len_mm;
+-
+-		input_abs_set_res(input, ABS_MT_POSITION_X, res_x);
+-		input_abs_set_res(input, ABS_MT_POSITION_Y, res_y);
++	if (data->x_res && data->y_res) {
++		input_abs_set_res(input, ABS_MT_POSITION_X, data->x_res);
++		input_abs_set_res(input, ABS_MT_POSITION_Y, data->y_res);
+ 	}
+=20
+ 	input_set_abs_params(input, ABS_MT_PRESSURE, 0, 64, 0, 0); @@ -802,8 +808=
+,11 @@ static int alps_probe(struct hid_device *hdev, const struct hid_devi=
+ce_id *id)
+ 		break;
+ 	case HID_DEVICE_ID_ALPS_U1_DUAL:
+ 	case HID_DEVICE_ID_ALPS_U1:
++		data->dev_type =3D U1;
++		break;
+ 	case HID_DEVICE_ID_ALPS_1657:
+ 		data->dev_type =3D U1;
++		data->no_pitch =3D 1;
+ 		break;
+ 	default:
+ 		data->dev_type =3D UNKNOWN;
+--
+2.26.0
+
