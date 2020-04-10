@@ -2,106 +2,245 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A7EA1A4946
-	for <lists+linux-input@lfdr.de>; Fri, 10 Apr 2020 19:38:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EC721A48FA
+	for <lists+linux-input@lfdr.de>; Fri, 10 Apr 2020 19:34:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726712AbgDJRim (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Apr 2020 13:38:42 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:45480 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726177AbgDJRil (ORCPT
+        id S1726203AbgDJReh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Apr 2020 13:34:37 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:53198 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726142AbgDJReh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Apr 2020 13:38:41 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 60so2477994otl.12;
-        Fri, 10 Apr 2020 10:38:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+An5MImq5aeSw1a7Ke7WjRjEzcBp/O4lsgep7Vw6+lM=;
-        b=VQ3+AVAVJOX4JutuR7KUpft8GWE3/6r5VVv2lPBzGnOwIujwIPMv0oiGN7Ke+5xElE
-         3DVfoB4PNOKZuTjWwHNam2QUh8j7wM66TFVUQEeM+9HJ94XFNEPVaa5bnyhhflWG70jG
-         27D6b5iLB3Bo49kMIY4ecJa5nUasF9weKPox0idchgcoeM/cN5trzL3ceTCdpc1SJbvG
-         tee6AgFwXtNeQFvcHDLq93kd1TStRGNFErCzRPW2eFm/xWgQ7s1GtZgn8+UGuAOigCbr
-         0lMF5W5vJW43IB/biIEufjmnfAxYuXyZe0qNGHDqVMSG37FJpZ47//zMENxJS/64nQG2
-         KHcw==
-X-Gm-Message-State: AGi0PuZjqTToUGZ7QTiozMbo3NcbLEgt3GN5hjkpH9BR7OVBOYKUpKHL
-        Zaph6bz5aEDSp1ssFkICTw==
-X-Google-Smtp-Source: APiQypIjp9l3nAyxjmSj439mH8Cdduvv9ZWqWXsJmNr/UkrYB46F62hCiPdO01c0cznvqiINDAqCxg==
-X-Received: by 2002:a9d:7409:: with SMTP id n9mr4694976otk.173.1586540320345;
-        Fri, 10 Apr 2020 10:38:40 -0700 (PDT)
-Received: from rob-hp-laptop (ip-99-203-29-27.pools.spcsdns.net. [99.203.29.27])
-        by smtp.gmail.com with ESMTPSA id k132sm1567671oih.9.2020.04.10.10.38.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2020 10:38:39 -0700 (PDT)
-Received: (nullmailer pid 29972 invoked by uid 1000);
-        Fri, 10 Apr 2020 16:41:40 -0000
-Date:   Fri, 10 Apr 2020 11:41:40 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Rajat Jain <rajatja@google.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>, dtor@google.com,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Enrico Weigelt <info@metux.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Stephen Boyd <swboyd@chromium.org>,
+        Fri, 10 Apr 2020 13:34:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=/BH0IgNlSHJxLpwuSusWI+KfqHgIwoFPpOst/Q8hJnY=; b=CAS0f916pyKBi6t5s2FxrSAY8Q
+        MoAShfrK6TaQBW2Kc4lvZPFT9L865mFtF/qENKtTgYeDHZpBo6q/0oY5ZeqPLOL3idiALpHnaq4ls
+        3c8T6z0u3FiYfUC/fFMSZAAl+HUJfTV6L5nKofL9zsAgC29DbJ9ekVbSFQeWe+zxKGfP/YkLYnIXe
+        WSFWsKkzggVMzgsJI/sRNywOjhWkaM+1qexCxQt6uAojSa6JNMKiVVRwZXgpNlo6uKwj2MK6NhobT
+        7i0pwwzpMaTLKXTHNuRf3D8nFhoUMshJemM5VCfJKZB0MkpaSVfIiqSL+WLDeYhyhwnttaT53O0Ei
+        ARKdHHJA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jMxY4-0003Cu-MJ; Fri, 10 Apr 2020 17:34:36 +0000
+Subject: Re: [PATCH 1/3] counter: add an inkernel API
+To:     Kamel Bouhara <kamel.bouhara@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, furquan@google.com,
-        dlaurie@google.com, bleung@google.com, zentaro@google.com,
-        dbehr@google.com, rajatxjain@gmail.com
-Subject: Re: [PATCH v4 3/5] dt-bindings: input/atkbd.txt: Add binding for
- "function-row-physmap"
-Message-ID: <20200410164140.GA25924@bogus>
-References: <20200328185916.98423-1-rajatja@google.com>
- <20200328185916.98423-3-rajatja@google.com>
+        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
+References: <20200406155806.1295169-1-kamel.bouhara@bootlin.com>
+ <20200406155806.1295169-2-kamel.bouhara@bootlin.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <7651ea0d-91c2-49db-9af7-b01a78868d7e@infradead.org>
+Date:   Fri, 10 Apr 2020 10:34:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200328185916.98423-3-rajatja@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200406155806.1295169-2-kamel.bouhara@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Mar 28, 2020 at 11:59:14AM -0700, Rajat Jain wrote:
-> Create the documentation for the new introduced property, that
-> describes the function-row keys physical positions.
-> 
-> Signed-off-by: Rajat Jain <rajatja@google.com>
+Hi--
+
+On 4/6/20 8:58 AM, Kamel Bouhara wrote:
 > ---
-> v4: Same as v3
-> v3: same as v2
-> v2: Remove the Change-Id from the commit log
+>  drivers/counter/counter.c | 213 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/counter.h   |  27 +++++
+>  2 files changed, 240 insertions(+)
 > 
->  .../devicetree/bindings/input/atkbd.txt       | 34 +++++++++++++++++++
->  1 file changed, 34 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/atkbd.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/input/atkbd.txt b/Documentation/devicetree/bindings/input/atkbd.txt
-> new file mode 100644
-> index 0000000000000..816653eb8e98d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/atkbd.txt
-> @@ -0,0 +1,34 @@
-> +Device tree bindings for AT / PS2 keyboard device
-> +
-> +Optional properties:
-> +
-> +	function-row-physmap:
-> +			An ordered array of the physical codes for the function
-> +			row keys. Arranged in order from left to right.
+> diff --git a/drivers/counter/counter.c b/drivers/counter/counter.c
+> index 6a683d086008..f81d2d1dbca7 100644
+> --- a/drivers/counter/counter.c
+> +++ b/drivers/counter/counter.c
 
-A single optional property doesn't constitute a DT binding.
+[snip]
+
+Please use
+/**
+on these functions so that kernel-doc will process them.
 
 > +
-> +Example:
+> +/*
+> + * devm_counter_get - Obtain an exclusive access to a counter.
+> + * @dev: device for counter "consumer"
+> + *
+> + * Returns a struct counter_device matching the counter producer, or
+> + * IS_ERR() condition containing errno.
+> + *
+> + */
+> +struct counter_device *devm_counter_get(struct device *dev)
+> +{
+> +	struct counter_device **ptr, *counter;
 > +
-> +	This is a sample ACPI _DSD node describing the property:
+> +	ptr = devres_alloc(devm_counter_release, sizeof(*ptr), GFP_KERNEL);
+> +	if (!ptr)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	counter = counter_get(dev);
+> +	if (IS_ERR(counter)) {
+> +		devres_free(ptr);
+> +		return counter;
+> +	}
+> +
+> +	*ptr = counter;
+> +	devres_add(dev, ptr);
+> +
+> +	return counter;
+> +}
+> +EXPORT_SYMBOL_GPL(devm_counter_get);
+> +
+> +/*
+> + * counter_action_get - get counter synapse mode
+> + * @counter: counter device to operate with
+> + * @action: pointer to store the current counter synapse mode
 
-Neither does this ACPI stuff.
+should be @mode: ^^^^^
 
-Rob
+> + * returns:
+> + *	0 on success, error code on failure.
+> + */
+> +int counter_action_get(struct counter_device *counter, int *mode)
+> +{
+> +	struct counter_synapse *synapse = counter->counts->synapses;
+> +	size_t action_index;
+> +	int err;
+> +
+> +	err = counter->ops->action_get(counter, counter->counts, synapse,
+> +				       &action_index);
+> +	if (err)
+> +		return err;
+> +
+> +	*mode = synapse->actions_list[action_index];
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(counter_action_get);
+> +
+> +/*
+> + * counter_action_set - set counter device synapse
+> + * @counter: counter device to operate with
+> + * @action: enum of the synapse mode
+> + * returns:
+> + *	0 on success, error code on failure.
+> + */
+> +int counter_action_set(struct counter_device *counter,
+> +		       enum counter_synapse_action action)
+> +{
+> +	struct counter_synapse *synapse = counter->counts->synapses;
+> +	const size_t num_actions = synapse->num_actions;
+> +	size_t action_index;
+> +
+> +	/* Find requested action mode */
+> +	for (action_index = 0; action_index < num_actions; action_index++) {
+> +		if (action == synapse->actions_list[action_index])
+> +			break;
+> +	}
+> +
+> +	if (action_index >= num_actions)
+> +		return -EINVAL;
+> +
+> +	return counter->ops->action_set(counter, counter->counts, synapse,
+> +					action_index);
+> +}
+> +EXPORT_SYMBOL_GPL(counter_action_set);
+> +
+> +/*
+> + * counter_function_get - get the count function
+> + * @counter: pointer to counter device to operate with
+> + * @mode: pointer to store the current counter function mode
+> + * returns:
+> + *	0 on success, error code on failure.
+> + */
+> +int counter_function_get(struct counter_device *counter, int *mode)
+> +{
+> +	size_t func_index;
+> +	int err;
+> +
+> +	err = counter->ops->function_get(counter, counter->counts,
+> +					 &func_index);
+> +	if (err)
+> +		return err;
+> +
+> +	*mode = counter->counts->functions_list[func_index];
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(counter_function_get);
+> +
+> +/*
+> + * counter_function_set - set a count function
+> + * @counter: pointer to a counter device to operate with
+> + * @function: enum of the function mode
+> + * returns:
+> + *	0 on success, error code on failure.
+> + */
+> +int counter_function_set(struct counter_device *counter,
+> +			  enum counter_count_function function)
+> +{
+> +	const size_t num_functions = counter->counts->num_functions;
+> +	size_t func_index;
+> +
+> +	for (func_index = 0; func_index < num_functions; func_index++) {
+> +		if (function == counter->counts->functions_list[func_index])
+> +			break;
+> +	}
+> +
+> +	if (func_index >= num_functions)
+> +		return -EINVAL;
+> +
+> +	return counter->ops->function_set(counter, counter->counts, func_index);
+> +}
+> +EXPORT_SYMBOL_GPL(counter_function_set);
+> +
+> +/*
+> + * counter_count_set - set a count value
+> + * @counter: pointer to the counter device to operate with
+> + * @val: count value to write into the counter
+> + * @len: length of the value written to the counter
+> + * returns:
+> + *	bytes length of the value on success, error code on failure.
+> + */
+> +size_t counter_count_set(struct counter_device *counter,
+> +			 unsigned long val, size_t len)
+> +{
+> +	return counter->ops->count_write(counter, counter->counts, val);
+> +}
+> +EXPORT_SYMBOL_GPL(counter_count_set);
+> +
+> +/*
+> + * counter_count_get - read the count value
+> + * @counter: pointer to the counter device to operate with
+> + * @val: pointer to store the count value
+> + * returns:
+> + *  0 on success, error code on failure.
+> + */
+> +int counter_count_get(struct counter_device *counter, unsigned long *val)
+> +{
+> +	return counter->ops->count_read(counter, counter->counts, val);
+> +}
+> +EXPORT_SYMBOL_GPL(counter_count_get);
+> +
+>  /**
+>   * devm_counter_unregister - Resource-managed counter_unregister
+>   * @dev:	device this counter_device belongs to
+
+
+thanks.
+-- 
+~Randy
+
