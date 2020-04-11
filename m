@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5423B1A5B87
-	for <lists+linux-input@lfdr.de>; Sun, 12 Apr 2020 01:51:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 318D31A5A12
+	for <lists+linux-input@lfdr.de>; Sun, 12 Apr 2020 01:41:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728448AbgDKXuO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Apr 2020 19:50:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37382 "EHLO mail.kernel.org"
+        id S1728647AbgDKXk1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 Apr 2020 19:40:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43196 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726813AbgDKXEK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Apr 2020 19:04:10 -0400
+        id S1728637AbgDKXHX (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 11 Apr 2020 19:07:23 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2182D21655;
-        Sat, 11 Apr 2020 23:04:10 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A565F20787;
+        Sat, 11 Apr 2020 23:07:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586646250;
+        s=default; t=1586646443;
         bh=+YDiGepaO4y8+wKyEMkFm3lHtg1QfBUwMTS32hogJK8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=udIX8vtEOGFsCHkyQhObO/Ox209oisBS3OShTSWzVumoVOR0pcGjtVutajIqsn7NV
-         XLd/mh5SE5VZTyByV6oCuPIKod8pyHJlHgpoUWCRWrBYsNpMpKAp9NMAfjFz1ifp8w
-         ts2lX9U3VivifN5PqFXWTfEVXSIIUt+3N7JqigYg=
+        b=tsFRl5RWkLYEP4hEj1qb+RrWXWtmlAK3ryT1XhI+cXjNI0KsOQfztZ9Be4pb87yz1
+         2PDXPs/17yIEwPHfU8HOZGob81it0BB7h5QGJEs/PuGfMHgrIlR/LcgGApRzSdcZpM
+         /qWjLvlCmFGg587/MMX5jW2Ckoh2a0Bu1WND7rVI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans de Goede <hdegoede@redhat.com>, Jiri Kosina <jkosina@suse.cz>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 018/149] HID: lg-g15: Do not fail the probe when we fail to disable F# emulation
-Date:   Sat, 11 Apr 2020 19:01:35 -0400
-Message-Id: <20200411230347.22371-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 014/121] HID: lg-g15: Do not fail the probe when we fail to disable F# emulation
+Date:   Sat, 11 Apr 2020 19:05:19 -0400
+Message-Id: <20200411230706.23855-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200411230347.22371-1-sashal@kernel.org>
-References: <20200411230347.22371-1-sashal@kernel.org>
+In-Reply-To: <20200411230706.23855-1-sashal@kernel.org>
+References: <20200411230706.23855-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
