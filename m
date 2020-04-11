@@ -2,102 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 318D31A5A12
-	for <lists+linux-input@lfdr.de>; Sun, 12 Apr 2020 01:41:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D720E1A58B8
+	for <lists+linux-input@lfdr.de>; Sun, 12 Apr 2020 01:32:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728647AbgDKXk1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Apr 2020 19:40:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43196 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728637AbgDKXHX (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Apr 2020 19:07:23 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A565F20787;
-        Sat, 11 Apr 2020 23:07:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586646443;
-        bh=+YDiGepaO4y8+wKyEMkFm3lHtg1QfBUwMTS32hogJK8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tsFRl5RWkLYEP4hEj1qb+RrWXWtmlAK3ryT1XhI+cXjNI0KsOQfztZ9Be4pb87yz1
-         2PDXPs/17yIEwPHfU8HOZGob81it0BB7h5QGJEs/PuGfMHgrIlR/LcgGApRzSdcZpM
-         /qWjLvlCmFGg587/MMX5jW2Ckoh2a0Bu1WND7rVI=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>, Jiri Kosina <jkosina@suse.cz>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 014/121] HID: lg-g15: Do not fail the probe when we fail to disable F# emulation
-Date:   Sat, 11 Apr 2020 19:05:19 -0400
-Message-Id: <20200411230706.23855-14-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200411230706.23855-1-sashal@kernel.org>
-References: <20200411230706.23855-1-sashal@kernel.org>
+        id S1729967AbgDKXbx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 Apr 2020 19:31:53 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:60361 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728753AbgDKXbs (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 11 Apr 2020 19:31:48 -0400
+X-Originating-IP: 86.202.105.35
+Received: from localhost (lfbn-lyo-1-9-35.w86-202.abo.wanadoo.fr [86.202.105.35])
+        (Authenticated sender: alexandre.belloni@bootlin.com)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id C998520004;
+        Sat, 11 Apr 2020 23:31:45 +0000 (UTC)
+Date:   Sun, 12 Apr 2020 01:31:45 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     William Breathitt Gray <vilhelm.gray@gmail.com>
+Cc:     Kamel Bouhara <kamel.bouhara@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
+Subject: Re: [PATCH 0/3] Introduce a counter inkernel API
+Message-ID: <20200411233145.GC3628@piout.net>
+References: <20200406155806.1295169-1-kamel.bouhara@bootlin.com>
+ <20200411172259.GB95806@icarus>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200411172259.GB95806@icarus>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+Hi,
 
-[ Upstream commit b8a75eaddae9410767c7d95a1c5f3a547aae7b81 ]
+On 11/04/2020 13:22:59-0400, William Breathitt Gray wrote:
+> I'm not inherently opposed to adding an in-kernel API for the Counter
+> subsystem, but I'm not sure yet if it's necessary for this particular
+> situation.
+> 
+> Is the purpose of this driver to allow users to poll on the rotary
+> encoder position value? If so, perhaps instead of an in-kernel API, the
+> polling functionality should be added as part of the Counter subsystem;
+> I can see this being a useful feature for many counter devices, and
+> it'll keep the code contained to a single subsystem.
+> 
+> By the way, I'm going to be submitting a major update to the Counter
+> subsystem code in the next couple weeks that isolates the sysfs code
+> from the rest of the subsystem -- it'll likely affect the interface and
+> code here -- so I'll probably wait to decide for certain until that
+> patch lands; I anticipate it making things easier for you here after
+> it's merged.
+> 
+> For now, I want to get a better high-level understanding about how users
+> would interact with this driver to use the device (input_setup_polling
+> is a new call for me). That should help me understand whether an
+> in-kernel API is the best choice here.
+> 
 
-By default the G1-G12 keys on the Logitech gaming keyboards send
-F1 - F12 when in "generic HID" mode.
+Well, the goal is not really polling the counters but mainly exposing
+the correct userspace interface for the rotary encoders that are
+connected to quadrature decoders.
 
-The first thing the hid-lg-g15 driver does is disable this behavior.
+The input driver is using polling because this reduces the complexity of
+the patches but the ultimate goal is to also have interrupts working.
 
-We have received a bugreport that this does not work when the keyboard
-is connected through an Aten KVM switch. Using a gaming keyboard with
-a KVM is a bit weird setup, but still we can try to fail a bit more
-gracefully here.
+I'm pretty sure the in-kernel interface can also have other usages like
+for example iio triggers. I could envision having to read an ADC after x
+turns of a motor to check for the torque.
 
-On the G510 keyboards the same USB-interface which is used for the gaming
-keys is also used for the media-keys. Before this commit we would call
-hid_hw_stop() on failure to disable the F# emulation and then exit the
-probe method with an error code.
+I also think that having the sysfs code separate would help as it could
+be considered as one of the in-kernel interface user.
 
-This not only causes us to not handle the gaming-keys, but this also
-breaks the media keys which is a regression compared to the situation
-when these keyboards where handled by the generic hidinput driver.
+BTW, do you have plans to add a character device interface?
 
-This commit changes the error handling to clear the hiddev drvdata
-(to disable our .raw_event handler) and then returning from the probe
-method with success.
-
-The net result of this is that, when connected through a KVM, things
-work as well as they did before the hid-lg-g15 driver was introduced.
-
-Fixes: ad4203f5a243 ("HID: lg-g15: Add support for the G510 keyboards' gaming keys")
-BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1806321
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/hid-lg-g15.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
-index 8a9268a5c66aa..ad4b5412a9f49 100644
---- a/drivers/hid/hid-lg-g15.c
-+++ b/drivers/hid/hid-lg-g15.c
-@@ -803,8 +803,10 @@ static int lg_g15_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	}
- 
- 	if (ret < 0) {
--		hid_err(hdev, "Error disabling keyboard emulation for the G-keys\n");
--		goto error_hw_stop;
-+		hid_err(hdev, "Error %d disabling keyboard emulation for the G-keys, falling back to generic hid-input driver\n",
-+			ret);
-+		hid_set_drvdata(hdev, NULL);
-+		return 0;
- 	}
- 
- 	/* Get initial brightness levels */
 -- 
-2.20.1
-
+Alexandre Belloni, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
