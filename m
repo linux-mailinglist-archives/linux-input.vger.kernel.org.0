@@ -2,168 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B8B51A4F6D
-	for <lists+linux-input@lfdr.de>; Sat, 11 Apr 2020 12:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20B3F1A52B3
+	for <lists+linux-input@lfdr.de>; Sat, 11 Apr 2020 18:01:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726029AbgDKKn6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Apr 2020 06:43:58 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:40009 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725951AbgDKKn5 (ORCPT
+        id S1726204AbgDKQBf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 Apr 2020 12:01:35 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:39710 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726155AbgDKQBe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Apr 2020 06:43:57 -0400
-Received: from kb-xps (unknown [78.193.40.249])
-        (Authenticated sender: kamel.bouhara@bootlin.com)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id AD555200008;
-        Sat, 11 Apr 2020 10:43:54 +0000 (UTC)
-Date:   Sat, 11 Apr 2020 12:43:53 +0200
-From:   Kamel Bouhara <kamel.bouhara@bootlin.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        Sat, 11 Apr 2020 12:01:34 -0400
+Received: by mail-qt1-f195.google.com with SMTP id o10so3796043qtr.6;
+        Sat, 11 Apr 2020 09:01:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zhRskEKtP61k0yqbLaLsqJL1DLZl52yNBvZ6bXRfLCM=;
+        b=fNxHgv832WDYysIX0jD9QPCDscvmTf43PY81UgQokDRgCjw1x1ogToIhqT4QwC1E/D
+         jQV+i9/yOZevJrfP6URcG91dfGR9MznldAw4c9lwIRLy4K+ZkuSns4XOT1z3VBwCqQmU
+         XzTzVOGpvddRB382w7EZKk580NNwa5C89GZQQwQRRhXGgvtshGQX/A6MFnVfeYIDEOkX
+         dynKyb2bw0spA8bBE2buTF1e2TQArisyj26LhuTWPO95DRiiSIuwlSkiheCCjTpnk4Pp
+         lfMpv2u4xMOoIH+aZxcBEnjjJB/c0PWEva93mmt67JDYMVjP1vdZqgNOTnWVAdisd9Bd
+         qadA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zhRskEKtP61k0yqbLaLsqJL1DLZl52yNBvZ6bXRfLCM=;
+        b=H2JIFgbt1KbidWeWTLWFrC6FXgPAVzIQx/Lns/9wZUzDiYPEwmYbO7EC3Gyy8uFzGS
+         uETzeEX0YJMtyhCD+VpkwXv0R0BdESaNpCEOof1BIiCogrVVbXTW6Dop7SdbeqosFXwt
+         aWhdBU8ndi690Gq4jmd/3sqNcGWqS2injdZtcURJpvL2MKxgZvtYQXdY/JmPKWrpSC67
+         /RnVxFU8eEcHsj4CIOuTO7Utn3DiHYm5eIb2NMd4x/LGZiVk0aqtfpRaeskCIXxdwAUh
+         i/ffZXzI0+g12WWVaLYnbmc/emCaoQTMuBgZ8I40QnBOYM22amSG1cWERMufhw2CW3eo
+         Dc1g==
+X-Gm-Message-State: AGi0PuZR4EeFl9NBI8T+9MlQ9ZIUuco9AOfKWfelW34n3Hjkf18FfQNO
+        9SpHuIxiW9OP1xb84ObI+3s=
+X-Google-Smtp-Source: APiQypLVRG/zAWgaDeXS+aPd3v3rXiHthdj4V64zP9c4KydlcwVH+GkllKXLr6/Q5Q4sF7pMJNhTqA==
+X-Received: by 2002:aed:3b75:: with SMTP id q50mr4232741qte.23.1586620893939;
+        Sat, 11 Apr 2020 09:01:33 -0700 (PDT)
+Received: from icarus (072-189-064-225.res.spectrum.com. [72.189.64.225])
+        by smtp.gmail.com with ESMTPSA id o13sm3853059qkg.111.2020.04.11.09.01.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Apr 2020 09:01:32 -0700 (PDT)
+Date:   Sat, 11 Apr 2020 12:01:16 -0400
+From:   William Breathitt Gray <vilhelm.gray@gmail.com>
+To:     Kamel Bouhara <kamel.bouhara@bootlin.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
         Ludovic Desroches <ludovic.desroches@microchip.com>,
         linux-arm-kernel@lists.infradead.org,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 2/3] Input: rotary-encoder-counter: add DT bindings
-Message-ID: <20200411104353.GB161090@kb-xps>
-References: <20200406155806.1295169-1-kamel.bouhara@bootlin.com>
- <20200406155806.1295169-3-kamel.bouhara@bootlin.com>
- <20200409222115.GT75430@dtor-ws>
- <20200409223907.GW3628@piout.net>
- <20200409234623.GU75430@dtor-ws>
+        linux-iio@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] Atmel TCB capture driver
+Message-ID: <20200411160116.GA95806@icarus>
+References: <20200409141401.321222-1-kamel.bouhara@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="J/dobhs11T7y2rNN"
 Content-Disposition: inline
-In-Reply-To: <20200409234623.GU75430@dtor-ws>
+In-Reply-To: <20200409141401.321222-1-kamel.bouhara@bootlin.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Apr 09, 2020 at 04:46:23PM -0700, Dmitry Torokhov wrote:
-> On Fri, Apr 10, 2020 at 12:39:07AM +0200, Alexandre Belloni wrote:
-> > Hi Dmitry,
-> >
-> > On 09/04/2020 15:21:15-0700, Dmitry Torokhov wrote:
-> > > On Mon, Apr 06, 2020 at 05:58:05PM +0200, Kamel Bouhara wrote:
-> > > > Add dt binding for the counter variant of the rotary encoder driver.
-> > > >
-> > > > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > > > ---
-> > > >  .../input/rotary-encoder-counter.yaml         | 67 +++++++++++++++++++
-> > > >  1 file changed, 67 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml b/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..a59f7c1faf0c
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/input/rotary-encoder-counter.yaml
-> > > > @@ -0,0 +1,67 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/input/rotary-encoder-counter.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Rotary Encoder Counter
-> > > > +
-> > > > +maintainers:
-> > > > +  - Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > > > +
-> > > > +description:
-> > > > +  Registers a Rotary encoder connected through a counter device.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    const: rotary-encoder-counter
-> > >
-> > > I wonder if a separate driver is really needed. The original driver be
-> > > taught to use counter device when available?
-> > >
-> >
-> > By the original driver, do you mean drivers/input/misc/rotary_encoder.c
-> > that is using gpios ?
->
-> Yes.
->
 
-Well, it could be the case if the counter device could provide such a
-way to signal interrupts.
+--J/dobhs11T7y2rNN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> >
-> > > > +
-> > > > +  counter:
-> > > > +    description: Phandle for the counter device providing rotary position.
-> > > > +
-> > > > +  linux-axis:
-> > > > +    description: The input subsystem axis to map to this rotary encoder.
-> > > > +    type: boolean
-> > > > +
-> > > > +  qdec-mode:
-> > > > +    description: |
-> > > > +      Quadrature decoder function to set in the counter device.
-> > > > +      3: x1-PHA
-> > > > +      4: x1-PHB
-> > > > +      5: x2-PHA
-> > > > +      6: x2-PHB
-> > > > +      7: x4-PHA and PHB
-> > >
-> > > Is it really property of the rotary encoder itself or property of the
-> > > counter device?
-> > >
-> >
-> > The mode the quadrature decoder has to be put in depends on both the
-> > rotary encoder and the qdec.
->
-> OK.
->
-> >
-> > > > +
-> > > > +  steps:
-> > > > +    description: Number of steps in a full turnaround of the encoder.
-> > > > +      Only relevant for absolute axis. Defaults to 24 which is a typical
-> > > > +      value for such devices.
-> > > > +
-> > > > +  relative-axis:
-> > > > +    description: Register a relative axis rather than an absolute one.
-> > > > +    type: boolean
-> > > > +
-> > > > +  rollover:
-> > > > +    description: Automatic rollover when the rotary value becomes greater
-> > > > +      than the specified steps or smaller than 0. For absolute axis only.
-> > > > +    type: boolean
-> > > > +
-> > > > +  poll-interval:
-> > > > +    description: Poll interval at which the position is read from the counter
-> > > > +      device (default 500ms).
-> > >
-> > > Is there a way found counters to signal an interrupt?
-> > >
-> >
-> > For some counters, there are interrupts available, this is not trivial
-> > with the counter that is the target of this work but this is on the TODO
-> > list. Of course, this will also require adding a bit more to the
-> > in-kernel counter API to allow registering a callback that would be
-> > called when an interrupt happens.
->
-> Should it be a callback, or can counter create an irqchip so that users
-> do not need to know how exactly it is wired up?
->
-
-Maybe for some of them yes but for others the polling is still required.
-
-> Thanks.
->
+On Thu, Apr 09, 2020 at 04:13:58PM +0200, Kamel Bouhara wrote:
+> Hello,
+>=20
+> Here is a new counter driver to support Atmel TCB capture devices.
+>=20
+> Each SoC has two TCB blocks, each one including three independent
+> channels.The following series adds support for two counter modes:
+> increase and quadrature decoder.
+>=20
+> As for the atmel clocksource and pwm, the counter driver needs to fill
+> some tcb capabilities in order to operate with the right configuration.
+> This is achieved in first patch of this series.
+>=20
+> Please feel free to comment.
+>=20
+> Cheers,
+>=20
+> Changes from v2:
+>  - Fixed first patch not applying on mainline
+>  - Updated return code to -EINVAL when user is requesting qdec mode on
+>    a counter device not supporting it.
+>  - Added an error case returning -EINVAL when action edge is performed in
+>    qdec mode.
+>  - Removed no need to explicity setting ops to NULL from static struct as
+>    it is the default value.
+>  - Changed confusing code by using snprintf for the sake of clarity.
+>  - Changed code to use ARRAY_SIZE so that future reviewers will know
+>    that num_counts matches what's in the atmel_tc_count array without
+>    having to check so themselves.
+>=20
+> Kamel Bouhara (3):
+>   ARM: at91: add atmel tcb capabilities
+>   dt-bindings: counter: atmel-tcb-capture counter
+>   counter: Add atmel TCB capture counter
+>=20
+>  .../bindings/counter/atmel-tcb-capture.yaml   |  35 ++
+>  drivers/counter/Kconfig                       |  11 +
+>  drivers/counter/Makefile                      |   1 +
+>  drivers/counter/atmel-tcb-capture.c           | 394 ++++++++++++++++++
+>  include/soc/at91/atmel_tcb.h                  |   2 +
+>  5 files changed, 443 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/counter/atmel-tcb-c=
+apture.yaml
+>  create mode 100644 drivers/counter/atmel-tcb-capture.c
+>=20
 > --
-> Dmitry
+> 2.25.0
 
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Thanks Kamel, this version applies nicely now. Fix the error messages
+Rob Herring pointed out in the dt-bindings patch and I should be able to
+sign off on these.
+
+William Breathitt Gray
+
+--J/dobhs11T7y2rNN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEk5I4PDJ2w1cDf/bghvpINdm7VJIFAl6R6b8ACgkQhvpINdm7
+VJJT3hAAtJGYMWuStziOpn3oiehL6iBN7av6JLXQ1xaNk4DP0R6MyU0qGUQJCH27
+Cbckx4xNpwUmPK+7tV1NISlzXjBj9hEt3cRoPjf3Sd6Gw2x/F4GDSzbbcPot9KOD
+jqQL6HqJ/n9YPv/UYr5NtJ5Joh312TCf0mPdJ//GXWRCG7AzHa6b5CrBfz6bWb4x
+ylK0myhYbPEs5ViHlWSC69TUs+rrRqRgmIyJSBuaSukB0JYXFsj7BOMmgV7ymr9t
+91Qvf43jmzsXy0F4/lpp5u5d0DliHPhMk7J9LTILIECs7AvOxKB3D0mJSEoq++ws
+hugZXe1vbo39+gzf7QD1hEkVHOTwnWSG5wXUXxmjDpPqt7Ic9h1fu+mP3Nd8OLFx
+PmCeKyqBgkdQxUAb75Y+YObrgTDnBiWtnn391K0kpwy22aPQ10RzZYSCHY8pBvrB
+rkYsQs+KzHgH+/YtGkkohmPAialRUXEdMaGfIC/ZAggQdExxhdgtIEO49gV/yDL/
++Cp4MDfoBlomK4oLX3m1sagP9/Fzh+6yREa2EBajPMn9ZQ692Sy4hQCXfE1pFCs6
+1IXRuFXRZFETnyvT+SWcDxbizKYCVm7yCrA0M55tczJvoaDQOC93/i4hNf2aVMaT
+glv8dfI+2oNtO+AUclf7F1EX3izFvCqvUD89nuxhKZxfHbKkmJA=
+=rbCt
+-----END PGP SIGNATURE-----
+
+--J/dobhs11T7y2rNN--
