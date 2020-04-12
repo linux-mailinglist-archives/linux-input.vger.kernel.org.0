@@ -2,89 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF7F21A5E0E
-	for <lists+linux-input@lfdr.de>; Sun, 12 Apr 2020 12:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26A271A5E22
+	for <lists+linux-input@lfdr.de>; Sun, 12 Apr 2020 12:57:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbgDLKbm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Apr 2020 06:31:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49724 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725903AbgDLKbm (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Apr 2020 06:31:42 -0400
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 09A22206E9;
-        Sun, 12 Apr 2020 10:31:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586687502;
-        bh=hxvzPQ7gixVpCyxRSJHicmGU46t6PG5ZcN+dwTU8ORk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=u6Xramq7OjfTlYLQkFk/ktCp4AwKS3QCuFk/noujq4J2BzOIo5GomcnaRUJS17Hhk
-         gpZaO//FUxHmtvQ4Fbt5nDYtq62jbkPo8j+qDEyShO+lVviCEndkQdrlIUCrKjfBAf
-         QQTXcfQWuLeifglX2VIw2adMsyN7qQZTwBfz5G8s=
-Date:   Sun, 12 Apr 2020 11:31:37 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Kamel Bouhara <kamel.bouhara@bootlin.com>
-Cc:     William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-iio@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] ARM: at91: add atmel tcb capabilities
-Message-ID: <20200412113137.1763f084@archlinux>
-In-Reply-To: <20200409141401.321222-2-kamel.bouhara@bootlin.com>
-References: <20200409141401.321222-1-kamel.bouhara@bootlin.com>
-        <20200409141401.321222-2-kamel.bouhara@bootlin.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726658AbgDLK5J convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Sun, 12 Apr 2020 06:57:09 -0400
+Received: from mail.lintas.net.id ([103.242.106.93]:38332 "EHLO
+        mail.lintas.net.id" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726043AbgDLK5J (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 12 Apr 2020 06:57:09 -0400
+X-Greylist: delayed 1219 seconds by postgrey-1.27 at vger.kernel.org; Sun, 12 Apr 2020 06:57:06 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mail.lintas.net.id (Postfix) with ESMTP id 7511530599B66;
+        Sun, 12 Apr 2020 17:34:13 +0700 (WIB)
+Received: from mail.lintas.net.id ([127.0.0.1])
+        by localhost (mail.lintas.net.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 2c5Y4A-LHVja; Sun, 12 Apr 2020 17:34:12 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.lintas.net.id (Postfix) with ESMTP id 91AE930565B74;
+        Sun, 12 Apr 2020 17:34:12 +0700 (WIB)
+X-Virus-Scanned: amavisd-new at lintas.net.id
+Received: from mail.lintas.net.id ([127.0.0.1])
+        by localhost (mail.lintas.net.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id yo1wP-9uoIfC; Sun, 12 Apr 2020 17:34:12 +0700 (WIB)
+Received: from mail.lintas.net.id (mail.lintas.net.id [103.242.106.93])
+        by mail.lintas.net.id (Postfix) with ESMTP id A2BB23059AB01;
+        Sun, 12 Apr 2020 17:34:11 +0700 (WIB)
+Date:   Sun, 12 Apr 2020 17:34:11 +0700 (WIB)
+From:   =?utf-8?B?0KHQuNGB0YLQtdC80L3Ri9C5INCw0LTQvNC40L3QuNGB0YLRgNCw0YLQvtGA?= 
+        <ricky@lintas.net.id>
+Reply-To: mailsss@mail2world.com
+Message-ID: <1436105409.24276.1586687651609.JavaMail.zimbra@lintas.net.id>
+Subject: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+X-Originating-IP: [103.242.106.93]
+X-Mailer: Zimbra 8.8.15_GA_3888 (zclient/8.8.15_GA_3888)
+Thread-Index: pu96ZTRMa+3UnuH9nFxOe5WEAO4RzA==
+Thread-Topic: 
+Content-Transfer-Encoding: 8BIT
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu,  9 Apr 2020 16:13:59 +0200
-Kamel Bouhara <kamel.bouhara@bootlin.com> wrote:
+ВНИМАНИЕ;
 
-> Some atmel socs have extra tcb capabilities that allow using a generic
-> clock source or enabling a quadrature decoder.
-> 
-> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> ---
-> Changes from v2:
->  - Fixed first patch not applying on mainline
-> 
->  include/soc/at91/atmel_tcb.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/soc/at91/atmel_tcb.h b/include/soc/at91/atmel_tcb.h
-> index c3c7200ce151..7e47ace9255c 100644
-> --- a/include/soc/at91/atmel_tcb.h
-> +++ b/include/soc/at91/atmel_tcb.h
-> @@ -39,6 +39,8 @@ struct clk;
->   */
->  struct atmel_tcb_config {
->  	size_t	counter_width;
+В вашем почтовом ящике превышен лимит хранилища, который составляет 5 ГБ, как определено администратором, который в настоящее время работает на 10,9 ГБ. Возможно, вы не сможете отправлять или получать новую почту, пока вы не подтвердите свою почту. Чтобы подтвердить свой почтовый ящик, отправьте следующую информацию ниже:
 
-This structure has existing kernel doc. Please add these new
-elements and run ./scripts/kernel-doc over it check for any issues.
+название:
+Имя пользователя: 
+пароль:
+Подтвердите Пароль: 
+Эл. адрес:
+Телефон: 
 
-> +	bool    has_gclk;
-> +	bool    has_qdec;
->  };
-> 
->  /**
-> --
-> 2.25.0
-> 
+Если вы не сможете подтвердить свой почтовый ящик, ваш почтовый ящик будет отключен!
 
-Thanks,
+Приносим извинения за неудобства.
+Код подтверждения: en: 006,524.RU
+Техническая поддержка почты © 2020
 
-Jonathan
+благодарю вас
+Системный администратор
