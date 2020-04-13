@@ -2,33 +2,31 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 796FD1A68B0
-	for <lists+linux-input@lfdr.de>; Mon, 13 Apr 2020 17:24:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1521C1A695B
+	for <lists+linux-input@lfdr.de>; Mon, 13 Apr 2020 18:03:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730000AbgDMPYb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Apr 2020 11:24:31 -0400
-Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:39933 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729976AbgDMPYb (ORCPT
+        id S1731188AbgDMQDb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Apr 2020 12:03:31 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60458 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731222AbgDMQDb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Apr 2020 11:24:31 -0400
-Received: from localhost.localdomain ([93.22.151.169])
-        by mwinf5d63 with ME
-        id SFQS220023fYTYl03FQSGt; Mon, 13 Apr 2020 17:24:29 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 13 Apr 2020 17:24:29 +0200
-X-ME-IP: 93.22.151.169
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     dmitry.torokhov@gmail.com, tglx@linutronix.de, info@metux.net,
-        gregkh@linuxfoundation.org, gustavo@embeddedor.com
+        Mon, 13 Apr 2020 12:03:31 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: sre)
+        with ESMTPSA id 691072A0F92
+Received: by jupiter.universe (Postfix, from userid 1000)
+        id E421D4800F7; Mon, 13 Apr 2020 18:03:25 +0200 (CEST)
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] Input: tca6416-keypad - Fix a typo in MODULE_DESCRIPTION
-Date:   Mon, 13 Apr 2020 17:23:29 +0200
-Message-Id: <20200413152329.4435-1-christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.20.1
+        kernel@collabora.com,
+        Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: [PATCH] HID: multitouch: add eGalaxTouch P80H84 support
+Date:   Mon, 13 Apr 2020 18:02:37 +0200
+Message-Id: <20200413160237.610771-1-sebastian.reichel@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
@@ -36,24 +34,45 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This should be 'tca6416', not 'tca6146'
+Add support for P80H84 touchscreen from eGalaxy:
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+  idVendor           0x0eef D-WAV Scientific Co., Ltd
+  idProduct          0xc002
+  iManufacturer           1 eGalax Inc.
+  iProduct                2 eGalaxTouch P80H84 2019 vDIVA_1204_T01 k4.02.146
+
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/input/keyboard/tca6416-keypad.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hid-ids.h        | 1 +
+ drivers/hid/hid-multitouch.c | 3 +++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/input/keyboard/tca6416-keypad.c b/drivers/input/keyboard/tca6416-keypad.c
-index 21758767ccf0..9b0f9665dcb0 100644
---- a/drivers/input/keyboard/tca6416-keypad.c
-+++ b/drivers/input/keyboard/tca6416-keypad.c
-@@ -374,5 +374,5 @@ static void __exit tca6416_keypad_exit(void)
- module_exit(tca6416_keypad_exit);
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index b18b13147a6f..68d46e818dc2 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -385,6 +385,7 @@
+ #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_7349	0x7349
+ #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_73F7	0x73f7
+ #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_A001	0xa001
++#define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_C002	0xc002
  
- MODULE_AUTHOR("Sriramakrishnan <srk@ti.com>");
--MODULE_DESCRIPTION("Keypad driver over tca6146 IO expander");
-+MODULE_DESCRIPTION("Keypad driver over tca6416 IO expander");
- MODULE_LICENSE("GPL");
+ #define USB_VENDOR_ID_ELAN		0x04f3
+ #define USB_DEVICE_ID_TOSHIBA_CLICK_L9W	0x0401
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 362805ddf377..03c720b47306 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -1922,6 +1922,9 @@ static const struct hid_device_id mt_devices[] = {
+ 	{ .driver_data = MT_CLS_EGALAX_SERIAL,
+ 		MT_USB_DEVICE(USB_VENDOR_ID_DWAV,
+ 			USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_A001) },
++	{ .driver_data = MT_CLS_EGALAX,
++		MT_USB_DEVICE(USB_VENDOR_ID_DWAV,
++			USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_C002) },
+ 
+ 	/* Elitegroup panel */
+ 	{ .driver_data = MT_CLS_SERIAL,
 -- 
-2.20.1
+2.25.1
 
