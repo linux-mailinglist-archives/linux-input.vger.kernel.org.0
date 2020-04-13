@@ -2,195 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD8481A6714
-	for <lists+linux-input@lfdr.de>; Mon, 13 Apr 2020 15:34:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 796FD1A68B0
+	for <lists+linux-input@lfdr.de>; Mon, 13 Apr 2020 17:24:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730002AbgDMNdy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Apr 2020 09:33:54 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:40405 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730000AbgDMNdy (ORCPT
+        id S1730000AbgDMPYb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Apr 2020 11:24:31 -0400
+Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:39933 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729976AbgDMPYb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Apr 2020 09:33:54 -0400
-Received: from envy ([82.207.195.83]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M9WqY-1jIVZH2gIW-005XFe; Mon, 13
- Apr 2020 15:33:39 +0200
-Message-ID: <7683f875aa617b3003a1949131ce79bd0e3c4dcb.camel@richard-neumann.de>
-Subject: Re: [PATCH v4 2/4] SFH: PCI driver to add support of AMD sensor
- fusion Hub using HID framework
-From:   Richard Neumann <mail@richard-neumann.de>
-To:     "Shah, Nehal-bakulchandra" <nehal-bakulchandra.shah@amd.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Sandeep Singh <Sandeep.Singh@amd.com>, Shyam-sundar.S-k@amd.com,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>
-Date:   Mon, 13 Apr 2020 15:33:37 +0200
-In-Reply-To: <3ffc343e-c44b-1b4e-993e-179a13dc928c@amd.com>
-References: <1582779537-25662-1-git-send-email-Sandeep.Singh@amd.com>
-         <1582779537-25662-3-git-send-email-Sandeep.Singh@amd.com>
-         <4fe47b0323c1d65d429ee89b000e8bfcd984495f.camel@richard-neumann.de>
-         <896f84bc-f0d6-59a5-c894-809695aa348f@amd.com>
-         <CAHp75Vfr6q_H6z6tRFfaKedF7oR7nhmZvRWL4mxx3W7uypUFvA@mail.gmail.com>
-         <9aea760f9abdd2f90f36642af77de7bfae719485.camel@richard-neumann.de>
-         <3ffc343e-c44b-1b4e-993e-179a13dc928c@amd.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-Lic1xVuC6am9NOepDW9o"
-User-Agent: Evolution 3.36.1 
+        Mon, 13 Apr 2020 11:24:31 -0400
+Received: from localhost.localdomain ([93.22.151.169])
+        by mwinf5d63 with ME
+        id SFQS220023fYTYl03FQSGt; Mon, 13 Apr 2020 17:24:29 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 13 Apr 2020 17:24:29 +0200
+X-ME-IP: 93.22.151.169
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     dmitry.torokhov@gmail.com, tglx@linutronix.de, info@metux.net,
+        gregkh@linuxfoundation.org, gustavo@embeddedor.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] Input: tca6416-keypad - Fix a typo in MODULE_DESCRIPTION
+Date:   Mon, 13 Apr 2020 17:23:29 +0200
+Message-Id: <20200413152329.4435-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:R1qlNK3L8DeV4u5KSa3H1cOT/rnu2TOrZG7wEF5f+Em7c69dl6C
- PgvPOCbB5opBzlzrhY7BLi71utTlICGQI7i8KwtmoANaOM1R2DieObIQey+mvamv1M9Rlzu
- ZhGJ2/DF4Xsz1RKfzSSlPucw/dLBAYgDi6MqESKCy3Xb/xs5yP/Ba7X3Ju/zv0kdYqWJsvb
- rpZhiBSdCgs7hIn65QEKg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TXtNW1lc3kM=:8AprZdlWe6BlromzeB6BIS
- mAUVf4lHadPgX0QzihzKz4ygMxnFcTqitKKLFO1/Hdscn7qTldwFTtk2pvDJk5IX0FIU3/2Cg
- LYiif/hzeCZiohDo0V/jWMIAYlenXolwvNV8OhCvjUOPEOmgTeh2eY3v5TvbFa/Pi6K8QytJ/
- iv8+oDcCMTTPpO8FhCa/EWlsryvLs4v9GNxfOu+9+yCR+LMPvA0VRwSnlLM7Q0W9UN9YpQY2H
- 3/uMPCi99hNJl2xysbHoPKxU9kaTss4NXJp87HjtsTX9uzh9AFvW0OnodODntcLAvuQ+PoFne
- t4feu+8baCkZhvmSvSB8J5dfU4hzPhKf348TUyHp47RpnNHU9i8ldzr0Tj8GDQuKB2txbq/IR
- M7v/A9bg3Lbcipe3rOvHkuvmQwHOe+kvCsbNJ0hzDdtdo9enUdRX4KYPfBtqvSJYZJlsFfk1y
- jXd+kqZup68IUS57fwP0dSH9e64hNSZINeU+rLGWwWNHV02k5h6y21VgS0Pi3oYWV9QY8Pk6S
- xitjA7/zTy0Ae8QASuOcbgF9mgbLqs49nSosnaCdd7USkNwhz7TnoDoRugxCCU4bSlbay+gar
- Ea1vQidsd+Qu38iF3/6m3njfm+tVfxai91qI/2XdMtWp3f5xwxj7oy71GVICx2zwb0RMO0FfP
- +wNGnS/tKD/ZvGIFkepwpAIduGsa/8R4x28vRjTjLKcVZKsA1bOhHJV1Edm2KO58rEM6Ri8/h
- q2/BKXxaXidf4E+TkvEXnNyOyEeUNgzDKKTx+0PbvlvdqrZyNswPatf/H12zrHdnf+zvxHJkD
- /+2aS5IHlcVz5w/bY9/yTOVW7R90Qgypn6jTXYERJ3UPbvWZf3ZM3c3pfOX0Qu751s2ydZl
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+This should be 'tca6416', not 'tca6146'
 
---=-Lic1xVuC6am9NOepDW9o
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/input/keyboard/tca6416-keypad.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Am Montag, den 06.04.2020, 10:56 +0530 schrieb Shah, Nehal-
-bakulchandra:
-> HI
->=20
-> On 4/1/2020 9:58 PM, Richard Neumann wrote:
-> > Am Dienstag, den 31.03.2020, 20:24 +0300 schrieb Andy Shevchenko:
-> > > On Tue, Mar 31, 2020 at 4:26 PM Shah, Nehal-bakulchandra
-> > > <nehal-bakulchandra.shah@amd.com> wrote:
-> > > > On 3/31/2020 6:01 PM, Richard Neumann wrote:
-> > > > > Not a real review, but your patch series seems to be
-> > > > > repeating a
-> > > > > lot
-> > > > > from drivers/i2c/busses/i2c-amd-mp2*.
-> > > > > Is there any chance we could re-use the code?
-> > > > > E.g. the AMD_C2P_* definitions from drivers/i2c/busses/i2c-
-> > > > > amd-
-> > > > > mp2.h?
-> > > > Thanks for the mail. Yes there are some common structures,
-> > > > however
-> > > > as of now we have kept separately considering both
-> > > >=20
-> > > > are part of different sub systems. But may be will consider
-> > > > this
-> > > > input for future enhancement.
-> > > It can be done in a form of shared definitions at least in
-> > > include/linux/platform_data/x86/amd-mp2.h or alike ...
-> > >=20
-> > I managed to add support for the AMD SFH PCI device to i2c-amd-mp2*=20
-> > and
-> > outsourced the headers to include/linux/i2c-amd-mp2.h. [1]
-> > I also refactored the patch series (excluded the documentation) [2]
-> > to
-> > use the PCI device now provided by i2c_amd_mp2_pci and removed some
-> > duplicate and unncessary code.
-> > The driver now consist of just one module (amd_sfhtp_hid).
-> > Unfortunately I was not able to solve the problem, that I get AMD-
-> > Vi
-> > IO_PAGE_FAULT errors when not booted with amd_iommu=3Doff.
-> >=20
-> > [1]=20
-> > https://gist.githubusercontent.com/conqp/4d726f86da8a8397d6e70091a124de=
-67/raw/f97e88a0b44d98bfa1258cb73c8afe4dce7afa87/i2c-amd-mp2.patch
-> > [2]=20
-> > https://gist.githubusercontent.com/conqp/67036e690aca89d08b958971edac28=
-3d/raw/2a1ef122f9c8c8e07164b6d597962ce7bbad6d45/amd-sfhtp.patch
->=20
-> Thanks for the patch and appreciate your efforts. At this point of
-> time, we would like to have our first patch for SFH to be upstreamed
-> and dont want to complicate the
->=20
-> with two sub systems and maintainers. Surely will consider this input
-> for future enhancement. Thanks for your understanding.
->=20
-> Thanks
->=20
->=20
-> Nehal
->=20
->=20
-Hi all,
-
-I spent the last two weeks learning the HID API and refactored [1] the
-patch series again. I also took into consideration Nehal's input
-regarding the two subsystems. After tinkering with the integration of
-the SFH PCI driver into the existing i2c-amd-mp2-pci driver, I realized
-that this was a futile effort at this point of time, since the SFH
-protocol, as far as I understand it, does not really implement the I2C
-protocol. Thusly I turned away from trying to integrate the two
-drivers. The core changes I did, is to refactor the PCI driver to use a
-similar initialization as the i2c-amd-mp2-pci driver. The registers are
-now mapped correctly on initial setup (1 << 2) and not mapped to zero
-(1 >> 2) and the ioremapped later. With this change, the AMD-Vi page
-faults when not booting with amd_iommu=3Doff also automagically
-disappeared.=20
-The second change is the HID device handling. I now implemented the
-hid_ll_driver API with the respective functions to process raw events
-as well device start / stop and open / close routines. I also
-refactored the platform driver wich is now solely responsible for
-spawning and despawning the HID devices. I also reduced the commonly
-used structures and constats to those that were actually being used by
-the driver and renamed the PCI registers to express what they are used
-for in this driver. I also commented most functions and shared
-structures. The only problem I keep having on my machine is, that the
-register for the bit-shifted active sensors mask 0x1068C keeps
-returning zero on readout and thusly I need to override it.
-I tried to get the sensor mask by sending the "dump_sensorinfo" and
-"number_of_sensors_discovered" commands to different C2P registers and
-dumping the corresponding P2C registers. But so far I could not get any
-information that could be interpreted as the sensor info and mask that
-I need. Maybe Nehal or Sandeep could provide the information, if and
-how it ts possible to get information about the amount, position and
-type of the connected sensors in another way. I also found out, by
-sweeping the SFH registers (from 0 to 31), that there seem to be other
-sensors connected on my machine, namely at positions 0, 1, 2, 3, 4, 7,
-8 and 9. The ALS at 19 does not seem to be present on my system. I
-suspect that at least one of those is an additional accelerometer,
-since the only one working right now ist the accelerometer at position
-0, which is located in the sceen / lid. I suspect that the other one is
-located in the chassis, allowing the use of both to perform tablet mode
-detection by processing their relative orientation. I'd appreciate a
-hint on this assumption as well. ;-)
-
-Sincere regards,
-
-Richard
-
-[1] https://gist.github.com/conqp/33baa079d9524914c4c0c196200e4f89
-
---=-Lic1xVuC6am9NOepDW9o
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT62wKwhMqSt8WaustMqNUjvThq9wUCXpRqMQAKCRBMqNUjvThq
-9/xTAP0fCC9iZ+L52+k77GfQ7si6y49pvUTd0dJVRQdC7qsEhQD+Jok81CLtvoou
-Fi5/ODmaKCGFTxeC0IqrNK7CXiRITw8=
-=aUOQ
------END PGP SIGNATURE-----
-
---=-Lic1xVuC6am9NOepDW9o--
+diff --git a/drivers/input/keyboard/tca6416-keypad.c b/drivers/input/keyboard/tca6416-keypad.c
+index 21758767ccf0..9b0f9665dcb0 100644
+--- a/drivers/input/keyboard/tca6416-keypad.c
++++ b/drivers/input/keyboard/tca6416-keypad.c
+@@ -374,5 +374,5 @@ static void __exit tca6416_keypad_exit(void)
+ module_exit(tca6416_keypad_exit);
+ 
+ MODULE_AUTHOR("Sriramakrishnan <srk@ti.com>");
+-MODULE_DESCRIPTION("Keypad driver over tca6146 IO expander");
++MODULE_DESCRIPTION("Keypad driver over tca6416 IO expander");
+ MODULE_LICENSE("GPL");
+-- 
+2.20.1
 
