@@ -2,95 +2,183 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73E351A6C22
-	for <lists+linux-input@lfdr.de>; Mon, 13 Apr 2020 20:42:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3AE71A737C
+	for <lists+linux-input@lfdr.de>; Tue, 14 Apr 2020 08:19:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733069AbgDMSme (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Apr 2020 14:42:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50384 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1733067AbgDMSmc (ORCPT
+        id S2405874AbgDNGTW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Apr 2020 02:19:22 -0400
+Received: from emcscan.emc.com.tw ([192.72.220.5]:39329 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729231AbgDNGTU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Apr 2020 14:42:32 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A915C0A3BDC;
-        Mon, 13 Apr 2020 11:42:32 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id f3so10483388ioj.1;
-        Mon, 13 Apr 2020 11:42:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uUwpLr7H3CWr7Gx8F04TUo2T/8suj5UNrxDHjUUZvKg=;
-        b=msaOcQ77WoCp08XUHtZBYXn+v79SNgrmzk5f9WkKnriOsGUpFtv2thcgRlpZNsKxh6
-         QmQI+GzrTKcamSbRgBicUxDhx+Kn9y9X753/EAcBW5Et5eVBmgmCmmPwTco7zy12cr0J
-         Ia9jdXLHKOLrE3xZuSpRjK7Q5PciG0tOu3ohkxYYoENjLScDDkYV1yF5FFw1H/rMTucm
-         4UW6oJOY5y0mow2FFVb/nT3JFuo6aACxKYZnuXlS48nN4o4Zwx0arG7FeOt1xw1pzRQo
-         iiptZlkihflts5Vd5bYFraDdAqp13255vB4EWJCynIVGSEh3TP4Rhsx/bqTYnNNTzSod
-         wJjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uUwpLr7H3CWr7Gx8F04TUo2T/8suj5UNrxDHjUUZvKg=;
-        b=PKuBNveFoXyEJahw6HwZQb2P/29EPV+aDi//ZMi08VvlJjAMPSihQMxzT+tObr8TBW
-         Bh6AGq6Zl3Hyo7aHrbYhmh2o6hJVc5FJ1vW+SSN8txBaZMaWSnaeZTqva0NZWTEfcQp3
-         zOQcf3k2mMZKMzS6OK82iI/TN5u6TpK0pWK9i0vkwt4BhjcdIwkYBXlA/tor6BkEUg5Y
-         4QOXy1JaREfMO3pG2cvC2WjoM8xglLvG/rV0f9gUgs59WODI5R+l2m5oYd1ge7u40BSx
-         rKeLA7PXKrDMRAkubjcGLE1RcLNDutqPPmK+qkMdYiMi7rRw0UPc//Ne/Cw+Gd6fGmrS
-         S+Zw==
-X-Gm-Message-State: AGi0PuZ9dBoj/Oq2TONU5Vt6Usk1Pp/xypeBXjqVkPM35um0u/pCq2rt
-        VA1sGuaKdqZMQvWf5TgznZDKTxYD
-X-Google-Smtp-Source: APiQypJPohEk9ESmF09tf/pWvi+u3JpBQ8Yr2dx6KqgK8CgXgnXXQk6KO2enx6eyA6Uw6lhmIDSH2A==
-X-Received: by 2002:a05:6602:5db:: with SMTP id w27mr5680022iox.152.1586803351007;
-        Mon, 13 Apr 2020 11:42:31 -0700 (PDT)
-Received: from james-x399.localdomain (97-118-146-253.hlrn.qwest.net. [97.118.146.253])
-        by smtp.gmail.com with ESMTPSA id 79sm4111565ila.54.2020.04.13.11.42.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2020 11:42:30 -0700 (PDT)
-From:   James Hilliard <james.hilliard1@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        Richard Fontana <rfontana@redhat.com>,
-        Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org,
-        James Hilliard <james.hilliard1@gmail.com>
-Subject: [RESEND PATCH] Input: usbtouchscreen - add support for BonXeon TP
-Date:   Mon, 13 Apr 2020 12:42:17 -0600
-Message-Id: <20200413184217.55700-1-james.hilliard1@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        Tue, 14 Apr 2020 02:19:20 -0400
+X-Greylist: delayed 594 seconds by postgrey-1.27 at vger.kernel.org; Tue, 14 Apr 2020 02:19:18 EDT
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="35193920"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 14 Apr 2020 14:09:21 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(20963:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Tue, 14 Apr 2020 14:09:19 +0800 (CST)
+Received: from 192.168.33.11
+        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(2480:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Tue, 14 Apr 2020 14:09:17 +0800 (CST)
+From:   "jingle" <jingle.wu@emc.com.tw>
+To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>,
+        "'Bernd Edlinger'" <bernd.edlinger@hotmail.de>
+Cc:     "'Benjamin Tissoires'" <benjamin.tissoires@redhat.com>,
+        "'Dave.Wang'" <dave.wang@emc.com.tw>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        "'Kai-Heng Feng'" <kai.heng.feng@canonical.com>,
+        "'Enrico Weigelt'" <info@metux.net>,
+        "'Allison Randal'" <allison@lohutok.net>,
+        "'Aaron Ma'" <aaron.ma@canonical.com>,
+        =?gb2312?B?J9LlwqEtcGhvZW5peCc=?= <phoenix@emc.com.tw>
+References: <PR2PR03MB517975370D754EEF47E062BFE4EB0@PR2PR03MB5179.eurprd03.prod.outlook.com> <CAO-hwJ+eua8-fNj9o8CxjFyM0i1+R9ZwPMroF9uLUH6NVu3Tdg@mail.gmail.com> <PR2PR03MB51799BF709B3975A08F139F4E4EB0@PR2PR03MB5179.eurprd03.prod.outlook.com> <AM6PR03MB5170F5FC30556BEF89C775C2E4EB0@AM6PR03MB5170.eurprd03.prod.outlook.com> <AM6PR03MB5170D26019747F5090FE74B5E4C50@AM6PR03MB5170.eurprd03.prod.outlook.com> <AM6PR03MB51702AF00C6BA06BBC9F517EE4C50@AM6PR03MB5170.eurprd03.prod.outlook.com> <AM6PR03MB51705B32136F527B99CCD907E4C10@AM6PR03MB5170.eurprd03.prod.outlook.com> <20200409200746.GP75430@dtor-ws>
+In-Reply-To: <20200409200746.GP75430@dtor-ws>
+Subject: RE: [PATCH v2] Input: elantech - fix x_max/y_max values
+Date:   Tue, 14 Apr 2020 14:09:17 +0800
+Message-ID: <001b01d61223$3b1e5fd0$b15b1f70$@emc.com.tw>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+        charset="gb2312"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQEpX/8zKGl4MBCQipzcX+4OlxZsZwI+6lN+Aab7QkMBJBxwHQLYD+UWAf7ur9ICEY/IrgKBF86aqV3o9/A=
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYwMTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy03OGI1OGM4Yi03ZTE2LTExZWEtYjZmOS1mMDc5NTk2OWU3NWVcYW1lLXRlc3RcNzhiNThjOGQtN2UxNi0xMWVhLWI2ZjktZjA3OTU5NjllNzVlYm9keS50eHQiIHN6PSI0NDAzIiB0PSIxMzIzMTMxODE1NzgwNzc2NDMiIGg9IkE4bDdXckZGMFJHdmg3a0wwaXlMZDlUTSt1RT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Based on available information this uses the singletouch irtouch
-protocol. This is tested and confirmed to be fully functional on
-the BonXeon TP hardware I have.
+Hi Dmitry, Bernd:
 
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
-no response in over 2 weeks
----
- drivers/input/touchscreen/usbtouchscreen.c | 1 +
- 1 file changed, 1 insertion(+)
+We have checked the related function internal. 
+It is right to switch the touchpad into absolute mode first to get valid
+results from the ID query call in hardware version 2 and 3.
 
-diff --git a/drivers/input/touchscreen/usbtouchscreen.c b/drivers/input/touchscreen/usbtouchscreen.c
-index 16d70201de4a..397cb1d3f481 100644
---- a/drivers/input/touchscreen/usbtouchscreen.c
-+++ b/drivers/input/touchscreen/usbtouchscreen.c
-@@ -182,6 +182,7 @@ static const struct usb_device_id usbtouch_devices[] = {
- #endif
- 
- #ifdef CONFIG_TOUCHSCREEN_USB_IRTOUCH
-+	{USB_DEVICE(0x255e, 0x0001), .driver_info = DEVTYPE_IRTOUCH},
- 	{USB_DEVICE(0x595a, 0x0001), .driver_info = DEVTYPE_IRTOUCH},
- 	{USB_DEVICE(0x6615, 0x0001), .driver_info = DEVTYPE_IRTOUCH},
- 	{USB_DEVICE(0x6615, 0x0012), .driver_info = DEVTYPE_IRTOUCH_HIRES},
--- 
-2.20.1
+Thanks
+jingle
+
+-----Original Message-----
+From: Dmitry Torokhov [mailto:dmitry.torokhov@gmail.com] 
+Sent: Friday, April 10, 2020 4:08 AM
+To: Bernd Edlinger
+Cc: Benjamin Tissoires; Dave.Wang; jingle; linux-kernel@vger.kernel.org;
+linux-input@vger.kernel.org; Kai-Heng Feng; Enrico Weigelt; Allison Randal;
+Aaron Ma
+Subject: Re: [PATCH v2] Input: elantech - fix x_max/y_max values
+
+Hi Bernd,
+
+On Thu, Apr 09, 2020 at 07:38:17PM +0200, Bernd Edlinger wrote:
+> Are you there?
+> 
+> Should I re-post the v2 patch, was that dropped somehow?
+> 
+> If I don't hear anything I'll assume I just repost, probably as 
+> unchanged v3, right?
+
+I do not think we ever got confirmation from Dave or Jingle; from my POV I
+really dislike arbitrary mangling of the data.
+
+I think you are right that the issue is with order of calls, and we need to
+switch the touchpad into absolute mode to get valid results from the ID
+query call. Dave, Jingle, any impot here?
+
+Benjamin, Kai-Feng, do you know if we try to switch to absolute mode to
+begin with, will it cause issues with SMBus mode?
+
+Thanks.
+
+> 
+> Thanks,
+> Bernd.
+> 
+> 
+> On 4/5/20 7:54 AM, Bernd Edlinger wrote:
+> > And, furthermore, there is one thing I find really confusing,
+> > 
+> > I do not see the message v2 quoted below which had an updated commit 
+> > message, due to that Benjamin Tissoires request.
+> > 
+> > It was from my point of view sent on 2/27/20 11:03 PM, but I cannot 
+> > find it neither on spinics, nor on marc.info.
+> > That is funny.
+> > 
+> > Did it reach you guys at all?
+> > Or should I re-send it just in case?
+> > 
+> > 
+> > Thanks
+> > Bernd.
+> > 
+> > On 4/5/20 7:26 AM, Bernd Edlinger wrote:
+> >> Ping...
+> >>
+> >> This patch works fine for me since several weeks, without it I 
+> >> would not be able to use my laptop any more.
+> >>
+> >> Could you please accept this patch?
+> >>
+> >>
+> >> Thanks
+> >> Bernd.
+> >>
+> >>
+> >> On 2/27/20 11:03 PM, Bernd Edlinger wrote:
+> >>> Since commit 37548659bb22 ("Input: elantech - query the min/max 
+> >>> information beforehand too") moved the querying of the x_max/y_max 
+> >>> values from elantech_set_input_params to elantech_query_info, the 
+> >>> returned x_max/y_max values are different than before, at least 
+> >>> for some firmware versions.
+> >>>
+> >>> The reason is likely that this is now done before 
+> >>> elantech_set_absolute_mode does run.  So it may happen that the 
+> >>> returned values are exactly half of what they used to be, which 
+> >>> makes input_report_abs in PS/2 mode report ABS_X values which 
+> >>> exceed the x_max value, which is very annoying since the mouse 
+> >>> stops to move then, and ABS_Y value become negative, which is benign.
+> >>>
+> >>> This was observed with a MSI GX70 laptop:
+> >>>
+> >>> elantech: assuming hardware version 3 (with firmware version 
+> >>> 0x250f01)
+> >>> elantech: Synaptics capabilities query result 0x18, 0x17, 0x0b.
+> >>> elantech: Elan sample query result 05, 0e, 00
+> >>> input: ETPS/2 Elantech Touchpad as /devices/platform/i8042/serio...
+> >>>
+> >>> Correct this by doubling the returned x_max and y_max value for 
+> >>> this specific firmware version.
+> >>>
+> >>> Fixes: 37548659bb22 ("Input: elantech - query the min/max 
+> >>> information beforehand too")
+> >>>
+> >>> Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+> >>> ---
+> >>>  drivers/input/mouse/elantech.c | 4 ++++
+> >>>  1 file changed, 4 insertions(+)
+> >>>
+> >>> diff --git a/drivers/input/mouse/elantech.c 
+> >>> b/drivers/input/mouse/elantech.c index 2d8434b..3399db8 100644
+> >>> --- a/drivers/input/mouse/elantech.c
+> >>> +++ b/drivers/input/mouse/elantech.c
+> >>> @@ -1720,6 +1720,10 @@ static int elantech_query_info(struct 
+> >>> psmouse *psmouse,
+> >>>  
+> >>>  		info->x_max = (0x0f & param[0]) << 8 | param[1];
+> >>>  		info->y_max = (0xf0 & param[0]) << 4 | param[2];
+> >>> +		if (info->fw_version == 0x250f01) {
+> >>> +			info->x_max <<= 1;
+> >>> +			info->y_max <<= 1;
+> >>> +		}
+> >>>  		break;
+> >>>  
+> >>>  	case 4:
+> >>>
+
+--
+Dmitry
 
