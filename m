@@ -2,62 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E08AA1A983B
-	for <lists+linux-input@lfdr.de>; Wed, 15 Apr 2020 11:18:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80F7B1A99AE
+	for <lists+linux-input@lfdr.de>; Wed, 15 Apr 2020 11:55:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2895208AbgDOJQl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Apr 2020 05:16:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46618 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2895197AbgDOJQ1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Apr 2020 05:16:27 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A92BC061A0C;
-        Wed, 15 Apr 2020 02:16:25 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id u13so17722427wrp.3;
-        Wed, 15 Apr 2020 02:16:24 -0700 (PDT)
+        id S2405393AbgDOJzF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Apr 2020 05:55:05 -0400
+Received: from mail-eopbgr1400055.outbound.protection.outlook.com ([40.107.140.55]:14531
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729074AbgDOJzD (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 15 Apr 2020 05:55:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nROhzhTpoeQCoDKnJeXDE+VoFUu7ebX8/YMYoWQ9/MQkGozIQe4gUp9gx0Aum6JtHkmdGkcjrUmiYpI0a0PyLY7DvZOxlbpQPYM5gR46ClKK6kkhTuhxHZsF3RMpJa/a4YuTiZx0IAhu5jvoPUq9ShTNKLFvvZldikKoqT4Q64KmlWmd5YcRUWMcy0snGuV4g4oXxl3SoL8Lu2ZSxzUhUJmbrgO4dUGReLBdddDTsPmbqOfgSx1E6YLSF7PVE6SU9KtjXWgrdDAgwa8uasyLWF4qOBB6QhRr/Z+0H+au6cN2aZqdOXYrwjjPt7I4w5AGuo5pOgeocECukyF8Fred6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S/PrE1GMcTtZnrNVH6vJXtZFdgkXsZw9DVkVpdBE5eg=;
+ b=T61JuXBs7DxizZWHh8JmuoB4U23GO7rtKqynhSY6FaT/csZ3RGqwHRuZwNVKxyTCKXfKOYIyxtMI4ecv3hFI+6QPuaLwv0hPdjF2PDxO3KDHeb+2iPHLIrW1wRHACofwGy31nNQuUxy0Ag/4rHgA4kbee7uV+e3mrwMpJ4RYq9+6CJ6UuTgWidg/ky+7voNk7HVTqbzQnSB1vyCZCl2X1aS8gcrHSZDwdiczT7dWN3GIUNlQkpsn0X4JUJs3TaOCXT8HbsDCRiP02YuEeskEvW1uDKPvMbb+WfyBBH+3w91u/okP/b3zcNwWjgsD7XE3UoeTOyX01Et5EJIjKKNujQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cn.alps.com; dmarc=pass action=none header.from=cn.alps.com;
+ dkim=pass header.d=cn.alps.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=IMZr34DLiuyJZ3beOm7sdWkRARGgeSVE8nAirv9yqeY=;
-        b=SOqJd+CYi9x0dN/VVS6CQ43b2URG/hf+83R7dZuYZbaCF694Ca4pskVpWbAmMRrQlS
-         tuLOPcBXy58CbDVK/4Bq2XQ+Z18rhdR2m3capia9yPnDl99Rs67uX08KhF2zJv5rreY8
-         6A77jIeM0sFC1MiwaznnwS6aC5YJ2mXHoaCFVpBsiIFyMg9B2RqKWHkw690+YKofKZzt
-         KuThzAIu96FFU73LuPbQGWsWuPv/Ugm9ZBidNO1wbIBqC/eQTD1by0l3OfyzzMnYa1Mv
-         dUl+b0+DhEqaSZohV1AHflK5SGasMBgP7HulxWkocbDhgeaeLWPEvadODiKxDP5T0TtX
-         S8sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=IMZr34DLiuyJZ3beOm7sdWkRARGgeSVE8nAirv9yqeY=;
-        b=R9aGBijHunQfyKgrbiUVnEyUMAsWjQY/HYkAZSJk7W82BMF8c69CvW3uTnkotrz2Q9
-         mEQqRUW3IXrMMi1vDlHbNIzswqRe3phZ81ieY/NlW72PBfpJ45bkctB2vtNfCOt88iWB
-         u2SEO377n48KgDNec34bZHJbjUE9FmKwT12chLqhQTNU/YzuI7pPb/C8HZM3JiC9IV6f
-         hJ2s73B0pM0z8q8+k1SCMjUWtuZIb+EsHF2lwTRwaFXDg6y3a0YnNQxkiBO2S0GCi2wP
-         qi430Y+XMqcp2UQSbacsK3igg7XwfBfzsiWUkOgSxNHHMtT4cl4im7rbOvwVQxqwY1rg
-         XUEw==
-X-Gm-Message-State: AGi0PuaD6eN2r/2jbrn32q8m8/tHM+gbabzSaExTFGMByKusbEoT81+r
-        KKr+nZyjxoEfN5K+OO4TZiaqPE4RZEbH4puqYcY=
-X-Google-Smtp-Source: APiQypJdnL7ZbWICCfhyBu6RpmUwljAELb5grKxtFHzAbyqek6V0hyt7THQEQKi1GpxhSeCtUi2VeOl1LFSInHf169Q=
-X-Received: by 2002:adf:9321:: with SMTP id 30mr26589742wro.330.1586942183706;
- Wed, 15 Apr 2020 02:16:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <nycvar.YFH.7.76.2004100019450.19713@cbobk.fhfr.pm>
- <20200409230009.22551-1-dedsa2002@gmail.com> <TYAPR01MB3871E974EFE06EBF40074470ECDE0@TYAPR01MB3871.jpnprd01.prod.outlook.com>
- <OSAPR01MB3057C2FB967974B98B224610C8DE0@OSAPR01MB3057.jpnprd01.prod.outlook.com>
- <TYAPR01MB387100BC93864B0A93598BFBECDE0@TYAPR01MB3871.jpnprd01.prod.outlook.com>
- <OSAPR01MB3057C914C96A8DCC47925502C8DE0@OSAPR01MB3057.jpnprd01.prod.outlook.com>
- <CAMr=fxLXT2fMdhmnfj3ZH2Ptc50nvMVU0nAvW-3fw-wAKb9rYQ@mail.gmail.com> <OSAPR01MB305753C5B0DD35DE7001436DC8DB0@OSAPR01MB3057.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSAPR01MB305753C5B0DD35DE7001436DC8DB0@OSAPR01MB3057.jpnprd01.prod.outlook.com>
-From:   Artem Borisov <dedsa2002@gmail.com>
-Date:   Wed, 15 Apr 2020 13:16:12 +0400
-Message-ID: <CAMr=fxKfJBWb45PuA-1t=-ZysyUVZZmXJH=D2bSacoh2akJ0Zw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] HID: alps: Refactor axis resolution logic
-To:     Xiaojian Cao <xiaojian.cao@cn.alps.com>
-Cc:     Masaki Ota <masaki.ota@alpsalpine.com>,
+ d=alpsgroup.onmicrosoft.com; s=selector2-alpsgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S/PrE1GMcTtZnrNVH6vJXtZFdgkXsZw9DVkVpdBE5eg=;
+ b=KHLgljd46lE+yuzjNa9HHajqdMEOH7YfAMZGm4GroC32xiz6AgHWgJ19Yz/6PI8Z7MqwJ0mnn334yoTa+nYK/iFfz4uxpn+9SAV2ghQ/WbmnDhWfjDR6EN4LXXHcj5LNiuIbUFRKHY8DfsWZDo9KU8ZkkFqA09Hz4KSS++95pXw=
+Received: from OSAPR01MB3057.jpnprd01.prod.outlook.com (52.134.248.141) by
+ OSAPR01MB5137.jpnprd01.prod.outlook.com (20.179.179.81) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2878.15; Wed, 15 Apr 2020 09:54:56 +0000
+Received: from OSAPR01MB3057.jpnprd01.prod.outlook.com
+ ([fe80::c41b:4bf7:2ad1:6fc7]) by OSAPR01MB3057.jpnprd01.prod.outlook.com
+ ([fe80::c41b:4bf7:2ad1:6fc7%3]) with mapi id 15.20.2900.015; Wed, 15 Apr 2020
+ 09:54:56 +0000
+From:   Xiaojian Cao <xiaojian.cao@cn.alps.com>
+To:     Artem Borisov <dedsa2002@gmail.com>
+CC:     Masaki Ota <masaki.ota@alpsalpine.com>,
         "jikos@kernel.org" <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Henrik Rydberg <rydberg@bitmath.org>,
@@ -66,315 +46,281 @@ Cc:     Masaki Ota <masaki.ota@alpsalpine.com>,
         Tetsuya Nomura <tetsuya.nomura@alpsalpine.com>,
         "vadim@cirque.com" <vadim@cirque.com>,
         "pod.alcht@cn.alps.com" <pod.alcht@cn.alps.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: RE: [PATCH 2/2] HID: alps: Refactor axis resolution logic
+Thread-Topic: [PATCH 2/2] HID: alps: Refactor axis resolution logic
+Thread-Index: AQHWDr0x2NbbGmh+BEarMrC/TfssrKhxZ8AAgAAQo0CAAA8hsIAADIzggAADu+CAB1VEgIAAlyTwgABrVQCAAADvYA==
+Date:   Wed, 15 Apr 2020 09:54:56 +0000
+Message-ID: <OSAPR01MB30571BF938FF882F7FB22853C8DB0@OSAPR01MB3057.jpnprd01.prod.outlook.com>
+References: <nycvar.YFH.7.76.2004100019450.19713@cbobk.fhfr.pm>
+ <20200409230009.22551-1-dedsa2002@gmail.com>
+ <TYAPR01MB3871E974EFE06EBF40074470ECDE0@TYAPR01MB3871.jpnprd01.prod.outlook.com>
+ <OSAPR01MB3057C2FB967974B98B224610C8DE0@OSAPR01MB3057.jpnprd01.prod.outlook.com>
+ <TYAPR01MB387100BC93864B0A93598BFBECDE0@TYAPR01MB3871.jpnprd01.prod.outlook.com>
+ <OSAPR01MB3057C914C96A8DCC47925502C8DE0@OSAPR01MB3057.jpnprd01.prod.outlook.com>
+ <CAMr=fxLXT2fMdhmnfj3ZH2Ptc50nvMVU0nAvW-3fw-wAKb9rYQ@mail.gmail.com>
+ <OSAPR01MB305753C5B0DD35DE7001436DC8DB0@OSAPR01MB3057.jpnprd01.prod.outlook.com>
+ <CAMr=fxKfJBWb45PuA-1t=-ZysyUVZZmXJH=D2bSacoh2akJ0Zw@mail.gmail.com>
+In-Reply-To: <CAMr=fxKfJBWb45PuA-1t=-ZysyUVZZmXJH=D2bSacoh2akJ0Zw@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=xiaojian.cao@cn.alps.com; 
+x-originating-ip: [58.247.0.82]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 93bb6213-3f56-46d3-f41e-08d7e1230dc5
+x-ms-traffictypediagnostic: OSAPR01MB5137:
+x-ld-processed: 57e76998-77bd-4b82-a424-198f46eb2254,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OSAPR01MB513796DB1C84919DB0E82132C8DB0@OSAPR01MB5137.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0374433C81
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB3057.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(39850400004)(396003)(366004)(136003)(376002)(346002)(107886003)(26005)(186003)(6916009)(53546011)(316002)(6506007)(86362001)(30864003)(8676002)(81156014)(9686003)(54906003)(8936002)(7696005)(66946007)(76116006)(66556008)(64756008)(33656002)(4326008)(55016002)(66476007)(85182001)(66446008)(478600001)(71200400001)(5660300002)(2906002)(52536014);DIR:OUT;SFP:1101;
+received-spf: None (protection.outlook.com: cn.alps.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fzXkF2dOkOhHQmqgDDono2lq42Zqog5ZXeskm5Xk9MUON2z+dkmjEXLT5bU99iJGEAg/cfGJSYtDpVbVpaZ0/eyBqu8/7pUi2QANjd8GL4zYjKjNpMib5mrndP/yIrWloSDVj46DoOYhsHzbtoX/RTibG6Ox8K56o3OhbqSneIRe1UBaz4j8F+jGg23rVpWMJGL1MzX7fl9ISU7CAZFhcQ/aKg7RssedFkjYs5K5NXOLt6wL+46ZXU0P4L5n715qRuElR9H11qxJYsL0zm648gTdxa1z6Jx0pYYr6sccmllprMuhD5WGFJyPMDIdS9RgNQglEccDjsMPfgFNWgray9HPPYbz2DayG5buiBGThbZoQukYGW0qz85qe6lqLXJ2Jhrnvr5gzRea2RihpPHdnMVAgWaP0axanW1eklRw6qV/WWmFKNjaQwYY4R6Jz4ho
+x-ms-exchange-antispam-messagedata: wADeZjJRJy5mEKXQNvbftEy6C1Wb1Ig7rV0Udlw7KPAjN4ipfzIbx9mm2wHP+b2ghtchH99BWGrvHDwiFS+OxGDY4pzSrbEgo1fWAf9f/+LvUi9kG63js7nyXQRd5pN2vq1PDDtfM+B5YtpIymXrhA==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: cn.alps.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93bb6213-3f56-46d3-f41e-08d7e1230dc5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2020 09:54:56.5457
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 57e76998-77bd-4b82-a424-198f46eb2254
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ji5h9jriZa4IWsDR5+dN1Bp+4M7i99bTRwDdtbqg3b9/ndeZLYihvRcH7simpYxe8aN+OUQoR9yRtqsWAUec6/7KsZd/GaNWdppZJbY/+y0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB5137
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi.
-
-I can't quite understand your objections.
-1. Do you mean that we can't use AUI1657 because there are already
-drivers which do that (and I'm sure there are not) or that there are
-more devices using 0x121E?
-2. The second instance of product ID is not used anywhere in the code
-at least for U1 so I didn't see any point to add another unused value
-that replicates the previous one.
-3. I obviously don't have any internal documentation to argue with
-that, but you have mentioned above that aui1657 is just another panel
-based on U1, Apart from that, the touchpad is fully functional with
-the current code submitted which wouldn't make any sense if the report
-IDs were wrong.
-
-I'm running Arch with 5.6.3 kernel, though I'm not sure how that
-information will be relevant to the patch.
-
-Thanks.
-
-
-=D1=81=D1=80, 15 =D0=B0=D0=BF=D1=80. 2020 =D0=B3. =D0=B2 10:47, Xiaojian Ca=
-o <xiaojian.cao@cn.alps.com>:
->
-> Hi Artem,
->
->
->
-> We=E2=80=99ve reviewed your modifications, and already found some problem=
-s as below:
->
-> It=E2=80=99s not suitable to use HWID AUI1657 in the source code, we beca=
-use there are many projects using the same touchpad. It will confuse the co=
-der in the future.
->
->
->
-> There are 2 places that maintain the Product ID/Device ID in the mainstre=
-am driver, currently your modifications just maintained one of them.
->
->
->
-> If we need to support the new Product ID/Device ID, then the report IDs w=
-ill also be modified. Alps Alpine have different report ID list for differe=
-nt products.
->
->
->
-> BTW, what is your OS version and what=E2=80=99s its Linux kernel version?
->
->
->
-> Thank you.
->
->
->
->
->
-> Best Regards,
->
-> ----------------------------------------------
->
-> Jason Cao(=E6=9B=B9=E6=99=93=E5=BB=BA)
->
->
->
-> From: Artem Borisov <dedsa2002@gmail.com>
-> Sent: Wednesday, April 15, 2020 1:51 AM
-> To: =E6=9B=B9 =E6=9B=89=E5=BB=BA Xiaojian Cao <xiaojian.cao@cn.alps.com>
-> Cc: =E5=A4=AA=E7=94=B0 =E7=9C=9F=E5=96=9C Masaki Ota <masaki.ota@alpsalpi=
-ne.com>; jikos@kernel.org; Benjamin Tissoires <benjamin.tissoires@redhat.co=
-m>; Henrik Rydberg <rydberg@bitmath.org>; linux-input@vger.kernel.org; linu=
-x-kernel@vger.kernel.org; =E9=87=8E=E6=9D=91 =E5=93=B2=E5=93=89 Tetsuya Nom=
-ura <tetsuya.nomura@alpsalpine.com>; Vadim Klishko <vadim@cirque.com>; #ALC=
-HT_ML_POD_CN <pod.alcht@cn.alps.com>
-> Subject: Re: [PATCH 2/2] HID: alps: Refactor axis resolution logic
->
->
->
-> Any updates on that yet?
->
-> =D0=BF=D1=82, 10 =D0=B0=D0=BF=D1=80. 2020 =D0=B3., 06:28 Xiaojian Cao <xi=
-aojian.cao@cn.alps.com>:
->
-> Hi Ota-san,
->
-> I need to study the background first, then I will update my understanding=
- about it.
->
->
-> Best Regards,
-> ----------------------------------------------
-> Jason Cao(=E6=9B=B9=E6=99=93=E5=BB=BA)
->
->
-> -----Original Message-----
-> From: =E5=A4=AA=E7=94=B0 =E7=9C=9F=E5=96=9C Masaki Ota <masaki.ota@alpsal=
-pine.com>
-> Sent: Friday, April 10, 2020 9:51 AM
-> To: =E6=9B=B9 =E6=9B=89=E5=BB=BA Xiaojian Cao <xiaojian.cao@cn.alps.com>;=
- Artem Borisov <dedsa2002@gmail.com>
-> Cc: jikos@kernel.org; Benjamin Tissoires <benjamin.tissoires@redhat.com>;=
- Henrik Rydberg <rydberg@bitmath.org>; linux-input@vger.kernel.org; linux-k=
-ernel@vger.kernel.org
-> Subject: RE: [PATCH 2/2] HID: alps: Refactor axis resolution logic
->
-> Hi, Cao-san,
->
-> I got it. I also confirmed this touchpad is a special.
-> What do you think this code modification?
->
-> Best Regards,
-> Masaki Ota
-> -----Original Message-----
-> From: =E6=9B=B9 =E6=9B=89=E5=BB=BA Xiaojian Cao <xiaojian.cao@cn.alps.com=
->
-> Sent: Friday, April 10, 2020 10:03 AM
-> To: =E5=A4=AA=E7=94=B0 =E7=9C=9F=E5=96=9C Masaki Ota <masaki.ota@alpsalpi=
-ne.com>; Artem Borisov <dedsa2002@gmail.com>
-> Cc: jikos@kernel.org; Benjamin Tissoires <benjamin.tissoires@redhat.com>;=
- Henrik Rydberg <rydberg@bitmath.org>; linux-input@vger.kernel.org; linux-k=
-ernel@vger.kernel.org
-> Subject: RE: [PATCH 2/2] HID: alps: Refactor axis resolution logic
->
-> Hi Ota-san,
->
-> Thanks for your checking.
-> In fact, some of the U1 devices work as non-PTP.
-> AUI1657 is using U1(KGDBCHA004A) whose firmware just supports mouse mode =
-and legacy mode.
->
-> Best Regards,
-> ----------------------------------------------
-> Jason Cao(=E6=9B=B9=E6=99=93=E5=BB=BA)
->
->
-> -----Original Message-----
-> From: =E5=A4=AA=E7=94=B0 =E7=9C=9F=E5=96=9C Masaki Ota <masaki.ota@alpsal=
-pine.com>
-> Sent: Friday, April 10, 2020 8:29 AM
-> To: =E6=9B=B9 =E6=9B=89=E5=BB=BA Xiaojian Cao <xiaojian.cao@cn.alps.com>;=
- Artem Borisov <dedsa2002@gmail.com>
-> Cc: jikos@kernel.org; Benjamin Tissoires <benjamin.tissoires@redhat.com>;=
- Henrik Rydberg <rydberg@bitmath.org>; linux-input@vger.kernel.org; linux-k=
-ernel@vger.kernel.org
-> Subject: RE: [PATCH 2/2] HID: alps: Refactor axis resolution logic
->
-> Hi, Cao-san,
->
-> Do you know AUI1657 device? This device looks U1.
-> I think recent all U1 devices work as PTP.
-> Linux also supports PTP, so I think we should add something ID to Linux s=
-ource code. (I remember a something flag is already exist.)
->
-> Best Regards,
-> Masaki Ota
-> -----Original Message-----
-> From: Artem Borisov <dedsa2002@gmail.com>
-> Sent: Friday, April 10, 2020 8:00 AM
-> Cc: jikos@kernel.org; =E5=A4=AA=E7=94=B0 =E7=9C=9F=E5=96=9C Masaki Ota <m=
-asaki.ota@alpsalpine.com>; Artem Borisov <dedsa2002@gmail.com>; Benjamin Ti=
-ssoires <benjamin.tissoires@redhat.com>; Henrik Rydberg <rydberg@bitmath.or=
-g>; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: [PATCH 2/2] HID: alps: Refactor axis resolution logic
->
-> AUI1657 doesn't follow the same logic for resolution calculation, since t=
-he resulting values are incorrect. Instead, it reports the actual resolutio=
-n values in place of the pitch ones.
-> While we're at it, also refactor the whole resolution logic to make it mo=
-re generic and sensible for multiple device support.
->
-> There are two main logical problems with the current code:
-> 1. active_len_mm values are only used for resolution calculation on U1, y=
-et are exposed globally as part of alps_dev structure.
-> 2. The resolution calculation process happens in alps_input_configured, w=
-hile everything else is calculated in u1_init function.
->
-> These problems become more apparent when we try to support a device that =
-doesn't follow the same resolution calculation logic as U1.
-> Since alps_input_configured is a device-agnostic function, we should avoi=
-d doing any measurements there and handle them in device-specific init func=
-tions like u1/T4_init instead.
->
-> To eliminate these problems we add global x_res and y_res values and popu=
-late them on a device-specific basis in the according init functions.
->
-> Signed-off-by: Artem Borisov <dedsa2002@gmail.com>
-> ---
->  drivers/hid/hid-alps.c | 41 +++++++++++++++++++++++++----------------
->  1 file changed, 25 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/hid/hid-alps.c b/drivers/hid/hid-alps.c index c2a2bd=
-528890..494c08cca645 100644
-> --- a/drivers/hid/hid-alps.c
-> +++ b/drivers/hid/hid-alps.c
-> @@ -83,8 +83,8 @@ enum dev_num {
->   * @max_fingers: total number of fingers
->   * @has_sp: boolean of sp existense
->   * @sp_btn_info: button information
-> - * @x_active_len_mm: active area length of X (mm)
-> - * @y_active_len_mm: active area length of Y (mm)
-> + * @x_res: resolution of X
-> + * @y_res: resolution of Y
->   * @x_max: maximum x coordinate value
->   * @y_max: maximum y coordinate value
->   * @x_min: minimum x coordinate value
-> @@ -100,9 +100,10 @@ struct alps_dev {
->         enum dev_num dev_type;
->         u8  max_fingers;
->         u8  has_sp;
-> +       u8  no_pitch;
->         u8      sp_btn_info;
-> -       u32     x_active_len_mm;
-> -       u32     y_active_len_mm;
-> +       u32     x_res;
-> +       u32     y_res;
->         u32     x_max;
->         u32     y_max;
->         u32     x_min;
-> @@ -550,10 +551,6 @@ static int u1_init(struct hid_device *hdev, struct a=
-lps_dev *pri_data)
->                 dev_err(&hdev->dev, "failed U1_RESO_DWN_ABS (%d)\n", ret)=
-;
->                 goto exit;
->         }
-> -       pri_data->x_active_len_mm =3D
-> -               (pitch_x * (sen_line_num_x - 1)) / 10;
-> -       pri_data->y_active_len_mm =3D
-> -               (pitch_y * (sen_line_num_y - 1)) / 10;
->
->         pri_data->x_max =3D
->                 (resolution << 2) * (sen_line_num_x - 1); @@ -562,6 +559,=
-18 @@ static int u1_init(struct hid_device *hdev, struct alps_dev *pri_data=
-)
->                 (resolution << 2) * (sen_line_num_y - 1);
->         pri_data->y_min =3D 1;
->
-> +       if (pri_data->no_pitch) {
-> +               pri_data->x_res =3D pitch_x;
-> +               pri_data->y_res =3D pitch_y;
-> +       } else {
-> +               pri_data->x_res =3D
-> +                       (pri_data->x_max - 1) /
-> +                       ((pitch_x * (sen_line_num_x - 1)) / 10);
-> +               pri_data->y_res =3D
-> +                       (pri_data->y_max - 1) /
-> +                       ((pitch_y * (sen_line_num_y - 1)) / 10);
-> +       }
-> +
->         ret =3D u1_read_write_register(hdev, ADDRESS_U1_PAD_BTN,
->                         &tmp, 0, true);
->         if (ret < 0) {
-> @@ -622,7 +631,7 @@ static int T4_init(struct hid_device *hdev, struct al=
-ps_dev *pri_data)
->         pri_data->x_min =3D T4_COUNT_PER_ELECTRODE;
->         pri_data->y_max =3D sen_line_num_y * T4_COUNT_PER_ELECTRODE;
->         pri_data->y_min =3D T4_COUNT_PER_ELECTRODE;
-> -       pri_data->x_active_len_mm =3D pri_data->y_active_len_mm =3D 0;
-> +       pri_data->x_res =3D pri_data->y_res =3D 0;
->         pri_data->btn_cnt =3D 1;
->
->         ret =3D t4_read_write_register(hdev, PRM_SYS_CONFIG_1, &tmp, 0, t=
-rue); @@ -675,7 +684,7 @@ static int alps_input_configured(struct hid_devic=
-e *hdev, struct hid_input *hi)
->         struct alps_dev *data =3D hid_get_drvdata(hdev);
->         struct input_dev *input =3D hi->input, *input2;
->         int ret;
-> -       int res_x, res_y, i;
-> +       int i;
->
->         data->input =3D input;
->
-> @@ -706,12 +715,9 @@ static int alps_input_configured(struct hid_device *=
-hdev, struct hid_input *hi)
->         input_set_abs_params(input, ABS_MT_POSITION_Y,
->                                                 data->y_min, data->y_max,=
- 0, 0);
->
-> -       if (data->x_active_len_mm && data->y_active_len_mm) {
-> -               res_x =3D (data->x_max - 1) / data->x_active_len_mm;
-> -               res_y =3D (data->y_max - 1) / data->y_active_len_mm;
-> -
-> -               input_abs_set_res(input, ABS_MT_POSITION_X, res_x);
-> -               input_abs_set_res(input, ABS_MT_POSITION_Y, res_y);
-> +       if (data->x_res && data->y_res) {
-> +               input_abs_set_res(input, ABS_MT_POSITION_X, data->x_res);
-> +               input_abs_set_res(input, ABS_MT_POSITION_Y, data->y_res);
->         }
->
->         input_set_abs_params(input, ABS_MT_PRESSURE, 0, 64, 0, 0); @@ -80=
-2,8 +808,11 @@ static int alps_probe(struct hid_device *hdev, const struct =
-hid_device_id *id)
->                 break;
->         case HID_DEVICE_ID_ALPS_U1_DUAL:
->         case HID_DEVICE_ID_ALPS_U1:
-> +               data->dev_type =3D U1;
-> +               break;
->         case HID_DEVICE_ID_ALPS_1657:
->                 data->dev_type =3D U1;
-> +               data->no_pitch =3D 1;
->                 break;
->         default:
->                 data->dev_type =3D UNKNOWN;
-> --
-> 2.26.0
+SGkgQXJ0ZW0sDQoNClRoYW5rcyBmb3IgeW91ciBjaGVja2luZywgbXkgZmVlZGJhY2tzIGFyZSBh
+cyBiZWxvdzoNCjEuSXQgaXMgYWJvdXQgdGhlIGNvZGluZyBzdHlsZSB0aGF0IHdlIHNob3VsZCBu
+b3QgdXNlIEhXSUQgaW4gdGhlIHN0cmluZyAiSElEX0RFVklDRV9JRF9BTFBTXzE2NTciLCB0aGVy
+ZSBhcmUgYSBsYXJnZSBudW1iZXIgb2YgSFdJRHMgdXNpbmcgdGhpcyB0b3VjaHBhZC4gV2Ugc2hv
+dWxkIHVzZSB0aGUgZGV2aWNlIHR5cGUgaW5mb3JtYXRpb24gaW4gdGhpcyBzdHJpbmcsIHN1Y2gg
+YXMgIlUxX1VOSUNPUk5fTEVHQUNZIi4NCjIuVGhpcyBpcyBhbHNvIGFib3V0IHRoZSBjb2Rpbmcg
+c3R5bGUsIHdlJ2QgYmV0dGVyIG1ha2Ugc3VyZSB0aGV5IGFyZSB0aGUgc2FtZSB3aXRoIGVhY2gg
+b3RoZXIsIG9yIGp1c3QgbGVhdmUgb25lIGxpc3QgdGhlcmUuDQozLklmIHdlJ2QgbGlrZSB0byB1
+cGdyYWRlIHRoZSBtYWluc3RyZWFtIGRyaXZlciBmb3Igb25seSB0aGlzIHByb2plY3QsIHRoZW4g
+aXQgd29ya3MsIGJ1dCBmb3IgdGhlIG90aGVyIHByb2plY3RzLCBpdCBoYXMgcHJvYmxlbXMuIElm
+IHRoZXJlIGlzIGVub3VnaCB0aW1lLCB3ZSdkIGxpa2UgdG8gcHJlcGFyZSBhIGJldHRlciBwYXRj
+aCBmb3IgbW9zdCBvZiBvdXIgcHJvZHVjdHMuDQoNClRoYW5rIHlvdSBmb3Igc2hhcmluZyB0aGUg
+a2VybmVsIHZlcnNpb24uIEkgdGhpbmssIHRoZSByZXZpZXcgcmVzdWx0IHdvdWxkIG5vdCBiZSBy
+ZWxpYWJsZSBpZiB3ZSBkb24ndCBoYXZlIHRoZSBjb3JyZWN0IHNvdXJjZSBjb2RlIG9mIHlvdXIg
+a2VybmVsIHZlcnNpb24uICANCg0KDQoNCkJlc3QgUmVnYXJkcywNCi0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCkphc29uIENhbyjmm7nmmZPlu7opDQoNCg0K
+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEFydGVtIEJvcmlzb3YgPGRlZHNhMjAw
+MkBnbWFpbC5jb20+IA0KU2VudDogV2VkbmVzZGF5LCBBcHJpbCAxNSwgMjAyMCA1OjE2IFBNDQpU
+bzog5pu5IOabieW7uiBYaWFvamlhbiBDYW8gPHhpYW9qaWFuLmNhb0Bjbi5hbHBzLmNvbT4NCkNj
+OiDlpKrnlLAg55yf5ZacIE1hc2FraSBPdGEgPG1hc2FraS5vdGFAYWxwc2FscGluZS5jb20+OyBq
+aWtvc0BrZXJuZWwub3JnOyBCZW5qYW1pbiBUaXNzb2lyZXMgPGJlbmphbWluLnRpc3NvaXJlc0By
+ZWRoYXQuY29tPjsgSGVucmlrIFJ5ZGJlcmcgPHJ5ZGJlcmdAYml0bWF0aC5vcmc+OyBsaW51eC1p
+bnB1dEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IOmHjuad
+kSDlk7Llk4kgVGV0c3V5YSBOb211cmEgPHRldHN1eWEubm9tdXJhQGFscHNhbHBpbmUuY29tPjsg
+VmFkaW0gS2xpc2hrbyA8dmFkaW1AY2lycXVlLmNvbT47ICNBTENIVF9NTF9QT0RfQ04gPHBvZC5h
+bGNodEBjbi5hbHBzLmNvbT4NClN1YmplY3Q6IFJlOiBbUEFUQ0ggMi8yXSBISUQ6IGFscHM6IFJl
+ZmFjdG9yIGF4aXMgcmVzb2x1dGlvbiBsb2dpYw0KDQpIaS4NCg0KSSBjYW4ndCBxdWl0ZSB1bmRl
+cnN0YW5kIHlvdXIgb2JqZWN0aW9ucy4NCjEuIERvIHlvdSBtZWFuIHRoYXQgd2UgY2FuJ3QgdXNl
+IEFVSTE2NTcgYmVjYXVzZSB0aGVyZSBhcmUgYWxyZWFkeSBkcml2ZXJzIHdoaWNoIGRvIHRoYXQg
+KGFuZCBJJ20gc3VyZSB0aGVyZSBhcmUgbm90KSBvciB0aGF0IHRoZXJlIGFyZSBtb3JlIGRldmlj
+ZXMgdXNpbmcgMHgxMjFFPw0KMi4gVGhlIHNlY29uZCBpbnN0YW5jZSBvZiBwcm9kdWN0IElEIGlz
+IG5vdCB1c2VkIGFueXdoZXJlIGluIHRoZSBjb2RlIGF0IGxlYXN0IGZvciBVMSBzbyBJIGRpZG4n
+dCBzZWUgYW55IHBvaW50IHRvIGFkZCBhbm90aGVyIHVudXNlZCB2YWx1ZSB0aGF0IHJlcGxpY2F0
+ZXMgdGhlIHByZXZpb3VzIG9uZS4NCjMuIEkgb2J2aW91c2x5IGRvbid0IGhhdmUgYW55IGludGVy
+bmFsIGRvY3VtZW50YXRpb24gdG8gYXJndWUgd2l0aCB0aGF0LCBidXQgeW91IGhhdmUgbWVudGlv
+bmVkIGFib3ZlIHRoYXQgYXVpMTY1NyBpcyBqdXN0IGFub3RoZXIgcGFuZWwgYmFzZWQgb24gVTEs
+IEFwYXJ0IGZyb20gdGhhdCwgdGhlIHRvdWNocGFkIGlzIGZ1bGx5IGZ1bmN0aW9uYWwgd2l0aCB0
+aGUgY3VycmVudCBjb2RlIHN1Ym1pdHRlZCB3aGljaCB3b3VsZG4ndCBtYWtlIGFueSBzZW5zZSBp
+ZiB0aGUgcmVwb3J0IElEcyB3ZXJlIHdyb25nLg0KDQpJJ20gcnVubmluZyBBcmNoIHdpdGggNS42
+LjMga2VybmVsLCB0aG91Z2ggSSdtIG5vdCBzdXJlIGhvdyB0aGF0IGluZm9ybWF0aW9uIHdpbGwg
+YmUgcmVsZXZhbnQgdG8gdGhlIHBhdGNoLg0KDQpUaGFua3MuDQoNCg0K0YHRgCwgMTUg0LDQv9GA
+LiAyMDIwINCzLiDQsiAxMDo0NywgWGlhb2ppYW4gQ2FvIDx4aWFvamlhbi5jYW9AY24uYWxwcy5j
+b20+Og0KPg0KPiBIaSBBcnRlbSwNCj4NCj4NCj4NCj4gV2XigJl2ZSByZXZpZXdlZCB5b3VyIG1v
+ZGlmaWNhdGlvbnMsIGFuZCBhbHJlYWR5IGZvdW5kIHNvbWUgcHJvYmxlbXMgYXMgYmVsb3c6DQo+
+DQo+IEl04oCZcyBub3Qgc3VpdGFibGUgdG8gdXNlIEhXSUQgQVVJMTY1NyBpbiB0aGUgc291cmNl
+IGNvZGUsIHdlIGJlY2F1c2UgdGhlcmUgYXJlIG1hbnkgcHJvamVjdHMgdXNpbmcgdGhlIHNhbWUg
+dG91Y2hwYWQuIEl0IHdpbGwgY29uZnVzZSB0aGUgY29kZXIgaW4gdGhlIGZ1dHVyZS4NCj4NCj4N
+Cj4NCj4gVGhlcmUgYXJlIDIgcGxhY2VzIHRoYXQgbWFpbnRhaW4gdGhlIFByb2R1Y3QgSUQvRGV2
+aWNlIElEIGluIHRoZSBtYWluc3RyZWFtIGRyaXZlciwgY3VycmVudGx5IHlvdXIgbW9kaWZpY2F0
+aW9ucyBqdXN0IG1haW50YWluZWQgb25lIG9mIHRoZW0uDQo+DQo+DQo+DQo+IElmIHdlIG5lZWQg
+dG8gc3VwcG9ydCB0aGUgbmV3IFByb2R1Y3QgSUQvRGV2aWNlIElELCB0aGVuIHRoZSByZXBvcnQg
+SURzIHdpbGwgYWxzbyBiZSBtb2RpZmllZC4gQWxwcyBBbHBpbmUgaGF2ZSBkaWZmZXJlbnQgcmVw
+b3J0IElEIGxpc3QgZm9yIGRpZmZlcmVudCBwcm9kdWN0cy4NCj4NCj4NCj4NCj4gQlRXLCB3aGF0
+IGlzIHlvdXIgT1MgdmVyc2lvbiBhbmQgd2hhdOKAmXMgaXRzIExpbnV4IGtlcm5lbCB2ZXJzaW9u
+Pw0KPg0KPg0KPg0KPiBUaGFuayB5b3UuDQo+DQo+DQo+DQo+DQo+DQo+IEJlc3QgUmVnYXJkcywN
+Cj4NCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPg0K
+PiBKYXNvbiBDYW8o5pu55pmT5bu6KQ0KPg0KPg0KPg0KPiBGcm9tOiBBcnRlbSBCb3Jpc292IDxk
+ZWRzYTIwMDJAZ21haWwuY29tPg0KPiBTZW50OiBXZWRuZXNkYXksIEFwcmlsIDE1LCAyMDIwIDE6
+NTEgQU0NCj4gVG86IOabuSDmm4nlu7ogWGlhb2ppYW4gQ2FvIDx4aWFvamlhbi5jYW9AY24uYWxw
+cy5jb20+DQo+IENjOiDlpKrnlLAg55yf5ZacIE1hc2FraSBPdGEgPG1hc2FraS5vdGFAYWxwc2Fs
+cGluZS5jb20+OyBqaWtvc0BrZXJuZWwub3JnOyANCj4gQmVuamFtaW4gVGlzc29pcmVzIDxiZW5q
+YW1pbi50aXNzb2lyZXNAcmVkaGF0LmNvbT47IEhlbnJpayBSeWRiZXJnIA0KPiA8cnlkYmVyZ0Bi
+aXRtYXRoLm9yZz47IGxpbnV4LWlucHV0QHZnZXIua2VybmVsLm9yZzsgDQo+IGxpbnV4LWtlcm5l
+bEB2Z2VyLmtlcm5lbC5vcmc7IOmHjuadkSDlk7Llk4kgVGV0c3V5YSBOb211cmEgDQo+IDx0ZXRz
+dXlhLm5vbXVyYUBhbHBzYWxwaW5lLmNvbT47IFZhZGltIEtsaXNoa28gPHZhZGltQGNpcnF1ZS5j
+b20+OyANCj4gI0FMQ0hUX01MX1BPRF9DTiA8cG9kLmFsY2h0QGNuLmFscHMuY29tPg0KPiBTdWJq
+ZWN0OiBSZTogW1BBVENIIDIvMl0gSElEOiBhbHBzOiBSZWZhY3RvciBheGlzIHJlc29sdXRpb24g
+bG9naWMNCj4NCj4NCj4NCj4gQW55IHVwZGF0ZXMgb24gdGhhdCB5ZXQ/DQo+DQo+INC/0YIsIDEw
+INCw0L/RgC4gMjAyMCDQsy4sIDA2OjI4IFhpYW9qaWFuIENhbyA8eGlhb2ppYW4uY2FvQGNuLmFs
+cHMuY29tPjoNCj4NCj4gSGkgT3RhLXNhbiwNCj4NCj4gSSBuZWVkIHRvIHN0dWR5IHRoZSBiYWNr
+Z3JvdW5kIGZpcnN0LCB0aGVuIEkgd2lsbCB1cGRhdGUgbXkgdW5kZXJzdGFuZGluZyBhYm91dCBp
+dC4NCj4NCj4NCj4gQmVzdCBSZWdhcmRzLA0KPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tDQo+IEphc29uIENhbyjmm7nmmZPlu7opDQo+DQo+DQo+IC0tLS0t
+T3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IOWkqueUsCDnnJ/llpwgTWFzYWtpIE90YSA8
+bWFzYWtpLm90YUBhbHBzYWxwaW5lLmNvbT4NCj4gU2VudDogRnJpZGF5LCBBcHJpbCAxMCwgMjAy
+MCA5OjUxIEFNDQo+IFRvOiDmm7kg5puJ5bu6IFhpYW9qaWFuIENhbyA8eGlhb2ppYW4uY2FvQGNu
+LmFscHMuY29tPjsgQXJ0ZW0gQm9yaXNvdiANCj4gPGRlZHNhMjAwMkBnbWFpbC5jb20+DQo+IENj
+OiBqaWtvc0BrZXJuZWwub3JnOyBCZW5qYW1pbiBUaXNzb2lyZXMgDQo+IDxiZW5qYW1pbi50aXNz
+b2lyZXNAcmVkaGF0LmNvbT47IEhlbnJpayBSeWRiZXJnIDxyeWRiZXJnQGJpdG1hdGgub3JnPjsg
+DQo+IGxpbnV4LWlucHV0QHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVs
+Lm9yZw0KPiBTdWJqZWN0OiBSRTogW1BBVENIIDIvMl0gSElEOiBhbHBzOiBSZWZhY3RvciBheGlz
+IHJlc29sdXRpb24gbG9naWMNCj4NCj4gSGksIENhby1zYW4sDQo+DQo+IEkgZ290IGl0LiBJIGFs
+c28gY29uZmlybWVkIHRoaXMgdG91Y2hwYWQgaXMgYSBzcGVjaWFsLg0KPiBXaGF0IGRvIHlvdSB0
+aGluayB0aGlzIGNvZGUgbW9kaWZpY2F0aW9uPw0KPg0KPiBCZXN0IFJlZ2FyZHMsDQo+IE1hc2Fr
+aSBPdGENCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTog5pu5IOabieW7uiBY
+aWFvamlhbiBDYW8gPHhpYW9qaWFuLmNhb0Bjbi5hbHBzLmNvbT4NCj4gU2VudDogRnJpZGF5LCBB
+cHJpbCAxMCwgMjAyMCAxMDowMyBBTQ0KPiBUbzog5aSq55SwIOecn+WWnCBNYXNha2kgT3RhIDxt
+YXNha2kub3RhQGFscHNhbHBpbmUuY29tPjsgQXJ0ZW0gQm9yaXNvdiANCj4gPGRlZHNhMjAwMkBn
+bWFpbC5jb20+DQo+IENjOiBqaWtvc0BrZXJuZWwub3JnOyBCZW5qYW1pbiBUaXNzb2lyZXMgDQo+
+IDxiZW5qYW1pbi50aXNzb2lyZXNAcmVkaGF0LmNvbT47IEhlbnJpayBSeWRiZXJnIDxyeWRiZXJn
+QGJpdG1hdGgub3JnPjsgDQo+IGxpbnV4LWlucHV0QHZnZXIua2VybmVsLm9yZzsgbGludXgta2Vy
+bmVsQHZnZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBSRTogW1BBVENIIDIvMl0gSElEOiBhbHBz
+OiBSZWZhY3RvciBheGlzIHJlc29sdXRpb24gbG9naWMNCj4NCj4gSGkgT3RhLXNhbiwNCj4NCj4g
+VGhhbmtzIGZvciB5b3VyIGNoZWNraW5nLg0KPiBJbiBmYWN0LCBzb21lIG9mIHRoZSBVMSBkZXZp
+Y2VzIHdvcmsgYXMgbm9uLVBUUC4NCj4gQVVJMTY1NyBpcyB1c2luZyBVMShLR0RCQ0hBMDA0QSkg
+d2hvc2UgZmlybXdhcmUganVzdCBzdXBwb3J0cyBtb3VzZSBtb2RlIGFuZCBsZWdhY3kgbW9kZS4N
+Cj4NCj4gQmVzdCBSZWdhcmRzLA0KPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tDQo+IEphc29uIENhbyjmm7nmmZPlu7opDQo+DQo+DQo+IC0tLS0tT3JpZ2lu
+YWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IOWkqueUsCDnnJ/llpwgTWFzYWtpIE90YSA8bWFzYWtp
+Lm90YUBhbHBzYWxwaW5lLmNvbT4NCj4gU2VudDogRnJpZGF5LCBBcHJpbCAxMCwgMjAyMCA4OjI5
+IEFNDQo+IFRvOiDmm7kg5puJ5bu6IFhpYW9qaWFuIENhbyA8eGlhb2ppYW4uY2FvQGNuLmFscHMu
+Y29tPjsgQXJ0ZW0gQm9yaXNvdiANCj4gPGRlZHNhMjAwMkBnbWFpbC5jb20+DQo+IENjOiBqaWtv
+c0BrZXJuZWwub3JnOyBCZW5qYW1pbiBUaXNzb2lyZXMgDQo+IDxiZW5qYW1pbi50aXNzb2lyZXNA
+cmVkaGF0LmNvbT47IEhlbnJpayBSeWRiZXJnIDxyeWRiZXJnQGJpdG1hdGgub3JnPjsgDQo+IGxp
+bnV4LWlucHV0QHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0K
+PiBTdWJqZWN0OiBSRTogW1BBVENIIDIvMl0gSElEOiBhbHBzOiBSZWZhY3RvciBheGlzIHJlc29s
+dXRpb24gbG9naWMNCj4NCj4gSGksIENhby1zYW4sDQo+DQo+IERvIHlvdSBrbm93IEFVSTE2NTcg
+ZGV2aWNlPyBUaGlzIGRldmljZSBsb29rcyBVMS4NCj4gSSB0aGluayByZWNlbnQgYWxsIFUxIGRl
+dmljZXMgd29yayBhcyBQVFAuDQo+IExpbnV4IGFsc28gc3VwcG9ydHMgUFRQLCBzbyBJIHRoaW5r
+IHdlIHNob3VsZCBhZGQgc29tZXRoaW5nIElEIHRvIA0KPiBMaW51eCBzb3VyY2UgY29kZS4gKEkg
+cmVtZW1iZXIgYSBzb21ldGhpbmcgZmxhZyBpcyBhbHJlYWR5IGV4aXN0LikNCj4NCj4gQmVzdCBS
+ZWdhcmRzLA0KPiBNYXNha2kgT3RhDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZy
+b206IEFydGVtIEJvcmlzb3YgPGRlZHNhMjAwMkBnbWFpbC5jb20+DQo+IFNlbnQ6IEZyaWRheSwg
+QXByaWwgMTAsIDIwMjAgODowMCBBTQ0KPiBDYzogamlrb3NAa2VybmVsLm9yZzsg5aSq55SwIOec
+n+WWnCBNYXNha2kgT3RhIDxtYXNha2kub3RhQGFscHNhbHBpbmUuY29tPjsgDQo+IEFydGVtIEJv
+cmlzb3YgPGRlZHNhMjAwMkBnbWFpbC5jb20+OyBCZW5qYW1pbiBUaXNzb2lyZXMgDQo+IDxiZW5q
+YW1pbi50aXNzb2lyZXNAcmVkaGF0LmNvbT47IEhlbnJpayBSeWRiZXJnIDxyeWRiZXJnQGJpdG1h
+dGgub3JnPjsgDQo+IGxpbnV4LWlucHV0QHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZn
+ZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBbUEFUQ0ggMi8yXSBISUQ6IGFscHM6IFJlZmFjdG9y
+IGF4aXMgcmVzb2x1dGlvbiBsb2dpYw0KPg0KPiBBVUkxNjU3IGRvZXNuJ3QgZm9sbG93IHRoZSBz
+YW1lIGxvZ2ljIGZvciByZXNvbHV0aW9uIGNhbGN1bGF0aW9uLCBzaW5jZSB0aGUgcmVzdWx0aW5n
+IHZhbHVlcyBhcmUgaW5jb3JyZWN0LiBJbnN0ZWFkLCBpdCByZXBvcnRzIHRoZSBhY3R1YWwgcmVz
+b2x1dGlvbiB2YWx1ZXMgaW4gcGxhY2Ugb2YgdGhlIHBpdGNoIG9uZXMuDQo+IFdoaWxlIHdlJ3Jl
+IGF0IGl0LCBhbHNvIHJlZmFjdG9yIHRoZSB3aG9sZSByZXNvbHV0aW9uIGxvZ2ljIHRvIG1ha2Ug
+aXQgbW9yZSBnZW5lcmljIGFuZCBzZW5zaWJsZSBmb3IgbXVsdGlwbGUgZGV2aWNlIHN1cHBvcnQu
+DQo+DQo+IFRoZXJlIGFyZSB0d28gbWFpbiBsb2dpY2FsIHByb2JsZW1zIHdpdGggdGhlIGN1cnJl
+bnQgY29kZToNCj4gMS4gYWN0aXZlX2xlbl9tbSB2YWx1ZXMgYXJlIG9ubHkgdXNlZCBmb3IgcmVz
+b2x1dGlvbiBjYWxjdWxhdGlvbiBvbiBVMSwgeWV0IGFyZSBleHBvc2VkIGdsb2JhbGx5IGFzIHBh
+cnQgb2YgYWxwc19kZXYgc3RydWN0dXJlLg0KPiAyLiBUaGUgcmVzb2x1dGlvbiBjYWxjdWxhdGlv
+biBwcm9jZXNzIGhhcHBlbnMgaW4gYWxwc19pbnB1dF9jb25maWd1cmVkLCB3aGlsZSBldmVyeXRo
+aW5nIGVsc2UgaXMgY2FsY3VsYXRlZCBpbiB1MV9pbml0IGZ1bmN0aW9uLg0KPg0KPiBUaGVzZSBw
+cm9ibGVtcyBiZWNvbWUgbW9yZSBhcHBhcmVudCB3aGVuIHdlIHRyeSB0byBzdXBwb3J0IGEgZGV2
+aWNlIHRoYXQgZG9lc24ndCBmb2xsb3cgdGhlIHNhbWUgcmVzb2x1dGlvbiBjYWxjdWxhdGlvbiBs
+b2dpYyBhcyBVMS4NCj4gU2luY2UgYWxwc19pbnB1dF9jb25maWd1cmVkIGlzIGEgZGV2aWNlLWFn
+bm9zdGljIGZ1bmN0aW9uLCB3ZSBzaG91bGQgYXZvaWQgZG9pbmcgYW55IG1lYXN1cmVtZW50cyB0
+aGVyZSBhbmQgaGFuZGxlIHRoZW0gaW4gZGV2aWNlLXNwZWNpZmljIGluaXQgZnVuY3Rpb25zIGxp
+a2UgdTEvVDRfaW5pdCBpbnN0ZWFkLg0KPg0KPiBUbyBlbGltaW5hdGUgdGhlc2UgcHJvYmxlbXMg
+d2UgYWRkIGdsb2JhbCB4X3JlcyBhbmQgeV9yZXMgdmFsdWVzIGFuZCBwb3B1bGF0ZSB0aGVtIG9u
+IGEgZGV2aWNlLXNwZWNpZmljIGJhc2lzIGluIHRoZSBhY2NvcmRpbmcgaW5pdCBmdW5jdGlvbnMu
+DQo+DQo+IFNpZ25lZC1vZmYtYnk6IEFydGVtIEJvcmlzb3YgPGRlZHNhMjAwMkBnbWFpbC5jb20+
+DQo+IC0tLQ0KPiAgZHJpdmVycy9oaWQvaGlkLWFscHMuYyB8IDQxICsrKysrKysrKysrKysrKysr
+KysrKysrKystLS0tLS0tLS0tLS0tLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgMjUgaW5zZXJ0aW9u
+cygrKSwgMTYgZGVsZXRpb25zKC0pDQo+DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2hpZC9oaWQt
+YWxwcy5jIGIvZHJpdmVycy9oaWQvaGlkLWFscHMuYyBpbmRleCANCj4gYzJhMmJkNTI4ODkwLi40
+OTRjMDhjY2E2NDUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvaGlkL2hpZC1hbHBzLmMNCj4gKysr
+IGIvZHJpdmVycy9oaWQvaGlkLWFscHMuYw0KPiBAQCAtODMsOCArODMsOCBAQCBlbnVtIGRldl9u
+dW0gew0KPiAgICogQG1heF9maW5nZXJzOiB0b3RhbCBudW1iZXIgb2YgZmluZ2Vycw0KPiAgICog
+QGhhc19zcDogYm9vbGVhbiBvZiBzcCBleGlzdGVuc2UNCj4gICAqIEBzcF9idG5faW5mbzogYnV0
+dG9uIGluZm9ybWF0aW9uDQo+IC0gKiBAeF9hY3RpdmVfbGVuX21tOiBhY3RpdmUgYXJlYSBsZW5n
+dGggb2YgWCAobW0pDQo+IC0gKiBAeV9hY3RpdmVfbGVuX21tOiBhY3RpdmUgYXJlYSBsZW5ndGgg
+b2YgWSAobW0pDQo+ICsgKiBAeF9yZXM6IHJlc29sdXRpb24gb2YgWA0KPiArICogQHlfcmVzOiBy
+ZXNvbHV0aW9uIG9mIFkNCj4gICAqIEB4X21heDogbWF4aW11bSB4IGNvb3JkaW5hdGUgdmFsdWUN
+Cj4gICAqIEB5X21heDogbWF4aW11bSB5IGNvb3JkaW5hdGUgdmFsdWUNCj4gICAqIEB4X21pbjog
+bWluaW11bSB4IGNvb3JkaW5hdGUgdmFsdWUgQEAgLTEwMCw5ICsxMDAsMTAgQEAgc3RydWN0IA0K
+PiBhbHBzX2RldiB7DQo+ICAgICAgICAgZW51bSBkZXZfbnVtIGRldl90eXBlOw0KPiAgICAgICAg
+IHU4ICBtYXhfZmluZ2VyczsNCj4gICAgICAgICB1OCAgaGFzX3NwOw0KPiArICAgICAgIHU4ICBu
+b19waXRjaDsNCj4gICAgICAgICB1OCAgICAgIHNwX2J0bl9pbmZvOw0KPiAtICAgICAgIHUzMiAg
+ICAgeF9hY3RpdmVfbGVuX21tOw0KPiAtICAgICAgIHUzMiAgICAgeV9hY3RpdmVfbGVuX21tOw0K
+PiArICAgICAgIHUzMiAgICAgeF9yZXM7DQo+ICsgICAgICAgdTMyICAgICB5X3JlczsNCj4gICAg
+ICAgICB1MzIgICAgIHhfbWF4Ow0KPiAgICAgICAgIHUzMiAgICAgeV9tYXg7DQo+ICAgICAgICAg
+dTMyICAgICB4X21pbjsNCj4gQEAgLTU1MCwxMCArNTUxLDYgQEAgc3RhdGljIGludCB1MV9pbml0
+KHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2LCBzdHJ1Y3QgYWxwc19kZXYgKnByaV9kYXRhKQ0KPiAg
+ICAgICAgICAgICAgICAgZGV2X2VycigmaGRldi0+ZGV2LCAiZmFpbGVkIFUxX1JFU09fRFdOX0FC
+UyAoJWQpXG4iLCByZXQpOw0KPiAgICAgICAgICAgICAgICAgZ290byBleGl0Ow0KPiAgICAgICAg
+IH0NCj4gLSAgICAgICBwcmlfZGF0YS0+eF9hY3RpdmVfbGVuX21tID0NCj4gLSAgICAgICAgICAg
+ICAgIChwaXRjaF94ICogKHNlbl9saW5lX251bV94IC0gMSkpIC8gMTA7DQo+IC0gICAgICAgcHJp
+X2RhdGEtPnlfYWN0aXZlX2xlbl9tbSA9DQo+IC0gICAgICAgICAgICAgICAocGl0Y2hfeSAqIChz
+ZW5fbGluZV9udW1feSAtIDEpKSAvIDEwOw0KPg0KPiAgICAgICAgIHByaV9kYXRhLT54X21heCA9
+DQo+ICAgICAgICAgICAgICAgICAocmVzb2x1dGlvbiA8PCAyKSAqIChzZW5fbGluZV9udW1feCAt
+IDEpOyBAQCAtNTYyLDYgKzU1OSwxOCBAQCBzdGF0aWMgaW50IHUxX2luaXQoc3RydWN0IGhpZF9k
+ZXZpY2UgKmhkZXYsIHN0cnVjdCBhbHBzX2RldiAqcHJpX2RhdGEpDQo+ICAgICAgICAgICAgICAg
+ICAocmVzb2x1dGlvbiA8PCAyKSAqIChzZW5fbGluZV9udW1feSAtIDEpOw0KPiAgICAgICAgIHBy
+aV9kYXRhLT55X21pbiA9IDE7DQo+DQo+ICsgICAgICAgaWYgKHByaV9kYXRhLT5ub19waXRjaCkg
+ew0KPiArICAgICAgICAgICAgICAgcHJpX2RhdGEtPnhfcmVzID0gcGl0Y2hfeDsNCj4gKyAgICAg
+ICAgICAgICAgIHByaV9kYXRhLT55X3JlcyA9IHBpdGNoX3k7DQo+ICsgICAgICAgfSBlbHNlIHsN
+Cj4gKyAgICAgICAgICAgICAgIHByaV9kYXRhLT54X3JlcyA9DQo+ICsgICAgICAgICAgICAgICAg
+ICAgICAgIChwcmlfZGF0YS0+eF9tYXggLSAxKSAvDQo+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICgocGl0Y2hfeCAqIChzZW5fbGluZV9udW1feCAtIDEpKSAvIDEwKTsNCj4gKyAgICAgICAgICAg
+ICAgIHByaV9kYXRhLT55X3JlcyA9DQo+ICsgICAgICAgICAgICAgICAgICAgICAgIChwcmlfZGF0
+YS0+eV9tYXggLSAxKSAvDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICgocGl0Y2hfeSAqIChz
+ZW5fbGluZV9udW1feSAtIDEpKSAvIDEwKTsNCj4gKyAgICAgICB9DQo+ICsNCj4gICAgICAgICBy
+ZXQgPSB1MV9yZWFkX3dyaXRlX3JlZ2lzdGVyKGhkZXYsIEFERFJFU1NfVTFfUEFEX0JUTiwNCj4g
+ICAgICAgICAgICAgICAgICAgICAgICAgJnRtcCwgMCwgdHJ1ZSk7DQo+ICAgICAgICAgaWYgKHJl
+dCA8IDApIHsNCj4gQEAgLTYyMiw3ICs2MzEsNyBAQCBzdGF0aWMgaW50IFQ0X2luaXQoc3RydWN0
+IGhpZF9kZXZpY2UgKmhkZXYsIHN0cnVjdCBhbHBzX2RldiAqcHJpX2RhdGEpDQo+ICAgICAgICAg
+cHJpX2RhdGEtPnhfbWluID0gVDRfQ09VTlRfUEVSX0VMRUNUUk9ERTsNCj4gICAgICAgICBwcmlf
+ZGF0YS0+eV9tYXggPSBzZW5fbGluZV9udW1feSAqIFQ0X0NPVU5UX1BFUl9FTEVDVFJPREU7DQo+
+ICAgICAgICAgcHJpX2RhdGEtPnlfbWluID0gVDRfQ09VTlRfUEVSX0VMRUNUUk9ERTsNCj4gLSAg
+ICAgICBwcmlfZGF0YS0+eF9hY3RpdmVfbGVuX21tID0gcHJpX2RhdGEtPnlfYWN0aXZlX2xlbl9t
+bSA9IDA7DQo+ICsgICAgICAgcHJpX2RhdGEtPnhfcmVzID0gcHJpX2RhdGEtPnlfcmVzID0gMDsN
+Cj4gICAgICAgICBwcmlfZGF0YS0+YnRuX2NudCA9IDE7DQo+DQo+ICAgICAgICAgcmV0ID0gdDRf
+cmVhZF93cml0ZV9yZWdpc3RlcihoZGV2LCBQUk1fU1lTX0NPTkZJR18xLCAmdG1wLCAwLCB0cnVl
+KTsgQEAgLTY3NSw3ICs2ODQsNyBAQCBzdGF0aWMgaW50IGFscHNfaW5wdXRfY29uZmlndXJlZChz
+dHJ1Y3QgaGlkX2RldmljZSAqaGRldiwgc3RydWN0IGhpZF9pbnB1dCAqaGkpDQo+ICAgICAgICAg
+c3RydWN0IGFscHNfZGV2ICpkYXRhID0gaGlkX2dldF9kcnZkYXRhKGhkZXYpOw0KPiAgICAgICAg
+IHN0cnVjdCBpbnB1dF9kZXYgKmlucHV0ID0gaGktPmlucHV0LCAqaW5wdXQyOw0KPiAgICAgICAg
+IGludCByZXQ7DQo+IC0gICAgICAgaW50IHJlc194LCByZXNfeSwgaTsNCj4gKyAgICAgICBpbnQg
+aTsNCj4NCj4gICAgICAgICBkYXRhLT5pbnB1dCA9IGlucHV0Ow0KPg0KPiBAQCAtNzA2LDEyICs3
+MTUsOSBAQCBzdGF0aWMgaW50IGFscHNfaW5wdXRfY29uZmlndXJlZChzdHJ1Y3QgaGlkX2Rldmlj
+ZSAqaGRldiwgc3RydWN0IGhpZF9pbnB1dCAqaGkpDQo+ICAgICAgICAgaW5wdXRfc2V0X2Fic19w
+YXJhbXMoaW5wdXQsIEFCU19NVF9QT1NJVElPTl9ZLA0KPiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBkYXRhLT55X21pbiwgDQo+IGRhdGEtPnlfbWF4LCAw
+LCAwKTsNCj4NCj4gLSAgICAgICBpZiAoZGF0YS0+eF9hY3RpdmVfbGVuX21tICYmIGRhdGEtPnlf
+YWN0aXZlX2xlbl9tbSkgew0KPiAtICAgICAgICAgICAgICAgcmVzX3ggPSAoZGF0YS0+eF9tYXgg
+LSAxKSAvIGRhdGEtPnhfYWN0aXZlX2xlbl9tbTsNCj4gLSAgICAgICAgICAgICAgIHJlc195ID0g
+KGRhdGEtPnlfbWF4IC0gMSkgLyBkYXRhLT55X2FjdGl2ZV9sZW5fbW07DQo+IC0NCj4gLSAgICAg
+ICAgICAgICAgIGlucHV0X2Fic19zZXRfcmVzKGlucHV0LCBBQlNfTVRfUE9TSVRJT05fWCwgcmVz
+X3gpOw0KPiAtICAgICAgICAgICAgICAgaW5wdXRfYWJzX3NldF9yZXMoaW5wdXQsIEFCU19NVF9Q
+T1NJVElPTl9ZLCByZXNfeSk7DQo+ICsgICAgICAgaWYgKGRhdGEtPnhfcmVzICYmIGRhdGEtPnlf
+cmVzKSB7DQo+ICsgICAgICAgICAgICAgICBpbnB1dF9hYnNfc2V0X3JlcyhpbnB1dCwgQUJTX01U
+X1BPU0lUSU9OX1gsIGRhdGEtPnhfcmVzKTsNCj4gKyAgICAgICAgICAgICAgIGlucHV0X2Fic19z
+ZXRfcmVzKGlucHV0LCBBQlNfTVRfUE9TSVRJT05fWSwgDQo+ICsgZGF0YS0+eV9yZXMpOw0KPiAg
+ICAgICAgIH0NCj4NCj4gICAgICAgICBpbnB1dF9zZXRfYWJzX3BhcmFtcyhpbnB1dCwgQUJTX01U
+X1BSRVNTVVJFLCAwLCA2NCwgMCwgMCk7IEBAIC04MDIsOCArODA4LDExIEBAIHN0YXRpYyBpbnQg
+YWxwc19wcm9iZShzdHJ1Y3QgaGlkX2RldmljZSAqaGRldiwgY29uc3Qgc3RydWN0IGhpZF9kZXZp
+Y2VfaWQgKmlkKQ0KPiAgICAgICAgICAgICAgICAgYnJlYWs7DQo+ICAgICAgICAgY2FzZSBISURf
+REVWSUNFX0lEX0FMUFNfVTFfRFVBTDoNCj4gICAgICAgICBjYXNlIEhJRF9ERVZJQ0VfSURfQUxQ
+U19VMToNCj4gKyAgICAgICAgICAgICAgIGRhdGEtPmRldl90eXBlID0gVTE7DQo+ICsgICAgICAg
+ICAgICAgICBicmVhazsNCj4gICAgICAgICBjYXNlIEhJRF9ERVZJQ0VfSURfQUxQU18xNjU3Og0K
+PiAgICAgICAgICAgICAgICAgZGF0YS0+ZGV2X3R5cGUgPSBVMTsNCj4gKyAgICAgICAgICAgICAg
+IGRhdGEtPm5vX3BpdGNoID0gMTsNCj4gICAgICAgICAgICAgICAgIGJyZWFrOw0KPiAgICAgICAg
+IGRlZmF1bHQ6DQo+ICAgICAgICAgICAgICAgICBkYXRhLT5kZXZfdHlwZSA9IFVOS05PV047DQo+
+IC0tDQo+IDIuMjYuMA0K
