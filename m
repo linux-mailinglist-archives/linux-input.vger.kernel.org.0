@@ -2,266 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6161A1AB140
+	by mail.lfdr.de (Postfix) with ESMTP id CE7E71AB141
 	for <lists+linux-input@lfdr.de>; Wed, 15 Apr 2020 21:20:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2411783AbgDOTIR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Apr 2020 15:08:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51020 "EHLO
+        id S2411790AbgDOTIU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Apr 2020 15:08:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1416853AbgDOSsk (ORCPT
+        by vger.kernel.org with ESMTP id S1416889AbgDOS7z (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Apr 2020 14:48:40 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04424C061A0C;
-        Wed, 15 Apr 2020 11:48:40 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id m13so917682otf.6;
-        Wed, 15 Apr 2020 11:48:39 -0700 (PDT)
+        Wed, 15 Apr 2020 14:59:55 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1457C061A0C;
+        Wed, 15 Apr 2020 11:59:54 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id r24so4937660ljd.4;
+        Wed, 15 Apr 2020 11:59:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=pN11y4ZdGS2rg3j3opehc48No1ahmjWL1qeQQLOIN1Q=;
-        b=Pg8N+hOBAmKceohWXn6EgeZxHLL8HX/ueT/MFBpSdvyQKXpYVe1x9LWr1rgkkLcKxF
-         WAp/UiHYMZvUrKi3U/iUFQe7xIIkmrtDeaOj0WOBAGYmPy78ctyErXQ3C8ES0ZHfaoCJ
-         eK7BMzMExFIidq8OYXDc2xiWyRU9yoRbrihqWpvevz8AYGFxUWxxZsbhOZwrdjOGlaQW
-         7glGdDtZzQ3Ux6nflcc9L6wxEy3Ih6pxF96JkEseyxAfjolLsEym3m9YhLBMZzdnTzMW
-         PJgrqUW3aIXx7AWxmxzrccD2phhejd2LZTZgzoqQzyX8WdaBGgxo8XoAbgyXTvnlfGFq
-         66Bg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+lgH9QEXgssaM2l+t80P4gQY7lGRB9KmgdYKNpUDs6o=;
+        b=RMiUNy2eQfnY3aZ1nGyJOaQD/7k7Bhwn1NGMoOyEJsKa4Dymv7l733xXw82+YXBxa5
+         HD6yD4dS4Z+0jafFk8nqJ1iSsMlCuurc1SHknGc8LLoMAG0DUHCD+HT5VkT/fxYJR8FB
+         VYNOk1TiBTmJgkaMKCIsKYrqvW5Ji3Ylf7ChsI4Fkwur0oMWK50q9lTSGkDh7cD+LIku
+         EmX9Br2zCpDM1EJoYRUcSSJ4RUDIYOzz4GSedf981nT6k1uKWu3szryS3s0QMsFLTi/v
+         +e2K6gHcbglGR83H5vK0u7yOLotn+3eQVvPc3OSteP/AlFXOqV9pIftX5yYP2T05AcHJ
+         UXMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=pN11y4ZdGS2rg3j3opehc48No1ahmjWL1qeQQLOIN1Q=;
-        b=dIVuadlM3x6Qil2Y7Rf+hx1RS+HobTDQh5uzXDobIHdxPCQ84A6Xemcw4YSIsgNC8F
-         yO7h3gegJnxUM/69hwHsOXanewgN3FZPWDeXfZ67Xi6v/M5fqw0tipEQ/U8+bsuWUsQ6
-         /2193+5uqI6HhLpzbGdS9rTVK6lvNmUuPmfzj4bmbp8nrJDEeXrWCrWUCxlDLTyxhEHv
-         vx7YI7Xz0mC4NPIW/71aipEQ2OyT3fPtl2whjDRlKHbn5CIubzNQr64hWtkW485aGm2t
-         xZAxq0ywD9bYouI2sbr9vyrNFTdQEZgacLmDFemGEnDmA2asd9Uxp6DNTUL1IafF24gG
-         Aoqg==
-X-Gm-Message-State: AGi0PuZyKX1/uBj0QIaUrYQh5xAxKuteFO7WwRdpUhICet4ADkKbNvWS
-        7SWVCSljMykYHgXJWt7+ln9rXpBTbddkf8pvK6MTdhd7
-X-Google-Smtp-Source: APiQypL6qbcCQYIKcDc1OEn2YiQ6QGpnKqdVtbn/ICRL5+YY2B7SV1sFV34he2dQuuGxYSgmj6+k8LNxG6VBDQfbCBg=
-X-Received: by 2002:a05:6830:215a:: with SMTP id r26mr22571197otd.118.1586976519067;
- Wed, 15 Apr 2020 11:48:39 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+lgH9QEXgssaM2l+t80P4gQY7lGRB9KmgdYKNpUDs6o=;
+        b=Y+LHiMUxc1H7ciybuDnfp1BEWspq6Rr92Ci7jt+8rU8B3zhTmrrQn9d1STP3Vm7GUO
+         0jbQlI04ns344t5OLgLqkrO6zTIZDoTRpR5RmzCHOM+D1H9E0GoyRZtOn2zbwvbbbV91
+         U2ZlJ+Vv1HGFk+RLRUY4eK6GKt6x48qpsFegFzpO3CYvN38hXRv+pThPwXIXnUJH0CJL
+         hyIwG++edGDajOvdjcJYg4Txmy0w1hLCTpkRMjTYxdWbTsxbcPYIl7xeFkd3Qs1K8JUc
+         oHBZ/IW1j8Wt3CUWyxzmGpMqHEHjADozvKuITUIBz91hjHN4W+MvXEWZmR24KZ+2xA3S
+         cifA==
+X-Gm-Message-State: AGi0PuZCUqpYpzO691ufQ+UxaJyxSSN9SHt+J7xLpl7XZXS7aceepuuw
+        kNuNV6CfuuytA9T2cRf+VZVUDTnk8/Q=
+X-Google-Smtp-Source: APiQypKqiBElG3N9BOEElUArPJ2omb4ABpniF0/8hznTgBZEpfd2Ezm81K98PyMO3KRWjDby9/KL2Q==
+X-Received: by 2002:a2e:870f:: with SMTP id m15mr4201151lji.16.1586977193345;
+        Wed, 15 Apr 2020 11:59:53 -0700 (PDT)
+Received: from luk-pc.lan (host-46-186-7-151.dynamic.mm.pl. [46.186.7.151])
+        by smtp.googlemail.com with ESMTPSA id z9sm17026303lfd.9.2020.04.15.11.59.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2020 11:59:52 -0700 (PDT)
+From:   LuK1337 <priv.luk@gmail.com>
+Cc:     LuK1337 <priv.luk@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Allison Randal <allison@lohutok.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Richard Fontana <rfontana@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: xpad - Update xboxone fw2015 init packet
+Date:   Wed, 15 Apr 2020 20:59:40 +0200
+Message-Id: <20200415185941.388910-1-priv.luk@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-References: <20200408145837.21961-1-jason.gerecke@wacom.com>
-In-Reply-To: <20200408145837.21961-1-jason.gerecke@wacom.com>
-From:   Jason Gerecke <killertofu@gmail.com>
-Date:   Wed, 15 Apr 2020 11:48:27 -0700
-Message-ID: <CANRwn3QH3a=BOWWu6H7o2S3o3FCTWd6J_NC4xJ-WnQTZ-Pp7Hg@mail.gmail.com>
-Subject: Re: [PATCH] Revert "HID: wacom: generic: read the number of expected
- touches on a per collection basis"
-To:     Linux Input <linux-input@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Aaron Armstrong Skomra <aaron.skomra@wacom.com>,
-        "# v3.17+" <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Bumping since it seems to have been lost between the cracks.
+Appending { 0x05, 0x20, 0x02, 0x0f, 0x06 } to
+xboxone_fw2015_init fixes an issue where the
+controller is somewhat stuck in bluetooth
+mode until you plug it into Windows PC.
 
-Jason
+Signed-off-by: LuK1337 <priv.luk@gmail.com>
 ---
-Now instead of four in the eights place /
-you=E2=80=99ve got three, =E2=80=98Cause you added one  /
-(That is to say, eight) to the two,     /
-But you can=E2=80=99t take seven from three,    /
-So you look at the sixty-fours....
+ drivers/input/joystick/xpad.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 6b40a1c68f9f..894fa81f717a 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -455,7 +455,8 @@ struct xboxone_init_packet {
+  * or later firmware installed (or present from the factory).
+  */
+ static const u8 xboxone_fw2015_init[] = {
+-	0x05, 0x20, 0x00, 0x01, 0x00
++	0x05, 0x20, 0x00, 0x01, 0x00,
++	0x05, 0x20, 0x02, 0x0f, 0x06
+ };
+ 
+ /*
+-- 
+2.26.0
 
-On Wed, Apr 8, 2020 at 7:59 AM Gerecke, Jason <killertofu@gmail.com> wrote:
->
-> From: Jason Gerecke <killertofu@gmail.com>
->
-> This reverts commit 15893fa40109f5e7c67eeb8da62267d0fdf0be9d.
->
-> The referenced commit broke pen and touch input for a variety of devices
-> such as the Cintiq Pro 32. Affected devices may appear to work normally
-> for a short amount of time, but eventually loose track of actual touch
-> state and can leave touch arbitration enabled which prevents the pen
-> from working. The commit is not itself required for any currently-availab=
-le
-> Bluetooth device, and so we revert it to correct the behavior of broken
-> devices.
->
-> This breakage occurs due to a mismatch between the order of collections
-> and the order of usages on some devices. This commit tries to read the
-> contact count before processing events, but will fail if the contact
-> count does not occur prior to the first logical finger collection. This
-> is the case for devices like the Cintiq Pro 32 which place the contact
-> count at the very end of the report.
->
-> Without the contact count set, touches will only be partially processed.
-> The `wacom_wac_finger_slot` function will not open any slots since the
-> number of contacts seen is greater than the expectation of 0, but we will
-> still end up calling `input_mt_sync_frame` for each finger anyway. This
-> can cause problems for userspace separate from the issue currently taking
-> place in the kernel. Only once all of the individual finger collections
-> have been processed do we finally get to the enclosing collection which
-> contains the contact count. The value ends up being used for the *next*
-> report, however.
->
-> This delayed use of the contact count can cause the driver to loose track
-> of the actual touch state and believe that there are contacts down when
-> there aren't. This leaves touch arbitration enabled and prevents the pen
-> from working. It can also cause userspace to incorrectly treat single-
-> finger input as gestures.
->
-> Link: https://github.com/linuxwacom/input-wacom/issues/146
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-> Reviewed-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-> Fixes: 15893fa40109 ("HID: wacom: generic: read the number of expected to=
-uches on a per collection basis")
-> Cc: stable@vger.kernel.org # 5.3+
-> ---
->  drivers/hid/wacom_wac.c | 79 +++++++++--------------------------------
->  1 file changed, 16 insertions(+), 63 deletions(-)
->
-> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-> index d99a9d407671..96d00eba99c0 100644
-> --- a/drivers/hid/wacom_wac.c
-> +++ b/drivers/hid/wacom_wac.c
-> @@ -2637,9 +2637,25 @@ static void wacom_wac_finger_pre_report(struct hid=
-_device *hdev,
->                         case HID_DG_TIPSWITCH:
->                                 hid_data->last_slot_field =3D equivalent_=
-usage;
->                                 break;
-> +                       case HID_DG_CONTACTCOUNT:
-> +                               hid_data->cc_report =3D report->id;
-> +                               hid_data->cc_index =3D i;
-> +                               hid_data->cc_value_index =3D j;
-> +                               break;
->                         }
->                 }
->         }
-> +
-> +       if (hid_data->cc_report !=3D 0 &&
-> +           hid_data->cc_index >=3D 0) {
-> +               struct hid_field *field =3D report->field[hid_data->cc_in=
-dex];
-> +               int value =3D field->value[hid_data->cc_value_index];
-> +               if (value)
-> +                       hid_data->num_expected =3D value;
-> +       }
-> +       else {
-> +               hid_data->num_expected =3D wacom_wac->features.touch_max;
-> +       }
->  }
->
->  static void wacom_wac_finger_report(struct hid_device *hdev,
-> @@ -2649,7 +2665,6 @@ static void wacom_wac_finger_report(struct hid_devi=
-ce *hdev,
->         struct wacom_wac *wacom_wac =3D &wacom->wacom_wac;
->         struct input_dev *input =3D wacom_wac->touch_input;
->         unsigned touch_max =3D wacom_wac->features.touch_max;
-> -       struct hid_data *hid_data =3D &wacom_wac->hid_data;
->
->         /* If more packets of data are expected, give us a chance to
->          * process them rather than immediately syncing a partial
-> @@ -2663,7 +2678,6 @@ static void wacom_wac_finger_report(struct hid_devi=
-ce *hdev,
->
->         input_sync(input);
->         wacom_wac->hid_data.num_received =3D 0;
-> -       hid_data->num_expected =3D 0;
->
->         /* keep touch state for pen event */
->         wacom_wac->shared->touch_down =3D wacom_wac_finger_count_touches(=
-wacom_wac);
-> @@ -2738,73 +2752,12 @@ static void wacom_report_events(struct hid_device=
- *hdev,
->         }
->  }
->
-> -static void wacom_set_num_expected(struct hid_device *hdev,
-> -                                  struct hid_report *report,
-> -                                  int collection_index,
-> -                                  struct hid_field *field,
-> -                                  int field_index)
-> -{
-> -       struct wacom *wacom =3D hid_get_drvdata(hdev);
-> -       struct wacom_wac *wacom_wac =3D &wacom->wacom_wac;
-> -       struct hid_data *hid_data =3D &wacom_wac->hid_data;
-> -       unsigned int original_collection_level =3D
-> -               hdev->collection[collection_index].level;
-> -       bool end_collection =3D false;
-> -       int i;
-> -
-> -       if (hid_data->num_expected)
-> -               return;
-> -
-> -       // find the contact count value for this segment
-> -       for (i =3D field_index; i < report->maxfield && !end_collection; =
-i++) {
-> -               struct hid_field *field =3D report->field[i];
-> -               unsigned int field_level =3D
-> -                       hdev->collection[field->usage[0].collection_index=
-].level;
-> -               unsigned int j;
-> -
-> -               if (field_level !=3D original_collection_level)
-> -                       continue;
-> -
-> -               for (j =3D 0; j < field->maxusage; j++) {
-> -                       struct hid_usage *usage =3D &field->usage[j];
-> -
-> -                       if (usage->collection_index !=3D collection_index=
-) {
-> -                               end_collection =3D true;
-> -                               break;
-> -                       }
-> -                       if (wacom_equivalent_usage(usage->hid) =3D=3D HID=
-_DG_CONTACTCOUNT) {
-> -                               hid_data->cc_report =3D report->id;
-> -                               hid_data->cc_index =3D i;
-> -                               hid_data->cc_value_index =3D j;
-> -
-> -                               if (hid_data->cc_report !=3D 0 &&
-> -                                   hid_data->cc_index >=3D 0) {
-> -
-> -                                       struct hid_field *field =3D
-> -                                               report->field[hid_data->c=
-c_index];
-> -                                       int value =3D
-> -                                               field->value[hid_data->cc=
-_value_index];
-> -
-> -                                       if (value)
-> -                                               hid_data->num_expected =
-=3D value;
-> -                               }
-> -                       }
-> -               }
-> -       }
-> -
-> -       if (hid_data->cc_report =3D=3D 0 || hid_data->cc_index < 0)
-> -               hid_data->num_expected =3D wacom_wac->features.touch_max;
-> -}
-> -
->  static int wacom_wac_collection(struct hid_device *hdev, struct hid_repo=
-rt *report,
->                          int collection_index, struct hid_field *field,
->                          int field_index)
->  {
->         struct wacom *wacom =3D hid_get_drvdata(hdev);
->
-> -       if (WACOM_FINGER_FIELD(field))
-> -               wacom_set_num_expected(hdev, report, collection_index, fi=
-eld,
-> -                                      field_index);
->         wacom_report_events(hdev, report, collection_index, field_index);
->
->         /*
-> --
-> 2.26.0
->
