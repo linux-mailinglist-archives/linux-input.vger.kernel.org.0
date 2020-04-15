@@ -2,31 +2,33 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83B321A95D9
+	by mail.lfdr.de (Postfix) with ESMTP id 165B81A95D8
 	for <lists+linux-input@lfdr.de>; Wed, 15 Apr 2020 10:12:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393775AbgDOIJU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S2393781AbgDOIJU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Wed, 15 Apr 2020 04:09:20 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:47932 "EHLO inva020.nxp.com"
+Received: from inva021.nxp.com ([92.121.34.21]:53650 "EHLO inva021.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2393722AbgDOIJQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        id S2393775AbgDOIJQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
         Wed, 15 Apr 2020 04:09:16 -0400
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 3205D1A078C;
-        Wed, 15 Apr 2020 10:09:13 +0200 (CEST)
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 176EF2007BB;
+        Wed, 15 Apr 2020 10:09:14 +0200 (CEST)
 Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 252B21A077A;
-        Wed, 15 Apr 2020 10:09:11 +0200 (CEST)
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 0F5B72007A0;
+        Wed, 15 Apr 2020 10:09:12 +0200 (CEST)
 Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id A85A8402B4;
-        Wed, 15 Apr 2020 16:09:08 +0800 (SGT)
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 3166F402FC;
+        Wed, 15 Apr 2020 16:09:09 +0800 (SGT)
 From:   haibo.chen@nxp.com
 To:     dmitry.torokhov@gmail.com
 Cc:     linux-input@vger.kernel.org, linux-imx@nxp.com, festevam@gmail.com
-Subject: [PATCH V3 1/2] input: egalax_ts: free irq resource before request the line as GPIO
-Date:   Wed, 15 Apr 2020 16:01:02 +0800
-Message-Id: <1586937663-13342-1-git-send-email-haibo.chen@nxp.com>
+Subject: [PATCH V3 2/2] input: egalax_ts: fix the get_firmware_command
+Date:   Wed, 15 Apr 2020 16:01:03 +0800
+Message-Id: <1586937663-13342-2-git-send-email-haibo.chen@nxp.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1586937663-13342-1-git-send-email-haibo.chen@nxp.com>
+References: <1586937663-13342-1-git-send-email-haibo.chen@nxp.com>
 X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
@@ -35,95 +37,29 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Haibo Chen <haibo.chen@nxp.com>
 
-If GPIO is connected to an IRQ then it should not request it as
-GPIO function only when free its IRQ resource.
+According to the User Guide, the get firmware command is
+{ 0x03, 0x03, 0xa, 0x01, 'D' }, ASCII value of 'D' is 0x44.
+
+This patch fix that.
 
 Signed-off-by: Haibo Chen <haibo.chen@nxp.com>
 ---
- drivers/input/touchscreen/egalax_ts.c | 46 ++++++++++++++++++++++-----
- 1 file changed, 38 insertions(+), 8 deletions(-)
+ drivers/input/touchscreen/egalax_ts.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/input/touchscreen/egalax_ts.c b/drivers/input/touchscreen/egalax_ts.c
-index 83ac8c128192..d3dc6d14bb78 100644
+index d3dc6d14bb78..1da6ddb9b4ee 100644
 --- a/drivers/input/touchscreen/egalax_ts.c
 +++ b/drivers/input/touchscreen/egalax_ts.c
-@@ -116,6 +116,26 @@ static irqreturn_t egalax_ts_interrupt(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
+@@ -171,7 +171,7 @@ static int egalax_wake_up_device(struct i2c_client *client)
  
-+static int egalax_irq_request(struct egalax_ts *ts)
-+{
-+	int ret;
-+	struct i2c_client *client = ts->client;
-+
-+	ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
-+					egalax_ts_interrupt,
-+					IRQF_TRIGGER_LOW | IRQF_ONESHOT,
-+					"egalax_ts", ts);
-+	if (ret < 0)
-+		dev_err(&client->dev, "Failed to register interrupt\n");
-+
-+	return ret;
-+}
-+
-+static void egalax_free_irq(struct egalax_ts *ts)
-+{
-+	devm_free_irq(&ts->client->dev, ts->client->irq, ts);
-+}
-+
- /* wake up controller by an falling edge of interrupt gpio.  */
- static int egalax_wake_up_device(struct i2c_client *client)
+ static int egalax_firmware_version(struct i2c_client *client)
  {
-@@ -211,19 +231,16 @@ static int egalax_ts_probe(struct i2c_client *client,
- 			     ABS_MT_POSITION_Y, 0, EGALAX_MAX_Y, 0, 0);
- 	input_mt_init_slots(input_dev, MAX_SUPPORT_POINTS, 0);
+-	static const u8 cmd[MAX_I2C_DATA_LEN] = { 0x03, 0x03, 0xa, 0x01, 0x41 };
++	static const u8 cmd[MAX_I2C_DATA_LEN] = { 0x03, 0x03, 0xa, 0x01, 0x44 };
+ 	int ret;
  
--	error = devm_request_threaded_irq(&client->dev, client->irq, NULL,
--					  egalax_ts_interrupt,
--					  IRQF_TRIGGER_LOW | IRQF_ONESHOT,
--					  "egalax_ts", ts);
--	if (error < 0) {
--		dev_err(&client->dev, "Failed to register interrupt\n");
-+	error = egalax_irq_request(ts);
-+	if (error)
- 		return error;
--	}
- 
- 	error = input_register_device(ts->input_dev);
- 	if (error)
- 		return error;
- 
-+	i2c_set_clientdata(client, ts);
-+
- 	return 0;
- }
- 
-@@ -251,11 +268,24 @@ static int __maybe_unused egalax_ts_suspend(struct device *dev)
- static int __maybe_unused egalax_ts_resume(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
-+	struct egalax_ts *ts = i2c_get_clientdata(client);
-+	int error;
- 
- 	if (device_may_wakeup(dev))
- 		return disable_irq_wake(client->irq);
- 
--	return egalax_wake_up_device(client);
-+	/* Free IRQ as IRQ pin is used as output in the resume sequence */
-+	egalax_free_irq(ts);
-+
-+	error = egalax_wake_up_device(client);
-+	if (error) {
-+		dev_err(&client->dev, "Failed to wake up the controller\n");
-+		return error;
-+	}
-+
-+	error = egalax_irq_request(ts);
-+
-+	return error;
- }
- 
- static SIMPLE_DEV_PM_OPS(egalax_ts_pm_ops, egalax_ts_suspend, egalax_ts_resume);
+ 	ret = i2c_master_send(client, cmd, MAX_I2C_DATA_LEN);
 -- 
 2.17.1
 
