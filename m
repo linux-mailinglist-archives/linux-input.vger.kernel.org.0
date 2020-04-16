@@ -2,77 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 175A91AD0EE
-	for <lists+linux-input@lfdr.de>; Thu, 16 Apr 2020 22:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D85251AD343
+	for <lists+linux-input@lfdr.de>; Fri, 17 Apr 2020 01:35:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728131AbgDPUPe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Apr 2020 16:15:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42250 "EHLO mail.kernel.org"
+        id S1726581AbgDPXfE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Apr 2020 19:35:04 -0400
+Received: from mail.dsns.gov.ua ([194.0.148.99]:37970 "EHLO mail.dsns.gov.ua"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726523AbgDPUPb (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Apr 2020 16:15:31 -0400
-Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7DBCE2076D;
-        Thu, 16 Apr 2020 20:15:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587068130;
-        bh=D1k4FGZwtqhoI1ElVs5JDDEH95csH4x4jdsRBKIrsUI=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=pb1Aidbcr89YNzTHVpk+AyNMZbTkFc8vyI3afURRbjXDvFwV15/ymxbzA+qyRv2Yz
-         zkt3XEVweYahiTnIo3Fe5Z27TgbaQy1wyQI+t7pmfTd25UUanPeCULpZddV5Ht6h6E
-         mnFBpqnuRzUXcgTpoCGGyvNva9RmPVcpUddIvrBM=
-Date:   Thu, 16 Apr 2020 22:15:27 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Rishi Gupta <gupt21@gmail.com>
-cc:     linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        benjamin.tissoires@redhat.com, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/1] HID: mcp2221: add GPIO functionality support
-In-Reply-To: <1586882894-19905-1-git-send-email-gupt21@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2004162212080.19713@cbobk.fhfr.pm>
-References: <1586882894-19905-1-git-send-email-gupt21@gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1725770AbgDPXfD (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Apr 2020 19:35:03 -0400
+X-Greylist: delayed 9287 seconds by postgrey-1.27 at vger.kernel.org; Thu, 16 Apr 2020 19:34:56 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mail.dsns.gov.ua (Postfix) with ESMTP id 6223A1EC85AF;
+        Thu, 16 Apr 2020 23:35:36 +0300 (EEST)
+Received: from mail.dsns.gov.ua ([127.0.0.1])
+        by localhost (mail.dsns.gov.ua [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id ekdCUR6pZ0Aa; Thu, 16 Apr 2020 23:35:36 +0300 (EEST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.dsns.gov.ua (Postfix) with ESMTP id 67C3E1EC85F9;
+        Thu, 16 Apr 2020 23:35:26 +0300 (EEST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.dsns.gov.ua 67C3E1EC85F9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dsns.gov.ua;
+        s=1E60DAC0-2607-11E9-81E6-7A77C2B36653; t=1587069326;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=BFrHb0sdI6ttGZUrYrU3NgniYtd1aDAhnXXb2vKIb2B9styAswbm0NbzZRAHiMp0y
+         hUE3veWMbUD+qTP/VmiRFig+sJh7tgrjRSipmI8jEPDH4mLyVFQtPdyPojLkpu/SlT
+         y/CjSPHdIqozfsh/zyWU9aeO41yKuuO77HTVyT/eVGDUtLYGTijz0IeETvwB1Yur4I
+         5RegLOWC96rliENvAjVU5IoM4JfcadYa95Q959RRtGyCSnevHOMfGycVhDjkxX/p7G
+         0gUYzq9GdO73hW8YI3AV2m5dSWB1tPfsxP4FJUwoBTp88jIZZeY7uAiDenSeAUtBdj
+         PKl/BScyij7GQ==
+X-Virus-Scanned: amavisd-new at dsns.gov.ua
+Received: from mail.dsns.gov.ua ([127.0.0.1])
+        by localhost (mail.dsns.gov.ua [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id U4DcK3mdlYyf; Thu, 16 Apr 2020 23:35:26 +0300 (EEST)
+Received: from mail.dsns.gov.ua (localhost [127.0.0.1])
+        by mail.dsns.gov.ua (Postfix) with ESMTP id 9BAF81EC8118;
+        Thu, 16 Apr 2020 23:35:15 +0300 (EEST)
+Date:   Thu, 16 Apr 2020 23:35:15 +0300 (EEST)
+From:   Saleem Netanyahu <duchenko@dsns.gov.ua>
+Reply-To: Saleem Netanyahu <saleemnetu@gmail.com>
+Message-ID: <1255292802.718114.1587069315574.JavaMail.zimbra@dsns.gov.ua>
+Subject: Hey, how are u, can we talk?
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [45.82.223.36, 172.69.54.54]
+X-Mailer: Zimbra 8.8.15_GA_3918 (zclient/8.8.15_GA_3918)
+Thread-Index: oV9MZN6+Sh4gFPdsGziQ2IngcJhATw==
+Thread-Topic: Hey, how are u, can we talk?
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
-
-On Tue, 14 Apr 2020, Rishi Gupta wrote:
-
-> MCP2221 has 4 pins that can be used as GPIO or configured
-> for alternate functionality such as clock generation and
-> IRQ detection. This patch adds support for GPIO functionality.
-> 
-> To set direction of a pin or to toggle its state after it
-> has been configured as GPIO, driver sends command to mcp2221
-> and parses response received from mcp2221. Based on this
-> response either 0 or appropriate error code is returned to
-> GPIO framework.
-> 
-> To get the direction or current state of a pin, driver
-> sends command and read response from the device. Based on
-> the response received from device direction or value
-> is sent to the GPIO framework.
-> 
-> Command from driver to mcp2221 device are output report.
-> Response received from mcp2221 is input report.
-> 
-> Datasheet (page 45-48) contains details about how to decode
-> the response received from device:
-> http://ww1.microchip.com/downloads/en/DeviceDoc/20005565B.pdf
-> 
-> Signed-off-by: Rishi Gupta <gupt21@gmail.com>
-> ---
->  drivers/hid/hid-mcp2221.c | 169 ++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 169 insertions(+)
-
-Applied, thanks.
-
--- 
-Jiri Kosina
-SUSE Labs
 
