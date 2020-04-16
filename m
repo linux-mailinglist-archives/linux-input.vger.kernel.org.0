@@ -2,42 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B9E41AD07A
-	for <lists+linux-input@lfdr.de>; Thu, 16 Apr 2020 21:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 175A91AD0EE
+	for <lists+linux-input@lfdr.de>; Thu, 16 Apr 2020 22:15:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727902AbgDPTjl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Apr 2020 15:39:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45176 "EHLO mail.kernel.org"
+        id S1728131AbgDPUPe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Apr 2020 16:15:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42250 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725894AbgDPTjk (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Apr 2020 15:39:40 -0400
+        id S1726523AbgDPUPb (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Apr 2020 16:15:31 -0400
 Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D7F5D21BE5;
-        Thu, 16 Apr 2020 19:39:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7DBCE2076D;
+        Thu, 16 Apr 2020 20:15:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587065980;
-        bh=oeXqg4Uz21hvCN3wmWUjN4JFnUaz5tc5mND5b0ompJM=;
+        s=default; t=1587068130;
+        bh=D1k4FGZwtqhoI1ElVs5JDDEH95csH4x4jdsRBKIrsUI=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=CxlT/4Fn46PPatB8z8hTpOtDy7cQcTexnJv+UorsodgfIxS9UXdtflhNS1m9+Tz8l
-         DQc4FIJ8QuOp64967cZupb1uiz00B+5SDBADM0Igj5EH+wr75FgkFlXEqouPsyWHBQ
-         5Pw4T952yEORSM2KeJHh73hyODhtzRIwrgcUmxc8=
-Date:   Thu, 16 Apr 2020 21:39:36 +0200 (CEST)
+        b=pb1Aidbcr89YNzTHVpk+AyNMZbTkFc8vyI3afURRbjXDvFwV15/ymxbzA+qyRv2Yz
+         zkt3XEVweYahiTnIo3Fe5Z27TgbaQy1wyQI+t7pmfTd25UUanPeCULpZddV5Ht6h6E
+         mnFBpqnuRzUXcgTpoCGGyvNva9RmPVcpUddIvrBM=
+Date:   Thu, 16 Apr 2020 22:15:27 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     "Gerecke, Jason" <killertofu@gmail.com>
-cc:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Aaron Armstrong Skomra <aaron.skomra@wacom.com>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] Revert "HID: wacom: generic: read the number of expected
- touches on a per collection basis"
-In-Reply-To: <20200408145837.21961-1-jason.gerecke@wacom.com>
-Message-ID: <nycvar.YFH.7.76.2004162139190.19713@cbobk.fhfr.pm>
-References: <20200408145837.21961-1-jason.gerecke@wacom.com>
+To:     Rishi Gupta <gupt21@gmail.com>
+cc:     linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        benjamin.tissoires@redhat.com, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/1] HID: mcp2221: add GPIO functionality support
+In-Reply-To: <1586882894-19905-1-git-send-email-gupt21@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2004162212080.19713@cbobk.fhfr.pm>
+References: <1586882894-19905-1-git-send-email-gupt21@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -46,13 +41,36 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 8 Apr 2020, Gerecke, Jason wrote:
+On Tue, 14 Apr 2020, Rishi Gupta wrote:
 
-> From: Jason Gerecke <killertofu@gmail.com>
+> MCP2221 has 4 pins that can be used as GPIO or configured
+> for alternate functionality such as clock generation and
+> IRQ detection. This patch adds support for GPIO functionality.
 > 
-> This reverts commit 15893fa40109f5e7c67eeb8da62267d0fdf0be9d.
+> To set direction of a pin or to toggle its state after it
+> has been configured as GPIO, driver sends command to mcp2221
+> and parses response received from mcp2221. Based on this
+> response either 0 or appropriate error code is returned to
+> GPIO framework.
+> 
+> To get the direction or current state of a pin, driver
+> sends command and read response from the device. Based on
+> the response received from device direction or value
+> is sent to the GPIO framework.
+> 
+> Command from driver to mcp2221 device are output report.
+> Response received from mcp2221 is input report.
+> 
+> Datasheet (page 45-48) contains details about how to decode
+> the response received from device:
+> http://ww1.microchip.com/downloads/en/DeviceDoc/20005565B.pdf
+> 
+> Signed-off-by: Rishi Gupta <gupt21@gmail.com>
+> ---
+>  drivers/hid/hid-mcp2221.c | 169 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 169 insertions(+)
 
-Pushed to hid.git#for-5.7/upstream-fixes, sorry for the delay.
+Applied, thanks.
 
 -- 
 Jiri Kosina
