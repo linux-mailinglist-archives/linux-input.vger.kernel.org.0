@@ -2,58 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D85251AD343
-	for <lists+linux-input@lfdr.de>; Fri, 17 Apr 2020 01:35:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E1DB1ADAC3
+	for <lists+linux-input@lfdr.de>; Fri, 17 Apr 2020 12:12:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726581AbgDPXfE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Apr 2020 19:35:04 -0400
-Received: from mail.dsns.gov.ua ([194.0.148.99]:37970 "EHLO mail.dsns.gov.ua"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725770AbgDPXfD (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Apr 2020 19:35:03 -0400
-X-Greylist: delayed 9287 seconds by postgrey-1.27 at vger.kernel.org; Thu, 16 Apr 2020 19:34:56 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.dsns.gov.ua (Postfix) with ESMTP id 6223A1EC85AF;
-        Thu, 16 Apr 2020 23:35:36 +0300 (EEST)
-Received: from mail.dsns.gov.ua ([127.0.0.1])
-        by localhost (mail.dsns.gov.ua [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id ekdCUR6pZ0Aa; Thu, 16 Apr 2020 23:35:36 +0300 (EEST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.dsns.gov.ua (Postfix) with ESMTP id 67C3E1EC85F9;
-        Thu, 16 Apr 2020 23:35:26 +0300 (EEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.dsns.gov.ua 67C3E1EC85F9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dsns.gov.ua;
-        s=1E60DAC0-2607-11E9-81E6-7A77C2B36653; t=1587069326;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        h=Date:From:Message-ID:MIME-Version;
-        b=BFrHb0sdI6ttGZUrYrU3NgniYtd1aDAhnXXb2vKIb2B9styAswbm0NbzZRAHiMp0y
-         hUE3veWMbUD+qTP/VmiRFig+sJh7tgrjRSipmI8jEPDH4mLyVFQtPdyPojLkpu/SlT
-         y/CjSPHdIqozfsh/zyWU9aeO41yKuuO77HTVyT/eVGDUtLYGTijz0IeETvwB1Yur4I
-         5RegLOWC96rliENvAjVU5IoM4JfcadYa95Q959RRtGyCSnevHOMfGycVhDjkxX/p7G
-         0gUYzq9GdO73hW8YI3AV2m5dSWB1tPfsxP4FJUwoBTp88jIZZeY7uAiDenSeAUtBdj
-         PKl/BScyij7GQ==
-X-Virus-Scanned: amavisd-new at dsns.gov.ua
-Received: from mail.dsns.gov.ua ([127.0.0.1])
-        by localhost (mail.dsns.gov.ua [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id U4DcK3mdlYyf; Thu, 16 Apr 2020 23:35:26 +0300 (EEST)
-Received: from mail.dsns.gov.ua (localhost [127.0.0.1])
-        by mail.dsns.gov.ua (Postfix) with ESMTP id 9BAF81EC8118;
-        Thu, 16 Apr 2020 23:35:15 +0300 (EEST)
-Date:   Thu, 16 Apr 2020 23:35:15 +0300 (EEST)
-From:   Saleem Netanyahu <duchenko@dsns.gov.ua>
-Reply-To: Saleem Netanyahu <saleemnetu@gmail.com>
-Message-ID: <1255292802.718114.1587069315574.JavaMail.zimbra@dsns.gov.ua>
-Subject: Hey, how are u, can we talk?
+        id S1725830AbgDQKMf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Apr 2020 06:12:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51796 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728893AbgDQKMe (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 17 Apr 2020 06:12:34 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44BBFC061A0F
+        for <linux-input@vger.kernel.org>; Fri, 17 Apr 2020 03:12:34 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id e26so2341596wmk.5
+        for <linux-input@vger.kernel.org>; Fri, 17 Apr 2020 03:12:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=YnzOyKxiPqTU4HRGOnE/2vSvqos+ev8HgXqi6MMPUKA=;
+        b=MlchuBUdauSRQyVE8Hbv9cCHUBQnKekE7cJzDwYcy4tfuZ7V+FMXj487UTXnEaG4Wd
+         UHYa9lDHkMYV1mIR6FDjbBX8wA2mZYxcUJM6jv8AbqtG96GWX2ARJenZlnxJKZmodbPd
+         T6RzR/dRTIc6jgCqNr/zKACA8xy7IVa3p+IruV02ORfvu3JbAvSYQaS8BoiHjRKjVu0O
+         JM+s3vuyiSEaT8LxUzfnLvNAc4BMJw1vrfdzfMosDz1f8ORavXpagIN1p8MxQW3vRrzP
+         xRHYHQGRfagXNnGlbN9e8Gk5VbVpRdh+YTrg52fvzk3HfMHrEgNVPyMH3WzaPGbvdosP
+         9L/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=YnzOyKxiPqTU4HRGOnE/2vSvqos+ev8HgXqi6MMPUKA=;
+        b=swrof6UlIKqB0/iOQJlWlk1Selrh07z5rvBp8GFHnZt+bZcSNILudS1qxvRmfeqNxy
+         1Sp5KEIbrxSwCdScqjqnISUAPlApQgrsx9NG4BWAbQHurc6IAdzGmX8nNWw36sLswnwX
+         vrgIjaFNzPhLtsk7VNw+cm4YxnABMLz6QdXT30TRzp0IOLjbdmirWrwho1/s4i/nMwXn
+         tunGzX+0w8HheCMNxwLiJ0mSki2no3oaRtH2cezvadkwmckD+k/dmW9drC4B1VldAXZW
+         0M0EHwB4K6NR1I8RzTHhR4u+hN1Vrr9LzgBZWz3mL/OWQNF1zTG8Uqg/QEoXOCJkStAL
+         udZw==
+X-Gm-Message-State: AGi0PuaaoKm9wxQvaXMj2ieRCxmzzixine5/oqEq4W23DAUBdesA2C/j
+        Rk8TF06WTocXfktwrybanQPg8w==
+X-Google-Smtp-Source: APiQypJmV0Jf3iT0zgAm2M3NypsATxn0J7ih2FYSnTAkimi9GQNwmKxabVorLTmViOtz5IsBr1LPBw==
+X-Received: by 2002:a1c:3105:: with SMTP id x5mr2735875wmx.51.1587118352876;
+        Fri, 17 Apr 2020 03:12:32 -0700 (PDT)
+Received: from dell ([95.149.164.124])
+        by smtp.gmail.com with ESMTPSA id s9sm20080119wrg.27.2020.04.17.03.12.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2020 03:12:32 -0700 (PDT)
+Date:   Fri, 17 Apr 2020 11:13:33 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Ikjoon Jang <ikjn@chromium.org>
+Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nicolas Boitchat <drinkcat@chromium.org>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7] dt-bindings: mfd: Convert ChromeOS EC bindings to
+ json-schema
+Message-ID: <20200417101333.GA3737@dell>
+References: <20200306085513.76024-1-ikjn@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [45.82.223.36, 172.69.54.54]
-X-Mailer: Zimbra 8.8.15_GA_3918 (zclient/8.8.15_GA_3918)
-Thread-Index: oV9MZN6+Sh4gFPdsGziQ2IngcJhATw==
-Thread-Topic: Hey, how are u, can we talk?
-To:     unlisted-recipients:; (no To-header on input)
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200306085513.76024-1-ikjn@chromium.org>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Fri, 06 Mar 2020, Ikjoon Jang wrote:
+
+> Convert the ChromeOS EC bindings to json-schema.
+> 
+> Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
+> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> ---
+>  .../devicetree/bindings/mfd/cros-ec.txt       |  76 -----------
+>  .../bindings/mfd/google,cros-ec.yaml          | 129 ++++++++++++++++++
+>  2 files changed, 129 insertions(+), 76 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
+>  create mode 100644 Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+
+Applied, thanks.
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
