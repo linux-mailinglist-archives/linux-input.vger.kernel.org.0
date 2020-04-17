@@ -2,93 +2,144 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B7E51ADE1F
-	for <lists+linux-input@lfdr.de>; Fri, 17 Apr 2020 15:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE79F1ADED2
+	for <lists+linux-input@lfdr.de>; Fri, 17 Apr 2020 15:57:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729959AbgDQNSF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Apr 2020 09:18:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52288 "EHLO
+        id S1730739AbgDQN5G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Apr 2020 09:57:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729799AbgDQNSF (ORCPT
+        by vger.kernel.org with ESMTP id S1730691AbgDQN5G (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Apr 2020 09:18:05 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 574D3C061A0C;
-        Fri, 17 Apr 2020 06:18:05 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id w65so1039763pfc.12;
-        Fri, 17 Apr 2020 06:18:05 -0700 (PDT)
+        Fri, 17 Apr 2020 09:57:06 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E91C061A0C;
+        Fri, 17 Apr 2020 06:57:05 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id bu9so872040qvb.13;
+        Fri, 17 Apr 2020 06:57:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EyqXQt/bpi42az8Mxxe8eEqoldsWFIN5K83wF16CGz4=;
-        b=Zqaz1WUGKBycpFWhVHETthTkgsZVN48lh+U3RX2zfriIvleOxjwZwoYp01U75WqvXR
-         P8Konx9cqKsFYmRuezduXioahFLCqt+z6sPvoAvdpsf7SIwK+Mgc8i3lDMIGZd2kV2+B
-         5xr09Yum6W68kxcImqzqxb250U5S4pn9gXenDTneIOYlhv5x6RVchiJxNRX7TOHURMGq
-         S6hL3foS38woJ/dM4b2Q/rkvm3n47Veuqx/kBi3mokdgv7L95t+75mVnB2Gu0WyHAQ8u
-         3DFQCSanw2dhUoiziKSxwXTg6B9jekjT+TfROrI+8BnrpblKymnbZmH8gMBqVKD4X5Av
-         UG+Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oqcTP4i+a7YGi21w2c2gncPHzEaLd+RyksgvDG1LlGQ=;
+        b=nkL7/2UwuToC9Qt2i6kcBIZYANeglyiEJgWOvtfpq4CAtzTk8zAzGzjSbhyG5yIke6
+         KxE5LoodWN5XEKHKMjhMDp86xkGpMNypr4Bzx3u2ATA4iJ7Jb8YJldfTGpt9Y+Ci07Bo
+         M4SlUWnmNlNBz/3Nk5rRLPh3a3tskzCNw9gefdLV32J4FVJed4gkMGBhfLouR+KAcqwv
+         Hjz77TBwDuzNqzR8TRVMb2zH9Gjj8p0o7KhDbdXJvo0wkW/jnEfv7yRyCFsxNmiTMv8P
+         kpX1+99eQeajo6XQsWCYZPqVXdsDpBF2GssNE1UxgK11+hpfsijVHnij9ARtEpzjQDr4
+         rrTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EyqXQt/bpi42az8Mxxe8eEqoldsWFIN5K83wF16CGz4=;
-        b=RiYYcO1S81oDn6NraZ+bYek51WrJIc1JQrBdsE/IwFr3kh0XAjN1RuBZqEbQ/b2CAm
-         wJWCNYgFFFBZwKYDtqAe35ewLWWmgySZlV03su1VfYXLDYBBZv9Nqr3UwlntsyEWNptq
-         lPqcHV23w23zNp5GBGFzMDUzr3euoWE6UfEf3s0F7tJBhNcyQSRg0XK1eStDshTni5ks
-         DGmTaAZlsC1LpXz8++dWzwbrqLwHAG0eJJlA6o5li4d3LTMzPO+bCE2cub0IwJQa/z3F
-         87OwSYZBg01I2bnfsQZnOTsDCZFD25gkfCfft/eF8oc5d9DWPMi/OdznQj3Ddc8gzong
-         zQlA==
-X-Gm-Message-State: AGi0PubJQ7xXpG6xVQ6yhQiRJoKXu3AKhiDWnZkdquAP4KdCeXOj4uOx
-        V/5G5PYrYyKuKiT/gJoOgKL7Y+itA5bZU5rPbpAtowgwFq1t9Q==
-X-Google-Smtp-Source: APiQypJnjl9IyZ1p9D2X9xDXZzRldBFxU2elnVbHVwCerO9iOW06TYb+zxQGFrtbI0gEPj0h9k5RUMK48B1KnCgVhh0=
-X-Received: by 2002:a63:1c1:: with SMTP id 184mr3118804pgb.203.1587129484791;
- Fri, 17 Apr 2020 06:18:04 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oqcTP4i+a7YGi21w2c2gncPHzEaLd+RyksgvDG1LlGQ=;
+        b=TdAccyl4dLAO6kbap9CmJfbk/+/DTywY3GSDVo2ZNaqYqaNpKz+ARbIauKLsQgQsEI
+         v4uNLMuMJ1BR4ZIfdIv0oBJ6WNOk6dxbPHPy2gA+JdB4w8cqlAF8fQZWJjq9iNSkJiZP
+         GIJAqJD44XWnifKTVcvC6dWv4HTO3rSA+8vtkuske4AoeezupilJq2vL1Cnlmn3TJV0M
+         CgjaOpDKX5pRJB2ROHHVTvw7XeikqGSD1NTa7L0GSMUwE/C/fPjYQZzbH8zE4bL7diAc
+         dU84BOSI+lbmTwXSk5ovkkL1hyY3JSduAzn+cDjCz2ZVCVINJE2QOfFPYAdQOkujqLac
+         8mzg==
+X-Gm-Message-State: AGi0PuZasHFS4rj3xA50dgpcegxYazs4qZ5Rg8f4zbMsmojbFIgm+bvy
+        jU0448gMO5i+SdrqZRz8CXU=
+X-Google-Smtp-Source: APiQypJ8JrKJ3vHc/mky7+x34T8yXzxIAA4sFNSJhjCHLPgr3v5dwnzrf21iZm9GgH2AV8+9/WiOoQ==
+X-Received: by 2002:ad4:4744:: with SMTP id c4mr2857740qvx.203.1587131825006;
+        Fri, 17 Apr 2020 06:57:05 -0700 (PDT)
+Received: from icarus (072-189-064-225.res.spectrum.com. [72.189.64.225])
+        by smtp.gmail.com with ESMTPSA id s18sm6143621qkg.53.2020.04.17.06.57.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2020 06:57:03 -0700 (PDT)
+Date:   Fri, 17 Apr 2020 09:56:35 -0400
+From:   William Breathitt Gray <vilhelm.gray@gmail.com>
+To:     Kamel Bouhara <kamel.bouhara@bootlin.com>, jic23@kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] ARM: at91: add atmel tcb capabilities
+Message-ID: <20200417135635.GA94725@icarus>
+References: <20200415130455.2222019-1-kamel.bouhara@bootlin.com>
+ <20200415130455.2222019-2-kamel.bouhara@bootlin.com>
 MIME-Version: 1.0
-References: <20200417114020.31291-1-linus.walleij@linaro.org> <20200417114020.31291-2-linus.walleij@linaro.org>
-In-Reply-To: <20200417114020.31291-2-linus.walleij@linaro.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 17 Apr 2020 16:17:57 +0300
-Message-ID: <CAHp75VeprFiBed=QZEYGaqJAu3g3Cq+_6oUbNbxLPPFequGVog@mail.gmail.com>
-Subject: Re: [PATCH 2/3 v3] iio: magnetometer: ak8974: Break out measurement
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-input <linux-input@vger.kernel.org>,
-        Nick Reitemeyer <nick.reitemeyer@web.de>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Q68bSM7Ycu6FN28Q"
+Content-Disposition: inline
+In-Reply-To: <20200415130455.2222019-2-kamel.bouhara@bootlin.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Apr 17, 2020 at 2:42 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> This breaks out the measurement code to its own function
-> so we can handle this without swirling it up with the
-> big switch() statement inside ak8974_read_raw().
->
-> Keep a local s16 helper variable for the signed value
-> coming out of the measurement before assigning it to the
-> integer *val. The local variable makes the code easier
-> to read and the compiler will optimize it if possible.
 
-> +       /*
-> +        * This explicit cast to (s16) is necessary as the measurement
-> +        * is done in 2's complement with positive and negative values.
-> +        * The follwing assignment to *val will then convert the signed
-> +        * s16 value to a signed int value.
-> +        */
-> +       outval = (s16)le16_to_cpu(hw_values[address]);
-> +       *val = outval;
+--Q68bSM7Ycu6FN28Q
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm wondering if you may use sign_extend32() here.
+On Wed, Apr 15, 2020 at 03:04:53PM +0200, Kamel Bouhara wrote:
+> Some atmel socs have extra tcb capabilities that allow using a generic
+> clock source or enabling a quadrature decoder.
+>=20
+> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
 
--- 
-With Best Regards,
-Andy Shevchenko
+Signed-off-by: William Breathitt Gray <vilhelm.gray@gmail.com>
+
+> ---
+> Changes from v3:
+>  - Added missing kernel doc for new elements introduced in structure
+>    atmel_tcb_config.
+>=20
+> Changes from v2:
+>  - Fixed first patch not applying on mainline
+>=20
+>  include/soc/at91/atmel_tcb.h | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/include/soc/at91/atmel_tcb.h b/include/soc/at91/atmel_tcb.h
+> index c3c7200ce151..1d7071dc0bca 100644
+> --- a/include/soc/at91/atmel_tcb.h
+> +++ b/include/soc/at91/atmel_tcb.h
+> @@ -36,9 +36,14 @@ struct clk;
+>  /**
+>   * struct atmel_tcb_config - SoC data for a Timer/Counter Block
+>   * @counter_width: size in bits of a timer counter register
+> + * @has_gclk: boolean indicating if a timer counter has a generic clock
+> + * @has_qdec: boolean indicating if a timer counter has a quadrature
+> + * decoder.
+>   */
+>  struct atmel_tcb_config {
+>  	size_t	counter_width;
+> +	bool    has_gclk;
+> +	bool    has_qdec;
+>  };
+> =20
+>  /**
+> --=20
+> 2.25.0
+>=20
+
+--Q68bSM7Ycu6FN28Q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEk5I4PDJ2w1cDf/bghvpINdm7VJIFAl6ZtX0ACgkQhvpINdm7
+VJJsmg//ZzvO1iZZuwiC/V4qTReyr1hNkDABRiGVHOtaLLWCoDyPqxgZ+03mUfjz
+nOHOaS4wHv52thU/N9zcgqT9gLTpStioyU7TTVdQONnINc1N9ObHfwX3+OYbtsAF
+8ebes1Drz/cx13tJo/UR8IkyExUn9x18447s1cfUrzYVfTYLZUrbD6IweqL0NKgd
+vNpOFWF0hNPy65DKp7qtmbURpAJjUOCTXPjJQcGdwcBtkYIDyFDcc1vO4f5QrM3d
+uk7OWGdaLgyqp0rUkvXEWZT11CRP4OvuK0BLYrNgucE1hkU5vtzcA8pa1JJlCBer
+fkbrLDUvazavSf1buTJZoxZbAfRtmTnBS1U5np/THmggu3kbNl0LDrSYcrjFJEr5
+JmT5GCKyZy3C8vLHBKPOMkQ6MnQXRtpB+NtNCne4/6SFJRBC0LC73cwma04/hSm0
+DTrxc+nVoDfrxXQEvlQ+neAoADJJx4gGh0BLdj09dO8jJHV9g2tm9/NUDur0U9wm
+aJRxAB8WrXHup1lVaXC1pqd5sLNoeChLjL5SKOjUPqEnxfXlbZnFVSlhDo63aziN
+YyJFpOxEh99s0HxfMMlibjGbUV1tL76Cb+wNAO1+DbjCgtFqbEzIwpKnriMEdy6q
+E9bnkPrkRz/OexR1od28QEROZo5Uvl9PuhMyPcL8k83RzMW5/2Y=
+=G8zt
+-----END PGP SIGNATURE-----
+
+--Q68bSM7Ycu6FN28Q--
