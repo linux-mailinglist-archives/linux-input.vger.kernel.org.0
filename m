@@ -2,36 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF7FD1AE6B7
-	for <lists+linux-input@lfdr.de>; Fri, 17 Apr 2020 22:20:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 083C41AE6CE
+	for <lists+linux-input@lfdr.de>; Fri, 17 Apr 2020 22:31:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731058AbgDQUUh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Apr 2020 16:20:37 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:61565 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731027AbgDQUUg (ORCPT
+        id S1731059AbgDQUbH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Apr 2020 16:31:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34972 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730903AbgDQUbG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Apr 2020 16:20:36 -0400
-X-Originating-IP: 195.189.32.242
-Received: from pc.localdomain (unknown [195.189.32.242])
-        (Authenticated sender: contact@artur-rojek.eu)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 4020840007;
-        Fri, 17 Apr 2020 20:20:31 +0000 (UTC)
-From:   Artur Rojek <contact@artur-rojek.eu>
+        Fri, 17 Apr 2020 16:31:06 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2665AC061A0C
+        for <linux-input@vger.kernel.org>; Fri, 17 Apr 2020 13:31:06 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id f8so2841037lfe.12
+        for <linux-input@vger.kernel.org>; Fri, 17 Apr 2020 13:31:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LxXpXBns5qpw1V0u5tpG6YAfTjnFACGOFdGvDu3Dcro=;
+        b=ycnCb//q3RmnxmMmHXwpQM/lgAC+tmttTYPJ5L+jfYwYFOA+WpmjVcUAHsKWjjqucH
+         zZsvvGAi1Ow+Ona4cnYs5ciPGUdKhfxg5+H65mB4G+n7kkWpMkM1T3tbpP0n9mJt1apc
+         pj9M0DcUAj6lf7cUE8Jn0xJeJUXyAMYJnTpSVzCyB3khHR25yNNOUizbHyiNEOeEHKHx
+         8I2ksvn2YXbFXHXKefy0jcqPXEDRy6h8HUuodwrVoFvwzeC3MiNAatXEpYHhlGN34/Ix
+         LXsL7X8BmR0E91Sg1ojJbPWqjk1BC0Od25Mfv3cOZUzVaLChDby/AUW/4rp5gCW6dTTF
+         MusQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LxXpXBns5qpw1V0u5tpG6YAfTjnFACGOFdGvDu3Dcro=;
+        b=fbPjhjESsKGZmEY9TZmN1beHSHBjuUFhv5vnO1cPKt+m/Y6NBLVS0RrBgFaPSYttAa
+         PNg9Eg+aPs6Ge67xa+YZ939zKwY3b7qPWpBCSSI1swTylsoc659BZtcbkKaF7ltfRmFB
+         oVwaXyO4bJXhme/SBNHbVvrl3izRwdVrj/2AvhgYe0jx5DRs7EZl1b4qlFqb94UzyAuY
+         pOLJ0ZN+Iej17JslOY5ksxtnTcLrMR4MmUdG/QugW0izqwaHkqSW0skcjYAwU+Laf4xv
+         ALDmiLy9nLMfnTbQ0llRilphfbxh2YUiJM+ImvzRaVn5gbTd7bSzHFcIUjDV+Eexqcbq
+         BOAw==
+X-Gm-Message-State: AGi0PuZZDzNw6ocwKVA8bsGSpQyHXeMAQdG8r3E5rvLC97H+ZdlbbXP6
+        Cv0E2x+7SSJ18sD8Kq2Z2gbDLrydJTA=
+X-Google-Smtp-Source: APiQypJcNzB/pGhP3ZwAhL4CsQ5/NT5DZedTy4s251ApKF5KzJoHCheNq7s2yKOrSzf/0x6gscFZjg==
+X-Received: by 2002:a19:c194:: with SMTP id r142mr3312930lff.7.1587155463410;
+        Fri, 17 Apr 2020 13:31:03 -0700 (PDT)
+Received: from localhost.bredbandsbolaget (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
+        by smtp.gmail.com with ESMTPSA id c21sm18794453lfh.16.2020.04.17.13.31.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2020 13:31:02 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>
-Cc:     Heiko Stuebner <heiko@sntech.de>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Artur Rojek <contact@artur-rojek.eu>
-Subject: [RESEND PATCH v5 5/5] input: joystick: Add ADC attached joystick driver.
-Date:   Fri, 17 Apr 2020 22:28:59 +0200
-Message-Id: <20200417202859.35427-5-contact@artur-rojek.eu>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200417202859.35427-1-contact@artur-rojek.eu>
-References: <20200417202859.35427-1-contact@artur-rojek.eu>
+        linux-input@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH RESEND] Input: Delete unused GP2AP002A00F driver
+Date:   Fri, 17 Apr 2020 22:30:59 +0200
+Message-Id: <20200417203059.8151-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
@@ -39,312 +64,342 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a driver for joystick devices connected to ADC controllers
-supporting the Industrial I/O subsystem.
+There is now an IIO driver for GP2AP002A00F and
+GP2AP002S00F in drivers/iio/light/gp2ap002.c.
 
-Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
-Tested-by: Paul Cercueil <paul@crapouillou.net>
-Tested-by: Heiko Stuebner <heiko@sntech.de>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Delete this driver, it is unused in the kernel tree
+and new users can make use of the IIO driver.
+
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
+ drivers/input/misc/Kconfig        |  11 --
+ drivers/input/misc/Makefile       |   1 -
+ drivers/input/misc/gp2ap002a00f.c | 281 ------------------------------
+ 3 files changed, 293 deletions(-)
+ delete mode 100644 drivers/input/misc/gp2ap002a00f.c
 
- v2: - sanity check supported channel format on probe,
-     - rename adc_joystick_disable to a more sensible adc_joystick_cleanup, 
-     - enforce correct axis order by checking the `reg` property of
-       child nodes
-
- v3-v5: no change
-
- drivers/input/joystick/Kconfig        |  10 ++
- drivers/input/joystick/Makefile       |   1 +
- drivers/input/joystick/adc-joystick.c | 245 ++++++++++++++++++++++++++
- 3 files changed, 256 insertions(+)
- create mode 100644 drivers/input/joystick/adc-joystick.c
-
-diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
-index 940b744639c7..efbc20ec5099 100644
---- a/drivers/input/joystick/Kconfig
-+++ b/drivers/input/joystick/Kconfig
-@@ -42,6 +42,16 @@ config JOYSTICK_A3D
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called a3d.
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index 7e2e658d551c..293e55fb7a4e 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -265,17 +265,6 @@ config INPUT_APANEL
+ 	 To compile this driver as a module, choose M here: the module will
+ 	 be called apanel.
  
-+config JOYSTICK_ADC
-+	tristate "Simple joystick connected over ADC"
-+	depends on IIO
-+	select IIO_BUFFER_CB
-+	help
-+	  Say Y here if you have a simple joystick connected over ADC.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called adc-joystick.
-+
- config JOYSTICK_ADI
- 	tristate "Logitech ADI digital joysticks and gamepads"
- 	select GAMEPORT
-diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
-index 8656023f6ef5..58232b3057d3 100644
---- a/drivers/input/joystick/Makefile
-+++ b/drivers/input/joystick/Makefile
-@@ -6,6 +6,7 @@
- # Each configuration option enables a list of files.
- 
- obj-$(CONFIG_JOYSTICK_A3D)		+= a3d.o
-+obj-$(CONFIG_JOYSTICK_ADC)		+= adc-joystick.o
- obj-$(CONFIG_JOYSTICK_ADI)		+= adi.o
- obj-$(CONFIG_JOYSTICK_AMIGA)		+= amijoy.o
- obj-$(CONFIG_JOYSTICK_AS5011)		+= as5011.o
-diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
-new file mode 100644
-index 000000000000..9cb9896da26e
---- /dev/null
-+++ b/drivers/input/joystick/adc-joystick.c
-@@ -0,0 +1,245 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Input driver for joysticks connected over ADC.
-+ * Copyright (c) 2019-2020 Artur Rojek <contact@artur-rojek.eu>
-+ */
-+#include <linux/ctype.h>
-+#include <linux/input.h>
-+#include <linux/iio/iio.h>
-+#include <linux/iio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+
-+struct adc_joystick_axis {
-+	u32 code;
-+	s32 range[2];
-+	s32 fuzz;
-+	s32 flat;
-+};
-+
-+struct adc_joystick {
-+	struct input_dev *input;
-+	struct iio_cb_buffer *buffer;
-+	struct adc_joystick_axis *axes;
-+	struct iio_channel *chans;
-+	int num_chans;
-+};
-+
-+static int adc_joystick_handle(const void *data, void *private)
-+{
-+	struct adc_joystick *joy = private;
-+	enum iio_endian endianness;
-+	int bytes, msb, val, i;
-+	bool sign;
-+
-+	bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
-+
-+	for (i = 0; i < joy->num_chans; ++i) {
-+		endianness = joy->chans[i].channel->scan_type.endianness;
-+		msb = joy->chans[i].channel->scan_type.realbits - 1;
-+		sign = (tolower(joy->chans[i].channel->scan_type.sign) == 's');
-+
-+		switch (bytes) {
-+		case 1:
-+			val = ((const u8 *)data)[i];
-+			break;
-+		case 2:
-+			val = ((const u16 *)data)[i];
-+			if (endianness == IIO_BE)
-+				val = be16_to_cpu(val);
-+			else if (endianness == IIO_LE)
-+				val = le16_to_cpu(val);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+
-+		val >>= joy->chans[i].channel->scan_type.shift;
-+		if (sign)
-+			val = sign_extend32(val, msb);
-+		else
-+			val &= GENMASK(msb, 0);
-+		input_report_abs(joy->input, joy->axes[i].code, val);
-+	}
-+
-+	input_sync(joy->input);
-+
-+	return 0;
-+}
-+
-+static int adc_joystick_open(struct input_dev *dev)
-+{
-+	struct adc_joystick *joy = input_get_drvdata(dev);
-+	int ret;
-+
-+	ret = iio_channel_start_all_cb(joy->buffer);
-+	if (ret)
-+		dev_err(dev->dev.parent, "Unable to start callback buffer");
-+
-+	return ret;
-+}
-+
-+static void adc_joystick_close(struct input_dev *dev)
-+{
-+	struct adc_joystick *joy = input_get_drvdata(dev);
-+
-+	iio_channel_stop_all_cb(joy->buffer);
-+}
-+
-+static void adc_joystick_cleanup(void *data)
-+{
-+	iio_channel_release_all_cb(data);
-+}
-+
-+static int adc_joystick_set_axes(struct device *dev, struct adc_joystick *joy)
-+{
-+	struct adc_joystick_axis *axes;
-+	struct fwnode_handle *child;
-+	int num_axes, ret, i;
-+
-+	num_axes = device_get_child_node_count(dev);
-+	if (!num_axes) {
-+		dev_err(dev, "Unable to find child nodes");
-+		return -EINVAL;
-+	}
-+
-+	if (num_axes != joy->num_chans) {
-+		dev_err(dev, "Got %d child nodes for %d channels",
-+			num_axes, joy->num_chans);
-+		return -EINVAL;
-+	}
-+
-+	axes = devm_kmalloc_array(dev, num_axes, sizeof(*axes), GFP_KERNEL);
-+	if (!axes)
-+		return -ENOMEM;
-+
-+	device_for_each_child_node(dev, child) {
-+		ret = fwnode_property_read_u32(child, "reg", &i);
-+		if (ret || i >= num_axes) {
-+			dev_err(dev, "reg invalid or missing");
-+			goto err;
-+		}
-+
-+		if (fwnode_property_read_u32(child, "linux,code",
-+					     &axes[i].code)) {
-+			dev_err(dev, "linux,code invalid or missing");
-+			goto err;
-+		}
-+
-+		if (fwnode_property_read_u32_array(child, "abs-range",
-+						   axes[i].range, 2)) {
-+			dev_err(dev, "abs-range invalid or missing");
-+			goto err;
-+		}
-+
-+		fwnode_property_read_u32(child, "abs-fuzz",
-+					 &axes[i].fuzz);
-+		fwnode_property_read_u32(child, "abs-flat",
-+					 &axes[i].flat);
-+
-+		input_set_abs_params(joy->input, axes[i].code,
-+				     axes[i].range[0], axes[i].range[1],
-+				     axes[i].fuzz,
-+				     axes[i].flat);
-+		input_set_capability(joy->input, EV_ABS, axes[i].code);
-+	}
-+
-+	joy->axes = axes;
-+
-+	return 0;
-+
-+err:
-+	fwnode_handle_put(child);
-+	return -EINVAL;
-+}
-+
-+static int adc_joystick_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct adc_joystick *joy;
-+	struct input_dev *input;
-+	int bits, ret, i;
-+
-+	joy = devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
-+	if (!joy)
-+		return -ENOMEM;
-+
-+	joy->chans = devm_iio_channel_get_all(dev);
-+	if (IS_ERR(joy->chans)) {
-+		ret = PTR_ERR(joy->chans);
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(dev, "Unable to get IIO channels");
-+		return ret;
-+	}
-+
-+	/* Count how many channels we got. NULL terminated. */
-+	while (joy->chans[joy->num_chans].indio_dev)
-+		joy->num_chans++;
-+
-+	bits = joy->chans[0].channel->scan_type.storagebits;
-+	if (!bits || (bits >> 3) > 2) {
-+		dev_err(dev, "Unsupported channel storage size");
-+		return -EINVAL;
-+	}
-+	for (i = 1; i < joy->num_chans; ++i)
-+		if (joy->chans[i].channel->scan_type.storagebits != bits) {
-+			dev_err(dev, "Channels must have equal storage size");
-+			return -EINVAL;
-+		}
-+
-+	input = devm_input_allocate_device(dev);
-+	if (!input) {
-+		dev_err(dev, "Unable to allocate input device");
-+		return -ENOMEM;
-+	}
-+
-+	joy->input = input;
-+	input->name = pdev->name;
-+	input->id.bustype = BUS_HOST;
-+	input->open = adc_joystick_open;
-+	input->close = adc_joystick_close;
-+
-+	ret = adc_joystick_set_axes(dev, joy);
-+	if (ret)
-+		return ret;
-+
-+	input_set_drvdata(input, joy);
-+	ret = input_register_device(input);
-+	if (ret) {
-+		dev_err(dev, "Unable to register input device: %d", ret);
-+		return ret;
-+	}
-+
-+	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
-+	if (IS_ERR(joy->buffer)) {
-+		dev_err(dev, "Unable to allocate callback buffer");
-+		return PTR_ERR(joy->buffer);
-+	}
-+
-+	ret = devm_add_action_or_reset(dev, adc_joystick_cleanup, joy->buffer);
-+	if (ret)
-+		dev_err(dev, "Unable to add action");
-+
-+	return ret;
-+}
-+
-+static const struct of_device_id adc_joystick_of_match[] = {
-+	{ .compatible = "adc-joystick", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, adc_joystick_of_match);
-+
-+static struct platform_driver adc_joystick_driver = {
-+	.driver = {
-+		.name = "adc-joystick",
-+		.of_match_table = of_match_ptr(adc_joystick_of_match),
-+	},
-+	.probe = adc_joystick_probe,
-+};
-+module_platform_driver(adc_joystick_driver);
-+
-+MODULE_DESCRIPTION("Input driver for joysticks connected over ADC");
-+MODULE_AUTHOR("Artur Rojek <contact@artur-rojek.eu>");
-+MODULE_LICENSE("GPL");
+-config INPUT_GP2A
+-	tristate "Sharp GP2AP002A00F I2C Proximity/Opto sensor driver"
+-	depends on I2C
+-	depends on GPIOLIB || COMPILE_TEST
+-	help
+-	  Say Y here if you have a Sharp GP2AP002A00F proximity/als combo-chip
+-	  hooked to an I2C bus.
+-
+-	  To compile this driver as a module, choose M here: the
+-	  module will be called gp2ap002a00f.
+-
+ config INPUT_GPIO_BEEPER
+ 	tristate "Generic GPIO Beeper support"
+ 	depends on GPIOLIB || COMPILE_TEST
+diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+index 8fd187f314bd..1db1815ce803 100644
+--- a/drivers/input/misc/Makefile
++++ b/drivers/input/misc/Makefile
+@@ -33,7 +33,6 @@ obj-$(CONFIG_INPUT_E3X0_BUTTON)		+= e3x0-button.o
+ obj-$(CONFIG_INPUT_DRV260X_HAPTICS)	+= drv260x.o
+ obj-$(CONFIG_INPUT_DRV2665_HAPTICS)	+= drv2665.o
+ obj-$(CONFIG_INPUT_DRV2667_HAPTICS)	+= drv2667.o
+-obj-$(CONFIG_INPUT_GP2A)		+= gp2ap002a00f.o
+ obj-$(CONFIG_INPUT_GPIO_BEEPER)		+= gpio-beeper.o
+ obj-$(CONFIG_INPUT_GPIO_DECODER)	+= gpio_decoder.o
+ obj-$(CONFIG_INPUT_GPIO_VIBRA)		+= gpio-vibra.o
+diff --git a/drivers/input/misc/gp2ap002a00f.c b/drivers/input/misc/gp2ap002a00f.c
+deleted file mode 100644
+index 90abda8eea67..000000000000
+--- a/drivers/input/misc/gp2ap002a00f.c
++++ /dev/null
+@@ -1,281 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Copyright (C) 2011 Sony Ericsson Mobile Communications Inc.
+- *
+- * Author: Courtney Cavin <courtney.cavin@sonyericsson.com>
+- * Prepared for up-stream by: Oskar Andero <oskar.andero@sonyericsson.com>
+- */
+-
+-#include <linux/i2c.h>
+-#include <linux/irq.h>
+-#include <linux/slab.h>
+-#include <linux/input.h>
+-#include <linux/module.h>
+-#include <linux/interrupt.h>
+-#include <linux/gpio.h>
+-#include <linux/delay.h>
+-#include <linux/input/gp2ap002a00f.h>
+-
+-struct gp2a_data {
+-	struct input_dev *input;
+-	const struct gp2a_platform_data *pdata;
+-	struct i2c_client *i2c_client;
+-};
+-
+-enum gp2a_addr {
+-	GP2A_ADDR_PROX	= 0x0,
+-	GP2A_ADDR_GAIN	= 0x1,
+-	GP2A_ADDR_HYS	= 0x2,
+-	GP2A_ADDR_CYCLE	= 0x3,
+-	GP2A_ADDR_OPMOD	= 0x4,
+-	GP2A_ADDR_CON	= 0x6
+-};
+-
+-enum gp2a_controls {
+-	/* Software Shutdown control: 0 = shutdown, 1 = normal operation */
+-	GP2A_CTRL_SSD	= 0x01
+-};
+-
+-static int gp2a_report(struct gp2a_data *dt)
+-{
+-	int vo = gpio_get_value(dt->pdata->vout_gpio);
+-
+-	input_report_switch(dt->input, SW_FRONT_PROXIMITY, !vo);
+-	input_sync(dt->input);
+-
+-	return 0;
+-}
+-
+-static irqreturn_t gp2a_irq(int irq, void *handle)
+-{
+-	struct gp2a_data *dt = handle;
+-
+-	gp2a_report(dt);
+-
+-	return IRQ_HANDLED;
+-}
+-
+-static int gp2a_enable(struct gp2a_data *dt)
+-{
+-	return i2c_smbus_write_byte_data(dt->i2c_client, GP2A_ADDR_OPMOD,
+-					 GP2A_CTRL_SSD);
+-}
+-
+-static int gp2a_disable(struct gp2a_data *dt)
+-{
+-	return i2c_smbus_write_byte_data(dt->i2c_client, GP2A_ADDR_OPMOD,
+-					 0x00);
+-}
+-
+-static int gp2a_device_open(struct input_dev *dev)
+-{
+-	struct gp2a_data *dt = input_get_drvdata(dev);
+-	int error;
+-
+-	error = gp2a_enable(dt);
+-	if (error < 0) {
+-		dev_err(&dt->i2c_client->dev,
+-			"unable to activate, err %d\n", error);
+-		return error;
+-	}
+-
+-	gp2a_report(dt);
+-
+-	return 0;
+-}
+-
+-static void gp2a_device_close(struct input_dev *dev)
+-{
+-	struct gp2a_data *dt = input_get_drvdata(dev);
+-	int error;
+-
+-	error = gp2a_disable(dt);
+-	if (error < 0)
+-		dev_err(&dt->i2c_client->dev,
+-			"unable to deactivate, err %d\n", error);
+-}
+-
+-static int gp2a_initialize(struct gp2a_data *dt)
+-{
+-	int error;
+-
+-	error = i2c_smbus_write_byte_data(dt->i2c_client, GP2A_ADDR_GAIN,
+-					  0x08);
+-	if (error < 0)
+-		return error;
+-
+-	error = i2c_smbus_write_byte_data(dt->i2c_client, GP2A_ADDR_HYS,
+-					  0xc2);
+-	if (error < 0)
+-		return error;
+-
+-	error = i2c_smbus_write_byte_data(dt->i2c_client, GP2A_ADDR_CYCLE,
+-					  0x04);
+-	if (error < 0)
+-		return error;
+-
+-	error = gp2a_disable(dt);
+-
+-	return error;
+-}
+-
+-static int gp2a_probe(struct i2c_client *client,
+-				const struct i2c_device_id *id)
+-{
+-	const struct gp2a_platform_data *pdata = dev_get_platdata(&client->dev);
+-	struct gp2a_data *dt;
+-	int error;
+-
+-	if (!pdata)
+-		return -EINVAL;
+-
+-	if (pdata->hw_setup) {
+-		error = pdata->hw_setup(client);
+-		if (error < 0)
+-			return error;
+-	}
+-
+-	error = gpio_request_one(pdata->vout_gpio, GPIOF_IN, GP2A_I2C_NAME);
+-	if (error)
+-		goto err_hw_shutdown;
+-
+-	dt = kzalloc(sizeof(struct gp2a_data), GFP_KERNEL);
+-	if (!dt) {
+-		error = -ENOMEM;
+-		goto err_free_gpio;
+-	}
+-
+-	dt->pdata = pdata;
+-	dt->i2c_client = client;
+-
+-	error = gp2a_initialize(dt);
+-	if (error < 0)
+-		goto err_free_mem;
+-
+-	dt->input = input_allocate_device();
+-	if (!dt->input) {
+-		error = -ENOMEM;
+-		goto err_free_mem;
+-	}
+-
+-	input_set_drvdata(dt->input, dt);
+-
+-	dt->input->open = gp2a_device_open;
+-	dt->input->close = gp2a_device_close;
+-	dt->input->name = GP2A_I2C_NAME;
+-	dt->input->id.bustype = BUS_I2C;
+-	dt->input->dev.parent = &client->dev;
+-
+-	input_set_capability(dt->input, EV_SW, SW_FRONT_PROXIMITY);
+-
+-	error = request_threaded_irq(client->irq, NULL, gp2a_irq,
+-			IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING |
+-				IRQF_ONESHOT,
+-			GP2A_I2C_NAME, dt);
+-	if (error) {
+-		dev_err(&client->dev, "irq request failed\n");
+-		goto err_free_input_dev;
+-	}
+-
+-	error = input_register_device(dt->input);
+-	if (error) {
+-		dev_err(&client->dev, "device registration failed\n");
+-		goto err_free_irq;
+-	}
+-
+-	device_init_wakeup(&client->dev, pdata->wakeup);
+-	i2c_set_clientdata(client, dt);
+-
+-	return 0;
+-
+-err_free_irq:
+-	free_irq(client->irq, dt);
+-err_free_input_dev:
+-	input_free_device(dt->input);
+-err_free_mem:
+-	kfree(dt);
+-err_free_gpio:
+-	gpio_free(pdata->vout_gpio);
+-err_hw_shutdown:
+-	if (pdata->hw_shutdown)
+-		pdata->hw_shutdown(client);
+-	return error;
+-}
+-
+-static int gp2a_remove(struct i2c_client *client)
+-{
+-	struct gp2a_data *dt = i2c_get_clientdata(client);
+-	const struct gp2a_platform_data *pdata = dt->pdata;
+-
+-	free_irq(client->irq, dt);
+-
+-	input_unregister_device(dt->input);
+-	kfree(dt);
+-
+-	gpio_free(pdata->vout_gpio);
+-
+-	if (pdata->hw_shutdown)
+-		pdata->hw_shutdown(client);
+-
+-	return 0;
+-}
+-
+-static int __maybe_unused gp2a_suspend(struct device *dev)
+-{
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct gp2a_data *dt = i2c_get_clientdata(client);
+-	int retval = 0;
+-
+-	if (device_may_wakeup(&client->dev)) {
+-		enable_irq_wake(client->irq);
+-	} else {
+-		mutex_lock(&dt->input->mutex);
+-		if (dt->input->users)
+-			retval = gp2a_disable(dt);
+-		mutex_unlock(&dt->input->mutex);
+-	}
+-
+-	return retval;
+-}
+-
+-static int __maybe_unused gp2a_resume(struct device *dev)
+-{
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct gp2a_data *dt = i2c_get_clientdata(client);
+-	int retval = 0;
+-
+-	if (device_may_wakeup(&client->dev)) {
+-		disable_irq_wake(client->irq);
+-	} else {
+-		mutex_lock(&dt->input->mutex);
+-		if (dt->input->users)
+-			retval = gp2a_enable(dt);
+-		mutex_unlock(&dt->input->mutex);
+-	}
+-
+-	return retval;
+-}
+-
+-static SIMPLE_DEV_PM_OPS(gp2a_pm, gp2a_suspend, gp2a_resume);
+-
+-static const struct i2c_device_id gp2a_i2c_id[] = {
+-	{ GP2A_I2C_NAME, 0 },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(i2c, gp2a_i2c_id);
+-
+-static struct i2c_driver gp2a_i2c_driver = {
+-	.driver = {
+-		.name	= GP2A_I2C_NAME,
+-		.pm	= &gp2a_pm,
+-	},
+-	.probe		= gp2a_probe,
+-	.remove		= gp2a_remove,
+-	.id_table	= gp2a_i2c_id,
+-};
+-
+-module_i2c_driver(gp2a_i2c_driver);
+-
+-MODULE_AUTHOR("Courtney Cavin <courtney.cavin@sonyericsson.com>");
+-MODULE_DESCRIPTION("Sharp GP2AP002A00F I2C Proximity/Opto sensor driver");
+-MODULE_LICENSE("GPL v2");
 -- 
-2.26.1
+2.21.1
 
