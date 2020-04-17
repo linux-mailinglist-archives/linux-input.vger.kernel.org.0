@@ -2,98 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E1DB1ADAC3
-	for <lists+linux-input@lfdr.de>; Fri, 17 Apr 2020 12:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D913E1ADC55
+	for <lists+linux-input@lfdr.de>; Fri, 17 Apr 2020 13:41:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725830AbgDQKMf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Apr 2020 06:12:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51796 "EHLO
+        id S1730449AbgDQLki (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Apr 2020 07:40:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728893AbgDQKMe (ORCPT
+        by vger.kernel.org with ESMTP id S1730267AbgDQLkh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Apr 2020 06:12:34 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44BBFC061A0F
-        for <linux-input@vger.kernel.org>; Fri, 17 Apr 2020 03:12:34 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id e26so2341596wmk.5
-        for <linux-input@vger.kernel.org>; Fri, 17 Apr 2020 03:12:34 -0700 (PDT)
+        Fri, 17 Apr 2020 07:40:37 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0265DC061A0F
+        for <linux-input@vger.kernel.org>; Fri, 17 Apr 2020 04:40:35 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id m8so1705796lji.1
+        for <linux-input@vger.kernel.org>; Fri, 17 Apr 2020 04:40:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=YnzOyKxiPqTU4HRGOnE/2vSvqos+ev8HgXqi6MMPUKA=;
-        b=MlchuBUdauSRQyVE8Hbv9cCHUBQnKekE7cJzDwYcy4tfuZ7V+FMXj487UTXnEaG4Wd
-         UHYa9lDHkMYV1mIR6FDjbBX8wA2mZYxcUJM6jv8AbqtG96GWX2ARJenZlnxJKZmodbPd
-         T6RzR/dRTIc6jgCqNr/zKACA8xy7IVa3p+IruV02ORfvu3JbAvSYQaS8BoiHjRKjVu0O
-         JM+s3vuyiSEaT8LxUzfnLvNAc4BMJw1vrfdzfMosDz1f8ORavXpagIN1p8MxQW3vRrzP
-         xRHYHQGRfagXNnGlbN9e8Gk5VbVpRdh+YTrg52fvzk3HfMHrEgNVPyMH3WzaPGbvdosP
-         9L/g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H0He4yHG3n2CBvm3pcZAtcKxqAXCDkRb8KpkQKmp+ME=;
+        b=jvDTJ2cnmXDZVZh4T/nNGFNhqwhkTC1dlf24M1388+kPGcWHVDh7wOOr+q9i64O6kS
+         GrYU7/tiQZm+iq2tMOYh10j7KSMqt49a63NRgFUvh1+fy0kcLBIPqq3o6GflYaIvj1Xe
+         lUdhsdPhuibVNzjf5bz2yYWOYWslsYTNY/y61zmOP8M8QpuqCo3Om7N8vcVOW5kTo9Rs
+         Kr12cbczbHSHbODQDPe4MdlPHhVRmW2w6d/K875NwrQXbB/dQJjzb6Z7iSloy+/v8ljO
+         h4JMs3ZAFHts6ZdmfgpEZZH5De85JgsATyRnKdlYSjOqSgFglRauV2wdDzM7O+6o8Qjj
+         utwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=YnzOyKxiPqTU4HRGOnE/2vSvqos+ev8HgXqi6MMPUKA=;
-        b=swrof6UlIKqB0/iOQJlWlk1Selrh07z5rvBp8GFHnZt+bZcSNILudS1qxvRmfeqNxy
-         1Sp5KEIbrxSwCdScqjqnISUAPlApQgrsx9NG4BWAbQHurc6IAdzGmX8nNWw36sLswnwX
-         vrgIjaFNzPhLtsk7VNw+cm4YxnABMLz6QdXT30TRzp0IOLjbdmirWrwho1/s4i/nMwXn
-         tunGzX+0w8HheCMNxwLiJ0mSki2no3oaRtH2cezvadkwmckD+k/dmW9drC4B1VldAXZW
-         0M0EHwB4K6NR1I8RzTHhR4u+hN1Vrr9LzgBZWz3mL/OWQNF1zTG8Uqg/QEoXOCJkStAL
-         udZw==
-X-Gm-Message-State: AGi0PuaaoKm9wxQvaXMj2ieRCxmzzixine5/oqEq4W23DAUBdesA2C/j
-        Rk8TF06WTocXfktwrybanQPg8w==
-X-Google-Smtp-Source: APiQypJmV0Jf3iT0zgAm2M3NypsATxn0J7ih2FYSnTAkimi9GQNwmKxabVorLTmViOtz5IsBr1LPBw==
-X-Received: by 2002:a1c:3105:: with SMTP id x5mr2735875wmx.51.1587118352876;
-        Fri, 17 Apr 2020 03:12:32 -0700 (PDT)
-Received: from dell ([95.149.164.124])
-        by smtp.gmail.com with ESMTPSA id s9sm20080119wrg.27.2020.04.17.03.12.31
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H0He4yHG3n2CBvm3pcZAtcKxqAXCDkRb8KpkQKmp+ME=;
+        b=cPMfFUnpD+q1NgIL6o7xJpXQiUkyTY9vsv6FpLi0E0JgYiPzn0pPe1dZrm5vxIcHh3
+         YLY2NVjYmUlkg+eWPIFeTKN8louCTjp4jKgm4cr9G9cc5g5uzCZx7veOoZAC9uezb/aK
+         grpK/tAhIZxu4zVrfVT8MgcllnrsRirfkUMtkpaTeCwOFe2dPJKiYRFgdZZGzXStaVoP
+         fa8D29vkhGhghH3d8OV2bk3vs6WV5UZXplEMwLZ/TIj6TDwMrsfJBzly9fNrCZdFf2Cm
+         4KR1FK9OCd5WLIROlwXUWCwTtOhNMGBJYmxQtRD6+rfn9hkPnfOuy5e0zJLKDFLeqlQs
+         b83w==
+X-Gm-Message-State: AGi0PuYM5yVSywWmVhlUyLDyd9oTNxG5Soq362uvuMOBZ2/OSoOp2s4L
+        c0BGJJTQJRPDQSdST7gkI+E04w==
+X-Google-Smtp-Source: APiQypLTkcYlIOqhtOoReDuoVY7p7oF1ILEo4hsxnJnJnW0+CHuWdJdi9PlR2X6DmznNUm7a9+isIQ==
+X-Received: by 2002:a2e:8752:: with SMTP id q18mr1866387ljj.72.1587123634311;
+        Fri, 17 Apr 2020 04:40:34 -0700 (PDT)
+Received: from localhost.bredbandsbolaget (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
+        by smtp.gmail.com with ESMTPSA id 78sm16256618ljf.76.2020.04.17.04.40.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2020 03:12:32 -0700 (PDT)
-Date:   Fri, 17 Apr 2020 11:13:33 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Ikjoon Jang <ikjn@chromium.org>
-Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Nicolas Boitchat <drinkcat@chromium.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v7] dt-bindings: mfd: Convert ChromeOS EC bindings to
- json-schema
-Message-ID: <20200417101333.GA3737@dell>
-References: <20200306085513.76024-1-ikjn@chromium.org>
+        Fri, 17 Apr 2020 04:40:33 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org
+Cc:     Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-input@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Nick Reitemeyer <nick.reitemeyer@web.de>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
+Subject: [PATCH 1/3 v3] iio: magnetometer: ak8974: Correct realbits
+Date:   Fri, 17 Apr 2020 13:40:18 +0200
+Message-Id: <20200417114020.31291-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200306085513.76024-1-ikjn@chromium.org>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 06 Mar 2020, Ikjoon Jang wrote:
+The original AK8974 has 16 bits of actual value, while the
+HSCDTD008A has 15 bits and the AMI305 and AMI306 has 12 bits.
+Correct this by providing an extra parameter to the channel
+macro and define a separate set of channels for each variant
+of the chip. The resolution is the actual resolution of the
+internal ADC of the chip.
 
-> Convert the ChromeOS EC bindings to json-schema.
-> 
-> Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> ---
->  .../devicetree/bindings/mfd/cros-ec.txt       |  76 -----------
->  .../bindings/mfd/google,cros-ec.yaml          | 129 ++++++++++++++++++
->  2 files changed, 129 insertions(+), 76 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+The values are stored in a S16 in 2's complement so all 16
+bits are used for storing (no shifting needed).
 
-Applied, thanks.
+The AMI305, AMI306 and HSCDTD008A valid bits are picked from
+respective datasheet.
 
+My best educated guess is that AK8974 is also 12 bits. The
+AK8973 is an 8 bit and earlier version, and the sibling
+drivers AMI305 and AMI306 are 12 bits, so it makes sense
+to assume that the AK8974 is also 12 bits.
+
+Cc: Nick Reitemeyer <nick.reitemeyer@web.de>
+Cc: Stephan Gerhold <stephan@gerhold.net>
+Cc: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v1->v3:
+- New patch in the v3 patch set.
+---
+ drivers/iio/magnetometer/ak8974.c | 53 +++++++++++++++++++++++++++----
+ 1 file changed, 46 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/iio/magnetometer/ak8974.c b/drivers/iio/magnetometer/ak8974.c
+index ade4ed8f67d2..f22b40ef5661 100644
+--- a/drivers/iio/magnetometer/ak8974.c
++++ b/drivers/iio/magnetometer/ak8974.c
+@@ -651,7 +651,7 @@ static const struct iio_chan_spec_ext_info ak8974_ext_info[] = {
+ 	{ },
+ };
+ 
+-#define AK8974_AXIS_CHANNEL(axis, index)				\
++#define AK8974_AXIS_CHANNEL(axis, index, bits)				\
+ 	{								\
+ 		.type = IIO_MAGN,					\
+ 		.modified = 1,						\
+@@ -662,16 +662,42 @@ static const struct iio_chan_spec_ext_info ak8974_ext_info[] = {
+ 		.scan_index = index,					\
+ 		.scan_type = {						\
+ 			.sign = 's',					\
+-			.realbits = 16,					\
++			.realbits = bits,				\
+ 			.storagebits = 16,				\
+ 			.endianness = IIO_LE				\
+ 		},							\
+ 	}
+ 
++/*
++ * We have no datasheet for the AK8974 but we guess that its
++ * ADC is 12 bits.
++ */
+ static const struct iio_chan_spec ak8974_channels[] = {
+-	AK8974_AXIS_CHANNEL(X, 0),
+-	AK8974_AXIS_CHANNEL(Y, 1),
+-	AK8974_AXIS_CHANNEL(Z, 2),
++	AK8974_AXIS_CHANNEL(X, 0, 12),
++	AK8974_AXIS_CHANNEL(Y, 1, 12),
++	AK8974_AXIS_CHANNEL(Z, 2, 12),
++	IIO_CHAN_SOFT_TIMESTAMP(3),
++};
++
++/*
++ * The AMI305 and AMI306 have 12 bit ADC resolution according to
++ * datasheets.
++ */
++static const struct iio_chan_spec ami30x_channels[] = {
++	AK8974_AXIS_CHANNEL(X, 0, 12),
++	AK8974_AXIS_CHANNEL(Y, 1, 12),
++	AK8974_AXIS_CHANNEL(Z, 2, 12),
++	IIO_CHAN_SOFT_TIMESTAMP(3),
++};
++
++/*
++ * The HSCDTD008A has 15 bits resolution the way we set it up
++ * in CTRL4.
++ */
++static const struct iio_chan_spec hscdtd008a_channels[] = {
++	AK8974_AXIS_CHANNEL(X, 0, 15),
++	AK8974_AXIS_CHANNEL(Y, 1, 15),
++	AK8974_AXIS_CHANNEL(Z, 2, 15),
+ 	IIO_CHAN_SOFT_TIMESTAMP(3),
+ };
+ 
+@@ -815,8 +841,21 @@ static int ak8974_probe(struct i2c_client *i2c,
+ 	pm_runtime_put(&i2c->dev);
+ 
+ 	indio_dev->dev.parent = &i2c->dev;
+-	indio_dev->channels = ak8974_channels;
+-	indio_dev->num_channels = ARRAY_SIZE(ak8974_channels);
++	switch (ak8974->variant) {
++	case AK8974_WHOAMI_VALUE_AMI306:
++	case AK8974_WHOAMI_VALUE_AMI305:
++		indio_dev->channels = ami30x_channels;
++		indio_dev->num_channels = ARRAY_SIZE(ami30x_channels);
++		break;
++	case AK8974_WHOAMI_VALUE_HSCDTD008A:
++		indio_dev->channels = hscdtd008a_channels;
++		indio_dev->num_channels = ARRAY_SIZE(hscdtd008a_channels);
++		break;
++	default:
++		indio_dev->channels = ak8974_channels;
++		indio_dev->num_channels = ARRAY_SIZE(ak8974_channels);
++		break;
++	}
+ 	indio_dev->info = &ak8974_info;
+ 	indio_dev->available_scan_masks = ak8974_scan_masks;
+ 	indio_dev->modes = INDIO_DIRECT_MODE;
 -- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.21.1
+
