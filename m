@@ -2,39 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3A751AF3C0
-	for <lists+linux-input@lfdr.de>; Sat, 18 Apr 2020 20:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A61FC1AF3D8
+	for <lists+linux-input@lfdr.de>; Sat, 18 Apr 2020 20:53:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727896AbgDRSud (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 Apr 2020 14:50:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42650 "EHLO
+        id S1725824AbgDRSxY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 18 Apr 2020 14:53:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725824AbgDRSud (ORCPT
+        by vger.kernel.org with ESMTP id S1728051AbgDRSxY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Apr 2020 14:50:33 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6671BC061A0C;
-        Sat, 18 Apr 2020 11:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=M2qa3/vc2/myvbMk+MYALeJsSLdNzC1fZAyoJyG68gE=; b=musbWlm7i2hjImd1CYGB5QW7l8
-        Wn/kGpq4MEnK3EQO7eZeKDFT8eS5LR23e3CnYhCDStAgjQAFY5YBGVt6kelglv19B681ienPPYSaq
-        YfDJC+H0H5NLdOmuRZEmcigYq143fNpyKGLW6QQRzawQ8loN2w3Tr8KqH0mfYRp8Pfor829wVUHqA
-        l1trL/tl9vJG07nJcZqpDQmkbddJurRYVp9wZ2ld/OgdRFRqUkk7SeljH7WfG/EzD5GnLgRWzeBn2
-        +F+hn6JAaMQT4MLsGR2BZlvqMq0c/4rnwpzB0mmIRStMWYlkSjUiT2M0RY1BWI/jkco5Jw22oyFTf
-        oqBggJew==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jPsXx-0005fx-6n; Sat, 18 Apr 2020 18:50:33 +0000
-Date:   Sat, 18 Apr 2020 11:50:33 -0700
-From:   Matthew Wilcox <willy@infradead.org>
+        Sat, 18 Apr 2020 14:53:24 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF255C061A0F
+        for <linux-input@vger.kernel.org>; Sat, 18 Apr 2020 11:53:23 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id l11so4589715lfc.5
+        for <linux-input@vger.kernel.org>; Sat, 18 Apr 2020 11:53:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pJRI8oZ6j+rGEg2+OCymOS7794uvyRZcSR2Htjt5TI4=;
+        b=Dab8X2CtWipiSivi9nyLxp8nBHQpWedKwzW35yNj8kBU3VxCHrB+3Kn5U3rtIjeKoA
+         Lw3k/ndceMaBnN8HktM5POukz2zYdQKxOk+s6N6D5bBob3ys4IoAy4L7IIPc1NiF89LI
+         qpPs2HFFi+SoqSVPJ7yi1QNfgGKP7Teiklti0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pJRI8oZ6j+rGEg2+OCymOS7794uvyRZcSR2Htjt5TI4=;
+        b=VY0/NaPGTMg4afviypnLPe0Q/29jgEWhKVaEvP0sMWP61XhtBlDAXtIi8xE3atD7h0
+         E+JIDBCZml4z4wtgaZ/FStdqkWbybC8EssY4M36CiKipn2616v1toFOSzmC11tTAhgQO
+         JYuVm61CCn51G22Ff8pXAwZsVM52jIzCqRg1+f7uKvhx0FI867iiTzOpAlQUy0mYifgJ
+         AEjsyGHOvp9iCp6O2f9RkCfEGaLr/SP3XwtzvWR6aDABebCjDd3RdvOQgxzHqIrSlrG2
+         pMrRry4hmM9OFxzAl6/l1wYd8Evblr9hs5JmnItWbV3B+RTMOhBawROOUqZm2VXs13pg
+         Zliw==
+X-Gm-Message-State: AGi0Puavw0XeE1O5+jRbw9WLIm/ePxVhJwHuO+HnqNtz0DdoL/u3d0HO
+        sm/yYRnO+Jhkpgyf8DDU3k4kpWg1EcI=
+X-Google-Smtp-Source: APiQypLLKFmO67M7KHSKduSoZtWETWFu+PuRVnwMxH0vDL4xOg034bCIQjS17O76hyR69LYPWcLiIw==
+X-Received: by 2002:a05:6512:1111:: with SMTP id l17mr5579606lfg.206.1587236000764;
+        Sat, 18 Apr 2020 11:53:20 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
+        by smtp.gmail.com with ESMTPSA id v26sm9811944lji.43.2020.04.18.11.53.19
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 18 Apr 2020 11:53:19 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id r17so4580977lff.2
+        for <linux-input@vger.kernel.org>; Sat, 18 Apr 2020 11:53:19 -0700 (PDT)
+X-Received: by 2002:a05:6512:405:: with SMTP id u5mr5483360lfk.192.1587235998911;
+ Sat, 18 Apr 2020 11:53:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200418184111.13401-1-rdunlap@infradead.org> <20200418184111.13401-3-rdunlap@infradead.org>
+In-Reply-To: <20200418184111.13401-3-rdunlap@infradead.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 18 Apr 2020 11:53:03 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjSzuTyyBkmMDG4fx_sXzLJsh+9Xk-ubgbpJzJq_kzPsA@mail.gmail.com>
+Message-ID: <CAHk-=wjSzuTyyBkmMDG4fx_sXzLJsh+9Xk-ubgbpJzJq_kzPsA@mail.gmail.com>
+Subject: Re: [PATCH 2/9] fs: fix empty-body warning in posix_acl.c
 To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
         Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
@@ -42,45 +70,46 @@ Cc:     linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org,
         "J. Bruce Fields" <bfields@fieldses.org>,
         Chuck Lever <chuck.lever@oracle.com>,
-        linux-nfs@vger.kernel.org,
+        "open list:NFS, SUNRPC, AND..." <linux-nfs@vger.kernel.org>,
         Johannes Berg <johannes@sipsolutions.net>,
         Dan Williams <dan.j.williams@intel.com>,
         Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>, linux-nvdimm@lists.01.org,
+        Dave Jiang <dave.jiang@intel.com>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
         "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        target-devel <target-devel@vger.kernel.org>,
         Zzy Wysm <zzy@zzywysm.com>
-Subject: Re: [PATCH 7/9] drivers/base: fix empty-body warnings in
- devcoredump.c
-Message-ID: <20200418185033.GQ5820@bombadil.infradead.org>
-References: <20200418184111.13401-1-rdunlap@infradead.org>
- <20200418184111.13401-8-rdunlap@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200418184111.13401-8-rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Apr 18, 2020 at 11:41:09AM -0700, Randy Dunlap wrote:
-> @@ -294,11 +295,11 @@ void dev_coredumpm(struct device *dev, s
->  
->  	if (sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
->  			      "failing_device"))
-> -		/* nothing - symlink will be missing */;
-> +		do_empty(); /* nothing - symlink will be missing */
->  
->  	if (sysfs_create_link(&dev->kobj, &devcd->devcd_dev.kobj,
->  			      "devcoredump"))
-> -		/* nothing - symlink will be missing */;
-> +		do_empty(); /* nothing - symlink will be missing */
->  
->  	INIT_DELAYED_WORK(&devcd->del_wk, devcd_del);
->  	schedule_delayed_work(&devcd->del_wk, DEVCD_TIMEOUT);
+On Sat, Apr 18, 2020 at 11:41 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Fix gcc empty-body warning when -Wextra is used:
 
-Could just remove the 'if's?
+Please don't do this.
 
-+	sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
-+			"failing_device");
+First off, "do_empty()" adds nothing but confusion. Now it
+syntactically looks like it does something, and it's a new pattern to
+everybody. I've never seen it before.
+
+Secondly, even if we were to do this, then the patch would be wrong:
+
+>         if (cmpxchg(p, ACL_NOT_CACHED, sentinel) != ACL_NOT_CACHED)
+> -               /* fall through */ ;
+> +               do_empty(); /* fall through */
+
+That comment made little sense before, but it makes _no_ sense now.
+
+What fall-through? I'm guessing it meant to say "nothing", and
+somebody was confused. With "do_empty()", it's even more confusing.
+
+Thirdly, there's a *reason* why "-Wextra" isn't used.
+
+The warnings enabled by -Wextra are usually complete garbage, and
+trying to fix them often makes the code worse. Exactly like here.
+
+             Linus
