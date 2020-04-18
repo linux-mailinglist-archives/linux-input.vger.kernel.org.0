@@ -2,85 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD5691AF46F
-	for <lists+linux-input@lfdr.de>; Sat, 18 Apr 2020 21:54:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0EED1AF4F7
+	for <lists+linux-input@lfdr.de>; Sat, 18 Apr 2020 22:42:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728248AbgDRTyN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 Apr 2020 15:54:13 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:44739 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727951AbgDRTyN (ORCPT
+        id S1726850AbgDRUmZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 18 Apr 2020 16:42:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59926 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726014AbgDRUmY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Apr 2020 15:54:13 -0400
-Received: (qmail 9694 invoked by uid 500); 18 Apr 2020 15:54:12 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 18 Apr 2020 15:54:12 -0400
-Date:   Sat, 18 Apr 2020 15:54:12 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     Matthew Wilcox <willy@infradead.org>
-cc:     Randy Dunlap <rdunlap@infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        <linux-fsdevel@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        <linux-input@vger.kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, <alsa-devel@alsa-project.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        <linux-nfs@vger.kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>, <linux-nvdimm@lists.01.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        <linux-scsi@vger.kernel.org>, <target-devel@vger.kernel.org>,
-        Zzy Wysm <zzy@zzywysm.com>
-Subject: Re: [PATCH 5/9] usb: fix empty-body warning in sysfs.c
-In-Reply-To: <20200418184409.GP5820@bombadil.infradead.org>
-Message-ID: <Pine.LNX.4.44L0.2004181549020.8036-100000@netrider.rowland.org>
+        Sat, 18 Apr 2020 16:42:24 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5BE1C061A0C
+        for <linux-input@vger.kernel.org>; Sat, 18 Apr 2020 13:42:24 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id h11so2388890plr.11
+        for <linux-input@vger.kernel.org>; Sat, 18 Apr 2020 13:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xWTSjyhXxBMoJ/WbGMybRP7zBr9vUx6vEk0OQtwopCM=;
+        b=I0fx3rPwyfp2HKwH1glIcbYVHbDUHYYRmwmg1VuCW4VG5PFjnx+1MhcoxN16QWMiBz
+         2dpZPvlsiu81BIdAVVrjWBUKNpGA2Z556Tlp+Gb5I4IHfQecllpWRp27MTtEKQTfysAZ
+         JqjegMWgNciMWqLaKL2fAC9orb/3I5zJ9YyyUin0was1KSr2LbLMLdzPCOrZb5eleUv7
+         ar3bFbkrDoQXDgSQy7aAI+A8hlCw38uLd3qteJywlZmRjAScZlttdbNnPZyu9Pna2Y2Y
+         sFbndFFmCKWx3U+a/2sneRazr3zLTF5o+zGt15dcVYn65Gg4Q0lF3ON9MHOCQL3lOCW3
+         Qmzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xWTSjyhXxBMoJ/WbGMybRP7zBr9vUx6vEk0OQtwopCM=;
+        b=ZbcEwEiKYShrXLbTHGqYaMwyUeHzrAFFDAt0/AVFe4cxtUMSfqLUfKkCu0cJ5WlWnD
+         ICvSq+1oNagpoNjqldU6p6tkdkIltKm2hfPK3fNhSyhldljsXJtIoVFTpk1HQN6fsqyq
+         k9R6RrIdcINzRaO2RreBaG2kt/j50wiehCQX22EYifHM6AnAf4bJon8uRELBmIxKFcRd
+         XWDQ9g/nzUbllSyZ7PnlEdkSdEJx3idtLBLxM+rd2OMsDzSY/bEWCPc5C67Gzew9TJGL
+         KJKrr+f9P5lhFcJWFFHQ0s+4FUfzSDtowRlR43XSNMvL+ODXpRGqi2TOInYL4cf64BA2
+         kU3A==
+X-Gm-Message-State: AGi0Puai4UMNXUQq/OnD+aKZmIOsblXUgMoZYLlhfd6YndW2Ey6fjIAz
+        rnTzhrEHxu+y0pxeuWTh+F8=
+X-Google-Smtp-Source: APiQypJt6SXR0xb9vzr9jjF7j9gLqkHEGEPRwsMUKyT0FYobNGcBrmOedPrrCetYHd1wmw9ft/pUgA==
+X-Received: by 2002:a17:902:a40e:: with SMTP id p14mr9165904plq.297.1587242544121;
+        Sat, 18 Apr 2020 13:42:24 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id h27sm8321527pgb.90.2020.04.18.13.42.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Apr 2020 13:42:23 -0700 (PDT)
+Date:   Sat, 18 Apr 2020 13:42:21 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-input@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH RESEND] Input: Delete unused GP2AP002A00F driver
+Message-ID: <20200418204221.GA166864@dtor-ws>
+References: <20200417203059.8151-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200417203059.8151-1-linus.walleij@linaro.org>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 18 Apr 2020, Matthew Wilcox wrote:
+Hi Linus,
 
-> On Sat, Apr 18, 2020 at 11:41:07AM -0700, Randy Dunlap wrote:
-> > +++ linux-next-20200327/drivers/usb/core/sysfs.c
-> > @@ -1263,7 +1263,7 @@ void usb_create_sysfs_intf_files(struct
-> >  	if (!alt->string && !(udev->quirks & USB_QUIRK_CONFIG_INTF_STRINGS))
-> >  		alt->string = usb_cache_string(udev, alt->desc.iInterface);
-> >  	if (alt->string && device_create_file(&intf->dev, &dev_attr_interface))
-> > -		;	/* We don't actually care if the function fails. */
-> > +		do_empty(); /* We don't actually care if the function fails. */
-> >  	intf->sysfs_files_created = 1;
-> >  }
+On Fri, Apr 17, 2020 at 10:30:59PM +0200, Linus Walleij wrote:
+> There is now an IIO driver for GP2AP002A00F and
+> GP2AP002S00F in drivers/iio/light/gp2ap002.c.
 > 
-> Why not just?
+> Delete this driver, it is unused in the kernel tree
+> and new users can make use of the IIO driver.
 > 
-> +	if (alt->string)
-> +		device_create_file(&intf->dev, &dev_attr_interface);
+> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  drivers/input/misc/Kconfig        |  11 --
+>  drivers/input/misc/Makefile       |   1 -
+>  drivers/input/misc/gp2ap002a00f.c | 281 ------------------------------
 
-This is another __must_check function call.
+Don't we need to delete include/linux/input/gp2ap002a00f.h as well? (No
+need to resend if you agree, I can adjust it on my end).
 
-The reason we don't care if the call fails is because the file
-being created holds the USB interface string descriptor, something
-which is purely informational and hardly ever gets set (and no doubt
-gets used even less often).
+Thanks.
 
-Is this another situation where the comment should be expanded and the 
-code modified to include a useless test and cast-to-void?
-
-Or should device_create_file() not be __must_check after all?
-
-Greg?
-
-Alan Stern
-
+-- 
+Dmitry
