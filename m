@@ -2,96 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FD191AF6CF
-	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 06:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 906721AF770
+	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 08:02:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725923AbgDSE1l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Apr 2020 00:27:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46548 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725769AbgDSE1l (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Apr 2020 00:27:41 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3B3FC061A0C;
-        Sat, 18 Apr 2020 21:27:39 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id ng8so3061895pjb.2;
-        Sat, 18 Apr 2020 21:27:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Fg1nBtscd0EnZj9z4stneXu5of0TAOGY9Mx+yinyRuE=;
-        b=So01w+pyjdVuDseUrJoqO/RyaAGna8aMbnWUPoms5gVndykw/c9fM9r1CuCNvNTqkm
-         vrEJXbyKIgKvjLCdfOWMYt/M0RdS43r7slg7gZbe+jEJaEXUgJ/4asHFmJ5BfLjCCJQA
-         8bfWx1oGF3aP8qaJiJDibREG9fJi5xIzifYvCaojDok874hovG1iaO0jSv5ak9CDtN5E
-         zHTJKYksKSmLA8jBgWFw6I/BAsdIStskSKQhcteeUQntpnrouvx8YPcM6t+3mRwz6RAU
-         PyITf2Pc9os/+rYCimh4Ha9JUr1dFVQ91RvzQ+BSGTc6Cph/GVR5VDOM0FSkKOjKJNCd
-         G5DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Fg1nBtscd0EnZj9z4stneXu5of0TAOGY9Mx+yinyRuE=;
-        b=ALXXlCQJoH5VxPMT0MI5koLiW5/RLUWFB8Uq2A+f+oQhdukdhpemXakTpSSvJkrf6e
-         EJtVl+majF9XNSCKfIIUopwxBfq78gz8HgZTL4zR7X6wtOTDL2E3j0hxWd/3SjuIh4r3
-         7dQiGRIbOD7SzypzpM0RmJtF7msobtGqbz0X2iM2RF7cAsLbcJjAmtFvEDYRTeKIgRWN
-         GepypVqnFoEPZK+cgXKKtB8ygCt7wiGdlpBXmcBEigxvYV/T+9JOrIvAvOIRWif7FfPr
-         1N5pq7ODzpDBo2bRFgTkfaPW0rUfIX2S5x60MoAfgL23T5BJebOrU6hdkwcfOXxUb+uY
-         LEvA==
-X-Gm-Message-State: AGi0PuYWMXznGv55ZHIpz8Uw+YZeT/uryYp6I/uE3mM3+vo2d8+SD+bE
-        oNlDVQw7d7yGmSyeb2K9vzM=
-X-Google-Smtp-Source: APiQypJ9w3xNbZHSC3ODse153GoeR6LMQDsn7t07Y0RrPNaHqBp05xk71/n+yRhtIMaCPVvHNCBVOQ==
-X-Received: by 2002:a17:90a:a402:: with SMTP id y2mr1198940pjp.55.1587270459105;
-        Sat, 18 Apr 2020 21:27:39 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id y26sm5004925pfn.185.2020.04.18.21.27.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2020 21:27:38 -0700 (PDT)
-Date:   Sat, 18 Apr 2020 21:27:36 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     tglx@linutronix.de, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] Input: Fix a typo in a module name in Kconfig
-Message-ID: <20200419042736.GI166864@dtor-ws>
-References: <20200412095711.9107-1-christophe.jaillet@wanadoo.fr>
+        id S1725988AbgDSGCv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Apr 2020 02:02:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60178 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725914AbgDSGCu (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 19 Apr 2020 02:02:50 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A4A4B2076A;
+        Sun, 19 Apr 2020 06:02:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587276170;
+        bh=r2AgjpwBy563/SvDhTEdOgTQsrTjb6KChd2dLbtCIIs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pTMv1wODwFpdjz0FVgzA+p2WSCpvCxj18+/q3aiIPhhtKR+jsjHHIdl5zJ2q2+RA3
+         +Tdmi8jGAiqk3VTvUYzIU3dTg9Q3SKwo6y6sZDkWyGvygbRRccfGpH1VpT4kAcKc5E
+         4lTNQxLSLwDJyeMo2kAEPugwsa59XjBdxg3VhiTs=
+Date:   Sun, 19 Apr 2020 08:02:47 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        linux-usb@vger.kernel.org,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        linux-nfs@vger.kernel.org,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>, linux-nvdimm@lists.01.org,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+        Zzy Wysm <zzy@zzywysm.com>
+Subject: Re: [PATCH 7/9] drivers/base: fix empty-body warnings in
+ devcoredump.c
+Message-ID: <20200419060247.GA3535909@kroah.com>
+References: <20200418184111.13401-1-rdunlap@infradead.org>
+ <20200418184111.13401-8-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200412095711.9107-1-christophe.jaillet@wanadoo.fr>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200418184111.13401-8-rdunlap@infradead.org>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 12, 2020 at 11:57:11AM +0200, Christophe JAILLET wrote:
-> A 'y' is missing in spear-keyboard.
+On Sat, Apr 18, 2020 at 11:41:09AM -0700, Randy Dunlap wrote:
+> Fix gcc empty-body warning when -Wextra is used:
 > 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-
-Applied, thank you.
-
+> ../drivers/base/devcoredump.c:297:42: warning: suggest braces around empty body in an ‘if’ statement [-Wempty-body]
+> ../drivers/base/devcoredump.c:301:42: warning: suggest braces around empty body in an ‘if’ statement [-Wempty-body]
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Johannes Berg <johannes@sipsolutions.net>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
 > ---
->  drivers/input/keyboard/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/base/devcoredump.c |    5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-> index 28de965a08d5..793ecbbda32c 100644
-> --- a/drivers/input/keyboard/Kconfig
-> +++ b/drivers/input/keyboard/Kconfig
-> @@ -701,7 +701,7 @@ config KEYBOARD_SPEAR
->  	  Say Y here if you want to use the SPEAR keyboard.
->  
->  	  To compile this driver as a module, choose M here: the
-> -	  module will be called spear-keboard.
-> +	  module will be called spear-keyboard.
->  
->  config KEYBOARD_TC3589X
->  	tristate "TC3589X Keypad support"
-> -- 
-> 2.20.1
-> 
+> --- linux-next-20200417.orig/drivers/base/devcoredump.c
+> +++ linux-next-20200417/drivers/base/devcoredump.c
+> @@ -9,6 +9,7 @@
+>   *
+>   * Author: Johannes Berg <johannes@sipsolutions.net>
+>   */
+> +#include <linux/kernel.h>
 
--- 
-Dmitry
+Why the need for this .h file being added for reformatting the code?
+
+thanks,
+
+greg k-h
