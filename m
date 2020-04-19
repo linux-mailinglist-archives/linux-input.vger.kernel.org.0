@@ -2,127 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 534331AF692
-	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 06:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13F4C1AF6CC
+	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 06:27:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725914AbgDSEVE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Apr 2020 00:21:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45546 "EHLO
+        id S1725819AbgDSE1T (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Apr 2020 00:27:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725769AbgDSEVE (ORCPT
+        by vger.kernel.org with ESMTP id S1725769AbgDSE1S (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Apr 2020 00:21:04 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28AEDC061A0C;
-        Sat, 18 Apr 2020 21:21:02 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id z6so2635885plk.10;
-        Sat, 18 Apr 2020 21:21:02 -0700 (PDT)
+        Sun, 19 Apr 2020 00:27:18 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98A40C061A0C
+        for <linux-input@vger.kernel.org>; Sat, 18 Apr 2020 21:27:18 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id v2so2642776plp.9
+        for <linux-input@vger.kernel.org>; Sat, 18 Apr 2020 21:27:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=8yQeEQ9FgLIDQT+soQUD4bkSATvz8kUGKhG0/JAsHfg=;
-        b=cpR2CWG5H9Qb+rWijnZGzULI/vOnYzewJjWyENqjd5Tj5cJ4KUYRT/MyE8beAwEZr3
-         uV0svs7JJz/znSaulqXvlBEtMB/fLeSsEAE7AeEBqn/MrNA/IAzvtSx2fF4/z5SQjoOv
-         UWc/oF/DsUTjI1doosheq0Emj2yi5XfjO6+oMEYeWLeGsTUQwV/5x6t6nASisKZNdBVv
-         KPB1EykCr1lJqAdFeZFNPSvzqDq5pacdgDcNmRYgSkIydNJB3Rjpc0Gfyv0cXv2hCh8M
-         xbgN2ilf+LJ0oylyluhIxWnknjLUHT/b4uqyOej8RbCaxUjTCxcbjvWWNKcnU/jBDlIE
-         3k8w==
+        bh=aMN/Mmpl9k+/c8u5EsexE3O9l4ldGpoNd7y5C1/YdCE=;
+        b=rniJL7p0FIW1Uu0CojdIticfRujlijV8jrUbcnXfZt+1f8j7rnG6Wcr+mvDyrO6/hA
+         HG/0vLyHd4kr+KkNofAomfsO6F3Ktvgo1l/9bgQIS0n12IqyGosWCClf2CXuWPVvJc7V
+         5RSbVoabrY/nOC+rHi/a90ZKAlouzU4aOVSr1MK3ILag9ltJ3YP9/EhVYcRAQ3hzCypH
+         QexDVzkcFmsUV13qp2IE0esC32dc3Azv0W072+StSGe+JcLhIGzdK4r0gDmiNc/DW8Ee
+         p77WSXPkpXgOAAcdJn3MlAaqgtIGBfBnfRpcgBlO6kOXb9oY6YyFEsdKfW1jCGJm77Yz
+         +pfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=8yQeEQ9FgLIDQT+soQUD4bkSATvz8kUGKhG0/JAsHfg=;
-        b=l8AYnlaD/2gyHUorYHcC1UxuvsbFxhKQJDdRaO1AatJyZafmKMaP8urYLvs77cKd2j
-         NkbRGlUyKOktsletnkL1rG7HC17V8kaCIdsbiaxwp1FK7TI4kRHzZIcOxOGfm/GP8W2b
-         EFkDFccErfV4JruFKAK45gpKYcA46TOtY3BfwjTe2Wh5RmtZwzJxkwtSYoV4a3wnogRB
-         zvdKKpJgEy7e/JxrWqsYJ/fyly/e0DTgL+ZakYFfmFI1FtQaHFnpj6K0p49FK5NJinOQ
-         W+mAm57wTe868FgCYT8hTgoHfQbjrOqhY0a3UqHaagk9Awq08b13Q1995sHwhWeImap9
-         tCOA==
-X-Gm-Message-State: AGi0Pubm5vsUmB7BZTaZbkCiTlwxgzYLKeUNtK0cA/uajFv5W4ukyseD
-        f5tL2yqtR/cnwtJ8OJgxHOQ=
-X-Google-Smtp-Source: APiQypLifTu40rSRGZD7sXQ86lI9nWsURx8BIRDpq8ZhJT63HBW+kHmUfrY8rJLchMwqG9jDaj3/nw==
-X-Received: by 2002:a17:90b:b08:: with SMTP id bf8mr13745112pjb.158.1587270061458;
-        Sat, 18 Apr 2020 21:21:01 -0700 (PDT)
+        bh=aMN/Mmpl9k+/c8u5EsexE3O9l4ldGpoNd7y5C1/YdCE=;
+        b=bZ4ygdWSZ7fMmMmD4RaMm64RTdv8cnkdu3/6z0S6imONvPLXbnabsVPs9YF3dc/9yK
+         FKASdMys90tTABVJEVY7TshrsALgbWWWGbJ430MHAhGQtuMw29vBewApxBhOIEuIYJcp
+         g3eOpTiTEkwCMwGss/qe9/QyA910YmlYXosB6pt3Fv16YppJrTgR/oouPeih/+ZFj8Fc
+         tNhrxy2oUifk4mefVR23WjO2sBQ3jcYHj64cYI02xvs7FePMQSKR060tyUmoaAeRM9wJ
+         ZUe4QZ6zDQ2yWruUaS691AygyTqsCVxaokxPbWsaAHhS+gTyPbCWQ1yJ85uXyOR55Nau
+         9clg==
+X-Gm-Message-State: AGi0PuYdQmZ2AL1+RjX2sS0GxWJnWnoOHKcbClm3nfW3pXoGd1m492ax
+        FLcN3PMz7R43LY+PCPNhpNg=
+X-Google-Smtp-Source: APiQypLr7Wk2t6iito5h4JTq9FihgbLaR1nnckPNpKB+Ruv0HPXAnLq+kv72oUXH3lT3YROkHIDcRg==
+X-Received: by 2002:a17:90a:c401:: with SMTP id i1mr13491488pjt.131.1587270437861;
+        Sat, 18 Apr 2020 21:27:17 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id c14sm22282541pgi.54.2020.04.18.21.21.00
+        by smtp.gmail.com with ESMTPSA id 71sm12949072pfw.111.2020.04.18.21.27.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2020 21:21:00 -0700 (PDT)
-Date:   Sat, 18 Apr 2020 21:20:58 -0700
+        Sat, 18 Apr 2020 21:27:17 -0700 (PDT)
+Date:   Sat, 18 Apr 2020 21:27:15 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Collabora Kernel ML <kernel@collabora.com>,
-        groeck@chromium.org, bleung@chromium.org, dtor@chromium.org,
-        gwendal@chromium.org, Chanwoo Choi <cw00.choi@samsung.com>,
-        Fei Shao <fshao@chromium.org>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Ting Shen <phoenixshen@chromium.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [RESEND PATCH] Input: cros_ec_keyb: Use cros_ec_cmd_xfer_status
- helper
-Message-ID: <20200419042058.GG166864@dtor-ws>
-References: <20200414210434.1534982-1-enric.balletbo@collabora.com>
+To:     Kenny Levinsen <kl@kl.wtf>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH] input/evdev: make evdev use keyed wakeups
+Message-ID: <20200419042715.GH166864@dtor-ws>
+References: <20200410233557.3892-1-kl@kl.wtf>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200414210434.1534982-1-enric.balletbo@collabora.com>
+In-Reply-To: <20200410233557.3892-1-kl@kl.wtf>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Apr 14, 2020 at 11:04:34PM +0200, Enric Balletbo i Serra wrote:
-> This patch makes use of cros_ec_cmd_xfer_status() instead of
-> cros_ec_cmd_xfer(). In this case there is no advantage of doing this
-> apart from that we want to make cros_ec_cmd_xfer() a private function
-> for the EC protocol and let people only use the
-> cros_ec_cmd_xfer_status() to return Linux standard error codes.
+On Sat, Apr 11, 2020 at 01:35:57AM +0200, Kenny Levinsen wrote:
+> Some processes, such as systemd, are only polling for EPOLLERR|EPOLLHUP.
+> As evdev uses unkeyed wakeups, such a poll receives many spurious
+> wakeups from uninteresting events.
 > 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Use keyed wakeups to allow the wakeup target to more efficiently discard
+> these uninteresting events.
+> 
+> Signed-off-by: Kenny Levinsen <kl@kl.wtf>
 
 Applied, thank you.
 
 > ---
-> This patch was initially part of this series [1]. The other patches in
-> the series have been applied and remains this, hence, I send this patch
-> alone as a RESEND.
+>  drivers/input/evdev.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> [1] https://patchwork.kernel.org/cover/11394361/
-> 
->  drivers/input/keyboard/cros_ec_keyb.c | 14 +++++---------
->  1 file changed, 5 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-> index 2b71c5a51f90..fc1793ca2f17 100644
-> --- a/drivers/input/keyboard/cros_ec_keyb.c
-> +++ b/drivers/input/keyboard/cros_ec_keyb.c
-> @@ -347,18 +347,14 @@ static int cros_ec_keyb_info(struct cros_ec_device *ec_dev,
->  	params->info_type = info_type;
->  	params->event_type = event_type;
+> diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
+> index d7dd6fcf2db0..f54d3d31f61d 100644
+> --- a/drivers/input/evdev.c
+> +++ b/drivers/input/evdev.c
+> @@ -282,7 +282,8 @@ static void evdev_pass_values(struct evdev_client *client,
+>  	spin_unlock(&client->buffer_lock);
 >  
-> -	ret = cros_ec_cmd_xfer(ec_dev, msg);
-> -	if (ret < 0) {
-> -		dev_warn(ec_dev->dev, "Transfer error %d/%d: %d\n",
-> -			 (int)info_type, (int)event_type, ret);
-> -	} else if (msg->result == EC_RES_INVALID_VERSION) {
-> +	ret = cros_ec_cmd_xfer_status(ec_dev, msg);
-> +	if (ret == -ENOTSUPP) {
->  		/* With older ECs we just return 0 for everything */
->  		memset(result, 0, result_size);
->  		ret = 0;
-> -	} else if (msg->result != EC_RES_SUCCESS) {
-> -		dev_warn(ec_dev->dev, "Error getting info %d/%d: %d\n",
-> -			 (int)info_type, (int)event_type, msg->result);
-> -		ret = -EPROTO;
-> +	} else if (ret < 0) {
-> +		dev_warn(ec_dev->dev, "Transfer error %d/%d: %d\n",
-> +			 (int)info_type, (int)event_type, ret);
->  	} else if (ret != result_size) {
->  		dev_warn(ec_dev->dev, "Wrong size %d/%d: %d != %zu\n",
->  			 (int)info_type, (int)event_type,
+>  	if (wakeup)
+> -		wake_up_interruptible(&evdev->wait);
+> +		wake_up_interruptible_poll(&evdev->wait,
+> +			EPOLLIN | EPOLLOUT | EPOLLRDNORM | EPOLLWRNORM);
+>  }
+>  
+>  /*
+> @@ -443,7 +444,7 @@ static void evdev_hangup(struct evdev *evdev)
+>  		kill_fasync(&client->fasync, SIGIO, POLL_HUP);
+>  	spin_unlock(&evdev->client_lock);
+>  
+> -	wake_up_interruptible(&evdev->wait);
+> +	wake_up_interruptible_poll(&evdev->wait, EPOLLHUP | EPOLLERR);
+>  }
+>  
+>  static int evdev_release(struct inode *inode, struct file *file)
+> @@ -958,7 +959,7 @@ static int evdev_revoke(struct evdev *evdev, struct evdev_client *client,
+>  	client->revoked = true;
+>  	evdev_ungrab(evdev, client);
+>  	input_flush_device(&evdev->handle, file);
+> -	wake_up_interruptible(&evdev->wait);
+> +	wake_up_interruptible_poll(&evdev->wait, EPOLLHUP | EPOLLERR);
+>  
+>  	return 0;
+>  }
 > -- 
-> 2.25.1
+> 2.26.0
 > 
 
 -- 
