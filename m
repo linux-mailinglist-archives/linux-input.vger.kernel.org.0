@@ -2,120 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 057FF1AF8F6
-	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 11:32:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50BF51AF916
+	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 11:47:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725960AbgDSJcR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Apr 2020 05:32:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36536 "EHLO
+        id S1725923AbgDSJrj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Apr 2020 05:47:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725905AbgDSJcQ (ORCPT
+        by vger.kernel.org with ESMTP id S1725832AbgDSJrj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Apr 2020 05:32:16 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E8AC061A41
-        for <linux-input@vger.kernel.org>; Sun, 19 Apr 2020 02:32:15 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id n6so3257123ljg.12
-        for <linux-input@vger.kernel.org>; Sun, 19 Apr 2020 02:32:15 -0700 (PDT)
+        Sun, 19 Apr 2020 05:47:39 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF4E1C061A0C
+        for <linux-input@vger.kernel.org>; Sun, 19 Apr 2020 02:47:38 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id q19so6621342ljp.9
+        for <linux-input@vger.kernel.org>; Sun, 19 Apr 2020 02:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/v/9MZ85W5Ot6ZouiFIXv368NZt8k8Og0OLJDhh34+s=;
-        b=NH0bulwrsnvt31tchVdyynbpbLgVBI1HP3Wa6GOh5EZ3Avqvjt8Ws1W0S4skKIE0JE
-         uuFvwHnFs3oUQXVFI6Uw/i025gYebahgui03U0O2zWDkm//77OlUL2W1AKMBSb9Ajkej
-         pH7FGvf7PIw3hRxqcpxFEFxOgYR/zkwsdko5P7TmbImGk2kTGiNw6chaFyxITHjQVqFY
-         uRAVMZmeGktYjCkJxVm65ElzX8WYSVJ2k7Gs01avu1wVrvwPeK6V94oh93DTqReUmhv8
-         6bEZuutMc2hlHCS5Rb8vzRuhQ8/sT8T6SFBRcGie5PJZH40vg8BxIcQxKKnbEzWKi12i
-         ZLwg==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/gRzQjk7FJHl509bxscE1hykZLFyAAYlKz38so1O1fo=;
+        b=aI5DSSotzl09S1MIVQpecSaW4A2irv2XxSb0uGVzd3MUTqbNzihFTpgeVF/+88HFAZ
+         op82cUA1Ay5SWoixMHQmNvZNxlgMb5o6Yc8o5nTKG6iB/jKAEsH7FKXgiCIMfTKmNFnD
+         PuD7gixzN/lRwx4CRpBWN27CJPLNmQPmSPE1CcV/awpJk4ekTjoSz5EfsIEIUm7XKING
+         yGkO1bj/A/vNKeMFAr+Y+YdjIE0hYYTQFl2vad+ElrPz1LR0zAW54RedQSMCCfWS9Ehv
+         UvU6LclqypLHbsl0d/8zpxEqYYXgU+n9l9S1mY/UjZijMcTzFd5ONSlvPwWhLPYvnYVE
+         eCzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/v/9MZ85W5Ot6ZouiFIXv368NZt8k8Og0OLJDhh34+s=;
-        b=ezOZn8WzH3B2mmwpB39HmRIf50CSNcKgJqGoO8rPMZyUYC6OzAiKOU6LJ3DiD2lVQi
-         fA7qzMxhEvwHIenrqP48DkL29ZqEqTaEECvirmnhm5bVIZHvRdYVduYHiQw72TYFxciD
-         XEfn+Od/uuNwyfMTA0dy24cnJcswwKCXrtn7a9sFKK94jO2CGpS0DkUeJELzrbridZnc
-         JXAU2oZEp3joLHU34xgUJZExOVeF9zs2CgcTAdukY+bd94chiQZexdN1jumgdTxzhMsg
-         XP7S5CB58WaGsigN37/gShNsaKfzdA8eFwzMg0ZweI0PVw/Hp+ZCgf9ogUZkuZD7m3ak
-         MkiA==
-X-Gm-Message-State: AGi0PuZ6ynp4ed07yDCcIXs0yxtZx2eKFI13VLw0vdxkFkm7NFEov+zO
-        Y7uunFgKDt2Z3AT1JrF4S9y6qg==
-X-Google-Smtp-Source: APiQypJtvjJEzhQ3IHjsR97nXY/X5+Mcqe2YVVnhcTkS4j8mOhshGgkVFOM17f0YxUmtnPiWj9nvZA==
-X-Received: by 2002:a2e:4942:: with SMTP id b2mr7168793ljd.135.1587288733899;
-        Sun, 19 Apr 2020 02:32:13 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:2a7:ba19:e1ca:ac28:cceb:53f3? ([2a00:1fa0:2a7:ba19:e1ca:ac28:cceb:53f3])
-        by smtp.gmail.com with ESMTPSA id 64sm20404911ljj.41.2020.04.19.02.32.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Apr 2020 02:32:13 -0700 (PDT)
-Subject: Re: [PATCH 6/9] nfsd: fix empty-body warning in nfs4state.c
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        linux-nfs@vger.kernel.org,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>, linux-nvdimm@lists.01.org,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-        Zzy Wysm <zzy@zzywysm.com>
-References: <20200418184111.13401-1-rdunlap@infradead.org>
- <20200418184111.13401-7-rdunlap@infradead.org>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <34fe524d-f9f0-ba8a-d5cb-ffbeacf1b5d8@cogentembedded.com>
-Date:   Sun, 19 Apr 2020 12:32:08 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/gRzQjk7FJHl509bxscE1hykZLFyAAYlKz38so1O1fo=;
+        b=LMSfRSnrnhU1+nSLAmEicFti8lBth/DvI83WELhkVRFu26voTW9TbWJ4XY7/oXmNlm
+         O2P3lFb5xdJTCrYEDaFjnZ4Qt320IqXxbBcTZ2996bAL8RNaU3awWOYXRj98uZ6nwyMo
+         LZsxFTglU8+ivucqr49PIu537d8bJdzXZi0d3fG8oHBE7jrfOhEKkfhTbdBInqqUK8C2
+         Nbxb7FS1I+Q7ocY80IqB/iP2v4CBa4L0xwVuqk2kHOHnfOXo7Z68ej6tabTJMDLS7kpG
+         QwYVE4oG2IV2RlJi8YcDk3bsD11BMnxwnOkG72HUETw0psrh1Pcll+CY3oUh6IIvNb8H
+         qeTA==
+X-Gm-Message-State: AGi0PuYLQDX5lP84fYS44NcT4Sw5UcvbmG6HRFyQJkNqHj7JcmS8f7de
+        W55yclFvhvV78cq7tW8PNXr5721/Uy1YCIRZb489hB6A
+X-Google-Smtp-Source: APiQypIihoDovuMiGj2RFObbmNzV7Gh/xSl3TiTsMOB/5IUuhY7XSxVzrAMVuqab2WMByn+30K3tU+IyuT8CYonOvTY=
+X-Received: by 2002:a2e:81d5:: with SMTP id s21mr1427011ljg.258.1587289657251;
+ Sun, 19 Apr 2020 02:47:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200418184111.13401-7-rdunlap@infradead.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200417203059.8151-1-linus.walleij@linaro.org> <20200418204221.GA166864@dtor-ws>
+In-Reply-To: <20200418204221.GA166864@dtor-ws>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 19 Apr 2020 11:47:26 +0200
+Message-ID: <CACRpkdZKuxGb8ESd=U=nFDwbywYGzFULbehU6w0NMCFmQbqPNQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND] Input: Delete unused GP2AP002A00F driver
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linux Input <linux-input@vger.kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello!
+On Sat, Apr 18, 2020 at 10:42 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+> On Fri, Apr 17, 2020 at 10:30:59PM +0200, Linus Walleij wrote:
+> > There is now an IIO driver for GP2AP002A00F and
+> > GP2AP002S00F in drivers/iio/light/gp2ap002.c.
+> >
+> > Delete this driver, it is unused in the kernel tree
+> > and new users can make use of the IIO driver.
+> >
+> > Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> > ---
+> >  drivers/input/misc/Kconfig        |  11 --
+> >  drivers/input/misc/Makefile       |   1 -
+> >  drivers/input/misc/gp2ap002a00f.c | 281 ------------------------------
+>
+> Don't we need to delete include/linux/input/gp2ap002a00f.h as well? (No
+> need to resend if you agree, I can adjust it on my end).
 
-On 18.04.2020 21:41, Randy Dunlap wrote:
+Yep that should go too, thanks and sorry for missing it.
 
-> Fix gcc empty-body warning when -Wextra is used:
-> 
-> ../fs/nfsd/nfs4state.c:3898:3: warning: suggest braces around empty body in an ‘else’ statement [-Wempty-body]
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: "J. Bruce Fields" <bfields@fieldses.org>
-> Cc: Chuck Lever <chuck.lever@oracle.com>
-> Cc: linux-nfs@vger.kernel.org
-> ---
->   fs/nfsd/nfs4state.c |    3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> --- linux-next-20200417.orig/fs/nfsd/nfs4state.c
-> +++ linux-next-20200417/fs/nfsd/nfs4state.c
-[...]
-> @@ -3895,7 +3896,7 @@ nfsd4_setclientid(struct svc_rqst *rqstp
->   		copy_clid(new, conf);
->   		gen_confirm(new, nn);
->   	} else /* case 4 (new client) or cases 2, 3 (client reboot): */
-> -		;
-> +		do_empty();
-
-    In this case explicit {} would probably have been better, as described in 
-Documentation/process/coding-style.rst, clause (3).
-
-MBR, Sergei
+Yours,
+Linus Walleij
