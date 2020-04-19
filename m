@@ -2,100 +2,174 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 938031AF9BD
-	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 14:03:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06AFA1AF9F0
+	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 14:19:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725990AbgDSMDJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Apr 2020 08:03:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46508 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725841AbgDSMDJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Apr 2020 08:03:09 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EEB2F21841;
-        Sun, 19 Apr 2020 12:03:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587297788;
-        bh=x2vOiaCnxxSwfQdLjmqVJM8lbr3nu9ilx4uLADcHgbI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BQIo366fubUyRRR8gy2ghwhRQu0Kwnh4p0dbM2JbxKVFUDW8yZ1SDgiYSl5JqwVeR
-         wZ5SL8Ku8jXAHvkI6SEOWx2BKIwYfUnNkbRnpiO/xRR81S6FYbEAx2Q4OceLmb8Ctn
-         LwJSFTVsq/8XLc3RC94BktgRcZXJ/hdv3QPM50lA=
-Date:   Sun, 19 Apr 2020 14:03:04 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Joe Perches <joe@perches.com>, Rafael Wysocki <rafael@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
-        linux-usb@vger.kernel.org,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        "open list:NFS, SUNRPC, AND..." <linux-nfs@vger.kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi <linux-scsi@vger.kernel.org>,
-        target-devel <target-devel@vger.kernel.org>,
-        Zzy Wysm <zzy@zzywysm.com>
-Subject: Re: [PATCH 7/9] drivers/base: fix empty-body warnings in
- devcoredump.c
-Message-ID: <20200419120304.GA3668771@kroah.com>
-References: <20200418184111.13401-1-rdunlap@infradead.org>
- <20200418184111.13401-8-rdunlap@infradead.org>
- <20200418185033.GQ5820@bombadil.infradead.org>
- <b88d6f8b-e6af-7071-cefa-dc12e79116b6@infradead.org>
- <d018321b0f281ff29efb04dd1496c8e6499812fb.camel@perches.com>
- <CAHk-=wi4QU90W1j1VVUrqdrkrq-0XPA06sjGUm-g1VHRB-35YA@mail.gmail.com>
+        id S1725950AbgDSMTb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Apr 2020 08:19:31 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:56215 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725910AbgDSMTb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 19 Apr 2020 08:19:31 -0400
+Received: from webmail.gandi.net (webmail15.sd4.0x35.net [10.200.201.15])
+        (Authenticated sender: contact@artur-rojek.eu)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPA id 1C44FFF803;
+        Sun, 19 Apr 2020 12:19:26 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wi4QU90W1j1VVUrqdrkrq-0XPA06sjGUm-g1VHRB-35YA@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Sun, 19 Apr 2020 14:19:26 +0200
+From:   Artur Rojek <contact@artur-rojek.eu>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-input <linux-input@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [RESEND PATCH v5 3/5] IIO: Ingenic JZ47xx: Add touchscreen mode.
+In-Reply-To: <CAHp75Vcwnu8tw92nMYc_5-x_iX+FY8_OhtaJkSYNehmNUDkHGQ@mail.gmail.com>
+References: <20200417202859.35427-1-contact@artur-rojek.eu>
+ <20200417202859.35427-3-contact@artur-rojek.eu>
+ <CAHp75Vcwnu8tw92nMYc_5-x_iX+FY8_OhtaJkSYNehmNUDkHGQ@mail.gmail.com>
+Message-ID: <ed0b6fdac4fdb89e87082f2c6b0edc51@artur-rojek.eu>
+X-Sender: contact@artur-rojek.eu
+User-Agent: Roundcube Webmail/1.3.8
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Apr 18, 2020 at 12:15:57PM -0700, Linus Torvalds wrote:
-> On Sat, Apr 18, 2020 at 11:57 AM Joe Perches <joe@perches.com> wrote:
-> >
-> > sysfs_create_link is __must_check
-> 
-> The way to handle __must_check if you really really don't want to test
-> and have good reasons is
-> 
->  (a) add a big comment about why this case ostensibly doesn't need the check
-> 
->  (b) cast a test of it to '(void)' or something (I guess we could add
-> a helper for this). So something like
-> 
->         /* We will always clean up, we don't care whether this fails
-> or succeeds */
->         (void)!!sysfs_create_link(...)
-> 
-> There are other alternatives (like using WARN_ON_ONCE() instead, for
-> example). So it depends on the code. Which is why that comment is
-> important to show why the code chose that option.
-> 
-> However, I wonder if in this case we should just remove the
-> __must_check. Greg? It goes back a long long time.
+Hi Andy,
+thanks for the review. Comments inline.
 
-Yeah, maybe it is time to remove it, the gyrations people go through to
-remove the warning when they "know" they are doing it right feels pretty
-bad compared to forcing people to check things for "normal" calls to the
-function.
+On 2020-04-17 22:59, Andy Shevchenko wrote:
+> On Fri, Apr 17, 2020 at 11:21 PM Artur Rojek <contact@artur-rojek.eu> 
+> wrote:
+>> 
+>> The SADC component in JZ47xx SoCs provides support for touchscreen
+>> operations (pen position and pen down pressure) in single-ended and
+>> differential modes.
+>> 
+>> Of the known hardware to use this controller, GCW Zero and Anbernic 
+>> RG-350
+>> utilize the touchscreen mode by having their joystick(s) attached to 
+>> the
+>> X/Y positive/negative input pins.
+>> GCW Zero comes with a single joystick and is sufficiently handled with 
+>> the
+>> currently implemented single-ended mode. Support for boards with two
+>> joysticks, where one is hooked up to Xn/Yn and the other to Xp/Yp 
+>> channels
+>> will need to be provided in the future.
+>> 
+>> The touchscreen component of SADC takes a significant time to 
+>> stabilize
+>> after first receiving the clock and a delay of 50ms has been 
+>> empirically
+>> proven to be a safe value before data sampling can begin.
+>> 
+>> All the boards which probe this driver have the interrupt provided 
+>> from
+>> devicetree, with no need to handle a case where the irq was not 
+>> provided.
+> 
+> Device Tree
+> IRQ
+> 
+> ...
+> 
+>> +               .scan_type = {
+>> +                       .sign = 'u',
+>> +                       .realbits = 12,
+> 
+>> +                       .storagebits = 16
+> 
+> It's slightly better to leave comma in such cases.
+> 
+>> +               },
+> 
+>> +               .scan_type = {
+>> +                       .sign = 'u',
+>> +                       .realbits = 12,
+> 
+>> +                       .storagebits = 16
+> 
+> Ditto.
+> 
+>> +               },
+> 
+> ...
+> 
+>>                 .indexed = 1,
+>>                 .channel = INGENIC_ADC_AUX,
+>> +               .scan_index = -1
+> 
+> Ditto. You see above? Isn't it nice that you didn't touch that line?
+> So, perhaps next developer can leverage this subtle kind of things.
+> 
+>>                 .indexed = 1,
+>>                 .channel = INGENIC_ADC_BATTERY,
+>> +               .scan_index = -1
+> 
+> Ditto.
+> 
+>>                 .indexed = 1,
+>>                 .channel = INGENIC_ADC_AUX2,
+>> +               .scan_index = -1
+> 
+> Ditto.
+> 
+> ...
+> 
+>> +static int ingenic_adc_buffer_enable(struct iio_dev *iio_dev)
+>> +{
+>> +       struct ingenic_adc *adc = iio_priv(iio_dev);
+>> +
+> 
+>> +       clk_enable(adc->clk);
+> 
+> Error check?
+> 
+>> +       /* It takes significant time for the touchscreen hw to 
+>> stabilize. */
+>> +       msleep(50);
+>> +       ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_TOUCH_OPS_MASK,
+>> +                              JZ_ADC_REG_CFG_SAMPLE_NUM(4) |
+>> +                              JZ_ADC_REG_CFG_PULL_UP(4));
+>> +       writew(80, adc->base + JZ_ADC_REG_ADWAIT);
+>> +       writew(2, adc->base + JZ_ADC_REG_ADSAME);
+> 
+>> +       writeb((u8)~JZ_ADC_IRQ_TOUCH, adc->base + JZ_ADC_REG_CTRL);
+> 
+> Why casting?
+After flipping the bits, the resulting value can't be represented by u8. 
+Since we care only about the first 8 bits anyway, explicit cast here is 
+to silence a compiler warning.
+> 
+>> +       writel(0, adc->base + JZ_ADC_REG_ADTCH);
+>> +       ingenic_adc_enable(adc, 2, true);
+>> +
+>> +       return 0;
+>> +}
+> 
+>> +       irq = platform_get_irq(pdev, 0);
+> 
+> Before it worked w/o IRQ, here is a regression you introduced.
+> 
+>> +       if (irq < 0) {
+> 
+>> +               dev_err(dev, "Failed to get irq: %d\n", irq);
+> 
+> Redundant message.
+> 
+>> +               return irq;
+>> +       }
 
-thanks,
-
-greg k-h
+- Artur
