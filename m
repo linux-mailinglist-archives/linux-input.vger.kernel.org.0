@@ -2,67 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EE5D1AF5EB
-	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 01:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31D1A1AF643
+	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 04:16:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725877AbgDRXo7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 Apr 2020 19:44:59 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:42075 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725805AbgDRXo7 (ORCPT
+        id S1725939AbgDSCQe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 18 Apr 2020 22:16:34 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:34229 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1725827AbgDSCQd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Apr 2020 19:44:59 -0400
-X-Originating-IP: 86.202.105.35
-Received: from localhost (lfbn-lyo-1-9-35.w86-202.abo.wanadoo.fr [86.202.105.35])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 4EC7FFF804;
-        Sat, 18 Apr 2020 23:44:56 +0000 (UTC)
-Date:   Sun, 19 Apr 2020 01:44:56 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Kamel Bouhara <kamel.bouhara@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-iio@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] ARM: at91: add atmel tcb capabilities
-Message-ID: <20200418234456.GA7326@piout.net>
-References: <20200415130455.2222019-1-kamel.bouhara@bootlin.com>
- <20200415130455.2222019-2-kamel.bouhara@bootlin.com>
- <20200417135635.GA94725@icarus>
- <20200418192327.151e3155@archlinux>
+        Sat, 18 Apr 2020 22:16:33 -0400
+Received: (qmail 28257 invoked by uid 500); 18 Apr 2020 22:16:32 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 18 Apr 2020 22:16:32 -0400
+Date:   Sat, 18 Apr 2020 22:16:32 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     Julian Squires <julian@cipht.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        syzbot <syzbot+7bf5a7b0f0a1f9446f4c@syzkaller.appspotmail.com>
+cc:     linux-input@vger.kernel.org, <andreyknvl@google.com>,
+        <gregkh@linuxfoundation.org>, <ingrassia@epigenesys.com>,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: Re: KASAN: use-after-free Read in usbhid_close (3)
+In-Reply-To: <000000000000f610e805a39af1d0@google.com>
+Message-ID: <Pine.LNX.4.44L0.2004182158020.26218-100000@netrider.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200418192327.151e3155@archlinux>
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 18/04/2020 19:23:27+0100, Jonathan Cameron wrote:
-> On Fri, 17 Apr 2020 09:56:35 -0400
-> William Breathitt Gray <vilhelm.gray@gmail.com> wrote:
-> 
-> > On Wed, Apr 15, 2020 at 03:04:53PM +0200, Kamel Bouhara wrote:
-> > > Some atmel socs have extra tcb capabilities that allow using a generic
-> > > clock source or enabling a quadrature decoder.
-> > > 
-> > > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>  
-> > 
-> > Signed-off-by: William Breathitt Gray <vilhelm.gray@gmail.com>
-> > 
-> I'll need an appropriate ack from at91 maintainers for this bit
-> 
+linux-input people:
 
-Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+syzbot has found a bug related to USB/HID/input, and I have narrowed it
+down to the wacom driver.  As far as I can tell, the problem is caused
+the fact that drivers/hid/wacom_sys.c calls input_register_device()
+in several places, but it never calls input_unregister_device().
 
--- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+I know very little about the input subsystem, but this certainly seems 
+like a bug.
+
+When the device is unplugged, the disconnect pathway doesn't call
+hid_hw_close().  That routine doesn't get called until the user closes
+the device file (which can be long after the device is gone and
+hid_hw_stop() has run).  Then usbhid_close() gets a use-after-free
+error when it tries to access data structures that were deallocated by
+usbhid_stop().  No doubt there are other problems too, but this is
+the one that syzbot found.
+
+Can any of you help fix this?  Thanks.
+
+Alan Stern
+
