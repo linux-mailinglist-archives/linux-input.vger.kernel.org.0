@@ -2,84 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50BF51AF916
-	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 11:47:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 938031AF9BD
+	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 14:03:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725923AbgDSJrj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Apr 2020 05:47:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38880 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725832AbgDSJrj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Apr 2020 05:47:39 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF4E1C061A0C
-        for <linux-input@vger.kernel.org>; Sun, 19 Apr 2020 02:47:38 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id q19so6621342ljp.9
-        for <linux-input@vger.kernel.org>; Sun, 19 Apr 2020 02:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/gRzQjk7FJHl509bxscE1hykZLFyAAYlKz38so1O1fo=;
-        b=aI5DSSotzl09S1MIVQpecSaW4A2irv2XxSb0uGVzd3MUTqbNzihFTpgeVF/+88HFAZ
-         op82cUA1Ay5SWoixMHQmNvZNxlgMb5o6Yc8o5nTKG6iB/jKAEsH7FKXgiCIMfTKmNFnD
-         PuD7gixzN/lRwx4CRpBWN27CJPLNmQPmSPE1CcV/awpJk4ekTjoSz5EfsIEIUm7XKING
-         yGkO1bj/A/vNKeMFAr+Y+YdjIE0hYYTQFl2vad+ElrPz1LR0zAW54RedQSMCCfWS9Ehv
-         UvU6LclqypLHbsl0d/8zpxEqYYXgU+n9l9S1mY/UjZijMcTzFd5ONSlvPwWhLPYvnYVE
-         eCzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/gRzQjk7FJHl509bxscE1hykZLFyAAYlKz38so1O1fo=;
-        b=LMSfRSnrnhU1+nSLAmEicFti8lBth/DvI83WELhkVRFu26voTW9TbWJ4XY7/oXmNlm
-         O2P3lFb5xdJTCrYEDaFjnZ4Qt320IqXxbBcTZ2996bAL8RNaU3awWOYXRj98uZ6nwyMo
-         LZsxFTglU8+ivucqr49PIu537d8bJdzXZi0d3fG8oHBE7jrfOhEKkfhTbdBInqqUK8C2
-         Nbxb7FS1I+Q7ocY80IqB/iP2v4CBa4L0xwVuqk2kHOHnfOXo7Z68ej6tabTJMDLS7kpG
-         QwYVE4oG2IV2RlJi8YcDk3bsD11BMnxwnOkG72HUETw0psrh1Pcll+CY3oUh6IIvNb8H
-         qeTA==
-X-Gm-Message-State: AGi0PuYLQDX5lP84fYS44NcT4Sw5UcvbmG6HRFyQJkNqHj7JcmS8f7de
-        W55yclFvhvV78cq7tW8PNXr5721/Uy1YCIRZb489hB6A
-X-Google-Smtp-Source: APiQypIihoDovuMiGj2RFObbmNzV7Gh/xSl3TiTsMOB/5IUuhY7XSxVzrAMVuqab2WMByn+30K3tU+IyuT8CYonOvTY=
-X-Received: by 2002:a2e:81d5:: with SMTP id s21mr1427011ljg.258.1587289657251;
- Sun, 19 Apr 2020 02:47:37 -0700 (PDT)
+        id S1725990AbgDSMDJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Apr 2020 08:03:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46508 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725841AbgDSMDJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 19 Apr 2020 08:03:09 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EEB2F21841;
+        Sun, 19 Apr 2020 12:03:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587297788;
+        bh=x2vOiaCnxxSwfQdLjmqVJM8lbr3nu9ilx4uLADcHgbI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BQIo366fubUyRRR8gy2ghwhRQu0Kwnh4p0dbM2JbxKVFUDW8yZ1SDgiYSl5JqwVeR
+         wZ5SL8Ku8jXAHvkI6SEOWx2BKIwYfUnNkbRnpiO/xRR81S6FYbEAx2Q4OceLmb8Ctn
+         LwJSFTVsq/8XLc3RC94BktgRcZXJ/hdv3QPM50lA=
+Date:   Sun, 19 Apr 2020 14:03:04 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Joe Perches <joe@perches.com>, Rafael Wysocki <rafael@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        linux-usb@vger.kernel.org,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        "open list:NFS, SUNRPC, AND..." <linux-nfs@vger.kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        target-devel <target-devel@vger.kernel.org>,
+        Zzy Wysm <zzy@zzywysm.com>
+Subject: Re: [PATCH 7/9] drivers/base: fix empty-body warnings in
+ devcoredump.c
+Message-ID: <20200419120304.GA3668771@kroah.com>
+References: <20200418184111.13401-1-rdunlap@infradead.org>
+ <20200418184111.13401-8-rdunlap@infradead.org>
+ <20200418185033.GQ5820@bombadil.infradead.org>
+ <b88d6f8b-e6af-7071-cefa-dc12e79116b6@infradead.org>
+ <d018321b0f281ff29efb04dd1496c8e6499812fb.camel@perches.com>
+ <CAHk-=wi4QU90W1j1VVUrqdrkrq-0XPA06sjGUm-g1VHRB-35YA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200417203059.8151-1-linus.walleij@linaro.org> <20200418204221.GA166864@dtor-ws>
-In-Reply-To: <20200418204221.GA166864@dtor-ws>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 19 Apr 2020 11:47:26 +0200
-Message-ID: <CACRpkdZKuxGb8ESd=U=nFDwbywYGzFULbehU6w0NMCFmQbqPNQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND] Input: Delete unused GP2AP002A00F driver
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linux Input <linux-input@vger.kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wi4QU90W1j1VVUrqdrkrq-0XPA06sjGUm-g1VHRB-35YA@mail.gmail.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Apr 18, 2020 at 10:42 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
-> On Fri, Apr 17, 2020 at 10:30:59PM +0200, Linus Walleij wrote:
-> > There is now an IIO driver for GP2AP002A00F and
-> > GP2AP002S00F in drivers/iio/light/gp2ap002.c.
+On Sat, Apr 18, 2020 at 12:15:57PM -0700, Linus Torvalds wrote:
+> On Sat, Apr 18, 2020 at 11:57 AM Joe Perches <joe@perches.com> wrote:
 > >
-> > Delete this driver, it is unused in the kernel tree
-> > and new users can make use of the IIO driver.
-> >
-> > Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> > ---
-> >  drivers/input/misc/Kconfig        |  11 --
-> >  drivers/input/misc/Makefile       |   1 -
-> >  drivers/input/misc/gp2ap002a00f.c | 281 ------------------------------
->
-> Don't we need to delete include/linux/input/gp2ap002a00f.h as well? (No
-> need to resend if you agree, I can adjust it on my end).
+> > sysfs_create_link is __must_check
+> 
+> The way to handle __must_check if you really really don't want to test
+> and have good reasons is
+> 
+>  (a) add a big comment about why this case ostensibly doesn't need the check
+> 
+>  (b) cast a test of it to '(void)' or something (I guess we could add
+> a helper for this). So something like
+> 
+>         /* We will always clean up, we don't care whether this fails
+> or succeeds */
+>         (void)!!sysfs_create_link(...)
+> 
+> There are other alternatives (like using WARN_ON_ONCE() instead, for
+> example). So it depends on the code. Which is why that comment is
+> important to show why the code chose that option.
+> 
+> However, I wonder if in this case we should just remove the
+> __must_check. Greg? It goes back a long long time.
 
-Yep that should go too, thanks and sorry for missing it.
+Yeah, maybe it is time to remove it, the gyrations people go through to
+remove the warning when they "know" they are doing it right feels pretty
+bad compared to forcing people to check things for "normal" calls to the
+function.
 
-Yours,
-Linus Walleij
+thanks,
+
+greg k-h
