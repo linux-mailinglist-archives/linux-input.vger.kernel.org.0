@@ -2,113 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 564AD1AFCEF
-	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 20:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04CA01AFD00
+	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 20:10:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726327AbgDSSBk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Apr 2020 14:01:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58022 "EHLO
+        id S1726447AbgDSSKD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Apr 2020 14:10:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725793AbgDSSBj (ORCPT
+        with ESMTP id S1726441AbgDSSKD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Apr 2020 14:01:39 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2E7FC061A0C;
-        Sun, 19 Apr 2020 11:01:39 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id b8so3804617pfp.8;
-        Sun, 19 Apr 2020 11:01:39 -0700 (PDT)
+        Sun, 19 Apr 2020 14:10:03 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FBC2C061A0C
+        for <linux-input@vger.kernel.org>; Sun, 19 Apr 2020 11:10:03 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id a23so3082327plm.1
+        for <linux-input@vger.kernel.org>; Sun, 19 Apr 2020 11:10:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=KpOqt3ibcjgu9959clRGOJ/frmqx1Frhy+1ehyb6rKs=;
-        b=YDIpk6C7AXGUdjBgyuMNw8tQuWAfxYnXK82anp3paB1Ymj0wavoSosiBEqli2Z3Cf6
-         qr4kna32p61tAeiEQYEAHrg6T9d15oepQk5/MbRFIDl3KiKyITsqwjSkUPUhHeX35fT4
-         Arj9exIpY8AavJ8ovAR7sWrjKssv/YILKaPYXtFFTCefFp5eR178J7w6696YmSR/jx0x
-         //t5El8c78LJjGjKbUQWEyneyXF2xamQbnnCoe4hKmmpbG3FB0UypL7VYBK4H2jBpHaW
-         xoyr21NPZgL8CuRRmJgmz9I219x4zoWUMA/0s9MAmSYw5MTTWEIdNFbERgdD1EfvcEwz
-         oJbw==
+        bh=gP3bf94HGmWv/w801PZgYPPWZ1RYJljVn8XoFtHluHM=;
+        b=KZdjfwJBPhCt920tS0GYlNoyHFL0XsewCasGTMYgzkJBVyWD2iSMIPflu6F9rZvqzl
+         wUzz2ASqYLXKQSfvocwxWUAWqv9/77MaNznbwY0iucbD5RFrwd2OexToTuZ1GlNtFY75
+         knlgVrZZZzGxJo0LQb5H/XKqLmYHNYzBcf0JFcJTudiY/f1DEarn/rKT5LyTuuQIsmDG
+         /w6sYenLpkSyiUQ1sEzAdozTlq4IzqmY/pauIGWXTYomx+YP56BSBLlLMPsYYcpvZyT+
+         ro5gpf9EgGO1mYYxiZAonC2mAkYS5e3HDM7WDkO5SbcNtjVqE3uNugJH17ufwZHgsOUv
+         zYSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=KpOqt3ibcjgu9959clRGOJ/frmqx1Frhy+1ehyb6rKs=;
-        b=bcBLVgo+Uzv00YpkV5JyeBh+SjrAWgYo3STuzrlPZCxlS0BK1Bp3WuH1gaPhTItNM3
-         3J0cmqU6286z+ITKrQaM7CUScd5DeXgLC+NepSRDAxEaoOW+d/poRnNzNqex/ywPo0Um
-         OXj946So4Ycs7mMY8fHFN513rdv1XR4PbVr0MH9DRhN+2FLKv96qcz39ufAa8C86Ny2X
-         7VMc3w0jD05BQ4kzfXAgorEsi5+DTARqzSg0CMPyYVEsUYIibooq5pEEyU+4k3NRb6KK
-         jDQ43RB3jd1UwIZTx3WAWzXL8usTlEVESjk1/FjhdPPZpQqPWqmo5tr55f/KOfRYGMgW
-         SrNg==
-X-Gm-Message-State: AGi0PuaS5shbmmQGzglR5+zEUutlOpEYKRjTNPbaICK+DgWv0EtJw0qJ
-        eIRge4lDhQW+ECbU2KMmFVI=
-X-Google-Smtp-Source: APiQypK3R4NboOhxdB/lNjNaSvIg54OvPS2ZyTTqFss6oO8a++ttbXPiuI9ld2t2Bewo+JaT6DULNA==
-X-Received: by 2002:a63:3002:: with SMTP id w2mr12813379pgw.290.1587319299237;
-        Sun, 19 Apr 2020 11:01:39 -0700 (PDT)
+        bh=gP3bf94HGmWv/w801PZgYPPWZ1RYJljVn8XoFtHluHM=;
+        b=jYeRKWufUvKHroZXjLCTi4PmSEkq1i2aEqagSeus+LMtbAeT2Jku993iRz3rnyWeLy
+         aVm8M/tlTdP2kvBLijUohKtwWOhchAoxFXDX9F/Qg3kBoDBNXy/8UM44PctdIsZCk8XR
+         YLahiy3G6bjZvz5S2eD+fxrEz44z6zovVVXuumZi6R1doyomBK1opopP6wHkzRlbja01
+         LNJZ2iMfHTw71ySAyaiZeph7kHP17E22/yDUTprtz0A1cObDO/JYHVLH1yA3DsDuEaIp
+         Ohq6MuFIei+3G8sVYzSQhZm5hGhRRH0H3G8nuJJjluMMaey/F7O04kOdOie5n+EH7KY5
+         zdpQ==
+X-Gm-Message-State: AGi0PuZt917szdEBkAPD0Sa8xgfuO3Q/nru9PKd2l5olxKsJknvzntJJ
+        6/IrPV4vd+r1XlfiQzTQ0Cg=
+X-Google-Smtp-Source: APiQypLpBd/Hbgbro7UIGBlYqi+VR4ClqvumLyEiD3rR8KsYLTayq7kN73pRNChuqBFK0B8OzQ+D+w==
+X-Received: by 2002:a17:90a:d901:: with SMTP id c1mr17985393pjv.120.1587319802718;
+        Sun, 19 Apr 2020 11:10:02 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id v26sm3543872pfe.121.2020.04.19.11.01.38
+        by smtp.gmail.com with ESMTPSA id i8sm7011127pfq.126.2020.04.19.11.10.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Apr 2020 11:01:38 -0700 (PDT)
-Date:   Sun, 19 Apr 2020 11:01:36 -0700
+        Sun, 19 Apr 2020 11:10:02 -0700 (PDT)
+Date:   Sun, 19 Apr 2020 11:10:00 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     LuK1337 <priv.luk@gmail.com>,
-        Cameron Gutman <aicommander@gmail.com>,
-        Mark Furneaux <mark@furneaux.ca>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: xpad - Update xboxone fw2015 init packet
-Message-ID: <20200419180136.GK166864@dtor-ws>
-References: <20200419041651.GD166864@dtor-ws>
- <20200419074624.9955-1-priv.luk@gmail.com>
+To:     BOUGH CHEN <haibo.chen@nxp.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>
+Subject: Re: [PATCH 2/2] input: egalax_ts: free irq resource before request
+ the line as GPIO
+Message-ID: <20200419181000.GL166864@dtor-ws>
+References: <1581410472-3225-1-git-send-email-haibo.chen@nxp.com>
+ <1581410472-3225-2-git-send-email-haibo.chen@nxp.com>
+ <20200310042643.GB192640@dtor-ws>
+ <VI1PR04MB504032C19CA8D76AE845AE6A90FF0@VI1PR04MB5040.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200419074624.9955-1-priv.luk@gmail.com>
+In-Reply-To: <VI1PR04MB504032C19CA8D76AE845AE6A90FF0@VI1PR04MB5040.eurprd04.prod.outlook.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 19, 2020 at 09:46:23AM +0200, LuK1337 wrote:
-> From: Łukasz Patron <priv.luk@gmail.com>
+On Tue, Mar 10, 2020 at 07:15:35AM +0000, BOUGH CHEN wrote:
 > 
-> Appending { 0x05, 0x20, 0x02, 0x0f, 0x06 } to
-> xboxone_fw2015_init fixes an issue where the
-> controller is somewhat stuck in bluetooth
-> mode until you plug it into Windows PC.
+> > From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > Sent: 2020年3月10日 12:27
+> > To: BOUGH CHEN <haibo.chen@nxp.com>
+> > Cc: linux-input@vger.kernel.org; dl-linux-imx <linux-imx@nxp.com>
+> > Subject: Re: [PATCH 2/2] input: egalax_ts: free irq resource before request
+> > the line as GPIO
+> > 
+> > On Tue, Feb 11, 2020 at 04:41:12PM +0800, haibo.chen@nxp.com wrote:
+> > > From: Haibo Chen <haibo.chen@nxp.com>
+> > >
+> > > +	egalax_free_irq(ts);
+> > 
+> > It sounds to me you want simply disable interrupts in suspend. Does not
+> > calling disable_irq() here suffice?
 > 
-> Signed-off-by: Łukasz Patron <priv.luk@gmail.com>
 
-Thank you Łukasz. Could you please tell me what device(s) have you
-observed the issue with? I am a bit worried if this may interfere with
-other devices that currently work fine with the driver. Cameron, Mark,
-do you have any concerns here?
+> Here why I want to disable interrupts here is because in the newest
+> gpio system, if the gpio is request as an irq, it can't be request as
+> a gpio anymore.  In the function egalax_wake_up_device(), we need to
+> request the irq pin as a gpio for a while, generate a signal to wake
+> up the device. So before request the pad as gpio, need first free irq
+> resource.
 
-> ---
->  drivers/input/joystick/xpad.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-> index 6b40a1c68f9f..894fa81f717a 100644
-> --- a/drivers/input/joystick/xpad.c
-> +++ b/drivers/input/joystick/xpad.c
-> @@ -455,7 +455,8 @@ struct xboxone_init_packet {
->   * or later firmware installed (or present from the factory).
->   */
->  static const u8 xboxone_fw2015_init[] = {
-> -	0x05, 0x20, 0x00, 0x01, 0x00
-> +	0x05, 0x20, 0x00, 0x01, 0x00,
-> +	0x05, 0x20, 0x02, 0x0f, 0x06
->  };
->  
->  /*
-> -- 
-> 2.26.0
-> 
+This seems like a fairly common pattern and I wonder if our GPIO
+overlords can help us here.
+
+Linus, Mika, Andy, would it be possible to have an API that would allow
+driver to temporarily "take over" GPIO that is used for interrupts and
+drive it as output without resorting to freeing and re-acquiring irq?
+I.e. something like gpiod_irq_drive_output_start() and
+gpiod_irq_drive_output_end()?
 
 Thanks.
 
