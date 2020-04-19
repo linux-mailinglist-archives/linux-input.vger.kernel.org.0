@@ -2,144 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A251D1AFCA3
-	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 19:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 564AD1AFCEF
+	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 20:01:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726022AbgDSRS7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Apr 2020 13:18:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51522 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725932AbgDSRS6 (ORCPT
+        id S1726327AbgDSSBk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Apr 2020 14:01:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58022 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725793AbgDSSBj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Apr 2020 13:18:58 -0400
+        Sun, 19 Apr 2020 14:01:39 -0400
 Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D180C061A0C;
-        Sun, 19 Apr 2020 10:18:58 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id 145so1506609pfw.13;
-        Sun, 19 Apr 2020 10:18:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2E7FC061A0C;
+        Sun, 19 Apr 2020 11:01:39 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id b8so3804617pfp.8;
+        Sun, 19 Apr 2020 11:01:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qapmg8H0xsf8FtuVuTZYqLZSXqZnlrHTeBzdG8nPoxQ=;
-        b=ZLj0QO7JBhhyg2TkZzrF+7SNq3YZXndE/CqFNKiGMtdjt9k32EAhBGxNkIZIIP7oqu
-         iAX9gedTI9rI8ozBIW3Uqycn1NbdiuLkxJtKetbn64NN2dyX1yITXvGbBuFy/jZ2WodC
-         FEiZ1vjh6No0KocBqnIVkdi3Qsr8sOpfwb3fsvt6gKcEQGDlqrldwa9QvrrI1sNhFl3j
-         KL8BZIs/jO2fDXlD8p/yaMeg5A63UP4cXEBfZvgz0pHyKNKkOoODGubbdxv+Q+l9Kn1C
-         liD791cj7zzYUIvOhrzeh0t7pmmKLfydHg2b/vUlmMChzQrwbtMTptZXblc4CI/0VlsX
-         bCjA==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=KpOqt3ibcjgu9959clRGOJ/frmqx1Frhy+1ehyb6rKs=;
+        b=YDIpk6C7AXGUdjBgyuMNw8tQuWAfxYnXK82anp3paB1Ymj0wavoSosiBEqli2Z3Cf6
+         qr4kna32p61tAeiEQYEAHrg6T9d15oepQk5/MbRFIDl3KiKyITsqwjSkUPUhHeX35fT4
+         Arj9exIpY8AavJ8ovAR7sWrjKssv/YILKaPYXtFFTCefFp5eR178J7w6696YmSR/jx0x
+         //t5El8c78LJjGjKbUQWEyneyXF2xamQbnnCoe4hKmmpbG3FB0UypL7VYBK4H2jBpHaW
+         xoyr21NPZgL8CuRRmJgmz9I219x4zoWUMA/0s9MAmSYw5MTTWEIdNFbERgdD1EfvcEwz
+         oJbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qapmg8H0xsf8FtuVuTZYqLZSXqZnlrHTeBzdG8nPoxQ=;
-        b=PhEcdo6mr9GiEqIWros97z6UdS6W1Yi+mCHjPSNi8eLG+6fsGIfqnn35JH12r/OKWw
-         gxp5zKeFsszzdm8NB7AP6mqJP27VBetSW05og5wGfPSiPazIDVWL4yBskYr9b0dqaRV3
-         LGqqMOzvRR7iA1fz1dUNEEK1aN58H4vr7TyQyZYZCtiYjneWTZQ8om6nEUfDl8hH8owC
-         enI1aXsL1O1rIwrY8RgXbBm7flaCSrrGLw4p+KpZFutoO6EcJ5NlZNbtffjowHeRxB91
-         AyhKZ1vNNi75cEOJ6T4N6+xcZij3CdfcY7cRqBf36nbXhWZDfCP6Ys1rAjOPIiLVaTV6
-         6g4w==
-X-Gm-Message-State: AGi0PuYUCG2LvPN1JxX3LnXQtAeObgTqZPxIOiG/CvF788Bpj9ZUgUoU
-        Zt543GZtz5ogreS9mkDG7Swa3HrG
-X-Google-Smtp-Source: APiQypJBlIWcg4jaSV+mBDmX6rq5LhzmSESAt2LOosTpZPo72+cTWIIFEXwLzWJ6w/2GFdsnOpkRxg==
-X-Received: by 2002:a63:4a59:: with SMTP id j25mr12358714pgl.336.1587316737845;
-        Sun, 19 Apr 2020 10:18:57 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=KpOqt3ibcjgu9959clRGOJ/frmqx1Frhy+1ehyb6rKs=;
+        b=bcBLVgo+Uzv00YpkV5JyeBh+SjrAWgYo3STuzrlPZCxlS0BK1Bp3WuH1gaPhTItNM3
+         3J0cmqU6286z+ITKrQaM7CUScd5DeXgLC+NepSRDAxEaoOW+d/poRnNzNqex/ywPo0Um
+         OXj946So4Ycs7mMY8fHFN513rdv1XR4PbVr0MH9DRhN+2FLKv96qcz39ufAa8C86Ny2X
+         7VMc3w0jD05BQ4kzfXAgorEsi5+DTARqzSg0CMPyYVEsUYIibooq5pEEyU+4k3NRb6KK
+         jDQ43RB3jd1UwIZTx3WAWzXL8usTlEVESjk1/FjhdPPZpQqPWqmo5tr55f/KOfRYGMgW
+         SrNg==
+X-Gm-Message-State: AGi0PuaS5shbmmQGzglR5+zEUutlOpEYKRjTNPbaICK+DgWv0EtJw0qJ
+        eIRge4lDhQW+ECbU2KMmFVI=
+X-Google-Smtp-Source: APiQypK3R4NboOhxdB/lNjNaSvIg54OvPS2ZyTTqFss6oO8a++ttbXPiuI9ld2t2Bewo+JaT6DULNA==
+X-Received: by 2002:a63:3002:: with SMTP id w2mr12813379pgw.290.1587319299237;
+        Sun, 19 Apr 2020 11:01:39 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id c15sm2406100pfo.188.2020.04.19.10.18.56
+        by smtp.gmail.com with ESMTPSA id v26sm3543872pfe.121.2020.04.19.11.01.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Apr 2020 10:18:57 -0700 (PDT)
-Date:   Sun, 19 Apr 2020 10:18:55 -0700
+        Sun, 19 Apr 2020 11:01:38 -0700 (PDT)
+Date:   Sun, 19 Apr 2020 11:01:36 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Julian Squires <julian@cipht.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        syzbot <syzbot+7bf5a7b0f0a1f9446f4c@syzkaller.appspotmail.com>,
-        linux-input@vger.kernel.org, andreyknvl@google.com,
-        gregkh@linuxfoundation.org, ingrassia@epigenesys.com,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs@googlegroups.com, Ping Cheng <pingc@wacom.com>,
-        pinglinux@gmail.com, killertofu@gmail.com
-Subject: Re: KASAN: use-after-free Read in usbhid_close (3)
-Message-ID: <20200419171855.GJ166864@dtor-ws>
-References: <20200419041344.GC166864@dtor-ws>
- <Pine.LNX.4.44L0.2004191000080.29527-100000@netrider.rowland.org>
+To:     LuK1337 <priv.luk@gmail.com>,
+        Cameron Gutman <aicommander@gmail.com>,
+        Mark Furneaux <mark@furneaux.ca>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Richard Fontana <rfontana@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: xpad - Update xboxone fw2015 init packet
+Message-ID: <20200419180136.GK166864@dtor-ws>
+References: <20200419041651.GD166864@dtor-ws>
+ <20200419074624.9955-1-priv.luk@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.2004191000080.29527-100000@netrider.rowland.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200419074624.9955-1-priv.luk@gmail.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 19, 2020 at 10:07:34AM -0400, Alan Stern wrote:
-> On Sat, 18 Apr 2020, Dmitry Torokhov wrote:
+On Sun, Apr 19, 2020 at 09:46:23AM +0200, LuK1337 wrote:
+> From: Łukasz Patron <priv.luk@gmail.com>
 > 
-> > On Sat, Apr 18, 2020 at 09:09:44PM -0700, Dmitry Torokhov wrote:
-> > > Hi Alan,
-> > > 
-> > > On Sat, Apr 18, 2020 at 10:16:32PM -0400, Alan Stern wrote:
-> > > > linux-input people:
-> > > > 
-> > > > syzbot has found a bug related to USB/HID/input, and I have narrowed it
-> > > > down to the wacom driver.  As far as I can tell, the problem is caused
-> > > > the fact that drivers/hid/wacom_sys.c calls input_register_device()
-> > > > in several places, but it never calls input_unregister_device().
-> > > > 
-> > > > I know very little about the input subsystem, but this certainly seems 
-> > > > like a bug.
-> > > 
-> > > Wacom driver uses devm_input_allocate_device(), so unregister should
-> > > happen automatically on device removal once we exit wacom_probe().
-> > > 
-> > > > 
-> > > > When the device is unplugged, the disconnect pathway doesn't call
-> > > > hid_hw_close().  That routine doesn't get called until the user closes
-> > > > the device file (which can be long after the device is gone and
-> > > > hid_hw_stop() has run).  Then usbhid_close() gets a use-after-free
-> > > > error when it tries to access data structures that were deallocated by
-> > > > usbhid_stop().  No doubt there are other problems too, but this is
-> > > > the one that syzbot found.
-> > > 
-> > > Unregistering the input device should result in calling wacom_close()
-> > > (if device was previously opened), which, as far as I can tell, calls
-> > > hid_hw_close().
-> > > 
-> > > I wonder if it is valid to call hid_hw_stop() before hid_hw_close()?
+> Appending { 0x05, 0x20, 0x02, 0x0f, 0x06 } to
+> xboxone_fw2015_init fixes an issue where the
+> controller is somewhat stuck in bluetooth
+> mode until you plug it into Windows PC.
 > 
-> No, it isn't.  If it were, for example, why would evdev_disconnect() -> 
-> evdev_cleanup() need to call input_close_device()?
+> Signed-off-by: Łukasz Patron <priv.luk@gmail.com>
 
-Because input and HID are not the same. For input, when we attempt to
-unregister an input device we will go through all attached input
-handlers (like evdev) and if they believe they have the device open they
-will attempt to close it. How close is implemented is up to particular
-driver.
+Thank you Łukasz. Could you please tell me what device(s) have you
+observed the issue with? I am a bit worried if this may interfere with
+other devices that currently work fine with the driver. Cameron, Mark,
+do you have any concerns here?
 
-I am not sure about HID implementation details, but I could envision
-transports where you can tell the transport that you no longer want
-events to be delivered to you ("close") vs you want to disable hardware
-("stop") and support any order of them.
-
-> And why would 
-> usbhid_disconnect() deallocate the usbhid structure which usbhid_stop()
-> accesses?
-
-This happens only after we return from hid_destroy_device(), so
-even in the presence of devm I'd expect that all devm-related stuff
-instantiated by hid-wacom would have been completed before we get back
-to usbhid_disconnect().
-
-Can we validate that calls to wacom_close() happen?
-
+> ---
+>  drivers/input/joystick/xpad.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> > > It could be that we again get confused by the "easiness" of devm APIs
-> > > and completely screwing up unwind order.
+> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+> index 6b40a1c68f9f..894fa81f717a 100644
+> --- a/drivers/input/joystick/xpad.c
+> +++ b/drivers/input/joystick/xpad.c
+> @@ -455,7 +455,8 @@ struct xboxone_init_packet {
+>   * or later firmware installed (or present from the factory).
+>   */
+>  static const u8 xboxone_fw2015_init[] = {
+> -	0x05, 0x20, 0x00, 0x01, 0x00
+> +	0x05, 0x20, 0x00, 0x01, 0x00,
+> +	0x05, 0x20, 0x02, 0x0f, 0x06
+>  };
+>  
+>  /*
+> -- 
+> 2.26.0
 > 
-> That's probably what happened.
 
 Thanks.
 
