@@ -2,101 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6E441AF850
-	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 09:46:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 253881AF8A6
+	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 10:15:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726055AbgDSHqf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Apr 2020 03:46:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48638 "EHLO
+        id S1725903AbgDSIPy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Apr 2020 04:15:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725903AbgDSHqe (ORCPT
+        by vger.kernel.org with ESMTP id S1725446AbgDSIPy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Apr 2020 03:46:34 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3139BC061A0C;
-        Sun, 19 Apr 2020 00:46:34 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id k21so6519125ljh.2;
-        Sun, 19 Apr 2020 00:46:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=XEstN1SgEvGh1nrX3CNzhK3F/ve2pikk0hjy+pd1w1g=;
-        b=G1WAVyJYw1nYjFB9yztOZwG50VPCmIsppMClBRoZtoYJM3ocAdhXWwHeBRkm6lurB1
-         PX6Q+JC0Eg5YhYMoIynB5PZw3PTShXh8VTuGWOfNJC2D30SaKU0mTD2ZpglYqXjffrNB
-         b1dC5K07Yny3hEi2hCMETuG981J+3N2iC8VTIcEOV8eYDBCOWPOb8oRbiDGCNhdewn5Q
-         N4YmTz2pNlFgo18BfbU6n6N4Hk4BKTOrZCpKqKIJQOOl/JubwVzgeKBbhnGlhtgstVi5
-         pNQ8zlmGy1myQ/T1iJ1pjVqJjX7SMyF1FFe1V4iFdLPlNA0Dv5Irz1wUSYdWyna7TNwL
-         EUlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XEstN1SgEvGh1nrX3CNzhK3F/ve2pikk0hjy+pd1w1g=;
-        b=G07CTWcyOfq5YwF2KLk1/ODoUyaJuWd58aVzOcWlof9LQZ1usQa8lnurp66as7fFc/
-         BlaEO48pwLHWUAKcQbOXMiY8xldp8oj2pJmlkMeb8FN8mDRR2pLK4AVwWPHtFk2RQbPz
-         ziUJ46rMT27ARbEiiu8uH0QMwOE1dk2KqEe65wIOOVUV+TH7VYkollQjdooEbdTwUd/H
-         Wx8qCedEjIRw//vFe6xXA3Il1LSE8qCfusKpOODlbZW4UVUc0Z8u+6t+wOlRR/JetSA/
-         VtzhIMZYZaA4/zVCzBnd07mOR2WqkQOu1CxT9SLIYEyQ8fMiUdyc2CkCh69a1IddNXZM
-         dhGg==
-X-Gm-Message-State: AGi0PuZ/FHqMHCrXHY9NHM3kQMBBKcMWVSA2Mz5q10GlLNW7ipeQoFtL
-        2x0hs4l4oZdhgaz313y+TlTQiecX3aw=
-X-Google-Smtp-Source: APiQypIHNnshfJJbE4qKO2Uv+cKUPcxtuv73re1pRTkPxUNmZ8MSf4BYda0S6cMv9ceyOTUMmOG2aw==
-X-Received: by 2002:a2e:760c:: with SMTP id r12mr6461805ljc.139.1587282392694;
-        Sun, 19 Apr 2020 00:46:32 -0700 (PDT)
-Received: from luk-pc.lan (host-46-186-7-151.dynamic.mm.pl. [46.186.7.151])
-        by smtp.googlemail.com with ESMTPSA id f2sm10954407lja.30.2020.04.19.00.46.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Apr 2020 00:46:31 -0700 (PDT)
-From:   LuK1337 <priv.luk@gmail.com>
-Cc:     =?UTF-8?q?=C5=81ukasz=20Patron?= <priv.luk@gmail.com>,
+        Sun, 19 Apr 2020 04:15:54 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4604DC061A0C;
+        Sun, 19 Apr 2020 01:15:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=5ESkbM+8vdIgFeaQKLQyxVIJU96HxbIdvJ6LQfSPcow=; b=pvwx1GcXIeC3t5uPawsWBkdVHQ
+        iiXxl+0atw1Ow7dCeTaEPlV5pGZmU5NeEHgiD6GauX1slXAECXQsFNE9NMWu2519ywz/b+wff/WOX
+        TMC/+MPMdjO3TT0Rftrna/Ci0Cahq1lB09MN0hgPjg6UlZQSvFQvI8Hl6eF9ZnaIwxOSfJg5ri8Io
+        KIuagSQHqNGIuLyx0OKk7Kr7BqpWFvOxOSCJWQS71I0fmCgMrFQjcaFVpza7oTJ7VbiVVU4LRpdAF
+        8xATbPDeZWMvxCY4UHfmtjy1TJqqQqEx8Dbn+J6I61UlAQZJU8HDszvtYFjQWk5yWngyPZTufulmD
+        TFNoMHog==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jQ57G-0008EZ-Na; Sun, 19 Apr 2020 08:15:50 +0000
+Date:   Sun, 19 Apr 2020 01:15:50 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: xpad - Update xboxone fw2015 init packet
-Date:   Sun, 19 Apr 2020 09:46:23 +0200
-Message-Id: <20200419074624.9955-1-priv.luk@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200419041651.GD166864@dtor-ws>
-References: <20200419041651.GD166864@dtor-ws>
+        linux-usb@vger.kernel.org,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        linux-nfs@vger.kernel.org,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>, linux-nvdimm@lists.01.org,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+        Zzy Wysm <zzy@zzywysm.com>
+Subject: Re: [PATCH 8/9] dax: fix empty-body warnings in bus.c
+Message-ID: <20200419081550.GA22341@infradead.org>
+References: <20200418184111.13401-1-rdunlap@infradead.org>
+ <20200418184111.13401-9-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200418184111.13401-9-rdunlap@infradead.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Łukasz Patron <priv.luk@gmail.com>
+On Sat, Apr 18, 2020 at 11:41:10AM -0700, Randy Dunlap wrote:
+>  				rc = -ENOMEM;
+>  		} else
+> -			/* nothing to remove */;
+> +			do_empty(); /* nothing to remove */
+>  	} else if (action == ID_REMOVE) {
+>  		list_del(&dax_id->list);
+>  		kfree(dax_id);
+>  	} else
+> -		/* dax_id already added */;
+> +		do_empty(); /* dax_id already added */
 
-Appending { 0x05, 0x20, 0x02, 0x0f, 0x06 } to
-xboxone_fw2015_init fixes an issue where the
-controller is somewhat stuck in bluetooth
-mode until you plug it into Windows PC.
-
-Signed-off-by: Łukasz Patron <priv.luk@gmail.com>
----
- drivers/input/joystick/xpad.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 6b40a1c68f9f..894fa81f717a 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -455,7 +455,8 @@ struct xboxone_init_packet {
-  * or later firmware installed (or present from the factory).
-  */
- static const u8 xboxone_fw2015_init[] = {
--	0x05, 0x20, 0x00, 0x01, 0x00
-+	0x05, 0x20, 0x00, 0x01, 0x00,
-+	0x05, 0x20, 0x02, 0x0f, 0x06
- };
- 
- /*
--- 
-2.26.0
-
+This is just nasty.  Please just always turn this bogus warning off
+as the existing code is a perfectly readable idiom while the new code
+is just nasty crap for no good reason at all.
