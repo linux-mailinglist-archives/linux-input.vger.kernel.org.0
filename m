@@ -2,94 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27A171AF68F
-	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 06:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 534331AF692
+	for <lists+linux-input@lfdr.de>; Sun, 19 Apr 2020 06:21:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725903AbgDSESe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Apr 2020 00:18:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45170 "EHLO
+        id S1725914AbgDSEVE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Apr 2020 00:21:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725769AbgDSESe (ORCPT
+        by vger.kernel.org with ESMTP id S1725769AbgDSEVE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Apr 2020 00:18:34 -0400
+        Sun, 19 Apr 2020 00:21:04 -0400
 Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D66AC061A0C;
-        Sat, 18 Apr 2020 21:18:34 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id h11so2634422plr.11;
-        Sat, 18 Apr 2020 21:18:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28AEDC061A0C;
+        Sat, 18 Apr 2020 21:21:02 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id z6so2635885plk.10;
+        Sat, 18 Apr 2020 21:21:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=rEiU8SaLExT2bwa3LkvDAdTz36OwDQsEFW3OIT7jvi0=;
-        b=fVZuUy1S+JXROMM7sw9oiIJI/EvhjSp461/28N+T3iKaix8cjxs8Sr6meMrGX4dJ8j
-         i1atIBEUxzKGnxQ6Vsi45qKZWt/1EJNfusQlqa7bKv5J5CPz96PVEMhMWVjfTuHN6JxK
-         OLCz/59yYNMSVjMiTSmtYCcIcnesPgj47TO4qYLUyZGPmuyNUw2ZWscxvATws6VG3KNu
-         95R6gWrSyhS8idKcqmrYVsiVDNiVZ9PZoAKsR5Ayo5r0F3ACMY98xk8Ow1YHuu6S9DEn
-         aLtTW9DO7hlgfN2Z7CJDSrrVm5bL1Kb4z6226aa1bW6VFoSsYaOo/ZO1nAAFaLxjt6xe
-         3yzQ==
+        bh=8yQeEQ9FgLIDQT+soQUD4bkSATvz8kUGKhG0/JAsHfg=;
+        b=cpR2CWG5H9Qb+rWijnZGzULI/vOnYzewJjWyENqjd5Tj5cJ4KUYRT/MyE8beAwEZr3
+         uV0svs7JJz/znSaulqXvlBEtMB/fLeSsEAE7AeEBqn/MrNA/IAzvtSx2fF4/z5SQjoOv
+         UWc/oF/DsUTjI1doosheq0Emj2yi5XfjO6+oMEYeWLeGsTUQwV/5x6t6nASisKZNdBVv
+         KPB1EykCr1lJqAdFeZFNPSvzqDq5pacdgDcNmRYgSkIydNJB3Rjpc0Gfyv0cXv2hCh8M
+         xbgN2ilf+LJ0oylyluhIxWnknjLUHT/b4uqyOej8RbCaxUjTCxcbjvWWNKcnU/jBDlIE
+         3k8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=rEiU8SaLExT2bwa3LkvDAdTz36OwDQsEFW3OIT7jvi0=;
-        b=Y8gXqvt++T6tZkd1tNvZi0Vl4+dtCdNMbD5VBB0Qdg06phkEdNe6ZLsuii9PV7jz+R
-         ac3K7Pab5p4O35HGmW94+JN43J0MW10szOPElw6L/Sa+DpihJvyCSxUYDIyBJYWKUQtf
-         iTaEDGJX85BplW4RgrJypLQtbRLYxoVxN8ky2okdKU9YIjD7p7cxENEpeKMjYXTSyS2R
-         noXMClGZF1cFD7638JrVyAhkSWVi2ydkSITjqO2Xm+nVwNeR963eY7or79wuljOl8mlN
-         b3RIZ5OF3ex6giCL2spBvitem+qf2p02CrI8+chQokY4Nv4MHX4DC37nEKoGo0TQfLor
-         LHsA==
-X-Gm-Message-State: AGi0PubudydD32OhFDKqK7dxz73TC6+FWBnYkBkUCsxUvKmuGkNBWukf
-        WQYq9koyF1Vtj6VgB/CEzY0=
-X-Google-Smtp-Source: APiQypIfMLxz5SPVhlLgxcYESL8q/VZx5LsYXSiGsqQEEjh96OR3skPEcB1sVPwpyHqN7Yrnu+Ae+g==
-X-Received: by 2002:a17:90a:5d96:: with SMTP id t22mr14163074pji.132.1587269913536;
-        Sat, 18 Apr 2020 21:18:33 -0700 (PDT)
+        bh=8yQeEQ9FgLIDQT+soQUD4bkSATvz8kUGKhG0/JAsHfg=;
+        b=l8AYnlaD/2gyHUorYHcC1UxuvsbFxhKQJDdRaO1AatJyZafmKMaP8urYLvs77cKd2j
+         NkbRGlUyKOktsletnkL1rG7HC17V8kaCIdsbiaxwp1FK7TI4kRHzZIcOxOGfm/GP8W2b
+         EFkDFccErfV4JruFKAK45gpKYcA46TOtY3BfwjTe2Wh5RmtZwzJxkwtSYoV4a3wnogRB
+         zvdKKpJgEy7e/JxrWqsYJ/fyly/e0DTgL+ZakYFfmFI1FtQaHFnpj6K0p49FK5NJinOQ
+         W+mAm57wTe868FgCYT8hTgoHfQbjrOqhY0a3UqHaagk9Awq08b13Q1995sHwhWeImap9
+         tCOA==
+X-Gm-Message-State: AGi0Pubm5vsUmB7BZTaZbkCiTlwxgzYLKeUNtK0cA/uajFv5W4ukyseD
+        f5tL2yqtR/cnwtJ8OJgxHOQ=
+X-Google-Smtp-Source: APiQypLifTu40rSRGZD7sXQ86lI9nWsURx8BIRDpq8ZhJT63HBW+kHmUfrY8rJLchMwqG9jDaj3/nw==
+X-Received: by 2002:a17:90b:b08:: with SMTP id bf8mr13745112pjb.158.1587270061458;
+        Sat, 18 Apr 2020 21:21:01 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id b189sm14982848pfb.163.2020.04.18.21.18.32
+        by smtp.gmail.com with ESMTPSA id c14sm22282541pgi.54.2020.04.18.21.21.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2020 21:18:32 -0700 (PDT)
-Date:   Sat, 18 Apr 2020 21:18:30 -0700
+        Sat, 18 Apr 2020 21:21:00 -0700 (PDT)
+Date:   Sat, 18 Apr 2020 21:20:58 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     tglx@linutronix.de, info@metux.net, gregkh@linuxfoundation.org,
-        gustavo@embeddedor.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] Input: tca6416-keypad - Fix a typo in MODULE_DESCRIPTION
-Message-ID: <20200419041830.GF166864@dtor-ws>
-References: <20200413152329.4435-1-christophe.jaillet@wanadoo.fr>
+To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Collabora Kernel ML <kernel@collabora.com>,
+        groeck@chromium.org, bleung@chromium.org, dtor@chromium.org,
+        gwendal@chromium.org, Chanwoo Choi <cw00.choi@samsung.com>,
+        Fei Shao <fshao@chromium.org>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Ting Shen <phoenixshen@chromium.org>,
+        linux-input@vger.kernel.org
+Subject: Re: [RESEND PATCH] Input: cros_ec_keyb: Use cros_ec_cmd_xfer_status
+ helper
+Message-ID: <20200419042058.GG166864@dtor-ws>
+References: <20200414210434.1534982-1-enric.balletbo@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200413152329.4435-1-christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20200414210434.1534982-1-enric.balletbo@collabora.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Apr 13, 2020 at 05:23:29PM +0200, Christophe JAILLET wrote:
-> This should be 'tca6416', not 'tca6146'
+On Tue, Apr 14, 2020 at 11:04:34PM +0200, Enric Balletbo i Serra wrote:
+> This patch makes use of cros_ec_cmd_xfer_status() instead of
+> cros_ec_cmd_xfer(). In this case there is no advantage of doing this
+> apart from that we want to make cros_ec_cmd_xfer() a private function
+> for the EC protocol and let people only use the
+> cros_ec_cmd_xfer_status() to return Linux standard error codes.
 > 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 
 Applied, thank you.
 
 > ---
->  drivers/input/keyboard/tca6416-keypad.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This patch was initially part of this series [1]. The other patches in
+> the series have been applied and remains this, hence, I send this patch
+> alone as a RESEND.
 > 
-> diff --git a/drivers/input/keyboard/tca6416-keypad.c b/drivers/input/keyboard/tca6416-keypad.c
-> index 21758767ccf0..9b0f9665dcb0 100644
-> --- a/drivers/input/keyboard/tca6416-keypad.c
-> +++ b/drivers/input/keyboard/tca6416-keypad.c
-> @@ -374,5 +374,5 @@ static void __exit tca6416_keypad_exit(void)
->  module_exit(tca6416_keypad_exit);
+> [1] https://patchwork.kernel.org/cover/11394361/
+> 
+>  drivers/input/keyboard/cros_ec_keyb.c | 14 +++++---------
+>  1 file changed, 5 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+> index 2b71c5a51f90..fc1793ca2f17 100644
+> --- a/drivers/input/keyboard/cros_ec_keyb.c
+> +++ b/drivers/input/keyboard/cros_ec_keyb.c
+> @@ -347,18 +347,14 @@ static int cros_ec_keyb_info(struct cros_ec_device *ec_dev,
+>  	params->info_type = info_type;
+>  	params->event_type = event_type;
 >  
->  MODULE_AUTHOR("Sriramakrishnan <srk@ti.com>");
-> -MODULE_DESCRIPTION("Keypad driver over tca6146 IO expander");
-> +MODULE_DESCRIPTION("Keypad driver over tca6416 IO expander");
->  MODULE_LICENSE("GPL");
+> -	ret = cros_ec_cmd_xfer(ec_dev, msg);
+> -	if (ret < 0) {
+> -		dev_warn(ec_dev->dev, "Transfer error %d/%d: %d\n",
+> -			 (int)info_type, (int)event_type, ret);
+> -	} else if (msg->result == EC_RES_INVALID_VERSION) {
+> +	ret = cros_ec_cmd_xfer_status(ec_dev, msg);
+> +	if (ret == -ENOTSUPP) {
+>  		/* With older ECs we just return 0 for everything */
+>  		memset(result, 0, result_size);
+>  		ret = 0;
+> -	} else if (msg->result != EC_RES_SUCCESS) {
+> -		dev_warn(ec_dev->dev, "Error getting info %d/%d: %d\n",
+> -			 (int)info_type, (int)event_type, msg->result);
+> -		ret = -EPROTO;
+> +	} else if (ret < 0) {
+> +		dev_warn(ec_dev->dev, "Transfer error %d/%d: %d\n",
+> +			 (int)info_type, (int)event_type, ret);
+>  	} else if (ret != result_size) {
+>  		dev_warn(ec_dev->dev, "Wrong size %d/%d: %d != %zu\n",
+>  			 (int)info_type, (int)event_type,
 > -- 
-> 2.20.1
+> 2.25.1
 > 
 
 -- 
