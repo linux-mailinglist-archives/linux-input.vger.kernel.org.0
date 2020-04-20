@@ -2,79 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C24651B12A8
-	for <lists+linux-input@lfdr.de>; Mon, 20 Apr 2020 19:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DDA31B13BA
+	for <lists+linux-input@lfdr.de>; Mon, 20 Apr 2020 19:58:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726585AbgDTRJf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Apr 2020 13:09:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46370 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726296AbgDTRJf (ORCPT
+        id S1726726AbgDTR6j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Apr 2020 13:58:39 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:46039 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726013AbgDTR6i (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Apr 2020 13:09:35 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF7EC061A0C;
-        Mon, 20 Apr 2020 10:09:33 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id g6so5354015pgs.9;
-        Mon, 20 Apr 2020 10:09:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=oGqtpyrEePYxWV1yvaPlc+oStlhcDZxwsYxCHpPKFI0=;
-        b=UfHtJ++fowlpsq/0H7ghGeV8rsUVqv0/BKPIZZyri5E7/EUQF6XEHFd8K+4c17d4dy
-         C8kRmy/2Bwre7U9WXb+/fkxdvXrkDJ0k1UyyO4TvmpnNEGOh6hAUUD1j8YlYmr8rjf31
-         +NhmspOMowcvfYcKMP6Sk87shhQQRGi+xgjMVz5vKNCeNTLuAdl53ueIdu5nB+k8/xIg
-         gRwW4+04QO4SIh26Fl0uZENFY9Gg7j68ncxGjTQQ2k8DRe7j/oLdUeQOrtX69AxSCCKs
-         NUOo5TqscV/yIfiz5hDozG5ftmE9UJd+spJ2CN+mC+PnBOs+27aEK1DZcsTHIgNEOXhE
-         sDjw==
+        Mon, 20 Apr 2020 13:58:38 -0400
+Received: by mail-oi1-f194.google.com with SMTP id k133so9584632oih.12;
+        Mon, 20 Apr 2020 10:58:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=oGqtpyrEePYxWV1yvaPlc+oStlhcDZxwsYxCHpPKFI0=;
-        b=cQuW5OEOUc0inDirpTk2oicFqZ588QcLUpeqrjv6aTiZaBhsFl+8lmWwKSaj6+/EMB
-         hmljEv+7Im3KVhvTk4BxLR8JK8X/iEUvJOjMNHBnEOVOt7xZ0vWf7pkTDTMYlhLlAuom
-         xLYAxGqVAFx5ZC4TsKMhFpp1bHoUF7UzgXwDebQAm6aqSbFFwe9EfNyUnsy3Z8zqwY06
-         5qo3rXtKcea6TnjYoDlXoeNsq5oIEa8fPxBkBJVLSqwg4dcqjBcpxZxRS7w1YcwBw9Gh
-         VAf5GQg6qb8gOU7rVnMrIqS9CxyoXk1UqiTa/0CvOeElYF9/kCXt017OVPbJ6pT1QaNz
-         /nSA==
-X-Gm-Message-State: AGi0PuYrgoWopbD+8YtonmyAG3QcDPenzUd2+XSBVEv+AqhNWcW7vEKy
-        CKZibRVWLXdkunj5iKv4nYg=
-X-Google-Smtp-Source: APiQypKonnkcRsFc4iqkPXgRs+P8IPPV2hkS+jqMqm39F08ywnDqrN5ZtBi+f5DH78DIeELtHKG8Bw==
-X-Received: by 2002:a62:58c6:: with SMTP id m189mr17359302pfb.161.1587402572992;
-        Mon, 20 Apr 2020 10:09:32 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id t23sm169730pjq.27.2020.04.20.10.09.32
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=dcPKK/Z82IrbhlxfoxaOZNMOk/JJzTs22cge4JBQeik=;
+        b=ZS1pakvBTVkRaxiJZyg7RBi/PXBI4xji388wT3sKWRPXkw8ggove59mOwkZ6IT8M8N
+         26pTFvrDTK0PcCMkvF1f6FmyO6AZpSksl0KQsXNkPktHWUAQRKuCURyn9SejrusYtLaI
+         xxexnt+1DqdyIIATbHlZ9puO2BlCrAk3I/eSH++ujeAtNTxbEhCoeD3Z3vxYp3N2q88d
+         RWqA1GMW2q38JToUMnpe+GcYvfHqScPDoLep/lCG6vNjea2RRFZwoX6NepC12CmR8pFr
+         LalaxhedtHit2dG0+nFXO9iiiHRgtsnT2qZZdyGj0aeSJZOgKqAL2p4RRIHiKq9HfQF0
+         vIwA==
+X-Gm-Message-State: AGi0PuaKjd3025/cIDOdgbY042/4CROqSN9LUmkR9afBSOIbw2lPiJ+z
+        1UBOH48vl5KQcmZ0D2vXYw==
+X-Google-Smtp-Source: APiQypIdSxDnkzoGvplyq+0cQXFUxFEnIyyNYoMQQC/YC9t0Q6lHXcV7sKdKYNUalBncIkTOaz5H9Q==
+X-Received: by 2002:aca:d485:: with SMTP id l127mr398302oig.119.1587405517760;
+        Mon, 20 Apr 2020 10:58:37 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m36sm77626otm.62.2020.04.20.10.58.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2020 10:09:32 -0700 (PDT)
-Date:   Mon, 20 Apr 2020 10:09:30 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     robh+dt@kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] input: misc: Add support for Azoteq IQS269A
-Message-ID: <20200420170930.GO166864@dtor-ws>
-References: <1587340068-2818-1-git-send-email-jeff@labundy.com>
- <1587340068-2818-2-git-send-email-jeff@labundy.com>
+        Mon, 20 Apr 2020 10:58:36 -0700 (PDT)
+Received: (nullmailer pid 4787 invoked by uid 1000);
+        Mon, 20 Apr 2020 17:58:35 -0000
+Date:   Mon, 20 Apr 2020 12:58:35 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        devicetree@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>
+Subject: Re: [PATCH 1/2 v4] dt-bindings: touchscreen: Add CY8CTMA140 bindings
+Message-ID: <20200420175835.GA3511@bogus>
+References: <20200417204312.13453-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1587340068-2818-2-git-send-email-jeff@labundy.com>
+In-Reply-To: <20200417204312.13453-1-linus.walleij@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 19, 2020 at 06:47:48PM -0500, Jeff LaBundy wrote:
-> This patch adds support for the Azoteq IQS269A capacitive touch
-> controller.
+On Fri, 17 Apr 2020 22:43:11 +0200, Linus Walleij wrote:
+> This adds device tree bindings for the Cypress CY8CTMA140
+> touchscreen.
 > 
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> Cc: devicetree@vger.kernel.org
+> Cc: Henrik Rydberg <rydberg@bitmath.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v1->v4:
+> - Drop the description of 'reg', it's surplus.
+> - Set the I2C frequency to the span 100k to 400k instead
+>   of hardcoding 400k.
+> - Collect Rob's review tag.
+> ---
+>  .../input/touchscreen/cypress,cy8ctma140.yaml | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma140.yaml
+> 
 
-This looks good, so just need to get Rob's take on the binding...
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Thanks.
+Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma140.example.dts:18.22-32.11: Warning (unit_address_vs_reg): /example-0/i2c@00000000: node has a unit name, but no reg or ranges property
+Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma140.example.dts:18.22-32.11: Warning (unit_address_format): /example-0/i2c@00000000: unit name should not have leading 0s
 
--- 
-Dmitry
+See https://patchwork.ozlabs.org/patch/1272475
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
