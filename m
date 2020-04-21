@@ -2,138 +2,169 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9A4A1B1DCB
-	for <lists+linux-input@lfdr.de>; Tue, 21 Apr 2020 06:56:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F2AB1B2114
+	for <lists+linux-input@lfdr.de>; Tue, 21 Apr 2020 10:07:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726021AbgDUE47 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Apr 2020 00:56:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44892 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725992AbgDUE47 (ORCPT
+        id S1726403AbgDUIG6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Apr 2020 04:06:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45928 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727042AbgDUIG4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Apr 2020 00:56:59 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF92EC061A0F;
-        Mon, 20 Apr 2020 21:56:58 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id n24so4803273plp.13;
-        Mon, 20 Apr 2020 21:56:58 -0700 (PDT)
+        Tue, 21 Apr 2020 04:06:56 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58DEEC061A10
+        for <linux-input@vger.kernel.org>; Tue, 21 Apr 2020 01:06:56 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id l11so10386802lfc.5
+        for <linux-input@vger.kernel.org>; Tue, 21 Apr 2020 01:06:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/kZQBZrT7d+NZ7hXhFjqvc0yPUpSInT9Q68O6DIDCdE=;
-        b=I0wA5N5rgHL+QS3JC/e8E9bDZFN/3qd4hMle1jsvTBxkIiwSzozu+78n6FTeGXtrhB
-         lC3DadWUjWrFS9w3p7+30CmgG7oDR5d8f8CS/hOcTVG2Ghn8geYcKtimk121BI3u2/vk
-         LGy6PICsN7xHo/6dad9UdPt7TePMAUQsXtpcZJqwJHZn0RUEiHeCL4YXzgJv7G5dMWPD
-         Mw2lUMo3B7LEBONMW8nzbX2e1MABimYIHJAOGIaB9lCelMLCIjtBeybOWbsDnSZxTQSj
-         wqhYir3DDRK3AkRKlGxbViNhs+qaKGbKzpU77R6LmUjCkM4YgF2K54F9BTXsfuy/J/J7
-         jn9w==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mzFEPeMdiYfPEUHylv58dh/en7nprJe45mS8FlBWrSs=;
+        b=P5Cau5mcQb/dtxGn3vL82In9QZ528aUybqggqzAW5oOE4pVtlM/87cSFIP7ckq64Bt
+         AOOJ03WBRUmGqaCWf3c+Dyt0Amdxgzc5FFqUxWtRxfGjQ/WseU5Of/NkdQdK4681B/cO
+         IFKdr1pOx7JGOuXgJ5QVok/yhhEUwc1291J/PdaznYicvdIO26oUhYuuXQ2SFjUbViwj
+         mTiG2c13HUqNfBN8CtvJGlSK8fVFwaQsdccXeXGSlZ18wBobcsNS+uaqijATh3z4nE5k
+         I3544BK9BADwcyi/F7moT0tm+4xMKGBwCV30dQPq+DO/fhjCik+quQYM2LwAJ+0YYYM3
+         rxJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=/kZQBZrT7d+NZ7hXhFjqvc0yPUpSInT9Q68O6DIDCdE=;
-        b=XRN7KVO79J/dnJj8Uz6EMXw+MZy9+dwQpaq/KBxLFwFx4ML+MmV07RE/G0ZSACeS/a
-         BBuAf96ogBHpPaiDoO/jhlIdsRWJLP9edl8IeEb8CteCjjPuWUWQcEUYPmGDK8oOoEEW
-         gh/uFKK7fLT8J08/sobibdwOQvI+l6wFpCiMlCJvbgahKChVROX9w7iuItru6gwpZUHx
-         uQ6GcNjLa1W3PDdWRThbp4osOyo7vfhKvAnsYxrRYRg0RTzTl8AaBiE4sdgc44pL0C7a
-         NosV9YGbfuH4CZPVpupImCHGV7WUOjYBSBobj3cZeppoCnr/C5g2PLkHy2YX/w2sv4iY
-         N3xQ==
-X-Gm-Message-State: AGi0PubhXioPriCleZdlCPsQmv69QJpy0nAqXKYpOjuF3wYM2dALBQ5w
-        wvBKcvtv2f4ImT96MLlLUXAerzZjrEGKtg==
-X-Google-Smtp-Source: APiQypJ8l1ZFE+2LscthXeCV9bRn2vId8DTmm8NGy5NgWvtedGfnryVUDbV7XfSU7mmHY5HKj81ZIA==
-X-Received: by 2002:a17:90a:2347:: with SMTP id f65mr3219502pje.165.1587445017642;
-        Mon, 20 Apr 2020 21:56:57 -0700 (PDT)
-Received: from ?IPv6:2604:4080:1012:8d30:9eb6:d0ff:fe8b:175f? ([2604:4080:1012:8d30:9eb6:d0ff:fe8b:175f])
-        by smtp.gmail.com with ESMTPSA id h9sm1163323pfo.129.2020.04.20.21.56.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Apr 2020 21:56:57 -0700 (PDT)
-Subject: Re: [PATCH] Input: xpad - Update xboxone fw2015 init packet
+        bh=mzFEPeMdiYfPEUHylv58dh/en7nprJe45mS8FlBWrSs=;
+        b=clX0SJHgOSVZ9fjnVwheOdYBBLyXrORi/veUhbcpSh/YHPynh5uhL7UpsI4Lr6YUSD
+         A0SMmq96+ZBUjDgJfzRGtyVD+3QxGJroMwEv/hjiela5yQ6+B/eswAOWM8Pq1+pg7YXI
+         bvZuecDI3zfCYHFTdG1HCb02pC8tkz1MHYGjOlg7ciR3pYK1xntu75B3ZIGjmARbHMBJ
+         3lT1Rc/SE1lfGMsQhdKXZNS3tJEAEIqXwteJOvWM3HznBq2UbX5wmEE4cASA7sGTERlt
+         s58xrUR7xzRsnvm853nkIELiW4bL5xlsrPuBCGz6QGlXhJdtmlRQXPqZbGqYFDkY2Rot
+         T9jQ==
+X-Gm-Message-State: AGi0PubqAtls0ohB+bBTOzr+WAhH8btuB/6uD2yCKxdOKF8NjbAn9lUp
+        Y1PRMZho9Lafw9yqFCt+DPwYxA==
+X-Google-Smtp-Source: APiQypIJ9t3IHnaYjxUeYE5Td3lSXQcm6adIbo1v8gUyy4SPuihBVp3IOoHYhNHdMrhC4zz60ch7gQ==
+X-Received: by 2002:a05:6512:1c5:: with SMTP id f5mr12814889lfp.138.1587456414746;
+        Tue, 21 Apr 2020 01:06:54 -0700 (PDT)
+Received: from localhost.bredbandsbolaget (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
+        by smtp.gmail.com with ESMTPSA id v15sm1318091ljd.33.2020.04.21.01.06.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Apr 2020 01:06:53 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        LuK1337 <priv.luk@gmail.com>, Mark Furneaux <mark@furneaux.ca>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200419041651.GD166864@dtor-ws>
- <20200419074624.9955-1-priv.luk@gmail.com> <20200419180136.GK166864@dtor-ws>
-From:   Cameron Gutman <aicommander@gmail.com>
-Message-ID: <436c79ed-ca21-c075-e2da-0934da5000a2@gmail.com>
-Date:   Mon, 20 Apr 2020 21:56:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        linux-input@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        devicetree@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH 1/2 v5] dt-bindings: touchscreen: Add CY8CTMA140 bindings
+Date:   Tue, 21 Apr 2020 10:06:49 +0200
+Message-Id: <20200421080650.25514-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <20200419180136.GK166864@dtor-ws>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 4/19/20 11:01 AM, Dmitry Torokhov wrote:
-> On Sun, Apr 19, 2020 at 09:46:23AM +0200, LuK1337 wrote:
->> From: Łukasz Patron <priv.luk@gmail.com>
->>
->> Appending { 0x05, 0x20, 0x02, 0x0f, 0x06 } to
->> xboxone_fw2015_init fixes an issue where the
->> controller is somewhat stuck in bluetooth
->> mode until you plug it into Windows PC.
->>
->> Signed-off-by: Łukasz Patron <priv.luk@gmail.com>
-> 
-> Thank you Łukasz. Could you please tell me what device(s) have you
-> observed the issue with? I am a bit worried if this may interfere with
-> other devices that currently work fine with the driver. Cameron, Mark,
-> do you have any concerns here?
-> 
+This adds device tree bindings for the Cypress CY8CTMA140
+touchscreen.
 
-Yes, I gave it a try here, and it looks like there's definitely some
-breakages for non-updated controllers. It breaks the Covert Forces
-edition Xbox One controller (0x045e, 0x02dd) and also another non-upgraded
-Xbox One S controller of the same model as the affected controller
-(0x045e, 0x02ea, firmware 3.1.1221.0).
+Cc: devicetree@vger.kernel.org
+Cc: Henrik Rydberg <rydberg@bitmath.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v4->v5:
+- Fix the unit name in the I2C controller after the building
+  bot complained that it cannot be at @00000000 and that it does
+  not contain a reg. Just call it "i2c".
+ChangeLog v1->v4:
+- Drop the description of 'reg', it's surplus.
+- Set the I2C frequency to the span 100k to 400k instead
+  of hardcoding 400k.
+- Collect Rob's review tag.
+---
+ .../input/touchscreen/cypress,cy8ctma140.yaml | 72 +++++++++++++++++++
+ 1 file changed, 72 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma140.yaml
 
-On the plus side, it _does_ seem to fix the issue.
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma140.yaml b/Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma140.yaml
+new file mode 100644
+index 000000000000..8c73e5264312
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma140.yaml
+@@ -0,0 +1,72 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/cypress,cy8ctma140.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Cypress CY8CTMA140 series touchscreen controller bindings
++
++maintainers:
++  - Linus Walleij <linus.walleij@linaro.org>
++
++allOf:
++  - $ref: touchscreen.yaml#
++
++properties:
++  compatible:
++    const: cypress,cy8ctma140
++
++  reg:
++    const: 0x20
++
++  clock-frequency:
++    description: I2C client clock frequency, defined for host
++    minimum: 100000
++    maximum: 400000
++
++  interrupts:
++    maxItems: 1
++
++  vcpin-supply:
++    description: Analog power supply regulator on VCPIN pin
++
++  vdd-supply:
++    description: Digital power supply regulator on VDD pin
++
++  touchscreen-inverted-x: true
++  touchscreen-inverted-y: true
++  touchscreen-size-x: true
++  touchscreen-size-y: true
++  touchscreen-swapped-x-y: true
++  touchscreen-max-pressure: true
++
++additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - touchscreen-size-x
++  - touchscreen-size-y
++  - touchscreen-max-pressure
++
++examples:
++- |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      touchscreen@20 {
++        compatible = "cypress,cy8ctma140";
++        reg = <0x20>;
++        touchscreen-size-x = <480>;
++        touchscreen-size-y = <800>;
++        touchscreen-max-pressure = <255>;
++        interrupt-parent = <&gpio6>;
++        interrupts = <26 IRQ_TYPE_EDGE_FALLING>;
++        vdd-supply = <&ab8500_ldo_aux2_reg>;
++        vcpin-supply = <&ab8500_ldo_aux2_reg>;
++      };
++    };
++
++...
+-- 
+2.21.1
 
->> ---
->>  drivers/input/joystick/xpad.c | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
->> index 6b40a1c68f9f..894fa81f717a 100644
->> --- a/drivers/input/joystick/xpad.c
->> +++ b/drivers/input/joystick/xpad.c
->> @@ -455,7 +455,8 @@ struct xboxone_init_packet {
->>   * or later firmware installed (or present from the factory).
->>   */
->>  static const u8 xboxone_fw2015_init[] = {
->> -	0x05, 0x20, 0x00, 0x01, 0x00
->> +	0x05, 0x20, 0x00, 0x01, 0x00,
->> +	0x05, 0x20, 0x02, 0x0f, 0x06
->>  };
-
-One thing that strikes me as odd about this init packet is that it looks
-like 2 packets strung together. Most of the other init packets have 0x20
-as their second byte, and there's even something resembling a sequence
-number in the third byte (0x02). Maybe these are supposed to be separate
-init packets?
-
-Hopefully we can find some init sequence that at least the One S controller
-can tolerate on all known firmware versions. If not, the firmware rev is
-available to us in bcdDevice, but I'd only like to use an explicit version
-check as a last resort.
-
->>  /*
->> -- 
->> 2.26.0
->>
-> 
-> Thanks.
-> 
-
-Regards,
-Cameron
