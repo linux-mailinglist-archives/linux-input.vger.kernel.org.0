@@ -2,146 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67DA61B2869
-	for <lists+linux-input@lfdr.de>; Tue, 21 Apr 2020 15:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A5EA1B28B9
+	for <lists+linux-input@lfdr.de>; Tue, 21 Apr 2020 15:58:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728479AbgDUNu1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Apr 2020 09:50:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49319 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726018AbgDUNu1 (ORCPT
+        id S1729099AbgDUN6I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Apr 2020 09:58:08 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:39229 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1729085AbgDUN6D (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Apr 2020 09:50:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1587477025;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fYUyqUrhhbqGF35kWuwwdWpfOqC+MMf8X1CRN78TKMk=;
-        b=MmHn2l2rs8zUBIDrrxJJ2o3K88KnsWVd41JXy++GVBS4WIwZ7eodq8PoP+hbIiHdLghMxo
-        qJ5tneSVV6KbtTO8GnysAaTjThn7ioqA2lgiC22eBor+2f++VggDlUMKL3U9QIpBT/ctfH
-        dk3ycAfvP0N7H8JtV9pi6q49iDEIJPM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-MKVlu4V4Oym7Kth73M4zJg-1; Tue, 21 Apr 2020 09:50:13 -0400
-X-MC-Unique: MKVlu4V4Oym7Kth73M4zJg-1
-Received: by mail-wm1-f71.google.com with SMTP id j5so1474054wmi.4
-        for <linux-input@vger.kernel.org>; Tue, 21 Apr 2020 06:50:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fYUyqUrhhbqGF35kWuwwdWpfOqC+MMf8X1CRN78TKMk=;
-        b=EFf5FY7VPB6wm6dHGmB9FhQx3kstKcjNbLE1al8GkQ7/pBo3yTKUtpwfofbB9k0VMA
-         0ycADS0jTinVWyITyxv6ONPVWhBHRZPI1LK+4SuSfbGhY4hGomZs9W6a7p6UHLGPYDPA
-         +gZxescsjc05E5U5JmytdMzo+AsDLeIndL4OAw0d/phqwbNszem3q/j7/pAxheNtctmp
-         13baz07jDcXcZoyik3G9Off7MXNLOEnGSxD/J4Rsyiw6+H3xvq607c7fbLb7Eyxt8i4+
-         dFnMrh37F4lPHakyg89b/1CnJQVpat5q7Wc24JOr2zq65zPGc6KThuTnbpNGX8C0mFqf
-         PYUQ==
-X-Gm-Message-State: AGi0PuZChrmI2FTes9eDwlzn2/Tx2utDNJIyx/cSV9uF5ulBDJyew8w4
-        gseh5bJtke3U9Dw+rKEOe2kaFfsVubbGWJxZtP+Tk47EaQX1num7r8F1DF/1QhTuQ+QfxlL10ms
-        70j+Ic2oCimDrfJqu43LHqB4=
-X-Received: by 2002:a7b:c181:: with SMTP id y1mr5339852wmi.83.1587477012394;
-        Tue, 21 Apr 2020 06:50:12 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJhXaIQkhcHPAdDUQbyLGGHq104La/5m2RWz1UDpxPs6mNMJOnsNeJfrKHfaYb95Gmj5PzIhw==
-X-Received: by 2002:a7b:c181:: with SMTP id y1mr5339838wmi.83.1587477012189;
-        Tue, 21 Apr 2020 06:50:12 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id k6sm3889340wma.19.2020.04.21.06.50.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Apr 2020 06:50:11 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add info for the ONDA V891
- v5 tablet
-To:     Maksim Karasev <karasevm98@gmail.com>
-Cc:     dvhart@infradead.org, andy@infradead.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
-References: <20200421132548.5627-1-karasevm98@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <1fd3919b-6094-9c33-64d0-e8775c4428bc@redhat.com>
-Date:   Tue, 21 Apr 2020 15:50:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Tue, 21 Apr 2020 09:58:03 -0400
+Received: (qmail 21373 invoked by uid 500); 21 Apr 2020 09:58:02 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 21 Apr 2020 09:58:02 -0400
+Date:   Tue, 21 Apr 2020 09:58:02 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     NeilBrown <neilb@suse.de>
+cc:     Matthew Wilcox <willy@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        <linux-fsdevel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        <linux-input@vger.kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, <alsa-devel@alsa-project.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        <linux-nfs@vger.kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>, <linux-nvdimm@lists.01.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        <linux-scsi@vger.kernel.org>, <target-devel@vger.kernel.org>,
+        Zzy Wysm <zzy@zzywysm.com>
+Subject: Re: [PATCH 5/9] usb: fix empty-body warning in sysfs.c
+In-Reply-To: <87368xskga.fsf@notabene.neil.brown.name>
+Message-ID: <Pine.LNX.4.44L0.2004210956590.20254-100000@netrider.rowland.org>
 MIME-Version: 1.0
-In-Reply-To: <20200421132548.5627-1-karasevm98@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Tue, 21 Apr 2020, NeilBrown wrote:
 
-On 4/21/20 3:25 PM, Maksim Karasev wrote:
-> Add touchscreen info for the ONDA V891 v5 tablet.
-
-Thank you for the patch.
-
-Can you please replace v891 with v891w everywhere to
-be consistent with the existing v891 entries; and ...
-
+> On Sat, Apr 18 2020, Alan Stern wrote:
 > 
-> Signed-off-by: Maksim Karasev <karasevm98@gmail.com>
-> ---
->   drivers/platform/x86/touchscreen_dmi.c | 27 ++++++++++++++++++++++++++
->   1 file changed, 27 insertions(+)
+> > On Sat, 18 Apr 2020, Matthew Wilcox wrote:
+> >
+> >> On Sat, Apr 18, 2020 at 11:41:07AM -0700, Randy Dunlap wrote:
+> >> > +++ linux-next-20200327/drivers/usb/core/sysfs.c
+> >> > @@ -1263,7 +1263,7 @@ void usb_create_sysfs_intf_files(struct
+> >> >  	if (!alt->string && !(udev->quirks & USB_QUIRK_CONFIG_INTF_STRINGS))
+> >> >  		alt->string = usb_cache_string(udev, alt->desc.iInterface);
+> >> >  	if (alt->string && device_create_file(&intf->dev, &dev_attr_interface))
+> >> > -		;	/* We don't actually care if the function fails. */
+> >> > +		do_empty(); /* We don't actually care if the function fails. */
+> >> >  	intf->sysfs_files_created = 1;
+> >> >  }
+> >> 
+> >> Why not just?
+> >> 
+> >> +	if (alt->string)
+> >> +		device_create_file(&intf->dev, &dev_attr_interface);
+> >
+> > This is another __must_check function call.
+> >
+> > The reason we don't care if the call fails is because the file
+> > being created holds the USB interface string descriptor, something
+> > which is purely informational and hardly ever gets set (and no doubt
+> > gets used even less often).
+> >
+> > Is this another situation where the comment should be expanded and the 
+> > code modified to include a useless test and cast-to-void?
+> >
+> > Or should device_create_file() not be __must_check after all?
 > 
-> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-> index 6ec8923dec1a..cc2a2e0a0585 100644
-> --- a/drivers/platform/x86/touchscreen_dmi.c
-> +++ b/drivers/platform/x86/touchscreen_dmi.c
-> @@ -448,6 +448,24 @@ static const struct ts_dmi_data onda_v820w_32g_data = {
->   	.properties	= onda_v820w_32g_props,
->   };
->   
-> +static const struct property_entry onda_v891_v5_props[] = {
-> +	PROPERTY_ENTRY_U32("touchscreen-size-x", 1715),
-> +	PROPERTY_ENTRY_U32("touchscreen-size-y", 1140),
-> +	PROPERTY_ENTRY_BOOL("touchscreen-inverted-x"),
-> +	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
-> +	PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
-> +	PROPERTY_ENTRY_STRING("firmware-name",
-> +			      "gsl3676-onda-v891-v5.fw"),
-> +	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-> +	PROPERTY_ENTRY_BOOL("silead,home-button"),
-> +	{ }
-> +};
-> +
-> +static const struct ts_dmi_data onda_v891_v5_data = {
-> +	.acpi_name	= "MSSL1680:00",
-> +	.properties	= onda_v891_v5_props,
-> +};
-> +
-
-Put this after the v891w_v3 entry please so that we
-have in order v1, v3 and then v5.
-
-Thanks,
-
-Hans
-
-
->   static const struct property_entry onda_v891w_v1_props[] = {
->   	PROPERTY_ENTRY_U32("touchscreen-min-x", 46),
->   	PROPERTY_ENTRY_U32("touchscreen-min-y",  8),
-> @@ -940,6 +958,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
->   			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "V820w DualOS")
->   		},
->   	},
-> +	{
-> +		/* ONDA V891 v5 */
-> +		.driver_data = (void *)&onda_v891_v5_data,
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "ONDA"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "ONDA Tablet"),
-> +			DMI_MATCH(DMI_BIOS_VERSION, "ONDA.D869CJABNRBA06"),
-> +		},
-> +	},
->   	{
->   		/* ONDA V891w revision P891WBEBV1B00 aka v1 */
->   		.driver_data = (void *)&onda_v891w_v1_data,
+> One approach to dealing with __must_check function that you don't want
+> to check is to cause failure to call
+>    pr_debug("usb: interface descriptor file not created");
+> or similar.  It silences the compiler, serves as documentation, and
+> creates a message that is almost certainly never seen.
 > 
+> This is what I did in drivers/md/md.c...
+> 
+> 	if (mddev->kobj.sd &&
+> 	    sysfs_create_group(&mddev->kobj, &md_bitmap_group))
+> 		pr_debug("pointless warning\n");
+> 
+> (I give better warnings elsewhere - I must have run out of patience by
+>  this point).
+
+That's a decent idea.  I'll do something along those lines.
+
+Alan Stern
 
