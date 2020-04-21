@@ -2,87 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97B2E1B194F
-	for <lists+linux-input@lfdr.de>; Tue, 21 Apr 2020 00:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 985791B1B2F
+	for <lists+linux-input@lfdr.de>; Tue, 21 Apr 2020 03:21:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726136AbgDTWVF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Apr 2020 18:21:05 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:45629 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725774AbgDTWVF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Apr 2020 18:21:05 -0400
-Received: by mail-ot1-f65.google.com with SMTP id i22so9583437otp.12;
-        Mon, 20 Apr 2020 15:21:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=uJ0ZsBgxEkcMHz3xmP0pqIOLKyjGmk0/vhj0hq2pCQU=;
-        b=Jh0ispFOcWOjL9fMpVLuvNJqaPeWZnOEePRhMpacALknWqCNYPz00GdBiVQzcDMt86
-         pzVF8/DhDI/eexg5iDrt+N3kD0h7A1z6RGlYYzkLQxPPiX4REkSc7IzfS0t11SHo3fj3
-         IhiOQOkY3LZNw/AjMk9XGO+IWE3YGpmHVqYw65amwlz3ExTJTc0ZU/K71XdudZPxCYNO
-         LiKA51hlT9dZ0imr1SjP/SXa5EcZ1PfYi/hYCGpMwjIcyXTu0eKgusuKHbK+7T3JcnCR
-         rnm1Sb6cdrRAaC55qNXGMTOULQzzoqjyIXs4Hy2JyF3s4n+0QgSF+EztDI+ycccQaANO
-         zc7g==
-X-Gm-Message-State: AGi0PuZo+mlWaGpRc5TgwDHST5+ZwVOVXvxjfh5DmfFjJbqzQ14A2hQN
-        QyR4YyVDhpnOhfvNvsMRFw==
-X-Google-Smtp-Source: APiQypK6mA7ViCuT9PSsCzl82bf8op0UEzG26RywzG77OoyLaJIecAesBlogXZYyw4vHODRoiQzYoQ==
-X-Received: by 2002:a9d:5a10:: with SMTP id v16mr10849175oth.253.1587421264232;
-        Mon, 20 Apr 2020 15:21:04 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id n184sm198794oia.40.2020.04.20.15.21.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2020 15:21:03 -0700 (PDT)
-Received: (nullmailer pid 3065 invoked by uid 1000);
-        Mon, 20 Apr 2020 22:21:02 -0000
-Date:   Mon, 20 Apr 2020 17:21:02 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Kamel Bouhara <kamel.bouhara@bootlin.com>
-Cc:     William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-iio@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] dt-bindings: counter: microchip-tcb-capture
- counter
-Message-ID: <20200420222102.GA1214@bogus>
-References: <20200415130455.2222019-1-kamel.bouhara@bootlin.com>
- <20200415130455.2222019-3-kamel.bouhara@bootlin.com>
+        id S1726013AbgDUBVN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Apr 2020 21:21:13 -0400
+Received: from mx2.suse.de ([195.135.220.15]:36846 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725897AbgDUBVN (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 20 Apr 2020 21:21:13 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 85D4EAEBE;
+        Tue, 21 Apr 2020 01:21:09 +0000 (UTC)
+From:   NeilBrown <neilb@suse.de>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Matthew Wilcox <willy@infradead.org>
+Date:   Tue, 21 Apr 2020 11:20:53 +1000
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        linux-nfs@vger.kernel.org,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>, linux-nvdimm@lists.01.org,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+        Zzy Wysm <zzy@zzywysm.com>
+Subject: Re: [PATCH 5/9] usb: fix empty-body warning in sysfs.c
+In-Reply-To: <Pine.LNX.4.44L0.2004181549020.8036-100000@netrider.rowland.org>
+References: <Pine.LNX.4.44L0.2004181549020.8036-100000@netrider.rowland.org>
+Message-ID: <87368xskga.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200415130455.2222019-3-kamel.bouhara@bootlin.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Apr 15, 2020 at 03:04:54PM +0200, Kamel Bouhara wrote:
-> Describe the devicetree binding for the Microchip TCB module.
-> Each counter blocks exposes three independent counters.
-> 
-> However, when configured in quadrature decoder, both channel <0> and <1>
-> are required for speed/position and rotation capture (yet only the
-> position is captured).
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-This is a child of the TCB, right? If so, it needs to be merged with the 
-TCB schema Alexandre is working on.
+On Sat, Apr 18 2020, Alan Stern wrote:
 
-> 
-> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> ---
-> Changes from v3:
->  - Updated the brand name: s/atmel/microchip/.
-> 
-> Changes from v2:
->  - Fixed errors reported by dt_binding_check
-> 
->  .../counter/microchip-tcb-capture.yaml        | 33 +++++++++++++++++++
->  1 file changed, 33 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/counter/microchip-tcb-capture.yaml
+> On Sat, 18 Apr 2020, Matthew Wilcox wrote:
+>
+>> On Sat, Apr 18, 2020 at 11:41:07AM -0700, Randy Dunlap wrote:
+>> > +++ linux-next-20200327/drivers/usb/core/sysfs.c
+>> > @@ -1263,7 +1263,7 @@ void usb_create_sysfs_intf_files(struct
+>> >  	if (!alt->string && !(udev->quirks & USB_QUIRK_CONFIG_INTF_STRINGS))
+>> >  		alt->string =3D usb_cache_string(udev, alt->desc.iInterface);
+>> >  	if (alt->string && device_create_file(&intf->dev, &dev_attr_interfac=
+e))
+>> > -		;	/* We don't actually care if the function fails. */
+>> > +		do_empty(); /* We don't actually care if the function fails. */
+>> >  	intf->sysfs_files_created =3D 1;
+>> >  }
+>>=20
+>> Why not just?
+>>=20
+>> +	if (alt->string)
+>> +		device_create_file(&intf->dev, &dev_attr_interface);
+>
+> This is another __must_check function call.
+>
+> The reason we don't care if the call fails is because the file
+> being created holds the USB interface string descriptor, something
+> which is purely informational and hardly ever gets set (and no doubt
+> gets used even less often).
+>
+> Is this another situation where the comment should be expanded and the=20
+> code modified to include a useless test and cast-to-void?
+>
+> Or should device_create_file() not be __must_check after all?
+
+One approach to dealing with __must_check function that you don't want
+to check is to cause failure to call
+   pr_debug("usb: interface descriptor file not created");
+or similar.  It silences the compiler, serves as documentation, and
+creates a message that is almost certainly never seen.
+
+This is what I did in drivers/md/md.c...
+
+	if (mddev->kobj.sd &&
+	    sysfs_create_group(&mddev->kobj, &md_bitmap_group))
+		pr_debug("pointless warning\n");
+
+(I give better warnings elsewhere - I must have run out of patience by
+ this point).
+
+NeilBrown
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAl6eSnUACgkQOeye3VZi
+gbn4EQ//WLEH1OYjzYF3ZAV16KgjXghaIeaNMOhGWUi79iqI/c9Zfe7VUDBPE5ip
+xTdZh+pKAubrzHjja6sbwXCEpY1XaGBeyKxl8lc/w8bsG6yMdN0n3eP7jgMucCtN
+U7DuAjjSjFvMLYDUBs6jhPbko+Qse3InDgyZH0gTueYI1QMmSag7EZs0xdvv6dAz
+NgtTQbJ7MBv3CQTg3Y+O6pMvRQbwSYuUb118jv9BH5ktkRmfJ5lP0LGfDD1d/AeR
+Z9oH8asOZK2ZprUXg6cuI/lf1kxFCNDGwXI9x0eDWpyt8akceeXLsxhg7Jw2KlZA
+Ry4UOB//Ehxq5ZtqxQAcHNzbfXJM1JaZjbyk+Im8F3q0/i2aE2/9pGvREe91rX3u
+gq2UO+5djv+TxKg1nZcFIHV/ycfdw4HWT6jKnYwOTahceJxkcswrRYqWBDePNqws
+oeWTPfUxQIIMUAYl0Zsf8EXLCqKvOmVqRI3cY2jIZHOJraynmtfL+/FRsg3PNu5T
+m5nSJbLvQMzITNuBTOf8BvdeAasCfR6v4RlIJYbonBJxXtUrXL7yeX0FclVpJ98+
+noaE1F/eUxnG5t+n3Gr6C9ttT/avXsr7Gm7okuNwkY1vvZSoXbFPZG0VIW0SiLWY
+kiqSFLeEDXCaNk4yYZlcNe17qTuJiZxx4RnTkF1IykZIcQv8haE=
+=K7Ae
+-----END PGP SIGNATURE-----
+--=-=-=--
