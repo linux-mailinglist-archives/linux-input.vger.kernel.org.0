@@ -2,119 +2,186 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A2D71B396E
-	for <lists+linux-input@lfdr.de>; Wed, 22 Apr 2020 09:52:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 912491B4806
+	for <lists+linux-input@lfdr.de>; Wed, 22 Apr 2020 17:02:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726503AbgDVHwM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Apr 2020 03:52:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40314 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726154AbgDVHwL (ORCPT
+        id S1728007AbgDVPCR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Apr 2020 11:02:17 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:52759 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1725934AbgDVPCR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Apr 2020 03:52:11 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE76DC03C1A6;
-        Wed, 22 Apr 2020 00:52:10 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id x23so857883lfq.1;
-        Wed, 22 Apr 2020 00:52:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zWLG9WLDxjvVAUx23VHGxafd8rdyiPnw+mQBD7zdx4U=;
-        b=LJ4WHgMeDvdr75XITNJboz1evInfdechCbg7zuDiEkJlbZwCAtI4f+i5gfkxiV4lZQ
-         nGu5z/2oKi+KeNe4C5zOD/W5gWLU5XkFrXGB6aDUyr0UJci1Oenn67TSa4/csTfaSKCP
-         L8QICOrO8ppl4wZMf6wQOBzGH+T15bZs7TW15B3ak10gMLAiq5mtt/P8K0MNADZNCi7x
-         FcrIU4uuxfkFIjmD8KFOGU6TcBo70Y78EC4dM15uazn+/N8/rcfdH7xVUVLTtEtPPSNr
-         hIMSAwHSBYAMU20dllQy1vgbDXpvR5xC3n43cCEdicK06gadabBDdQvRqmA8OEdzVQnY
-         vhAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zWLG9WLDxjvVAUx23VHGxafd8rdyiPnw+mQBD7zdx4U=;
-        b=Knou/ytVsAek1kYqF0+NkPk6MUKwrVJAdtCQ4LONhFvVXNZfUGEgS4jDtzDW3OtgfT
-         IqsBSi8IgHviG48TCQEJ5+6Vi81ipu2FmkpS+jEn5uFWuZus+4Z2SF/ExHrk2BZbqmd1
-         ylmn6tEUfBPiZ16FDdI0Sy+PyawTYEKS66kutE75EWaizrHzm9vHX4OcaUVwS6GrCF6s
-         pgRiGJ5ecbHLtTJSAirXZVU4a0Ai4pgJvm/wKvAYQxS+1tUWeVCHlin6Lm+UAsn//p9S
-         fAdxZTvZdMWmCd1Ty4KjSvnlu9S2ldaio1K9X6u3UMV1jNUsj3sWp+RU5KjeNPVlSlz6
-         Mauw==
-X-Gm-Message-State: AGi0PuZB1aBSoh3gkyGg8zYIQLKObGSqBmasiDyabuEMd1t7YolGUpK7
-        tUmURFUTs4baAbBxTiTUFx8=
-X-Google-Smtp-Source: APiQypI7jz/Z2LEcWCbAcGd5SWzfHveB1CjNdzdINAg7okl6sXQdQVEUcEX/zzSsU9pTB+lzqNwS0w==
-X-Received: by 2002:ac2:4426:: with SMTP id w6mr16203406lfl.8.1587541929396;
-        Wed, 22 Apr 2020 00:52:09 -0700 (PDT)
-Received: from luk-pc.lan (host-46-186-7-151.dynamic.mm.pl. [46.186.7.151])
-        by smtp.googlemail.com with ESMTPSA id i20sm4250655lfe.15.2020.04.22.00.52.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2020 00:52:08 -0700 (PDT)
-From:   LuK1337 <priv.luk@gmail.com>
-Cc:     Cameron Gutman <aicommander@gmail.com>,
-        =?UTF-8?q?=C5=81ukasz=20Patron?= <priv.luk@gmail.com>,
-        stable@vger.kernel.org,
+        Wed, 22 Apr 2020 11:02:17 -0400
+Received: (qmail 24632 invoked by uid 500); 22 Apr 2020 11:02:15 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 22 Apr 2020 11:02:15 -0400
+Date:   Wed, 22 Apr 2020 11:02:15 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     syzbot <syzbot+7bf5a7b0f0a1f9446f4c@syzkaller.appspotmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: xpad - Add custom init packet for Xbox One S controllers
-Date:   Wed, 22 Apr 2020 09:52:05 +0200
-Message-Id: <20200422075206.18229-1-priv.luk@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <92b71dc5-ddd5-7ffd-65f8-65a6610dfe43@gmail.com>
-References: <92b71dc5-ddd5-7ffd-65f8-65a6610dfe43@gmail.com>
+        Jiri Kosina <jikos@kernel.org>
+cc:     Julian Squires <julian@cipht.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        <linux-input@vger.kernel.org>, <andreyknvl@google.com>,
+        <gregkh@linuxfoundation.org>, <ingrassia@epigenesys.com>,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>, Ping Cheng <pingc@wacom.com>,
+        <pinglinux@gmail.com>, <killertofu@gmail.com>
+Subject: Re: KASAN: use-after-free Read in usbhid_close (3)
+In-Reply-To: <Pine.LNX.4.44L0.2004191835550.28419-100000@netrider.rowland.org>
+Message-ID: <Pine.LNX.4.44L0.2004221058240.20574-100000@netrider.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Łukasz Patron <priv.luk@gmail.com>
+On Sun, 19 Apr 2020, Alan Stern wrote:
 
-Sending [ 0x05, 0x20, 0x00, 0x0f, 0x06 ] packet for
-Xbox One S controllers fixes an issue where controller
-is stuck in Bluetooth mode and not sending any inputs.
+> Jiri, you should know: Are HID drivers supposed to work okay when the
+> ->close callback is issued after (or concurrently with) the ->stop
+> callback?
 
-Signed-off-by: Łukasz Patron <priv.luk@gmail.com>
-Cc: stable@vger.kernel.org
----
- drivers/input/joystick/xpad.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+No response.  I'll assume that strange callback orderings should be 
+supported.  Let's see if the patch below fixes the race in usbhid.
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 6b40a1c68f9f..c77cdb3b62b5 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -458,6 +458,16 @@ static const u8 xboxone_fw2015_init[] = {
- 	0x05, 0x20, 0x00, 0x01, 0x00
- };
+Alan Stern
+
+#syz test: https://github.com/google/kasan.git 0fa84af8
+
+Index: usb-devel/drivers/hid/usbhid/hid-core.c
+===================================================================
+--- usb-devel.orig/drivers/hid/usbhid/hid-core.c
++++ usb-devel/drivers/hid/usbhid/hid-core.c
+@@ -682,16 +682,21 @@ static int usbhid_open(struct hid_device
+ 	struct usbhid_device *usbhid = hid->driver_data;
+ 	int res;
  
-+/*
-+ * This packet is required for Xbox One S (0x045e:0x02ea)
-+ * and Xbox One Elite Series 2 (0x045e:0x0b00) pads to
-+ * initialize the controller that was previously used in
-+ * Bluetooth mode.
-+ */
-+static const u8 xboxone_s_init[] = {
-+	0x05, 0x20, 0x00, 0x0f, 0x06
-+};
++	mutex_lock(&usbhid->mutex);
 +
+ 	set_bit(HID_OPENED, &usbhid->iofl);
+ 
+-	if (hid->quirks & HID_QUIRK_ALWAYS_POLL)
+-		return 0;
++	if (hid->quirks & HID_QUIRK_ALWAYS_POLL) {
++		res = 0;
++		goto Done;
++	}
+ 
+ 	res = usb_autopm_get_interface(usbhid->intf);
+ 	/* the device must be awake to reliably request remote wakeup */
+ 	if (res < 0) {
+ 		clear_bit(HID_OPENED, &usbhid->iofl);
+-		return -EIO;
++		res = -EIO;
++		goto Done;
+ 	}
+ 
+ 	usbhid->intf->needs_remote_wakeup = 1;
+@@ -725,6 +730,9 @@ static int usbhid_open(struct hid_device
+ 		msleep(50);
+ 
+ 	clear_bit(HID_RESUME_RUNNING, &usbhid->iofl);
++
++ Done:
++	mutex_unlock(&usbhid->mutex);
+ 	return res;
+ }
+ 
+@@ -732,6 +740,8 @@ static void usbhid_close(struct hid_devi
+ {
+ 	struct usbhid_device *usbhid = hid->driver_data;
+ 
++	mutex_lock(&usbhid->mutex);
++
+ 	/*
+ 	 * Make sure we don't restart data acquisition due to
+ 	 * a resumption we no longer care about by avoiding racing
+@@ -743,12 +753,13 @@ static void usbhid_close(struct hid_devi
+ 		clear_bit(HID_IN_POLLING, &usbhid->iofl);
+ 	spin_unlock_irq(&usbhid->lock);
+ 
+-	if (hid->quirks & HID_QUIRK_ALWAYS_POLL)
+-		return;
++	if (!(hid->quirks & HID_QUIRK_ALWAYS_POLL)) {
++		hid_cancel_delayed_stuff(usbhid);
++		usb_kill_urb(usbhid->urbin);
++		usbhid->intf->needs_remote_wakeup = 0;
++	}
+ 
+-	hid_cancel_delayed_stuff(usbhid);
+-	usb_kill_urb(usbhid->urbin);
+-	usbhid->intf->needs_remote_wakeup = 0;
++	mutex_unlock(&usbhid->mutex);
+ }
+ 
  /*
-  * This packet is required for the Titanfall 2 Xbox One pads
-  * (0x0e6f:0x0165) to finish initialization and for Hori pads
-@@ -516,6 +526,8 @@ static const struct xboxone_init_packet xboxone_init_packets[] = {
- 	XBOXONE_INIT_PKT(0x0e6f, 0x0165, xboxone_hori_init),
- 	XBOXONE_INIT_PKT(0x0f0d, 0x0067, xboxone_hori_init),
- 	XBOXONE_INIT_PKT(0x0000, 0x0000, xboxone_fw2015_init),
-+	XBOXONE_INIT_PKT(0x045e, 0x02ea, xboxone_s_init),
-+	XBOXONE_INIT_PKT(0x045e, 0x0b00, xboxone_s_init),
- 	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_init1),
- 	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_init2),
- 	XBOXONE_INIT_PKT(0x24c6, 0x541a, xboxone_rumblebegin_init),
--- 
-2.26.0
+@@ -1057,6 +1068,8 @@ static int usbhid_start(struct hid_devic
+ 	unsigned int n, insize = 0;
+ 	int ret;
+ 
++	mutex_lock(&usbhid->mutex);
++
+ 	clear_bit(HID_DISCONNECTED, &usbhid->iofl);
+ 
+ 	usbhid->bufsize = HID_MIN_BUFFER_SIZE;
+@@ -1177,6 +1190,8 @@ static int usbhid_start(struct hid_devic
+ 		usbhid_set_leds(hid);
+ 		device_set_wakeup_enable(&dev->dev, 1);
+ 	}
++
++	mutex_unlock(&usbhid->mutex);
+ 	return 0;
+ 
+ fail:
+@@ -1187,6 +1202,7 @@ fail:
+ 	usbhid->urbout = NULL;
+ 	usbhid->urbctrl = NULL;
+ 	hid_free_buffers(dev, hid);
++	mutex_unlock(&usbhid->mutex);
+ 	return ret;
+ }
+ 
+@@ -1202,6 +1218,8 @@ static void usbhid_stop(struct hid_devic
+ 		usbhid->intf->needs_remote_wakeup = 0;
+ 	}
+ 
++	mutex_lock(&usbhid->mutex);
++
+ 	clear_bit(HID_STARTED, &usbhid->iofl);
+ 	spin_lock_irq(&usbhid->lock);	/* Sync with error and led handlers */
+ 	set_bit(HID_DISCONNECTED, &usbhid->iofl);
+@@ -1222,6 +1240,8 @@ static void usbhid_stop(struct hid_devic
+ 	usbhid->urbout = NULL;
+ 
+ 	hid_free_buffers(hid_to_usb_dev(hid), hid);
++
++	mutex_unlock(&usbhid->mutex);
+ }
+ 
+ static int usbhid_power(struct hid_device *hid, int lvl)
+@@ -1382,6 +1402,7 @@ static int usbhid_probe(struct usb_inter
+ 	INIT_WORK(&usbhid->reset_work, hid_reset);
+ 	timer_setup(&usbhid->io_retry, hid_retry_timeout, 0);
+ 	spin_lock_init(&usbhid->lock);
++	mutex_init(&usbhid->mutex);
+ 
+ 	ret = hid_add_device(hid);
+ 	if (ret) {
+Index: usb-devel/drivers/hid/usbhid/usbhid.h
+===================================================================
+--- usb-devel.orig/drivers/hid/usbhid/usbhid.h
++++ usb-devel/drivers/hid/usbhid/usbhid.h
+@@ -80,6 +80,7 @@ struct usbhid_device {
+ 	dma_addr_t outbuf_dma;                                          /* Output buffer dma */
+ 	unsigned long last_out;							/* record of last output for timeouts */
+ 
++	struct mutex mutex;						/* start/stop/open/close */
+ 	spinlock_t lock;						/* fifo spinlock */
+ 	unsigned long iofl;                                             /* I/O flags (CTRL_RUNNING, OUT_RUNNING) */
+ 	struct timer_list io_retry;                                     /* Retry timer */
 
