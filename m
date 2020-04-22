@@ -2,122 +2,161 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F7781B32E7
-	for <lists+linux-input@lfdr.de>; Wed, 22 Apr 2020 01:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3F511B3431
+	for <lists+linux-input@lfdr.de>; Wed, 22 Apr 2020 02:54:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725850AbgDUXKh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Apr 2020 19:10:37 -0400
-Received: from mail.codeweavers.com ([50.203.203.244]:50402 "EHLO
-        mail.codeweavers.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725822AbgDUXKh (ORCPT
+        id S1726055AbgDVAyW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Apr 2020 20:54:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60762 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726012AbgDVAyW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Apr 2020 19:10:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=7DudBciPB1e5s8G2L11l6q3llWsVDr0JKDijVFOLFZY=; b=KK0Tp5Mb1x7KZhiylvqTS2uNMR
-        ccELMJiZoexc14N+Vgv1D5CU5T49DvVCo0439h23JrLNs+1q6xcPCFY9s+XE1llMGyR1yBTd5WnKO
-        PdE5Uzz2nQ4ItZpC93lXfiKMg98UUutM/dWJ9alf5MbUvB76dETr9zClgIVnVPQgggKM=;
-Received: from cpe-107-184-2-226.socal.res.rr.com ([107.184.2.226] helo=zen.bslabs.net)
-        by mail.codeweavers.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <bshanks@codeweavers.com>)
-        id 1jR22E-0007TX-FB; Tue, 21 Apr 2020 18:10:35 -0500
-From:   Brendan Shanks <bshanks@codeweavers.com>
-To:     linux-input@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com, mathieu.maret@gmail.com,
-        Brendan Shanks <bshanks@codeweavers.com>
-Subject: [PATCH] Input: evdev - Call input_flush_device() on release(), not flush()
-Date:   Tue, 21 Apr 2020 16:10:03 -0700
-Message-Id: <20200421231003.7935-1-bshanks@codeweavers.com>
-X-Mailer: git-send-email 2.25.3
+        Tue, 21 Apr 2020 20:54:22 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D839C0610D5;
+        Tue, 21 Apr 2020 17:54:22 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id k18so223575pll.6;
+        Tue, 21 Apr 2020 17:54:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=YOdZFvk+6bmIjWVMk3ZS5OgJr20Jdq2fWyo55D6d2YE=;
+        b=n9EkAxNzxm5oKbg0/6Ld25HxkeLVB5k35B6s0UXQ/yYtU8fx2SqXvyp+vPo2us+ZWy
+         P/zC32Gd6vlT2CbT560rszwyu78rZrM2K2aMP+rmbsAoPvUvSuj+cfJkAhYZF8nZvpy2
+         Y0a9hQYnxZmSHF4S14x7P/F2cMXH6vmDrX1/IZ8zzdXgihagBZhmyJSmE/NCwcSfrwIg
+         1V1slQ0FY91qJDjXDay1507ut2oUQQC8K9xSoUgp7U09qnBVZmLzDegJ7Ijwhl+LK484
+         TmOOLVbL7sxyIQJvLYRVhBOpw2hYQBFrAmNfpF0dD8g7bWmvdQtfXPOyBJAzQLtlFA68
+         8U1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=YOdZFvk+6bmIjWVMk3ZS5OgJr20Jdq2fWyo55D6d2YE=;
+        b=dusxenv/46FeBM2U0xTl17VwJrqDnrIqkVQ/Kq0namrAO/Y9onMVbXl+MJi1KCvKoB
+         FeiBr3gh717K/BGgSFXX30ET8f/1TUuTll72x2OpydNslHfJIeyafdLgoxj3VjP8QMbD
+         Q/iP70+IF3l5NSi5zbqe946P0Od/8IZQCKUHLWp+gnWP4vweYD9DOuxsWeQjZayTI49l
+         BnzSjg5S0TBSUaGiB2IvGuHiHP8FI1S5130LABOsepeLCq7vp39OuJZXOVRJoaaodCFa
+         Iyu5igRLOglzugxuwgM4H7y9365mQ2g5MyNXVTv2iHSXrtnNYs2kcVVidH4SecNvdywO
+         yJOg==
+X-Gm-Message-State: AGi0PubQWbl2CBu7qvcnUGWC5BGhgbio4s6eVMZ6tuKYoVAOXWZVKGFh
+        uFiVYfOE6CnRvLDuvJ6cS4ztfRAp54vm+Q==
+X-Google-Smtp-Source: APiQypLM9f008fp5IFx6gLV69yBrskOt/tFdR+z6lhjdhE+NpzJFeXdKMs3e/XH5IvGHEi4JCNvPAQ==
+X-Received: by 2002:a17:90b:14ce:: with SMTP id jz14mr664508pjb.30.1587516861090;
+        Tue, 21 Apr 2020 17:54:21 -0700 (PDT)
+Received: from ?IPv6:2604:4080:1012:8d30:9eb6:d0ff:fe8b:175f? ([2604:4080:1012:8d30:9eb6:d0ff:fe8b:175f])
+        by smtp.gmail.com with ESMTPSA id c15sm3602690pfo.188.2020.04.21.17.54.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Apr 2020 17:54:20 -0700 (PDT)
+Subject: Re: [PATCH] Input: xpad - Add custom init packet for Xbox One S
+ controllers
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        LuK1337 <priv.luk@gmail.com>
+Cc:     Richard Fontana <rfontana@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <436c79ed-ca21-c075-e2da-0934da5000a2@gmail.com>
+ <20200421092434.3360503-1-priv.luk@gmail.com>
+ <20200421180851.GA125362@dtor-ws>
+From:   Cameron Gutman <aicommander@gmail.com>
+Message-ID: <92b71dc5-ddd5-7ffd-65f8-65a6610dfe43@gmail.com>
+Date:   Tue, 21 Apr 2020 17:54:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20200421180851.GA125362@dtor-ws>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -25.7
-X-Spam-Report: Spam detection software, running on the system "mail.codeweavers.com",
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- the administrator of that system for details.
- Content preview:  input_flush_device() should only be called once the struct
-    file is being released and no open descriptors remain, but evdev_flush()
-   was calling it whenever a file descriptor was closed. This caused uploaded
-    force-feedback effects to be erased when a process did a dup()/close() on
-    the event FD, called system(), etc. 
- Content analysis details:   (-25.7 points, 5.0 required)
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
-  -20 USER_IN_WHITELIST      From: address is in the user's white-list
- -6.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
- -0.5 BAYES_00               BODY: Bayes spam probability is 0 to 1%
-                             [score: 0.0000]
-  0.8 AWL                    AWL: Adjusted score from AWL reputation of From: address
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-input_flush_device() should only be called once the struct file is being
-released and no open descriptors remain, but evdev_flush() was calling
-it whenever a file descriptor was closed.
+On 4/21/20 11:08 AM, Dmitry Torokhov wrote:
+> Adding Cameron...
+> 
+> On Tue, Apr 21, 2020 at 11:24:33AM +0200, LuK1337 wrote:
+>> From: Łukasz Patron <priv.luk@gmail.com>
+>>
+>> Sending [ 0x05, 0x20, 0x02, 0x0f, 0x06 ] packet for
+>> Xbox One S controllers fixes an issue where controller
+>> is stuck in Bluetooth mode and not sending any inputs.
+>>
 
-This caused uploaded force-feedback effects to be erased when a process
-did a dup()/close() on the event FD, called system(), etc.
+This one is much better. It's working on both the old 3.1 firmware and the
+new 4.8 firmware for the Xbox One S controller.
 
-Call input_flush_device() from evdev_release() instead.
+Just for fun I also decided to test this against my other Xbox One gamepads:
+- idVendor=045e, idProduct=02ea, bcdDevice= 3.01
+- idVendor=045e, idProduct=02ea, bcdDevice= 4.08
+- idVendor=045e, idProduct=02dd, bcdDevice= 2.03
+- idVendor=24c6, idProduct=543a, bcdDevice= 1.01
 
-Reported-by: Mathieu Maret <mathieu.maret@gmail.com>
-Signed-off-by: Brendan Shanks <bshanks@codeweavers.com>
----
- drivers/input/evdev.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+Initialization was successful on all 4 tested gamepads, so this packet looks
+well-tolerated across the range of devices.
 
-diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
-index cb6e3a5f509c..3c006b265729 100644
---- a/drivers/input/evdev.c
-+++ b/drivers/input/evdev.c
-@@ -326,20 +326,6 @@ static int evdev_fasync(int fd, struct file *file, int on)
- 	return fasync_helper(fd, file, on, &client->fasync);
- }
- 
--static int evdev_flush(struct file *file, fl_owner_t id)
--{
--	struct evdev_client *client = file->private_data;
--	struct evdev *evdev = client->evdev;
--
--	mutex_lock(&evdev->mutex);
--
--	if (evdev->exist && !client->revoked)
--		input_flush_device(&evdev->handle, file);
--
--	mutex_unlock(&evdev->mutex);
--	return 0;
--}
--
- static void evdev_free(struct device *dev)
- {
- 	struct evdev *evdev = container_of(dev, struct evdev, dev);
-@@ -453,6 +439,9 @@ static int evdev_release(struct inode *inode, struct file *file)
- 	unsigned int i;
- 
- 	mutex_lock(&evdev->mutex);
-+	if (evdev->exist && !client->revoked)
-+		input_flush_device(&evdev->handle, file);
-+
- 	evdev_ungrab(evdev, client);
- 	mutex_unlock(&evdev->mutex);
- 
-@@ -1310,7 +1299,6 @@ static const struct file_operations evdev_fops = {
- 	.compat_ioctl	= evdev_ioctl_compat,
- #endif
- 	.fasync		= evdev_fasync,
--	.flush		= evdev_flush,
- 	.llseek		= no_llseek,
- };
- 
--- 
-2.25.3
+I think we should also mark this for stable to get this backported to older
+kernels, otherwise input will break as users update their firmware. Since you
+mentioned you are new to LKML, you can read about stable updates here [0]
+and include the Cc tag on v2 of this patch with my suggested changes below
+if you agree.
+
+>> Signed-off-by: Łukasz Patron <priv.luk@gmail.com>
+>> ---
+>>  drivers/input/joystick/xpad.c | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
+>>
+>> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+>> index 6b40a1c68f9f..4e1781968411 100644
+>> --- a/drivers/input/joystick/xpad.c
+>> +++ b/drivers/input/joystick/xpad.c
+>> @@ -458,6 +458,15 @@ static const u8 xboxone_fw2015_init[] = {
+>>  	0x05, 0x20, 0x00, 0x01, 0x00
+>>  };
+>>  
+>> +/*
+>> + * This packet is required for Xbox One S pads (0x045e:0x02ea)
+>> + * to initialize the controller that was previously used in
+>> + * Bluetooth mode.
+>> + */
+>> +static const u8 xboxone_s_init[] = {
+>> +	0x05, 0x20, 0x02, 0x0f, 0x06
+>> +};
+
+The sequence numbers are populated when the driver sends the init packet, so
+you should go ahead and replace that 0x02 with 0x00 to match the other packets.
+
+>> +
+>>  /*
+>>   * This packet is required for the Titanfall 2 Xbox One pads
+>>   * (0x0e6f:0x0165) to finish initialization and for Hori pads
+>> @@ -516,6 +525,7 @@ static const struct xboxone_init_packet xboxone_init_packets[] = {
+>>  	XBOXONE_INIT_PKT(0x0e6f, 0x0165, xboxone_hori_init),
+>>  	XBOXONE_INIT_PKT(0x0f0d, 0x0067, xboxone_hori_init),
+>>  	XBOXONE_INIT_PKT(0x0000, 0x0000, xboxone_fw2015_init),
+>> +	XBOXONE_INIT_PKT(0x045e, 0x02ea, xboxone_s_init),
+
+Can you also add an entry here for the Xbox One Elite Series 2 (0x045e, 0x0b00)
+gamepad? According to [1], it has the same problem as the Xbox One S with the
+4.8 firmware when exiting Bluetooth mode.
+
+>>  	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_init1),
+>>  	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_init2),
+>>  	XBOXONE_INIT_PKT(0x24c6, 0x541a, xboxone_rumblebegin_init),
+>> -- 
+>> 2.26.0
+>>
+> 
+
+[0]: https://www.kernel.org/doc/html/v5.6/process/stable-kernel-rules.html
+[1]: https://github.com/spurious/SDL-mirror/commit/a0f80727972429bad309d7cf6cca949801d11d45
+
+Regards,
+Cameron
+
+
 
