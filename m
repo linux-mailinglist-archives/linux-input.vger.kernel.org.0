@@ -2,64 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 774E61B3942
-	for <lists+linux-input@lfdr.de>; Wed, 22 Apr 2020 09:46:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 759691B3949
+	for <lists+linux-input@lfdr.de>; Wed, 22 Apr 2020 09:46:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725811AbgDVHqC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Apr 2020 03:46:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39336 "EHLO
+        id S1726071AbgDVHqt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Apr 2020 03:46:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725786AbgDVHqB (ORCPT
+        by vger.kernel.org with ESMTP id S1725907AbgDVHqt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Apr 2020 03:46:01 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73CD8C03C1A6;
-        Wed, 22 Apr 2020 00:46:01 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id z26so1181617ljz.11;
-        Wed, 22 Apr 2020 00:46:01 -0700 (PDT)
+        Wed, 22 Apr 2020 03:46:49 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1EBFC03C1A6;
+        Wed, 22 Apr 2020 00:46:48 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id g4so1235895ljl.2;
+        Wed, 22 Apr 2020 00:46:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ysk4WMk8NsMihs1evCSOYe7LHkphmnmScYSQbOC8Llc=;
-        b=o1SzwFR2bkjbNNOJOE+ecvk9bOWfpyLmOCyf88lxbsunX1mPfn4RXpmFWpKI/wKJ4+
-         3GrBxCgb8eBCPNdmnGEAsXvcBhzy5CNWepgs2qeUcBULvHwjqL/R7VIbidYmhk/oSRkd
-         RrQCn9Ther16dMsGytaq97Rrpz4iVojN2Z8IoP3JT7VNBETLZQls7yE7W/U1TwZs2BZb
-         wEN46kjfuRnh4sgQZJOUPWu1WHj6+cXeiAueKH5CUQmUoeZ9Ir8Qfxj/y1Vx+j4PKuy8
-         IOVpVgFp/k5YjV56fDk+iu4AHawH2gUKdFZMpgw/FwBCyqN6wrnvIRhDXYHj8ken4q6A
-         nHmQ==
+        bh=7SXxu2vf3SSgVcaedvI6jG4d6yjlJE+FjFpfJQ4jnEw=;
+        b=Uiq4AiFsLfTfDqahAyC38SQf4LZ9ewifZ4YN8XMGKiOpWXnn60eoh2ES+Khfx3DDqg
+         tzIBhQXx2HaS1nRNBy5vweYDuoYV0/rC9yOFLp3rsLxlwDyR52jBF3EiKZ+58/Y4Fwt0
+         FOjr6LgdiucnzUN5KV3Zamft6d5xHXNTEwXJU31X7tN8+FBY+20PObfeO0tvAFSAe6Ut
+         VIfl9Q211/HitXhnA906GqCn3GwbIF+duEz3LLg223cxo+AVg0e1MeYJjKi4LtrMroHH
+         gj7ep0UPKcr0IsMwl92Ni8b4kTctakpGIhs4y3MjZGLydMuMjwzJa2Q4vKIQ/hd4cIyA
+         FxWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ysk4WMk8NsMihs1evCSOYe7LHkphmnmScYSQbOC8Llc=;
-        b=XwZ8pufyYz039lNU8kBBozVoeU4gectRexW3zaG+IflUZRjcxO0xybkSkhk9iawlSq
-         Qtb3y9HWIYufB1Z25RP0FMB+yYaypmf32EBAsp+AraRQAGSKeNDtCHrc8qTjrgJqd63K
-         Cdz4QKOK44+5w/I0u5U28CXptrOU6guWiZfUitqQlGY5GlLHlMBWGalanQcYZJhogC72
-         OYogIx5A5hONA0yPB8AGbsa2nzdasOQGo7sYN2UCj26b12+iULAC7qQS2xX6Bl/kBD7Q
-         9K/JHt8F3QTuxAlZGUa7/vr9UCVw9AtigQjFRndSvDuo37NqPY9NQng75q1p6Q12QjHT
-         KFog==
-X-Gm-Message-State: AGi0PuY/GtaZP0NLXKjfc2ogaKDKuhn9dZBJmoS+/N12Gb1hhdJNaYA2
-        5Sfj+ji9eODGkNm/JgcGFGs=
-X-Google-Smtp-Source: APiQypIUxB9mDL/04B4tBAHmaWMbUqrOKIOV9TnnpC5t2Iz3mxa2dl45kat7lf7lCzElc1tvOqJyNg==
-X-Received: by 2002:a2e:b4f1:: with SMTP id s17mr15071165ljm.283.1587541559956;
-        Wed, 22 Apr 2020 00:45:59 -0700 (PDT)
+        bh=7SXxu2vf3SSgVcaedvI6jG4d6yjlJE+FjFpfJQ4jnEw=;
+        b=SeEwVg31VY0uvsQMA+A2xP+mJBM7PZmCkIRXGWtfP0FB+GzxJSPIqqpm1rr6U5cVpk
+         Vo8IigoaBlMYMCQjCKvqAldySbDCNzcIqjvsLua0m6u8Uh+sdOULftQYNjCn/eGXzZGZ
+         P9EaEDteMlRIdNHN2oiZ2QjuR5eBFbrR/74l1f77xF7BfmKaHWpgDCSV5hv8J3mE8rSW
+         R7cZyprqFQKibldPoIvaNREviyADZqrbvcxwNBElMeteP0o7horisrSe7cn7t+GTT5lV
+         DqrirWOvA8tvbnTvRpf7z0EpmhczOJVlZuhhlD+LqnReHMOjyZLCIkd71d1uc4XhSX8c
+         BVXg==
+X-Gm-Message-State: AGi0PubCR9GI1I3GYHLgUZ5wq9QkdN4zorIBeP6RgXR5esmMjMWg7L35
+        aGQDGO4Gz+jLlzvZ5KcjFX8=
+X-Google-Smtp-Source: APiQypJmSxI80bak8V4LpFM6NnEw/JYrdLaHdXGosrwksyhWtydwWX4UxaU5VQPUCWbMLCaGCeHJpg==
+X-Received: by 2002:a2e:9048:: with SMTP id n8mr4527444ljg.122.1587541607251;
+        Wed, 22 Apr 2020 00:46:47 -0700 (PDT)
 Received: from luk-pc.lan (host-46-186-7-151.dynamic.mm.pl. [46.186.7.151])
-        by smtp.googlemail.com with ESMTPSA id c4sm3968427lfg.82.2020.04.22.00.45.58
+        by smtp.googlemail.com with ESMTPSA id t12sm4051345lfq.71.2020.04.22.00.46.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2020 00:45:59 -0700 (PDT)
+        Wed, 22 Apr 2020 00:46:46 -0700 (PDT)
 From:   LuK1337 <priv.luk@gmail.com>
 Cc:     Cameron Gutman <aicommander@gmail.com>,
         =?UTF-8?q?=C5=81ukasz=20Patron?= <priv.luk@gmail.com>,
+        stable@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Allison Randal <allison@lohutok.net>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Richard Fontana <rfontana@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: [PATCH] Input: xpad - Add custom init packet for Xbox One S controllers
-Date:   Wed, 22 Apr 2020 09:45:45 +0200
-Message-Id: <20200422074546.14993-1-priv.luk@gmail.com>
+Date:   Wed, 22 Apr 2020 09:46:39 +0200
+Message-Id: <20200422074641.15839-1-priv.luk@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <92b71dc5-ddd5-7ffd-65f8-65a6610dfe43@gmail.com>
 References: <92b71dc5-ddd5-7ffd-65f8-65a6610dfe43@gmail.com>
@@ -79,6 +80,7 @@ Xbox One S controllers fixes an issue where controller
 is stuck in Bluetooth mode and not sending any inputs.
 
 Signed-off-by: Łukasz Patron <priv.luk@gmail.com>
+Cc: stable@vger.kernel.org
 ---
  drivers/input/joystick/xpad.c | 12 ++++++++++++
  1 file changed, 12 insertions(+)
