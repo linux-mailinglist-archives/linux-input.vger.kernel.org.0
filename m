@@ -2,172 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D5D41B6217
-	for <lists+linux-input@lfdr.de>; Thu, 23 Apr 2020 19:38:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 679491B6365
+	for <lists+linux-input@lfdr.de>; Thu, 23 Apr 2020 20:27:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729973AbgDWRim (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Apr 2020 13:38:42 -0400
-Received: from ip-78-45-52-129.net.upcbroadband.cz ([78.45.52.129]:46432 "EHLO
-        ixit.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729908AbgDWRim (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Apr 2020 13:38:42 -0400
-X-Greylist: delayed 312 seconds by postgrey-1.27 at vger.kernel.org; Thu, 23 Apr 2020 13:38:40 EDT
-Received: from localhost.localdomain (227.146.230.94.awnet.cz [94.230.146.227])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by ixit.cz (Postfix) with ESMTPSA id 58C6524E0F;
-        Thu, 23 Apr 2020 19:33:28 +0200 (CEST)
-From:   David Heidelberg <david@ixit.cz>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        James Chen <james.chen@emc.com.tw>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>,
-        Rob Herring <robh+dt@kernel.org>,
-        Scott Liu <scott.liu@emc.com.tw>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Cc:     David Heidelberg <david@ixit.cz>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH 1/1] dt-bindings: input: touchscreen: elants_i2c: convert to YAML
-Date:   Thu, 23 Apr 2020 19:32:53 +0200
-Message-Id: <20200423173253.711725-2-david@ixit.cz>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200423173253.711725-1-david@ixit.cz>
-References: <20200423173253.711725-1-david@ixit.cz>
+        id S1730326AbgDWS05 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Apr 2020 14:26:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52836 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730318AbgDWS0z (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 23 Apr 2020 14:26:55 -0400
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02A1BC09B045
+        for <linux-input@vger.kernel.org>; Thu, 23 Apr 2020 11:26:52 -0700 (PDT)
+Received: by mail-il1-x141.google.com with SMTP id w6so6578276ilg.1
+        for <linux-input@vger.kernel.org>; Thu, 23 Apr 2020 11:26:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
+        b=g40sBMuaO0eKdotmx6qgQBl63DKBmrekz5bvyEQHA4wVZtcqrxc+aFVgh/QD84O9VQ
+         7GeGJGwCstc5CQBYUut5JFB/SR9hiHRBoNucBdQ5+M/xcZE7LYnQNVriX94nlJDQQ53M
+         WWNnGuPMmJMtuCxOc6M3BOG48McWyi9pwkfv1qCbwmDhh95byI3UmcGK9ZJ59xQm/kqA
+         giNgZwxUHu+XTIAoqn/uu1orK63Ur+6hMBQW2TB101zb0oJ5HpVThkCq6id/TjpQtg27
+         HPMb1DcYsj7bM6wQaeV1UkPK6mgUhECRFNV10F5zDhvx1RXP4ikb8uuEIGMKOSNWVb51
+         vLew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
+        b=eerYHrIBM/B03rXmdpMlhWBAfAOUuJ3+KxVJak7PNaKrbktQ4ALG1ioS1VGqnTHpAM
+         /6/8gutTpKsXBXfBikB8+O0K9m3pGrrYoqXK369BdvtX3a090IvY6EFzyWk4/NcZCgLa
+         BePbhvcNarucD1qRD8G5Oo0V1qiIU6gHt05d1a80nlKpNyHn3PjJoY/jOKdaGlXhaPIo
+         9V4WbvdnynkHSS6ItygPKYucNcOMLgg30DN/Wo+iwDRVcmyLFINyq9xDPqf6LaQCyJyq
+         n6qeHm3wwOdIj6mxfM6qZQ+/fvoI/s/SFgENgW5a+qjYGWYa6OEIobYzWQv3PMuJmOIJ
+         ScKw==
+X-Gm-Message-State: AGi0PubLwaWWLCDiX79L5YJdHDyNFM0B+P3eESBvS0KZJoWQQFywgk0i
+        fFOIf9OSqRt49E917l2TdDvDH+afq+DoQ0kbt1H1oRs=
+X-Google-Smtp-Source: APiQypKZ88CB7WlyCjo0k9+cU4PX0VcggKkKtzSKgRJHkcPGizF0yZXAjzEMBgo6XH4xzBXv0KAOMjPM9p1sgpp6/70=
+X-Received: by 2002:a5e:9416:: with SMTP id q22mr2547966ioj.93.1587666410194;
+ Thu, 23 Apr 2020 11:26:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a02:c845:0:0:0:0:0 with HTTP; Thu, 23 Apr 2020 11:26:49
+ -0700 (PDT)
+Reply-To: boa.benin107@yahoo.com
+From:   "Mrs. Angella Michelle" <info.zennitbankplcnigerian@gmail.com>
+Date:   Thu, 23 Apr 2020 20:26:49 +0200
+Message-ID: <CABHzvr=N78snvtMHePMOa+RLFdcZEjXLPkuhkojt4VoZGNzBsQ@mail.gmail.com>
+Subject: Contact Bank of Africa-Benin to receive your payment funds transfer
+ amount of $12.800.000,00 Million USD,approved this morning by IMF.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Convert elants_i2c.txt DT binding to YAML and put into correct directory.
-
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- .../devicetree/bindings/input/elants_i2c.txt  | 34 ---------
- .../input/touchscreen/elan,elants_i2c.yaml    | 69 +++++++++++++++++++
- 2 files changed, 69 insertions(+), 34 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/elants_i2c.txt
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-
-diff --git a/Documentation/devicetree/bindings/input/elants_i2c.txt b/Documentation/devicetree/bindings/input/elants_i2c.txt
-deleted file mode 100644
-index 5edac8be0802..000000000000
---- a/Documentation/devicetree/bindings/input/elants_i2c.txt
-+++ /dev/null
-@@ -1,34 +0,0 @@
--Elantech I2C Touchscreen
--
--Required properties:
--- compatible: must be "elan,ekth3500".
--- reg: I2C address of the chip.
--- interrupts: interrupt to which the chip is connected (see interrupt
--  binding[0]).
--
--Optional properties:
--- wakeup-source: touchscreen can be used as a wakeup source.
--- pinctrl-names: should be "default" (see pinctrl binding [1]).
--- pinctrl-0: a phandle pointing to the pin settings for the device (see
--  pinctrl binding [1]).
--- reset-gpios: reset gpio the chip is connected to.
--- vcc33-supply: a phandle for the regulator supplying 3.3V power.
--- vccio-supply: a phandle for the regulator supplying IO power.
--
--[0]: Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
--[1]: Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
--
--Example:
--	&i2c1 {
--		/* ... */
--
--		touchscreen@10 {
--			compatible = "elan,ekth3500";
--			reg = <0x10>;
--			interrupt-parent = <&gpio4>;
--			interrupts = <0x0 IRQ_TYPE_EDGE_FALLING>;
--			wakeup-source;
--		};
--
--		/* ... */
--	};
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml b/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-new file mode 100644
-index 000000000000..a792d6377b1d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-@@ -0,0 +1,69 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/input/touchscreen/elan,elants_i2c.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+
-+title: Elantech I2C Touchscreen
-+
-+maintainers:
-+  - David Heidelberg <david@ixit.cz>
-+
-+allOf:
-+  - $ref: touchscreen.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - elan,ektf3624
-+      - elan,ekth3500
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  wakeup-source:
-+    type: boolean
-+    description: touchscreen can be used as a wakeup source.
-+
-+  reset-gpios:
-+    description: reset gpio the chip is connected to.
-+
-+  vcc33-supply:
-+    description: a phandle for the regulator supplying 3.3V power.
-+
-+  vccio-supply:
-+    description: a phandle for the regulator supplying IO power.
-+
-+  touchscreen-inverted-x: true
-+  touchscreen-inverted-y: true
-+  touchscreen-size-x: true
-+  touchscreen-size-y: true
-+  touchscreen-swapped-x-y: true
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        touchscreen@10 {
-+            compatible = "elan,ekth3500";
-+            reg = <0x10>;
-+
-+            interrupt-parent = <&gpio4>;
-+            interrupts = <0x0 IRQ_TYPE_EDGE_FALLING>;
-+            wakeup-source;
-+        };
-+    };
--- 
-2.26.2
-
+Attn Dear.
+Contact Bank of Africa-Benin to receive your payment funds transfer amount =
+of
+$12.800.000,00 Million USD,approved this morning by IMF.
+Happy to inform you, we have finally deposited your payment funds
+$12.8 million us dollars with the Paying Bank of Africa-Benin
+to transfer the payment amount of $12.800,000,00 Million Us Dollars to you
+Contact the bank immediately you receive this email now.
+Director Bank of Africa-Benin: Dr. Festus Obiara
+Email id:  boa.benin107@yahoo.com
+Tel/mobile, (229) 62819378
+BOA-BENIN | GROUPE BANK OF AFRICA, boa-benin
+Avenue Jean-Paul II - 08 BP 0879 - Cotonou - B=C3=A9nin
+Phone:(229) 62819378.
+2020 GROUPE BANK OF AFRICA
+Be advised to re-confirm your bank details to this bank as listed.
+Your account Holder's name----------------
+Bank Name----------------------------------------------------------
+Bank address----------------------------------------------
+Account Numbers---------------------------------------
+Rounting-----------------------------------------------------------------
+Your direct Phone Numbers----------------------------------------------
+Note,I have paid the deposit and insurance fees for you
+But the only money you are to send to this bank is $150.00 us dollars
+Been for the wire transfer fees of your funds
+Contact Him now to receive your transfer deposited this morning
+I wait for your reply upon confirmation
+Mrs. Angella Michelle
+Editor, Zenith Bank- Companies Benin
+mrsa9389@gmail.com
