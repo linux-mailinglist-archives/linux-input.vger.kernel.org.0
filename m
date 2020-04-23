@@ -2,102 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 771981B596C
-	for <lists+linux-input@lfdr.de>; Thu, 23 Apr 2020 12:41:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C28301B6216
+	for <lists+linux-input@lfdr.de>; Thu, 23 Apr 2020 19:38:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727002AbgDWKlH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Apr 2020 06:41:07 -0400
-Received: from mga17.intel.com ([192.55.52.151]:8397 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725863AbgDWKlH (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Apr 2020 06:41:07 -0400
-IronPort-SDR: 91FP6AM55qA9ubi+Nw316rDmXsY1gcBi29KTMCJ+3mKIMuoJJOEC1wLJ9ACk1nSLXtjBC3te7J
- /i53Wj89f4Zg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 03:41:06 -0700
-IronPort-SDR: Kx7K6p4/N5TZr/15qVHfz7t/YfWa8qfU8ew8siy/+r4y7JvNcT3POh2yqW11AOx+oW2pMXXyru
- ohidmBdCH2uA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,307,1583222400"; 
-   d="scan'208";a="291141993"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Apr 2020 03:41:04 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jRZI3-002cOT-JJ; Thu, 23 Apr 2020 13:41:07 +0300
-Date:   Thu, 23 Apr 2020 13:41:07 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Fengping yu <fengping.yu@mediatek.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Yingjoe Chen <yingjoe.chen@mediatek.com>,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        wsd_upstream@mediatek.com, linux-input@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 3/3] drivers: input: keyboard: add mtk keypad driver
-Message-ID: <20200423104107.GO185537@smile.fi.intel.com>
-References: <20200423011958.30521-1-fengping.yu@mediatek.com>
- <20200423011958.30521-4-fengping.yu@mediatek.com>
+        id S1729977AbgDWRil (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Apr 2020 13:38:41 -0400
+Received: from ip-78-45-52-129.net.upcbroadband.cz ([78.45.52.129]:46436 "EHLO
+        ixit.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729973AbgDWRil (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 23 Apr 2020 13:38:41 -0400
+Received: from localhost.localdomain (227.146.230.94.awnet.cz [94.230.146.227])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by ixit.cz (Postfix) with ESMTPSA id 7DD752491C;
+        Thu, 23 Apr 2020 19:33:25 +0200 (CEST)
+From:   David Heidelberg <david@ixit.cz>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        James Chen <james.chen@emc.com.tw>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>,
+        Rob Herring <robh+dt@kernel.org>,
+        Scott Liu <scott.liu@emc.com.tw>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
+Cc:     David Heidelberg <david@ixit.cz>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH 0/1] dt-bindings: input: touchscreen: elants_i2c: convert to YAML
+Date:   Thu, 23 Apr 2020 19:32:52 +0200
+Message-Id: <20200423173253.711725-1-david@ixit.cz>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200423011958.30521-4-fengping.yu@mediatek.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 09:20:02AM +0800, Fengping yu wrote:
-> From: "fengping.yu" <fengping.yu@mediatek.com>
-> 
+Depends elants_i2c series from Michal [1].
 
-This misses the commit message. It's a show stopper for such patches.
-Read this [1].
+[1] https://patchwork.kernel.org/project/linux-input/list/?series=270071
 
-[1]: https://chris.beams.io/posts/git-commit/
+David Heidelberg (1):
+  dt-bindings: input: touchscreen: elants_i2c: convert to YAML
 
-...
-
-> +#define KPD_DEBOUNCE_MASK	GENMASK(13, 0)
-> +#define KPD_DEBOUNCE_MAX	256000
-
-Is there any unit in which debounce time is being measured? Add it as a suffix
-to the definition, if it's possible.
-
-...
-
-> +#define BITS_TO_U32(nr)	DIV_ROUND_UP(nr, BITS_PER_BYTE * sizeof(u32))
-
-This already defined in bits.h.
-
-...
-
-> +	keypad->base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(keypad->base)) {
-
-> +		dev_err(&pdev->dev, "Failed to get resource and iomap keypad\n");
-
-This is duplicate noisy message, please remove.
-
-> +		return PTR_ERR(keypad->base);
-> +	}
-
-...
-
-> +	writew(keypad->key_debounce * 32 / 1000 & KPD_DEBOUNCE_MASK,
-
-Perhaps one pair of parentheses is needed to make logic clear.
-
-(Yes, I remember I commented on this in earlier versions where it was many
- parentheses around above calculations, but you have to use common sense as well)
-
-> +		keypad->base + KP_DEBOUNCE);
+ .../devicetree/bindings/input/elants_i2c.txt  | 34 ---------
+ .../input/touchscreen/elan,elants_i2c.yaml    | 69 +++++++++++++++++++
+ 2 files changed, 69 insertions(+), 34 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/elants_i2c.txt
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.26.2
 
