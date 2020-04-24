@@ -2,92 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 679491B6365
-	for <lists+linux-input@lfdr.de>; Thu, 23 Apr 2020 20:27:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF81E1B6C8E
+	for <lists+linux-input@lfdr.de>; Fri, 24 Apr 2020 06:25:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730326AbgDWS05 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Apr 2020 14:26:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52836 "EHLO
+        id S1725823AbgDXEZE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 Apr 2020 00:25:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730318AbgDWS0z (ORCPT
+        with ESMTP id S1725776AbgDXEZE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Apr 2020 14:26:55 -0400
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02A1BC09B045
-        for <linux-input@vger.kernel.org>; Thu, 23 Apr 2020 11:26:52 -0700 (PDT)
-Received: by mail-il1-x141.google.com with SMTP id w6so6578276ilg.1
-        for <linux-input@vger.kernel.org>; Thu, 23 Apr 2020 11:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
-        b=g40sBMuaO0eKdotmx6qgQBl63DKBmrekz5bvyEQHA4wVZtcqrxc+aFVgh/QD84O9VQ
-         7GeGJGwCstc5CQBYUut5JFB/SR9hiHRBoNucBdQ5+M/xcZE7LYnQNVriX94nlJDQQ53M
-         WWNnGuPMmJMtuCxOc6M3BOG48McWyi9pwkfv1qCbwmDhh95byI3UmcGK9ZJ59xQm/kqA
-         giNgZwxUHu+XTIAoqn/uu1orK63Ur+6hMBQW2TB101zb0oJ5HpVThkCq6id/TjpQtg27
-         HPMb1DcYsj7bM6wQaeV1UkPK6mgUhECRFNV10F5zDhvx1RXP4ikb8uuEIGMKOSNWVb51
-         vLew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
-        b=eerYHrIBM/B03rXmdpMlhWBAfAOUuJ3+KxVJak7PNaKrbktQ4ALG1ioS1VGqnTHpAM
-         /6/8gutTpKsXBXfBikB8+O0K9m3pGrrYoqXK369BdvtX3a090IvY6EFzyWk4/NcZCgLa
-         BePbhvcNarucD1qRD8G5Oo0V1qiIU6gHt05d1a80nlKpNyHn3PjJoY/jOKdaGlXhaPIo
-         9V4WbvdnynkHSS6ItygPKYucNcOMLgg30DN/Wo+iwDRVcmyLFINyq9xDPqf6LaQCyJyq
-         n6qeHm3wwOdIj6mxfM6qZQ+/fvoI/s/SFgENgW5a+qjYGWYa6OEIobYzWQv3PMuJmOIJ
-         ScKw==
-X-Gm-Message-State: AGi0PubLwaWWLCDiX79L5YJdHDyNFM0B+P3eESBvS0KZJoWQQFywgk0i
-        fFOIf9OSqRt49E917l2TdDvDH+afq+DoQ0kbt1H1oRs=
-X-Google-Smtp-Source: APiQypKZ88CB7WlyCjo0k9+cU4PX0VcggKkKtzSKgRJHkcPGizF0yZXAjzEMBgo6XH4xzBXv0KAOMjPM9p1sgpp6/70=
-X-Received: by 2002:a5e:9416:: with SMTP id q22mr2547966ioj.93.1587666410194;
- Thu, 23 Apr 2020 11:26:50 -0700 (PDT)
+        Fri, 24 Apr 2020 00:25:04 -0400
+Received: from vulcan.kevinlocke.name (vulcan.kevinlocke.name [IPv6:2001:19f0:5:727:1e84:17da:7c52:5ab4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583C1C09B045
+        for <linux-input@vger.kernel.org>; Thu, 23 Apr 2020 21:25:04 -0700 (PDT)
+Received: from kevinolos (host-69-145-60-23.bln-mt.client.bresnan.net [69.145.60.23])
+        (Authenticated sender: kevin@kevinlocke.name)
+        by vulcan.kevinlocke.name (Postfix) with ESMTPSA id C883A185F83E;
+        Fri, 24 Apr 2020 04:25:01 +0000 (UTC)
+Received: by kevinolos (Postfix, from userid 1000)
+        id 160F61300671; Thu, 23 Apr 2020 22:25:00 -0600 (MDT)
+Date:   Thu, 23 Apr 2020 22:25:00 -0600
+From:   Kevin Locke <kevin@kevinlocke.name>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: i8042 - add ThinkPad S230u to i8042 nomux list
+Message-ID: <20200424042500.GA107217@kevinolos.locke.internal>
+Mail-Followup-To: Kevin Locke <kevin@kevinlocke.name>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+References: <feb8a8339a67025dab3850e6377eb6f3a0e782ba.1587400635.git.kevin@kevinlocke.name>
+ <20200420170234.GN166864@dtor-ws>
 MIME-Version: 1.0
-Received: by 2002:a02:c845:0:0:0:0:0 with HTTP; Thu, 23 Apr 2020 11:26:49
- -0700 (PDT)
-Reply-To: boa.benin107@yahoo.com
-From:   "Mrs. Angella Michelle" <info.zennitbankplcnigerian@gmail.com>
-Date:   Thu, 23 Apr 2020 20:26:49 +0200
-Message-ID: <CABHzvr=N78snvtMHePMOa+RLFdcZEjXLPkuhkojt4VoZGNzBsQ@mail.gmail.com>
-Subject: Contact Bank of Africa-Benin to receive your payment funds transfer
- amount of $12.800.000,00 Million USD,approved this morning by IMF.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200420170234.GN166864@dtor-ws>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Attn Dear.
-Contact Bank of Africa-Benin to receive your payment funds transfer amount =
-of
-$12.800.000,00 Million USD,approved this morning by IMF.
-Happy to inform you, we have finally deposited your payment funds
-$12.8 million us dollars with the Paying Bank of Africa-Benin
-to transfer the payment amount of $12.800,000,00 Million Us Dollars to you
-Contact the bank immediately you receive this email now.
-Director Bank of Africa-Benin: Dr. Festus Obiara
-Email id:  boa.benin107@yahoo.com
-Tel/mobile, (229) 62819378
-BOA-BENIN | GROUPE BANK OF AFRICA, boa-benin
-Avenue Jean-Paul II - 08 BP 0879 - Cotonou - B=C3=A9nin
-Phone:(229) 62819378.
-2020 GROUPE BANK OF AFRICA
-Be advised to re-confirm your bank details to this bank as listed.
-Your account Holder's name----------------
-Bank Name----------------------------------------------------------
-Bank address----------------------------------------------
-Account Numbers---------------------------------------
-Rounting-----------------------------------------------------------------
-Your direct Phone Numbers----------------------------------------------
-Note,I have paid the deposit and insurance fees for you
-But the only money you are to send to this bank is $150.00 us dollars
-Been for the wire transfer fees of your funds
-Contact Him now to receive your transfer deposited this morning
-I wait for your reply upon confirmation
-Mrs. Angella Michelle
-Editor, Zenith Bank- Companies Benin
-mrsa9389@gmail.com
+On Mon, 2020-04-20 at 10:02 -0700, Dmitry Torokhov wrote:
+> Applied, thank you.
+
+I believe I was in error and nomux only appeared to fix the issue
+because the controller continued working after warm reboots.  After
+more thorough testing from both warm and cold start, I now believe the
+entry should be added to i8042_dmi_reset_table rather than
+i8042_dmi_nomux_table as i8042.reset=1 alone is sufficient to avoid
+the issue from both states while i8042.nomux is not.
+
+Please drop or revert the previous patch, if possible.
+I will send a corrected and better-tested patch momentarily.
+
+My apologies for the confusion,
+Kevin
