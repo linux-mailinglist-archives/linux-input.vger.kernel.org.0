@@ -2,203 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3C9B1B85BC
-	for <lists+linux-input@lfdr.de>; Sat, 25 Apr 2020 12:45:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC4431B85E2
+	for <lists+linux-input@lfdr.de>; Sat, 25 Apr 2020 12:59:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726076AbgDYKpJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 25 Apr 2020 06:45:09 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27746 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726061AbgDYKpI (ORCPT
+        id S1726053AbgDYK7Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 25 Apr 2020 06:59:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36588 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726050AbgDYK7Q (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 25 Apr 2020 06:45:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1587811506;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ypPrD56tObDwf94GrskvQMr8bepljs+Bo7TgxGLG9Cw=;
-        b=K8FZzR73neqQiht7QYE/eD+BcM57JburBv14hJoRxOk0KfKDrsXmdDv7JC4VxFsUm96QCf
-        wlWTGdkjTd85YcVYOFHXFpf+WI8p6/ogWTmrPG028gW1zeQ0tARd/rpvtiP0XsNw5Z3Ctz
-        t+SyYEL0j46ik38EGSEsYVOK3FNnPLQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-upXd08DlOQWRfEwyF8ZAww-1; Sat, 25 Apr 2020 06:45:05 -0400
-X-MC-Unique: upXd08DlOQWRfEwyF8ZAww-1
-Received: by mail-wr1-f71.google.com with SMTP id s11so6525142wru.6
-        for <linux-input@vger.kernel.org>; Sat, 25 Apr 2020 03:45:04 -0700 (PDT)
+        Sat, 25 Apr 2020 06:59:16 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50CAAC09B04A
+        for <linux-input@vger.kernel.org>; Sat, 25 Apr 2020 03:59:16 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id fu13so4389064pjb.5
+        for <linux-input@vger.kernel.org>; Sat, 25 Apr 2020 03:59:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/UOIBA04AFgjepOASpTxpEkjvC5TJ1xzwXdPeenoKTY=;
+        b=ZCJDdZBfkM++0eyn2+5GcHsEQIGH4HqbBCkiZl81h5Q7NG/eVZdXib6vowarp1BrPS
+         W2dbzdkwJyBaky4riQAkY4O3X3SjW9DGJRQlw3A4q2UBgbXkllhBIozbhoHaqzQLZbc8
+         8RTc/c692hdjUKr8W2M5wA78uNRM2ULdvM1HvdFZRNQszK7clEW+RTPUDbxr/DcYRnBm
+         Et9BMaOgUi1PxbtMfrbm3/r/K5YXrRlmo0aEUyO2Fhih/4QDOERRr2yroogpIoDjcqSS
+         hIG2eb9XlaHGrRTHVohaSSYsiAuWG11Dsd/xPKt9eu/5ZG8/fYp3hzKDmptZBSDxAm9D
+         FnWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ypPrD56tObDwf94GrskvQMr8bepljs+Bo7TgxGLG9Cw=;
-        b=Mn0myc7F3zB2RscRo/+EKWy49YcjoacIQOqCxtMr0A6JtyBCg1yjrqynY6E3xueUXz
-         Flyy1Ev5lISK5ZluWw+NTtUS17zYCz1LfI32msO0keuo3LO2cN9DJRXhnoQ5A/7a0SZW
-         IY+bYAcMbG5ruUc1H6UnGQlDAPeLjmaq66ETeqzzFxyPUFAyQmjLdfhrSQ+jzjPuILWj
-         /irf17K/u2py7m8hUrdRpIm9MJpCGpRBG+npRicfzI/qKARCAbFHkzf7l0wTYQNCetGt
-         pIpNHwGXViZNAKq+RzFPFCd5Y6kug0UNVIpeV4UFRGcIzv/smRcKZfJCTfgai9mGhmi9
-         mv/Q==
-X-Gm-Message-State: AGi0PuYW30Ztwk9P3zXSbZYe6jTmrIfnC4pasH50JACUkX+zivqrPmIN
-        4ZNXgUTttE0iIyvkXBJQiZ8GWBBmm5fi7iJBGQkHfGISDCk9Bc2HwLptdmA8MfXK9xMj4wmAJCB
-        pdlItD03gobjsLAePn6yhPKE=
-X-Received: by 2002:a5d:5224:: with SMTP id i4mr16414551wra.1.1587811503429;
-        Sat, 25 Apr 2020 03:45:03 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLJoEN2ED9W9KVPrIzIBdcXp0/RapvQGKbLbIzMMgY12PkFvD3mFBtIEuTTIAiCCX+rffNQWg==
-X-Received: by 2002:a5d:5224:: with SMTP id i4mr16414528wra.1.1587811503158;
-        Sat, 25 Apr 2020 03:45:03 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id v131sm6828892wmb.19.2020.04.25.03.45.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Apr 2020 03:45:02 -0700 (PDT)
-Subject: Re: [PATCH] HID: apple: Disable Fn-key key-re-mapping on clone
- keyboards
-To:     =?UTF-8?Q?Jo=c3=a3o_Moreno?= <mail@joaomoreno.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-References: <20200424112222.118376-1-hdegoede@redhat.com>
- <CAHxFc3T8JpdtMkkQfmArWuaA2VfKwQ52_g2uNFRkbsHtgqs6cQ@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <9e7667b3-65e2-90ce-1885-96e8bf4fe4af@redhat.com>
-Date:   Sat, 25 Apr 2020 12:45:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        bh=/UOIBA04AFgjepOASpTxpEkjvC5TJ1xzwXdPeenoKTY=;
+        b=INI68k1FsHym148l18OkKt9aokKD4VgZaNBbrmuLaFT1Z/aZqumE+RbIM5OamYVT9K
+         Pu0yQ14YwQrzTazeik8WcEXzSe+cWcHmSgBMphsmRh1UC5Z0yEjVKFEf5uANllgPtP3Z
+         rdhzXbJTj7ACR+5uLvqck593t23vS05kcRbb7sTDR70Xx30mPbbXwKzdV/btYV6GuDYA
+         i6xBM4l2kcPPNPkjYj5xbp/NXOnUaPh7kwr64dd3oLR/H8eLvzUejnIp5MoTkHDWd1hP
+         N80nfLlzVBQrrpIKxik4uxSbL1P59j2MQt5SEnDFDejdqn2OBcd3ZwGpfZSq5D/l7dzq
+         Qd9Q==
+X-Gm-Message-State: AGi0Puafm2RuH+yioqn47Wl5u0/tfi/1LbHQ9bFSLd6rSkvOaasY8RMs
+        CRKTsoWNrSG7Vb0GX/Qzszc=
+X-Google-Smtp-Source: APiQypK/SzEiZZlueJMtMXd3XMCrxOH4Q+S3RkFLi2DVdjzQuVwrOX3SetEQgDIaJjabxdXylRrNtw==
+X-Received: by 2002:a17:902:44d:: with SMTP id 71mr14395951ple.123.1587812355854;
+        Sat, 25 Apr 2020 03:59:15 -0700 (PDT)
+Received: from localhost.localdomain (14-201-44-137.tpgi.com.au. [14.201.44.137])
+        by smtp.gmail.com with ESMTPSA id b3sm6943811pgh.75.2020.04.25.03.59.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Apr 2020 03:59:15 -0700 (PDT)
+From:   Daniel Playfair Cal <daniel.playfair.cal@gmail.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org,
+        Daniel Playfair Cal <daniel.playfair.cal@gmail.com>
+Subject: [PATCH] HID: i2c-hid: reset Synaptics SYNA2393 on resume
+Date:   Sat, 25 Apr 2020 20:58:17 +1000
+Message-Id: <20200425105817.27084-1-daniel.playfair.cal@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <CAHxFc3T8JpdtMkkQfmArWuaA2VfKwQ52_g2uNFRkbsHtgqs6cQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On the Dell XPS 9570, the Synaptics SYNA2393 touchpad generates spurious
+interrupts after resuming from suspend until it receives some input or
+is reset. Add it to the quirk I2C_HID_QUIRK_RESET_ON_RESUME so that it
+is reset when resuming from suspend.
 
-On 4/25/20 11:30 AM, João Moreno wrote:
-> Hi Hans,
-> 
-> On Fri, 24 Apr 2020 at 13:22, Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> The Maxxter KB-BT-001 Bluetooth keyboard, which looks somewhat like the
->> Apple Wireless Keyboard, is using the vendor and product IDs (05AC:0239)
->> of the Apple Wireless Keyboard (2009 ANSI version) <sigh>.
->>
->> But its F1 - F10 keys are marked as sending F1 - F10, not the special
->> functions hid-apple.c maps them too; and since its descriptors do not
->> contain the HID_UP_CUSTOM | 0x0003 usage apple-hid looks for for the
->> Fn-key, apple_setup_input() never gets called, so F1 - F6 are mapped
->> to key-codes which have not been set in the keybit array causing them
->> to not send any events at all.
-> 
-> Oh no.
-> 
->>
->> The lack of a usage code matching the Fn key in the clone is actually
->> useful as this allows solving this problem in a generic way.
->>
->> This commits adds a fn_found flag and it adds a input_configured
->> callback which checks if this flag is set once all usages have been
->> mapped. If it is not set, then assume this is a clone and clear the
->> quirks bitmap so that the hid-apple code does not add any special
->> handling to this keyboard.
->>
->> This fixes F1 - F6 not sending anything at all and F7 - F12 sending
->> the wrong codes on the Maxxter KB-BT-001 Bluetooth keyboard and on
->> similar clones.
->>
->> Cc: Joao Moreno <mail@joaomoreno.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->> Note hid-apple also enables APPLE_NUMLOCK_EMULATION for
->> USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ANSI. At least on the Maxxter clone
->> this causes numlock to get stuck in the pressed state after pressing it
->> twice (its get stuck when pressed when the numlock led is on). This might
->> be specific to the clone, but it would be good to also check if this is
->> not an issue on an actual Apple Wireless Keyboard.
->>
->> Joao, can you check the numlock-emulation stuff on your 05AC:0256
->> (APPLE_ALU_WIRELESS_2011_ISO) keyboard?
-> 
-> Unfortunately I don't have that keyboard any more around. Maybe
-> someone else around could give this a try?
+More information about the bug can be found in this mailing list
+discussion: https://www.spinics.net/lists/linux-input/msg59530.html
 
-Ok, thank you for letting us know. This was sorta orthogonal
-to this patch, its just that I noticed that the numlock emulation
-behaved weird with the maxxter clone. Not sure if this is due to
-the clone behaving differently then the original Mac keyboards,
-or if its an issue where the hid-apply code has regressed over time.
+Signed-off-by: Daniel Playfair Cal <daniel.playfair.cal@gmail.com>
+---
+ drivers/hid/hid-ids.h              | 3 +++
+ drivers/hid/i2c-hid/i2c-hid-core.c | 2 ++
+ 2 files changed, 5 insertions(+)
 
-Regards,
-
-Hans
-
-
-> 
->> ---
->>   drivers/hid/hid-apple.c | 18 ++++++++++++++++++
->>   1 file changed, 18 insertions(+)
->>
->> diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
->> index d732d1d10caf..6909c045fece 100644
->> --- a/drivers/hid/hid-apple.c
->> +++ b/drivers/hid/hid-apple.c
->> @@ -54,6 +54,7 @@ MODULE_PARM_DESC(swap_opt_cmd, "Swap the Option (\"Alt\") and Command (\"Flag\")
->>   struct apple_sc {
->>          unsigned long quirks;
->>          unsigned int fn_on;
->> +       unsigned int fn_found;
->>          DECLARE_BITMAP(pressed_numlock, KEY_CNT);
->>   };
->>
->> @@ -339,12 +340,15 @@ static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
->>                  struct hid_field *field, struct hid_usage *usage,
->>                  unsigned long **bit, int *max)
->>   {
->> +       struct apple_sc *asc = hid_get_drvdata(hdev);
->> +
->>          if (usage->hid == (HID_UP_CUSTOM | 0x0003) ||
->>                          usage->hid == (HID_UP_MSVENDOR | 0x0003) ||
->>                          usage->hid == (HID_UP_HPVENDOR2 | 0x0003)) {
->>                  /* The fn key on Apple USB keyboards */
->>                  set_bit(EV_REP, hi->input->evbit);
->>                  hid_map_usage_clear(hi, usage, bit, max, EV_KEY, KEY_FN);
->> +               asc->fn_found = true;
->>                  apple_setup_input(hi->input);
->>                  return 1;
->>          }
->> @@ -371,6 +375,19 @@ static int apple_input_mapped(struct hid_device *hdev, struct hid_input *hi,
->>          return 0;
->>   }
->>
->> +static int apple_input_configured(struct hid_device *hdev,
->> +               struct hid_input *hidinput)
->> +{
->> +       struct apple_sc *asc = hid_get_drvdata(hdev);
->> +
->> +       if ((asc->quirks & APPLE_HAS_FN) && !asc->fn_found) {
->> +               hid_info(hdev, "Fn key not found (Apple Wireless Keyboard clone?), disabling Fn key handling\n");
->> +               asc->quirks = 0;
->> +       }
->> +
->> +       return 0;
->> +}
->> +
->>   static int apple_probe(struct hid_device *hdev,
->>                  const struct hid_device_id *id)
->>   {
->> @@ -585,6 +602,7 @@ static struct hid_driver apple_driver = {
->>          .event = apple_event,
->>          .input_mapping = apple_input_mapping,
->>          .input_mapped = apple_input_mapped,
->> +       .input_configured = apple_input_configured,
->>   };
->>   module_hid_driver(apple_driver);
->>
->> --
->> 2.26.0
->>
-> 
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index b18b13147a6f..984011835ce9 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1097,6 +1097,9 @@
+ #define USB_DEVICE_ID_SYMBOL_SCANNER_2	0x1300
+ #define USB_DEVICE_ID_SYMBOL_SCANNER_3	0x1200
+ 
++#define I2C_VENDOR_ID_SYNAPTICS     0x06cb
++#define I2C_PRODUCT_ID_SYNAPTICS_SYNA2393   0x7a13
++
+ #define USB_VENDOR_ID_SYNAPTICS		0x06cb
+ #define USB_DEVICE_ID_SYNAPTICS_TP	0x0001
+ #define USB_DEVICE_ID_SYNAPTICS_INT_TP	0x0002
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 009000c5d55c..294c84e136d7 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -177,6 +177,8 @@ static const struct i2c_hid_quirks {
+ 		 I2C_HID_QUIRK_BOGUS_IRQ },
+ 	{ USB_VENDOR_ID_ALPS_JP, HID_ANY_ID,
+ 		 I2C_HID_QUIRK_RESET_ON_RESUME },
++	{ I2C_VENDOR_ID_SYNAPTICS, I2C_PRODUCT_ID_SYNAPTICS_SYNA2393,
++		 I2C_HID_QUIRK_RESET_ON_RESUME },
+ 	{ USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720,
+ 		I2C_HID_QUIRK_BAD_INPUT_SIZE },
+ 	{ 0, 0 }
+-- 
+2.26.2
 
