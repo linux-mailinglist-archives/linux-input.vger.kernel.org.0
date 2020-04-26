@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 954EA1B9216
-	for <lists+linux-input@lfdr.de>; Sun, 26 Apr 2020 19:30:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D80931B9225
+	for <lists+linux-input@lfdr.de>; Sun, 26 Apr 2020 19:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726154AbgDZR37 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 26 Apr 2020 13:29:59 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:44143 "EHLO rere.qmqm.pl"
+        id S1726228AbgDZRlA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 26 Apr 2020 13:41:00 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:29302 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725976AbgDZR37 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 26 Apr 2020 13:29:59 -0400
+        id S1726154AbgDZRlA (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 26 Apr 2020 13:41:00 -0400
 Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 499FKH6VGkzDY;
-        Sun, 26 Apr 2020 19:29:55 +0200 (CEST)
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 499FZ24YmjzDY;
+        Sun, 26 Apr 2020 19:40:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1587922197; bh=VPkMbWlP/qIhkgThtdNrl172mDp6KFzQO6+Nt4E1ZKc=;
+        t=1587922858; bh=JLGALo/UiOILtQBtpA+1RzP50dZmtkvUbk0MBxCAtU0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dgRGP6dm1WxB/ewGd/mZ7Jzxh5tjn2b7JfNrvbbBItnxgJdPsOiFWv/lIFQr1X3DE
-         sLBMX73cmK6MPi5mCRAUqKuQTyx6jmbvYywGQ3JxbiM0q0TV7cpC3YDQKYLcbB+6l2
-         YX5xB3t/BrmHH5zJTX5l2oClyWpjPhk4xP/wRuuhbPkAAKhZGyUyZcTBuYjWYrlLOp
-         JZhMqwEwYv6oBct6KImH0v18HDJF8GZP0PCb0lUTn/BvCzZ7C0vEpJayqO57UDbUGR
-         NX1arHlruR64WhzS987mX/wgy9JGLGdFN04poFXfpOrztEzrTpPeIo3h69mUXMDzf5
-         zfqF96se59c+g==
+        b=ieiRqUv2js6Xx6/zbV8hMN8z+1T9FYsNDWeCarKZS1/Oh2yvV5RLnsSV1QgE2RUHM
+         cDTbxCis/xvaoXbm0Ioxrw7hJ1B1hyMccty2yA8IxWS1qcIbtkx2AMrvGapHdHE6Ho
+         dzEGoOYZ9pCoiGlU3UrHFw0AjBNJd+ukplwczjZEtfnKVcZKZcy+JjC+gez33gZ3jB
+         okVb2isuyh31bZanGwX/fylOrAW/9902SQVaP+mfUUtp/dSnLXpspvSV+bf0QeZOTY
+         qT0r/7GecdxJCaTKVfVgYakw1Q99n0fkpIAVq3WkjJIWuGQe/pMwb/6DQgSiKfsZSV
+         GYX5vrlali/Lg==
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Sun, 26 Apr 2020 19:29:54 +0200
+Date:   Sun, 26 Apr 2020 19:40:57 +0200
 From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     David Heidelberg <david@ixit.cz>,
@@ -36,50 +36,37 @@ Cc:     David Heidelberg <david@ixit.cz>,
         Rob Herring <robh+dt@kernel.org>,
         Scott Liu <scott.liu@emc.com.tw>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 03/10] input: elants: remove unused axes
-Message-ID: <20200426172954.GA15436@qmqm.qmqm.pl>
+Subject: Re: [PATCH v4 05/10] input: elants: refactor
+ elants_i2c_execute_command()
+Message-ID: <20200426174057.GB15436@qmqm.qmqm.pl>
 References: <cover.1587916846.git.mirq-linux@rere.qmqm.pl>
- <b6cb0f810eec2d5c6245d6128502eebd342ca02a.1587916846.git.mirq-linux@rere.qmqm.pl>
- <0f66e93c-9c71-73d0-90b8-15e0802a79c5@gmail.com>
+ <4e5bf76e695388d6aeefa00552675c0617c044f1.1587916846.git.mirq-linux@rere.qmqm.pl>
+ <127c4cf0-9bf0-60a4-bc48-28988ae24967@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0f66e93c-9c71-73d0-90b8-15e0802a79c5@gmail.com>
+In-Reply-To: <127c4cf0-9bf0-60a4-bc48-28988ae24967@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 26, 2020 at 07:35:47PM +0300, Dmitry Osipenko wrote:
+On Sun, Apr 26, 2020 at 07:24:14PM +0300, Dmitry Osipenko wrote:
 > 26.04.2020 19:11, Michał Mirosław пишет:
-> > Driver only ever reports MT events and input_mt_init_slots() sets up
-> > emulated axes already.  Clear the capabilities not generated directly
-> > and move MT axes setup, so they are visible by input_mt_init_slots().
+> > Apply some DRY-ing to elants_i2c_execute_command() callers.  This pulls
+> > polling and error printk()s into a single function.
 > > 
 > > Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-> > Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-> > Tested-by: Dmitry Osipenko <digetx@gmail.com>
 > > ---
-> > v4: reword commitmsg; reorder axis setup
+> > v4: return 0 on success; use %pe for error code
 > > ---
+> >  drivers/input/touchscreen/elants_i2c.c | 189 +++++++++++++------------
+> >  1 file changed, 96 insertions(+), 93 deletions(-)
 > 
-> Legacy pointer emulation doesn't work using v4. I think it will be
-> better to drop this patch for now and add this hunk to the patch #4:
+> This patch doesn't apply to the recent linux-next, it needs to be rebased.
 
-Have you tried it together with the next patch? It adds
-touchscreen_parse_properties() to initialize axes also from DT, and
-should be equivalent to the hunk you proposed.
+I'm rebasing against for-linus brach at [1]. Will send v5 shortly.
 
-[...]
-> Maybe input_mt_init_slots() could be changed to set up all the
-> properties that are needed for the legacy pointer, but I'm not 100% sure
-> because not very familiar with that code. Perhaps Dmitry Torokhov could
-> clarify?
-
-The code of input_mt_init_slots() looks like it does initialize the
-properties needed. What does evtest return with and without the patches?
-
-Best Regards
-Michał Mirosław
+[1] git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git
