@@ -2,36 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEB001B917D
-	for <lists+linux-input@lfdr.de>; Sun, 26 Apr 2020 18:11:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 002D81B917B
+	for <lists+linux-input@lfdr.de>; Sun, 26 Apr 2020 18:11:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726375AbgDZQLg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 26 Apr 2020 12:11:36 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:1171 "EHLO rere.qmqm.pl"
+        id S1726362AbgDZQLb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 26 Apr 2020 12:11:31 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:26745 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726259AbgDZQLS (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        id S1726269AbgDZQLS (ORCPT <rfc822;linux-input@vger.kernel.org>);
         Sun, 26 Apr 2020 12:11:18 -0400
 Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 499CZX3hFFzHm;
-        Sun, 26 Apr 2020 18:11:16 +0200 (CEST)
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 499CZY4cxPzsC;
+        Sun, 26 Apr 2020 18:11:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1587917476; bh=XWxiQ6jajvnMhjPTh+oRxLg2bSDp+rmdkahKN65j0ZY=;
+        t=1587917477; bh=jOswEKU7i79mQ5w2Qdg1LzFaQcsH2Fj/+9CwRqdDBhA=;
         h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=giPoO9RtwE8Yqf77iyZhlznWWFJUFjpTapYs+Rq1ag/SdBN8ETkYuTbJNqbKAZc9A
-         Vp/hYrgSQiFcsEGIZ7TqqTWSNp9qfbZXO9dw/Celg2DV2QXJAk9xy7yXFcp/5Bfw/H
-         bTnj1M9DizgxjRrvIg/sVIRJ9pOGp2Z/BFWMOai3kNi/MOJG/hj4buQPG4mqg7BGBO
-         gI6zAH770TO06YSpYw+Q8iv7RiAKGW2RLi5VUEGCw6/1sNTjcZS6QoVepGa9UUrXFR
-         5GLDuBR7xfgEL9xrKStjQWNbDzHc4YPlRBPRU7UbKsIuo456LshY8IIDwFOiY4nQBR
-         LPspn/LHi5WiA==
+        b=Em640gqYVGGxZXzgdZBfwtW7YT7djAa3FBa2FOHixg6W5ngkiUNJi3KNik3sG1w6g
+         TOxKx7/IlCJsLU8EYmgI1wFSmjsBFpVdlgbofISo0nppu2N6tUS9vjbVquMFID46Eq
+         CrSjU9vhAVnPg0447YjXV82emBoJP7TjatouPEEs/6eM+s28B94eSj6Ysw2yzrJV0x
+         FOIuXbzVeP3zeL8nHU1Z/BKdYqmuG2mUhEGuqWp3Uj7BL45Ifn9bFDoB/XAbiUPEV9
+         TNTXtPVAMXWDtR2Cj1QReUebxZRSrq1hdzYsYbjrYDeOjdcCGZ/XK+coUM5whfZgHk
+         a7mtHru9y1K6g==
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Sun, 26 Apr 2020 18:11:15 +0200
-Message-Id: <64d0244628a921c0aae5ffed8060c9c8938059d4.1587916846.git.mirq-linux@rere.qmqm.pl>
+Date:   Sun, 26 Apr 2020 18:11:16 +0200
+Message-Id: <45ca127938fafadddcdb502aed8a6aa0e531bbd9.1587916846.git.mirq-linux@rere.qmqm.pl>
 In-Reply-To: <cover.1587916846.git.mirq-linux@rere.qmqm.pl>
 References: <cover.1587916846.git.mirq-linux@rere.qmqm.pl>
 From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH v4 08/10] dt-bindings: input: elants-i2c: Document common
- touchscreen properties
+Subject: [PATCH v4 09/10] dt-bindings: input: elants-i2c: Document eKTF3624
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -51,34 +50,29 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Dmitry Osipenko <digetx@gmail.com>
 
-Document support of the common touchscreen properties.
+The eKTF3624 hardware is similar to eKTH3500.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 Reviewed-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
 Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
 ---
- Documentation/devicetree/bindings/input/elants_i2c.txt | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/input/elants_i2c.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/devicetree/bindings/input/elants_i2c.txt b/Documentation/devicetree/bindings/input/elants_i2c.txt
-index 5edac8be0802..45fab32bbc19 100644
+index 45fab32bbc19..1bc60303f0ea 100644
 --- a/Documentation/devicetree/bindings/input/elants_i2c.txt
 +++ b/Documentation/devicetree/bindings/input/elants_i2c.txt
-@@ -14,9 +14,13 @@ Optional properties:
- - reset-gpios: reset gpio the chip is connected to.
- - vcc33-supply: a phandle for the regulator supplying 3.3V power.
- - vccio-supply: a phandle for the regulator supplying IO power.
-+- see [2] for additional properties
-+
-+For additional optional properties see: touchscreen.txt
+@@ -1,7 +1,7 @@
+ Elantech I2C Touchscreen
  
- [0]: Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
- [1]: Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
-+[2]: Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
- 
- Example:
- 	&i2c1 {
+ Required properties:
+-- compatible: must be "elan,ekth3500".
++- compatible: must be "elan,ekth3500" or "elan,ektf3624".
+ - reg: I2C address of the chip.
+ - interrupts: interrupt to which the chip is connected (see interrupt
+   binding[0]).
 -- 
 2.20.1
 
