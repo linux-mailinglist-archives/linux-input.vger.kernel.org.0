@@ -2,35 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2413C1B9180
-	for <lists+linux-input@lfdr.de>; Sun, 26 Apr 2020 18:11:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA3E71B917F
+	for <lists+linux-input@lfdr.de>; Sun, 26 Apr 2020 18:11:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726206AbgDZQLP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1726210AbgDZQLP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Sun, 26 Apr 2020 12:11:15 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:63736 "EHLO rere.qmqm.pl"
+Received: from rere.qmqm.pl ([91.227.64.183]:53269 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726146AbgDZQLP (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 26 Apr 2020 12:11:15 -0400
+        id S1726147AbgDZQLO (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 26 Apr 2020 12:11:14 -0400
 Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 499CZR6PNJzsC;
-        Sun, 26 Apr 2020 18:11:11 +0200 (CEST)
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 499CZS4FX2zwy;
+        Sun, 26 Apr 2020 18:11:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1587917471; bh=TaRAs79tIlLGqfEvkjIK4MXn0J3D9DouayMsfpB2sqM=;
+        t=1587917472; bh=CwKwDqHozyOsjEK6g3w7VBZ5aPUk7eO/fS7f3oLeEwM=;
         h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=D+hSJ9yMfa0d5XaKXtPeKDXvUIHaJ9SYe1lO+NLKXpAgbkwUnUWMROM8PwZjEff9C
-         8cI3l8N2m7HfXBiXSgAqY2gYUbKfEFtBFYQdThBtwFWEkbTvlo9v1d8ExIvxui9Nzb
-         nY1coTR77UFDc7ToZmXzuRs+MZyjV22nt+zuicVV6A4V352IDPB6mXud8FSHIboYDa
-         8dyfUGY7RWig1oMNz4ke5fdAjtAbQz9qrUrBEShZaXek5fiKs5cuoR1OtzXvdPATpm
-         REt1GfcMiCE8AhfS9gkuMCd158QaqD0yky2zhrAmzYvg8vCrXG3FbBF/pB7eeP7iA9
-         DvG5MtqshRjgA==
+        b=qhWbMAj1dh5k4NOME70xiMs5ULECYhANEI5Sdq/4VFYSPQw7JNNqzJNao1Y4pai3Y
+         BpGPkihFaPsORRxzi6gY2xE2dDtEJEikGoUg5kQtmu6xnAaGQe+QOIgDXFmntqfkoU
+         V0HHKlj0Zhbk30/LdCM3g+iaUUeRI6Yxm1mlcB0NjNZvNesXaTpGbo1xFzc1MhVUm5
+         9PtXh68uMOSKrDrv/IHBdyUd9iyqFguDvhE84jEHVJ55DdgjnnbECcG7VZMEyCuz+A
+         ZzYWq4K1sFhV7XQS8gxHjgQdX3XmCVbQMdY1MEZorAfQ1F0y6HaXLH4hGEnXlMgQD4
+         ZePNwPPOTCNPA==
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Sun, 26 Apr 2020 18:11:11 +0200
-Message-Id: <706d63ecfdc7a010c871ce235d7219778f04e3d5.1587916846.git.mirq-linux@rere.qmqm.pl>
+Date:   Sun, 26 Apr 2020 18:11:12 +0200
+Message-Id: <b6cb0f810eec2d5c6245d6128502eebd342ca02a.1587916846.git.mirq-linux@rere.qmqm.pl>
 In-Reply-To: <cover.1587916846.git.mirq-linux@rere.qmqm.pl>
 References: <cover.1587916846.git.mirq-linux@rere.qmqm.pl>
 From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH v4 02/10] input: elants: support old touch report format
+Subject: [PATCH v4 03/10] input: elants: remove unused axes
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -48,119 +48,64 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Support ELAN touchpad sensor with older firmware as found on eg. Asus
-Transformer Pads.
+Driver only ever reports MT events and input_mt_init_slots() sets up
+emulated axes already.  Clear the capabilities not generated directly
+and move MT axes setup, so they are visible by input_mt_init_slots().
 
 Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 Tested-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/input/touchscreen/elants_i2c.c | 36 ++++++++++++++++++--------
- 1 file changed, 25 insertions(+), 11 deletions(-)
+v4: reword commitmsg; reorder axis setup
+---
+ drivers/input/touchscreen/elants_i2c.c | 26 ++++++++------------------
+ 1 file changed, 8 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index b528bd687cca..ddebd3741145 100644
+index ddebd3741145..58aa9b7dbcbf 100644
 --- a/drivers/input/touchscreen/elants_i2c.c
 +++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -67,6 +67,7 @@
- #define CMD_HEADER_REK		0x66
+@@ -1312,25 +1312,7 @@ static int elants_i2c_probe(struct i2c_client *client,
+ 	ts->input->name = "Elan Touchscreen";
+ 	ts->input->id.bustype = BUS_I2C;
  
- /* FW position data */
-+#define PACKET_SIZE_OLD		40
- #define PACKET_SIZE		55
- #define MAX_CONTACT_NUM		10
- #define FW_POS_HEADER		0
-@@ -853,7 +854,8 @@ static int elants_i2c_fw_update(struct elants_data *ts)
-  * Event reporting.
-  */
+-	__set_bit(BTN_TOUCH, ts->input->keybit);
+-	__set_bit(EV_ABS, ts->input->evbit);
+-	__set_bit(EV_KEY, ts->input->evbit);
+-
+-	/* Single touch input params setup */
+-	input_set_abs_params(ts->input, ABS_X, 0, ts->x_max, 0, 0);
+-	input_set_abs_params(ts->input, ABS_Y, 0, ts->y_max, 0, 0);
+-	input_set_abs_params(ts->input, ABS_PRESSURE, 0, 255, 0, 0);
+-	input_abs_set_res(ts->input, ABS_X, ts->x_res);
+-	input_abs_set_res(ts->input, ABS_Y, ts->y_res);
+-
+ 	/* Multitouch input params setup */
+-	error = input_mt_init_slots(ts->input, MAX_CONTACT_NUM,
+-				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
+-	if (error) {
+-		dev_err(&client->dev,
+-			"failed to initialize MT slots: %d\n", error);
+-		return error;
+-	}
  
--static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
-+static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf,
-+				size_t report_len)
- {
- 	struct input_dev *input = ts->input;
- 	unsigned int n_fingers;
-@@ -865,7 +867,8 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
- 			buf[FW_POS_STATE];
+ 	input_set_abs_params(ts->input, ABS_MT_POSITION_X, 0, ts->x_max, 0, 0);
+ 	input_set_abs_params(ts->input, ABS_MT_POSITION_Y, 0, ts->y_max, 0, 0);
+@@ -1340,6 +1322,14 @@ static int elants_i2c_probe(struct i2c_client *client,
+ 	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
+ 	input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, 1);
  
- 	dev_dbg(&ts->client->dev,
--		"n_fingers: %u, state: %04x\n",  n_fingers, finger_state);
-+		"n_fingers: %u, state: %04x, report_len: %zu\n",
-+		n_fingers, finger_state, report_len);
- 
- 	for (i = 0; i < MAX_CONTACT_NUM && n_fingers; i++) {
- 		if (finger_state & 1) {
-@@ -875,8 +878,16 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
- 			pos = &buf[FW_POS_XY + i * 3];
- 			x = (((u16)pos[0] & 0xf0) << 4) | pos[1];
- 			y = (((u16)pos[0] & 0x0f) << 8) | pos[2];
--			p = buf[FW_POS_PRESSURE + i];
--			w = buf[FW_POS_WIDTH + i];
-+			if (report_len == PACKET_SIZE_OLD) {
-+				w = buf[FW_POS_WIDTH + i / 2];
-+				w >>= 4 * (~i & 1);	// little-endian-nibbles
-+				w |= w << 4;
-+				w |= !w;
-+				p = w;
-+			} else {
-+				p = buf[FW_POS_PRESSURE + i];
-+				w = buf[FW_POS_WIDTH + i];
-+			}
- 
- 			dev_dbg(&ts->client->dev, "i=%d x=%d y=%d p=%d w=%d\n",
- 				i, x, y, p, w);
-@@ -909,7 +920,8 @@ static u8 elants_i2c_calculate_checksum(u8 *buf)
- 	return checksum;
- }
- 
--static void elants_i2c_event(struct elants_data *ts, u8 *buf)
-+static void elants_i2c_event(struct elants_data *ts, u8 *buf,
-+			     size_t report_len)
- {
- 	u8 checksum = elants_i2c_calculate_checksum(buf);
- 
-@@ -923,7 +935,7 @@ static void elants_i2c_event(struct elants_data *ts, u8 *buf)
- 			 "%s: unknown packet type: %02x\n",
- 			 __func__, buf[FW_POS_HEADER]);
- 	else
--		elants_i2c_mt_event(ts, buf);
-+		elants_i2c_mt_event(ts, buf, report_len);
- }
- 
- static irqreturn_t elants_i2c_irq(int irq, void *_dev)
-@@ -981,7 +993,8 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
- 			break;
- 
- 		case QUEUE_HEADER_SINGLE:
--			elants_i2c_event(ts, &ts->buf[HEADER_SIZE]);
-+			elants_i2c_event(ts, &ts->buf[HEADER_SIZE],
-+					 ts->buf[FW_HDR_LENGTH]);
- 			break;
- 
- 		case QUEUE_HEADER_NORMAL:
-@@ -994,17 +1007,18 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
- 			}
- 
- 			report_len = ts->buf[FW_HDR_LENGTH] / report_count;
--			if (report_len != PACKET_SIZE) {
-+			if (report_len != PACKET_SIZE &&
-+			    report_len != PACKET_SIZE_OLD) {
- 				dev_err(&client->dev,
--					"mismatching report length: %*ph\n",
-+					"unsupported report length: %*ph\n",
- 					HEADER_SIZE, ts->buf);
- 				break;
- 			}
- 
- 			for (i = 0; i < report_count; i++) {
- 				u8 *buf = ts->buf + HEADER_SIZE +
--							i * PACKET_SIZE;
--				elants_i2c_event(ts, buf);
-+					  i * report_len;
-+				elants_i2c_event(ts, buf, report_len);
- 			}
- 			break;
- 
++	error = input_mt_init_slots(ts->input, MAX_CONTACT_NUM,
++				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
++	if (error) {
++		dev_err(&client->dev,
++			"failed to initialize MT slots: %d\n", error);
++		return error;
++	}
++
+ 	error = input_register_device(ts->input);
+ 	if (error) {
+ 		dev_err(&client->dev,
 -- 
 2.20.1
 
