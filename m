@@ -2,63 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 250521BA2BC
-	for <lists+linux-input@lfdr.de>; Mon, 27 Apr 2020 13:42:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 158931BAFE0
+	for <lists+linux-input@lfdr.de>; Mon, 27 Apr 2020 23:03:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727012AbgD0Llq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Apr 2020 07:41:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36110 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727029AbgD0Llh (ORCPT
+        id S1726602AbgD0VDE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Apr 2020 17:03:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39782 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726442AbgD0VDE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Apr 2020 07:41:37 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4232FC0A88B5
-        for <linux-input@vger.kernel.org>; Mon, 27 Apr 2020 04:41:35 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id n11so465663pgl.9
-        for <linux-input@vger.kernel.org>; Mon, 27 Apr 2020 04:41:35 -0700 (PDT)
+        Mon, 27 Apr 2020 17:03:04 -0400
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D741EC03C1A8
+        for <linux-input@vger.kernel.org>; Mon, 27 Apr 2020 14:03:03 -0700 (PDT)
+Received: by mail-qt1-x849.google.com with SMTP id e44so21979950qta.9
+        for <linux-input@vger.kernel.org>; Mon, 27 Apr 2020 14:03:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
-        b=uI1U3pP4FazEZaTfkDGgaf1Qyb1hL6AlgZB9tozzlJtw0tc2p0xAeW9BNdbY4A2XuL
-         JYn8lE6gg3HqjBgRaTT8CTSOLDZ9E79yDyBM0EGnWldSdHyzrk+BT/7frJGn/PAhMIrE
-         VCZdq7yfljhgiOOYhIeLP2AIIFXvLFMREe3IREMgf/Wimn5okrCaqK4gkS0+n2Tqfq3c
-         EFYh4cYLyK3nIET0YOm2adzDe5W5QN3hsgSvwW72euh+PRPDs3oxC82+7cfg/ZGTOz8/
-         eTagf6SblJMWIJeJ59y/zg3//EVOq9RPByBfKkQCDUJB6vE62XJLcx9qUgZNIxoYrz8S
-         JAeA==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=23GGnMwKYvt3Cgj/lhkkh8PS8CBiboCjGVStVTQoV58=;
+        b=uJ3Wv2mn3Q1SH5G5z7pkpeKo+Y1QXqCq3ao34idnjbgsWSe8tTMKo/LZDfBDgSwvJ+
+         qKgsWq/UV2BvdfWYtfyu24Cylm6N4eRDHTln1it9IJvuHP1ObRvrToKe/rSJ2+l+alvv
+         9XkvWTgmrq0I6aQPz3sDLhld1zpVDIuSof8GyK70zVpvWSrELmm26BzrCygrOJbhaRDM
+         Fe8NAjYYDc9VLols4zdTrk+lQtU8GmMBjIifckAuIXoWc9YbRChsliWre51Z6BJ02IG9
+         HbzlR3xAR3wg1ypOCeT+s0AGDNR2lOTapxoHwLqXz782WROtbY/WwoXiRhQBmT6Peh4O
+         pUDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
-        b=TU8O65AoSLbuS1dUPCkTw4EAghhZn6mQilC8WUrMhGfoFylr8EXhUCWojJdgthXDXY
-         psIoYOeF1TMjjviaukgG2MCG33PkpNw0LqPIGOlgFz47HNWl/WwXEkfkbvTCEcrYovPe
-         xU2PM0v6f6ga+9S49X57cO3D/zmVzg+V1FGNQbkqJQ5I59Lrz75XvuXC2Z5RqSzOWcuw
-         sAVnmfCW7lil41ha2SHqwOlXFIEDCXFum2dUUXSZb+LHRom20Lqs46BkmI4lygwVZUGy
-         A76F6jQ0CyVaE5uMv9ausRQnDDihI5tdOtcn+pVUQrMYFMX3f/ON/IpObuoz+fwNGGmv
-         FhqQ==
-X-Gm-Message-State: AGi0PuYrmP3W1RNUti5WldYRiCNEneRCYr1htvCVTcSHo1XkrX8RO5w+
-        pQL9Ix7zHb+CVaG4LkhMxmp0r+hvLqbVSPHtXEIKsf+okPc=
-X-Google-Smtp-Source: APiQypJWdjzUZMbeRoAX94bUJV0IgwyoF5kUG7iPo3CBzKxW8lStFNsM/6tz3An/TyzRuH2Qw14DtavsVumw6JVLls0=
-X-Received: by 2002:a6b:7d4a:: with SMTP id d10mr4072296ioq.70.1587987694042;
- Mon, 27 Apr 2020 04:41:34 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a5d:8f89:0:0:0:0:0 with HTTP; Mon, 27 Apr 2020 04:41:33
- -0700 (PDT)
-Reply-To: convy0090@gmail.com
-From:   Ruben CONVY <andrewboccc@gmail.com>
-Date:   Mon, 27 Apr 2020 12:41:33 +0100
-Message-ID: <CAHVC0+Ag87TMCmfNNwWbxXOFxn5166q8GG5wEfPjwtixj9=EXQ@mail.gmail.com>
-Subject: Why continued silence 2
-To:     undisclosed-recipients:;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=23GGnMwKYvt3Cgj/lhkkh8PS8CBiboCjGVStVTQoV58=;
+        b=XEwhB+8+0EHkFWL8Gud16Q//fupB7GKUMsFJKnQpmPK1w1uhjNOPkMuInffDPGfsoj
+         xS1mtXrTL35HhlxIDloRgE+1oQx6q45fEgPTH0JVr78WWhF+EQUv1fWJ5NocmCGbIDpL
+         b+sJ4cHLQvbMOu6mcOsmPfc2xL8E/UOej6c9imBlU6OcoPUIW6U7PPHYEz/3vqmb13j9
+         Iig5SwlZPj1e0ClmQjYGdf8KdGG5acYIqDFTqiAxlMtnzQ+EW1GNSgjpOR11DWy2+Cr4
+         XPR80NRoaAk8r+GSDc4cFydGF/BdXznmr/rUZL4l1OQfdynwQeZxiYhZjdXxkmZTJDUS
+         Alsg==
+X-Gm-Message-State: AGi0PuYzhsYZmTjyMmSPRcKlYSIIGwxxeZMgP0wB7CC5KF7XpbuY1sMJ
+        c8Q78B0wSM+ARKxOfKNFP7gUhXyUNZRs
+X-Google-Smtp-Source: APiQypKahN7ghxLa5ZMhrrRFTqL+QsRn5U1vupwEhsBNUqZHCzWOu1dqTKRMxgn9lK8zEQi9Upg4I8/GRiNS
+X-Received: by 2002:a0c:f8cf:: with SMTP id h15mr23168133qvo.22.1588021382826;
+ Mon, 27 Apr 2020 14:03:02 -0700 (PDT)
+Date:   Mon, 27 Apr 2020 14:02:57 -0700
+Message-Id: <20200427210259.91330-1-rajatja@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.26.2.303.gf8c07b1a785-goog
+Subject: [PATCH v5 1/3] input/serio/i8042: Attach fwnode to serio i8042 kbd device
+From:   Rajat Jain <rajatja@google.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>, dtor@google.com,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rajat Jain <rajatja@google.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Enrico Weigelt <info@metux.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, furquan@google.com,
+        dlaurie@google.com, bleung@google.com, zentaro@google.com,
+        dbehr@google.com
+Cc:     rajatxjain@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Did you receive my previous email regarding your family inheritance?
-Reply strictly through: convy0090@gmail.com
-Best Regards,
-Ruben CONVY
+Attach the firmware node to the serio i8042 kbd device so that device
+properties can be passed from the firmware.
+
+Signed-off-by: Rajat Jain <rajatja@google.com>
+---
+v5: Same as v4
+v4: Same as v3
+v3: same as v2
+v2: Remove the Change-Id from the commit log
+
+ drivers/input/serio/i8042-x86ia64io.h | 1 +
+ drivers/input/serio/i8042.c           | 3 +++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
+index 08e919dbeb5d1..d0c39426ca2c8 100644
+--- a/drivers/input/serio/i8042-x86ia64io.h
++++ b/drivers/input/serio/i8042-x86ia64io.h
+@@ -938,6 +938,7 @@ static int i8042_pnp_kbd_probe(struct pnp_dev *dev, const struct pnp_device_id *
+ 	}
+ 	i8042_pnp_id_to_string(dev->id, i8042_kbd_firmware_id,
+ 			       sizeof(i8042_kbd_firmware_id));
++	i8042_kbd_fwnode = dev_fwnode(&dev->dev);
+ 
+ 	/* Keyboard ports are always supposed to be wakeup-enabled */
+ 	device_set_wakeup_enable(&dev->dev, true);
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index 20ff2bed3917a..0dddf273afd94 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -21,6 +21,7 @@
+ #include <linux/i8042.h>
+ #include <linux/slab.h>
+ #include <linux/suspend.h>
++#include <linux/property.h>
+ 
+ #include <asm/io.h>
+ 
+@@ -124,6 +125,7 @@ MODULE_PARM_DESC(unmask_kbd_data, "Unconditional enable (may reveal sensitive da
+ static bool i8042_bypass_aux_irq_test;
+ static char i8042_kbd_firmware_id[128];
+ static char i8042_aux_firmware_id[128];
++static struct fwnode_handle *i8042_kbd_fwnode;
+ 
+ #include "i8042.h"
+ 
+@@ -1335,6 +1337,7 @@ static int __init i8042_create_kbd_port(void)
+ 	strlcpy(serio->phys, I8042_KBD_PHYS_DESC, sizeof(serio->phys));
+ 	strlcpy(serio->firmware_id, i8042_kbd_firmware_id,
+ 		sizeof(serio->firmware_id));
++	set_primary_fwnode(&serio->dev, i8042_kbd_fwnode);
+ 
+ 	port->serio = serio;
+ 	port->irq = I8042_KBD_IRQ;
+-- 
+2.26.2.303.gf8c07b1a785-goog
+
