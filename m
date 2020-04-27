@@ -2,68 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4DE21BB00B
-	for <lists+linux-input@lfdr.de>; Mon, 27 Apr 2020 23:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA3251BB0CF
+	for <lists+linux-input@lfdr.de>; Mon, 27 Apr 2020 23:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726030AbgD0VO2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Apr 2020 17:14:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32802 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725919AbgD0VO2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Apr 2020 17:14:28 -0400
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B01652072D;
-        Mon, 27 Apr 2020 21:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588022067;
-        bh=3/xQKPat80WwMpp4b/YKGspgFfYco3C9obwmx2YbCNQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=A4QYC84I+KNu02/UbaLFUaIp+1r6mxKLUn/h4eraYXq25FWAkTgrM548PrRsidzS8
-         htsRfuwtMXtEaF+cFwx1wU3kMbWV4fKdDLgCK4zIk96zb4bOPkvbT12J3fN1UUIJkT
-         MtbkEtLEkeh3xTFSWkpOOm0UkyaauKQYPNdy9HVU=
-Received: by mail-qv1-f51.google.com with SMTP id h6so9349535qvz.8;
-        Mon, 27 Apr 2020 14:14:27 -0700 (PDT)
-X-Gm-Message-State: AGi0Pub1FI0YHs3qkAPKujQIOXUp5epeVUz6M0z8SZLp6lzH4w8TU+qa
-        ySM19yvwVW3A0WA+n4pZVdYrmDyGFCCi0I8kUQ==
-X-Google-Smtp-Source: APiQypLetSXEqm2QP8meb2C+x5jqYqHHbHekIBOBhptSaU1IYL9s+vGzSpcgM3BadygVFFslwFSjNuduws/i6d1sQkA=
-X-Received: by 2002:a05:6214:1848:: with SMTP id d8mr22681188qvy.136.1588022066797;
- Mon, 27 Apr 2020 14:14:26 -0700 (PDT)
+        id S1726244AbgD0Vzx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Apr 2020 17:55:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48078 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726182AbgD0Vzx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 27 Apr 2020 17:55:53 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C16BC03C1A7
+        for <linux-input@vger.kernel.org>; Mon, 27 Apr 2020 14:55:53 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id x77so9664039pfc.0
+        for <linux-input@vger.kernel.org>; Mon, 27 Apr 2020 14:55:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QwWrKenZ8k5J4q1qBIr58HlyfL2ByZs2Ssa6TCedrSk=;
+        b=LbaJb+ki6pK6wQO0c2DyS9Atvm8JE6MKeoBDclHbQycrzujPTZPNaK6yfuGS3UUBu/
+         MInl24vMoRUBTYFpBgQQbK46u9WS6P1ReSzyapOuUjnUuuNUi6RCCGHwAfTpbIGsUaQD
+         pZuvHsXY0pF9NwVYLOImYaZhrERGyHEWxmM18=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QwWrKenZ8k5J4q1qBIr58HlyfL2ByZs2Ssa6TCedrSk=;
+        b=VYVUtBwtzj4k/kOI/OxZo6PsKPjnvNFgW9ZDe3BC75qN6f04Tf0+PH/u4JtN9wf14a
+         pLQtZcePMsv43pnYRXAmIXTJ95AkLoXbfUcQMqj4OfS2d9RnTjhhRVR3e60cTH2nxKBe
+         E8DL1Q7Z6+lOGTLJHie8Cjo+sCTh/HYkan/TgC5llIwVDLOOfONnQs3OfGe6icG7E/co
+         gfXloMtTygjXZb3IURaxKn7MWvjE6d9odD7S3YpRAbWfuLKpr4UftMsQPhnXGwJn++4y
+         ZaAiqd9bE/qOwpjIdlOQFvFQ4pwYm9nNFVuBW0lEACAg4DB+43M6CKnxBizpdfouT8Y2
+         njtQ==
+X-Gm-Message-State: AGi0PuZvdW/98H6/hAyefNzKVHGjrhkhx3v7Jv44AcSEhhhZzIqgRT61
+        MkB6ZUeDc61qYM6M/ja7DzeJHw==
+X-Google-Smtp-Source: APiQypIWIg1lh3l6rgxN7SYiYVoPklma36XNRFiHNukzSWdE1PdM5v8sHQNeaE1NgWaTUlxWGHzTWw==
+X-Received: by 2002:a62:c1c1:: with SMTP id i184mr27417512pfg.18.1588024552819;
+        Mon, 27 Apr 2020 14:55:52 -0700 (PDT)
+Received: from evgreen-glaptop.cheshire.ch ([2601:646:c780:1404:1c5a:73fa:6d5a:5a3c])
+        by smtp.gmail.com with ESMTPSA id f99sm244273pjg.22.2020.04.27.14.55.51
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Mon, 27 Apr 2020 14:55:52 -0700 (PDT)
+From:   Evan Green <evgreen@chromium.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Evan Green <evgreen@chromium.org>, stable@vger.kernel.org,
+        Nick Desaulniers <nick.desaulniers@gmail.com>,
+        Allison Randal <allison@lohutok.net>,
+        Andrew Duggan <aduggan@synaptics.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Enrico Weigelt <info@metux.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: synaptics-rmi4 - Really fix attn_data use-after-free
+Date:   Mon, 27 Apr 2020 14:55:48 -0700
+Message-Id: <20200427145537.1.Ic8f898e0147beeee2c005ee7b20f1aebdef1e7eb@changeid>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <cover.1587916846.git.mirq-linux@rere.qmqm.pl> <222105a9c09ac85f0c03224ef7acb8a6d6e237d5.1587916846.git.mirq-linux@rere.qmqm.pl>
-In-Reply-To: <222105a9c09ac85f0c03224ef7acb8a6d6e237d5.1587916846.git.mirq-linux@rere.qmqm.pl>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Mon, 27 Apr 2020 16:14:15 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLtvKgZYeb8xqT1nXa1Xja2Dxr6PBKixD6tN50cZ2xH5g@mail.gmail.com>
-Message-ID: <CAL_JsqLtvKgZYeb8xqT1nXa1Xja2Dxr6PBKixD6tN50cZ2xH5g@mail.gmail.com>
-Subject: Re: [PATCH v4 10/10] dt-bindings: input: touchscreen: elants_i2c:
- convert to YAML
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     David Heidelberg <david@ixit.cz>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        James Chen <james.chen@emc.com.tw>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>,
-        Scott Liu <scott.liu@emc.com.tw>,
-        Linux Input <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 26, 2020 at 11:11 AM Micha=C5=82 Miros=C5=82aw
-<mirq-linux@rere.qmqm.pl> wrote:
->
-> From: David Heidelberg <david@ixit.cz>
->
-> Convert elants_i2c.txt DT binding to YAML and put into correct directory.
+Fix a use-after-free noticed by running with KASAN enabled. If
+rmi_irq_fn() is run twice in a row, then rmi_f11_attention() (among
+others) will end up reading from drvdata->attn_data.data, which was
+freed and left dangling in rmi_irq_fn().
 
-Resend to the DT list or this won't be in my review queue. Looks okay
-from a quick scan.
+Commit 55edde9fff1a ("Input: synaptics-rmi4 - prevent UAF reported by
+KASAN") correctly identified and analyzed this bug. However the attempted
+fix only NULLed out a local variable, missing the fact that
+drvdata->attn_data is a struct, not a pointer.
 
-Rob
+NULL out the correct pointer in the driver data to prevent the attention
+functions from copying from it.
+
+Fixes: 55edde9fff1a ("Input: synaptics-rmi4 - prevent UAF reported by KASAN")
+Fixes: b908d3cd812a ("Input: synaptics-rmi4 - allow to add attention data")
+
+Signed-off-by: Evan Green <evgreen@chromium.org>
+
+Cc: stable@vger.kernel.org
+Cc: Nick Desaulniers <nick.desaulniers@gmail.com>
+---
+
+ drivers/input/rmi4/rmi_driver.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
+index 190b9974526bb..c18e1a25bca6e 100644
+--- a/drivers/input/rmi4/rmi_driver.c
++++ b/drivers/input/rmi4/rmi_driver.c
+@@ -205,7 +205,7 @@ static irqreturn_t rmi_irq_fn(int irq, void *dev_id)
+ 
+ 	if (count) {
+ 		kfree(attn_data.data);
+-		attn_data.data = NULL;
++		drvdata->attn_data.data = NULL;
+ 	}
+ 
+ 	if (!kfifo_is_empty(&drvdata->attn_fifo))
+-- 
+2.24.1
+
