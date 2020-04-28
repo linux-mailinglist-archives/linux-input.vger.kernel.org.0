@@ -2,75 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B348A1BC0AF
-	for <lists+linux-input@lfdr.de>; Tue, 28 Apr 2020 16:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C74391BC112
+	for <lists+linux-input@lfdr.de>; Tue, 28 Apr 2020 16:23:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727026AbgD1OIR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 Apr 2020 10:08:17 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:52108 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726868AbgD1OIQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 Apr 2020 10:08:16 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 49BNlc73xQz2n;
-        Tue, 28 Apr 2020 16:08:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1588082894; bh=3kjocTgjQohJ4pvumUVIZjNBlHYyJdLbO1K0n36TMPo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lIb50WEiUjQ2fPMkU753BcaE+htplcmVRe983VwDjhi35EgHzj11pC1UYmDAPaUVX
-         3BOEUavVG3oJhGVCF5L+mGEFnWiBgdRWO3rh0lZMbWSROCB44wo665XLsF6tXv4IXV
-         NKwkABYOkU/wsNRXX/oqCzvvHd8zjSVFasWKoOro8lE9btxtAiy33SDZhmj/nFSfdl
-         aGVNa5yhLJARq9lfPFugz8ayT0vbqs1Lt+dWTPEV3Nu5iAqlYaB6rw/NbdQx7pezLW
-         YKClsBolqx5rHC3IBO8BPNYZyqPZKG/s9nDWMA40G1jUryT7HKoXFuoavaf1XaQ6YX
-         NAXm1OVsR17lQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Tue, 28 Apr 2020 16:08:11 +0200
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     David Heidelberg <david@ixit.cz>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        James Chen <james.chen@emc.com.tw>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>,
-        Scott Liu <scott.liu@emc.com.tw>,
-        Linux Input <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 10/10] dt-bindings: input: touchscreen: elants_i2c:
- convert to YAML
-Message-ID: <20200428140811.GA4355@qmqm.qmqm.pl>
-References: <cover.1587916846.git.mirq-linux@rere.qmqm.pl>
- <222105a9c09ac85f0c03224ef7acb8a6d6e237d5.1587916846.git.mirq-linux@rere.qmqm.pl>
- <CAL_JsqLtvKgZYeb8xqT1nXa1Xja2Dxr6PBKixD6tN50cZ2xH5g@mail.gmail.com>
+        id S1727856AbgD1OXD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Apr 2020 10:23:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33738 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726868AbgD1OXD (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 28 Apr 2020 10:23:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1588083782;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=jIX5CYKIQUN2lBh9opYogqEO4R8EycK8YMqe5/ZFfgw=;
+        b=PtZ+67qv8oQov9ptPJp9TRaRfrm/dlr1KvQDCw+ubUV6HCP+HOSmQB0qG2LmouLU9mgly6
+        zpVyGGqcttvskuhULcYtUqAG5OuUs+tOZIZ2ItKrYGYCzbwnYWhGlKn64mm/2Fwql9y1Cg
+        VNT3pAl+ADUxncmzlWBz5xWK4ITQhI8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-118-byavXidDOV-TRLCE32bWdw-1; Tue, 28 Apr 2020 10:23:00 -0400
+X-MC-Unique: byavXidDOV-TRLCE32bWdw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6DDF1895A2A;
+        Tue, 28 Apr 2020 14:22:59 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-114-62.ams2.redhat.com [10.36.114.62])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 44E6E60300;
+        Tue, 28 Apr 2020 14:22:56 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
+Subject: [PATCH 1/6] HID: asus: Only set EV_REP if we are adding a mapping
+Date:   Tue, 28 Apr 2020 16:22:49 +0200
+Message-Id: <20200428142254.252063-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL_JsqLtvKgZYeb8xqT1nXa1Xja2Dxr6PBKixD6tN50cZ2xH5g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Apr 27, 2020 at 04:14:15PM -0500, Rob Herring wrote:
-> On Sun, Apr 26, 2020 at 11:11 AM Micha³ Miros³aw
-> <mirq-linux@rere.qmqm.pl> wrote:
-> >
-> > From: David Heidelberg <david@ixit.cz>
-> >
-> > Convert elants_i2c.txt DT binding to YAML and put into correct directory.
-> 
-> Resend to the DT list or this won't be in my review queue. Looks okay
-> from a quick scan.
+Make asus_input_mapping() only set EV_REP if we are adding a mapping.
 
-Hi Rob,
+The T100CHI bluetooth keyboard dock has a few input reports for which
+we do not create any mappings (these input-reports are present in the
+descriptors but never send).
 
-This is the same patch that David already sent to the list about
-a week ago [1].  Do you need it resent? (Whole patchset or just the patch?)
+The hid-asus code relies on the HID core not creating input devices for
+input-reports without any mappings. But the present of the EV_REP but
+counts as a mapping causing 6 /dev/input/event# nodes to be created for
+the T100CHI bluetooth keyboard dock. This change brings the amount of
+created /dev/input/event# nodes / input-devices down to 4.
 
-[1] https://lore.kernel.org/linux-devicetree/20200423173253.711725-2-david@ixit.cz/
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/hid/hid-asus.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Best Regards,
-Micha³ Miros³aw
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index e6e4c841fb06..ac224c32eeb6 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -694,7 +694,6 @@ static int asus_input_mapping(struct hid_device *hdev=
+,
+=20
+ 	/* ASUS-specific keyboard hotkeys */
+ 	if ((usage->hid & HID_USAGE_PAGE) =3D=3D 0xff310000) {
+-		set_bit(EV_REP, hi->input->evbit);
+ 		switch (usage->hid & HID_USAGE) {
+ 		case 0x10: asus_map_key_clear(KEY_BRIGHTNESSDOWN);	break;
+ 		case 0x20: asus_map_key_clear(KEY_BRIGHTNESSUP);		break;
+@@ -737,11 +736,11 @@ static int asus_input_mapping(struct hid_device *hd=
+ev,
+ 		if (drvdata->quirks & QUIRK_USE_KBD_BACKLIGHT)
+ 			drvdata->enable_backlight =3D true;
+=20
++		set_bit(EV_REP, hi->input->evbit);
+ 		return 1;
+ 	}
+=20
+ 	if ((usage->hid & HID_USAGE_PAGE) =3D=3D HID_UP_MSVENDOR) {
+-		set_bit(EV_REP, hi->input->evbit);
+ 		switch (usage->hid & HID_USAGE) {
+ 		case 0xff01: asus_map_key_clear(BTN_1);	break;
+ 		case 0xff02: asus_map_key_clear(BTN_2);	break;
+@@ -764,6 +763,7 @@ static int asus_input_mapping(struct hid_device *hdev=
+,
+ 			return 0;
+ 		}
+=20
++		set_bit(EV_REP, hi->input->evbit);
+ 		return 1;
+ 	}
+=20
+--=20
+2.26.0
+
