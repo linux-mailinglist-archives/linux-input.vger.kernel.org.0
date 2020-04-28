@@ -2,83 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A82541BCEAE
-	for <lists+linux-input@lfdr.de>; Tue, 28 Apr 2020 23:30:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6706F1BCF2B
+	for <lists+linux-input@lfdr.de>; Tue, 28 Apr 2020 23:54:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726274AbgD1Vap (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 Apr 2020 17:30:45 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:38239 "EHLO
+        id S1726180AbgD1VyH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Apr 2020 17:54:07 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:60615 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725934AbgD1Vap (ORCPT
+        with ESMTP id S1725934AbgD1VyG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 Apr 2020 17:30:45 -0400
+        Tue, 28 Apr 2020 17:54:06 -0400
 Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
  (mreue106 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1McHM2-1it7ey3lam-00ciSB; Tue, 28 Apr 2020 23:30:37 +0200
+ 1MCb2L-1jLXg80zTf-009eZu; Tue, 28 Apr 2020 23:53:39 +0200
 From:   Arnd Bergmann <arnd@arndb.de>
-To:     Jiri Kosina <jikos@kernel.org>,
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Rishi Gupta <gupt21@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>
+        Nick Crews <ncrews@chromium.org>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>, Jiri Kosina <jkosina@suse.cz>,
-        Bastien Nocera <bnocera@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Wolfram Sang <wsa@the-dreams.de>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: mcp2221: add gpiolib dependency
-Date:   Tue, 28 Apr 2020 23:30:17 +0200
-Message-Id: <20200428213035.3108649-1-arnd@arndb.de>
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] hid: intel-ish-hid: avoid bogus uninitialized-variable warning
+Date:   Tue, 28 Apr 2020 23:53:29 +0200
+Message-Id: <20200428215337.4094575-1-arnd@arndb.de>
 X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7r62qOoVCPk7gtPEoS7ZCMnWkY3NDUcoFia+LnBLDsJhyS0znYT
- 8l0MoyYXUWSQ1KXGyDmM+4QXQ2jKT9uDUl4JyDjT1lUR5yWRobTJ30NqcPt8rrtM5Getybt
- c/gYzc7hs54mFqvfbvGu2tjOMKuQS4EisdokSjBu1B8GGk9zuO7tDOpyXQAgQK1ht/9gybx
- KwAA2oetBf7QpSDnxHGvQ==
+X-Provags-ID: V03:K1:2FKBEa32wyJPA0mE8M/M1O47fPCgP45rg2E7G9JyGaGIAZXxfsY
+ MH9dZNJMaC76Sxk0dd77zKlBp9RJ6OsxkJF1c6nSns+Oh02YIMMOygA5U89nDK+EmQsntnl
+ 0A5oHhCh2RmkUS00EreoOntTKj2hwg6+lmxV0etXvuyrR7EektDviCafwKYqMSlZbG8CMep
+ khZTfzTLQjngBifC+CyfA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZuNYRQiWMEE=:mhP4d/Qfn7PrwxWDgFNNAz
- aupxDknp6gt1/Ru2AyMiOnsN11+IMPN5JUz0sE5uDFuc0T7P2MgW+eaRjaUuEukRoni9WcvFz
- IS6a6CBMZ+FPIxClGfY5linu4XdOwhkg4DRV4mf66gX2fDOCDlPXQsxq+/aSH2uWei1TtDpre
- NgwOCUtN7qL0nAafixszMd/UnJo+v3vL+FwpoiM13ZvGqkuRdC0UgALgip7Kwz3A+crFwXWQy
- P/cEkHwD0y3/Bu20rala7TfH3o5anT8HYWv60pP5B+nzapyRfCjNpgPJr0lVWWOyNsoDJssm2
- 7eP2clJDq1FG8RbvYZlrep9zBZrWG+EQmnt2JZALtFPc04GBHhY6dCnK7yBHSYAUWh1NN3Hex
- jBVyLeBOMa4SAl/ALuhSrXDRxcDc9EOOxmQlk2r9zNoOVTlEWDlGoW6397U9qkNYNGh4TYOqj
- wheDojTdiWNZxRhxh3An+a+3Kf0za5hAYIbxdSLnpdHqxzM+Bkk8T0R4Q6bl1deMlb/VGSzM3
- rwGR2VfHaOxd3GJEkKiOXpBQvv3+lLuCIA3y4Nc5KlDp9XkiGwZdjGZ7dScA/7FwmiS1ajnSY
- /MLWXsxC013uM0T87xvxV/gW7ToDIvwapRnpebPyYvdVopqhoDp7RJpH9+s5O7SEDXO57Y/Ht
- jJ6LsED0LT9ijiHXQa5wOOkcXENsxnkc37i2wlpQdDS7rbl6jkPN4IgKp4X22+Le+k38yxcny
- 0j0+Bn+ZSud5bMbzaLy+Bb8y3YVqFrj60ogGG5jOXJhCLIZnQJjcZWgpD9RFA5xRM2GyKd5rf
- lf17fCNghFntPypm++wYaW1bkrt0YgiIp8xcDvj1eSy6gDJ7wo=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yAEbmVLzEWw=:hRDnaNEXdyARuZImKascUC
+ R7qX0iopfno5voQFTOTGV6MgxRV/WV8m4Uhte+QEuPuXy/b8MdDPvTNPm3X+uthzg2dpMDXxO
+ YhrvC9Cme7hQOGTI1dd0lGfRPqD7xQ8aM+VwUNjf0hAi+rscafk8KUfWCHGIXKmlpa9MtMBc3
+ fggZTxvE/J87SP4GvB1cAuhAm6pbMyCXIRp/cpEXVxBcb6MwDNcLlrKWOhQRKLkfvmNCD/v7i
+ Js8vEobvPIQIbCwnqbhPVqA3I8D3fV5O+5AjSgc0v7+v5sn9Yd0c0/j14u81zNFjBXXXGbBBJ
+ 1AXgMqe0aGe+INAXDyEp2s2UBoHcG3WmGLpt5rSIwQZdBMhu2keTwde7yS7s56LgSQaLpmNaG
+ xn4kgxTr28k14V/BhvpmfEeDoRemyr9ugTNLkFNLXBXCgAln3foxFWb7W1IUi9DxCOACtbJzb
+ TsiKbSQCJe6f3HkfzHjYx1yslf4rhFCgbqPuMVg/iph280IPBfThrIHiP2PeH+N9KnMrF1aY4
+ 4hpyW/tfIjy996MhsId+RiMu2S73wNrcfp6TYB0jC8DNHkP/dhmJ8ANqueFPA2eB4NtBywF/K
+ W7GYnMxXCLvzE7KLqBBodY9K1MY2KZv95g6ix8SQRS+QWBE/hLgfTD4owkO2U38rOGNMVaICk
+ mcijowvhuV8XmlohTPH+JHVRmgO10tOQ91/nsqZAIQ4Qf57kCgYxiP9hJkVUs6z9ypNEqAu4s
+ sZLmAc3c/ofY9jTwAYOgNneikmAVBZrBtY7OegO/DN7hyUZH3v495fyJKHhCzV2cj2ho/yHHB
+ EOAM4UJ35HObPYvLzNy04EmIkccW4yNWO6MRafvlfBGXt0lqFI=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Without gpiolib, this driver fails to link:
+Older compilers like gcc-4.8 don't see that the variable is
+initialized when it is used:
 
-arm-linux-gnueabi-ld: drivers/hid/hid-mcp2221.o: in function `mcp2221_probe':
-hid-mcp2221.c:(.text+0x1b0): undefined reference to `devm_gpiochip_add_data'
-arm-linux-gnueabi-ld: drivers/hid/hid-mcp2221.o: in function `mcp_gpio_get':
-hid-mcp2221.c:(.text+0x30c): undefined reference to `gpiochip_get_data'
+In file included from include/linux/compiler_types.h:68:0,
+                 from <command-line>:0:
+drivers/hid/intel-ish-hid/ishtp-fw-loader.c: In function 'load_fw_from_host':
+include/linux/compiler-gcc.h:75:45: warning: 'fw_info.ldr_capability.max_dma_buf_size' may be used uninitialized in this function [-Wmaybe-uninitialized]
+ #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+                                             ^
+drivers/hid/intel-ish-hid/ishtp-fw-loader.c:770:22: note: 'fw_info.ldr_capability.max_dma_buf_size' was declared here
+  struct shim_fw_info fw_info;
+                      ^
 
-Fixes: 328de1c519c5 ("HID: mcp2221: add GPIO functionality support")
+Make sure to initialize it before returning an error from ish_query_loader_prop().
+
+Fixes: 91b228107da3 ("HID: intel-ish-hid: ISH firmware loader client driver")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/hid/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hid/intel-ish-hid/ishtp-fw-loader.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 008bf44bc2c3..d54e7ae80de5 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -1155,6 +1155,7 @@ config HID_ALPS
- config HID_MCP2221
- 	tristate "Microchip MCP2221 HID USB-to-I2C/SMbus host support"
- 	depends on USB_HID && I2C
-+	depends on GPIOLIB
- 	---help---
- 	Provides I2C and SMBUS host adapter functionality over USB-HID
- 	through MCP2221 device.
+diff --git a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+index aa2dbed30fc3..6cf59fd26ad7 100644
+--- a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
++++ b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+@@ -480,6 +480,7 @@ static int ish_query_loader_prop(struct ishtp_cl_data *client_data,
+ 			    sizeof(ldr_xfer_query_resp));
+ 	if (rv < 0) {
+ 		client_data->flag_retry = true;
++		*fw_info = (struct shim_fw_info){};
+ 		return rv;
+ 	}
+ 
+@@ -489,6 +490,7 @@ static int ish_query_loader_prop(struct ishtp_cl_data *client_data,
+ 			"data size %d is not equal to size of loader_xfer_query_response %zu\n",
+ 			rv, sizeof(struct loader_xfer_query_response));
+ 		client_data->flag_retry = true;
++		*fw_info = (struct shim_fw_info){};
+ 		return -EMSGSIZE;
+ 	}
+ 
 -- 
 2.26.0
 
