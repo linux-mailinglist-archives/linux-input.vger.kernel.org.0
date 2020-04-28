@@ -2,120 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 104071BB341
-	for <lists+linux-input@lfdr.de>; Tue, 28 Apr 2020 03:08:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EE191BB345
+	for <lists+linux-input@lfdr.de>; Tue, 28 Apr 2020 03:11:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726373AbgD1BIr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Apr 2020 21:08:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49724 "EHLO
+        id S1726261AbgD1BLj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Apr 2020 21:11:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726263AbgD1BIr (ORCPT
+        by vger.kernel.org with ESMTP id S1726233AbgD1BLj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Apr 2020 21:08:47 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62054C03C1A8
-        for <linux-input@vger.kernel.org>; Mon, 27 Apr 2020 18:08:47 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id g2so7681970plo.3
-        for <linux-input@vger.kernel.org>; Mon, 27 Apr 2020 18:08:47 -0700 (PDT)
+        Mon, 27 Apr 2020 21:11:39 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A028EC03C1A8;
+        Mon, 27 Apr 2020 18:11:37 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id d184so9882585pfd.4;
+        Mon, 27 Apr 2020 18:11:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=OuIIaF70fKE4behMz4Mw0TQcHcJN/m74AEudlBBFSlI=;
-        b=B537pzQgMkXIDbTiePEzqjUtP98IPoeq+ziKvsxE5Pf9DsC6fLQnGhEHgJnQrdE/vl
-         xJYOucw696goUKZydwDUwHlSQpGI63mP9Hf/tmJxpKgp1RFUiwABD0WVmUlgoCjH54w7
-         pqvnA2j6geUHZhXiN7e0lQkppNOLnm56xbU0PxBsSoH296eA0IWmWBPj48n4jkObVx1r
-         EiuCGYWYr/KlDmdN2c9KZP7ac6zUipxS/KsdQpMbtWXSK13gQnBDuXOAul8buOU8ix91
-         PO06tYE19Bry+OWdWYP24MAH2FwnlxImT338OKzci0QbaN7X9AvZxpxjdfSIiIJW9xCu
-         sWXA==
+        bh=iv9VG1ml9YtdubxTkSVKWnfhCAm26tdpMZmL56nVCYc=;
+        b=en/JylFl8KERUCoB06g3lH9RTFt6u/pTLuDKe6cjSmoQ/jz0G8pmGFKwYMOT4X0fn3
+         EEwjVaRfYwGFygNhQZNxFnWQ4y4K/g7TQwr9HCUw/YaW66/Yb44ptlT8uiXlxypxao6D
+         3TE/MngCCXMHbpwafPDK9jg0BRrVuet52wxuH7uC/n2PUKW4AgpNT5F2nwrg2xSmVWlT
+         ji7pfJhI8LHCfbV2mRBtMXEK0yM1yoKgwcA+S2NFJyYQgi52v88JaqEISqezul0Um9FO
+         yrzvSZMH3W/YAyogV070gXVIo7aa3GqChkh7WZYanrXfTGbOE7BJQqdfOpq7bz6KJ8uP
+         2PiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=OuIIaF70fKE4behMz4Mw0TQcHcJN/m74AEudlBBFSlI=;
-        b=nW1ZjT0D+PJUSGUVfipD+wR1pJIoomdee6yPVW8vdgHqD/XVqP8hv1kaZCjqfXFAfn
-         kMA1xEk+jQJAfOLdTDBAKSIAOQspKgcOy1L21+7K6y28LqbZ9AVbn/st3et8y1Z+UQqb
-         eWrjzn3zj9MRWi94kFIMYz6ghsVRXYEWE66lfmBPd55lLO4OgCsnmIErp/RkwtIgWQdi
-         MA7zzuRjwW6huKaFhQXxUKr4hMBKJlIyzQUmx5Zmmh3x+QqK51FIqUmR02GNfyWYYwoT
-         1Oik0OMSxhEfa8vlP7Edo00ieX0GHWu76Yj/63rBecQ4sbNwMry9ihRTE6bk/RMBtgco
-         DZPQ==
-X-Gm-Message-State: AGi0PuZtc36tlakIEVPJjoJ8AIRI5VsipwNJxIwL1yz/yxO/w8lHhbs1
-        LRcypiOJssx43/ljXoX/gkU=
-X-Google-Smtp-Source: APiQypJAWVC6HlWWTn3n3pi2hRgVQcE/j22MPNBIV8rNKZLeCUdv5B4HdXKW9HxVkyMIU3Fb1tJ3TA==
-X-Received: by 2002:a17:902:b088:: with SMTP id p8mr13968733plr.244.1588036126781;
-        Mon, 27 Apr 2020 18:08:46 -0700 (PDT)
+        bh=iv9VG1ml9YtdubxTkSVKWnfhCAm26tdpMZmL56nVCYc=;
+        b=paimORPPK4KqHMQf2TILNf1p1RdM36kX9TfLErX9Y862pik1aK5VDw2DF9+f7RN727
+         AoUanG/DFFB7yBAzPKyzwMCXDx6bZ+d4dsCGKNNIsLnysAe2wxakTra09PVymf5fjTGn
+         sU2AyHElDWNWSwCzX5d28wVxewU16fdapfuE8QIv/dDKQWd06fFFN61ltXFaf2JDuQDG
+         8MTd3y43O0LL/v4QJeFuItJl+vNcW6Ovsp3f0Cg+eLpycmetF9sdDV07Y20+CU710dhC
+         OZYcfwxUrGVhB1l1ruXmaET+/Bm/VUB9gLCS+RZBZT+khWOBMpcDgASTQ+ynSVKwOqVK
+         io3w==
+X-Gm-Message-State: AGi0PuaiEg4ezBIVoy250MIulRdoUg2c2NWfJxauB2jfGcYxWKWCP4KL
+        1moJNay8xvtFbuez150so+A=
+X-Google-Smtp-Source: APiQypJB9eoHpfKd85W5XG6LcAJS6p+QLoEsa2/CGJqTZyMNhrDTGELNXXx6D+FPslZDHI2wzSjwmQ==
+X-Received: by 2002:a63:4c08:: with SMTP id z8mr25135272pga.175.1588036296910;
+        Mon, 27 Apr 2020 18:11:36 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id h13sm13900905pfk.86.2020.04.27.18.08.46
+        by smtp.gmail.com with ESMTPSA id 138sm13429682pfz.31.2020.04.27.18.11.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2020 18:08:46 -0700 (PDT)
-Date:   Mon, 27 Apr 2020 18:08:44 -0700
+        Mon, 27 Apr 2020 18:11:36 -0700 (PDT)
+Date:   Mon, 27 Apr 2020 18:11:34 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Kevin Locke <kevin@kevinlocke.name>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: i8042 - add ThinkPad S230u to i8042 reset list
-Message-ID: <20200428010844.GU125362@dtor-ws>
-References: <20200424042500.GA107217@kevinolos.locke.internal>
- <94f384b0f75f90f71425d7dce7ac82c59ddb87a8.1587702636.git.kevin@kevinlocke.name>
+To:     Evan Green <evgreen@chromium.org>
+Cc:     stable@vger.kernel.org,
+        Nick Desaulniers <nick.desaulniers@gmail.com>,
+        Allison Randal <allison@lohutok.net>,
+        Andrew Duggan <aduggan@synaptics.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Enrico Weigelt <info@metux.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: synaptics-rmi4 - Really fix attn_data
+ use-after-free
+Message-ID: <20200428011134.GV125362@dtor-ws>
+References: <20200427145537.1.Ic8f898e0147beeee2c005ee7b20f1aebdef1e7eb@changeid>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <94f384b0f75f90f71425d7dce7ac82c59ddb87a8.1587702636.git.kevin@kevinlocke.name>
+In-Reply-To: <20200427145537.1.Ic8f898e0147beeee2c005ee7b20f1aebdef1e7eb@changeid>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 10:30:36PM -0600, Kevin Locke wrote:
-> On the Lenovo ThinkPad Twist S230u (3347-4HU) with BIOS version
-> "GDETC1WW (1.81 ) 06/27/2019", the keyboard, Synaptics TouchPad, and
-> TrackPoint either do not function or stop functioning a few minutes
-> after boot.  This problem has been noted before, perhaps only occurring
-> with BIOS 1.57 and later.[1][2][3][4][5]
+On Mon, Apr 27, 2020 at 02:55:48PM -0700, Evan Green wrote:
+> Fix a use-after-free noticed by running with KASAN enabled. If
+> rmi_irq_fn() is run twice in a row, then rmi_f11_attention() (among
+> others) will end up reading from drvdata->attn_data.data, which was
+> freed and left dangling in rmi_irq_fn().
 > 
-> Odds of a BIOS fix appear to be low: 1.57 was released over 6 years ago
-> and although the [BIOS changelog] notes "Fixed an issue of UEFI
-> touchpad/trackpoint/keyboard/touchscreen" in 1.58, it appears to be
-> insufficient.
+> Commit 55edde9fff1a ("Input: synaptics-rmi4 - prevent UAF reported by
+> KASAN") correctly identified and analyzed this bug. However the attempted
+> fix only NULLed out a local variable, missing the fact that
+> drvdata->attn_data is a struct, not a pointer.
 > 
-> Setting i8042.reset=1 or adding 33474HU to the reset list avoids the
-> issue on my system from either warm or cold boot.
+> NULL out the correct pointer in the driver data to prevent the attention
+> functions from copying from it.
 > 
-> [1]: https://bugs.launchpad.net/bugs/1210748
-> [2]: https://bbs.archlinux.org/viewtopic.php?pid=1360425
-> [3]: https://forums.linuxmint.com/viewtopic.php?f=46&t=41200
-> [4]: https://forums.linuxmint.com/viewtopic.php?f=49&t=157115
-> [5]: https://forums.lenovo.com/topic/findpost/27/1337119
-> [BIOS changelog]: https://download.lenovo.com/pccbbs/mobiles/gduj33uc.txt
+> Fixes: 55edde9fff1a ("Input: synaptics-rmi4 - prevent UAF reported by KASAN")
+> Fixes: b908d3cd812a ("Input: synaptics-rmi4 - allow to add attention data")
 > 
-> Signed-off-by: Kevin Locke <kevin@kevinlocke.name>
+> Signed-off-by: Evan Green <evgreen@chromium.org>
+> 
 > Cc: stable@vger.kernel.org
+> Cc: Nick Desaulniers <nick.desaulniers@gmail.com>
 
+Ugh, this is all kind of ugly, but I guess that's what we have now.
 Applied, thank you.
 
 > ---
->  drivers/input/serio/i8042-x86ia64io.h | 7 +++++++
->  1 file changed, 7 insertions(+)
 > 
-> diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-> index 08e919dbeb5d..7e048b557462 100644
-> --- a/drivers/input/serio/i8042-x86ia64io.h
-> +++ b/drivers/input/serio/i8042-x86ia64io.h
-> @@ -662,6 +662,13 @@ static const struct dmi_system_id __initconst i8042_dmi_reset_table[] = {
->  			DMI_MATCH(DMI_PRODUCT_NAME, "P65xRP"),
->  		},
->  	},
-> +	{
-> +		/* Lenovo ThinkPad Twist S230u */
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "33474HU"),
-> +		},
-> +	},
->  	{ }
->  };
+>  drivers/input/rmi4/rmi_driver.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
+> index 190b9974526bb..c18e1a25bca6e 100644
+> --- a/drivers/input/rmi4/rmi_driver.c
+> +++ b/drivers/input/rmi4/rmi_driver.c
+> @@ -205,7 +205,7 @@ static irqreturn_t rmi_irq_fn(int irq, void *dev_id)
 >  
+>  	if (count) {
+>  		kfree(attn_data.data);
+> -		attn_data.data = NULL;
+> +		drvdata->attn_data.data = NULL;
+>  	}
+>  
+>  	if (!kfifo_is_empty(&drvdata->attn_fifo))
 > -- 
-> 2.26.2
+> 2.24.1
 > 
 
 -- 
