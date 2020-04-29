@@ -2,101 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B8731BD1C8
-	for <lists+linux-input@lfdr.de>; Wed, 29 Apr 2020 03:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 010451BD2CD
+	for <lists+linux-input@lfdr.de>; Wed, 29 Apr 2020 05:11:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726450AbgD2BiN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 Apr 2020 21:38:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54064 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726363AbgD2BiM (ORCPT
+        id S1726650AbgD2DLZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Apr 2020 23:11:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40258 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726560AbgD2DLZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 Apr 2020 21:38:12 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7800AC03C1AC;
-        Tue, 28 Apr 2020 18:38:12 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id u6so879193ljl.6;
-        Tue, 28 Apr 2020 18:38:12 -0700 (PDT)
+        Tue, 28 Apr 2020 23:11:25 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2682CC03C1AC;
+        Tue, 28 Apr 2020 20:11:24 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id t3so671392qkg.1;
+        Tue, 28 Apr 2020 20:11:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=OjW/XMFydjf/BLWU0Hg9lEs+gG1GlhabKW4wfh7Ez7c=;
-        b=M0t24Wa2GSu5DPJq2YEcW7BqUsBz3Qs3gMSWQ099RtxfeLuT9nQ6rjiSGcU/ZzEpLb
-         HRdmJ0dlTlCvrcNvptdmK3czU2W8Y4ZqnWUzgcXGKd0OnpfcRJRE5H8UAi6s7L5hrD85
-         4DX7/5eQe+FzXkm9McYrZmXEz18QbJWZfMPERVisn9fp3dG9//OGybjChGUARIITTjAz
-         x8q8pDWQDHOc1zKav7+nFB7sxWbRTAxCfJAEwkmfGLOZMqnU0hQu+EGYIfH3RFh9CgJk
-         ev2Wy8qznUW5DqK5xZgSXzovJ7qfroqK+Q7rfV4SiGjNdedPZxm66cxM8Pr9pFh6KcAR
-         l8fA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WHs8ke0Gw6reMmvCug3kjBIZJVJKpowZ4GplwPiaIKE=;
+        b=HBr/3T3/qr8Lb5BjyMhrk+TlrezveYN/pw/zLUP/qU40wc0j+wwcDjuYK/djjlrVAM
+         Cr+xsMNhaYTg16d3jxjMkJFABchp3GLoW+wam4I4azuIpfrLPzEbiWo8rTlKnHK4b4fH
+         4O2XoKcgG2cNBZAzvafit2QUrwRY7w4RamZOW6UYMMWAO/pmS2II7gP0N2qVVhAfXb+u
+         PFS9YXUzpcMPm8fHegf/hQ2Rd82XCi5ywPaQEAW0hTUqnS8Q9wjEzODiDGqW1wZ1Akgg
+         APFwqigzOW4QSGXceNyVxRNFlUVzth4BvZ8HfGDU5b4YpT0FIisu5d2LD9kqO8BarFUj
+         9nbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=OjW/XMFydjf/BLWU0Hg9lEs+gG1GlhabKW4wfh7Ez7c=;
-        b=Xt+AWdxHMIKXMVrENuT8YbGpCzQ/5+cb2YjeXdRks8bjX/37gTv3ehO9FV2G2cvWM1
-         II3wvrCZRYETA3hELclHnbcS8qt7in8McoQnmi+CYWus5j19CFP2ZvIos7WEv/xpuvSM
-         1TofwB225V4xCgWv6NZpkNEqd90CedMstogxV7m3SA4YSugTbOWVhCL+s5Ai0DOJwlAh
-         1rnEM16Av38VC+UXXmeAOzxCXgjAk5F0rjSOdJeWdWW0vHlL35KeB/k3CzCpqjMWzqwQ
-         X+OzhvhOQcOIlf23HfDNRlI/GD+bk42WWoL6wotbH1hi2qovIHRGTUEi1qbGJA9efol4
-         NtIw==
-X-Gm-Message-State: AGi0Pua3mafBRJmOcJdoGEgKqIiA63UOB8DTr6HU8LrkH9OY3rLjx7hb
-        VKaCnq39+1pMUhW58/iUu07fYJcm
-X-Google-Smtp-Source: APiQypKDGHQB2Jl5bVUa0XkKZPacsr76vHIBXgB9o0d1b1mGKpLZ6razeg5sWFxvcTCcGVfxheoZew==
-X-Received: by 2002:a2e:9842:: with SMTP id e2mr19421620ljj.273.1588124290617;
-        Tue, 28 Apr 2020 18:38:10 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id x17sm1079388lfg.36.2020.04.28.18.38.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Apr 2020 18:38:09 -0700 (PDT)
-Subject: Re: [PATCH v4 10/10] dt-bindings: input: touchscreen: elants_i2c:
- convert to YAML
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     David Heidelberg <david@ixit.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        James Chen <james.chen@emc.com.tw>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>,
-        Scott Liu <scott.liu@emc.com.tw>,
-        Linux Input <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <cover.1587916846.git.mirq-linux@rere.qmqm.pl>
- <222105a9c09ac85f0c03224ef7acb8a6d6e237d5.1587916846.git.mirq-linux@rere.qmqm.pl>
- <CAL_JsqLtvKgZYeb8xqT1nXa1Xja2Dxr6PBKixD6tN50cZ2xH5g@mail.gmail.com>
- <20200428140811.GA4355@qmqm.qmqm.pl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <49cc31ec-be87-fafd-f732-94e75ce6e2bc@gmail.com>
-Date:   Wed, 29 Apr 2020 04:38:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WHs8ke0Gw6reMmvCug3kjBIZJVJKpowZ4GplwPiaIKE=;
+        b=MHcj++KBtpWKSdyxpJcsApbQDvQNqHIsUY11zvKaNclckCwOhsb3u5ytPAJdf7ab8s
+         y4xw6l6mpVw/LTy504CB0jbv3azFnmhj2vy0qi3WBlBAsHBMzuHKBI6tHwwIIR7Spf/o
+         jo0D8BEeXx3hvN6x3SN4ip2VK1KDwK9WDd/5GxI20PyDn8yBAEUBcQ7N08af7LQvRdCF
+         RPb5ML0H5zuQafqtsrZsW+MMWeJDdgcfzvQoXnrR7Bv50+Mz5wjSCBETa47+FodlSoA6
+         Z8yi6h4X6y7sDcohui+1dT7YHfR+Yy1jCc1NZq2Te+kSw2ifez8I361/WEUk9MFdevMR
+         UuyA==
+X-Gm-Message-State: AGi0PuYzsjIe8uL+wmdy3K4Js1VqOSEEvG7eBgG6+zNZWefZvjRuAy6y
+        i9YnkBjPI+3oNvk70Up24ip43ZmU5HOiVP5ZuEY=
+X-Google-Smtp-Source: APiQypI4xhhlfLjlXDG+gMyTnHgQTNH5cxHxffOo30wBCDqwcLfDGiEI3OXGGGAp31UHp7eQPpOYxnbS37451I2jAoQ=
+X-Received: by 2002:ae9:ed89:: with SMTP id c131mr28608732qkg.447.1588129883206;
+ Tue, 28 Apr 2020 20:11:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200428140811.GA4355@qmqm.qmqm.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200428213035.3108649-1-arnd@arndb.de>
+In-Reply-To: <20200428213035.3108649-1-arnd@arndb.de>
+From:   rishi gupta <gupt21@gmail.com>
+Date:   Wed, 29 Apr 2020 08:41:12 +0530
+Message-ID: <CALUj-gse+6=pTooNAo4=QjM+YXTmTd_O826v7pW6WbbXFDuXLg@mail.gmail.com>
+Subject: Re: [PATCH] HID: mcp2221: add gpiolib dependency
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Bastien Nocera <bnocera@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-28.04.2020 17:08, Michał Mirosław пишет:
-> On Mon, Apr 27, 2020 at 04:14:15PM -0500, Rob Herring wrote:
->> On Sun, Apr 26, 2020 at 11:11 AM Michał Mirosław
->> <mirq-linux@rere.qmqm.pl> wrote:
->>>
->>> From: David Heidelberg <david@ixit.cz>
->>>
->>> Convert elants_i2c.txt DT binding to YAML and put into correct directory.
->>
->> Resend to the DT list or this won't be in my review queue. Looks okay
->> from a quick scan.
-> 
-> Hi Rob,
-> 
-> This is the same patch that David already sent to the list about
-> a week ago [1].  Do you need it resent? (Whole patchset or just the patch?)
-> 
-> [1] https://lore.kernel.org/linux-devicetree/20200423173253.711725-2-david@ixit.cz/
+Thanks Arnd, How about one liner:
+depends on USB_HID && I2C && GPIOLIB
 
-The whole patchset should be better.
+Reviewed-by: Rishi Gupta <gupt21@gmail.com>
+
+
+On Wed, Apr 29, 2020 at 3:00 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> Without gpiolib, this driver fails to link:
+>
+> arm-linux-gnueabi-ld: drivers/hid/hid-mcp2221.o: in function `mcp2221_probe':
+> hid-mcp2221.c:(.text+0x1b0): undefined reference to `devm_gpiochip_add_data'
+> arm-linux-gnueabi-ld: drivers/hid/hid-mcp2221.o: in function `mcp_gpio_get':
+> hid-mcp2221.c:(.text+0x30c): undefined reference to `gpiochip_get_data'
+>
+> Fixes: 328de1c519c5 ("HID: mcp2221: add GPIO functionality support")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/hid/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index 008bf44bc2c3..d54e7ae80de5 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -1155,6 +1155,7 @@ config HID_ALPS
+>  config HID_MCP2221
+>         tristate "Microchip MCP2221 HID USB-to-I2C/SMbus host support"
+>         depends on USB_HID && I2C
+> +       depends on GPIOLIB
+>         ---help---
+>         Provides I2C and SMBUS host adapter functionality over USB-HID
+>         through MCP2221 device.
+> --
+> 2.26.0
+>
