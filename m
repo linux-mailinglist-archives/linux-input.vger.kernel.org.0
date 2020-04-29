@@ -2,104 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DFF21BD1C3
-	for <lists+linux-input@lfdr.de>; Wed, 29 Apr 2020 03:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B8731BD1C8
+	for <lists+linux-input@lfdr.de>; Wed, 29 Apr 2020 03:38:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726363AbgD2BgI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 Apr 2020 21:36:08 -0400
-Received: from mga17.intel.com ([192.55.52.151]:16886 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726181AbgD2BgI (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 Apr 2020 21:36:08 -0400
-IronPort-SDR: DKyDf+C7UwHMVrdLb0dCXUoHZNCAfbOgUMmksH9LMEIq/F/l3j0HwAHMfc0Ey0kOcFebO38NPw
- +NuIuYirRt1w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2020 18:36:08 -0700
-IronPort-SDR: Z9Ddv9+AOeUO8ugYlktzn19TYxlgniMZg2nWzHfJPzpxAnkXMQYG3kNcroPUzEzodp4kFtRU6K
- rlh8jJBLw+Cg==
-X-IronPort-AV: E=Sophos;i="5.73,329,1583222400"; 
-   d="scan'208";a="302867262"
-Received: from spandruv-mobl.amr.corp.intel.com ([10.251.128.143])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2020 18:36:07 -0700
-Message-ID: <2f526edc870a80ae87a824a1593507306eb05aeb.camel@linux.intel.com>
-Subject: Re: [PATCH] hid: intel-ish-hid: avoid bogus uninitialized-variable
- warning
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Arnd Bergmann <arnd@arndb.de>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Nick Crews <ncrews@chromium.org>,
-        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
-Cc:     Jiri Kosina <jkosina@suse.cz>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 28 Apr 2020 18:36:07 -0700
-In-Reply-To: <20200428215337.4094575-1-arnd@arndb.de>
-References: <20200428215337.4094575-1-arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
+        id S1726450AbgD2BiN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Apr 2020 21:38:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54064 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726363AbgD2BiM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 28 Apr 2020 21:38:12 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7800AC03C1AC;
+        Tue, 28 Apr 2020 18:38:12 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id u6so879193ljl.6;
+        Tue, 28 Apr 2020 18:38:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=OjW/XMFydjf/BLWU0Hg9lEs+gG1GlhabKW4wfh7Ez7c=;
+        b=M0t24Wa2GSu5DPJq2YEcW7BqUsBz3Qs3gMSWQ099RtxfeLuT9nQ6rjiSGcU/ZzEpLb
+         HRdmJ0dlTlCvrcNvptdmK3czU2W8Y4ZqnWUzgcXGKd0OnpfcRJRE5H8UAi6s7L5hrD85
+         4DX7/5eQe+FzXkm9McYrZmXEz18QbJWZfMPERVisn9fp3dG9//OGybjChGUARIITTjAz
+         x8q8pDWQDHOc1zKav7+nFB7sxWbRTAxCfJAEwkmfGLOZMqnU0hQu+EGYIfH3RFh9CgJk
+         ev2Wy8qznUW5DqK5xZgSXzovJ7qfroqK+Q7rfV4SiGjNdedPZxm66cxM8Pr9pFh6KcAR
+         l8fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=OjW/XMFydjf/BLWU0Hg9lEs+gG1GlhabKW4wfh7Ez7c=;
+        b=Xt+AWdxHMIKXMVrENuT8YbGpCzQ/5+cb2YjeXdRks8bjX/37gTv3ehO9FV2G2cvWM1
+         II3wvrCZRYETA3hELclHnbcS8qt7in8McoQnmi+CYWus5j19CFP2ZvIos7WEv/xpuvSM
+         1TofwB225V4xCgWv6NZpkNEqd90CedMstogxV7m3SA4YSugTbOWVhCL+s5Ai0DOJwlAh
+         1rnEM16Av38VC+UXXmeAOzxCXgjAk5F0rjSOdJeWdWW0vHlL35KeB/k3CzCpqjMWzqwQ
+         X+OzhvhOQcOIlf23HfDNRlI/GD+bk42WWoL6wotbH1hi2qovIHRGTUEi1qbGJA9efol4
+         NtIw==
+X-Gm-Message-State: AGi0Pua3mafBRJmOcJdoGEgKqIiA63UOB8DTr6HU8LrkH9OY3rLjx7hb
+        VKaCnq39+1pMUhW58/iUu07fYJcm
+X-Google-Smtp-Source: APiQypKDGHQB2Jl5bVUa0XkKZPacsr76vHIBXgB9o0d1b1mGKpLZ6razeg5sWFxvcTCcGVfxheoZew==
+X-Received: by 2002:a2e:9842:: with SMTP id e2mr19421620ljj.273.1588124290617;
+        Tue, 28 Apr 2020 18:38:10 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id x17sm1079388lfg.36.2020.04.28.18.38.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Apr 2020 18:38:09 -0700 (PDT)
+Subject: Re: [PATCH v4 10/10] dt-bindings: input: touchscreen: elants_i2c:
+ convert to YAML
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     David Heidelberg <david@ixit.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        James Chen <james.chen@emc.com.tw>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>,
+        Scott Liu <scott.liu@emc.com.tw>,
+        Linux Input <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <cover.1587916846.git.mirq-linux@rere.qmqm.pl>
+ <222105a9c09ac85f0c03224ef7acb8a6d6e237d5.1587916846.git.mirq-linux@rere.qmqm.pl>
+ <CAL_JsqLtvKgZYeb8xqT1nXa1Xja2Dxr6PBKixD6tN50cZ2xH5g@mail.gmail.com>
+ <20200428140811.GA4355@qmqm.qmqm.pl>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <49cc31ec-be87-fafd-f732-94e75ce6e2bc@gmail.com>
+Date:   Wed, 29 Apr 2020 04:38:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200428140811.GA4355@qmqm.qmqm.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 2020-04-28 at 23:53 +0200, Arnd Bergmann wrote:
-> Older compilers like gcc-4.8 don't see that the variable is
-> initialized when it is used:
+28.04.2020 17:08, Michał Mirosław пишет:
+> On Mon, Apr 27, 2020 at 04:14:15PM -0500, Rob Herring wrote:
+>> On Sun, Apr 26, 2020 at 11:11 AM Michał Mirosław
+>> <mirq-linux@rere.qmqm.pl> wrote:
+>>>
+>>> From: David Heidelberg <david@ixit.cz>
+>>>
+>>> Convert elants_i2c.txt DT binding to YAML and put into correct directory.
+>>
+>> Resend to the DT list or this won't be in my review queue. Looks okay
+>> from a quick scan.
 > 
-> In file included from include/linux/compiler_types.h:68:0,
->                  from <command-line>:0:
-> drivers/hid/intel-ish-hid/ishtp-fw-loader.c: In function
-> 'load_fw_from_host':
-> include/linux/compiler-gcc.h:75:45: warning:
-> 'fw_info.ldr_capability.max_dma_buf_size' may be used uninitialized
-> in this function [-Wmaybe-uninitialized]
->  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix),
-> __COUNTER__)
->                                              ^
-> drivers/hid/intel-ish-hid/ishtp-fw-loader.c:770:22: note:
-> 'fw_info.ldr_capability.max_dma_buf_size' was declared here
->   struct shim_fw_info fw_info;
->                       ^
+> Hi Rob,
 > 
-> Make sure to initialize it before returning an error from
-> ish_query_loader_prop().
+> This is the same patch that David already sent to the list about
+> a week ago [1].  Do you need it resent? (Whole patchset or just the patch?)
 > 
-> Fixes: 91b228107da3 ("HID: intel-ish-hid: ISH firmware loader client
-> driver")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> [1] https://lore.kernel.org/linux-devicetree/20200423173253.711725-2-david@ixit.cz/
 
-
-> ---
->  drivers/hid/intel-ish-hid/ishtp-fw-loader.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-> b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-> index aa2dbed30fc3..6cf59fd26ad7 100644
-> --- a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-> +++ b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-> @@ -480,6 +480,7 @@ static int ish_query_loader_prop(struct
-> ishtp_cl_data *client_data,
->  			    sizeof(ldr_xfer_query_resp));
->  	if (rv < 0) {
->  		client_data->flag_retry = true;
-> +		*fw_info = (struct shim_fw_info){};
->  		return rv;
->  	}
->  
-> @@ -489,6 +490,7 @@ static int ish_query_loader_prop(struct
-> ishtp_cl_data *client_data,
->  			"data size %d is not equal to size of
-> loader_xfer_query_response %zu\n",
->  			rv, sizeof(struct loader_xfer_query_response));
->  		client_data->flag_retry = true;
-> +		*fw_info = (struct shim_fw_info){};
->  		return -EMSGSIZE;
->  	}
->  
-
+The whole patchset should be better.
