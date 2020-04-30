@@ -2,31 +2,32 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0A751BFB66
-	for <lists+linux-input@lfdr.de>; Thu, 30 Apr 2020 16:00:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 888481BFC4A
+	for <lists+linux-input@lfdr.de>; Thu, 30 Apr 2020 16:05:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728939AbgD3N7l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Apr 2020 09:59:41 -0400
-Received: from thoth.sbs.de ([192.35.17.2]:39009 "EHLO thoth.sbs.de"
+        id S1728651AbgD3OE4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Apr 2020 10:04:56 -0400
+Received: from david.siemens.de ([192.35.17.14]:41668 "EHLO david.siemens.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728236AbgD3N7l (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Apr 2020 09:59:41 -0400
+        id S1728628AbgD3NxJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 30 Apr 2020 09:53:09 -0400
+X-Greylist: delayed 506 seconds by postgrey-1.27 at vger.kernel.org; Thu, 30 Apr 2020 09:53:07 EDT
 Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-        by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id 03UDld6f001650
+        by david.siemens.de (8.15.2/8.15.2) with ESMTPS id 03UDidUo014835
         (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 30 Apr 2020 15:47:39 +0200
+        Thu, 30 Apr 2020 15:44:39 +0200
 Received: from dev.vm7.ccp.siemens.com ([158.226.192.214])
-        by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id 03UDlcbP025819;
-        Thu, 30 Apr 2020 15:47:39 +0200
+        by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id 03UDicKW011528;
+        Thu, 30 Apr 2020 15:44:39 +0200
 Received: from dev.vm7.ccp.siemens.com (localhost [127.0.0.1])
-        by dev.vm7.ccp.siemens.com (Postfix) with ESMTP id CE5577097C1;
-        Thu, 30 Apr 2020 15:40:12 +0200 (CEST)
+        by dev.vm7.ccp.siemens.com (Postfix) with ESMTP id BD3EE7097C3;
+        Thu, 30 Apr 2020 15:44:36 +0200 (CEST)
 From:   Andrej Valek <andrej.valek@siemens.com>
 To:     linux-input@vger.kernel.org
 Cc:     hadess@hadess.net, andrej.valek@siemens.com
 Subject: [PATCH] Input: goodix - add option to disable firmware loading
-Date:   Thu, 30 Apr 2020 15:39:26 +0200
-Message-Id: <20200430133926.23393-1-andrej.valek@siemens.com>
+Date:   Thu, 30 Apr 2020 15:43:50 +0200
+Message-Id: <20200430134350.23746-1-andrej.valek@siemens.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
