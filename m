@@ -2,365 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9F601C2E1E
-	for <lists+linux-input@lfdr.de>; Sun,  3 May 2020 19:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1B791C2E3F
+	for <lists+linux-input@lfdr.de>; Sun,  3 May 2020 19:22:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728783AbgECRGK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 3 May 2020 13:06:10 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:34025 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728947AbgECRGH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 3 May 2020 13:06:07 -0400
-X-Originating-IP: 195.189.32.242
-Received: from pc.localdomain (unknown [195.189.32.242])
-        (Authenticated sender: contact@artur-rojek.eu)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 54DAA4000C;
-        Sun,  3 May 2020 17:06:01 +0000 (UTC)
-From:   Artur Rojek <contact@artur-rojek.eu>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Heiko Stuebner <heiko@sntech.de>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Artur Rojek <contact@artur-rojek.eu>
-Subject: [PATCH v6 7/7] input: joystick: Add ADC attached joystick driver.
-Date:   Sun,  3 May 2020 19:14:51 +0200
-Message-Id: <20200503171451.44034-7-contact@artur-rojek.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200503171451.44034-1-contact@artur-rojek.eu>
-References: <20200503171451.44034-1-contact@artur-rojek.eu>
+        id S1728968AbgECRW2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 3 May 2020 13:22:28 -0400
+Received: from mail-co1nam11olkn2043.outbound.protection.outlook.com ([40.92.18.43]:10184
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728859AbgECRW1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 3 May 2020 13:22:27 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZwJrMpv7fo9rtjyS/Q9zc+tQUOFRil+DxTzFglwurfdveIxzc/+H29f7JBtAmLqXoW40lc60d6C6CTzkyibahaYARR0Rlg/Eji1CDX04i7l0by6J/nwEVc+j7AwUo+/ev8e926ND49NTQouRNXGHz42vEvajoGA8oeHmUZmOqvCj3LlaP5o45jZ5yWD7iG8vGzND/4GY2tRF6plWSwcsOA0PtOu8Ybif8joiTuVkJUYMNwzcZGVWz97Q4jfOyzkVBozpab1hgoxPVilS2ElwFnsYBVPaXCufrVxd/mzt7dCJll7oHUOewfhN/xDlKHJdjlaGYFVuzIOV2kkknznIJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QSR/dwvt++l2Oi733usiHVK2Wnj++y0bEjxSjwaF94Y=;
+ b=XkpIiOn6hEKO9Xpt3UBae7Xj9Fb98NG8YoxufuIgbb0khjBdD906q0TBcM77RJr6btkv7L90bWbjIwl9aaMysC7WLeiwr8n9EAfkUnYhd8jdpfJVBKpBOr0i3YjaTebkY5WD2uWFLxu8y5UIxOeIyqjcA3DRcTvqqC0SOe/c2rjwufmHjNJF5vRtvwLefuJowrYQoFzWO+geyOugBPQWHuDSYvMSSg3bxNyCFNzwHJPdm/e3pvmVTA/JFa55VVVk7M1nEzoMGayKs5YlBRAEJUja7q8lJ6OFLRBZVDfbmYPH8JfRNSDOfwZChmPOflcmqkGvLrHeQfNxDz3pYu765g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=live.ca; dmarc=pass action=none header.from=live.ca; dkim=pass
+ header.d=live.ca; arc=none
+Received: from BN8NAM11FT054.eop-nam11.prod.protection.outlook.com
+ (2a01:111:e400:fc4b::52) by
+ BN8NAM11HT065.eop-nam11.prod.protection.outlook.com (2a01:111:e400:fc4b::76)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Sun, 3 May
+ 2020 17:22:24 +0000
+Received: from BN6PR04MB0660.namprd04.prod.outlook.com
+ (2a01:111:e400:fc4b::42) by BN8NAM11FT054.mail.protection.outlook.com
+ (2a01:111:e400:fc4b::358) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19 via Frontend
+ Transport; Sun, 3 May 2020 17:22:24 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:B6EE349BD92D333ECC97541A81CD710523ECD37DDD0DCF701383AFCBB6EFCE12;UpperCasedChecksum:397A0D960BB03C25E65094B9F5F3B67BBD0C23249853D2BDF6FEF1FEBC407BEB;SizeAsReceived:7902;Count:48
+Received: from BN6PR04MB0660.namprd04.prod.outlook.com
+ ([fe80::ad10:4127:4bc8:76fc]) by BN6PR04MB0660.namprd04.prod.outlook.com
+ ([fe80::ad10:4127:4bc8:76fc%6]) with mapi id 15.20.2958.029; Sun, 3 May 2020
+ 17:22:24 +0000
+From:   Jonathan Bakker <xc-racer2@live.ca>
+To:     jic23@kernel.org, knaack.h@gmx.de, lars@metafoo.de,
+        pmeerw@pmeerw.net, robh+dt@kernel.org, linus.walleij@linaro.org,
+        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
+        kstewart@linuxfoundation.org, gregkh@linuxfoundation.org,
+        tglx@linutronix.de, linux-input@vger.kernel.org
+Cc:     Jonathan Bakker <xc-racer2@live.ca>
+Subject: [PATCH 0/5] iio: accel: Add bma023 support to bma180
+Date:   Sun,  3 May 2020 10:22:01 -0700
+Message-ID: <BN6PR04MB0660046ABD79433EA94A85A9A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
+X-Mailer: git-send-email 2.20.1
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-ClientProxiedBy: MWHPR14CA0047.namprd14.prod.outlook.com
+ (2603:10b6:300:12b::33) To BN6PR04MB0660.namprd04.prod.outlook.com
+ (2603:10b6:404:d9::21)
+X-Microsoft-Original-Message-ID: <20200503172206.13782-1-xc-racer2@live.ca>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from jon-hp-6570b.telus (2001:569:fb68:9c00:8067:f823:1e15:7520) by MWHPR14CA0047.namprd14.prod.outlook.com (2603:10b6:300:12b::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20 via Frontend Transport; Sun, 3 May 2020 17:22:22 +0000
+X-Mailer: git-send-email 2.20.1
+X-Microsoft-Original-Message-ID: <20200503172206.13782-1-xc-racer2@live.ca>
+X-TMN:  [EdMbrvaaOG+gsyVIbiZXMTT8s+9h73WbHNM15p+Fd7a/N7OevFswW7Bq0MqA1HBj]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 48
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 4f2964f8-777d-4534-18f9-08d7ef868b37
+X-MS-TrafficTypeDiagnostic: BN8NAM11HT065:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4GXgfNIJMzs8tUAmV36GGEjHlYqVOBsg7V90IFjVbHeZGRsqsETlCaNF/GfDMcA57XpxfcVd3uG/KAiKhEIXjlw1qWTUyn05Qi1e5W4J7jWipccMVO0O+b7sf+fIFtgOYN5Apf8h1JyvnZMnrpw96aS4Y5ljoQHSYkAOLFu31qNYmZ+T4PkYGzm5mU/y/+bYz0ud1meOlBxPHDBEQnPP9A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR04MB0660.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
+X-MS-Exchange-AntiSpam-MessageData: rz2n1nsLByM8AFdRhGML+9OsB3dLX+IuN8NcciOFbZsOd+pd6kppRmH6zOm9Ix2mNQV997aw+Yc6Fg3MyOGMGhrGnjkcgRLR2KYl3/z+ODColLXIAzFO6RdJGbjvSh8mSsaOzshpOGXpRdLgg8I/U7LO9dt/FiX+0JYBad/hxwPUnKsfqwdEr2ivtU9npcnMw8SqoW9CxaR3Q8nbvovEXQ==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f2964f8-777d-4534-18f9-08d7ef868b37
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2020 17:22:24.5930
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8NAM11HT065
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a driver for joystick devices connected to ADC controllers
-supporting the Industrial I/O subsystem.
+This patchset adds support for the bma023 three axis accelerometer
+to the bma180 IIO driver.  The bma023 is found on several ~2010
+phones, including the first-gen Galaxy S series.
 
-Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
-Tested-by: Paul Cercueil <paul@crapouillou.net>
-Tested-by: Heiko Stuebner <heiko@sntech.de>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
+The bma023 differs from later chips (bma180, bma25x) in that it
+has no low power but still working mode and no temperature
+channel.
 
- v2: - sanity check supported channel format on probe,
-     - rename adc_joystick_disable to a more sensible adc_joystick_cleanup, 
-     - enforce correct axis order by checking the `reg` property of
-       child nodes
+The bma023 is already supported by a misc input driver (bma150), so
+when both are enabled, the iio driver is preferred.  The bma150
+is very similar to the bma023, but has a temperature channel.
+Support for the bma150 is not added in this patchset.
 
- v3-v5: no change
+While I was at it, I noticed that the dt binding doc was missing
+the regulators, so I've added those in.
 
- v6: - remove redundant `<linux/of.h>`
-     - set `val` for each endianness case in their respective branches
-     - pass received error codes to return value of `adc_joystick_set_axes`
-     - change `(bits >> 3) > 2` to `bits > 16` for readability
-     - drop `of_match_ptr`
+The patches have been tested on a GT-i9000.  The interrupt pin
+is not connected on this board so the trigger was not tested.
 
- drivers/input/joystick/Kconfig        |  10 +
- drivers/input/joystick/Makefile       |   1 +
- drivers/input/joystick/adc-joystick.c | 253 ++++++++++++++++++++++++++
- 3 files changed, 264 insertions(+)
- create mode 100644 drivers/input/joystick/adc-joystick.c
+Jonathan Bakker (5):
+  iio: accel: bma180: Prepare for different reset values
+  input: misc: bma150: Conditionally disable bma023 support
+  dt-bindings: iio: accel: Add bma023 compatible to bma180
+  dt-bindings: iio: accel: Add required regulators to bma180
+  iio: accel: bma180: Add support for bma023
 
-diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
-index 940b744639c7..efbc20ec5099 100644
---- a/drivers/input/joystick/Kconfig
-+++ b/drivers/input/joystick/Kconfig
-@@ -42,6 +42,16 @@ config JOYSTICK_A3D
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called a3d.
- 
-+config JOYSTICK_ADC
-+	tristate "Simple joystick connected over ADC"
-+	depends on IIO
-+	select IIO_BUFFER_CB
-+	help
-+	  Say Y here if you have a simple joystick connected over ADC.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called adc-joystick.
-+
- config JOYSTICK_ADI
- 	tristate "Logitech ADI digital joysticks and gamepads"
- 	select GAMEPORT
-diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
-index 8656023f6ef5..58232b3057d3 100644
---- a/drivers/input/joystick/Makefile
-+++ b/drivers/input/joystick/Makefile
-@@ -6,6 +6,7 @@
- # Each configuration option enables a list of files.
- 
- obj-$(CONFIG_JOYSTICK_A3D)		+= a3d.o
-+obj-$(CONFIG_JOYSTICK_ADC)		+= adc-joystick.o
- obj-$(CONFIG_JOYSTICK_ADI)		+= adi.o
- obj-$(CONFIG_JOYSTICK_AMIGA)		+= amijoy.o
- obj-$(CONFIG_JOYSTICK_AS5011)		+= as5011.o
-diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
-new file mode 100644
-index 000000000000..a4ba8eac5a12
---- /dev/null
-+++ b/drivers/input/joystick/adc-joystick.c
-@@ -0,0 +1,253 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Input driver for joysticks connected over ADC.
-+ * Copyright (c) 2019-2020 Artur Rojek <contact@artur-rojek.eu>
-+ */
-+#include <linux/ctype.h>
-+#include <linux/input.h>
-+#include <linux/iio/iio.h>
-+#include <linux/iio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+
-+struct adc_joystick_axis {
-+	u32 code;
-+	s32 range[2];
-+	s32 fuzz;
-+	s32 flat;
-+};
-+
-+struct adc_joystick {
-+	struct input_dev *input;
-+	struct iio_cb_buffer *buffer;
-+	struct adc_joystick_axis *axes;
-+	struct iio_channel *chans;
-+	int num_chans;
-+};
-+
-+static int adc_joystick_handle(const void *data, void *private)
-+{
-+	struct adc_joystick *joy = private;
-+	enum iio_endian endianness;
-+	int bytes, msb, val, i;
-+	bool sign;
-+
-+	bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
-+
-+	for (i = 0; i < joy->num_chans; ++i) {
-+		endianness = joy->chans[i].channel->scan_type.endianness;
-+		msb = joy->chans[i].channel->scan_type.realbits - 1;
-+		sign = (tolower(joy->chans[i].channel->scan_type.sign) == 's');
-+
-+		switch (bytes) {
-+		case 1:
-+			val = ((const u8 *)data)[i];
-+			break;
-+		case 2:
-+			if (endianness == IIO_BE)
-+				val = be16_to_cpu(((const u16 *)data)[i]);
-+			else if (endianness == IIO_LE)
-+				val = le16_to_cpu(((const u16 *)data)[i]);
-+			else /* IIO_CPU */
-+				val = ((const u16 *)data)[i];
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+
-+		val >>= joy->chans[i].channel->scan_type.shift;
-+		if (sign)
-+			val = sign_extend32(val, msb);
-+		else
-+			val &= GENMASK(msb, 0);
-+		input_report_abs(joy->input, joy->axes[i].code, val);
-+	}
-+
-+	input_sync(joy->input);
-+
-+	return 0;
-+}
-+
-+static int adc_joystick_open(struct input_dev *dev)
-+{
-+	struct adc_joystick *joy = input_get_drvdata(dev);
-+	int ret;
-+
-+	ret = iio_channel_start_all_cb(joy->buffer);
-+	if (ret)
-+		dev_err(dev->dev.parent, "Unable to start callback buffer");
-+
-+	return ret;
-+}
-+
-+static void adc_joystick_close(struct input_dev *dev)
-+{
-+	struct adc_joystick *joy = input_get_drvdata(dev);
-+
-+	iio_channel_stop_all_cb(joy->buffer);
-+}
-+
-+static void adc_joystick_cleanup(void *data)
-+{
-+	iio_channel_release_all_cb(data);
-+}
-+
-+static int adc_joystick_set_axes(struct device *dev, struct adc_joystick *joy)
-+{
-+	struct adc_joystick_axis *axes;
-+	struct fwnode_handle *child;
-+	int num_axes, ret, i;
-+
-+	num_axes = device_get_child_node_count(dev);
-+	if (!num_axes) {
-+		dev_err(dev, "Unable to find child nodes");
-+		return -EINVAL;
-+	}
-+
-+	if (num_axes != joy->num_chans) {
-+		dev_err(dev, "Got %d child nodes for %d channels",
-+			num_axes, joy->num_chans);
-+		return -EINVAL;
-+	}
-+
-+	axes = devm_kmalloc_array(dev, num_axes, sizeof(*axes), GFP_KERNEL);
-+	if (!axes)
-+		return -ENOMEM;
-+
-+	device_for_each_child_node(dev, child) {
-+		ret = fwnode_property_read_u32(child, "reg", &i);
-+		if (ret) {
-+			dev_err(dev, "reg invalid or missing");
-+			goto err;
-+		}
-+
-+		if (i >= num_axes) {
-+			ret = -EINVAL;
-+			dev_err(dev, "No matching axis for reg %d", i);
-+			goto err;
-+		}
-+
-+		ret = fwnode_property_read_u32(child, "linux,code",
-+					     &axes[i].code);
-+		if (ret) {
-+			dev_err(dev, "linux,code invalid or missing");
-+			goto err;
-+		}
-+
-+		ret = fwnode_property_read_u32_array(child, "abs-range",
-+						   axes[i].range, 2);
-+		if (ret) {
-+			dev_err(dev, "abs-range invalid or missing");
-+			goto err;
-+		}
-+
-+		fwnode_property_read_u32(child, "abs-fuzz",
-+					 &axes[i].fuzz);
-+		fwnode_property_read_u32(child, "abs-flat",
-+					 &axes[i].flat);
-+
-+		input_set_abs_params(joy->input, axes[i].code,
-+				     axes[i].range[0], axes[i].range[1],
-+				     axes[i].fuzz,
-+				     axes[i].flat);
-+		input_set_capability(joy->input, EV_ABS, axes[i].code);
-+	}
-+
-+	joy->axes = axes;
-+
-+	return 0;
-+
-+err:
-+	fwnode_handle_put(child);
-+	return ret;
-+}
-+
-+static int adc_joystick_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct adc_joystick *joy;
-+	struct input_dev *input;
-+	int bits, ret, i;
-+
-+	joy = devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
-+	if (!joy)
-+		return -ENOMEM;
-+
-+	joy->chans = devm_iio_channel_get_all(dev);
-+	if (IS_ERR(joy->chans)) {
-+		ret = PTR_ERR(joy->chans);
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(dev, "Unable to get IIO channels");
-+		return ret;
-+	}
-+
-+	/* Count how many channels we got. NULL terminated. */
-+	while (joy->chans[joy->num_chans].indio_dev)
-+		joy->num_chans++;
-+
-+	bits = joy->chans[0].channel->scan_type.storagebits;
-+	if (!bits || (bits > 16)) {
-+		dev_err(dev, "Unsupported channel storage size");
-+		return -EINVAL;
-+	}
-+	for (i = 1; i < joy->num_chans; ++i)
-+		if (joy->chans[i].channel->scan_type.storagebits != bits) {
-+			dev_err(dev, "Channels must have equal storage size");
-+			return -EINVAL;
-+		}
-+
-+	input = devm_input_allocate_device(dev);
-+	if (!input) {
-+		dev_err(dev, "Unable to allocate input device");
-+		return -ENOMEM;
-+	}
-+
-+	joy->input = input;
-+	input->name = pdev->name;
-+	input->id.bustype = BUS_HOST;
-+	input->open = adc_joystick_open;
-+	input->close = adc_joystick_close;
-+
-+	ret = adc_joystick_set_axes(dev, joy);
-+	if (ret)
-+		return ret;
-+
-+	input_set_drvdata(input, joy);
-+	ret = input_register_device(input);
-+	if (ret) {
-+		dev_err(dev, "Unable to register input device: %d", ret);
-+		return ret;
-+	}
-+
-+	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
-+	if (IS_ERR(joy->buffer)) {
-+		dev_err(dev, "Unable to allocate callback buffer");
-+		return PTR_ERR(joy->buffer);
-+	}
-+
-+	ret = devm_add_action_or_reset(dev, adc_joystick_cleanup, joy->buffer);
-+	if (ret)
-+		dev_err(dev, "Unable to add action");
-+
-+	return ret;
-+}
-+
-+static const struct of_device_id adc_joystick_of_match[] = {
-+	{ .compatible = "adc-joystick", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, adc_joystick_of_match);
-+
-+static struct platform_driver adc_joystick_driver = {
-+	.driver = {
-+		.name = "adc-joystick",
-+		.of_match_table = adc_joystick_of_match,
-+	},
-+	.probe = adc_joystick_probe,
-+};
-+module_platform_driver(adc_joystick_driver);
-+
-+MODULE_DESCRIPTION("Input driver for joysticks connected over ADC");
-+MODULE_AUTHOR("Artur Rojek <contact@artur-rojek.eu>");
-+MODULE_LICENSE("GPL");
+ .../devicetree/bindings/iio/accel/bma180.txt  |   5 +-
+ drivers/iio/accel/Kconfig                     |   6 +-
+ drivers/iio/accel/bma180.c                    | 131 +++++++++++++++++-
+ drivers/input/misc/bma150.c                   |   3 +
+ 4 files changed, 135 insertions(+), 10 deletions(-)
+
 -- 
-2.26.2
+2.20.1
 
