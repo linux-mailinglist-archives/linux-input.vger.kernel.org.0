@@ -2,97 +2,199 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BBEB1C2784
-	for <lists+linux-input@lfdr.de>; Sat,  2 May 2020 20:18:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7738C1C2E0A
+	for <lists+linux-input@lfdr.de>; Sun,  3 May 2020 19:05:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728237AbgEBSSz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 2 May 2020 14:18:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33221 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728044AbgEBSSz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 2 May 2020 14:18:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588443534;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=cWyR41BKV4QS8jOtC5przXBAPhrC1uIR/6Pv3ATqFpM=;
-        b=HZK0Ek07mdvEe8Jg8CKEd35RqrIS9CbLxw7Avl/kvdaJFLw8SWUGDva999DB3S2Ak8rXgR
-        s3ouTBVfx+q7NRcKZaHSgnlHbZX7VfqxAaa6+Vcv5UIyhsQfgJ59ntOuqjvy6KUtzCgi2r
-        dLRnU+DcYgJwScmaf0VW1B0gXeYUXO4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-F2bsoP4iOteLZmR_7kO7xQ-1; Sat, 02 May 2020 14:18:49 -0400
-X-MC-Unique: F2bsoP4iOteLZmR_7kO7xQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 620D48014D5;
-        Sat,  2 May 2020 18:18:48 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-112-4.ams2.redhat.com [10.36.112.4])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B1A2F60612;
-        Sat,  2 May 2020 18:18:44 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
-        Mario Limonciello <mario.limonciello@dell.com>
-Subject: [PATCH] HID: quirks: Add HID_QUIRK_NO_INIT_REPORTS quirk for Dell K12A keyboard-dock
-Date:   Sat,  2 May 2020 20:18:42 +0200
-Message-Id: <20200502181842.113831-1-hdegoede@redhat.com>
+        id S1728815AbgECRFu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 3 May 2020 13:05:50 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:58493 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728753AbgECRFu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 3 May 2020 13:05:50 -0400
+X-Originating-IP: 195.189.32.242
+Received: from pc.localdomain (unknown [195.189.32.242])
+        (Authenticated sender: contact@artur-rojek.eu)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 9FC9640007;
+        Sun,  3 May 2020 17:05:44 +0000 (UTC)
+From:   Artur Rojek <contact@artur-rojek.eu>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Heiko Stuebner <heiko@sntech.de>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Artur Rojek <contact@artur-rojek.eu>
+Subject: [PATCH v6 1/7] dt-bindings: iio/adc: Convert ingenic-adc docs to YAML.
+Date:   Sun,  3 May 2020 19:14:45 +0200
+Message-Id: <20200503171451.44034-1-contact@artur-rojek.eu>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a HID_QUIRK_NO_INIT_REPORTS quirk for the Dell K12A keyboard-dock,
-which can be used with various Dell Venue 11 models.
+Convert the textual documentation of Device Tree bindings for the
+Ingenic JZ47xx SoCs ADC controller to YAML.
 
-Without this quirk the keyboard/touchpad combo works fine when connected
-at boot, but when hotplugged 9 out of 10 times it will not work properly.
-Adding the quirk fixes this.
+The `interrupts` property is now explicitly listed and marked as
+required. While missing from the previous textual documentation, this
+property has been used with all the boards which probe this driver.
 
-Cc: Mario Limonciello <mario.limonciello@dell.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
+Tested-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 2efa823a87e4..6fc18dda9578 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1112,6 +1112,7 @@
- #define USB_DEVICE_ID_SYNAPTICS_LTS2	0x1d10
- #define USB_DEVICE_ID_SYNAPTICS_HD	0x0ac3
- #define USB_DEVICE_ID_SYNAPTICS_QUAD_HD	0x1ac3
-+#define USB_DEVICE_ID_SYNAPTICS_DELL_K12A	0x2819
- #define USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012	0x2968
- #define USB_DEVICE_ID_SYNAPTICS_TP_V103	0x5710
- #define USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5	0x81a7
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index ebec818344af..e4cb543de0cd 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -163,6 +163,7 @@ static const struct hid_device_id hid_quirks[] =3D {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_LTS2)=
-, HID_QUIRK_NO_INIT_REPORTS },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_QUAD_=
-HD), HID_QUIRK_NO_INIT_REPORTS },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_TP_V1=
-03), HID_QUIRK_NO_INIT_REPORTS },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_DELL_=
-K12A), HID_QUIRK_NO_INIT_REPORTS },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPMAX, USB_DEVICE_ID_TOPMAX_COBRAPAD), =
-HID_QUIRK_BADPAD },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_TOUCHPACK, USB_DEVICE_ID_TOUCHPACK_RTS),=
- HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_TPV, USB_DEVICE_ID_TPV_OPTICAL_TOUCHSCRE=
-EN_8882), HID_QUIRK_NOGET },
---=20
-2.26.0
+Changes:
+
+v6: new patch
+
+ .../bindings/iio/adc/ingenic,adc.txt          | 49 ------------
+ .../bindings/iio/adc/ingenic,adc.yaml         | 74 +++++++++++++++++++
+ 2 files changed, 74 insertions(+), 49 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/iio/adc/ingenic,adc.txt
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
+
+diff --git a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.txt b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.txt
+deleted file mode 100644
+index cd9048cf9dcf..000000000000
+--- a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.txt
++++ /dev/null
+@@ -1,49 +0,0 @@
+-* Ingenic JZ47xx ADC controller IIO bindings
+-
+-Required properties:
+-
+-- compatible: Should be one of:
+-  * ingenic,jz4725b-adc
+-  * ingenic,jz4740-adc
+-  * ingenic,jz4770-adc
+-- reg: ADC controller registers location and length.
+-- clocks: phandle to the SoC's ADC clock.
+-- clock-names: Must be set to "adc".
+-- #io-channel-cells: Must be set to <1> to indicate channels are selected
+-  by index.
+-
+-ADC clients must use the format described in iio-bindings.txt, giving
+-a phandle and IIO specifier pair ("io-channels") to the ADC controller.
+-
+-Example:
+-
+-#include <dt-bindings/iio/adc/ingenic,adc.h>
+-
+-adc: adc@10070000 {
+-	compatible = "ingenic,jz4740-adc";
+-	#io-channel-cells = <1>;
+-
+-	reg = <0x10070000 0x30>;
+-
+-	clocks = <&cgu JZ4740_CLK_ADC>;
+-	clock-names = "adc";
+-
+-	interrupt-parent = <&intc>;
+-	interrupts = <18>;
+-};
+-
+-adc-keys {
+-	...
+-	compatible = "adc-keys";
+-	io-channels = <&adc INGENIC_ADC_AUX>;
+-	io-channel-names = "buttons";
+-	...
+-};
+-
+-battery {
+-	...
+-	compatible = "ingenic,jz4740-battery";
+-	io-channels = <&adc INGENIC_ADC_BATTERY>;
+-	io-channel-names = "battery";
+-	...
+-};
+diff --git a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
+new file mode 100644
+index 000000000000..e9c46fff840a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
+@@ -0,0 +1,74 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++# Copyright 2019-2020 Artur Rojek
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/iio/adc/ingenic,adc.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Ingenic JZ47xx ADC controller IIO bindings
++
++maintainers:
++  - Artur Rojek <contact@artur-rojek.eu>
++
++description: >
++  Industrial I/O subsystem bindings for ADC controller found in
++  Ingenic JZ47xx SoCs.
++
++  ADC clients must use the format described in iio-bindings.txt, giving
++  a phandle and IIO specifier pair ("io-channels") to the ADC controller.
++
++properties:
++  compatible:
++    enum:
++      - ingenic,jz4725b-adc
++      - ingenic,jz4740-adc
++      - ingenic,jz4770-adc
++
++  '#io-channel-cells':
++    const: 1
++    description:
++      Must be set to <1> to indicate channels are selected by index.
++
++  reg:
++    items:
++      - description: ADC controller registers location and length.
++
++  clocks:
++    items:
++      - description: phandle to the SoC's ADC clock.
++
++  clock-names:
++    items:
++      - const: adc
++
++  interrupts:
++    items:
++      - description: IRQ line for the ADC.
++
++required:
++  - compatible
++  - '#io-channel-cells'
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/jz4740-cgu.h>
++    #include <dt-bindings/iio/adc/ingenic,adc.h>
++
++    adc@10070000 {
++            compatible = "ingenic,jz4740-adc";
++            #io-channel-cells = <1>;
++
++            reg = <0x10070000 0x30>;
++
++            clocks = <&cgu JZ4740_CLK_ADC>;
++            clock-names = "adc";
++
++            interrupt-parent = <&intc>;
++            interrupts = <18>;
++    };
+-- 
+2.26.2
 
