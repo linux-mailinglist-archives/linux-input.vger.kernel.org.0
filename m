@@ -2,371 +2,175 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA82C1C33AB
-	for <lists+linux-input@lfdr.de>; Mon,  4 May 2020 09:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A92961C33C9
+	for <lists+linux-input@lfdr.de>; Mon,  4 May 2020 09:39:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728003AbgEDHeT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 4 May 2020 03:34:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43894 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726411AbgEDHeT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 4 May 2020 03:34:19 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7300C061A0E
-        for <linux-input@vger.kernel.org>; Mon,  4 May 2020 00:34:18 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jVVcH-0003rt-KL; Mon, 04 May 2020 09:34:17 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jVVcG-00037u-4h; Mon, 04 May 2020 09:34:16 +0200
-Date:   Mon, 4 May 2020 09:34:16 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Daniel Mack <daniel@zonque.org>
-Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-        kstewart@linuxfoundation.org
-Subject: Re: [PATCH] input: touch: ads7846: switch to devm initialization
-Message-ID: <20200504073416.l3gpwumjss24jlzu@pengutronix.de>
-References: <20200430175323.187870-1-daniel@zonque.org>
+        id S1727887AbgEDHj4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 4 May 2020 03:39:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46149 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727088AbgEDHj4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 4 May 2020 03:39:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1588577994;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=JZqf9xMzP5l1pH5YZgb25W0f3NHl2CNkxAelY+0jylc=;
+        b=BzgH7SMgFBiTy1xOa0JZfywKMqXQVbYYeASdbX5fgFJMvO72ezo3fq01GMZ4RO+BhVdKdj
+        qYt9bhmBdtS6or6F3y415s1BCTfmfZWV8/pToRWftTGA6CMAMQhZlAcD76SuWpFsbu4E92
+        y7js+hKSJpwM0Y+nBpJe1Jql4kWWu9I=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-376-QQfr51SBM9CQ7Mt1N1PmUg-1; Mon, 04 May 2020 03:39:49 -0400
+X-MC-Unique: QQfr51SBM9CQ7Mt1N1PmUg-1
+Received: by mail-qv1-f72.google.com with SMTP id 65so17576910qva.17
+        for <linux-input@vger.kernel.org>; Mon, 04 May 2020 00:39:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JZqf9xMzP5l1pH5YZgb25W0f3NHl2CNkxAelY+0jylc=;
+        b=mJahZElOq4tn6re/b9yqbibHXsfGbgEUg1aXS1PRitXVeqXCKIXwDBYqEYr9uOVfVv
+         //47Ki/QhjzrLaMgT0XAPwXhlhbpk+FSS8dtcnZE8Xg+XSoyWPuzIpgIMx5y7/TAaIsO
+         ngPYW9JIyHCrgVO6us1gZROvVdLxk20YKApOzfFwnadM2+IdxMQ5YwSQy0WXzrm4aI2u
+         8JKljS3ey7KGL0qaEKKRa5W+fCUDypkDKkHEAuhrvx35k3hSDUAp0Xd75j91IQ8DEvfk
+         HgXs9To+JnkajwAt7X4Xs/N3nL6NI4S5IoG+dZ2EabS6MrIIdt7qVra9xGmdGBfXaqA3
+         zm1w==
+X-Gm-Message-State: AGi0PuY5iyKrKKE1dF9YTVEfQBMhj6yk6u72WtIIZvC7oTOYxUspWZu2
+        GfRoSAT5adaBPMKrmILZ+rGit6sUpaEFIlQXnyT1Tvm9pb/idJEDQtlvV2vUJ6lCkhoPyJyf1ro
+        KyRhbFXx7GD7+inno42HDAH9EKB/3RgT7r9+Fr+I=
+X-Received: by 2002:aed:2144:: with SMTP id 62mr2902817qtc.260.1588577989143;
+        Mon, 04 May 2020 00:39:49 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJe09VOAUZz/dG5E/frI0MNkjUfSw5bhYQaiZDIdK2tTVl3xD9HFStTCZEYMgprOWVekJDhVg8tlwAp/g1/mYE=
+X-Received: by 2002:aed:2144:: with SMTP id 62mr2902798qtc.260.1588577988810;
+ Mon, 04 May 2020 00:39:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200430175323.187870-1-daniel@zonque.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 08:43:21 up 170 days, 22:01, 181 users,  load average: 0.00, 0.02,
- 0.01
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+References: <20200501095624.121744-1-hdegoede@redhat.com> <d9d0bc3f-1975-ee05-f41f-a0d4480f667a@redhat.com>
+ <2b014a28-630b-aab6-df91-320d0b3447b7@redhat.com>
+In-Reply-To: <2b014a28-630b-aab6-df91-320d0b3447b7@redhat.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 4 May 2020 09:39:37 +0200
+Message-ID: <CAO-hwJKnG2gxz62psgzhq3MFUAqd=rrzQEU9KbawY7GXs4We=w@mail.gmail.com>
+Subject: Re: [PATCH] HID: multitouch: Add MT_QUIRK_FORCE_GET_FEATURE to
+ MT_CLS_WIN_8 quirks
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Daniel,
+Hi Hans,
 
-thanks for your patch :)
+On Sat, May 2, 2020 at 2:59 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 5/1/20 8:20 PM, Hans de Goede wrote:
+> > Hi,
+> >
+> > On 5/1/20 11:56 AM, Hans de Goede wrote:
+> >> The touchpad on the Dell Venue 11 Pro 7130's keyboard-dock is multi-touch
+> >> capable, using HID_GROUP_MULTITOUCH_WIN_8 and the hid-multitouch driver
+> >> correctly binds to it.
+> >>
+> >> But instead of getting multi-touch HID input reports we still get mouse
+> >> input reports and corresponding linux input (evdev) node events.
+> >>
+> >> Unloading and reloading the hid-multitouch driver works around this.
+> >>
+> >> Adding the MT_QUIRK_FORCE_GET_FEATURE quirk to the MT_CLS_WIN_8 quirks
+> >> makes the driver work correctly the first time it is loaded.
+> >>
+> >> I've chosen to add this quirk to the generic MT_CLS_WIN_8 quirks
+> >> because it seems unlikely that this quirk will causes problems for
+> >> other MT_CLS_WIN_8 devices and if this device needs it other Win 8
+> >> compatible devices might need it too.
+> >>
+> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >
+> > Self nack for now, there are more issues with this detachable keyboard,
+> > it sometimes does not work after being unplugged and replugged again
+> > USB_QUIRK_DELAY_INIT seems to help a bit, but is not a total solution...
+> >
+> > Dell has some firmware updates for the kbd. So I'll install Windows and
+> > then update the firmware and we'll see from there.
+>
+> So after installing Windows it turns out that the kbd-dock firmware was
+> already fully up2date, what fun.
+>
+> So it took me quite a long time to get to the bottom of this.
+>
+> The problem is that the Dell K12A kbd-dock needs a HID_QUIRK_NO_INIT_REPORTS
+> quirk; or maybe both of HID_QUIRK_NO_INIT_REPORTS|HID_QUIRK_NOGET I've tested
 
-On 20-04-30 19:53, Daniel Mack wrote:
-> This simplies the code a lot and fixes some potential resource leaks in
-> the error return paths. It also ensures the input device is registered
-> before the interrupt is requested, as the IRQ handler will commit events
-> when it fires.
+I think this is a regression introduced by the high res scrolling
+patch. I have been notified that the new code actually does fetch all
+features on connect, which many devices do not support.
 
-Why is it necessary to get those events during probe()? Pls, see also my
-inline comments.
+I don't think I received the patch related to that, but basically the
+problematic code is at
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/hid/hid-input.c#n1558
 
-> Signed-off-by: Daniel Mack <daniel@zonque.org>
-> ---
->  drivers/input/touchscreen/ads7846.c | 137 +++++++++-------------------
->  1 file changed, 45 insertions(+), 92 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-> index 8fd7fc39c4fd..acf736f5ddab 100644
-> --- a/drivers/input/touchscreen/ads7846.c
-> +++ b/drivers/input/touchscreen/ads7846.c
-> @@ -528,30 +528,19 @@ static int ads784x_hwmon_register(struct spi_device *spi, struct ads7846 *ts)
->  		break;
->  	}
->  
-> -	ts->hwmon = hwmon_device_register_with_groups(&spi->dev, spi->modalias,
-> -						      ts, ads7846_attr_groups);
-> +	ts->hwmon = devm_hwmon_device_register_with_groups(&spi->dev,
-> +							   spi->modalias, ts,
-> +							   ads7846_attr_groups);
+The issue is that we should only fetch the current report if the
+HID_GD_RESOLUTION_MULTIPLIER is present. Or we break things.
 
-We don't need the hwmon member anymore if we are switching to the devres
-intializer. Pls, can you drop it completely?
+Cheers,
+Benjamin
 
->  	return PTR_ERR_OR_ZERO(ts->hwmon);
->  }
->  
-> -static void ads784x_hwmon_unregister(struct spi_device *spi,
-> -				     struct ads7846 *ts)
-> -{
-> -	if (ts->hwmon)
-> -		hwmon_device_unregister(ts->hwmon);
-> -}
-> -
->  #else
->  static inline int ads784x_hwmon_register(struct spi_device *spi,
->  					 struct ads7846 *ts)
->  {
->  	return 0;
->  }
-> -
-> -static inline void ads784x_hwmon_unregister(struct spi_device *spi,
-> -					    struct ads7846 *ts)
-> -{
-> -}
->  #endif
->  
->  static ssize_t ads7846_pen_down_show(struct device *dev,
-> @@ -944,8 +933,8 @@ static int ads7846_setup_pendown(struct spi_device *spi,
->  		ts->get_pendown_state = pdata->get_pendown_state;
->  	} else if (gpio_is_valid(pdata->gpio_pendown)) {
->  
-> -		err = gpio_request_one(pdata->gpio_pendown, GPIOF_IN,
-> -				       "ads7846_pendown");
-> +		err = devm_gpio_request_one(&spi->dev, pdata->gpio_pendown,
-> +					    GPIOF_IN, "ads7846_pendown");
+> with the later version and that fixes both the touchpad initially being
+> stuck in mouse emulation and the dock misbehaving after a hot unplug + replug.
+>
+> I suspect I really only need HID_QUIRK_NO_INIT_REPORTS, I will retest with
+> that and submit a new patch replacing this one.
+>
+> Somewhat related: to make space for the Windows install I nuked the old
+> Fedora 27 install which was on the machine and after installing Windows
+> I did a fresh Fedora 32 install in the space which I left free when
+> installing Windows.
+>
+> This causes an interesting new problem. The touchpad worked fine
+> (with the quirk) in gdm, but it would stop working when I logged into
+> a user GNOME-session.  It took me a while to get to the bottom of
+> this. The problem is that the usersession ends up dbus activating
+> fwupd (probably through gnome-software) and fwupd does some probe
+> of the touchpad which puts it in a mode where it no longer generates
+> any events.
+>
+> sudo rpm -e fwupd gnome-software
+>
+> Works around this, so not a HID bug, but definitely something to keep
+> an eye out for if we get similar bug reports on other devices.
+>
+> I will mail the fwupd maintainer about this with you in the Cc.
+> Note this is an unrelated issue really, but I thought you
+> should be aware of this.
+>
+> Regards,
+>
+> Hans
+>
+>
+>
+> >> ---
+> >>   drivers/hid/hid-multitouch.c | 1 +
+> >>   1 file changed, 1 insertion(+)
+> >>
+> >> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> >> index 362805ddf377..f9c0429e7348 100644
+> >> --- a/drivers/hid/hid-multitouch.c
+> >> +++ b/drivers/hid/hid-multitouch.c
+> >> @@ -265,6 +265,7 @@ static const struct mt_class mt_classes[] = {
+> >>               MT_QUIRK_IGNORE_DUPLICATES |
+> >>               MT_QUIRK_HOVERING |
+> >>               MT_QUIRK_CONTACT_CNT_ACCURATE |
+> >> +            MT_QUIRK_FORCE_GET_FEATURE |
+> >>               MT_QUIRK_STICKY_FINGERS |
+> >>               MT_QUIRK_WIN8_PTP_BUTTONS,
+> >>           .export_all_inputs = true },
+> >>
+>
 
-I see that you want to keep the changes minimal and I'm fine with this
-but we should considering to move the driver to gpio_desc.
-
->  		if (err) {
->  			dev_err(&spi->dev,
->  				"failed to request/setup pendown GPIO%d: %d\n",
-> @@ -1264,6 +1253,7 @@ static const struct ads7846_platform_data *ads7846_probe_dt(struct device *dev)
->  static int ads7846_probe(struct spi_device *spi)
->  {
->  	const struct ads7846_platform_data *pdata;
-> +	struct device *dev = &spi->dev;
->  	struct ads7846 *ts;
->  	struct ads7846_packet *packet;
->  	struct input_dev *input_dev;
-> @@ -1293,13 +1283,11 @@ static int ads7846_probe(struct spi_device *spi)
->  	if (err < 0)
->  		return err;
->  
-> -	ts = kzalloc(sizeof(struct ads7846), GFP_KERNEL);
-> -	packet = kzalloc(sizeof(struct ads7846_packet), GFP_KERNEL);
-> -	input_dev = input_allocate_device();
-> -	if (!ts || !packet || !input_dev) {
-> -		err = -ENOMEM;
-> -		goto err_free_mem;
-> -	}
-> +	ts = devm_kzalloc(dev, sizeof(struct ads7846), GFP_KERNEL);
-> +	packet = devm_kzalloc(dev, sizeof(struct ads7846_packet), GFP_KERNEL);
-> +	input_dev = devm_input_allocate_device(dev);
-> +	if (!ts || !packet || !input_dev)
-> +		return -ENOMEM;
-
-Pls, can we split that so each alloc get its own error check?
-
->  	spi_set_drvdata(spi, ts);
->  
-> @@ -1313,10 +1301,8 @@ static int ads7846_probe(struct spi_device *spi)
->  	pdata = dev_get_platdata(&spi->dev);
->  	if (!pdata) {
->  		pdata = ads7846_probe_dt(&spi->dev);
-> -		if (IS_ERR(pdata)) {
-> -			err = PTR_ERR(pdata);
-> -			goto err_free_mem;
-> -		}
-> +		if (IS_ERR(pdata))
-> +			return PTR_ERR(pdata);
->  	}
->  
->  	ts->model = pdata->model ? : 7846;
-> @@ -1328,7 +1314,7 @@ static int ads7846_probe(struct spi_device *spi)
->  		if (pdata->filter_init != NULL) {
->  			err = pdata->filter_init(pdata, &ts->filter_data);
->  			if (err < 0)
-> -				goto err_free_mem;
-> +				return err;
->  		}
->  		ts->filter = pdata->filter;
->  		ts->filter_cleanup = pdata->filter_cleanup;
-> @@ -1354,12 +1340,12 @@ static int ads7846_probe(struct spi_device *spi)
->  
->  	ts->wait_for_sync = pdata->wait_for_sync ? : null_wait_for_sync;
->  
-> -	snprintf(ts->phys, sizeof(ts->phys), "%s/input0", dev_name(&spi->dev));
-> +	snprintf(ts->phys, sizeof(ts->phys), "%s/input0", dev_name(dev));
->  	snprintf(ts->name, sizeof(ts->name), "ADS%d Touchscreen", ts->model);
->  
->  	input_dev->name = ts->name;
->  	input_dev->phys = ts->phys;
-> -	input_dev->dev.parent = &spi->dev;
-> +	input_dev->dev.parent = dev;
-
-I would split the dev usage into another patch since it is unrelated to
-the change you wanna make and keeps the diff smaller.
-
->  	input_dev->evbit[0] = BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
->  	input_dev->keybit[BIT_WORD(BTN_TOUCH)] = BIT_MASK(BTN_TOUCH);
-> @@ -1391,94 +1377,80 @@ static int ads7846_probe(struct spi_device *spi)
->  		ts->core_prop.swap_x_y = true;
->  	}
->  
-> +	err = input_register_device(input_dev);
-> +	if (err)
-> +		goto err_cleanup_filter;
-
-It seems quite common to register the device on the end.
-
-> +
->  	ads7846_setup_spi_msg(ts, pdata);
->  
-> -	ts->reg = regulator_get(&spi->dev, "vcc");
-> +	ts->reg = devm_regulator_get(dev, "vcc");
->  	if (IS_ERR(ts->reg)) {
->  		err = PTR_ERR(ts->reg);
-> -		dev_err(&spi->dev, "unable to get regulator: %d\n", err);
-> -		goto err_free_gpio;
-> +		dev_err(dev, "unable to get regulator: %d\n", err);
-> +		goto err_cleanup_filter;
->  	}
->  
->  	err = regulator_enable(ts->reg);
->  	if (err) {
-> -		dev_err(&spi->dev, "unable to enable regulator: %d\n", err);
-> -		goto err_put_regulator;
-> +		dev_err(dev, "unable to enable regulator: %d\n", err);
-> +		goto err_cleanup_filter;
->  	}
-
-From now on the regulator is on an keeps on since you never turn it of.
-So you need to add a devm_add_action_or_reset() here.
-
->  
->  	irq_flags = pdata->irq_flags ? : IRQF_TRIGGER_FALLING;
->  	irq_flags |= IRQF_ONESHOT;
->  
-> -	err = request_threaded_irq(spi->irq, ads7846_hard_irq, ads7846_irq,
-> -				   irq_flags, spi->dev.driver->name, ts);
-> +	err = devm_request_threaded_irq(dev, spi->irq,
-> +					ads7846_hard_irq, ads7846_irq,
-> +					irq_flags, dev->driver->name, ts);
->  	if (err && !pdata->irq_flags) {
-> -		dev_info(&spi->dev,
-> +		dev_info(dev,
->  			"trying pin change workaround on irq %d\n", spi->irq);
->  		irq_flags |= IRQF_TRIGGER_RISING;
-> -		err = request_threaded_irq(spi->irq,
-> -				  ads7846_hard_irq, ads7846_irq,
-> -				  irq_flags, spi->dev.driver->name, ts);
-> +		err = devm_request_threaded_irq(dev, spi->irq,
-> +						ads7846_hard_irq, ads7846_irq,
-> +						irq_flags, dev->driver->name,
-> +						ts);
->  	}
->  
->  	if (err) {
-> -		dev_dbg(&spi->dev, "irq %d busy?\n", spi->irq);
-> -		goto err_disable_regulator;
-> +		dev_dbg(dev, "irq %d busy?\n", spi->irq);
-> +		goto err_cleanup_filter;
->  	}
->  
->  	err = ads784x_hwmon_register(spi, ts);
->  	if (err)
-> -		goto err_free_irq;
-> +		goto err_cleanup_filter;
->  
-> -	dev_info(&spi->dev, "touchscreen, irq %d\n", spi->irq);
-> +	dev_info(dev, "touchscreen, irq %d\n", spi->irq);
->  
->  	/*
->  	 * Take a first sample, leaving nPENIRQ active and vREF off; avoid
->  	 * the touchscreen, in case it's not connected.
->  	 */
->  	if (ts->model == 7845)
-> -		ads7845_read12_ser(&spi->dev, PWRDOWN);
-> +		ads7845_read12_ser(dev, PWRDOWN);
->  	else
-> -		(void) ads7846_read12_ser(&spi->dev, READ_12BIT_SER(vaux));
-> +		(void) ads7846_read12_ser(dev, READ_12BIT_SER(vaux));
->  
-> -	err = sysfs_create_group(&spi->dev.kobj, &ads784x_attr_group);
-> +	err = sysfs_create_group(&dev->kobj, &ads784x_attr_group);
->  	if (err)
-> -		goto err_remove_hwmon;
-> -
-> -	err = input_register_device(input_dev);
-> -	if (err)
-> -		goto err_remove_attr_group;
-> +		goto err_cleanup_filter;
->  
-> -	device_init_wakeup(&spi->dev, pdata->wakeup);
-> +	device_init_wakeup(dev, pdata->wakeup);
->  
->  	/*
->  	 * If device does not carry platform data we must have allocated it
->  	 * when parsing DT data.
->  	 */
-> -	if (!dev_get_platdata(&spi->dev))
-> -		devm_kfree(&spi->dev, (void *)pdata);
-> +	if (!dev_get_platdata(dev))
-> +		devm_kfree(dev, (void *)pdata);
->  
->  	return 0;
->  
-> - err_remove_attr_group:
-> -	sysfs_remove_group(&spi->dev.kobj, &ads784x_attr_group);
-> - err_remove_hwmon:
-> -	ads784x_hwmon_unregister(spi, ts);
-> - err_free_irq:
-> -	free_irq(spi->irq, ts);
-> - err_disable_regulator:
-> -	regulator_disable(ts->reg);
-> - err_put_regulator:
-> -	regulator_put(ts->reg);
-> - err_free_gpio:
-> -	if (!ts->get_pendown_state)
-> -		gpio_free(ts->gpio_pendown);
->   err_cleanup_filter:
->  	if (ts->filter_cleanup)
->  		ts->filter_cleanup(ts->filter_data);
-> - err_free_mem:
-> -	input_free_device(input_dev);
-> -	kfree(packet);
-> -	kfree(ts);
-> +
->  	return err;
->  }
->  
-> @@ -1487,30 +1459,11 @@ static int ads7846_remove(struct spi_device *spi)
->  	struct ads7846 *ts = spi_get_drvdata(spi);
->  
->  	sysfs_remove_group(&spi->dev.kobj, &ads784x_attr_group);
-> -
->  	ads7846_disable(ts);
-> -	free_irq(ts->spi->irq, ts);
-> -
-> -	input_unregister_device(ts->input);
-> -
-> -	ads784x_hwmon_unregister(spi, ts);
-> -
-> -	regulator_put(ts->reg);
-
-Hm.. The current driver code seems a bit strange. This should throw an
-error if no one en-/disables the device and suspend/resume (PM) is
-disabled. The above devm_add_action_or_reset() will fix this. Also it
-seems a bit odd to me to diable the regualtor and the device while it
-can act as wakeup source but I'm not familar with this touchcontroller.
-
-Regards,
-  Marco
-
-> -
-> -	if (!ts->get_pendown_state) {
-> -		/*
-> -		 * If we are not using specialized pendown method we must
-> -		 * have been relying on gpio we set up ourselves.
-> -		 */
-> -		gpio_free(ts->gpio_pendown);
-> -	}
->  
->  	if (ts->filter_cleanup)
->  		ts->filter_cleanup(ts->filter_data);
->  
-> -	kfree(ts->packet);
-> -	kfree(ts);
-> -
->  	dev_dbg(&spi->dev, "unregistered touchscreen\n");
->  
->  	return 0;
-> -- 
-> 2.25.2
-> 
