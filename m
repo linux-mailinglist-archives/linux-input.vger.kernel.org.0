@@ -2,266 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0B781C2F1E
-	for <lists+linux-input@lfdr.de>; Sun,  3 May 2020 22:17:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B4F51C326E
+	for <lists+linux-input@lfdr.de>; Mon,  4 May 2020 08:09:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729097AbgECURu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 3 May 2020 16:17:50 -0400
-Received: from v6.sk ([167.172.42.174]:36012 "EHLO v6.sk"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729026AbgECURt (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 3 May 2020 16:17:49 -0400
-Received: from localhost (v6.sk [IPv6:::1])
-        by v6.sk (Postfix) with ESMTP id 7DA4B610CA;
-        Sun,  3 May 2020 20:17:17 +0000 (UTC)
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lubomir Rintel <lkundrak@v3.sk>
-Subject: [PATCH 2/2] Input: add driver for power button on Dell Wyse 3020
-Date:   Sun,  3 May 2020 22:12:37 +0200
-Message-Id: <20200503201237.413864-3-lkundrak@v3.sk>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200503201237.413864-1-lkundrak@v3.sk>
-References: <20200503201237.413864-1-lkundrak@v3.sk>
+        id S1725928AbgEDGI6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 4 May 2020 02:08:58 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:42849 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725859AbgEDGI6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 4 May 2020 02:08:58 -0400
+Received: by mail-lf1-f67.google.com with SMTP id j14so8664893lfg.9
+        for <linux-input@vger.kernel.org>; Sun, 03 May 2020 23:08:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qBDJZxfpyYLDrWcCiBrn3kUqdj2bZdWmZiPtdvNhGEs=;
+        b=oToCPewqf37whJIUfjG1ZhgB3+7DO39TyCBU4JMG3kR/YGgDH5ycwBO+EDfExbjM21
+         C0iOstA8h1dYLoFHfT/wJ3EWszwjb5TUzOEI6tlEz71BgnzwIAx6X4y7pHApDSATPhrj
+         YKClexLQ/Yi9kZYRGGGjHreG9h3TWJDh+0njmCjh/EMr6KgqYH2ojEg6yNpwrCe8m399
+         9ZYcVHd37IqE6C0B2cG6Qt1JUdiscw4I6Xb34vFeH+HiTBDu2+l1JzlWL/5CufBzGLSb
+         ulopGUfC6PuhRaDJQmyAe+ZhE0WSaWBGyFAYcYDsZuuhBYLiSqdAOBlY3Ondw1D/kkDJ
+         DvnA==
+X-Gm-Message-State: AGi0PuYe3cUTYxyvgOKiEfynwD78GMMulKQ/i5ImmGh8IKlbJQWfrQQt
+        F2mMjOjnEFBmEsm+hVVd7s6qMhkxL6s=
+X-Google-Smtp-Source: APiQypJ13Y2JAzPUD0N0Pew4C1CL2P6kz2yGmaLMG3mC+pPQrv8Bx3hhzMOeo/VqvpJ/QR5g5fbZkQ==
+X-Received: by 2002:a19:ad45:: with SMTP id s5mr10629384lfd.106.1588572536090;
+        Sun, 03 May 2020 23:08:56 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
+        by smtp.gmail.com with ESMTPSA id v4sm7284053ljj.104.2020.05.03.23.08.55
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 May 2020 23:08:55 -0700 (PDT)
+Received: by mail-lj1-f171.google.com with SMTP id y4so8438245ljn.7
+        for <linux-input@vger.kernel.org>; Sun, 03 May 2020 23:08:55 -0700 (PDT)
+X-Received: by 2002:a2e:2a82:: with SMTP id q124mr9677149ljq.155.1588572535617;
+ Sun, 03 May 2020 23:08:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200426155757.297087-1-hdegoede@redhat.com>
+In-Reply-To: <20200426155757.297087-1-hdegoede@redhat.com>
+From:   Chen-Yu Tsai <wens@csie.org>
+Date:   Mon, 4 May 2020 14:08:42 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64GYawG7=a3WF=7D3RJjzzXA=GPExq6Ec9PoN_vmyKGkw@mail.gmail.com>
+Message-ID: <CAGb2v64GYawG7=a3WF=7D3RJjzzXA=GPExq6Ec9PoN_vmyKGkw@mail.gmail.com>
+Subject: Re: [PATCH] Input: axp20x-pek - Always register interrupt handlers
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This adds support for the power button attached to the Embedded Controller
-on a Dell Wyse 3020 "Ariel" board.
+On Sun, Apr 26, 2020 at 11:58 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> On some X86 devices we do not register an input-device, because the
+> power-button is also handled by the soc_button_array (GPIO) input driver,
+> and we want to avoid reporting power-button presses to userspace twice.
+>
+> Sofar when we did this we also did not register our interrupt handlers,
+> since those were only necessary to report input events.
+>
+> But on at least 2 device models the Medion Akoya E1239T and the GPD win,
+> the GPIO pin used by the soc_button_array driver for the power-button
+> cannot wakeup the system from suspend. Why this does not work is not clear,
+> I've tried comparing the value of all relevant registers on the Cherry
+> Trail SoC, with those from models where this does work. I've checked:
+> PMC registers: FUNC_DIS, FUNC_DIS2, SOIX_WAKE_EN, D3_STS_0, D3_STS_1,
+> D3_STDBY_STS_0, D3_STDBY_STS_1; PMC ACPI I/O regs: PM1_STS_EN, GPE0a_EN
+> and they all have identical contents in the working and non working cases.
+> I suspect that the firmware either sets some unknown register to a value
+> causing this, or that it turns off a power-plane which is necessary for
+> GPIO wakeups to work during suspend.
+>
+> What does work on the Medion Akoya E1239T is letting the AXP288 wakeup
+> the system on a power-button press (the GPD win has a different PMIC).
+>
+> Move the registering of the power-button press/release interrupt-handler
+> from axp20x_pek_probe_input_device() to axp20x_pek_probe() so that the
+> PMIC will wakeup the system on a power-button press, even if we do not
+> register an input device.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-The Embedded Controller's SPI interface is actually capable sending and
-receiving the PS/2 keyboard and mouse protocol data, which looks like
-a good fit for a serio driver. Howerver, I don't know of any machines where
-this is actually used.
+Looks good to me.
 
-My board only has a single power button and no way to connect an actual
-keyboard or a mouse. Using the atkbd driver with serio would be an overkill
-and would be inconvenient for the userspace. Therefore this driver
-registers an input device that is only capable of reporting the power
-button presses and releases.
-
-Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
----
- drivers/input/misc/Kconfig           |  11 ++
- drivers/input/misc/Makefile          |   1 +
- drivers/input/misc/ariel-pwrbutton.c | 168 +++++++++++++++++++++++++++
- 3 files changed, 180 insertions(+)
- create mode 100644 drivers/input/misc/ariel-pwrbutton.c
-
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 7e2e658d551c..0b60f7fed627 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -73,6 +73,17 @@ config INPUT_AD714X_SPI
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ad714x-spi.
- 
-+config INPUT_ARIEL_PWRBUTTON
-+	tristate "Dell Wyse 3020 Power Button Driver"
-+	depends on SPI
-+	depends on MACH_MMP3_DT || COMPILE_TEST
-+	help
-+	  Say Y to enable support for reporting power button status on
-+	  on Dell Wyse 3020 ("Ariel") thin client.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called ariel-pwrbutton.
-+
- config INPUT_ARIZONA_HAPTICS
- 	tristate "Arizona haptics support"
- 	depends on MFD_ARIZONA && SND_SOC
-diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-index 8fd187f314bd..412d09c79e24 100644
---- a/drivers/input/misc/Makefile
-+++ b/drivers/input/misc/Makefile
-@@ -15,6 +15,7 @@ obj-$(CONFIG_INPUT_ADXL34X)		+= adxl34x.o
- obj-$(CONFIG_INPUT_ADXL34X_I2C)		+= adxl34x-i2c.o
- obj-$(CONFIG_INPUT_ADXL34X_SPI)		+= adxl34x-spi.o
- obj-$(CONFIG_INPUT_APANEL)		+= apanel.o
-+obj-$(CONFIG_INPUT_ARIEL_PWRBUTTON)	+= ariel-pwrbutton.o
- obj-$(CONFIG_INPUT_ARIZONA_HAPTICS)	+= arizona-haptics.o
- obj-$(CONFIG_INPUT_ATI_REMOTE2)		+= ati_remote2.o
- obj-$(CONFIG_INPUT_ATLAS_BTNS)		+= atlas_btns.o
-diff --git a/drivers/input/misc/ariel-pwrbutton.c b/drivers/input/misc/ariel-pwrbutton.c
-new file mode 100644
-index 000000000000..02b8c53d32b6
---- /dev/null
-+++ b/drivers/input/misc/ariel-pwrbutton.c
-@@ -0,0 +1,168 @@
-+// SPDX-License-Identifier: BSD-2-Clause OR GPL-2.0-or-later
-+/*
-+ * Dell Wyse 3020 a.k.a. "Ariel" Power Button Driver
-+ *
-+ * Copyright (C) 2020 Lubomir Rintel
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/spi/spi.h>
-+#include <linux/interrupt.h>
-+#include <linux/input.h>
-+
-+struct ec_input_response {
-+	u8 reserved;
-+	u8 msg_counter:2;
-+	u8 count:2;
-+	u8 type:4;
-+	u8 data[3];
-+} __packed;
-+
-+struct ariel_pwrbutton {
-+	struct spi_device *client;
-+	struct input_dev *input;
-+	u8 msg_counter:2;
-+};
-+
-+static int ec_input_read(struct ariel_pwrbutton *priv,
-+		      struct ec_input_response *response)
-+{
-+	u8 read_request[] = { 0x00, 0x5a, 0xa5, 0x00, 0x00 };
-+	struct spi_device *spi = priv->client;
-+	struct spi_transfer t = {
-+		.tx_buf = read_request,
-+		.rx_buf = response,
-+		.len = sizeof(read_request),
-+	};
-+
-+	compiletime_assert(sizeof(read_request) == sizeof(*response),
-+			   "SPI xfer request/response size mismatch");
-+
-+	return spi_sync_transfer(spi, &t, 1);
-+}
-+
-+static irqreturn_t ec_input_interrupt(int irq, void *dev_id)
-+{
-+	struct ariel_pwrbutton *priv = dev_id;
-+	struct spi_device *spi = priv->client;
-+	struct ec_input_response response;
-+	int i;
-+
-+	if (ec_input_read(priv, &response) < 0) {
-+		dev_err(&spi->dev, "EC read failed.\n");
-+		return IRQ_HANDLED;
-+	}
-+
-+	if (priv->msg_counter == response.msg_counter) {
-+		dev_warn(&spi->dev, "No new data to read?\n");
-+		return IRQ_HANDLED;
-+	}
-+
-+	priv->msg_counter = response.msg_counter;
-+
-+	if (response.type != 0x03 && response.type != 0x0c) {
-+		dev_dbg(&spi->dev, "Ignoring message that's not kbd data\n");
-+		return IRQ_HANDLED;
-+	}
-+
-+	if (response.count > ARRAY_SIZE(response.data)) {
-+		response.count = ARRAY_SIZE(response.data);
-+		dev_warn(&spi->dev, "Truncating a long response\n");
-+	}
-+
-+	for (i = 0; i < response.count; i++) {
-+		dev_err(&spi->dev, "scan code %02x\n", response.data[i]);
-+		switch (response.data[i]) {
-+		case 0x74:
-+			input_report_key(priv->input, KEY_POWER, 1);
-+			input_sync(priv->input);
-+			break;
-+		case 0xf4:
-+			input_report_key(priv->input, KEY_POWER, 0);
-+			input_sync(priv->input);
-+			break;
-+		default:
-+			dev_dbg(&spi->dev, "Unknown scan code: %02x\n",
-+				response.data[i]);
-+		}
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int ariel_pwrbutton_probe(struct spi_device *spi)
-+{
-+	struct ec_input_response response;
-+	struct ariel_pwrbutton *priv;
-+	int ret;
-+
-+	if (!spi->irq) {
-+		dev_err(&spi->dev, "Missing IRQ.\n");
-+		return -ENXIO;
-+	}
-+
-+	priv = devm_kzalloc(&spi->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->client = spi;
-+	spi_set_drvdata(spi, priv);
-+
-+	priv->input = devm_input_allocate_device(&spi->dev);
-+	if (!priv->input)
-+		return -ENOMEM;
-+	priv->input->name = "Power Button";
-+	priv->input->dev.parent = &spi->dev;
-+	input_set_capability(priv->input, EV_KEY, KEY_POWER);
-+	ret = input_register_device(priv->input);
-+	if (ret) {
-+		dev_err(&spi->dev, "error registering input device: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = ec_input_read(priv, &response);
-+	if (ret < 0) {
-+		dev_err(&spi->dev, "EC read failed: %d\n", ret);
-+		return ret;
-+	}
-+	priv->msg_counter = response.msg_counter;
-+
-+	ret = devm_request_threaded_irq(&spi->dev, spi->irq, NULL,
-+					ec_input_interrupt,
-+					IRQF_TRIGGER_RISING | IRQF_ONESHOT,
-+					"Ariel EC Input", priv);
-+
-+	if (ret) {
-+		dev_err(&spi->dev, "Failed to request IRQ %d: %d\n",
-+			spi->irq, ret);
-+		return ret;
-+	}
-+
-+	dev_info(&spi->dev, "Dell Wyse 3020 Power Button\n");
-+	return 0;
-+}
-+
-+static const struct of_device_id ariel_pwrbutton_of_match[] = {
-+	{ .compatible = "dell,wyse-ariel-ec-input" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ariel_pwrbutton_of_match);
-+
-+static const struct spi_device_id ariel_pwrbutton_id_table[] = {
-+	{ "wyse-ariel-ec-input", 0 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(spi, ariel_pwrbutton_id_table);
-+
-+static struct spi_driver ariel_pwrbutton_driver = {
-+	.driver = {
-+		.name = "dell-wyse-ariel-ec-input",
-+		.of_match_table = ariel_pwrbutton_of_match,
-+	},
-+	.probe = ariel_pwrbutton_probe,
-+};
-+module_spi_driver(ariel_pwrbutton_driver);
-+
-+MODULE_AUTHOR("Lubomir Rintel <lkundrak@v3.sk>");
-+MODULE_DESCRIPTION("Dell Wyse 3020 Power Button Input Driver");
-+MODULE_LICENSE("Dual BSD/GPL");
--- 
-2.26.0
-
+Acked-by: Chen-Yu Tsai <wens@csie.org>
