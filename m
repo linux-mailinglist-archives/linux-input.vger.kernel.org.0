@@ -2,101 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99E0B1C8DFE
-	for <lists+linux-input@lfdr.de>; Thu,  7 May 2020 16:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D89F1C7E04
+	for <lists+linux-input@lfdr.de>; Thu,  7 May 2020 01:42:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728108AbgEGOLF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 May 2020 10:11:05 -0400
-Received: from mail1.bemta26.messagelabs.com ([85.158.142.1]:30358 "EHLO
-        mail1.bemta26.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728103AbgEGOLE (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 7 May 2020 10:11:04 -0400
-Received: from [100.113.2.173] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-1.bemta.az-a.eu-central-1.aws.symcld.net id ED/3D-08563-4F614BE5; Thu, 07 May 2020 14:11:00 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrPIsWRWlGSWpSXmKPExsVy8MN7Xd0vYlv
-  iDK7+ELSYc76FxWL+kXOsFocXvWC0aF68ns3i/tejjBY3P31jtbi8aw6bRfvG2awWS69fZLJ4
-  /6mTyaJ17xF2i/97drBb/Nw1j8Xi9sTJjA58HmvmrWH02LLyJpPHzll32T02repk87hzbQ+bx
-  /65a9g9+v8aeHzeJBfAEcWamZeUX5HAmvF/XSdrwQ/2ioeHOlkaGD+zdjFycQgJrGGU2P1kD0
-  sXIyeQUymxYcUsoAQHB6+AqcTj2WUgYTYBHYlHM9czgdgsAioSN/4eBrOFBawkPl+czAYyR0T
-  gJLNE572vLCAOs8A0Rok9Hw8zg1TxCghKnJz5BGwBs4CExMEXL5ghlmlJnFuzinECI/csJGWz
-  kJQtYGRaxWiZVJSZnlGSm5iZo2toYKBraGisa6hrZGCil1ilm6iXWqqbnJpXUpQIlNVLLC/WK
-  67MTc5J0ctLLdnECAz7lELGMzsYdy1/r3eIUZKDSUmUd8nnzXFCfEn5KZUZicUZ8UWlOanFhx
-  hlODiUJHj3i2yJExIsSk1PrUjLzAHGIExagoNHSYTXGhiHQrzFBYm5xZnpEKlTjLoc19/vXco
-  sxJKXn5cqJc6bCVIkAFKUUZoHNwKWDi4xykoJ8zIyMDAI8RSkFuVmlqDKv2IU52BUEuY9Kgo0
-  hSczrwRu0yugI5iAjvj8aRPIESWJCCmpBqb0TXyvNzscjljso8p4U8bh0GkXp3SuXzGFFX/6d
-  x2pEdka+zEiZ15V9ES3yAKPjGdHU3/vifrB0d1nUXH6BcMuzRbf1mamqffeil6JnmIip9N/LH
-  V7ga6nqm1MrPPEvbynLqy8qeZ89OCWxbXMB1I/CEw+UmKbn/7+0tvO99eEdBbOqymeccUiy2/
-  lbo1+9qge69xyV7NNWf/YXJftOi68+Xja9OpXghWhG9WmH3x279xmyWNTNkwqvRT5YGGyZPSt
-  ON01G5UnRLAf+K/6fr8yy+4d4tHN1XFSp9dkvl9pFtjbZxX2wHtXjfVssUP2co+jZ0xQ/RapM
-  iXUxmwWu6Huwj9rWdY+Oehq6XBCaqUSS3FGoqEWc1FxIgC9hAYEggMAAA==
-X-Env-Sender: roy.im.opensource@diasemi.com
-X-Msg-Ref: server-19.tower-223.messagelabs.com!1588860659!2836654!2
-X-Originating-IP: [193.240.239.45]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.50.1; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 13072 invoked from network); 7 May 2020 14:11:00 -0000
-Received: from unknown (HELO NB-EX-CASHUB01.diasemi.com) (193.240.239.45)
-  by server-19.tower-223.messagelabs.com with ECDHE-RSA-AES256-SHA384 encrypted SMTP; 7 May 2020 14:11:00 -0000
-Received: from krsrvapps-03.diasemi.com (10.95.17.51) by
- NB-EX-CASHUB01.diasemi.com (10.1.16.140) with Microsoft SMTP Server id
- 14.3.468.0; Thu, 7 May 2020 16:10:58 +0200
-Received: by krsrvapps-03.diasemi.com (Postfix, from userid 22266)      id
- 1660413F671; Thu,  7 May 2020 23:10:57 +0900 (KST)
-Message-ID: <cover.1588781316.git.Roy.Im@diasemi.com>
-From:   Roy Im <roy.im.opensource@diasemi.com>
-Date:   Thu, 7 May 2020 01:08:36 +0900
-Subject: [PATCH V13 0/3]  da7280: haptic driver submission
-To:     "David S. Miller" <davem@davemloft.net>,
-        Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     Support Opensource <support.opensource@diasemi.com>,
-        <devicetree@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+        id S1728137AbgEFXmI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 May 2020 19:42:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55442 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728105AbgEFXmI (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 6 May 2020 19:42:08 -0400
+Received: from localhost (unknown [137.135.114.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 847C620735;
+        Wed,  6 May 2020 23:42:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588808527;
+        bh=rODOhhP48oDvPlU2Gdll8Paz0KB3qB8SejLcL6MQODo=;
+        h=Date:From:To:To:To:Cc:Cc:Cc:Subject:In-Reply-To:References:From;
+        b=cZEpJTdE/o3XHZfJSi111Npy6pcpzRu7Fk2gN4AedfhpMy2XqVluah8ZsFN7FmtDn
+         j+riWhmpHy8NPbuZUGe1Xcfl7pFbAiR+ZUoD3Po31e04y0p5VTHBNo3QoQbihRBMmG
+         OZP0X+Gol3yUC5vuMrxB6YET5D86kGk4Cs0iTW0Y=
+Date:   Wed, 06 May 2020 23:42:06 +0000
+From:   Sasha Levin <sashal@kernel.org>
+To:     Sasha Levin <sashal@kernel.org>
+To:     Julian Sax <jsbc@gmx.de>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
+Cc:     stable@vger.kernel.org
+Cc:     stable@vger.kernel.org
+Subject: Re: [PATCH] HID: i2c-hid: add Schneider SCL142ALM to descriptor override
+In-Reply-To: <20200505151042.122157-1-jsbc@gmx.de>
+References: <20200505151042.122157-1-jsbc@gmx.de>
+Message-Id: <20200506234207.847C620735@mail.kernel.org>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds support for the Dialog DA7280 Haptic driver IC.
+Hi
 
-In this patch set the following is provided:
+[This is an automated email]
 
-[PATCH V13 1/3] MAINTAINERS file update for DA7280
-[PATCH V13 2/3] DA7280 DT Binding
-[PATCH V13 3/3] DA7280 Driver
+This commit has been processed because it contains a -stable tag.
+The stable tag indicates that it's relevant for the following trees: all
 
-This patch applies against linux-next and v5.7-rc4
+The bot has tested the following trees: v5.6.10, v5.4.38, v4.19.120, v4.14.178, v4.9.221, v4.4.221.
 
-Thank you,
-Roy Im, Dialog Semiconductor Ltd.
+v5.6.10: Build OK!
+v5.4.38: Build OK!
+v4.19.120: Failed to apply! Possible dependencies:
+    eb6964fa6509 ("HID: i2c-hid: add iBall Aer3 to descriptor override")
 
-Roy Im (3):
-  MAINTAINERS: da7280 updates to the Dialog Semiconductor search terms
-  dt-bindings: input: Add document bindings for DA7280
-  Input: new da7280 haptic driver
+v4.14.178: Failed to apply! Possible dependencies:
+    eb6964fa6509 ("HID: i2c-hid: add iBall Aer3 to descriptor override")
 
- .../devicetree/bindings/input/dlg,da7280.txt       |  109 ++
- MAINTAINERS                                        |    2 +
- drivers/input/misc/Kconfig                         |   13 +
- drivers/input/misc/Makefile                        |    1 +
- drivers/input/misc/da7280.c                        | 1898 ++++++++++++++++++++
- 5 files changed, 2023 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/dlg,da7280.txt
- create mode 100644 drivers/input/misc/da7280.c
+v4.9.221: Failed to apply! Possible dependencies:
+    eb6964fa6509 ("HID: i2c-hid: add iBall Aer3 to descriptor override")
+
+v4.4.221: Failed to apply! Possible dependencies:
+    00f7fea5da49 ("HID: i2c-hid: force the IRQ level trigger only when not set")
+    01714a6f5fa5 ("HID: i2c-hid: Fix suspend/resume when already runtime suspended")
+    070b9637dd8f ("HID: i2c-hid: Add RESEND_REPORT_DESCR quirk for Toshiba Click Mini L9W-B")
+    2dcc8197fefc ("HID: i2c-hid: Silently fail probe for CHPN0001 touchscreen")
+    3e83eda46705 ("HID: i2c-hid: Fix resume issue on Raydium touchscreen device")
+    402946a8ef71 ("HID: i2c-hid: Add no-irq-after-reset quirk for 0911:5288 device")
+    572d3c644497 ("HID: i2c-hid: support regulator power on/off")
+    71af01a8c85a ("HID: i2c-hid: add a simple quirk to fix device defects")
+    85ae91133152 ("HID: i2c-hid: remove custom locking from i2c_hid_open/close")
+    8cd16166b000 ("HID: fix missing irq field")
+    91b9ae48aadd ("HID: i2c-hid: move header file out of I2C realm")
+    94116f8126de ("ACPI: Switch to use generic guid_t in acpi_evaluate_dsm()")
+    9a327405014f ("HID: i2c-hid: Prevent sending reports from racing with device reset")
+    9ee3e06610fd ("HID: i2c-hid: override HID descriptors for certain devices")
+    b59dfdaef173 ("i2c-hid: properly terminate i2c_hid_dmi_desc_override_table[] array")
+    b7fe92999a98 ("ACPI / extlog: Switch to use new generic UUID API")
+    ba1660f1791f ("HID: i2c-hid: fix build")
+    ba18a9314a94 ("Revert "HID: i2c-hid: Add support for ACPI GPIO interrupts"")
+    d46ddc593f4d ("HID: i2c-hid: Disable IRQ before freeing buffers")
+    eb6964fa6509 ("HID: i2c-hid: add iBall Aer3 to descriptor override")
+    f8f807441eef ("HID: i2c-hid: Add Odys Winbook 13 to descriptor override")
+    fc2237a724a9 ("HID: introduce hid_is_using_ll_driver")
+
+
+NOTE: The patch will not be queued to stable trees until it is upstream.
+
+How should we proceed with this patch?
 
 -- 
-end-of-patch for PATCH V13
-
+Thanks
+Sasha
