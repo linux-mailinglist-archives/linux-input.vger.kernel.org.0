@@ -2,55 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B08DC1C70A8
-	for <lists+linux-input@lfdr.de>; Wed,  6 May 2020 14:47:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C1611C70B4
+	for <lists+linux-input@lfdr.de>; Wed,  6 May 2020 14:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728534AbgEFMqe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 May 2020 08:46:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33900 "EHLO
+        id S1728593AbgEFMrk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 May 2020 08:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728531AbgEFMqd (ORCPT
+        by vger.kernel.org with ESMTP id S1728307AbgEFMrj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 6 May 2020 08:46:33 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2008FC061A0F
-        for <linux-input@vger.kernel.org>; Wed,  6 May 2020 05:46:33 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id l19so2167333lje.10
-        for <linux-input@vger.kernel.org>; Wed, 06 May 2020 05:46:33 -0700 (PDT)
+        Wed, 6 May 2020 08:47:39 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA69C061A10
+        for <linux-input@vger.kernel.org>; Wed,  6 May 2020 05:47:39 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id t11so1221774lfe.4
+        for <linux-input@vger.kernel.org>; Wed, 06 May 2020 05:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6I5B71LB2tx8NkY3iMd5afhpiClRHsfBP+XO7hQfwQ0=;
-        b=TI0vfp3TRQ+fo+Ftt8w28gJvS8/Fx92njAumbEuZ9+grZMLXauPna5er/RZoObVc1H
-         8Id0Pn99SUAm7ROLJA7nYVUVW3Sr9eNJzc69Hv0k9QTpWdz7pwg1n7StSrZWqOFa+Swa
-         vtPpIXsB+ye2J3WWvl2WAbXhy28q0nWi+vklvYn3bX++b8G/qKfm8v0z8My5r7qLiKS5
-         sZfKqEOgunIYs9qjCjI4KQOTHbVR4Fbux34GFW2xCkO3xZY+tXkMNrgeZsAmniLNt+r5
-         tBiVyTwgHeK9PYqHI8NoWXxTjFTrf6BExXtiXHUsC2zi2le0W2Kz9Fq//m2aq4cRpQr9
-         l5hw==
+        bh=GHVvUB43yJMR2ywq8FjwLtRue3JBjP1es/NQQxOMgHk=;
+        b=xTqz08J2AQ3jobyQwn6kTFMt6Dq8VbZ2Acjud74nn8JuVnxxnCv77Uvn1lrNTLjNIG
+         OUXfAhgbA2ir3p2H0ysEHZVlDApXpjO5Mp7tNNK8nfl/2skS6FD1NgcVN3HinysBQGNa
+         HvaqLulbsjnih3Dfk6oyYE1HFE3K2QfPUdgkBQm61mXPrMVNzycHiCWDDzpo08xIvNcc
+         9JN3ACXFUTIaG8Y2dcMVxayD+9hrxgd0ibqDrJO9RUdgiKBRi3c0P7UlIrebxbrmIvTx
+         PYUiTYO/O+Fb5YbsretlLsS7uVt4K6ASAmIAzNea0Y2r80H3EgemStUl3rv99TuErvm0
+         6DEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6I5B71LB2tx8NkY3iMd5afhpiClRHsfBP+XO7hQfwQ0=;
-        b=GX+FJ1oUroW4uP1VtJR1C2kYai5VtW7SajCGSb2pi4A1UpwLZbSYYcx+pmxqHwYTmu
-         IUUpMQTEgiu98RbGmmqHKoVhNmlqieFbGkfjuu3io8QIBMCUy4RDKiuFdw4W34R2AOH1
-         ZlhtrElwLohbdIPGZX9Y8WXCt87G1OnoOrSgyLED1uwyv1KvQSBRbcPECC4AGbME+xg7
-         t8U/nQGf2v122akAbKpbBpwwEvGjsBDxnCvTL6PCiQt0ogq9jhCOzOb/jEivfGOxWcqX
-         kEBizfk6YC3Rw2pmwGHPYZKgEWiCX1tCMyJxDVLW46j5e6OOF4FYw58LuRm3MuKY/sDu
-         ayHw==
-X-Gm-Message-State: AGi0Pua4RZ/ZyvawGi90g8GGdDQ0x9LsSR82fNUBeHurvfsrFllrB89V
-        AtAq1SaHoeZ7IzeoHg20SR7hlWvN0sFN8GP8awD4pA==
-X-Google-Smtp-Source: APiQypKjSNXNsOwm10b3OBfJycZDQ2nv5L9JVoyA1mI806Vv9L519kB9NbY3ozJ7XHzgJ+kpouOaXHhCmwG2pl4nGkY=
-X-Received: by 2002:a2e:2ac2:: with SMTP id q185mr4713852ljq.125.1588769191594;
- Wed, 06 May 2020 05:46:31 -0700 (PDT)
+        bh=GHVvUB43yJMR2ywq8FjwLtRue3JBjP1es/NQQxOMgHk=;
+        b=mGFlHMf0qRC0m6XmLIUP2JLbvibz+soQjUKUPmbONmXihJjlwAXX0nq+8SpW/Vzgwa
+         BrSYh6bOvR7aApkEhFMt58cY2akbK1Of01p8zRJH5eJqh8U2DF1BZQX2LR8dlKeOOwwu
+         8Lcbt/tyn6ai8SIU0NlrL3LC3P2tT4bwdV+nMcFWHRXXJWDs99iqN9nIG9PT3yIOOHAs
+         ZL1CPEjJ6aEgTT2KK1VOTV9vQUdntvodgGlBSZOy0cbndk0jFyN2F1/O3EglXFxGiRX2
+         GlqDSA3ZEGn7b+xWGT0SMpA29t/hBYjrsEO26gHHA+JJk90JXE1uelXnk4HBlACh7/sS
+         KQ+w==
+X-Gm-Message-State: AGi0PuYrtNNIePKyBvyJTev+/NL2kG8ES/+hDthy0Yw4z18I/eZHTM2W
+        oB7Q50Pa6ZkwtTkSRaOr0q8EeHckuD8X0YguMVDmrA==
+X-Google-Smtp-Source: APiQypKBbl7K+xy+RhSGXMmOQBxZEWjnqxgPMoR3N1qvMn2Wotn5IUAW/yAiP/gr5YCR7Sw7ovooKd8Y1hu1QPDahkc=
+X-Received: by 2002:ac2:5e70:: with SMTP id a16mr5062159lfr.77.1588769257911;
+ Wed, 06 May 2020 05:47:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200503172206.13782-1-xc-racer2@live.ca> <BN6PR04MB0660B420EFA83668BBF4F315A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
-In-Reply-To: <BN6PR04MB0660B420EFA83668BBF4F315A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
+References: <BN6PR04MB0660046ABD79433EA94A85A9A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
+In-Reply-To: <BN6PR04MB0660046ABD79433EA94A85A9A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 6 May 2020 14:46:20 +0200
-Message-ID: <CACRpkdb3kG=7SQg8RGh1F=8=_mivV6p_zxpodFT=M-f3PmiyYQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] input: misc: bma150: Conditionally disable bma023 support
+Date:   Wed, 6 May 2020 14:47:25 +0200
+Message-ID: <CACRpkdbb89q2FRJZ1=2QoQs8JFYcwWpNZwJUbnjsVvZYEE-LKw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] iio: accel: Add bma023 support to bma180
 To:     Jonathan Bakker <xc-racer2@live.ca>
 Cc:     Jonathan Cameron <jic23@kernel.org>,
         Hartmut Knaack <knaack.h@gmx.de>,
@@ -74,24 +74,27 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 On Sun, May 3, 2020 at 7:22 PM Jonathan Bakker <xc-racer2@live.ca> wrote:
 
-> The bma180 IIO driver has been extended for support for bma023.
-> However, this could cause conflicts with this driver.  Since some
-> setups may depend upon the evdev setup, disable support in this
-> driver for the bma023 only when the IIO driver is being built.
+> This patchset adds support for the bma023 three axis accelerometer
+> to the bma180 IIO driver.  The bma023 is found on several ~2010
+> phones, including the first-gen Galaxy S series.
 >
-> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
+> The bma023 differs from later chips (bma180, bma25x) in that it
+> has no low power but still working mode and no temperature
+> channel.
+>
+> The bma023 is already supported by a misc input driver (bma150), so
+> when both are enabled, the iio driver is preferred.  The bma150
+> is very similar to the bma023, but has a temperature channel.
+> Support for the bma150 is not added in this patchset.
 
-I would just fix this with KConfig instead, like add mutually
-exclusive depends on these two drivers.
+I'd say, if it's not too much trouble please also patch in
+support for BMA150 and SMB380 to the IIO driver so
+we can delete this old Input driver, we have done this
+before and thes "input drivers" are just causing headaches
+and wasting time for the Input maintainer.
 
-Set this input driver as:
-depends on BMA180=n
-
-And the IIO driver as:
-depends on INPUT_BMA150=n
-
-It's a rough measure but this input driver should anyway
-go away.
+It can be in a separate patch set from this one if you
+don't want to get stuck on this.
 
 Yours,
 Linus Walleij
