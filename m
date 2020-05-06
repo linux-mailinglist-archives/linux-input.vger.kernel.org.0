@@ -2,90 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57F4B1C70D1
-	for <lists+linux-input@lfdr.de>; Wed,  6 May 2020 14:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A8AB1C7394
+	for <lists+linux-input@lfdr.de>; Wed,  6 May 2020 17:06:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728162AbgEFMvT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 May 2020 08:51:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34666 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728172AbgEFMvS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 6 May 2020 08:51:18 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0DE4C061A0F
-        for <linux-input@vger.kernel.org>; Wed,  6 May 2020 05:51:17 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id l19so2184150lje.10
-        for <linux-input@vger.kernel.org>; Wed, 06 May 2020 05:51:17 -0700 (PDT)
+        id S1729193AbgEFPGf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 May 2020 11:06:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55844 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728428AbgEFPGf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 May 2020 11:06:35 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D71F6C061A0F;
+        Wed,  6 May 2020 08:06:34 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id l25so1213108pgc.5;
+        Wed, 06 May 2020 08:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=COqQCzJ4auJxawCeL75BevJEbAnSN1myQOD2Q4QlS6o=;
-        b=aUP/Sxk2re3PRk+ECqewTQ+F6wOEpuHPLfG7pOjR67sNQWZCZXm7Pfzn/ZAYrBQSbY
-         HVhJOF8T1bwfgCt/z4GB6Ow72DCwp+iAHjSoprUUYF5vtKSY8Cy5Xl4kJdlz2Hn/zH5o
-         4C3uG3jkQiChJm4nW6t0LQ5NEH4t3yE246s/ohqdudan45YcDTTSmK71uwDs+nHhvsvW
-         Y5igS6gapbGHcIHtefdk9vrArC3GRfr+RqBbTaLOzZxsy1IWVjbepibeT/Lb4UK0thrP
-         y5pz35U+/XWr9Bm+eiGtlMLF/XRlRGyQ/eEX64km/9WDAVpPOMdw+gSlGnegG2NrgeXY
-         E2WQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=eGi1L9urtaKBeDDvITR0UZqtmPEwGeW5Feo5TNhoZDY=;
+        b=ipAclyHS2TH4DohF7rE2zwbG6ue8HaSV1QL+S7svkhP5ku3RZGC/NDpML1g82C7o9e
+         VMX9vLSxxMroeLVOdJVyqmOaaSTt4fBkf5laIHqdhG3rKqbNEpEGf3+OfO9UxoFFAqgJ
+         NcGfqu0tFw3JSorEWfrJxu7puP7QC806g3mV93zzCU5mI+EK5jhlpEuirwoWOl8r1SMH
+         Kp5PA8BPsaVUNO6b6OJef1J1pxIbIF0tF9VaITj2kdUCeyGx5emB0S77w+WFe/U2q2bJ
+         FtjXaAZfi/H90mACFFHSEwBp+eZkOtSV5iIFVul3suUcTz4OtBtkuBTEUBVadSH/h2U8
+         vQQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=COqQCzJ4auJxawCeL75BevJEbAnSN1myQOD2Q4QlS6o=;
-        b=ZnNeb/9FYJKLwqLHfTNLHOFmMga2Gg2XQ5mVKQ56fbQ7QpAozqaQF3wTdQqIsqBnIz
-         9rG8KK69eWZ84XLkDXkss9UVPBUkOFi3CiKsSJiBF/FdsYstxOvozFYGo6xO/c1mLQlk
-         EVdfFqehuw79mmAXEG6q6t0wLjdyj6jMR+PixOVBuZvvGmf/BlsvbvRCR7L7/IJ6j182
-         mTNadXjyqoKNnhnz5SXFdTq9jroh29NcLrnHQLzn/+XdoEosbOq8jyBmloxNbAj+v4th
-         Hr/Y/9jKTKDv8/Sw5Y4vFPgow6ZidYkN0w18q6OvvEF/qp5vc3xErmJx6gts7kdui6TT
-         9CBw==
-X-Gm-Message-State: AGi0PuZhrQY9VlDSD+8oikC8yUoBL5qIBz2B/UMre6BLu4n9rpv/+whY
-        MvfYu/PGMMfl0gnMQP6WV3CPE8r3bTOD5jnsuXD+1w==
-X-Google-Smtp-Source: APiQypImbwPouCSTKAxAbrKj370TdmOTHAg/3XPenrNSIG2xSYlnZPNpgYrCuSMEoTyq02M+FrCmk94OR5vDtNs6eq8=
-X-Received: by 2002:a2e:81d5:: with SMTP id s21mr4764927ljg.258.1588769476101;
- Wed, 06 May 2020 05:51:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200503172206.13782-1-xc-racer2@live.ca> <BN6PR04MB0660C583D9538853C8296398A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
-In-Reply-To: <BN6PR04MB0660C583D9538853C8296398A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 6 May 2020 14:51:04 +0200
-Message-ID: <CACRpkdasEU0ao0OZBoeQ9x5Efe8tFwtpkLMOU_=Xn639anJxbA@mail.gmail.com>
-Subject: Re: [PATCH 5/5] iio: accel: bma180: Add support for bma023
-To:     Jonathan Bakker <xc-racer2@live.ca>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald <pmeerw@pmeerw.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=eGi1L9urtaKBeDDvITR0UZqtmPEwGeW5Feo5TNhoZDY=;
+        b=tASrxi/1iRNoVY1yiaB9eekErPg3gi0iLxY4AMaEPw0O/5TqaZJp7bO/6EK8zYG6zw
+         AkSsqbSWVW6EDP073ZU2H68TVtYXbC9hLAi9zPPZeAl6v3YuR+aMwi4mGWWm2biF7P7R
+         PIV1z51P/hTfxehMo29mPcWGkwTZMvaR3ef6bXxaxG1K+WCL9ywCSOhl9QNDZZCHzwrm
+         AoKfkxOWS7but+9Dsef354HYomi/uqOKrj9Qz58OpnYkwAzOV8A1VGTvypZuoil8MPna
+         UImhrWpDNCwNVtnwY+FJeyXZ/ARWkA7KrUiuqQfT24SgSQdBrbUaGvN+xC3WioAIHQj4
+         Owzw==
+X-Gm-Message-State: AGi0PuZK0kUWM4HmfvvTOuJhP6cyfWzQUM8h6l41e2B2yWB8XSseMDmi
+        YJ3vUGDBaxjIeVp894Swznw=
+X-Google-Smtp-Source: APiQypJzopv1LfupQ5DisVLznReQcQbfRpVCydPqhzCm2nKxQ6CPn7126fMo1Ei12s8d7fHU7jse0A==
+X-Received: by 2002:a63:da01:: with SMTP id c1mr7678309pgh.121.1588777594380;
+        Wed, 06 May 2020 08:06:34 -0700 (PDT)
+Received: from localhost.localdomain ([2409:4072:712:fa06:497c:9578:5fd7:4b29])
+        by smtp.gmail.com with ESMTPSA id u13sm5050259pjb.45.2020.05.06.08.06.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 May 2020 08:06:33 -0700 (PDT)
+From:   Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
+X-Google-Original-From: Aishwarya Ramakrishnan <raishwar@visteon.com>
+To:     gregkh@linuxfoundation.org
+Cc:     aishwaryarj100@gmail.com,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linux Input <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Ondrej Jirman <megous@megous.com>,
+        =?UTF-8?q?Myl=C3=A8ne=20Josserand?= <mylene.josserand@bootlin.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: edt-ft5x06: Use DEFINE_DEBUGFS_ATTRIBUTE to define debugfs fops
+Date:   Wed,  6 May 2020 20:36:22 +0530
+Message-Id: <20200506150623.3841-1-raishwar@visteon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200505153325.20113-1-aishwaryarj100@gmail.com>
+References: <20200505153325.20113-1-aishwaryarj100@gmail.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, May 3, 2020 at 7:22 PM Jonathan Bakker <xc-racer2@live.ca> wrote:
+From: Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
 
-> The bma023 chip is similar enough to the bma180 and bma25x that the
-> same driver can support all of them.  The biggest differences are
-> the lack of a temperature channel and no low power but still working
-> mode.
->
-> The bma150 is a close relative of the bma023, but it does have a
-> temperature channel so support is not added for it.
->
-> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
+On Tue, May 5, 2020 at 11:49 PM Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> On Tue, May 05, 2020 at 09:03:24PM +0530, Aishwarya Ramakrishnan wrote:
+>> It is more clear to use DEFINE_DEBUGFS_ATTRIBUTE to define debugfs file
+>> operation rather than DEFINE_SIMPLE_ATTRIBUTE.
 
-Looks good to me!
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> No it is not, why do you think so?
 
-Yours,
-Linus Walleij
+This change is suggested by Coccinelle software.
+Generated by: scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
+
+> The two defines do different things, that is why we have 2 different
+> defines.  You can not just replace one with the other without
+> understanding why one was used and not the other one.
+
+> Did you test this change to verify that everything still works
+> properly?  Why is it needed to be changed at all?
+
+DEFINE_SIMPLE_ATTRIBUTE + debugfs_create_file()
+imposes some significant overhead as compared to
+DEFINE_DEBUGFS_ATTRIBUTE + debugfs_create_file_unsafe().
+But I missed to use debugfs_create_file_unsafe() function in the patch.
