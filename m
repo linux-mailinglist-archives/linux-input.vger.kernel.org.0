@@ -2,117 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DD171C6C05
-	for <lists+linux-input@lfdr.de>; Wed,  6 May 2020 10:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3986F1C6C38
+	for <lists+linux-input@lfdr.de>; Wed,  6 May 2020 10:50:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728635AbgEFIlm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 May 2020 04:41:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29386 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728475AbgEFIll (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 May 2020 04:41:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588754499;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=S5Bjh819c0+YWb82JIMqWq1ODX/MuaBqMErF0qvycrU=;
-        b=DK9eijW4ylKLAR8YEe2OWQsZ9LhST5oRDLH2WsXiCWbM6sAdOjnIP3NWZbRVy8K3VaAHhS
-        hvttunHJ0xTrZHXYkB4o3U745Z8hu1QqyqN4xyAl1WlY0otBTyKJGaphKiipUJ8zkEQwsX
-        noE7i4LC4Nsl19vr3STTFMMruI6+3cU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-NB1STDctM8esFkmOLeRx2Q-1; Wed, 06 May 2020 04:41:37 -0400
-X-MC-Unique: NB1STDctM8esFkmOLeRx2Q-1
-Received: by mail-wr1-f69.google.com with SMTP id e14so943521wrv.11
-        for <linux-input@vger.kernel.org>; Wed, 06 May 2020 01:41:37 -0700 (PDT)
+        id S1728750AbgEFIu1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 May 2020 04:50:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53480 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727956AbgEFIu0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 May 2020 04:50:26 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAFCEC061A0F;
+        Wed,  6 May 2020 01:50:25 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id a5so532687pjh.2;
+        Wed, 06 May 2020 01:50:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=74T2RVJT6SWqKfiQxGQJfnOgzEu5gqmZKqNFsFFvii0=;
+        b=b88x7hlyL0upQ9DZdMRABuIhFHAa/r82zxyma/PdlgvYgx+WypCEVHg8eMu2Wq/yTa
+         KV3DqgcgHV4CrQGNIqjQDUCZA1oAb9wPqQFLRNzliBZvO5EZ3UqNMAHZOi2iPIOZKGzi
+         BqbTGIh6OOQpZe6ZqPBA1ETI8h4iENk2ZyxZQrIAv8F8K1g2ga9np59YqadhEkSyz4KJ
+         ZYwwYdj7xAY/T9ytC1hWZ54rNdOvyuHOaMYCfyl8KbusYg689Ov8NfxZc7IzY9SyxXQu
+         LrONV0H5zvdiWcSSMnK1ccnIuuj6hitAJDRngmLMwTRXWAn0QGQD1P9vUyUqrmn890nN
+         d0Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=S5Bjh819c0+YWb82JIMqWq1ODX/MuaBqMErF0qvycrU=;
-        b=DYi4GwK9oxnsY1DcX05zAyyIJUJ8rDScSMpbajhbbN44cnB3ixNju93Pc7wvU4pKy1
-         Cg3f8CkR+P5MYJ01Wb/kzo8+Tlgfk0Dm18Ix1fc/Y+5Ykj9MG9k44pqvWxefwbon+p1J
-         Bg4Byp4fq17XobRx7UaOPGzAAb27giAr78z946YUHPgJSr+YOWbpHeD83pQqeAHJH5pO
-         OaHFT/soYMMOYwdM/Y0I1D9oKp1QPuDAmBOq/T1zJyRHjHzLXMhHOsdYbjGU4YzlgLeF
-         a3INACa2c3CQlT6BAOal096zFX2f8uZZ8QMca2Xd+iqVTrgmS8jpx0BSJ/czUPycP2/z
-         D3dg==
-X-Gm-Message-State: AGi0PuaapXCHKK41ZE/LI8RWK+ypEFDivj9oj7/MKIXtXeWDzE4OMaaP
-        NGINgmKQx5BYJPs2QCdb00pc/J0nc0A8UdzT6+gCCcmA+7sRMtUXAMMyUDfT//JEX/g1Lebg9lL
-        EcmATvuu9nifx4IQmtgAt/nY=
-X-Received: by 2002:a1c:f609:: with SMTP id w9mr3079194wmc.123.1588754495993;
-        Wed, 06 May 2020 01:41:35 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKwuDe3c+kFax9x8urZDBryMfrYWwqxthBgxp0yReGZqBDm3E0r6th/+Hxrau2NDLqazEVjvQ==
-X-Received: by 2002:a1c:f609:: with SMTP id w9mr3079178wmc.123.1588754495761;
-        Wed, 06 May 2020 01:41:35 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id s8sm1524746wrt.69.2020.05.06.01.41.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2020 01:41:35 -0700 (PDT)
-Subject: Re: [PATCH 3/6] HID: asus: Add hid_is_using_ll_driver(usb_hid_driver)
- check
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-References: <20200428142254.252063-1-hdegoede@redhat.com>
- <20200428142254.252063-3-hdegoede@redhat.com>
- <nycvar.YFH.7.76.2005051631560.25812@cbobk.fhfr.pm>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <85945c78-5ed6-a780-e562-27c710710a8f@redhat.com>
-Date:   Wed, 6 May 2020 10:41:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <nycvar.YFH.7.76.2005051631560.25812@cbobk.fhfr.pm>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=74T2RVJT6SWqKfiQxGQJfnOgzEu5gqmZKqNFsFFvii0=;
+        b=kAE+dkSjCCEtV0yy3CsaBozyN5eJN6j6lAQKZ8CpSqkBUp1UVFfw261D0OVCj1VxGh
+         0MneFURvCnaNemuPZrWc923oDtt11Q7LILFiM9bP12s0qdqHjpDy472XqzAtI7zALy3n
+         4yl39M3IhxRJmK8ohnSmt07jdPu75nFHltz20BokpWmzNn27wUBx+BLXrjOOsfynOL7N
+         aUdr81wwgt3wqWn49d0sTt2njLDHnPAz2D8zvVhds++u5cuoqM+RruBrJz5YUPy26VlJ
+         ReAtsOhwuIP3XJuxPKVcCqkld/h9F54yBU/n4n/2X7lykMItO1j6hkK3Hvm1jjxPZSNg
+         3S1Q==
+X-Gm-Message-State: AGi0Puar+RCaRVgsURCMP9uDs4IOz5Mqu73goOOLad3jBuzD+MycG9xQ
+        mF3npbg/2sEDMjIU5xoUIus=
+X-Google-Smtp-Source: APiQypIupXJc+D27+LTqPTue9AQvuEyGWKV/x+jpuf6WxSkgbOx28wOvBWHXIBg1Sh62y10uxVrb+Q==
+X-Received: by 2002:a17:902:227:: with SMTP id 36mr421212plc.118.1588755025183;
+        Wed, 06 May 2020 01:50:25 -0700 (PDT)
+Received: from localhost.localdomain ([2401:e180:8820:12dd:4dfa:29:6edd:5551])
+        by smtp.gmail.com with ESMTPSA id 141sm1203595pfz.171.2020.05.06.01.50.22
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 06 May 2020 01:50:24 -0700 (PDT)
+From:   Johnny Chuang <johnny.chuang.emc@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Johnny Chuang <johnny.chuang@emc.com.tw>
+Cc:     James Chen <james.chen@emc.com.tw>,
+        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
+        Paul Liang <paul.liang@emc.com.tw>,
+        Jeff Chuang <jeff.chuang@emc.com.tw>
+Subject: [PATCH] Input: elants_i2c: Provide an attribute to show calibration count
+Date:   Wed,  6 May 2020 16:48:52 +0800
+Message-Id: <1588754932-5902-1-git-send-email-johnny.chuang.emc@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+From: Johnny Chuang <johnny.chuang@emc.com.tw>
 
-On 5/5/20 4:32 PM, Jiri Kosina wrote:
-> On Tue, 28 Apr 2020, Hans de Goede wrote:
-> 
->> Add a hid_is_using_ll_driver(usb_hid_driver) check to ensure that the
->> parent device is an usb_interface, before casting the parent device
->> pointer to an usb_interface pointer with to_usb_interface().
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>   drivers/hid/hid-asus.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
->> index b3292ff3f61a..719eff589f92 100644
->> --- a/drivers/hid/hid-asus.c
->> +++ b/drivers/hid/hid-asus.c
->> @@ -842,7 +842,8 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
->>   	if (drvdata->quirks & QUIRK_IS_MULTITOUCH)
->>   		drvdata->tp = &asus_i2c_tp;
->>   
->> -	if (drvdata->quirks & QUIRK_T100_KEYBOARD) {
->> +	if ((drvdata->quirks & QUIRK_T100_KEYBOARD) &&
->> +	    hid_is_using_ll_driver(hdev, &usb_hid_driver)) {
->>   		struct usb_interface *intf = to_usb_interface(hdev->dev.parent);
->>   
-> 
-> I am going to push the whole patchset to for-5.8/asus branch later today,
+There is an non-touch case by non-calibration after update firmware.
+Elan could know calibrate or not by calibration count.
+The value of '0xffff' means we didn't calibrate after update firmware.
+If calibrate success, it will plus one and change to '0x0000'.
 
-Thanks.
+Signed-off-by: Johnny Chuang <johnny.chuang@emc.com.tw>
+---
+ drivers/input/touchscreen/elants_i2c.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-> but I guess this one should better be taken as 5.7 fix still, right?
-
-I know that Benjamin has been insisting on these extra checks, which
-is why I added it. But in practice not having the check does not really
-seem to be a big issue, so whether to add it to 5.7.x or not is your call.
-
-Regards,
-
-Hans
+diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
+index 14c577c..1c8e1bd 100644
+--- a/drivers/input/touchscreen/elants_i2c.c
++++ b/drivers/input/touchscreen/elants_i2c.c
+@@ -87,6 +87,7 @@
+ /* FW read command, 0x53 0x?? 0x0, 0x01 */
+ #define E_ELAN_INFO_FW_VER	0x00
+ #define E_ELAN_INFO_BC_VER	0x10
++#define E_ELAN_INFO_REK		0xE0
+ #define E_ELAN_INFO_TEST_VER	0xE0
+ #define E_ELAN_INFO_FW_ID	0xF0
+ #define E_INFO_OSR		0xD6
+@@ -1056,8 +1057,32 @@ static ssize_t show_iap_mode(struct device *dev,
+ 				"Normal" : "Recovery");
+ }
+ 
++static ssize_t show_calibration_count(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	const u8 cmd[] = { CMD_HEADER_READ, E_ELAN_INFO_REK, 0x00, 0x01 };
++	u8 resp[HEADER_SIZE];
++	u16 rek_count;
++	int error;
++
++	error = elants_i2c_execute_command(client, cmd, sizeof(cmd),
++						resp, sizeof(resp));
++	if (error) {
++		dev_err(&client->dev,
++			"read ReK status error=%d, buf=%*phC\n",
++			error, (int)sizeof(resp), resp);
++		return sprintf(buf, "%d\n", error);
++	}
++
++	rek_count = get_unaligned_be16(&resp[2]);
++
++	return sprintf(buf, "0x%04x\n", rek_count);
++}
++
+ static DEVICE_ATTR_WO(calibrate);
+ static DEVICE_ATTR(iap_mode, S_IRUGO, show_iap_mode, NULL);
++static DEVICE_ATTR(calibration_count, S_IRUGO, show_calibration_count, NULL);
+ static DEVICE_ATTR(update_fw, S_IWUSR, NULL, write_update_fw);
+ 
+ struct elants_version_attribute {
+@@ -1113,6 +1138,7 @@ static struct attribute *elants_attributes[] = {
+ 	&dev_attr_calibrate.attr,
+ 	&dev_attr_update_fw.attr,
+ 	&dev_attr_iap_mode.attr,
++	&dev_attr_calibration_count.attr,
+ 
+ 	&elants_ver_attr_fw_version.dattr.attr,
+ 	&elants_ver_attr_hw_version.dattr.attr,
+-- 
+2.7.4
 
