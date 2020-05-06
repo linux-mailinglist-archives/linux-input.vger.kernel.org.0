@@ -2,55 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 126921C706F
-	for <lists+linux-input@lfdr.de>; Wed,  6 May 2020 14:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B08DC1C70A8
+	for <lists+linux-input@lfdr.de>; Wed,  6 May 2020 14:47:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727067AbgEFMiA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 May 2020 08:38:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60798 "EHLO
+        id S1728534AbgEFMqe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 May 2020 08:46:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727874AbgEFMh7 (ORCPT
+        by vger.kernel.org with ESMTP id S1728531AbgEFMqd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 6 May 2020 08:37:59 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694BFC061A41
-        for <linux-input@vger.kernel.org>; Wed,  6 May 2020 05:37:59 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id t11so1197096lfe.4
-        for <linux-input@vger.kernel.org>; Wed, 06 May 2020 05:37:59 -0700 (PDT)
+        Wed, 6 May 2020 08:46:33 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2008FC061A0F
+        for <linux-input@vger.kernel.org>; Wed,  6 May 2020 05:46:33 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id l19so2167333lje.10
+        for <linux-input@vger.kernel.org>; Wed, 06 May 2020 05:46:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5vIN5MKPLeNGbWiYHgtJvnfkqaDr6sG1XDxpbHqc8lM=;
-        b=kaEO8qV6PIFjtYwjIDIahnc/RQhVLTmcERmgJGOXglVl98mzoWY2lV+n22uUQ3sTU9
-         oCcsrORlY/Y6EPw6AOdxdX5hS9ObK6ICW5Zc2X4VzbEsQvt+d3sAd06d4Xt9vP8o7oEg
-         if+HkIsWMBp4gg383s9tXCLbndzR5RzR9/v/XEau0KqBATsQeodpC6OyXd2Fy7ZXdai/
-         nY7FWkCB9mFTaKZX4MnTXzjyO++yl6X/9Rf4f69mnXz+wf1X5QyL27JvrRjNYJ5ZZVc3
-         JOS/p3dYNhGBT6XWiogysHwo3eovKnA1xBe9i2RMBn6oMTaCUS3UByCH4WZIkA3jIhyt
-         8fPg==
+        bh=6I5B71LB2tx8NkY3iMd5afhpiClRHsfBP+XO7hQfwQ0=;
+        b=TI0vfp3TRQ+fo+Ftt8w28gJvS8/Fx92njAumbEuZ9+grZMLXauPna5er/RZoObVc1H
+         8Id0Pn99SUAm7ROLJA7nYVUVW3Sr9eNJzc69Hv0k9QTpWdz7pwg1n7StSrZWqOFa+Swa
+         vtPpIXsB+ye2J3WWvl2WAbXhy28q0nWi+vklvYn3bX++b8G/qKfm8v0z8My5r7qLiKS5
+         sZfKqEOgunIYs9qjCjI4KQOTHbVR4Fbux34GFW2xCkO3xZY+tXkMNrgeZsAmniLNt+r5
+         tBiVyTwgHeK9PYqHI8NoWXxTjFTrf6BExXtiXHUsC2zi2le0W2Kz9Fq//m2aq4cRpQr9
+         l5hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5vIN5MKPLeNGbWiYHgtJvnfkqaDr6sG1XDxpbHqc8lM=;
-        b=qYlaodH4dELk7kIgLRSCpW1KD0/z/PiSHTF9Nl/XoVgaMFbw0Iy1AuwcwBLAIrCCl5
-         ZYJ0J33DslozEG6f5KAPQCQs4Sw8VIU9/LdqarL+P5BWCUl/NP08iGJETYR0J8oE0PoY
-         I8bJDChbYgaqJGkFPaoHp0/W+YioxL/9TB/kcoH6B29L5LIfoRG8dAtGq21O8K3Qf6E5
-         eqNwF22xDpDFNprqrzRTBcqRIL/qIMgmUvd5u79fXW5atTFH1MZjBJATI9qprSkEqyA/
-         9UN565dkrs7MiBu7OBLNDRgBZQantpjXtRF8LObOuzrLwZ74sW8IeBjmiYwb/8KF1Im6
-         Kmzw==
-X-Gm-Message-State: AGi0PuYi/J0mJF9jzdQ+2E04eDLiA/z5OGTo/jj/RCr0RfXQUt31nB+P
-        BKEe7lkiGJWejsTIt1pNaKYk9k7T3/8aFv/qtJQiLA==
-X-Google-Smtp-Source: APiQypIscBufxrzX8o55c1IMYLoTuOUYZIw8WZNx/RqZ9X8rS3BVqal75ivPG1WUGd3PnEmeKRrga5Mx5j8aXZYQyZ4=
-X-Received: by 2002:ac2:414c:: with SMTP id c12mr4967725lfi.47.1588768677564;
- Wed, 06 May 2020 05:37:57 -0700 (PDT)
+        bh=6I5B71LB2tx8NkY3iMd5afhpiClRHsfBP+XO7hQfwQ0=;
+        b=GX+FJ1oUroW4uP1VtJR1C2kYai5VtW7SajCGSb2pi4A1UpwLZbSYYcx+pmxqHwYTmu
+         IUUpMQTEgiu98RbGmmqHKoVhNmlqieFbGkfjuu3io8QIBMCUy4RDKiuFdw4W34R2AOH1
+         ZlhtrElwLohbdIPGZX9Y8WXCt87G1OnoOrSgyLED1uwyv1KvQSBRbcPECC4AGbME+xg7
+         t8U/nQGf2v122akAbKpbBpwwEvGjsBDxnCvTL6PCiQt0ogq9jhCOzOb/jEivfGOxWcqX
+         kEBizfk6YC3Rw2pmwGHPYZKgEWiCX1tCMyJxDVLW46j5e6OOF4FYw58LuRm3MuKY/sDu
+         ayHw==
+X-Gm-Message-State: AGi0Pua4RZ/ZyvawGi90g8GGdDQ0x9LsSR82fNUBeHurvfsrFllrB89V
+        AtAq1SaHoeZ7IzeoHg20SR7hlWvN0sFN8GP8awD4pA==
+X-Google-Smtp-Source: APiQypKjSNXNsOwm10b3OBfJycZDQ2nv5L9JVoyA1mI806Vv9L519kB9NbY3ozJ7XHzgJ+kpouOaXHhCmwG2pl4nGkY=
+X-Received: by 2002:a2e:2ac2:: with SMTP id q185mr4713852ljq.125.1588769191594;
+ Wed, 06 May 2020 05:46:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200503172206.13782-1-xc-racer2@live.ca> <BN6PR04MB0660ABCDFF774833264D39A6A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
-In-Reply-To: <BN6PR04MB0660ABCDFF774833264D39A6A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
+References: <20200503172206.13782-1-xc-racer2@live.ca> <BN6PR04MB0660B420EFA83668BBF4F315A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
+In-Reply-To: <BN6PR04MB0660B420EFA83668BBF4F315A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 6 May 2020 14:37:45 +0200
-Message-ID: <CACRpkdanfaPRwm6vCGTDStxvZj38k8OTL5BviTmyTJcx0KtARQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] iio: accel: bma180: Prepare for different reset values
+Date:   Wed, 6 May 2020 14:46:20 +0200
+Message-ID: <CACRpkdb3kG=7SQg8RGh1F=8=_mivV6p_zxpodFT=M-f3PmiyYQ@mail.gmail.com>
+Subject: Re: [PATCH 2/5] input: misc: bma150: Conditionally disable bma023 support
 To:     Jonathan Bakker <xc-racer2@live.ca>
 Cc:     Jonathan Cameron <jic23@kernel.org>,
         Hartmut Knaack <knaack.h@gmx.de>,
@@ -74,13 +74,24 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 On Sun, May 3, 2020 at 7:22 PM Jonathan Bakker <xc-racer2@live.ca> wrote:
 
-> Some variants of the bma180 (eg bma023) have different reset
-> values.  In preparation for adding support for them, factor
-> out the reset value into the chip specific data.
+> The bma180 IIO driver has been extended for support for bma023.
+> However, this could cause conflicts with this driver.  Since some
+> setups may depend upon the evdev setup, disable support in this
+> driver for the bma023 only when the IIO driver is being built.
 >
 > Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+I would just fix this with KConfig instead, like add mutually
+exclusive depends on these two drivers.
+
+Set this input driver as:
+depends on BMA180=n
+
+And the IIO driver as:
+depends on INPUT_BMA150=n
+
+It's a rough measure but this input driver should anyway
+go away.
 
 Yours,
 Linus Walleij
