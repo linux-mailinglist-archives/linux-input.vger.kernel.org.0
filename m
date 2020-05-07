@@ -2,93 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D89F1C7E04
-	for <lists+linux-input@lfdr.de>; Thu,  7 May 2020 01:42:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2876E1C809B
+	for <lists+linux-input@lfdr.de>; Thu,  7 May 2020 05:46:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728137AbgEFXmI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 May 2020 19:42:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55442 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728105AbgEFXmI (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 6 May 2020 19:42:08 -0400
-Received: from localhost (unknown [137.135.114.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 847C620735;
-        Wed,  6 May 2020 23:42:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588808527;
-        bh=rODOhhP48oDvPlU2Gdll8Paz0KB3qB8SejLcL6MQODo=;
-        h=Date:From:To:To:To:Cc:Cc:Cc:Subject:In-Reply-To:References:From;
-        b=cZEpJTdE/o3XHZfJSi111Npy6pcpzRu7Fk2gN4AedfhpMy2XqVluah8ZsFN7FmtDn
-         j+riWhmpHy8NPbuZUGe1Xcfl7pFbAiR+ZUoD3Po31e04y0p5VTHBNo3QoQbihRBMmG
-         OZP0X+Gol3yUC5vuMrxB6YET5D86kGk4Cs0iTW0Y=
-Date:   Wed, 06 May 2020 23:42:06 +0000
-From:   Sasha Levin <sashal@kernel.org>
-To:     Sasha Levin <sashal@kernel.org>
-To:     Julian Sax <jsbc@gmx.de>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Cc:     stable@vger.kernel.org
-Cc:     stable@vger.kernel.org
-Subject: Re: [PATCH] HID: i2c-hid: add Schneider SCL142ALM to descriptor override
-In-Reply-To: <20200505151042.122157-1-jsbc@gmx.de>
-References: <20200505151042.122157-1-jsbc@gmx.de>
-Message-Id: <20200506234207.847C620735@mail.kernel.org>
+        id S1725857AbgEGDqT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 May 2020 23:46:19 -0400
+Received: from mail-bn8nam11olkn2105.outbound.protection.outlook.com ([40.92.20.105]:3265
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725809AbgEGDqS (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 6 May 2020 23:46:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H6RU40mxfE/ETXWqX7lULOs5+WgvJsquNu8n0tiqmxk6APKMfxqVFXyaeTHEEfsEPgxb5XT22BKI0866Hp0krt8oZs3iBWLAGLdx2I1CBG82ApBdMVCl+Aj3Glc0HppIUzqLcNN4TZhbL6JfDZT5WvB/b6Gt5Q380WkgqMAgLu4L9jtIgY+yyfLjgKXEcD0mYmPItXab41bpnBwoJSA2C6+dKvoT7W3f88S6xeLGr5aAHq5GbF5iyyvjd5hwha0YzBnJlBQ1UBkf0JtF3DHIuVqts7PdU7uTDc073ik7JBJQx7xJcUyhCwpBaLtTHsRHIE1ck4RIdpRfMVjNk2y2+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pmDWlafs14Q6VMNAJHrSpZQMRnRb/5cs5bsIzxKI0cc=;
+ b=er0gLHOsKtI6pAE99dPnT+zu5y9nAIy51lLYj3KLgTxGRC7bFQiPe0kBf0Qc8LIQFzeG3fTgiVpGfjcYresH2/PIIdtZTNBl8pAR2ZofG8SeDAOp7ggIlGRtqeHiksJAiv6a1ihSwhxsDIE14xIuZeJ0WTj2g9dHsvz8rejxIM4HOUB9QnrCuajfi+VWhVlvDCvdzOvLgvrEcUBHv89we5VyxAS6/KLR60Oq+PH7ePOlQJN9Qho2TZyKQ51VGtA4KOpaMQ9P8DX6ccl/AZZMocBgISpt8qULShvgXJgMC9a6mPui+ldrnLL3LTZFU6hyMaW5QzIISrlf1GiGGWZrbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=live.ca; dmarc=pass action=none header.from=live.ca; dkim=pass
+ header.d=live.ca; arc=none
+Received: from DM6NAM11FT046.eop-nam11.prod.protection.outlook.com
+ (2a01:111:e400:fc4d::46) by
+ DM6NAM11HT205.eop-nam11.prod.protection.outlook.com (2a01:111:e400:fc4d::408)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27; Thu, 7 May
+ 2020 03:46:16 +0000
+Received: from BN6PR04MB0660.namprd04.prod.outlook.com
+ (2a01:111:e400:fc4d::50) by DM6NAM11FT046.mail.protection.outlook.com
+ (2a01:111:e400:fc4d::121) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27 via Frontend
+ Transport; Thu, 7 May 2020 03:46:16 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:C64A0D1C153867C6508DF9CF4C46FD056C7998A7E745EC5D91E008066963A8B5;UpperCasedChecksum:29CAB8839F0C089A5EBE16CF563B443A6A0F09687527BF45B8C9A99B4AE4A1DB;SizeAsReceived:9673;Count:50
+Received: from BN6PR04MB0660.namprd04.prod.outlook.com
+ ([fe80::ad10:4127:4bc8:76fc]) by BN6PR04MB0660.namprd04.prod.outlook.com
+ ([fe80::ad10:4127:4bc8:76fc%6]) with mapi id 15.20.2979.028; Thu, 7 May 2020
+ 03:46:16 +0000
+Subject: Re: [PATCH 2/5] input: misc: bma150: Conditionally disable bma023
+ support
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald <pmeerw@pmeerw.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux Input <linux-input@vger.kernel.org>
+References: <20200503172206.13782-1-xc-racer2@live.ca>
+ <BN6PR04MB0660B420EFA83668BBF4F315A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
+ <CACRpkdb3kG=7SQg8RGh1F=8=_mivV6p_zxpodFT=M-f3PmiyYQ@mail.gmail.com>
+From:   Jonathan Bakker <xc-racer2@live.ca>
+Message-ID: <BN6PR04MB0660BA0E181869F866594E98A3A50@BN6PR04MB0660.namprd04.prod.outlook.com>
+Date:   Wed, 6 May 2020 20:46:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+In-Reply-To: <CACRpkdb3kG=7SQg8RGh1F=8=_mivV6p_zxpodFT=M-f3PmiyYQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MWHPR19CA0068.namprd19.prod.outlook.com
+ (2603:10b6:300:94::30) To BN6PR04MB0660.namprd04.prod.outlook.com
+ (2603:10b6:404:d9::21)
+X-Microsoft-Original-Message-ID: <684cc7d2-eb84-d20a-8167-baa9b8481fbd@live.ca>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2001:569:fb68:9c00:8067:f823:1e15:7520] (2001:569:fb68:9c00:8067:f823:1e15:7520) by MWHPR19CA0068.namprd19.prod.outlook.com (2603:10b6:300:94::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27 via Frontend Transport; Thu, 7 May 2020 03:46:14 +0000
+X-Microsoft-Original-Message-ID: <684cc7d2-eb84-d20a-8167-baa9b8481fbd@live.ca>
+X-TMN:  [P1Gdv29WsRGTIvD4UhhxdaGFBX63zmW5MY41hHHiQhJkokaREGIBjHlghwolm+eu]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 50
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 058380fa-2608-4b6d-f129-08d7f23931a1
+X-MS-TrafficTypeDiagnostic: DM6NAM11HT205:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FvHprMXW5AZf4lw4xUlHvj/dzwQF8wzAQBST42yfL6gB6BgmFwxxIICX7E6KoLt/U0zPvO0S/ev1iBpuHGvOLxi9PXWGOW0CRliGH0+uaT4oL7OnHFl/m3DD/rU5ptNLu8nyCNtuUVDu0bSYgFcJY2qSvXslAluQfB0Fj/sE7TqW9UCH4cQ/PEIYhdYlftQNnxN70Q/tvrNlixqqt4sRDA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR04MB0660.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
+X-MS-Exchange-AntiSpam-MessageData: c6LMankO2Ajf3jUDX00QucY5sdzf2jDTWVo0MxCgQYVWEOxMVcJw39iLvR1NBokYj57WbKwbzpIulozBnFjNlHYNmYrZcilXBj4iUKQm5X+ONTUyn8Js7eS1ddOEvjWhMvOagG0aYWs4OlQj/KdcE4LBCZVNvqt74vc7MRsO14PLUK7Z5ovYobxNZ5B/y+psXOyY26u+0lgOIsA/FOQcQA==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 058380fa-2608-4b6d-f129-08d7f23931a1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2020 03:46:16.0216
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6NAM11HT205
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi
+Hi Linus,
 
-[This is an automated email]
+On 2020-05-06 5:46 a.m., Linus Walleij wrote:
+> On Sun, May 3, 2020 at 7:22 PM Jonathan Bakker <xc-racer2@live.ca> wrote:
+> 
+>> The bma180 IIO driver has been extended for support for bma023.
+>> However, this could cause conflicts with this driver.  Since some
+>> setups may depend upon the evdev setup, disable support in this
+>> driver for the bma023 only when the IIO driver is being built.
+>>
+>> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
+> 
+> I would just fix this with KConfig instead, like add mutually
+> exclusive depends on these two drivers.
+> 
+> Set this input driver as:
+> depends on BMA180=n
+> 
+> And the IIO driver as:
+> depends on INPUT_BMA150=n
+> 
+> It's a rough measure but this input driver should anyway
+> go away.
+> 
 
-This commit has been processed because it contains a -stable tag.
-The stable tag indicates that it's relevant for the following trees: all
+Ok, sounds good to me.  If I include a patch removing the input driver, can I just drop this patch entirely?
 
-The bot has tested the following trees: v5.6.10, v5.4.38, v4.19.120, v4.14.178, v4.9.221, v4.4.221.
+The only in-tree user of the input driver (based on i2c ids) is Intel Mid.  Not sure what the kernel policy on dropping drivers is.
 
-v5.6.10: Build OK!
-v5.4.38: Build OK!
-v4.19.120: Failed to apply! Possible dependencies:
-    eb6964fa6509 ("HID: i2c-hid: add iBall Aer3 to descriptor override")
+> Yours,
+> Linus Walleij
+> 
 
-v4.14.178: Failed to apply! Possible dependencies:
-    eb6964fa6509 ("HID: i2c-hid: add iBall Aer3 to descriptor override")
-
-v4.9.221: Failed to apply! Possible dependencies:
-    eb6964fa6509 ("HID: i2c-hid: add iBall Aer3 to descriptor override")
-
-v4.4.221: Failed to apply! Possible dependencies:
-    00f7fea5da49 ("HID: i2c-hid: force the IRQ level trigger only when not set")
-    01714a6f5fa5 ("HID: i2c-hid: Fix suspend/resume when already runtime suspended")
-    070b9637dd8f ("HID: i2c-hid: Add RESEND_REPORT_DESCR quirk for Toshiba Click Mini L9W-B")
-    2dcc8197fefc ("HID: i2c-hid: Silently fail probe for CHPN0001 touchscreen")
-    3e83eda46705 ("HID: i2c-hid: Fix resume issue on Raydium touchscreen device")
-    402946a8ef71 ("HID: i2c-hid: Add no-irq-after-reset quirk for 0911:5288 device")
-    572d3c644497 ("HID: i2c-hid: support regulator power on/off")
-    71af01a8c85a ("HID: i2c-hid: add a simple quirk to fix device defects")
-    85ae91133152 ("HID: i2c-hid: remove custom locking from i2c_hid_open/close")
-    8cd16166b000 ("HID: fix missing irq field")
-    91b9ae48aadd ("HID: i2c-hid: move header file out of I2C realm")
-    94116f8126de ("ACPI: Switch to use generic guid_t in acpi_evaluate_dsm()")
-    9a327405014f ("HID: i2c-hid: Prevent sending reports from racing with device reset")
-    9ee3e06610fd ("HID: i2c-hid: override HID descriptors for certain devices")
-    b59dfdaef173 ("i2c-hid: properly terminate i2c_hid_dmi_desc_override_table[] array")
-    b7fe92999a98 ("ACPI / extlog: Switch to use new generic UUID API")
-    ba1660f1791f ("HID: i2c-hid: fix build")
-    ba18a9314a94 ("Revert "HID: i2c-hid: Add support for ACPI GPIO interrupts"")
-    d46ddc593f4d ("HID: i2c-hid: Disable IRQ before freeing buffers")
-    eb6964fa6509 ("HID: i2c-hid: add iBall Aer3 to descriptor override")
-    f8f807441eef ("HID: i2c-hid: Add Odys Winbook 13 to descriptor override")
-    fc2237a724a9 ("HID: introduce hid_is_using_ll_driver")
-
-
-NOTE: The patch will not be queued to stable trees until it is upstream.
-
-How should we proceed with this patch?
-
--- 
-Thanks
-Sasha
+Thanks,
+Jonathan
