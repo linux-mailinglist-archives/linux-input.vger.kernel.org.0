@@ -2,59 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B95361C9417
-	for <lists+linux-input@lfdr.de>; Thu,  7 May 2020 17:11:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19F921C941D
+	for <lists+linux-input@lfdr.de>; Thu,  7 May 2020 17:12:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726618AbgEGPLZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 May 2020 11:11:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55946 "EHLO
+        id S1726491AbgEGPL5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 May 2020 11:11:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726267AbgEGPLY (ORCPT
+        by vger.kernel.org with ESMTP id S1726356AbgEGPL5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 7 May 2020 11:11:24 -0400
+        Thu, 7 May 2020 11:11:57 -0400
 Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96C04C05BD43;
-        Thu,  7 May 2020 08:11:24 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id f15so2172334plr.3;
-        Thu, 07 May 2020 08:11:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F76FC05BD43;
+        Thu,  7 May 2020 08:11:57 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id x10so2172784plr.4;
+        Thu, 07 May 2020 08:11:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=wWd34HVuHsrECXOLfOiza9hgo5IiNk8HLibDa9qt1hk=;
-        b=B3HXldLBkSj6/7aetEGJvwO+sF2lj5StckhAfs/XMYWbmV5GzBhYyRmbkHMLnph+r0
-         8TbstkBNZfIFvAMSK8mmN5wrBMHE/f26nqc+YtKBBA9+RAWIiUoHXMBd9g0jHrt5pyVk
-         aUQiPXKHssV7ZnBtMffGPbiY9a2rxkdphaN0k2MAOILpEcX67G60y3q4dFbmOLLUMXld
-         C8RhgFIyPlUNx0N7sqBFkw1jXIRetHeUv43S2dyBALXxdKAgZ59fmCAc5DoepTvkSR5m
-         B+i2LPCfsunyp/YcEY3D8GCp5GFkSg3YeVsTltAfYEg7AuVI8qOlbL8WByCtPZTCv/f7
-         Lqhw==
+        bh=zt3dWszzUGPIr1is87/3ZzRSaPFAJm76db1aD6xZhws=;
+        b=TI0Y1zgsKvAwRGvVFzQgzAJe5FKsPk4nM6Qs1kkkV3SrYAqnMd/EWdCrqUe5JjReO8
+         9monr1ObfM/RMMg+6Qy0g5hfQezijmL7qGV645Q7hl3DZAX/vzVDtSdz8uwfQs7ynM0H
+         O8VtsG475Cnp3USWAolj5xZcr7y60g51TfZqlE4pnoR0Ug4BxPZuc8QY+ihNBy/x1DM4
+         YUmDWXIxdGI2sMrOb9y+a/9LtG7L9/poXMtaZwDmREq1Ro82qAtLi9e+eMs8amEd4323
+         o2CTewy/Ya2M7CJNdNsoBx1+CCVa/j6zocbtX5R4rIJHxeBHt8TVu5xEGBtzuedcqixU
+         TNQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=wWd34HVuHsrECXOLfOiza9hgo5IiNk8HLibDa9qt1hk=;
-        b=pdPWdsfqEcPdFubV8BTKPEVrqGZza40IxMjx7YOT4ACZ1mkcq0bFRRhCNGf9ZPVl4g
-         FjryN+tEOuTySBbnkQhwmQwNxYXiD8ryuoQFG7RZWZmSMMVNEhHgXZS39uHnhTkVVEbJ
-         75EmKtm9xqca5H44X+omesKFbFv6T/DplxdNXYqVS9hi2uBe55vRNfwhu04FEkeH6lSO
-         2TCASeKZeudc8MqAJv09VzwvfkU8Btk3AVX54jd+fDZ5DleY7SJSmjamFlaeuwSYPHTt
-         wPMXwdl2LV/yZw85TwrEJL/OGPHEMIuzU1y7RoCEaWNtlfXdZoUKwTyokpz9w3siUWmY
-         j1zA==
-X-Gm-Message-State: AGi0PuboETVB6GapAbQON0fm5bAXNu6YLy20aRu6pRcxkLjDDZ30bW0E
-        Omwo9MwCUq9N8wIH8JKbpsM=
-X-Google-Smtp-Source: APiQypIZ2IswbwUyjeqOeecIJgB7zUIvYdlUQDltk0PzFqqH5fkP457/E1W/wE70RR/bU0/jxhGcmg==
-X-Received: by 2002:a17:90a:fb89:: with SMTP id cp9mr608836pjb.40.1588864284203;
-        Thu, 07 May 2020 08:11:24 -0700 (PDT)
+        bh=zt3dWszzUGPIr1is87/3ZzRSaPFAJm76db1aD6xZhws=;
+        b=lS8XaDwVvwLnmrgyl3QYMCHazgYOld6Ly7fBjdxK3iAxz351Hvq4r1I1Rwyr/Snu4c
+         yC2lfBWz8LhVPEvyj3TnnNGzm/e9gR1fCs4WzLjszopXn/OWHDYDHLmPwtajB+ihHHDr
+         ptPK72oPum+zowngow9ZHhtX31a65spi0EAF2m4lZDdaCqFI2zWADmX8aJuY66g1m9np
+         soTBaHu8B43nUSEsmSN3f10GoIoHgnZbnN9zux13XHq4kAAz9qFzCN0AiLljwWH9IdkQ
+         wxJwChyzmcbv/5L5TweqRDVPdHO01PLkB6VyZfFBUXQh/q0nmwPQYbeOf8yeSa6jLYMP
+         V9Xw==
+X-Gm-Message-State: AGi0PuaJJ6b2kU6WppFI1/goLZwILOA7w1krCWaXwys5rXoljINZC76N
+        H9wVT/OOzFqsi/+KG36cBgpt87nd108=
+X-Google-Smtp-Source: APiQypJ4IITkjemHUaedvi2tTs9YZUePEepBqshIpV75NrwzsADS0UX6wsRQ65tM/+jrQuiEF+T0Jg==
+X-Received: by 2002:a17:90b:46d1:: with SMTP id jx17mr550749pjb.212.1588864316603;
+        Thu, 07 May 2020 08:11:56 -0700 (PDT)
 Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
-        by smtp.gmail.com with ESMTPSA id gm3sm144620pjb.49.2020.05.07.08.11.21
+        by smtp.gmail.com with ESMTPSA id j7sm5080620pfi.160.2020.05.07.08.11.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 08:11:23 -0700 (PDT)
+        Thu, 07 May 2020 08:11:55 -0700 (PDT)
 From:   Chuhong Yuan <hslester96@gmail.com>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        linux-input@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH] Input: s6sy761 - add missed input_unregister_device
-Date:   Thu,  7 May 2020 23:11:15 +0800
-Message-Id: <20200507151115.792516-1-hslester96@gmail.com>
+Subject: [PATCH] Input: stmfts - add missed input_unregister_device
+Date:   Thu,  7 May 2020 23:11:47 +0800
+Message-Id: <20200507151147.792578-1-hslester96@gmail.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -70,44 +74,36 @@ Add the missed function calls to fix it.
 
 Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 ---
- drivers/input/touchscreen/s6sy761.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/input/touchscreen/stmfts.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/input/touchscreen/s6sy761.c b/drivers/input/touchscreen/s6sy761.c
-index b63d7fdf0cd2..cd8a7bd9be1e 100644
---- a/drivers/input/touchscreen/s6sy761.c
-+++ b/drivers/input/touchscreen/s6sy761.c
-@@ -464,21 +464,28 @@ static int s6sy761_probe(struct i2c_client *client,
- 					IRQF_TRIGGER_LOW | IRQF_ONESHOT,
- 					"s6sy761_irq", sdata);
- 	if (err)
--		return err;
-+		goto err_unregister;
+diff --git a/drivers/input/touchscreen/stmfts.c b/drivers/input/touchscreen/stmfts.c
+index b6f95f20f924..4345aa98a320 100644
+--- a/drivers/input/touchscreen/stmfts.c
++++ b/drivers/input/touchscreen/stmfts.c
+@@ -728,8 +728,10 @@ static int stmfts_probe(struct i2c_client *client,
+ 	}
  
- 	err = devm_device_add_group(&client->dev, &s6sy761_attribute_group);
- 	if (err)
--		return err;
-+		goto err_unregister;
+ 	err = devm_device_add_group(&client->dev, &stmfts_attribute_group);
+-	if (err)
++	if (err) {
++		input_unregister_device(sdata->input);
+ 		return err;
++	}
  
  	pm_runtime_enable(&client->dev);
+ 	device_enable_async_suspend(&client->dev);
+@@ -739,7 +741,10 @@ static int stmfts_probe(struct i2c_client *client,
  
- 	return 0;
-+
-+err_unregister:
-+	input_unregister_device(sdata->input);
-+	return err;
- }
- 
- static int s6sy761_remove(struct i2c_client *client)
+ static int stmfts_remove(struct i2c_client *client)
  {
-+	struct s6sy761_data *sdata = i2c_get_clientdata(client);
++	struct stmfts_data *sdata = i2c_get_clientdata(client);
 +
  	pm_runtime_disable(&client->dev);
- 
 +	input_unregister_device(sdata->input);
+ 
  	return 0;
  }
- 
 -- 
 2.26.2
 
