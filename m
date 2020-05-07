@@ -2,63 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 388A51C9423
-	for <lists+linux-input@lfdr.de>; Thu,  7 May 2020 17:12:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD62B1C9436
+	for <lists+linux-input@lfdr.de>; Thu,  7 May 2020 17:13:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726267AbgEGPMW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 May 2020 11:12:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56096 "EHLO
+        id S1726565AbgEGPNI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 May 2020 11:13:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726074AbgEGPMW (ORCPT
+        by vger.kernel.org with ESMTP id S1726495AbgEGPNH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 7 May 2020 11:12:22 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732A0C05BD43;
-        Thu,  7 May 2020 08:12:22 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id 207so2936060pgc.6;
-        Thu, 07 May 2020 08:12:22 -0700 (PDT)
+        Thu, 7 May 2020 11:13:07 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBE99C05BD43;
+        Thu,  7 May 2020 08:13:07 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id v63so3120408pfb.10;
+        Thu, 07 May 2020 08:13:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=96jnTCBD83Wv0PAJTE2BBo0VXx5TqKQi9pMzwgM4Bvo=;
-        b=qkcIoMnyddwZz6l2iGAXDhyexKTgNnQAW9lafUYWDMhTepNj8Sta9ZXm4w3wyB2AST
-         1AJTMdMBajSvLBhvM16D9KgIqtXbBuhudE+UHuISqWO+qY00UPgJD8yJPr8DZ8rCOMzJ
-         c2ItNvJ+ttYCUdfWTOe3xXVOp6Iplo5z9il0iU+Oml333s/6CXcW4Jgp77xvzRrLQgL+
-         /ncoVKcoluCYvfQGspde7NgrHxWuU1aOLIThVKDHkx9x8j/6bqj2QsmqLDnPEMdzRg9Z
-         Fznfhyk50qoESkluSuANZvefs7UgpLkAYOsCejb35HG+Jd3EE+CfYyOZaeuDWCVW5Z2i
-         9hqg==
+        bh=1ZAU8RJ54KgdAB52+f9Z7ufUtSpBYmgCgDBOG+cMuYE=;
+        b=QjhJ7i5GuF+bCeVINbD/t4Un/z7ffvXwFDf89h7BmlpxAaG8DJjT48/slkf/BMUtzz
+         MfvDoU4TVtUx0wh4Y9XQUplIxpslIjg8HuSidJeiUkZ02K/oZAtZnSuHhsDvIgPzE/sm
+         yFJIGhjKcv6s9QH+dbFqyVMQYTEKOgcO/fjNKeblQ9GCHiqrdqHjcO+Bo/KP4qkme04A
+         PRFR08MQH2TctWzfBmTqWXi4RXsgBmA9shX+ZVRCmT9PBvKq1WcqWt0gjCl9xbzzbydD
+         XKoblPomTEy3GD64iAMdoBFN1BV/p8yXXxExO53SWkHPhLIrTq6mIX6TNx2W2aeE1XeY
+         U0uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=96jnTCBD83Wv0PAJTE2BBo0VXx5TqKQi9pMzwgM4Bvo=;
-        b=Ncheoe5nAQVwqD1DgdZWLslJtsE79c3Plbh2WlEskmNn2BaxZPULmLRfDWPEauoKm0
-         LP7C3lErfzFdhCgUgRo197xWg9Dm/myYg7Y8moEqWbvJx7c/QXFlM6hUT43an8mjwXDU
-         8ydgdSN5ccH5JBWHzUM5V63dTk5CHqremIF6y/1E3nu545z0EZYZn+yllYFm06JIdTRs
-         3zOGxTKmS0OlLVvqVDF1krLSx0get/IEdfZEGktVJnp2cElHroeWO5KOI62+1og3M+H+
-         Hp1UvkHyU6B0LOcq+XcE4K7qtsvVLrYAARhCkBhWWRWXaz3+ko/cyDTMPmv8p4J6taTf
-         CpZg==
-X-Gm-Message-State: AGi0PuYGEvVJ7HD9hAaWlm5SMN9Qj2J4osDL4fyBjBm0IuFm9fnHYChP
-        NB5uRAAjJzzg5FLJ5XRQOjM=
-X-Google-Smtp-Source: APiQypJdokPYKCL5kUn4xIRQIDNKHKOdREr5Pgq69HVLtf4k/OCqHfoHoqbZ9uKHEKRIlSnCEIMzsA==
-X-Received: by 2002:a63:6e81:: with SMTP id j123mr12541889pgc.333.1588864342098;
-        Thu, 07 May 2020 08:12:22 -0700 (PDT)
+        bh=1ZAU8RJ54KgdAB52+f9Z7ufUtSpBYmgCgDBOG+cMuYE=;
+        b=Xd6frzxMKDhz7bR7S+06cOgJMynfUmvojkfCpsBQSwwAjSFYN1FMsThOtI4ndbGpiw
+         kAIWErWJkgeamPJiB//Ssg21c7mKnM+EgCt/J2YP1+CU7CKi8zeNTpVrqYyUvWddTFUC
+         TftCOmb/PBf3WPV6nu8UZc+1s8rsKZCKjKmHI3vjJgfYE5mRsNZRDOGcfnTvWyOoTkQy
+         VXEbp5zZzW/ZVXyiB679hKvplEEOijqSLC4o/qsEJs6pKfWUbIbVEhtvtL7ScDWo9Hsb
+         RbMKLOYpC9pEjMRrjKSGpt3a2zaTdSq7foIW+mhdnV3SN6DbxzYvmJx4A3SPi6m1wVG5
+         jnYg==
+X-Gm-Message-State: AGi0PuY20GMYbwEH1HsPKyIfW2v6LeHclXerrGhaLzBDsTAKlgjgcglh
+        ntGuwHjHpE7GUgV0Ivm4GFY=
+X-Google-Smtp-Source: APiQypLh7vPZxj8lM5PWxfqMeI7I1WfHpATd46t0DuKukW9mHO65KqaevP4URujV0wgory7rOk+96w==
+X-Received: by 2002:aa7:8ecd:: with SMTP id b13mr14510119pfr.191.1588864387288;
+        Thu, 07 May 2020 08:13:07 -0700 (PDT)
 Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
-        by smtp.gmail.com with ESMTPSA id a196sm5276794pfd.184.2020.05.07.08.12.17
+        by smtp.gmail.com with ESMTPSA id i190sm5215759pfe.114.2020.05.07.08.13.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 08:12:21 -0700 (PDT)
+        Thu, 07 May 2020 08:13:06 -0700 (PDT)
 From:   Chuhong Yuan <hslester96@gmail.com>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        linux-input@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH] Input: stmpe-ts - add missed input_unregister_device
-Date:   Thu,  7 May 2020 23:12:13 +0800
-Message-Id: <20200507151213.792640-1-hslester96@gmail.com>
+        patches@opensource.cirrus.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Chuhong Yuan <hslester96@gmail.com>
+Subject: [PATCH] Input: wm831x-ts - add missed input_unregister_device
+Date:   Thu,  7 May 2020 23:12:59 +0800
+Message-Id: <20200507151259.792697-1-hslester96@gmail.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -74,21 +70,21 @@ Add the missed function call to fix it.
 
 Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 ---
- drivers/input/touchscreen/stmpe-ts.c | 1 +
+ drivers/input/touchscreen/wm831x-ts.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/touchscreen/stmpe-ts.c b/drivers/input/touchscreen/stmpe-ts.c
-index 7e16fcfe3b95..5e62b466629b 100644
---- a/drivers/input/touchscreen/stmpe-ts.c
-+++ b/drivers/input/touchscreen/stmpe-ts.c
-@@ -350,6 +350,7 @@ static int stmpe_ts_remove(struct platform_device *pdev)
+diff --git a/drivers/input/touchscreen/wm831x-ts.c b/drivers/input/touchscreen/wm831x-ts.c
+index 607d1aeb595d..db09dd473ada 100644
+--- a/drivers/input/touchscreen/wm831x-ts.c
++++ b/drivers/input/touchscreen/wm831x-ts.c
+@@ -379,6 +379,7 @@ static int wm831x_ts_remove(struct platform_device *pdev)
  {
- 	struct stmpe_touch *ts = platform_get_drvdata(pdev);
+ 	struct wm831x_ts *wm831x_ts = platform_get_drvdata(pdev);
  
-+	input_unregister_device(ts->idev);
- 	stmpe_disable(ts->stmpe, STMPE_BLOCK_TOUCHSCREEN);
++	input_unregister_device(wm831x_ts->input_dev);
+ 	free_irq(wm831x_ts->pd_irq, wm831x_ts);
+ 	free_irq(wm831x_ts->data_irq, wm831x_ts);
  
- 	return 0;
 -- 
 2.26.2
 
