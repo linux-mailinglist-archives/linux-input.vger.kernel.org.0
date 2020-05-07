@@ -2,28 +2,28 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD5311C8265
-	for <lists+linux-input@lfdr.de>; Thu,  7 May 2020 08:20:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ED791C8266
+	for <lists+linux-input@lfdr.de>; Thu,  7 May 2020 08:20:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726218AbgEGGU3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1725953AbgEGGU3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Thu, 7 May 2020 02:20:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57418 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725953AbgEGGU2 (ORCPT
+        with ESMTP id S1726134AbgEGGU2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>); Thu, 7 May 2020 02:20:28 -0400
 Received: from mail.bugwerft.de (mail.bugwerft.de [IPv6:2a03:6000:1011::59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6A114C061A0F
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 795C0C061A41
         for <linux-input@vger.kernel.org>; Wed,  6 May 2020 23:20:28 -0700 (PDT)
 Received: from zenbar.fritz.box (pD95EF2E9.dip0.t-ipconnect.de [217.94.242.233])
-        by mail.bugwerft.de (Postfix) with ESMTPSA id A8275405549;
-        Thu,  7 May 2020 06:17:44 +0000 (UTC)
+        by mail.bugwerft.de (Postfix) with ESMTPSA id 908DB40554D;
+        Thu,  7 May 2020 06:17:45 +0000 (UTC)
 From:   Daniel Mack <daniel@zonque.org>
 To:     linux-input@vger.kernel.org
 Cc:     dmitry.torokhov@gmail.com, m.felsch@pengutronix.de,
         Daniel Mack <daniel@zonque.org>
-Subject: [PATCH v3 2/3] Input: ads7846: remove custom filter handling functions from pdata
-Date:   Thu,  7 May 2020 08:20:12 +0200
-Message-Id: <20200507062014.1780360-3-daniel@zonque.org>
+Subject: [PATCH v3 2/3] Input: ads7846: Remove custom filter handling functions from pdata
+Date:   Thu,  7 May 2020 08:20:13 +0200
+Message-Id: <20200507062014.1780360-4-daniel@zonque.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200507062014.1780360-1-daniel@zonque.org>
 References: <20200507062014.1780360-1-daniel@zonque.org>
