@@ -2,77 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F3B31C8626
-	for <lists+linux-input@lfdr.de>; Thu,  7 May 2020 11:53:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97B521C8835
+	for <lists+linux-input@lfdr.de>; Thu,  7 May 2020 13:29:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725939AbgEGJxo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 May 2020 05:53:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33375 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725893AbgEGJxo (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 7 May 2020 05:53:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588845223;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=ZnCANNtvRmIO0rCPc0iQgMmAvy5uNOHNsxyQ9QU3C08=;
-        b=c1MpC2knMH6DPWZlgw4zY6eIxRq1InlCq7AvoCZezDWJ8Eazt6BokgN9BtScuQeCx2WI/x
-        mrWqbg0XOXMhnehDTdSp2qyoSADwpmzALY/pWqdCjS+ECkspwjZKQOIfWPupRcE6ghVEjy
-        /40DHchwCl6gzL6xXYbMQFU387McQO4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-oCxOTnc8OTSesQ2UCW2oSw-1; Thu, 07 May 2020 05:53:41 -0400
-X-MC-Unique: oCxOTnc8OTSesQ2UCW2oSw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1726134AbgEGL3s (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 May 2020 07:29:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54694 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725809AbgEGL3s (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 7 May 2020 07:29:48 -0400
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFA19107ACF7;
-        Thu,  7 May 2020 09:53:40 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-115-120.ams2.redhat.com [10.36.115.120])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5B6695D9C5;
-        Thu,  7 May 2020 09:53:36 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
-        kbuild test robot <lkp@intel.com>
-Subject: [PATCH] HID: asus: Add depends on USB_HID to HID_ASUS Kconfig option
-Date:   Thu,  7 May 2020 11:53:34 +0200
-Message-Id: <20200507095334.11645-1-hdegoede@redhat.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 28AEC2084D;
+        Thu,  7 May 2020 11:29:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588850988;
+        bh=HgoUKpNDb+hWunlBZAHCaIfOGRsmlVOGyZr0E7MwtR4=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=q/nh+Ov0DWc2/jSGsGcF+urSQOgepDgSuxJe2O+VDwLBdCT3JSAtJObTt8gCxj/0C
+         15Sr7LBvAYqF+nBq1zVeHgYV/NI7doclxUK2NEeROKPs7Dw+YRojCO0HRxrxJazZZV
+         6nP9XQn6fCF1zWt0EyRTWC2PYw0WUU9l4xQCsK9s=
+Date:   Thu, 7 May 2020 13:29:45 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, kbuild test robot <lkp@intel.com>
+Subject: Re: [PATCH] HID: asus: Add depends on USB_HID to HID_ASUS Kconfig
+ option
+In-Reply-To: <20200507095334.11645-1-hdegoede@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2005071329160.25812@cbobk.fhfr.pm>
+References: <20200507095334.11645-1-hdegoede@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Since commit 4bc43a421218 ("HID: asus: Add
-hid_is_using_ll_driver(usb_hid_driver) check") the hid-asus.c depends
-on the usb_hid_driver symbol. Add a depends on USB_HID to Kconfig to
-fix missing symbols errors in hid-asus when USB_HID is not enabled.
+On Thu, 7 May 2020, Hans de Goede wrote:
 
-Fixes: 4bc43a421218 ("HID: asus: Add hid_is_using_ll_driver(usb_hid_drive=
-r) check")
-Reported-by: kbuild test robot <lkp@intel.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/hid/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+> Since commit 4bc43a421218 ("HID: asus: Add
+> hid_is_using_ll_driver(usb_hid_driver) check") the hid-asus.c depends
+> on the usb_hid_driver symbol. Add a depends on USB_HID to Kconfig to
+> fix missing symbols errors in hid-asus when USB_HID is not enabled.
+> 
+> Fixes: 4bc43a421218 ("HID: asus: Add hid_is_using_ll_driver(usb_hid_driver) check")
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 7c89edbd6c5a..9e54dd254613 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -149,6 +149,7 @@ config HID_APPLEIR
-=20
- config HID_ASUS
- 	tristate "Asus"
-+	depends on USB_HID
- 	depends on LEDS_CLASS
- 	depends on ASUS_WMI || ASUS_WMI=3Dn
- 	select POWER_SUPPLY
---=20
-2.26.0
+Applied on top of the for-5.8/asus queue. Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
 
