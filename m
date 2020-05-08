@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 956F11CA35A
-	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 08:00:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 724FA1CA356
+	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 07:59:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728256AbgEHF7q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 May 2020 01:59:46 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:38765 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728219AbgEHF7p (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:59:45 -0400
-IronPort-SDR: tbKw/19s6B8qR29MddIuV3QGSNVk+VdBLw0U9kO/0k9mcucoLo1S54hGKYGvPWPLaTDg9GlJGx
- 71UjqRrBrn07E2844alVLVOgL6llj4QVp4tPLmMfohzdX493tHoitmZmDAKp9eNQAc7yHlWg3t
- cmqO4wEj8yz7qJRFwN8I+elP1fvTKmD2Tp551B4yp8RBsK5yBI3yic+N1M59E4/9tifv64X6HT
- laBbLBdegFB3/UQ+Gulf2kGdcOJ/piGxP+OHS3bSGbFGnmEZ5qG1poPdRl9SDz2NXVs1hEijlX
- fJA=
+        id S1727097AbgEHF7t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 May 2020 01:59:49 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:25985 "EHLO
+        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728267AbgEHF7s (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:59:48 -0400
+IronPort-SDR: 3kC+npUIcCFn2o0Gv74DBilveB910z9153q7l84Urd9LFClXNyRsCswrJ7DGecQVVJVV3UHNki
+ QRjBapsbUavufrdWcekUbYISq7ZUn5+Mxow1D+by2bl8xBKPPckrcGk1PUAY0g+EKW3cbWwd/A
+ Rku38pXNbXjqqpMF0t4ZtGvWusJ4G6fVw1JkuArtGNWyx0+PRstvrlAQo75A7v932fkBLO9DXr
+ OX4fmwmdAYxyPVrIoNl8L65q+pRXkMhNYuemJNwByIgnlX4ExKzu9OZ3LpwAYRZ0ICsA8tZbKn
+ Xdc=
 X-IronPort-AV: E=Sophos;i="5.73,366,1583222400"; 
-   d="scan'208";a="50670134"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa1.mentor.iphmx.com with ESMTP; 07 May 2020 21:59:42 -0800
-IronPort-SDR: feXG//eL9hxODJRSZ3wefsqn5zwbC+DkSDfwUUm7Pf7vUxEYeZ438xSg6W9MiTGCkTXmbS/I5Q
- lh6hYung9RNAwR+VAdh+jQv5gIoOsOudL8cktZXZPAgnSOTRhI8EnwZmlDaBO0AkYz65EJ5cXV
- C9nKcyml+zuKToHC8zZpy6JvEdUuzxQUAnz6KUQnjzGKO5Uomd0LM5fl1BwJfW9jdTVxcoYc7z
- FHE84HL44RK1FyPCR0goNYRHMahMgsu60eExF7lSN9dESFvkx7Jc+udIAHVGQPj6DOS0sMoyaZ
- 3FM=
+   d="scan'208";a="48589141"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa2.mentor.iphmx.com with ESMTP; 07 May 2020 21:59:48 -0800
+IronPort-SDR: BL+rksDyMqLbv0rrYYXZ0itjcWNA8Igy/csAxlJ5JGwHKmK11Eg5wRSXc9U9UDV9SudL6HyCiv
+ 1Tc2BWtsBURRvLM9SV7MJJL+fHl8vHXMz/AxFRBY8jgZmRoPCRwasB1vzj5LtiutnGgJA+wbKi
+ 7MevQKQygFLjZEsIBarOEpdkB8zb9z6Xo5WdW1gs0jinfG6KomdCVc88sNdx47oxnnTPO/Kkrp
+ fr9NtWUhPUvX8dZEHPLLMIarVZSHNBZzc8bPddeJaXKcOu0iQQVaAj1yAWam8OmGVvORH141AG
+ ax8=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -32,9 +32,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v11 43/56] Input: atmel_mxt_ts: Add support for run self-test routine.
-Date:   Thu, 7 May 2020 22:56:43 -0700
-Message-ID: <20200508055656.96389-44-jiada_wang@mentor.com>
+Subject: [PATCH v11 44/56] Input: atmel_mxt_ts: Limit the max bytes transferred in an i2c transaction
+Date:   Thu, 7 May 2020 22:56:44 -0700
+Message-ID: <20200508055656.96389-45-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200508055656.96389-1-jiada_wang@mentor.com>
 References: <20200508055656.96389-1-jiada_wang@mentor.com>
@@ -45,204 +45,134 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nikhil Ravindran <Nikhil.Ravindran@in.bosch.com>
+From: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
 
-The self test object T25 runs self test routines in device to find faults
-Sysfs entry add to start self test routine and read back the test results
-for atmel touchcontrollers.The feature will be used for A-IVI and CAF
-projects.
+Some I2C controllers constrain maximum transferred data in an I2C
+transaction by set max_[read|write]_len of i2c_adapter_quirk.
+Large i2c read transaction beyond this limitation may fail to complete,
+cause I2C controller driver aborts the transaction and returns failure.
 
-Signed-off-by: Nikhil Ravindran <Nikhil.Ravindran@in.bosch.com>
-Signed-off-by: George G. Davis <george_davis@mentor.com>
-[jiada: Rename mxt_t25_selftest_show to t25_selftest_show
-	Rename mxt_t25_selftest_store to t25_selftest_show
-	Rename attr t25 to t25_selftest
-	Replace DEVICE_ATTR with DEVICE_ATTR_RW]
+Therefore this patch was created to split the large i2c transaction into
+smaller chunks which can complete
+within the max_read_len defined by I2C controller driver.
+
+Signed-off-by: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+CC: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 113 +++++++++++++++++++++++
- 1 file changed, 113 insertions(+)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 62 ++++++++++++++++++------
+ 1 file changed, 48 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 3ffd49b383f4..c9ff450fa193 100644
+index c9ff450fa193..ed850a0bae69 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -337,6 +337,9 @@ struct mxt_data {
- 	u8 t100_aux_ampl;
- 	u8 t100_aux_area;
- 	u8 t100_aux_vect;
-+	u16 T25_address;
-+	u8  T25_reportid;
-+	u8  t25_msg[6];
- 	bool debug_enabled;
- 	bool debug_v2_enabled;
- 	u8 *debug_msg_data;
-@@ -414,6 +417,8 @@ struct mxt_data {
- 
- 	/* Indicates whether device is updating configuration */
- 	bool updating_config;
-+
-+	bool t25_status;
- };
- 
- struct mxt_vb2_buffer {
-@@ -1357,6 +1362,24 @@ static void mxt_proc_t93_messages(struct mxt_data *data, u8 *msg)
- 	dev_info(dev, "T93 report double tap %d\n", status);
+@@ -1463,11 +1463,34 @@ static int mxt_read_and_process_messages(struct mxt_data *data, u8 count)
+ 	return num_valid;
  }
  
-+static void mxt_proc_t25_messages(struct mxt_data *data, u8 *msg)
++static u8 mxt_max_msg_read_count(struct mxt_data *data, u8 max_T5_msg_count)
 +{
-+	struct device *dev = &data->client->dev;
++	struct i2c_client *client = data->client;
++	u16 max_read_len = client->adapter->quirks->max_read_len;
++	u8 T5_msg_count_limit = max_read_len / data->T5_msg_size;
 +
-+	/* Output debug if status has changed */
-+	dev_dbg(dev, "T25 Status 0x%x Info: %x %x %x %x %x\n",
-+		msg[1],
-+		msg[2],
-+		msg[3],
-+		msg[4],
-+		msg[5],
-+		msg[6]);
++	if (!max_read_len)
++		return max_T5_msg_count;
 +
-+	/* Save current status */
-+	memcpy(&data->t25_msg[0], &msg[1], sizeof(data->t25_msg));
-+	data->t25_status = false;
++	if (max_read_len < data->T5_msg_size) {
++		WARN(1, "max read length is lesser than the T5 message size\n");
++		/* Return count of 1, as fallback */
++		return 1;
++	}
++	/*
++	 * Return maximum number of T5 messages in single i2c transaction
++	 * based on max read length.
++	 */
++	return min(T5_msg_count_limit, max_T5_msg_count);
 +}
 +
- static int mxt_proc_message(struct mxt_data *data, u8 *message)
+ static irqreturn_t mxt_process_messages_t44(struct mxt_data *data)
  {
- 	u8 report_id = message[0];
-@@ -1387,6 +1410,8 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
- 	} else if (report_id == data->T19_reportid) {
- 		mxt_input_button(data, message);
- 		data->update_input = true;
-+	} else if (report_id == data->T25_reportid) {
-+		mxt_proc_t25_messages(data, message);
- 	} else if (report_id >= data->T15_reportid_min
- 		   && report_id <= data->T15_reportid_max) {
- 		mxt_proc_t15_messages(data, message);
-@@ -1611,6 +1636,86 @@ static int mxt_t6_command(struct mxt_data *data, u16 cmd_offset,
- 	return 0;
- }
+ 	struct device *dev = &data->client->dev;
+ 	int ret;
+-	u8 count, num_left;
++	u8 T5_msg_count, total_pending;
++	u8 total_processed = 0;
++	u8 processed_valid = 0;
  
-+static int mxt_t25_command(struct mxt_data *data, u8 cmd, bool wait)
-+{
-+	u16 reg;
-+	int timeout_counter = 0;
-+	int ret;
-+	u8  val[2];
-+
-+	reg = data->T25_address;
-+	val[0] = 0x3;
-+	val[1] = cmd;
-+
-+	data->t25_status = true;
-+	ret = __mxt_write_reg(data->client, reg, sizeof(val), val);
-+	if (ret) {
-+		data->t25_status = false;
-+		return ret;
-+	}
-+
-+	if (!wait)
-+		return 0;
+ 	/* Read T44 and T5 together */
+ 	ret = __mxt_read_reg(data->client, data->T44_address,
+@@ -1477,18 +1500,19 @@ static irqreturn_t mxt_process_messages_t44(struct mxt_data *data)
+ 		return IRQ_NONE;
+ 	}
+ 
+-	count = data->msg_buf[0];
++	T5_msg_count = data->msg_buf[0];
+ 
+ 	/*
+ 	 * This condition may be caused by the CHG line being configured in
+ 	 * Mode 0. It results in unnecessary I2C operations but it is benign.
+ 	 */
+-	if (count == 0)
++	if (!T5_msg_count)
+ 		return IRQ_NONE;
+ 
+-	if (count > data->max_reportid) {
+-		dev_warn(dev, "T44 count %d exceeded max report id\n", count);
+-		count = data->max_reportid;
++	if (T5_msg_count > data->max_reportid) {
++		dev_warn(dev, "T44 count %d exceeded max report id\n",
++			 T5_msg_count);
++		T5_msg_count = data->max_reportid;
+ 	}
+ 
+ 	/* Process first message */
+@@ -1498,16 +1522,25 @@ static irqreturn_t mxt_process_messages_t44(struct mxt_data *data)
+ 		return IRQ_NONE;
+ 	}
+ 
+-	num_left = count - 1;
++	total_pending = T5_msg_count - 1;
++	if (!total_pending)
++		goto end;
+ 
+ 	/* Process remaining messages if necessary */
+-	if (num_left) {
+-		ret = mxt_read_and_process_messages(data, num_left);
++	T5_msg_count = mxt_max_msg_read_count(data, total_pending);
 +
 +	do {
-+		msleep(MXT_WAKEUP_TIME);
-+		ret = __mxt_read_reg(data->client, reg + 1, 1, &val[1]);
-+		if (ret)
-+			return ret;
-+	} while ((val[1] != 0) && (timeout_counter++ <= 100));
++		if ((total_pending - total_processed) < T5_msg_count)
++			T5_msg_count = total_pending - total_processed;
++		ret = mxt_read_and_process_messages(data, T5_msg_count);
+ 		if (ret < 0)
+ 			goto end;
+-		else if (ret != num_left)
+-			dev_warn(dev, "Unexpected invalid message\n");
+-	}
++		total_processed += T5_msg_count;
++		processed_valid += ret;
++	} while (total_processed < total_pending);
 +
-+	if (timeout_counter > 100) {
-+		dev_err(&data->client->dev, "Command failed!\n");
-+		data->t25_status = false;
-+		return -EIO;
-+	}
-+	return 0;
-+}
-+
-+/* Firmware Version is returned as Major.Minor.Build */
-+static ssize_t t25_selftest_show(struct device *dev, struct
-+				 device_attribute * attr, char *buf)
-+{
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+	ssize_t offset = 0;
-+
-+	if (data->t25_status)
-+		return -EAGAIN;
-+
-+	if (data->t25_msg[0] == 0xFE)
-+		offset += scnprintf(buf, PAGE_SIZE, "PASS\n");
-+	else
-+		offset += scnprintf(buf, PAGE_SIZE, "FAILED\n");
-+
-+	offset += scnprintf(buf + offset, PAGE_SIZE, "%x %x %x %x %x %x\n",
-+		 data->t25_msg[0],
-+		 data->t25_msg[1],
-+		 data->t25_msg[2],
-+		 data->t25_msg[3],
-+		 data->t25_msg[4],
-+		 data->t25_msg[5]);
-+	return offset;
-+}
-+
-+static ssize_t t25_selftest_store(struct device *dev, struct
-+				  device_attribute * attr, const char *buf,
-+				  size_t count)
-+{
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+	u32 cmd;
-+	int ret;
-+
-+	ret = kstrtou32(buf, 0, &cmd);
-+	if (ret)
-+		return ret;
-+
-+	if (mxt_t25_command(data, (u8)cmd, 1) == 0)
-+		return count;
-+
-+	dev_dbg(dev, "mxt_t25_cmd_store write cmd %x error\n", cmd);
-+	return -EINVAL;
-+}
-+
- static int mxt_acquire_irq(struct mxt_data *data)
++	if (processed_valid != total_pending)
++		dev_warn(dev, "Unexpected invalid message\n");
+ 
+ end:
+ 	if (data->update_input) {
+@@ -1522,9 +1555,10 @@ static int mxt_process_messages_until_invalid(struct mxt_data *data)
  {
- 	int error;
-@@ -2074,6 +2179,8 @@ static void mxt_free_object_table(struct mxt_data *data)
- 	data->T15_reportid_max = 0;
- 	data->T18_address = 0;
- 	data->T19_reportid = 0;
-+	data->T25_address = 0;
-+	data->T25_reportid = 0;
- 	data->T42_reportid_min = 0;
- 	data->T42_reportid_max = 0;
- 	data->T44_address = 0;
-@@ -2161,6 +2268,10 @@ static int mxt_parse_object_table(struct mxt_data *data,
- 		case MXT_SPT_COMMSCONFIG_T18:
- 			data->T18_address = object->start_address;
- 			break;
-+		case MXT_SPT_SELFTEST_T25:
-+			data->T25_address = object->start_address;
-+			data->T25_reportid = min_id;
-+			break;
- 		case MXT_PROCI_TOUCHSUPPRESSION_T42:
- 			data->T42_reportid_min = min_id;
- 			data->T42_reportid_max = max_id;
-@@ -3748,6 +3859,7 @@ static DEVICE_ATTR_RO(config_crc);
- static DEVICE_ATTR_RW(debug_enable);
- static DEVICE_ATTR_RW(debug_v2_enable);
- static DEVICE_ATTR_RO(debug_notify);
-+static DEVICE_ATTR_RW(t25_selftest);
+ 	struct device *dev = &data->client->dev;
+ 	int count, read;
+-	u8 tries = 2;
++	int tries;
  
- static struct attribute *mxt_attrs[] = {
- 	&dev_attr_fw_version.attr,
-@@ -3758,6 +3870,7 @@ static struct attribute *mxt_attrs[] = {
- 	&dev_attr_debug_enable.attr,
- 	&dev_attr_debug_v2_enable.attr,
- 	&dev_attr_debug_notify.attr,
-+	&dev_attr_t25_selftest.attr,
- 	NULL
- };
+-	count = data->max_reportid;
++	count = mxt_max_msg_read_count(data, data->max_reportid);
++	tries = (data->max_reportid / count) + 1;
  
+ 	/* Read messages until we force an invalid */
+ 	do {
 -- 
 2.17.1
 
