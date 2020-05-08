@@ -2,119 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4388F1CA5F2
-	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 10:22:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8EBF1CAECC
+	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 15:16:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726736AbgEHIWJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 May 2020 04:22:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47184 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726638AbgEHIWJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 04:22:09 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEA7BC05BD43
-        for <linux-input@vger.kernel.org>; Fri,  8 May 2020 01:22:08 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jWyGf-0008Lb-Up; Fri, 08 May 2020 10:22:01 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jWyGe-0005TL-OQ; Fri, 08 May 2020 10:22:00 +0200
-Date:   Fri, 8 May 2020 10:22:00 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     dmitry.torokhov@gmail.com, andriy.shevchenko@linux.intel.com,
-        hdegoede@redhat.com, LW@KARO-electronics.de
-Cc:     kernel@pengutronix.de, linux-input@vger.kernel.org
-Subject: Re: [PATCH 0/4] EDT-FT5x06 Fixes and improvments
-Message-ID: <20200508082200.wrkbsq2qkqxuadfz@pengutronix.de>
-References: <20200227112819.16754-1-m.felsch@pengutronix.de>
- <20200309064422.k7o3eyvfqklflpt4@pengutronix.de>
- <20200331075008.4t7kdqkwf5ebjwr7@pengutronix.de>
+        id S1729620AbgEHMsB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 May 2020 08:48:01 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2167 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729607AbgEHMr6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 8 May 2020 08:47:58 -0400
+Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.106])
+        by Forcepoint Email with ESMTP id 708D1EDF60E665A57672;
+        Fri,  8 May 2020 13:47:56 +0100 (IST)
+Received: from localhost (10.47.95.97) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Fri, 8 May 2020
+ 13:47:55 +0100
+Date:   Fri, 8 May 2020 13:47:33 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Jonathan Bakker <xc-racer2@live.ca>
+CC:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald <pmeerw@pmeerw.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux Input <linux-input@vger.kernel.org>
+Subject: Re: [PATCH 0/5] iio: accel: Add bma023 support to bma180
+Message-ID: <20200508134733.0000233a@Huawei.com>
+In-Reply-To: <BN6PR04MB0660BD7ABF64EC0C19A65A03A3A50@BN6PR04MB0660.namprd04.prod.outlook.com>
+References: <BN6PR04MB0660046ABD79433EA94A85A9A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
+        <CACRpkdbb89q2FRJZ1=2QoQs8JFYcwWpNZwJUbnjsVvZYEE-LKw@mail.gmail.com>
+        <BN6PR04MB0660BD7ABF64EC0C19A65A03A3A50@BN6PR04MB0660.namprd04.prod.outlook.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200331075008.4t7kdqkwf5ebjwr7@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 10:21:22 up 174 days, 23:39, 189 users,  load average: 0.08, 0.13,
- 0.09
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.95.97]
+X-ClientProxiedBy: lhreml743-chm.china.huawei.com (10.201.108.193) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+On Wed, 6 May 2020 20:49:17 -0700
+Jonathan Bakker <xc-racer2@live.ca> wrote:
 
-pls can you have a look on it?
+> Hi Linus,
+> 
+> On 2020-05-06 5:47 a.m., Linus Walleij wrote:
+> > On Sun, May 3, 2020 at 7:22 PM Jonathan Bakker <xc-racer2@live.ca> wrote:
+> >   
+> >> This patchset adds support for the bma023 three axis accelerometer
+> >> to the bma180 IIO driver.  The bma023 is found on several ~2010
+> >> phones, including the first-gen Galaxy S series.
+> >>
+> >> The bma023 differs from later chips (bma180, bma25x) in that it
+> >> has no low power but still working mode and no temperature
+> >> channel.
+> >>
+> >> The bma023 is already supported by a misc input driver (bma150), so
+> >> when both are enabled, the iio driver is preferred.  The bma150
+> >> is very similar to the bma023, but has a temperature channel.
+> >> Support for the bma150 is not added in this patchset.  
+> > 
+> > I'd say, if it's not too much trouble please also patch in
+> > support for BMA150 and SMB380 to the IIO driver so
+> > we can delete this old Input driver, we have done this
+> > before and thes "input drivers" are just causing headaches
+> > and wasting time for the Input maintainer.
+> >   
+> 
+> Looking at the bma150, it looks the same.  The temperature is implemented
+> slightly differently than on the bma180+ (unsigned vs signed) but should
+> be quite easy to add.  I'll add a new patch for it in v2.
 
-Thanks,
-  Marco
+Great.  Series looks fine to me as well, so should be fine to apply v2.
+(subject to Dmitry Ack).
 
-On 20-03-31 09:50, Marco Felsch wrote:
-> Hi Dmitry,
-> 
-> gentle ping..
-> 
-> On 20-03-09 07:44, Marco Felsch wrote:
-> > Hi,
-> > 
-> > gentle ping.
-> > 
-> > Regards,
-> >   Marco
-> > 
-> > On 20-02-27 12:28, Marco Felsch wrote:
-> > > Hi,
-> > > 
-> > > first this series fixes a possible undefined register access for
-> > > ev-ft5726 devices.
-> > > 
-> > > This series also includes the v4 of the improved pm ops. Please check
-> > > my notes I made on the patch.
-> > > 
-> > > Last but least it adds the support for async probe which is important
-> > > for fast booting because devices having a reset-pin specified sleeps
-> > > 300ms..
-> > > 
-> > > Regards,
-> > >   Marco
-> > > 
-> > > Ahmad Fatoum (1):
-> > >   Input: edt-ft5x06 - prefer asynchronous probe
-> > > 
-> > > Marco Felsch (3):
-> > >   Input: edt-ft5x06 - fix get_default register write access
-> > >   Input: edt-ft5x06 - move parameter restore into helper
-> > >   Input: edt-ft5x06 - improve power management operations
-> > > 
-> > >  drivers/input/touchscreen/edt-ft5x06.c | 179 ++++++++++++++++++++++---
-> > >  1 file changed, 157 insertions(+), 22 deletions(-)
-> > > 
-> > > -- 
-> > > 2.20.1
-> > 
-> > 
-> 
-> -- 
-> Pengutronix e.K.                           |                             |
-> Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-> 
-> 
+Jonathan
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> 
+> > It can be in a separate patch set from this one if you
+> > don't want to get stuck on this.
+> > 
+> > Yours,
+> > Linus Walleij
+> >   
+> 
+> Thanks,
+> Jonathan
+
+
