@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A8641CA331
-	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 07:58:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B4881CA333
+	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 07:58:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727917AbgEHF6h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 May 2020 01:58:37 -0400
+        id S1727964AbgEHF6j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 May 2020 01:58:39 -0400
 Received: from esa1.mentor.iphmx.com ([68.232.129.153]:38715 "EHLO
         esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727964AbgEHF6d (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:58:33 -0400
-IronPort-SDR: KgNruznJZ/0w0iVfdO7ogZzeAS2cIw1TzSLnFA1oREOHYxb9xQgkpg/Oe0T7+clGDM+Zudh/Q2
- p7myzX03cDBG8B9mg+Q8mWEioR+ylzMiwXRObiDm7BxQgjobPUSae4VyTJFOlLPctzS2bJ5sBV
- EkrBcshiQDMZCRT/BxyLMaXJRmKGW5mmmhuhCAgVe6hZdGHng9+wejIsmsP+h/RI3mxRZdAa3m
- IRwBMc7HrIcvBPVIvtZQEzsBkYGUU8L0mj81+ZtWDfKw8Edc6NWGiI+fFCPkfu8do2BMFCohbg
- 0eQ=
+        with ESMTP id S1726325AbgEHF6h (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:58:37 -0400
+IronPort-SDR: k4w5bE0IfG/9q0oozAj0dg7WD4gOnWpnkfigWXICqFYbIxaUxLAZwRkbIRFGIG1hFU3re9zq2F
+ tePF+0Ja51GQ/kthVrxNif6soi66qPSe8QNmQn4CkOim2PsFJ//TUhW2x4xfksoqMKIUSJulyz
+ JJQGsS+01X58W6oe/mpidjFm2YRUxTeFNruzvxcpMrTqCgw07OPokIV9T5oDiHyOoc8HoOtmT4
+ TlZ2xRxHzDBBodGUMYcMWbj7fABPWn6nxSmusOQduUyLK/ZXVICo7F/qZw3ucwoA8uzXeb4myw
+ v3A=
 X-IronPort-AV: E=Sophos;i="5.73,366,1583222400"; 
-   d="scan'208";a="50670091"
+   d="scan'208";a="50670094"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa1.mentor.iphmx.com with ESMTP; 07 May 2020 21:58:31 -0800
-IronPort-SDR: aYayti0Wg97Eu5aBqHeYbAMonggtq/Qbg5AkRD9aq/IKmgX1BZVhEJlk4x6NuqkqN3HpcbgBQM
- yoRDpphgUgTmxUJoWByuqssjn+lNtSZhZwDGIU9E5d4oo+K7VKSxuHgHLwmE2PcPvQUvYpb762
- lqhKpOis3XnvLVoXumNdwlDz6ZRXJMQicjl+kIws6KWGTskj06je8VWdltM9AIcw6upNigVECM
- Oz22NTcAq8k5TxnE13BTPfieh3GpC2n0dJc1pHJhD70ZPFuN4xVO58Z/A7lvXzJ8GxUwwtnVxu
- OwI=
+  by esa1.mentor.iphmx.com with ESMTP; 07 May 2020 21:58:35 -0800
+IronPort-SDR: gaOKQOPg0wMl4YVGAFmvieHGkAxL/K4e31nEbZnhxMELlNVcA/PHCoQw3xnAxpVQ33+mOFNxOl
+ qwOZFb6PMFRiUo3ZruP/yovJ4lbaJMF5bU3tFPIRE9f+yR3dZ5RWj6r+Nl9uT1ZvOGtxza+sVY
+ ebRIZGGoGcszokmqRxuSsVi+qpwsPfK89OkNHpNCsVgLv6tz/FmieTo/WZRcygmcpHJZF2y63K
+ 7TJdTElbWaoN0gDe0UwZgTpQuTgprnZcO9ZOaEMcxbQlKFMFjPQTgX8ZFDEqcwCxRxhVI9a80X
+ A9g=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -32,9 +32,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v11 24/56] dt-bindings: input: atmel: support to specify input name
-Date:   Thu, 7 May 2020 22:56:24 -0700
-Message-ID: <20200508055656.96389-25-jiada_wang@mentor.com>
+Subject: [PATCH v11 25/56] Input: atmel_mxt_ts - add config checksum attribute to sysfs
+Date:   Thu, 7 May 2020 22:56:25 -0700
+Message-ID: <20200508055656.96389-26-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200508055656.96389-1-jiada_wang@mentor.com>
 References: <20200508055656.96389-1-jiada_wang@mentor.com>
@@ -45,26 +45,58 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Support to specify input name
+From: karl tsou <karl.funlab@gmail.com>
 
+Add config checksum attribute to sysfs
+
+Signed-off-by: karl tsou <karl.funlab@gmail.com>
+Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
+(cherry picked from ndyer/linux/for-upstream commit 03477477ddbe5dcad42853ab3f84166a8f807acf)
+[gdavis: Forward port and fix conflicts.]
+Signed-off-by: George G. Davis <george_davis@mentor.com>
+[jiada: Add commit description
+	Rename mxt_config_crc_show to config_crc_show
+	Replace DEVICE_ATTR with DEVICE_ATTR_RO]
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- Documentation/devicetree/bindings/input/atmel,maxtouch.txt | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-index 4705d7753c54..f084afa1660e 100644
---- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-+++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-@@ -43,6 +43,8 @@ Optional properties for main touchpad device:
- - atmel,cfg_name: Provide name of configuration file in OBP_RAW format. This
-     will be downloaded from the firmware loader on probe to the device.
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index affd2bf32969..780850343089 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -3124,6 +3124,15 @@ static int mxt_configure_objects(struct mxt_data *data,
+ 	return error;
+ }
  
-+- atmel,input_name: Override name of input device from the default.
++/* Configuration crc check sum is returned as hex xxxxxx */
++static ssize_t config_crc_show(struct device *dev,
++			       struct device_attribute *attr, char *buf)
++{
++	struct mxt_data *data = dev_get_drvdata(dev);
 +
- Example:
++	return scnprintf(buf, PAGE_SIZE, "%06x\n", data->config_crc);
++}
++
+ /* Firmware Version is returned as Major.Minor.Build */
+ static ssize_t fw_version_show(struct device *dev,
+ 			       struct device_attribute *attr, char *buf)
+@@ -3477,12 +3486,14 @@ static DEVICE_ATTR_RO(fw_version);
+ static DEVICE_ATTR_RO(hw_version);
+ static DEVICE_ATTR(object, S_IRUGO, mxt_object_show, NULL);
+ static DEVICE_ATTR_WO(update_cfg);
++static DEVICE_ATTR_RO(config_crc);
  
- 	touch@4b {
+ static struct attribute *mxt_attrs[] = {
+ 	&dev_attr_fw_version.attr,
+ 	&dev_attr_hw_version.attr,
+ 	&dev_attr_object.attr,
+ 	&dev_attr_update_cfg.attr,
++	&dev_attr_config_crc.attr,
+ 	NULL
+ };
+ 
 -- 
 2.17.1
 
