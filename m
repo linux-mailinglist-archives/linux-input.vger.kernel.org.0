@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C8B81CA37F
-	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 08:01:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 796911CA30D
+	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 07:58:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727869AbgEHGAv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 May 2020 02:00:51 -0400
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:21956 "EHLO
-        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726083AbgEHF5V (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:57:21 -0400
-IronPort-SDR: VNTh+qtmXJ2y1073y4XPJZE0KiM5jVaXv4SYaF6e2vggFs3uf70IQu8IY6O5oKNdvw5XzBgY1Y
- 8x6sZqMgcDuR+N9Ce23TT4miPgx8UyJgUcSJ5+t4jyKHiax+mBkSpTqmRVgiwBo5vZRg8+2SqU
- bD23jlTxrjk7pSkiLQVi/duAYUl4MZyWz8K/7VrM3OLFPXgKyQOe+yYR9C3qra+62hQWmT9lqv
- xYCL6baj3q80h5bZq1ZIp6QvpeH+JNd55Zw/yKcL5e3/ZzeI75ZSBhtlnMAoRoPxlDHhQ+Cu/l
- fjI=
+        id S1727030AbgEHF50 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 May 2020 01:57:26 -0400
+Received: from esa1.mentor.iphmx.com ([68.232.129.153]:38659 "EHLO
+        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726701AbgEHF5W (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:57:22 -0400
+IronPort-SDR: bBoIS3IKq9W+Oj3xAFbfubqCiAwS+aL1v2QLSN9HYX755pFKEh/xZtQE6sUrILGlsu/2kwObsH
+ /wcD0D+ZtrnkEEsCGn2UiZpcTqRk1iu6B7obCSxI/6mBOzynE70Dyry6tBEUgKjpW8IvStj0e6
+ Fxa0HbHKw+76zjqVBzUiqbjZvT4qvVNMW9wXMyO3insBYg7FFQTbZZsiAQoXo+oG+/fDORRoFI
+ DWDWsekIp+0uhJW1iV0zBrZmZ9CgAH9vlshAp0Rg6HifXwlnS1L341GmMLIajtnLxY3trQaowU
+ du0=
 X-IronPort-AV: E=Sophos;i="5.73,366,1583222400"; 
-   d="scan'208";a="48651902"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa3.mentor.iphmx.com with ESMTP; 07 May 2020 21:57:18 -0800
-IronPort-SDR: ltE0ZwoC3R5bRPsD+OTehOiLRU8BsmP7rEb48qc7UPRFIWy3Hq3DItZMRwYCix/vOx837PJzjp
- H/mf3mLPXmMbxlQp3NfI+sH34+WV/Co8WFX28oOOy9sMY3Zl6xjRNO8b4KZUPJskI6JweXChit
- 5F0CYbN7G4qwG1QOW4KnMw0JVBhgWJwa+o0EBuhVk3IUXrqkh8kFIwypIjRIYfTP3tJ+0GjOEr
- gs34TjncMR4gLxe+JgD/QS2GeeGPgnKbyOe3HqpiQ3oreqqhSRy4Oy3ajSXyKbvWbgysKCA8Zn
- ZPI=
+   d="scan'208";a="50670041"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa1.mentor.iphmx.com with ESMTP; 07 May 2020 21:57:20 -0800
+IronPort-SDR: 10UfRW8WjvEQ7w6RKpaGzCmoEMw/gg0zqL/WAQP/MHa6Q1xLEJCNPCFth1HA3z+E4JdxmkJQMR
+ kX+VSczTvm0PWft7kyoR2THK74F/fC/JaIVc63L5oO7uwD1RG+64sm8EchBlFfWJfd4dVE6QlO
+ H3HJmInDdzLnKjShi1SlZ7lUowX6Q/XwkznBlttB0PTl0HW0JfspCB6toUyxrVt5hD/yJMbhHM
+ 0uG4gySkx2D3x0R6RupvZW7Fbgf1yLD6lMndAKlkvxp78ofD8N5SBuBuA+K4V84btzoAMRCW/F
+ B8c=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -32,9 +32,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v11 04/56] Input: atmel_mxt_ts - split large i2c transfers into blocks
-Date:   Thu, 7 May 2020 22:56:04 -0700
-Message-ID: <20200508055656.96389-5-jiada_wang@mentor.com>
+Subject: [PATCH v11 05/56] Input: atmel_mxt_ts - output status from T48 Noise Supression
+Date:   Thu, 7 May 2020 22:56:05 -0700
+Message-ID: <20200508055656.96389-6-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200508055656.96389-1-jiada_wang@mentor.com>
 References: <20200508055656.96389-1-jiada_wang@mentor.com>
@@ -47,75 +47,82 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-On some firmware variants, the size of the info block exceeds what can
-be read in a single transfer.
+This patch outputs status from T48 Noise Supression
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-(cherry picked from ndyer/linux/for-upstream commit 74c4f5277cfa403d43fafc404119dc57a08677db)
-[gdavis: Forward port and fix conflicts due to v4.14.51 commit
-	 960fe000b1d3 ("Input: atmel_mxt_ts - fix the firmware
-	 update").]
+Acked-by: Benson Leung <bleung@chromium.org>
+Acked-by: Yufeng Shen <miletus@chromium.org>
+(cherry picked from ndyer/linux/for-upstream commit 2895a6ff150a49f27a02938f8d262be238b296d8)
 Signed-off-by: George G. Davis <george_davis@mentor.com>
-[jiada: Change mxt_read_blks() to __mxt_read_reg(), original __mxt_read_reg() to
-	__mxt_read_chunk()]
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 28 +++++++++++++++++++++---
- 1 file changed, 25 insertions(+), 3 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 25 ++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 3f1ebe14802f..7e6a66e3e1e0 100644
+index 7e6a66e3e1e0..a53985a7736f 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -40,7 +40,7 @@
- #define MXT_OBJECT_START	0x07
- #define MXT_OBJECT_SIZE		6
- #define MXT_INFO_CHECKSUM_SIZE	3
--#define MXT_MAX_BLOCK_WRITE	256
-+#define MXT_MAX_BLOCK_WRITE	255
+@@ -324,6 +324,7 @@ struct mxt_data {
+ 	u16 T18_address;
+ 	u8 T19_reportid;
+ 	u16 T44_address;
++	u8 T48_reportid;
+ 	u8 T100_reportid_min;
+ 	u8 T100_reportid_max;
  
- /* Object types */
- #define MXT_DEBUG_DIAGNOSTIC_T37	37
-@@ -624,8 +624,8 @@ static int mxt_send_bootloader_cmd(struct mxt_data *data, bool unlock)
- 	return 0;
+@@ -978,6 +979,24 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+ 	data->update_input = true;
  }
  
--static int __mxt_read_reg(struct i2c_client *client,
--			       u16 reg, u16 len, void *val)
-+static int __mxt_read_chunk(struct i2c_client *client,
-+			    u16 reg, u16 len, void *val)
- {
- 	struct i2c_msg xfer[2];
- 	u8 buf[2];
-@@ -659,6 +659,28 @@ static int __mxt_read_reg(struct i2c_client *client,
- 	return ret;
- }
- 
-+static int __mxt_read_reg(struct i2c_client *client,
-+			  u16 reg, u16 len, void *buf)
++static int mxt_proc_t48_messages(struct mxt_data *data, u8 *msg)
 +{
-+	u16 offset = 0;
-+	int error;
-+	u16 size;
++	struct device *dev = &data->client->dev;
++	u8 status, state;
 +
-+	while (offset < len) {
-+		size = min(MXT_MAX_BLOCK_WRITE, len - offset);
++	status = msg[1];
++	state  = msg[4];
 +
-+		error = __mxt_read_chunk(client,
-+					 reg + offset,
-+					 size, buf + offset);
-+		if (error)
-+			return error;
-+
-+		offset += size;
-+	}
++	dev_dbg(dev, "T48 state %d status %02X %s%s%s%s%s\n", state, status,
++		status & 0x01 ? "FREQCHG " : "",
++		status & 0x02 ? "APXCHG " : "",
++		status & 0x04 ? "ALGOERR " : "",
++		status & 0x10 ? "STATCHG " : "",
++		status & 0x20 ? "NLVLCHG " : "");
 +
 +	return 0;
 +}
 +
- static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
- 			   const void *val)
+ static int mxt_proc_message(struct mxt_data *data, u8 *message)
  {
+ 	u8 report_id = message[0];
+@@ -987,6 +1006,8 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
+ 
+ 	if (report_id == data->T6_reportid) {
+ 		mxt_proc_t6_messages(data, message);
++	} else if (report_id == data->T48_reportid) {
++		mxt_proc_t48_messages(data, message);
+ 	} else if (!data->input_dev) {
+ 		/*
+ 		 * Do not report events if input device
+@@ -1666,6 +1687,7 @@ static void mxt_free_object_table(struct mxt_data *data)
+ 	data->T18_address = 0;
+ 	data->T19_reportid = 0;
+ 	data->T44_address = 0;
++	data->T48_reportid = 0;
+ 	data->T100_reportid_min = 0;
+ 	data->T100_reportid_max = 0;
+ 	data->max_reportid = 0;
+@@ -1747,6 +1769,9 @@ static int mxt_parse_object_table(struct mxt_data *data,
+ 		case MXT_SPT_GPIOPWM_T19:
+ 			data->T19_reportid = min_id;
+ 			break;
++		case MXT_PROCG_NOISESUPPRESSION_T48:
++			data->T48_reportid = min_id;
++			break;
+ 		case MXT_TOUCH_MULTITOUCHSCREEN_T100:
+ 			data->multitouch = MXT_TOUCH_MULTITOUCHSCREEN_T100;
+ 			data->T100_reportid_min = min_id;
 -- 
 2.17.1
 
