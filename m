@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A89C1CA30C
-	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 07:58:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA9671CA310
+	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 07:58:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726877AbgEHF50 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 May 2020 01:57:26 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:38659 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725959AbgEHF50 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:57:26 -0400
-IronPort-SDR: 2da9ZufG6x6cSHPWxOkyQUMM4gqMot08r5lkfrV0eJEvQnQUXcaGUkX6MbOYHhSSk4YHoQ0nEx
- c3ZsC/wPygCfLvZLyEnXESsXdEx8LiaKihDkxtc3FKFzCbz4V4teTFgAJXw/Z32iZGTndPOOYj
- aIFP1b2lEdGKj+WiIFEXbnEJSDG1qsBFGOZ4ZYlR04M5tjPCmJmRjOLsmGj/YNTYZ13FYGKGBY
- SwNN3nzUeDUr6Vj/YJzu58Q0x79rBnp2J+JZb+uK+mPb8TUYXsrVZ9fU/nImLhvJBP0DdnVfNI
- Iv0=
+        id S1727092AbgEHF5d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 May 2020 01:57:33 -0400
+Received: from esa4.mentor.iphmx.com ([68.232.137.252]:45858 "EHLO
+        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726701AbgEHF5c (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:57:32 -0400
+IronPort-SDR: nOVsoYWfBGgfOnXTTd9YlLU1hkpZVQrg4ZQS0uRLajEcCPyLTkNOIGa0hSVMiwO8DSlpeh33pz
+ Jm0oW6FSeE72yKmtZyE7pRQ3VBIdy8HHfBdHZ+8t2Vq118n7iSWCH7aMC9M2gzTRTYbw4oFfBZ
+ ab/NJMXLxA2r28JlhCr18SoL1VoZM3r+ca91Lv44KPI/AL7sk4Wt9kN1yJ1dAcnp9vjpLqpDDA
+ j17d2bIEE3Xq0vvDb2J7oOHMRkgYfbrI7e6vd1o5J2ulih+LbKcX3Ck8QlryuplY1JghYVs7Ei
+ LPQ=
 X-IronPort-AV: E=Sophos;i="5.73,366,1583222400"; 
-   d="scan'208";a="50670046"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa1.mentor.iphmx.com with ESMTP; 07 May 2020 21:57:24 -0800
-IronPort-SDR: jOqvN7yEMsw/9CRkF+DqvM1oXhbwYkxrjI7AJVGNOf3xrGIcTvRjhx5N6sg4cXRYo8ROvcyeTT
- +mE4c/8JzH+r3GPo95PSo08hqQg3FmOtpFBLHXqWBf65wc4tl4oEMTN9btgw6DZfjOuTQu2Eky
- D8e9fP9dLzauqc7HT75gsrlwPoaI9ip3ZZEYQIz0V8XGSPskmDcU1yM5CxaE02CrVcXGvWCWjv
- Gn5qTBZ++oMBzKO6g5b3tcekz+0Ect0MR8IHQs2G5fUzx3gztWlTyGLOhn4PY1dkgURDXbelxL
- fgA=
+   d="scan'208";a="48710560"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa4.mentor.iphmx.com with ESMTP; 07 May 2020 21:57:29 -0800
+IronPort-SDR: /1c6/32l0lRKDPvHVXozzktU2zipPl9jaIDsxFCqC5cXqEneB526law/WPyFoVUBckwt5ubvgd
+ GT9gDmeESXe/qERNrmA2R+yq3miF8llHvFJeDnQW1bXrP9Hef6yLWlb0g9B4VKWc6qdPNgllyO
+ altkADSa03lv/RzVs+8JRhGdjiY05BN4cFhqhCny/iq2O9FJ/oA730lPeI3OElQHjFRXPgzNhE
+ oTy0K6jBBl/HuQYqT+lP7oJyKeVe251RJCIaw85WOewVVUamVCUDmQ0FPQBPEq00rROSw0FGnv
+ Q48=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -32,9 +32,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v11 06/56] Input: atmel_mxt_ts - output status from T42 Touch Suppression
-Date:   Thu, 7 May 2020 22:56:06 -0700
-Message-ID: <20200508055656.96389-7-jiada_wang@mentor.com>
+Subject: [PATCH v11 07/56] Input: atmel_mxt_ts - implement T9 vector/orientation support
+Date:   Thu, 7 May 2020 22:56:07 -0700
+Message-ID: <20200508055656.96389-8-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200508055656.96389-1-jiada_wang@mentor.com>
 References: <20200508055656.96389-1-jiada_wang@mentor.com>
@@ -47,90 +47,79 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-This patch outputs status from T42 touch suppression
+The atmel touch messages contain orientation information as a byte in a
+packed format which can be passed straight on to Android if the input
+device configuration is correct.
+
+This requires vector reports to be enabled in maXTouch config (zero
+DISVECT bit 3 in T9 CTRL field)
+
+Android converts the format in InputReader.cpp, search for
+ORIENTATION_CALIBRATION_VECTOR.
 
 Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
 Acked-by: Benson Leung <bleung@chromium.org>
 Acked-by: Yufeng Shen <miletus@chromium.org>
-(cherry picked from ndyer/linux/for-upstream commit ab95b5a309999d2c098daaa9f88d9fcfae7eb516)
+(cherry picked from ndyer/linux/for-upstream commit a6f0ee919d2631678169b23fb18f55b6dbabcd4c)
 Signed-off-by: George G. Davis <george_davis@mentor.com>
-[jiada: Replace dev_info() with dev_dbg()]
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 25 ++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index a53985a7736f..f6465edaa57e 100644
+index f6465edaa57e..df2e0ba76e63 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -155,6 +155,9 @@ struct t37_debug {
- #define MXT_RESET_VALUE		0x01
- #define MXT_BACKUP_VALUE	0x55
+@@ -817,6 +817,7 @@ static void mxt_proc_t9_message(struct mxt_data *data, u8 *message)
+ 	int y;
+ 	int area;
+ 	int amplitude;
++	u8 vector;
  
-+/* Define for MXT_PROCI_TOUCHSUPPRESSION_T42 */
-+#define MXT_T42_MSG_TCHSUP	BIT(0)
-+
- /* T100 Multiple Touch Touchscreen */
- #define MXT_T100_CTRL		0
- #define MXT_T100_CFG1		1
-@@ -323,6 +326,8 @@ struct mxt_data {
- 	u8 T9_reportid_max;
- 	u16 T18_address;
- 	u8 T19_reportid;
-+	u8 T42_reportid_min;
-+	u8 T42_reportid_max;
- 	u16 T44_address;
- 	u8 T48_reportid;
- 	u8 T100_reportid_min;
-@@ -979,6 +984,17 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
- 	data->update_input = true;
- }
+ 	id = message[0] - data->T9_reportid_min;
+ 	status = message[1];
+@@ -831,9 +832,10 @@ static void mxt_proc_t9_message(struct mxt_data *data, u8 *message)
  
-+static void mxt_proc_t42_messages(struct mxt_data *data, u8 *msg)
-+{
-+	struct device *dev = &data->client->dev;
-+	u8 status = msg[1];
-+
-+	if (status & MXT_T42_MSG_TCHSUP)
-+		dev_dbg(dev, "T42 suppress\n");
-+	else
-+		dev_dbg(dev, "T42 normal\n");
-+}
-+
- static int mxt_proc_t48_messages(struct mxt_data *data, u8 *msg)
- {
- 	struct device *dev = &data->client->dev;
-@@ -1006,6 +1022,9 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
+ 	area = message[5];
+ 	amplitude = message[6];
++	vector = message[7];
  
- 	if (report_id == data->T6_reportid) {
- 		mxt_proc_t6_messages(data, message);
-+	} else if (report_id >= data->T42_reportid_min
-+		   && report_id <= data->T42_reportid_max) {
-+		mxt_proc_t42_messages(data, message);
- 	} else if (report_id == data->T48_reportid) {
- 		mxt_proc_t48_messages(data, message);
- 	} else if (!data->input_dev) {
-@@ -1686,6 +1705,8 @@ static void mxt_free_object_table(struct mxt_data *data)
- 	data->T9_reportid_max = 0;
- 	data->T18_address = 0;
- 	data->T19_reportid = 0;
-+	data->T42_reportid_min = 0;
-+	data->T42_reportid_max = 0;
- 	data->T44_address = 0;
- 	data->T48_reportid = 0;
- 	data->T100_reportid_min = 0;
-@@ -1763,6 +1784,10 @@ static int mxt_parse_object_table(struct mxt_data *data,
- 		case MXT_SPT_COMMSCONFIG_T18:
- 			data->T18_address = object->start_address;
- 			break;
-+		case MXT_PROCI_TOUCHSUPPRESSION_T42:
-+			data->T42_reportid_min = min_id;
-+			data->T42_reportid_max = max_id;
-+			break;
- 		case MXT_SPT_MESSAGECOUNT_T44:
- 			data->T44_address = object->start_address;
- 			break;
+ 	dev_dbg(dev,
+-		"[%u] %c%c%c%c%c%c%c%c x: %5u y: %5u area: %3u amp: %3u\n",
++		"[%u] %c%c%c%c%c%c%c%c x: %5u y: %5u area: %3u amp: %3u vector: %02X\n",
+ 		id,
+ 		(status & MXT_T9_DETECT) ? 'D' : '.',
+ 		(status & MXT_T9_PRESS) ? 'P' : '.',
+@@ -843,7 +845,7 @@ static void mxt_proc_t9_message(struct mxt_data *data, u8 *message)
+ 		(status & MXT_T9_AMP) ? 'A' : '.',
+ 		(status & MXT_T9_SUPPRESS) ? 'S' : '.',
+ 		(status & MXT_T9_UNGRIP) ? 'U' : '.',
+-		x, y, area, amplitude);
++		x, y, area, amplitude, vector);
+ 
+ 	input_mt_slot(input_dev, id);
+ 
+@@ -868,6 +870,7 @@ static void mxt_proc_t9_message(struct mxt_data *data, u8 *message)
+ 		input_report_abs(input_dev, ABS_MT_POSITION_Y, y);
+ 		input_report_abs(input_dev, ABS_MT_PRESSURE, amplitude);
+ 		input_report_abs(input_dev, ABS_MT_TOUCH_MAJOR, area);
++		input_report_abs(input_dev, ABS_MT_ORIENTATION, vector);
+ 	} else {
+ 		/* Touch no longer active, close out slot */
+ 		input_mt_report_slot_inactive(input_dev);
+@@ -2180,8 +2183,9 @@ static int mxt_initialize_input_device(struct mxt_data *data)
+ 				     0, 255, 0, 0);
+ 	}
+ 
+-	if (data->multitouch == MXT_TOUCH_MULTITOUCHSCREEN_T100 &&
+-	    data->t100_aux_vect) {
++	if (data->multitouch == MXT_TOUCH_MULTI_T9 ||
++	    (data->multitouch == MXT_TOUCH_MULTITOUCHSCREEN_T100 &&
++	    data->t100_aux_vect)) {
+ 		input_set_abs_params(input_dev, ABS_MT_ORIENTATION,
+ 				     0, 255, 0, 0);
+ 	}
 -- 
 2.17.1
 
