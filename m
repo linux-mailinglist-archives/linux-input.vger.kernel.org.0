@@ -2,206 +2,277 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C8DE1CA2AF
-	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 07:33:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB71A1CA307
+	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 07:57:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725959AbgEHFdQ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 8 May 2020 01:33:16 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:57005 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725681AbgEHFdP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:33:15 -0400
-Received: from mail-pl1-f198.google.com ([209.85.214.198])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1jWvdI-0006ot-Ri
-        for linux-input@vger.kernel.org; Fri, 08 May 2020 05:33:13 +0000
-Received: by mail-pl1-f198.google.com with SMTP id q7so671574plr.4
-        for <linux-input@vger.kernel.org>; Thu, 07 May 2020 22:33:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=hkJ6wNdMEe4PD7sEwcpd8encCS5UsQds8Zt//bKfPFw=;
-        b=rJmCU1d2oRBuAZIscQbnqxqb2eZpPADioVNhihBvFB3Vjaj13XzO+BmtzuovuhR7sV
-         aV+fKWzb8/1r0KA/uL3R+2QSvqzC9gYjmT+9NvQ8i8Iq0V+ZJ1oycn9xDKuRr4yl00bG
-         cNptmeVOzCVl7J6+u5D2KKz/4a4NaFLzWCXeM2XMkQeK1hj1kJBR+//vFpeVefhX/1ef
-         GwCoBhMIRI1o4PgVZB8Hgxv23DwLZHsAOfhyql3+yavfnDW6nvQjzVA4bqYNEJ0DubGP
-         TD1HhDF4DsH86qu1hLLr/kXoLBi1UQM/ItE+xJENDTCLQfw0eUE+lvgzyv/ArjgHMIh7
-         E0hw==
-X-Gm-Message-State: AGi0Puau7T3MaHhBWOrpG8B8eizVX2tzuD+pJFzPNIYIm3AHJZGi4aTx
-        q4jdMc0KlSrP1t1TraIEo8sm+bD2xIMkwGSIjOC89xHLnm011zeAx0wPn7WFgOs15yPpwnOAMHa
-        llr+0Jr/h0FOv4APrSBGSU2bNTkZavptAT1mHqRv7
-X-Received: by 2002:a17:90a:6d03:: with SMTP id z3mr4163435pjj.32.1588915991304;
-        Thu, 07 May 2020 22:33:11 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLX1pum8yBSdzqLwBMgVaOm2f65x54RtXNMc9wz43tGmgKuAat0LXqyoNLXTqJTLwm3Yr9+CQ==
-X-Received: by 2002:a17:90a:6d03:: with SMTP id z3mr4163395pjj.32.1588915990873;
-        Thu, 07 May 2020 22:33:10 -0700 (PDT)
-Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net. [220.133.187.190])
-        by smtp.gmail.com with ESMTPSA id 19sm1297922pjl.52.2020.05.07.22.33.09
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 07 May 2020 22:33:10 -0700 (PDT)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH] HID: multitouch: Remove MT_CLS_WIN_8_DUAL
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <20200414091842.25972-1-kai.heng.feng@canonical.com>
-Date:   Fri, 8 May 2020 13:33:07 +0800
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <AC3B52A7-B122-4834-8E48-21AA4F9FBA94@canonical.com>
-References: <20200414091842.25972-1-kai.heng.feng@canonical.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
+        id S1725896AbgEHF5T (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 May 2020 01:57:19 -0400
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:21951 "EHLO
+        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725865AbgEHF5T (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:57:19 -0400
+IronPort-SDR: iWsuOs1L0Ixuth+rzMhXVhYhS6Hc4qRBR9B3vOj/CXD02wp394wBSu+IP3JjsXq1+5aNEZMRoP
+ Hf6G0SveAH+A1BQoBk5mBvcoskHHox2lekp5Qtut/rB1a890yIs56gUqvxezN/FI/qzriszw34
+ w7cpTnH5wTxiHey+LzX6XtSbws4BRpRSMvG6JgWKAoHATdd02wSccwPW/JSgs5YgpdHMld1Uce
+ FPULzqflqHN1NZO/lOoK/AziV5Skh7rS+4GSRy9VeP+3WsgN2Lu9IuI5CSCDIJ2YfQ+4volaGP
+ wdg=
+X-IronPort-AV: E=Sophos;i="5.73,366,1583222400"; 
+   d="scan'208";a="48651885"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa3.mentor.iphmx.com with ESMTP; 07 May 2020 21:57:02 -0800
+IronPort-SDR: cCqpoRZXbZtSD7FLMLVxVrSX3EezEf9xBwqN5C3iuiOjwg+B31vIUaKVoxeZG+YquhnamQ24wb
+ atXQen75W/kh+JauGmI/mjEmdDm993G5i67d1HilfTtgynCxQVe//FoVGvLjRVIRNlA1pjD5Ud
+ APajCw5l8GDhMiCobjkMmVxgd3XRnbELl84T8qBgUYCk8IMbyJajIU/NVe/0hoF47alhTD41WD
+ dodF2H2Bih6lDYHM7nt5gU6uHL9U8f4gJnG2LmjE8Etqqr493/uIZsqJVaAvyR3w1YH+cLlg8y
+ W+Q=
+From:   Jiada Wang <jiada_wang@mentor.com>
+To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
+        <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+        <bsz@semihalf.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
+        <jiada_wang@mentor.com>
+Subject: [PATCH v11 00/56] atmel_mxt_ts misc
+Date:   Thu, 7 May 2020 22:56:00 -0700
+Message-ID: <20200508055656.96389-1-jiada_wang@mentor.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+This patch-set forward ports Nick Dyer's work in ndyer/linux github
+repository as long as some other features and fixes
 
+Balasubramani Vivekanandan (2):
+  Input: atmel_mxt_ts: Limit the max bytes transferred in an i2c
+    transaction
+  Input: atmel_mxt_ts: use gpiod_set_value_cansleep for reset pin
 
-> On Apr 14, 2020, at 17:18, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
-> 
-> After commit c23e2043d5f7 ("HID: multitouch: do not filter mice nodes"),
-> MT_CLS_WIN_8 also supports mouse nodes, hence make MT_CLS_WIN_8_DUAL
-> redundant.
-> 
-> Remove MT_CLS_WIN_8_DUAL accordingly.
+Dean Jenkins (1):
+  Input: atmel_mxt_ts: return error from
+    mxt_process_messages_until_invalid()
 
-A gentle ping...
+Deepak Das (6):
+  Input: Atmel: improve error handling in mxt_start()
+  Input: Atmel: improve error handling in mxt_initialize()
+  Input: Atmel: improve error handling in mxt_update_cfg()
+  Input: Atmel: Improve error handling in mxt_initialize_input_device()
+  Input: Atmel: handle ReportID "0x00" while processing T5 messages
+  Input: Atmel: use T44 object to process T5 messages
 
-> 
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> ---
-> drivers/hid/hid-ids.h        |  9 --------
-> drivers/hid/hid-multitouch.c | 45 ++----------------------------------
-> 2 files changed, 2 insertions(+), 52 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index b18b13147a6f..7134389afd2e 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -76,12 +76,8 @@
-> 
-> #define USB_VENDOR_ID_ALPS_JP		0x044E
-> #define HID_DEVICE_ID_ALPS_U1_DUAL	0x120B
-> -#define HID_DEVICE_ID_ALPS_U1_DUAL_PTP	0x121F
-> -#define HID_DEVICE_ID_ALPS_U1_DUAL_3BTN_PTP	0x1220
-> #define HID_DEVICE_ID_ALPS_U1		0x1215
-> #define HID_DEVICE_ID_ALPS_T4_BTNLESS	0x120C
-> -#define HID_DEVICE_ID_ALPS_1222		0x1222
-> -
-> 
-> #define USB_VENDOR_ID_AMI		0x046b
-> #define USB_DEVICE_ID_AMI_VIRT_KEYBOARD_AND_MOUSE	0xff10
-> @@ -281,9 +277,6 @@
-> 
-> #define USB_VENDOR_ID_CIDC		0x1677
-> 
-> -#define I2C_VENDOR_ID_CIRQUE		0x0488
-> -#define I2C_PRODUCT_ID_CIRQUE_121F	0x121F
-> -
-> #define USB_VENDOR_ID_CJTOUCH		0x24b8
-> #define USB_DEVICE_ID_CJTOUCH_MULTI_TOUCH_0020	0x0020
-> #define USB_DEVICE_ID_CJTOUCH_MULTI_TOUCH_0040	0x0040
-> @@ -729,8 +722,6 @@
-> #define USB_DEVICE_ID_LENOVO_SCROLLPOINT_OPTICAL	0x6049
-> #define USB_DEVICE_ID_LENOVO_TPPRODOCK	0x6067
-> #define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
-> -#define USB_DEVICE_ID_LENOVO_X1_TAB	0x60a3
-> -#define USB_DEVICE_ID_LENOVO_X1_TAB3	0x60b5
-> #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D	0x608d
-> 
-> #define USB_VENDOR_ID_LG		0x1fd2
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index 362805ddf377..bcd37abb2a4a 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -188,7 +188,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
-> /* reserved					0x0011 */
-> #define MT_CLS_WIN_8				0x0012
-> #define MT_CLS_EXPORT_ALL_INPUTS		0x0013
-> -#define MT_CLS_WIN_8_DUAL			0x0014
-> +/* reserved					0x0014 */
-> 
-> /* vendor specific classes */
-> #define MT_CLS_3M				0x0101
-> @@ -272,14 +272,6 @@ static const struct mt_class mt_classes[] = {
-> 		.quirks = MT_QUIRK_ALWAYS_VALID |
-> 			MT_QUIRK_CONTACT_CNT_ACCURATE,
-> 		.export_all_inputs = true },
-> -	{ .name = MT_CLS_WIN_8_DUAL,
-> -		.quirks = MT_QUIRK_ALWAYS_VALID |
-> -			MT_QUIRK_IGNORE_DUPLICATES |
-> -			MT_QUIRK_HOVERING |
-> -			MT_QUIRK_CONTACT_CNT_ACCURATE |
-> -			MT_QUIRK_WIN8_PTP_BUTTONS,
-> -		.export_all_inputs = true },
-> -
-> 	/*
-> 	 * vendor specific classes
-> 	 */
-> @@ -754,8 +746,7 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
-> 			MT_STORE_FIELD(inrange_state);
-> 			return 1;
-> 		case HID_DG_CONFIDENCE:
-> -			if ((cls->name == MT_CLS_WIN_8 ||
-> -				cls->name == MT_CLS_WIN_8_DUAL) &&
-> +			if (cls->name == MT_CLS_WIN_8 &&
-> 				(field->application == HID_DG_TOUCHPAD ||
-> 				 field->application == HID_DG_TOUCHSCREEN))
-> 				app->quirks |= MT_QUIRK_CONFIDENCE;
-> @@ -1786,32 +1777,6 @@ static const struct hid_device_id mt_devices[] = {
-> 		MT_USB_DEVICE(USB_VENDOR_ID_3M,
-> 			USB_DEVICE_ID_3M3266) },
-> 
-> -	/* Alps devices */
-> -	{ .driver_data = MT_CLS_WIN_8_DUAL,
-> -		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-> -			USB_VENDOR_ID_ALPS_JP,
-> -			HID_DEVICE_ID_ALPS_U1_DUAL_PTP) },
-> -	{ .driver_data = MT_CLS_WIN_8_DUAL,
-> -		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-> -			USB_VENDOR_ID_ALPS_JP,
-> -			HID_DEVICE_ID_ALPS_U1_DUAL_3BTN_PTP) },
-> -	{ .driver_data = MT_CLS_WIN_8_DUAL,
-> -		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-> -			USB_VENDOR_ID_ALPS_JP,
-> -			HID_DEVICE_ID_ALPS_1222) },
-> -
-> -	/* Lenovo X1 TAB Gen 2 */
-> -	{ .driver_data = MT_CLS_WIN_8_DUAL,
-> -		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
-> -			   USB_VENDOR_ID_LENOVO,
-> -			   USB_DEVICE_ID_LENOVO_X1_TAB) },
-> -
-> -	/* Lenovo X1 TAB Gen 3 */
-> -	{ .driver_data = MT_CLS_WIN_8_DUAL,
-> -		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
-> -			   USB_VENDOR_ID_LENOVO,
-> -			   USB_DEVICE_ID_LENOVO_X1_TAB3) },
-> -
-> 	/* Anton devices */
-> 	{ .driver_data = MT_CLS_EXPORT_ALL_INPUTS,
-> 		MT_USB_DEVICE(USB_VENDOR_ID_ANTON,
-> @@ -1846,12 +1811,6 @@ static const struct hid_device_id mt_devices[] = {
-> 		MT_USB_DEVICE(USB_VENDOR_ID_CHUNGHWAT,
-> 			USB_DEVICE_ID_CHUNGHWAT_MULTITOUCH) },
-> 
-> -	/* Cirque devices */
-> -	{ .driver_data = MT_CLS_WIN_8_DUAL,
-> -		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-> -			I2C_VENDOR_ID_CIRQUE,
-> -			I2C_PRODUCT_ID_CIRQUE_121F) },
-> -
-> 	/* CJTouch panels */
-> 	{ .driver_data = MT_CLS_NSMU,
-> 		MT_USB_DEVICE(USB_VENDOR_ID_CJTOUCH,
-> -- 
-> 2.17.1
-> 
+George G. Davis (1):
+  input: atmel_mxt_ts: export GPIO reset line via sysfs
+
+Janus Cheng (1):
+  Input: atmel_mxt_ts - check data->input_dev is not null in
+    mxt_input_sync()
+
+Jiada Wang (12):
+  Input: introduce input_mt_report_slot_inactive
+  dt-bindings: input: atmel: add suspend mode support
+  Input: atmel_mxt_ts: Rename mxt_fw_version_show to fw_version_show
+  Input: atmel_mxt_ts: Rename mxt_hw_version_show to hw_version_show
+  Input: atmel_mxt_ts: rename mxt_update_fw_store to update_fw_store
+  dt-bindings: input: atmel: provide name of configuration file
+  dt-bindings: input: atmel: support to specify input name
+  Input: atmel_mxt_ts - rename mxt_object_show to object_show
+  Input: atmel_mxt_ts - delay enabling IRQ when not using regulators
+  Input: atmel_mxt_ts - eliminate data->raw_info_block
+  input: atmel_mxt_ts: don't disable IRQ before remove of
+    mxt_fw_attr_group
+  Input: atmel_mxt_ts - Fix compilation warning
+
+Karl Tsou (1):
+  Input: atmel_mxt_ts - add debug for T92 gesture and T93 touch seq msgs
+
+Kautuk Consul (2):
+  Input: atmel_mxt_ts - Change call-points of mxt_free_* functions
+  Input: atmel_mxt_ts - rely on calculated_crc rather than file
+    config_crc
+
+Naveen Chakka (2):
+  input: touchscreen: atmel_mxt_ts: Added sysfs entry for touchscreen
+    status
+  input: atmel_mxt_ts: added sysfs interface to update atmel T38 data
+
+Nick Dyer (25):
+  Input: atmel_mxt_ts - rework sysfs init/remove
+  Input: atmel_mxt_ts - only read messages in mxt_acquire_irq() when
+    necessary
+  Input: atmel_mxt_ts - split large i2c transfers into blocks
+  Input: atmel_mxt_ts - output status from T48 Noise Supression
+  Input: atmel_mxt_ts - output status from T42 Touch Suppression
+  Input: atmel_mxt_ts - implement T9 vector/orientation support
+  Input: atmel_mxt_ts - implement T15 Key Array support
+  Input: atmel_mxt_ts - handle reports from T47 Stylus object
+  Input: atmel_mxt_ts - implement support for T107 active stylus
+  Input: atmel_mxt_ts - release touch state during suspend
+  Input: atmel_mxt_ts - add regulator control support
+  Input: atmel_mxt_ts - report failures in suspend/resume
+  Input: atmel_mxt_ts - allow specification of firmware file name
+  Input: atmel_mxt_ts - handle cfg filename via pdata/sysfs
+  Input: atmel_mxt_ts - allow input name to be specified in platform
+    data
+  Input: atmel_mxt_ts - refactor firmware flash to extract context into
+    struct
+  Input: atmel_mxt_ts - refactor code to enter bootloader into separate
+    func
+  Input: atmel_mxt_ts - combine bootloader version query with probe
+  Input: atmel_mxt_ts - improve bootloader state machine handling
+  Input: atmel_mxt_ts - rename bl_completion to chg_completion
+  Input: atmel_mxt_ts - make bootloader interrupt driven
+  Input: atmel_mxt_ts - implement I2C retries
+  Input: atmel_mxt_ts - orientation is not present in hover
+  Input: atmel_mxt_ts - implement debug output for messages
+  Input: atmel_mxt_ts - implement improved debug message interface
+
+Nikhil Ravindran (1):
+  Input: atmel_mxt_ts: Add support for run self-test routine.
+
+karl tsou (1):
+  Input: atmel_mxt_ts - add config checksum attribute to sysfs
+
+keerthikumarp (1):
+  input: atmel_mxt_ts: Add Missing Delay for reset handling of Atmel
+    touch panel controller in detachable displays.
+---
+v11:
+Following commits in v10 have been dropped
+dt-bindings: input: atmel: support to set max bytes transferred
+Input: atmel_mxt_ts: Implement synchronization during various operation
+
+Following commits have been added
+Input: atmel_mxt_ts - check data->input_dev is not null in
+mxt_input_sync()
+Input: atmel_mxt_ts - rename mxt_object_show to object_show
+input: atmel_mxt_ts: don't disable IRQ before remove of
+mxt_fw_attr_group
+
+Following commits have been updated to address review findings
+dt-bindings: input: atmel: add suspend mode support
+input: touchscreen: atmel_mxt_ts: Added sysfs entry for touchscreen
+status
+Input: atmel_mxt_ts - handle cfg filename via pdata/sysfs
+Input: atmel_mxt_ts - delay enabling IRQ when not using regulators
+
+v10:
+Following commits have been updated
+input: touchscreen: atmel_mxt_ts: Added sysfs entry for touchscreen
+status
+dt-bindings: input: atmel: add suspend mode support
+Input: atmel_mxt_ts: Implement synchronization during various operation
+
+Re-order commits to avoid compilation error
+
+v9:
+Following commits have been added
+Input: atmel_mxt_ts: rename mxt_update_fw_store to update_fw_store
+Input: atmel_mxt_ts: Rename mxt_hw_version_show to hw_version_show
+Input: atmel_mxt_ts: Rename mxt_fw_version_show to fw_version_show
+
+Addressed dev_attrs related checkpatch warnings
+
+v8:
+Fix checkpatch errors and warnings
+
+Fix issue in commit (" Input: atmel_mxt_ts - only read messages in
+mxt_acquire_irq() when necessary")
+reported by Dmitry Osipenko
+
+Cleanup coding style for commits
+Input: atmel_mxt_ts - add regulator control support
+Input: atmel_mxt_ts - improve bootloader state machine handling
+
+v7:
+Fix regression found when updating firmware
+Following commits have been updated to fix regression found when
+updating firmware
+Input: atmel_mxt_ts - improve bootloader state machine handling
+Input: atmel_mxt_ts - make bootloader interrupt driven
+input: touchscreen: atmel_mxt_ts: Added sysfs entry for touchscreen
+status
+Input: atmel_mxt_ts: Implement synchronization during various operation
+
+v6:
+Fix issue in commit ("Input: introduce input_mt_report_slot_inactive")
+reported by kernel test robot
+
+v5:
+Following commits have been updated to address warnings & errors
+reported by kbuild test robot
+Input: atmel_mxt_ts - make bootloader interrupt driven
+Input: atmel_mxt_ts - add debug for T92 gesture and T93 touch seq msgs
+
+Following commit has been updated
+Input: introduce input_mt_report_slot_inactive
+
+v4:
+Following commit in v3 patch-set has been removed
+Input: switch to use return value of input_mt_report_slot_state
+
+Following commit has been updated to address checkpatch warning
+Input: atmel_mxt_ts: Implement synchronization during various operation
+
+v3:
+Following commits have been updated compared to v2 patchset
+Input: atmel_mxt_ts - implement debug output for messages
+- added inline comment
+Input: atmel_mxt_ts - add debug for T92 gesture and T93 touch seq msg
+- changed dev_info() to dev_dbg()
+
+v2:
+Following commit in v1 patchset has been split into two commits
+Input: introduce input_mt_report_slot_inactive
+
+Following commits have been updated compared to v1 patchset
+Input: atmel_mxt_ts - split large i2c transfers into blocks
+Input: atmel_mxt_ts - output status from T42 Touch Suppression
+
+Following commits in v1 patchset have been squashed
+Input: touchscreen: Atmel: Add device tree support for T15 key array
+objects
+Input: atmel_mxt_ts - check data->input_dev is not null in
+mxt_input_sync()
+Input: atmel_mxt_ts - check firmware format before entering bootloader
+Input: atmel_mxt_ts: update stale use_retrigen_workaround flag
+input: atmel_mxt_ts: move bootloader probe from mxt_initialize()
+input: Atmel: limit the max bytes transferred while reading T5 messages
+Input: atmel_mxt_ts: Use msecs_to_jiffies() instead of HZ
+Input: atmel_mxt_ts: Use complete when in_bootloader true
+Input: atmel_mxt_ts: Prevent crash due to freeing of input device
+input: atmel_mxt_ts: Add NULL check for sysfs attribute debug_msg_attr
+
+Following commits in v1 patchset have been dropped:
+Input: atmel_mxt_ts - configure and use gpios as real gpios
+Input: touchscreen: Atmel: Enable IRQ_DISABLE_UNLAZY flag for interrupt
+Input: atmel_mxt_ts - add memory access interface via sysfs
+Input: atmel_mxt_ts: Remove sysfs attributes during driver detach
+Input: atmel_mxt_ts: Avoid race condition in freeing of input device
+
+v1: initial version
+---
+
+ .../bindings/input/atmel,maxtouch.txt         |   14 +
+ MAINTAINERS                                   |    1 +
+ drivers/hid/hid-alps.c                        |    3 +-
+ drivers/hid/hid-multitouch.c                  |    6 +-
+ drivers/input/misc/xen-kbdfront.c             |    2 +-
+ drivers/input/mouse/elan_i2c_core.c           |    2 +-
+ drivers/input/touchscreen/atmel_mxt_ts.c      | 2072 ++++++++++++++---
+ drivers/input/touchscreen/cyttsp4_core.c      |    5 +-
+ drivers/input/touchscreen/cyttsp_core.c       |    2 +-
+ drivers/input/touchscreen/melfas_mip4.c       |    4 +-
+ drivers/input/touchscreen/mms114.c            |    2 +-
+ drivers/input/touchscreen/raspberrypi-ts.c    |    2 +-
+ drivers/input/touchscreen/stmfts.c            |    2 +-
+ include/dt-bindings/input/atmel_mxt_ts.h      |   23 +
+ include/linux/input/mt.h                      |    5 +
+ 15 files changed, 1790 insertions(+), 355 deletions(-)
+ create mode 100644 include/dt-bindings/input/atmel_mxt_ts.h
+
+-- 
+2.17.1
 
