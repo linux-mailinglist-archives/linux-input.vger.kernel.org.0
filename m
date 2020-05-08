@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89A9B1CA370
-	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 08:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 076AA1CA371
+	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 08:00:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726930AbgEHF6N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 May 2020 01:58:13 -0400
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:2688 "EHLO
+        id S1727861AbgEHF6P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 May 2020 01:58:15 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:2693 "EHLO
         esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727861AbgEHF6J (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:58:09 -0400
-IronPort-SDR: DeqnH3IJuKu7sI14hrg9Lm/RfBpAnFRkDfl4Sk7aqL1foMhWX7X9/dtxh+kl6bh6H/wC9PWGYx
- 9zIjOTKtX2VCYucIZqxVKEIPNfB5+t99bawfOzVotK8+xUHdTu1CtV245B9KOmcUYLe2xux3Kn
- LDurBA5MdmgbQvd8xdevQWPMcajdWqBJC8cwOeKBYoIsl6oCCzoaX+WQTvowgQSmA4kuDIUTpm
- pY/aXVggt6z1YfttyO2LJlHh6jEjfynMid+O2/8spOs/6gEIpMzscKG++2XFZrEmOjcPRYuM+N
- xks=
+        with ESMTP id S1727889AbgEHF6P (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:58:15 -0400
+IronPort-SDR: c5XqVTYIEr0Hx+G+CaJGDiIrT97u5RTAk5UCdHoU9B7wg2mhANCrObuxknKmQZsKsCdcUpCyFR
+ hj1RUFWUFA85oCh8eNDoSc7mGbarhPO/0h5eeq0cC4TGEk8pFRDjexXAQI4QgM3sgWRDZjjU8I
+ 9RIKFx0RPPvRJcLx10eDaEKEac7xS7OcdpWy2qXQqf0ZGyiFGol68AgsDVKJWiOyU/hYLUmLzc
+ NAr+25HfmAhsBY8dFGYimSefZiUFi9yhGeI1MhH6zhdgjrawWb3m5hhyYncdnjEd24nw/8D0Ru
+ CYo=
 X-IronPort-AV: E=Sophos;i="5.73,366,1583222400"; 
-   d="scan'208";a="48589078"
+   d="scan'208";a="48589082"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa2.mentor.iphmx.com with ESMTP; 07 May 2020 21:58:09 -0800
-IronPort-SDR: YegAmgO5vzpL8ClT9FUBfT1ny6I0q4eS97gN4Js3egQyIICYn/Pt2nWfK58Z9dpkBMa4cmo+GT
- rdikdvr9GLeyX7QcTWvQTDqInRxRPf3TX0u/mH+NqI4C40bjRbGQOQvvB6t2H2TD8SBIAhrx1A
- P/JO8IhExLCEc7xPNUbdAkmygwVL3XMnZShY/A2eEoCY0qWoN1G0a6Jjib5/hU43ldnx6c5Y2d
- q0/bn1aRKftW22QG5iPMmDv70lIYZGD2UwEY8yeGFdIkJ1WT8VjQQTP06//6DEwgtLyjdhAndv
- 6ms=
+  by esa2.mentor.iphmx.com with ESMTP; 07 May 2020 21:58:14 -0800
+IronPort-SDR: 5ORKCTmWLj2/EqgAui3Z/gTV3bgAgvOj0mi1Fnxl3TnyR0TUpGHgY9gfTaUWssHR7wz31H5gX/
+ k2hFioXzmPP0fgKDmxmdTNEDaEM1+VAZjV3X74YmFAs+ApGWFIf2jLATfZb+PbliDQSKY49rIp
+ Qh+FdVElyj0Yy9jKnYvTqDAd7Y/itfp7JKacwGlvFYTOAzEWAXDKJ1A+Qo9DVSu83WnvyslfE+
+ RAzimT+gfiufynbMVbDV0F8MwVabwkcmvEpfHa9I19HHzt2jurz21BTKJYJAP3U3IrcahCH4GH
+ 7Jk=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -32,9 +32,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v11 18/56] Input: atmel_mxt_ts: Rename mxt_hw_version_show to hw_version_show
-Date:   Thu, 7 May 2020 22:56:18 -0700
-Message-ID: <20200508055656.96389-19-jiada_wang@mentor.com>
+Subject: [PATCH v11 19/56] Input: atmel_mxt_ts: rename mxt_update_fw_store to update_fw_store
+Date:   Thu, 7 May 2020 22:56:19 -0700
+Message-ID: <20200508055656.96389-20-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200508055656.96389-1-jiada_wang@mentor.com>
 References: <20200508055656.96389-1-jiada_wang@mentor.com>
@@ -45,37 +45,40 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Rename mxt_hw_version_show to hw_version_show to address checkpatch warning
+Rename mxt_update_fw_store to update_fw_store, to address checkpatch
+warning.
 
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index b2a37a9597f3..cec823de4096 100644
+index cec823de4096..720574417219 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -3114,8 +3114,8 @@ static ssize_t fw_version_show(struct device *dev,
+@@ -3366,9 +3366,9 @@ static int mxt_update_file_name(struct device *dev, char **file_name,
+ 	return 0;
  }
  
- /* Hardware Version is returned as FamilyID.VariantID */
--static ssize_t mxt_hw_version_show(struct device *dev,
--				   struct device_attribute *attr, char *buf)
-+static ssize_t hw_version_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
+-static ssize_t mxt_update_fw_store(struct device *dev,
+-					struct device_attribute *attr,
+-					const char *buf, size_t count)
++static ssize_t update_fw_store(struct device *dev,
++			       struct device_attribute *attr,
++			       const char *buf, size_t count)
  {
  	struct mxt_data *data = dev_get_drvdata(dev);
- 	struct mxt_info *info = data->info;
-@@ -3404,7 +3404,7 @@ static const struct attribute_group mxt_fw_attr_group = {
- };
+ 	int error;
+@@ -3392,7 +3392,7 @@ static ssize_t mxt_update_fw_store(struct device *dev,
+ 	return count;
+ }
  
- static DEVICE_ATTR_RO(fw_version);
--static DEVICE_ATTR(hw_version, S_IRUGO, mxt_hw_version_show, NULL);
-+static DEVICE_ATTR_RO(hw_version);
- static DEVICE_ATTR(object, S_IRUGO, mxt_object_show, NULL);
+-static DEVICE_ATTR(update_fw, 0200, NULL, mxt_update_fw_store);
++static DEVICE_ATTR_WO(update_fw);
  
- static struct attribute *mxt_attrs[] = {
+ static struct attribute *mxt_fw_attrs[] = {
+ 	&dev_attr_update_fw.attr,
 -- 
 2.17.1
 
