@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBFC01CA378
-	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 08:00:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FE2F1CA35E
+	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 08:00:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727094AbgEHGAn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 May 2020 02:00:43 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:47211 "EHLO
-        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728267AbgEHF74 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 01:59:56 -0400
-IronPort-SDR: 8IuJZ72TIJkLVef6RgI8jWHKClON2hKO4lB/nME31KXuA12W6+SIqT/I16ybOKEEDxMZe4GfY9
- U3GF/eV4v95cR7a703WPpQgc04iibko/MIJJlawKvMIK1BSBVsMht0+S9peUpK2oGjO4RkyTYZ
- EhrTv0PBUCfpnA3v+yRjn9Q2052XSoNHHkRulyDNzu8/2ljBP0j6yuH9yZkKgHBIguXs8KeJ6X
- ofQ4CwDVmZnpnM/6wrRp9l5HHCtxywXiCrdsHCK+jM7Ps1xOE0vnrvBD1dTgp95bqBfpa0mO1M
- Mmo=
+        id S1728295AbgEHGAB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 May 2020 02:00:01 -0400
+Received: from esa1.mentor.iphmx.com ([68.232.129.153]:38783 "EHLO
+        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728288AbgEHGAA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 02:00:00 -0400
+IronPort-SDR: LKH6uv88PjcuLwEAWUmiveyRI0K/+QZsDOZX4SyLno19vJh86R6nDqaUaAnhrfvQWiTNi996im
+ iPc2i+QxCNHC2Kjo+XnddvIOu+vs8DgR3H4DU739dARU8B2ZoARV2aeR9JKNZ8WEONO7ZCIM76
+ aczV+9UAfMdrUFk7SvwWl7W16Nec8KZL4etbmQJBLgEkaCp0t07JNaRhvy2YzarrQpvMjRi4di
+ DZV71mIyEDCvZ16YOpGmbsCG6NYBqX9+lL/Pplsy/lIqt2gz5q9XCMHBouAbhH9Vqm8z289aIc
+ jbE=
 X-IronPort-AV: E=Sophos;i="5.73,366,1583222400"; 
-   d="scan'208";a="48710673"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 07 May 2020 21:59:55 -0800
-IronPort-SDR: 5n5LpbM3gAISoEMlV7TIuHjP7CMnuN2RfLE/uJYYimVpDrMAzZP6G+BUPZYTf3t4Wt5eihcQE4
- 4/waqlYmYdpzuIxjZGM/uqr1J9yrfmR8AmaZTwJ/ZFwouNQ3PQx1ZCgNvXSZ8DHBCUPxoPGuCp
- Ql/eZo5nxkhN7v38m2/lXitBVwp5dl4ywJnrYUfWTCAT/4PB7i+lfW6OJMp1nX6LEXUFVCn8kj
- l5Kc0wkUBPnVR6h6mwXS6YNOulL3Iy7pUg5v9YWn7FUF0YLW9+1OafhClnIgk8dpd2LrSmCyrt
- hLc=
+   d="scan'208";a="50670145"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa1.mentor.iphmx.com with ESMTP; 07 May 2020 21:59:58 -0800
+IronPort-SDR: ZY1bo96TTNeDvMJvp82DgkEVsM1WLUZ+48EKGl7SnldCKCIpJ1S3FIfOGk/c2X9BclM4Hlax4q
+ cEAqbx80+OCtEZ2jb/ldypRj1SV+aadKTCSgO7cSqQK+5er+5kvRxMywUePBBo7D6HXErj/R2x
+ wrG4wwDUbee1nmwldKfFXNkVmgofFWqXRUDoTLNixNSxDOgiLUo065wiIVl/TRBj6Y50HZjOYk
+ e5NttOFnCoOqsAEuVhq0Jx505vE85yMqqwiP9x3QzaSyAuLNH3CghAqWoShi/rfvrnhESphLBx
+ O0w=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -32,9 +32,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v11 46/56] Input: Atmel: improve error handling in mxt_start()
-Date:   Thu, 7 May 2020 22:56:46 -0700
-Message-ID: <20200508055656.96389-47-jiada_wang@mentor.com>
+Subject: [PATCH v11 47/56] Input: Atmel: improve error handling in mxt_initialize()
+Date:   Thu, 7 May 2020 22:56:47 -0700
+Message-ID: <20200508055656.96389-48-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200508055656.96389-1-jiada_wang@mentor.com>
 References: <20200508055656.96389-1-jiada_wang@mentor.com>
@@ -47,100 +47,127 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Deepak Das <deepak_das@mentor.com>
 
-mxt_start() does not return error in any of
-the failure cases which will allow input_dev->open()
-to return success even in case of any failure.
+Currently mxt_initialize() tries to probe bootloader mode
+even if valid bootloader address is not specified.
 
-This commit modifies mxt_start() to return error
-in failure cases.
+This commit modifies mxt_initialize() to return error
+if Device is not in appmode and bootloader address is
+not specified.
+
+This commit also returns error code from mxt_send_bootloader_cmd()
+in mxt_initialize().
 
 Signed-off-by: Deepak Das <deepak_das@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 31 ++++++++++++------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 58 +++++++++++++++++-------
+ 1 file changed, 41 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 7c530ffac1ba..906da438d5e8 100644
+index 906da438d5e8..c779cac565a8 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -3961,12 +3961,13 @@ static int mxt_start(struct mxt_data *data)
+@@ -716,17 +716,13 @@ static int mxt_lookup_bootloader_address(struct mxt_data *data, bool retry)
+ 	return 0;
+ }
  
- 	switch (data->suspend_mode) {
- 	case MXT_SUSPEND_T9_CTRL:
--		mxt_soft_reset(data);
+-static int mxt_probe_bootloader(struct mxt_data *data, bool alt_address)
++static int mxt_probe_bootloader(struct mxt_data *data)
+ {
+ 	struct device *dev = &data->client->dev;
+ 	int error;
+ 	u8 buf[3];
+ 	bool crc_failure, extended_id;
+ 
+-	error = mxt_lookup_bootloader_address(data, alt_address);
+-	if (error)
+-		return error;
 -
-+		ret = mxt_soft_reset(data);
-+		if (ret)
-+			break;
- 		/* Touch enable */
- 		/* 0x83 = SCANEN | RPTEN | ENABLE */
--		mxt_write_object(data,
--				MXT_TOUCH_MULTI_T9, MXT_T9_CTRL, 0x83);
-+		ret = mxt_write_object(data,
-+				       MXT_TOUCH_MULTI_T9, MXT_T9_CTRL, 0x83);
- 		break;
+ 	/* Check bootloader status and version information */
+ 	error = mxt_bootloader_read(data, buf, sizeof(buf));
+ 	if (error)
+@@ -2909,6 +2905,32 @@ static void mxt_config_cb(const struct firmware *cfg, void *ctx)
+ 	release_firmware(cfg);
+ }
  
- 	case MXT_SUSPEND_REGULATOR:
-@@ -3980,27 +3981,26 @@ static int mxt_start(struct mxt_data *data)
- 		 * Discard any touch messages still in message buffer
- 		 * from before chip went to sleep
- 		 */
--		mxt_process_messages_until_invalid(data);
-+		ret = mxt_process_messages_until_invalid(data);
-+		if (ret)
-+			break;
++static int mxt_bootloader_status(struct mxt_data *data)
++{
++	struct i2c_client *client = data->client;
++	int error;
++
++	error = mxt_lookup_bootloader_address(data, false);
++	if (error) {
++		dev_info(&client->dev,
++			 "Bootloader address is not specified\n");
++		return error;
++	}
++	/* Check bootloader state */
++	error = mxt_probe_bootloader(data);
++	if (error) {
++		dev_info(&client->dev, "Trying alternate bootloader address\n");
++		mxt_lookup_bootloader_address(data, true);
++		error = mxt_probe_bootloader(data);
++		if (error) {
++			dev_err(&client->dev,
++				"Chip is not in appmode or bootloader mode\n");
++			return error;
++		}
++	}
++	return 0;
++}
++
+ static int mxt_initialize(struct mxt_data *data)
+ {
+ 	struct i2c_client *client = data->client;
+@@ -2920,16 +2942,13 @@ static int mxt_initialize(struct mxt_data *data)
+ 		if (!error)
+ 			break;
  
- 		ret = mxt_set_t7_power_cfg(data, MXT_POWER_CFG_RUN);
- 		if (ret)
--			return ret;
-+			break;
+-		/* Check bootloader state */
+-		error = mxt_probe_bootloader(data, false);
+-		if (error) {
+-			dev_info(&client->dev, "Trying alternate bootloader address\n");
+-			error = mxt_probe_bootloader(data, true);
+-			if (error) {
+-				/* Chip is not in appmode or bootloader mode */
+-				return error;
+-			}
+-		}
++		dev_info(&client->dev,
++			 "info block read failed (%d), so try bootloader method\n",
++			 error);
++
++		error = mxt_bootloader_status(data);
++		if (error)
++			return error;
  
- 		/* Recalibrate since chip has been in deep sleep */
- 		ret = mxt_t6_command(data, MXT_COMMAND_CALIBRATE, 1, false);
- 		if (ret)
--			return ret;
-+			break;
+ 		/* OK, we are in bootloader, see if we can recover */
+ 		if (++recovery_attempts > 1) {
+@@ -2943,7 +2962,9 @@ static int mxt_initialize(struct mxt_data *data)
+ 		}
  
- 		ret = mxt_acquire_irq(data);
--		if (ret)
--			return ret;
--
--		break;
+ 		/* Attempt to exit bootloader into app mode */
+-		mxt_send_bootloader_cmd(data, false);
++		error = mxt_send_bootloader_cmd(data, false);
++		if (error)
++			return error;
+ 		msleep(MXT_FW_RESET_TIME);
  	}
  
--	data->suspended = false;
-+	if (!ret)
-+		data->suspended = false;
+@@ -3630,8 +3651,11 @@ static int mxt_enter_bootloader(struct mxt_data *data)
  
--	return 0;
-+	return ret;
- }
+ 		msleep(MXT_RESET_TIME);
  
- static int mxt_stop(struct mxt_data *data)
-@@ -4327,6 +4327,7 @@ static int __maybe_unused mxt_resume(struct device *dev)
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct mxt_data *data = i2c_get_clientdata(client);
- 	struct input_dev *input_dev = data->input_dev;
-+	int ret = 0;
++		ret = mxt_lookup_bootloader_address(data, false);
++		if (ret)
++			return ret;
+ 		/* Do not need to scan since we know family ID */
+-		ret = mxt_probe_bootloader(data, 0);
++		ret = mxt_probe_bootloader(data);
+ 		if (ret)
+ 			return ret;
  
- 	if (!input_dev)
- 		return 0;
-@@ -4336,11 +4337,11 @@ static int __maybe_unused mxt_resume(struct device *dev)
- 	mutex_lock(&input_dev->mutex);
- 
- 	if (input_dev->users)
--		mxt_start(data);
-+		ret = mxt_start(data);
- 
- 	mutex_unlock(&input_dev->mutex);
- 
--	return 0;
-+	return ret;
- }
- 
- static SIMPLE_DEV_PM_OPS(mxt_pm_ops, mxt_suspend, mxt_resume);
 -- 
 2.17.1
 
