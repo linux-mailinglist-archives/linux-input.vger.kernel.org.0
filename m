@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EABDF1CA369
-	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 08:00:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F66D1CA375
+	for <lists+linux-input@lfdr.de>; Fri,  8 May 2020 08:00:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728341AbgEHGAU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 May 2020 02:00:20 -0400
+        id S1727801AbgEHGAZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 May 2020 02:00:25 -0400
 Received: from esa1.mentor.iphmx.com ([68.232.129.153]:38783 "EHLO
         esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727801AbgEHGAS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 02:00:18 -0400
-IronPort-SDR: enc+2YIacoKSQ0MflvY7GQwYfg5JC8NkPtN+0P7iXrRkeU8N3xh0yX3DqX1DZYP+zqyUQq+wGR
- XrUkTUfnRoVb8Vmajs63hOZLxsauwYGzXswiLp+inN7/sWIHGdwgdBEy3rakhG5nzHK3bwk8LE
- hDuzVGtiQta+2RoEGvAcqfQJzKHntiGCGyg1KJ9Dr0TlJ6lett4QJ6JpDscvOHPvvnQwVqZqTB
- ddyt8dT04lj8Ft4BHqnRPcq2gC9OtpdmVT0ePJJi4iN9+EKZKWtM08JKcHxkh38hjIjcfq7IHw
- VIY=
+        with ESMTP id S1728355AbgEHGAW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 02:00:22 -0400
+IronPort-SDR: zRUYmsZZPSxNxX4Z50ro5AXViG/e1JaFQIaX9DK6RCxFMAnJNt1MHTH93Wml7YmHZCmBve8+yN
+ pvfcPqIIoW0urVcPfYKz01U0YK9vUNOwvEx7B9MFGvxZtIc6uS+RnQM0snN1UpR0JkV1XiKFdW
+ Fntez61FSwRV2zERtHqFk9IXfJ5ECVd0d7tQfM2eHdo2ZS6O0/l4swuPJK0blQC5Pii4Z0aCop
+ HxZSE53HPtwAL3krKvB8S0urIvHgklD89WB9QjXdum9b2XqW9Bo9+DctYDKZCjnD/BT6u1xjeM
+ jIM=
 X-IronPort-AV: E=Sophos;i="5.73,366,1583222400"; 
-   d="scan'208";a="50670179"
+   d="scan'208";a="50670183"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa1.mentor.iphmx.com with ESMTP; 07 May 2020 22:00:16 -0800
-IronPort-SDR: S+uGaswKwNUwfZgUd4ZVN3StrEB+ElB7K608YOL3bzvDVeXxufi6kSH8w0HrKmSfTW3XIsDIk2
- TmQ2AoYEd6/meblGfaMGrms1L63Q/ih5WwBfSKjUk2SnZY7M/CnZEVZK3fh/XY5DUugcMzL8Kp
- 7Pw4YzszPdp3TNu7sSqX2T9CnQKY66kyHphzQH2ltIowXafEgZeRrTqYvxsIoeRSQ3SKwI/08h
- NcMPBqk02bdYM39A9jUWRLwugwPGC44OLA081/v3sFLhRy8leTP/JZqPfKmP98wLUIbAAOFPIs
- Pa8=
+  by esa1.mentor.iphmx.com with ESMTP; 07 May 2020 22:00:20 -0800
+IronPort-SDR: gU4bK9ym6Z/u/E4F3DIAA+BkzjYHJZY4hrRF00RWyu7dn8A84IG+st+/o0HBUV+RBvI50Yacsf
+ Dtv7EZzMCRONL9c6033y2rPZRMd/teW4APt7aN359taQvGkSjYL1KRy2PNTmNHs+RUIY7AZDXE
+ vp3XfhoR6WsLRPdpZciJv1ZSOsNpuuhMeOO74mNiXWe8K0k1YP7BQFKtZaeTH2Eeq5oiveAsza
+ ALZrBZHroqOIsRANmQL4CLhQERAjQahZ5s1TtVeJW11ME6G8Ep1cNdUFvT48om7Qjv01TkcRsn
+ dUE=
 From:   Jiada Wang <jiada_wang@mentor.com>
 To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
         <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
@@ -32,9 +32,9 @@ To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>,
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
         <jiada_wang@mentor.com>
-Subject: [PATCH v11 52/56] Input: atmel_mxt_ts: use gpiod_set_value_cansleep for reset pin
-Date:   Thu, 7 May 2020 22:56:52 -0700
-Message-ID: <20200508055656.96389-53-jiada_wang@mentor.com>
+Subject: [PATCH v11 53/56] input: touchscreen: atmel_mxt_ts: Added sysfs entry for touchscreen status
+Date:   Thu, 7 May 2020 22:56:53 -0700
+Message-ID: <20200508055656.96389-54-jiada_wang@mentor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200508055656.96389-1-jiada_wang@mentor.com>
 References: <20200508055656.96389-1-jiada_wang@mentor.com>
@@ -45,67 +45,231 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
+From: Naveen Chakka <Naveen.Chakka@in.bosch.com>
 
-In case of remote display, touch controller will be also remote.
-In such cases, the reset pin of the touch controller will be
-controlled through bridging ICs like Deserilizer and Serializer.
-Therefore accessing the gpio pins require transactions with the
-external IC. Using the function gpiod_set_value will print a
-warning like below
+To know the current communication status of the touch controller during
+runtime, sysfs interface is added
 
-WARNING: CPU: 0 PID: 576 at drivers/gpio/gpiolib.c:1441 gpiod_set_value+0x34/0x60()
-CPU: 0 PID: 576 Comm: modprobe Not tainted 3.14.79-08377-g84ea22f-dirty #4
-Backtrace:
-[<80011c58>] (dump_backtrace) from [<80011e60>] (show_stack+0x18/0x1c)
-[<80011e48>] (show_stack) from [<8052d7ac>] (dump_stack+0x7c/0x9c)
-[<8052d730>] (dump_stack) from [<800241bc>] (warn_slowpath_common+0x74/0x9c)
-[<80024148>] (warn_slowpath_common) from [<80024288>] (warn_slowpath_null+0x24/0x2c)
-[<80024264>] (warn_slowpath_null) from [<8029e070>] (gpiod_set_value+0x34/0x60)
-[<8029e03c>] (gpiod_set_value) from [<7f492e98>] (mxt_probe+0x1e0/0x718 [atmel_mxt_ts])
-[<7f492cb8>] (mxt_probe [atmel_mxt_ts]) from [<803c4d34>] (i2c_device_probe+0xcc/0xec)
-[<803c4c68>] (i2c_device_probe) from [<803252a0>] (driver_probe_device+0xc0/0x200)
+sysfs interface: /sys/class/i2c-dev/i2c-*/device/*/touch_dev_stat
+Executing the above sysfs interface provides two output values
 
-Signed-off-by: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
-Signed-off-by: Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
+1)Status of the touch device
+	value 0 represents device is inactive
+	value 1 represents device is active
+2)Error counter
+	value represents the number of times device in inactive since last read
+
+New module_param "debug_state" is introduced, by set its value,
+a watchdog work is scheduled to periodically check device state.
+default value is false.
+
+Signed-off-by: Naveen Chakka <Naveen.Chakka@in.bosch.com>
 Signed-off-by: Sanjeev Chugh <sanjeev_chugh@mentor.com>
 Signed-off-by: George G. Davis <george_davis@mentor.com>
 Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 85 +++++++++++++++++++++++-
+ 1 file changed, 82 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index d134a8b9b3ca..20d6ada778e5 100644
+index 20d6ada778e5..5c2f4ea1a362 100644
 --- a/drivers/input/touchscreen/atmel_mxt_ts.c
 +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -2476,7 +2476,7 @@ static void mxt_regulator_enable(struct mxt_data *data)
- 	if (!data->reg_vdd || !data->reg_avdd)
- 		return;
+@@ -223,6 +223,7 @@ enum t100_type {
+ #define MXT_CHG_DELAY		100	/* msec */
+ #define MXT_POWERON_DELAY	150	/* msec */
+ #define MXT_BOOTLOADER_WAIT	36E5	/* 1 minute */
++#define MXT_WATCHDOG_TIMEOUT	1000	/* msec */
  
--	gpiod_set_value(data->reset_gpio, 0);
-+	gpiod_set_value_cansleep(data->reset_gpio, 0);
+ /* Command to unlock bootloader */
+ #define MXT_UNLOCK_CMD_MSB	0xaa
+@@ -246,6 +247,9 @@ enum t100_type {
  
- 	error = regulator_enable(data->reg_vdd);
+ #define DEBUG_MSG_MAX		200
+ 
++#define MXT_DEBUG_STATE		false
++static bool debug_state = MXT_DEBUG_STATE;
++
+ struct mxt_info {
+ 	u8 family_id;
+ 	u8 variant_id;
+@@ -318,6 +322,11 @@ struct mxt_flash {
+ 	struct delayed_work work;
+ };
+ 
++struct mxt_statusinfo {
++	bool dev_status;
++	u32 error_count;
++};
++
+ /* Each client has this additional data */
+ struct mxt_data {
+ 	struct i2c_client *client;
+@@ -373,6 +382,8 @@ struct mxt_data {
+ 	const char *pcfg_name;
+ 	const char *input_name;
+ 	struct mxt_flash *flash;
++	struct delayed_work watchdog_work;
++	struct mxt_statusinfo mxt_status;
+ 
+ 	/* Cached parameters from object table */
+ 	u16 T5_address;
+@@ -2956,6 +2967,26 @@ static int mxt_bootloader_status(struct mxt_data *data)
+ 	return 0;
+ }
+ 
++static void mxt_watchdog_work(struct work_struct *work)
++{
++	struct mxt_data *data =
++		container_of(work, struct mxt_data, watchdog_work.work);
++	u16 info_buf;
++	int ret;
++
++	ret = __mxt_read_reg(data->client, 0, sizeof(info_buf), &info_buf);
++
++	if (ret) {
++		data->mxt_status.error_count++;
++		data->mxt_status.dev_status = false;
++	} else {
++		data->mxt_status.dev_status = true;
++	}
++
++	schedule_delayed_work(&data->watchdog_work,
++			      msecs_to_jiffies(MXT_WATCHDOG_TIMEOUT));
++}
++
+ static int mxt_initialize(struct mxt_data *data)
+ {
+ 	struct i2c_client *client = data->client;
+@@ -3730,6 +3761,9 @@ static int mxt_load_fw(struct device *dev)
+ 	INIT_DELAYED_WORK(&data->flash->work, mxt_fw_work);
+ 	reinit_completion(&data->flash->flash_completion);
+ 
++	if (debug_state)
++		cancel_delayed_work_sync(&data->watchdog_work);
++
+ 	if (!data->in_bootloader) {
+ 		ret = mxt_enter_bootloader(data);
+ 		if (ret)
+@@ -3749,6 +3783,9 @@ static int mxt_load_fw(struct device *dev)
+ 	cancel_delayed_work_sync(&data->flash->work);
+ 	data->in_bootloader = false;
+ release_firmware:
++	if (debug_state)
++		schedule_delayed_work(&data->watchdog_work,
++				      msecs_to_jiffies(MXT_WATCHDOG_TIMEOUT));
+ 	release_firmware(data->flash->fw);
+ free:
+ 	devm_kfree(dev, data->flash);
+@@ -3936,6 +3973,22 @@ static const struct attribute_group mxt_fw_attr_group = {
+ 	.attrs = mxt_fw_attrs,
+ };
+ 
++static ssize_t touch_dev_stat_show(struct device *dev, struct
++				   device_attribute * attr, char *buf)
++{
++	struct mxt_data *data = dev_get_drvdata(dev);
++	int ret = 0;
++
++	if (data->mxt_status.dev_status)
++		data->mxt_status.error_count = 0;
++
++	ret =  snprintf(buf, PAGE_SIZE, "%d %d\n", data->mxt_status.dev_status,
++			data->mxt_status.error_count);
++	/* clear the error counter once it is read */
++	data->mxt_status.error_count = 0;
++	return ret;
++}
++
+ static DEVICE_ATTR_RO(fw_version);
+ static DEVICE_ATTR_RO(hw_version);
+ static DEVICE_ATTR_RO(object);
+@@ -3945,6 +3998,7 @@ static DEVICE_ATTR_RW(debug_enable);
+ static DEVICE_ATTR_RW(debug_v2_enable);
+ static DEVICE_ATTR_RO(debug_notify);
+ static DEVICE_ATTR_RW(t25_selftest);
++static DEVICE_ATTR_RO(touch_dev_stat);
+ 
+ static struct attribute *mxt_attrs[] = {
+ 	&dev_attr_fw_version.attr,
+@@ -3956,6 +4010,7 @@ static struct attribute *mxt_attrs[] = {
+ 	&dev_attr_debug_v2_enable.attr,
+ 	&dev_attr_debug_notify.attr,
+ 	&dev_attr_t25_selftest.attr,
++	&dev_attr_touch_dev_stat.attr,
+ 	NULL
+ };
+ 
+@@ -4050,10 +4105,16 @@ static int mxt_start(struct mxt_data *data)
+ 		ret = mxt_acquire_irq(data);
+ 	}
+ 
+-	if (!ret)
+-		data->suspended = false;
++	if (ret)
++		return ret;
+ 
+-	return ret;
++	if (debug_state)
++		schedule_delayed_work(&data->watchdog_work,
++				      msecs_to_jiffies(MXT_WATCHDOG_TIMEOUT));
++
++	data->suspended = false;
++
++	return 0;
+ }
+ 
+ static int mxt_stop(struct mxt_data *data)
+@@ -4063,6 +4124,9 @@ static int mxt_stop(struct mxt_data *data)
+ 	if (data->suspended || data->in_bootloader || data->updating_config)
+ 		return 0;
+ 
++	if (debug_state)
++		cancel_delayed_work_sync(&data->watchdog_work);
++
+ 	switch (data->suspend_mode) {
+ 	case MXT_SUSPEND_T9_CTRL:
+ 		/* Touch disable */
+@@ -4313,6 +4377,12 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 		msleep(MXT_RESET_TIME);
+ 	}
+ 
++	if (debug_state) {
++		INIT_DELAYED_WORK(&data->watchdog_work, mxt_watchdog_work);
++		schedule_delayed_work(&data->watchdog_work,
++				      msecs_to_jiffies(MXT_WATCHDOG_TIMEOUT));
++	}
++
+ 	error = mxt_initialize(data);
  	if (error)
-@@ -2494,7 +2494,7 @@ static void mxt_regulator_enable(struct mxt_data *data)
- 	 * voltage
- 	 */
- 	msleep(MXT_REGULATOR_DELAY);
--	gpiod_set_value(data->reset_gpio, 1);
-+	gpiod_set_value_cansleep(data->reset_gpio, 1);
- 	msleep(MXT_CHG_DELAY);
+ 		goto err_free_object;
+@@ -4327,6 +4397,8 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	return 0;
  
- retry_wait:
-@@ -4305,7 +4305,7 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		disable_irq(data->irq);
- 	} else if (data->reset_gpio) {
- 		msleep(MXT_RESET_GPIO_TIME);
--		gpiod_set_value(data->reset_gpio, 1);
-+		gpiod_set_value_cansleep(data->reset_gpio, 1);
- 		msleep(MXT_RESET_INVALID_CHG);
- 	} else {
- 		dev_dbg(&client->dev,
+ err_free_object:
++	if (debug_state)
++		cancel_delayed_work_sync(&data->watchdog_work);
+ 	mxt_free_input_device(data);
+ 	mxt_free_object_table(data);
+ 	if (data->reset_gpio) {
+@@ -4346,6 +4418,10 @@ static int mxt_remove(struct i2c_client *client)
+ 		sysfs_remove_link(&client->dev.kobj, "reset");
+ 		gpiod_unexport(data->reset_gpio);
+ 	}
++
++	if (debug_state)
++		cancel_delayed_work_sync(&data->watchdog_work);
++
+ 	mxt_debug_msg_remove(data);
+ 	mxt_sysfs_remove(data);
+ 	mxt_free_input_device(data);
+@@ -4447,3 +4523,6 @@ module_i2c_driver(mxt_driver);
+ MODULE_AUTHOR("Joonyoung Shim <jy0922.shim@samsung.com>");
+ MODULE_DESCRIPTION("Atmel maXTouch Touchscreen driver");
+ MODULE_LICENSE("GPL");
++
++module_param(debug_state, bool, 0);
++MODULE_PARM_DESC(debug_state, "Enable/Disable watchdog work to check device state (default=false)");
 -- 
 2.17.1
 
