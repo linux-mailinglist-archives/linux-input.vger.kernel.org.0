@@ -2,66 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82A1F1CBB15
-	for <lists+linux-input@lfdr.de>; Sat,  9 May 2020 01:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E5231CBC51
+	for <lists+linux-input@lfdr.de>; Sat,  9 May 2020 04:09:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727787AbgEHXIZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 May 2020 19:08:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44898 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727778AbgEHXIZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 19:08:25 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D30C061A0C
-        for <linux-input@vger.kernel.org>; Fri,  8 May 2020 16:08:25 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id z17so2839006oto.4
-        for <linux-input@vger.kernel.org>; Fri, 08 May 2020 16:08:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=9alIGpkTx3nqjy3udv/FllQv/s27IcHpo/6WFg+aK6M=;
-        b=sUYxvKaYSiWwPJ9gpGmS2GQHh8FU5IY7lkfbUChe2OOcMloIBZSonQeiFKpB/dn1/c
-         ClB28hewwAYMj9Ew5Z34qTg4Z31sJ2N8fRHfSoYoPiXupoRi9NMe3AQoBJil2WVaEUGq
-         ZhvMe1b0YYJxgmLrLAZmLwiM1sE2+UZiMP3NEYq3WjvazyWVUNgOMqIzFNiRPGHqmuHH
-         Nr5v9H8ATidF/WmYzDr3LX4qhn5Rl/Ecv9XPgOzoiPeKbr/L8pCBKRUAd68GZvO0m1Ps
-         f2M0qLRj9lglU8ETbz5BLj05J115UuTKVb46NHZyTtciGgLqPHr6Uh66o+TdIfMvvKVR
-         LPLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=9alIGpkTx3nqjy3udv/FllQv/s27IcHpo/6WFg+aK6M=;
-        b=Jq0gsMjKEj/ASGWRM06J28I+FnfBFRumiMuqi8Cfc7VGGf5yXjKR6oFL6TA8OjLdtc
-         h2VjwxPdVmHAMCO7NAPZlk6XbR2wog4Hz/m6WiZFDX23t86I+qJ3n2kLtrmauBenJJ7l
-         ZoKyjKXPAp+NQcsnb0DvZvx/HCkFYPJOkuzHcFmrYFn4A18OIA6VAyA90SngYxrO1TiK
-         PZprxSei55UhmCxmjElWFCobTc33pLMHRPXUcoujPcR94Fa8ngQzw1omHjTuwXMnIsOe
-         5R8RCFSed0TmDYzs54XOaid2JnDyvp0QQYZ/lET8iWyc4Oq8ZU0xLhF3CWEMHDm5bhtp
-         0cFw==
-X-Gm-Message-State: AGi0PuaIac4lZgwAJFw6XvSsGmFS6OkAzYuDHGAA+qlADnAhDZ44VbXT
-        ZX6ekTul8Emqz2DWY73UWlWbmgzwsC4aySLVkwA=
-X-Google-Smtp-Source: APiQypLZ8i8bGWij+0itCACSOda6JgjLTT03qS419o5m6Az1bRgxs3e/FT1ATcXd9+MkLo+m1ugRovP+V6GuD41KsMM=
-X-Received: by 2002:a9d:578b:: with SMTP id q11mr3950456oth.87.1588979304396;
- Fri, 08 May 2020 16:08:24 -0700 (PDT)
+        id S1728578AbgEICJ1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 May 2020 22:09:27 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:58238 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727828AbgEICJ0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 May 2020 22:09:26 -0400
+X-UUID: c2515d0332a7409a8cc84976834fb513-20200509
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=1B+choKMEWf5xgsDH1Xvz4r98si4Toef2xxzNstIEMc=;
+        b=WVPofjpp0VLBguQpJu5sO7PG4xp585zhHL5kaY5GN4ax6yZyup7ckNf1CfzJCQp/XLQthBFtWydoIccdvERs23acVXpSpUglCYB8UH7mrTzk761XMMrKpPJbKs76zGETv/kNtGgEyB5KaCYcKNJXhpsh9zjT5mi3gzPS7/aqn4o=;
+X-UUID: c2515d0332a7409a8cc84976834fb513-20200509
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+        (envelope-from <fengping.yu@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 1759369874; Sat, 09 May 2020 10:09:24 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 9 May 2020 10:09:23 +0800
+Received: from localhost.localdomain (10.15.20.246) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 9 May 2020 10:09:17 +0800
+From:   Fengping Yu <fengping.yu@mediatek.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Yingjoe Chen <yingjoe.chen@mediatek.com>
+CC:     <linux-input@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v6] Add mtk matrix keypad driver for keypad on MTK SoC
+Date:   Sat, 9 May 2020 10:04:56 +0800
+Message-ID: <20200509020458.8359-1-fengping.yu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Received: by 2002:a05:6830:18f3:0:0:0:0 with HTTP; Fri, 8 May 2020 16:08:24
- -0700 (PDT)
-Reply-To: morganhendrick1234@outlook.com
-From:   Hendrick Morgan <hendrickmorgan234@gmail.com>
-Date:   Fri, 8 May 2020 23:08:24 +0000
-Message-ID: <CAG92E6xLsTh6H1w3G0M1a2qN_dz9DAmFC69-9J0iJCSQDcKDyg@mail.gmail.com>
-Subject: ///////Hallo Liebes,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hallo Liebes, das bin ich. Hendrick Morgan, aus Minnesota USA. Ich bin
-ein US-Spezialeinheitenteam, das nach Afghanistan entsandt wurde. Ich
-habe mich f=C3=BCr Ihr Profil interessiert. Ich w=C3=BCrde mich freuen, mit
-Ihnen in Kontakt zu bleiben und mit der Zeit wahrscheinlich Vertrauen
-unter uns aufzubauen. Bitte kontaktieren Sie mich zur=C3=BCck f=C3=BCr die
-richtige Einf=C3=BChrung.
+Q2hhbmdlIHNpbmNlIHY1Og0KLSByZW1vdmUgdW5uZWNlc3NhcnkgaW5jbHVkZSBmaWxlcw0KLSBy
+ZW1vdmUgcmVkdW5kYW50IGNvbW1lbnRzIGFuZCBuZXdsaW5lcw0KLSB1c2UgbG9jYWwgaXJxbnIg
+dmFyaWFibGUgaW5zdGVhZCBvZiBtZW1iZXIgdmFyaWFibGUgb2YgbXRrX2tleXBhZCBzdHJ1Y3QN
+Ci0gdXNlIHJlZ21hcCB0byByZWFkIGFuZCB3cml0ZSByZWdpc3RlcnMNCi0gZHJvcCBrcGRfZ2V0
+X2R0c19pbmZvIGRpcmVjdGx5IGludG8gcHJvYmUgZnVuY3Rpb24NCi0gdXNlIGRldm1fYWRkX2Fj
+dGlvbl9vcl9yZXNldCB0byBhdm9pZCBnb3RvIGVycm9yIGhhbmRsaW5nIHdoZW4gZG8gY2xrIHNl
+dHRpbmcNCi0gdXNlIGRldm1fcmVxdWVzdF90aHJlYWRlZF9pcnEgYXBpIHRvIHJlcXVlc3QgaXJx
+DQotIHJlbW92ZSBwbGF0Zm9ybV9zZXRfZHJ2ZGF0YQ0KDQpmZW5ncGluZy55dSAoMyk6DQogIGR0
+LWJpbmRpbmdzOiBDaGFuZ2Uga2V5cGFkIGRvY3VtZW50YXRpb24gc2NoZW1hDQogIGRyaXZlcnM6
+IGlucHV0OiBrZXlib2FyZDogQWRkIG10ayBrZXlwYWQgZHJpdmVyDQogIGNvbmZpZ3M6IGRlZmNv
+bmZpZzogQWRkIENPTkZJR19LRVlCT0FSRF9NVEtfS1BEPXkNCg0KIC4uLi9kZXZpY2V0cmVlL2Jp
+bmRpbmdzL2lucHV0L210ay1rcGQudHh0ICAgICB8ICA2MSAtLS0tLS0tDQogLi4uL2RldmljZXRy
+ZWUvYmluZGluZ3MvaW5wdXQvbXRrLWtwZC55YW1sICAgIHwgIDkzICsrKysrKysrKysrDQogYXJj
+aC9hcm02NC9jb25maWdzL2RlZmNvbmZpZyAgICAgICAgICAgICAgICAgIHwgICAxICsNCiBkcml2
+ZXJzL2lucHV0L2tleWJvYXJkL0tjb25maWcgICAgICAgICAgICAgICAgfCAgIDUgKy0NCiBkcml2
+ZXJzL2lucHV0L2tleWJvYXJkL210ay1rcGQuYyAgICAgICAgICAgICAgfCAxNTEgKysrKysrKyst
+LS0tLS0tLS0tDQogNSBmaWxlcyBjaGFuZ2VkLCAxNjMgaW5zZXJ0aW9ucygrKSwgMTQ4IGRlbGV0
+aW9ucygtKQ0KIGRlbGV0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvaW5wdXQvbXRrLWtwZC50eHQNCiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlv
+bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2lucHV0L210ay1rcGQueWFtbA0KDQotLQ0KMi4xOC4wDQoN
+Cg0K
+
