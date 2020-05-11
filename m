@@ -2,84 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAC7A1CE529
-	for <lists+linux-input@lfdr.de>; Mon, 11 May 2020 22:11:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 991581CE5B1
+	for <lists+linux-input@lfdr.de>; Mon, 11 May 2020 22:37:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729329AbgEKULW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 May 2020 16:11:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36426 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729215AbgEKULW (ORCPT
+        id S1730008AbgEKUhM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 May 2020 16:37:12 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:37512 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727873AbgEKUhM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 May 2020 16:11:22 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2DF0C061A0C
-        for <linux-input@vger.kernel.org>; Mon, 11 May 2020 13:11:21 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id u5so2450161pgn.5
-        for <linux-input@vger.kernel.org>; Mon, 11 May 2020 13:11:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=aGREpUTYyj4dfAbnE/mFKF+b3GK7anik84D3UKfa8E4=;
-        b=Xq9xDG1Tq3MMro7jMrqHTgHzFqucRUuPgZ+gdI2LaSv36V+liddm791yXz+Dc9aHKc
-         MZahgCMOOXZ2xYymVDETWh3vGhGZ8aF6cI4BxTIRH7bRbz6YDtBOOyrQ87Bbg/qwXvs/
-         r6FblgySeF2vn5XrwF3yGA8LPAiTlXC0ORyerqj7v3FUVEn22Fe+/yMAsqW5Wa3bp2Tr
-         hn+YDFLh9LoXBwLIs8Uv5zrXgJl2Sd17JeDr6COXXG27DidnyJXh0RFKjLS2GMGkfFVp
-         a93dmj0xPsYRoMMVj26brQAmiqjb5BnNgTy64vG/HrTkM6lXTP0gE0VH7Cd/+zVWmHsZ
-         mSiQ==
+        Mon, 11 May 2020 16:37:12 -0400
+Received: by mail-oi1-f194.google.com with SMTP id r25so16315926oij.4;
+        Mon, 11 May 2020 13:37:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=aGREpUTYyj4dfAbnE/mFKF+b3GK7anik84D3UKfa8E4=;
-        b=eVDR9qN70wHS2x6jhG1kYMgbmRb/ShAIdvmjwpFVxCGZRiSoNFRYBl66HTRF1R3j9C
-         PkBYfXo2Wh1vOK0PuhH392odXZFmwWPA0jJ2cGk+C/jA63l0bP62igoFYrkZpt8+kkk+
-         OOlBlaZGtIEZQsKZUFhIB2sekZ6GHB2NRqFvmiU5bVLVLBLOUEb+qNNTfLYBsk3wUqFI
-         oKLzG1kAw3Ysjh4UzUKgKtKf5BEVxSxiVxgnNry/bwaDSD2grGE+bkpZlVKZ8Tj0pC1n
-         qEmwtXNeGAoOpB8FFyLHSKMionHnZcHLaPrLgJDZiduab3dDm6ywPOawlZ8/XvBR0qUf
-         kDag==
-X-Gm-Message-State: AGi0PuZdhmQA4GinrISIfykz7lnRmKgY9H7BDU7JVO247irwCDzZW9K9
-        k0hbKhexdRe6jKt66AjamnmngDnJ
-X-Google-Smtp-Source: APiQypJYv+X4gKjvakQI9F8vNRjqDyIZFVsovlWIOjRT8jH2yujrsjqC6QprazgWW9arw6b2ZDdLVQ==
-X-Received: by 2002:a62:520f:: with SMTP id g15mr17102365pfb.127.1589227881167;
-        Mon, 11 May 2020 13:11:21 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id g6sm10761935pjx.48.2020.05.11.13.11.20
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=RkbTa/wh/hD8xEtN2/6MKeivff6GdSpulILvCa3y2XE=;
+        b=sazM1NrkhS8LT/Ee3CtH/Q7fmZDB5jkmBq4OlUWdRsO0ZnpqFD3cl763RXdC927ZF5
+         C+RcI6I7W8tdSoXbaLR5L0UXTBZVkM36DqszURvr/+RKkHxBU+pzs2EyVSy9icO14FCQ
+         et8pjZqXrVStCVzJ29vCbumTARh1Dy+xRzBIF/CTJAlcT5Ocej6BAjaWC+sYma73eYYX
+         HWN6NTzRczbguZ2+NFLZ/VYo6ukL2h+fu8IBJIKAxK9oDq1UEQbblPcXBO4udkqxYLIM
+         wWAwTSs2S1iMpEXbf9KBAxFlyYIeAkWMvM7/GKNob6RZ7D5T2N8lUCUaUqhcMWJdxRWA
+         kgxw==
+X-Gm-Message-State: AGi0PuYODoCV6UhMQ+Xd9Uh5R7CLLIg980s5401OZVxOJTnV4RhDlxh+
+        HMtHPTJwfU2/2Rjt53a+uw==
+X-Google-Smtp-Source: APiQypJOatYXUqC0AlrPf2F1LBluMtnPS0NwyyV8HibPhPTgxaoFlJlzDWst6CjUBakGP5I3PFs/zQ==
+X-Received: by 2002:a05:6808:6d0:: with SMTP id m16mr22076469oih.33.1589229431254;
+        Mon, 11 May 2020 13:37:11 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id v17sm4888402oif.51.2020.05.11.13.37.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 13:11:20 -0700 (PDT)
-Date:   Mon, 11 May 2020 13:11:18 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Yariv <oigevald+kernel@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: PROBLEM: Apple external Trackpad event timestamps are jittery
- (regression)
-Message-ID: <20200511201118.GW89269@dtor-ws>
-References: <CAEwx+QrfLk4SR=yn4Df3rD_Lm0Xht1hgAi4szmOTU1nkFhMwhw@mail.gmail.com>
+        Mon, 11 May 2020 13:37:10 -0700 (PDT)
+Received: (nullmailer pid 3363 invoked by uid 1000);
+        Mon, 11 May 2020 20:37:09 -0000
+Date:   Mon, 11 May 2020 15:37:09 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     David Heidelberg <david@ixit.cz>
+Cc:     Scott Liu <scott.liu@emc.com.tw>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>,
+        =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        James Chen <james.chen@emc.com.tw>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/1] dt-bindings: input: touchscreen: elants_i2c: convert
+ to YAML
+Message-ID: <20200511203709.GA3143@bogus>
+References: <20200423173253.711725-1-david@ixit.cz>
+ <20200423173253.711725-2-david@ixit.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAEwx+QrfLk4SR=yn4Df3rD_Lm0Xht1hgAi4szmOTU1nkFhMwhw@mail.gmail.com>
+In-Reply-To: <20200423173253.711725-2-david@ixit.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Thu, 23 Apr 2020 19:32:53 +0200, David Heidelberg wrote:
+> Convert elants_i2c.txt DT binding to YAML and put into correct directory.
+> 
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>  .../devicetree/bindings/input/elants_i2c.txt  | 34 ---------
+>  .../input/touchscreen/elan,elants_i2c.yaml    | 69 +++++++++++++++++++
+>  2 files changed, 69 insertions(+), 34 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/elants_i2c.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
+> 
 
-On Mon, May 11, 2020 at 09:18:15AM +0300, Yariv wrote:
-> Using a vanilla installation of Ubuntu 20.04 (kernel v5.4), the
-> timestamps of input events from my Apple "Magic Trackpad" - 1st
-> generation, connected over Bluetooth - are jittery.
-> This is a kernel regression. I bisected the bug.
-
-Do you see the same jitter when connected over USB? Can you also see if
-there is similar jitter when you parse timestamps of SYN_RPEORT events
-from "evtest"?
-
-Could you post a sample of events generated by device (via evtest)?
-
-Thanks!
-
--- 
-Dmitry
+Reviewed-by: Rob Herring <robh@kernel.org>
