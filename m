@@ -2,83 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE5121CD217
-	for <lists+linux-input@lfdr.de>; Mon, 11 May 2020 08:51:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9D051CD5F0
+	for <lists+linux-input@lfdr.de>; Mon, 11 May 2020 12:08:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727877AbgEKGvV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 May 2020 02:51:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57186 "EHLO mail.kernel.org"
+        id S1728922AbgEKKIt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 May 2020 06:08:49 -0400
+Received: from mga11.intel.com ([192.55.52.93]:60812 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726438AbgEKGvV (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 May 2020 02:51:21 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 508272075E;
-        Mon, 11 May 2020 06:51:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589179881;
-        bh=Ex/q2HLfHwiYEB6FHWoOBEqEx2J/3/iQUzy2/kEnzX4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=k6T4b8RlQzpxGh7XiL504K3yQ9OkM73Df8VH51HCTmanBl7QO8k7jujETqEMBY/UW
-         v9eqQRoJEWkM3JoVmPKEJMQ1MIx5KSVVW2zcEDu6DVi2rbvCAn0uTj/HN4I5Zgtz3D
-         0003e0jaTyLiHpEybm3/wRisv9mxYibI4Zt+gWrA=
-Date:   Mon, 11 May 2020 08:51:18 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Sean Young <sean@mess.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/3] input: serio: allow more than one byte to be sent at
- once
-Message-ID: <20200511065118.GA1293993@kroah.com>
-References: <20200507135337.2343-1-sean@mess.org>
- <20200507135337.2343-2-sean@mess.org>
- <20200507202546.GM89269@dtor-ws>
- <20200507205918.GA13370@gofer.mess.org>
+        id S1725983AbgEKKIt (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 11 May 2020 06:08:49 -0400
+IronPort-SDR: m8k3N1Ko3bEP5B+yP0N5aG8HN2EpbrzbIuJ5wzrdWuIZmrdyVQYts4f72QdzZnM845/PsB46po
+ gxJBKlzunzvA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2020 03:08:49 -0700
+IronPort-SDR: WtAREVsPtJooVOiH+poizBax3hR688fNEcX5pDoU7eklXyuaQoBdze2nCu9EoO8jVWdFitveAM
+ 1+ItRLU3j8kQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,379,1583222400"; 
+   d="scan'208";a="286224579"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga004.fm.intel.com with ESMTP; 11 May 2020 03:08:48 -0700
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1jY5Mh-005wEw-8h; Mon, 11 May 2020 13:08:51 +0300
+Date:   Mon, 11 May 2020 13:08:51 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>
+Subject: Re: [PATCH v1 4/5] Input: edt-ft5x06 - do not try to allocate too
+ much memory
+Message-ID: <20200511100851.GG185537@smile.fi.intel.com>
+References: <20200303180917.12563-1-andriy.shevchenko@linux.intel.com>
+ <20200303180917.12563-4-andriy.shevchenko@linux.intel.com>
+ <20200307010837.GO217608@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200507205918.GA13370@gofer.mess.org>
+In-Reply-To: <20200307010837.GO217608@dtor-ws>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 07, 2020 at 09:59:18PM +0100, Sean Young wrote:
-> On Thu, May 07, 2020 at 01:25:46PM -0700, Dmitry Torokhov wrote:
-> > On Thu, May 07, 2020 at 02:53:36PM +0100, Sean Young wrote:
-> > > serio drivers can only send one byte at a time. If the underlying tty
-> > > is a usb serial port, then each byte will be put into separate usb
-> > > urbs, which is not efficient.
-> > > 
-> > > Additionally, the Infrared Toy device refuses to transmit IR if the
-> > > IR data is sent one byte at a time. IR data is formatted in u16 values,
-> > > and the firmware expects complete u16 values in the packet.
-> > > 
-> > > https://github.com/DangerousPrototypes/USB_IR_Toy/blob/master/Firmware-main/IRs.c#L240
+On Fri, Mar 06, 2020 at 05:08:37PM -0800, Dmitry Torokhov wrote:
+> On Tue, Mar 03, 2020 at 08:09:16PM +0200, Andy Shevchenko wrote:
+> > When mode switch happens we try to allocate too much memory in case
+> > when num_x and num_y are being assigned to their maximum.
 > > 
-> > Ummm, serial protocol data size is at most 9 bits so I have no earthly
-> > idea how they expect to get 16.
-> 
-> serio is a layer on top several serial protocols, including ttys. ttys allow
-> more than one byte to be written at a time, see struct tty_operations:
-> 
->         int  (*write)(struct tty_struct * tty,
->                       const unsigned char *buf, int count);
-> 
-> ttys would be very inefficient if you could only write one byte at a time,
-> and they are very serial.
-> 
-> This patch exposes the underlying tty write() functionality to serio. When
-> the underlying tty is a usb serial port this makes for far fewer usb packets
-> being used to send the same data, and fixes my driver problem, and it
-> would reduce the number of calls in a few other cases too.
-> 
-> I'm happy to rework the patch if there are comments on the style or
-> approach.
+> > Since the resolution should come from property in such case, reassign
+> > values back to num_x and num_y to prevent too much memory allocation.
 
-Why not just use the ir-usb.c driver for this device instead?
+> > +	if (tsdata->num_x == U16_MAX && tsdata->prop.max_x &&
+> > +	    tsdata->num_y == U16_MAX && tsdata->prop.max_y) {
+> > +		/* Reassign num_x and num_y from properties */
+> > +		tsdata->num_x = tsdata->prop.max_x;
+> > +		tsdata->num_y = tsdata->prop.max_y;
+> 
+> No. num_x and num_y reprsenet number of electrodes on a given axis and
+> we should not be assigning maximum coordinates to them.
 
-thanks,
+Thank you for explanation.
 
-greg k-h
+> Moreover, the factory mode can only be activated on M06, where we do
+> read these values from registers, so we will not be allocating too much
+> memory. If anything, we should add error handling for
+> edt_ft5x06_register_read() when trying to fetch num_x and num_y.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
