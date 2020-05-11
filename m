@@ -2,92 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE1391CD5FA
-	for <lists+linux-input@lfdr.de>; Mon, 11 May 2020 12:09:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED56B1CDC5C
+	for <lists+linux-input@lfdr.de>; Mon, 11 May 2020 16:00:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726013AbgEKKJT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 May 2020 06:09:19 -0400
-Received: from mga05.intel.com ([192.55.52.43]:34084 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725983AbgEKKJT (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 May 2020 06:09:19 -0400
-IronPort-SDR: tMdRyh2wE+7HPUGjM0F9g/EbN0COirwWuhRWTruL0NatTDyEN3FJ7TNSDB1Q0EEZzDSyjzu9qR
- fkhdFxNfFaPA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2020 03:09:18 -0700
-IronPort-SDR: /4ePewXHw1p2yD2NJm9/62yQsAGdq20yYVgsYx4VvqfhoOAUPkhdGozjZWJkNJ7lX++yR0EnMN
- F7h07F2TYQmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,379,1583222400"; 
-   d="scan'208";a="265108108"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga006.jf.intel.com with ESMTP; 11 May 2020 03:09:17 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jY5NA-005wFH-AV; Mon, 11 May 2020 13:09:20 +0300
-Date:   Mon, 11 May 2020 13:09:20 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>
-Subject: Re: [PATCH v1 3/5] Input: edt-ft5x06 - use U16_MAX instead of -1
-Message-ID: <20200511100920.GH185537@smile.fi.intel.com>
-References: <20200303180917.12563-1-andriy.shevchenko@linux.intel.com>
- <20200303180917.12563-3-andriy.shevchenko@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200303180917.12563-3-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        id S1730110AbgEKN70 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 May 2020 09:59:26 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:51654 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbgEKN7Z (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 11 May 2020 09:59:25 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id D1D622A092D
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, andrzej.p@collabora.com,
+        kernel@collabora.com
+Subject: [PATCH 0/6] Magic SysRq extensions
+Date:   Mon, 11 May 2020 15:59:12 +0200
+Message-Id: <20200511135918.8203-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Mar 03, 2020 at 08:09:15PM +0200, Andy Shevchenko wrote:
-> Explicitly show what the value we supply for the touchscreen resolution
-> when it can't be detected. -1 is hard to compare with when unsigned short
-> type is in use. The change will help to avoid signed vs. unsigned error
-> prone comparisons.
-> 
+Some systems, e.g. chromebooks, don't have a physical SysRq key. Patch 3/6
+allows configuring which key acts as SysRq. If unconfigured, the default
+KEY_SYSRQ is used.
 
-So, this left without comment, does it mean you are going to apply it?
+The sysrq_key_table has effectively run out of free slots. Patch 4/6
+extends the said table to accommodate capital letters, so on top of
+0-9 and 'a'-'z' 'A'-'Z' are added.
 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/input/touchscreen/edt-ft5x06.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-> index cb67104c6934..a05c6b597d43 100644
-> --- a/drivers/input/touchscreen/edt-ft5x06.c
-> +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> @@ -23,6 +23,7 @@
->  #include <linux/input/touchscreen.h>
->  #include <linux/irq.h>
->  #include <linux/kernel.h>
-> +#include <linux/limits.h>
->  #include <linux/module.h>
->  #include <linux/ratelimit.h>
->  #include <linux/regulator/consumer.h>
-> @@ -983,8 +984,8 @@ edt_ft5x06_ts_get_parameters(struct edt_ft5x06_ts_data *tsdata)
->  		tsdata->num_y = edt_ft5x06_register_read(tsdata,
->  							 reg_addr->reg_num_y);
->  	} else {
-> -		tsdata->num_x = -1;
-> -		tsdata->num_y = -1;
-> +		tsdata->num_x = U16_MAX;
-> +		tsdata->num_y = U16_MAX;
->  	}
->  }
->  
-> -- 
-> 2.25.1
-> 
+Userland might want to be able to signal a specifically named process
+with a specific signal as a result of some SysRq action. Patch 5/6 adds
+such a capability. The name of the signalled process, the name of the
+signal to be delivered to it and, optionally, the expected name of the
+target process parent are configured. Once configured, the action is
+available under Alt-Shift-SysRq-s.
 
+Userland might also want to be able to execute a compound action, e.g. the
+famous "Raising Elephants Is So Utterly Boring", or, say, 'w' (show blocked
+tasks), followed by 's' (sync), followed by 1000 ms delay and then followed
+by 'c' (crash). Patch 6/6 adds such a capability. The (short) names of
+component actions are specified with a string. Optional delays between
+actions are specified with a colon and the amount of milliseconds, e.g.
+"reis:1000ub" or "ws:1000c". Once configured, the action is available
+under Alt-Shift-SysRq-c.
+
+While at it, remove unused linux,sysrq-reset-seq handling code and the
+associated binding (patches 1/6 and 2/6).
+
+Andrzej Pietrasiewicz (6):
+  tty/sysrq: Remove linux,sysrq-reset-seq
+  dt-bindings: input: Remove linux,sysrq-reset-seq binding
+  tty/sysrq: Allow configurable SysRq key
+  tty/sysrq: Extend the sysrq_key_table to cover capital letters
+  tty/sysrq: Add configurable handler to signal a process
+  tty/sysrq: Add configurable handler to execute a compound action
+
+ .../devicetree/bindings/input/input-reset.txt |  33 ---
+ drivers/tty/sysrq.c                           | 268 ++++++++++++++++--
+ 2 files changed, 238 insertions(+), 63 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/input-reset.txt
+
+
+base-commit: 2ef96a5bb12be62ef75b5828c0aab838ebb29cb8
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.17.1
 
