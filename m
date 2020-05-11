@@ -2,103 +2,207 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2BE31CDCA6
-	for <lists+linux-input@lfdr.de>; Mon, 11 May 2020 16:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFF4C1CE2A4
+	for <lists+linux-input@lfdr.de>; Mon, 11 May 2020 20:27:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730105AbgEKOJb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 May 2020 10:09:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36434 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729963AbgEKOJa (ORCPT
+        id S1731150AbgEKS1a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 May 2020 14:27:30 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:34300 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729772AbgEKS13 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 May 2020 10:09:30 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8077EC061A0C
-        for <linux-input@vger.kernel.org>; Mon, 11 May 2020 07:09:30 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id j2so7683637qtr.12
-        for <linux-input@vger.kernel.org>; Mon, 11 May 2020 07:09:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=66ivZziC6fWt/OXZbDftr9QaYB14HUunfqNhoQgSQPk=;
-        b=EMeuTqlh5TWbpkEdlgXd80JOaJToeEUhudmjGjZWgG5lx7ohM/1kOjUCLGxgI2okfN
-         khzanuSaw3erzMtejB0jTGiWJ6Pfmh6zscHtqG2SYFGlLunF9aresERhURgfJPf6mFAK
-         S7TYYqYSG9OB8L2XE9AsBTPQ/rLUIgYgjoSCMjDanJ0dz9Fa7I6F226VrXMY+ooYxUSd
-         /mFjVKqq48m6nQ7wdgAHli2kU2E0Bk1soxe8iNIRMl8PWCqdGKxa2hsziZC8qzpe6kWq
-         TEu94TUJwwMBe0hJUN8qNjTDnBJle/bR61ItJfo3jLhWGCIRcSyrNwmrFOKnECsPrdBp
-         f+5g==
+        Mon, 11 May 2020 14:27:29 -0400
+Received: by mail-oi1-f193.google.com with SMTP id c12so14963890oic.1;
+        Mon, 11 May 2020 11:27:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=66ivZziC6fWt/OXZbDftr9QaYB14HUunfqNhoQgSQPk=;
-        b=fXYthXXkJfJh1Y8t+zOI1lHz6XCDJeS6SbD85LVcKJyT13w9bzLdLT2ou9cY5q81cK
-         ekh/XAy0q4mOOV6PjonOFgX0rhmPnl9VeRRbr1ueXb04jT+qZI3AA4hXoak7rfpCa+Hf
-         +TT0bPffgu3wcy5S4vkEk197Vm1m73WUGrgrT7oF2HIrKFyq5gEDbQp+Q3pTuRP4aCr6
-         WV/lumqZoFXpgcQ71X4epZ0MkBWEvxA/U5qpKVM4wgxh2sBFsIT/Q8hOZmWw1PEF5w17
-         maVoiMd/A47QCkzcwQEwNoHiJa80hW5VPT318//YhlgEUC3N9lMyv6jXnyTRubd8JxTW
-         QoNA==
-X-Gm-Message-State: AGi0Puacau/bGnZBNL5I/g0WkPNe4F3quFStGcboIrOJtFTV9LvY3+UK
-        /bME0YhvcWK65Icmhh742yiEU5R4qk8=
-X-Google-Smtp-Source: APiQypKTp3R2ZWhotItf3QnYK2YG73RMwSaAVJvrc3DPJqByGQwcYYw+pzXHenuTQSpT/Q3sdipbbQ==
-X-Received: by 2002:ac8:7552:: with SMTP id b18mr15584725qtr.312.1589206169288;
-        Mon, 11 May 2020 07:09:29 -0700 (PDT)
-Received: from ?IPv6:2605:a601:53d0:120:b89d:bda0:a559:80d4? ([2605:a601:53d0:120:b89d:bda0:a559:80d4])
-        by smtp.googlemail.com with ESMTPSA id q54sm8525327qtj.38.2020.05.11.07.09.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 May 2020 07:09:28 -0700 (PDT)
-Subject: Re: [PATCH 1/3] HID: gamecube-adapter: add nintendo gamecube adapter
-To:     Bastien Nocera <hadess@hadess.net>,
-        =?UTF-8?Q?Fran=c3=a7ois-Xavier_Carton?= <fx.carton91@gmail.com>,
-        linux-input@vger.kernel.org
-References: <20200506004801.9478-1-fx.carton91@gmail.com>
- <21978190912689256db8cc547a25313559e94019.camel@hadess.net>
-From:   Ethan Lee <flibitijibibo@gmail.com>
-Message-ID: <0e4f2671-00e8-b5d3-f309-8355bc92f118@gmail.com>
-Date:   Mon, 11 May 2020 10:09:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=7Dq6v2RgQ1NzWRtNWHz7ueSOJkRsa7ZUQ4A+tRGmEk0=;
+        b=IGtzoL25r7bVwaABBJlubOvf7v1TLCK4QhcxRsYXvSDFitGboO7IX6iVSlNHo668DZ
+         pNtUx9RiydiDih+N22JpuZzgUL3CmUGHnjBoGRraR6bXxx3kndy+9b8LWFnwb520uM59
+         xCf6rJGAw3QTh3ZCxbp2p4ud3boe9v/WM/+IcO35VoqAn41Yj5En7IMZ0Z6brFedDSXs
+         3tB/2SYlsAHV8TnQ+lYrC0sErOfzjnrNigMbZ36mL79g3VUa4fnpoAcKB78mv6ougpId
+         gYs4NcMrTW2RvQntRCnN7irFV4F0DjCJGIYfauuuxlPhTfSSIJhU2BpCNwWkiFCn0Tbz
+         wEdw==
+X-Gm-Message-State: AGi0PuYs0hoF7eHcCXC7VPalRiVfGnwYmBriSwDLohrP80n0TcmXI1W8
+        HZLRH+ZkeX8yLsijCS+xYg==
+X-Google-Smtp-Source: APiQypIddoKpSsY4vXjl9FBRpjHvq4vl8fRKeIJdFi0j9WY+HcG6j9RKFSXh8teT5bLZUpju5w9kTA==
+X-Received: by 2002:aca:cc0d:: with SMTP id c13mr12333340oig.125.1589221648092;
+        Mon, 11 May 2020 11:27:28 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id k26sm2859224ots.3.2020.05.11.11.27.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 11:27:27 -0700 (PDT)
+Received: (nullmailer pid 22174 invoked by uid 1000);
+        Mon, 11 May 2020 16:11:27 -0000
+Date:   Mon, 11 May 2020 11:11:27 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Kamel Bouhara <kamel.bouhara@bootlin.com>
+Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-iio@vger.kernel.org,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>
+Subject: Re: [PATCH v4 4/5] dt-bindings: counter: microchip-tcb-capture
+ counter
+Message-ID: <20200511161127.GA21385@bogus>
+References: <20200511140505.1649111-1-kamel.bouhara@bootlin.com>
+ <20200511140505.1649111-5-kamel.bouhara@bootlin.com>
 MIME-Version: 1.0
-In-Reply-To: <21978190912689256db8cc547a25313559e94019.camel@hadess.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200511140505.1649111-5-kamel.bouhara@bootlin.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Looks just like the SDL hidapi driver so this should be okay! The only 
-thing I'm unsure of is the axis inversion, in SDL we read the axes 
-directly and invert them in the SDL_GameController configuration. 
-Someone also added a bunch of dead zone work after I wrote the driver, 
-but unfortunately I don't know the details of that.
+On Mon, 11 May 2020 16:05:04 +0200, Kamel Bouhara wrote:
+> Describe the devicetree binding for the Microchip TCB module.
+> Each counter blocks exposes three independent counters.
+> 
+> However, when configured in quadrature decoder, both channel <0> and <1>
+> are required for speed/position and rotation capture (yet only the
+> position is captured).
+> 
+> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> ---
+>  .../soc/microchip/atmel,at91rm9200-tcb.yaml   | 29 +++++++++++++++++--
+>  1 file changed, 26 insertions(+), 3 deletions(-)
+> 
 
-The meat of our driver is here...
 
-https://hg.libsdl.org/SDL/file/4298bf108b06/src/joystick/hidapi/SDL_hidapi_gamecube.c#l226
+My bot found errors running 'make dt_binding_check' on your patch:
 
-... and the SDL_GameController config is here:
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-doc-validate", line 64, in <module>
+    ret = check_doc(args.yamldt)
+  File "/usr/local/bin/dt-doc-validate", line 25, in check_doc
+    testtree = dtschema.load(filename, line_number=line_number, duplicate_keys=False)
+  File "/usr/local/lib/python3.6/dist-packages/dtschema/lib.py", line 592, in load
+    return yaml.load(f.read())
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/main.py", line 343, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 113, in get_single_data
+    return self.construct_document(node)
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 123, in construct_document
+    for _dummy in generator:
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 723, in construct_yaml_map
+    value = self.construct_mapping(node)
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 440, in construct_mapping
+    return BaseConstructor.construct_mapping(self, node, deep=deep)
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 257, in construct_mapping
+    if self.check_mapping_key(node, key_node, mapping, key, value):
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 295, in check_mapping_key
+    raise DuplicateKeyError(*args)
+ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
+  in "<unicode string>", line 4, column 1
+found duplicate key "examples" with value "[]" (original value: "[]")
+  in "<unicode string>", line 157, column 1
 
-https://hg.libsdl.org/SDL/file/4298bf108b06/src/joystick/SDL_gamecontrollerdb.h#l614
+To suppress this check see:
+    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
 
-The '~' char denotes an input value that is flipped after it is read 
-from the joystick; the vendor/product/version matchup may cause this 
-config to accidentally flip the axes twice when using the kernel driver.
+Duplicate keys will become an error in future releases, and are errors
+by default when using the new API.
 
--Ethan
+Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.example.dts' failed
+make[1]: *** [Documentation/devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-mk-schema", line 34, in <module>
+    schemas = dtschema.process_schemas(args.schemas, core_schema=(not args.useronly))
+  File "/usr/local/lib/python3.6/dist-packages/dtschema/lib.py", line 554, in process_schemas
+    sch = process_schema(os.path.abspath(filename))
+  File "/usr/local/lib/python3.6/dist-packages/dtschema/lib.py", line 507, in process_schema
+    schema = load_schema(filename)
+  File "/usr/local/lib/python3.6/dist-packages/dtschema/lib.py", line 123, in load_schema
+    return do_load(os.path.join(schema_basedir, schema))
+  File "/usr/local/lib/python3.6/dist-packages/dtschema/lib.py", line 108, in do_load
+    return yaml.load(tmp)
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/main.py", line 343, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 113, in get_single_data
+    return self.construct_document(node)
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 123, in construct_document
+    for _dummy in generator:
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 723, in construct_yaml_map
+    value = self.construct_mapping(node)
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 440, in construct_mapping
+    return BaseConstructor.construct_mapping(self, node, deep=deep)
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 257, in construct_mapping
+    if self.check_mapping_key(node, key_node, mapping, key, value):
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 295, in check_mapping_key
+    raise DuplicateKeyError(*args)
+ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
+  in "<unicode string>", line 4, column 1
+found duplicate key "examples" with value "[]" (original value: "[]")
+  in "<unicode string>", line 157, column 1
 
-On 5/10/20 08:45, Bastien Nocera wrote:
-> On Wed, 2020-05-06 at 02:47 +0200, François-Xavier Carton wrote:
->> The hid-gamecube-adapter driver supports Nintendo Gamecube Controller
->> Adapters.  They are USB devices on which up to four Nintendo Gamecube
->> Controllers can be plugged. The driver create independent input
->> devices
->> as controllers are connected.
-> I think Ethan might be interested in testing this, as he's been using a
-> user-space version of that in the past:
-> https://patchwork.kernel.org/patch/11530107/
->
+To suppress this check see:
+    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
+
+Duplicate keys will become an error in future releases, and are errors
+by default when using the new API.
+
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-mk-schema", line 34, in <module>
+    schemas = dtschema.process_schemas(args.schemas, core_schema=(not args.useronly))
+  File "/usr/local/lib/python3.6/dist-packages/dtschema/lib.py", line 554, in process_schemas
+    sch = process_schema(os.path.abspath(filename))
+  File "/usr/local/lib/python3.6/dist-packages/dtschema/lib.py", line 507, in process_schema
+    schema = load_schema(filename)
+  File "/usr/local/lib/python3.6/dist-packages/dtschema/lib.py", line 123, in load_schema
+    return do_load(os.path.join(schema_basedir, schema))
+  File "/usr/local/lib/python3.6/dist-packages/dtschema/lib.py", line 108, in do_load
+    return yaml.load(tmp)
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/main.py", line 343, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 113, in get_single_data
+    return self.construct_document(node)
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 123, in construct_document
+    for _dummy in generator:
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 723, in construct_yaml_map
+    value = self.construct_mapping(node)
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 440, in construct_mapping
+    return BaseConstructor.construct_mapping(self, node, deep=deep)
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 257, in construct_mapping
+    if self.check_mapping_key(node, key_node, mapping, key, value):
+  File "/usr/local/lib/python3.6/dist-packages/ruamel/yaml/constructor.py", line 295, in check_mapping_key
+    raise DuplicateKeyError(*args)
+ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
+  in "<unicode string>", line 4, column 1
+found duplicate key "examples" with value "[]" (original value: "[]")
+  in "<unicode string>", line 157, column 1
+
+To suppress this check see:
+    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
+
+Duplicate keys will become an error in future releases, and are errors
+by default when using the new API.
+
+Documentation/devicetree/bindings/Makefile:41: recipe for target 'Documentation/devicetree/bindings/processed-schema-examples.yaml' failed
+make[1]: *** [Documentation/devicetree/bindings/processed-schema-examples.yaml] Error 123
+make[1]: *** Deleting file 'Documentation/devicetree/bindings/processed-schema-examples.yaml'
+Documentation/devicetree/bindings/Makefile:45: recipe for target 'Documentation/devicetree/bindings/processed-schema.yaml' failed
+make[1]: *** [Documentation/devicetree/bindings/processed-schema.yaml] Error 123
+make[1]: *** Deleting file 'Documentation/devicetree/bindings/processed-schema.yaml'
+Makefile:1300: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
+
+See https://patchwork.ozlabs.org/patch/1287813
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
 
