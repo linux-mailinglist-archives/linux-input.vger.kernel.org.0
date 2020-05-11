@@ -2,119 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90B0C1CE227
-	for <lists+linux-input@lfdr.de>; Mon, 11 May 2020 20:01:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A04D1CE24B
+	for <lists+linux-input@lfdr.de>; Mon, 11 May 2020 20:09:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729333AbgEKSBt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 May 2020 14:01:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44374 "EHLO
+        id S1729564AbgEKSJt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 May 2020 14:09:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729305AbgEKSBs (ORCPT
+        by vger.kernel.org with ESMTP id S1726891AbgEKSJt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 May 2020 14:01:48 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85E7DC061A0C;
-        Mon, 11 May 2020 11:01:48 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id b8so4890529pgi.11;
-        Mon, 11 May 2020 11:01:48 -0700 (PDT)
+        Mon, 11 May 2020 14:09:49 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5735C061A0C
+        for <linux-input@vger.kernel.org>; Mon, 11 May 2020 11:09:48 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id r16so8813973edw.5
+        for <linux-input@vger.kernel.org>; Mon, 11 May 2020 11:09:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pb5iXl3wqExQa7EHKjU8DmEsT4eBBS2CqQJLsRdaD14=;
-        b=KAVoLNC6+GSlRUpirLvVWVPtGwMZ71VwUjs6jc7dcoCl4trDkacmzz9Kn9v6kpB9lf
-         U1tPEvug6TXzL0dKSOILNf752zE7voqciELhux37RDWKutUbc2LSV8C6R/+JPH+Zjl2s
-         Z4PoHEC0+0hHOxG0OFI7lPZpWt3FebKaQrXi056AE22DtTjYlEWdKocHUUtpWL3aHUaf
-         mil6Jlcm0ciQRmDFXjM7QyPoNdZXgBFqzuwIeUe2utXoLdS4YP6v3n6Oe/KkcNWEc/Fy
-         ncEo+nvnmnGejvOR1ippvG/Q0E5+E3g97Z4cyGGjh4GgsuY2/1j27xqQRsTlUvKxRKgx
-         lZSA==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=axdoHiX9E6z9O7lAN4eJM1bsQRKBne5yAB3H/+h8jDM=;
+        b=pCBQigc11wtctQrhrddWxgcndnZShc+/z9OMf8T4VHMM+1cdAAkcOmWgtZAMcn66pu
+         zS8WA+SO43F1U2GypU0i5yTjnor1TFpf0+hpkPnOFAhH3FSWxGcb6HbiQJ4U43HDqAQu
+         B/jNL272IWxftvkP9u2s7BcdwiqSuwOH5OgnKWc3NLhsRVhevnJN1zXEo++88+OgkFnu
+         CWstudNpJXYqvIcm5Qyo6hjbwJeVAldAG1Kv0KWQL/Ua5vJh4ALBxJjISDNAwJQH2H2v
+         5wusuWH3fxNAUBTUTJPjgElHG6Rp4PEWQ62oh/LAQipdxRST2PgrxY5jlUB7FhypBaLN
+         AUCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pb5iXl3wqExQa7EHKjU8DmEsT4eBBS2CqQJLsRdaD14=;
-        b=ta4kAQYBGgPCzOhhYw2BRTk8slbcLQzUhZbHQhc5ARyVP5ZjCZf/xU/cqO7J5rWyYL
-         eq56w6laTOtXgy4iNgGABlmfzXKRVzEVchCULH4CjVQAmlLF/5RxtPr1Vpxagc/S+aKO
-         J5QO05nxbUd+M9dXipR2nJqORkGyGj+0E59OpcZFEoKJ37KOMwkSST7rXhSdfVbMvMyj
-         ytS9adnXGd/tcGxbr3/tDxe3QVyYen6C2tvpCGS3toh9RnpaqhH27z0ZzJCK4hB4Fzaj
-         qJgPAgfuV8aCHAcjK2kvCGIMeC+/fAG6s6JPIEL2lZmqXBkDiYs/VL37PC9V7jBm3/a7
-         Dnnw==
-X-Gm-Message-State: AGi0PuafCbxwXonmAB59huA1H5l9/oAwPLjlGrd206y4ori3LIvGtlUC
-        jJ4iv01bIgTXl8slqSthb0w=
-X-Google-Smtp-Source: APiQypJZxKQ0c1FCkM/VXa64n95Eb4YCBB32tClFlbaRbe3jAA3i8b4SNoixF2v/MRI1AlsdV8gxCw==
-X-Received: by 2002:a63:801:: with SMTP id 1mr15082540pgi.278.1589220107532;
-        Mon, 11 May 2020 11:01:47 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id 1sm9548699pff.151.2020.05.11.11.01.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 11:01:47 -0700 (PDT)
-Date:   Mon, 11 May 2020 11:01:45 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, kernel@collabora.com
-Subject: Re: [PATCH 3/6] tty/sysrq: Allow configurable SysRq key
-Message-ID: <20200511180145.GU89269@dtor-ws>
-References: <20200511135918.8203-1-andrzej.p@collabora.com>
- <20200511135918.8203-4-andrzej.p@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=axdoHiX9E6z9O7lAN4eJM1bsQRKBne5yAB3H/+h8jDM=;
+        b=YFkx6L/mjMxsjRPBwlqRpZkgTFY8ef+VTCLNZ5eA6pYNTpweTpSFGNanRzneJ+Kgcn
+         nnaSlCjfMLHyuOqBo78e5Sim2WSwc2vA4mOdAo/sCGM2vNnirgkevjooDpC1uFvnexeZ
+         wAnPsfScb7o9Diyzn3rIsSONrJSb2YpU7YHIHOfoVM+OhpO5vrI5MagZnardZd+UvHd9
+         wIsBFwfTAYynez/7GXS9mpVQGug+sjOwa9dgHzE/VWafImPl9sV5zQKduWojT1+SY5Jk
+         GWcpeWuieXSGms9HzY8S8K2Tr1S4ms46FCqi6TmKac9Kzb1S9EgNaBTiCd+phQhpSGs8
+         a5cw==
+X-Gm-Message-State: AGi0PuaLRqFlSS2vJ8WAZk6LTL2v21x096uYuu5KYDKkNG6n8ZGDdXgw
+        amXWapmjD8kBXTeeErOIJoj3r7i6vH+WTrixMnZ7ag==
+X-Google-Smtp-Source: APiQypIwWGJrvuX+5hzjHxYL8usxaDlkoTqXFooOIQIAKMfOcW2cvWbLbaiQq0aotOUuoXxCrU16dVTRcG/7RKrWNkM=
+X-Received: by 2002:aa7:c6cd:: with SMTP id b13mr9376377eds.314.1589220586234;
+ Mon, 11 May 2020 11:09:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200511135918.8203-4-andrzej.p@collabora.com>
+References: <CAKF84v2gWnokoyhRe_feiWJcYOAPUcWwjaX93GkqmXqm8OzmYg@mail.gmail.com>
+ <CAKF84v1yRUjvxdWUNXdKXFQw7=9rjR0+pwvXP1ORjq5JEijc4g@mail.gmail.com> <CAKF84v1R4xs3HKH8v-SnBrZ2eEVim2W9OPD+BWPQchpfVJTHXQ@mail.gmail.com>
+In-Reply-To: <CAKF84v1R4xs3HKH8v-SnBrZ2eEVim2W9OPD+BWPQchpfVJTHXQ@mail.gmail.com>
+From:   Siarhei Vishniakou <svv@google.com>
+Date:   Mon, 11 May 2020 11:09:35 -0700
+Message-ID: <CAKF84v3+qPu2pRgqmBOKNJqbkqKjJ8ihZXaK5JnNdu9Tn77EuA@mail.gmail.com>
+Subject: Re: behaviour change for keyboards introduced by "HID: generic:
+ create one input report per application type"
+To:     Garfield Tan <xutan@google.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jkosina@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Andrzej,
+Bumping this back up, it would be awesome to receive a response on this.
 
-On Mon, May 11, 2020 at 03:59:15PM +0200, Andrzej Pietrasiewicz wrote:
-> There are existing machines which don't have SysRq key, e.g. chromebooks.
-> This patch allows configuring which key acts as SysRq. The value is passed
-> with sysrq's module parameter.
-> 
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> ---
->  drivers/tty/sysrq.c | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
-> index 93202fc24308..ebad9799fdc0 100644
-> --- a/drivers/tty/sysrq.c
-> +++ b/drivers/tty/sysrq.c
-> @@ -604,6 +604,7 @@ EXPORT_SYMBOL(handle_sysrq);
->  
->  #ifdef CONFIG_INPUT
->  static int sysrq_reset_downtime_ms;
-> +static unsigned short sysrq_key = KEY_SYSRQ;
->  
->  /* Simple translation table for the SysRq keys */
->  static const unsigned char sysrq_xlate[KEY_CNT] =
-> @@ -735,10 +736,10 @@ static void sysrq_reinject_alt_sysrq(struct work_struct *work)
->  
->  		/* Simulate press and release of Alt + SysRq */
->  		input_inject_event(handle, EV_KEY, alt_code, 1);
-> -		input_inject_event(handle, EV_KEY, KEY_SYSRQ, 1);
-> +		input_inject_event(handle, EV_KEY, sysrq_key, 1);
->  		input_inject_event(handle, EV_SYN, SYN_REPORT, 1);
->  
-> -		input_inject_event(handle, EV_KEY, KEY_SYSRQ, 0);
-> +		input_inject_event(handle, EV_KEY, sysrq_key, 0);
->  		input_inject_event(handle, EV_KEY, alt_code, 0);
->  		input_inject_event(handle, EV_SYN, SYN_REPORT, 1);
-
-Unfortunately this means that if I connect my external keyboard to
-chromebook SysRq there will stop working, which is not great. If we want
-to support this we need to figure out how to make this handling
-per-device.
-
-FWIW Chrome OS cheats and simply adds more keys to be handled as SysRq
-without removing "classic" SysRq. But that hack is obviously not
-suitable for the mainline.
-
-Thanks.
-
--- 
-Dmitry
+On Tue, Apr 21, 2020 at 2:37 PM Siarhei Vishniakou <svv@google.com> wrote:
+>
+> Bringing this back.
+>
+> Any thoughts on this Jiri and Benjamin?
+>
+> On Wed, Apr 8, 2020 at 9:45 AM Siarhei Vishniakou <svv@google.com> wrote:
+> >
+> > Hi Benjamin and Jiri,
+> >
+> > Could you provide your thoughts on this?
+> >
+> > On Wed, Apr 1, 2020 at 1:02 PM Siarhei Vishniakou <svv@google.com> wrot=
+e:
+> > >
+> > > Hello linux-input,
+> > >
+> > > We have noticed a recent behavior change introduced by the commit:
+> > > https://github.com/torvalds/linux/commit/f07b3c1da92db108662f99417a21=
+2fc1eddc44d1
+> > > HID: generic: create one input report per application type.
+> > >
+> > > We have been looking into the behaviour of the Microsoft Designer
+> > > keyboard. Prior to these patches, the keyboard would report as a
+> > > single input_device to the user space. After these patches, the
+> > > keyboard is now split into 2 input devices: =E2=80=9CDesigner Keyboar=
+d
+> > > Consumer Control=E2=80=9D and =E2=80=9C"Designer Keyboard Keyboard". =
+We noticed that
+> > > this behavior also applies to the keyboard Dell KB216. In the Dell
+> > > case, it is split into 3 devices, which include =E2=80=9CConsumer Con=
+trol=E2=80=9D
+> > > (for some of the media keys) and =E2=80=9CSystem Control=E2=80=9D (fo=
+r the sleep
+> > > button).
+> > >
+> > > In both Microsoft and Dell cases, these are pretty standard keyboards=
+,
+> > > although they do contain media keys and power/sleep keys.
+> > >
+> > > Could you please confirm that this new behaviour is indeed
+> > > intentional, and that you wanted keyboards to be split in this
+> > > fashion?
+> > >
+> > > Thanks,
+> > > Siarhei
