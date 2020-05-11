@@ -2,113 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A04D1CE24B
-	for <lists+linux-input@lfdr.de>; Mon, 11 May 2020 20:09:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CFB61CE2C5
+	for <lists+linux-input@lfdr.de>; Mon, 11 May 2020 20:29:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729564AbgEKSJt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 May 2020 14:09:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45648 "EHLO
+        id S1729713AbgEKS3d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 May 2020 14:29:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726891AbgEKSJt (ORCPT
+        by vger.kernel.org with ESMTP id S1729673AbgEKS3d (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 May 2020 14:09:49 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5735C061A0C
-        for <linux-input@vger.kernel.org>; Mon, 11 May 2020 11:09:48 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id r16so8813973edw.5
-        for <linux-input@vger.kernel.org>; Mon, 11 May 2020 11:09:48 -0700 (PDT)
+        Mon, 11 May 2020 14:29:33 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E89BCC061A0C;
+        Mon, 11 May 2020 11:29:31 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id f7so5113445pfa.9;
+        Mon, 11 May 2020 11:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=axdoHiX9E6z9O7lAN4eJM1bsQRKBne5yAB3H/+h8jDM=;
-        b=pCBQigc11wtctQrhrddWxgcndnZShc+/z9OMf8T4VHMM+1cdAAkcOmWgtZAMcn66pu
-         zS8WA+SO43F1U2GypU0i5yTjnor1TFpf0+hpkPnOFAhH3FSWxGcb6HbiQJ4U43HDqAQu
-         B/jNL272IWxftvkP9u2s7BcdwiqSuwOH5OgnKWc3NLhsRVhevnJN1zXEo++88+OgkFnu
-         CWstudNpJXYqvIcm5Qyo6hjbwJeVAldAG1Kv0KWQL/Ua5vJh4ALBxJjISDNAwJQH2H2v
-         5wusuWH3fxNAUBTUTJPjgElHG6Rp4PEWQ62oh/LAQipdxRST2PgrxY5jlUB7FhypBaLN
-         AUCg==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=H4KxnQZj7MMF+XFizw+0KM4p3VPjuRnYCCVLLa+bQEU=;
+        b=nREcErpP1OJWWHKl6ghnKOeW2GKGIh6MCXUIDRhGjtgd0VYJTGnpHPnP9lR6nVsxJP
+         UWa3W0KAtUslzNajPouGKgHUuKK7CHW4wDRq5zmbTi4+30s4qkl6UK5zo3H1gyd2V20b
+         fixwqV43MdJD2QQ8bxQvNBSgiF6cStXyHmQvDze+mwo6q4bpfwSzr57xSJzzxo0KxkLS
+         yF/n+HqgY4C1GY9oh9Y4dq3RVZgmsDJN2DY5BsAfvoIo8e6IdpCGou+c5GdYOXLLgkaB
+         QiWa0RXlR8KvT2uPvPziSPBjBXa4/plss/Az/m4Me3Vcn3r/I8zxqg2glPhm5VuWtG6V
+         3eUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=axdoHiX9E6z9O7lAN4eJM1bsQRKBne5yAB3H/+h8jDM=;
-        b=YFkx6L/mjMxsjRPBwlqRpZkgTFY8ef+VTCLNZ5eA6pYNTpweTpSFGNanRzneJ+Kgcn
-         nnaSlCjfMLHyuOqBo78e5Sim2WSwc2vA4mOdAo/sCGM2vNnirgkevjooDpC1uFvnexeZ
-         wAnPsfScb7o9Diyzn3rIsSONrJSb2YpU7YHIHOfoVM+OhpO5vrI5MagZnardZd+UvHd9
-         wIsBFwfTAYynez/7GXS9mpVQGug+sjOwa9dgHzE/VWafImPl9sV5zQKduWojT1+SY5Jk
-         GWcpeWuieXSGms9HzY8S8K2Tr1S4ms46FCqi6TmKac9Kzb1S9EgNaBTiCd+phQhpSGs8
-         a5cw==
-X-Gm-Message-State: AGi0PuaLRqFlSS2vJ8WAZk6LTL2v21x096uYuu5KYDKkNG6n8ZGDdXgw
-        amXWapmjD8kBXTeeErOIJoj3r7i6vH+WTrixMnZ7ag==
-X-Google-Smtp-Source: APiQypIwWGJrvuX+5hzjHxYL8usxaDlkoTqXFooOIQIAKMfOcW2cvWbLbaiQq0aotOUuoXxCrU16dVTRcG/7RKrWNkM=
-X-Received: by 2002:aa7:c6cd:: with SMTP id b13mr9376377eds.314.1589220586234;
- Mon, 11 May 2020 11:09:46 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=H4KxnQZj7MMF+XFizw+0KM4p3VPjuRnYCCVLLa+bQEU=;
+        b=Rj5kIgsxn9eAoMQP0PwWspiWDy3kXSz52+r/KDFCG0V9w+mdK8czUarweXTPrIHSv5
+         aHSVFKuDLDtW3TitisvABW2jhnWxkGImp3yaL+X6bWowrJ9f/hooOk4FTf9FfiVJVXLR
+         a0j7p5jKh1mui9yuAg6R6gaNrKAntXebZGUafN/z7BuL1d2IHQhI9CajK7FAHe7age5i
+         2VJgDD6APBqtOiWYgSedQLPEvRqlpaZebO8iwr1r3uoh51Ua1Op2hzquC8Gbhj+z1jr3
+         c8Ry1tLrxO068Uha/WRtp/iKM/Dul8ZobWO8SHxUW6ufztVSGfZGykyYt3cKUGl7ErS8
+         kHGg==
+X-Gm-Message-State: AGi0PuarkXtd9s83QI9nfZDlNqeEFjWEkcm/5S8feD1vq/c7MzJCXD+o
+        9HSoD/hHP/5GwfX17qK5azI=
+X-Google-Smtp-Source: APiQypLioLOYpTUjlKnMPx3S4Dgj8UBE8iQJGVmCsArVCnPKl5V2exwha0LsAKBoWoN0GjWyML4zWw==
+X-Received: by 2002:a63:5663:: with SMTP id g35mr15553849pgm.356.1589221771093;
+        Mon, 11 May 2020 11:29:31 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id j35sm8472856pgl.74.2020.05.11.11.29.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 11:29:30 -0700 (PDT)
+Date:   Mon, 11 May 2020 11:29:28 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, Jiri Slaby <jslaby@suse.com>,
+        kernel@collabora.com
+Subject: Re: [PATCH 6/6] tty/sysrq: Add configurable handler to execute a
+ compound action
+Message-ID: <20200511182928.GV89269@dtor-ws>
+References: <20200511135918.8203-1-andrzej.p@collabora.com>
+ <20200511135918.8203-7-andrzej.p@collabora.com>
+ <20200511162113.GC2221063@kroah.com>
 MIME-Version: 1.0
-References: <CAKF84v2gWnokoyhRe_feiWJcYOAPUcWwjaX93GkqmXqm8OzmYg@mail.gmail.com>
- <CAKF84v1yRUjvxdWUNXdKXFQw7=9rjR0+pwvXP1ORjq5JEijc4g@mail.gmail.com> <CAKF84v1R4xs3HKH8v-SnBrZ2eEVim2W9OPD+BWPQchpfVJTHXQ@mail.gmail.com>
-In-Reply-To: <CAKF84v1R4xs3HKH8v-SnBrZ2eEVim2W9OPD+BWPQchpfVJTHXQ@mail.gmail.com>
-From:   Siarhei Vishniakou <svv@google.com>
-Date:   Mon, 11 May 2020 11:09:35 -0700
-Message-ID: <CAKF84v3+qPu2pRgqmBOKNJqbkqKjJ8ihZXaK5JnNdu9Tn77EuA@mail.gmail.com>
-Subject: Re: behaviour change for keyboards introduced by "HID: generic:
- create one input report per application type"
-To:     Garfield Tan <xutan@google.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jkosina@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200511162113.GC2221063@kroah.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Bumping this back up, it would be awesome to receive a response on this.
+On Mon, May 11, 2020 at 06:21:13PM +0200, Greg Kroah-Hartman wrote:
+> On Mon, May 11, 2020 at 03:59:18PM +0200, Andrzej Pietrasiewicz wrote:
+> > Some userland might want to execute e.g. 'w' (show blocked tasks), followed
+> > by 's' (sync), followed by 1000 ms delay and then followed by 'c' (crash)
+> > upon a single magic SysRq. Or one might want to execute the famous "Raising
+> > Elephants Is So Utterly Boring" action. This patch adds a configurable
+> > handler, triggered with 'C', for this exact purpose. The user specifies the
+> > composition of the compound action using syntax similar to getopt, where
+> > each letter corresponds to an individual action and a colon followed by a
+> > number corresponds to a delay of that many milliseconds, e.g.:
+> > 
+> > ws:1000c
+> > 
+> > or
+> > 
+> > r:100eis:1000ub
+> 
+> Cute, but why?  Who needs/wants this type of thing?
 
-On Tue, Apr 21, 2020 at 2:37 PM Siarhei Vishniakou <svv@google.com> wrote:
->
-> Bringing this back.
->
-> Any thoughts on this Jiri and Benjamin?
->
-> On Wed, Apr 8, 2020 at 9:45 AM Siarhei Vishniakou <svv@google.com> wrote:
-> >
-> > Hi Benjamin and Jiri,
-> >
-> > Could you provide your thoughts on this?
-> >
-> > On Wed, Apr 1, 2020 at 1:02 PM Siarhei Vishniakou <svv@google.com> wrot=
-e:
-> > >
-> > > Hello linux-input,
-> > >
-> > > We have noticed a recent behavior change introduced by the commit:
-> > > https://github.com/torvalds/linux/commit/f07b3c1da92db108662f99417a21=
-2fc1eddc44d1
-> > > HID: generic: create one input report per application type.
-> > >
-> > > We have been looking into the behaviour of the Microsoft Designer
-> > > keyboard. Prior to these patches, the keyboard would report as a
-> > > single input_device to the user space. After these patches, the
-> > > keyboard is now split into 2 input devices: =E2=80=9CDesigner Keyboar=
-d
-> > > Consumer Control=E2=80=9D and =E2=80=9C"Designer Keyboard Keyboard". =
-We noticed that
-> > > this behavior also applies to the keyboard Dell KB216. In the Dell
-> > > case, it is split into 3 devices, which include =E2=80=9CConsumer Con=
-trol=E2=80=9D
-> > > (for some of the media keys) and =E2=80=9CSystem Control=E2=80=9D (fo=
-r the sleep
-> > > button).
-> > >
-> > > In both Microsoft and Dell cases, these are pretty standard keyboards=
-,
-> > > although they do contain media keys and power/sleep keys.
-> > >
-> > > Could you please confirm that this new behaviour is indeed
-> > > intentional, and that you wanted keyboards to be split in this
-> > > fashion?
-> > >
-> > > Thanks,
-> > > Siarhei
+On Chrome OS the first time user presses SysRq-X it will try to kill
+chrome (and that will cause crash to get uploaded if user consented).
+The 2nd time within 5 seconds the same combo is pressed, it will dump
+blocked tasks in syslog and try to sync and then panic. On panic the
+device will reboot, logs will be scraped from pstore, and uploaded for
+analysis.
+
+Thanks.
+
+-- 
+Dmitry
