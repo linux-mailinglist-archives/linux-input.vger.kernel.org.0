@@ -2,21 +2,21 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4773C1D024A
-	for <lists+linux-input@lfdr.de>; Wed, 13 May 2020 00:27:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E0E51D024E
+	for <lists+linux-input@lfdr.de>; Wed, 13 May 2020 00:27:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731551AbgELW1U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 May 2020 18:27:20 -0400
-Received: from vps.xff.cz ([195.181.215.36]:41814 "EHLO vps.xff.cz"
+        id S1731134AbgELW1V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 May 2020 18:27:21 -0400
+Received: from vps.xff.cz ([195.181.215.36]:41826 "EHLO vps.xff.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731156AbgELW1U (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        id S1731538AbgELW1U (ORCPT <rfc822;linux-input@vger.kernel.org>);
         Tue, 12 May 2020 18:27:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-        t=1589322129; bh=8NnK5CsraaZezbyEm3ALbCdiOU7kYIlUQyLKmB3n8RA=;
+        t=1589322130; bh=b9l6jhTz95HtziyiK/WtyUDqMPHpI5aFV0oYbIcE+vw=;
         h=From:To:Cc:Subject:Date:References:From;
-        b=SO6+Q+T41K4T2JL05TZZ2IY/e+nGZgKFEXLbxmq9QBlFYcu5A7X8teO00J4r4Tw2U
-         wS6ZXVfwNFYJ1j+H58opUYdoszBJijDY3fkwh22g1xi3N0quarcGWyHpL3Wy1+Rn3G
-         /0+dNsie3axkhfAn8fV8ZjFo/1jrPmHs7umY8phQ=
+        b=KkWWh4ALhc+PRFHfEh099xQOptYQQ6xhyYOjUHyfazCqou4xI1fXgKsdo4YRZc1F8
+         u4/Z8EE33aneGs6oF52UHG4xIzT9TKZ+zkK+eTsbJJTdfe2XhlTFiJYjGRjMQq9pLi
+         acGqW5S+xeMVKlMqSb2rzMY07t4WLGspQbX5FGLk=
 From:   Ondrej Jirman <megous@megous.com>
 To:     linux-sunxi@googlegroups.com,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -28,9 +28,9 @@ Cc:     Ondrej Jirman <megous@megous.com>, Luca Weiss <luca@z3ntu.xyz>,
         Tomas Novotny <tomas@novotny.cz>, linux-input@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 2/4] input: gpio-vibra: Allow to use vcc-supply alone to control the vibrator
-Date:   Wed, 13 May 2020 00:22:03 +0200
-Message-Id: <20200512222205.1456300-3-megous@megous.com>
+Subject: [PATCH v2 3/4] ARM: dts: sun8i-a83t-tbs-a711: Add support for the vibrator motor
+Date:   Wed, 13 May 2020 00:22:04 +0200
+Message-Id: <20200512222205.1456300-4-megous@megous.com>
 In-Reply-To: <20200512222205.1456300-1-megous@megous.com>
 References: <20200512222205.1456300-1-megous@megous.com>
 MIME-Version: 1.0
@@ -40,29 +40,37 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Make enable-gpio optional to allow using this driver with
-boards that have vibrator connected to a power supply without
-intermediate gpio based enable circuitry.
+The board has a vibrator mottor. Hook it to the input subsystem.
+
+According to the PMIC specification, LDO needs to be enabled (value 0b11)
+to achieve the specified max driving current of 150mA. We can't drive
+the motor with just GPIO mode.
+
+In GPIO mode the chip is probably just using the regular CMOS logic
+output circuitry (typically limited to around 20-35mA, but not specified
+in this datasheet).
 
 Signed-off-by: Ondrej Jirman <megous@megous.com>
 ---
- drivers/input/misc/gpio-vibra.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/input/misc/gpio-vibra.c b/drivers/input/misc/gpio-vibra.c
-index f79f75595dd7..f11877f04b43 100644
---- a/drivers/input/misc/gpio-vibra.c
-+++ b/drivers/input/misc/gpio-vibra.c
-@@ -121,7 +121,8 @@ static int gpio_vibrator_probe(struct platform_device *pdev)
- 		return err;
- 	}
+diff --git a/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts b/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
+index bfc9bb277a49..a278a1e33930 100644
+--- a/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
++++ b/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
+@@ -99,6 +99,11 @@ panel_input: endpoint {
+ 		};
+ 	};
  
--	vibrator->gpio = devm_gpiod_get(&pdev->dev, "enable", GPIOD_OUT_LOW);
-+	vibrator->gpio = devm_gpiod_get_optional(&pdev->dev, "enable",
-+						 GPIOD_OUT_LOW);
- 	err = PTR_ERR_OR_ZERO(vibrator->gpio);
- 	if (err) {
- 		if (err != -EPROBE_DEFER)
++	vibrator {
++		compatible = "gpio-vibrator";
++		vcc-supply = <&reg_ldo_io1>;
++	};
++
+ 	reg_gps: reg-gps {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "gps";
 -- 
 2.26.2
 
