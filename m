@@ -2,71 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D60601D0012
-	for <lists+linux-input@lfdr.de>; Tue, 12 May 2020 23:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 685DE1D01B2
+	for <lists+linux-input@lfdr.de>; Wed, 13 May 2020 00:15:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728313AbgELVEA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 May 2020 17:04:00 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:34197 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728220AbgELVEA (ORCPT
+        id S1728319AbgELWPO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 May 2020 18:15:14 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:41670 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726031AbgELWPO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 May 2020 17:04:00 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 72so11747577otu.1;
-        Tue, 12 May 2020 14:03:59 -0700 (PDT)
+        Tue, 12 May 2020 18:15:14 -0400
+Received: by mail-ot1-f68.google.com with SMTP id 63so4479332oto.8;
+        Tue, 12 May 2020 15:15:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=SlmOp4Ja0L99f4dWfudYD8NFO8K357bjpSbWG5NFFuU=;
-        b=BLZ35eu6x7I+3knoLjTklV9bUeQCvXEKXYthlad+xm6vdDngl/5lMrYcnuuJu2ZNC/
-         O74J8q3X4X1uUB4CH5wbqutWJveJ0G1GFK3V3xGgCWZoeVMiAkgjSWzm054wpZeZLcar
-         dwKdDoaSklw7pu9qrVl/yuye6rLA2CRW55XEI/+tHfMNtYxdwggj4t2kN/d1uqWtEigU
-         8fDYag04mZps0A5nGaJyvDcOad8mkGaRS+jaPXlmxoRDO8vnoH14w8jhphmn9h9Way1a
-         ZOfjSDuv+2aJf762BAXtad7g+oJ82ixlujNyFoVCt7D0sDhGhjHH7JLrxkt2f6xtW+G5
-         e6zw==
-X-Gm-Message-State: AGi0PuYdEjmqHfgwiMkH3rguNJOV+hgPnmp5UIB9SP+D95bVfG5CtpK1
-        imoGCIbYMNptZdYkugcSp4Vn50bq6A==
-X-Google-Smtp-Source: APiQypIpJoMM+8ajeFgZmBI2vfHIZsLum9JoFijx5dPXwjtrNdAuMIu2sBIysLWIbFHg6ePwVVwG0g==
-X-Received: by 2002:a05:6830:1e1c:: with SMTP id s28mr17726799otr.207.1589317439227;
-        Tue, 12 May 2020 14:03:59 -0700 (PDT)
+        bh=Tbu1DIGIqC2787Cf3kI4oo0RYxQ+XgRD2HVUCfj6eFM=;
+        b=lQqEJAWlAVqSpwB5//wjxIELZ0eeHzdxvwTBzKJG7WgOhlGZAlIKEych40cMWnDMqk
+         fuOvAA4X7HKE2JN5TKB754nuvYXCaqR7ciW0q2+yWro5c8wxYGlD6vnPgKgZfi0PpPEY
+         fubJm7ud5+uAH33seh0egy29Jx4EOiDMdI1bLCzLsroowM9z2gcAr8SpOsKUMGbODRdN
+         B/FGfOxJvq4ruzq5fZiod4Yqsc6OVRuaqUY/nxKhdhbU/I4rfmOc9uwFAMwkXJYIbV5z
+         drk9zBYIOhD0/etqPIHscbLYZ34sn+LJcrGIHPTlEhrt7YducGmFuxopLjQfH3y4uf4A
+         JPyQ==
+X-Gm-Message-State: AGi0PuYKykJ29lrFwN2i15HnvLOwF58O23iXJhEzIkTQqwM2WmjLofgH
+        +NtMZ/iheWEYqDtAkIlp4w==
+X-Google-Smtp-Source: APiQypK85vLXej1knmug93hZbMVvi5IB6HvO2a4QfAn+0J9ee8Alz6w4wvFH+2897eSC6yKLGIYY9g==
+X-Received: by 2002:a05:6830:2091:: with SMTP id y17mr19117937otq.153.1589321713144;
+        Tue, 12 May 2020 15:15:13 -0700 (PDT)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id w14sm3929257oou.46.2020.05.12.14.03.58
+        by smtp.gmail.com with ESMTPSA id w14sm3973957oou.46.2020.05.12.15.15.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 14:03:58 -0700 (PDT)
-Received: (nullmailer pid 24483 invoked by uid 1000);
-        Tue, 12 May 2020 21:03:57 -0000
-Date:   Tue, 12 May 2020 16:03:57 -0500
+        Tue, 12 May 2020 15:15:12 -0700 (PDT)
+Received: (nullmailer pid 31223 invoked by uid 1000);
+        Tue, 12 May 2020 22:15:11 -0000
+Date:   Tue, 12 May 2020 17:15:11 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     devicetree@vger.kernel.org, robh+dt@kernel.org,
-        dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: Add bindings for Azoteq
- IQS269A
-Message-ID: <20200512210357.GA24425@bogus>
-References: <1588352982-5117-1-git-send-email-jeff@labundy.com>
+To:     Jonathan Bakker <xc-racer2@live.ca>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tglx@linutronix.de, jic23@kernel.org, linux-iio@vger.kernel.org,
+        gregkh@linuxfoundation.org, pmeerw@pmeerw.net,
+        linus.walleij@linaro.org, linux-input@vger.kernel.org,
+        lars@metafoo.de, kstewart@linuxfoundation.org, knaack.h@gmx.de,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org
+Subject: Re: [PATCH 3/5] dt-bindings: iio: accel: Add bma023 compatible to
+ bma180
+Message-ID: <20200512221511.GA31164@bogus>
+References: <20200503172206.13782-1-xc-racer2@live.ca>
+ <BN6PR04MB0660DA2A47787A56A2FC7290A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1588352982-5117-1-git-send-email-jeff@labundy.com>
+In-Reply-To: <BN6PR04MB0660DA2A47787A56A2FC7290A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri,  1 May 2020 12:09:41 -0500, Jeff LaBundy wrote:
-> This patch adds device tree bindings for the Azoteq IQS269A
-> capacitive touch controller.
+On Sun,  3 May 2020 10:22:04 -0700, Jonathan Bakker wrote:
+> The bma023 is in the same family as the bma180 and support is
+> being added to the bma180 IIO driver for it.
 > 
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
 > ---
-> Changes in v2:
->   - Removed '$ref' and 'allOf' from properties with a unit suffix
-> 
->  .../devicetree/bindings/input/iqs269a.yaml         | 581 +++++++++++++++++++++
->  1 file changed, 581 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/iqs269a.yaml
+>  Documentation/devicetree/bindings/iio/accel/bma180.txt | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Rob Herring <robh@kernel.org>
