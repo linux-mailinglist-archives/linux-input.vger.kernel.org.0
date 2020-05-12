@@ -2,101 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8297E1CEC60
-	for <lists+linux-input@lfdr.de>; Tue, 12 May 2020 07:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6FC01CEC67
+	for <lists+linux-input@lfdr.de>; Tue, 12 May 2020 07:22:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725946AbgELFTc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 May 2020 01:19:32 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:43671 "EHLO
+        id S1728115AbgELFWp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 May 2020 01:22:45 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:32873 "EHLO
         wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725933AbgELFTc (ORCPT
+        by vger.kernel.org with ESMTP id S1725814AbgELFWp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 May 2020 01:19:32 -0400
+        Tue, 12 May 2020 01:22:45 -0400
 Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 413D16C3;
-        Tue, 12 May 2020 01:19:31 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Tue, 12 May 2020 01:19:31 -0400
+        by mailout.west.internal (Postfix) with ESMTP id 3286F6D7;
+        Tue, 12 May 2020 01:22:44 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Tue, 12 May 2020 01:22:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=2AVIeGLsYRfY2gau1xHzfKniV6p
-        +PP2Kuu5BVsTbOiM=; b=XsxHUTRmn2ZCpoY9WReH2248IehU7hKD1pqlnWfU/Hp
-        3v5L7YbbJLPqQejKi4B1b9nS/fZOEWqbsnCzefviLpHkrtUW0Par+28vYN5w7QRX
-        AmapRn1OOJXmNV9B2DMQHOcWAiIMpk7DV2ejcmdF1DND42apHgAfRdxOVijeYL6u
-        lujsCxaeVLUe6JLKxXyVY59YkmeS6GwFRsTrvE7IjwXBX0B4kUF8Rl7uitGRVPed
-        huD0hFvl56AnBb8uGd/tbXai/o8OtDxSAaTeYKI8qku1ilPSE2P5jFDJn5/KognB
-        q7Soe4amlZ9lfV4H/ygN3bDMUub/YzHy4qZWLd0RS1w==
+        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=I
+        5QiT8/SptEqrGzlHkpUfaVlmT8dyNlUizt2eGrMIeM=; b=LEj+hBsttBeV1apMI
+        RL7Cju0r3ywTOA5npzviQrOPe0leGhtUocWxjh0dmYLWqfu6aizYYVf7WlwDk041
+        0BQ7T0QifUF0L2urRfm0yFdDZGVMy7FobFQaVQEyLlXoBHgyYk08go91jFAdsR1d
+        /U5iTunygokJYNYEb833qgW9nZpWGQaf1btURQxCWdMpt199lr1+KGBsILw7ayIV
+        y9rONphXubpZkwhmI+hl4GSIuoEbp++zj9fxUpyCL8/d4PyC1hOi+T++QBAi9JLD
+        /O8IurzKfgdpNjzrQUB3ILWdE3zu1TamGOqGfZdRGQnrthhis+zWjw5qREK2u0Or
+        5cR/A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=2AVIeG
-        LsYRfY2gau1xHzfKniV6p+PP2Kuu5BVsTbOiM=; b=bMXXBdCUrcTocaINm3b6vE
-        8VY3WrgDoE+UPd4vnkmFKCDdkTnM4VT66fS7uWbzH7PyHkf9k8g9DRefdeIry4oj
-        DTT6OSPBS3/zJg9905H05AArqNjAK4Qtcm2auvDzZ+ngBHIVn5DcI46m21gz7K7q
-        KN59I7bWa3SnBK3IV7EWuipP5XHbR6PlMF333icxE33AhMQRFrRMaYOJ36QvP8Oy
-        bgxldbL2cpVjHOn2lXPJMsAfxGkyMLvidFPuYfD9IlyQT7h49ZB4d0n73ElgWRa2
-        /BRsXtZcbJGcrBx7inxH9UKSwZBpXCck978ZzBBdkwdxUWSGwMYW5Sd4YhetfS9w
-        ==
-X-ME-Sender: <xms:4jG6XrtIWsknwi0lJsqnSDTpujkvcLwh4HGv1a4pJ3UvcAY9-DQ0Yg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrledugdelfecutefuodetggdotefrodftvf
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=I5QiT8/SptEqrGzlHkpUfaVlmT8dyNlUizt2eGrMI
+        eM=; b=evXoLdp487BTlDKcZKJ3kEyPM3rD78WA33jtuel0A4NjQYCJZS70aIhBl
+        xgSLCUl3MCH1kvnelpOMry37SPDv2D07QQZ33rfI2ry50PuarE51eVkJTqVidzm0
+        dHTZOC2RRwyZb53oYmCTwKZW3BkGZ0N3YkZIlsOcMlNhwzBRj4iK6EbEiELS/qHW
+        ixHW75M3ws0POIjY+anwN//sGvjtnmBPGIRM2DwCn46E+SCUX8CPhLHGtBrfJb2x
+        4Vdy5YbDN/Oz07SZGMcfTzGe9oe9MoqoPX1TkQooF4PXDbmXHmJEw/kRE5Be9N9q
+        E3vbljrkZBX15RG7Z3Nva8YuHiw6g==
+X-ME-Sender: <xms:ozK6XvoegRq9cvVj_VP9uHbh1ercWYXGRBOW4k1a_plNW8s23DBLDA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrledugdelgecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgvrhcu
-    jfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqe
-    enucggtffrrghtthgvrhhnpeehhfehfffgheelgeeuudelhefgvdefveekudevjeevjeev
-    vefggefguddufeeuveenucfkphepuddujedrvddtrdejuddruddtleenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgv
-    rhgvrhesfihhohdqthdrnhgvth
-X-ME-Proxy: <xmx:4jG6XscVI1dJH5rV1E-Fs_p19YMIkb8aCqDKGInAohkBsMRMvB_phg>
-    <xmx:4jG6XuxnVTxZBAwORHXd3Fy4K65sx95alXa_olX6yPeeiTE7yTyREA>
-    <xmx:4jG6XqOzLiYw3h9X1Slcq9WERnI-ZYy1wsloMKEL_MkgM20dcuvxZQ>
-    <xmx:4jG6XoKakzQPEV0fmxMBBTLVFG5v_RaPdJPediUkRcUV5oTpa6H6yQ>
+    fjughrpeffhffvuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefrvghtvghr
+    ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+    eqnecuggftrfgrthhtvghrnhepkeevledtjeehleekleevtdfggfffudfgfedvtdetuddt
+    ueehkeeluedugeejgfegnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepud
+    dujedrvddtrdejuddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
+    mhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:ozK6XproPO0T_LGqncApuTsiQahXJtQ7IwEiQogDzYtuYhUu7XsAEg>
+    <xmx:ozK6XsO9Qa3P2HK8R5daWBniJ4r3_645GyO0QmBc5UTlTWEuYJz95w>
+    <xmx:ozK6Xi5qIiTYURyVhsv9jodbb9_PiyWScj6rJez69OsgQNTQQWxKfQ>
+    <xmx:ozK6XkRNXw57c4XBMHqtQrxA10JYnkQgI6v1KCuhtHCqlfUrVZR4Yw>
 Received: from koala (117-20-71-109.751447.bne.nbn.aussiebb.net [117.20.71.109])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 49C8A328005A;
-        Tue, 12 May 2020 01:19:29 -0400 (EDT)
-Date:   Tue, 12 May 2020 15:19:25 +1000
+        by mail.messagingengine.com (Postfix) with ESMTPA id 9305E30662BD;
+        Tue, 12 May 2020 01:22:41 -0400 (EDT)
+Date:   Tue, 12 May 2020 15:22:36 +1000
 From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Yariv <oigevald+kernel@gmail.com>, linux-input@vger.kernel.org
-Subject: Re: PROBLEM: Apple external Trackpad event timestamps are jittery
- (regression)
-Message-ID: <20200512051925.GA48688@koala>
-References: <CAEwx+QrfLk4SR=yn4Df3rD_Lm0Xht1hgAi4szmOTU1nkFhMwhw@mail.gmail.com>
- <20200511201118.GW89269@dtor-ws>
+To:     Siarhei Vishniakou <svv@google.com>
+Cc:     Garfield Tan <xutan@google.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jkosina@suse.cz>
+Subject: Re: behaviour change for keyboards introduced by "HID: generic:
+ create one input report per application type"
+Message-ID: <20200512052236.GB48688@koala>
+References: <CAKF84v2gWnokoyhRe_feiWJcYOAPUcWwjaX93GkqmXqm8OzmYg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200511201118.GW89269@dtor-ws>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKF84v2gWnokoyhRe_feiWJcYOAPUcWwjaX93GkqmXqm8OzmYg@mail.gmail.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 11, 2020 at 01:11:18PM -0700, Dmitry Torokhov wrote:
-> Hi,
-> 
-> On Mon, May 11, 2020 at 09:18:15AM +0300, Yariv wrote:
-> > Using a vanilla installation of Ubuntu 20.04 (kernel v5.4), the
-> > timestamps of input events from my Apple "Magic Trackpad" - 1st
-> > generation, connected over Bluetooth - are jittery.
-> > This is a kernel regression. I bisected the bug.
-> 
-> Do you see the same jitter when connected over USB? Can you also see if
-> there is similar jitter when you parse timestamps of SYN_RPEORT events
-> from "evtest"?
-> 
-> Could you post a sample of events generated by device (via evtest)?
+Hi Siarhei,
 
-unrelated, but I really recommend using 'libinput record' these days since
-it can be replayed (libinput replay) or analysed easier (it's YAML).
-Also, it prints delta times into the recording so you can immediately check
-those without having to parse them, e.g.:
+On Wed, Apr 01, 2020 at 01:02:03PM -0700, Siarhei Vishniakou wrote:
+> Hello linux-input,
+> 
+> We have noticed a recent behavior change introduced by the commit:
+> https://github.com/torvalds/linux/commit/f07b3c1da92db108662f99417a212fc1eddc44d1
+> HID: generic: create one input report per application type.
+> 
+> We have been looking into the behaviour of the Microsoft Designer
+> keyboard. Prior to these patches, the keyboard would report as a
+> single input_device to the user space. After these patches, the
+> keyboard is now split into 2 input devices: “Designer Keyboard
+> Consumer Control” and “"Designer Keyboard Keyboard". We noticed that
+> this behavior also applies to the keyboard Dell KB216. In the Dell
+> case, it is split into 3 devices, which include “Consumer Control”
+> (for some of the media keys) and “System Control” (for the sleep
+> button).
+> 
+> In both Microsoft and Dell cases, these are pretty standard keyboards,
+> although they do contain media keys and power/sleep keys.
+> 
+> Could you please confirm that this new behaviour is indeed
+> intentional, and that you wanted keyboards to be split in this
+> fashion?
 
-  - evdev:
-    - [  0, 375974,   2,   0,       5] # EV_REL / REL_X                     5
-    - [  0, 375974,   2,   1,      -2] # EV_REL / REL_Y                    -2
-    - [  0, 375974,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+Is there an actual issue with the split though or just a cosmetic one? This
+is pretty standard for many keyboards (and other devices) but it shouldn't
+have any negative effect on functionality.
 
 Cheers,
    Peter
-
