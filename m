@@ -2,204 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1282E1CEAE0
-	for <lists+linux-input@lfdr.de>; Tue, 12 May 2020 04:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8297E1CEC60
+	for <lists+linux-input@lfdr.de>; Tue, 12 May 2020 07:19:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728531AbgELCfv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 May 2020 22:35:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39720 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727892AbgELCfu (ORCPT
+        id S1725946AbgELFTc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 May 2020 01:19:32 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:43671 "EHLO
+        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725933AbgELFTc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 May 2020 22:35:50 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79A79C061A0C;
-        Mon, 11 May 2020 19:35:50 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id z15so55086pjb.0;
-        Mon, 11 May 2020 19:35:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Mq5BCcNHz+4JpATzAlkQBtpRpfK9pvQTMzyI2YGjOaA=;
-        b=pNMra6vHSZ3ml0v4a7bJEjiG0CkFRgYUd5A0sg6pMDxjfnB1Lha0ACr1nQxHnFyWxS
-         D+avMOOecgH71cyXQH36ip/J4G3GFcXuOi1V3wVYKUlMmUeA97xQ3+iZXStq4lbSiBf1
-         lgd4qJWuAv7wsDA1kwoXQjXxiTF42oLNqsBEfiXUiOvAHrTlYAFui/pamVZEowPQlVMb
-         T4q2kOPUwdDtu9V906clW+evHh75ELvXSlypxf53+1LqoMZ1E91XICPgi9FkeA1jt1JD
-         vg7Wfa74Y3KtK6InYkKGNzc3zRz2s2yUFwErH5Nf7uQwHztCdPzFwC22jwg1Rb9rH33P
-         6Ilw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Mq5BCcNHz+4JpATzAlkQBtpRpfK9pvQTMzyI2YGjOaA=;
-        b=UvZOwgBCsDV/LZu/joiBTYzY/JlZOnOKV4u1gBnklrFPAMSPWDTbXy7Y8dKHwYFJih
-         b9FS2HL4xk0D/+cNUGoCd9zSalEkjAh3AflYLY6Cc6PjqYBxlrXlH8UfQ4PyF3IOVmmE
-         2HeUtJ2wD6xxlOXRaggfs5tk2WVZdCpal/nVGLmMigOYbF4oZGyEEgN3Y/Vjw2i4dLAy
-         RiIl43TTa0zih3SgeZ6i6iCQmcwF6WyJyA2Pp0+uLUwchO9Za72CJqGOUZOK5+Zs43a4
-         Yg3nu/SRwpSem1Ca8OZDMNXJNeRXH5UAJo8Ro/xauCE8Zoz8ZOg9iguVRZvz3Yz/Ddfa
-         lk+Q==
-X-Gm-Message-State: AGi0PuY2oE+33AJGEfn61rA5UblVAy42Ed+cTgiCx8tVhPab7GhHqCP6
-        ZG6zXVf86xcUdCehirAtNQ4=
-X-Google-Smtp-Source: APiQypKJx9AqUdmeWVXWsVcrK8qmz2rx+mYY5lPTPdXRLvySTDrT6CwPMNe+LpUqY7dXyIHmWoms6w==
-X-Received: by 2002:a17:902:8a8d:: with SMTP id p13mr17655891plo.32.1589250949315;
-        Mon, 11 May 2020 19:35:49 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id nu10sm12132633pjb.9.2020.05.11.19.35.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 19:35:48 -0700 (PDT)
-Date:   Mon, 11 May 2020 19:35:46 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jiada Wang <jiada_wang@mentor.com>
-Cc:     nick@shmanahar.org, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, bsz@semihalf.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
-Subject: Re: [PATCH v11 08/56] Input: atmel_mxt_ts - implement T15 Key Array
- support
-Message-ID: <20200512023546.GB89269@dtor-ws>
-References: <20200508055656.96389-1-jiada_wang@mentor.com>
- <20200508055656.96389-9-jiada_wang@mentor.com>
+        Tue, 12 May 2020 01:19:32 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id 413D16C3;
+        Tue, 12 May 2020 01:19:31 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Tue, 12 May 2020 01:19:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=2AVIeGLsYRfY2gau1xHzfKniV6p
+        +PP2Kuu5BVsTbOiM=; b=XsxHUTRmn2ZCpoY9WReH2248IehU7hKD1pqlnWfU/Hp
+        3v5L7YbbJLPqQejKi4B1b9nS/fZOEWqbsnCzefviLpHkrtUW0Par+28vYN5w7QRX
+        AmapRn1OOJXmNV9B2DMQHOcWAiIMpk7DV2ejcmdF1DND42apHgAfRdxOVijeYL6u
+        lujsCxaeVLUe6JLKxXyVY59YkmeS6GwFRsTrvE7IjwXBX0B4kUF8Rl7uitGRVPed
+        huD0hFvl56AnBb8uGd/tbXai/o8OtDxSAaTeYKI8qku1ilPSE2P5jFDJn5/KognB
+        q7Soe4amlZ9lfV4H/ygN3bDMUub/YzHy4qZWLd0RS1w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=2AVIeG
+        LsYRfY2gau1xHzfKniV6p+PP2Kuu5BVsTbOiM=; b=bMXXBdCUrcTocaINm3b6vE
+        8VY3WrgDoE+UPd4vnkmFKCDdkTnM4VT66fS7uWbzH7PyHkf9k8g9DRefdeIry4oj
+        DTT6OSPBS3/zJg9905H05AArqNjAK4Qtcm2auvDzZ+ngBHIVn5DcI46m21gz7K7q
+        KN59I7bWa3SnBK3IV7EWuipP5XHbR6PlMF333icxE33AhMQRFrRMaYOJ36QvP8Oy
+        bgxldbL2cpVjHOn2lXPJMsAfxGkyMLvidFPuYfD9IlyQT7h49ZB4d0n73ElgWRa2
+        /BRsXtZcbJGcrBx7inxH9UKSwZBpXCck978ZzBBdkwdxUWSGwMYW5Sd4YhetfS9w
+        ==
+X-ME-Sender: <xms:4jG6XrtIWsknwi0lJsqnSDTpujkvcLwh4HGv1a4pJ3UvcAY9-DQ0Yg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrledugdelfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgvrhcu
+    jfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqe
+    enucggtffrrghtthgvrhhnpeehhfehfffgheelgeeuudelhefgvdefveekudevjeevjeev
+    vefggefguddufeeuveenucfkphepuddujedrvddtrdejuddruddtleenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgv
+    rhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:4jG6XscVI1dJH5rV1E-Fs_p19YMIkb8aCqDKGInAohkBsMRMvB_phg>
+    <xmx:4jG6XuxnVTxZBAwORHXd3Fy4K65sx95alXa_olX6yPeeiTE7yTyREA>
+    <xmx:4jG6XqOzLiYw3h9X1Slcq9WERnI-ZYy1wsloMKEL_MkgM20dcuvxZQ>
+    <xmx:4jG6XoKakzQPEV0fmxMBBTLVFG5v_RaPdJPediUkRcUV5oTpa6H6yQ>
+Received: from koala (117-20-71-109.751447.bne.nbn.aussiebb.net [117.20.71.109])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 49C8A328005A;
+        Tue, 12 May 2020 01:19:29 -0400 (EDT)
+Date:   Tue, 12 May 2020 15:19:25 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Yariv <oigevald+kernel@gmail.com>, linux-input@vger.kernel.org
+Subject: Re: PROBLEM: Apple external Trackpad event timestamps are jittery
+ (regression)
+Message-ID: <20200512051925.GA48688@koala>
+References: <CAEwx+QrfLk4SR=yn4Df3rD_Lm0Xht1hgAi4szmOTU1nkFhMwhw@mail.gmail.com>
+ <20200511201118.GW89269@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200508055656.96389-9-jiada_wang@mentor.com>
+In-Reply-To: <20200511201118.GW89269@dtor-ws>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 07, 2020 at 10:56:08PM -0700, Jiada Wang wrote:
-> From: Nick Dyer <nick.dyer@itdev.co.uk>
+On Mon, May 11, 2020 at 01:11:18PM -0700, Dmitry Torokhov wrote:
+> Hi,
 > 
-> There is a key array object in many maXTouch chips which allows some X/Y
-> lines to be used as a key array. This patch maps them to a series of keys
-> which may be configured in a platform data array.
+> On Mon, May 11, 2020 at 09:18:15AM +0300, Yariv wrote:
+> > Using a vanilla installation of Ubuntu 20.04 (kernel v5.4), the
+> > timestamps of input events from my Apple "Magic Trackpad" - 1st
+> > generation, connected over Bluetooth - are jittery.
+> > This is a kernel regression. I bisected the bug.
 > 
-> Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-> Acked-by: Benson Leung <bleung@chromium.org>
-> Acked-by: Yufeng Shen <miletus@chromium.org>
-> (cherry picked from ndyer/linux/for-upstream commit 15bb074b5abf3a101f7b79544213f1c110ea4cab)
-> [gdavis: Resolve forward port conflicts due to applying upstream
-> 	 commit 96a938aa214e ("Input: atmel_mxt_ts - remove platform
-> 	 data support").]
-> Signed-off-by: George G. Davis <george_davis@mentor.com>
-> [jiada: Fix compilation warning]
-> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
-> ---
->  drivers/input/touchscreen/atmel_mxt_ts.c | 85 ++++++++++++++++++++++++
->  1 file changed, 85 insertions(+)
+> Do you see the same jitter when connected over USB? Can you also see if
+> there is similar jitter when you parse timestamps of SYN_RPEORT events
+> from "evtest"?
 > 
-> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-> index df2e0ba76e63..d05249b02781 100644
-> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
-> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-> @@ -314,6 +314,9 @@ struct mxt_data {
->  	struct mxt_dbg dbg;
->  	struct gpio_desc *reset_gpio;
->  	bool use_retrigen_workaround;
-> +	unsigned long t15_keystatus;
-> +	int t15_num_keys;
-> +	const unsigned int *t15_keymap;
->  
->  	/* Cached parameters from object table */
->  	u16 T5_address;
-> @@ -324,6 +327,8 @@ struct mxt_data {
->  	u16 T71_address;
->  	u8 T9_reportid_min;
->  	u8 T9_reportid_max;
-> +	u8 T15_reportid_min;
-> +	u8 T15_reportid_max;
->  	u16 T18_address;
->  	u8 T19_reportid;
->  	u8 T42_reportid_min;
-> @@ -987,6 +992,38 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
->  	data->update_input = true;
->  }
->  
-> +static void mxt_proc_t15_messages(struct mxt_data *data, u8 *msg)
-> +{
-> +	struct input_dev *input_dev = data->input_dev;
-> +	struct device *dev = &data->client->dev;
-> +	int key;
-> +	bool curr_state, new_state;
-> +	bool sync = false;
-> +	unsigned long keystates = le32_to_cpu((__force __le32)msg[2]);
+> Could you post a sample of events generated by device (via evtest)?
 
-?
+unrelated, but I really recommend using 'libinput record' these days since
+it can be replayed (libinput replay) or analysed easier (it's YAML).
+Also, it prints delta times into the recording so you can immediately check
+those without having to parse them, e.g.:
 
-It is a byte. Just say
+  - evdev:
+    - [  0, 375974,   2,   0,       5] # EV_REL / REL_X                     5
+    - [  0, 375974,   2,   1,      -2] # EV_REL / REL_Y                    -2
+    - [  0, 375974,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
 
-	unsigned long keystates = msg[2];
+Cheers,
+   Peter
 
-> +
-> +	for (key = 0; key < data->t15_num_keys; key++) {
-> +		curr_state = test_bit(key, &data->t15_keystatus);
-> +		new_state = test_bit(key, &keystates);
-> +
-> +		if (!curr_state && new_state) {
-> +			dev_dbg(dev, "T15 key press: %u\n", key);
-> +			__set_bit(key, &data->t15_keystatus);
-> +			input_event(input_dev, EV_KEY,
-> +				    data->t15_keymap[key], 1);
-> +			sync = true;
-> +		} else if (curr_state && !new_state) {
-> +			dev_dbg(dev, "T15 key release: %u\n", key);
-> +			__clear_bit(key, &data->t15_keystatus);
-> +			input_event(input_dev, EV_KEY,
-> +				    data->t15_keymap[key], 0);
-> +			sync = true;
-> +		}
-> +	}
-> +
-> +	if (sync)
-> +		input_sync(input_dev);
-
-I wonder if the following is not simpler:
-
-	unsigned long changed_keys;
-	...
-
-	changed_keys = keystates ^ data->t15_keystatus;
-	for_each_set_bit(key, &changed_keys, data->t15_num_keys) {
-		pressed = test_bit(key, &keystates);
-		input_event(input_dev, EV_KEY,
-			    data->t15_keymap[key], pressed);
-		dev_dbg(dev, "T15 key %s: %u\n",
-			pressed ? "press" : "release", key);
-	}
-
-	if (changed_keys)
-		input_sync(input_dev);
-
-	 data->t15_keystatus = keystates;
-
-...
-
-> +	if (device_property_present(dev, buttons_property)) {
-> +		n_keys = device_property_read_u32_array(dev, buttons_property,
-> +							NULL, 0);
-> +		if (n_keys <= 0) {
-> +			error = n_keys < 0 ? n_keys : -EINVAL;
-> +			dev_err(dev, "invalid/malformed '%s' property: %d\n",
-> +				buttons_property, error);
-> +			return error;
-> +		}
-> +
-> +		buttonmap = devm_kmalloc_array(dev, n_keys, sizeof(*buttonmap),
-> +					       GFP_KERNEL);
-> +		if (!buttonmap)
-> +			return -ENOMEM;
-
-So it is 8 keys max, I'd simply embed this into data. On 64 bit arch it
-will occupy the same space as the pointer you use to reference it.
-
-Can you also validate that we do not get too many keys in DT?
-
-Also, set keycode/keycodemax/keycodesize in input device so userspace
-can adjust keymap if needed?
-
-Thanks.
-
--- 
-Dmitry
