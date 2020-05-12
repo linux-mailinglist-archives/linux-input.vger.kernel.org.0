@@ -2,123 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 210B71CF10B
-	for <lists+linux-input@lfdr.de>; Tue, 12 May 2020 11:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F348A1CF14E
+	for <lists+linux-input@lfdr.de>; Tue, 12 May 2020 11:16:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729178AbgELJHa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 May 2020 05:07:30 -0400
-Received: from gofer.mess.org ([88.97.38.141]:38709 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728854AbgELJH3 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 May 2020 05:07:29 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 09A1EC63B0; Tue, 12 May 2020 10:07:24 +0100 (BST)
-Date:   Tue, 12 May 2020 10:07:24 +0100
-From:   Sean Young <sean@mess.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/3] input: serio: allow more than one byte to be sent at
- once
-Message-ID: <20200512090724.GA31990@gofer.mess.org>
-References: <20200507135337.2343-1-sean@mess.org>
- <20200507135337.2343-2-sean@mess.org>
- <20200507202546.GM89269@dtor-ws>
- <20200507205918.GA13370@gofer.mess.org>
- <20200511065118.GA1293993@kroah.com>
+        id S1726193AbgELJQE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 May 2020 05:16:04 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:33106 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726024AbgELJQE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 12 May 2020 05:16:04 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id A85DB2A1F30
+Subject: Re: [PATCH 6/6] tty/sysrq: Add configurable handler to execute a
+ compound action
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, Jiri Slaby <jslaby@suse.com>,
+        kernel@collabora.com
+References: <20200511135918.8203-1-andrzej.p@collabora.com>
+ <20200511135918.8203-7-andrzej.p@collabora.com>
+ <20200511162113.GC2221063@kroah.com> <20200511182928.GV89269@dtor-ws>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <e286f6ae-e4cb-ab13-c652-daf91fe1af7a@collabora.com>
+Date:   Tue, 12 May 2020 11:15:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200511065118.GA1293993@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200511182928.GV89269@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 11, 2020 at 08:51:18AM +0200, Greg KH wrote:
-> On Thu, May 07, 2020 at 09:59:18PM +0100, Sean Young wrote:
-> > On Thu, May 07, 2020 at 01:25:46PM -0700, Dmitry Torokhov wrote:
-> > > On Thu, May 07, 2020 at 02:53:36PM +0100, Sean Young wrote:
-> > > > serio drivers can only send one byte at a time. If the underlying tty
-> > > > is a usb serial port, then each byte will be put into separate usb
-> > > > urbs, which is not efficient.
-> > > > 
-> > > > Additionally, the Infrared Toy device refuses to transmit IR if the
-> > > > IR data is sent one byte at a time. IR data is formatted in u16 values,
-> > > > and the firmware expects complete u16 values in the packet.
-> > > > 
-> > > > https://github.com/DangerousPrototypes/USB_IR_Toy/blob/master/Firmware-main/IRs.c#L240
-> > > 
-> > > Ummm, serial protocol data size is at most 9 bits so I have no earthly
-> > > idea how they expect to get 16.
-> > 
-> > serio is a layer on top several serial protocols, including ttys. ttys allow
-> > more than one byte to be written at a time, see struct tty_operations:
-> > 
-> >         int  (*write)(struct tty_struct * tty,
-> >                       const unsigned char *buf, int count);
-> > 
-> > ttys would be very inefficient if you could only write one byte at a time,
-> > and they are very serial.
-> > 
-> > This patch exposes the underlying tty write() functionality to serio. When
-> > the underlying tty is a usb serial port this makes for far fewer usb packets
-> > being used to send the same data, and fixes my driver problem, and it
-> > would reduce the number of calls in a few other cases too.
-> > 
-> > I'm happy to rework the patch if there are comments on the style or
-> > approach.
+Hi,
+
+W dniu 11.05.2020 o 20:29, Dmitry Torokhov pisze:
+> On Mon, May 11, 2020 at 06:21:13PM +0200, Greg Kroah-Hartman wrote:
+>> On Mon, May 11, 2020 at 03:59:18PM +0200, Andrzej Pietrasiewicz wrote:
+>>> Some userland might want to execute e.g. 'w' (show blocked tasks), followed
+>>> by 's' (sync), followed by 1000 ms delay and then followed by 'c' (crash)
+>>> upon a single magic SysRq. Or one might want to execute the famous "Raising
+>>> Elephants Is So Utterly Boring" action. This patch adds a configurable
+>>> handler, triggered with 'C', for this exact purpose. The user specifies the
+>>> composition of the compound action using syntax similar to getopt, where
+>>> each letter corresponds to an individual action and a colon followed by a
+>>> number corresponds to a delay of that many milliseconds, e.g.:
+>>>
+>>> ws:1000c
+>>>
+>>> or
+>>>
+>>> r:100eis:1000ub
+>>
+>> Cute, but why?  Who needs/wants this type of thing?
+
+Surely things that can be done in userspace should be done there.
+So we would envision an input daemon which reacts to a predefined
+combination of keys. That said, it is not unimaginable to think of
+userspace being dead enough (e.g. due to memory pressure) to be unable
+to complete such a compound action. In other words userspace not being
+able to do it is a good reason for putting the code in the kernel.
+
+Dmitry has given a use case where such a compound action is needed.
+
+Andrzej
+
 > 
-> Why not just use the ir-usb.c driver for this device instead?
+> On Chrome OS the first time user presses SysRq-X it will try to kill
+> chrome (and that will cause crash to get uploaded if user consented).
+> The 2nd time within 5 seconds the same combo is pressed, it will dump
+> blocked tasks in syslog and try to sync and then panic. On panic the
+> device will reboot, logs will be scraped from pstore, and uploaded for
+> analysis.
+> 
+> Thanks.
+> 
 
-So this device is the infrared kind which rc-core (in drivers/media/rc/)
-supports, remotes and such things (not for serial IR). So by using a 
-rc-core driver, it can use kernel IR decoding, BPF decoding, lirc chardev
-and rc keymaps, etc.
-
-This device is a PIC18F2550 type device, which is a usb serial port
-microcontroller type with some firmware and IR diodes:
-	http://dangerousprototypes.com/docs/USB_IR_Toy_v2
-
-serio supports a whole bunch of usb serial devices which can be attached
-via inputattach(1). Not all of these are input devices, for example there
-are two cec devices too.
-
-Now, in many of these drivers, multiple bytes need to be written to the
-device in order to send it a command, for example in
-drivers/input/touchscreen/elo.c:
-
-        for (i = 0; i < ELO10_PACKET_LEN; i++) {
-                csum += packet[i];
-                if (serio_write(elo->serio, packet[i]))
-                        goto out;
-        }
-
-So if serio had an interface for sending a buffer, that would be less
-call overhead. In fact, if the underlying serio is a serial usb port,
-that would much more efficient on the usb layer too (one usb roundtrips in
-stead of ELO10_PACKET_LEN roundtrips), like so:
-
-	serio_write_buf(elo->serio, packet, ELO10_PACKET_LEN);
-
-So what I'm suggesting is extending the serio interface to allow sending
-a buffer of bytes. Of course serio isn't just usb serial ports. There quite
-a few instances of serio_register_port() in the kernel. Many of them
-can be extended to support sending a buffer rather than a single byte,
-if this makes sense. For example the ps2 serio port takes a mutex for every
-byte, so this could be more efficient by reducing it to one mutex lock
-per buffer.
-
-Now it would be nice to have a discussion about this rather than being
-dismissed with:
-
-> > > Ummm, serial protocol data size is at most 9 bits so I have no earthly
-> > > idea how they expect to get 16.
-
-Which is just a tad insulting.
-
-
-Sean
