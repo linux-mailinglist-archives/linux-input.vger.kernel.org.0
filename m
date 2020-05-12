@@ -2,73 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD8971D01B6
-	for <lists+linux-input@lfdr.de>; Wed, 13 May 2020 00:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D8A61D024B
+	for <lists+linux-input@lfdr.de>; Wed, 13 May 2020 00:27:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731251AbgELWP0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 May 2020 18:15:26 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:34088 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726031AbgELWPZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 May 2020 18:15:25 -0400
-Received: by mail-ot1-f67.google.com with SMTP id 72so11894445otu.1;
-        Tue, 12 May 2020 15:15:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=uVK89xhRe2dqqDXZV23LSGBYPhwnN3G4S7xp2PFGVdI=;
-        b=XtTwkDrabtjrovPji6l0Lr7lNlKHOfU2fpXXge07wiM+usxTmJdiIspZV3izgkUGsp
-         sYzo/dzCj4Xb5uK7T0RlZGFakmrbuS6pU/5Ko9R/6jQr1wdvDgLPs4y/00fJa57BnNGF
-         rw4nMjb2Jzygo0tSlGYXb7l519kAcLEdYqzEtMB5FJXT3WU+6KEr8+ZBevdPHLBMQr6m
-         NId0Ejp1MI3KkLQ34QMowgZVJoIwlnV3zaQ2qk/Hxug1v/pSpliEejoqj/aPOGnIONXB
-         izO8hBKt0jM9hUUukRcqfBMSJ/mu4G0yvAY5JIfr+/h2CcL0/VmsInm/XFIsqPeJMKnR
-         i7yg==
-X-Gm-Message-State: AOAM5316oqF/OtKpulJAK1ES+3/jaBCQsyAnbP+RwH+WLZwk8chHJGKO
-        kbT0Ka9NzVFS6YmeyY6X7Q==
-X-Google-Smtp-Source: ABdhPJyfKrzJI16lw/o2fIOXkY8zYYu+QkLPs46lpYKMfjC19TZCtZS9F0AGfDdkuJj4YopFYnat8g==
-X-Received: by 2002:a9d:75d0:: with SMTP id c16mr1286689otl.314.1589321724576;
-        Tue, 12 May 2020 15:15:24 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id a93sm3775301otc.12.2020.05.12.15.15.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 15:15:24 -0700 (PDT)
-Received: (nullmailer pid 31615 invoked by uid 1000);
-        Tue, 12 May 2020 22:15:23 -0000
-Date:   Tue, 12 May 2020 17:15:23 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Jonathan Bakker <xc-racer2@live.ca>
-Cc:     knaack.h@gmx.de, tglx@linutronix.de, linus.walleij@linaro.org,
-        linux-kernel@vger.kernel.org, lars@metafoo.de, jic23@kernel.org,
-        robh+dt@kernel.org, kstewart@linuxfoundation.org,
-        pmeerw@pmeerw.net, gregkh@linuxfoundation.org,
-        linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-        devicetree@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 4/5] dt-bindings: iio: accel: Add required regulators to
- bma180
-Message-ID: <20200512221522.GA31552@bogus>
-References: <20200503172206.13782-1-xc-racer2@live.ca>
- <BN6PR04MB06609033B2E0AB157A228989A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
+        id S1731156AbgELW1U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 May 2020 18:27:20 -0400
+Received: from vps.xff.cz ([195.181.215.36]:41808 "EHLO vps.xff.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728095AbgELW1U (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 12 May 2020 18:27:20 -0400
+X-Greylist: delayed 309 seconds by postgrey-1.27 at vger.kernel.org; Tue, 12 May 2020 18:27:19 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+        t=1589322129; bh=aksRVakqDSRMDiBOMsQEeb7cYe+KvVtawuT/m/LsMLw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=a4sGfe8TiOA9m6P1f52uIRd1Qz/6l7BIRj5HysqqXJ/uUZ2TSZAJsfW1P+lycE2Ft
+         oy+lRYEB1O8ngnLh69vYyEWq8VVZOwEbBQJzZZiu6YF8mE8gKUHUwAu0AgAGChf906
+         fPkKqov5gQFGHhdeukkosiS5Z4GHnT6xrh4SxQBY=
+From:   Ondrej Jirman <megous@megous.com>
+To:     linux-sunxi@googlegroups.com,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>
+Cc:     Ondrej Jirman <megous@megous.com>, Luca Weiss <luca@z3ntu.xyz>,
+        Tomas Novotny <tomas@novotny.cz>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 0/4] Add support for vibrator motor for TBS A711 Tablet
+Date:   Wed, 13 May 2020 00:22:01 +0200
+Message-Id: <20200512222205.1456300-1-megous@megous.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN6PR04MB06609033B2E0AB157A228989A3A90@BN6PR04MB0660.namprd04.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun,  3 May 2020 10:22:05 -0700, Jonathan Bakker wrote:
-> The bma180 and related chips should have two registers attached to
-> them.  The IIO driver currently uses them, document them here as
-> well.
-> 
-> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
-> ---
->  Documentation/devicetree/bindings/iio/accel/bma180.txt | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+The tablet has a vibrator motor. This patch series exposes it via
+input subsystem (EV_FF).
 
-Acked-by: Rob Herring <robh@kernel.org>
+I'd like to ask input maintainers to take the patches 1 and 2.
+Patches 3 and 4 should go via the sunxi tree.
+
+The change to the vibrator driver is meant to enable toggling the
+vibrator motor just via a power supply itself. There's not additional
+gpio driven switch on this tablet between the power supply for the
+motor and the motor.
+
+Please take a look.
+
+Changes in v2:
+- Added DT ack tag
+- Add more information to the commit log (re use of LDO for the power)
+
+
+thank you and regards,
+  Ondrej Jirman
+
+Ondrej Jirman (4):
+  dt-bindings: input: gpio-vibrator: Don't require enable-gpios
+  input: gpio-vibra: Allow to use vcc-supply alone to control the
+    vibrator
+  ARM: dts: sun8i-a83t-tbs-a711: Add support for the vibrator motor
+  ARM: dts: sun8i-a83t-tbs-a711: Increase voltage on the vibrator
+
+ .../devicetree/bindings/input/gpio-vibrator.yaml         | 1 -
+ arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts                | 9 +++++++--
+ drivers/input/misc/gpio-vibra.c                          | 3 ++-
+ 3 files changed, 9 insertions(+), 4 deletions(-)
+
+-- 
+2.26.2
+
