@@ -2,82 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBCB01CFFF3
-	for <lists+linux-input@lfdr.de>; Tue, 12 May 2020 22:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D60601D0012
+	for <lists+linux-input@lfdr.de>; Tue, 12 May 2020 23:04:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731134AbgELU6E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 May 2020 16:58:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42148 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725938AbgELU6E (ORCPT
+        id S1728313AbgELVEA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 May 2020 17:04:00 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:34197 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728220AbgELVEA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 May 2020 16:58:04 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56E8CC061A0C;
-        Tue, 12 May 2020 13:58:04 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id r10so6248917pgv.8;
-        Tue, 12 May 2020 13:58:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=lWVK1FACn+wJeq7qZs57K7YYeZ4F4zJ1GYHSxsOXWGk=;
-        b=XxYv4EgdYhWpw0E+DZAy+TFCn4kPxUHi9BuV1t0S20SZ1zMARKCijzip/6YwlOlHhu
-         2IR21zouEhI4LEc5AUZg7YMBLU+awaZRDEFG6RKNN9bNT0tj/m3+8hMgbgtcxP4quO52
-         hIMiNgcVNxyUYggenFryLZ/nc0ZVCT54XR9H8liUSyThujyd/cPWndotQXim8isiYS+h
-         M8e+OPnQAM6PFzuN6bZewy/NhQb35tjPbk+ztU9pOV67PaJfNWQ9GjcSPVM0VzqOYIFm
-         cgSS/ELDzJ3UtahLHHLftaNEULXtmnVGxNNMiiR7j0LzZF5Zp91z9aVsVbprIZLQtEPJ
-         Xfug==
+        Tue, 12 May 2020 17:04:00 -0400
+Received: by mail-ot1-f65.google.com with SMTP id 72so11747577otu.1;
+        Tue, 12 May 2020 14:03:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=lWVK1FACn+wJeq7qZs57K7YYeZ4F4zJ1GYHSxsOXWGk=;
-        b=CbugjPtqqhSlCDTbv6zV9dlPZ+JMPuXfqMUeialXC50mvJBDr26Yn9UUBkMCfoO87g
-         p/MzlEuEOZbjMFPQDUoEnFcjlDo18G/ngyJ/IE8lCKAKdn5XM1RW0Ykndei96oBZbJES
-         qoZWw9vx9nDEqTEPnz0S1/XZE0KOJ4MbR+BfjK47UVPMaBnJEFzBExgxPrg8nXNgRN2C
-         tcJZLi7PnZxmQ/QFp6WFdYt5ggyWtkCr+6k+njWYyP23iuLObNRNmUsWE4jvQYe9mknr
-         Z8aABKMi6uPPBYElZDdTHAevEzkrSPb6i6Ca5sa0Tjm2aT/ccDGhNhb4FSmhithD+S21
-         WNHw==
-X-Gm-Message-State: AGi0PuY+/R65Vz7gzhOAJgX/aVKXAEyjGOOxlYhQfNK2qYhGI/uI7JJL
-        AGKAcJ4Uff/GSUljJ9d5AMhkS6d9td7UzZeLSsU=
-X-Google-Smtp-Source: APiQypKI8FjdbEyVTcX7DvwSpFyqkiOOhwS501KYvrM6PubS4UC3qvsJBHQOLo00aLXmZVhkXqmL3DHcCX0tCDyNWFs=
-X-Received: by 2002:a62:5ec7:: with SMTP id s190mr22127799pfb.130.1589317083846;
- Tue, 12 May 2020 13:58:03 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=SlmOp4Ja0L99f4dWfudYD8NFO8K357bjpSbWG5NFFuU=;
+        b=BLZ35eu6x7I+3knoLjTklV9bUeQCvXEKXYthlad+xm6vdDngl/5lMrYcnuuJu2ZNC/
+         O74J8q3X4X1uUB4CH5wbqutWJveJ0G1GFK3V3xGgCWZoeVMiAkgjSWzm054wpZeZLcar
+         dwKdDoaSklw7pu9qrVl/yuye6rLA2CRW55XEI/+tHfMNtYxdwggj4t2kN/d1uqWtEigU
+         8fDYag04mZps0A5nGaJyvDcOad8mkGaRS+jaPXlmxoRDO8vnoH14w8jhphmn9h9Way1a
+         ZOfjSDuv+2aJf762BAXtad7g+oJ82ixlujNyFoVCt7D0sDhGhjHH7JLrxkt2f6xtW+G5
+         e6zw==
+X-Gm-Message-State: AGi0PuYdEjmqHfgwiMkH3rguNJOV+hgPnmp5UIB9SP+D95bVfG5CtpK1
+        imoGCIbYMNptZdYkugcSp4Vn50bq6A==
+X-Google-Smtp-Source: APiQypIpJoMM+8ajeFgZmBI2vfHIZsLum9JoFijx5dPXwjtrNdAuMIu2sBIysLWIbFHg6ePwVVwG0g==
+X-Received: by 2002:a05:6830:1e1c:: with SMTP id s28mr17726799otr.207.1589317439227;
+        Tue, 12 May 2020 14:03:59 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id w14sm3929257oou.46.2020.05.12.14.03.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 14:03:58 -0700 (PDT)
+Received: (nullmailer pid 24483 invoked by uid 1000);
+        Tue, 12 May 2020 21:03:57 -0000
+Date:   Tue, 12 May 2020 16:03:57 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     devicetree@vger.kernel.org, robh+dt@kernel.org,
+        dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: Add bindings for Azoteq
+ IQS269A
+Message-ID: <20200512210357.GA24425@bogus>
+References: <1588352982-5117-1-git-send-email-jeff@labundy.com>
 MIME-Version: 1.0
-References: <20200512204009.4751-1-bernhardu@mailbox.org> <2656984b-3eec-c6d0-f992-8f1f8973fe3e@redhat.com>
- <CAHp75Vfk+MU+XsPf4+upqzd7HyxBHgQBZ=BukUPxzd+8Bm9bOQ@mail.gmail.com>
-In-Reply-To: <CAHp75Vfk+MU+XsPf4+upqzd7HyxBHgQBZ=BukUPxzd+8Bm9bOQ@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 12 May 2020 23:57:51 +0300
-Message-ID: <CAHp75Vc7A-L5UYZQQXYenZQG-GD1ZM7Pfi4dChHm2xy1BJB0Ow@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add info for the Trekstor
- Yourbook C11B
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     =?UTF-8?Q?Bernhard_=C3=9Cbelacker?= <bernhardu@mailbox.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Otmar Meier <otmarjun.meier@nexgo.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1588352982-5117-1-git-send-email-jeff@labundy.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 12, 2020 at 11:51 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Tue, May 12, 2020 at 11:44 PM Hans de Goede <hdegoede@redhat.com> wrot=
-e:
-> > On 5/12/20 10:40 PM, Bernhard =C3=9Cbelacker wrote:
+On Fri,  1 May 2020 12:09:41 -0500, Jeff LaBundy wrote:
+> This patch adds device tree bindings for the Azoteq IQS269A
+> capacitive touch controller.
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+> Changes in v2:
+>   - Removed '$ref' and 'allOf' from properties with a unit suffix
+> 
+>  .../devicetree/bindings/input/iqs269a.yaml         | 581 +++++++++++++++++++++
+>  1 file changed, 581 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/iqs269a.yaml
+> 
 
-> I don't see it neither in our patchwork nor in Linux Input...
-
-Okay, no worries, it came at last.
-
---=20
-With Best Regards,
-Andy Shevchenko
+Reviewed-by: Rob Herring <robh@kernel.org>
