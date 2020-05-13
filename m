@@ -2,80 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AF741D055C
-	for <lists+linux-input@lfdr.de>; Wed, 13 May 2020 05:18:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 502881D055E
+	for <lists+linux-input@lfdr.de>; Wed, 13 May 2020 05:18:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728078AbgEMDS0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 May 2020 23:18:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44878 "EHLO
+        id S1728483AbgEMDSf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 May 2020 23:18:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725898AbgEMDSZ (ORCPT
+        by vger.kernel.org with ESMTP id S1725898AbgEMDSe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 May 2020 23:18:25 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62D89C061A0C;
-        Tue, 12 May 2020 20:18:24 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id u35so4153282pgk.6;
-        Tue, 12 May 2020 20:18:24 -0700 (PDT)
+        Tue, 12 May 2020 23:18:34 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58677C061A0C;
+        Tue, 12 May 2020 20:18:33 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id b8so7128423pgi.11;
+        Tue, 12 May 2020 20:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=cm9j0GOHhz5fwX/B7Rq6S2PO60WtEzSereULuu02L4c=;
-        b=TQfzImz2Effkfi3tbUcWLOK3eNl9mEBZfCT+cWvWwwpsZVtN5UfDDULWpnhVVMjD7m
-         +l1P7r1geTRM5hA3UG5rRph451DWBDcLGeBJFGIcpewv2uMChQ2ZcfdMuHVLzoBTw0de
-         /Tg96xeCjiu9dqIqkmm3lVu8JdHjcEiEw/7KJXBlakYBOuidtFM1yeqoA1myrYgk5Bu0
-         cYPiI9+ZxAgSI1xZCt7ba0RIMttr7UANItgwWTO9/PefxZx14pP9PNkoo+iP5EM9k76I
-         0Ta/xTDOc7dKh3SCFBUlUZ0Rc51Ejt/SVPChuBzEjaeDkwo5aJPP75fiAEYXs/H9yHPK
-         /blQ==
+        bh=Cm/gLrcNvamQ/ORBmoqkA6rGd8BbqmVca6uk7B4BbCY=;
+        b=CCm16ZBTqRwqYeQfcCF3EXPmKegJwnu5MDeXF0bs/Ry70ZxkRwUCxGhJXY4N/hs0vJ
+         4z2hkKif+oTUugaiYU1Xbr4LhBLbdYLfQe0WUOINr0yFc+8fUylKR3TDKWB0181JhTwN
+         DBj/I+Np414BoSX38Mf1Tuh7CubrkWN1BFfvK3b9YpjGNLqKKGcOQrypGqJi8ieymf8U
+         vk9f3bCktg4h6CpamVJv6X+0zgJ8lLztcVGCps/pfRt0v8ayM/0LW25PW7X2bOmmEMHu
+         isyduvAXvdOscTkIcQ7+b1dgkhGgL8uE6sKXvMQhmGdTJHapI/ntnivdKSdYYbMjqVIu
+         M86w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=cm9j0GOHhz5fwX/B7Rq6S2PO60WtEzSereULuu02L4c=;
-        b=ijZYqyVlDWqNd/XsLTGyjmo6e11Agg+xhHdlRqUGr4qJZVJZhn7KVWIiGrIQbmgMnI
-         i8J4KqboE8KJq7E4swsHAduBWBEfMomq53gX8Sb2huqWFLEVYO5wByv1FeYpy4w12D5Z
-         b7pajJ1Vl+zZkh/Kz1wqeyFeLhJUsuG/F9JMnz74jKwmN2iCId84VbT247azf3Cb0Zi4
-         MkgpeIWcFRx6cHuyghpLboAEPymJsO2T+hb5nrxEMXSmWB4JFh6dyNbL5aJoVEHntkdh
-         wMoogcY0mb6GWPZcio+rBF5j2eOKfFv+KS6urTnK0PVVgo/GZG96C3tSS4Af3mkscg2h
-         IsUA==
-X-Gm-Message-State: AOAM532ZMBOIicEkWUAoTmEHULpHvXQ0E38D9yv1cGdhRtusgpcNqAPe
-        g+FLbK5Z4+QuW8+GOgsZn9A=
-X-Google-Smtp-Source: ABdhPJyqQiTHPCKdiLCdDiI43VNXbWGbJEbSVIHUpmNUzTN/lb+7fdTD4qHKBYF8CsuEj7tFszXISg==
-X-Received: by 2002:aa7:8754:: with SMTP id g20mr3573837pfo.236.1589339903714;
-        Tue, 12 May 2020 20:18:23 -0700 (PDT)
+        bh=Cm/gLrcNvamQ/ORBmoqkA6rGd8BbqmVca6uk7B4BbCY=;
+        b=QttRvLHgyzQmsgMK+Ms81vOY5oGozHq7310d57uojjHdp11QP2SxdK12T4Ya51Uds7
+         LgDm2u3T1RN7wOChEuJ0aVdUMhsEME9YdUWWWtExYEl8Nx2DPAzpTHe0eGtMFdkt4t/d
+         skHBTrUCNMzSakoUgKoBJF3CNyIcIMc3fIEmAXrdiRVCb4A/VX+/umGbl0/HR4sMV3YY
+         uCDEfSGJR3MT2emNS6HXNeo9qPgt4MrgfSa5CCbmiAV7qK7DzcVJedfoUvQ1b396H1YY
+         aUDYrvG6Jbt36B4RfC/7l32IpiIonLi7aTpL55whYf1LDajKYeUaIHXdI+/0mixPFvqW
+         15pg==
+X-Gm-Message-State: AGi0PuYNhr95/RdzDwjxkgyQUvEj1F0sKAlCaTNCcr/pKvP6VBaeSOWx
+        nFOhp7RQdR+Mj/Gs99QKoj8=
+X-Google-Smtp-Source: APiQypJ8rBf4hAMhnxkEj0F+y6GDhhYHMRpKIHQNOAOgI35XxWa6jkpORCLj4nE3KIbMGvzP7t8+Nw==
+X-Received: by 2002:a62:3381:: with SMTP id z123mr24705858pfz.274.1589339912779;
+        Tue, 12 May 2020 20:18:32 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id b67sm12395663pfg.60.2020.05.12.20.18.22
+        by smtp.gmail.com with ESMTPSA id z60sm14459408pjj.14.2020.05.12.20.18.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 20:18:23 -0700 (PDT)
-Date:   Tue, 12 May 2020 20:18:21 -0700
+        Tue, 12 May 2020 20:18:32 -0700 (PDT)
+Date:   Tue, 12 May 2020 20:18:30 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Brian Masney <masneyb@onstation.org>
 Cc:     robh+dt@kernel.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, sboyd@kernel.org,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 RESEND 1/2] dt-bindings: Input: remove msm-vibrator
-Message-ID: <20200513031821.GG89269@dtor-ws>
+        linux-arm-msm@vger.kernel.org, sboyd@kernel.org
+Subject: Re: [PATCH v2 RESEND 2/2] Input: remove msm-vibrator driver
+Message-ID: <20200513031830.GH89269@dtor-ws>
 References: <20200513013140.69935-1-masneyb@onstation.org>
- <20200513013140.69935-2-masneyb@onstation.org>
+ <20200513013140.69935-3-masneyb@onstation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200513013140.69935-2-masneyb@onstation.org>
+In-Reply-To: <20200513013140.69935-3-masneyb@onstation.org>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 12, 2020 at 09:31:39PM -0400, Brian Masney wrote:
-> The address referenced in this binding is within the Qualcomm Clock
-> namespace so let's drop the msm-vibrator bindings so that a more
-> generic solution can be used instead.  No one is currently using these
-> bindings so this won't affect any users.
+On Tue, May 12, 2020 at 09:31:40PM -0400, Brian Masney wrote:
+> The address referenced by this driver is within the Qualcomm Clock
+> namespace so let's drop the msm-vibrator bindings so that a more generic
+> solution can be used instead.  No one is currently using driver so this
+> won't affect any users.
 > 
 > Signed-off-by: Brian Masney <masneyb@onstation.org>
-> Acked-by: Rob Herring <robh@kernel.org>
 
 Applied, thank you.
 
