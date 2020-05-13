@@ -2,176 +2,144 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53C491D1FD1
-	for <lists+linux-input@lfdr.de>; Wed, 13 May 2020 22:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25A4A1D21E5
+	for <lists+linux-input@lfdr.de>; Thu, 14 May 2020 00:21:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733135AbgEMUGH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 May 2020 16:06:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32782 "EHLO
+        id S1731177AbgEMWU7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 May 2020 18:20:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1733117AbgEMUGG (ORCPT
+        by vger.kernel.org with ESMTP id S1730064AbgEMWU7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 May 2020 16:06:06 -0400
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC639C061A0C;
-        Wed, 13 May 2020 13:06:06 -0700 (PDT)
-Received: by mail-oo1-xc43.google.com with SMTP id u190so216424ooa.10;
-        Wed, 13 May 2020 13:06:06 -0700 (PDT)
+        Wed, 13 May 2020 18:20:59 -0400
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDAA3C061A0C;
+        Wed, 13 May 2020 15:20:58 -0700 (PDT)
+Received: by mail-vs1-xe43.google.com with SMTP id z1so772387vsn.11;
+        Wed, 13 May 2020 15:20:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=ic/KC2PZHSoSr/4yTt3SjhrODYKmA61GrYsRQnNMY88=;
-        b=QG73rjQv+99PSxiDQCsGvDtChV0poRpYrwl7TfePom5D6n1n0SDb8r5eV2NFsTY95z
-         DywghU75XGYRQNn7vtcuYNIDW/ic9L48XVqbBhBAgtLWohYaQ1+8SMLciJPoxzD/Nvoq
-         lVtwiwVy/IEQcsfoRT7vlmVLXhEZ0JC52bDxkWWBp4fnsz+WFesc2YspoZ4a5bBgOWDz
-         Bko+AHGeW+/bqcpqGAkHa2+k9GnK88bA/3zT8r0WgR7VmI3H3ba56bdvAKjeZNkNF3Lr
-         xSkbeWDcqVIRiOFZQu1Gq1OiGtan19ZTb4hlqaHgVFS7M/B55b61/TJ/lkDM4+D1PeZI
-         xt4A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Febjjj5+WWTqUCbI65lFaOFBjwVkcmzD8E9a3lP4Uv4=;
+        b=MdNrrrwcMt5bs37DshmUmoyIMjjh7CB+k9Wk9SQHhdVkyuYOcacp3SASS2JGHQkFZW
+         6P6GOR6UyQqrQRzKsmKoQSVSn7Da1sS+IwByJS+VlE4ZThLUdat3cJX4oYY+x1vwVDhw
+         NmSmxRfrdXNGNnbQoAWb8hoQ2cIcKtJQ1wkp7+KFnJyqi23qBsaYS/ixGdP3ELSYcwwX
+         s3ql3bAdCqGCUM/QoI9AMgSpIlwTlRO9nzyXflHlPNHCw0QL3jewdGahAjnXxpi6JuVJ
+         r1cotSeMPSwWva2uv4VGiN7NKdQlUDyGwkvenaCmnDDpOr3mIi1vo8nCILZTJWYz4Zy8
+         b4qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ic/KC2PZHSoSr/4yTt3SjhrODYKmA61GrYsRQnNMY88=;
-        b=iThHruqRItYYmiy9wKtFHWLfWz4zNMJp6FMvRbLRloWtF401y6gfF3j5e8ZG5FQbsM
-         +4/GX76kH0XnklRxWmzBkndELzOXACh3EmxbyNmQxWbolu7sZdOj1/+SkSxZx9t0N5HO
-         JFRn+AiRU7zCMzk45tsl3N3fnVfAFLHEjLMBzb2IdDENdmWaL2WMwVbmZJO0hxgh+IBY
-         xHxw/Ez93bIuNMCUbZRonzMKM6wbUNL9oY/b1aDnlPgpKpksvjggMtVneiiLx0YT6LQk
-         RxgOL9PsEZj1BNUWUPOKY69FydFuT9CqqkuSI/HMiAWu8r4Lh2Ch4VAtDMvcGigmrViX
-         74DA==
-X-Gm-Message-State: AOAM5313USdMinQA3nQOrwrkeENZSeyRBtnfDsLlEwpb4la9ITxxNvKr
-        nMRud0kjORQu1FSytnQPMB3gL6IRM658fA==
-X-Google-Smtp-Source: ABdhPJyX83NwfUDx1Ekh/EwNhQytocQl8G8fmDy2SVEoRQMcwonW8M3b7ncHD99KIwZkbEdeZZlkDg==
-X-Received: by 2002:a4a:d64f:: with SMTP id y15mr876714oos.90.1589400365771;
-        Wed, 13 May 2020 13:06:05 -0700 (PDT)
-Received: from [10.0.0.10] (cpe-70-112-70-240.austin.res.rr.com. [70.112.70.240])
-        by smtp.gmail.com with ESMTPSA id r10sm188379otn.70.2020.05.13.13.06.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 May 2020 13:06:05 -0700 (PDT)
-Subject: Re: [PATCH] HID: sony: Fix for broken buttons on DS3 USB dongles
-To:     "Colenbrander, Roderick" <Roderick.Colenbrander@sony.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <46c1ab66-62d7-5dae-2f4d-7e722f1aff3a@gmail.com>
- <BY5PR13MB38264B60014D43193C53B38798BF0@BY5PR13MB3826.namprd13.prod.outlook.com>
-From:   Scott Shumate <scott.shumate@gmail.com>
-Message-ID: <e3496a04-3a96-f833-955f-69912a76bdac@gmail.com>
-Date:   Wed, 13 May 2020 15:06:04 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Febjjj5+WWTqUCbI65lFaOFBjwVkcmzD8E9a3lP4Uv4=;
+        b=ZSJJa2Wxr2YUUC3seEXJRfWgApKBKO2GjUOcS3DzLAGDfoHa3t7VD1cwemQ/aoVuDl
+         MgNJIMcQ7w+vJPbJcxcRxIJmXs1Lv01Cf8Z9mgUxt/euyKy/ekVtbBE5HQFwY5kskO3a
+         +SrE0stTLGmDxRyWuArxst80z4foz06qYas/kyR6NqwafI8USv+Mq1NJqyBh4/L5DMzO
+         2OrTmfQxuXv77OEFsWwza5Do750Et/syU+59MZn1dDkZmcS301b8/bx49Xvp670JKGJb
+         89bb1/UtFd+Ws2l0XpZs/X6hmhBZvYo5jp0lU7PwsA8muwe3TYH3qiiVD7Tx3+8VrPmg
+         jl4g==
+X-Gm-Message-State: AOAM532E593tGVK3t4vv5Z2RXvuQAnp7hLVws5T2Z0AFwcanDSXtJLQX
+        enCrZKAQ32ot6MnWoj3/MzsR4TRfgr14xoA8YoM=
+X-Google-Smtp-Source: ABdhPJxo9EuLqhoKWxflAPUvXZF3mOIP4Fla676O86ZIxPbhYie0qT8N7NxiarKZvsbsx8aJvfTXSAykTIcU6rJym2E=
+X-Received: by 2002:a67:c482:: with SMTP id d2mr1227981vsk.37.1589408457816;
+ Wed, 13 May 2020 15:20:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <BY5PR13MB38264B60014D43193C53B38798BF0@BY5PR13MB3826.namprd13.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20190731124349.4474-1-gregkh@linuxfoundation.org>
+ <20190731131045.GB147138@dtor-ws> <20190802104633.GA14823@kroah.com>
+In-Reply-To: <20190802104633.GA14823@kroah.com>
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+Date:   Wed, 13 May 2020 23:18:15 +0100
+Message-ID: <CACvgo52+Uqx4GJFwadJoFzzt5EMc69HcW-+K9uxv9t25TtSDBg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] drivers, provide a way to add sysfs groups easily
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>, x86@kernel.org,
+        linux-input@vger.kernel.org,
+        linux-fbdev <linux-fbdev@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>,
+        platform-driver-x86@vger.kernel.org,
+        Tony Prisk <linux@prisktech.co.nz>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Richard Gong <richard.gong@linux.intel.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        LAKML <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Roderick,
+Hi Greg,
 
-The official DS3 has a Report Count(19) instead of Report Count(13) in the exact same offset.  I 
-have no idea what the silicon vendor for these dongles was thinking but it's suspicious that the 
-official count of 19 (0x13) turned into 13 (0xd) in the knock-off.  It makes you wonder if the 
-engineers confused the decimal/hex numbers.
+On Fri, 2 Aug 2019 at 11:46, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 
-As buggy as all of these third-party devices are, I'm afraid relying on the HID parser to get it 
-right is only going to worse over time.  I do like your idea of having each device register 
-themselves.  It would be nice to have each device provide a callback to decode its own report rather 
-than handle a bunch of special conditions and quirks in a unified report decoding function.  The 
-drawback of course is that its going to be a little more effort to maintain.
+>
+> I have now done this with patch 1/10.  Here's the pull info if any
+> subsystem maintainer wants to suck this into their tree to provide the
+> ability for drivers to add/remove attribute groups easily.
+>
+> This is part of my driver-core tree now, and will go to Linus for
+> 5.4-rc1, along with a few platform drivers that have been acked by their
+> various subsystem maintainers that convert them to use this new
+> functionality.
+>
+> If anyone has any questions about this, please let me know.
+>
+> thanks,
+>
+> greg k-h
+>
+> -------------------
+>
+> The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
+>
+>   Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git tags/dev_groups_all_drivers
+>
+> for you to fetch changes up to 23b6904442d08b7dbed7622ed33b236d41a3aa8b:
+>
+>   driver core: add dev_groups to all drivers (2019-08-02 12:37:53 +0200)
+>
+> ----------------------------------------------------------------
+> dev_groups added to struct driver
+>
+> Persistent tag for others to pull this branch from
+>
+> This is the first patch in a longer series that adds the ability for the
+> driver core to create and remove a list of attribute groups
+> automatically when the device is bound/unbound from a specific driver.
+>
+> See:
+>         https://lore.kernel.org/r/20190731124349.4474-2-gregkh@linuxfoundation.org
+> for details on this patch, and examples of how to use it in other
+> drivers.
+>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>
+> ----------------------------------------------------------------
+> Dmitry Torokhov (1):
+>       driver core: add dev_groups to all drivers
+>
+>  drivers/base/dd.c      | 14 ++++++++++++++
+>  include/linux/device.h |  3 +++
+>  2 files changed, 17 insertions(+)
+> _______________________________________________
 
-Cheers,
-Scott
+Was planning to re-spin DRM a series which uses .dev_groups, although
+I cannot see the core patch.
+Did the it get reverted or simply fell though the cracks?
 
-
-On 5/13/20 2:41 PM, Colenbrander, Roderick wrote:
-> Hi Scott,
-> 
-> Thanks for sharing this patch. Do you know if for these controllers the data is at the same byte offsets in the reports as an official DS3?
-> 
-> The reason I'm asking is that I have been considering for a while to redo some of the button / stick handling code and the issue you just pointed out could be another argument towards doing that. Basically we learned that also for the official Navigation controller there are apparently a few different revisions with different report descriptors (yah!).
-> 
-> I have been tempted for some time to get rid of this fixup / mapping logic altogether and e.g. have a "sony_register_gamepad" and do it all ourselves and put more logic into the sixaxis_parse_report call. With many buggy devices of which we don't have most it feels fragile to have the HID parser do the work.
-> 
-> Thanks,
-> Roderick
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> From: Scott Shumate <scott.shumate@gmail.com>
-> 
-> Sent: Wednesday, May 13, 2020 10:05 AM
-> 
-> To: Jiri Kosina <jikos@kernel.org>; Benjamin Tissoires <benjamin.tissoires@redhat.com>; Colenbrander, Roderick <Roderick.Colenbrander@sony.com>; linux-input@vger.kernel.org <linux-input@vger.kernel.org>; linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>
-> 
-> Subject: [PATCH] HID: sony: Fix for broken buttons on DS3 USB dongles
-> 
->   
-> 
-> 
-> Fix for non-working buttons on knock-off USB dongles for Sony
-> controllers. These USB dongles are used to connect older Sony DA/DS1/DS2
-> controllers via USB and are common on Amazon, AliExpress, etc.  Without
-> the patch, the square, X, and circle buttons do not function.  These
-> dongles used to work prior to kernel 4.10 but removing the global DS3
-> report fixup in this commit exposed the problem:
-> 
-> commit e19a267b9987 Author: Roderick Colenbrander
->   <roderick.colenbrander@sony.com>
-> Date:   Tue Mar 7 15:45:08 2017 -0800
-> 
->      HID: sony: DS3 comply to Linux gamepad spec
-> 
-> Many people reported the problem on the Ubuntu forums and are working
-> around the problem by falling back to the 4.9 hid-sony driver.
-> 
-> The problem stems from these dongles incorrectly reporting their button
-> count as 13 instead of 16.  This patch fixes up the report descriptor by
-> changing the button report count to 16 and removing 3 padding bits.
-> 
-> Signed-off-by: Scott Shumate <scott.shumate@gmail.com>
-> ---
-> diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-> index 4c6ed6ef31f1..2f073f536070 100644
-> --- a/drivers/hid/hid-sony.c
-> +++ b/drivers/hid/hid-sony.c
-> @@ -867,6 +867,23 @@ static u8 *sony_report_fixup(struct hid_device *hdev, u8 *rdesc,
->   	if (sc->quirks & PS3REMOTE)
->   		return ps3remote_fixup(hdev, rdesc, rsize);
->   
-> +	/*
-> +	 * Some knock-off USB dongles incorrectly report their button count
-> +	 * as 13 instead of 16 causing three non-functional buttons.
-> +	 */
-> +	if ((sc->quirks & SIXAXIS_CONTROLLER_USB) && *rsize >= 45 &&
-> +		/* Report Count (13) */
-> +		rdesc[23] == 0x95 && rdesc[24] == 0x0D &&
-> +		/* Usage Maximum (13) */
-> +		rdesc[37] == 0x29 && rdesc[38] == 0x0D &&
-> +		/* Report Count (3) */
-> +		rdesc[43] == 0x95 && rdesc[44] == 0x03) {
-> +		hid_info(hdev, "Fixing up USB dongle report descriptor\n");
-> +		rdesc[24] = 0x10;
-> +		rdesc[38] = 0x10;
-> +		rdesc[44] = 0x00;
-> +	}
-> +
->   	return rdesc;
->   }
->   
-> 
-> 
-> 
-
+-Emil
