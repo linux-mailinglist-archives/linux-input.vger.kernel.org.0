@@ -2,114 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8F821D02FC
-	for <lists+linux-input@lfdr.de>; Wed, 13 May 2020 01:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 944921D0466
+	for <lists+linux-input@lfdr.de>; Wed, 13 May 2020 03:37:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728220AbgELXZJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 May 2020 19:25:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37012 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726031AbgELXZI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 May 2020 19:25:08 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C94FCC061A0C;
-        Tue, 12 May 2020 16:25:08 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id n11so6890378pgl.9;
-        Tue, 12 May 2020 16:25:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=FpcFfkc/yG9vq9eXWklG8CGjwtKug3YGgFN39WyeyGc=;
-        b=pWipj/rYO4TE/WgccVGCKMhCO9dOQMqbFgFILxy9bPyfdAGU1AtXDDAPLFE5d8BWYI
-         y8h0guWLroeHHFvshFPgfDBEmOBlBrNj/JhqWtissEv8GDGrkVAGwfcj/J+til5ld39Q
-         thnBvYCXu26hayF9UigwA4E9gGpRbfhzbNfY/sY6qG4jAQD+dccELCfuxT/jEOuK3mGm
-         elBCMpGuoEH9Rv6OALCkus/pHOOWd8KbSHckTf5EJDK0m38v+T6292Y/4FG6gZAmN3QS
-         UamcfP8ImTECWAyv7V7C5ACDg9cHr4B4WH7xilGOx3JOD2eacTv87TnouwuuY5P6NUZ8
-         sDtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=FpcFfkc/yG9vq9eXWklG8CGjwtKug3YGgFN39WyeyGc=;
-        b=eucHbVcoeZKTHw4N+fONryzFzIJ6K58dJBWwPxnyam7yxTIFzkNIxc3krH9BHdQ3C3
-         mEiSt3HtAHvgHhy8CQRLMF9LGleckaGJuZPhjz4TyB94S/VnlvGnjBTGP30HtVd3RdW9
-         8uJ1yVemvKq0Zem/VSn/w8PoL+b9fME1NvckLqrhDLTaoQGIxtFhTAPatAc2EWwdnTAW
-         PUHRJEr4/OsGoU0yC/xtSnsxYOb9U/krmh2Hermfbb9DMQwpA8BB06Sx7/rd6+dqq3SP
-         VWKvzsWeLNq9wNqmAqy81cCqrTHFSYKlaB4HDuL6RiUJ79LmSh96Bqj/5e3SiEHFxdeN
-         fFog==
-X-Gm-Message-State: AOAM531TNah3Gyt+w30CfgUloAjh5yKJ5eE1U5myq86GIWCbM1RDq0l4
-        IsfvqFWaEX2A8IFF9EodjAk=
-X-Google-Smtp-Source: ABdhPJzLZlncWatTS+oNiA4vxd3oVeXcykQQb3eNLFClvMbGM8HbwrjGaxKq48Gne8Qhoh171ik1lA==
-X-Received: by 2002:a63:77c6:: with SMTP id s189mr12368295pgc.267.1589325908104;
-        Tue, 12 May 2020 16:25:08 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id m4sm94819pje.47.2020.05.12.16.25.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 16:25:07 -0700 (PDT)
-Date:   Tue, 12 May 2020 16:25:05 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        linux-sunxi@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Tomas Novotny <tomas@novotny.cz>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 1/4] dt-bindings: input: gpio-vibrator: Don't require
- enable-gpios
-Message-ID: <20200512232505.GF89269@dtor-ws>
-References: <20200512222205.1456300-1-megous@megous.com>
- <20200512222205.1456300-2-megous@megous.com>
- <20200512225212.GE89269@dtor-ws>
- <20200512230557.zvdgwhbqygc2fufv@core.my.home>
+        id S1731695AbgEMBhV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 May 2020 21:37:21 -0400
+Received: from onstation.org ([52.200.56.107]:35604 "EHLO onstation.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728313AbgEMBhT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 12 May 2020 21:37:19 -0400
+Received: from tp-x1.redhat.com (c-98-239-145-235.hsd1.wv.comcast.net [98.239.145.235])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: masneyb)
+        by onstation.org (Postfix) with ESMTPSA id 3687B3E8F9;
+        Wed, 13 May 2020 01:31:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
+        s=default; t=1589333507;
+        bh=B+H20NEAsBxVq9dR1S+OzvWqKqZ/flzrrfq6qjDiS7U=;
+        h=From:To:Cc:Subject:Date:From;
+        b=utHyRH1cxlSWJ2sp4CbTavFFXvuWSDnkgqufwwmjrYg4ZegePUhoMagD3Hov2E1AY
+         WKWkezi0EaAwAAiKOpaFhAD8sTRx30tR10bmXLrmCdUAxcf6rlNvxUknE9Z8cVNVCc
+         4Mi/UzV4hjBujGc2tCrNoHjFdRzbpLGar8KUfa2A=
+From:   Brian Masney <masneyb@onstation.org>
+To:     dmitry.torokhov@gmail.com
+Cc:     robh+dt@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, sboyd@kernel.org
+Subject: [PATCH v2 RESEND 0/2] Input: remove msm-vibrator driver and bindings
+Date:   Tue, 12 May 2020 21:31:38 -0400
+Message-Id: <20200513013140.69935-1-masneyb@onstation.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200512230557.zvdgwhbqygc2fufv@core.my.home>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, May 13, 2020 at 01:05:57AM +0200, Ondřej Jirman wrote:
-> On Tue, May 12, 2020 at 03:52:12PM -0700, Dmitry Torokhov wrote:
-> > On Wed, May 13, 2020 at 12:22:02AM +0200, Ondrej Jirman wrote:
-> > > It is possible to turn the motor on/off just by enabling/disabling
-> > > the vcc-supply.
-> > > 
-> > > Signed-off-by: Ondrej Jirman <megous@megous.com>
-> > > Acked-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > >  Documentation/devicetree/bindings/input/gpio-vibrator.yaml | 1 -
-> > >  1 file changed, 1 deletion(-)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/input/gpio-vibrator.yaml b/Documentation/devicetree/bindings/input/gpio-vibrator.yaml
-> > > index 2384465eaa19..c700b640bd53 100644
-> > > --- a/Documentation/devicetree/bindings/input/gpio-vibrator.yaml
-> > > +++ b/Documentation/devicetree/bindings/input/gpio-vibrator.yaml
-> > > @@ -24,7 +24,6 @@ properties:
-> > >  
-> > >  required:
-> > >    - compatible
-> > > -  - enable-gpios
-> > 
-> > Hmm we need at least one of the 2 (gpio and supply). Should we encode it
-> > in the binding?
-> 
-> Not sure how to encode either one or the other property being required, but
-> not both at once.
-> 
-> Maybe I can add a supply-vibrator compatible to the driver and binding and
-> make requirements dependent on the compatible?
+Here's a small patch series that removes the msm-vibrator driver and
+bindings. These two patches are broken out from this patch series from
+December:
 
-Rob is our bindings overlord... I'll defer to him here.
+https://lore.kernel.org/lkml/20191205002503.13088-5-masneyb@onstation.org/
 
-Thanks.
+And a resend of what I sent out in February:
+
+https://lore.kernel.org/lkml/20200211121318.144067-1-masneyb@onstation.org/
+
+In a nutshell, the address referenced by this driver is within the
+Qualcomm Clock namespace and needs to be managed by the clk subsystem.
+This driver needs to go away to clean up the upstream kernel.
+
+I'm waiting for someone from Qualcomm to either post a patch to support
+setting the clock duty cycle or someone to post information about the
+m,n,d registers for the clocks. Once that's done, no other changes
+will be needed in the input subsystem.
+
+Brian Masney (2):
+  dt-bindings: Input: remove msm-vibrator
+  Input: remove msm-vibrator driver
+
+ .../bindings/input/msm-vibrator.txt           |  36 ---
+ drivers/input/misc/Kconfig                    |  10 -
+ drivers/input/misc/Makefile                   |   1 -
+ drivers/input/misc/msm-vibrator.c             | 281 ------------------
+ 4 files changed, 328 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/msm-vibrator.txt
+ delete mode 100644 drivers/input/misc/msm-vibrator.c
 
 -- 
-Dmitry
+2.24.1
+
