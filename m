@@ -2,93 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10FA71D3DD5
-	for <lists+linux-input@lfdr.de>; Thu, 14 May 2020 21:45:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5D541D3F4E
+	for <lists+linux-input@lfdr.de>; Thu, 14 May 2020 22:51:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728060AbgENTpi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 May 2020 15:45:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56778 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727124AbgENTph (ORCPT
+        id S1726035AbgENUvq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 May 2020 16:51:46 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29174 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727837AbgENUvq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 May 2020 15:45:37 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8425EC061A0C;
-        Thu, 14 May 2020 12:45:37 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id w10so4917171ljo.0;
-        Thu, 14 May 2020 12:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=y33CB2RjXQSPflCbv7sglflbYuRAcYzmH0WsL8hN1T8=;
-        b=hFuUonEOnaooHkyNnKdFyJwtoTY4PSn4SDBC2E89lEkADliphTvBIyK3w3tw0Nr3wZ
-         PHjQNjrsMy4yBj43blR56wpbaNTNd1FIOzFHyE5CW2xj5uYcvbrH4YsDKnWCn5hvyuVC
-         4/GSQ0RQH10CkvxSuQkXuncFWiNsRgrhxmb4DTZ6wh37Tbnt4mpQlYJMnpTCPLuKz2Cg
-         lr3Ovn7uk8UPosjRYqF386eg6BRlvz8j5TA06cbTyI2f/GANAzQyNSNW8MqZ5qc6VLy8
-         7qowvDDjVbWBmguG3e1GHhSaWonoCEOOxs3x39qdXmQgalRATRBiRwZQisiZRpmG9PMP
-         SoyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=y33CB2RjXQSPflCbv7sglflbYuRAcYzmH0WsL8hN1T8=;
-        b=JKWK0pWvSgVVyDSsaBKuZLGIyU3IEhqGELwgNKbRXja/4azyc7hc8gkDY66PNaX3I0
-         xGY0Ibi1Nr7peFr6qhSRFKzv9fF50wgl7/sskSvdkKl9h6s3MwoQS7o49SR90gPdxq1t
-         Njt16iptmQEHrH4B/sA5OVVWFpo2w27oyLQHkPoK3cLnN5YoqAxoRppUKIASO4CWIw/g
-         Ww6z0DNa8NzdFMwFLfBBdbS+QevUaaH6G42Gai0iY/t/VrrgvS2r5pQn0dpK4JXuQKls
-         3KSFNwuJ67LWH0SK6CK2p2GhWz+j72EY+vd7IMPhpRaErdmW1Sz5ZvAPr9/AcdcNb/Wa
-         TaxA==
-X-Gm-Message-State: AOAM531CUESnnuP9G82iviIM5t5gC70Er2pgF4tMr1fedKHO7flmxsVQ
-        mV5Se46PlunThHor7NCNNr7CazZB
-X-Google-Smtp-Source: ABdhPJykqJyO1P02hFRHS2axd71wSZUSY02vBScCk8tKoEpJbOnF6CLfArfBlAH4BQxZD5PfeNIr1Q==
-X-Received: by 2002:a05:651c:28c:: with SMTP id b12mr3765580ljo.167.1589485535792;
-        Thu, 14 May 2020 12:45:35 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id m11sm2405321lfo.55.2020.05.14.12.45.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 May 2020 12:45:33 -0700 (PDT)
-Subject: Re: [PATCH v5 00/10] input: elants: Support Asus TF300T touchscreen
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        David Heidelberg <david@ixit.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        James Chen <james.chen@emc.com.tw>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>,
-        Rob Herring <robh+dt@kernel.org>,
-        Scott Liu <scott.liu@emc.com.tw>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1587923061.git.mirq-linux@rere.qmqm.pl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b1396e50-8fab-701d-cfcf-4fdfd83846f6@gmail.com>
-Date:   Thu, 14 May 2020 22:45:33 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Thu, 14 May 2020 16:51:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589489505;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Z1B3fYOYm8pvnyTjtbhTkkBslablP1daKS/L1NhMlF8=;
+        b=FgHwPVp2xF5Q6ElIrwPosXQoB1uP1kG+MzEL69Z0/5pe+ECweqfQ6FQwpJhC2NBlKxrM+P
+        1YMIc9aDEcsCHND/gfVZuDggy+99P/FeL446RAA6JtqiuBwM6bLiibt9mQBxYeENlFwU4Q
+        vFyfl/8RnojbKH81aIFgjRqta/ap1c0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-ncydFaPxN8Wy1lKpBFILfg-1; Thu, 14 May 2020 16:51:39 -0400
+X-MC-Unique: ncydFaPxN8Wy1lKpBFILfg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E78A3107ACF2;
+        Thu, 14 May 2020 20:51:37 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-24.ams2.redhat.com [10.36.112.24])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3A91E7D965;
+        Thu, 14 May 2020 20:51:36 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Andy Shevchenko <andy@infradead.org>
+Subject: [PATCH] Input: soc_button_array - Add support for INT33D3 tablet-mode switch devices
+Date:   Thu, 14 May 2020 22:51:34 +0200
+Message-Id: <20200514205134.136782-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <cover.1587923061.git.mirq-linux@rere.qmqm.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-26.04.2020 20:47, Michał Mirosław пишет:
-> This series cleans up the driver a bit and implements changes needed to
-> support EKTF3624-based touchscreen used in Asus TF300T and similar
-> Tegra3-based tablets.
-> 
-> ---
-> v2: extended with Dmitry's patches (replaced v1 patches 3 and 4)
-> v3: rebased for v5.7-rc1
-> v4: rebased onto v5.7-rc2+ (current Linus' master)
->     update "remove unused axes" and "refactor
->       elants_i2c_execute_command()" patches after review
->     add David's patch converting DT binding to YAML
-> v5: rebased onto dtor/input/for-linus
+According to the Microsoft documentation for Windows 8 convertible
+devices, these devices should implement a PNP0C60 "laptop/slate mode state
+indicator" ACPI device.
 
-Hello Johnny,
+This device can work in 2 ways, if there is a GPIO which directly
+indicates the device is in tablet-mode or not then the direct-gpio mode
+should be used. If there is no such GPIO, but instead the events are
+coming from e.g. the embedded-controller, then there should still be
+a PNP0C60 ACPI device and event-injection should be used to send the
+events. The drivers/platform/x86/intel-vbtn.c code is an example from
+a standardized manner of doing the latter.
 
-Could you please help with reviewing this series? Thanks in advance!
+On various 2-in-1s with either a detachable keyboard, or with 360°
+hinges, the direct GPIO mode is indicated by an ACPI device with a
+HID of INT33D3, which contains a single GpioInt in its ACPI resource
+table, which directly indicates if the device is in tablet-mode or not.
+
+This commit adds support for this to the soc_button_array code, as
+well as for the alternative ID9001 HID which some devices use
+instead of the INT33D3 HID.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/input/misc/soc_button_array.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+index e3a22a61f5d9..837c787e9c4b 100644
+--- a/drivers/input/misc/soc_button_array.c
++++ b/drivers/input/misc/soc_button_array.c
+@@ -397,6 +397,15 @@ static const struct soc_device_data soc_device_PNP0C40 = {
+ 	.button_info = soc_button_PNP0C40,
+ };
+ 
++static const struct soc_button_info soc_button_INT33D3[] = {
++	{ "tablet_mode", 0, EV_SW, SW_TABLET_MODE, false, false, false },
++	{ }
++};
++
++static const struct soc_device_data soc_device_INT33D3 = {
++	.button_info = soc_button_INT33D3,
++};
++
+ /*
+  * Special device check for Surface Book 2 and Surface Pro (2017).
+  * Both, the Surface Pro 4 (surfacepro3_button.c) and the above mentioned
+@@ -459,6 +468,8 @@ static const struct soc_device_data soc_device_MSHW0040 = {
+ 
+ static const struct acpi_device_id soc_button_acpi_match[] = {
+ 	{ "PNP0C40", (unsigned long)&soc_device_PNP0C40 },
++	{ "INT33D3", (unsigned long)&soc_device_INT33D3 },
++	{ "ID9001", (unsigned long)&soc_device_INT33D3 },
+ 	{ "ACPI0011", 0 },
+ 
+ 	/* Microsoft Surface Devices (5th and 6th generation) */
+-- 
+2.26.0
+
