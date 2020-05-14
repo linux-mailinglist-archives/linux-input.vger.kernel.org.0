@@ -2,92 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13B471D3A6B
-	for <lists+linux-input@lfdr.de>; Thu, 14 May 2020 20:58:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51A111D3DCE
+	for <lists+linux-input@lfdr.de>; Thu, 14 May 2020 21:44:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729714AbgENS4a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 May 2020 14:56:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57440 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729707AbgENS42 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 May 2020 14:56:28 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 83CE7207F7;
-        Thu, 14 May 2020 18:56:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589482588;
-        bh=Dpxlo7zgvXqki3/emE5wa7pFOsjVIK+w6rDKNfaGR60=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UUEuB8+XEzUCobGTHfOcfNzVIEVnmL/GkUTlk/sDBOSyegewsChU/rs4hVsEsP5+7
-         FOjSeNnt8l+eJwJbyss7EVu9zQ1JRGghY1o7PmaXoxr7xpT6lt+9R3H7aniKzthnQU
-         36LlIz6H0tRbAZJnEQdw1ehQSi/D1ce/HC8g5KLE=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 02/14] HID: multitouch: add eGalaxTouch P80H84 support
-Date:   Thu, 14 May 2020 14:56:13 -0400
-Message-Id: <20200514185625.21753-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200514185625.21753-1-sashal@kernel.org>
-References: <20200514185625.21753-1-sashal@kernel.org>
+        id S1727845AbgENToG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 May 2020 15:44:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56514 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727794AbgENToG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 14 May 2020 15:44:06 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44754C061A0C;
+        Thu, 14 May 2020 12:44:05 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id 202so210523lfe.5;
+        Thu, 14 May 2020 12:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BMdjGqJJ8ssmFnmYzHxNscWHpY/RONcr7JQJoulgYjI=;
+        b=KZYUKUu/8Tkdkzh69ywETAYQUBPnp9MPKTcz+dyyV+ArC3oijPVh2o5ZJ/mmUhIajq
+         cmO+Lpav++xun9s8fNG1Exb1bSETkJw5jKfVEv0KGtHFJBAqkz8yuZ4nPMwdL6PYb8cH
+         HKpr8RhBdGaJsSCAMEvcaeu0NuJidn4djo6PCjQSr1uY8Vf+2pHj7nZLfIsh2z8wnWIq
+         kCZF3kDM1NQ/8RemewbQsGG0uUxNl8hvy5MMjeriRqEomiprDwMaKoD1+6Gs8jqlyI+b
+         /NFoplWonx+XNCumbv9vWSHBA2W3W53xR1pVqJDDOeTS3qBDq6GNf6RvIG5l//GY+ivc
+         gRVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BMdjGqJJ8ssmFnmYzHxNscWHpY/RONcr7JQJoulgYjI=;
+        b=ED2qHzifLur5m8PhtAbc9wbxudZBUoyMFUMV8pfVlJolwWzvLPfxMt58djpeUw0zhP
+         zNRyz1Azd3ajMcWWpk50O6W3/Jao80/WFxoNwHnecTI82MlKOl8EomPK/QTH/RNT08EG
+         iPfESK7Sv3YYBVSWXa0a/EeylrNkAVDFG5Ojt2ebQDP4+MdiiOdA1f/GsOS/5Ogw81B5
+         NubNUAnb2whDRvmmeryQCS0poq7XN1t8jRGEIMayJqzBXy04YYmTjCJkwn+XhQfcFapT
+         KjEiu7GQgP2DHq0Fl5zAKirotHlRZLXy3tU+tbKzHJ0kmwFey7APovo9ZjcFEv65K28k
+         9w/Q==
+X-Gm-Message-State: AOAM531e5eyBffeZy1mM5KSJ/H8muoBi/L5IQX1bhRemfut2VARjY3ri
+        XhGHb0AcCS+Q22CzGV7dnPkvQRe7
+X-Google-Smtp-Source: ABdhPJyu22xVU0I89ReSZT3aNK9UsV93o7/8h2UhjxQWejmC0P0POzC4pPB2E137f99YjKU4Cq0jdg==
+X-Received: by 2002:a19:bc4:: with SMTP id 187mr2547325lfl.211.1589485443545;
+        Thu, 14 May 2020 12:44:03 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id 192sm1995664ljj.41.2020.05.14.12.44.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 May 2020 12:44:00 -0700 (PDT)
+Subject: Re: [PATCH v5 05/10] input: elants: refactor
+ elants_i2c_execute_command()
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        James Chen <james.chen@emc.com.tw>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>,
+        Rob Herring <robh+dt@kernel.org>,
+        Scott Liu <scott.liu@emc.com.tw>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1587923061.git.mirq-linux@rere.qmqm.pl>
+ <6c576f688b385235c65b461410a917080d27e825.1587923061.git.mirq-linux@rere.qmqm.pl>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <4d99b640-6e22-7a81-62ef-4097c43c5bbc@gmail.com>
+Date:   Thu, 14 May 2020 22:43:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <6c576f688b385235c65b461410a917080d27e825.1587923061.git.mirq-linux@rere.qmqm.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
+26.04.2020 20:47, Michał Mirosław пишет:
+> Apply some DRY-ing to elants_i2c_execute_command() callers.  This pulls
+> polling and error printk()s into a single function.
+> 
+> Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+> ---
+> v4: return 0 on success; use %pe for error code
+> ---
 
-[ Upstream commit f9e82295eec141a0569649d400d249333d74aa91 ]
+Hello Michał,
 
-Add support for P80H84 touchscreen from eGalaxy:
-
-  idVendor           0x0eef D-WAV Scientific Co., Ltd
-  idProduct          0xc002
-  iManufacturer           1 eGalax Inc.
-  iProduct                2 eGalaxTouch P80H84 2019 vDIVA_1204_T01 k4.02.146
-
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/hid-ids.h        | 1 +
- drivers/hid/hid-multitouch.c | 3 +++
- 2 files changed, 4 insertions(+)
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index e1807296a1a01..33d2b5948d7fc 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -319,6 +319,7 @@
- #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_7349	0x7349
- #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_73F7	0x73f7
- #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_A001	0xa001
-+#define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_C002	0xc002
- 
- #define USB_VENDOR_ID_ELAN		0x04f3
- 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 9de379c1b3fd3..56c4a81d3ea24 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1300,6 +1300,9 @@ static const struct hid_device_id mt_devices[] = {
- 	{ .driver_data = MT_CLS_EGALAX_SERIAL,
- 		MT_USB_DEVICE(USB_VENDOR_ID_DWAV,
- 			USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_A001) },
-+	{ .driver_data = MT_CLS_EGALAX,
-+		MT_USB_DEVICE(USB_VENDOR_ID_DWAV,
-+			USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_C002) },
- 
- 	/* Elitegroup panel */
- 	{ .driver_data = MT_CLS_SERIAL,
--- 
-2.20.1
-
+This patch needs to be rebased on a newer linux-next once again :)
