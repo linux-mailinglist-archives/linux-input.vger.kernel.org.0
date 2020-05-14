@@ -2,144 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25A4A1D21E5
-	for <lists+linux-input@lfdr.de>; Thu, 14 May 2020 00:21:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8881C1D2611
+	for <lists+linux-input@lfdr.de>; Thu, 14 May 2020 06:53:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731177AbgEMWU7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 May 2020 18:20:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53942 "EHLO
+        id S1725838AbgENExr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 May 2020 00:53:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730064AbgEMWU7 (ORCPT
+        by vger.kernel.org with ESMTP id S1725794AbgENExr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 May 2020 18:20:59 -0400
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDAA3C061A0C;
-        Wed, 13 May 2020 15:20:58 -0700 (PDT)
-Received: by mail-vs1-xe43.google.com with SMTP id z1so772387vsn.11;
-        Wed, 13 May 2020 15:20:58 -0700 (PDT)
+        Thu, 14 May 2020 00:53:47 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 278E7C061A0C;
+        Wed, 13 May 2020 21:53:47 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id r17so1426156lff.9;
+        Wed, 13 May 2020 21:53:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Febjjj5+WWTqUCbI65lFaOFBjwVkcmzD8E9a3lP4Uv4=;
-        b=MdNrrrwcMt5bs37DshmUmoyIMjjh7CB+k9Wk9SQHhdVkyuYOcacp3SASS2JGHQkFZW
-         6P6GOR6UyQqrQRzKsmKoQSVSn7Da1sS+IwByJS+VlE4ZThLUdat3cJX4oYY+x1vwVDhw
-         NmSmxRfrdXNGNnbQoAWb8hoQ2cIcKtJQ1wkp7+KFnJyqi23qBsaYS/ixGdP3ELSYcwwX
-         s3ql3bAdCqGCUM/QoI9AMgSpIlwTlRO9nzyXflHlPNHCw0QL3jewdGahAjnXxpi6JuVJ
-         r1cotSeMPSwWva2uv4VGiN7NKdQlUDyGwkvenaCmnDDpOr3mIi1vo8nCILZTJWYz4Zy8
-         b4qw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=JV+sxUdFOhEyDczRx6GrqOwClj4olBpIsLuQqAp2XRE=;
+        b=t//QhNx7KmG0d0ZfpVSb1+M24XomDrqF6cL88YDUe2dnW9t1e883+x2ye8bCEqDH73
+         yh+yI/LUSNF8QWGUwyRuvtb0ci7sdxzju1E69m7QYMXIzD50yVqhIOyPGm9j0z/IpP5v
+         g/X5LVm9pqlgmUUwZZOrsuvuxJEs+WhIzdjCI+AEY/e1OKzsQ1G3jrOVCP15qovfUB3L
+         JqR96u1YE+KIEckvsrR64kkApMRfxTUAi0CgqzRZqm9ZRo3XVZsloC82yT14XoPb64U2
+         Nhbiynd6AUKIcER0o3TaeVH/acse0s4okgqO+pYtUdRagD3llebYiyFWE8b5IwcmzfA9
+         2ozw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Febjjj5+WWTqUCbI65lFaOFBjwVkcmzD8E9a3lP4Uv4=;
-        b=ZSJJa2Wxr2YUUC3seEXJRfWgApKBKO2GjUOcS3DzLAGDfoHa3t7VD1cwemQ/aoVuDl
-         MgNJIMcQ7w+vJPbJcxcRxIJmXs1Lv01Cf8Z9mgUxt/euyKy/ekVtbBE5HQFwY5kskO3a
-         +SrE0stTLGmDxRyWuArxst80z4foz06qYas/kyR6NqwafI8USv+Mq1NJqyBh4/L5DMzO
-         2OrTmfQxuXv77OEFsWwza5Do750Et/syU+59MZn1dDkZmcS301b8/bx49Xvp670JKGJb
-         89bb1/UtFd+Ws2l0XpZs/X6hmhBZvYo5jp0lU7PwsA8muwe3TYH3qiiVD7Tx3+8VrPmg
-         jl4g==
-X-Gm-Message-State: AOAM532E593tGVK3t4vv5Z2RXvuQAnp7hLVws5T2Z0AFwcanDSXtJLQX
-        enCrZKAQ32ot6MnWoj3/MzsR4TRfgr14xoA8YoM=
-X-Google-Smtp-Source: ABdhPJxo9EuLqhoKWxflAPUvXZF3mOIP4Fla676O86ZIxPbhYie0qT8N7NxiarKZvsbsx8aJvfTXSAykTIcU6rJym2E=
-X-Received: by 2002:a67:c482:: with SMTP id d2mr1227981vsk.37.1589408457816;
- Wed, 13 May 2020 15:20:57 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=JV+sxUdFOhEyDczRx6GrqOwClj4olBpIsLuQqAp2XRE=;
+        b=N7HfYjb3+TSBMDMiDztQYQxRPNzYhI9tos6WPhWgJdDS8/6BiklmFYE4BIkZ/P0aEC
+         UXRJjW98MIcJppb/DIJE1ApTtB4ErIYy2LEhoMKgGKo2Gnn6nW1WSW5lC+TDIYfAwnn1
+         IWqlWkvzrRzzE1OpeBKJZmp8x0iC04SaZbjJ9KCCAVDdLUc/KweSuEBq4ZaSc1dWif2m
+         +pSWEW6uOE3nhe0GhN0uzD+mX8nClQLOdtOu5ekQzh1bUxeJwlwnJLLG4cYfWLDSnGyK
+         pOrw5/TS1/rBWBMhsKDYhcsA2EckGJ/WzPZ4OsQLgioMj0HS6/FtdmXz3YKZRsGo/nHi
+         By8Q==
+X-Gm-Message-State: AOAM533b13NdTRPSfavP1zVcmidN6fQ0jSATG7Fl0/fQZ4ZIK3pWNOx+
+        JGQ2IOg48/niuzt/v4lX0jo=
+X-Google-Smtp-Source: ABdhPJxMkUCa0Jt19pwvXDbnDR/kEKhPFIHPsQYl4Vknfa2RZqF2s8yJyRHlBnZcXEuvrbs4dX8JMw==
+X-Received: by 2002:a05:6512:1051:: with SMTP id c17mr1911854lfb.206.1589432025595;
+        Wed, 13 May 2020 21:53:45 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id x8sm742454ljc.56.2020.05.13.21.53.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 May 2020 21:53:44 -0700 (PDT)
+Subject: Re: [PATCH v11 33/56] Input: atmel_mxt_ts - delay enabling IRQ when
+ not using regulators
+To:     "Wang, Jiada" <jiada_wang@mentor.com>, nick@shmanahar.org,
+        dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, bsz@semihalf.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
+References: <20200508055656.96389-1-jiada_wang@mentor.com>
+ <20200508055656.96389-34-jiada_wang@mentor.com>
+ <3a942afa-c047-2c88-1c8e-a90fa018738e@gmail.com>
+ <6af23ae6-2f1c-0459-d2b6-1b01ddb0c3dc@mentor.com>
+ <c88d24ef-e0e0-db3b-1000-b21af906eb4f@gmail.com>
+ <aaf99a11-037e-93d8-93e4-d83e3aa4a42e@mentor.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <63c93fc0-ac09-ec77-c590-08e419734205@gmail.com>
+Date:   Thu, 14 May 2020 07:53:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20190731124349.4474-1-gregkh@linuxfoundation.org>
- <20190731131045.GB147138@dtor-ws> <20190802104633.GA14823@kroah.com>
-In-Reply-To: <20190802104633.GA14823@kroah.com>
-From:   Emil Velikov <emil.l.velikov@gmail.com>
-Date:   Wed, 13 May 2020 23:18:15 +0100
-Message-ID: <CACvgo52+Uqx4GJFwadJoFzzt5EMc69HcW-+K9uxv9t25TtSDBg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] drivers, provide a way to add sysfs groups easily
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>, x86@kernel.org,
-        linux-input@vger.kernel.org,
-        linux-fbdev <linux-fbdev@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>,
-        platform-driver-x86@vger.kernel.org,
-        Tony Prisk <linux@prisktech.co.nz>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Richard Gong <richard.gong@linux.intel.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        LAKML <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <aaf99a11-037e-93d8-93e4-d83e3aa4a42e@mentor.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Greg,
+13.05.2020 08:07, Wang, Jiada пишет:
+> Hello Dmitry
+> 
+> On 2020/05/12 8:13, Dmitry Osipenko wrote:
+>> 11.05.2020 05:05, Wang, Jiada пишет:
+>>> Hello Dmitry
+>>>
+>>> Thanks for your comment and test,
+>>>
+>>> can you let me know which platform (board) you are using for test,
+>>> and DTS changes if you have added any.
+>>
+>> That's this device-tree [1] without any extra changes.
+>>
+> I am using Samsung Chromebook Pro for testing,
+> but obviously some of the use cases it can't cover.
+> 
+> I also would like to test on same device you are using,
+> would you please let me know how to boot Acer Iconia Tab A500
+> with custom images. Are you booting Linux or Android on it?
 
-On Fri, 2 Aug 2019 at 11:46, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+I'm using Ubuntu 20.04 on it at the moment. In order to boot custom
+images you'll need at least to install a custom recovery, which will
+allow to flash boot.img on eMMC storage.
 
->
-> I have now done this with patch 1/10.  Here's the pull info if any
-> subsystem maintainer wants to suck this into their tree to provide the
-> ability for drivers to add/remove attribute groups easily.
->
-> This is part of my driver-core tree now, and will go to Linus for
-> 5.4-rc1, along with a few platform drivers that have been acked by their
-> various subsystem maintainers that convert them to use this new
-> functionality.
->
-> If anyone has any questions about this, please let me know.
->
-> thanks,
->
-> greg k-h
->
-> -------------------
->
-> The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
->
->   Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git tags/dev_groups_all_drivers
->
-> for you to fetch changes up to 23b6904442d08b7dbed7622ed33b236d41a3aa8b:
->
->   driver core: add dev_groups to all drivers (2019-08-02 12:37:53 +0200)
->
-> ----------------------------------------------------------------
-> dev_groups added to struct driver
->
-> Persistent tag for others to pull this branch from
->
-> This is the first patch in a longer series that adds the ability for the
-> driver core to create and remove a list of attribute groups
-> automatically when the device is bound/unbound from a specific driver.
->
-> See:
->         https://lore.kernel.org/r/20190731124349.4474-2-gregkh@linuxfoundation.org
-> for details on this patch, and examples of how to use it in other
-> drivers.
->
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
-> ----------------------------------------------------------------
-> Dmitry Torokhov (1):
->       driver core: add dev_groups to all drivers
->
->  drivers/base/dd.c      | 14 ++++++++++++++
->  include/linux/device.h |  3 +++
->  2 files changed, 17 insertions(+)
-> _______________________________________________
+Ideally, you'll need to install an unlocked bootloader that will enable
+Android's fastboot, and thus, allow to easily boot kernel zImage without
+messing with flashing boot images.
 
-Was planning to re-spin DRM a series which uses .dev_groups, although
-I cannot see the core patch.
-Did the it get reverted or simply fell though the cracks?
+Could you please tell what is the current state of yours device: does it
+have a stock Android installed? is it rooted? is custom recovery installed?
 
--Emil
+My device was unlocked about 8+ years ago, so I'm not sure what's the
+best way to do it nowadays. The XDA forums [1] could be a good starting
+point, I may give you some advises once you'll tell what's the current
+status of yours device.
+
+[1] https://forum.xda-developers.com/iconia-a500
