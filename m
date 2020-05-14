@@ -2,35 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A29CC1D3C2E
-	for <lists+linux-input@lfdr.de>; Thu, 14 May 2020 21:15:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E34DF1D3C41
+	for <lists+linux-input@lfdr.de>; Thu, 14 May 2020 21:15:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728046AbgENSwB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 May 2020 14:52:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49948 "EHLO mail.kernel.org"
+        id S1728245AbgENSwQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 May 2020 14:52:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50288 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727992AbgENSwA (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 May 2020 14:52:00 -0400
+        id S1728219AbgENSwP (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 14 May 2020 14:52:15 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1B2F3207BB;
-        Thu, 14 May 2020 18:51:59 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A2D3F206A5;
+        Thu, 14 May 2020 18:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589482319;
-        bh=6GqGiBkPk3MaQefo9yE73Qx5YLZ+nV2rg38obqNigOk=;
+        s=default; t=1589482334;
+        bh=y/2U/2+koBn6adqcce68TNbotsnwsUcRTyj48DUftl4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=D8pZTPqg000a1rXkdFgTSjP6/7X8DYrhtAWkG63PwnYmpGanWMHTOOCV/FL/vu/cF
-         ntBjEKX/Z5tPpA0W/xfGAgKs/U4lnOdiOxXxfvnv6gKW3BN4hHixbdVFd7+MACEbbU
-         oD8CZGo/NryDoZoBQ+JJj3xaZDA/kz4upissI6U0=
+        b=sE2uGGCXi0TmjykrU6JecrkjwFYjY64R84/wZ3kGP0vZn1CAxt2LgEyjBGtytduSV
+         VTVenWfbJyJu9GarTdEHA00EuN+mDwNVNuFeX2uwdEfNMExWwVrC+grcwTvMxsF7Vi
+         xypDJlvtGfUYmohBzDEmEb8fkzr1qk4MzIs4hMsw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jiri Kosina <jkosina@suse.cz>,
-        Xiaojian Cao <xiaojian.cao@cn.alps.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 08/62] HID: alps: ALPS_1657 is too specific; use U1_UNICORN_LEGACY instead
-Date:   Thu, 14 May 2020 14:50:53 -0400
-Message-Id: <20200514185147.19716-8-sashal@kernel.org>
+Cc:     Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.6 20/62] HID: i2c-hid: reset Synaptics SYNA2393 on resume
+Date:   Thu, 14 May 2020 14:51:05 -0400
+Message-Id: <20200514185147.19716-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514185147.19716-1-sashal@kernel.org>
 References: <20200514185147.19716-1-sashal@kernel.org>
@@ -43,53 +43,53 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jiri Kosina <jkosina@suse.cz>
+From: Daniel Playfair Cal <daniel.playfair.cal@gmail.com>
 
-[ Upstream commit 185af3e775b693f773d9a4b5a8c3cda69fc8ca0f ]
+[ Upstream commit 538f67407e2c0e5ed2a46e7d7ffa52f2e30c7ef8 ]
 
-HID_DEVICE_ID_ALPS_1657 PID is too specific, as there are many other
-ALPS hardware IDs using this particular touchpad.
+On the Dell XPS 9570, the Synaptics SYNA2393 touchpad generates spurious
+interrupts after resuming from suspend until it receives some input or
+is reset. Add it to the quirk I2C_HID_QUIRK_RESET_ON_RESUME so that it
+is reset when resuming from suspend.
 
-Rename the identifier to HID_DEVICE_ID_ALPS_U1_UNICORN_LEGACY in order
-to describe reality better.
+More information about the bug can be found in this mailing list
+discussion: https://www.spinics.net/lists/linux-input/msg59530.html
 
-Fixes: 640e403b1fd24 ("HID: alps: Add AUI1657 device ID")
-Reported-by: Xiaojian Cao <xiaojian.cao@cn.alps.com>
+Signed-off-by: Daniel Playfair Cal <daniel.playfair.cal@gmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-alps.c | 2 +-
- drivers/hid/hid-ids.h  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/hid/hid-ids.h              | 3 +++
+ drivers/hid/i2c-hid/i2c-hid-core.c | 2 ++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/drivers/hid/hid-alps.c b/drivers/hid/hid-alps.c
-index c2a2bd5288906..b2ad319a74b9a 100644
---- a/drivers/hid/hid-alps.c
-+++ b/drivers/hid/hid-alps.c
-@@ -802,7 +802,7 @@ static int alps_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		break;
- 	case HID_DEVICE_ID_ALPS_U1_DUAL:
- 	case HID_DEVICE_ID_ALPS_U1:
--	case HID_DEVICE_ID_ALPS_1657:
-+	case HID_DEVICE_ID_ALPS_U1_UNICORN_LEGACY:
- 		data->dev_type = U1;
- 		break;
- 	default:
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 7d769ca864a7f..b3cc26ca375fd 100644
+index b3cc26ca375fd..55afc089cb257 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -79,9 +79,9 @@
- #define HID_DEVICE_ID_ALPS_U1_DUAL_PTP	0x121F
- #define HID_DEVICE_ID_ALPS_U1_DUAL_3BTN_PTP	0x1220
- #define HID_DEVICE_ID_ALPS_U1		0x1215
-+#define HID_DEVICE_ID_ALPS_U1_UNICORN_LEGACY         0x121E
- #define HID_DEVICE_ID_ALPS_T4_BTNLESS	0x120C
- #define HID_DEVICE_ID_ALPS_1222		0x1222
--#define HID_DEVICE_ID_ALPS_1657         0x121E
+@@ -1094,6 +1094,9 @@
+ #define USB_DEVICE_ID_SYMBOL_SCANNER_2	0x1300
+ #define USB_DEVICE_ID_SYMBOL_SCANNER_3	0x1200
  
- #define USB_VENDOR_ID_AMI		0x046b
- #define USB_DEVICE_ID_AMI_VIRT_KEYBOARD_AND_MOUSE	0xff10
++#define I2C_VENDOR_ID_SYNAPTICS     0x06cb
++#define I2C_PRODUCT_ID_SYNAPTICS_SYNA2393   0x7a13
++
+ #define USB_VENDOR_ID_SYNAPTICS		0x06cb
+ #define USB_DEVICE_ID_SYNAPTICS_TP	0x0001
+ #define USB_DEVICE_ID_SYNAPTICS_INT_TP	0x0002
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 009000c5d55cd..294c84e136d72 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -177,6 +177,8 @@ static const struct i2c_hid_quirks {
+ 		 I2C_HID_QUIRK_BOGUS_IRQ },
+ 	{ USB_VENDOR_ID_ALPS_JP, HID_ANY_ID,
+ 		 I2C_HID_QUIRK_RESET_ON_RESUME },
++	{ I2C_VENDOR_ID_SYNAPTICS, I2C_PRODUCT_ID_SYNAPTICS_SYNA2393,
++		 I2C_HID_QUIRK_RESET_ON_RESUME },
+ 	{ USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720,
+ 		I2C_HID_QUIRK_BAD_INPUT_SIZE },
+ 	{ 0, 0 }
 -- 
 2.20.1
 
