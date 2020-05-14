@@ -2,39 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E986A1D3BF6
-	for <lists+linux-input@lfdr.de>; Thu, 14 May 2020 21:06:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 226721D3BC4
+	for <lists+linux-input@lfdr.de>; Thu, 14 May 2020 21:06:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729159AbgENTGb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 May 2020 15:06:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53296 "EHLO mail.kernel.org"
+        id S1729011AbgENSyT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 May 2020 14:54:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54220 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728840AbgENSxt (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 May 2020 14:53:49 -0400
+        id S1729006AbgENSyS (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 14 May 2020 14:54:18 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E12A7207D8;
-        Thu, 14 May 2020 18:53:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 87C5220727;
+        Thu, 14 May 2020 18:54:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589482428;
-        bh=luYS6nZhnYfPoPuRBeriezK2WomVKbkolapMTsl/qas=;
+        s=default; t=1589482458;
+        bh=SnUz04ty+5J5f6STJXs9ZUb8m5aBjjSxuJ03NHZI1hA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JooYJbpa2TyUhzzTsMOMAYPwYDo329IsoZStk9c8pBWLpZ0MFVbOOOiWstnPJV3aK
-         CXhGUE7fOhqzX5G/UZ7qpqzWtyArT9tVoGy+zSPBQyj4bLy+r4IcZXio2EGKsuBITk
-         Olb1h+iFTixkqfzK0CDWF9m8PiAouQT86nAuQFMI=
+        b=MuyNCAkiEWQDLznCTE2fy9LVnlcWJdw4hwb5lr6SvdqZEKvRvynKmeskc4YeDkcxT
+         KIx/Pp8LslhPgKFJV7zWTsJdaCITSueeNxl8odYwSvcIEukiyHsYroEQRcSJ79exkT
+         UEE8zwG1CJdZMNXAVdcqMFVgM0dCELEJ+QB/+tI4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mario Limonciello <mario.limonciello@dell.com>,
+Cc:     Sebastian Reichel <sebastian.reichel@collabora.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 30/49] HID: quirks: Add HID_QUIRK_NO_INIT_REPORTS quirk for Dell K12A keyboard-dock
-Date:   Thu, 14 May 2020 14:52:51 -0400
-Message-Id: <20200514185311.20294-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 03/31] HID: multitouch: add eGalaxTouch P80H84 support
+Date:   Thu, 14 May 2020 14:53:45 -0400
+Message-Id: <20200514185413.20755-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200514185311.20294-1-sashal@kernel.org>
-References: <20200514185311.20294-1-sashal@kernel.org>
+In-Reply-To: <20200514185413.20755-1-sashal@kernel.org>
+References: <20200514185413.20755-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,50 +43,51 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-[ Upstream commit 1e189f267015a098bdcb82cc652d13fbf2203fa0 ]
+[ Upstream commit f9e82295eec141a0569649d400d249333d74aa91 ]
 
-Add a HID_QUIRK_NO_INIT_REPORTS quirk for the Dell K12A keyboard-dock,
-which can be used with various Dell Venue 11 models.
+Add support for P80H84 touchscreen from eGalaxy:
 
-Without this quirk the keyboard/touchpad combo works fine when connected
-at boot, but when hotplugged 9 out of 10 times it will not work properly.
-Adding the quirk fixes this.
+  idVendor           0x0eef D-WAV Scientific Co., Ltd
+  idProduct          0xc002
+  iManufacturer           1 eGalax Inc.
+  iProduct                2 eGalaxTouch P80H84 2019 vDIVA_1204_T01 k4.02.146
 
-Cc: Mario Limonciello <mario.limonciello@dell.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/hid/hid-ids.h        | 1 +
+ drivers/hid/hid-multitouch.c | 3 +++
+ 2 files changed, 4 insertions(+)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 3341133df3a8d..13b7222ef2c91 100644
+index b2fff44c8109a..ae145bdcd83d5 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -1106,6 +1106,7 @@
- #define USB_DEVICE_ID_SYNAPTICS_LTS2	0x1d10
- #define USB_DEVICE_ID_SYNAPTICS_HD	0x0ac3
- #define USB_DEVICE_ID_SYNAPTICS_QUAD_HD	0x1ac3
-+#define USB_DEVICE_ID_SYNAPTICS_DELL_K12A	0x2819
- #define USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012	0x2968
- #define USB_DEVICE_ID_SYNAPTICS_TP_V103	0x5710
- #define USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5	0x81a7
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index ae64a286a68f4..90ec2390ef688 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -163,6 +163,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_LTS2), HID_QUIRK_NO_INIT_REPORTS },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_QUAD_HD), HID_QUIRK_NO_INIT_REPORTS },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_TP_V103), HID_QUIRK_NO_INIT_REPORTS },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_DELL_K12A), HID_QUIRK_NO_INIT_REPORTS },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPMAX, USB_DEVICE_ID_TOPMAX_COBRAPAD), HID_QUIRK_BADPAD },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_TOUCHPACK, USB_DEVICE_ID_TOUCHPACK_RTS), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_TPV, USB_DEVICE_ID_TPV_OPTICAL_TOUCHSCREEN_8882), HID_QUIRK_NOGET },
+@@ -378,6 +378,7 @@
+ #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_7349	0x7349
+ #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_73F7	0x73f7
+ #define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_A001	0xa001
++#define USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_C002	0xc002
+ 
+ #define USB_VENDOR_ID_ELAN		0x04f3
+ #define USB_DEVICE_ID_TOSHIBA_CLICK_L9W	0x0401
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 19dfd8acd0dab..8baf10beb1d5d 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -1909,6 +1909,9 @@ static const struct hid_device_id mt_devices[] = {
+ 	{ .driver_data = MT_CLS_EGALAX_SERIAL,
+ 		MT_USB_DEVICE(USB_VENDOR_ID_DWAV,
+ 			USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_A001) },
++	{ .driver_data = MT_CLS_EGALAX,
++		MT_USB_DEVICE(USB_VENDOR_ID_DWAV,
++			USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_C002) },
+ 
+ 	/* Elitegroup panel */
+ 	{ .driver_data = MT_CLS_SERIAL,
 -- 
 2.20.1
 
