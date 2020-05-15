@@ -2,131 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48A631D56FB
-	for <lists+linux-input@lfdr.de>; Fri, 15 May 2020 19:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FF851D58ED
+	for <lists+linux-input@lfdr.de>; Fri, 15 May 2020 20:19:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726204AbgEORCL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 May 2020 13:02:11 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:37019 "EHLO
-        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726144AbgEORCK (ORCPT
+        id S1726170AbgEOSTS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 May 2020 14:19:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40016 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726249AbgEOSTR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 May 2020 13:02:10 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id BC0785C009A;
-        Fri, 15 May 2020 13:02:09 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Fri, 15 May 2020 13:02:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hmh.eng.br; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=KHi3vAnNeG4L/A13DMJfIvBD/Gg
-        rl6tK6va8uWy/HFw=; b=i7sZYLxAYfCSq+erbSzt+PtEFjfPHAYGF6w/hAvWVhy
-        /uSrKITBIzEoYtLOTcQc6h1jku94N7UI9sPvVxIpO7m9LnY1MnhDHxPBp3VwODeQ
-        BCBaOmFiRW98NH6kn4CwWLe4rT06zmPKH27AiNLsPdl1gDMK0AP72mHYBso4FhUM
-        DdFi1Yb+noO4As1AstGZnae+sHNBMJt9QYlrJmYnwvo7/DrwJk+7/VOUpqSb0Uxz
-        kKigp3fcZjrtJuUtTkx40UVGY31eINNYHmbGs3owayb5YIbt3s/5ndtRyVBmfzJT
-        gMcYy3Su1cp1KdQ0/cFGLcbcbPFK4aZj9INuZHWffzw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=KHi3vA
-        nNeG4L/A13DMJfIvBD/Ggrl6tK6va8uWy/HFw=; b=NjJ4hDUSUXL1KDeIQD5D3d
-        wQ8EOCI7+j4QAPnUHjEFF3g334JWLE9gQHaqWLkM/RLIXQOZeF3KunB0MhrYssiW
-        1qABZnlFowVfWtwft5ABxDcanlfXay/25BUH+o/SlH35emwjfWRV877jbX69w8HZ
-        tSdXcjvSSruT7uZ6XSYCGCxfIWmt+Df5+f8PeJj2qd8SpWTICqkrKjDEVdWvOIMT
-        gtVELqmQEozB8QOHS9PrJFMxOmzgxkwyngH7D6jW807j4a6ZqSBzxBm4Gp0WowqT
-        ntNQE6ZahGwdCncKvBHIvMrh9OmCancKTkLgOuZgSsJsseXd97xxeLvq20IT0dAw
-        ==
-X-ME-Sender: <xms:Ecu-XlMxfIUOjPq-6D4cd8XZQwFSh4tAg7-XR25dJuHiLwAhCzYEjA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrleekgddutdehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjfgesthdttddttdervdenucfhrhhomhepjfgvnhhr
-    ihhquhgvucguvgcuofhorhgrvghsucfjohhlshgthhhuhhcuoehhmhhhsehhmhhhrdgvnh
-    hgrdgsrheqnecuggftrfgrthhtvghrnhepveduteejgeeiudefuefgieehleejkeefudfh
-    jeefgeekheekvddvheehleegveeinecukfhppedujeejrdduleegrdejrdefvdenucevlh
-    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehhmhhhsehhmhhh
-    rdgvnhhgrdgsrh
-X-ME-Proxy: <xmx:Ecu-Xn-uqyRV4s2QNPAi79Ru1mgucFSmRhuvCSzwOZSltP05TZQCSQ>
-    <xmx:Ecu-XkS-U9J5Ptaw3DSsuouiuFrI2TdwhDyiFg0UZLrwN6DrZca5Sw>
-    <xmx:Ecu-XhuHLG7BIbKpossdUfa5YO5TOsH7H34Mk91IHsGWfYORFgDMKQ>
-    <xmx:Ecu-XtnfGAQH0kywf5tzyBgp4Phds4z9mQ-V0fIIcH0IO4N0g5WzDw>
-Received: from khazad-dum.debian.net (unknown [177.194.7.32])
-        by mail.messagingengine.com (Postfix) with ESMTPA id DEDCC3280059;
-        Fri, 15 May 2020 13:02:08 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by localhost.khazad-dum.debian.net (Postfix) with ESMTP id 89F3A340322E;
-        Fri, 15 May 2020 14:02:07 -0300 (-03)
-X-Virus-Scanned: Debian amavisd-new at khazad-dum.debian.net
-Received: from khazad-dum.debian.net ([127.0.0.1])
-        by localhost (khazad-dum2.khazad-dum.debian.net [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id jmBy-JaIsHn2; Fri, 15 May 2020 14:02:02 -0300 (-03)
-Received: by khazad-dum.debian.net (Postfix, from userid 1000)
-        id 8A4F0340017E; Fri, 15 May 2020 14:02:02 -0300 (-03)
-Date:   Fri, 15 May 2020 14:02:02 -0300
-From:   Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-input@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
+        Fri, 15 May 2020 14:19:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589566755;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Fedn2inRka4QMAnXx9FxSm7/vZYS9uY++6sVEGlzAa0=;
+        b=FmfAuVh4QGkOpPgfhCFAuYt7jmv7Qagj1fzOAUyM01z8aAILrmmE7Ffn2dB4qTegdq1Shp
+        d/5G7ZCAVreovBNZmSD9zeIoqfER5+DTXru1T58BU9nfaNx7+GQTLlGXQU0xm81jmqojTk
+        ePaeUnUZj/WKqZMpPivCquDW6Q5eJEI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-O3iAL5IxM9GiUmnNIRijpg-1; Fri, 15 May 2020 14:19:13 -0400
+X-MC-Unique: O3iAL5IxM9GiUmnNIRijpg-1
+Received: by mail-wm1-f69.google.com with SMTP id l21so1554423wmh.2
+        for <linux-input@vger.kernel.org>; Fri, 15 May 2020 11:19:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Fedn2inRka4QMAnXx9FxSm7/vZYS9uY++6sVEGlzAa0=;
+        b=fGz9CCc9ZGpBKTsRDIX+mQOhXjFCemwUKF+/jPco/dH1o7AL7meT8w1jg6kEE7qZO8
+         0Fn0roAx87nitq1xiyHtQGiIL0P/UlwNAtu2BL5/fV2OwEYDkbPoUjzgjQ0waifPbMi8
+         ImY4mgyrHhIUFAjbBNM0p8sZFVfHuSewQNNfnSqHDnL+LDEbgtUkoh01FsIfA6ZF+2ca
+         T6HFWUlEhZyZzh1wC5aYYAI5+bGdePngsnKgjJBB9kNZ9efqjRaLe6CSQJBMR8RdWjbP
+         3WU4bH4txjMUUTJe04nb1F+L1E2haiO/l7nC/A6+tV5CeUJoodavewKEV0HWlpipB9AB
+         eTew==
+X-Gm-Message-State: AOAM530ys5sVo8AO9V12YRw4kAhCcY0GLoNDlsDIYLezzCj9Q7lVLHv4
+        w+ShdaJvjC5/L5uDxQ8BXAiCm0Nzde0M6ns/XqD3i71rMjuI6X2Hfm3bjAesqYOhfpLCAg+QlFy
+        V471YxrRodExXvjxgUsi18S4=
+X-Received: by 2002:a1c:b406:: with SMTP id d6mr5299520wmf.89.1589566752673;
+        Fri, 15 May 2020 11:19:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwEhyZogIb52tbS8Sjh71yaPa5wKbVCzzV1bSu62tN2QyZWoHUXHTTKTerADtg5ez9J3v5UBw==
+X-Received: by 2002:a1c:b406:: with SMTP id d6mr5299458wmf.89.1589566752273;
+        Fri, 15 May 2020 11:19:12 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id a15sm4604338wrw.56.2020.05.15.11.19.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 May 2020 11:19:11 -0700 (PDT)
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
         Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com
-Subject: Re: [PATCHv2 5/7] platform/x86: thinkpad_acpi: Use
- input_device_enabled()
-Message-ID: <20200515170202.GA6364@khazad-dum.debian.net>
-References: <20200515164943.28480-1-andrzej.p@collabora.com>
- <20200515165227.28859-1-andrzej.p@collabora.com>
+        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>
+References: <20200506002746.GB89269@dtor-ws>
+ <20200515164943.28480-1-andrzej.p@collabora.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
+Date:   Fri, 15 May 2020 20:19:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200515165227.28859-1-andrzej.p@collabora.com>
-X-GPG-Fingerprint1: 4096R/0x0BD9E81139CB4807: C467 A717 507B BAFE D3C1  6092
- 0BD9 E811 39CB 4807
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200515164943.28480-1-andrzej.p@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 15 May 2020, Andrzej Pietrasiewicz wrote:
-> Use the new helper. Inspecting input device's 'users' member needs to be
-> done under device's mutex, so add appropriate invocations.
+Hi Andrezj,
+
+On 5/15/20 6:49 PM, Andrzej Pietrasiewicz wrote:
+> Userspace might want to implement a policy to temporarily disregard input
+> from certain devices, including not treating them as wakeup sources.
 > 
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> An example use case is a laptop, whose keyboard can be folded under the
+> screen to create tablet-like experience. The user then must hold the laptop
+> in such a way that it is difficult to avoid pressing the keyboard keys. It
+> is therefore desirable to temporarily disregard input from the keyboard,
+> until it is folded back. This obviously is a policy which should be kept
+> out of the kernel, but the kernel must provide suitable means to implement
+> such a policy.
 
-Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Actually libinput already binds together (inside libinput) SW_TABLET_MODE
+generating evdev nodes and e.g. internal keyboards on devices with 360°
+hinges for this reason. libinput simply closes the /dev/input/event#
+node when folded and re-opens it when the keyboard should become active
+again. Thus not only suppresses events but allows e.g. touchpads to
+enter runtime suspend mode which saves power. Typically closing the
+/dev/input/event# node will also disable the device as wakeup source.
 
-> ---
->  drivers/platform/x86/thinkpad_acpi.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-> index 0f704484ae1d..8ae11b8c3ebb 100644
-> --- a/drivers/platform/x86/thinkpad_acpi.c
-> +++ b/drivers/platform/x86/thinkpad_acpi.c
-> @@ -2671,9 +2671,10 @@ static void hotkey_poll_setup(const bool may_warn)
->  	const u32 poll_driver_mask = hotkey_driver_mask & hotkey_source_mask;
->  	const u32 poll_user_mask = hotkey_user_mask & hotkey_source_mask;
->  
-> +	mutex_lock(&tpacpi_inputdev->mutex);
->  	if (hotkey_poll_freq > 0 &&
->  	    (poll_driver_mask ||
-> -	     (poll_user_mask && tpacpi_inputdev->users > 0))) {
-> +	     (poll_user_mask && input_device_enabled(tpacpi_inputdev)))) {
->  		if (!tpacpi_hotkey_task) {
->  			tpacpi_hotkey_task = kthread_run(hotkey_kthread,
->  					NULL, TPACPI_NVRAM_KTHREAD_NAME);
-> @@ -2690,6 +2691,7 @@ static void hotkey_poll_setup(const bool may_warn)
->  				  poll_user_mask, poll_driver_mask);
->  		}
->  	}
-> +	mutex_unlock(&tpacpi_inputdev->mutex);
->  }
->  
->  static void hotkey_poll_setup_safe(const bool may_warn)
+So I wonder what this series actually adds for functionality for
+userspace which can not already be achieved this way?
 
--- 
-  Henrique Holschuh
+I also noticed that you keep the device open (do not call the
+input_device's close callback) when inhibited and just throw away
+any events generated. This seems inefficient and may lead to
+the internal state getting out of sync. What if a key is pressed
+while inhibited and then the device is uninhibited while the key
+is still pressed?  Now the press event is lost and userspace
+querying the current state will see the pressed key as being
+released.
 
-  "One disk to rule them all, One disk to find them. One disk to bring
-  them all and in the darkness grind them. In the Land of Redmond
-  where the shadows lie." -- The Silicon Valley Tarot
+On top of this you add special inhibit and uninhibit callbacks
+and implement those for just a few devices. How do these differ
+from just closing the device and later opening it again ?
+
+Also using a sysfs property for this is very weird given that the
+rest of the evdev interface is using ioctls for everything...
+
+So all in all I see a lot of question marks here and I think we
+need to have a detailed discussion about what use-cases this
+series tries to enable before moving forward with this.
+
+Regards,
+
+Hans
+
