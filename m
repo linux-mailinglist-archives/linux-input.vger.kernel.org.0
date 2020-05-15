@@ -2,37 +2,28 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 167321D56A8
-	for <lists+linux-input@lfdr.de>; Fri, 15 May 2020 18:52:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7C7F1D56AE
+	for <lists+linux-input@lfdr.de>; Fri, 15 May 2020 18:52:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726221AbgEOQw2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 May 2020 12:52:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57312 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726023AbgEOQw2 (ORCPT
+        id S1726607AbgEOQwi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 May 2020 12:52:38 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:45904 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726023AbgEOQwi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 May 2020 12:52:28 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C4E7C061A0C;
-        Fri, 15 May 2020 09:52:28 -0700 (PDT)
+        Fri, 15 May 2020 12:52:38 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: andrzej.p)
-        with ESMTPSA id C9C712A333A
+        with ESMTPSA id E3BBE2A32FD
 From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+To:     linux-input@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Cc:     Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
         Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
         kernel@collabora.com
-Subject: [PATCHv2 4/7] iio: adc: exynos: Use input_device_enabled()
-Date:   Fri, 15 May 2020 18:52:10 +0200
-Message-Id: <20200515165210.28813-1-andrzej.p@collabora.com>
+Subject: [PATCHv2 5/7] platform/x86: thinkpad_acpi: Use input_device_enabled()
+Date:   Fri, 15 May 2020 18:52:27 +0200
+Message-Id: <20200515165227.28859-1-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200515164943.28480-1-andrzej.p@collabora.com>
 References: <20200515164943.28480-1-andrzej.p@collabora.com>
@@ -41,45 +32,38 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-A new helper is available, so use it. Inspecting 'users' member of
-input_dev requires taking device's mutex.
+Use the new helper. Inspecting input device's 'users' member needs to be
+done under device's mutex, so add appropriate invocations.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- drivers/iio/adc/exynos_adc.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/platform/x86/thinkpad_acpi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/iio/adc/exynos_adc.c b/drivers/iio/adc/exynos_adc.c
-index 22131a677445..1253d94089a7 100644
---- a/drivers/iio/adc/exynos_adc.c
-+++ b/drivers/iio/adc/exynos_adc.c
-@@ -630,10 +630,13 @@ static irqreturn_t exynos_ts_isr(int irq, void *dev_id)
- 	struct exynos_adc *info = dev_id;
- 	struct iio_dev *dev = dev_get_drvdata(info->dev);
- 	u32 x, y;
--	bool pressed;
-+	bool pressed, cont;
- 	int ret;
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index 0f704484ae1d..8ae11b8c3ebb 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -2671,9 +2671,10 @@ static void hotkey_poll_setup(const bool may_warn)
+ 	const u32 poll_driver_mask = hotkey_driver_mask & hotkey_source_mask;
+ 	const u32 poll_user_mask = hotkey_user_mask & hotkey_source_mask;
  
--	while (info->input->users) {
-+	mutex_lock(&info->input);
-+	cont = input_device_enabled(info->input);
-+	mutex_unlock(&info->input);
-+	while (cont) {
- 		ret = exynos_read_s3c64xx_ts(dev, &x, &y);
- 		if (ret == -ETIMEDOUT)
- 			break;
-@@ -651,6 +654,10 @@ static irqreturn_t exynos_ts_isr(int irq, void *dev_id)
- 		input_sync(info->input);
- 
- 		usleep_range(1000, 1100);
-+
-+		mutex_lock(&info->input);
-+		cont = input_device_enabled(info->input);
-+		mutex_unlock(&info->input);
++	mutex_lock(&tpacpi_inputdev->mutex);
+ 	if (hotkey_poll_freq > 0 &&
+ 	    (poll_driver_mask ||
+-	     (poll_user_mask && tpacpi_inputdev->users > 0))) {
++	     (poll_user_mask && input_device_enabled(tpacpi_inputdev)))) {
+ 		if (!tpacpi_hotkey_task) {
+ 			tpacpi_hotkey_task = kthread_run(hotkey_kthread,
+ 					NULL, TPACPI_NVRAM_KTHREAD_NAME);
+@@ -2690,6 +2691,7 @@ static void hotkey_poll_setup(const bool may_warn)
+ 				  poll_user_mask, poll_driver_mask);
+ 		}
  	}
++	mutex_unlock(&tpacpi_inputdev->mutex);
+ }
  
- 	writel(0, ADC_V1_CLRINTPNDNUP(info->regs));
+ static void hotkey_poll_setup_safe(const bool may_warn)
 -- 
 2.17.1
 
