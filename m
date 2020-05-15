@@ -2,157 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A84861D4754
-	for <lists+linux-input@lfdr.de>; Fri, 15 May 2020 09:48:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BA461D4ADD
+	for <lists+linux-input@lfdr.de>; Fri, 15 May 2020 12:26:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726708AbgEOHse (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 May 2020 03:48:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21090 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726694AbgEOHse (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 May 2020 03:48:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589528912;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lrkIfwxeCEshEwlTxrSJjVZzwBnFuKqAWZhVkJHKVPc=;
-        b=DiraknC33qeFjffEqUZXFKXhZMICr6E1iMEAgoQpYlo4BBg+6hw+U3ZGu0Mifd0iKOYoZe
-        bjQVydays0JG0nx+4gJwQ5gkHKBdBJAWnbZ7d61F0NAcaRBXWt76/WJASuQuK8vnlRivxg
-        JIp3Aj6HvQoCN36mgigQOAzfR0kPyWQ=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-38_ZdLfSNUGAwZ1b3GpE8A-1; Fri, 15 May 2020 03:48:30 -0400
-X-MC-Unique: 38_ZdLfSNUGAwZ1b3GpE8A-1
-Received: by mail-qv1-f71.google.com with SMTP id z1so1733631qvd.23
-        for <linux-input@vger.kernel.org>; Fri, 15 May 2020 00:48:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lrkIfwxeCEshEwlTxrSJjVZzwBnFuKqAWZhVkJHKVPc=;
-        b=ceU+7BIuTW/PdhtCEeMsoCFaKGKT9HihY5sqlRobrOaDwe3uA/A/1P9JOoJrKXQUwK
-         GCG65sxtivek/JYqQmshMSfu87EsMCUAEgvqF4tbrYRWlJen6MxAcv02/Je8NY8zL1tx
-         a88+hs0Uya8OFvIi2j1MkmnHVu3WN5bnYaYT0abQ5IJJsSNH0DfnRl5fZeHgC0vHOsBz
-         Wg4EIiwgDQOqxmYGjCg7YCMJ5axG44eQk8/0dhJGCmYAdzzfbyKfDbHuCMTfPWkIkI1f
-         5fAjXSx0d92YXk6dxTunVcFodhLvqWQu2RBU5nFuLRJq+y2/FZjZezzXVrsSeJKU5nZu
-         cxFQ==
-X-Gm-Message-State: AOAM533I+8oPUtAy0KjxyDr2PLVdEyDb2hcF/Fb/MxpcNrwKxu2ODv6h
-        lKC9rG/F6x7QAnu4Ns6NT+gxqC/fwHb1c7v7flBgRy0634TwuAnFlYzggKXZyyqZFG2frTl/xa/
-        2xdlSDTTBWCVsGZhc1CGrz5tdZmcvZUN65mI2ttk=
-X-Received: by 2002:ac8:6edd:: with SMTP id f29mr2047663qtv.345.1589528910059;
-        Fri, 15 May 2020 00:48:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw387Z4mFpYQMaigLmnc38PZNS3LcKkK3D3mkWbK6rvh+WwNGtUDHE7i5kLJQgehMJxE+xgWxvS80JI/uOKoG8=
-X-Received: by 2002:ac8:6edd:: with SMTP id f29mr2047651qtv.345.1589528909731;
- Fri, 15 May 2020 00:48:29 -0700 (PDT)
+        id S1728073AbgEOK0K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 May 2020 06:26:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40838 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728053AbgEOK0K (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 15 May 2020 06:26:10 -0400
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 21BA6206B6;
+        Fri, 15 May 2020 10:26:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589538370;
+        bh=GjhxDA2RKzNeJYUxoTNiF+dY0Weh6A59Cpbsz/pBpIk=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=u42J3Kar1lJV87G25ONXajxwDbeUaCc1+AaMMqWHhiuCHrTV5i6Vf6lPlhU1UDPv2
+         XUswIupYrY1FiN/Zn6MI6EpOtCiA2HCvobFLoOee0XTB4Buwha6dzTD9MhEnr0oVIv
+         sYRf1D0emfeF2nkcSEo9FpBGPsZrJJQZa130Mauo=
+Date:   Fri, 15 May 2020 12:26:07 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     free5lot <mail@free5lot.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5.7-rc5] HID: apple: Swap the Fn and Left Control keys
+ on Apple keyboards
+In-Reply-To: <27588684-a25a-83fd-7204-df3d6c20aac1@free5lot.com>
+Message-ID: <nycvar.YFH.7.76.2005151221020.25812@cbobk.fhfr.pm>
+References: <27588684-a25a-83fd-7204-df3d6c20aac1@free5lot.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <CAO-hwJJjoEyoKokK6DS_Kb0su2bkC2wzMx-gzaWQcG+dn5vVdw@mail.gmail.com>
- <20200514224929.GA1026616@jelly>
-In-Reply-To: <20200514224929.GA1026616@jelly>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 15 May 2020 09:48:18 +0200
-Message-ID: <CAO-hwJ+FbXu2X7j3tCuKDtVp7UAmSz6m8nipZX4Je1CQf2TdQQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND] HID: input: do not run GET_REPORT unless there's a
- Resolution Multiplier
-To:     Peter Hutterer <peter.hutterer@who-t.net>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>, Wen He <wen.he_1@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Peter,
+On Fri, 15 May 2020, free5lot wrote:
 
-On Fri, May 15, 2020 at 12:49 AM Peter Hutterer
-<peter.hutterer@who-t.net> wrote:
->
-> hid-multitouch currently runs GET_REPORT for Contact Max and again to
-> retrieve the Win8 blob. If both are within the same report, the
-> Resolution Multiplier code calls GET_FEATURE again and this time,
-> possibly due to timing, it causes the ILITEK-TP device interpret the
-> GET_FEATURE as an instruction to change the mode and effectively stop
-> the device from functioning as expected.
->
-> Notably: the device doesn't even have a Resolution Multiplier so it
-> shouldn't be affected by any of this at all.
->
-> Fix this by making sure we only execute GET_REPORT if there is
-> a Resolution Multiplier in the respective report.
->
-> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-> Tested-by: Wen He <wen.he_1@nxp.com>
+> This patch allows users to swap the Fn and left Control keys on all Apple
+> keyboards: internal (e.g. Macbooks) and external (both wired and wireless).
+> The patch adds a new hid-apple module param: swap_fn_leftctrl (off by
+> default).
+> 
+> Signed-off-by: Zakhar Semenov <mail@free5lot.com>
 > ---
-> Same patch as before, but this time with diff.noprefix set to false again.
-> Too bad that setting messes up format-patch :( Apologies for the broken
-> one.
+> This patch was created to eliminate the inconvenience of having an unusual
+> order of 4 left-bottom keys on Apple keyboards for GNU+Linux users.
+> Now it's possible to swap the Fn and left Control keys on Macbooks and
+> external Apple keyboards and have the same experience as on usual PC layout.
+> 
+> The patch has been heavily tested for about 5 years by community at:
+> https://github.com/free5lot/hid-apple-patched
+> The patch is small and straightforward. The modified version of hid-apple
+> is currently mentioned in wiki-documentation of several major GNU/Linux
+> distributions (e.g. Ubuntu, Arch, openSUSE).
 
-Thanks for the quick respin. I was about to apply it, and then I
-realized that something was off (see inlined)
+Hi,
 
->
->  drivers/hid/hid-input.c | 22 ++++++++++++----------
->  1 file changed, 12 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index dea9cc65bf80..a54824d451bf 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -1560,21 +1560,12 @@ static bool __hidinput_change_resolution_multipliers(struct hid_device *hid,
->  {
->         struct hid_usage *usage;
->         bool update_needed = false;
-> +       bool get_report_completed = false;
->         int i, j;
->
->         if (report->maxfield == 0)
->                 return false;
->
-> -       /*
-> -        * If we have more than one feature within this report we
-> -        * need to fill in the bits from the others before we can
-> -        * overwrite the ones for the Resolution Multiplier.
-> -        */
-> -       if (report->maxfield > 1) {
-> -               hid_hw_request(hid, report, HID_REQ_GET_REPORT);
-> -               hid_hw_wait(hid);
-> -       }
-> -
->         for (i = 0; i < report->maxfield; i++) {
->                 __s32 value = use_logical_max ?
->                               report->field[i]->logical_maximum :
-> @@ -1593,6 +1584,17 @@ static bool __hidinput_change_resolution_multipliers(struct hid_device *hid,
->                         if (usage->hid != HID_GD_RESOLUTION_MULTIPLIER)
->                                 continue;
->
-> +                       /*
-> +                        * If we have more than one feature within this report we
-> +                        * need to fill in the bits from the others before we can
-> +                        * overwrite the ones for the Resolution Multiplier.
-> +                        */
-> +                       if (!get_report_completed && report->maxfield > 1) {
-> +                               hid_hw_request(hid, report, HID_REQ_GET_REPORT);
+thanks for sending the patch.
 
-I think here we said that the reading of this particular feature was
-mandatory by Microsoft, but what if a device doesn't like it.
-I wonder if we should not guard this against HID_QUIRK_NO_INIT_REPORTS
-too, in the event we need to quirk a particular device.
+The one in this mail was whitespace-corrupted by your mail client, but the 
+one you attached to the other mail was fine, so I've used that.
 
-(BTW, I prefer this version compared to the first draft you sent me :-P )
+> --- hid-apple.c.orig	2020-05-12 11:06:26.000000000 +0300
+> +++ hid-apple.c	2020-05-15 20:00:00.000000000 +0300
 
-Cheers,
-Benjamin
+For any next submissions, pelase send the patch in -p ab format and with 
+full path in the kernel tree.
 
-> +                               hid_hw_wait(hid);
-> +                               get_report_completed = true;
-> +                       }
-> +
->                         report->field[i]->value[j] = value;
->                         update_needed = true;
->                 }
-> --
-> 2.26.2
->
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
 
