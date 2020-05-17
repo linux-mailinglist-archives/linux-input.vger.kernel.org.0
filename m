@@ -2,109 +2,185 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A48C1D6D70
-	for <lists+linux-input@lfdr.de>; Sun, 17 May 2020 23:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84E3E1D6DE9
+	for <lists+linux-input@lfdr.de>; Mon, 18 May 2020 00:55:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726444AbgEQVV5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 May 2020 17:21:57 -0400
-Received: from mail-bn8nam11on2050.outbound.protection.outlook.com ([40.107.236.50]:60993
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726372AbgEQVV4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 May 2020 17:21:56 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BAbQnHkrrw6JfHsgMUxCCOBzOKWdx270ejQF/PrwCLv0jO/hEEQJbOSuppnvA9AzUukIn8ZFNfNqWQeP8Ftzz2QpQKJTbgWvRUpmOCG8CqgDYnpVp6UTeOSKXO0HqRz0KdKTtn5AFYihLTfktr9HLjcQOrYUM3kQLH2398VLoXOMkug2CzBlewNcMPIwx/GTHbOJlBe5K6EYEhmMZGaG0Udt9nZxvF/aDjXeMjxRNgKT0UCBKktqGnHBcbtZIuokomExii2d7n+TwpB9rc3Hisa0sPxtjHKU+dJkGtunulA3070PBb3Hn51QTjV6CWpgS/7ByQKUEzb4Xwi4SssUSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qdgNSkg+XAd8ZntpWnpynryqwUkQu8jQWf7gOa15Smk=;
- b=odNgd8L1fyu4BcaELXaA9C1UMK42DTxElAFTSvh6T7Z/QTC1KGDrKTDr8GIM7XOlhf4354M5fNtChpHTXr/YCOu3I2M/Vdcjgon6LZXQK0xI8NqodF/AikfTos2Zkgn5Dk8plnvzLB2fEXMK+4q5DHVBJqgg/HljJvmp9aBKSZZDDFMCsVeCUtdz4Zn9D+eIrW/Img1T7agU2nALIR3jUju7/rOaoAt4QRPq7o41lT/DpMG7JFCqcdgLASfu/2yEt6Me56RnSAuarNbPxwmFw4Qf3t12kWkoeGxXXPre1iocR7YVCaVj8xbtKAEYNezt024nAjlJtTApJGqS1Ii2hw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qdgNSkg+XAd8ZntpWnpynryqwUkQu8jQWf7gOa15Smk=;
- b=WXxOTizNRenxXrtnenC6SX9+2eHqlPtgRTfcGGEgmBXe79yAp7DtrwF8b96OPYmUz4DOzEArM0st6z/2fReAOmd7Qj66LfzFKaSs7ZtBJ7joOc+zoBKagtmRSbzdvpqxlFGX+eYKKPMzVJmDhiB/8yWUknrQnbZiCK193MZvy9A=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
- by SN6PR08MB5390.namprd08.prod.outlook.com (2603:10b6:805:94::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.20; Sun, 17 May
- 2020 21:21:53 +0000
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::d1f2:9197:cd6:4823]) by SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::d1f2:9197:cd6:4823%7]) with mapi id 15.20.3000.022; Sun, 17 May 2020
- 21:21:53 +0000
-Date:   Sun, 17 May 2020 16:21:47 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     robh+dt@kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] input: misc: Add support for Azoteq IQS269A
-Message-ID: <20200517212147.GA2158@labundy.com>
-References: <1587340068-2818-1-git-send-email-jeff@labundy.com>
- <1587340068-2818-2-git-send-email-jeff@labundy.com>
- <20200420170930.GO166864@dtor-ws>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200420170930.GO166864@dtor-ws>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-ClientProxiedBy: SN2PR01CA0023.prod.exchangelabs.com (2603:10b6:804:2::33)
- To SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
+        id S1726695AbgEQWzb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 May 2020 18:55:31 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:51479 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726591AbgEQWza (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 17 May 2020 18:55:30 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailnew.nyi.internal (Postfix) with ESMTP id CC413580135;
+        Sun, 17 May 2020 18:55:28 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Sun, 17 May 2020 18:55:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=Y
+        +ufOws1a8u4D45GLH8cH2b31BsgtOeXytbtlxDEocM=; b=aPVWima/CN66WHQAx
+        47LyH7yzmfyS/tYoEugzowuOejurfEf25wMuCGi6JZkDr2t44zPE036AZNeuwG0J
+        FEQGMVL2y94x1VNUOxsYkeucRKO/RwVF3u5w+B63dA/XmjolvLrEMvBRAH63598X
+        o7OZ6VhWVp8mdiBADj+/sipkcIgQRZGwvoZd2vWfazAvq8qFoI8NZ+5aa7LwHI5P
+        cc1ps8eBFCtIH/BliSyQU2QQCAqj/uFU+kQlegb97VLuQvHJ+o0kFfUvoNygurl2
+        Y47hnCZFEvy3DR32+E/yGESNhmI0wt/lPAWbkSP9e2HVOImbORZR5SEvdS4bvYiJ
+        5gQHw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=Y+ufOws1a8u4D45GLH8cH2b31BsgtOeXytbtlxDEo
+        cM=; b=ZR5j8MZ589WoZH8nR/THxh86gHJSfZA+ze9OIaMEyi+OLO45glLz67cLJ
+        jjTjkeY85XmC7WsMkCBiAUAaRse7aSuEDXqfrxsfUDvSqX0BgRO8ordnEczKMgMx
+        xmT88P4Le9zx96m2WJDyG20L3XSLxs7IuE0UHR9B3Cw2EDjwrZfE2jCUiH7wahSe
+        0zi+By0KB2tia5/d/oV2LrHWQWYOldmid9h75SVJhd5rZwGaMBkZ3FoH/S5fc1Oh
+        FtPKfptHAa57rS+Kik2ADBfC+Xb8Ogn/qd7Vy4WVzsXOUjHsi7xEQu+qjnEzmjrE
+        ToICGnKu94IAXS077azAzvtuFi2Bg==
+X-ME-Sender: <xms:3cDBXjtZRBKleY1vDtazOehQUmWjyppvULxnyhzYK_WMUS0yBMoUzw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddtgedgudegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgvthgv
+    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
+    htqeenucggtffrrghtthgvrhhnpefhgeevfefhkefgudekffegfeekveeuleeuieeutdfg
+    jeeiieegkeejudfggfdtkeenucfkphepuddujedrvddtrdejuddruddtleenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhht
+    thgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:3cDBXkccn-PNipkl64wwUbHDk5rDibutmBWNyFiU-2cHnX9gK4nfAg>
+    <xmx:3cDBXmws-3jvJV16csSKRSO4K_zD82Ot6irFlUTdpseVs6WPWWZoIw>
+    <xmx:3cDBXiNeTg1Zpp6ZrSfytXuMu3q169TdbKy0eVbt1rBZybs3K-op-w>
+    <xmx:4MDBXpxeXAoX8iisBna-URpxZMHuVswcVTvIMVC9KWFH54_Mfr9_1Q>
+Received: from koala (117-20-71-109.751447.bne.nbn.aussiebb.net [117.20.71.109])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 050AE328005A;
+        Sun, 17 May 2020 18:55:14 -0400 (EDT)
+Date:   Mon, 18 May 2020 08:55:10 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+Message-ID: <20200517225510.GA205823@koala>
+References: <20200506002746.GB89269@dtor-ws>
+ <20200515164943.28480-1-andrzej.p@collabora.com>
+ <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from labundy.com (136.49.227.119) by SN2PR01CA0023.prod.exchangelabs.com (2603:10b6:804:2::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26 via Frontend Transport; Sun, 17 May 2020 21:21:52 +0000
-X-Originating-IP: [136.49.227.119]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 02230e65-bb67-458e-6849-08d7faa851a7
-X-MS-TrafficTypeDiagnostic: SN6PR08MB5390:
-X-Microsoft-Antispam-PRVS: <SN6PR08MB5390B7209C93647DE71F4526D3BB0@SN6PR08MB5390.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-Forefront-PRVS: 040655413E
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cnxKC7lZPrjXmbFxH3e9e7hZJ7gNJKYYkVL9OGpD1fDtjQUO8gVLMnrPSV3UZPnqsEnYD4b5XGVIvM9trwTJqI9w/Wl4JJOp7ZUrjmTbJ0f5nbyxcbyEIdw7t1zjy943O6wmeCCxNurqHpOi1CKSuv2h43b1syq3EJ/b8h5nbJm3FTiSnAWyxIOcYyN0N2PXpZsr2oC5pKa0TYcUTPuw5jZ5QN/qIi/0fSlkIdmV9usdpHH52D1JtMvJr1k8NwTy+aRuJ7RiOm3VjD38sRqMz/Yn6egNx3GWwXOkvaFLIju/vIb7y0ZuG/jxntXQ4BmxdpgClp/DtB0lJlr5JVOrtYjugN2F4o+yLu/dTiTzqFt8EFHv9dXrIIE60pvL7b8Dvo2Q7dVFP+NfcLFjBPHWchlaF0VjlazEdmrbDpPyCICJXtZBNjegK5DccMh/YwU5xWSRenSfYrXDvMjS9M4/BUa2rpz+aE02HIYhj0SWOUd2+C1jTF677iQ+MGlt2hm0THdhCBoEQG3GmM+TU9sMPw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(366004)(136003)(376002)(346002)(39830400003)(396003)(16526019)(86362001)(6916009)(956004)(186003)(316002)(2616005)(52116002)(7696005)(6666004)(8886007)(66556008)(66476007)(36756003)(66946007)(4326008)(55016002)(508600001)(33656002)(966005)(8936002)(26005)(2906002)(5660300002)(8676002)(1076003)(4744005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: QTcFdbrjYz+hPK5oX4tyiPgAQdRmAz6Aqia7v9DUr9ebQjX3eROVb3ASy5obFiGKDANAVYdhyt0Tcfaxnem/13dF3MpEtakludBxIr9n2mktNH6a8KJxbipzdWDaUSqmNJNclp7QrEjDqpS4blmzT57j2VRhlhPD81OruN8G7B5r3k0eXCPvf1nqhFWm7FfHMCkBBIDgbjZJs6KWFut3XLiM28lrNTBLGWd+vxWRX64iVaDnyh+ZWMWMm8UpQqyBP9NC107vaTAw2l92cnUxGnr1eBujddfqa24heXyw79RVSh7qIr+0Z0nbvavvMUNdeOlJvZO2ufYWucvQ6SQDVOLEkdi5veIH8Bv5oBTC3ZCt6OT4kgA97N2E8kjTPAAS6B3rSFCPF0p3Mi8lm54ZBbH2OLPtM/c/6BoqD7rDa4D/vUSjDmZ42jFdYIMN1LYz7e7Z9BkE6DQkqZ2KjTZ4CiIQrGlhNgt8EvHwZ2uiNrM=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02230e65-bb67-458e-6849-08d7faa851a7
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2020 21:21:53.1157
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NmKFN1Fcx4NNd/fJr7kIaerTWDQPUbgmjd8l2UHtvOXtjAClToNNNtMBALiwm/b1/pYutalRv3EYt6umlBAuIA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5390
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
-
-On Mon, Apr 20, 2020 at 10:09:30AM -0700, Dmitry Torokhov wrote:
-> On Sun, Apr 19, 2020 at 06:47:48PM -0500, Jeff LaBundy wrote:
-> > This patch adds support for the Azoteq IQS269A capacitive touch
-> > controller.
+On Fri, May 15, 2020 at 08:19:10PM +0200, Hans de Goede wrote:
+> Hi Andrezj,
+> 
+> On 5/15/20 6:49 PM, Andrzej Pietrasiewicz wrote:
+> > Userspace might want to implement a policy to temporarily disregard input
+> > from certain devices, including not treating them as wakeup sources.
 > > 
-> > Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> > An example use case is a laptop, whose keyboard can be folded under the
+> > screen to create tablet-like experience. The user then must hold the laptop
+> > in such a way that it is difficult to avoid pressing the keyboard keys. It
+> > is therefore desirable to temporarily disregard input from the keyboard,
+> > until it is folded back. This obviously is a policy which should be kept
+> > out of the kernel, but the kernel must provide suitable means to implement
+> > such a policy.
 > 
-> This looks good, so just need to get Rob's take on the binding...
-
-Thank you for the quick turn-around. Last week Rob reviewed the
-binding for v2 [1]; the driver has not changed since your first
-review. Would you consider taking v2 for this cycle?
-
+> Actually libinput already binds together (inside libinput) SW_TABLET_MODE
+> generating evdev nodes and e.g. internal keyboards on devices with 360°
+> hinges for this reason. libinput simply closes the /dev/input/event#
+> node when folded and re-opens it when the keyboard should become active
+> again. Thus not only suppresses events but allows e.g. touchpads to
+> enter runtime suspend mode which saves power. Typically closing the
+> /dev/input/event# node will also disable the device as wakeup source.
 > 
-> Thanks.
+> So I wonder what this series actually adds for functionality for
+> userspace which can not already be achieved this way?
+
+Thanks Hans. To expand on this:
+libinput has heuristics to guess which input devices (keyboards, touchpads)
+are built-in ones. When the tablet mode switch is on, we disable these
+devices internally (this is not visible to callers), and re-enable it again
+later when the tablet mode switch is off again.
+
+This is done for keyboards and touchpads atm (and I think pointing sticks)
+and where the heuristics fail we have extra quirks in place. For example
+the Lenovo Yogas tend to disable the keyboard mechanically in tablet mode
+but buttons (e.g. volume keys) around the screen send events through the
+same event node. So on those devices we don't disable the keyboard.
+
+We've had this code for a few years now and the only changes to it have been
+the various device quirks for devices that must not suspend the keyboard,
+it's otherwise working as expected.
+
+If we ever have a device where we need to disable parts of the keyboard
+only, we could address this with EVIOCSMASK but so far that hasn't been
+necessary.
+
+I agree with Hans, right now I don't see the usefulness of this new sysfs
+toggle. For it to be really useful you'd have to guarantee that it's
+available for 100% of the devices and that's IMO unlikely to happen.
+
+Cheers,
+   Peter
+
+> I also noticed that you keep the device open (do not call the
+> input_device's close callback) when inhibited and just throw away
+> any events generated. This seems inefficient and may lead to
+> the internal state getting out of sync. What if a key is pressed
+> while inhibited and then the device is uninhibited while the key
+> is still pressed?  Now the press event is lost and userspace
+> querying the current state will see the pressed key as being
+> released.
 > 
-> -- 
-> Dmitry
-
-[1] https://patchwork.kernel.org/patch/11522939/
-
-Kind regards,
-Jeff LaBundy
+> On top of this you add special inhibit and uninhibit callbacks
+> and implement those for just a few devices. How do these differ
+> from just closing the device and later opening it again ?
+> 
+> Also using a sysfs property for this is very weird given that the
+> rest of the evdev interface is using ioctls for everything...
+> 
+> So all in all I see a lot of question marks here and I think we
+> need to have a detailed discussion about what use-cases this
+> series tries to enable before moving forward with this.
+> 
+> Regards,
+> 
+> Hans
+> 
