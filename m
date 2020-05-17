@@ -2,79 +2,200 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 047931D6B30
-	for <lists+linux-input@lfdr.de>; Sun, 17 May 2020 18:51:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 285A81D6C84
+	for <lists+linux-input@lfdr.de>; Sun, 17 May 2020 21:49:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728028AbgEQQvv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 May 2020 12:51:51 -0400
-Received: from traxus.robots.org.uk ([37.139.10.94]:56522 "EHLO
-        traxus.robots.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728021AbgEQQvv (ORCPT
+        id S1726313AbgEQTt2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 May 2020 15:49:28 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:52015 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726269AbgEQTt1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 May 2020 12:51:51 -0400
-X-Greylist: delayed 2780 seconds by postgrey-1.27 at vger.kernel.org; Sun, 17 May 2020 12:51:51 EDT
-Received: from sam by traxus with local (Exim 4.92)
-        (envelope-from <4badbd47580c65e3daf7ff5099fb72de98fc5c5e@traxus.robots.org.uk>)
-        id 1jaLn7-0002Wb-V1
-        for linux-input@vger.kernel.org; Sun, 17 May 2020 16:05:29 +0000
-From:   Sam Morris <sam@robots.org.uk>
-Date:   Sun, 17 May 2020 15:56:06 +0100
-Subject: [PATCH] Use RMI/SMbus for Dynabook (Toshiba) X30/X40
-To:     linux-input@vger.kernel.org
-Message-Id: <E1jaLn7-0002Wb-V1@traxus>
+        Sun, 17 May 2020 15:49:27 -0400
+X-Originating-IP: 195.189.32.242
+Received: from pc.localdomain (unknown [195.189.32.242])
+        (Authenticated sender: contact@artur-rojek.eu)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id F08B71BF204;
+        Sun, 17 May 2020 19:49:22 +0000 (UTC)
+From:   Artur Rojek <contact@artur-rojek.eu>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Heiko Stuebner <heiko@sntech.de>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Artur Rojek <contact@artur-rojek.eu>
+Subject: [PATCH v7 1/7] dt-bindings: iio/adc: Convert ingenic-adc docs to YAML.
+Date:   Sun, 17 May 2020 21:48:58 +0200
+Message-Id: <20200517194904.34758-1-contact@artur-rojek.eu>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Prevents a stream of garbage button press events from being emitted
-whenever a hapless user touches the AccuPoint (pointing stick).
+Convert the textual documentation of Device Tree bindings for the
+Ingenic JZ47xx SoCs ADC controller to YAML.
 
-https://bugzilla.kernel.org/show_bug.cgi?id=205817
+The `interrupts` property is now explicitly listed and marked as
+required. While missing from the previous textual documentation, this
+property has been used with all the boards which probe this driver.
 
-SynPD.inf from the Windows driver has a list of ACPI devices that may
-also use InterTouch:
-
-* ACPI\TOS0203
-* ACPI\TOS0204
-* ACPI\TOS0211
-* ACPI\TOS0212
-* ACPI\TOS0213
-* ACPI\TOS0214
-* ACPI\TOS1100
-* ACPI\TOS110C
-* ACPI\TOS110E
-* ACPI\TOS1110
-* ACPI\TOS1120
-* ACPI\TOS1130
-* ACPI\TOS1131
-* ACPI\TOS1140
-* ACPI\TOS1150
-* ACPI\TOS1151
-* ACPI\TOS1160
-* ACPI\TOS1161
-* ACPI\TOS1162
-* ACPI\TOS2020
-* ACPI\TTP1606
-* ACPI\TTP1607
-
-Signed-off-by: Sam Morris <sam@robots.org.uk>
+Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
+Tested-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/input/mouse/synaptics.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index 4d2036209b45..76812475de57 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -187,6 +187,7 @@ static const char * const smbus_pnp_ids[] = {
- 	"SYN3221", /* HP 15-ay000 */
- 	"SYN323d", /* HP Spectre X360 13-w013dx */
- 	"SYN3257", /* HP Envy 13-ad105ng */
-+	"TOS0213", /* Dynabook (Toshiba) X30, X40 */
- 	NULL
- };
- 
+ Changes:
+
+ v6: new patch
+
+ v7: - specify `maxItems: 1` for single entry properties
+     - get rid of redundant descriptions of said properties
+
+ .../bindings/iio/adc/ingenic,adc.txt          | 49 -------------
+ .../bindings/iio/adc/ingenic,adc.yaml         | 71 +++++++++++++++++++
+ 2 files changed, 71 insertions(+), 49 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/iio/adc/ingenic,adc.txt
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
+
+diff --git a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.txt b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.txt
+deleted file mode 100644
+index cd9048cf9dcf..000000000000
+--- a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.txt
++++ /dev/null
+@@ -1,49 +0,0 @@
+-* Ingenic JZ47xx ADC controller IIO bindings
+-
+-Required properties:
+-
+-- compatible: Should be one of:
+-  * ingenic,jz4725b-adc
+-  * ingenic,jz4740-adc
+-  * ingenic,jz4770-adc
+-- reg: ADC controller registers location and length.
+-- clocks: phandle to the SoC's ADC clock.
+-- clock-names: Must be set to "adc".
+-- #io-channel-cells: Must be set to <1> to indicate channels are selected
+-  by index.
+-
+-ADC clients must use the format described in iio-bindings.txt, giving
+-a phandle and IIO specifier pair ("io-channels") to the ADC controller.
+-
+-Example:
+-
+-#include <dt-bindings/iio/adc/ingenic,adc.h>
+-
+-adc: adc@10070000 {
+-	compatible = "ingenic,jz4740-adc";
+-	#io-channel-cells = <1>;
+-
+-	reg = <0x10070000 0x30>;
+-
+-	clocks = <&cgu JZ4740_CLK_ADC>;
+-	clock-names = "adc";
+-
+-	interrupt-parent = <&intc>;
+-	interrupts = <18>;
+-};
+-
+-adc-keys {
+-	...
+-	compatible = "adc-keys";
+-	io-channels = <&adc INGENIC_ADC_AUX>;
+-	io-channel-names = "buttons";
+-	...
+-};
+-
+-battery {
+-	...
+-	compatible = "ingenic,jz4740-battery";
+-	io-channels = <&adc INGENIC_ADC_BATTERY>;
+-	io-channel-names = "battery";
+-	...
+-};
+diff --git a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
+new file mode 100644
+index 000000000000..9f414dbdae86
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++# Copyright 2019-2020 Artur Rojek
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/iio/adc/ingenic,adc.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Ingenic JZ47xx ADC controller IIO bindings
++
++maintainers:
++  - Artur Rojek <contact@artur-rojek.eu>
++
++description: >
++  Industrial I/O subsystem bindings for ADC controller found in
++  Ingenic JZ47xx SoCs.
++
++  ADC clients must use the format described in iio-bindings.txt, giving
++  a phandle and IIO specifier pair ("io-channels") to the ADC controller.
++
++properties:
++  compatible:
++    enum:
++      - ingenic,jz4725b-adc
++      - ingenic,jz4740-adc
++      - ingenic,jz4770-adc
++
++  '#io-channel-cells':
++    const: 1
++    description:
++      Must be set to <1> to indicate channels are selected by index.
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    items:
++      - const: adc
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++  - '#io-channel-cells'
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/jz4740-cgu.h>
++    #include <dt-bindings/iio/adc/ingenic,adc.h>
++
++    adc@10070000 {
++            compatible = "ingenic,jz4740-adc";
++            #io-channel-cells = <1>;
++
++            reg = <0x10070000 0x30>;
++
++            clocks = <&cgu JZ4740_CLK_ADC>;
++            clock-names = "adc";
++
++            interrupt-parent = <&intc>;
++            interrupts = <18>;
++    };
 -- 
-Sam Morris
-<https://robots.org.uk/>
+2.26.2
+
