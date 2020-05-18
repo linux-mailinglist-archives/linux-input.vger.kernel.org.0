@@ -2,177 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1439F1D7A60
-	for <lists+linux-input@lfdr.de>; Mon, 18 May 2020 15:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCCFE1D7B0A
+	for <lists+linux-input@lfdr.de>; Mon, 18 May 2020 16:22:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727123AbgERNtU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 May 2020 09:49:20 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:40342 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726800AbgERNtT (ORCPT
+        id S1727939AbgEROWw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 May 2020 10:22:52 -0400
+Received: from mail-il1-f195.google.com ([209.85.166.195]:43845 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726918AbgEROWw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 May 2020 09:49:19 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id DF0382A0A3B
-Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
-To:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mon, 18 May 2020 10:22:52 -0400
+Received: by mail-il1-f195.google.com with SMTP id l20so9962537ilj.10;
+        Mon, 18 May 2020 07:22:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=OBcPiRkFf2HqCBrlS/cgfO6TiTzCErqXJ+wgd+Jl1A0=;
+        b=YmsVn3AXDFZdD0iwwbOy6E8Qqbo3eYhnyy8p1ZNNEBMuxsz8UA9TDSxJluvba8+do3
+         BrFDD0zom1gWjW2YC2M5M24VeGDgKdtXBzBrTAWh8m7M3seEGuZntlpT+5zGBhbCYXui
+         OU+yvZCntS9hxtuTj/AtA8HE8BMhqWnyrEL+uAWaJ5ivE93vQcf00P1wPl9uJzzWmYI0
+         RDwFSwjW9jLZazGXusUrX4Pz79k7nsvPp8z8nqvLAkMtkiKt+d25NRIsVbYCPMyTs9HS
+         Q38/FlmHyKemf1CBooJkMHkzmKrvVUQXR1OhTtDgiINSCstnkMBSkoanGCRF0IwxLQ4C
+         Nmrg==
+X-Gm-Message-State: AOAM533eLpkFQzagXU28P4OaG0QnERqUudFeIjNo/u7WDYjxtP464wMl
+        jp4vI6dPKBQVXr5BZkwW1A==
+X-Google-Smtp-Source: ABdhPJzV6KNOjj8p+ww1n7tkHaJxwgQNVgNaGd9L1aIW1QqJKwwO89/xnJnvqKKO6gIiVKDYrGe3tA==
+X-Received: by 2002:a92:6b10:: with SMTP id g16mr16567750ilc.29.1589811771270;
+        Mon, 18 May 2020 07:22:51 -0700 (PDT)
+Received: from rob-hp-laptop ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id l16sm3364985ils.64.2020.05.18.07.22.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2020 07:22:50 -0700 (PDT)
+Received: (nullmailer pid 10442 invoked by uid 1000);
+        Mon, 18 May 2020 14:22:49 -0000
+Date:   Mon, 18 May 2020 08:22:49 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Artur Rojek <contact@artur-rojek.eu>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
-        Benjamin Tissoires <btissoir@redhat.com>
-References: <20200506002746.GB89269@dtor-ws>
- <20200515164943.28480-1-andrzej.p@collabora.com>
- <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
- <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
- <6d9921fc-5c2f-beda-4dcd-66d6970a22fe@redhat.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <09679de4-75d3-1f29-ec5f-8d42c84273dd@collabora.com>
-Date:   Mon, 18 May 2020 15:49:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        devicetree@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>
+Subject: Re: [PATCH v7 6/7] dt-bindings: input: Add docs for ADC driven
+ joystick.
+Message-ID: <20200518142249.GA10125@bogus>
+References: <20200517194904.34758-1-contact@artur-rojek.eu>
+ <20200517194904.34758-6-contact@artur-rojek.eu>
 MIME-Version: 1.0
-In-Reply-To: <6d9921fc-5c2f-beda-4dcd-66d6970a22fe@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200517194904.34758-6-contact@artur-rojek.eu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
-
-W dniu 18.05.2020 o 14:24, Hans de Goede pisze:
-> Hi,
+On Sun, 17 May 2020 21:49:03 +0200, Artur Rojek wrote:
+> Add documentation for the adc-joystick driver, used to provide support
+> for joysticks connected over ADC.
 > 
-> On 5/18/20 12:48 PM, Andrzej Pietrasiewicz wrote:
->> Hi Hans,
->>
->> W dniu 15.05.2020 o 20:19, Hans de Goede pisze:
->>> Hi Andrezj,
->>>
->>> On 5/15/20 6:49 PM, Andrzej Pietrasiewicz wrote:
->>>> Userspace might want to implement a policy to temporarily disregard input
->>>> from certain devices, including not treating them as wakeup sources.
->>>>
->>>> An example use case is a laptop, whose keyboard can be folded under the
->>>> screen to create tablet-like experience. The user then must hold the laptop
->>>> in such a way that it is difficult to avoid pressing the keyboard keys. It
->>>> is therefore desirable to temporarily disregard input from the keyboard,
->>>> until it is folded back. This obviously is a policy which should be kept
->>>> out of the kernel, but the kernel must provide suitable means to implement
->>>> such a policy.
->>>
->>> Actually libinput already binds together (inside libinput) SW_TABLET_MODE
->>> generating evdev nodes and e.g. internal keyboards on devices with 360°
->>> hinges for this reason. libinput simply closes the /dev/input/event#
->>> node when folded and re-opens it when the keyboard should become active
->>> again. Thus not only suppresses events but allows e.g. touchpads to
->>> enter runtime suspend mode which saves power. Typically closing the
->>> /dev/input/event# node will also disable the device as wakeup source.
->>>
->>> So I wonder what this series actually adds for functionality for
->>> userspace which can not already be achieved this way?
->>>
->>> I also noticed that you keep the device open (do not call the
->>> input_device's close callback) when inhibited and just throw away
->>
->> I'm not sure if I understand you correctly, it is called:
->>
->> +static inline void input_stop(struct input_dev *dev)
->> +{
->> +    if (dev->poller)
->> +        input_dev_poller_stop(dev->poller);
->> +    if (dev->close)
->> +        dev->close(dev);
->>                  ^^^^^^^^^^^^^^^^
->> +static int input_inhibit(struct input_dev *dev)
->> +{
->> +    int ret = 0;
->> +
->> +    mutex_lock(&dev->mutex);
->> +
->> +    if (dev->inhibited)
->> +        goto out;
->> +
->> +    if (dev->users) {
->> +        if (dev->inhibit) {
->> +            ret = dev->inhibit(dev);
->> +            if (ret)
->> +                goto out;
->> +        }
->> +        input_stop(dev);
->>                  ^^^^^^^^^^^^^^^^
->>
->> It will not be called when dev->users is zero, but if it is zero,
->> then nobody has opened the device yet so there is nothing to close.
+> Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
+> Tested-by: Paul Cercueil <paul@crapouillou.net>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
 > 
-> Ah, I missed that.
+>  Changes:
 > 
-> So if the device implements the inhibit call back then on
-> inhibit it will get both the inhibit and close callback called?
+>  v2: - Add `reg` property to axis subnode in order to enumerate the axes,
+>      - rename `linux,abs-code` property to `linux,code`,
+>      - drop `linux,` prefix from the remaining properties of axis subnode
+> 
+>  v3: no change
+> 
+>  v4: - remove "bindings" from the unique identifier string,
+>      - replace `|` with `>` for all description properties,
+>      - specify the number of items for `io-channels`,
+>      - correct the regex pattern of `axis` property,
+>      - specify the value range of `reg` property for each axis,
+>      - put `abs-range` properties under `allOf`
+> 
+>  v5: add `a-f` to the regex pattern of `axis` property
+> 
+>  v6-v7: no change
+> 
+>  .../bindings/input/adc-joystick.yaml          | 121 ++++++++++++++++++
+>  1 file changed, 121 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/adc-joystick.yaml
 > 
 
-That's right. And conversely, upon uninhibit open() and uninhibit()
-callbacks will be invoked. Please note that just as with open()/close(),
-providing inhibit()/uninhibit() is optional.
 
-> And what happens if the last user goes away and the device
-> is not inhibited?
+My bot found errors running 'make dt_binding_check' on your patch:
 
-close() is called as usually.
+Error: Documentation/devicetree/bindings/input/adc-joystick.example.dts:24.31-32 syntax error
+FATAL ERROR: Unable to parse input tree
+scripts/Makefile.lib:312: recipe for target 'Documentation/devicetree/bindings/input/adc-joystick.example.dt.yaml' failed
+make[1]: *** [Documentation/devicetree/bindings/input/adc-joystick.example.dt.yaml] Error 1
+Makefile:1300: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
 
-> 
-> I'm trying to understand here what the difference between the 2
-> is / what the goal of having a separate inhibit callback ?
-> 
+See https://patchwork.ozlabs.org/patch/1292230
 
-Drivers have very different ideas about what it means to suspend/resume
-and open/close. The optional inhibit/uninhibit callbacks are meant for
-the drivers to know that it is this particular action going on.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
 
-For inhibit() there's one more argument: close() does not return a value,
-so its meaning is "do some last cleanup" and as such it is not allowed
-to fail - whatever its effect is, we must deem it successful. inhibit()
-does return a value and so it is allowed to fail.
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
 
-All in all, it is up to the drivers to decide which callback they
-provide. Based on my work so far I would say that there are tens
-of simple cases where open() and close() are sufficient, out of total
-~400 users of input_allocate_device():
+Please check and re-submit.
 
-$ git grep "input_allocate_device(" | grep -v ^Documentation | \
-cut -f1 -d: | sort | uniq | wc
-     390     390   13496
-
-Andrzej
