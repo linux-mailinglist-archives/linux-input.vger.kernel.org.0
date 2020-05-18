@@ -2,54 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FAC31D6F8E
-	for <lists+linux-input@lfdr.de>; Mon, 18 May 2020 06:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 720251D6F91
+	for <lists+linux-input@lfdr.de>; Mon, 18 May 2020 06:07:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726053AbgEREFh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 May 2020 00:05:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44978 "EHLO
+        id S1726478AbgEREHO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 May 2020 00:07:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725280AbgEREFh (ORCPT
+        with ESMTP id S1725280AbgEREHO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 May 2020 00:05:37 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C63CDC061A0C;
-        Sun, 17 May 2020 21:05:35 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id s10so1959714pgm.0;
-        Sun, 17 May 2020 21:05:35 -0700 (PDT)
+        Mon, 18 May 2020 00:07:14 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 151C6C061A0C;
+        Sun, 17 May 2020 21:07:13 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id u22so3666670plq.12;
+        Sun, 17 May 2020 21:07:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=HHiEm16/4xq3MMtfPri9/a/cmBcNfYbkXXVh01N5Jmc=;
-        b=Gq8oTz42VuMggbYwL0Pc6kbWlihL0/DOkyOcBTPOl82BQwQ5eYQ/kXCS9R62KmpH2u
-         dlfgqMroZLPD417zHzIXAdn8qavm0nB7i15Bo72v1oM2I1n2M33Gb53GY4++nVTJSJR0
-         vwph2dgoA1fiKzFHd+qGYfEIankY6peFOVjgJ8dSs0bQmXPi2ilq+D4m4qMxWojCKCtV
-         SSzod9H/x1217c9n4e0QWHluchjSstEs8tim8Dw9L50Tg20xHZZKsCoiAGrksS8XklU1
-         pDkMiU5nK+hEiCWMaD4WS6YzVWjFv8vcMxs442YPot8F3UjltV/+iC51ga6A//Yiz/ux
-         Bfyw==
+        bh=vn0pCsD2eFefj2+fTs7XzO6u3jKtlDfOwmx3cRoRly4=;
+        b=cHMhIaCkX3pXQFq2PIJmAuFIdrTtnL9laAO0yFzZFD9I/GFu3a6nzCXko9DFFSlca/
+         nrVBlyHWY8rYNJ1lytwIYw09VMG/S8Lgd641oFvcafcs15272Zj/GDyECezRyoeJk6Sr
+         oQnEQhPPt6uolmfY10YNkdXprLaaADn1T2B0G4QsdFX60uo7KQDcw9ApqicxNmrgbvCc
+         iDu92Iwus6M2dnH5rVXgOpqyClmQyxAFuC55FFZlJ/aptu2jfrZNagBq7HRc+3YtMpHy
+         DIM7R2Hc07ymEU1nCgI6tkWa6EHR2wrdNlPtsyz9NKIaxOq+duaFwKbv8TefUM1af7Hs
+         2VZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=HHiEm16/4xq3MMtfPri9/a/cmBcNfYbkXXVh01N5Jmc=;
-        b=tFjUvdZr6B8CbdnHhLsM1OzI9UK+rUrLvc9GH+FlJ71XwvDswPfxqz2FvI+/GiJgNp
-         q9I4MPGTVRnnypie4GKFqongAUPyMQ6x69KJpGDRqvDFN49XKk2FVTyxQ7zbQNT8qMlB
-         pwl0yG7JjqsUFkSvWnT1OcD8nR1iSUXM13NAtsVwQarG+XgrVSCL8ZJ7Q5Jsfej7+nLw
-         z6I52aEFV672T9O6YdhPgl/DEGeyYxqCbJovlRabG+LStn91qJNcsqvEJPRxfX5gD4sY
-         4cCGP5NfcmUelQvsbjMdUtN27usUHyGYeBl6jsbrV7SjyO2UCjLD18dGfuFKU38+DxXX
-         gAag==
-X-Gm-Message-State: AOAM531bul8lWpEBguZh5RSw3NnHGYx+kI6TpCFXrSVMVy2Bwk0rOzMi
-        M+pHRotl6ae/O3nzo+wBx8k=
-X-Google-Smtp-Source: ABdhPJxeM2GvoO4bJ+QyqyBR4glZb9YGdl+Qx/9T0hFrxaeYAaC84R6rILJ02H0T9hVdYz4aBN9iNQ==
-X-Received: by 2002:a63:4911:: with SMTP id w17mr13105303pga.13.1589774735117;
-        Sun, 17 May 2020 21:05:35 -0700 (PDT)
+        bh=vn0pCsD2eFefj2+fTs7XzO6u3jKtlDfOwmx3cRoRly4=;
+        b=l7hEN6rvme//K3SaHFQymn4RjpoK1qbBq2bA8XPQG0L0CMNZv7VaQsMSFAFW/jQ4Ux
+         4tboMUZ2vmkp2qQ9L6h6I1TNEkLSzc4T829mI5ORNLNb3YiwUkiPs18yL6v3a5Bx+kGj
+         kn88ku6yVODfOyLI9Gxk1gGIE4fiNpX0lAGSTB4S43pWCU4k07Ej45jeqSULwoVc4vvB
+         DvuTJe4MSbizvDk5fClQxUezXctHwJHpNji8oeKgG5gN+aQ09V398SYnn6xeVXIV+7us
+         WHdhnb4jFzkaUpqxQEIpPbJCGvg2M/Y2++tIpoOyrIZMoWpTIi1bwCqsHJwqD5KNk54D
+         2lrQ==
+X-Gm-Message-State: AOAM531kwKkwd4lCrJgXxqLqZgT/WeBJePMIHIDUVwTQGhdoE3f7A7AO
+        WzhAAyk6IUdaa+HvQfSclFM=
+X-Google-Smtp-Source: ABdhPJwP0PBNC2vfOxKjBQo6BDkblLwCXLnx/SPsb48qHcgzGpZ4WAnJ6e70pMImWPHGc+lqVQPgXQ==
+X-Received: by 2002:a17:90b:f8c:: with SMTP id ft12mr17610396pjb.127.1589774832490;
+        Sun, 17 May 2020 21:07:12 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id a16sm7298692pff.41.2020.05.17.21.05.34
+        by smtp.gmail.com with ESMTPSA id r21sm7114392pjo.2.2020.05.17.21.07.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2020 21:05:34 -0700 (PDT)
-Date:   Sun, 17 May 2020 21:05:32 -0700
+        Sun, 17 May 2020 21:07:12 -0700 (PDT)
+Date:   Sun, 17 May 2020 21:07:10 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
 Cc:     David Heidelberg <david@ixit.cz>,
@@ -60,41 +60,73 @@ Cc:     David Heidelberg <david@ixit.cz>,
         Rob Herring <robh+dt@kernel.org>,
         Scott Liu <scott.liu@emc.com.tw>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 07/10] input: elants: support 0x66 reply opcode for
- reporting touches
-Message-ID: <20200518040532.GP89269@dtor-ws>
+Subject: Re: [PATCH v5 01/10] input: elants: document some registers and
+ values
+Message-ID: <20200518040710.GQ89269@dtor-ws>
 References: <cover.1587923061.git.mirq-linux@rere.qmqm.pl>
- <02dc25c5851e50d77bc707a2e1b44caf9d6354eb.1587923061.git.mirq-linux@rere.qmqm.pl>
+ <a8c17a4c804ad5c429269cc0468d8cb4c0783a47.1587923061.git.mirq-linux@rere.qmqm.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <02dc25c5851e50d77bc707a2e1b44caf9d6354eb.1587923061.git.mirq-linux@rere.qmqm.pl>
+In-Reply-To: <a8c17a4c804ad5c429269cc0468d8cb4c0783a47.1587923061.git.mirq-linux@rere.qmqm.pl>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 26, 2020 at 07:47:52PM +0200, Michał Mirosław wrote:
-> From: Dmitry Osipenko <digetx@gmail.com>
+On Sun, Apr 26, 2020 at 07:47:49PM +0200, Michał Mirosław wrote:
+> Add information found in downstream kernels, to make the code less
+> magic.
 > 
-> eKTF3624 touchscreen firmware uses two variants of the reply opcodes for
-> reporting touch events: one is 0x63 (used by older firmware) and other is
-> 0x66 (used by newer firmware). The 0x66 variant is equal to 0x63 of
-> eKTH3500, while 0x63 needs small adjustment of the touch pressure value.
+> Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+> Tested-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/input/touchscreen/elants_i2c.c | 29 +++++++++++++++++++++-----
+>  1 file changed, 24 insertions(+), 5 deletions(-)
 > 
-> Nexus 7 tablet device has eKTF3624 touchscreen and it uses 0x66 opcode for
-> reporting touch events, let's support it now. Other devices, eg. ASUS TF300T,
-> use 0x63.
-> 
-> Note: CMD_HEADER_REK is used for replying to calibration requests, it has
-> the same 0x66 opcode number which eKTF3624 uses for reporting touches.
-> The calibration replies are handled separately from the the rest of the
-> commands in the driver by entering into ELAN_WAIT_RECALIBRATION state
-> and thus this change shouldn't change the old behavior.
+> diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
+> index 2289f9638116..d2175fb6209a 100644
+> --- a/drivers/input/touchscreen/elants_i2c.c
+> +++ b/drivers/input/touchscreen/elants_i2c.c
+> @@ -81,7 +81,11 @@
+>  
+>  #define HEADER_REPORT_10_FINGER	0x62
+>  
+> -/* Header (4 bytes) plus 3 fill 10-finger packets */
+> +/* Power state */
+> +#define PWR_STATE_DEEP_SLEEP	0
+> +#define PWR_STATE_NORMAL	1
+> +
+> +/* Header (4 bytes) plus 3 full 10-finger packets */
+>  #define MAX_PACKET_SIZE		169
+>  
+>  #define BOOT_TIME_DELAY_MS	50
+> @@ -91,10 +95,21 @@
+>  #define E_ELAN_INFO_BC_VER	0x10
+>  #define E_ELAN_INFO_TEST_VER	0xE0
+>  #define E_ELAN_INFO_FW_ID	0xF0
+> +#define E_POWER_MODE		0x40
+> +#define E_POWER_STATE		0x50
+> +#define E_INFO_X_RES		0x60
+> +#define E_INFO_Y_RES		0x63
 
-Is it possible to know what format a device will use by querying it at
-probe time?
+I would prefer if we introduced these in the patches that use them.
+
+>  #define E_INFO_OSR		0xD6
+>  #define E_INFO_PHY_SCAN		0xD7
+>  #define E_INFO_PHY_DRIVER	0xD8
+>  
+> +/* FW write command, 0x54 0x?? 0x0, 0x01 */
+> +#define E_POWER_MODE_BATTERY	0x40
+> +#define E_POWER_MODE_AC		0x41
+> +#define E_POWER_MODE_USB	0x42
+
+What is this for?
+
+> +#define E_POWER_STATE_SLEEP	0x50
+> +#define E_POWER_STATE_RESUME	0x58
 
 Thanks.
 
