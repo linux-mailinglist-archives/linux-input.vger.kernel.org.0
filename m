@@ -2,154 +2,174 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5F8A1DA2DD
-	for <lists+linux-input@lfdr.de>; Tue, 19 May 2020 22:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3E841DA300
+	for <lists+linux-input@lfdr.de>; Tue, 19 May 2020 22:44:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727047AbgESUiP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 May 2020 16:38:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58286 "EHLO
+        id S1726283AbgESUoC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 May 2020 16:44:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726030AbgESUiP (ORCPT
+        with ESMTP id S1726178AbgESUoB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 May 2020 16:38:15 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EF32C08C5C0;
-        Tue, 19 May 2020 13:38:15 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id 8B9612A2039
-Subject: Re: [PATCHv2 1/5] dt-bindings: touchscreen: Convert EETI EXC3000
- touchscreen to json-schema
-To:     Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ahmet Inan <inan@distec.de>,
-        Martin Fuzzey <martin.fuzzey@flowbird.group>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-References: <20200519182447.73405-1-sebastian.reichel@collabora.com>
- <20200519182447.73405-2-sebastian.reichel@collabora.com>
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <b52144ad-3123-5705-9489-1bf6994f462f@collabora.com>
-Date:   Tue, 19 May 2020 22:38:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Tue, 19 May 2020 16:44:01 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CD20C08C5C0;
+        Tue, 19 May 2020 13:44:01 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id t7so382972plr.0;
+        Tue, 19 May 2020 13:44:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7NKe0dGCLuIFUTSDu/e/oZFqvqubemBEs4EDLcjwgzA=;
+        b=i1AE9fbb1/4A3jewEktdiPlEhm44n+aEzpUF/J6C5L/Vmt4RDWpg5l+3XaTGXPR2pA
+         jYk5iOBvDHwFMaVrwgNve7m/NAowuc6ceW2X3lcl2kZP59FjRMMXrnp847fkHyPRyzrn
+         UhA6HJ+izxCChQA+GOq4qeGv5WoioDVdSyW4BU7HYcc+qrbQW8rRzv+gbAGnSLZSb4f3
+         k1WxMhiBEPV33vNC4h/pD9HAg+wyRr2lHno32blg6wWj18WZ9xUxuCONDAezkJyOlUUr
+         MaQdqTBwSHwq3ZLdk9dN7iQJxhykm4NGX/Bfnws7VGfXepvQYlrCnwxGW025/zgM08Ul
+         jJww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7NKe0dGCLuIFUTSDu/e/oZFqvqubemBEs4EDLcjwgzA=;
+        b=WCslaEhlN1HbhQmSOS3zVK6kWkvaw582VrPQ5o3oQG/Q97mtCJr/wcqgdFug8Ou9Xf
+         FMPPafnwyJKMMdjkO6fGTow7whp5nyT/Kksj51dUTgX5n+qInaNsU0cnS8uXSqSuQHJA
+         LFNW+4spMBMwKX+wOFZiJGMUqPSVZ8Jv2bCu+JyveakNfmuLSc3YJY42W566yfBukmji
+         hXgk2A6i9DLvN6AjlGhN80w0KiG/Hh1WIcl7ww/HPnHjWLbrlgs0exwBsugs+VFNErGr
+         b91l4zdzs1cB/mvQhfs6XRmT+rrq9fDdiVtC1Atn5dFHCwkLoDqwFxyT3qO4HCWM6KDf
+         K9pQ==
+X-Gm-Message-State: AOAM533L0MWHQ8Bv3o0WHvyopBdRpSCsNTNhHoQk31dFA8A58mtn6leR
+        /+/eLoZhuPOScsJEKMAQnI9BJEUEVGmKE8siuzQ=
+X-Google-Smtp-Source: ABdhPJyhoLKOvXYwlEtqNyJEFcVPhsytjjZvjtEBaBNriSxQfrCm3qrr6XzTUriBFI1NitA6C5nmn1Lg7mL7k2fxWGA=
+X-Received: by 2002:a17:90a:1704:: with SMTP id z4mr1366526pjd.181.1589921041122;
+ Tue, 19 May 2020 13:44:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200519182447.73405-2-sebastian.reichel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200517194904.34758-1-contact@artur-rojek.eu> <20200517194904.34758-7-contact@artur-rojek.eu>
+In-Reply-To: <20200517194904.34758-7-contact@artur-rojek.eu>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 19 May 2020 23:43:44 +0300
+Message-ID: <CAHp75VcChHOrxrqBM==-_SaTL4vSojKmRWvkNn-CHLH99pcAuQ@mail.gmail.com>
+Subject: Re: [PATCH v7 7/7] input: joystick: Add ADC attached joystick driver.
+To:     Artur Rojek <contact@artur-rojek.eu>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-input <linux-input@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Sebastian,
+On Sun, May 17, 2020 at 10:49 PM Artur Rojek <contact@artur-rojek.eu> wrote:
+>
+> Add a driver for joystick devices connected to ADC controllers
+> supporting the Industrial I/O subsystem.
 
-A minor thing.
+...
 
-On 19/5/20 20:24, Sebastian Reichel wrote:
-> Convert the EETI EXC3000 binding to DT schema format using json-schema
-> 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../bindings/input/touchscreen/exc3000.txt    | 26 ---------
->  .../bindings/input/touchscreen/exc3000.yaml   | 53 +++++++++++++++++++
+> +static int adc_joystick_handle(const void *data, void *private)
+> +{
+> +       struct adc_joystick *joy = private;
+> +       enum iio_endian endianness;
+> +       int bytes, msb, val, i;
+> +       bool sign;
+> +
+> +       bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
+> +
+> +       for (i = 0; i < joy->num_chans; ++i) {
+> +               endianness = joy->chans[i].channel->scan_type.endianness;
+> +               msb = joy->chans[i].channel->scan_type.realbits - 1;
 
-The binding name should start with the vendor, aka eeti,exc3000.yaml
+> +               sign = (tolower(joy->chans[i].channel->scan_type.sign) == 's');
 
->  2 files changed, 53 insertions(+), 26 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/exc3000.txt
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/exc3000.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/exc3000.txt b/Documentation/devicetree/bindings/input/touchscreen/exc3000.txt
-> deleted file mode 100644
-> index 68291b94fec2..000000000000
-> --- a/Documentation/devicetree/bindings/input/touchscreen/exc3000.txt
-> +++ /dev/null
-> @@ -1,26 +0,0 @@
-> -* EETI EXC3000 Multiple Touch Controller
-> -
-> -Required properties:
-> -- compatible: must be "eeti,exc3000"
-> -- reg: i2c slave address
-> -- interrupts: touch controller interrupt
-> -- touchscreen-size-x: See touchscreen.txt
-> -- touchscreen-size-y: See touchscreen.txt
-> -
-> -Optional properties:
-> -- touchscreen-inverted-x: See touchscreen.txt
-> -- touchscreen-inverted-y: See touchscreen.txt
-> -- touchscreen-swapped-x-y: See touchscreen.txt
-> -
-> -Example:
-> -
-> -	touchscreen@2a {
-> -		compatible = "eeti,exc3000";
-> -		reg = <0x2a>;
-> -		interrupt-parent = <&gpio1>;
-> -		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
-> -		touchscreen-size-x = <4096>;
-> -		touchscreen-size-y = <4096>;
-> -		touchscreen-inverted-x;
-> -		touchscreen-swapped-x-y;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/exc3000.yaml b/Documentation/devicetree/bindings/input/touchscreen/exc3000.yaml
-> new file mode 100644
-> index 000000000000..5d2e7496d6dd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/exc3000.yaml
-> @@ -0,0 +1,53 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/exc3000.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+Do we need tolower()?
+
 > +
-> +title: EETI EXC3000 series touchscreen controller
+> +               switch (bytes) {
+> +               case 1:
+> +                       val = ((const u8 *)data)[i];
+> +                       break;
+> +               case 2:
+> +                       if (endianness == IIO_BE)
+
+> +                               val = be16_to_cpu(((const u16 *)data)[i]);
+
+Yeah, you have to provide bitwise types to satisfy sparse.
+Maybe using *_to_cpup() will cure this.
+
+> +                       else if (endianness == IIO_LE)
+> +                               val = le16_to_cpu(((const u16 *)data)[i]);
+> +                       else /* IIO_CPU */
+> +                               val = ((const u16 *)data)[i];
+> +                       break;
+> +               default:
+> +                       return -EINVAL;
+> +               }
 > +
-> +maintainers:
-> +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> +               val >>= joy->chans[i].channel->scan_type.shift;
+> +               if (sign)
+> +                       val = sign_extend32(val, msb);
+> +               else
+> +                       val &= GENMASK(msb, 0);
+> +               input_report_abs(joy->input, joy->axes[i].code, val);
+> +       }
 > +
-> +allOf:
-> +  - $ref: touchscreen.yaml#
+> +       input_sync(joy->input);
 > +
-> +properties:
-> +  compatible:
-> +    const: eeti,exc3000
-> +  reg:
-> +    const: 0x2a
-> +  interrupts:
-> +    maxItems: 1
-> +  touchscreen-size-x: true
-> +  touchscreen-size-y: true
-> +  touchscreen-inverted-x: true
-> +  touchscreen-inverted-y: true
-> +  touchscreen-swapped-x-y: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - touchscreen-size-x
-> +  - touchscreen-size-y
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include "dt-bindings/interrupt-controller/irq.h"
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        touchscreen@2a {
-> +                compatible = "eeti,exc3000";
-> +                reg = <0x2a>;
-> +                interrupt-parent = <&gpio1>;
-> +                interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
-> +                touchscreen-size-x = <4096>;
-> +                touchscreen-size-y = <4096>;
-> +                touchscreen-inverted-x;
-> +                touchscreen-swapped-x-y;
-> +        };
-> +    };
-> 
+> +       return 0;
+> +}
+
+...
+
+> +       /* Count how many channels we got. NULL terminated. */
+> +       while (joy->chans[joy->num_chans].indio_dev)
+> +               joy->num_chans++;
+
+I don't see how useful this is. Why not simple do below...
+
+> +       bits = joy->chans[0].channel->scan_type.storagebits;
+> +       if (!bits || (bits > 16)) {
+> +               dev_err(dev, "Unsupported channel storage size");
+> +               return -EINVAL;
+> +       }
+> +       for (i = 1; i < joy->num_chans; ++i)
+> +               if (joy->chans[i].channel->scan_type.storagebits != bits) {
+> +                       dev_err(dev, "Channels must have equal storage size");
+> +                       return -EINVAL;
+> +               }
+
+...something like
+
+  for (i = 0; joy->chans[i].indio_dev; i++) {
+    bits = joy->chans[i].channel->scan_type.storagebits;
+    if (bits ...) {
+      ...error handling...
+    }
+    if (bits != joy->chans[0].channel->scan_type.storagebits) {
+      ...second level of error handling...
+    }
+ }
+
+...
+
+> +static const struct of_device_id adc_joystick_of_match[] = {
+> +       { .compatible = "adc-joystick", },
+
+> +       { },
+
+No need comma.
+
+> +};
+
+-- 
+With Best Regards,
+Andy Shevchenko
