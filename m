@@ -2,72 +2,285 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1CE91D9358
-	for <lists+linux-input@lfdr.de>; Tue, 19 May 2020 11:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A7781D9370
+	for <lists+linux-input@lfdr.de>; Tue, 19 May 2020 11:36:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726504AbgESJ3w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 May 2020 05:29:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38152 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbgESJ3w (ORCPT
+        id S1727811AbgESJgo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 May 2020 05:36:44 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22496 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727822AbgESJgm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 May 2020 05:29:52 -0400
-Received: from mail.bugwerft.de (mail.bugwerft.de [IPv6:2a03:6000:1011::59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0257DC061A0C
-        for <linux-input@vger.kernel.org>; Tue, 19 May 2020 02:29:52 -0700 (PDT)
-Received: from [192.168.178.106] (pd95ef292.dip0.t-ipconnect.de [217.94.242.146])
-        by mail.bugwerft.de (Postfix) with ESMTPSA id 8874240AB6C;
-        Tue, 19 May 2020 09:26:52 +0000 (UTC)
-Subject: Re: [PATCH v3 3/3] Input: ads7846: Switch to devm initialization
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
-References: <20200507062014.1780360-1-daniel@zonque.org>
- <20200507062014.1780360-5-daniel@zonque.org>
- <20200519091841.dlj3tumnvxolbbcy@pengutronix.de>
-From:   Daniel Mack <daniel@zonque.org>
-Message-ID: <b20d7766-363e-364a-86a6-b1d91e5d62f6@zonque.org>
-Date:   Tue, 19 May 2020 11:29:47 +0200
+        Tue, 19 May 2020 05:36:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589881000;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zx1xwU2hx8pVoq/x6eR5o+QLPp4w7KqD0sx7jmQ5IaM=;
+        b=P2pEmm0du4LEImyCr5Qfz9Gbc495NAFoskfpFLHAe4R6cC7fr02w3m98qAChYl1+A3mjb0
+        SydIwHjWhDyxulA1n6JF2ltAiP0PIaS72U/y5iRehgDElsWcl1T1roYm6ly84Rb+kXqBjK
+        lTw9tn9OvR8YHevgCum0igr1oM2a2hk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-ugAFxouBOwaiI6C1uASXKA-1; Tue, 19 May 2020 05:36:38 -0400
+X-MC-Unique: ugAFxouBOwaiI6C1uASXKA-1
+Received: by mail-wm1-f71.google.com with SMTP id m11so749520wml.5
+        for <linux-input@vger.kernel.org>; Tue, 19 May 2020 02:36:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zx1xwU2hx8pVoq/x6eR5o+QLPp4w7KqD0sx7jmQ5IaM=;
+        b=MULhD5iRWjqTzw8HcPNvUi2DuNKQ7gskrsEM6U/joQE5s0aYtOa2gPu5rstLcQTu7P
+         jcCgZTGxKspmItD2/Ro3pSCUqM6FDoPtzPmecIOMsq6SwBoQQ+Dwlyhdy3pu2e4VNvhL
+         /ppOPqMlzXjFTKXfQanJ86Pg1rvdKWc+6jGHh9uearqmj5mUoXeueDwHrsjZ5Merm3I2
+         pJpuw+f4cuR/Cya91du2iQ/QpF9bqedZTnpWyM5oVx71rTm9aMNagDynyJp0EshTSNUT
+         8Dxzcke0SzfiTXaBDdvvgvzVcbhZwaGjdzXDqYxphKUeisNMXieKDF1RGwtvc+rrV2VL
+         zzFA==
+X-Gm-Message-State: AOAM532zrHcVyVLFaExVohxD6FV7gTYbnBBRLBdgijXfdSV1RGi+2x0j
+        dMYIBH/9Una8Y73zKHfzJ+bs0vzLblW+usqGBCca+8f6sXUVWbaIJQP/kbSU81VP6ger+k+p7y4
+        XueV8BlUwRFNyh0bKj1cEv0M=
+X-Received: by 2002:a1c:444:: with SMTP id 65mr4608058wme.21.1589880996786;
+        Tue, 19 May 2020 02:36:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqcjizbgXFRvjt4WsCNNW18OC7P3zc0FNfH6PxsI9rxtfI7F0v+PkL9hUz5wI4ZZq7PkCtaQ==
+X-Received: by 2002:a1c:444:: with SMTP id 65mr4608023wme.21.1589880996492;
+        Tue, 19 May 2020 02:36:36 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id i6sm3566852wmb.41.2020.05.19.02.36.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 May 2020 02:36:35 -0700 (PDT)
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>
+References: <20200506002746.GB89269@dtor-ws>
+ <20200515164943.28480-1-andrzej.p@collabora.com>
+ <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
+ <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
+ <6d9921fc-5c2f-beda-4dcd-66d6970a22fe@redhat.com>
+ <09679de4-75d3-1f29-ec5f-8d42c84273dd@collabora.com>
+ <f674ba4f-bd83-0877-c730-5dc6ea09ae4b@redhat.com>
+ <2d224833-3a7e-bc7c-af15-1f803f466697@collabora.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <aa2ce2ab-e5bc-9cb4-8b53-c1ef9348b646@redhat.com>
+Date:   Tue, 19 May 2020 11:36:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200519091841.dlj3tumnvxolbbcy@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <2d224833-3a7e-bc7c-af15-1f803f466697@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Marco!
+Hi,
 
-On 5/19/20 11:18 AM, Marco Felsch wrote:
-> On 20-05-07 08:20, Daniel Mack wrote:
->> This simplies the code a lot and fixes some potential resource leaks in
->> the error return paths.
->>
->> Signed-off-by: Daniel Mack <daniel@zonque.org>
->> ---
->>  drivers/input/touchscreen/ads7846.c | 123 ++++++++++------------------
->>  1 file changed, 45 insertions(+), 78 deletions(-)
->>
-
->> @@ -1482,26 +1468,7 @@ static int ads7846_remove(struct spi_device *spi)
->>  	struct ads7846 *ts = spi_get_drvdata(spi);
->>  
->>  	sysfs_remove_group(&spi->dev.kobj, &ads784x_attr_group);
->> -
->>  	ads7846_disable(ts);
+On 5/19/20 11:02 AM, Andrzej Pietrasiewicz wrote:
+> Hi Hans, Hi Dmitry,
 > 
-> Did you tested the bind/unbind path? I think we are getting troubles
-> here because ads7846_disable calls ads7846_stop() and
-> regulator_disable(). Since we are using the devm_action the regualtor
-> gets disabled by this action and ads7846_disable(). This causes a
-> refcount problem.
+> W dniu 18.05.2020 o 16:23, Hans de Goede pisze:
+>> Hi,
+> 
+> <snip>
+> 
+>>>>>>
+>>>>>> So I wonder what this series actually adds for functionality for
+>>>>>> userspace which can not already be achieved this way?
+>>>>>>
+>>>>>> I also noticed that you keep the device open (do not call the
+>>>>>> input_device's close callback) when inhibited and just throw away
+>>>>>
+>>>>> I'm not sure if I understand you correctly, it is called:
+>>>>>
+>>>>> +static inline void input_stop(struct input_dev *dev)
+>>>>> +{
+>>>>> +    if (dev->poller)
+>>>>> +        input_dev_poller_stop(dev->poller);
+>>>>> +    if (dev->close)
+>>>>> +        dev->close(dev);
+>>>>>                  ^^^^^^^^^^^^^^^^
+>>>>> +static int input_inhibit(struct input_dev *dev)
+>>>>> +{
+>>>>> +    int ret = 0;
+>>>>> +
+>>>>> +    mutex_lock(&dev->mutex);
+>>>>> +
+>>>>> +    if (dev->inhibited)
+>>>>> +        goto out;
+>>>>> +
+>>>>> +    if (dev->users) {
+>>>>> +        if (dev->inhibit) {
+>>>>> +            ret = dev->inhibit(dev);
+>>>>> +            if (ret)
+>>>>> +                goto out;
+>>>>> +        }
+>>>>> +        input_stop(dev);
+>>>>>                  ^^^^^^^^^^^^^^^^
+>>>>>
+>>>>> It will not be called when dev->users is zero, but if it is zero,
+>>>>> then nobody has opened the device yet so there is nothing to close.
+>>>>
+>>>> Ah, I missed that.
+>>>>
+>>>> So if the device implements the inhibit call back then on
+>>>> inhibit it will get both the inhibit and close callback called?
+>>>>
+>>>
+>>> That's right. And conversely, upon uninhibit open() and uninhibit()
+>>> callbacks will be invoked. Please note that just as with open()/close(),
+>>> providing inhibit()/uninhibit() is optional.
+>>
+>> Ack.
+>>
+>>>> And what happens if the last user goes away and the device
+>>>> is not inhibited?
+>>>
+>>> close() is called as usually.
+>>
+>> But not inhibit, hmm, see below.
+>>
+>>>> I'm trying to understand here what the difference between the 2
+>>>> is / what the goal of having a separate inhibit callback ?
+>>>>
+>>>
+>>> Drivers have very different ideas about what it means to suspend/resume
+>>> and open/close. The optional inhibit/uninhibit callbacks are meant for
+>>> the drivers to know that it is this particular action going on.
+>>
+>> So the inhibit() callback triggers the "suspend" behavior ?
+>> But shouldn't drivers which are capable of suspending the device
+>> always do so on close() ?
+>>
+>> Since your current proposal also calls close() on inhibit() I
+>> really see little difference between an inhibit() and the last
+>> user of the device closing it and IMHO unless there is a good
+>> reason to actually differentiate the 2 it would be better
+>> to only stick with the existing close() and in cases where
+>> that does not put the device in a low-power mode yet, fix
+>> the existing close() callback to do the low-power mode
+>> setting instead of adding a new callback.
+>>
+>>> For inhibit() there's one more argument: close() does not return a value,
+>>> so its meaning is "do some last cleanup" and as such it is not allowed
+>>> to fail - whatever its effect is, we must deem it successful. inhibit()
+>>> does return a value and so it is allowed to fail.
+>>
+>> Well, we could make close() return an error and at least in the inhibit()
+>> case propagate that to userspace. I wonder if userspace is going to
+>> do anything useful with that error though...
+>>
+>> In my experience errors during cleanup/shutdown are best logged
+>> (using dev_err) and otherwise ignored, so that we try to clean up
+>> as much possible. Unless the very first step of the shutdown process
+>> fails the device is going to be in some twilight zone state anyways
+>> at this point we might as well try to cleanup as much as possible.
+> 
+> What you say makes sense to me.
+> @Dmitry?
+> 
+>>
+>>> All in all, it is up to the drivers to decide which callback they
+>>> provide. Based on my work so far I would say that there are tens
+>>> of simple cases where open() and close() are sufficient, out of total
+>>> ~400 users of input_allocate_device():
+>>>
+>>> $ git grep "input_allocate_device(" | grep -v ^Documentation | \
+>>> cut -f1 -d: | sort | uniq | wc
+>>>      390     390   13496
+>>
+>> So can you explain a bit more about the cases where only having
+>> open/close is not sufficient?  So far I have the feeling that
+>> those are all we need and that we really do not need separate
+>> [un]inhibit callbacks.
+> 
+> My primary concern was not being able to propagate inhibit() error
+> to userspace, and then if we have inhibit(), uninhibit() should be
+> there for completeness. If propagating the error to userspace can
+> be neglected then yes, it seems open/close should be sufficient,
+> even more because the real meaning of "open" is "prepare the device
+> for generating input events".
+> 
+> To validate the idea of not introducing inhibit()/uninhibit() callbacks
+> to implement device inhibiting/uninhibiting let's look at
+> drivers/input/mouse/elan_i2c_core.c (PATCH 7/7):
+> 
+> static int elan_inhibit(struct input_dev *input)
+> {
+> [...]
+> 
+>      ret = mutex_lock_interruptible(&data->sysfs_mutex);
+>      if (ret)
+>          return ret;
+> 
+>      disable_irq(client->irq);
+> 
+>      ret = elan_disable_power(data);
+>      if (ret)
+>          enable_irq(client->irq);
+> [...]
+> }
+> 
+> First, close() does not exist in this driver. Of course this can be
+> fixed. Then it doesn't return a value. Then, if either taking the
+> mutex or disabling the power fails, the close() is still deemed
+> successful. Is it ok?
 
-Ah, nice catch. Yes, we just need to call ads7846_stop() here. Will post
-a v4 then.
+Note I also mentioned another solution for the error propagation,
+which would require a big "flag day" commit adding "return 0"
+to all existing close callbacks, but otherwise should work for your
+purposes:
 
+ > Well, we could make close() return an error and at least in the inhibit()
+ > case propagate that to userspace. I wonder if userspace is going to
+ > do anything useful with that error though...
 
-Thanks,
-Daniel
+And I guess we could log an error that close failed in the old close() path
+where we cannot propagate the error.
+
+Also why the mutex_lock_interruptible() ?  If you change that to
+a normal mutex_lock() you loose one of the possible 2 error cases and
+I doubt anyone is going to do a CTRL-C of the process doing the
+inhibiting (or that that process starts a timer using a signal
+to ensure the inhibit does not take to long or some such).
+
+Regards,
+
+Hans
+
