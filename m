@@ -2,176 +2,277 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20C841DA32B
-	for <lists+linux-input@lfdr.de>; Tue, 19 May 2020 23:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25C361DA33C
+	for <lists+linux-input@lfdr.de>; Tue, 19 May 2020 23:12:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726283AbgESVDI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 May 2020 17:03:08 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:52776 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725998AbgESVDI (ORCPT
+        id S1726304AbgESVMV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 May 2020 17:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35384 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726178AbgESVMV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 May 2020 17:03:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1589922186; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=AYssrVu0EdXtQCut6RKI0Q/slktx5/swJ4iGM1S+aPM=;
-        b=F4Aafco/wu2j6SCR/42PO2SWWsZNMwDACorK4ZocGNHgTHLYesolX8x3ADsIjVRcCaeZJw
-        a5yXWDDmGEllGmsRIvWGFO92zvZOSpoomh8E/dyp8fSIQ3b84t/y6Kfg9TX/LNQX+pRKwZ
-        oPY9+Afv3CTrx52VuqQ3M+tOmXGy35o=
-Date:   Tue, 19 May 2020 23:02:54 +0200
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v7 7/7] input: joystick: Add ADC attached joystick driver.
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Artur Rojek <contact@artur-rojek.eu>,
+        Tue, 19 May 2020 17:12:21 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5359AC08C5C0;
+        Tue, 19 May 2020 14:12:21 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 8259A2A2536
+Subject: Re: [PATCHv2 4/5] Input: EXC3000: Add support to query model and
+ fw_version
+To:     Sebastian Reichel <sebastian.reichel@collabora.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        linux-input <linux-input@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Message-Id: <USJLAQ.SNMLIAX3CX1J2@crapouillou.net>
-In-Reply-To: <CAHp75VcChHOrxrqBM==-_SaTL4vSojKmRWvkNn-CHLH99pcAuQ@mail.gmail.com>
-References: <20200517194904.34758-1-contact@artur-rojek.eu>
-        <20200517194904.34758-7-contact@artur-rojek.eu>
-        <CAHp75VcChHOrxrqBM==-_SaTL4vSojKmRWvkNn-CHLH99pcAuQ@mail.gmail.com>
+        Ahmet Inan <inan@distec.de>,
+        Martin Fuzzey <martin.fuzzey@flowbird.group>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+References: <20200519182447.73405-1-sebastian.reichel@collabora.com>
+ <20200519182447.73405-5-sebastian.reichel@collabora.com>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <a1700a82-3fa0-771a-e924-7bdacca71c18@collabora.com>
+Date:   Tue, 19 May 2020 23:12:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200519182447.73405-5-sebastian.reichel@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Andy,
+Hi Sebastian,
 
-Le mar. 19 mai 2020 =E0 23:43, Andy Shevchenko=20
-<andy.shevchenko@gmail.com> a =E9crit :
-> On Sun, May 17, 2020 at 10:49 PM Artur Rojek <contact@artur-rojek.eu>=20
-> wrote:
->>=20
->>  Add a driver for joystick devices connected to ADC controllers
->>  supporting the Industrial I/O subsystem.
->=20
-> ...
->=20
->>  +static int adc_joystick_handle(const void *data, void *private)
->>  +{
->>  +       struct adc_joystick *joy =3D private;
->>  +       enum iio_endian endianness;
->>  +       int bytes, msb, val, i;
->>  +       bool sign;
->>  +
->>  +       bytes =3D joy->chans[0].channel->scan_type.storagebits >> 3;
->>  +
->>  +       for (i =3D 0; i < joy->num_chans; ++i) {
->>  +               endianness =3D=20
->> joy->chans[i].channel->scan_type.endianness;
->>  +               msb =3D joy->chans[i].channel->scan_type.realbits - 1;
->=20
->>  +               sign =3D=20
->> (tolower(joy->chans[i].channel->scan_type.sign) =3D=3D 's');
->=20
-> Do we need tolower()?
-
-I'll answer this one:
-
-The sign can be uppercase to specify that the value is sign-extended in=20
-all the storage bits.
-
--Paul
-
->>  +
->>  +               switch (bytes) {
->>  +               case 1:
->>  +                       val =3D ((const u8 *)data)[i];
->>  +                       break;
->>  +               case 2:
->>  +                       if (endianness =3D=3D IIO_BE)
->=20
->>  +                               val =3D be16_to_cpu(((const u16=20
->> *)data)[i]);
->=20
-> Yeah, you have to provide bitwise types to satisfy sparse.
-> Maybe using *_to_cpup() will cure this.
->=20
->>  +                       else if (endianness =3D=3D IIO_LE)
->>  +                               val =3D le16_to_cpu(((const u16=20
->> *)data)[i]);
->>  +                       else /* IIO_CPU */
->>  +                               val =3D ((const u16 *)data)[i];
->>  +                       break;
->>  +               default:
->>  +                       return -EINVAL;
->>  +               }
->>  +
->>  +               val >>=3D joy->chans[i].channel->scan_type.shift;
->>  +               if (sign)
->>  +                       val =3D sign_extend32(val, msb);
->>  +               else
->>  +                       val &=3D GENMASK(msb, 0);
->>  +               input_report_abs(joy->input, joy->axes[i].code,=20
->> val);
->>  +       }
->>  +
->>  +       input_sync(joy->input);
->>  +
->>  +       return 0;
->>  +}
->=20
-> ...
->=20
->>  +       /* Count how many channels we got. NULL terminated. */
->>  +       while (joy->chans[joy->num_chans].indio_dev)
->>  +               joy->num_chans++;
->=20
-> I don't see how useful this is. Why not simple do below...
->=20
->>  +       bits =3D joy->chans[0].channel->scan_type.storagebits;
->>  +       if (!bits || (bits > 16)) {
->>  +               dev_err(dev, "Unsupported channel storage size");
->>  +               return -EINVAL;
->>  +       }
->>  +       for (i =3D 1; i < joy->num_chans; ++i)
->>  +               if (joy->chans[i].channel->scan_type.storagebits !=3D=20
->> bits) {
->>  +                       dev_err(dev, "Channels must have equal=20
->> storage size");
->>  +                       return -EINVAL;
->>  +               }
->=20
-> ...something like
->=20
->   for (i =3D 0; joy->chans[i].indio_dev; i++) {
->     bits =3D joy->chans[i].channel->scan_type.storagebits;
->     if (bits ...) {
->       ...error handling...
->     }
->     if (bits !=3D joy->chans[0].channel->scan_type.storagebits) {
->       ...second level of error handling...
->     }
+On 19/5/20 20:24, Sebastian Reichel wrote:
+> Expose model and fw_version via sysfs. Also query the model
+> in probe to make sure, that the I2C communication with the
+> device works before successfully probing the driver.
+> 
+> This is a bit complicated, since EETI devices do not have
+> a sync interface. Sending the commands and directly reading
+> does not work. Sending the command and waiting for some time
+> is also not an option, since there might be touch events in
+> the mean time.
+> 
+> Last but not least we do not cache the results, since this
+> interface can be used to check the I2C communication is still
+> working as expected.
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>  drivers/input/touchscreen/exc3000.c | 138 +++++++++++++++++++++++++++-
+>  1 file changed, 137 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
+> index 9622cba514b3..1ae758bbf627 100644
+> --- a/drivers/input/touchscreen/exc3000.c
+> +++ b/drivers/input/touchscreen/exc3000.c
+> @@ -24,6 +24,9 @@
+>  #define EXC3000_LEN_FRAME		66
+>  #define EXC3000_LEN_POINT		10
+>  
+> +#define EXC3000_LEN_MODEL_NAME		16
+> +#define EXC3000_LEN_FW_VERSION		16
+> +
+>  #define EXC3000_MT1_EVENT		0x06
+>  #define EXC3000_MT2_EVENT		0x18
+>  
+> @@ -64,6 +67,11 @@ struct exc3000_data {
+>  	struct touchscreen_properties prop;
+>  	struct timer_list timer;
+>  	u8 buf[2 * EXC3000_LEN_FRAME];
+> +	struct completion wait_event;
+> +	struct mutex query_lock;
+> +	int query_result;
+> +	char model[EXC3000_LEN_MODEL_NAME];
+> +	char fw_version[EXC3000_LEN_FW_VERSION];
+>  };
+>  
+>  static void exc3000_report_slots(struct input_dev *input,
+> @@ -149,6 +157,28 @@ static int exc3000_read_data(struct exc3000_data *data,
+>  	return 0;
 >  }
->=20
-> ...
->=20
->>  +static const struct of_device_id adc_joystick_of_match[] =3D {
->>  +       { .compatible =3D "adc-joystick", },
->=20
->>  +       { },
->=20
-> No need comma.
->=20
->>  +};
->=20
-> --
-> With Best Regards,
-> Andy Shevchenko
+>  
+> +static int exc3000_query_interrupt(struct exc3000_data *data)
+> +{
+> +	u8 *buf = data->buf;
+> +	int err;
+> +
+> +	err = i2c_master_recv(data->client, buf, EXC3000_LEN_FRAME);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	if (buf[0] != 0x42)
+> +		return -EPROTO;
+> +
+> +	if (buf[4] == 'E')
+> +		strlcpy(data->model, buf+5, sizeof(data->model));
+> +	else if (buf[4] == 'D')
+> +		strlcpy(data->fw_version, buf+5, sizeof(data->fw_version));
+> +	else
+> +		return -EPROTO;
+> +
+> +	return 0;
+> +}
+> +
+>  static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
+>  {
+>  	struct exc3000_data *data = dev_id;
+> @@ -157,6 +187,12 @@ static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
+>  	int slots, total_slots;
+>  	int error;
+>  
+> +	if (mutex_is_locked(&data->query_lock)) {
+> +		data->query_result = exc3000_query_interrupt(data);
+> +		complete(&data->wait_event);
+> +		goto out;
+> +	}
+> +
+>  	error = exc3000_read_data(data, buf, &total_slots);
+>  	if (error) {
+>  		/* Schedule a timer to release "stuck" contacts */
+> @@ -184,11 +220,94 @@ static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> +static int fw_version_show(struct device *dev,
+> +			   struct device_attribute *attr, char *buf)
+> +{
+> +	struct exc3000_data *data = dev_get_drvdata(dev);
+> +	static const u8 request[68] = {
+> +		0x67, 0x00, 0x42, 0x00, 0x03, 0x01, 'D', 0x00
+> +	};
+> +	struct i2c_client *client = data->client;
+> +	int err;
+> +
+> +	mutex_lock(&data->query_lock);
+> +
+> +	data->query_result = -ETIMEDOUT;
+> +	reinit_completion(&data->wait_event);
+> +
+> +	err = i2c_master_send(client, request, sizeof(request));
+> +	if (err < 0) {
+> +		mutex_unlock(&data->query_lock);
+> +		return err;
+> +	}
+> +
+> +	wait_for_completion_interruptible_timeout(&data->wait_event, 1*HZ);
+> +	mutex_unlock(&data->query_lock);
+> +
+> +	if (data->query_result < 0)
+> +		return data->query_result;
+> +
+> +	return sprintf(buf, "%s\n", data->fw_version);
+> +}
+> +static DEVICE_ATTR_RO(fw_version);
+> +
 
+You should probably document the new sysfs entries, although are self-explanatory.
 
+> +static ssize_t exc3000_get_model(struct exc3000_data *data)
+> +{
+> +	static const u8 request[68] = {
+> +		0x67, 0x00, 0x42, 0x00, 0x03, 0x01, 'E', 0x00
+> +	};
+> +	struct i2c_client *client = data->client;
+> +	int err;
+> +
+> +	mutex_lock(&data->query_lock);
+> +	data->query_result = -ETIMEDOUT;
+> +	reinit_completion(&data->wait_event);
+> +
+> +	err = i2c_master_send(client, request, sizeof(request));
+> +	if (err < 0) {
+> +		mutex_unlock(&data->query_lock);
+> +		return err;
+> +	}
+> +
+> +	wait_for_completion_interruptible_timeout(&data->wait_event, 1 * HZ);
+> +	mutex_unlock(&data->query_lock);
+> +
+> +	return data->query_result;
+> +}
+> +
+> +static ssize_t model_show(struct device *dev,
+> +			  struct device_attribute *attr, char *buf)
+> +{
+> +	struct exc3000_data *data = dev_get_drvdata(dev);
+> +	int err = exc3000_get_model(data);
+> +
+> +	if (err < 0)
+> +		return err;
+> +
+> +	return sprintf(buf, "%s\n", data->model);
+> +}
+> +static DEVICE_ATTR_RO(model);
+> +
+> +static struct attribute *sysfs_attrs[] = {
+> +	&dev_attr_fw_version.attr,
+> +	&dev_attr_model.attr,
+> +	NULL
+> +};
+> +
+> +static struct attribute_group exc3000_attribute_group = {
+> +	.attrs = sysfs_attrs
+> +};
+> +
+> +static const struct attribute_group *exc3000_attribute_groups[] = {
+> +	&exc3000_attribute_group,
+> +	NULL
+> +};
+> +
+>  static int exc3000_probe(struct i2c_client *client)
+>  {
+>  	struct exc3000_data *data;
+>  	struct input_dev *input;
+> -	int error, max_xy;
+> +	int error, max_xy, retry;
+>  
+>  	data = devm_kzalloc(&client->dev, sizeof(*data), GFP_KERNEL);
+>  	if (!data)
+> @@ -202,15 +321,19 @@ static int exc3000_probe(struct i2c_client *client)
+>  		data->info = &exc3000_info[eeti_dev_id];
+>  	}
+>  	timer_setup(&data->timer, exc3000_timer, 0);
+> +	init_completion(&data->wait_event);
+> +	mutex_init(&data->query_lock);
+>  
+>  	input = devm_input_allocate_device(&client->dev);
+>  	if (!input)
+>  		return -ENOMEM;
+>  
+>  	data->input = input;
+> +	input_set_drvdata(input, data);
+>  
+>  	input->name = data->info->name;
+>  	input->id.bustype = BUS_I2C;
+> +	input->dev.groups = exc3000_attribute_groups;
+>  
+>  	max_xy = data->info->max_xy;
+>  	input_set_abs_params(input, ABS_MT_POSITION_X, 0, max_xy, 0, 0);
+> @@ -233,6 +356,19 @@ static int exc3000_probe(struct i2c_client *client)
+>  	if (error)
+>  		return error;
+>  
+> +	for (retry = 0; retry < 3; ++retry) {
+
+Just curious, is it known to fail and need retries?
+
+> +		error = exc3000_get_model(data);
+> +		if (!error)
+> +			break;
+> +		dev_warn(&client->dev, "Retry %d get EETI EXC3000 model: %d\n",
+> +			 retry + 1, error);
+> +	}
+> +
+> +	if (error)
+> +		return error;
+> +
+> +	dev_dbg(&client->dev, "TS Model: %s", data->model);
+> +
+>  	return 0;
+>  }
+>  
+> 
