@@ -2,174 +2,172 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3E841DA300
-	for <lists+linux-input@lfdr.de>; Tue, 19 May 2020 22:44:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ADC31DA325
+	for <lists+linux-input@lfdr.de>; Tue, 19 May 2020 22:57:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726283AbgESUoC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 May 2020 16:44:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59202 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726178AbgESUoB (ORCPT
+        id S1726352AbgESU5z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 May 2020 16:57:55 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:57452 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725998AbgESU5y (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 May 2020 16:44:01 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CD20C08C5C0;
-        Tue, 19 May 2020 13:44:01 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id t7so382972plr.0;
-        Tue, 19 May 2020 13:44:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7NKe0dGCLuIFUTSDu/e/oZFqvqubemBEs4EDLcjwgzA=;
-        b=i1AE9fbb1/4A3jewEktdiPlEhm44n+aEzpUF/J6C5L/Vmt4RDWpg5l+3XaTGXPR2pA
-         jYk5iOBvDHwFMaVrwgNve7m/NAowuc6ceW2X3lcl2kZP59FjRMMXrnp847fkHyPRyzrn
-         UhA6HJ+izxCChQA+GOq4qeGv5WoioDVdSyW4BU7HYcc+qrbQW8rRzv+gbAGnSLZSb4f3
-         k1WxMhiBEPV33vNC4h/pD9HAg+wyRr2lHno32blg6wWj18WZ9xUxuCONDAezkJyOlUUr
-         MaQdqTBwSHwq3ZLdk9dN7iQJxhykm4NGX/Bfnws7VGfXepvQYlrCnwxGW025/zgM08Ul
-         jJww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7NKe0dGCLuIFUTSDu/e/oZFqvqubemBEs4EDLcjwgzA=;
-        b=WCslaEhlN1HbhQmSOS3zVK6kWkvaw582VrPQ5o3oQG/Q97mtCJr/wcqgdFug8Ou9Xf
-         FMPPafnwyJKMMdjkO6fGTow7whp5nyT/Kksj51dUTgX5n+qInaNsU0cnS8uXSqSuQHJA
-         LFNW+4spMBMwKX+wOFZiJGMUqPSVZ8Jv2bCu+JyveakNfmuLSc3YJY42W566yfBukmji
-         hXgk2A6i9DLvN6AjlGhN80w0KiG/Hh1WIcl7ww/HPnHjWLbrlgs0exwBsugs+VFNErGr
-         b91l4zdzs1cB/mvQhfs6XRmT+rrq9fDdiVtC1Atn5dFHCwkLoDqwFxyT3qO4HCWM6KDf
-         K9pQ==
-X-Gm-Message-State: AOAM533L0MWHQ8Bv3o0WHvyopBdRpSCsNTNhHoQk31dFA8A58mtn6leR
-        /+/eLoZhuPOScsJEKMAQnI9BJEUEVGmKE8siuzQ=
-X-Google-Smtp-Source: ABdhPJyhoLKOvXYwlEtqNyJEFcVPhsytjjZvjtEBaBNriSxQfrCm3qrr6XzTUriBFI1NitA6C5nmn1Lg7mL7k2fxWGA=
-X-Received: by 2002:a17:90a:1704:: with SMTP id z4mr1366526pjd.181.1589921041122;
- Tue, 19 May 2020 13:44:01 -0700 (PDT)
+        Tue, 19 May 2020 16:57:54 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 190932A00E6
+Subject: Re: [PATCHv2 5/5] Input: EXC3000: Add reset gpio support
+To:     Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ahmet Inan <inan@distec.de>,
+        Martin Fuzzey <martin.fuzzey@flowbird.group>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+References: <20200519182447.73405-1-sebastian.reichel@collabora.com>
+ <20200519182447.73405-6-sebastian.reichel@collabora.com>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <80ff22aa-dd46-c035-a333-eca5dc7e6c2f@collabora.com>
+Date:   Tue, 19 May 2020 22:57:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200517194904.34758-1-contact@artur-rojek.eu> <20200517194904.34758-7-contact@artur-rojek.eu>
-In-Reply-To: <20200517194904.34758-7-contact@artur-rojek.eu>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 19 May 2020 23:43:44 +0300
-Message-ID: <CAHp75VcChHOrxrqBM==-_SaTL4vSojKmRWvkNn-CHLH99pcAuQ@mail.gmail.com>
-Subject: Re: [PATCH v7 7/7] input: joystick: Add ADC attached joystick driver.
-To:     Artur Rojek <contact@artur-rojek.eu>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        linux-input <linux-input@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200519182447.73405-6-sebastian.reichel@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, May 17, 2020 at 10:49 PM Artur Rojek <contact@artur-rojek.eu> wrote:
->
-> Add a driver for joystick devices connected to ADC controllers
-> supporting the Industrial I/O subsystem.
+Hi Sebastian,
 
-...
+Again a minor thing
 
-> +static int adc_joystick_handle(const void *data, void *private)
-> +{
-> +       struct adc_joystick *joy = private;
-> +       enum iio_endian endianness;
-> +       int bytes, msb, val, i;
-> +       bool sign;
+On 19/5/20 20:24, Sebastian Reichel wrote:
+> Add basic support for an optional reset gpio.
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>  .../bindings/input/touchscreen/exc3000.yaml   |  2 ++
+>  drivers/input/touchscreen/exc3000.c           | 29 +++++++++++++++----
+>  2 files changed, 25 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/exc3000.yaml b/Documentation/devicetree/bindings/input/touchscreen/exc3000.yaml
+> index d83b61e884df..8b70b918c7ca 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/exc3000.yaml
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/exc3000.yaml
+> @@ -22,6 +22,8 @@ properties:
+>      const: 0x2a
+>    interrupts:
+>      maxItems: 1
+> +  reset-gpios:
+> +    maxItems: 1
+>    touchscreen-size-x: true
+>    touchscreen-size-y: true
+>    touchscreen-inverted-x: true
+> diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
+> index 1ae758bbf627..9fed66ef1719 100644
+> --- a/drivers/input/touchscreen/exc3000.c
+> +++ b/drivers/input/touchscreen/exc3000.c
+> @@ -8,7 +8,9 @@
+>   */
+>  
+>  #include <linux/bitops.h>
+> +#include <linux/delay.h>
+>  #include <linux/device.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/i2c.h>
+>  #include <linux/input.h>
+>  #include <linux/input/mt.h>
+> @@ -32,6 +34,9 @@
+>  
+>  #define EXC3000_TIMEOUT_MS		100
+>  
+> +#define EXC3000_RESET_MS		10
+> +#define EXC3000_READY_MS		100
 > +
-> +       bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
+>  static const struct i2c_device_id exc3000_id[];
+>  
+>  struct eeti_dev_info {
+> @@ -65,6 +70,7 @@ struct exc3000_data {
+>  	const struct eeti_dev_info *info;
+>  	struct input_dev *input;
+>  	struct touchscreen_properties prop;
+> +	struct gpio_desc *reset;
+>  	struct timer_list timer;
+>  	u8 buf[2 * EXC3000_LEN_FRAME];
+>  	struct completion wait_event;
+> @@ -305,16 +311,17 @@ static const struct attribute_group *exc3000_attribute_groups[] = {
+>  
+>  static int exc3000_probe(struct i2c_client *client)
+>  {
+> +	struct device *dev = &client->dev;
+
+This introduces more changes to the patch than the required. Is not that I am
+against of this change but since what you are doing here is introduce an
+optional reset I think would be better just introduce that change.
+
+>  	struct exc3000_data *data;
+>  	struct input_dev *input;
+>  	int error, max_xy, retry;
+>  
+> -	data = devm_kzalloc(&client->dev, sizeof(*data), GFP_KERNEL);
+> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+>  	if (!data)
+>  		return -ENOMEM;
+>  
+>  	data->client = client;
+> -	data->info = device_get_match_data(&client->dev);
+> +	data->info = device_get_match_data(dev);
+>  	if (!data->info) {
+>  		enum eeti_dev_id eeti_dev_id =
+>  			i2c_match_id(exc3000_id, client)->driver_data;
+> @@ -324,7 +331,17 @@ static int exc3000_probe(struct i2c_client *client)
+>  	init_completion(&data->wait_event);
+>  	mutex_init(&data->query_lock);
+>  
+> -	input = devm_input_allocate_device(&client->dev);
+> +	data->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+
+nit: Just use &client->dev here ?
+
+> +	if (IS_ERR(data->reset))
+> +		return PTR_ERR(data->reset);
 > +
-> +       for (i = 0; i < joy->num_chans; ++i) {
-> +               endianness = joy->chans[i].channel->scan_type.endianness;
-> +               msb = joy->chans[i].channel->scan_type.realbits - 1;
-
-> +               sign = (tolower(joy->chans[i].channel->scan_type.sign) == 's');
-
-Do we need tolower()?
-
+> +	if (data->reset) {
+> +		msleep(EXC3000_RESET_MS);
+> +		gpiod_set_value_cansleep(data->reset, 0);
+> +		msleep(EXC3000_READY_MS);
+> +	}
 > +
-> +               switch (bytes) {
-> +               case 1:
-> +                       val = ((const u8 *)data)[i];
-> +                       break;
-> +               case 2:
-> +                       if (endianness == IIO_BE)
-
-> +                               val = be16_to_cpu(((const u16 *)data)[i]);
-
-Yeah, you have to provide bitwise types to satisfy sparse.
-Maybe using *_to_cpup() will cure this.
-
-> +                       else if (endianness == IIO_LE)
-> +                               val = le16_to_cpu(((const u16 *)data)[i]);
-> +                       else /* IIO_CPU */
-> +                               val = ((const u16 *)data)[i];
-> +                       break;
-> +               default:
-> +                       return -EINVAL;
-> +               }
-> +
-> +               val >>= joy->chans[i].channel->scan_type.shift;
-> +               if (sign)
-> +                       val = sign_extend32(val, msb);
-> +               else
-> +                       val &= GENMASK(msb, 0);
-> +               input_report_abs(joy->input, joy->axes[i].code, val);
-> +       }
-> +
-> +       input_sync(joy->input);
-> +
-> +       return 0;
-> +}
-
-...
-
-> +       /* Count how many channels we got. NULL terminated. */
-> +       while (joy->chans[joy->num_chans].indio_dev)
-> +               joy->num_chans++;
-
-I don't see how useful this is. Why not simple do below...
-
-> +       bits = joy->chans[0].channel->scan_type.storagebits;
-> +       if (!bits || (bits > 16)) {
-> +               dev_err(dev, "Unsupported channel storage size");
-> +               return -EINVAL;
-> +       }
-> +       for (i = 1; i < joy->num_chans; ++i)
-> +               if (joy->chans[i].channel->scan_type.storagebits != bits) {
-> +                       dev_err(dev, "Channels must have equal storage size");
-> +                       return -EINVAL;
-> +               }
-
-...something like
-
-  for (i = 0; joy->chans[i].indio_dev; i++) {
-    bits = joy->chans[i].channel->scan_type.storagebits;
-    if (bits ...) {
-      ...error handling...
-    }
-    if (bits != joy->chans[0].channel->scan_type.storagebits) {
-      ...second level of error handling...
-    }
- }
-
-...
-
-> +static const struct of_device_id adc_joystick_of_match[] = {
-> +       { .compatible = "adc-joystick", },
-
-> +       { },
-
-No need comma.
-
-> +};
-
--- 
-With Best Regards,
-Andy Shevchenko
+> +	input = devm_input_allocate_device(dev);
+>  	if (!input)
+>  		return -ENOMEM;
+>  
+> @@ -350,7 +367,7 @@ static int exc3000_probe(struct i2c_client *client)
+>  	if (error)
+>  		return error;
+>  
+> -	error = devm_request_threaded_irq(&client->dev, client->irq,
+> +	error = devm_request_threaded_irq(dev, client->irq,
+>  					  NULL, exc3000_interrupt, IRQF_ONESHOT,
+>  					  client->name, data);
+>  	if (error)
+> @@ -360,14 +377,14 @@ static int exc3000_probe(struct i2c_client *client)
+>  		error = exc3000_get_model(data);
+>  		if (!error)
+>  			break;
+> -		dev_warn(&client->dev, "Retry %d get EETI EXC3000 model: %d\n",
+> +		dev_warn(dev, "Retry %d get EETI EXC3000 model: %d\n",
+>  			 retry + 1, error);
+>  	}
+>  
+>  	if (error)
+>  		return error;
+>  
+> -	dev_dbg(&client->dev, "TS Model: %s", data->model);
+> +	dev_dbg(dev, "TS Model: %s", data->model);
+>  
+>  	return 0;
+>  }
+> 
