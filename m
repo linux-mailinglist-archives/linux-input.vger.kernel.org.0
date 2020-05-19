@@ -2,77 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 123641D8750
-	for <lists+linux-input@lfdr.de>; Mon, 18 May 2020 20:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B6831D921C
+	for <lists+linux-input@lfdr.de>; Tue, 19 May 2020 10:37:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728551AbgERSct (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 May 2020 14:32:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39532 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728490AbgERSck (ORCPT
+        id S1726535AbgESIhY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 May 2020 04:37:24 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:19503 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726121AbgESIhY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 May 2020 14:32:40 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB92C061A0C
-        for <linux-input@vger.kernel.org>; Mon, 18 May 2020 11:32:39 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id t40so229498pjb.3
-        for <linux-input@vger.kernel.org>; Mon, 18 May 2020 11:32:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/mMR9SUonYE7Fv7AGmBuqnBhi0hTnr4y0aRcJNSvnS8=;
-        b=azXlw+gGTIJPTRABWIGguF1poENMDxXOnw40erz4saSn0RIvCc2DIaKVfNiBRYX1c0
-         zbmw5vPa4hP7DQuMSpZmYKAwibt185zJoNNC7L6/AAxJUrMILlUnJzuE5rTSyRxtNTip
-         US7uFCRAEIyPofVKpEOG9DRZ9OFJ3mmIaSXEW4hZCBF8HwNUFolZ4aaLUQCxuhSrohd9
-         JbaYKwaLdiuOJkzF91R5OUuJP+mCz8RVV5/9Ap10DLeqlIClyPfjaMa/fO0L6cTu3mnn
-         Sr1Oj5d7CB6nytdW2k85ysevDZ3L9F5+kGUya/J4Ve6sSf7CcWioEFIC8kvePchVH+2H
-         E82g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/mMR9SUonYE7Fv7AGmBuqnBhi0hTnr4y0aRcJNSvnS8=;
-        b=tQmrj1wwZ/YNUCtWltnb1IDtmPK4t77xYgMNwgPDOguQDnyBv86m+h1tAjYbR+QXXV
-         t9KvFgy6h/jhUnC7N4VIgsGvUJUj1LkMbm1yapqdJTlEzSlw4QbQrzk/duOS59BM3DLY
-         d6Vk2e6JBf6tubLOXC0VKKY2aIClbiuA/rXlrSUIUZvkw21RfayBFd8osObsJ5aOeNvt
-         G04CryHebWUrZ/eTpRoxyG9w/BT/M9OILjNdPri7cuNF/iYglBrDlDwSBzawBND9M7NU
-         hGLVpF+qgLOdDLOEYYSmUTMNWMHBnKSMDk91QtSRyNL6dgxHnt9d0cipWXBMlbwigcsN
-         oJFQ==
-X-Gm-Message-State: AOAM532AC2pHHrDWB2MrKmpmEU1LWdtMlx07H0ecX0cfKtWjpGhFRH6Z
-        W1AOdbGr6WNfFqIAoAN58UA=
-X-Google-Smtp-Source: ABdhPJyhq/EHlVrWbk91TheLtoN5re0VFSfclLwmmISCt62BBBrVtKOPF/ntWD0ELagn7clb3QsFhA==
-X-Received: by 2002:a17:90a:ad92:: with SMTP id s18mr829114pjq.30.1589826758640;
-        Mon, 18 May 2020 11:32:38 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id b1sm9317486pfi.140.2020.05.18.11.32.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2020 11:32:38 -0700 (PDT)
-Date:   Mon, 18 May 2020 11:32:36 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: iqs269a - add missing I2C dependency
-Message-ID: <20200518183236.GR89269@dtor-ws>
-References: <1589809466-22748-1-git-send-email-jeff@labundy.com>
+        Tue, 19 May 2020 04:37:24 -0400
+X-Originating-IP: 78.193.40.249
+Received: from localhost (unknown [78.193.40.249])
+        (Authenticated sender: kamel.bouhara@bootlin.com)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 43E33240002;
+        Tue, 19 May 2020 08:37:21 +0000 (UTC)
+From:   Kamel Bouhara <kamel.bouhara@bootlin.com>
+To:     William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org,
+        Kamel Bouhara <kamel.bouhara@bootlin.com>
+Subject: [PATCH v5 0/5] Microchip TCB Capture driver
+Date:   Tue, 19 May 2020 10:37:11 +0200
+Message-Id: <20200519083716.938384-1-kamel.bouhara@bootlin.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1589809466-22748-1-git-send-email-jeff@labundy.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 18, 2020 at 08:44:26AM -0500, Jeff LaBundy wrote:
-> If CONFIG_INPUT_IQS269A is selected yet CONFIG_I2C is not, the build
-> fails. To solve this problem, add I2C as a dependency.
-> 
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-> Reported-by: kbuild test robot <lkp@intel.com>
-> Fixes: 04e49867fad1 ("Input: add support for Azoteq IQS269A")
+Hello,
 
-Applied, thank you.
+Here is a new counter driver to support Microchip TCB capture devices.
 
--- 
-Dmitry
+Each SoC has two TCB blocks, each one including three independent
+channels.The following series adds support for two counter modes:
+increase and quadrature decoder.
+
+As for the atmel clocksource and pwm, the counter driver needs to fill
+some tcb capabilities in order to operate with the right configuration.
+This is achieved in first patch of this series.
+
+Please feel free to comment.
+
+Cheers,
+
+Changes in v5:
+ - Fix duplicate keys errors in yaml dt-schema
+
+Changes in v4:
+ - Use existing binding to document capture mode of the Microchip TCBs.
+
+Changes in v3:
+ - Updated the brand name: s/atmel/microchip/.
+ - Added missing kernel doc for new elements introduced in structure
+   atmel_tcb_config.
+ - Removed useless blank line
+ - Added an explicit clock removing path using devm_add_action_or_reset
+
+Changes in v2:
+ - Fixed first patch not applying on mainline
+ - Updated return code to -EINVAL when user is requesting qdec mode on
+   a counter device not supporting it.
+ - Added an error case returning -EINVAL when action edge is performed
+   in
+   qdec mode.
+ - Removed no need to explicity setting ops to NULL from static struct
+   as
+   it is the default value.
+ - Changed confusing code by using snprintf for the sake of clarity.
+ - Changed code to use ARRAY_SIZE so that future reviewers will know
+   that num_counts matches what's in the atmel_tc_count array without
+   having to check so themselves.
+ - Fixed errors reported by dt_binding_check
+
+Alexandre Belloni (2):
+  dt-bindings: atmel-tcb: convert bindings to json-schema
+  dt-bindings: microchip: atmel,at91rm9200-tcb: add sama5d2 compatible
+
+Kamel Bouhara (3):
+  ARM: at91: add atmel tcb capabilities
+  dt-bindings: counter: microchip-tcb-capture counter
+  counter: Add microchip TCB capture counter
+
+ .../devicetree/bindings/mfd/atmel-tcb.txt     |  56 ---
+ .../soc/microchip/atmel,at91rm9200-tcb.yaml   | 176 ++++++++
+ drivers/counter/Kconfig                       |  11 +
+ drivers/counter/Makefile                      |   1 +
+ drivers/counter/microchip-tcb-capture.c       | 397 ++++++++++++++++++
+ include/soc/at91/atmel_tcb.h                  |   5 +
+ 6 files changed, 590 insertions(+), 56 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/mfd/atmel-tcb.txt
+ create mode 100644 Documentation/devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.yaml
+ create mode 100644 drivers/counter/microchip-tcb-capture.c
+
+--
+2.25.0
+
