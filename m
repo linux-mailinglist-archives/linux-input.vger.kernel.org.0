@@ -2,285 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A7781D9370
-	for <lists+linux-input@lfdr.de>; Tue, 19 May 2020 11:36:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 415081D9EFD
+	for <lists+linux-input@lfdr.de>; Tue, 19 May 2020 20:15:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727811AbgESJgo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 May 2020 05:36:44 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22496 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727822AbgESJgm (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 May 2020 05:36:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589881000;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=zx1xwU2hx8pVoq/x6eR5o+QLPp4w7KqD0sx7jmQ5IaM=;
-        b=P2pEmm0du4LEImyCr5Qfz9Gbc495NAFoskfpFLHAe4R6cC7fr02w3m98qAChYl1+A3mjb0
-        SydIwHjWhDyxulA1n6JF2ltAiP0PIaS72U/y5iRehgDElsWcl1T1roYm6ly84Rb+kXqBjK
-        lTw9tn9OvR8YHevgCum0igr1oM2a2hk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-ugAFxouBOwaiI6C1uASXKA-1; Tue, 19 May 2020 05:36:38 -0400
-X-MC-Unique: ugAFxouBOwaiI6C1uASXKA-1
-Received: by mail-wm1-f71.google.com with SMTP id m11so749520wml.5
-        for <linux-input@vger.kernel.org>; Tue, 19 May 2020 02:36:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zx1xwU2hx8pVoq/x6eR5o+QLPp4w7KqD0sx7jmQ5IaM=;
-        b=MULhD5iRWjqTzw8HcPNvUi2DuNKQ7gskrsEM6U/joQE5s0aYtOa2gPu5rstLcQTu7P
-         jcCgZTGxKspmItD2/Ro3pSCUqM6FDoPtzPmecIOMsq6SwBoQQ+Dwlyhdy3pu2e4VNvhL
-         /ppOPqMlzXjFTKXfQanJ86Pg1rvdKWc+6jGHh9uearqmj5mUoXeueDwHrsjZ5Merm3I2
-         pJpuw+f4cuR/Cya91du2iQ/QpF9bqedZTnpWyM5oVx71rTm9aMNagDynyJp0EshTSNUT
-         8Dxzcke0SzfiTXaBDdvvgvzVcbhZwaGjdzXDqYxphKUeisNMXieKDF1RGwtvc+rrV2VL
-         zzFA==
-X-Gm-Message-State: AOAM532zrHcVyVLFaExVohxD6FV7gTYbnBBRLBdgijXfdSV1RGi+2x0j
-        dMYIBH/9Una8Y73zKHfzJ+bs0vzLblW+usqGBCca+8f6sXUVWbaIJQP/kbSU81VP6ger+k+p7y4
-        XueV8BlUwRFNyh0bKj1cEv0M=
-X-Received: by 2002:a1c:444:: with SMTP id 65mr4608058wme.21.1589880996786;
-        Tue, 19 May 2020 02:36:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwqcjizbgXFRvjt4WsCNNW18OC7P3zc0FNfH6PxsI9rxtfI7F0v+PkL9hUz5wI4ZZq7PkCtaQ==
-X-Received: by 2002:a1c:444:: with SMTP id 65mr4608023wme.21.1589880996492;
-        Tue, 19 May 2020 02:36:36 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id i6sm3566852wmb.41.2020.05.19.02.36.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 May 2020 02:36:35 -0700 (PDT)
-Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
+        id S1726862AbgESSPk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 May 2020 14:15:40 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2230 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726447AbgESSPk (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 19 May 2020 14:15:40 -0400
+Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.108])
+        by Forcepoint Email with ESMTP id 578699F2B73643D873E3;
+        Tue, 19 May 2020 19:15:39 +0100 (IST)
+Received: from localhost (10.47.86.149) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1913.5; Tue, 19 May
+ 2020 19:15:38 +0100
+Date:   Tue, 19 May 2020 19:15:11 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Artur Rojek <contact@artur-rojek.eu>
+CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
         Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
-        Benjamin Tissoires <btissoir@redhat.com>
-References: <20200506002746.GB89269@dtor-ws>
- <20200515164943.28480-1-andrzej.p@collabora.com>
- <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
- <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
- <6d9921fc-5c2f-beda-4dcd-66d6970a22fe@redhat.com>
- <09679de4-75d3-1f29-ec5f-8d42c84273dd@collabora.com>
- <f674ba4f-bd83-0877-c730-5dc6ea09ae4b@redhat.com>
- <2d224833-3a7e-bc7c-af15-1f803f466697@collabora.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <aa2ce2ab-e5bc-9cb4-8b53-c1ef9348b646@redhat.com>
-Date:   Tue, 19 May 2020 11:36:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Paul Cercueil <paul@crapouillou.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v7 2/7] IIO: Ingenic JZ47xx: Error check clk_enable
+ calls.
+Message-ID: <20200519191511.00007c78@Huawei.com>
+In-Reply-To: <20200517194904.34758-2-contact@artur-rojek.eu>
+References: <20200517194904.34758-1-contact@artur-rojek.eu>
+        <20200517194904.34758-2-contact@artur-rojek.eu>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <2d224833-3a7e-bc7c-af15-1f803f466697@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.86.149]
+X-ClientProxiedBy: lhreml705-chm.china.huawei.com (10.201.108.54) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Sun, 17 May 2020 21:48:59 +0200
+Artur Rojek <contact@artur-rojek.eu> wrote:
 
-On 5/19/20 11:02 AM, Andrzej Pietrasiewicz wrote:
-> Hi Hans, Hi Dmitry,
+> Introduce error checks for the clk_enable calls used in this driver.
+> As part of the changes, move clk_enable/clk_disable calls out of
+> ingenic_adc_set_config and into respective logic of its callers.
 > 
-> W dniu 18.05.2020 o 16:23, Hans de Goede pisze:
->> Hi,
-> 
-> <snip>
-> 
->>>>>>
->>>>>> So I wonder what this series actually adds for functionality for
->>>>>> userspace which can not already be achieved this way?
->>>>>>
->>>>>> I also noticed that you keep the device open (do not call the
->>>>>> input_device's close callback) when inhibited and just throw away
->>>>>
->>>>> I'm not sure if I understand you correctly, it is called:
->>>>>
->>>>> +static inline void input_stop(struct input_dev *dev)
->>>>> +{
->>>>> +    if (dev->poller)
->>>>> +        input_dev_poller_stop(dev->poller);
->>>>> +    if (dev->close)
->>>>> +        dev->close(dev);
->>>>>                  ^^^^^^^^^^^^^^^^
->>>>> +static int input_inhibit(struct input_dev *dev)
->>>>> +{
->>>>> +    int ret = 0;
->>>>> +
->>>>> +    mutex_lock(&dev->mutex);
->>>>> +
->>>>> +    if (dev->inhibited)
->>>>> +        goto out;
->>>>> +
->>>>> +    if (dev->users) {
->>>>> +        if (dev->inhibit) {
->>>>> +            ret = dev->inhibit(dev);
->>>>> +            if (ret)
->>>>> +                goto out;
->>>>> +        }
->>>>> +        input_stop(dev);
->>>>>                  ^^^^^^^^^^^^^^^^
->>>>>
->>>>> It will not be called when dev->users is zero, but if it is zero,
->>>>> then nobody has opened the device yet so there is nothing to close.
->>>>
->>>> Ah, I missed that.
->>>>
->>>> So if the device implements the inhibit call back then on
->>>> inhibit it will get both the inhibit and close callback called?
->>>>
->>>
->>> That's right. And conversely, upon uninhibit open() and uninhibit()
->>> callbacks will be invoked. Please note that just as with open()/close(),
->>> providing inhibit()/uninhibit() is optional.
->>
->> Ack.
->>
->>>> And what happens if the last user goes away and the device
->>>> is not inhibited?
->>>
->>> close() is called as usually.
->>
->> But not inhibit, hmm, see below.
->>
->>>> I'm trying to understand here what the difference between the 2
->>>> is / what the goal of having a separate inhibit callback ?
->>>>
->>>
->>> Drivers have very different ideas about what it means to suspend/resume
->>> and open/close. The optional inhibit/uninhibit callbacks are meant for
->>> the drivers to know that it is this particular action going on.
->>
->> So the inhibit() callback triggers the "suspend" behavior ?
->> But shouldn't drivers which are capable of suspending the device
->> always do so on close() ?
->>
->> Since your current proposal also calls close() on inhibit() I
->> really see little difference between an inhibit() and the last
->> user of the device closing it and IMHO unless there is a good
->> reason to actually differentiate the 2 it would be better
->> to only stick with the existing close() and in cases where
->> that does not put the device in a low-power mode yet, fix
->> the existing close() callback to do the low-power mode
->> setting instead of adding a new callback.
->>
->>> For inhibit() there's one more argument: close() does not return a value,
->>> so its meaning is "do some last cleanup" and as such it is not allowed
->>> to fail - whatever its effect is, we must deem it successful. inhibit()
->>> does return a value and so it is allowed to fail.
->>
->> Well, we could make close() return an error and at least in the inhibit()
->> case propagate that to userspace. I wonder if userspace is going to
->> do anything useful with that error though...
->>
->> In my experience errors during cleanup/shutdown are best logged
->> (using dev_err) and otherwise ignored, so that we try to clean up
->> as much possible. Unless the very first step of the shutdown process
->> fails the device is going to be in some twilight zone state anyways
->> at this point we might as well try to cleanup as much as possible.
-> 
-> What you say makes sense to me.
-> @Dmitry?
-> 
->>
->>> All in all, it is up to the drivers to decide which callback they
->>> provide. Based on my work so far I would say that there are tens
->>> of simple cases where open() and close() are sufficient, out of total
->>> ~400 users of input_allocate_device():
->>>
->>> $ git grep "input_allocate_device(" | grep -v ^Documentation | \
->>> cut -f1 -d: | sort | uniq | wc
->>>      390     390   13496
->>
->> So can you explain a bit more about the cases where only having
->> open/close is not sufficient?  So far I have the feeling that
->> those are all we need and that we really do not need separate
->> [un]inhibit callbacks.
-> 
-> My primary concern was not being able to propagate inhibit() error
-> to userspace, and then if we have inhibit(), uninhibit() should be
-> there for completeness. If propagating the error to userspace can
-> be neglected then yes, it seems open/close should be sufficient,
-> even more because the real meaning of "open" is "prepare the device
-> for generating input events".
-> 
-> To validate the idea of not introducing inhibit()/uninhibit() callbacks
-> to implement device inhibiting/uninhibiting let's look at
-> drivers/input/mouse/elan_i2c_core.c (PATCH 7/7):
-> 
-> static int elan_inhibit(struct input_dev *input)
-> {
-> [...]
-> 
->      ret = mutex_lock_interruptible(&data->sysfs_mutex);
->      if (ret)
->          return ret;
-> 
->      disable_irq(client->irq);
-> 
->      ret = elan_disable_power(data);
->      if (ret)
->          enable_irq(client->irq);
-> [...]
-> }
-> 
-> First, close() does not exist in this driver. Of course this can be
-> fixed. Then it doesn't return a value. Then, if either taking the
-> mutex or disabling the power fails, the close() is still deemed
-> successful. Is it ok?
+> Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
+> Tested-by: Paul Cercueil <paul@crapouillou.net>
 
-Note I also mentioned another solution for the error propagation,
-which would require a big "flag day" commit adding "return 0"
-to all existing close callbacks, but otherwise should work for your
-purposes:
+One trivial thing inline.
 
- > Well, we could make close() return an error and at least in the inhibit()
- > case propagate that to userspace. I wonder if userspace is going to
- > do anything useful with that error though...
+> ---
+> 
+>  Changes:
+> 
+>  v6: new patch
+> 
+>  v7: no change
+> 
+>  drivers/iio/adc/ingenic-adc.c | 23 ++++++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/ingenic-adc.c b/drivers/iio/adc/ingenic-adc.c
+> index 39c0a609fc94..6c3bbba7c44b 100644
+> --- a/drivers/iio/adc/ingenic-adc.c
+> +++ b/drivers/iio/adc/ingenic-adc.c
+> @@ -73,7 +73,6 @@ static void ingenic_adc_set_config(struct ingenic_adc *adc,
+>  {
+>  	uint32_t cfg;
+>  
+> -	clk_enable(adc->clk);
+>  	mutex_lock(&adc->lock);
+>  
+>  	cfg = readl(adc->base + JZ_ADC_REG_CFG) & ~mask;
+> @@ -81,7 +80,6 @@ static void ingenic_adc_set_config(struct ingenic_adc *adc,
+>  	writel(cfg, adc->base + JZ_ADC_REG_CFG);
+>  
+>  	mutex_unlock(&adc->lock);
+> -	clk_disable(adc->clk);
+>  }
+>  
+>  static void ingenic_adc_enable(struct ingenic_adc *adc,
+> @@ -124,6 +122,8 @@ static int ingenic_adc_write_raw(struct iio_dev *iio_dev,
+>  				 long m)
+>  {
+>  	struct ingenic_adc *adc = iio_priv(iio_dev);
+> +	struct device *dev = iio_dev->dev.parent;
+> +	int ret;
+>  
+>  	switch (m) {
+>  	case IIO_CHAN_INFO_SCALE:
+> @@ -131,6 +131,14 @@ static int ingenic_adc_write_raw(struct iio_dev *iio_dev,
+>  		case INGENIC_ADC_BATTERY:
+>  			if (!adc->soc_data->battery_vref_mode)
+>  				return -EINVAL;
+> +
+> +			ret = clk_enable(adc->clk);
+> +			if (ret) {
+> +				dev_err(dev, "Failed to enable clock: %d\n",
+> +					ret);
+> +				return ret;
+> +			}
+> +
+>  			if (val > JZ_ADC_BATTERY_LOW_VREF) {
+>  				ingenic_adc_set_config(adc,
+>  						       JZ_ADC_REG_CFG_BAT_MD,
+> @@ -142,6 +150,9 @@ static int ingenic_adc_write_raw(struct iio_dev *iio_dev,
+>  						       JZ_ADC_REG_CFG_BAT_MD);
+>  				adc->low_vref_mode = true;
+>  			}
+> +
+> +			clk_disable(adc->clk);
+> +
+>  			return 0;
+>  		default:
+>  			return -EINVAL;
+> @@ -317,6 +328,13 @@ static int ingenic_adc_read_chan_info_raw(struct ingenic_adc *adc,
+>  					  int *val)
+>  {
+>  	int bit, ret, engine = (chan->channel == INGENIC_ADC_BATTERY);
+> +	struct device *dev = iio_priv_to_dev(adc)->dev.parent;
+> +
+> +	ret = clk_enable(adc->clk);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to enable clock: %d\n", ret);
+> +		return ret;
+> +	}
 
-And I guess we could log an error that close failed in the old close() path
-where we cannot propagate the error.
+It almost certainly doesn't matter, but if we are going to move the clk enable
+outside the lock, we should do the same with the disable.
 
-Also why the mutex_lock_interruptible() ?  If you change that to
-a normal mutex_lock() you loose one of the possible 2 error cases and
-I doubt anyone is going to do a CTRL-C of the process doing the
-inhibiting (or that that process starts a timer using a signal
-to ensure the inhibit does not take to long or some such).
+>  
+>  	/* We cannot sample AUX/AUX2 in parallel. */
+>  	mutex_lock(&adc->aux_lock);
+> @@ -325,7 +343,6 @@ static int ingenic_adc_read_chan_info_raw(struct ingenic_adc *adc,
+>  		ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_AUX_MD, bit);
+>  	}
+>  
+> -	clk_enable(adc->clk);
+>  	ret = ingenic_adc_capture(adc, engine);
+>  	if (ret)
+>  		goto out;
 
-Regards,
-
-Hans
 
