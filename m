@@ -2,78 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 393B91DB5B8
-	for <lists+linux-input@lfdr.de>; Wed, 20 May 2020 15:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D798A1DB871
+	for <lists+linux-input@lfdr.de>; Wed, 20 May 2020 17:39:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726785AbgETNyS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 May 2020 09:54:18 -0400
-Received: from aliyun-cloud.icoremail.net ([47.90.73.12]:23523 "HELO
-        aliyun-sdnproxy-4.icoremail.net" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with SMTP id S1726439AbgETNyR (ORCPT
+        id S1726791AbgETPjt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 May 2020 11:39:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38972 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726747AbgETPjt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 May 2020 09:54:17 -0400
-X-Greylist: delayed 720 seconds by postgrey-1.27 at vger.kernel.org; Wed, 20 May 2020 09:54:16 EDT
-Received: from localhost.localdomain (unknown [222.205.77.158])
-        by mail-app2 (Coremail) with SMTP id by_KCgAneBLpMcVev4SOAQ--.59815S4;
-        Wed, 20 May 2020 21:34:37 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Richard Fontana <rfontana@redhat.com>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: omap-keypad - fix runtime pm imbalance on error
-Date:   Wed, 20 May 2020 21:34:29 +0800
-Message-Id: <20200520133432.19738-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: by_KCgAneBLpMcVev4SOAQ--.59815S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrWrZF15CFyUGr4xXF1UKFg_yoWDJwb_W3
-        4Yvrs7Wr4IkF4jgwnrJa1avrW2gFs0qFyDZr10qFyft3yfZrWDGa4UZF93ZrsF9ws7GF17
-        twnrGrWxAws5ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbIkFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_
-        JrylYx0Ex4A2jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
-        vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW5GwCF04k20xvY0x0EwIxG
-        rwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
-        Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
-        6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
-        kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVW3JVWrJr1lIxAIcVC2z280aVAF
-        wI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf
-        9x0JUp5l8UUUUU=
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/
+        Wed, 20 May 2020 11:39:49 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19E01C061A0F;
+        Wed, 20 May 2020 08:39:49 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: sre)
+        with ESMTPSA id 39A2F2A0313
+Received: by jupiter.universe (Postfix, from userid 1000)
+        id 5A9CF4800F8; Wed, 20 May 2020 17:39:45 +0200 (CEST)
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ahmet Inan <inan@distec.de>,
+        Martin Fuzzey <martin.fuzzey@flowbird.group>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com,
+        Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: [PATCHv3 0/5] EXC3000 Updates
+Date:   Wed, 20 May 2020 17:39:31 +0200
+Message-Id: <20200520153936.46869-1-sebastian.reichel@collabora.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-the call returns an error code. Thus a pairing decrement is needed
-on the error handling path to keep the counter balanced.
+Hi,
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
- drivers/input/keyboard/omap4-keypad.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is PATCHv3 of the EXC80Hxx support patchset.
 
-diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
-index 94c94d7f5155..d13d81c796d2 100644
---- a/drivers/input/keyboard/omap4-keypad.c
-+++ b/drivers/input/keyboard/omap4-keypad.c
-@@ -371,8 +371,8 @@ static int omap4_keypad_probe(struct platform_device *pdev)
- err_free_input:
- 	input_free_device(input_dev);
- err_pm_put_sync:
--	pm_runtime_put_sync(&pdev->dev);
- err_unmap:
-+	pm_runtime_put_sync(&pdev->dev);
- 	iounmap(keypad_data->base);
- err_release_mem:
- 	release_mem_region(res->start, resource_size(res));
+Changes since [PATCHv2]:
+ - add #include <linux/size.h> for SZ_4K and SZ_16K (kbuild test bot)
+ - fw_version_show must be ssize_t (kbuild test bot)
+ - rename YAML binding file to include eeti, prefix (Enric)
+ - noise from gpio-reset patch (Enric)
+ - add comment for the retry loop (Enric, Martin)
+ - document sysfs entries (Enric)
+
+Changes since [PATCHv1]:
+ - prepend new patch converting binding document to YAML
+ - prepend new patch switching to I2C probe_new
+ - append new patch adding reset-gpio support
+ - use explicit compatible values for the touchscreen chips instead of
+   a wildcast. Since the documentation, that I have is very vague let's
+   use different values for exc80h60 and exc80h84. This avoids wildcard
+   DT entries and means we are prepared when noticing differences
+   between the chips.
+ - add accidently removed terminator entry in exc3000_id
+ - use device structure with max_xy and name (suggested by Martin)
+ - use SZ_4K, SZ_16K defines (suggested by Dmitry)
+ - harden event check, so that MT1 and MT2 based chips only allow
+   their own event type.
+ - write more detailed commit description in the fw_version/model
+   sysfs patch to explain why the values are not cached and why
+   the simpler read(); sleep(); write() approach has not been used
+ - use DEVICE_ATTR_RO() in fw_version/model patch to improve readability
+ - fw_version/model: replace memcpy + null termination with strlcpy
+ - fw_version/model: increase buffer size for weird firmware versions
+ - fw_version/model: use sizeof() instead of hardcoded buffer sizes
+ - simplify exc3000_query_interrupt() by moving the complete() call to
+   the exc3000_interrupt().
+
+I think I only ignored one review feedback, that the fw_version and
+model sysfs nodes are attached to the input device instead of the
+i2c device. This was done to avoid being racy:
+
+http://kroah.com/log/blog/2013/06/26/how-to-create-a-sysfs-file-correctly/
+
+Thanks in advance for looking at the patches,
+
+-- Sebastian
+
+[PATCHv2] https://lore.kernel.org/linux-input/20200519182447.73405-1-sebastian.reichel@collabora.com/
+[PATCHv1] https://lore.kernel.org/linux-input/20191107181010.17211-1-sebastian.reichel@collabora.com/
+
+Sebastian Reichel (5):
+  dt-bindings: touchscreen: Convert EETI EXC3000 touchscreen to
+    json-schema
+  Input: EXC3000: switch to i2c's probe_new API
+  Input: EXC3000: add EXC80H60 and EXC80H84 support
+  Input: EXC3000: Add support to query model and fw_version
+  Input: EXC3000: Add reset gpio support
+
+ .../ABI/testing/sysfs-driver-input-exc3000    |  15 ++
+ .../input/touchscreen/eeti,exc3000.yaml       |  58 +++++
+ .../bindings/input/touchscreen/exc3000.txt    |  26 --
+ drivers/input/touchscreen/exc3000.c           | 245 ++++++++++++++++--
+ 4 files changed, 301 insertions(+), 43 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-input-exc3000
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/exc3000.txt
+
 -- 
-2.17.1
+2.26.2
 
