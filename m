@@ -2,86 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CB421DBA79
-	for <lists+linux-input@lfdr.de>; Wed, 20 May 2020 19:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9869B1DBAD5
+	for <lists+linux-input@lfdr.de>; Wed, 20 May 2020 19:12:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726566AbgETRCk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 May 2020 13:02:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51928 "EHLO
+        id S1726845AbgETRMd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 May 2020 13:12:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726436AbgETRCk (ORCPT
+        with ESMTP id S1726436AbgETRMd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 May 2020 13:02:40 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1264DC061A0E;
-        Wed, 20 May 2020 10:02:39 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id k18so3992288ion.0;
-        Wed, 20 May 2020 10:02:39 -0700 (PDT)
+        Wed, 20 May 2020 13:12:33 -0400
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD78CC061A0E
+        for <linux-input@vger.kernel.org>; Wed, 20 May 2020 10:12:32 -0700 (PDT)
+Received: by mail-il1-x143.google.com with SMTP id m6so3909019ilq.7
+        for <linux-input@vger.kernel.org>; Wed, 20 May 2020 10:12:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RbtzaMFf7pW30QhNWNbIkxxpmi1TRj00OoVA+lD+dhA=;
-        b=mOFVaX5s6qRcKV+xyGlQ+sem0KZHuFDf6yrDBqunG9GQx49qCsmRUnOxqST+G9zs/v
-         dWKZ0Or5tmWZ0DDQ5brjtO8bCgt+6Wnuy+HuauNql4aORz75kO6Q7aBCNi3xyUfSVQ8B
-         DcKZaQlPeRyQrCCQa7sqheRa7UD50evYDZDeDdMYd96YNSYTbIloxqt+GtIIxcH6/df6
-         6krSZioMagemxcgUYvw/KZUNoM19B1W7S6Lk56nh1SEk+e/4WTNHaEOycmxYRQyMVd5L
-         Yet4SJ4g9oijUwKGmSMHD0lbBn+0nJeBJvsvolrdN59x7zEHrKvrWU+ZNf+EuxDozLv7
-         i5EA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=9KZxEDIlKmY7xP+zYVnD/gSwqClc8XBRQPoFy49KsrQ=;
+        b=QWzg0Cps2zbzcXYdHkFYzYNU1bYLvRB08N7gWFooKFGhcoB79yraIourJCZGTEMjBl
+         NjEaeHmuEUZcUGLgOww+Wrm/nAVo7SfBFPe4Cb5/xZcExS8AIrF23agDhIwtD+NNT2cG
+         RHd/XWUJB7OTmi+1DFo8jLpQ3PbLCk2B3JX34ZchSdIs3rV+9uTO60uf/G4EMDeOGi5p
+         dSpefps3O6/+miefdly3Lk6kyonaLQhsy6/9v6aQFsAuV2KB4LYvuCnwTQFC/XZJLCPK
+         0goHFbvBE19pdIJmtKX2q+1R12dgZEJbhqqMEVZgWqIbykIffpVx79XowQUy4aVKvWXJ
+         zlkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RbtzaMFf7pW30QhNWNbIkxxpmi1TRj00OoVA+lD+dhA=;
-        b=TsJHGMe6/p4FAlAo21FAZ2mOkZDF9H+KKXK8QA0AYWLJLzXIE3EAHChuUAk16Tkgj8
-         YooolQPOwLrzIGwKza2FngD/ZPZjtk6WKd2nMUQYe9OwOBWPFHDYULVomaB1A0ZLQpyX
-         VojctcgAwR+Z2fLQv2nqsZM1qJFmtRVTdHaKaemeTymBBIT7bRPpGY1GyQH4jU7bYR5b
-         +BlPBVc4X8XqwhzO/A7Uwq//WADumJY91HoVZuNd0sPJm/UOCThzOCruz45Co/MCZmts
-         OAPofzqJ+AN/I9Wl6/h+tkLXUTFvnnhPyxmii6C8NHhFTvgtvTr7yGma8nWmTBOJqjHb
-         Ecvg==
-X-Gm-Message-State: AOAM531Km7S31AI+kE5PPkBxGAdjk9QA7afgo80ZNhHbZeuSUDtQ9UrS
-        +o7xWugfnvLlzhbzQUI5OBt1cAgV4ac05XZLyDQ=
-X-Google-Smtp-Source: ABdhPJxCR1b4ZKgHAom8aTqNjNn7M3DNQKrWMjyk9IkbFxxqQZgfhaAbfsBle2YAKgxNo403mCsuKgoiDSW/Rlun5mc=
-X-Received: by 2002:a5d:824c:: with SMTP id n12mr4275005ioo.15.1589994158239;
- Wed, 20 May 2020 10:02:38 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=9KZxEDIlKmY7xP+zYVnD/gSwqClc8XBRQPoFy49KsrQ=;
+        b=Aj5fRoocH5GmyMjLVHYtJgp7hdPvnfEaFzJmjQt3Zwr6lKr/Rukb7gIfpY2uBfCdoN
+         XPMBd5DI2lx2uO74Lv41ldz9HHmbqxhXWFJeA+/6pTGBCWZduogr9cEXSwv/DguOvADj
+         KvHVwJa0tnq7wWLXAigLDoUM1SW3Xro42FR0gEDD/abNLTVq3GPXVULjdC9/znhEyN1I
+         mfc436uySZ2QHxn9eTqE4mZL9QMsL9T5CFrgZHJk9qEf5lIEgulR+rTlq664XWDjTHkO
+         UbkYhyn0oxoXEiXmMy3EIiAT/V5aKA9QehPTuuMFQII39kck8wKEop6JSIuuQF+o26HU
+         4i6g==
+X-Gm-Message-State: AOAM530i4LnhhoJ31/Cm7pSzL0hcp5U5AyED9iDgKui9z0kRz2ApYz7b
+        pjJ9Gq2LD47vpMiYXEMLUhCwoMW8BCS2LE1/u5Q=
+X-Google-Smtp-Source: ABdhPJwV6MZn+xl8eUKHlaL3wfq0DnAF3UNexmLl77ioWISbRQrpU8KiQbuL1pX4PpTHaCgQJytCSXML/bjBn+RPHy4=
+X-Received: by 2002:a92:d6c5:: with SMTP id z5mr4837012ilp.194.1589994752155;
+ Wed, 20 May 2020 10:12:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200520133432.19738-1-dinghao.liu@zju.edu.cn>
-In-Reply-To: <20200520133432.19738-1-dinghao.liu@zju.edu.cn>
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date:   Wed, 20 May 2020 10:02:27 -0700
-Message-ID: <CAKdAkRTyVL0uV0dGxHoEgMyB9FP6b0m60CHy7C4QXeR5WTGAJw@mail.gmail.com>
-Subject: Re: [PATCH] Input: omap-keypad - fix runtime pm imbalance on error
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Kangjie Lu <kjlu@umn.edu>, Richard Fontana <rfontana@redhat.com>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
+Received: by 2002:ac0:ec11:0:0:0:0:0 with HTTP; Wed, 20 May 2020 10:12:31
+ -0700 (PDT)
+Reply-To: lisatofan110@gmail.com
+From:   Lisa Tofan <hamidoukader11@gmail.com>
+Date:   Wed, 20 May 2020 19:12:31 +0200
+Message-ID: <CAJsD-7KckCczgsaQy+Y5bpnosAbcFaWx--xenaXMzvJq_jDdfg@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dinghao,
+Hello Dear,
 
-On Wed, May 20, 2020 at 6:35 AM Dinghao Liu <dinghao.liu@zju.edu.cn> wrote:
->
-> pm_runtime_get_sync() increments the runtime PM usage counter even
-> the call returns an error code. Thus a pairing decrement is needed
-> on the error handling path to keep the counter balanced.
+This is Miss Lisa Tofan, How are you today hope all is well with you,
+please I will need your urgent attention
 
-This is a very surprising behavior and I wonder if this should be
-fixed in the PM core (or the required cleanup steps need to be called
-out in the function description). I also see that a few drivers that
-handle this situation correctly (?) call pm_runtime_put_noidle()
-instead of pm_runtime_put_sync() in the error path.
-
-Rafael, do you have any guidance here?
-
-Thanks.
-
--- 
-Dmitry
+regarding this important discussion kindly contact me back here my
+Email: lisatofan110@gmail.com: for more details,
+Thanks,
+Miss Lisa Tofan
