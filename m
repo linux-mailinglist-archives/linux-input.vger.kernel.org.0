@@ -2,91 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC8C61DBD20
-	for <lists+linux-input@lfdr.de>; Wed, 20 May 2020 20:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C278B1DC141
+	for <lists+linux-input@lfdr.de>; Wed, 20 May 2020 23:20:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726970AbgETSmG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 May 2020 14:42:06 -0400
-Received: from gloria.sntech.de ([185.11.138.130]:43262 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726966AbgETSmG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 May 2020 14:42:06 -0400
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1jbTfE-00040R-0g; Wed, 20 May 2020 20:42:00 +0200
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+        id S1727947AbgETVUH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 May 2020 17:20:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35958 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727083AbgETVUH (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 20 May 2020 17:20:07 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E14C061A0E;
+        Wed, 20 May 2020 14:20:06 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: sre)
+        with ESMTPSA id 84B392A2B99
+Received: by earth.universe (Postfix, from userid 1000)
+        id F0C6F3C08C7; Wed, 20 May 2020 23:20:03 +0200 (CEST)
+Date:   Wed, 20 May 2020 23:20:03 +0200
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Johan Jonker <jbx6244@gmail.com>, robh+dt@kernel.org,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: input: touchscreen: edt-ft5x06: change reg property
-Date:   Wed, 20 May 2020 20:41:59 +0200
-Message-ID: <4727344.YYj2SkWT1V@diego>
-In-Reply-To: <20200520171324.GS89269@dtor-ws>
-References: <20200520073327.6016-1-jbx6244@gmail.com> <20200520171324.GS89269@dtor-ws>
+Cc:     Ahmet Inan <inan@distec.de>,
+        Martin Fuzzey <martin.fuzzey@flowbird.group>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+Subject: Re: [PATCHv3 3/5] Input: EXC3000: add EXC80H60 and EXC80H84 support
+Message-ID: <20200520212003.fxxi4uytifkeb2ca@earth.universe>
+References: <20200520153936.46869-1-sebastian.reichel@collabora.com>
+ <20200520153936.46869-4-sebastian.reichel@collabora.com>
+ <20200520174519.GV89269@dtor-ws>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="hcixh3a6whlmsy5m"
+Content-Disposition: inline
+In-Reply-To: <20200520174519.GV89269@dtor-ws>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
 
-Am Mittwoch, 20. Mai 2020, 19:13:24 CEST schrieb Dmitry Torokhov:
-> Hi Johan,
-> 
-> On Wed, May 20, 2020 at 09:33:27AM +0200, Johan Jonker wrote:
-> > A test with the command below gives this error:
-> > 
-> > arch/arm/boot/dts/rk3188-bqedison2qc.dt.yaml:
-> > touchscreen@3e: reg:0:0: 56 was expected
-> > 
-> > The touchscreen chip on 'rk3188-bqedison2qc' and other BQ models
-> > was shipped with different addresses then the binding currently allows.
-> > Change the reg property that any address will pass.
-> > 
-> > make ARCH=arm dtbs_check
-> > DT_SCHEMA_FILES=Documentation/devicetree/bindings/input/touchscreen/
-> > edt-ft5x06.yaml
-> > 
-> > Signed-off-by: Johan Jonker <jbx6244@gmail.com>
-> > ---
-> >  Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> > index 383d64a91..baa8e8f7e 100644
-> > --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> > +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> > @@ -42,7 +42,7 @@ properties:
-> >        - focaltech,ft6236
-> >  
-> >    reg:
-> > -    const: 0x38
-> > +    maxItems: 1
-> 
-> Should we have a list of valid addresses instead of allowing any
-> address? Controllers usually have only a couple of addresses that they
-> support.
+--hcixh3a6whlmsy5m
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-from what I've read, the fdt touchscreen controllers are just a generic
-cpu with device-specific (or better panel-specific) firmware, which seems
-to include the address as well - so it looks to be variable.
+Hi,
 
-But of course that is only 2nd hand knowledge for me ;-)
+On Wed, May 20, 2020 at 10:45:19AM -0700, Dmitry Torokhov wrote:
+> Hi Sebastian,
+>=20
+> On Wed, May 20, 2020 at 05:39:34PM +0200, Sebastian Reichel wrote:
+> > =20
+> >  	data->client =3D client;
+> > +	data->info =3D device_get_match_data(&client->dev);
 
+The above is for DT (and ACPI, but driver has no ACPI table).
 
-But also, the i2c address is something you cannot really mess up,
-either it is correct and your touchscreen works, or it isn't and and
-adding entries to this list every time a new address variant pops up
-feels clumsy.
+> > +	if (!data->info) {
+> > +		enum eeti_dev_id eeti_dev_id =3D
+> > +			i2c_match_id(exc3000_id, client)->driver_data;
+>=20
+> I believe i2c devices can be instantiated via sysfs, so I think we
+> better handle case where we can't find matching id. Also driver_data is
+> enough to store a pointer, maybe we can have individual structures
+> instead of using an array and indexing here?
 
+The above code is only for exactly this usecase (loading via sysfs).
+There is zero chance, that we cannot find matching id. The sysfs
+based probing works by providing the device address and the name
+listed in driver's id_table. I took the above code style from
+drivers/i2c/muxes/i2c-mux-ltc4306.c.
 
-Heiko
+We can store the pointer directly in i2c_device_id's driver_data
+field, but that requires two type casts (field is ulong instead
+of pointer). The array variant feels a bit cleaner to me.
 
+-- Sebastian
 
+--hcixh3a6whlmsy5m
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl7Fnv0ACgkQ2O7X88g7
++po2bA//S0yFjgkrJB7fjg4C3R86Xu6HxdkqfQaAUch7IP/RsFdhDsxcCeNO1yC2
+PSuIRz5c+QZDayKvVBA4zfrLaqtn7yKadyzaoHqTIFbavZpuEnLjT6ySC9AFFKCR
+FUwWBrVfhXxJH1PWJVTfB4ZgwwnZ5wqu7x0nuKp4My4JsqbsKir0JCE8oOftTkAd
+HSW5bGRwVKxbDI6vQ0x9aDac/+bw1b4vTD5k8hWPKlzZufEzln0NgWJH+4CKFQbg
+7UqB1NjNmUxrTZLMco5czBbocVojX6yOs5/1WjvVGvb0aai1Ny4p9HEzV9A7by+m
+A+yRbrbUhMX9fdIFBoRIFSiHLglpMRm2/h8tfPLE5m5DsL1tv4+aW4Y+j9rMuWxy
+yWyFwDZ92UgYGwv5N7QmozpBdp+732YBseEXT6q0OzVpP61RAj0QpL3TEgDHZZ98
+hL8KOb88E4kOmYmbUQoYz+W2ACN90HX9PS3Meb711iSlYPh/MOiYol5VT5lRqJHV
+DHwi0bTIbRxJJiTFrTambDURbWUdFSqPEDwQaZnBalEWk7e9ipWOJhYXgHBE6QiR
+sGvn/2oA2dxwJdzJzrzoOjRQTafeB2GnFGmZPJOhNHiiHbRUEnIFkCTeNOAJ0C93
+R0jR3PYflML/6Hmsmx4WRsf5xmlAq7AIvt7ahxX7eooQ40+EeqA=
+=oNKC
+-----END PGP SIGNATURE-----
+
+--hcixh3a6whlmsy5m--
