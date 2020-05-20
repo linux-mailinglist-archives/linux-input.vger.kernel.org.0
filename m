@@ -2,103 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C278B1DC141
-	for <lists+linux-input@lfdr.de>; Wed, 20 May 2020 23:20:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF4521DC151
+	for <lists+linux-input@lfdr.de>; Wed, 20 May 2020 23:25:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727947AbgETVUH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 May 2020 17:20:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35958 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727083AbgETVUH (ORCPT
+        id S1726619AbgETVZo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 May 2020 17:25:44 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:41356 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726510AbgETVZo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 May 2020 17:20:07 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E14C061A0E;
-        Wed, 20 May 2020 14:20:06 -0700 (PDT)
+        Wed, 20 May 2020 17:25:44 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: sre)
-        with ESMTPSA id 84B392A2B99
+        with ESMTPSA id 732B42A2B99
 Received: by earth.universe (Postfix, from userid 1000)
-        id F0C6F3C08C7; Wed, 20 May 2020 23:20:03 +0200 (CEST)
-Date:   Wed, 20 May 2020 23:20:03 +0200
+        id 1DB363C08C7; Wed, 20 May 2020 23:25:40 +0200 (CEST)
+Date:   Wed, 20 May 2020 23:25:40 +0200
 From:   Sebastian Reichel <sebastian.reichel@collabora.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Ahmet Inan <inan@distec.de>,
         Martin Fuzzey <martin.fuzzey@flowbird.group>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         kernel@collabora.com
-Subject: Re: [PATCHv3 3/5] Input: EXC3000: add EXC80H60 and EXC80H84 support
-Message-ID: <20200520212003.fxxi4uytifkeb2ca@earth.universe>
+Subject: Re: [PATCHv3 4/5] Input: EXC3000: Add support to query model and
+ fw_version
+Message-ID: <20200520212540.t73my7ireicuwbrs@earth.universe>
 References: <20200520153936.46869-1-sebastian.reichel@collabora.com>
- <20200520153936.46869-4-sebastian.reichel@collabora.com>
- <20200520174519.GV89269@dtor-ws>
+ <20200520153936.46869-5-sebastian.reichel@collabora.com>
+ <20200520174952.GW89269@dtor-ws>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="hcixh3a6whlmsy5m"
+        protocol="application/pgp-signature"; boundary="nc34qudpeetjvypj"
 Content-Disposition: inline
-In-Reply-To: <20200520174519.GV89269@dtor-ws>
+In-Reply-To: <20200520174952.GW89269@dtor-ws>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
---hcixh3a6whlmsy5m
+--nc34qudpeetjvypj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Wed, May 20, 2020 at 10:45:19AM -0700, Dmitry Torokhov wrote:
+On Wed, May 20, 2020 at 10:49:52AM -0700, Dmitry Torokhov wrote:
 > Hi Sebastian,
 >=20
-> On Wed, May 20, 2020 at 05:39:34PM +0200, Sebastian Reichel wrote:
-> > =20
-> >  	data->client =3D client;
-> > +	data->info =3D device_get_match_data(&client->dev);
-
-The above is for DT (and ACPI, but driver has no ACPI table).
-
-> > +	if (!data->info) {
-> > +		enum eeti_dev_id eeti_dev_id =3D
-> > +			i2c_match_id(exc3000_id, client)->driver_data;
+> On Wed, May 20, 2020 at 05:39:35PM +0200, Sebastian Reichel wrote:
+> > Expose model and fw_version via sysfs. Also query the model
+> > in probe to make sure, that the I2C communication with the
+> > device works before successfully probing the driver.
+> >=20
+> > This is a bit complicated, since EETI devices do not have
+> > a sync interface. Sending the commands and directly reading
+> > does not work. Sending the command and waiting for some time
+> > is also not an option, since there might be touch events in
+> > the mean time.
+> >=20
+> > Last but not least we do not cache the results, since this
+> > interface can be used to check the I2C communication is still
+> > working as expected.
+> >=20
+> > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> > ---
+> >  .../ABI/testing/sysfs-driver-input-exc3000    |  15 ++
+> >  drivers/input/touchscreen/exc3000.c           | 145 +++++++++++++++++-
+> >  2 files changed, 159 insertions(+), 1 deletion(-)
+> >  create mode 100644 Documentation/ABI/testing/sysfs-driver-input-exc3000
+> >=20
+> > diff --git a/Documentation/ABI/testing/sysfs-driver-input-exc3000 b/Doc=
+umentation/ABI/testing/sysfs-driver-input-exc3000
+> > new file mode 100644
+> > index 000000000000..d79da4f869af
+> > --- /dev/null
+> > +++ b/Documentation/ABI/testing/sysfs-driver-input-exc3000
+> > @@ -0,0 +1,15 @@
+> > +What:		/sys/class/input/inputX/fw_version
+> > +Date:		May 2020
+> > +Contact:	linux-input@vger.kernel.org
+> > +Description:	Reports the firmware version provided by the touchscreen,=
+ for example "00_T6" on a EXC80H60
+> > +
+> > +		Access: Read
+> > +		Valid values: Represented as string
+> > +
+> > +What:		/sys/class/input/inputX/model
+> > +Date:		May 2020
+> > +Contact:	linux-input@vger.kernel.org
+> > +Description:	Reports the model identification provided by the touchscr=
+een, for example "Orion_1320" on a EXC80H60
+> > +
+> > +		Access: Read
+> > +		Valid values: Represented as string
 >=20
-> I believe i2c devices can be instantiated via sysfs, so I think we
-> better handle case where we can't find matching id. Also driver_data is
-> enough to store a pointer, maybe we can have individual structures
-> instead of using an array and indexing here?
+> These are properties of the controller (i2c device), not input
+> abstraction class on top of it, so the attributes should be attached to
+> i2c_client instance.
+>=20
+> Please use devm_device_add_group() in probe to instantiate them at the
+> proper level.
 
-The above code is only for exactly this usecase (loading via sysfs).
-There is zero chance, that we cannot find matching id. The sysfs
-based probing works by providing the device address and the name
-listed in driver's id_table. I took the above code style from
-drivers/i2c/muxes/i2c-mux-ltc4306.c.
+As written in the cover letter using devm_device_add_group() in
+probe routine results in a udev race condition:
 
-We can store the pointer directly in i2c_device_id's driver_data
-field, but that requires two type casts (field is ulong instead
-of pointer). The array variant feels a bit cleaner to me.
+http://kroah.com/log/blog/2013/06/26/how-to-create-a-sysfs-file-correctly/
 
 -- Sebastian
 
---hcixh3a6whlmsy5m
+--nc34qudpeetjvypj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl7Fnv0ACgkQ2O7X88g7
-+po2bA//S0yFjgkrJB7fjg4C3R86Xu6HxdkqfQaAUch7IP/RsFdhDsxcCeNO1yC2
-PSuIRz5c+QZDayKvVBA4zfrLaqtn7yKadyzaoHqTIFbavZpuEnLjT6ySC9AFFKCR
-FUwWBrVfhXxJH1PWJVTfB4ZgwwnZ5wqu7x0nuKp4My4JsqbsKir0JCE8oOftTkAd
-HSW5bGRwVKxbDI6vQ0x9aDac/+bw1b4vTD5k8hWPKlzZufEzln0NgWJH+4CKFQbg
-7UqB1NjNmUxrTZLMco5czBbocVojX6yOs5/1WjvVGvb0aai1Ny4p9HEzV9A7by+m
-A+yRbrbUhMX9fdIFBoRIFSiHLglpMRm2/h8tfPLE5m5DsL1tv4+aW4Y+j9rMuWxy
-yWyFwDZ92UgYGwv5N7QmozpBdp+732YBseEXT6q0OzVpP61RAj0QpL3TEgDHZZ98
-hL8KOb88E4kOmYmbUQoYz+W2ACN90HX9PS3Meb711iSlYPh/MOiYol5VT5lRqJHV
-DHwi0bTIbRxJJiTFrTambDURbWUdFSqPEDwQaZnBalEWk7e9ipWOJhYXgHBE6QiR
-sGvn/2oA2dxwJdzJzrzoOjRQTafeB2GnFGmZPJOhNHiiHbRUEnIFkCTeNOAJ0C93
-R0jR3PYflML/6Hmsmx4WRsf5xmlAq7AIvt7ahxX7eooQ40+EeqA=
-=oNKC
+iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl7FoFMACgkQ2O7X88g7
++ppXxg//c/Ljjrs8JDeSMRa8W7opVTrXN0WVDAVkizEQIrti/KD5ht30QyjNnO3N
+kDgiRr4rmVmUHpGWd/VsK9FzRRSP21Hj0qo4wsMCvxAU2htHJVjy76Hh0Ox4p5Xr
+Cn0sIw6gp5JhLbM8jUeVnThbx15sHECslLlXDKR1EjUm3makvca8vYHzbDAHT5ST
+6wUvQJ9pENyxvQ8jvP4InCKw5MGv9de5nC7vkKZE8Qn2JaLbK0/tOexMB+WJs0oK
+h3Sk/4djmR8U+A2E0MoztvXHh3YDwIECBRyUkiU7BMkejDILfAwI2/pAfeMDJWpR
+20edPBUx7jqdTe7AoESy4bBBGYCVlnRpWWgLUUCJCcak35mcaAAW/h3kR18fcQwc
+HRuROOawXaBWzAyCeiuV6w+mIDwHARSD65FQ1xu1AyuD99uO8bKpzThyAgC7kTDk
+p+TcNiVquWqxjdJWosSjp7CHZjPdpErw/Gi3VD3hj/W/ignfRopRi+npK04Z8o79
+oyWaFic4ibUFqYuFPVPcknVxhLtiHFpj8RHDETQP2aydSznhGlrnNnTBwweT8Oii
+VcPK8CAnzrlwTOgKgFicTuvXJ0FwlYt855OKQIPkoTOJjk22khaSp682IObjUFWP
+4THZIvNHgdlmx04NZLUie9TVmg/u5k4PF6ibv1UBu5qhBecO6ng=
+=Whj0
 -----END PGP SIGNATURE-----
 
---hcixh3a6whlmsy5m--
+--nc34qudpeetjvypj--
