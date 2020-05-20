@@ -2,68 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9869B1DBAD5
-	for <lists+linux-input@lfdr.de>; Wed, 20 May 2020 19:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 929EA1DBAE0
+	for <lists+linux-input@lfdr.de>; Wed, 20 May 2020 19:13:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726845AbgETRMd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 May 2020 13:12:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53490 "EHLO
+        id S1726691AbgETRNa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 May 2020 13:13:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726436AbgETRMd (ORCPT
+        with ESMTP id S1727044AbgETRN2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 May 2020 13:12:33 -0400
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD78CC061A0E
-        for <linux-input@vger.kernel.org>; Wed, 20 May 2020 10:12:32 -0700 (PDT)
-Received: by mail-il1-x143.google.com with SMTP id m6so3909019ilq.7
-        for <linux-input@vger.kernel.org>; Wed, 20 May 2020 10:12:32 -0700 (PDT)
+        Wed, 20 May 2020 13:13:28 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CBEEC061A0E;
+        Wed, 20 May 2020 10:13:28 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id 23so1866245pfy.8;
+        Wed, 20 May 2020 10:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=9KZxEDIlKmY7xP+zYVnD/gSwqClc8XBRQPoFy49KsrQ=;
-        b=QWzg0Cps2zbzcXYdHkFYzYNU1bYLvRB08N7gWFooKFGhcoB79yraIourJCZGTEMjBl
-         NjEaeHmuEUZcUGLgOww+Wrm/nAVo7SfBFPe4Cb5/xZcExS8AIrF23agDhIwtD+NNT2cG
-         RHd/XWUJB7OTmi+1DFo8jLpQ3PbLCk2B3JX34ZchSdIs3rV+9uTO60uf/G4EMDeOGi5p
-         dSpefps3O6/+miefdly3Lk6kyonaLQhsy6/9v6aQFsAuV2KB4LYvuCnwTQFC/XZJLCPK
-         0goHFbvBE19pdIJmtKX2q+1R12dgZEJbhqqMEVZgWqIbykIffpVx79XowQUy4aVKvWXJ
-         zlkQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=arFxXWIilJc8yilr6THATlL+mM94NJsqQ+xYHRPI28o=;
+        b=eQ8ZueCAAmKF481dSsTzEfptXR3E56PhUUH9kEaE5lcwybZBOx13OC+Xi9wkqf8yJl
+         eMd1L2e88OjzLZqUwjft5kT4q1ykz42UQV6MVOEia2NuXW7QNNZ7A34YWkJl2fTeKnXd
+         x57lOvCSMymfWq5CIUCMSTFmCQ+QTFXWfQxGIl0MyJIAsxvIWaGoYNiaL9FYDbjjsASH
+         yrczDke/1e9q5QAzunll1NsU34AZd3fkwQAvuZ8SyOMsHhrXwdE+C5ocxHRWMG94nAuo
+         mFEYgVnx+pQB6bpLbpXdPCQm3xxHlbpl8IjeNyIIG5xyCXVHShY2DHAh3VorO1Fq2dCg
+         0CDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=9KZxEDIlKmY7xP+zYVnD/gSwqClc8XBRQPoFy49KsrQ=;
-        b=Aj5fRoocH5GmyMjLVHYtJgp7hdPvnfEaFzJmjQt3Zwr6lKr/Rukb7gIfpY2uBfCdoN
-         XPMBd5DI2lx2uO74Lv41ldz9HHmbqxhXWFJeA+/6pTGBCWZduogr9cEXSwv/DguOvADj
-         KvHVwJa0tnq7wWLXAigLDoUM1SW3Xro42FR0gEDD/abNLTVq3GPXVULjdC9/znhEyN1I
-         mfc436uySZ2QHxn9eTqE4mZL9QMsL9T5CFrgZHJk9qEf5lIEgulR+rTlq664XWDjTHkO
-         UbkYhyn0oxoXEiXmMy3EIiAT/V5aKA9QehPTuuMFQII39kck8wKEop6JSIuuQF+o26HU
-         4i6g==
-X-Gm-Message-State: AOAM530i4LnhhoJ31/Cm7pSzL0hcp5U5AyED9iDgKui9z0kRz2ApYz7b
-        pjJ9Gq2LD47vpMiYXEMLUhCwoMW8BCS2LE1/u5Q=
-X-Google-Smtp-Source: ABdhPJwV6MZn+xl8eUKHlaL3wfq0DnAF3UNexmLl77ioWISbRQrpU8KiQbuL1pX4PpTHaCgQJytCSXML/bjBn+RPHy4=
-X-Received: by 2002:a92:d6c5:: with SMTP id z5mr4837012ilp.194.1589994752155;
- Wed, 20 May 2020 10:12:32 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=arFxXWIilJc8yilr6THATlL+mM94NJsqQ+xYHRPI28o=;
+        b=P2vjEHQ9VpwPhDtvoFr5CY/Z/Uil7iUvKz0eU+UOO48q1oM+iWteBSQmDqzBOjIBw1
+         dxLbmqEBWWJsa6b7Psk+5GkQcGk4dY9m6wZIFDNFd2XmgxShF21VXw27C9ioXh6ZWFYn
+         iCFeuV2ykQXQE+mM9AieND7fQizRm+xX5NY1BUSxKeCS4h7GRdLwDBVO/kvGGPQpSUyk
+         tuL2Zp0AJuuREaoS34pnFB5jXBX8JXjZsYh8Uk6olVG0G5tKt+wzUep4PgDtGMmgjhqt
+         KrqVYd8ck39aj2OyQ9ZDhMEHQDF+agPPKw+fuNCt+nazZ121qIf7PDZSh6v669KPr9Aw
+         uOxA==
+X-Gm-Message-State: AOAM530wd0LcDgNuhXOoeRM0JhTm/wO5pLtGEA2sU4I34Z5465jafcO7
+        dXsO/xO0pAt8WLLqQyZ3sJg=
+X-Google-Smtp-Source: ABdhPJzPAJW/ATUYvu+6WYxM82y1cMxLnDMGV4gQ97nd84re0gsoxcS0Os/XSLxbUD3hZDiX3Ghrxw==
+X-Received: by 2002:a05:6a00:150e:: with SMTP id q14mr5106146pfu.325.1589994807327;
+        Wed, 20 May 2020 10:13:27 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id e1sm2512647pjv.54.2020.05.20.10.13.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2020 10:13:26 -0700 (PDT)
+Date:   Wed, 20 May 2020 10:13:24 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Johan Jonker <jbx6244@gmail.com>
+Cc:     heiko@sntech.de, robh+dt@kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: input: touchscreen: edt-ft5x06: change reg
+ property
+Message-ID: <20200520171324.GS89269@dtor-ws>
+References: <20200520073327.6016-1-jbx6244@gmail.com>
 MIME-Version: 1.0
-Received: by 2002:ac0:ec11:0:0:0:0:0 with HTTP; Wed, 20 May 2020 10:12:31
- -0700 (PDT)
-Reply-To: lisatofan110@gmail.com
-From:   Lisa Tofan <hamidoukader11@gmail.com>
-Date:   Wed, 20 May 2020 19:12:31 +0200
-Message-ID: <CAJsD-7KckCczgsaQy+Y5bpnosAbcFaWx--xenaXMzvJq_jDdfg@mail.gmail.com>
-Subject: Hello Dear
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200520073327.6016-1-jbx6244@gmail.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Dear,
+Hi Johan,
 
-This is Miss Lisa Tofan, How are you today hope all is well with you,
-please I will need your urgent attention
+On Wed, May 20, 2020 at 09:33:27AM +0200, Johan Jonker wrote:
+> A test with the command below gives this error:
+> 
+> arch/arm/boot/dts/rk3188-bqedison2qc.dt.yaml:
+> touchscreen@3e: reg:0:0: 56 was expected
+> 
+> The touchscreen chip on 'rk3188-bqedison2qc' and other BQ models
+> was shipped with different addresses then the binding currently allows.
+> Change the reg property that any address will pass.
+> 
+> make ARCH=arm dtbs_check
+> DT_SCHEMA_FILES=Documentation/devicetree/bindings/input/touchscreen/
+> edt-ft5x06.yaml
+> 
+> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+> index 383d64a91..baa8e8f7e 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+> @@ -42,7 +42,7 @@ properties:
+>        - focaltech,ft6236
+>  
+>    reg:
+> -    const: 0x38
+> +    maxItems: 1
 
-regarding this important discussion kindly contact me back here my
-Email: lisatofan110@gmail.com: for more details,
-Thanks,
-Miss Lisa Tofan
+Should we have a list of valid addresses instead of allowing any
+address? Controllers usually have only a couple of addresses that they
+support.
+
+Thanks.
+
+-- 
+Dmitry
