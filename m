@@ -2,134 +2,161 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF4521DC151
-	for <lists+linux-input@lfdr.de>; Wed, 20 May 2020 23:25:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D9F31DC65A
+	for <lists+linux-input@lfdr.de>; Thu, 21 May 2020 06:43:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726619AbgETVZo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 May 2020 17:25:44 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:41356 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726510AbgETVZo (ORCPT
+        id S1726909AbgEUEnX convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 21 May 2020 00:43:23 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:58278 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726394AbgEUEnX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 May 2020 17:25:44 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: sre)
-        with ESMTPSA id 732B42A2B99
-Received: by earth.universe (Postfix, from userid 1000)
-        id 1DB363C08C7; Wed, 20 May 2020 23:25:40 +0200 (CEST)
-Date:   Wed, 20 May 2020 23:25:40 +0200
-From:   Sebastian Reichel <sebastian.reichel@collabora.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Ahmet Inan <inan@distec.de>,
-        Martin Fuzzey <martin.fuzzey@flowbird.group>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-Subject: Re: [PATCHv3 4/5] Input: EXC3000: Add support to query model and
- fw_version
-Message-ID: <20200520212540.t73my7ireicuwbrs@earth.universe>
-References: <20200520153936.46869-1-sebastian.reichel@collabora.com>
- <20200520153936.46869-5-sebastian.reichel@collabora.com>
- <20200520174952.GW89269@dtor-ws>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nc34qudpeetjvypj"
-Content-Disposition: inline
-In-Reply-To: <20200520174952.GW89269@dtor-ws>
+        Thu, 21 May 2020 00:43:23 -0400
+Received: from mail-pg1-f200.google.com ([209.85.215.200])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1jbd3A-0001CK-I2
+        for linux-input@vger.kernel.org; Thu, 21 May 2020 04:43:20 +0000
+Received: by mail-pg1-f200.google.com with SMTP id m15so4268178pgl.15
+        for <linux-input@vger.kernel.org>; Wed, 20 May 2020 21:43:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=G6sbmJ1zMyepwuVJjLXFEG2LKkrAExiS+RYzx1Mub/E=;
+        b=C+Re0TY3YeskTfVkpo2gJKXcA6D2BdbXRdEcE6iL56/GPcoCY77N6CbibJBEDyRjej
+         hO8XDn+VjrMn5xSVz1jDZLBbPHB80HPhbWqnGIYLCCLriuSUixdyDpEe2x+xCtF8eME6
+         JiaiL+eTlsykjNLP5vBeOOZ4vvGJAd9E5EhTj6A4+acK7gq3pjRUKv5Gem4Aovc25sM9
+         NK+28Diu8tUggNR7pn0yO4Ihte6plW6Xk9oh/GfNUiXdo3qkqHAmMMDUCq913Ed4vgeZ
+         l9S02tLh4qhmTWW6/H6Fqv0Jfr8HpsrFeaFiuYVl9qeukHtbe5TcOIgQH4D86NsWCfaj
+         9Fmw==
+X-Gm-Message-State: AOAM533bY93U/y/oygQ1WE9KAKipQPNklnt7uRx80TL0ausJf1gqx7AQ
+        PcO8/HGtVQ4F6NVQMOl40lZXwGOyqp2nhA1XhzAGM+WRI+v7gbamCI19nFVmg2I9e6IsWMi5bye
+        +HlZXdr6DNUNFngtDDt1X+5PaOvoTyErzvm9b/LGB
+X-Received: by 2002:a17:90a:db0f:: with SMTP id g15mr9457912pjv.8.1590036199153;
+        Wed, 20 May 2020 21:43:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz6b4J9SqcR0p1GIzK0YdT6SwhtFzDL/W7puHYv1k+vVRvkUXNZl1xoH/lTmtU82Cj8wZZ2Zw==
+X-Received: by 2002:a17:90a:db0f:: with SMTP id g15mr9457886pjv.8.1590036198760;
+        Wed, 20 May 2020 21:43:18 -0700 (PDT)
+Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net. [220.133.187.190])
+        by smtp.gmail.com with ESMTPSA id k12sm3313947pfg.177.2020.05.20.21.43.16
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 20 May 2020 21:43:18 -0700 (PDT)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH] HID: intel-ish-hid: Replace PCI_DEV_FLAGS_NO_D3 with
+ pci_save_state
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <dd8033a053be145fd178a89dc362a25a22e17a42.camel@linux.intel.com>
+Date:   Thu, 21 May 2020 12:43:15 +0800
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Zhang Lixu <lixu.zhang@intel.com>, Even Xu <even.xu@intel.com>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Song Hongyan <hongyan.song@intel.com>,
+        "open list:INTEL INTEGRATED SENSOR HUB DRIVER" 
+        <linux-input@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Transfer-Encoding: 8BIT
+Message-Id: <7E88D4A8-8056-4E12-8B2C-27307A7C5E7D@canonical.com>
+References: <20200505131730.22118-1-kai.heng.feng@canonical.com>
+ <dd8033a053be145fd178a89dc362a25a22e17a42.camel@linux.intel.com>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Srinivas,
 
---nc34qudpeetjvypj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On May 9, 2020, at 01:45, Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
+> 
+> On Tue, 2020-05-05 at 21:17 +0800, Kai-Heng Feng wrote:
+>> PCI_DEV_FLAGS_NO_D3 should not be used outside of PCI core.
+>> 
+>> Instead, we can use pci_save_state() to hint PCI core that the device
+>> should stay at D0 during suspend.
+> 
+> Your changes are doing more than just changing the flag. Can you
+> explain more about the other changes?
 
-Hi,
+By using pci_save_state(), in addition to keep itself stay at D0, the parent bridge will also stay at D0.
+So it's a better approach to achieve the same thing.
 
-On Wed, May 20, 2020 at 10:49:52AM -0700, Dmitry Torokhov wrote:
-> Hi Sebastian,
->=20
-> On Wed, May 20, 2020 at 05:39:35PM +0200, Sebastian Reichel wrote:
-> > Expose model and fw_version via sysfs. Also query the model
-> > in probe to make sure, that the I2C communication with the
-> > device works before successfully probing the driver.
-> >=20
-> > This is a bit complicated, since EETI devices do not have
-> > a sync interface. Sending the commands and directly reading
-> > does not work. Sending the command and waiting for some time
-> > is also not an option, since there might be touch events in
-> > the mean time.
-> >=20
-> > Last but not least we do not cache the results, since this
-> > interface can be used to check the I2C communication is still
-> > working as expected.
-> >=20
-> > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> > ---
-> >  .../ABI/testing/sysfs-driver-input-exc3000    |  15 ++
-> >  drivers/input/touchscreen/exc3000.c           | 145 +++++++++++++++++-
-> >  2 files changed, 159 insertions(+), 1 deletion(-)
-> >  create mode 100644 Documentation/ABI/testing/sysfs-driver-input-exc3000
-> >=20
-> > diff --git a/Documentation/ABI/testing/sysfs-driver-input-exc3000 b/Doc=
-umentation/ABI/testing/sysfs-driver-input-exc3000
-> > new file mode 100644
-> > index 000000000000..d79da4f869af
-> > --- /dev/null
-> > +++ b/Documentation/ABI/testing/sysfs-driver-input-exc3000
-> > @@ -0,0 +1,15 @@
-> > +What:		/sys/class/input/inputX/fw_version
-> > +Date:		May 2020
-> > +Contact:	linux-input@vger.kernel.org
-> > +Description:	Reports the firmware version provided by the touchscreen,=
- for example "00_T6" on a EXC80H60
-> > +
-> > +		Access: Read
-> > +		Valid values: Represented as string
-> > +
-> > +What:		/sys/class/input/inputX/model
-> > +Date:		May 2020
-> > +Contact:	linux-input@vger.kernel.org
-> > +Description:	Reports the model identification provided by the touchscr=
-een, for example "Orion_1320" on a EXC80H60
-> > +
-> > +		Access: Read
-> > +		Valid values: Represented as string
->=20
-> These are properties of the controller (i2c device), not input
-> abstraction class on top of it, so the attributes should be attached to
-> i2c_client instance.
->=20
-> Please use devm_device_add_group() in probe to instantiate them at the
-> proper level.
+> Also make sure that you test on both platforms which has regular S3 and
+> S0ix (modern standby system).
 
-As written in the cover letter using devm_device_add_group() in
-probe routine results in a udev race condition:
+Actually I don't have any physical hardware to test the patch, I found the issue when I search for D3 quirks through the source code.
 
-http://kroah.com/log/blog/2013/06/26/how-to-create-a-sysfs-file-correctly/
+Can you guys do a quick smoketest for this patch?
 
--- Sebastian
+Kai-Heng
 
---nc34qudpeetjvypj
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> Thanks,
+> Srinivas
+> 
+> 
+>> 
+>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>> ---
+>> drivers/hid/intel-ish-hid/ipc/pci-ish.c | 15 ++++++++++-----
+>> 1 file changed, 10 insertions(+), 5 deletions(-)
+>> 
+>> diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+>> b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+>> index f491d8b4e24c..ab588b9c8d09 100644
+>> --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+>> +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+>> @@ -106,6 +106,11 @@ static inline bool ish_should_enter_d0i3(struct
+>> pci_dev *pdev)
+>> 	return !pm_suspend_via_firmware() || pdev->device ==
+>> CHV_DEVICE_ID;
+>> }
+>> 
+>> +static inline bool ish_should_leave_d0i3(struct pci_dev *pdev)
+>> +{
+>> +	return !pm_resume_via_firmware() || pdev->device ==
+>> CHV_DEVICE_ID;
+>> +}
+>> +
+>> /**
+>>  * ish_probe() - PCI driver probe callback
+>>  * @pdev:	pci device
+>> @@ -215,9 +220,7 @@ static void __maybe_unused
+>> ish_resume_handler(struct work_struct *work)
+>> 	struct ishtp_device *dev = pci_get_drvdata(pdev);
+>> 	int ret;
+>> 
+>> -	/* Check the NO_D3 flag to distinguish the resume paths */
+>> -	if (pdev->dev_flags & PCI_DEV_FLAGS_NO_D3) {
+>> -		pdev->dev_flags &= ~PCI_DEV_FLAGS_NO_D3;
+>> +	if (ish_should_leave_d0i3(pdev) && !dev->suspend_flag) {
+>> 		disable_irq_wake(pdev->irq);
+>> 
+>> 		ishtp_send_resume(dev);
+>> @@ -281,8 +284,10 @@ static int __maybe_unused ish_suspend(struct
+>> device *device)
+>> 			 */
+>> 			ish_disable_dma(dev);
+>> 		} else {
+>> -			/* Set the NO_D3 flag, the ISH would enter D0i3
+>> */
+>> -			pdev->dev_flags |= PCI_DEV_FLAGS_NO_D3;
+>> +			/* Save state so PCI core will keep the device
+>> at D0,
+>> +			 * the ISH would enter D0i3
+>> +			 */
+>> +			pci_save_state(pdev);
+>> 
+> Did you test on some C
+> 
+> 
+>> 			enable_irq_wake(pdev->irq);
+>> 		}
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl7FoFMACgkQ2O7X88g7
-+ppXxg//c/Ljjrs8JDeSMRa8W7opVTrXN0WVDAVkizEQIrti/KD5ht30QyjNnO3N
-kDgiRr4rmVmUHpGWd/VsK9FzRRSP21Hj0qo4wsMCvxAU2htHJVjy76Hh0Ox4p5Xr
-Cn0sIw6gp5JhLbM8jUeVnThbx15sHECslLlXDKR1EjUm3makvca8vYHzbDAHT5ST
-6wUvQJ9pENyxvQ8jvP4InCKw5MGv9de5nC7vkKZE8Qn2JaLbK0/tOexMB+WJs0oK
-h3Sk/4djmR8U+A2E0MoztvXHh3YDwIECBRyUkiU7BMkejDILfAwI2/pAfeMDJWpR
-20edPBUx7jqdTe7AoESy4bBBGYCVlnRpWWgLUUCJCcak35mcaAAW/h3kR18fcQwc
-HRuROOawXaBWzAyCeiuV6w+mIDwHARSD65FQ1xu1AyuD99uO8bKpzThyAgC7kTDk
-p+TcNiVquWqxjdJWosSjp7CHZjPdpErw/Gi3VD3hj/W/ignfRopRi+npK04Z8o79
-oyWaFic4ibUFqYuFPVPcknVxhLtiHFpj8RHDETQP2aydSznhGlrnNnTBwweT8Oii
-VcPK8CAnzrlwTOgKgFicTuvXJ0FwlYt855OKQIPkoTOJjk22khaSp682IObjUFWP
-4THZIvNHgdlmx04NZLUie9TVmg/u5k4PF6ibv1UBu5qhBecO6ng=
-=Whj0
------END PGP SIGNATURE-----
-
---nc34qudpeetjvypj--
