@@ -2,151 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9B991DE5B9
-	for <lists+linux-input@lfdr.de>; Fri, 22 May 2020 13:42:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E76821DEBFE
+	for <lists+linux-input@lfdr.de>; Fri, 22 May 2020 17:36:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729578AbgEVLmj convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 22 May 2020 07:42:39 -0400
-Received: from mail.eclipso.de ([217.69.254.104]:54596 "EHLO mail.eclipso.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728469AbgEVLmj (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 May 2020 07:42:39 -0400
-Received: from mail.eclipso.de (www1.eclipso.de [217.69.254.102])
-        by mail.eclipso.de with ESMTP id 1F338E96
-        for <linux-input@vger.kernel.org>; Fri, 22 May 2020 13:42:35 +0200 (CEST)
-Date:   Fri, 22 May 2020 13:42:35 +0200
+        id S1730511AbgEVPgD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 May 2020 11:36:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35954 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727807AbgEVPgC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 22 May 2020 11:36:02 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B397C061A0E;
+        Fri, 22 May 2020 08:36:02 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 7F0622A38F6
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>
+References: <20200506002746.GB89269@dtor-ws>
+ <20200515164943.28480-1-andrzej.p@collabora.com>
+ <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
+ <20200517225510.GA205823@koala> <20200518024034.GL89269@dtor-ws>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <513f25c0-7125-c564-0090-052d626fe508@collabora.com>
+Date:   Fri, 22 May 2020 17:35:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Message-ID: <a6c89d6692bd551617dfaaf9275e7cea@mail.eclipso.de>
-X-Mailer: eclipso / 7.4.0
-From:   " " <denk@eclipso.email>
-Subject: Re: Re: Re: Add a second working PNP_ID for a T470s
-Reply-To: " " <denk@eclipso.email>
-To:     <dmitry.torokhov@gmail.com>
-Cc:     <linux-input@vger.kernel.org>
-In-Reply-To: <1a56dbaf4c20a4a375da9a6d281b865b@mail.eclipso.de>
-References: <ff770543cd53ae818363c0fe86477965@mail.eclipso.de>
-        <20200424222546.GK125362@dtor-ws>
-        <1a56dbaf4c20a4a375da9a6d281b865b@mail.eclipso.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-Content-Disposition: inline
+In-Reply-To: <20200518024034.GL89269@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Hi Hans, hi Dmitry,
 
-as far as I can see, there was no reply from you. If so, then I may have missed that, sorry for that.
-As I said I am not aware of any issues when running the touchpad and trackpoint with RMI4. The only difference is the mentioned error message during shutdown, which I would like to get rid of, if possible.
-Can the patch be merged? Anything missing for that?
+W dniu 18.05.2020 o 04:40, Dmitry Torokhov pisze:
+> Hi Hans, Peter,
+> 
+> On Mon, May 18, 2020 at 08:55:10AM +1000, Peter Hutterer wrote:
+>> On Fri, May 15, 2020 at 08:19:10PM +0200, Hans de Goede wrote:
+>>> Hi Andrezj,
+>>>
 
-Thanks and best
-Dennis
+<snip>
 
+>>
+>>> I also noticed that you keep the device open (do not call the
+>>> input_device's close callback) when inhibited and just throw away
+>>> any events generated. This seems inefficient and may lead to
+>>> the internal state getting out of sync. What if a key is pressed
+>>> while inhibited and then the device is uninhibited while the key
+>>> is still pressed?  Now the press event is lost and userspace
+>>> querying the current state will see the pressed key as being
+>>> released.
+> 
+> This is a good point. We should look into signalling that some events
+> have been dropped (via EV_SYN/SYN_DROPPED) so that clients are aware of
+> it.
+> 
 
---- Ursprüngliche Nachricht ---
-Von: " " <denk@eclipso.email>
-Datum: 25.04.2020 08:13:31
-An: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-Betreff: Re: Re: Add a second working PNP_ID for a T470s
+It seems to me that the situation Hans envisions is not possible,
+or will not be possible with a simple change. Let me explain.
 
-Hi Dmitry,
+For a start, let's recall that the input core prevents consecutive
+events of the same kind (type _and_ code _and_ value) from being
+delivered to handlers. The decision is made in input_get_disposition().
+For EV_KEY it is:
 
-thanks for your reply. In the following I just add the content of my first
-email to this list:
-#####
-In dmesg I found the following:
-psmouse serio1: synaptics: Your touchpad (PNP: LEN007a PNP0f13) says it can
-support a different bus. If i2c-hid and hid-rmi are not used, you might want
-to try setting psmouse.synaptics_intertouch to 1 and report this to linux-input@vger.kernel.org.
+		if (is_event_supported(code, dev->keybit, KEY_MAX)) {
 
+			/* auto-repeat bypasses state updates */
+			if (value == 2) {
+				disposition = INPUT_PASS_TO_HANDLERS;
+				break;
+			}
 
-After setting psmouse.synaptics_intertouch=1, touchpad and trackpoint still
-work fine. Also no problems with suspending my laptop.
+			if (!!test_bit(code, dev->key) != !!value) {
 
-The only problem is the following error meesage on shutdown:
-rmi4_physical rmi4-00: Failed to read irqs, code=-6
+				__change_bit(code, dev->key);
+				disposition = INPUT_PASS_TO_HANDLERS;
+			}
+		}
 
-/proc/bus/input/devices:
-I: Bus=001d Vendor=06cb Product=0000 Version=0000
-N: Name="Synaptics TM3145-006"
-P: Phys=rmi4-00/input0
-S: Sysfs=/devices/rmi4-00/input/input26
-U: Uniq=
-H: Handlers=event18 mouse0
-B: PROP=5
-B: EV=b
-B: KEY=e520 10000 0 0 0 0
-B: ABS=6f3800001000003
+Let's now focus on value != 2 (events other than auto-repeat).
+The disposition changes from the default INPUT_IGNORE_EVENT to
+INPUT_PASS_TO_HANDLERS only when the event in question changes
+the current state: either by releasing a pressed key, or by
+pressing a released key. Subsequent releases of a released key
+or subsequent presses of a pressed key will be ignored.
 
-I: Bus=0011 Vendor=0002 Product=000a Version=0000
-N: Name="TPPS/2 IBM TrackPoint"
-P: Phys=rmi4-00.fn03/serio0/input0
-S: Sysfs=/devices/rmi4-00/rmi4-00.fn03/serio2/input/input27
-U: Uniq=
-H: Handlers=event19 mouse1
-B: PROP=21
-B: EV=7
-B: KEY=70000 0 0 0 0
-B: REL=3
+What Hans points out is the possibility of uninhibiting a device
+while its key is pressed and then releasing the key. First of all,
+during inhibiting input_dev_release_keys() is called, so input_dev's
+internal state will be cleared of all pressed keys. Then the device
+- after being uninhibited - all of a sudden produces a key release
+event. It will be ignored as per the "subsequent releases of a
+released key" case, so the handlers will not be passed an unmatched
+key release event. Assuming that passing an unmatched key release
+event was Hans's concern, in this case it seems impossible.
 
-Is there anything I can do, that the error messsage doesn't appear anymore?
-Should I not use RMI?
-#####
+Now, the value of 2 (auto-repeat) needs some attention. There are two
+cases to consider: the device uses input core's software repeat or it
+uses its own (hardware) repeat.
 
-As far as I can see, there is no issue running the touchpad with RMI4. The
-only difference to running it in PS/2 mode is the mentioned error message
-during shutdown. Is that error message only cosmetic, or a real issue? Can
-something be done to omit this error message?
-Regarding the touchpad, is the above pasted information sufficient, or do
-you need anything else?
+Let's consider the first case. The timer which generates auto-repeat
+is only started on a key press event and only stopped on a key release
+event. As such, if any auto-repeat was in progress when inhibiting
+happened, it must have been stopped as per input_dev_release_keys().
+Then the key is pressed and held after the device has been inhibited,
+and the device is being uninhibited. Since it uses software auto-repeat,
+no events will be reported by the device until the key is released,
+and, as explained above, the release event will be ignored.
 
-Thanks and best
-Dennis
+Let's consider the second case. The key is pressed and held after the
+device has been inhibited and the device is being uninhibited. The worst
+thing that can happen is unmatched key repeat events will start coming
+from the device. We must prevent them from reaching the handlers and
+ignore them instead. So I suggest something on the lines of:
 
+if (is_event_supported(code, dev->keybit, KEY_MAX)) {
 
---- Ursprüngliche Nachricht ---
-Von: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Datum: 25.04.2020 00:25:46
-An: <denk@eclipso.email>
-Betreff: Re: Add a second working PNP_ID for a T470s
+			/* auto-repeat bypasses state updates */
+-			if (value == 2) {
++			if (value == 2 && test_bit(code, dev->key)) {
+				disposition = INPUT_PASS_TO_HANDLERS;
+				break;
+			}
 
-Hi Dennis,
+The intended meaning is "ignore key repeat events if the key is not
+pressed".
 
-On Mon, Mar 30, 2020 at 06:21:47PM +0200,   wrote:
-> The Lenovo Thinkpad T470s I own has a different touchpad with
-> "LEN007a" instead of the already included PNP ID "LEN006c".
+With this small change I believe it is not possible to have neither
+unmatched release nor unmatched repeat being delivered to handlers.
 
-However,
-> my touchpad seems to work well without any problems using RMI. So this
+Regards,
 
-
-> patch adds the other PNP ID.
-
-So there are no visible issues when running the touchpad in PS/2 mode
-compared to RMI4? (Just trying to figure out if it needs to go into
-stable releases).
-
-Do you know what trackpoint does the device have? 
-
-Thanks.
-
--- 
-Dmitry
-
-
-
----
-
-________________________________________________________
-Ihre E-Mail-Postfächer sicher & zentral an einem Ort. Jetzt wechseln
-und alte E-Mail-Adresse mitnehmen! https://www.eclipso.de
-
-
----
-
-________________________________________________________
-Ihre E-Mail-Postfächer sicher & zentral an einem Ort. Jetzt wechseln und alte E-Mail-Adresse mitnehmen! https://www.eclipso.de
-
-
+Andrzej
