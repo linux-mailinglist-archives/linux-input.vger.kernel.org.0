@@ -2,177 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 488CD1DFAA0
-	for <lists+linux-input@lfdr.de>; Sat, 23 May 2020 21:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC0661DFB21
+	for <lists+linux-input@lfdr.de>; Sat, 23 May 2020 23:18:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728246AbgEWTMb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 23 May 2020 15:12:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38858 "EHLO
+        id S2388001AbgEWVSp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 23 May 2020 17:18:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726790AbgEWTM3 (ORCPT
+        with ESMTP id S2387586AbgEWVSp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 23 May 2020 15:12:29 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBA41C061A0E
-        for <linux-input@vger.kernel.org>; Sat, 23 May 2020 12:12:27 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id r2so4732808ioo.4
-        for <linux-input@vger.kernel.org>; Sat, 23 May 2020 12:12:27 -0700 (PDT)
+        Sat, 23 May 2020 17:18:45 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A14BC061A0E
+        for <linux-input@vger.kernel.org>; Sat, 23 May 2020 14:18:45 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id 124so479579pgi.9
+        for <linux-input@vger.kernel.org>; Sat, 23 May 2020 14:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=XmbjjpR3KkNWUthne/j00L329uY7GCEFcw7JKzIu2SU=;
-        b=IzfA78cHD0SpBE2sgO24h+Nxg7cFX0aHwm02wdLFwWGAjgi0qhtee6W3x+6k6epKTf
-         SI3tiXsjfACbwkkd2Jipf4Flb5B8vzBFa7Dsoj+zEy+LhURVqc4OJO+p6fjRI1fsdHpN
-         DjbrdyjOkXAX+ntqHu3EbOM3jgghjPpcrgRgv8NKGSh3ZG6TppS6QRdAShy1wgZMdGFe
-         y4id6xcJPi94iKOiDHEJ6S3iwfVEA6fTd8coJBx0viTL8yV3Egdmz1jxSkGfxP/CH601
-         s/i70rDASdcw0j4b8AAVMcCKphpEuMWbGJCDnZPiF84HdyM318lPxNc03UzJjLgdwUci
-         0c0Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=9jv4udf0l+XW7VWYmxXWSggBd4riECC547Cyi5R9Vqc=;
+        b=tsgwPyk+oS7cD58ob8gppNvfyZRoegw5L5L7RdorLuCTAQjuyz3Vqe5w9Lw7gpFr5k
+         tD63EIBDkH06Tl3aqJrlA3EQJxxaYuE84mxRB8l3x9VT/stjungDsVPByJSOySUG9d9N
+         u97fJ6zGPp/DseBx518Bw5mokfBWnn4XIp0hroqb+u4PTuicFd4qn6nMGtKliwNc7qXF
+         a/zDneq9CTmn/+A4eoaAdpjYjAeh99bGkyUOV8zhxSx0lUQHKPlEF/ek4ZybVGddzIrC
+         8DL+xaGBGWsnN8XPleUZ5+3YrRyQRmqhYhqIHc2vDUayjqxSxvt4+hFuPfhSgtzQeIAg
+         7ZYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=XmbjjpR3KkNWUthne/j00L329uY7GCEFcw7JKzIu2SU=;
-        b=sQwqpKc/ybHNBRu4Zzo6dkU0akFKpOCR1gPFKYFxNfyOiOxW1cZZxQJkEHU0q+aERR
-         CsMB+OE5aNVuT5QcksoehbzO60GFl6etVKp0BBjochK4BjtaQWFeg8ZJUHDrDVuqDc+q
-         iLMWnygNz33dmhsocD+Y5XkNFIacDF7ow/fRQlGNCPuwYYBelmunWbEx8rgo2AlyEHAs
-         jo1jdtbznPhUkmp1Z2bVaKN8ilLkGUzcC7qo90wFG+qbRRTuaR2qszebdlR5SZBxMjm3
-         X2ZrTmOaWtxM1hVn7iNnFTBhIhO0YXjA0S4DO+PR3g/VMIn79tzoRZbVt/8vOu3RW+9L
-         xSCA==
-X-Gm-Message-State: AOAM533mT2yRPgjZP6CXDFPIqTqlBpjs+fdOzTafcfeEq3NWEZxrmUzw
-        J2+/+n4hBRAfQIVpy5bzeDMr3ng1SfnriSOHxfE=
-X-Google-Smtp-Source: ABdhPJydl49ihAQqg6S6yT2lJ3krCQDdwO2OMB2sIkmLs5wiX6V7rOyz0IbFqvHdQFOMVw2/PcEIQ/T+WiLHDkgFtBo=
-X-Received: by 2002:a5e:df49:: with SMTP id g9mr4425190ioq.153.1590261146700;
- Sat, 23 May 2020 12:12:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAEwx+QrfLk4SR=yn4Df3rD_Lm0Xht1hgAi4szmOTU1nkFhMwhw@mail.gmail.com>
- <20200511201118.GW89269@dtor-ws> <20200512051925.GA48688@koala>
- <CAEwx+QpN7c4i4qRfaVAP6yPFoydQ+W_0DOsv-NfgwU8Zb1BVZQ@mail.gmail.com>
- <CAEwx+QowRY3UTkFcwFvOD3h0=ejZSLL3miFQzdOMNT84w86M6g@mail.gmail.com> <20200523183734.GC89269@dtor-ws>
-In-Reply-To: <20200523183734.GC89269@dtor-ws>
-From:   Yariv <oigevald+kernel@gmail.com>
-Date:   Sat, 23 May 2020 22:11:50 +0300
-Message-ID: <CAEwx+Qr=nJ0tPcuHhjO4=Mw_OHr17QcqeqTvcEzgZ0EcoNc8GQ@mail.gmail.com>
-Subject: Re: PROBLEM: Apple external Trackpad event timestamps are jittery (regression)
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=9jv4udf0l+XW7VWYmxXWSggBd4riECC547Cyi5R9Vqc=;
+        b=qkaSUGQikEijR0MvFGqxdrQ3dwWO75/v+SQYxXYncmEFLTw3IsGxaAVMaRirqxvSeD
+         hxN3bpm8JTPoRz6Jn99RQOiwiBfpvuT7SRtsN2nN9aKFir827K2aNgsCs4dfmRoCLew3
+         Z33PWQ9CHTey1OLTiYzIvaRIhsTbdW2mU0ACsC0f537VmAxq7fdIu7nH0sCqCbRx0LjA
+         jPLW5i3H+csloUu12eEMCoUuYkzbcKbatPLYKoKrSsly//t8ToCyic74JgIuwsYkXfgF
+         aO7CuP5twKiEpkxJ1rC4imc5kGWnXzcBZpteRKqP3nTr/I2+JZFmweVDklpEI/s0wkuv
+         kPDw==
+X-Gm-Message-State: AOAM531WbCAcIHc2eZ90p7Ht2q0lm+n2YZjSWmztLL5xzwzJuW9YzaYn
+        e1vkncCAJ8I6bA7+g1HDFoHTGuPe
+X-Google-Smtp-Source: ABdhPJziHxjbFV43pHmx0sVrLK8KwrRQY3wSwDGpihR7RMjhOSwbkUqC4pJs1Z5Tns8S6tJmX4D4rw==
+X-Received: by 2002:a65:6459:: with SMTP id s25mr19727632pgv.329.1590268724536;
+        Sat, 23 May 2020 14:18:44 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id c7sm2499201pjr.32.2020.05.23.14.18.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 May 2020 14:18:44 -0700 (PDT)
+Date:   Sat, 23 May 2020 14:18:41 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Yariv <oigevald+kernel@gmail.com>
 Cc:     linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: PROBLEM: Apple external Trackpad event timestamps are jittery
+ (regression)
+Message-ID: <20200523211841.GD89269@dtor-ws>
+References: <CAEwx+QrfLk4SR=yn4Df3rD_Lm0Xht1hgAi4szmOTU1nkFhMwhw@mail.gmail.com>
+ <20200511201118.GW89269@dtor-ws>
+ <20200512051925.GA48688@koala>
+ <CAEwx+QpN7c4i4qRfaVAP6yPFoydQ+W_0DOsv-NfgwU8Zb1BVZQ@mail.gmail.com>
+ <CAEwx+QowRY3UTkFcwFvOD3h0=ejZSLL3miFQzdOMNT84w86M6g@mail.gmail.com>
+ <20200523183734.GC89269@dtor-ws>
+ <CAEwx+Qr=nJ0tPcuHhjO4=Mw_OHr17QcqeqTvcEzgZ0EcoNc8GQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEwx+Qr=nJ0tPcuHhjO4=Mw_OHr17QcqeqTvcEzgZ0EcoNc8GQ@mail.gmail.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-I omitted what looks unrelated, please let me know if you need other
-details or the full content.
-Also I wasn't sure how to find the relevant driver, so I pasted the
-relevant dmesg snippets. If there is a more precise way to identify
-the driver please let me know and I'll send the missing items.
-
-Gen1:
-
-dmesg
-
-[   11.307056] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
-[   11.307060] Bluetooth: HIDP socket layer initialized
-[   11.310541] magicmouse 0005:05AC:030E.0005: unknown main item tag 0x0
-[   11.310657] input: john=E2=80=99s Trackpad as
-/devices/pci0000:00/0000:00:14.0/usb1/1-13/1-13:1.0/bluetooth/hci0/hci0:70/=
-0005:05AC:030E.0005/input/input21
-[   11.310776] magicmouse 0005:05AC:030E.0005: input,hidraw4:
-BLUETOOTH HID v1.60 Mouse [john=E2=80=99s Trackpad] on 00:1a:7d:da:71:09
-
-/proc/bus/input/devices
-
-I: Bus=3D0005 Vendor=3D05ac Product=3D030e Version=3D0160
-N: Name=3D"john=E2=80=99s Trackpad"
-P: Phys=3D00:1a:7d:da:71:09
-S: Sysfs=3D/devices/pci0000:00/0000:00:14.0/usb1/1-13/1-13:1.0/bluetooth/hc=
-i0/hci0:70/0005:05AC:030E.0005/input/input21
-U: Uniq=3Dd0:a6:37:f2:c3:af
-H: Handlers=3Dmouse1 event21
-B: PROP=3D5
-B: EV=3D10001b
-B: KEY=3De520 10000 0 0 0 0
-B: ABS=3D273800000000003
-B: MSC=3D10
-
-Gen2:
-
-dmesg
-
-[13777.762475] magicmouse 0005:004C:0265.0008: unknown main item tag 0x0
-[13777.762721] input: Apple Inc. Magic Trackpad 2 as
-/devices/pci0000:00/0000:00:14.0/usb1/1-13/1-13:1.0/bluetooth/hci0/hci0:65/=
-0005:004C:0265.0008/input/input24
-[13777.763419] magicmouse 0005:004C:0265.0008: input,hidraw5:
-BLUETOOTH HID v1.00 Mouse [Julo=E2=80=99s Trackpad] on 00:1a:7d:da:71:09
-
-/proc/bus/input/devices
-
-I: Bus=3D0005 Vendor=3D004c Product=3D0265 Version=3D0100
-N: Name=3D"Apple Inc. Magic Trackpad 2"
-P: Phys=3D00:1a:7d:da:71:09
-S: Sysfs=3D/devices/pci0000:00/0000:00:14.0/usb1/1-13/1-13:1.0/bluetooth/hc=
-i0/hci0:65/0005:004C:0265.0008/input/input24
-U: Uniq=3D04:4b:ed:ec:b3:9c
-H: Handlers=3Dmouse2 event22
-B: PROP=3D5
-B: EV=3Db
-B: KEY=3De520 10000 0 0 0 0
-B: ABS=3D673810001000003
-
-Best regards,
-Yariv
-
-On Sat, May 23, 2020 at 9:37 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
+On Sat, May 23, 2020 at 10:11:50PM +0300, Yariv wrote:
 > Hi,
->
-> On Fri, May 22, 2020 at 08:27:43AM +0300, Yariv wrote:
-> >
-> > Some things I noticed: Gen2 didn't send "BTN_TOOL_FINGER" events,
-> > while Gen1 did, even though I did not press any button. Note that Gen1
-> > still had correct timestamps before the regression, even though it
-> > sent these events.
-> >
-> > Another difference (maybe it's the same one..): if you take a look at
-> > the logs from my previous mail, you'll notice that Gen1 Trackpads
-> > always send both SYN_REPORT (0) as well as SYN_REPORT (1), while 2nd
-> > Gen Trackpads only sends SYN_REPORT (0).
->
-> So it looks like for Gen1 touchpads we set autorepeat, and it is that
-> autorepeat on BTN_TOOL_FINGER that gives what you consider jitter.
->
->   - evdev:
->     - [  0, 293648,   1, 325,       2] # EV_KEY / BTN_TOOL_FINGER        =
-   2
->     - [  0, 293648,   0,   0,       1] # ------------ SYN_REPORT (1) ----=
------- +1ms
->   - evdev:
->     - [  0, 303026,   3,  48,      88] # EV_ABS / ABS_MT_TOUCH_MAJOR     =
-  88 (-12)
->     - [  0, 303026,   3,  53,    -232] # EV_ABS / ABS_MT_POSITION_X      =
--232 (-22)
->     - [  0, 303026,   3,  54,     291] # EV_ABS / ABS_MT_POSITION_Y      =
- 291 (+60)
->     - [  0, 303026,   3,   0,    -232] # EV_ABS / ABS_X                  =
--232 (-22)
->     - [  0, 303026,   3,   1,     291] # EV_ABS / ABS_Y                  =
- 291 (+60)
->     - [  0, 303026,   0,   0,       0] # ------------ SYN_REPORT (0) ----=
------- +10ms
->
-> Can you please tell me what drivers are used by the 2 trackpads when they
-> are connected via Bluetooth? I think we should stop setting autorepeat in
-> the driver that handles Gen 1.
->
-> Also, can you post /proc/bus/input/devices?
->
-> Thanks.
->
-> --
-> Dmitry
+> 
+> I omitted what looks unrelated, please let me know if you need other
+> details or the full content.
+> Also I wasn't sure how to find the relevant driver, so I pasted the
+> relevant dmesg snippets. If there is a more precise way to identify
+> the driver please let me know and I'll send the missing items.
+> 
+> Gen1:
+> 
+> dmesg
+> 
+> [   11.307056] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+> [   11.307060] Bluetooth: HIDP socket layer initialized
+> [   11.310541] magicmouse 0005:05AC:030E.0005: unknown main item tag 0x0
+> [   11.310657] input: john’s Trackpad as
+> /devices/pci0000:00/0000:00:14.0/usb1/1-13/1-13:1.0/bluetooth/hci0/hci0:70/0005:05AC:030E.0005/input/input21
+> [   11.310776] magicmouse 0005:05AC:030E.0005: input,hidraw4:
+> BLUETOOTH HID v1.60 Mouse [john’s Trackpad] on 00:1a:7d:da:71:09
+
+Ok, awesome. Can you please try the patch below?
+
+-- 
+Dmitry
+
+HID: magicmouse: do not set up autorepeat
+
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Neither trackpad, nor the mouse want input core to generate autorepeat
+events for their buttons, so let's reset the bit (as hid-input sets it
+for these devices based on the usage vendor code).
+
+Reported-by: Yariv <oigevald+kernel@gmail.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/hid/hid-magicmouse.c |    6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
+index 34138667f8af..7ea78be11c84 100644
+--- a/drivers/hid/hid-magicmouse.c
++++ b/drivers/hid/hid-magicmouse.c
+@@ -535,6 +535,12 @@ static int magicmouse_setup_input(struct input_dev *input, struct hid_device *hd
+ 		__set_bit(MSC_RAW, input->mscbit);
+ 	}
+ 
++	/*
++	 * hit-input may mark device as using autorepeat, but neither
++	 * the trackpad, nor the mouse actually want it.
++	 */
++	__clear_bit(EV_REP, input->evbit);
++
+ 	return 0;
+ }
+ 
