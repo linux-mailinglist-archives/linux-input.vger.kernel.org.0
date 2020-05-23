@@ -2,131 +2,235 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC0661DFB21
-	for <lists+linux-input@lfdr.de>; Sat, 23 May 2020 23:18:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CAA91DFB48
+	for <lists+linux-input@lfdr.de>; Sun, 24 May 2020 00:03:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388001AbgEWVSp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 23 May 2020 17:18:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58498 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387586AbgEWVSp (ORCPT
+        id S1728488AbgEWWDG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 23 May 2020 18:03:06 -0400
+Received: from mail-ed1-f50.google.com ([209.85.208.50]:33738 "EHLO
+        mail-ed1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726275AbgEWWDG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 23 May 2020 17:18:45 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A14BC061A0E
-        for <linux-input@vger.kernel.org>; Sat, 23 May 2020 14:18:45 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id 124so479579pgi.9
-        for <linux-input@vger.kernel.org>; Sat, 23 May 2020 14:18:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=9jv4udf0l+XW7VWYmxXWSggBd4riECC547Cyi5R9Vqc=;
-        b=tsgwPyk+oS7cD58ob8gppNvfyZRoegw5L5L7RdorLuCTAQjuyz3Vqe5w9Lw7gpFr5k
-         tD63EIBDkH06Tl3aqJrlA3EQJxxaYuE84mxRB8l3x9VT/stjungDsVPByJSOySUG9d9N
-         u97fJ6zGPp/DseBx518Bw5mokfBWnn4XIp0hroqb+u4PTuicFd4qn6nMGtKliwNc7qXF
-         a/zDneq9CTmn/+A4eoaAdpjYjAeh99bGkyUOV8zhxSx0lUQHKPlEF/ek4ZybVGddzIrC
-         8DL+xaGBGWsnN8XPleUZ5+3YrRyQRmqhYhqIHc2vDUayjqxSxvt4+hFuPfhSgtzQeIAg
-         7ZYg==
+        Sat, 23 May 2020 18:03:06 -0400
+Received: by mail-ed1-f50.google.com with SMTP id e10so12105062edq.0
+        for <linux-input@vger.kernel.org>; Sat, 23 May 2020 15:03:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=9jv4udf0l+XW7VWYmxXWSggBd4riECC547Cyi5R9Vqc=;
-        b=qkaSUGQikEijR0MvFGqxdrQ3dwWO75/v+SQYxXYncmEFLTw3IsGxaAVMaRirqxvSeD
-         hxN3bpm8JTPoRz6Jn99RQOiwiBfpvuT7SRtsN2nN9aKFir827K2aNgsCs4dfmRoCLew3
-         Z33PWQ9CHTey1OLTiYzIvaRIhsTbdW2mU0ACsC0f537VmAxq7fdIu7nH0sCqCbRx0LjA
-         jPLW5i3H+csloUu12eEMCoUuYkzbcKbatPLYKoKrSsly//t8ToCyic74JgIuwsYkXfgF
-         aO7CuP5twKiEpkxJ1rC4imc5kGWnXzcBZpteRKqP3nTr/I2+JZFmweVDklpEI/s0wkuv
-         kPDw==
-X-Gm-Message-State: AOAM531WbCAcIHc2eZ90p7Ht2q0lm+n2YZjSWmztLL5xzwzJuW9YzaYn
-        e1vkncCAJ8I6bA7+g1HDFoHTGuPe
-X-Google-Smtp-Source: ABdhPJziHxjbFV43pHmx0sVrLK8KwrRQY3wSwDGpihR7RMjhOSwbkUqC4pJs1Z5Tns8S6tJmX4D4rw==
-X-Received: by 2002:a65:6459:: with SMTP id s25mr19727632pgv.329.1590268724536;
-        Sat, 23 May 2020 14:18:44 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id c7sm2499201pjr.32.2020.05.23.14.18.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2020 14:18:44 -0700 (PDT)
-Date:   Sat, 23 May 2020 14:18:41 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Yariv <oigevald+kernel@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: PROBLEM: Apple external Trackpad event timestamps are jittery
- (regression)
-Message-ID: <20200523211841.GD89269@dtor-ws>
-References: <CAEwx+QrfLk4SR=yn4Df3rD_Lm0Xht1hgAi4szmOTU1nkFhMwhw@mail.gmail.com>
- <20200511201118.GW89269@dtor-ws>
- <20200512051925.GA48688@koala>
- <CAEwx+QpN7c4i4qRfaVAP6yPFoydQ+W_0DOsv-NfgwU8Zb1BVZQ@mail.gmail.com>
- <CAEwx+QowRY3UTkFcwFvOD3h0=ejZSLL3miFQzdOMNT84w86M6g@mail.gmail.com>
- <20200523183734.GC89269@dtor-ws>
- <CAEwx+Qr=nJ0tPcuHhjO4=Mw_OHr17QcqeqTvcEzgZ0EcoNc8GQ@mail.gmail.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=B96X9yS/OrCbQszIetBufKzfFwXxmf34NjkypwQ0wJc=;
+        b=DT9j8uI50vtQU4lKnN8DZiOdYu7j/5Nk3TqrlLAFgfu6RHJwvBK9JscRl1Grt0a3HD
+         Y+2CQ3TmwxA81Qx03oVWIbVLuekpPUElKbSgizVKvFUCIvYkhYXThne96QS/7rm0osPG
+         zFqMSwHnOBxyrblh+NLKxdJZwd4bSgwhuQ0xRKRqR4rmeFqb6l+KeIBd6w/X6WmclsCV
+         VnBpmCRDn+OrX87Wlh8jw7osxgW+Id49UrRoyE4ow4tHQ+LFBs00KCQKBH/E82sYEfWU
+         4qcLKMgKJQa4MZK4SL9pv5FJtNMUCZTuR6qYSkjEtVmbNMx/6TIv8zMmnfNVnYxQWruv
+         u10A==
+X-Gm-Message-State: AOAM530Xg9nxkJbFIkckgceIGEsI0gQsYzovL4TNQ0o9KbBIpxquGKRI
+        /cyQPYuAmUo47z2m5JcYY995T8cvLo0P8A==
+X-Google-Smtp-Source: ABdhPJzltkiNWZwq2lBQhC5Ujohw1aAZLidfLpB9WQ4/wraCE4esLvkbN1GaSbXMFArexInniWa+VQ==
+X-Received: by 2002:a50:9e6a:: with SMTP id z97mr8321283ede.375.1590271383602;
+        Sat, 23 May 2020 15:03:03 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com. [209.85.221.45])
+        by smtp.gmail.com with ESMTPSA id h20sm11578189eja.61.2020.05.23.15.03.03
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 May 2020 15:03:03 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id h17so13721238wrc.8
+        for <linux-input@vger.kernel.org>; Sat, 23 May 2020 15:03:03 -0700 (PDT)
+X-Received: by 2002:adf:b786:: with SMTP id s6mr8354180wre.287.1590271382712;
+ Sat, 23 May 2020 15:03:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEwx+Qr=nJ0tPcuHhjO4=Mw_OHr17QcqeqTvcEzgZ0EcoNc8GQ@mail.gmail.com>
+From:   Daniel Morse <dmorse@speedfox.co.uk>
+Date:   Sat, 23 May 2020 23:02:51 +0100
+X-Gmail-Original-Message-ID: <CANFaMLGVGmS4i3fdH2rYeqSgqk3Gm=sxaLLMuKx4T1eY9ZvyEg@mail.gmail.com>
+Message-ID: <CANFaMLGVGmS4i3fdH2rYeqSgqk3Gm=sxaLLMuKx4T1eY9ZvyEg@mail.gmail.com>
+Subject: [PATCH[ HID: Wiimote: Treat the d-pad as an analogue stick
+To:     linux-input@vger.kernel.org, dh.herrmann@googlemail.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, May 23, 2020 at 10:11:50PM +0300, Yariv wrote:
-> Hi,
-> 
-> I omitted what looks unrelated, please let me know if you need other
-> details or the full content.
-> Also I wasn't sure how to find the relevant driver, so I pasted the
-> relevant dmesg snippets. If there is a more precise way to identify
-> the driver please let me know and I'll send the missing items.
-> 
-> Gen1:
-> 
-> dmesg
-> 
-> [   11.307056] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
-> [   11.307060] Bluetooth: HIDP socket layer initialized
-> [   11.310541] magicmouse 0005:05AC:030E.0005: unknown main item tag 0x0
-> [   11.310657] input: john’s Trackpad as
-> /devices/pci0000:00/0000:00:14.0/usb1/1-13/1-13:1.0/bluetooth/hci0/hci0:70/0005:05AC:030E.0005/input/input21
-> [   11.310776] magicmouse 0005:05AC:030E.0005: input,hidraw4:
-> BLUETOOTH HID v1.60 Mouse [john’s Trackpad] on 00:1a:7d:da:71:09
+The controllers from the Super Nintendo Classic Edition (AKA the SNES
+Mini) appear as a Classic Controller Pro when connected to a Wii
+Remote. All the buttons work as the same, with the d-pad being mapped
+the same as the d-pad on the Classic Controller Pro. This differs from
+the behaviour of most controllers with d-pads and no analogue sticks,
+where the d-pad maps to ABS_HAT1X for left and right, and ABS_HAT1Y
+for up and down. This patch adds an option to the hid-wiimote module
+to make the Super Nintendo Classic Controller behave this way.
 
-Ok, awesome. Can you please try the patch below?
+The patch has been tested with a Super Nintendo Classic Controller
+plugged into a Wii Remote in both with the option both enabled and
+disabled. When enabled the d-pad acts as the analogue control, and
+when disabled it acts as it did before the patch was applied. This
+patch has not been tested with e Wii Classic Controller (either the
+original or the pro version) as I do not have one of these
+controllers.
 
--- 
-Dmitry
+Although I have not tested it with these controllers, I think it is
+likely this patch will also work with the NES Classic Edition
+Controllers.
 
-HID: magicmouse: do not set up autorepeat
-
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Neither trackpad, nor the mouse want input core to generate autorepeat
-events for their buttons, so let's reset the bit (as hid-input sets it
-for these devices based on the usage vendor code).
-
-Reported-by: Yariv <oigevald+kernel@gmail.com>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Daniel G. Morse <dmorse@speedfox.co.uk>
 ---
- drivers/hid/hid-magicmouse.c |    6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/hid/hid-wiimote-core.c    |  6 ++
+ drivers/hid/hid-wiimote-modules.c | 98 +++++++++++++++++++++++--------
+ drivers/hid/hid-wiimote.h         |  1 +
+ 3 files changed, 82 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
-index 34138667f8af..7ea78be11c84 100644
---- a/drivers/hid/hid-magicmouse.c
-+++ b/drivers/hid/hid-magicmouse.c
-@@ -535,6 +535,12 @@ static int magicmouse_setup_input(struct input_dev *input, struct hid_device *hd
- 		__set_bit(MSC_RAW, input->mscbit);
- 	}
- 
-+	/*
-+	 * hit-input may mark device as using autorepeat, but neither
-+	 * the trackpad, nor the mouse actually want it.
-+	 */
-+	__clear_bit(EV_REP, input->evbit);
+diff --git a/drivers/hid/hid-wiimote-core.c b/drivers/hid/hid-wiimote-core.c
+index 92874dbe4d4a..4e75d7b7446f 100644
+--- a/drivers/hid/hid-wiimote-core.c
++++ b/drivers/hid/hid-wiimote-core.c
+@@ -1870,6 +1870,12 @@ static const struct hid_device_id
+wiimote_hid_devices[] = {
+                 USB_DEVICE_ID_NINTENDO_WIIMOTE2) },
+     { }
+ };
 +
- 	return 0;
++bool dpad_as_analog = false;
++module_param(dpad_as_analog, bool, 0644);
++MODULE_PARM_DESC(dpad_as_analog,
++        "Treats the D-Pad as the main analog input");
++
+ MODULE_DEVICE_TABLE(hid, wiimote_hid_devices);
+
+ static struct hid_driver wiimote_hid_driver = {
+diff --git a/drivers/hid/hid-wiimote-modules.c
+b/drivers/hid/hid-wiimote-modules.c
+index 2c3925357857..2c491c92cd8e 100644
+--- a/drivers/hid/hid-wiimote-modules.c
++++ b/drivers/hid/hid-wiimote-modules.c
+@@ -1110,19 +1110,85 @@ static void wiimod_classic_in_ext(struct
+wiimote_data *wdata, const __u8 *ext)
+     rt <<= 1;
+     lt <<= 1;
+
+-    input_report_abs(wdata->extension.input, ABS_HAT1X, lx - 0x20);
+-    input_report_abs(wdata->extension.input, ABS_HAT1Y, ly - 0x20);
+     input_report_abs(wdata->extension.input, ABS_HAT2X, rx - 0x20);
+     input_report_abs(wdata->extension.input, ABS_HAT2Y, ry - 0x20);
+     input_report_abs(wdata->extension.input, ABS_HAT3X, rt);
+     input_report_abs(wdata->extension.input, ABS_HAT3Y, lt);
++    if(dpad_as_analog) {
++        if(wdata->state.flags & WIIPROTO_FLAG_MP_ACTIVE){
++            if((ext[4] & 0x80) && !(ext[1] & 0x01)) {
++                input_report_abs(wdata->extension.input,
++                        ABS_HAT1X, 0x7F);
++            } else if(!(ext[4] & 0x80) && (ext[1] & 0x01)) {
++                input_report_abs(wdata->extension.input,
++                        ABS_HAT1X, 0xFF);
++            } else {
++                input_report_abs(wdata->extension.input,
++                        ABS_HAT1X, 0x00);
++            }
++
++            if((ext[4] & 0x40) && !(ext[0] & 0x01)) {
++                input_report_abs(wdata->extension.input,
++                        ABS_HAT1Y, 0x7F);
++            } else if(!(ext[4] & 0x40) && (ext[0] & 0x01)) {
++                input_report_abs(wdata->extension.input,
++                        ABS_HAT1Y, 0xFF);
++            } else {
++                input_report_abs(wdata->extension.input,
++                        ABS_HAT1Y, 0x00);
++            }
++        } else {
++            if((ext[4] & 0x80) && !(ext[5] & 0x02)) {
++                input_report_abs(wdata->extension.input,
++                        ABS_HAT1X, 0x7F);
++            } else if(!(ext[4] & 0x80) && (ext[5] & 0x02)) {
++                input_report_abs(wdata->extension.input,
++                        ABS_HAT1X, 0xFF);
++            } else {
++                input_report_abs(wdata->extension.input,
++                        ABS_HAT1X, 0x00);
++            }
++
++            if((ext[4] & 0x40) && !(ext[5] & 0x01)) {
++                input_report_abs(wdata->extension.input,
++                        ABS_HAT1Y, 0x7F);
++            } else if(!(ext[4] & 0x40) && (ext[5] & 0x01)) {
++                input_report_abs(wdata->extension.input,
++                        ABS_HAT1Y, 0xFF);
++            } else {
++                input_report_abs(wdata->extension.input,
++                        ABS_HAT1Y, 0x00);
++            }
++        }
++
++    } else {
++        input_report_abs(wdata->extension.input, ABS_HAT1X, lx - 0x20);
++        input_report_abs(wdata->extension.input, ABS_HAT1Y, ly - 0x20);
++        input_report_key(wdata->extension.input,
++                 wiimod_classic_map[WIIMOD_CLASSIC_KEY_RIGHT],
++                 !(ext[4] & 0x80));
++        input_report_key(wdata->extension.input,
++                 wiimod_classic_map[WIIMOD_CLASSIC_KEY_DOWN],
++                 !(ext[4] & 0x40));
++
++        if (wdata->state.flags & WIIPROTO_FLAG_MP_ACTIVE) {
++            input_report_key(wdata->extension.input,
++                 wiimod_classic_map[WIIMOD_CLASSIC_KEY_LEFT],
++                 !(ext[1] & 0x01));
++            input_report_key(wdata->extension.input,
++                 wiimod_classic_map[WIIMOD_CLASSIC_KEY_UP],
++                 !(ext[0] & 0x01));
++        } else {
++            input_report_key(wdata->extension.input,
++                 wiimod_classic_map[WIIMOD_CLASSIC_KEY_LEFT],
++                 !(ext[5] & 0x02));
++            input_report_key(wdata->extension.input,
++                 wiimod_classic_map[WIIMOD_CLASSIC_KEY_UP],
++                 !(ext[5] & 0x01));
++        }
++    }
++
+
+-    input_report_key(wdata->extension.input,
+-             wiimod_classic_map[WIIMOD_CLASSIC_KEY_RIGHT],
+-             !(ext[4] & 0x80));
+-    input_report_key(wdata->extension.input,
+-             wiimod_classic_map[WIIMOD_CLASSIC_KEY_DOWN],
+-             !(ext[4] & 0x40));
+     input_report_key(wdata->extension.input,
+              wiimod_classic_map[WIIMOD_CLASSIC_KEY_LT],
+              !(ext[4] & 0x20));
+@@ -1157,21 +1223,7 @@ static void wiimod_classic_in_ext(struct
+wiimote_data *wdata, const __u8 *ext)
+              wiimod_classic_map[WIIMOD_CLASSIC_KEY_ZR],
+              !(ext[5] & 0x04));
+
+-    if (wdata->state.flags & WIIPROTO_FLAG_MP_ACTIVE) {
+-        input_report_key(wdata->extension.input,
+-             wiimod_classic_map[WIIMOD_CLASSIC_KEY_LEFT],
+-             !(ext[1] & 0x01));
+-        input_report_key(wdata->extension.input,
+-             wiimod_classic_map[WIIMOD_CLASSIC_KEY_UP],
+-             !(ext[0] & 0x01));
+-    } else {
+-        input_report_key(wdata->extension.input,
+-             wiimod_classic_map[WIIMOD_CLASSIC_KEY_LEFT],
+-             !(ext[5] & 0x02));
+-        input_report_key(wdata->extension.input,
+-             wiimod_classic_map[WIIMOD_CLASSIC_KEY_UP],
+-             !(ext[5] & 0x01));
+-    }
++
+
+     input_sync(wdata->extension.input);
  }
- 
+diff --git a/drivers/hid/hid-wiimote.h b/drivers/hid/hid-wiimote.h
+index b2a26a0a8f12..0079801f599c 100644
+--- a/drivers/hid/hid-wiimote.h
++++ b/drivers/hid/hid-wiimote.h
+@@ -372,4 +372,5 @@ static inline int wiimote_cmd_wait_noint(struct
+wiimote_data *wdata)
+         return 0;
+ }
+
++extern bool dpad_as_analog;
+ #endif
+--
+2.25.1
