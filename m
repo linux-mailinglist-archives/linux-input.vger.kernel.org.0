@@ -2,145 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD72C1E24F1
-	for <lists+linux-input@lfdr.de>; Tue, 26 May 2020 17:07:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9DFE1E292A
+	for <lists+linux-input@lfdr.de>; Tue, 26 May 2020 19:38:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728442AbgEZPH3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 May 2020 11:07:29 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45954 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728205AbgEZPH2 (ORCPT
+        id S2389452AbgEZRgp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 May 2020 13:36:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47748 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388767AbgEZRgp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 May 2020 11:07:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1590505647;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=80gBzVUfUjSNrL5/Z0KCUykiDhfwVHhwxfTTQc/kPNs=;
-        b=ZhOjvuuASohjL0xm5JsL0GPsrRlmNv6sFEE9+ubh5xeGwDRjAC5x/xYIq3EkdmspHRKjo5
-        fvrBk0ad0qVDNBBamat3R65YDwti5+deV/czz6dgLorUGI2pmnrA+D0+HRvLWvDN1szdle
-        kNXwbBfcQKSHYNyLOmaEHLobVhyDNmY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-H5emKm5INRa0_x_D_nK6aQ-1; Tue, 26 May 2020 11:07:25 -0400
-X-MC-Unique: H5emKm5INRa0_x_D_nK6aQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2091F107ACF5;
-        Tue, 26 May 2020 15:07:24 +0000 (UTC)
-Received: from plouf.redhat.com (ovpn-112-129.ams2.redhat.com [10.36.112.129])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BED4760F88;
-        Tue, 26 May 2020 15:07:19 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>, kai.heng.feng@canonical.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        stable@vger.kernel.org
-Subject: [PATCH] HID: multitouch: enable multi-input as a quirk for some devices
-Date:   Tue, 26 May 2020 17:07:17 +0200
-Message-Id: <20200526150717.324783-1-benjamin.tissoires@redhat.com>
+        Tue, 26 May 2020 13:36:45 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D3C3C03E96D;
+        Tue, 26 May 2020 10:36:45 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id 82so12820599lfh.2;
+        Tue, 26 May 2020 10:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=6IlskwMTJl7vWoE1K5IAJ/zT8ap+14SXBXEKr3GYl3g=;
+        b=KBtcweQRN1Ly2WQUXwXrvirQmEJX3foTZW4k86v96UQeDg49R7AMZtxVtdl7dStIfG
+         IOlCXiIk6BMrrP9hy+4NPPbWG9lVAnxpzYs2XH6lPhGDowzhqH9fgUP4WdBnNt51h17A
+         7nRgiyUd7mx/Urv3qFgdfQzohn7nx3QizBvWB3xqlyIO6+nSxsHdxU7gu2V3jxLE6pWB
+         Twefvt4+3BqjyE1sqCmHa3AeBJXWX5c3fupFEYyvCw1trua85WmeYQsU9roOMhR8SnKm
+         /yOudbmkFNlakIR/k3AeccPIH3LybQo1/1GIXzXk36MZhcohCg14V41x/Vp26cFSKkjM
+         HTnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=6IlskwMTJl7vWoE1K5IAJ/zT8ap+14SXBXEKr3GYl3g=;
+        b=EwDuP7K71XR6k/M8LoZFqBdgEuc7eXHU5V+8xvkCbeQUZO5XLbH+akV6DwuyTx8/Mv
+         S5TuolO8nFi2+V8Mk/6jkxLRKuDZBs0LdxN18eF928RqLRj3sGW4g/3oM/MfYgju5yg+
+         zbOymUeF1Q4VRd14ENiatmcRJBDd13EfpvO+Z1CXknXgiq9yIf0X1l9LRu1zRkjbvXOx
+         opUjFgyJ7+HZcRd2w9wRnEVmHwTpnXvkyMlc6qq9SwDlieEvrAgki7Iw8EpfCgYEUEnx
+         5o+30tfm/M30EITO1VrMrGG9Y7kg3xpepdQ320HvZHqGSue65PteBeSJ50tHt8zDeCWN
+         Ktbg==
+X-Gm-Message-State: AOAM5336O0GMl7pGrc6nXRErBVa8H1vTa25F0fJlVEn3jErsaENqWDej
+        ahG03jfdSUoNMAvjqCaTrzQ=
+X-Google-Smtp-Source: ABdhPJyGF8gpzWW7wy42TWKwQTsStej6Qdkik5tTvc30uBtfIRyorLEQTfvl5wF3x3X0+4UMqV4yHw==
+X-Received: by 2002:a19:987:: with SMTP id 129mr1035156lfj.8.1590514603702;
+        Tue, 26 May 2020 10:36:43 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-76-17-204.pppoe.mtu-net.ru. [91.76.17.204])
+        by smtp.googlemail.com with ESMTPSA id a6sm90002lji.29.2020.05.26.10.36.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2020 10:36:42 -0700 (PDT)
+Subject: Re: [PATCH v11 33/56] Input: atmel_mxt_ts - delay enabling IRQ when
+ not using regulators
+To:     "Wang, Jiada" <jiada_wang@mentor.com>
+Cc:     nick@shmanahar.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, bsz@semihalf.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
+References: <20200508055656.96389-1-jiada_wang@mentor.com>
+ <20200508055656.96389-34-jiada_wang@mentor.com>
+ <3a942afa-c047-2c88-1c8e-a90fa018738e@gmail.com>
+ <6af23ae6-2f1c-0459-d2b6-1b01ddb0c3dc@mentor.com>
+ <c88d24ef-e0e0-db3b-1000-b21af906eb4f@gmail.com>
+ <aaf99a11-037e-93d8-93e4-d83e3aa4a42e@mentor.com>
+ <63c93fc0-ac09-ec77-c590-08e419734205@gmail.com>
+ <8c6f73a2-f613-b402-d727-5cb7fb3e1f09@mentor.com>
+ <2e41656c-e7e4-5dcb-1156-bcfcbc8ea595@gmail.com>
+ <f5da1587-02e7-5704-a676-1829b915c6f8@gmail.com>
+ <0e439df9-ccd4-699f-dbb3-51431d7f0fbe@mentor.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b3c1765b-8050-e8f6-b714-18bd40d58ef2@gmail.com>
+Date:   Tue, 26 May 2020 20:36:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <0e439df9-ccd4-699f-dbb3-51431d7f0fbe@mentor.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Two touchpad/trackstick combos are currently not behaving properly.
-They define a mouse emulation collection, as per Win8 requirements,
-but also define a separate mouse collection for the trackstick.
+25.05.2020 17:51, Wang, Jiada пишет:
+> Hello Dmitry
+...
+> 
+> Thanks for detailed information to help me boot ubuntu on acer tab a500,
+> now I am able to boot it with ubuntu and reproduced the issue with v11
+> patch-set.
+> 
+> I will start to investigate the root cause,
+> from now on, my update patch-set will be tested on both samsung
+> chromebook pro and acer tab a500
+> 
+> Thanks for your help
 
-The way the kernel currently treat the collections is that it
-merges both in one device. However, given that the first mouse
-collection already defines X,Y and left, right buttons, when
-mapping the events from the second mouse collection, hid-multitouch
-sees that these events are already mapped, and simply ignores them.
+That's awesome!
 
-To be able to report events from the tracktick, add a new quirked
-class for it, and manually add the 2 devices we know about.
-
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=207235
-Cc: stable@vger.kernel.org
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
----
- drivers/hid/hid-multitouch.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 03c720b47306..39e4da7468e1 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -69,6 +69,7 @@ MODULE_LICENSE("GPL");
- #define MT_QUIRK_ASUS_CUSTOM_UP		BIT(17)
- #define MT_QUIRK_WIN8_PTP_BUTTONS	BIT(18)
- #define MT_QUIRK_SEPARATE_APP_REPORT	BIT(19)
-+#define MT_QUIRK_FORCE_MULTI_INPUT	BIT(20)
- 
- #define MT_INPUTMODE_TOUCHSCREEN	0x02
- #define MT_INPUTMODE_TOUCHPAD		0x03
-@@ -189,6 +190,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
- #define MT_CLS_WIN_8				0x0012
- #define MT_CLS_EXPORT_ALL_INPUTS		0x0013
- #define MT_CLS_WIN_8_DUAL			0x0014
-+#define MT_CLS_WIN_8_FORCE_MULTI_INPUT		0x0015
- 
- /* vendor specific classes */
- #define MT_CLS_3M				0x0101
-@@ -279,6 +281,15 @@ static const struct mt_class mt_classes[] = {
- 			MT_QUIRK_CONTACT_CNT_ACCURATE |
- 			MT_QUIRK_WIN8_PTP_BUTTONS,
- 		.export_all_inputs = true },
-+	{ .name = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
-+		.quirks = MT_QUIRK_ALWAYS_VALID |
-+			MT_QUIRK_IGNORE_DUPLICATES |
-+			MT_QUIRK_HOVERING |
-+			MT_QUIRK_CONTACT_CNT_ACCURATE |
-+			MT_QUIRK_STICKY_FINGERS |
-+			MT_QUIRK_WIN8_PTP_BUTTONS |
-+			MT_QUIRK_FORCE_MULTI_INPUT,
-+		.export_all_inputs = true },
- 
- 	/*
- 	 * vendor specific classes
-@@ -1714,6 +1725,11 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	if (id->group != HID_GROUP_MULTITOUCH_WIN_8)
- 		hdev->quirks |= HID_QUIRK_MULTI_INPUT;
- 
-+	if (mtclass->quirks & MT_QUIRK_FORCE_MULTI_INPUT) {
-+		hdev->quirks &= ~HID_QUIRK_INPUT_PER_APP;
-+		hdev->quirks |= HID_QUIRK_MULTI_INPUT;
-+	}
-+
- 	timer_setup(&td->release_timer, mt_expired_timeout, 0);
- 
- 	ret = hid_parse(hdev);
-@@ -1926,6 +1942,11 @@ static const struct hid_device_id mt_devices[] = {
- 		MT_USB_DEVICE(USB_VENDOR_ID_DWAV,
- 			USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_C002) },
- 
-+	/* Elan devices */
-+	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
-+		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-+			USB_VENDOR_ID_ELAN, 0x313a) },
-+
- 	/* Elitegroup panel */
- 	{ .driver_data = MT_CLS_SERIAL,
- 		MT_USB_DEVICE(USB_VENDOR_ID_ELITEGROUP,
-@@ -2056,6 +2077,11 @@ static const struct hid_device_id mt_devices[] = {
- 		MT_USB_DEVICE(USB_VENDOR_ID_STANTUM_STM,
- 			USB_DEVICE_ID_MTP_STM)},
- 
-+	/* Synaptics devices */
-+	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
-+		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-+			USB_VENDOR_ID_SYNAPTICS, 0xce08) },
-+
- 	/* TopSeed panels */
- 	{ .driver_data = MT_CLS_TOPSEED,
- 		MT_USB_DEVICE(USB_VENDOR_ID_TOPSEED2,
--- 
-2.25.1
-
+I haven't had a chance yet to investigate the problem of v11, maybe
+later this week. Please feel free to beat me to it :)
