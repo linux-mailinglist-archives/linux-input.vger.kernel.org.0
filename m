@@ -2,101 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB60B1E1D8E
-	for <lists+linux-input@lfdr.de>; Tue, 26 May 2020 10:43:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D422D1E1DBE
+	for <lists+linux-input@lfdr.de>; Tue, 26 May 2020 11:00:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730078AbgEZIng (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 May 2020 04:43:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20490 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728380AbgEZIng (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 May 2020 04:43:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1590482615;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/o8L9PpT2tPsfwELAAEZex10xy71nNXmIgMtBI4kKNA=;
-        b=RlEeO+C8vTVcSd/SMVw348v/uN1O+AiRKy40JOHbemFSPJDMPvAa2VhhVckG9XHaqWV5zw
-        iJ++leKMlMcWVZM66tLMkHsCnFyizPd8VTsEeMGZ/AWFzf86tP3hoG1zjTpyRv2SLAELJp
-        QsYQFeYxxzxhX3MOt2FbwXht6upTN0k=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-l5l31s4APJKMT23L9mXUlQ-1; Tue, 26 May 2020 04:43:33 -0400
-X-MC-Unique: l5l31s4APJKMT23L9mXUlQ-1
-Received: by mail-qv1-f70.google.com with SMTP id dh11so1254726qvb.22
-        for <linux-input@vger.kernel.org>; Tue, 26 May 2020 01:43:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/o8L9PpT2tPsfwELAAEZex10xy71nNXmIgMtBI4kKNA=;
-        b=WXQplJS1C/tFtyw0gSPakzhPGQ1rzEjaAoMSjdsu5S1NN6/mMR9KnzlSuKrHCA4fhW
-         fBMAfSWGDADKND9I3Eus9LYcHGHdUD0+psfx3tXd+5OrFvHAFxQoh2b8PtVcoew1uHJx
-         JYzTEyCowFuWfrRsd/JzrjAeCSjT7S3R/YqZJ6zVMPgzfj2Sed0k26T5F+8pfX3+guok
-         VmPehWLfi991XzwISblO4lGNQuFUVDehNsEWo7XA7CU+xzIUjdJYp7bl9RtJUzm+msEF
-         5piMtginwSPLczul/Y3pQuBCqcVBha2bKBW47DwFLbHx6/4XXOjKL4HPTkh2ZqYZEBuv
-         mPOw==
-X-Gm-Message-State: AOAM531gn/+NbtYP8z6ooet6YEAwg91I1v7tm3yvh6l3MjYb+RP8CklA
-        0//iQVQUXYPW5BY1bk42lcR/kcHUO4bzbhgKzipyuFOIqT0bNvAaIxGX+Yvn0yHE8KOpGR3Y/ll
-        U8wsHwNBcDsjs+8SvkaYPh5Xl+byPvFz22Kplc+0=
-X-Received: by 2002:aed:3b56:: with SMTP id q22mr205469qte.345.1590482613008;
-        Tue, 26 May 2020 01:43:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxyCwcKrOs606XZeMhMjzfd+m/IeRZLNp6DGq58cyir74B5vkJgKPvaaN7ku7p/ZD35bdvAPWfqpM86aYcOPdo=
-X-Received: by 2002:aed:3b56:: with SMTP id q22mr205453qte.345.1590482612797;
- Tue, 26 May 2020 01:43:32 -0700 (PDT)
+        id S1731618AbgEZJAW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 May 2020 05:00:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47786 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731428AbgEZJAV (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 26 May 2020 05:00:21 -0400
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8A8FF205CB;
+        Tue, 26 May 2020 09:00:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590483621;
+        bh=STAm2RC3mfBdgq2YxbuI9GIS/umeg4tqG1qVVqpD+Qc=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=rFtS0fkfRy69LGOWRVQpHK8QF6CywMnRxb8BNmzOD7oO+D2sFnZx26Yv4LLE26WHg
+         XH1oC2r08o8SNr4a6CP2Cu9VwBGjPb2A3/HVXr3dxXq1y6XLx4UQxS+zBVBNBkubum
+         Gb2VT0WizmOl+rRE1I2herp8JjPa+t/n3TfmROfw=
+Date:   Tue, 26 May 2020 11:00:18 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Scott Shumate <scott.shumate@gmail.com>
+cc:     "Colenbrander, Roderick" <Roderick.Colenbrander@sony.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] HID: sony: Fix for broken buttons on DS3 USB dongles
+In-Reply-To: <e3496a04-3a96-f833-955f-69912a76bdac@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2005261059590.25812@cbobk.fhfr.pm>
+References: <46c1ab66-62d7-5dae-2f4d-7e722f1aff3a@gmail.com> <BY5PR13MB38264B60014D43193C53B38798BF0@BY5PR13MB3826.namprd13.prod.outlook.com> <e3496a04-3a96-f833-955f-69912a76bdac@gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <20200414091842.25972-1-kai.heng.feng@canonical.com> <nycvar.YFH.7.76.2005261023250.25812@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2005261023250.25812@cbobk.fhfr.pm>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 26 May 2020 10:43:21 +0200
-Message-ID: <CAO-hwJ+mTjVpBiY9vHXA2Y6D+cXYemixFJ++i+KwZZ25Z6LHHA@mail.gmail.com>
-Subject: Re: [PATCH] HID: multitouch: Remove MT_CLS_WIN_8_DUAL
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 26, 2020 at 10:24 AM Jiri Kosina <jikos@kernel.org> wrote:
->
-> On Tue, 14 Apr 2020, Kai-Heng Feng wrote:
->
-> > After commit c23e2043d5f7 ("HID: multitouch: do not filter mice nodes"),
-> > MT_CLS_WIN_8 also supports mouse nodes, hence make MT_CLS_WIN_8_DUAL
-> > redundant.
-> >
-> > Remove MT_CLS_WIN_8_DUAL accordingly.
->
-> Benjamin, can I get your Ack on this one please?
+On Wed, 13 May 2020, Scott Shumate wrote:
 
-Heh, funny enough I was trying to fix
-https://bugzilla.kernel.org/show_bug.cgi?id=207235 and was pondering
-this one too.
+> Hi Roderick,
+> 
+> The official DS3 has a Report Count(19) instead of Report Count(13) in the
+> exact same offset.  I have no idea what the silicon vendor for these dongles
+> was thinking but it's suspicious that the official count of 19 (0x13) turned
+> into 13 (0xd) in the knock-off.  It makes you wonder if the engineers confused
+> the decimal/hex numbers.
+> 
+> As buggy as all of these third-party devices are, I'm afraid relying on the
+> HID parser to get it right is only going to worse over time.  I do like your
+> idea of having each device register themselves.  It would be nice to have each
+> device provide a callback to decode its own report rather than handle a bunch
+> of special conditions and quirks in a unified report decoding function.  The
+> drawback of course is that its going to be a little more effort to maintain.
 
-To fix #207235, I'll likely need to add a new class and quirk in
-hid-multitouch. I can't really find a generic solution for now, and we
-better have a local quirk for the 2 devices we currently have and
-backport those to stable. However, this patch will likely conflict
-(trivially), with the new quirks, so I was thinking:
-- submitting my quick and dirty quirk and mark it to stable
-- apply this one on top of it (this one really doesn't need to go to stable)
+I've added Cc: stable and Fixes: tag, and applied.
 
-How does that sound?
+Thanks,
 
-Cheers,
-Benjamin
-
->
-> Thanks,
->
-> --
-> Jiri Kosina
-> SUSE Labs
->
+-- 
+Jiri Kosina
+SUSE Labs
 
