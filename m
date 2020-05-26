@@ -2,101 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9DFE1E292A
-	for <lists+linux-input@lfdr.de>; Tue, 26 May 2020 19:38:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACB881E313F
+	for <lists+linux-input@lfdr.de>; Tue, 26 May 2020 23:35:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389452AbgEZRgp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 May 2020 13:36:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47748 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388767AbgEZRgp (ORCPT
+        id S2388967AbgEZVeP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 May 2020 17:34:15 -0400
+Received: from mail-il1-f195.google.com ([209.85.166.195]:34279 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388740AbgEZVeO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 May 2020 13:36:45 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D3C3C03E96D;
-        Tue, 26 May 2020 10:36:45 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id 82so12820599lfh.2;
-        Tue, 26 May 2020 10:36:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6IlskwMTJl7vWoE1K5IAJ/zT8ap+14SXBXEKr3GYl3g=;
-        b=KBtcweQRN1Ly2WQUXwXrvirQmEJX3foTZW4k86v96UQeDg49R7AMZtxVtdl7dStIfG
-         IOlCXiIk6BMrrP9hy+4NPPbWG9lVAnxpzYs2XH6lPhGDowzhqH9fgUP4WdBnNt51h17A
-         7nRgiyUd7mx/Urv3qFgdfQzohn7nx3QizBvWB3xqlyIO6+nSxsHdxU7gu2V3jxLE6pWB
-         Twefvt4+3BqjyE1sqCmHa3AeBJXWX5c3fupFEYyvCw1trua85WmeYQsU9roOMhR8SnKm
-         /yOudbmkFNlakIR/k3AeccPIH3LybQo1/1GIXzXk36MZhcohCg14V41x/Vp26cFSKkjM
-         HTnQ==
+        Tue, 26 May 2020 17:34:14 -0400
+Received: by mail-il1-f195.google.com with SMTP id v11so4646801ilh.1;
+        Tue, 26 May 2020 14:34:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6IlskwMTJl7vWoE1K5IAJ/zT8ap+14SXBXEKr3GYl3g=;
-        b=EwDuP7K71XR6k/M8LoZFqBdgEuc7eXHU5V+8xvkCbeQUZO5XLbH+akV6DwuyTx8/Mv
-         S5TuolO8nFi2+V8Mk/6jkxLRKuDZBs0LdxN18eF928RqLRj3sGW4g/3oM/MfYgju5yg+
-         zbOymUeF1Q4VRd14ENiatmcRJBDd13EfpvO+Z1CXknXgiq9yIf0X1l9LRu1zRkjbvXOx
-         opUjFgyJ7+HZcRd2w9wRnEVmHwTpnXvkyMlc6qq9SwDlieEvrAgki7Iw8EpfCgYEUEnx
-         5o+30tfm/M30EITO1VrMrGG9Y7kg3xpepdQ320HvZHqGSue65PteBeSJ50tHt8zDeCWN
-         Ktbg==
-X-Gm-Message-State: AOAM5336O0GMl7pGrc6nXRErBVa8H1vTa25F0fJlVEn3jErsaENqWDej
-        ahG03jfdSUoNMAvjqCaTrzQ=
-X-Google-Smtp-Source: ABdhPJyGF8gpzWW7wy42TWKwQTsStej6Qdkik5tTvc30uBtfIRyorLEQTfvl5wF3x3X0+4UMqV4yHw==
-X-Received: by 2002:a19:987:: with SMTP id 129mr1035156lfj.8.1590514603702;
-        Tue, 26 May 2020 10:36:43 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-76-17-204.pppoe.mtu-net.ru. [91.76.17.204])
-        by smtp.googlemail.com with ESMTPSA id a6sm90002lji.29.2020.05.26.10.36.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 May 2020 10:36:42 -0700 (PDT)
-Subject: Re: [PATCH v11 33/56] Input: atmel_mxt_ts - delay enabling IRQ when
- not using regulators
-To:     "Wang, Jiada" <jiada_wang@mentor.com>
-Cc:     nick@shmanahar.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, bsz@semihalf.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
-References: <20200508055656.96389-1-jiada_wang@mentor.com>
- <20200508055656.96389-34-jiada_wang@mentor.com>
- <3a942afa-c047-2c88-1c8e-a90fa018738e@gmail.com>
- <6af23ae6-2f1c-0459-d2b6-1b01ddb0c3dc@mentor.com>
- <c88d24ef-e0e0-db3b-1000-b21af906eb4f@gmail.com>
- <aaf99a11-037e-93d8-93e4-d83e3aa4a42e@mentor.com>
- <63c93fc0-ac09-ec77-c590-08e419734205@gmail.com>
- <8c6f73a2-f613-b402-d727-5cb7fb3e1f09@mentor.com>
- <2e41656c-e7e4-5dcb-1156-bcfcbc8ea595@gmail.com>
- <f5da1587-02e7-5704-a676-1829b915c6f8@gmail.com>
- <0e439df9-ccd4-699f-dbb3-51431d7f0fbe@mentor.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b3c1765b-8050-e8f6-b714-18bd40d58ef2@gmail.com>
-Date:   Tue, 26 May 2020 20:36:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4IGWiIO9QQ2uNyibpst11tBp9IaLJjLxoCP1PUreahE=;
+        b=bU9OOAGwtBkzAL6bMdPibQQ6XwHLD8f9CfM+kWto3+m1XS4PcQNdhbxctUlO4ovO/D
+         Sb8wXqCJU/Q4pvIgMM0REiUCDpMSpGsXoSvRPIHECFU42Fu/eT95GqvBfmrihUhhJ46Q
+         OgDELuKgACjo6NN9g97cn9yTEJwpcZhr4IdRfINFt5yvdlBx71y0T0T8o8fuzNSGQJHP
+         p8/ZuO9sMTXOOVbxZoxNflwiUsD0WPqciF3A0uuhcLK6n1nDO4bqZiZ3mItpaMPktB3C
+         aOGLzK2k+bhBY2GNuPCK7VVa+Zb9hTTKIGM6+G8xftv0YNuREJ7WwUQLSP+IoEIuN2s0
+         1QrQ==
+X-Gm-Message-State: AOAM532JOGkhVoWM3jNmmDGtGI+6U6jOMcJ7W1Hn4AGPBtc4TDBY/kXA
+        cJo4ShMp+P3E2YqrFIJZ+w==
+X-Google-Smtp-Source: ABdhPJzp0EwE7XGT6pdGkzbmHIL2nvEZ3e4SrIoV0m8LDZZ/TRFJq39YHaGw2aIXJtWbDhLLb2+Z1g==
+X-Received: by 2002:a05:6e02:1072:: with SMTP id q18mr3065200ilj.121.1590528853402;
+        Tue, 26 May 2020 14:34:13 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id h10sm417843ioe.3.2020.05.26.14.34.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2020 14:34:12 -0700 (PDT)
+Received: (nullmailer pid 415156 invoked by uid 1000);
+        Tue, 26 May 2020 21:34:11 -0000
+Date:   Tue, 26 May 2020 15:34:11 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Artur Rojek <contact@artur-rojek.eu>
+Cc:     Rob Herring <robh+dt@kernel.org>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH v7 1/7] dt-bindings: iio/adc: Convert ingenic-adc docs to
+ YAML.
+Message-ID: <20200526213411.GA414898@bogus>
+References: <20200517194904.34758-1-contact@artur-rojek.eu>
 MIME-Version: 1.0
-In-Reply-To: <0e439df9-ccd4-699f-dbb3-51431d7f0fbe@mentor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200517194904.34758-1-contact@artur-rojek.eu>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-25.05.2020 17:51, Wang, Jiada пишет:
-> Hello Dmitry
-...
+On Sun, 17 May 2020 21:48:58 +0200, Artur Rojek wrote:
+> Convert the textual documentation of Device Tree bindings for the
+> Ingenic JZ47xx SoCs ADC controller to YAML.
 > 
-> Thanks for detailed information to help me boot ubuntu on acer tab a500,
-> now I am able to boot it with ubuntu and reproduced the issue with v11
-> patch-set.
+> The `interrupts` property is now explicitly listed and marked as
+> required. While missing from the previous textual documentation, this
+> property has been used with all the boards which probe this driver.
 > 
-> I will start to investigate the root cause,
-> from now on, my update patch-set will be tested on both samsung
-> chromebook pro and acer tab a500
+> Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
+> Tested-by: Paul Cercueil <paul@crapouillou.net>
+> ---
 > 
-> Thanks for your help
+>  Changes:
+> 
+>  v6: new patch
+> 
+>  v7: - specify `maxItems: 1` for single entry properties
+>      - get rid of redundant descriptions of said properties
+> 
+>  .../bindings/iio/adc/ingenic,adc.txt          | 49 -------------
+>  .../bindings/iio/adc/ingenic,adc.yaml         | 71 +++++++++++++++++++
+>  2 files changed, 71 insertions(+), 49 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/iio/adc/ingenic,adc.txt
+>  create mode 100644 Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
+> 
 
-That's awesome!
-
-I haven't had a chance yet to investigate the problem of v11, maybe
-later this week. Please feel free to beat me to it :)
+Reviewed-by: Rob Herring <robh@kernel.org>
